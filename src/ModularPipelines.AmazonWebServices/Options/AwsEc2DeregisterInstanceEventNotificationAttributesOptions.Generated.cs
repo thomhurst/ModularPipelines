@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsEc2DeregisterInstanceEventNotificationAttributesOptions : AwsOp
     /// <summary>
     /// Deregisters tag keys to prevent tags that have the specified tag keys from being included in scheduled event notifications for resources in the Region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceTagAttribute">Information about the tag keys to deregister. IncludeAllTagsOfInstance -&gt; (boolean) Indicates whether to deregister all tag keys in the current Re- gion. Specify false to deregister all tag keys. InstanceTagKeys -&gt; (list) Information about the tag keys to deregister. (string) Shorthand Syntax: IncludeAllTagsOfInstance=boolean,InstanceTagKeys=string,string JSON Syntax: { "IncludeAllTagsOfInstance": true|false, "InstanceTagKeys": ["string", ...] }</param>
+    /// <param name="InstanceTagAttribute">Information about the tag keys to deregister. IncludeAllTagsOfInstance -&gt; (boolean) Indicates whether to deregister all tag keys in the current Region. Specify false to deregister all tag keys. InstanceTagKeys -&gt; (list) Information about the tag keys to deregister. (string) Shorthand Syntax: IncludeAllTagsOfInstance=boolean,InstanceTagKeys=string,string JSON Syntax: { "IncludeAllTagsOfInstance": true|false, "InstanceTagKeys": ["string", ...] }</param>
     public AwsEc2DeregisterInstanceEventNotificationAttributesOptions(
         string InstanceTagAttribute
     )
@@ -56,13 +58,13 @@ public record AwsEc2DeregisterInstanceEventNotificationAttributesOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Information about the tag keys to deregister. IncludeAllTagsOfInstance -&gt; (boolean) Indicates whether to deregister all tag keys in the current Re- gion. Specify false to deregister all tag keys. InstanceTagKeys -&gt; (list) Information about the tag keys to deregister. (string) Shorthand Syntax: IncludeAllTagsOfInstance=boolean,InstanceTagKeys=string,string JSON Syntax: { "IncludeAllTagsOfInstance": true|false, "InstanceTagKeys": ["string", ...] }
+    /// Information about the tag keys to deregister. IncludeAllTagsOfInstance -&gt; (boolean) Indicates whether to deregister all tag keys in the current Region. Specify false to deregister all tag keys. InstanceTagKeys -&gt; (list) Information about the tag keys to deregister. (string) Shorthand Syntax: IncludeAllTagsOfInstance=boolean,InstanceTagKeys=string,string JSON Syntax: { "IncludeAllTagsOfInstance": true|false, "InstanceTagKeys": ["string", ...] }
     /// </summary>
     [CliOption("--instance-tag-attribute")]
     public string? InstanceTagAttribute { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

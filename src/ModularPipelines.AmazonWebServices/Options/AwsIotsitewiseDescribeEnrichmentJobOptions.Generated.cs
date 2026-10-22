@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves detailed information about a specific enrichment job, includ- ing its current status, configuration, and timestamps. Use Cases o Monitor job progress by checking status updates with DescribeEnrich- mentJob o Retrieve the complete job configuration submitted during creation o Debug failed jobs by examining the failureMessage field o Track job lifecycle with creation, update, completion, and cancella- tion timestamps Status Monitoring Jobs progress through statuses: PENDING RUNNING termi...
+/// Retrieves detailed information about a specific enrichment job, including its current status, configuration, and timestamps. Use Cases • Monitor job progress by checking status updates with DescribeEnrichmentJob • Retrieve the complete job configuration submitted during creation • Debug failed jobs by examining the failureMessage field • Track job lifecycle with creation, update, completion, and cancellation timestamps Status Monitoring Jobs progress through statuses: PENDING RUNNING terminal st...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsIotsitewiseDescribeEnrichmentJobOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves detailed information about a specific enrichment job, includ- ing its current status, configuration, and timestamps. Use Cases o Monitor job progress by checking status updates with DescribeEnrich- mentJob o Retrieve the complete job configuration submitted during creation o Debug failed jobs by examining the failureMessage field o Track job lifecycle with creation, update, completion, and cancella- tion timestamps Status Monitoring Jobs progress through statuses: PENDING RUNNING termi...
+    /// Retrieves detailed information about a specific enrichment job, including its current status, configuration, and timestamps. Use Cases • Monitor job progress by checking status updates with DescribeEnrichmentJob • Retrieve the complete job configuration submitted during creation • Debug failed jobs by examining the failureMessage field • Track job lifecycle with creation, update, completion, and cancellation timestamps Status Monitoring Jobs progress through statuses: PENDING RUNNING terminal st...
     /// </summary>
-    /// <param name="WorkspaceName">The name of the IoT SiteWise workspace containing the enrichment job. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="JobId">The unique identifier of the enrichment job to retrieve. This is the jobId returned by CreateEnrichmentJob. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
+    /// <param name="WorkspaceName">The name of the IoT SiteWise workspace containing the enrichment job. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="JobId">The unique identifier of the enrichment job to retrieve. This is the jobId returned by CreateEnrichmentJob. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
     public AwsIotsitewiseDescribeEnrichmentJobOptions(
         string WorkspaceName,
         string JobId
@@ -60,13 +62,13 @@ public record AwsIotsitewiseDescribeEnrichmentJobOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the IoT SiteWise workspace containing the enrichment job. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The name of the IoT SiteWise workspace containing the enrichment job. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--workspace-name")]
     public string? WorkspaceName { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the enrichment job to retrieve. This is the jobId returned by CreateEnrichmentJob. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+    /// The unique identifier of the enrichment job to retrieve. This is the jobId returned by CreateEnrichmentJob. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }

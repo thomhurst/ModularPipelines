@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsStoragegatewayDeleteCacheReportOptions : AwsOptions, IValidatab
     /// <summary>
     /// Deletes the specified cache report and any associated tags from the Storage Gateway database. You can only delete completed reports. If the status of the report you attempt to delete still IN-PROGRESS, the delete operation returns an error. You can use CancelCacheReport to cancel an IN-PROGRESS report. NOTE: DeleteCacheReport does not delete the report object from your Amazon S3 bucket. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CacheReportArn">The Amazon Resource Name (ARN) of the cache report you want to delete. Constraints: o min: 50 o max: 500</param>
+    /// <param name="CacheReportArn">The Amazon Resource Name (ARN) of the cache report you want to delete. Constraints: • min: 50 • max: 500</param>
     public AwsStoragegatewayDeleteCacheReportOptions(
         string CacheReportArn
     )
@@ -56,7 +58,7 @@ public record AwsStoragegatewayDeleteCacheReportOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the cache report you want to delete. Constraints: o min: 50 o max: 500
+    /// The Amazon Resource Name (ARN) of the cache report you want to delete. Constraints: • min: 50 • max: 500
     /// </summary>
     [CliOption("--cache-report-arn")]
     public string? CacheReportArn { get; private init; }

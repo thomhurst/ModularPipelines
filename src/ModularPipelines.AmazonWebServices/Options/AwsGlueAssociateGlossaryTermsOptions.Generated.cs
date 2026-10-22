@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates one or more glossary terms with an asset in Glue Data Cata- log. See also: AWS API Documentation
+/// Associates one or more glossary terms with an asset in Glue Data Catalog. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsGlueAssociateGlossaryTermsOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates one or more glossary terms with an asset in Glue Data Cata- log. See also: AWS API Documentation
+    /// Associates one or more glossary terms with an asset in Glue Data Catalog. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssetIdentifier">The unique identifier of the asset to associate glossary terms with. Constraints: o min: 1 o max: 1087 o pattern: [a-zA-Z0-9\-\:\/\.\_\*]+</param>
-    /// <param name="GlossaryTermIdentifiers">The list of glossary term identifiers to associate with the asset. Constraints: o min: 1 o max: 10 (string) Syntax: "string" "string" ...</param>
+    /// <param name="AssetIdentifier">The unique identifier of the asset to associate glossary terms with. Constraints: • min: 1 • max: 1087 • pattern: [a-zA-Z0-9\-\:\/\.\_\*]+</param>
+    /// <param name="GlossaryTermIdentifiers">The list of glossary term identifiers to associate with the asset. Constraints: • min: 1 • max: 10 (string) Syntax: "string" "string" ...</param>
     public AwsGlueAssociateGlossaryTermsOptions(
         string AssetIdentifier,
         IEnumerable<string> GlossaryTermIdentifiers
@@ -72,31 +74,31 @@ public record AwsGlueAssociateGlossaryTermsOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the asset to associate glossary terms with. Constraints: o min: 1 o max: 1087 o pattern: [a-zA-Z0-9\-\:\/\.\_\*]+
+    /// The unique identifier of the asset to associate glossary terms with. Constraints: • min: 1 • max: 1087 • pattern: [a-zA-Z0-9\-\:\/\.\_\*]+
     /// </summary>
     [CliOption("--asset-identifier")]
     public string? AssetIdentifier { get; private init; }
 
     /// <summary>
-    /// The list of glossary term identifiers to associate with the asset. Constraints: o min: 1 o max: 10 (string) Syntax: "string" "string" ...
+    /// The list of glossary term identifiers to associate with the asset. Constraints: • min: 1 • max: 10 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--glossary-term-identifiers", GroupValues = true)]
     public IEnumerable<string>? GlossaryTermIdentifiers { get; private init; }
 
     /// <summary>
-    /// The name of the iterable form. When specified along with itemIdenti- fier , the glossary terms are associated with an item within the it- erable form rather than the asset itself. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*(::[a-zA-Z][a-zA-Z0-9_]*)?$
+    /// The name of the iterable form. When specified along with itemIdentifier , the glossary terms are associated with an item within the iterable form rather than the asset itself. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z][a-zA-Z0-9_]*(::[a-zA-Z][a-zA-Z0-9_]*)?$
     /// </summary>
     [CliOption("--iterable-form-name")]
     public string? IterableFormName { get; set; }
 
     /// <summary>
-    /// The identifier of the item within the iterable form. Required when iterableFormName is specified. Constraints: o min: 1 o max: 1087
+    /// The identifier of the item within the iterable form. Required when iterableFormName is specified. Constraints: • min: 1 • max: 1087
     /// </summary>
     [CliOption("--item-identifier")]
     public string? ItemIdentifier { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

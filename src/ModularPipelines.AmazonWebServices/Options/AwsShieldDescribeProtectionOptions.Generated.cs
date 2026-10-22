@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsShieldDescribeProtectionOptions : AwsOptions
 {
     /// <summary>
-    /// The unique identifier (ID) for the Protection object to describe. You must provide either the ResourceArn of the protected resource or the ProtectionID of the protection, but not both. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9\\-]*
+    /// The unique identifier (ID) for the Protection object to describe. You must provide either the ResourceArn of the protected resource or the ProtectionID of the protection, but not both. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9\\-]*
     /// </summary>
     [CliOption("--protection-id")]
     public string? ProtectionId { get; set; }
 
     /// <summary>
-    /// The ARN (Amazon Resource Name) of the protected Amazon Web Services resource. You must provide either the ResourceArn of the protected resource or the ProtectionID of the protection, but not both. Constraints: o min: 1 o max: 2048 o pattern: ^arn:aws.*
+    /// The ARN (Amazon Resource Name) of the protected Amazon Web Services resource. You must provide either the ResourceArn of the protected resource or the ProtectionID of the protection, but not both. Constraints: • min: 1 • max: 2048 • pattern: ^arn:aws.*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets information about whether additional CloudWatch metrics are en- abled for the specified CloudFront distribution. See also: AWS API Documentation
+/// Gets information about whether additional CloudWatch metrics are enabled for the specified CloudFront distribution. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsCloudfrontGetMonitoringSubscriptionOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets information about whether additional CloudWatch metrics are en- abled for the specified CloudFront distribution. See also: AWS API Documentation
+    /// Gets information about whether additional CloudWatch metrics are enabled for the specified CloudFront distribution. See also: AWS API Documentation
     /// </summary>
     /// <param name="DistributionId">The ID of the distribution that you are getting metrics information for.</param>
     public AwsCloudfrontGetMonitoringSubscriptionOptions(

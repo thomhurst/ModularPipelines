@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,10 +30,10 @@ public record AwsChimeSdkVoiceCreateSipRuleOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Creates a SIP rule, which can be used to run a SIP media application as a target for a specific trigger type. For more information about SIP rules, see Managing SIP media applications and rules in the Amazon Chime SDK Administrator Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the SIP rule. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 _.-]+</param>
-    /// <param name="TriggerType">The type of trigger assigned to the SIP rule in TriggerValue , cur- rently RequestUriHostname or ToPhoneNumber . Possible values: o ToPhoneNumber o RequestUriHostname</param>
-    /// <param name="TriggerValue">If TriggerType is RequestUriHostname , the value can be the outbound host name of a Voice Connector. If TriggerType is ToPhoneNumber , the value can be a customer-owned phone number in the E164 format. The SipMediaApplication specified in the SipRule is triggered if the request URI in an incoming SIP request matches the RequestUriHost- name , or if the To header in the incoming SIP request matches the ToPhoneNumber value. Constraints: o pattern: .*\S.*</param>
-    /// <param name="TargetApplications">List of SIP media applications, with priority and AWS Region. Only one SIP application per AWS Region can be used. Constraints: o min: 1 o max: 25 (structure) A target SIP media application and other details, such as prior- ity and AWS Region, to be specified in the SIP rule. Only one SIP rule per AWS Region can be provided. SipMediaApplicationId -&gt; (string) The ID of a rule's target SIP media application. Constraints: o pattern: .*\S.* Priority -&gt; (integer) The priority setting of a rule's target SIP media applica- tion. Constraints: o min: 1 AwsRegion -&gt; (string) The AWS Region of a rule's target SIP media application. Shorthand Syntax: SipMediaApplicationId=string,Priority=integer,AwsRegion=string ... JSON Syntax: [ { "SipMediaApplicationId": "string", "Priority": integer, "AwsRegion": "string" } ... ]</param>
+    /// <param name="Name">The name of the SIP rule. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9 _.-]+</param>
+    /// <param name="TriggerType">The type of trigger assigned to the SIP rule in TriggerValue , currently RequestUriHostname or ToPhoneNumber . Possible values: • ToPhoneNumber • RequestUriHostname</param>
+    /// <param name="TriggerValue">If TriggerType is RequestUriHostname , the value can be the outbound host name of a Voice Connector. If TriggerType is ToPhoneNumber , the value can be a customer-owned phone number in the E164 format. The SipMediaApplication specified in the SipRule is triggered if the request URI in an incoming SIP request matches the RequestUriHostname , or if the To header in the incoming SIP request matches the ToPhoneNumber value. Constraints: • pattern: .*\S.*</param>
+    /// <param name="TargetApplications">List of SIP media applications, with priority and AWS Region. Only one SIP application per AWS Region can be used. Constraints: • min: 1 • max: 25 (structure) A target SIP media application and other details, such as priority and AWS Region, to be specified in the SIP rule. Only one SIP rule per AWS Region can be provided. SipMediaApplicationId -&gt; (string) The ID of a rule's target SIP media application. Constraints: • pattern: .*\S.* Priority -&gt; (integer) The priority setting of a rule's target SIP media application. Constraints: • min: 1 AwsRegion -&gt; (string) The AWS Region of a rule's target SIP media application. Shorthand Syntax: SipMediaApplicationId=string,Priority=integer,AwsRegion=string ... JSON Syntax: [ { "SipMediaApplicationId": "string", "Priority": integer, "AwsRegion": "string" } ... ]</param>
     public AwsChimeSdkVoiceCreateSipRuleOptions(
         string Name,
         AwsChimeSdkVoiceCreateSipRuleTriggerType TriggerType,
@@ -79,25 +81,25 @@ public record AwsChimeSdkVoiceCreateSipRuleOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the SIP rule. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 _.-]+
+    /// The name of the SIP rule. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9 _.-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The type of trigger assigned to the SIP rule in TriggerValue , cur- rently RequestUriHostname or ToPhoneNumber . Possible values: o ToPhoneNumber o RequestUriHostname
+    /// The type of trigger assigned to the SIP rule in TriggerValue , currently RequestUriHostname or ToPhoneNumber . Possible values: • ToPhoneNumber • RequestUriHostname
     /// </summary>
     [CliOption("--trigger-type")]
     public AwsChimeSdkVoiceCreateSipRuleTriggerType? TriggerType { get; private init; }
 
     /// <summary>
-    /// If TriggerType is RequestUriHostname , the value can be the outbound host name of a Voice Connector. If TriggerType is ToPhoneNumber , the value can be a customer-owned phone number in the E164 format. The SipMediaApplication specified in the SipRule is triggered if the request URI in an incoming SIP request matches the RequestUriHost- name , or if the To header in the incoming SIP request matches the ToPhoneNumber value. Constraints: o pattern: .*\S.*
+    /// If TriggerType is RequestUriHostname , the value can be the outbound host name of a Voice Connector. If TriggerType is ToPhoneNumber , the value can be a customer-owned phone number in the E164 format. The SipMediaApplication specified in the SipRule is triggered if the request URI in an incoming SIP request matches the RequestUriHostname , or if the To header in the incoming SIP request matches the ToPhoneNumber value. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--trigger-value")]
     public string? TriggerValue { get; private init; }
 
     /// <summary>
-    /// List of SIP media applications, with priority and AWS Region. Only one SIP application per AWS Region can be used. Constraints: o min: 1 o max: 25 (structure) A target SIP media application and other details, such as prior- ity and AWS Region, to be specified in the SIP rule. Only one SIP rule per AWS Region can be provided. SipMediaApplicationId -&gt; (string) The ID of a rule's target SIP media application. Constraints: o pattern: .*\S.* Priority -&gt; (integer) The priority setting of a rule's target SIP media applica- tion. Constraints: o min: 1 AwsRegion -&gt; (string) The AWS Region of a rule's target SIP media application. Shorthand Syntax: SipMediaApplicationId=string,Priority=integer,AwsRegion=string ... JSON Syntax: [ { "SipMediaApplicationId": "string", "Priority": integer, "AwsRegion": "string" } ... ]
+    /// List of SIP media applications, with priority and AWS Region. Only one SIP application per AWS Region can be used. Constraints: • min: 1 • max: 25 (structure) A target SIP media application and other details, such as priority and AWS Region, to be specified in the SIP rule. Only one SIP rule per AWS Region can be provided. SipMediaApplicationId -&gt; (string) The ID of a rule's target SIP media application. Constraints: • pattern: .*\S.* Priority -&gt; (integer) The priority setting of a rule's target SIP media application. Constraints: • min: 1 AwsRegion -&gt; (string) The AWS Region of a rule's target SIP media application. Shorthand Syntax: SipMediaApplicationId=string,Priority=integer,AwsRegion=string ... JSON Syntax: [ { "SipMediaApplicationId": "string", "Priority": integer, "AwsRegion": "string" } ... ]
     /// </summary>
     [CliOption("--target-applications", GroupValues = true)]
     public IEnumerable<string>? TargetApplications { get; private init; }

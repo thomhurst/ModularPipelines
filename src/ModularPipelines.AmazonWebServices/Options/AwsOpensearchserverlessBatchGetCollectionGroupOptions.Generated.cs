@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns attributes for one or more collection groups, including capac- ity limits and the number of collections in each group. For more infor- mation, see Creating and managing Amazon OpenSearch Serverless collec- tions . See also: AWS API Documentation
+/// Returns attributes for one or more collection groups, including capacity limits and the number of collections in each group. For more information, see Creating and managing Amazon OpenSearch Serverless collections . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsOpensearchserverlessBatchGetCollectionGroupOptions : AwsOptions
 {
     /// <summary>
-    /// A list of collection group IDs. You can't provide names and IDs in the same request. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 3 o max: 40 o pattern: [a-z0-9]{3,40} Syntax: "string" "string" ...
+    /// A list of collection group IDs. You can't provide names and IDs in the same request. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 3 • max: 40 • pattern: [a-z0-9]{3,40} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
-    /// A list of collection group names. You can't provide names and IDs in the same request. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 3 o max: 32 o pattern: [a-z][a-z0-9-]+ Syntax: "string" "string" ...
+    /// A list of collection group names. You can't provide names and IDs in the same request. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 3 • max: 32 • pattern: [a-z][a-z0-9-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; set; }

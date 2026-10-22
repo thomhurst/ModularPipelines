@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsElbv2CreateTrustStoreOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a trust store. For more information, see Mutual TLS for Application Load Balancers . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the trust store. This name must be unique per region and can't be changed after cre- ation. Constraints: o min: 1 o max: 32 o pattern: ^([a-zA-Z0-9]+-)*[a-zA-Z0-9]+$</param>
+    /// <param name="Name">The name of the trust store. This name must be unique per region and can't be changed after creation. Constraints: • min: 1 • max: 32 • pattern: ^([a-zA-Z0-9]+-)*[a-zA-Z0-9]+$</param>
     /// <param name="CaCertificatesBundleS3Bucket">The Amazon S3 bucket for the ca certificates bundle.</param>
     /// <param name="CaCertificatesBundleS3Key">The Amazon S3 path for the ca certificates bundle.</param>
     public AwsElbv2CreateTrustStoreOptions(
@@ -64,7 +66,7 @@ public record AwsElbv2CreateTrustStoreOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the trust store. This name must be unique per region and can't be changed after cre- ation. Constraints: o min: 1 o max: 32 o pattern: ^([a-zA-Z0-9]+-)*[a-zA-Z0-9]+$
+    /// The name of the trust store. This name must be unique per region and can't be changed after creation. Constraints: • min: 1 • max: 32 • pattern: ^([a-zA-Z0-9]+-)*[a-zA-Z0-9]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -82,13 +84,13 @@ public record AwsElbv2CreateTrustStoreOptions : AwsOptions, IValidatableObject
     public string? CaCertificatesBundleS3Key { get; private init; }
 
     /// <summary>
-    /// The Amazon S3 object version for the ca certificates bundle. If un- defined the current version is used.
+    /// The Amazon S3 object version for the ca certificates bundle. If undefined the current version is used.
     /// </summary>
     [CliOption("--ca-certificates-bundle-s3-object-version")]
     public string? CaCertificatesBundleS3ObjectVersion { get; set; }
 
     /// <summary>
-    /// The tags to assign to the trust store. Constraints: o min: 1 (structure) Information about a tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags to assign to the trust store. Constraints: • min: 1 (structure) Information about a tag. Key -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The value of the tag. Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

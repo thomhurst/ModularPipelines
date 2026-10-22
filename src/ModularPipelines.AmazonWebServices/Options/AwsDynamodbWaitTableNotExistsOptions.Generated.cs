@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Wait until ResourceNotFoundException is thrown when polling with de- scribe-table. It will poll every 20 seconds until a successful state has been reached. This will exit with a return code of 255 after 25 failed checks. See also: AWS API Documentation
+/// Wait until ResourceNotFoundException is thrown when polling with describe-table. It will poll every 20 seconds until a successful state has been reached. This will exit with a return code of 255 after 25 failed checks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsDynamodbWaitTableNotExistsOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Wait until ResourceNotFoundException is thrown when polling with de- scribe-table. It will poll every 20 seconds until a successful state has been reached. This will exit with a return code of 255 after 25 failed checks. See also: AWS API Documentation
+    /// Wait until ResourceNotFoundException is thrown when polling with describe-table. It will poll every 20 seconds until a successful state has been reached. This will exit with a return code of 255 after 25 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TableName">The name of the table to describe. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="TableName">The name of the table to describe. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: • min: 1 • max: 1024</param>
     public AwsDynamodbWaitTableNotExistsOptions(
         string TableName
     )
@@ -56,7 +58,7 @@ public record AwsDynamodbWaitTableNotExistsOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the table to describe. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024
+    /// The name of the table to describe. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--table-name")]
     public string? TableName { get; private init; }

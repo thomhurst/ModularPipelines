@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsConnectcampaignsv2UpdateCampaignSourceOptions : AwsOptions, IVa
     /// <summary>
     /// Updates the campaign source with a campaign. This API is idempotent. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">Identifier representing a Campaign Constraints: o min: 1 o max: 256 o pattern: [-:/a-zA-Z0-9]+</param>
-    /// <param name="Source">Source of the campaign NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: customerProfilesSegmentArn, eventTrigger. customerProfilesSegmentArn -&gt; (string) Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? eventTrigger -&gt; (structure) Event trigger of the campaign customerProfilesDomainArn -&gt; (string) Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? Shorthand Syntax: customerProfilesSegmentArn=string,eventTrigger={customerProfilesDomainArn=string} JSON Syntax: { "customerProfilesSegmentArn": "string", "eventTrigger": { "customerProfilesDomainArn": "string" } }</param>
+    /// <param name="Id">Identifier representing a Campaign Constraints: • min: 1 • max: 256 • pattern: [-:/a-zA-Z0-9]+</param>
+    /// <param name="Source">Source of the campaign NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: customerProfilesSegmentArn, eventTrigger. customerProfilesSegmentArn -&gt; (string) Amazon Resource Names(ARN) Constraints: • min: 20 • max: 500 • pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? eventTrigger -&gt; (structure) Event trigger of the campaign customerProfilesDomainArn -&gt; (string) Amazon Resource Names(ARN) Constraints: • min: 20 • max: 500 • pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? Shorthand Syntax: customerProfilesSegmentArn=string,eventTrigger={customerProfilesDomainArn=string} JSON Syntax: { "customerProfilesSegmentArn": "string", "eventTrigger": { "customerProfilesDomainArn": "string" } }</param>
     public AwsConnectcampaignsv2UpdateCampaignSourceOptions(
         string Id,
         string Source
@@ -60,13 +62,13 @@ public record AwsConnectcampaignsv2UpdateCampaignSourceOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifier representing a Campaign Constraints: o min: 1 o max: 256 o pattern: [-:/a-zA-Z0-9]+
+    /// Identifier representing a Campaign Constraints: • min: 1 • max: 256 • pattern: [-:/a-zA-Z0-9]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// Source of the campaign NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: customerProfilesSegmentArn, eventTrigger. customerProfilesSegmentArn -&gt; (string) Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? eventTrigger -&gt; (structure) Event trigger of the campaign customerProfilesDomainArn -&gt; (string) Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? Shorthand Syntax: customerProfilesSegmentArn=string,eventTrigger={customerProfilesDomainArn=string} JSON Syntax: { "customerProfilesSegmentArn": "string", "eventTrigger": { "customerProfilesDomainArn": "string" } }
+    /// Source of the campaign NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: customerProfilesSegmentArn, eventTrigger. customerProfilesSegmentArn -&gt; (string) Amazon Resource Names(ARN) Constraints: • min: 20 • max: 500 • pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? eventTrigger -&gt; (structure) Event trigger of the campaign customerProfilesDomainArn -&gt; (string) Amazon Resource Names(ARN) Constraints: • min: 20 • max: 500 • pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? Shorthand Syntax: customerProfilesSegmentArn=string,eventTrigger={customerProfilesDomainArn=string} JSON Syntax: { "customerProfilesSegmentArn": "string", "eventTrigger": { "customerProfilesDomainArn": "string" } }
     /// </summary>
     [CliOption("--source")]
     public string? Source { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsStoragegatewayDescribeSmbFileSharesOptions : AwsOptions, IValid
     /// <summary>
     /// Gets a description for one or more Server Message Block (SMB) file shares from a S3 File Gateway. This operation is only supported for S3 File Gateways. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FileShareArnList">An array containing the Amazon Resource Name (ARN) of each file share to be described. Constraints: o min: 1 o max: 10 (string) The Amazon Resource Name (ARN) of the file share. Constraints: o min: 50 o max: 500 Syntax: "string" "string" ...</param>
+    /// <param name="FileShareArnList">An array containing the Amazon Resource Name (ARN) of each file share to be described. Constraints: • min: 1 • max: 10 (string) The Amazon Resource Name (ARN) of the file share. Constraints: • min: 50 • max: 500 Syntax: "string" "string" ...</param>
     public AwsStoragegatewayDescribeSmbFileSharesOptions(
         IEnumerable<string> FileShareArnList
     )
@@ -67,7 +69,7 @@ public record AwsStoragegatewayDescribeSmbFileSharesOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An array containing the Amazon Resource Name (ARN) of each file share to be described. Constraints: o min: 1 o max: 10 (string) The Amazon Resource Name (ARN) of the file share. Constraints: o min: 50 o max: 500 Syntax: "string" "string" ...
+    /// An array containing the Amazon Resource Name (ARN) of each file share to be described. Constraints: • min: 1 • max: 10 (string) The Amazon Resource Name (ARN) of the file share. Constraints: • min: 50 • max: 500 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--file-share-arn-list", GroupValues = true)]
     public IEnumerable<string>? FileShareArnList { get; private init; }

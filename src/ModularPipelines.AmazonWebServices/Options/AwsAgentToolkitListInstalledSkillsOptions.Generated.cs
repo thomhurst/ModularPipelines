@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// List AWS skills that were previously installed by the aws agent-toolkit commands. Shows the skill name, agent, and file path for each installa- tion. By default it lists skills from all detected agents, use --agent to filter results to a specific tool.
+/// List AWS skills that were previously installed by the aws agent-toolkit commands. Shows the skill name, agent, and file path for each installation. By default it lists skills from all detected agents, use --agent to filter results to a specific tool.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

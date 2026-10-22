@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates registration for a device token and a chat contact to receive real-time push notifications. For more information about push notifica- tions, see Set up push notifications in Connect Customer for mobile chat in the Connect Customer Administrator Guide . See also: AWS API Documentation
+/// Creates registration for a device token and a chat contact to receive real-time push notifications. For more information about push notifications, see Set up push notifications in Connect Customer for mobile chat in the Connect Customer Administrator Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,13 +29,13 @@ public record AwsConnectCreatePushNotificationRegistrationOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates registration for a device token and a chat contact to receive real-time push notifications. For more information about push notifica- tions, see Set up push notifications in Connect Customer for mobile chat in the Connect Customer Administrator Guide . See also: AWS API Documentation
+    /// Creates registration for a device token and a chat contact to receive real-time push notifications. For more information about push notifications, see Set up push notifications in Connect Customer for mobile chat in the Connect Customer Administrator Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     /// <param name="PinpointAppArn">The Amazon Resource Name (ARN) of the Pinpoint application.</param>
-    /// <param name="DeviceToken">The push notification token issued by the Apple or Google gateways. Constraints: o min: 1 o max: 500</param>
-    /// <param name="DeviceType">The device type to use when sending the message. Possible values: o GCM o APNS o APNS_SANDBOX</param>
-    /// <param name="ContactConfiguration">The contact configuration for push notification registration. ContactId -&gt; (string) [required] The identifier of the contact within the Amazon Connect in- stance. Constraints: o min: 1 o max: 256 ParticipantRole -&gt; (string) The role of the participant in the chat conversation. NOTE: Only CUSTOMER is currently supported. Any other values other than CUSTOMER will result in an exception (4xx error). Possible values: o AGENT o CUSTOMER o SYSTEM o CUSTOM_BOT o SUPERVISOR IncludeRawMessage -&gt; (boolean) Whether to include raw connect message in the push notification payload. Default is False . Shorthand Syntax: ContactId=string,ParticipantRole=string,IncludeRawMessage=boolean JSON Syntax: { "ContactId": "string", "ParticipantRole": "AGENT"|"CUSTOMER"|"SYSTEM"|"CUSTOM_BOT"|"SUPERVISOR", "IncludeRawMessage": true|false }</param>
+    /// <param name="DeviceToken">The push notification token issued by the Apple or Google gateways. Constraints: • min: 1 • max: 500</param>
+    /// <param name="DeviceType">The device type to use when sending the message. Possible values: • GCM • APNS • APNS_SANDBOX</param>
+    /// <param name="ContactConfiguration">The contact configuration for push notification registration. ContactId -&gt; (string) [required] The identifier of the contact within the Amazon Connect instance. Constraints: • min: 1 • max: 256 ParticipantRole -&gt; (string) The role of the participant in the chat conversation. NOTE: Only CUSTOMER is currently supported. Any other values other than CUSTOMER will result in an exception (4xx error). Possible values: • AGENT • CUSTOMER • SYSTEM • CUSTOM_BOT • SUPERVISOR IncludeRawMessage -&gt; (boolean) Whether to include raw connect message in the push notification payload. Default is False . Shorthand Syntax: ContactId=string,ParticipantRole=string,IncludeRawMessage=boolean JSON Syntax: { "ContactId": "string", "ParticipantRole": "AGENT"|"CUSTOMER"|"SYSTEM"|"CUSTOM_BOT"|"SUPERVISOR", "IncludeRawMessage": true|false }</param>
     public AwsConnectCreatePushNotificationRegistrationOptions(
         string InstanceId,
         string PinpointAppArn,
@@ -73,7 +75,7 @@ public record AwsConnectCreatePushNotificationRegistrationOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
@@ -85,26 +87,26 @@ public record AwsConnectCreatePushNotificationRegistrationOptions : AwsOptions, 
     public string? PinpointAppArn { get; private init; }
 
     /// <summary>
-    /// The push notification token issued by the Apple or Google gateways. Constraints: o min: 1 o max: 500
+    /// The push notification token issued by the Apple or Google gateways. Constraints: • min: 1 • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--device-token")]
     public string? DeviceToken { get; private init; }
 
     /// <summary>
-    /// The device type to use when sending the message. Possible values: o GCM o APNS o APNS_SANDBOX
+    /// The device type to use when sending the message. Possible values: • GCM • APNS • APNS_SANDBOX
     /// </summary>
     [CliOption("--device-type")]
     public AwsConnectCreatePushNotificationRegistrationDeviceType? DeviceType { get; private init; }
 
     /// <summary>
-    /// The contact configuration for push notification registration. ContactId -&gt; (string) [required] The identifier of the contact within the Amazon Connect in- stance. Constraints: o min: 1 o max: 256 ParticipantRole -&gt; (string) The role of the participant in the chat conversation. NOTE: Only CUSTOMER is currently supported. Any other values other than CUSTOMER will result in an exception (4xx error). Possible values: o AGENT o CUSTOMER o SYSTEM o CUSTOM_BOT o SUPERVISOR IncludeRawMessage -&gt; (boolean) Whether to include raw connect message in the push notification payload. Default is False . Shorthand Syntax: ContactId=string,ParticipantRole=string,IncludeRawMessage=boolean JSON Syntax: { "ContactId": "string", "ParticipantRole": "AGENT"|"CUSTOMER"|"SYSTEM"|"CUSTOM_BOT"|"SUPERVISOR", "IncludeRawMessage": true|false }
+    /// The contact configuration for push notification registration. ContactId -&gt; (string) [required] The identifier of the contact within the Amazon Connect instance. Constraints: • min: 1 • max: 256 ParticipantRole -&gt; (string) The role of the participant in the chat conversation. NOTE: Only CUSTOMER is currently supported. Any other values other than CUSTOMER will result in an exception (4xx error). Possible values: • AGENT • CUSTOMER • SYSTEM • CUSTOM_BOT • SUPERVISOR IncludeRawMessage -&gt; (boolean) Whether to include raw connect message in the push notification payload. Default is False . Shorthand Syntax: ContactId=string,ParticipantRole=string,IncludeRawMessage=boolean JSON Syntax: { "ContactId": "string", "ParticipantRole": "AGENT"|"CUSTOMER"|"SYSTEM"|"CUSTOM_BOT"|"SUPERVISOR", "IncludeRawMessage": true|false }
     /// </summary>
     [CliOption("--contact-configuration")]
     public string? ContactConfiguration { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

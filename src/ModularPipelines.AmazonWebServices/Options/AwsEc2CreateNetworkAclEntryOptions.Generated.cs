@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an entry (a rule) in a network ACL with the specified rule num- ber. Each network ACL has a set of numbered ingress rules and a sepa- rate set of numbered egress rules. When determining whether a packet should be allowed in or out of a subnet associated with the ACL, we process the entries in the ACL according to the rule numbers, in as- cending order. Each network ACL has a set of ingress rules and a sepa- rate set of egress rules. We recommend that you leave room between the rule numbe...
+/// Creates an entry (a rule) in a network ACL with the specified rule number. Each network ACL has a set of numbered ingress rules and a separate set of numbered egress rules. When determining whether a packet should be allowed in or out of a subnet associated with the ACL, we process the entries in the ACL according to the rule numbers, in ascending order. Each network ACL has a set of ingress rules and a separate set of egress rules. We recommend that you leave room between the rule numbers (for ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +28,12 @@ public record AwsEc2CreateNetworkAclEntryOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an entry (a rule) in a network ACL with the specified rule num- ber. Each network ACL has a set of numbered ingress rules and a sepa- rate set of numbered egress rules. When determining whether a packet should be allowed in or out of a subnet associated with the ACL, we process the entries in the ACL according to the rule numbers, in as- cending order. Each network ACL has a set of ingress rules and a sepa- rate set of egress rules. We recommend that you leave room between the rule numbe...
+    /// Creates an entry (a rule) in a network ACL with the specified rule number. Each network ACL has a set of numbered ingress rules and a separate set of numbered egress rules. When determining whether a packet should be allowed in or out of a subnet associated with the ACL, we process the entries in the ACL according to the rule numbers, in ascending order. Each network ACL has a set of ingress rules and a separate set of egress rules. We recommend that you leave room between the rule numbers (for ...
     /// </summary>
     /// <param name="NetworkAclId">The ID of the network ACL.</param>
     /// <param name="RuleNumber">The rule number for the entry (for example, 100). ACL entries are processed in ascending order by rule number. Constraints: Positive integer from 1 to 32766. The range 32767 to 65535 is reserved for internal use.</param>
-    /// <param name="Protocol">The protocol number. A value of "-1" means all protocols. If you specify "-1" or a protocol number other than "6" (TCP), "17" (UDP), or "1" (ICMP), traffic on all ports is allowed, regardless of any ports or ICMP types or codes that you specify. If you specify proto- col "58" (ICMPv6) and specify an IPv4 CIDR block, traffic for all ICMP types and codes allowed, regardless of any that you specify. If you specify protocol "58" (ICMPv6) and specify an IPv6 CIDR block, you must specify an ICMP type and code.</param>
-    /// <param name="RuleAction">Indicates whether to allow or deny the traffic that matches the rule. Possible values: o allow o deny</param>
+    /// <param name="Protocol">The protocol number. A value of "-1" means all protocols. If you specify "-1" or a protocol number other than "6" (TCP), "17" (UDP), or "1" (ICMP), traffic on all ports is allowed, regardless of any ports or ICMP types or codes that you specify. If you specify protocol "58" (ICMPv6) and specify an IPv4 CIDR block, traffic for all ICMP types and codes allowed, regardless of any that you specify. If you specify protocol "58" (ICMPv6) and specify an IPv6 CIDR block, you must specify an ICMP type and code.</param>
+    /// <param name="RuleAction">Indicates whether to allow or deny the traffic that matches the rule. Possible values: • allow • deny</param>
     /// <param name="Egress">Indicates whether this is an egress rule (rule is applied to traffic leaving the subnet).</param>
     public AwsEc2CreateNetworkAclEntryOptions(
         string NetworkAclId,
@@ -82,13 +84,13 @@ public record AwsEc2CreateNetworkAclEntryOptions : AwsOptions, IValidatableObjec
     public int? RuleNumber { get; private init; }
 
     /// <summary>
-    /// The protocol number. A value of "-1" means all protocols. If you specify "-1" or a protocol number other than "6" (TCP), "17" (UDP), or "1" (ICMP), traffic on all ports is allowed, regardless of any ports or ICMP types or codes that you specify. If you specify proto- col "58" (ICMPv6) and specify an IPv4 CIDR block, traffic for all ICMP types and codes allowed, regardless of any that you specify. If you specify protocol "58" (ICMPv6) and specify an IPv6 CIDR block, you must specify an ICMP type and code.
+    /// The protocol number. A value of "-1" means all protocols. If you specify "-1" or a protocol number other than "6" (TCP), "17" (UDP), or "1" (ICMP), traffic on all ports is allowed, regardless of any ports or ICMP types or codes that you specify. If you specify protocol "58" (ICMPv6) and specify an IPv4 CIDR block, traffic for all ICMP types and codes allowed, regardless of any that you specify. If you specify protocol "58" (ICMPv6) and specify an IPv6 CIDR block, you must specify an ICMP type and code.
     /// </summary>
     [CliOption("--protocol")]
     public string? Protocol { get; private init; }
 
     /// <summary>
-    /// Indicates whether to allow or deny the traffic that matches the rule. Possible values: o allow o deny
+    /// Indicates whether to allow or deny the traffic that matches the rule. Possible values: • allow • deny
     /// </summary>
     [CliOption("--rule-action")]
     public AwsEc2CreateNetworkAclEntryRuleAction? RuleAction { get; private init; }
@@ -100,31 +102,31 @@ public record AwsEc2CreateNetworkAclEntryOptions : AwsOptions, IValidatableObjec
     public bool? Egress { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// The IPv4 network range to allow or deny, in CIDR notation (for exam- ple 172.16.0.0/24 ). We modify the specified CIDR block to its canonical form; for example, if you specify 100.68.0.18/18 , we mod- ify it to 100.68.0.0/18 .
+    /// The IPv4 network range to allow or deny, in CIDR notation (for example 172.16.0.0/24 ). We modify the specified CIDR block to its canonical form; for example, if you specify 100.68.0.18/18 , we modify it to 100.68.0.0/18 .
     /// </summary>
     [CliOption("--cidr-block")]
     public string? CidrBlock { get; set; }
 
     /// <summary>
-    /// The IPv6 network range to allow or deny, in CIDR notation (for exam- ple 2001:db8:1234:1a00::/64 ).
+    /// The IPv6 network range to allow or deny, in CIDR notation (for example 2001:db8:1234:1a00::/64 ).
     /// </summary>
     [CliOption("--ipv6-cidr-block")]
     public string? Ipv6CidrBlock { get; set; }
 
     /// <summary>
-    /// ICMP protocol: The ICMP or ICMPv6 type and code. Required if speci- fying protocol 1 (ICMP) or protocol 58 (ICMPv6) with an IPv6 CIDR block. Code -&gt; (integer) The ICMP code. A value of -1 means all codes for the specified ICMP type. Type -&gt; (integer) The ICMP type. A value of -1 means all types. Shorthand Syntax: Code=integer,Type=integer JSON Syntax: { "Code": integer, "Type": integer }
+    /// ICMP protocol: The ICMP or ICMPv6 type and code. Required if specifying protocol 1 (ICMP) or protocol 58 (ICMPv6) with an IPv6 CIDR block. Code -&gt; (integer) The ICMP code. A value of -1 means all codes for the specified ICMP type. Type -&gt; (integer) The ICMP type. A value of -1 means all types. Shorthand Syntax: Code=integer,Type=integer JSON Syntax: { "Code": integer, "Type": integer }
     /// </summary>
     [CliOption("--icmp-type-code")]
     public string? IcmpTypeCode { get; set; }
 
     /// <summary>
-    /// TCP or UDP protocols: The range of ports the rule applies to. Re- quired if specifying protocol 6 (TCP) or 17 (UDP). From -&gt; (integer) The first port in the range. To -&gt; (integer) The last port in the range. Shorthand Syntax: From=integer,To=integer JSON Syntax: { "From": integer, "To": integer }
+    /// TCP or UDP protocols: The range of ports the rule applies to. Required if specifying protocol 6 (TCP) or 17 (UDP). From -&gt; (integer) The first port in the range. To -&gt; (integer) The last port in the range. Shorthand Syntax: From=integer,To=integer JSON Syntax: { "From": integer, "To": integer }
     /// </summary>
     [CliOption("--port-range")]
     public string? PortRange { get; set; }

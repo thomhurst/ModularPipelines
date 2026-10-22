@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Generates sample findings of types specified by the list of finding types. If 'NULL' is specified for findingTypes , the API generates sam- ple findings of all supported finding types. See also: AWS API Documentation
+/// Generates sample findings of types specified by the list of finding types. If 'NULL' is specified for findingTypes , the API generates sample findings of all supported finding types. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsGuarddutyCreateSampleFindingsOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Generates sample findings of types specified by the list of finding types. If 'NULL' is specified for findingTypes , the API generates sam- ple findings of all supported finding types. See also: AWS API Documentation
+    /// Generates sample findings of types specified by the list of finding types. If 'NULL' is specified for findingTypes , the API generates sample findings of all supported finding types. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DetectorId">The ID of the detector for which you need to create sample findings. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
+    /// <param name="DetectorId">The ID of the detector for which you need to create sample findings. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300</param>
     public AwsGuarddutyCreateSampleFindingsOptions(
         string DetectorId
     )
@@ -56,13 +58,13 @@ public record AwsGuarddutyCreateSampleFindingsOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the detector for which you need to create sample findings. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// The ID of the detector for which you need to create sample findings. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }
 
     /// <summary>
-    /// The types of sample findings to generate. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 100 Syntax: "string" "string" ...
+    /// The types of sample findings to generate. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 100 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--finding-types", GroupValues = true)]
     public IEnumerable<string>? FindingTypes { get; set; }

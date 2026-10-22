@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsPinpointSmsVoiceV2CreateVerifiedDestinationNumberOptions : AwsO
     /// <summary>
     /// You can only send messages to verified destination numbers when your account is in the sandbox. You can add up to 10 verified destination numbers. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DestinationPhoneNumber">The verified destination phone number, in E.164 format. Constraints: o min: 1 o max: 20 o pattern: \+?[1-9][0-9]{1,18}</param>
+    /// <param name="DestinationPhoneNumber">The verified destination phone number, in E.164 format. Constraints: • min: 1 • max: 20 • pattern: \+?[1-9][0-9]{1,18}</param>
     public AwsPinpointSmsVoiceV2CreateVerifiedDestinationNumberOptions(
         string DestinationPhoneNumber
     )
@@ -57,25 +59,25 @@ public record AwsPinpointSmsVoiceV2CreateVerifiedDestinationNumberOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The verified destination phone number, in E.164 format. Constraints: o min: 1 o max: 20 o pattern: \+?[1-9][0-9]{1,18}
+    /// The verified destination phone number, in E.164 format. Constraints: • min: 1 • max: 20 • pattern: \+?[1-9][0-9]{1,18}
     /// </summary>
     [CliOption("--destination-phone-number")]
     public string? DestinationPhoneNumber { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the RCS agent to associate with the veri- fied destination number. You can use either the RcsAgentId or Rc- sAgentArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The unique identifier of the RCS agent to associate with the verified destination number. You can use either the RcsAgentId or RcsAgentArn. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--rcs-agent-id")]
     public string? RcsAgentId { get; set; }
 
     /// <summary>
-    /// An array of tags (key and value pairs) to associate with the desti- nation number. Constraints: o min: 0 o max: 200 (structure) The list of tags to be added to the specified topic. Key -&gt; (string) [required] The key identifier, or name, of the tag. Constraints: o min: 1 o max: 128 o pattern: .+ Value -&gt; (string) [required] The string value associated with the key of the tag. Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// An array of tags (key and value pairs) to associate with the destination number. Constraints: • min: 0 • max: 200 (structure) The list of tags to be added to the specified topic. Key -&gt; (string) [required] The key identifier, or name, of the tag. Constraints: • min: 1 • max: 128 • pattern: .+ Value -&gt; (string) [required] The string value associated with the key of the tag. Constraints: • min: 0 • max: 256 • pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempo- tency. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency. Constraints: • min: 1 • max: 64 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

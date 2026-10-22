@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -70,7 +71,7 @@ public record AwsSecurityagentCreateSecurityRequirementPackOptions : AwsOptions,
     public string? Description { get; set; }
 
     /// <summary>
-    /// The status of the pack. Defaults to ENABLED if not provided. Possible values: o ENABLED o DISABLED
+    /// The status of the pack. Defaults to ENABLED if not provided. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--status")]
     public AwsSecurityagentCreateSecurityRequirementPackStatus? Status { get; set; }

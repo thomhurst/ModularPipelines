@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsEfsUpdateFileSystemOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the throughput mode or the amount of provisioned throughput of an existing file system. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FileSystemId">The ID of the file system that you want to update. Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$</param>
+    /// <param name="FileSystemId">The ID of the file system that you want to update. Constraints: • max: 128 • pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$</param>
     public AwsEfsUpdateFileSystemOptions(
         string FileSystemId
     )
@@ -57,22 +59,22 @@ public record AwsEfsUpdateFileSystemOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the file system that you want to update. Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$
+    /// The ID of the file system that you want to update. Constraints: • max: 128 • pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$
     /// </summary>
     [CliOption("--file-system-id")]
     public string? FileSystemId { get; private init; }
 
     /// <summary>
-    /// (Optional) Updates the file system's throughput mode. If you're not updating your throughput mode, you don't need to provide this value in your request. If you are changing the ThroughputMode to provi- sioned , you must also set a value for ProvisionedThroughputInMibps . Possible values: o bursting o provisioned o elastic
+    /// (Optional) Updates the file system's throughput mode. If you're not updating your throughput mode, you don't need to provide this value in your request. If you are changing the ThroughputMode to provisioned , you must also set a value for ProvisionedThroughputInMibps . Possible values: • bursting • provisioned • elastic
     /// </summary>
     [CliOption("--throughput-mode")]
     public AwsEfsUpdateFileSystemThroughputMode? ThroughputMode { get; set; }
 
     /// <summary>
-    /// (Optional) The throughput, measured in mebibytes per second (MiBps), that you want to provision for a file system that you're creating. Required if ThroughputMode is set to provisioned . Valid values are 1-3414 MiBps, with the upper limit depending on Region. To increase this limit, contact Amazon Web Services Support. For more informa- tion, see Amazon EFS quotas that you can increase in the Amazon EFS User Guide . Constraints: o min: 1.0
+    /// (Optional) The throughput, measured in mebibytes per second (MiBps), that you want to provision for a file system that you're creating. Required if ThroughputMode is set to provisioned . Valid values are 1-3414 MiBps, with the upper limit depending on Region. To increase this limit, contact Amazon Web Services Support. For more information, see Amazon EFS quotas that you can increase in the Amazon EFS User Guide . Constraints: • min: 1.0
     /// </summary>
     [CliOption("--provisioned-throughput-in-mibps")]
-    public int? ProvisionedThroughputInMibps { get; set; }
+    public double? ProvisionedThroughputInMibps { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

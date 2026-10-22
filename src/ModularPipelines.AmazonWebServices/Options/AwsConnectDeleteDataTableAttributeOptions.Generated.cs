@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsConnectDeleteDataTableAttributeOptions : AwsOptions, IValidatab
     /// <summary>
     /// Deletes an attribute and all its values from a data table. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The unique identifier for the Amazon Connect instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="DataTableId">The unique identifier for the data table. Constraints: o min: 1 o max: 256</param>
-    /// <param name="AttributeName">The name of the attribute to delete. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$</param>
+    /// <param name="InstanceId">The unique identifier for the Amazon Connect instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="DataTableId">The unique identifier for the data table. Constraints: • min: 1 • max: 256</param>
+    /// <param name="AttributeName">The name of the attribute to delete. Constraints: • min: 1 • max: 127 • pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$</param>
     public AwsConnectDeleteDataTableAttributeOptions(
         string InstanceId,
         string DataTableId,
@@ -64,19 +66,19 @@ public record AwsConnectDeleteDataTableAttributeOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the Amazon Connect instance. Constraints: o min: 1 o max: 100
+    /// The unique identifier for the Amazon Connect instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the data table. Constraints: o min: 1 o max: 256
+    /// The unique identifier for the data table. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--data-table-id")]
     public string? DataTableId { get; private init; }
 
     /// <summary>
-    /// The name of the attribute to delete. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$
+    /// The name of the attribute to delete. Constraints: • min: 1 • max: 127 • pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$
     /// </summary>
     [CliOption("--attribute-name")]
     public string? AttributeName { get; private init; }

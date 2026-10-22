@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Stops a running stream processor that was created by CreateStream- Processor . See also: AWS API Documentation
+/// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Stops a running stream processor that was created by CreateStreamProcessor . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRekognitionStopStreamProcessorOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Stops a running stream processor that was created by CreateStream- Processor . See also: AWS API Documentation
+    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Stops a running stream processor that was created by CreateStreamProcessor . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of a stream processor created by CreateStreamProcessor . Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.\-]+</param>
+    /// <param name="Name">The name of a stream processor created by CreateStreamProcessor . Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.\-]+</param>
     public AwsRekognitionStopStreamProcessorOptions(
         string Name
     )
@@ -56,7 +58,7 @@ public record AwsRekognitionStopStreamProcessorOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of a stream processor created by CreateStreamProcessor . Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.\-]+
+    /// The name of a stream processor created by CreateStreamProcessor . Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.\-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

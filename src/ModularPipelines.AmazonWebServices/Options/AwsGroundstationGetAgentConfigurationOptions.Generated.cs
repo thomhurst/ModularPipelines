@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: For use by AWS Ground Station Agent and shouldn't be called di- rectly. Gets the latest configuration information for a registered agent. See also: AWS API Documentation
+/// NOTE: For use by AWS Ground Station Agent and shouldn't be called directly. Gets the latest configuration information for a registered agent. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsGroundstationGetAgentConfigurationOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: For use by AWS Ground Station Agent and shouldn't be called di- rectly. Gets the latest configuration information for a registered agent. See also: AWS API Documentation
+    /// NOTE: For use by AWS Ground Station Agent and shouldn't be called directly. Gets the latest configuration information for a registered agent. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentId">UUID of agent to get configuration information for. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="AgentId">UUID of agent to get configuration information for. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
     public AwsGroundstationGetAgentConfigurationOptions(
         string AgentId
     )
@@ -56,7 +58,7 @@ public record AwsGroundstationGetAgentConfigurationOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// UUID of agent to get configuration information for. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// UUID of agent to get configuration information for. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--agent-id")]
     public string? AgentId { get; private init; }

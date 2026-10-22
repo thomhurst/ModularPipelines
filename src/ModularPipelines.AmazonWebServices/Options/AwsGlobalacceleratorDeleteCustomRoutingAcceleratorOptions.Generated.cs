@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Delete a custom routing accelerator. Before you can delete an accelera- tor, you must disable it and remove all dependent resources (listeners and endpoint groups). To disable the accelerator, update the accelera- tor to set Enabled to false. WARNING: When you create a custom routing accelerator, by default, Global Ac- celerator provides you with a set of two static IP addresses. The IP addresses are assigned to your accelerator for as long as it exists, even if you disable the accelerator and i...
+/// Delete a custom routing accelerator. Before you can delete an accelerator, you must disable it and remove all dependent resources (listeners and endpoint groups). To disable the accelerator, update the accelerator to set Enabled to false. WARNING: When you create a custom routing accelerator, by default, Global Accelerator provides you with a set of two static IP addresses. The IP addresses are assigned to your accelerator for as long as it exists, even if you disable the accelerator and it no l...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsGlobalacceleratorDeleteCustomRoutingAcceleratorOptions : AwsOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Delete a custom routing accelerator. Before you can delete an accelera- tor, you must disable it and remove all dependent resources (listeners and endpoint groups). To disable the accelerator, update the accelera- tor to set Enabled to false. WARNING: When you create a custom routing accelerator, by default, Global Ac- celerator provides you with a set of two static IP addresses. The IP addresses are assigned to your accelerator for as long as it exists, even if you disable the accelerator and i...
+    /// Delete a custom routing accelerator. Before you can delete an accelerator, you must disable it and remove all dependent resources (listeners and endpoint groups). To disable the accelerator, update the accelerator to set Enabled to false. WARNING: When you create a custom routing accelerator, by default, Global Accelerator provides you with a set of two static IP addresses. The IP addresses are assigned to your accelerator for as long as it exists, even if you disable the accelerator and it no l...
     /// </summary>
-    /// <param name="AcceleratorArn">The Amazon Resource Name (ARN) of the custom routing accelerator to delete. Constraints: o max: 255</param>
+    /// <param name="AcceleratorArn">The Amazon Resource Name (ARN) of the custom routing accelerator to delete. Constraints: • max: 255</param>
     public AwsGlobalacceleratorDeleteCustomRoutingAcceleratorOptions(
         string AcceleratorArn
     )
@@ -56,7 +58,7 @@ public record AwsGlobalacceleratorDeleteCustomRoutingAcceleratorOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the custom routing accelerator to delete. Constraints: o max: 255
+    /// The Amazon Resource Name (ARN) of the custom routing accelerator to delete. Constraints: • max: 255
     /// </summary>
     [CliOption("--accelerator-arn")]
     public string? AcceleratorArn { get; private init; }

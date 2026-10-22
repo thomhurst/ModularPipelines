@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsOpensearchserverlessDeleteSecurityConfigOptions : AwsOptions, I
     /// <summary>
     /// Deletes a security configuration for OpenSearch Serverless. For more information, see SAML authentication for Amazon OpenSearch Serverless . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The security configuration identifier. For SAML the ID will be saml/&lt;accountId&gt;/&lt;idpProviderName&gt; . For example, saml/123456789123/OKTADev . Constraints: o min: 1 o max: 100</param>
+    /// <param name="Id">The security configuration identifier. For SAML the ID will be saml/&lt;accountId&gt;/&lt;idpProviderName&gt; . For example, saml/123456789123/OKTADev . Constraints: • min: 1 • max: 100</param>
     public AwsOpensearchserverlessDeleteSecurityConfigOptions(
         string Id
     )
@@ -57,13 +59,13 @@ public record AwsOpensearchserverlessDeleteSecurityConfigOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The security configuration identifier. For SAML the ID will be saml/&lt;accountId&gt;/&lt;idpProviderName&gt; . For example, saml/123456789123/OKTADev . Constraints: o min: 1 o max: 100
+    /// The security configuration identifier. For SAML the ID will be saml/&lt;accountId&gt;/&lt;idpProviderName&gt; . For example, saml/123456789123/OKTADev . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 1 o max: 512
+    /// Unique, case-sensitive identifier to ensure idempotency of the request. Constraints: • min: 1 • max: 512
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

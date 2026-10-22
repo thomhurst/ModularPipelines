@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsFreetierGetAccountActivityOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Returns a specific activity record that is available to the customer. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ActivityId">A unique identifier that identifies the activity. Constraints: o min: 32 o max: 32 o pattern: [a-zA-Z0-9]+</param>
+    /// <param name="ActivityId">A unique identifier that identifies the activity. Constraints: • min: 32 • max: 32 • pattern: [a-zA-Z0-9]+</param>
     public AwsFreetierGetAccountActivityOptions(
         string ActivityId
     )
@@ -57,13 +59,13 @@ public record AwsFreetierGetAccountActivityOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier that identifies the activity. Constraints: o min: 32 o max: 32 o pattern: [a-zA-Z0-9]+
+    /// A unique identifier that identifies the activity. Constraints: • min: 32 • max: 32 • pattern: [a-zA-Z0-9]+
     /// </summary>
     [CliOption("--activity-id")]
     public string? ActivityId { get; private init; }
 
     /// <summary>
-    /// The language code used to return translated title and description fields. Possible values: o en-US o en-GB o id-ID o de-DE o es-ES o fr-FR o ja-JP o it-IT o pt-PT o ko-KR o zh-CN o zh-TW o tr-TR
+    /// The language code used to return translated title and description fields. Possible values: • en-US • en-GB • id-ID • de-DE • es-ES • fr-FR • ja-JP • it-IT • pt-PT • ko-KR • zh-CN • zh-TW • tr-TR
     /// </summary>
     [CliOption("--language-code")]
     public AwsFreetierGetAccountActivityLanguageCode? LanguageCode { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves multiple values from a data table without evaluating expres- sions. Returns the raw stored values along with metadata such as lock versions and modification timestamps. "Describe" is a deprecated term but is allowed to maintain consistency with existing operations. See also: AWS API Documentation
+/// Retrieves multiple values from a data table without evaluating expressions. Returns the raw stored values along with metadata such as lock versions and modification timestamps. "Describe" is a deprecated term but is allowed to maintain consistency with existing operations. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsConnectBatchDescribeDataTableValueOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves multiple values from a data table without evaluating expres- sions. Returns the raw stored values along with metadata such as lock versions and modification timestamps. "Describe" is a deprecated term but is allowed to maintain consistency with existing operations. See also: AWS API Documentation
+    /// Retrieves multiple values from a data table without evaluating expressions. Returns the raw stored values along with metadata such as lock versions and modification timestamps. "Describe" is a deprecated term but is allowed to maintain consistency with existing operations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The unique identifier for the Amazon Connect instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="DataTableId">The unique identifier for the data table. Must also accept the table ARN with or without a version alias. Constraints: o min: 1 o max: 256</param>
-    /// <param name="Values">A list of value identifiers to retrieve, each specifying primary values and attribute names. (structure) A data table value identifier. PrimaryValues -&gt; (list) The identifier's primary values. (structure) Represents a primary key value used to identify a spe- cific record in a data table. Primary values are used in combination to create unique record identifiers when a table has multiple primary attributes. AttributeName -&gt; (string) [required] The name of the primary attribute that this value be- longs to. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Value -&gt; (string) [required] The actual value for the primary attribute. Must be provided as a string regardless of the attribute's value type. Primary values cannot be expressions and must be explicitly specified. AttributeName -&gt; (string) [required] The identifier's attribute name. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Shorthand Syntax: PrimaryValues=[{AttributeName=string,Value=string},{AttributeName=string,Value=string}],AttributeName=string ... JSON Syntax: [ { "PrimaryValues": [ { "AttributeName": "string", "Value": "string" } ... ], "AttributeName": "string" } ... ]</param>
+    /// <param name="InstanceId">The unique identifier for the Amazon Connect instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="DataTableId">The unique identifier for the data table. Must also accept the table ARN with or without a version alias. Constraints: • min: 1 • max: 256</param>
+    /// <param name="Values">A list of value identifiers to retrieve, each specifying primary values and attribute names. (structure) A data table value identifier. PrimaryValues -&gt; (list) The identifier's primary values. (structure) Represents a primary key value used to identify a specific record in a data table. Primary values are used in combination to create unique record identifiers when a table has multiple primary attributes. AttributeName -&gt; (string) [required] The name of the primary attribute that this value belongs to. Constraints: • min: 1 • max: 127 • pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Value -&gt; (string) [required] The actual value for the primary attribute. Must be provided as a string regardless of the attribute's value type. Primary values cannot be expressions and must be explicitly specified. AttributeName -&gt; (string) [required] The identifier's attribute name. Constraints: • min: 1 • max: 127 • pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Shorthand Syntax: PrimaryValues=[{AttributeName=string,Value=string},{AttributeName=string,Value=string}],AttributeName=string ... JSON Syntax: [ { "PrimaryValues": [ { "AttributeName": "string", "Value": "string" } ... ], "AttributeName": "string" } ... ]</param>
     public AwsConnectBatchDescribeDataTableValueOptions(
         string InstanceId,
         string DataTableId,
@@ -75,19 +77,19 @@ public record AwsConnectBatchDescribeDataTableValueOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the Amazon Connect instance. Constraints: o min: 1 o max: 100
+    /// The unique identifier for the Amazon Connect instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias. Constraints: o min: 1 o max: 256
+    /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--data-table-id")]
     public string? DataTableId { get; private init; }
 
     /// <summary>
-    /// A list of value identifiers to retrieve, each specifying primary values and attribute names. (structure) A data table value identifier. PrimaryValues -&gt; (list) The identifier's primary values. (structure) Represents a primary key value used to identify a spe- cific record in a data table. Primary values are used in combination to create unique record identifiers when a table has multiple primary attributes. AttributeName -&gt; (string) [required] The name of the primary attribute that this value be- longs to. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Value -&gt; (string) [required] The actual value for the primary attribute. Must be provided as a string regardless of the attribute's value type. Primary values cannot be expressions and must be explicitly specified. AttributeName -&gt; (string) [required] The identifier's attribute name. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Shorthand Syntax: PrimaryValues=[{AttributeName=string,Value=string},{AttributeName=string,Value=string}],AttributeName=string ... JSON Syntax: [ { "PrimaryValues": [ { "AttributeName": "string", "Value": "string" } ... ], "AttributeName": "string" } ... ]
+    /// A list of value identifiers to retrieve, each specifying primary values and attribute names. (structure) A data table value identifier. PrimaryValues -&gt; (list) The identifier's primary values. (structure) Represents a primary key value used to identify a specific record in a data table. Primary values are used in combination to create unique record identifiers when a table has multiple primary attributes. AttributeName -&gt; (string) [required] The name of the primary attribute that this value belongs to. Constraints: • min: 1 • max: 127 • pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Value -&gt; (string) [required] The actual value for the primary attribute. Must be provided as a string regardless of the attribute's value type. Primary values cannot be expressions and must be explicitly specified. AttributeName -&gt; (string) [required] The identifier's attribute name. Constraints: • min: 1 • max: 127 • pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Shorthand Syntax: PrimaryValues=[{AttributeName=string,Value=string},{AttributeName=string,Value=string}],AttributeName=string ... JSON Syntax: [ { "PrimaryValues": [ { "AttributeName": "string", "Value": "string" } ... ], "AttributeName": "string" } ... ]
     /// </summary>
     [CliOption("--values", GroupValues = true)]
     public IEnumerable<string>? Values { get; private init; }

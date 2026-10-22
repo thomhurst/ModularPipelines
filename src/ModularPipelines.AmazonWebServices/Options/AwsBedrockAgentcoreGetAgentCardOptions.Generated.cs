@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the A2A agent card associated with an AgentCore Runtime agent. See also: AWS API Documentation get-agent-card uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+/// Retrieves the A2A agent card associated with an AgentCore Runtime agent. See also: AWS API Documentation get-agent-card uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsBedrockAgentcoreGetAgentCardOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the A2A agent card associated with an AgentCore Runtime agent. See also: AWS API Documentation get-agent-card uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Retrieves the A2A agent card associated with an AgentCore Runtime agent. See also: AWS API Documentation get-agent-card uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="AgentRuntimeArn">The ARN of the AgentCore Runtime agent for which you want to get the A2A agent card.</param>
     public AwsBedrockAgentcoreGetAgentCardOptions(
@@ -62,7 +64,7 @@ public record AwsBedrockAgentcoreGetAgentCardOptions : AwsOptions, IValidatableO
     public string? AgentRuntimeArn { get; private init; }
 
     /// <summary>
-    /// The session ID that the AgentCore Runtime agent is using. Constraints: o min: 33 o max: 256
+    /// The session ID that the AgentCore Runtime agent is using. Constraints: • min: 33 • max: 256
     /// </summary>
     [CliOption("--runtime-session-id")]
     public string? RuntimeSessionId { get; set; }

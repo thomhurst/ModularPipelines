@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsSsmIncidentsDeleteTimelineEventOptions : AwsOptions, IValidatab
     /// <summary>
     /// Deletes a timeline event from an incident. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EventId">The ID of the event to update. You can use ListTimelineEvents to find an event's ID. Constraints: o min: 0 o max: 50</param>
-    /// <param name="IncidentRecordArn">The Amazon Resource Name (ARN) of the incident that includes the timeline event. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$</param>
+    /// <param name="EventId">The ID of the event to update. You can use ListTimelineEvents to find an event's ID. Constraints: • min: 0 • max: 50</param>
+    /// <param name="IncidentRecordArn">The Amazon Resource Name (ARN) of the incident that includes the timeline event. Constraints: • min: 0 • max: 1000 • pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$</param>
     public AwsSsmIncidentsDeleteTimelineEventOptions(
         string EventId,
         string IncidentRecordArn
@@ -60,13 +62,13 @@ public record AwsSsmIncidentsDeleteTimelineEventOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the event to update. You can use ListTimelineEvents to find an event's ID. Constraints: o min: 0 o max: 50
+    /// The ID of the event to update. You can use ListTimelineEvents to find an event's ID. Constraints: • min: 0 • max: 50
     /// </summary>
     [CliOption("--event-id")]
     public string? EventId { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the incident that includes the timeline event. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$
+    /// The Amazon Resource Name (ARN) of the incident that includes the timeline event. Constraints: • min: 0 • max: 1000 • pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$
     /// </summary>
     [CliOption("--incident-record-arn")]
     public string? IncidentRecordArn { get; private init; }

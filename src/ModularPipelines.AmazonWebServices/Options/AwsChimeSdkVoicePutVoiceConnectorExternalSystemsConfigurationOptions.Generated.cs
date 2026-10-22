@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsChimeSdkVoicePutVoiceConnectorExternalSystemsConfigurationOptio
     /// <summary>
     /// Adds an external systems configuration to a Voice Connector. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VoiceConnectorId">The ID of the Voice Connector for which to add the external system configuration. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
+    /// <param name="VoiceConnectorId">The ID of the Voice Connector for which to add the external system configuration. Constraints: • pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
     public AwsChimeSdkVoicePutVoiceConnectorExternalSystemsConfigurationOptions(
         string VoiceConnectorId
     )
@@ -56,19 +58,19 @@ public record AwsChimeSdkVoicePutVoiceConnectorExternalSystemsConfigurationOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Voice Connector for which to add the external system configuration. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
+    /// The ID of the Voice Connector for which to add the external system configuration. Constraints: • pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
     /// </summary>
     [CliOption("--voice-connector-id")]
     public string? VoiceConnectorId { get; private init; }
 
     /// <summary>
-    /// The session border controllers to use. (string) Possible values: o RIBBON_SBC o ORACLE_ACME_PACKET_SBC o AVAYA_SBCE o CISCO_UNIFIED_BORDER_ELEMENT o AUDIOCODES_MEDIANT_SBC Syntax: "string" "string" ...
+    /// The session border controllers to use. (string) Possible values: • RIBBON_SBC • ORACLE_ACME_PACKET_SBC • AVAYA_SBCE • CISCO_UNIFIED_BORDER_ELEMENT • AUDIOCODES_MEDIANT_SBC Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--session-border-controller-types", GroupValues = true)]
     public IEnumerable<string>? SessionBorderControllerTypes { get; set; }
 
     /// <summary>
-    /// The contact center system to use. (string) Possible values: o GENESYS_ENGAGE_ON_PREMISES o AVAYA_AURA_CALL_CENTER_ELITE o AVAYA_AURA_CONTACT_CENTER o CISCO_UNIFIED_CONTACT_CENTER_ENTERPRISE Syntax: "string" "string" ...
+    /// The contact center system to use. (string) Possible values: • GENESYS_ENGAGE_ON_PREMISES • AVAYA_AURA_CALL_CENTER_ELITE • AVAYA_AURA_CONTACT_CENTER • CISCO_UNIFIED_CONTACT_CENTER_ENTERPRISE Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--contact-center-system-types", GroupValues = true)]
     public IEnumerable<string>? ContactCenterSystemTypes { get; set; }

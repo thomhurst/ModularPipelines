@@ -36,7 +36,7 @@ public record AwsTimestreamWriteListTablesOptions : AwsOptions
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the output. If the total num- ber of items available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextTo- ken value as argument of a subsequent API invocation. Constraints: o min: 1 o max: 20
+    /// The total number of items to return in the output. If the total number of items available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as argument of a subsequent API invocation. Constraints: • min: 1 • max: 20
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

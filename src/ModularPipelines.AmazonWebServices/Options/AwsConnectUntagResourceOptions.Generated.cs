@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsConnectUntagResourceOptions : AwsOptions, IValidatableObject
     /// Removes the specified tags from the specified resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource.</param>
-    /// <param name="TagKeys">The tag keys. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ Syntax: "string" "string" ...</param>
+    /// <param name="TagKeys">The tag keys. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ Syntax: "string" "string" ...</param>
     public AwsConnectUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -77,7 +79,7 @@ public record AwsConnectUntagResourceOptions : AwsOptions, IValidatableObject
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The tag keys. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ Syntax: "string" "string" ...
+    /// The tag keys. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides validation insights about a specific email address, including syntax validation, DNS record checks, mailbox existence, and other de- liverability factors. See also: AWS API Documentation
+/// Provides validation insights about a specific email address, including syntax validation, DNS record checks, mailbox existence, and other deliverability factors. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsSesv2GetEmailAddressInsightsOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides validation insights about a specific email address, including syntax validation, DNS record checks, mailbox existence, and other de- liverability factors. See also: AWS API Documentation
+    /// Provides validation insights about a specific email address, including syntax validation, DNS record checks, mailbox existence, and other deliverability factors. See also: AWS API Documentation
     /// </summary>
     /// <param name="EmailAddress">The email address to analyze for validation insights.</param>
     public AwsSesv2GetEmailAddressInsightsOptions(

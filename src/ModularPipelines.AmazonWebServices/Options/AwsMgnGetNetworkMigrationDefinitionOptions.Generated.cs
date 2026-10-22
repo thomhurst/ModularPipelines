@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMgnGetNetworkMigrationDefinitionOptions : AwsOptions, IValidata
     /// <summary>
     /// Retrieves the details of a network migration definition including source and target configurations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkMigrationDefinitionId">The unique identifier of the network migration definition to re- trieve. Constraints: o min: 21 o max: 21 o pattern: nmd-[0-9a-zA-Z]{17}</param>
+    /// <param name="NetworkMigrationDefinitionId">The unique identifier of the network migration definition to retrieve. Constraints: • min: 21 • max: 21 • pattern: nmd-[0-9a-zA-Z]{17}</param>
     public AwsMgnGetNetworkMigrationDefinitionOptions(
         string NetworkMigrationDefinitionId
     )
@@ -56,7 +58,7 @@ public record AwsMgnGetNetworkMigrationDefinitionOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the network migration definition to re- trieve. Constraints: o min: 21 o max: 21 o pattern: nmd-[0-9a-zA-Z]{17}
+    /// The unique identifier of the network migration definition to retrieve. Constraints: • min: 21 • max: 21 • pattern: nmd-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--network-migration-definition-id")]
     public string? NetworkMigrationDefinitionId { get; private init; }

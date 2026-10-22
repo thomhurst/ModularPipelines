@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +31,7 @@ public record AwsApigatewayv2CreateProductRestEndpointPageOptions : AwsOptions, 
     /// Creates a product REST endpoint page for a portal product. See also: AWS API Documentation
     /// </summary>
     /// <param name="PortalProductId">The portal product identifier.</param>
-    /// <param name="RestEndpointIdentifier">The REST endpoint identifier. IdentifierParts -&gt; (structure) The identifier parts of the REST endpoint identifier. Method -&gt; (string) [required] The method of the product REST endpoint. Constraints: o min: 1 o max: 20 Path -&gt; (string) [required] The path of the product REST endpoint. Constraints: o min: 1 o max: 4096 RestApiId -&gt; (string) [required] The REST API ID of the product REST endpoint. Constraints: o min: 1 o max: 50 Stage -&gt; (string) [required] The stage of the product REST endpoint. Constraints: o min: 1 o max: 128 Shorthand Syntax: IdentifierParts={Method=string,Path=string,RestApiId=string,Stage=string} JSON Syntax: { "IdentifierParts": { "Method": "string", "Path": "string", "RestApiId": "string", "Stage": "string" } }</param>
+    /// <param name="RestEndpointIdentifier">The REST endpoint identifier. IdentifierParts -&gt; (structure) The identifier parts of the REST endpoint identifier. Method -&gt; (string) [required] The method of the product REST endpoint. Constraints: • min: 1 • max: 20 Path -&gt; (string) [required] The path of the product REST endpoint. Constraints: • min: 1 • max: 4096 RestApiId -&gt; (string) [required] The REST API ID of the product REST endpoint. Constraints: • min: 1 • max: 50 Stage -&gt; (string) [required] The stage of the product REST endpoint. Constraints: • min: 1 • max: 128 Shorthand Syntax: IdentifierParts={Method=string,Path=string,RestApiId=string,Stage=string} JSON Syntax: { "IdentifierParts": { "Method": "string", "Path": "string", "RestApiId": "string", "Stage": "string" } }</param>
     public AwsApigatewayv2CreateProductRestEndpointPageOptions(
         string PortalProductId,
         string RestEndpointIdentifier
@@ -67,19 +69,19 @@ public record AwsApigatewayv2CreateProductRestEndpointPageOptions : AwsOptions, 
     public string? PortalProductId { get; private init; }
 
     /// <summary>
-    /// The REST endpoint identifier. IdentifierParts -&gt; (structure) The identifier parts of the REST endpoint identifier. Method -&gt; (string) [required] The method of the product REST endpoint. Constraints: o min: 1 o max: 20 Path -&gt; (string) [required] The path of the product REST endpoint. Constraints: o min: 1 o max: 4096 RestApiId -&gt; (string) [required] The REST API ID of the product REST endpoint. Constraints: o min: 1 o max: 50 Stage -&gt; (string) [required] The stage of the product REST endpoint. Constraints: o min: 1 o max: 128 Shorthand Syntax: IdentifierParts={Method=string,Path=string,RestApiId=string,Stage=string} JSON Syntax: { "IdentifierParts": { "Method": "string", "Path": "string", "RestApiId": "string", "Stage": "string" } }
+    /// The REST endpoint identifier. IdentifierParts -&gt; (structure) The identifier parts of the REST endpoint identifier. Method -&gt; (string) [required] The method of the product REST endpoint. Constraints: • min: 1 • max: 20 Path -&gt; (string) [required] The path of the product REST endpoint. Constraints: • min: 1 • max: 4096 RestApiId -&gt; (string) [required] The REST API ID of the product REST endpoint. Constraints: • min: 1 • max: 50 Stage -&gt; (string) [required] The stage of the product REST endpoint. Constraints: • min: 1 • max: 128 Shorthand Syntax: IdentifierParts={Method=string,Path=string,RestApiId=string,Stage=string} JSON Syntax: { "IdentifierParts": { "Method": "string", "Path": "string", "RestApiId": "string", "Stage": "string" } }
     /// </summary>
     [CliOption("--rest-endpoint-identifier")]
     public string? RestEndpointIdentifier { get; private init; }
 
     /// <summary>
-    /// The content of the product REST endpoint page. None -&gt; (structure) If your product REST endpoint contains no overrides, the none object is returned. Overrides -&gt; (structure) The overrides for endpoint display content. Body -&gt; (string) By default, this is the documentation of your REST API from API Gateway. You can provide custom documentation to override this value. Constraints: o min: 1 o max: 32768 Endpoint -&gt; (string) The URL for your REST API. By default, API Gateway uses the default execute API endpoint. You can provide a custom domain to override this value. Constraints: o min: 1 o max: 1024 OperationName -&gt; (string) The operation name of the product REST endpoint. Constraints: o min: 1 o max: 255 Shorthand Syntax: None={},Overrides={Body=string,Endpoint=string,OperationName=string} JSON Syntax: { "None": { }, "Overrides": { "Body": "string", "Endpoint": "string", "OperationName": "string" } }
+    /// The content of the product REST endpoint page. None -&gt; (structure) If your product REST endpoint contains no overrides, the none object is returned. Overrides -&gt; (structure) The overrides for endpoint display content. Body -&gt; (string) By default, this is the documentation of your REST API from API Gateway. You can provide custom documentation to override this value. Constraints: • min: 1 • max: 32768 Endpoint -&gt; (string) The URL for your REST API. By default, API Gateway uses the default execute API endpoint. You can provide a custom domain to override this value. Constraints: • min: 1 • max: 1024 OperationName -&gt; (string) The operation name of the product REST endpoint. Constraints: • min: 1 • max: 255 Shorthand Syntax: None={},Overrides={Body=string,Endpoint=string,OperationName=string} JSON Syntax: { "None": { }, "Overrides": { "Body": "string", "Endpoint": "string", "OperationName": "string" } }
     /// </summary>
     [CliOption("--display-content")]
     public string? DisplayContent { get; set; }
 
     /// <summary>
-    /// The try it state of the product REST endpoint page. Possible values: o ENABLED o DISABLED
+    /// The try it state of the product REST endpoint page. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--try-it-state")]
     public AwsApigatewayv2CreateProductRestEndpointPageTryItState? TryItState { get; set; }

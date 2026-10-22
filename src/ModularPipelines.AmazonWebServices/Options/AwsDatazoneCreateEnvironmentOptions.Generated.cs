@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDatazoneCreateEnvironmentOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Create an Amazon DataZone environment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProjectIdentifier">The identifier of the Amazon DataZone project in which this environ- ment is created. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain in which the environ- ment is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="ProjectIdentifier">The identifier of the Amazon DataZone project in which this environment is created. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain in which the environment is created. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
     /// <param name="Name">The name of the Amazon DataZone environment.</param>
     public AwsDatazoneCreateEnvironmentOptions(
         string ProjectIdentifier,
@@ -64,13 +66,13 @@ public record AwsDatazoneCreateEnvironmentOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon DataZone project in which this environ- ment is created. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the Amazon DataZone project in which this environment is created. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--project-identifier")]
     public string? ProjectIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the Amazon DataZone domain in which the environ- ment is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The identifier of the Amazon DataZone domain in which the environment is created. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
@@ -88,7 +90,7 @@ public record AwsDatazoneCreateEnvironmentOptions : AwsOptions, IValidatableObje
     public string? Description { get; set; }
 
     /// <summary>
-    /// The identifier of the environment profile that is used to create this Amazon DataZone environment. Constraints: o pattern: [a-zA-Z0-9_-]{0,36}
+    /// The identifier of the environment profile that is used to create this Amazon DataZone environment. Constraints: • pattern: [a-zA-Z0-9_-]{0,36}
     /// </summary>
     [CliOption("--environment-profile-identifier")]
     public string? EnvironmentProfileIdentifier { get; set; }
@@ -100,7 +102,7 @@ public record AwsDatazoneCreateEnvironmentOptions : AwsOptions, IValidatableObje
     public IEnumerable<string>? UserParameters { get; set; }
 
     /// <summary>
-    /// The glossary terms that can be used in this Amazon DataZone environ- ment. Constraints: o min: 1 o max: 20 (string) Constraints: o pattern: [a-zA-Z0-9_-]{1,36} Syntax: "string" "string" ...
+    /// The glossary terms that can be used in this Amazon DataZone environment. Constraints: • min: 1 • max: 20 (string) Constraints: • pattern: [a-zA-Z0-9_-]{1,36} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--glossary-terms", GroupValues = true)]
     public IEnumerable<string>? GlossaryTerms { get; set; }
@@ -136,7 +138,7 @@ public record AwsDatazoneCreateEnvironmentOptions : AwsOptions, IValidatableObje
     public string? EnvironmentConfigurationId { get; set; }
 
     /// <summary>
-    /// The configuration name of the environment. Constraints: o min: 1 o max: 64 o pattern: [\w -]+
+    /// The configuration name of the environment. Constraints: • min: 1 • max: 64 • pattern: [\w -]+
     /// </summary>
     [CliOption("--environment-configuration-name")]
     public string? EnvironmentConfigurationName { get; set; }

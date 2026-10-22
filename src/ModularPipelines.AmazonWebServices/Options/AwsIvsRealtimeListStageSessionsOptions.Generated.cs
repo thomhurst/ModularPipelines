@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsIvsRealtimeListStageSessionsOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Gets all sessions for a specified stage. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StageArn">Stage ARN. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+</param>
+    /// <param name="StageArn">Stage ARN. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+</param>
     public AwsIvsRealtimeListStageSessionsOptions(
         string StageArn
     )
@@ -57,20 +59,20 @@ public record AwsIvsRealtimeListStageSessionsOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Stage ARN. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+
+    /// Stage ARN. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--stage-arn")]
     public string? StageArn { get; private init; }
 
     /// <summary>
-    /// The first stage session to retrieve. This is used for pagination; see the nextToken response field. Constraints: o min: 0 o max: 1024 o pattern: [a-zA-Z0-9+/=_-]*
+    /// The first stage session to retrieve. This is used for pagination; see the nextToken response field. Constraints: • min: 0 • max: 1024 • pattern: [a-zA-Z0-9+/=_-]*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Maximum number of results to return. Default: 50. Constraints: o min: 1 o max: 100
+    /// Maximum number of results to return. Default: 50. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

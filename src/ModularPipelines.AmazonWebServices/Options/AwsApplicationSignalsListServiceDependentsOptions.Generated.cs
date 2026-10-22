@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the list of dependents that invoked the specified service dur- ing the provided time range. Dependents include other services, Cloud- Watch Synthetics canaries, and clients that are instrumented with CloudWatch RUM app monitors. See also: AWS API Documentation list-service-dependents is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text an...
+/// Returns the list of dependents that invoked the specified service during the provided time range. Dependents include other services, CloudWatch Synthetics canaries, and clients that are instrumented with CloudWatch RUM app monitors. See also: AWS API Documentation list-service-dependents is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and th...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsApplicationSignalsListServiceDependentsOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the list of dependents that invoked the specified service dur- ing the provided time range. Dependents include other services, Cloud- Watch Synthetics canaries, and clients that are instrumented with CloudWatch RUM app monitors. See also: AWS API Documentation list-service-dependents is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text an...
+    /// Returns the list of dependents that invoked the specified service during the provided time range. Dependents include other services, CloudWatch Synthetics canaries, and clients that are instrumented with CloudWatch RUM app monitors. See also: AWS API Documentation list-service-dependents is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and th...
     /// </summary>
     /// <param name="StartTime">The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057 Your requested start time will be rounded to the nearest hour.</param>
-    /// <param name="EndTime">The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in sec- onds. For example: 1698778057 Your requested start time will be rounded to the nearest hour.</param>
-    /// <param name="KeyAttributes">Use this field to specify which service you want to retrieve infor- mation for. You must specify at least the Type , Name , and Environ- ment attributes. This is a string-to-string map. It can include the following fields. o Type designates the type of object this is. o ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Re- source . o Name specifies the name of the object. This is used only if the value of the Type field is Service , RemoteService , or AWS::Ser- vice . o Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource . o Environment specifies the location where this object is hosted, or what it belongs to. Constraints: o min: 1 o max: 4 key -&gt; (string) Constraints: o pattern: [a-zA-Z]{1,50} value -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: [ -~]*[!-~]+[ -~]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="EndTime">The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057 Your requested start time will be rounded to the nearest hour.</param>
+    /// <param name="KeyAttributes">Use this field to specify which service you want to retrieve information for. You must specify at least the Type , Name , and Environment attributes. This is a string-to-string map. It can include the following fields. • Type designates the type of object this is. • ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource . • Name specifies the name of the object. This is used only if the value of the Type field is Service , RemoteService , or AWS::Service . • Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource . • Environment specifies the location where this object is hosted, or what it belongs to. Constraints: • min: 1 • max: 4 key -&gt; (string) Constraints: • pattern: [a-zA-Z]{1,50} value -&gt; (string) Constraints: • min: 1 • max: 1024 • pattern: [ -~]*[!-~]+[ -~]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsApplicationSignalsListServiceDependentsOptions(
         string StartTime,
         string EndTime,
@@ -83,22 +84,19 @@ public record AwsApplicationSignalsListServiceDependentsOptions : AwsOptions, IV
     public string? StartTime { get; private init; }
 
     /// <summary>
-    /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in sec- onds. For example: 1698778057 Your requested start time will be rounded to the nearest hour.
+    /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057 Your requested start time will be rounded to the nearest hour.
     /// </summary>
     [CliOption("--end-time")]
     public string? EndTime { get; private init; }
 
     /// <summary>
-    /// Use this field to specify which service you want to retrieve infor- mation for. You must specify at least the Type , Name , and Environ- ment attributes. This is a string-to-string map. It can include the following fields. o Type designates the type of object this is. o ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Re- source . o Name specifies the name of the object. This is used only if the value of the Type field is Service , RemoteService , or AWS::Ser- vice . o Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource . o Environment specifies the location where this object is hosted, or what it belongs to. Constraints: o min: 1 o max: 4 key -&gt; (string) Constraints: o pattern: [a-zA-Z]{1,50} value -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: [ -~]*[!-~]+[ -~]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Use this field to specify which service you want to retrieve information for. You must specify at least the Type , Name , and Environment attributes. This is a string-to-string map. It can include the following fields. • Type designates the type of object this is. • ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource . • Name specifies the name of the object. This is used only if the value of the Type field is Service , RemoteService , or AWS::Service . • Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource . • Environment specifies the location where this object is hosted, or what it belongs to. Constraints: • min: 1 • max: 4 key -&gt; (string) Constraints: • pattern: [a-zA-Z]{1,50} value -&gt; (string) Constraints: • min: 1 • max: 1024 • pattern: [ -~]*[!-~]+[ -~]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--key-attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? KeyAttributes { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -108,16 +106,19 @@ public record AwsApplicationSignalsListServiceDependentsOptions : AwsOptions, IV
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

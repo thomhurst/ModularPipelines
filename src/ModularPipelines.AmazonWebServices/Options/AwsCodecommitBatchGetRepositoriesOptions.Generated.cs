@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about one or more repositories. NOTE: The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-en- code the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the de- scription field in any application that uses this API to display the repository description on a webpage. See also: AWS API Documentation
+/// Returns information about one or more repositories. NOTE: The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsCodecommitBatchGetRepositoriesOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns information about one or more repositories. NOTE: The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-en- code the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the de- scription field in any application that uses this API to display the repository description on a webpage. See also: AWS API Documentation
+    /// Returns information about one or more repositories. NOTE: The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryNames">The names of the repositories to get information about. NOTE: The length constraint limit is for each string in the array. The array itself can be empty. (string) Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+ Syntax: "string" "string" ...</param>
+    /// <param name="RepositoryNames">The names of the repositories to get information about. NOTE: The length constraint limit is for each string in the array. The array itself can be empty. (string) Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+ Syntax: "string" "string" ...</param>
     public AwsCodecommitBatchGetRepositoriesOptions(
         IEnumerable<string> RepositoryNames
     )
@@ -67,7 +69,7 @@ public record AwsCodecommitBatchGetRepositoriesOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The names of the repositories to get information about. NOTE: The length constraint limit is for each string in the array. The array itself can be empty. (string) Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+ Syntax: "string" "string" ...
+    /// The names of the repositories to get information about. NOTE: The length constraint limit is for each string in the array. The array itself can be empty. (string) Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--repository-names", GroupValues = true)]
     public IEnumerable<string>? RepositoryNames { get; private init; }

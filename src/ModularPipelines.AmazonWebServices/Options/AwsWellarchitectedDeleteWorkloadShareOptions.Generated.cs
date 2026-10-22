@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsWellarchitectedDeleteWorkloadShareOptions : AwsOptions, IValida
     /// <summary>
     /// Delete a workload share. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ShareId">The ID associated with the share. Constraints: o pattern: [0-9a-f]{32}</param>
-    /// <param name="WorkloadId">The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}</param>
+    /// <param name="ShareId">The ID associated with the share. Constraints: • pattern: [0-9a-f]{32}</param>
+    /// <param name="WorkloadId">The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: • min: 32 • max: 32 • pattern: [0-9a-f]{32}</param>
     public AwsWellarchitectedDeleteWorkloadShareOptions(
         string ShareId,
         string WorkloadId
@@ -61,19 +63,19 @@ public record AwsWellarchitectedDeleteWorkloadShareOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID associated with the share. Constraints: o pattern: [0-9a-f]{32}
+    /// The ID associated with the share. Constraints: • pattern: [0-9a-f]{32}
     /// </summary>
     [CliOption("--share-id")]
     public string? ShareId { get; private init; }
 
     /// <summary>
-    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}
+    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: • min: 32 • max: 32 • pattern: [0-9a-f]{32}
     /// </summary>
     [CliOption("--workload-id")]
     public string? WorkloadId { get; private init; }
 
     /// <summary>
-    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. WARNING: This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail. Constraints: o min: 1 o max: 2048 o pattern: [\x00-\x7F]*
+    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. WARNING: This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail. Constraints: • min: 1 • max: 2048 • pattern: [\x00-\x7F]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]

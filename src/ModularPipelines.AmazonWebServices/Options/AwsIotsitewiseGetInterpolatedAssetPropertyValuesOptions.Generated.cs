@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Get interpolated values for an asset property for a specified time in- terval, during a period of time. If your time series is missing data points during the specified time interval, you can use interpolation to estimate the missing data. For example, you can use this operation to return the interpolated tem- perature values for a wind turbine every 24 hours over a duration of 7 days. To identify an asset property, you must specify one of the following: o The assetId and propertyId of an asset p...
+/// Get interpolated values for an asset property for a specified time interval, during a period of time. If your time series is missing data points during the specified time interval, you can use interpolation to estimate the missing data. For example, you can use this operation to return the interpolated temperature values for a wind turbine every 24 hours over a duration of 7 days. To identify an asset property, you must specify one of the following: • The assetId and propertyId of an asset prope...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,18 +29,18 @@ public record AwsIotsitewiseGetInterpolatedAssetPropertyValuesOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Get interpolated values for an asset property for a specified time in- terval, during a period of time. If your time series is missing data points during the specified time interval, you can use interpolation to estimate the missing data. For example, you can use this operation to return the interpolated tem- perature values for a wind turbine every 24 hours over a duration of 7 days. To identify an asset property, you must specify one of the following: o The assetId and propertyId of an asset p...
+    /// Get interpolated values for an asset property for a specified time interval, during a period of time. If your time series is missing data points during the specified time interval, you can use interpolation to estimate the missing data. For example, you can use this operation to return the interpolated temperature values for a wind turbine every 24 hours over a duration of 7 days. To identify an asset property, you must specify one of the following: • The assetId and propertyId of an asset prope...
     /// </summary>
-    /// <param name="StartTimeInSeconds">The exclusive start of the range from which to interpolate data, ex- pressed in seconds in Unix epoch time. Constraints: o min: 1 o max: 9223372036854774</param>
-    /// <param name="EndTimeInSeconds">The inclusive end of the range from which to interpolate data, ex- pressed in seconds in Unix epoch time. Constraints: o min: 1 o max: 9223372036854774</param>
-    /// <param name="Quality">The quality of the asset property value. You can use this parameter as a filter to choose only the asset property values that have a specific quality. Possible values: o GOOD o BAD o UNCERTAIN</param>
-    /// <param name="IntervalInSeconds">The time interval in seconds over which to interpolate data. Each interval starts when the previous one ends. Constraints: o min: 1 o max: 320000000</param>
-    /// <param name="Type">The interpolation type. Valid values: LINEAR_INTERPOLATION | LOCF_INTERPOLATION o LINEAR_INTERPOLATION Estimates missing data using linear interpo- lation . For example, you can use this operation to return the in- terpolated temperature values for a wind turbine every 24 hours over a duration of 7 days. If the interpolation starts July 1, 2021, at 9 AM, IoT SiteWise returns the first interpolated value on July 2, 2021, at 9 AM, the second interpolated value on July 3, 2021, at 9 AM, and so on. o LOCF_INTERPOLATION Estimates missing data using last observation carried forward interpolation If no data point is found for an in- terval, IoT SiteWise returns the last observed data point for the previous interval and carries forward this interpolated value un- til a new data point is found. For example, you can get the state of an on-off valve every 24 hours over a duration of 7 days. If the interpolation starts July 1, 2021, at 9 AM, IoT SiteWise re- turns the last observed data point between July 1, 2021, at 9 AM and July 2, 2021, at 9 AM as the first interpolated value. If a data point isn't found after 9 AM on July 2, 2021, IoT SiteWise uses the same interpolated value for the rest of the days. Constraints: o min: 1 o max: 256</param>
+    /// <param name="StartTimeInSeconds">The exclusive start of the range from which to interpolate data, expressed in seconds in Unix epoch time. Constraints: • min: 1 • max: 9223372036854774</param>
+    /// <param name="EndTimeInSeconds">The inclusive end of the range from which to interpolate data, expressed in seconds in Unix epoch time. Constraints: • min: 1 • max: 9223372036854774</param>
+    /// <param name="Quality">The quality of the asset property value. You can use this parameter as a filter to choose only the asset property values that have a specific quality. Possible values: • GOOD • BAD • UNCERTAIN</param>
+    /// <param name="IntervalInSeconds">The time interval in seconds over which to interpolate data. Each interval starts when the previous one ends. Constraints: • min: 1 • max: 320000000</param>
+    /// <param name="Type">The interpolation type. Valid values: LINEAR_INTERPOLATION | LOCF_INTERPOLATION • LINEAR_INTERPOLATION Estimates missing data using linear interpolation . For example, you can use this operation to return the interpolated temperature values for a wind turbine every 24 hours over a duration of 7 days. If the interpolation starts July 1, 2021, at 9 AM, IoT SiteWise returns the first interpolated value on July 2, 2021, at 9 AM, the second interpolated value on July 3, 2021, at 9 AM, and so on. • LOCF_INTERPOLATION Estimates missing data using last observation carried forward interpolation If no data point is found for an interval, IoT SiteWise returns the last observed data point for the previous interval and carries forward this interpolated value until a new data point is found. For example, you can get the state of an on-off valve every 24 hours over a duration of 7 days. If the interpolation starts July 1, 2021, at 9 AM, IoT SiteWise returns the last observed data point between July 1, 2021, at 9 AM and July 2, 2021, at 9 AM as the first interpolated value. If a data point isn't found after 9 AM on July 2, 2021, IoT SiteWise uses the same interpolated value for the rest of the days. Constraints: • min: 1 • max: 256</param>
     public AwsIotsitewiseGetInterpolatedAssetPropertyValuesOptions(
-        int StartTimeInSeconds,
-        int EndTimeInSeconds,
+        long StartTimeInSeconds,
+        long EndTimeInSeconds,
         AwsIotsitewiseGetInterpolatedAssetPropertyValuesQuality Quality,
-        int IntervalInSeconds,
+        long IntervalInSeconds,
         string Type
     )
     {
@@ -70,76 +72,73 @@ public record AwsIotsitewiseGetInterpolatedAssetPropertyValuesOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The exclusive start of the range from which to interpolate data, ex- pressed in seconds in Unix epoch time. Constraints: o min: 1 o max: 9223372036854774
+    /// The exclusive start of the range from which to interpolate data, expressed in seconds in Unix epoch time. Constraints: • min: 1 • max: 9223372036854774
     /// </summary>
     [CliOption("--start-time-in-seconds")]
-    public int? StartTimeInSeconds { get; private init; }
+    public long? StartTimeInSeconds { get; private init; }
 
     /// <summary>
-    /// The inclusive end of the range from which to interpolate data, ex- pressed in seconds in Unix epoch time. Constraints: o min: 1 o max: 9223372036854774
+    /// The inclusive end of the range from which to interpolate data, expressed in seconds in Unix epoch time. Constraints: • min: 1 • max: 9223372036854774
     /// </summary>
     [CliOption("--end-time-in-seconds")]
-    public int? EndTimeInSeconds { get; private init; }
+    public long? EndTimeInSeconds { get; private init; }
 
     /// <summary>
-    /// The quality of the asset property value. You can use this parameter as a filter to choose only the asset property values that have a specific quality. Possible values: o GOOD o BAD o UNCERTAIN
+    /// The quality of the asset property value. You can use this parameter as a filter to choose only the asset property values that have a specific quality. Possible values: • GOOD • BAD • UNCERTAIN
     /// </summary>
     [CliOption("--quality")]
     public AwsIotsitewiseGetInterpolatedAssetPropertyValuesQuality? Quality { get; private init; }
 
     /// <summary>
-    /// The time interval in seconds over which to interpolate data. Each interval starts when the previous one ends. Constraints: o min: 1 o max: 320000000
+    /// The time interval in seconds over which to interpolate data. Each interval starts when the previous one ends. Constraints: • min: 1 • max: 320000000
     /// </summary>
     [CliOption("--interval-in-seconds")]
-    public int? IntervalInSeconds { get; private init; }
+    public long? IntervalInSeconds { get; private init; }
 
     /// <summary>
-    /// The interpolation type. Valid values: LINEAR_INTERPOLATION | LOCF_INTERPOLATION o LINEAR_INTERPOLATION Estimates missing data using linear interpo- lation . For example, you can use this operation to return the in- terpolated temperature values for a wind turbine every 24 hours over a duration of 7 days. If the interpolation starts July 1, 2021, at 9 AM, IoT SiteWise returns the first interpolated value on July 2, 2021, at 9 AM, the second interpolated value on July 3, 2021, at 9 AM, and so on. o LOCF_INTERPOLATION Estimates missing data using last observation carried forward interpolation If no data point is found for an in- terval, IoT SiteWise returns the last observed data point for the previous interval and carries forward this interpolated value un- til a new data point is found. For example, you can get the state of an on-off valve every 24 hours over a duration of 7 days. If the interpolation starts July 1, 2021, at 9 AM, IoT SiteWise re- turns the last observed data point between July 1, 2021, at 9 AM and July 2, 2021, at 9 AM as the first interpolated value. If a data point isn't found after 9 AM on July 2, 2021, IoT SiteWise uses the same interpolated value for the rest of the days. Constraints: o min: 1 o max: 256
+    /// The interpolation type. Valid values: LINEAR_INTERPOLATION | LOCF_INTERPOLATION • LINEAR_INTERPOLATION Estimates missing data using linear interpolation . For example, you can use this operation to return the interpolated temperature values for a wind turbine every 24 hours over a duration of 7 days. If the interpolation starts July 1, 2021, at 9 AM, IoT SiteWise returns the first interpolated value on July 2, 2021, at 9 AM, the second interpolated value on July 3, 2021, at 9 AM, and so on. • LOCF_INTERPOLATION Estimates missing data using last observation carried forward interpolation If no data point is found for an interval, IoT SiteWise returns the last observed data point for the previous interval and carries forward this interpolated value until a new data point is found. For example, you can get the state of an on-off valve every 24 hours over a duration of 7 days. If the interpolation starts July 1, 2021, at 9 AM, IoT SiteWise returns the last observed data point between July 1, 2021, at 9 AM and July 2, 2021, at 9 AM as the first interpolated value. If a data point isn't found after 9 AM on July 2, 2021, IoT SiteWise uses the same interpolated value for the rest of the days. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--type")]
     public string? Type { get; private init; }
 
     /// <summary>
-    /// The ID of the asset, in UUID format. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+    /// The ID of the asset, in UUID format. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--asset-id")]
     public string? AssetId { get; set; }
 
     /// <summary>
-    /// The ID of the asset property, in UUID format. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+    /// The ID of the asset property, in UUID format. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--property-id")]
     public string? PropertyId { get; set; }
 
     /// <summary>
-    /// The alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temper- ature ). For more information, see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide . Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+
+    /// The alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature ). For more information, see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide . Constraints: • min: 1 • max: 2048 • pattern: [^\u0000-\u001F\u007F]+
     /// </summary>
     [CliOption("--property-alias")]
     public string? PropertyAlias { get; set; }
 
     /// <summary>
-    /// The nanosecond offset converted from startTimeInSeconds . Constraints: o min: 0 o max: 999999999
+    /// The nanosecond offset converted from startTimeInSeconds . Constraints: • min: 0 • max: 999999999
     /// </summary>
     [CliOption("--start-time-offset-in-nanos")]
     public int? StartTimeOffsetInNanos { get; set; }
 
     /// <summary>
-    /// The nanosecond offset converted from endTimeInSeconds . Constraints: o min: 0 o max: 999999999
+    /// The nanosecond offset converted from endTimeInSeconds . Constraints: • min: 0 • max: 999999999
     /// </summary>
     [CliOption("--end-time-offset-in-nanos")]
     public int? EndTimeOffsetInNanos { get; set; }
 
     /// <summary>
-    /// The query interval for the window, in seconds. IoT SiteWise computes each interpolated value by using data points from the timestamp of each interval, minus the window to the timestamp of each interval plus the window. If not specified, the window ranges between the start time minus the interval and the end time plus the interval. NOTE: o If you specify a value for the intervalWindowInSeconds parame- ter, the value for the type parameter must be LINEAR_INTERPO- LATION . o If a data point isn't found during the specified query window, IoT SiteWise won't return an interpolated value for the inter- val. This indicates that there's a gap in the ingested data points. For example, you can get the interpolated temperature values for a wind turbine every 24 hours over a duration of 7 days. If the inter- polation starts on July 1, 2021, at 9 AM with a window of 2 hours, IoT SiteWise uses the data points from 7 AM (9 AM minus 2 hours) to 11 AM (9 AM plus 2 hours) on July 2, 2021 to compute the first in- terpolated value. Next, IoT SiteWise uses the data points from 7 AM (9 AM minus 2 hours) to 11 AM (9 AM plus 2 hours) on July 3, 2021 to compute the second interpolated value, and so on. Constraints: o min: 1 o max: 320000000
+    /// The query interval for the window, in seconds. IoT SiteWise computes each interpolated value by using data points from the timestamp of each interval, minus the window to the timestamp of each interval plus the window. If not specified, the window ranges between the start time minus the interval and the end time plus the interval. NOTE: • If you specify a value for the intervalWindowInSeconds parameter, the value for the type parameter must be LINEAR_INTERPOLATION . • If a data point isn't found during the specified query window, IoT SiteWise won't return an interpolated value for the interval. This indicates that there's a gap in the ingested data points. For example, you can get the interpolated temperature values for a wind turbine every 24 hours over a duration of 7 days. If the interpolation starts on July 1, 2021, at 9 AM with a window of 2 hours, IoT SiteWise uses the data points from 7 AM (9 AM minus 2 hours) to 11 AM (9 AM plus 2 hours) on July 2, 2021 to compute the first interpolated value. Next, IoT SiteWise uses the data points from 7 AM (9 AM minus 2 hours) to 11 AM (9 AM plus 2 hours) on July 3, 2021 to compute the second interpolated value, and so on. Constraints: • min: 1 • max: 320000000
     /// </summary>
     [CliOption("--interval-window-in-seconds")]
-    public int? IntervalWindowInSeconds { get; set; }
+    public long? IntervalWindowInSeconds { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -149,16 +148,19 @@ public record AwsIotsitewiseGetInterpolatedAssetPropertyValuesOptions : AwsOptio
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

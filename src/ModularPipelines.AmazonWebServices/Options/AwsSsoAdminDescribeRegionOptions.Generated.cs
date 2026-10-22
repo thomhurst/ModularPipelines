@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves details about a specific Region enabled in an IAM Identity Center instance. Details include the Region name, current status (AC- TIVE, ADDING, or REMOVING), the date when the Region was added, and whether it is the primary Region. The request must be made from one of the enabled Regions of the IAM Identity Center instance. The following actions are related to DescribeRegion : o AddRegion o RemoveRegion o ListRegions See also: AWS API Documentation
+/// Retrieves details about a specific Region enabled in an IAM Identity Center instance. Details include the Region name, current status (ACTIVE, ADDING, or REMOVING), the date when the Region was added, and whether it is the primary Region. The request must be made from one of the enabled Regions of the IAM Identity Center instance. The following actions are related to DescribeRegion : • AddRegion • RemoveRegion • ListRegions See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsSsoAdminDescribeRegionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves details about a specific Region enabled in an IAM Identity Center instance. Details include the Region name, current status (AC- TIVE, ADDING, or REMOVING), the date when the Region was added, and whether it is the primary Region. The request must be made from one of the enabled Regions of the IAM Identity Center instance. The following actions are related to DescribeRegion : o AddRegion o RemoveRegion o ListRegions See also: AWS API Documentation
+    /// Retrieves details about a specific Region enabled in an IAM Identity Center instance. Details include the Region name, current status (ACTIVE, ADDING, or REMOVING), the date when the Region was added, and whether it is the primary Region. The request must be made from one of the enabled Regions of the IAM Identity Center instance. The following actions are related to DescribeRegion : • AddRegion • RemoveRegion • ListRegions See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceArn">The Amazon Resource Name (ARN) of the IAM Identity Center instance. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
-    /// <param name="RegionName">The name of the Amazon Web Services Region to retrieve information about. The Region name must be 1-32 characters long and follow the pattern of Amazon Web Services Region names (for example, us-east-1). Constraints: o min: 1 o max: 32 o pattern: ([a-z]+-){2,3}\d</param>
+    /// <param name="InstanceArn">The Amazon Resource Name (ARN) of the IAM Identity Center instance. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
+    /// <param name="RegionName">The name of the Amazon Web Services Region to retrieve information about. The Region name must be 1-32 characters long and follow the pattern of Amazon Web Services Region names (for example, us-east-1). Constraints: • min: 1 • max: 32 • pattern: ([a-z]+-){2,3}\d</param>
     public AwsSsoAdminDescribeRegionOptions(
         string InstanceArn,
         string RegionName
@@ -60,13 +62,13 @@ public record AwsSsoAdminDescribeRegionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM Identity Center instance. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}
+    /// The Amazon Resource Name (ARN) of the IAM Identity Center instance. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}
     /// </summary>
     [CliOption("--instance-arn")]
     public string? InstanceArn { get; private init; }
 
     /// <summary>
-    /// The name of the Amazon Web Services Region to retrieve information about. The Region name must be 1-32 characters long and follow the pattern of Amazon Web Services Region names (for example, us-east-1). Constraints: o min: 1 o max: 32 o pattern: ([a-z]+-){2,3}\d
+    /// The name of the Amazon Web Services Region to retrieve information about. The Region name must be 1-32 characters long and follow the pattern of Amazon Web Services Region names (for example, us-east-1). Constraints: • min: 1 • max: 32 • pattern: ([a-z]+-){2,3}\d
     /// </summary>
     [CliOption("--region-name")]
     public string? RegionName { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsChimeSdkMediaPipelinesDeleteMediaCapturePipelineOptions : AwsOp
     /// <summary>
     /// Deletes the media pipeline. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MediaPipelineId">The ID of the media pipeline being deleted. Constraints: o min: 36 o max: 36 o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}</param>
+    /// <param name="MediaPipelineId">The ID of the media pipeline being deleted. Constraints: • min: 36 • max: 36 • pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}</param>
     public AwsChimeSdkMediaPipelinesDeleteMediaCapturePipelineOptions(
         string MediaPipelineId
     )
@@ -56,7 +58,7 @@ public record AwsChimeSdkMediaPipelinesDeleteMediaCapturePipelineOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the media pipeline being deleted. Constraints: o min: 36 o max: 36 o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}
+    /// The ID of the media pipeline being deleted. Constraints: • min: 36 • max: 36 • pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}
     /// </summary>
     [CliOption("--media-pipeline-id")]
     public string? MediaPipelineId { get; private init; }

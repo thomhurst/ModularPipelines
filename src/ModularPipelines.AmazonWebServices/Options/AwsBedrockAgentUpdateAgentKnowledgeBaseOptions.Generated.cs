@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +30,9 @@ public record AwsBedrockAgentUpdateAgentKnowledgeBaseOptions : AwsOptions, IVali
     /// <summary>
     /// Updates the configuration for a knowledge base that has been associated with an agent. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentId">The unique identifier of the agent associated with the knowledge base that you want to update. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
-    /// <param name="AgentVersion">The version of the agent associated with the knowledge base that you want to update. Constraints: o min: 5 o max: 5 o pattern: DRAFT</param>
-    /// <param name="KnowledgeBaseId">The unique identifier of the knowledge base that has been associated with an agent. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="AgentId">The unique identifier of the agent associated with the knowledge base that you want to update. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="AgentVersion">The version of the agent associated with the knowledge base that you want to update. Constraints: • min: 5 • max: 5 • pattern: DRAFT</param>
+    /// <param name="KnowledgeBaseId">The unique identifier of the knowledge base that has been associated with an agent. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
     public AwsBedrockAgentUpdateAgentKnowledgeBaseOptions(
         string AgentId,
         string AgentVersion,
@@ -65,31 +67,31 @@ public record AwsBedrockAgentUpdateAgentKnowledgeBaseOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the agent associated with the knowledge base that you want to update. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The unique identifier of the agent associated with the knowledge base that you want to update. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--agent-id")]
     public string? AgentId { get; private init; }
 
     /// <summary>
-    /// The version of the agent associated with the knowledge base that you want to update. Constraints: o min: 5 o max: 5 o pattern: DRAFT
+    /// The version of the agent associated with the knowledge base that you want to update. Constraints: • min: 5 • max: 5 • pattern: DRAFT
     /// </summary>
     [CliOption("--agent-version")]
     public string? AgentVersion { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the knowledge base that has been associated with an agent. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The unique identifier of the knowledge base that has been associated with an agent. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--knowledge-base-id")]
     public string? KnowledgeBaseId { get; private init; }
 
     /// <summary>
-    /// Specifies a new description for the knowledge base associated with an agent. Constraints: o min: 1 o max: 200
+    /// Specifies a new description for the knowledge base associated with an agent. Constraints: • min: 1 • max: 200
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Specifies whether the agent uses the knowledge base or not when sending an InvokeAgent request. Possible values: o ENABLED o DISABLED
+    /// Specifies whether the agent uses the knowledge base or not when sending an InvokeAgent request. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--knowledge-base-state")]
     public AwsBedrockAgentUpdateAgentKnowledgeBaseKnowledgeBaseState? KnowledgeBaseState { get; set; }

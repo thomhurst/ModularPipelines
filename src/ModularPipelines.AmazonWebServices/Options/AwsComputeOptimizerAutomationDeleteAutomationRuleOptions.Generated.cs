@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,11 +30,11 @@ public record AwsComputeOptimizerAutomationDeleteAutomationRuleOptions : AwsOpti
     /// <summary>
     /// Deletes an existing automation rule. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RuleArn">The ARN of the rule to delete. Constraints: o pattern: arn:aws:compute-optimizer::[0-9]{12}:automa- tion-rule/[a-zA-Z0-9_-]+</param>
+    /// <param name="RuleArn">The ARN of the rule to delete. Constraints: • pattern: arn:aws:compute-optimizer::[0-9]{12}:automation-rule/[a-zA-Z0-9_-]+</param>
     /// <param name="RuleRevision">The revision number of the rule to delete.</param>
     public AwsComputeOptimizerAutomationDeleteAutomationRuleOptions(
         string RuleArn,
-        int RuleRevision
+        long RuleRevision
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(RuleArn);
@@ -60,7 +62,7 @@ public record AwsComputeOptimizerAutomationDeleteAutomationRuleOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the rule to delete. Constraints: o pattern: arn:aws:compute-optimizer::[0-9]{12}:automa- tion-rule/[a-zA-Z0-9_-]+
+    /// The ARN of the rule to delete. Constraints: • pattern: arn:aws:compute-optimizer::[0-9]{12}:automation-rule/[a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--rule-arn")]
     public string? RuleArn { get; private init; }
@@ -69,10 +71,10 @@ public record AwsComputeOptimizerAutomationDeleteAutomationRuleOptions : AwsOpti
     /// The revision number of the rule to delete.
     /// </summary>
     [CliOption("--rule-revision")]
-    public int? RuleRevision { get; private init; }
+    public long? RuleRevision { get; private init; }
 
     /// <summary>
-    /// A unique identifier to ensure idempotency of the request. Constraints: o pattern: [a-zA-Z0-9_-]{1,64}
+    /// A unique identifier to ensure idempotency of the request. Constraints: • pattern: [a-zA-Z0-9_-]{1,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

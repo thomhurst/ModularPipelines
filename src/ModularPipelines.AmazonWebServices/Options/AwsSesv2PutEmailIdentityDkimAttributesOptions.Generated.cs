@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSesv2PutEmailIdentityDkimAttributesOptions : AwsOptions, IValid
     /// <summary>
     /// Used to enable or disable DKIM authentication for an email identity. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EmailIdentity">The email identity. Constraints: o min: 1</param>
+    /// <param name="EmailIdentity">The email identity. Constraints: • min: 1</param>
     public AwsSesv2PutEmailIdentityDkimAttributesOptions(
         string EmailIdentity
     )
@@ -56,7 +58,7 @@ public record AwsSesv2PutEmailIdentityDkimAttributesOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The email identity. Constraints: o min: 1
+    /// The email identity. Constraints: • min: 1
     /// </summary>
     [CliOption("--email-identity")]
     public string? EmailIdentity { get; private init; }

@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the session configuration for an application in IAM Identity Center. The session configuration determines how users can access an applica- tion. This includes whether user background sessions are enabled. User background sessions allow users to start a job on a supported Amazon Web Services managed application without having to remain signed in to an active session while the job runs. See also: AWS API Documentation
+/// Updates the session configuration for an application in IAM Identity Center. The session configuration determines how users can access an application. This includes whether user background sessions are enabled. User background sessions allow users to start a job on a supported Amazon Web Services managed application without having to remain signed in to an active session while the job runs. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsSsoAdminPutApplicationSessionConfigurationOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the session configuration for an application in IAM Identity Center. The session configuration determines how users can access an applica- tion. This includes whether user background sessions are enabled. User background sessions allow users to start a job on a supported Amazon Web Services managed application without having to remain signed in to an active session while the job runs. See also: AWS API Documentation
+    /// Updates the session configuration for an application in IAM Identity Center. The session configuration determines how users can access an application. This includes whether user background sessions are enabled. User background sessions allow users to start a job on a supported Amazon Web Services managed application without having to remain signed in to an active session while the job runs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationArn">The Amazon Resource Name (ARN) of the application for which to up- date the session configuration. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:applica- tion/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}</param>
+    /// <param name="ApplicationArn">The Amazon Resource Name (ARN) of the application for which to update the session configuration. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}</param>
     public AwsSsoAdminPutApplicationSessionConfigurationOptions(
         string ApplicationArn
     )
@@ -57,13 +59,13 @@ public record AwsSsoAdminPutApplicationSessionConfigurationOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the application for which to up- date the session configuration. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:applica- tion/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}
+    /// The Amazon Resource Name (ARN) of the application for which to update the session configuration. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}
     /// </summary>
     [CliOption("--application-arn")]
     public string? ApplicationArn { get; private init; }
 
     /// <summary>
-    /// The status of user background sessions for the application. Possible values: o ENABLED o DISABLED
+    /// The status of user background sessions for the application. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--user-background-session-application-status")]
     public AwsSsoAdminPutApplicationSessionConfigurationUserBackgroundSessionApplicationStatus? UserBackgroundSessionApplicationStatus { get; set; }

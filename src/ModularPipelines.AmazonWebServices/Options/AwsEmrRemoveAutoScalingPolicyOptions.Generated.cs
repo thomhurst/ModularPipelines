@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsEmrRemoveAutoScalingPolicyOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Removes an automatic scaling policy from a specified instance group within an Amazon EMR cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterId">Specifies the ID of a cluster. The instance group to which the auto- matic scaling policy is applied is within this cluster. Constraints: o max: 256</param>
-    /// <param name="InstanceGroupId">Specifies the ID of the instance group to which the scaling policy is applied. Constraints: o max: 256</param>
+    /// <param name="ClusterId">Specifies the ID of a cluster. The instance group to which the automatic scaling policy is applied is within this cluster. Constraints: • max: 256</param>
+    /// <param name="InstanceGroupId">Specifies the ID of the instance group to which the scaling policy is applied. Constraints: • max: 256</param>
     public AwsEmrRemoveAutoScalingPolicyOptions(
         string ClusterId,
         string InstanceGroupId
@@ -60,13 +62,13 @@ public record AwsEmrRemoveAutoScalingPolicyOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ID of a cluster. The instance group to which the auto- matic scaling policy is applied is within this cluster. Constraints: o max: 256
+    /// Specifies the ID of a cluster. The instance group to which the automatic scaling policy is applied is within this cluster. Constraints: • max: 256
     /// </summary>
     [CliOption("--cluster-id")]
     public string? ClusterId { get; private init; }
 
     /// <summary>
-    /// Specifies the ID of the instance group to which the scaling policy is applied. Constraints: o max: 256
+    /// Specifies the ID of the instance group to which the scaling policy is applied. Constraints: • max: 256
     /// </summary>
     [CliOption("--instance-group-id")]
     public string? InstanceGroupId { get; private init; }

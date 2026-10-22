@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// An API operation for adding one or more tags (key-value pairs) to a re- source. See also: AWS API Documentation
+/// An API operation for adding one or more tags (key-value pairs) to a resource. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsBillingTagResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// An API operation for adding one or more tags (key-value pairs) to a re- source. See also: AWS API Documentation
+    /// An API operation for adding one or more tags (key-value pairs) to a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource. Constraints: o pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:[a-zA-Z0-9/:_\+=\.\@-]{0,70}[a-zA-Z0-9]</param>
-    /// <param name="ResourceTags">A list of tag key value pairs that are associated with the resource. Constraints: o min: 0 o max: 200 (structure) The tag structure that contains a tag key and value. key -&gt; (string) [required] The key that's associated with the tag. Constraints: o min: 1 o max: 128 value -&gt; (string) The value that's associated with the tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource. Constraints: • pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:[a-zA-Z0-9/:_\+=\.\@-]{0,70}[a-zA-Z0-9]</param>
+    /// <param name="ResourceTags">A list of tag key value pairs that are associated with the resource. Constraints: • min: 0 • max: 200 (structure) The tag structure that contains a tag key and value. key -&gt; (string) [required] The key that's associated with the tag. Constraints: • min: 1 • max: 128 value -&gt; (string) The value that's associated with the tag. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
     public AwsBillingTagResourceOptions(
         string ResourceArn,
         IEnumerable<string> ResourceTags
@@ -71,13 +73,13 @@ public record AwsBillingTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource. Constraints: o pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:[a-zA-Z0-9/:_\+=\.\@-]{0,70}[a-zA-Z0-9]
+    /// The Amazon Resource Name (ARN) of the resource. Constraints: • pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:[a-zA-Z0-9/:_\+=\.\@-]{0,70}[a-zA-Z0-9]
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A list of tag key value pairs that are associated with the resource. Constraints: o min: 0 o max: 200 (structure) The tag structure that contains a tag key and value. key -&gt; (string) [required] The key that's associated with the tag. Constraints: o min: 1 o max: 128 value -&gt; (string) The value that's associated with the tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// A list of tag key value pairs that are associated with the resource. Constraints: • min: 0 • max: 200 (structure) The tag structure that contains a tag key and value. key -&gt; (string) [required] The key that's associated with the tag. Constraints: • min: 1 • max: 128 value -&gt; (string) The value that's associated with the tag. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--resource-tags", GroupValues = true)]
     public IEnumerable<string>? ResourceTags { get; private init; }

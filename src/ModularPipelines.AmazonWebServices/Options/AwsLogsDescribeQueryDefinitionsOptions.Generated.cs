@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This operation returns a paginated list of your saved CloudWatch Logs Insights query definitions. You can retrieve query definitions from the current account or from a source account that is linked to the current account. You can use the queryDefinitionNamePrefix parameter to limit the re- sults to only the query definitions that have names that start with a certain string. See also: AWS API Documentation
+/// This operation returns a paginated list of your saved CloudWatch Logs Insights query definitions. You can retrieve query definitions from the current account or from a source account that is linked to the current account. You can use the queryDefinitionNamePrefix parameter to limit the results to only the query definitions that have names that start with a certain string. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,25 +24,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLogsDescribeQueryDefinitionsOptions : AwsOptions
 {
     /// <summary>
-    /// The query language used for this query. For more information about the query languages that CloudWatch Logs supports, see Supported query languages . Possible values: o CWLI o SQL o PPL
+    /// The query language used for this query. For more information about the query languages that CloudWatch Logs supports, see Supported query languages . Possible values: • CWLI • SQL • PPL
     /// </summary>
     [CliOption("--query-language")]
     public AwsLogsDescribeQueryDefinitionsQueryLanguage? QueryLanguage { get; set; }
 
     /// <summary>
-    /// Use this parameter to filter your results to only the query defini- tions that have names that start with the prefix you specify. Constraints: o min: 1 o max: 255
+    /// Use this parameter to filter your results to only the query definitions that have names that start with the prefix you specify. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--query-definition-name-prefix")]
     public string? QueryDefinitionNamePrefix { get; set; }
 
     /// <summary>
-    /// Limits the number of returned query definitions to the specified number. Constraints: o min: 1 o max: 1000
+    /// Limits the number of returned query definitions to the specified number. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The token for the next set of items to return. The token expires af- ter 24 hours. Constraints: o min: 1
+    /// The token for the next set of items to return. The token expires after 24 hours. Constraints: • min: 1
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

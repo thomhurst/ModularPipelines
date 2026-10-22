@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieve a list of the blacklists that your dedicated IP addresses ap- pear on. See also: AWS API Documentation
+/// Retrieve a list of the blacklists that your dedicated IP addresses appear on. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsPinpointEmailGetBlacklistReportsOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieve a list of the blacklists that your dedicated IP addresses ap- pear on. See also: AWS API Documentation
+    /// Retrieve a list of the blacklists that your dedicated IP addresses appear on. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BlacklistItemNames">A list of IP addresses that you want to retrieve blacklist informa- tion about. You can only specify the dedicated IP addresses that you use to send email using Amazon Pinpoint or Amazon SES. (string) An IP address that you want to obtain blacklist information for. Syntax: "string" "string" ...</param>
+    /// <param name="BlacklistItemNames">A list of IP addresses that you want to retrieve blacklist information about. You can only specify the dedicated IP addresses that you use to send email using Amazon Pinpoint or Amazon SES. (string) An IP address that you want to obtain blacklist information for. Syntax: "string" "string" ...</param>
     public AwsPinpointEmailGetBlacklistReportsOptions(
         IEnumerable<string> BlacklistItemNames
     )
@@ -67,7 +69,7 @@ public record AwsPinpointEmailGetBlacklistReportsOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of IP addresses that you want to retrieve blacklist informa- tion about. You can only specify the dedicated IP addresses that you use to send email using Amazon Pinpoint or Amazon SES. (string) An IP address that you want to obtain blacklist information for. Syntax: "string" "string" ...
+    /// A list of IP addresses that you want to retrieve blacklist information about. You can only specify the dedicated IP addresses that you use to send email using Amazon Pinpoint or Amazon SES. (string) An IP address that you want to obtain blacklist information for. Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--blacklist-item-names", GroupValues = true)]
     public IEnumerable<string>? BlacklistItemNames { get; private init; }

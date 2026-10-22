@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAthenaDeleteDataCatalogOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a data catalog. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the data catalog to delete. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="Name">The name of the data catalog to delete. Constraints: • min: 1 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
     public AwsAthenaDeleteDataCatalogOptions(
         string Name
     )
@@ -56,13 +58,13 @@ public record AwsAthenaDeleteDataCatalogOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the data catalog to delete. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The name of the data catalog to delete. Constraints: • min: 1 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Deletes the Athena Data Catalog. You can only use this with the FED- ERATED catalogs. You usually perform this before registering the connector with Glue Data Catalog. After deletion, you will have to manage the Glue Connection and Lambda function.
+    /// Deletes the Athena Data Catalog. You can only use this with the FEDERATED catalogs. You usually perform this before registering the connector with Glue Data Catalog. After deletion, you will have to manage the Glue Connection and Lambda function.
     /// </summary>
     [CliFlag("--delete-catalog-only", NegatedName = "--no-delete-catalog-only")]
     public bool? DeleteCatalogOnly { get; set; }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -29,7 +30,7 @@ public record AwsResiliencehubv2ImportAppOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Imports a V1 app into the V2 resource model, creating a service with the same name. See also: AWS API Documentation
     /// </summary>
-    /// <param name="V1AppArn">ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}</param>
+    /// <param name="V1AppArn">ARN identifier. Constraints: • min: 31 • pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}</param>
     public AwsResiliencehubv2ImportAppOptions(
         string V1AppArn
     )
@@ -58,19 +59,19 @@ public record AwsResiliencehubv2ImportAppOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}
+    /// ARN identifier. Constraints: • min: 31 • pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}
     /// </summary>
     [CliOption("--v1-app-arn")]
     public string? V1AppArn { get; private init; }
 
     /// <summary>
-    /// ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}
+    /// ARN identifier. Constraints: • min: 31 • pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}
     /// </summary>
     [CliOption("--policy-arn")]
     public string? PolicyArn { get; set; }
 
     /// <summary>
-    /// KMS key identifier accepts key ID, key ARN, alias name, or alias ARN. Constraints: o min: 1 o max: 2048
+    /// KMS key identifier accepts key ID, key ARN, alias name, or alias ARN. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
@@ -82,19 +83,19 @@ public record AwsResiliencehubv2ImportAppOptions : AwsOptions, IValidatableObjec
     public bool? SkipManuallyAddedResources { get; set; }
 
     /// <summary>
-    /// The systems to associate with the imported service. Constraints: o min: 0 o max: 20 (structure) Represents a system associated with a service. systemArn -&gt; (string) [required] ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023} systemName -&gt; (string) Resource name (used in ARN no spaces allowed). Constraints: o min: 2 o max: 60 o pattern: [A-Za-z0-9][A-Za-z0-9_\-]{1,59} userJourneyIds -&gt; (list) The list of user journey identifiers that associate this sys- tem with the service. Constraints: o min: 0 o max: 20 (string) Constraints: o min: 1 o max: 255 o pattern: \S{1,255} Shorthand Syntax: systemArn=string,systemName=string,userJourneyIds=string,string ... JSON Syntax: [ { "systemArn": "string", "systemName": "string", "userJourneyIds": ["string", ...] } ... ]
+    /// The systems to associate with the imported service. Constraints: • min: 0 • max: 20 (structure) Represents a system associated with a service. systemArn -&gt; (string) [required] ARN identifier. Constraints: • min: 31 • pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023} systemName -&gt; (string) Resource name (used in ARN no spaces allowed). Constraints: • min: 2 • max: 60 • pattern: [A-Za-z0-9][A-Za-z0-9_\-]{1,59} userJourneyIds -&gt; (list) The list of user journey identifiers that associate this system with the service. Constraints: • min: 0 • max: 20 (string) Constraints: • min: 1 • max: 255 • pattern: \S{1,255} Shorthand Syntax: systemArn=string,systemName=string,userJourneyIds=string,string ... JSON Syntax: [ { "systemArn": "string", "systemName": "string", "userJourneyIds": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--associated-systems", GroupValues = true)]
     public IEnumerable<string>? AssociatedSystems { get; set; }
 
     /// <summary>
-    /// Resource tags. Constraints: o min: 1 o max: 50 key -&gt; (string) Tag key. Constraints: o min: 1 o max: 128 o pattern: [^\x00-\x1f\x22]+ value -&gt; (string) Tag value. Constraints: o min: 0 o max: 256 o pattern: [^\x00-\x1f\x22]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Resource tags. Constraints: • min: 1 • max: 50 key -&gt; (string) Tag key. Constraints: • min: 1 • max: 128 • pattern: [^\x00-\x1f\x22]+ value -&gt; (string) Tag value. Constraints: • min: 0 • max: 256 • pattern: [^\x00-\x1f\x22]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Idempotency token. Constraints: o min: 1 o max: 63 o pattern: [A-Za-z0-9_.-]{0,63}
+    /// Idempotency token. Constraints: • min: 1 • max: 63 • pattern: [A-Za-z0-9_.-]{0,63}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

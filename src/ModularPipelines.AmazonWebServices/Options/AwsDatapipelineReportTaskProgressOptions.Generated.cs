@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Task runners call ReportTaskProgress when assigned a task to acknowl- edge that it has the task. If the web service does not receive this ac- knowledgement within 2 minutes, it assigns the task in a subsequent PollForTask call. After this initial acknowledgement, the task runner only needs to report progress every 15 minutes to maintain its owner- ship of the task. You can change this reporting time from 15 minutes by specifying a reportProgressTimeout field in your pipeline. If a task runner do...
+/// Task runners call ReportTaskProgress when assigned a task to acknowledge that it has the task. If the web service does not receive this acknowledgement within 2 minutes, it assigns the task in a subsequent PollForTask call. After this initial acknowledgement, the task runner only needs to report progress every 15 minutes to maintain its ownership of the task. You can change this reporting time from 15 minutes by specifying a reportProgressTimeout field in your pipeline. If a task runner does not...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsDatapipelineReportTaskProgressOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Task runners call ReportTaskProgress when assigned a task to acknowl- edge that it has the task. If the web service does not receive this ac- knowledgement within 2 minutes, it assigns the task in a subsequent PollForTask call. After this initial acknowledgement, the task runner only needs to report progress every 15 minutes to maintain its owner- ship of the task. You can change this reporting time from 15 minutes by specifying a reportProgressTimeout field in your pipeline. If a task runner do...
+    /// Task runners call ReportTaskProgress when assigned a task to acknowledge that it has the task. If the web service does not receive this acknowledgement within 2 minutes, it assigns the task in a subsequent PollForTask call. After this initial acknowledgement, the task runner only needs to report progress every 15 minutes to maintain its ownership of the task. You can change this reporting time from 15 minutes by specifying a reportProgressTimeout field in your pipeline. If a task runner does not...
     /// </summary>
-    /// <param name="TaskId">The ID of the task assigned to the task runner. This value is pro- vided in the response for PollForTask . Constraints: o min: 1 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="TaskId">The ID of the task assigned to the task runner. This value is provided in the response for PollForTask . Constraints: • min: 1 • max: 2048 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
     public AwsDatapipelineReportTaskProgressOptions(
         string TaskId
     )
@@ -56,13 +58,13 @@ public record AwsDatapipelineReportTaskProgressOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the task assigned to the task runner. This value is pro- vided in the response for PollForTask . Constraints: o min: 1 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The ID of the task assigned to the task runner. This value is provided in the response for PollForTask . Constraints: • min: 1 • max: 2048 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--task-id")]
     public string? TaskId { get; private init; }
 
     /// <summary>
-    /// Key-value pairs that define the properties of the ReportTaskPro- gressInput object. (structure) A key-value pair that describes a property of a pipeline object. The value is specified as either a string value (StringValue ) or a reference to another object (RefValue ) but not as both. key -&gt; (string) [required] The field identifier. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* stringValue -&gt; (string) The field value, expressed as a String. Constraints: o min: 0 o max: 10240 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* refValue -&gt; (string) The field value, expressed as the identifier of another ob- ject. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: key=string,stringValue=string,refValue=string ... JSON Syntax: [ { "key": "string", "stringValue": "string", "refValue": "string" } ... ]
+    /// Key-value pairs that define the properties of the ReportTaskProgressInput object. (structure) A key-value pair that describes a property of a pipeline object. The value is specified as either a string value (StringValue ) or a reference to another object (RefValue ) but not as both. key -&gt; (string) [required] The field identifier. Constraints: • min: 1 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* stringValue -&gt; (string) The field value, expressed as a String. Constraints: • min: 0 • max: 10240 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* refValue -&gt; (string) The field value, expressed as the identifier of another object. Constraints: • min: 1 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: key=string,stringValue=string,refValue=string ... JSON Syntax: [ { "key": "string", "stringValue": "string", "refValue": "string" } ... ]
     /// </summary>
     [CliOption("--fields", GroupValues = true)]
     public IEnumerable<string>? Fields { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Authorizes the Shield Response Team (SRT) to access the specified Ama- zon S3 bucket containing log data such as Application Load Balancer ac- cess logs, CloudFront logs, or logs from third party sources. You can associate up to 10 Amazon S3 buckets with your subscription. To use the services of the SRT and make an AssociateDRTLogBucket re- quest, you must be subscribed to the Business Support plan or the Enterprise Support plan . See also: AWS API Documentation
+/// Authorizes the Shield Response Team (SRT) to access the specified Amazon S3 bucket containing log data such as Application Load Balancer access logs, CloudFront logs, or logs from third party sources. You can associate up to 10 Amazon S3 buckets with your subscription. To use the services of the SRT and make an AssociateDRTLogBucket request, you must be subscribed to the Business Support plan or the Enterprise Support plan . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsShieldAssociateDrtLogBucketOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Authorizes the Shield Response Team (SRT) to access the specified Ama- zon S3 bucket containing log data such as Application Load Balancer ac- cess logs, CloudFront logs, or logs from third party sources. You can associate up to 10 Amazon S3 buckets with your subscription. To use the services of the SRT and make an AssociateDRTLogBucket re- quest, you must be subscribed to the Business Support plan or the Enterprise Support plan . See also: AWS API Documentation
+    /// Authorizes the Shield Response Team (SRT) to access the specified Amazon S3 bucket containing log data such as Application Load Balancer access logs, CloudFront logs, or logs from third party sources. You can associate up to 10 Amazon S3 buckets with your subscription. To use the services of the SRT and make an AssociateDRTLogBucket request, you must be subscribed to the Business Support plan or the Enterprise Support plan . See also: AWS API Documentation
     /// </summary>
-    /// <param name="LogBucket">The Amazon S3 bucket that contains the logs that you want to share. Constraints: o min: 3 o max: 63 o pattern: ^([a-z]|(\d(?!\d{0,2}\.\d{1,3}\.\d{1,3}\.\d{1,3})))([a-z\d]|(\.(?!(\.|-)))|(-(?!\.))){1,61}[a-z\d]$</param>
+    /// <param name="LogBucket">The Amazon S3 bucket that contains the logs that you want to share. Constraints: • min: 3 • max: 63 • pattern: ^([a-z]|(\d(?!\d{0,2}\.\d{1,3}\.\d{1,3}\.\d{1,3})))([a-z\d]|(\.(?!(\.|-)))|(-(?!\.))){1,61}[a-z\d]$</param>
     public AwsShieldAssociateDrtLogBucketOptions(
         string LogBucket
     )
@@ -56,7 +58,7 @@ public record AwsShieldAssociateDrtLogBucketOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon S3 bucket that contains the logs that you want to share. Constraints: o min: 3 o max: 63 o pattern: ^([a-z]|(\d(?!\d{0,2}\.\d{1,3}\.\d{1,3}\.\d{1,3})))([a-z\d]|(\.(?!(\.|-)))|(-(?!\.))){1,61}[a-z\d]$
+    /// The Amazon S3 bucket that contains the logs that you want to share. Constraints: • min: 3 • max: 63 • pattern: ^([a-z]|(\d(?!\d{0,2}\.\d{1,3}\.\d{1,3}\.\d{1,3})))([a-z\d]|(\.(?!(\.|-)))|(-(?!\.))){1,61}[a-z\d]$
     /// </summary>
     [CliOption("--log-bucket")]
     public string? LogBucket { get; private init; }

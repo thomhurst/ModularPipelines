@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,9 +31,9 @@ public record AwsPartnercentralRevenueMeasurementUpdateRevenueAttributionOptions
     /// <summary>
     /// Updates an existing revenue attribution record. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">The catalog that the revenue attribution belongs to. Possible values: o AWS o Sandbox</param>
-    /// <param name="Identifier">The unique identifier of the revenue attribution to update. Accepts a direct ID or ARN. Constraints: o min: 16 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/revenue-attribution/ra-[a-z0-9]{13}|ra-[a-z0-9]{13})</param>
-    /// <param name="Revision">The current revision of the revenue attribution. Must match the server's current value. Constraints: o min: 1 o max: 19 o pattern: [1-9][0-9]*</param>
+    /// <param name="Catalog">The catalog that the revenue attribution belongs to. Possible values: • AWS • Sandbox</param>
+    /// <param name="Identifier">The unique identifier of the revenue attribution to update. Accepts a direct ID or ARN. Constraints: • min: 16 • max: 1011 • pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/revenue-attribution/ra-[a-z0-9]{13}|ra-[a-z0-9]{13})</param>
+    /// <param name="Revision">The current revision of the revenue attribution. Must match the server's current value. Constraints: • min: 1 • max: 19 • pattern: [1-9][0-9]*</param>
     public AwsPartnercentralRevenueMeasurementUpdateRevenueAttributionOptions(
         AwsPartnercentralRevenueMeasurementUpdateRevenueAttributionCatalog Catalog,
         string Identifier,
@@ -65,32 +67,32 @@ public record AwsPartnercentralRevenueMeasurementUpdateRevenueAttributionOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog that the revenue attribution belongs to. Possible values: o AWS o Sandbox
+    /// The catalog that the revenue attribution belongs to. Possible values: • AWS • Sandbox
     /// </summary>
     [CliOption("--catalog")]
     public AwsPartnercentralRevenueMeasurementUpdateRevenueAttributionCatalog? Catalog { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the revenue attribution to update. Accepts a direct ID or ARN. Constraints: o min: 16 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/revenue-attribution/ra-[a-z0-9]{13}|ra-[a-z0-9]{13})
+    /// The unique identifier of the revenue attribution to update. Accepts a direct ID or ARN. Constraints: • min: 16 • max: 1011 • pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/revenue-attribution/ra-[a-z0-9]{13}|ra-[a-z0-9]{13})
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The current revision of the revenue attribution. Must match the server's current value. Constraints: o min: 1 o max: 19 o pattern: [1-9][0-9]*
+    /// The current revision of the revenue attribution. Must match the server's current value. Constraints: • min: 1 • max: 19 • pattern: [1-9][0-9]*
     /// </summary>
     [CliOption("--revision")]
     public string? Revision { get; private init; }
 
     /// <summary>
-    /// A unique token to ensure idempotency of the update request. Constraints: o min: 1 o max: 64 o pattern: [!-~]{1,64}
+    /// A unique token to ensure idempotency of the update request. Constraints: • min: 1 • max: 64 • pattern: [!-~]{1,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The updated description of the revenue attribution. Constraints: o min: 0 o max: 1024 o pattern: [\x20-\x7E]*
+    /// The updated description of the revenue attribution. Constraints: • min: 0 • max: 1024 • pattern: [\x20-\x7E]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

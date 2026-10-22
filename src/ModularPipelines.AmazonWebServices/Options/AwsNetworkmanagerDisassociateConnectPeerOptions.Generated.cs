@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsNetworkmanagerDisassociateConnectPeerOptions : AwsOptions, IVal
     /// <summary>
     /// Disassociates a core network Connect peer from a device and a link. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
-    /// <param name="ConnectPeerId">The ID of the Connect peer to disassociate from a device. Constraints: o min: 0 o max: 50 o pattern: ^connect-peer-([0-9a-f]{8,17})$</param>
+    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*</param>
+    /// <param name="ConnectPeerId">The ID of the Connect peer to disassociate from a device. Constraints: • min: 0 • max: 50 • pattern: ^connect-peer-([0-9a-f]{8,17})$</param>
     public AwsNetworkmanagerDisassociateConnectPeerOptions(
         string GlobalNetworkId,
         string ConnectPeerId
@@ -60,13 +62,13 @@ public record AwsNetworkmanagerDisassociateConnectPeerOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// The ID of the global network. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--global-network-id")]
     public string? GlobalNetworkId { get; private init; }
 
     /// <summary>
-    /// The ID of the Connect peer to disassociate from a device. Constraints: o min: 0 o max: 50 o pattern: ^connect-peer-([0-9a-f]{8,17})$
+    /// The ID of the Connect peer to disassociate from a device. Constraints: • min: 0 • max: 50 • pattern: ^connect-peer-([0-9a-f]{8,17})$
     /// </summary>
     [CliOption("--connect-peer-id")]
     public string? ConnectPeerId { get; private init; }

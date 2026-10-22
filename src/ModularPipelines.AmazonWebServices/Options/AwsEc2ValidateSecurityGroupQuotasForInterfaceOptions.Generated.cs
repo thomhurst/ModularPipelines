@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Validates whether the specified security groups can be associated with a single network interface. The operation checks Amazon Virtual Private Cloud (Amazon VPC) quotas. It checks inbound or outbound rules per se- curity group and security groups per network interface. Only authorized Amazon Web Services services can call this operation. For more information about security group quotas, see Amazon VPC quotas in the Amazon VPC User Guide . See also: AWS API Documentation
+/// Validates whether the specified security groups can be associated with a single network interface. The operation checks Amazon Virtual Private Cloud (Amazon VPC) quotas. It checks inbound or outbound rules per security group and security groups per network interface. Only authorized Amazon Web Services services can call this operation. For more information about security group quotas, see Amazon VPC quotas in the Amazon VPC User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsEc2ValidateSecurityGroupQuotasForInterfaceOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Validates whether the specified security groups can be associated with a single network interface. The operation checks Amazon Virtual Private Cloud (Amazon VPC) quotas. It checks inbound or outbound rules per se- curity group and security groups per network interface. Only authorized Amazon Web Services services can call this operation. For more information about security group quotas, see Amazon VPC quotas in the Amazon VPC User Guide . See also: AWS API Documentation
+    /// Validates whether the specified security groups can be associated with a single network interface. The operation checks Amazon Virtual Private Cloud (Amazon VPC) quotas. It checks inbound or outbound rules per security group and security groups per network interface. Only authorized Amazon Web Services services can call this operation. For more information about security group quotas, see Amazon VPC quotas in the Amazon VPC User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="SecurityGroupIds">The IDs of the security groups to validate for association with a single network interface. You must specify at least one ID, and each ID must be unique. The number of IDs cannot exceed the maximum num- ber of security groups allowed per network interface. (string) Syntax: "string" "string" ...</param>
+    /// <param name="SecurityGroupIds">The IDs of the security groups to validate for association with a single network interface. You must specify at least one ID, and each ID must be unique. The number of IDs cannot exceed the maximum number of security groups allowed per network interface. (string) Syntax: "string" "string" ...</param>
     public AwsEc2ValidateSecurityGroupQuotasForInterfaceOptions(
         IEnumerable<string> SecurityGroupIds
     )
@@ -67,13 +69,13 @@ public record AwsEc2ValidateSecurityGroupQuotasForInterfaceOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The IDs of the security groups to validate for association with a single network interface. You must specify at least one ID, and each ID must be unique. The number of IDs cannot exceed the maximum num- ber of security groups allowed per network interface. (string) Syntax: "string" "string" ...
+    /// The IDs of the security groups to validate for association with a single network interface. You must specify at least one ID, and each ID must be unique. The number of IDs cannot exceed the maximum number of security groups allowed per network interface. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsOutpostsCancelOrderOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Cancels the specified order for an Outpost. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrderId">The ID of the order. Constraints: o min: 1 o max: 20 o pattern: oo-[a-f0-9]{17}$</param>
+    /// <param name="OrderId">The ID of the order. Constraints: • min: 1 • max: 20 • pattern: oo-[a-f0-9]{17}$</param>
     public AwsOutpostsCancelOrderOptions(
         string OrderId
     )
@@ -56,7 +58,7 @@ public record AwsOutpostsCancelOrderOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the order. Constraints: o min: 1 o max: 20 o pattern: oo-[a-f0-9]{17}$
+    /// The ID of the order. Constraints: • min: 1 • max: 20 • pattern: oo-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--order-id")]
     public string? OrderId { get; private init; }

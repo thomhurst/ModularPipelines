@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDsDeleteSnapshotOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a directory snapshot. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SnapshotId">The identifier of the directory snapshot to be deleted. Constraints: o pattern: ^s-[0-9a-f]{10}$</param>
+    /// <param name="SnapshotId">The identifier of the directory snapshot to be deleted. Constraints: • pattern: ^s-[0-9a-f]{10}$</param>
     public AwsDsDeleteSnapshotOptions(
         string SnapshotId
     )
@@ -56,7 +58,7 @@ public record AwsDsDeleteSnapshotOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the directory snapshot to be deleted. Constraints: o pattern: ^s-[0-9a-f]{10}$
+    /// The identifier of the directory snapshot to be deleted. Constraints: • pattern: ^s-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--snapshot-id")]
     public string? SnapshotId { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates a delegation request with the current identity. If the partner that created the delegation request has specified the owner account during creation, only an identity from that owner account can call the AssociateDelegationRequest API for the specified delega- tion request. Once the AssociateDelegationRequest API call is success- ful, the ARN of the current calling identity will be stored as the ownerId of the request. If the partner that created the delegation request has not specified...
+/// Associates a delegation request with the current identity. If the partner that created the delegation request has specified the owner account during creation, only an identity from that owner account can call the AssociateDelegationRequest API for the specified delegation request. Once the AssociateDelegationRequest API call is successful, the ARN of the current calling identity will be stored as the ownerId of the request. If the partner that created the delegation request has not specified the...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsIamAssociateDelegationRequestOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates a delegation request with the current identity. If the partner that created the delegation request has specified the owner account during creation, only an identity from that owner account can call the AssociateDelegationRequest API for the specified delega- tion request. Once the AssociateDelegationRequest API call is success- ful, the ARN of the current calling identity will be stored as the ownerId of the request. If the partner that created the delegation request has not specified...
+    /// Associates a delegation request with the current identity. If the partner that created the delegation request has specified the owner account during creation, only an identity from that owner account can call the AssociateDelegationRequest API for the specified delegation request. Once the AssociateDelegationRequest API call is successful, the ARN of the current calling identity will be stored as the ownerId of the request. If the partner that created the delegation request has not specified the...
     /// </summary>
-    /// <param name="DelegationRequestId">The unique identifier of the delegation request to associate. Constraints: o min: 16 o max: 128 o pattern: [\w-]+</param>
+    /// <param name="DelegationRequestId">The unique identifier of the delegation request to associate. Constraints: • min: 16 • max: 128 • pattern: [\w-]+</param>
     public AwsIamAssociateDelegationRequestOptions(
         string DelegationRequestId
     )
@@ -56,7 +58,7 @@ public record AwsIamAssociateDelegationRequestOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the delegation request to associate. Constraints: o min: 16 o max: 128 o pattern: [\w-]+
+    /// The unique identifier of the delegation request to associate. Constraints: • min: 16 • max: 128 • pattern: [\w-]+
     /// </summary>
     [CliOption("--delegation-request-id")]
     public string? DelegationRequestId { get; private init; }

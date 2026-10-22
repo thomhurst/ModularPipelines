@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides metrics on the accuracy of the models that were trained by the CreatePredictor operation. Use metrics to see how well the model per- formed and to decide whether to use the predictor to generate a fore- cast. For more information, see Predictor Metrics . This operation generates metrics for each backtest window that was evaluated. The number of backtest windows (NumberOfBacktestWindows ) is specified using the EvaluationParameters object, which is optionally included in the CreatePredic...
+/// Provides metrics on the accuracy of the models that were trained by the CreatePredictor operation. Use metrics to see how well the model performed and to decide whether to use the predictor to generate a forecast. For more information, see Predictor Metrics . This operation generates metrics for each backtest window that was evaluated. The number of backtest windows (NumberOfBacktestWindows ) is specified using the EvaluationParameters object, which is optionally included in the CreatePredictor ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsForecastGetAccuracyMetricsOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides metrics on the accuracy of the models that were trained by the CreatePredictor operation. Use metrics to see how well the model per- formed and to decide whether to use the predictor to generate a fore- cast. For more information, see Predictor Metrics . This operation generates metrics for each backtest window that was evaluated. The number of backtest windows (NumberOfBacktestWindows ) is specified using the EvaluationParameters object, which is optionally included in the CreatePredic...
+    /// Provides metrics on the accuracy of the models that were trained by the CreatePredictor operation. Use metrics to see how well the model performed and to decide whether to use the predictor to generate a forecast. For more information, see Predictor Metrics . This operation generates metrics for each backtest window that was evaluated. The number of backtest windows (NumberOfBacktestWindows ) is specified using the EvaluationParameters object, which is optionally included in the CreatePredictor ...
     /// </summary>
-    /// <param name="PredictorArn">The Amazon Resource Name (ARN) of the predictor to get metrics for. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    /// <param name="PredictorArn">The Amazon Resource Name (ARN) of the predictor to get metrics for. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
     public AwsForecastGetAccuracyMetricsOptions(
         string PredictorArn
     )
@@ -56,7 +58,7 @@ public record AwsForecastGetAccuracyMetricsOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the predictor to get metrics for. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the predictor to get metrics for. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
     /// </summary>
     [CliOption("--predictor-arn")]
     public string? PredictorArn { get; private init; }

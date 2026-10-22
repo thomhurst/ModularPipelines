@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsGuarddutyUpdateIpSetOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the IPSet specified by the IPSet ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DetectorId">The detectorID that specifies the GuardDuty service whose IPSet you want to update. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
+    /// <param name="DetectorId">The detectorID that specifies the GuardDuty service whose IPSet you want to update. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300</param>
     /// <param name="IpSetId">The unique ID that specifies the IPSet that you want to update.</param>
     public AwsGuarddutyUpdateIpSetOptions(
         string DetectorId,
@@ -60,7 +62,7 @@ public record AwsGuarddutyUpdateIpSetOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The detectorID that specifies the GuardDuty service whose IPSet you want to update. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// The detectorID that specifies the GuardDuty service whose IPSet you want to update. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }
@@ -72,13 +74,13 @@ public record AwsGuarddutyUpdateIpSetOptions : AwsOptions, IValidatableObject
     public string? IpSetId { get; private init; }
 
     /// <summary>
-    /// The unique ID that specifies the IPSet that you want to update. Constraints: o min: 1 o max: 300
+    /// The unique ID that specifies the IPSet that you want to update. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The updated URI of the file that contains the IPSet. Constraints: o min: 1 o max: 300
+    /// The updated URI of the file that contains the IPSet. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--location")]
     public string? Location { get; set; }
@@ -90,7 +92,7 @@ public record AwsGuarddutyUpdateIpSetOptions : AwsOptions, IValidatableObject
     public bool? Activate { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter. Constraints: o min: 12 o max: 12
+    /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter. Constraints: • min: 12 • max: 12
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }

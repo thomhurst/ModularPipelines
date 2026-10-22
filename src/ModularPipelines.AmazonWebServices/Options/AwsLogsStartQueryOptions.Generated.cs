@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts a query of one or more log groups or data sources using Cloud- Watch Logs Insights. You specify the log groups or data sources and time range to query and the query string to use. You can query up to 10 data sources in a single query. For more information, see CloudWatch Logs Insights Query Syntax . After you run a query using StartQuery , the query results are stored by CloudWatch Logs. You can use GetQueryResults to retrieve the results of a query, using the queryId that StartQuery retu...
+/// Starts a query of one or more log groups or data sources using CloudWatch Logs Insights. You specify the log groups or data sources and time range to query and the query string to use. You can query up to 10 data sources in a single query. For more information, see CloudWatch Logs Insights Query Syntax . After you run a query using StartQuery , the query results are stored by CloudWatch Logs. You can use GetQueryResults to retrieve the results of a query, using the queryId that StartQuery return...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,14 +28,14 @@ public record AwsLogsStartQueryOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts a query of one or more log groups or data sources using Cloud- Watch Logs Insights. You specify the log groups or data sources and time range to query and the query string to use. You can query up to 10 data sources in a single query. For more information, see CloudWatch Logs Insights Query Syntax . After you run a query using StartQuery , the query results are stored by CloudWatch Logs. You can use GetQueryResults to retrieve the results of a query, using the queryId that StartQuery retu...
+    /// Starts a query of one or more log groups or data sources using CloudWatch Logs Insights. You specify the log groups or data sources and time range to query and the query string to use. You can query up to 10 data sources in a single query. For more information, see CloudWatch Logs Insights Query Syntax . After you run a query using StartQuery , the query results are stored by CloudWatch Logs. You can use GetQueryResults to retrieve the results of a query, using the queryId that StartQuery return...
     /// </summary>
-    /// <param name="StartTime">The beginning of the time range to query. The range is inclusive, so the specified start time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC . Constraints: o min: 0</param>
-    /// <param name="EndTime">The end of the time range to query. The range is inclusive, so the specified end time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC . Constraints: o min: 0</param>
-    /// <param name="QueryString">The query string to use. For more information, see CloudWatch Logs Insights Query Syntax . Constraints: o min: 0 o max: 10000</param>
+    /// <param name="StartTime">The beginning of the time range to query. The range is inclusive, so the specified start time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC . Constraints: • min: 0</param>
+    /// <param name="EndTime">The end of the time range to query. The range is inclusive, so the specified end time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC . Constraints: • min: 0</param>
+    /// <param name="QueryString">The query string to use. For more information, see CloudWatch Logs Insights Query Syntax . Constraints: • min: 0 • max: 10000</param>
     public AwsLogsStartQueryOptions(
-        int StartTime,
-        int EndTime,
+        long StartTime,
+        long EndTime,
         string QueryString
     )
     {
@@ -63,49 +65,49 @@ public record AwsLogsStartQueryOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The beginning of the time range to query. The range is inclusive, so the specified start time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC . Constraints: o min: 0
+    /// The beginning of the time range to query. The range is inclusive, so the specified start time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC . Constraints: • min: 0
     /// </summary>
     [CliOption("--start-time")]
-    public int? StartTime { get; private init; }
+    public long? StartTime { get; private init; }
 
     /// <summary>
-    /// The end of the time range to query. The range is inclusive, so the specified end time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC . Constraints: o min: 0
+    /// The end of the time range to query. The range is inclusive, so the specified end time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC . Constraints: • min: 0
     /// </summary>
     [CliOption("--end-time")]
-    public int? EndTime { get; private init; }
+    public long? EndTime { get; private init; }
 
     /// <summary>
-    /// The query string to use. For more information, see CloudWatch Logs Insights Query Syntax . Constraints: o min: 0 o max: 10000
+    /// The query string to use. For more information, see CloudWatch Logs Insights Query Syntax . Constraints: • min: 0 • max: 10000
     /// </summary>
     [CliOption("--query-string")]
     public string? QueryString { get; private init; }
 
     /// <summary>
-    /// Specify the query language to use for this query. The options are Logs Insights QL, OpenSearch PPL, and OpenSearch SQL. For more in- formation about the query languages that CloudWatch Logs supports, see Supported query languages . Possible values: o CWLI o SQL o PPL
+    /// Specify the query language to use for this query. The options are Logs Insights QL, OpenSearch PPL, and OpenSearch SQL. For more information about the query languages that CloudWatch Logs supports, see Supported query languages . Possible values: • CWLI • SQL • PPL
     /// </summary>
     [CliOption("--query-language")]
     public AwsLogsStartQueryQueryLanguage? QueryLanguage { get; set; }
 
     /// <summary>
-    /// The log group on which to perform the query. NOTE: A StartQuery operation must include exactly one of the following parameters: logGroupName , logGroupNames , or logGroupIdenti- fiers . The exception is queries using the OpenSearch Service SQL query language, where you specify the log group names inside the querystring instead of here. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+
+    /// The log group on which to perform the query. NOTE: A StartQuery operation must include exactly one of the following parameters: logGroupName , logGroupNames , or logGroupIdentifiers . The exception is queries using the OpenSearch Service SQL query language, where you specify the log group names inside the querystring instead of here. Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+
     /// </summary>
     [CliOption("--log-group-name")]
     public string? LogGroupName { get; set; }
 
     /// <summary>
-    /// The list of log groups to be queried. You can include up to 50 log groups. NOTE: A StartQuery operation must include exactly one of the following parameters: logGroupName , logGroupNames , or logGroupIdenti- fiers . The exception is queries using the OpenSearch Service SQL query language, where you specify the log group names inside the querystring instead of here. (string) Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+ Syntax: "string" "string" ...
+    /// The list of log groups to be queried. You can include up to 50 log groups. NOTE: A StartQuery operation must include exactly one of the following parameters: logGroupName , logGroupNames , or logGroupIdentifiers . The exception is queries using the OpenSearch Service SQL query language, where you specify the log group names inside the querystring instead of here. (string) Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--log-group-names", GroupValues = true)]
     public IEnumerable<string>? LogGroupNames { get; set; }
 
     /// <summary>
-    /// The list of log groups to query. You can include up to 50 log groups. You can specify them by the log group name or ARN. If a log group that you're querying is in a source account and you're using a moni- toring account, you must specify the ARN of the log group here. The query definition must also be defined in the monitoring account. If you specify an ARN, use the format arn:aws:logs:region :ac- count-id :log-group:log_group_name Don't include an * at the end. A StartQuery operation must include exactly one of the following pa- rameters: logGroupName , logGroupNames , or logGroupIdentifiers . The exception is queries using the OpenSearch Service SQL query lan- guage, where you specify the log group names inside the querystring instead of here. (string) Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]* Syntax: "string" "string" ...
+    /// The list of log groups to query. You can include up to 50 log groups. You can specify them by the log group name or ARN. If a log group that you're querying is in a source account and you're using a monitoring account, you must specify the ARN of the log group here. The query definition must also be defined in the monitoring account. If you specify an ARN, use the format arn:aws:logs:region :account-id :log-group:log_group_name Don't include an * at the end. A StartQuery operation must include exactly one of the following parameters: logGroupName , logGroupNames , or logGroupIdentifiers . The exception is queries using the OpenSearch Service SQL query language, where you specify the log group names inside the querystring instead of here. (string) Constraints: • min: 1 • max: 2048 • pattern: [\w#+=/:,.@-]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--log-group-identifiers", GroupValues = true)]
     public IEnumerable<string>? LogGroupIdentifiers { get; set; }
 
     /// <summary>
-    /// The maximum number of log events to return from the query. The maxi- mum limit is 100,000. The maximum events returned in a single Get- QueryResults API call is 10,000 log events per request. You can re- trieve up to 100,000 log event results from a query by paginating with the nextToken . 100,000 limit is only supported for Logs In- sights QL and is currently not supported for PPL and SQL query lan- guages. Constraints: o min: 1 o max: 100000
+    /// The maximum number of log events to return from the query. The maximum limit is 100,000. The maximum events returned in a single GetQueryResults API call is 10,000 log events per request. You can retrieve up to 100,000 log event results from a query by paginating with the nextToken . 100,000 limit is only supported for Logs Insights QL and is currently not supported for PPL and SQL query languages. Constraints: • min: 1 • max: 100000
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }

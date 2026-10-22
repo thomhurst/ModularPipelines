@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns Insights metrics data for trails that have enabled Insights. The request must include the EventSource , EventName , and InsightType parameters. If the InsightType is set to ApiErrorRateInsight , the request must also include the ErrorCode parameter. The following are the available time periods for ListInsightsMetricData . Each cutoff is inclusive. o Data points with a period of 60 seconds (1-minute) are available for 15 days. o Data points with a period of 300 seconds (5-minute) are avai...
+/// Returns Insights metrics data for trails that have enabled Insights. The request must include the EventSource , EventName , and InsightType parameters. If the InsightType is set to ApiErrorRateInsight , the request must also include the ErrorCode parameter. The following are the available time periods for ListInsightsMetricData . Each cutoff is inclusive. • Data points with a period of 60 seconds (1-minute) are available for 15 days. • Data points with a period of 300 seconds (5-minute) are avai...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +29,11 @@ public record AwsCloudtrailListInsightsMetricDataOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns Insights metrics data for trails that have enabled Insights. The request must include the EventSource , EventName , and InsightType parameters. If the InsightType is set to ApiErrorRateInsight , the request must also include the ErrorCode parameter. The following are the available time periods for ListInsightsMetricData . Each cutoff is inclusive. o Data points with a period of 60 seconds (1-minute) are available for 15 days. o Data points with a period of 300 seconds (5-minute) are avai...
+    /// Returns Insights metrics data for trails that have enabled Insights. The request must include the EventSource , EventName , and InsightType parameters. If the InsightType is set to ApiErrorRateInsight , the request must also include the ErrorCode parameter. The following are the available time periods for ListInsightsMetricData . Each cutoff is inclusive. • Data points with a period of 60 seconds (1-minute) are available for 15 days. • Data points with a period of 300 seconds (5-minute) are avai...
     /// </summary>
-    /// <param name="EventSource">The Amazon Web Services service to which the request was made, such as iam.amazonaws.com or s3.amazonaws.com . Constraints: o max: 256 o pattern: ^[a-z0-9_-]+\.amazonaws\.com$</param>
-    /// <param name="EventName">The name of the event, typically the Amazon Web Services API on which unusual levels of activity were recorded. Constraints: o max: 128 o pattern: ^[A-Za-z0-9_]+$</param>
-    /// <param name="InsightType">The type of CloudTrail Insights event, which is either ApiCall- RateInsight or ApiErrorRateInsight . The ApiCallRateInsight Insights type analyzes write-only management API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateIn- sight Insights type analyzes management API calls that result in er- ror codes. Possible values: o ApiCallRateInsight o ApiErrorRateInsight</param>
+    /// <param name="EventSource">The Amazon Web Services service to which the request was made, such as iam.amazonaws.com or s3.amazonaws.com . Constraints: • max: 256 • pattern: ^[a-z0-9_-]+\.amazonaws\.com$</param>
+    /// <param name="EventName">The name of the event, typically the Amazon Web Services API on which unusual levels of activity were recorded. Constraints: • max: 128 • pattern: ^[A-Za-z0-9_]+$</param>
+    /// <param name="InsightType">The type of CloudTrail Insights event, which is either ApiCallRateInsight or ApiErrorRateInsight . The ApiCallRateInsight Insights type analyzes write-only management API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management API calls that result in error codes. Possible values: • ApiCallRateInsight • ApiErrorRateInsight</param>
     public AwsCloudtrailListInsightsMetricDataOptions(
         string EventSource,
         string EventName,
@@ -65,67 +67,67 @@ public record AwsCloudtrailListInsightsMetricDataOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services service to which the request was made, such as iam.amazonaws.com or s3.amazonaws.com . Constraints: o max: 256 o pattern: ^[a-z0-9_-]+\.amazonaws\.com$
+    /// The Amazon Web Services service to which the request was made, such as iam.amazonaws.com or s3.amazonaws.com . Constraints: • max: 256 • pattern: ^[a-z0-9_-]+\.amazonaws\.com$
     /// </summary>
     [CliOption("--event-source")]
     public string? EventSource { get; private init; }
 
     /// <summary>
-    /// The name of the event, typically the Amazon Web Services API on which unusual levels of activity were recorded. Constraints: o max: 128 o pattern: ^[A-Za-z0-9_]+$
+    /// The name of the event, typically the Amazon Web Services API on which unusual levels of activity were recorded. Constraints: • max: 128 • pattern: ^[A-Za-z0-9_]+$
     /// </summary>
     [CliOption("--event-name")]
     public string? EventName { get; private init; }
 
     /// <summary>
-    /// The type of CloudTrail Insights event, which is either ApiCall- RateInsight or ApiErrorRateInsight . The ApiCallRateInsight Insights type analyzes write-only management API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateIn- sight Insights type analyzes management API calls that result in er- ror codes. Possible values: o ApiCallRateInsight o ApiErrorRateInsight
+    /// The type of CloudTrail Insights event, which is either ApiCallRateInsight or ApiErrorRateInsight . The ApiCallRateInsight Insights type analyzes write-only management API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management API calls that result in error codes. Possible values: • ApiCallRateInsight • ApiErrorRateInsight
     /// </summary>
     [CliOption("--insight-type")]
     public AwsCloudtrailListInsightsMetricDataInsightType? InsightType { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name(ARN) or name of the trail for which you want to retrieve Insights metrics data. This parameter should only be provided to fetch Insights metrics data generated on trails log- ging data events. This parameter is not required for Insights metric data generated on trails logging management events.
+    /// The Amazon Resource Name(ARN) or name of the trail for which you want to retrieve Insights metrics data. This parameter should only be provided to fetch Insights metrics data generated on trails logging data events. This parameter is not required for Insights metric data generated on trails logging management events.
     /// </summary>
     [CliOption("--trail-name")]
     public string? TrailName { get; set; }
 
     /// <summary>
-    /// Conditionally required if the InsightType parameter is set to ApiEr- rorRateInsight . If returning metrics for the ApiErrorRateInsight Insights type, this is the error to retrieve data for. For example, AccessDenied . Constraints: o max: 128 o pattern: ^[\w\d\s_.,\-:\[\]]+$
+    /// Conditionally required if the InsightType parameter is set to ApiErrorRateInsight . If returning metrics for the ApiErrorRateInsight Insights type, this is the error to retrieve data for. For example, AccessDenied . Constraints: • max: 128 • pattern: ^[\w\d\s_.,\-:\[\]]+$
     /// </summary>
     [CliOption("--error-code")]
     public string? ErrorCode { get; set; }
 
     /// <summary>
-    /// Specifies, in UTC, the start time for time-series data. The value specified is inclusive; results include data points with the speci- fied time stamp. The default is 90 days before the time of request.
+    /// Specifies, in UTC, the start time for time-series data. The value specified is inclusive; results include data points with the specified time stamp. The default is 90 days before the time of request.
     /// </summary>
     [CliOption("--start-time")]
     public string? StartTime { get; set; }
 
     /// <summary>
-    /// Specifies, in UTC, the end time for time-series data. The value specified is exclusive; results include data points up to the speci- fied time stamp. The default is the time of request.
+    /// Specifies, in UTC, the end time for time-series data. The value specified is exclusive; results include data points up to the specified time stamp. The default is the time of request.
     /// </summary>
     [CliOption("--end-time")]
     public string? EndTime { get; set; }
 
     /// <summary>
-    /// Granularity of data to retrieve, in seconds. Valid values are 60 , 300 , and 3600 . If you specify any other value, you will get an er- ror. The default is 3600 seconds. Constraints: o min: 60 o max: 3600
+    /// Granularity of data to retrieve, in seconds. Valid values are 60 , 300 , and 3600 . If you specify any other value, you will get an error. The default is 3600 seconds. Constraints: • min: 60 • max: 3600
     /// </summary>
     [CliOption("--period")]
     public int? Period { get; set; }
 
     /// <summary>
-    /// Type of data points to return. Valid values are NonZeroData and FillWithZeros . The default is NonZeroData . Possible values: o FillWithZeros o NonZeroData
+    /// Type of data points to return. Valid values are NonZeroData and FillWithZeros . The default is NonZeroData . Possible values: • FillWithZeros • NonZeroData
     /// </summary>
     [CliOption("--data-type")]
     public AwsCloudtrailListInsightsMetricDataDataType? DataType { get; set; }
 
     /// <summary>
-    /// The maximum number of data points to return. Valid values are inte- gers from 1 to 21600. The default value is 21600. Constraints: o min: 1 o max: 21600
+    /// The maximum number of data points to return. Valid values are integers from 1 to 21600. The default value is 21600. Constraints: • min: 1 • max: 21600
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Returned if all datapoints can't be returned in a single call. For example, due to reaching MaxResults . Add this parameter to the request to continue retrieving results starting from the last evaluated point. Constraints: o min: 1 o max: 5000
+    /// Returned if all datapoints can't be returned in a single call. For example, due to reaching MaxResults . Add this parameter to the request to continue retrieving results starting from the last evaluated point. Constraints: • min: 1 • max: 5000
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

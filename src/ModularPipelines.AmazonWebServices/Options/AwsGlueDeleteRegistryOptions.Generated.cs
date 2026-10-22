@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsGlueDeleteRegistryOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Delete the entire registry including schema and all of its versions. To get the status of the delete operation, you can call the GetRegistry API after the asynchronous call. Deleting a registry will deactivate all online operations for the registry such as the UpdateRegistry , CreateSchema , UpdateSchema , and RegisterSchemaVersion APIs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RegistryId">This is a wrapper structure that may contain the registry name and Amazon Resource Name (ARN). RegistryName -&gt; (string) Name of the registry. Used only for lookup. One of RegistryArn or RegistryName has to be provided. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ RegistryArn -&gt; (string) Arn of the registry to be updated. One of RegistryArn or Reg- istryName has to be provided. Constraints: o min: 1 o max: 10240 o pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* Shorthand Syntax: RegistryName=string,RegistryArn=string JSON Syntax: { "RegistryName": "string", "RegistryArn": "string" }</param>
+    /// <param name="RegistryId">This is a wrapper structure that may contain the registry name and Amazon Resource Name (ARN). RegistryName -&gt; (string) Name of the registry. Used only for lookup. One of RegistryArn or RegistryName has to be provided. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-_$#.]+ RegistryArn -&gt; (string) Arn of the registry to be updated. One of RegistryArn or RegistryName has to be provided. Constraints: • min: 1 • max: 10240 • pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* Shorthand Syntax: RegistryName=string,RegistryArn=string JSON Syntax: { "RegistryName": "string", "RegistryArn": "string" }</param>
     public AwsGlueDeleteRegistryOptions(
         string RegistryId
     )
@@ -56,7 +58,7 @@ public record AwsGlueDeleteRegistryOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// This is a wrapper structure that may contain the registry name and Amazon Resource Name (ARN). RegistryName -&gt; (string) Name of the registry. Used only for lookup. One of RegistryArn or RegistryName has to be provided. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ RegistryArn -&gt; (string) Arn of the registry to be updated. One of RegistryArn or Reg- istryName has to be provided. Constraints: o min: 1 o max: 10240 o pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* Shorthand Syntax: RegistryName=string,RegistryArn=string JSON Syntax: { "RegistryName": "string", "RegistryArn": "string" }
+    /// This is a wrapper structure that may contain the registry name and Amazon Resource Name (ARN). RegistryName -&gt; (string) Name of the registry. Used only for lookup. One of RegistryArn or RegistryName has to be provided. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-_$#.]+ RegistryArn -&gt; (string) Arn of the registry to be updated. One of RegistryArn or RegistryName has to be provided. Constraints: • min: 1 • max: 10240 • pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* Shorthand Syntax: RegistryName=string,RegistryArn=string JSON Syntax: { "RegistryName": "string", "RegistryArn": "string" }
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; private init; }

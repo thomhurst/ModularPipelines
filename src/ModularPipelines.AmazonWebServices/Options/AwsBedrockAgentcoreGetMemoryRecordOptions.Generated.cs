@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a specific memory record from an AgentCore Memory resource. To use this operation, you must have the bedrock-agentcore:GetMemo- ryRecord permission. See also: AWS API Documentation
+/// Retrieves a specific memory record from an AgentCore Memory resource. To use this operation, you must have the bedrock-agentcore:GetMemoryRecord permission. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsBedrockAgentcoreGetMemoryRecordOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves a specific memory record from an AgentCore Memory resource. To use this operation, you must have the bedrock-agentcore:GetMemo- ryRecord permission. See also: AWS API Documentation
+    /// Retrieves a specific memory record from an AgentCore Memory resource. To use this operation, you must have the bedrock-agentcore:GetMemoryRecord permission. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MemoryId">The identifier of the AgentCore Memory resource containing the mem- ory record. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
-    /// <param name="MemoryRecordId">The identifier of the memory record to retrieve. Constraints: o min: 40 o max: 50 o pattern: mem-[a-zA-Z0-9-_]*</param>
+    /// <param name="MemoryId">The identifier of the AgentCore Memory resource containing the memory record. Constraints: • min: 12 • pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:memory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
+    /// <param name="MemoryRecordId">The identifier of the memory record to retrieve. Constraints: • min: 40 • max: 50 • pattern: mem-[a-zA-Z0-9-_]*</param>
     public AwsBedrockAgentcoreGetMemoryRecordOptions(
         string MemoryId,
         string MemoryRecordId
@@ -60,19 +62,19 @@ public record AwsBedrockAgentcoreGetMemoryRecordOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the AgentCore Memory resource containing the mem- ory record. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
+    /// The identifier of the AgentCore Memory resource containing the memory record. Constraints: • min: 12 • pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:memory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--memory-id")]
     public string? MemoryId { get; private init; }
 
     /// <summary>
-    /// The identifier of the memory record to retrieve. Constraints: o min: 40 o max: 50 o pattern: mem-[a-zA-Z0-9-_]*
+    /// The identifier of the memory record to retrieve. Constraints: • min: 40 • max: 50 • pattern: mem-[a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--memory-record-id")]
     public string? MemoryRecordId { get; private init; }
 
     /// <summary>
-    /// The namespace of the memory record to retrieve. This value is used for IAM condition key authorization. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9/*][a-zA-Z0-9-_/*]*(?::[a-zA-Z0-9-_/*]+)*[a-zA-Z0-9-_/*]*
+    /// The namespace of the memory record to retrieve. This value is used for IAM condition key authorization. Constraints: • min: 1 • max: 1024 • pattern: [a-zA-Z0-9/*][a-zA-Z0-9-_/*]*(?::[a-zA-Z0-9-_/*]+)*[a-zA-Z0-9-_/*]*
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; set; }

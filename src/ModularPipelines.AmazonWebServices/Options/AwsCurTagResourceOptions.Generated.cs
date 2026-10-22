@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCurTagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Associates a set of tags with a report definition. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ReportName">The report name of the report definition that tags are to be associ- ated with. Constraints: o max: 256 o pattern: [0-9A-Za-z!\-_.*\'()]+</param>
-    /// <param name="Tags">The tags to be assigned to the report definition resource. Constraints: o min: 0 o max: 200 (structure) Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a report definition. Key -&gt; (string) [required] The key of the tag. Tag keys are case sensitive. Each report definition can only have up to one tag with the same key. If you try to add an existing tag with the same key, the exist- ing tag value will be updated to the new value. Constraints: o min: 1 o max: 128 o pattern: .* Value -&gt; (string) [required] The value of the tag. Tag values are case-sensitive. This can be an empty string. Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="ReportName">The report name of the report definition that tags are to be associated with. Constraints: • max: 256 • pattern: [0-9A-Za-z!\-_.*\'()]+</param>
+    /// <param name="Tags">The tags to be assigned to the report definition resource. Constraints: • min: 0 • max: 200 (structure) Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a report definition. Key -&gt; (string) [required] The key of the tag. Tag keys are case sensitive. Each report definition can only have up to one tag with the same key. If you try to add an existing tag with the same key, the existing tag value will be updated to the new value. Constraints: • min: 1 • max: 128 • pattern: .* Value -&gt; (string) [required] The value of the tag. Tag values are case-sensitive. This can be an empty string. Constraints: • min: 0 • max: 256 • pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsCurTagResourceOptions(
         string ReportName,
         IEnumerable<string> Tags
@@ -71,13 +73,13 @@ public record AwsCurTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The report name of the report definition that tags are to be associ- ated with. Constraints: o max: 256 o pattern: [0-9A-Za-z!\-_.*\'()]+
+    /// The report name of the report definition that tags are to be associated with. Constraints: • max: 256 • pattern: [0-9A-Za-z!\-_.*\'()]+
     /// </summary>
     [CliOption("--report-name")]
     public string? ReportName { get; private init; }
 
     /// <summary>
-    /// The tags to be assigned to the report definition resource. Constraints: o min: 0 o max: 200 (structure) Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a report definition. Key -&gt; (string) [required] The key of the tag. Tag keys are case sensitive. Each report definition can only have up to one tag with the same key. If you try to add an existing tag with the same key, the exist- ing tag value will be updated to the new value. Constraints: o min: 1 o max: 128 o pattern: .* Value -&gt; (string) [required] The value of the tag. Tag values are case-sensitive. This can be an empty string. Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags to be assigned to the report definition resource. Constraints: • min: 0 • max: 200 (structure) Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a report definition. Key -&gt; (string) [required] The key of the tag. Tag keys are case sensitive. Each report definition can only have up to one tag with the same key. If you try to add an existing tag with the same key, the existing tag value will be updated to the new value. Constraints: • min: 1 • max: 128 • pattern: .* Value -&gt; (string) [required] The value of the tag. Tag values are case-sensitive. This can be an empty string. Constraints: • min: 0 • max: 256 • pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }

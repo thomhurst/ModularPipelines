@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsLicenseManagerGetAccessTokenOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Gets a temporary access token to use with AssumeRoleWithWebIdentity. Access tokens are valid for one hour. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Token">Refresh token, encoded as a JWT token. Constraints: o max: 4096 o pattern: \S+</param>
+    /// <param name="Token">Refresh token, encoded as a JWT token. Constraints: • max: 4096 • pattern: \S+</param>
     public AwsLicenseManagerGetAccessTokenOptions(
         string Token
     )
@@ -57,14 +59,14 @@ public record AwsLicenseManagerGetAccessTokenOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Refresh token, encoded as a JWT token. Constraints: o max: 4096 o pattern: \S+
+    /// Refresh token, encoded as a JWT token. Constraints: • max: 4096 • pattern: \S+
     /// </summary>
     [SecretValue]
     [CliOption("--token")]
     public string? Token { get; private init; }
 
     /// <summary>
-    /// Token properties to validate against those present in the JWT token. Constraints: o max: 3 (string) Syntax: "string" "string" ...
+    /// Token properties to validate against those present in the JWT token. Constraints: • max: 3 (string) Syntax: "string" "string" ...
     /// </summary>
     [SecretValue]
     [CliOption("--token-properties", GroupValues = true)]

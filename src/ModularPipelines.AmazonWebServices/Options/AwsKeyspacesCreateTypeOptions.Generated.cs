@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The CreateType operation creates a new user-defined type in the speci- fied keyspace. To configure the required permissions, see Permissions to create a UDT in the Amazon Keyspaces Developer Guide . For more information, see User-defined types (UDTs) in the Amazon Key- spaces Developer Guide . See also: AWS API Documentation
+/// The CreateType operation creates a new user-defined type in the specified keyspace. To configure the required permissions, see Permissions to create a UDT in the Amazon Keyspaces Developer Guide . For more information, see User-defined types (UDTs) in the Amazon Keyspaces Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsKeyspacesCreateTypeOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The CreateType operation creates a new user-defined type in the speci- fied keyspace. To configure the required permissions, see Permissions to create a UDT in the Amazon Keyspaces Developer Guide . For more information, see User-defined types (UDTs) in the Amazon Key- spaces Developer Guide . See also: AWS API Documentation
+    /// The CreateType operation creates a new user-defined type in the specified keyspace. To configure the required permissions, see Permissions to create a UDT in the Amazon Keyspaces Developer Guide . For more information, see User-defined types (UDTs) in the Amazon Keyspaces Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="KeyspaceName">The name of the keyspace. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
-    /// <param name="TypeName">The name of the user-defined type. UDT names must contain 48 characters or less, must begin with an al- phabetic character, and can only contain alpha-numeric characters and underscores. Amazon Keyspaces converts upper case characters au- tomatically into lower case characters. Alternatively, you can declare a UDT name in double quotes. When de- claring a UDT name inside double quotes, Amazon Keyspaces preserves upper casing and allows special characters. You can also use double quotes as part of the name when you create the UDT, but you must escape each double quote character with an ad- ditional double quote character. Constraints: o min: 1 o max: 48</param>
-    /// <param name="FieldDefinitions">The field definitions, consisting of names and types, that define this type. Constraints: o min: 1 (structure) A field definition consists out of a name and a type. name -&gt; (string) [required] The identifier. Constraints: o min: 1 o max: 128 type -&gt; (string) [required] Any supported Cassandra data type, including collections and other user-defined types that are contained in the same key- space. For more information, see Cassandra data type support in the Amazon Keyspaces Developer Guide . Shorthand Syntax: name=string,type=string ... JSON Syntax: [ { "name": "string", "type": "string" } ... ]</param>
+    /// <param name="KeyspaceName">The name of the keyspace. Constraints: • min: 1 • max: 48 • pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
+    /// <param name="TypeName">The name of the user-defined type. UDT names must contain 48 characters or less, must begin with an alphabetic character, and can only contain alpha-numeric characters and underscores. Amazon Keyspaces converts upper case characters automatically into lower case characters. Alternatively, you can declare a UDT name in double quotes. When declaring a UDT name inside double quotes, Amazon Keyspaces preserves upper casing and allows special characters. You can also use double quotes as part of the name when you create the UDT, but you must escape each double quote character with an additional double quote character. Constraints: • min: 1 • max: 48</param>
+    /// <param name="FieldDefinitions">The field definitions, consisting of names and types, that define this type. Constraints: • min: 1 (structure) A field definition consists out of a name and a type. name -&gt; (string) [required] The identifier. Constraints: • min: 1 • max: 128 type -&gt; (string) [required] Any supported Cassandra data type, including collections and other user-defined types that are contained in the same keyspace. For more information, see Cassandra data type support in the Amazon Keyspaces Developer Guide . Shorthand Syntax: name=string,type=string ... JSON Syntax: [ { "name": "string", "type": "string" } ... ]</param>
     public AwsKeyspacesCreateTypeOptions(
         string KeyspaceName,
         string TypeName,
@@ -75,19 +77,19 @@ public record AwsKeyspacesCreateTypeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the keyspace. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
+    /// The name of the keyspace. Constraints: • min: 1 • max: 48 • pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
     /// </summary>
     [CliOption("--keyspace-name")]
     public string? KeyspaceName { get; private init; }
 
     /// <summary>
-    /// The name of the user-defined type. UDT names must contain 48 characters or less, must begin with an al- phabetic character, and can only contain alpha-numeric characters and underscores. Amazon Keyspaces converts upper case characters au- tomatically into lower case characters. Alternatively, you can declare a UDT name in double quotes. When de- claring a UDT name inside double quotes, Amazon Keyspaces preserves upper casing and allows special characters. You can also use double quotes as part of the name when you create the UDT, but you must escape each double quote character with an ad- ditional double quote character. Constraints: o min: 1 o max: 48
+    /// The name of the user-defined type. UDT names must contain 48 characters or less, must begin with an alphabetic character, and can only contain alpha-numeric characters and underscores. Amazon Keyspaces converts upper case characters automatically into lower case characters. Alternatively, you can declare a UDT name in double quotes. When declaring a UDT name inside double quotes, Amazon Keyspaces preserves upper casing and allows special characters. You can also use double quotes as part of the name when you create the UDT, but you must escape each double quote character with an additional double quote character. Constraints: • min: 1 • max: 48
     /// </summary>
     [CliOption("--type-name")]
     public string? TypeName { get; private init; }
 
     /// <summary>
-    /// The field definitions, consisting of names and types, that define this type. Constraints: o min: 1 (structure) A field definition consists out of a name and a type. name -&gt; (string) [required] The identifier. Constraints: o min: 1 o max: 128 type -&gt; (string) [required] Any supported Cassandra data type, including collections and other user-defined types that are contained in the same key- space. For more information, see Cassandra data type support in the Amazon Keyspaces Developer Guide . Shorthand Syntax: name=string,type=string ... JSON Syntax: [ { "name": "string", "type": "string" } ... ]
+    /// The field definitions, consisting of names and types, that define this type. Constraints: • min: 1 (structure) A field definition consists out of a name and a type. name -&gt; (string) [required] The identifier. Constraints: • min: 1 • max: 128 type -&gt; (string) [required] Any supported Cassandra data type, including collections and other user-defined types that are contained in the same keyspace. For more information, see Cassandra data type support in the Amazon Keyspaces Developer Guide . Shorthand Syntax: name=string,type=string ... JSON Syntax: [ { "name": "string", "type": "string" } ... ]
     /// </summary>
     [CliOption("--field-definitions", GroupValues = true)]
     public IEnumerable<string>? FieldDefinitions { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Create the Register Node script for all the nodes intended for a spe- cific Cluster. You will then run the script on each hardware unit that is intended for that Cluster. The script creates a Node in the speci- fied Cluster. It then binds the Node to this hardware unit, and acti- vates the node hardware for use with MediaLive Anywhere. See also: AWS API Documentation
+/// Create the Register Node script for all the nodes intended for a specific Cluster. You will then run the script on each hardware unit that is intended for that Cluster. The script creates a Node in the specified Cluster. It then binds the Node to this hardware unit, and activates the node hardware for use with MediaLive Anywhere. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsMedialiveCreateNodeRegistrationScriptOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Create the Register Node script for all the nodes intended for a spe- cific Cluster. You will then run the script on each hardware unit that is intended for that Cluster. The script creates a Node in the speci- fied Cluster. It then binds the Node to this hardware unit, and acti- vates the node hardware for use with MediaLive Anywhere. See also: AWS API Documentation
+    /// Create the Register Node script for all the nodes intended for a specific Cluster. You will then run the script on each hardware unit that is intended for that Cluster. The script creates a Node in the specified Cluster. It then binds the Node to this hardware unit, and activates the node hardware for use with MediaLive Anywhere. See also: AWS API Documentation
     /// </summary>
     /// <param name="ClusterId"></param>
     public AwsMedialiveCreateNodeRegistrationScriptOptions(

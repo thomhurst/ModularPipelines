@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists active openCypher queries. See Neptune openCypher status endpoint for more information. When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetQueryStatus IAM action in that cluster. Note that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys available in N...
+/// Lists active openCypher queries. See Neptune openCypher status endpoint for more information. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetQueryStatus IAM action in that cluster. Note that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys available in Nep...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsNeptunedataListOpenCypherQueriesOptions : AwsOptions
 {
     /// <summary>
-    /// When set to TRUE and other parameters are not present, causes status information to be returned for waiting queries as well as for run- ning queries.
+    /// When set to TRUE and other parameters are not present, causes status information to be returned for waiting queries as well as for running queries.
     /// </summary>
     [CliFlag("--include-waiting", NegatedName = "--no-include-waiting")]
     public bool? IncludeWaiting { get; set; }

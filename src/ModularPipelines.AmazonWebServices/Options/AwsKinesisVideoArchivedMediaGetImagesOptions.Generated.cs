@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -18,7 +19,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a list of images corresponding to each timestamp for a given time range, sampling interval, and image format configuration. See also: AWS API Documentation get-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the fol...
+/// Retrieves a list of images corresponding to each timestamp for a given time range, sampling interval, and image format configuration. See also: AWS API Documentation get-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follo...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,12 +29,12 @@ public record AwsKinesisVideoArchivedMediaGetImagesOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves a list of images corresponding to each timestamp for a given time range, sampling interval, and image format configuration. See also: AWS API Documentation get-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the fol...
+    /// Retrieves a list of images corresponding to each timestamp for a given time range, sampling interval, and image format configuration. See also: AWS API Documentation get-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follo...
     /// </summary>
-    /// <param name="ImageSelectorType">The origin of the Server or Producer timestamps to use to generate the images. Possible values: o PRODUCER_TIMESTAMP o SERVER_TIMESTAMP</param>
+    /// <param name="ImageSelectorType">The origin of the Server or Producer timestamps to use to generate the images. Possible values: • PRODUCER_TIMESTAMP • SERVER_TIMESTAMP</param>
     /// <param name="StartTimestamp">The starting point from which the images should be generated. This StartTimestamp must be within an inclusive range of timestamps for an image to be returned.</param>
-    /// <param name="EndTimestamp">The end timestamp for the range of images to be generated. If the time range between StartTimestamp and EndTimestamp is more than 300 seconds above StartTimestamp , you will receive an IllegalArgu- mentException .</param>
-    /// <param name="Format">The format that will be used to encode the image. Possible values: o JPEG o PNG</param>
+    /// <param name="EndTimestamp">The end timestamp for the range of images to be generated. If the time range between StartTimestamp and EndTimestamp is more than 300 seconds above StartTimestamp , you will receive an IllegalArgumentException .</param>
+    /// <param name="Format">The format that will be used to encode the image. Possible values: • JPEG • PNG</param>
     public AwsKinesisVideoArchivedMediaGetImagesOptions(
         AwsKinesisVideoArchivedMediaGetImagesImageSelectorType ImageSelectorType,
         string StartTimestamp,
@@ -69,7 +70,7 @@ public record AwsKinesisVideoArchivedMediaGetImagesOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The origin of the Server or Producer timestamps to use to generate the images. Possible values: o PRODUCER_TIMESTAMP o SERVER_TIMESTAMP
+    /// The origin of the Server or Producer timestamps to use to generate the images. Possible values: • PRODUCER_TIMESTAMP • SERVER_TIMESTAMP
     /// </summary>
     [CliOption("--image-selector-type")]
     public AwsKinesisVideoArchivedMediaGetImagesImageSelectorType? ImageSelectorType { get; private init; }
@@ -81,58 +82,55 @@ public record AwsKinesisVideoArchivedMediaGetImagesOptions : AwsOptions, IValida
     public string? StartTimestamp { get; private init; }
 
     /// <summary>
-    /// The end timestamp for the range of images to be generated. If the time range between StartTimestamp and EndTimestamp is more than 300 seconds above StartTimestamp , you will receive an IllegalArgu- mentException .
+    /// The end timestamp for the range of images to be generated. If the time range between StartTimestamp and EndTimestamp is more than 300 seconds above StartTimestamp , you will receive an IllegalArgumentException .
     /// </summary>
     [CliOption("--end-timestamp")]
     public string? EndTimestamp { get; private init; }
 
     /// <summary>
-    /// The format that will be used to encode the image. Possible values: o JPEG o PNG
+    /// The format that will be used to encode the image. Possible values: • JPEG • PNG
     /// </summary>
     [CliOption("--format")]
     public AwsKinesisVideoArchivedMediaGetImagesFormat? Format { get; private init; }
 
     /// <summary>
-    /// The name of the stream from which to retrieve the images. You must specify either the StreamName or the StreamARN . Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the stream from which to retrieve the images. You must specify either the StreamName or the StreamARN . Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the stream from which to retrieve the images. You must specify either the StreamName or the StreamARN . Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
+    /// The Amazon Resource Name (ARN) of the stream from which to retrieve the images. You must specify either the StreamName or the StreamARN . Constraints: • min: 1 • max: 1024 • pattern: arn:[a-z\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
     /// </summary>
     [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
 
     /// <summary>
-    /// The time interval in milliseconds (ms) at which the images need to be generated from the stream. The minimum value that can be provided is 200 ms (5 images per second). If the timestamp range is less than the sampling interval, the image from the startTimestamp will be re- turned if available.
+    /// The time interval in milliseconds (ms) at which the images need to be generated from the stream. The minimum value that can be provided is 200 ms (5 images per second). If the timestamp range is less than the sampling interval, the image from the startTimestamp will be returned if available.
     /// </summary>
     [CliOption("--sampling-interval")]
     public int? SamplingInterval { get; set; }
 
     /// <summary>
-    /// The list of a key-value pair structure that contains extra parame- ters that can be applied when the image is generated. The FormatCon- fig key is the JPEGQuality , which indicates the JPEG quality key to be used to generate the image. The FormatConfig value accepts ints from 1 to 100. If the value is 1, the image will be generated with less quality and the best compression. If the value is 100, the im- age will be generated with the best quality and less compression. If no value is provided, the default value of the JPEGQuality key will be set to 80. Constraints: o min: 1 o max: 1 key -&gt; (string) Possible values: o JPEGQuality value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z_0-9]+ Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: JPEGQuality JSON Syntax: {"JPEGQuality": "string" ...}
+    /// The list of a key-value pair structure that contains extra parameters that can be applied when the image is generated. The FormatConfig key is the JPEGQuality , which indicates the JPEG quality key to be used to generate the image. The FormatConfig value accepts ints from 1 to 100. If the value is 1, the image will be generated with less quality and the best compression. If the value is 100, the image will be generated with the best quality and less compression. If no value is provided, the default value of the JPEGQuality key will be set to 80. Constraints: • min: 1 • max: 1 key -&gt; (string) Possible values: • JPEGQuality value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ^[a-zA-Z_0-9]+ Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: JPEGQuality JSON Syntax: {"JPEGQuality": "string" ...}
     /// </summary>
     [CliOption("--format-config", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? FormatConfig { get; set; }
 
     /// <summary>
-    /// The width of the output image that is used in conjunction with the HeightPixels parameter. When both WidthPixels and HeightPixels para- meters are provided, the image will be stretched to fit the speci- fied aspect ratio. If only the WidthPixels parameter is provided or if only the HeightPixels is provided, a ValidationException will be thrown. If neither parameter is provided, the original image size from the stream will be returned. Constraints: o min: 1 o max: 3840
+    /// The width of the output image that is used in conjunction with the HeightPixels parameter. When both WidthPixels and HeightPixels parameters are provided, the image will be stretched to fit the specified aspect ratio. If only the WidthPixels parameter is provided or if only the HeightPixels is provided, a ValidationException will be thrown. If neither parameter is provided, the original image size from the stream will be returned. Constraints: • min: 1 • max: 3840
     /// </summary>
     [CliOption("--width-pixels")]
     public int? WidthPixels { get; set; }
 
     /// <summary>
-    /// The height of the output image that is used in conjunction with the WidthPixels parameter. When both HeightPixels and WidthPixels para- meters are provided, the image will be stretched to fit the speci- fied aspect ratio. If only the HeightPixels parameter is provided, its original aspect ratio will be used to calculate the WidthPixels ratio. If neither parameter is provided, the original image size will be returned. Constraints: o min: 1 o max: 2160
+    /// The height of the output image that is used in conjunction with the WidthPixels parameter. When both HeightPixels and WidthPixels parameters are provided, the image will be stretched to fit the specified aspect ratio. If only the HeightPixels parameter is provided, its original aspect ratio will be used to calculate the WidthPixels ratio. If neither parameter is provided, the original image size will be returned. Constraints: • min: 1 • max: 2160
     /// </summary>
     [CliOption("--height-pixels")]
     public int? HeightPixels { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -142,16 +140,19 @@ public record AwsKinesisVideoArchivedMediaGetImagesOptions : AwsOptions, IValida
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
-    public int? PageSize { get; set; }
+    public long? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
-    public int? MaxItems { get; set; }
+    public long? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

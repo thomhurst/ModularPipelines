@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a table that shows counts of resources that are noncompliant with their tag policies. For more information on tag policies, see Tag Policies in the Organiza- tions User Guide. You can call this operation only from the organization's management ac- count and from the us-east-1 Region. This operation supports pagination, where the response can be sent in multiple pages. You should check the PaginationToken response parameter to determine if there are additional results available to return....
+/// Returns a table that shows counts of resources that are noncompliant with their tag policies. For more information on tag policies, see Tag Policies in the Organizations User Guide. You can call this operation only from the organization's management account and from the us-east-1 Region. This operation supports pagination, where the response can be sent in multiple pages. You should check the PaginationToken response parameter to determine if there are additional results available to return. Rep...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,40 +23,37 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsResourcegroupstaggingapiGetComplianceSummaryOptions : AwsOptions
 {
     /// <summary>
-    /// Specifies target identifiers (usually, specific account IDs) to limit the output by. If you use this parameter, the count of re- turned noncompliant resources includes only resources with the spec- ified target IDs. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 6 o max: 68 o pattern: [a-zA-Z0-9-]* Syntax: "string" "string" ...
+    /// Specifies target identifiers (usually, specific account IDs) to limit the output by. If you use this parameter, the count of returned noncompliant resources includes only resources with the specified target IDs. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 6 • max: 68 • pattern: [a-zA-Z0-9-]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--target-id-filters", GroupValues = true)]
     public IEnumerable<string>? TargetIdFilters { get; set; }
 
     /// <summary>
-    /// Specifies a list of Amazon Web Services Regions to limit the output to. If you use this parameter, the count of returned noncompliant resources includes only resources in the specified Regions. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 256 o pattern: [\s\S]* Syntax: "string" "string" ...
+    /// Specifies a list of Amazon Web Services Regions to limit the output to. If you use this parameter, the count of returned noncompliant resources includes only resources in the specified Regions. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 256 • pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--region-filters", GroupValues = true)]
     public IEnumerable<string>? RegionFilters { get; set; }
 
     /// <summary>
-    /// Specifies that you want the response to include information for only resources of the specified types. The format of each resource type is service[:resourceType] . For example, specifying a resource type of ec2 returns all Amazon EC2 resources (which includes EC2 in- stances). Specifying a resource type of ec2:instance returns only EC2 instances. The string for each service name and resource type is the same as that embedded in a resource's Amazon Resource Name (ARN). Consult the * Amazon Web Services General Reference * for the following: o For a list of service name strings, see Amazon Web Services Ser- vice Namespaces . o For resource type strings, see Example ARNs . o For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces . NOTE: For the list of services whose resources you can tag using the Resource Groups Tagging API, see Services that support the Re- source Groups Tagging API . If an Amazon Web Services service isn't listed on that page, you might still be able to tag that service's resources by using that service's native tagging oper- ations instead of using Resource Groups Tagging API operations. All tagged resources, whether the tagging used the Resource Groups Tagging API or not, are returned by the Get* operation. You can specify multiple resource types by using a comma separated array. The array can include up to 100 items. Note that the length constraint requirement applies to each resource type filter. (string) Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Syntax: "string" "string" ...
+    /// Specifies that you want the response to include information for only resources of the specified types. The format of each resource type is service[:resourceType] . For example, specifying a resource type of ec2 returns all Amazon EC2 resources (which includes EC2 instances). Specifying a resource type of ec2:instance returns only EC2 instances. The string for each service name and resource type is the same as that embedded in a resource's Amazon Resource Name (ARN). Consult the * Amazon Web Services General Reference * for the following: • For a list of service name strings, see Amazon Web Services Service Namespaces . • For resource type strings, see Example ARNs . • For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces . NOTE: For the list of services whose resources you can tag using the Resource Groups Tagging API, see Services that support the Resource Groups Tagging API . If an Amazon Web Services service isn't listed on that page, you might still be able to tag that service's resources by using that service's native tagging operations instead of using Resource Groups Tagging API operations. All tagged resources, whether the tagging used the Resource Groups Tagging API or not, are returned by the Get* operation. You can specify multiple resource types by using a comma separated array. The array can include up to 100 items. Note that the length constraint requirement applies to each resource type filter. (string) Constraints: • min: 0 • max: 256 • pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resource-type-filters", GroupValues = true)]
     public IEnumerable<string>? ResourceTypeFilters { get; set; }
 
     /// <summary>
-    /// Specifies that you want the response to include information for only resources that have tags with the specified tag keys. If you use this parameter, the count of returned noncompliant resources in- cludes only resources that have the specified tag keys. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: [\s\S]* Syntax: "string" "string" ...
+    /// Specifies that you want the response to include information for only resources that have tags with the specified tag keys. If you use this parameter, the count of returned noncompliant resources includes only resources that have the specified tag keys. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-key-filters", GroupValues = true)]
     public IEnumerable<string>? TagKeyFilters { get; set; }
 
     /// <summary>
-    /// Specifies a list of attributes to group the counts of noncompliant resources by. If supplied, the counts are sorted by those attrib- utes. (string) Possible values: o TARGET_ID o REGION o RESOURCE_TYPE Syntax: "string" "string" ...
+    /// Specifies a list of attributes to group the counts of noncompliant resources by. If supplied, the counts are sorted by those attributes. (string) Possible values: • TARGET_ID • REGION • RESOURCE_TYPE Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--group-by", GroupValues = true)]
     public IEnumerable<string>? GroupBy { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -66,15 +63,18 @@ public record AwsResourcegroupstaggingapiGetComplianceSummaryOptions : AwsOption
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

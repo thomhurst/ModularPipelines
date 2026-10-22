@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsGlueGetFormTypeOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves a form type in Glue Data Catalog by its identifier. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The identifier of the form type to retrieve. Constraints: o min: 1 o max: 256</param>
+    /// <param name="Identifier">The identifier of the form type to retrieve. Constraints: • min: 1 • max: 256</param>
     public AwsGlueGetFormTypeOptions(
         string Identifier
     )
@@ -56,7 +58,7 @@ public record AwsGlueGetFormTypeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the form type to retrieve. Constraints: o min: 1 o max: 256
+    /// The identifier of the form type to retrieve. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }

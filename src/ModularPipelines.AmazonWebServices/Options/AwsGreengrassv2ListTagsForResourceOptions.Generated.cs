@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsGreengrassv2ListTagsForResourceOptions : AwsOptions, IValidatab
     /// <summary>
     /// Retrieves the list of tags for an IoT Greengrass resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource. Constraints: o pattern: arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):(components|de- ployments|coreDevices):.*</param>
+    /// <param name="ResourceArn">The ARN of the resource. Constraints: • pattern: arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):(components|deployments|coreDevices):.*</param>
     public AwsGreengrassv2ListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsGreengrassv2ListTagsForResourceOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource. Constraints: o pattern: arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):(components|de- ployments|coreDevices):.*
+    /// The ARN of the resource. Constraints: • pattern: arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):(components|deployments|coreDevices):.*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

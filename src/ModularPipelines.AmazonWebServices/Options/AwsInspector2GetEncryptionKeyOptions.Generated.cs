@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsInspector2GetEncryptionKeyOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Gets an encryption key. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ScanType">The scan type the key encrypts. Possible values: o NETWORK o PACKAGE o CODE</param>
-    /// <param name="ResourceType">The resource type the key encrypts. Possible values: o AWS_EC2_INSTANCE o AWS_ECR_CONTAINER_IMAGE o AWS_ECR_REPOSITORY o AWS_LAMBDA_FUNCTION o CODE_REPOSITORY o Microsoft.Compute/virtualMachines o Microsoft.ContainerRegistry/registry/containerImage o Microsoft.Web/sites</param>
+    /// <param name="ScanType">The scan type the key encrypts. Possible values: • NETWORK • PACKAGE • CODE</param>
+    /// <param name="ResourceType">The resource type the key encrypts. Possible values: • AWS_EC2_INSTANCE • AWS_ECR_CONTAINER_IMAGE • AWS_ECR_REPOSITORY • AWS_LAMBDA_FUNCTION • CODE_REPOSITORY • Microsoft.Compute/virtualMachines • Microsoft.ContainerRegistry/registry/containerImage • Microsoft.Web/sites</param>
     public AwsInspector2GetEncryptionKeyOptions(
         AwsInspector2GetEncryptionKeyScanType ScanType,
         string ResourceType
@@ -60,13 +62,13 @@ public record AwsInspector2GetEncryptionKeyOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The scan type the key encrypts. Possible values: o NETWORK o PACKAGE o CODE
+    /// The scan type the key encrypts. Possible values: • NETWORK • PACKAGE • CODE
     /// </summary>
     [CliOption("--scan-type")]
     public AwsInspector2GetEncryptionKeyScanType? ScanType { get; private init; }
 
     /// <summary>
-    /// The resource type the key encrypts. Possible values: o AWS_EC2_INSTANCE o AWS_ECR_CONTAINER_IMAGE o AWS_ECR_REPOSITORY o AWS_LAMBDA_FUNCTION o CODE_REPOSITORY o Microsoft.Compute/virtualMachines o Microsoft.ContainerRegistry/registry/containerImage o Microsoft.Web/sites
+    /// The resource type the key encrypts. Possible values: • AWS_EC2_INSTANCE • AWS_ECR_CONTAINER_IMAGE • AWS_ECR_REPOSITORY • AWS_LAMBDA_FUNCTION • CODE_REPOSITORY • Microsoft.Compute/virtualMachines • Microsoft.ContainerRegistry/registry/containerImage • Microsoft.Web/sites
     /// </summary>
     [CliOption("--resource-type")]
     public string? ResourceType { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsAmplifyCreateWebhookOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a new webhook on an Amplify app. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppId">The unique ID for an Amplify app. Constraints: o min: 1 o max: 20 o pattern: d[a-z0-9]+</param>
-    /// <param name="BranchName">The name for a branch that is part of an Amplify app. Constraints: o min: 1 o max: 255 o pattern: (?s).+</param>
+    /// <param name="AppId">The unique ID for an Amplify app. Constraints: • min: 1 • max: 20 • pattern: d[a-z0-9]+</param>
+    /// <param name="BranchName">The name for a branch that is part of an Amplify app. Constraints: • min: 1 • max: 255 • pattern: (?s).+</param>
     public AwsAmplifyCreateWebhookOptions(
         string AppId,
         string BranchName
@@ -60,19 +62,19 @@ public record AwsAmplifyCreateWebhookOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID for an Amplify app. Constraints: o min: 1 o max: 20 o pattern: d[a-z0-9]+
+    /// The unique ID for an Amplify app. Constraints: • min: 1 • max: 20 • pattern: d[a-z0-9]+
     /// </summary>
     [CliOption("--app-id")]
     public string? AppId { get; private init; }
 
     /// <summary>
-    /// The name for a branch that is part of an Amplify app. Constraints: o min: 1 o max: 255 o pattern: (?s).+
+    /// The name for a branch that is part of an Amplify app. Constraints: • min: 1 • max: 255 • pattern: (?s).+
     /// </summary>
     [CliOption("--branch-name")]
     public string? BranchName { get; private init; }
 
     /// <summary>
-    /// The description for a webhook. Constraints: o max: 1000 o pattern: (?s).*
+    /// The description for a webhook. Constraints: • max: 1000 • pattern: (?s).*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

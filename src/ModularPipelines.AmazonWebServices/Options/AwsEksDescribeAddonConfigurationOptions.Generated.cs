@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsEksDescribeAddonConfigurationOptions : AwsOptions, IValidatable
     /// <summary>
     /// Returns configuration options. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AddonName">The name of the add-on. The name must match one of the names re- turned by DescribeAddonVersions .</param>
-    /// <param name="AddonVersion">The version of the add-on. The version must match one of the ver- sions returned by ` DescribeAddonVersions https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeAddonVersions.html`__ .</param>
+    /// <param name="AddonName">The name of the add-on. The name must match one of the names returned by DescribeAddonVersions .</param>
+    /// <param name="AddonVersion">The version of the add-on. The version must match one of the versions returned by ` DescribeAddonVersions https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeAddonVersions.html`__ .</param>
     public AwsEksDescribeAddonConfigurationOptions(
         string AddonName,
         string AddonVersion
@@ -60,13 +62,13 @@ public record AwsEksDescribeAddonConfigurationOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the add-on. The name must match one of the names re- turned by DescribeAddonVersions .
+    /// The name of the add-on. The name must match one of the names returned by DescribeAddonVersions .
     /// </summary>
     [CliOption("--addon-name")]
     public string? AddonName { get; private init; }
 
     /// <summary>
-    /// The version of the add-on. The version must match one of the ver- sions returned by ` DescribeAddonVersions https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeAddonVersions.html`__ .
+    /// The version of the add-on. The version must match one of the versions returned by ` DescribeAddonVersions https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeAddonVersions.html`__ .
     /// </summary>
     [CliOption("--addon-version")]
     public string? AddonVersion { get; private init; }

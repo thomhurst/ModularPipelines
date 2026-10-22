@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of available log streams for a specific database in Ama- zon Lightsail. See also: AWS API Documentation
+/// Returns a list of available log streams for a specific database in Amazon Lightsail. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLightsailGetRelationalDatabaseLogStreamsOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a list of available log streams for a specific database in Ama- zon Lightsail. See also: AWS API Documentation
+    /// Returns a list of available log streams for a specific database in Amazon Lightsail. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RelationalDatabaseName">The name of your database for which to get log streams. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="RelationalDatabaseName">The name of your database for which to get log streams. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailGetRelationalDatabaseLogStreamsOptions(
         string RelationalDatabaseName
     )
@@ -56,7 +58,7 @@ public record AwsLightsailGetRelationalDatabaseLogStreamsOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of your database for which to get log streams. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of your database for which to get log streams. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--relational-database-name")]
     public string? RelationalDatabaseName { get; private init; }

@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a repository creation template. This template is used to define the settings for repositories created by Amazon ECR on your behalf. For example, repositories created through pull through cache actions. For more information, see Private repository creation templates in the Ama- zon Elastic Container Registry User Guide . See also: AWS API Documentation
+/// Creates a repository creation template. This template is used to define the settings for repositories created by Amazon ECR on your behalf. For example, repositories created through pull through cache actions. For more information, see Private repository creation templates in the Amazon Elastic Container Registry User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsEcrCreateRepositoryCreationTemplateOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a repository creation template. This template is used to define the settings for repositories created by Amazon ECR on your behalf. For example, repositories created through pull through cache actions. For more information, see Private repository creation templates in the Ama- zon Elastic Container Registry User Guide . See also: AWS API Documentation
+    /// Creates a repository creation template. This template is used to define the settings for repositories created by Amazon ECR on your behalf. For example, repositories created through pull through cache actions. For more information, see Private repository creation templates in the Amazon Elastic Container Registry User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Prefix">The repository namespace prefix to associate with the template. All repositories created using this namespace prefix will have the set- tings defined in this template applied. For example, a prefix of prod would apply to all repositories beginning with prod/ . Simi- larly, a prefix of prod/team would apply to all repositories begin- ning with prod/team/ . To apply a template to all repositories in your registry that don't have an associated creation template, you can use ROOT as the pre- fix. WARNING: There is always an assumed / applied to the end of the prefix. If you specify ecr-public as the prefix, Amazon ECR treats that as ecr-public/ . When using a pull through cache rule, the repository prefix you specify during rule creation is what you should specify as your repository creation template prefix as well. Constraints: o min: 1 o max: 256 o pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$</param>
-    /// <param name="AppliedFor">A list of enumerable strings representing the Amazon ECR repository creation scenarios that this template will apply towards. The sup- ported scenarios are PULL_THROUGH_CACHE , REPLICATION , and CRE- ATE_ON_PUSH (string) Possible values: o REPLICATION o PULL_THROUGH_CACHE o CREATE_ON_PUSH Syntax: "string" "string" ...</param>
+    /// <param name="Prefix">The repository namespace prefix to associate with the template. All repositories created using this namespace prefix will have the settings defined in this template applied. For example, a prefix of prod would apply to all repositories beginning with prod/ . Similarly, a prefix of prod/team would apply to all repositories beginning with prod/team/ . To apply a template to all repositories in your registry that don't have an associated creation template, you can use ROOT as the prefix. WARNING: There is always an assumed / applied to the end of the prefix. If you specify ecr-public as the prefix, Amazon ECR treats that as ecr-public/ . When using a pull through cache rule, the repository prefix you specify during rule creation is what you should specify as your repository creation template prefix as well. Constraints: • min: 1 • max: 256 • pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$</param>
+    /// <param name="AppliedFor">A list of enumerable strings representing the Amazon ECR repository creation scenarios that this template will apply towards. The supported scenarios are PULL_THROUGH_CACHE , REPLICATION , and CREATE_ON_PUSH (string) Possible values: • REPLICATION • PULL_THROUGH_CACHE • CREATE_ON_PUSH Syntax: "string" "string" ...</param>
     public AwsEcrCreateRepositoryCreationTemplateOptions(
         string Prefix,
         IEnumerable<string> AppliedFor
@@ -72,25 +74,25 @@ public record AwsEcrCreateRepositoryCreationTemplateOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The repository namespace prefix to associate with the template. All repositories created using this namespace prefix will have the set- tings defined in this template applied. For example, a prefix of prod would apply to all repositories beginning with prod/ . Simi- larly, a prefix of prod/team would apply to all repositories begin- ning with prod/team/ . To apply a template to all repositories in your registry that don't have an associated creation template, you can use ROOT as the pre- fix. WARNING: There is always an assumed / applied to the end of the prefix. If you specify ecr-public as the prefix, Amazon ECR treats that as ecr-public/ . When using a pull through cache rule, the repository prefix you specify during rule creation is what you should specify as your repository creation template prefix as well. Constraints: o min: 1 o max: 256 o pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$
+    /// The repository namespace prefix to associate with the template. All repositories created using this namespace prefix will have the settings defined in this template applied. For example, a prefix of prod would apply to all repositories beginning with prod/ . Similarly, a prefix of prod/team would apply to all repositories beginning with prod/team/ . To apply a template to all repositories in your registry that don't have an associated creation template, you can use ROOT as the prefix. WARNING: There is always an assumed / applied to the end of the prefix. If you specify ecr-public as the prefix, Amazon ECR treats that as ecr-public/ . When using a pull through cache rule, the repository prefix you specify during rule creation is what you should specify as your repository creation template prefix as well. Constraints: • min: 1 • max: 256 • pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$
     /// </summary>
     [CliOption("--prefix")]
     public string? Prefix { get; private init; }
 
     /// <summary>
-    /// A list of enumerable strings representing the Amazon ECR repository creation scenarios that this template will apply towards. The sup- ported scenarios are PULL_THROUGH_CACHE , REPLICATION , and CRE- ATE_ON_PUSH (string) Possible values: o REPLICATION o PULL_THROUGH_CACHE o CREATE_ON_PUSH Syntax: "string" "string" ...
+    /// A list of enumerable strings representing the Amazon ECR repository creation scenarios that this template will apply towards. The supported scenarios are PULL_THROUGH_CACHE , REPLICATION , and CREATE_ON_PUSH (string) Possible values: • REPLICATION • PULL_THROUGH_CACHE • CREATE_ON_PUSH Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--applied-for", GroupValues = true)]
     public IEnumerable<string>? AppliedFor { get; private init; }
 
     /// <summary>
-    /// A description for the repository creation template. Constraints: o max: 256
+    /// A description for the repository creation template. Constraints: • max: 256
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The encryption configuration to use for repositories created using the template. encryptionType -&gt; (string) [required] The encryption type to use. If you use the KMS encryption type, the contents of the reposi- tory will be encrypted using server-side encryption with Key Management Service key stored in KMS. When you use KMS to en- crypt your data, you can either use the default Amazon Web Ser- vices managed KMS key for Amazon ECR, or specify your own KMS key, which you already created. For more information, see Protecting data using server-side encryption with an KMS key stored in Key Management Service (SSE-KMS) in the Amazon Simple Storage Service Console Developer Guide . If you use the AES256 encryption type, Amazon ECR uses server-side encryption with Amazon S3-managed encryption keys which encrypts the images in the repository using an AES256 en- cryption algorithm. For more information, see Protecting data using server-side encryption with Amazon S3-managed encryption keys (SSE-S3) in the Amazon Simple Storage Service Console De- veloper Guide . Possible values: o AES256 o KMS o KMS_DSSE kmsKey -&gt; (string) If you use the KMS encryption type, specify the KMS key to use for encryption. The full ARN of the KMS key must be specified. The key must exist in the same Region as the repository. If no key is specified, the default Amazon Web Services managed KMS key for Amazon ECR will be used. Constraints: o min: 0 o max: 2048 o pattern: ^$|arn:aws[a-z0-9-]*:kms:[a-z0-9-]+:[0-9]{12}:key\/[a-z0-9-]+ Shorthand Syntax: encryptionType=string,kmsKey=string JSON Syntax: { "encryptionType": "AES256"|"KMS"|"KMS_DSSE", "kmsKey": "string" }
+    /// The encryption configuration to use for repositories created using the template. encryptionType -&gt; (string) [required] The encryption type to use. If you use the KMS encryption type, the contents of the repository will be encrypted using server-side encryption with Key Management Service key stored in KMS. When you use KMS to encrypt your data, you can either use the default Amazon Web Services managed KMS key for Amazon ECR, or specify your own KMS key, which you already created. For more information, see Protecting data using server-side encryption with an KMS key stored in Key Management Service (SSE-KMS) in the Amazon Simple Storage Service Console Developer Guide . If you use the AES256 encryption type, Amazon ECR uses server-side encryption with Amazon S3-managed encryption keys which encrypts the images in the repository using an AES256 encryption algorithm. For more information, see Protecting data using server-side encryption with Amazon S3-managed encryption keys (SSE-S3) in the Amazon Simple Storage Service Console Developer Guide . Possible values: • AES256 • KMS • KMS_DSSE kmsKey -&gt; (string) If you use the KMS encryption type, specify the KMS key to use for encryption. The full ARN of the KMS key must be specified. The key must exist in the same Region as the repository. If no key is specified, the default Amazon Web Services managed KMS key for Amazon ECR will be used. Constraints: • min: 0 • max: 2048 • pattern: ^$|arn:aws[a-z0-9-]*:kms:[a-z0-9-]+:[0-9]{12}:key\/[a-z0-9-]+ Shorthand Syntax: encryptionType=string,kmsKey=string JSON Syntax: { "encryptionType": "AES256"|"KMS"|"KMS_DSSE", "kmsKey": "string" }
     /// </summary>
     [CliOption("--encryption-configuration")]
     public string? EncryptionConfiguration { get; set; }
@@ -102,31 +104,31 @@ public record AwsEcrCreateRepositoryCreationTemplateOptions : AwsOptions, IValid
     public IEnumerable<string>? ResourceTags { get; set; }
 
     /// <summary>
-    /// The tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will al- low image tags to be overwritten. If IMMUTABLE is specified, all im- age tags within the repository will be immutable which will prevent them from being overwritten. Possible values: o MUTABLE o IMMUTABLE o IMMUTABLE_WITH_EXCLUSION o MUTABLE_WITH_EXCLUSION
+    /// The tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten. Possible values: • MUTABLE • IMMUTABLE • IMMUTABLE_WITH_EXCLUSION • MUTABLE_WITH_EXCLUSION
     /// </summary>
     [CliOption("--image-tag-mutability")]
     public AwsEcrCreateRepositoryCreationTemplateImageTagMutability? ImageTagMutability { get; set; }
 
     /// <summary>
-    /// A list of filters that specify which image tags should be excluded from the repository creation template's image tag mutability set- ting. Constraints: o min: 1 o max: 5 (structure) A filter that specifies which image tags should be excluded from the repository's image tag mutability setting. filterType -&gt; (string) [required] The type of filter to apply for excluding image tags from mu- tability settings. Possible values: o WILDCARD filter -&gt; (string) [required] The filter value used to match image tags for exclusion from mutability settings. Constraints: o min: 1 o max: 128 o pattern: ^[0-9a-zA-Z._*-]{1,128}$ Shorthand Syntax: filterType=string,filter=string ... JSON Syntax: [ { "filterType": "WILDCARD", "filter": "string" } ... ]
+    /// A list of filters that specify which image tags should be excluded from the repository creation template's image tag mutability setting. Constraints: • min: 1 • max: 5 (structure) A filter that specifies which image tags should be excluded from the repository's image tag mutability setting. filterType -&gt; (string) [required] The type of filter to apply for excluding image tags from mutability settings. Possible values: • WILDCARD filter -&gt; (string) [required] The filter value used to match image tags for exclusion from mutability settings. Constraints: • min: 1 • max: 128 • pattern: ^[0-9a-zA-Z._*-]{1,128}$ Shorthand Syntax: filterType=string,filter=string ... JSON Syntax: [ { "filterType": "WILDCARD", "filter": "string" } ... ]
     /// </summary>
     [CliOption("--image-tag-mutability-exclusion-filters", GroupValues = true)]
     public IEnumerable<string>? ImageTagMutabilityExclusionFilters { get; set; }
 
     /// <summary>
-    /// The repository policy to apply to repositories created using the template. A repository policy is a permissions policy associated with a repository to control access permissions. Constraints: o min: 0 o max: 10240
+    /// The repository policy to apply to repositories created using the template. A repository policy is a permissions policy associated with a repository to control access permissions. Constraints: • min: 0 • max: 10240
     /// </summary>
     [CliOption("--repository-policy")]
     public string? RepositoryPolicy { get; set; }
 
     /// <summary>
-    /// The lifecycle policy to use for repositories created using the tem- plate. Constraints: o min: 0 o max: 30720
+    /// The lifecycle policy to use for repositories created using the template. Constraints: • min: 0 • max: 30720
     /// </summary>
     [CliOption("--lifecycle-policy")]
     public string? LifecyclePolicy { get; set; }
 
     /// <summary>
-    /// The ARN of the role to be assumed by Amazon ECR. This role must be in the same account as the registry that you are configuring. Amazon ECR will assume your supplied role when the customRoleArn is speci- fied. When this field isn't specified, Amazon ECR will use the ser- vice-linked role for the repository creation template. Constraints: o max: 2048
+    /// The ARN of the role to be assumed by Amazon ECR. This role must be in the same account as the registry that you are configuring. Amazon ECR will assume your supplied role when the customRoleArn is specified. When this field isn't specified, Amazon ECR will use the service-linked role for the repository creation template. Constraints: • max: 2048
     /// </summary>
     [CliOption("--custom-role-arn")]
     public string? CustomRoleArn { get; set; }

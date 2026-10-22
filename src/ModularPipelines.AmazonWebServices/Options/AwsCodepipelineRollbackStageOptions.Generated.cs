@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsCodepipelineRollbackStageOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Rolls back a stage execution. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PipelineName">The name of the pipeline for which the stage will be rolled back. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+</param>
-    /// <param name="StageName">The name of the stage in the pipeline to be rolled back. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+</param>
-    /// <param name="TargetPipelineExecutionId">The pipeline execution ID for the stage to be rolled back to. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="PipelineName">The name of the pipeline for which the stage will be rolled back. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+</param>
+    /// <param name="StageName">The name of the stage in the pipeline to be rolled back. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+</param>
+    /// <param name="TargetPipelineExecutionId">The pipeline execution ID for the stage to be rolled back to. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     public AwsCodepipelineRollbackStageOptions(
         string PipelineName,
         string StageName,
@@ -64,19 +66,19 @@ public record AwsCodepipelineRollbackStageOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the pipeline for which the stage will be rolled back. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+
+    /// The name of the pipeline for which the stage will be rolled back. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+
     /// </summary>
     [CliOption("--pipeline-name")]
     public string? PipelineName { get; private init; }
 
     /// <summary>
-    /// The name of the stage in the pipeline to be rolled back. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+
+    /// The name of the stage in the pipeline to be rolled back. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+
     /// </summary>
     [CliOption("--stage-name")]
     public string? StageName { get; private init; }
 
     /// <summary>
-    /// The pipeline execution ID for the stage to be rolled back to. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The pipeline execution ID for the stage to be rolled back to. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--target-pipeline-execution-id")]
     public string? TargetPipelineExecutionId { get; private init; }

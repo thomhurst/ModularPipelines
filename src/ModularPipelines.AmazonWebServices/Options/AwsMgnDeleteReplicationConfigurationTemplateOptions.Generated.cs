@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMgnDeleteReplicationConfigurationTemplateOptions : AwsOptions, 
     /// <summary>
     /// Deletes a single Replication Configuration Template by ID See also: AWS API Documentation
     /// </summary>
-    /// <param name="ReplicationConfigurationTemplateId">Request to delete Replication Configuration Template from service by Replication Configuration Template ID. Constraints: o min: 21 o max: 21 o pattern: rct-[0-9a-zA-Z]{17}</param>
+    /// <param name="ReplicationConfigurationTemplateId">Request to delete Replication Configuration Template from service by Replication Configuration Template ID. Constraints: • min: 21 • max: 21 • pattern: rct-[0-9a-zA-Z]{17}</param>
     public AwsMgnDeleteReplicationConfigurationTemplateOptions(
         string ReplicationConfigurationTemplateId
     )
@@ -56,7 +58,7 @@ public record AwsMgnDeleteReplicationConfigurationTemplateOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Request to delete Replication Configuration Template from service by Replication Configuration Template ID. Constraints: o min: 21 o max: 21 o pattern: rct-[0-9a-zA-Z]{17}
+    /// Request to delete Replication Configuration Template from service by Replication Configuration Template ID. Constraints: • min: 21 • max: 21 • pattern: rct-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--replication-configuration-template-id")]
     public string? ReplicationConfigurationTemplateId { get; private init; }

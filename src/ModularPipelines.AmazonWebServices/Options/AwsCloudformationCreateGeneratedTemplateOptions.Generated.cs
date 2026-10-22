@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a template from existing resources that are not already managed with CloudFormation. You can check the status of the template genera- tion using the DescribeGeneratedTemplate API action. See also: AWS API Documentation
+/// Creates a template from existing resources that are not already managed with CloudFormation. You can check the status of the template generation using the DescribeGeneratedTemplate API action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsCloudformationCreateGeneratedTemplateOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a template from existing resources that are not already managed with CloudFormation. You can check the status of the template genera- tion using the DescribeGeneratedTemplate API action. See also: AWS API Documentation
+    /// Creates a template from existing resources that are not already managed with CloudFormation. You can check the status of the template generation using the DescribeGeneratedTemplate API action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GeneratedTemplateName">The name assigned to the generated template. Constraints: o min: 1 o max: 128</param>
+    /// <param name="GeneratedTemplateName">The name assigned to the generated template. Constraints: • min: 1 • max: 128</param>
     public AwsCloudformationCreateGeneratedTemplateOptions(
         string GeneratedTemplateName
     )
@@ -56,13 +58,13 @@ public record AwsCloudformationCreateGeneratedTemplateOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name assigned to the generated template. Constraints: o min: 1 o max: 128
+    /// The name assigned to the generated template. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--generated-template-name")]
     public string? GeneratedTemplateName { get; private init; }
 
     /// <summary>
-    /// An optional list of resources to be included in the generated tem- plate. If no resources are specified,the template will be created without any resources. Resources can be added to the template using the Up- dateGeneratedTemplate API action. Constraints: o min: 1 o max: 500 (structure) A resource included in a generated template. This data type is used with the CreateGeneratedTemplate and UpdateGeneratedTem- plate API actions. ResourceType -&gt; (string) [required] The type of the resource, such as AWS::DynamoDB::Table . For the list of supported resources, see Resource type support for imports and drift detection in the CloudFormation User Guide Constraints: o min: 1 o max: 256 LogicalResourceId -&gt; (string) The logical resource id for this resource in the generated template. ResourceIdentifier -&gt; (map) [required] A list of up to 256 key-value pairs that identifies the scanned resource. The key is the name of one of the primary identifiers for the resource. (Primary identifiers are speci- fied in the primaryIdentifier list in the resource schema.) The value is the value of that primary identifier. For exam- ple, for a AWS::DynamoDB::Table resource, the primary identi- fiers is TableName so the key-value pair could be "Table- Name": "MyDDBTable" . For more information, see primaryIdentifier in the CloudFormation Command Line Inter- face (CLI) User Guide . Constraints: o min: 1 o max: 256 key -&gt; (string) Constraints: o min: 1 o max: 2048 value -&gt; (string) Constraints: o min: 1 o max: 2048 Shorthand Syntax: ResourceType=string,LogicalResourceId=string,ResourceIdentifier={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "ResourceType": "string", "LogicalResourceId": "string", "ResourceIdentifier": {"string": "string" ...} } ... ]
+    /// An optional list of resources to be included in the generated template. If no resources are specified,the template will be created without any resources. Resources can be added to the template using the UpdateGeneratedTemplate API action. Constraints: • min: 1 • max: 500 (structure) A resource included in a generated template. This data type is used with the CreateGeneratedTemplate and UpdateGeneratedTemplate API actions. ResourceType -&gt; (string) [required] The type of the resource, such as AWS::DynamoDB::Table . For the list of supported resources, see Resource type support for imports and drift detection in the CloudFormation User Guide Constraints: • min: 1 • max: 256 LogicalResourceId -&gt; (string) The logical resource id for this resource in the generated template. ResourceIdentifier -&gt; (map) [required] A list of up to 256 key-value pairs that identifies the scanned resource. The key is the name of one of the primary identifiers for the resource. (Primary identifiers are specified in the primaryIdentifier list in the resource schema.) The value is the value of that primary identifier. For example, for a AWS::DynamoDB::Table resource, the primary identifiers is TableName so the key-value pair could be "TableName": "MyDDBTable" . For more information, see primaryIdentifier in the CloudFormation Command Line Interface (CLI) User Guide . Constraints: • min: 1 • max: 256 key -&gt; (string) Constraints: • min: 1 • max: 2048 value -&gt; (string) Constraints: • min: 1 • max: 2048 Shorthand Syntax: ResourceType=string,LogicalResourceId=string,ResourceIdentifier={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "ResourceType": "string", "LogicalResourceId": "string", "ResourceIdentifier": {"string": "string" ...} } ... ]
     /// </summary>
     [CliOption("--resources", GroupValues = true)]
     public IEnumerable<string>? Resources { get; set; }
@@ -74,7 +76,7 @@ public record AwsCloudformationCreateGeneratedTemplateOptions : AwsOptions, IVal
     public string? StackName { get; set; }
 
     /// <summary>
-    /// The configuration details of the generated template, including the DeletionPolicy and UpdateReplacePolicy . DeletionPolicy -&gt; (string) The DeletionPolicy assigned to resources in the generated tem- plate. Supported values are: o DELETE - delete all resources when the stack is deleted. o RETAIN - retain all resources when the stack is deleted. For more information, see DeletionPolicy attribute in the Cloud- Formation User Guide . Possible values: o DELETE o RETAIN UpdateReplacePolicy -&gt; (string) The UpdateReplacePolicy assigned to resources in the generated template. Supported values are: o DELETE - delete all resources when the resource is replaced during an update operation. o RETAIN - retain all resources when the resource is replaced during an update operation. For more information, see UpdateReplacePolicy attribute in the CloudFormation User Guide . Possible values: o DELETE o RETAIN Shorthand Syntax: DeletionPolicy=string,UpdateReplacePolicy=string JSON Syntax: { "DeletionPolicy": "DELETE"|"RETAIN", "UpdateReplacePolicy": "DELETE"|"RETAIN" }
+    /// The configuration details of the generated template, including the DeletionPolicy and UpdateReplacePolicy . DeletionPolicy -&gt; (string) The DeletionPolicy assigned to resources in the generated template. Supported values are: • DELETE - delete all resources when the stack is deleted. • RETAIN - retain all resources when the stack is deleted. For more information, see DeletionPolicy attribute in the CloudFormation User Guide . Possible values: • DELETE • RETAIN UpdateReplacePolicy -&gt; (string) The UpdateReplacePolicy assigned to resources in the generated template. Supported values are: • DELETE - delete all resources when the resource is replaced during an update operation. • RETAIN - retain all resources when the resource is replaced during an update operation. For more information, see UpdateReplacePolicy attribute in the CloudFormation User Guide . Possible values: • DELETE • RETAIN Shorthand Syntax: DeletionPolicy=string,UpdateReplacePolicy=string JSON Syntax: { "DeletionPolicy": "DELETE"|"RETAIN", "UpdateReplacePolicy": "DELETE"|"RETAIN" }
     /// </summary>
     [CliOption("--template-configuration")]
     public string? TemplateConfiguration { get; set; }

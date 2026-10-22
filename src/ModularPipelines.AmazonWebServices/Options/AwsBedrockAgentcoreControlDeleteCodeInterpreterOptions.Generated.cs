@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsBedrockAgentcoreControlDeleteCodeInterpreterOptions : AwsOption
     /// <summary>
     /// Deletes a custom code interpreter. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CodeInterpreterId">The unique identifier of the code interpreter to delete. Constraints: o pattern: (aws\.codeinter- preter\.v1|[a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10})</param>
+    /// <param name="CodeInterpreterId">The unique identifier of the code interpreter to delete. Constraints: • pattern: (aws\.codeinterpreter\.v1|[a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10})</param>
     public AwsBedrockAgentcoreControlDeleteCodeInterpreterOptions(
         string CodeInterpreterId
     )
@@ -57,13 +59,13 @@ public record AwsBedrockAgentcoreControlDeleteCodeInterpreterOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the code interpreter to delete. Constraints: o pattern: (aws\.codeinter- preter\.v1|[a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10})
+    /// The unique identifier of the code interpreter to delete. Constraints: • pattern: (aws\.codeinterpreter\.v1|[a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10})
     /// </summary>
     [CliOption("--code-interpreter-id")]
     public string? CodeInterpreterId { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

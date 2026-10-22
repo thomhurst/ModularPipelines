@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Wait until InvalidTarget is thrown when polling with describe-tar- get-health. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation
+/// Wait until InvalidTarget is thrown when polling with describe-target-health. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsElbv2WaitTargetDeregisteredOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Wait until InvalidTarget is thrown when polling with describe-tar- get-health. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation
+    /// Wait until InvalidTarget is thrown when polling with describe-target-health. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="TargetGroupArn">The Amazon Resource Name (ARN) of the target group.</param>
     public AwsElbv2WaitTargetDeregisteredOptions(
@@ -62,13 +64,13 @@ public record AwsElbv2WaitTargetDeregisteredOptions : AwsOptions, IValidatableOb
     public string? TargetGroupArn { get; private init; }
 
     /// <summary>
-    /// The targets. (structure) Information about a target. Id -&gt; (string) [required] The ID of the target. If the target type of the target group is instance , specify an instance ID. If the target type is ip , specify an IP address. If the target type is lambda , specify the ARN of the Lambda function. If the target type is alb , specify the ARN of the Application Load Balancer tar- get. Port -&gt; (integer) The port on which the target is listening. If the target group protocol is GENEVE, the supported port is 6081. If the target type is alb , the targeted Application Load Balancer must have at least one listener whose port matches the target group port. This parameter is not used if the target is a Lambda function. Constraints: o min: 1 o max: 65535 AvailabilityZone -&gt; (string) An Availability Zone or all . This determines whether the target receives traffic from the load balancer nodes in the specified Availability Zone or from all enabled Availability Zones for the load balancer. For Application Load Balancer target groups, the specified Availability Zone value is only applicable when cross-zone load balancing is off. Otherwise the parameter is ignored and treated as all . This parameter is not supported if the target type of the target group is instance or alb . If the target type is ip and the IP address is in a subnet of the VPC for the target group, the Availability Zone is auto- matically detected and this parameter is optional. If the IP address is outside the VPC, this parameter is required. For Application Load Balancer target groups with cross-zone load balancing off, if the target type is ip and the IP ad- dress is outside of the VPC for the target group, this should be an Availability Zone inside the VPC for the target group. If the target type is lambda , this parameter is optional and the only supported value is all . QuicServerId -&gt; (string) The server ID for the targets. This value is required if the protocol is QUIC or TCP_QUIC and can't be used with other protocols. The ID consists of the 0x prefix followed by 16 hexadecimal characters. Any letters must be lowercase. The value must be unique at the listener level. You can't modify the server ID for a registered target. You must deregister the target and then provide a new server ID when you register the target again. Constraints: o min: 1 o max: 256 Shorthand Syntax: Id=string,Port=integer,AvailabilityZone=string,QuicServerId=string ... JSON Syntax: [ { "Id": "string", "Port": integer, "AvailabilityZone": "string", "QuicServerId": "string" } ... ]
+    /// The targets. (structure) Information about a target. Id -&gt; (string) [required] The ID of the target. If the target type of the target group is instance , specify an instance ID. If the target type is ip , specify an IP address. If the target type is lambda , specify the ARN of the Lambda function. If the target type is alb , specify the ARN of the Application Load Balancer target. Port -&gt; (integer) The port on which the target is listening. If the target group protocol is GENEVE, the supported port is 6081. If the target type is alb , the targeted Application Load Balancer must have at least one listener whose port matches the target group port. This parameter is not used if the target is a Lambda function. Constraints: • min: 1 • max: 65535 AvailabilityZone -&gt; (string) An Availability Zone or all . This determines whether the target receives traffic from the load balancer nodes in the specified Availability Zone or from all enabled Availability Zones for the load balancer. For Application Load Balancer target groups, the specified Availability Zone value is only applicable when cross-zone load balancing is off. Otherwise the parameter is ignored and treated as all . This parameter is not supported if the target type of the target group is instance or alb . If the target type is ip and the IP address is in a subnet of the VPC for the target group, the Availability Zone is automatically detected and this parameter is optional. If the IP address is outside the VPC, this parameter is required. For Application Load Balancer target groups with cross-zone load balancing off, if the target type is ip and the IP address is outside of the VPC for the target group, this should be an Availability Zone inside the VPC for the target group. If the target type is lambda , this parameter is optional and the only supported value is all . QuicServerId -&gt; (string) The server ID for the targets. This value is required if the protocol is QUIC or TCP_QUIC and can't be used with other protocols. The ID consists of the 0x prefix followed by 16 hexadecimal characters. Any letters must be lowercase. The value must be unique at the listener level. You can't modify the server ID for a registered target. You must deregister the target and then provide a new server ID when you register the target again. Constraints: • min: 1 • max: 256 Shorthand Syntax: Id=string,Port=integer,AvailabilityZone=string,QuicServerId=string ... JSON Syntax: [ { "Id": "string", "Port": integer, "AvailabilityZone": "string", "QuicServerId": "string" } ... ]
     /// </summary>
     [CliOption("--targets", GroupValues = true)]
     public IEnumerable<string>? Targets { get; set; }
 
     /// <summary>
-    /// Used to include anomaly detection information. (string) Possible values: o AnomalyDetection o All Syntax: "string" "string" ...
+    /// Used to include anomaly detection information. (string) Possible values: • AnomalyDetection • All Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--include", GroupValues = true)]
     public IEnumerable<string>? Include { get; set; }

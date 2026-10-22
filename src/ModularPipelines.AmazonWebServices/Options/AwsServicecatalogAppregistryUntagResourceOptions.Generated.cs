@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsServicecatalogAppregistryUntagResourceOptions : AwsOptions, IVa
     /// <summary>
     /// Removes tags from a resource. This operation returns an empty response if the call was successful. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon resource name (ARN) that specifies the resource. Constraints: o min: 1 o max: 1600 o pattern: arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.*)</param>
-    /// <param name="TagKeys">A list of the tag keys to remove from the specified resource. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@]*)$ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon resource name (ARN) that specifies the resource. Constraints: • min: 1 • max: 1600 • pattern: arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.*)</param>
+    /// <param name="TagKeys">A list of the tag keys to remove from the specified resource. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@]*)$ Syntax: "string" "string" ...</param>
     public AwsServicecatalogAppregistryUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsServicecatalogAppregistryUntagResourceOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon resource name (ARN) that specifies the resource. Constraints: o min: 1 o max: 1600 o pattern: arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.*)
+    /// The Amazon resource name (ARN) that specifies the resource. Constraints: • min: 1 • max: 1600 • pattern: arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.*)
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A list of the tag keys to remove from the specified resource. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@]*)$ Syntax: "string" "string" ...
+    /// A list of the tag keys to remove from the specified resource. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@]*)$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

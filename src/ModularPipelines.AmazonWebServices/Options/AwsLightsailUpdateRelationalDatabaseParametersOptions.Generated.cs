@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Allows the update of one or more parameters of a database in Amazon Lightsail. Parameter updates don't cause outages; therefore, their application is not subject to the preferred maintenance window. However, there are two ways in which parameter updates are applied: dynamic or pending-reboot . Parameters marked with a dynamic apply type are applied immediately. Parameters marked with a pending-reboot apply type are applied only af- ter the database is rebooted using the reboot relational databas...
+/// Allows the update of one or more parameters of a database in Amazon Lightsail. Parameter updates don't cause outages; therefore, their application is not subject to the preferred maintenance window. However, there are two ways in which parameter updates are applied: dynamic or pending-reboot . Parameters marked with a dynamic apply type are applied immediately. Parameters marked with a pending-reboot apply type are applied only after the database is rebooted using the reboot relational database ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsLightsailUpdateRelationalDatabaseParametersOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Allows the update of one or more parameters of a database in Amazon Lightsail. Parameter updates don't cause outages; therefore, their application is not subject to the preferred maintenance window. However, there are two ways in which parameter updates are applied: dynamic or pending-reboot . Parameters marked with a dynamic apply type are applied immediately. Parameters marked with a pending-reboot apply type are applied only af- ter the database is rebooted using the reboot relational databas...
+    /// Allows the update of one or more parameters of a database in Amazon Lightsail. Parameter updates don't cause outages; therefore, their application is not subject to the preferred maintenance window. However, there are two ways in which parameter updates are applied: dynamic or pending-reboot . Parameters marked with a dynamic apply type are applied immediately. Parameters marked with a pending-reboot apply type are applied only after the database is rebooted using the reboot relational database ...
     /// </summary>
-    /// <param name="RelationalDatabaseName">The name of your database for which to update parameters. Constraints: o pattern: \w[\w\-]*\w</param>
-    /// <param name="Parameters">The database parameters to update. (structure) Describes the parameters of a database. allowedValues -&gt; (string) Specifies the valid range of values for the parameter. applyMethod -&gt; (string) Indicates when parameter updates are applied. Can be immediate or pending-reboot . applyType -&gt; (string) Specifies the engine-specific parameter type. dataType -&gt; (string) Specifies the valid data type for the parameter. description -&gt; (string) Provides a description of the parameter. isModifiable -&gt; (boolean) A Boolean value indicating whether the parameter can be modi- fied. parameterName -&gt; (string) Specifies the name of the parameter. parameterValue -&gt; (string) Specifies the value of the parameter. Shorthand Syntax: allowedValues=string,applyMethod=string,applyType=string,dataType=string,description=string,isModifiable=boolean,parameterName=string,parameterValue=string ... JSON Syntax: [ { "allowedValues": "string", "applyMethod": "string", "applyType": "string", "dataType": "string", "description": "string", "isModifiable": true|false, "parameterName": "string", "parameterValue": "string" } ... ]</param>
+    /// <param name="RelationalDatabaseName">The name of your database for which to update parameters. Constraints: • pattern: \w[\w\-]*\w</param>
+    /// <param name="Parameters">The database parameters to update. (structure) Describes the parameters of a database. allowedValues -&gt; (string) Specifies the valid range of values for the parameter. applyMethod -&gt; (string) Indicates when parameter updates are applied. Can be immediate or pending-reboot . applyType -&gt; (string) Specifies the engine-specific parameter type. dataType -&gt; (string) Specifies the valid data type for the parameter. description -&gt; (string) Provides a description of the parameter. isModifiable -&gt; (boolean) A Boolean value indicating whether the parameter can be modified. parameterName -&gt; (string) Specifies the name of the parameter. parameterValue -&gt; (string) Specifies the value of the parameter. Shorthand Syntax: allowedValues=string,applyMethod=string,applyType=string,dataType=string,description=string,isModifiable=boolean,parameterName=string,parameterValue=string ... JSON Syntax: [ { "allowedValues": "string", "applyMethod": "string", "applyType": "string", "dataType": "string", "description": "string", "isModifiable": true|false, "parameterName": "string", "parameterValue": "string" } ... ]</param>
     public AwsLightsailUpdateRelationalDatabaseParametersOptions(
         string RelationalDatabaseName,
         IEnumerable<string> Parameters
@@ -71,13 +73,13 @@ public record AwsLightsailUpdateRelationalDatabaseParametersOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of your database for which to update parameters. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of your database for which to update parameters. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--relational-database-name")]
     public string? RelationalDatabaseName { get; private init; }
 
     /// <summary>
-    /// The database parameters to update. (structure) Describes the parameters of a database. allowedValues -&gt; (string) Specifies the valid range of values for the parameter. applyMethod -&gt; (string) Indicates when parameter updates are applied. Can be immediate or pending-reboot . applyType -&gt; (string) Specifies the engine-specific parameter type. dataType -&gt; (string) Specifies the valid data type for the parameter. description -&gt; (string) Provides a description of the parameter. isModifiable -&gt; (boolean) A Boolean value indicating whether the parameter can be modi- fied. parameterName -&gt; (string) Specifies the name of the parameter. parameterValue -&gt; (string) Specifies the value of the parameter. Shorthand Syntax: allowedValues=string,applyMethod=string,applyType=string,dataType=string,description=string,isModifiable=boolean,parameterName=string,parameterValue=string ... JSON Syntax: [ { "allowedValues": "string", "applyMethod": "string", "applyType": "string", "dataType": "string", "description": "string", "isModifiable": true|false, "parameterName": "string", "parameterValue": "string" } ... ]
+    /// The database parameters to update. (structure) Describes the parameters of a database. allowedValues -&gt; (string) Specifies the valid range of values for the parameter. applyMethod -&gt; (string) Indicates when parameter updates are applied. Can be immediate or pending-reboot . applyType -&gt; (string) Specifies the engine-specific parameter type. dataType -&gt; (string) Specifies the valid data type for the parameter. description -&gt; (string) Provides a description of the parameter. isModifiable -&gt; (boolean) A Boolean value indicating whether the parameter can be modified. parameterName -&gt; (string) Specifies the name of the parameter. parameterValue -&gt; (string) Specifies the value of the parameter. Shorthand Syntax: allowedValues=string,applyMethod=string,applyType=string,dataType=string,description=string,isModifiable=boolean,parameterName=string,parameterValue=string ... JSON Syntax: [ { "allowedValues": "string", "applyMethod": "string", "applyType": "string", "dataType": "string", "description": "string", "isModifiable": true|false, "parameterName": "string", "parameterValue": "string" } ... ]
     /// </summary>
     [CliOption("--parameters", GroupValues = true)]
     public IEnumerable<string>? Parameters { get; private init; }

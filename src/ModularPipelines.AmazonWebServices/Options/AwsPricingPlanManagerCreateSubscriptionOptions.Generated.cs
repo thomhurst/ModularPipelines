@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a flat-rate pricing subscription for the specified resources. NOTE: When approvalMode is set to MANUAL , paid-tier subscriptions are created in PENDING_APPROVAL status and require a separate Approve- PaidSubscription call before billing starts. Free-tier subscriptions are always activated immediately regardless of approval mode. When approvalMode is set to IMMEDIATE or is not specified, the sub- scription is activated immediately. See also: AWS API Documentation
+/// Creates a flat-rate pricing subscription for the specified resources. NOTE: When approvalMode is set to MANUAL , paid-tier subscriptions are created in PENDING_APPROVAL status and require a separate ApprovePaidSubscription call before billing starts. Free-tier subscriptions are always activated immediately regardless of approval mode. When approvalMode is set to IMMEDIATE or is not specified, the subscription is activated immediately. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +29,11 @@ public record AwsPricingPlanManagerCreateSubscriptionOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a flat-rate pricing subscription for the specified resources. NOTE: When approvalMode is set to MANUAL , paid-tier subscriptions are created in PENDING_APPROVAL status and require a separate Approve- PaidSubscription call before billing starts. Free-tier subscriptions are always activated immediately regardless of approval mode. When approvalMode is set to IMMEDIATE or is not specified, the sub- scription is activated immediately. See also: AWS API Documentation
+    /// Creates a flat-rate pricing subscription for the specified resources. NOTE: When approvalMode is set to MANUAL , paid-tier subscriptions are created in PENDING_APPROVAL status and require a separate ApprovePaidSubscription call before billing starts. Free-tier subscriptions are always activated immediately regardless of approval mode. When approvalMode is set to IMMEDIATE or is not specified, the subscription is activated immediately. See also: AWS API Documentation
     /// </summary>
     /// <param name="PlanFamily">The pricing plan family to subscribe to, such as CloudFront .</param>
     /// <param name="PlanTier">The tier level for the subscription, such as FREE , PRO , BUSINESS , or PREMIUM .</param>
-    /// <param name="ResourceArns">The ARNs of the resources to include in the subscription. Specify one or more supported resources. NOTE: For subscriptions in the CloudFront plan family, the resources must include exactly one Amazon CloudFront distribution and ex- actly one WAF web ACL. You can also include other supported re- sources, such as Amazon Route 53 hosted zones and CloudFront KeyValueStores. Constraints: o min: 1 o max: 10 (string) Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArns">The ARNs of the resources to include in the subscription. Specify one or more supported resources. NOTE: For subscriptions in the CloudFront plan family, the resources must include exactly one Amazon CloudFront distribution and exactly one WAF web ACL. You can also include other supported resources, such as Amazon Route 53 hosted zones and CloudFront KeyValueStores. Constraints: • min: 1 • max: 10 (string) Syntax: "string" "string" ...</param>
     public AwsPricingPlanManagerCreateSubscriptionOptions(
         string PlanFamily,
         string PlanTier,
@@ -89,7 +91,7 @@ public record AwsPricingPlanManagerCreateSubscriptionOptions : AwsOptions, IVali
     public string? PlanTier { get; private init; }
 
     /// <summary>
-    /// The ARNs of the resources to include in the subscription. Specify one or more supported resources. NOTE: For subscriptions in the CloudFront plan family, the resources must include exactly one Amazon CloudFront distribution and ex- actly one WAF web ACL. You can also include other supported re- sources, such as Amazon Route 53 hosted zones and CloudFront KeyValueStores. Constraints: o min: 1 o max: 10 (string) Syntax: "string" "string" ...
+    /// The ARNs of the resources to include in the subscription. Specify one or more supported resources. NOTE: For subscriptions in the CloudFront plan family, the resources must include exactly one Amazon CloudFront distribution and exactly one WAF web ACL. You can also include other supported resources, such as Amazon Route 53 hosted zones and CloudFront KeyValueStores. Constraints: • min: 1 • max: 10 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resource-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceArns { get; private init; }
@@ -101,13 +103,13 @@ public record AwsPricingPlanManagerCreateSubscriptionOptions : AwsOptions, IVali
     public string? UsageLevel { get; set; }
 
     /// <summary>
-    /// Determines whether the subscription requires explicit approval be- fore billing starts. Set to MANUAL to require a separate Approve- PaidSubscription call, or IMMEDIATE to activate the subscription right away. For paid tier plans, this defaults to MANUAL if not specified. For the FREE plan tier, only IMMEDIATE is supported, and it is the default. Possible values: o MANUAL o IMMEDIATE
+    /// Determines whether the subscription requires explicit approval before billing starts. Set to MANUAL to require a separate ApprovePaidSubscription call, or IMMEDIATE to activate the subscription right away. For paid tier plans, this defaults to MANUAL if not specified. For the FREE plan tier, only IMMEDIATE is supported, and it is the default. Possible values: • MANUAL • IMMEDIATE
     /// </summary>
     [CliOption("--approval-mode")]
     public AwsPricingPlanManagerCreateSubscriptionApprovalMode? ApprovalMode { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure that the request is handled only once. If you send the same request with the same client token, the API returns the original response without creating a duplicate subscription. Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier that you provide to ensure that the request is handled only once. If you send the same request with the same client token, the API returns the original response without creating a duplicate subscription. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

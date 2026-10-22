@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +29,10 @@ public record AwsIotStartThingRegistrationTaskOptions : AwsOptions, IValidatable
     /// <summary>
     /// Creates a bulk thing provisioning task. Requires permission to access the StartThingRegistrationTask action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TemplateBody">The provisioning template. Constraints: o min: 0 o max: 10240 o pattern: [\s\S]*</param>
-    /// <param name="InputFileBucket">The S3 bucket that contains the input file. Constraints: o min: 3 o max: 256 o pattern: [a-zA-Z0-9._-]+</param>
-    /// <param name="InputFileKey">The name of input file within the S3 bucket. This file contains a newline delimited JSON file. Each line contains the parameter values to provision one device (thing). Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9!_.*'()-\/]+</param>
-    /// <param name="RoleArn">The IAM role ARN that grants permission the input file. Constraints: o min: 20 o max: 2048</param>
+    /// <param name="TemplateBody">The provisioning template. Constraints: • min: 0 • max: 10240 • pattern: [\s\S]*</param>
+    /// <param name="InputFileBucket">The S3 bucket that contains the input file. Constraints: • min: 3 • max: 256 • pattern: [a-zA-Z0-9._-]+</param>
+    /// <param name="InputFileKey">The name of input file within the S3 bucket. This file contains a newline delimited JSON file. Each line contains the parameter values to provision one device (thing). Constraints: • min: 1 • max: 1024 • pattern: [a-zA-Z0-9!_.*'()-\/]+</param>
+    /// <param name="RoleArn">The IAM role ARN that grants permission the input file. Constraints: • min: 20 • max: 2048</param>
     public AwsIotStartThingRegistrationTaskOptions(
         string TemplateBody,
         string InputFileBucket,
@@ -68,25 +70,25 @@ public record AwsIotStartThingRegistrationTaskOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The provisioning template. Constraints: o min: 0 o max: 10240 o pattern: [\s\S]*
+    /// The provisioning template. Constraints: • min: 0 • max: 10240 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--template-body")]
     public string? TemplateBody { get; private init; }
 
     /// <summary>
-    /// The S3 bucket that contains the input file. Constraints: o min: 3 o max: 256 o pattern: [a-zA-Z0-9._-]+
+    /// The S3 bucket that contains the input file. Constraints: • min: 3 • max: 256 • pattern: [a-zA-Z0-9._-]+
     /// </summary>
     [CliOption("--input-file-bucket")]
     public string? InputFileBucket { get; private init; }
 
     /// <summary>
-    /// The name of input file within the S3 bucket. This file contains a newline delimited JSON file. Each line contains the parameter values to provision one device (thing). Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9!_.*'()-\/]+
+    /// The name of input file within the S3 bucket. This file contains a newline delimited JSON file. Each line contains the parameter values to provision one device (thing). Constraints: • min: 1 • max: 1024 • pattern: [a-zA-Z0-9!_.*'()-\/]+
     /// </summary>
     [CliOption("--input-file-key")]
     public string? InputFileKey { get; private init; }
 
     /// <summary>
-    /// The IAM role ARN that grants permission the input file. Constraints: o min: 20 o max: 2048
+    /// The IAM role ARN that grants permission the input file. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }

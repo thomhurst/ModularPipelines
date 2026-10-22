@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Update the reputation management policy for a reputation entity. The policy determines how the entity responds to reputation findings, such as automatically pausing sending when certain thresholds are exceeded. Reputation management policies are Amazon Web Services Amazon SES-man- aged (predefined policies). You can select from none, standard, and strict policies. See also: AWS API Documentation
+/// Update the reputation management policy for a reputation entity. The policy determines how the entity responds to reputation findings, such as automatically pausing sending when certain thresholds are exceeded. Reputation management policies are Amazon Web Services Amazon SES-managed (predefined policies). You can select from none, standard, and strict policies. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsSesv2UpdateReputationEntityPolicyOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Update the reputation management policy for a reputation entity. The policy determines how the entity responds to reputation findings, such as automatically pausing sending when certain thresholds are exceeded. Reputation management policies are Amazon Web Services Amazon SES-man- aged (predefined policies). You can select from none, standard, and strict policies. See also: AWS API Documentation
+    /// Update the reputation management policy for a reputation entity. The policy determines how the entity responds to reputation findings, such as automatically pausing sending when certain thresholds are exceeded. Reputation management policies are Amazon Web Services Amazon SES-managed (predefined policies). You can select from none, standard, and strict policies. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ReputationEntityType">The type of reputation entity. Currently, only RESOURCE type enti- ties are supported. Possible values: o RESOURCE</param>
-    /// <param name="ReputationEntityReference">The unique identifier for the reputation entity. For resource-type entities, this is the Amazon Resource Name (ARN) of the resource. Constraints: o min: 1</param>
-    /// <param name="ReputationEntityPolicy">The Amazon Resource Name (ARN) of the reputation management policy to apply to this entity. This is an Amazon Web Services Amazon SES-managed policy. Constraints: o min: 1</param>
+    /// <param name="ReputationEntityType">The type of reputation entity. Currently, only RESOURCE type entities are supported. Possible values: • RESOURCE</param>
+    /// <param name="ReputationEntityReference">The unique identifier for the reputation entity. For resource-type entities, this is the Amazon Resource Name (ARN) of the resource. Constraints: • min: 1</param>
+    /// <param name="ReputationEntityPolicy">The Amazon Resource Name (ARN) of the reputation management policy to apply to this entity. This is an Amazon Web Services Amazon SES-managed policy. Constraints: • min: 1</param>
     public AwsSesv2UpdateReputationEntityPolicyOptions(
         string ReputationEntityType,
         string ReputationEntityReference,
@@ -64,19 +66,19 @@ public record AwsSesv2UpdateReputationEntityPolicyOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of reputation entity. Currently, only RESOURCE type enti- ties are supported. Possible values: o RESOURCE
+    /// The type of reputation entity. Currently, only RESOURCE type entities are supported. Possible values: • RESOURCE
     /// </summary>
     [CliOption("--reputation-entity-type")]
     public string? ReputationEntityType { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the reputation entity. For resource-type entities, this is the Amazon Resource Name (ARN) of the resource. Constraints: o min: 1
+    /// The unique identifier for the reputation entity. For resource-type entities, this is the Amazon Resource Name (ARN) of the resource. Constraints: • min: 1
     /// </summary>
     [CliOption("--reputation-entity-reference")]
     public string? ReputationEntityReference { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the reputation management policy to apply to this entity. This is an Amazon Web Services Amazon SES-managed policy. Constraints: o min: 1
+    /// The Amazon Resource Name (ARN) of the reputation management policy to apply to this entity. This is an Amazon Web Services Amazon SES-managed policy. Constraints: • min: 1
     /// </summary>
     [CliOption("--reputation-entity-policy")]
     public string? ReputationEntityPolicy { get; private init; }

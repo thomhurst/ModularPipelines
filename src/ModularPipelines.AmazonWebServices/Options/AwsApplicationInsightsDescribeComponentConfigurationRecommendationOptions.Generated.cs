@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +30,9 @@ public record AwsApplicationInsightsDescribeComponentConfigurationRecommendation
     /// <summary>
     /// Describes the recommended monitoring configuration of the component. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceGroupName">The name of the resource group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\.\-_]*</param>
-    /// <param name="ComponentName">The name of the component. Constraints: o min: 1 o max: 1011 o pattern: (?:^[\d\w\-_\.+]*$)|(?:^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$)</param>
-    /// <param name="Tier">The tier of the application component. Possible values: o CUSTOM o DEFAULT o DOT_NET_CORE o DOT_NET_WORKER o DOT_NET_WEB_TIER o DOT_NET_WEB o SQL_SERVER o SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP o MYSQL o POSTGRESQL o JAVA_JMX o ORACLE o SAP_HANA_MULTI_NODE o SAP_HANA_SINGLE_NODE o SAP_HANA_HIGH_AVAILABILITY o SAP_ASE_SINGLE_NODE o SAP_ASE_HIGH_AVAILABILITY o SQL_SERVER_FAILOVER_CLUSTER_INSTANCE o SHAREPOINT o ACTIVE_DIRECTORY o SAP_NETWEAVER_STANDARD o SAP_NETWEAVER_DISTRIBUTED o SAP_NETWEAVER_HIGH_AVAILABILITY Constraints: o min: 1 o max: 50</param>
+    /// <param name="ResourceGroupName">The name of the resource group. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9\.\-_]*</param>
+    /// <param name="ComponentName">The name of the component. Constraints: • min: 1 • max: 1011 • pattern: (?:^[\d\w\-_\.+]*$)|(?:^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$)</param>
+    /// <param name="Tier">The tier of the application component. Possible values: • CUSTOM • DEFAULT • DOT_NET_CORE • DOT_NET_WORKER • DOT_NET_WEB_TIER • DOT_NET_WEB • SQL_SERVER • SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP • MYSQL • POSTGRESQL • JAVA_JMX • ORACLE • SAP_HANA_MULTI_NODE • SAP_HANA_SINGLE_NODE • SAP_HANA_HIGH_AVAILABILITY • SAP_ASE_SINGLE_NODE • SAP_ASE_HIGH_AVAILABILITY • SQL_SERVER_FAILOVER_CLUSTER_INSTANCE • SHAREPOINT • ACTIVE_DIRECTORY • SAP_NETWEAVER_STANDARD • SAP_NETWEAVER_DISTRIBUTED • SAP_NETWEAVER_HIGH_AVAILABILITY Constraints: • min: 1 • max: 50</param>
     public AwsApplicationInsightsDescribeComponentConfigurationRecommendationOptions(
         string ResourceGroupName,
         string ComponentName,
@@ -65,31 +67,31 @@ public record AwsApplicationInsightsDescribeComponentConfigurationRecommendation
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the resource group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\.\-_]*
+    /// The name of the resource group. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9\.\-_]*
     /// </summary>
     [CliOption("--resource-group-name")]
     public string? ResourceGroupName { get; private init; }
 
     /// <summary>
-    /// The name of the component. Constraints: o min: 1 o max: 1011 o pattern: (?:^[\d\w\-_\.+]*$)|(?:^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$)
+    /// The name of the component. Constraints: • min: 1 • max: 1011 • pattern: (?:^[\d\w\-_\.+]*$)|(?:^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$)
     /// </summary>
     [CliOption("--component-name")]
     public string? ComponentName { get; private init; }
 
     /// <summary>
-    /// The tier of the application component. Possible values: o CUSTOM o DEFAULT o DOT_NET_CORE o DOT_NET_WORKER o DOT_NET_WEB_TIER o DOT_NET_WEB o SQL_SERVER o SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP o MYSQL o POSTGRESQL o JAVA_JMX o ORACLE o SAP_HANA_MULTI_NODE o SAP_HANA_SINGLE_NODE o SAP_HANA_HIGH_AVAILABILITY o SAP_ASE_SINGLE_NODE o SAP_ASE_HIGH_AVAILABILITY o SQL_SERVER_FAILOVER_CLUSTER_INSTANCE o SHAREPOINT o ACTIVE_DIRECTORY o SAP_NETWEAVER_STANDARD o SAP_NETWEAVER_DISTRIBUTED o SAP_NETWEAVER_HIGH_AVAILABILITY Constraints: o min: 1 o max: 50
+    /// The tier of the application component. Possible values: • CUSTOM • DEFAULT • DOT_NET_CORE • DOT_NET_WORKER • DOT_NET_WEB_TIER • DOT_NET_WEB • SQL_SERVER • SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP • MYSQL • POSTGRESQL • JAVA_JMX • ORACLE • SAP_HANA_MULTI_NODE • SAP_HANA_SINGLE_NODE • SAP_HANA_HIGH_AVAILABILITY • SAP_ASE_SINGLE_NODE • SAP_ASE_HIGH_AVAILABILITY • SQL_SERVER_FAILOVER_CLUSTER_INSTANCE • SHAREPOINT • ACTIVE_DIRECTORY • SAP_NETWEAVER_STANDARD • SAP_NETWEAVER_DISTRIBUTED • SAP_NETWEAVER_HIGH_AVAILABILITY Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--tier")]
     public string? Tier { get; private init; }
 
     /// <summary>
-    /// The name of the workload. The name of the workload is required when the tier of the application component is SAP_ASE_SINGLE_NODE or SAP_ASE_HIGH_AVAILABILITY . Constraints: o min: 1 o max: 12 o pattern: [a-zA-Z0-9\.\-_]*
+    /// The name of the workload. The name of the workload is required when the tier of the application component is SAP_ASE_SINGLE_NODE or SAP_ASE_HIGH_AVAILABILITY . Constraints: • min: 1 • max: 12 • pattern: [a-zA-Z0-9\.\-_]*
     /// </summary>
     [CliOption("--workload-name")]
     public string? WorkloadName { get; set; }
 
     /// <summary>
-    /// The recommended configuration type. Possible values: o INFRA_ONLY o WORKLOAD_ONLY o ALL
+    /// The recommended configuration type. Possible values: • INFRA_ONLY • WORKLOAD_ONLY • ALL
     /// </summary>
     [CliOption("--recommendation-type")]
     public AwsApplicationInsightsDescribeComponentConfigurationRecommendationRecommendationType? RecommendationType { get; set; }

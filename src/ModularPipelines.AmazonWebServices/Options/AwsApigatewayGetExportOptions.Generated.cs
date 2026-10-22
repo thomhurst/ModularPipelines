@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -73,13 +74,13 @@ public record AwsApigatewayGetExportOptions : AwsOptions
     public string ExportType { get; private init; }
 
     /// <summary>
-    /// A key-value map of query string parameters that specify properties of the export, depending on the requested exportType . For export- Type oas30 and swagger , any combination of the following parame- ters are supported: extensions='integrations' or extensions='api- gateway' will export the API with x-amazon-apigateway-integration extensions. extensions='authorizers' will export the API with x-ama- zon-apigateway-authorizer extensions. postman will export the API with Postman extensions, allowing for import to the Postman tool key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A key-value map of query string parameters that specify properties of the export, depending on the requested exportType . For exportType oas30 and swagger , any combination of the following parameters are supported: extensions='integrations' or extensions='apigateway' will export the API with x-amazon-apigateway-integration extensions. extensions='authorizers' will export the API with x-amazon-apigateway-authorizer extensions. postman will export the API with Postman extensions, allowing for import to the Postman tool key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     /// <summary>
-    /// The content-type of the export, for example application/json . Cur- rently application/json and application/yaml are supported for ex- portType of``oas30`` and swagger . This should be specified in the Accept header for direct API requests. outfile (string) [required] Filename where the content will be saved
+    /// The content-type of the export, for example application/json . Currently application/json and application/yaml are supported for exportType of``oas30`` and swagger . This should be specified in the Accept header for direct API requests. outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--accepts")]
     public string? Accepts { get; set; }

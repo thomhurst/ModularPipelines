@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// List journal records for a specific execution See also: AWS API Documentation list-journal-records uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-journal-records is a paginated operation. Multiple API calls may be issued in ord...
+/// List journal records for a specific execution See also: AWS API Documentation list-journal-records uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-journal-records is a paginated operation. Multiple API calls may be issued in order...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +29,10 @@ public record AwsDevopsAgentListJournalRecordsOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// List journal records for a specific execution See also: AWS API Documentation list-journal-records uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-journal-records is a paginated operation. Multiple API calls may be issued in ord...
+    /// List journal records for a specific execution See also: AWS API Documentation list-journal-records uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-journal-records is a paginated operation. Multiple API calls may be issued in order...
     /// </summary>
-    /// <param name="AgentSpaceId">The unique identifier for the agent space containing the execution Constraints: o min: 1 o max: 2048</param>
-    /// <param name="ExecutionId">The unique identifier of the execution whose journal records to re- trieve Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="AgentSpaceId">The unique identifier for the agent space containing the execution Constraints: • min: 1 • max: 2048</param>
+    /// <param name="ExecutionId">The unique identifier of the execution whose journal records to retrieve Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsDevopsAgentListJournalRecordsOptions(
         string AgentSpaceId,
         string ExecutionId
@@ -62,13 +64,13 @@ public record AwsDevopsAgentListJournalRecordsOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the agent space containing the execution Constraints: o min: 1 o max: 2048
+    /// The unique identifier for the agent space containing the execution Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--agent-space-id")]
     public string? AgentSpaceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the execution whose journal records to re- trieve Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The unique identifier of the execution whose journal records to retrieve Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--execution-id")]
     public string? ExecutionId { get; private init; }
@@ -80,16 +82,13 @@ public record AwsDevopsAgentListJournalRecordsOptions : AwsOptions, IValidatable
     public string? RecordType { get; set; }
 
     /// <summary>
-    /// Sort order for the records based on timestamp (default: DESC) Possible values: o ASC o DESC
+    /// Sort order for the records based on timestamp (default: DESC) Possible values: • ASC • DESC
     /// </summary>
     [CliOption("--order")]
     public AwsDevopsAgentListJournalRecordsOrder? Order { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -99,16 +98,19 @@ public record AwsDevopsAgentListJournalRecordsOptions : AwsOptions, IValidatable
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

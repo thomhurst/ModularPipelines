@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns details for the version of a policy. Policies define the per- missions for team resources. See also: AWS API Documentation
+/// Returns details for the version of a policy. Policies define the permissions for team resources. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsMpaGetPolicyVersionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns details for the version of a policy. Policies define the per- missions for team resources. See also: AWS API Documentation
+    /// Returns details for the version of a policy. Policies define the permissions for team resources. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyVersionArn">Amazon Resource Name (ARN) for the policy. Constraints: o min: 0 o max: 1224 o pattern: arn:.{1,63}:mpa:::aws:pol- icy/[a-zA-Z0-9_\.-]{1,1023}/[a-zA-Z0-9_\.-]{1,1023}/(?:[\d]+|\$DE- FAULT)</param>
+    /// <param name="PolicyVersionArn">Amazon Resource Name (ARN) for the policy. Constraints: • min: 0 • max: 1224 • pattern: arn:.{1,63}:mpa:::aws:policy/[a-zA-Z0-9_\.-]{1,1023}/[a-zA-Z0-9_\.-]{1,1023}/(?:[\d]+|\$DEFAULT)</param>
     public AwsMpaGetPolicyVersionOptions(
         string PolicyVersionArn
     )
@@ -56,7 +58,7 @@ public record AwsMpaGetPolicyVersionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Resource Name (ARN) for the policy. Constraints: o min: 0 o max: 1224 o pattern: arn:.{1,63}:mpa:::aws:pol- icy/[a-zA-Z0-9_\.-]{1,1023}/[a-zA-Z0-9_\.-]{1,1023}/(?:[\d]+|\$DE- FAULT)
+    /// Amazon Resource Name (ARN) for the policy. Constraints: • min: 0 • max: 1224 • pattern: arn:.{1,63}:mpa:::aws:policy/[a-zA-Z0-9_\.-]{1,1023}/[a-zA-Z0-9_\.-]{1,1023}/(?:[\d]+|\$DEFAULT)
     /// </summary>
     [CliOption("--policy-version-arn")]
     public string? PolicyVersionArn { get; private init; }

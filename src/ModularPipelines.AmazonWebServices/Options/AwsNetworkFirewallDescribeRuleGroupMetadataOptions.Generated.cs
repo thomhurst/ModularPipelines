@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// High-level information about a rule group, returned by operations like create and describe. You can use the information provided in the meta- data to retrieve and manage a rule group. You can retrieve all objects for a rule group by calling DescribeRuleGroup . See also: AWS API Documentation
+/// High-level information about a rule group, returned by operations like create and describe. You can use the information provided in the metadata to retrieve and manage a rule group. You can retrieve all objects for a rule group by calling DescribeRuleGroup . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,19 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsNetworkFirewallDescribeRuleGroupMetadataOptions : AwsOptions
 {
     /// <summary>
-    /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
+    /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--rule-group-name")]
     public string? RuleGroupName { get; set; }
 
     /// <summary>
-    /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*
+    /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*
     /// </summary>
     [CliOption("--rule-group-arn")]
     public string? RuleGroupArn { get; set; }
 
     /// <summary>
-    /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains stateless rules. If it is stateful, it contains stateful rules. NOTE: This setting is required for requests that do not include the RuleGroupARN . Possible values: o STATELESS o STATEFUL o STATEFUL_DOMAIN
+    /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains stateless rules. If it is stateful, it contains stateful rules. NOTE: This setting is required for requests that do not include the RuleGroupARN . Possible values: • STATELESS • STATEFUL • STATEFUL_DOMAIN
     /// </summary>
     [CliOption("--type")]
     public AwsNetworkFirewallDescribeRuleGroupMetadataType? Type { get; set; }

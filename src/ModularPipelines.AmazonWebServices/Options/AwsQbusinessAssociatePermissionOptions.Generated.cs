@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds or updates a permission policy for a Amazon Q Business applica- tion, allowing cross-account access for an ISV. This operation creates a new policy statement for the specified Amazon Q Business application. The policy statement defines the IAM actions that the ISV is allowed to perform on the Amazon Q Business application's resources. See also: AWS API Documentation
+/// Adds or updates a permission policy for a Amazon Q Business application, allowing cross-account access for an ISV. This operation creates a new policy statement for the specified Amazon Q Business application. The policy statement defines the IAM actions that the ISV is allowed to perform on the Amazon Q Business application's resources. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +27,12 @@ public record AwsQbusinessAssociatePermissionOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds or updates a permission policy for a Amazon Q Business applica- tion, allowing cross-account access for an ISV. This operation creates a new policy statement for the specified Amazon Q Business application. The policy statement defines the IAM actions that the ISV is allowed to perform on the Amazon Q Business application's resources. See also: AWS API Documentation
+    /// Adds or updates a permission policy for a Amazon Q Business application, allowing cross-account access for an ISV. This operation creates a new policy statement for the specified Amazon Q Business application. The policy statement defines the IAM actions that the ISV is allowed to perform on the Amazon Q Business application's resources. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The unique identifier of the Amazon Q Business application. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
-    /// <param name="StatementId">A unique identifier for the policy statement. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="Actions">The list of Amazon Q Business actions that the ISV is allowed to perform. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: qbusiness:[a-zA-Z]+ Syntax: "string" "string" ...</param>
-    /// <param name="Principal">The Amazon Resource Name of the IAM role for the ISV that is being granted permission. Constraints: o min: 1 o max: 1284 o pattern: arn:[a-z0-9-\.]{1,63}:iam::[0-9]{12}:role/[a-zA-Z0-9_/+=,.@-]+</param>
+    /// <param name="ApplicationId">The unique identifier of the Amazon Q Business application. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="StatementId">A unique identifier for the policy statement. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="Actions">The list of Amazon Q Business actions that the ISV is allowed to perform. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: qbusiness:[a-zA-Z]+ Syntax: "string" "string" ...</param>
+    /// <param name="Principal">The Amazon Resource Name of the IAM role for the ISV that is being granted permission. Constraints: • min: 1 • max: 1284 • pattern: arn:[a-z0-9-\.]{1,63}:iam::[0-9]{12}:role/[a-zA-Z0-9_/+=,.@-]+</param>
     public AwsQbusinessAssociatePermissionOptions(
         string ApplicationId,
         string StatementId,
@@ -79,31 +81,31 @@ public record AwsQbusinessAssociatePermissionOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Amazon Q Business application. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The unique identifier of the Amazon Q Business application. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the policy statement. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9_-]+
+    /// A unique identifier for the policy statement. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--statement-id")]
     public string? StatementId { get; private init; }
 
     /// <summary>
-    /// The list of Amazon Q Business actions that the ISV is allowed to perform. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: qbusiness:[a-zA-Z]+ Syntax: "string" "string" ...
+    /// The list of Amazon Q Business actions that the ISV is allowed to perform. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: qbusiness:[a-zA-Z]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--actions", GroupValues = true)]
     public IEnumerable<string>? Actions { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name of the IAM role for the ISV that is being granted permission. Constraints: o min: 1 o max: 1284 o pattern: arn:[a-z0-9-\.]{1,63}:iam::[0-9]{12}:role/[a-zA-Z0-9_/+=,.@-]+
+    /// The Amazon Resource Name of the IAM role for the ISV that is being granted permission. Constraints: • min: 1 • max: 1284 • pattern: arn:[a-z0-9-\.]{1,63}:iam::[0-9]{12}:role/[a-zA-Z0-9_/+=,.@-]+
     /// </summary>
     [CliOption("--principal")]
     public string? Principal { get; private init; }
 
     /// <summary>
-    /// The conditions that restrict when the permission is effective. These conditions can be used to limit the permission based on specific at- tributes of the request. Constraints: o min: 1 o max: 10 (structure) Defines a condition that restricts when a permission is effec- tive. Conditions allow you to control access based on specific attributes of the request. conditionOperator -&gt; (string) [required] The operator to use for the condition evaluation. This deter- mines how the condition values are compared. Possible values: o StringEquals conditionKey -&gt; (string) [required] The key for the condition. This identifies the attribute that the condition applies to. Constraints: o pattern: aws:[a-zA-Z][a-zA-Z0-9-/:]* conditionValues -&gt; (list) [required] The values to compare against using the specified condition operator. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 1000 o pattern: [a-zA-Z0-9][a-zA-Z0-9._-]* Shorthand Syntax: conditionOperator=string,conditionKey=string,conditionValues=string,string ... JSON Syntax: [ { "conditionOperator": "StringEquals", "conditionKey": "string", "conditionValues": ["string", ...] } ... ]
+    /// The conditions that restrict when the permission is effective. These conditions can be used to limit the permission based on specific attributes of the request. Constraints: • min: 1 • max: 10 (structure) Defines a condition that restricts when a permission is effective. Conditions allow you to control access based on specific attributes of the request. conditionOperator -&gt; (string) [required] The operator to use for the condition evaluation. This determines how the condition values are compared. Possible values: • StringEquals conditionKey -&gt; (string) [required] The key for the condition. This identifies the attribute that the condition applies to. Constraints: • pattern: aws:[a-zA-Z][a-zA-Z0-9-/:]* conditionValues -&gt; (list) [required] The values to compare against using the specified condition operator. Constraints: • min: 1 • max: 1 (string) Constraints: • min: 1 • max: 1000 • pattern: [a-zA-Z0-9][a-zA-Z0-9._-]* Shorthand Syntax: conditionOperator=string,conditionKey=string,conditionValues=string,string ... JSON Syntax: [ { "conditionOperator": "StringEquals", "conditionKey": "string", "conditionValues": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--conditions", GroupValues = true)]
     public IEnumerable<string>? Conditions { get; set; }

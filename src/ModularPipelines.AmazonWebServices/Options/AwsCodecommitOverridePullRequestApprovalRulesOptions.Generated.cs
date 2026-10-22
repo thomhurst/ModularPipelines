@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +31,8 @@ public record AwsCodecommitOverridePullRequestApprovalRulesOptions : AwsOptions,
     /// Sets aside (overrides) all approval rule requirements for a specified pull request. See also: AWS API Documentation
     /// </summary>
     /// <param name="PullRequestId">The system-generated ID of the pull request for which you want to override all approval rule requirements. To get this information, use GetPullRequest .</param>
-    /// <param name="RevisionId">The system-generated ID of the most recent revision of the pull re- quest. You cannot override approval rules for anything but the most recent revision of a pull request. To get the revision ID, use Get- PullRequest.</param>
-    /// <param name="OverrideStatus">Whether you want to set aside approval rule requirements for the pull request (OVERRIDE) or revoke a previous override and apply ap- proval rule requirements (REVOKE). REVOKE status is not stored. Possible values: o OVERRIDE o REVOKE</param>
+    /// <param name="RevisionId">The system-generated ID of the most recent revision of the pull request. You cannot override approval rules for anything but the most recent revision of a pull request. To get the revision ID, use GetPullRequest.</param>
+    /// <param name="OverrideStatus">Whether you want to set aside approval rule requirements for the pull request (OVERRIDE) or revoke a previous override and apply approval rule requirements (REVOKE). REVOKE status is not stored. Possible values: • OVERRIDE • REVOKE</param>
     public AwsCodecommitOverridePullRequestApprovalRulesOptions(
         string PullRequestId,
         string RevisionId,
@@ -70,13 +72,13 @@ public record AwsCodecommitOverridePullRequestApprovalRulesOptions : AwsOptions,
     public string? PullRequestId { get; private init; }
 
     /// <summary>
-    /// The system-generated ID of the most recent revision of the pull re- quest. You cannot override approval rules for anything but the most recent revision of a pull request. To get the revision ID, use Get- PullRequest.
+    /// The system-generated ID of the most recent revision of the pull request. You cannot override approval rules for anything but the most recent revision of a pull request. To get the revision ID, use GetPullRequest.
     /// </summary>
     [CliOption("--revision-id")]
     public string? RevisionId { get; private init; }
 
     /// <summary>
-    /// Whether you want to set aside approval rule requirements for the pull request (OVERRIDE) or revoke a previous override and apply ap- proval rule requirements (REVOKE). REVOKE status is not stored. Possible values: o OVERRIDE o REVOKE
+    /// Whether you want to set aside approval rule requirements for the pull request (OVERRIDE) or revoke a previous override and apply approval rule requirements (REVOKE). REVOKE status is not stored. Possible values: • OVERRIDE • REVOKE
     /// </summary>
     [CliOption("--override-status")]
     public AwsCodecommitOverridePullRequestApprovalRulesOverrideStatus? OverrideStatus { get; private init; }

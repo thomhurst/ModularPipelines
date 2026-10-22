@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns detailed information for a stateful rule group. For active threat defense Amazon Web Services managed rule groups, this operation provides insight into the protections enabled by the rule group, based on Suricata rule metadata fields. Summaries are available for rule groups you manage and for active threat defense Amazon Web Services managed rule groups. To modify how threat information appears in summaries, use the Summa- ryConfiguration parameter in UpdateRuleGroup . See also: AWS API ...
+/// Returns detailed information for a stateful rule group. For active threat defense Amazon Web Services managed rule groups, this operation provides insight into the protections enabled by the rule group, based on Suricata rule metadata fields. Summaries are available for rule groups you manage and for active threat defense Amazon Web Services managed rule groups. To modify how threat information appears in summaries, use the SummaryConfiguration parameter in UpdateRuleGroup . See also: AWS API Do...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,19 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsNetworkFirewallDescribeRuleGroupSummaryOptions : AwsOptions
 {
     /// <summary>
-    /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
+    /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--rule-group-name")]
     public string? RuleGroupName { get; set; }
 
     /// <summary>
-    /// Required. The Amazon Resource Name (ARN) of the rule group. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*
+    /// Required. The Amazon Resource Name (ARN) of the rule group. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*
     /// </summary>
     [CliOption("--rule-group-arn")]
     public string? RuleGroupArn { get; set; }
 
     /// <summary>
-    /// The type of rule group you want a summary for. This is a required field. Valid value: STATEFUL Note that STATELESS exists but is not currently supported. If you provide STATELESS , an exception is returned. Possible values: o STATELESS o STATEFUL o STATEFUL_DOMAIN
+    /// The type of rule group you want a summary for. This is a required field. Valid value: STATEFUL Note that STATELESS exists but is not currently supported. If you provide STATELESS , an exception is returned. Possible values: • STATELESS • STATEFUL • STATEFUL_DOMAIN
     /// </summary>
     [CliOption("--type")]
     public AwsNetworkFirewallDescribeRuleGroupSummaryType? Type { get; set; }

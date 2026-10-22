@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,10 +31,10 @@ public record AwsMailmanagerCreateIngressPointOptions : AwsOptions, IValidatable
     /// <summary>
     /// Provision a new ingress endpoint resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IngressPointName">A user friendly name for an ingress endpoint resource. Constraints: o min: 3 o max: 63 o pattern: [A-Za-z0-9_\-]+</param>
-    /// <param name="Type">The type of the ingress endpoint to create. Possible values: o OPEN o AUTH o MTLS</param>
-    /// <param name="RuleSetId">The identifier of an existing rule set that you attach to an ingress endpoint resource. Constraints: o min: 1 o max: 100</param>
-    /// <param name="TrafficPolicyId">The identifier of an existing traffic policy that you attach to an ingress endpoint resource. Constraints: o min: 1 o max: 100</param>
+    /// <param name="IngressPointName">A user friendly name for an ingress endpoint resource. Constraints: • min: 3 • max: 63 • pattern: [A-Za-z0-9_\-]+</param>
+    /// <param name="Type">The type of the ingress endpoint to create. Possible values: • OPEN • AUTH • MTLS</param>
+    /// <param name="RuleSetId">The identifier of an existing rule set that you attach to an ingress endpoint resource. Constraints: • min: 1 • max: 100</param>
+    /// <param name="TrafficPolicyId">The identifier of an existing traffic policy that you attach to an ingress endpoint resource. Constraints: • min: 1 • max: 100</param>
     public AwsMailmanagerCreateIngressPointOptions(
         string IngressPointName,
         AwsMailmanagerCreateIngressPointType Type,
@@ -69,56 +71,56 @@ public record AwsMailmanagerCreateIngressPointOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A user friendly name for an ingress endpoint resource. Constraints: o min: 3 o max: 63 o pattern: [A-Za-z0-9_\-]+
+    /// A user friendly name for an ingress endpoint resource. Constraints: • min: 3 • max: 63 • pattern: [A-Za-z0-9_\-]+
     /// </summary>
     [CliOption("--ingress-point-name")]
     public string? IngressPointName { get; private init; }
 
     /// <summary>
-    /// The type of the ingress endpoint to create. Possible values: o OPEN o AUTH o MTLS
+    /// The type of the ingress endpoint to create. Possible values: • OPEN • AUTH • MTLS
     /// </summary>
     [CliOption("--type")]
     public AwsMailmanagerCreateIngressPointType? Type { get; private init; }
 
     /// <summary>
-    /// The identifier of an existing rule set that you attach to an ingress endpoint resource. Constraints: o min: 1 o max: 100
+    /// The identifier of an existing rule set that you attach to an ingress endpoint resource. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--rule-set-id")]
     public string? RuleSetId { get; private init; }
 
     /// <summary>
-    /// The identifier of an existing traffic policy that you attach to an ingress endpoint resource. Constraints: o min: 1 o max: 100
+    /// The identifier of an existing traffic policy that you attach to an ingress endpoint resource. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--traffic-policy-id")]
     public string? TrafficPolicyId { get; private init; }
 
     /// <summary>
-    /// A unique token that Amazon SES uses to recognize subsequent retries of the same request. Constraints: o min: 1 o max: 128
+    /// A unique token that Amazon SES uses to recognize subsequent retries of the same request. Constraints: • min: 1 • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// If you choose an Authenticated ingress endpoint, you must configure either an SMTP password or a secret ARN. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: SmtpPassword, SecretArn, TlsAuthConfigu- ration. SmtpPassword -&gt; (string) The password of the ingress endpoint resource. Constraints: o min: 8 o max: 64 o pattern: [A-Za-z0-9!@#$%^&amp;*()_+\-=\[\]{}|.,?]+ SecretArn -&gt; (string) The SecretsManager::Secret ARN of the ingress endpoint resource. Constraints: o pattern: arn:(aws|aws-cn|aws-us-gov|aws-eusc):secretsman- ager:[a-z0-9-]+:\d{12}:secret:[a-zA-Z0-9/_+=,.@-]+ TlsAuthConfiguration -&gt; (structure) The mutual TLS authentication configuration of the ingress end- point resource. TrustStore -&gt; (structure) The trust store configuration for mutual TLS authentication. CAContent -&gt; (string) [required] The PEM-encoded certificate authority (CA) certificates bundle for the trust store. Constraints: o min: 1 o max: 500000 o pattern: [\P{C}\s]* CrlContent -&gt; (string) The PEM-encoded certificate revocation lists (CRLs) for the trust store. There can be one CRL per certificate au- thority (CA) in the trust store. Constraints: o min: 1 o max: 500000 o pattern: [\P{C}\s]* KmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the KMS key used to en- crypt the trust store contents. Constraints: o pattern: arn:aws(|-cn|-us-gov|-eusc):kms:[a-z0-9-]{1,20}:[0-9]{12}:(key|alias)/.+ Shorthand Syntax: SmtpPassword=string,SecretArn=string,TlsAuthConfiguration={TrustStore={CAContent=string,CrlContent=string,KmsKeyArn=string}} JSON Syntax: { "SmtpPassword": "string", "SecretArn": "string", "TlsAuthConfiguration": { "TrustStore": { "CAContent": "string", "CrlContent": "string", "KmsKeyArn": "string" } } }
+    /// If you choose an Authenticated ingress endpoint, you must configure either an SMTP password or a secret ARN. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: SmtpPassword, SecretArn, TlsAuthConfiguration. SmtpPassword -&gt; (string) The password of the ingress endpoint resource. Constraints: • min: 8 • max: 64 • pattern: [A-Za-z0-9!@#$%^&amp;*()_+\-=\[\]{}|.,?]+ SecretArn -&gt; (string) The SecretsManager::Secret ARN of the ingress endpoint resource. Constraints: • pattern: arn:(aws|aws-cn|aws-us-gov|aws-eusc):secretsmanager:[a-z0-9-]+:\d{12}:secret:[a-zA-Z0-9/_+=,.@-]+ TlsAuthConfiguration -&gt; (structure) The mutual TLS authentication configuration of the ingress endpoint resource. TrustStore -&gt; (structure) The trust store configuration for mutual TLS authentication. CAContent -&gt; (string) [required] The PEM-encoded certificate authority (CA) certificates bundle for the trust store. Constraints: • min: 1 • max: 500000 • pattern: [\P{C}\s]* CrlContent -&gt; (string) The PEM-encoded certificate revocation lists (CRLs) for the trust store. There can be one CRL per certificate authority (CA) in the trust store. Constraints: • min: 1 • max: 500000 • pattern: [\P{C}\s]* KmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the KMS key used to encrypt the trust store contents. Constraints: • pattern: arn:aws(|-cn|-us-gov|-eusc):kms:[a-z0-9-]{1,20}:[0-9]{12}:(key|alias)/.+ Shorthand Syntax: SmtpPassword=string,SecretArn=string,TlsAuthConfiguration={TrustStore={CAContent=string,CrlContent=string,KmsKeyArn=string}} JSON Syntax: { "SmtpPassword": "string", "SecretArn": "string", "TlsAuthConfiguration": { "TrustStore": { "CAContent": "string", "CrlContent": "string", "KmsKeyArn": "string" } } }
     /// </summary>
     [CliOption("--ingress-point-configuration")]
     public string? IngressPointConfiguration { get; set; }
 
     /// <summary>
-    /// Specifies the network configuration for the ingress point. This al- lows you to create an IPv4-only, Dual-Stack, or PrivateLink type of ingress point. If not specified, the default network type is IPv4-only. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: PublicNetworkConfiguration, PrivateNet- workConfiguration. PublicNetworkConfiguration -&gt; (structure) Specifies the network configuration for the public ingress point. IpType -&gt; (string) [required] The IP address type for the public ingress point. Valid val- ues are IPV4 and DUAL_STACK. Possible values: o IPV4 o DUAL_STACK PrivateNetworkConfiguration -&gt; (structure) Specifies the network configuration for the private ingress point. VpcEndpointId -&gt; (string) [required] The identifier of the VPC endpoint to associate with this private ingress point. Constraints: o pattern: vpce-[a-zA-Z0-9]{17} Shorthand Syntax: PublicNetworkConfiguration={IpType=string},PrivateNetworkConfiguration={VpcEndpointId=string} JSON Syntax: { "PublicNetworkConfiguration": { "IpType": "IPV4"|"DUAL_STACK" }, "PrivateNetworkConfiguration": { "VpcEndpointId": "string" } }
+    /// Specifies the network configuration for the ingress point. This allows you to create an IPv4-only, Dual-Stack, or PrivateLink type of ingress point. If not specified, the default network type is IPv4-only. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: PublicNetworkConfiguration, PrivateNetworkConfiguration. PublicNetworkConfiguration -&gt; (structure) Specifies the network configuration for the public ingress point. IpType -&gt; (string) [required] The IP address type for the public ingress point. Valid values are IPV4 and DUAL_STACK. Possible values: • IPV4 • DUAL_STACK PrivateNetworkConfiguration -&gt; (structure) Specifies the network configuration for the private ingress point. VpcEndpointId -&gt; (string) [required] The identifier of the VPC endpoint to associate with this private ingress point. Constraints: • pattern: vpce-[a-zA-Z0-9]{17} Shorthand Syntax: PublicNetworkConfiguration={IpType=string},PrivateNetworkConfiguration={VpcEndpointId=string} JSON Syntax: { "PublicNetworkConfiguration": { "IpType": "IPV4"|"DUAL_STACK" }, "PrivateNetworkConfiguration": { "VpcEndpointId": "string" } }
     /// </summary>
     [CliOption("--network-configuration")]
     public string? NetworkConfiguration { get; set; }
 
     /// <summary>
-    /// The Transport Layer Security (TLS) policy for the ingress point. The FIPS value is only valid in US and Canada regions. Possible values: o REQUIRED o OPTIONAL o FIPS
+    /// The Transport Layer Security (TLS) policy for the ingress point. The FIPS value is only valid in US and Canada regions. Possible values: • REQUIRED • OPTIONAL • FIPS
     /// </summary>
     [CliOption("--tls-policy")]
     public AwsMailmanagerCreateIngressPointTlsPolicy? TlsPolicy { get; set; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for the re- source. For example, { "tags": {"key1":"value1", "key2":"value2"} }. Constraints: o min: 0 o max: 200 (structure) A key-value pair (the value is optional), that you can define and assign to Amazon Web Services resources. Key -&gt; (string) [required] The key of the key-value tag. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9/_\+=\.:@\-]+ Value -&gt; (string) [required] The value of the key-value tag. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9/_\+=\.:@\-]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags used to organize, track, or control access for the resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }. Constraints: • min: 0 • max: 200 (structure) A key-value pair (the value is optional), that you can define and assign to Amazon Web Services resources. Key -&gt; (string) [required] The key of the key-value tag. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9/_\+=\.:@\-]+ Value -&gt; (string) [required] The value of the key-value tag. Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9/_\+=\.:@\-]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

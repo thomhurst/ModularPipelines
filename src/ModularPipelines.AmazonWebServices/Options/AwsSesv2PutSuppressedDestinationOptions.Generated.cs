@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +31,7 @@ public record AwsSesv2PutSuppressedDestinationOptions : AwsOptions, IValidatable
     /// Adds an email address to the suppression list for your account or for a specific tenant. To target a tenant's suppression list, specify the TenantName parameter. If you omit TenantName , the address is added to the account-level suppression list. See also: AWS API Documentation
     /// </summary>
     /// <param name="EmailAddress">The email address that should be added to the suppression list for your account or for the specified tenant.</param>
-    /// <param name="Reason">The factors that should cause the email address to be added to the suppression list for your account or for the specified tenant. Possible values: o BOUNCE o COMPLAINT</param>
+    /// <param name="Reason">The factors that should cause the email address to be added to the suppression list for your account or for the specified tenant. Possible values: • BOUNCE • COMPLAINT</param>
     public AwsSesv2PutSuppressedDestinationOptions(
         string EmailAddress,
         AwsSesv2PutSuppressedDestinationReason Reason
@@ -66,13 +68,13 @@ public record AwsSesv2PutSuppressedDestinationOptions : AwsOptions, IValidatable
     public string? EmailAddress { get; private init; }
 
     /// <summary>
-    /// The factors that should cause the email address to be added to the suppression list for your account or for the specified tenant. Possible values: o BOUNCE o COMPLAINT
+    /// The factors that should cause the email address to be added to the suppression list for your account or for the specified tenant. Possible values: • BOUNCE • COMPLAINT
     /// </summary>
     [CliOption("--reason")]
     public AwsSesv2PutSuppressedDestinationReason? Reason { get; private init; }
 
     /// <summary>
-    /// The name of the tenant whose suppression list you want to add the address to. If you omit this parameter, the address is added to the account-level suppression list. Constraints: o min: 1
+    /// The name of the tenant whose suppression list you want to add the address to. If you omit this parameter, the address is added to the account-level suppression list. Constraints: • min: 1
     /// </summary>
     [CliOption("--tenant-name")]
     public string? TenantName { get; set; }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsLexv2ModelsListBuiltInIntentsOptions : AwsOptions, IValidatable
     /// <summary>
     /// Gets a list of built-in intents provided by Amazon Lex that you can use in your bot. To use a built-in intent as a the base for your own intent, include the built-in intent signature in the parentIntentSignature parameter when you call the CreateIntent operation. For more information, see CreateIntent . See also: AWS API Documentation
     /// </summary>
-    /// <param name="LocaleId">The identifier of the language and locale of the intents to list. The string must match one of the supported locales. For more infor- mation, see Supported languages .</param>
+    /// <param name="LocaleId">The identifier of the language and locale of the intents to list. The string must match one of the supported locales. For more information, see Supported languages .</param>
     public AwsLexv2ModelsListBuiltInIntentsOptions(
         string LocaleId
     )
@@ -57,25 +59,25 @@ public record AwsLexv2ModelsListBuiltInIntentsOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the language and locale of the intents to list. The string must match one of the supported locales. For more infor- mation, see Supported languages .
+    /// The identifier of the language and locale of the intents to list. The string must match one of the supported locales. For more information, see Supported languages .
     /// </summary>
     [CliOption("--locale-id")]
     public string? LocaleId { get; private init; }
 
     /// <summary>
-    /// Specifies sorting parameters for the list of built-in intents. You can specify that the list be sorted by the built-in intent signature in either ascending or descending order. attribute -&gt; (string) [required] The attribute to use to sort the list of built-in intents. Possible values: o IntentSignature order -&gt; (string) [required] The order to sort the list. You can specify ascending or de- scending order. Possible values: o Ascending o Descending Shorthand Syntax: attribute=string,order=string JSON Syntax: { "attribute": "IntentSignature", "order": "Ascending"|"Descending" }
+    /// Specifies sorting parameters for the list of built-in intents. You can specify that the list be sorted by the built-in intent signature in either ascending or descending order. attribute -&gt; (string) [required] The attribute to use to sort the list of built-in intents. Possible values: • IntentSignature order -&gt; (string) [required] The order to sort the list. You can specify ascending or descending order. Possible values: • Ascending • Descending Shorthand Syntax: attribute=string,order=string JSON Syntax: { "attribute": "IntentSignature", "order": "Ascending"|"Descending" }
     /// </summary>
     [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
     /// <summary>
-    /// The maximum number of built-in intents to return in each page of re- sults. If there are fewer results than the max page size, only the actual number of results are returned. Constraints: o min: 20 o max: 20
+    /// The maximum number of built-in intents to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned. Constraints: • min: 20 • max: 20
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If the response from the ListBuiltInIntents operation contains more results than specified in the maxResults parameter, a token is re- turned in the response. Use that token in the nextToken parameter to return the next page of results.
+    /// If the response from the ListBuiltInIntents operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use that token in the nextToken parameter to return the next page of results.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDatazoneGetEnvironmentBlueprintConfigurationOptions : AwsOption
     /// <summary>
     /// Gets the blueprint configuration in Amazon DataZone. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain where this blueprint exists. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="EnvironmentBlueprintIdentifier">He ID of the blueprint. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain where this blueprint exists. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EnvironmentBlueprintIdentifier">He ID of the blueprint. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneGetEnvironmentBlueprintConfigurationOptions(
         string DomainIdentifier,
         string EnvironmentBlueprintIdentifier
@@ -60,13 +62,13 @@ public record AwsDatazoneGetEnvironmentBlueprintConfigurationOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon DataZone domain where this blueprint exists. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the Amazon DataZone domain where this blueprint exists. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// He ID of the blueprint. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// He ID of the blueprint. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--environment-blueprint-identifier")]
     public string? EnvironmentBlueprintIdentifier { get; private init; }

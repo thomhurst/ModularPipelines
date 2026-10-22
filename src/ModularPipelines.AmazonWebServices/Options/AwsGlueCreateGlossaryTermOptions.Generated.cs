@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a glossary term within a business glossary in Glue Data Cata- log. See also: AWS API Documentation
+/// Creates a glossary term within a business glossary in Glue Data Catalog. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsGlueCreateGlossaryTermOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a glossary term within a business glossary in Glue Data Cata- log. See also: AWS API Documentation
+    /// Creates a glossary term within a business glossary in Glue Data Catalog. See also: AWS API Documentation
     /// </summary>
     /// <param name="GlossaryIdentifier">The unique identifier of the glossary in which to create the term.</param>
-    /// <param name="Name">The name of the glossary term. Constraints: o min: 1 o max: 256</param>
+    /// <param name="Name">The name of the glossary term. Constraints: • min: 1 • max: 256</param>
     public AwsGlueCreateGlossaryTermOptions(
         string GlossaryIdentifier,
         string Name
@@ -67,25 +69,25 @@ public record AwsGlueCreateGlossaryTermOptions : AwsOptions, IValidatableObject
     public string? GlossaryIdentifier { get; private init; }
 
     /// <summary>
-    /// The name of the glossary term. Constraints: o min: 1 o max: 256
+    /// The name of the glossary term. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A short description of the glossary term. Constraints: o min: 1 o max: 1024
+    /// A short description of the glossary term. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--short-description")]
     public string? ShortDescription { get; set; }
 
     /// <summary>
-    /// A long description of the glossary term. Constraints: o min: 1 o max: 4096
+    /// A long description of the glossary term. Constraints: • min: 1 • max: 4096
     /// </summary>
     [CliOption("--long-description")]
     public string? LongDescription { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

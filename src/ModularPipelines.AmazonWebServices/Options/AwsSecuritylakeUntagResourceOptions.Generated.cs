@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsSecuritylakeUntagResourceOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Removes one or more tags (keys and values) from an Amazon Security Lake resource: a subscriber, or the data lake configuration for your Amazon Web Services account in a particular Amazon Web Services Region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Amazon Security Lake resource to remove one or more tags from. Constraints: o min: 1 o max: 1011 o pattern: ^arn:(aws|aws-us-gov|aws-cn):security- lake:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9][A-Za-z0-9_/.\-]{0,127}$</param>
-    /// <param name="TagKeys">A list of one or more tag keys. For each value in the list, specify the tag key for a tag to remove from the Amazon Security Lake re- source. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Amazon Security Lake resource to remove one or more tags from. Constraints: • min: 1 • max: 1011 • pattern: ^arn:(aws|aws-us-gov|aws-cn):securitylake:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9][A-Za-z0-9_/.\-]{0,127}$</param>
+    /// <param name="TagKeys">A list of one or more tag keys. For each value in the list, specify the tag key for a tag to remove from the Amazon Security Lake resource. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
     public AwsSecuritylakeUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsSecuritylakeUntagResourceOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Amazon Security Lake resource to remove one or more tags from. Constraints: o min: 1 o max: 1011 o pattern: ^arn:(aws|aws-us-gov|aws-cn):security- lake:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9][A-Za-z0-9_/.\-]{0,127}$
+    /// The Amazon Resource Name (ARN) of the Amazon Security Lake resource to remove one or more tags from. Constraints: • min: 1 • max: 1011 • pattern: ^arn:(aws|aws-us-gov|aws-cn):securitylake:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9][A-Za-z0-9_/.\-]{0,127}$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A list of one or more tag keys. For each value in the list, specify the tag key for a tag to remove from the Amazon Security Lake re- source. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// A list of one or more tag keys. For each value in the list, specify the tag key for a tag to remove from the Amazon Security Lake resource. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws mediapackagevod commands.
+/// aws mediapackage-vod commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsMediapackageVod : IAwsMediapackageVod
@@ -152,7 +152,7 @@ public class AwsMediapackageVod : IAwsMediapackageVod
     }
 
     /// <summary>
-    /// Returns a description of a MediaPackage VOD PackagingConfiguration re- source. See also: AWS API Documentation
+    /// Returns a description of a MediaPackage VOD PackagingConfiguration resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsMediapackageVod : IAwsMediapackageVod
     }
 
     /// <summary>
-    /// Returns a collection of MediaPackage VOD Asset resources. See also: AWS API Documentation list-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Assets
+    /// Returns a collection of MediaPackage VOD Asset resources. See also: AWS API Documentation list-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Assets
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsMediapackageVod : IAwsMediapackageVod
     }
 
     /// <summary>
-    /// Returns a collection of MediaPackage VOD PackagingConfiguration re- sources. See also: AWS API Documentation list-packaging-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PackagingC...
+    /// Returns a collection of MediaPackage VOD PackagingConfiguration resources. See also: AWS API Documentation list-packaging-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PackagingConfigu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

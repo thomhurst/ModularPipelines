@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsChimeSdkIdentityPutAppInstanceUserExpirationSettingsOptions : A
     /// <summary>
     /// Sets the number of days before the AppInstanceUser is automatically deleted. NOTE: A background process deletes expired AppInstanceUsers within 6 hours of expiration. Actual deletion times may vary. Expired AppInstanceUsers that have not yet been deleted appear as active, and you can update their expiration settings. The system honors the new settings. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppInstanceUserArn">The ARN of the AppInstanceUser . Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="AppInstanceUserArn">The ARN of the AppInstanceUser . Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
     public AwsChimeSdkIdentityPutAppInstanceUserExpirationSettingsOptions(
         string AppInstanceUserArn
     )
@@ -56,13 +58,13 @@ public record AwsChimeSdkIdentityPutAppInstanceUserExpirationSettingsOptions : A
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the AppInstanceUser . Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The ARN of the AppInstanceUser . Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--app-instance-user-arn")]
     public string? AppInstanceUserArn { get; private init; }
 
     /// <summary>
-    /// Settings that control the interval after which an AppInstanceUser is automatically deleted. ExpirationDays -&gt; (integer) [required] The period in days after which an AppInstanceUser will be auto- matically deleted. Constraints: o min: 1 o max: 5475 ExpirationCriterion -&gt; (string) [required] Specifies the conditions under which an AppInstanceUser will ex- pire. Possible values: o CREATED_TIMESTAMP Shorthand Syntax: ExpirationDays=integer,ExpirationCriterion=string JSON Syntax: { "ExpirationDays": integer, "ExpirationCriterion": "CREATED_TIMESTAMP" }
+    /// Settings that control the interval after which an AppInstanceUser is automatically deleted. ExpirationDays -&gt; (integer) [required] The period in days after which an AppInstanceUser will be automatically deleted. Constraints: • min: 1 • max: 5475 ExpirationCriterion -&gt; (string) [required] Specifies the conditions under which an AppInstanceUser will expire. Possible values: • CREATED_TIMESTAMP Shorthand Syntax: ExpirationDays=integer,ExpirationCriterion=string JSON Syntax: { "ExpirationDays": integer, "ExpirationCriterion": "CREATED_TIMESTAMP" }
     /// </summary>
     [CliOption("--expiration-settings")]
     public string? ExpirationSettings { get; set; }

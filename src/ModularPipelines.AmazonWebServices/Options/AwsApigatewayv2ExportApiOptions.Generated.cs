@@ -26,8 +26,8 @@ public record AwsApigatewayv2ExportApiOptions : AwsOptions
     /// See also: AWS API Documentation
     /// </summary>
     /// <param name="ApiId">The API identifier.</param>
-    /// <param name="OutputType">The output type of the exported definition file. Valid values are JSON and YAML. Possible values: o YAML o JSON</param>
-    /// <param name="Specification">The version of the API specification to use. OAS30, for OpenAPI 3.0, is the only supported value. Possible values: o OAS30</param>
+    /// <param name="OutputType">The output type of the exported definition file. Valid values are JSON and YAML. Possible values: • YAML • JSON</param>
+    /// <param name="Specification">The version of the API specification to use. OAS30, for OpenAPI 3.0, is the only supported value. Possible values: • OAS30</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsApigatewayv2ExportApiOptions(
         string ApiId,
@@ -60,13 +60,13 @@ public record AwsApigatewayv2ExportApiOptions : AwsOptions
     public string ApiId { get; private init; }
 
     /// <summary>
-    /// The output type of the exported definition file. Valid values are JSON and YAML. Possible values: o YAML o JSON
+    /// The output type of the exported definition file. Valid values are JSON and YAML. Possible values: • YAML • JSON
     /// </summary>
     [CliOption("--output-type")]
     public AwsApigatewayv2ExportApiOutputType OutputType { get; private init; }
 
     /// <summary>
-    /// The version of the API specification to use. OAS30, for OpenAPI 3.0, is the only supported value. Possible values: o OAS30
+    /// The version of the API specification to use. OAS30, for OpenAPI 3.0, is the only supported value. Possible values: • OAS30
     /// </summary>
     [CliOption("--specification")]
     public string Specification { get; private init; }
@@ -84,7 +84,7 @@ public record AwsApigatewayv2ExportApiOptions : AwsOptions
     public bool? IncludeExtensions { get; set; }
 
     /// <summary>
-    /// The name of the API stage to export. If you don't specify this prop- erty, a representation of the latest API configuration is exported. outfile (string) [required] Filename where the content will be saved
+    /// The name of the API stage to export. If you don't specify this property, a representation of the latest API configuration is exported. outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--stage-name")]
     public string? StageName { get; set; }

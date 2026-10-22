@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Accepts a structured query language (SQL) SELECT command and an aggre- gator to query configuration state of Amazon Web Services resources across multiple accounts and regions, performs the corresponding search, and returns resource configurations matching the properties. For more information about query components, see the ` Query Components https://docs.aws.amazon.com/config/latest/developerguide/query-components.html`__ section in the Config Developer Guide . NOTE: If you run an aggregation q...
+/// Accepts a structured query language (SQL) SELECT command and an aggregator to query configuration state of Amazon Web Services resources across multiple accounts and regions, performs the corresponding search, and returns resource configurations matching the properties. For more information about query components, see the ` Query Components https://docs.aws.amazon.com/config/latest/developerguide/query-components.html`__ section in the Config Developer Guide . NOTE: If you run an aggregation que...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsConfigserviceSelectAggregateResourceConfigOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Accepts a structured query language (SQL) SELECT command and an aggre- gator to query configuration state of Amazon Web Services resources across multiple accounts and regions, performs the corresponding search, and returns resource configurations matching the properties. For more information about query components, see the ` Query Components https://docs.aws.amazon.com/config/latest/developerguide/query-components.html`__ section in the Config Developer Guide . NOTE: If you run an aggregation q...
+    /// Accepts a structured query language (SQL) SELECT command and an aggregator to query configuration state of Amazon Web Services resources across multiple accounts and regions, performs the corresponding search, and returns resource configurations matching the properties. For more information about query components, see the ` Query Components https://docs.aws.amazon.com/config/latest/developerguide/query-components.html`__ section in the Config Developer Guide . NOTE: If you run an aggregation que...
     /// </summary>
-    /// <param name="Expression">The SQL query SELECT command. Constraints: o min: 1 o max: 4096</param>
-    /// <param name="ConfigurationAggregatorName">The name of the configuration aggregator. Constraints: o min: 1 o max: 256 o pattern: [\w\-]+</param>
+    /// <param name="Expression">The SQL query SELECT command. Constraints: • min: 1 • max: 4096</param>
+    /// <param name="ConfigurationAggregatorName">The name of the configuration aggregator. Constraints: • min: 1 • max: 256 • pattern: [\w\-]+</param>
     public AwsConfigserviceSelectAggregateResourceConfigOptions(
         string Expression,
         string ConfigurationAggregatorName
@@ -61,28 +63,25 @@ public record AwsConfigserviceSelectAggregateResourceConfigOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The SQL query SELECT command. Constraints: o min: 1 o max: 4096
+    /// The SQL query SELECT command. Constraints: • min: 1 • max: 4096
     /// </summary>
     [CliOption("--expression")]
     public string? Expression { get; private init; }
 
     /// <summary>
-    /// The name of the configuration aggregator. Constraints: o min: 1 o max: 256 o pattern: [\w\-]+
+    /// The name of the configuration aggregator. Constraints: • min: 1 • max: 256 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--configuration-aggregator-name")]
     public string? ConfigurationAggregatorName { get; private init; }
 
     /// <summary>
-    /// The maximum number of query results returned on each page. Config also allows the Limit request parameter. Constraints: o min: 0 o max: 100
+    /// The maximum number of query results returned on each page. Config also allows the Limit request parameter. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -92,16 +91,19 @@ public record AwsConfigserviceSelectAggregateResourceConfigOptions : AwsOptions,
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 0 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the configuration of an existing ACME endpoint. You can change the authorization behavior, contact requirement, or certificate author- ity settings. See also: AWS API Documentation
+/// Updates the configuration of an existing ACME endpoint. You can change the authorization behavior, contact requirement, or certificate authority settings. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsAcmUpdateAcmeEndpointOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the configuration of an existing ACME endpoint. You can change the authorization behavior, contact requirement, or certificate author- ity settings. See also: AWS API Documentation
+    /// Updates the configuration of an existing ACME endpoint. You can change the authorization behavior, contact requirement, or certificate authority settings. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AcmeEndpointArn">The Amazon Resource Name (ARN) of the ACME endpoint to update. Constraints: o min: 1 o max: 200 o pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-end- point/[a-zA-Z0-9-]+</param>
+    /// <param name="AcmeEndpointArn">The Amazon Resource Name (ARN) of the ACME endpoint to update. Constraints: • min: 1 • max: 200 • pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+</param>
     public AwsAcmUpdateAcmeEndpointOptions(
         string AcmeEndpointArn
     )
@@ -57,25 +59,25 @@ public record AwsAcmUpdateAcmeEndpointOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the ACME endpoint to update. Constraints: o min: 1 o max: 200 o pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-end- point/[a-zA-Z0-9-]+
+    /// The Amazon Resource Name (ARN) of the ACME endpoint to update. Constraints: • min: 1 • max: 200 • pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--acme-endpoint-arn")]
     public string? AcmeEndpointArn { get; private init; }
 
     /// <summary>
-    /// The updated authorization behavior. Possible values: o PRE_APPROVED
+    /// The updated authorization behavior. Possible values: • PRE_APPROVED
     /// </summary>
     [CliOption("--authorization-behavior")]
     public string? AuthorizationBehavior { get; set; }
 
     /// <summary>
-    /// The updated contact requirement. Possible values: o REQUIRED o NOT_REQUIRED
+    /// The updated contact requirement. Possible values: • REQUIRED • NOT_REQUIRED
     /// </summary>
     [CliOption("--contact")]
     public AwsAcmUpdateAcmeEndpointContact? Contact { get; set; }
 
     /// <summary>
-    /// The updated certificate authority configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: PublicCertificateAuthority. PublicCertificateAuthority -&gt; (structure) Configuration for using a public certificate authority. AllowedKeyAlgorithms -&gt; (list) The key algorithms allowed for certificates issued by this certificate authority. (string) Possible values: o RSA_2048 o EC_prime256v1 o EC_secp384r1 Shorthand Syntax: PublicCertificateAuthority={AllowedKeyAlgorithms=[string,string]} JSON Syntax: { "PublicCertificateAuthority": { "AllowedKeyAlgorithms": ["RSA_2048"|"EC_prime256v1"|"EC_secp384r1", ...] } }
+    /// The updated certificate authority configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: PublicCertificateAuthority. PublicCertificateAuthority -&gt; (structure) Configuration for using a public certificate authority. AllowedKeyAlgorithms -&gt; (list) The key algorithms allowed for certificates issued by this certificate authority. (string) Possible values: • RSA_2048 • EC_prime256v1 • EC_secp384r1 Shorthand Syntax: PublicCertificateAuthority={AllowedKeyAlgorithms=[string,string]} JSON Syntax: { "PublicCertificateAuthority": { "AllowedKeyAlgorithms": ["RSA_2048"|"EC_prime256v1"|"EC_secp384r1", ...] } }
     /// </summary>
     [CliOption("--certificate-authority")]
     public string? CertificateAuthority { get; set; }

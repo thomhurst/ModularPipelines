@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsM2StartApplicationOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Starts an application that is currently stopped. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The unique identifier of the application you want to start. Constraints: o pattern: ^\S{1,80}$</param>
+    /// <param name="ApplicationId">The unique identifier of the application you want to start. Constraints: • pattern: ^\S{1,80}$</param>
     public AwsM2StartApplicationOptions(
         string ApplicationId
     )
@@ -56,7 +58,7 @@ public record AwsM2StartApplicationOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the application you want to start. Constraints: o pattern: ^\S{1,80}$
+    /// The unique identifier of the application you want to start. Constraints: • pattern: ^\S{1,80}$
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }

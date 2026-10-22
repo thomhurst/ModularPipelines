@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the delivery channel. Before you can delete the delivery channel, you must stop the customer managed configuration recorder. You can use the StopConfigura- tionRecorder operation to stop the customer managed configuration recorder. See also: AWS API Documentation
+/// Deletes the delivery channel. Before you can delete the delivery channel, you must stop the customer managed configuration recorder. You can use the StopConfigurationRecorder operation to stop the customer managed configuration recorder. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsConfigserviceDeleteDeliveryChannelOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the delivery channel. Before you can delete the delivery channel, you must stop the customer managed configuration recorder. You can use the StopConfigura- tionRecorder operation to stop the customer managed configuration recorder. See also: AWS API Documentation
+    /// Deletes the delivery channel. Before you can delete the delivery channel, you must stop the customer managed configuration recorder. You can use the StopConfigurationRecorder operation to stop the customer managed configuration recorder. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DeliveryChannelName">The name of the delivery channel that you want to delete. Constraints: o min: 1 o max: 256</param>
+    /// <param name="DeliveryChannelName">The name of the delivery channel that you want to delete. Constraints: • min: 1 • max: 256</param>
     public AwsConfigserviceDeleteDeliveryChannelOptions(
         string DeliveryChannelName
     )
@@ -56,7 +58,7 @@ public record AwsConfigserviceDeleteDeliveryChannelOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the delivery channel that you want to delete. Constraints: o min: 1 o max: 256
+    /// The name of the delivery channel that you want to delete. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--delivery-channel-name")]
     public string? DeliveryChannelName { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotwirelessGetWirelessGatewayCertificateOptions : AwsOptions, I
     /// <summary>
     /// Gets the ID of the certificate that is currently associated with a wireless gateway. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the resource to get. Constraints: o max: 256</param>
+    /// <param name="Id">The ID of the resource to get. Constraints: • max: 256</param>
     public AwsIotwirelessGetWirelessGatewayCertificateOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsIotwirelessGetWirelessGatewayCertificateOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the resource to get. Constraints: o max: 256
+    /// The ID of the resource to get. Constraints: • max: 256
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMediaconnectDeleteFlowOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a flow. Before you can delete a flow, you must stop the flow. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FlowArn">The Amazon Resource Name (ARN) of the flow that you want to delete. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+</param>
+    /// <param name="FlowArn">The Amazon Resource Name (ARN) of the flow that you want to delete. Constraints: • pattern: arn:.+:mediaconnect.+:flow:.+</param>
     public AwsMediaconnectDeleteFlowOptions(
         string FlowArn
     )
@@ -56,7 +58,7 @@ public record AwsMediaconnectDeleteFlowOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the flow that you want to delete. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+
+    /// The Amazon Resource Name (ARN) of the flow that you want to delete. Constraints: • pattern: arn:.+:mediaconnect.+:flow:.+
     /// </summary>
     [CliOption("--flow-arn")]
     public string? FlowArn { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Decodes additional information about the authorization status of a re- quest from an encoded message returned in response to an Amazon Web Services request. For example, if a user is not authorized to perform an operation that he or she has requested, the request returns a Client.UnauthorizedOper- ation response (an HTTP 403 response). Some Amazon Web Services opera- tions additionally return an encoded message that can provide details about this authorization failure. NOTE: Only certain Amazon ...
+/// Decodes additional information about the authorization status of a request from an encoded message returned in response to an Amazon Web Services request. For example, if a user is not authorized to perform an operation that he or she has requested, the request returns a Client.UnauthorizedOperation response (an HTTP 403 response). Some Amazon Web Services operations additionally return an encoded message that can provide details about this authorization failure. NOTE: Only certain Amazon Web Se...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsStsDecodeAuthorizationMessageOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Decodes additional information about the authorization status of a re- quest from an encoded message returned in response to an Amazon Web Services request. For example, if a user is not authorized to perform an operation that he or she has requested, the request returns a Client.UnauthorizedOper- ation response (an HTTP 403 response). Some Amazon Web Services opera- tions additionally return an encoded message that can provide details about this authorization failure. NOTE: Only certain Amazon ...
+    /// Decodes additional information about the authorization status of a request from an encoded message returned in response to an Amazon Web Services request. For example, if a user is not authorized to perform an operation that he or she has requested, the request returns a Client.UnauthorizedOperation response (an HTTP 403 response). Some Amazon Web Services operations additionally return an encoded message that can provide details about this authorization failure. NOTE: Only certain Amazon Web Se...
     /// </summary>
-    /// <param name="EncodedMessage">The encoded message that was returned with the response. Constraints: o min: 1 o max: 10240</param>
+    /// <param name="EncodedMessage">The encoded message that was returned with the response. Constraints: • min: 1 • max: 10240</param>
     public AwsStsDecodeAuthorizationMessageOptions(
         string EncodedMessage
     )
@@ -56,7 +58,7 @@ public record AwsStsDecodeAuthorizationMessageOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The encoded message that was returned with the response. Constraints: o min: 1 o max: 10240
+    /// The encoded message that was returned with the response. Constraints: • min: 1 • max: 10240
     /// </summary>
     [CliOption("--encoded-message")]
     public string? EncodedMessage { get; private init; }

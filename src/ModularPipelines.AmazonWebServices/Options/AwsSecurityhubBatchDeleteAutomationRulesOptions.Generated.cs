@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSecurityhubBatchDeleteAutomationRulesOptions : AwsOptions, IVal
     /// <summary>
     /// Deletes one or more automation rules. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AutomationRulesArns">A list of Amazon Resource Names (ARNs) for the rules that are to be deleted. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...</param>
+    /// <param name="AutomationRulesArns">A list of Amazon Resource Names (ARNs) for the rules that are to be deleted. Constraints: • min: 1 • max: 100 (string) Constraints: • pattern: .*\S.* Syntax: "string" "string" ...</param>
     public AwsSecurityhubBatchDeleteAutomationRulesOptions(
         IEnumerable<string> AutomationRulesArns
     )
@@ -67,7 +69,7 @@ public record AwsSecurityhubBatchDeleteAutomationRulesOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of Amazon Resource Names (ARNs) for the rules that are to be deleted. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...
+    /// A list of Amazon Resource Names (ARNs) for the rules that are to be deleted. Constraints: • min: 1 • max: 100 (string) Constraints: • pattern: .*\S.* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--automation-rules-arns", GroupValues = true)]
     public IEnumerable<string>? AutomationRulesArns { get; private init; }

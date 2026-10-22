@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsComprehendStartFlywheelIterationOptions : AwsOptions, IValidata
     /// <summary>
     /// Start the flywheel iteration.This operation uses any new datasets to train a new model version. For more information about flywheels, see Flywheel overview in the Amazon Comprehend Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="FlywheelArn">The ARN of the flywheel. Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:fly- wheel/[a-zA-Z0-9](-*[a-zA-Z0-9])*</param>
+    /// <param name="FlywheelArn">The ARN of the flywheel. Constraints: • max: 256 • pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:flywheel/[a-zA-Z0-9](-*[a-zA-Z0-9])*</param>
     public AwsComprehendStartFlywheelIterationOptions(
         string FlywheelArn
     )
@@ -57,13 +59,13 @@ public record AwsComprehendStartFlywheelIterationOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the flywheel. Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:fly- wheel/[a-zA-Z0-9](-*[a-zA-Z0-9])*
+    /// The ARN of the flywheel. Constraints: • max: 256 • pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:flywheel/[a-zA-Z0-9](-*[a-zA-Z0-9])*
     /// </summary>
     [CliOption("--flywheel-arn")]
     public string? FlywheelArn { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the request. If you don't set the client re- quest token, Amazon Comprehend generates one. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-]+$
+    /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]

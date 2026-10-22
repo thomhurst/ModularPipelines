@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsLogsDescribeImportTaskBatchesOptions : AwsOptions, IValidatable
     /// <summary>
     /// Gets detailed information about the individual batches within an import task, including their status and any error messages. For CloudTrail Event Data Store sources, a batch refers to a subset of stored events grouped by their eventTime. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ImportId">The ID of the import task to get batch information for. Constraints: o min: 1 o max: 256 o pattern: [\-a-zA-Z0-9]+</param>
+    /// <param name="ImportId">The ID of the import task to get batch information for. Constraints: • min: 1 • max: 256 • pattern: [\-a-zA-Z0-9]+</param>
     public AwsLogsDescribeImportTaskBatchesOptions(
         string ImportId
     )
@@ -57,25 +59,25 @@ public record AwsLogsDescribeImportTaskBatchesOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the import task to get batch information for. Constraints: o min: 1 o max: 256 o pattern: [\-a-zA-Z0-9]+
+    /// The ID of the import task to get batch information for. Constraints: • min: 1 • max: 256 • pattern: [\-a-zA-Z0-9]+
     /// </summary>
     [CliOption("--import-id")]
     public string? ImportId { get; private init; }
 
     /// <summary>
-    /// Optional filter to list import batches by their status. Accepts mul- tiple status values: IN_PROGRESS, CANCELLED, COMPLETED and FAILED. (string) Possible values: o IN_PROGRESS o CANCELLED o COMPLETED o FAILED Syntax: "string" "string" ...
+    /// Optional filter to list import batches by their status. Accepts multiple status values: IN_PROGRESS, CANCELLED, COMPLETED and FAILED. (string) Possible values: • IN_PROGRESS • CANCELLED • COMPLETED • FAILED Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--batch-import-status", GroupValues = true)]
     public IEnumerable<string>? BatchImportStatus { get; set; }
 
     /// <summary>
-    /// The maximum number of import batches to return in the response. De- fault: 10 Constraints: o min: 1 o max: 50
+    /// The maximum number of import batches to return in the response. Default: 10 Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }
 
     /// <summary>
-    /// The pagination token for the next set of results. Constraints: o min: 1
+    /// The pagination token for the next set of results. Constraints: • min: 1
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

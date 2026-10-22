@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a custom model deployment. This operation stops the deployment and removes it from your account. After deletion, the deployment ARN can no longer be used for inference requests. The following actions are related to the DeleteCustomModelDeployment operation: o CreateCustomModelDeployment o GetCustomModelDeployment o ListCustomModelDeployments See also: AWS API Documentation
+/// Deletes a custom model deployment. This operation stops the deployment and removes it from your account. After deletion, the deployment ARN can no longer be used for inference requests. The following actions are related to the DeleteCustomModelDeployment operation: • CreateCustomModelDeployment • GetCustomModelDeployment • ListCustomModelDeployments See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsBedrockDeleteCustomModelDeploymentOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a custom model deployment. This operation stops the deployment and removes it from your account. After deletion, the deployment ARN can no longer be used for inference requests. The following actions are related to the DeleteCustomModelDeployment operation: o CreateCustomModelDeployment o GetCustomModelDeployment o ListCustomModelDeployments See also: AWS API Documentation
+    /// Deletes a custom model deployment. This operation stops the deployment and removes it from your account. After deletion, the deployment ARN can no longer be used for inference requests. The following actions are related to the DeleteCustomModelDeployment operation: • CreateCustomModelDeployment • GetCustomModelDeployment • ListCustomModelDeployments See also: AWS API Documentation
     /// </summary>
-    /// <param name="CustomModelDeploymentIdentifier">The Amazon Resource Name (ARN) or name of the custom model deploy- ment to delete. Constraints: o min: 1 o max: 93 o pattern: (arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:[a-z0-9-]{1,20}:[0-9]{12}:cus- tom-model-deployment/[a-z0-9]{12})|^([0-9a-zA-Z][_-]?){1,63}</param>
+    /// <param name="CustomModelDeploymentIdentifier">The Amazon Resource Name (ARN) or name of the custom model deployment to delete. Constraints: • min: 1 • max: 93 • pattern: (arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:[a-z0-9-]{1,20}:[0-9]{12}:custom-model-deployment/[a-z0-9]{12})|^([0-9a-zA-Z][_-]?){1,63}</param>
     public AwsBedrockDeleteCustomModelDeploymentOptions(
         string CustomModelDeploymentIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsBedrockDeleteCustomModelDeploymentOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) or name of the custom model deploy- ment to delete. Constraints: o min: 1 o max: 93 o pattern: (arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:[a-z0-9-]{1,20}:[0-9]{12}:cus- tom-model-deployment/[a-z0-9]{12})|^([0-9a-zA-Z][_-]?){1,63}
+    /// The Amazon Resource Name (ARN) or name of the custom model deployment to delete. Constraints: • min: 1 • max: 93 • pattern: (arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:[a-z0-9-]{1,20}:[0-9]{12}:custom-model-deployment/[a-z0-9]{12})|^([0-9a-zA-Z][_-]?){1,63}
     /// </summary>
     [CliOption("--custom-model-deployment-identifier")]
     public string? CustomModelDeploymentIdentifier { get; private init; }

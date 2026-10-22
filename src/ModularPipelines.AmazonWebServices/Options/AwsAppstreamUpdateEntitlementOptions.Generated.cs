@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsAppstreamUpdateEntitlementOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Updates the specified entitlement. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the entitlement. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
-    /// <param name="StackName">The name of the stack with which the entitlement is associated. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="Name">The name of the entitlement. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="StackName">The name of the stack with which the entitlement is associated. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
     public AwsAppstreamUpdateEntitlementOptions(
         string Name,
         string StackName
@@ -61,31 +63,31 @@ public record AwsAppstreamUpdateEntitlementOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the entitlement. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// The name of the entitlement. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The name of the stack with which the entitlement is associated. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// The name of the stack with which the entitlement is associated. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
     /// </summary>
     [CliOption("--stack-name")]
     public string? StackName { get; private init; }
 
     /// <summary>
-    /// The description of the entitlement. Constraints: o max: 256
+    /// The description of the entitlement. Constraints: • max: 256
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Specifies whether all or only selected apps are entitled. Possible values: o ALL o ASSOCIATED
+    /// Specifies whether all or only selected apps are entitled. Possible values: • ALL • ASSOCIATED
     /// </summary>
     [CliOption("--app-visibility")]
     public AwsAppstreamUpdateEntitlementAppVisibility? AppVisibility { get; set; }
 
     /// <summary>
-    /// The attributes of the entitlement. Constraints: o min: 1 (structure) An attribute associated with an entitlement. Application enti- tlements work by matching a supported SAML 2.0 attribute name to a value when a user identity federates to a WorkSpaces Applica- tions SAML application. Name -&gt; (string) [required] A supported AWS IAM SAML PrincipalTag attribute that is matched to the associated value when a user identity feder- ates into a WorkSpaces Applications SAML application. The following are valid values: o roles o department o organization o groups o title o costCenter o userType Constraints: o min: 1 Value -&gt; (string) [required] A value that is matched to a supported SAML attribute name when a user identity federates into a WorkSpaces Applications SAML application. Constraints: o min: 1 Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
+    /// The attributes of the entitlement. Constraints: • min: 1 (structure) An attribute associated with an entitlement. Application entitlements work by matching a supported SAML 2.0 attribute name to a value when a user identity federates to a WorkSpaces Applications SAML application. Name -&gt; (string) [required] A supported AWS IAM SAML PrincipalTag attribute that is matched to the associated value when a user identity federates into a WorkSpaces Applications SAML application. The following are valid values: • roles • department • organization • groups • title • costCenter • userType Constraints: • min: 1 Value -&gt; (string) [required] A value that is matched to a supported SAML attribute name when a user identity federates into a WorkSpaces Applications SAML application. Constraints: • min: 1 Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--attributes", GroupValues = true)]
     public IEnumerable<string>? Attributes { get; set; }

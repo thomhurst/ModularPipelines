@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Contains information about all the versions replication statuses ap- plicable for Global Resiliency. See also: AWS API Documentation
+/// Contains information about all the versions replication statuses applicable for Global Resiliency. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsLexv2ModelsListBotVersionReplicasOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Contains information about all the versions replication statuses ap- plicable for Global Resiliency. See also: AWS API Documentation
+    /// Contains information about all the versions replication statuses applicable for Global Resiliency. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BotId">The request for the unique ID in the list of replicated bots. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="ReplicaRegion">The request for the region used in the list of replicated bots. Constraints: o min: 2 o max: 25</param>
+    /// <param name="BotId">The request for the unique ID in the list of replicated bots. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="ReplicaRegion">The request for the region used in the list of replicated bots. Constraints: • min: 2 • max: 25</param>
     public AwsLexv2ModelsListBotVersionReplicasOptions(
         string BotId,
         string ReplicaRegion
@@ -61,19 +63,19 @@ public record AwsLexv2ModelsListBotVersionReplicasOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The request for the unique ID in the list of replicated bots. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The request for the unique ID in the list of replicated bots. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
 
     /// <summary>
-    /// The request for the region used in the list of replicated bots. Constraints: o min: 2 o max: 25
+    /// The request for the region used in the list of replicated bots. Constraints: • min: 2 • max: 25
     /// </summary>
     [CliOption("--replica-region")]
     public string? ReplicaRegion { get; private init; }
 
     /// <summary>
-    /// The maximum results given in the list of replicated bots. Constraints: o min: 1 o max: 1000
+    /// The maximum results given in the list of replicated bots. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -86,7 +88,7 @@ public record AwsLexv2ModelsListBotVersionReplicasOptions : AwsOptions, IValidat
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The requested sort category for the list of replicated bots. attribute -&gt; (string) [required] The attribute of the sort category for the version replicated bots. Possible values: o BotVersion order -&gt; (string) [required] The order of the sort category for the version replicated bots. Possible values: o Ascending o Descending Shorthand Syntax: attribute=string,order=string JSON Syntax: { "attribute": "BotVersion", "order": "Ascending"|"Descending" }
+    /// The requested sort category for the list of replicated bots. attribute -&gt; (string) [required] The attribute of the sort category for the version replicated bots. Possible values: • BotVersion order -&gt; (string) [required] The order of the sort category for the version replicated bots. Possible values: • Ascending • Descending Shorthand Syntax: attribute=string,order=string JSON Syntax: { "attribute": "BotVersion", "order": "Ascending"|"Descending" }
     /// </summary>
     [CliOption("--sort-by")]
     public string? SortBy { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsTimestreamWriteResumeBatchLoadTaskOptions : AwsOptions, IValida
     /// <summary>
     /// See also: AWS API Documentation
     /// </summary>
-    /// <param name="TaskId">The ID of the batch load task to resume. Constraints: o min: 3 o max: 32 o pattern: [A-Z0-9]+</param>
+    /// <param name="TaskId">The ID of the batch load task to resume. Constraints: • min: 3 • max: 32 • pattern: [A-Z0-9]+</param>
     public AwsTimestreamWriteResumeBatchLoadTaskOptions(
         string TaskId
     )
@@ -56,7 +58,7 @@ public record AwsTimestreamWriteResumeBatchLoadTaskOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the batch load task to resume. Constraints: o min: 3 o max: 32 o pattern: [A-Z0-9]+
+    /// The ID of the batch load task to resume. Constraints: • min: 3 • max: 32 • pattern: [A-Z0-9]+
     /// </summary>
     [CliOption("--task-id")]
     public string? TaskId { get; private init; }

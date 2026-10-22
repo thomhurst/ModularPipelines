@@ -24,32 +24,32 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLookoutequipmentListInferenceSchedulersOptions : AwsOptions
 {
     /// <summary>
-    /// An opaque pagination token indicating where to continue the listing of inference schedulers. Constraints: o max: 8192 o pattern: \p{ASCII}{0,8192}
+    /// An opaque pagination token indicating where to continue the listing of inference schedulers. Constraints: • max: 8192 • pattern: \p{ASCII}{0,8192}
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Specifies the maximum number of inference schedulers to list. Constraints: o min: 1 o max: 500
+    /// Specifies the maximum number of inference schedulers to list. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The beginning of the name of the inference schedulers to be listed. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// The beginning of the name of the inference schedulers to be listed. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$
     /// </summary>
     [CliOption("--inference-scheduler-name-begins-with")]
     public string? InferenceSchedulerNameBeginsWith { get; set; }
 
     /// <summary>
-    /// The name of the machine learning model used by the inference sched- uler to be listed. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// The name of the machine learning model used by the inference scheduler to be listed. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$
     /// </summary>
     [CliOption("--model-name")]
     public string? ModelName { get; set; }
 
     /// <summary>
-    /// Specifies the current status of the inference schedulers. Possible values: o PENDING o RUNNING o STOPPING o STOPPED
+    /// Specifies the current status of the inference schedulers. Possible values: • PENDING • RUNNING • STOPPING • STOPPED
     /// </summary>
     [CliOption("--status")]
     public AwsLookoutequipmentListInferenceSchedulersStatus? Status { get; set; }

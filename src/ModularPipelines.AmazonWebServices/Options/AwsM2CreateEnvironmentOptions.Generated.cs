@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -30,9 +31,9 @@ public record AwsM2CreateEnvironmentOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a runtime environment for a given runtime engine. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EngineType">The engine type for the runtime environment. Possible values: o microfocus o bluage</param>
-    /// <param name="InstanceType">The type of instance for the runtime environment. Constraints: o pattern: ^\S{1,20}$</param>
-    /// <param name="Name">The name of the runtime environment. Must be unique within the ac- count. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$</param>
+    /// <param name="EngineType">The engine type for the runtime environment. Possible values: • microfocus • bluage</param>
+    /// <param name="InstanceType">The type of instance for the runtime environment. Constraints: • pattern: ^\S{1,20}$</param>
+    /// <param name="Name">The name of the runtime environment. Must be unique within the account. Constraints: • pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$</param>
     public AwsM2CreateEnvironmentOptions(
         AwsM2CreateEnvironmentEngineType EngineType,
         string InstanceType,
@@ -66,38 +67,38 @@ public record AwsM2CreateEnvironmentOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The engine type for the runtime environment. Possible values: o microfocus o bluage
+    /// The engine type for the runtime environment. Possible values: • microfocus • bluage
     /// </summary>
     [CliOption("--engine-type")]
     public AwsM2CreateEnvironmentEngineType? EngineType { get; private init; }
 
     /// <summary>
-    /// The type of instance for the runtime environment. Constraints: o pattern: ^\S{1,20}$
+    /// The type of instance for the runtime environment. Constraints: • pattern: ^\S{1,20}$
     /// </summary>
     [CliOption("--instance-type")]
     public string? InstanceType { get; private init; }
 
     /// <summary>
-    /// The name of the runtime environment. Must be unique within the ac- count. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$
+    /// The name of the runtime environment. Must be unique within the account. Constraints: • pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier you provide to ensure the idempo- tency of the request to create an environment. The service generates the clientToken when the API call is triggered. The token expires after one hour, so if you retry the API within this timeframe with the same clientToken, you will get the same response. The service also handles deleting the clientToken after it expires. Constraints: o min: 0 o max: 128 o pattern: ^[!-~]+$
+    /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request to create an environment. The service generates the clientToken when the API call is triggered. The token expires after one hour, so if you retry the API within this timeframe with the same clientToken, you will get the same response. The service also handles deleting the clientToken after it expires. Constraints: • min: 0 • max: 128 • pattern: ^[!-~]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The description of the runtime environment. Constraints: o min: 0 o max: 500
+    /// The description of the runtime environment. Constraints: • min: 0 • max: 500
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The version of the engine type for the runtime environment. Constraints: o pattern: ^\S{1,10}$
+    /// The version of the engine type for the runtime environment. Constraints: • pattern: ^\S{1,10}$
     /// </summary>
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
@@ -115,13 +116,13 @@ public record AwsM2CreateEnvironmentOptions : AwsOptions, IValidatableObject
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// The network type required for the runtime environment. Possible values: o ipv4 o dual
+    /// The network type required for the runtime environment. Possible values: • ipv4 • dual
     /// </summary>
     [CliOption("--network-type")]
     public AwsM2CreateEnvironmentNetworkType? NetworkType { get; set; }
 
     /// <summary>
-    /// Configures the maintenance window that you want for the runtime en- vironment. The maintenance window must have the format ddd:hh24:mi-ddd:hh24:mi and must be less than 24 hours. The follow- ing two examples are valid maintenance windows: sun:23:45-mon:00:15 or sat:01:00-sat:03:00 . If you do not provide a value, a random system-generated value will be assigned. Constraints: o pattern: ^\S{1,50}$
+    /// Configures the maintenance window that you want for the runtime environment. The maintenance window must have the format ddd:hh24:mi-ddd:hh24:mi and must be less than 24 hours. The following two examples are valid maintenance windows: sun:23:45-mon:00:15 or sat:01:00-sat:03:00 . If you do not provide a value, a random system-generated value will be assigned. Constraints: • pattern: ^\S{1,50}$
     /// </summary>
     [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
@@ -133,25 +134,25 @@ public record AwsM2CreateEnvironmentOptions : AwsOptions, IValidatableObject
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
-    /// The list of security groups for the VPC associated with this runtime environment. (string) Constraints: o pattern: ^\S{1,50}$ Syntax: "string" "string" ...
+    /// The list of security groups for the VPC associated with this runtime environment. (string) Constraints: • pattern: ^\S{1,50}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>
-    /// Optional. The storage configurations for this runtime environment. (tagged union structure) Defines the storage configuration for a runtime environment. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: efs, fsx. efs -&gt; (structure) Defines the storage configuration for an Amazon EFS file sys- tem. fileSystemId -&gt; (string) [required] The file system identifier. Constraints: o pattern: ^\S{1,200}$ mountPoint -&gt; (string) [required] The mount point for the file system. Constraints: o pattern: ^\S{1,200}$ fsx -&gt; (structure) Defines the storage configuration for an Amazon FSx file sys- tem. fileSystemId -&gt; (string) [required] The file system identifier. Constraints: o pattern: ^\S{1,200}$ mountPoint -&gt; (string) [required] The mount point for the file system. Constraints: o pattern: ^\S{1,200}$ Shorthand Syntax: efs={fileSystemId=string,mountPoint=string},fsx={fileSystemId=string,mountPoint=string} ... JSON Syntax: [ { "efs": { "fileSystemId": "string", "mountPoint": "string" }, "fsx": { "fileSystemId": "string", "mountPoint": "string" } } ... ]
+    /// Optional. The storage configurations for this runtime environment. (tagged union structure) Defines the storage configuration for a runtime environment. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: efs, fsx. efs -&gt; (structure) Defines the storage configuration for an Amazon EFS file system. fileSystemId -&gt; (string) [required] The file system identifier. Constraints: • pattern: ^\S{1,200}$ mountPoint -&gt; (string) [required] The mount point for the file system. Constraints: • pattern: ^\S{1,200}$ fsx -&gt; (structure) Defines the storage configuration for an Amazon FSx file system. fileSystemId -&gt; (string) [required] The file system identifier. Constraints: • pattern: ^\S{1,200}$ mountPoint -&gt; (string) [required] The mount point for the file system. Constraints: • pattern: ^\S{1,200}$ Shorthand Syntax: efs={fileSystemId=string,mountPoint=string},fsx={fileSystemId=string,mountPoint=string} ... JSON Syntax: [ { "efs": { "fileSystemId": "string", "mountPoint": "string" }, "fsx": { "fileSystemId": "string", "mountPoint": "string" } } ... ]
     /// </summary>
     [CliOption("--storage-configurations", GroupValues = true)]
     public IEnumerable<string>? StorageConfigurations { get; set; }
 
     /// <summary>
-    /// The list of subnets associated with the VPC for this runtime envi- ronment. (string) Constraints: o pattern: ^\S{1,50}$ Syntax: "string" "string" ...
+    /// The list of subnets associated with the VPC for this runtime environment. (string) Constraints: • pattern: ^\S{1,50}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; set; }
 
     /// <summary>
-    /// The tags for the runtime environment. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:).+$ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags for the runtime environment. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:).+$ value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

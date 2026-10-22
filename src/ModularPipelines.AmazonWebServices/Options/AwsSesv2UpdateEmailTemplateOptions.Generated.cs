@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an email template. Email templates enable you to send personal- ized email to one or more destinations in a single API operation. For more information, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+/// Updates an email template. Email templates enable you to send personalized email to one or more destinations in a single API operation. For more information, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSesv2UpdateEmailTemplateOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an email template. Email templates enable you to send personal- ized email to one or more destinations in a single API operation. For more information, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// Updates an email template. Email templates enable you to send personalized email to one or more destinations in a single API operation. For more information, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TemplateName">The name of the template. Constraints: o min: 1</param>
+    /// <param name="TemplateName">The name of the template. Constraints: • min: 1</param>
     /// <param name="TemplateContent">The content of the email template, composed of a subject line, an HTML part, and a text-only part. Subject -&gt; (string) The subject line of the email. Text -&gt; (string) The email body that will be visible to recipients whose email clients do not display HTML. Html -&gt; (string) The HTML body of the email. Shorthand Syntax: Subject=string,Text=string,Html=string JSON Syntax: { "Subject": "string", "Text": "string", "Html": "string" }</param>
     public AwsSesv2UpdateEmailTemplateOptions(
         string TemplateName,
@@ -60,7 +62,7 @@ public record AwsSesv2UpdateEmailTemplateOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the template. Constraints: o min: 1
+    /// The name of the template. Constraints: • min: 1
     /// </summary>
     [CliOption("--template-name")]
     public string? TemplateName { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsEcrPutLifecyclePolicyOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates or updates the lifecycle policy for the specified repository. For more information, see Lifecycle policy template . See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryName">The name of the repository to receive the policy. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*</param>
-    /// <param name="LifecyclePolicyText">The JSON repository policy text to apply to the repository. Constraints: o min: 100 o max: 30720</param>
+    /// <param name="RepositoryName">The name of the repository to receive the policy. Constraints: • min: 2 • max: 256 • pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*</param>
+    /// <param name="LifecyclePolicyText">The JSON repository policy text to apply to the repository. Constraints: • min: 100 • max: 30720</param>
     public AwsEcrPutLifecyclePolicyOptions(
         string RepositoryName,
         string LifecyclePolicyText
@@ -60,19 +62,19 @@ public record AwsEcrPutLifecyclePolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the repository to receive the policy. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*
+    /// The name of the repository to receive the policy. Constraints: • min: 2 • max: 256 • pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
 
     /// <summary>
-    /// The JSON repository policy text to apply to the repository. Constraints: o min: 100 o max: 30720
+    /// The JSON repository policy text to apply to the repository. Constraints: • min: 100 • max: 30720
     /// </summary>
     [CliOption("--lifecycle-policy-text")]
     public string? LifecyclePolicyText { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID associated with the registry that contains the repository. If you do not specify a registry, the de- fault registry is assumed. Constraints: o pattern: [0-9]{12}
+    /// The Amazon Web Services account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed. Constraints: • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; set; }

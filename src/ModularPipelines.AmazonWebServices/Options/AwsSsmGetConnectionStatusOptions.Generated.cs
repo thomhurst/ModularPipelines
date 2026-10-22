@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSsmGetConnectionStatusOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves the Session Manager connection status for a managed node to determine whether it is running and ready to receive Session Manager connections. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Target">The managed node ID. Constraints: o min: 1 o max: 400</param>
+    /// <param name="Target">The managed node ID. Constraints: • min: 1 • max: 400</param>
     public AwsSsmGetConnectionStatusOptions(
         string Target
     )
@@ -56,7 +58,7 @@ public record AwsSsmGetConnectionStatusOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The managed node ID. Constraints: o min: 1 o max: 400
+    /// The managed node ID. Constraints: • min: 1 • max: 400
     /// </summary>
     [CliOption("--target")]
     public string? Target { get; private init; }

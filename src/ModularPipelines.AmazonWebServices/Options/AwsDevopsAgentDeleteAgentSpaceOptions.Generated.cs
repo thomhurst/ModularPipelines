@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDevopsAgentDeleteAgentSpaceOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Deletes an AgentSpace. This operation is idempotent and returns a 204 No Content response on success. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentSpaceId">The unique identifier of the AgentSpace Constraints: o pattern: [a-zA-Z0-9-]{1,64}</param>
+    /// <param name="AgentSpaceId">The unique identifier of the AgentSpace Constraints: • pattern: [a-zA-Z0-9-]{1,64}</param>
     public AwsDevopsAgentDeleteAgentSpaceOptions(
         string AgentSpaceId
     )
@@ -56,7 +58,7 @@ public record AwsDevopsAgentDeleteAgentSpaceOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the AgentSpace Constraints: o pattern: [a-zA-Z0-9-]{1,64}
+    /// The unique identifier of the AgentSpace Constraints: • pattern: [a-zA-Z0-9-]{1,64}
     /// </summary>
     [CliOption("--agent-space-id")]
     public string? AgentSpaceId { get; private init; }

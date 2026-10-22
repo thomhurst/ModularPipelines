@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsGlueListIntegrationTablePropertiesOptions : AwsOptions
 {
     /// <summary>
-    /// The pagination token for the next page of results. The initial value is null . Constraints: o min: 1 o max: 4096
+    /// The pagination token for the next page of results. The initial value is null . Constraints: • min: 1 • max: 4096
     /// </summary>
     [CliOption("--marker")]
     public string? Marker { get; set; }
 
     /// <summary>
-    /// A list of filters. Supported filter keys are SourceArn , TargetArn , SourceTableName , and TargetTableName . (structure) A key-value filter used to narrow the list of integration table properties returned by ListIntegrationTableProperties. Specify a filter key and one or more values to match. Name -&gt; (string) The name of the filter. Supported filter keys are SourceArn , TargetArn , SourceTableName , and TargetTableName . Constraints: o min: 1 o max: 128 Values -&gt; (list) A list of filter values. (string) Constraints: o min: 1 o max: 128 Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// A list of filters. Supported filter keys are SourceArn , TargetArn , SourceTableName , and TargetTableName . (structure) A key-value filter used to narrow the list of integration table properties returned by ListIntegrationTableProperties. Specify a filter key and one or more values to match. Name -&gt; (string) The name of the filter. Supported filter keys are SourceArn , TargetArn , SourceTableName , and TargetTableName . Constraints: • min: 1 • max: 128 Values -&gt; (list) A list of filter values. (string) Constraints: • min: 1 • max: 128 Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }

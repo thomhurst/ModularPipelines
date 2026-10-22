@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the default instance metadata service (IMDS) settings at the account level in the specified Amazon Web Services Region. NOTE: To remove a parameter's account-level default setting, specify no-preference . If an account-level setting is cleared with no-pref- erence , then the instance launch considers the other instance meta- data settings. For more information, see Order of precedence for in- stance metadata options in the Amazon EC2 User Guide . See also: AWS API Documentation
+/// Modifies the default instance metadata service (IMDS) settings at the account level in the specified Amazon Web Services Region. NOTE: To remove a parameter's account-level default setting, specify no-preference . If an account-level setting is cleared with no-preference , then the instance launch considers the other instance metadata settings. For more information, see Order of precedence for instance metadata options in the Amazon EC2 User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,37 +23,37 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEc2ModifyInstanceMetadataDefaultsOptions : AwsOptions
 {
     /// <summary>
-    /// Indicates whether IMDSv2 is required. o optional IMDSv2 is optional, which means that you can use either IMDSv2 or IMDSv1. o required IMDSv2 is required, which means that IMDSv1 is disabled, and you must use IMDSv2. Possible values: o optional o required o no-preference
+    /// Indicates whether IMDSv2 is required. • optional IMDSv2 is optional, which means that you can use either IMDSv2 or IMDSv1. • required IMDSv2 is required, which means that IMDSv1 is disabled, and you must use IMDSv2. Possible values: • optional • required • no-preference
     /// </summary>
     [CliOption("--http-tokens")]
     public AwsEc2ModifyInstanceMetadataDefaultsHttpTokens? HttpTokens { get; set; }
 
     /// <summary>
-    /// The maximum number of hops that the metadata token can travel. To indicate no preference, specify -1 . Possible values: Integers from 1 to 64 , and -1 to indicate no pref- erence
+    /// The maximum number of hops that the metadata token can travel. To indicate no preference, specify -1 . Possible values: Integers from 1 to 64 , and -1 to indicate no preference
     /// </summary>
     [CliOption("--http-put-response-hop-limit")]
     public int? HttpPutResponseHopLimit { get; set; }
 
     /// <summary>
-    /// Enables or disables the IMDS endpoint on an instance. When disabled, the instance metadata can't be accessed. Possible values: o disabled o enabled o no-preference
+    /// Enables or disables the IMDS endpoint on an instance. When disabled, the instance metadata can't be accessed. Possible values: • disabled • enabled • no-preference
     /// </summary>
     [CliOption("--http-endpoint")]
     public AwsEc2ModifyInstanceMetadataDefaultsHttpEndpoint? HttpEndpoint { get; set; }
 
     /// <summary>
-    /// Enables or disables access to an instance's tags from the instance metadata. For more information, see View tags for your EC2 instances using instance metadata in the Amazon EC2 User Guide . Possible values: o disabled o enabled o no-preference
+    /// Enables or disables access to an instance's tags from the instance metadata. For more information, see View tags for your EC2 instances using instance metadata in the Amazon EC2 User Guide . Possible values: • disabled • enabled • no-preference
     /// </summary>
     [CliOption("--instance-metadata-tags")]
     public AwsEc2ModifyInstanceMetadataDefaultsInstanceMetadataTags? InstanceMetadataTags { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// Specifies whether to enforce the requirement of IMDSv2 on an in- stance at the time of launch. When enforcement is enabled, the in- stance can't launch unless IMDSv2 (HttpTokens ) is set to required . For more information, see Enforce IMDSv2 at the account level in the Amazon EC2 User Guide . Possible values: o disabled o enabled o no-preference
+    /// Specifies whether to enforce the requirement of IMDSv2 on an instance at the time of launch. When enforcement is enabled, the instance can't launch unless IMDSv2 (HttpTokens ) is set to required . For more information, see Enforce IMDSv2 at the account level in the Amazon EC2 User Guide . Possible values: • disabled • enabled • no-preference
     /// </summary>
     [CliOption("--http-tokens-enforced")]
     public AwsEc2ModifyInstanceMetadataDefaultsHttpTokensEnforced? HttpTokensEnforced { get; set; }

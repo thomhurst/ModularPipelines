@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAppsyncGetDomainNameOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves a custom DomainName object. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The domain name. Constraints: o min: 1 o max: 253 o pattern: ^(\*[\w\d-]*\.)?([\w\d-]+\.)+[\w\d-]+$</param>
+    /// <param name="DomainName">The domain name. Constraints: • min: 1 • max: 253 • pattern: ^(\*[\w\d-]*\.)?([\w\d-]+\.)+[\w\d-]+$</param>
     public AwsAppsyncGetDomainNameOptions(
         string DomainName
     )
@@ -56,7 +58,7 @@ public record AwsAppsyncGetDomainNameOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The domain name. Constraints: o min: 1 o max: 253 o pattern: ^(\*[\w\d-]*\.)?([\w\d-]+\.)+[\w\d-]+$
+    /// The domain name. Constraints: • min: 1 • max: 253 • pattern: ^(\*[\w\d-]*\.)?([\w\d-]+\.)+[\w\d-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }

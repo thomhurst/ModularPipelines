@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the status of the Service Linked Role (SLR) deployment for the ac- counts in a given Amazon Web Services Organization. See also: AWS API Documentation
+/// Gets the status of the Service Linked Role (SLR) deployment for the accounts in a given Amazon Web Services Organization. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsNetworkmanagerListOrganizationServiceAccessStatusOptions : AwsOptions
 {
     /// <summary>
-    /// The maximum number of results to return. Constraints: o min: 1 o max: 500
+    /// The maximum number of results to return. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The token for the next page of results. Constraints: o min: 0 o max: 2048 o pattern: [\s\S]*
+    /// The token for the next page of results. Constraints: • min: 0 • max: 2048 • pattern: [\s\S]*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

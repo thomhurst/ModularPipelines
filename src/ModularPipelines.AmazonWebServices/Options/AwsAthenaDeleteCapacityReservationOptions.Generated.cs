@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a cancelled capacity reservation. A reservation must be can- celled before it can be deleted. A deleted reservation is immediately removed from your account and can no longer be referenced, including by its ARN. A deleted reservation cannot be called by GetCapacityReserva- tion , and deleted reservations do not appear in the output of ListCa- pacityReservations . See also: AWS API Documentation
+/// Deletes a cancelled capacity reservation. A reservation must be cancelled before it can be deleted. A deleted reservation is immediately removed from your account and can no longer be referenced, including by its ARN. A deleted reservation cannot be called by GetCapacityReservation , and deleted reservations do not appear in the output of ListCapacityReservations . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsAthenaDeleteCapacityReservationOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a cancelled capacity reservation. A reservation must be can- celled before it can be deleted. A deleted reservation is immediately removed from your account and can no longer be referenced, including by its ARN. A deleted reservation cannot be called by GetCapacityReserva- tion , and deleted reservations do not appear in the output of ListCa- pacityReservations . See also: AWS API Documentation
+    /// Deletes a cancelled capacity reservation. A reservation must be cancelled before it can be deleted. A deleted reservation is immediately removed from your account and can no longer be referenced, including by its ARN. A deleted reservation cannot be called by GetCapacityReservation , and deleted reservations do not appear in the output of ListCapacityReservations . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the capacity reservation to delete. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9._-]+</param>
+    /// <param name="Name">The name of the capacity reservation to delete. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9._-]+</param>
     public AwsAthenaDeleteCapacityReservationOptions(
         string Name
     )
@@ -56,7 +58,7 @@ public record AwsAthenaDeleteCapacityReservationOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the capacity reservation to delete. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9._-]+
+    /// The name of the capacity reservation to delete. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9._-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

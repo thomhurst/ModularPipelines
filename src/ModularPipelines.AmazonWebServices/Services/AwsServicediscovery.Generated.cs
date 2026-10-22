@@ -47,7 +47,7 @@ public class AwsServicediscovery : IAwsServicediscovery
     }
 
     /// <summary>
-    /// Creates a private namespace based on DNS, which is visible only inside a specified Amazon VPC. The namespace defines your service naming scheme. For example, if you name your namespace example.com and name your service backend , the resulting DNS name for the service is back- end.example.com . Service instances that are registered using a private DNS namespace can be discovered using either a DiscoverInstances re- quest or using DNS. For the current quota on the number of namespaces that you can...
+    /// Creates a private namespace based on DNS, which is visible only inside a specified Amazon VPC. The namespace defines your service naming scheme. For example, if you name your namespace example.com and name your service backend , the resulting DNS name for the service is backend.example.com . Service instances that are registered using a private DNS namespace can be discovered using either a DiscoverInstances request or using DNS. For the current quota on the number of namespaces that you can cre...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsServicediscovery : IAwsServicediscovery
     }
 
     /// <summary>
-    /// Creates a public namespace based on DNS, which is visible on the inter- net. The namespace defines your service naming scheme. For example, if you name your namespace example.com and name your service backend , the resulting DNS name for the service is backend.example.com . You can discover instances that were registered with a public DNS namespace by using either a DiscoverInstances request or using DNS. For the current quota on the number of namespaces that you can create using the same Amazon...
+    /// Creates a public namespace based on DNS, which is visible on the internet. The namespace defines your service naming scheme. For example, if you name your namespace example.com and name your service backend , the resulting DNS name for the service is backend.example.com . You can discover instances that were registered with a public DNS namespace by using either a DiscoverInstances request or using DNS. For the current quota on the number of namespaces that you can create using the same Amazon W...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsServicediscovery : IAwsServicediscovery
     }
 
     /// <summary>
-    /// Creates a service. This action defines the configuration for the fol- lowing entities: o For public and private DNS namespaces, one of the following combina- tions of DNS records in Amazon Route 53: o A o AAAA o A and AAAA o SRV o CNAME o Optionally, a health check After you create the service, you can submit a RegisterInstance re- quest, and Cloud Map uses the values in the configuration to create the specified entities. For the current quota on the number of instances that you can register usi...
+    /// Creates a service. This action defines the configuration for the following entities: • For public and private DNS namespaces, one of the following combinations of DNS records in Amazon Route 53: • A • AAAA • A and AAAA • SRV • CNAME • Optionally, a health check After you create the service, you can submit a RegisterInstance request, and Cloud Map uses the values in the configuration to create the specified entities. For the current quota on the number of instances that you can register using the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsServicediscovery : IAwsServicediscovery
     }
 
     /// <summary>
-    /// Deletes a specified service and all associated service attributes. If the service still contains one or more registered instances, the re- quest fails. See also: AWS API Documentation
+    /// Deletes a specified service and all associated service attributes. If the service still contains one or more registered instances, the request fails. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsServicediscovery : IAwsServicediscovery
     }
 
     /// <summary>
-    /// Discovers registered instances for a specified namespace and service. You can use DiscoverInstances to discover instances for any type of namespace. DiscoverInstances returns a randomized list of instances al- lowing customers to distribute traffic evenly across instances. For public and private DNS namespaces, you can also use DNS queries to dis- cover instances. See also: AWS API Documentation
+    /// Discovers registered instances for a specified namespace and service. You can use DiscoverInstances to discover instances for any type of namespace. DiscoverInstances returns a randomized list of instances allowing customers to distribute traffic evenly across instances. For public and private DNS namespaces, you can also use DNS queries to discover instances. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsServicediscovery : IAwsServicediscovery
     }
 
     /// <summary>
-    /// Lists summary information about the instances that you registered by using a specified service. See also: AWS API Documentation list-instances is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Instan...
+    /// Lists summary information about the instances that you registered by using a specified service. See also: AWS API Documentation list-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Instances
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsServicediscovery : IAwsServicediscovery
     }
 
     /// <summary>
-    /// Lists summary information about the namespaces that were created by the current Amazon Web Services account and shared with the current Amazon Web Services account. See also: AWS API Documentation list-namespaces is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must ex...
+    /// Lists summary information about the namespaces that were created by the current Amazon Web Services account and shared with the current Amazon Web Services account. See also: AWS API Documentation list-namespaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extrac...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsServicediscovery : IAwsServicediscovery
     }
 
     /// <summary>
-    /// Lists operations that match the criteria that you specify. See also: AWS API Documentation list-operations is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Operations
+    /// Lists operations that match the criteria that you specify. See also: AWS API Documentation list-operations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Operations
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsServicediscovery : IAwsServicediscovery
     }
 
     /// <summary>
-    /// Lists summary information for all the services that are associated with one or more namespaces. See also: AWS API Documentation list-services is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Service...
+    /// Lists summary information for all the services that are associated with one or more namespaces. See also: AWS API Documentation list-services is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Services
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsServicediscovery : IAwsServicediscovery
     }
 
     /// <summary>
-    /// Creates or updates one or more records and, optionally, creates a health check based on the settings in a specified service. When you submit a RegisterInstance request, the following occurs: o For each DNS record that you define in the service that's specified by ServiceId , a record is created or updated in the hosted zone that's associated with the corresponding namespace. o If the service includes HealthCheckConfig , a health check is created based on the settings in the health check configur...
+    /// Creates or updates one or more records and, optionally, creates a health check based on the settings in a specified service. When you submit a RegisterInstance request, the following occurs: • For each DNS record that you define in the service that's specified by ServiceId , a record is created or updated in the hosted zone that's associated with the corresponding namespace. • If the service includes HealthCheckConfig , a health check is created based on the settings in the health check configur...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsServicediscovery : IAwsServicediscovery
     }
 
     /// <summary>
-    /// Submits a request to change the health status of a custom health check to healthy or unhealthy. You can use UpdateInstanceCustomHealthStatus to change the status only for custom health checks, which you define using HealthCheckCustomCon- fig when you create a service. You can't use it to change the status for Route 53 health checks, which you define using HealthCheckConfig . For more information, see HealthCheckCustomConfig . See also: AWS API Documentation
+    /// Submits a request to change the health status of a custom health check to healthy or unhealthy. You can use UpdateInstanceCustomHealthStatus to change the status only for custom health checks, which you define using HealthCheckCustomConfig when you create a service. You can't use it to change the status for Route 53 health checks, which you define using HealthCheckConfig . For more information, see HealthCheckCustomConfig . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsServicediscovery : IAwsServicediscovery
     }
 
     /// <summary>
-    /// Submits a request to perform the following operations: o Update the TTL setting for existing DnsRecords configurations o Add, update, or delete HealthCheckConfig for a specified service NOTE: You can't add, update, or delete a HealthCheckCustomConfig configu- ration. For public and private DNS namespaces, note the following: o If you omit any existing DnsRecords or HealthCheckConfig configura- tions from an UpdateService request, the configurations are deleted from the service. o If you omit an ...
+    /// Submits a request to perform the following operations: • Update the TTL setting for existing DnsRecords configurations • Add, update, or delete HealthCheckConfig for a specified service NOTE: You can't add, update, or delete a HealthCheckCustomConfig configuration. For public and private DNS namespaces, note the following: • If you omit any existing DnsRecords or HealthCheckConfig configurations from an UpdateService request, the configurations are deleted from the service. • If you omit an exis...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

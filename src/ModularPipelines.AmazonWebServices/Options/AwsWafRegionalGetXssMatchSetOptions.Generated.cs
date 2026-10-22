@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsWafRegionalGetXssMatchSetOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the XssMatchSet that is specified by XssMatchSetId . See also: AWS API Documentation
     /// </summary>
-    /// <param name="XssMatchSetId">The XssMatchSetId of the XssMatchSet that you want to get. Xss- MatchSetId is returned by CreateXssMatchSet and by ListXssMatch- Sets . Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    /// <param name="XssMatchSetId">The XssMatchSetId of the XssMatchSet that you want to get. XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets . Constraints: • min: 1 • max: 128 • pattern: .*\S.*</param>
     public AwsWafRegionalGetXssMatchSetOptions(
         string XssMatchSetId
     )
@@ -56,7 +58,7 @@ public record AwsWafRegionalGetXssMatchSetOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The XssMatchSetId of the XssMatchSet that you want to get. Xss- MatchSetId is returned by CreateXssMatchSet and by ListXssMatch- Sets . Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// The XssMatchSetId of the XssMatchSet that you want to get. XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets . Constraints: • min: 1 • max: 128 • pattern: .*\S.*
     /// </summary>
     [CliOption("--xss-match-set-id")]
     public string? XssMatchSetId { get; private init; }

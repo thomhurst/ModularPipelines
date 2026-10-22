@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCodepipelinePutJobFailureResultOptions : AwsOptions, IValidatab
     /// <summary>
     /// Represents the failure of a job as returned to the pipeline by a job worker. Used for custom actions only. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">The unique system-generated ID of the job that failed. This is the same ID returned from PollForJobs . Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="FailureDetails">The details about the failure of a job. type -&gt; (string) [required] The type of the failure. Possible values: o JobFailed o ConfigurationError o PermissionError o RevisionOutOfSync o RevisionUnavailable o SystemUnavailable message -&gt; (string) [required] The message about the failure. Constraints: o min: 1 o max: 5000 externalExecutionId -&gt; (string) The external ID of the run of the action that failed. Constraints: o min: 1 o max: 1500 Shorthand Syntax: type=string,message=string,externalExecutionId=string JSON Syntax: { "type": "JobFailed"|"ConfigurationError"|"PermissionError"|"RevisionOutOfSync"|"RevisionUnavailable"|"SystemUnavailable", "message": "string", "externalExecutionId": "string" }</param>
+    /// <param name="JobId">The unique system-generated ID of the job that failed. This is the same ID returned from PollForJobs . Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="FailureDetails">The details about the failure of a job. type -&gt; (string) [required] The type of the failure. Possible values: • JobFailed • ConfigurationError • PermissionError • RevisionOutOfSync • RevisionUnavailable • SystemUnavailable message -&gt; (string) [required] The message about the failure. Constraints: • min: 1 • max: 5000 externalExecutionId -&gt; (string) The external ID of the run of the action that failed. Constraints: • min: 1 • max: 1500 Shorthand Syntax: type=string,message=string,externalExecutionId=string JSON Syntax: { "type": "JobFailed"|"ConfigurationError"|"PermissionError"|"RevisionOutOfSync"|"RevisionUnavailable"|"SystemUnavailable", "message": "string", "externalExecutionId": "string" }</param>
     public AwsCodepipelinePutJobFailureResultOptions(
         string JobId,
         string FailureDetails
@@ -60,13 +62,13 @@ public record AwsCodepipelinePutJobFailureResultOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique system-generated ID of the job that failed. This is the same ID returned from PollForJobs . Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique system-generated ID of the job that failed. This is the same ID returned from PollForJobs . Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// The details about the failure of a job. type -&gt; (string) [required] The type of the failure. Possible values: o JobFailed o ConfigurationError o PermissionError o RevisionOutOfSync o RevisionUnavailable o SystemUnavailable message -&gt; (string) [required] The message about the failure. Constraints: o min: 1 o max: 5000 externalExecutionId -&gt; (string) The external ID of the run of the action that failed. Constraints: o min: 1 o max: 1500 Shorthand Syntax: type=string,message=string,externalExecutionId=string JSON Syntax: { "type": "JobFailed"|"ConfigurationError"|"PermissionError"|"RevisionOutOfSync"|"RevisionUnavailable"|"SystemUnavailable", "message": "string", "externalExecutionId": "string" }
+    /// The details about the failure of a job. type -&gt; (string) [required] The type of the failure. Possible values: • JobFailed • ConfigurationError • PermissionError • RevisionOutOfSync • RevisionUnavailable • SystemUnavailable message -&gt; (string) [required] The message about the failure. Constraints: • min: 1 • max: 5000 externalExecutionId -&gt; (string) The external ID of the run of the action that failed. Constraints: • min: 1 • max: 1500 Shorthand Syntax: type=string,message=string,externalExecutionId=string JSON Syntax: { "type": "JobFailed"|"ConfigurationError"|"PermissionError"|"RevisionOutOfSync"|"RevisionUnavailable"|"SystemUnavailable", "message": "string", "externalExecutionId": "string" }
     /// </summary>
     [CliOption("--failure-details")]
     public string? FailureDetails { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsIotGetBucketsAggregationOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Aggregates on indexed data with search queries pertaining to particular fields. Requires permission to access the GetBucketsAggregation action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="QueryString">The search query string. Constraints: o min: 1</param>
-    /// <param name="AggregationField">The aggregation field. Constraints: o min: 1</param>
-    /// <param name="BucketsAggregationType">The basic control of the response shape and the bucket aggregation type to perform. termsAggregation -&gt; (structure) Performs an aggregation that will return a list of buckets. The list of buckets is a ranked list of the number of occurrences of an aggregation field value. maxBuckets -&gt; (integer) The number of buckets to return in the response. Default to 10. Constraints: o min: 1 o max: 10000 Shorthand Syntax: termsAggregation={maxBuckets=integer} JSON Syntax: { "termsAggregation": { "maxBuckets": integer } }</param>
+    /// <param name="QueryString">The search query string. Constraints: • min: 1</param>
+    /// <param name="AggregationField">The aggregation field. Constraints: • min: 1</param>
+    /// <param name="BucketsAggregationType">The basic control of the response shape and the bucket aggregation type to perform. termsAggregation -&gt; (structure) Performs an aggregation that will return a list of buckets. The list of buckets is a ranked list of the number of occurrences of an aggregation field value. maxBuckets -&gt; (integer) The number of buckets to return in the response. Default to 10. Constraints: • min: 1 • max: 10000 Shorthand Syntax: termsAggregation={maxBuckets=integer} JSON Syntax: { "termsAggregation": { "maxBuckets": integer } }</param>
     public AwsIotGetBucketsAggregationOptions(
         string QueryString,
         string AggregationField,
@@ -64,25 +66,25 @@ public record AwsIotGetBucketsAggregationOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The search query string. Constraints: o min: 1
+    /// The search query string. Constraints: • min: 1
     /// </summary>
     [CliOption("--query-string")]
     public string? QueryString { get; private init; }
 
     /// <summary>
-    /// The aggregation field. Constraints: o min: 1
+    /// The aggregation field. Constraints: • min: 1
     /// </summary>
     [CliOption("--aggregation-field")]
     public string? AggregationField { get; private init; }
 
     /// <summary>
-    /// The basic control of the response shape and the bucket aggregation type to perform. termsAggregation -&gt; (structure) Performs an aggregation that will return a list of buckets. The list of buckets is a ranked list of the number of occurrences of an aggregation field value. maxBuckets -&gt; (integer) The number of buckets to return in the response. Default to 10. Constraints: o min: 1 o max: 10000 Shorthand Syntax: termsAggregation={maxBuckets=integer} JSON Syntax: { "termsAggregation": { "maxBuckets": integer } }
+    /// The basic control of the response shape and the bucket aggregation type to perform. termsAggregation -&gt; (structure) Performs an aggregation that will return a list of buckets. The list of buckets is a ranked list of the number of occurrences of an aggregation field value. maxBuckets -&gt; (integer) The number of buckets to return in the response. Default to 10. Constraints: • min: 1 • max: 10000 Shorthand Syntax: termsAggregation={maxBuckets=integer} JSON Syntax: { "termsAggregation": { "maxBuckets": integer } }
     /// </summary>
     [CliOption("--buckets-aggregation-type")]
     public string? BucketsAggregationType { get; private init; }
 
     /// <summary>
-    /// The name of the index to search. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The name of the index to search. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--index-name")]
     public string? IndexName { get; set; }

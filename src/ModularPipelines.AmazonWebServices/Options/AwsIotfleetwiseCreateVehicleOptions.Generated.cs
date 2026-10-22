@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -17,7 +18,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a vehicle, which is an instance of a vehicle model (model mani- fest). Vehicles created from the same vehicle model consist of the same signals inherited from the vehicle model. NOTE: If you have an existing Amazon Web Services IoT thing, you can use Amazon Web Services IoT FleetWise to create a vehicle and collect data from your thing. For more information, see Create a vehicle (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+/// Creates a vehicle, which is an instance of a vehicle model (model manifest). Vehicles created from the same vehicle model consist of the same signals inherited from the vehicle model. NOTE: If you have an existing Amazon Web Services IoT thing, you can use Amazon Web Services IoT FleetWise to create a vehicle and collect data from your thing. For more information, see Create a vehicle (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsIotfleetwiseCreateVehicleOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a vehicle, which is an instance of a vehicle model (model mani- fest). Vehicles created from the same vehicle model consist of the same signals inherited from the vehicle model. NOTE: If you have an existing Amazon Web Services IoT thing, you can use Amazon Web Services IoT FleetWise to create a vehicle and collect data from your thing. For more information, see Create a vehicle (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+    /// Creates a vehicle, which is an instance of a vehicle model (model manifest). Vehicles created from the same vehicle model consist of the same signals inherited from the vehicle model. NOTE: If you have an existing Amazon Web Services IoT thing, you can use Amazon Web Services IoT FleetWise to create a vehicle and collect data from your thing. For more information, see Create a vehicle (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="VehicleName">The unique ID of the vehicle to create. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+</param>
+    /// <param name="VehicleName">The unique ID of the vehicle to create. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z\d\-_:]+</param>
     /// <param name="ModelManifestArn">The Amazon Resource Name ARN of a vehicle model.</param>
     /// <param name="DecoderManifestArn">The ARN of a decoder manifest.</param>
     public AwsIotfleetwiseCreateVehicleOptions(
@@ -66,7 +67,7 @@ public record AwsIotfleetwiseCreateVehicleOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the vehicle to create. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+
+    /// The unique ID of the vehicle to create. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z\d\-_:]+
     /// </summary>
     [CliOption("--vehicle-name")]
     public string? VehicleName { get; private init; }
@@ -84,25 +85,25 @@ public record AwsIotfleetwiseCreateVehicleOptions : AwsOptions, IValidatableObje
     public string? DecoderManifestArn { get; private init; }
 
     /// <summary>
-    /// Static information about a vehicle in a key-value pair. For example: "engineType" : "1.3 L R2" To use attributes with Campaigns or State Templates, you must in- clude them using the request parameters dataExtraDimensions and/or metadataExtraDimensions (for state templates only) when creating your campaign/state template. key -&gt; (string) Constraints: o min: 1 o max: 150 o pattern: [a-zA-Z0-9_.-]+ value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Static information about a vehicle in a key-value pair. For example: "engineType" : "1.3 L R2" To use attributes with Campaigns or State Templates, you must include them using the request parameters dataExtraDimensions and/or metadataExtraDimensions (for state templates only) when creating your campaign/state template. key -&gt; (string) Constraints: • min: 1 • max: 150 • pattern: [a-zA-Z0-9_.-]+ value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
     /// <summary>
-    /// An option to create a new Amazon Web Services IoT thing when creat- ing a vehicle, or to validate an existing Amazon Web Services IoT thing as a vehicle. Default: Possible values: o CreateIotThing o ValidateIotThingExists
+    /// An option to create a new Amazon Web Services IoT thing when creating a vehicle, or to validate an existing Amazon Web Services IoT thing as a vehicle. Default: Possible values: • CreateIotThing • ValidateIotThingExists
     /// </summary>
     [CliOption("--association-behavior")]
     public AwsIotfleetwiseCreateVehicleAssociationBehavior? AssociationBehavior { get; set; }
 
     /// <summary>
-    /// Metadata that can be used to manage the vehicle. Constraints: o min: 0 o max: 50 (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Metadata that can be used to manage the vehicle. Constraints: • min: 0 • max: 50 (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The tag's value. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Associate state templates with the vehicle. You can monitor the last known state of the vehicle in near real time. Constraints: o min: 1 o max: 20 (structure) The state template associated with a vehicle. State templates contain state properties, which are signals that belong to a signal catalog that is synchronized between the Amazon Web Ser- vices IoT FleetWise Edge and the Amazon Web Services Cloud. WARNING: Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Ser- vices Region and feature availability in the Amazon Web Ser- vices IoT FleetWise Developer Guide . identifier -&gt; (string) [required] The unique ID of the state template. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+ stateTemplateUpdateStrategy -&gt; (tagged union structure) [re- quired] The update strategy for the state template. Vehicles associ- ated with the state template can stream telemetry data with either an onChange or periodic update strategy. WARNING: Access to certain Amazon Web Services IoT FleetWise fea- tures is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: periodic, onChange. periodic -&gt; (structure) Vehicles associated with the state template will stream telemetry data during a specified time period. stateTemplateUpdateRate -&gt; (structure) [required] The length of time between state template updates. unit -&gt; (string) [required] A unit of time. Possible values: o MILLISECOND o SECOND o MINUTE o HOUR value -&gt; (integer) [required] A number of time units. Constraints: o min: 1 o max: 2147483647 onChange -&gt; (structure) Vehicles associated with the state template will stream telemetry data when there is a change. JSON Syntax: [ { "identifier": "string", "stateTemplateUpdateStrategy": { "periodic": { "stateTemplateUpdateRate": { "unit": "MILLISECOND"|"SECOND"|"MINUTE"|"HOUR", "value": integer } }, "onChange": { } } } ... ]
+    /// Associate state templates with the vehicle. You can monitor the last known state of the vehicle in near real time. Constraints: • min: 1 • max: 20 (structure) The state template associated with a vehicle. State templates contain state properties, which are signals that belong to a signal catalog that is synchronized between the Amazon Web Services IoT FleetWise Edge and the Amazon Web Services Cloud. WARNING: Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . identifier -&gt; (string) [required] The unique ID of the state template. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z\d\-_:]+ stateTemplateUpdateStrategy -&gt; (tagged union structure) [required] The update strategy for the state template. Vehicles associated with the state template can stream telemetry data with either an onChange or periodic update strategy. WARNING: Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: periodic, onChange. periodic -&gt; (structure) Vehicles associated with the state template will stream telemetry data during a specified time period. stateTemplateUpdateRate -&gt; (structure) [required] The length of time between state template updates. unit -&gt; (string) [required] A unit of time. Possible values: • MILLISECOND • SECOND • MINUTE • HOUR value -&gt; (integer) [required] A number of time units. Constraints: • min: 1 • max: 2147483647 onChange -&gt; (structure) Vehicles associated with the state template will stream telemetry data when there is a change. JSON Syntax: [ { "identifier": "string", "stateTemplateUpdateStrategy": { "periodic": { "stateTemplateUpdateRate": { "unit": "MILLISECOND"|"SECOND"|"MINUTE"|"HOUR", "value": integer } }, "onChange": { } } } ... ]
     /// </summary>
     [CliOption("--state-templates", GroupValues = true)]
     public IEnumerable<string>? StateTemplates { get; set; }

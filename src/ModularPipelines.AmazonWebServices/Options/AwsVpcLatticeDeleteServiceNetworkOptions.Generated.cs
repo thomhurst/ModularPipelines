@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a service network. You can only delete the service network if there is no service or VPC associated with it. If you delete a service network, all resources related to the service network, such as the re- source policy, auth policy, and access log subscriptions, are also deleted. For more information, see Delete a service network in the Ama- zon VPC Lattice User Guide . See also: AWS API Documentation
+/// Deletes a service network. You can only delete the service network if there is no service or VPC associated with it. If you delete a service network, all resources related to the service network, such as the resource policy, auth policy, and access log subscriptions, are also deleted. For more information, see Delete a service network in the Amazon VPC Lattice User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsVpcLatticeDeleteServiceNetworkOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a service network. You can only delete the service network if there is no service or VPC associated with it. If you delete a service network, all resources related to the service network, such as the re- source policy, auth policy, and access log subscriptions, are also deleted. For more information, see Delete a service network in the Ama- zon VPC Lattice User Guide . See also: AWS API Documentation
+    /// Deletes a service network. You can only delete the service network if there is no service or VPC associated with it. If you delete a service network, all resources related to the service network, such as the resource policy, auth policy, and access log subscriptions, are also deleted. For more information, see Delete a service network in the Amazon VPC Lattice User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceNetworkIdentifier">The ID or ARN of the service network. Constraints: o min: 3 o max: 2048 o pattern: ((sn-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:servicenetwork/sn-[0-9a-z]{17}))</param>
+    /// <param name="ServiceNetworkIdentifier">The ID or ARN of the service network. Constraints: • min: 3 • max: 2048 • pattern: ((sn-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:servicenetwork/sn-[0-9a-z]{17}))</param>
     public AwsVpcLatticeDeleteServiceNetworkOptions(
         string ServiceNetworkIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsVpcLatticeDeleteServiceNetworkOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or ARN of the service network. Constraints: o min: 3 o max: 2048 o pattern: ((sn-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:servicenetwork/sn-[0-9a-z]{17}))
+    /// The ID or ARN of the service network. Constraints: • min: 3 • max: 2048 • pattern: ((sn-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:servicenetwork/sn-[0-9a-z]{17}))
     /// </summary>
     [CliOption("--service-network-identifier")]
     public string? ServiceNetworkIdentifier { get; private init; }

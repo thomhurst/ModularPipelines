@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsConnectDeleteAttachedFileOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Deletes an attached file along with the underlying S3 Object. WARNING: The attached file is permanently deleted if S3 bucket versioning is not enabled. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The unique identifier of the Connect instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="FileId">The unique identifier of the attached file resource. Constraints: o min: 1 o max: 256</param>
+    /// <param name="InstanceId">The unique identifier of the Connect instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="FileId">The unique identifier of the attached file resource. Constraints: • min: 1 • max: 256</param>
     /// <param name="AssociatedResourceArn">The resource to which the attached file is (being) uploaded to. The supported resources are Cases , Email , and Task . NOTE: This value must be a valid ARN.</param>
     public AwsConnectDeleteAttachedFileOptions(
         string InstanceId,
@@ -64,13 +66,13 @@ public record AwsConnectDeleteAttachedFileOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Connect instance. Constraints: o min: 1 o max: 100
+    /// The unique identifier of the Connect instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the attached file resource. Constraints: o min: 1 o max: 256
+    /// The unique identifier of the attached file resource. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--file-id")]
     public string? FileId { get; private init; }

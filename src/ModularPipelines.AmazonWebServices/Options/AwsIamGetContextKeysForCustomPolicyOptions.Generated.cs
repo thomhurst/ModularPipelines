@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets a list of all of the context keys referenced in the input poli- cies. The policies are supplied as a list of one or more strings. To get the context keys from policies associated with an IAM user, group, or role, use GetContextKeysForPrincipalPolicy . Context keys are variables maintained by Amazon Web Services and its services that provide details about the context of an API query re- quest. Context keys can be evaluated by testing against a value speci- fied in an IAM policy. Use GetConte...
+/// Gets a list of all of the context keys referenced in the input policies. The policies are supplied as a list of one or more strings. To get the context keys from policies associated with an IAM user, group, or role, use GetContextKeysForPrincipalPolicy . Context keys are variables maintained by Amazon Web Services and its services that provide details about the context of an API query request. Context keys can be evaluated by testing against a value specified in an IAM policy. Use GetContextKeys...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsIamGetContextKeysForCustomPolicyOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets a list of all of the context keys referenced in the input poli- cies. The policies are supplied as a list of one or more strings. To get the context keys from policies associated with an IAM user, group, or role, use GetContextKeysForPrincipalPolicy . Context keys are variables maintained by Amazon Web Services and its services that provide details about the context of an API query re- quest. Context keys can be evaluated by testing against a value speci- fied in an IAM policy. Use GetConte...
+    /// Gets a list of all of the context keys referenced in the input policies. The policies are supplied as a list of one or more strings. To get the context keys from policies associated with an IAM user, group, or role, use GetContextKeysForPrincipalPolicy . Context keys are variables maintained by Amazon Web Services and its services that provide details about the context of an API query request. Context keys can be evaluated by testing against a value specified in an IAM policy. Use GetContextKeys...
     /// </summary>
-    /// <param name="PolicyInputList">A list of policies for which you want the list of context keys ref- erenced in those policies. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. The regex pattern used to validate this parameter is a string of characters consisting of the following: o Any printable ASCII character ranging from the space character (\u0020 ) through the end of the ASCII character range o The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF ) o The special characters tab (\u0009 ), line feed (\u000A ), and carriage return (\u000D ) (string) Constraints: o min: 1 o max: 131072 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+ Syntax: "string" "string" ...</param>
+    /// <param name="PolicyInputList">A list of policies for which you want the list of context keys referenced in those policies. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. The regex pattern used to validate this parameter is a string of characters consisting of the following: • Any printable ASCII character ranging from the space character (\u0020 ) through the end of the ASCII character range • The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF ) • The special characters tab (\u0009 ), line feed (\u000A ), and carriage return (\u000D ) (string) Constraints: • min: 1 • max: 131072 • pattern: [\u0009\u000A\u000D\u0020-\u00FF]+ Syntax: "string" "string" ...</param>
     public AwsIamGetContextKeysForCustomPolicyOptions(
         IEnumerable<string> PolicyInputList
     )
@@ -67,7 +69,7 @@ public record AwsIamGetContextKeysForCustomPolicyOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of policies for which you want the list of context keys ref- erenced in those policies. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. The regex pattern used to validate this parameter is a string of characters consisting of the following: o Any printable ASCII character ranging from the space character (\u0020 ) through the end of the ASCII character range o The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF ) o The special characters tab (\u0009 ), line feed (\u000A ), and carriage return (\u000D ) (string) Constraints: o min: 1 o max: 131072 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+ Syntax: "string" "string" ...
+    /// A list of policies for which you want the list of context keys referenced in those policies. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. The regex pattern used to validate this parameter is a string of characters consisting of the following: • Any printable ASCII character ranging from the space character (\u0020 ) through the end of the ASCII character range • The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF ) • The special characters tab (\u0009 ), line feed (\u000A ), and carriage return (\u000D ) (string) Constraints: • min: 1 • max: 131072 • pattern: [\u0009\u000A\u000D\u0020-\u00FF]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--policy-input-list", GroupValues = true)]
     public IEnumerable<string>? PolicyInputList { get; private init; }

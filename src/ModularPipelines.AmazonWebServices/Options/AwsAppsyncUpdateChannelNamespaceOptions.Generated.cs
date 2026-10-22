@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsAppsyncUpdateChannelNamespaceOptions : AwsOptions, IValidatable
     /// Updates a ChannelNamespace associated with an Api . See also: AWS API Documentation
     /// </summary>
     /// <param name="ApiId">The Api ID.</param>
-    /// <param name="Name">The name of the ChannelNamespace . Constraints: o min: 1 o max: 50 o pattern: ([A-Za-z0-9](?:[A-Za-z0-9\-]{0,48}[A-Za-z0-9])?)</param>
+    /// <param name="Name">The name of the ChannelNamespace . Constraints: • min: 1 • max: 50 • pattern: ([A-Za-z0-9](?:[A-Za-z0-9\-]{0,48}[A-Za-z0-9])?)</param>
     public AwsAppsyncUpdateChannelNamespaceOptions(
         string ApiId,
         string Name
@@ -66,31 +68,31 @@ public record AwsAppsyncUpdateChannelNamespaceOptions : AwsOptions, IValidatable
     public string? ApiId { get; private init; }
 
     /// <summary>
-    /// The name of the ChannelNamespace . Constraints: o min: 1 o max: 50 o pattern: ([A-Za-z0-9](?:[A-Za-z0-9\-]{0,48}[A-Za-z0-9])?)
+    /// The name of the ChannelNamespace . Constraints: • min: 1 • max: 50 • pattern: ([A-Za-z0-9](?:[A-Za-z0-9\-]{0,48}[A-Za-z0-9])?)
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The authorization mode to use for subscribing to messages on the channel namespace. This configuration overrides the default Api au- thorization configuration. (structure) Describes an authorization configuration. Use AuthMode to spec- ify the publishing and subscription authorization configuration for an Event API. authType -&gt; (string) [required] The authorization type. Possible values: o API_KEY o AWS_IAM o AMAZON_COGNITO_USER_POOLS o OPENID_CONNECT o AWS_LAMBDA Shorthand Syntax: authType=string ... JSON Syntax: [ { "authType": "API_KEY"|"AWS_IAM"|"AMAZON_COGNITO_USER_POOLS"|"OPENID_CONNECT"|"AWS_LAMBDA" } ... ]
+    /// The authorization mode to use for subscribing to messages on the channel namespace. This configuration overrides the default Api authorization configuration. (structure) Describes an authorization configuration. Use AuthMode to specify the publishing and subscription authorization configuration for an Event API. authType -&gt; (string) [required] The authorization type. Possible values: • API_KEY • AWS_IAM • AMAZON_COGNITO_USER_POOLS • OPENID_CONNECT • AWS_LAMBDA Shorthand Syntax: authType=string ... JSON Syntax: [ { "authType": "API_KEY"|"AWS_IAM"|"AMAZON_COGNITO_USER_POOLS"|"OPENID_CONNECT"|"AWS_LAMBDA" } ... ]
     /// </summary>
     [CliOption("--subscribe-auth-modes", GroupValues = true)]
     public IEnumerable<string>? SubscribeAuthModes { get; set; }
 
     /// <summary>
-    /// The authorization mode to use for publishing messages on the channel namespace. This configuration overrides the default Api authoriza- tion configuration. (structure) Describes an authorization configuration. Use AuthMode to spec- ify the publishing and subscription authorization configuration for an Event API. authType -&gt; (string) [required] The authorization type. Possible values: o API_KEY o AWS_IAM o AMAZON_COGNITO_USER_POOLS o OPENID_CONNECT o AWS_LAMBDA Shorthand Syntax: authType=string ... JSON Syntax: [ { "authType": "API_KEY"|"AWS_IAM"|"AMAZON_COGNITO_USER_POOLS"|"OPENID_CONNECT"|"AWS_LAMBDA" } ... ]
+    /// The authorization mode to use for publishing messages on the channel namespace. This configuration overrides the default Api authorization configuration. (structure) Describes an authorization configuration. Use AuthMode to specify the publishing and subscription authorization configuration for an Event API. authType -&gt; (string) [required] The authorization type. Possible values: • API_KEY • AWS_IAM • AMAZON_COGNITO_USER_POOLS • OPENID_CONNECT • AWS_LAMBDA Shorthand Syntax: authType=string ... JSON Syntax: [ { "authType": "API_KEY"|"AWS_IAM"|"AMAZON_COGNITO_USER_POOLS"|"OPENID_CONNECT"|"AWS_LAMBDA" } ... ]
     /// </summary>
     [CliOption("--publish-auth-modes", GroupValues = true)]
     public IEnumerable<string>? PublishAuthModes { get; set; }
 
     /// <summary>
-    /// The event handler functions that run custom business logic to process published events and subscribe requests. Constraints: o min: 1 o max: 32768
+    /// The event handler functions that run custom business logic to process published events and subscribe requests. Constraints: • min: 1 • max: 32768
     /// </summary>
     [CliOption("--code-handlers")]
     public string? CodeHandlers { get; set; }
 
     /// <summary>
-    /// The configuration for the OnPublish and OnSubscribe handlers. onPublish -&gt; (structure) The configuration for the OnPublish handler. behavior -&gt; (string) [required] The behavior for the handler. Possible values: o CODE o DIRECT integration -&gt; (structure) [required] The integration data source configuration for the handler. dataSourceName -&gt; (string) [required] The unique name of the data source that has been config- ured on the API. lambdaConfig -&gt; (structure) The configuration for a Lambda data source. invokeType -&gt; (string) The invocation type for a Lambda data source. Possible values: o REQUEST_RESPONSE o EVENT onSubscribe -&gt; (structure) The configuration for the OnSubscribe handler. behavior -&gt; (string) [required] The behavior for the handler. Possible values: o CODE o DIRECT integration -&gt; (structure) [required] The integration data source configuration for the handler. dataSourceName -&gt; (string) [required] The unique name of the data source that has been config- ured on the API. lambdaConfig -&gt; (structure) The configuration for a Lambda data source. invokeType -&gt; (string) The invocation type for a Lambda data source. Possible values: o REQUEST_RESPONSE o EVENT JSON Syntax: { "onPublish": { "behavior": "CODE"|"DIRECT", "integration": { "dataSourceName": "string", "lambdaConfig": { "invokeType": "REQUEST_RESPONSE"|"EVENT" } } }, "onSubscribe": { "behavior": "CODE"|"DIRECT", "integration": { "dataSourceName": "string", "lambdaConfig": { "invokeType": "REQUEST_RESPONSE"|"EVENT" } } } }
+    /// The configuration for the OnPublish and OnSubscribe handlers. onPublish -&gt; (structure) The configuration for the OnPublish handler. behavior -&gt; (string) [required] The behavior for the handler. Possible values: • CODE • DIRECT integration -&gt; (structure) [required] The integration data source configuration for the handler. dataSourceName -&gt; (string) [required] The unique name of the data source that has been configured on the API. lambdaConfig -&gt; (structure) The configuration for a Lambda data source. invokeType -&gt; (string) The invocation type for a Lambda data source. Possible values: • REQUEST_RESPONSE • EVENT onSubscribe -&gt; (structure) The configuration for the OnSubscribe handler. behavior -&gt; (string) [required] The behavior for the handler. Possible values: • CODE • DIRECT integration -&gt; (structure) [required] The integration data source configuration for the handler. dataSourceName -&gt; (string) [required] The unique name of the data source that has been configured on the API. lambdaConfig -&gt; (structure) The configuration for a Lambda data source. invokeType -&gt; (string) The invocation type for a Lambda data source. Possible values: • REQUEST_RESPONSE • EVENT JSON Syntax: { "onPublish": { "behavior": "CODE"|"DIRECT", "integration": { "dataSourceName": "string", "lambdaConfig": { "invokeType": "REQUEST_RESPONSE"|"EVENT" } } }, "onSubscribe": { "behavior": "CODE"|"DIRECT", "integration": { "dataSourceName": "string", "lambdaConfig": { "invokeType": "REQUEST_RESPONSE"|"EVENT" } } } }
     /// </summary>
     [CliOption("--handler-configs")]
     public string? HandlerConfigs { get; set; }

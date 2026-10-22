@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsInvoicingListTagsForResourceOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Lists the tags for a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of tags to list. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:(invoicing)::[0-9]{12}:[-a-zA-Z0-9/:_]+</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of tags to list. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:(invoicing)::[0-9]{12}:[-a-zA-Z0-9/:_]+</param>
     public AwsInvoicingListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsInvoicingListTagsForResourceOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of tags to list. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:(invoicing)::[0-9]{12}:[-a-zA-Z0-9/:_]+
+    /// The Amazon Resource Name (ARN) of tags to list. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:(invoicing)::[0-9]{12}:[-a-zA-Z0-9/:_]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Registers a CA certificate with Amazon Web Services IoT Core. There is no limit to the number of CA certificates you can register in your Ama- zon Web Services account. You can register up to 10 CA certificates with the same CA subject field per Amazon Web Services account. Requires permission to access the RegisterCACertificate action. See also: AWS API Documentation
+/// Registers a CA certificate with Amazon Web Services IoT Core. There is no limit to the number of CA certificates you can register in your Amazon Web Services account. You can register up to 10 CA certificates with the same CA subject field per Amazon Web Services account. Requires permission to access the RegisterCACertificate action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsIotRegisterCaCertificateOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Registers a CA certificate with Amazon Web Services IoT Core. There is no limit to the number of CA certificates you can register in your Ama- zon Web Services account. You can register up to 10 CA certificates with the same CA subject field per Amazon Web Services account. Requires permission to access the RegisterCACertificate action. See also: AWS API Documentation
+    /// Registers a CA certificate with Amazon Web Services IoT Core. There is no limit to the number of CA certificates you can register in your Amazon Web Services account. You can register up to 10 CA certificates with the same CA subject field per Amazon Web Services account. Requires permission to access the RegisterCACertificate action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CaCertificate">The CA certificate. Constraints: o min: 1 o max: 65536 o pattern: [\s\S]*</param>
+    /// <param name="CaCertificate">The CA certificate. Constraints: • min: 1 • max: 65536 • pattern: [\s\S]*</param>
     public AwsIotRegisterCaCertificateOptions(
         string CaCertificate
     )
@@ -57,43 +59,43 @@ public record AwsIotRegisterCaCertificateOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The CA certificate. Constraints: o min: 1 o max: 65536 o pattern: [\s\S]*
+    /// The CA certificate. Constraints: • min: 1 • max: 65536 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--ca-certificate")]
     public string? CaCertificate { get; private init; }
 
     /// <summary>
-    /// The private key verification certificate. If certificateMode is SNI_ONLY , the verificationCertificate field must be empty. If cer- tificateMode is DEFAULT or not provided, the verificationCertificate field must not be empty. Constraints: o min: 1 o max: 65536 o pattern: [\s\S]*
+    /// The private key verification certificate. If certificateMode is SNI_ONLY , the verificationCertificate field must be empty. If certificateMode is DEFAULT or not provided, the verificationCertificate field must not be empty. Constraints: • min: 1 • max: 65536 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--verification-certificate")]
     public string? VerificationCertificate { get; set; }
 
     /// <summary>
-    /// A boolean value that specifies if the CA certificate is set to ac- tive. Valid values: ACTIVE | INACTIVE
+    /// A boolean value that specifies if the CA certificate is set to active. Valid values: ACTIVE | INACTIVE
     /// </summary>
     [CliFlag("--set-as-active", NegatedName = "--no-set-as-active")]
     public bool? SetAsActive { get; set; }
 
     /// <summary>
-    /// Allows this CA certificate to be used for auto registration of de- vice certificates.
+    /// Allows this CA certificate to be used for auto registration of device certificates.
     /// </summary>
     [CliFlag("--allow-auto-registration", NegatedName = "--no-allow-auto-registration")]
     public bool? AllowAutoRegistration { get; set; }
 
     /// <summary>
-    /// Information about the registration configuration. templateBody -&gt; (string) The template body. Constraints: o min: 0 o max: 10240 o pattern: [\s\S]* roleArn -&gt; (string) The ARN of the role. Constraints: o min: 20 o max: 2048 templateName -&gt; (string) The name of the provisioning template. Constraints: o min: 1 o max: 36 o pattern: ^[0-9A-Za-z_-]+$ Shorthand Syntax: templateBody=string,roleArn=string,templateName=string JSON Syntax: { "templateBody": "string", "roleArn": "string", "templateName": "string" }
+    /// Information about the registration configuration. templateBody -&gt; (string) The template body. Constraints: • min: 0 • max: 10240 • pattern: [\s\S]* roleArn -&gt; (string) The ARN of the role. Constraints: • min: 20 • max: 2048 templateName -&gt; (string) The name of the provisioning template. Constraints: • min: 1 • max: 36 • pattern: ^[0-9A-Za-z_-]+$ Shorthand Syntax: templateBody=string,roleArn=string,templateName=string JSON Syntax: { "templateBody": "string", "roleArn": "string", "templateName": "string" }
     /// </summary>
     [CliOption("--registration-config")]
     public string? RegistrationConfig { get; set; }
 
     /// <summary>
-    /// Metadata which can be used to manage the CA certificate. NOTE: For URI Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use format: &amp;&amp;tags "key1=value1&amp;key2=value2..." For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..." (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Metadata which can be used to manage the CA certificate. NOTE: For URI Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use format: &amp;&amp;tags "key1=value1&amp;key2=value2..." For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..." (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The tag's value. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Describes the certificate mode in which the Certificate Authority (CA) will be registered. If the verificationCertificate field is not provided, set certificateMode to be SNI_ONLY . If the verification- Certificate field is provided, set certificateMode to be DEFAULT . When certificateMode is not provided, it defaults to DEFAULT . All the device certificates that are registered using this CA will be registered in the same certificate mode as the CA. For more informa- tion about certificate mode for device certificates, see certificate mode . Possible values: o DEFAULT o SNI_ONLY
+    /// Describes the certificate mode in which the Certificate Authority (CA) will be registered. If the verificationCertificate field is not provided, set certificateMode to be SNI_ONLY . If the verificationCertificate field is provided, set certificateMode to be DEFAULT . When certificateMode is not provided, it defaults to DEFAULT . All the device certificates that are registered using this CA will be registered in the same certificate mode as the CA. For more information about certificate mode for device certificates, see certificate mode . Possible values: • DEFAULT • SNI_ONLY
     /// </summary>
     [CliOption("--certificate-mode")]
     public AwsIotRegisterCaCertificateCertificateMode? CertificateMode { get; set; }

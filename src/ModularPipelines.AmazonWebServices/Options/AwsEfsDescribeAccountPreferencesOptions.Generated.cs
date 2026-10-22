@@ -23,14 +23,14 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEfsDescribeAccountPreferencesOptions : AwsOptions
 {
     /// <summary>
-    /// (Optional) You can use NextToken in a subsequent request to fetch the next page of Amazon Web Services account preferences if the re- sponse payload was paginated. Constraints: o min: 1 o max: 128 o pattern: .+
+    /// (Optional) You can use NextToken in a subsequent request to fetch the next page of Amazon Web Services account preferences if the response payload was paginated. Constraints: • min: 1 • max: 128 • pattern: .+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// (Optional) When retrieving account preferences, you can optionally specify the MaxItems parameter to limit the number of objects re- turned in a response. The default value is 100. Constraints: o min: 1
+    /// (Optional) When retrieving account preferences, you can optionally specify the MaxItems parameter to limit the number of objects returned in a response. The default value is 100. Constraints: • min: 1
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

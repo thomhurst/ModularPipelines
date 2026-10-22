@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsOdbGetCloudExadataInfrastructureUnallocatedResourcesOptions : A
     /// <summary>
     /// Retrieves information about unallocated resources in a specified Cloud Exadata Infrastructure. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CloudExadataInfrastructureId">The unique identifier of the Cloud Exadata infrastructure for which to retrieve unallocated resources. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
+    /// <param name="CloudExadataInfrastructureId">The unique identifier of the Cloud Exadata infrastructure for which to retrieve unallocated resources. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
     public AwsOdbGetCloudExadataInfrastructureUnallocatedResourcesOptions(
         string CloudExadataInfrastructureId
     )
@@ -56,13 +58,13 @@ public record AwsOdbGetCloudExadataInfrastructureUnallocatedResourcesOptions : A
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Cloud Exadata infrastructure for which to retrieve unallocated resources. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// The unique identifier of the Cloud Exadata infrastructure for which to retrieve unallocated resources. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
     /// </summary>
     [CliOption("--cloud-exadata-infrastructure-id")]
     public string? CloudExadataInfrastructureId { get; private init; }
 
     /// <summary>
-    /// The database servers to include in the unallocated resources query. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...
+    /// The database servers to include in the unallocated resources query. Constraints: • min: 1 • max: 1024 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--db-servers", GroupValues = true)]
     public IEnumerable<string>? DbServers { get; set; }

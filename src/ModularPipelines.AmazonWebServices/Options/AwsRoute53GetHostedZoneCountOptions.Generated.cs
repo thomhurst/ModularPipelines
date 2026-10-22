@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the number of hosted zones that are associated with the cur- rent Amazon Web Services account. See also: AWS API Documentation
+/// Retrieves the number of hosted zones that are associated with the current Amazon Web Services account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

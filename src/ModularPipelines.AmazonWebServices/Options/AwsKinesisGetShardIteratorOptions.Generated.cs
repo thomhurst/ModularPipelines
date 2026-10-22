@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets an Amazon Kinesis shard iterator. A shard iterator expires 5 min- utes after it is returned to the requester. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. A shard iterator specifies the shard position from which to start read- ing data records sequentially. The position is specified using the se- quence number of a data record in a shard. A sequence...
+/// Gets an Amazon Kinesis shard iterator. A shard iterator expires 5 minutes after it is returned to the requester. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. A shard iterator specifies the shard position from which to start reading data records sequentially. The position is specified using the sequence number of a data record in a shard. A sequence numbe...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsKinesisGetShardIteratorOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets an Amazon Kinesis shard iterator. A shard iterator expires 5 min- utes after it is returned to the requester. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. A shard iterator specifies the shard position from which to start read- ing data records sequentially. The position is specified using the se- quence number of a data record in a shard. A sequence...
+    /// Gets an Amazon Kinesis shard iterator. A shard iterator expires 5 minutes after it is returned to the requester. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. A shard iterator specifies the shard position from which to start reading data records sequentially. The position is specified using the sequence number of a data record in a shard. A sequence numbe...
     /// </summary>
-    /// <param name="ShardId">The shard ID of the Kinesis Data Streams shard to get the iterator for. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="ShardIteratorType">Determines how the shard iterator is used to start reading data records from the shard. The following are the valid Amazon Kinesis shard iterator types: o AT_SEQUENCE_NUMBER - Start reading from the position denoted by a specific sequence number, provided in the value StartingSequen- ceNumber . o AFTER_SEQUENCE_NUMBER - Start reading right after the position de- noted by a specific sequence number, provided in the value Start- ingSequenceNumber . o AT_TIMESTAMP - Start reading from the position denoted by a spe- cific time stamp, provided in the value Timestamp . o TRIM_HORIZON - Start reading at the last untrimmed record in the shard in the system, which is the oldest data record in the shard. o LATEST - Start reading just after the most recent record in the shard, so that you always read the most recent data in the shard. Possible values: o AT_SEQUENCE_NUMBER o AFTER_SEQUENCE_NUMBER o TRIM_HORIZON o LATEST o AT_TIMESTAMP</param>
+    /// <param name="ShardId">The shard ID of the Kinesis Data Streams shard to get the iterator for. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="ShardIteratorType">Determines how the shard iterator is used to start reading data records from the shard. The following are the valid Amazon Kinesis shard iterator types: • AT_SEQUENCE_NUMBER - Start reading from the position denoted by a specific sequence number, provided in the value StartingSequenceNumber . • AFTER_SEQUENCE_NUMBER - Start reading right after the position denoted by a specific sequence number, provided in the value StartingSequenceNumber . • AT_TIMESTAMP - Start reading from the position denoted by a specific time stamp, provided in the value Timestamp . • TRIM_HORIZON - Start reading at the last untrimmed record in the shard in the system, which is the oldest data record in the shard. • LATEST - Start reading just after the most recent record in the shard, so that you always read the most recent data in the shard. Possible values: • AT_SEQUENCE_NUMBER • AFTER_SEQUENCE_NUMBER • TRIM_HORIZON • LATEST • AT_TIMESTAMP</param>
     public AwsKinesisGetShardIteratorOptions(
         string ShardId,
         AwsKinesisGetShardIteratorShardIteratorType ShardIteratorType
@@ -60,25 +62,25 @@ public record AwsKinesisGetShardIteratorOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The shard ID of the Kinesis Data Streams shard to get the iterator for. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The shard ID of the Kinesis Data Streams shard to get the iterator for. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--shard-id")]
     public string? ShardId { get; private init; }
 
     /// <summary>
-    /// Determines how the shard iterator is used to start reading data records from the shard. The following are the valid Amazon Kinesis shard iterator types: o AT_SEQUENCE_NUMBER - Start reading from the position denoted by a specific sequence number, provided in the value StartingSequen- ceNumber . o AFTER_SEQUENCE_NUMBER - Start reading right after the position de- noted by a specific sequence number, provided in the value Start- ingSequenceNumber . o AT_TIMESTAMP - Start reading from the position denoted by a spe- cific time stamp, provided in the value Timestamp . o TRIM_HORIZON - Start reading at the last untrimmed record in the shard in the system, which is the oldest data record in the shard. o LATEST - Start reading just after the most recent record in the shard, so that you always read the most recent data in the shard. Possible values: o AT_SEQUENCE_NUMBER o AFTER_SEQUENCE_NUMBER o TRIM_HORIZON o LATEST o AT_TIMESTAMP
+    /// Determines how the shard iterator is used to start reading data records from the shard. The following are the valid Amazon Kinesis shard iterator types: • AT_SEQUENCE_NUMBER - Start reading from the position denoted by a specific sequence number, provided in the value StartingSequenceNumber . • AFTER_SEQUENCE_NUMBER - Start reading right after the position denoted by a specific sequence number, provided in the value StartingSequenceNumber . • AT_TIMESTAMP - Start reading from the position denoted by a specific time stamp, provided in the value Timestamp . • TRIM_HORIZON - Start reading at the last untrimmed record in the shard in the system, which is the oldest data record in the shard. • LATEST - Start reading just after the most recent record in the shard, so that you always read the most recent data in the shard. Possible values: • AT_SEQUENCE_NUMBER • AFTER_SEQUENCE_NUMBER • TRIM_HORIZON • LATEST • AT_TIMESTAMP
     /// </summary>
     [CliOption("--shard-iterator-type")]
     public AwsKinesisGetShardIteratorShardIteratorType? ShardIteratorType { get; private init; }
 
     /// <summary>
-    /// The name of the Amazon Kinesis data stream. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the Amazon Kinesis data stream. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
     /// <summary>
-    /// The sequence number of the data record in the shard from which to start reading. Used with shard iterator type AT_SEQUENCE_NUMBER and AFTER_SEQUENCE_NUMBER. Constraints: o pattern: ^(0|([1-9]\d{0,128}))$
+    /// The sequence number of the data record in the shard from which to start reading. Used with shard iterator type AT_SEQUENCE_NUMBER and AFTER_SEQUENCE_NUMBER. Constraints: • pattern: ^(0|([1-9]\d{0,128}))$
     /// </summary>
     [CliOption("--starting-sequence-number")]
     public string? StartingSequenceNumber { get; set; }
@@ -90,19 +92,19 @@ public record AwsKinesisGetShardIteratorOptions : AwsOptions, IValidatableObject
     public string? Timestamp { get; set; }
 
     /// <summary>
-    /// The ARN of the stream. Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+
+    /// The ARN of the stream. Constraints: • min: 1 • max: 2048 • pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+
     /// </summary>
     [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
 
     /// <summary>
-    /// Not Implemented. Reserved for future use. Constraints: o min: 1 o max: 24 o pattern: [a-z0-9]{20}-[a-z0-9]{3}
+    /// Not Implemented. Reserved for future use. Constraints: • min: 1 • max: 24 • pattern: [a-z0-9]{20}-[a-z0-9]{3}
     /// </summary>
     [CliOption("--stream-id")]
     public string? StreamId { get; set; }
 
     /// <summary>
-    /// Checks if your request will succeed. DryRun is an optional parame- ter.
+    /// Checks if your request will succeed. DryRun is an optional parameter.
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

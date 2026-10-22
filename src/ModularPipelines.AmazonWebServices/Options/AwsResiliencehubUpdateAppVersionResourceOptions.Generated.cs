@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the resource details in the Resilience Hub application. NOTE: o This action has no effect outside Resilience Hub. o This API updates the Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API. o To update application version with new physicalResourceID , you must call ResolveAppVersionResources API. See also: AWS API Documentation
+/// Updates the resource details in the Resilience Hub application. NOTE: • This action has no effect outside Resilience Hub. • This API updates the Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API. • To update application version with new physicalResourceID , you must call ResolveAppVersionResources API. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsResiliencehubUpdateAppVersionResourceOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the resource details in the Resilience Hub application. NOTE: o This action has no effect outside Resilience Hub. o This API updates the Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API. o To update application version with new physicalResourceID , you must call ResolveAppVersionResources API. See also: AWS API Documentation
+    /// Updates the resource details in the Resilience Hub application. NOTE: • This action has no effect outside Resilience Hub. • This API updates the Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API. • To update application version with new physicalResourceID , you must call ResolveAppVersionResources API. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppArn">Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$</param>
+    /// <param name="AppArn">Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$</param>
     public AwsResiliencehubUpdateAppVersionResourceOptions(
         string AppArn
     )
@@ -57,61 +58,61 @@ public record AwsResiliencehubUpdateAppVersionResourceOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
     /// </summary>
     [CliOption("--app-arn")]
     public string? AppArn { get; private init; }
 
     /// <summary>
-    /// Currently, there is no supported additional information for re- sources. key -&gt; (string) Constraints: o pattern: ^\S{1,128}$ value -&gt; (list) Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 1024 Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
+    /// Currently, there is no supported additional information for resources. key -&gt; (string) Constraints: • pattern: ^\S{1,128}$ value -&gt; (list) Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 1024 Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
     [CliOption("--additional-info", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AdditionalInfo { get; set; }
 
     /// <summary>
-    /// List of Application Components that this resource belongs to. If an Application Component is not part of the Resilience Hub application, it will be added. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...
+    /// List of Application Components that this resource belongs to. If an Application Component is not part of the Resilience Hub application, it will be added. (string) Constraints: • min: 1 • max: 255 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--app-components", GroupValues = true)]
     public IEnumerable<string>? AppComponents { get; set; }
 
     /// <summary>
-    /// Amazon Web Services account that owns the physical resource. Constraints: o pattern: ^[0-9]{12}$
+    /// Amazon Web Services account that owns the physical resource. Constraints: • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; set; }
 
     /// <summary>
-    /// Amazon Web Services region that owns the physical resource. Constraints: o pattern: ^[a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]$
+    /// Amazon Web Services region that owns the physical resource. Constraints: • pattern: ^[a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]$
     /// </summary>
     [CliOption("--aws-region")]
     public string? AwsRegion { get; set; }
 
     /// <summary>
-    /// Indicates if a resource is excluded from an Resilience Hub applica- tion. NOTE: You can exclude only imported resources from an Resilience Hub application.
+    /// Indicates if a resource is excluded from an Resilience Hub application. NOTE: You can exclude only imported resources from an Resilience Hub application.
     /// </summary>
     [CliFlag("--excluded", NegatedName = "--no-excluded")]
     public bool? Excluded { get; set; }
 
     /// <summary>
-    /// Logical identifier of the resource. eksSourceName -&gt; (string) Name of the Amazon Elastic Kubernetes Service cluster and name- space this resource belongs to. NOTE: This parameter accepts values in "eks-cluster/namespace" for- mat. Constraints: o min: 1 o max: 255 identifier -&gt; (string) [required] Identifier of the resource. Constraints: o min: 1 o max: 255 logicalStackName -&gt; (string) The name of the CloudFormation stack this resource belongs to. Constraints: o min: 1 o max: 255 resourceGroupName -&gt; (string) The name of the resource group that this resource belongs to. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$ terraformSourceName -&gt; (string) The name of the Terraform S3 state file this resource belongs to. Constraints: o min: 1 o max: 255 Shorthand Syntax: eksSourceName=string,identifier=string,logicalStackName=string,resourceGroupName=string,terraformSourceName=string JSON Syntax: { "eksSourceName": "string", "identifier": "string", "logicalStackName": "string", "resourceGroupName": "string", "terraformSourceName": "string" }
+    /// Logical identifier of the resource. eksSourceName -&gt; (string) Name of the Amazon Elastic Kubernetes Service cluster and namespace this resource belongs to. NOTE: This parameter accepts values in "eks-cluster/namespace" format. Constraints: • min: 1 • max: 255 identifier -&gt; (string) [required] Identifier of the resource. Constraints: • min: 1 • max: 255 logicalStackName -&gt; (string) The name of the CloudFormation stack this resource belongs to. Constraints: • min: 1 • max: 255 resourceGroupName -&gt; (string) The name of the resource group that this resource belongs to. Constraints: • pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$ terraformSourceName -&gt; (string) The name of the Terraform S3 state file this resource belongs to. Constraints: • min: 1 • max: 255 Shorthand Syntax: eksSourceName=string,identifier=string,logicalStackName=string,resourceGroupName=string,terraformSourceName=string JSON Syntax: { "eksSourceName": "string", "identifier": "string", "logicalStackName": "string", "resourceGroupName": "string", "terraformSourceName": "string" }
     /// </summary>
     [CliOption("--logical-resource-id")]
     public string? LogicalResourceId { get; set; }
 
     /// <summary>
-    /// Physical identifier of the resource. Constraints: o min: 1 o max: 2048
+    /// Physical identifier of the resource. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--physical-resource-id")]
     public string? PhysicalResourceId { get; set; }
 
     /// <summary>
-    /// Name of the resource. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$
+    /// Name of the resource. Constraints: • pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$
     /// </summary>
     [CliOption("--resource-name")]
     public string? ResourceName { get; set; }
 
     /// <summary>
-    /// Type of resource. Constraints: o min: 1 o max: 255
+    /// Type of resource. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--resource-type")]
     public string? ResourceType { get; set; }

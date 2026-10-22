@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves detailed information about a recommendation, including its configuration, status, and results. See also: AWS API Documentation get-recommendation uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+/// Retrieves detailed information about a recommendation, including its configuration, status, and results. See also: AWS API Documentation get-recommendation uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsBedrockAgentcoreGetRecommendationOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves detailed information about a recommendation, including its configuration, status, and results. See also: AWS API Documentation get-recommendation uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Retrieves detailed information about a recommendation, including its configuration, status, and results. See also: AWS API Documentation get-recommendation uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="RecommendationId">The unique identifier of the recommendation to retrieve. Constraints: o pattern: [0-9a-zA-Z_-]{1,48}-[0-9A-Z]{10}</param>
+    /// <param name="RecommendationId">The unique identifier of the recommendation to retrieve. Constraints: • pattern: [0-9a-zA-Z_-]{1,48}-[0-9A-Z]{10}</param>
     public AwsBedrockAgentcoreGetRecommendationOptions(
         string RecommendationId
     )
@@ -56,7 +58,7 @@ public record AwsBedrockAgentcoreGetRecommendationOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the recommendation to retrieve. Constraints: o pattern: [0-9a-zA-Z_-]{1,48}-[0-9A-Z]{10}
+    /// The unique identifier of the recommendation to retrieve. Constraints: • pattern: [0-9a-zA-Z_-]{1,48}-[0-9A-Z]{10}
     /// </summary>
     [CliOption("--recommendation-id")]
     public string? RecommendationId { get; private init; }

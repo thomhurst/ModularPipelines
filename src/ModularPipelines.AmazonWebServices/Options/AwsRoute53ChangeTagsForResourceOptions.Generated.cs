@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsRoute53ChangeTagsForResourceOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Adds, edits, or deletes tags for a health check or a hosted zone. For information about using tags for cost allocation, see Using Cost Allocation Tags in the Billing and Cost Management User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceType">The type of the resource. o The resource type for health checks is healthcheck . o The resource type for hosted zones is hostedzone . Possible values: o healthcheck o hostedzone</param>
-    /// <param name="ResourceId">The ID of the resource for which you want to add, change, or delete tags. Constraints: o max: 64</param>
+    /// <param name="ResourceType">The type of the resource. • The resource type for health checks is healthcheck . • The resource type for hosted zones is hostedzone . Possible values: • healthcheck • hostedzone</param>
+    /// <param name="ResourceId">The ID of the resource for which you want to add, change, or delete tags. Constraints: • max: 64</param>
     public AwsRoute53ChangeTagsForResourceOptions(
         AwsRoute53ChangeTagsForResourceResourceType ResourceType,
         string ResourceId
@@ -60,25 +62,25 @@ public record AwsRoute53ChangeTagsForResourceOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of the resource. o The resource type for health checks is healthcheck . o The resource type for hosted zones is hostedzone . Possible values: o healthcheck o hostedzone
+    /// The type of the resource. • The resource type for health checks is healthcheck . • The resource type for hosted zones is hostedzone . Possible values: • healthcheck • hostedzone
     /// </summary>
     [CliOption("--resource-type")]
     public AwsRoute53ChangeTagsForResourceResourceType? ResourceType { get; private init; }
 
     /// <summary>
-    /// The ID of the resource for which you want to add, change, or delete tags. Constraints: o max: 64
+    /// The ID of the resource for which you want to add, change, or delete tags. Constraints: • max: 64
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// A complex type that contains a list of the tags that you want to add to the specified health check or hosted zone and/or the tags that you want to edit Value for. You can add a maximum of 10 tags to a health check or a hosted zone. Constraints: o min: 1 o max: 10 (structure) A complex type that contains information about a tag that you want to add or edit for the specified health check or hosted zone. Key -&gt; (string) The value of Key depends on the operation that you want to perform: o Add a tag to a health check or hosted zone : Key is the name that you want to give the new tag. o Edit a tag : Key is the name of the tag that you want to change the Value for. o Delete a key : Key is the name of the tag you want to re- move. o Give a name to a health check : Edit the default Name tag. In the Amazon Route 53 console, the list of your health checks includes a Name column that lets you see the name that you've given to each health check. Constraints: o max: 128 Value -&gt; (string) The value of Value depends on the operation that you want to perform: o Add a tag to a health check or hosted zone : Value is the value that you want to give the new tag. o Edit a tag : Value is the new value that you want to assign the tag. Constraints: o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A complex type that contains a list of the tags that you want to add to the specified health check or hosted zone and/or the tags that you want to edit Value for. You can add a maximum of 10 tags to a health check or a hosted zone. Constraints: • min: 1 • max: 10 (structure) A complex type that contains information about a tag that you want to add or edit for the specified health check or hosted zone. Key -&gt; (string) The value of Key depends on the operation that you want to perform: • Add a tag to a health check or hosted zone : Key is the name that you want to give the new tag. • Edit a tag : Key is the name of the tag that you want to change the Value for. • Delete a key : Key is the name of the tag you want to remove. • Give a name to a health check : Edit the default Name tag. In the Amazon Route 53 console, the list of your health checks includes a Name column that lets you see the name that you've given to each health check. Constraints: • max: 128 Value -&gt; (string) The value of Value depends on the operation that you want to perform: • Add a tag to a health check or hosted zone : Value is the value that you want to give the new tag. • Edit a tag : Value is the new value that you want to assign the tag. Constraints: • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--add-tags", GroupValues = true)]
     public IEnumerable<string>? AddTags { get; set; }
 
     /// <summary>
-    /// A complex type that contains a list of the tags that you want to delete from the specified health check or hosted zone. You can spec- ify up to 10 keys. Constraints: o min: 1 o max: 10 (string) Constraints: o max: 128 Syntax: "string" "string" ...
+    /// A complex type that contains a list of the tags that you want to delete from the specified health check or hosted zone. You can specify up to 10 keys. Constraints: • min: 1 • max: 10 (string) Constraints: • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--remove-tag-keys", GroupValues = true)]
     public IEnumerable<string>? RemoveTagKeys { get; set; }

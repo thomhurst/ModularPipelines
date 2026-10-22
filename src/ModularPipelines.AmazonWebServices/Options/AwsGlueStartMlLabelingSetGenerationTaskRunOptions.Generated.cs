@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsGlueStartMlLabelingSetGenerationTaskRunOptions : AwsOptions, IV
     /// <summary>
     /// Starts the active learning workflow for your machine learning transform to improve the transform's quality by generating label sets and adding labels. When the StartMLLabelingSetGenerationTaskRun finishes, Glue will have generated a "labeling set" or a set of questions for humans to answer. In the case of the FindMatches transform, these questions are of the form, What is the correct way to group these rows together into groups composed entirely of matching records? After the labeling process is...
     /// </summary>
-    /// <param name="TransformId">The unique identifier of the machine learning transform. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="OutputS3Path">The Amazon Simple Storage Service (Amazon S3) path where you gener- ate the labeling set.</param>
+    /// <param name="TransformId">The unique identifier of the machine learning transform. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="OutputS3Path">The Amazon Simple Storage Service (Amazon S3) path where you generate the labeling set.</param>
     public AwsGlueStartMlLabelingSetGenerationTaskRunOptions(
         string TransformId,
         string OutputS3Path
@@ -60,13 +62,13 @@ public record AwsGlueStartMlLabelingSetGenerationTaskRunOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the machine learning transform. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The unique identifier of the machine learning transform. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--transform-id")]
     public string? TransformId { get; private init; }
 
     /// <summary>
-    /// The Amazon Simple Storage Service (Amazon S3) path where you gener- ate the labeling set.
+    /// The Amazon Simple Storage Service (Amazon S3) path where you generate the labeling set.
     /// </summary>
     [CliOption("--output-s3-path")]
     public string? OutputS3Path { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsForecastCreateMonitorOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a predictor monitor resource for an existing auto predictor. Predictor monitoring allows you to see how your predictor's performance changes over time. For more information, see Predictor Monitoring . See also: AWS API Documentation
     /// </summary>
-    /// <param name="MonitorName">The name of the monitor resource. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*</param>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the predictor to monitor. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    /// <param name="MonitorName">The name of the monitor resource. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z][a-zA-Z0-9_]*</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the predictor to monitor. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
     public AwsForecastCreateMonitorOptions(
         string MonitorName,
         string ResourceArn
@@ -60,19 +62,19 @@ public record AwsForecastCreateMonitorOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the monitor resource. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*
+    /// The name of the monitor resource. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z][a-zA-Z0-9_]*
     /// </summary>
     [CliOption("--monitor-name")]
     public string? MonitorName { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the predictor to monitor. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the predictor to monitor. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A list of tags to apply to the monitor resource. Constraints: o min: 0 o max: 200 (structure) The optional metadata that you apply to a resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags: o Maximum number of tags per resource - 50. o For each resource, each tag key must be unique, and each tag key can have only one value. o Maximum key length - 128 Unicode characters in UTF-8. o Maximum value length - 256 Unicode characters in UTF-8. o If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: let- ters, numbers, and spaces representable in UTF-8, and the fol- lowing characters: + - = . _ : / @. o Tag keys and values are case sensitive. o Do not use aws: , AWS: , or any upper or lowercase combination of such as a prefix for keys as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit. Key -&gt; (string) [required] One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The optional part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tags to apply to the monitor resource. Constraints: • min: 0 • max: 200 (structure) The optional metadata that you apply to a resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags: • Maximum number of tags per resource - 50. • For each resource, each tag key must be unique, and each tag key can have only one value. • Maximum key length - 128 Unicode characters in UTF-8. • Maximum value length - 256 Unicode characters in UTF-8. • If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @. • Tag keys and values are case sensitive. • Do not use aws: , AWS: , or any upper or lowercase combination of such as a prefix for keys as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit. Key -&gt; (string) [required] One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The optional part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key). Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

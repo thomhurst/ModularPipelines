@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// List all command executions. WARNING: o You must provide only the startedTimeFilter or the completedTime- Filter information. If you provide both time filters, the API will generate an error. You can use this information to retrieve a list of command executions within a specific timeframe. o You must provide only the commandArn or the thingArn information depending on whether you want to list executions for a specific command or an IoT thing. If you provide both fields, the API will generate an ...
+/// List all command executions. WARNING: • You must provide only the startedTimeFilter or the completedTimeFilter information. If you provide both time filters, the API will generate an error. You can use this information to retrieve a list of command executions within a specific timeframe. • You must provide only the commandArn or the thingArn information depending on whether you want to list executions for a specific command or an IoT thing. If you provide both fields, the API will generate an er...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,37 +24,37 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotListCommandExecutionsOptions : AwsOptions
 {
     /// <summary>
-    /// The namespace of the command. Possible values: o AWS-IoT o AWS-IoT-FleetWise
+    /// The namespace of the command. Possible values: • AWS-IoT • AWS-IoT-FleetWise
     /// </summary>
     [CliOption("--namespace")]
     public AwsIotListCommandExecutionsNamespace? Namespace { get; set; }
 
     /// <summary>
-    /// List all command executions for the device that have a particular status. For example, you can filter the list to display only command executions that have failed or timed out. Possible values: o CREATED o IN_PROGRESS o SUCCEEDED o FAILED o REJECTED o TIMED_OUT
+    /// List all command executions for the device that have a particular status. For example, you can filter the list to display only command executions that have failed or timed out. Possible values: • CREATED • IN_PROGRESS • SUCCEEDED • FAILED • REJECTED • TIMED_OUT
     /// </summary>
     [CliOption("--status")]
     public AwsIotListCommandExecutionsStatus? Status { get; set; }
 
     /// <summary>
-    /// Specify whether to list the command executions that were created in the ascending or descending order. By default, the API returns all commands in the descending order based on the start time or comple- tion time of the executions, that are determined by the startTime- Filter and completeTimeFilter parameters. Possible values: o ASCENDING o DESCENDING
+    /// Specify whether to list the command executions that were created in the ascending or descending order. By default, the API returns all commands in the descending order based on the start time or completion time of the executions, that are determined by the startTimeFilter and completeTimeFilter parameters. Possible values: • ASCENDING • DESCENDING
     /// </summary>
     [CliOption("--sort-order")]
     public AwsIotListCommandExecutionsSortOrder? SortOrder { get; set; }
 
     /// <summary>
-    /// List all command executions that started any time before or after the date and time that you specify. The date and time uses the for- mat yyyy-MM-dd'T'HH:mm . after -&gt; (string) Filter to display command executions that started or completed only after a particular date and time. Constraints: o min: 1 o max: 64 before -&gt; (string) Filter to display command executions that started or completed only before a particular date and time. Constraints: o min: 1 o max: 64 Shorthand Syntax: after=string,before=string JSON Syntax: { "after": "string", "before": "string" }
+    /// List all command executions that started any time before or after the date and time that you specify. The date and time uses the format yyyy-MM-dd'T'HH:mm . after -&gt; (string) Filter to display command executions that started or completed only after a particular date and time. Constraints: • min: 1 • max: 64 before -&gt; (string) Filter to display command executions that started or completed only before a particular date and time. Constraints: • min: 1 • max: 64 Shorthand Syntax: after=string,before=string JSON Syntax: { "after": "string", "before": "string" }
     /// </summary>
     [CliOption("--started-time-filter")]
     public string? StartedTimeFilter { get; set; }
 
     /// <summary>
-    /// List all command executions that completed any time before or after the date and time that you specify. The date and time uses the for- mat yyyy-MM-dd'T'HH:mm . after -&gt; (string) Filter to display command executions that started or completed only after a particular date and time. Constraints: o min: 1 o max: 64 before -&gt; (string) Filter to display command executions that started or completed only before a particular date and time. Constraints: o min: 1 o max: 64 Shorthand Syntax: after=string,before=string JSON Syntax: { "after": "string", "before": "string" }
+    /// List all command executions that completed any time before or after the date and time that you specify. The date and time uses the format yyyy-MM-dd'T'HH:mm . after -&gt; (string) Filter to display command executions that started or completed only after a particular date and time. Constraints: • min: 1 • max: 64 before -&gt; (string) Filter to display command executions that started or completed only before a particular date and time. Constraints: • min: 1 • max: 64 Shorthand Syntax: after=string,before=string JSON Syntax: { "after": "string", "before": "string" }
     /// </summary>
     [CliOption("--completed-time-filter")]
     public string? CompletedTimeFilter { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Number (ARN) of the target device. You can use this information to list all command executions for a particular de- vice. Constraints: o max: 2048
+    /// The Amazon Resource Number (ARN) of the target device. You can use this information to list all command executions for a particular device. Constraints: • max: 2048
     /// </summary>
     [CliOption("--target-arn")]
     public string? TargetArn { get; set; }
@@ -68,9 +68,6 @@ public record AwsIotListCommandExecutionsOptions : AwsOptions
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -79,15 +76,18 @@ public record AwsIotListCommandExecutionsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

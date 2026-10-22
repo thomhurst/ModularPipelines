@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of NotificationEvents according to specified filters, in reverse chronological order (newest first). WARNING: User Notifications stores notifications in the individual Regions you register as notification hubs and the Region of the source event rule. ListNotificationEvents only returns notifications stored in the same Region in which the action is called. User Notifications doesn't backfill notifications to new Regions selected as notifica- tion hubs. For this reason, we recommend...
+/// Returns a list of NotificationEvents according to specified filters, in reverse chronological order (newest first). WARNING: User Notifications stores notifications in the individual Regions you register as notification hubs and the Region of the source event rule. ListNotificationEvents only returns notifications stored in the same Region in which the action is called. User Notifications doesn't backfill notifications to new Regions selected as notification hubs. For this reason, we recommend t...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -36,13 +36,13 @@ public record AwsNotificationsListNotificationEventsOptions : AwsOptions
     public string? EndTime { get; set; }
 
     /// <summary>
-    /// The locale code of the language used for the retrieved Notification- Event . The default locale is English (en_US) . Possible values: o de_DE o en_CA o en_US o en_UK o es_ES o fr_CA o fr_FR o id_ID o it_IT o ja_JP o ko_KR o pt_BR o tr_TR o zh_CN o zh_TW
+    /// The locale code of the language used for the retrieved NotificationEvent . The default locale is English (en_US) . Possible values: • de_DE • en_CA • en_US • en_UK • es_ES • fr_CA • fr_FR • id_ID • it_IT • ja_JP • ko_KR • pt_BR • tr_TR • zh_CN • zh_TW
     /// </summary>
     [CliOption("--locale")]
     public AwsNotificationsListNotificationEventsLocale? Locale { get; set; }
 
     /// <summary>
-    /// The matched event source. Must match one of the valid EventBridge sources. Only Amazon Web Services service sourced events are supported. For example, aws.ec2 and aws.cloudwatch . For more information, see Event delivery from Amazon Web Services services in the Amazon EventBridge User Guide . Constraints: o min: 1 o max: 36 o pattern: aws.([a-z0-9\-])+
+    /// The matched event source. Must match one of the valid EventBridge sources. Only Amazon Web Services service sourced events are supported. For example, aws.ec2 and aws.cloudwatch . For more information, see Event delivery from Amazon Web Services services in the Amazon EventBridge User Guide . Constraints: • min: 1 • max: 36 • pattern: aws.([a-z0-9\-])+
     /// </summary>
     [CliOption("--source")]
     public string? Source { get; set; }
@@ -54,22 +54,19 @@ public record AwsNotificationsListNotificationEventsOptions : AwsOptions
     public bool? IncludeChildEvents { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the aggregatedNotificationEventArn to match. Constraints: o pattern: arn:[a-z-]{3,10}:notifica- tions:[-.a-z0-9]{1,63}:[0-9]{12}:configura- tion/[a-z0-9]{27}/event/[a-z0-9]{27}
+    /// The Amazon Resource Name (ARN) of the aggregatedNotificationEventArn to match. Constraints: • pattern: arn:[a-z-]{3,10}:notifications:[-.a-z0-9]{1,63}:[0-9]{12}:configuration/[a-z0-9]{27}/event/[a-z0-9]{27}
     /// </summary>
     [CliOption("--aggregate-notification-event-arn")]
     public string? AggregateNotificationEventArn { get; set; }
 
     /// <summary>
-    /// The unique identifier of the organizational unit used to filter no- tification events. Constraints: o pattern: (Root|r-[0-9a-z]{4,32}|ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})
+    /// The unique identifier of the organizational unit used to filter notification events. Constraints: • pattern: (Root|r-[0-9a-z]{4,32}|ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})
     /// </summary>
     [CliOption("--organizational-unit-id")]
     public string? OrganizationalUnitId { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -79,15 +76,18 @@ public record AwsNotificationsListNotificationEventsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

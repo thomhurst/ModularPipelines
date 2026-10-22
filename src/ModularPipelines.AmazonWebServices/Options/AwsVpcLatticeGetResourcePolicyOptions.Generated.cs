@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsVpcLatticeGetResourcePolicyOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Retrieves information about the specified resource policy. The resource policy is an IAM policy created on behalf of the resource owner when they share a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the service network or service. Constraints: o min: 20 o max: 200 o pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((ser- vicenetwork/sn)|(service/svc)|(resourceconfigura- tion/rcfg))-[0-9a-z]{17}</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the service network or service. Constraints: • min: 20 • max: 200 • pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((servicenetwork/sn)|(service/svc)|(resourceconfiguration/rcfg))-[0-9a-z]{17}</param>
     public AwsVpcLatticeGetResourcePolicyOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsVpcLatticeGetResourcePolicyOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the service network or service. Constraints: o min: 20 o max: 200 o pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((ser- vicenetwork/sn)|(service/svc)|(resourceconfigura- tion/rcfg))-[0-9a-z]{17}
+    /// The Amazon Resource Name (ARN) of the service network or service. Constraints: • min: 20 • max: 200 • pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((servicenetwork/sn)|(service/svc)|(resourceconfiguration/rcfg))-[0-9a-z]{17}
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

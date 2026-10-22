@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +31,8 @@ public record AwsKendraListDataSourceSyncJobsOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Gets statistics about synchronizing a data source connector. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The identifier of the data source connector. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*</param>
-    /// <param name="IndexId">The identifier of the index used with the data source connector. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="Id">The identifier of the data source connector. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*</param>
+    /// <param name="IndexId">The identifier of the index used with the data source connector. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
     public AwsKendraListDataSourceSyncJobsOptions(
         string Id,
         string IndexId
@@ -62,26 +64,26 @@ public record AwsKendraListDataSourceSyncJobsOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the data source connector. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// The identifier of the data source connector. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The identifier of the index used with the data source connector. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// The identifier of the index used with the data source connector. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--index-id")]
     public string? IndexId { get; private init; }
 
     /// <summary>
-    /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the re- sponse. You can use this pagination token to retrieve the next set of jobs. Constraints: o min: 1 o max: 800
+    /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of jobs. Constraints: • min: 1 • max: 800
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of synchronization jobs to return in the re- sponse. If there are fewer results in the list, this response con- tains only the actual results. Constraints: o min: 1 o max: 10
+    /// The maximum number of synchronization jobs to return in the response. If there are fewer results in the list, this response contains only the actual results. Constraints: • min: 1 • max: 10
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -93,7 +95,7 @@ public record AwsKendraListDataSourceSyncJobsOptions : AwsOptions, IValidatableO
     public string? StartTimeFilter { get; set; }
 
     /// <summary>
-    /// Only returns synchronization jobs with the Status field equal to the specified status. Possible values: o FAILED o SUCCEEDED o SYNCING o INCOMPLETE o STOPPING o ABORTED o SYNCING_INDEXING
+    /// Only returns synchronization jobs with the Status field equal to the specified status. Possible values: • FAILED • SUCCEEDED • SYNCING • INCOMPLETE • STOPPING • ABORTED • SYNCING_INDEXING
     /// </summary>
     [CliOption("--status-filter")]
     public AwsKendraListDataSourceSyncJobsStatusFilter? StatusFilter { get; set; }

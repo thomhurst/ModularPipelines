@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Update whether the Amazon Web Services account is opted into organiza- tion sharing and discovery integration features. See also: AWS API Documentation
+/// Update whether the Amazon Web Services account is opted into organization sharing and discovery integration features. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,19 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsWellarchitectedUpdateGlobalSettingsOptions : AwsOptions
 {
     /// <summary>
-    /// The status of organization sharing settings. Possible values: o ENABLED o DISABLED
+    /// The status of organization sharing settings. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--organization-sharing-status")]
     public AwsWellarchitectedUpdateGlobalSettingsOrganizationSharingStatus? OrganizationSharingStatus { get; set; }
 
     /// <summary>
-    /// The status of discovery support settings. Possible values: o ENABLED o DISABLED
+    /// The status of discovery support settings. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--discovery-integration-status")]
     public AwsWellarchitectedUpdateGlobalSettingsDiscoveryIntegrationStatus? DiscoveryIntegrationStatus { get; set; }
 
     /// <summary>
-    /// The status of Jira integration settings. IssueManagementStatus -&gt; (string) Account-level: Jira issue management status. Possible values: o ENABLED o DISABLED IssueManagementType -&gt; (string) Account-level: Jira issue management type. Possible values: o AUTO o MANUAL JiraProjectKey -&gt; (string) Account-level: Jira project key to sync workloads to. Constraints: o min: 1 o max: 100 o pattern: [A-Z][A-Z0-9_]* IntegrationStatus -&gt; (string) Account-level: Configuration status of the Jira integration. Possible values: o NOT_CONFIGURED Shorthand Syntax: IssueManagementStatus=string,IssueManagementType=string,JiraProjectKey=string,IntegrationStatus=string JSON Syntax: { "IssueManagementStatus": "ENABLED"|"DISABLED", "IssueManagementType": "AUTO"|"MANUAL", "JiraProjectKey": "string", "IntegrationStatus": "NOT_CONFIGURED" }
+    /// The status of Jira integration settings. IssueManagementStatus -&gt; (string) Account-level: Jira issue management status. Possible values: • ENABLED • DISABLED IssueManagementType -&gt; (string) Account-level: Jira issue management type. Possible values: • AUTO • MANUAL JiraProjectKey -&gt; (string) Account-level: Jira project key to sync workloads to. Constraints: • min: 1 • max: 100 • pattern: [A-Z][A-Z0-9_]* IntegrationStatus -&gt; (string) Account-level: Configuration status of the Jira integration. Possible values: • NOT_CONFIGURED Shorthand Syntax: IssueManagementStatus=string,IssueManagementType=string,JiraProjectKey=string,IntegrationStatus=string JSON Syntax: { "IssueManagementStatus": "ENABLED"|"DISABLED", "IssueManagementType": "AUTO"|"MANUAL", "JiraProjectKey": "string", "IntegrationStatus": "NOT_CONFIGURED" }
     /// </summary>
     [CliOption("--jira-configuration")]
     public string? JiraConfiguration { get; set; }

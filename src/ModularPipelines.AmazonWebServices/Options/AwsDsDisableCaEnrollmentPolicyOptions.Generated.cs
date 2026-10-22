@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disables the certificate authority (CA) enrollment policy for the spec- ified directory. This stops automatic certificate enrollment and man- agement for domain-joined clients, but does not affect existing cer- tificates. WARNING: Disabling the CA enrollment policy prevents new certificates from being automatically enrolled, but existing certificates remain valid and functional until they expire. See also: AWS API Documentation
+/// Disables the certificate authority (CA) enrollment policy for the specified directory. This stops automatic certificate enrollment and management for domain-joined clients, but does not affect existing certificates. WARNING: Disabling the CA enrollment policy prevents new certificates from being automatically enrolled, but existing certificates remain valid and functional until they expire. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsDsDisableCaEnrollmentPolicyOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disables the certificate authority (CA) enrollment policy for the spec- ified directory. This stops automatic certificate enrollment and man- agement for domain-joined clients, but does not affect existing cer- tificates. WARNING: Disabling the CA enrollment policy prevents new certificates from being automatically enrolled, but existing certificates remain valid and functional until they expire. See also: AWS API Documentation
+    /// Disables the certificate authority (CA) enrollment policy for the specified directory. This stops automatic certificate enrollment and management for domain-joined clients, but does not affect existing certificates. WARNING: Disabling the CA enrollment policy prevents new certificates from being automatically enrolled, but existing certificates remain valid and functional until they expire. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The identifier of the directory for which to disable the CA enroll- ment policy. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="DirectoryId">The identifier of the directory for which to disable the CA enrollment policy. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
     public AwsDsDisableCaEnrollmentPolicyOptions(
         string DirectoryId
     )
@@ -56,7 +58,7 @@ public record AwsDsDisableCaEnrollmentPolicyOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the directory for which to disable the CA enroll- ment policy. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The identifier of the directory for which to disable the CA enrollment policy. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associate a set of tags with an Amazon DynamoDB resource. You can then activate these user-defined tags so that they appear on the Billing and Cost Management console for cost allocation tracking. You can call TagResource up to five times per second, per account. o TagResource is an asynchronous operation. If you issue a ListTag- sOfResource request immediately after a TagResource request, DynamoDB might return your previous tag set, if there was one, or an empty tag set. This is because ListTag...
+/// Associate a set of tags with an Amazon DynamoDB resource. You can then activate these user-defined tags so that they appear on the Billing and Cost Management console for cost allocation tracking. You can call TagResource up to five times per second, per account. • TagResource is an asynchronous operation. If you issue a ListTagsOfResource request immediately after a TagResource request, DynamoDB might return your previous tag set, if there was one, or an empty tag set. This is because ListTagsO...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsDynamodbTagResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associate a set of tags with an Amazon DynamoDB resource. You can then activate these user-defined tags so that they appear on the Billing and Cost Management console for cost allocation tracking. You can call TagResource up to five times per second, per account. o TagResource is an asynchronous operation. If you issue a ListTag- sOfResource request immediately after a TagResource request, DynamoDB might return your previous tag set, if there was one, or an empty tag set. This is because ListTag...
+    /// Associate a set of tags with an Amazon DynamoDB resource. You can then activate these user-defined tags so that they appear on the Billing and Cost Management console for cost allocation tracking. You can call TagResource up to five times per second, per account. • TagResource is an asynchronous operation. If you issue a ListTagsOfResource request immediately after a TagResource request, DynamoDB might return your previous tag set, if there was one, or an empty tag set. This is because ListTagsO...
     /// </summary>
-    /// <param name="ResourceArn">Identifies the Amazon DynamoDB resource to which tags should be added. This value is an Amazon Resource Name (ARN). Constraints: o min: 1 o max: 1283</param>
-    /// <param name="Tags">The tags to be assigned to the Amazon DynamoDB resource. (structure) Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a single DynamoDB table. Amazon Web Services-assigned tag names and values are automati- cally assigned the aws: prefix, which the user cannot assign. Amazon Web Services-assigned tag names do not count towards the tag limit of 50. User-assigned tag names have the prefix user: in the Cost Allocation Report. You cannot backdate the applica- tion of a tag. For an overview on tagging DynamoDB resources, see Tagging for DynamoDB in the Amazon DynamoDB Developer Guide . Key -&gt; (string) [required] The key of the tag. Tag keys are case sensitive. Each Dy- namoDB table can only have up to one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value of the tag. Tag values are case-sensitive and can be null. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="ResourceArn">Identifies the Amazon DynamoDB resource to which tags should be added. This value is an Amazon Resource Name (ARN). Constraints: • min: 1 • max: 1283</param>
+    /// <param name="Tags">The tags to be assigned to the Amazon DynamoDB resource. (structure) Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a single DynamoDB table. Amazon Web Services-assigned tag names and values are automatically assigned the aws: prefix, which the user cannot assign. Amazon Web Services-assigned tag names do not count towards the tag limit of 50. User-assigned tag names have the prefix user: in the Cost Allocation Report. You cannot backdate the application of a tag. For an overview on tagging DynamoDB resources, see Tagging for DynamoDB in the Amazon DynamoDB Developer Guide . Key -&gt; (string) [required] The key of the tag. Tag keys are case sensitive. Each DynamoDB table can only have up to one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The value of the tag. Tag values are case-sensitive and can be null. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsDynamodbTagResourceOptions(
         string ResourceArn,
         IEnumerable<string> Tags
@@ -71,13 +73,13 @@ public record AwsDynamodbTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifies the Amazon DynamoDB resource to which tags should be added. This value is an Amazon Resource Name (ARN). Constraints: o min: 1 o max: 1283
+    /// Identifies the Amazon DynamoDB resource to which tags should be added. This value is an Amazon Resource Name (ARN). Constraints: • min: 1 • max: 1283
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The tags to be assigned to the Amazon DynamoDB resource. (structure) Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a single DynamoDB table. Amazon Web Services-assigned tag names and values are automati- cally assigned the aws: prefix, which the user cannot assign. Amazon Web Services-assigned tag names do not count towards the tag limit of 50. User-assigned tag names have the prefix user: in the Cost Allocation Report. You cannot backdate the applica- tion of a tag. For an overview on tagging DynamoDB resources, see Tagging for DynamoDB in the Amazon DynamoDB Developer Guide . Key -&gt; (string) [required] The key of the tag. Tag keys are case sensitive. Each Dy- namoDB table can only have up to one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value of the tag. Tag values are case-sensitive and can be null. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags to be assigned to the Amazon DynamoDB resource. (structure) Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a single DynamoDB table. Amazon Web Services-assigned tag names and values are automatically assigned the aws: prefix, which the user cannot assign. Amazon Web Services-assigned tag names do not count towards the tag limit of 50. User-assigned tag names have the prefix user: in the Cost Allocation Report. You cannot backdate the application of a tag. For an overview on tagging DynamoDB resources, see Tagging for DynamoDB in the Amazon DynamoDB Developer Guide . Key -&gt; (string) [required] The key of the tag. Tag keys are case sensitive. Each DynamoDB table can only have up to one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The value of the tag. Tag values are case-sensitive and can be null. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Cancels an audit that is in progress. The audit can be either scheduled or on demand. If the audit isn't in progress, an "InvalidRequestExcep- tion" occurs. Requires permission to access the CancelAuditTask action. See also: AWS API Documentation
+/// Cancels an audit that is in progress. The audit can be either scheduled or on demand. If the audit isn't in progress, an "InvalidRequestException" occurs. Requires permission to access the CancelAuditTask action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsIotCancelAuditTaskOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Cancels an audit that is in progress. The audit can be either scheduled or on demand. If the audit isn't in progress, an "InvalidRequestExcep- tion" occurs. Requires permission to access the CancelAuditTask action. See also: AWS API Documentation
+    /// Cancels an audit that is in progress. The audit can be either scheduled or on demand. If the audit isn't in progress, an "InvalidRequestException" occurs. Requires permission to access the CancelAuditTask action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TaskId">The ID of the audit you want to cancel. You can only cancel an audit that is "IN_PROGRESS". Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9\-]+</param>
+    /// <param name="TaskId">The ID of the audit you want to cancel. You can only cancel an audit that is "IN_PROGRESS". Constraints: • min: 1 • max: 40 • pattern: [a-zA-Z0-9\-]+</param>
     public AwsIotCancelAuditTaskOptions(
         string TaskId
     )
@@ -56,7 +58,7 @@ public record AwsIotCancelAuditTaskOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the audit you want to cancel. You can only cancel an audit that is "IN_PROGRESS". Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9\-]+
+    /// The ID of the audit you want to cancel. You can only cancel an audit that is "IN_PROGRESS". Constraints: • min: 1 • max: 40 • pattern: [a-zA-Z0-9\-]+
     /// </summary>
     [CliOption("--task-id")]
     public string? TaskId { get; private init; }

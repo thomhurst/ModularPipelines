@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsApplicationInsightsDeleteComponentOptions : AwsOptions, IValida
     /// <summary>
     /// Ungroups a custom component. When you ungroup custom components, all applicable monitors that are set up for the component are removed and the instances revert to their standalone status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceGroupName">The name of the resource group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\.\-_]*</param>
-    /// <param name="ComponentName">The name of the component. Constraints: o min: 1 o max: 128 o pattern: ^[\d\w\-_\.+]*$</param>
+    /// <param name="ResourceGroupName">The name of the resource group. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9\.\-_]*</param>
+    /// <param name="ComponentName">The name of the component. Constraints: • min: 1 • max: 128 • pattern: ^[\d\w\-_\.+]*$</param>
     public AwsApplicationInsightsDeleteComponentOptions(
         string ResourceGroupName,
         string ComponentName
@@ -60,13 +62,13 @@ public record AwsApplicationInsightsDeleteComponentOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the resource group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\.\-_]*
+    /// The name of the resource group. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9\.\-_]*
     /// </summary>
     [CliOption("--resource-group-name")]
     public string? ResourceGroupName { get; private init; }
 
     /// <summary>
-    /// The name of the component. Constraints: o min: 1 o max: 128 o pattern: ^[\d\w\-_\.+]*$
+    /// The name of the component. Constraints: • min: 1 • max: 128 • pattern: ^[\d\w\-_\.+]*$
     /// </summary>
     [CliOption("--component-name")]
     public string? ComponentName { get; private init; }

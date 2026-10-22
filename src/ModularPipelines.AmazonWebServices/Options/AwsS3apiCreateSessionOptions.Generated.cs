@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a session that establishes temporary security credentials to support fast authentication and authorization for the Zonal endpoint API operations on directory buckets. For more information about Zonal endpoint API operations that include the Availability Zone in the re- quest endpoint, see S3 Express One Zone APIs in the Amazon S3 User Guide . To make Zonal endpoint API requests on a directory bucket, use the Cre- ateSession API operation. Specifically, you grant s3express:CreateSes- sion...
+/// Creates a session that establishes temporary security credentials to support fast authentication and authorization for the Zonal endpoint API operations on directory buckets. For more information about Zonal endpoint API operations that include the Availability Zone in the request endpoint, see S3 Express One Zone APIs in the Amazon S3 User Guide . To make Zonal endpoint API requests on a directory bucket, use the CreateSession API operation. Specifically, you grant s3express:CreateSession permi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +28,7 @@ public record AwsS3apiCreateSessionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a session that establishes temporary security credentials to support fast authentication and authorization for the Zonal endpoint API operations on directory buckets. For more information about Zonal endpoint API operations that include the Availability Zone in the re- quest endpoint, see S3 Express One Zone APIs in the Amazon S3 User Guide . To make Zonal endpoint API requests on a directory bucket, use the Cre- ateSession API operation. Specifically, you grant s3express:CreateSes- sion...
+    /// Creates a session that establishes temporary security credentials to support fast authentication and authorization for the Zonal endpoint API operations on directory buckets. For more information about Zonal endpoint API operations that include the Availability Zone in the request endpoint, see S3 Express One Zone APIs in the Amazon S3 User Guide . To make Zonal endpoint API requests on a directory bucket, use the CreateSession API operation. Specifically, you grant s3express:CreateSession permi...
     /// </summary>
     /// <param name="Bucket">The name of the bucket that you create a session for.</param>
     public AwsS3apiCreateSessionOptions(
@@ -63,31 +65,31 @@ public record AwsS3apiCreateSessionOptions : AwsOptions, IValidatableObject
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// Specifies the mode of the session that will be created, either Read- Write or ReadOnly . If no session mode is specified, the default be- havior attempts to create a session with the maximum allowable priv- ilege. It will first attempt to create a ReadWrite session, and if that is not allowed by permissions, it will attempt to create a ReadOnly session. If neither session type is allowed, the request will return an Access Denied error. A ReadWrite session is capable of executing all the Zonal endpoint API operations on a directory bucket. A ReadOnly session is constrained to execute the following Zonal endpoint API operations: GetObject , HeadObject , ListOb- jectsV2 , GetObjectAttributes , ListParts , and ListMultipartUploads . Possible values: o ReadOnly o ReadWrite
+    /// Specifies the mode of the session that will be created, either ReadWrite or ReadOnly . If no session mode is specified, the default behavior attempts to create a session with the maximum allowable privilege. It will first attempt to create a ReadWrite session, and if that is not allowed by permissions, it will attempt to create a ReadOnly session. If neither session type is allowed, the request will return an Access Denied error. A ReadWrite session is capable of executing all the Zonal endpoint API operations on a directory bucket. A ReadOnly session is constrained to execute the following Zonal endpoint API operations: GetObject , HeadObject , ListObjectsV2 , GetObjectAttributes , ListParts , and ListMultipartUploads . Possible values: • ReadOnly • ReadWrite
     /// </summary>
     [CliOption("--session-mode")]
     public AwsS3apiCreateSessionSessionMode? SessionMode { get; set; }
 
     /// <summary>
-    /// The server-side encryption algorithm to use when you store objects in the directory bucket. For directory buckets, there are only two supported options for server-side encryption: server-side encryption with Amazon S3 man- aged keys (SSE-S3) (AES256 ) and server-side encryption with KMS keys (SSE-KMS) (aws:kms ). By default, Amazon S3 encrypts data with SSE-S3. For more information, see Protecting data with server-side encryption in the Amazon S3 User Guide . S3 access points for Amazon FSx - When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx . All Amazon FSx file systems have encryption configured by default and are encrypted at rest. Data is automatically encrypted before being written to the file system, and automatically decrypted as it is read. These processes are handled transparently by Amazon FSx. Possible values: o AES256 o aws:fsx o aws:backup o aws:kms o aws:kms:dsse
+    /// The server-side encryption algorithm to use when you store objects in the directory bucket. For directory buckets, there are only two supported options for server-side encryption: server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256 ) and server-side encryption with KMS keys (SSE-KMS) (aws:kms ). By default, Amazon S3 encrypts data with SSE-S3. For more information, see Protecting data with server-side encryption in the Amazon S3 User Guide . S3 access points for Amazon FSx - When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx . All Amazon FSx file systems have encryption configured by default and are encrypted at rest. Data is automatically encrypted before being written to the file system, and automatically decrypted as it is read. These processes are handled transparently by Amazon FSx. Possible values: • AES256 • aws:fsx • aws:backup • aws:kms • aws:kms:dsse
     /// </summary>
     [CliOption("--server-side-encryption")]
     public string? ServerSideEncryption { get; set; }
 
     /// <summary>
-    /// If you specify x-amz-server-side-encryption with aws:kms , you must specify the x-amz-server-side-encryption-aws-kms-key-id header with the ID (Key ID or Key ARN) of the KMS symmetric encryption customer managed key to use. Otherwise, you get an HTTP 400 Bad Request er- ror. Only use the key ID or key ARN. The key alias format of the KMS key isn't supported. Also, if the KMS key doesn't exist in the same account that't issuing the command, you must use the full Key ARN not the Key ID. Your SSE-KMS configuration can only support 1 customer managed key per directory bucket's lifetime. The Amazon Web Services managed key (aws/s3 ) isn't supported.
+    /// If you specify x-amz-server-side-encryption with aws:kms , you must specify the x-amz-server-side-encryption-aws-kms-key-id header with the ID (Key ID or Key ARN) of the KMS symmetric encryption customer managed key to use. Otherwise, you get an HTTP 400 Bad Request error. Only use the key ID or key ARN. The key alias format of the KMS key isn't supported. Also, if the KMS key doesn't exist in the same account that't issuing the command, you must use the full Key ARN not the Key ID. Your SSE-KMS configuration can only support 1 customer managed key per directory bucket's lifetime. The Amazon Web Services managed key (aws/s3 ) isn't supported.
     /// </summary>
     [CliOption("--ssekms-key-id")]
     public string? SsekmsKeyId { get; set; }
 
     /// <summary>
-    /// Specifies the Amazon Web Services KMS Encryption Context as an addi- tional encryption context to use for object encryption. The value of this header is a Base64 encoded string of a UTF-8 encoded JSON, which contains the encryption context as key-value pairs. This value is stored as object metadata and automatically gets passed on to Amazon Web Services KMS for future GetObject operations on this ob- ject. General purpose buckets - This value must be explicitly added during CopyObject operations if you want an additional encryp- tion context for your object. For more information, see Encryption context in the Amazon S3 User Guide . Directory buckets - You can optionally provide an explicit en- cryption context value. The value must match the default encryp- tion context - the bucket Amazon Resource Name (ARN). An addi- tional encryption context value is not supported.
+    /// Specifies the Amazon Web Services KMS Encryption Context as an additional encryption context to use for object encryption. The value of this header is a Base64 encoded string of a UTF-8 encoded JSON, which contains the encryption context as key-value pairs. This value is stored as object metadata and automatically gets passed on to Amazon Web Services KMS for future GetObject operations on this object. General purpose buckets - This value must be explicitly added during CopyObject operations if you want an additional encryption context for your object. For more information, see Encryption context in the Amazon S3 User Guide . Directory buckets - You can optionally provide an explicit encryption context value. The value must match the default encryption context - the bucket Amazon Resource Name (ARN). An additional encryption context value is not supported.
     /// </summary>
     [CliOption("--ssekms-encryption-context")]
     public string? SsekmsEncryptionContext { get; set; }
 
     /// <summary>
-    /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using KMS keys (SSE-KMS). S3 Bucket Keys are always enabled for GET and PUT operations in a directory bucket and cant be disabled. S3 Bucket Keys aren't sup- ported, when you copy SSE-KMS encrypted objects from general purpose buckets to directory buckets, from directory buckets to general pur- pose buckets, or between directory buckets, through CopyObject , UploadPartCopy , the Copy operation in Batch Operations , or the im- port jobs . In this case, Amazon S3 makes a call to KMS every time a copy request is made for a KMS-encrypted object.
+    /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using KMS keys (SSE-KMS). S3 Bucket Keys are always enabled for GET and PUT operations in a directory bucket and cant be disabled. S3 Bucket Keys aren't supported, when you copy SSE-KMS encrypted objects from general purpose buckets to directory buckets, from directory buckets to general purpose buckets, or between directory buckets, through CopyObject , UploadPartCopy , the Copy operation in Batch Operations , or the import jobs . In this case, Amazon S3 makes a call to KMS every time a copy request is made for a KMS-encrypted object.
     /// </summary>
     [CliFlag("--bucket-key-enabled", NegatedName = "--no-bucket-key-enabled")]
     public bool? BucketKeyEnabled { get; set; }

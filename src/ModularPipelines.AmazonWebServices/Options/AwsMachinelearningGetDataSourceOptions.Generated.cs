@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a DataSource that includes metadata and data file information, as well as the current status of the DataSource . GetDataSource provides results in normal or verbose format. The ver- bose format adds the schema description and the list of files pointed to by the DataSource to the normal format. See also: AWS API Documentation
+/// Returns a DataSource that includes metadata and data file information, as well as the current status of the DataSource . GetDataSource provides results in normal or verbose format. The verbose format adds the schema description and the list of files pointed to by the DataSource to the normal format. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsMachinelearningGetDataSourceOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a DataSource that includes metadata and data file information, as well as the current status of the DataSource . GetDataSource provides results in normal or verbose format. The ver- bose format adds the schema description and the list of files pointed to by the DataSource to the normal format. See also: AWS API Documentation
+    /// Returns a DataSource that includes metadata and data file information, as well as the current status of the DataSource . GetDataSource provides results in normal or verbose format. The verbose format adds the schema description and the list of files pointed to by the DataSource to the normal format. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSourceId">The ID assigned to the DataSource at creation. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="DataSourceId">The ID assigned to the DataSource at creation. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsMachinelearningGetDataSourceOptions(
         string DataSourceId
     )
@@ -56,13 +58,13 @@ public record AwsMachinelearningGetDataSourceOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID assigned to the DataSource at creation. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// The ID assigned to the DataSource at creation. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--data-source-id")]
     public string? DataSourceId { get; private init; }
 
     /// <summary>
-    /// Specifies whether the GetDataSource operation should return Data- SourceSchema . If true, DataSourceSchema is returned. If false, DataSourceSchema is not returned.
+    /// Specifies whether the GetDataSource operation should return DataSourceSchema . If true, DataSourceSchema is returned. If false, DataSourceSchema is not returned.
     /// </summary>
     [CliFlag("--verbose", NegatedName = "--no-verbose")]
     public bool? Verbose { get; set; }

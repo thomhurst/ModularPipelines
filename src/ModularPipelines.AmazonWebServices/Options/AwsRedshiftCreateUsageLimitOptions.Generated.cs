@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,15 +30,15 @@ public record AwsRedshiftCreateUsageLimitOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Creates a usage limit for a specified Amazon Redshift feature on a cluster. The usage limit is identified by the returned usage limit identifier. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterIdentifier">The identifier of the cluster that you want to limit usage. Constraints: o max: 2147483647</param>
-    /// <param name="FeatureType">The Amazon Redshift feature that you want to limit. Possible values: o spectrum o concurrency-scaling o cross-region-datasharing o extra-compute-for-automatic-optimization</param>
-    /// <param name="LimitType">The type of limit. Depending on the feature type, this can be based on a time duration or data size. If FeatureType is spectrum , then LimitType must be data-scanned . If FeatureType is concurrency-scal- ing , then LimitType must be time . If FeatureType is cross-re- gion-datasharing , then LimitType must be data-scanned . If Feature- Type is extra-compute-for-automatic-optimization , then LimitType must be time . Possible values: o time o data-scanned</param>
+    /// <param name="ClusterIdentifier">The identifier of the cluster that you want to limit usage. Constraints: • max: 2147483647</param>
+    /// <param name="FeatureType">The Amazon Redshift feature that you want to limit. Possible values: • spectrum • concurrency-scaling • cross-region-datasharing • extra-compute-for-automatic-optimization</param>
+    /// <param name="LimitType">The type of limit. Depending on the feature type, this can be based on a time duration or data size. If FeatureType is spectrum , then LimitType must be data-scanned . If FeatureType is concurrency-scaling , then LimitType must be time . If FeatureType is cross-region-datasharing , then LimitType must be data-scanned . If FeatureType is extra-compute-for-automatic-optimization , then LimitType must be time . Possible values: • time • data-scanned</param>
     /// <param name="Amount">The limit amount. If time-based, this amount is in minutes. If data-based, this amount is in terabytes (TB). The value must be a positive number.</param>
     public AwsRedshiftCreateUsageLimitOptions(
         string ClusterIdentifier,
         AwsRedshiftCreateUsageLimitFeatureType FeatureType,
         AwsRedshiftCreateUsageLimitLimitType LimitType,
-        int Amount
+        long Amount
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(ClusterIdentifier);
@@ -66,19 +68,19 @@ public record AwsRedshiftCreateUsageLimitOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the cluster that you want to limit usage. Constraints: o max: 2147483647
+    /// The identifier of the cluster that you want to limit usage. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The Amazon Redshift feature that you want to limit. Possible values: o spectrum o concurrency-scaling o cross-region-datasharing o extra-compute-for-automatic-optimization
+    /// The Amazon Redshift feature that you want to limit. Possible values: • spectrum • concurrency-scaling • cross-region-datasharing • extra-compute-for-automatic-optimization
     /// </summary>
     [CliOption("--feature-type")]
     public AwsRedshiftCreateUsageLimitFeatureType? FeatureType { get; private init; }
 
     /// <summary>
-    /// The type of limit. Depending on the feature type, this can be based on a time duration or data size. If FeatureType is spectrum , then LimitType must be data-scanned . If FeatureType is concurrency-scal- ing , then LimitType must be time . If FeatureType is cross-re- gion-datasharing , then LimitType must be data-scanned . If Feature- Type is extra-compute-for-automatic-optimization , then LimitType must be time . Possible values: o time o data-scanned
+    /// The type of limit. Depending on the feature type, this can be based on a time duration or data size. If FeatureType is spectrum , then LimitType must be data-scanned . If FeatureType is concurrency-scaling , then LimitType must be time . If FeatureType is cross-region-datasharing , then LimitType must be data-scanned . If FeatureType is extra-compute-for-automatic-optimization , then LimitType must be time . Possible values: • time • data-scanned
     /// </summary>
     [CliOption("--limit-type")]
     public AwsRedshiftCreateUsageLimitLimitType? LimitType { get; private init; }
@@ -87,22 +89,22 @@ public record AwsRedshiftCreateUsageLimitOptions : AwsOptions, IValidatableObjec
     /// The limit amount. If time-based, this amount is in minutes. If data-based, this amount is in terabytes (TB). The value must be a positive number.
     /// </summary>
     [CliOption("--amount")]
-    public int? Amount { get; private init; }
+    public long? Amount { get; private init; }
 
     /// <summary>
-    /// The time period that the amount applies to. A weekly period begins on Sunday. The default is monthly . Possible values: o daily o weekly o monthly
+    /// The time period that the amount applies to. A weekly period begins on Sunday. The default is monthly . Possible values: • daily • weekly • monthly
     /// </summary>
     [CliOption("--period")]
     public AwsRedshiftCreateUsageLimitPeriod? Period { get; set; }
 
     /// <summary>
-    /// The action that Amazon Redshift takes when the limit is reached. The default is log. For more information about this parameter, see Us- ageLimit . Possible values: o log o emit-metric o disable
+    /// The action that Amazon Redshift takes when the limit is reached. The default is log. For more information about this parameter, see UsageLimit . Possible values: • log • emit-metric • disable
     /// </summary>
     [CliOption("--breach-action")]
     public AwsRedshiftCreateUsageLimitBreachAction? BreachAction { get; set; }
 
     /// <summary>
-    /// A list of tag instances. (structure) A tag consisting of a name/value pair for a resource. Key -&gt; (string) The key, or name, for the resource tag. Constraints: o max: 2147483647 Value -&gt; (string) The value for the resource tag. Constraints: o max: 2147483647 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tag instances. (structure) A tag consisting of a name/value pair for a resource. Key -&gt; (string) The key, or name, for the resource tag. Constraints: • max: 2147483647 Value -&gt; (string) The value for the resource tag. Constraints: • max: 2147483647 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

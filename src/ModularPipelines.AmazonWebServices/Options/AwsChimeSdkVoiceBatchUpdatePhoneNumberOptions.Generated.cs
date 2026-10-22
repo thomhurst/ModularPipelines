@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates phone number product types, calling names, or phone number names. You can update one attribute at a time for each UpdatePhoneNum- berRequestItem . For example, you can update the product type, the calling name, or phone name. NOTE: You cannot have a duplicate phoneNumberId in a request. See also: AWS API Documentation
+/// Updates phone number product types, calling names, or phone number names. You can update one attribute at a time for each UpdatePhoneNumberRequestItem . For example, you can update the product type, the calling name, or phone name. NOTE: You cannot have a duplicate phoneNumberId in a request. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsChimeSdkVoiceBatchUpdatePhoneNumberOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates phone number product types, calling names, or phone number names. You can update one attribute at a time for each UpdatePhoneNum- berRequestItem . For example, you can update the product type, the calling name, or phone name. NOTE: You cannot have a duplicate phoneNumberId in a request. See also: AWS API Documentation
+    /// Updates phone number product types, calling names, or phone number names. You can update one attribute at a time for each UpdatePhoneNumberRequestItem . For example, you can update the product type, the calling name, or phone name. NOTE: You cannot have a duplicate phoneNumberId in a request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="UpdatePhoneNumberRequestItems">Lists the phone numbers in the update request. (structure) The phone number ID, product type, or calling name fields to up- date, used with the BatchUpdatePhoneNumber and UpdatePhoneNum- ber actions. PhoneNumberId -&gt; (string) [required] The phone number ID to update. Constraints: o pattern: .*\S.* ProductType -&gt; (string) The product type to update. Possible values: o VoiceConnector o SipMediaApplicationDialIn CallingName -&gt; (string) The outbound calling name to update. Constraints: o pattern: ^$|^[a-zA-Z0-9 ]{2,15}$ Name -&gt; (string) The name of the phone number. Constraints: o min: 0 o max: 256 o pattern: ^$|^[a-zA-Z0-9\,\.\_\-]+(\s+[a-zA-Z0-9\,\.\_\-]+)*$ Shorthand Syntax: PhoneNumberId=string,ProductType=string,CallingName=string,Name=string ... JSON Syntax: [ { "PhoneNumberId": "string", "ProductType": "VoiceConnector"|"SipMediaApplicationDialIn", "CallingName": "string", "Name": "string" } ... ]</param>
+    /// <param name="UpdatePhoneNumberRequestItems">Lists the phone numbers in the update request. (structure) The phone number ID, product type, or calling name fields to update, used with the BatchUpdatePhoneNumber and UpdatePhoneNumber actions. PhoneNumberId -&gt; (string) [required] The phone number ID to update. Constraints: • pattern: .*\S.* ProductType -&gt; (string) The product type to update. Possible values: • VoiceConnector • SipMediaApplicationDialIn CallingName -&gt; (string) The outbound calling name to update. Constraints: • pattern: ^$|^[a-zA-Z0-9 ]{2,15}$ Name -&gt; (string) The name of the phone number. Constraints: • min: 0 • max: 256 • pattern: ^$|^[a-zA-Z0-9\,\.\_\-]+(\s+[a-zA-Z0-9\,\.\_\-]+)*$ Shorthand Syntax: PhoneNumberId=string,ProductType=string,CallingName=string,Name=string ... JSON Syntax: [ { "PhoneNumberId": "string", "ProductType": "VoiceConnector"|"SipMediaApplicationDialIn", "CallingName": "string", "Name": "string" } ... ]</param>
     public AwsChimeSdkVoiceBatchUpdatePhoneNumberOptions(
         IEnumerable<string> UpdatePhoneNumberRequestItems
     )
@@ -67,7 +69,7 @@ public record AwsChimeSdkVoiceBatchUpdatePhoneNumberOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Lists the phone numbers in the update request. (structure) The phone number ID, product type, or calling name fields to up- date, used with the BatchUpdatePhoneNumber and UpdatePhoneNum- ber actions. PhoneNumberId -&gt; (string) [required] The phone number ID to update. Constraints: o pattern: .*\S.* ProductType -&gt; (string) The product type to update. Possible values: o VoiceConnector o SipMediaApplicationDialIn CallingName -&gt; (string) The outbound calling name to update. Constraints: o pattern: ^$|^[a-zA-Z0-9 ]{2,15}$ Name -&gt; (string) The name of the phone number. Constraints: o min: 0 o max: 256 o pattern: ^$|^[a-zA-Z0-9\,\.\_\-]+(\s+[a-zA-Z0-9\,\.\_\-]+)*$ Shorthand Syntax: PhoneNumberId=string,ProductType=string,CallingName=string,Name=string ... JSON Syntax: [ { "PhoneNumberId": "string", "ProductType": "VoiceConnector"|"SipMediaApplicationDialIn", "CallingName": "string", "Name": "string" } ... ]
+    /// Lists the phone numbers in the update request. (structure) The phone number ID, product type, or calling name fields to update, used with the BatchUpdatePhoneNumber and UpdatePhoneNumber actions. PhoneNumberId -&gt; (string) [required] The phone number ID to update. Constraints: • pattern: .*\S.* ProductType -&gt; (string) The product type to update. Possible values: • VoiceConnector • SipMediaApplicationDialIn CallingName -&gt; (string) The outbound calling name to update. Constraints: • pattern: ^$|^[a-zA-Z0-9 ]{2,15}$ Name -&gt; (string) The name of the phone number. Constraints: • min: 0 • max: 256 • pattern: ^$|^[a-zA-Z0-9\,\.\_\-]+(\s+[a-zA-Z0-9\,\.\_\-]+)*$ Shorthand Syntax: PhoneNumberId=string,ProductType=string,CallingName=string,Name=string ... JSON Syntax: [ { "PhoneNumberId": "string", "ProductType": "VoiceConnector"|"SipMediaApplicationDialIn", "CallingName": "string", "Name": "string" } ... ]
     /// </summary>
     [CliOption("--update-phone-number-request-items", GroupValues = true)]
     public IEnumerable<string>? UpdatePhoneNumberRequestItems { get; private init; }

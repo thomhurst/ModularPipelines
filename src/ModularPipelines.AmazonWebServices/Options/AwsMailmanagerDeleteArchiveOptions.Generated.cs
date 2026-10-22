@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Initiates deletion of an email archive. This changes the archive state to pending deletion. In this state, no new emails can be added, and ex- isting archived emails become inaccessible (search, export, download). The archive and all of its contents will be permanently deleted 30 days after entering the pending deletion state, regardless of the configured retention period. See also: AWS API Documentation
+/// Initiates deletion of an email archive. This changes the archive state to pending deletion. In this state, no new emails can be added, and existing archived emails become inaccessible (search, export, download). The archive and all of its contents will be permanently deleted 30 days after entering the pending deletion state, regardless of the configured retention period. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsMailmanagerDeleteArchiveOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Initiates deletion of an email archive. This changes the archive state to pending deletion. In this state, no new emails can be added, and ex- isting archived emails become inaccessible (search, export, download). The archive and all of its contents will be permanently deleted 30 days after entering the pending deletion state, regardless of the configured retention period. See also: AWS API Documentation
+    /// Initiates deletion of an email archive. This changes the archive state to pending deletion. In this state, no new emails can be added, and existing archived emails become inaccessible (search, export, download). The archive and all of its contents will be permanently deleted 30 days after entering the pending deletion state, regardless of the configured retention period. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ArchiveId">The identifier of the archive to delete. Constraints: o min: 1 o max: 66</param>
+    /// <param name="ArchiveId">The identifier of the archive to delete. Constraints: • min: 1 • max: 66</param>
     public AwsMailmanagerDeleteArchiveOptions(
         string ArchiveId
     )
@@ -56,7 +58,7 @@ public record AwsMailmanagerDeleteArchiveOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the archive to delete. Constraints: o min: 1 o max: 66
+    /// The identifier of the archive to delete. Constraints: • min: 1 • max: 66
     /// </summary>
     [CliOption("--archive-id")]
     public string? ArchiveId { get; private init; }

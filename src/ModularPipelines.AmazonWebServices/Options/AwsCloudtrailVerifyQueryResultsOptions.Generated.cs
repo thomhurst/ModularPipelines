@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Validates CloudTrail Lake query's export files. This command uses the query export and sign file delivered to you to perform the validation. The AWS CLI allows you to detect the following types of changes: o Modification or deletion of CloudTrail Lake query's export files. To validate export files with the AWS CLI, the following precondi- tions must be met: o You must have online connectivity to AWS. o You must put the sign file and export file in the specified path prefix o You must not rename ...
+/// Validates CloudTrail Lake query's export files. This command uses the query export and sign file delivered to you to perform the validation. The AWS CLI allows you to detect the following types of changes: • Modification or deletion of CloudTrail Lake query's export files. To validate export files with the AWS CLI, the following preconditions must be met: • You must have online connectivity to AWS. • You must put the sign file and export file in the specified path prefix • You must not rename th...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

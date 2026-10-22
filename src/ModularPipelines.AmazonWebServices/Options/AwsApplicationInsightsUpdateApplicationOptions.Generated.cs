@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsApplicationInsightsUpdateApplicationOptions : AwsOptions, IVali
     /// <summary>
     /// Updates the application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceGroupName">The name of the resource group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\.\-_]*</param>
+    /// <param name="ResourceGroupName">The name of the resource group. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9\.\-_]*</param>
     public AwsApplicationInsightsUpdateApplicationOptions(
         string ResourceGroupName
     )
@@ -56,7 +58,7 @@ public record AwsApplicationInsightsUpdateApplicationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the resource group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\.\-_]*
+    /// The name of the resource group. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9\.\-_]*
     /// </summary>
     [CliOption("--resource-group-name")]
     public string? ResourceGroupName { get; private init; }
@@ -74,13 +76,13 @@ public record AwsApplicationInsightsUpdateApplicationOptions : AwsOptions, IVali
     public bool? CweMonitorEnabled { get; set; }
 
     /// <summary>
-    /// The SNS topic provided to Application Insights that is associated to the created opsItem. Allows you to receive notifications for updates to the opsItem. Constraints: o min: 20 o max: 300 o pattern: ^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$
+    /// The SNS topic provided to Application Insights that is associated to the created opsItem. Allows you to receive notifications for updates to the opsItem. Constraints: • min: 20 • max: 300 • pattern: ^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$
     /// </summary>
     [CliOption("--ops-item-sns-topic-arn")]
     public string? OpsItemSnsTopicArn { get; set; }
 
     /// <summary>
-    /// The SNS topic ARN. Allows you to receive SNS notifications for up- dates and issues with an application. Constraints: o min: 20 o max: 300 o pattern: ^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$
+    /// The SNS topic ARN. Allows you to receive SNS notifications for updates and issues with an application. Constraints: • min: 20 • max: 300 • pattern: ^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$
     /// </summary>
     [CliOption("--sns-notification-arn")]
     public string? SnsNotificationArn { get; set; }

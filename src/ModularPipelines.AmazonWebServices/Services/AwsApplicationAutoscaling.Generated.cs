@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws applicationautoscaling commands.
+/// aws application-autoscaling commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsApplicationAutoscaling : IAwsApplicationAutoscaling
@@ -32,7 +32,7 @@ public class AwsApplicationAutoscaling : IAwsApplicationAutoscaling
     #region Commands
 
     /// <summary>
-    /// Deletes the specified scaling policy for an Application Auto Scaling scalable target. Deleting a step scaling policy deletes the underlying alarm action, but does not delete the CloudWatch alarm associated with the scaling pol- icy, even if it no longer has an associated action. For more information, see Delete a step scaling policy and Delete a target tracking scaling policy in the Application Auto Scaling User Guide . See also: AWS API Documentation
+    /// Deletes the specified scaling policy for an Application Auto Scaling scalable target. Deleting a step scaling policy deletes the underlying alarm action, but does not delete the CloudWatch alarm associated with the scaling policy, even if it no longer has an associated action. For more information, see Delete a step scaling policy and Delete a target tracking scaling policy in the Application Auto Scaling User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsApplicationAutoscaling : IAwsApplicationAutoscaling
     }
 
     /// <summary>
-    /// Provides descriptive information about the scaling activities in the specified namespace from the previous six weeks. You can filter the results using ResourceId and ScalableDimension . For information about viewing scaling activities using the Amazon Web Services CLI, see Scaling activities for Application Auto Scaling . See also: AWS API Documentation describe-scaling-activities is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. Yo...
+    /// Provides descriptive information about the scaling activities in the specified namespace from the previous six weeks. You can filter the results using ResourceId and ScalableDimension . For information about viewing scaling activities using the Amazon Web Services CLI, see Scaling activities for Application Auto Scaling . See also: AWS API Documentation describe-scaling-activities is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsApplicationAutoscaling : IAwsApplicationAutoscaling
     }
 
     /// <summary>
-    /// Describes the Application Auto Scaling scaling policies for the speci- fied service namespace. You can filter the results using ResourceId , ScalableDimension , and PolicyNames . For more information, see Target tracking scaling policies and Step scaling policies in the Application Auto Scaling User Guide . See also: AWS API Documentation describe-scaling-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagin...
+    /// Describes the Application Auto Scaling scaling policies for the specified service namespace. You can filter the results using ResourceId , ScalableDimension , and PolicyNames . For more information, see Target tracking scaling policies and Step scaling policies in the Application Auto Scaling User Guide . See also: AWS API Documentation describe-scaling-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable paginat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsApplicationAutoscaling : IAwsApplicationAutoscaling
     }
 
     /// <summary>
-    /// Describes the Application Auto Scaling scheduled actions for the speci- fied service namespace. You can filter the results using the ResourceId , ScalableDimension , and ScheduledActionNames parameters. For more information, see Scheduled scaling in the Application Auto Scaling User Guide . See also: AWS API Documentation describe-scheduled-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providi...
+    /// Describes the Application Auto Scaling scheduled actions for the specified service namespace. You can filter the results using the ResourceId , ScalableDimension , and ScheduledActionNames parameters. For more information, see Scheduled scaling in the Application Auto Scaling User Guide . See also: AWS API Documentation describe-scheduled-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsApplicationAutoscaling : IAwsApplicationAutoscaling
     }
 
     /// <summary>
-    /// Retrieves the forecast data for a predictive scaling policy. Load forecasts are predictions of the hourly load values using histori- cal load data from CloudWatch and an analysis of historical trends. Ca- pacity forecasts are represented as predicted values for the minimum capacity that is needed on an hourly basis, based on the hourly load forecast. A minimum of 24 hours of data is required to create the initial fore- casts. However, having a full 14 days of historical data results in more accu...
+    /// Retrieves the forecast data for a predictive scaling policy. Load forecasts are predictions of the hourly load values using historical load data from CloudWatch and an analysis of historical trends. Capacity forecasts are represented as predicted values for the minimum capacity that is needed on an hourly basis, based on the hourly load forecast. A minimum of 24 hours of data is required to create the initial forecasts. However, having a full 14 days of historical data results in more accurate f...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsApplicationAutoscaling : IAwsApplicationAutoscaling
     }
 
     /// <summary>
-    /// Returns all the tags on the specified Application Auto Scaling scalable target. For general information about tags, including the format and syntax, see Tagging your Amazon Web Services resources in the Amazon Web Ser- vices General Reference . See also: AWS API Documentation
+    /// Returns all the tags on the specified Application Auto Scaling scalable target. For general information about tags, including the format and syntax, see Tagging your Amazon Web Services resources in the Amazon Web Services General Reference . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsApplicationAutoscaling : IAwsApplicationAutoscaling
     }
 
     /// <summary>
-    /// Creates or updates a scaling policy for an Application Auto Scaling scalable target. Each scalable target is identified by a service namespace, resource ID, and scalable dimension. A scaling policy applies to the scalable target identified by those three attributes. You cannot create a scaling pol- icy until you have registered the resource as a scalable target. Multiple scaling policies can be in force at the same time for the same scalable target. You can have one or more target tracking scali...
+    /// Creates or updates a scaling policy for an Application Auto Scaling scalable target. Each scalable target is identified by a service namespace, resource ID, and scalable dimension. A scaling policy applies to the scalable target identified by those three attributes. You cannot create a scaling policy until you have registered the resource as a scalable target. Multiple scaling policies can be in force at the same time for the same scalable target. You can have one or more target tracking scaling...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsApplicationAutoscaling : IAwsApplicationAutoscaling
     }
 
     /// <summary>
-    /// Creates or updates a scheduled action for an Application Auto Scaling scalable target. Each scalable target is identified by a service namespace, resource ID, and scalable dimension. A scheduled action applies to the scalable tar- get identified by those three attributes. You cannot create a scheduled action until you have registered the resource as a scalable target. When you specify start and end times with a recurring schedule using a cron expression or rates, they form the boundaries for whe...
+    /// Creates or updates a scheduled action for an Application Auto Scaling scalable target. Each scalable target is identified by a service namespace, resource ID, and scalable dimension. A scheduled action applies to the scalable target identified by those three attributes. You cannot create a scheduled action until you have registered the resource as a scalable target. When you specify start and end times with a recurring schedule using a cron expression or rates, they form the boundaries for when ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsApplicationAutoscaling : IAwsApplicationAutoscaling
     }
 
     /// <summary>
-    /// Registers or updates a scalable target, which is the resource that you want to scale. Scalable targets are uniquely identified by the combination of resource ID, scalable dimension, and namespace, which represents some capacity dimension of the underlying service. When you register a new scalable target, you must specify values for the minimum and maximum capacity. If the specified resource is not ac- tive in the target service, this operation does not change the re- source's current capacity. O...
+    /// Registers or updates a scalable target, which is the resource that you want to scale. Scalable targets are uniquely identified by the combination of resource ID, scalable dimension, and namespace, which represents some capacity dimension of the underlying service. When you register a new scalable target, you must specify values for the minimum and maximum capacity. If the specified resource is not active in the target service, this operation does not change the resource's current capacity. Other...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

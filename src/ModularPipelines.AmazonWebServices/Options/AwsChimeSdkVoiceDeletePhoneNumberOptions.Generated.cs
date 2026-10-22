@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Moves the specified phone number into the Deletion queue . A phone num- ber must be disassociated from any users or Amazon Chime SDK Voice Con- nectors before it can be deleted. Deleted phone numbers remain in the Deletion queue queue for 7 days be- fore they are deleted permanently. See also: AWS API Documentation
+/// Moves the specified phone number into the Deletion queue . A phone number must be disassociated from any users or Amazon Chime SDK Voice Connectors before it can be deleted. Deleted phone numbers remain in the Deletion queue queue for 7 days before they are deleted permanently. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsChimeSdkVoiceDeletePhoneNumberOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Moves the specified phone number into the Deletion queue . A phone num- ber must be disassociated from any users or Amazon Chime SDK Voice Con- nectors before it can be deleted. Deleted phone numbers remain in the Deletion queue queue for 7 days be- fore they are deleted permanently. See also: AWS API Documentation
+    /// Moves the specified phone number into the Deletion queue . A phone number must be disassociated from any users or Amazon Chime SDK Voice Connectors before it can be deleted. Deleted phone numbers remain in the Deletion queue queue for 7 days before they are deleted permanently. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PhoneNumberId">The phone number ID. Constraints: o pattern: .*\S.*</param>
+    /// <param name="PhoneNumberId">The phone number ID. Constraints: • pattern: .*\S.*</param>
     public AwsChimeSdkVoiceDeletePhoneNumberOptions(
         string PhoneNumberId
     )
@@ -56,7 +58,7 @@ public record AwsChimeSdkVoiceDeletePhoneNumberOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The phone number ID. Constraints: o pattern: .*\S.*
+    /// The phone number ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--phone-number-id")]
     public string? PhoneNumberId { get; private init; }

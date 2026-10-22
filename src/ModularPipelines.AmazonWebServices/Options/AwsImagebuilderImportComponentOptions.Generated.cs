@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -30,11 +31,11 @@ public record AwsImagebuilderImportComponentOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Imports a component and transforms its data into a component document. For the SHELL format, Image Builder wraps your script in a component document with a single step that runs the script. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the component. Image Builder generates the component ARN from a normalized form of the name, so names that differ only in case, spaces, or underscores count as the same name. If a component with the same name and semantic version already exists in your ac- count in the same Amazon Web Services Region, the request creates a new build version for it. If the content is also identical to the latest build version, the request fails because the component al- ready exists. Constraints: o pattern: ^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$</param>
-    /// <param name="SemanticVersion">The semantic version of the component. This version follows the se- mantic version syntax. NOTE: The semantic version has four nodes: &lt;major&gt;.&lt;mi- nor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them. Assignment: For the first three nodes, you can assign any positive integer value, including zero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automati- cally assigns the build number to the fourth node. Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01. Constraints: o pattern: ^[0-9]+\.[0-9]+\.[0-9]+$</param>
-    /// <param name="Type">The type of the component denotes whether the component is used to build the image, or only to test it. Possible values: o BUILD o TEST</param>
-    /// <param name="Format">The format of the resource that you want to import as a component. Possible values: o SHELL</param>
-    /// <param name="Platform">The platform of the component. Possible values: o Windows o Linux o macOS</param>
+    /// <param name="Name">The name of the component. Image Builder generates the component ARN from a normalized form of the name, so names that differ only in case, spaces, or underscores count as the same name. If a component with the same name and semantic version already exists in your account in the same Amazon Web Services Region, the request creates a new build version for it. If the content is also identical to the latest build version, the request fails because the component already exists. Constraints: • pattern: ^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$</param>
+    /// <param name="SemanticVersion">The semantic version of the component. This version follows the semantic version syntax. NOTE: The semantic version has four nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them. Assignment: For the first three nodes, you can assign any positive integer value, including zero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automatically assigns the build number to the fourth node. Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01. Constraints: • pattern: ^[0-9]+\.[0-9]+\.[0-9]+$</param>
+    /// <param name="Type">The type of the component denotes whether the component is used to build the image, or only to test it. Possible values: • BUILD • TEST</param>
+    /// <param name="Format">The format of the resource that you want to import as a component. Possible values: • SHELL</param>
+    /// <param name="Platform">The platform of the component. Possible values: • Windows • Linux • macOS</param>
     public AwsImagebuilderImportComponentOptions(
         string Name,
         string SemanticVersion,
@@ -73,49 +74,49 @@ public record AwsImagebuilderImportComponentOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the component. Image Builder generates the component ARN from a normalized form of the name, so names that differ only in case, spaces, or underscores count as the same name. If a component with the same name and semantic version already exists in your ac- count in the same Amazon Web Services Region, the request creates a new build version for it. If the content is also identical to the latest build version, the request fails because the component al- ready exists. Constraints: o pattern: ^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$
+    /// The name of the component. Image Builder generates the component ARN from a normalized form of the name, so names that differ only in case, spaces, or underscores count as the same name. If a component with the same name and semantic version already exists in your account in the same Amazon Web Services Region, the request creates a new build version for it. If the content is also identical to the latest build version, the request fails because the component already exists. Constraints: • pattern: ^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The semantic version of the component. This version follows the se- mantic version syntax. NOTE: The semantic version has four nodes: &lt;major&gt;.&lt;mi- nor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them. Assignment: For the first three nodes, you can assign any positive integer value, including zero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automati- cally assigns the build number to the fourth node. Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01. Constraints: o pattern: ^[0-9]+\.[0-9]+\.[0-9]+$
+    /// The semantic version of the component. This version follows the semantic version syntax. NOTE: The semantic version has four nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them. Assignment: For the first three nodes, you can assign any positive integer value, including zero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automatically assigns the build number to the fourth node. Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01. Constraints: • pattern: ^[0-9]+\.[0-9]+\.[0-9]+$
     /// </summary>
     [CliOption("--semantic-version")]
     public string? SemanticVersion { get; private init; }
 
     /// <summary>
-    /// The type of the component denotes whether the component is used to build the image, or only to test it. Possible values: o BUILD o TEST
+    /// The type of the component denotes whether the component is used to build the image, or only to test it. Possible values: • BUILD • TEST
     /// </summary>
     [CliOption("--type")]
     public AwsImagebuilderImportComponentType? Type { get; private init; }
 
     /// <summary>
-    /// The format of the resource that you want to import as a component. Possible values: o SHELL
+    /// The format of the resource that you want to import as a component. Possible values: • SHELL
     /// </summary>
     [CliOption("--format")]
     public string? Format { get; private init; }
 
     /// <summary>
-    /// The platform of the component. Possible values: o Windows o Linux o macOS
+    /// The platform of the component. Possible values: • Windows • Linux • macOS
     /// </summary>
     [CliOption("--platform")]
     public AwsImagebuilderImportComponentPlatform? Platform { get; private init; }
 
     /// <summary>
-    /// The description of the component. Describes the contents of the com- ponent. Constraints: o min: 1 o max: 1024
+    /// The description of the component. Describes the contents of the component. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The change description of the component. This description indicates the change that has been made in this version, or what makes this version different from other versions of the component. Constraints: o min: 1 o max: 1024
+    /// The change description of the component. This description indicates the change that has been made in this version, or what makes this version different from other versions of the component. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--change-description")]
     public string? ChangeDescription { get; set; }
 
     /// <summary>
-    /// The data of the component. For the SHELL format, this is the plain script content. You must specify exactly one of the data or uri properties. For scripts that exceed the inline length constraint, use the uri property. Constraints: o min: 1 o max: 1024
+    /// The data of the component. For the SHELL format, this is the plain script content. You must specify exactly one of the data or uri properties. For scripts that exceed the inline length constraint, use the uri property. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--data")]
     public string? Data { get; set; }
@@ -127,19 +128,19 @@ public record AwsImagebuilderImportComponentOptions : AwsOptions, IValidatableOb
     public string? Uri { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the KMS key that is used to en- crypt this component. This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId) in the Key Management Service Developer Guide . If you don't specify a key, Im- age Builder encrypts the component data with a KMS key that Image Builder owns. Constraints: o min: 1 o max: 1024
+    /// The Amazon Resource Name (ARN) of the KMS key that is used to encrypt this component. This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId) in the Key Management Service Developer Guide . If you don't specify a key, Image Builder encrypts the component data with a KMS key that Image Builder owns. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// The tags of the component. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags of the component. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client token, Image Builder returns the original response without running the operation again. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client token, Image Builder returns the original response without running the operation again. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAppintegrationsDeleteApplicationOptions : AwsOptions, IValidata
     /// <summary>
     /// Deletes an application. If the application has associations, you must delete them first. Alternatively, use the force option to delete the application and remove its associations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the Application. Constraints: o min: 1 o max: 2048 o pattern: ^(arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})(:[\w\$]+)?$</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the Application. Constraints: • min: 1 • max: 2048 • pattern: ^(arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})(:[\w\$]+)?$</param>
     public AwsAppintegrationsDeleteApplicationOptions(
         string Arn
     )
@@ -56,13 +58,13 @@ public record AwsAppintegrationsDeleteApplicationOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Application. Constraints: o min: 1 o max: 2048 o pattern: ^(arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})(:[\w\$]+)?$
+    /// The Amazon Resource Name (ARN) of the Application. Constraints: • min: 1 • max: 2048 • pattern: ^(arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})(:[\w\$]+)?$
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// Specifies whether to delete the application even if it still has ap- plication associations. If true , the operation removes the applica- tion and its associations. If false or absent, the delete fails when associations exist. WARNING: Setting this parameter to true permanently removes all of the application's associations. Doing so might impact other re- sources that rely on and reference the application. This action can't be undone.
+    /// Specifies whether to delete the application even if it still has application associations. If true , the operation removes the application and its associations. If false or absent, the delete fails when associations exist. WARNING: Setting this parameter to true permanently removes all of the application's associations. Doing so might impact other resources that rely on and reference the application. This action can't be undone.
     /// </summary>
     [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }

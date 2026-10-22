@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the specified policy. To prevent conflicting concurrent up- dates, provide the current updateToken . Use isPublished to publish the update or keep the policy as a draft. See also: AWS API Documentation
+/// Updates the specified policy. To prevent conflicting concurrent updates, provide the current updateToken . Use isPublished to publish the update or keep the policy as a draft. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsNetworkSecurityManagerUpdatePolicyOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the specified policy. To prevent conflicting concurrent up- dates, provide the current updateToken . Use isPublished to publish the update or keep the policy as a draft. See also: AWS API Documentation
+    /// Updates the specified policy. To prevent conflicting concurrent updates, provide the current updateToken . Use isPublished to publish the update or keep the policy as a draft. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyIdentifier">The identifier of the policy. This is the policy's Amazon Resource Name (ARN). Constraints: o min: 1 o max: 1010</param>
-    /// <param name="UpdateToken">A token used for optimistic concurrency control. Each read and write returns an updateToken . Provide the most recent value on your next update to detect and prevent conflicting concurrent modifications. Constraints: o min: 36 o max: 36 o pattern: ([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})</param>
+    /// <param name="PolicyIdentifier">The identifier of the policy. This is the policy's Amazon Resource Name (ARN). Constraints: • min: 1 • max: 1010</param>
+    /// <param name="UpdateToken">A token used for optimistic concurrency control. Each read and write returns an updateToken . Provide the most recent value on your next update to detect and prevent conflicting concurrent modifications. Constraints: • min: 36 • max: 36 • pattern: ([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})</param>
     /// <param name="IsPublished">Specifies whether to publish the resource. When true , the resource is saved in published (ACTIVE ) state. When false , it is saved as a draft (DRAFT ).</param>
     public AwsNetworkSecurityManagerUpdatePolicyOptions(
         string PolicyIdentifier,
@@ -64,13 +66,13 @@ public record AwsNetworkSecurityManagerUpdatePolicyOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the policy. This is the policy's Amazon Resource Name (ARN). Constraints: o min: 1 o max: 1010
+    /// The identifier of the policy. This is the policy's Amazon Resource Name (ARN). Constraints: • min: 1 • max: 1010
     /// </summary>
     [CliOption("--policy-identifier")]
     public string? PolicyIdentifier { get; private init; }
 
     /// <summary>
-    /// A token used for optimistic concurrency control. Each read and write returns an updateToken . Provide the most recent value on your next update to detect and prevent conflicting concurrent modifications. Constraints: o min: 36 o max: 36 o pattern: ([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})
+    /// A token used for optimistic concurrency control. Each read and write returns an updateToken . Provide the most recent value on your next update to detect and prevent conflicting concurrent modifications. Constraints: • min: 36 • max: 36 • pattern: ([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})
     /// </summary>
     [SecretValue]
     [CliOption("--update-token")]
@@ -83,31 +85,31 @@ public record AwsNetworkSecurityManagerUpdatePolicyOptions : AwsOptions, IValida
     public bool? IsPublished { get; private init; }
 
     /// <summary>
-    /// A description of the policy. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9 _.:/=+\-@]*
+    /// A description of the policy. Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9 _.:/=+\-@]*
     /// </summary>
     [CliOption("--policy-description")]
     public string? PolicyDescription { get; set; }
 
     /// <summary>
-    /// The priority of the resource. A lower number indicates a higher pri- ority. Constraints: o min: 1
+    /// The priority of the resource. A lower number indicates a higher priority. Constraints: • min: 1
     /// </summary>
     [CliOption("--priority")]
     public int? Priority { get; set; }
 
     /// <summary>
-    /// The templates and rules to associate with the policy. For AWS WAF policies, specify 1 to 100 templates or rules, of which at most 2 can be templates. For AWS Shield Advanced policies, this list must be empty. Constraints: o min: 0 o max: 100 (tagged union structure) A reference to either a template or a rule in a create or update request. Set exactly one of templateIdentifier or ruleIdentifier . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: templateIdentifier, ruleIdenti- fier. templateIdentifier -&gt; (string) The identifier of the template. This is the template's Amazon Resource Name (ARN). Constraints: o min: 1 o max: 1010 ruleIdentifier -&gt; (string) The identifier of the rule. This is the rule's Amazon Re- source Name (ARN). Constraints: o min: 1 o max: 1010 Shorthand Syntax: templateIdentifier=string,ruleIdentifier=string ... JSON Syntax: [ { "templateIdentifier": "string", "ruleIdentifier": "string" } ... ]
+    /// The templates and rules to associate with the policy. For AWS WAF policies, specify 1 to 100 templates or rules, of which at most 2 can be templates. For AWS Shield Advanced policies, this list must be empty. Constraints: • min: 0 • max: 100 (tagged union structure) A reference to either a template or a rule in a create or update request. Set exactly one of templateIdentifier or ruleIdentifier . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: templateIdentifier, ruleIdentifier. templateIdentifier -&gt; (string) The identifier of the template. This is the template's Amazon Resource Name (ARN). Constraints: • min: 1 • max: 1010 ruleIdentifier -&gt; (string) The identifier of the rule. This is the rule's Amazon Resource Name (ARN). Constraints: • min: 1 • max: 1010 Shorthand Syntax: templateIdentifier=string,ruleIdentifier=string ... JSON Syntax: [ { "templateIdentifier": "string", "ruleIdentifier": "string" } ... ]
     /// </summary>
     [CliOption("--associated-template-and-rule-list", GroupValues = true)]
     public IEnumerable<string>? AssociatedTemplateAndRuleList { get; set; }
 
     /// <summary>
-    /// The configuration settings that control the policy's behavior, in- cluding remediation and firewall-type-specific settings. remediationEnabled -&gt; (boolean) [required] Specifies whether AWS Network Security Manager automatically re- mediates noncompliant resources. Default: false . resourcesCleanUp -&gt; (boolean) [required] Specifies whether AWS Network Security Manager automatically re- moves the resources it created when they are no longer needed. Default: false . wafConfig -&gt; (structure) AWS WAF-specific policy settings. This is populated only for AWS WAF policies. existingCustomerWebACLResolution -&gt; (string) [required] Determines how AWS Network Security Manager handles remedia- tion when a resource already has a customer-created web ACL. Required for AWS WAF policies. Possible values: o RETROFIT o OVERRIDE_ASSOCIATION o NO_REMEDIATION conflictResolution -&gt; (string) [required] The conflict-resolution strategy for AWS WAF policies. Re- quired for AWS WAF policies. Possible values: o MERGE_WHERE_APPLICABLE Shorthand Syntax: remediationEnabled=boolean,resourcesCleanUp=boolean,wafConfig={existingCustomerWebACLResolution=string,conflictResolution=string} JSON Syntax: { "remediationEnabled": true|false, "resourcesCleanUp": true|false, "wafConfig": { "existingCustomerWebACLResolution": "RETROFIT"|"OVERRIDE_ASSOCIATION"|"NO_REMEDIATION", "conflictResolution": "MERGE_WHERE_APPLICABLE" } }
+    /// The configuration settings that control the policy's behavior, including remediation and firewall-type-specific settings. remediationEnabled -&gt; (boolean) [required] Specifies whether AWS Network Security Manager automatically remediates noncompliant resources. Default: false . resourcesCleanUp -&gt; (boolean) [required] Specifies whether AWS Network Security Manager automatically removes the resources it created when they are no longer needed. Default: false . wafConfig -&gt; (structure) AWS WAF-specific policy settings. This is populated only for AWS WAF policies. existingCustomerWebACLResolution -&gt; (string) [required] Determines how AWS Network Security Manager handles remediation when a resource already has a customer-created web ACL. Required for AWS WAF policies. Possible values: • RETROFIT • OVERRIDE_ASSOCIATION • NO_REMEDIATION conflictResolution -&gt; (string) [required] The conflict-resolution strategy for AWS WAF policies. Required for AWS WAF policies. Possible values: • MERGE_WHERE_APPLICABLE Shorthand Syntax: remediationEnabled=boolean,resourcesCleanUp=boolean,wafConfig={existingCustomerWebACLResolution=string,conflictResolution=string} JSON Syntax: { "remediationEnabled": true|false, "resourcesCleanUp": true|false, "wafConfig": { "existingCustomerWebACLResolution": "RETROFIT"|"OVERRIDE_ASSOCIATION"|"NO_REMEDIATION", "conflictResolution": "MERGE_WHERE_APPLICABLE" } }
     /// </summary>
     [CliOption("--policy-configuration")]
     public string? PolicyConfiguration { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive token that you provide to ensure that the operation completes no more than one time. If you retry a request with the same client token and the same parameters, the service re- turns the result of the original successful request. Constraints: o min: 1 o max: 64 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive token that you provide to ensure that the operation completes no more than one time. If you retry a request with the same client token and the same parameters, the service returns the result of the original successful request. Constraints: • min: 1 • max: 64 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

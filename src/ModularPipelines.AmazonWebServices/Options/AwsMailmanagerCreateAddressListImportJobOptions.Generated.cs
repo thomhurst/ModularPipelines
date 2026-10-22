@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +30,9 @@ public record AwsMailmanagerCreateAddressListImportJobOptions : AwsOptions, IVal
     /// <summary>
     /// Creates an import job for an address list. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AddressListId">The unique identifier of the address list for importing addresses to. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-]+</param>
-    /// <param name="Name">A user-friendly name for the import job. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="ImportDataFormat">The format of the input for an import job. ImportDataType -&gt; (string) [required] The type of file that would be passed as an input for the ad- dress list import job. Possible values: o CSV o JSON Shorthand Syntax: ImportDataType=string JSON Syntax: { "ImportDataType": "CSV"|"JSON" }</param>
+    /// <param name="AddressListId">The unique identifier of the address list for importing addresses to. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="Name">A user-friendly name for the import job. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="ImportDataFormat">The format of the input for an import job. ImportDataType -&gt; (string) [required] The type of file that would be passed as an input for the address list import job. Possible values: • CSV • JSON Shorthand Syntax: ImportDataType=string JSON Syntax: { "ImportDataType": "CSV"|"JSON" }</param>
     public AwsMailmanagerCreateAddressListImportJobOptions(
         string AddressListId,
         string Name,
@@ -65,25 +67,25 @@ public record AwsMailmanagerCreateAddressListImportJobOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the address list for importing addresses to. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-]+
+    /// The unique identifier of the address list for importing addresses to. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--address-list-id")]
     public string? AddressListId { get; private init; }
 
     /// <summary>
-    /// A user-friendly name for the import job. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.-]+
+    /// A user-friendly name for the import job. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The format of the input for an import job. ImportDataType -&gt; (string) [required] The type of file that would be passed as an input for the ad- dress list import job. Possible values: o CSV o JSON Shorthand Syntax: ImportDataType=string JSON Syntax: { "ImportDataType": "CSV"|"JSON" }
+    /// The format of the input for an import job. ImportDataType -&gt; (string) [required] The type of file that would be passed as an input for the address list import job. Possible values: • CSV • JSON Shorthand Syntax: ImportDataType=string JSON Syntax: { "ImportDataType": "CSV"|"JSON" }
     /// </summary>
     [CliOption("--import-data-format")]
     public string? ImportDataFormat { get; private init; }
 
     /// <summary>
-    /// A unique token that Amazon SES uses to recognize subsequent retries of the same request. Constraints: o min: 1 o max: 128
+    /// A unique token that Amazon SES uses to recognize subsequent retries of the same request. Constraints: • min: 1 • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

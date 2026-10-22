@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws wait commands.
+/// aws acm wait commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsAcmWait
@@ -77,7 +77,7 @@ public class AwsAcmWait
     }
 
     /// <summary>
-    /// Wait until an ACME endpoint has been deleted. It will poll every 5 sec- onds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+    /// Wait until an ACME endpoint has been deleted. It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsAcmWait
     }
 
     /// <summary>
-    /// Wait until JMESPath query Certificate.DomainValidationOptions[].Valida- tionStatus returns SUCCESS for all elements when polling with de- scribe-certificate. It will poll every 60 seconds until a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query Certificate.DomainValidationOptions[].ValidationStatus returns SUCCESS for all elements when polling with describe-certificate. It will poll every 60 seconds until a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

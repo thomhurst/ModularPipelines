@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Changes one or more values for a Dev Environment. Updating certain val- ues of the Dev Environment will cause a restart. See also: AWS API Documentation
+/// Changes one or more values for a Dev Environment. Updating certain values of the Dev Environment will cause a restart. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +29,11 @@ public record AwsCodecatalystUpdateDevEnvironmentOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Changes one or more values for a Dev Environment. Updating certain val- ues of the Dev Environment will cause a restart. See also: AWS API Documentation
+    /// Changes one or more values for a Dev Environment. Updating certain values of the Dev Environment will cause a restart. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SpaceName">The name of the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*</param>
-    /// <param name="ProjectName">The name of the project in the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*</param>
-    /// <param name="Id">The system-generated unique ID of the Dev Environment. Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</param>
+    /// <param name="SpaceName">The name of the space. Constraints: • min: 3 • max: 63 • pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*</param>
+    /// <param name="ProjectName">The name of the project in the space. Constraints: • min: 3 • max: 63 • pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*</param>
+    /// <param name="Id">The system-generated unique ID of the Dev Environment. Constraints: • pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</param>
     public AwsCodecatalystUpdateDevEnvironmentOptions(
         string SpaceName,
         string ProjectName,
@@ -66,49 +68,49 @@ public record AwsCodecatalystUpdateDevEnvironmentOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
+    /// The name of the space. Constraints: • min: 3 • max: 63 • pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--space-name")]
     public string? SpaceName { get; private init; }
 
     /// <summary>
-    /// The name of the project in the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
+    /// The name of the project in the space. Constraints: • min: 3 • max: 63 • pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--project-name")]
     public string? ProjectName { get; private init; }
 
     /// <summary>
-    /// The system-generated unique ID of the Dev Environment. Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
+    /// The system-generated unique ID of the Dev Environment. Constraints: • pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The user-specified alias for the Dev Environment. Changing this value will not cause a restart. Constraints: o min: 0 o max: 128 o pattern: $|^[a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
+    /// The user-specified alias for the Dev Environment. Changing this value will not cause a restart. Constraints: • min: 0 • max: 128 • pattern: $|^[a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--alias")]
     public string? Alias { get; set; }
 
     /// <summary>
-    /// Information about the integrated development environment (IDE) con- figured for a Dev Environment. Constraints: o min: 0 o max: 1 (structure) Information about the configuration of an integrated development environment (IDE) for a Dev Environment. runtime -&gt; (string) A link to the IDE runtime image. NOTE: This parameter is not required for VSCode . Constraints: o min: 1 o max: 400 name -&gt; (string) The name of the IDE. Valid values include Cloud9 , IntelliJ , PyCharm , GoLand , and VSCode . Constraints: o min: 1 o max: 128 Shorthand Syntax: runtime=string,name=string ... JSON Syntax: [ { "runtime": "string", "name": "string" } ... ]
+    /// Information about the integrated development environment (IDE) configured for a Dev Environment. Constraints: • min: 0 • max: 1 (structure) Information about the configuration of an integrated development environment (IDE) for a Dev Environment. runtime -&gt; (string) A link to the IDE runtime image. NOTE: This parameter is not required for VSCode . Constraints: • min: 1 • max: 400 name -&gt; (string) The name of the IDE. Valid values include Cloud9 , IntelliJ , PyCharm , GoLand , and VSCode . Constraints: • min: 1 • max: 128 Shorthand Syntax: runtime=string,name=string ... JSON Syntax: [ { "runtime": "string", "name": "string" } ... ]
     /// </summary>
     [CliOption("--ides", GroupValues = true)]
     public IEnumerable<string>? Ides { get; set; }
 
     /// <summary>
-    /// The Amazon EC2 instace type to use for the Dev Environment. NOTE: Changing this value will cause a restart of the Dev Environment if it is running. Possible values: o dev.standard1.small o dev.standard1.medium o dev.standard1.large o dev.standard1.xlarge
+    /// The Amazon EC2 instace type to use for the Dev Environment. NOTE: Changing this value will cause a restart of the Dev Environment if it is running. Possible values: • dev.standard1.small • dev.standard1.medium • dev.standard1.large • dev.standard1.xlarge
     /// </summary>
     [CliOption("--instance-type")]
     public AwsCodecatalystUpdateDevEnvironmentInstanceType? InstanceType { get; set; }
 
     /// <summary>
-    /// The amount of time the Dev Environment will run without any activity detected before stopping, in minutes. Only whole integers are al- lowed. Dev Environments consume compute minutes when running. NOTE: Changing this value will cause a restart of the Dev Environment if it is running. Constraints: o min: 0 o max: 1200
+    /// The amount of time the Dev Environment will run without any activity detected before stopping, in minutes. Only whole integers are allowed. Dev Environments consume compute minutes when running. NOTE: Changing this value will cause a restart of the Dev Environment if it is running. Constraints: • min: 0 • max: 1200
     /// </summary>
     [CliOption("--inactivity-timeout-minutes")]
     public int? InactivityTimeoutMinutes { get; set; }
 
     /// <summary>
-    /// A user-specified idempotency token. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries re- turn the result from the original successful request and have no ad- ditional effect. Constraints: o min: 1 o max: 1024
+    /// A user-specified idempotency token. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries return the result from the original successful request and have no additional effect. Constraints: • min: 1 • max: 1024
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

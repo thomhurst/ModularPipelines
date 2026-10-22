@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBcmDashboardsDeleteDashboardOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Deletes a specified dashboard. This action cannot be undone. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The ARN of the dashboard to be deleted. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:dash- board/(\*|[-a-z0-9]+)</param>
+    /// <param name="Arn">The ARN of the dashboard to be deleted. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:dashboard/(\*|[-a-z0-9]+)</param>
     public AwsBcmDashboardsDeleteDashboardOptions(
         string Arn
     )
@@ -56,7 +58,7 @@ public record AwsBcmDashboardsDeleteDashboardOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the dashboard to be deleted. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:dash- board/(\*|[-a-z0-9]+)
+    /// The ARN of the dashboard to be deleted. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:dashboard/(\*|[-a-z0-9]+)
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }

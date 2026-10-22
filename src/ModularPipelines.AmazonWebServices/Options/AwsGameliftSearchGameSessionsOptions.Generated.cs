@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves all active game sessions that match a set of search criteria and sorts them into a specified order. This operation is not designed to continually track game session status because that practice can cause you to exceed your API limit and gener- ate errors. Instead, configure an Amazon Simple Notification Service (Amazon SNS) topic to receive notifications from a matchmaker or a game session placement queue. When s...
+/// This API works with the following fleet types: EC2, Anywhere, Container Retrieves all active game sessions that match a set of search criteria and sorts them into a specified order. This operation is not designed to continually track game session status because that practice can cause you to exceed your API limit and generate errors. Instead, configure an Amazon Simple Notification Service (Amazon SNS) topic to receive notifications from a matchmaker or a game session placement queue. When searc...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,40 +23,37 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsGameliftSearchGameSessionsOptions : AwsOptions
 {
     /// <summary>
-    /// A unique identifier for the fleet to search for active game ses- sions. You can use either the fleet ID or ARN value. Each request must reference either a fleet ID or alias ID, but not both. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
+    /// A unique identifier for the fleet to search for active game sessions. You can use either the fleet ID or ARN value. Each request must reference either a fleet ID or alias ID, but not both. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; set; }
 
     /// <summary>
-    /// A unique identifier for the alias associated with the fleet to search for active game sessions. You can use either the alias ID or ARN value. Each request must reference either a fleet ID or alias ID, but not both. Constraints: o min: 1 o max: 512 o pattern: ^(alias-\S+|arn:.*:alias\/alias-\S+)$
+    /// A unique identifier for the alias associated with the fleet to search for active game sessions. You can use either the alias ID or ARN value. Each request must reference either a fleet ID or alias ID, but not both. Constraints: • min: 1 • max: 512 • pattern: ^(alias-\S+|arn:.*:alias\/alias-\S+)$
     /// </summary>
     [CliOption("--alias-id")]
     public string? AliasId { get; set; }
 
     /// <summary>
-    /// A fleet location to search for game sessions. You can specify a fleet's home Region or a remote location. Use the Amazon Web Ser- vices Region code format, such as us-west-2 . Constraints: o min: 1 o max: 64 o pattern: ^[A-Za-z0-9\-]+$
+    /// A fleet location to search for game sessions. You can specify a fleet's home Region or a remote location. Use the Amazon Web Services Region code format, such as us-west-2 . Constraints: • min: 1 • max: 64 • pattern: ^[A-Za-z0-9\-]+$
     /// </summary>
     [CliOption("--location")]
     public string? Location { get; set; }
 
     /// <summary>
-    /// String containing the search criteria for the session search. If no filter expression is included, the request returns results for all game sessions in the fleet that are in ACTIVE status. A filter expression can contain one or multiple conditions. Each condition consists of the following: o Operand -- Name of a game session attribute. Valid values are gameSessionName , gameSessionId , gameSessionProperties , maximum- Sessions , creationTimeMillis , playerSessionCount , hasAvailable- PlayerSessions . o Comparator -- Valid comparators are: = , &lt;&gt; , &lt; , &gt; , &lt;= , &gt;= . o Value -- Value to be searched for. Values may be numbers, boolean values (true/false) or strings depending on the operand. String values are case sensitive and must be enclosed in single quotes. Special characters must be escaped. Boolean and string values can only be used with the comparators = and &lt;&gt; . For example, the fol- lowing filter expression searches on gameSessionName : "FilterEx- pression": "gameSessionName = 'Matt\\'s Awesome Game 1'" . To chain multiple conditions in a single expression, use the logical keywords AND , OR , and NOT and parentheses as needed. For example: x AND y AND NOT z , NOT (x OR y) . Session search evaluates conditions from left to right using the following precedence rules: o = , &lt;&gt; , &lt; , &gt; , &lt;= , &gt;= o Parentheses o NOT o AND o OR For example, this filter expression retrieves game sessions hosting at least ten players that have an open player slot: "maximumSes- sions&gt;=10 AND hasAvailablePlayerSessions=true" . Constraints: o min: 1 o max: 1024
+    /// String containing the search criteria for the session search. If no filter expression is included, the request returns results for all game sessions in the fleet that are in ACTIVE status. A filter expression can contain one or multiple conditions. Each condition consists of the following: • Operand -- Name of a game session attribute. Valid values are gameSessionName , gameSessionId , gameSessionProperties , maximumSessions , creationTimeMillis , playerSessionCount , hasAvailablePlayerSessions . • Comparator -- Valid comparators are: = , &lt;&gt; , &lt; , &gt; , &lt;= , &gt;= . • Value -- Value to be searched for. Values may be numbers, boolean values (true/false) or strings depending on the operand. String values are case sensitive and must be enclosed in single quotes. Special characters must be escaped. Boolean and string values can only be used with the comparators = and &lt;&gt; . For example, the following filter expression searches on gameSessionName : "FilterExpression": "gameSessionName = 'Matt\\'s Awesome Game 1'" . To chain multiple conditions in a single expression, use the logical keywords AND , OR , and NOT and parentheses as needed. For example: x AND y AND NOT z , NOT (x OR y) . Session search evaluates conditions from left to right using the following precedence rules: • = , &lt;&gt; , &lt; , &gt; , &lt;= , &gt;= • Parentheses • NOT • AND • OR For example, this filter expression retrieves game sessions hosting at least ten players that have an open player slot: "maximumSessions&gt;=10 AND hasAvailablePlayerSessions=true" . Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--filter-expression")]
     public string? FilterExpression { get; set; }
 
     /// <summary>
-    /// Instructions on how to sort the search results. If no sort expres- sion is included, the request returns results in random order. A sort expression consists of the following elements: o Operand -- Name of a game session attribute. Valid values are gameSessionName , gameSessionId , gameSessionProperties , maximum- Sessions , creationTimeMillis , playerSessionCount , hasAvailable- PlayerSessions . o Order -- Valid sort orders are ASC (ascending) and DESC (descend- ing). For example, this sort expression returns the oldest active sessions first: "SortExpression": "creationTimeMillis ASC" . Results with a null value for the sort operand are returned at the end of the list. Constraints: o min: 1 o max: 1024
+    /// Instructions on how to sort the search results. If no sort expression is included, the request returns results in random order. A sort expression consists of the following elements: • Operand -- Name of a game session attribute. Valid values are gameSessionName , gameSessionId , gameSessionProperties , maximumSessions , creationTimeMillis , playerSessionCount , hasAvailablePlayerSessions . • Order -- Valid sort orders are ASC (ascending) and DESC (descending). For example, this sort expression returns the oldest active sessions first: "SortExpression": "creationTimeMillis ASC" . Results with a null value for the sort operand are returned at the end of the list. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--sort-expression")]
     public string? SortExpression { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -66,15 +63,18 @@ public record AwsGameliftSearchGameSessionsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enable or disable email sending for messages that use a particular con- figuration set in a specific AWS Region. See also: AWS API Documentation
+/// Enable or disable email sending for messages that use a particular configuration set in a specific AWS Region. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsPinpointEmailPutConfigurationSetSendingOptionsOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enable or disable email sending for messages that use a particular con- figuration set in a specific AWS Region. See also: AWS API Documentation
+    /// Enable or disable email sending for messages that use a particular configuration set in a specific AWS Region. See also: AWS API Documentation
     /// </summary>
     /// <param name="ConfigurationSetName">The name of the configuration set that you want to enable or disable email sending for.</param>
     public AwsPinpointEmailPutConfigurationSetSendingOptionsOptions(

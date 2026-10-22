@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsChimeSdkVoiceUpdateSipRuleOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Updates the details of the specified SIP rule. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SipRuleId">The SIP rule ID. Constraints: o pattern: .*\S.*</param>
-    /// <param name="Name">The new name for the specified SIP rule. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 _.-]+</param>
+    /// <param name="SipRuleId">The SIP rule ID. Constraints: • pattern: .*\S.*</param>
+    /// <param name="Name">The new name for the specified SIP rule. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9 _.-]+</param>
     public AwsChimeSdkVoiceUpdateSipRuleOptions(
         string SipRuleId,
         string Name
@@ -60,13 +62,13 @@ public record AwsChimeSdkVoiceUpdateSipRuleOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The SIP rule ID. Constraints: o pattern: .*\S.*
+    /// The SIP rule ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--sip-rule-id")]
     public string? SipRuleId { get; private init; }
 
     /// <summary>
-    /// The new name for the specified SIP rule. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 _.-]+
+    /// The new name for the specified SIP rule. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9 _.-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -78,7 +80,7 @@ public record AwsChimeSdkVoiceUpdateSipRuleOptions : AwsOptions, IValidatableObj
     public bool? Disabled { get; set; }
 
     /// <summary>
-    /// The new list of target applications. Constraints: o min: 1 o max: 25 (structure) A target SIP media application and other details, such as prior- ity and AWS Region, to be specified in the SIP rule. Only one SIP rule per AWS Region can be provided. SipMediaApplicationId -&gt; (string) The ID of a rule's target SIP media application. Constraints: o pattern: .*\S.* Priority -&gt; (integer) The priority setting of a rule's target SIP media applica- tion. Constraints: o min: 1 AwsRegion -&gt; (string) The AWS Region of a rule's target SIP media application. Shorthand Syntax: SipMediaApplicationId=string,Priority=integer,AwsRegion=string ... JSON Syntax: [ { "SipMediaApplicationId": "string", "Priority": integer, "AwsRegion": "string" } ... ]
+    /// The new list of target applications. Constraints: • min: 1 • max: 25 (structure) A target SIP media application and other details, such as priority and AWS Region, to be specified in the SIP rule. Only one SIP rule per AWS Region can be provided. SipMediaApplicationId -&gt; (string) The ID of a rule's target SIP media application. Constraints: • pattern: .*\S.* Priority -&gt; (integer) The priority setting of a rule's target SIP media application. Constraints: • min: 1 AwsRegion -&gt; (string) The AWS Region of a rule's target SIP media application. Shorthand Syntax: SipMediaApplicationId=string,Priority=integer,AwsRegion=string ... JSON Syntax: [ { "SipMediaApplicationId": "string", "Priority": integer, "AwsRegion": "string" } ... ]
     /// </summary>
     [CliOption("--target-applications", GroupValues = true)]
     public IEnumerable<string>? TargetApplications { get; set; }

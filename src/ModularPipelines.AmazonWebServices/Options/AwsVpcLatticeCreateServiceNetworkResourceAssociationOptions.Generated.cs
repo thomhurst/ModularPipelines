@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates the specified service network with the specified resource configuration. This allows the resource configuration to receive con- nections through the service network, including through a service net- work VPC endpoint. See also: AWS API Documentation
+/// Associates the specified service network with the specified resource configuration. This allows the resource configuration to receive connections through the service network, including through a service network VPC endpoint. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsVpcLatticeCreateServiceNetworkResourceAssociationOptions : AwsO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates the specified service network with the specified resource configuration. This allows the resource configuration to receive con- nections through the service network, including through a service net- work VPC endpoint. See also: AWS API Documentation
+    /// Associates the specified service network with the specified resource configuration. This allows the resource configuration to receive connections through the service network, including through a service network VPC endpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceConfigurationIdentifier">The ID of the resource configuration to associate with the service network. Constraints: o min: 20 o max: 2048 o pattern: ((rcfg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:resourceconfigura- tion/rcfg-[0-9a-z]{17}))</param>
-    /// <param name="ServiceNetworkIdentifier">The ID of the service network to associate with the resource config- uration. Constraints: o min: 3 o max: 2048</param>
+    /// <param name="ResourceConfigurationIdentifier">The ID of the resource configuration to associate with the service network. Constraints: • min: 20 • max: 2048 • pattern: ((rcfg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:resourceconfiguration/rcfg-[0-9a-z]{17}))</param>
+    /// <param name="ServiceNetworkIdentifier">The ID of the service network to associate with the resource configuration. Constraints: • min: 3 • max: 2048</param>
     public AwsVpcLatticeCreateServiceNetworkResourceAssociationOptions(
         string ResourceConfigurationIdentifier,
         string ServiceNetworkIdentifier
@@ -62,19 +63,19 @@ public record AwsVpcLatticeCreateServiceNetworkResourceAssociationOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the resource configuration to associate with the service network. Constraints: o min: 20 o max: 2048 o pattern: ((rcfg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:resourceconfigura- tion/rcfg-[0-9a-z]{17}))
+    /// The ID of the resource configuration to associate with the service network. Constraints: • min: 20 • max: 2048 • pattern: ((rcfg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:resourceconfiguration/rcfg-[0-9a-z]{17}))
     /// </summary>
     [CliOption("--resource-configuration-identifier")]
     public string? ResourceConfigurationIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the service network to associate with the resource config- uration. Constraints: o min: 3 o max: 2048
+    /// The ID of the service network to associate with the resource configuration. Constraints: • min: 3 • max: 2048
     /// </summary>
     [CliOption("--service-network-identifier")]
     public string? ServiceNetworkIdentifier { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails. Constraints: o min: 1 o max: 64 o pattern: .*[!-~]+.*
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails. Constraints: • min: 1 • max: 64 • pattern: .*[!-~]+.*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -87,7 +88,7 @@ public record AwsVpcLatticeCreateServiceNetworkResourceAssociationOptions : AwsO
     public bool? PrivateDnsEnabled { get; set; }
 
     /// <summary>
-    /// A key-value pair to associate with a resource. Constraints: o min: 0 o max: 200 key -&gt; (string) The key of the tag. Constraints: Tag keys are case-sensitive and accept a maximum of 128 Unicode characters. Valid characters are Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @ May not begin with aws: . Constraints: o min: 1 o max: 128 value -&gt; (string) The value of the tag. Constraints: Tag values are case-sensitive and accept a maximum of 256 Unicode characters. Valid characters are Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @ Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A key-value pair to associate with a resource. Constraints: • min: 0 • max: 200 key -&gt; (string) The key of the tag. Constraints: Tag keys are case-sensitive and accept a maximum of 128 Unicode characters. Valid characters are Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @ May not begin with aws: . Constraints: • min: 1 • max: 128 value -&gt; (string) The value of the tag. Constraints: Tag values are case-sensitive and accept a maximum of 256 Unicode characters. Valid characters are Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @ Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

@@ -23,26 +23,26 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsKmsRetireGrantOptions : AwsOptions
 {
     /// <summary>
-    /// Identifies the grant to be retired. You can use a grant token to identify a new grant even before it has achieved eventual consis- tency. Only the CreateGrant operation returns a grant token. For details, see Grant token and Eventual consistency in the Key Management Ser- vice Developer Guide . Constraints: o min: 1 o max: 8192
+    /// Identifies the grant to be retired. You can use a grant token to identify a new grant even before it has achieved eventual consistency. Only the CreateGrant operation returns a grant token. For details, see Grant token and Eventual consistency in the Key Management Service Developer Guide . Constraints: • min: 1 • max: 8192
     /// </summary>
     [SecretValue]
     [CliOption("--grant-token")]
     public string? GrantToken { get; set; }
 
     /// <summary>
-    /// The key ARN KMS key associated with the grant. To find the key ARN, use the ListKeys operation. For example: arn:aws:kms:us-east-2:444455556666:key/1234abcd-12ab-34cd-56ef-1234567890ab Constraints: o min: 1 o max: 2048
+    /// The key ARN KMS key associated with the grant. To find the key ARN, use the ListKeys operation. For example: arn:aws:kms:us-east-2:444455556666:key/1234abcd-12ab-34cd-56ef-1234567890ab Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--key-id")]
     public string? KeyId { get; set; }
 
     /// <summary>
-    /// Identifies the grant to retire. To get the grant ID, use Create- Grant , ListGrants , or ListRetirableGrants . o Grant ID Example - 0123456789012345678901234567890123456789012345678901234567890123 Constraints: o min: 1 o max: 128
+    /// Identifies the grant to retire. To get the grant ID, use CreateGrant , ListGrants , or ListRetirableGrants . • Grant ID Example - 0123456789012345678901234567890123456789012345678901234567890123 Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--grant-id")]
     public string? GrantId { get; set; }
 
     /// <summary>
-    /// Checks if your request will succeed. DryRun is an optional parame- ter. To learn more about how to use this parameter, see Testing your per- missions in the Key Management Service Developer Guide .
+    /// Checks if your request will succeed. DryRun is an optional parameter. To learn more about how to use this parameter, see Testing your permissions in the Key Management Service Developer Guide .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

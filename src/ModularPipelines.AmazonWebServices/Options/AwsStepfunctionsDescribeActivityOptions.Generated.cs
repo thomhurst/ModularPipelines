@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsStepfunctionsDescribeActivityOptions : AwsOptions, IValidatable
     /// <summary>
     /// Describes an activity. NOTE: This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ActivityArn">The Amazon Resource Name (ARN) of the activity to describe. Constraints: o min: 1 o max: 256</param>
+    /// <param name="ActivityArn">The Amazon Resource Name (ARN) of the activity to describe. Constraints: • min: 1 • max: 256</param>
     public AwsStepfunctionsDescribeActivityOptions(
         string ActivityArn
     )
@@ -56,7 +58,7 @@ public record AwsStepfunctionsDescribeActivityOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the activity to describe. Constraints: o min: 1 o max: 256
+    /// The Amazon Resource Name (ARN) of the activity to describe. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--activity-arn")]
     public string? ActivityArn { get; private init; }

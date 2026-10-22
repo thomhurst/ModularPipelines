@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified Directory Config object from WorkSpaces Applica- tions. This object includes the information required to join streaming instances to an Active Directory domain. See also: AWS API Documentation
+/// Deletes the specified Directory Config object from WorkSpaces Applications. This object includes the information required to join streaming instances to an Active Directory domain. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsAppstreamDeleteDirectoryConfigOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified Directory Config object from WorkSpaces Applica- tions. This object includes the information required to join streaming instances to an Active Directory domain. See also: AWS API Documentation
+    /// Deletes the specified Directory Config object from WorkSpaces Applications. This object includes the information required to join streaming instances to an Active Directory domain. See also: AWS API Documentation
     /// </summary>
     /// <param name="DirectoryName">The name of the directory configuration.</param>
     public AwsAppstreamDeleteDirectoryConfigOptions(

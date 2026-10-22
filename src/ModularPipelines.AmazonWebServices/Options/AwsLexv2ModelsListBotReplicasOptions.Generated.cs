@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsLexv2ModelsListBotReplicasOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// The action to list the replicated bots. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BotId">The request for the unique bot IDs in the list of replicated bots. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotId">The request for the unique bot IDs in the list of replicated bots. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
     public AwsLexv2ModelsListBotReplicasOptions(
         string BotId
     )
@@ -56,7 +58,7 @@ public record AwsLexv2ModelsListBotReplicasOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The request for the unique bot IDs in the list of replicated bots. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The request for the unique bot IDs in the list of replicated bots. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }

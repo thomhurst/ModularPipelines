@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an SSL/TLS certificate associated with a Lightsail load bal- ancer. The DeleteLoadBalancerTlsCertificate operation supports tag-based ac- cess control via resource tags applied to the resource identified by load balancer name . For more information, see the Amazon Lightsail De- veloper Guide . See also: AWS API Documentation
+/// Deletes an SSL/TLS certificate associated with a Lightsail load balancer. The DeleteLoadBalancerTlsCertificate operation supports tag-based access control via resource tags applied to the resource identified by load balancer name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsLightsailDeleteLoadBalancerTlsCertificateOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an SSL/TLS certificate associated with a Lightsail load bal- ancer. The DeleteLoadBalancerTlsCertificate operation supports tag-based ac- cess control via resource tags applied to the resource identified by load balancer name . For more information, see the Amazon Lightsail De- veloper Guide . See also: AWS API Documentation
+    /// Deletes an SSL/TLS certificate associated with a Lightsail load balancer. The DeleteLoadBalancerTlsCertificate operation supports tag-based access control via resource tags applied to the resource identified by load balancer name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="LoadBalancerName">The load balancer name. Constraints: o pattern: \w[\w\-]*\w</param>
-    /// <param name="CertificateName">The SSL/TLS certificate name. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="LoadBalancerName">The load balancer name. Constraints: • pattern: \w[\w\-]*\w</param>
+    /// <param name="CertificateName">The SSL/TLS certificate name. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailDeleteLoadBalancerTlsCertificateOptions(
         string LoadBalancerName,
         string CertificateName
@@ -60,19 +62,19 @@ public record AwsLightsailDeleteLoadBalancerTlsCertificateOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The load balancer name. Constraints: o pattern: \w[\w\-]*\w
+    /// The load balancer name. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--load-balancer-name")]
     public string? LoadBalancerName { get; private init; }
 
     /// <summary>
-    /// The SSL/TLS certificate name. Constraints: o pattern: \w[\w\-]*\w
+    /// The SSL/TLS certificate name. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--certificate-name")]
     public string? CertificateName { get; private init; }
 
     /// <summary>
-    /// When true , forces the deletion of an SSL/TLS certificate. There can be two certificates associated with a Lightsail load bal- ancer: the primary and the backup. The force parameter is required when the primary SSL/TLS certificate is in use by an instance at- tached to the load balancer.
+    /// When true , forces the deletion of an SSL/TLS certificate. There can be two certificates associated with a Lightsail load balancer: the primary and the backup. The force parameter is required when the primary SSL/TLS certificate is in use by an instance attached to the load balancer.
     /// </summary>
     [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Authorizes the Shield Response Team (SRT) using the specified role, to access your Amazon Web Services account to assist with DDoS attack mit- igation during potential attacks. This enables the SRT to inspect your WAF configuration and create or update WAF rules and web ACLs. You can associate only one RoleArn with your subscription. If you sub- mit an AssociateDRTRole request for an account that already has an as- sociated role, the new RoleArn will replace the existing RoleArn . Prior to makin...
+/// Authorizes the Shield Response Team (SRT) using the specified role, to access your Amazon Web Services account to assist with DDoS attack mitigation during potential attacks. This enables the SRT to inspect your WAF configuration and create or update WAF rules and web ACLs. You can associate only one RoleArn with your subscription. If you submit an AssociateDRTRole request for an account that already has an associated role, the new RoleArn will replace the existing RoleArn . Prior to making the ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsShieldAssociateDrtRoleOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Authorizes the Shield Response Team (SRT) using the specified role, to access your Amazon Web Services account to assist with DDoS attack mit- igation during potential attacks. This enables the SRT to inspect your WAF configuration and create or update WAF rules and web ACLs. You can associate only one RoleArn with your subscription. If you sub- mit an AssociateDRTRole request for an account that already has an as- sociated role, the new RoleArn will replace the existing RoleArn . Prior to makin...
+    /// Authorizes the Shield Response Team (SRT) using the specified role, to access your Amazon Web Services account to assist with DDoS attack mitigation during potential attacks. This enables the SRT to inspect your WAF configuration and create or update WAF rules and web ACLs. You can associate only one RoleArn with your subscription. If you submit an AssociateDRTRole request for an account that already has an associated role, the new RoleArn will replace the existing RoleArn . Prior to making the ...
     /// </summary>
-    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the role the SRT will use to ac- cess your Amazon Web Services account. Prior to making the AssociateDRTRole request, you must attach the AWSShieldDRTAccessPolicy managed policy to this role. For more in- formation see `Attaching and Detaching IAM Policies &lt; https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html&gt;`__ . Constraints: o min: 1 o max: 2048 o pattern: ^arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the role the SRT will use to access your Amazon Web Services account. Prior to making the AssociateDRTRole request, you must attach the AWSShieldDRTAccessPolicy managed policy to this role. For more information see `Attaching and Detaching IAM Policies &lt; https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html&gt;`__ . Constraints: • min: 1 • max: 2048 • pattern: ^arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
     public AwsShieldAssociateDrtRoleOptions(
         string RoleArn
     )
@@ -56,7 +58,7 @@ public record AwsShieldAssociateDrtRoleOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the role the SRT will use to ac- cess your Amazon Web Services account. Prior to making the AssociateDRTRole request, you must attach the AWSShieldDRTAccessPolicy managed policy to this role. For more in- formation see `Attaching and Detaching IAM Policies &lt; https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html&gt;`__ . Constraints: o min: 1 o max: 2048 o pattern: ^arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// The Amazon Resource Name (ARN) of the role the SRT will use to access your Amazon Web Services account. Prior to making the AssociateDRTRole request, you must attach the AWSShieldDRTAccessPolicy managed policy to this role. For more information see `Attaching and Detaching IAM Policies &lt; https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html&gt;`__ . Constraints: • min: 1 • max: 2048 • pattern: ^arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }

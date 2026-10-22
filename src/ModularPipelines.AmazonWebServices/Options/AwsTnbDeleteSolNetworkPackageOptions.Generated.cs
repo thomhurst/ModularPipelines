@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsTnbDeleteSolNetworkPackageOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Deletes network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on. To delete a network package, the package must be in a disable state. To disable a network package, see UpdateSolNetworkPackage . See also: AWS API Documentation
     /// </summary>
-    /// <param name="NsdInfoId">ID of the network service descriptor in the network package. Constraints: o pattern: ^np-[a-f0-9]{17}$</param>
+    /// <param name="NsdInfoId">ID of the network service descriptor in the network package. Constraints: • pattern: ^np-[a-f0-9]{17}$</param>
     public AwsTnbDeleteSolNetworkPackageOptions(
         string NsdInfoId
     )
@@ -56,7 +58,7 @@ public record AwsTnbDeleteSolNetworkPackageOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID of the network service descriptor in the network package. Constraints: o pattern: ^np-[a-f0-9]{17}$
+    /// ID of the network service descriptor in the network package. Constraints: • pattern: ^np-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--nsd-info-id")]
     public string? NsdInfoId { get; private init; }

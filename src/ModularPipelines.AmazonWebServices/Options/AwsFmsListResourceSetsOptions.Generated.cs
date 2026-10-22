@@ -23,14 +23,14 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsFmsListResourceSetsOptions : AwsOptions
 {
     /// <summary>
-    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Firewall Manager returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request. Constraints: o min: 1 o max: 4096 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Firewall Manager returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request. Constraints: • min: 1 • max: 4096 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of objects that you want Firewall Manager to re- turn for this request. If more objects are available, in the re- sponse, Firewall Manager provides a NextToken value that you can use in a subsequent call to get the next batch of objects. Constraints: o min: 1 o max: 100
+    /// The maximum number of objects that you want Firewall Manager to return for this request. If more objects are available, in the response, Firewall Manager provides a NextToken value that you can use in a subsequent call to get the next batch of objects. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

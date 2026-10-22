@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsFmsDeleteResourceSetOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the specified ResourceSet . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">A unique identifier for the resource set, used in a request to refer to the resource set. Constraints: o min: 22 o max: 22 o pattern: ^[a-z0-9A-Z]{22}$</param>
+    /// <param name="Identifier">A unique identifier for the resource set, used in a request to refer to the resource set. Constraints: • min: 22 • max: 22 • pattern: ^[a-z0-9A-Z]{22}$</param>
     public AwsFmsDeleteResourceSetOptions(
         string Identifier
     )
@@ -56,7 +58,7 @@ public record AwsFmsDeleteResourceSetOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the resource set, used in a request to refer to the resource set. Constraints: o min: 22 o max: 22 o pattern: ^[a-z0-9A-Z]{22}$
+    /// A unique identifier for the resource set, used in a request to refer to the resource set. Constraints: • min: 22 • max: 22 • pattern: ^[a-z0-9A-Z]{22}$
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }

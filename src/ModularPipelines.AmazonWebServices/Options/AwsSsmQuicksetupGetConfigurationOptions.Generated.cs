@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSsmQuicksetupGetConfigurationOptions : AwsOptions, IValidatable
     /// <summary>
     /// Returns details about the specified configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfigurationId">A service generated identifier for the configuration. Constraints: o pattern: ^[a-zA-Z0-9-_/:]{1,100}$</param>
+    /// <param name="ConfigurationId">A service generated identifier for the configuration. Constraints: • pattern: ^[a-zA-Z0-9-_/:]{1,100}$</param>
     public AwsSsmQuicksetupGetConfigurationOptions(
         string ConfigurationId
     )
@@ -56,7 +58,7 @@ public record AwsSsmQuicksetupGetConfigurationOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A service generated identifier for the configuration. Constraints: o pattern: ^[a-zA-Z0-9-_/:]{1,100}$
+    /// A service generated identifier for the configuration. Constraints: • pattern: ^[a-zA-Z0-9-_/:]{1,100}$
     /// </summary>
     [CliOption("--configuration-id")]
     public string? ConfigurationId { get; private init; }

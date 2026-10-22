@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsInvoicingGetInvoiceUnitOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// This retrieves the invoice unit definition. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InvoiceUnitArn">The ARN to identify an invoice unit. This information can't be modi- fied or deleted. Constraints: o min: 1 o max: 256 o pattern: arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+</param>
+    /// <param name="InvoiceUnitArn">The ARN to identify an invoice unit. This information can't be modified or deleted. Constraints: • min: 1 • max: 256 • pattern: arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+</param>
     public AwsInvoicingGetInvoiceUnitOptions(
         string InvoiceUnitArn
     )
@@ -56,7 +58,7 @@ public record AwsInvoicingGetInvoiceUnitOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN to identify an invoice unit. This information can't be modi- fied or deleted. Constraints: o min: 1 o max: 256 o pattern: arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+
+    /// The ARN to identify an invoice unit. This information can't be modified or deleted. Constraints: • min: 1 • max: 256 • pattern: arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+
     /// </summary>
     [CliOption("--invoice-unit-arn")]
     public string? InvoiceUnitArn { get; private init; }

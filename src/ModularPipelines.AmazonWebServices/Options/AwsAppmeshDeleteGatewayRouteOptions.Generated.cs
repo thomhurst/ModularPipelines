@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsAppmeshDeleteGatewayRouteOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Deletes an existing gateway route. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GatewayRouteName">The name of the gateway route to delete. Constraints: o min: 1 o max: 255</param>
-    /// <param name="MeshName">The name of the service mesh to delete the gateway route from. Constraints: o min: 1 o max: 255</param>
-    /// <param name="VirtualGatewayName">The name of the virtual gateway to delete the route from. Constraints: o min: 1 o max: 255</param>
+    /// <param name="GatewayRouteName">The name of the gateway route to delete. Constraints: • min: 1 • max: 255</param>
+    /// <param name="MeshName">The name of the service mesh to delete the gateway route from. Constraints: • min: 1 • max: 255</param>
+    /// <param name="VirtualGatewayName">The name of the virtual gateway to delete the route from. Constraints: • min: 1 • max: 255</param>
     public AwsAppmeshDeleteGatewayRouteOptions(
         string GatewayRouteName,
         string MeshName,
@@ -64,25 +66,25 @@ public record AwsAppmeshDeleteGatewayRouteOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the gateway route to delete. Constraints: o min: 1 o max: 255
+    /// The name of the gateway route to delete. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--gateway-route-name")]
     public string? GatewayRouteName { get; private init; }
 
     /// <summary>
-    /// The name of the service mesh to delete the gateway route from. Constraints: o min: 1 o max: 255
+    /// The name of the service mesh to delete the gateway route from. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--mesh-name")]
     public string? MeshName { get; private init; }
 
     /// <summary>
-    /// The name of the virtual gateway to delete the route from. Constraints: o min: 1 o max: 255
+    /// The name of the virtual gateway to delete the route from. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--virtual-gateway-name")]
     public string? VirtualGatewayName { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes . Constraints: o min: 12 o max: 12
+    /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes . Constraints: • min: 12 • max: 12
     /// </summary>
     [CliOption("--mesh-owner")]
     public string? MeshOwner { get; set; }

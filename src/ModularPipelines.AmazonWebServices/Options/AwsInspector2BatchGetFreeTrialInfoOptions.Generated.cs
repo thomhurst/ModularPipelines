@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsInspector2BatchGetFreeTrialInfoOptions : AwsOptions, IValidatab
     /// <summary>
     /// Gets free trial status for multiple Amazon Web Services accounts. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountIds">The account IDs to get free trial status for. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: .*[0-9]{12}.* Syntax: "string" "string" ...</param>
+    /// <param name="AccountIds">The account IDs to get free trial status for. Constraints: • min: 1 • max: 100 (string) Constraints: • pattern: .*[0-9]{12}.* Syntax: "string" "string" ...</param>
     public AwsInspector2BatchGetFreeTrialInfoOptions(
         IEnumerable<string> AccountIds
     )
@@ -67,7 +69,7 @@ public record AwsInspector2BatchGetFreeTrialInfoOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The account IDs to get free trial status for. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: .*[0-9]{12}.* Syntax: "string" "string" ...
+    /// The account IDs to get free trial status for. Constraints: • min: 1 • max: 100 (string) Constraints: • pattern: .*[0-9]{12}.* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; private init; }

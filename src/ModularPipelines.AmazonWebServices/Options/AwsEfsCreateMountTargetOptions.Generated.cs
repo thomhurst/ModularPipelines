@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a mount target for a file system. You can then mount the file system on EC2 instances by using the mount target. You can create one mount target in each Availability Zone in your VPC. All EC2 instances in a VPC within a given Availability Zone share a single mount target for a given file system. If you have multiple sub- nets in an Availability Zone, you create a mount target in one of the subnets. EC2 instances do not need to be in the same subnet as the mount target in order to access ...
+/// Creates a mount target for a file system. You can then mount the file system on EC2 instances by using the mount target. You can create one mount target in each Availability Zone in your VPC. All EC2 instances in a VPC within a given Availability Zone share a single mount target for a given file system. If you have multiple subnets in an Availability Zone, you create a mount target in one of the subnets. EC2 instances do not need to be in the same subnet as the mount target in order to access th...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsEfsCreateMountTargetOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a mount target for a file system. You can then mount the file system on EC2 instances by using the mount target. You can create one mount target in each Availability Zone in your VPC. All EC2 instances in a VPC within a given Availability Zone share a single mount target for a given file system. If you have multiple sub- nets in an Availability Zone, you create a mount target in one of the subnets. EC2 instances do not need to be in the same subnet as the mount target in order to access ...
+    /// Creates a mount target for a file system. You can then mount the file system on EC2 instances by using the mount target. You can create one mount target in each Availability Zone in your VPC. All EC2 instances in a VPC within a given Availability Zone share a single mount target for a given file system. If you have multiple subnets in an Availability Zone, you create a mount target in one of the subnets. EC2 instances do not need to be in the same subnet as the mount target in order to access th...
     /// </summary>
-    /// <param name="FileSystemId">The ID of the file system for which to create the mount target. Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$</param>
-    /// <param name="SubnetId">The ID of the subnet to add the mount target in. For One Zone file systems, use the subnet that is associated with the file system's Availability Zone. Constraints: o min: 15 o max: 47 o pattern: ^subnet-[0-9a-f]{8,40}$</param>
+    /// <param name="FileSystemId">The ID of the file system for which to create the mount target. Constraints: • max: 128 • pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$</param>
+    /// <param name="SubnetId">The ID of the subnet to add the mount target in. For One Zone file systems, use the subnet that is associated with the file system's Availability Zone. Constraints: • min: 15 • max: 47 • pattern: ^subnet-[0-9a-f]{8,40}$</param>
     public AwsEfsCreateMountTargetOptions(
         string FileSystemId,
         string SubnetId
@@ -61,37 +63,37 @@ public record AwsEfsCreateMountTargetOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the file system for which to create the mount target. Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$
+    /// The ID of the file system for which to create the mount target. Constraints: • max: 128 • pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$
     /// </summary>
     [CliOption("--file-system-id")]
     public string? FileSystemId { get; private init; }
 
     /// <summary>
-    /// The ID of the subnet to add the mount target in. For One Zone file systems, use the subnet that is associated with the file system's Availability Zone. Constraints: o min: 15 o max: 47 o pattern: ^subnet-[0-9a-f]{8,40}$
+    /// The ID of the subnet to add the mount target in. For One Zone file systems, use the subnet that is associated with the file system's Availability Zone. Constraints: • min: 15 • max: 47 • pattern: ^subnet-[0-9a-f]{8,40}$
     /// </summary>
     [CliOption("--subnet-id")]
     public string? SubnetId { get; private init; }
 
     /// <summary>
-    /// If the IP address type for the mount target is IPv4, then specify the IPv4 address within the address range of the specified subnet. Constraints: o min: 7 o max: 15 o pattern: ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$
+    /// If the IP address type for the mount target is IPv4, then specify the IPv4 address within the address range of the specified subnet. Constraints: • min: 7 • max: 15 • pattern: ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$
     /// </summary>
     [CliOption("--ip-address")]
     public string? IpAddress { get; set; }
 
     /// <summary>
-    /// If the IP address type for the mount target is IPv6, then specify the IPv6 address within the address range of the specified subnet. Constraints: o min: 3 o max: 39
+    /// If the IP address type for the mount target is IPv6, then specify the IPv6 address within the address range of the specified subnet. Constraints: • min: 3 • max: 39
     /// </summary>
     [CliOption("--ipv6-address")]
     public string? Ipv6Address { get; set; }
 
     /// <summary>
-    /// Specify the type of IP address of the mount target you are creating. Options are IPv4, dual stack, or IPv6. If you dont specify an IpAd- dressType, then IPv4 is used. o IPV4_ONLY Create mount target with IPv4 only subnet or dual-stack subnet. o DUAL_STACK Create mount target with dual-stack subnet. o IPV6_ONLY Create mount target with IPv6 only subnet. NOTE: Creating IPv6 mount target only ENI in dual-stack subnet is not supported. Possible values: o IPV4_ONLY o IPV6_ONLY o DUAL_STACK
+    /// Specify the type of IP address of the mount target you are creating. Options are IPv4, dual stack, or IPv6. If you dont specify an IpAddressType, then IPv4 is used. • IPV4_ONLY Create mount target with IPv4 only subnet or dual-stack subnet. • DUAL_STACK Create mount target with dual-stack subnet. • IPV6_ONLY Create mount target with IPv6 only subnet. NOTE: Creating IPv6 mount target only ENI in dual-stack subnet is not supported. Possible values: • IPV4_ONLY • IPV6_ONLY • DUAL_STACK
     /// </summary>
     [CliOption("--ip-address-type")]
     public AwsEfsCreateMountTargetIpAddressType? IpAddressType { get; set; }
 
     /// <summary>
-    /// VPC security group IDs, of the form sg-xxxxxxxx . These must be for the same VPC as the subnet specified. The maximum number of security groups depends on account quota. For more information, see Amazon VPC Quotas in the Amazon VPC User Guide (see the Security Groups ta- ble). Constraints: o max: 100 (string) Constraints: o min: 11 o max: 43 o pattern: ^sg-[0-9a-f]{8,40} Syntax: "string" "string" ...
+    /// VPC security group IDs, of the form sg-xxxxxxxx . These must be for the same VPC as the subnet specified. The maximum number of security groups depends on account quota. For more information, see Amazon VPC Quotas in the Amazon VPC User Guide (see the Security Groups table). Constraints: • max: 100 (string) Constraints: • min: 11 • max: 43 • pattern: ^sg-[0-9a-f]{8,40} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--security-groups", GroupValues = true)]
     public IEnumerable<string>? SecurityGroups { get; set; }

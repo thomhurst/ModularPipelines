@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a paginated list of all the outgoing TypedLinkSpecifier infor- mation for an object. It also supports filtering by typed link facet and identity attributes. For more information, see Typed Links . See also: AWS API Documentation list-outgoing-typed-links is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pa...
+/// Returns a paginated list of all the outgoing TypedLinkSpecifier information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see Typed Links . See also: AWS API Documentation list-outgoing-typed-links is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +29,10 @@ public record AwsClouddirectoryListOutgoingTypedLinksOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a paginated list of all the outgoing TypedLinkSpecifier infor- mation for an object. It also supports filtering by typed link facet and identity attributes. For more information, see Typed Links . See also: AWS API Documentation list-outgoing-typed-links is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pa...
+    /// Returns a paginated list of all the outgoing TypedLinkSpecifier information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see Typed Links . See also: AWS API Documentation list-outgoing-typed-links is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi...
     /// </summary>
     /// <param name="DirectoryArn">The Amazon Resource Name (ARN) of the directory where you want to list the typed links.</param>
-    /// <param name="ObjectReference">A reference that identifies the object whose attributes will be listed. Selector -&gt; (string) A path selector supports easy selection of an object by the par- ent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are sepa- rated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: o $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created ob- ject. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an ob- ject with ObjectIdentifier, the ObjectIdentifier must be wrapped in double quotes. o /some/path - Identifies the object based on path o #SomeBatchReference - Identifies the object in a batch call Shorthand Syntax: Selector=string JSON Syntax: { "Selector": "string" }</param>
+    /// <param name="ObjectReference">A reference that identifies the object whose attributes will be listed. Selector -&gt; (string) A path selector supports easy selection of an object by the parent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are separated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: • $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created object. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an object with ObjectIdentifier, the ObjectIdentifier must be wrapped in double quotes. • /some/path - Identifies the object based on path • #SomeBatchReference - Identifies the object in a batch call Shorthand Syntax: Selector=string JSON Syntax: { "Selector": "string" }</param>
     public AwsClouddirectoryListOutgoingTypedLinksOptions(
         string DirectoryArn,
         string ObjectReference
@@ -68,34 +70,31 @@ public record AwsClouddirectoryListOutgoingTypedLinksOptions : AwsOptions, IVali
     public string? DirectoryArn { get; private init; }
 
     /// <summary>
-    /// A reference that identifies the object whose attributes will be listed. Selector -&gt; (string) A path selector supports easy selection of an object by the par- ent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are sepa- rated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: o $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created ob- ject. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an ob- ject with ObjectIdentifier, the ObjectIdentifier must be wrapped in double quotes. o /some/path - Identifies the object based on path o #SomeBatchReference - Identifies the object in a batch call Shorthand Syntax: Selector=string JSON Syntax: { "Selector": "string" }
+    /// A reference that identifies the object whose attributes will be listed. Selector -&gt; (string) A path selector supports easy selection of an object by the parent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are separated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: • $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created object. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an object with ObjectIdentifier, the ObjectIdentifier must be wrapped in double quotes. • /some/path - Identifies the object based on path • #SomeBatchReference - Identifies the object in a batch call Shorthand Syntax: Selector=string JSON Syntax: { "Selector": "string" }
     /// </summary>
     [CliOption("--object-reference")]
     public string? ObjectReference { get; private init; }
 
     /// <summary>
-    /// Provides range filters for multiple attributes. When providing ranges to typed link selection, any inexact ranges must be specified at the end. Any attributes that do not have a range specified are presumed to match the entire range. (structure) Identifies the range of attributes that are used by a specified filter. AttributeName -&gt; (string) The unique name of the typed link attribute. Constraints: o min: 1 o max: 230 o pattern: ^[a-zA-Z0-9._:-]*$ Range -&gt; (structure) [required] The range of attribute values that are being selected. StartMode -&gt; (string) [required] The inclusive or exclusive range start. Possible values: o FIRST o LAST o LAST_BEFORE_MISSING_VALUES o INCLUSIVE o EXCLUSIVE StartValue -&gt; (structure) The value to start the range at. StringValue -&gt; (string) A string data value. BinaryValue -&gt; (blob) A binary data value. BooleanValue -&gt; (boolean) A Boolean data value. NumberValue -&gt; (string) A number data value. DatetimeValue -&gt; (timestamp) A date and time value. EndMode -&gt; (string) [required] The inclusive or exclusive range end. Possible values: o FIRST o LAST o LAST_BEFORE_MISSING_VALUES o INCLUSIVE o EXCLUSIVE EndValue -&gt; (structure) The attribute value to terminate the range at. StringValue -&gt; (string) A string data value. BinaryValue -&gt; (blob) A binary data value. BooleanValue -&gt; (boolean) A Boolean data value. NumberValue -&gt; (string) A number data value. DatetimeValue -&gt; (timestamp) A date and time value. Shorthand Syntax: AttributeName=string,Range={StartMode=string,StartValue={StringValue=string,BinaryValue=blob,BooleanValue=boolean,NumberValue=string,DatetimeValue=timestamp},EndMode=string,EndValue={StringValue=string,BinaryValue=blob,BooleanValue=boolean,NumberValue=string,DatetimeValue=timestamp}} ... JSON Syntax: [ { "AttributeName": "string", "Range": { "StartMode": "FIRST"|"LAST"|"LAST_BEFORE_MISSING_VALUES"|"INCLUSIVE"|"EXCLUSIVE", "StartValue": { "StringValue": "string", "BinaryValue": blob, "BooleanValue": true|false, "NumberValue": "string", "DatetimeValue": timestamp }, "EndMode": "FIRST"|"LAST"|"LAST_BEFORE_MISSING_VALUES"|"INCLUSIVE"|"EXCLUSIVE", "EndValue": { "StringValue": "string", "BinaryValue": blob, "BooleanValue": true|false, "NumberValue": "string", "DatetimeValue": timestamp } } } ... ]
+    /// Provides range filters for multiple attributes. When providing ranges to typed link selection, any inexact ranges must be specified at the end. Any attributes that do not have a range specified are presumed to match the entire range. (structure) Identifies the range of attributes that are used by a specified filter. AttributeName -&gt; (string) The unique name of the typed link attribute. Constraints: • min: 1 • max: 230 • pattern: ^[a-zA-Z0-9._:-]*$ Range -&gt; (structure) [required] The range of attribute values that are being selected. StartMode -&gt; (string) [required] The inclusive or exclusive range start. Possible values: • FIRST • LAST • LAST_BEFORE_MISSING_VALUES • INCLUSIVE • EXCLUSIVE StartValue -&gt; (structure) The value to start the range at. StringValue -&gt; (string) A string data value. BinaryValue -&gt; (blob) A binary data value. BooleanValue -&gt; (boolean) A Boolean data value. NumberValue -&gt; (string) A number data value. DatetimeValue -&gt; (timestamp) A date and time value. EndMode -&gt; (string) [required] The inclusive or exclusive range end. Possible values: • FIRST • LAST • LAST_BEFORE_MISSING_VALUES • INCLUSIVE • EXCLUSIVE EndValue -&gt; (structure) The attribute value to terminate the range at. StringValue -&gt; (string) A string data value. BinaryValue -&gt; (blob) A binary data value. BooleanValue -&gt; (boolean) A Boolean data value. NumberValue -&gt; (string) A number data value. DatetimeValue -&gt; (timestamp) A date and time value. Shorthand Syntax: AttributeName=string,Range={StartMode=string,StartValue={StringValue=string,BinaryValue=blob,BooleanValue=boolean,NumberValue=string,DatetimeValue=timestamp},EndMode=string,EndValue={StringValue=string,BinaryValue=blob,BooleanValue=boolean,NumberValue=string,DatetimeValue=timestamp}} ... JSON Syntax: [ { "AttributeName": "string", "Range": { "StartMode": "FIRST"|"LAST"|"LAST_BEFORE_MISSING_VALUES"|"INCLUSIVE"|"EXCLUSIVE", "StartValue": { "StringValue": "string", "BinaryValue": blob, "BooleanValue": true|false, "NumberValue": "string", "DatetimeValue": timestamp }, "EndMode": "FIRST"|"LAST"|"LAST_BEFORE_MISSING_VALUES"|"INCLUSIVE"|"EXCLUSIVE", "EndValue": { "StringValue": "string", "BinaryValue": blob, "BooleanValue": true|false, "NumberValue": "string", "DatetimeValue": timestamp } } } ... ]
     /// </summary>
     [CliOption("--filter-attribute-ranges", GroupValues = true)]
     public IEnumerable<string>? FilterAttributeRanges { get; set; }
 
     /// <summary>
-    /// Filters are interpreted in the order of the attributes defined on the typed link facet, not the order they are supplied to any API calls. SchemaArn -&gt; (string) [required] The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns . TypedLinkName -&gt; (string) [required] The unique name of the typed link facet. Constraints: o pattern: ^[a-zA-Z0-9._-]*$ Shorthand Syntax: SchemaArn=string,TypedLinkName=string JSON Syntax: { "SchemaArn": "string", "TypedLinkName": "string" }
+    /// Filters are interpreted in the order of the attributes defined on the typed link facet, not the order they are supplied to any API calls. SchemaArn -&gt; (string) [required] The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns . TypedLinkName -&gt; (string) [required] The unique name of the typed link facet. Constraints: • pattern: ^[a-zA-Z0-9._-]*$ Shorthand Syntax: SchemaArn=string,TypedLinkName=string JSON Syntax: { "SchemaArn": "string", "TypedLinkName": "string" }
     /// </summary>
     [CliOption("--filter-typed-link")]
     public string? FilterTypedLink { get; set; }
 
     /// <summary>
-    /// The consistency level to execute the request at. Possible values: o SERIALIZABLE o EVENTUAL
+    /// The consistency level to execute the request at. Possible values: • SERIALIZABLE • EVENTUAL
     /// </summary>
     [CliOption("--consistency-level")]
     public AwsClouddirectoryListOutgoingTypedLinksConsistencyLevel? ConsistencyLevel { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -105,16 +104,19 @@ public record AwsClouddirectoryListOutgoingTypedLinksOptions : AwsOptions, IVali
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

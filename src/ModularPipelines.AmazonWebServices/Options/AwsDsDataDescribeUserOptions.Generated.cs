@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDsDataDescribeUserOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns information about a specific user. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The identifier (ID) of the directory that's associated with the user. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
-    /// <param name="SamAccountName">The name of the user. Constraints: o min: 1 o max: 20 o pattern: ^[\w\-.]+$</param>
+    /// <param name="DirectoryId">The identifier (ID) of the directory that's associated with the user. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="SamAccountName">The name of the user. Constraints: • min: 1 • max: 20 • pattern: ^[\w\-.]+$</param>
     public AwsDsDataDescribeUserOptions(
         string DirectoryId,
         string SamAccountName
@@ -60,25 +62,25 @@ public record AwsDsDataDescribeUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier (ID) of the directory that's associated with the user. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The identifier (ID) of the directory that's associated with the user. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// The name of the user. Constraints: o min: 1 o max: 20 o pattern: ^[\w\-.]+$
+    /// The name of the user. Constraints: • min: 1 • max: 20 • pattern: ^[\w\-.]+$
     /// </summary>
     [CliOption("--sam-account-name")]
     public string? SamAccountName { get; private init; }
 
     /// <summary>
-    /// One or more attribute names to be returned for the user. A key is an attribute name, and the value is a list of maps. For a list of sup- ported attributes, see Directory Service Data Attributes . Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 63 o pattern: ^[A-Za-z*][A-Za-z-*]*$ Syntax: "string" "string" ...
+    /// One or more attribute names to be returned for the user. A key is an attribute name, and the value is a list of maps. For a list of supported attributes, see Directory Service Data Attributes . Constraints: • min: 1 • max: 25 (string) Constraints: • min: 1 • max: 63 • pattern: ^[A-Za-z*][A-Za-z-*]*$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--other-attributes", GroupValues = true)]
     public IEnumerable<string>? OtherAttributes { get; set; }
 
     /// <summary>
-    /// The domain name that's associated with the user. NOTE: This parameter is optional, so you can return users outside your Managed Microsoft AD domain. When no value is defined, only your Managed Microsoft AD users are returned. This value is case insensitive. Constraints: o min: 1 o max: 255 o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$
+    /// The domain name that's associated with the user. NOTE: This parameter is optional, so you can return users outside your Managed Microsoft AD domain. When no value is defined, only your Managed Microsoft AD users are returned. This value is case insensitive. Constraints: • min: 1 • max: 255 • pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$
     /// </summary>
     [CliOption("--realm")]
     public string? Realm { get; set; }

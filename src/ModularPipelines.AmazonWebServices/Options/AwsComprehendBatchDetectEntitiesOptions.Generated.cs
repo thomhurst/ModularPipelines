@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Inspects the text of a batch of documents for named entities and re- turns information about them. For more information about named enti- ties, see Entities in the Comprehend Developer Guide. See also: AWS API Documentation
+/// Inspects the text of a batch of documents for named entities and returns information about them. For more information about named entities, see Entities in the Comprehend Developer Guide. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsComprehendBatchDetectEntitiesOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Inspects the text of a batch of documents for named entities and re- turns information about them. For more information about named enti- ties, see Entities in the Comprehend Developer Guide. See also: AWS API Documentation
+    /// Inspects the text of a batch of documents for named entities and returns information about them. For more information about named entities, see Entities in the Comprehend Developer Guide. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TextList">A list containing the UTF-8 encoded text of the input documents. The list can contain a maximum of 25 documents. The maximum size of each document is 5 KB. Constraints: o min: 1 (string) Constraints: o min: 1 Syntax: "string" "string" ...</param>
-    /// <param name="LanguageCode">The language of the input documents. You can specify any of the pri- mary languages supported by Amazon Comprehend. All documents must be in the same language. Possible values: o en o es o fr o de o it o pt o ar o hi o ja o ko o zh o zh-TW</param>
+    /// <param name="TextList">A list containing the UTF-8 encoded text of the input documents. The list can contain a maximum of 25 documents. The maximum size of each document is 5 KB. Constraints: • min: 1 (string) Constraints: • min: 1 Syntax: "string" "string" ...</param>
+    /// <param name="LanguageCode">The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language. Possible values: • en • es • fr • de • it • pt • ar • hi • ja • ko • zh • zh-TW</param>
     public AwsComprehendBatchDetectEntitiesOptions(
         IEnumerable<string> TextList,
         AwsComprehendBatchDetectEntitiesLanguageCode LanguageCode
@@ -71,13 +73,13 @@ public record AwsComprehendBatchDetectEntitiesOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list containing the UTF-8 encoded text of the input documents. The list can contain a maximum of 25 documents. The maximum size of each document is 5 KB. Constraints: o min: 1 (string) Constraints: o min: 1 Syntax: "string" "string" ...
+    /// A list containing the UTF-8 encoded text of the input documents. The list can contain a maximum of 25 documents. The maximum size of each document is 5 KB. Constraints: • min: 1 (string) Constraints: • min: 1 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--text-list", GroupValues = true)]
     public IEnumerable<string>? TextList { get; private init; }
 
     /// <summary>
-    /// The language of the input documents. You can specify any of the pri- mary languages supported by Amazon Comprehend. All documents must be in the same language. Possible values: o en o es o fr o de o it o pt o ar o hi o ja o ko o zh o zh-TW
+    /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language. Possible values: • en • es • fr • de • it • pt • ar • hi • ja • ko • zh • zh-TW
     /// </summary>
     [CliOption("--language-code")]
     public AwsComprehendBatchDetectEntitiesLanguageCode? LanguageCode { get; private init; }

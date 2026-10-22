@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsSnowDeviceManagementDescribeDeviceEc2InstancesOptions : AwsOpti
     /// Checks the current state of the Amazon EC2 instances. The output is similar to describeDevice , but the results are sourced from the device cache in the Amazon Web Services Cloud and include a subset of the available fields. See also: AWS API Documentation
     /// </summary>
     /// <param name="InstanceIds">A list of instance IDs associated with the managed device. (string) Syntax: "string" "string" ...</param>
-    /// <param name="ManagedDeviceId">The ID of the managed device. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ManagedDeviceId">The ID of the managed device. Constraints: • min: 1 • max: 64</param>
     public AwsSnowDeviceManagementDescribeDeviceEc2InstancesOptions(
         IEnumerable<string> InstanceIds,
         string ManagedDeviceId
@@ -77,7 +79,7 @@ public record AwsSnowDeviceManagementDescribeDeviceEc2InstancesOptions : AwsOpti
     public IEnumerable<string>? InstanceIds { get; private init; }
 
     /// <summary>
-    /// The ID of the managed device. Constraints: o min: 1 o max: 64
+    /// The ID of the managed device. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--managed-device-id")]
     public string? ManagedDeviceId { get; private init; }

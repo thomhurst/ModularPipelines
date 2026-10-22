@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBedrockGetResourcePolicyOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Gets the resource policy document for a Bedrock resource See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the Bedrock resource to which this resource policy ap- plies. Constraints: o min: 1 o max: 255</param>
+    /// <param name="ResourceArn">The ARN of the Bedrock resource to which this resource policy applies. Constraints: • min: 1 • max: 255</param>
     public AwsBedrockGetResourcePolicyOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsBedrockGetResourcePolicyOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the Bedrock resource to which this resource policy ap- plies. Constraints: o min: 1 o max: 255
+    /// The ARN of the Bedrock resource to which this resource policy applies. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +30,9 @@ public record AwsFinspaceUpdateKxClusterCodeConfigurationOptions : AwsOptions, I
     /// <summary>
     /// Allows you to update code configuration on a running cluster. By using this API you can update the code, the initialization script path, and the command line arguments for a specific cluster. The configuration that you want to update will override any existing configurations on the cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EnvironmentId">A unique identifier of the kdb environment. Constraints: o min: 1 o max: 32 o pattern: ^[a-z0-9]+$</param>
-    /// <param name="ClusterName">The name of the cluster. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$</param>
-    /// <param name="Code">The structure of the customer code available within the running cluster. s3Bucket -&gt; (string) A unique name for the S3 bucket. Constraints: o min: 3 o max: 255 o pattern: ^[a-z0-9][a-z0-9\.\-]*[a-z0-9]$ s3Key -&gt; (string) The full S3 path (excluding bucket) to the .zip file. This file contains the code that is loaded onto the cluster when it's started. Constraints: o min: 1 o max: 1024 o pattern: ^[a-zA-Z0-9\/\!\-_\.\*'\(\)]+$ s3ObjectVersion -&gt; (string) The version of an S3 object. Constraints: o min: 1 o max: 1000 Shorthand Syntax: s3Bucket=string,s3Key=string,s3ObjectVersion=string JSON Syntax: { "s3Bucket": "string", "s3Key": "string", "s3ObjectVersion": "string" }</param>
+    /// <param name="EnvironmentId">A unique identifier of the kdb environment. Constraints: • min: 1 • max: 32 • pattern: ^[a-z0-9]+$</param>
+    /// <param name="ClusterName">The name of the cluster. Constraints: • min: 3 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$</param>
+    /// <param name="Code">The structure of the customer code available within the running cluster. s3Bucket -&gt; (string) A unique name for the S3 bucket. Constraints: • min: 3 • max: 255 • pattern: ^[a-z0-9][a-z0-9\.\-]*[a-z0-9]$ s3Key -&gt; (string) The full S3 path (excluding bucket) to the .zip file. This file contains the code that is loaded onto the cluster when it's started. Constraints: • min: 1 • max: 1024 • pattern: ^[a-zA-Z0-9\/\!\-_\.\*'\(\)]+$ s3ObjectVersion -&gt; (string) The version of an S3 object. Constraints: • min: 1 • max: 1000 Shorthand Syntax: s3Bucket=string,s3Key=string,s3ObjectVersion=string JSON Syntax: { "s3Bucket": "string", "s3Key": "string", "s3ObjectVersion": "string" }</param>
     public AwsFinspaceUpdateKxClusterCodeConfigurationOptions(
         string EnvironmentId,
         string ClusterName,
@@ -65,44 +67,44 @@ public record AwsFinspaceUpdateKxClusterCodeConfigurationOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier of the kdb environment. Constraints: o min: 1 o max: 32 o pattern: ^[a-z0-9]+$
+    /// A unique identifier of the kdb environment. Constraints: • min: 1 • max: 32 • pattern: ^[a-z0-9]+$
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
 
     /// <summary>
-    /// The name of the cluster. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
+    /// The name of the cluster. Constraints: • min: 3 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
     /// </summary>
     [CliOption("--cluster-name")]
     public string? ClusterName { get; private init; }
 
     /// <summary>
-    /// The structure of the customer code available within the running cluster. s3Bucket -&gt; (string) A unique name for the S3 bucket. Constraints: o min: 3 o max: 255 o pattern: ^[a-z0-9][a-z0-9\.\-]*[a-z0-9]$ s3Key -&gt; (string) The full S3 path (excluding bucket) to the .zip file. This file contains the code that is loaded onto the cluster when it's started. Constraints: o min: 1 o max: 1024 o pattern: ^[a-zA-Z0-9\/\!\-_\.\*'\(\)]+$ s3ObjectVersion -&gt; (string) The version of an S3 object. Constraints: o min: 1 o max: 1000 Shorthand Syntax: s3Bucket=string,s3Key=string,s3ObjectVersion=string JSON Syntax: { "s3Bucket": "string", "s3Key": "string", "s3ObjectVersion": "string" }
+    /// The structure of the customer code available within the running cluster. s3Bucket -&gt; (string) A unique name for the S3 bucket. Constraints: • min: 3 • max: 255 • pattern: ^[a-z0-9][a-z0-9\.\-]*[a-z0-9]$ s3Key -&gt; (string) The full S3 path (excluding bucket) to the .zip file. This file contains the code that is loaded onto the cluster when it's started. Constraints: • min: 1 • max: 1024 • pattern: ^[a-zA-Z0-9\/\!\-_\.\*'\(\)]+$ s3ObjectVersion -&gt; (string) The version of an S3 object. Constraints: • min: 1 • max: 1000 Shorthand Syntax: s3Bucket=string,s3Key=string,s3ObjectVersion=string JSON Syntax: { "s3Bucket": "string", "s3Key": "string", "s3ObjectVersion": "string" }
     /// </summary>
     [CliOption("--code")]
     public string? Code { get; private init; }
 
     /// <summary>
-    /// A token that ensures idempotency. This token expires in 10 minutes. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-]+$
+    /// A token that ensures idempotency. This token expires in 10 minutes. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Specifies a Q program that will be run at launch of a cluster. It is a relative path within .zip file that contains the custom code, which will be loaded on the cluster. It must include the file name itself. For example, somedir/init.q . You cannot update this parameter for a NO_RESTART deployment. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\_\-\.\/\\]+$
+    /// Specifies a Q program that will be run at launch of a cluster. It is a relative path within .zip file that contains the custom code, which will be loaded on the cluster. It must include the file name itself. For example, somedir/init.q . You cannot update this parameter for a NO_RESTART deployment. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z0-9\_\-\.\/\\]+$
     /// </summary>
     [CliOption("--initialization-script")]
     public string? InitializationScript { get; set; }
 
     /// <summary>
-    /// Specifies the key-value pairs to make them available inside the cluster. You cannot update this parameter for a NO_RESTART deployment. (structure) Defines the key-value pairs to make them available inside the cluster. key -&gt; (string) The name of the key. Constraints: o min: 1 o max: 1024 o pattern: ^(?![Aa][Ww][Ss])(s|([a-zA-Z][a-zA-Z0-9_]+))|(AWS_ZIP_DE- FAULT) value -&gt; (string) The value of the key. Constraints: o min: 1 o max: 1024 o pattern: ^[a-zA-Z0-9_:./,; ]+$ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// Specifies the key-value pairs to make them available inside the cluster. You cannot update this parameter for a NO_RESTART deployment. (structure) Defines the key-value pairs to make them available inside the cluster. key -&gt; (string) The name of the key. Constraints: • min: 1 • max: 1024 • pattern: ^(?![Aa][Ww][Ss])(s|([a-zA-Z][a-zA-Z0-9_]+))|(AWS_ZIP_DEFAULT) value -&gt; (string) The value of the key. Constraints: • min: 1 • max: 1024 • pattern: ^[a-zA-Z0-9_:./,; ]+$ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--command-line-arguments", GroupValues = true)]
     public IEnumerable<string>? CommandLineArguments { get; set; }
 
     /// <summary>
-    /// The configuration that allows you to choose how you want to update the code on a cluster. deploymentStrategy -&gt; (string) [required] The type of deployment that you want on a cluster. o ROLLING This options updates the cluster by stopping the ex- iting q process and starting a new q process with updated con- figuration. o NO_RESTART This option updates the cluster without stopping the running q process. It is only available for GP type clus- ter. This option is quicker as it reduces the turn around time to update configuration on a cluster. With this deployment mode, you cannot update the initializationScript and command- LineArguments parameters. o FORCE This option updates the cluster by immediately stopping all the running processes before starting up new ones with the updated configuration. Possible values: o NO_RESTART o ROLLING o FORCE Shorthand Syntax: deploymentStrategy=string JSON Syntax: { "deploymentStrategy": "NO_RESTART"|"ROLLING"|"FORCE" }
+    /// The configuration that allows you to choose how you want to update the code on a cluster. deploymentStrategy -&gt; (string) [required] The type of deployment that you want on a cluster. • ROLLING This options updates the cluster by stopping the exiting q process and starting a new q process with updated configuration. • NO_RESTART This option updates the cluster without stopping the running q process. It is only available for GP type cluster. This option is quicker as it reduces the turn around time to update configuration on a cluster. With this deployment mode, you cannot update the initializationScript and commandLineArguments parameters. • FORCE This option updates the cluster by immediately stopping all the running processes before starting up new ones with the updated configuration. Possible values: • NO_RESTART • ROLLING • FORCE Shorthand Syntax: deploymentStrategy=string JSON Syntax: { "deploymentStrategy": "NO_RESTART"|"ROLLING"|"FORCE" }
     /// </summary>
     [CliOption("--deployment-configuration")]
     public string? DeploymentConfiguration { get; set; }

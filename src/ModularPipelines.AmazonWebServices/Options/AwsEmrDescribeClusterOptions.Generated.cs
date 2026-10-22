@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides cluster-level details including status, hardware and software configuration, VPC settings, bootstrap actions, instance groups and so on. Permissions needed for describe-cluster include elasticmapre- duce:ListBootstrapActions, elasticmapreduce:ListInstanceFleets, elas- ticmapreduce:DescribeCluster, and elasticmapreduce:ListInstanceGroups.
+/// Provides cluster-level details including status, hardware and software configuration, VPC settings, bootstrap actions, instance groups and so on. Permissions needed for describe-cluster include elasticmapreduce:ListBootstrapActions, elasticmapreduce:ListInstanceFleets, elasticmapreduce:DescribeCluster, and elasticmapreduce:ListInstanceGroups.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,9 +22,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEmrDescribeClusterOptions : AwsOptions
 {
     /// <summary>
-    /// Provides cluster-level details including status, hardware and software configuration, VPC settings, bootstrap actions, instance groups and so on. Permissions needed for describe-cluster include elasticmapre- duce:ListBootstrapActions, elasticmapreduce:ListInstanceFleets, elas- ticmapreduce:DescribeCluster, and elasticmapreduce:ListInstanceGroups.
+    /// Provides cluster-level details including status, hardware and software configuration, VPC settings, bootstrap actions, instance groups and so on. Permissions needed for describe-cluster include elasticmapreduce:ListBootstrapActions, elasticmapreduce:ListInstanceFleets, elasticmapreduce:DescribeCluster, and elasticmapreduce:ListInstanceGroups.
     /// </summary>
-    /// <param name="ClusterId">A unique string that identifies a cluster. The create-cluster com- mand returns this identifier. You can use the list-clusters command to get cluster IDs.</param>
+    /// <param name="ClusterId">A unique string that identifies a cluster. The create-cluster command returns this identifier. You can use the list-clusters command to get cluster IDs.</param>
     public AwsEmrDescribeClusterOptions(
         string ClusterId
     )
@@ -39,7 +39,7 @@ public record AwsEmrDescribeClusterOptions : AwsOptions
     }
 
     /// <summary>
-    /// A unique string that identifies a cluster. The create-cluster com- mand returns this identifier. You can use the list-clusters command to get cluster IDs.
+    /// A unique string that identifies a cluster. The create-cluster command returns this identifier. You can use the list-clusters command to get cluster IDs.
     /// </summary>
     [CliOption("--cluster-id")]
     public string ClusterId { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsKendraListTagsForResourceOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Gets a list of tags associated with a resource. Indexes, FAQs, data sources, and other resources can have tags associated with them. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the index, FAQ, data source, or other resource to get a list of tags for. For example, the ARN of an index is constructed as follows: arn:aws:kendra:your-region:your-ac- count-id:index/index-id For information on how to construct an ARN for all types of Amazon Kendra resources, see Resource types . Constraints: o min: 1 o max: 1011</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the index, FAQ, data source, or other resource to get a list of tags for. For example, the ARN of an index is constructed as follows: arn:aws:kendra:your-region:your-account-id:index/index-id For information on how to construct an ARN for all types of Amazon Kendra resources, see Resource types . Constraints: • min: 1 • max: 1011</param>
     public AwsKendraListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsKendraListTagsForResourceOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the index, FAQ, data source, or other resource to get a list of tags for. For example, the ARN of an index is constructed as follows: arn:aws:kendra:your-region:your-ac- count-id:index/index-id For information on how to construct an ARN for all types of Amazon Kendra resources, see Resource types . Constraints: o min: 1 o max: 1011
+    /// The Amazon Resource Name (ARN) of the index, FAQ, data source, or other resource to get a list of tags for. For example, the ARN of an index is constructed as follows: arn:aws:kendra:your-region:your-account-id:index/index-id For information on how to construct an ARN for all types of Amazon Kendra resources, see Resource types . Constraints: • min: 1 • max: 1011
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

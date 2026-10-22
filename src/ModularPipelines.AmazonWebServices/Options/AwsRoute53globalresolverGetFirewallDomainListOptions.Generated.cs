@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRoute53globalresolverGetFirewallDomainListOptions : AwsOptions,
     /// <summary>
     /// Retrieves information about a firewall domain list. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FirewallDomainListId">ID of the domain list. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+</param>
+    /// <param name="FirewallDomainListId">ID of the domain list. Constraints: • min: 1 • max: 64 • pattern: [-.a-zA-Z0-9]+</param>
     public AwsRoute53globalresolverGetFirewallDomainListOptions(
         string FirewallDomainListId
     )
@@ -56,7 +58,7 @@ public record AwsRoute53globalresolverGetFirewallDomainListOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID of the domain list. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+
+    /// ID of the domain list. Constraints: • min: 1 • max: 64 • pattern: [-.a-zA-Z0-9]+
     /// </summary>
     [CliOption("--firewall-domain-list-id")]
     public string? FirewallDomainListId { get; private init; }

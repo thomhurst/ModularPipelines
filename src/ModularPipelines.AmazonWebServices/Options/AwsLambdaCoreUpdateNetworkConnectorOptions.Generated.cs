@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsLambdaCoreUpdateNetworkConnectorOptions : AwsOptions, IValidata
     /// <summary>
     /// Updates the VPC configuration or operator role of an existing network connector. You can modify the subnet IDs, security group IDs, network protocol, or operator role. The connector must be in ACTIVE state to accept updates. This operation is asynchronous. The connector remains in ACTIVE state during the update existing workloads that reference this connector are not disrupted. Use GetNetworkConnector to monitor the LastUpdateStatus field, which transitions through InProgress to Successful or Fa...
     /// </summary>
-    /// <param name="Identifier">A flexible identifier that accepts a network connector ID, name, or ARN Constraints: o min: 1 o max: 140</param>
+    /// <param name="Identifier">The identifier of the network connector to update. You can specify the connector ID, name, or full ARN. Constraints: • min: 1 • max: 140</param>
     public AwsLambdaCoreUpdateNetworkConnectorOptions(
         string Identifier
     )
@@ -57,25 +59,25 @@ public record AwsLambdaCoreUpdateNetworkConnectorOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A flexible identifier that accepts a network connector ID, name, or ARN Constraints: o min: 1 o max: 140
+    /// The identifier of the network connector to update. You can specify the connector ID, name, or full ARN. Constraints: • min: 1 • max: 140
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The updated network configuration for the connector. Provide the full VpcEgressConfiguration including all subnet IDs and security group IDs this replaces the existing configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: VpcEgressConfiguration. VpcEgressConfiguration -&gt; (structure) Configuration for a VPC egress network connector. Specifies the subnets, security groups, and network protocol for routing out- bound traffic through your VPC. SubnetIds -&gt; (list) The IDs of the VPC subnets where Lambda provisions elastic network interfaces (ENIs). Specify 1 to 16 subnets. All sub- nets must be in the same VPC. Constraints: o min: 1 o max: 16 (string) Constraints: o min: 0 o max: 1024 o pattern: subnet-[0-9a-z]* SecurityGroupIds -&gt; (list) The IDs of the VPC security groups to attach to the ENIs. Specify 0 to 5 security groups. All security groups must be in the same VPC as the subnets. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 0 o max: 1024 o pattern: sg-[0-9a-zA-Z]* NetworkProtocol -&gt; (string) The network protocol for the connector. Specify IPv4 for IPv4-only networking, or DualStack for both IPv4 and IPv6. Possible values: o IPv4 o DualStack AssociatedComputeResourceTypes -&gt; (list) The types of Lambda compute resources that can use this con- nector. Currently, only MicroVm is supported. Constraints: o min: 1 o max: 1 (string) Possible values: o MicroVm Shorthand Syntax: VpcEgressConfiguration={SubnetIds=[string,string],SecurityGroupIds=[string,string],NetworkProtocol=string,AssociatedComputeResourceTypes=[string,string]} JSON Syntax: { "VpcEgressConfiguration": { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...], "NetworkProtocol": "IPv4"|"DualStack", "AssociatedComputeResourceTypes": ["MicroVm", ...] } }
+    /// The updated network configuration for the connector. Provide the full VpcEgressConfiguration including all subnet IDs and security group IDs this replaces the existing configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: VpcEgressConfiguration. VpcEgressConfiguration -&gt; (structure) Configuration for a VPC egress network connector. Specifies the subnets, security groups, and network protocol for routing outbound traffic through your VPC. SubnetIds -&gt; (list) The IDs of the VPC subnets where Lambda provisions elastic network interfaces (ENIs). Specify 1 to 16 subnets. All subnets must be in the same VPC. Constraints: • min: 1 • max: 16 (string) Constraints: • min: 0 • max: 1024 • pattern: subnet-[0-9a-z]* SecurityGroupIds -&gt; (list) The IDs of the VPC security groups to attach to the ENIs. All security groups must be in the same VPC as the subnets. Constraints: • min: 0 • max: 16 (string) Constraints: • min: 0 • max: 1024 • pattern: sg-[0-9a-zA-Z]* NetworkProtocol -&gt; (string) The network protocol for the connector. Specify IPv4 for IPv4-only networking, or DualStack for both IPv4 and IPv6. Possible values: • IPv4 • DualStack AssociatedComputeResourceTypes -&gt; (list) The types of Lambda compute resources that can use this connector. Valid values are MicroVm and WebFunction . Specify exactly one value. Constraints: • min: 1 • max: 1 (string) The type of Lambda compute resource that can use a network connector. Possible values: • MicroVm • WebFunction Shorthand Syntax: VpcEgressConfiguration={SubnetIds=[string,string],SecurityGroupIds=[string,string],NetworkProtocol=string,AssociatedComputeResourceTypes=[string,string]} JSON Syntax: { "VpcEgressConfiguration": { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...], "NetworkProtocol": "IPv4"|"DualStack", "AssociatedComputeResourceTypes": ["MicroVm"|"WebFunction", ...] } }
     /// </summary>
     [CliOption("--configuration")]
     public string? Configuration { get; set; }
 
     /// <summary>
-    /// The updated ARN of the IAM role that Lambda assumes to manage ENIs. Use this to change the operator role without recreating the connec- tor. Constraints: o min: 0 o max: 10000 o pattern: arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// The updated ARN of the IAM role that Lambda assumes to manage ENIs. Use this to change the operator role without recreating the connector. Constraints: • min: 0 • max: 10000 • pattern: arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
     /// </summary>
     [CliOption("--operator-role")]
     public string? OperatorRole { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure idempotency of the up- date request. Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier to ensure idempotency of the update request. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

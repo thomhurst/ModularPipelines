@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRedshiftDeleteHsmClientCertificateOptions : AwsOptions, IValida
     /// <summary>
     /// Deletes the specified HSM client certificate. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HsmClientCertificateIdentifier">The identifier of the HSM client certificate to be deleted. Constraints: o max: 2147483647</param>
+    /// <param name="HsmClientCertificateIdentifier">The identifier of the HSM client certificate to be deleted. Constraints: • max: 2147483647</param>
     public AwsRedshiftDeleteHsmClientCertificateOptions(
         string HsmClientCertificateIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsRedshiftDeleteHsmClientCertificateOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the HSM client certificate to be deleted. Constraints: o max: 2147483647
+    /// The identifier of the HSM client certificate to be deleted. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--hsm-client-certificate-identifier")]
     public string? HsmClientCertificateIdentifier { get; private init; }

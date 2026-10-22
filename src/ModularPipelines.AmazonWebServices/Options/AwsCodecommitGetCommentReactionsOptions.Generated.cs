@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about reactions to a specified comment ID. Reac- tions from users who have been deleted will not be included in the count. See also: AWS API Documentation
+/// Returns information about reactions to a specified comment ID. Reactions from users who have been deleted will not be included in the count. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsCodecommitGetCommentReactionsOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns information about reactions to a specified comment ID. Reac- tions from users who have been deleted will not be included in the count. See also: AWS API Documentation
+    /// Returns information about reactions to a specified comment ID. Reactions from users who have been deleted will not be included in the count. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CommentId">The ID of the comment for which you want to get reactions informa- tion.</param>
+    /// <param name="CommentId">The ID of the comment for which you want to get reactions information.</param>
     public AwsCodecommitGetCommentReactionsOptions(
         string CommentId
     )
@@ -57,7 +59,7 @@ public record AwsCodecommitGetCommentReactionsOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the comment for which you want to get reactions informa- tion.
+    /// The ID of the comment for which you want to get reactions information.
     /// </summary>
     [CliOption("--comment-id")]
     public string? CommentId { get; private init; }
@@ -76,7 +78,7 @@ public record AwsCodecommitGetCommentReactionsOptions : AwsOptions, IValidatable
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// A non-zero, non-negative integer used to limit the number of re- turned results. The default is the same as the allowed maximum, 1,000.
+    /// A non-zero, non-negative integer used to limit the number of returned results. The default is the same as the allowed maximum, 1,000.
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

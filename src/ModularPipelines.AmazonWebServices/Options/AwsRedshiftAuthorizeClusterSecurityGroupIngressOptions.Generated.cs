@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds an inbound (ingress) rule to an Amazon Redshift security group. Depending on whether the application accessing your cluster is running on the Internet or an Amazon EC2 instance, you can authorize inbound access to either a Classless Interdomain Routing (CIDR)/Internet Proto- col (IP) range or to an Amazon EC2 security group. You can add as many as 20 ingress rules to an Amazon Redshift security group. If you authorize access to an Amazon EC2 security group, specify EC2Se- curityGroupName an...
+/// Adds an inbound (ingress) rule to an Amazon Redshift security group. Depending on whether the application accessing your cluster is running on the Internet or an Amazon EC2 instance, you can authorize inbound access to either a Classless Interdomain Routing (CIDR)/Internet Protocol (IP) range or to an Amazon EC2 security group. You can add as many as 20 ingress rules to an Amazon Redshift security group. If you authorize access to an Amazon EC2 security group, specify EC2SecurityGroupName and EC...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRedshiftAuthorizeClusterSecurityGroupIngressOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds an inbound (ingress) rule to an Amazon Redshift security group. Depending on whether the application accessing your cluster is running on the Internet or an Amazon EC2 instance, you can authorize inbound access to either a Classless Interdomain Routing (CIDR)/Internet Proto- col (IP) range or to an Amazon EC2 security group. You can add as many as 20 ingress rules to an Amazon Redshift security group. If you authorize access to an Amazon EC2 security group, specify EC2Se- curityGroupName an...
+    /// Adds an inbound (ingress) rule to an Amazon Redshift security group. Depending on whether the application accessing your cluster is running on the Internet or an Amazon EC2 instance, you can authorize inbound access to either a Classless Interdomain Routing (CIDR)/Internet Protocol (IP) range or to an Amazon EC2 security group. You can add as many as 20 ingress rules to an Amazon Redshift security group. If you authorize access to an Amazon EC2 security group, specify EC2SecurityGroupName and EC...
     /// </summary>
-    /// <param name="ClusterSecurityGroupName">The name of the security group to which the ingress rule is added. Constraints: o max: 2147483647</param>
+    /// <param name="ClusterSecurityGroupName">The name of the security group to which the ingress rule is added. Constraints: • max: 2147483647</param>
     public AwsRedshiftAuthorizeClusterSecurityGroupIngressOptions(
         string ClusterSecurityGroupName
     )
@@ -56,25 +58,25 @@ public record AwsRedshiftAuthorizeClusterSecurityGroupIngressOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the security group to which the ingress rule is added. Constraints: o max: 2147483647
+    /// The name of the security group to which the ingress rule is added. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-security-group-name")]
     public string? ClusterSecurityGroupName { get; private init; }
 
     /// <summary>
-    /// The IP range to be added the Amazon Redshift security group. Constraints: o max: 2147483647
+    /// The IP range to be added the Amazon Redshift security group. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cidrip")]
     public string? Cidrip { get; set; }
 
     /// <summary>
-    /// The EC2 security group to be added the Amazon Redshift security group. Constraints: o max: 2147483647
+    /// The EC2 security group to be added the Amazon Redshift security group. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--ec2-security-group-name")]
     public string? Ec2SecurityGroupName { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services account number of the owner of the security group specified by the EC2SecurityGroupName parameter. The Amazon Web Services Access Key ID is not an acceptable value. Example: 111122223333 Constraints: o max: 2147483647
+    /// The Amazon Web Services account number of the owner of the security group specified by the EC2SecurityGroupName parameter. The Amazon Web Services Access Key ID is not an acceptable value. Example: 111122223333 Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--ec2-security-group-owner-id")]
     public string? Ec2SecurityGroupOwnerId { get; set; }

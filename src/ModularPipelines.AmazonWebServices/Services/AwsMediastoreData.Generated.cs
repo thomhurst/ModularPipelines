@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws mediastoredata commands.
+/// aws mediastore-data commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsMediastoreData : IAwsMediastoreData
@@ -77,7 +77,7 @@ public class AwsMediastoreData : IAwsMediastoreData
     }
 
     /// <summary>
-    /// Provides a list of metadata entries about folders and objects in the specified folder. See also: AWS API Documentation list-items is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Items
+    /// Provides a list of metadata entries about folders and objects in the specified folder. See also: AWS API Documentation list-items is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

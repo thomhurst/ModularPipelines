@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -29,8 +30,8 @@ public record AwsOutpostsCreateOutpostOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates an Outpost. You can specify either an Availability one or an AZ ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the Outpost. Constraints: o min: 1 o max: 255 o pattern: ^[\S ]+$</param>
-    /// <param name="SiteId">The ID or the Amazon Resource Name (ARN) of the site. Constraints: o min: 1 o max: 255 o pattern: ^(arn:aws([a-z-]+)?:out- posts:[a-z\d-]+:\d{12}:site/)?(os-[a-f0-9]{17})$</param>
+    /// <param name="Name">The name of the Outpost. Constraints: • min: 1 • max: 255 • pattern: ^[\S ]+$</param>
+    /// <param name="SiteId">The ID or the Amazon Resource Name (ARN) of the site. Constraints: • min: 1 • max: 255 • pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:site/)?(os-[a-f0-9]{17})$</param>
     public AwsOutpostsCreateOutpostOptions(
         string Name,
         string SiteId
@@ -62,43 +63,43 @@ public record AwsOutpostsCreateOutpostOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Outpost. Constraints: o min: 1 o max: 255 o pattern: ^[\S ]+$
+    /// The name of the Outpost. Constraints: • min: 1 • max: 255 • pattern: ^[\S ]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The ID or the Amazon Resource Name (ARN) of the site. Constraints: o min: 1 o max: 255 o pattern: ^(arn:aws([a-z-]+)?:out- posts:[a-z\d-]+:\d{12}:site/)?(os-[a-f0-9]{17})$
+    /// The ID or the Amazon Resource Name (ARN) of the site. Constraints: • min: 1 • max: 255 • pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:site/)?(os-[a-f0-9]{17})$
     /// </summary>
     [CliOption("--site-id")]
     public string? SiteId { get; private init; }
 
     /// <summary>
-    /// The description of the Outpost. Constraints: o min: 0 o max: 1000 o pattern: ^[\S ]*$
+    /// The description of the Outpost. Constraints: • min: 0 • max: 1000 • pattern: ^[\S ]*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The Availability Zone. Constraints: o min: 1 o max: 1000 o pattern: ^([a-zA-Z]+-){1,3}([a-zA-Z]+)?(\d+[a-zA-Z]?)?$
+    /// The Availability Zone. Constraints: • min: 1 • max: 1000 • pattern: ^([a-zA-Z]+-){1,3}([a-zA-Z]+)?(\d+[a-zA-Z]?)?$
     /// </summary>
     [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; set; }
 
     /// <summary>
-    /// The ID of the Availability Zone. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z]+\d-[a-zA-Z]+\d$
+    /// The ID of the Availability Zone. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z]+\d-[a-zA-Z]+\d$
     /// </summary>
     [CliOption("--availability-zone-id")]
     public string? AvailabilityZoneId { get; set; }
 
     /// <summary>
-    /// The tags to apply to the Outpost. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o max: 256 o pattern: ^[\S \n]+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to apply to the Outpost. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: • max: 256 • pattern: ^[\S \n]+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The type of hardware for this Outpost. Possible values: o RACK o SERVER
+    /// The type of hardware for this Outpost. Possible values: • RACK • SERVER
     /// </summary>
     [CliOption("--supported-hardware-type")]
     public AwsOutpostsCreateOutpostSupportedHardwareType? SupportedHardwareType { get; set; }

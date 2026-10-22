@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsNetworkmanagerCreateSiteToSiteVpnAttachmentOptions : AwsOptions
     /// <summary>
     /// Creates an Amazon Web Services site-to-site VPN attachment on an edge location of a core network. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CoreNetworkId">The ID of a core network where you're creating a site-to-site VPN attachment. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$</param>
-    /// <param name="VpnConnectionArn">The ARN identifying the VPN attachment. Constraints: o min: 0 o max: 500 o pattern: ^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:vpn-connec- tion\/vpn-[0-9a-f]{8,17}$</param>
+    /// <param name="CoreNetworkId">The ID of a core network where you're creating a site-to-site VPN attachment. Constraints: • min: 0 • max: 50 • pattern: ^core-network-([0-9a-f]{8,17})$</param>
+    /// <param name="VpnConnectionArn">The ARN identifying the VPN attachment. Constraints: • min: 0 • max: 500 • pattern: ^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:vpn-connection\/vpn-[0-9a-f]{8,17}$</param>
     public AwsNetworkmanagerCreateSiteToSiteVpnAttachmentOptions(
         string CoreNetworkId,
         string VpnConnectionArn
@@ -61,31 +63,31 @@ public record AwsNetworkmanagerCreateSiteToSiteVpnAttachmentOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of a core network where you're creating a site-to-site VPN attachment. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$
+    /// The ID of a core network where you're creating a site-to-site VPN attachment. Constraints: • min: 0 • max: 50 • pattern: ^core-network-([0-9a-f]{8,17})$
     /// </summary>
     [CliOption("--core-network-id")]
     public string? CoreNetworkId { get; private init; }
 
     /// <summary>
-    /// The ARN identifying the VPN attachment. Constraints: o min: 0 o max: 500 o pattern: ^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:vpn-connec- tion\/vpn-[0-9a-f]{8,17}$
+    /// The ARN identifying the VPN attachment. Constraints: • min: 0 • max: 500 • pattern: ^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:vpn-connection\/vpn-[0-9a-f]{8,17}$
     /// </summary>
     [CliOption("--vpn-connection-arn")]
     public string? VpnConnectionArn { get; private init; }
 
     /// <summary>
-    /// The routing policy label to apply to the Site-to-Site VPN attachment for traffic routing decisions. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// The routing policy label to apply to the Site-to-Site VPN attachment for traffic routing decisions. Constraints: • min: 0 • max: 256 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--routing-policy-label")]
     public string? RoutingPolicyLabel { get; set; }
 
     /// <summary>
-    /// The tags associated with the request. (structure) Describes a tag. Key -&gt; (string) The tag key. Constraints: Maximum length of 128 characters. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]* Value -&gt; (string) The tag value. Constraints: Maximum length of 256 characters. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags associated with the request. (structure) Describes a tag. Key -&gt; (string) The tag key. Constraints: Maximum length of 128 characters. Constraints: • min: 0 • max: 10000000 • pattern: [\s\S]* Value -&gt; (string) The tag value. Constraints: Maximum length of 256 characters. Constraints: • min: 0 • max: 10000000 • pattern: [\s\S]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The client token associated with the request. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// The client token associated with the request. Constraints: • min: 0 • max: 256 • pattern: [\s\S]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

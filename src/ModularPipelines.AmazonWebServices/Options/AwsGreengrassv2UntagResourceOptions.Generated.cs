@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsGreengrassv2UntagResourceOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Removes a tag from an IoT Greengrass resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource to untag. Constraints: o pattern: arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):(components|de- ployments|coreDevices):.*</param>
-    /// <param name="TagKeys">A list of keys for tags to remove from the resource. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The ARN of the resource to untag. Constraints: • pattern: arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):(components|deployments|coreDevices):.*</param>
+    /// <param name="TagKeys">A list of keys for tags to remove from the resource. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
     public AwsGreengrassv2UntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsGreengrassv2UntagResourceOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource to untag. Constraints: o pattern: arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):(components|de- ployments|coreDevices):.*
+    /// The ARN of the resource to untag. Constraints: • pattern: arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):(components|deployments|coreDevices):.*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A list of keys for tags to remove from the resource. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// A list of keys for tags to remove from the resource. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

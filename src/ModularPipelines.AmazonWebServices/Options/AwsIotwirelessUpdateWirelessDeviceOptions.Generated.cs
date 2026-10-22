@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsIotwirelessUpdateWirelessDeviceOptions : AwsOptions, IValidatab
     /// <summary>
     /// Updates properties of a wireless device. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the resource to update. Constraints: o max: 256</param>
+    /// <param name="Id">The ID of the resource to update. Constraints: • max: 256</param>
     public AwsIotwirelessUpdateWirelessDeviceOptions(
         string Id
     )
@@ -57,43 +59,43 @@ public record AwsIotwirelessUpdateWirelessDeviceOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the resource to update. Constraints: o max: 256
+    /// The ID of the resource to update. Constraints: • max: 256
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The name of the new destination for the device. Constraints: o max: 128 o pattern: [a-zA-Z0-9-_]+
+    /// The name of the new destination for the device. Constraints: • max: 128 • pattern: [a-zA-Z0-9-_]+
     /// </summary>
     [CliOption("--destination-name")]
     public string? DestinationName { get; set; }
 
     /// <summary>
-    /// The new name of the resource. NOTE: The following special characters aren't accepted: &lt;&gt;^#~$ Constraints: o max: 256
+    /// The new name of the resource. NOTE: The following special characters aren't accepted: &lt;&gt;^#~$ Constraints: • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A new description of the resource. Constraints: o max: 2048
+    /// A new description of the resource. Constraints: • max: 2048
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The integration status of the Device Location feature for LoRaWAN and Sidewalk devices. Possible values: o Enabled o Disabled
+    /// The integration status of the Device Location feature for LoRaWAN and Sidewalk devices. Possible values: • Enabled • Disabled
     /// </summary>
     [CliOption("--positioning")]
     public AwsIotwirelessUpdateWirelessDevicePositioning? Positioning { get; set; }
 
     /// <summary>
-    /// The updated sidewalk properties. Positioning -&gt; (structure) The Positioning object of the Sidewalk device. DestinationName -&gt; (string) The location destination name of the Sidewalk device. Constraints: o max: 128 o pattern: [a-zA-Z0-9-_]+ Shorthand Syntax: Positioning={DestinationName=string} JSON Syntax: { "Positioning": { "DestinationName": "string" } }
+    /// The updated sidewalk properties. Positioning -&gt; (structure) The Positioning object of the Sidewalk device. DestinationName -&gt; (string) The location destination name of the Sidewalk device. Constraints: • max: 128 • pattern: [a-zA-Z0-9-_]+ Shorthand Syntax: Positioning={DestinationName=string} JSON Syntax: { "Positioning": { "DestinationName": "string" } }
     /// </summary>
     [CliOption("--sidewalk")]
     public string? Sidewalk { get; set; }
 
     /// <summary>
-    /// The updated wireless device's configuration. DeviceProfileId -&gt; (string) The ID of the device profile for the wireless device. Constraints: o max: 256 ServiceProfileId -&gt; (string) The ID of the service profile. Constraints: o max: 256 AbpV1_1 -&gt; (structure) ABP device object for update APIs for v1.1 FCntStart -&gt; (integer) The FCnt init value. Constraints: o min: 0 o max: 65535 AbpV1_0_x -&gt; (structure) ABP device object for update APIs for v1.0.x FCntStart -&gt; (integer) The FCnt init value. Constraints: o min: 0 o max: 65535 FPorts -&gt; (structure) FPorts object for the positioning information of the device. Positioning -&gt; (structure) Positioning FPorts for the ClockSync, Stream, and GNSS func- tions. ClockSync -&gt; (integer) The Fport value. Constraints: o min: 1 o max: 223 Stream -&gt; (integer) The Fport value. Constraints: o min: 1 o max: 223 Gnss -&gt; (integer) The Fport value. Constraints: o min: 1 o max: 223 Applications -&gt; (list) LoRaWAN application, which can be used for geolocation by ac- tivating positioning. (structure) LoRaWAN application configuration, which can be used to perform geolocation. FPort -&gt; (integer) The Fport value. Constraints: o min: 1 o max: 223 Type -&gt; (string) Application type, which can be specified to obtain real-time position information of your LoRaWAN device. Possible values: o SemtechGeolocation DestinationName -&gt; (string) The name of the position data destination that de- scribes the AWS IoT rule that processes the device's position data for use by AWS IoT Core for LoRaWAN. Constraints: o max: 128 o pattern: [a-zA-Z0-9-_]+ JSON Syntax: { "DeviceProfileId": "string", "ServiceProfileId": "string", "AbpV1_1": { "FCntStart": integer }, "AbpV1_0_x": { "FCntStart": integer }, "FPorts": { "Positioning": { "ClockSync": integer, "Stream": integer, "Gnss": integer }, "Applications": [ { "FPort": integer, "Type": "SemtechGeolocation", "DestinationName": "string" } ... ] } }
+    /// The updated wireless device's configuration. DeviceProfileId -&gt; (string) The ID of the device profile for the wireless device. Constraints: • max: 256 ServiceProfileId -&gt; (string) The ID of the service profile. Constraints: • max: 256 AbpV1_1 -&gt; (structure) ABP device object for update APIs for v1.1 FCntStart -&gt; (integer) The FCnt init value. Constraints: • min: 0 • max: 65535 AbpV1_0_x -&gt; (structure) ABP device object for update APIs for v1.0.x FCntStart -&gt; (integer) The FCnt init value. Constraints: • min: 0 • max: 65535 FPorts -&gt; (structure) FPorts object for the positioning information of the device. Positioning -&gt; (structure) Positioning FPorts for the ClockSync, Stream, and GNSS functions. ClockSync -&gt; (integer) The Fport value. Constraints: • min: 1 • max: 223 Stream -&gt; (integer) The Fport value. Constraints: • min: 1 • max: 223 Gnss -&gt; (integer) The Fport value. Constraints: • min: 1 • max: 223 Applications -&gt; (list) LoRaWAN application, which can be used for geolocation by activating positioning. (structure) LoRaWAN application configuration, which can be used to perform geolocation. FPort -&gt; (integer) The Fport value. Constraints: • min: 1 • max: 223 Type -&gt; (string) Application type, which can be specified to obtain real-time position information of your LoRaWAN device. Possible values: • SemtechGeolocation DestinationName -&gt; (string) The name of the position data destination that describes the AWS IoT rule that processes the device's position data for use by AWS IoT Core for LoRaWAN. Constraints: • max: 128 • pattern: [a-zA-Z0-9-_]+ JSON Syntax: { "DeviceProfileId": "string", "ServiceProfileId": "string", "AbpV1_1": { "FCntStart": integer }, "AbpV1_0_x": { "FCntStart": integer }, "FPorts": { "Positioning": { "ClockSync": integer, "Stream": integer, "Gnss": integer }, "Applications": [ { "FPort": integer, "Type": "SemtechGeolocation", "DestinationName": "string" } ... ] } }
     /// </summary>
     [CliOption("--lorawan")]
     public string? Lorawan { get; set; }

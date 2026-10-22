@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsLambdaGetCapacityProviderOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Retrieves information about a specific capacity provider, including its configuration, state, and associated resources. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CapacityProviderName">The name of the capacity provider to retrieve. Constraints: o min: 1 o max: 140 o pattern: (arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:ca- pacity-provider:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+</param>
+    /// <param name="CapacityProviderName">The name of the capacity provider to retrieve. Constraints: • min: 1 • max: 140 • pattern: (arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:capacity-provider:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+</param>
     public AwsLambdaGetCapacityProviderOptions(
         string CapacityProviderName
     )
@@ -56,7 +58,7 @@ public record AwsLambdaGetCapacityProviderOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the capacity provider to retrieve. Constraints: o min: 1 o max: 140 o pattern: (arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:ca- pacity-provider:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+
+    /// The name of the capacity provider to retrieve. Constraints: • min: 1 • max: 140 • pattern: (arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:capacity-provider:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+
     /// </summary>
     [CliOption("--capacity-provider-name")]
     public string? CapacityProviderName { get; private init; }

@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Searches for the fixtures (sports events, such as a specific basketball game) that are available for a sport in a date window. Each fixture in the response includes a fixtureId that you specify in the clipping out- put of a feed, so that Elemental Inference maps the event data for that fixture onto the clipping metadata. This operation is paginated: if there are more fixtures than fit in one page, the response includes a nextToken that you pass in a subsequent request. See also: AWS API Document...
+/// Searches for the fixtures (sports events, such as a specific basketball game) that are available for a sport in a date window. Each fixture in the response includes a fixtureId that you specify in the clipping output of a feed, so that Elemental Inference maps the event data for that fixture onto the clipping metadata. This operation is paginated: if there are more fixtures than fit in one page, the response includes a nextToken that you pass in a subsequent request. See also: AWS API Documentat...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsElementalinferenceSearchFixturesOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Searches for the fixtures (sports events, such as a specific basketball game) that are available for a sport in a date window. Each fixture in the response includes a fixtureId that you specify in the clipping out- put of a feed, so that Elemental Inference maps the event data for that fixture onto the clipping metadata. This operation is paginated: if there are more fixtures than fit in one page, the response includes a nextToken that you pass in a subsequent request. See also: AWS API Document...
+    /// Searches for the fixtures (sports events, such as a specific basketball game) that are available for a sport in a date window. Each fixture in the response includes a fixtureId that you specify in the clipping output of a feed, so that Elemental Inference maps the event data for that fixture onto the clipping metadata. This operation is paginated: if there are more fixtures than fit in one page, the response includes a nextToken that you pass in a subsequent request. See also: AWS API Documentat...
     /// </summary>
-    /// <param name="Sport">The sport to search for fixtures. Valid values: basketball (search for basketball fixtures), american-football (search for ameri- can-football fixtures). Possible values: o basketball o american-football</param>
-    /// <param name="StartDate">The first day of the search window, in UTC. The search includes fix- tures that are scheduled on this day. Specify the date in ISO 8601 format, as YYYY-MM-DD . For example, 2026-03-14. Constraints: o pattern: \d{4}-\d{2}-\d{2}</param>
+    /// <param name="Sport">The sport to search for fixtures. Valid values: basketball (search for basketball fixtures), american-football (search for american-football fixtures). Possible values: • basketball • american-football</param>
+    /// <param name="StartDate">The first day of the search window, in UTC. The search includes fixtures that are scheduled on this day. Specify the date in ISO 8601 format, as YYYY-MM-DD . For example, 2026-03-14. Constraints: • pattern: \d{4}-\d{2}-\d{2}</param>
     public AwsElementalinferenceSearchFixturesOptions(
         string Sport,
         string StartDate
@@ -61,34 +63,31 @@ public record AwsElementalinferenceSearchFixturesOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The sport to search for fixtures. Valid values: basketball (search for basketball fixtures), american-football (search for ameri- can-football fixtures). Possible values: o basketball o american-football
+    /// The sport to search for fixtures. Valid values: basketball (search for basketball fixtures), american-football (search for american-football fixtures). Possible values: • basketball • american-football
     /// </summary>
     [CliOption("--sport")]
     public string? Sport { get; private init; }
 
     /// <summary>
-    /// The first day of the search window, in UTC. The search includes fix- tures that are scheduled on this day. Specify the date in ISO 8601 format, as YYYY-MM-DD . For example, 2026-03-14. Constraints: o pattern: \d{4}-\d{2}-\d{2}
+    /// The first day of the search window, in UTC. The search includes fixtures that are scheduled on this day. Specify the date in ISO 8601 format, as YYYY-MM-DD . For example, 2026-03-14. Constraints: • pattern: \d{4}-\d{2}-\d{2}
     /// </summary>
     [CliOption("--start-date")]
     public string? StartDate { get; private init; }
 
     /// <summary>
-    /// The last day of the search window, in UTC. The search includes fix- tures that are scheduled on this day. Specify the date in ISO 8601 format, as YYYY-MM-DD . If you omit this parameter, Elemental Inference searches only the day that you specified in startDate. The window from startDate through endDate must not exceed seven days. Constraints: o pattern: \d{4}-\d{2}-\d{2}
+    /// The last day of the search window, in UTC. The search includes fixtures that are scheduled on this day. Specify the date in ISO 8601 format, as YYYY-MM-DD . If you omit this parameter, Elemental Inference searches only the day that you specified in startDate. The window from startDate through endDate must not exceed seven days. Constraints: • pattern: \d{4}-\d{2}-\d{2}
     /// </summary>
     [CliOption("--end-date")]
     public string? EndDate { get; set; }
 
     /// <summary>
-    /// An array of filters that narrow the results. Each filter applies to one dimension of a fixture, such as the competitor. You can specify up to 10 filters. A fixture must satisfy every filter in the array in order to appear in the results. Within one filter, a fixture must match at least one of the values. Constraints: o min: 0 o max: 10 (structure) A filter for a fixture search. It is used in the filters array of a SearchFixtures request. name -&gt; (string) [required] The dimension of the fixture to filter on. Valid values: COM- PETITOR. Possible values: o COMPETITOR values -&gt; (list) [required] An array of values to match in the dimension that you speci- fied in name. You can specify up to 10 values. A fixture ap- pears in the results if it matches at least one of these val- ues. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "COMPETITOR", "values": ["string", ...] } ... ]
+    /// An array of filters that narrow the results. Each filter applies to one dimension of a fixture, such as the competitor. You can specify up to 10 filters. A fixture must satisfy every filter in the array in order to appear in the results. Within one filter, a fixture must match at least one of the values. Constraints: • min: 0 • max: 10 (structure) A filter for a fixture search. It is used in the filters array of a SearchFixtures request. name -&gt; (string) [required] The dimension of the fixture to filter on. Valid values: COMPETITOR. Possible values: • COMPETITOR values -&gt; (list) [required] An array of values to match in the dimension that you specified in name. You can specify up to 10 values. A fixture appears in the results if it matches at least one of these values. Constraints: • min: 0 • max: 10 (string) Constraints: • min: 1 • max: 256 Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "COMPETITOR", "values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -98,16 +97,19 @@ public record AwsElementalinferenceSearchFixturesOptions : AwsOptions, IValidata
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

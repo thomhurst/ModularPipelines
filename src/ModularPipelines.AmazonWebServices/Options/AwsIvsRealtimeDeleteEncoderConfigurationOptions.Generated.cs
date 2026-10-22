@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIvsRealtimeDeleteEncoderConfigurationOptions : AwsOptions, IVal
     /// <summary>
     /// Deletes an EncoderConfiguration resource. Ensures that no Compositions are using this template; otherwise, returns an error. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">ARN of the EncoderConfiguration. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:encoder-configura- tion/[a-zA-Z0-9-]+</param>
+    /// <param name="Arn">ARN of the EncoderConfiguration. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:encoder-configuration/[a-zA-Z0-9-]+</param>
     public AwsIvsRealtimeDeleteEncoderConfigurationOptions(
         string Arn
     )
@@ -56,7 +58,7 @@ public record AwsIvsRealtimeDeleteEncoderConfigurationOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of the EncoderConfiguration. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:encoder-configura- tion/[a-zA-Z0-9-]+
+    /// ARN of the EncoderConfiguration. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:encoder-configuration/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }

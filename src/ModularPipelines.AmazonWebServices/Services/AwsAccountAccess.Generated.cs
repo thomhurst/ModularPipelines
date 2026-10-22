@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws accountaccess commands.
+/// aws account-access commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsAccountAccess : IAwsAccountAccess
@@ -33,7 +33,7 @@ public class AwsAccountAccess : IAwsAccountAccess
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws account-access wait sub-commands.
     /// </summary>
     public AwsAccountAccessWait Wait => _wait ??= new AwsAccountAccessWait(_command);
 
@@ -42,7 +42,7 @@ public class AwsAccountAccess : IAwsAccountAccess
     #region Commands
 
     /// <summary>
-    /// Creates an account access manager instance and its Amazon Web Services account access application in the associated IAM Identity Center in- stance. This operation is idempotent; calling it multiple times with the same parameters returns the existing application. See also: AWS API Documentation
+    /// Creates an account access manager instance and its Amazon Web Services account access application in the associated IAM Identity Center instance. This operation is idempotent; calling it multiple times with the same parameters returns the existing application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -57,7 +57,7 @@ public class AwsAccountAccess : IAwsAccountAccess
     }
 
     /// <summary>
-    /// Creates an entitlement (assignment) in account access manager. An enti- tlement (assignment) grants a principal (IAM Identity Center user or group) permission to assume a specified IAM role in an Amazon Web Ser- vices account. This operation is idempotent. See also: AWS API Documentation
+    /// Creates an entitlement (assignment) in account access manager. An entitlement (assignment) grants a principal (IAM Identity Center user or group) permission to assume a specified IAM role in an Amazon Web Services account. This operation is idempotent. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -72,7 +72,7 @@ public class AwsAccountAccess : IAwsAccountAccess
     }
 
     /// <summary>
-    /// Deletes an account access manager application. This operation is idem- potent; deleting an application that has already been deleted does not return an error. See also: AWS API Documentation
+    /// Deletes an account access manager application. This operation is idempotent; deleting an application that has already been deleted does not return an error. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -102,7 +102,7 @@ public class AwsAccountAccess : IAwsAccountAccess
     }
 
     /// <summary>
-    /// Retrieves details about an account access manager application, includ- ing its status, identity source, and tags. See also: AWS API Documentation
+    /// Retrieves details about an account access manager application, including its status, identity source, and tags. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -117,7 +117,7 @@ public class AwsAccountAccess : IAwsAccountAccess
     }
 
     /// <summary>
-    /// Retrieves details about a specific entitlement for an account access manager application, including the principal, IAM role, and target ac- count. See also: AWS API Documentation
+    /// Retrieves details about a specific entitlement for an account access manager application, including the principal, IAM role, and target account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -132,7 +132,7 @@ public class AwsAccountAccess : IAwsAccountAccess
     }
 
     /// <summary>
-    /// Lists the account access manager applications in your account. Use pag- ination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resu...
+    /// Lists the account access manager applications in your account. Use pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the result...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -147,7 +147,7 @@ public class AwsAccountAccess : IAwsAccountAccess
     }
 
     /// <summary>
-    /// Lists the entitlements for a specified account access manager applica- tion. You can filter results by principal, IAM role, or account. Use pagination to ensure that the operation returns quickly and success- fully. See also: AWS API Documentation list-entitlements is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a...
+    /// Lists the entitlements for a specified account access manager application. You can filter results by principal, IAM role, or account. Use pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-entitlements is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pag...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

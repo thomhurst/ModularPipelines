@@ -50,7 +50,7 @@ public record AwsCloudfrontGetConnectionFunctionOptions : AwsOptions
     public string Identifier { get; private init; }
 
     /// <summary>
-    /// The connection function's stage. Possible values: o DEVELOPMENT o LIVE outfile (string) [required] Filename where the content will be saved
+    /// The connection function's stage. Possible values: • DEVELOPMENT • LIVE outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--stage")]
     public string? Stage { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns temporary credentials for a space in an organization member ac- count. The credentials are valid for one hour. The caller must be the organization's management account or a delegated administrator with access to the target space. The target account must be an active member of the same organization as the domain, and the space must already exist. See also: AWS API Documentation
+/// Returns temporary credentials for a space in an organization member account. The credentials are valid for one hour. The caller must be the organization's management account or a delegated administrator with access to the target space. The target account must be an active member of the same organization as the domain, and the space must already exist. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsCloudwatchomniGetSpaceCredentialsForOrganizationOptions : AwsOp
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns temporary credentials for a space in an organization member ac- count. The credentials are valid for one hour. The caller must be the organization's management account or a delegated administrator with access to the target space. The target account must be an active member of the same organization as the domain, and the space must already exist. See also: AWS API Documentation
+    /// Returns temporary credentials for a space in an organization member account. The credentials are valid for one hour. The caller must be the organization's management account or a delegated administrator with access to the target space. The target account must be an active member of the same organization as the domain, and the space must already exist. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Context">Context for credential resolution. spaceId -&gt; (string) The ID of an existing space to return credentials for. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} domainId -&gt; (string) The ID of the domain, when returning credentials for a target account that does not yet have a space. Constraints: o pattern: d-[0-9a-z]{1,25} targetAccountId -&gt; (string) The ID of the target member account. Required when domainId is set. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} Shorthand Syntax: spaceId=string,domainId=string,targetAccountId=string JSON Syntax: { "spaceId": "string", "domainId": "string", "targetAccountId": "string" }</param>
-    /// <param name="CredentialType">Selects which member-account credential to return. Set this to SPACE_OPERATION. Possible values: o SPACE_OPERATION</param>
+    /// <param name="Context">Context for credential resolution. spaceId -&gt; (string) The ID of an existing space to return credentials for. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} domainId -&gt; (string) The ID of the domain, when returning credentials for a target account that does not yet have a space. Constraints: • pattern: d-[0-9a-z]{1,25} targetAccountId -&gt; (string) The ID of the target member account. Required when domainId is set. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12} Shorthand Syntax: spaceId=string,domainId=string,targetAccountId=string JSON Syntax: { "spaceId": "string", "domainId": "string", "targetAccountId": "string" }</param>
+    /// <param name="CredentialType">Selects which member-account credential to return. Set this to SPACE_OPERATION. Possible values: • SPACE_OPERATION</param>
     public AwsCloudwatchomniGetSpaceCredentialsForOrganizationOptions(
         string Context,
         string CredentialType
@@ -60,13 +62,13 @@ public record AwsCloudwatchomniGetSpaceCredentialsForOrganizationOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Context for credential resolution. spaceId -&gt; (string) The ID of an existing space to return credentials for. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} domainId -&gt; (string) The ID of the domain, when returning credentials for a target account that does not yet have a space. Constraints: o pattern: d-[0-9a-z]{1,25} targetAccountId -&gt; (string) The ID of the target member account. Required when domainId is set. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} Shorthand Syntax: spaceId=string,domainId=string,targetAccountId=string JSON Syntax: { "spaceId": "string", "domainId": "string", "targetAccountId": "string" }
+    /// Context for credential resolution. spaceId -&gt; (string) The ID of an existing space to return credentials for. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} domainId -&gt; (string) The ID of the domain, when returning credentials for a target account that does not yet have a space. Constraints: • pattern: d-[0-9a-z]{1,25} targetAccountId -&gt; (string) The ID of the target member account. Required when domainId is set. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12} Shorthand Syntax: spaceId=string,domainId=string,targetAccountId=string JSON Syntax: { "spaceId": "string", "domainId": "string", "targetAccountId": "string" }
     /// </summary>
     [CliOption("--context")]
     public string? Context { get; private init; }
 
     /// <summary>
-    /// Selects which member-account credential to return. Set this to SPACE_OPERATION. Possible values: o SPACE_OPERATION
+    /// Selects which member-account credential to return. Set this to SPACE_OPERATION. Possible values: • SPACE_OPERATION
     /// </summary>
     [CliOption("--credential-type")]
     public string? CredentialType { get; private init; }

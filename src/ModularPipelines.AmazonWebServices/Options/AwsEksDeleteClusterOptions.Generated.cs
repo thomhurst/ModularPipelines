@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an Amazon EKS cluster control plane. If you have active services and ingress resources in your cluster that are associated with a load balancer, you must delete those services be- fore deleting the cluster so that the load balancers are deleted prop- erly. Otherwise, you can have orphaned resources in your VPC that pre- vent you from being able to delete the VPC. For more information, see Deleting a cluster in the Amazon EKS User Guide . If you have managed node groups or Fargate profile...
+/// Deletes an Amazon EKS cluster control plane. If you have active services and ingress resources in your cluster that are associated with a load balancer, you must delete those services before deleting the cluster so that the load balancers are deleted properly. Otherwise, you can have orphaned resources in your VPC that prevent you from being able to delete the VPC. For more information, see Deleting a cluster in the Amazon EKS User Guide . If you have managed node groups or Fargate profiles atta...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsEksDeleteClusterOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an Amazon EKS cluster control plane. If you have active services and ingress resources in your cluster that are associated with a load balancer, you must delete those services be- fore deleting the cluster so that the load balancers are deleted prop- erly. Otherwise, you can have orphaned resources in your VPC that pre- vent you from being able to delete the VPC. For more information, see Deleting a cluster in the Amazon EKS User Guide . If you have managed node groups or Fargate profile...
+    /// Deletes an Amazon EKS cluster control plane. If you have active services and ingress resources in your cluster that are associated with a load balancer, you must delete those services before deleting the cluster so that the load balancers are deleted properly. Otherwise, you can have orphaned resources in your VPC that prevent you from being able to delete the VPC. For more information, see Deleting a cluster in the Amazon EKS User Guide . If you have managed node groups or Fargate profiles atta...
     /// </summary>
     /// <param name="Name">The name of the cluster to delete.</param>
     public AwsEksDeleteClusterOptions(

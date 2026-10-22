@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the authorization details for a specific access denied re- quest. The details include the request context, the evaluations per- formed, and the policies that were evaluated. Use this operation to understand why a request was denied. Supported services include an authorization ID in the access denied error mes- sage. Pass that ID to this operation to retrieve the details. Authorization details are available for at least 24 hours after the de- nial. To use this operation, you must have t...
+/// Retrieves the authorization details for a specific access denied request. The details include the request context, the evaluations performed, and the policies that were evaluated. Use this operation to understand why a request was denied. Supported services include an authorization ID in the access denied error message. Pass that ID to this operation to retrieve the details. Authorization details are available for at least 24 hours after the denial. To use this operation, you must have the iam:G...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsIamToolboxGetRequestAuthorizationDetailsOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the authorization details for a specific access denied re- quest. The details include the request context, the evaluations per- formed, and the policies that were evaluated. Use this operation to understand why a request was denied. Supported services include an authorization ID in the access denied error mes- sage. Pass that ID to this operation to retrieve the details. Authorization details are available for at least 24 hours after the de- nial. To use this operation, you must have t...
+    /// Retrieves the authorization details for a specific access denied request. The details include the request context, the evaluations performed, and the policies that were evaluated. Use this operation to understand why a request was denied. Supported services include an authorization ID in the access denied error message. Pass that ID to this operation to retrieve the details. Authorization details are available for at least 24 hours after the denial. To use this operation, you must have the iam:G...
     /// </summary>
-    /// <param name="AuthorizationId">The authorization ID received in the access denied error message. This ID identifies the specific request to retrieve details for. Constraints: o pattern: [0123456789abcdefghijklmnopqrstuvwxyz]+</param>
+    /// <param name="AuthorizationId">The authorization ID received in the access denied error message. This ID identifies the specific request to retrieve details for. Constraints: • pattern: [0123456789abcdefghijklmnopqrstuvwxyz]+</param>
     public AwsIamToolboxGetRequestAuthorizationDetailsOptions(
         string AuthorizationId
     )
@@ -57,16 +59,13 @@ public record AwsIamToolboxGetRequestAuthorizationDetailsOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The authorization ID received in the access denied error message. This ID identifies the specific request to retrieve details for. Constraints: o pattern: [0123456789abcdefghijklmnopqrstuvwxyz]+
+    /// The authorization ID received in the access denied error message. This ID identifies the specific request to retrieve details for. Constraints: • pattern: [0123456789abcdefghijklmnopqrstuvwxyz]+
     /// </summary>
     [CliOption("--authorization-id")]
     public string? AuthorizationId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -76,10 +75,13 @@ public record AwsIamToolboxGetRequestAuthorizationDetailsOptions : AwsOptions, I
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

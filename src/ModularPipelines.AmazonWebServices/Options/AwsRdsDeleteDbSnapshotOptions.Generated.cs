@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a DB snapshot. If the snapshot is being copied, the copy opera- tion is terminated. NOTE: The DB snapshot must be in the available state to be deleted. See also: AWS API Documentation
+/// Deletes a DB snapshot. If the snapshot is being copied, the copy operation is terminated. NOTE: The DB snapshot must be in the available state to be deleted. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsRdsDeleteDbSnapshotOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a DB snapshot. If the snapshot is being copied, the copy opera- tion is terminated. NOTE: The DB snapshot must be in the available state to be deleted. See also: AWS API Documentation
+    /// Deletes a DB snapshot. If the snapshot is being copied, the copy operation is terminated. NOTE: The DB snapshot must be in the available state to be deleted. See also: AWS API Documentation
     /// </summary>
     /// <param name="DbSnapshotIdentifier">The DB snapshot identifier. Constraints: Must be the name of an existing DB snapshot in the available state.</param>
     public AwsRdsDeleteDbSnapshotOptions(

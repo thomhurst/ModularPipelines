@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -18,7 +19,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Create a new cluster. A cluster is a set of redundant Regional end- points against which you can run API calls to update or get the state of one or more routing controls. Each cluster has a name, status, Ama- zon Resource Name (ARN), and an array of the five cluster endpoints (one for each supported Amazon Web Services Region) that you can use with API calls to the cluster data plane. See also: AWS API Documentation
+/// Create a new cluster. A cluster is a set of redundant Regional endpoints against which you can run API calls to update or get the state of one or more routing controls. Each cluster has a name, status, Amazon Resource Name (ARN), and an array of the five cluster endpoints (one for each supported Amazon Web Services Region) that you can use with API calls to the cluster data plane. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,9 +29,9 @@ public record AwsRoute53RecoveryControlConfigCreateClusterOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Create a new cluster. A cluster is a set of redundant Regional end- points against which you can run API calls to update or get the state of one or more routing controls. Each cluster has a name, status, Ama- zon Resource Name (ARN), and an array of the five cluster endpoints (one for each supported Amazon Web Services Region) that you can use with API calls to the cluster data plane. See also: AWS API Documentation
+    /// Create a new cluster. A cluster is a set of redundant Regional endpoints against which you can run API calls to update or get the state of one or more routing controls. Each cluster has a name, status, Amazon Resource Name (ARN), and an array of the five cluster endpoints (one for each supported Amazon Web Services Region) that you can use with API calls to the cluster data plane. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterName">The name of the cluster. Constraints: o min: 1 o max: 64 o pattern: ^\S+$</param>
+    /// <param name="ClusterName">The name of the cluster. Constraints: • min: 1 • max: 64 • pattern: ^\S+$</param>
     public AwsRoute53RecoveryControlConfigCreateClusterOptions(
         string ClusterName
     )
@@ -59,26 +60,26 @@ public record AwsRoute53RecoveryControlConfigCreateClusterOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the cluster. Constraints: o min: 1 o max: 64 o pattern: ^\S+$
+    /// The name of the cluster. Constraints: • min: 1 • max: 64 • pattern: ^\S+$
     /// </summary>
     [CliOption("--cluster-name")]
     public string? ClusterName { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive string of up to 64 ASCII characters. To make an idempotent API request with an action, specify a client to- ken in the request. Constraints: o min: 1 o max: 64 o pattern: ^\S+$
+    /// A unique, case-sensitive string of up to 64 ASCII characters. To make an idempotent API request with an action, specify a client token in the request. Constraints: • min: 1 • max: 64 • pattern: ^\S+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The tags associated with the cluster. key -&gt; (string) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^\S+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags associated with the cluster. key -&gt; (string) value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ^\S+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The network type of the cluster. NetworkType can be one of the fol- lowing: IPV4, DUALSTACK. Possible values: o IPV4 o DUALSTACK
+    /// The network type of the cluster. NetworkType can be one of the following: IPV4, DUALSTACK. Possible values: • IPV4 • DUALSTACK
     /// </summary>
     [CliOption("--network-type")]
     public AwsRoute53RecoveryControlConfigCreateClusterNetworkType? NetworkType { get; set; }

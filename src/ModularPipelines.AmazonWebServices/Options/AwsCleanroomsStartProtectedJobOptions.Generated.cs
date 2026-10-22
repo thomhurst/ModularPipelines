@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsCleanroomsStartProtectedJobOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Creates a protected job that is started by Clean Rooms. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Type">The type of protected job to start. Possible values: o PYSPARK</param>
-    /// <param name="MembershipIdentifier">A unique identifier for the membership to run this job against. Cur- rently accepts a membership ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="JobParameters">The job parameters. analysisTemplateArn -&gt; (string) [required] The ARN of the analysis template. Constraints: o min: 0 o max: 200 o pattern: arn:aws[-a-z]*:clean- rooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:member- ship/[\d\w-]+/analysistemplate/[\d\w-]+ parameters -&gt; (map) Runtime configuration values passed to the PySpark analysis script. Parameter names and types must match those defined in the analysis template. key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: [0-9a-zA-Z_]+ value -&gt; (string) Constraints: o min: 0 o max: 1000 Shorthand Syntax: analysisTemplateArn=string,parameters={KeyName1=string,KeyName2=string} JSON Syntax: { "analysisTemplateArn": "string", "parameters": {"string": "string" ...} }</param>
+    /// <param name="Type">The type of protected job to start. Possible values: • PYSPARK</param>
+    /// <param name="MembershipIdentifier">A unique identifier for the membership to run this job against. Currently accepts a membership ID. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="JobParameters">The job parameters. analysisTemplateArn -&gt; (string) [required] The ARN of the analysis template. Constraints: • min: 0 • max: 200 • pattern: arn:aws[-a-z]*:cleanrooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:membership/[\d\w-]+/analysistemplate/[\d\w-]+ parameters -&gt; (map) Runtime configuration values passed to the PySpark analysis script. Parameter names and types must match those defined in the analysis template. key -&gt; (string) Constraints: • min: 1 • max: 100 • pattern: [0-9a-zA-Z_]+ value -&gt; (string) Constraints: • min: 0 • max: 1000 Shorthand Syntax: analysisTemplateArn=string,parameters={KeyName1=string,KeyName2=string} JSON Syntax: { "analysisTemplateArn": "string", "parameters": {"string": "string" ...} }</param>
     public AwsCleanroomsStartProtectedJobOptions(
         string Type,
         string MembershipIdentifier,
@@ -64,37 +66,37 @@ public record AwsCleanroomsStartProtectedJobOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of protected job to start. Possible values: o PYSPARK
+    /// The type of protected job to start. Possible values: • PYSPARK
     /// </summary>
     [CliOption("--type")]
     public string? Type { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the membership to run this job against. Cur- rently accepts a membership ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// A unique identifier for the membership to run this job against. Currently accepts a membership ID. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--membership-identifier")]
     public string? MembershipIdentifier { get; private init; }
 
     /// <summary>
-    /// The job parameters. analysisTemplateArn -&gt; (string) [required] The ARN of the analysis template. Constraints: o min: 0 o max: 200 o pattern: arn:aws[-a-z]*:clean- rooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:member- ship/[\d\w-]+/analysistemplate/[\d\w-]+ parameters -&gt; (map) Runtime configuration values passed to the PySpark analysis script. Parameter names and types must match those defined in the analysis template. key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: [0-9a-zA-Z_]+ value -&gt; (string) Constraints: o min: 0 o max: 1000 Shorthand Syntax: analysisTemplateArn=string,parameters={KeyName1=string,KeyName2=string} JSON Syntax: { "analysisTemplateArn": "string", "parameters": {"string": "string" ...} }
+    /// The job parameters. analysisTemplateArn -&gt; (string) [required] The ARN of the analysis template. Constraints: • min: 0 • max: 200 • pattern: arn:aws[-a-z]*:cleanrooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:membership/[\d\w-]+/analysistemplate/[\d\w-]+ parameters -&gt; (map) Runtime configuration values passed to the PySpark analysis script. Parameter names and types must match those defined in the analysis template. key -&gt; (string) Constraints: • min: 1 • max: 100 • pattern: [0-9a-zA-Z_]+ value -&gt; (string) Constraints: • min: 0 • max: 1000 Shorthand Syntax: analysisTemplateArn=string,parameters={KeyName1=string,KeyName2=string} JSON Syntax: { "analysisTemplateArn": "string", "parameters": {"string": "string" ...} }
     /// </summary>
     [CliOption("--job-parameters")]
     public string? JobParameters { get; private init; }
 
     /// <summary>
-    /// The details needed to write the job results. outputConfiguration -&gt; (tagged union structure) [required] The output configuration for a protected job result. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: member. member -&gt; (structure) The member of the protected job output configuration input. accountId -&gt; (string) [required] The account ID. Constraints: o min: 12 o max: 12 o pattern: \d+ Shorthand Syntax: outputConfiguration={member={accountId=string}} JSON Syntax: { "outputConfiguration": { "member": { "accountId": "string" } } }
+    /// The details needed to write the job results. outputConfiguration -&gt; (tagged union structure) [required] The output configuration for a protected job result. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: member. member -&gt; (structure) The member of the protected job output configuration input. accountId -&gt; (string) [required] The account ID. Constraints: • min: 12 • max: 12 • pattern: \d+ Shorthand Syntax: outputConfiguration={member={accountId=string}} JSON Syntax: { "outputConfiguration": { "member": { "accountId": "string" } } }
     /// </summary>
     [CliOption("--result-configuration")]
     public string? ResultConfiguration { get; set; }
 
     /// <summary>
-    /// The compute configuration for the protected job. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: worker. worker -&gt; (structure) The worker configuration for the compute environment. type -&gt; (string) [required] The worker compute configuration type. Possible values: o CR.1X o CR.4X number -&gt; (integer) [required] The number of workers for a PySpark job. Constraints: o min: 4 o max: 1024 properties -&gt; (tagged union structure) The configuration properties for the worker compute environ- ment. These properties allow you to customize the compute settings for your Clean Rooms workloads. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: spark. spark -&gt; (map) The Spark configuration properties for SQL and PySpark workloads. This map contains key-value pairs that config- ure Apache Spark settings to optimize performance for your data processing jobs. You can specify up to 50 Spark properties, with each key being 1-200 characters and each value being 0-500 characters. These properties allow you to adjust compute capacity for large datasets and complex workloads. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 200 value -&gt; (string) Constraints: o min: 0 o max: 500 JSON Syntax: { "worker": { "type": "CR.1X"|"CR.4X", "number": integer, "properties": { "spark": {"string": "string" ...} } } }
+    /// The compute configuration for the protected job. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: worker. worker -&gt; (structure) The worker configuration for the compute environment. type -&gt; (string) [required] The worker compute configuration type. Possible values: • CR.1X • CR.4X number -&gt; (integer) [required] The number of workers for a PySpark job. Constraints: • min: 4 • max: 1024 properties -&gt; (tagged union structure) The configuration properties for the worker compute environment. These properties allow you to customize the compute settings for your Clean Rooms workloads. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: spark. spark -&gt; (map) The Spark configuration properties for SQL and PySpark workloads. This map contains key-value pairs that configure Apache Spark settings to optimize performance for your data processing jobs. You can specify up to 50 Spark properties, with each key being 1-200 characters and each value being 0-500 characters. These properties allow you to adjust compute capacity for large datasets and complex workloads. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 200 value -&gt; (string) Constraints: • min: 0 • max: 500 JSON Syntax: { "worker": { "type": "CR.1X"|"CR.4X", "number": integer, "properties": { "spark": {"string": "string" ...} } } }
     /// </summary>
     [CliOption("--compute-configuration")]
     public string? ComputeConfiguration { get; set; }
 
     /// <summary>
-    /// The account ID of the member that pays for the job compute costs. Constraints: o min: 12 o max: 12 o pattern: \d+
+    /// The account ID of the member that pays for the job compute costs. Constraints: • min: 12 • max: 12 • pattern: \d+
     /// </summary>
     [CliOption("--job-compute-payer-account-id")]
     public string? JobComputePayerAccountId { get; set; }

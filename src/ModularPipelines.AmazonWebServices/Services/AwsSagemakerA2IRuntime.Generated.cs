@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws sagemakera2iruntime commands.
+/// aws sagemaker-a2i-runtime commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsSagemakerA2IRuntime : IAwsSagemakerA2IRuntime
@@ -32,7 +32,7 @@ public class AwsSagemakerA2IRuntime : IAwsSagemakerA2IRuntime
     #region Commands
 
     /// <summary>
-    /// Deletes the specified human loop for a flow definition. If the human loop was deleted, this operation will return a Re- sourceNotFoundException . See also: AWS API Documentation
+    /// Deletes the specified human loop for a flow definition. If the human loop was deleted, this operation will return a ResourceNotFoundException . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsSagemakerA2IRuntime : IAwsSagemakerA2IRuntime
     }
 
     /// <summary>
-    /// Returns information about the specified human loop. If the human loop was deleted, this operation will return a ResourceNotFoundException er- ror. See also: AWS API Documentation
+    /// Returns information about the specified human loop. If the human loop was deleted, this operation will return a ResourceNotFoundException error. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

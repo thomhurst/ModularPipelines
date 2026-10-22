@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates and persists a DataIntegration resource. NOTE: You cannot create a DataIntegration association for a DataIntegra- tion that has been previously associated. Use a different DataInte- gration, or recreate the DataIntegration using the CreateDataInte- gration API. See also: AWS API Documentation
+/// Creates and persists a DataIntegration resource. NOTE: You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the CreateDataIntegration API. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsAppintegrationsCreateDataIntegrationOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates and persists a DataIntegration resource. NOTE: You cannot create a DataIntegration association for a DataIntegra- tion that has been previously associated. Use a different DataInte- gration, or recreate the DataIntegration using the CreateDataInte- gration API. See also: AWS API Documentation
+    /// Creates and persists a DataIntegration resource. NOTE: You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the CreateDataIntegration API. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the DataIntegration. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\/\._\-]+$</param>
-    /// <param name="KmsKey">The KMS key ARN for the DataIntegration. Constraints: o min: 1 o max: 255 o pattern: .*\S.*</param>
+    /// <param name="Name">The name of the DataIntegration. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z0-9\/\._\-]+$</param>
+    /// <param name="KmsKey">The KMS key ARN for the DataIntegration. Constraints: • min: 1 • max: 255 • pattern: .*\S.*</param>
     public AwsAppintegrationsCreateDataIntegrationOptions(
         string Name,
         string KmsKey
@@ -62,56 +63,56 @@ public record AwsAppintegrationsCreateDataIntegrationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the DataIntegration. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\/\._\-]+$
+    /// The name of the DataIntegration. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z0-9\/\._\-]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The KMS key ARN for the DataIntegration. Constraints: o min: 1 o max: 255 o pattern: .*\S.*
+    /// The KMS key ARN for the DataIntegration. Constraints: • min: 1 • max: 255 • pattern: .*\S.*
     /// </summary>
     [CliOption("--kms-key")]
     public string? KmsKey { get; private init; }
 
     /// <summary>
-    /// A description of the DataIntegration. Constraints: o min: 0 o max: 1000 o pattern: .*
+    /// A description of the DataIntegration. Constraints: • min: 0 • max: 1000 • pattern: .*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The URI of the data source. Constraints: o min: 1 o max: 1000 o pattern: ^(\w+\:\/\/[\w.-]+[\w/!@#+=.-]+$)|(\w+\:\/\/[\w.-]+[\w/!@#+=.-]+[\w/!@#+=.-]+[\w/!@#+=.,-]+$)
+    /// The URI of the data source. Constraints: • min: 1 • max: 1000 • pattern: ^(\w+\:\/\/[\w.-]+[\w/!@#+=.-]+$)|(\w+\:\/\/[\w.-]+[\w/!@#+=.-]+[\w/!@#+=.-]+[\w/!@#+=.,-]+$)
     /// </summary>
     [CliOption("--source-uri")]
     public string? SourceUri { get; set; }
 
     /// <summary>
-    /// The name of the data and how often it should be pulled from the source. FirstExecutionFrom -&gt; (string) The start date for objects to import in the first flow run as an Unix/epoch timestamp in milliseconds or in ISO-8601 format. Constraints: o min: 1 o max: 255 o pattern: .*\S.* Object -&gt; (string) The name of the object to pull from the data source. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\/\._\-]+$ ScheduleExpression -&gt; (string) [required] How often the data should be pulled from data source. Constraints: o min: 1 o max: 255 o pattern: .*\S.* Shorthand Syntax: FirstExecutionFrom=string,Object=string,ScheduleExpression=string JSON Syntax: { "FirstExecutionFrom": "string", "Object": "string", "ScheduleExpression": "string" }
+    /// The name of the data and how often it should be pulled from the source. FirstExecutionFrom -&gt; (string) The start date for objects to import in the first flow run as an Unix/epoch timestamp in milliseconds or in ISO-8601 format. Constraints: • min: 1 • max: 255 • pattern: .*\S.* Object -&gt; (string) The name of the object to pull from the data source. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z0-9\/\._\-]+$ ScheduleExpression -&gt; (string) [required] How often the data should be pulled from data source. Constraints: • min: 1 • max: 255 • pattern: .*\S.* Shorthand Syntax: FirstExecutionFrom=string,Object=string,ScheduleExpression=string JSON Syntax: { "FirstExecutionFrom": "string", "Object": "string", "ScheduleExpression": "string" }
     /// </summary>
     [CliOption("--schedule-config")]
     public string? ScheduleConfig { get; set; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for this re- source. For example, { "tags": {"key1":"value1", "key2":"value2"} }. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }. Constraints: • min: 1 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o min: 1 o max: 2048 o pattern: .*
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • min: 1 • max: 2048 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The configuration for what files should be pulled from the source. Folders -&gt; (list) [required] Identifiers for the source folders to pull all files from recur- sively. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 200 o pattern: .*\S.* Filters -&gt; (map) Restrictions for what files should be pulled from the source. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: .*\S.* value -&gt; (list) Constraints: o min: 1 o max: 2048 (string) Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\/\._\-]+$ Shorthand Syntax: Folders=string,string,Filters={KeyName1=[string,string],KeyName2=[string,string]} JSON Syntax: { "Folders": ["string", ...], "Filters": {"string": ["string", ...] ...} }
+    /// The configuration for what files should be pulled from the source. Folders -&gt; (list) [required] Identifiers for the source folders to pull all files from recursively. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 200 • pattern: .*\S.* Filters -&gt; (map) Restrictions for what files should be pulled from the source. key -&gt; (string) Constraints: • min: 1 • max: 255 • pattern: .*\S.* value -&gt; (list) Constraints: • min: 1 • max: 2048 (string) Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z0-9\/\._\-]+$ Shorthand Syntax: Folders=string,string,Filters={KeyName1=[string,string],KeyName2=[string,string]} JSON Syntax: { "Folders": ["string", ...], "Filters": {"string": ["string", ...] ...} }
     /// </summary>
     [CliOption("--file-configuration")]
     public string? FileConfiguration { get; set; }
 
     /// <summary>
-    /// The configuration for what data should be pulled from the source. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: .*\S.* value -&gt; (map) key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: .*\S.* value -&gt; (list) Constraints: o min: 1 o max: 2048 (string) Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\/\._\-]+$ Shorthand Syntax: KeyName1={KeyName1=[string,string],KeyName2=[string,string]},KeyName2={KeyName1=[string,string],KeyName2=[string,string]} JSON Syntax: {"string": {"string": ["string", ...] ...} ...}
+    /// The configuration for what data should be pulled from the source. key -&gt; (string) Constraints: • min: 1 • max: 255 • pattern: .*\S.* value -&gt; (map) key -&gt; (string) Constraints: • min: 1 • max: 255 • pattern: .*\S.* value -&gt; (list) Constraints: • min: 1 • max: 2048 (string) Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z0-9\/\._\-]+$ Shorthand Syntax: KeyName1={KeyName1=[string,string],KeyName2=[string,string]},KeyName2={KeyName1=[string,string],KeyName2=[string,string]} JSON Syntax: {"string": {"string": ["string", ...] ...} ...}
     /// </summary>
     [CliOption("--object-configuration", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ObjectConfiguration { get; set; }

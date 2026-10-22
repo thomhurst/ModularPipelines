@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a forecast export job created using the CreateForecastEx- portJob operation. You can delete only export jobs that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribeFore- castExportJob operation. See also: AWS API Documentation
+/// Deletes a forecast export job created using the CreateForecastExportJob operation. You can delete only export jobs that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribeForecastExportJob operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsForecastDeleteForecastExportJobOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a forecast export job created using the CreateForecastEx- portJob operation. You can delete only export jobs that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribeFore- castExportJob operation. See also: AWS API Documentation
+    /// Deletes a forecast export job created using the CreateForecastExportJob operation. You can delete only export jobs that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribeForecastExportJob operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ForecastExportJobArn">The Amazon Resource Name (ARN) of the forecast export job to delete. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    /// <param name="ForecastExportJobArn">The Amazon Resource Name (ARN) of the forecast export job to delete. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
     public AwsForecastDeleteForecastExportJobOptions(
         string ForecastExportJobArn
     )
@@ -56,7 +58,7 @@ public record AwsForecastDeleteForecastExportJobOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the forecast export job to delete. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the forecast export job to delete. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
     /// </summary>
     [CliOption("--forecast-export-job-arn")]
     public string? ForecastExportJobArn { get; private init; }

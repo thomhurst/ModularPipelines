@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBedrockAgentcoreControlGetCodeInterpreterOptions : AwsOptions, 
     /// <summary>
     /// Gets information about a custom code interpreter. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CodeInterpreterId">The unique identifier of the code interpreter to retrieve. Constraints: o pattern: (aws\.codeinter- preter\.v1|[a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10})</param>
+    /// <param name="CodeInterpreterId">The unique identifier of the code interpreter to retrieve. Constraints: • pattern: (aws\.codeinterpreter\.v1|[a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10})</param>
     public AwsBedrockAgentcoreControlGetCodeInterpreterOptions(
         string CodeInterpreterId
     )
@@ -56,7 +58,7 @@ public record AwsBedrockAgentcoreControlGetCodeInterpreterOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the code interpreter to retrieve. Constraints: o pattern: (aws\.codeinter- preter\.v1|[a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10})
+    /// The unique identifier of the code interpreter to retrieve. Constraints: • pattern: (aws\.codeinterpreter\.v1|[a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10})
     /// </summary>
     [CliOption("--code-interpreter-id")]
     public string? CodeInterpreterId { get; private init; }

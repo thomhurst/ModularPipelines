@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +30,9 @@ public record AwsDsCreateComputerOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates an Active Directory computer object in the specified directory. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The identifier of the directory in which to create the computer ac- count. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
-    /// <param name="ComputerName">The name of the computer account. Constraints: o min: 1 o max: 15</param>
-    /// <param name="Password">A one-time password that is used to join the computer to the direc- tory. You should generate a random, strong password to use for this parameter. Constraints: o min: 8 o max: 64 o pattern: [\u0020-\u00FF]+</param>
+    /// <param name="DirectoryId">The identifier of the directory in which to create the computer account. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="ComputerName">The name of the computer account. Constraints: • min: 1 • max: 15</param>
+    /// <param name="Password">A one-time password that is used to join the computer to the directory. You should generate a random, strong password to use for this parameter. Constraints: • min: 8 • max: 64 • pattern: [\u0020-\u00FF]+</param>
     public AwsDsCreateComputerOptions(
         string DirectoryId,
         string ComputerName,
@@ -65,32 +67,32 @@ public record AwsDsCreateComputerOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the directory in which to create the computer ac- count. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The identifier of the directory in which to create the computer account. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// The name of the computer account. Constraints: o min: 1 o max: 15
+    /// The name of the computer account. Constraints: • min: 1 • max: 15
     /// </summary>
     [CliOption("--computer-name")]
     public string? ComputerName { get; private init; }
 
     /// <summary>
-    /// A one-time password that is used to join the computer to the direc- tory. You should generate a random, strong password to use for this parameter. Constraints: o min: 8 o max: 64 o pattern: [\u0020-\u00FF]+
+    /// A one-time password that is used to join the computer to the directory. You should generate a random, strong password to use for this parameter. Constraints: • min: 8 • max: 64 • pattern: [\u0020-\u00FF]+
     /// </summary>
     [SecretValue]
     [CliOption("--password")]
     public string? Password { get; private init; }
 
     /// <summary>
-    /// The fully-qualified distinguished name of the organizational unit to place the computer account in. Constraints: o min: 1 o max: 2000
+    /// The fully-qualified distinguished name of the organizational unit to place the computer account in. Constraints: • min: 1 • max: 2000
     /// </summary>
     [CliOption("--organizational-unit-distinguished-name")]
     public string? OrganizationalUnitDistinguishedName { get; set; }
 
     /// <summary>
-    /// An array of Attribute objects that contain any LDAP attributes to apply to the computer account. (structure) Represents a named directory attribute. Name -&gt; (string) The name of the attribute. Constraints: o min: 1 Value -&gt; (string) The value of the attribute. Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
+    /// An array of Attribute objects that contain any LDAP attributes to apply to the computer account. (structure) Represents a named directory attribute. Name -&gt; (string) The name of the attribute. Constraints: • min: 1 Value -&gt; (string) The value of the attribute. Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--computer-attributes", GroupValues = true)]
     public IEnumerable<string>? ComputerAttributes { get; set; }

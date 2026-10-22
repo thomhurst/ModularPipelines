@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a DLP setting configuration from an Amazon Web Services ac- count. See also: AWS API Documentation
+/// Deletes a DLP setting configuration from an Amazon Web Services account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsQuicksightDeleteDlpSettingOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a DLP setting configuration from an Amazon Web Services ac- count. See also: AWS API Documentation
+    /// Deletes a DLP setting configuration from an Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the DLP set- ting that you want to delete. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="DlpSettingId">The ID of the DLP setting that you want to delete. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\-_]+</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the DLP setting that you want to delete. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="DlpSettingId">The ID of the DLP setting that you want to delete. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9\-_]+</param>
     public AwsQuicksightDeleteDlpSettingOptions(
         string AwsAccountId,
         string DlpSettingId
@@ -60,13 +62,13 @@ public record AwsQuicksightDeleteDlpSettingOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the DLP set- ting that you want to delete. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the DLP setting that you want to delete. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID of the DLP setting that you want to delete. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\-_]+
+    /// The ID of the DLP setting that you want to delete. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9\-_]+
     /// </summary>
     [CliOption("--dlp-setting-id")]
     public string? DlpSettingId { get; private init; }

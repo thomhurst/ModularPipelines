@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Displays detailed information about a specified job template. Job tem- plate stores values of StartJobRun API request in a template and can be used to start a job run. Job template allows two use cases: avoid re- peating recurring StartJobRun API request values, enforcing certain values in StartJobRun API request. See also: AWS API Documentation
+/// Displays detailed information about a specified job template. Job template stores values of StartJobRun API request in a template and can be used to start a job run. Job template allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing certain values in StartJobRun API request. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsEmrContainersDescribeJobTemplateOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Displays detailed information about a specified job template. Job tem- plate stores values of StartJobRun API request in a template and can be used to start a job run. Job template allows two use cases: avoid re- peating recurring StartJobRun API request values, enforcing certain values in StartJobRun API request. See also: AWS API Documentation
+    /// Displays detailed information about a specified job template. Job template stores values of StartJobRun API request in a template and can be used to start a job run. Job template allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing certain values in StartJobRun API request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the job template that will be described. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
+    /// <param name="Id">The ID of the job template that will be described. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+</param>
     public AwsEmrContainersDescribeJobTemplateOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsEmrContainersDescribeJobTemplateOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the job template that will be described. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// The ID of the job template that will be described. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

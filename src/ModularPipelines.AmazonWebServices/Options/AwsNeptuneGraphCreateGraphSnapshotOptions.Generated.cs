@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,8 +29,8 @@ public record AwsNeptuneGraphCreateGraphSnapshotOptions : AwsOptions, IValidatab
     /// <summary>
     /// Creates a snapshot of the specific graph. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GraphIdentifier">The unique identifier of the Neptune Analytics graph. Constraints: o pattern: g-[a-z0-9]{10}</param>
-    /// <param name="SnapshotName">The snapshot name. For example: my-snapshot-1 . The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed. Constraints: o min: 1 o max: 63 o pattern: (?!gs-)[a-z][a-z0-9]*(-[a-z0-9]+)*</param>
+    /// <param name="GraphIdentifier">The unique identifier of the Neptune Analytics graph. Constraints: • pattern: g-[a-z0-9]{10}</param>
+    /// <param name="SnapshotName">The snapshot name. For example: my-snapshot-1 . The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed. Constraints: • min: 1 • max: 63 • pattern: (?!gs-)[a-z][a-z0-9]*(-[a-z0-9]+)*</param>
     public AwsNeptuneGraphCreateGraphSnapshotOptions(
         string GraphIdentifier,
         string SnapshotName
@@ -61,19 +62,19 @@ public record AwsNeptuneGraphCreateGraphSnapshotOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Neptune Analytics graph. Constraints: o pattern: g-[a-z0-9]{10}
+    /// The unique identifier of the Neptune Analytics graph. Constraints: • pattern: g-[a-z0-9]{10}
     /// </summary>
     [CliOption("--graph-identifier")]
     public string? GraphIdentifier { get; private init; }
 
     /// <summary>
-    /// The snapshot name. For example: my-snapshot-1 . The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed. Constraints: o min: 1 o max: 63 o pattern: (?!gs-)[a-z][a-z0-9]*(-[a-z0-9]+)*
+    /// The snapshot name. For example: my-snapshot-1 . The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed. Constraints: • min: 1 • max: 63 • pattern: (?!gs-)[a-z][a-z0-9]*(-[a-z0-9]+)*
     /// </summary>
     [CliOption("--snapshot-name")]
     public string? SnapshotName { get; private init; }
 
     /// <summary>
-    /// Adds metadata tags to the new graph. These tags can also be used with cost allocation reporting, or used in a Condition statement in an IAM policy. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Adds metadata tags to the new graph. These tags can also be used with cost allocation reporting, or used in a Condition statement in an IAM policy. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDrsGetReplicationConfigurationOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Gets a ReplicationConfiguration, filtered by Source Server ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceServerId">The ID of the Source Serve for this Replication Configuration.r Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}</param>
+    /// <param name="SourceServerId">The ID of the Source Serve for this Replication Configuration.r Constraints: • min: 19 • max: 19 • pattern: s-[0-9a-zA-Z]{17}</param>
     public AwsDrsGetReplicationConfigurationOptions(
         string SourceServerId
     )
@@ -56,7 +58,7 @@ public record AwsDrsGetReplicationConfigurationOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Source Serve for this Replication Configuration.r Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}
+    /// The ID of the Source Serve for this Replication Configuration.r Constraints: • min: 19 • max: 19 • pattern: s-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--source-server-id")]
     public string? SourceServerId { get; private init; }

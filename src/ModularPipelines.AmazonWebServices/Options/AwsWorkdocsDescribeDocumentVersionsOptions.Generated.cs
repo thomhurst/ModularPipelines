@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the document versions for the specified document. By default, only active versions are returned. See also: AWS API Documentation describe-document-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing quer...
+/// Retrieves the document versions for the specified document. By default, only active versions are returned. See also: AWS API Documentation describe-document-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsWorkdocsDescribeDocumentVersionsOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the document versions for the specified document. By default, only active versions are returned. See also: AWS API Documentation describe-document-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing quer...
+    /// Retrieves the document versions for the specified document. By default, only active versions are returned. See also: AWS API Documentation describe-document-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ...
     /// </summary>
-    /// <param name="DocumentId">The ID of the document. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+</param>
+    /// <param name="DocumentId">The ID of the document. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+</param>
     public AwsWorkdocsDescribeDocumentVersionsOptions(
         string DocumentId
     )
@@ -57,35 +59,32 @@ public record AwsWorkdocsDescribeDocumentVersionsOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the document. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+
+    /// The ID of the document. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+
     /// </summary>
     [CliOption("--document-id")]
     public string? DocumentId { get; private init; }
 
     /// <summary>
-    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: o min: 1 o max: 8199
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: • min: 1 • max: 8199
     /// </summary>
     [SecretValue]
     [CliOption("--authentication-token")]
     public string? AuthenticationToken { get; set; }
 
     /// <summary>
-    /// A comma-separated list of values. Specify "INITIALIZED" to include incomplete versions. Constraints: o min: 1 o max: 256 o pattern: [\w,]+
+    /// A comma-separated list of values. Specify "INITIALIZED" to include incomplete versions. Constraints: • min: 1 • max: 256 • pattern: [\w,]+
     /// </summary>
     [CliOption("--include")]
     public string? Include { get; set; }
 
     /// <summary>
-    /// Specify "SOURCE" to include initialized versions and a URL for the source document. Constraints: o min: 1 o max: 256 o pattern: [\w,]+
+    /// Specify "SOURCE" to include initialized versions and a URL for the source document. Constraints: • min: 1 • max: 256 • pattern: [\w,]+
     /// </summary>
     [CliOption("--fields")]
     public string? Fields { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -95,16 +94,19 @@ public record AwsWorkdocsDescribeDocumentVersionsOptions : AwsOptions, IValidata
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 999
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 999
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

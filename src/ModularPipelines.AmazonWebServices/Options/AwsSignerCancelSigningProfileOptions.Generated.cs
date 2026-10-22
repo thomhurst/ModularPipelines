@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Changes the state of an ACTIVE signing profile to CANCELED . A canceled profile is still viewable with the ListSigningProfiles operation, but it cannot perform new signing jobs. See Data Retention for more infor- mation on scheduled deletion of a canceled signing profile. See also: AWS API Documentation
+/// Changes the state of an ACTIVE signing profile to CANCELED . A canceled profile is still viewable with the ListSigningProfiles operation, but it cannot perform new signing jobs. See Data Retention for more information on scheduled deletion of a canceled signing profile. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSignerCancelSigningProfileOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Changes the state of an ACTIVE signing profile to CANCELED . A canceled profile is still viewable with the ListSigningProfiles operation, but it cannot perform new signing jobs. See Data Retention for more infor- mation on scheduled deletion of a canceled signing profile. See also: AWS API Documentation
+    /// Changes the state of an ACTIVE signing profile to CANCELED . A canceled profile is still viewable with the ListSigningProfiles operation, but it cannot perform new signing jobs. See Data Retention for more information on scheduled deletion of a canceled signing profile. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileName">The name of the signing profile to be canceled. Constraints: o min: 2 o max: 64 o pattern: ^[a-zA-Z0-9_]{2,}</param>
+    /// <param name="ProfileName">The name of the signing profile to be canceled. Constraints: • min: 2 • max: 64 • pattern: ^[a-zA-Z0-9_]{2,}</param>
     public AwsSignerCancelSigningProfileOptions(
         string ProfileName
     )
@@ -56,7 +58,7 @@ public record AwsSignerCancelSigningProfileOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the signing profile to be canceled. Constraints: o min: 2 o max: 64 o pattern: ^[a-zA-Z0-9_]{2,}
+    /// The name of the signing profile to be canceled. Constraints: • min: 2 • max: 64 • pattern: ^[a-zA-Z0-9_]{2,}
     /// </summary>
     [CliOption("--profile-name")]
     public string? ProfileName { get; private init; }

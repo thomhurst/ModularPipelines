@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation is not supported for directory buckets. Sets the accelerate configuration of an existing bucket. Amazon S3 Transfer Acceleration is a bucket-level feature that enables you to perform faster data transfers to Amazon S3. To use this operation, you must have permission to perform the s3:PutAccelerateConfiguration action. The bucket owner has this permis- sion by default. The bucket owner can grant this permission to others. For more information about permissions, see Permission...
+/// NOTE: This operation is not supported for directory buckets. Sets the accelerate configuration of an existing bucket. Amazon S3 Transfer Acceleration is a bucket-level feature that enables you to perform faster data transfers to Amazon S3. To use this operation, you must have permission to perform the s3:PutAccelerateConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see Permissions ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsS3apiPutBucketAccelerateConfigurationOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation is not supported for directory buckets. Sets the accelerate configuration of an existing bucket. Amazon S3 Transfer Acceleration is a bucket-level feature that enables you to perform faster data transfers to Amazon S3. To use this operation, you must have permission to perform the s3:PutAccelerateConfiguration action. The bucket owner has this permis- sion by default. The bucket owner can grant this permission to others. For more information about permissions, see Permission...
+    /// NOTE: This operation is not supported for directory buckets. Sets the accelerate configuration of an existing bucket. Amazon S3 Transfer Acceleration is a bucket-level feature that enables you to perform faster data transfers to Amazon S3. To use this operation, you must have permission to perform the s3:PutAccelerateConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see Permissions ...
     /// </summary>
     /// <param name="Bucket">The name of the bucket for which the accelerate configuration is set.</param>
-    /// <param name="AccelerateConfiguration">Container for setting the transfer acceleration state. Status -&gt; (string) Specifies the transfer acceleration status of the bucket. Possible values: o Enabled o Suspended Shorthand Syntax: Status=string JSON Syntax: { "Status": "Enabled"|"Suspended" }</param>
+    /// <param name="AccelerateConfiguration">Container for setting the transfer acceleration state. Status -&gt; (string) Specifies the transfer acceleration status of the bucket. Possible values: • Enabled • Suspended Shorthand Syntax: Status=string JSON Syntax: { "Status": "Enabled"|"Suspended" }</param>
     public AwsS3apiPutBucketAccelerateConfigurationOptions(
         string Bucket,
         string AccelerateConfiguration
@@ -67,19 +69,19 @@ public record AwsS3apiPutBucketAccelerateConfigurationOptions : AwsOptions, IVal
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// Container for setting the transfer acceleration state. Status -&gt; (string) Specifies the transfer acceleration status of the bucket. Possible values: o Enabled o Suspended Shorthand Syntax: Status=string JSON Syntax: { "Status": "Enabled"|"Suspended" }
+    /// Container for setting the transfer acceleration state. Status -&gt; (string) Specifies the transfer acceleration status of the bucket. Possible values: • Enabled • Suspended Shorthand Syntax: Status=string JSON Syntax: { "Status": "Enabled"|"Suspended" }
     /// </summary>
     [CliOption("--accelerate-configuration")]
     public string? AccelerateConfiguration { get; private init; }
 
     /// <summary>
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
 
     /// <summary>
-    /// Indicates the algorithm used to create the checksum for the request when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request . For more information, see Checking object in- tegrity in the Amazon S3 User Guide . If you provide an individual checksum, Amazon S3 ignores any pro- vided ChecksumAlgorithm parameter. Possible values: o CRC32 o CRC32C o SHA1 o SHA256 o CRC64NVME o SHA512 o MD5 o XXHASH64 o XXHASH3 o XXHASH128
+    /// Indicates the algorithm used to create the checksum for the request when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request . For more information, see Checking object integrity in the Amazon S3 User Guide . If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter. Possible values: • CRC32 • CRC32C • SHA1 • SHA256 • CRC64NVME • SHA512 • MD5 • XXHASH64 • XXHASH3 • XXHASH128
     /// </summary>
     [CliOption("--checksum-algorithm")]
     public AwsS3apiPutBucketAccelerateConfigurationChecksumAlgorithm? ChecksumAlgorithm { get; set; }

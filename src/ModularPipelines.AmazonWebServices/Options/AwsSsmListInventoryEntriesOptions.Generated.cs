@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsSsmListInventoryEntriesOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// A list of inventory items returned by the request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The managed node ID for which you want inventory information. Constraints: o pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)</param>
-    /// <param name="TypeName">The type of inventory item for which you want information. Constraints: o min: 1 o max: 100 o pattern: ^(AWS|Custom):.*$</param>
+    /// <param name="InstanceId">The managed node ID for which you want inventory information. Constraints: • pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)</param>
+    /// <param name="TypeName">The type of inventory item for which you want information. Constraints: • min: 1 • max: 100 • pattern: ^(AWS|Custom):.*$</param>
     public AwsSsmListInventoryEntriesOptions(
         string InstanceId,
         string TypeName
@@ -61,19 +63,19 @@ public record AwsSsmListInventoryEntriesOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The managed node ID for which you want inventory information. Constraints: o pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)
+    /// The managed node ID for which you want inventory information. Constraints: • pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The type of inventory item for which you want information. Constraints: o min: 1 o max: 100 o pattern: ^(AWS|Custom):.*$
+    /// The type of inventory item for which you want information. Constraints: • min: 1 • max: 100 • pattern: ^(AWS|Custom):.*$
     /// </summary>
     [CliOption("--type-name")]
     public string? TypeName { get; private init; }
 
     /// <summary>
-    /// One or more filters. Use a filter to return a more specific list of results. Constraints: o min: 1 o max: 5 (structure) One or more filters. Use a filter to return a more specific list of results. Example formats for the ``aws ssm get-inventory`` command: --filters Key=AWS:InstanceInformation.AgentType,Values=ama- zon-ssm-agent,Type=Equal --filters Key=AWS:InstanceInformation.AgentVersion,Val- ues=3.3.2299.0,Type=Equal --filters Key=AWS:InstanceInformation.ComputerName,Val- ues=ip-192.0.2.0.us-east-2.compute.internal,Type=Equal --filters Key=AWS:InstanceInformation.InstanceId,Val- ues=i-0a4cd6ceffEXAMPLE,i-1a2b3c4d5e6EXAMPLE,Type=Equal --filters Key=AWS:InstanceInformation.InstanceStatus,Val- ues=Active,Type=Equal --filters Key=AWS:InstanceInformation.IpAddress,Val- ues=198.51.100.0,Type=Equal --filters Key=AWS:InstanceInformation.PlatformName,Val- ues="Amazon Linux",Type=Equal --filters Key=AWS:InstanceInformation.PlatformType,Val- ues=Linux,Type=Equal --filters Key=AWS:InstanceInformation.PlatformVersion,Val- ues=2023,Type=BeginWith --filters Key=AWS:InstanceInformation.ResourceType,Val- ues=EC2Instance,Type=Equal Key -&gt; (string) [required] The name of the filter key. Constraints: o min: 1 o max: 200 Values -&gt; (list) [required] Inventory filter values. Constraints: o min: 1 o max: 40 (string) Type -&gt; (string) The type of filter. NOTE: The Exists filter must be used with aggregators. For more information, see Aggregating inventory data in the Amazon Web Services Systems Manager User Guide . Possible values: o Equal o NotEqual o BeginWith o LessThan o GreaterThan o Exists Shorthand Syntax: Key=string,Values=string,string,Type=string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...], "Type": "Equal"|"NotEqual"|"BeginWith"|"LessThan"|"GreaterThan"|"Exists" } ... ]
+    /// One or more filters. Use a filter to return a more specific list of results. Constraints: • min: 1 • max: 5 (structure) One or more filters. Use a filter to return a more specific list of results. Example formats for the ``aws ssm get-inventory`` command: --filters Key=AWS:InstanceInformation.AgentType,Values=amazon-ssm-agent,Type=Equal --filters Key=AWS:InstanceInformation.AgentVersion,Values=3.3.2299.0,Type=Equal --filters Key=AWS:InstanceInformation.ComputerName,Values=ip-192.0.2.0.us-east-2.compute.internal,Type=Equal --filters Key=AWS:InstanceInformation.InstanceId,Values=i-0a4cd6ceffEXAMPLE,i-1a2b3c4d5e6EXAMPLE,Type=Equal --filters Key=AWS:InstanceInformation.InstanceStatus,Values=Active,Type=Equal --filters Key=AWS:InstanceInformation.IpAddress,Values=198.51.100.0,Type=Equal --filters Key=AWS:InstanceInformation.PlatformName,Values="Amazon Linux",Type=Equal --filters Key=AWS:InstanceInformation.PlatformType,Values=Linux,Type=Equal --filters Key=AWS:InstanceInformation.PlatformVersion,Values=2023,Type=BeginWith --filters Key=AWS:InstanceInformation.ResourceType,Values=EC2Instance,Type=Equal Key -&gt; (string) [required] The name of the filter key. Constraints: • min: 1 • max: 200 Values -&gt; (list) [required] Inventory filter values. Constraints: • min: 1 • max: 40 (string) Type -&gt; (string) The type of filter. NOTE: The Exists filter must be used with aggregators. For more information, see Aggregating inventory data in the Amazon Web Services Systems Manager User Guide . Possible values: • Equal • NotEqual • BeginWith • LessThan • GreaterThan • Exists Shorthand Syntax: Key=string,Values=string,string,Type=string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...], "Type": "Equal"|"NotEqual"|"BeginWith"|"LessThan"|"GreaterThan"|"Exists" } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
@@ -86,7 +88,7 @@ public record AwsSsmListInventoryEntriesOptions : AwsOptions, IValidatableObject
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results. Constraints: o min: 1 o max: 50
+    /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

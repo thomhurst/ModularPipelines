@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates phone number details, such as product type or calling name, for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type or the calling name in one action. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type. Updates to outbound calling names can take 72 hours to complete. Pend-...
+/// Updates phone number details, such as product type or calling name, for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type or the calling name in one action. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type. Updates to outbound calling names can take 72 hours to complete. Pendi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +28,7 @@ public record AwsChimeUpdatePhoneNumberOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates phone number details, such as product type or calling name, for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type or the calling name in one action. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type. Updates to outbound calling names can take 72 hours to complete. Pend-...
+    /// Updates phone number details, such as product type or calling name, for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type or the calling name in one action. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type. Updates to outbound calling names can take 72 hours to complete. Pendi...
     /// </summary>
     /// <param name="PhoneNumberId">The phone number ID.</param>
     public AwsChimeUpdatePhoneNumberOptions(
@@ -63,13 +65,13 @@ public record AwsChimeUpdatePhoneNumberOptions : AwsOptions, IValidatableObject
     public string? PhoneNumberId { get; private init; }
 
     /// <summary>
-    /// The product type. Possible values: o BusinessCalling o VoiceConnector o SipMediaApplicationDialIn
+    /// The product type. Possible values: • BusinessCalling • VoiceConnector • SipMediaApplicationDialIn
     /// </summary>
     [CliOption("--product-type")]
     public AwsChimeUpdatePhoneNumberProductType? ProductType { get; set; }
 
     /// <summary>
-    /// The outbound calling name associated with the phone number. Constraints: o pattern: ^$|^[a-zA-Z0-9 ]{2,15}$
+    /// The outbound calling name associated with the phone number. Constraints: • pattern: ^$|^[a-zA-Z0-9 ]{2,15}$
     /// </summary>
     [CliOption("--calling-name")]
     public string? CallingName { get; set; }

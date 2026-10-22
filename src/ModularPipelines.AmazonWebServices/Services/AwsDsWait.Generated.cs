@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws wait commands.
+/// aws ds wait commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsDsWait
@@ -32,7 +32,7 @@ public class AwsDsWait
     #region Commands
 
     /// <summary>
-    /// Wait until JMESPath query UpdateActivities.SelfManagedInstances[].Sta- tus returns Updated for all elements when polling with describe-hy- brid-ad-update. It will poll every 120 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query UpdateActivities.SelfManagedInstances[].Status returns Updated for all elements when polling with describe-hybrid-ad-update. It will poll every 120 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

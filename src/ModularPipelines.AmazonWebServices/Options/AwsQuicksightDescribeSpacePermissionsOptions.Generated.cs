@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsQuicksightDescribeSpacePermissionsOptions : AwsOptions, IValida
     /// <summary>
     /// Describes the permissions for an Amazon QuickSight space. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the space. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="SpaceId">The ID of the space that you want to describe permissions for. Constraints: o min: 1 o max: 256 o pattern: [0-9a-zA-Z-_=.+]+</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the space. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="SpaceId">The ID of the space that you want to describe permissions for. Constraints: • min: 1 • max: 256 • pattern: [0-9a-zA-Z-_=.+]+</param>
     public AwsQuicksightDescribeSpacePermissionsOptions(
         string AwsAccountId,
         string SpaceId
@@ -60,13 +62,13 @@ public record AwsQuicksightDescribeSpacePermissionsOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the space. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the space. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID of the space that you want to describe permissions for. Constraints: o min: 1 o max: 256 o pattern: [0-9a-zA-Z-_=.+]+
+    /// The ID of the space that you want to describe permissions for. Constraints: • min: 1 • max: 256 • pattern: [0-9a-zA-Z-_=.+]+
     /// </summary>
     [CliOption("--space-id")]
     public string? SpaceId { get; private init; }

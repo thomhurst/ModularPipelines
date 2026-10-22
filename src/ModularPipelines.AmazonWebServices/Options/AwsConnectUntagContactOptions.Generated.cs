@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the specified tags from the contact resource. For more informa- tion about this API is used, see Set up granular billing for a detailed view of your Connect Customer usage . See also: AWS API Documentation
+/// Removes the specified tags from the contact resource. For more information about this API is used, see Set up granular billing for a detailed view of your Connect Customer usage . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsConnectUntagContactOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the specified tags from the contact resource. For more informa- tion about this API is used, see Set up granular billing for a detailed view of your Connect Customer usage . See also: AWS API Documentation
+    /// Removes the specified tags from the contact resource. For more information about this API is used, see Set up granular billing for a detailed view of your Connect Customer usage . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ContactId">The identifier of the contact in this instance of Connect Customer. Constraints: o min: 1 o max: 256</param>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="TagKeys">A list of tag keys. Existing tags on the contact whose keys are mem- bers of this list will be removed. Constraints: o min: 1 o max: 6 (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...</param>
+    /// <param name="ContactId">The identifier of the contact in this instance of Connect Customer. Constraints: • min: 1 • max: 256</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="TagKeys">A list of tag keys. Existing tags on the contact whose keys are members of this list will be removed. Constraints: • min: 1 • max: 6 (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...</param>
     public AwsConnectUntagContactOptions(
         string ContactId,
         string InstanceId,
@@ -75,19 +77,19 @@ public record AwsConnectUntagContactOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the contact in this instance of Connect Customer. Constraints: o min: 1 o max: 256
+    /// The identifier of the contact in this instance of Connect Customer. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--contact-id")]
     public string? ContactId { get; private init; }
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// A list of tag keys. Existing tags on the contact whose keys are mem- bers of this list will be removed. Constraints: o min: 1 o max: 6 (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...
+    /// A list of tag keys. Existing tags on the contact whose keys are members of this list will be removed. Constraints: • min: 1 • max: 6 (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

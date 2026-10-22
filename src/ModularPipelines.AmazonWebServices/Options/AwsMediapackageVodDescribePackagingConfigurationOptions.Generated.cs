@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a description of a MediaPackage VOD PackagingConfiguration re- source. See also: AWS API Documentation
+/// Returns a description of a MediaPackage VOD PackagingConfiguration resource. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsMediapackageVodDescribePackagingConfigurationOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a description of a MediaPackage VOD PackagingConfiguration re- source. See also: AWS API Documentation
+    /// Returns a description of a MediaPackage VOD PackagingConfiguration resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="Id"></param>
     public AwsMediapackageVodDescribePackagingConfigurationOptions(

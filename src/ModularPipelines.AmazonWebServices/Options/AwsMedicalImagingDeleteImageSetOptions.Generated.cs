@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsMedicalImagingDeleteImageSetOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Delete an image set. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DatastoreId">The data store identifier. Constraints: o pattern: [0-9a-z]{32}</param>
-    /// <param name="ImageSetId">The image set identifier. Constraints: o pattern: [0-9a-z]{32}</param>
+    /// <param name="DatastoreId">The data store identifier. Constraints: • pattern: [0-9a-z]{32}</param>
+    /// <param name="ImageSetId">The image set identifier. Constraints: • pattern: [0-9a-z]{32}</param>
     public AwsMedicalImagingDeleteImageSetOptions(
         string DatastoreId,
         string ImageSetId
@@ -60,13 +62,13 @@ public record AwsMedicalImagingDeleteImageSetOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The data store identifier. Constraints: o pattern: [0-9a-z]{32}
+    /// The data store identifier. Constraints: • pattern: [0-9a-z]{32}
     /// </summary>
     [CliOption("--datastore-id")]
     public string? DatastoreId { get; private init; }
 
     /// <summary>
-    /// The image set identifier. Constraints: o pattern: [0-9a-z]{32}
+    /// The image set identifier. Constraints: • pattern: [0-9a-z]{32}
     /// </summary>
     [CliOption("--image-set-id")]
     public string? ImageSetId { get; private init; }

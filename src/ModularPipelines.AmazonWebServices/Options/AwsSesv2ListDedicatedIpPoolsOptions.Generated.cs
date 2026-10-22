@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// List all of the dedicated IP pools that exist in your Amazon Web Ser- vices account in the current Region. See also: AWS API Documentation
+/// List all of the dedicated IP pools that exist in your Amazon Web Services account in the current Region. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,14 +23,14 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSesv2ListDedicatedIpPoolsOptions : AwsOptions
 {
     /// <summary>
-    /// A token returned from a previous call to ListDedicatedIpPools to in- dicate the position in the list of dedicated IP pools.
+    /// A token returned from a previous call to ListDedicatedIpPools to indicate the position in the list of dedicated IP pools.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The number of results to show in a single call to ListDedicatedIp- Pools . If the number of results is larger than the number you spec- ified in this parameter, then the response includes a NextToken ele- ment, which you can use to obtain additional results.
+    /// The number of results to show in a single call to ListDedicatedIpPools . If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }

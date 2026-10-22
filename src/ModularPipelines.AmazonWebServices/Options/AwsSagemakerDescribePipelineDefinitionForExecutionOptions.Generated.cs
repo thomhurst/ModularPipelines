@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSagemakerDescribePipelineDefinitionForExecutionOptions : AwsOpt
     /// <summary>
     /// Describes the details of an execution's pipeline definition. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PipelineExecutionArn">The Amazon Resource Name (ARN) of the pipeline execution. Constraints: o min: 0 o max: 2048 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:pipeline\/.*\/execution\/.*</param>
+    /// <param name="PipelineExecutionArn">The Amazon Resource Name (ARN) of the pipeline execution. Constraints: • min: 0 • max: 2048 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:pipeline\/.*\/execution\/.*</param>
     public AwsSagemakerDescribePipelineDefinitionForExecutionOptions(
         string PipelineExecutionArn
     )
@@ -56,7 +58,7 @@ public record AwsSagemakerDescribePipelineDefinitionForExecutionOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the pipeline execution. Constraints: o min: 0 o max: 2048 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:pipeline\/.*\/execution\/.*
+    /// The Amazon Resource Name (ARN) of the pipeline execution. Constraints: • min: 0 • max: 2048 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:pipeline\/.*\/execution\/.*
     /// </summary>
     [CliOption("--pipeline-execution-arn")]
     public string? PipelineExecutionArn { get; private init; }

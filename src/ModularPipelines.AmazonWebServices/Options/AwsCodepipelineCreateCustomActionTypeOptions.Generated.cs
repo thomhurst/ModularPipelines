@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new custom action that can be used in all pipelines associ- ated with the Amazon Web Services account. Only used for custom ac- tions. See also: AWS API Documentation
+/// Creates a new custom action that can be used in all pipelines associated with the Amazon Web Services account. Only used for custom actions. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,13 +29,13 @@ public record AwsCodepipelineCreateCustomActionTypeOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new custom action that can be used in all pipelines associ- ated with the Amazon Web Services account. Only used for custom ac- tions. See also: AWS API Documentation
+    /// Creates a new custom action that can be used in all pipelines associated with the Amazon Web Services account. Only used for custom actions. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Category">The category of the custom action, such as a build action or a test action. Possible values: o Source o Build o Deploy o Test o Invoke o Approval o Compute</param>
-    /// <param name="Provider">The provider of the service used in the custom action, such as Cod- eDeploy. Constraints: o min: 1 o max: 35 o pattern: [0-9A-Za-z_-]+</param>
-    /// <param name="InputArtifactDetails">The details of the input artifact for the action, such as its commit ID. minimumCount -&gt; (integer) [required] The minimum number of artifacts allowed for the action type. Constraints: o min: 0 o max: 5 maximumCount -&gt; (integer) [required] The maximum number of artifacts allowed for the action type. Constraints: o min: 0 o max: 5 Shorthand Syntax: minimumCount=integer,maximumCount=integer JSON Syntax: { "minimumCount": integer, "maximumCount": integer }</param>
-    /// <param name="OutputArtifactDetails">The details of the output artifact of the action, such as its commit ID. minimumCount -&gt; (integer) [required] The minimum number of artifacts allowed for the action type. Constraints: o min: 0 o max: 5 maximumCount -&gt; (integer) [required] The maximum number of artifacts allowed for the action type. Constraints: o min: 0 o max: 5 Shorthand Syntax: minimumCount=integer,maximumCount=integer JSON Syntax: { "minimumCount": integer, "maximumCount": integer }</param>
-    /// <param name="ActionVersion">The version identifier of the custom action. Constraints: o min: 1 o max: 9 o pattern: [0-9A-Za-z_-]+</param>
+    /// <param name="Category">The category of the custom action, such as a build action or a test action. Possible values: • Source • Build • Deploy • Test • Invoke • Approval • Compute</param>
+    /// <param name="Provider">The provider of the service used in the custom action, such as CodeDeploy. Constraints: • min: 1 • max: 35 • pattern: [0-9A-Za-z_-]+</param>
+    /// <param name="InputArtifactDetails">The details of the input artifact for the action, such as its commit ID. minimumCount -&gt; (integer) [required] The minimum number of artifacts allowed for the action type. Constraints: • min: 0 • max: 5 maximumCount -&gt; (integer) [required] The maximum number of artifacts allowed for the action type. Constraints: • min: 0 • max: 5 Shorthand Syntax: minimumCount=integer,maximumCount=integer JSON Syntax: { "minimumCount": integer, "maximumCount": integer }</param>
+    /// <param name="OutputArtifactDetails">The details of the output artifact of the action, such as its commit ID. minimumCount -&gt; (integer) [required] The minimum number of artifacts allowed for the action type. Constraints: • min: 0 • max: 5 maximumCount -&gt; (integer) [required] The maximum number of artifacts allowed for the action type. Constraints: • min: 0 • max: 5 Shorthand Syntax: minimumCount=integer,maximumCount=integer JSON Syntax: { "minimumCount": integer, "maximumCount": integer }</param>
+    /// <param name="ActionVersion">The version identifier of the custom action. Constraints: • min: 1 • max: 9 • pattern: [0-9A-Za-z_-]+</param>
     public AwsCodepipelineCreateCustomActionTypeOptions(
         AwsCodepipelineCreateCustomActionTypeCategory Category,
         string Provider,
@@ -73,50 +75,50 @@ public record AwsCodepipelineCreateCustomActionTypeOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The category of the custom action, such as a build action or a test action. Possible values: o Source o Build o Deploy o Test o Invoke o Approval o Compute
+    /// The category of the custom action, such as a build action or a test action. Possible values: • Source • Build • Deploy • Test • Invoke • Approval • Compute
     /// </summary>
     [CliOption("--category")]
     public AwsCodepipelineCreateCustomActionTypeCategory? Category { get; private init; }
 
     /// <summary>
-    /// The provider of the service used in the custom action, such as Cod- eDeploy. Constraints: o min: 1 o max: 35 o pattern: [0-9A-Za-z_-]+
+    /// The provider of the service used in the custom action, such as CodeDeploy. Constraints: • min: 1 • max: 35 • pattern: [0-9A-Za-z_-]+
     /// </summary>
     [CliOption("--provider")]
     public string? Provider { get; private init; }
 
     /// <summary>
-    /// The details of the input artifact for the action, such as its commit ID. minimumCount -&gt; (integer) [required] The minimum number of artifacts allowed for the action type. Constraints: o min: 0 o max: 5 maximumCount -&gt; (integer) [required] The maximum number of artifacts allowed for the action type. Constraints: o min: 0 o max: 5 Shorthand Syntax: minimumCount=integer,maximumCount=integer JSON Syntax: { "minimumCount": integer, "maximumCount": integer }
+    /// The details of the input artifact for the action, such as its commit ID. minimumCount -&gt; (integer) [required] The minimum number of artifacts allowed for the action type. Constraints: • min: 0 • max: 5 maximumCount -&gt; (integer) [required] The maximum number of artifacts allowed for the action type. Constraints: • min: 0 • max: 5 Shorthand Syntax: minimumCount=integer,maximumCount=integer JSON Syntax: { "minimumCount": integer, "maximumCount": integer }
     /// </summary>
     [CliOption("--input-artifact-details")]
     public string? InputArtifactDetails { get; private init; }
 
     /// <summary>
-    /// The details of the output artifact of the action, such as its commit ID. minimumCount -&gt; (integer) [required] The minimum number of artifacts allowed for the action type. Constraints: o min: 0 o max: 5 maximumCount -&gt; (integer) [required] The maximum number of artifacts allowed for the action type. Constraints: o min: 0 o max: 5 Shorthand Syntax: minimumCount=integer,maximumCount=integer JSON Syntax: { "minimumCount": integer, "maximumCount": integer }
+    /// The details of the output artifact of the action, such as its commit ID. minimumCount -&gt; (integer) [required] The minimum number of artifacts allowed for the action type. Constraints: • min: 0 • max: 5 maximumCount -&gt; (integer) [required] The maximum number of artifacts allowed for the action type. Constraints: • min: 0 • max: 5 Shorthand Syntax: minimumCount=integer,maximumCount=integer JSON Syntax: { "minimumCount": integer, "maximumCount": integer }
     /// </summary>
     [CliOption("--output-artifact-details")]
     public string? OutputArtifactDetails { get; private init; }
 
     /// <summary>
-    /// The version identifier of the custom action. Constraints: o min: 1 o max: 9 o pattern: [0-9A-Za-z_-]+
+    /// The version identifier of the custom action. Constraints: • min: 1 • max: 9 • pattern: [0-9A-Za-z_-]+
     /// </summary>
     [CliOption("--action-version")]
     public string? ActionVersion { get; private init; }
 
     /// <summary>
-    /// URLs that provide users information about this custom action. thirdPartyConfigurationUrl -&gt; (string) The URL of a sign-up page where users can sign up for an exter- nal service and perform initial configuration of the action pro- vided by that service. Constraints: o min: 1 o max: 2048 entityUrlTemplate -&gt; (string) The URL returned to the CodePipeline console that provides a deep link to the resources of the external system, such as the configuration page for a CodeDeploy deployment group. This link is provided as part of the action display in the pipeline. Constraints: o min: 1 o max: 2048 executionUrlTemplate -&gt; (string) The URL returned to the CodePipeline console that contains a link to the top-level landing page for the external system, such as the console page for CodeDeploy. This link is shown on the pipeline view page in the CodePipeline console and provides a link to the execution entity of the external action. Constraints: o min: 1 o max: 2048 revisionUrlTemplate -&gt; (string) The URL returned to the CodePipeline console that contains a link to the page where customers can update or change the con- figuration of the external action. Constraints: o min: 1 o max: 2048 Shorthand Syntax: thirdPartyConfigurationUrl=string,entityUrlTemplate=string,executionUrlTemplate=string,revisionUrlTemplate=string JSON Syntax: { "thirdPartyConfigurationUrl": "string", "entityUrlTemplate": "string", "executionUrlTemplate": "string", "revisionUrlTemplate": "string" }
+    /// URLs that provide users information about this custom action. thirdPartyConfigurationUrl -&gt; (string) The URL of a sign-up page where users can sign up for an external service and perform initial configuration of the action provided by that service. Constraints: • min: 1 • max: 2048 entityUrlTemplate -&gt; (string) The URL returned to the CodePipeline console that provides a deep link to the resources of the external system, such as the configuration page for a CodeDeploy deployment group. This link is provided as part of the action display in the pipeline. Constraints: • min: 1 • max: 2048 executionUrlTemplate -&gt; (string) The URL returned to the CodePipeline console that contains a link to the top-level landing page for the external system, such as the console page for CodeDeploy. This link is shown on the pipeline view page in the CodePipeline console and provides a link to the execution entity of the external action. Constraints: • min: 1 • max: 2048 revisionUrlTemplate -&gt; (string) The URL returned to the CodePipeline console that contains a link to the page where customers can update or change the configuration of the external action. Constraints: • min: 1 • max: 2048 Shorthand Syntax: thirdPartyConfigurationUrl=string,entityUrlTemplate=string,executionUrlTemplate=string,revisionUrlTemplate=string JSON Syntax: { "thirdPartyConfigurationUrl": "string", "entityUrlTemplate": "string", "executionUrlTemplate": "string", "revisionUrlTemplate": "string" }
     /// </summary>
     [CliOption("--settings")]
     public string? Settings { get; set; }
 
     /// <summary>
-    /// The configuration properties for the custom action. NOTE: You can refer to a name in the configuration properties of the custom action within the URL templates by following the format of {Config:name}, as long as the configuration property is both required and not secret. For more information, see Create a Cus- tom Action for a Pipeline . Constraints: o max: 10 (structure) Represents information about an action configuration property. name -&gt; (string) [required] The name of the action configuration property. Constraints: o min: 1 o max: 50 required -&gt; (boolean) [required] Whether the configuration property is a required value. key -&gt; (boolean) [required] Whether the configuration property is a key. secret -&gt; (boolean) [required] Whether the configuration property is secret. Secrets are hidden from all calls except for GetJobDetails , GetThirdPar- tyJobDetails , PollForJobs , and PollForThirdPartyJobs . When updating a pipeline, passing * * * * * without changing any other values of the action preserves the previous value of the secret. queryable -&gt; (boolean) Indicates that the property is used with PollForJobs . When creating a custom action, an action can have up to one queryable property. If it has one, that property must be both required and not secret. If you create a pipeline with a custom action type, and that custom action contains a queryable property, the value for that configuration property is subject to other restrictions. The value must be less than or equal to twenty (20) charac- ters. The value can contain only alphanumeric characters, un- derscores, and hyphens. description -&gt; (string) The description of the action configuration property that is displayed to users. Constraints: o min: 1 o max: 160 type -&gt; (string) The type of the configuration property. Possible values: o String o Number o Boolean Shorthand Syntax: name=string,required=boolean,key=boolean,secret=boolean,queryable=boolean,description=string,type=string ... JSON Syntax: [ { "name": "string", "required": true|false, "key": true|false, "secret": true|false, "queryable": true|false, "description": "string", "type": "String"|"Number"|"Boolean" } ... ]
+    /// The configuration properties for the custom action. NOTE: You can refer to a name in the configuration properties of the custom action within the URL templates by following the format of {Config:name}, as long as the configuration property is both required and not secret. For more information, see Create a Custom Action for a Pipeline . Constraints: • max: 10 (structure) Represents information about an action configuration property. name -&gt; (string) [required] The name of the action configuration property. Constraints: • min: 1 • max: 50 required -&gt; (boolean) [required] Whether the configuration property is a required value. key -&gt; (boolean) [required] Whether the configuration property is a key. secret -&gt; (boolean) [required] Whether the configuration property is secret. Secrets are hidden from all calls except for GetJobDetails , GetThirdPartyJobDetails , PollForJobs , and PollForThirdPartyJobs . When updating a pipeline, passing * * * * * without changing any other values of the action preserves the previous value of the secret. queryable -&gt; (boolean) Indicates that the property is used with PollForJobs . When creating a custom action, an action can have up to one queryable property. If it has one, that property must be both required and not secret. If you create a pipeline with a custom action type, and that custom action contains a queryable property, the value for that configuration property is subject to other restrictions. The value must be less than or equal to twenty (20) characters. The value can contain only alphanumeric characters, underscores, and hyphens. description -&gt; (string) The description of the action configuration property that is displayed to users. Constraints: • min: 1 • max: 160 type -&gt; (string) The type of the configuration property. Possible values: • String • Number • Boolean Shorthand Syntax: name=string,required=boolean,key=boolean,secret=boolean,queryable=boolean,description=string,type=string ... JSON Syntax: [ { "name": "string", "required": true|false, "key": true|false, "secret": true|false, "queryable": true|false, "description": "string", "type": "String"|"Number"|"Boolean" } ... ]
     /// </summary>
     [SecretValue]
     [CliOption("--configuration-properties", GroupValues = true)]
     public IEnumerable<string>? ConfigurationProperties { get; set; }
 
     /// <summary>
-    /// The tags for the custom action. (structure) A tag is a key-value pair that is used to manage the resource. key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// The tags for the custom action. (structure) A tag is a key-value pair that is used to manage the resource. key -&gt; (string) [required] The tag's key. Constraints: • min: 1 • max: 128 value -&gt; (string) [required] The tag's value. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsLightsailDeleteContactMethodOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Deletes a contact method. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each Amazon Web Services Region. However, SMS text messaging is not supported in some Amazon Web Services Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see Notifications in Amazon Lightsail . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Protocol">The protocol that will be deleted, such as Email or SMS (text mes- saging). NOTE: To delete an Email and an SMS contact method if you added both, you must run separate DeleteContactMethod actions to delete each protocol. Possible values: o Email o SMS</param>
+    /// <param name="Protocol">The protocol that will be deleted, such as Email or SMS (text messaging). NOTE: To delete an Email and an SMS contact method if you added both, you must run separate DeleteContactMethod actions to delete each protocol. Possible values: • Email • SMS</param>
     public AwsLightsailDeleteContactMethodOptions(
         AwsLightsailDeleteContactMethodProtocol Protocol
     )
@@ -56,7 +58,7 @@ public record AwsLightsailDeleteContactMethodOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The protocol that will be deleted, such as Email or SMS (text mes- saging). NOTE: To delete an Email and an SMS contact method if you added both, you must run separate DeleteContactMethod actions to delete each protocol. Possible values: o Email o SMS
+    /// The protocol that will be deleted, such as Email or SMS (text messaging). NOTE: To delete an Email and an SMS contact method if you added both, you must run separate DeleteContactMethod actions to delete each protocol. Possible values: • Email • SMS
     /// </summary>
     [CliOption("--protocol")]
     public AwsLightsailDeleteContactMethodProtocol? Protocol { get; private init; }

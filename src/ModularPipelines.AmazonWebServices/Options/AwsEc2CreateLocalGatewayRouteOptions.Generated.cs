@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a static route for the specified local gateway route table. You must specify one of the following targets: o LocalGatewayVirtualInterfaceGroupId o NetworkInterfaceId See also: AWS API Documentation
+/// Creates a static route for the specified local gateway route table. You must specify one of the following targets: • LocalGatewayVirtualInterfaceGroupId • NetworkInterfaceId See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsEc2CreateLocalGatewayRouteOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a static route for the specified local gateway route table. You must specify one of the following targets: o LocalGatewayVirtualInterfaceGroupId o NetworkInterfaceId See also: AWS API Documentation
+    /// Creates a static route for the specified local gateway route table. You must specify one of the following targets: • LocalGatewayVirtualInterfaceGroupId • NetworkInterfaceId See also: AWS API Documentation
     /// </summary>
     /// <param name="LocalGatewayRouteTableId">The ID of the local gateway route table.</param>
     public AwsEc2CreateLocalGatewayRouteOptions(
@@ -74,7 +76,7 @@ public record AwsEc2CreateLocalGatewayRouteOptions : AwsOptions, IValidatableObj
     public string? LocalGatewayVirtualInterfaceGroupId { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -86,7 +88,7 @@ public record AwsEc2CreateLocalGatewayRouteOptions : AwsOptions, IValidatableObj
     public string? NetworkInterfaceId { get; set; }
 
     /// <summary>
-    /// The ID of the prefix list. Use a prefix list in place of Destina- tionCidrBlock . You cannot use DestinationPrefixListId and Destina- tionCidrBlock in the same request.
+    /// The ID of the prefix list. Use a prefix list in place of DestinationCidrBlock . You cannot use DestinationPrefixListId and DestinationCidrBlock in the same request.
     /// </summary>
     [CliOption("--destination-prefix-list-id")]
     public string? DestinationPrefixListId { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsRoute53resolverUpdateResolverConfigOptions : AwsOptions, IValid
     /// <summary>
     /// Updates the behavior configuration of Route 53 Resolver behavior for a single VPC from Amazon Virtual Private Cloud. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceId">The ID of the Amazon Virtual Private Cloud VPC or a Route 53 Profile that you're configuring Resolver for. Constraints: o min: 1 o max: 64</param>
-    /// <param name="AutodefinedReverseFlag">Indicates whether or not the Resolver will create autodefined rules for reverse DNS lookups. This is enabled by default. Disabling this option will also affect EC2-Classic instances using ClassicLink. For more information, see ClassicLink in the Amazon EC2 guide . WARNING: We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more informa- tion, see Migrate from EC2-Classic to a VPC in the Amazon EC2 guide and the blog EC2-Classic Networking is Retiring Heres How to Prepare . NOTE: It can take some time for the status change to be completed. Possible values: o ENABLE o DISABLE o USE_LOCAL_RESOURCE_SETTING</param>
+    /// <param name="ResourceId">The ID of the Amazon Virtual Private Cloud VPC or a Route 53 Profile that you're configuring Resolver for. Constraints: • min: 1 • max: 64</param>
+    /// <param name="AutodefinedReverseFlag">Indicates whether or not the Resolver will create autodefined rules for reverse DNS lookups. This is enabled by default. Disabling this option will also affect EC2-Classic instances using ClassicLink. For more information, see ClassicLink in the Amazon EC2 guide . WARNING: We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon EC2 guide and the blog EC2-Classic Networking is Retiring Heres How to Prepare . NOTE: It can take some time for the status change to be completed. Possible values: • ENABLE • DISABLE • USE_LOCAL_RESOURCE_SETTING</param>
     public AwsRoute53resolverUpdateResolverConfigOptions(
         string ResourceId,
         AwsRoute53resolverUpdateResolverConfigAutodefinedReverseFlag AutodefinedReverseFlag
@@ -60,13 +62,13 @@ public record AwsRoute53resolverUpdateResolverConfigOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Virtual Private Cloud VPC or a Route 53 Profile that you're configuring Resolver for. Constraints: o min: 1 o max: 64
+    /// The ID of the Amazon Virtual Private Cloud VPC or a Route 53 Profile that you're configuring Resolver for. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// Indicates whether or not the Resolver will create autodefined rules for reverse DNS lookups. This is enabled by default. Disabling this option will also affect EC2-Classic instances using ClassicLink. For more information, see ClassicLink in the Amazon EC2 guide . WARNING: We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more informa- tion, see Migrate from EC2-Classic to a VPC in the Amazon EC2 guide and the blog EC2-Classic Networking is Retiring Heres How to Prepare . NOTE: It can take some time for the status change to be completed. Possible values: o ENABLE o DISABLE o USE_LOCAL_RESOURCE_SETTING
+    /// Indicates whether or not the Resolver will create autodefined rules for reverse DNS lookups. This is enabled by default. Disabling this option will also affect EC2-Classic instances using ClassicLink. For more information, see ClassicLink in the Amazon EC2 guide . WARNING: We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon EC2 guide and the blog EC2-Classic Networking is Retiring Heres How to Prepare . NOTE: It can take some time for the status change to be completed. Possible values: • ENABLE • DISABLE • USE_LOCAL_RESOURCE_SETTING
     /// </summary>
     [CliOption("--autodefined-reverse-flag")]
     public AwsRoute53resolverUpdateResolverConfigAutodefinedReverseFlag? AutodefinedReverseFlag { get; private init; }

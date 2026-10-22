@@ -32,7 +32,7 @@ public class AwsDrs : IAwsDrs
     #region Commands
 
     /// <summary>
-    /// Associate a Source Network to an existing CloudFormation Stack and mod- ify launch templates to use this network. Can be used for reverting to previously deployed CloudFormation stacks. See also: AWS API Documentation
+    /// Associate a Source Network to an existing CloudFormation Stack and modify launch templates to use this network. Can be used for reverting to previously deployed CloudFormation stacks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsDrs : IAwsDrs
     }
 
     /// <summary>
-    /// Deletes a single Recovery Instance by ID. This deletes the Recovery In- stance resource from Elastic Disaster Recovery. The Recovery Instance must be disconnected first in order to delete it. See also: AWS API Documentation
+    /// Deletes a single Recovery Instance by ID. This deletes the Recovery Instance resource from Elastic Disaster Recovery. The Recovery Instance must be disconnected first in order to delete it. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsDrs : IAwsDrs
     }
 
     /// <summary>
-    /// Deletes a single Source Server by ID. The Source Server must be discon- nected first. See also: AWS API Documentation
+    /// Deletes a single Source Server by ID. The Source Server must be disconnected first. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsDrs : IAwsDrs
     }
 
     /// <summary>
-    /// Returns a list of Jobs. Use the JobsID and fromDate and toDate filters to limit which jobs are returned. The response is sorted by creation- DataTime - latest date first. Jobs are created by the StartRecovery, TerminateRecoveryInstances and StartFailbackLaunch APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to Support and only used in response to relevant support tickets. See also: AWS API Documentation describe-jobs is a paginated ...
+    /// Returns a list of Jobs. Use the JobsID and fromDate and toDate filters to limit which jobs are returned. The response is sorted by creationDataTime - latest date first. Jobs are created by the StartRecovery, TerminateRecoveryInstances and StartFailbackLaunch APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to Support and only used in response to relevant support tickets. See also: AWS API Documentation describe-jobs is a paginated op...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsDrs : IAwsDrs
     }
 
     /// <summary>
-    /// Lists all Launch Configuration Templates, filtered by Launch Configura- tion Template IDs See also: AWS API Documentation describe-launch-configuration-templates is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query ...
+    /// Lists all Launch Configuration Templates, filtered by Launch Configuration Template IDs See also: AWS API Documentation describe-launch-configuration-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expres...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsDrs : IAwsDrs
     }
 
     /// <summary>
-    /// Lists all Recovery Instances or multiple Recovery Instances by ID. See also: AWS API Documentation describe-recovery-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Lists all Recovery Instances or multiple Recovery Instances by ID. See also: AWS API Documentation describe-recovery-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsDrs : IAwsDrs
     }
 
     /// <summary>
-    /// Lists all Recovery Snapshots for a single Source Server. See also: AWS API Documentation describe-recovery-snapshots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Lists all Recovery Snapshots for a single Source Server. See also: AWS API Documentation describe-recovery-snapshots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsDrs : IAwsDrs
     }
 
     /// <summary>
-    /// Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs. See also: AWS API Documentation describe-replication-configuration-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressio...
+    /// Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs. See also: AWS API Documentation describe-replication-configuration-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsDrs : IAwsDrs
     }
 
     /// <summary>
-    /// Lists all Source Networks or multiple Source Networks filtered by ID. See also: AWS API Documentation describe-source-networks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
+    /// Lists all Source Networks or multiple Source Networks filtered by ID. See also: AWS API Documentation describe-source-networks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsDrs : IAwsDrs
     }
 
     /// <summary>
-    /// Lists all Source Servers or multiple Source Servers filtered by ID. See also: AWS API Documentation describe-source-servers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
+    /// Lists all Source Servers or multiple Source Servers filtered by ID. See also: AWS API Documentation describe-source-servers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsDrs : IAwsDrs
     }
 
     /// <summary>
-    /// Disconnect a Recovery Instance from Elastic Disaster Recovery. Data replication is stopped immediately. All AWS resources created by Elas- tic Disaster Recovery for enabling the replication of the Recovery In- stance will be terminated / deleted within 90 minutes. If the agent on the Recovery Instance has not been prevented from communicating with the Elastic Disaster Recovery service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties ...
+    /// Disconnect a Recovery Instance from Elastic Disaster Recovery. Data replication is stopped immediately. All AWS resources created by Elastic Disaster Recovery for enabling the replication of the Recovery Instance will be terminated / deleted within 90 minutes. If the agent on the Recovery Instance has not been prevented from communicating with the Elastic Disaster Recovery service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsDrs : IAwsDrs
     }
 
     /// <summary>
-    /// Disconnects a specific Source Server from Elastic Disaster Recovery. Data replication is stopped immediately. All AWS resources created by Elastic Disaster Recovery for enabling the replication of the Source Server will be terminated / deleted within 90 minutes. You cannot dis- connect a Source Server if it has a Recovery Instance. If the agent on the Source Server has not been prevented from communicating with the Elastic Disaster Recovery service, then it will receive a command to uninstall it...
+    /// Disconnects a specific Source Server from Elastic Disaster Recovery. Data replication is stopped immediately. All AWS resources created by Elastic Disaster Recovery for enabling the replication of the Source Server will be terminated / deleted within 90 minutes. You cannot disconnect a Source Server if it has a Recovery Instance. If the agent on the Source Server has not been prevented from communicating with the Elastic Disaster Recovery service, then it will receive a command to uninstall itse...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsDrs : IAwsDrs
     }
 
     /// <summary>
-    /// Lists all Failback ReplicationConfigurations, filtered by Recovery In- stance ID. See also: AWS API Documentation
+    /// Lists all Failback ReplicationConfigurations, filtered by Recovery Instance ID. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsDrs : IAwsDrs
     }
 
     /// <summary>
-    /// Returns a list of source servers on a staging account that are extensi- ble, which means that: a. The source server is not already extended into this Account. b. The source server on the Account were reading from is not an extension of another source server. See also: AWS API Documentation list-extensible-source-servers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ...
+    /// Returns a list of source servers on a staging account that are extensible, which means that: a. The source server is not already extended into this Account. b. The source server on the Account were reading from is not an extension of another source server. See also: AWS API Documentation list-extensible-source-servers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +617,22 @@ public class AwsDrs : IAwsDrs
     }
 
     /// <summary>
-    /// Lists executions of Recovery Plans, optionally filtered by plan or sta- tus. See also: AWS API Documentation list-recovery-plan-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: recoveryPl...
+    /// Lists all steps within a Recovery Plan execution. See also: AWS API Documentation list-recovery-plan-execution-steps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: recoveryPlanExecutionSteps
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListRecoveryPlanExecutionStepsAsync(
+        AwsDrsListRecoveryPlanExecutionStepsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists executions of Recovery Plans, optionally filtered by plan or status. See also: AWS API Documentation list-recovery-plan-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: recoveryPlanExec...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -632,14 +647,14 @@ public class AwsDrs : IAwsDrs
     }
 
     /// <summary>
-    /// Lists all steps within a Recovery Plan execution. See also: AWS API Documentation list-recovery-plan-execution-steps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: recoveryPlanExecutionSteps
+    /// Lists all steps in a Recovery Plan. See also: AWS API Documentation list-recovery-plan-steps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: recoveryPlanSteps
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListRecoveryPlanExecutionStepsAsync(
-        AwsDrsListRecoveryPlanExecutionStepsOptions options,
+    public virtual async Task<CommandResult> ListRecoveryPlanStepsAsync(
+        AwsDrsListRecoveryPlanStepsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -659,21 +674,6 @@ public class AwsDrs : IAwsDrs
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDrsListRecoveryPlansOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists all steps in a Recovery Plan. See also: AWS API Documentation list-recovery-plan-steps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: recoveryPlanSteps
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListRecoveryPlanStepsAsync(
-        AwsDrsListRecoveryPlanStepsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -752,7 +752,7 @@ public class AwsDrs : IAwsDrs
     }
 
     /// <summary>
-    /// Start replication to origin / target region - applies only to protected instances that originated in EC2. For recovery instances on target re- gion - starts replication back to origin region. For failback instances on origin region - starts replication to target region to re-protect them. See also: AWS API Documentation
+    /// Start replication to origin / target region - applies only to protected instances that originated in EC2. For recovery instances on target region - starts replication back to origin region. For failback instances on origin region - starts replication to target region to re-protect them. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -767,7 +767,7 @@ public class AwsDrs : IAwsDrs
     }
 
     /// <summary>
-    /// Initiates a Job for launching the machine that is being failed back to from the specified Recovery Instance. This will run conversion on the failback client and will reboot your machine, thus completing the fail- back process. See also: AWS API Documentation
+    /// Initiates a Job for launching the machine that is being failed back to from the specified Recovery Instance. This will run conversion on the failback client and will reboot your machine, thus completing the failback process. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -797,7 +797,7 @@ public class AwsDrs : IAwsDrs
     }
 
     /// <summary>
-    /// Starts executing a Recovery Plan in DRILL or RECOVERY mode. A plan can- not have more than one execution in a non-terminal status at a time. See also: AWS API Documentation
+    /// Starts executing a Recovery Plan in DRILL or RECOVERY mode. A plan cannot have more than one execution in a non-terminal status at a time. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -827,7 +827,7 @@ public class AwsDrs : IAwsDrs
     }
 
     /// <summary>
-    /// Deploy VPC for the specified Source Network and modify launch templates to use this network. The VPC will be deployed using a dedicated Cloud- Formation stack. See also: AWS API Documentation
+    /// Deploy VPC for the specified Source Network and modify launch templates to use this network. The VPC will be deployed using a dedicated CloudFormation stack. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -857,7 +857,7 @@ public class AwsDrs : IAwsDrs
     }
 
     /// <summary>
-    /// Stops the failback process for a specified Recovery Instance. This changes the Failback State of the Recovery Instance back to FAIL- BACK_NOT_STARTED. See also: AWS API Documentation
+    /// Stops the failback process for a specified Recovery Instance. This changes the Failback State of the Recovery Instance back to FAILBACK_NOT_STARTED. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -917,7 +917,7 @@ public class AwsDrs : IAwsDrs
     }
 
     /// <summary>
-    /// Initiates a Job for terminating the EC2 resources associated with the specified Recovery Instances, and then will delete the Recovery In- stances from the Elastic Disaster Recovery service. See also: AWS API Documentation
+    /// Initiates a Job for terminating the EC2 resources associated with the specified Recovery Instances, and then will delete the Recovery Instances from the Elastic Disaster Recovery service. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -947,7 +947,7 @@ public class AwsDrs : IAwsDrs
     }
 
     /// <summary>
-    /// Allows you to update the failback replication configuration of a Recov- ery Instance by ID. See also: AWS API Documentation
+    /// Allows you to update the failback replication configuration of a Recovery Instance by ID. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1022,7 +1022,7 @@ public class AwsDrs : IAwsDrs
     }
 
     /// <summary>
-    /// Updates a Recovery Plan step's name or configuration. Step type is im- mutable. See also: AWS API Documentation
+    /// Updates a Recovery Plan step's name or configuration. Step type is immutable. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

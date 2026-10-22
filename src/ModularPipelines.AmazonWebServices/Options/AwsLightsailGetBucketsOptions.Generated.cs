@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about one or more Amazon Lightsail buckets. The in- formation returned includes the synchronization status of the Amazon Simple Storage Service (Amazon S3) account-level block public access feature for your Lightsail buckets. For more information about buckets, see Buckets in Amazon Lightsail in the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+/// Returns information about one or more Amazon Lightsail buckets. The information returned includes the synchronization status of the Amazon Simple Storage Service (Amazon S3) account-level block public access feature for your Lightsail buckets. For more information about buckets, see Buckets in Amazon Lightsail in the Amazon Lightsail Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLightsailGetBucketsOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the bucket for which to return information. When omitted, the response includes all of your buckets in the Ama- zon Web Services Region where the request is made. Constraints: o min: 3 o max: 54 o pattern: ^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$
+    /// The name of the bucket for which to return information. When omitted, the response includes all of your buckets in the Amazon Web Services Region where the request is made. Constraints: • min: 3 • max: 54 • pattern: ^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$
     /// </summary>
     [CliOption("--bucket-name")]
     public string? BucketName { get; set; }
@@ -36,7 +36,7 @@ public record AwsLightsailGetBucketsOptions : AwsOptions
     public string? PageToken { get; set; }
 
     /// <summary>
-    /// A Boolean value that indicates whether to include Lightsail in- stances that were given access to the bucket using the SetResourceAccessForBucket action.
+    /// A Boolean value that indicates whether to include Lightsail instances that were given access to the bucket using the SetResourceAccessForBucket action.
     /// </summary>
     [CliFlag("--include-connected-resources", NegatedName = "--no-include-connected-resources")]
     public bool? IncludeConnectedResources { get; set; }

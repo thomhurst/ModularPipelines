@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +31,8 @@ public record AwsDeadlineUpdateBudgetOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates a budget that sets spending thresholds for rendering activity. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The farm ID of the budget to update. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="BudgetId">The budget ID to update. Constraints: o pattern: budget-[0-9a-f]{32}</param>
+    /// <param name="FarmId">The farm ID of the budget to update. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="BudgetId">The budget ID to update. Constraints: • pattern: budget-[0-9a-f]{32}</param>
     public AwsDeadlineUpdateBudgetOptions(
         string FarmId,
         string BudgetId
@@ -62,56 +64,56 @@ public record AwsDeadlineUpdateBudgetOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID of the budget to update. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID of the budget to update. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The budget ID to update. Constraints: o pattern: budget-[0-9a-f]{32}
+    /// The budget ID to update. Constraints: • pattern: budget-[0-9a-f]{32}
     /// </summary>
     [CliOption("--budget-id")]
     public string? BudgetId { get; private init; }
 
     /// <summary>
-    /// The unique token which the server uses to recognize retries of the same request. Constraints: o min: 1 o max: 64
+    /// The unique token which the server uses to recognize retries of the same request. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The display name of the budget to update. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: o min: 1 o max: 100
+    /// The display name of the budget to update. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The description of the budget to update. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: o min: 0 o max: 100
+    /// The description of the budget to update. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Updates the status of the budget. o ACTIVE The budget is being evaluated. o INACTIVE The budget is inactive. This can include Expired, Can- celed, or deleted Deleted statuses. Possible values: o ACTIVE o INACTIVE
+    /// Updates the status of the budget. • ACTIVE The budget is being evaluated. • INACTIVE The budget is inactive. This can include Expired, Canceled, or deleted Deleted statuses. Possible values: • ACTIVE • INACTIVE
     /// </summary>
     [CliOption("--status")]
     public AwsDeadlineUpdateBudgetStatus? Status { get; set; }
 
     /// <summary>
-    /// The dollar limit to update on the budget. Based on consumed usage. Constraints: o min: 0.01
+    /// The dollar limit to update on the budget. Based on consumed usage. Constraints: • min: 0.01
     /// </summary>
     [CliOption("--approximate-dollar-limit")]
-    public int? ApproximateDollarLimit { get; set; }
+    public double? ApproximateDollarLimit { get; set; }
 
     /// <summary>
-    /// The budget actions to add. Budget actions specify what happens when the budget runs out. Constraints: o min: 0 o max: 10 (structure) The budget action to add. type -&gt; (string) [required] The type of budget action to add. Possible values: o STOP_SCHEDULING_AND_COMPLETE_TASKS o STOP_SCHEDULING_AND_CANCEL_TASKS thresholdPercentage -&gt; (float) [required] The percentage threshold for the budget action to add. Constraints: o min: 0 o max: 100 description -&gt; (string) A description for the budget action to add. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: o min: 0 o max: 100 Shorthand Syntax: type=string,thresholdPercentage=float,description=string ... JSON Syntax: [ { "type": "STOP_SCHEDULING_AND_COMPLETE_TASKS"|"STOP_SCHEDULING_AND_CANCEL_TASKS", "thresholdPercentage": float, "description": "string" } ... ]
+    /// The budget actions to add. Budget actions specify what happens when the budget runs out. Constraints: • min: 0 • max: 10 (structure) The budget action to add. type -&gt; (string) [required] The type of budget action to add. Possible values: • STOP_SCHEDULING_AND_COMPLETE_TASKS • STOP_SCHEDULING_AND_CANCEL_TASKS thresholdPercentage -&gt; (float) [required] The percentage threshold for the budget action to add. Constraints: • min: 0 • max: 100 description -&gt; (string) A description for the budget action to add. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: • min: 0 • max: 100 Shorthand Syntax: type=string,thresholdPercentage=float,description=string ... JSON Syntax: [ { "type": "STOP_SCHEDULING_AND_COMPLETE_TASKS"|"STOP_SCHEDULING_AND_CANCEL_TASKS", "thresholdPercentage": float, "description": "string" } ... ]
     /// </summary>
     [CliOption("--actions-to-add", GroupValues = true)]
     public IEnumerable<string>? ActionsToAdd { get; set; }
 
     /// <summary>
-    /// The budget actions to remove from the budget. Constraints: o min: 0 o max: 10 (structure) The budget action to remove. type -&gt; (string) [required] The type of budget action to remove. Possible values: o STOP_SCHEDULING_AND_COMPLETE_TASKS o STOP_SCHEDULING_AND_CANCEL_TASKS thresholdPercentage -&gt; (float) [required] The percentage threshold for the budget action to remove. Constraints: o min: 0 o max: 100 Shorthand Syntax: type=string,thresholdPercentage=float ... JSON Syntax: [ { "type": "STOP_SCHEDULING_AND_COMPLETE_TASKS"|"STOP_SCHEDULING_AND_CANCEL_TASKS", "thresholdPercentage": float } ... ]
+    /// The budget actions to remove from the budget. Constraints: • min: 0 • max: 10 (structure) The budget action to remove. type -&gt; (string) [required] The type of budget action to remove. Possible values: • STOP_SCHEDULING_AND_COMPLETE_TASKS • STOP_SCHEDULING_AND_CANCEL_TASKS thresholdPercentage -&gt; (float) [required] The percentage threshold for the budget action to remove. Constraints: • min: 0 • max: 100 Shorthand Syntax: type=string,thresholdPercentage=float ... JSON Syntax: [ { "type": "STOP_SCHEDULING_AND_COMPLETE_TASKS"|"STOP_SCHEDULING_AND_CANCEL_TASKS", "thresholdPercentage": float } ... ]
     /// </summary>
     [CliOption("--actions-to-remove", GroupValues = true)]
     public IEnumerable<string>? ActionsToRemove { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsQuicksightDescribeDashboardPermissionsOptions : AwsOptions, IVa
     /// <summary>
     /// Describes read and write permissions for a dashboard. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the dash- board that you're describing permissions for. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="DashboardId">The ID for the dashboard, also added to the IAM policy. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the dashboard that you're describing permissions for. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="DashboardId">The ID for the dashboard, also added to the IAM policy. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+</param>
     public AwsQuicksightDescribeDashboardPermissionsOptions(
         string AwsAccountId,
         string DashboardId
@@ -60,13 +62,13 @@ public record AwsQuicksightDescribeDashboardPermissionsOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the dash- board that you're describing permissions for. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the dashboard that you're describing permissions for. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID for the dashboard, also added to the IAM policy. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// The ID for the dashboard, also added to the IAM policy. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--dashboard-id")]
     public string? DashboardId { get; private init; }

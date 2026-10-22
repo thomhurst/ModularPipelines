@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a policy version from a core network. You can't delete the cur- rent LIVE policy. See also: AWS API Documentation
+/// Deletes a policy version from a core network. You can't delete the current LIVE policy. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsNetworkmanagerDeleteCoreNetworkPolicyVersionOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a policy version from a core network. You can't delete the cur- rent LIVE policy. See also: AWS API Documentation
+    /// Deletes a policy version from a core network. You can't delete the current LIVE policy. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CoreNetworkId">The ID of a core network for the deleted policy. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$</param>
+    /// <param name="CoreNetworkId">The ID of a core network for the deleted policy. Constraints: • min: 0 • max: 50 • pattern: ^core-network-([0-9a-f]{8,17})$</param>
     /// <param name="PolicyVersionId">The version ID of the deleted policy.</param>
     public AwsNetworkmanagerDeleteCoreNetworkPolicyVersionOptions(
         string CoreNetworkId,
@@ -59,7 +61,7 @@ public record AwsNetworkmanagerDeleteCoreNetworkPolicyVersionOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of a core network for the deleted policy. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$
+    /// The ID of a core network for the deleted policy. Constraints: • min: 0 • max: 50 • pattern: ^core-network-([0-9a-f]{8,17})$
     /// </summary>
     [CliOption("--core-network-id")]
     public string? CoreNetworkId { get; private init; }

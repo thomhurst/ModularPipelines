@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsSecurityhubUpdateAggregatorV2Options : AwsOptions, IValidatable
     /// <summary>
     /// Udpates the configuration for the Aggregator V2. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AggregatorV2Arn">The ARN of the Aggregator V2. Constraints: o pattern: .*\S.*</param>
-    /// <param name="RegionLinkingMode">Determines how Amazon Web Services Regions should be linked to the Aggregator V2. Constraints: o pattern: .*\S.*</param>
+    /// <param name="AggregatorV2Arn">The ARN of the Aggregator V2. Constraints: • pattern: .*\S.*</param>
+    /// <param name="RegionLinkingMode">Determines how Amazon Web Services Regions should be linked to the Aggregator V2. Constraints: • pattern: .*\S.*</param>
     public AwsSecurityhubUpdateAggregatorV2Options(
         string AggregatorV2Arn,
         string RegionLinkingMode
@@ -60,19 +62,19 @@ public record AwsSecurityhubUpdateAggregatorV2Options : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the Aggregator V2. Constraints: o pattern: .*\S.*
+    /// The ARN of the Aggregator V2. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--aggregator-v2-arn")]
     public string? AggregatorV2Arn { get; private init; }
 
     /// <summary>
-    /// Determines how Amazon Web Services Regions should be linked to the Aggregator V2. Constraints: o pattern: .*\S.*
+    /// Determines how Amazon Web Services Regions should be linked to the Aggregator V2. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--region-linking-mode")]
     public string? RegionLinkingMode { get; private init; }
 
     /// <summary>
-    /// A list of Amazon Web Services Regions linked to the aggegation Re- gion. (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...
+    /// A list of Amazon Web Services Regions linked to the aggegation Region. (string) Constraints: • pattern: .*\S.* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--linked-regions", GroupValues = true)]
     public IEnumerable<string>? LinkedRegions { get; set; }

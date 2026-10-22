@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsInspector2ListTagsForResourceOptions : AwsOptions, IValidatable
     /// <summary>
     /// Lists all tags attached to a given resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon resource number (ARN) of the resource to list tags of. Constraints: o min: 1 o max: 1011</param>
+    /// <param name="ResourceArn">The Amazon resource number (ARN) of the resource to list tags of. Constraints: • min: 1 • max: 1011</param>
     public AwsInspector2ListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsInspector2ListTagsForResourceOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon resource number (ARN) of the resource to list tags of. Constraints: o min: 1 o max: 1011
+    /// The Amazon resource number (ARN) of the resource to list tags of. Constraints: • min: 1 • max: 1011
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

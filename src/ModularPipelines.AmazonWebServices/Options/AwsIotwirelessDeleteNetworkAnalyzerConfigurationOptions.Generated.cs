@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotwirelessDeleteNetworkAnalyzerConfigurationOptions : AwsOptio
     /// <summary>
     /// Deletes a network analyzer configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfigurationName">Name of the network analyzer configuration. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9-_]+</param>
+    /// <param name="ConfigurationName">Name of the network analyzer configuration. Constraints: • min: 1 • max: 1024 • pattern: [a-zA-Z0-9-_]+</param>
     public AwsIotwirelessDeleteNetworkAnalyzerConfigurationOptions(
         string ConfigurationName
     )
@@ -56,7 +58,7 @@ public record AwsIotwirelessDeleteNetworkAnalyzerConfigurationOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the network analyzer configuration. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9-_]+
+    /// Name of the network analyzer configuration. Constraints: • min: 1 • max: 1024 • pattern: [a-zA-Z0-9-_]+
     /// </summary>
     [CliOption("--configuration-name")]
     public string? ConfigurationName { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSesv2DeleteMultiRegionEndpointOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Deletes a multi-region endpoint (global-endpoint). Only multi-region endpoints (global-endpoints) whose primary region is the AWS-Region where operation is executed can be deleted. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EndpointName">The name of the multi-region endpoint (global-endpoint) to be deleted. Constraints: o min: 1 o max: 64 o pattern: ^[\w\-_]+$</param>
+    /// <param name="EndpointName">The name of the multi-region endpoint (global-endpoint) to be deleted. Constraints: • min: 1 • max: 64 • pattern: ^[\w\-_]+$</param>
     public AwsSesv2DeleteMultiRegionEndpointOptions(
         string EndpointName
     )
@@ -56,7 +58,7 @@ public record AwsSesv2DeleteMultiRegionEndpointOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the multi-region endpoint (global-endpoint) to be deleted. Constraints: o min: 1 o max: 64 o pattern: ^[\w\-_]+$
+    /// The name of the multi-region endpoint (global-endpoint) to be deleted. Constraints: • min: 1 • max: 64 • pattern: ^[\w\-_]+$
     /// </summary>
     [CliOption("--endpoint-name")]
     public string? EndpointName { get; private init; }

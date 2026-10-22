@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsChimeListSupportedPhoneNumberCountriesOptions : AwsOptions, IVa
     /// <summary>
     /// Lists supported phone number countries. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProductType">The phone number product type. Possible values: o BusinessCalling o VoiceConnector o SipMediaApplicationDialIn</param>
+    /// <param name="ProductType">The phone number product type. Possible values: • BusinessCalling • VoiceConnector • SipMediaApplicationDialIn</param>
     public AwsChimeListSupportedPhoneNumberCountriesOptions(
         AwsChimeListSupportedPhoneNumberCountriesProductType ProductType
     )
@@ -56,7 +58,7 @@ public record AwsChimeListSupportedPhoneNumberCountriesOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The phone number product type. Possible values: o BusinessCalling o VoiceConnector o SipMediaApplicationDialIn
+    /// The phone number product type. Possible values: • BusinessCalling • VoiceConnector • SipMediaApplicationDialIn
     /// </summary>
     [CliOption("--product-type")]
     public AwsChimeListSupportedPhoneNumberCountriesProductType? ProductType { get; private init; }

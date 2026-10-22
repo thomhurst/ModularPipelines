@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsConnectResumeContactOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Allows resuming a task contact in a paused state. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ContactId">The identifier of the contact. Constraints: o min: 1 o max: 256</param>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="ContactId">The identifier of the contact. Constraints: • min: 1 • max: 256</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: • min: 1 • max: 100</param>
     public AwsConnectResumeContactOptions(
         string ContactId,
         string InstanceId
@@ -60,19 +62,19 @@ public record AwsConnectResumeContactOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the contact. Constraints: o min: 1 o max: 256
+    /// The identifier of the contact. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--contact-id")]
     public string? ContactId { get; private init; }
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the flow. Constraints: o max: 500
+    /// The identifier of the flow. Constraints: • max: 500
     /// </summary>
     [CliOption("--contact-flow-id")]
     public string? ContactFlowId { get; set; }

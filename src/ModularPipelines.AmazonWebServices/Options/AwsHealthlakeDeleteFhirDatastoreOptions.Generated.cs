@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsHealthlakeDeleteFhirDatastoreOptions : AwsOptions, IValidatable
     /// <summary>
     /// Delete a FHIR-enabled data store. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DatastoreId">The Amazon Web Services-generated identifier for the data store to be deleted. Constraints: o min: 1 o max: 32 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)</param>
+    /// <param name="DatastoreId">The Amazon Web Services-generated identifier for the data store to be deleted. Constraints: • min: 1 • max: 32 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)</param>
     public AwsHealthlakeDeleteFhirDatastoreOptions(
         string DatastoreId
     )
@@ -56,7 +58,7 @@ public record AwsHealthlakeDeleteFhirDatastoreOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services-generated identifier for the data store to be deleted. Constraints: o min: 1 o max: 32 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)
+    /// The Amazon Web Services-generated identifier for the data store to be deleted. Constraints: • min: 1 • max: 32 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)
     /// </summary>
     [CliOption("--datastore-id")]
     public string? DatastoreId { get; private init; }

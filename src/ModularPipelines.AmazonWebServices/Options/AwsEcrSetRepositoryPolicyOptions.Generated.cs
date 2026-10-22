@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Applies a repository policy to the specified repository to control ac- cess permissions. For more information, see Amazon ECR Repository poli- cies in the Amazon Elastic Container Registry User Guide . See also: AWS API Documentation
+/// Applies a repository policy to the specified repository to control access permissions. For more information, see Amazon ECR Repository policies in the Amazon Elastic Container Registry User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsEcrSetRepositoryPolicyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Applies a repository policy to the specified repository to control ac- cess permissions. For more information, see Amazon ECR Repository poli- cies in the Amazon Elastic Container Registry User Guide . See also: AWS API Documentation
+    /// Applies a repository policy to the specified repository to control access permissions. For more information, see Amazon ECR Repository policies in the Amazon Elastic Container Registry User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryName">The name of the repository to receive the policy. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*</param>
-    /// <param name="PolicyText">The JSON repository policy text to apply to the repository. For more information, see Amazon ECR repository policies in the Amazon Elas- tic Container Registry User Guide . Constraints: o min: 0 o max: 10240</param>
+    /// <param name="RepositoryName">The name of the repository to receive the policy. Constraints: • min: 2 • max: 256 • pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*</param>
+    /// <param name="PolicyText">The JSON repository policy text to apply to the repository. For more information, see Amazon ECR repository policies in the Amazon Elastic Container Registry User Guide . Constraints: • min: 0 • max: 10240</param>
     public AwsEcrSetRepositoryPolicyOptions(
         string RepositoryName,
         string PolicyText
@@ -60,25 +62,25 @@ public record AwsEcrSetRepositoryPolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the repository to receive the policy. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*
+    /// The name of the repository to receive the policy. Constraints: • min: 2 • max: 256 • pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
 
     /// <summary>
-    /// The JSON repository policy text to apply to the repository. For more information, see Amazon ECR repository policies in the Amazon Elas- tic Container Registry User Guide . Constraints: o min: 0 o max: 10240
+    /// The JSON repository policy text to apply to the repository. For more information, see Amazon ECR repository policies in the Amazon Elastic Container Registry User Guide . Constraints: • min: 0 • max: 10240
     /// </summary>
     [CliOption("--policy-text")]
     public string? PolicyText { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID associated with the registry that contains the repository. If you do not specify a registry, the de- fault registry is assumed. Constraints: o pattern: [0-9]{12}
+    /// The Amazon Web Services account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed. Constraints: • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
 
     /// <summary>
-    /// If the policy you are attempting to set on a repository policy would prevent you from setting another policy in the future, you must force the SetRepositoryPolicy operation. This is intended to pre- vent accidental repository lock outs.
+    /// If the policy you are attempting to set on a repository policy would prevent you from setting another policy in the future, you must force the SetRepositoryPolicy operation. This is intended to prevent accidental repository lock outs.
     /// </summary>
     [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsRdsDataCommitTransactionOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Ends a SQL transaction started with the BeginTransaction operation and commits the changes. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster. Constraints: o min: 11 o max: 570</param>
-    /// <param name="SecretArn">The name or ARN of the secret that enables access to the DB cluster. Constraints: o min: 11 o max: 570</param>
-    /// <param name="TransactionId">The identifier of the transaction to end and commit. Constraints: o min: 0 o max: 192</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster. Constraints: • min: 11 • max: 570</param>
+    /// <param name="SecretArn">The name or ARN of the secret that enables access to the DB cluster. Constraints: • min: 11 • max: 570</param>
+    /// <param name="TransactionId">The identifier of the transaction to end and commit. Constraints: • min: 0 • max: 192</param>
     public AwsRdsDataCommitTransactionOptions(
         string ResourceArn,
         string SecretArn,
@@ -64,19 +66,19 @@ public record AwsRdsDataCommitTransactionOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster. Constraints: o min: 11 o max: 570
+    /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster. Constraints: • min: 11 • max: 570
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The name or ARN of the secret that enables access to the DB cluster. Constraints: o min: 11 o max: 570
+    /// The name or ARN of the secret that enables access to the DB cluster. Constraints: • min: 11 • max: 570
     /// </summary>
     [CliOption("--secret-arn")]
     public string? SecretArn { get; private init; }
 
     /// <summary>
-    /// The identifier of the transaction to end and commit. Constraints: o min: 0 o max: 192
+    /// The identifier of the transaction to end and commit. Constraints: • min: 0 • max: 192
     /// </summary>
     [CliOption("--transaction-id")]
     public string? TransactionId { get; private init; }

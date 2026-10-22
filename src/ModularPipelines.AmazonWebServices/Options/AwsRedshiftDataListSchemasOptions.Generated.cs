@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the schemas in a database. A token is returned to page through the schema list. Depending on the authorization method, use one of the following combinations of request parameters: o Secrets Manager - when connecting to a cluster, provide the se- cret-arn of a secret stored in Secrets Manager which has username and password . The specified secret contains credentials to connect to the database you specify. When you are connecting to a cluster, you also supply the database name, If you provi...
+/// Lists the schemas in a database. A token is returned to page through the schema list. Depending on the authorization method, use one of the following combinations of request parameters: • Secrets Manager - when connecting to a cluster, provide the secret-arn of a secret stored in Secrets Manager which has username and password . The specified secret contains credentials to connect to the database you specify. When you are connecting to a cluster, you also supply the database name, If you provide...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsRedshiftDataListSchemasOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the schemas in a database. A token is returned to page through the schema list. Depending on the authorization method, use one of the following combinations of request parameters: o Secrets Manager - when connecting to a cluster, provide the se- cret-arn of a secret stored in Secrets Manager which has username and password . The specified secret contains credentials to connect to the database you specify. When you are connecting to a cluster, you also supply the database name, If you provi...
+    /// Lists the schemas in a database. A token is returned to page through the schema list. Depending on the authorization method, use one of the following combinations of request parameters: • Secrets Manager - when connecting to a cluster, provide the secret-arn of a secret stored in Secrets Manager which has username and password . The specified secret contains credentials to connect to the database you specify. When you are connecting to a cluster, you also supply the database name, If you provide...
     /// </summary>
-    /// <param name="Database">The name of the database that contains the schemas to list. If Con- nectedDatabase is not specified, this is also the database to con- nect to with your authentication credentials.</param>
+    /// <param name="Database">The name of the database that contains the schemas to list. If ConnectedDatabase is not specified, this is also the database to connect to with your authentication credentials.</param>
     public AwsRedshiftDataListSchemasOptions(
         string Database
     )
@@ -57,19 +59,19 @@ public record AwsRedshiftDataListSchemasOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the database that contains the schemas to list. If Con- nectedDatabase is not specified, this is also the database to con- nect to with your authentication credentials.
+    /// The name of the database that contains the schemas to list. If ConnectedDatabase is not specified, this is also the database to connect to with your authentication credentials.
     /// </summary>
     [CliOption("--database")]
     public string? Database { get; private init; }
 
     /// <summary>
-    /// The cluster identifier. This parameter is required when connecting to a cluster and authenticating using either Secrets Manager or tem- porary credentials. Constraints: o min: 1 o max: 63 o pattern: [a-z][a-z0-9]*(-[a-z0-9]+)*
+    /// The cluster identifier. This parameter is required when connecting to a cluster and authenticating using either Secrets Manager or temporary credentials. Constraints: • min: 1 • max: 63 • pattern: [a-z][a-z0-9]*(-[a-z0-9]+)*
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; set; }
 
     /// <summary>
-    /// The name or ARN of the secret that enables access to the database. This parameter is required when authenticating using Secrets Man- ager.
+    /// The name or ARN of the secret that enables access to the database. This parameter is required when authenticating using Secrets Manager.
     /// </summary>
     [CliOption("--secret-arn")]
     public string? SecretArn { get; set; }
@@ -81,7 +83,7 @@ public record AwsRedshiftDataListSchemasOptions : AwsOptions, IValidatableObject
     public string? DbUser { get; set; }
 
     /// <summary>
-    /// A database name. The connected database is specified when you con- nect with your authentication credentials.
+    /// A database name. The connected database is specified when you connect with your authentication credentials.
     /// </summary>
     [CliOption("--connected-database")]
     public string? ConnectedDatabase { get; set; }
@@ -93,16 +95,13 @@ public record AwsRedshiftDataListSchemasOptions : AwsOptions, IValidatableObject
     public string? SchemaPattern { get; set; }
 
     /// <summary>
-    /// The serverless workgroup name or Amazon Resource Name (ARN). This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary creden- tials. Constraints: o min: 3 o max: 128 o pattern: ([a-z0-9-]{3,63}|arn:(aws(-[a-z]+)*):redshift-server- less:([a-z]{2}(-gov|(-iso[a-z]?))?|eusc-[a-z]+)-[a-z]+-\d{1}:\d{12}:work- group/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|[a-z0-9-]{1,63}/[a-z0-9-]{1,63}))
+    /// The serverless workgroup name or Amazon Resource Name (ARN). This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials. Constraints: • min: 3 • max: 128 • pattern: ([a-z0-9-]{3,63}|arn:(aws(-[a-z]+)*):redshift-serverless:([a-z]{2}(-gov|(-iso[a-z]?))?|eusc-[a-z]+)-[a-z]+-\d{1}:\d{12}:workgroup/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|[a-z0-9-]{1,63}/[a-z0-9-]{1,63}))
     /// </summary>
     [CliOption("--workgroup-name")]
     public string? WorkgroupName { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -112,16 +111,19 @@ public record AwsRedshiftDataListSchemasOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 0 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

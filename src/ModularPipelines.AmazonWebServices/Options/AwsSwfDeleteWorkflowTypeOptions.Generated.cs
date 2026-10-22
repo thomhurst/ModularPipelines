@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified workflow type . Note: Prior to deletion, workflow types must first be deprecated . After a workflow type has been deleted, you cannot create new execu- tions of that type. Executions that started before the type was deleted will continue to run. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: o Use a Resource element with the domain name to limit the action to only specified domains. o Use an Action element to allo...
+/// Deletes the specified workflow type . Note: Prior to deletion, workflow types must first be deprecated . After a workflow type has been deleted, you cannot create new executions of that type. Executions that started before the type was deleted will continue to run. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: • Use a Resource element with the domain name to limit the action to only specified domains. • Use an Action element to allow ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsSwfDeleteWorkflowTypeOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified workflow type . Note: Prior to deletion, workflow types must first be deprecated . After a workflow type has been deleted, you cannot create new execu- tions of that type. Executions that started before the type was deleted will continue to run. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: o Use a Resource element with the domain name to limit the action to only specified domains. o Use an Action element to allo...
+    /// Deletes the specified workflow type . Note: Prior to deletion, workflow types must first be deprecated . After a workflow type has been deleted, you cannot create new executions of that type. Executions that started before the type was deleted will continue to run. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: • Use a Resource element with the domain name to limit the action to only specified domains. • Use an Action element to allow ...
     /// </summary>
-    /// <param name="Domain">The name of the domain in which the workflow type is registered. Constraints: o min: 1 o max: 256</param>
-    /// <param name="WorkflowType">The workflow type to delete. name -&gt; (string) [required] The name of the workflow type. NOTE: The combination of workflow type name and version must be unique with in a domain. Constraints: o min: 1 o max: 256 version -&gt; (string) [required] The version of the workflow type. NOTE: The combination of workflow type name and version must be unique with in a domain. Constraints: o min: 1 o max: 64 Shorthand Syntax: name=string,version=string JSON Syntax: { "name": "string", "version": "string" }</param>
+    /// <param name="Domain">The name of the domain in which the workflow type is registered. Constraints: • min: 1 • max: 256</param>
+    /// <param name="WorkflowType">The workflow type to delete. name -&gt; (string) [required] The name of the workflow type. NOTE: The combination of workflow type name and version must be unique with in a domain. Constraints: • min: 1 • max: 256 version -&gt; (string) [required] The version of the workflow type. NOTE: The combination of workflow type name and version must be unique with in a domain. Constraints: • min: 1 • max: 64 Shorthand Syntax: name=string,version=string JSON Syntax: { "name": "string", "version": "string" }</param>
     public AwsSwfDeleteWorkflowTypeOptions(
         string Domain,
         string WorkflowType
@@ -60,13 +62,13 @@ public record AwsSwfDeleteWorkflowTypeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain in which the workflow type is registered. Constraints: o min: 1 o max: 256
+    /// The name of the domain in which the workflow type is registered. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; private init; }
 
     /// <summary>
-    /// The workflow type to delete. name -&gt; (string) [required] The name of the workflow type. NOTE: The combination of workflow type name and version must be unique with in a domain. Constraints: o min: 1 o max: 256 version -&gt; (string) [required] The version of the workflow type. NOTE: The combination of workflow type name and version must be unique with in a domain. Constraints: o min: 1 o max: 64 Shorthand Syntax: name=string,version=string JSON Syntax: { "name": "string", "version": "string" }
+    /// The workflow type to delete. name -&gt; (string) [required] The name of the workflow type. NOTE: The combination of workflow type name and version must be unique with in a domain. Constraints: • min: 1 • max: 256 version -&gt; (string) [required] The version of the workflow type. NOTE: The combination of workflow type name and version must be unique with in a domain. Constraints: • min: 1 • max: 64 Shorthand Syntax: name=string,version=string JSON Syntax: { "name": "string", "version": "string" }
     /// </summary>
     [CliOption("--workflow-type")]
     public string? WorkflowType { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves information about an organizational unit (OU). You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation
+/// Retrieves information about an organizational unit (OU). You can only call this operation from the management account or a member account that is a delegated administrator. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsOrganizationsDescribeOrganizationalUnitOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves information about an organizational unit (OU). You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation
+    /// Retrieves information about an organizational unit (OU). You can only call this operation from the management account or a member account that is a delegated administrator. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationalUnitId">ID for the organizational unit that you want details about. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a sec- ond "-" dash and from 8 to 32 additional lowercase letters or dig- its. Constraints: o max: 68 o pattern: ^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$</param>
+    /// <param name="OrganizationalUnitId">ID for the organizational unit that you want details about. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits. Constraints: • max: 68 • pattern: ^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$</param>
     public AwsOrganizationsDescribeOrganizationalUnitOptions(
         string OrganizationalUnitId
     )
@@ -56,7 +58,7 @@ public record AwsOrganizationsDescribeOrganizationalUnitOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID for the organizational unit that you want details about. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a sec- ond "-" dash and from 8 to 32 additional lowercase letters or dig- its. Constraints: o max: 68 o pattern: ^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$
+    /// ID for the organizational unit that you want details about. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits. Constraints: • max: 68 • pattern: ^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$
     /// </summary>
     [CliOption("--organizational-unit-id")]
     public string? OrganizationalUnitId { get; private init; }

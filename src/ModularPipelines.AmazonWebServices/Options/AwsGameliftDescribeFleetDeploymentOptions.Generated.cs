@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: Container Retrieves information about a managed container fleet deployment. Request options o Get information about the latest deployment for a specific fleet. Provide the fleet ID or ARN. o Get information about a specific deployment. Provide the fleet ID or ARN and the deployment ID. Results If successful, a FleetDeployment object is returned. See also: AWS API Documentation
+/// This API works with the following fleet types: Container Retrieves information about a managed container fleet deployment. Request options • Get information about the latest deployment for a specific fleet. Provide the fleet ID or ARN. • Get information about a specific deployment. Provide the fleet ID or ARN and the deployment ID. Results If successful, a FleetDeployment object is returned. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsGameliftDescribeFleetDeploymentOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: Container Retrieves information about a managed container fleet deployment. Request options o Get information about the latest deployment for a specific fleet. Provide the fleet ID or ARN. o Get information about a specific deployment. Provide the fleet ID or ARN and the deployment ID. Results If successful, a FleetDeployment object is returned. See also: AWS API Documentation
+    /// This API works with the following fleet types: Container Retrieves information about a managed container fleet deployment. Request options • Get information about the latest deployment for a specific fleet. Provide the fleet ID or ARN. • Get information about a specific deployment. Provide the fleet ID or ARN and the deployment ID. Results If successful, a FleetDeployment object is returned. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FleetId">A unique identifier for the container fleet. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
+    /// <param name="FleetId">A unique identifier for the container fleet. You can use either the fleet ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
     public AwsGameliftDescribeFleetDeploymentOptions(
         string FleetId
     )
@@ -56,13 +58,13 @@ public record AwsGameliftDescribeFleetDeploymentOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the container fleet. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
+    /// A unique identifier for the container fleet. You can use either the fleet ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the deployment to return information for. Constraints: o min: 1 o max: 1024 o pattern: ^[a-zA-Z0-9\-]+$
+    /// A unique identifier for the deployment to return information for. Constraints: • min: 1 • max: 1024 • pattern: ^[a-zA-Z0-9\-]+$
     /// </summary>
     [CliOption("--deployment-id")]
     public string? DeploymentId { get; set; }

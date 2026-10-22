@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Given the identifier of an identity provider (IdP), for example exam- plecorp , returns information about the user pool configuration for that IdP. For more information about IdPs, see Third-party IdP sign-in . See also: AWS API Documentation
+/// Given the identifier of an identity provider (IdP), for example examplecorp , returns information about the user pool configuration for that IdP. For more information about IdPs, see Third-party IdP sign-in . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsCognitoIdpGetIdentityProviderByIdentifierOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Given the identifier of an identity provider (IdP), for example exam- plecorp , returns information about the user pool configuration for that IdP. For more information about IdPs, see Third-party IdP sign-in . See also: AWS API Documentation
+    /// Given the identifier of an identity provider (IdP), for example examplecorp , returns information about the user pool configuration for that IdP. For more information about IdPs, see Third-party IdP sign-in . See also: AWS API Documentation
     /// </summary>
-    /// <param name="UserPoolId">The ID of the user pool where you want to get information about the IdP. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
-    /// <param name="IdpIdentifier">The identifier that you assigned to your user pool. The identifier is an alternative name for an IdP that is distinct from the IdP name. For example, an IdP with a name of MyIdP might have an identi- fier of the email domain example.com . Constraints: o min: 1 o max: 40 o pattern: [\w\s+=.@-]+</param>
+    /// <param name="UserPoolId">The ID of the user pool where you want to get information about the IdP. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="IdpIdentifier">The identifier that you assigned to your user pool. The identifier is an alternative name for an IdP that is distinct from the IdP name. For example, an IdP with a name of MyIdP might have an identifier of the email domain example.com . Constraints: • min: 1 • max: 40 • pattern: [\w\s+=.@-]+</param>
     public AwsCognitoIdpGetIdentityProviderByIdentifierOptions(
         string UserPoolId,
         string IdpIdentifier
@@ -60,13 +62,13 @@ public record AwsCognitoIdpGetIdentityProviderByIdentifierOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the user pool where you want to get information about the IdP. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// The ID of the user pool where you want to get information about the IdP. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--user-pool-id")]
     public string? UserPoolId { get; private init; }
 
     /// <summary>
-    /// The identifier that you assigned to your user pool. The identifier is an alternative name for an IdP that is distinct from the IdP name. For example, an IdP with a name of MyIdP might have an identi- fier of the email domain example.com . Constraints: o min: 1 o max: 40 o pattern: [\w\s+=.@-]+
+    /// The identifier that you assigned to your user pool. The identifier is an alternative name for an IdP that is distinct from the IdP name. For example, an IdP with a name of MyIdP might have an identifier of the email domain example.com . Constraints: • min: 1 • max: 40 • pattern: [\w\s+=.@-]+
     /// </summary>
     [CliOption("--idp-identifier")]
     public string? IdpIdentifier { get; private init; }

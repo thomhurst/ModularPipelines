@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a snapshot of a Simple AD or Microsoft AD directory in the Ama- zon Web Services cloud. NOTE: You cannot take snapshots of AD Connector directories. See also: AWS API Documentation
+/// Creates a snapshot of a Simple AD or Microsoft AD directory in the Amazon Web Services cloud. NOTE: You cannot take snapshots of AD Connector directories. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsDsCreateSnapshotOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a snapshot of a Simple AD or Microsoft AD directory in the Ama- zon Web Services cloud. NOTE: You cannot take snapshots of AD Connector directories. See also: AWS API Documentation
+    /// Creates a snapshot of a Simple AD or Microsoft AD directory in the Amazon Web Services cloud. NOTE: You cannot take snapshots of AD Connector directories. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The identifier of the directory of which to take a snapshot. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="DirectoryId">The identifier of the directory of which to take a snapshot. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
     public AwsDsCreateSnapshotOptions(
         string DirectoryId
     )
@@ -56,13 +58,13 @@ public record AwsDsCreateSnapshotOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the directory of which to take a snapshot. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The identifier of the directory of which to take a snapshot. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// The descriptive name to apply to the snapshot. Constraints: o min: 0 o max: 128 o pattern: ^([a-zA-Z0-9_])[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$
+    /// The descriptive name to apply to the snapshot. Constraints: • min: 0 • max: 128 • pattern: ^([a-zA-Z0-9_])[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }

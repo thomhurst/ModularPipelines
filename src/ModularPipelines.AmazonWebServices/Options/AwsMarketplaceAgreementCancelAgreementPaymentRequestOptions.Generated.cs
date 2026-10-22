@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Allows sellers (proposers) to cancel a payment request that is in PEND- ING_APPROVAL status. Once cancelled, the payment request transitions to CANCELLED status and can no longer be accepted or rejected by the buyer. NOTE: Only payment requests in PENDING_APPROVAL status can be cancelled. A ConflictException is thrown if the payment request is in any other status. See also: AWS API Documentation
+/// Allows sellers (proposers) to cancel a payment request that is in PENDING_APPROVAL status. Once cancelled, the payment request transitions to CANCELLED status and can no longer be accepted or rejected by the buyer. NOTE: Only payment requests in PENDING_APPROVAL status can be cancelled. A ConflictException is thrown if the payment request is in any other status. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsMarketplaceAgreementCancelAgreementPaymentRequestOptions : AwsO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Allows sellers (proposers) to cancel a payment request that is in PEND- ING_APPROVAL status. Once cancelled, the payment request transitions to CANCELLED status and can no longer be accepted or rejected by the buyer. NOTE: Only payment requests in PENDING_APPROVAL status can be cancelled. A ConflictException is thrown if the payment request is in any other status. See also: AWS API Documentation
+    /// Allows sellers (proposers) to cancel a payment request that is in PENDING_APPROVAL status. Once cancelled, the payment request transitions to CANCELLED status and can no longer be accepted or rejected by the buyer. NOTE: Only payment requests in PENDING_APPROVAL status can be cancelled. A ConflictException is thrown if the payment request is in any other status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PaymentRequestId">The unique identifier of the payment request to cancel. Constraints: o min: 1 o max: 64 o pattern: pr-[a-zA-Z0-9]+</param>
-    /// <param name="AgreementId">The unique identifier of the agreement associated with the payment request. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+</param>
+    /// <param name="PaymentRequestId">The unique identifier of the payment request to cancel. Constraints: • min: 1 • max: 64 • pattern: pr-[a-zA-Z0-9]+</param>
+    /// <param name="AgreementId">The unique identifier of the agreement associated with the payment request. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_/-]+</param>
     public AwsMarketplaceAgreementCancelAgreementPaymentRequestOptions(
         string PaymentRequestId,
         string AgreementId
@@ -60,13 +62,13 @@ public record AwsMarketplaceAgreementCancelAgreementPaymentRequestOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the payment request to cancel. Constraints: o min: 1 o max: 64 o pattern: pr-[a-zA-Z0-9]+
+    /// The unique identifier of the payment request to cancel. Constraints: • min: 1 • max: 64 • pattern: pr-[a-zA-Z0-9]+
     /// </summary>
     [CliOption("--payment-request-id")]
     public string? PaymentRequestId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the agreement associated with the payment request. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+
+    /// The unique identifier of the agreement associated with the payment request. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_/-]+
     /// </summary>
     [CliOption("--agreement-id")]
     public string? AgreementId { get; private init; }

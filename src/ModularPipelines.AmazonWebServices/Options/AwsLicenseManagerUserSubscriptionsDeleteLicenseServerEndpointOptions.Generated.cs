@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsLicenseManagerUserSubscriptionsDeleteLicenseServerEndpointOptio
     /// <summary>
     /// Deletes a LicenseServerEndpoint resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LicenseServerEndpointArn">The Amazon Resource Name (ARN) that identifies the LicenseServerEnd- point resource to delete. Constraints: o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-zA-Z0-9-\.]{1,510}/[a-zA-Z0-9-\.]{1,510}</param>
-    /// <param name="ServerType">The type of License Server that the delete request refers to. Possible values: o RDS_SAL</param>
+    /// <param name="LicenseServerEndpointArn">The Amazon Resource Name (ARN) that identifies the LicenseServerEndpoint resource to delete. Constraints: • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-zA-Z0-9-\.]{1,510}/[a-zA-Z0-9-\.]{1,510}</param>
+    /// <param name="ServerType">The type of License Server that the delete request refers to. Possible values: • RDS_SAL</param>
     public AwsLicenseManagerUserSubscriptionsDeleteLicenseServerEndpointOptions(
         string LicenseServerEndpointArn,
         string ServerType
@@ -60,13 +62,13 @@ public record AwsLicenseManagerUserSubscriptionsDeleteLicenseServerEndpointOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that identifies the LicenseServerEnd- point resource to delete. Constraints: o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-zA-Z0-9-\.]{1,510}/[a-zA-Z0-9-\.]{1,510}
+    /// The Amazon Resource Name (ARN) that identifies the LicenseServerEndpoint resource to delete. Constraints: • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-zA-Z0-9-\.]{1,510}/[a-zA-Z0-9-\.]{1,510}
     /// </summary>
     [CliOption("--license-server-endpoint-arn")]
     public string? LicenseServerEndpointArn { get; private init; }
 
     /// <summary>
-    /// The type of License Server that the delete request refers to. Possible values: o RDS_SAL
+    /// The type of License Server that the delete request refers to. Possible values: • RDS_SAL
     /// </summary>
     [CliOption("--server-type")]
     public string? ServerType { get; private init; }

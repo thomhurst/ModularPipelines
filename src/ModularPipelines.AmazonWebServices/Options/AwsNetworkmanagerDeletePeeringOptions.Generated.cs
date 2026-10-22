@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsNetworkmanagerDeletePeeringOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Deletes an existing peering connection. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PeeringId">The ID of the peering connection to delete. Constraints: o min: 0 o max: 50 o pattern: ^peering-([0-9a-f]{8,17})$</param>
+    /// <param name="PeeringId">The ID of the peering connection to delete. Constraints: • min: 0 • max: 50 • pattern: ^peering-([0-9a-f]{8,17})$</param>
     public AwsNetworkmanagerDeletePeeringOptions(
         string PeeringId
     )
@@ -56,7 +58,7 @@ public record AwsNetworkmanagerDeletePeeringOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the peering connection to delete. Constraints: o min: 0 o max: 50 o pattern: ^peering-([0-9a-f]{8,17})$
+    /// The ID of the peering connection to delete. Constraints: • min: 0 • max: 50 • pattern: ^peering-([0-9a-f]{8,17})$
     /// </summary>
     [CliOption("--peering-id")]
     public string? PeeringId { get; private init; }

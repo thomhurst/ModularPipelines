@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a specified service and all associated service attributes. If the service still contains one or more registered instances, the re- quest fails. See also: AWS API Documentation
+/// Deletes a specified service and all associated service attributes. If the service still contains one or more registered instances, the request fails. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsServicediscoveryDeleteServiceOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a specified service and all associated service attributes. If the service still contains one or more registered instances, the re- quest fails. See also: AWS API Documentation
+    /// Deletes a specified service and all associated service attributes. If the service still contains one or more registered instances, the request fails. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID or Amazon Resource Name (ARN) of the service that you want to delete. If the namespace associated with the service is shared with your Amazon Web Services account, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing . Constraints: o max: 255</param>
+    /// <param name="Id">The ID or Amazon Resource Name (ARN) of the service that you want to delete. If the namespace associated with the service is shared with your Amazon Web Services account, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing . Constraints: • max: 255</param>
     public AwsServicediscoveryDeleteServiceOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsServicediscoveryDeleteServiceOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or Amazon Resource Name (ARN) of the service that you want to delete. If the namespace associated with the service is shared with your Amazon Web Services account, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing . Constraints: o max: 255
+    /// The ID or Amazon Resource Name (ARN) of the service that you want to delete. If the namespace associated with the service is shared with your Amazon Web Services account, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing . Constraints: • max: 255
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

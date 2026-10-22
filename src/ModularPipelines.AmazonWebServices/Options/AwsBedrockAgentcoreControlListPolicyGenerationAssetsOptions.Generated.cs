@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a list of generated policy assets from a policy generation request within the AgentCore Policy system. This operation returns the actual Dogwood policies and related artifacts produced by the AI-pow- ered policy generation process, allowing users to review and select from multiple generated policy options. See also: AWS API Documentation list-policy-generation-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You ca...
+/// Retrieves a list of generated policy assets from a policy generation request within the AgentCore Policy system. This operation returns the actual Dogwood policies and related artifacts produced by the AI-powered policy generation process, allowing users to review and select from multiple generated policy options. See also: AWS API Documentation list-policy-generation-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can di...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsBedrockAgentcoreControlListPolicyGenerationAssetsOptions : AwsO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves a list of generated policy assets from a policy generation request within the AgentCore Policy system. This operation returns the actual Dogwood policies and related artifacts produced by the AI-pow- ered policy generation process, allowing users to review and select from multiple generated policy options. See also: AWS API Documentation list-policy-generation-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You ca...
+    /// Retrieves a list of generated policy assets from a policy generation request within the AgentCore Policy system. This operation returns the actual Dogwood policies and related artifacts produced by the AI-powered policy generation process, allowing users to review and select from multiple generated policy options. See also: AWS API Documentation list-policy-generation-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can di...
     /// </summary>
-    /// <param name="PolicyGenerationId">The unique identifier of the policy generation request whose assets are to be retrieved. This must be a valid generation ID from a pre- vious StartPolicyGeneration call that has completed processing. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}</param>
-    /// <param name="PolicyEngineId">The unique identifier of the policy engine associated with the pol- icy generation request. This provides the context for the generation operation and ensures assets are retrieved from the correct policy engine. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}</param>
+    /// <param name="PolicyGenerationId">The unique identifier of the policy generation request whose assets are to be retrieved. This must be a valid generation ID from a previous StartPolicyGeneration call that has completed processing. Constraints: • min: 12 • max: 59 • pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}</param>
+    /// <param name="PolicyEngineId">The unique identifier of the policy engine associated with the policy generation request. This provides the context for the generation operation and ensures assets are retrieved from the correct policy engine. Constraints: • min: 12 • max: 59 • pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}</param>
     public AwsBedrockAgentcoreControlListPolicyGenerationAssetsOptions(
         string PolicyGenerationId,
         string PolicyEngineId
@@ -61,22 +63,19 @@ public record AwsBedrockAgentcoreControlListPolicyGenerationAssetsOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the policy generation request whose assets are to be retrieved. This must be a valid generation ID from a pre- vious StartPolicyGeneration call that has completed processing. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}
+    /// The unique identifier of the policy generation request whose assets are to be retrieved. This must be a valid generation ID from a previous StartPolicyGeneration call that has completed processing. Constraints: • min: 12 • max: 59 • pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}
     /// </summary>
     [CliOption("--policy-generation-id")]
     public string? PolicyGenerationId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the policy engine associated with the pol- icy generation request. This provides the context for the generation operation and ensures assets are retrieved from the correct policy engine. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}
+    /// The unique identifier of the policy engine associated with the policy generation request. This provides the context for the generation operation and ensures assets are retrieved from the correct policy engine. Constraints: • min: 12 • max: 59 • pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}
     /// </summary>
     [CliOption("--policy-engine-id")]
     public string? PolicyEngineId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -86,16 +85,19 @@ public record AwsBedrockAgentcoreControlListPolicyGenerationAssetsOptions : AwsO
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

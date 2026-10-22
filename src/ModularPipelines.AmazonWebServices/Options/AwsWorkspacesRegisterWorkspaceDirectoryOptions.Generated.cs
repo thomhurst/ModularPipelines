@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsWorkspacesRegisterWorkspaceDirectoryOptions : AwsOptions
 {
     /// <summary>
-    /// The identifier of the directory. You cannot register a directory if it does not have a status of Active. If the directory does not have a status of Active, you will receive an InvalidResourceStateExcep- tion error. If you have already registered the maximum number of di- rectories that you can register with Amazon WorkSpaces, you will re- ceive a ResourceLimitExceededException error. Deregister directories that you are not using for WorkSpaces, and try again. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)
+    /// The identifier of the directory. You cannot register a directory if it does not have a status of Active. If the directory does not have a status of Active, you will receive an InvalidResourceStateException error. If you have already registered the maximum number of directories that you can register with Amazon WorkSpaces, you will receive a ResourceLimitExceededException error. Deregister directories that you are not using for WorkSpaces, and try again. Constraints: • min: 10 • max: 65 • pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; set; }
 
     /// <summary>
-    /// The identifiers of the subnets for your virtual private cloud (VPC). Make sure that the subnets are in supported Availability Zones. The subnets must also be in separate Availability Zones. If these condi- tions are not met, you will receive an OperationNotSupportedExcep- tion error. Constraints: o max: 2 (string) Constraints: o min: 15 o max: 24 o pattern: ^(subnet-([0-9a-f]{8}|[0-9a-f]{17}))$ Syntax: "string" "string" ...
+    /// The identifiers of the subnets for your virtual private cloud (VPC). Make sure that the subnets are in supported Availability Zones. The subnets must also be in separate Availability Zones. If these conditions are not met, you will receive an OperationNotSupportedException error. Constraints: • max: 2 (string) Constraints: • min: 15 • max: 24 • pattern: ^(subnet-([0-9a-f]{8}|[0-9a-f]{17}))$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; set; }
@@ -41,55 +41,55 @@ public record AwsWorkspacesRegisterWorkspaceDirectoryOptions : AwsOptions
     public bool? EnableSelfService { get; set; }
 
     /// <summary>
-    /// Indicates whether your WorkSpace directory is dedicated or shared. To use Bring Your Own License (BYOL) images, this value must be set to DEDICATED and your Amazon Web Services account must be enabled for BYOL. If your account has not been enabled for BYOL, you will receive an InvalidParameterValuesException error. For more informa- tion about BYOL images, see Bring Your Own Windows Desktop Images . Possible values: o DEDICATED o SHARED
+    /// Indicates whether your WorkSpace directory is dedicated or shared. To use Bring Your Own License (BYOL) images, this value must be set to DEDICATED and your Amazon Web Services account must be enabled for BYOL. If your account has not been enabled for BYOL, you will receive an InvalidParameterValuesException error. For more information about BYOL images, see Bring Your Own Windows Desktop Images . Possible values: • DEDICATED • SHARED
     /// </summary>
     [CliOption("--tenancy")]
     public AwsWorkspacesRegisterWorkspaceDirectoryTenancy? Tenancy { get; set; }
 
     /// <summary>
-    /// The tags associated with the directory. (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 127 Value -&gt; (string) The value of the tag. Constraints: o max: 255 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags associated with the directory. (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 127 Value -&gt; (string) The value of the tag. Constraints: • max: 255 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The name of the directory to register. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.\s-]{1,64}$
+    /// The name of the directory to register. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.\s-]{1,64}$
     /// </summary>
     [CliOption("--workspace-directory-name")]
     public string? WorkspaceDirectoryName { get; set; }
 
     /// <summary>
-    /// Description of the directory to register. Constraints: o pattern: ^([a-zA-Z0-9_])[\\a-zA-Z0-9_@#%*+=:?./!\s-]{1,255}$
+    /// Description of the directory to register. Constraints: • pattern: ^([a-zA-Z0-9_])[\\a-zA-Z0-9_@#%*+=:?./!\s-]{1,255}$
     /// </summary>
     [CliOption("--workspace-directory-description")]
     public string? WorkspaceDirectoryDescription { get; set; }
 
     /// <summary>
-    /// The type of identity management the user is using. Possible values: o CUSTOMER_MANAGED o AWS_DIRECTORY_SERVICE o AWS_IAM_IDENTITY_CENTER
+    /// The type of identity management the user is using. Possible values: • CUSTOMER_MANAGED • AWS_DIRECTORY_SERVICE • AWS_IAM_IDENTITY_CENTER
     /// </summary>
     [CliOption("--user-identity-type")]
     public AwsWorkspacesRegisterWorkspaceDirectoryUserIdentityType? UserIdentityType { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the identity center instance. Constraints: o pattern: ^arn:aws[a-z-]{0,7}:[A-Za-z0-9][A-za-z0-9_/.-]{0,62}:[A-za-z0-9_/.-]{0,63}:[A-za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$
+    /// The Amazon Resource Name (ARN) of the identity center instance. Constraints: • pattern: ^arn:aws[a-z-]{0,7}:[A-Za-z0-9][A-za-z0-9_/.-]{0,62}:[A-za-z0-9_/.-]{0,63}:[A-za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$
     /// </summary>
     [CliOption("--idc-instance-arn")]
     public string? IdcInstanceArn { get; set; }
 
     /// <summary>
-    /// The details about Microsoft Entra config. TenantId -&gt; (string) The identifier of the tenant. Constraints: o pattern: ^[a-zA-Z0-9-]{1,100}$ ApplicationConfigSecretArn -&gt; (string) The Amazon Resource Name (ARN) of the application config. Constraints: o pattern: ^arn:aws[a-z-]{0,7}:secretsman- ager:[A-za-z0-9_/.-]{0,63}:[A-za-z0-9_/.-]{0,63}:se- cret:[A-Za-z0-9][A-za-z0-9_/.-]{8,519}$ Shorthand Syntax: TenantId=string,ApplicationConfigSecretArn=string JSON Syntax: { "TenantId": "string", "ApplicationConfigSecretArn": "string" }
+    /// The details about Microsoft Entra config. TenantId -&gt; (string) The identifier of the tenant. Constraints: • pattern: ^[a-zA-Z0-9-]{1,100}$ ApplicationConfigSecretArn -&gt; (string) The Amazon Resource Name (ARN) of the application config. Constraints: • pattern: ^arn:aws[a-z-]{0,7}:secretsmanager:[A-za-z0-9_/.-]{0,63}:[A-za-z0-9_/.-]{0,63}:secret:[A-Za-z0-9][A-za-z0-9_/.-]{8,519}$ Shorthand Syntax: TenantId=string,ApplicationConfigSecretArn=string JSON Syntax: { "TenantId": "string", "ApplicationConfigSecretArn": "string" }
     /// </summary>
     [CliOption("--microsoft-entra-config")]
     public string? MicrosoftEntraConfig { get; set; }
 
     /// <summary>
-    /// Indicates whether the directory's WorkSpace type is personal or pools. Possible values: o PERSONAL o POOLS
+    /// Indicates whether the directory's WorkSpace type is personal or pools. Possible values: • PERSONAL • POOLS
     /// </summary>
     [CliOption("--workspace-type")]
     public AwsWorkspacesRegisterWorkspaceDirectoryWorkspaceType? WorkspaceType { get; set; }
 
     /// <summary>
-    /// The active directory config of the directory. DomainName -&gt; (string) [required] The name of the domain. Constraints: o pattern: ^([a-zA-Z0-9]+[.-])+([a-zA-Z0-9])+$ ServiceAccountSecretArn -&gt; (string) [required] Indicates the secret ARN on the service account. Constraints: o pattern: ^arn:aws[a-z-]{0,7}:secretsman- ager:[A-za-z0-9_/.-]{0,63}:[A-za-z0-9_/.-]{0,63}:se- cret:[A-Za-z0-9][A-za-z0-9_/.-]{8,519}$ Shorthand Syntax: DomainName=string,ServiceAccountSecretArn=string JSON Syntax: { "DomainName": "string", "ServiceAccountSecretArn": "string" }
+    /// The active directory config of the directory. DomainName -&gt; (string) [required] The name of the domain. Constraints: • pattern: ^([a-zA-Z0-9]+[.-])+([a-zA-Z0-9])+$ ServiceAccountSecretArn -&gt; (string) [required] Indicates the secret ARN on the service account. Constraints: • pattern: ^arn:aws[a-z-]{0,7}:secretsmanager:[A-za-z0-9_/.-]{0,63}:[A-za-z0-9_/.-]{0,63}:secret:[A-Za-z0-9][A-za-z0-9_/.-]{8,519}$ Shorthand Syntax: DomainName=string,ServiceAccountSecretArn=string JSON Syntax: { "DomainName": "string", "ServiceAccountSecretArn": "string" }
     /// </summary>
     [CliOption("--active-directory-config")]
     public string? ActiveDirectoryConfig { get; set; }

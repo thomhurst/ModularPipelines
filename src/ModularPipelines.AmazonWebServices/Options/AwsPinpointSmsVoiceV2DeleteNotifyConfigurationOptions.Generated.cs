@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsPinpointSmsVoiceV2DeleteNotifyConfigurationOptions : AwsOptions
     /// <summary>
     /// Deletes an existing notify configuration. If deletion protection is enabled, an error is returned. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NotifyConfigurationId">The identifier of the notify configuration to delete. The NotifyCon- figurationId can be found using the DescribeNotifyConfigurations operation. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="NotifyConfigurationId">The identifier of the notify configuration to delete. The NotifyConfigurationId can be found using the DescribeNotifyConfigurations operation. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+</param>
     public AwsPinpointSmsVoiceV2DeleteNotifyConfigurationOptions(
         string NotifyConfigurationId
     )
@@ -56,7 +58,7 @@ public record AwsPinpointSmsVoiceV2DeleteNotifyConfigurationOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the notify configuration to delete. The NotifyCon- figurationId can be found using the DescribeNotifyConfigurations operation. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The identifier of the notify configuration to delete. The NotifyConfigurationId can be found using the DescribeNotifyConfigurations operation. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--notify-configuration-id")]
     public string? NotifyConfigurationId { get; private init; }

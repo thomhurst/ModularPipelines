@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotfleetwiseDeleteVehicleOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Deletes a vehicle and removes it from any campaigns. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VehicleName">The ID of the vehicle to delete. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+</param>
+    /// <param name="VehicleName">The ID of the vehicle to delete. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z\d\-_:]+</param>
     public AwsIotfleetwiseDeleteVehicleOptions(
         string VehicleName
     )
@@ -56,7 +58,7 @@ public record AwsIotfleetwiseDeleteVehicleOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the vehicle to delete. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+
+    /// The ID of the vehicle to delete. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z\d\-_:]+
     /// </summary>
     [CliOption("--vehicle-name")]
     public string? VehicleName { get; private init; }

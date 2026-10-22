@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsSsmIncidentsUpdateReplicationSetOptions : AwsOptions, IValidata
     /// <summary>
     /// Add or delete Regions from your replication set. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Actions">An action to add or delete a Region. Constraints: o min: 1 o max: 1 (tagged union structure) Details used when updating the replication set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: addRegionAction, deleteRegionAc- tion. addRegionAction -&gt; (structure) Details about the Amazon Web Services Region that you're adding to the replication set. regionName -&gt; (string) [required] The Amazon Web Services Region name to add to the repli- cation set. Constraints: o min: 0 o max: 20 sseKmsKeyId -&gt; (string) The KMS key ID to use to encrypt your replication set. Constraints: o min: 0 o max: 2048 deleteRegionAction -&gt; (structure) Details about the Amazon Web Services Region that you're deleting to the replication set. regionName -&gt; (string) [required] The name of the Amazon Web Services Region you're delet- ing from the replication set. Constraints: o min: 0 o max: 20 Shorthand Syntax: addRegionAction={regionName=string,sseKmsKeyId=string},deleteRegionAction={regionName=string} ... JSON Syntax: [ { "addRegionAction": { "regionName": "string", "sseKmsKeyId": "string" }, "deleteRegionAction": { "regionName": "string" } } ... ]</param>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the replication set you're updat- ing. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$</param>
+    /// <param name="Actions">An action to add or delete a Region. Constraints: • min: 1 • max: 1 (tagged union structure) Details used when updating the replication set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: addRegionAction, deleteRegionAction. addRegionAction -&gt; (structure) Details about the Amazon Web Services Region that you're adding to the replication set. regionName -&gt; (string) [required] The Amazon Web Services Region name to add to the replication set. Constraints: • min: 0 • max: 20 sseKmsKeyId -&gt; (string) The KMS key ID to use to encrypt your replication set. Constraints: • min: 0 • max: 2048 deleteRegionAction -&gt; (structure) Details about the Amazon Web Services Region that you're deleting to the replication set. regionName -&gt; (string) [required] The name of the Amazon Web Services Region you're deleting from the replication set. Constraints: • min: 0 • max: 20 Shorthand Syntax: addRegionAction={regionName=string,sseKmsKeyId=string},deleteRegionAction={regionName=string} ... JSON Syntax: [ { "addRegionAction": { "regionName": "string", "sseKmsKeyId": "string" }, "deleteRegionAction": { "regionName": "string" } } ... ]</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the replication set you're updating. Constraints: • min: 0 • max: 1000 • pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$</param>
     public AwsSsmIncidentsUpdateReplicationSetOptions(
         IEnumerable<string> Actions,
         string Arn
@@ -72,19 +74,19 @@ public record AwsSsmIncidentsUpdateReplicationSetOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An action to add or delete a Region. Constraints: o min: 1 o max: 1 (tagged union structure) Details used when updating the replication set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: addRegionAction, deleteRegionAc- tion. addRegionAction -&gt; (structure) Details about the Amazon Web Services Region that you're adding to the replication set. regionName -&gt; (string) [required] The Amazon Web Services Region name to add to the repli- cation set. Constraints: o min: 0 o max: 20 sseKmsKeyId -&gt; (string) The KMS key ID to use to encrypt your replication set. Constraints: o min: 0 o max: 2048 deleteRegionAction -&gt; (structure) Details about the Amazon Web Services Region that you're deleting to the replication set. regionName -&gt; (string) [required] The name of the Amazon Web Services Region you're delet- ing from the replication set. Constraints: o min: 0 o max: 20 Shorthand Syntax: addRegionAction={regionName=string,sseKmsKeyId=string},deleteRegionAction={regionName=string} ... JSON Syntax: [ { "addRegionAction": { "regionName": "string", "sseKmsKeyId": "string" }, "deleteRegionAction": { "regionName": "string" } } ... ]
+    /// An action to add or delete a Region. Constraints: • min: 1 • max: 1 (tagged union structure) Details used when updating the replication set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: addRegionAction, deleteRegionAction. addRegionAction -&gt; (structure) Details about the Amazon Web Services Region that you're adding to the replication set. regionName -&gt; (string) [required] The Amazon Web Services Region name to add to the replication set. Constraints: • min: 0 • max: 20 sseKmsKeyId -&gt; (string) The KMS key ID to use to encrypt your replication set. Constraints: • min: 0 • max: 2048 deleteRegionAction -&gt; (structure) Details about the Amazon Web Services Region that you're deleting to the replication set. regionName -&gt; (string) [required] The name of the Amazon Web Services Region you're deleting from the replication set. Constraints: • min: 0 • max: 20 Shorthand Syntax: addRegionAction={regionName=string,sseKmsKeyId=string},deleteRegionAction={regionName=string} ... JSON Syntax: [ { "addRegionAction": { "regionName": "string", "sseKmsKeyId": "string" }, "deleteRegionAction": { "regionName": "string" } } ... ]
     /// </summary>
     [CliOption("--actions", GroupValues = true)]
     public IEnumerable<string>? Actions { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the replication set you're updat- ing. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$
+    /// The Amazon Resource Name (ARN) of the replication set you're updating. Constraints: • min: 0 • max: 1000 • pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// A token that ensures that the operation is called only once with the specified details. Constraints: o min: 0 o max: 128
+    /// A token that ensures that the operation is called only once with the specified details. Constraints: • min: 0 • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

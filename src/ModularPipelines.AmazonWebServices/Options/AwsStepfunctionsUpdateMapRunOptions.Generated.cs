@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsStepfunctionsUpdateMapRunOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Updates an in-progress Map Run's configuration to include changes to the settings that control maximum concurrency and Map Run failure. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MapRunArn">The Amazon Resource Name (ARN) of a Map Run. Constraints: o min: 1 o max: 2000</param>
+    /// <param name="MapRunArn">The Amazon Resource Name (ARN) of a Map Run. Constraints: • min: 1 • max: 2000</param>
     public AwsStepfunctionsUpdateMapRunOptions(
         string MapRunArn
     )
@@ -56,28 +58,28 @@ public record AwsStepfunctionsUpdateMapRunOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of a Map Run. Constraints: o min: 1 o max: 2000
+    /// The Amazon Resource Name (ARN) of a Map Run. Constraints: • min: 1 • max: 2000
     /// </summary>
     [CliOption("--map-run-arn")]
     public string? MapRunArn { get; private init; }
 
     /// <summary>
-    /// The maximum number of child workflow executions that can be speci- fied to run in parallel for the Map Run at the same time. Constraints: o min: 0
+    /// The maximum number of child workflow executions that can be specified to run in parallel for the Map Run at the same time. Constraints: • min: 0
     /// </summary>
     [CliOption("--max-concurrency")]
     public int? MaxConcurrency { get; set; }
 
     /// <summary>
-    /// The maximum percentage of failed items before the Map Run fails. Constraints: o min: 0 o max: 100
+    /// The maximum percentage of failed items before the Map Run fails. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--tolerated-failure-percentage")]
-    public int? ToleratedFailurePercentage { get; set; }
+    public double? ToleratedFailurePercentage { get; set; }
 
     /// <summary>
-    /// The maximum number of failed items before the Map Run fails. Constraints: o min: 0
+    /// The maximum number of failed items before the Map Run fails. Constraints: • min: 0
     /// </summary>
     [CliOption("--tolerated-failure-count")]
-    public int? ToleratedFailureCount { get; set; }
+    public long? ToleratedFailureCount { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

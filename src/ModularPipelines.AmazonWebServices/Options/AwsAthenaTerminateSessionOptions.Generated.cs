@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Terminates an active session. A TerminateSession call on a session that is already inactive (for example, in a FAILED , TERMINATED or TERMINAT- ING state) succeeds but has no effect. Calculations running in the ses- sion when TerminateSession is called are forcefully stopped, but may display as FAILED instead of STOPPED . See also: AWS API Documentation
+/// Terminates an active session. A TerminateSession call on a session that is already inactive (for example, in a FAILED , TERMINATED or TERMINATING state) succeeds but has no effect. Calculations running in the session when TerminateSession is called are forcefully stopped, but may display as FAILED instead of STOPPED . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsAthenaTerminateSessionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Terminates an active session. A TerminateSession call on a session that is already inactive (for example, in a FAILED , TERMINATED or TERMINAT- ING state) succeeds but has no effect. Calculations running in the ses- sion when TerminateSession is called are forcefully stopped, but may display as FAILED instead of STOPPED . See also: AWS API Documentation
+    /// Terminates an active session. A TerminateSession call on a session that is already inactive (for example, in a FAILED , TERMINATED or TERMINATING state) succeeds but has no effect. Calculations running in the session when TerminateSession is called are forcefully stopped, but may display as FAILED instead of STOPPED . See also: AWS API Documentation
     /// </summary>
-    /// <param name="SessionId">The session ID. Constraints: o min: 1 o max: 256</param>
+    /// <param name="SessionId">The session ID. Constraints: • min: 1 • max: 256</param>
     public AwsAthenaTerminateSessionOptions(
         string SessionId
     )
@@ -56,7 +58,7 @@ public record AwsAthenaTerminateSessionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The session ID. Constraints: o min: 1 o max: 256
+    /// The session ID. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }

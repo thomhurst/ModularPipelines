@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves connectivity information for a Greengrass core device. Connectivity information includes endpoints and ports where client de- vices can connect to an MQTT broker on the core device. When a client device calls the IoT Greengrass discovery API , IoT Greengrass returns connectivity information for all of the core devices where the client device can connect. For more information, see Connect client devices to core devices in the IoT Greengrass Version 2 Developer Guide . See also: AWS API ...
+/// Retrieves connectivity information for a Greengrass core device. Connectivity information includes endpoints and ports where client devices can connect to an MQTT broker on the core device. When a client device calls the IoT Greengrass discovery API , IoT Greengrass returns connectivity information for all of the core devices where the client device can connect. For more information, see Connect client devices to core devices in the IoT Greengrass Version 2 Developer Guide . See also: AWS API Do...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsGreengrassv2GetConnectivityInfoOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves connectivity information for a Greengrass core device. Connectivity information includes endpoints and ports where client de- vices can connect to an MQTT broker on the core device. When a client device calls the IoT Greengrass discovery API , IoT Greengrass returns connectivity information for all of the core devices where the client device can connect. For more information, see Connect client devices to core devices in the IoT Greengrass Version 2 Developer Guide . See also: AWS API ...
+    /// Retrieves connectivity information for a Greengrass core device. Connectivity information includes endpoints and ports where client devices can connect to an MQTT broker on the core device. When a client device calls the IoT Greengrass discovery API , IoT Greengrass returns connectivity information for all of the core devices where the client device can connect. For more information, see Connect client devices to core devices in the IoT Greengrass Version 2 Developer Guide . See also: AWS API Do...
     /// </summary>
-    /// <param name="ThingName">The name of the core device. This is also the name of the IoT thing. Constraints: o min: 1 o max: 128</param>
+    /// <param name="ThingName">The name of the core device. This is also the name of the IoT thing. Constraints: • min: 1 • max: 128</param>
     public AwsGreengrassv2GetConnectivityInfoOptions(
         string ThingName
     )
@@ -56,7 +58,7 @@ public record AwsGreengrassv2GetConnectivityInfoOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the core device. This is also the name of the IoT thing. Constraints: o min: 1 o max: 128
+    /// The name of the core device. This is also the name of the IoT thing. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--thing-name")]
     public string? ThingName { get; private init; }

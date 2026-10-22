@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the set of security groups in effect for a mount target. When you create a mount target, Amazon EFS also creates a new network interface. For more information, see CreateMountTarget . This opera- tion replaces the security groups in effect for the network interface associated with a mount target, with the SecurityGroups provided in the request. This operation requires that the network interface of the mount target has been created and the lifecycle state of the mount tar- get is not del...
+/// Modifies the set of security groups in effect for a mount target. When you create a mount target, Amazon EFS also creates a new network interface. For more information, see CreateMountTarget . This operation replaces the security groups in effect for the network interface associated with a mount target, with the SecurityGroups provided in the request. This operation requires that the network interface of the mount target has been created and the lifecycle state of the mount target is not deleted...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsEfsModifyMountTargetSecurityGroupsOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the set of security groups in effect for a mount target. When you create a mount target, Amazon EFS also creates a new network interface. For more information, see CreateMountTarget . This opera- tion replaces the security groups in effect for the network interface associated with a mount target, with the SecurityGroups provided in the request. This operation requires that the network interface of the mount target has been created and the lifecycle state of the mount tar- get is not del...
+    /// Modifies the set of security groups in effect for a mount target. When you create a mount target, Amazon EFS also creates a new network interface. For more information, see CreateMountTarget . This operation replaces the security groups in effect for the network interface associated with a mount target, with the SecurityGroups provided in the request. This operation requires that the network interface of the mount target has been created and the lifecycle state of the mount target is not deleted...
     /// </summary>
-    /// <param name="MountTargetId">The ID of the mount target whose security groups you want to modify. Constraints: o min: 13 o max: 45 o pattern: ^fsmt-[0-9a-f]{8,40}$</param>
+    /// <param name="MountTargetId">The ID of the mount target whose security groups you want to modify. Constraints: • min: 13 • max: 45 • pattern: ^fsmt-[0-9a-f]{8,40}$</param>
     public AwsEfsModifyMountTargetSecurityGroupsOptions(
         string MountTargetId
     )
@@ -56,13 +58,13 @@ public record AwsEfsModifyMountTargetSecurityGroupsOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the mount target whose security groups you want to modify. Constraints: o min: 13 o max: 45 o pattern: ^fsmt-[0-9a-f]{8,40}$
+    /// The ID of the mount target whose security groups you want to modify. Constraints: • min: 13 • max: 45 • pattern: ^fsmt-[0-9a-f]{8,40}$
     /// </summary>
     [CliOption("--mount-target-id")]
     public string? MountTargetId { get; private init; }
 
     /// <summary>
-    /// An array of VPC security group IDs. Constraints: o max: 100 (string) Constraints: o min: 11 o max: 43 o pattern: ^sg-[0-9a-f]{8,40} Syntax: "string" "string" ...
+    /// An array of VPC security group IDs. Constraints: • max: 100 (string) Constraints: • min: 11 • max: 43 • pattern: ^sg-[0-9a-f]{8,40} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--security-groups", GroupValues = true)]
     public IEnumerable<string>? SecurityGroups { get; set; }

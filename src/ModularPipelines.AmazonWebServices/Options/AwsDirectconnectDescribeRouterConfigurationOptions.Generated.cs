@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,7 +64,7 @@ public record AwsDirectconnectDescribeRouterConfigurationOptions : AwsOptions, I
     public string? VirtualInterfaceId { get; private init; }
 
     /// <summary>
-    /// Identifies the router by a combination of vendor, platform, and software version. For example, CiscoSystemsInc-2900Series- Routers-IOS124 .
+    /// Identifies the router by a combination of vendor, platform, and software version. For example, CiscoSystemsInc-2900SeriesRouters-IOS124 .
     /// </summary>
     [CliOption("--router-type-identifier")]
     public string? RouterTypeIdentifier { get; set; }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes attributes of your Amazon Web Services account. The following are the supported account attributes: o default-vpc : The ID of the default VPC for your account, or none . o max-instances : This attribute is no longer supported. The returned value does not reflect your actual vCPU limit for running On-Demand Instances. For more information, see On-Demand Instance Limits in the Amazon Elastic Compute Cloud User Guide . o max-elastic-ips : The maximum number of Elastic IP addresses that yo...
+/// Describes attributes of your Amazon Web Services account. The following are the supported account attributes: • default-vpc : The ID of the default VPC for your account, or none . • max-instances : This attribute is no longer supported. The returned value does not reflect your actual vCPU limit for running On-Demand Instances. For more information, see On-Demand Instance Limits in the Amazon Elastic Compute Cloud User Guide . • max-elastic-ips : The maximum number of Elastic IP addresses that yo...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEc2DescribeAccountAttributesOptions : AwsOptions
 {
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// The account attribute names. (string) Possible values: o supported-platforms o default-vpc Syntax: "string" "string" ...
+    /// The account attribute names. (string) Possible values: • supported-platforms • default-vpc Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--attribute-names", GroupValues = true)]
     public IEnumerable<string>? AttributeNames { get; set; }

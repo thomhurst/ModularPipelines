@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The zonal autoshift configuration for a resource includes the practice run configuration and the status for running autoshifts, zonal au- toshift status. When a resource has a practice run configuration, ARC starts weekly zonal shifts for the resource, to shift traffic away from an Availability Zone. Weekly practice runs help you to make sure that your application can continue to operate normally with the loss of one Availability Zone. You can update the zonal autoshift status to enable or disab...
+/// The zonal autoshift configuration for a resource includes the practice run configuration and the status for running autoshifts, zonal autoshift status. When a resource has a practice run configuration, ARC starts weekly zonal shifts for the resource, to shift traffic away from an Availability Zone. Weekly practice runs help you to make sure that your application can continue to operate normally with the loss of one Availability Zone. You can update the zonal autoshift status to enable or disable...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsArcZonalShiftUpdateZonalAutoshiftConfigurationOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The zonal autoshift configuration for a resource includes the practice run configuration and the status for running autoshifts, zonal au- toshift status. When a resource has a practice run configuration, ARC starts weekly zonal shifts for the resource, to shift traffic away from an Availability Zone. Weekly practice runs help you to make sure that your application can continue to operate normally with the loss of one Availability Zone. You can update the zonal autoshift status to enable or disab...
+    /// The zonal autoshift configuration for a resource includes the practice run configuration and the status for running autoshifts, zonal autoshift status. When a resource has a practice run configuration, ARC starts weekly zonal shifts for the resource, to shift traffic away from an Availability Zone. Weekly practice runs help you to make sure that your application can continue to operate normally with the loss of one Availability Zone. You can update the zonal autoshift status to enable or disable...
     /// </summary>
-    /// <param name="ResourceIdentifier">The identifier for the resource that you want to update the zonal autoshift configuration for. The identifier is the Amazon Resource Name (ARN) for the resource. Constraints: o min: 8 o max: 1024</param>
-    /// <param name="ZonalAutoshiftStatus">The zonal autoshift status for the resource that you want to update the zonal autoshift configuration for. Choose ENABLED to authorize Amazon Web Services to shift away resource traffic for an applica- tion from an Availability Zone during events, on your behalf, to help reduce time to recovery. Possible values: o ENABLED o DISABLED</param>
+    /// <param name="ResourceIdentifier">The identifier for the resource that you want to update the zonal autoshift configuration for. The identifier is the Amazon Resource Name (ARN) for the resource. Constraints: • min: 8 • max: 1024</param>
+    /// <param name="ZonalAutoshiftStatus">The zonal autoshift status for the resource that you want to update the zonal autoshift configuration for. Choose ENABLED to authorize Amazon Web Services to shift away resource traffic for an application from an Availability Zone during events, on your behalf, to help reduce time to recovery. Possible values: • ENABLED • DISABLED</param>
     public AwsArcZonalShiftUpdateZonalAutoshiftConfigurationOptions(
         string ResourceIdentifier,
         AwsArcZonalShiftUpdateZonalAutoshiftConfigurationZonalAutoshiftStatus ZonalAutoshiftStatus
@@ -60,13 +62,13 @@ public record AwsArcZonalShiftUpdateZonalAutoshiftConfigurationOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the resource that you want to update the zonal autoshift configuration for. The identifier is the Amazon Resource Name (ARN) for the resource. Constraints: o min: 8 o max: 1024
+    /// The identifier for the resource that you want to update the zonal autoshift configuration for. The identifier is the Amazon Resource Name (ARN) for the resource. Constraints: • min: 8 • max: 1024
     /// </summary>
     [CliOption("--resource-identifier")]
     public string? ResourceIdentifier { get; private init; }
 
     /// <summary>
-    /// The zonal autoshift status for the resource that you want to update the zonal autoshift configuration for. Choose ENABLED to authorize Amazon Web Services to shift away resource traffic for an applica- tion from an Availability Zone during events, on your behalf, to help reduce time to recovery. Possible values: o ENABLED o DISABLED
+    /// The zonal autoshift status for the resource that you want to update the zonal autoshift configuration for. Choose ENABLED to authorize Amazon Web Services to shift away resource traffic for an application from an Availability Zone during events, on your behalf, to help reduce time to recovery. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--zonal-autoshift-status")]
     public AwsArcZonalShiftUpdateZonalAutoshiftConfigurationZonalAutoshiftStatus? ZonalAutoshiftStatus { get; private init; }

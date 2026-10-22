@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified role. Unlike the Amazon Web Services Management Console, when you delete a role programmatically, you must delete the items attached to the role manually, or the deletion fails. For more information, see Deleting an IAM role . Before attempting to delete a role, remove the following attached items: o Inline policies (DeleteRolePolicy ) o Attached managed policies (DetachRolePolicy ) o Instance profile (RemoveRoleFromInstanceProfile ) o Optional Delete instance profile after...
+/// Deletes the specified role. Unlike the Amazon Web Services Management Console, when you delete a role programmatically, you must delete the items attached to the role manually, or the deletion fails. For more information, see Deleting an IAM role . Before attempting to delete a role, remove the following attached items: • Inline policies (DeleteRolePolicy ) • Attached managed policies (DetachRolePolicy ) • Instance profile (RemoveRoleFromInstanceProfile ) • Optional Delete instance profile after...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsIamDeleteRoleOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified role. Unlike the Amazon Web Services Management Console, when you delete a role programmatically, you must delete the items attached to the role manually, or the deletion fails. For more information, see Deleting an IAM role . Before attempting to delete a role, remove the following attached items: o Inline policies (DeleteRolePolicy ) o Attached managed policies (DetachRolePolicy ) o Instance profile (RemoveRoleFromInstanceProfile ) o Optional Delete instance profile after...
+    /// Deletes the specified role. Unlike the Amazon Web Services Management Console, when you delete a role programmatically, you must delete the items attached to the role manually, or the deletion fails. For more information, see Deleting an IAM role . Before attempting to delete a role, remove the following attached items: • Inline policies (DeleteRolePolicy ) • Attached managed policies (DetachRolePolicy ) • Instance profile (RemoveRoleFromInstanceProfile ) • Optional Delete instance profile after...
     /// </summary>
-    /// <param name="RoleName">The name of the role to delete. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+</param>
+    /// <param name="RoleName">The name of the role to delete. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 1 • max: 64 • pattern: [\w+=,.@-]+</param>
     public AwsIamDeleteRoleOptions(
         string RoleName
     )
@@ -56,7 +58,7 @@ public record AwsIamDeleteRoleOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the role to delete. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+
+    /// The name of the role to delete. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 1 • max: 64 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--role-name")]
     public string? RoleName { get; private init; }

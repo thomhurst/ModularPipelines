@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsEventsDisableRuleOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Disables the specified rule. A disabled rule won't match any events, and won't self-trigger if it has a schedule expression. When you disable a rule, incoming events might continue to match to the disabled rule. Allow a short period of time for changes to take effect. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the rule. Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+</param>
+    /// <param name="Name">The name of the rule. Constraints: • min: 1 • max: 64 • pattern: [\.\-_A-Za-z0-9]+</param>
     public AwsEventsDisableRuleOptions(
         string Name
     )
@@ -56,13 +58,13 @@ public record AwsEventsDisableRuleOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the rule. Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+
+    /// The name of the rule. Constraints: • min: 1 • max: 64 • pattern: [\.\-_A-Za-z0-9]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used. Constraints: o min: 1 o max: 1600 o pattern: (arn:aws[\w-]*:events:[a-z]+-[a-z]+-[\w-]+:[0-9]{12}:event-bus\/)?[/\.\-_A-Za-z0-9]+
+    /// The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used. Constraints: • min: 1 • max: 1600 • pattern: (arn:aws[\w-]*:events:[a-z]+-[a-z]+-[\w-]+:[0-9]{12}:event-bus\/)?[/\.\-_A-Za-z0-9]+
     /// </summary>
     [CliOption("--event-bus-name")]
     public string? EventBusName { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates read permissions for a Amazon Q App in Amazon Q Business appli- cation environment instance. See also: AWS API Documentation
+/// Updates read permissions for a Amazon Q App in Amazon Q Business application environment instance. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsQappsUpdateQAppPermissionsOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates read permissions for a Amazon Q App in Amazon Q Business appli- cation environment instance. See also: AWS API Documentation
+    /// Updates read permissions for a Amazon Q App in Amazon Q Business application environment instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The unique identifier of the Amazon Q Business application environ- ment instance.</param>
-    /// <param name="AppId">The unique identifier of the Amazon Q App for which permissions are being updated. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}</param>
+    /// <param name="InstanceId">The unique identifier of the Amazon Q Business application environment instance.</param>
+    /// <param name="AppId">The unique identifier of the Amazon Q App for which permissions are being updated. Constraints: • pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}</param>
     public AwsQappsUpdateQAppPermissionsOptions(
         string InstanceId,
         string AppId
@@ -60,25 +62,25 @@ public record AwsQappsUpdateQAppPermissionsOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Amazon Q Business application environ- ment instance.
+    /// The unique identifier of the Amazon Q Business application environment instance.
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the Amazon Q App for which permissions are being updated. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}
+    /// The unique identifier of the Amazon Q App for which permissions are being updated. Constraints: • pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}
     /// </summary>
     [CliOption("--app-id")]
     public string? AppId { get; private init; }
 
     /// <summary>
-    /// The list of permissions to grant for the Amazon Q App. Constraints: o min: 0 o max: 100 (structure) The permission to grant or revoke for a Amazon Q App. action -&gt; (string) [required] The action associated with the permission. Possible values: o read o write Constraints: o min: 1 o max: 20 principal -&gt; (string) [required] The principal user to which the permission applies. Constraints: o min: 1 o max: 256 Shorthand Syntax: action=string,principal=string ... JSON Syntax: [ { "action": "read"|"write", "principal": "string" } ... ]
+    /// The list of permissions to grant for the Amazon Q App. Constraints: • min: 0 • max: 100 (structure) The permission to grant or revoke for a Amazon Q App. action -&gt; (string) [required] The action associated with the permission. Possible values: • read • write Constraints: • min: 1 • max: 20 principal -&gt; (string) [required] The principal user to which the permission applies. Constraints: • min: 1 • max: 256 Shorthand Syntax: action=string,principal=string ... JSON Syntax: [ { "action": "read"|"write", "principal": "string" } ... ]
     /// </summary>
     [CliOption("--grant-permissions", GroupValues = true)]
     public IEnumerable<string>? GrantPermissions { get; set; }
 
     /// <summary>
-    /// The list of permissions to revoke for the Amazon Q App. Constraints: o min: 0 o max: 100 (structure) The permission to grant or revoke for a Amazon Q App. action -&gt; (string) [required] The action associated with the permission. Possible values: o read o write Constraints: o min: 1 o max: 20 principal -&gt; (string) [required] The principal user to which the permission applies. Constraints: o min: 1 o max: 256 Shorthand Syntax: action=string,principal=string ... JSON Syntax: [ { "action": "read"|"write", "principal": "string" } ... ]
+    /// The list of permissions to revoke for the Amazon Q App. Constraints: • min: 0 • max: 100 (structure) The permission to grant or revoke for a Amazon Q App. action -&gt; (string) [required] The action associated with the permission. Possible values: • read • write Constraints: • min: 1 • max: 20 principal -&gt; (string) [required] The principal user to which the permission applies. Constraints: • min: 1 • max: 256 Shorthand Syntax: action=string,principal=string ... JSON Syntax: [ { "action": "read"|"write", "principal": "string" } ... ]
     /// </summary>
     [CliOption("--revoke-permissions", GroupValues = true)]
     public IEnumerable<string>? RevokePermissions { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsBackupGatewayUntagResourceOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Removes tags from the resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource from which to remove tags. Constraints: o min: 50 o max: 500 o pattern: arn:(aws|aws-cn|aws-us-gov):backup-gate- way(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+</param>
-    /// <param name="TagKeys">The list of tag keys specifying which tags to remove. (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource from which to remove tags. Constraints: • min: 50 • max: 500 • pattern: arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+</param>
+    /// <param name="TagKeys">The list of tag keys specifying which tags to remove. (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Syntax: "string" "string" ...</param>
     public AwsBackupGatewayUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsBackupGatewayUntagResourceOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource from which to remove tags. Constraints: o min: 50 o max: 500 o pattern: arn:(aws|aws-cn|aws-us-gov):backup-gate- way(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+
+    /// The Amazon Resource Name (ARN) of the resource from which to remove tags. Constraints: • min: 50 • max: 500 • pattern: arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The list of tag keys specifying which tags to remove. (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Syntax: "string" "string" ...
+    /// The list of tag keys specifying which tags to remove. (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

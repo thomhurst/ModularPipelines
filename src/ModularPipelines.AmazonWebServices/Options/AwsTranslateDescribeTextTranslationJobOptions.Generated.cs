@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the properties associated with an asynchronous batch translation job including name, ID, status, source and target languages, input/out- put S3 buckets, and so on. See also: AWS API Documentation
+/// Gets the properties associated with an asynchronous batch translation job including name, ID, status, source and target languages, input/output S3 buckets, and so on. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsTranslateDescribeTextTranslationJobOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets the properties associated with an asynchronous batch translation job including name, ID, status, source and target languages, input/out- put S3 buckets, and so on. See also: AWS API Documentation
+    /// Gets the properties associated with an asynchronous batch translation job including name, ID, status, source and target languages, input/output S3 buckets, and so on. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">The identifier that Amazon Translate generated for the job. The StartTextTranslationJob operation returns this identifier in its re- sponse. Constraints: o min: 1 o max: 32 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$</param>
+    /// <param name="JobId">The identifier that Amazon Translate generated for the job. The StartTextTranslationJob operation returns this identifier in its response. Constraints: • min: 1 • max: 32 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$</param>
     public AwsTranslateDescribeTextTranslationJobOptions(
         string JobId
     )
@@ -56,7 +58,7 @@ public record AwsTranslateDescribeTextTranslationJobOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier that Amazon Translate generated for the job. The StartTextTranslationJob operation returns this identifier in its re- sponse. Constraints: o min: 1 o max: 32 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$
+    /// The identifier that Amazon Translate generated for the job. The StartTextTranslationJob operation returns this identifier in its response. Constraints: • min: 1 • max: 32 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }

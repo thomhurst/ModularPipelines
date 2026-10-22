@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsS3controlPutAccessPointScopeOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Creates or replaces the access point scope for a directory bucket. You can use the access point scope to restrict access to specific prefixes, API operations, or a combination of both. NOTE: You can specify any amount of prefixes, but the total length of characters of all prefixes must be less than 256 bytes in size. To use this operation, you must have the permission to perform the s3express:PutAccessPointScope action. For information about REST API errors, see REST error responses . See also: ...
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID that owns the access point with scope that you want to create or replace. Constraints: o max: 64 o pattern: ^\d{12}$</param>
-    /// <param name="Name">The name of the access point with the scope that you want to create or replace. Constraints: o min: 3 o max: 255</param>
-    /// <param name="Scope">Object prefixes, API operations, or a combination of both. Prefixes -&gt; (list) You can specify any amount of prefixes, but the total length of characters of all prefixes must be less than 256 bytes in size. (string) Permissions -&gt; (list) You can include one or more API operations as permissions. (string) Possible values: o GetObject o GetObjectAttributes o ListMultipartUploadParts o ListBucket o ListBucketMultipartUploads o PutObject o DeleteObject o AbortMultipartUpload Shorthand Syntax: Prefixes=string,string,Permissions=string,string JSON Syntax: { "Prefixes": ["string", ...], "Permissions": ["GetObject"|"GetObjectAttributes"|"ListMultipartUploadParts"|"ListBucket"|"ListBucketMultipartUploads"|"PutObject"|"DeleteObject"|"AbortMultipartUpload", ...] }</param>
+    /// <param name="AccountId">The Amazon Web Services account ID that owns the access point with scope that you want to create or replace. Constraints: • max: 64 • pattern: ^\d{12}$</param>
+    /// <param name="Name">The name of the access point with the scope that you want to create or replace. Constraints: • min: 3 • max: 255</param>
+    /// <param name="Scope">Object prefixes, API operations, or a combination of both. Prefixes -&gt; (list) You can specify any amount of prefixes, but the total length of characters of all prefixes must be less than 256 bytes in size. (string) Permissions -&gt; (list) You can include one or more API operations as permissions. (string) Possible values: • GetObject • GetObjectAttributes • ListMultipartUploadParts • ListBucket • ListBucketMultipartUploads • PutObject • DeleteObject • AbortMultipartUpload Shorthand Syntax: Prefixes=string,string,Permissions=string,string JSON Syntax: { "Prefixes": ["string", ...], "Permissions": ["GetObject"|"GetObjectAttributes"|"ListMultipartUploadParts"|"ListBucket"|"ListBucketMultipartUploads"|"PutObject"|"DeleteObject"|"AbortMultipartUpload", ...] }</param>
     public AwsS3controlPutAccessPointScopeOptions(
         string AccountId,
         string Name,
@@ -64,19 +66,19 @@ public record AwsS3controlPutAccessPointScopeOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID that owns the access point with scope that you want to create or replace. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID that owns the access point with scope that you want to create or replace. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The name of the access point with the scope that you want to create or replace. Constraints: o min: 3 o max: 255
+    /// The name of the access point with the scope that you want to create or replace. Constraints: • min: 3 • max: 255
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Object prefixes, API operations, or a combination of both. Prefixes -&gt; (list) You can specify any amount of prefixes, but the total length of characters of all prefixes must be less than 256 bytes in size. (string) Permissions -&gt; (list) You can include one or more API operations as permissions. (string) Possible values: o GetObject o GetObjectAttributes o ListMultipartUploadParts o ListBucket o ListBucketMultipartUploads o PutObject o DeleteObject o AbortMultipartUpload Shorthand Syntax: Prefixes=string,string,Permissions=string,string JSON Syntax: { "Prefixes": ["string", ...], "Permissions": ["GetObject"|"GetObjectAttributes"|"ListMultipartUploadParts"|"ListBucket"|"ListBucketMultipartUploads"|"PutObject"|"DeleteObject"|"AbortMultipartUpload", ...] }
+    /// Object prefixes, API operations, or a combination of both. Prefixes -&gt; (list) You can specify any amount of prefixes, but the total length of characters of all prefixes must be less than 256 bytes in size. (string) Permissions -&gt; (list) You can include one or more API operations as permissions. (string) Possible values: • GetObject • GetObjectAttributes • ListMultipartUploadParts • ListBucket • ListBucketMultipartUploads • PutObject • DeleteObject • AbortMultipartUpload Shorthand Syntax: Prefixes=string,string,Permissions=string,string JSON Syntax: { "Prefixes": ["string", ...], "Permissions": ["GetObject"|"GetObjectAttributes"|"ListMultipartUploadParts"|"ListBucket"|"ListBucketMultipartUploads"|"PutObject"|"DeleteObject"|"AbortMultipartUpload", ...] }
     /// </summary>
     [CliOption("--scope")]
     public string? Scope { get; private init; }

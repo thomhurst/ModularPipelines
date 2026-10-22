@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +31,7 @@ public record AwsMacie2UpdateMemberSessionOptions : AwsOptions, IValidatableObje
     /// Enables an Amazon Macie administrator to suspend or re-enable Macie for a member account. See also: AWS API Documentation
     /// </summary>
     /// <param name="Id">The unique identifier for the Amazon Macie resource that the request applies to.</param>
-    /// <param name="Status">Specifies the new status for the account. Valid values are: ENABLED, resume all Amazon Macie activities for the account; and, PAUSED, suspend all Macie activities for the account. Possible values: o PAUSED o ENABLED</param>
+    /// <param name="Status">Specifies the new status for the account. Valid values are: ENABLED, resume all Amazon Macie activities for the account; and, PAUSED, suspend all Macie activities for the account. Possible values: • PAUSED • ENABLED</param>
     public AwsMacie2UpdateMemberSessionOptions(
         string Id,
         AwsMacie2UpdateMemberSessionStatus Status
@@ -66,7 +68,7 @@ public record AwsMacie2UpdateMemberSessionOptions : AwsOptions, IValidatableObje
     public string? Id { get; private init; }
 
     /// <summary>
-    /// Specifies the new status for the account. Valid values are: ENABLED, resume all Amazon Macie activities for the account; and, PAUSED, suspend all Macie activities for the account. Possible values: o PAUSED o ENABLED
+    /// Specifies the new status for the account. Valid values are: ENABLED, resume all Amazon Macie activities for the account; and, PAUSED, suspend all Macie activities for the account. Possible values: • PAUSED • ENABLED
     /// </summary>
     [CliOption("--status")]
     public AwsMacie2UpdateMemberSessionStatus? Status { get; private init; }

@@ -13,7 +13,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws georoutes commands.
+/// aws geo-routes commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,14 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsGeoRoutes
 {
     /// <summary>
-    /// Calculates areas that can be reached within specified time or distance thresholds from a given point. For example, you can use this operation to determine the area within a 30-minute drive of a store location, find neighborhoods within walking distance of a school, or identify de- livery zones based on drive time. Isolines (also known as isochrones for time-based calculations) are useful for various applications including: o Service area visualization - Show customers the area you can serve with...
+    /// Calculates areas that can be reached within specified time or distance thresholds from a given point. For example, you can use this operation to determine the area within a 30-minute drive of a store location, find neighborhoods within walking distance of a school, or identify delivery zones based on drive time. Isolines (also known as isochrones for time-based calculations) are useful for various applications including: • Service area visualization - Show customers the area you can serve within...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CalculateIsolinesAsync(AwsGeoRoutesCalculateIsolinesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CalculateIsolinesAsync(AwsGeoRoutesCalculateIsolinesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Use CalculateRouteMatrix to compute results for all pairs of Origins to Destinations. Each row corresponds to one entry in Origins. Each entry in the row corresponds to the route from that entry in Origins to an entry in Destinations positions. For more information, see Calculate route matrix in the Amazon Location Service Developer Guide . See also: AWS API Documentation
@@ -38,18 +37,16 @@ public interface IAwsGeoRoutes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CalculateRouteMatrixAsync(AwsGeoRoutesCalculateRouteMatrixOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CalculateRouteMatrixAsync(AwsGeoRoutesCalculateRouteMatrixOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// CalculateRoutes computes routes given the following required parame- ters: Origin and Destination . For more information, see Calculate routes in the Amazon Location Ser- vice Developer Guide . See also: AWS API Documentation
+    /// CalculateRoutes computes routes given the following required parameters: Origin and Destination . For more information, see Calculate routes in the Amazon Location Service Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CalculateRoutesAsync(AwsGeoRoutesCalculateRoutesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CalculateRoutesAsync(AwsGeoRoutesCalculateRoutesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// OptimizeWaypoints calculates the optimal order to travel between a set of waypoints to minimize either the travel time or the distance travelled during the journey, based on road network restrictions and the traffic pattern data. For more information, see Optimize waypoints in the Amazon Location Service Developer Guide . See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsGeoRoutes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> OptimizeWaypointsAsync(AwsGeoRoutesOptimizeWaypointsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> OptimizeWaypointsAsync(AwsGeoRoutesOptimizeWaypointsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// SnapToRoads matches GPS trace to roads most likely traveled on. For more information, see Snap to Roads in the Amazon Location Service Developer Guide . See also: AWS API Documentation
@@ -68,7 +64,6 @@ public interface IAwsGeoRoutes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SnapToRoadsAsync(AwsGeoRoutesSnapToRoadsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SnapToRoadsAsync(AwsGeoRoutesSnapToRoadsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

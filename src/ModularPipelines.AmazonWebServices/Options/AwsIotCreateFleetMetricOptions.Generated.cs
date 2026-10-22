@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,11 +29,11 @@ public record AwsIotCreateFleetMetricOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a fleet metric. Requires permission to access the CreateFleetMetric action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MetricName">The name of the fleet metric to create. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_\-\.]+</param>
-    /// <param name="QueryString">The search query string. Constraints: o min: 1</param>
-    /// <param name="AggregationType">The type of the aggregation query. name -&gt; (string) [required] The name of the aggregation type. Possible values: o Statistics o Percentiles o Cardinality values -&gt; (list) A list of the values of aggregation types. (string) Constraints: o min: 1 o max: 12 o pattern: [a-zA-Z0-9]+ Shorthand Syntax: name=string,values=string,string JSON Syntax: { "name": "Statistics"|"Percentiles"|"Cardinality", "values": ["string", ...] }</param>
-    /// <param name="Period">The time in seconds between fleet metric emissions. Range [60(1 min), 86400(1 day)] and must be multiple of 60. Constraints: o min: 60 o max: 86400</param>
-    /// <param name="AggregationField">The field to aggregate. Constraints: o min: 1</param>
+    /// <param name="MetricName">The name of the fleet metric to create. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_\-\.]+</param>
+    /// <param name="QueryString">The search query string. Constraints: • min: 1</param>
+    /// <param name="AggregationType">The type of the aggregation query. name -&gt; (string) [required] The name of the aggregation type. Possible values: • Statistics • Percentiles • Cardinality values -&gt; (list) A list of the values of aggregation types. (string) Constraints: • min: 1 • max: 12 • pattern: [a-zA-Z0-9]+ Shorthand Syntax: name=string,values=string,string JSON Syntax: { "name": "Statistics"|"Percentiles"|"Cardinality", "values": ["string", ...] }</param>
+    /// <param name="Period">The time in seconds between fleet metric emissions. Range [60(1 min), 86400(1 day)] and must be multiple of 60. Constraints: • min: 60 • max: 86400</param>
+    /// <param name="AggregationField">The field to aggregate. Constraints: • min: 1</param>
     public AwsIotCreateFleetMetricOptions(
         string MetricName,
         string QueryString,
@@ -71,37 +73,37 @@ public record AwsIotCreateFleetMetricOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the fleet metric to create. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_\-\.]+
+    /// The name of the fleet metric to create. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_\-\.]+
     /// </summary>
     [CliOption("--metric-name")]
     public string? MetricName { get; private init; }
 
     /// <summary>
-    /// The search query string. Constraints: o min: 1
+    /// The search query string. Constraints: • min: 1
     /// </summary>
     [CliOption("--query-string")]
     public string? QueryString { get; private init; }
 
     /// <summary>
-    /// The type of the aggregation query. name -&gt; (string) [required] The name of the aggregation type. Possible values: o Statistics o Percentiles o Cardinality values -&gt; (list) A list of the values of aggregation types. (string) Constraints: o min: 1 o max: 12 o pattern: [a-zA-Z0-9]+ Shorthand Syntax: name=string,values=string,string JSON Syntax: { "name": "Statistics"|"Percentiles"|"Cardinality", "values": ["string", ...] }
+    /// The type of the aggregation query. name -&gt; (string) [required] The name of the aggregation type. Possible values: • Statistics • Percentiles • Cardinality values -&gt; (list) A list of the values of aggregation types. (string) Constraints: • min: 1 • max: 12 • pattern: [a-zA-Z0-9]+ Shorthand Syntax: name=string,values=string,string JSON Syntax: { "name": "Statistics"|"Percentiles"|"Cardinality", "values": ["string", ...] }
     /// </summary>
     [CliOption("--aggregation-type")]
     public string? AggregationType { get; private init; }
 
     /// <summary>
-    /// The time in seconds between fleet metric emissions. Range [60(1 min), 86400(1 day)] and must be multiple of 60. Constraints: o min: 60 o max: 86400
+    /// The time in seconds between fleet metric emissions. Range [60(1 min), 86400(1 day)] and must be multiple of 60. Constraints: • min: 60 • max: 86400
     /// </summary>
     [CliOption("--period")]
     public int? Period { get; private init; }
 
     /// <summary>
-    /// The field to aggregate. Constraints: o min: 1
+    /// The field to aggregate. Constraints: • min: 1
     /// </summary>
     [CliOption("--aggregation-field")]
     public string? AggregationField { get; private init; }
 
     /// <summary>
-    /// The fleet metric description. Constraints: o max: 1024 o pattern: [\p{Graph}\x20]*
+    /// The fleet metric description. Constraints: • max: 1024 • pattern: [\p{Graph}\x20]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -113,19 +115,19 @@ public record AwsIotCreateFleetMetricOptions : AwsOptions, IValidatableObject
     public string? QueryVersion { get; set; }
 
     /// <summary>
-    /// The name of the index to search. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The name of the index to search. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--index-name")]
     public string? IndexName { get; set; }
 
     /// <summary>
-    /// Used to support unit transformation such as milliseconds to seconds. The unit must be supported by CW metric . Default to null. Possible values: o Seconds o Microseconds o Milliseconds o Bytes o Kilobytes o Megabytes o Gigabytes o Terabytes o Bits o Kilobits o Megabits o Gigabits o Terabits o Percent o Count o Bytes/Second o Kilobytes/Second o Megabytes/Second o Gigabytes/Second o Terabytes/Second o Bits/Second o Kilobits/Second o Megabits/Second o Gigabits/Second o Terabits/Second o Count/Second o None
+    /// Used to support unit transformation such as milliseconds to seconds. The unit must be supported by CW metric . Default to null. Possible values: • Seconds • Microseconds • Milliseconds • Bytes • Kilobytes • Megabytes • Gigabytes • Terabytes • Bits • Kilobits • Megabits • Gigabits • Terabits • Percent • Count • Bytes/Second • Kilobytes/Second • Megabytes/Second • Gigabytes/Second • Terabytes/Second • Bits/Second • Kilobits/Second • Megabits/Second • Gigabits/Second • Terabits/Second • Count/Second • None
     /// </summary>
     [CliOption("--unit")]
     public string? Unit { get; set; }
 
     /// <summary>
-    /// Metadata, which can be used to manage the fleet metric. (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Metadata, which can be used to manage the fleet metric. (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The tag's value. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

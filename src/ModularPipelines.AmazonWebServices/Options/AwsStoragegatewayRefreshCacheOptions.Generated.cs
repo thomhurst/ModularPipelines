@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Refreshes the cached inventory of objects for the specified file share. This operation finds objects in the Amazon S3 bucket that were added, removed, or replaced since the gateway last listed the bucket's con- tents and cached the results. This operation does not import files into the S3 File Gateway cache storage. It only updates the cached inventory to reflect changes in the inventory of the objects in the S3 bucket. This operation is only supported in the S3 File Gateway types. You can subsc...
+/// Refreshes the cached inventory of objects for the specified file share. This operation finds objects in the Amazon S3 bucket that were added, removed, or replaced since the gateway last listed the bucket's contents and cached the results. This operation does not import files into the S3 File Gateway cache storage. It only updates the cached inventory to reflect changes in the inventory of the objects in the S3 bucket. This operation is only supported in the S3 File Gateway types. You can subscri...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsStoragegatewayRefreshCacheOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Refreshes the cached inventory of objects for the specified file share. This operation finds objects in the Amazon S3 bucket that were added, removed, or replaced since the gateway last listed the bucket's con- tents and cached the results. This operation does not import files into the S3 File Gateway cache storage. It only updates the cached inventory to reflect changes in the inventory of the objects in the S3 bucket. This operation is only supported in the S3 File Gateway types. You can subsc...
+    /// Refreshes the cached inventory of objects for the specified file share. This operation finds objects in the Amazon S3 bucket that were added, removed, or replaced since the gateway last listed the bucket's contents and cached the results. This operation does not import files into the S3 File Gateway cache storage. It only updates the cached inventory to reflect changes in the inventory of the objects in the S3 bucket. This operation is only supported in the S3 File Gateway types. You can subscri...
     /// </summary>
-    /// <param name="FileShareArn">The Amazon Resource Name (ARN) of the file share you want to re- fresh. Constraints: o min: 50 o max: 500</param>
+    /// <param name="FileShareArn">The Amazon Resource Name (ARN) of the file share you want to refresh. Constraints: • min: 50 • max: 500</param>
     public AwsStoragegatewayRefreshCacheOptions(
         string FileShareArn
     )
@@ -56,19 +58,19 @@ public record AwsStoragegatewayRefreshCacheOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the file share you want to re- fresh. Constraints: o min: 50 o max: 500
+    /// The Amazon Resource Name (ARN) of the file share you want to refresh. Constraints: • min: 50 • max: 500
     /// </summary>
     [CliOption("--file-share-arn")]
     public string? FileShareArn { get; private init; }
 
     /// <summary>
-    /// A comma-separated list of the paths of folders to refresh in the cache. The default is ["/" ]. The default refreshes objects and folders at the root of the Amazon S3 bucket. If Recursive is set to true , the entire S3 bucket that the file share has access to is re- freshed. Do not include / when specifying folder names. For example, you would specify samplefolder rather than samplefolder/ . Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...
+    /// A comma-separated list of the paths of folders to refresh in the cache. The default is ["/" ]. The default refreshes objects and folders at the root of the Amazon S3 bucket. If Recursive is set to true , the entire S3 bucket that the file share has access to is refreshed. Do not include / when specifying folder names. For example, you would specify samplefolder rather than samplefolder/ . Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 1024 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--folder-list", GroupValues = true)]
     public IEnumerable<string>? FolderList { get; set; }
 
     /// <summary>
-    /// A value that specifies whether to recursively refresh folders in the cache. The refresh includes folders that were in the cache the last time the gateway listed the folder's contents. If this value set to true , each folder that is listed in FolderList is recursively up- dated. Otherwise, subfolders listed in FolderList are not refreshed. Only objects that are in folders listed directly under FolderList are found and used for the update. The default is true . Valid Values: true | false
+    /// A value that specifies whether to recursively refresh folders in the cache. The refresh includes folders that were in the cache the last time the gateway listed the folder's contents. If this value set to true , each folder that is listed in FolderList is recursively updated. Otherwise, subfolders listed in FolderList are not refreshed. Only objects that are in folders listed directly under FolderList are found and used for the update. The default is true . Valid Values: true | false
     /// </summary>
     [CliFlag("--recursive", NegatedName = "--no-recursive")]
     public bool? Recursive { get; set; }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,8 +29,8 @@ public record AwsIotCancelJobExecutionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Cancels the execution of a job for a given thing. Requires permission to access the CancelJobExecution action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">The ID of the job to be canceled. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="ThingName">The name of the thing whose execution of the job will be canceled. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+</param>
+    /// <param name="JobId">The ID of the job to be canceled. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ThingName">The name of the thing whose execution of the job will be canceled. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+</param>
     public AwsIotCancelJobExecutionOptions(
         string JobId,
         string ThingName
@@ -61,31 +62,31 @@ public record AwsIotCancelJobExecutionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the job to be canceled. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// The ID of the job to be canceled. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// The name of the thing whose execution of the job will be canceled. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The name of the thing whose execution of the job will be canceled. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--thing-name")]
     public string? ThingName { get; private init; }
 
     /// <summary>
-    /// (Optional) If true the job execution will be canceled if it has sta- tus IN_PROGRESS or QUEUED, otherwise the job execution will be can- celed only if it has status QUEUED. If you attempt to cancel a job execution that is IN_PROGRESS, and you do not set force to true , then an InvalidStateTransitionException will be thrown. The default is false . Canceling a job execution which is "IN_PROGRESS", will cause the de- vice to be unable to update the job execution status. Use caution and ensure that the device is able to recover to a valid state.
+    /// (Optional) If true the job execution will be canceled if it has status IN_PROGRESS or QUEUED, otherwise the job execution will be canceled only if it has status QUEUED. If you attempt to cancel a job execution that is IN_PROGRESS, and you do not set force to true , then an InvalidStateTransitionException will be thrown. The default is false . Canceling a job execution which is "IN_PROGRESS", will cause the device to be unable to update the job execution status. Use caution and ensure that the device is able to recover to a valid state.
     /// </summary>
     [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     /// <summary>
-    /// (Optional) The expected current version of the job execution. Each time you update the job execution, its version is incremented. If the version of the job execution stored in Jobs does not match, the update is rejected with a VersionMismatch error, and an ErrorRe- sponse that contains the current job execution status data is re- turned. (This makes it unnecessary to perform a separate De- scribeJobExecution request in order to obtain the job execution sta- tus data.)
+    /// (Optional) The expected current version of the job execution. Each time you update the job execution, its version is incremented. If the version of the job execution stored in Jobs does not match, the update is rejected with a VersionMismatch error, and an ErrorResponse that contains the current job execution status data is returned. (This makes it unnecessary to perform a separate DescribeJobExecution request in order to obtain the job execution status data.)
     /// </summary>
     [CliOption("--expected-version")]
-    public int? ExpectedVersion { get; set; }
+    public long? ExpectedVersion { get; set; }
 
     /// <summary>
-    /// A collection of name/value pairs that describe the status of the job execution. If not specified, the statusDetails are unchanged. You can specify at most 10 name/value pairs. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+ value -&gt; (string) Constraints: o min: 1 o pattern: [^\p{C}]+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A collection of name/value pairs that describe the status of the job execution. If not specified, the statusDetails are unchanged. You can specify at most 10 name/value pairs. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+ value -&gt; (string) Constraints: • min: 1 • pattern: [^\p{C}]+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--status-details", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? StatusDetails { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API call updates the landing zone. It starts an asynchronous oper- ation that updates the landing zone based on the new landing zone ver- sion, or on the changed parameters specified in the updated manifest file. See also: AWS API Documentation update-landing-zone uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type ...
+/// This API call updates the landing zone. It starts an asynchronous operation that updates the landing zone based on the new landing zone version, or on the changed parameters specified in the updated manifest file. See also: AWS API Documentation update-landing-zone uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type docume...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsControltowerUpdateLandingZoneOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API call updates the landing zone. It starts an asynchronous oper- ation that updates the landing zone based on the new landing zone ver- sion, or on the changed parameters specified in the updated manifest file. See also: AWS API Documentation update-landing-zone uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type ...
+    /// This API call updates the landing zone. It starts an asynchronous operation that updates the landing zone based on the new landing zone version, or on the changed parameters specified in the updated manifest file. See also: AWS API Documentation update-landing-zone uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type docume...
     /// </summary>
     /// <param name="LandingZoneIdentifier">The unique identifier of the landing zone.</param>
-    /// <param name="LandingZoneVersion">The landing zone version, for example, 3.2. Constraints: o min: 3 o max: 10 o pattern: \d+.\d+</param>
+    /// <param name="LandingZoneVersion">The landing zone version, for example, 3.2. Constraints: • min: 3 • max: 10 • pattern: \d+.\d+</param>
     public AwsControltowerUpdateLandingZoneOptions(
         string LandingZoneIdentifier,
         string LandingZoneVersion
@@ -66,19 +68,19 @@ public record AwsControltowerUpdateLandingZoneOptions : AwsOptions, IValidatable
     public string? LandingZoneIdentifier { get; private init; }
 
     /// <summary>
-    /// The landing zone version, for example, 3.2. Constraints: o min: 3 o max: 10 o pattern: \d+.\d+
+    /// The landing zone version, for example, 3.2. Constraints: • min: 3 • max: 10 • pattern: \d+.\d+
     /// </summary>
     [CliOption("--landing-zone-version")]
     public string? LandingZoneVersion { get; private init; }
 
     /// <summary>
-    /// Specifies the types of remediation actions to apply when updating the landing zone configuration. Constraints: o min: 1 o max: 1 (string) Possible values: o INHERITANCE_DRIFT Syntax: "string" "string" ...
+    /// Specifies the types of remediation actions to apply when updating the landing zone configuration. Constraints: • min: 1 • max: 1 (string) Possible values: • INHERITANCE_DRIFT Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--remediation-types", GroupValues = true)]
     public IEnumerable<string>? RemediationTypes { get; set; }
 
     /// <summary>
-    /// The manifest file (JSON) is a text file that describes your Amazon Web Services resources. For an example, review Launch your landing zone . The example manifest file contains each of the available pa- rameters. The schema for the landing zone's JSON manifest file is not published, by design. JSON Syntax: {...}
+    /// The manifest file (JSON) is a text file that describes your Amazon Web Services resources. For an example, review Launch your landing zone . The example manifest file contains each of the available parameters. The schema for the landing zone's JSON manifest file is not published, by design. JSON Syntax: {...}
     /// </summary>
     [CliOption("--manifest")]
     public string? Manifest { get; set; }

@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists all of the resources that are associated with the specified ap- plication. Results are paginated. NOTE: If you share an application, and a consumer account associates a tag query to the application, all of the users who can access the appli- cation can also view the tag values in all accounts that are associ- ated with it using this API. See also: AWS API Documentation list-associated-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data ...
+/// Lists all of the resources that are associated with the specified application. Results are paginated. NOTE: If you share an application, and a consumer account associates a tag query to the application, all of the users who can access the application can also view the tag values in all accounts that are associated with it using this API. See also: AWS API Documentation list-associated-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsServicecatalogAppregistryListAssociatedResourcesOptions : AwsOp
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists all of the resources that are associated with the specified ap- plication. Results are paginated. NOTE: If you share an application, and a consumer account associates a tag query to the application, all of the users who can access the appli- cation can also view the tag values in all accounts that are associ- ated with it using this API. See also: AWS API Documentation list-associated-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data ...
+    /// Lists all of the resources that are associated with the specified application. Results are paginated. NOTE: If you share an application, and a consumer account associates a tag query to the application, all of the users who can access the application can also view the tag values in all accounts that are associated with it using this API. See also: AWS API Documentation list-associated-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of...
     /// </summary>
-    /// <param name="Application">The name, ID, or ARN of the application. Constraints: o min: 1 o max: 256 o pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecata- log:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[-.\w]+)</param>
+    /// <param name="Application">The name, ID, or ARN of the application. Constraints: • min: 1 • max: 256 • pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[-.\w]+)</param>
     public AwsServicecatalogAppregistryListAssociatedResourcesOptions(
         string Application
     )
@@ -57,16 +59,13 @@ public record AwsServicecatalogAppregistryListAssociatedResourcesOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name, ID, or ARN of the application. Constraints: o min: 1 o max: 256 o pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecata- log:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[-.\w]+)
+    /// The name, ID, or ARN of the application. Constraints: • min: 1 • max: 256 • pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[-.\w]+)
     /// </summary>
     [CliOption("--application")]
     public string? Application { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -76,16 +75,19 @@ public record AwsServicecatalogAppregistryListAssociatedResourcesOptions : AwsOp
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsSsoAdminUpdatePermissionSetOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Updates an existing permission set. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceArn">The ARN of the IAM Identity Center instance under which the opera- tion will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
-    /// <param name="PermissionSetArn">The ARN of the permission set. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::permission- Set/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}</param>
+    /// <param name="InstanceArn">The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
+    /// <param name="PermissionSetArn">The ARN of the permission set. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}</param>
     public AwsSsoAdminUpdatePermissionSetOptions(
         string InstanceArn,
         string PermissionSetArn
@@ -60,31 +62,31 @@ public record AwsSsoAdminUpdatePermissionSetOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the IAM Identity Center instance under which the opera- tion will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}
     /// </summary>
     [CliOption("--instance-arn")]
     public string? InstanceArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the permission set. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::permission- Set/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}
+    /// The ARN of the permission set. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}
     /// </summary>
     [CliOption("--permission-set-arn")]
     public string? PermissionSetArn { get; private init; }
 
     /// <summary>
-    /// The description of the PermissionSet . Constraints: o min: 1 o max: 700 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]*
+    /// The description of the PermissionSet . Constraints: • min: 1 • max: 700 • pattern: [\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The length of time that the application user sessions are valid for in the ISO-8601 standard. Constraints: o min: 1 o max: 100 o pattern: (-?)P(?=\d|T\d)(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)([DW]))?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(?:\.\d+)?)S)?)?
+    /// The length of time that the application user sessions are valid for in the ISO-8601 standard. Constraints: • min: 1 • max: 100 • pattern: (-?)P(?=\d|T\d)(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)([DW]))?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(?:\.\d+)?)S)?)?
     /// </summary>
     [CliOption("--session-duration")]
     public string? SessionDuration { get; set; }
 
     /// <summary>
-    /// Used to redirect users within the application during the federation authentication process. Constraints: o min: 1 o max: 240 o pattern: [a-zA-Z0-9&amp;$@#\\\/%?=~\-_'"|!:,.;*+\[\]\ \(\)\{\}]+
+    /// Used to redirect users within the application during the federation authentication process. Constraints: • min: 1 • max: 240 • pattern: [a-zA-Z0-9&amp;$@#\\\/%?=~/-_'"|!:,.;*+\[\]\ \(\)\{\}]+
     /// </summary>
     [CliOption("--relay-state")]
     public string? RelayState { get; set; }

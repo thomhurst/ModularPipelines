@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,8 +29,8 @@ public record AwsResiliencehubv2TagResourceOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Adds tags to a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}</param>
-    /// <param name="Tags">Resource tags. Constraints: o min: 1 o max: 50 key -&gt; (string) Tag key. Constraints: o min: 1 o max: 128 o pattern: [^\x00-\x1f\x22]+ value -&gt; (string) Tag value. Constraints: o min: 0 o max: 256 o pattern: [^\x00-\x1f\x22]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="ResourceArn">ARN identifier. Constraints: • min: 31 • pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}</param>
+    /// <param name="Tags">Resource tags. Constraints: • min: 1 • max: 50 key -&gt; (string) Tag key. Constraints: • min: 1 • max: 128 • pattern: [^\x00-\x1f\x22]+ value -&gt; (string) Tag value. Constraints: • min: 0 • max: 256 • pattern: [^\x00-\x1f\x22]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsResiliencehubv2TagResourceOptions(
         string ResourceArn,
         IReadOnlyList<KeyValue> Tags
@@ -72,13 +73,13 @@ public record AwsResiliencehubv2TagResourceOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}
+    /// ARN identifier. Constraints: • min: 31 • pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Resource tags. Constraints: o min: 1 o max: 50 key -&gt; (string) Tag key. Constraints: o min: 1 o max: 128 o pattern: [^\x00-\x1f\x22]+ value -&gt; (string) Tag value. Constraints: o min: 0 o max: 256 o pattern: [^\x00-\x1f\x22]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Resource tags. Constraints: • min: 1 • max: 50 key -&gt; (string) Tag key. Constraints: • min: 1 • max: 128 • pattern: [^\x00-\x1f\x22]+ value -&gt; (string) Tag value. Constraints: • min: 0 • max: 256 • pattern: [^\x00-\x1f\x22]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; private init; }

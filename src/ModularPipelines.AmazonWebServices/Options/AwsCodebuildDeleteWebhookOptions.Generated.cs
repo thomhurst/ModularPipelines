@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCodebuildDeleteWebhookOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// For an existing CodeBuild build project that has its source code stored in a GitHub or Bitbucket repository, stops CodeBuild from rebuilding the source code every time a code change is pushed to the repository. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProjectName">The name of the CodeBuild project. Constraints: o min: 2 o max: 150 o pattern: [A-Za-z0-9][A-Za-z0-9\-_]{1,149}</param>
+    /// <param name="ProjectName">The name of the CodeBuild project. Constraints: • min: 2 • max: 150 • pattern: [A-Za-z0-9][A-Za-z0-9\-_]{1,149}</param>
     public AwsCodebuildDeleteWebhookOptions(
         string ProjectName
     )
@@ -56,7 +58,7 @@ public record AwsCodebuildDeleteWebhookOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the CodeBuild project. Constraints: o min: 2 o max: 150 o pattern: [A-Za-z0-9][A-Za-z0-9\-_]{1,149}
+    /// The name of the CodeBuild project. Constraints: • min: 2 • max: 150 • pattern: [A-Za-z0-9][A-Za-z0-9\-_]{1,149}
     /// </summary>
     [CliOption("--project-name")]
     public string? ProjectName { get; private init; }

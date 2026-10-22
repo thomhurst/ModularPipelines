@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the mobile device access override for the given WorkMail organiza- tion, user, and device. See also: AWS API Documentation
+/// Gets the mobile device access override for the given WorkMail organization, user, and device. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsWorkmailGetMobileDeviceAccessOverrideOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets the mobile device access override for the given WorkMail organiza- tion, user, and device. See also: AWS API Documentation
+    /// Gets the mobile device access override for the given WorkMail organization, user, and device. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The WorkMail organization to which you want to apply the override. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
-    /// <param name="UserId">Identifies the WorkMail user for the override. Accepts the following types of user identities: o User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: user@domain.tld o User name: user Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+</param>
-    /// <param name="DeviceId">The mobile device to which the override applies. DeviceId is case insensitive. Constraints: o min: 1 o max: 32 o pattern: [A-Za-z0-9]+</param>
+    /// <param name="OrganizationId">The WorkMail organization to which you want to apply the override. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="UserId">Identifies the WorkMail user for the override. Accepts the following types of user identities: • User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 • Email address: user@domain.tld • User name: user Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+</param>
+    /// <param name="DeviceId">The mobile device to which the override applies. DeviceId is case insensitive. Constraints: • min: 1 • max: 32 • pattern: [A-Za-z0-9]+</param>
     public AwsWorkmailGetMobileDeviceAccessOverrideOptions(
         string OrganizationId,
         string UserId,
@@ -64,19 +66,19 @@ public record AwsWorkmailGetMobileDeviceAccessOverrideOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The WorkMail organization to which you want to apply the override. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The WorkMail organization to which you want to apply the override. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// Identifies the WorkMail user for the override. Accepts the following types of user identities: o User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: user@domain.tld o User name: user Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+
+    /// Identifies the WorkMail user for the override. Accepts the following types of user identities: • User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 • Email address: user@domain.tld • User name: user Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; private init; }
 
     /// <summary>
-    /// The mobile device to which the override applies. DeviceId is case insensitive. Constraints: o min: 1 o max: 32 o pattern: [A-Za-z0-9]+
+    /// The mobile device to which the override applies. DeviceId is case insensitive. Constraints: • min: 1 • max: 32 • pattern: [A-Za-z0-9]+
     /// </summary>
     [CliOption("--device-id")]
     public string? DeviceId { get; private init; }

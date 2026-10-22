@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIamUpdateRoleOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the description or maximum session duration setting of a role. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RoleName">The name of the role that you want to modify. Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+</param>
+    /// <param name="RoleName">The name of the role that you want to modify. Constraints: • min: 1 • max: 64 • pattern: [\w+=,.@-]+</param>
     public AwsIamUpdateRoleOptions(
         string RoleName
     )
@@ -56,19 +58,19 @@ public record AwsIamUpdateRoleOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the role that you want to modify. Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+
+    /// The name of the role that you want to modify. Constraints: • min: 1 • max: 64 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--role-name")]
     public string? RoleName { get; private init; }
 
     /// <summary>
-    /// The new description that you want to apply to the specified role. Constraints: o max: 1000 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]*
+    /// The new description that you want to apply to the specified role. Constraints: • max: 1000 • pattern: [\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The maximum session duration (in seconds) that you want to set for the specified role. If you do not specify a value for this setting, the default value of one hour is applied. This setting can have a value from 1 hour to 12 hours. Anyone who assumes the role from the CLI or API can use the Dura- tionSeconds API parameter or the duration-seconds CLI parameter to request a longer session. The MaxSessionDuration setting determines the maximum duration that can be requested using the DurationSeconds parameter. If users don't specify a value for the DurationSeconds parameter, their security credentials are valid for one hour by de- fault. This applies when you use the AssumeRole* API operations or the assume-role* CLI operations but does not apply when you use those operations to create a console URL. For more information, see Using IAM roles in the IAM User Guide . NOTE: IAM role credentials provided by Amazon EC2 instances assigned to the role are not subject to the specified maximum session du- ration. Constraints: o min: 3600 o max: 43200
+    /// The maximum session duration (in seconds) that you want to set for the specified role. If you do not specify a value for this setting, the default value of one hour is applied. This setting can have a value from 1 hour to 12 hours. Anyone who assumes the role from the CLI or API can use the DurationSeconds API parameter or the duration-seconds CLI parameter to request a longer session. The MaxSessionDuration setting determines the maximum duration that can be requested using the DurationSeconds parameter. If users don't specify a value for the DurationSeconds parameter, their security credentials are valid for one hour by default. This applies when you use the AssumeRole* API operations or the assume-role* CLI operations but does not apply when you use those operations to create a console URL. For more information, see Using IAM roles in the IAM User Guide . NOTE: IAM role credentials provided by Amazon EC2 instances assigned to the role are not subject to the specified maximum session duration. Constraints: • min: 3600 • max: 43200
     /// </summary>
     [CliOption("--max-session-duration")]
     public int? MaxSessionDuration { get; set; }

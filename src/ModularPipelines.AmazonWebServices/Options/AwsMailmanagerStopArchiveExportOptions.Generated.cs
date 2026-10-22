@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMailmanagerStopArchiveExportOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Stops an in-progress export of emails from an archive. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExportId">The identifier of the export job to stop. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ExportId">The identifier of the export job to stop. Constraints: • min: 1 • max: 64</param>
     public AwsMailmanagerStopArchiveExportOptions(
         string ExportId
     )
@@ -56,7 +58,7 @@ public record AwsMailmanagerStopArchiveExportOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the export job to stop. Constraints: o min: 1 o max: 64
+    /// The identifier of the export job to stop. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--export-id")]
     public string? ExportId { get; private init; }

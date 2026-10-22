@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of image scan findings for your account. Amazon Inspec- tor generates the findings when it scans images that have scanning en- abled. See also: AWS API Documentation list-image-scan-findings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data ...
+/// Returns a list of image scan findings for your account. Amazon Inspector generates the findings when it scans images that have scanning enabled. See also: AWS API Documentation list-image-scan-findings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,16 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsImagebuilderListImageScanFindingsOptions : AwsOptions
 {
     /// <summary>
-    /// An array of name value pairs that you can use to filter your re- sults. You can use the following filters to streamline results: o imageBuildVersionArn Filters findings by the image build version that was scanned. o imagePipelineArn Filters findings by the pipeline that created the scanned image. o vulnerabilityId Filters findings by vulnerability ID, for example a CVE ID. o severity Filters findings by severity level. If you don't request a filter, then all findings in your account are listed. Constraints: o min: 1 o max: 1 (structure) A name value pair that Image Builder applies to streamline re- sults from the vulnerability scan findings list action. name -&gt; (string) The name of the image scan finding filter. Filter names are case-sensitive. Valid filter names are: o imageBuildVersionArn Filters findings by the image build version that was scanned. o imagePipelineArn Filters findings by the pipeline that created the scanned image. o vulnerabilityId Filters findings by vulnerability ID, for example a CVE ID. o severity Filters findings by severity level. Constraints: o pattern: ^[a-zA-Z]{1,1024}$ values -&gt; (list) The filter values. Filter values are case-sensitive. Constraints: o min: 1 o max: 1 (string) Constraints: o pattern: ^[0-9a-zA-Z./_ :,{}"-]{1,1024}$ Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "string", "values": ["string", ...] } ... ]
+    /// An array of name value pairs that you can use to filter your results. You can use the following filters to streamline results: • imageBuildVersionArn Filters findings by the image build version that was scanned. • imagePipelineArn Filters findings by the pipeline that created the scanned image. • vulnerabilityId Filters findings by vulnerability ID, for example a CVE ID. • severity Filters findings by severity level. If you don't request a filter, then all findings in your account are listed. Constraints: • min: 1 • max: 1 (structure) A name value pair that Image Builder applies to streamline results from the vulnerability scan findings list action. name -&gt; (string) The name of the image scan finding filter. Filter names are case-sensitive. Valid filter names are: • imageBuildVersionArn Filters findings by the image build version that was scanned. • imagePipelineArn Filters findings by the pipeline that created the scanned image. • vulnerabilityId Filters findings by vulnerability ID, for example a CVE ID. • severity Filters findings by severity level. Constraints: • pattern: ^[a-zA-Z]{1,1024}$ values -&gt; (list) The filter values. Filter values are case-sensitive. Constraints: • min: 1 • max: 1 (string) Constraints: • pattern: ^[0-9a-zA-Z./_ :,{}"-]{1,1024}$ Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "string", "values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -42,15 +39,18 @@ public record AwsImagebuilderListImageScanFindingsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 25
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 25
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

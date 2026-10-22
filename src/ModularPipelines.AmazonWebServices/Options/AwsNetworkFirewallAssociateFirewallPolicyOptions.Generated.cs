@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates a FirewallPolicy to a Firewall . A firewall policy defines how to monitor and manage your VPC network traffic, using a collection of inspection rule groups and other set- tings. Each firewall requires one firewall policy association, and you can use the same firewall policy for multiple firewalls. See also: AWS API Documentation
+/// Associates a FirewallPolicy to a Firewall . A firewall policy defines how to monitor and manage your VPC network traffic, using a collection of inspection rule groups and other settings. Each firewall requires one firewall policy association, and you can use the same firewall policy for multiple firewalls. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsNetworkFirewallAssociateFirewallPolicyOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates a FirewallPolicy to a Firewall . A firewall policy defines how to monitor and manage your VPC network traffic, using a collection of inspection rule groups and other set- tings. Each firewall requires one firewall policy association, and you can use the same firewall policy for multiple firewalls. See also: AWS API Documentation
+    /// Associates a FirewallPolicy to a Firewall . A firewall policy defines how to monitor and manage your VPC network traffic, using a collection of inspection rule groups and other settings. Each firewall requires one firewall policy association, and you can use the same firewall policy for multiple firewalls. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FirewallPolicyArn">The Amazon Resource Name (ARN) of the firewall policy. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*</param>
+    /// <param name="FirewallPolicyArn">The Amazon Resource Name (ARN) of the firewall policy. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*</param>
     public AwsNetworkFirewallAssociateFirewallPolicyOptions(
         string FirewallPolicyArn
     )
@@ -57,26 +59,26 @@ public record AwsNetworkFirewallAssociateFirewallPolicyOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the firewall policy. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*
+    /// The Amazon Resource Name (ARN) of the firewall policy. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*
     /// </summary>
     [CliOption("--firewall-policy-arn")]
     public string? FirewallPolicyArn { get; private init; }
 
     /// <summary>
-    /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the oper- ation again using the new token. Constraints: o min: 1 o max: 1024 o pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$
+    /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token. Constraints: • min: 1 • max: 1024 • pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$
     /// </summary>
     [SecretValue]
     [CliOption("--update-token")]
     public string? UpdateToken { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*
+    /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*
     /// </summary>
     [CliOption("--firewall-arn")]
     public string? FirewallArn { get; set; }
 
     /// <summary>
-    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
+    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--firewall-name")]
     public string? FirewallName { get; set; }

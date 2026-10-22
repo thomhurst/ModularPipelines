@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsWorkspacesWebDeleteSessionLoggerOptions : AwsOptions, IValidata
     /// <summary>
     /// Deletes a session logger resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SessionLoggerArn">The ARN of the session logger. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36})+</param>
+    /// <param name="SessionLoggerArn">The ARN of the session logger. Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36})+</param>
     public AwsWorkspacesWebDeleteSessionLoggerOptions(
         string SessionLoggerArn
     )
@@ -56,7 +58,7 @@ public record AwsWorkspacesWebDeleteSessionLoggerOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the session logger. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36})+
+    /// The ARN of the session logger. Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36})+
     /// </summary>
     [CliOption("--session-logger-arn")]
     public string? SessionLoggerArn { get; private init; }

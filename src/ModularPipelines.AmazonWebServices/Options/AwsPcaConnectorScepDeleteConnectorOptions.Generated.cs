@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified Connector . This operation also deletes any chal- lenges associated with the connector. See also: AWS API Documentation
+/// Deletes the specified Connector . This operation also deletes any challenges associated with the connector. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsPcaConnectorScepDeleteConnectorOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified Connector . This operation also deletes any chal- lenges associated with the connector. See also: AWS API Documentation
+    /// Deletes the specified Connector . This operation also deletes any challenges associated with the connector. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectorArn">The Amazon Resource Name (ARN) of the connector to delete. Constraints: o min: 5 o max: 200 o pattern: arn:aws(-[a-z]+)*:pca-connec- tor-scep:[a-z]+(-[a-z]+)+-[1-9]\d*:\d{12}:connec- tor\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}</param>
+    /// <param name="ConnectorArn">The Amazon Resource Name (ARN) of the connector to delete. Constraints: • min: 5 • max: 200 • pattern: arn:aws(-[a-z]+)*:pca-connector-scep:[a-z]+(-[a-z]+)+-[1-9]\d*:\d{12}:connector\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}</param>
     public AwsPcaConnectorScepDeleteConnectorOptions(
         string ConnectorArn
     )
@@ -56,7 +58,7 @@ public record AwsPcaConnectorScepDeleteConnectorOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the connector to delete. Constraints: o min: 5 o max: 200 o pattern: arn:aws(-[a-z]+)*:pca-connec- tor-scep:[a-z]+(-[a-z]+)+-[1-9]\d*:\d{12}:connec- tor\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}
+    /// The Amazon Resource Name (ARN) of the connector to delete. Constraints: • min: 5 • max: 200 • pattern: arn:aws(-[a-z]+)*:pca-connector-scep:[a-z]+(-[a-z]+)+-[1-9]\d*:\d{12}:connector\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--connector-arn")]
     public string? ConnectorArn { get; private init; }

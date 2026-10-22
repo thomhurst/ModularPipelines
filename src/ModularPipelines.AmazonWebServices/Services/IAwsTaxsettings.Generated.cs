@@ -28,28 +28,25 @@ public interface IAwsTaxsettings
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDeleteTaxRegistrationAsync(AwsTaxsettingsBatchDeleteTaxRegistrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDeleteTaxRegistrationAsync(AwsTaxsettingsBatchDeleteTaxRegistrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Get the active tax exemptions for a given list of accounts. The IAM ac- tion is tax:GetExemptions . See also: AWS API Documentation
+    /// Get the active tax exemptions for a given list of accounts. The IAM action is tax:GetExemptions . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetTaxExemptionsAsync(AwsTaxsettingsBatchGetTaxExemptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetTaxExemptionsAsync(AwsTaxsettingsBatchGetTaxExemptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Adds or updates tax registration for multiple accounts in batch. This can be used to add or update tax registrations for up to five accounts in one batch. You can't set a TRN if there's a pending TRN. You'll need to delete the pending TRN first. To call this API operation for specific countries, see the following country-specific requirements. Bangladesh o You must specify the tax registration certificate document in the taxRegistrationDocuments field of the VerificationDetails object. Brazil o ...
+    /// Adds or updates tax registration for multiple accounts in batch. This can be used to add or update tax registrations for up to five accounts in one batch. You can't set a TRN if there's a pending TRN. You'll need to delete the pending TRN first. To call this API operation for specific countries, see the following country-specific requirements. Bangladesh • You must specify the tax registration certificate document in the taxRegistrationDocuments field of the VerificationDetails object. Brazil • ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchPutTaxRegistrationAsync(AwsTaxsettingsBatchPutTaxRegistrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchPutTaxRegistrationAsync(AwsTaxsettingsBatchPutTaxRegistrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a supplemental tax registration for a single account. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsTaxsettings
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSupplementalTaxRegistrationAsync(AwsTaxsettingsDeleteSupplementalTaxRegistrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSupplementalTaxRegistrationAsync(AwsTaxsettingsDeleteSupplementalTaxRegistrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes tax registration for a single account. NOTE: This API operation can't be used to delete your tax registration in Brazil. Use the Payment preferences page in the Billing and Cost Management console instead. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsTaxsettings
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTaxRegistrationAsync(AwsTaxsettingsDeleteTaxRegistrationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTaxRegistrationAsync(AwsTaxsettingsDeleteTaxRegistrationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get supported tax exemption types. The IAM action is tax:GetExemptions . See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsTaxsettings
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTaxExemptionTypesAsync(AwsTaxsettingsGetTaxExemptionTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTaxExemptionTypesAsync(AwsTaxsettingsGetTaxExemptionTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The get account tax inheritance status. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsTaxsettings
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTaxInheritanceAsync(AwsTaxsettingsGetTaxInheritanceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTaxInheritanceAsync(AwsTaxsettingsGetTaxInheritanceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Downloads your tax documents to the Amazon S3 bucket that you specify in your request. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsTaxsettings
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTaxRegistrationDocumentAsync(AwsTaxsettingsGetTaxRegistrationDocumentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTaxRegistrationDocumentAsync(AwsTaxsettingsGetTaxRegistrationDocumentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves tax registration for a single account. See also: AWS API Documentation
@@ -108,18 +100,16 @@ public interface IAwsTaxsettings
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTaxRegistrationAsync(AwsTaxsettingsGetTaxRegistrationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTaxRegistrationAsync(AwsTaxsettingsGetTaxRegistrationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves supplemental tax registrations for a single account. See also: AWS API Documentation list-supplemental-tax-registrations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: taxRegistrations
+    /// Retrieves supplemental tax registrations for a single account. See also: AWS API Documentation list-supplemental-tax-registrations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: taxRegistrations
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSupplementalTaxRegistrationsAsync(AwsTaxsettingsListSupplementalTaxRegistrationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSupplementalTaxRegistrationsAsync(AwsTaxsettingsListSupplementalTaxRegistrationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the tax exemption of accounts listed in a consolidated billing family. The IAM action is tax:GetExemptions . See also: AWS API Documentation list-tax-exemptions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following q...
@@ -128,8 +118,7 @@ public interface IAwsTaxsettings
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTaxExemptionsAsync(AwsTaxsettingsListTaxExemptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTaxExemptionsAsync(AwsTaxsettingsListTaxExemptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the tax registration of accounts listed in a consolidated billing family. This can be used to retrieve up to 100 accounts' tax registrations in one call (default 50). See also: AWS API Documentation list-tax-registrations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query a...
@@ -138,8 +127,7 @@ public interface IAwsTaxsettings
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTaxRegistrationsAsync(AwsTaxsettingsListTaxRegistrationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTaxRegistrationsAsync(AwsTaxsettingsListTaxRegistrationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stores supplemental tax registration for a single account. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsTaxsettings
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutSupplementalTaxRegistrationAsync(AwsTaxsettingsPutSupplementalTaxRegistrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutSupplementalTaxRegistrationAsync(AwsTaxsettingsPutSupplementalTaxRegistrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds the tax exemption for a single account or all accounts listed in a consolidated billing family. The IAM action is tax:UpdateExemptions . See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsTaxsettings
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutTaxExemptionAsync(AwsTaxsettingsPutTaxExemptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutTaxExemptionAsync(AwsTaxsettingsPutTaxExemptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The updated tax inheritance status. See also: AWS API Documentation
@@ -168,17 +154,15 @@ public interface IAwsTaxsettings
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutTaxInheritanceAsync(AwsTaxsettingsPutTaxInheritanceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutTaxInheritanceAsync(AwsTaxsettingsPutTaxInheritanceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Adds or updates tax registration for a single account. You can't set a TRN if there's a pending TRN. You'll need to delete the pending TRN first. To call this API operation for specific countries, see the following country-specific requirements. Bangladesh o You must specify the tax registration certificate document in the taxRegistrationDocuments field of the VerificationDetails object. Brazil o You must complete the tax registration process in the Payment prefer- ences page in the Billing and ...
+    /// Adds or updates tax registration for a single account. You can't set a TRN if there's a pending TRN. You'll need to delete the pending TRN first. To call this API operation for specific countries, see the following country-specific requirements. Bangladesh • You must specify the tax registration certificate document in the taxRegistrationDocuments field of the VerificationDetails object. Brazil • You must complete the tax registration process in the Payment preferences page in the Billing and Co...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutTaxRegistrationAsync(AwsTaxsettingsPutTaxRegistrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutTaxRegistrationAsync(AwsTaxsettingsPutTaxRegistrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

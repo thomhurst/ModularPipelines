@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified collection. Note that this operation removes all faces in the collection. For an example, see Deleting a collection . This operation requires permissions to perform the rekogni- tion:DeleteCollection action. See also: AWS API Documentation
+/// Deletes the specified collection. Note that this operation removes all faces in the collection. For an example, see Deleting a collection . This operation requires permissions to perform the rekognition:DeleteCollection action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRekognitionDeleteCollectionOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified collection. Note that this operation removes all faces in the collection. For an example, see Deleting a collection . This operation requires permissions to perform the rekogni- tion:DeleteCollection action. See also: AWS API Documentation
+    /// Deletes the specified collection. Note that this operation removes all faces in the collection. For an example, see Deleting a collection . This operation requires permissions to perform the rekognition:DeleteCollection action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CollectionId">ID of the collection to delete. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+</param>
+    /// <param name="CollectionId">ID of the collection to delete. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.\-]+</param>
     public AwsRekognitionDeleteCollectionOptions(
         string CollectionId
     )
@@ -56,7 +58,7 @@ public record AwsRekognitionDeleteCollectionOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID of the collection to delete. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+
+    /// ID of the collection to delete. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.\-]+
     /// </summary>
     [CliOption("--collection-id")]
     public string? CollectionId { get; private init; }

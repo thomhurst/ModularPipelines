@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsAppfabricTagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Assigns one or more tags (key-value pairs) to the specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource that you want to tag. Constraints: o min: 1 o max: 1011 o pattern: arn:.+</param>
-    /// <param name="Tags">A map of the key-value pairs of the tag or tags to assign to the re- source. Constraints: o min: 0 o max: 50 (structure) The key or keys of the key-value pairs for the tag or tags as- signed to a resource. key -&gt; (string) [required] Tag key. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] Tag value. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource that you want to tag. Constraints: • min: 1 • max: 1011 • pattern: arn:.+</param>
+    /// <param name="Tags">A map of the key-value pairs of the tag or tags to assign to the resource. Constraints: • min: 0 • max: 50 (structure) The key or keys of the key-value pairs for the tag or tags assigned to a resource. key -&gt; (string) [required] Tag key. Constraints: • min: 1 • max: 128 value -&gt; (string) [required] Tag value. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
     public AwsAppfabricTagResourceOptions(
         string ResourceArn,
         IEnumerable<string> Tags
@@ -71,13 +73,13 @@ public record AwsAppfabricTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource that you want to tag. Constraints: o min: 1 o max: 1011 o pattern: arn:.+
+    /// The Amazon Resource Name (ARN) of the resource that you want to tag. Constraints: • min: 1 • max: 1011 • pattern: arn:.+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A map of the key-value pairs of the tag or tags to assign to the re- source. Constraints: o min: 0 o max: 50 (structure) The key or keys of the key-value pairs for the tag or tags as- signed to a resource. key -&gt; (string) [required] Tag key. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] Tag value. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// A map of the key-value pairs of the tag or tags to assign to the resource. Constraints: • min: 0 • max: 50 (structure) The key or keys of the key-value pairs for the tag or tags assigned to a resource. key -&gt; (string) [required] Tag key. Constraints: • min: 1 • max: 128 value -&gt; (string) [required] Tag value. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }

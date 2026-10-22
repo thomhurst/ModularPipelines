@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes one or more versions of a recipe at a time. The entire request will be rejected if: o The recipe does not exist. o There is an invalid version identifier in the list of versions. o The version list is empty. o The version list size exceeds 50. o The version list contains duplicate entries. The request will complete successfully, but with partial failures, if: o A version does not exist. o A version is being used by a job. o You specify LATEST_WORKING , but it's being used by a project. o...
+/// Deletes one or more versions of a recipe at a time. The entire request will be rejected if: • The recipe does not exist. • There is an invalid version identifier in the list of versions. • The version list is empty. • The version list size exceeds 50. • The version list contains duplicate entries. The request will complete successfully, but with partial failures, if: • A version does not exist. • A version is being used by a job. • You specify LATEST_WORKING , but it's being used by a project. •...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsDatabrewBatchDeleteRecipeVersionOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes one or more versions of a recipe at a time. The entire request will be rejected if: o The recipe does not exist. o There is an invalid version identifier in the list of versions. o The version list is empty. o The version list size exceeds 50. o The version list contains duplicate entries. The request will complete successfully, but with partial failures, if: o A version does not exist. o A version is being used by a job. o You specify LATEST_WORKING , but it's being used by a project. o...
+    /// Deletes one or more versions of a recipe at a time. The entire request will be rejected if: • The recipe does not exist. • There is an invalid version identifier in the list of versions. • The version list is empty. • The version list size exceeds 50. • The version list contains duplicate entries. The request will complete successfully, but with partial failures, if: • A version does not exist. • A version is being used by a job. • You specify LATEST_WORKING , but it's being used by a project. •...
     /// </summary>
-    /// <param name="Name">The name of the recipe whose versions are to be deleted. Constraints: o min: 1 o max: 255</param>
-    /// <param name="RecipeVersions">An array of version identifiers, for the recipe versions to be deleted. You can specify numeric versions (X.Y ) or LATEST_WORKING . LATEST_PUBLISHED is not supported. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 16 Syntax: "string" "string" ...</param>
+    /// <param name="Name">The name of the recipe whose versions are to be deleted. Constraints: • min: 1 • max: 255</param>
+    /// <param name="RecipeVersions">An array of version identifiers, for the recipe versions to be deleted. You can specify numeric versions (X.Y ) or LATEST_WORKING . LATEST_PUBLISHED is not supported. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 16 Syntax: "string" "string" ...</param>
     public AwsDatabrewBatchDeleteRecipeVersionOptions(
         string Name,
         IEnumerable<string> RecipeVersions
@@ -71,13 +73,13 @@ public record AwsDatabrewBatchDeleteRecipeVersionOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the recipe whose versions are to be deleted. Constraints: o min: 1 o max: 255
+    /// The name of the recipe whose versions are to be deleted. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// An array of version identifiers, for the recipe versions to be deleted. You can specify numeric versions (X.Y ) or LATEST_WORKING . LATEST_PUBLISHED is not supported. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 16 Syntax: "string" "string" ...
+    /// An array of version identifiers, for the recipe versions to be deleted. You can specify numeric versions (X.Y ) or LATEST_WORKING . LATEST_PUBLISHED is not supported. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 16 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--recipe-versions", GroupValues = true)]
     public IEnumerable<string>? RecipeVersions { get; private init; }

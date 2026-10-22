@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of IP addresses currently being blocked by the Rate- BasedRule that is specified by the RuleId . The maximum number of man- aged keys that will be blocked is 10,000. If more than 10,00...
+/// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of IP addresses currently being blocked by the RateBasedRule that is specified by the RuleId . The maximum number of managed keys that will be blocked is 10,000. If more than 10,000 ad...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsWafRegionalGetRateBasedRuleManagedKeysOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of IP addresses currently being blocked by the Rate- BasedRule that is specified by the RuleId . The maximum number of man- aged keys that will be blocked is 10,000. If more than 10,00...
+    /// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of IP addresses currently being blocked by the RateBasedRule that is specified by the RuleId . The maximum number of managed keys that will be blocked is 10,000. If more than 10,000 ad...
     /// </summary>
-    /// <param name="RuleId">The RuleId of the RateBasedRule for which you want to get a list of ManagedKeys . RuleId is returned by CreateRateBasedRule and by ListRateBasedRules . Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    /// <param name="RuleId">The RuleId of the RateBasedRule for which you want to get a list of ManagedKeys . RuleId is returned by CreateRateBasedRule and by ListRateBasedRules . Constraints: • min: 1 • max: 128 • pattern: .*\S.*</param>
     public AwsWafRegionalGetRateBasedRuleManagedKeysOptions(
         string RuleId
     )
@@ -56,13 +58,13 @@ public record AwsWafRegionalGetRateBasedRuleManagedKeysOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The RuleId of the RateBasedRule for which you want to get a list of ManagedKeys . RuleId is returned by CreateRateBasedRule and by ListRateBasedRules . Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// The RuleId of the RateBasedRule for which you want to get a list of ManagedKeys . RuleId is returned by CreateRateBasedRule and by ListRateBasedRules . Constraints: • min: 1 • max: 128 • pattern: .*\S.*
     /// </summary>
     [CliOption("--rule-id")]
     public string? RuleId { get; private init; }
 
     /// <summary>
-    /// A null value and not currently used. Do not include this in your re- quest. Constraints: o min: 1 o max: 1224 o pattern: .*\S.*
+    /// A null value and not currently used. Do not include this in your request. Constraints: • min: 1 • max: 1224 • pattern: .*\S.*
     /// </summary>
     [CliOption("--next-marker")]
     public string? NextMarker { get; set; }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -79,22 +81,19 @@ public record AwsApplicationSignalsListServiceStatesOptions : AwsOptions, IValid
     public bool? IncludeLinkedAccounts { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services account ID to filter service states by. Use this to limit results to services from a specific account. Constraints: o pattern: [0-9]{12}
+    /// The Amazon Web Services account ID to filter service states by. Use this to limit results to services from a specific account. Constraints: • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; set; }
 
     /// <summary>
-    /// A list of attribute filters to narrow down the services. You can filter by platform, environment, or other service attributes. Constraints: o min: 0 o max: 20 (structure) A structure that defines a filter for narrowing down results based on specific attribute values. This can be used to filter services by platform, environment, or other service characteris- tics. AttributeFilterName -&gt; (string) [required] The name of the attribute to filter by, such as Platform , Environment , or BusinessUnit . Constraints: o pattern: [A-Za-z0-9 :/-]+ AttributeFilterValues -&gt; (list) [required] An array of values to match for the specified attribute. Ser- vices that have any of these values for the attribute will be included in the results. Constraints: o min: 0 o max: 20 (string) Constraints: o pattern: [A-Za-z0-9 :/-]+ Shorthand Syntax: AttributeFilterName=string,AttributeFilterValues=string,string ... JSON Syntax: [ { "AttributeFilterName": "string", "AttributeFilterValues": ["string", ...] } ... ]
+    /// A list of attribute filters to narrow down the services. You can filter by platform, environment, or other service attributes. Constraints: • min: 0 • max: 20 (structure) A structure that defines a filter for narrowing down results based on specific attribute values. This can be used to filter services by platform, environment, or other service characteristics. AttributeFilterName -&gt; (string) [required] The name of the attribute to filter by, such as Platform , Environment , or BusinessUnit . Constraints: • pattern: [A-Za-z0-9 :/-]+ AttributeFilterValues -&gt; (list) [required] An array of values to match for the specified attribute. Services that have any of these values for the attribute will be included in the results. Constraints: • min: 0 • max: 20 (string) Constraints: • pattern: [A-Za-z0-9 :/-]+ Shorthand Syntax: AttributeFilterName=string,AttributeFilterValues=string,string ... JSON Syntax: [ { "AttributeFilterName": "string", "AttributeFilterValues": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--attribute-filters", GroupValues = true)]
     public IEnumerable<string>? AttributeFilters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -104,16 +103,19 @@ public record AwsApplicationSignalsListServiceStatesOptions : AwsOptions, IValid
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o max: 250
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • max: 250
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

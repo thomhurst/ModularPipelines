@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsForecastDescribeAutoPredictorOptions : AwsOptions, IValidatable
     /// <summary>
     /// Describes a predictor created using the CreateAutoPredictor operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PredictorArn">The Amazon Resource Name (ARN) of the predictor. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    /// <param name="PredictorArn">The Amazon Resource Name (ARN) of the predictor. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
     public AwsForecastDescribeAutoPredictorOptions(
         string PredictorArn
     )
@@ -56,7 +58,7 @@ public record AwsForecastDescribeAutoPredictorOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the predictor. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the predictor. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
     /// </summary>
     [CliOption("--predictor-arn")]
     public string? PredictorArn { get; private init; }

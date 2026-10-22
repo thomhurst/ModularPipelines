@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a configuration bundle by creating a new version with the spec- ified changes. Each update creates a new version in the version his- tory. See also: AWS API Documentation update-configuration-bundle uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not su...
+/// Updates a configuration bundle by creating a new version with the specified changes. Each update creates a new version in the version history. See also: AWS API Documentation update-configuration-bundle uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsBedrockAgentcoreControlUpdateConfigurationBundleOptions : AwsOp
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a configuration bundle by creating a new version with the spec- ified changes. Each update creates a new version in the version his- tory. See also: AWS API Documentation update-configuration-bundle uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not su...
+    /// Updates a configuration bundle by creating a new version with the specified changes. Each update creates a new version in the version history. See also: AWS API Documentation update-configuration-bundle uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support ...
     /// </summary>
-    /// <param name="BundleId">The unique identifier of the configuration bundle to update. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
-    /// <param name="ParentVersionIds">A list of parent version identifiers for lineage tracking. Regular commits have a single parent. Merge commits have two parents: the target branch parent and the source branch parent. If the branch al- ready exists, the first parent must be the latest version on that branch. (string) Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Syntax: "string" "string" ...</param>
-    /// <param name="CommitMessage">A commit message describing the changes in this version. Constraints: o min: 1 o max: 500</param>
+    /// <param name="BundleId">The unique identifier of the configuration bundle to update. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
+    /// <param name="ParentVersionIds">A list of parent version identifiers for lineage tracking. Regular commits have a single parent. Merge commits have two parents: the target branch parent and the source branch parent. If the branch already exists, the first parent must be the latest version on that branch. (string) Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Syntax: "string" "string" ...</param>
+    /// <param name="CommitMessage">A commit message describing the changes in this version. Constraints: • min: 1 • max: 500</param>
     public AwsBedrockAgentcoreControlUpdateConfigurationBundleOptions(
         string BundleId,
         IEnumerable<string> ParentVersionIds,
@@ -77,50 +78,50 @@ public record AwsBedrockAgentcoreControlUpdateConfigurationBundleOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the configuration bundle to update. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
+    /// The unique identifier of the configuration bundle to update. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--bundle-id")]
     public string? BundleId { get; private init; }
 
     /// <summary>
-    /// A list of parent version identifiers for lineage tracking. Regular commits have a single parent. Merge commits have two parents: the target branch parent and the source branch parent. If the branch al- ready exists, the first parent must be the latest version on that branch. (string) Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Syntax: "string" "string" ...
+    /// A list of parent version identifiers for lineage tracking. Regular commits have a single parent. Merge commits have two parents: the target branch parent and the source branch parent. If the branch already exists, the first parent must be the latest version on that branch. (string) Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--parent-version-ids", GroupValues = true)]
     public IEnumerable<string>? ParentVersionIds { get; private init; }
 
     /// <summary>
-    /// A commit message describing the changes in this version. Constraints: o min: 1 o max: 500
+    /// A commit message describing the changes in this version. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--commit-message")]
     public string? CommitMessage { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previ- ous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The updated name for the configuration bundle. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,99}
+    /// The updated name for the configuration bundle. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9_]{0,99}
     /// </summary>
     [CliOption("--bundle-name")]
     public string? BundleName { get; set; }
 
     /// <summary>
-    /// The updated description for the configuration bundle. Constraints: o min: 1 o max: 500 o pattern: .+
+    /// The updated description for the configuration bundle. Constraints: • min: 1 • max: 500 • pattern: .+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The updated component configurations. Creates a new version of the bundle. key -&gt; (string) Constraints: o min: 1 o max: 2048 o pattern: [a-zA-Z][a-zA-Z0-9_:/.\-]{0,2047} value -&gt; (structure) The configuration for a component within a configuration bundle. The component type is inferred from the component identifier ARN. configuration -&gt; (document) [required] The configuration values as a flexible JSON document. Shorthand Syntax: KeyName1={},KeyName2={} JSON Syntax: {"string": { "configuration": {...} } ...}
+    /// The updated component configurations. Creates a new version of the bundle. key -&gt; (string) Constraints: • min: 1 • max: 2048 • pattern: [a-zA-Z][a-zA-Z0-9_:/.\-]{0,2047} value -&gt; (structure) The configuration for a component within a configuration bundle. The component type is inferred from the component identifier ARN. configuration -&gt; (document) [required] The configuration values as a flexible JSON document. Shorthand Syntax: KeyName1={},KeyName2={} JSON Syntax: {"string": { "configuration": {...} } ...}
     /// </summary>
     [CliOption("--components", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Components { get; set; }
 
     /// <summary>
-    /// The branch name for this version. If not specified, inherits the parent's branch or defaults to mainline . Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][a-zA-Z0-9_/-]{0,127}
+    /// The branch name for this version. If not specified, inherits the parent's branch or defaults to mainline . Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z][a-zA-Z0-9_/-]{0,127}
     /// </summary>
     [CliOption("--branch-name")]
     public string? BranchName { get; set; }
@@ -132,7 +133,7 @@ public record AwsBedrockAgentcoreControlUpdateConfigurationBundleOptions : AwsOp
     public string? CreatedBy { get; set; }
 
     /// <summary>
-    /// Optional KMS key ARN for encrypting component configurations. If provided, components will be encrypted with this key. If the bundle already has a KMS key, this rotates to the new key. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(|-cn|-us-gov):kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}
+    /// Optional KMS key ARN for encrypting component configurations. If provided, components will be encrypted with this key. If the bundle already has a KMS key, this rotates to the new key. Constraints: • min: 1 • max: 2048 • pattern: arn:aws(|-cn|-us-gov):kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}
     /// </summary>
     [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }

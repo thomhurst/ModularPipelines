@@ -34,12 +34,12 @@ public class AwsIam : IAwsIam
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws iam wait sub-commands.
     /// </summary>
     public AwsIamWait Wait => _wait ??= new AwsIamWait(_command);
 
     /// <summary>
-    /// aws wizard sub-commands.
+    /// aws iam wizard sub-commands.
     /// </summary>
     public AwsIamWizard Wizard => _wizard ??= new AwsIamWizard(_command);
 
@@ -48,7 +48,7 @@ public class AwsIam : IAwsIam
     #region Commands
 
     /// <summary>
-    /// Accepts a delegation request, granting the requested temporary access. Once the delegation request is accepted, it is eligible to send the ex- change token to the partner. The SendDelegationToken API has to be ex- plicitly called to send the delegation token. At the time of acceptance, IAM records the details and the state of the identity that called this API. This is the identity that gets mapped to the delegated credential. An accepted request may be rejected before the exchange token is sent ...
+    /// Accepts a delegation request, granting the requested temporary access. Once the delegation request is accepted, it is eligible to send the exchange token to the partner. The SendDelegationToken API has to be explicitly called to send the delegation token. At the time of acceptance, IAM records the details and the state of the identity that called this API. This is the identity that gets mapped to the delegated credential. An accepted request may be rejected before the exchange token is sent to t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -63,7 +63,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Creates an IAM role from the specified role template. The new role takes its configurationincluding its name, path, trust policy, inline and managed policies, permissions boundary, tags, and maximum session durationfrom the role template version that you specify. For more in- formation about roles, see IAM roles in the IAM User Guide . If the template version defines parameters, use the ReplacementValues parameter to supply the values that the service substitutes into the role during creation. S...
+    /// Creates an IAM role from the specified role template. The new role takes its configurationincluding its name, path, trust policy, inline and managed policies, permissions boundary, tags, and maximum session durationfrom the role template version that you specify. For more information about roles, see IAM roles in the IAM User Guide . If the template version defines parameters, use the ReplacementValues parameter to supply the values that the service substitutes into the role during creation. See...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -93,7 +93,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Adds the specified IAM role to the specified instance profile. An in- stance profile can contain only one role, and this quota cannot be in- creased. You can remove the existing role and then add a different role to an instance profile. You must then wait for the change to appear across all of Amazon Web Services because of eventual consistency . To force the change, you must disassociate the instance profile and then associate the instance profile , or you can stop your instance and then restar...
+    /// Adds the specified IAM role to the specified instance profile. An instance profile can contain only one role, and this quota cannot be increased. You can remove the existing role and then add a different role to an instance profile. You must then wait for the change to appear across all of Amazon Web Services because of eventual consistency . To force the change, you must disassociate the instance profile and then associate the instance profile , or you can stop your instance and then restart it...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -123,7 +123,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Associates a delegation request with the current identity. If the partner that created the delegation request has specified the owner account during creation, only an identity from that owner account can call the AssociateDelegationRequest API for the specified delega- tion request. Once the AssociateDelegationRequest API call is success- ful, the ARN of the current calling identity will be stored as the ownerId of the request. If the partner that created the delegation request has not specified...
+    /// Associates a delegation request with the current identity. If the partner that created the delegation request has specified the owner account during creation, only an identity from that owner account can call the AssociateDelegationRequest API for the specified delegation request. Once the AssociateDelegationRequest API call is successful, the ARN of the current calling identity will be stored as the ownerId of the request. If the partner that created the delegation request has not specified the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -153,7 +153,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Attaches the specified managed policy to the specified IAM role. When you attach a managed policy to a role, the managed policy becomes part of the role's permission (access) policy. NOTE: You cannot use a managed policy as the role's trust policy. The role's trust policy is created at the same time as the role, using ` CreateRole https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html`__ . You can update a role's trust policy using ` UpdateAssumerolePol- icy https://docs.aws.ama...
+    /// Attaches the specified managed policy to the specified IAM role. When you attach a managed policy to a role, the managed policy becomes part of the role's permission (access) policy. NOTE: You cannot use a managed policy as the role's trust policy. The role's trust policy is created at the same time as the role, using ` CreateRole https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html`__ . You can update a role's trust policy using ` UpdateAssumerolePolicy https://docs.aws.amazo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -198,7 +198,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Creates a new Amazon Web Services secret access key and corresponding Amazon Web Services access key ID for the specified user. The default status for new keys is Active . If you do not specify a user name, IAM determines the user name implic- itly based on the Amazon Web Services access key ID signing the re- quest. This operation works for access keys under the Amazon Web Ser- vices account. Consequently, you can use this operation to manage Ama- zon Web Services account root user credentials....
+    /// Creates a new Amazon Web Services secret access key and corresponding Amazon Web Services access key ID for the specified user. The default status for new keys is Active . If you do not specify a user name, IAM determines the user name implicitly based on the Amazon Web Services access key ID signing the request. This operation works for access keys under the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root user credentials. This is...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -213,7 +213,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Creates an alias for your Amazon Web Services account. For information about using an Amazon Web Services account alias, see Creating, delet- ing, and listing an Amazon Web Services account alias in the Amazon Web Services Sign-In User Guide . See also: AWS API Documentation
+    /// Creates an alias for your Amazon Web Services account. For information about using an Amazon Web Services account alias, see Creating, deleting, and listing an Amazon Web Services account alias in the Amazon Web Services Sign-In User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -258,7 +258,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Creates a new instance profile. For information about instance pro- files, see Using roles for applications on Amazon EC2 in the IAM User Guide , and Instance profiles in the Amazon EC2 User Guide . For information about the number of instance profiles you can create, see IAM object quotas in the IAM User Guide . See also: AWS API Documentation
+    /// Creates a new instance profile. For information about instance profiles, see Using roles for applications on Amazon EC2 in the IAM User Guide , and Instance profiles in the Amazon EC2 User Guide . For information about the number of instance profiles you can create, see IAM object quotas in the IAM User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -273,7 +273,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Creates a password for the specified IAM user. A password allows an IAM user to access Amazon Web Services services through the Amazon Web Ser- vices Management Console. You can use the CLI, the Amazon Web Services API, or the Users page in the IAM console to create a password for any IAM user. Use ChangePassword to update your own existing password in the My Security Credentials page in the Amazon Web Services Management Console. For more information about managing passwords, see Managing passw...
+    /// Creates a password for the specified IAM user. A password allows an IAM user to access Amazon Web Services services through the Amazon Web Services Management Console. You can use the CLI, the Amazon Web Services API, or the Users page in the IAM console to create a password for any IAM user. Use ChangePassword to update your own existing password in the My Security Credentials page in the Amazon Web Services Management Console. For more information about managing passwords, see Managing passwor...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -288,7 +288,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Creates an IAM entity to describe an identity provider (IdP) that sup- ports OpenID Connect (OIDC) . The OIDC provider that you create with this operation can be used as a principal in a role's trust policy. Such a policy establishes a trust relationship between Amazon Web Services and the OIDC provider. If you are using an OIDC identity provider from Google, Facebook, or Amazon Cognito, you don't need to create a separate IAM identity provider. These OIDC identity providers are already built-in...
+    /// Creates an IAM entity to describe an identity provider (IdP) that supports OpenID Connect (OIDC) . The OIDC provider that you create with this operation can be used as a principal in a role's trust policy. Such a policy establishes a trust relationship between Amazon Web Services and the OIDC provider. If you are using an OIDC identity provider from Google, Facebook, or Amazon Cognito, you don't need to create a separate IAM identity provider. These OIDC identity providers are already built-in t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -318,7 +318,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Creates a new version of the specified managed policy. To update a man- aged policy, you create a new policy version. A managed policy can have up to five versions. If the policy has five versions, you must delete an existing version using DeletePolicyVersion before you create a new version. Optionally, you can set the new version as the policy's default ver- sion. The default version is the version that is in effect for the IAM users, groups, and roles to which the policy is attached. For more ...
+    /// Creates a new version of the specified managed policy. To update a managed policy, you create a new policy version. A managed policy can have up to five versions. If the policy has five versions, you must delete an existing version using DeletePolicyVersion before you create a new version. Optionally, you can set the new version as the policy's default version. The default version is the version that is in effect for the IAM users, groups, and roles to which the policy is attached. For more info...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -348,7 +348,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Creates an IAM resource that describes an identity provider (IdP) that supports SAML 2.0. The SAML provider resource that you create with this operation can be used as a principal in an IAM role's trust policy. Such a policy can enable federated users who sign in using the SAML IdP to assume the role. You can create an IAM role that supports Web-based single sign-on (SSO) to the Amazon Web Services Management Console or one that sup- ports API access to Amazon Web Services. When you create the S...
+    /// Creates an IAM resource that describes an identity provider (IdP) that supports SAML 2.0. The SAML provider resource that you create with this operation can be used as a principal in an IAM role's trust policy. Such a policy can enable federated users who sign in using the SAML IdP to assume the role. You can create an IAM role that supports Web-based single sign-on (SSO) to the Amazon Web Services Management Console or one that supports API access to Amazon Web Services. When you create the SAM...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -363,7 +363,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Creates an IAM role that is linked to a specific Amazon Web Services service. The service controls the attached policies and when the role can be deleted. This helps ensure that the service is not broken by an unexpectedly changed or deleted role, which could put your Amazon Web Services resources into an unknown state. Allowing the service to con- trol the role helps improve service stability and proper cleanup when a service and its role are no longer needed. For more information, see Using se...
+    /// Creates an IAM role that is linked to a specific Amazon Web Services service. The service controls the attached policies and when the role can be deleted. This helps ensure that the service is not broken by an unexpectedly changed or deleted role, which could put your Amazon Web Services resources into an unknown state. Allowing the service to control the role helps improve service stability and proper cleanup when a service and its role are no longer needed. For more information, see Using serv...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -378,7 +378,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Generates a set of credentials consisting of a user name and password that can be used to access the service specified in the request. These credentials are generated by IAM, and can be used only for the speci- fied service. You can have a maximum of two sets of service-specific credentials for each supported service per user. You can reset the password to a new service-generated value by calling ResetServiceSpecificCredential . For more information about using service-specific credentials to au...
+    /// Generates a set of credentials consisting of a user name and password that can be used to access the service specified in the request. These credentials are generated by IAM, and can be used only for the specified service. You can have a maximum of two sets of service-specific credentials for each supported service per user. You can reset the password to a new service-generated value by calling ResetServiceSpecificCredential . For more information about using service-specific credentials to auth...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -393,7 +393,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Creates a new IAM user for your Amazon Web Services account. For information about quotas for the number of IAM users you can cre- ate, see IAM and STS quotas in the IAM User Guide . See also: AWS API Documentation
+    /// Creates a new IAM user for your Amazon Web Services account. For information about quotas for the number of IAM users you can create, see IAM and STS quotas in the IAM User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -423,7 +423,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Deactivates the specified MFA device and removes it from association with the user name for which it was originally enabled. For more information about creating and working with virtual MFA de- vices, see Enabling a virtual multi-factor authentication (MFA) device in the IAM User Guide . See also: AWS API Documentation
+    /// Deactivates the specified MFA device and removes it from association with the user name for which it was originally enabled. For more information about creating and working with virtual MFA devices, see Enabling a virtual multi-factor authentication (MFA) device in the IAM User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -438,7 +438,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Deletes the access key pair associated with the specified IAM user. If you do not specify a user name, IAM determines the user name implic- itly based on the Amazon Web Services access key ID signing the re- quest. This operation works for access keys under the Amazon Web Ser- vices account. Consequently, you can use this operation to manage Ama- zon Web Services account root user credentials even if the Amazon Web Services account has no associated users. See also: AWS API Documentation
+    /// Deletes the access key pair associated with the specified IAM user. If you do not specify a user name, IAM determines the user name implicitly based on the Amazon Web Services access key ID signing the request. This operation works for access keys under the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root user credentials even if the Amazon Web Services account has no associated users. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -453,7 +453,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Deletes the specified Amazon Web Services account alias. For informa- tion about using an Amazon Web Services account alias, see Creating, deleting, and listing an Amazon Web Services account alias in the Ama- zon Web Services Sign-In User Guide . See also: AWS API Documentation
+    /// Deletes the specified Amazon Web Services account alias. For information about using an Amazon Web Services account alias, see Creating, deleting, and listing an Amazon Web Services account alias in the Amazon Web Services Sign-In User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -498,7 +498,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Deletes the specified inline policy that is embedded in the specified IAM group. A group can also have managed policies attached to it. To detach a man- aged policy from a group, use DetachGroupPolicy . For more information about policies, refer to Managed policies and inline policies in the IAM User Guide . See also: AWS API Documentation
+    /// Deletes the specified inline policy that is embedded in the specified IAM group. A group can also have managed policies attached to it. To detach a managed policy from a group, use DetachGroupPolicy . For more information about policies, refer to Managed policies and inline policies in the IAM User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -513,7 +513,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Deletes the specified instance profile. The instance profile must not have an associated role. WARNING: Make sure that you do not have any Amazon EC2 instances running with the instance profile you are about to delete. Deleting a role or in- stance profile that is associated with a running instance will break any applications running on the instance. For more information about instance profiles, see Using instance pro- files in the IAM User Guide . See also: AWS API Documentation
+    /// Deletes the specified instance profile. The instance profile must not have an associated role. WARNING: Make sure that you do not have any Amazon EC2 instances running with the instance profile you are about to delete. Deleting a role or instance profile that is associated with a running instance will break any applications running on the instance. For more information about instance profiles, see Using instance profiles in the IAM User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -528,7 +528,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Deletes the password for the specified IAM user or root user, For more information, see Managing passwords for IAM users . You can use the CLI, the Amazon Web Services API, or the Users page in the IAM console to delete a password for any IAM user. You can use ChangePassword to update, but not delete, your own password in the My Security Credentials page in the Amazon Web Services Management Con- sole. WARNING: Deleting a user's password does not prevent a user from accessing Amazon Web Services...
+    /// Deletes the password for the specified IAM user or root user, For more information, see Managing passwords for IAM users . You can use the CLI, the Amazon Web Services API, or the Users page in the IAM console to delete a password for any IAM user. You can use ChangePassword to update, but not delete, your own password in the My Security Credentials page in the Amazon Web Services Management Console. WARNING: Deleting a user's password does not prevent a user from accessing Amazon Web Services t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -543,7 +543,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Deletes an OpenID Connect identity provider (IdP) resource object in IAM. Deleting an IAM OIDC provider resource does not update any roles that reference the provider as a principal in their trust policies. Any at- tempt to assume a role that references a deleted provider fails. This operation is idempotent; it does not fail or return an error if you call the operation for a provider that does not exist. See also: AWS API Documentation
+    /// Deletes an OpenID Connect identity provider (IdP) resource object in IAM. Deleting an IAM OIDC provider resource does not update any roles that reference the provider as a principal in their trust policies. Any attempt to assume a role that references a deleted provider fails. This operation is idempotent; it does not fail or return an error if you call the operation for a provider that does not exist. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -558,7 +558,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Deletes the specified managed policy. Before you can delete a managed policy, you must first detach the pol- icy from all users, groups, and roles that it is attached to. In addi- tion, you must delete all the policy's versions. The following steps describe the process for deleting a managed policy: o Detach the policy from all users, groups, and roles that the policy is attached to, using DetachUserPolicy , DetachGroupPolicy , or DetachRolePolicy . To list all the users, groups, and roles that ...
+    /// Deletes the specified managed policy. Before you can delete a managed policy, you must first detach the policy from all users, groups, and roles that it is attached to. In addition, you must delete all the policy's versions. The following steps describe the process for deleting a managed policy: • Detach the policy from all users, groups, and roles that the policy is attached to, using DetachUserPolicy , DetachGroupPolicy , or DetachRolePolicy . To list all the users, groups, and roles that a po...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -573,7 +573,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Deletes the specified version from the specified managed policy. You cannot delete the default version from a policy using this opera- tion. To delete the default version from a policy, use DeletePolicy . To find out which version of a policy is marked as the default version, use ListPolicyVersions . For information about versions for managed policies, see Versioning for managed policies in the IAM User Guide . See also: AWS API Documentation
+    /// Deletes the specified version from the specified managed policy. You cannot delete the default version from a policy using this operation. To delete the default version from a policy, use DeletePolicy . To find out which version of a policy is marked as the default version, use ListPolicyVersions . For information about versions for managed policies, see Versioning for managed policies in the IAM User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -588,7 +588,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Deletes the specified role. Unlike the Amazon Web Services Management Console, when you delete a role programmatically, you must delete the items attached to the role manually, or the deletion fails. For more information, see Deleting an IAM role . Before attempting to delete a role, remove the following attached items: o Inline policies (DeleteRolePolicy ) o Attached managed policies (DetachRolePolicy ) o Instance profile (RemoveRoleFromInstanceProfile ) o Optional Delete instance profile after...
+    /// Deletes the specified role. Unlike the Amazon Web Services Management Console, when you delete a role programmatically, you must delete the items attached to the role manually, or the deletion fails. For more information, see Deleting an IAM role . Before attempting to delete a role, remove the following attached items: • Inline policies (DeleteRolePolicy ) • Attached managed policies (DetachRolePolicy ) • Instance profile (RemoveRoleFromInstanceProfile ) • Optional Delete instance profile after...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -603,7 +603,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Deletes the permissions boundary for the specified IAM role. You cannot set the boundary for a service-linked role. WARNING: Deleting the permissions boundary for a role might increase its per- missions. For example, it might allow anyone who assumes the role to perform all the actions granted in its permissions policies. See also: AWS API Documentation
+    /// Deletes the permissions boundary for the specified IAM role. You cannot set the boundary for a service-linked role. WARNING: Deleting the permissions boundary for a role might increase its permissions. For example, it might allow anyone who assumes the role to perform all the actions granted in its permissions policies. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -618,7 +618,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Deletes the specified inline policy that is embedded in the specified IAM role. A role can also have managed policies attached to it. To detach a man- aged policy from a role, use DetachRolePolicy . For more information about policies, refer to Managed policies and inline policies in the IAM User Guide . See also: AWS API Documentation
+    /// Deletes the specified inline policy that is embedded in the specified IAM role. A role can also have managed policies attached to it. To detach a managed policy from a role, use DetachRolePolicy . For more information about policies, refer to Managed policies and inline policies in the IAM User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -633,7 +633,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Deletes a SAML provider resource in IAM. Deleting the provider resource from IAM does not update any roles that reference the SAML provider resource's ARN as a principal in their trust policies. Any attempt to assume a role that references a non-ex- istent provider resource ARN fails. NOTE: This operation requires Signature Version 4 . See also: AWS API Documentation
+    /// Deletes a SAML provider resource in IAM. Deleting the provider resource from IAM does not update any roles that reference the SAML provider resource's ARN as a principal in their trust policies. Any attempt to assume a role that references a non-existent provider resource ARN fails. NOTE: This operation requires Signature Version 4 . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -648,7 +648,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Deletes the specified server certificate. For more information about working with server certificates, see Working with server certificates in the IAM User Guide . This topic also includes a list of Amazon Web Services services that can use the server certificates that you manage with IAM. WARNING: If you are using a server certificate with Elastic Load Balancing, deleting the certificate could have implications for your applica- tion. If Elastic Load Balancing doesn't detect the deletion of bou...
+    /// Deletes the specified server certificate. For more information about working with server certificates, see Working with server certificates in the IAM User Guide . This topic also includes a list of Amazon Web Services services that can use the server certificates that you manage with IAM. WARNING: If you are using a server certificate with Elastic Load Balancing, deleting the certificate could have implications for your application. If Elastic Load Balancing doesn't detect the deletion of bound...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -663,7 +663,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Submits a service-linked role deletion request and returns a Deletion- TaskId , which you can use to check the status of the deletion. Before you call this operation, confirm that the role has no active sessions and that any resources used by the role in the linked service are deleted. If you call this operation more than once for the same ser- vice-linked role and an earlier deletion task is not complete, then the DeletionTaskId of the earlier request is returned. If you submit a deletion reque...
+    /// Submits a service-linked role deletion request and returns a DeletionTaskId , which you can use to check the status of the deletion. Before you call this operation, confirm that the role has no active sessions and that any resources used by the role in the linked service are deleted. If you call this operation more than once for the same service-linked role and an earlier deletion task is not complete, then the DeletionTaskId of the earlier request is returned. If you submit a deletion request f...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -693,7 +693,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Deletes a signing certificate associated with the specified IAM user. If you do not specify a user name, IAM determines the user name implic- itly based on the Amazon Web Services access key ID signing the re- quest. This operation works for access keys under the Amazon Web Ser- vices account. Consequently, you can use this operation to manage Ama- zon Web Services account root user credentials even if the Amazon Web Services account has no associated IAM users. See also: AWS API Documentation
+    /// Deletes a signing certificate associated with the specified IAM user. If you do not specify a user name, IAM determines the user name implicitly based on the Amazon Web Services access key ID signing the request. This operation works for access keys under the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root user credentials even if the Amazon Web Services account has no associated IAM users. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -708,7 +708,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Deletes the specified SSH public key. The SSH public key deleted by this operation is used only for authenti- cating the associated IAM user to an CodeCommit repository. For more information about using SSH keys to authenticate to an CodeCommit repository, see Set up CodeCommit for SSH connections in the CodeCommit User Guide . See also: AWS API Documentation
+    /// Deletes the specified SSH public key. The SSH public key deleted by this operation is used only for authenticating the associated IAM user to an CodeCommit repository. For more information about using SSH keys to authenticate to an CodeCommit repository, see Set up CodeCommit for SSH connections in the CodeCommit User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -723,7 +723,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Deletes the specified IAM user. Unlike the Amazon Web Services Manage- ment Console, when you delete a user programmatically, you must delete the items attached to the user manually, or the deletion fails. For more information, see Deleting an IAM user . Before attempting to delete a user, remove the following items: o Password (DeleteLoginProfile ) o Access keys (DeleteAccessKey ) o Signing certificate (DeleteSigningCertificate ) o SSH public key (DeleteSSHPublicKey ) o Git credentials (DeleteS...
+    /// Deletes the specified IAM user. Unlike the Amazon Web Services Management Console, when you delete a user programmatically, you must delete the items attached to the user manually, or the deletion fails. For more information, see Deleting an IAM user . Before attempting to delete a user, remove the following items: • Password (DeleteLoginProfile ) • Access keys (DeleteAccessKey ) • Signing certificate (DeleteSigningCertificate ) • SSH public key (DeleteSSHPublicKey ) • Git credentials (DeleteSer...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -738,7 +738,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Deletes the permissions boundary for the specified IAM user. WARNING: Deleting the permissions boundary for a user might increase its per- missions by allowing the user to perform all the actions granted in its permissions policies. See also: AWS API Documentation
+    /// Deletes the permissions boundary for the specified IAM user. WARNING: Deleting the permissions boundary for a user might increase its permissions by allowing the user to perform all the actions granted in its permissions policies. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -753,7 +753,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Deletes the specified inline policy that is embedded in the specified IAM user. A user can also have managed policies attached to it. To detach a man- aged policy from a user, use DetachUserPolicy . For more information about policies, refer to Managed policies and inline policies in the IAM User Guide . See also: AWS API Documentation
+    /// Deletes the specified inline policy that is embedded in the specified IAM user. A user can also have managed policies attached to it. To detach a managed policy from a user, use DetachUserPolicy . For more information about policies, refer to Managed policies and inline policies in the IAM User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -798,7 +798,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Removes the specified managed policy from the specified role. A role can also have inline policies embedded with it. To delete an in- line policy, use DeleteRolePolicy . For information about policies, see Managed policies and inline policies in the IAM User Guide . See also: AWS API Documentation
+    /// Removes the specified managed policy from the specified role. A role can also have inline policies embedded with it. To delete an inline policy, use DeleteRolePolicy . For information about policies, see Managed policies and inline policies in the IAM User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -813,7 +813,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Removes the specified managed policy from the specified user. A user can also have inline policies embedded with it. To delete an in- line policy, use DeleteUserPolicy . For information about policies, see Managed policies and inline policies in the IAM User Guide . See also: AWS API Documentation
+    /// Removes the specified managed policy from the specified user. A user can also have inline policies embedded with it. To delete an inline policy, use DeleteUserPolicy . For information about policies, see Managed policies and inline policies in the IAM User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -828,7 +828,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Disables the management of privileged root user credentials across mem- ber accounts in your organization. When you disable this feature, the management account and the delegated administrator for IAM can no longer manage root user credentials for member accounts in your organi- zation. See also: AWS API Documentation
+    /// Disables the management of privileged root user credentials across member accounts in your organization. When you disable this feature, the management account and the delegated administrator for IAM can no longer manage root user credentials for member accounts in your organization. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -843,7 +843,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Disables root user sessions for privileged tasks across member accounts in your organization. When you disable this feature, the management ac- count and the delegated administrator for IAM can no longer perform privileged tasks on member accounts in your organization. See also: AWS API Documentation
+    /// Disables root user sessions for privileged tasks across member accounts in your organization. When you disable this feature, the management account and the delegated administrator for IAM can no longer perform privileged tasks on member accounts in your organization. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -888,7 +888,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Enables the management of privileged root user credentials across mem- ber accounts in your organization. When you enable root credentials management for centralized root access , the management account and the delegated administrator for IAM can manage root user credentials for member accounts in your organization. Before you enable centralized root access, you must have an account configured with the following settings: o You must manage your Amazon Web Services accounts in Organizations . o E...
+    /// Enables the management of privileged root user credentials across member accounts in your organization. When you enable root credentials management for centralized root access , the management account and the delegated administrator for IAM can manage root user credentials for member accounts in your organization. Before you enable centralized root access, you must have an account configured with the following settings: • You must manage your Amazon Web Services accounts in Organizations . • Ena...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -903,7 +903,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Allows the management account or delegated administrator to perform privileged tasks on member accounts in your organization. For more in- formation, see Centrally manage root access for member accounts in the Identity and Access Management User Guide . Before you enable this feature, you must have an account configured with the following settings: o You must manage your Amazon Web Services accounts in Organizations . o Enable trusted access for Identity and Access Management in Organiza- tions....
+    /// Allows the management account or delegated administrator to perform privileged tasks on member accounts in your organization. For more information, see Centrally manage root access for member accounts in the Identity and Access Management User Guide . Before you enable this feature, you must have an account configured with the following settings: • You must manage your Amazon Web Services accounts in Organizations . • Enable trusted access for Identity and Access Management in Organizations. For...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -948,7 +948,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Generates a report for service last accessed data for Organizations. You can generate a report for any entities (organization root, organi- zational unit, or account) or policies in your organization. To call this operation, you must be signed in using your Organizations management account credentials. You can use your long-term IAM user or root user credentials, or temporary credentials from assuming an IAM role. SCPs must be enabled for your organization root. You must have the required IAM an...
+    /// Generates a report for service last accessed data for Organizations. You can generate a report for any entities (organization root, organizational unit, or account) or policies in your organization. To call this operation, you must be signed in using your Organizations management account credentials. You can use your long-term IAM user or root user credentials, or temporary credentials from assuming an IAM role. SCPs must be enabled for your organization root. You must have the required IAM and ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -963,7 +963,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Generates a report that includes details about when an IAM resource (user, group, role, or policy) was last used in an attempt to access Amazon Web Services services. Recent activity usually appears within four hours. IAM reports activity for at least the last 400 days, or less if your Region began supporting this feature within the last year. For more information, see Regions where data is tracked . For more in- formation about services and actions for which action last accessed in- formation i...
+    /// Generates a report that includes details about when an IAM resource (user, group, role, or policy) was last used in an attempt to access Amazon Web Services services. Recent activity usually appears within four hours. IAM reports activity for at least the last 400 days, or less if your Region began supporting this feature within the last year. For more information, see Regions where data is tracked . For more information about services and actions for which action last accessed information is di...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -993,7 +993,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Retrieves information about all IAM users, groups, roles, and policies in your Amazon Web Services account, including their relationships to one another. Use this operation to obtain a snapshot of the configura- tion of IAM permissions (users, groups, roles, and policies) in your account. NOTE: Policies returned by this operation are URL-encoded compliant with RFC 3986 . You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the...
+    /// Retrieves information about all IAM users, groups, roles, and policies in your Amazon Web Services account, including their relationships to one another. Use this operation to obtain a snapshot of the configuration of IAM permissions (users, groups, roles, and policies) in your account. NOTE: Policies returned by this operation are URL-encoded compliant with RFC 3986 . You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the d...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1023,7 +1023,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Retrieves the account-level properties for the caller's Amazon Web Ser- vices account. Account properties are configuration settings that con- trol account-wide IAM features such as Role Manager. The service returns properties as key-value pairs in Namespace/Proper- tyName format. Each namespace groups related configuration settings. Use PutAccountProperties to modify these properties. See also: AWS API Documentation
+    /// Retrieves the account-level properties for the caller's Amazon Web Services account. Account properties are configuration settings that control account-wide IAM features such as Role Manager. The service returns properties as key-value pairs in Namespace/PropertyName format. Each namespace groups related configuration settings. Use PutAccountProperties to modify these properties. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1038,7 +1038,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Retrieves information about IAM entity usage and IAM quotas in the Ama- zon Web Services account. For information about IAM quotas, see IAM and STS quotas in the IAM User Guide . See also: AWS API Documentation
+    /// Retrieves information about IAM entity usage and IAM quotas in the Amazon Web Services account. For information about IAM quotas, see IAM and STS quotas in the IAM User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1053,7 +1053,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Gets a list of all of the context keys referenced in the input poli- cies. The policies are supplied as a list of one or more strings. To get the context keys from policies associated with an IAM user, group, or role, use GetContextKeysForPrincipalPolicy . Context keys are variables maintained by Amazon Web Services and its services that provide details about the context of an API query re- quest. Context keys can be evaluated by testing against a value speci- fied in an IAM policy. Use GetConte...
+    /// Gets a list of all of the context keys referenced in the input policies. The policies are supplied as a list of one or more strings. To get the context keys from policies associated with an IAM user, group, or role, use GetContextKeysForPrincipalPolicy . Context keys are variables maintained by Amazon Web Services and its services that provide details about the context of an API query request. Context keys can be evaluated by testing against a value specified in an IAM policy. Use GetContextKeys...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1068,7 +1068,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Gets a list of all of the context keys referenced in all the IAM poli- cies that are attached to the specified IAM entity. The entity can be an IAM user, group, or role. If you specify a user, then the request also includes all of the policies attached to groups that the user is a member of. You can optionally include a list of one or more additional policies, specified as strings. If you want to include only a list of policies by string, use GetContextKeysForCustomPolicy instead. Note: This ope...
+    /// Gets a list of all of the context keys referenced in all the IAM policies that are attached to the specified IAM entity. The entity can be an IAM user, group, or role. If you specify a user, then the request also includes all of the policies attached to groups that the user is a member of. You can optionally include a list of one or more additional policies, specified as strings. If you want to include only a list of policies by string, use GetContextKeysForCustomPolicy instead. Note: This opera...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1098,7 +1098,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Retrieves information about a specific delegation request. If a delegation request has no owner or owner account, GetDelegationRe- quest for that delegation request can be called by any account. If the owner account is assigned but there is no owner id, only identities within that owner account can call GetDelegationRequest for the delega- tion request. Once the delegation request is fully owned, the owner of the request gets a default permission to get that delegation request. For more details,...
+    /// Retrieves information about a specific delegation request. If a delegation request has no owner or owner account, GetDelegationRequest for that delegation request can be called by any account. If the owner account is assigned but there is no owner id, only identities within that owner account can call GetDelegationRequest for the delegation request. Once the delegation request is fully owned, the owner of the request gets a default permission to get that delegation request. For more details, see...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1113,7 +1113,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Returns a list of IAM users that are in the specified IAM group. You can paginate the results using the MaxItems and Marker parameters. See also: AWS API Documentation get-group is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must extract data from the results of the ...
+    /// Returns a list of IAM users that are in the specified IAM group. You can paginate the results using the MaxItems and Marker parameters. See also: AWS API Documentation get-group is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the foll...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1143,7 +1143,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Retrieves a human readable summary for a given entity. At this time, the only supported entity type is delegation-request This method uses a Large Language Model (LLM) to generate the summary. If a delegation request has no owner or owner account, GetHumanRead- ableSummary for that delegation request can be called by any account. If the owner account is assigned but there is no owner id, only identi- ties within that owner account can call GetHumanReadableSummary for the delegation request to re...
+    /// Retrieves a human readable summary for a given entity. At this time, the only supported entity type is delegation-request This method uses a Large Language Model (LLM) to generate the summary. If a delegation request has no owner or owner account, GetHumanReadableSummary for that delegation request can be called by any account. If the owner account is assigned but there is no owner id, only identities within that owner account can call GetHumanReadableSummary for the delegation request to retrie...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1218,7 +1218,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Retrieves the service last accessed data report for Organizations that was previously generated using the `` GenerateOrganizationsAccessReport `` operation. This operation retrieves the status of your report job and the report contents. Depending on the parameters that you passed when you generated the re- port, the data returned could include different information. For de- tails, see GenerateOrganizationsAccessReport . To call this operation, you must be signed in to the management account in y...
+    /// Retrieves the service last accessed data report for Organizations that was previously generated using the `` GenerateOrganizationsAccessReport `` operation. This operation retrieves the status of your report job and the report contents. Depending on the parameters that you passed when you generated the report, the data returned could include different information. For details, see GenerateOrganizationsAccessReport . To call this operation, you must be signed in to the management account in your ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1233,7 +1233,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Retrieves the configuration information for the outbound identity fed- eration feature in your Amazon Web Services account. The response in- cludes the unique issuer URL for your Amazon Web Services account and the current enabled/disabled status of the feature. Use this operation to obtain the issuer URL that you need to configure trust relationships with external services. See also: AWS API Documentation
+    /// Retrieves the configuration information for the outbound identity federation feature in your Amazon Web Services account. The response includes the unique issuer URL for your Amazon Web Services account and the current enabled/disabled status of the feature. Use this operation to obtain the issuer URL that you need to configure trust relationships with external services. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1248,7 +1248,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Retrieves information about the specified managed policy, including the policy's default version and the total number of IAM users, groups, and roles to which the policy is attached. To retrieve the list of the spe- cific users, groups, and roles that the policy is attached to, use ListEntitiesForPolicy . This operation returns metadata about the pol- icy. To retrieve the actual policy document for a specific version of the policy, use GetPolicyVersion . This operation retrieves information abou...
+    /// Retrieves information about the specified managed policy, including the policy's default version and the total number of IAM users, groups, and roles to which the policy is attached. To retrieve the list of the specific users, groups, and roles that the policy is attached to, use ListEntitiesForPolicy . This operation returns metadata about the policy. To retrieve the actual policy document for a specific version of the policy, use GetPolicyVersion . This operation retrieves information about ma...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1263,7 +1263,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Retrieves information about the specified version of the specified man- aged policy, including the policy document. NOTE: Policies returned by this operation are URL-encoded compliant with RFC 3986 . You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality, and some SDKs do this decoding automatically....
+    /// Retrieves information about the specified version of the specified managed policy, including the policy document. NOTE: Policies returned by this operation are URL-encoded compliant with RFC 3986 . You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality, and some SDKs do this decoding automatically. T...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1308,7 +1308,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Retrieves information about a version of the specified role template. Role templates define a reusable configurationincluding role name and path patterns, trust policy, inline and managed policies, permissions boundary, tags, and maximum session durationthat you use to create IAM roles with AcquireRole . If you do not specify a minor version, the service returns the tem- plate's default minor version. See also: AWS API Documentation
+    /// Retrieves information about a version of the specified role template. Role templates define a reusable configurationincluding role name and path patterns, trust policy, inline and managed policies, permissions boundary, tags, and maximum session durationthat you use to create IAM roles with AcquireRole . If you do not specify a minor version, the service returns the template's default minor version. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1338,7 +1338,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Retrieves information about the specified server certificate stored in IAM. For more information about working with server certificates, see Working with server certificates in the IAM User Guide . This topic in- cludes a list of Amazon Web Services services that can use the server certificates that you manage with IAM. See also: AWS API Documentation
+    /// Retrieves information about the specified server certificate stored in IAM. For more information about working with server certificates, see Working with server certificates in the IAM User Guide . This topic includes a list of Amazon Web Services services that can use the server certificates that you manage with IAM. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1353,7 +1353,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Retrieves a service last accessed report that was created using the GenerateServiceLastAccessedDetails operation. You can use the JobId pa- rameter in GetServiceLastAccessedDetails to retrieve the status of your report job. When the report is complete, you can retrieve the generated report. The report includes a list of Amazon Web Services services that the resource (user, group, role, or managed policy) can access. NOTE: Service last accessed data does not use other policy types when de- termin...
+    /// Retrieves a service last accessed report that was created using the GenerateServiceLastAccessedDetails operation. You can use the JobId parameter in GetServiceLastAccessedDetails to retrieve the status of your report job. When the report is complete, you can retrieve the generated report. The report includes a list of Amazon Web Services services that the resource (user, group, role, or managed policy) can access. NOTE: Service last accessed data does not use other policy types when determining ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1368,7 +1368,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// After you generate a group or policy report using the GenerateService- LastAccessedDetails operation, you can use the JobId parameter in Get- ServiceLastAccessedDetailsWithEntities . This operation retrieves the status of your report job and a list of entities that could have used group or policy permissions to access the specified service. o Group For a group report, this operation returns a list of users in the group that could have used the groups policies in an attempt to access the service....
+    /// After you generate a group or policy report using the GenerateServiceLastAccessedDetails operation, you can use the JobId parameter in GetServiceLastAccessedDetailsWithEntities . This operation retrieves the status of your report job and a list of entities that could have used group or policy permissions to access the specified service. • Group For a group report, this operation returns a list of users in the group that could have used the groups policies in an attempt to access the service. • P...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1383,7 +1383,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Retrieves the status of your service-linked role deletion. After you use DeleteServiceLinkedRole to submit a service-linked role for dele- tion, you can use the DeletionTaskId parameter in GetServiceLinke- dRoleDeletionStatus to check the status of the deletion. If the dele- tion fails, this operation returns the reason that it failed, if that information is returned by the service. See also: AWS API Documentation
+    /// Retrieves the status of your service-linked role deletion. After you use DeleteServiceLinkedRole to submit a service-linked role for deletion, you can use the DeletionTaskId parameter in GetServiceLinkedRoleDeletionStatus to check the status of the deletion. If the deletion fails, this operation returns the reason that it failed, if that information is returned by the service. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1398,7 +1398,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Retrieves the specified SSH public key, including metadata about the key. The SSH public key retrieved by this operation is used only for authen- ticating the associated IAM user to an CodeCommit repository. For more information about using SSH keys to authenticate to an CodeCommit repository, see Set up CodeCommit for SSH connections in the CodeCommit User Guide . See also: AWS API Documentation
+    /// Retrieves the specified SSH public key, including metadata about the key. The SSH public key retrieved by this operation is used only for authenticating the associated IAM user to an CodeCommit repository. For more information about using SSH keys to authenticate to an CodeCommit repository, see Set up CodeCommit for SSH connections in the CodeCommit User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1413,7 +1413,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Retrieves information about the specified IAM user, including the user's creation date, path, unique ID, and ARN. If you do not specify a user name, IAM determines the user name implic- itly based on the Amazon Web Services access key ID used to sign the request to this operation. See also: AWS API Documentation
+    /// Retrieves information about the specified IAM user, including the user's creation date, path, unique ID, and ARN. If you do not specify a user name, IAM determines the user name implicitly based on the Amazon Web Services access key ID used to sign the request to this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1443,7 +1443,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Returns information about the access key IDs associated with the speci- fied IAM user. If there is none, the operation returns an empty list. Although each user is limited to a small number of keys, you can still paginate the results using the MaxItems and Marker parameters. If the UserName is not specified, the user name is determined implic- itly based on the Amazon Web Services access key ID used to sign the request. If a temporary access key is used, then UserName is required. If a long-term...
+    /// Returns information about the access key IDs associated with the specified IAM user. If there is none, the operation returns an empty list. Although each user is limited to a small number of keys, you can still paginate the results using the MaxItems and Marker parameters. If the UserName is not specified, the user name is determined implicitly based on the Amazon Web Services access key ID used to sign the request. If a temporary access key is used, then UserName is required. If a long-term key...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1458,7 +1458,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Lists the account alias associated with the Amazon Web Services account (Note: you can have only one). For information about using an Amazon Web Services account alias, see Creating, deleting, and listing an Ama- zon Web Services account alias in the IAM User Guide . See also: AWS API Documentation list-account-aliases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument....
+    /// Lists the account alias associated with the Amazon Web Services account (Note: you can have only one). For information about using an Amazon Web Services account alias, see Creating, deleting, and listing an Amazon Web Services account alias in the IAM User Guide . See also: AWS API Documentation list-account-aliases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. W...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1473,7 +1473,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Lists all managed policies that are attached to the specified IAM group. An IAM group can also have inline policies embedded with it. To list the inline policies for a group, use ListGroupPolicies . For informa- tion about policies, see Managed policies and inline policies in the IAM User Guide . You can paginate the results using the MaxItems and Marker parameters. You can use the PathPrefix parameter to limit the list of policies to only those matching the specified path prefix. If there are n...
+    /// Lists all managed policies that are attached to the specified IAM group. An IAM group can also have inline policies embedded with it. To list the inline policies for a group, use ListGroupPolicies . For information about policies, see Managed policies and inline policies in the IAM User Guide . You can paginate the results using the MaxItems and Marker parameters. You can use the PathPrefix parameter to limit the list of policies to only those matching the specified path prefix. If there are no ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1518,7 +1518,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Lists delegation requests based on the specified criteria. If a delegation request has no owner, even if it is assigned to a spe- cific account, it will not be part of the ListDelegationRequests output for that account. For more details, see Managing Permissions for Delegation Requests . See also: AWS API Documentation
+    /// Lists delegation requests based on the specified criteria. If a delegation request has no owner, even if it is assigned to a specific account, it will not be part of the ListDelegationRequests output for that account. For more details, see Managing Permissions for Delegation Requests . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1533,7 +1533,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Lists all IAM users, groups, and roles that the specified managed pol- icy is attached to. You can use the optional EntityFilter parameter to limit the results to a particular type of entity (users, groups, or roles). For example, to list only the roles that are attached to the specified policy, set En- tityFilter to Role . You can paginate the results using the MaxItems and Marker parameters. See also: AWS API Documentation list-entities-for-policy is a paginated operation. Multiple API calls m...
+    /// Lists all IAM users, groups, and roles that the specified managed policy is attached to. You can use the optional EntityFilter parameter to limit the results to a particular type of entity (users, groups, or roles). For example, to list only the roles that are attached to the specified policy, set EntityFilter to Role . You can paginate the results using the MaxItems and Marker parameters. See also: AWS API Documentation list-entities-for-policy is a paginated operation. Multiple API calls may b...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1548,7 +1548,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Lists the names of the inline policies that are embedded in the speci- fied IAM group. An IAM group can also have managed policies attached to it. To list the managed policies that are attached to a group, use ListAttachedGroupPolicies . For more information about policies, see Managed policies and inline policies in the IAM User Guide . You can paginate the results using the MaxItems and Marker parameters. If there are no inline policies embedded with the specified group, the operation returns ...
+    /// Lists the names of the inline policies that are embedded in the specified IAM group. An IAM group can also have managed policies attached to it. To list the managed policies that are attached to a group, use ListAttachedGroupPolicies . For more information about policies, see Managed policies and inline policies in the IAM User Guide . You can paginate the results using the MaxItems and Marker parameters. If there are no inline policies embedded with the specified group, the operation returns an...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1578,7 +1578,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Lists the IAM groups that have the specified path prefix. You can paginate the results using the MaxItems and Marker parameters. See also: AWS API Documentation list-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the followi...
+    /// Lists the IAM groups that have the specified path prefix. You can paginate the results using the MaxItems and Marker parameters. See also: AWS API Documentation list-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1590,36 +1590,6 @@ public class AwsIam : IAwsIam
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIamListGroupsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists the instance profiles that have the specified associated IAM role. If there are none, the operation returns an empty list. For more information about instance profiles, go to Using instance profiles in the IAM User Guide . You can paginate the results using the MaxItems and Marker parameters. See also: AWS API Documentation list-instance-profiles-for-role is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagina...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListInstanceProfilesForRoleAsync(
-        AwsIamListInstanceProfilesForRoleOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists the instance profiles that have the specified path prefix. If there are none, the operation returns an empty list. For more informa- tion about instance profiles, see Using instance profiles in the IAM User Guide . NOTE: IAM resource-listing operations return a subset of the available at- tributes for the resource. For example, this operation does not re- turn tags, even though they are an attribute of the returned object. To view all of the information for an instance profile, see GetInst...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListInstanceProfilesAsync(
-        AwsIamListInstanceProfilesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIamListInstanceProfilesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1638,18 +1608,33 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Lists the MFA devices for an IAM user. If the request includes a IAM user name, then this operation lists all the MFA devices associated with the specified user. If you do not specify a user name, IAM deter- mines the user name implicitly based on the Amazon Web Services access key ID signing the request for this operation. You can paginate the results using the MaxItems and Marker parameters. See also: AWS API Documentation list-mfa-devices is a paginated operation. Multiple API calls may be is...
+    /// Lists the instance profiles that have the specified associated IAM role. If there are none, the operation returns an empty list. For more information about instance profiles, go to Using instance profiles in the IAM User Guide . You can paginate the results using the MaxItems and Marker parameters. See also: AWS API Documentation list-instance-profiles-for-role is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable paginati...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListMfaDevicesAsync(
-        AwsIamListMfaDevicesOptions? options = null,
+    public virtual async Task<CommandResult> ListInstanceProfilesForRoleAsync(
+        AwsIamListInstanceProfilesForRoleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIamListMfaDevicesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the instance profiles that have the specified path prefix. If there are none, the operation returns an empty list. For more information about instance profiles, see Using instance profiles in the IAM User Guide . NOTE: IAM resource-listing operations return a subset of the available attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for an instance profile, see GetInstancePr...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListInstanceProfilesAsync(
+        AwsIamListInstanceProfilesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIamListInstanceProfilesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1668,22 +1653,22 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Lists information about the IAM OpenID Connect (OIDC) provider resource objects defined in the Amazon Web Services account. NOTE: IAM resource-listing operations return a subset of the available at- tributes for the resource. For example, this operation does not re- turn tags, even though they are an attribute of the returned object. To view all of the information for an OIDC provider, see GetOpenIDConnectProvider . See also: AWS API Documentation
+    /// Lists the MFA devices for an IAM user. If the request includes a IAM user name, then this operation lists all the MFA devices associated with the specified user. If you do not specify a user name, IAM determines the user name implicitly based on the Amazon Web Services access key ID signing the request for this operation. You can paginate the results using the MaxItems and Marker parameters. See also: AWS API Documentation list-mfa-devices is a paginated operation. Multiple API calls may be issu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListOpenIdConnectProvidersAsync(
-        AwsIamListOpenIdConnectProvidersOptions? options = null,
+    public virtual async Task<CommandResult> ListMfaDevicesAsync(
+        AwsIamListMfaDevicesOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIamListOpenIdConnectProvidersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIamListMfaDevicesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Lists the tags that are attached to the specified OpenID Connect (OIDC)-compatible identity provider. The returned list of tags is sorted by tag key. For more information, see About web identity federa- tion . For more information about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation list-open-id-connect-provider-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable paginat...
+    /// Lists the tags that are attached to the specified OpenID Connect (OIDC)-compatible identity provider. The returned list of tags is sorted by tag key. For more information, see About web identity federation . For more information about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation list-open-id-connect-provider-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1698,7 +1683,22 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Lists the centralized root access features enabled for your organiza- tion. For more information, see Centrally manage root access for member accounts . See also: AWS API Documentation
+    /// Lists information about the IAM OpenID Connect (OIDC) provider resource objects defined in the Amazon Web Services account. NOTE: IAM resource-listing operations return a subset of the available attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for an OIDC provider, see GetOpenIDConnectProvider . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListOpenIdConnectProvidersAsync(
+        AwsIamListOpenIdConnectProvidersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIamListOpenIdConnectProvidersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the centralized root access features enabled for your organization. For more information, see Centrally manage root access for member accounts . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1713,7 +1713,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Retrieves a list of policies that the IAM identity (user, group, or role) can use to access each specified service. NOTE: This operation does not use other policy types when determining whether a resource could access a service. These other policy types include resource-based policies, access control lists, Organizations policies, IAM permissions boundaries, and STS assume role policies. It only applies permissions policy logic. For more about the evalua- tion of policy types, see Evaluating pol...
+    /// Retrieves a list of policies that the IAM identity (user, group, or role) can use to access each specified service. NOTE: This operation does not use other policy types when determining whether a resource could access a service. These other policy types include resource-based policies, access control lists, Organizations policies, IAM permissions boundaries, and STS assume role policies. It only applies permissions policy logic. For more about the evaluation of policy types, see Evaluating polic...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1743,7 +1743,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Lists the tags that are attached to the specified IAM customer managed policy. The returned list of tags is sorted by tag key. For more infor- mation about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation list-policy-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a p...
+    /// Lists the tags that are attached to the specified IAM customer managed policy. The returned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation list-policy-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pag...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1773,7 +1773,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Lists the names of the inline policies that are embedded in the speci- fied IAM role. An IAM role can also have managed policies attached to it. To list the managed policies that are attached to a role, use ListAttachedRolePolicies . For more information about policies, see Managed policies and inline policies in the IAM User Guide . You can paginate the results using the MaxItems and Marker parameters. If there are no inline policies embedded with the specified role, the operation returns an em...
+    /// Lists the names of the inline policies that are embedded in the specified IAM role. An IAM role can also have managed policies attached to it. To list the managed policies that are attached to a role, use ListAttachedRolePolicies . For more information about policies, see Managed policies and inline policies in the IAM User Guide . You can paginate the results using the MaxItems and Marker parameters. If there are no inline policies embedded with the specified role, the operation returns an empt...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1788,22 +1788,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Lists the IAM roles that have the specified path prefix. If there are none, the operation returns an empty list. For more information about roles, see IAM roles in the IAM User Guide . NOTE: IAM resource-listing operations return a subset of the available at- tributes for the resource. This operation does not return the fol- lowing attributes, even though they are an attribute of the returned object: o PermissionsBoundary o RoleLastUsed o Tags To view all of the information for a role, see GetRo...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListRolesAsync(
-        AwsIamListRolesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIamListRolesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists the tags that are attached to the specified role. The returned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation list-role-tags is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the ...
+    /// Lists the tags that are attached to the specified role. The returned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation list-role-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --qu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1818,7 +1803,37 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Lists the SAML provider resource objects defined in IAM in the account. IAM resource-listing operations return a subset of the available at- tributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for a SAML provider, see GetSAMLProvider . WARNING: This operation requires Signature Version 4 . See also: AWS API Documentation
+    /// Lists the IAM roles that have the specified path prefix. If there are none, the operation returns an empty list. For more information about roles, see IAM roles in the IAM User Guide . NOTE: IAM resource-listing operations return a subset of the available attributes for the resource. This operation does not return the following attributes, even though they are an attribute of the returned object: • PermissionsBoundary • RoleLastUsed • Tags To view all of the information for a role, see GetRole ....
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListRolesAsync(
+        AwsIamListRolesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIamListRolesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the tags that are attached to the specified Security Assertion Markup Language (SAML) identity provider. The returned list of tags is sorted by tag key. For more information, see About SAML 2.0-based federation . For more information about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation list-saml-provider-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListSamlProviderTagsAsync(
+        AwsIamListSamlProviderTagsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the SAML provider resource objects defined in IAM in the account. IAM resource-listing operations return a subset of the available attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for a SAML provider, see GetSAMLProvider . WARNING: This operation requires Signature Version 4 . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1833,14 +1848,14 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Lists the tags that are attached to the specified Security Assertion Markup Language (SAML) identity provider. The returned list of tags is sorted by tag key. For more information, see About SAML 2.0-based fed- eration . For more information about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation list-saml-provider-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable paginatio...
+    /// Lists the tags that are attached to the specified IAM server certificate. The returned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources in the IAM User Guide . NOTE: For certificates in a Region supported by Certificate Manager (ACM), we recommend that you don't use IAM server certificates. Instead, use ACM to provision, manage, and deploy your server certificates. For more information about IAM server certificates, Working with server certificates...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListSamlProviderTagsAsync(
-        AwsIamListSamlProviderTagsOptions options,
+    public virtual async Task<CommandResult> ListServerCertificateTagsAsync(
+        AwsIamListServerCertificateTagsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1863,22 +1878,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Lists the tags that are attached to the specified IAM server certifi- cate. The returned list of tags is sorted by tag key. For more informa- tion about tagging, see Tagging IAM resources in the IAM User Guide . NOTE: For certificates in a Region supported by Certificate Manager (ACM), we recommend that you don't use IAM server certificates. Instead, use ACM to provision, manage, and deploy your server certificates. For more information about IAM server certificates, Working with server certific...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListServerCertificateTagsAsync(
-        AwsIamListServerCertificateTagsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns information about the service-specific credentials associated with the specified IAM user. If none exists, the operation returns an empty list. The service-specific credentials returned by this operation are used only for authenticating the IAM user to a specific service. For more information about using service-specific credentials to au- thenticate to an Amazon Web Services service, refer to the following docs: o For service-specific credentials with CodeCommit, refer to IAM cre- denti...
+    /// Returns information about the service-specific credentials associated with the specified IAM user. If none exists, the operation returns an empty list. The service-specific credentials returned by this operation are used only for authenticating the IAM user to a specific service. For more information about using service-specific credentials to authenticate to an Amazon Web Services service, refer to the following docs: • For service-specific credentials with CodeCommit, refer to IAM credentials ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1893,7 +1893,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Returns information about the signing certificates associated with the specified IAM user. If none exists, the operation returns an empty list. Although each user is limited to a small number of signing certifi- cates, you can still paginate the results using the MaxItems and Marker parameters. If the UserName field is not specified, the user name is determined im- plicitly based on the Amazon Web Services access key ID used to sign the request for this operation. This operation works for access...
+    /// Returns information about the signing certificates associated with the specified IAM user. If none exists, the operation returns an empty list. Although each user is limited to a small number of signing certificates, you can still paginate the results using the MaxItems and Marker parameters. If the UserName field is not specified, the user name is determined implicitly based on the Amazon Web Services access key ID used to sign the request for this operation. This operation works for access key...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1908,7 +1908,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Returns information about the SSH public keys associated with the spec- ified IAM user. If none exists, the operation returns an empty list. The SSH public keys returned by this operation are used only for au- thenticating the IAM user to an CodeCommit repository. For more infor- mation about using SSH keys to authenticate to an CodeCommit reposi- tory, see Set up CodeCommit for SSH connections in the CodeCommit User Guide . Although each user is limited to a small number of keys, you can still ...
+    /// Returns information about the SSH public keys associated with the specified IAM user. If none exists, the operation returns an empty list. The SSH public keys returned by this operation are used only for authenticating the IAM user to an CodeCommit repository. For more information about using SSH keys to authenticate to an CodeCommit repository, see Set up CodeCommit for SSH connections in the CodeCommit User Guide . Although each user is limited to a small number of keys, you can still paginate...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1938,22 +1938,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Lists the IAM users that have the specified path prefix. If no path prefix is specified, the operation returns all users in the Amazon Web Services account. If there are none, the operation returns an empty list. NOTE: IAM resource-listing operations return a subset of the available at- tributes for the resource. This operation does not return the fol- lowing attributes, even though they are an attribute of the returned object: o PermissionsBoundary o Tags To view all of the information for a us...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListUsersAsync(
-        AwsIamListUsersOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIamListUsersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists the tags that are attached to the specified IAM user. The re- turned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation list-user-tags is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response...
+    /// Lists the tags that are attached to the specified IAM user. The returned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation list-user-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1968,7 +1953,22 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Lists the virtual MFA devices defined in the Amazon Web Services ac- count by assignment status. If you do not specify an assignment status, the operation returns a list of all virtual MFA devices. Assignment status can be Assigned , Unassigned , or Any . NOTE: IAM resource-listing operations return a subset of the available at- tributes for the resource. For example, this operation does not re- turn tags, even though they are an attribute of the returned object. To view tag information for a vi...
+    /// Lists the IAM users that have the specified path prefix. If no path prefix is specified, the operation returns all users in the Amazon Web Services account. If there are none, the operation returns an empty list. NOTE: IAM resource-listing operations return a subset of the available attributes for the resource. This operation does not return the following attributes, even though they are an attribute of the returned object: • PermissionsBoundary • Tags To view all of the information for a user, ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListUsersAsync(
+        AwsIamListUsersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIamListUsersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the virtual MFA devices defined in the Amazon Web Services account by assignment status. If you do not specify an assignment status, the operation returns a list of all virtual MFA devices. Assignment status can be Assigned , Unassigned , or Any . NOTE: IAM resource-listing operations return a subset of the available attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view tag information for a virtual ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1983,7 +1983,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Sets account-level properties for the caller's Amazon Web Services ac- count. Account properties are configuration settings that control ac- count-wide IAM features such as Role Manager. Specify properties as key-value pairs in Namespace/PropertyName format. All properties in a single request must belong to the same namespace. Use GetAccountProperties to view the current properties. See also: AWS API Documentation
+    /// Sets account-level properties for the caller's Amazon Web Services account. Account properties are configuration settings that control account-wide IAM features such as Role Manager. Specify properties as key-value pairs in Namespace/PropertyName format. All properties in a single request must belong to the same namespace. Use GetAccountProperties to view the current properties. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1998,7 +1998,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Adds or updates an inline policy document that is embedded in the spec- ified IAM group. A user can also have managed policies attached to it. To attach a man- aged policy to a group, use ` AttachGroupPolicy https://docs.aws.amazon.com/IAM/latest/APIReference/API_AttachGroupPolicy.html`__ . To create a new managed policy, use ` CreatePolicy https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicy.html`__ . For information about policies, see Managed policies and inline poli- cies in ...
+    /// Adds or updates an inline policy document that is embedded in the specified IAM group. A user can also have managed policies attached to it. To attach a managed policy to a group, use ` AttachGroupPolicy https://docs.aws.amazon.com/IAM/latest/APIReference/API_AttachGroupPolicy.html`__ . To create a new managed policy, use ` CreatePolicy https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicy.html`__ . For information about policies, see Managed policies and inline policies in the IA...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2013,7 +2013,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Adds or updates the policy that is specified as the IAM role's permis- sions boundary. You can use an Amazon Web Services managed policy or a customer managed policy to set the boundary for a role. Use the bound- ary to control the maximum permissions that the role can have. Setting a permissions boundary is an advanced feature that can affect the per- missions for the role. You cannot set the boundary for a service-linked role. WARNING: Policies used as permissions boundaries do not provide per...
+    /// Adds or updates the policy that is specified as the IAM role's permissions boundary. You can use an Amazon Web Services managed policy or a customer managed policy to set the boundary for a role. Use the boundary to control the maximum permissions that the role can have. Setting a permissions boundary is an advanced feature that can affect the permissions for the role. You cannot set the boundary for a service-linked role. WARNING: Policies used as permissions boundaries do not provide permissio...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2028,7 +2028,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Adds or updates an inline policy document that is embedded in the spec- ified IAM role. When you embed an inline policy in a role, the inline policy is used as part of the role's access (permissions) policy. The role's trust policy is created at the same time as the role, using ` CreateRole https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html`__ . You can update a role's trust policy using ` UpdateAssumeRolePolicy https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateA...
+    /// Adds or updates an inline policy document that is embedded in the specified IAM role. When you embed an inline policy in a role, the inline policy is used as part of the role's access (permissions) policy. The role's trust policy is created at the same time as the role, using ` CreateRole https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html`__ . You can update a role's trust policy using ` UpdateAssumeRolePolicy https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateAss...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2043,7 +2043,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Adds or updates the policy that is specified as the IAM user's permis- sions boundary. You can use an Amazon Web Services managed policy or a customer managed policy to set the boundary for a user. Use the bound- ary to control the maximum permissions that the user can have. Setting a permissions boundary is an advanced feature that can affect the per- missions for the user. WARNING: Policies that are used as permissions boundaries do not provide per- missions. You must also attach a permissions...
+    /// Adds or updates the policy that is specified as the IAM user's permissions boundary. You can use an Amazon Web Services managed policy or a customer managed policy to set the boundary for a user. Use the boundary to control the maximum permissions that the user can have. Setting a permissions boundary is an advanced feature that can affect the permissions for the user. WARNING: Policies that are used as permissions boundaries do not provide permissions. You must also attach a permissions policy ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2058,7 +2058,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Adds or updates an inline policy document that is embedded in the spec- ified IAM user. An IAM user can also have a managed policy attached to it. To attach a managed policy to a user, use ` AttachUserPolicy https://docs.aws.amazon.com/IAM/latest/APIReference/API_AttachUserPolicy.html`__ . To create a new managed policy, use ` CreatePolicy https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicy.html`__ . For information about policies, see Managed policies and inline poli- cies in t...
+    /// Adds or updates an inline policy document that is embedded in the specified IAM user. An IAM user can also have a managed policy attached to it. To attach a managed policy to a user, use ` AttachUserPolicy https://docs.aws.amazon.com/IAM/latest/APIReference/API_AttachUserPolicy.html`__ . To create a new managed policy, use ` CreatePolicy https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicy.html`__ . For information about policies, see Managed policies and inline policies in the I...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2073,7 +2073,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Rejects a delegation request, denying the requested temporary access. Once a request is rejected, it cannot be accepted or updated later. Re- jected requests expire after 7 days. When rejecting a request, an optional explanation can be added using the Notes request parameter. For more details, see Managing Permissions for Delegation Requests . See also: AWS API Documentation
+    /// Rejects a delegation request, denying the requested temporary access. Once a request is rejected, it cannot be accepted or updated later. Rejected requests expire after 7 days. When rejecting a request, an optional explanation can be added using the Notes request parameter. For more details, see Managing Permissions for Delegation Requests . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2103,7 +2103,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Removes the specified IAM role from the specified Amazon EC2 instance profile. WARNING: Make sure that you do not have any Amazon EC2 instances running with the role you are about to remove from the instance profile. Removing a role from an instance profile that is associated with a running instance might break any applications running on the instance. For more information about roles, see IAM roles in the IAM User Guide . For more information about instance profiles, see Using instance pro- fil...
+    /// Removes the specified IAM role from the specified Amazon EC2 instance profile. WARNING: Make sure that you do not have any Amazon EC2 instances running with the role you are about to remove from the instance profile. Removing a role from an instance profile that is associated with a running instance might break any applications running on the instance. For more information about roles, see IAM roles in the IAM User Guide . For more information about instance profiles, see Using instance profiles...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2133,7 +2133,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Resets the password for a service-specific credential. The new password is Amazon Web Services generated and cryptographically strong. It can- not be configured by the user. Resetting the password immediately in- validates the previous password associated with this user. See also: AWS API Documentation
+    /// Resets the password for a service-specific credential. The new password is Amazon Web Services generated and cryptographically strong. It cannot be configured by the user. Resetting the password immediately invalidates the previous password associated with this user. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2148,7 +2148,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Synchronizes the specified MFA device with its IAM resource object on the Amazon Web Services servers. For more information about creating and working with virtual MFA de- vices, see Using a virtual MFA device in the IAM User Guide . See also: AWS API Documentation
+    /// Synchronizes the specified MFA device with its IAM resource object on the Amazon Web Services servers. For more information about creating and working with virtual MFA devices, see Using a virtual MFA device in the IAM User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2163,7 +2163,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Sends the exchange token for an accepted delegation request. The exchange token is sent to the partner via an asynchronous notifica- tion channel, established by the partner. The delegation request must be in the ACCEPTED state when calling this API. After the SendDelegationToken API call is successful, the request transitions to a FINALIZED state and cannot be rolled back. However, a user may reject an accepted request before the SendDelegationToken API is called. For more details, see Managing...
+    /// Sends the exchange token for an accepted delegation request. The exchange token is sent to the partner via an asynchronous notification channel, established by the partner. The delegation request must be in the ACCEPTED state when calling this API. After the SendDelegationToken API call is successful, the request transitions to a FINALIZED state and cannot be rolled back. However, a user may reject an accepted request before the SendDelegationToken API is called. For more details, see Managing P...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2178,7 +2178,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Sets the specified version of the specified policy as the policy's de- fault (operative) version. This operation affects all users, groups, and roles that the policy is attached to. To list the users, groups, and roles that the policy is attached to, use ListEntitiesForPolicy . For information about managed policies, see Managed policies and inline policies in the IAM User Guide . See also: AWS API Documentation
+    /// Sets the specified version of the specified policy as the policy's default (operative) version. This operation affects all users, groups, and roles that the policy is attached to. To list the users, groups, and roles that the policy is attached to, use ListEntitiesForPolicy . For information about managed policies, see Managed policies and inline policies in the IAM User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2193,7 +2193,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Sets the specified version of the global endpoint token as the token version used for the Amazon Web Services account. By default, Security Token Service (STS) is available as a global ser- vice, and all STS requests go to a single endpoint at https://sts.ama- zonaws.com . Amazon Web Services recommends using Regional STS end- points to reduce latency, build in redundancy, and increase session to- ken availability. For information about Regional endpoints for STS, see Security Token Service endp...
+    /// Sets the specified version of the global endpoint token as the token version used for the Amazon Web Services account. By default, Security Token Service (STS) is available as a global service, and all STS requests go to a single endpoint at https://sts.amazonaws.com . Amazon Web Services recommends using Regional STS endpoints to reduce latency, build in redundancy, and increase session token availability. For information about Regional endpoints for STS, see Security Token Service endpoints an...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2208,7 +2208,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Simulate how a set of IAM policies and optionally a resource-based pol- icy works with a list of API operations and Amazon Web Services re- sources to determine the policies' effective permissions. The policies are provided as strings. The simulation does not perform the API operations; it only checks the authorization to determine if the simulated policies allow or deny the operations. You can simulate resources that don't exist in your ac- count. If you want to simulate existing policies that ...
+    /// Simulate how a set of IAM policies and optionally a resource-based policy works with a list of API operations and Amazon Web Services resources to determine the policies' effective permissions. The policies are provided as strings. The simulation does not perform the API operations; it only checks the authorization to determine if the simulated policies allow or deny the operations. You can simulate resources that don't exist in your account. If you want to simulate existing policies that are at...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2223,7 +2223,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Simulate how a set of IAM policies attached to an IAM entity works with a list of API operations and Amazon Web Services resources to determine the policies' effective permissions. The entity can be an IAM user, group, or role. If you specify a user, then the simulation also in- cludes all of the policies that are attached to groups that the user belongs to. You can simulate resources that don't exist in your ac- count. You can optionally include a list of one or more additional policies specifi...
+    /// Simulate how a set of IAM policies attached to an IAM entity works with a list of API operations and Amazon Web Services resources to determine the policies' effective permissions. The entity can be an IAM user, group, or role. If you specify a user, then the simulation also includes all of the policies that are attached to groups that the user belongs to. You can simulate resources that don't exist in your account. You can optionally include a list of one or more additional policies specified a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2238,7 +2238,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Adds one or more tags to an IAM instance profile. If a tag with the same key name already exists, then that tag is overwritten with the new value. Each tag consists of a key name and an associated value. By assigning tags to your resources, you can do the following: o Administrative grouping and discovery - Attach tags to resources to aid in organization and search. For example, you could search for all resources with the key name Project and the value MyImportantProject . Or search for all reso...
+    /// Adds one or more tags to an IAM instance profile. If a tag with the same key name already exists, then that tag is overwritten with the new value. Each tag consists of a key name and an associated value. By assigning tags to your resources, you can do the following: • Administrative grouping and discovery - Attach tags to resources to aid in organization and search. For example, you could search for all resources with the key name Project and the value MyImportantProject . Or search for all reso...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2253,7 +2253,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Adds one or more tags to an IAM virtual multi-factor authentication (MFA) device. If a tag with the same key name already exists, then that tag is overwritten with the new value. A tag consists of a key name and an associated value. By assigning tags to your resources, you can do the following: o Administrative grouping and discovery - Attach tags to resources to aid in organization and search. For example, you could search for all resources with the key name Project and the value MyImportantPro...
+    /// Adds one or more tags to an IAM virtual multi-factor authentication (MFA) device. If a tag with the same key name already exists, then that tag is overwritten with the new value. A tag consists of a key name and an associated value. By assigning tags to your resources, you can do the following: • Administrative grouping and discovery - Attach tags to resources to aid in organization and search. For example, you could search for all resources with the key name Project and the value MyImportantPro...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2268,7 +2268,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Adds one or more tags to an OpenID Connect (OIDC)-compatible identity provider. For more information about these providers, see About web identity federation . If a tag with the same key name already exists, then that tag is overwritten with the new value. A tag consists of a key name and an associated value. By assigning tags to your resources, you can do the following: o Administrative grouping and discovery - Attach tags to resources to aid in organization and search. For example, you could s...
+    /// Adds one or more tags to an OpenID Connect (OIDC)-compatible identity provider. For more information about these providers, see About web identity federation . If a tag with the same key name already exists, then that tag is overwritten with the new value. A tag consists of a key name and an associated value. By assigning tags to your resources, you can do the following: • Administrative grouping and discovery - Attach tags to resources to aid in organization and search. For example, you could s...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2283,7 +2283,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Adds one or more tags to an IAM customer managed policy. If a tag with the same key name already exists, then that tag is overwritten with the new value. A tag consists of a key name and an associated value. By assigning tags to your resources, you can do the following: o Administrative grouping and discovery - Attach tags to resources to aid in organization and search. For example, you could search for all resources with the key name Project and the value MyImportantProject . Or search for all ...
+    /// Adds one or more tags to an IAM customer managed policy. If a tag with the same key name already exists, then that tag is overwritten with the new value. A tag consists of a key name and an associated value. By assigning tags to your resources, you can do the following: • Administrative grouping and discovery - Attach tags to resources to aid in organization and search. For example, you could search for all resources with the key name Project and the value MyImportantProject . Or search for all ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2298,7 +2298,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Adds one or more tags to an IAM role. The role can be a regular role or a service-linked role. If a tag with the same key name already exists, then that tag is overwritten with the new value. A tag consists of a key name and an associated value. By assigning tags to your resources, you can do the following: o Administrative grouping and discovery - Attach tags to resources to aid in organization and search. For example, you could search for all resources with the key name Project and the value M...
+    /// Adds one or more tags to an IAM role. The role can be a regular role or a service-linked role. If a tag with the same key name already exists, then that tag is overwritten with the new value. A tag consists of a key name and an associated value. By assigning tags to your resources, you can do the following: • Administrative grouping and discovery - Attach tags to resources to aid in organization and search. For example, you could search for all resources with the key name Project and the value M...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2313,7 +2313,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Adds one or more tags to a Security Assertion Markup Language (SAML) identity provider. For more information about these providers, see About SAML 2.0-based federation . If a tag with the same key name al- ready exists, then that tag is overwritten with the new value. A tag consists of a key name and an associated value. By assigning tags to your resources, you can do the following: o Administrative grouping and discovery - Attach tags to resources to aid in organization and search. For example,...
+    /// Adds one or more tags to a Security Assertion Markup Language (SAML) identity provider. For more information about these providers, see About SAML 2.0-based federation . If a tag with the same key name already exists, then that tag is overwritten with the new value. A tag consists of a key name and an associated value. By assigning tags to your resources, you can do the following: • Administrative grouping and discovery - Attach tags to resources to aid in organization and search. For example, y...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2343,7 +2343,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Adds one or more tags to an IAM user. If a tag with the same key name already exists, then that tag is overwritten with the new value. A tag consists of a key name and an associated value. By assigning tags to your resources, you can do the following: o Administrative grouping and discovery - Attach tags to resources to aid in organization and search. For example, you could search for all resources with the key name Project and the value MyImportantProject . Or search for all resources with the ...
+    /// Adds one or more tags to an IAM user. If a tag with the same key name already exists, then that tag is overwritten with the new value. A tag consists of a key name and an associated value. By assigning tags to your resources, you can do the following: • Administrative grouping and discovery - Attach tags to resources to aid in organization and search. For example, you could search for all resources with the key name Project and the value MyImportantProject . Or search for all resources with the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2358,7 +2358,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Removes the specified tags from the IAM instance profile. For more in- formation about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation
+    /// Removes the specified tags from the IAM instance profile. For more information about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2373,7 +2373,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Removes the specified tags from the IAM virtual multi-factor authenti- cation (MFA) device. For more information about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation
+    /// Removes the specified tags from the IAM virtual multi-factor authentication (MFA) device. For more information about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2388,7 +2388,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Removes the specified tags from the specified OpenID Connect (OIDC)-compatible identity provider in IAM. For more information about OIDC providers, see About web identity federation . For more informa- tion about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation
+    /// Removes the specified tags from the specified OpenID Connect (OIDC)-compatible identity provider in IAM. For more information about OIDC providers, see About web identity federation . For more information about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2433,7 +2433,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Removes the specified tags from the specified Security Assertion Markup Language (SAML) identity provider in IAM. For more information about these providers, see About web identity federation . For more informa- tion about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation
+    /// Removes the specified tags from the specified Security Assertion Markup Language (SAML) identity provider in IAM. For more information about these providers, see About web identity federation . For more information about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2478,7 +2478,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Changes the status of the specified access key from Active to Inactive, or vice versa. This operation can be used to disable a user's key as part of a key rotation workflow. If the UserName is not specified, the user name is determined implic- itly based on the Amazon Web Services access key ID used to sign the request. If a temporary access key is used, then UserName is required. If a long-term key is assigned to the user, then UserName is not re- quired. This operation works for access keys un...
+    /// Changes the status of the specified access key from Active to Inactive, or vice versa. This operation can be used to disable a user's key as part of a key rotation workflow. If the UserName is not specified, the user name is determined implicitly based on the Amazon Web Services access key ID used to sign the request. If a temporary access key is used, then UserName is required. If a long-term key is assigned to the user, then UserName is not required. This operation works for access keys under ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2493,7 +2493,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Updates the password policy settings for the Amazon Web Services ac- count. NOTE: This operation does not support partial updates. No parameters are required, but if you do not specify a parameter, that parameter's value reverts to its default value. See the Request Parameters sec- tion for each parameter's default value. Also note that some parame- ters do not allow the default parameter to be explicitly set. In- stead, to invoke the default value, do not include that parameter when you invoke ...
+    /// Updates the password policy settings for the Amazon Web Services account. NOTE: This operation does not support partial updates. No parameters are required, but if you do not specify a parameter, that parameter's value reverts to its default value. See the Request Parameters section for each parameter's default value. Also note that some parameters do not allow the default parameter to be explicitly set. Instead, to invoke the default value, do not include that parameter when you invoke the oper...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2523,7 +2523,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Updates an existing delegation request with additional information. When the delegation request is updated, it reaches the PENDING_APPROVAL state. Once a delegation request has an owner, that owner gets a default per- mission to update the delegation request. For more details, see Managing Permissions for Delegation Requests . See also: AWS API Documentation
+    /// Updates an existing delegation request with additional information. When the delegation request is updated, it reaches the PENDING_APPROVAL state. Once a delegation request has an owner, that owner gets a default permission to update the delegation request. For more details, see Managing Permissions for Delegation Requests . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2538,7 +2538,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Updates the name and/or the path of the specified IAM group. WARNING: You should understand the implications of changing a group's path or name. For more information, see Renaming users and groups in the IAM User Guide . NOTE: The person making the request (the principal), must have permission to change the role group with the old name and the new name. For ex- ample, to change the group named Managers to MGRs , the principal must have a policy that allows them to update both groups. If the prin...
+    /// Updates the name and/or the path of the specified IAM group. WARNING: You should understand the implications of changing a group's path or name. For more information, see Renaming users and groups in the IAM User Guide . NOTE: The person making the request (the principal), must have permission to change the role group with the old name and the new name. For example, to change the group named Managers to MGRs , the principal must have a policy that allows them to update both groups. If the princi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2553,7 +2553,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Changes the password for the specified IAM user. You can use the CLI, the Amazon Web Services API, or the Users page in the IAM console to change the password for any IAM user. Use ChangePassword to change your own password in the My Security Credentials page in the Amazon Web Ser- vices Management Console. For more information about modifying passwords, see Managing passwords in the IAM User Guide . See also: AWS API Documentation
+    /// Changes the password for the specified IAM user. You can use the CLI, the Amazon Web Services API, or the Users page in the IAM console to change the password for any IAM user. Use ChangePassword to change your own password in the My Security Credentials page in the Amazon Web Services Management Console. For more information about modifying passwords, see Managing passwords in the IAM User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2568,7 +2568,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Replaces the existing list of server certificate thumbprints associated with an OpenID Connect (OIDC) provider resource object with a new list of thumbprints. The list that you pass with this operation completely replaces the ex- isting list of thumbprints. (The lists are not merged.) Typically, you need to update a thumbprint only when the identity provider certificate changes, which occurs rarely. However, if the provider's certificate does change, any attempt to assume an IAM role that specif...
+    /// Replaces the existing list of server certificate thumbprints associated with an OpenID Connect (OIDC) provider resource object with a new list of thumbprints. The list that you pass with this operation completely replaces the existing list of thumbprints. (The lists are not merged.) Typically, you need to update a thumbprint only when the identity provider certificate changes, which occurs rarely. However, if the provider's certificate does change, any attempt to assume an IAM role that specifie...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2628,7 +2628,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Updates the name and/or the path of the specified server certificate stored in IAM. For more information about working with server certificates, see Working with server certificates in the IAM User Guide . This topic also includes a list of Amazon Web Services services that can use the server certificates that you manage with IAM. WARNING: You should understand the implications of changing a server certifi- cate's path or name. For more information, see Renaming a server certificate in the IAM U...
+    /// Updates the name and/or the path of the specified server certificate stored in IAM. For more information about working with server certificates, see Working with server certificates in the IAM User Guide . This topic also includes a list of Amazon Web Services services that can use the server certificates that you manage with IAM. WARNING: You should understand the implications of changing a server certificate's path or name. For more information, see Renaming a server certificate in the IAM Use...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2643,7 +2643,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Sets the status of a service-specific credential to Active or Inactive . Service-specific credentials that are inactive cannot be used for au- thentication to the service. This operation can be used to disable a user's service-specific credential as part of a credential rotation work flow. See also: AWS API Documentation
+    /// Sets the status of a service-specific credential to Active or Inactive . Service-specific credentials that are inactive cannot be used for authentication to the service. This operation can be used to disable a user's service-specific credential as part of a credential rotation work flow. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2658,7 +2658,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Changes the status of the specified user signing certificate from ac- tive to disabled, or vice versa. This operation can be used to disable an IAM user's signing certificate as part of a certificate rotation work flow. If the UserName field is not specified, the user name is determined im- plicitly based on the Amazon Web Services access key ID used to sign the request. This operation works for access keys under the Amazon Web Services account. Consequently, you can use this operation to manage...
+    /// Changes the status of the specified user signing certificate from active to disabled, or vice versa. This operation can be used to disable an IAM user's signing certificate as part of a certificate rotation work flow. If the UserName field is not specified, the user name is determined implicitly based on the Amazon Web Services access key ID used to sign the request. This operation works for access keys under the Amazon Web Services account. Consequently, you can use this operation to manage Ama...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2673,7 +2673,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Sets the status of an IAM user's SSH public key to active or inactive. SSH public keys that are inactive cannot be used for authentication. This operation can be used to disable a user's SSH public key as part of a key rotation work flow. The SSH public key affected by this operation is used only for authen- ticating the associated IAM user to an CodeCommit repository. For more information about using SSH keys to authenticate to an CodeCommit repository, see Set up CodeCommit for SSH connections...
+    /// Sets the status of an IAM user's SSH public key to active or inactive. SSH public keys that are inactive cannot be used for authentication. This operation can be used to disable a user's SSH public key as part of a key rotation work flow. The SSH public key affected by this operation is used only for authenticating the associated IAM user to an CodeCommit repository. For more information about using SSH keys to authenticate to an CodeCommit repository, see Set up CodeCommit for SSH connections i...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2688,7 +2688,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Updates the name and/or the path of the specified IAM user. WARNING: You should understand the implications of changing an IAM user's path or name. For more information, see Renaming an IAM user and Renaming an IAM group in the IAM User Guide . NOTE: To change a user name, the requester must have appropriate permis- sions on both the source object and the target object. For example, to change Bob to Robert, the entity making the request must have permission on Bob and Robert, or must have permis...
+    /// Updates the name and/or the path of the specified IAM user. WARNING: You should understand the implications of changing an IAM user's path or name. For more information, see Renaming an IAM user and Renaming an IAM group in the IAM User Guide . NOTE: To change a user name, the requester must have appropriate permissions on both the source object and the target object. For example, to change Bob to Robert, the entity making the request must have permission on Bob and Robert, or must have permissi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2703,7 +2703,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Uploads a server certificate entity for the Amazon Web Services ac- count. The server certificate entity includes a public key certificate, a private key, and an optional certificate chain, which should all be PEM-encoded. We recommend that you use Certificate Manager to provision, manage, and deploy your server certificates. With ACM you can request a certifi- cate, deploy it to Amazon Web Services resources, and let ACM handle certificate renewals for you. Certificates provided by ACM are free...
+    /// Uploads a server certificate entity for the Amazon Web Services account. The server certificate entity includes a public key certificate, a private key, and an optional certificate chain, which should all be PEM-encoded. We recommend that you use Certificate Manager to provision, manage, and deploy your server certificates. With ACM you can request a certificate, deploy it to Amazon Web Services resources, and let ACM handle certificate renewals for you. Certificates provided by ACM are free. Fo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2718,7 +2718,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Uploads an X.509 signing certificate and associates it with the speci- fied IAM user. Some Amazon Web Services services require you to use certificates to validate requests that are signed with a corresponding private key. When you upload the certificate, its default status is Ac- tive . For information about when you would use an X.509 signing certificate, see Managing server certificates in IAM in the IAM User Guide . If the UserName is not specified, the IAM user name is determined im- plicit...
+    /// Uploads an X.509 signing certificate and associates it with the specified IAM user. Some Amazon Web Services services require you to use certificates to validate requests that are signed with a corresponding private key. When you upload the certificate, its default status is Active . For information about when you would use an X.509 signing certificate, see Managing server certificates in IAM in the IAM User Guide . If the UserName is not specified, the IAM user name is determined implicitly bas...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2733,7 +2733,7 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Uploads an SSH public key and associates it with the specified IAM user. The SSH public key uploaded by this operation can be used only for au- thenticating the associated IAM user to an CodeCommit repository. For more information about using SSH keys to authenticate to an CodeCommit repository, see Set up CodeCommit for SSH connections in the CodeCommit User Guide . See also: AWS API Documentation
+    /// Uploads an SSH public key and associates it with the specified IAM user. The SSH public key uploaded by this operation can be used only for authenticating the associated IAM user to an CodeCommit repository. For more information about using SSH keys to authenticate to an CodeCommit repository, see Set up CodeCommit for SSH connections in the CodeCommit User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

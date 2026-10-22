@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsQuicksightDeleteApprovalPolicyOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Deletes an approval policy in Quick Sight. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyId">The unique identifier of the approval policy to delete. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\-_]+</param>
+    /// <param name="PolicyId">The unique identifier of the approval policy to delete. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9\-_]+</param>
     public AwsQuicksightDeleteApprovalPolicyOptions(
         string PolicyId
     )
@@ -56,7 +58,7 @@ public record AwsQuicksightDeleteApprovalPolicyOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the approval policy to delete. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\-_]+
+    /// The unique identifier of the approval policy to delete. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9\-_]+
     /// </summary>
     [CliOption("--policy-id")]
     public string? PolicyId { get; private init; }

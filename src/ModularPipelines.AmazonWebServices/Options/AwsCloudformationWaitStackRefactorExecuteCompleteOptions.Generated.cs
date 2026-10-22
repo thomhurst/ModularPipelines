@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCloudformationWaitStackRefactorExecuteCompleteOptions : AwsOpti
     /// <summary>
     /// Wait until the stack refactor status is EXECUTE_COMPLETE. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 120 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StackRefactorId">The ID associated with the stack refactor created from the CreateS- tackRefactor action.</param>
+    /// <param name="StackRefactorId">The ID associated with the stack refactor created from the CreateStackRefactor action.</param>
     public AwsCloudformationWaitStackRefactorExecuteCompleteOptions(
         string StackRefactorId
     )
@@ -56,7 +58,7 @@ public record AwsCloudformationWaitStackRefactorExecuteCompleteOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID associated with the stack refactor created from the CreateS- tackRefactor action.
+    /// The ID associated with the stack refactor created from the CreateStackRefactor action.
     /// </summary>
     [CliOption("--stack-refactor-id")]
     public string? StackRefactorId { get; private init; }

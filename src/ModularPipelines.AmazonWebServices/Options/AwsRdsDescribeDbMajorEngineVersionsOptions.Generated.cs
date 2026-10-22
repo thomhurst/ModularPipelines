@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the properties of specific major versions of DB engines. See also: AWS API Documentation describe-db-major-engine-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DBMajorEngineVer...
+/// Describes the properties of specific major versions of DB engines. See also: AWS API Documentation describe-db-major-engine-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DBMajorEngineVersion...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,22 +24,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsRdsDescribeDbMajorEngineVersionsOptions : AwsOptions
 {
     /// <summary>
-    /// The database engine to return major version details for. Valid Values: o aurora-mysql o aurora-postgresql o custom-sqlserver-ee o custom-sqlserver-se o custom-sqlserver-web o db2-ae o db2-ce o db2-se o mariadb o mysql o oracle-ee o oracle-ee-cdb o oracle-se2 o oracle-se2-cdb o postgres o sqlserver-ee o sqlserver-se o sqlserver-ex o sqlserver-web Constraints: o min: 1 o max: 50
+    /// The database engine to return major version details for. Valid Values: • aurora-mysql • aurora-postgresql • custom-sqlserver-ee • custom-sqlserver-se • custom-sqlserver-web • db2-ae • db2-ce • db2-se • mariadb • mysql • oracle-ee • oracle-ee-cdb • oracle-se2 • oracle-se2-cdb • postgres • sqlserver-ee • sqlserver-se • sqlserver-ex • sqlserver-web Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--engine")]
     public AwsRdsDescribeDbMajorEngineVersionsEngine? Engine { get; set; }
 
     /// <summary>
-    /// A specific database major engine version to return details for. Example: 8.4 Constraints: o min: 1 o max: 50
+    /// A specific database major engine version to return details for. Example: 8.4 Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--major-engine-version")]
     public string? MajorEngineVersion { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -49,15 +46,18 @@ public record AwsRdsDescribeDbMajorEngineVersionsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 20 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 20 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

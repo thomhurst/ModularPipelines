@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsConnectSearchWorkspacesOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Searches workspaces based on name, description, visibility, or tags. See also: AWS API Documentation search-workspaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Workspaces
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     public AwsConnectSearchWorkspacesOptions(
         string InstanceId
     )
@@ -57,28 +59,25 @@ public record AwsConnectSearchWorkspacesOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// Filters to apply to the search, such as tag-based filters. AttributeFilter -&gt; (structure) An object that can be used to specify Tag conditions inside the SearchFilter . This accepts an OR or AND (List of List) input where: o The top level list specifies conditions that need to be ap- plied with OR operator. o The inner list specifies conditions that need to be applied with AND operator. OrConditions -&gt; (list) A list of conditions which would be applied together with an OR condition. (structure) A list of conditions which would be applied together with an AND condition. TagConditions -&gt; (list) A leaf node condition which can be used to specify a tag condition. (structure) A leaf node condition which can be used to specify a tag condition, for example, HAVE BPO = 123 . TagKey -&gt; (string) The tag key in the tag condition. TagValue -&gt; (string) The tag value in the tag condition. AndCondition -&gt; (structure) A list of conditions which would be applied together with an AND condition. TagConditions -&gt; (list) A leaf node condition which can be used to specify a tag condition. (structure) A leaf node condition which can be used to specify a tag condition, for example, HAVE BPO = 123 . TagKey -&gt; (string) The tag key in the tag condition. TagValue -&gt; (string) The tag value in the tag condition. TagCondition -&gt; (structure) A leaf node condition which can be used to specify a tag con- dition, for example, HAVE BPO = 123 . TagKey -&gt; (string) The tag key in the tag condition. TagValue -&gt; (string) The tag value in the tag condition. JSON Syntax: { "AttributeFilter": { "OrConditions": [ { "TagConditions": [ { "TagKey": "string", "TagValue": "string" } ... ] } ... ], "AndCondition": { "TagConditions": [ { "TagKey": "string", "TagValue": "string" } ... ] }, "TagCondition": { "TagKey": "string", "TagValue": "string" } } }
+    /// Filters to apply to the search, such as tag-based filters. AttributeFilter -&gt; (structure) An object that can be used to specify Tag conditions inside the SearchFilter . This accepts an OR or AND (List of List) input where: • The top level list specifies conditions that need to be applied with OR operator. • The inner list specifies conditions that need to be applied with AND operator. OrConditions -&gt; (list) A list of conditions which would be applied together with an OR condition. (structure) A list of conditions which would be applied together with an AND condition. TagConditions -&gt; (list) A leaf node condition which can be used to specify a tag condition. (structure) A leaf node condition which can be used to specify a tag condition, for example, HAVE BPO = 123 . TagKey -&gt; (string) The tag key in the tag condition. TagValue -&gt; (string) The tag value in the tag condition. AndCondition -&gt; (structure) A list of conditions which would be applied together with an AND condition. TagConditions -&gt; (list) A leaf node condition which can be used to specify a tag condition. (structure) A leaf node condition which can be used to specify a tag condition, for example, HAVE BPO = 123 . TagKey -&gt; (string) The tag key in the tag condition. TagValue -&gt; (string) The tag value in the tag condition. TagCondition -&gt; (structure) A leaf node condition which can be used to specify a tag condition, for example, HAVE BPO = 123 . TagKey -&gt; (string) The tag key in the tag condition. TagValue -&gt; (string) The tag value in the tag condition. JSON Syntax: { "AttributeFilter": { "OrConditions": [ { "TagConditions": [ { "TagKey": "string", "TagValue": "string" } ... ] } ... ], "AndCondition": { "TagConditions": [ { "TagKey": "string", "TagValue": "string" } ... ] }, "TagCondition": { "TagKey": "string", "TagValue": "string" } } }
     /// </summary>
     [CliOption("--search-filter")]
     public string? SearchFilter { get; set; }
 
     /// <summary>
-    /// The search criteria, including field names and comparison types. OrConditions -&gt; (list) A list of conditions to be met, where at least one condition must be satisfied. (structure) Defines the search criteria for filtering workspaces. OrConditions -&gt; (list) A list of conditions to be met, where at least one condi- tion must be satisfied. ( ... recursive ... ) AndConditions -&gt; (list) A list of conditions that must all be satisfied. ( ... recursive ... ) StringCondition -&gt; (structure) A leaf node condition which can be used to specify a string condition. FieldName -&gt; (string) The name of the field in the string condition. Value -&gt; (string) The value of the string. ComparisonType -&gt; (string) The type of comparison to be made when evaluating the string condition. Possible values: o STARTS_WITH o CONTAINS o EXACT AndConditions -&gt; (list) A list of conditions that must all be satisfied. (structure) Defines the search criteria for filtering workspaces. OrConditions -&gt; (list) A list of conditions to be met, where at least one condi- tion must be satisfied. ( ... recursive ... ) AndConditions -&gt; (list) A list of conditions that must all be satisfied. ( ... recursive ... ) StringCondition -&gt; (structure) A leaf node condition which can be used to specify a string condition. FieldName -&gt; (string) The name of the field in the string condition. Value -&gt; (string) The value of the string. ComparisonType -&gt; (string) The type of comparison to be made when evaluating the string condition. Possible values: o STARTS_WITH o CONTAINS o EXACT StringCondition -&gt; (structure) A leaf node condition which can be used to specify a string con- dition. FieldName -&gt; (string) The name of the field in the string condition. Value -&gt; (string) The value of the string. ComparisonType -&gt; (string) The type of comparison to be made when evaluating the string condition. Possible values: o STARTS_WITH o CONTAINS o EXACT JSON Syntax: { "OrConditions": [ { "OrConditions": [ { ... recursive ... } ... ], "AndConditions": [ { ... recursive ... } ... ], "StringCondition": { "FieldName": "string", "Value": "string", "ComparisonType": "STARTS_WITH"|"CONTAINS"|"EXACT" } } ... ], "AndConditions": [ { "OrConditions": [ { ... recursive ... } ... ], "AndConditions": [ { ... recursive ... } ... ], "StringCondition": { "FieldName": "string", "Value": "string", "ComparisonType": "STARTS_WITH"|"CONTAINS"|"EXACT" } } ... ], "StringCondition": { "FieldName": "string", "Value": "string", "ComparisonType": "STARTS_WITH"|"CONTAINS"|"EXACT" } }
+    /// The search criteria, including field names and comparison types. OrConditions -&gt; (list) A list of conditions to be met, where at least one condition must be satisfied. (structure) Defines the search criteria for filtering workspaces. OrConditions -&gt; (list) A list of conditions to be met, where at least one condition must be satisfied. ( ... recursive ... ) AndConditions -&gt; (list) A list of conditions that must all be satisfied. ( ... recursive ... ) StringCondition -&gt; (structure) A leaf node condition which can be used to specify a string condition. FieldName -&gt; (string) The name of the field in the string condition. Value -&gt; (string) The value of the string. ComparisonType -&gt; (string) The type of comparison to be made when evaluating the string condition. Possible values: • STARTS_WITH • CONTAINS • EXACT AndConditions -&gt; (list) A list of conditions that must all be satisfied. (structure) Defines the search criteria for filtering workspaces. OrConditions -&gt; (list) A list of conditions to be met, where at least one condition must be satisfied. ( ... recursive ... ) AndConditions -&gt; (list) A list of conditions that must all be satisfied. ( ... recursive ... ) StringCondition -&gt; (structure) A leaf node condition which can be used to specify a string condition. FieldName -&gt; (string) The name of the field in the string condition. Value -&gt; (string) The value of the string. ComparisonType -&gt; (string) The type of comparison to be made when evaluating the string condition. Possible values: • STARTS_WITH • CONTAINS • EXACT StringCondition -&gt; (structure) A leaf node condition which can be used to specify a string condition. FieldName -&gt; (string) The name of the field in the string condition. Value -&gt; (string) The value of the string. ComparisonType -&gt; (string) The type of comparison to be made when evaluating the string condition. Possible values: • STARTS_WITH • CONTAINS • EXACT JSON Syntax: { "OrConditions": [ { "OrConditions": [ { ... recursive ... } ... ], "AndConditions": [ { ... recursive ... } ... ], "StringCondition": { "FieldName": "string", "Value": "string", "ComparisonType": "STARTS_WITH"|"CONTAINS"|"EXACT" } } ... ], "AndConditions": [ { "OrConditions": [ { ... recursive ... } ... ], "AndConditions": [ { ... recursive ... } ... ], "StringCondition": { "FieldName": "string", "Value": "string", "ComparisonType": "STARTS_WITH"|"CONTAINS"|"EXACT" } } ... ], "StringCondition": { "FieldName": "string", "Value": "string", "ComparisonType": "STARTS_WITH"|"CONTAINS"|"EXACT" } }
     /// </summary>
     [CliOption("--search-criteria")]
     public string? SearchCriteria { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -88,16 +87,19 @@ public record AwsConnectSearchWorkspacesOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 500
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

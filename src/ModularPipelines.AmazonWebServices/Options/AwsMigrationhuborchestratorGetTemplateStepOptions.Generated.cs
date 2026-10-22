@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsMigrationhuborchestratorGetTemplateStepOptions : AwsOptions, IV
     /// <summary>
     /// Get a specific step in a template. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the step. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+</param>
-    /// <param name="TemplateId">The ID of the template. Constraints: o min: 1 o max: 100 o pattern: [-a-zA-Z0-9_.+]+[-a-zA-Z0-9_.+ ]*</param>
-    /// <param name="StepGroupId">The ID of the step group. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="Id">The ID of the step. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="TemplateId">The ID of the template. Constraints: • min: 1 • max: 100 • pattern: [-a-zA-Z0-9_.+]+[-a-zA-Z0-9_.+ ]*</param>
+    /// <param name="StepGroupId">The ID of the step group. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+</param>
     public AwsMigrationhuborchestratorGetTemplateStepOptions(
         string Id,
         string TemplateId,
@@ -64,19 +66,19 @@ public record AwsMigrationhuborchestratorGetTemplateStepOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the step. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+
+    /// The ID of the step. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The ID of the template. Constraints: o min: 1 o max: 100 o pattern: [-a-zA-Z0-9_.+]+[-a-zA-Z0-9_.+ ]*
+    /// The ID of the template. Constraints: • min: 1 • max: 100 • pattern: [-a-zA-Z0-9_.+]+[-a-zA-Z0-9_.+ ]*
     /// </summary>
     [CliOption("--template-id")]
     public string? TemplateId { get; private init; }
 
     /// <summary>
-    /// The ID of the step group. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+
+    /// The ID of the step group. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--step-group-id")]
     public string? StepGroupId { get; private init; }

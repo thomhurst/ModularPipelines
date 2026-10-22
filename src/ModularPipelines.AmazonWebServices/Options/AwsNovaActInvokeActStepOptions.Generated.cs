@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Executes the next step of an act, processing tool call results and re- turning new tool calls if needed. See also: AWS API Documentation invoke-act-step uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+/// Executes the next step of an act, processing tool call results and returning new tool calls if needed. See also: AWS API Documentation invoke-act-step uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,13 +27,13 @@ public record AwsNovaActInvokeActStepOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Executes the next step of an act, processing tool call results and re- turning new tool calls if needed. See also: AWS API Documentation invoke-act-step uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Executes the next step of an act, processing tool call results and returning new tool calls if needed. See also: AWS API Documentation invoke-act-step uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="WorkflowDefinitionName">The name of the workflow definition containing the act. Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9_-]{1,40}</param>
-    /// <param name="WorkflowRunId">The unique identifier of the workflow run containing the act. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="SessionId">The unique identifier of the session containing the act. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="ActId">The unique identifier of the act to invoke the next step for. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="CallResults">The results from previous tool calls that the act requested. Constraints: o min: 1 o max: 100 (structure) The result returned from executing a tool call. callId -&gt; (string) The identifier of the tool call that this result corresponds to. Constraints: o min: 1 o max: 100 content -&gt; (list) [required] The content returned by the tool execution, which can include text or other media types. Constraints: o min: 1 o max: 100 (tagged union structure) Content returned from a tool call execution. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: text. text -&gt; (string) Text content returned from the tool execution. Shorthand Syntax: callId=string,content=[{text=string},{text=string}] ... JSON Syntax: [ { "callId": "string", "content": [ { "text": "string" } ... ] } ... ]</param>
+    /// <param name="WorkflowDefinitionName">The name of the workflow definition containing the act. Constraints: • min: 1 • max: 40 • pattern: [a-zA-Z0-9_-]{1,40}</param>
+    /// <param name="WorkflowRunId">The unique identifier of the workflow run containing the act. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="SessionId">The unique identifier of the session containing the act. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="ActId">The unique identifier of the act to invoke the next step for. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="CallResults">The results from previous tool calls that the act requested. Constraints: • min: 1 • max: 100 (structure) The result returned from executing a tool call. callId -&gt; (string) The identifier of the tool call that this result corresponds to. Constraints: • min: 1 • max: 100 content -&gt; (list) [required] The content returned by the tool execution, which can include text or other media types. Constraints: • min: 1 • max: 100 (tagged union structure) Content returned from a tool call execution. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: text. text -&gt; (string) Text content returned from the tool execution. Shorthand Syntax: callId=string,content=[{text=string},{text=string}] ... JSON Syntax: [ { "callId": "string", "content": [ { "text": "string" } ... ] } ... ]</param>
     public AwsNovaActInvokeActStepOptions(
         string WorkflowDefinitionName,
         string WorkflowRunId,
@@ -83,37 +85,37 @@ public record AwsNovaActInvokeActStepOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workflow definition containing the act. Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9_-]{1,40}
+    /// The name of the workflow definition containing the act. Constraints: • min: 1 • max: 40 • pattern: [a-zA-Z0-9_-]{1,40}
     /// </summary>
     [CliOption("--workflow-definition-name")]
     public string? WorkflowDefinitionName { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the workflow run containing the act. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier of the workflow run containing the act. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--workflow-run-id")]
     public string? WorkflowRunId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the session containing the act. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier of the session containing the act. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the act to invoke the next step for. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier of the act to invoke the next step for. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--act-id")]
     public string? ActId { get; private init; }
 
     /// <summary>
-    /// The results from previous tool calls that the act requested. Constraints: o min: 1 o max: 100 (structure) The result returned from executing a tool call. callId -&gt; (string) The identifier of the tool call that this result corresponds to. Constraints: o min: 1 o max: 100 content -&gt; (list) [required] The content returned by the tool execution, which can include text or other media types. Constraints: o min: 1 o max: 100 (tagged union structure) Content returned from a tool call execution. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: text. text -&gt; (string) Text content returned from the tool execution. Shorthand Syntax: callId=string,content=[{text=string},{text=string}] ... JSON Syntax: [ { "callId": "string", "content": [ { "text": "string" } ... ] } ... ]
+    /// The results from previous tool calls that the act requested. Constraints: • min: 1 • max: 100 (structure) The result returned from executing a tool call. callId -&gt; (string) The identifier of the tool call that this result corresponds to. Constraints: • min: 1 • max: 100 content -&gt; (list) [required] The content returned by the tool execution, which can include text or other media types. Constraints: • min: 1 • max: 100 (tagged union structure) Content returned from a tool call execution. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: text. text -&gt; (string) Text content returned from the tool execution. Shorthand Syntax: callId=string,content=[{text=string},{text=string}] ... JSON Syntax: [ { "callId": "string", "content": [ { "text": "string" } ... ] } ... ]
     /// </summary>
     [CliOption("--call-results", GroupValues = true)]
     public IEnumerable<string>? CallResults { get; private init; }
 
     /// <summary>
-    /// The identifier of the previous step, used for tracking execution flow. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The identifier of the previous step, used for tracking execution flow. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--previous-step-id")]
     public string? PreviousStepId { get; set; }

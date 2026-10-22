@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Finds available schedules that meet the specified criteria. You can search for an available schedule no more than 3 months in ad- vance. You must meet the minimum required duration of 1,200 hours per year. For example, the minimum daily schedule is 4 hours, the minimum weekly schedule is 24 hours, and the minimum monthly schedule is 100 hours. After you find a schedule that meets your needs, call PurchaseSched- uledInstances to purchase Scheduled Instances with that schedule. See also: AWS API D...
+/// Finds available schedules that meet the specified criteria. You can search for an available schedule no more than 3 months in advance. You must meet the minimum required duration of 1,200 hours per year. For example, the minimum daily schedule is 4 hours, the minimum weekly schedule is 24 hours, and the minimum monthly schedule is 100 hours. After you find a schedule that meets your needs, call PurchaseScheduledInstances to purchase Scheduled Instances with that schedule. See also: AWS API Docum...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsEc2DescribeScheduledInstanceAvailabilityOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Finds available schedules that meet the specified criteria. You can search for an available schedule no more than 3 months in ad- vance. You must meet the minimum required duration of 1,200 hours per year. For example, the minimum daily schedule is 4 hours, the minimum weekly schedule is 24 hours, and the minimum monthly schedule is 100 hours. After you find a schedule that meets your needs, call PurchaseSched- uledInstances to purchase Scheduled Instances with that schedule. See also: AWS API D...
+    /// Finds available schedules that meet the specified criteria. You can search for an available schedule no more than 3 months in advance. You must meet the minimum required duration of 1,200 hours per year. For example, the minimum daily schedule is 4 hours, the minimum weekly schedule is 24 hours, and the minimum monthly schedule is 100 hours. After you find a schedule that meets your needs, call PurchaseScheduledInstances to purchase Scheduled Instances with that schedule. See also: AWS API Docum...
     /// </summary>
     /// <param name="FirstSlotStartTimeRange">The time period for the first schedule to start. EarliestTime -&gt; (timestamp) [required] The earliest date and time, in UTC, for the Scheduled Instance to start. LatestTime -&gt; (timestamp) [required] The latest date and time, in UTC, for the Scheduled Instance to start. This value must be later than or equal to the earliest date and at most three months in the future. Shorthand Syntax: EarliestTime=timestamp,LatestTime=timestamp JSON Syntax: { "EarliestTime": timestamp, "LatestTime": timestamp }</param>
-    /// <param name="Recurrence">The schedule recurrence. Frequency -&gt; (string) The frequency (Daily , Weekly , or Monthly ). Interval -&gt; (integer) The interval quantity. The interval unit depends on the value of Frequency . For example, every 2 weeks or every 2 months. OccurrenceDays -&gt; (list) The days. For a monthly schedule, this is one or more days of the month (1-31). For a weekly schedule, this is one or more days of the week (1-7, where 1 is Sunday). You can't specify this value with a daily schedule. If the occurrence is relative to the end of the month, you can specify only a single day. (integer) OccurrenceRelativeToEnd -&gt; (boolean) Indicates whether the occurrence is relative to the end of the specified week or month. You can't specify this value with a daily schedule. OccurrenceUnit -&gt; (string) The unit for OccurrenceDays (DayOfWeek or DayOfMonth ). This value is required for a monthly schedule. You can't specify Day- OfWeek with a weekly schedule. You can't specify this value with a daily schedule. Shorthand Syntax: Frequency=string,Interval=integer,OccurrenceDays=integer,integer,OccurrenceRelativeToEnd=boolean,OccurrenceUnit=string JSON Syntax: { "Frequency": "string", "Interval": integer, "OccurrenceDays": [integer, ...], "OccurrenceRelativeToEnd": true|false, "OccurrenceUnit": "string" }</param>
+    /// <param name="Recurrence">The schedule recurrence. Frequency -&gt; (string) The frequency (Daily , Weekly , or Monthly ). Interval -&gt; (integer) The interval quantity. The interval unit depends on the value of Frequency . For example, every 2 weeks or every 2 months. OccurrenceDays -&gt; (list) The days. For a monthly schedule, this is one or more days of the month (1-31). For a weekly schedule, this is one or more days of the week (1-7, where 1 is Sunday). You can't specify this value with a daily schedule. If the occurrence is relative to the end of the month, you can specify only a single day. (integer) OccurrenceRelativeToEnd -&gt; (boolean) Indicates whether the occurrence is relative to the end of the specified week or month. You can't specify this value with a daily schedule. OccurrenceUnit -&gt; (string) The unit for OccurrenceDays (DayOfWeek or DayOfMonth ). This value is required for a monthly schedule. You can't specify DayOfWeek with a weekly schedule. You can't specify this value with a daily schedule. Shorthand Syntax: Frequency=string,Interval=integer,OccurrenceDays=integer,integer,OccurrenceRelativeToEnd=boolean,OccurrenceUnit=string JSON Syntax: { "Frequency": "string", "Interval": integer, "OccurrenceDays": [integer, ...], "OccurrenceRelativeToEnd": true|false, "OccurrenceUnit": "string" }</param>
     public AwsEc2DescribeScheduledInstanceAvailabilityOptions(
         string FirstSlotStartTimeRange,
         string Recurrence
@@ -67,19 +69,19 @@ public record AwsEc2DescribeScheduledInstanceAvailabilityOptions : AwsOptions, I
     public string? FirstSlotStartTimeRange { get; private init; }
 
     /// <summary>
-    /// The schedule recurrence. Frequency -&gt; (string) The frequency (Daily , Weekly , or Monthly ). Interval -&gt; (integer) The interval quantity. The interval unit depends on the value of Frequency . For example, every 2 weeks or every 2 months. OccurrenceDays -&gt; (list) The days. For a monthly schedule, this is one or more days of the month (1-31). For a weekly schedule, this is one or more days of the week (1-7, where 1 is Sunday). You can't specify this value with a daily schedule. If the occurrence is relative to the end of the month, you can specify only a single day. (integer) OccurrenceRelativeToEnd -&gt; (boolean) Indicates whether the occurrence is relative to the end of the specified week or month. You can't specify this value with a daily schedule. OccurrenceUnit -&gt; (string) The unit for OccurrenceDays (DayOfWeek or DayOfMonth ). This value is required for a monthly schedule. You can't specify Day- OfWeek with a weekly schedule. You can't specify this value with a daily schedule. Shorthand Syntax: Frequency=string,Interval=integer,OccurrenceDays=integer,integer,OccurrenceRelativeToEnd=boolean,OccurrenceUnit=string JSON Syntax: { "Frequency": "string", "Interval": integer, "OccurrenceDays": [integer, ...], "OccurrenceRelativeToEnd": true|false, "OccurrenceUnit": "string" }
+    /// The schedule recurrence. Frequency -&gt; (string) The frequency (Daily , Weekly , or Monthly ). Interval -&gt; (integer) The interval quantity. The interval unit depends on the value of Frequency . For example, every 2 weeks or every 2 months. OccurrenceDays -&gt; (list) The days. For a monthly schedule, this is one or more days of the month (1-31). For a weekly schedule, this is one or more days of the week (1-7, where 1 is Sunday). You can't specify this value with a daily schedule. If the occurrence is relative to the end of the month, you can specify only a single day. (integer) OccurrenceRelativeToEnd -&gt; (boolean) Indicates whether the occurrence is relative to the end of the specified week or month. You can't specify this value with a daily schedule. OccurrenceUnit -&gt; (string) The unit for OccurrenceDays (DayOfWeek or DayOfMonth ). This value is required for a monthly schedule. You can't specify DayOfWeek with a weekly schedule. You can't specify this value with a daily schedule. Shorthand Syntax: Frequency=string,Interval=integer,OccurrenceDays=integer,integer,OccurrenceRelativeToEnd=boolean,OccurrenceUnit=string JSON Syntax: { "Frequency": "string", "Interval": integer, "OccurrenceDays": [integer, ...], "OccurrenceRelativeToEnd": true|false, "OccurrenceUnit": "string" }
     /// </summary>
     [CliOption("--recurrence")]
     public string? Recurrence { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// The filters. o availability-zone - The Availability Zone (for example, us-west-2a ). o instance-type - The instance type (for example, c4.large ). o platform - The platform (Linux/UNIX or Windows ). (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// The filters. • availability-zone - The Availability Zone (for example, us-west-2a ). • instance-type - The instance type (for example, c4.large ). • platform - The platform (Linux/UNIX or Windows ). (structure) A filter name and value pair that is used to return a more specific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
@@ -91,16 +93,13 @@ public record AwsEc2DescribeScheduledInstanceAvailabilityOptions : AwsOptions, I
     public int? MaxSlotDurationInHours { get; set; }
 
     /// <summary>
-    /// The minimum available duration, in hours. The minimum required dura- tion is 1,200 hours per year. For example, the minimum daily sched- ule is 4 hours, the minimum weekly schedule is 24 hours, and the minimum monthly schedule is 100 hours.
+    /// The minimum available duration, in hours. The minimum required duration is 1,200 hours per year. For example, the minimum daily schedule is 4 hours, the minimum weekly schedule is 24 hours, and the minimum monthly schedule is 100 hours.
     /// </summary>
     [CliOption("--min-slot-duration-in-hours")]
     public int? MinSlotDurationInHours { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -110,16 +109,19 @@ public record AwsEc2DescribeScheduledInstanceAvailabilityOptions : AwsOptions, I
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 5 o max: 300
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 5 • max: 300
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

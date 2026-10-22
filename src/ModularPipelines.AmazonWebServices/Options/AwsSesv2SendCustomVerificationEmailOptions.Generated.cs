@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds an email address to the list of identities for your Amazon SES ac- count in the current Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a customized verification email is sent to the specified address. To use this operation, you must first create a custom verification email template. For more information about creating and using custom verification email templates, see Using custom verification email tem- plates in the Amazon SES Developer Guid...
+/// Adds an email address to the list of identities for your Amazon SES account in the current Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a customized verification email is sent to the specified address. To use this operation, you must first create a custom verification email template. For more information about creating and using custom verification email templates, see Using custom verification email templates in the Amazon SES Developer Guide . ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsSesv2SendCustomVerificationEmailOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds an email address to the list of identities for your Amazon SES ac- count in the current Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a customized verification email is sent to the specified address. To use this operation, you must first create a custom verification email template. For more information about creating and using custom verification email templates, see Using custom verification email tem- plates in the Amazon SES Developer Guid...
+    /// Adds an email address to the list of identities for your Amazon SES account in the current Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a customized verification email is sent to the specified address. To use this operation, you must first create a custom verification email template. For more information about creating and using custom verification email templates, see Using custom verification email templates in the Amazon SES Developer Guide . ...
     /// </summary>
     /// <param name="EmailAddress">The email address to verify.</param>
-    /// <param name="TemplateName">The name of the custom verification email template to use when send- ing the verification email. Constraints: o min: 1</param>
+    /// <param name="TemplateName">The name of the custom verification email template to use when sending the verification email. Constraints: • min: 1</param>
     public AwsSesv2SendCustomVerificationEmailOptions(
         string EmailAddress,
         string TemplateName
@@ -66,7 +68,7 @@ public record AwsSesv2SendCustomVerificationEmailOptions : AwsOptions, IValidata
     public string? EmailAddress { get; private init; }
 
     /// <summary>
-    /// The name of the custom verification email template to use when send- ing the verification email. Constraints: o min: 1
+    /// The name of the custom verification email template to use when sending the verification email. Constraints: • min: 1
     /// </summary>
     [CliOption("--template-name")]
     public string? TemplateName { get; private init; }

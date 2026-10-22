@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +29,10 @@ public record AwsLexv2RuntimeDeleteSessionOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Removes session information for a specified bot, alias, and user ID. You can use this operation to restart a conversation with a bot. When you remove a session, the entire history of the session is removed so that you can start again. You don't need to delete a session. Sessions have a time limit and will expire. Set the session time limit when you create the bot. The default is 5 minutes, but you can specify anything between 1 minute and 24 hours. If you specify a bot or alias ID that doesn't e...
     /// </summary>
-    /// <param name="BotId">The identifier of the bot that contains the session data. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotId">The identifier of the bot that contains the session data. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
     /// <param name="BotAliasId">The alias identifier in use for the bot that contains the session data.</param>
-    /// <param name="LocaleId">The locale where the session is in use. Constraints: o min: 1</param>
-    /// <param name="SessionId">The identifier of the session to delete. Constraints: o min: 2 o max: 100 o pattern: [0-9a-zA-Z._:-]+</param>
+    /// <param name="LocaleId">The locale where the session is in use. Constraints: • min: 1</param>
+    /// <param name="SessionId">The identifier of the session to delete. Constraints: • min: 2 • max: 100 • pattern: [0-9a-zA-Z._:-]+</param>
     public AwsLexv2RuntimeDeleteSessionOptions(
         string BotId,
         string BotAliasId,
@@ -68,7 +70,7 @@ public record AwsLexv2RuntimeDeleteSessionOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the bot that contains the session data. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The identifier of the bot that contains the session data. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
@@ -80,13 +82,13 @@ public record AwsLexv2RuntimeDeleteSessionOptions : AwsOptions, IValidatableObje
     public string? BotAliasId { get; private init; }
 
     /// <summary>
-    /// The locale where the session is in use. Constraints: o min: 1
+    /// The locale where the session is in use. Constraints: • min: 1
     /// </summary>
     [CliOption("--locale-id")]
     public string? LocaleId { get; private init; }
 
     /// <summary>
-    /// The identifier of the session to delete. Constraints: o min: 2 o max: 100 o pattern: [0-9a-zA-Z._:-]+
+    /// The identifier of the session to delete. Constraints: • min: 2 • max: 100 • pattern: [0-9a-zA-Z._:-]+
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves information about the specified fixture (a sports event, such as a specific basketball game). You obtain a fixtureId from SearchFix- tures, or from the clipping output of a feed. See also: AWS API Documentation
+/// Retrieves information about the specified fixture (a sports event, such as a specific basketball game). You obtain a fixtureId from SearchFixtures, or from the clipping output of a feed. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsElementalinferenceGetFixtureOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves information about the specified fixture (a sports event, such as a specific basketball game). You obtain a fixtureId from SearchFix- tures, or from the clipping output of a feed. See also: AWS API Documentation
+    /// Retrieves information about the specified fixture (a sports event, such as a specific basketball game). You obtain a fixtureId from SearchFixtures, or from the clipping output of a feed. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FixtureId">The ID of the fixture to retrieve, as returned by SearchFixtures. Constraints: o min: 1 o max: 128</param>
+    /// <param name="FixtureId">The ID of the fixture to retrieve, as returned by SearchFixtures. Constraints: • min: 1 • max: 128</param>
     public AwsElementalinferenceGetFixtureOptions(
         string FixtureId
     )
@@ -56,7 +58,7 @@ public record AwsElementalinferenceGetFixtureOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the fixture to retrieve, as returned by SearchFixtures. Constraints: o min: 1 o max: 128
+    /// The ID of the fixture to retrieve, as returned by SearchFixtures. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--fixture-id")]
     public string? FixtureId { get; private init; }

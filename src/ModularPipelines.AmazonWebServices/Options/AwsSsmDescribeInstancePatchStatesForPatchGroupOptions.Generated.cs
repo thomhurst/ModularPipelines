@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the high-level patch state for the managed nodes in the spec- ified patch group. See also: AWS API Documentation describe-instance-patch-states-for-patch-group is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the followin...
+/// Retrieves the high-level patch state for the managed nodes in the specified patch group. See also: AWS API Documentation describe-instance-patch-states-for-patch-group is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following quer...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsSsmDescribeInstancePatchStatesForPatchGroupOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the high-level patch state for the managed nodes in the spec- ified patch group. See also: AWS API Documentation describe-instance-patch-states-for-patch-group is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the followin...
+    /// Retrieves the high-level patch state for the managed nodes in the specified patch group. See also: AWS API Documentation describe-instance-patch-states-for-patch-group is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following quer...
     /// </summary>
-    /// <param name="PatchGroup">The name of the patch group for which the patch state information should be retrieved. Constraints: o min: 1 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$</param>
+    /// <param name="PatchGroup">The name of the patch group for which the patch state information should be retrieved. Constraints: • min: 1 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$</param>
     public AwsSsmDescribeInstancePatchStatesForPatchGroupOptions(
         string PatchGroup
     )
@@ -57,22 +59,19 @@ public record AwsSsmDescribeInstancePatchStatesForPatchGroupOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the patch group for which the patch state information should be retrieved. Constraints: o min: 1 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
+    /// The name of the patch group for which the patch state information should be retrieved. Constraints: • min: 1 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
     /// </summary>
     [CliOption("--patch-group")]
     public string? PatchGroup { get; private init; }
 
     /// <summary>
-    /// Each entry in the array is a structure containing: o Key (string between 1 and 200 characters) o Values (array containing a single string) o Type (string "Equal", "NotEqual", "LessThan", "GreaterThan") Constraints: o min: 0 o max: 4 (structure) Defines a filter used in DescribeInstancePatchStatesForPatch- Group to scope down the information returned by the API. Example : To filter for all managed nodes in a patch group having more than three patches with a FailedCount status, use the following for the filter: o Value for Key : FailedCount o Value for Type : GreaterThan o Value for Values : 3 Key -&gt; (string) [required] The key for the filter. Supported values include the follow- ing: o InstalledCount o InstalledOtherCount o InstalledPendingRebootCount o InstalledRejectedCount o MissingCount o FailedCount o UnreportedNotApplicableCount o NotApplicableCount Constraints: o min: 1 o max: 200 Values -&gt; (list) [required] The value for the filter. Must be an integer greater than or equal to 0. Constraints: o min: 1 o max: 1 (string) Type -&gt; (string) [required] The type of comparison that should be performed for the value. Possible values: o Equal o NotEqual o LessThan o GreaterThan Shorthand Syntax: Key=string,Values=string,string,Type=string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...], "Type": "Equal"|"NotEqual"|"LessThan"|"GreaterThan" } ... ]
+    /// Each entry in the array is a structure containing: • Key (string between 1 and 200 characters) • Values (array containing a single string) • Type (string "Equal", "NotEqual", "LessThan", "GreaterThan") Constraints: • min: 0 • max: 4 (structure) Defines a filter used in DescribeInstancePatchStatesForPatchGroup to scope down the information returned by the API. Example : To filter for all managed nodes in a patch group having more than three patches with a FailedCount status, use the following for the filter: • Value for Key : FailedCount • Value for Type : GreaterThan • Value for Values : 3 Key -&gt; (string) [required] The key for the filter. Supported values include the following: • InstalledCount • InstalledOtherCount • InstalledPendingRebootCount • InstalledRejectedCount • MissingCount • FailedCount • UnreportedNotApplicableCount • NotApplicableCount Constraints: • min: 1 • max: 200 Values -&gt; (list) [required] The value for the filter. Must be an integer greater than or equal to 0. Constraints: • min: 1 • max: 1 (string) Type -&gt; (string) [required] The type of comparison that should be performed for the value. Possible values: • Equal • NotEqual • LessThan • GreaterThan Shorthand Syntax: Key=string,Values=string,string,Type=string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...], "Type": "Equal"|"NotEqual"|"LessThan"|"GreaterThan" } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -82,16 +81,19 @@ public record AwsSsmDescribeInstancePatchStatesForPatchGroupOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 10 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 10 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

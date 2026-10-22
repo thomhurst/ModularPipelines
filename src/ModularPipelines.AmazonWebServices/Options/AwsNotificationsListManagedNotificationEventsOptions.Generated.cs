@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of Managed Notification Events according to specified filters, ordered by creation time in reverse chronological order (newest first). See also: AWS API Documentation list-managed-notification-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must ...
+/// Returns a list of Managed Notification Events according to specified filters, ordered by creation time in reverse chronological order (newest first). See also: AWS API Documentation list-managed-notification-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extr...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -36,40 +36,37 @@ public record AwsNotificationsListManagedNotificationEventsOptions : AwsOptions
     public string? EndTime { get; set; }
 
     /// <summary>
-    /// The locale code of the language used for the retrieved Notification- Event. The default locale is English (en_US). Possible values: o de_DE o en_CA o en_US o en_UK o es_ES o fr_CA o fr_FR o id_ID o it_IT o ja_JP o ko_KR o pt_BR o tr_TR o zh_CN o zh_TW
+    /// The locale code of the language used for the retrieved NotificationEvent. The default locale is English (en_US). Possible values: • de_DE • en_CA • en_US • en_UK • es_ES • fr_CA • fr_FR • id_ID • it_IT • ja_JP • ko_KR • pt_BR • tr_TR • zh_CN • zh_TW
     /// </summary>
     [CliOption("--locale")]
     public AwsNotificationsListManagedNotificationEventsLocale? Locale { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services service the event originates from. For exam- ple aws.cloudwatch. Constraints: o min: 1 o max: 36 o pattern: aws.([a-z0-9\-])+
+    /// The Amazon Web Services service the event originates from. For example aws.cloudwatch. Constraints: • min: 1 • max: 36 • pattern: aws.([a-z0-9\-])+
     /// </summary>
     [CliOption("--source")]
     public string? Source { get; set; }
 
     /// <summary>
-    /// The Organizational Unit Id that an Amazon Web Services account be- longs to. Constraints: o pattern: (Root|r-[0-9a-z]{4,32}|ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})
+    /// The Organizational Unit Id that an Amazon Web Services account belongs to. Constraints: • pattern: (Root|r-[0-9a-z]{4,32}|ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})
     /// </summary>
     [CliOption("--organizational-unit-id")]
     public string? OrganizationalUnitId { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services account ID associated with the Managed Noti- fication Events. Constraints: o pattern: \d{12}
+    /// The Amazon Web Services account ID associated with the Managed Notification Events. Constraints: • pattern: \d{12}
     /// </summary>
     [CliOption("--related-account")]
     public string? RelatedAccount { get; set; }
 
     /// <summary>
-    /// Specifies whether to include sensitive events in the result. By de- fault, only non-sensitive events are returned. The notifications:Ac- cessSensitiveEvents permission controls access to sensitive events.
+    /// Specifies whether to include sensitive events in the result. By default, only non-sensitive events are returned. The notifications:AccessSensitiveEvents permission controls access to sensitive events.
     /// </summary>
     [CliFlag("--include-sensitive-events", NegatedName = "--no-include-sensitive-events")]
     public bool? IncludeSensitiveEvents { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -79,15 +76,18 @@ public record AwsNotificationsListManagedNotificationEventsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

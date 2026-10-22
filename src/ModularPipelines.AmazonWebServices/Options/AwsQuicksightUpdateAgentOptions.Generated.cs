@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsQuicksightUpdateAgentOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates an existing agent. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentId">The unique identifier for the agent to update. Constraints: o min: 1 o max: 256 o pattern: [0-9a-zA-Z-_.+]+</param>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the agent. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="Name">The name of the agent. Constraints: o min: 1 o max: 50 o pattern: (?!\s*$).+</param>
+    /// <param name="AgentId">The unique identifier for the agent to update. Constraints: • min: 1 • max: 256 • pattern: [0-9a-zA-Z-_.+]+</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the agent. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="Name">The name of the agent. Constraints: • min: 1 • max: 50 • pattern: (?!\s*$).+</param>
     public AwsQuicksightUpdateAgentOptions(
         string AgentId,
         string AwsAccountId,
@@ -64,73 +66,73 @@ public record AwsQuicksightUpdateAgentOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the agent to update. Constraints: o min: 1 o max: 256 o pattern: [0-9a-zA-Z-_.+]+
+    /// The unique identifier for the agent to update. Constraints: • min: 1 • max: 256 • pattern: [0-9a-zA-Z-_.+]+
     /// </summary>
     [CliOption("--agent-id")]
     public string? AgentId { get; private init; }
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the agent. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the agent. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The name of the agent. Constraints: o min: 1 o max: 50 o pattern: (?!\s*$).+
+    /// The name of the agent. Constraints: • min: 1 • max: 50 • pattern: (?!\s*$).+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A description of the agent. Constraints: o min: 0 o max: 1000 o pattern: \P{C}*
+    /// A description of the agent. Constraints: • min: 0 • max: 1000 • pattern: \P{C}*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The icon identifier for the agent. Constraints: o min: 1 o max: 200
+    /// The icon identifier for the agent. Constraints: • min: 1 • max: 200
     /// </summary>
     [CliOption("--icon-id")]
     public string? IconId { get; set; }
 
     /// <summary>
-    /// A list of starter prompts that are displayed to users when they be- gin interacting with the agent. Constraints: o min: 0 o max: 3 (string) Constraints: o min: 0 o max: 100 Syntax: "string" "string" ...
+    /// A list of starter prompts that are displayed to users when they begin interacting with the agent. Constraints: • min: 0 • max: 3 (string) Constraints: • min: 0 • max: 100 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--starter-prompts", GroupValues = true)]
     public IEnumerable<string>? StarterPrompts { get; set; }
 
     /// <summary>
-    /// The welcome message that is displayed when a user starts a conversa- tion with the agent. Constraints: o min: 0 o max: 300
+    /// The welcome message that is displayed when a user starts a conversation with the agent. Constraints: • min: 0 • max: 300
     /// </summary>
     [CliOption("--welcome-message")]
     public string? WelcomeMessage { get; set; }
 
     /// <summary>
-    /// The custom prompt configuration for the agent. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: ExistingPrompt, NewPrompt. ExistingPrompt -&gt; (structure) An existing custom prompt profile to use for the agent. ModelProfileId -&gt; (string) [required] The identifier of the model profile. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35} SubscriptionId -&gt; (string) [required] The subscription identifier. Constraints: o min: 32 o max: 32 o pattern: [a-z0-9]+ QbsAwsAccountId -&gt; (string) [required] The Amazon Web Services account ID for the Q Business ser- vice. Constraints: o min: 15 o max: 15 o pattern: QBS[0-9]{12} NewPrompt -&gt; (structure) New custom prompt parameters to configure for the agent. ResponseLength -&gt; (string) Instructions for the desired response length. Constraints: o min: 5 o max: 350000 o pattern: [\s\S]* OutputStyle -&gt; (string) Instructions for the desired output style. Constraints: o min: 5 o max: 350000 o pattern: [\s\S]* Identity -&gt; (string) Instructions that define the agent's identity and persona. Constraints: o min: 5 o max: 350000 o pattern: [\s\S]* Tone -&gt; (string) Instructions for the desired tone of responses. Constraints: o min: 5 o max: 350000 o pattern: [\s\S]* CustomInstructions -&gt; (string) Custom instructions for the agent's behavior. Constraints: o min: 5 o max: 350000 o pattern: [\s\S]* Shorthand Syntax: ExistingPrompt={ModelProfileId=string,SubscriptionId=string,QbsAwsAccountId=string},NewPrompt={ResponseLength=string,OutputStyle=string,Identity=string,Tone=string,CustomInstructions=string} JSON Syntax: { "ExistingPrompt": { "ModelProfileId": "string", "SubscriptionId": "string", "QbsAwsAccountId": "string" }, "NewPrompt": { "ResponseLength": "string", "OutputStyle": "string", "Identity": "string", "Tone": "string", "CustomInstructions": "string" } }
+    /// The custom prompt configuration for the agent. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: ExistingPrompt, NewPrompt. ExistingPrompt -&gt; (structure) An existing custom prompt profile to use for the agent. ModelProfileId -&gt; (string) [required] The identifier of the model profile. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35} SubscriptionId -&gt; (string) [required] The subscription identifier. Constraints: • min: 32 • max: 32 • pattern: [a-z0-9]+ QbsAwsAccountId -&gt; (string) [required] The Amazon Web Services account ID for the Q Business service. Constraints: • min: 15 • max: 15 • pattern: QBS[0-9]{12} NewPrompt -&gt; (structure) New custom prompt parameters to configure for the agent. ResponseLength -&gt; (string) Instructions for the desired response length. Constraints: • min: 5 • max: 350000 • pattern: [\s\S]* OutputStyle -&gt; (string) Instructions for the desired output style. Constraints: • min: 5 • max: 350000 • pattern: [\s\S]* Identity -&gt; (string) Instructions that define the agent's identity and persona. Constraints: • min: 5 • max: 350000 • pattern: [\s\S]* Tone -&gt; (string) Instructions for the desired tone of responses. Constraints: • min: 5 • max: 350000 • pattern: [\s\S]* CustomInstructions -&gt; (string) Custom instructions for the agent's behavior. Constraints: • min: 5 • max: 350000 • pattern: [\s\S]* Shorthand Syntax: ExistingPrompt={ModelProfileId=string,SubscriptionId=string,QbsAwsAccountId=string},NewPrompt={ResponseLength=string,OutputStyle=string,Identity=string,Tone=string,CustomInstructions=string} JSON Syntax: { "ExistingPrompt": { "ModelProfileId": "string", "SubscriptionId": "string", "QbsAwsAccountId": "string" }, "NewPrompt": { "ResponseLength": "string", "OutputStyle": "string", "Identity": "string", "Tone": "string", "CustomInstructions": "string" } }
     /// </summary>
     [CliOption("--custom-prompt-input")]
     public string? CustomPromptInput { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Names (ARNs) of the spaces to attach to the agent. Constraints: o min: 0 o max: 10 (string) Syntax: "string" "string" ...
+    /// The Amazon Resource Names (ARNs) of the spaces to attach to the agent. Constraints: • min: 0 • max: 10 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--spaces-to-add", GroupValues = true)]
     public IEnumerable<string>? SpacesToAdd { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Names (ARNs) of the spaces to detach from the agent. Constraints: o min: 0 o max: 10 (string) Syntax: "string" "string" ...
+    /// The Amazon Resource Names (ARNs) of the spaces to detach from the agent. Constraints: • min: 0 • max: 10 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--spaces-to-remove", GroupValues = true)]
     public IEnumerable<string>? SpacesToRemove { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Names (ARNs) of the action connectors to attach to the agent. Constraints: o min: 0 o max: 10 (string) Syntax: "string" "string" ...
+    /// The Amazon Resource Names (ARNs) of the action connectors to attach to the agent. Constraints: • min: 0 • max: 10 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--action-connectors-to-add", GroupValues = true)]
     public IEnumerable<string>? ActionConnectorsToAdd { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Names (ARNs) of the action connectors to detach from the agent. Constraints: o min: 0 o max: 10 (string) Syntax: "string" "string" ...
+    /// The Amazon Resource Names (ARNs) of the action connectors to detach from the agent. Constraints: • min: 0 • max: 10 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--action-connectors-to-remove", GroupValues = true)]
     public IEnumerable<string>? ActionConnectorsToRemove { get; set; }

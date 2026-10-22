@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDetectiveUpdateDatasourcePackagesOptions : AwsOptions, IValidat
     /// <summary>
     /// Starts a data source package for the Detective behavior graph. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GraphArn">The ARN of the behavior graph. Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$</param>
-    /// <param name="DatasourcePackages">The data source package to start for the behavior graph. Constraints: o min: 1 o max: 25 (string) Possible values: o DETECTIVE_CORE o EKS_AUDIT o ASFF_SECURITYHUB_FINDING Syntax: "string" "string" ...</param>
+    /// <param name="GraphArn">The ARN of the behavior graph. Constraints: • pattern: ^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$</param>
+    /// <param name="DatasourcePackages">The data source package to start for the behavior graph. Constraints: • min: 1 • max: 25 (string) Possible values: • DETECTIVE_CORE • EKS_AUDIT • ASFF_SECURITYHUB_FINDING Syntax: "string" "string" ...</param>
     public AwsDetectiveUpdateDatasourcePackagesOptions(
         string GraphArn,
         IEnumerable<string> DatasourcePackages
@@ -71,13 +73,13 @@ public record AwsDetectiveUpdateDatasourcePackagesOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the behavior graph. Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$
+    /// The ARN of the behavior graph. Constraints: • pattern: ^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$
     /// </summary>
     [CliOption("--graph-arn")]
     public string? GraphArn { get; private init; }
 
     /// <summary>
-    /// The data source package to start for the behavior graph. Constraints: o min: 1 o max: 25 (string) Possible values: o DETECTIVE_CORE o EKS_AUDIT o ASFF_SECURITYHUB_FINDING Syntax: "string" "string" ...
+    /// The data source package to start for the behavior graph. Constraints: • min: 1 • max: 25 (string) Possible values: • DETECTIVE_CORE • EKS_AUDIT • ASFF_SECURITYHUB_FINDING Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--datasource-packages", GroupValues = true)]
     public IEnumerable<string>? DatasourcePackages { get; private init; }

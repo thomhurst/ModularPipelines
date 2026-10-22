@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other en- tities. There is no response returned from this call. See also: AWS API Documentation
+/// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities. There is no response returned from this call. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsTransferTagResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other en- tities. There is no response returned from this call. See also: AWS API Documentation
+    /// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities. There is no response returned from this call. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">An Amazon Resource Name (ARN) for a specific Amazon Web Services re- source, such as a server, user, or role. Constraints: o min: 20 o max: 1600 o pattern: arn:\S+</param>
-    /// <param name="Tags">Key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to re- sources (servers, users, workflows, and so on) for any purpose. Constraints: o min: 1 o max: 50 (structure) Creates a key-value pair for a specific resource. Tags are meta- data that you can use to search for and group a resource for various purposes. You can apply tags to servers, users, and roles. A tag key can take more than one value. For example, to group servers for accounting purposes, you might create a tag called Group and assign the values Research and Accounting to that group. Key -&gt; (string) [required] The name assigned to the tag that you create. Constraints: o min: 0 o max: 128 Value -&gt; (string) [required] Contains one or more values that you assigned to the key name you create. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="Arn">An Amazon Resource Name (ARN) for a specific Amazon Web Services resource, such as a server, user, or role. Constraints: • min: 20 • max: 1600 • pattern: arn:\S+</param>
+    /// <param name="Tags">Key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to resources (servers, users, workflows, and so on) for any purpose. Constraints: • min: 1 • max: 50 (structure) Creates a key-value pair for a specific resource. Tags are metadata that you can use to search for and group a resource for various purposes. You can apply tags to servers, users, and roles. A tag key can take more than one value. For example, to group servers for accounting purposes, you might create a tag called Group and assign the values Research and Accounting to that group. Key -&gt; (string) [required] The name assigned to the tag that you create. Constraints: • min: 0 • max: 128 Value -&gt; (string) [required] Contains one or more values that you assigned to the key name you create. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsTransferTagResourceOptions(
         string Arn,
         IEnumerable<string> Tags
@@ -71,13 +73,13 @@ public record AwsTransferTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An Amazon Resource Name (ARN) for a specific Amazon Web Services re- source, such as a server, user, or role. Constraints: o min: 20 o max: 1600 o pattern: arn:\S+
+    /// An Amazon Resource Name (ARN) for a specific Amazon Web Services resource, such as a server, user, or role. Constraints: • min: 20 • max: 1600 • pattern: arn:\S+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// Key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to re- sources (servers, users, workflows, and so on) for any purpose. Constraints: o min: 1 o max: 50 (structure) Creates a key-value pair for a specific resource. Tags are meta- data that you can use to search for and group a resource for various purposes. You can apply tags to servers, users, and roles. A tag key can take more than one value. For example, to group servers for accounting purposes, you might create a tag called Group and assign the values Research and Accounting to that group. Key -&gt; (string) [required] The name assigned to the tag that you create. Constraints: o min: 0 o max: 128 Value -&gt; (string) [required] Contains one or more values that you assigned to the key name you create. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to resources (servers, users, workflows, and so on) for any purpose. Constraints: • min: 1 • max: 50 (structure) Creates a key-value pair for a specific resource. Tags are metadata that you can use to search for and group a resource for various purposes. You can apply tags to servers, users, and roles. A tag key can take more than one value. For example, to group servers for accounting purposes, you might create a tag called Group and assign the values Research and Accounting to that group. Key -&gt; (string) [required] The name assigned to the tag that you create. Constraints: • min: 0 • max: 128 Value -&gt; (string) [required] Contains one or more values that you assigned to the key name you create. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }

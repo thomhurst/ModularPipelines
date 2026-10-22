@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a field from a cases template. After a field is deleted: o You can still retrieve the field by calling BatchGetField . o You cannot update a deleted field by calling UpdateField ; it throws a ValidationException . o Deleted fields are not included in the ListFields response. o Calling CreateCase with a deleted field throws a ValidationException denoting which field identifiers in the request have been deleted. o Calling GetCase with a deleted field identifier returns the deleted field's ...
+/// Deletes a field from a cases template. After a field is deleted: • You can still retrieve the field by calling BatchGetField . • You cannot update a deleted field by calling UpdateField ; it throws a ValidationException . • Deleted fields are not included in the ListFields response. • Calling CreateCase with a deleted field throws a ValidationException denoting which field identifiers in the request have been deleted. • Calling GetCase with a deleted field identifier returns the deleted field's ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsConnectcasesDeleteFieldOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a field from a cases template. After a field is deleted: o You can still retrieve the field by calling BatchGetField . o You cannot update a deleted field by calling UpdateField ; it throws a ValidationException . o Deleted fields are not included in the ListFields response. o Calling CreateCase with a deleted field throws a ValidationException denoting which field identifiers in the request have been deleted. o Calling GetCase with a deleted field identifier returns the deleted field's ...
+    /// Deletes a field from a cases template. After a field is deleted: • You can still retrieve the field by calling BatchGetField . • You cannot update a deleted field by calling UpdateField ; it throws a ValidationException . • Deleted fields are not included in the ListFields response. • Calling CreateCase with a deleted field throws a ValidationException denoting which field identifiers in the request have been deleted. • Calling GetCase with a deleted field identifier returns the deleted field's ...
     /// </summary>
-    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500</param>
-    /// <param name="FieldId">Unique identifier of the field. Constraints: o min: 1 o max: 500</param>
+    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500</param>
+    /// <param name="FieldId">Unique identifier of the field. Constraints: • min: 1 • max: 500</param>
     public AwsConnectcasesDeleteFieldOptions(
         string DomainId,
         string FieldId
@@ -60,13 +62,13 @@ public record AwsConnectcasesDeleteFieldOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500
+    /// The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// Unique identifier of the field. Constraints: o min: 1 o max: 500
+    /// Unique identifier of the field. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--field-id")]
     public string? FieldId { get; private init; }

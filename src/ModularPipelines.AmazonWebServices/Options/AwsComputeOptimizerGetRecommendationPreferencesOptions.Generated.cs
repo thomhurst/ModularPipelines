@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns existing recommendation preferences, such as enhanced infra- structure metrics. Use the scope parameter to specify which preferences to return. You can specify to return preferences for an organization, a specific account ID, or a specific EC2 instance or Auto Scaling group Amazon Resource Name (ARN). For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide . See also: AWS API Documentation get-recommendation-preferences is a paginated oper...
+/// Returns existing recommendation preferences, such as enhanced infrastructure metrics. Use the scope parameter to specify which preferences to return. You can specify to return preferences for an organization, a specific account ID, or a specific EC2 instance or Auto Scaling group Amazon Resource Name (ARN). For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide . See also: AWS API Documentation get-recommendation-preferences is a paginated operat...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsComputeOptimizerGetRecommendationPreferencesOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns existing recommendation preferences, such as enhanced infra- structure metrics. Use the scope parameter to specify which preferences to return. You can specify to return preferences for an organization, a specific account ID, or a specific EC2 instance or Auto Scaling group Amazon Resource Name (ARN). For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide . See also: AWS API Documentation get-recommendation-preferences is a paginated oper...
+    /// Returns existing recommendation preferences, such as enhanced infrastructure metrics. Use the scope parameter to specify which preferences to return. You can specify to return preferences for an organization, a specific account ID, or a specific EC2 instance or Auto Scaling group Amazon Resource Name (ARN). For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide . See also: AWS API Documentation get-recommendation-preferences is a paginated operat...
     /// </summary>
-    /// <param name="ResourceType">The target resource type of the recommendation preference for which to return preferences. The Ec2Instance option encompasses standalone instances and in- stances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group. Possible values: o Ec2Instance o AutoScalingGroup o EbsVolume o LambdaFunction o NotApplicable o EcsService o License o RdsDBInstance o AuroraDBClusterStorage o Idle</param>
+    /// <param name="ResourceType">The target resource type of the recommendation preference for which to return preferences. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group. Possible values: • Ec2Instance • AutoScalingGroup • EbsVolume • LambdaFunction • NotApplicable • EcsService • License • RdsDBInstance • AuroraDBClusterStorage • Idle</param>
     public AwsComputeOptimizerGetRecommendationPreferencesOptions(
         AwsComputeOptimizerGetRecommendationPreferencesResourceType ResourceType
     )
@@ -57,22 +59,19 @@ public record AwsComputeOptimizerGetRecommendationPreferencesOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The target resource type of the recommendation preference for which to return preferences. The Ec2Instance option encompasses standalone instances and in- stances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group. Possible values: o Ec2Instance o AutoScalingGroup o EbsVolume o LambdaFunction o NotApplicable o EcsService o License o RdsDBInstance o AuroraDBClusterStorage o Idle
+    /// The target resource type of the recommendation preference for which to return preferences. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group. Possible values: • Ec2Instance • AutoScalingGroup • EbsVolume • LambdaFunction • NotApplicable • EcsService • License • RdsDBInstance • AuroraDBClusterStorage • Idle
     /// </summary>
     [CliOption("--resource-type")]
     public AwsComputeOptimizerGetRecommendationPreferencesResourceType? ResourceType { get; private init; }
 
     /// <summary>
-    /// An object that describes the scope of the recommendation preference to return. You can return recommendation preferences that are created at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide . name -&gt; (string) The name of the scope. The following scopes are possible: o Organization - Specifies that the recommendation preference applies at the organization level, for all member accounts of an organization. o AccountId - Specifies that the recommendation preference ap- plies at the account level, for all resources of a given re- source type in an account. o ResourceArn - Specifies that the recommendation preference ap- plies at the individual resource level. Possible values: o Organization o AccountId o ResourceArn value -&gt; (string) The value of the scope. If you specified the name of the scope as: o Organization - The value must be ALL_ACCOUNTS . o AccountId - The value must be a 12-digit Amazon Web Services account ID. o ResourceArn - The value must be the Amazon Resource Name (ARN) of an EC2 instance or an Auto Scaling group. Only EC2 instance and Auto Scaling group ARNs are currently sup- ported. Shorthand Syntax: name=string,value=string JSON Syntax: { "name": "Organization"|"AccountId"|"ResourceArn", "value": "string" }
+    /// An object that describes the scope of the recommendation preference to return. You can return recommendation preferences that are created at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide . name -&gt; (string) The name of the scope. The following scopes are possible: • Organization - Specifies that the recommendation preference applies at the organization level, for all member accounts of an organization. • AccountId - Specifies that the recommendation preference applies at the account level, for all resources of a given resource type in an account. • ResourceArn - Specifies that the recommendation preference applies at the individual resource level. Possible values: • Organization • AccountId • ResourceArn value -&gt; (string) The value of the scope. If you specified the name of the scope as: • Organization - The value must be ALL_ACCOUNTS . • AccountId - The value must be a 12-digit Amazon Web Services account ID. • ResourceArn - The value must be the Amazon Resource Name (ARN) of an EC2 instance or an Auto Scaling group. Only EC2 instance and Auto Scaling group ARNs are currently supported. Shorthand Syntax: name=string,value=string JSON Syntax: { "name": "Organization"|"AccountId"|"ResourceArn", "value": "string" }
     /// </summary>
     [CliOption("--scope")]
     public string? Scope { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -82,16 +81,19 @@ public record AwsComputeOptimizerGetRecommendationPreferencesOptions : AwsOption
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 0 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsCleanroomsGetIntermediateTableAnalysisRuleOptions : AwsOptions,
     /// <summary>
     /// Retrieves the analysis rule for an intermediate table. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MembershipIdentifier">The unique identifier of the membership that contains the intermedi- ate table. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="IntermediateTableIdentifier">The unique identifier of the intermediate table for which to re- trieve the analysis rule. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="AnalysisRuleType">The type of analysis rule to retrieve. Currently, only CUSTOM is supported. Possible values: o CUSTOM</param>
+    /// <param name="MembershipIdentifier">The unique identifier of the membership that contains the intermediate table. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="IntermediateTableIdentifier">The unique identifier of the intermediate table for which to retrieve the analysis rule. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="AnalysisRuleType">The type of analysis rule to retrieve. Currently, only CUSTOM is supported. Possible values: • CUSTOM</param>
     public AwsCleanroomsGetIntermediateTableAnalysisRuleOptions(
         string MembershipIdentifier,
         string IntermediateTableIdentifier,
@@ -64,19 +66,19 @@ public record AwsCleanroomsGetIntermediateTableAnalysisRuleOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the membership that contains the intermedi- ate table. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier of the membership that contains the intermediate table. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--membership-identifier")]
     public string? MembershipIdentifier { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the intermediate table for which to re- trieve the analysis rule. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier of the intermediate table for which to retrieve the analysis rule. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--intermediate-table-identifier")]
     public string? IntermediateTableIdentifier { get; private init; }
 
     /// <summary>
-    /// The type of analysis rule to retrieve. Currently, only CUSTOM is supported. Possible values: o CUSTOM
+    /// The type of analysis rule to retrieve. Currently, only CUSTOM is supported. Possible values: • CUSTOM
     /// </summary>
     [CliOption("--analysis-rule-type")]
     public string? AnalysisRuleType { get; private init; }

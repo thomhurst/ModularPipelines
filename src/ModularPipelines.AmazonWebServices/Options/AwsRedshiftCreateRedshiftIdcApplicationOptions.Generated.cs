@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an Amazon Redshift application for use with IAM Identity Cen- ter. See also: AWS API Documentation
+/// Creates an Amazon Redshift application for use with IAM Identity Center. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,12 +29,12 @@ public record AwsRedshiftCreateRedshiftIdcApplicationOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an Amazon Redshift application for use with IAM Identity Cen- ter. See also: AWS API Documentation
+    /// Creates an Amazon Redshift application for use with IAM Identity Center. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IdcInstanceArn">The Amazon resource name (ARN) of the IAM Identity Center instance where Amazon Redshift creates a new managed application. Constraints: o max: 2147483647</param>
-    /// <param name="RedshiftIdcApplicationName">The name of the Redshift application in IAM Identity Center. Constraints: o min: 1 o max: 63 o pattern: [a-z][a-z0-9]*(-[a-z0-9]+)*</param>
-    /// <param name="IdcDisplayName">The display name for the Amazon Redshift IAM Identity Center appli- cation instance. It appears in the console. Constraints: o min: 1 o max: 127 o pattern: [\w+=,.@-]+</param>
-    /// <param name="IamRoleArn">The IAM role ARN for the Amazon Redshift IAM Identity Center appli- cation instance. It has the required permissions to be assumed and invoke the IDC Identity Center API. Constraints: o max: 2147483647</param>
+    /// <param name="IdcInstanceArn">The Amazon resource name (ARN) of the IAM Identity Center instance where Amazon Redshift creates a new managed application. Constraints: • max: 2147483647</param>
+    /// <param name="RedshiftIdcApplicationName">The name of the Redshift application in IAM Identity Center. Constraints: • min: 1 • max: 63 • pattern: [a-z][a-z0-9]*(-[a-z0-9]+)*</param>
+    /// <param name="IdcDisplayName">The display name for the Amazon Redshift IAM Identity Center application instance. It appears in the console. Constraints: • min: 1 • max: 127 • pattern: [\w+=,.@-]+</param>
+    /// <param name="IamRoleArn">The IAM role ARN for the Amazon Redshift IAM Identity Center application instance. It has the required permissions to be assumed and invoke the IDC Identity Center API. Constraints: • max: 2147483647</param>
     public AwsRedshiftCreateRedshiftIdcApplicationOptions(
         string IdcInstanceArn,
         string RedshiftIdcApplicationName,
@@ -70,62 +72,62 @@ public record AwsRedshiftCreateRedshiftIdcApplicationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon resource name (ARN) of the IAM Identity Center instance where Amazon Redshift creates a new managed application. Constraints: o max: 2147483647
+    /// The Amazon resource name (ARN) of the IAM Identity Center instance where Amazon Redshift creates a new managed application. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--idc-instance-arn")]
     public string? IdcInstanceArn { get; private init; }
 
     /// <summary>
-    /// The name of the Redshift application in IAM Identity Center. Constraints: o min: 1 o max: 63 o pattern: [a-z][a-z0-9]*(-[a-z0-9]+)*
+    /// The name of the Redshift application in IAM Identity Center. Constraints: • min: 1 • max: 63 • pattern: [a-z][a-z0-9]*(-[a-z0-9]+)*
     /// </summary>
     [CliOption("--redshift-idc-application-name")]
     public string? RedshiftIdcApplicationName { get; private init; }
 
     /// <summary>
-    /// The display name for the Amazon Redshift IAM Identity Center appli- cation instance. It appears in the console. Constraints: o min: 1 o max: 127 o pattern: [\w+=,.@-]+
+    /// The display name for the Amazon Redshift IAM Identity Center application instance. It appears in the console. Constraints: • min: 1 • max: 127 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--idc-display-name")]
     public string? IdcDisplayName { get; private init; }
 
     /// <summary>
-    /// The IAM role ARN for the Amazon Redshift IAM Identity Center appli- cation instance. It has the required permissions to be assumed and invoke the IDC Identity Center API. Constraints: o max: 2147483647
+    /// The IAM role ARN for the Amazon Redshift IAM Identity Center application instance. It has the required permissions to be assumed and invoke the IDC Identity Center API. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--iam-role-arn")]
     public string? IamRoleArn { get; private init; }
 
     /// <summary>
-    /// The namespace for the Amazon Redshift IAM Identity Center applica- tion instance. It determines which managed application verifies the connection token. Constraints: o min: 1 o max: 127 o pattern: ^[a-zA-Z0-9_+.#@$-]+$
+    /// The namespace for the Amazon Redshift IAM Identity Center application instance. It determines which managed application verifies the connection token. Constraints: • min: 1 • max: 127 • pattern: ^[a-zA-Z0-9_+.#@$-]+$
     /// </summary>
     [CliOption("--identity-namespace")]
     public string? IdentityNamespace { get; set; }
 
     /// <summary>
-    /// The token issuer list for the Amazon Redshift IAM Identity Center application instance. (structure) The authorized token issuer for the Amazon Redshift IAM Identity Center application. TrustedTokenIssuerArn -&gt; (string) The ARN for the authorized token issuer for integrating Ama- zon Redshift with IDC Identity Center. Constraints: o max: 2147483647 AuthorizedAudiencesList -&gt; (list) The list of audiences for the authorized token issuer for in- tegrating Amazon Redshift with IDC Identity Center. (string) Constraints: o max: 2147483647 Shorthand Syntax: TrustedTokenIssuerArn=string,AuthorizedAudiencesList=string,string ... JSON Syntax: [ { "TrustedTokenIssuerArn": "string", "AuthorizedAudiencesList": ["string", ...] } ... ]
+    /// The token issuer list for the Amazon Redshift IAM Identity Center application instance. (structure) The authorized token issuer for the Amazon Redshift IAM Identity Center application. TrustedTokenIssuerArn -&gt; (string) The ARN for the authorized token issuer for integrating Amazon Redshift with IDC Identity Center. Constraints: • max: 2147483647 AuthorizedAudiencesList -&gt; (list) The list of audiences for the authorized token issuer for integrating Amazon Redshift with IDC Identity Center. (string) Constraints: • max: 2147483647 Shorthand Syntax: TrustedTokenIssuerArn=string,AuthorizedAudiencesList=string,string ... JSON Syntax: [ { "TrustedTokenIssuerArn": "string", "AuthorizedAudiencesList": ["string", ...] } ... ]
     /// </summary>
     [SecretValue]
     [CliOption("--authorized-token-issuer-list", GroupValues = true)]
     public IEnumerable<string>? AuthorizedTokenIssuerList { get; set; }
 
     /// <summary>
-    /// A collection of service integrations for the Redshift IAM Identity Center application. (tagged union structure) A list of service integrations. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: LakeFormation, S3AccessGrants, Redshift. LakeFormation -&gt; (list) A list of scopes set up for Lake Formation integration. (tagged union structure) A list of scopes set up for Lake Formation integration. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: LakeFormationQuery. LakeFormationQuery -&gt; (structure) The Lake Formation scope. Authorization -&gt; (string) [required] Determines whether the query scope is enabled or disabled. Possible values: o Enabled o Disabled S3AccessGrants -&gt; (list) A list of scopes set up for S3 Access Grants integration. (tagged union structure) A list of scopes set up for S3 Access Grants integration. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: ReadWriteAccess. ReadWriteAccess -&gt; (structure) The S3 Access Grants scope. Authorization -&gt; (string) [required] Determines whether the read/write scope is enabled or disabled. Possible values: o Enabled o Disabled Redshift -&gt; (list) A list of scopes set up for Amazon Redshift integration. (tagged union structure) A union structure that defines the scope of Amazon Red- shift service integrations. Contains configuration for different integration types such as Amazon Redshift. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: Connect. Connect -&gt; (structure) The Amazon Redshift connect integration scope configu- ration. Defines authorization settings for Amazon Red- shift connect service integration. Authorization -&gt; (string) [required] Determines whether the Amazon Redshift connect in- tegration is enabled or disabled for the applica- tion. Possible values: o Enabled o Disabled JSON Syntax: [ { "LakeFormation": [ { "LakeFormationQuery": { "Authorization": "Enabled"|"Disabled" } } ... ], "S3AccessGrants": [ { "ReadWriteAccess": { "Authorization": "Enabled"|"Disabled" } } ... ], "Redshift": [ { "Connect": { "Authorization": "Enabled"|"Disabled" } } ... ] } ... ]
+    /// A collection of service integrations for the Redshift IAM Identity Center application. (tagged union structure) A list of service integrations. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: LakeFormation, S3AccessGrants, Redshift. LakeFormation -&gt; (list) A list of scopes set up for Lake Formation integration. (tagged union structure) A list of scopes set up for Lake Formation integration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: LakeFormationQuery. LakeFormationQuery -&gt; (structure) The Lake Formation scope. Authorization -&gt; (string) [required] Determines whether the query scope is enabled or disabled. Possible values: • Enabled • Disabled S3AccessGrants -&gt; (list) A list of scopes set up for S3 Access Grants integration. (tagged union structure) A list of scopes set up for S3 Access Grants integration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: ReadWriteAccess. ReadWriteAccess -&gt; (structure) The S3 Access Grants scope. Authorization -&gt; (string) [required] Determines whether the read/write scope is enabled or disabled. Possible values: • Enabled • Disabled Redshift -&gt; (list) A list of scopes set up for Amazon Redshift integration. (tagged union structure) A union structure that defines the scope of Amazon Redshift service integrations. Contains configuration for different integration types such as Amazon Redshift. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Connect. Connect -&gt; (structure) The Amazon Redshift connect integration scope configuration. Defines authorization settings for Amazon Redshift connect service integration. Authorization -&gt; (string) [required] Determines whether the Amazon Redshift connect integration is enabled or disabled for the application. Possible values: • Enabled • Disabled JSON Syntax: [ { "LakeFormation": [ { "LakeFormationQuery": { "Authorization": "Enabled"|"Disabled" } } ... ], "S3AccessGrants": [ { "ReadWriteAccess": { "Authorization": "Enabled"|"Disabled" } } ... ], "Redshift": [ { "Connect": { "Authorization": "Enabled"|"Disabled" } } ... ] } ... ]
     /// </summary>
     [CliOption("--service-integrations", GroupValues = true)]
     public IEnumerable<string>? ServiceIntegrations { get; set; }
 
     /// <summary>
-    /// The type of application being created. Valid values are None or Lakehouse . Use Lakehouse to enable Amazon Redshift federated per- missions on cluster. Possible values: o None o Lakehouse
+    /// The type of application being created. Valid values are None or Lakehouse . Use Lakehouse to enable Amazon Redshift federated permissions on cluster. Possible values: • None • Lakehouse
     /// </summary>
     [CliOption("--application-type")]
     public AwsRedshiftCreateRedshiftIdcApplicationApplicationType? ApplicationType { get; set; }
 
     /// <summary>
-    /// A list of tags. (structure) A tag consisting of a name/value pair for a resource. Key -&gt; (string) The key, or name, for the resource tag. Constraints: o max: 2147483647 Value -&gt; (string) The value for the resource tag. Constraints: o max: 2147483647 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tags. (structure) A tag consisting of a name/value pair for a resource. Key -&gt; (string) The key, or name, for the resource tag. Constraints: • max: 2147483647 Value -&gt; (string) The value for the resource tag. Constraints: • max: 2147483647 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// A list of tags keys that Redshift Identity Center applications copy to IAM Identity Center. For each input key, the tag corresponding to the key-value pair is propagated. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// A list of tags keys that Redshift Identity Center applications copy to IAM Identity Center. For each input key, the tag corresponding to the key-value pair is propagated. (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--sso-tag-keys", GroupValues = true)]
     public IEnumerable<string>? SsoTagKeys { get; set; }

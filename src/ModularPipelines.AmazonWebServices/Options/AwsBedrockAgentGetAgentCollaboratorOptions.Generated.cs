@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsBedrockAgentGetAgentCollaboratorOptions : AwsOptions, IValidata
     /// <summary>
     /// Retrieves information about an agent's collaborator. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentId">The agent's ID. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
-    /// <param name="AgentVersion">The agent's version. Constraints: o min: 1 o max: 5 o pattern: (DRAFT|[0-9]{0,4}[1-9][0-9]{0,4})</param>
-    /// <param name="CollaboratorId">The collaborator's ID. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="AgentId">The agent's ID. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="AgentVersion">The agent's version. Constraints: • min: 1 • max: 5 • pattern: (DRAFT|[0-9]{0,4}[1-9][0-9]{0,4})</param>
+    /// <param name="CollaboratorId">The collaborator's ID. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
     public AwsBedrockAgentGetAgentCollaboratorOptions(
         string AgentId,
         string AgentVersion,
@@ -64,19 +66,19 @@ public record AwsBedrockAgentGetAgentCollaboratorOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The agent's ID. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The agent's ID. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--agent-id")]
     public string? AgentId { get; private init; }
 
     /// <summary>
-    /// The agent's version. Constraints: o min: 1 o max: 5 o pattern: (DRAFT|[0-9]{0,4}[1-9][0-9]{0,4})
+    /// The agent's version. Constraints: • min: 1 • max: 5 • pattern: (DRAFT|[0-9]{0,4}[1-9][0-9]{0,4})
     /// </summary>
     [CliOption("--agent-version")]
     public string? AgentVersion { get; private init; }
 
     /// <summary>
-    /// The collaborator's ID. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The collaborator's ID. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--collaborator-id")]
     public string? CollaboratorId { get; private init; }

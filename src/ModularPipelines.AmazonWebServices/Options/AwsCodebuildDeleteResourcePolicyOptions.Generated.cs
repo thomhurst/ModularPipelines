@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCodebuildDeleteResourcePolicyOptions : AwsOptions, IValidatable
     /// <summary>
     /// Deletes a resource policy that is identified by its resource ARN. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource that is associated with the resource policy. Constraints: o min: 1</param>
+    /// <param name="ResourceArn">The ARN of the resource that is associated with the resource policy. Constraints: • min: 1</param>
     public AwsCodebuildDeleteResourcePolicyOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsCodebuildDeleteResourcePolicyOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource that is associated with the resource policy. Constraints: o min: 1
+    /// The ARN of the resource that is associated with the resource policy. Constraints: • min: 1
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

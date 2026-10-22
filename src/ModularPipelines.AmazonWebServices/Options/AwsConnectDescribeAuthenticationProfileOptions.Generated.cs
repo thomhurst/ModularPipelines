@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API is in preview release for Connect Customer and is subject to change. To request access to this API, contact Amazon Web Services Sup- port. Describes the target authentication profile. See also: AWS API Documentation
+/// This API is in preview release for Connect Customer and is subject to change. To request access to this API, contact Amazon Web Services Support. Describes the target authentication profile. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsConnectDescribeAuthenticationProfileOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API is in preview release for Connect Customer and is subject to change. To request access to this API, contact Amazon Web Services Sup- port. Describes the target authentication profile. See also: AWS API Documentation
+    /// This API is in preview release for Connect Customer and is subject to change. To request access to this API, contact Amazon Web Services Support. Describes the target authentication profile. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AuthenticationProfileId">A unique identifier for the authentication profile. Constraints: o min: 1 o max: 100</param>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="AuthenticationProfileId">A unique identifier for the authentication profile. Constraints: • min: 1 • max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     public AwsConnectDescribeAuthenticationProfileOptions(
         string AuthenticationProfileId,
         string InstanceId
@@ -60,13 +62,13 @@ public record AwsConnectDescribeAuthenticationProfileOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the authentication profile. Constraints: o min: 1 o max: 100
+    /// A unique identifier for the authentication profile. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--authentication-profile-id")]
     public string? AuthenticationProfileId { get; private init; }
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }

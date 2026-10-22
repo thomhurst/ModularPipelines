@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -30,8 +31,8 @@ public record AwsIotManagedIntegrationsCreateNotificationConfigurationOptions : 
     /// <summary>
     /// Creates a notification configuration. A configuration is a connection between an event type and a destination that you have already created. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EventType">The type of event triggering a device notification to the cus- tomer-managed destination. Possible values: o DEVICE_COMMAND o DEVICE_COMMAND_REQUEST o DEVICE_DISCOVERY_STATUS o DEVICE_EVENT o DEVICE_LIFE_CYCLE o DEVICE_STATE o DEVICE_OTA o DEVICE_WSS o CONNECTOR_ASSOCIATION o ACCOUNT_ASSOCIATION o CONNECTOR_ERROR_REPORT</param>
-    /// <param name="DestinationName">The name of the destination for the notification configuration. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{N} ._-]+</param>
+    /// <param name="EventType">The type of event triggering a device notification to the customer-managed destination. Possible values: • DEVICE_COMMAND • DEVICE_COMMAND_REQUEST • DEVICE_DISCOVERY_STATUS • DEVICE_EVENT • DEVICE_LIFE_CYCLE • DEVICE_STATE • DEVICE_OTA • DEVICE_WSS • CONNECTOR_ASSOCIATION • ACCOUNT_ASSOCIATION • CONNECTOR_ERROR_REPORT</param>
+    /// <param name="DestinationName">The name of the destination for the notification configuration. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{N} ._-]+</param>
     public AwsIotManagedIntegrationsCreateNotificationConfigurationOptions(
         AwsIotManagedIntegrationsCreateNotificationConfigurationEventType EventType,
         string DestinationName
@@ -62,26 +63,26 @@ public record AwsIotManagedIntegrationsCreateNotificationConfigurationOptions : 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of event triggering a device notification to the cus- tomer-managed destination. Possible values: o DEVICE_COMMAND o DEVICE_COMMAND_REQUEST o DEVICE_DISCOVERY_STATUS o DEVICE_EVENT o DEVICE_LIFE_CYCLE o DEVICE_STATE o DEVICE_OTA o DEVICE_WSS o CONNECTOR_ASSOCIATION o ACCOUNT_ASSOCIATION o CONNECTOR_ERROR_REPORT
+    /// The type of event triggering a device notification to the customer-managed destination. Possible values: • DEVICE_COMMAND • DEVICE_COMMAND_REQUEST • DEVICE_DISCOVERY_STATUS • DEVICE_EVENT • DEVICE_LIFE_CYCLE • DEVICE_STATE • DEVICE_OTA • DEVICE_WSS • CONNECTOR_ASSOCIATION • ACCOUNT_ASSOCIATION • CONNECTOR_ERROR_REPORT
     /// </summary>
     [CliOption("--event-type")]
     public AwsIotManagedIntegrationsCreateNotificationConfigurationEventType? EventType { get; private init; }
 
     /// <summary>
-    /// The name of the destination for the notification configuration. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{N} ._-]+
+    /// The name of the destination for the notification configuration. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{N} ._-]+
     /// </summary>
     [CliOption("--destination-name")]
     public string? DestinationName { get; private init; }
 
     /// <summary>
-    /// An idempotency token. If you retry a request that completed success- fully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9=_-]+
+    /// An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9=_-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A set of key/value pairs that are used to manage the notification configuration. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A set of key/value pairs that are used to manage the notification configuration. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

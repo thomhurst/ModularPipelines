@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +31,7 @@ public record AwsQbusinessCreateWebExperienceOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Creates an Amazon Q Business web experience. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The identifier of the Amazon Q Business web experience. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="ApplicationId">The identifier of the Amazon Q Business web experience. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
     public AwsQbusinessCreateWebExperienceOptions(
         string ApplicationId
     )
@@ -58,74 +60,74 @@ public record AwsQbusinessCreateWebExperienceOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Q Business web experience. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The identifier of the Amazon Q Business web experience. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The title for your Amazon Q Business web experience. Constraints: o min: 0 o max: 500 o pattern: [\s\S]*
+    /// The title for your Amazon Q Business web experience. Constraints: • min: 0 • max: 500 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--title")]
     public string? Title { get; set; }
 
     /// <summary>
-    /// A subtitle to personalize your Amazon Q Business web experience. Constraints: o min: 0 o max: 500 o pattern: [\s\S]*
+    /// A subtitle to personalize your Amazon Q Business web experience. Constraints: • min: 0 • max: 500 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--subtitle")]
     public string? Subtitle { get; set; }
 
     /// <summary>
-    /// The customized welcome message for end users of an Amazon Q Business web experience. Constraints: o min: 0 o max: 300
+    /// The customized welcome message for end users of an Amazon Q Business web experience. Constraints: • min: 0 • max: 300
     /// </summary>
     [CliOption("--welcome-message")]
     public string? WelcomeMessage { get; set; }
 
     /// <summary>
-    /// Determines whether sample prompts are enabled in the web experience for an end user. Possible values: o ENABLED o DISABLED
+    /// Determines whether sample prompts are enabled in the web experience for an end user. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--sample-prompts-control-mode")]
     public AwsQbusinessCreateWebExperienceSamplePromptsControlMode? SamplePromptsControlMode { get; set; }
 
     /// <summary>
-    /// Sets the website domain origins that are allowed to embed the Amazon Q Business web experience. The domain origin refers to the base URL for accessing a website including the protocol (http/https ), the domain name, and the port number (if specified). NOTE: You must only submit a base URL and not a full path. For exam- ple, https://docs.aws.amazon.com . Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: (http://|https://)[a-zA-Z0-9-_.]+(?::[0-9]{1,5})? Syntax: "string" "string" ...
+    /// Sets the website domain origins that are allowed to embed the Amazon Q Business web experience. The domain origin refers to the base URL for accessing a website including the protocol (http/https ), the domain name, and the port number (if specified). NOTE: You must only submit a base URL and not a full path. For example, https://docs.aws.amazon.com . Constraints: • min: 0 • max: 10 (string) Constraints: • min: 1 • max: 256 • pattern: (http://|https://)[a-zA-Z0-9-_.]+(?::[0-9]{1,5})? Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--origins", GroupValues = true)]
     public IEnumerable<string>? Origins { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the service role attached to your web experience. NOTE: The roleArn parameter is required when your Amazon Q Business application is created with IAM Identity Center. It is not re- quired for SAML-based applications. Constraints: o min: 0 o max: 1284 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The Amazon Resource Name (ARN) of the service role attached to your web experience. NOTE: The roleArn parameter is required when your Amazon Q Business application is created with IAM Identity Center. It is not required for SAML-based applications. Constraints: • min: 0 • max: 1284 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
     /// <summary>
-    /// A list of key-value pairs that identify or categorize your Amazon Q Business web experience. You can also use tags to help control ac- cess to the web experience. Tag keys and values can consist of Uni- code letters, digits, white space, and any of the following symbols: _ . : / = + - @. Constraints: o min: 0 o max: 200 (structure) A list of key/value pairs that identify an index, FAQ, or data source. Tag keys and values can consist of Unicode letters, dig- its, white space, and any of the following symbols: _ . : / = + - @. key -&gt; (string) [required] The key for the tag. Keys are not case sensitive and must be unique for the Amazon Q Business application or data source. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The value associated with the tag. The value may be an empty string but it can't be null. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// A list of key-value pairs that identify or categorize your Amazon Q Business web experience. You can also use tags to help control access to the web experience. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @. Constraints: • min: 0 • max: 200 (structure) A list of key/value pairs that identify an index, FAQ, or data source. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @. key -&gt; (string) [required] The key for the tag. Keys are not case sensitive and must be unique for the Amazon Q Business application or data source. Constraints: • min: 1 • max: 128 value -&gt; (string) [required] The value associated with the tag. The value may be an empty string but it can't be null. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// A token you provide to identify a request to create an Amazon Q Business web experience. Constraints: o min: 1 o max: 100
+    /// A token you provide to identify a request to create an Amazon Q Business web experience. Constraints: • min: 1 • max: 100
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Information about the identity provider (IdP) used to authenticate end users of an Amazon Q Business web experience. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: samlConfiguration, openIDConnectConfigu- ration. samlConfiguration -&gt; (structure) Information about the SAML 2.0-compliant identity provider (IdP) used to authenticate end users of an Amazon Q Business web expe- rience. authenticationUrl -&gt; (string) [required] The URL where Amazon Q Business end users will be redirected for authentication. Constraints: o min: 1 o max: 1284 o pattern: https://.* openIDConnectConfiguration -&gt; (structure) Information about the OIDC-compliant identity provider (IdP) used to authenticate end users of an Amazon Q Business web expe- rience. secretsArn -&gt; (string) [required] The Amazon Resource Name (ARN) of a Secrets Manager secret containing the OIDC client secret. Constraints: o min: 0 o max: 1284 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} secretsRole -&gt; (string) [required] An IAM role with permissions to access KMS to decrypt the Se- crets Manager secret containing your OIDC client secret. Constraints: o min: 0 o max: 1284 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} Shorthand Syntax: samlConfiguration={authenticationUrl=string},openIDConnectConfiguration={secretsArn=string,secretsRole=string} JSON Syntax: { "samlConfiguration": { "authenticationUrl": "string" }, "openIDConnectConfiguration": { "secretsArn": "string", "secretsRole": "string" } }
+    /// Information about the identity provider (IdP) used to authenticate end users of an Amazon Q Business web experience. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: samlConfiguration, openIDConnectConfiguration. samlConfiguration -&gt; (structure) Information about the SAML 2.0-compliant identity provider (IdP) used to authenticate end users of an Amazon Q Business web experience. authenticationUrl -&gt; (string) [required] The URL where Amazon Q Business end users will be redirected for authentication. Constraints: • min: 1 • max: 1284 • pattern: https://.* openIDConnectConfiguration -&gt; (structure) Information about the OIDC-compliant identity provider (IdP) used to authenticate end users of an Amazon Q Business web experience. secretsArn -&gt; (string) [required] The Amazon Resource Name (ARN) of a Secrets Manager secret containing the OIDC client secret. Constraints: • min: 0 • max: 1284 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} secretsRole -&gt; (string) [required] An IAM role with permissions to access KMS to decrypt the Secrets Manager secret containing your OIDC client secret. Constraints: • min: 0 • max: 1284 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} Shorthand Syntax: samlConfiguration={authenticationUrl=string},openIDConnectConfiguration={secretsArn=string,secretsRole=string} JSON Syntax: { "samlConfiguration": { "authenticationUrl": "string" }, "openIDConnectConfiguration": { "secretsArn": "string", "secretsRole": "string" } }
     /// </summary>
     [CliOption("--identity-provider-configuration")]
     public string? IdentityProviderConfiguration { get; set; }
 
     /// <summary>
-    /// The browser extension configuration for an Amazon Q Business web ex- perience. NOTE: For Amazon Q Business application using external OIDC-compliant identity providers (IdPs). The IdP administrator must add the browser extension sign-in redirect URLs to the IdP application. For more information, see Configure external OIDC identity provider for your browser extensions. . enabledBrowserExtensions -&gt; (list) [required] Specify the browser extensions allowed for your Amazon Q web ex- perience. o CHROME Enables the extension for Chromium-based browsers (Google Chrome, Microsoft Edge, Opera, etc.). o FIREFOX Enables the extension for Mozilla Firefox. o CHROME and FIREFOX Enable the extension for Chromium-based browsers and Mozilla Firefox. Constraints: o min: 0 o max: 2 (string) Possible values: o FIREFOX o CHROME Shorthand Syntax: enabledBrowserExtensions=string,string JSON Syntax: { "enabledBrowserExtensions": ["FIREFOX"|"CHROME", ...] }
+    /// The browser extension configuration for an Amazon Q Business web experience. NOTE: For Amazon Q Business application using external OIDC-compliant identity providers (IdPs). The IdP administrator must add the browser extension sign-in redirect URLs to the IdP application. For more information, see Configure external OIDC identity provider for your browser extensions. . enabledBrowserExtensions -&gt; (list) [required] Specify the browser extensions allowed for your Amazon Q web experience. • CHROME Enables the extension for Chromium-based browsers (Google Chrome, Microsoft Edge, Opera, etc.). • FIREFOX Enables the extension for Mozilla Firefox. • CHROME and FIREFOX Enable the extension for Chromium-based browsers and Mozilla Firefox. Constraints: • min: 0 • max: 2 (string) Possible values: • FIREFOX • CHROME Shorthand Syntax: enabledBrowserExtensions=string,string JSON Syntax: { "enabledBrowserExtensions": ["FIREFOX"|"CHROME", ...] }
     /// </summary>
     [CliOption("--browser-extension-configuration")]
     public string? BrowserExtensionConfiguration { get; set; }
 
     /// <summary>
-    /// Sets the custom logo, favicon, font, and color used in the Amazon Q web experience. customCSSUrl -&gt; (string) Provides the URL where the custom CSS file is hosted for an Ama- zon Q web experience. Constraints: o min: 0 o max: 1284 o pattern: (https?://[a-zA-Z0-9-_.+%/]+\.css)? logoUrl -&gt; (string) Provides the URL where the custom logo file is hosted for an Amazon Q web experience. Constraints: o min: 0 o max: 1284 o pattern: (https?://[a-zA-Z0-9-_.+%/]+\.(svg|png))? fontUrl -&gt; (string) Provides the URL where the custom font file is hosted for an Amazon Q web experience. Constraints: o min: 0 o max: 1284 o pattern: (https?://[a-zA-Z0-9-_.+%/]+\.(ttf|woff|woff2|otf))? faviconUrl -&gt; (string) Provides the URL where the custom favicon file is hosted for an Amazon Q web experience. Constraints: o min: 0 o max: 1284 o pattern: (https?://[a-zA-Z0-9-_.+%/]+\.(svg|ico))? Shorthand Syntax: customCSSUrl=string,logoUrl=string,fontUrl=string,faviconUrl=string JSON Syntax: { "customCSSUrl": "string", "logoUrl": "string", "fontUrl": "string", "faviconUrl": "string" }
+    /// Sets the custom logo, favicon, font, and color used in the Amazon Q web experience. customCSSUrl -&gt; (string) Provides the URL where the custom CSS file is hosted for an Amazon Q web experience. Constraints: • min: 0 • max: 1284 • pattern: (https?://[a-zA-Z0-9-_.+%/]+\.css)? logoUrl -&gt; (string) Provides the URL where the custom logo file is hosted for an Amazon Q web experience. Constraints: • min: 0 • max: 1284 • pattern: (https?://[a-zA-Z0-9-_.+%/]+\.(svg|png))? fontUrl -&gt; (string) Provides the URL where the custom font file is hosted for an Amazon Q web experience. Constraints: • min: 0 • max: 1284 • pattern: (https?://[a-zA-Z0-9-_.+%/]+\.(ttf|woff|woff2|otf))? faviconUrl -&gt; (string) Provides the URL where the custom favicon file is hosted for an Amazon Q web experience. Constraints: • min: 0 • max: 1284 • pattern: (https?://[a-zA-Z0-9-_.+%/]+\.(svg|ico))? Shorthand Syntax: customCSSUrl=string,logoUrl=string,fontUrl=string,faviconUrl=string JSON Syntax: { "customCSSUrl": "string", "logoUrl": "string", "fontUrl": "string", "faviconUrl": "string" }
     /// </summary>
     [CliOption("--customization-configuration")]
     public string? CustomizationConfiguration { get; set; }

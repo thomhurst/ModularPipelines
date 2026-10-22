@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Export an audience of a specified size after you have generated an au- dience. See also: AWS API Documentation
+/// Export an audience of a specified size after you have generated an audience. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsCleanroomsmlStartAudienceExportJobOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Export an audience of a specified size after you have generated an au- dience. See also: AWS API Documentation
+    /// Export an audience of a specified size after you have generated an audience. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the audience export job. Constraints: o min: 1 o max: 63 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*</param>
-    /// <param name="AudienceGenerationJobArn">The Amazon Resource Name (ARN) of the audience generation job that you want to export. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:audi- ence-generation-job/[-a-zA-Z0-9_/.]+</param>
-    /// <param name="AudienceSize">The size of the generated audience. Must match one of the sizes in the configured audience model. type -&gt; (string) [required] Whether the audience size is defined in absolute terms or as a percentage. You can use the ABSOLUTE AudienceSize to configure out audience sizes using the count of identifiers in the output. You can use the Percentage AudienceSize to configure sizes in the range 1-100 percent. Possible values: o ABSOLUTE o PERCENTAGE value -&gt; (integer) [required] Specify an audience size value. Constraints: o min: 1 o max: 20000000 Shorthand Syntax: type=string,value=integer JSON Syntax: { "type": "ABSOLUTE"|"PERCENTAGE", "value": integer }</param>
+    /// <param name="Name">The name of the audience export job. Constraints: • min: 1 • max: 63 • pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*</param>
+    /// <param name="AudienceGenerationJobArn">The Amazon Resource Name (ARN) of the audience generation job that you want to export. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:audience-generation-job/[-a-zA-Z0-9_/.]+</param>
+    /// <param name="AudienceSize">The size of the generated audience. Must match one of the sizes in the configured audience model. type -&gt; (string) [required] Whether the audience size is defined in absolute terms or as a percentage. You can use the ABSOLUTE AudienceSize to configure out audience sizes using the count of identifiers in the output. You can use the Percentage AudienceSize to configure sizes in the range 1-100 percent. Possible values: • ABSOLUTE • PERCENTAGE value -&gt; (integer) [required] Specify an audience size value. Constraints: • min: 1 • max: 20000000 Shorthand Syntax: type=string,value=integer JSON Syntax: { "type": "ABSOLUTE"|"PERCENTAGE", "value": integer }</param>
     public AwsCleanroomsmlStartAudienceExportJobOptions(
         string Name,
         string AudienceGenerationJobArn,
@@ -64,25 +66,25 @@ public record AwsCleanroomsmlStartAudienceExportJobOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the audience export job. Constraints: o min: 1 o max: 63 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*
+    /// The name of the audience export job. Constraints: • min: 1 • max: 63 • pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the audience generation job that you want to export. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:audi- ence-generation-job/[-a-zA-Z0-9_/.]+
+    /// The Amazon Resource Name (ARN) of the audience generation job that you want to export. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:audience-generation-job/[-a-zA-Z0-9_/.]+
     /// </summary>
     [CliOption("--audience-generation-job-arn")]
     public string? AudienceGenerationJobArn { get; private init; }
 
     /// <summary>
-    /// The size of the generated audience. Must match one of the sizes in the configured audience model. type -&gt; (string) [required] Whether the audience size is defined in absolute terms or as a percentage. You can use the ABSOLUTE AudienceSize to configure out audience sizes using the count of identifiers in the output. You can use the Percentage AudienceSize to configure sizes in the range 1-100 percent. Possible values: o ABSOLUTE o PERCENTAGE value -&gt; (integer) [required] Specify an audience size value. Constraints: o min: 1 o max: 20000000 Shorthand Syntax: type=string,value=integer JSON Syntax: { "type": "ABSOLUTE"|"PERCENTAGE", "value": integer }
+    /// The size of the generated audience. Must match one of the sizes in the configured audience model. type -&gt; (string) [required] Whether the audience size is defined in absolute terms or as a percentage. You can use the ABSOLUTE AudienceSize to configure out audience sizes using the count of identifiers in the output. You can use the Percentage AudienceSize to configure sizes in the range 1-100 percent. Possible values: • ABSOLUTE • PERCENTAGE value -&gt; (integer) [required] Specify an audience size value. Constraints: • min: 1 • max: 20000000 Shorthand Syntax: type=string,value=integer JSON Syntax: { "type": "ABSOLUTE"|"PERCENTAGE", "value": integer }
     /// </summary>
     [CliOption("--audience-size")]
     public string? AudienceSize { get; private init; }
 
     /// <summary>
-    /// The description of the audience export job. Constraints: o min: 0 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
+    /// The description of the audience export job. Constraints: • min: 0 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

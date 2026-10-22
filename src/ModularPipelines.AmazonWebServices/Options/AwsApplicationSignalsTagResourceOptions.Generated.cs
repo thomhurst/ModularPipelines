@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Assigns one or more tags (key-value pairs) to the specified CloudWatch resource, such as a service level objective. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to ac- cess or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are in- terpreted strictly as strings of characters. You can use the TagResource action with an alarm that already has tag...
+/// Assigns one or more tags (key-value pairs) to the specified CloudWatch resource, such as a service level objective. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with an alarm that already has tags. I...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsApplicationSignalsTagResourceOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Assigns one or more tags (key-value pairs) to the specified CloudWatch resource, such as a service level objective. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to ac- cess or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are in- terpreted strictly as strings of characters. You can use the TagResource action with an alarm that already has tag...
+    /// Assigns one or more tags (key-value pairs) to the specified CloudWatch resource, such as a service level objective. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with an alarm that already has tags. I...
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the CloudWatch resource that you want to set tags for. The ARN format of an Application Signals SLO is `` arn:aws:cloudwatch:Region :account-id :slo:slo-name `` System Message: WARNING/2 (&lt;string&gt;:, line 89) Inline literal start-string without end-string. For more information about ARN format, see Resource Types De- fined by Amazon CloudWatch in the Amazon Web Services General Reference . Constraints: o min: 1 o max: 1024</param>
-    /// <param name="Tags">The list of key-value pairs to associate with the alarm. Constraints: o min: 0 o max: 200 (structure) A key-value pair associated with a resource. Tags can help you organize and categorize your resources. Key -&gt; (string) [required] A string that you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value for the specified tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the CloudWatch resource that you want to set tags for. The ARN format of an Application Signals SLO is `` arn:aws:cloudwatch:Region :account-id :slo:slo-name `` System Message: WARNING/2 (&lt;string&gt;:, line 89) Inline literal start-string without end-string. For more information about ARN format, see Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference . Constraints: • min: 1 • max: 1024</param>
+    /// <param name="Tags">The list of key-value pairs to associate with the alarm. Constraints: • min: 0 • max: 200 (structure) A key-value pair associated with a resource. Tags can help you organize and categorize your resources. Key -&gt; (string) [required] A string that you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The value for the specified tag key. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsApplicationSignalsTagResourceOptions(
         string ResourceArn,
         IEnumerable<string> Tags
@@ -71,13 +73,13 @@ public record AwsApplicationSignalsTagResourceOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the CloudWatch resource that you want to set tags for. The ARN format of an Application Signals SLO is `` arn:aws:cloudwatch:Region :account-id :slo:slo-name `` System Message: WARNING/2 (&lt;string&gt;:, line 89) Inline literal start-string without end-string. For more information about ARN format, see Resource Types De- fined by Amazon CloudWatch in the Amazon Web Services General Reference . Constraints: o min: 1 o max: 1024
+    /// The Amazon Resource Name (ARN) of the CloudWatch resource that you want to set tags for. The ARN format of an Application Signals SLO is `` arn:aws:cloudwatch:Region :account-id :slo:slo-name `` System Message: WARNING/2 (&lt;string&gt;:, line 89) Inline literal start-string without end-string. For more information about ARN format, see Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference . Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The list of key-value pairs to associate with the alarm. Constraints: o min: 0 o max: 200 (structure) A key-value pair associated with a resource. Tags can help you organize and categorize your resources. Key -&gt; (string) [required] A string that you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value for the specified tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The list of key-value pairs to associate with the alarm. Constraints: • min: 0 • max: 200 (structure) A key-value pair associated with a resource. Tags can help you organize and categorize your resources. Key -&gt; (string) [required] A string that you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The value for the specified tag key. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }

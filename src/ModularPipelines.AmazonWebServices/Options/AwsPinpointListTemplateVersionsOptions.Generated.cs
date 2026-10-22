@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves information about all the versions of a specific message tem- plate. See also: AWS API Documentation
+/// Retrieves information about all the versions of a specific message template. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +28,7 @@ public record AwsPinpointListTemplateVersionsOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves information about all the versions of a specific message tem- plate. See also: AWS API Documentation
+    /// Retrieves information about all the versions of a specific message template. See also: AWS API Documentation
     /// </summary>
     /// <param name="TemplateName">The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.</param>
     /// <param name="TemplateType">The type of channel that the message template is designed for. Valid values are: EMAIL, PUSH, SMS, and VOICE.</param>
@@ -73,7 +75,7 @@ public record AwsPinpointListTemplateVersionsOptions : AwsOptions, IValidatableO
     public string? TemplateType { get; private init; }
 
     /// <summary>
-    /// The string that specifies which page of results to return in a pagi- nated response. This parameter is not supported for application, campaign, and journey metrics.
+    /// The string that specifies which page of results to return in a paginated response. This parameter is not supported for application, campaign, and journey metrics.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

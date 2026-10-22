@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the given recommender, including its status. A recommender can be in one of the following states: o CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED o STOP PENDING &gt; STOP IN_PROGRESS &gt; INACTIVE &gt; START PENDING &gt; START IN_PROGRESS &gt; ACTIVE o DELETE PENDING &gt; DELETE IN_PROGRESS When the status is CREATE FAILED , the response includes the failur- eReason key, which describes why. The modelMetrics key is null when the recommender is being created or deleted. For more informa...
+/// Describes the given recommender, including its status. A recommender can be in one of the following states: • CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED • STOP PENDING &gt; STOP IN_PROGRESS &gt; INACTIVE &gt; START PENDING &gt; START IN_PROGRESS &gt; ACTIVE • DELETE PENDING &gt; DELETE IN_PROGRESS When the status is CREATE FAILED , the response includes the failureReason key, which describes why. The modelMetrics key is null when the recommender is being created or deleted. For more informati...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsPersonalizeDescribeRecommenderOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes the given recommender, including its status. A recommender can be in one of the following states: o CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED o STOP PENDING &gt; STOP IN_PROGRESS &gt; INACTIVE &gt; START PENDING &gt; START IN_PROGRESS &gt; ACTIVE o DELETE PENDING &gt; DELETE IN_PROGRESS When the status is CREATE FAILED , the response includes the failur- eReason key, which describes why. The modelMetrics key is null when the recommender is being created or deleted. For more informa...
+    /// Describes the given recommender, including its status. A recommender can be in one of the following states: • CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED • STOP PENDING &gt; STOP IN_PROGRESS &gt; INACTIVE &gt; START PENDING &gt; START IN_PROGRESS &gt; ACTIVE • DELETE PENDING &gt; DELETE IN_PROGRESS When the status is CREATE FAILED , the response includes the failureReason key, which describes why. The modelMetrics key is null when the recommender is being created or deleted. For more informati...
     /// </summary>
-    /// <param name="RecommenderArn">The Amazon Resource Name (ARN) of the recommender to describe. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="RecommenderArn">The Amazon Resource Name (ARN) of the recommender to describe. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
     public AwsPersonalizeDescribeRecommenderOptions(
         string RecommenderArn
     )
@@ -56,7 +58,7 @@ public record AwsPersonalizeDescribeRecommenderOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the recommender to describe. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the recommender to describe. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--recommender-arn")]
     public string? RecommenderArn { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSagemakerBatchDescribeModelPackageOptions : AwsOptions, IValida
     /// <summary>
     /// This action batch describes a list of versioned model packages See also: AWS API Documentation
     /// </summary>
-    /// <param name="ModelPackageArnList">The list of Amazon Resource Name (ARN) of the model package groups. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 2048 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]{9,16}:[0-9]{12}:model-package/[\S]{1,2048} Syntax: "string" "string" ...</param>
+    /// <param name="ModelPackageArnList">The list of Amazon Resource Name (ARN) of the model package groups. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 2048 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]{9,16}:[0-9]{12}:model-package/[\S]{1,2048} Syntax: "string" "string" ...</param>
     public AwsSagemakerBatchDescribeModelPackageOptions(
         IEnumerable<string> ModelPackageArnList
     )
@@ -67,7 +69,7 @@ public record AwsSagemakerBatchDescribeModelPackageOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The list of Amazon Resource Name (ARN) of the model package groups. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 2048 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]{9,16}:[0-9]{12}:model-package/[\S]{1,2048} Syntax: "string" "string" ...
+    /// The list of Amazon Resource Name (ARN) of the model package groups. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 2048 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]{9,16}:[0-9]{12}:model-package/[\S]{1,2048} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--model-package-arn-list", GroupValues = true)]
     public IEnumerable<string>? ModelPackageArnList { get; private init; }

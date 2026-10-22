@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Imports a reference genome from Amazon S3 into a specified reference store. You can have multiple reference genomes in a reference store. You can only import reference genomes one at a time into each reference store. Monitor the status of your reference import job by using the Ge- tReferenceImportJob API operation. See also: AWS API Documentation
+/// Imports a reference genome from Amazon S3 into a specified reference store. You can have multiple reference genomes in a reference store. You can only import reference genomes one at a time into each reference store. Monitor the status of your reference import job by using the GetReferenceImportJob API operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsOmicsStartReferenceImportJobOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Imports a reference genome from Amazon S3 into a specified reference store. You can have multiple reference genomes in a reference store. You can only import reference genomes one at a time into each reference store. Monitor the status of your reference import job by using the Ge- tReferenceImportJob API operation. See also: AWS API Documentation
+    /// Imports a reference genome from Amazon S3 into a specified reference store. You can have multiple reference genomes in a reference store. You can only import reference genomes one at a time into each reference store. Monitor the status of your reference import job by using the GetReferenceImportJob API operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ReferenceStoreId">The job's reference store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
-    /// <param name="RoleArn">A service role for the job. Constraints: o min: 20 o max: 2048 o pattern: arn:.*</param>
-    /// <param name="Sources">The job's source files. Constraints: o min: 1 o max: 100 (structure) A source for a reference import job. sourceFile -&gt; (string) [required] The source file's location in Amazon S3. Constraints: o pattern: s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/(.{1,1024}) name -&gt; (string) [required] The source's name. Constraints: o min: 3 o max: 255 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ description -&gt; (string) The source's description. Constraints: o min: 1 o max: 255 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ tags -&gt; (map) The source's tags. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: sourceFile=string,name=string,description=string,tags={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "sourceFile": "string", "name": "string", "description": "string", "tags": {"string": "string" ...} } ... ]</param>
+    /// <param name="ReferenceStoreId">The job's reference store ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+</param>
+    /// <param name="RoleArn">A service role for the job. Constraints: • min: 20 • max: 2048 • pattern: arn:.*</param>
+    /// <param name="Sources">The job's source files. Constraints: • min: 1 • max: 100 (structure) A source for a reference import job. sourceFile -&gt; (string) [required] The source file's location in Amazon S3. Constraints: • pattern: s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/(.{1,1024}) name -&gt; (string) [required] The source's name. Constraints: • min: 3 • max: 255 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ description -&gt; (string) The source's description. Constraints: • min: 1 • max: 255 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ tags -&gt; (map) The source's tags. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: sourceFile=string,name=string,description=string,tags={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "sourceFile": "string", "name": "string", "description": "string", "tags": {"string": "string" ...} } ... ]</param>
     public AwsOmicsStartReferenceImportJobOptions(
         string ReferenceStoreId,
         string RoleArn,
@@ -76,25 +78,25 @@ public record AwsOmicsStartReferenceImportJobOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The job's reference store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// The job's reference store ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+
     /// </summary>
     [CliOption("--reference-store-id")]
     public string? ReferenceStoreId { get; private init; }
 
     /// <summary>
-    /// A service role for the job. Constraints: o min: 20 o max: 2048 o pattern: arn:.*
+    /// A service role for the job. Constraints: • min: 20 • max: 2048 • pattern: arn:.*
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// The job's source files. Constraints: o min: 1 o max: 100 (structure) A source for a reference import job. sourceFile -&gt; (string) [required] The source file's location in Amazon S3. Constraints: o pattern: s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/(.{1,1024}) name -&gt; (string) [required] The source's name. Constraints: o min: 3 o max: 255 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ description -&gt; (string) The source's description. Constraints: o min: 1 o max: 255 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ tags -&gt; (map) The source's tags. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: sourceFile=string,name=string,description=string,tags={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "sourceFile": "string", "name": "string", "description": "string", "tags": {"string": "string" ...} } ... ]
+    /// The job's source files. Constraints: • min: 1 • max: 100 (structure) A source for a reference import job. sourceFile -&gt; (string) [required] The source file's location in Amazon S3. Constraints: • pattern: s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/(.{1,1024}) name -&gt; (string) [required] The source's name. Constraints: • min: 3 • max: 255 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ description -&gt; (string) The source's description. Constraints: • min: 1 • max: 255 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ tags -&gt; (map) The source's tags. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: sourceFile=string,name=string,description=string,tags={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "sourceFile": "string", "name": "string", "description": "string", "tags": {"string": "string" ...} } ... ]
     /// </summary>
     [CliOption("--sources", GroupValues = true)]
     public IEnumerable<string>? Sources { get; private init; }
 
     /// <summary>
-    /// To ensure that jobs don't run multiple times, specify a unique token for each job. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// To ensure that jobs don't run multiple times, specify a unique token for each job. Constraints: • min: 1 • max: 127 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

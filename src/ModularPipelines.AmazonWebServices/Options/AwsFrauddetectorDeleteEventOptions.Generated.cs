@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified event. When you delete an event, Amazon Fraud Detector permanently deletes that event and the event data is no longer stored in Amazon Fraud De- tector. If deleteAuditHistory is True , event data is available through search for up to 30 seconds after the delete operation is completed. See also: AWS API Documentation
+/// Deletes the specified event. When you delete an event, Amazon Fraud Detector permanently deletes that event and the event data is no longer stored in Amazon Fraud Detector. If deleteAuditHistory is True , event data is available through search for up to 30 seconds after the delete operation is completed. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsFrauddetectorDeleteEventOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified event. When you delete an event, Amazon Fraud Detector permanently deletes that event and the event data is no longer stored in Amazon Fraud De- tector. If deleteAuditHistory is True , event data is available through search for up to 30 seconds after the delete operation is completed. See also: AWS API Documentation
+    /// Deletes the specified event. When you delete an event, Amazon Fraud Detector permanently deletes that event and the event data is no longer stored in Amazon Fraud Detector. If deleteAuditHistory is True , event data is available through search for up to 30 seconds after the delete operation is completed. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EventId">The ID of the event to delete. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
-    /// <param name="EventTypeName">The name of the event type. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="EventId">The ID of the event to delete. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="EventTypeName">The name of the event type. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$</param>
     public AwsFrauddetectorDeleteEventOptions(
         string EventId,
         string EventTypeName
@@ -60,13 +62,13 @@ public record AwsFrauddetectorDeleteEventOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the event to delete. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// The ID of the event to delete. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$
     /// </summary>
     [CliOption("--event-id")]
     public string? EventId { get; private init; }
 
     /// <summary>
-    /// The name of the event type. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// The name of the event type. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$
     /// </summary>
     [CliOption("--event-type-name")]
     public string? EventTypeName { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an X.509 certificate using the specified certificate signing request. Requires permission to access the CreateCertificateFromCsr action. NOTE: The CSR must include a public key that is either an RSA key with a length of at least 2048 bits or an ECC key from NIST P-256, NIST P-384, or NIST P-521 curves. For supported certificates, consult Certificate signing algorithms supported by IoT . NOTE: Reusing the same certificate signing request (CSR) results in a dis- tinct certificate. You can ...
+/// Creates an X.509 certificate using the specified certificate signing request. Requires permission to access the CreateCertificateFromCsr action. NOTE: The CSR must include a public key that is either an RSA key with a length of at least 2048 bits or an ECC key from NIST P-256, NIST P-384, or NIST P-521 curves. For supported certificates, consult Certificate signing algorithms supported by IoT . NOTE: Reusing the same certificate signing request (CSR) results in a distinct certificate. You can cr...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsIotCreateCertificateFromCsrOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an X.509 certificate using the specified certificate signing request. Requires permission to access the CreateCertificateFromCsr action. NOTE: The CSR must include a public key that is either an RSA key with a length of at least 2048 bits or an ECC key from NIST P-256, NIST P-384, or NIST P-521 curves. For supported certificates, consult Certificate signing algorithms supported by IoT . NOTE: Reusing the same certificate signing request (CSR) results in a dis- tinct certificate. You can ...
+    /// Creates an X.509 certificate using the specified certificate signing request. Requires permission to access the CreateCertificateFromCsr action. NOTE: The CSR must include a public key that is either an RSA key with a length of at least 2048 bits or an ECC key from NIST P-256, NIST P-384, or NIST P-521 curves. For supported certificates, consult Certificate signing algorithms supported by IoT . NOTE: Reusing the same certificate signing request (CSR) results in a distinct certificate. You can cr...
     /// </summary>
-    /// <param name="CertificateSigningRequest">The certificate signing request (CSR). Constraints: o min: 1 o max: 4096 o pattern: [\s\S]*</param>
+    /// <param name="CertificateSigningRequest">The certificate signing request (CSR). Constraints: • min: 1 • max: 4096 • pattern: [\s\S]*</param>
     public AwsIotCreateCertificateFromCsrOptions(
         string CertificateSigningRequest
     )
@@ -56,7 +58,7 @@ public record AwsIotCreateCertificateFromCsrOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The certificate signing request (CSR). Constraints: o min: 1 o max: 4096 o pattern: [\s\S]*
+    /// The certificate signing request (CSR). Constraints: • min: 1 • max: 4096 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--certificate-signing-request")]
     public string? CertificateSigningRequest { get; private init; }

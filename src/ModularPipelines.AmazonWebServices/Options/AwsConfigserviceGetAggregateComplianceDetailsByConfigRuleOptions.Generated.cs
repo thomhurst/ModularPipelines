@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the evaluation results for the specified Config rule for a spe- cific resource in a rule. The results indicate which Amazon Web Ser- vices resources were evaluated by the rule, when each resource was last evaluated, and whether each resource complies with the rule. NOTE: The results can return an empty result page. But if you have a next- Token , the results are displayed on the next page. See also: AWS API Documentation get-aggregate-compliance-details-by-config-rule is a paginated oper...
+/// Returns the evaluation results for the specified Config rule for a specific resource in a rule. The results indicate which Amazon Web Services resources were evaluated by the rule, when each resource was last evaluated, and whether each resource complies with the rule. NOTE: The results can return an empty result page. But if you have a nextToken , the results are displayed on the next page. See also: AWS API Documentation get-aggregate-compliance-details-by-config-rule is a paginated operation....
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,12 +29,12 @@ public record AwsConfigserviceGetAggregateComplianceDetailsByConfigRuleOptions :
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the evaluation results for the specified Config rule for a spe- cific resource in a rule. The results indicate which Amazon Web Ser- vices resources were evaluated by the rule, when each resource was last evaluated, and whether each resource complies with the rule. NOTE: The results can return an empty result page. But if you have a next- Token , the results are displayed on the next page. See also: AWS API Documentation get-aggregate-compliance-details-by-config-rule is a paginated oper...
+    /// Returns the evaluation results for the specified Config rule for a specific resource in a rule. The results indicate which Amazon Web Services resources were evaluated by the rule, when each resource was last evaluated, and whether each resource complies with the rule. NOTE: The results can return an empty result page. But if you have a nextToken , the results are displayed on the next page. See also: AWS API Documentation get-aggregate-compliance-details-by-config-rule is a paginated operation....
     /// </summary>
-    /// <param name="ConfigurationAggregatorName">The name of the configuration aggregator. Constraints: o min: 1 o max: 256 o pattern: [\w\-]+</param>
-    /// <param name="ConfigRuleName">The name of the Config rule for which you want compliance informa- tion. Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
-    /// <param name="AccountId">The 12-digit account ID of the source account. Constraints: o pattern: \d{12}</param>
-    /// <param name="AwsRegion">The source region from where the data is aggregated. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ConfigurationAggregatorName">The name of the configuration aggregator. Constraints: • min: 1 • max: 256 • pattern: [\w\-]+</param>
+    /// <param name="ConfigRuleName">The name of the Config rule for which you want compliance information. Constraints: • min: 1 • max: 128 • pattern: .*\S.*</param>
+    /// <param name="AccountId">The 12-digit account ID of the source account. Constraints: • pattern: \d{12}</param>
+    /// <param name="AwsRegion">The source region from where the data is aggregated. Constraints: • min: 1 • max: 64</param>
     public AwsConfigserviceGetAggregateComplianceDetailsByConfigRuleOptions(
         string ConfigurationAggregatorName,
         string ConfigRuleName,
@@ -70,40 +72,37 @@ public record AwsConfigserviceGetAggregateComplianceDetailsByConfigRuleOptions :
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the configuration aggregator. Constraints: o min: 1 o max: 256 o pattern: [\w\-]+
+    /// The name of the configuration aggregator. Constraints: • min: 1 • max: 256 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--configuration-aggregator-name")]
     public string? ConfigurationAggregatorName { get; private init; }
 
     /// <summary>
-    /// The name of the Config rule for which you want compliance informa- tion. Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// The name of the Config rule for which you want compliance information. Constraints: • min: 1 • max: 128 • pattern: .*\S.*
     /// </summary>
     [CliOption("--config-rule-name")]
     public string? ConfigRuleName { get; private init; }
 
     /// <summary>
-    /// The 12-digit account ID of the source account. Constraints: o pattern: \d{12}
+    /// The 12-digit account ID of the source account. Constraints: • pattern: \d{12}
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The source region from where the data is aggregated. Constraints: o min: 1 o max: 64
+    /// The source region from where the data is aggregated. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--aws-region")]
     public string? AwsRegion { get; private init; }
 
     /// <summary>
-    /// The resource compliance status. NOTE: For the GetAggregateComplianceDetailsByConfigRuleRequest data type, Config supports only the COMPLIANT and NON_COMPLIANT . Config does not support the NOT_APPLICABLE and INSUFFICIENT_DATA values. Possible values: o COMPLIANT o NON_COMPLIANT o NOT_APPLICABLE o INSUFFICIENT_DATA
+    /// The resource compliance status. NOTE: For the GetAggregateComplianceDetailsByConfigRuleRequest data type, Config supports only the COMPLIANT and NON_COMPLIANT . Config does not support the NOT_APPLICABLE and INSUFFICIENT_DATA values. Possible values: • COMPLIANT • NON_COMPLIANT • NOT_APPLICABLE • INSUFFICIENT_DATA
     /// </summary>
     [CliOption("--compliance-type")]
     public AwsConfigserviceGetAggregateComplianceDetailsByConfigRuleComplianceType? ComplianceType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -113,16 +112,19 @@ public record AwsConfigserviceGetAggregateComplianceDetailsByConfigRuleOptions :
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 0 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

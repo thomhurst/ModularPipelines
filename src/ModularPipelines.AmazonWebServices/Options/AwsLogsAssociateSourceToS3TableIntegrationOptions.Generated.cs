@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsLogsAssociateSourceToS3TableIntegrationOptions : AwsOptions, IV
     /// <summary>
     /// Associates a data source with an S3 Table Integration for query access in the 'logs' namespace. This enables querying log data using analytics engines that support Iceberg such as Amazon Athena, Amazon Redshift, and Apache Spark. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IntegrationArn">The Amazon Resource Name (ARN) of the S3 Table Integration to asso- ciate the data source with.</param>
+    /// <param name="IntegrationArn">The Amazon Resource Name (ARN) of the S3 Table Integration to associate the data source with.</param>
     /// <param name="DataSource">The data source to associate with the S3 Table Integration. Contains the name and type of the data source. name -&gt; (string) [required] The name of the data source. type -&gt; (string) The type of the data source. Shorthand Syntax: name=string,type=string JSON Syntax: { "name": "string", "type": "string" }</param>
     public AwsLogsAssociateSourceToS3TableIntegrationOptions(
         string IntegrationArn,
@@ -60,7 +62,7 @@ public record AwsLogsAssociateSourceToS3TableIntegrationOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the S3 Table Integration to asso- ciate the data source with.
+    /// The Amazon Resource Name (ARN) of the S3 Table Integration to associate the data source with.
     /// </summary>
     [CliOption("--integration-arn")]
     public string? IntegrationArn { get; private init; }

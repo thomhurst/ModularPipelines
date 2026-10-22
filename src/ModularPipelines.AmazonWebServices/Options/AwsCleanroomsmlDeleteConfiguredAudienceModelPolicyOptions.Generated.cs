@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCleanroomsmlDeleteConfiguredAudienceModelPolicyOptions : AwsOpt
     /// <summary>
     /// Deletes the specified configured audience model policy. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfiguredAudienceModelArn">The Amazon Resource Name (ARN) of the configured audience model pol- icy that you want to delete. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:config- ured-audience-model/[-a-zA-Z0-9_/.]+</param>
+    /// <param name="ConfiguredAudienceModelArn">The Amazon Resource Name (ARN) of the configured audience model policy that you want to delete. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:configured-audience-model/[-a-zA-Z0-9_/.]+</param>
     public AwsCleanroomsmlDeleteConfiguredAudienceModelPolicyOptions(
         string ConfiguredAudienceModelArn
     )
@@ -56,7 +58,7 @@ public record AwsCleanroomsmlDeleteConfiguredAudienceModelPolicyOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the configured audience model pol- icy that you want to delete. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:config- ured-audience-model/[-a-zA-Z0-9_/.]+
+    /// The Amazon Resource Name (ARN) of the configured audience model policy that you want to delete. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:configured-audience-model/[-a-zA-Z0-9_/.]+
     /// </summary>
     [CliOption("--configured-audience-model-arn")]
     public string? ConfiguredAudienceModelArn { get; private init; }

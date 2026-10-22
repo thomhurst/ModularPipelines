@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsGlueDescribeInboundIntegrationsOptions : AwsOptions
 {
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the integration. Constraints: o min: 1 o max: 128
+    /// The Amazon Resource Name (ARN) of the integration. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--integration-arn")]
     public string? IntegrationArn { get; set; }
 
     /// <summary>
-    /// A token to specify where to start paginating. This is the marker from a previously truncated response. Constraints: o min: 1 o max: 128
+    /// A token to specify where to start paginating. This is the marker from a previously truncated response. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--marker")]
     public string? Marker { get; set; }
@@ -40,7 +40,7 @@ public record AwsGlueDescribeInboundIntegrationsOptions : AwsOptions
     public int? MaxRecords { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the target resource in the inte- gration. Constraints: o min: 1 o max: 512
+    /// The Amazon Resource Name (ARN) of the target resource in the integration. Constraints: • min: 1 • max: 512
     /// </summary>
     [CliOption("--target-arn")]
     public string? TargetArn { get; set; }

@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Return the data for a query with the Amazon CloudWatch Internet Monitor query interface. Specify the query that you want to return results for by providing a QueryId and a monitor name. For more information about using the query interface, including exam- ples, see Using the Amazon CloudWatch Internet Monitor query interface in the Amazon CloudWatch Internet Monitor User Guide. See also: AWS API Documentation
+/// Return the data for a query with the Amazon CloudWatch Internet Monitor query interface. Specify the query that you want to return results for by providing a QueryId and a monitor name. For more information about using the query interface, including examples, see Using the Amazon CloudWatch Internet Monitor query interface in the Amazon CloudWatch Internet Monitor User Guide. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsInternetmonitorGetQueryResultsOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Return the data for a query with the Amazon CloudWatch Internet Monitor query interface. Specify the query that you want to return results for by providing a QueryId and a monitor name. For more information about using the query interface, including exam- ples, see Using the Amazon CloudWatch Internet Monitor query interface in the Amazon CloudWatch Internet Monitor User Guide. See also: AWS API Documentation
+    /// Return the data for a query with the Amazon CloudWatch Internet Monitor query interface. Specify the query that you want to return results for by providing a QueryId and a monitor name. For more information about using the query interface, including examples, see Using the Amazon CloudWatch Internet Monitor query interface in the Amazon CloudWatch Internet Monitor User Guide. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MonitorName">The name of the monitor to return data for. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="MonitorName">The name of the monitor to return data for. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.-]+</param>
     /// <param name="QueryId">The ID of the query that you want to return data results for. A QueryId is an internally-generated identifier for a specific query.</param>
     public AwsInternetmonitorGetQueryResultsOptions(
         string MonitorName,
@@ -61,7 +63,7 @@ public record AwsInternetmonitorGetQueryResultsOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the monitor to return data for. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the monitor to return data for. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--monitor-name")]
     public string? MonitorName { get; private init; }
@@ -80,7 +82,7 @@ public record AwsInternetmonitorGetQueryResultsOptions : AwsOptions, IValidatabl
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The number of query results that you want to return with this call. Constraints: o min: 1 o max: 1000
+    /// The number of query results that you want to return with this call. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

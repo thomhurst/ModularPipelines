@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -25,37 +26,37 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsServicecatalogSearchProductsOptions : AwsOptions
 {
     /// <summary>
-    /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
+    /// The language code. • jp - Japanese • zh - Chinese Constraints: • max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
     /// <summary>
-    /// The search filters. If no search filters are specified, the output includes all products to which the caller has access. key -&gt; (string) Possible values: o FullTextSearch o Owner o ProductType o SourceProductId value -&gt; (list) (string) Shorthand Syntax: KeyName1=string,string,KeyName2=string,string Where valid key names are: FullTextSearch Owner ProductType SourceProductId JSON Syntax: {"FullTextSearch"|"Owner"|"ProductType"|"SourceProductId": ["string", ...] ...}
+    /// The search filters. If no search filters are specified, the output includes all products to which the caller has access. key -&gt; (string) Possible values: • FullTextSearch • Owner • ProductType • SourceProductId value -&gt; (list) (string) Shorthand Syntax: KeyName1=string,string,KeyName2=string,string Where valid key names are: FullTextSearch Owner ProductType SourceProductId JSON Syntax: {"FullTextSearch"|"Owner"|"ProductType"|"SourceProductId": ["string", ...] ...}
     /// </summary>
     [CliOption("--filters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Filters { get; set; }
 
     /// <summary>
-    /// The maximum number of items to return with this call. Constraints: o min: 0 o max: 100
+    /// The maximum number of items to return with this call. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The sort field. If no value is specified, the results are not sorted. Possible values: o Title o VersionCount o CreationDate
+    /// The sort field. If no value is specified, the results are not sorted. Possible values: • Title • VersionCount • CreationDate
     /// </summary>
     [CliOption("--sort-by")]
     public AwsServicecatalogSearchProductsSortBy? SortBy { get; set; }
 
     /// <summary>
-    /// The sort order. If no value is specified, the results are not sorted. Possible values: o ASCENDING o DESCENDING
+    /// The sort order. If no value is specified, the results are not sorted. Possible values: • ASCENDING • DESCENDING
     /// </summary>
     [CliOption("--sort-order")]
     public AwsServicecatalogSearchProductsSortOrder? SortOrder { get; set; }
 
     /// <summary>
-    /// The page token for the next set of results. To retrieve the first set of results, use null. Constraints: o max: 2024 o pattern: [\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*
+    /// The page token for the next set of results. To retrieve the first set of results, use null. Constraints: • max: 2024 • pattern: [\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*
     /// </summary>
     [SecretValue]
     [CliOption("--page-token")]

@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists all users in the identity store. Returns a paginated list of com- plete User objects. Filtering for a User by the UserName attribute is deprecated. Instead, use the GetUserId API action. NOTE: If you have access to a member account, you can use this API opera- tion from the member account. For more information, see Limiting ac- cess to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation list-users uses document type values. Docume...
+/// Lists all users in the identity store. Returns a paginated list of complete User objects. Filtering for a User by the UserName attribute is deprecated. Instead, use the GetUserId API action. NOTE: If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation list-users uses document type values. Document typ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsIdentitystoreListUsersOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists all users in the identity store. Returns a paginated list of com- plete User objects. Filtering for a User by the UserName attribute is deprecated. Instead, use the GetUserId API action. NOTE: If you have access to a member account, you can use this API opera- tion from the member account. For more information, see Limiting ac- cess to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation list-users uses document type values. Docume...
+    /// Lists all users in the identity store. Returns a paginated list of complete User objects. Filtering for a User by the UserName attribute is deprecated. Instead, use the GetUserId API action. NOTE: If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation list-users uses document type values. Document typ...
     /// </summary>
-    /// <param name="IdentityStoreId">The globally unique identifier for the identity store, such as d-1234567890 . In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890 . Constraints: o min: 1 o max: 93 o pattern: (arn:aws[a-z-]*:identitystore::\d{12}:identitys- tore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
+    /// <param name="IdentityStoreId">The globally unique identifier for the identity store, such as d-1234567890 . In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890 . Constraints: • min: 1 • max: 93 • pattern: (arn:aws[a-z-]*:identitystore::\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
     public AwsIdentitystoreListUsersOptions(
         string IdentityStoreId
     )
@@ -57,28 +59,25 @@ public record AwsIdentitystoreListUsersOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The globally unique identifier for the identity store, such as d-1234567890 . In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890 . Constraints: o min: 1 o max: 93 o pattern: (arn:aws[a-z-]*:identitystore::\d{12}:identitys- tore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
+    /// The globally unique identifier for the identity store, such as d-1234567890 . In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890 . Constraints: • min: 1 • max: 93 • pattern: (arn:aws[a-z-]*:identitystore::\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
     /// </summary>
     [CliOption("--identity-store-id")]
     public string? IdentityStoreId { get; private init; }
 
     /// <summary>
-    /// A collection of extension names indicating what extensions the ser- vice should retrieve alongside other user attributes. aws:identitys- tore:enterprise is the only supported extension name. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 50 o pattern: aws:identitystore:[a-z]{1,20} Syntax: "string" "string" ...
+    /// A collection of extension names indicating what extensions the service should retrieve alongside other user attributes. aws:identitystore:enterprise is the only supported extension name. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 50 • pattern: aws:identitystore:[a-z]{1,20} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--extensions", GroupValues = true)]
     public IEnumerable<string>? Extensions { get; set; }
 
     /// <summary>
-    /// A list of Filter objects, which is used in the ListUsers and List- Groups requests. Constraints: o min: 0 o max: 1 (structure) A query filter used by ListUsers and ListGroups . This filter object provides the attribute name and attribute value to search users or groups. AttributePath -&gt; (string) [required] The attribute path that is used to specify which attribute name to search. Length limit is 255 characters. For example, UserName is a valid attribute path for the ListUsers API, and DisplayName is a valid attribute path for the ListGroups API. Constraints: o min: 1 o max: 255 o pattern: (?:\p{L}+:\p{L}+:\p{L}+(?:\.\p{L}+){0,3}|\p{L}+(?:\.\p{L}+){0,2}) AttributeValue -&gt; (string) [required] Represents the data for an attribute. Each attribute value is described as a name-value pair. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Shorthand Syntax: AttributePath=string,AttributeValue=string ... JSON Syntax: [ { "AttributePath": "string", "AttributeValue": "string" } ... ]
+    /// A list of Filter objects, which is used in the ListUsers and ListGroups requests. Constraints: • min: 0 • max: 1 (structure) A query filter used by ListUsers and ListGroups . This filter object provides the attribute name and attribute value to search users or groups. AttributePath -&gt; (string) [required] The attribute path that is used to specify which attribute name to search. Length limit is 255 characters. For example, UserName is a valid attribute path for the ListUsers API, and DisplayName is a valid attribute path for the ListGroups API. Constraints: • min: 1 • max: 255 • pattern: (?:\p{L}+:\p{L}+:\p{L}+(?:\.\p{L}+){0,3}|\p{L}+(?:\.\p{L}+){0,2}) AttributeValue -&gt; (string) [required] Represents the data for an attribute. Each attribute value is described as a name-value pair. Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Shorthand Syntax: AttributePath=string,AttributeValue=string ... JSON Syntax: [ { "AttributePath": "string", "AttributeValue": "string" } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -88,16 +87,19 @@ public record AwsIdentitystoreListUsersOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

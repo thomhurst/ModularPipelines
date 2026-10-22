@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The pre-signed Amazon S3 URL to download the test execution result ar- tifacts. See also: AWS API Documentation
+/// The pre-signed Amazon S3 URL to download the test execution result artifacts. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLexv2ModelsGetTestExecutionArtifactsUrlOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The pre-signed Amazon S3 URL to download the test execution result ar- tifacts. See also: AWS API Documentation
+    /// The pre-signed Amazon S3 URL to download the test execution result artifacts. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TestExecutionId">The unique identifier of the completed test execution. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="TestExecutionId">The unique identifier of the completed test execution. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
     public AwsLexv2ModelsGetTestExecutionArtifactsUrlOptions(
         string TestExecutionId
     )
@@ -56,7 +58,7 @@ public record AwsLexv2ModelsGetTestExecutionArtifactsUrlOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the completed test execution. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier of the completed test execution. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--test-execution-id")]
     public string? TestExecutionId { get; private init; }

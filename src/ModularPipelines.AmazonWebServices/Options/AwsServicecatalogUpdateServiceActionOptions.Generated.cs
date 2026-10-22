@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,7 +29,7 @@ public record AwsServicecatalogUpdateServiceActionOptions : AwsOptions, IValidat
     /// <summary>
     /// Updates a self-service action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The self-service action identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="Id">The self-service action identifier. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*</param>
     public AwsServicecatalogUpdateServiceActionOptions(
         string Id
     )
@@ -57,31 +58,31 @@ public record AwsServicecatalogUpdateServiceActionOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The self-service action identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The self-service action identifier. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The self-service action name. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9_\-.]*
+    /// The self-service action name. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9_\-.]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A map that defines the self-service action. Constraints: o min: 1 o max: 100 key -&gt; (string) Possible values: o Name o Version o AssumeRole o Parameters value -&gt; (string) Constraints: o min: 1 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: Name Version AssumeRole Parameters JSON Syntax: {"Name"|"Version"|"AssumeRole"|"Parameters": "string" ...}
+    /// A map that defines the self-service action. Constraints: • min: 1 • max: 100 key -&gt; (string) Possible values: • Name • Version • AssumeRole • Parameters value -&gt; (string) Constraints: • min: 1 • max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: Name Version AssumeRole Parameters JSON Syntax: {"Name"|"Version"|"AssumeRole"|"Parameters": "string" ...}
     /// </summary>
     [CliOption("--definition", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Definition { get; set; }
 
     /// <summary>
-    /// The self-service action description. Constraints: o max: 1024
+    /// The self-service action description. Constraints: • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
+    /// The language code. • jp - Japanese • zh - Chinese Constraints: • max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }

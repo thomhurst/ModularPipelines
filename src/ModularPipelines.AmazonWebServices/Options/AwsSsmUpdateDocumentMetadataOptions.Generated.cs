@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsSsmUpdateDocumentMetadataOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// WARNING: Amazon Web Services Systems Manager Change Manager is no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see Amazon Web Services Systems Manager Change Manager availability change . Updates information related to approval reviews for a specific version of a change template in Change Manager. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the change template for which a version's metadata is to be updated. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{3,128}$</param>
-    /// <param name="DocumentReviews">The change template review details to update. Action -&gt; (string) [required] The action to take on a document approval review request. Possible values: o SendForReview o UpdateReview o Approve o Reject Comment -&gt; (list) A comment entered by a user in your organization about the docu- ment review request. Constraints: o min: 0 o max: 1 (structure) Information about comments added to a document review re- quest. Type -&gt; (string) The type of information added to a review request. Cur- rently, only the value Comment is supported. Possible values: o Comment Content -&gt; (string) The content of a comment entered by a user who requests a review of a new document version, or who reviews the new version. Constraints: o min: 1 o max: 1024 o pattern: ^(?!\s*$).+ Shorthand Syntax: Action=string,Comment=[{Type=string,Content=string},{Type=string,Content=string}] JSON Syntax: { "Action": "SendForReview"|"UpdateReview"|"Approve"|"Reject", "Comment": [ { "Type": "Comment", "Content": "string" } ... ] }</param>
+    /// <param name="Name">The name of the change template for which a version's metadata is to be updated. Constraints: • pattern: ^[a-zA-Z0-9_\-.]{3,128}$</param>
+    /// <param name="DocumentReviews">The change template review details to update. Action -&gt; (string) [required] The action to take on a document approval review request. Possible values: • SendForReview • UpdateReview • Approve • Reject Comment -&gt; (list) A comment entered by a user in your organization about the document review request. Constraints: • min: 0 • max: 1 (structure) Information about comments added to a document review request. Type -&gt; (string) The type of information added to a review request. Currently, only the value Comment is supported. Possible values: • Comment Content -&gt; (string) The content of a comment entered by a user who requests a review of a new document version, or who reviews the new version. Constraints: • min: 1 • max: 1024 • pattern: ^(?!\s*$).+ Shorthand Syntax: Action=string,Comment=[{Type=string,Content=string},{Type=string,Content=string}] JSON Syntax: { "Action": "SendForReview"|"UpdateReview"|"Approve"|"Reject", "Comment": [ { "Type": "Comment", "Content": "string" } ... ] }</param>
     public AwsSsmUpdateDocumentMetadataOptions(
         string Name,
         string DocumentReviews
@@ -60,19 +62,19 @@ public record AwsSsmUpdateDocumentMetadataOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the change template for which a version's metadata is to be updated. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{3,128}$
+    /// The name of the change template for which a version's metadata is to be updated. Constraints: • pattern: ^[a-zA-Z0-9_\-.]{3,128}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The change template review details to update. Action -&gt; (string) [required] The action to take on a document approval review request. Possible values: o SendForReview o UpdateReview o Approve o Reject Comment -&gt; (list) A comment entered by a user in your organization about the docu- ment review request. Constraints: o min: 0 o max: 1 (structure) Information about comments added to a document review re- quest. Type -&gt; (string) The type of information added to a review request. Cur- rently, only the value Comment is supported. Possible values: o Comment Content -&gt; (string) The content of a comment entered by a user who requests a review of a new document version, or who reviews the new version. Constraints: o min: 1 o max: 1024 o pattern: ^(?!\s*$).+ Shorthand Syntax: Action=string,Comment=[{Type=string,Content=string},{Type=string,Content=string}] JSON Syntax: { "Action": "SendForReview"|"UpdateReview"|"Approve"|"Reject", "Comment": [ { "Type": "Comment", "Content": "string" } ... ] }
+    /// The change template review details to update. Action -&gt; (string) [required] The action to take on a document approval review request. Possible values: • SendForReview • UpdateReview • Approve • Reject Comment -&gt; (list) A comment entered by a user in your organization about the document review request. Constraints: • min: 0 • max: 1 (structure) Information about comments added to a document review request. Type -&gt; (string) The type of information added to a review request. Currently, only the value Comment is supported. Possible values: • Comment Content -&gt; (string) The content of a comment entered by a user who requests a review of a new document version, or who reviews the new version. Constraints: • min: 1 • max: 1024 • pattern: ^(?!\s*$).+ Shorthand Syntax: Action=string,Comment=[{Type=string,Content=string},{Type=string,Content=string}] JSON Syntax: { "Action": "SendForReview"|"UpdateReview"|"Approve"|"Reject", "Comment": [ { "Type": "Comment", "Content": "string" } ... ] }
     /// </summary>
     [CliOption("--document-reviews")]
     public string? DocumentReviews { get; private init; }
 
     /// <summary>
-    /// The version of a change template in which to update approval meta- data. Constraints: o pattern: ([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)
+    /// The version of a change template in which to update approval metadata. Constraints: • pattern: ([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)
     /// </summary>
     [CliOption("--document-version")]
     public string? DocumentVersion { get; set; }

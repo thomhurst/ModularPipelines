@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies a Capacity Reservation's capacity, instance eligibility, and the conditions under which it is to be released. You can't modify a Ca- pacity Reservation's instance type, EBS optimization, platform, in- stance store settings, Availability Zone, or tenancy. If you need to modify any of these attributes, we recommend that you cancel the Capac- ity Reservation, and then create a new one with the required attrib- utes. For more information, see Modify an active Capacity Reservation . The allo...
+/// Modifies a Capacity Reservation's capacity, instance eligibility, and the conditions under which it is to be released. You can't modify a Capacity Reservation's instance type, EBS optimization, platform, instance store settings, Availability Zone, or tenancy. If you need to modify any of these attributes, we recommend that you cancel the Capacity Reservation, and then create a new one with the required attributes. For more information, see Modify an active Capacity Reservation . The allowed modi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +28,7 @@ public record AwsEc2ModifyCapacityReservationOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies a Capacity Reservation's capacity, instance eligibility, and the conditions under which it is to be released. You can't modify a Ca- pacity Reservation's instance type, EBS optimization, platform, in- stance store settings, Availability Zone, or tenancy. If you need to modify any of these attributes, we recommend that you cancel the Capac- ity Reservation, and then create a new one with the required attrib- utes. For more information, see Modify an active Capacity Reservation . The allo...
+    /// Modifies a Capacity Reservation's capacity, instance eligibility, and the conditions under which it is to be released. You can't modify a Capacity Reservation's instance type, EBS optimization, platform, instance store settings, Availability Zone, or tenancy. If you need to modify any of these attributes, we recommend that you cancel the Capacity Reservation, and then create a new one with the required attributes. For more information, see Modify an active Capacity Reservation . The allowed modi...
     /// </summary>
     /// <param name="CapacityReservationId">The ID of the Capacity Reservation.</param>
     public AwsEc2ModifyCapacityReservationOptions(
@@ -69,25 +71,25 @@ public record AwsEc2ModifyCapacityReservationOptions : AwsOptions, IValidatableO
     public int? InstanceCount { get; set; }
 
     /// <summary>
-    /// The date and time at which the Capacity Reservation expires. When a Capacity Reservation expires, the reserved capacity is released and you can no longer launch instances into it. The Capacity Reserva- tion's state changes to expired when it reaches its end date and time. The Capacity Reservation is cancelled within an hour from the speci- fied time. For example, if you specify 5/31/2019, 13:30:55, the Ca- pacity Reservation is guaranteed to end between 13:30:55 and 14:30:55 on 5/31/2019. You must provide an EndDate value if EndDateType is limited . Omit EndDate if EndDateType is unlimited .
+    /// The date and time at which the Capacity Reservation expires. When a Capacity Reservation expires, the reserved capacity is released and you can no longer launch instances into it. The Capacity Reservation's state changes to expired when it reaches its end date and time. The Capacity Reservation is cancelled within an hour from the specified time. For example, if you specify 5/31/2019, 13:30:55, the Capacity Reservation is guaranteed to end between 13:30:55 and 14:30:55 on 5/31/2019. You must provide an EndDate value if EndDateType is limited . Omit EndDate if EndDateType is unlimited .
     /// </summary>
     [CliOption("--end-date")]
     public string? EndDate { get; set; }
 
     /// <summary>
-    /// Indicates the way in which the Capacity Reservation ends. A Capacity Reservation can have one of the following end types: o unlimited - The Capacity Reservation remains active until you ex- plicitly cancel it. Do not provide an EndDate value if EndDateType is unlimited . o limited - The Capacity Reservation expires automatically at a specified date and time. You must provide an EndDate value if End- DateType is limited . Possible values: o unlimited o limited
+    /// Indicates the way in which the Capacity Reservation ends. A Capacity Reservation can have one of the following end types: • unlimited - The Capacity Reservation remains active until you explicitly cancel it. Do not provide an EndDate value if EndDateType is unlimited . • limited - The Capacity Reservation expires automatically at a specified date and time. You must provide an EndDate value if EndDateType is limited . Possible values: • unlimited • limited
     /// </summary>
     [CliOption("--end-date-type")]
     public AwsEc2ModifyCapacityReservationEndDateType? EndDateType { get; set; }
 
     /// <summary>
-    /// Reserved. Capacity Reservations you have created are accepted by de- fault.
+    /// Reserved. Capacity Reservations you have created are accepted by default.
     /// </summary>
     [CliFlag("--accept", NegatedName = "--no-accept")]
     public bool? Accept { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -99,25 +101,25 @@ public record AwsEc2ModifyCapacityReservationOptions : AwsOptions, IValidatableO
     public string? AdditionalInfo { get; set; }
 
     /// <summary>
-    /// The matching criteria (instance eligibility) that you want to use in the modified Capacity Reservation. If you change the instance eligi- bility of an existing Capacity Reservation from targeted to open , any running instances that match the attributes of the Capacity Reservation, have the CapacityReservationPreference set to open , and are not yet running in the Capacity Reservation, will automati- cally use the modified Capacity Reservation. To modify the instance eligibility, the Capacity Reservation must be completely idle (zero usage). Possible values: o open o targeted
+    /// The matching criteria (instance eligibility) that you want to use in the modified Capacity Reservation. If you change the instance eligibility of an existing Capacity Reservation from targeted to open , any running instances that match the attributes of the Capacity Reservation, have the CapacityReservationPreference set to open , and are not yet running in the Capacity Reservation, will automatically use the modified Capacity Reservation. To modify the instance eligibility, the Capacity Reservation must be completely idle (zero usage). Possible values: • open • targeted
     /// </summary>
     [CliOption("--instance-match-criteria")]
     public AwsEc2ModifyCapacityReservationInstanceMatchCriteria? InstanceMatchCriteria { get; set; }
 
     /// <summary>
-    /// Indicates that you accept the modification terms of the quote iden- tified by QuoteId . To apply a quoted modification, set this parame- ter to true .
+    /// Indicates that you accept the modification terms of the quote identified by QuoteId . To apply a quoted modification, set this parameter to true .
     /// </summary>
     [CliFlag("--accept-modification-terms", NegatedName = "--no-accept-modification-terms")]
     public bool? AcceptModificationTerms { get; set; }
 
     /// <summary>
-    /// The new start date for the Capacity Reservation, in the ISO8601 for- mat in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ ). Applies to fu- ture-dated Capacity Reservations only. Requires a quote from Create- CapacityReservationDateChangeQuote ; pass the quote ID in QuoteId with AcceptModificationTerms set to true .
+    /// The new start date for the Capacity Reservation, in the ISO8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ ). Applies to future-dated Capacity Reservations only. Requires a quote from CreateCapacityReservationDateChangeQuote ; pass the quote ID in QuoteId with AcceptModificationTerms set to true .
     /// </summary>
     [CliOption("--start-date")]
     public string? StartDate { get; set; }
 
     /// <summary>
-    /// The ID of the quote that describes the modification you want to ap- ply. Generate a quote by using CreateCapacityReservationDateChange- Quote . The quote must be in the active state, and each quote can be used only once.
+    /// The ID of the quote that describes the modification you want to apply. Generate a quote by using CreateCapacityReservationDateChangeQuote . The quote must be in the active state, and each quote can be used only once.
     /// </summary>
     [CliOption("--quote-id")]
     public string? QuoteId { get; set; }

@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets a list of past predictions. The list can be filtered by detector ID, detector version ID, event ID, event type, or by specifying a time period. If filter is not specified, the most recent prediction is re- turned. For example, the following filter lists all past predictions for xyz event type - { "eventType":{ "value": "xyz" } } This is a paginated API. If you provide a null maxResults , this action will retrieve a maximum of 10 records per page. If you provide a maxRe- sults , the value mu...
+/// Gets a list of past predictions. The list can be filtered by detector ID, detector version ID, event ID, event type, or by specifying a time period. If filter is not specified, the most recent prediction is returned. For example, the following filter lists all past predictions for xyz event type - { "eventType":{ "value": "xyz" } } This is a paginated API. If you provide a null maxResults , this action will retrieve a maximum of 10 records per page. If you provide a maxResults , the value must b...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,31 +23,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsFrauddetectorListEventPredictionsOptions : AwsOptions
 {
     /// <summary>
-    /// The event ID. value -&gt; (string) A statement containing a resource property and a value to spec- ify filter condition. Constraints: o min: 1 o max: 256 o pattern: ^[0-9A-Za-z_-]+$ Shorthand Syntax: value=string JSON Syntax: { "value": "string" }
+    /// The event ID. value -&gt; (string) A statement containing a resource property and a value to specify filter condition. Constraints: • min: 1 • max: 256 • pattern: ^[0-9A-Za-z_-]+$ Shorthand Syntax: value=string JSON Syntax: { "value": "string" }
     /// </summary>
     [CliOption("--event-id")]
     public string? EventId { get; set; }
 
     /// <summary>
-    /// The event type associated with the detector. value -&gt; (string) A statement containing a resource property and a value to spec- ify filter condition. Constraints: o min: 1 o max: 256 o pattern: ^[0-9A-Za-z_-]+$ Shorthand Syntax: value=string JSON Syntax: { "value": "string" }
+    /// The event type associated with the detector. value -&gt; (string) A statement containing a resource property and a value to specify filter condition. Constraints: • min: 1 • max: 256 • pattern: ^[0-9A-Za-z_-]+$ Shorthand Syntax: value=string JSON Syntax: { "value": "string" }
     /// </summary>
     [CliOption("--event-type")]
     public string? EventType { get; set; }
 
     /// <summary>
-    /// The detector ID. value -&gt; (string) A statement containing a resource property and a value to spec- ify filter condition. Constraints: o min: 1 o max: 256 o pattern: ^[0-9A-Za-z_-]+$ Shorthand Syntax: value=string JSON Syntax: { "value": "string" }
+    /// The detector ID. value -&gt; (string) A statement containing a resource property and a value to specify filter condition. Constraints: • min: 1 • max: 256 • pattern: ^[0-9A-Za-z_-]+$ Shorthand Syntax: value=string JSON Syntax: { "value": "string" }
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; set; }
 
     /// <summary>
-    /// The detector version ID. value -&gt; (string) A statement containing a resource property and a value to spec- ify filter condition. Constraints: o min: 1 o max: 256 o pattern: ^[0-9A-Za-z_-]+$ Shorthand Syntax: value=string JSON Syntax: { "value": "string" }
+    /// The detector version ID. value -&gt; (string) A statement containing a resource property and a value to specify filter condition. Constraints: • min: 1 • max: 256 • pattern: ^[0-9A-Za-z_-]+$ Shorthand Syntax: value=string JSON Syntax: { "value": "string" }
     /// </summary>
     [CliOption("--detector-version-id")]
     public string? DetectorVersionId { get; set; }
 
     /// <summary>
-    /// The time period for when the predictions were generated. startTime -&gt; (string) [required] The start time of the time period for when the predictions were generated. Constraints: o min: 11 o max: 30 endTime -&gt; (string) [required] The end time of the time period for when the predictions were generated. Constraints: o min: 11 o max: 30 Shorthand Syntax: startTime=string,endTime=string JSON Syntax: { "startTime": "string", "endTime": "string" }
+    /// The time period for when the predictions were generated. startTime -&gt; (string) [required] The start time of the time period for when the predictions were generated. Constraints: • min: 11 • max: 30 endTime -&gt; (string) [required] The end time of the time period for when the predictions were generated. Constraints: • min: 11 • max: 30 Shorthand Syntax: startTime=string,endTime=string JSON Syntax: { "startTime": "string", "endTime": "string" }
     /// </summary>
     [CliOption("--prediction-time-range")]
     public string? PredictionTimeRange { get; set; }
@@ -60,7 +60,7 @@ public record AwsFrauddetectorListEventPredictionsOptions : AwsOptions
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of predictions to return for the request. Constraints: o min: 50 o max: 100
+    /// The maximum number of predictions to return for the request. Constraints: • min: 50 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

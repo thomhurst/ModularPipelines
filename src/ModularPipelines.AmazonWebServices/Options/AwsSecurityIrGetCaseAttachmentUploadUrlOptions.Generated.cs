@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,13 +30,13 @@ public record AwsSecurityIrGetCaseAttachmentUploadUrlOptions : AwsOptions, IVali
     /// <summary>
     /// Uploads an attachment to a case. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CaseId">Required element for GetCaseAttachmentUploadUrl to identify the case ID for uploading an attachment. Constraints: o min: 10 o max: 32 o pattern: \d{10,32}.*</param>
-    /// <param name="FileName">Required element for GetCaseAttachmentUploadUrl to identify the file name of the attachment to upload. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9._-]+</param>
-    /// <param name="ContentLength">Required element for GetCaseAttachmentUploadUrl to identify the size of the file attachment. Constraints: o min: 1 o max: 104857600</param>
+    /// <param name="CaseId">Required element for GetCaseAttachmentUploadUrl to identify the case ID for uploading an attachment. Constraints: • min: 10 • max: 32 • pattern: \d{10,32}.*</param>
+    /// <param name="FileName">Required element for GetCaseAttachmentUploadUrl to identify the file name of the attachment to upload. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9._-]+</param>
+    /// <param name="ContentLength">Required element for GetCaseAttachmentUploadUrl to identify the size of the file attachment. Constraints: • min: 1 • max: 104857600</param>
     public AwsSecurityIrGetCaseAttachmentUploadUrlOptions(
         string CaseId,
         string FileName,
-        int ContentLength
+        long ContentLength
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(CaseId);
@@ -64,25 +66,25 @@ public record AwsSecurityIrGetCaseAttachmentUploadUrlOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Required element for GetCaseAttachmentUploadUrl to identify the case ID for uploading an attachment. Constraints: o min: 10 o max: 32 o pattern: \d{10,32}.*
+    /// Required element for GetCaseAttachmentUploadUrl to identify the case ID for uploading an attachment. Constraints: • min: 10 • max: 32 • pattern: \d{10,32}.*
     /// </summary>
     [CliOption("--case-id")]
     public string? CaseId { get; private init; }
 
     /// <summary>
-    /// Required element for GetCaseAttachmentUploadUrl to identify the file name of the attachment to upload. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9._-]+
+    /// Required element for GetCaseAttachmentUploadUrl to identify the file name of the attachment to upload. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9._-]+
     /// </summary>
     [CliOption("--file-name")]
     public string? FileName { get; private init; }
 
     /// <summary>
-    /// Required element for GetCaseAttachmentUploadUrl to identify the size of the file attachment. Constraints: o min: 1 o max: 104857600
+    /// Required element for GetCaseAttachmentUploadUrl to identify the size of the file attachment. Constraints: • min: 1 • max: 104857600
     /// </summary>
     [CliOption("--content-length")]
-    public int? ContentLength { get; private init; }
+    public long? ContentLength { get; private init; }
 
     /// <summary>
-    /// NOTE: The clientToken field is an idempotency key used to ensure that repeated attempts for a single action will be ignored by the server during retries. A caller supplied unique ID (typically a UUID) should be provided. Constraints: o min: 1 o max: 255
+    /// NOTE: The clientToken field is an idempotency key used to ensure that repeated attempts for a single action will be ignored by the server during retries. A caller supplied unique ID (typically a UUID) should be provided. Constraints: • min: 1 • max: 255
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

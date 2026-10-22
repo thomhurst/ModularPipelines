@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIvsGetPlaybackRestrictionPolicyOptions : AwsOptions, IValidatab
     /// <summary>
     /// Gets the specified playback restriction policy. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">ARN of the playback restriction policy to be returned. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-restriction-pol- icy/[a-zA-Z0-9-]+</param>
+    /// <param name="Arn">ARN of the playback restriction policy to be returned. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-restriction-policy/[a-zA-Z0-9-]+</param>
     public AwsIvsGetPlaybackRestrictionPolicyOptions(
         string Arn
     )
@@ -56,7 +58,7 @@ public record AwsIvsGetPlaybackRestrictionPolicyOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of the playback restriction policy to be returned. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-restriction-pol- icy/[a-zA-Z0-9-]+
+    /// ARN of the playback restriction policy to be returned. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-restriction-policy/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }

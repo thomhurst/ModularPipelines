@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotDescribeProvisioningTemplateVersionOptions : AwsOptions, IVa
     /// <summary>
     /// Returns information about a provisioning template version. Requires permission to access the DescribeProvisioningTemplateVersion action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TemplateName">The template name. Constraints: o min: 1 o max: 36 o pattern: ^[0-9A-Za-z_-]+$</param>
+    /// <param name="TemplateName">The template name. Constraints: • min: 1 • max: 36 • pattern: ^[0-9A-Za-z_-]+$</param>
     /// <param name="VersionId">The provisioning template version ID.</param>
     public AwsIotDescribeProvisioningTemplateVersionOptions(
         string TemplateName,
@@ -59,7 +61,7 @@ public record AwsIotDescribeProvisioningTemplateVersionOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The template name. Constraints: o min: 1 o max: 36 o pattern: ^[0-9A-Za-z_-]+$
+    /// The template name. Constraints: • min: 1 • max: 36 • pattern: ^[0-9A-Za-z_-]+$
     /// </summary>
     [CliOption("--template-name")]
     public string? TemplateName { get; private init; }

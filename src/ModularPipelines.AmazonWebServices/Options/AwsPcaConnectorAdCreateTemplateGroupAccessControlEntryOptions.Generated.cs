@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,10 +30,10 @@ public record AwsPcaConnectorAdCreateTemplateGroupAccessControlEntryOptions : Aw
     /// <summary>
     /// Create a group access control entry. Allow or deny Active Directory groups from enrolling and/or autoenrolling with the template based on the group security identifiers (SIDs). See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccessRights">Allow or deny permissions for an Active Directory group to enroll or autoenroll certificates for a template. AutoEnroll -&gt; (string) Allow or deny an Active Directory group from autoenrolling cer- tificates issued against a template. The Active Directory group must be allowed to enroll to allow autoenrollment Possible values: o ALLOW o DENY Enroll -&gt; (string) Allow or deny an Active Directory group from enrolling certifi- cates issued against a template. Possible values: o ALLOW o DENY Shorthand Syntax: AutoEnroll=string,Enroll=string JSON Syntax: { "AutoEnroll": "ALLOW"|"DENY", "Enroll": "ALLOW"|"DENY" }</param>
-    /// <param name="GroupDisplayName">Name of the Active Directory group. This name does not need to match the group name in Active Directory. Constraints: o min: 0 o max: 256 o pattern: ^[\x20-\x7E]+$</param>
-    /// <param name="GroupSecurityIdentifier">Security identifier (SID) of the group object from Active Directory. The SID starts with "S-". Constraints: o min: 7 o max: 256 o pattern: ^S-[0-9]-([0-9]+-){1,14}[0-9]+$</param>
-    /// <param name="TemplateArn">The Amazon Resource Name (ARN) that was returned when you called CreateTemplate . Constraints: o min: 5 o max: 200 o pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:connec- tor\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}\/tem- plate\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$</param>
+    /// <param name="AccessRights">Allow or deny permissions for an Active Directory group to enroll or autoenroll certificates for a template. AutoEnroll -&gt; (string) Allow or deny an Active Directory group from autoenrolling certificates issued against a template. The Active Directory group must be allowed to enroll to allow autoenrollment Possible values: • ALLOW • DENY Enroll -&gt; (string) Allow or deny an Active Directory group from enrolling certificates issued against a template. Possible values: • ALLOW • DENY Shorthand Syntax: AutoEnroll=string,Enroll=string JSON Syntax: { "AutoEnroll": "ALLOW"|"DENY", "Enroll": "ALLOW"|"DENY" }</param>
+    /// <param name="GroupDisplayName">Name of the Active Directory group. This name does not need to match the group name in Active Directory. Constraints: • min: 0 • max: 256 • pattern: ^[\x20-\x7E]+$</param>
+    /// <param name="GroupSecurityIdentifier">Security identifier (SID) of the group object from Active Directory. The SID starts with "S-". Constraints: • min: 7 • max: 256 • pattern: ^S-[0-9]-([0-9]+-){1,14}[0-9]+$</param>
+    /// <param name="TemplateArn">The Amazon Resource Name (ARN) that was returned when you called CreateTemplate . Constraints: • min: 5 • max: 200 • pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:connector\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}\/template\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$</param>
     public AwsPcaConnectorAdCreateTemplateGroupAccessControlEntryOptions(
         string AccessRights,
         string GroupDisplayName,
@@ -69,31 +71,31 @@ public record AwsPcaConnectorAdCreateTemplateGroupAccessControlEntryOptions : Aw
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Allow or deny permissions for an Active Directory group to enroll or autoenroll certificates for a template. AutoEnroll -&gt; (string) Allow or deny an Active Directory group from autoenrolling cer- tificates issued against a template. The Active Directory group must be allowed to enroll to allow autoenrollment Possible values: o ALLOW o DENY Enroll -&gt; (string) Allow or deny an Active Directory group from enrolling certifi- cates issued against a template. Possible values: o ALLOW o DENY Shorthand Syntax: AutoEnroll=string,Enroll=string JSON Syntax: { "AutoEnroll": "ALLOW"|"DENY", "Enroll": "ALLOW"|"DENY" }
+    /// Allow or deny permissions for an Active Directory group to enroll or autoenroll certificates for a template. AutoEnroll -&gt; (string) Allow or deny an Active Directory group from autoenrolling certificates issued against a template. The Active Directory group must be allowed to enroll to allow autoenrollment Possible values: • ALLOW • DENY Enroll -&gt; (string) Allow or deny an Active Directory group from enrolling certificates issued against a template. Possible values: • ALLOW • DENY Shorthand Syntax: AutoEnroll=string,Enroll=string JSON Syntax: { "AutoEnroll": "ALLOW"|"DENY", "Enroll": "ALLOW"|"DENY" }
     /// </summary>
     [CliOption("--access-rights")]
     public string? AccessRights { get; private init; }
 
     /// <summary>
-    /// Name of the Active Directory group. This name does not need to match the group name in Active Directory. Constraints: o min: 0 o max: 256 o pattern: ^[\x20-\x7E]+$
+    /// Name of the Active Directory group. This name does not need to match the group name in Active Directory. Constraints: • min: 0 • max: 256 • pattern: ^[\x20-\x7E]+$
     /// </summary>
     [CliOption("--group-display-name")]
     public string? GroupDisplayName { get; private init; }
 
     /// <summary>
-    /// Security identifier (SID) of the group object from Active Directory. The SID starts with "S-". Constraints: o min: 7 o max: 256 o pattern: ^S-[0-9]-([0-9]+-){1,14}[0-9]+$
+    /// Security identifier (SID) of the group object from Active Directory. The SID starts with "S-". Constraints: • min: 7 • max: 256 • pattern: ^S-[0-9]-([0-9]+-){1,14}[0-9]+$
     /// </summary>
     [CliOption("--group-security-identifier")]
     public string? GroupSecurityIdentifier { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that was returned when you called CreateTemplate . Constraints: o min: 5 o max: 200 o pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:connec- tor\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}\/tem- plate\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$
+    /// The Amazon Resource Name (ARN) that was returned when you called CreateTemplate . Constraints: • min: 5 • max: 200 • pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:connector\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}\/template\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--template-arn")]
     public string? TemplateArn { get; private init; }
 
     /// <summary>
-    /// Idempotency token. Constraints: o min: 1 o max: 64 o pattern: ^[!-~]+$
+    /// Idempotency token. Constraints: • min: 1 • max: 64 • pattern: ^[!-~]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsGlueDeleteResourcePolicyOptions : AwsOptions
 {
     /// <summary>
-    /// The hash value returned when this policy was set. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The hash value returned when this policy was set. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--policy-hash-condition")]
     public string? PolicyHashCondition { get; set; }
 
     /// <summary>
-    /// The ARN of the Glue resource for the resource policy to be deleted. Constraints: o min: 1 o max: 10240 o pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.*
+    /// The ARN of the Glue resource for the resource policy to be deleted. Constraints: • min: 1 • max: 10240 • pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }

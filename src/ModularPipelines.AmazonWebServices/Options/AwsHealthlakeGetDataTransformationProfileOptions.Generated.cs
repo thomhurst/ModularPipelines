@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a data transformation profile's metadata and profile content at a specific version. Specify version 0 to retrieve the DRAFT, a ver- sion number between 1 and 99 to retrieve a specific published version, or omit the version to retrieve the latest published version. See also: AWS API Documentation
+/// Retrieves a data transformation profile's metadata and profile content at a specific version. Specify version 0 to retrieve the DRAFT, a version number between 1 and 99 to retrieve a specific published version, or omit the version to retrieve the latest published version. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsHealthlakeGetDataTransformationProfileOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves a data transformation profile's metadata and profile content at a specific version. Specify version 0 to retrieve the DRAFT, a ver- sion number between 1 and 99 to retrieve a specific published version, or omit the version to retrieve the latest published version. See also: AWS API Documentation
+    /// Retrieves a data transformation profile's metadata and profile content at a specific version. Specify version 0 to retrieve the DRAFT, a version number between 1 and 99 to retrieve a specific published version, or omit the version to retrieve the latest published version. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileId">The unique identifier of the profile to retrieve. Constraints: o min: 32 o max: 32 o pattern: [a-f0-9]{32}</param>
+    /// <param name="ProfileId">The unique identifier of the profile to retrieve. Constraints: • min: 32 • max: 32 • pattern: [a-f0-9]{32}</param>
     public AwsHealthlakeGetDataTransformationProfileOptions(
         string ProfileId
     )
@@ -56,13 +58,13 @@ public record AwsHealthlakeGetDataTransformationProfileOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the profile to retrieve. Constraints: o min: 32 o max: 32 o pattern: [a-f0-9]{32}
+    /// The unique identifier of the profile to retrieve. Constraints: • min: 32 • max: 32 • pattern: [a-f0-9]{32}
     /// </summary>
     [CliOption("--profile-id")]
     public string? ProfileId { get; private init; }
 
     /// <summary>
-    /// The version number to retrieve. Specify 0 to retrieve the DRAFT ver- sion. If you omit this parameter, the service returns the latest published version. Constraints: o min: 0 o max: 99
+    /// The version number to retrieve. Specify 0 to retrieve the DRAFT version. If you omit this parameter, the service returns the latest published version. Constraints: • min: 0 • max: 99
     /// </summary>
     [CliOption("--profile-version")]
     public int? ProfileVersion { get; set; }

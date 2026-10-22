@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsInspector2UpdateConnectorScanConfigurationOptions : AwsOptions,
     /// <summary>
     /// Updates scan configuration settings for resources associated with an Amazon Web Services Config connector. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsConfigConnectorArn">The ARN of the Amazon Web Services Config connector. Constraints: o min: 1 o max: 512 o pattern: arn:([^:]+):config:([^:]+):([^:]+):connec- tor/([^/]+)/([^/]+)/([^/:\s]+)</param>
-    /// <param name="ScanConfiguration">The scan configuration settings to apply. containerImageScanning -&gt; (structure) The container image scanning configuration, including push and pull duration settings. pushDuration -&gt; (string) The amount of time after a container image is pushed to a repository during which Amazon Inspector continues to rescan the image for vulnerabilities. Valid values are LIFETIME , DAYS_3 , DAYS_7 , DAYS_14 , DAYS_30 , DAYS_60 , DAYS_90 , and DAYS_180 . Possible values: o LIFETIME o DAYS_3 o DAYS_7 o DAYS_30 o DAYS_180 o DAYS_14 o DAYS_60 o DAYS_90 pullDuration -&gt; (string) The amount of time after a container image is last pulled from a repository during which Amazon Inspector continues to rescan the image for vulnerabilities. Valid values are DAYS_3 , DAYS_7 , DAYS_14 , DAYS_30 , DAYS_60 , DAYS_90 , and DAYS_180 . Possible values: o DAYS_3 o DAYS_7 o DAYS_14 o DAYS_30 o DAYS_60 o DAYS_90 o DAYS_180 Shorthand Syntax: containerImageScanning={pushDuration=string,pullDuration=string} JSON Syntax: { "containerImageScanning": { "pushDuration": "LIFETIME"|"DAYS_3"|"DAYS_7"|"DAYS_30"|"DAYS_180"|"DAYS_14"|"DAYS_60"|"DAYS_90", "pullDuration": "DAYS_3"|"DAYS_7"|"DAYS_14"|"DAYS_30"|"DAYS_60"|"DAYS_90"|"DAYS_180" } }</param>
+    /// <param name="AwsConfigConnectorArn">The ARN of the Amazon Web Services Config connector. Constraints: • min: 1 • max: 512 • pattern: arn:([^:]+):config:([^:]+):([^:]+):connector/([^/]+)/([^/]+)/([^/:\s]+)</param>
+    /// <param name="ScanConfiguration">The scan configuration settings to apply. containerImageScanning -&gt; (structure) The container image scanning configuration, including push and pull duration settings. pushDuration -&gt; (string) The amount of time after a container image is pushed to a repository during which Amazon Inspector continues to rescan the image for vulnerabilities. Valid values are LIFETIME , DAYS_3 , DAYS_7 , DAYS_14 , DAYS_30 , DAYS_60 , DAYS_90 , and DAYS_180 . Possible values: • LIFETIME • DAYS_3 • DAYS_7 • DAYS_30 • DAYS_180 • DAYS_14 • DAYS_60 • DAYS_90 pullDuration -&gt; (string) The amount of time after a container image is last pulled from a repository during which Amazon Inspector continues to rescan the image for vulnerabilities. Valid values are DAYS_3 , DAYS_7 , DAYS_14 , DAYS_30 , DAYS_60 , DAYS_90 , and DAYS_180 . Possible values: • DAYS_3 • DAYS_7 • DAYS_14 • DAYS_30 • DAYS_60 • DAYS_90 • DAYS_180 Shorthand Syntax: containerImageScanning={pushDuration=string,pullDuration=string} JSON Syntax: { "containerImageScanning": { "pushDuration": "LIFETIME"|"DAYS_3"|"DAYS_7"|"DAYS_30"|"DAYS_180"|"DAYS_14"|"DAYS_60"|"DAYS_90", "pullDuration": "DAYS_3"|"DAYS_7"|"DAYS_14"|"DAYS_30"|"DAYS_60"|"DAYS_90"|"DAYS_180" } }</param>
     public AwsInspector2UpdateConnectorScanConfigurationOptions(
         string AwsConfigConnectorArn,
         string ScanConfiguration
@@ -60,13 +62,13 @@ public record AwsInspector2UpdateConnectorScanConfigurationOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the Amazon Web Services Config connector. Constraints: o min: 1 o max: 512 o pattern: arn:([^:]+):config:([^:]+):([^:]+):connec- tor/([^/]+)/([^/]+)/([^/:\s]+)
+    /// The ARN of the Amazon Web Services Config connector. Constraints: • min: 1 • max: 512 • pattern: arn:([^:]+):config:([^:]+):([^:]+):connector/([^/]+)/([^/]+)/([^/:\s]+)
     /// </summary>
     [CliOption("--aws-config-connector-arn")]
     public string? AwsConfigConnectorArn { get; private init; }
 
     /// <summary>
-    /// The scan configuration settings to apply. containerImageScanning -&gt; (structure) The container image scanning configuration, including push and pull duration settings. pushDuration -&gt; (string) The amount of time after a container image is pushed to a repository during which Amazon Inspector continues to rescan the image for vulnerabilities. Valid values are LIFETIME , DAYS_3 , DAYS_7 , DAYS_14 , DAYS_30 , DAYS_60 , DAYS_90 , and DAYS_180 . Possible values: o LIFETIME o DAYS_3 o DAYS_7 o DAYS_30 o DAYS_180 o DAYS_14 o DAYS_60 o DAYS_90 pullDuration -&gt; (string) The amount of time after a container image is last pulled from a repository during which Amazon Inspector continues to rescan the image for vulnerabilities. Valid values are DAYS_3 , DAYS_7 , DAYS_14 , DAYS_30 , DAYS_60 , DAYS_90 , and DAYS_180 . Possible values: o DAYS_3 o DAYS_7 o DAYS_14 o DAYS_30 o DAYS_60 o DAYS_90 o DAYS_180 Shorthand Syntax: containerImageScanning={pushDuration=string,pullDuration=string} JSON Syntax: { "containerImageScanning": { "pushDuration": "LIFETIME"|"DAYS_3"|"DAYS_7"|"DAYS_30"|"DAYS_180"|"DAYS_14"|"DAYS_60"|"DAYS_90", "pullDuration": "DAYS_3"|"DAYS_7"|"DAYS_14"|"DAYS_30"|"DAYS_60"|"DAYS_90"|"DAYS_180" } }
+    /// The scan configuration settings to apply. containerImageScanning -&gt; (structure) The container image scanning configuration, including push and pull duration settings. pushDuration -&gt; (string) The amount of time after a container image is pushed to a repository during which Amazon Inspector continues to rescan the image for vulnerabilities. Valid values are LIFETIME , DAYS_3 , DAYS_7 , DAYS_14 , DAYS_30 , DAYS_60 , DAYS_90 , and DAYS_180 . Possible values: • LIFETIME • DAYS_3 • DAYS_7 • DAYS_30 • DAYS_180 • DAYS_14 • DAYS_60 • DAYS_90 pullDuration -&gt; (string) The amount of time after a container image is last pulled from a repository during which Amazon Inspector continues to rescan the image for vulnerabilities. Valid values are DAYS_3 , DAYS_7 , DAYS_14 , DAYS_30 , DAYS_60 , DAYS_90 , and DAYS_180 . Possible values: • DAYS_3 • DAYS_7 • DAYS_14 • DAYS_30 • DAYS_60 • DAYS_90 • DAYS_180 Shorthand Syntax: containerImageScanning={pushDuration=string,pullDuration=string} JSON Syntax: { "containerImageScanning": { "pushDuration": "LIFETIME"|"DAYS_3"|"DAYS_7"|"DAYS_30"|"DAYS_180"|"DAYS_14"|"DAYS_60"|"DAYS_90", "pullDuration": "DAYS_3"|"DAYS_7"|"DAYS_14"|"DAYS_30"|"DAYS_60"|"DAYS_90"|"DAYS_180" } }
     /// </summary>
     [CliOption("--scan-configuration")]
     public string? ScanConfiguration { get; private init; }

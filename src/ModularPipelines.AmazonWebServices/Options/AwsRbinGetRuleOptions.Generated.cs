@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRbinGetRuleOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets information about a Recycle Bin retention rule. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The unique ID of the retention rule. Constraints: o pattern: [0-9a-zA-Z]{11}</param>
+    /// <param name="Identifier">The unique ID of the retention rule. Constraints: • pattern: [0-9a-zA-Z]{11}</param>
     public AwsRbinGetRuleOptions(
         string Identifier
     )
@@ -56,7 +58,7 @@ public record AwsRbinGetRuleOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the retention rule. Constraints: o pattern: [0-9a-zA-Z]{11}
+    /// The unique ID of the retention rule. Constraints: • pattern: [0-9a-zA-Z]{11}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }

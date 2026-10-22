@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsPinpointSmsVoiceV2DeleteDefaultSenderIdOptions : AwsOptions, IV
     /// <summary>
     /// Deletes an existing default sender ID on a configuration set. A default sender ID is the identity that appears on recipients' devices when they receive SMS messages. Support for sender ID capabilities varies by country or region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfigurationSetName">The name of the configuration set or the configuration set Amazon Resource Name (ARN) to delete the default sender ID from. The Con- figurationSetName and ConfigurationSetArn can be found using the DescribeConfigurationSets action. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="ConfigurationSetName">The name of the configuration set or the configuration set Amazon Resource Name (ARN) to delete the default sender ID from. The ConfigurationSetName and ConfigurationSetArn can be found using the DescribeConfigurationSets action. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+</param>
     public AwsPinpointSmsVoiceV2DeleteDefaultSenderIdOptions(
         string ConfigurationSetName
     )
@@ -56,7 +58,7 @@ public record AwsPinpointSmsVoiceV2DeleteDefaultSenderIdOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the configuration set or the configuration set Amazon Resource Name (ARN) to delete the default sender ID from. The Con- figurationSetName and ConfigurationSetArn can be found using the DescribeConfigurationSets action. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The name of the configuration set or the configuration set Amazon Resource Name (ARN) to delete the default sender ID from. The ConfigurationSetName and ConfigurationSetArn can be found using the DescribeConfigurationSets action. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--configuration-set-name")]
     public string? ConfigurationSetName { get; private init; }

@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Start an asynchronous job to import Amazon Q in Connect resources from an uploaded source file. Before calling this API, use StartContentUpload to upload an asset that contains the resource data. o For importing Amazon Q in Connect quick responses, you need to upload a csv file including the quick responses. For information about how to format the csv file for importing quick responses, see Import quick responses . See also: AWS API Documentation
+/// Start an asynchronous job to import Amazon Q in Connect resources from an uploaded source file. Before calling this API, use StartContentUpload to upload an asset that contains the resource data. • For importing Amazon Q in Connect quick responses, you need to upload a csv file including the quick responses. For information about how to format the csv file for importing quick responses, see Import quick responses . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsQconnectStartImportJobOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Start an asynchronous job to import Amazon Q in Connect resources from an uploaded source file. Before calling this API, use StartContentUpload to upload an asset that contains the resource data. o For importing Amazon Q in Connect quick responses, you need to upload a csv file including the quick responses. For information about how to format the csv file for importing quick responses, see Import quick responses . See also: AWS API Documentation
+    /// Start an asynchronous job to import Amazon Q in Connect resources from an uploaded source file. Before calling this API, use StartContentUpload to upload an asset that contains the resource data. • For importing Amazon Q in Connect quick responses, you need to upload a csv file including the quick responses. For information about how to format the csv file for importing quick responses, see Import quick responses . See also: AWS API Documentation
     /// </summary>
-    /// <param name="KnowledgeBaseId">The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN. o For importing Amazon Q in Connect quick responses, this should be a QUICK_RESPONSES type knowledge base. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
-    /// <param name="ImportJobType">The type of the import job. o For importing quick response resource, set the value to QUICK_RE- SPONSES . Possible values: o QUICK_RESPONSES</param>
-    /// <param name="UploadId">A pointer to the uploaded asset. This value is returned by StartContentUpload . Constraints: o min: 1 o max: 1200</param>
+    /// <param name="KnowledgeBaseId">The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN. • For importing Amazon Q in Connect quick responses, this should be a QUICK_RESPONSES type knowledge base. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
+    /// <param name="ImportJobType">The type of the import job. • For importing quick response resource, set the value to QUICK_RESPONSES . Possible values: • QUICK_RESPONSES</param>
+    /// <param name="UploadId">A pointer to the uploaded asset. This value is returned by StartContentUpload . Constraints: • min: 1 • max: 1200</param>
     public AwsQconnectStartImportJobOptions(
         string KnowledgeBaseId,
         string ImportJobType,
@@ -66,38 +67,38 @@ public record AwsQconnectStartImportJobOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN. o For importing Amazon Q in Connect quick responses, this should be a QUICK_RESPONSES type knowledge base. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}
+    /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN. • For importing Amazon Q in Connect quick responses, this should be a QUICK_RESPONSES type knowledge base. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}
     /// </summary>
     [CliOption("--knowledge-base-id")]
     public string? KnowledgeBaseId { get; private init; }
 
     /// <summary>
-    /// The type of the import job. o For importing quick response resource, set the value to QUICK_RE- SPONSES . Possible values: o QUICK_RESPONSES
+    /// The type of the import job. • For importing quick response resource, set the value to QUICK_RESPONSES . Possible values: • QUICK_RESPONSES
     /// </summary>
     [CliOption("--import-job-type")]
     public string? ImportJobType { get; private init; }
 
     /// <summary>
-    /// A pointer to the uploaded asset. This value is returned by StartContentUpload . Constraints: o min: 1 o max: 1200
+    /// A pointer to the uploaded asset. This value is returned by StartContentUpload . Constraints: • min: 1 • max: 1200
     /// </summary>
     [CliOption("--upload-id")]
     public string? UploadId { get; private init; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for this re- source. Constraints: o min: 1 o max: 4096
+    /// The tags used to organize, track, or control access for this resource. Constraints: • min: 1 • max: 4096
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The metadata fields of the imported Amazon Q in Connect resources. Constraints: o min: 0 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 4096 value -&gt; (string) Constraints: o min: 1 o max: 4096 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The metadata fields of the imported Amazon Q in Connect resources. Constraints: • min: 0 • max: 10 key -&gt; (string) Constraints: • min: 1 • max: 4096 value -&gt; (string) Constraints: • min: 1 • max: 4096 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
-    /// The configuration information of the external source that the re- source data are imported from. source -&gt; (string) [required] The type of the external data source. Possible values: o AMAZON_CONNECT configuration -&gt; (tagged union structure) [required] The configuration information of the external data source. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: connectConfiguration. connectConfiguration -&gt; (structure) The configuration information of the Connect Customer data source. instanceId -&gt; (string) The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: o min: 1 o max: 4096 Shorthand Syntax: source=string,configuration={connectConfiguration={instanceId=string}} JSON Syntax: { "source": "AMAZON_CONNECT", "configuration": { "connectConfiguration": { "instanceId": "string" } } }
+    /// The configuration information of the external source that the resource data are imported from. source -&gt; (string) [required] The type of the external data source. Possible values: • AMAZON_CONNECT configuration -&gt; (tagged union structure) [required] The configuration information of the external data source. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: connectConfiguration. connectConfiguration -&gt; (structure) The configuration information of the Connect Customer data source. instanceId -&gt; (string) The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: • min: 1 • max: 4096 Shorthand Syntax: source=string,configuration={connectConfiguration={instanceId=string}} JSON Syntax: { "source": "AMAZON_CONNECT", "configuration": { "connectConfiguration": { "instanceId": "string" } } }
     /// </summary>
     [CliOption("--external-source-configuration")]
     public string? ExternalSourceConfiguration { get; set; }

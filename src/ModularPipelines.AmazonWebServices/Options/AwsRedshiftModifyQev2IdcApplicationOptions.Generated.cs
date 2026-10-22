@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies an Amazon Redshift Query Editor (QEV2) IAM Identity Center ap- plication. See also: AWS API Documentation
+/// Modifies an Amazon Redshift Query Editor (QEV2) IAM Identity Center application. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRedshiftModifyQev2IdcApplicationOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies an Amazon Redshift Query Editor (QEV2) IAM Identity Center ap- plication. See also: AWS API Documentation
+    /// Modifies an Amazon Redshift Query Editor (QEV2) IAM Identity Center application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Qev2IdcApplicationArn">The Amazon Resource Name (ARN) for the Amazon Redshift Query Editor (QEV2) application that integrates with IAM Identity Center. Constraints: o max: 2147483647</param>
+    /// <param name="Qev2IdcApplicationArn">The Amazon Resource Name (ARN) for the Amazon Redshift Query Editor (QEV2) application that integrates with IAM Identity Center. Constraints: • max: 2147483647</param>
     public AwsRedshiftModifyQev2IdcApplicationOptions(
         string Qev2IdcApplicationArn
     )
@@ -56,13 +58,13 @@ public record AwsRedshiftModifyQev2IdcApplicationOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) for the Amazon Redshift Query Editor (QEV2) application that integrates with IAM Identity Center. Constraints: o max: 2147483647
+    /// The Amazon Resource Name (ARN) for the Amazon Redshift Query Editor (QEV2) application that integrates with IAM Identity Center. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--qev2-idc-application-arn")]
     public string? Qev2IdcApplicationArn { get; private init; }
 
     /// <summary>
-    /// The display name for the Amazon Redshift Query Editor (QEV2) IAM Identity Center application. It appears in the console. Constraints: o min: 1 o max: 127 o pattern: [\w+=,.@-]+
+    /// The display name for the Amazon Redshift Query Editor (QEV2) IAM Identity Center application. It appears in the console. Constraints: • min: 1 • max: 127 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--idc-display-name")]
     public string? IdcDisplayName { get; set; }

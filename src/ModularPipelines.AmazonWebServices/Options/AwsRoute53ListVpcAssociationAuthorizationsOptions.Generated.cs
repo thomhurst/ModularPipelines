@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets a list of the VPCs that were created by other accounts and that can be associated with a specified hosted zone because you've submitted one or more CreateVPCAssociationAuthorization requests. The response includes a VPCs element with a VPC child element for each VPC that can be associated with the hosted zone. See also: AWS API Documentation list-vpc-association-authorizations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. Y...
+/// Gets a list of the VPCs that were created by other accounts and that can be associated with a specified hosted zone because you've submitted one or more CreateVPCAssociationAuthorization requests. The response includes a VPCs element with a VPC child element for each VPC that can be associated with the hosted zone. See also: AWS API Documentation list-vpc-association-authorizations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsRoute53ListVpcAssociationAuthorizationsOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets a list of the VPCs that were created by other accounts and that can be associated with a specified hosted zone because you've submitted one or more CreateVPCAssociationAuthorization requests. The response includes a VPCs element with a VPC child element for each VPC that can be associated with the hosted zone. See also: AWS API Documentation list-vpc-association-authorizations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. Y...
+    /// Gets a list of the VPCs that were created by other accounts and that can be associated with a specified hosted zone because you've submitted one or more CreateVPCAssociationAuthorization requests. The response includes a VPCs element with a VPC child element for each VPC that can be associated with the hosted zone. See also: AWS API Documentation list-vpc-association-authorizations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You...
     /// </summary>
-    /// <param name="HostedZoneId">The ID of the hosted zone for which you want a list of VPCs that can be associated with the hosted zone. Constraints: o max: 32</param>
+    /// <param name="HostedZoneId">The ID of the hosted zone for which you want a list of VPCs that can be associated with the hosted zone. Constraints: • max: 32</param>
     public AwsRoute53ListVpcAssociationAuthorizationsOptions(
         string HostedZoneId
     )
@@ -57,7 +59,7 @@ public record AwsRoute53ListVpcAssociationAuthorizationsOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the hosted zone for which you want a list of VPCs that can be associated with the hosted zone. Constraints: o max: 32
+    /// The ID of the hosted zone for which you want a list of VPCs that can be associated with the hosted zone. Constraints: • max: 32
     /// </summary>
     [CliOption("--hosted-zone-id")]
     public string? HostedZoneId { get; private init; }
@@ -71,9 +73,6 @@ public record AwsRoute53ListVpcAssociationAuthorizationsOptions : AwsOptions, IV
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -82,10 +81,13 @@ public record AwsRoute53ListVpcAssociationAuthorizationsOptions : AwsOptions, IV
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

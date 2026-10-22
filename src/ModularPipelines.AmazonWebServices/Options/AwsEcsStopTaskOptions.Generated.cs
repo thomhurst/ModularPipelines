@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Stops a running task. Any tags associated with the task will be deleted. When you call StopTask on a task, the equivalent of docker stop is is- sued to the containers running in the task. This results in a stop sig- nal value and a default 30-second timeout, after which the SIGKILL value is sent and the containers are forcibly stopped. This signal can be defined in your container image with the STOPSIGNAL instruction and will default to SIGTERM . If the container handles the SIGTERM value gracef...
+/// Stops a running task. Any tags associated with the task will be deleted. When you call StopTask on a task, the equivalent of docker stop is issued to the containers running in the task. This results in a stop signal value and a default 30-second timeout, after which the SIGKILL value is sent and the containers are forcibly stopped. This signal can be defined in your container image with the STOPSIGNAL instruction and will default to SIGTERM . If the container handles the SIGTERM value gracefully...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsEcsStopTaskOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Stops a running task. Any tags associated with the task will be deleted. When you call StopTask on a task, the equivalent of docker stop is is- sued to the containers running in the task. This results in a stop sig- nal value and a default 30-second timeout, after which the SIGKILL value is sent and the containers are forcibly stopped. This signal can be defined in your container image with the STOPSIGNAL instruction and will default to SIGTERM . If the container handles the SIGTERM value gracef...
+    /// Stops a running task. Any tags associated with the task will be deleted. When you call StopTask on a task, the equivalent of docker stop is issued to the containers running in the task. This results in a stop signal value and a default 30-second timeout, after which the SIGKILL value is sent and the containers are forcibly stopped. This signal can be defined in your container image with the STOPSIGNAL instruction and will default to SIGTERM . If the container handles the SIGTERM value gracefully...
     /// </summary>
     /// <param name="Task">Thefull Amazon Resource Name (ARN) of the task.</param>
     public AwsEcsStopTaskOptions(
@@ -68,7 +70,7 @@ public record AwsEcsStopTaskOptions : AwsOptions, IValidatableObject
     public string? Cluster { get; set; }
 
     /// <summary>
-    /// An optional message specified when a task is stopped. For example, if you're using a custom scheduler, you can use this parameter to specify the reason for stopping the task here, and the message ap- pears in subsequent DescribeTasks &gt; API operations on this task.
+    /// An optional message specified when a task is stopped. For example, if you're using a custom scheduler, you can use this parameter to specify the reason for stopping the task here, and the message appears in subsequent DescribeTasks &gt; API operations on this task.
     /// </summary>
     [CliOption("--reason")]
     public string? Reason { get; set; }

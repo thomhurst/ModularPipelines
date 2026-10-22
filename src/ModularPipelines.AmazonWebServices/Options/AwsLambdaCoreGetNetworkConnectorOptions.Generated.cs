@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the current configuration, state, and metadata of a network connector. The Identifier parameter accepts the connector ID, name, or full ARN. Use this operation to poll connector state after creation or update, or to inspect the current VPC configuration and any failure reasons. The response includes the full connector configuration, current state, and if the connector has been updated the LastUpdateStatus and Las- tUpdateStatusReasonCode fields that indicate whether the most recent upd...
+/// Retrieves the current configuration, state, and metadata of a network connector. The Identifier parameter accepts the connector ID, name, or full ARN. Use this operation to poll connector state after creation or update, or to inspect the current VPC configuration and any failure reasons. The response includes the full connector configuration, current state, and if the connector has been updated the LastUpdateStatus and LastUpdateStatusReasonCode fields that indicate whether the most recent updat...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLambdaCoreGetNetworkConnectorOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the current configuration, state, and metadata of a network connector. The Identifier parameter accepts the connector ID, name, or full ARN. Use this operation to poll connector state after creation or update, or to inspect the current VPC configuration and any failure reasons. The response includes the full connector configuration, current state, and if the connector has been updated the LastUpdateStatus and Las- tUpdateStatusReasonCode fields that indicate whether the most recent upd...
+    /// Retrieves the current configuration, state, and metadata of a network connector. The Identifier parameter accepts the connector ID, name, or full ARN. Use this operation to poll connector state after creation or update, or to inspect the current VPC configuration and any failure reasons. The response includes the full connector configuration, current state, and if the connector has been updated the LastUpdateStatus and LastUpdateStatusReasonCode fields that indicate whether the most recent updat...
     /// </summary>
-    /// <param name="Identifier">A flexible identifier that accepts a network connector ID, name, or ARN Constraints: o min: 1 o max: 140</param>
+    /// <param name="Identifier">The identifier of the network connector to retrieve. You can specify the connector ID, name, or ARN. Provide an unqualified ARN (or an ID or name) to retrieve the connector's latest version, or a version-qualified ARN one that includes the immutable version suffix to retrieve a specific historical version. Constraints: • min: 1 • max: 140</param>
     public AwsLambdaCoreGetNetworkConnectorOptions(
         string Identifier
     )
@@ -56,7 +58,7 @@ public record AwsLambdaCoreGetNetworkConnectorOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A flexible identifier that accepts a network connector ID, name, or ARN Constraints: o min: 1 o max: 140
+    /// The identifier of the network connector to retrieve. You can specify the connector ID, name, or ARN. Provide an unqualified ARN (or an ID or name) to retrieve the connector's latest version, or a version-qualified ARN one that includes the immutable version suffix to retrieve a specific historical version. Constraints: • min: 1 • max: 140
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }

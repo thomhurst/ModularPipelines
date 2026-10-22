@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,11 +30,11 @@ public record AwsWickrRegisterOpentdfConfigOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Registers and saves OpenTDF configuration for a Wickr network, enabling attribute-based access control for Wickr through an OpenTDF provider. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The ID of the Wickr network for which OpenTDF integration will be configured. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
-    /// <param name="ClientId">The OIDC client ID used for authenticating with the OpenTDF provider. Constraints: o pattern: [\S\s]*</param>
-    /// <param name="ClientSecret">The OIDC client secret used for authenticating with the OpenTDF provider Constraints: o pattern: [\S\s]*</param>
-    /// <param name="Domain">The domain of the OpenTDF server. Constraints: o pattern: [\S\s]*</param>
-    /// <param name="Provider">The provider of the OpenTDF platform. NOTE: Currently only Virtru is supported as the OpenTDF provider. Constraints: o pattern: [\S\s]*</param>
+    /// <param name="NetworkId">The ID of the Wickr network for which OpenTDF integration will be configured. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}</param>
+    /// <param name="ClientId">The OIDC client ID used for authenticating with the OpenTDF provider. Constraints: • pattern: [\S\s]*</param>
+    /// <param name="ClientSecret">The OIDC client secret used for authenticating with the OpenTDF provider Constraints: • pattern: [\S\s]*</param>
+    /// <param name="Domain">The domain of the OpenTDF server. Constraints: • pattern: [\S\s]*</param>
+    /// <param name="Provider">The provider of the OpenTDF platform. NOTE: Currently only Virtru is supported as the OpenTDF provider. Constraints: • pattern: [\S\s]*</param>
     public AwsWickrRegisterOpentdfConfigOptions(
         string NetworkId,
         string ClientId,
@@ -73,32 +75,32 @@ public record AwsWickrRegisterOpentdfConfigOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Wickr network for which OpenTDF integration will be configured. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// The ID of the Wickr network for which OpenTDF integration will be configured. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }
 
     /// <summary>
-    /// The OIDC client ID used for authenticating with the OpenTDF provider. Constraints: o pattern: [\S\s]*
+    /// The OIDC client ID used for authenticating with the OpenTDF provider. Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--client-id")]
     public string? ClientId { get; private init; }
 
     /// <summary>
-    /// The OIDC client secret used for authenticating with the OpenTDF provider Constraints: o pattern: [\S\s]*
+    /// The OIDC client secret used for authenticating with the OpenTDF provider Constraints: • pattern: [\S\s]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-secret")]
     public string? ClientSecret { get; private init; }
 
     /// <summary>
-    /// The domain of the OpenTDF server. Constraints: o pattern: [\S\s]*
+    /// The domain of the OpenTDF server. Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; private init; }
 
     /// <summary>
-    /// The provider of the OpenTDF platform. NOTE: Currently only Virtru is supported as the OpenTDF provider. Constraints: o pattern: [\S\s]*
+    /// The provider of the OpenTDF platform. NOTE: Currently only Virtru is supported as the OpenTDF provider. Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--provider")]
     public string? Provider { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a Selenium testing project. Projects are used to track Test- GridSession instances. See also: AWS API Documentation
+/// Creates a Selenium testing project. Projects are used to track TestGridSession instances. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsDevicefarmCreateTestGridProjectOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a Selenium testing project. Projects are used to track Test- GridSession instances. See also: AWS API Documentation
+    /// Creates a Selenium testing project. Projects are used to track TestGridSession instances. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">Human-readable name of the Selenium testing project. Constraints: o min: 1 o max: 64 o pattern: .*\S.*</param>
+    /// <param name="Name">Human-readable name of the Selenium testing project. Constraints: • min: 1 • max: 64 • pattern: .*\S.*</param>
     public AwsDevicefarmCreateTestGridProjectOptions(
         string Name
     )
@@ -56,19 +58,19 @@ public record AwsDevicefarmCreateTestGridProjectOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Human-readable name of the Selenium testing project. Constraints: o min: 1 o max: 64 o pattern: .*\S.*
+    /// Human-readable name of the Selenium testing project. Constraints: • min: 1 • max: 64 • pattern: .*\S.*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Human-readable description of the project. Constraints: o min: 1 o max: 2048 o pattern: .*\S.*
+    /// Human-readable description of the project. Constraints: • min: 1 • max: 2048 • pattern: .*\S.*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The VPC security groups and subnets that are attached to a project. securityGroupIds -&gt; (list) [required] A list of VPC security group IDs in your Amazon VPC. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 4096 o pattern: .*\S.* subnetIds -&gt; (list) [required] A list of VPC subnet IDs in your Amazon VPC. Constraints: o min: 1 o max: 8 (string) Constraints: o min: 1 o max: 4096 o pattern: .*\S.* vpcId -&gt; (string) [required] The ID of the Amazon VPC. Constraints: o min: 1 o max: 4096 o pattern: .*\S.* Shorthand Syntax: securityGroupIds=string,string,subnetIds=string,string,vpcId=string JSON Syntax: { "securityGroupIds": ["string", ...], "subnetIds": ["string", ...], "vpcId": "string" }
+    /// The VPC security groups and subnets that are attached to a project. securityGroupIds -&gt; (list) [required] A list of VPC security group IDs in your Amazon VPC. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 1 • max: 4096 • pattern: .*\S.* subnetIds -&gt; (list) [required] A list of VPC subnet IDs in your Amazon VPC. Constraints: • min: 1 • max: 8 (string) Constraints: • min: 1 • max: 4096 • pattern: .*\S.* vpcId -&gt; (string) [required] The ID of the Amazon VPC. Constraints: • min: 1 • max: 4096 • pattern: .*\S.* Shorthand Syntax: securityGroupIds=string,string,subnetIds=string,string,vpcId=string JSON Syntax: { "securityGroupIds": ["string", ...], "subnetIds": ["string", ...], "vpcId": "string" }
     /// </summary>
     [CliOption("--vpc-config")]
     public string? VpcConfig { get; set; }

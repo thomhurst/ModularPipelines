@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsGlobalacceleratorUpdateCustomRoutingAcceleratorOptions : AwsOpt
     /// <summary>
     /// Update a custom routing accelerator. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AcceleratorArn">The Amazon Resource Name (ARN) of the accelerator to update. Constraints: o max: 255</param>
+    /// <param name="AcceleratorArn">The Amazon Resource Name (ARN) of the accelerator to update. Constraints: • max: 255</param>
     public AwsGlobalacceleratorUpdateCustomRoutingAcceleratorOptions(
         string AcceleratorArn
     )
@@ -57,25 +59,25 @@ public record AwsGlobalacceleratorUpdateCustomRoutingAcceleratorOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the accelerator to update. Constraints: o max: 255
+    /// The Amazon Resource Name (ARN) of the accelerator to update. Constraints: • max: 255
     /// </summary>
     [CliOption("--accelerator-arn")]
     public string? AcceleratorArn { get; private init; }
 
     /// <summary>
-    /// The name of the accelerator. The name can have a maximum of 64 char- acters, must contain only alphanumeric characters, periods (.), or hyphens (-), and must not begin or end with a hyphen or period. Constraints: o max: 255
+    /// The name of the accelerator. The name can have a maximum of 64 characters, must contain only alphanumeric characters, periods (.), or hyphens (-), and must not begin or end with a hyphen or period. Constraints: • max: 255
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The IP address type that an accelerator supports. For a custom rout- ing accelerator, the value must be IPV4. Possible values: o IPV4 o DUAL_STACK
+    /// The IP address type that an accelerator supports. For a custom routing accelerator, the value must be IPV4. Possible values: • IPV4 • DUAL_STACK
     /// </summary>
     [CliOption("--ip-address-type")]
     public AwsGlobalacceleratorUpdateCustomRoutingAcceleratorIpAddressType? IpAddressType { get; set; }
 
     /// <summary>
-    /// The IP addresses for an accelerator. Constraints: o min: 0 o max: 2 (string) Constraints: o max: 45 Syntax: "string" "string" ...
+    /// The IP addresses for an accelerator. Constraints: • min: 0 • max: 2 (string) Constraints: • max: 45 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--ip-addresses", GroupValues = true)]
     public IEnumerable<string>? IpAddresses { get; set; }

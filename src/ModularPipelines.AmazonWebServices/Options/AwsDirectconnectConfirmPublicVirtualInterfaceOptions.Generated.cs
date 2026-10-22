@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Accepts ownership of a public virtual interface created by another Ama- zon Web Services account. After the virtual interface owner makes this call, the specified vir- tual interface is created and made available to handle traffic. See also: AWS API Documentation
+/// Accepts ownership of a public virtual interface created by another Amazon Web Services account. After the virtual interface owner makes this call, the specified virtual interface is created and made available to handle traffic. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsDirectconnectConfirmPublicVirtualInterfaceOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Accepts ownership of a public virtual interface created by another Ama- zon Web Services account. After the virtual interface owner makes this call, the specified vir- tual interface is created and made available to handle traffic. See also: AWS API Documentation
+    /// Accepts ownership of a public virtual interface created by another Amazon Web Services account. After the virtual interface owner makes this call, the specified virtual interface is created and made available to handle traffic. See also: AWS API Documentation
     /// </summary>
     /// <param name="VirtualInterfaceId">The ID of the virtual interface.</param>
     public AwsDirectconnectConfirmPublicVirtualInterfaceOptions(

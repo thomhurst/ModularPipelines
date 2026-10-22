@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDynamodbDescribeTimeToLiveOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Gives a description of the Time to Live (TTL) status on the specified table. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TableName">The name of the table to be described. You can also provide the Ama- zon Resource Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="TableName">The name of the table to be described. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: • min: 1 • max: 1024</param>
     public AwsDynamodbDescribeTimeToLiveOptions(
         string TableName
     )
@@ -56,7 +58,7 @@ public record AwsDynamodbDescribeTimeToLiveOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the table to be described. You can also provide the Ama- zon Resource Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024
+    /// The name of the table to be described. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--table-name")]
     public string? TableName { get; private init; }

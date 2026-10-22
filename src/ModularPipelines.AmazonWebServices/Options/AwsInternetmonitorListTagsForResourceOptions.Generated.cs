@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsInternetmonitorListTagsForResourceOptions : AwsOptions, IValida
     /// <summary>
     /// Lists the tags for a resource. Tags are supported only for monitors in Amazon CloudWatch Internet Monitor. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) for a resource. Constraints: o min: 20 o max: 512 o pattern: arn:.*</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) for a resource. Constraints: • min: 20 • max: 512 • pattern: arn:.*</param>
     public AwsInternetmonitorListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsInternetmonitorListTagsForResourceOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) for a resource. Constraints: o min: 20 o max: 512 o pattern: arn:.*
+    /// The Amazon Resource Name (ARN) for a resource. Constraints: • min: 20 • max: 512 • pattern: arn:.*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

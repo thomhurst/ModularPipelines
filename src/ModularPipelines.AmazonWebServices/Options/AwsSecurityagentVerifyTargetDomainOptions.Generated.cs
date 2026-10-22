@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Initiates verification of a target domain. This checks whether the do- main ownership verification token has been properly configured. See also: AWS API Documentation
+/// Initiates verification of a target domain. This checks whether the domain ownership verification token has been properly configured. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsSecurityagentVerifyTargetDomainOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Initiates verification of a target domain. This checks whether the do- main ownership verification token has been properly configured. See also: AWS API Documentation
+    /// Initiates verification of a target domain. This checks whether the domain ownership verification token has been properly configured. See also: AWS API Documentation
     /// </summary>
     /// <param name="TargetDomainId">The unique identifier of the target domain to verify.</param>
     public AwsSecurityagentVerifyTargetDomainOptions(

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -63,7 +64,7 @@ public record AwsSchemasCreateRegistryOptions : AwsOptions, IValidatableObject
     public string? RegistryName { get; private init; }
 
     /// <summary>
-    /// A description of the registry to be created. Constraints: o min: 0 o max: 256
+    /// A description of the registry to be created. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

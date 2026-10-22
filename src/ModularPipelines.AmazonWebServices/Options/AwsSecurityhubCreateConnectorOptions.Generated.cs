@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -29,8 +30,8 @@ public record AwsSecurityhubCreateConnectorOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Creates a connector to a third-party cloud provider in Security Hub CSPM. A connector establishes a connection between Security Hub CSPM and a third-party cloud provider, enabling Security Hub CSPM to ingest security findings and resource data from the connected environment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the connector. Must be unique within the account. Constraints: o pattern: .*\S.*</param>
-    /// <param name="Provider">The configuration for the cloud provider to connect to. Currently supports Azure. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Azure. Azure -&gt; (structure) The Azure provider configuration. AWSConfigConnectorArn -&gt; (string) [required] The ARN of the multi-cloud configuration connector used to establish the connection to Azure. Constraints: o pattern: .*\S.* ScopeConfiguration -&gt; (structure) [required] The scope configuration that defines which Azure resources are monitored. ScopeType -&gt; (string) [required] The type of scope. Valid values are tenant and subscrip- tion . Possible values: o TENANT o SUBSCRIPTION ScopeValues -&gt; (list) The list of scope values, such as subscription IDs, when the scope type is subscription . Constraints: o min: 0 o max: 100 (string) Constraints: o pattern: .*\S.* AzureRegions -&gt; (list) [required] The list of Azure regions to monitor. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: .*\S.* JSON Syntax: { "Azure": { "AWSConfigConnectorArn": "string", "ScopeConfiguration": { "ScopeType": "TENANT"|"SUBSCRIPTION", "ScopeValues": ["string", ...] }, "AzureRegions": ["string", ...] } }</param>
+    /// <param name="Name">The name of the connector. Must be unique within the account. Constraints: • pattern: .*\S.*</param>
+    /// <param name="Provider">The configuration for the cloud provider to connect to. Currently supports Azure. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Azure. Azure -&gt; (structure) The Azure provider configuration. AWSConfigConnectorArn -&gt; (string) [required] The ARN of the multi-cloud configuration connector used to establish the connection to Azure. Constraints: • pattern: .*\S.* ScopeConfiguration -&gt; (structure) [required] The scope configuration that defines which Azure resources are monitored. ScopeType -&gt; (string) [required] The type of scope. Valid values are tenant and subscription . Possible values: • TENANT • SUBSCRIPTION ScopeValues -&gt; (list) The list of scope values, such as subscription IDs, when the scope type is subscription . Constraints: • min: 0 • max: 100 (string) Constraints: • pattern: .*\S.* AzureRegions -&gt; (list) [required] The list of Azure regions to monitor. Constraints: • min: 1 • max: 100 (string) Constraints: • pattern: .*\S.* JSON Syntax: { "Azure": { "AWSConfigConnectorArn": "string", "ScopeConfiguration": { "ScopeType": "TENANT"|"SUBSCRIPTION", "ScopeValues": ["string", ...] }, "AzureRegions": ["string", ...] } }</param>
     public AwsSecurityhubCreateConnectorOptions(
         string Name,
         string Provider
@@ -62,31 +63,31 @@ public record AwsSecurityhubCreateConnectorOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the connector. Must be unique within the account. Constraints: o pattern: .*\S.*
+    /// The name of the connector. Must be unique within the account. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The configuration for the cloud provider to connect to. Currently supports Azure. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Azure. Azure -&gt; (structure) The Azure provider configuration. AWSConfigConnectorArn -&gt; (string) [required] The ARN of the multi-cloud configuration connector used to establish the connection to Azure. Constraints: o pattern: .*\S.* ScopeConfiguration -&gt; (structure) [required] The scope configuration that defines which Azure resources are monitored. ScopeType -&gt; (string) [required] The type of scope. Valid values are tenant and subscrip- tion . Possible values: o TENANT o SUBSCRIPTION ScopeValues -&gt; (list) The list of scope values, such as subscription IDs, when the scope type is subscription . Constraints: o min: 0 o max: 100 (string) Constraints: o pattern: .*\S.* AzureRegions -&gt; (list) [required] The list of Azure regions to monitor. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: .*\S.* JSON Syntax: { "Azure": { "AWSConfigConnectorArn": "string", "ScopeConfiguration": { "ScopeType": "TENANT"|"SUBSCRIPTION", "ScopeValues": ["string", ...] }, "AzureRegions": ["string", ...] } }
+    /// The configuration for the cloud provider to connect to. Currently supports Azure. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Azure. Azure -&gt; (structure) The Azure provider configuration. AWSConfigConnectorArn -&gt; (string) [required] The ARN of the multi-cloud configuration connector used to establish the connection to Azure. Constraints: • pattern: .*\S.* ScopeConfiguration -&gt; (structure) [required] The scope configuration that defines which Azure resources are monitored. ScopeType -&gt; (string) [required] The type of scope. Valid values are tenant and subscription . Possible values: • TENANT • SUBSCRIPTION ScopeValues -&gt; (list) The list of scope values, such as subscription IDs, when the scope type is subscription . Constraints: • min: 0 • max: 100 (string) Constraints: • pattern: .*\S.* AzureRegions -&gt; (list) [required] The list of Azure regions to monitor. Constraints: • min: 1 • max: 100 (string) Constraints: • pattern: .*\S.* JSON Syntax: { "Azure": { "AWSConfigConnectorArn": "string", "ScopeConfiguration": { "ScopeType": "TENANT"|"SUBSCRIPTION", "ScopeValues": ["string", ...] }, "AzureRegions": ["string", ...] } }
     /// </summary>
     [CliOption("--provider")]
     public string? Provider { get; private init; }
 
     /// <summary>
-    /// The description of the connector. Constraints: o pattern: .*\S.*
+    /// The description of the connector. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The tags to add to the connector resource. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to add to the connector resource. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// A unique identifier used to ensure idempotency of the request. Constraints: o min: 1 o max: 63 o pattern: ^[\x21-\x7E]{1,64}$
+    /// A unique identifier used to ensure idempotency of the request. Constraints: • min: 1 • max: 63 • pattern: ^[\x21-\x7E]{1,64}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

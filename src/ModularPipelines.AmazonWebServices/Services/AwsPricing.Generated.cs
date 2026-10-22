@@ -32,7 +32,7 @@ public class AwsPricing : IAwsPricing
     #region Commands
 
     /// <summary>
-    /// Returns the metadata for one service or a list of the metadata for all services. Use this without a service code to get the service codes for all services. Use it with a service code, such as AmazonEC2 , to get information specific to that service, such as the attribute names available for that service. For example, some of the attribute names available for EC2 are volumeType , maxIopsVolume , operation , loca- tionType , and instanceCapacity10xlarge . See also: AWS API Documentation describe-se...
+    /// Returns the metadata for one service or a list of the metadata for all services. Use this without a service code to get the service codes for all services. Use it with a service code, such as AmazonEC2 , to get information specific to that service, such as the attribute names available for that service. For example, some of the attribute names available for EC2 are volumeType , maxIopsVolume , operation , locationType , and instanceCapacity10xlarge . See also: AWS API Documentation describe-serv...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsPricing : IAwsPricing
     }
 
     /// <summary>
-    /// Returns a list of attribute values. Attributes are similar to the de- tails in a Price List API offer file. For a list of available attrib- utes, see Offer File Definitions in the Billing and Cost Management User Guide . See also: AWS API Documentation get-attribute-values is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argum...
+    /// Returns a list of attribute values. Attributes are similar to the details in a Price List API offer file. For a list of available attributes, see Offer File Definitions in the Billing and Cost Management User Guide . See also: AWS API Documentation get-attribute-values is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsPricing : IAwsPricing
     }
 
     /// <summary>
-    /// o This feature is in preview release and is subject to change. Your use of Amazon Web Services Price List API is subject to the Beta Service Participation terms of the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Section 1.10). * This returns the URL that you can retrieve your Price List file from. This URL is based on the PriceListArn and FileFormat that you retrieve from the ListPriceLists response. See also: AWS API Documentation
+    /// • This feature is in preview release and is subject to change. Your use of Amazon Web Services Price List API is subject to the Beta Service Participation terms of the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Section 1.10). * This returns the URL that you can retrieve your Price List file from. This URL is based on the PriceListArn and FileFormat that you retrieve from the ListPriceLists response. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsPricing : IAwsPricing
     }
 
     /// <summary>
-    /// Returns a list of all products that match the filter criteria. See also: AWS API Documentation get-products is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: PriceList
+    /// Returns a list of all products that match the filter criteria. See also: AWS API Documentation get-products is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PriceList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsPricing : IAwsPricing
     }
 
     /// <summary>
-    /// o This feature is in preview release and is subject to change. Your use of Amazon Web Services Price List API is subject to the Beta Service Participation terms of the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Section 1.10). * This returns a list of Price List references that the requester if au- thorized to view, given a ServiceCode , CurrencyCode , and an Effec- tiveDate . Use without a RegionCode filter to list Price List refer- ences from all available Am...
+    /// • This feature is in preview release and is subject to change. Your use of Amazon Web Services Price List API is subject to the Beta Service Participation terms of the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Section 1.10). * This returns a list of Price List references that the requester if authorized to view, given a ServiceCode , CurrencyCode , and an EffectiveDate . Use without a RegionCode filter to list Price List references from all available Amazon W...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

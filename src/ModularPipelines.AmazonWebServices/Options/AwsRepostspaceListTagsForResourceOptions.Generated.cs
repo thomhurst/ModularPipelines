@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the tags that are associated with the AWS re:Post Private re- source specified by the resourceArn. The only resource that can be tagged is a private re:Post. See also: AWS API Documentation
+/// Returns the tags that are associated with the AWS re:Post Private resource specified by the resourceArn. The only resource that can be tagged is a private re:Post. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRepostspaceListTagsForResourceOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the tags that are associated with the AWS re:Post Private re- source specified by the resourceArn. The only resource that can be tagged is a private re:Post. See also: AWS API Documentation
+    /// Returns the tags that are associated with the AWS re:Post Private resource specified by the resourceArn. The only resource that can be tagged is a private re:Post. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource that the tags are associated with. Constraints: o min: 20 o max: 2048</param>
+    /// <param name="ResourceArn">The ARN of the resource that the tags are associated with. Constraints: • min: 20 • max: 2048</param>
     public AwsRepostspaceListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsRepostspaceListTagsForResourceOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource that the tags are associated with. Constraints: o min: 20 o max: 2048
+    /// The ARN of the resource that the tags are associated with. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

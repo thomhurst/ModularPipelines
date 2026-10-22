@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Allows you to purchase reserved nodes. Amazon Redshift offers a prede- fined set of reserved node offerings. You can purchase one or more of the offerings. You can call the DescribeReservedNodeOfferings API to obtain the available reserved node offerings. You can call this API by providing a specific reserved node offering and the number of nodes you want to reserve. For more information about reserved node offerings, go to Purchasing Reserved Nodes in the Amazon Redshift Cluster Management Guid...
+/// Allows you to purchase reserved nodes. Amazon Redshift offers a predefined set of reserved node offerings. You can purchase one or more of the offerings. You can call the DescribeReservedNodeOfferings API to obtain the available reserved node offerings. You can call this API by providing a specific reserved node offering and the number of nodes you want to reserve. For more information about reserved node offerings, go to Purchasing Reserved Nodes in the Amazon Redshift Cluster Management Guide ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRedshiftPurchaseReservedNodeOfferingOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Allows you to purchase reserved nodes. Amazon Redshift offers a prede- fined set of reserved node offerings. You can purchase one or more of the offerings. You can call the DescribeReservedNodeOfferings API to obtain the available reserved node offerings. You can call this API by providing a specific reserved node offering and the number of nodes you want to reserve. For more information about reserved node offerings, go to Purchasing Reserved Nodes in the Amazon Redshift Cluster Management Guid...
+    /// Allows you to purchase reserved nodes. Amazon Redshift offers a predefined set of reserved node offerings. You can purchase one or more of the offerings. You can call the DescribeReservedNodeOfferings API to obtain the available reserved node offerings. You can call this API by providing a specific reserved node offering and the number of nodes you want to reserve. For more information about reserved node offerings, go to Purchasing Reserved Nodes in the Amazon Redshift Cluster Management Guide ...
     /// </summary>
-    /// <param name="ReservedNodeOfferingId">The unique identifier of the reserved node offering you want to pur- chase. Constraints: o max: 2147483647</param>
+    /// <param name="ReservedNodeOfferingId">The unique identifier of the reserved node offering you want to purchase. Constraints: • max: 2147483647</param>
     public AwsRedshiftPurchaseReservedNodeOfferingOptions(
         string ReservedNodeOfferingId
     )
@@ -56,7 +58,7 @@ public record AwsRedshiftPurchaseReservedNodeOfferingOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the reserved node offering you want to pur- chase. Constraints: o max: 2147483647
+    /// The unique identifier of the reserved node offering you want to purchase. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--reserved-node-offering-id")]
     public string? ReservedNodeOfferingId { get; private init; }

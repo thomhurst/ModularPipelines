@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws bedrockruntime commands.
+/// aws bedrock-runtime commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsBedrockRuntime : IAwsBedrockRuntime
@@ -47,7 +47,7 @@ public class AwsBedrockRuntime : IAwsBedrockRuntime
     }
 
     /// <summary>
-    /// Sends messages to the specified Amazon Bedrock model. Converse provides a consistent interface that works with all models that support mes- sages. This allows you to write code once and use it with different models. If a model has unique inference parameters, you can also pass those unique parameters to the model. Amazon Bedrock doesn't store any text, images, or documents that you provide as content. The data is only used to generate the response. You can submit a prompt by including it in the ...
+    /// Sends messages to the specified Amazon Bedrock model. Converse provides a consistent interface that works with all models that support messages. This allows you to write code once and use it with different models. If a model has unique inference parameters, you can also pass those unique parameters to the model. Amazon Bedrock doesn't store any text, images, or documents that you provide as content. The data is only used to generate the response. You can submit a prompt by including it in the me...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsBedrockRuntime : IAwsBedrockRuntime
     }
 
     /// <summary>
-    /// Returns the token count for a given inference request. This operation helps you estimate token usage before sending requests to foundation models by returning the token count that would be used if the same in- put were sent to the model in an inference request. Token counting is model-specific because different models use different tokenization strategies. The token count returned by this operation will match the token count that would be charged if the same input were sent to the model in an In...
+    /// Returns the token count for a given inference request. This operation helps you estimate token usage before sending requests to foundation models by returning the token count that would be used if the same input were sent to the model in an inference request. Token counting is model-specific because different models use different tokenization strategies. The token count returned by this operation will match the token count that would be charged if the same input were sent to the model in an Invo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsBedrockRuntime : IAwsBedrockRuntime
     }
 
     /// <summary>
-    /// Evaluates messages against inline guardrail checks. You specify the check configurations directly in the request, and Amazon Bedrock re- turns per-check results with severity or confidence scores. See also: AWS API Documentation
+    /// Evaluates messages against inline guardrail checks. You specify the check configurations directly in the request, and Amazon Bedrock returns per-check results with severity or confidence scores. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsBedrockRuntime : IAwsBedrockRuntime
     }
 
     /// <summary>
-    /// Starts an asynchronous invocation. This operation requires permission for the bedrock:InvokeModel action. WARNING: To deny all inference access to resources that you specify in the modelId field, you need to deny access to the bedrock:InvokeModel and bedrock:InvokeModelWithResponseStream actions. Doing this also denies access to the resource through the Converse API actions (- Converse and ConverseStream ). For more information see Deny access for inference on specific models . See also: AWS API...
+    /// Starts an asynchronous invocation. This operation requires permission for the bedrock:InvokeModel action. WARNING: To deny all inference access to resources that you specify in the modelId field, you need to deny access to the bedrock:InvokeModel and bedrock:InvokeModelWithResponseStream actions. Doing this also denies access to the resource through the Converse API actions (Converse and ConverseStream ). For more information see Deny access for inference on specific models . See also: AWS API D...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

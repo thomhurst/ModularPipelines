@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsLightsailTestAlarmOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Tests an alarm by displaying a banner on the Amazon Lightsail console. If a notification trigger is configured for the specified alarm, the test also sends a notification to the notification protocol (Email and/or SMS ) configured for the alarm. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see Alarms in Amazon...
     /// </summary>
-    /// <param name="AlarmName">The name of the alarm to test. Constraints: o pattern: \w[\w\-]*\w</param>
-    /// <param name="State">The alarm state to test. An alarm has the following possible states that can be tested: o ALARM - The metric is outside of the defined threshold. o INSUFFICIENT_DATA - The alarm has just started, the metric is not available, or not enough data is available for the metric to de- termine the alarm state. o OK - The metric is within the defined threshold. Possible values: o OK o ALARM o INSUFFICIENT_DATA</param>
+    /// <param name="AlarmName">The name of the alarm to test. Constraints: • pattern: \w[\w\-]*\w</param>
+    /// <param name="State">The alarm state to test. An alarm has the following possible states that can be tested: • ALARM - The metric is outside of the defined threshold. • INSUFFICIENT_DATA - The alarm has just started, the metric is not available, or not enough data is available for the metric to determine the alarm state. • OK - The metric is within the defined threshold. Possible values: • OK • ALARM • INSUFFICIENT_DATA</param>
     public AwsLightsailTestAlarmOptions(
         string AlarmName,
         AwsLightsailTestAlarmState State
@@ -60,13 +62,13 @@ public record AwsLightsailTestAlarmOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the alarm to test. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the alarm to test. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--alarm-name")]
     public string? AlarmName { get; private init; }
 
     /// <summary>
-    /// The alarm state to test. An alarm has the following possible states that can be tested: o ALARM - The metric is outside of the defined threshold. o INSUFFICIENT_DATA - The alarm has just started, the metric is not available, or not enough data is available for the metric to de- termine the alarm state. o OK - The metric is within the defined threshold. Possible values: o OK o ALARM o INSUFFICIENT_DATA
+    /// The alarm state to test. An alarm has the following possible states that can be tested: • ALARM - The metric is outside of the defined threshold. • INSUFFICIENT_DATA - The alarm has just started, the metric is not available, or not enough data is available for the metric to determine the alarm state. • OK - The metric is within the defined threshold. Possible values: • OK • ALARM • INSUFFICIENT_DATA
     /// </summary>
     [CliOption("--state")]
     public AwsLightsailTestAlarmState? State { get; private init; }

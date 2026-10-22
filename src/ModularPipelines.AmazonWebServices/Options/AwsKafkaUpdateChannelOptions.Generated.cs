@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the destination configuration of an existing channel. Exactly one of icebergDestinationUpdate or s3DestinationUpdate must be sup- plied. See also: AWS API Documentation
+/// Updates the destination configuration of an existing channel. Exactly one of icebergDestinationUpdate or s3DestinationUpdate must be supplied. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsKafkaUpdateChannelOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the destination configuration of an existing channel. Exactly one of icebergDestinationUpdate or s3DestinationUpdate must be sup- plied. See also: AWS API Documentation
+    /// Updates the destination configuration of an existing channel. Exactly one of icebergDestinationUpdate or s3DestinationUpdate must be supplied. See also: AWS API Documentation
     /// </summary>
     /// <param name="ChannelArn">The Amazon Resource Name (ARN) that uniquely identifies the channel.</param>
     /// <param name="ClusterArn">The Amazon Resource Name (ARN) that uniquely identifies the cluster.</param>
@@ -78,7 +80,7 @@ public record AwsKafkaUpdateChannelOptions : AwsOptions, IValidatableObject
     public string? IcebergDestinationUpdate { get; set; }
 
     /// <summary>
-    /// Updates fields on an Amazon S3 destination. Use only when the chan- nel was created with an Amazon S3 destination. DataFreshnessInSeconds -&gt; (integer) [required] The maximum time, in seconds, that records buffer in MSK before being flushed to the destination. Allowed range: 300 to 900. Shorthand Syntax: DataFreshnessInSeconds=integer JSON Syntax: { "DataFreshnessInSeconds": integer }
+    /// Updates fields on an Amazon S3 destination. Use only when the channel was created with an Amazon S3 destination. DataFreshnessInSeconds -&gt; (integer) [required] The maximum time, in seconds, that records buffer in MSK before being flushed to the destination. Allowed range: 300 to 900. Shorthand Syntax: DataFreshnessInSeconds=integer JSON Syntax: { "DataFreshnessInSeconds": integer }
     /// </summary>
     [CliOption("--s3-destination-update")]
     public string? S3DestinationUpdate { get; set; }

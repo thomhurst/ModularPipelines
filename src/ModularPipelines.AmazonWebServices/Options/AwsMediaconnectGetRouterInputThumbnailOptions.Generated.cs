@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the thumbnail for a router input in AWS Elemental MediaCon- nect. See also: AWS API Documentation
+/// Retrieves the thumbnail for a router input in AWS Elemental MediaConnect. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsMediaconnectGetRouterInputThumbnailOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the thumbnail for a router input in AWS Elemental MediaCon- nect. See also: AWS API Documentation
+    /// Retrieves the thumbnail for a router input in AWS Elemental MediaConnect. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the router input that you want to see a thumbnail of. Constraints: o pattern: arn:(aws[a-zA-Z-]*):mediacon- nect:[a-z0-9-]+:[0-9]{12}:routerInput:[a-z0-9]{12}</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the router input that you want to see a thumbnail of. Constraints: • pattern: arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:routerInput:[a-z0-9]{12}</param>
     public AwsMediaconnectGetRouterInputThumbnailOptions(
         string Arn
     )
@@ -56,7 +58,7 @@ public record AwsMediaconnectGetRouterInputThumbnailOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the router input that you want to see a thumbnail of. Constraints: o pattern: arn:(aws[a-zA-Z-]*):mediacon- nect:[a-z0-9-]+:[0-9]{12}:routerInput:[a-z0-9]{12}
+    /// The Amazon Resource Name (ARN) of the router input that you want to see a thumbnail of. Constraints: • pattern: arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:routerInput:[a-z0-9]{12}
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }

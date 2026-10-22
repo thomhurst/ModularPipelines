@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +31,8 @@ public record AwsRepostspaceBatchRemoveRoleOptions : AwsOptions, IValidatableObj
     /// Remove a role from multiple users or groups in a private re:Post. See also: AWS API Documentation
     /// </summary>
     /// <param name="SpaceId">The unique ID of the private re:Post.</param>
-    /// <param name="AccessorIds">The user or group accessor identifiers to remove the role from. Constraints: o min: 0 o max: 1000 (string) Syntax: "string" "string" ...</param>
-    /// <param name="Role">The role to remove from the users or groups. Possible values: o EXPERT o MODERATOR o ADMINISTRATOR o SUPPORTREQUESTOR</param>
+    /// <param name="AccessorIds">The user or group accessor identifiers to remove the role from. Constraints: • min: 0 • max: 1000 (string) Syntax: "string" "string" ...</param>
+    /// <param name="Role">The role to remove from the users or groups. Possible values: • EXPERT • MODERATOR • ADMINISTRATOR • SUPPORTREQUESTOR</param>
     public AwsRepostspaceBatchRemoveRoleOptions(
         string SpaceId,
         IEnumerable<string> AccessorIds,
@@ -81,13 +83,13 @@ public record AwsRepostspaceBatchRemoveRoleOptions : AwsOptions, IValidatableObj
     public string? SpaceId { get; private init; }
 
     /// <summary>
-    /// The user or group accessor identifiers to remove the role from. Constraints: o min: 0 o max: 1000 (string) Syntax: "string" "string" ...
+    /// The user or group accessor identifiers to remove the role from. Constraints: • min: 0 • max: 1000 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--accessor-ids", GroupValues = true)]
     public IEnumerable<string>? AccessorIds { get; private init; }
 
     /// <summary>
-    /// The role to remove from the users or groups. Possible values: o EXPERT o MODERATOR o ADMINISTRATOR o SUPPORTREQUESTOR
+    /// The role to remove from the users or groups. Possible values: • EXPERT • MODERATOR • ADMINISTRATOR • SUPPORTREQUESTOR
     /// </summary>
     [CliOption("--role")]
     public AwsRepostspaceBatchRemoveRoleRole? Role { get; private init; }

@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Import a new custom lens or update an existing custom lens. To update an existing custom lens, specify its ARN as the LensAlias . If no ARN is specified, a new custom lens is created. The new or updated lens will have a status of DRAFT . The lens cannot be applied to workloads or shared with other Amazon Web Services ac- counts until it's published with CreateLensVersion . Lenses are defined in JSON. For more information, see JSON format spec- ification in the Well-Architected Tool User Guide . ...
+/// Import a new custom lens or update an existing custom lens. To update an existing custom lens, specify its ARN as the LensAlias . If no ARN is specified, a new custom lens is created. The new or updated lens will have a status of DRAFT . The lens cannot be applied to workloads or shared with other Amazon Web Services accounts until it's published with CreateLensVersion . Lenses are defined in JSON. For more information, see JSON format specification in the Well-Architected Tool User Guide . A cu...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsWellarchitectedImportLensOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Import a new custom lens or update an existing custom lens. To update an existing custom lens, specify its ARN as the LensAlias . If no ARN is specified, a new custom lens is created. The new or updated lens will have a status of DRAFT . The lens cannot be applied to workloads or shared with other Amazon Web Services ac- counts until it's published with CreateLensVersion . Lenses are defined in JSON. For more information, see JSON format spec- ification in the Well-Architected Tool User Guide . ...
+    /// Import a new custom lens or update an existing custom lens. To update an existing custom lens, specify its ARN as the LensAlias . If no ARN is specified, a new custom lens is created. The new or updated lens will have a status of DRAFT . The lens cannot be applied to workloads or shared with other Amazon Web Services accounts until it's published with CreateLensVersion . Lenses are defined in JSON. For more information, see JSON format specification in the Well-Architected Tool User Guide . A cu...
     /// </summary>
-    /// <param name="JsonString">The JSON representation of a lens. Constraints: o min: 2 o max: 500000</param>
+    /// <param name="JsonString">The JSON representation of a lens. Constraints: • min: 2 • max: 500000</param>
     public AwsWellarchitectedImportLensOptions(
         string JsonString
     )
@@ -58,26 +59,26 @@ public record AwsWellarchitectedImportLensOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The JSON representation of a lens. Constraints: o min: 2 o max: 500000
+    /// The JSON representation of a lens. Constraints: • min: 2 • max: 500000
     /// </summary>
     [CliOption("--json-string")]
     public string? JsonString { get; private init; }
 
     /// <summary>
-    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless , or the lens ARN, such as arn:aws:wellar- chitected:us-east-1::lens/serverless . Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchi- tected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef . Each lens is identified by its LensSummary$LensAlias . Constraints: o min: 1 o max: 128
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless , or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless . Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef . Each lens is identified by its LensSummary$LensAlias . Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--lens-alias")]
     public string? LensAlias { get; set; }
 
     /// <summary>
-    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. WARNING: This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail. Constraints: o min: 1 o max: 2048 o pattern: [\x00-\x7F]*
+    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. WARNING: This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail. Constraints: • min: 1 • max: 2048 • pattern: [\x00-\x7F]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// Tags to associate to a lens. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{N}\p{Z}_.:/=+@-]+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags to associate to a lens. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{N}\p{Z}_.:/=+@-]+ value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

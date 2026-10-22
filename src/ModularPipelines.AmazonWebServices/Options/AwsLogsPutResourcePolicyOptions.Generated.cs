@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates a resource policy allowing other Amazon Web Services services to put log events to this account, such as Amazon Route 53. This API has the following restrictions: o Supported actions - Policy only supports logs:PutLogEvents and logs:CreateLogStream actions o Supported principals - Policy only applies when operations are in- voked by Amazon Web Services service principals (not IAM users, roles, or cross-account principals o Policy limits - An account can have a maximum of 10 po...
+/// Creates or updates a resource policy allowing other Amazon Web Services services to put log events to this account, such as Amazon Route 53. This API has the following restrictions: • Supported actions - Policy only supports logs:PutLogEvents and logs:CreateLogStream actions • Supported principals - Policy only applies when operations are invoked by Amazon Web Services service principals (not IAM users, roles, or cross-account principals • Policy limits - An account can have a maximum of 10 poli...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,7 +28,7 @@ public record AwsLogsPutResourcePolicyOptions : AwsOptions
     public string? PolicyName { get; set; }
 
     /// <summary>
-    /// Details of the new policy, including the identity of the principal that is enabled to put logs to this account. This is formatted as a JSON string. This parameter is required. The following example creates a resource policy enabling the Route 53 service to put DNS query logs in to the specified log group. Re- place "logArn" with the ARN of your CloudWatch Logs resource, such as a log group or log stream. CloudWatch Logs also supports aws:SourceArn and aws:SourceAccount condition context keys. In the example resource policy, you would replace the value of SourceArn with the resource making the call from Route 53 to Cloud- Watch Logs. You would also replace the value of SourceAccount with the Amazon Web Services account ID making that call. { "Version": "2012-10-17", "Statement": [ { "Sid": "Route53LogsToCloudWatchLogs", "Effect": "Allow", "Principal": { "Service": [ "route53.amazonaws.com" ] }, "Action": "logs:PutLo- gEvents", "Resource": "logArn", "Condition": { "ArnLike": { "aws:SourceArn": "myRoute53ResourceArn" }, "StringEquals": { "aws:SourceAccount": "myAwsAccountId" } } } ] } Constraints: o min: 1 o max: 51200
+    /// Details of the new policy, including the identity of the principal that is enabled to put logs to this account. This is formatted as a JSON string. This parameter is required. The following example creates a resource policy enabling the Route 53 service to put DNS query logs in to the specified log group. Replace "logArn" with the ARN of your CloudWatch Logs resource, such as a log group or log stream. CloudWatch Logs also supports aws:SourceArn and aws:SourceAccount condition context keys. In the example resource policy, you would replace the value of SourceArn with the resource making the call from Route 53 to CloudWatch Logs. You would also replace the value of SourceAccount with the Amazon Web Services account ID making that call. { "Version": "2012-10-17", "Statement": [ { "Sid": "Route53LogsToCloudWatchLogs", "Effect": "Allow", "Principal": { "Service": [ "route53.amazonaws.com" ] }, "Action": "logs:PutLogEvents", "Resource": "logArn", "Condition": { "ArnLike": { "aws:SourceArn": "myRoute53ResourceArn" }, "StringEquals": { "aws:SourceAccount": "myAwsAccountId" } } } ] } Constraints: • min: 1 • max: 51200
     /// </summary>
     [CliOption("--policy-document")]
     public string? PolicyDocument { get; set; }
@@ -40,7 +40,7 @@ public record AwsLogsPutResourcePolicyOptions : AwsOptions
     public string? ResourceArn { get; set; }
 
     /// <summary>
-    /// The expected revision ID of the resource policy. Required when re- sourceArn is provided to prevent concurrent modifications. Use null when creating a resource policy for the first time. Constraints: o min: 1
+    /// The expected revision ID of the resource policy. Required when resourceArn is provided to prevent concurrent modifications. Use null when creating a resource policy for the first time. Constraints: • min: 1
     /// </summary>
     [CliOption("--expected-revision-id")]
     public string? ExpectedRevisionId { get; set; }

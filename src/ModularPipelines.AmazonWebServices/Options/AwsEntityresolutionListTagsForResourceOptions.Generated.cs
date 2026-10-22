@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Displays the tags associated with an Entity Resolution resource. In En- tity Resolution, SchemaMapping , and MatchingWorkflow can be tagged. See also: AWS API Documentation
+/// Displays the tags associated with an Entity Resolution resource. In Entity Resolution, SchemaMapping , and MatchingWorkflow can be tagged. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsEntityresolutionListTagsForResourceOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Displays the tags associated with an Entity Resolution resource. In En- tity Resolution, SchemaMapping , and MatchingWorkflow can be tagged. See also: AWS API Documentation
+    /// Displays the tags associated with an Entity Resolution resource. In Entity Resolution, SchemaMapping , and MatchingWorkflow can be tagged. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource for which you want to view tags. Constraints: o pattern: arn:(aws|aws-us-gov|aws-cn):entityresolu- tion:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:((schemamapping|match- ingworkflow|idmappingworkflow|idnamespace)/[a-zA-Z_0-9-]{1,255})</param>
+    /// <param name="ResourceArn">The ARN of the resource for which you want to view tags. Constraints: • pattern: arn:(aws|aws-us-gov|aws-cn):entityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:((schemamapping|matchingworkflow|idmappingworkflow|idnamespace)/[a-zA-Z_0-9-]{1,255})</param>
     public AwsEntityresolutionListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsEntityresolutionListTagsForResourceOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource for which you want to view tags. Constraints: o pattern: arn:(aws|aws-us-gov|aws-cn):entityresolu- tion:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:((schemamapping|match- ingworkflow|idmappingworkflow|idnamespace)/[a-zA-Z_0-9-]{1,255})
+    /// The ARN of the resource for which you want to view tags. Constraints: • pattern: arn:(aws|aws-us-gov|aws-cn):entityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:((schemamapping|matchingworkflow|idmappingworkflow|idnamespace)/[a-zA-Z_0-9-]{1,255})
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

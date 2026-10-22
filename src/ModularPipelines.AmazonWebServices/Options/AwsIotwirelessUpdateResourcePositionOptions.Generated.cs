@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Update the position information of a given wireless device or a wire- less gateway resource. The position coordinates are based on the World Geodetic System (WGS84) . See also: AWS API Documentation
+/// Update the position information of a given wireless device or a wireless gateway resource. The position coordinates are based on the World Geodetic System (WGS84) . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsIotwirelessUpdateResourcePositionOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Update the position information of a given wireless device or a wire- less gateway resource. The position coordinates are based on the World Geodetic System (WGS84) . See also: AWS API Documentation
+    /// Update the position information of a given wireless device or a wireless gateway resource. The position coordinates are based on the World Geodetic System (WGS84) . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceIdentifier">The identifier of the resource for which position information is up- dated. It can be the wireless device ID or the wireless gateway ID, depending on the resource type. Constraints: o pattern: [a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}</param>
-    /// <param name="ResourceType">The type of resource for which position information is updated, which can be a wireless device or a wireless gateway. Possible values: o WirelessDevice o WirelessGateway</param>
+    /// <param name="ResourceIdentifier">The identifier of the resource for which position information is updated. It can be the wireless device ID or the wireless gateway ID, depending on the resource type. Constraints: • pattern: [a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}</param>
+    /// <param name="ResourceType">The type of resource for which position information is updated, which can be a wireless device or a wireless gateway. Possible values: • WirelessDevice • WirelessGateway</param>
     public AwsIotwirelessUpdateResourcePositionOptions(
         string ResourceIdentifier,
         AwsIotwirelessUpdateResourcePositionResourceType ResourceType
@@ -60,19 +62,19 @@ public record AwsIotwirelessUpdateResourcePositionOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the resource for which position information is up- dated. It can be the wireless device ID or the wireless gateway ID, depending on the resource type. Constraints: o pattern: [a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}
+    /// The identifier of the resource for which position information is updated. It can be the wireless device ID or the wireless gateway ID, depending on the resource type. Constraints: • pattern: [a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}
     /// </summary>
     [CliOption("--resource-identifier")]
     public string? ResourceIdentifier { get; private init; }
 
     /// <summary>
-    /// The type of resource for which position information is updated, which can be a wireless device or a wireless gateway. Possible values: o WirelessDevice o WirelessGateway
+    /// The type of resource for which position information is updated, which can be a wireless device or a wireless gateway. Possible values: • WirelessDevice • WirelessGateway
     /// </summary>
     [CliOption("--resource-type")]
     public AwsIotwirelessUpdateResourcePositionResourceType? ResourceType { get; private init; }
 
     /// <summary>
-    /// The position information of the resource, displayed as a JSON pay- load. The payload uses the GeoJSON format, which a format that's used to encode geographic data structures. For more information, see GeoJSON .
+    /// The position information of the resource, displayed as a JSON payload. The payload uses the GeoJSON format, which a format that's used to encode geographic data structures. For more information, see GeoJSON .
     /// </summary>
     [CliOption("--geo-json-payload")]
     public string? GeoJsonPayload { get; set; }

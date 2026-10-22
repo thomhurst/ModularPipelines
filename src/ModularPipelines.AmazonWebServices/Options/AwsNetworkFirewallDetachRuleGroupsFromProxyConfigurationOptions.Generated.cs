@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsNetworkFirewallDetachRuleGroupsFromProxyConfigurationOptions : 
     /// <summary>
     /// Detaches ProxyRuleGroup resources from a ProxyConfiguration A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="UpdateToken">A token used for optimistic locking. Network Firewall returns a to- ken to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request. To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token. Constraints: o min: 1 o max: 1024 o pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$</param>
+    /// <param name="UpdateToken">A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request. To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token. Constraints: • min: 1 • max: 1024 • pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$</param>
     public AwsNetworkFirewallDetachRuleGroupsFromProxyConfigurationOptions(
         string UpdateToken
     )
@@ -57,32 +59,32 @@ public record AwsNetworkFirewallDetachRuleGroupsFromProxyConfigurationOptions : 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A token used for optimistic locking. Network Firewall returns a to- ken to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request. To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token. Constraints: o min: 1 o max: 1024 o pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request. To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token. Constraints: • min: 1 • max: 1024 • pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$
     /// </summary>
     [SecretValue]
     [CliOption("--update-token")]
     public string? UpdateToken { get; private init; }
 
     /// <summary>
-    /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
+    /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--proxy-configuration-name")]
     public string? ProxyConfigurationName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*
+    /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*
     /// </summary>
     [CliOption("--proxy-configuration-arn")]
     public string? ProxyConfigurationArn { get; set; }
 
     /// <summary>
-    /// The proxy rule group names to detach from the proxy configuration (string) Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$ Syntax: "string" "string" ...
+    /// The proxy rule group names to detach from the proxy configuration (string) Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--rule-group-names", GroupValues = true)]
     public IEnumerable<string>? RuleGroupNames { get; set; }
 
     /// <summary>
-    /// The proxy rule group arns to detach from the proxy configuration (string) Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.* Syntax: "string" "string" ...
+    /// The proxy rule group arns to detach from the proxy configuration (string) Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--rule-group-arns", GroupValues = true)]
     public IEnumerable<string>? RuleGroupArns { get; set; }

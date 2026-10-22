@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates one or more member accounts with your organization's manage- ment account, enabling centralized implementation of optimization ac- tions across those accounts. Once associated, the management account (or a delegated administrator) can apply recommended actions to the member account. When you associate a member account, its organization rule mode is automatically set to "Any allowed," which permits the man- agement account to create Automation rules that automatically apply ac- tions t...
+/// Associates one or more member accounts with your organization's management account, enabling centralized implementation of optimization actions across those accounts. Once associated, the management account (or a delegated administrator) can apply recommended actions to the member account. When you associate a member account, its organization rule mode is automatically set to "Any allowed," which permits the management account to create Automation rules that automatically apply actions to that a...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsComputeOptimizerAutomationAssociateAccountsOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates one or more member accounts with your organization's manage- ment account, enabling centralized implementation of optimization ac- tions across those accounts. Once associated, the management account (or a delegated administrator) can apply recommended actions to the member account. When you associate a member account, its organization rule mode is automatically set to "Any allowed," which permits the man- agement account to create Automation rules that automatically apply ac- tions t...
+    /// Associates one or more member accounts with your organization's management account, enabling centralized implementation of optimization actions across those accounts. Once associated, the management account (or a delegated administrator) can apply recommended actions to the member account. When you associate a member account, its organization rule mode is automatically set to "Any allowed," which permits the management account to create Automation rules that automatically apply actions to that a...
     /// </summary>
-    /// <param name="AccountIds">The IDs of the member accounts to associate. You can specify up to 50 account IDs. (string) Constraints: o pattern: [0-9]{12} Syntax: "string" "string" ...</param>
+    /// <param name="AccountIds">The IDs of the member accounts to associate. You can specify up to 50 account IDs. (string) Constraints: • pattern: [0-9]{12} Syntax: "string" "string" ...</param>
     public AwsComputeOptimizerAutomationAssociateAccountsOptions(
         IEnumerable<string> AccountIds
     )
@@ -68,13 +70,13 @@ public record AwsComputeOptimizerAutomationAssociateAccountsOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The IDs of the member accounts to associate. You can specify up to 50 account IDs. (string) Constraints: o pattern: [0-9]{12} Syntax: "string" "string" ...
+    /// The IDs of the member accounts to associate. You can specify up to 50 account IDs. (string) Constraints: • pattern: [0-9]{12} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; private init; }
 
     /// <summary>
-    /// A unique identifier to ensure idempotency of the request. Valid for 24 hours after creation. Constraints: o pattern: [a-zA-Z0-9_-]{1,64}
+    /// A unique identifier to ensure idempotency of the request. Valid for 24 hours after creation. Constraints: • pattern: [a-zA-Z0-9_-]{1,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

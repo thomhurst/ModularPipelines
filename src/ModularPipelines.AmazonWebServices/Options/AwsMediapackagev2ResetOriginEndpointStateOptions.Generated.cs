@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Resetting the origin endpoint can help to resolve unexpected behavior and other content packaging issues. It also helps to preserve special events when you don't want the previous content to be available for viewing. A reset clears out all previous content from the origin end- point. MediaPackage might return old content from this endpoint in the first 30 seconds after the endpoint reset. For best results, when possible, wait 30 seconds from endpoint reset to send playback requests to this endpo...
+/// Resetting the origin endpoint can help to resolve unexpected behavior and other content packaging issues. It also helps to preserve special events when you don't want the previous content to be available for viewing. A reset clears out all previous content from the origin endpoint. MediaPackage might return old content from this endpoint in the first 30 seconds after the endpoint reset. For best results, when possible, wait 30 seconds from endpoint reset to send playback requests to this endpoin...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsMediapackagev2ResetOriginEndpointStateOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Resetting the origin endpoint can help to resolve unexpected behavior and other content packaging issues. It also helps to preserve special events when you don't want the previous content to be available for viewing. A reset clears out all previous content from the origin end- point. MediaPackage might return old content from this endpoint in the first 30 seconds after the endpoint reset. For best results, when possible, wait 30 seconds from endpoint reset to send playback requests to this endpo...
+    /// Resetting the origin endpoint can help to resolve unexpected behavior and other content packaging issues. It also helps to preserve special events when you don't want the previous content to be available for viewing. A reset clears out all previous content from the origin endpoint. MediaPackage might return old content from this endpoint in the first 30 seconds after the endpoint reset. For best results, when possible, wait 30 seconds from endpoint reset to send playback requests to this endpoin...
     /// </summary>
-    /// <param name="ChannelGroupName">The name of the channel group that contains the channel with the origin endpoint that you are resetting. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="ChannelName">The name of the channel with the origin endpoint that you are reset- ting. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="OriginEndpointName">The name of the origin endpoint that you are resetting. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ChannelGroupName">The name of the channel group that contains the channel with the origin endpoint that you are resetting. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ChannelName">The name of the channel with the origin endpoint that you are resetting. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="OriginEndpointName">The name of the origin endpoint that you are resetting. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsMediapackagev2ResetOriginEndpointStateOptions(
         string ChannelGroupName,
         string ChannelName,
@@ -64,19 +66,19 @@ public record AwsMediapackagev2ResetOriginEndpointStateOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the channel group that contains the channel with the origin endpoint that you are resetting. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// The name of the channel group that contains the channel with the origin endpoint that you are resetting. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--channel-group-name")]
     public string? ChannelGroupName { get; private init; }
 
     /// <summary>
-    /// The name of the channel with the origin endpoint that you are reset- ting. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// The name of the channel with the origin endpoint that you are resetting. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--channel-name")]
     public string? ChannelName { get; private init; }
 
     /// <summary>
-    /// The name of the origin endpoint that you are resetting. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// The name of the origin endpoint that you are resetting. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--origin-endpoint-name")]
     public string? OriginEndpointName { get; private init; }

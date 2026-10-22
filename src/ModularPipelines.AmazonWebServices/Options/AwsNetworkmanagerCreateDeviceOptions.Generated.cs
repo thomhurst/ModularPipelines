@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsNetworkmanagerCreateDeviceOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Creates a new device in a global network. If you specify both a site ID and a location, the location of the site is used for visualization in the Network Manager console. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
+    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*</param>
     public AwsNetworkmanagerCreateDeviceOptions(
         string GlobalNetworkId
     )
@@ -56,61 +58,61 @@ public record AwsNetworkmanagerCreateDeviceOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// The ID of the global network. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--global-network-id")]
     public string? GlobalNetworkId { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services location of the device, if applicable. For an on-premises device, you can omit this parameter. Zone -&gt; (string) The Zone that the device is located in. Specify the ID of an Availability Zone, Local Zone, Wavelength Zone, or an Outpost. Constraints: o min: 0 o max: 256 o pattern: [\s\S]* SubnetArn -&gt; (string) The Amazon Resource Name (ARN) of the subnet that the device is located in. Constraints: o min: 0 o max: 500 o pattern: ^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:sub- net\/subnet-[0-9a-f]{8,17}$|^$ Shorthand Syntax: Zone=string,SubnetArn=string JSON Syntax: { "Zone": "string", "SubnetArn": "string" }
+    /// The Amazon Web Services location of the device, if applicable. For an on-premises device, you can omit this parameter. Zone -&gt; (string) The Zone that the device is located in. Specify the ID of an Availability Zone, Local Zone, Wavelength Zone, or an Outpost. Constraints: • min: 0 • max: 256 • pattern: [\s\S]* SubnetArn -&gt; (string) The Amazon Resource Name (ARN) of the subnet that the device is located in. Constraints: • min: 0 • max: 500 • pattern: ^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:subnet\/subnet-[0-9a-f]{8,17}$|^$ Shorthand Syntax: Zone=string,SubnetArn=string JSON Syntax: { "Zone": "string", "SubnetArn": "string" }
     /// </summary>
     [CliOption("--aws-location")]
     public string? AwsLocation { get; set; }
 
     /// <summary>
-    /// A description of the device. Constraints: Maximum length of 256 characters. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// A description of the device. Constraints: Maximum length of 256 characters. Constraints: • min: 0 • max: 256 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The type of the device. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// The type of the device. Constraints: • min: 0 • max: 256 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--type")]
     public string? Type { get; set; }
 
     /// <summary>
-    /// The vendor of the device. Constraints: Maximum length of 128 characters. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// The vendor of the device. Constraints: Maximum length of 128 characters. Constraints: • min: 0 • max: 256 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--vendor")]
     public string? Vendor { get; set; }
 
     /// <summary>
-    /// The model of the device. Constraints: Maximum length of 128 characters. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// The model of the device. Constraints: Maximum length of 128 characters. Constraints: • min: 0 • max: 256 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--model")]
     public string? Model { get; set; }
 
     /// <summary>
-    /// The serial number of the device. Constraints: Maximum length of 128 characters. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// The serial number of the device. Constraints: Maximum length of 128 characters. Constraints: • min: 0 • max: 256 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--serial-number")]
     public string? SerialNumber { get; set; }
 
     /// <summary>
-    /// The location of the device. Address -&gt; (string) The physical address. Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Latitude -&gt; (string) The latitude. Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Longitude -&gt; (string) The longitude. Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Shorthand Syntax: Address=string,Latitude=string,Longitude=string JSON Syntax: { "Address": "string", "Latitude": "string", "Longitude": "string" }
+    /// The location of the device. Address -&gt; (string) The physical address. Constraints: • min: 0 • max: 256 • pattern: [\s\S]* Latitude -&gt; (string) The latitude. Constraints: • min: 0 • max: 256 • pattern: [\s\S]* Longitude -&gt; (string) The longitude. Constraints: • min: 0 • max: 256 • pattern: [\s\S]* Shorthand Syntax: Address=string,Latitude=string,Longitude=string JSON Syntax: { "Address": "string", "Latitude": "string", "Longitude": "string" }
     /// </summary>
     [CliOption("--location")]
     public string? Location { get; set; }
 
     /// <summary>
-    /// The ID of the site. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// The ID of the site. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--site-id")]
     public string? SiteId { get; set; }
 
     /// <summary>
-    /// The tags to apply to the resource during creation. (structure) Describes a tag. Key -&gt; (string) The tag key. Constraints: Maximum length of 128 characters. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]* Value -&gt; (string) The tag value. Constraints: Maximum length of 256 characters. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags to apply to the resource during creation. (structure) Describes a tag. Key -&gt; (string) The tag key. Constraints: Maximum length of 128 characters. Constraints: • min: 0 • max: 10000000 • pattern: [\s\S]* Value -&gt; (string) The tag value. Constraints: Maximum length of 256 characters. Constraints: • min: 0 • max: 10000000 • pattern: [\s\S]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

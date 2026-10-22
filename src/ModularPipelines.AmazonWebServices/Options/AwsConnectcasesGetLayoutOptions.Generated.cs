@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsConnectcasesGetLayoutOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns the details for the requested layout. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500</param>
-    /// <param name="LayoutId">The unique identifier of the layout. Constraints: o min: 1 o max: 500</param>
+    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500</param>
+    /// <param name="LayoutId">The unique identifier of the layout. Constraints: • min: 1 • max: 500</param>
     public AwsConnectcasesGetLayoutOptions(
         string DomainId,
         string LayoutId
@@ -60,13 +62,13 @@ public record AwsConnectcasesGetLayoutOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500
+    /// The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the layout. Constraints: o min: 1 o max: 500
+    /// The unique identifier of the layout. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--layout-id")]
     public string? LayoutId { get; private init; }

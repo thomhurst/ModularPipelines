@@ -32,7 +32,7 @@ public class AwsOpensearchserverless : IAwsOpensearchserverless
     #region Commands
 
     /// <summary>
-    /// Returns attributes for one or more collection groups, including capac- ity limits and the number of collections in each group. For more infor- mation, see Creating and managing Amazon OpenSearch Serverless collec- tions . See also: AWS API Documentation
+    /// Returns attributes for one or more collection groups, including capacity limits and the number of collections in each group. For more information, see Creating and managing Amazon OpenSearch Serverless collections . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsOpensearchserverless : IAwsOpensearchserverless
     }
 
     /// <summary>
-    /// Returns attributes for one or more collections, including the collec- tion endpoint, the OpenSearch Dashboards endpoint, and FIPS-compliant endpoints. For more information, see Creating and managing Amazon OpenSearch Serverless collections . See also: AWS API Documentation
+    /// Returns attributes for one or more collections, including the collection endpoint, the OpenSearch Dashboards endpoint, and FIPS-compliant endpoints. For more information, see Creating and managing Amazon OpenSearch Serverless collections . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsOpensearchserverless : IAwsOpensearchserverless
     }
 
     /// <summary>
-    /// Returns one or more configured OpenSearch Serverless lifecycle poli- cies. For more information, see Viewing data lifecycle policies . See also: AWS API Documentation batch-get-lifecycle-policy uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support documen...
+    /// Returns one or more configured OpenSearch Serverless lifecycle policies. For more information, see Viewing data lifecycle policies . See also: AWS API Documentation batch-get-lifecycle-policy uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document ty...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsOpensearchserverless : IAwsOpensearchserverless
     }
 
     /// <summary>
-    /// Creates a data access policy for OpenSearch Serverless. Access policies limit access to collections and the resources within them, and allow a user to access that data irrespective of the access mechanism or net- work source. For more information, see Data access control for Amazon OpenSearch Serverless . See also: AWS API Documentation create-access-policy uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and o...
+    /// Creates a data access policy for OpenSearch Serverless. Access policies limit access to collections and the resources within them, and allow a user to access that data irrespective of the access mechanism or network source. For more information, see Data access control for Amazon OpenSearch Serverless . See also: AWS API Documentation create-access-policy uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and obj...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsOpensearchserverless : IAwsOpensearchserverless
     }
 
     /// <summary>
-    /// Creates a lifecyle policy to be applied to OpenSearch Serverless in- dexes. Lifecycle policies define the number of days or hours to retain the data on an OpenSearch Serverless index. For more information, see Creating data lifecycle policies . See also: AWS API Documentation create-lifecycle-policy uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters ...
+    /// Creates a lifecyle policy to be applied to OpenSearch Serverless indexes. Lifecycle policies define the number of days or hours to retain the data on an OpenSearch Serverless index. For more information, see Creating data lifecycle policies . See also: AWS API Documentation create-lifecycle-policy uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsOpensearchserverless : IAwsOpensearchserverless
     }
 
     /// <summary>
-    /// Creates a security policy to be used by one or more OpenSearch Server- less collections. Security policies provide access to a collection and its OpenSearch Dashboards endpoint from public networks or specific VPC endpoints. They also allow you to secure a collection with a KMS en- cryption key. For more information, see Network access for Amazon OpenSearch Serverless and Encryption at rest for Amazon OpenSearch Serverless . See also: AWS API Documentation create-security-policy uses document ty...
+    /// Creates a security policy to be used by one or more OpenSearch Serverless collections. Security policies provide access to a collection and its OpenSearch Dashboards endpoint from public networks or specific VPC endpoints. They also allow you to secure a collection with a KMS encryption key. For more information, see Network access for Amazon OpenSearch Serverless and Encryption at rest for Amazon OpenSearch Serverless . See also: AWS API Documentation create-security-policy uses document type v...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsOpensearchserverless : IAwsOpensearchserverless
     }
 
     /// <summary>
-    /// Creates an OpenSearch Serverless-managed interface VPC endpoint. For more information, see Access Amazon OpenSearch Serverless using an in- terface endpoint . See also: AWS API Documentation
+    /// Creates an OpenSearch Serverless-managed interface VPC endpoint. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsOpensearchserverless : IAwsOpensearchserverless
     }
 
     /// <summary>
-    /// Deletes an index from an OpenSearch Serverless collection. Be aware that the index might be configured to conduct automatic semantic en- richment ingestion and search. For more information, see About auto- matic semantic enrichment . See also: AWS API Documentation
+    /// Deletes an index from an OpenSearch Serverless collection. Be aware that the index might be configured to conduct automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsOpensearchserverless : IAwsOpensearchserverless
     }
 
     /// <summary>
-    /// Deletes an OpenSearch Serverless lifecycle policy. For more informa- tion, see Deleting data lifecycle policies . See also: AWS API Documentation
+    /// Deletes an OpenSearch Serverless lifecycle policy. For more information, see Deleting data lifecycle policies . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsOpensearchserverless : IAwsOpensearchserverless
     }
 
     /// <summary>
-    /// Returns an OpenSearch Serverless access policy. For more information, see Data access control for Amazon OpenSearch Serverless . See also: AWS API Documentation get-access-policy uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Returns an OpenSearch Serverless access policy. For more information, see Data access control for Amazon OpenSearch Serverless . See also: AWS API Documentation get-access-policy uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsOpensearchserverless : IAwsOpensearchserverless
     }
 
     /// <summary>
-    /// Retrieves information about an index in an OpenSearch Serverless col- lection, including its schema definition. The index might be configured to conduct automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment . See also: AWS API Documentation get-index uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested par...
+    /// Retrieves information about an index in an OpenSearch Serverless collection, including its schema definition. The index might be configured to conduct automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment . See also: AWS API Documentation get-index uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested param...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsOpensearchserverless : IAwsOpensearchserverless
     }
 
     /// <summary>
-    /// Returns information about an OpenSearch Serverless security configura- tion. For more information, see SAML authentication for Amazon OpenSearch Serverless . See also: AWS API Documentation
+    /// Returns information about an OpenSearch Serverless security configuration. For more information, see SAML authentication for Amazon OpenSearch Serverless . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsOpensearchserverless : IAwsOpensearchserverless
     }
 
     /// <summary>
-    /// Returns information about a configured OpenSearch Serverless security policy. For more information, see Network access for Amazon OpenSearch Serverless and Encryption at rest for Amazon OpenSearch Serverless . See also: AWS API Documentation get-security-policy uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document...
+    /// Returns information about a configured OpenSearch Serverless security policy. For more information, see Network access for Amazon OpenSearch Serverless and Encryption at rest for Amazon OpenSearch Serverless . See also: AWS API Documentation get-security-policy uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document m...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsOpensearchserverless : IAwsOpensearchserverless
     }
 
     /// <summary>
-    /// Returns information about a list of OpenSearch Serverless access poli- cies. See also: AWS API Documentation
+    /// Returns information about a list of OpenSearch Serverless access policies. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsOpensearchserverless : IAwsOpensearchserverless
     }
 
     /// <summary>
-    /// Returns information about configured OpenSearch Serverless security configurations. For more information, see SAML authentication for Ama- zon OpenSearch Serverless . See also: AWS API Documentation
+    /// Returns information about configured OpenSearch Serverless security configurations. For more information, see SAML authentication for Amazon OpenSearch Serverless . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsOpensearchserverless : IAwsOpensearchserverless
     }
 
     /// <summary>
-    /// Returns the tags for an OpenSearch Serverless resource. For more infor- mation, see Tagging Amazon OpenSearch Serverless collections . See also: AWS API Documentation
+    /// Returns the tags for an OpenSearch Serverless resource. For more information, see Tagging Amazon OpenSearch Serverless collections . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsOpensearchserverless : IAwsOpensearchserverless
     }
 
     /// <summary>
-    /// Returns the OpenSearch Serverless-managed interface VPC endpoints asso- ciated with the current account. For more information, see Access Ama- zon OpenSearch Serverless using an interface endpoint . See also: AWS API Documentation
+    /// Returns the OpenSearch Serverless-managed interface VPC endpoints associated with the current account. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +557,7 @@ public class AwsOpensearchserverless : IAwsOpensearchserverless
     }
 
     /// <summary>
-    /// Associates tags with an OpenSearch Serverless resource. For more infor- mation, see Tagging Amazon OpenSearch Serverless collections . See also: AWS API Documentation
+    /// Associates tags with an OpenSearch Serverless resource. For more information, see Tagging Amazon OpenSearch Serverless collections . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsOpensearchserverless : IAwsOpensearchserverless
     }
 
     /// <summary>
-    /// Removes a tag or set of tags from an OpenSearch Serverless resource. For more information, see Tagging Amazon OpenSearch Serverless collec- tions . See also: AWS API Documentation
+    /// Removes a tag or set of tags from an OpenSearch Serverless resource. For more information, see Tagging Amazon OpenSearch Serverless collections . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsOpensearchserverless : IAwsOpensearchserverless
     }
 
     /// <summary>
-    /// Updates an OpenSearch Serverless access policy. For more information, see Data access control for Amazon OpenSearch Serverless . See also: AWS API Documentation update-access-policy uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Updates an OpenSearch Serverless access policy. For more information, see Data access control for Amazon OpenSearch Serverless . See also: AWS API Documentation update-access-policy uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +647,7 @@ public class AwsOpensearchserverless : IAwsOpensearchserverless
     }
 
     /// <summary>
-    /// Updates an existing index in an OpenSearch Serverless collection. This operation allows you to modify the index schema, including adding new fields or changing field mappings. You can also enable automatic seman- tic enrichment ingestion and search. For more information, see About automatic semantic enrichment . See also: AWS API Documentation update-index uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and ob...
+    /// Updates an existing index in an OpenSearch Serverless collection. This operation allows you to modify the index schema, including adding new fields or changing field mappings. You can also enable automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment . See also: AWS API Documentation update-index uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and obje...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsOpensearchserverless : IAwsOpensearchserverless
     }
 
     /// <summary>
-    /// Updates an OpenSearch Serverless access policy. For more information, see Updating data lifecycle policies . See also: AWS API Documentation update-lifecycle-policy uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support document types.
+    /// Updates an OpenSearch Serverless access policy. For more information, see Updating data lifecycle policies . See also: AWS API Documentation update-lifecycle-policy uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -692,7 +692,7 @@ public class AwsOpensearchserverless : IAwsOpensearchserverless
     }
 
     /// <summary>
-    /// Updates an OpenSearch Serverless security policy. For more information, see Network access for Amazon OpenSearch Serverless and Encryption at rest for Amazon OpenSearch Serverless . See also: AWS API Documentation update-security-policy uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON...
+    /// Updates an OpenSearch Serverless security policy. For more information, see Network access for Amazon OpenSearch Serverless and Encryption at rest for Amazon OpenSearch Serverless . See also: AWS API Documentation update-security-policy uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

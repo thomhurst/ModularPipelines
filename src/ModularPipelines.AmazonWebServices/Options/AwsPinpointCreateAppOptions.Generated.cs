@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsPinpointCreateAppOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates an application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CreateApplicationRequest">Specifies the display name of an application and the tags to asso- ciate with the application. Name -&gt; (string) [required] The display name of the application. This name is displayed as the Project name on the Amazon Pinpoint console. tags -&gt; (map) A string-to-string map of key-value pairs that defines the tags to associate with the application. Each tag consists of a re- quired tag key and an associated tag value. key -&gt; (string) value -&gt; (string) Shorthand Syntax: Name=string,tags={KeyName1=string,KeyName2=string} JSON Syntax: { "Name": "string", "tags": {"string": "string" ...} }</param>
+    /// <param name="CreateApplicationRequest">Specifies the display name of an application and the tags to associate with the application. Name -&gt; (string) [required] The display name of the application. This name is displayed as the Project name on the Amazon Pinpoint console. tags -&gt; (map) A string-to-string map of key-value pairs that defines the tags to associate with the application. Each tag consists of a required tag key and an associated tag value. key -&gt; (string) value -&gt; (string) Shorthand Syntax: Name=string,tags={KeyName1=string,KeyName2=string} JSON Syntax: { "Name": "string", "tags": {"string": "string" ...} }</param>
     public AwsPinpointCreateAppOptions(
         string CreateApplicationRequest
     )
@@ -56,7 +58,7 @@ public record AwsPinpointCreateAppOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the display name of an application and the tags to asso- ciate with the application. Name -&gt; (string) [required] The display name of the application. This name is displayed as the Project name on the Amazon Pinpoint console. tags -&gt; (map) A string-to-string map of key-value pairs that defines the tags to associate with the application. Each tag consists of a re- quired tag key and an associated tag value. key -&gt; (string) value -&gt; (string) Shorthand Syntax: Name=string,tags={KeyName1=string,KeyName2=string} JSON Syntax: { "Name": "string", "tags": {"string": "string" ...} }
+    /// Specifies the display name of an application and the tags to associate with the application. Name -&gt; (string) [required] The display name of the application. This name is displayed as the Project name on the Amazon Pinpoint console. tags -&gt; (map) A string-to-string map of key-value pairs that defines the tags to associate with the application. Each tag consists of a required tag key and an associated tag value. key -&gt; (string) value -&gt; (string) Shorthand Syntax: Name=string,tags={KeyName1=string,KeyName2=string} JSON Syntax: { "Name": "string", "tags": {"string": "string" ...} }
     /// </summary>
     [CliOption("--create-application-request")]
     public string? CreateApplicationRequest { get; private init; }

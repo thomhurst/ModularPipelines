@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of active App Runner automatic scaling configurations in your Amazon Web Services account. You can query the revisions for a specific configuration name or the revisions for all active configura- tions in your account. You can optionally query only the latest revi- sion of each requested name. To retrieve a full description of a particular configuration revision, call and provide one of the ARNs returned by ListAutoScalingConfigura- tions . See also: AWS API Documentation
+/// Returns a list of active App Runner automatic scaling configurations in your Amazon Web Services account. You can query the revisions for a specific configuration name or the revisions for all active configurations in your account. You can optionally query only the latest revision of each requested name. To retrieve a full description of a particular configuration revision, call and provide one of the ARNs returned by ListAutoScalingConfigurations . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,25 +23,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsApprunnerListAutoScalingConfigurationsOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the App Runner auto scaling configuration that you want to list. If specified, App Runner lists revisions that share this name. If not specified, App Runner returns revisions of all active configurations. Constraints: o min: 4 o max: 32 o pattern: [A-Za-z0-9][A-Za-z0-9\-_]{3,31}
+    /// The name of the App Runner auto scaling configuration that you want to list. If specified, App Runner lists revisions that share this name. If not specified, App Runner returns revisions of all active configurations. Constraints: • min: 4 • max: 32 • pattern: [A-Za-z0-9][A-Za-z0-9\-_]{3,31}
     /// </summary>
     [CliOption("--auto-scaling-configuration-name")]
     public string? AutoScalingConfigurationName { get; set; }
 
     /// <summary>
-    /// Set to true to list only the latest revision for each requested con- figuration name. Set to false to list all revisions for each requested configuration name. Default: true
+    /// Set to true to list only the latest revision for each requested configuration name. Set to false to list all revisions for each requested configuration name. Default: true
     /// </summary>
     [CliFlag("--latest-only", NegatedName = "--no-latest-only")]
     public bool? LatestOnly { get; set; }
 
     /// <summary>
-    /// The maximum number of results to include in each response (result page). It's used for a paginated request. If you don't specify MaxResults , the request retrieves all avail- able results in a single response. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to include in each response (result page). It's used for a paginated request. If you don't specify MaxResults , the request retrieves all available results in a single response. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// A token from a previous result page. It's used for a paginated re- quest. The request retrieves the next result page. All other parame- ter values must be identical to the ones that are specified in the initial request. If you don't specify NextToken , the request retrieves the first re- sult page. Constraints: o min: 1 o max: 1024 o pattern: .*
+    /// A token from a previous result page. It's used for a paginated request. The request retrieves the next result page. All other parameter values must be identical to the ones that are specified in the initial request. If you don't specify NextToken , the request retrieves the first result page. Constraints: • min: 1 • max: 1024 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

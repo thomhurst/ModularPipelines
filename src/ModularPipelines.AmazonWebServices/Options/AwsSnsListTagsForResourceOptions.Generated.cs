@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSnsListTagsForResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// List all tags added to the specified Amazon SNS topic. For an overview, see Amazon SNS Tags in the Amazon Simple Notification Service Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the topic for which to list tags. Constraints: o min: 1 o max: 1011</param>
+    /// <param name="ResourceArn">The ARN of the topic for which to list tags. Constraints: • min: 1 • max: 1011</param>
     public AwsSnsListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsSnsListTagsForResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the topic for which to list tags. Constraints: o min: 1 o max: 1011
+    /// The ARN of the topic for which to list tags. Constraints: • min: 1 • max: 1011
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

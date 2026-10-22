@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Indicates whether the specified Config rules are compliant. If a rule is noncompliant, this operation returns the number of Amazon Web Ser- vices resources that do not comply with the rule. A rule is compliant if all of the evaluated resources comply with it. It is noncompliant if any of these resources do not comply. If Config has no current evaluation results for the rule, it returns INSUFFICIENT_DATA . This result might indicate one of the following conditions: o Config has never invoked an e...
+/// Indicates whether the specified Config rules are compliant. If a rule is noncompliant, this operation returns the number of Amazon Web Services resources that do not comply with the rule. A rule is compliant if all of the evaluated resources comply with it. It is noncompliant if any of these resources do not comply. If Config has no current evaluation results for the rule, it returns INSUFFICIENT_DATA . This result might indicate one of the following conditions: • Config has never invoked an eva...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,22 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsConfigserviceDescribeComplianceByConfigRuleOptions : AwsOptions
 {
     /// <summary>
-    /// Specify one or more Config rule names to filter the results by rule. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 1 o max: 128 o pattern: .*\S.* Syntax: "string" "string" ...
+    /// Specify one or more Config rule names to filter the results by rule. Constraints: • min: 0 • max: 25 (string) Constraints: • min: 1 • max: 128 • pattern: .*\S.* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--config-rule-names", GroupValues = true)]
     public IEnumerable<string>? ConfigRuleNames { get; set; }
 
     /// <summary>
-    /// Filters the results by compliance. Constraints: o min: 0 o max: 3 (string) Possible values: o COMPLIANT o NON_COMPLIANT o NOT_APPLICABLE o INSUFFICIENT_DATA Syntax: "string" "string" ...
+    /// Filters the results by compliance. Constraints: • min: 0 • max: 3 (string) Possible values: • COMPLIANT • NON_COMPLIANT • NOT_APPLICABLE • INSUFFICIENT_DATA Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--compliance-types", GroupValues = true)]
     public IEnumerable<string>? ComplianceTypes { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -48,9 +45,12 @@ public record AwsConfigserviceDescribeComplianceByConfigRuleOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

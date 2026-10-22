@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API can be used for updating the ResourceProperty of the Glue con- nection (for the source) or Glue database ARN (for the target). These properties can include the role to access the connection or database. Since the same resource can be used across multiple integrations, up- dating resource properties will impact all the integrations using it. See also: AWS API Documentation
+/// This API can be used for updating the ResourceProperty of the Glue connection (for the source) or Glue database ARN (for the target). These properties can include the role to access the connection or database. Since the same resource can be used across multiple integrations, updating resource properties will impact all the integrations using it. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsGlueUpdateIntegrationResourcePropertyOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API can be used for updating the ResourceProperty of the Glue con- nection (for the source) or Glue database ARN (for the target). These properties can include the role to access the connection or database. Since the same resource can be used across multiple integrations, up- dating resource properties will impact all the integrations using it. See also: AWS API Documentation
+    /// This API can be used for updating the ResourceProperty of the Glue connection (for the source) or Glue database ARN (for the target). These properties can include the role to access the connection or database. Since the same resource can be used across multiple integrations, updating resource properties will impact all the integrations using it. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The connection ARN of the source, or the database ARN of the target. Constraints: o min: 1 o max: 512</param>
+    /// <param name="ResourceArn">The connection ARN of the source, or the database ARN of the target. Constraints: • min: 1 • max: 512</param>
     public AwsGlueUpdateIntegrationResourcePropertyOptions(
         string ResourceArn
     )
@@ -56,19 +58,19 @@ public record AwsGlueUpdateIntegrationResourcePropertyOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The connection ARN of the source, or the database ARN of the target. Constraints: o min: 1 o max: 512
+    /// The connection ARN of the source, or the database ARN of the target. Constraints: • min: 1 • max: 512
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The resource properties associated with the integration source. RoleArn -&gt; (string) The IAM role to access the Glue connection. Constraints: o min: 1 o max: 128 Shorthand Syntax: RoleArn=string JSON Syntax: { "RoleArn": "string" }
+    /// The resource properties associated with the integration source. RoleArn -&gt; (string) The IAM role to access the Glue connection. Constraints: • min: 1 • max: 128 Shorthand Syntax: RoleArn=string JSON Syntax: { "RoleArn": "string" }
     /// </summary>
     [CliOption("--source-processing-properties")]
     public string? SourceProcessingProperties { get; set; }
 
     /// <summary>
-    /// The resource properties associated with the integration target. RoleArn -&gt; (string) The IAM role to access the Glue database. Constraints: o min: 1 o max: 128 KmsArn -&gt; (string) The ARN of the KMS key used for encryption. Constraints: o min: 1 o max: 2048 ConnectionName -&gt; (string) The Glue network connection to configure the Glue job running in the customer VPC. Constraints: o min: 1 o max: 128 EventBusArn -&gt; (string) The ARN of an Eventbridge event bus to receive the integration status notification. Constraints: o min: 1 o max: 2048 Shorthand Syntax: RoleArn=string,KmsArn=string,ConnectionName=string,EventBusArn=string JSON Syntax: { "RoleArn": "string", "KmsArn": "string", "ConnectionName": "string", "EventBusArn": "string" }
+    /// The resource properties associated with the integration target. RoleArn -&gt; (string) The IAM role to access the Glue database. Constraints: • min: 1 • max: 128 KmsArn -&gt; (string) The ARN of the KMS key used for encryption. Constraints: • min: 1 • max: 2048 ConnectionName -&gt; (string) The Glue network connection to configure the Glue job running in the customer VPC. Constraints: • min: 1 • max: 128 EventBusArn -&gt; (string) The ARN of an Eventbridge event bus to receive the integration status notification. Constraints: • min: 1 • max: 2048 Shorthand Syntax: RoleArn=string,KmsArn=string,ConnectionName=string,EventBusArn=string JSON Syntax: { "RoleArn": "string", "KmsArn": "string", "ConnectionName": "string", "EventBusArn": "string" }
     /// </summary>
     [CliOption("--target-processing-properties")]
     public string? TargetProcessingProperties { get; set; }

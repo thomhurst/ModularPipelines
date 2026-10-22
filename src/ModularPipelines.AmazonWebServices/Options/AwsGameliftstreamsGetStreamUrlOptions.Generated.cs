@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsGameliftstreamsGetStreamUrlOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Retrieves properties for a stream URL, including its current status, usage, and the stream sessions started through it. If you delete the stream group or application that backs the stream URL, this operation updates the status of the stream URL to REVOKED . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">An Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . This is the stream group that owns the stream URL. Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
-    /// <param name="StreamUrlIdentifier">The unique identifier of the stream URL. Specify a stream URL ID or Amazon Resource Name (ARN). Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamurl/sg-1AB2C3De4/su-1AB2C3De4 . Example ID: su-1AB2C3De4 . Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
+    /// <param name="Identifier">An Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . This is the stream group that owns the stream URL. Constraints: • min: 1 • max: 128 • pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
+    /// <param name="StreamUrlIdentifier">The unique identifier of the stream URL. Specify a stream URL ID or Amazon Resource Name (ARN). Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamurl/sg-1AB2C3De4/su-1AB2C3De4 . Example ID: su-1AB2C3De4 . Constraints: • min: 1 • max: 128 • pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
     public AwsGameliftstreamsGetStreamUrlOptions(
         string Identifier,
         string StreamUrlIdentifier
@@ -60,13 +62,13 @@ public record AwsGameliftstreamsGetStreamUrlOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . This is the stream group that owns the stream URL. Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
+    /// An Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . This is the stream group that owns the stream URL. Constraints: • min: 1 • max: 128 • pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the stream URL. Specify a stream URL ID or Amazon Resource Name (ARN). Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamurl/sg-1AB2C3De4/su-1AB2C3De4 . Example ID: su-1AB2C3De4 . Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
+    /// The unique identifier of the stream URL. Specify a stream URL ID or Amazon Resource Name (ARN). Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamurl/sg-1AB2C3De4/su-1AB2C3De4 . Example ID: su-1AB2C3De4 . Constraints: • min: 1 • max: 128 • pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
     /// </summary>
     [CliOption("--stream-url-identifier")]
     public string? StreamUrlIdentifier { get; private init; }

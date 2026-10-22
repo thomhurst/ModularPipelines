@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBillingUpdateBillingViewOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// An API to update the attributes of the billing view. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view. Constraints: o pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9]</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view. Constraints: • pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9]</param>
     public AwsBillingUpdateBillingViewOptions(
         string Arn
     )
@@ -56,25 +58,25 @@ public record AwsBillingUpdateBillingViewOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view. Constraints: o pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9]
+    /// The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view. Constraints: • pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9]
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The name of the billing view. Constraints: o min: 1 o max: 128 o pattern: [ a-zA-Z0-9_\+=\.\-@]+
+    /// The name of the billing view. Constraints: • min: 1 • max: 128 • pattern: [ a-zA-Z0-9_\+=\.\-@]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The description of the billing view. Constraints: o min: 0 o max: 1024 o pattern: ([ a-zA-Z0-9_\+=\.\-@]+)?
+    /// The description of the billing view. Constraints: • min: 0 • max: 1024 • pattern: ([ a-zA-Z0-9_\+=\.\-@]+)?
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// See Expression . Billing view only supports LINKED_ACCOUNT , Tags , and CostCategories . dimensions -&gt; (structure) The specific Dimension to use for Expression . key -&gt; (string) [required] The names of the metadata types that you can use to filter and group your results. Possible values: o LINKED_ACCOUNT values -&gt; (list) [required] The metadata values that you can use to filter and group your results. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* tags -&gt; (structure) The specific Tag to use for Expression . key -&gt; (string) [required] The key for the tag. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* values -&gt; (list) [required] The specific value of the tag. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* costCategories -&gt; (structure) The filter that's based on CostCategory values. key -&gt; (string) [required] The unique name of the Cost Category. Constraints: o min: 1 o max: 50 o pattern: (?! )[\p{L}\p{N}\p{Z}-_]*(?&lt;! ) values -&gt; (list) [required] The specific value of the Cost Category. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* timeRange -&gt; (structure) Specifies a time range filter for the billing view data. beginDateInclusive -&gt; (timestamp) The inclusive start date of the time range. endDateInclusive -&gt; (timestamp) The inclusive end date of the time range. Shorthand Syntax: dimensions={key=string,values=[string,string]},tags={key=string,values=[string,string]},costCategories={key=string,values=[string,string]},timeRange={beginDateInclusive=timestamp,endDateInclusive=timestamp} JSON Syntax: { "dimensions": { "key": "LINKED_ACCOUNT", "values": ["string", ...] }, "tags": { "key": "string", "values": ["string", ...] }, "costCategories": { "key": "string", "values": ["string", ...] }, "timeRange": { "beginDateInclusive": timestamp, "endDateInclusive": timestamp } }
+    /// See Expression . Billing view only supports LINKED_ACCOUNT , Tags , and CostCategories . dimensions -&gt; (structure) The specific Dimension to use for Expression . key -&gt; (string) [required] The names of the metadata types that you can use to filter and group your results. Possible values: • LINKED_ACCOUNT values -&gt; (list) [required] The metadata values that you can use to filter and group your results. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 0 • max: 1024 • pattern: [\S\s]* tags -&gt; (structure) The specific Tag to use for Expression . key -&gt; (string) [required] The key for the tag. Constraints: • min: 0 • max: 1024 • pattern: [\S\s]* values -&gt; (list) [required] The specific value of the tag. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 0 • max: 1024 • pattern: [\S\s]* costCategories -&gt; (structure) The filter that's based on CostCategory values. key -&gt; (string) [required] The unique name of the Cost Category. Constraints: • min: 1 • max: 50 • pattern: (?! )[\p{L}\p{N}\p{Z}-_]*(?&lt;! ) values -&gt; (list) [required] The specific value of the Cost Category. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 0 • max: 1024 • pattern: [\S\s]* timeRange -&gt; (structure) Specifies a time range filter for the billing view data. beginDateInclusive -&gt; (timestamp) The inclusive start date of the time range. endDateInclusive -&gt; (timestamp) The inclusive end date of the time range. Shorthand Syntax: dimensions={key=string,values=[string,string]},tags={key=string,values=[string,string]},costCategories={key=string,values=[string,string]},timeRange={beginDateInclusive=timestamp,endDateInclusive=timestamp} JSON Syntax: { "dimensions": { "key": "LINKED_ACCOUNT", "values": ["string", ...] }, "tags": { "key": "string", "values": ["string", ...] }, "costCategories": { "key": "string", "values": ["string", ...] }, "timeRange": { "beginDateInclusive": timestamp, "endDateInclusive": timestamp } }
     /// </summary>
     [CliOption("--data-filter-expression")]
     public string? DataFilterExpression { get; set; }

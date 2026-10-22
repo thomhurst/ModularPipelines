@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Returns a list of media analysis jobs. Results are sorted by Creation- Timestamp in descending order. See also: AWS API Documentation
+/// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Returns a list of media analysis jobs. Results are sorted by CreationTimestamp in descending order. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,14 +23,14 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsRekognitionListMediaAnalysisJobsOptions : AwsOptions
 {
     /// <summary>
-    /// Pagination token, if the previous response was incomplete. Constraints: o max: 1024
+    /// Pagination token, if the previous response was incomplete. Constraints: • max: 1024
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return per paginated call. The largest value user can specify is 100. If user specifies a value greater than 100, an InvalidParameterException error occurs. The de- fault value is 100. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to return per paginated call. The largest value user can specify is 100. If user specifies a value greater than 100, an InvalidParameterException error occurs. The default value is 100. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

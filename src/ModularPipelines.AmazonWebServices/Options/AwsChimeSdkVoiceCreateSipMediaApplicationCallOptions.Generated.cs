@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an outbound call to a phone number from the phone number speci- fied in the request, and it invokes the endpoint of the specified sip- MediaApplicationId . See also: AWS API Documentation
+/// Creates an outbound call to a phone number from the phone number specified in the request, and it invokes the endpoint of the specified sipMediaApplicationId . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsChimeSdkVoiceCreateSipMediaApplicationCallOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an outbound call to a phone number from the phone number speci- fied in the request, and it invokes the endpoint of the specified sip- MediaApplicationId . See also: AWS API Documentation
+    /// Creates an outbound call to a phone number from the phone number specified in the request, and it invokes the endpoint of the specified sipMediaApplicationId . See also: AWS API Documentation
     /// </summary>
-    /// <param name="FromPhoneNumber">The phone number that a user calls from. This is a phone number in your Amazon Chime SDK phone number inventory. Constraints: o pattern: ^\+?[1-9]\d{1,14}$</param>
-    /// <param name="ToPhoneNumber">The phone number that the service should call. Constraints: o pattern: ^\+?[1-9]\d{1,14}$</param>
-    /// <param name="SipMediaApplicationId">The ID of the SIP media application. Constraints: o pattern: .*\S.*</param>
+    /// <param name="FromPhoneNumber">The phone number that a user calls from. This is a phone number in your Amazon Chime SDK phone number inventory. Constraints: • pattern: ^\+?[1-9]\d{1,14}$</param>
+    /// <param name="ToPhoneNumber">The phone number that the service should call. Constraints: • pattern: ^\+?[1-9]\d{1,14}$</param>
+    /// <param name="SipMediaApplicationId">The ID of the SIP media application. Constraints: • pattern: .*\S.*</param>
     public AwsChimeSdkVoiceCreateSipMediaApplicationCallOptions(
         string FromPhoneNumber,
         string ToPhoneNumber,
@@ -65,31 +66,31 @@ public record AwsChimeSdkVoiceCreateSipMediaApplicationCallOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The phone number that a user calls from. This is a phone number in your Amazon Chime SDK phone number inventory. Constraints: o pattern: ^\+?[1-9]\d{1,14}$
+    /// The phone number that a user calls from. This is a phone number in your Amazon Chime SDK phone number inventory. Constraints: • pattern: ^\+?[1-9]\d{1,14}$
     /// </summary>
     [CliOption("--from-phone-number")]
     public string? FromPhoneNumber { get; private init; }
 
     /// <summary>
-    /// The phone number that the service should call. Constraints: o pattern: ^\+?[1-9]\d{1,14}$
+    /// The phone number that the service should call. Constraints: • pattern: ^\+?[1-9]\d{1,14}$
     /// </summary>
     [CliOption("--to-phone-number")]
     public string? ToPhoneNumber { get; private init; }
 
     /// <summary>
-    /// The ID of the SIP media application. Constraints: o pattern: .*\S.*
+    /// The ID of the SIP media application. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--sip-media-application-id")]
     public string? SipMediaApplicationId { get; private init; }
 
     /// <summary>
-    /// The SIP headers added to an outbound call leg. Constraints: o min: 0 o max: 20 key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The SIP headers added to an outbound call leg. Constraints: • min: 0 • max: 20 key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--sip-headers", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? SipHeaders { get; set; }
 
     /// <summary>
-    /// Context passed to a CreateSipMediaApplication API call. For example, you could pass key-value pairs such as: "FirstName": "John", "Last- Name": "Doe" Constraints: o min: 0 o max: 20 key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Context passed to a CreateSipMediaApplication API call. For example, you could pass key-value pairs such as: "FirstName": "John", "LastName": "Doe" Constraints: • min: 0 • max: 20 key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--arguments-map", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ArgumentsMap { get; set; }

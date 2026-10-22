@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disassociates an Amazon FSx file system from the specified gateway. Af- ter the disassociation process finishes, the gateway can no longer ac- cess the Amazon FSx file system. This operation is only supported in the FSx File Gateway type. See also: AWS API Documentation
+/// Disassociates an Amazon FSx file system from the specified gateway. After the disassociation process finishes, the gateway can no longer access the Amazon FSx file system. This operation is only supported in the FSx File Gateway type. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsStoragegatewayDisassociateFileSystemOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disassociates an Amazon FSx file system from the specified gateway. Af- ter the disassociation process finishes, the gateway can no longer ac- cess the Amazon FSx file system. This operation is only supported in the FSx File Gateway type. See also: AWS API Documentation
+    /// Disassociates an Amazon FSx file system from the specified gateway. After the disassociation process finishes, the gateway can no longer access the Amazon FSx file system. This operation is only supported in the FSx File Gateway type. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FileSystemAssociationArn">The Amazon Resource Name (ARN) of the file system association to be deleted. Constraints: o min: 50 o max: 500</param>
+    /// <param name="FileSystemAssociationArn">The Amazon Resource Name (ARN) of the file system association to be deleted. Constraints: • min: 50 • max: 500</param>
     public AwsStoragegatewayDisassociateFileSystemOptions(
         string FileSystemAssociationArn
     )
@@ -56,7 +58,7 @@ public record AwsStoragegatewayDisassociateFileSystemOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the file system association to be deleted. Constraints: o min: 50 o max: 500
+    /// The Amazon Resource Name (ARN) of the file system association to be deleted. Constraints: • min: 50 • max: 500
     /// </summary>
     [CliOption("--file-system-association-arn")]
     public string? FileSystemAssociationArn { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associate a protect configuration with a configuration set. This re- places the configuration sets current protect configuration. A configu- ration set can only be associated with one protect configuration at a time. A protect configuration can be associated with multiple configu- ration sets. See also: AWS API Documentation
+/// Associate a protect configuration with a configuration set. This replaces the configuration sets current protect configuration. A configuration set can only be associated with one protect configuration at a time. A protect configuration can be associated with multiple configuration sets. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsPinpointSmsVoiceV2AssociateProtectConfigurationOptions : AwsOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associate a protect configuration with a configuration set. This re- places the configuration sets current protect configuration. A configu- ration set can only be associated with one protect configuration at a time. A protect configuration can be associated with multiple configu- ration sets. See also: AWS API Documentation
+    /// Associate a protect configuration with a configuration set. This replaces the configuration sets current protect configuration. A configuration set can only be associated with one protect configuration at a time. A protect configuration can be associated with multiple configuration sets. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProtectConfigurationId">The unique identifier for the protect configuration. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
-    /// <param name="ConfigurationSetName">The name of the ConfigurationSet. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="ProtectConfigurationId">The unique identifier for the protect configuration. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="ConfigurationSetName">The name of the ConfigurationSet. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+</param>
     public AwsPinpointSmsVoiceV2AssociateProtectConfigurationOptions(
         string ProtectConfigurationId,
         string ConfigurationSetName
@@ -60,13 +62,13 @@ public record AwsPinpointSmsVoiceV2AssociateProtectConfigurationOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the protect configuration. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The unique identifier for the protect configuration. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--protect-configuration-id")]
     public string? ProtectConfigurationId { get; private init; }
 
     /// <summary>
-    /// The name of the ConfigurationSet. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The name of the ConfigurationSet. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--configuration-set-name")]
     public string? ConfigurationSetName { get; private init; }

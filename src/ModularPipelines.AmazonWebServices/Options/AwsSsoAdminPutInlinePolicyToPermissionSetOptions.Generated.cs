@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Attaches an inline policy to a permission set. NOTE: If the permission set is already referenced by one or more account assignments, you will need to call `` ProvisionPermissionSet `` af- ter this action to apply the corresponding IAM policy updates to all assigned accounts. See also: AWS API Documentation
+/// Attaches an inline policy to a permission set. NOTE: If the permission set is already referenced by one or more account assignments, you will need to call `` ProvisionPermissionSet `` after this action to apply the corresponding IAM policy updates to all assigned accounts. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsSsoAdminPutInlinePolicyToPermissionSetOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Attaches an inline policy to a permission set. NOTE: If the permission set is already referenced by one or more account assignments, you will need to call `` ProvisionPermissionSet `` af- ter this action to apply the corresponding IAM policy updates to all assigned accounts. See also: AWS API Documentation
+    /// Attaches an inline policy to a permission set. NOTE: If the permission set is already referenced by one or more account assignments, you will need to call `` ProvisionPermissionSet `` after this action to apply the corresponding IAM policy updates to all assigned accounts. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceArn">The ARN of the IAM Identity Center instance under which the opera- tion will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
-    /// <param name="PermissionSetArn">The ARN of the permission set. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::permission- Set/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}</param>
-    /// <param name="InlinePolicy">The inline policy to attach to a PermissionSet . Constraints: o min: 1 o max: 32768 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+</param>
+    /// <param name="InstanceArn">The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
+    /// <param name="PermissionSetArn">The ARN of the permission set. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}</param>
+    /// <param name="InlinePolicy">The inline policy to attach to a PermissionSet . Constraints: • min: 1 • max: 32768 • pattern: [\u0009\u000A\u000D\u0020-\u00FF]+</param>
     public AwsSsoAdminPutInlinePolicyToPermissionSetOptions(
         string InstanceArn,
         string PermissionSetArn,
@@ -64,19 +66,19 @@ public record AwsSsoAdminPutInlinePolicyToPermissionSetOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the IAM Identity Center instance under which the opera- tion will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}
     /// </summary>
     [CliOption("--instance-arn")]
     public string? InstanceArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the permission set. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::permission- Set/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}
+    /// The ARN of the permission set. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}
     /// </summary>
     [CliOption("--permission-set-arn")]
     public string? PermissionSetArn { get; private init; }
 
     /// <summary>
-    /// The inline policy to attach to a PermissionSet . Constraints: o min: 1 o max: 32768 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+
+    /// The inline policy to attach to a PermissionSet . Constraints: • min: 1 • max: 32768 • pattern: [\u0009\u000A\u000D\u0020-\u00FF]+
     /// </summary>
     [CliOption("--inline-policy")]
     public string? InlinePolicy { get; private init; }

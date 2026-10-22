@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAppConfigGetApplicationOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves information about an application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The ID of the application you want to get. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ApplicationId">The ID of the application you want to get. Constraints: • min: 1 • max: 64</param>
     public AwsAppConfigGetApplicationOptions(
         string ApplicationId
     )
@@ -56,7 +58,7 @@ public record AwsAppConfigGetApplicationOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the application you want to get. Constraints: o min: 1 o max: 64
+    /// The ID of the application you want to get. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }

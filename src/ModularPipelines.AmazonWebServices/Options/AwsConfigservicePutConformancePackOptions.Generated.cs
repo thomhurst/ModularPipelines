@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates a conformance pack. A conformance pack is a collec- tion of Config rules that can be easily deployed in an account and a region and across an organization. For information on how many confor- mance packs you can have per account, see ` Service Limits https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html`__ in the Config Developer Guide . WARNING: When you use PutConformancePack to deploy conformance packs in your account, the operation can create Config ru...
+/// Creates or updates a conformance pack. A conformance pack is a collection of Config rules that can be easily deployed in an account and a region and across an organization. For information on how many conformance packs you can have per account, see ` Service Limits https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html`__ in the Config Developer Guide . WARNING: When you use PutConformancePack to deploy conformance packs in your account, the operation can create Config rules ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsConfigservicePutConformancePackOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates or updates a conformance pack. A conformance pack is a collec- tion of Config rules that can be easily deployed in an account and a region and across an organization. For information on how many confor- mance packs you can have per account, see ` Service Limits https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html`__ in the Config Developer Guide . WARNING: When you use PutConformancePack to deploy conformance packs in your account, the operation can create Config ru...
+    /// Creates or updates a conformance pack. A conformance pack is a collection of Config rules that can be easily deployed in an account and a region and across an organization. For information on how many conformance packs you can have per account, see ` Service Limits https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html`__ in the Config Developer Guide . WARNING: When you use PutConformancePack to deploy conformance packs in your account, the operation can create Config rules ...
     /// </summary>
-    /// <param name="ConformancePackName">The unique name of the conformance pack you want to deploy. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z][-a-zA-Z0-9]*</param>
+    /// <param name="ConformancePackName">The unique name of the conformance pack you want to deploy. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z][-a-zA-Z0-9]*</param>
     public AwsConfigservicePutConformancePackOptions(
         string ConformancePackName
     )
@@ -56,49 +58,49 @@ public record AwsConfigservicePutConformancePackOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the conformance pack you want to deploy. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z][-a-zA-Z0-9]*
+    /// The unique name of the conformance pack you want to deploy. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z][-a-zA-Z0-9]*
     /// </summary>
     [CliOption("--conformance-pack-name")]
     public string? ConformancePackName { get; private init; }
 
     /// <summary>
-    /// The location of the file containing the template body (s3://bucket- name/prefix ). The uri must point to a conformance pack template (max size: 300 KB) that is located in an Amazon S3 bucket in the same Region as the conformance pack. NOTE: You must have access to read Amazon S3 bucket. In addition, in order to ensure a successful deployment, the template object must not be in an archived storage class if this parameter is passed. Constraints: o min: 1 o max: 1024 o pattern: s3://.*
+    /// The location of the file containing the template body (s3://bucketname/prefix ). The uri must point to a conformance pack template (max size: 300 KB) that is located in an Amazon S3 bucket in the same Region as the conformance pack. NOTE: You must have access to read Amazon S3 bucket. In addition, in order to ensure a successful deployment, the template object must not be in an archived storage class if this parameter is passed. Constraints: • min: 1 • max: 1024 • pattern: s3://.*
     /// </summary>
     [CliOption("--template-s3-uri")]
     public string? TemplateS3Uri { get; set; }
 
     /// <summary>
-    /// A string that contains the full conformance pack template body. The structure containing the template body has a minimum length of 1 byte and a maximum length of 51,200 bytes. NOTE: You can use a YAML template with two resource types: Config rule (AWS::Config::ConfigRule ) and remediation action (AWS::Con- fig::RemediationConfiguration ). Constraints: o min: 1 o max: 51200
+    /// A string that contains the full conformance pack template body. The structure containing the template body has a minimum length of 1 byte and a maximum length of 51,200 bytes. NOTE: You can use a YAML template with two resource types: Config rule (AWS::Config::ConfigRule ) and remediation action (AWS::Config::RemediationConfiguration ). Constraints: • min: 1 • max: 51200
     /// </summary>
     [CliOption("--template-body")]
     public string? TemplateBody { get; set; }
 
     /// <summary>
-    /// The name of the Amazon S3 bucket where Config stores conformance pack templates. NOTE: This field is optional. Constraints: o min: 0 o max: 63
+    /// The name of the Amazon S3 bucket where Config stores conformance pack templates. NOTE: This field is optional. Constraints: • min: 0 • max: 63
     /// </summary>
     [CliOption("--delivery-s3-bucket")]
     public string? DeliveryS3Bucket { get; set; }
 
     /// <summary>
-    /// The prefix for the Amazon S3 bucket. NOTE: This field is optional. Constraints: o min: 0 o max: 1024
+    /// The prefix for the Amazon S3 bucket. NOTE: This field is optional. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--delivery-s3-key-prefix")]
     public string? DeliveryS3KeyPrefix { get; set; }
 
     /// <summary>
-    /// A list of ConformancePackInputParameter objects. Constraints: o min: 0 o max: 60 (structure) Input parameters in the form of key-value pairs for the confor- mance pack, both of which you define. Keys can have a maximum character length of 255 characters, and values can have a maxi- mum length of 4096 characters. ParameterName -&gt; (string) [required] One part of a key-value pair. Constraints: o min: 0 o max: 255 ParameterValue -&gt; (string) [required] Another part of the key-value pair. Constraints: o min: 0 o max: 4096 Shorthand Syntax: ParameterName=string,ParameterValue=string ... JSON Syntax: [ { "ParameterName": "string", "ParameterValue": "string" } ... ]
+    /// A list of ConformancePackInputParameter objects. Constraints: • min: 0 • max: 60 (structure) Input parameters in the form of key-value pairs for the conformance pack, both of which you define. Keys can have a maximum character length of 255 characters, and values can have a maximum length of 4096 characters. ParameterName -&gt; (string) [required] One part of a key-value pair. Constraints: • min: 0 • max: 255 ParameterValue -&gt; (string) [required] Another part of the key-value pair. Constraints: • min: 0 • max: 4096 Shorthand Syntax: ParameterName=string,ParameterValue=string ... JSON Syntax: [ { "ParameterName": "string", "ParameterValue": "string" } ... ]
     /// </summary>
     [CliOption("--conformance-pack-input-parameters", GroupValues = true)]
     public IEnumerable<string>? ConformancePackInputParameters { get; set; }
 
     /// <summary>
-    /// An object of type TemplateSSMDocumentDetails , which contains the name or the Amazon Resource Name (ARN) of the Amazon Web Services Systems Manager document (SSM document) and the version of the SSM document that is used to create a conformance pack. DocumentName -&gt; (string) [required] The name or Amazon Resource Name (ARN) of the SSM document to use to create a conformance pack. If you use the document name, Config checks only your account and Amazon Web Services Region for the SSM document. Constraints: o pattern: ^[a-zA-Z0-9_\-.:/]{3,200}$ DocumentVersion -&gt; (string) The version of the SSM document to use to create a conformance pack. By default, Config uses the latest version. NOTE: This field is optional. Constraints: o pattern: ([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$) Shorthand Syntax: DocumentName=string,DocumentVersion=string JSON Syntax: { "DocumentName": "string", "DocumentVersion": "string" }
+    /// An object of type TemplateSSMDocumentDetails , which contains the name or the Amazon Resource Name (ARN) of the Amazon Web Services Systems Manager document (SSM document) and the version of the SSM document that is used to create a conformance pack. DocumentName -&gt; (string) [required] The name or Amazon Resource Name (ARN) of the SSM document to use to create a conformance pack. If you use the document name, Config checks only your account and Amazon Web Services Region for the SSM document. Constraints: • pattern: ^[a-zA-Z0-9_\-.:/]{3,200}$ DocumentVersion -&gt; (string) The version of the SSM document to use to create a conformance pack. By default, Config uses the latest version. NOTE: This field is optional. Constraints: • pattern: ([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$) Shorthand Syntax: DocumentName=string,DocumentVersion=string JSON Syntax: { "DocumentName": "string", "DocumentVersion": "string" }
     /// </summary>
     [CliOption("--template-ssm-document-details")]
     public string? TemplateSsmDocumentDetails { get; set; }
 
     /// <summary>
-    /// The tags for the conformance pack. Each tag consists of a key and an optional value, both of which you define. Constraints: o min: 0 o max: 50 (structure) The tags for the resource. The metadata that you apply to a re- source to help you categorize and organize them. Each tag con- sists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. Key -&gt; (string) One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 Value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags for the conformance pack. Each tag consists of a key and an optional value, both of which you define. Constraints: • min: 0 • max: 50 (structure) The tags for the resource. The metadata that you apply to a resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. Key -&gt; (string) One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: • min: 1 • max: 128 Value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

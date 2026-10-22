@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsLogsPutLogGroupDeletionProtectionOptions : AwsOptions, IValidat
     /// <summary>
     /// Enables or disables deletion protection for the specified log group. When enabled on a log group, deletion protection blocks all deletion operations until it is explicitly disabled. For information about the parameters that are common to all actions, see Common Parameters . See also: AWS API Documentation
     /// </summary>
-    /// <param name="LogGroupIdentifier">The name or ARN of the log group. Type: String Length Constraints: Minimum length of 1. Maximum length of 512. Pattern: [\.\-_/#A-Za-z0-9]+ Required: Yes Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]*</param>
+    /// <param name="LogGroupIdentifier">The name or ARN of the log group. Type: String Length Constraints: Minimum length of 1. Maximum length of 512. Pattern: [\.\-_/#A-Za-z0-9]+ Required: Yes Constraints: • min: 1 • max: 2048 • pattern: [\w#+=/:,.@-]*</param>
     /// <param name="DeletionProtectionEnabled">Whether to enable deletion protection. Type: Boolean Required: Yes</param>
     public AwsLogsPutLogGroupDeletionProtectionOptions(
         string LogGroupIdentifier,
@@ -59,7 +61,7 @@ public record AwsLogsPutLogGroupDeletionProtectionOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or ARN of the log group. Type: String Length Constraints: Minimum length of 1. Maximum length of 512. Pattern: [\.\-_/#A-Za-z0-9]+ Required: Yes Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]*
+    /// The name or ARN of the log group. Type: String Length Constraints: Minimum length of 1. Maximum length of 512. Pattern: [\.\-_/#A-Za-z0-9]+ Required: Yes Constraints: • min: 1 • max: 2048 • pattern: [\w#+=/:,.@-]*
     /// </summary>
     [CliOption("--log-group-identifier")]
     public string? LogGroupIdentifier { get; private init; }

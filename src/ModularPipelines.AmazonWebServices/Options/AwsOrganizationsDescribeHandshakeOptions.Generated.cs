@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns details for a handshake. A handshake is the secure exchange of information between two Amazon Web Services accounts: a sender and a recipient. You can view ACCEPTED , DECLINED , or CANCELED handshakes in API Re- sponses for 30 days before they are deleted. You can call this operation from any account in a organization. See also: AWS API Documentation
+/// Returns details for a handshake. A handshake is the secure exchange of information between two Amazon Web Services accounts: a sender and a recipient. You can view ACCEPTED , DECLINED , or CANCELED handshakes in API Responses for 30 days before they are deleted. You can call this operation from any account in a organization. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsOrganizationsDescribeHandshakeOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns details for a handshake. A handshake is the secure exchange of information between two Amazon Web Services accounts: a sender and a recipient. You can view ACCEPTED , DECLINED , or CANCELED handshakes in API Re- sponses for 30 days before they are deleted. You can call this operation from any account in a organization. See also: AWS API Documentation
+    /// Returns details for a handshake. A handshake is the secure exchange of information between two Amazon Web Services accounts: a sender and a recipient. You can view ACCEPTED , DECLINED , or CANCELED handshakes in API Responses for 30 days before they are deleted. You can call this operation from any account in a organization. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HandshakeId">ID for the handshake that you want information about. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits. Constraints: o max: 34 o pattern: ^h-[0-9a-z]{8,32}$</param>
+    /// <param name="HandshakeId">ID for the handshake that you want information about. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits. Constraints: • max: 34 • pattern: ^h-[0-9a-z]{8,32}$</param>
     public AwsOrganizationsDescribeHandshakeOptions(
         string HandshakeId
     )
@@ -56,7 +58,7 @@ public record AwsOrganizationsDescribeHandshakeOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID for the handshake that you want information about. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits. Constraints: o max: 34 o pattern: ^h-[0-9a-z]{8,32}$
+    /// ID for the handshake that you want information about. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits. Constraints: • max: 34 • pattern: ^h-[0-9a-z]{8,32}$
     /// </summary>
     [CliOption("--handshake-id")]
     public string? HandshakeId { get; private init; }

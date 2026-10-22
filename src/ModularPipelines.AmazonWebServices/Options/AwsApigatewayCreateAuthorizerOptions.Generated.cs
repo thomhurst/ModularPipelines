@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -31,7 +33,7 @@ public record AwsApigatewayCreateAuthorizerOptions : AwsOptions, IValidatableObj
     /// </summary>
     /// <param name="RestApiId">The string identifier of the associated RestApi.</param>
     /// <param name="Name">The name of the authorizer.</param>
-    /// <param name="Type">The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, RE- QUEST for a Lambda function using incoming request parameters, and COGNITO_USER_POOLS for using an Amazon Cognito user pool. Possible values: o TOKEN o REQUEST o COGNITO_USER_POOLS</param>
+    /// <param name="Type">The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, REQUEST for a Lambda function using incoming request parameters, and COGNITO_USER_POOLS for using an Amazon Cognito user pool. Possible values: • TOKEN • REQUEST • COGNITO_USER_POOLS</param>
     public AwsApigatewayCreateAuthorizerOptions(
         string RestApiId,
         string Name,
@@ -77,13 +79,13 @@ public record AwsApigatewayCreateAuthorizerOptions : AwsOptions, IValidatableObj
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, RE- QUEST for a Lambda function using incoming request parameters, and COGNITO_USER_POOLS for using an Amazon Cognito user pool. Possible values: o TOKEN o REQUEST o COGNITO_USER_POOLS
+    /// The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, REQUEST for a Lambda function using incoming request parameters, and COGNITO_USER_POOLS for using an Amazon Cognito user pool. Possible values: • TOKEN • REQUEST • COGNITO_USER_POOLS
     /// </summary>
     [CliOption("--type")]
     public AwsApigatewayCreateAuthorizerType? Type { get; private init; }
 
     /// <summary>
-    /// A list of the Amazon Cognito user pool ARNs for the COG- NITO_USER_POOLS authorizer. Each element is of this format: arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id} . For a TOKEN or REQUEST authorizer, this is not defined. (string) Syntax: "string" "string" ...
+    /// A list of the Amazon Cognito user pool ARNs for the COGNITO_USER_POOLS authorizer. Each element is of this format: arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id} . For a TOKEN or REQUEST authorizer, this is not defined. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--provider-arns", GroupValues = true)]
     public IEnumerable<string>? ProviderArns { get; set; }
@@ -95,32 +97,32 @@ public record AwsApigatewayCreateAuthorizerOptions : AwsOptions, IValidatableObj
     public string? AuthType { get; set; }
 
     /// <summary>
-    /// Specifies the authorizer's Uniform Resource Identifier (URI). For TOKEN or REQUEST authorizers, this must be a well-formed Lambda function URI, for example, arn:aws:apigate- way:us-west-2:lambda:path/2015-03-31/func- tions/arn:aws:lambda:us-west-2:{account_id}:function:{lambda_func- tion_name}/invocations . In general, the URI has this form arn:aws:apigateway:{region}:lambda:path/{service_api} , where {re- gion} is the same as the region hosting the Lambda function, path indicates that the remaining substring in the URI should be treated as the path to the resource, including the initial / . For Lambda functions, this is usually of the form /2015-03-31/functions/[Func- tionARN]/invocations .
+    /// Specifies the authorizer's Uniform Resource Identifier (URI). For TOKEN or REQUEST authorizers, this must be a well-formed Lambda function URI, for example, arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:{account_id}:function:{lambda_function_name}/invocations . In general, the URI has this form arn:aws:apigateway:{region}:lambda:path/{service_api} , where {region} is the same as the region hosting the Lambda function, path indicates that the remaining substring in the URI should be treated as the path to the resource, including the initial / . For Lambda functions, this is usually of the form /2015-03-31/functions/[FunctionARN]/invocations .
     /// </summary>
     [CliOption("--authorizer-uri")]
     public string? AuthorizerUri { get; set; }
 
     /// <summary>
-    /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to as- sume, use the role's Amazon Resource Name (ARN). To use re- source-based permissions on the Lambda function, specify null.
+    /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, specify null.
     /// </summary>
     [SecretValue]
     [CliOption("--authorizer-credentials")]
     public string? AuthorizerCredentials { get; set; }
 
     /// <summary>
-    /// The identity source for which authorization is requested. For a TO- KEN or COGNITO_USER_POOLS authorizer, this is required and specifies the request header mapping expression for the custom header holding the authorization token submitted by the client. For example, if the token header name is Auth , the header mapping expression is method.request.header.Auth . For the REQUEST authorizer, this is re- quired when authorization caching is enabled. The value is a comma-separated string of one or more mapping expressions of the specified request parameters. For example, if an Auth header, a Name query string parameter are defined as identity sources, this value is method.request.header.Auth, method.request.querystring.Name . These parameters will be used to derive the authorization caching key and to perform runtime validation of the REQUEST authorizer by verifying all of the identity-related request parameters are present, not null and non-empty. Only when this is true does the au- thorizer invoke the authorizer Lambda function, otherwise, it re- turns a 401 Unauthorized response without calling the Lambda func- tion. The valid value is a string of comma-separated mapping expres- sions of the specified request parameters. When the authorization caching is not enabled, this property is optional.
+    /// The identity source for which authorization is requested. For a TOKEN or COGNITO_USER_POOLS authorizer, this is required and specifies the request header mapping expression for the custom header holding the authorization token submitted by the client. For example, if the token header name is Auth , the header mapping expression is method.request.header.Auth . For the REQUEST authorizer, this is required when authorization caching is enabled. The value is a comma-separated string of one or more mapping expressions of the specified request parameters. For example, if an Auth header, a Name query string parameter are defined as identity sources, this value is method.request.header.Auth, method.request.querystring.Name . These parameters will be used to derive the authorization caching key and to perform runtime validation of the REQUEST authorizer by verifying all of the identity-related request parameters are present, not null and non-empty. Only when this is true does the authorizer invoke the authorizer Lambda function, otherwise, it returns a 401 Unauthorized response without calling the Lambda function. The valid value is a string of comma-separated mapping expressions of the specified request parameters. When the authorization caching is not enabled, this property is optional.
     /// </summary>
     [CliOption("--identity-source")]
     public string? IdentitySource { get; set; }
 
     /// <summary>
-    /// A validation expression for the incoming identity token. For TOKEN authorizers, this value is a regular expression. For COG- NITO_USER_POOLS authorizers, API Gateway will match the aud field of the incoming token from the client against the specified regular ex- pression. It will invoke the authorizer's Lambda function when there is a match. Otherwise, it will return a 401 Unauthorized response without calling the Lambda function. The validation expression does not apply to the REQUEST authorizer.
+    /// A validation expression for the incoming identity token. For TOKEN authorizers, this value is a regular expression. For COGNITO_USER_POOLS authorizers, API Gateway will match the aud field of the incoming token from the client against the specified regular expression. It will invoke the authorizer's Lambda function when there is a match. Otherwise, it will return a 401 Unauthorized response without calling the Lambda function. The validation expression does not apply to the REQUEST authorizer.
     /// </summary>
     [CliOption("--identity-validation-expression")]
     public string? IdentityValidationExpression { get; set; }
 
     /// <summary>
-    /// The TTL in seconds of cached authorizer results. If it equals 0, au- thorization caching is disabled. If it is greater than 0, API Gate- way will cache authorizer responses. If this field is not set, the default value is 300. The maximum value is 3600, or 1 hour.
+    /// The TTL in seconds of cached authorizer results. If it equals 0, authorization caching is disabled. If it is greater than 0, API Gateway will cache authorizer responses. If this field is not set, the default value is 300. The maximum value is 3600, or 1 hour.
     /// </summary>
     [CliOption("--authorizer-result-ttl-in-seconds")]
     public int? AuthorizerResultTtlInSeconds { get; set; }

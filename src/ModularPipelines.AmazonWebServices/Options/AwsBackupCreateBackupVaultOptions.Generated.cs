@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a logical container where backups are stored. A CreateBackup- Vault request includes a name, optionally one or more resource tags, an encryption key, and a request ID. NOTE: Do not include sensitive data, such as passport numbers, in the name of a backup vault. See also: AWS API Documentation
+/// Creates a logical container where backups are stored. A CreateBackupVault request includes a name, optionally one or more resource tags, an encryption key, and a request ID. NOTE: Do not include sensitive data, such as passport numbers, in the name of a backup vault. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsBackupCreateBackupVaultOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a logical container where backups are stored. A CreateBackup- Vault request includes a name, optionally one or more resource tags, an encryption key, and a request ID. NOTE: Do not include sensitive data, such as passport numbers, in the name of a backup vault. See also: AWS API Documentation
+    /// Creates a logical container where backups are stored. A CreateBackupVault request includes a name, optionally one or more resource tags, an encryption key, and a request ID. NOTE: Do not include sensitive data, such as passport numbers, in the name of a backup vault. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BackupVaultName">The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of letters, numbers, and hyphens. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$</param>
+    /// <param name="BackupVaultName">The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of letters, numbers, and hyphens. Constraints: • pattern: ^[a-zA-Z0-9\-\_]{2,50}$</param>
     public AwsBackupCreateBackupVaultOptions(
         string BackupVaultName
     )
@@ -57,7 +58,7 @@ public record AwsBackupCreateBackupVaultOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of letters, numbers, and hyphens. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$
+    /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of letters, numbers, and hyphens. Constraints: • pattern: ^[a-zA-Z0-9\-\_]{2,50}$
     /// </summary>
     [CliOption("--backup-vault-name")]
     public string? BackupVaultName { get; private init; }
@@ -75,7 +76,7 @@ public record AwsBackupCreateBackupVaultOptions : AwsOptions, IValidatableObject
     public string? EncryptionKeyArn { get; set; }
 
     /// <summary>
-    /// A unique string that identifies the request and allows failed re- quests to be retried without the risk of running the operation twice. This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
+    /// A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice. This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
     /// </summary>
     [CliOption("--creator-request-id")]
     public string? CreatorRequestId { get; set; }

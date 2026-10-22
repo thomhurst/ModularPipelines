@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enable (apply) a Baseline to a Target. This API starts an asynchronous operation to deploy resources specified by the Baseline to the speci- fied Target. For usage examples, see ` the Amazon Web Services Control Tower User Guide https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html`__ . See also: AWS API Documentation enable-baseline uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays...
+/// Enable (apply) a Baseline to a Target. This API starts an asynchronous operation to deploy resources specified by the Baseline to the specified Target. For usage examples, see ` the Amazon Web Services Control Tower User Guide https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html`__ . See also: AWS API Documentation enable-baseline uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsControltowerEnableBaselineOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enable (apply) a Baseline to a Target. This API starts an asynchronous operation to deploy resources specified by the Baseline to the speci- fied Target. For usage examples, see ` the Amazon Web Services Control Tower User Guide https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html`__ . See also: AWS API Documentation enable-baseline uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays...
+    /// Enable (apply) a Baseline to a Target. This API starts an asynchronous operation to deploy resources specified by the Baseline to the specified Target. For usage examples, see ` the Amazon Web Services Control Tower User Guide https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html`__ . See also: AWS API Documentation enable-baseline uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, ...
     /// </summary>
-    /// <param name="BaselineVersion">The specific version to be enabled of the specified baseline. Constraints: o min: 1 o max: 10 o pattern: \d+(?:\.\d+){0,2}</param>
-    /// <param name="BaselineIdentifier">The ARN of the baseline to be enabled. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+</param>
-    /// <param name="TargetIdentifier">The ARN of the target on which the baseline will be enabled. Only OUs are supported as targets. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+</param>
+    /// <param name="BaselineVersion">The specific version to be enabled of the specified baseline. Constraints: • min: 1 • max: 10 • pattern: \d+(?:\.\d+){0,2}</param>
+    /// <param name="BaselineIdentifier">The ARN of the baseline to be enabled. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[0-9a-zA-Z_\-:\/]+</param>
+    /// <param name="TargetIdentifier">The ARN of the target on which the baseline will be enabled. Only OUs are supported as targets. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[0-9a-zA-Z_\-:\/]+</param>
     public AwsControltowerEnableBaselineOptions(
         string BaselineVersion,
         string BaselineIdentifier,
@@ -65,19 +66,19 @@ public record AwsControltowerEnableBaselineOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The specific version to be enabled of the specified baseline. Constraints: o min: 1 o max: 10 o pattern: \d+(?:\.\d+){0,2}
+    /// The specific version to be enabled of the specified baseline. Constraints: • min: 1 • max: 10 • pattern: \d+(?:\.\d+){0,2}
     /// </summary>
     [CliOption("--baseline-version")]
     public string? BaselineVersion { get; private init; }
 
     /// <summary>
-    /// The ARN of the baseline to be enabled. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+
+    /// The ARN of the baseline to be enabled. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[0-9a-zA-Z_\-:\/]+
     /// </summary>
     [CliOption("--baseline-identifier")]
     public string? BaselineIdentifier { get; private init; }
 
     /// <summary>
-    /// The ARN of the target on which the baseline will be enabled. Only OUs are supported as targets. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+
+    /// The ARN of the target on which the baseline will be enabled. Only OUs are supported as targets. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[0-9a-zA-Z_\-:\/]+
     /// </summary>
     [CliOption("--target-identifier")]
     public string? TargetIdentifier { get; private init; }
@@ -89,7 +90,7 @@ public record AwsControltowerEnableBaselineOptions : AwsOptions, IValidatableObj
     public IEnumerable<string>? Parameters { get; set; }
 
     /// <summary>
-    /// Tags associated with input to EnableBaseline . Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags associated with input to EnableBaseline . Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

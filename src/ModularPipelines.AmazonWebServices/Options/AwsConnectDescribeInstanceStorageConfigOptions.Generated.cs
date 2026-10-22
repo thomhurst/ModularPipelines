@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +30,9 @@ public record AwsConnectDescribeInstanceStorageConfigOptions : AwsOptions, IVali
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Retrieves the current storage configurations for the specified resource type, association ID, and instance ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="AssociationId">The existing association identifier that uniquely identifies the re- source type and storage config for the given instance ID. Constraints: o min: 1 o max: 100</param>
-    /// <param name="ResourceType">A valid resource type. Possible values: o CHAT_TRANSCRIPTS o CALL_RECORDINGS o SCHEDULED_REPORTS o MEDIA_STREAMS o CONTACT_TRACE_RECORDS o AGENT_EVENTS o REAL_TIME_CONTACT_ANALYSIS_SEGMENTS o ATTACHMENTS o CONTACT_EVALUATIONS o SCREEN_RECORDINGS o REAL_TIME_CONTACT_ANALYSIS_CHAT_SEGMENTS o REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS o EMAIL_MESSAGES</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="AssociationId">The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID. Constraints: • min: 1 • max: 100</param>
+    /// <param name="ResourceType">A valid resource type. Possible values: • CHAT_TRANSCRIPTS • CALL_RECORDINGS • SCHEDULED_REPORTS • MEDIA_STREAMS • CONTACT_TRACE_RECORDS • AGENT_EVENTS • REAL_TIME_CONTACT_ANALYSIS_SEGMENTS • ATTACHMENTS • CONTACT_EVALUATIONS • SCREEN_RECORDINGS • REAL_TIME_CONTACT_ANALYSIS_CHAT_SEGMENTS • REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS • EMAIL_MESSAGES</param>
     public AwsConnectDescribeInstanceStorageConfigOptions(
         string InstanceId,
         string AssociationId,
@@ -64,19 +66,19 @@ public record AwsConnectDescribeInstanceStorageConfigOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The existing association identifier that uniquely identifies the re- source type and storage config for the given instance ID. Constraints: o min: 1 o max: 100
+    /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--association-id")]
     public string? AssociationId { get; private init; }
 
     /// <summary>
-    /// A valid resource type. Possible values: o CHAT_TRANSCRIPTS o CALL_RECORDINGS o SCHEDULED_REPORTS o MEDIA_STREAMS o CONTACT_TRACE_RECORDS o AGENT_EVENTS o REAL_TIME_CONTACT_ANALYSIS_SEGMENTS o ATTACHMENTS o CONTACT_EVALUATIONS o SCREEN_RECORDINGS o REAL_TIME_CONTACT_ANALYSIS_CHAT_SEGMENTS o REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS o EMAIL_MESSAGES
+    /// A valid resource type. Possible values: • CHAT_TRANSCRIPTS • CALL_RECORDINGS • SCHEDULED_REPORTS • MEDIA_STREAMS • CONTACT_TRACE_RECORDS • AGENT_EVENTS • REAL_TIME_CONTACT_ANALYSIS_SEGMENTS • ATTACHMENTS • CONTACT_EVALUATIONS • SCREEN_RECORDINGS • REAL_TIME_CONTACT_ANALYSIS_CHAT_SEGMENTS • REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS • EMAIL_MESSAGES
     /// </summary>
     [CliOption("--resource-type")]
     public AwsConnectDescribeInstanceStorageConfigResourceType? ResourceType { get; private init; }

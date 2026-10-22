@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +30,9 @@ public record AwsInspectorGetAssessmentReportOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Produces an assessment report that includes detailed and comprehensive results of a specified assessment run. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssessmentRunArn">The ARN that specifies the assessment run for which you want to gen- erate a report. Constraints: o min: 1 o max: 300</param>
-    /// <param name="ReportFileFormat">Specifies the file format (html or pdf) of the assessment report that you want to generate. Possible values: o HTML o PDF</param>
-    /// <param name="ReportType">Specifies the type of the assessment report that you want to gener- ate. There are two types of assessment reports: a finding report and a full report. For more information, see Assessment Reports . Possible values: o FINDING o FULL</param>
+    /// <param name="AssessmentRunArn">The ARN that specifies the assessment run for which you want to generate a report. Constraints: • min: 1 • max: 300</param>
+    /// <param name="ReportFileFormat">Specifies the file format (html or pdf) of the assessment report that you want to generate. Possible values: • HTML • PDF</param>
+    /// <param name="ReportType">Specifies the type of the assessment report that you want to generate. There are two types of assessment reports: a finding report and a full report. For more information, see Assessment Reports . Possible values: • FINDING • FULL</param>
     public AwsInspectorGetAssessmentReportOptions(
         string AssessmentRunArn,
         AwsInspectorGetAssessmentReportReportFileFormat ReportFileFormat,
@@ -63,19 +65,19 @@ public record AwsInspectorGetAssessmentReportOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN that specifies the assessment run for which you want to gen- erate a report. Constraints: o min: 1 o max: 300
+    /// The ARN that specifies the assessment run for which you want to generate a report. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--assessment-run-arn")]
     public string? AssessmentRunArn { get; private init; }
 
     /// <summary>
-    /// Specifies the file format (html or pdf) of the assessment report that you want to generate. Possible values: o HTML o PDF
+    /// Specifies the file format (html or pdf) of the assessment report that you want to generate. Possible values: • HTML • PDF
     /// </summary>
     [CliOption("--report-file-format")]
     public AwsInspectorGetAssessmentReportReportFileFormat? ReportFileFormat { get; private init; }
 
     /// <summary>
-    /// Specifies the type of the assessment report that you want to gener- ate. There are two types of assessment reports: a finding report and a full report. For more information, see Assessment Reports . Possible values: o FINDING o FULL
+    /// Specifies the type of the assessment report that you want to generate. There are two types of assessment reports: a finding report and a full report. For more information, see Assessment Reports . Possible values: • FINDING • FULL
     /// </summary>
     [CliOption("--report-type")]
     public AwsInspectorGetAssessmentReportReportType? ReportType { get; private init; }

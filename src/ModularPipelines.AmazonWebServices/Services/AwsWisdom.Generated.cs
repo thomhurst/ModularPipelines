@@ -77,7 +77,7 @@ public class AwsWisdom : IAwsWisdom
     }
 
     /// <summary>
-    /// Creates a knowledge base. NOTE: When using this API, you cannot reuse Amazon AppIntegrations DataIn- tegrations with external knowledge bases such as Salesforce and Ser- viceNow. If you do, you'll get an InvalidRequestException error. For example, you're programmatically managing your external knowl- edge base, and you want to add or remove one of the fields that is being ingested from Salesforce. Do the following: o Call DeleteKnowledgeBase . o Call DeleteDataIntegration . o Call CreateDataInte...
+    /// Creates a knowledge base. NOTE: When using this API, you cannot reuse Amazon AppIntegrations DataIntegrations with external knowledge bases such as Salesforce and ServiceNow. If you do, you'll get an InvalidRequestException error. For example, you're programmatically managing your external knowledge base, and you want to add or remove one of the fields that is being ingested from Salesforce. Do the following: • Call DeleteKnowledgeBase . • Call DeleteDataIntegration . • Call CreateDataIntegratio...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsWisdom : IAwsWisdom
     }
 
     /// <summary>
-    /// Creates a session. A session is a contextual container used for gener- ating recommendations. Amazon Connect creates a new Wisdom session for each contact on which Wisdom is enabled. See also: AWS API Documentation
+    /// Creates a session. A session is a contextual container used for generating recommendations. Amazon Connect creates a new Wisdom session for each contact on which Wisdom is enabled. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsWisdom : IAwsWisdom
     }
 
     /// <summary>
-    /// Deletes the knowledge base. NOTE: When you use this API to delete an external knowledge base such as Salesforce or ServiceNow, you must also delete the Amazon AppInte- grations DataIntegration. This is because you can't reuse the DataIntegration after it's been associated with an external knowl- edge base. However, you can delete and recreate it. See DeleteDataIntegration and CreateDataIntegration in the Amazon AppIn- tegrations API Reference . See also: AWS API Documentation
+    /// Deletes the knowledge base. NOTE: When you use this API to delete an external knowledge base such as Salesforce or ServiceNow, you must also delete the Amazon AppIntegrations DataIntegration. This is because you can't reuse the DataIntegration after it's been associated with an external knowledge base. However, you can delete and recreate it. See DeleteDataIntegration and CreateDataIntegration in the Amazon AppIntegrations API Reference . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsWisdom : IAwsWisdom
     }
 
     /// <summary>
-    /// Lists information about assistant associations. See also: AWS API Documentation list-assistant-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: assistantAssociationSummaries
+    /// Lists information about assistant associations. See also: AWS API Documentation list-assistant-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: assistantAssociationSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsWisdom : IAwsWisdom
     }
 
     /// <summary>
-    /// Lists information about assistants. See also: AWS API Documentation list-assistants is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: assistantSummaries
+    /// Lists information about assistants. See also: AWS API Documentation list-assistants is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: assistantSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsWisdom : IAwsWisdom
     }
 
     /// <summary>
-    /// Lists the content. See also: AWS API Documentation list-contents is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: contentSummaries
+    /// Lists the content. See also: AWS API Documentation list-contents is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: contentSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsWisdom : IAwsWisdom
     }
 
     /// <summary>
-    /// Removes the specified recommendations from the specified assistant's queue of newly available recommendations. You can use this API in con- junction with GetRecommendations and a waitTimeSeconds input for long-polling behavior and avoiding duplicate recommendations. See also: AWS API Documentation
+    /// Removes the specified recommendations from the specified assistant's queue of newly available recommendations. You can use this API in conjunction with GetRecommendations and a waitTimeSeconds input for long-polling behavior and avoiding duplicate recommendations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsWisdom : IAwsWisdom
     }
 
     /// <summary>
-    /// Searches for content in a specified knowledge base. Can be used to get a specific content resource by its name. See also: AWS API Documentation search-content is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query exp...
+    /// Searches for content in a specified knowledge base. Can be used to get a specific content resource by its name. See also: AWS API Documentation search-content is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query express...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsWisdom : IAwsWisdom
     }
 
     /// <summary>
-    /// Searches for sessions. See also: AWS API Documentation search-sessions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: sessionSummaries
+    /// Searches for sessions. See also: AWS API Documentation search-sessions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: sessionSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -512,7 +512,7 @@ public class AwsWisdom : IAwsWisdom
     }
 
     /// <summary>
-    /// Get a URL to upload content to a knowledge base. To upload content, first make a PUT request to the returned URL with your file, making sure to include the required headers. Then use CreateContent to final- ize the content creation process or UpdateContent to modify an existing resource. You can only upload content to a knowledge base of type CUS- TOM. See also: AWS API Documentation
+    /// Get a URL to upload content to a knowledge base. To upload content, first make a PUT request to the returned URL with your file, making sure to include the required headers. Then use CreateContent to finalize the content creation process or UpdateContent to modify an existing resource. You can only upload content to a knowledge base of type CUSTOM. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsWisdom : IAwsWisdom
     }
 
     /// <summary>
-    /// Start an asynchronous job to import Wisdom resources from an uploaded source file. Before calling this API, use StartContentUpload to upload an asset that contains the resource data. o For importing Wisdom quick responses, you need to upload a csv file including the quick responses. For information about how to format the csv file for importing quick responses, see Import quick re- sponses . See also: AWS API Documentation
+    /// Start an asynchronous job to import Wisdom resources from an uploaded source file. Before calling this API, use StartContentUpload to upload an asset that contains the resource data. • For importing Wisdom quick responses, you need to upload a csv file including the quick responses. For information about how to format the csv file for importing quick responses, see Import quick responses . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsWisdom : IAwsWisdom
     }
 
     /// <summary>
-    /// Updates the template URI of a knowledge base. This is only supported for knowledge bases of type EXTERNAL. Include a single variable in ${variable} format; this interpolated by Wisdom using ingested content. For example, if you ingest a Salesforce article, it has an Id value, and you can set the template URI to https://myInstanceName.light- ning.force.com/lightning/r/Knowledge__kav/*${Id}*/view . See also: AWS API Documentation
+    /// Updates the template URI of a knowledge base. This is only supported for knowledge bases of type EXTERNAL. Include a single variable in ${variable} format; this interpolated by Wisdom using ingested content. For example, if you ingest a Salesforce article, it has an Id value, and you can set the template URI to https://myInstanceName.lightning.force.com/lightning/r/Knowledge__kav/*${Id}*/view . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

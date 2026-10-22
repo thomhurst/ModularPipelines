@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the resource metrics configuration for an Amazon Web Services resource. The MetricSelections value that you provide replaces any ex- isting metric selections for the resource; it is not merged with them. If you omit MetricSelections , Amazon CloudWatch removes any existing metric selection filter and collects all available detailed metrics for the resource. This operation returns a ResourceNotFoundException if no resource met- rics configuration exists for the specified resource ARN. To ...
+/// Updates the resource metrics configuration for an Amazon Web Services resource. The MetricSelections value that you provide replaces any existing metric selections for the resource; it is not merged with them. If you omit MetricSelections , Amazon CloudWatch removes any existing metric selection filter and collects all available detailed metrics for the resource. This operation returns a ResourceNotFoundException if no resource metrics configuration exists for the specified resource ARN. To crea...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsCloudwatchUpdateResourceMetricsConfigurationOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the resource metrics configuration for an Amazon Web Services resource. The MetricSelections value that you provide replaces any ex- isting metric selections for the resource; it is not merged with them. If you omit MetricSelections , Amazon CloudWatch removes any existing metric selection filter and collects all available detailed metrics for the resource. This operation returns a ResourceNotFoundException if no resource met- rics configuration exists for the specified resource ARN. To ...
+    /// Updates the resource metrics configuration for an Amazon Web Services resource. The MetricSelections value that you provide replaces any existing metric selections for the resource; it is not merged with them. If you omit MetricSelections , Amazon CloudWatch removes any existing metric selection filter and collects all available detailed metrics for the resource. This operation returns a ResourceNotFoundException if no resource metrics configuration exists for the specified resource ARN. To crea...
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Amazon Web Services resource to update the resource metrics configuration for. Constraints: o min: 20 o max: 2048 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:\d{12}:.+</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Amazon Web Services resource to update the resource metrics configuration for. Constraints: • min: 20 • max: 2048 • pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:\d{12}:.+</param>
     public AwsCloudwatchUpdateResourceMetricsConfigurationOptions(
         string ResourceArn
     )
@@ -56,13 +58,13 @@ public record AwsCloudwatchUpdateResourceMetricsConfigurationOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Amazon Web Services resource to update the resource metrics configuration for. Constraints: o min: 20 o max: 2048 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:\d{12}:.+
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services resource to update the resource metrics configuration for. Constraints: • min: 20 • max: 2048 • pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:\d{12}:.+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Specifies which metrics Amazon CloudWatch collects for the resource. The selections that you provide completely replace any existing met- ric selections. If you omit this parameter, Amazon CloudWatch removes any existing metric selection filter and collects all available detailed metrics for the resource. Constraints: o min: 1 o max: 1 (structure) Specifies which metrics Amazon CloudWatch collects for a re- source metrics configuration. Include this in a CreateResourceMetricsConfiguration or UpdateResourceMetricsConfiguration request to limit collection to a specific set of metrics. If you omit metric selections, Amazon CloudWatch collects all available detailed metrics for the resource. IncludeMetrics -&gt; (list) [required] The names of the metrics to collect for the resource. Amazon CloudWatch collects only the metrics that you list here. Constraints: o min: 1 o max: 500 (string) Constraints: o min: 1 o max: 255 Shorthand Syntax: IncludeMetrics=string,string ... JSON Syntax: [ { "IncludeMetrics": ["string", ...] } ... ]
+    /// Specifies which metrics Amazon CloudWatch collects for the resource. The selections that you provide completely replace any existing metric selections. If you omit this parameter, Amazon CloudWatch removes any existing metric selection filter and collects all available detailed metrics for the resource. Constraints: • min: 1 • max: 1 (structure) Specifies which metrics Amazon CloudWatch collects for a resource metrics configuration. Include this in a CreateResourceMetricsConfiguration or UpdateResourceMetricsConfiguration request to limit collection to a specific set of metrics. If you omit metric selections, Amazon CloudWatch collects all available detailed metrics for the resource. IncludeMetrics -&gt; (list) [required] The names of the metrics to collect for the resource. Amazon CloudWatch collects only the metrics that you list here. Constraints: • min: 1 • max: 500 (string) Constraints: • min: 1 • max: 255 Shorthand Syntax: IncludeMetrics=string,string ... JSON Syntax: [ { "IncludeMetrics": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--metric-selections", GroupValues = true)]
     public IEnumerable<string>? MetricSelections { get; set; }

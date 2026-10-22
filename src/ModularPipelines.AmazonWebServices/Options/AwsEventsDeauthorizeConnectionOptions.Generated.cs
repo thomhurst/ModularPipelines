@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes all authorization parameters from the connection. This lets you remove the secret from the connection so you can reuse it without hav- ing to create a new connection. See also: AWS API Documentation
+/// Removes all authorization parameters from the connection. This lets you remove the secret from the connection so you can reuse it without having to create a new connection. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsEventsDeauthorizeConnectionOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes all authorization parameters from the connection. This lets you remove the secret from the connection so you can reuse it without hav- ing to create a new connection. See also: AWS API Documentation
+    /// Removes all authorization parameters from the connection. This lets you remove the secret from the connection so you can reuse it without having to create a new connection. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the connection to remove authorization from. Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+</param>
+    /// <param name="Name">The name of the connection to remove authorization from. Constraints: • min: 1 • max: 64 • pattern: [\.\-_A-Za-z0-9]+</param>
     public AwsEventsDeauthorizeConnectionOptions(
         string Name
     )
@@ -56,7 +58,7 @@ public record AwsEventsDeauthorizeConnectionOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the connection to remove authorization from. Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+
+    /// The name of the connection to remove authorization from. Constraints: • min: 1 • max: 64 • pattern: [\.\-_A-Za-z0-9]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

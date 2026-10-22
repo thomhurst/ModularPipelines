@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Initiates the process to create a Connection across the specified Envi- ronment. The Environment dictates the specified partner and location to which the other end of the connection should attach. You can see a list of the available Environments by calling ListEnvironments The Attach Point specifies where within the AWS Network your connection will logically connect. After a successful call to this method, the resulting Connection will return an Activation Key which will need to be brought to th...
+/// Initiates the process to create a Connection across the specified Environment. The Environment dictates the specified partner and location to which the other end of the connection should attach. You can see a list of the available Environments by calling ListEnvironments The Attach Point specifies where within the AWS Network your connection will logically connect. After a successful call to this method, the resulting Connection will return an Activation Key which will need to be brought to the ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsInterconnectCreateConnectionOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Initiates the process to create a Connection across the specified Envi- ronment. The Environment dictates the specified partner and location to which the other end of the connection should attach. You can see a list of the available Environments by calling ListEnvironments The Attach Point specifies where within the AWS Network your connection will logically connect. After a successful call to this method, the resulting Connection will return an Activation Key which will need to be brought to th...
+    /// Initiates the process to create a Connection across the specified Environment. The Environment dictates the specified partner and location to which the other end of the connection should attach. You can see a list of the available Environments by calling ListEnvironments The Attach Point specifies where within the AWS Network your connection will logically connect. After a successful call to this method, the resulting Connection will return an Activation Key which will need to be brought to the ...
     /// </summary>
-    /// <param name="Bandwidth">The desired bandwidth of the requested Connection Constraints: o min: 1 o max: 8 o pattern: \d+[MG]bps</param>
-    /// <param name="AttachPoint">The Attach Point to which the connection should be associated." NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: directConnectGateway, arn. directConnectGateway -&gt; (string) Identifies an DirectConnect Gateway attach point by DirectCon- nectGatewayID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12} arn -&gt; (string) Identifies an attach point by full ARN. Constraints: o min: 59 o max: 150 o pattern: arn:aws[a-z-]*:interconnect:[^:]+:[0-9]{12}:connec- tion/(mcc|lmcc)-[a-z0-9]{8} Shorthand Syntax: directConnectGateway=string,arn=string JSON Syntax: { "directConnectGateway": "string", "arn": "string" }</param>
-    /// <param name="EnvironmentId">The identifier of the Environment across which this Connection should be created. The available Environment objects can be determined using ListEn- vironments . Constraints: o min: 1 o max: 64</param>
+    /// <param name="Bandwidth">The desired bandwidth of the requested Connection Constraints: • min: 1 • max: 8 • pattern: \d+[MG]bps</param>
+    /// <param name="AttachPoint">The Attach Point to which the connection should be associated." NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: directConnectGateway, arn. directConnectGateway -&gt; (string) Identifies an DirectConnect Gateway attach point by DirectConnectGatewayID. Constraints: • min: 36 • max: 36 • pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12} arn -&gt; (string) Identifies an attach point by full ARN. Constraints: • min: 59 • max: 150 • pattern: arn:aws[a-z-]*:interconnect:[^:]+:[0-9]{12}:connection/(mcc|lmcc)-[a-z0-9]{8} Shorthand Syntax: directConnectGateway=string,arn=string JSON Syntax: { "directConnectGateway": "string", "arn": "string" }</param>
+    /// <param name="EnvironmentId">The identifier of the Environment across which this Connection should be created. The available Environment objects can be determined using ListEnvironments . Constraints: • min: 1 • max: 64</param>
     public AwsInterconnectCreateConnectionOptions(
         string Bandwidth,
         string AttachPoint,
@@ -66,37 +67,37 @@ public record AwsInterconnectCreateConnectionOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The desired bandwidth of the requested Connection Constraints: o min: 1 o max: 8 o pattern: \d+[MG]bps
+    /// The desired bandwidth of the requested Connection Constraints: • min: 1 • max: 8 • pattern: \d+[MG]bps
     /// </summary>
     [CliOption("--bandwidth")]
     public string? Bandwidth { get; private init; }
 
     /// <summary>
-    /// The Attach Point to which the connection should be associated." NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: directConnectGateway, arn. directConnectGateway -&gt; (string) Identifies an DirectConnect Gateway attach point by DirectCon- nectGatewayID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12} arn -&gt; (string) Identifies an attach point by full ARN. Constraints: o min: 59 o max: 150 o pattern: arn:aws[a-z-]*:interconnect:[^:]+:[0-9]{12}:connec- tion/(mcc|lmcc)-[a-z0-9]{8} Shorthand Syntax: directConnectGateway=string,arn=string JSON Syntax: { "directConnectGateway": "string", "arn": "string" }
+    /// The Attach Point to which the connection should be associated." NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: directConnectGateway, arn. directConnectGateway -&gt; (string) Identifies an DirectConnect Gateway attach point by DirectConnectGatewayID. Constraints: • min: 36 • max: 36 • pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12} arn -&gt; (string) Identifies an attach point by full ARN. Constraints: • min: 59 • max: 150 • pattern: arn:aws[a-z-]*:interconnect:[^:]+:[0-9]{12}:connection/(mcc|lmcc)-[a-z0-9]{8} Shorthand Syntax: directConnectGateway=string,arn=string JSON Syntax: { "directConnectGateway": "string", "arn": "string" }
     /// </summary>
     [CliOption("--attach-point")]
     public string? AttachPoint { get; private init; }
 
     /// <summary>
-    /// The identifier of the Environment across which this Connection should be created. The available Environment objects can be determined using ListEn- vironments . Constraints: o min: 1 o max: 64
+    /// The identifier of the Environment across which this Connection should be created. The available Environment objects can be determined using ListEnvironments . Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
 
     /// <summary>
-    /// A description to distinguish this Connection . Constraints: o min: 1 o max: 255 o pattern: [-a-zA-Z0-9_ ]+
+    /// A description to distinguish this Connection . Constraints: • min: 1 • max: 255 • pattern: [-a-zA-Z0-9_ ]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Account and/or principal identifying information that can be veri- fied by the partner of this specific Environment. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: identifier. identifier -&gt; (string) A generic bit of identifying information. Can be used in place of any of the more specific types. Constraints: o min: 1 o max: 255 o pattern: [-a-zA-Z0-9_@\.]+ Shorthand Syntax: identifier=string JSON Syntax: { "identifier": "string" }
+    /// Account and/or principal identifying information that can be verified by the partner of this specific Environment. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: identifier. identifier -&gt; (string) A generic bit of identifying information. Can be used in place of any of the more specific types. Constraints: • min: 1 • max: 255 • pattern: [-a-zA-Z0-9_@\.]+ Shorthand Syntax: identifier=string JSON Syntax: { "identifier": "string" }
     /// </summary>
     [CliOption("--remote-account")]
     public string? RemoteAccount { get; set; }
 
     /// <summary>
-    /// The tag to associate with the resulting Connection . key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tag to associate with the resulting Connection . key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

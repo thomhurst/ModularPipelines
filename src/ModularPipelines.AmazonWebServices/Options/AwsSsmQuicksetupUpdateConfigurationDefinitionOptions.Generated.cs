@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,8 +29,8 @@ public record AwsSsmQuicksetupUpdateConfigurationDefinitionOptions : AwsOptions,
     /// <summary>
     /// Updates a Quick Setup configuration definition. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the configuration definition you want to update. Constraints: o pattern: ^[a-z0-9-]{1,20}$</param>
-    /// <param name="ManagerArn">The ARN of the configuration manager associated with the definition to update. Constraints: o pattern: ^arn:aws:ssm-quicksetup:([^:]+):(\d{12}):configura- tion-man- ager/[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$</param>
+    /// <param name="Id">The ID of the configuration definition you want to update. Constraints: • pattern: ^[a-z0-9-]{1,20}$</param>
+    /// <param name="ManagerArn">The ARN of the configuration manager associated with the definition to update. Constraints: • pattern: ^arn:aws:ssm-quicksetup:([^:]+):(\d{12}):configuration-manager/[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$</param>
     public AwsSsmQuicksetupUpdateConfigurationDefinitionOptions(
         string Id,
         string ManagerArn
@@ -61,37 +62,37 @@ public record AwsSsmQuicksetupUpdateConfigurationDefinitionOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the configuration definition you want to update. Constraints: o pattern: ^[a-z0-9-]{1,20}$
+    /// The ID of the configuration definition you want to update. Constraints: • pattern: ^[a-z0-9-]{1,20}$
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The ARN of the configuration manager associated with the definition to update. Constraints: o pattern: ^arn:aws:ssm-quicksetup:([^:]+):(\d{12}):configura- tion-man- ager/[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$
+    /// The ARN of the configuration manager associated with the definition to update. Constraints: • pattern: ^arn:aws:ssm-quicksetup:([^:]+):(\d{12}):configuration-manager/[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$
     /// </summary>
     [CliOption("--manager-arn")]
     public string? ManagerArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the IAM role used to administrate local configuration de- ployments.
+    /// The ARN of the IAM role used to administrate local configuration deployments.
     /// </summary>
     [CliOption("--local-deployment-administration-role-arn")]
     public string? LocalDeploymentAdministrationRoleArn { get; set; }
 
     /// <summary>
-    /// The name of the IAM role used to deploy local configurations. Constraints: o pattern: ^[\w+=,.@-]{1,64}$
+    /// The name of the IAM role used to deploy local configurations. Constraints: • pattern: ^[\w+=,.@-]{1,64}$
     /// </summary>
     [CliOption("--local-deployment-execution-role-name")]
     public string? LocalDeploymentExecutionRoleName { get; set; }
 
     /// <summary>
-    /// The parameters for the configuration definition type. key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: ^[A-Za-z0-9+=@_\/\s-]+$ value -&gt; (string) Constraints: o min: 0 o max: 40960 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The parameters for the configuration definition type. key -&gt; (string) Constraints: • min: 1 • max: 256 • pattern: ^[A-Za-z0-9+=@_\/\s-]+$ value -&gt; (string) Constraints: • min: 0 • max: 40960 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     /// <summary>
-    /// The version of the Quick Setup type to use. Constraints: o pattern: ^\d{1,3}(\.\d{1,3})?$|^LATEST$
+    /// The version of the Quick Setup type to use. Constraints: • pattern: ^\d{1,3}(\.\d{1,3})?$|^LATEST$
     /// </summary>
     [CliOption("--type-version")]
     public string? TypeVersion { get; set; }

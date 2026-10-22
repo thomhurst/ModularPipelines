@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes specified tags from the specified resource in the current re- gion. See also: AWS API Documentation
+/// Deletes specified tags from the specified resource in the current region. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsElementalinferenceUntagResourceOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes specified tags from the specified resource in the current re- gion. See also: AWS API Documentation
+    /// Deletes specified tags from the specified resource in the current region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource where you want to delete one or more tags. Constraints: o pattern: arn:aws[a-z\-]*:elemental-infer- ence[a-z\-]*:[a-z0-9\-]+:[0-9]{12}:(feed|dictio- nary)/[a-zA-Z0-9]{1,19}</param>
-    /// <param name="TagKeys">The keys of the tags to delete. (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The ARN of the resource where you want to delete one or more tags. Constraints: • pattern: arn:aws[a-z\-]*:elemental-inference[a-z\-]*:[a-z0-9\-]+:[0-9]{12}:(feed|dictionary)/[a-zA-Z0-9]{1,19}</param>
+    /// <param name="TagKeys">The keys of the tags to delete. (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
     public AwsElementalinferenceUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsElementalinferenceUntagResourceOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource where you want to delete one or more tags. Constraints: o pattern: arn:aws[a-z\-]*:elemental-infer- ence[a-z\-]*:[a-z0-9\-]+:[0-9]{12}:(feed|dictio- nary)/[a-zA-Z0-9]{1,19}
+    /// The ARN of the resource where you want to delete one or more tags. Constraints: • pattern: arn:aws[a-z\-]*:elemental-inference[a-z\-]*:[a-z0-9\-]+:[0-9]{12}:(feed|dictionary)/[a-zA-Z0-9]{1,19}
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The keys of the tags to delete. (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// The keys of the tags to delete. (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

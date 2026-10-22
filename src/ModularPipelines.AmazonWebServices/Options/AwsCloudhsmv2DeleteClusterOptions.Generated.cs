@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified CloudHSM cluster. Before you can delete a clus- ter, you must delete all HSMs in the cluster. To see if the cluster contains any HSMs, use DescribeClusters . To delete an HSM, use DeleteHsm . Cross-account use: No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account. See also: AWS API Documentation
+/// Deletes the specified CloudHSM cluster. Before you can delete a cluster, you must delete all HSMs in the cluster. To see if the cluster contains any HSMs, use DescribeClusters . To delete an HSM, use DeleteHsm . Cross-account use: No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsCloudhsmv2DeleteClusterOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified CloudHSM cluster. Before you can delete a clus- ter, you must delete all HSMs in the cluster. To see if the cluster contains any HSMs, use DescribeClusters . To delete an HSM, use DeleteHsm . Cross-account use: No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account. See also: AWS API Documentation
+    /// Deletes the specified CloudHSM cluster. Before you can delete a cluster, you must delete all HSMs in the cluster. To see if the cluster contains any HSMs, use DescribeClusters . To delete an HSM, use DeleteHsm . Cross-account use: No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterId">The identifier (ID) of the cluster that you are deleting. To find the cluster ID, use DescribeClusters . Constraints: o pattern: cluster-[2-7a-zA-Z]{11,16}</param>
+    /// <param name="ClusterId">The identifier (ID) of the cluster that you are deleting. To find the cluster ID, use DescribeClusters . Constraints: • pattern: cluster-[2-7a-zA-Z]{11,16}</param>
     public AwsCloudhsmv2DeleteClusterOptions(
         string ClusterId
     )
@@ -56,7 +58,7 @@ public record AwsCloudhsmv2DeleteClusterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier (ID) of the cluster that you are deleting. To find the cluster ID, use DescribeClusters . Constraints: o pattern: cluster-[2-7a-zA-Z]{11,16}
+    /// The identifier (ID) of the cluster that you are deleting. To find the cluster ID, use DescribeClusters . Constraints: • pattern: cluster-[2-7a-zA-Z]{11,16}
     /// </summary>
     [CliOption("--cluster-id")]
     public string? ClusterId { get; private init; }

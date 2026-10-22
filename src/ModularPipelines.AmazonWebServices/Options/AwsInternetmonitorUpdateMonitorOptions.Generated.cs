@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +31,7 @@ public record AwsInternetmonitorUpdateMonitorOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Updates a monitor. You can update a monitor to change the percentage of traffic to monitor or the maximum number of city-networks (locations and ASNs), to add or remove resources, or to change the status of the monitor. Note that you can't change the name of a monitor. The city-network maximum that you choose is the limit, but you only pay for the number of city-networks that are actually monitored. For more information, see Choosing a city-network maximum value in the Amazon CloudWatch User Gui...
     /// </summary>
-    /// <param name="MonitorName">The name of the monitor. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="MonitorName">The name of the monitor. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsInternetmonitorUpdateMonitorOptions(
         string MonitorName
     )
@@ -58,25 +60,25 @@ public record AwsInternetmonitorUpdateMonitorOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the monitor. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the monitor. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--monitor-name")]
     public string? MonitorName { get; private init; }
 
     /// <summary>
-    /// The resources to include in a monitor, which you provide as a set of Amazon Resource Names (ARNs). Resources can be VPCs, NLBs, Amazon CloudFront distributions, or Amazon WorkSpaces directories. You can add a combination of VPCs and CloudFront distributions, or you can add WorkSpaces directories, or you can add NLBs. You can't add NLBs or WorkSpaces directories together with any other re- sources. NOTE: If you add only Amazon Virtual Private Clouds resources, at least one VPC must have an Internet Gateway attached to it, to make sure that it has internet connectivity. (string) Constraints: o min: 20 o max: 2048 o pattern: arn:.* Syntax: "string" "string" ...
+    /// The resources to include in a monitor, which you provide as a set of Amazon Resource Names (ARNs). Resources can be VPCs, NLBs, Amazon CloudFront distributions, or Amazon WorkSpaces directories. You can add a combination of VPCs and CloudFront distributions, or you can add WorkSpaces directories, or you can add NLBs. You can't add NLBs or WorkSpaces directories together with any other resources. NOTE: If you add only Amazon Virtual Private Clouds resources, at least one VPC must have an Internet Gateway attached to it, to make sure that it has internet connectivity. (string) Constraints: • min: 20 • max: 2048 • pattern: arn:.* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resources-to-add", GroupValues = true)]
     public IEnumerable<string>? ResourcesToAdd { get; set; }
 
     /// <summary>
-    /// The resources to remove from a monitor, which you provide as a set of Amazon Resource Names (ARNs). (string) Constraints: o min: 20 o max: 2048 o pattern: arn:.* Syntax: "string" "string" ...
+    /// The resources to remove from a monitor, which you provide as a set of Amazon Resource Names (ARNs). (string) Constraints: • min: 20 • max: 2048 • pattern: arn:.* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resources-to-remove", GroupValues = true)]
     public IEnumerable<string>? ResourcesToRemove { get; set; }
 
     /// <summary>
-    /// The status for a monitor. The accepted values for Status with the UpdateMonitor API call are the following: ACTIVE and INACTIVE . The following values are not accepted: PENDING , and ERROR . Possible values: o PENDING o ACTIVE o INACTIVE o ERROR
+    /// The status for a monitor. The accepted values for Status with the UpdateMonitor API call are the following: ACTIVE and INACTIVE . The following values are not accepted: PENDING , and ERROR . Possible values: • PENDING • ACTIVE • INACTIVE • ERROR
     /// </summary>
     [CliOption("--status")]
     public AwsInternetmonitorUpdateMonitorStatus? Status { get; set; }
@@ -89,25 +91,25 @@ public record AwsInternetmonitorUpdateMonitorOptions : AwsOptions, IValidatableO
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The maximum number of city-networks to monitor for your application. A city-network is the location (city) where clients access your ap- plication resources from and the ASN or network provider, such as an internet service provider (ISP), that clients access the resources through. Setting this limit can help control billing costs. Constraints: o min: 1 o max: 500000
+    /// The maximum number of city-networks to monitor for your application. A city-network is the location (city) where clients access your application resources from and the ASN or network provider, such as an internet service provider (ISP), that clients access the resources through. Setting this limit can help control billing costs. Constraints: • min: 1 • max: 500000
     /// </summary>
     [CliOption("--max-city-networks-to-monitor")]
     public int? MaxCityNetworksToMonitor { get; set; }
 
     /// <summary>
-    /// Publish internet measurements for Internet Monitor to another loca- tion, such as an Amazon S3 bucket. The measurements are also pub- lished to Amazon CloudWatch Logs. S3Config -&gt; (structure) The configuration information for publishing Internet Monitor internet measurements to Amazon S3. The configuration includes the bucket name and (optionally) prefix for the S3 bucket to store the measurements, and the delivery status. The delivery status is ENABLED or DISABLED , depending on whether you choose to deliver internet measurements to S3 logs. BucketName -&gt; (string) The Amazon S3 bucket name. Constraints: o min: 3 BucketPrefix -&gt; (string) The Amazon S3 bucket prefix. LogDeliveryStatus -&gt; (string) The status of publishing Internet Monitor internet measure- ments to an Amazon S3 bucket. Possible values: o ENABLED o DISABLED Shorthand Syntax: S3Config={BucketName=string,BucketPrefix=string,LogDeliveryStatus=string} JSON Syntax: { "S3Config": { "BucketName": "string", "BucketPrefix": "string", "LogDeliveryStatus": "ENABLED"|"DISABLED" } }
+    /// Publish internet measurements for Internet Monitor to another location, such as an Amazon S3 bucket. The measurements are also published to Amazon CloudWatch Logs. S3Config -&gt; (structure) The configuration information for publishing Internet Monitor internet measurements to Amazon S3. The configuration includes the bucket name and (optionally) prefix for the S3 bucket to store the measurements, and the delivery status. The delivery status is ENABLED or DISABLED , depending on whether you choose to deliver internet measurements to S3 logs. BucketName -&gt; (string) The Amazon S3 bucket name. Constraints: • min: 3 BucketPrefix -&gt; (string) The Amazon S3 bucket prefix. LogDeliveryStatus -&gt; (string) The status of publishing Internet Monitor internet measurements to an Amazon S3 bucket. Possible values: • ENABLED • DISABLED Shorthand Syntax: S3Config={BucketName=string,BucketPrefix=string,LogDeliveryStatus=string} JSON Syntax: { "S3Config": { "BucketName": "string", "BucketPrefix": "string", "LogDeliveryStatus": "ENABLED"|"DISABLED" } }
     /// </summary>
     [CliOption("--internet-measurements-log-delivery")]
     public string? InternetMeasurementsLogDelivery { get; set; }
 
     /// <summary>
-    /// The percentage of the internet-facing traffic for your application that you want to monitor with this monitor. If you set a city-net- works maximum, that limit overrides the traffic percentage that you set. To learn more, see Choosing an application traffic percentage to monitor in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide . Constraints: o min: 1 o max: 100
+    /// The percentage of the internet-facing traffic for your application that you want to monitor with this monitor. If you set a city-networks maximum, that limit overrides the traffic percentage that you set. To learn more, see Choosing an application traffic percentage to monitor in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--traffic-percentage-to-monitor")]
     public int? TrafficPercentageToMonitor { get; set; }
 
     /// <summary>
-    /// The list of health score thresholds. A threshold percentage for health scores, along with other configuration information, deter- mines when Internet Monitor creates a health event when there's an internet issue that affects your application end users. For more information, see Change health event thresholds in the In- ternet Monitor section of the CloudWatch User Guide . AvailabilityScoreThreshold -&gt; (double) The health event threshold percentage set for availability scores. Constraints: o min: 0 o max: 100 PerformanceScoreThreshold -&gt; (double) The health event threshold percentage set for performance scores. Constraints: o min: 0 o max: 100 AvailabilityLocalHealthEventsConfig -&gt; (structure) The configuration that determines the threshold and other condi- tions for when Internet Monitor creates a health event for a lo- cal availability issue. Status -&gt; (string) The status of whether Internet Monitor creates a health event based on a threshold percentage set for a local health score. The status can be ENABLED or DISABLED . Possible values: o ENABLED o DISABLED HealthScoreThreshold -&gt; (double) The health event threshold percentage set for a local health score. Constraints: o min: 0 o max: 100 MinTrafficImpact -&gt; (double) The minimum percentage of overall traffic for an application that must be impacted by an issue before Internet Monitor creates an event when a threshold is crossed for a local health score. If you don't set a minimum traffic impact threshold, the de- fault value is 0.1%. Constraints: o min: 0 o max: 100 PerformanceLocalHealthEventsConfig -&gt; (structure) The configuration that determines the threshold and other condi- tions for when Internet Monitor creates a health event for a lo- cal performance issue. Status -&gt; (string) The status of whether Internet Monitor creates a health event based on a threshold percentage set for a local health score. The status can be ENABLED or DISABLED . Possible values: o ENABLED o DISABLED HealthScoreThreshold -&gt; (double) The health event threshold percentage set for a local health score. Constraints: o min: 0 o max: 100 MinTrafficImpact -&gt; (double) The minimum percentage of overall traffic for an application that must be impacted by an issue before Internet Monitor creates an event when a threshold is crossed for a local health score. If you don't set a minimum traffic impact threshold, the de- fault value is 0.1%. Constraints: o min: 0 o max: 100 Shorthand Syntax: AvailabilityScoreThreshold=double,PerformanceScoreThreshold=double,AvailabilityLocalHealthEventsConfig={Status=string,HealthScoreThreshold=double,MinTrafficImpact=double},PerformanceLocalHealthEventsConfig={Status=string,HealthScoreThreshold=double,MinTrafficImpact=double} JSON Syntax: { "AvailabilityScoreThreshold": double, "PerformanceScoreThreshold": double, "AvailabilityLocalHealthEventsConfig": { "Status": "ENABLED"|"DISABLED", "HealthScoreThreshold": double, "MinTrafficImpact": double }, "PerformanceLocalHealthEventsConfig": { "Status": "ENABLED"|"DISABLED", "HealthScoreThreshold": double, "MinTrafficImpact": double } }
+    /// The list of health score thresholds. A threshold percentage for health scores, along with other configuration information, determines when Internet Monitor creates a health event when there's an internet issue that affects your application end users. For more information, see Change health event thresholds in the Internet Monitor section of the CloudWatch User Guide . AvailabilityScoreThreshold -&gt; (double) The health event threshold percentage set for availability scores. Constraints: • min: 0 • max: 100 PerformanceScoreThreshold -&gt; (double) The health event threshold percentage set for performance scores. Constraints: • min: 0 • max: 100 AvailabilityLocalHealthEventsConfig -&gt; (structure) The configuration that determines the threshold and other conditions for when Internet Monitor creates a health event for a local availability issue. Status -&gt; (string) The status of whether Internet Monitor creates a health event based on a threshold percentage set for a local health score. The status can be ENABLED or DISABLED . Possible values: • ENABLED • DISABLED HealthScoreThreshold -&gt; (double) The health event threshold percentage set for a local health score. Constraints: • min: 0 • max: 100 MinTrafficImpact -&gt; (double) The minimum percentage of overall traffic for an application that must be impacted by an issue before Internet Monitor creates an event when a threshold is crossed for a local health score. If you don't set a minimum traffic impact threshold, the default value is 0.1%. Constraints: • min: 0 • max: 100 PerformanceLocalHealthEventsConfig -&gt; (structure) The configuration that determines the threshold and other conditions for when Internet Monitor creates a health event for a local performance issue. Status -&gt; (string) The status of whether Internet Monitor creates a health event based on a threshold percentage set for a local health score. The status can be ENABLED or DISABLED . Possible values: • ENABLED • DISABLED HealthScoreThreshold -&gt; (double) The health event threshold percentage set for a local health score. Constraints: • min: 0 • max: 100 MinTrafficImpact -&gt; (double) The minimum percentage of overall traffic for an application that must be impacted by an issue before Internet Monitor creates an event when a threshold is crossed for a local health score. If you don't set a minimum traffic impact threshold, the default value is 0.1%. Constraints: • min: 0 • max: 100 Shorthand Syntax: AvailabilityScoreThreshold=double,PerformanceScoreThreshold=double,AvailabilityLocalHealthEventsConfig={Status=string,HealthScoreThreshold=double,MinTrafficImpact=double},PerformanceLocalHealthEventsConfig={Status=string,HealthScoreThreshold=double,MinTrafficImpact=double} JSON Syntax: { "AvailabilityScoreThreshold": double, "PerformanceScoreThreshold": double, "AvailabilityLocalHealthEventsConfig": { "Status": "ENABLED"|"DISABLED", "HealthScoreThreshold": double, "MinTrafficImpact": double }, "PerformanceLocalHealthEventsConfig": { "Status": "ENABLED"|"DISABLED", "HealthScoreThreshold": double, "MinTrafficImpact": double } }
     /// </summary>
     [CliOption("--health-events-config")]
     public string? HealthEventsConfig { get; set; }

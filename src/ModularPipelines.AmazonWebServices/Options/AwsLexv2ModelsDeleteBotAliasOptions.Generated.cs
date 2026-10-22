@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsLexv2ModelsDeleteBotAliasOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Deletes the specified bot alias. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BotAliasId">The unique identifier of the bot alias to delete. Constraints: o min: 10 o max: 10 o pattern: ^(\bTSTALIASID\b|[0-9a-zA-Z]+)$</param>
-    /// <param name="BotId">The unique identifier of the bot associated with the alias to delete. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotAliasId">The unique identifier of the bot alias to delete. Constraints: • min: 10 • max: 10 • pattern: ^(\bTSTALIASID\b|[0-9a-zA-Z]+)$</param>
+    /// <param name="BotId">The unique identifier of the bot associated with the alias to delete. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
     public AwsLexv2ModelsDeleteBotAliasOptions(
         string BotAliasId,
         string BotId
@@ -60,19 +62,19 @@ public record AwsLexv2ModelsDeleteBotAliasOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the bot alias to delete. Constraints: o min: 10 o max: 10 o pattern: ^(\bTSTALIASID\b|[0-9a-zA-Z]+)$
+    /// The unique identifier of the bot alias to delete. Constraints: • min: 10 • max: 10 • pattern: ^(\bTSTALIASID\b|[0-9a-zA-Z]+)$
     /// </summary>
     [CliOption("--bot-alias-id")]
     public string? BotAliasId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the bot associated with the alias to delete. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier of the bot associated with the alias to delete. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
 
     /// <summary>
-    /// By default, Amazon Lex checks if any other resource, such as a bot network, is using the bot alias before it is deleted and throws a ResourceInUseException exception if the alias is being used by an- other resource. Set this parameter to true to skip this check and remove the alias even if it is being used by another resource.
+    /// By default, Amazon Lex checks if any other resource, such as a bot network, is using the bot alias before it is deleted and throws a ResourceInUseException exception if the alias is being used by another resource. Set this parameter to true to skip this check and remove the alias even if it is being used by another resource.
     /// </summary>
     [CliFlag("--skip-resource-in-use-check", NegatedName = "--no-skip-resource-in-use-check")]
     public bool? SkipResourceInUseCheck { get; set; }

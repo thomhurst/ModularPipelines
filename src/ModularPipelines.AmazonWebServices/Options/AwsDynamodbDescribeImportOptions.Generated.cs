@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDynamodbDescribeImportOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Represents the properties of the import. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ImportArn">The Amazon Resource Name (ARN) associated with the table you're im- porting to. Constraints: o min: 37 o max: 1024</param>
+    /// <param name="ImportArn">The Amazon Resource Name (ARN) associated with the table you're importing to. Constraints: • min: 37 • max: 1024</param>
     public AwsDynamodbDescribeImportOptions(
         string ImportArn
     )
@@ -56,7 +58,7 @@ public record AwsDynamodbDescribeImportOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) associated with the table you're im- porting to. Constraints: o min: 37 o max: 1024
+    /// The Amazon Resource Name (ARN) associated with the table you're importing to. Constraints: • min: 37 • max: 1024
     /// </summary>
     [CliOption("--import-arn")]
     public string? ImportArn { get; private init; }

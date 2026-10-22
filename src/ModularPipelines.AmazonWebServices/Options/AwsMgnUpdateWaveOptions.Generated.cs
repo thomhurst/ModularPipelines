@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMgnUpdateWaveOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Update wave. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WaveId">Wave ID. Constraints: o min: 22 o max: 22 o pattern: wave-[0-9a-zA-Z]{17}</param>
+    /// <param name="WaveId">Wave ID. Constraints: • min: 22 • max: 22 • pattern: wave-[0-9a-zA-Z]{17}</param>
     public AwsMgnUpdateWaveOptions(
         string WaveId
     )
@@ -56,25 +58,25 @@ public record AwsMgnUpdateWaveOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Wave ID. Constraints: o min: 22 o max: 22 o pattern: wave-[0-9a-zA-Z]{17}
+    /// Wave ID. Constraints: • min: 22 • max: 22 • pattern: wave-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--wave-id")]
     public string? WaveId { get; private init; }
 
     /// <summary>
-    /// Wave name. Constraints: o min: 1 o max: 256 o pattern: [^\s\x00]( *[^\s\x00])*
+    /// Wave name. Constraints: • min: 1 • max: 256 • pattern: [^\s\x00]( *[^\s\x00])*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Wave description. Constraints: o min: 0 o max: 600 o pattern: [^\x00]*
+    /// Wave description. Constraints: • min: 0 • max: 600 • pattern: [^\x00]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Account ID. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.*
+    /// Account ID. Constraints: • min: 12 • max: 12 • pattern: .*[0-9]{12,}.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }

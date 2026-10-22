@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +31,8 @@ public record AwsSagemakerListHubContentsOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// List the contents of a hub. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HubName">The name of the hub to list the contents of. Constraints: o pattern: (arn:[a-z0-9-\.]{1,63}:sage- maker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
-    /// <param name="HubContentType">The type of hub content to list. Possible values: o Model o Notebook o ModelReference o DataSet o JsonDoc</param>
+    /// <param name="HubName">The name of the hub to list the contents of. Constraints: • pattern: (arn:[a-z0-9-\.]{1,63}:sagemaker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="HubContentType">The type of hub content to list. Possible values: • Model • Notebook • ModelReference • DataSet • JsonDoc</param>
     public AwsSagemakerListHubContentsOptions(
         string HubName,
         AwsSagemakerListHubContentsHubContentType HubContentType
@@ -61,25 +63,25 @@ public record AwsSagemakerListHubContentsOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the hub to list the contents of. Constraints: o pattern: (arn:[a-z0-9-\.]{1,63}:sage- maker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the hub to list the contents of. Constraints: • pattern: (arn:[a-z0-9-\.]{1,63}:sagemaker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--hub-name")]
     public string? HubName { get; private init; }
 
     /// <summary>
-    /// The type of hub content to list. Possible values: o Model o Notebook o ModelReference o DataSet o JsonDoc
+    /// The type of hub content to list. Possible values: • Model • Notebook • ModelReference • DataSet • JsonDoc
     /// </summary>
     [CliOption("--hub-content-type")]
     public AwsSagemakerListHubContentsHubContentType? HubContentType { get; private init; }
 
     /// <summary>
-    /// Only list hub content if the name contains the specified string. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9\-]+
+    /// Only list hub content if the name contains the specified string. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9\-]+
     /// </summary>
     [CliOption("--name-contains")]
     public string? NameContains { get; set; }
 
     /// <summary>
-    /// The upper bound of the hub content schema verion. Constraints: o min: 5 o max: 14 o pattern: \d{1,4}.\d{1,4}.\d{1,4}
+    /// The upper bound of the hub content schema verion. Constraints: • min: 5 • max: 14 • pattern: \d{1,4}.\d{1,4}.\d{1,4}
     /// </summary>
     [CliOption("--max-schema-version")]
     public string? MaxSchemaVersion { get; set; }
@@ -97,25 +99,25 @@ public record AwsSagemakerListHubContentsOptions : AwsOptions, IValidatableObjec
     public string? CreationTimeAfter { get; set; }
 
     /// <summary>
-    /// Sort hub content versions by either name or creation time. Possible values: o HubContentName o CreationTime o HubContentStatus
+    /// Sort hub content versions by either name or creation time. Possible values: • HubContentName • CreationTime • HubContentStatus
     /// </summary>
     [CliOption("--sort-by")]
     public AwsSagemakerListHubContentsSortBy? SortBy { get; set; }
 
     /// <summary>
-    /// Sort hubs by ascending or descending order. Possible values: o Ascending o Descending
+    /// Sort hubs by ascending or descending order. Possible values: • Ascending • Descending
     /// </summary>
     [CliOption("--sort-order")]
     public AwsSagemakerListHubContentsSortOrder? SortOrder { get; set; }
 
     /// <summary>
-    /// The maximum amount of hub content to list. Constraints: o min: 1 o max: 100
+    /// The maximum amount of hub content to list. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If the response to a previous ListHubContents request was truncated, the response includes a NextToken . To retrieve the next set of hub content, use the token in the next request. Constraints: o min: 0 o max: 8192 o pattern: .*
+    /// If the response to a previous ListHubContents request was truncated, the response includes a NextToken . To retrieve the next set of hub content, use the token in the next request. Constraints: • min: 0 • max: 8192 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

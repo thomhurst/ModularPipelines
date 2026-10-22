@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +30,9 @@ public record AwsPartnercentralRevenueMeasurementGetRevenueAttributionAllocation
     /// <summary>
     /// Retrieves a single allocation by its RevenueAttributionAllocationId. Supports optional point-in-time version queries. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">The catalog that contains the resource. Possible values: o AWS o Sandbox</param>
-    /// <param name="RevenueAttributionIdentifier">The revenue attribution identifier. Constraints: o min: 16 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/revenue-attribution/ra-[a-z0-9]{13}|ra-[a-z0-9]{13})</param>
-    /// <param name="RevenueAttributionAllocationId">The allocation identifier. Constraints: o min: 19 o max: 19 o pattern: alloc-[a-z0-9]{13}</param>
+    /// <param name="Catalog">The catalog that contains the resource. Possible values: • AWS • Sandbox</param>
+    /// <param name="RevenueAttributionIdentifier">The revenue attribution identifier. Constraints: • min: 16 • max: 1011 • pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/revenue-attribution/ra-[a-z0-9]{13}|ra-[a-z0-9]{13})</param>
+    /// <param name="RevenueAttributionAllocationId">The allocation identifier. Constraints: • min: 19 • max: 19 • pattern: alloc-[a-z0-9]{13}</param>
     public AwsPartnercentralRevenueMeasurementGetRevenueAttributionAllocationOptions(
         AwsPartnercentralRevenueMeasurementGetRevenueAttributionAllocationCatalog Catalog,
         string RevenueAttributionIdentifier,
@@ -64,25 +66,25 @@ public record AwsPartnercentralRevenueMeasurementGetRevenueAttributionAllocation
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog that contains the resource. Possible values: o AWS o Sandbox
+    /// The catalog that contains the resource. Possible values: • AWS • Sandbox
     /// </summary>
     [CliOption("--catalog")]
     public AwsPartnercentralRevenueMeasurementGetRevenueAttributionAllocationCatalog? Catalog { get; private init; }
 
     /// <summary>
-    /// The revenue attribution identifier. Constraints: o min: 16 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/revenue-attribution/ra-[a-z0-9]{13}|ra-[a-z0-9]{13})
+    /// The revenue attribution identifier. Constraints: • min: 16 • max: 1011 • pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/revenue-attribution/ra-[a-z0-9]{13}|ra-[a-z0-9]{13})
     /// </summary>
     [CliOption("--revenue-attribution-identifier")]
     public string? RevenueAttributionIdentifier { get; private init; }
 
     /// <summary>
-    /// The allocation identifier. Constraints: o min: 19 o max: 19 o pattern: alloc-[a-z0-9]{13}
+    /// The allocation identifier. Constraints: • min: 19 • max: 19 • pattern: alloc-[a-z0-9]{13}
     /// </summary>
     [CliOption("--revenue-attribution-allocation-id")]
     public string? RevenueAttributionAllocationId { get; private init; }
 
     /// <summary>
-    /// Point-in-time revision number to query. Constraints: o min: 1 o max: 19 o pattern: [1-9][0-9]*
+    /// Point-in-time revision number to query. Constraints: • min: 1 • max: 19 • pattern: [1-9][0-9]*
     /// </summary>
     [CliOption("--revenue-attribution-revision")]
     public string? RevenueAttributionRevision { get; set; }

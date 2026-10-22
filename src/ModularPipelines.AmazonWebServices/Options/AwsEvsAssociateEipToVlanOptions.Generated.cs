@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +30,9 @@ public record AwsEvsAssociateEipToVlanOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Associates an Elastic IP address with a public HCX VLAN. This operation is only allowed for public HCX VLANs at this time. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EnvironmentId">A unique ID for the environment containing the VLAN that the Elastic IP address associates with. Constraints: o pattern: (env-[a-zA-Z0-9]{10})</param>
-    /// <param name="VlanName">The name of the VLAN. hcx is the only accepted VLAN name at this time. Constraints: o min: 1 o max: 200</param>
-    /// <param name="AllocationId">The Elastic IP address allocation ID. Constraints: o min: 9 o max: 26 o pattern: eipalloc-[a-zA-Z0-9_-]+</param>
+    /// <param name="EnvironmentId">A unique ID for the environment containing the VLAN that the Elastic IP address associates with. Constraints: • pattern: (env-[a-zA-Z0-9]{10})</param>
+    /// <param name="VlanName">The name of the VLAN. hcx is the only accepted VLAN name at this time. Constraints: • min: 1 • max: 200</param>
+    /// <param name="AllocationId">The Elastic IP address allocation ID. Constraints: • min: 9 • max: 26 • pattern: eipalloc-[a-zA-Z0-9_-]+</param>
     public AwsEvsAssociateEipToVlanOptions(
         string EnvironmentId,
         string VlanName,
@@ -65,25 +67,25 @@ public record AwsEvsAssociateEipToVlanOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique ID for the environment containing the VLAN that the Elastic IP address associates with. Constraints: o pattern: (env-[a-zA-Z0-9]{10})
+    /// A unique ID for the environment containing the VLAN that the Elastic IP address associates with. Constraints: • pattern: (env-[a-zA-Z0-9]{10})
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
 
     /// <summary>
-    /// The name of the VLAN. hcx is the only accepted VLAN name at this time. Constraints: o min: 1 o max: 200
+    /// The name of the VLAN. hcx is the only accepted VLAN name at this time. Constraints: • min: 1 • max: 200
     /// </summary>
     [CliOption("--vlan-name")]
     public string? VlanName { get; private init; }
 
     /// <summary>
-    /// The Elastic IP address allocation ID. Constraints: o min: 9 o max: 26 o pattern: eipalloc-[a-zA-Z0-9_-]+
+    /// The Elastic IP address allocation ID. Constraints: • min: 9 • max: 26 • pattern: eipalloc-[a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--allocation-id")]
     public string? AllocationId { get; private init; }
 
     /// <summary>
-    /// NOTE: This parameter is not used in Amazon EVS currently. If you sup- ply input for this parameter, it will have no effect. A unique, case-sensitive identifier that you provide to ensure the idempotency of the environment creation request. If you do not spec- ify a client token, a randomly generated token is used for the re- quest to ensure idempotency. Constraints: o min: 1 o max: 100 o pattern: [!-~]+
+    /// NOTE: This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect. A unique, case-sensitive identifier that you provide to ensure the idempotency of the environment creation request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency. Constraints: • min: 1 • max: 100 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

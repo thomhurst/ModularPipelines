@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsOdbUpdateExascaleDbStorageVaultOptions : AwsOptions, IValidatab
     /// <summary>
     /// Updates the specified Exascale storage vault. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExascaleDbStorageVaultId">The unique identifier of the Exascale storage vault to update. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
+    /// <param name="ExascaleDbStorageVaultId">The unique identifier of the Exascale storage vault to update. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
     public AwsOdbUpdateExascaleDbStorageVaultOptions(
         string ExascaleDbStorageVaultId
     )
@@ -56,37 +58,37 @@ public record AwsOdbUpdateExascaleDbStorageVaultOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Exascale storage vault to update. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// The unique identifier of the Exascale storage vault to update. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
     /// </summary>
     [CliOption("--exascale-db-storage-vault-id")]
     public string? ExascaleDbStorageVaultId { get; private init; }
 
     /// <summary>
-    /// The additional flash cache percentage for the Exascale storage vault. Constraints: o min: 0
+    /// The additional flash cache percentage for the Exascale storage vault. Constraints: • min: 0
     /// </summary>
     [CliOption("--additional-flash-cache-in-percent")]
     public int? AdditionalFlashCacheInPercent { get; set; }
 
     /// <summary>
-    /// The autoscale limit in gigabytes (GB) for the Exascale storage vault. Constraints: o min: 0
+    /// The autoscale limit in gigabytes (GB) for the Exascale storage vault. Constraints: • min: 0
     /// </summary>
     [CliOption("--autoscale-limit-in-gbs")]
     public int? AutoscaleLimitInGbs { get; set; }
 
     /// <summary>
-    /// A new description for the Exascale storage vault. Constraints: o min: 1 o max: 400
+    /// A new description for the Exascale storage vault. Constraints: • min: 1 • max: 400
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A new user-friendly name for the Exascale storage vault. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*
+    /// A new user-friendly name for the Exascale storage vault. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The total size of the high-capacity database storage, in gigabytes (GB), for the Exascale storage vault. Constraints: o min: 0
+    /// The total size of the high-capacity database storage, in gigabytes (GB), for the Exascale storage vault. Constraints: • min: 0
     /// </summary>
     [CliOption("--high-capacity-database-storage-total-size-in-gbs")]
     public int? HighCapacityDatabaseStorageTotalSizeInGbs { get; set; }

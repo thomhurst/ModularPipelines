@@ -92,7 +92,7 @@ public class AwsMediatailor : IAwsMediatailor
     }
 
     /// <summary>
-    /// Creates a prefetch schedule for a playback configuration. A prefetch schedule allows you to tell MediaTailor to fetch and prepare certain ads before an ad break happens. For more information about ad prefetch- ing, see Using ad prefetching in the MediaTailor User Guide . See also: AWS API Documentation
+    /// Creates a prefetch schedule for a playback configuration. A prefetch schedule allows you to tell MediaTailor to fetch and prepare certain ads before an ad break happens. For more information about ad prefetching, see Using ad prefetching in the MediaTailor User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsMediatailor : IAwsMediatailor
     }
 
     /// <summary>
-    /// Deletes a function. MediaTailor prevents deletion of a function that is still referenced by a playback configuration or by another function. Remove all references before deleting. For more information about func- tions, see Working with functions in the MediaTailor User Guide . See also: AWS API Documentation
+    /// Deletes a function. MediaTailor prevents deletion of a function that is still referenced by a playback configuration or by another function. Remove all references before deleting. For more information about functions, see Working with functions in the MediaTailor User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsMediatailor : IAwsMediatailor
     }
 
     /// <summary>
-    /// Deletes a playback configuration. For information about MediaTailor configurations, see Working with configurations in AWS Elemental Medi- aTailor . See also: AWS API Documentation
+    /// Deletes a playback configuration. For information about MediaTailor configurations, see Working with configurations in AWS Elemental MediaTailor . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsMediatailor : IAwsMediatailor
     }
 
     /// <summary>
-    /// Deletes a prefetch schedule for a specific playback configuration. If you call DeletePrefetchSchedule on an expired prefetch schedule, Medi- aTailor returns an HTTP 404 status code. For more information about ad prefetching, see Using ad prefetching in the MediaTailor User Guide . See also: AWS API Documentation
+    /// Deletes a prefetch schedule for a specific playback configuration. If you call DeletePrefetchSchedule on an expired prefetch schedule, MediaTailor returns an HTTP 404 status code. For more information about ad prefetching, see Using ad prefetching in the MediaTailor User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsMediatailor : IAwsMediatailor
     }
 
     /// <summary>
-    /// Returns the channel's IAM policy. IAM policies are used to control ac- cess to your channel. See also: AWS API Documentation
+    /// Returns the channel's IAM policy. IAM policies are used to control access to your channel. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsMediatailor : IAwsMediatailor
     }
 
     /// <summary>
-    /// Retrieves the configuration and metadata for a function. For more in- formation about functions, see Working with functions in the MediaTai- lor User Guide . See also: AWS API Documentation
+    /// Retrieves the configuration and metadata for a function. For more information about functions, see Working with functions in the MediaTailor User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsMediatailor : IAwsMediatailor
     }
 
     /// <summary>
-    /// Retrieves a playback configuration. For information about MediaTailor configurations, see Working with configurations in AWS Elemental Medi- aTailor . See also: AWS API Documentation
+    /// Retrieves a playback configuration. For information about MediaTailor configurations, see Working with configurations in AWS Elemental MediaTailor . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsMediatailor : IAwsMediatailor
     }
 
     /// <summary>
-    /// Retrieves a prefetch schedule for a playback configuration. A prefetch schedule allows you to tell MediaTailor to fetch and prepare certain ads before an ad break happens. For more information about ad prefetch- ing, see Using ad prefetching in the MediaTailor User Guide . See also: AWS API Documentation
+    /// Retrieves a prefetch schedule for a playback configuration. A prefetch schedule allows you to tell MediaTailor to fetch and prepare certain ads before an ad break happens. For more information about ad prefetching, see Using ad prefetching in the MediaTailor User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsMediatailor : IAwsMediatailor
     }
 
     /// <summary>
-    /// Lists the alerts that are associated with a MediaTailor channel assem- bly resource. See also: AWS API Documentation list-alerts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Items
+    /// Lists the alerts that are associated with a MediaTailor channel assembly resource. See also: AWS API Documentation list-alerts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsMediatailor : IAwsMediatailor
     }
 
     /// <summary>
-    /// Retrieves information about the channels that are associated with the current AWS account. See also: AWS API Documentation list-channels is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
+    /// Retrieves information about the channels that are associated with the current AWS account. See also: AWS API Documentation list-channels is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsMediatailor : IAwsMediatailor
     }
 
     /// <summary>
-    /// Retrieves all functions associated with your AWS account in the current Region. For more information about functions, see Working with func- tions in the MediaTailor User Guide . See also: AWS API Documentation list-functions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query arg...
+    /// Retrieves all functions associated with your AWS account in the current Region. For more information about functions, see Working with functions in the MediaTailor User Guide . See also: AWS API Documentation list-functions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsMediatailor : IAwsMediatailor
     }
 
     /// <summary>
-    /// Lists the live sources contained in a source location. A source repre- sents a piece of content. See also: AWS API Documentation list-live-sources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
+    /// Lists the live sources contained in a source location. A source represents a piece of content. See also: AWS API Documentation list-live-sources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsMediatailor : IAwsMediatailor
     }
 
     /// <summary>
-    /// Retrieves existing playback configurations. For information about Medi- aTailor configurations, see Working with Configurations in AWS Elemen- tal MediaTailor . See also: AWS API Documentation list-playback-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argumen...
+    /// Retrieves existing playback configurations. For information about MediaTailor configurations, see Working with Configurations in AWS Elemental MediaTailor . See also: AWS API Documentation list-playback-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must e...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -512,7 +512,7 @@ public class AwsMediatailor : IAwsMediatailor
     }
 
     /// <summary>
-    /// Lists the prefetch schedules for a playback configuration. See also: AWS API Documentation list-prefetch-schedules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Items
+    /// Lists the prefetch schedules for a playback configuration. See also: AWS API Documentation list-prefetch-schedules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsMediatailor : IAwsMediatailor
     }
 
     /// <summary>
-    /// A list of tags that are associated with this resource. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more informa- tion, see Tagging AWS Elemental MediaTailor Resources . See also: AWS API Documentation
+    /// A list of tags that are associated with this resource. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +557,7 @@ public class AwsMediatailor : IAwsMediatailor
     }
 
     /// <summary>
-    /// Lists the VOD sources contained in a source location. A source repre- sents a piece of content. See also: AWS API Documentation list-vod-sources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
+    /// Lists the VOD sources contained in a source location. A source represents a piece of content. See also: AWS API Documentation list-vod-sources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsMediatailor : IAwsMediatailor
     }
 
     /// <summary>
-    /// Creates or updates a function. A function defines reusable logic that MediaTailor executes at lifecycle hooks during ad insertion. For more information about functions, see Working with functions in the Medi- aTailor User Guide . See also: AWS API Documentation
+    /// Creates or updates a function. A function defines reusable logic that MediaTailor executes at lifecycle hooks during ad insertion. For more information about functions, see Working with functions in the MediaTailor User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -602,7 +602,7 @@ public class AwsMediatailor : IAwsMediatailor
     }
 
     /// <summary>
-    /// Creates a playback configuration. For information about MediaTailor configurations, see Working with configurations in AWS Elemental Medi- aTailor . See also: AWS API Documentation
+    /// Creates a playback configuration. For information about MediaTailor configurations, see Working with configurations in AWS Elemental MediaTailor . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +647,7 @@ public class AwsMediatailor : IAwsMediatailor
     }
 
     /// <summary>
-    /// The resource to tag. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental Medi- aTailor Resources . See also: AWS API Documentation
+    /// The resource to tag. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

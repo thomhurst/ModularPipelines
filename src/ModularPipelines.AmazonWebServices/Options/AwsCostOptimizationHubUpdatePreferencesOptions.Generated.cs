@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a set of preferences for an account in order to add ac- count-specific preferences into the service. These preferences impact how the savings associated with recommendations are presented. See also: AWS API Documentation
+/// Updates a set of preferences for an account in order to add account-specific preferences into the service. These preferences impact how the savings associated with recommendations are presented. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,19 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCostOptimizationHubUpdatePreferencesOptions : AwsOptions
 {
     /// <summary>
-    /// Sets the "savings estimation mode" preference. Possible values: o BeforeDiscounts o AfterDiscounts
+    /// Sets the "savings estimation mode" preference. Possible values: • BeforeDiscounts • AfterDiscounts
     /// </summary>
     [CliOption("--savings-estimation-mode")]
     public AwsCostOptimizationHubUpdatePreferencesSavingsEstimationMode? SavingsEstimationMode { get; set; }
 
     /// <summary>
-    /// Sets the "member account discount visibility" preference. Possible values: o All o None
+    /// Sets the "member account discount visibility" preference. Possible values: • All • None
     /// </summary>
     [CliOption("--member-account-discount-visibility")]
     public AwsCostOptimizationHubUpdatePreferencesMemberAccountDiscountVisibility? MemberAccountDiscountVisibility { get; set; }
 
     /// <summary>
-    /// Sets the preferences for how Reserved Instances and Savings Plans cost-saving opportunities are prioritized in terms of payment option and term length. term -&gt; (string) The preferred length of the commitment period. If the value is null, it will default to ThreeYears (highest savings) where ap- plicable. Possible values: o OneYear o ThreeYears paymentOption -&gt; (string) The preferred upfront payment structure for commitments. If the value is null, it will default to AllUpfront (highest savings) where applicable. Possible values: o AllUpfront o PartialUpfront o NoUpfront Shorthand Syntax: term=string,paymentOption=string JSON Syntax: { "term": "OneYear"|"ThreeYears", "paymentOption": "AllUpfront"|"PartialUpfront"|"NoUpfront" }
+    /// Sets the preferences for how Reserved Instances and Savings Plans cost-saving opportunities are prioritized in terms of payment option and term length. term -&gt; (string) The preferred length of the commitment period. If the value is null, it will default to ThreeYears (highest savings) where applicable. Possible values: • OneYear • ThreeYears paymentOption -&gt; (string) The preferred upfront payment structure for commitments. If the value is null, it will default to AllUpfront (highest savings) where applicable. Possible values: • AllUpfront • PartialUpfront • NoUpfront Shorthand Syntax: term=string,paymentOption=string JSON Syntax: { "term": "OneYear"|"ThreeYears", "paymentOption": "AllUpfront"|"PartialUpfront"|"NoUpfront" }
     /// </summary>
     [CliOption("--preferred-commitment")]
     public string? PreferredCommitment { get; set; }

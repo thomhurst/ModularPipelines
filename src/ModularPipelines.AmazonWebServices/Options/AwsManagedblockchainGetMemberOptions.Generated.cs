@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsManagedblockchainGetMemberOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Returns detailed information about a member. Applies only to Hyperledger Fabric. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The unique identifier of the network to which the member belongs. Constraints: o min: 1 o max: 32</param>
-    /// <param name="MemberId">The unique identifier of the member. Constraints: o min: 1 o max: 32</param>
+    /// <param name="NetworkId">The unique identifier of the network to which the member belongs. Constraints: • min: 1 • max: 32</param>
+    /// <param name="MemberId">The unique identifier of the member. Constraints: • min: 1 • max: 32</param>
     public AwsManagedblockchainGetMemberOptions(
         string NetworkId,
         string MemberId
@@ -60,13 +62,13 @@ public record AwsManagedblockchainGetMemberOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the network to which the member belongs. Constraints: o min: 1 o max: 32
+    /// The unique identifier of the network to which the member belongs. Constraints: • min: 1 • max: 32
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the member. Constraints: o min: 1 o max: 32
+    /// The unique identifier of the member. Constraints: • min: 1 • max: 32
     /// </summary>
     [CliOption("--member-id")]
     public string? MemberId { get; private init; }

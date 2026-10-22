@@ -36,7 +36,7 @@ public record AwsSesv2GetDedicatedIpsOptions : AwsOptions
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The number of results to show in a single call to GetDedicatedIpsRe- quest . If the number of results is larger than the number you spec- ified in this parameter, then the response includes a NextToken ele- ment, which you can use to obtain additional results.
+    /// The number of results to show in a single call to GetDedicatedIpsRequest . If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSagemakerDescribeModelPackageGroupOptions : AwsOptions, IValida
     /// <summary>
     /// Gets a description for the specified model group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ModelPackageGroupName">The name of the model group to describe. Constraints: o min: 1 o max: 170 o pattern: (arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:[a-z\-]*\/)?([a-zA-Z0-9]([a-zA-Z0-9-]){0,62})(?&lt;!-)</param>
+    /// <param name="ModelPackageGroupName">The name of the model group to describe. Constraints: • min: 1 • max: 170 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:[a-z\-]*\/)?([a-zA-Z0-9]([a-zA-Z0-9-]){0,62})(?&lt;!-)</param>
     public AwsSagemakerDescribeModelPackageGroupOptions(
         string ModelPackageGroupName
     )
@@ -56,7 +58,7 @@ public record AwsSagemakerDescribeModelPackageGroupOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the model group to describe. Constraints: o min: 1 o max: 170 o pattern: (arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:[a-z\-]*\/)?([a-zA-Z0-9]([a-zA-Z0-9-]){0,62})(?&lt;!-)
+    /// The name of the model group to describe. Constraints: • min: 1 • max: 170 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:[a-z\-]*\/)?([a-zA-Z0-9]([a-zA-Z0-9-]){0,62})(?&lt;!-)
     /// </summary>
     [CliOption("--model-package-group-name")]
     public string? ModelPackageGroupName { get; private init; }

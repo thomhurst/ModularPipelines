@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsAthenaGetTableMetadataOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns table metadata for the specified catalog, database, and table. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CatalogName">The name of the data catalog that contains the database and table metadata to return. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="DatabaseName">The name of the database that contains the table metadata to return. Constraints: o min: 1 o max: 128</param>
-    /// <param name="TableName">The name of the table for which metadata is returned. Constraints: o min: 1 o max: 128</param>
+    /// <param name="CatalogName">The name of the data catalog that contains the database and table metadata to return. Constraints: • min: 1 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="DatabaseName">The name of the database that contains the table metadata to return. Constraints: • min: 1 • max: 128</param>
+    /// <param name="TableName">The name of the table for which metadata is returned. Constraints: • min: 1 • max: 128</param>
     public AwsAthenaGetTableMetadataOptions(
         string CatalogName,
         string DatabaseName,
@@ -64,25 +66,25 @@ public record AwsAthenaGetTableMetadataOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the data catalog that contains the database and table metadata to return. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The name of the data catalog that contains the database and table metadata to return. Constraints: • min: 1 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-name")]
     public string? CatalogName { get; private init; }
 
     /// <summary>
-    /// The name of the database that contains the table metadata to return. Constraints: o min: 1 o max: 128
+    /// The name of the database that contains the table metadata to return. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--database-name")]
     public string? DatabaseName { get; private init; }
 
     /// <summary>
-    /// The name of the table for which metadata is returned. Constraints: o min: 1 o max: 128
+    /// The name of the table for which metadata is returned. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--table-name")]
     public string? TableName { get; private init; }
 
     /// <summary>
-    /// The name of the workgroup for which the metadata is being fetched. Required if requesting an IAM Identity Center enabled Glue Data Cat- alog. Constraints: o pattern: [a-zA-Z0-9._-]{1,128}
+    /// The name of the workgroup for which the metadata is being fetched. Required if requesting an IAM Identity Center enabled Glue Data Catalog. Constraints: • pattern: [a-zA-Z0-9._-]{1,128}
     /// </summary>
     [CliOption("--work-group")]
     public string? WorkGroup { get; set; }

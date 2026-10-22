@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Use this operation to create or update the label sets, label set lim- its, and retention period of a workspace. You must specify at least one of limitsPerLabelSet or retentionPeri- odInDays for the request to be valid. See also: AWS API Documentation
+/// Use this operation to create or update the label sets, label set limits, and retention period of a workspace. You must specify at least one of limitsPerLabelSet or retentionPeriodInDays for the request to be valid. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsAmpUpdateWorkspaceConfigurationOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Use this operation to create or update the label sets, label set lim- its, and retention period of a workspace. You must specify at least one of limitsPerLabelSet or retentionPeri- odInDays for the request to be valid. See also: AWS API Documentation
+    /// Use this operation to create or update the label sets, label set limits, and retention period of a workspace. You must specify at least one of limitsPerLabelSet or retentionPeriodInDays for the request to be valid. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceId">The ID of the workspace that you want to update. To find the IDs of your workspaces, use the ListWorkspaces operation. Constraints: o min: 1 o max: 64 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*</param>
+    /// <param name="WorkspaceId">The ID of the workspace that you want to update. To find the IDs of your workspaces, use the ListWorkspaces operation. Constraints: • min: 1 • max: 64 • pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*</param>
     public AwsAmpUpdateWorkspaceConfigurationOptions(
         string WorkspaceId
     )
@@ -57,38 +59,38 @@ public record AwsAmpUpdateWorkspaceConfigurationOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the workspace that you want to update. To find the IDs of your workspaces, use the ListWorkspaces operation. Constraints: o min: 1 o max: 64 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*
+    /// The ID of the workspace that you want to update. To find the IDs of your workspaces, use the ListWorkspaces operation. Constraints: • min: 1 • max: 64 • pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
 
     /// <summary>
-    /// You can include a token in your operation to make it an idempotent opeartion. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
+    /// You can include a token in your operation to make it an idempotent opeartion. Constraints: • min: 1 • max: 64 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// This is an array of structures, where each structure defines a label set for the workspace, and defines the active time series limit for each of those label sets. Each label name in a label set must be unique. (structure) This structure defines one label set used to enforce active time series limits for the workspace, and defines the limit for that label set. A label set is a unique combination of label-value pairs. Use them to control time series limits and to monitor usage by spe- cific label groups. Example label sets might be team:finance or env:prod limits -&gt; (structure) [required] This structure contains the information about the limits that apply to time series that match this label set. maxSeries -&gt; (long) The maximum number of active series that can be ingested that match this label set. Setting this to 0 causes no label set limit to be en- forced, but it does cause Amazon Managed Service for Prometheus to vend label set metrics to CloudWatch Constraints: o min: 0 labelSet -&gt; (map) [required] This defines one label set that will have an enforced active time series limit. Label values accept ASCII characters and must contain at least one character that isn't whitespace. ASCII control characters are not accepted. If the label name is metric name label __*name* __ , then the metric part of the name must conform to the following pattern: [a-zA-Z_:][a-zA-Z0-9_:]* key -&gt; (string) Constraints: o min: 1 o pattern: [a-zA-Z_][a-zA-Z0-9_]* value -&gt; (string) Constraints: o min: 1 Shorthand Syntax: limits={maxSeries=long},labelSet={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "limits": { "maxSeries": long }, "labelSet": {"string": "string" ...} } ... ]
+    /// This is an array of structures, where each structure defines a label set for the workspace, and defines the active time series limit for each of those label sets. Each label name in a label set must be unique. (structure) This structure defines one label set used to enforce active time series limits for the workspace, and defines the limit for that label set. A label set is a unique combination of label-value pairs. Use them to control time series limits and to monitor usage by specific label groups. Example label sets might be team:finance or env:prod limits -&gt; (structure) [required] This structure contains the information about the limits that apply to time series that match this label set. maxSeries -&gt; (long) The maximum number of active series that can be ingested that match this label set. Setting this to 0 causes no label set limit to be enforced, but it does cause Amazon Managed Service for Prometheus to vend label set metrics to CloudWatch Constraints: • min: 0 labelSet -&gt; (map) [required] This defines one label set that will have an enforced active time series limit. Label values accept ASCII characters and must contain at least one character that isn't whitespace. ASCII control characters are not accepted. If the label name is metric name label __*name* __ , then the metric part of the name must conform to the following pattern: [a-zA-Z_:][a-zA-Z0-9_:]* key -&gt; (string) Constraints: • min: 1 • pattern: [a-zA-Z_][a-zA-Z0-9_]* value -&gt; (string) Constraints: • min: 1 Shorthand Syntax: limits={maxSeries=long},labelSet={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "limits": { "maxSeries": long }, "labelSet": {"string": "string" ...} } ... ]
     /// </summary>
     [CliOption("--limits-per-label-set", GroupValues = true)]
     public IEnumerable<string>? LimitsPerLabelSet { get; set; }
 
     /// <summary>
-    /// Specifies how many days that metrics will be retained in the work- space. Constraints: o min: 1
+    /// Specifies how many days that metrics will be retained in the workspace. Constraints: • min: 1
     /// </summary>
     [CliOption("--retention-period-in-days")]
     public int? RetentionPeriodInDays { get; set; }
 
     /// <summary>
-    /// Specifies the time window in seconds for accepting out of order sam- ples. Out of order samples older than this window are rejected. Constraints: o min: 0
+    /// Specifies the time window in seconds for accepting out of order samples. Out of order samples older than this window are rejected. Constraints: • min: 0
     /// </summary>
     [CliOption("--out-of-order-time-window-in-seconds")]
     public int? OutOfOrderTimeWindowInSeconds { get; set; }
 
     /// <summary>
-    /// Specifies the duration in seconds to offset rule evaluation queries into the past. This allows ingested samples to be available before rule evaluation. Constraints: o min: 0
+    /// Specifies the duration in seconds to offset rule evaluation queries into the past. This allows ingested samples to be available before rule evaluation. Constraints: • min: 0
     /// </summary>
     [CliOption("--rule-query-offset-in-seconds")]
     public int? RuleQueryOffsetInSeconds { get; set; }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsAmplifyuibuilderRefreshTokenOptions : AwsOptions, IValidatableO
     /// <summary>
     /// NOTE: This is for internal use. Amplify uses this action to refresh a previously issued access token that might have expired. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Provider">The third-party provider for the token. The only valid value is figma . Possible values: o figma</param>
+    /// <param name="Provider">The third-party provider for the token. The only valid value is figma . Possible values: • figma</param>
     /// <param name="RefreshTokenBody">Information about the refresh token request. token -&gt; (string) [required] The token to use to refresh a previously issued access token that might have expired. clientId -&gt; (string) The ID of the client to request the token from. Shorthand Syntax: token=string,clientId=string JSON Syntax: { "token": "string", "clientId": "string" }</param>
     public AwsAmplifyuibuilderRefreshTokenOptions(
         string Provider,
@@ -61,7 +63,7 @@ public record AwsAmplifyuibuilderRefreshTokenOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The third-party provider for the token. The only valid value is figma . Possible values: o figma
+    /// The third-party provider for the token. The only valid value is figma . Possible values: • figma
     /// </summary>
     [CliOption("--provider")]
     public string? Provider { get; private init; }

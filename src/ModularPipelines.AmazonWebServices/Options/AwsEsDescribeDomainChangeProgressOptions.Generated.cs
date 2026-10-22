@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsEsDescribeDomainChangeProgressOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Returns information about the current blue/green deployment happening on a domain, including a change ID, status, and progress stages. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The domain you want to get the progress information about. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="DomainName">The domain you want to get the progress information about. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
     public AwsEsDescribeDomainChangeProgressOptions(
         string DomainName
     )
@@ -56,13 +58,13 @@ public record AwsEsDescribeDomainChangeProgressOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The domain you want to get the progress information about. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// The domain you want to get the progress information about. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The specific change ID for which you want to get progress informa- tion. This is an optional parameter. If omitted, the service returns information about the most recent configuration change. Constraints: o pattern: \p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}
+    /// The specific change ID for which you want to get progress information. This is an optional parameter. If omitted, the service returns information about the most recent configuration change. Constraints: • pattern: \p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}
     /// </summary>
     [CliOption("--change-id")]
     public string? ChangeId { get; set; }

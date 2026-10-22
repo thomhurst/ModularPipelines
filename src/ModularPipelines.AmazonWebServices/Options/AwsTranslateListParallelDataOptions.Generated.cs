@@ -23,14 +23,14 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsTranslateListParallelDataOptions : AwsOptions
 {
     /// <summary>
-    /// A string that specifies the next page of results to return in a pag- inated response. Constraints: o max: 8192 o pattern: \p{ASCII}{0,8192}
+    /// A string that specifies the next page of results to return in a paginated response. Constraints: • max: 8192 • pattern: \p{ASCII}{0,8192}
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of parallel data resources returned for each re- quest. Constraints: o min: 1 o max: 500
+    /// The maximum number of parallel data resources returned for each request. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

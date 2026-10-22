@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsApigatewayGetVpcLinkOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets a specified VPC link under the caller's account in a region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VpcLinkId">The identifier of the VpcLink. It is used in an Integration to ref- erence this VpcLink.</param>
+    /// <param name="VpcLinkId">The identifier of the VpcLink. It is used in an Integration to reference this VpcLink.</param>
     public AwsApigatewayGetVpcLinkOptions(
         string VpcLinkId
     )
@@ -56,7 +58,7 @@ public record AwsApigatewayGetVpcLinkOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the VpcLink. It is used in an Integration to ref- erence this VpcLink.
+    /// The identifier of the VpcLink. It is used in an Integration to reference this VpcLink.
     /// </summary>
     [CliOption("--vpc-link-id")]
     public string? VpcLinkId { get; private init; }

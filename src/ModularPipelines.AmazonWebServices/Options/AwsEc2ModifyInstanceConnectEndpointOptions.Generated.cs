@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -63,25 +65,25 @@ public record AwsEc2ModifyInstanceConnectEndpointOptions : AwsOptions, IValidata
     public string? InstanceConnectEndpointId { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// The new IP address type for the EC2 Instance Connect Endpoint. NOTE: PreserveClientIp is only supported on IPv4 EC2 Instance Connect Endpoints. To use PreserveClientIp , the value for IpAddressType must be ipv4 . Possible values: o ipv4 o dualstack o ipv6
+    /// The new IP address type for the EC2 Instance Connect Endpoint. NOTE: PreserveClientIp is only supported on IPv4 EC2 Instance Connect Endpoints. To use PreserveClientIp , the value for IpAddressType must be ipv4 . Possible values: • ipv4 • dualstack • ipv6
     /// </summary>
     [CliOption("--ip-address-type")]
     public AwsEc2ModifyInstanceConnectEndpointIpAddressType? IpAddressType { get; set; }
 
     /// <summary>
-    /// Changes the security groups for the EC2 Instance Connect Endpoint. The new set of groups you specify replaces the current set. You must specify at least one group, even if it's just the default security group in the VPC. You must specify the ID of the security group, not the name. Constraints: o min: 0 o max: 16 (string) Syntax: "string" "string" ...
+    /// Changes the security groups for the EC2 Instance Connect Endpoint. The new set of groups you specify replaces the current set. You must specify at least one group, even if it's just the default security group in the VPC. You must specify the ID of the security group, not the name. Constraints: • min: 0 • max: 16 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>
-    /// Indicates whether the client IP address is preserved as the source when you connect to a resource. The following are the possible val- ues. o true - Use the IP address of the client. Your instance must have an IPv4 address. o false - Use the IP address of the network interface.
+    /// Indicates whether the client IP address is preserved as the source when you connect to a resource. The following are the possible values. • true - Use the IP address of the client. Your instance must have an IPv4 address. • false - Use the IP address of the network interface.
     /// </summary>
     [CliFlag("--preserve-client-ip", NegatedName = "--no-preserve-client-ip")]
     public bool? PreserveClientIp { get; set; }

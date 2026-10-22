@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsDatazoneDeleteDataSourceOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Deletes a data source in Amazon DataZone. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which the data source is deleted. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Identifier">The identifier of the data source that is deleted. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which the data source is deleted. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The identifier of the data source that is deleted. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneDeleteDataSourceOptions(
         string DomainIdentifier,
         string Identifier
@@ -61,13 +63,13 @@ public record AwsDatazoneDeleteDataSourceOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon DataZone domain in which the data source is deleted. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the Amazon DataZone domain in which the data source is deleted. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the data source that is deleted. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the data source that is deleted. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
@@ -80,7 +82,7 @@ public record AwsDatazoneDeleteDataSourceOptions : AwsOptions, IValidatableObjec
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// voke-failure (boolean) Specifies that the granted permissions are retained in case of a self-subscribe functionality failure for a data source.
+    /// Specifies that the granted permissions are retained in case of a self-subscribe functionality failure for a data source.
     /// </summary>
     [CliFlag("--retain-permissions-on-revoke-failure", NegatedName = "--no-retain-permissions-on-revoke-failure")]
     public bool? RetainPermissionsOnRevokeFailure { get; set; }

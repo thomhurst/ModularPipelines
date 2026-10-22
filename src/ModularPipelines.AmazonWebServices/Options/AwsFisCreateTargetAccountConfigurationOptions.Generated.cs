@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a target account configuration for the experiment template. A target account configuration is required when accountTargeting of ex- perimentOptions is set to multi-account . For more information, see experiment options in the Fault Injection Service User Guide . See also: AWS API Documentation
+/// Creates a target account configuration for the experiment template. A target account configuration is required when accountTargeting of experimentOptions is set to multi-account . For more information, see experiment options in the Fault Injection Service User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsFisCreateTargetAccountConfigurationOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a target account configuration for the experiment template. A target account configuration is required when accountTargeting of ex- perimentOptions is set to multi-account . For more information, see experiment options in the Fault Injection Service User Guide . See also: AWS API Documentation
+    /// Creates a target account configuration for the experiment template. A target account configuration is required when accountTargeting of experimentOptions is set to multi-account . For more information, see experiment options in the Fault Injection Service User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExperimentTemplateId">The experiment template ID. Constraints: o max: 64 o pattern: [\S]+</param>
-    /// <param name="AccountId">The Amazon Web Services account ID of the target account. Constraints: o min: 12 o max: 48 o pattern: [\S]+</param>
-    /// <param name="RoleArn">The Amazon Resource Name (ARN) of an IAM role for the target ac- count. Constraints: o min: 20 o max: 2048 o pattern: [\S]+</param>
+    /// <param name="ExperimentTemplateId">The experiment template ID. Constraints: • max: 64 • pattern: [\S]+</param>
+    /// <param name="AccountId">The Amazon Web Services account ID of the target account. Constraints: • min: 12 • max: 48 • pattern: [\S]+</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of an IAM role for the target account. Constraints: • min: 20 • max: 2048 • pattern: [\S]+</param>
     public AwsFisCreateTargetAccountConfigurationOptions(
         string ExperimentTemplateId,
         string AccountId,
@@ -65,32 +67,32 @@ public record AwsFisCreateTargetAccountConfigurationOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The experiment template ID. Constraints: o max: 64 o pattern: [\S]+
+    /// The experiment template ID. Constraints: • max: 64 • pattern: [\S]+
     /// </summary>
     [CliOption("--experiment-template-id")]
     public string? ExperimentTemplateId { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID of the target account. Constraints: o min: 12 o max: 48 o pattern: [\S]+
+    /// The Amazon Web Services account ID of the target account. Constraints: • min: 12 • max: 48 • pattern: [\S]+
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of an IAM role for the target ac- count. Constraints: o min: 20 o max: 2048 o pattern: [\S]+
+    /// The Amazon Resource Name (ARN) of an IAM role for the target account. Constraints: • min: 20 • max: 2048 • pattern: [\S]+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 1024 o pattern: [\S]+
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 1024 • pattern: [\S]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The description of the target account. Constraints: o max: 512 o pattern: [\s\S]*
+    /// The description of the target account. Constraints: • max: 512 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

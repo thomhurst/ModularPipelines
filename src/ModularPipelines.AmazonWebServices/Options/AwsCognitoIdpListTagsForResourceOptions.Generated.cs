@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCognitoIdpListTagsForResourceOptions : AwsOptions, IValidatable
     /// <summary>
     /// Lists the tags that are assigned to an Amazon Cognito user pool. For more information, see Tagging resources . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the user pool that the tags are assigned to. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:[\w+=/,.@-]+:([\w+=/,.@-]*)?:[0-9]+:[\w+=/,.@-]+(:[\w+=/,.@-]+)?(:[\w+=/,.@-]+)?</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the user pool that the tags are assigned to. Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=/,.@-]+:[\w+=/,.@-]+:([\w+=/,.@-]*)?:[0-9]+:[\w+=/,.@-]+(:[\w+=/,.@-]+)?(:[\w+=/,.@-]+)?</param>
     public AwsCognitoIdpListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsCognitoIdpListTagsForResourceOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the user pool that the tags are assigned to. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:[\w+=/,.@-]+:([\w+=/,.@-]*)?:[0-9]+:[\w+=/,.@-]+(:[\w+=/,.@-]+)?(:[\w+=/,.@-]+)?
+    /// The Amazon Resource Name (ARN) of the user pool that the tags are assigned to. Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=/,.@-]+:[\w+=/,.@-]+:([\w+=/,.@-]*)?:[0-9]+:[\w+=/,.@-]+(:[\w+=/,.@-]+)?(:[\w+=/,.@-]+)?
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

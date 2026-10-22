@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a configuration for DNS query logging. After you create a query logging configuration, Amazon Route 53 begins to publish log data to an Amazon CloudWatch Logs log group. DNS query logs contain information about the queries that Route 53 re- ceives for a specified public hosted zone, such as the following: o Route 53 edge location that responded to the DNS query o Domain or subdomain that was requested o DNS record type, such as A or AAAA o DNS response code, such as NoError or ServFail L...
+/// Creates a configuration for DNS query logging. After you create a query logging configuration, Amazon Route 53 begins to publish log data to an Amazon CloudWatch Logs log group. DNS query logs contain information about the queries that Route 53 receives for a specified public hosted zone, such as the following: • Route 53 edge location that responded to the DNS query • Domain or subdomain that was requested • DNS record type, such as A or AAAA • DNS response code, such as NoError or ServFail Log...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRoute53CreateQueryLoggingConfigOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a configuration for DNS query logging. After you create a query logging configuration, Amazon Route 53 begins to publish log data to an Amazon CloudWatch Logs log group. DNS query logs contain information about the queries that Route 53 re- ceives for a specified public hosted zone, such as the following: o Route 53 edge location that responded to the DNS query o Domain or subdomain that was requested o DNS record type, such as A or AAAA o DNS response code, such as NoError or ServFail L...
+    /// Creates a configuration for DNS query logging. After you create a query logging configuration, Amazon Route 53 begins to publish log data to an Amazon CloudWatch Logs log group. DNS query logs contain information about the queries that Route 53 receives for a specified public hosted zone, such as the following: • Route 53 edge location that responded to the DNS query • Domain or subdomain that was requested • DNS record type, such as A or AAAA • DNS response code, such as NoError or ServFail Log...
     /// </summary>
-    /// <param name="HostedZoneId">The ID of the hosted zone that you want to log queries for. You can log queries only for public hosted zones. Constraints: o max: 32</param>
+    /// <param name="HostedZoneId">The ID of the hosted zone that you want to log queries for. You can log queries only for public hosted zones. Constraints: • max: 32</param>
     /// <param name="CloudWatchLogsLogGroupArn">The Amazon Resource Name (ARN) for the log group that you want to Amazon Route 53 to send query logs to. This is the format of the ARN: arn:aws:logs:region :account-id :log-group:log_group_name To get the ARN for a log group, you can use the CloudWatch console, the DescribeLogGroups API action, the describe-log-groups command, or the applicable command in one of the Amazon Web Services SDKs.</param>
     public AwsRoute53CreateQueryLoggingConfigOptions(
         string HostedZoneId,
@@ -60,7 +62,7 @@ public record AwsRoute53CreateQueryLoggingConfigOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the hosted zone that you want to log queries for. You can log queries only for public hosted zones. Constraints: o max: 32
+    /// The ID of the hosted zone that you want to log queries for. You can log queries only for public hosted zones. Constraints: • max: 32
     /// </summary>
     [CliOption("--hosted-zone-id")]
     public string? HostedZoneId { get; private init; }

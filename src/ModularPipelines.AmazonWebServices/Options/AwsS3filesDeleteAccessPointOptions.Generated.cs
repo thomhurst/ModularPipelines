@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsS3filesDeleteAccessPointOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Deletes an S3 File System Access Point. This operation is irreversible. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccessPointId">The ID or Amazon Resource Name (ARN) of the access point to delete. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{17,40}/ac- cess-point/fsap-[0-9a-f]{17,40}|fsap-[0-9a-f]{17,40})</param>
+    /// <param name="AccessPointId">The ID or Amazon Resource Name (ARN) of the access point to delete. Constraints: • min: 0 • max: 256 • pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-system/fs-[0-9a-f]{17,40}/access-point/fsap-[0-9a-f]{17,40}|fsap-[0-9a-f]{17,40})</param>
     public AwsS3filesDeleteAccessPointOptions(
         string AccessPointId
     )
@@ -56,7 +58,7 @@ public record AwsS3filesDeleteAccessPointOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or Amazon Resource Name (ARN) of the access point to delete. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{17,40}/ac- cess-point/fsap-[0-9a-f]{17,40}|fsap-[0-9a-f]{17,40})
+    /// The ID or Amazon Resource Name (ARN) of the access point to delete. Constraints: • min: 0 • max: 256 • pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-system/fs-[0-9a-f]{17,40}/access-point/fsap-[0-9a-f]{17,40}|fsap-[0-9a-f]{17,40})
     /// </summary>
     [CliOption("--access-point-id")]
     public string? AccessPointId { get; private init; }

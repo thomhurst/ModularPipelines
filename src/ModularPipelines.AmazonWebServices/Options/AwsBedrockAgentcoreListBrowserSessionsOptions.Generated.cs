@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a list of browser sessions in Amazon Bedrock AgentCore that match the specified criteria. This operation returns summary informa- tion about each session, including identifiers, status, and timestamps. You can filter the results by browser identifier and session status. The operation supports pagination to handle large result sets effi- ciently. We recommend using pagination to ensure that the operation returns quickly and successfully when retrieving large numbers of sessions. The fol...
+/// Retrieves a list of browser sessions in Amazon Bedrock AgentCore that match the specified criteria. This operation returns summary information about each session, including identifiers, status, and timestamps. You can filter the results by browser identifier and session status. The operation supports pagination to handle large result sets efficiently. We recommend using pagination to ensure that the operation returns quickly and successfully when retrieving large numbers of sessions. The followi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsBedrockAgentcoreListBrowserSessionsOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves a list of browser sessions in Amazon Bedrock AgentCore that match the specified criteria. This operation returns summary informa- tion about each session, including identifiers, status, and timestamps. You can filter the results by browser identifier and session status. The operation supports pagination to handle large result sets effi- ciently. We recommend using pagination to ensure that the operation returns quickly and successfully when retrieving large numbers of sessions. The fol...
+    /// Retrieves a list of browser sessions in Amazon Bedrock AgentCore that match the specified criteria. This operation returns summary information about each session, including identifiers, status, and timestamps. You can filter the results by browser identifier and session status. The operation supports pagination to handle large result sets efficiently. We recommend using pagination to ensure that the operation returns quickly and successfully when retrieving large numbers of sessions. The followi...
     /// </summary>
-    /// <param name="BrowserIdentifier">The unique identifier of the browser to list sessions for. If speci- fied, only sessions for this browser are returned. If not specified, sessions for all browsers are returned.</param>
+    /// <param name="BrowserIdentifier">The unique identifier of the browser to list sessions for. If specified, only sessions for this browser are returned. If not specified, sessions for all browsers are returned.</param>
     public AwsBedrockAgentcoreListBrowserSessionsOptions(
         string BrowserIdentifier
     )
@@ -58,26 +60,26 @@ public record AwsBedrockAgentcoreListBrowserSessionsOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the browser to list sessions for. If speci- fied, only sessions for this browser are returned. If not specified, sessions for all browsers are returned.
+    /// The unique identifier of the browser to list sessions for. If specified, only sessions for this browser are returned. If not specified, sessions for all browsers are returned.
     /// </summary>
     [CliOption("--browser-identifier")]
     public string? BrowserIdentifier { get; private init; }
 
     /// <summary>
-    /// The maximum number of results to return in a single call. The de- fault value is 10. Valid values range from 1 to 100. To retrieve the remaining results, make another call with the returned nextToken value. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to return in a single call. The default value is 10. Valid values range from 1 to 100. To retrieve the remaining results, make another call with the returned nextToken value. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. If not specified, Amazon Bedrock AgentCore returns the first page of results. Constraints: o min: 1 o max: 2048 o pattern: \S*
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. If not specified, Amazon Bedrock AgentCore returns the first page of results. Constraints: • min: 1 • max: 2048 • pattern: \S*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The status of the browser sessions to list. Valid values include AC- TIVE, STOPPING, and STOPPED. If not specified, sessions with any status are returned. Possible values: o READY o TERMINATED
+    /// The status of the browser sessions to list. Valid values include ACTIVE, STOPPING, and STOPPED. If not specified, sessions with any status are returned. Possible values: • READY • TERMINATED
     /// </summary>
     [CliOption("--status")]
     public AwsBedrockAgentcoreListBrowserSessionsStatus? Status { get; set; }

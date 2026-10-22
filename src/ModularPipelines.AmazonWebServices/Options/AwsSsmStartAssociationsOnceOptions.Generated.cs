@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSsmStartAssociationsOnceOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Runs an association immediately and only one time. This operation can be helpful when troubleshooting associations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssociationIds">The association IDs that you want to run immediately and only one time. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12} Syntax: "string" "string" ...</param>
+    /// <param name="AssociationIds">The association IDs that you want to run immediately and only one time. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12} Syntax: "string" "string" ...</param>
     public AwsSsmStartAssociationsOnceOptions(
         IEnumerable<string> AssociationIds
     )
@@ -67,7 +69,7 @@ public record AwsSsmStartAssociationsOnceOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The association IDs that you want to run immediately and only one time. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12} Syntax: "string" "string" ...
+    /// The association IDs that you want to run immediately and only one time. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--association-ids", GroupValues = true)]
     public IEnumerable<string>? AssociationIds { get; private init; }

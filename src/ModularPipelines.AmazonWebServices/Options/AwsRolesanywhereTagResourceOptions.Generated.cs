@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsRolesanywhereTagResourceOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Attaches tags to a resource. Required permissions: rolesanywhere:TagResource . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource. Constraints: o min: 1 o max: 1011</param>
-    /// <param name="Tags">The tags to attach to the resource. Constraints: o min: 0 o max: 200 (structure) A label that consists of a key and value you define. key -&gt; (string) [required] The tag key. Constraints: o min: 1 o max: 128 o pattern: [ a-zA-Z0-9_.:/=+@-]* value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: [ a-zA-Z0-9_.:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
+    /// <param name="ResourceArn">The ARN of the resource. Constraints: • min: 1 • max: 1011</param>
+    /// <param name="Tags">The tags to attach to the resource. Constraints: • min: 0 • max: 200 (structure) A label that consists of a key and value you define. key -&gt; (string) [required] The tag key. Constraints: • min: 1 • max: 128 • pattern: [ a-zA-Z0-9_.:/=+@-]* value -&gt; (string) [required] The tag value. Constraints: • min: 0 • max: 256 • pattern: [ a-zA-Z0-9_.:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
     public AwsRolesanywhereTagResourceOptions(
         string ResourceArn,
         IEnumerable<string> Tags
@@ -71,13 +73,13 @@ public record AwsRolesanywhereTagResourceOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource. Constraints: o min: 1 o max: 1011
+    /// The ARN of the resource. Constraints: • min: 1 • max: 1011
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The tags to attach to the resource. Constraints: o min: 0 o max: 200 (structure) A label that consists of a key and value you define. key -&gt; (string) [required] The tag key. Constraints: o min: 1 o max: 128 o pattern: [ a-zA-Z0-9_.:/=+@-]* value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: [ a-zA-Z0-9_.:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// The tags to attach to the resource. Constraints: • min: 0 • max: 200 (structure) A label that consists of a key and value you define. key -&gt; (string) [required] The tag key. Constraints: • min: 1 • max: 128 • pattern: [ a-zA-Z0-9_.:/=+@-]* value -&gt; (string) [required] The tag value. Constraints: • min: 0 • max: 256 • pattern: [ a-zA-Z0-9_.:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }

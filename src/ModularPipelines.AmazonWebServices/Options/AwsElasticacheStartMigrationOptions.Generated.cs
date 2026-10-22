@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsElasticacheStartMigrationOptions : AwsOptions, IValidatableObje
     /// Start the migration of data. See also: AWS API Documentation
     /// </summary>
     /// <param name="ReplicationGroupId">The ID of the replication group to which data should be migrated.</param>
-    /// <param name="CustomerNodeEndpointList">List of endpoints from which data should be migrated. For Valkey or Redis OSS (cluster mode disabled), the list should have only one el- ement. (structure) The endpoint from which data should be migrated. Address -&gt; (string) The address of the node endpoint Port -&gt; (integer) The port of the node endpoint Shorthand Syntax: Address=string,Port=integer ... JSON Syntax: [ { "Address": "string", "Port": integer } ... ]</param>
+    /// <param name="CustomerNodeEndpointList">List of endpoints from which data should be migrated. For Valkey or Redis OSS (cluster mode disabled), the list should have only one element. (structure) The endpoint from which data should be migrated. Address -&gt; (string) The address of the node endpoint Port -&gt; (integer) The port of the node endpoint Shorthand Syntax: Address=string,Port=integer ... JSON Syntax: [ { "Address": "string", "Port": integer } ... ]</param>
     public AwsElasticacheStartMigrationOptions(
         string ReplicationGroupId,
         IEnumerable<string> CustomerNodeEndpointList
@@ -77,7 +79,7 @@ public record AwsElasticacheStartMigrationOptions : AwsOptions, IValidatableObje
     public string? ReplicationGroupId { get; private init; }
 
     /// <summary>
-    /// List of endpoints from which data should be migrated. For Valkey or Redis OSS (cluster mode disabled), the list should have only one el- ement. (structure) The endpoint from which data should be migrated. Address -&gt; (string) The address of the node endpoint Port -&gt; (integer) The port of the node endpoint Shorthand Syntax: Address=string,Port=integer ... JSON Syntax: [ { "Address": "string", "Port": integer } ... ]
+    /// List of endpoints from which data should be migrated. For Valkey or Redis OSS (cluster mode disabled), the list should have only one element. (structure) The endpoint from which data should be migrated. Address -&gt; (string) The address of the node endpoint Port -&gt; (integer) The port of the node endpoint Shorthand Syntax: Address=string,Port=integer ... JSON Syntax: [ { "Address": "string", "Port": integer } ... ]
     /// </summary>
     [CliOption("--customer-node-endpoint-list", GroupValues = true)]
     public IEnumerable<string>? CustomerNodeEndpointList { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the impersonation role details for the given WorkMail organiza- tion. See also: AWS API Documentation
+/// Gets the impersonation role details for the given WorkMail organization. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsWorkmailGetImpersonationRoleOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets the impersonation role details for the given WorkMail organiza- tion. See also: AWS API Documentation
+    /// Gets the impersonation role details for the given WorkMail organization. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The WorkMail organization from which to retrieve the impersonation role. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
-    /// <param name="ImpersonationRoleId">The impersonation role ID to retrieve. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="OrganizationId">The WorkMail organization from which to retrieve the impersonation role. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="ImpersonationRoleId">The impersonation role ID to retrieve. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsWorkmailGetImpersonationRoleOptions(
         string OrganizationId,
         string ImpersonationRoleId
@@ -60,13 +62,13 @@ public record AwsWorkmailGetImpersonationRoleOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The WorkMail organization from which to retrieve the impersonation role. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The WorkMail organization from which to retrieve the impersonation role. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The impersonation role ID to retrieve. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// The impersonation role ID to retrieve. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--impersonation-role-id")]
     public string? ImpersonationRoleId { get; private init; }

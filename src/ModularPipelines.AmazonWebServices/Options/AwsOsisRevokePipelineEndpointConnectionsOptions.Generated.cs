@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsOsisRevokePipelineEndpointConnectionsOptions : AwsOptions, IVal
     /// <summary>
     /// Revokes pipeline endpoints from specified endpoint IDs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PipelineArn">The Amazon Resource Name (ARN) of the pipeline from which to revoke endpoint connections. Constraints: o min: 46 o max: 76 o pattern: ^arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):osis:.+:pipeline\/.+$</param>
-    /// <param name="EndpointIds">A list of endpoint IDs for which to revoke access to the pipeline. (string) Constraints: o min: 3 o max: 512 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]+$ Syntax: "string" "string" ...</param>
+    /// <param name="PipelineArn">The Amazon Resource Name (ARN) of the pipeline from which to revoke endpoint connections. Constraints: • min: 46 • max: 76 • pattern: ^arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):osis:.+:pipeline\/.+$</param>
+    /// <param name="EndpointIds">A list of endpoint IDs for which to revoke access to the pipeline. (string) Constraints: • min: 3 • max: 512 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]+$ Syntax: "string" "string" ...</param>
     public AwsOsisRevokePipelineEndpointConnectionsOptions(
         string PipelineArn,
         IEnumerable<string> EndpointIds
@@ -71,13 +73,13 @@ public record AwsOsisRevokePipelineEndpointConnectionsOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the pipeline from which to revoke endpoint connections. Constraints: o min: 46 o max: 76 o pattern: ^arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):osis:.+:pipeline\/.+$
+    /// The Amazon Resource Name (ARN) of the pipeline from which to revoke endpoint connections. Constraints: • min: 46 • max: 76 • pattern: ^arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):osis:.+:pipeline\/.+$
     /// </summary>
     [CliOption("--pipeline-arn")]
     public string? PipelineArn { get; private init; }
 
     /// <summary>
-    /// A list of endpoint IDs for which to revoke access to the pipeline. (string) Constraints: o min: 3 o max: 512 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]+$ Syntax: "string" "string" ...
+    /// A list of endpoint IDs for which to revoke access to the pipeline. (string) Constraints: • min: 3 • max: 512 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--endpoint-ids", GroupValues = true)]
     public IEnumerable<string>? EndpointIds { get; private init; }

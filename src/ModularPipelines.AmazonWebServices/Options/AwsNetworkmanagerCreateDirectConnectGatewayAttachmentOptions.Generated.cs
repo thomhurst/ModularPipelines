@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +30,9 @@ public record AwsNetworkmanagerCreateDirectConnectGatewayAttachmentOptions : Aws
     /// <summary>
     /// Creates an Amazon Web Services Direct Connect gateway attachment See also: AWS API Documentation
     /// </summary>
-    /// <param name="CoreNetworkId">The ID of the Cloud WAN core network that the Direct Connect gateway attachment should be attached to. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$</param>
-    /// <param name="DirectConnectGatewayArn">The ARN of the Direct Connect gateway attachment. Constraints: o min: 0 o max: 500 o pattern: ^arn:[^:]{1,63}:directconnect::[^:]{0,63}:dx-gate- way\/[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$</param>
-    /// <param name="EdgeLocations">One or more core network edge locations that the Direct Connect gateway attachment is associated with. (string) Constraints: o min: 1 o max: 63 o pattern: [\s\S]* Syntax: "string" "string" ...</param>
+    /// <param name="CoreNetworkId">The ID of the Cloud WAN core network that the Direct Connect gateway attachment should be attached to. Constraints: • min: 0 • max: 50 • pattern: ^core-network-([0-9a-f]{8,17})$</param>
+    /// <param name="DirectConnectGatewayArn">The ARN of the Direct Connect gateway attachment. Constraints: • min: 0 • max: 500 • pattern: ^arn:[^:]{1,63}:directconnect::[^:]{0,63}:dx-gateway\/[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$</param>
+    /// <param name="EdgeLocations">One or more core network edge locations that the Direct Connect gateway attachment is associated with. (string) Constraints: • min: 1 • max: 63 • pattern: [\s\S]* Syntax: "string" "string" ...</param>
     public AwsNetworkmanagerCreateDirectConnectGatewayAttachmentOptions(
         string CoreNetworkId,
         string DirectConnectGatewayArn,
@@ -76,37 +78,37 @@ public record AwsNetworkmanagerCreateDirectConnectGatewayAttachmentOptions : Aws
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Cloud WAN core network that the Direct Connect gateway attachment should be attached to. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$
+    /// The ID of the Cloud WAN core network that the Direct Connect gateway attachment should be attached to. Constraints: • min: 0 • max: 50 • pattern: ^core-network-([0-9a-f]{8,17})$
     /// </summary>
     [CliOption("--core-network-id")]
     public string? CoreNetworkId { get; private init; }
 
     /// <summary>
-    /// The ARN of the Direct Connect gateway attachment. Constraints: o min: 0 o max: 500 o pattern: ^arn:[^:]{1,63}:directconnect::[^:]{0,63}:dx-gate- way\/[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$
+    /// The ARN of the Direct Connect gateway attachment. Constraints: • min: 0 • max: 500 • pattern: ^arn:[^:]{1,63}:directconnect::[^:]{0,63}:dx-gateway\/[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$
     /// </summary>
     [CliOption("--direct-connect-gateway-arn")]
     public string? DirectConnectGatewayArn { get; private init; }
 
     /// <summary>
-    /// One or more core network edge locations that the Direct Connect gateway attachment is associated with. (string) Constraints: o min: 1 o max: 63 o pattern: [\s\S]* Syntax: "string" "string" ...
+    /// One or more core network edge locations that the Direct Connect gateway attachment is associated with. (string) Constraints: • min: 1 • max: 63 • pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--edge-locations", GroupValues = true)]
     public IEnumerable<string>? EdgeLocations { get; private init; }
 
     /// <summary>
-    /// The routing policy label to apply to the Direct Connect Gateway at- tachment for traffic routing decisions. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// The routing policy label to apply to the Direct Connect Gateway attachment for traffic routing decisions. Constraints: • min: 0 • max: 256 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--routing-policy-label")]
     public string? RoutingPolicyLabel { get; set; }
 
     /// <summary>
-    /// The key value tags to apply to the Direct Connect gateway attachment during creation. (structure) Describes a tag. Key -&gt; (string) The tag key. Constraints: Maximum length of 128 characters. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]* Value -&gt; (string) The tag value. Constraints: Maximum length of 256 characters. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The key value tags to apply to the Direct Connect gateway attachment during creation. (structure) Describes a tag. Key -&gt; (string) The tag key. Constraints: Maximum length of 128 characters. Constraints: • min: 0 • max: 10000000 • pattern: [\s\S]* Value -&gt; (string) The tag value. Constraints: Maximum length of 256 characters. Constraints: • min: 0 • max: 10000000 • pattern: [\s\S]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// client token Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// client token Constraints: • min: 0 • max: 256 • pattern: [\s\S]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

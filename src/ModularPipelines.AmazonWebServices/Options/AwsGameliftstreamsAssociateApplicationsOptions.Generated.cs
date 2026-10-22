@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// When you associate, or link, an application with a stream group, then Amazon GameLift Streams can launch the application using the stream group's allocated compute resources. The stream group must be in ACTIVE status. You can reverse this action by using DisassociateApplications . If a stream group does not already have a linked application, Amazon GameLift Streams will automatically assign the first application pro- vided in ApplicationIdentifiers as the default. See also: AWS API Documentation
+/// When you associate, or link, an application with a stream group, then Amazon GameLift Streams can launch the application using the stream group's allocated compute resources. The stream group must be in ACTIVE status. You can reverse this action by using DisassociateApplications . If a stream group does not already have a linked application, Amazon GameLift Streams will automatically assign the first application provided in ApplicationIdentifiers as the default. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsGameliftstreamsAssociateApplicationsOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// When you associate, or link, an application with a stream group, then Amazon GameLift Streams can launch the application using the stream group's allocated compute resources. The stream group must be in ACTIVE status. You can reverse this action by using DisassociateApplications . If a stream group does not already have a linked application, Amazon GameLift Streams will automatically assign the first application pro- vided in ApplicationIdentifiers as the default. See also: AWS API Documentation
+    /// When you associate, or link, an application with a stream group, then Amazon GameLift Streams can launch the application using the stream group's allocated compute resources. The stream group must be in ACTIVE status. You can reverse this action by using DisassociateApplications . If a stream group does not already have a linked application, Amazon GameLift Streams will automatically assign the first application provided in ApplicationIdentifiers as the default. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">A stream group to associate to the applications. This value is an Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
-    /// <param name="ApplicationIdentifiers">A set of applications to associate with the stream group. This value is a set of either Amazon Resource Names (ARN) or IDs that uniquely identify application resources. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:applica- tion/a-9ZY8X7Wv6 . Example ID: a-9ZY8X7Wv6 . Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$) Syntax: "string" "string" ...</param>
+    /// <param name="Identifier">A stream group to associate to the applications. This value is an Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . Constraints: • min: 1 • max: 128 • pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
+    /// <param name="ApplicationIdentifiers">A set of applications to associate with the stream group. This value is a set of either Amazon Resource Names (ARN) or IDs that uniquely identify application resources. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6 . Example ID: a-9ZY8X7Wv6 . Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$) Syntax: "string" "string" ...</param>
     public AwsGameliftstreamsAssociateApplicationsOptions(
         string Identifier,
         IEnumerable<string> ApplicationIdentifiers
@@ -71,13 +73,13 @@ public record AwsGameliftstreamsAssociateApplicationsOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A stream group to associate to the applications. This value is an Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
+    /// A stream group to associate to the applications. This value is an Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . Constraints: • min: 1 • max: 128 • pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// A set of applications to associate with the stream group. This value is a set of either Amazon Resource Names (ARN) or IDs that uniquely identify application resources. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:applica- tion/a-9ZY8X7Wv6 . Example ID: a-9ZY8X7Wv6 . Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$) Syntax: "string" "string" ...
+    /// A set of applications to associate with the stream group. This value is a set of either Amazon Resource Names (ARN) or IDs that uniquely identify application resources. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6 . Example ID: a-9ZY8X7Wv6 . Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--application-identifiers", GroupValues = true)]
     public IEnumerable<string>? ApplicationIdentifiers { get; private init; }

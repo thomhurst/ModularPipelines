@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMpaCancelSessionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Cancels an approval session. For more information, see Session in the Multi-party approval User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="SessionArn">Amazon Resource Name (ARN) for the session. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:ses- sion/[a-zA-Z0-9._-]+/[a-zA-Z0-9_-]+</param>
+    /// <param name="SessionArn">Amazon Resource Name (ARN) for the session. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:session/[a-zA-Z0-9._-]+/[a-zA-Z0-9_-]+</param>
     public AwsMpaCancelSessionOptions(
         string SessionArn
     )
@@ -56,7 +58,7 @@ public record AwsMpaCancelSessionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Resource Name (ARN) for the session. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:ses- sion/[a-zA-Z0-9._-]+/[a-zA-Z0-9_-]+
+    /// Amazon Resource Name (ARN) for the session. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:session/[a-zA-Z0-9._-]+/[a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--session-arn")]
     public string? SessionArn { get; private init; }

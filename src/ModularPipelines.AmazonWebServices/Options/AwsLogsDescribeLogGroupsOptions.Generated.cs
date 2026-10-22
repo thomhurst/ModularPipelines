@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about log groups, including data sources that in- gest into each log group. You can return all your log groups or filter the results by prefix. The results are ASCII-sorted by log group name. CloudWatch Logs doesn't support IAM policies that control access to the DescribeLogGroups action by using the `` aws:ResourceTag/key-name `` condition key. Other CloudWatch Logs ac- tions do support the use of the `` aws:ResourceTag/key-name `` condition key to control access. For more i...
+/// Returns information about log groups, including data sources that ingest into each log group. You can return all your log groups or filter the results by prefix. The results are ASCII-sorted by log group name. CloudWatch Logs doesn't support IAM policies that control access to the DescribeLogGroups action by using the `` aws:ResourceTag/key-name `` condition key. Other CloudWatch Logs actions do support the use of the `` aws:ResourceTag/key-name `` condition key to control access. For more infor...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,46 +24,43 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLogsDescribeLogGroupsOptions : AwsOptions
 {
     /// <summary>
-    /// When includeLinkedAccounts is set to true , use this parameter to specify the list of accounts to search. You can specify as many as 20 account IDs in the array. Constraints: o min: 0 o max: 20 (string) Constraints: o min: 12 o max: 12 o pattern: ^\d{12}$ Syntax: "string" "string" ...
+    /// When includeLinkedAccounts is set to true , use this parameter to specify the list of accounts to search. You can specify as many as 20 account IDs in the array. Constraints: • min: 0 • max: 20 (string) Constraints: • min: 12 • max: 12 • pattern: ^\d{12}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-identifiers", GroupValues = true)]
     public IEnumerable<string>? AccountIdentifiers { get; set; }
 
     /// <summary>
-    /// The prefix to match. NOTE: logGroupNamePrefix and logGroupNamePattern are mutually exclu- sive. Only one of these parameters can be passed. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+
+    /// The prefix to match. NOTE: logGroupNamePrefix and logGroupNamePattern are mutually exclusive. Only one of these parameters can be passed. Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+
     /// </summary>
     [CliOption("--log-group-name-prefix")]
     public string? LogGroupNamePrefix { get; set; }
 
     /// <summary>
-    /// If you specify a string for this parameter, the operation returns only log groups that have names that match the string based on a case-sensitive substring search. For example, if you specify Data- Logs , log groups named DataLogs , aws/DataLogs , and GroupDataLogs would match, but datalogs , Data/log/s and Groupdata would not match. If you specify logGroupNamePattern in your request, then only arn , creationTime , and logGroupName are included in the response. NOTE: logGroupNamePattern and logGroupNamePrefix are mutually exclu- sive. Only one of these parameters can be passed. Constraints: o min: 0 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]*
+    /// If you specify a string for this parameter, the operation returns only log groups that have names that match the string based on a case-sensitive substring search. For example, if you specify DataLogs , log groups named DataLogs , aws/DataLogs , and GroupDataLogs would match, but datalogs , Data/log/s and Groupdata would not match. If you specify logGroupNamePattern in your request, then only arn , creationTime , and logGroupName are included in the response. NOTE: logGroupNamePattern and logGroupNamePrefix are mutually exclusive. Only one of these parameters can be passed. Constraints: • min: 0 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]*
     /// </summary>
     [CliOption("--log-group-name-pattern")]
     public string? LogGroupNamePattern { get; set; }
 
     /// <summary>
-    /// If you are using a monitoring account, set this to true to have the operation return log groups in the accounts listed in accountIdenti- fiers . If this parameter is set to true and accountIdentifiers contains a null value, the operation returns all log groups in the monitoring account and all log groups in all source accounts that are linked to the monitoring account. The default for this parameter is false .
+    /// If you are using a monitoring account, set this to true to have the operation return log groups in the accounts listed in accountIdentifiers . If this parameter is set to true and accountIdentifiers contains a null value, the operation returns all log groups in the monitoring account and all log groups in all source accounts that are linked to the monitoring account. The default for this parameter is false .
     /// </summary>
     [CliFlag("--include-linked-accounts", NegatedName = "--no-include-linked-accounts")]
     public bool? IncludeLinkedAccounts { get; set; }
 
     /// <summary>
-    /// Use this parameter to limit the results to only those log groups in the specified log group class. If you omit this parameter, log groups of all classes can be returned. Specifies the log group class for this log group. There are three classes: o The Standard log class supports all CloudWatch Logs features. o The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs. o Use the Delivery log class only for delivering Lambda logs to store in Amazon S3 or Amazon Data Firehose. Log events in log groups in the Delivery class are kept in CloudWatch Logs for only one day. This log class doesn't offer rich CloudWatch Logs capa- bilities such as CloudWatch Logs Insights queries. For details about the features supported by each class, see Log classes Possible values: o STANDARD o INFREQUENT_ACCESS o DELIVERY
+    /// Use this parameter to limit the results to only those log groups in the specified log group class. If you omit this parameter, log groups of all classes can be returned. Specifies the log group class for this log group. There are three classes: • The Standard log class supports all CloudWatch Logs features. • The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs. • Use the Delivery log class only for delivering Lambda logs to store in Amazon S3 or Amazon Data Firehose. Log events in log groups in the Delivery class are kept in CloudWatch Logs for only one day. This log class doesn't offer rich CloudWatch Logs capabilities such as CloudWatch Logs Insights queries. For details about the features supported by each class, see Log classes Possible values: • STANDARD • INFREQUENT_ACCESS • DELIVERY
     /// </summary>
     [CliOption("--log-group-class")]
     public AwsLogsDescribeLogGroupsLogGroupClass? LogGroupClass { get; set; }
 
     /// <summary>
-    /// Use this array to filter the list of log groups returned. If you specify this parameter, the only other filter that you can choose to specify is includeLinkedAccounts . If you are using this operation in a monitoring account, you can specify the ARNs of log groups in source accounts and in the moni- toring account itself. If you are using this operation in an account that is not a cross-account monitoring account, you can specify only log group names in the same account as the operation. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]* Syntax: "string" "string" ...
+    /// Use this array to filter the list of log groups returned. If you specify this parameter, the only other filter that you can choose to specify is includeLinkedAccounts . If you are using this operation in a monitoring account, you can specify the ARNs of log groups in source accounts and in the monitoring account itself. If you are using this operation in an account that is not a cross-account monitoring account, you can specify only log group names in the same account as the operation. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 2048 • pattern: [\w#+=/:,.@-]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--log-group-identifiers", GroupValues = true)]
     public IEnumerable<string>? LogGroupIdentifiers { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -73,15 +70,18 @@ public record AwsLogsDescribeLogGroupsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 50
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

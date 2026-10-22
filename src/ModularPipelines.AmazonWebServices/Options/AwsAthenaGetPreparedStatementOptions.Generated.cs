@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the prepared statement with the specified name from the spec- ified workgroup. See also: AWS API Documentation
+/// Retrieves the prepared statement with the specified name from the specified workgroup. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsAthenaGetPreparedStatementOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the prepared statement with the specified name from the spec- ified workgroup. See also: AWS API Documentation
+    /// Retrieves the prepared statement with the specified name from the specified workgroup. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StatementName">The name of the prepared statement to retrieve. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_][a-zA-Z0-9_@:]{1,256}</param>
-    /// <param name="WorkGroup">The workgroup to which the statement to be retrieved belongs. Constraints: o pattern: [a-zA-Z0-9._-]{1,128}</param>
+    /// <param name="StatementName">The name of the prepared statement to retrieve. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z_][a-zA-Z0-9_@:]{1,256}</param>
+    /// <param name="WorkGroup">The workgroup to which the statement to be retrieved belongs. Constraints: • pattern: [a-zA-Z0-9._-]{1,128}</param>
     public AwsAthenaGetPreparedStatementOptions(
         string StatementName,
         string WorkGroup
@@ -60,13 +62,13 @@ public record AwsAthenaGetPreparedStatementOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the prepared statement to retrieve. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_][a-zA-Z0-9_@:]{1,256}
+    /// The name of the prepared statement to retrieve. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z_][a-zA-Z0-9_@:]{1,256}
     /// </summary>
     [CliOption("--statement-name")]
     public string? StatementName { get; private init; }
 
     /// <summary>
-    /// The workgroup to which the statement to be retrieved belongs. Constraints: o pattern: [a-zA-Z0-9._-]{1,128}
+    /// The workgroup to which the statement to be retrieved belongs. Constraints: • pattern: [a-zA-Z0-9._-]{1,128}
     /// </summary>
     [CliOption("--work-group")]
     public string? WorkGroup { get; private init; }

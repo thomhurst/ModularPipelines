@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsKendraUpdateThesaurusOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates a thesaurus for an index. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The identifier of the thesaurus you want to update. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*</param>
-    /// <param name="IndexId">The identifier of the index for the thesaurus. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="Id">The identifier of the thesaurus you want to update. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*</param>
+    /// <param name="IndexId">The identifier of the index for the thesaurus. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
     public AwsKendraUpdateThesaurusOptions(
         string Id,
         string IndexId
@@ -60,37 +62,37 @@ public record AwsKendraUpdateThesaurusOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the thesaurus you want to update. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// The identifier of the thesaurus you want to update. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The identifier of the index for the thesaurus. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// The identifier of the index for the thesaurus. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--index-id")]
     public string? IndexId { get; private init; }
 
     /// <summary>
-    /// A new name for the thesaurus. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// A new name for the thesaurus. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A new description for the thesaurus. Constraints: o min: 0 o max: 1000 o pattern: ^\P{C}*$
+    /// A new description for the thesaurus. Constraints: • min: 0 • max: 1000 • pattern: ^\P{C}*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// An IAM role that gives Amazon Kendra permissions to access thesaurus file specified in SourceS3Path . Constraints: o min: 0 o max: 1284 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// An IAM role that gives Amazon Kendra permissions to access thesaurus file specified in SourceS3Path . Constraints: • min: 0 • max: 1284 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
     /// <summary>
-    /// Information required to find a specific file in an Amazon S3 bucket. Bucket -&gt; (string) [required] The name of the S3 bucket that contains the file. Constraints: o min: 3 o max: 63 o pattern: [a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9] Key -&gt; (string) [required] The name of the file. Constraints: o min: 1 o max: 1024 Shorthand Syntax: Bucket=string,Key=string JSON Syntax: { "Bucket": "string", "Key": "string" }
+    /// Information required to find a specific file in an Amazon S3 bucket. Bucket -&gt; (string) [required] The name of the S3 bucket that contains the file. Constraints: • min: 3 • max: 63 • pattern: [a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9] Key -&gt; (string) [required] The name of the file. Constraints: • min: 1 • max: 1024 Shorthand Syntax: Bucket=string,Key=string JSON Syntax: { "Bucket": "string", "Key": "string" }
     /// </summary>
     [CliOption("--source-s3-path")]
     public string? SourceS3Path { get; set; }

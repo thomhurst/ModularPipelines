@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new execution instance of a workflow definition with speci- fied parameters. See also: AWS API Documentation
+/// Creates a new execution instance of a workflow definition with specified parameters. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsNovaActCreateWorkflowRunOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new execution instance of a workflow definition with speci- fied parameters. See also: AWS API Documentation
+    /// Creates a new execution instance of a workflow definition with specified parameters. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkflowDefinitionName">The name of the workflow definition to execute. Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9_-]{1,40}</param>
-    /// <param name="ModelId">The ID of the AI model to use for workflow execution. Constraints: o min: 1 o max: 100</param>
-    /// <param name="ClientInfo">Information about the client making the request, including compati- bility version and SDK version. compatibilityVersion -&gt; (integer) [required] The compatibility version of the client, used to ensure API com- patibility. sdkVersion -&gt; (string) The version of the SDK being used by the client. Constraints: o pattern: [\s\S]+ Shorthand Syntax: compatibilityVersion=integer,sdkVersion=string JSON Syntax: { "compatibilityVersion": integer, "sdkVersion": "string" }</param>
+    /// <param name="WorkflowDefinitionName">The name of the workflow definition to execute. Constraints: • min: 1 • max: 40 • pattern: [a-zA-Z0-9_-]{1,40}</param>
+    /// <param name="ModelId">The ID of the AI model to use for workflow execution. Constraints: • min: 1 • max: 100</param>
+    /// <param name="ClientInfo">Information about the client making the request, including compatibility version and SDK version. compatibilityVersion -&gt; (integer) [required] The compatibility version of the client, used to ensure API compatibility. sdkVersion -&gt; (string) The version of the SDK being used by the client. Constraints: • pattern: [\s\S]+ Shorthand Syntax: compatibilityVersion=integer,sdkVersion=string JSON Syntax: { "compatibilityVersion": integer, "sdkVersion": "string" }</param>
     public AwsNovaActCreateWorkflowRunOptions(
         string WorkflowDefinitionName,
         string ModelId,
@@ -65,32 +67,32 @@ public record AwsNovaActCreateWorkflowRunOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workflow definition to execute. Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9_-]{1,40}
+    /// The name of the workflow definition to execute. Constraints: • min: 1 • max: 40 • pattern: [a-zA-Z0-9_-]{1,40}
     /// </summary>
     [CliOption("--workflow-definition-name")]
     public string? WorkflowDefinitionName { get; private init; }
 
     /// <summary>
-    /// The ID of the AI model to use for workflow execution. Constraints: o min: 1 o max: 100
+    /// The ID of the AI model to use for workflow execution. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--model-id")]
     public string? ModelId { get; private init; }
 
     /// <summary>
-    /// Information about the client making the request, including compati- bility version and SDK version. compatibilityVersion -&gt; (integer) [required] The compatibility version of the client, used to ensure API com- patibility. sdkVersion -&gt; (string) The version of the SDK being used by the client. Constraints: o pattern: [\s\S]+ Shorthand Syntax: compatibilityVersion=integer,sdkVersion=string JSON Syntax: { "compatibilityVersion": integer, "sdkVersion": "string" }
+    /// Information about the client making the request, including compatibility version and SDK version. compatibilityVersion -&gt; (integer) [required] The compatibility version of the client, used to ensure API compatibility. sdkVersion -&gt; (string) The version of the SDK being used by the client. Constraints: • pattern: [\s\S]+ Shorthand Syntax: compatibilityVersion=integer,sdkVersion=string JSON Syntax: { "compatibilityVersion": integer, "sdkVersion": "string" }
     /// </summary>
     [CliOption("--client-info")]
     public string? ClientInfo { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The CloudWatch log group name for storing workflow execution logs. Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9_/.-]+
+    /// The CloudWatch log group name for storing workflow execution logs. Constraints: • min: 1 • max: 512 • pattern: [a-zA-Z0-9_/.-]+
     /// </summary>
     [CliOption("--log-group-name")]
     public string? LogGroupName { get; set; }

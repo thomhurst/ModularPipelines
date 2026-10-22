@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +30,9 @@ public record AwsB2biTestMappingOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Maps the input file according to the provided template file. The API call downloads the file contents from the Amazon S3 location, and passes the contents in as a string, to the inputFileContent parameter. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InputFileContent">Specify the contents of the EDI (electronic data interchange) XML or JSON file that is used as input for the transform. Constraints: o min: 0 o max: 5000000</param>
-    /// <param name="MappingTemplate">Specifies the mapping template for the transformer. This template is used to map the parsed EDI file using JSONata or XSLT. NOTE: This parameter is available for backwards compatibility. Use the Mapping data type instead. Constraints: o min: 0 o max: 350000</param>
-    /// <param name="FileFormat">Specifies that the currently supported file formats for EDI trans- formations are JSON and XML . Possible values: o XML o JSON o NOT_USED</param>
+    /// <param name="InputFileContent">Specify the contents of the EDI (electronic data interchange) XML or JSON file that is used as input for the transform. Constraints: • min: 0 • max: 5000000</param>
+    /// <param name="MappingTemplate">Specifies the mapping template for the transformer. This template is used to map the parsed EDI file using JSONata or XSLT. NOTE: This parameter is available for backwards compatibility. Use the Mapping data type instead. Constraints: • min: 0 • max: 350000</param>
+    /// <param name="FileFormat">Specifies that the currently supported file formats for EDI transformations are JSON and XML . Possible values: • XML • JSON • NOT_USED</param>
     public AwsB2biTestMappingOptions(
         string InputFileContent,
         string MappingTemplate,
@@ -64,19 +66,19 @@ public record AwsB2biTestMappingOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specify the contents of the EDI (electronic data interchange) XML or JSON file that is used as input for the transform. Constraints: o min: 0 o max: 5000000
+    /// Specify the contents of the EDI (electronic data interchange) XML or JSON file that is used as input for the transform. Constraints: • min: 0 • max: 5000000
     /// </summary>
     [CliOption("--input-file-content")]
     public string? InputFileContent { get; private init; }
 
     /// <summary>
-    /// Specifies the mapping template for the transformer. This template is used to map the parsed EDI file using JSONata or XSLT. NOTE: This parameter is available for backwards compatibility. Use the Mapping data type instead. Constraints: o min: 0 o max: 350000
+    /// Specifies the mapping template for the transformer. This template is used to map the parsed EDI file using JSONata or XSLT. NOTE: This parameter is available for backwards compatibility. Use the Mapping data type instead. Constraints: • min: 0 • max: 350000
     /// </summary>
     [CliOption("--mapping-template")]
     public string? MappingTemplate { get; private init; }
 
     /// <summary>
-    /// Specifies that the currently supported file formats for EDI trans- formations are JSON and XML . Possible values: o XML o JSON o NOT_USED
+    /// Specifies that the currently supported file formats for EDI transformations are JSON and XML . Possible values: • XML • JSON • NOT_USED
     /// </summary>
     [CliOption("--file-format")]
     public AwsB2biTestMappingFileFormat? FileFormat { get; private init; }

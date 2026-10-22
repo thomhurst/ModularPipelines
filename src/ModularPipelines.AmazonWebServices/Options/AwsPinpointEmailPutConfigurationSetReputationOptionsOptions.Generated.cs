@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,7 +64,7 @@ public record AwsPinpointEmailPutConfigurationSetReputationOptionsOptions : AwsO
     public string? ConfigurationSetName { get; private init; }
 
     /// <summary>
-    /// If true , tracking of reputation metrics is enabled for the configu- ration set. If false , tracking of reputation metrics is disabled for the configuration set.
+    /// If true , tracking of reputation metrics is enabled for the configuration set. If false , tracking of reputation metrics is disabled for the configuration set.
     /// </summary>
     [CliFlag("--reputation-metrics-enabled", NegatedName = "--no-reputation-metrics-enabled")]
     public bool? ReputationMetricsEnabled { get; set; }

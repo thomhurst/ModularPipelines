@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsIamUpdateAssumeRolePolicyOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Updates the policy that grants an IAM entity permission to assume a role. This is typically referred to as the "role trust policy". For more information about roles, see Using roles to delegate permissions and federate identities . See also: AWS API Documentation
     /// </summary>
-    /// <param name="RoleName">The name of the role to update with the new policy. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+</param>
-    /// <param name="PolicyDocument">The policy that grants an entity permission to assume the role. You must provide policies in JSON format in IAM. However, for Cloud- Formation templates formatted in YAML, you can provide the policy in JSON or YAML format. CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The regex pattern used to validate this parameter is a string of characters consisting of the following: o Any printable ASCII character ranging from the space character (\u0020 ) through the end of the ASCII character range o The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF ) o The special characters tab (\u0009 ), line feed (\u000A ), and carriage return (\u000D ) Constraints: o min: 1 o max: 131072 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+</param>
+    /// <param name="RoleName">The name of the role to update with the new policy. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 1 • max: 64 • pattern: [\w+=,.@-]+</param>
+    /// <param name="PolicyDocument">The policy that grants an entity permission to assume the role. You must provide policies in JSON format in IAM. However, for CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The regex pattern used to validate this parameter is a string of characters consisting of the following: • Any printable ASCII character ranging from the space character (\u0020 ) through the end of the ASCII character range • The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF ) • The special characters tab (\u0009 ), line feed (\u000A ), and carriage return (\u000D ) Constraints: • min: 1 • max: 131072 • pattern: [\u0009\u000A\u000D\u0020-\u00FF]+</param>
     public AwsIamUpdateAssumeRolePolicyOptions(
         string RoleName,
         string PolicyDocument
@@ -60,13 +62,13 @@ public record AwsIamUpdateAssumeRolePolicyOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the role to update with the new policy. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+
+    /// The name of the role to update with the new policy. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 1 • max: 64 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--role-name")]
     public string? RoleName { get; private init; }
 
     /// <summary>
-    /// The policy that grants an entity permission to assume the role. You must provide policies in JSON format in IAM. However, for Cloud- Formation templates formatted in YAML, you can provide the policy in JSON or YAML format. CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The regex pattern used to validate this parameter is a string of characters consisting of the following: o Any printable ASCII character ranging from the space character (\u0020 ) through the end of the ASCII character range o The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF ) o The special characters tab (\u0009 ), line feed (\u000A ), and carriage return (\u000D ) Constraints: o min: 1 o max: 131072 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+
+    /// The policy that grants an entity permission to assume the role. You must provide policies in JSON format in IAM. However, for CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The regex pattern used to validate this parameter is a string of characters consisting of the following: • Any printable ASCII character ranging from the space character (\u0020 ) through the end of the ASCII character range • The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF ) • The special characters tab (\u0009 ), line feed (\u000A ), and carriage return (\u000D ) Constraints: • min: 1 • max: 131072 • pattern: [\u0009\u000A\u000D\u0020-\u00FF]+
     /// </summary>
     [CliOption("--policy-document")]
     public string? PolicyDocument { get; private init; }

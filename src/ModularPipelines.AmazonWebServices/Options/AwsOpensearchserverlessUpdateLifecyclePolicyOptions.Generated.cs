@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an OpenSearch Serverless access policy. For more information, see Updating data lifecycle policies . See also: AWS API Documentation update-lifecycle-policy uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support document types.
+/// Updates an OpenSearch Serverless access policy. For more information, see Updating data lifecycle policies . See also: AWS API Documentation update-lifecycle-policy uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsOpensearchserverlessUpdateLifecyclePolicyOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an OpenSearch Serverless access policy. For more information, see Updating data lifecycle policies . See also: AWS API Documentation update-lifecycle-policy uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support document types.
+    /// Updates an OpenSearch Serverless access policy. For more information, see Updating data lifecycle policies . See also: AWS API Documentation update-lifecycle-policy uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="Type">The type of lifecycle policy. Possible values: o retention</param>
-    /// <param name="Name">The name of the policy. Constraints: o min: 3 o max: 32 o pattern: [a-z][a-z0-9-]+</param>
-    /// <param name="PolicyVersion">The version of the policy being updated. Constraints: o min: 20 o max: 36 o pattern: ([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?</param>
+    /// <param name="Type">The type of lifecycle policy. Possible values: • retention</param>
+    /// <param name="Name">The name of the policy. Constraints: • min: 3 • max: 32 • pattern: [a-z][a-z0-9-]+</param>
+    /// <param name="PolicyVersion">The version of the policy being updated. Constraints: • min: 20 • max: 36 • pattern: ([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?</param>
     public AwsOpensearchserverlessUpdateLifecyclePolicyOptions(
         string Type,
         string Name,
@@ -65,37 +67,37 @@ public record AwsOpensearchserverlessUpdateLifecyclePolicyOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of lifecycle policy. Possible values: o retention
+    /// The type of lifecycle policy. Possible values: • retention
     /// </summary>
     [CliOption("--type")]
     public string? Type { get; private init; }
 
     /// <summary>
-    /// The name of the policy. Constraints: o min: 3 o max: 32 o pattern: [a-z][a-z0-9-]+
+    /// The name of the policy. Constraints: • min: 3 • max: 32 • pattern: [a-z][a-z0-9-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The version of the policy being updated. Constraints: o min: 20 o max: 36 o pattern: ([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?
+    /// The version of the policy being updated. Constraints: • min: 20 • max: 36 • pattern: ([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?
     /// </summary>
     [CliOption("--policy-version")]
     public string? PolicyVersion { get; private init; }
 
     /// <summary>
-    /// A description of the lifecycle policy. Constraints: o min: 0 o max: 1000
+    /// A description of the lifecycle policy. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The JSON policy document to use as the content for the lifecycle policy. Constraints: o min: 1 o max: 20480 o pattern: .*[\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]+.*
+    /// The JSON policy document to use as the content for the lifecycle policy. Constraints: • min: 1 • max: 20480 • pattern: .*[\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]+.*
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 1 o max: 512
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. Constraints: • min: 1 • max: 512
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

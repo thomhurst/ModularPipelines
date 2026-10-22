@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a CloudFront function. To create a function, you provide the function code and some configura- tion information about the function. The response contains an Amazon Resource Name (ARN) that uniquely identifies the function. When you create a function, it's in the DEVELOPMENT stage. In this stage, you can test the function with TestFunction , and update it with UpdateFunction . When you're ready to use your function with a CloudFront distribution, use PublishFunction to copy the function f...
+/// Creates a CloudFront function. To create a function, you provide the function code and some configuration information about the function. The response contains an Amazon Resource Name (ARN) that uniquely identifies the function. When you create a function, it's in the DEVELOPMENT stage. In this stage, you can test the function with TestFunction , and update it with UpdateFunction . When you're ready to use your function with a CloudFront distribution, use PublishFunction to copy the function fro...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsCloudfrontCreateFunctionOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a CloudFront function. To create a function, you provide the function code and some configura- tion information about the function. The response contains an Amazon Resource Name (ARN) that uniquely identifies the function. When you create a function, it's in the DEVELOPMENT stage. In this stage, you can test the function with TestFunction , and update it with UpdateFunction . When you're ready to use your function with a CloudFront distribution, use PublishFunction to copy the function f...
+    /// Creates a CloudFront function. To create a function, you provide the function code and some configuration information about the function. The response contains an Amazon Resource Name (ARN) that uniquely identifies the function. When you create a function, it's in the DEVELOPMENT stage. In this stage, you can test the function with TestFunction , and update it with UpdateFunction . When you're ready to use your function with a CloudFront distribution, use PublishFunction to copy the function fro...
     /// </summary>
-    /// <param name="Name">A name to identify the function. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_]{1,64}</param>
-    /// <param name="FunctionConfig">Configuration information about the function, including an optional comment and the function's runtime. Comment -&gt; (string) [required] A comment to describe the function. Runtime -&gt; (string) [required] The function's runtime environment version. Possible values: o cloudfront-js-1.0 o cloudfront-js-2.0 KeyValueStoreAssociations -&gt; (structure) The configuration for the key value store associations. Quantity -&gt; (integer) [required] The quantity of key value store associations. Items -&gt; (list) The items of the key value store association. (structure) The key value store association. KeyValueStoreARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the key value store association. Constraints: o min: 0 o max: 85 o pattern: arn:aws:cloud- front::[0-9]{12}:key-value-store\/[0-9a-fA-F-]{36} JSON Syntax: { "Comment": "string", "Runtime": "cloudfront-js-1.0"|"cloudfront-js-2.0", "KeyValueStoreAssociations": { "Quantity": integer, "Items": [ { "KeyValueStoreARN": "string" } ... ] } }</param>
-    /// <param name="FunctionCode">The function code. For more information about writing a CloudFront function, see Writing function code for CloudFront Functions in the Amazon CloudFront Developer Guide . Constraints: o min: 1 o max: 40960</param>
+    /// <param name="Name">A name to identify the function. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_]{1,64}</param>
+    /// <param name="FunctionConfig">Configuration information about the function, including an optional comment and the function's runtime. Comment -&gt; (string) [required] A comment to describe the function. Runtime -&gt; (string) [required] The function's runtime environment version. Possible values: • cloudfront-js-1.0 • cloudfront-js-2.0 KeyValueStoreAssociations -&gt; (structure) The configuration for the key value store associations. Quantity -&gt; (integer) [required] The quantity of key value store associations. Items -&gt; (list) The items of the key value store association. (structure) The key value store association. KeyValueStoreARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the key value store association. Constraints: • min: 0 • max: 85 • pattern: arn:aws:cloudfront::[0-9]{12}:key-value-store\/[0-9a-fA-F-]{36} JSON Syntax: { "Comment": "string", "Runtime": "cloudfront-js-1.0"|"cloudfront-js-2.0", "KeyValueStoreAssociations": { "Quantity": integer, "Items": [ { "KeyValueStoreARN": "string" } ... ] } }</param>
+    /// <param name="FunctionCode">The function code. For more information about writing a CloudFront function, see Writing function code for CloudFront Functions in the Amazon CloudFront Developer Guide . Constraints: • min: 1 • max: 40960</param>
     public AwsCloudfrontCreateFunctionOptions(
         string Name,
         string FunctionConfig,
@@ -64,25 +66,25 @@ public record AwsCloudfrontCreateFunctionOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name to identify the function. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_]{1,64}
+    /// A name to identify the function. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_]{1,64}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Configuration information about the function, including an optional comment and the function's runtime. Comment -&gt; (string) [required] A comment to describe the function. Runtime -&gt; (string) [required] The function's runtime environment version. Possible values: o cloudfront-js-1.0 o cloudfront-js-2.0 KeyValueStoreAssociations -&gt; (structure) The configuration for the key value store associations. Quantity -&gt; (integer) [required] The quantity of key value store associations. Items -&gt; (list) The items of the key value store association. (structure) The key value store association. KeyValueStoreARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the key value store association. Constraints: o min: 0 o max: 85 o pattern: arn:aws:cloud- front::[0-9]{12}:key-value-store\/[0-9a-fA-F-]{36} JSON Syntax: { "Comment": "string", "Runtime": "cloudfront-js-1.0"|"cloudfront-js-2.0", "KeyValueStoreAssociations": { "Quantity": integer, "Items": [ { "KeyValueStoreARN": "string" } ... ] } }
+    /// Configuration information about the function, including an optional comment and the function's runtime. Comment -&gt; (string) [required] A comment to describe the function. Runtime -&gt; (string) [required] The function's runtime environment version. Possible values: • cloudfront-js-1.0 • cloudfront-js-2.0 KeyValueStoreAssociations -&gt; (structure) The configuration for the key value store associations. Quantity -&gt; (integer) [required] The quantity of key value store associations. Items -&gt; (list) The items of the key value store association. (structure) The key value store association. KeyValueStoreARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the key value store association. Constraints: • min: 0 • max: 85 • pattern: arn:aws:cloudfront::[0-9]{12}:key-value-store\/[0-9a-fA-F-]{36} JSON Syntax: { "Comment": "string", "Runtime": "cloudfront-js-1.0"|"cloudfront-js-2.0", "KeyValueStoreAssociations": { "Quantity": integer, "Items": [ { "KeyValueStoreARN": "string" } ... ] } }
     /// </summary>
     [CliOption("--function-config")]
     public string? FunctionConfig { get; private init; }
 
     /// <summary>
-    /// The function code. For more information about writing a CloudFront function, see Writing function code for CloudFront Functions in the Amazon CloudFront Developer Guide . Constraints: o min: 1 o max: 40960
+    /// The function code. For more information about writing a CloudFront function, see Writing function code for CloudFront Functions in the Amazon CloudFront Developer Guide . Constraints: • min: 1 • max: 40960
     /// </summary>
     [CliOption("--function-code")]
     public string? FunctionCode { get; private init; }
 
     /// <summary>
-    /// A complex type that contains zero or more Tag elements. Items -&gt; (list) A complex type that contains Tag elements. (structure) A complex type that contains Tag key and Tag value. Key -&gt; (string) [required] A string that contains Tag key. The string length should be between 1 and 128 characters. Valid characters include a-z , A-Z , 0-9 , space, and the special characters _ - . : / = + @ . Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) A string that contains an optional Tag value. The string length should be between 0 and 256 characters. Valid characters include a-z , A-Z , 0-9 , space, and the special characters _ - . : / = + @ . Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Items=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "Items": [ { "Key": "string", "Value": "string" } ... ] }
+    /// A complex type that contains zero or more Tag elements. Items -&gt; (list) A complex type that contains Tag elements. (structure) A complex type that contains Tag key and Tag value. Key -&gt; (string) [required] A string that contains Tag key. The string length should be between 1 and 128 characters. Valid characters include a-z , A-Z , 0-9 , space, and the special characters _ - . : / = + @ . Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) A string that contains an optional Tag value. The string length should be between 0 and 256 characters. Valid characters include a-z , A-Z , 0-9 , space, and the special characters _ - . : / = + @ . Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Items=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "Items": [ { "Key": "string", "Value": "string" } ... ] }
     /// </summary>
     [CliOption("--tags")]
     public string? Tags { get; set; }

@@ -28,7 +28,7 @@ public record AwsRdsDeleteDbInstanceAutomatedBackupOptions : AwsOptions
     public string? DbiResourceId { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the automated backups to delete, for example, arn:aws:rds:us-east-1:123456789012:auto-backup:ab-L2IJCEXJP7XQ7HOJ4SIEX- AMPLE . This setting doesn't apply to RDS Custom.
+    /// The Amazon Resource Name (ARN) of the automated backups to delete, for example, arn:aws:rds:us-east-1:123456789012:auto-backup:ab-L2IJCEXJP7XQ7HOJ4SIEXAMPLE . This setting doesn't apply to RDS Custom.
     /// </summary>
     [CliOption("--db-instance-automated-backups-arn")]
     public string? DbInstanceAutomatedBackupsArn { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsBackupGatewayPutMaintenanceStartTimeOptions : AwsOptions, IVali
     /// <summary>
     /// Set the maintenance start time for a gateway. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GatewayArn">The Amazon Resource Name (ARN) for the gateway, used to specify its maintenance start time. Constraints: o min: 50 o max: 180 o pattern: arn:(aws|aws-cn|aws-us-gov):backup-gate- way(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+</param>
-    /// <param name="HourOfDay">The hour of the day to start maintenance on a gateway. Constraints: o min: 0 o max: 23</param>
-    /// <param name="MinuteOfHour">The minute of the hour to start maintenance on a gateway. Constraints: o min: 0 o max: 59</param>
+    /// <param name="GatewayArn">The Amazon Resource Name (ARN) for the gateway, used to specify its maintenance start time. Constraints: • min: 50 • max: 180 • pattern: arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+</param>
+    /// <param name="HourOfDay">The hour of the day to start maintenance on a gateway. Constraints: • min: 0 • max: 23</param>
+    /// <param name="MinuteOfHour">The minute of the hour to start maintenance on a gateway. Constraints: • min: 0 • max: 59</param>
     public AwsBackupGatewayPutMaintenanceStartTimeOptions(
         string GatewayArn,
         int HourOfDay,
@@ -62,31 +64,31 @@ public record AwsBackupGatewayPutMaintenanceStartTimeOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) for the gateway, used to specify its maintenance start time. Constraints: o min: 50 o max: 180 o pattern: arn:(aws|aws-cn|aws-us-gov):backup-gate- way(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+
+    /// The Amazon Resource Name (ARN) for the gateway, used to specify its maintenance start time. Constraints: • min: 50 • max: 180 • pattern: arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+
     /// </summary>
     [CliOption("--gateway-arn")]
     public string? GatewayArn { get; private init; }
 
     /// <summary>
-    /// The hour of the day to start maintenance on a gateway. Constraints: o min: 0 o max: 23
+    /// The hour of the day to start maintenance on a gateway. Constraints: • min: 0 • max: 23
     /// </summary>
     [CliOption("--hour-of-day")]
     public int? HourOfDay { get; private init; }
 
     /// <summary>
-    /// The minute of the hour to start maintenance on a gateway. Constraints: o min: 0 o max: 59
+    /// The minute of the hour to start maintenance on a gateway. Constraints: • min: 0 • max: 59
     /// </summary>
     [CliOption("--minute-of-hour")]
     public int? MinuteOfHour { get; private init; }
 
     /// <summary>
-    /// The day of the week to start maintenance on a gateway. Constraints: o min: 0 o max: 6
+    /// The day of the week to start maintenance on a gateway. Constraints: • min: 0 • max: 6
     /// </summary>
     [CliOption("--day-of-week")]
     public int? DayOfWeek { get; set; }
 
     /// <summary>
-    /// The day of the month start maintenance on a gateway. Valid values range from Sunday to Saturday . Constraints: o min: 1 o max: 31
+    /// The day of the month start maintenance on a gateway. Valid values range from Sunday to Saturday . Constraints: • min: 1 • max: 31
     /// </summary>
     [CliOption("--day-of-month")]
     public int? DayOfMonth { get; set; }

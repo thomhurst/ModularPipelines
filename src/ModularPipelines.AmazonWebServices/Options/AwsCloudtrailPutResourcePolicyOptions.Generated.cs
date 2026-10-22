@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Attaches a resource-based permission policy to a CloudTrail event data store, dashboard, or channel. For more information about resource-based policies, see CloudTrail resource-based policy examples in the Cloud- Trail User Guide . See also: AWS API Documentation
+/// Attaches a resource-based permission policy to a CloudTrail event data store, dashboard, or channel. For more information about resource-based policies, see CloudTrail resource-based policy examples in the CloudTrail User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsCloudtrailPutResourcePolicyOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Attaches a resource-based permission policy to a CloudTrail event data store, dashboard, or channel. For more information about resource-based policies, see CloudTrail resource-based policy examples in the Cloud- Trail User Guide . See also: AWS API Documentation
+    /// Attaches a resource-based permission policy to a CloudTrail event data store, dashboard, or channel. For more information about resource-based policies, see CloudTrail resource-based policy examples in the CloudTrail User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the CloudTrail event data store, dashboard, or channel attached to the resource-based policy. Example event data store ARN format: arn:aws:cloud- trail:us-east-2:123456789012:eventdatastore/EXAM- PLE-f852-4e8f-8bd1-bcf6cEXAMPLE Example dashboard ARN format: arn:aws:cloud- trail:us-east-1:123456789012:dashboard/exampleDash Example channel ARN format: arn:aws:cloud- trail:us-east-2:123456789012:channel/01234567890 Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$</param>
-    /// <param name="ResourcePolicy">A JSON-formatted string for an Amazon Web Services resource-based policy. For example resource-based policies, see CloudTrail resource-based policy examples in the CloudTrail User Guide . Constraints: o min: 1 o max: 8192</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the CloudTrail event data store, dashboard, or channel attached to the resource-based policy. Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE Example dashboard ARN format: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890 Constraints: • min: 3 • max: 256 • pattern: ^[a-zA-Z0-9._/\-:]+$</param>
+    /// <param name="ResourcePolicy">A JSON-formatted string for an Amazon Web Services resource-based policy. For example resource-based policies, see CloudTrail resource-based policy examples in the CloudTrail User Guide . Constraints: • min: 1 • max: 8192</param>
     public AwsCloudtrailPutResourcePolicyOptions(
         string ResourceArn,
         string ResourcePolicy
@@ -60,13 +62,13 @@ public record AwsCloudtrailPutResourcePolicyOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the CloudTrail event data store, dashboard, or channel attached to the resource-based policy. Example event data store ARN format: arn:aws:cloud- trail:us-east-2:123456789012:eventdatastore/EXAM- PLE-f852-4e8f-8bd1-bcf6cEXAMPLE Example dashboard ARN format: arn:aws:cloud- trail:us-east-1:123456789012:dashboard/exampleDash Example channel ARN format: arn:aws:cloud- trail:us-east-2:123456789012:channel/01234567890 Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$
+    /// The Amazon Resource Name (ARN) of the CloudTrail event data store, dashboard, or channel attached to the resource-based policy. Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE Example dashboard ARN format: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890 Constraints: • min: 3 • max: 256 • pattern: ^[a-zA-Z0-9._/\-:]+$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A JSON-formatted string for an Amazon Web Services resource-based policy. For example resource-based policies, see CloudTrail resource-based policy examples in the CloudTrail User Guide . Constraints: o min: 1 o max: 8192
+    /// A JSON-formatted string for an Amazon Web Services resource-based policy. For example resource-based policies, see CloudTrail resource-based policy examples in the CloudTrail User Guide . Constraints: • min: 1 • max: 8192
     /// </summary>
     [CliOption("--resource-policy")]
     public string? ResourcePolicy { get; private init; }

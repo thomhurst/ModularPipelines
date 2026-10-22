@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCodeartifactUpdatePackageGroupOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Updates a package group. This API cannot be used to update a package group's origin configuration or pattern. To update a package group's origin configuration, use UpdatePackageGroupOriginConfiguration . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Domain">The name of the domain which contains the package group to be up- dated. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
-    /// <param name="PackageGroup">The pattern of the package group to be updated. Constraints: o min: 2 o max: 520 o pattern: [^\p{C}\p{IsWhitespace}]+</param>
+    /// <param name="Domain">The name of the domain which contains the package group to be updated. Constraints: • min: 2 • max: 50 • pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
+    /// <param name="PackageGroup">The pattern of the package group to be updated. Constraints: • min: 2 • max: 520 • pattern: [^\p{C}\p{IsWhitespace}]+</param>
     public AwsCodeartifactUpdatePackageGroupOptions(
         string Domain,
         string PackageGroup
@@ -60,31 +62,31 @@ public record AwsCodeartifactUpdatePackageGroupOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain which contains the package group to be up- dated. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
+    /// The name of the domain which contains the package group to be updated. Constraints: • min: 2 • max: 50 • pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; private init; }
 
     /// <summary>
-    /// The pattern of the package group to be updated. Constraints: o min: 2 o max: 520 o pattern: [^\p{C}\p{IsWhitespace}]+
+    /// The pattern of the package group to be updated. Constraints: • min: 2 • max: 520 • pattern: [^\p{C}\p{IsWhitespace}]+
     /// </summary>
     [CliOption("--package-group")]
     public string? PackageGroup { get; private init; }
 
     /// <summary>
-    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
+    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--domain-owner")]
     public string? DomainOwner { get; set; }
 
     /// <summary>
-    /// Contact information which you want to update the requested package group with. Constraints: o min: 0 o max: 1000 o pattern: \P{C}*
+    /// Contact information which you want to update the requested package group with. Constraints: • min: 0 • max: 1000 • pattern: \P{C}*
     /// </summary>
     [CliOption("--contact-info")]
     public string? ContactInfo { get; set; }
 
     /// <summary>
-    /// The description you want to update the requested package group with. Constraints: o max: 1000 o pattern: \P{C}*
+    /// The description you want to update the requested package group with. Constraints: • max: 1000 • pattern: \P{C}*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

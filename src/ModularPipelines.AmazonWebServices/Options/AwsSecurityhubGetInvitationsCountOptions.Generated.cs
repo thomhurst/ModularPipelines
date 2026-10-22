@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: We recommend using Organizations instead of Security Hub CSPM invi- tations to manage your member accounts. For information, see Managing Security Hub CSPM administrator and member accounts with Organizations in the Security Hub CSPM User Guide . Returns the count of all Security Hub CSPM membership invitations that were sent to the calling member account, not including the currently accepted invitation. See also: AWS API Documentation
+/// NOTE: We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts. For information, see Managing Security Hub CSPM administrator and member accounts with Organizations in the Security Hub CSPM User Guide . Returns the count of all Security Hub CSPM membership invitations that were sent to the calling member account, not including the currently accepted invitation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

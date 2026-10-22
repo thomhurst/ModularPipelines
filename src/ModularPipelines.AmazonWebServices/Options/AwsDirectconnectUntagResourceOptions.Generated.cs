@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsDirectconnectUntagResourceOptions : AwsOptions, IValidatableObj
     /// Removes one or more tags from the specified Direct Connect resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource.</param>
-    /// <param name="TagKeys">The tag keys of the tags to remove. (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...</param>
+    /// <param name="TagKeys">The tag keys of the tags to remove. (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...</param>
     public AwsDirectconnectUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -77,7 +79,7 @@ public record AwsDirectconnectUntagResourceOptions : AwsOptions, IValidatableObj
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The tag keys of the tags to remove. (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
+    /// The tag keys of the tags to remove. (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

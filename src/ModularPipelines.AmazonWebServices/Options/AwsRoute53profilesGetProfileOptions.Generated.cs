@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRoute53profilesGetProfileOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Returns information about a specified Route 53 Profile, such as whether whether the Profile is shared, and the current status of the Profile. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileId">ID of the Profile. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ProfileId">ID of the Profile. Constraints: • min: 1 • max: 64</param>
     public AwsRoute53profilesGetProfileOptions(
         string ProfileId
     )
@@ -56,7 +58,7 @@ public record AwsRoute53profilesGetProfileOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID of the Profile. Constraints: o min: 1 o max: 64
+    /// ID of the Profile. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--profile-id")]
     public string? ProfileId { get; private init; }

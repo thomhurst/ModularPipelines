@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the details and current status of a prospecting task previ- ously started with StartProspectingFromEngagementTask to enable polling for completion and access to per-engagement processing results. See also: AWS API Documentation
+/// Retrieves the details and current status of a prospecting task previously started with StartProspectingFromEngagementTask to enable polling for completion and access to per-engagement processing results. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsPartnercentralSellingGetProspectingFromEngagementTaskOptions : 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the details and current status of a prospecting task previ- ously started with StartProspectingFromEngagementTask to enable polling for completion and access to per-engagement processing results. See also: AWS API Documentation
+    /// Retrieves the details and current status of a prospecting task previously started with StartProspectingFromEngagementTask to enable polling for completion and access to per-engagement processing results. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">Specifies the catalog associated with the task. Specify AWS for pro- duction environments and Sandbox for testing and development pur- poses. The value must match the catalog used when the task was cre- ated. Constraints: o pattern: [a-zA-Z]+</param>
-    /// <param name="TaskIdentifier">The unique identifier of the prospecting task to retrieve. This value is returned in the TaskId field of the StartProspectingFromEn- gagementTask response. Constraints: o pattern: task-[0-9a-z]{14}</param>
+    /// <param name="Catalog">Specifies the catalog associated with the task. Specify AWS for production environments and Sandbox for testing and development purposes. The value must match the catalog used when the task was created. Constraints: • pattern: [a-zA-Z]+</param>
+    /// <param name="TaskIdentifier">The unique identifier of the prospecting task to retrieve. This value is returned in the TaskId field of the StartProspectingFromEngagementTask response. Constraints: • pattern: task-[0-9a-z]{14}</param>
     public AwsPartnercentralSellingGetProspectingFromEngagementTaskOptions(
         string Catalog,
         string TaskIdentifier
@@ -60,13 +62,13 @@ public record AwsPartnercentralSellingGetProspectingFromEngagementTaskOptions : 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the catalog associated with the task. Specify AWS for pro- duction environments and Sandbox for testing and development pur- poses. The value must match the catalog used when the task was cre- ated. Constraints: o pattern: [a-zA-Z]+
+    /// Specifies the catalog associated with the task. Specify AWS for production environments and Sandbox for testing and development purposes. The value must match the catalog used when the task was created. Constraints: • pattern: [a-zA-Z]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the prospecting task to retrieve. This value is returned in the TaskId field of the StartProspectingFromEn- gagementTask response. Constraints: o pattern: task-[0-9a-z]{14}
+    /// The unique identifier of the prospecting task to retrieve. This value is returned in the TaskId field of the StartProspectingFromEngagementTask response. Constraints: • pattern: task-[0-9a-z]{14}
     /// </summary>
     [CliOption("--task-identifier")]
     public string? TaskIdentifier { get; private init; }

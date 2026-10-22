@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -18,7 +19,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Places an outbound call to a contact, and then initiates the flow. It performs the actions in the flow that's specified (in ContactFlowId ). Agents do not initiate the outbound API, which means that they do not dial the contact. If the flow places an outbound call to a contact, and then puts the contact in queue, the call is then routed to the agent, like any other inbound case. Dialing timeout for this operation can be configured with the RingTime- outInSeconds parameter. If not specified, the ...
+/// Places an outbound call to a contact, and then initiates the flow. It performs the actions in the flow that's specified (in ContactFlowId ). Agents do not initiate the outbound API, which means that they do not dial the contact. If the flow places an outbound call to a contact, and then puts the contact in queue, the call is then routed to the agent, like any other inbound case. Dialing timeout for this operation can be configured with the RingTimeoutInSeconds parameter. If not specified, the de...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,11 +29,11 @@ public record AwsConnectStartOutboundVoiceContactOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Places an outbound call to a contact, and then initiates the flow. It performs the actions in the flow that's specified (in ContactFlowId ). Agents do not initiate the outbound API, which means that they do not dial the contact. If the flow places an outbound call to a contact, and then puts the contact in queue, the call is then routed to the agent, like any other inbound case. Dialing timeout for this operation can be configured with the RingTime- outInSeconds parameter. If not specified, the ...
+    /// Places an outbound call to a contact, and then initiates the flow. It performs the actions in the flow that's specified (in ContactFlowId ). Agents do not initiate the outbound API, which means that they do not dial the contact. If the flow places an outbound call to a contact, and then puts the contact in queue, the call is then routed to the agent, like any other inbound case. Dialing timeout for this operation can be configured with the RingTimeoutInSeconds parameter. If not specified, the de...
     /// </summary>
-    /// <param name="DestinationPhoneNumber">The phone number of the customer, in E.164 format. Constraints: o pattern: \\+[1-9]\\d{1,14}$</param>
-    /// <param name="ContactFlowId">The identifier of the flow for the outbound call. To see the Con- tactFlowId in the Connect Customer admin website, on the navigation menu go to Routing , Contact Flows . Choose the flow. On the flow page, under the name of the flow, choose Show additional flow infor- mation . The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:in- stance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/con- tact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx Constraints: o max: 500</param>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="DestinationPhoneNumber">The phone number of the customer, in E.164 format. Constraints: • pattern: \\+[1-9]\\d{1,14}$</param>
+    /// <param name="ContactFlowId">The identifier of the flow for the outbound call. To see the ContactFlowId in the Connect Customer admin website, on the navigation menu go to Routing , Contact Flows . Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information . The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx Constraints: • max: 500</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     public AwsConnectStartOutboundVoiceContactOptions(
         string DestinationPhoneNumber,
         string ContactFlowId,
@@ -67,56 +68,56 @@ public record AwsConnectStartOutboundVoiceContactOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The phone number of the customer, in E.164 format. Constraints: o pattern: \\+[1-9]\\d{1,14}$
+    /// The phone number of the customer, in E.164 format. Constraints: • pattern: \\+[1-9]\\d{1,14}$
     /// </summary>
     [CliOption("--destination-phone-number")]
     public string? DestinationPhoneNumber { get; private init; }
 
     /// <summary>
-    /// The identifier of the flow for the outbound call. To see the Con- tactFlowId in the Connect Customer admin website, on the navigation menu go to Routing , Contact Flows . Choose the flow. On the flow page, under the name of the flow, choose Show additional flow infor- mation . The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:in- stance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/con- tact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx Constraints: o max: 500
+    /// The identifier of the flow for the outbound call. To see the ContactFlowId in the Connect Customer admin website, on the navigation menu go to Routing , Contact Flows . Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information . The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx Constraints: • max: 500
     /// </summary>
     [CliOption("--contact-flow-id")]
     public string? ContactFlowId { get; private init; }
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The name of a voice contact that is shown to an agent in the Contact Control Panel (CCP). Constraints: o min: 0 o max: 1024
+    /// The name of a voice contact that is shown to an agent in the Contact Control Panel (CCP). Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A description of the voice contact that appears in the agent's snap- shot in the CCP logs. For more information about CCP logs, see Download and review CCP logs in the Connect Customer Administrator Guide . Constraints: o min: 0 o max: 4096
+    /// A description of the voice contact that appears in the agent's snapshot in the CCP logs. For more information about CCP logs, see Download and review CCP logs in the Connect Customer Administrator Guide . Constraints: • min: 0 • max: 4096
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Contacts can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL . ATTACHMENT is not a supported reference type during voice contact creation. key -&gt; (string) Constraints: o min: 1 o max: 4096 value -&gt; (structure) Well-formed data on a contact, used by agents to complete a con- tact request. You can have up to 4,096 UTF-8 bytes across all references for a contact. Value -&gt; (string) A valid value for the reference. For example, for a URL ref- erence, a formatted URL that is displayed to an agent in the Contact Control Panel (CCP). Constraints: o min: 0 o max: 4096 Type -&gt; (string) [required] The type of the reference. DATE must be of type Epoch time- stamp. Possible values: o URL o ATTACHMENT o CONTACT_ANALYSIS o NUMBER o STRING o DATE o EMAIL o EMAIL_MESSAGE o EMAIL_MESSAGE_PLAIN_TEXT o EMAIL_MESSAGE_PLAIN_TEXT_REDACTED o EMAIL_MESSAGE_REDACTED Status -&gt; (string) Status of the attachment reference type. Possible values: o AVAILABLE o DELETED o APPROVED o REJECTED o PROCESSING o FAILED Arn -&gt; (string) The Amazon Resource Name (ARN) of the reference Constraints: o min: 20 o max: 256 o pattern: ^[-:/A-Za-z0-9]+ StatusReason -&gt; (string) Relevant details why the reference was not successfully cre- ated. Constraints: o min: 0 o max: 100 Shorthand Syntax: KeyName1={Value=string,Type=string,Status=string,Arn=string,StatusReason=string},KeyName2={Value=string,Type=string,Status=string,Arn=string,StatusReason=string} JSON Syntax: {"string": { "Value": "string", "Type": "URL"|"ATTACHMENT"|"CONTACT_ANALYSIS"|"NUMBER"|"STRING"|"DATE"|"EMAIL"|"EMAIL_MESSAGE"|"EMAIL_MESSAGE_PLAIN_TEXT"|"EMAIL_MESSAGE_PLAIN_TEXT_REDACTED"|"EMAIL_MESSAGE_REDACTED", "Status": "AVAILABLE"|"DELETED"|"APPROVED"|"REJECTED"|"PROCESSING"|"FAILED", "Arn": "string", "StatusReason": "string" } ...}
+    /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Contacts can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL . ATTACHMENT is not a supported reference type during voice contact creation. key -&gt; (string) Constraints: • min: 1 • max: 4096 value -&gt; (structure) Well-formed data on a contact, used by agents to complete a contact request. You can have up to 4,096 UTF-8 bytes across all references for a contact. Value -&gt; (string) A valid value for the reference. For example, for a URL reference, a formatted URL that is displayed to an agent in the Contact Control Panel (CCP). Constraints: • min: 0 • max: 4096 Type -&gt; (string) [required] The type of the reference. DATE must be of type Epoch timestamp. Possible values: • URL • ATTACHMENT • CONTACT_ANALYSIS • NUMBER • STRING • DATE • EMAIL • EMAIL_MESSAGE • EMAIL_MESSAGE_PLAIN_TEXT • EMAIL_MESSAGE_PLAIN_TEXT_REDACTED • EMAIL_MESSAGE_REDACTED Status -&gt; (string) Status of the attachment reference type. Possible values: • AVAILABLE • DELETED • APPROVED • REJECTED • PROCESSING • FAILED Arn -&gt; (string) The Amazon Resource Name (ARN) of the reference Constraints: • min: 20 • max: 256 • pattern: ^[-:/A-Za-z0-9]+ StatusReason -&gt; (string) Relevant details why the reference was not successfully created. Constraints: • min: 0 • max: 100 Shorthand Syntax: KeyName1={Value=string,Type=string,Status=string,Arn=string,StatusReason=string},KeyName2={Value=string,Type=string,Status=string,Arn=string,StatusReason=string} JSON Syntax: {"string": { "Value": "string", "Type": "URL"|"ATTACHMENT"|"CONTACT_ANALYSIS"|"NUMBER"|"STRING"|"DATE"|"EMAIL"|"EMAIL_MESSAGE"|"EMAIL_MESSAGE_PLAIN_TEXT"|"EMAIL_MESSAGE_PLAIN_TEXT_REDACTED"|"EMAIL_MESSAGE_REDACTED", "Status": "AVAILABLE"|"DELETED"|"APPROVED"|"REJECTED"|"PROCESSING"|"FAILED", "Arn": "string", "StatusReason": "string" } ...}
     /// </summary>
     [CliOption("--references", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? References { get; set; }
 
     /// <summary>
-    /// The contactId that is related to this contact. Linking voice, task, or chat by using RelatedContactID copies over contact attributes from the related contact to the new contact. All updates to user-de- fined attributes in the new contact are limited to the individual contact ID. There are no limits to the number of contacts that can be linked by using RelatedContactId . Constraints: o min: 1 o max: 256
+    /// The contactId that is related to this contact. Linking voice, task, or chat by using RelatedContactID copies over contact attributes from the related contact to the new contact. All updates to user-defined attributes in the new contact are limited to the individual contact ID. There are no limits to the number of contacts that can be linked by using RelatedContactId . Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--related-contact-id")]
     public string? RelatedContactId { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . The token is valid for 7 days after creation. If a contact is already started, the con- tact ID is returned. Constraints: o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . The token is valid for 7 days after creation. If a contact is already started, the contact ID is returned. Constraints: • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The phone number associated with the Connect Customer instance, in E.164 format. If you do not specify a source phone number, you must specify a queue. Constraints: o pattern: \\+[1-9]\\d{1,14}$
+    /// The phone number associated with the Connect Customer instance, in E.164 format. If you do not specify a source phone number, you must specify a queue. Constraints: • pattern: \\+[1-9]\\d{1,14}$
     /// </summary>
     [CliOption("--source-phone-number")]
     public string? SourcePhoneNumber { get; set; }
@@ -128,7 +129,7 @@ public record AwsConnectStartOutboundVoiceContactOptions : AwsOptions, IValidata
     public string? QueueId { get; set; }
 
     /// <summary>
-    /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and un- derscore characters. key -&gt; (string) Constraints: o min: 1 o max: 32767 value -&gt; (string) Constraints: o min: 0 o max: 32767 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters. key -&gt; (string) Constraints: • min: 1 • max: 32767 value -&gt; (string) Constraints: • min: 0 • max: 32767 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
@@ -140,25 +141,25 @@ public record AwsConnectStartOutboundVoiceContactOptions : AwsOptions, IValidata
     public string? AnswerMachineDetectionConfig { get; set; }
 
     /// <summary>
-    /// The campaign identifier of the outbound communication. Constraints: o min: 1 o max: 100
+    /// The campaign identifier of the outbound communication. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--campaign-id")]
     public string? CampaignId { get; set; }
 
     /// <summary>
-    /// Denotes the class of traffic. Calls with different traffic types are handled differently by Connect Customer. The default value is GEN- ERAL . Use CAMPAIGN if EnableAnswerMachineDetection is set to true . For all other cases, use GENERAL . Possible values: o GENERAL o CAMPAIGN
+    /// Denotes the class of traffic. Calls with different traffic types are handled differently by Connect Customer. The default value is GENERAL . Use CAMPAIGN if EnableAnswerMachineDetection is set to true . For all other cases, use GENERAL . Possible values: • GENERAL • CAMPAIGN
     /// </summary>
     [CliOption("--traffic-type")]
     public AwsConnectStartOutboundVoiceContactTrafficType? TrafficType { get; set; }
 
     /// <summary>
-    /// Information about the outbound strategy. Type -&gt; (string) [required] Type of the outbound strategy. Possible values: o AGENT_FIRST Config -&gt; (structure) Config of the outbound strategy. AgentFirst -&gt; (structure) The config of agent first outbound strategy. Preview -&gt; (structure) Information about preview configuration of agent first outbound strategy PostAcceptTimeoutConfig -&gt; (structure) [required] Countdown timer configuration after the agent accepted the preview outbound contact. DurationInSeconds -&gt; (integer) [required] Duration in seconds for the countdown timer after the agent accepted the contact. Constraints: o min: 0 AllowedUserActions -&gt; (list) [required] The actions the agent can perform after accepting the preview outbound contact. (string) Possible values: o CALL o DISCARD JSON Syntax: { "Type": "AGENT_FIRST", "Config": { "AgentFirst": { "Preview": { "PostAcceptTimeoutConfig": { "DurationInSeconds": integer }, "AllowedUserActions": ["CALL"|"DISCARD", ...] } } } }
+    /// Information about the outbound strategy. Type -&gt; (string) [required] Type of the outbound strategy. Possible values: • AGENT_FIRST Config -&gt; (structure) Config of the outbound strategy. AgentFirst -&gt; (structure) The config of agent first outbound strategy. Preview -&gt; (structure) Information about preview configuration of agent first outbound strategy PostAcceptTimeoutConfig -&gt; (structure) [required] Countdown timer configuration after the agent accepted the preview outbound contact. DurationInSeconds -&gt; (integer) [required] Duration in seconds for the countdown timer after the agent accepted the contact. Constraints: • min: 0 AllowedUserActions -&gt; (list) [required] The actions the agent can perform after accepting the preview outbound contact. (string) Possible values: • CALL • DISCARD JSON Syntax: { "Type": "AGENT_FIRST", "Config": { "AgentFirst": { "Preview": { "PostAcceptTimeoutConfig": { "DurationInSeconds": integer }, "AllowedUserActions": ["CALL"|"DISCARD", ...] } } } }
     /// </summary>
     [CliOption("--outbound-strategy")]
     public string? OutboundStrategy { get; set; }
 
     /// <summary>
-    /// The maximum time the outbound call will wait for the destination to answer the call, in seconds Constraints: o min: 15 o max: 60
+    /// The maximum time the outbound call will wait for the destination to answer the call, in seconds Constraints: • min: 15 • max: 60
     /// </summary>
     [CliOption("--ring-timeout-in-seconds")]
     public int? RingTimeoutInSeconds { get; set; }

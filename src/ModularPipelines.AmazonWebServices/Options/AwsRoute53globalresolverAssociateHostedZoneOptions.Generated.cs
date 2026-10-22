@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates a Route 53 private hosted zone with a Route 53 Global Re- solver resource. This allows the resolver to resolve DNS queries for the private hosted zone from anywhere globally. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services...
+/// Associates a Route 53 private hosted zone with a Route 53 Global Resolver resource. This allows the resolver to resolve DNS queries for the private hosted zone from anywhere globally. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services C...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsRoute53globalresolverAssociateHostedZoneOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates a Route 53 private hosted zone with a Route 53 Global Re- solver resource. This allows the resolver to resolve DNS queries for the private hosted zone from anywhere globally. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services...
+    /// Associates a Route 53 private hosted zone with a Route 53 Global Resolver resource. This allows the resolver to resolve DNS queries for the private hosted zone from anywhere globally. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services C...
     /// </summary>
-    /// <param name="HostedZoneId">The ID of the Route 53 private hosted zone to associate with the Route 53 Global Resolver resource. Constraints: o min: 1 o max: 32</param>
-    /// <param name="ResourceArn">An Amazon Resource Name (ARN) of the Route 53 Global Resolver the private hosted zone will be associated to. Constraints: o min: 1 o max: 2048 o pattern: arn:[-.a-z0-9]{1,63}:[-.a-z0-9]{1,63}:[-.a-z0-9]{0,63}:[-.a-z0-9]{0,63}:[^/].{0,1023}</param>
-    /// <param name="Name">Name for the private hosted zone association. Constraints: o min: 1 o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+)</param>
+    /// <param name="HostedZoneId">The ID of the Route 53 private hosted zone to associate with the Route 53 Global Resolver resource. Constraints: • min: 1 • max: 32</param>
+    /// <param name="ResourceArn">An Amazon Resource Name (ARN) of the Route 53 Global Resolver the private hosted zone will be associated to. Constraints: • min: 1 • max: 2048 • pattern: arn:[-.a-z0-9]{1,63}:[-.a-z0-9]{1,63}:[-.a-z0-9]{0,63}:[-.a-z0-9]{0,63}:[^/].{0,1023}</param>
+    /// <param name="Name">Name for the private hosted zone association. Constraints: • min: 1 • max: 64 • pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+)</param>
     public AwsRoute53globalresolverAssociateHostedZoneOptions(
         string HostedZoneId,
         string ResourceArn,
@@ -64,19 +66,19 @@ public record AwsRoute53globalresolverAssociateHostedZoneOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Route 53 private hosted zone to associate with the Route 53 Global Resolver resource. Constraints: o min: 1 o max: 32
+    /// The ID of the Route 53 private hosted zone to associate with the Route 53 Global Resolver resource. Constraints: • min: 1 • max: 32
     /// </summary>
     [CliOption("--hosted-zone-id")]
     public string? HostedZoneId { get; private init; }
 
     /// <summary>
-    /// An Amazon Resource Name (ARN) of the Route 53 Global Resolver the private hosted zone will be associated to. Constraints: o min: 1 o max: 2048 o pattern: arn:[-.a-z0-9]{1,63}:[-.a-z0-9]{1,63}:[-.a-z0-9]{0,63}:[-.a-z0-9]{0,63}:[^/].{0,1023}
+    /// An Amazon Resource Name (ARN) of the Route 53 Global Resolver the private hosted zone will be associated to. Constraints: • min: 1 • max: 2048 • pattern: arn:[-.a-z0-9]{1,63}:[-.a-z0-9]{1,63}:[-.a-z0-9]{0,63}:[-.a-z0-9]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Name for the private hosted zone association. Constraints: o min: 1 o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+)
+    /// Name for the private hosted zone association. Constraints: • min: 1 • max: 64 • pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+)
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

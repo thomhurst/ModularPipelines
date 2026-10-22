@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsConfigserviceDeleteRetentionConfigurationOptions : AwsOptions, 
     /// <summary>
     /// Deletes the retention configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RetentionConfigurationName">The name of the retention configuration to delete. Constraints: o min: 1 o max: 256 o pattern: [\w\-]+</param>
+    /// <param name="RetentionConfigurationName">The name of the retention configuration to delete. Constraints: • min: 1 • max: 256 • pattern: [\w\-]+</param>
     public AwsConfigserviceDeleteRetentionConfigurationOptions(
         string RetentionConfigurationName
     )
@@ -56,7 +58,7 @@ public record AwsConfigserviceDeleteRetentionConfigurationOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the retention configuration to delete. Constraints: o min: 1 o max: 256 o pattern: [\w\-]+
+    /// The name of the retention configuration to delete. Constraints: • min: 1 • max: 256 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--retention-configuration-name")]
     public string? RetentionConfigurationName { get; private init; }

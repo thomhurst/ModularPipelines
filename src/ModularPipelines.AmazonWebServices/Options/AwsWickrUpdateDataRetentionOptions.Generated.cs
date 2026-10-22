@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the data retention bot settings, allowing you to enable or dis- able the data retention service, or acknowledge the public key message. See also: AWS API Documentation
+/// Updates the data retention bot settings, allowing you to enable or disable the data retention service, or acknowledge the public key message. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsWickrUpdateDataRetentionOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the data retention bot settings, allowing you to enable or dis- able the data retention service, or acknowledge the public key message. See also: AWS API Documentation
+    /// Updates the data retention bot settings, allowing you to enable or disable the data retention service, or acknowledge the public key message. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The ID of the Wickr network containing the data retention bot. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
-    /// <param name="ActionType">The action to perform. Valid values are 'ENABLE' (to enable the data retention service), 'DISABLE' (to disable the service), or 'PUB- KEY_MSG_ACK' (to acknowledge the public key message). Possible values: o ENABLE o DISABLE o PUBKEY_MSG_ACK</param>
+    /// <param name="NetworkId">The ID of the Wickr network containing the data retention bot. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}</param>
+    /// <param name="ActionType">The action to perform. Valid values are 'ENABLE' (to enable the data retention service), 'DISABLE' (to disable the service), or 'PUBKEY_MSG_ACK' (to acknowledge the public key message). Possible values: • ENABLE • DISABLE • PUBKEY_MSG_ACK</param>
     public AwsWickrUpdateDataRetentionOptions(
         string NetworkId,
         AwsWickrUpdateDataRetentionActionType ActionType
@@ -60,13 +62,13 @@ public record AwsWickrUpdateDataRetentionOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Wickr network containing the data retention bot. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// The ID of the Wickr network containing the data retention bot. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }
 
     /// <summary>
-    /// The action to perform. Valid values are 'ENABLE' (to enable the data retention service), 'DISABLE' (to disable the service), or 'PUB- KEY_MSG_ACK' (to acknowledge the public key message). Possible values: o ENABLE o DISABLE o PUBKEY_MSG_ACK
+    /// The action to perform. Valid values are 'ENABLE' (to enable the data retention service), 'DISABLE' (to disable the service), or 'PUBKEY_MSG_ACK' (to acknowledge the public key message). Possible values: • ENABLE • DISABLE • PUBKEY_MSG_ACK
     /// </summary>
     [CliOption("--action-type")]
     public AwsWickrUpdateDataRetentionActionType? ActionType { get; private init; }

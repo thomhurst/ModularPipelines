@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsKinesisanalyticsv2StopApplicationOptions : AwsOptions, IValidat
     /// <summary>
     /// Stops the application from processing data. You can stop an application only if it is in the running status, unless you set the Force parameter to true . You can use the DescribeApplication operation to find the application status. Managed Service for Apache Flink takes a snapshot when the application is stopped, unless Force is set to true . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationName">The name of the running application to stop. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="ApplicationName">The name of the running application to stop. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsKinesisanalyticsv2StopApplicationOptions(
         string ApplicationName
     )
@@ -56,13 +58,13 @@ public record AwsKinesisanalyticsv2StopApplicationOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the running application to stop. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the running application to stop. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; private init; }
 
     /// <summary>
-    /// Set to true to force the application to stop. If you set Force to true , Managed Service for Apache Flink stops the application with- out taking a snapshot. NOTE: Force-stopping your application may lead to data loss or dupli- cation. To prevent data loss or duplicate processing of data during application restarts, we recommend you to take frequent snapshots of your application. You can only force stop a Managed Service for Apache Flink applica- tion. You can't force stop a SQL-based Kinesis Data Analytics appli- cation. The application must be in the STARTING , UPDATING , STOPPING , AU- TOSCALING , or RUNNING status.
+    /// Set to true to force the application to stop. If you set Force to true , Managed Service for Apache Flink stops the application without taking a snapshot. NOTE: Force-stopping your application may lead to data loss or duplication. To prevent data loss or duplicate processing of data during application restarts, we recommend you to take frequent snapshots of your application. You can only force stop a Managed Service for Apache Flink application. You can't force stop a SQL-based Kinesis Data Analytics application. The application must be in the STARTING , UPDATING , STOPPING , AUTOSCALING , or RUNNING status.
     /// </summary>
     [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }

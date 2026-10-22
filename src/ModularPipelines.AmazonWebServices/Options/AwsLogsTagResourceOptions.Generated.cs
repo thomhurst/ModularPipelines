@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Assigns one or more tags (key-value pairs) to the specified CloudWatch Logs resource. Currently, the only CloudWatch Logs resources that can be tagged are log groups and destinations. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to ac- cess or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are in- terpreted strictly as strings of characters. Y...
+/// Assigns one or more tags (key-value pairs) to the specified CloudWatch Logs resource. Currently, the only CloudWatch Logs resources that can be tagged are log groups and destinations. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You c...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsLogsTagResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Assigns one or more tags (key-value pairs) to the specified CloudWatch Logs resource. Currently, the only CloudWatch Logs resources that can be tagged are log groups and destinations. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to ac- cess or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are in- terpreted strictly as strings of characters. Y...
+    /// Assigns one or more tags (key-value pairs) to the specified CloudWatch Logs resource. Currently, the only CloudWatch Logs resources that can be tagged are log groups and destinations. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You c...
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource that you're adding tags to. The ARN format of a log group is `` arn:aws:logs:Region :account-id :log-group:log-group-name `` System Message: WARNING/2 (&lt;string&gt;:, line 89) Inline literal start-string without end-string. The ARN format of a destination is `` arn:aws:logs:Region :account-id :destination:destination-name `` System Message: WARNING/2 (&lt;string&gt;:, line 93) Inline literal start-string without end-string. For more information about ARN format, see CloudWatch Logs resources and operations . Constraints: o min: 1 o max: 1011 o pattern: [\w+=/:,.@-]*</param>
-    /// <param name="Tags">The list of key-value pairs to associate with the resource. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ value -&gt; (string) Constraints: o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="ResourceArn">The ARN of the resource that you're adding tags to. The ARN format of a log group is `` arn:aws:logs:Region :account-id :log-group:log-group-name `` System Message: WARNING/2 (&lt;string&gt;:, line 89) Inline literal start-string without end-string. The ARN format of a destination is `` arn:aws:logs:Region :account-id :destination:destination-name `` System Message: WARNING/2 (&lt;string&gt;:, line 93) Inline literal start-string without end-string. For more information about ARN format, see CloudWatch Logs resources and operations . Constraints: • min: 1 • max: 1011 • pattern: [\w+=/:,.@-]*</param>
+    /// <param name="Tags">The list of key-value pairs to associate with the resource. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ value -&gt; (string) Constraints: • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsLogsTagResourceOptions(
         string ResourceArn,
         IReadOnlyList<KeyValue> Tags
@@ -72,13 +73,13 @@ public record AwsLogsTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource that you're adding tags to. The ARN format of a log group is `` arn:aws:logs:Region :account-id :log-group:log-group-name `` System Message: WARNING/2 (&lt;string&gt;:, line 89) Inline literal start-string without end-string. The ARN format of a destination is `` arn:aws:logs:Region :account-id :destination:destination-name `` System Message: WARNING/2 (&lt;string&gt;:, line 93) Inline literal start-string without end-string. For more information about ARN format, see CloudWatch Logs resources and operations . Constraints: o min: 1 o max: 1011 o pattern: [\w+=/:,.@-]*
+    /// The ARN of the resource that you're adding tags to. The ARN format of a log group is `` arn:aws:logs:Region :account-id :log-group:log-group-name `` System Message: WARNING/2 (&lt;string&gt;:, line 89) Inline literal start-string without end-string. The ARN format of a destination is `` arn:aws:logs:Region :account-id :destination:destination-name `` System Message: WARNING/2 (&lt;string&gt;:, line 93) Inline literal start-string without end-string. For more information about ARN format, see CloudWatch Logs resources and operations . Constraints: • min: 1 • max: 1011 • pattern: [\w+=/:,.@-]*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The list of key-value pairs to associate with the resource. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ value -&gt; (string) Constraints: o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The list of key-value pairs to associate with the resource. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ value -&gt; (string) Constraints: • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; private init; }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -29,7 +30,7 @@ public record AwsDocdbElasticCopyClusterSnapshotOptions : AwsOptions, IValidatab
     /// Copies a snapshot of an elastic cluster. See also: AWS API Documentation
     /// </summary>
     /// <param name="SnapshotArn">The Amazon Resource Name (ARN) identifier of the elastic cluster snapshot.</param>
-    /// <param name="TargetSnapshotName">The identifier of the new elastic cluster snapshot to create from the source cluster snapshot. This parameter is not case sensitive. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: elastic-cluster-snapshot-5 Constraints: o min: 1 o max: 63</param>
+    /// <param name="TargetSnapshotName">The identifier of the new elastic cluster snapshot to create from the source cluster snapshot. This parameter is not case sensitive. Constraints: • Must contain from 1 to 63 letters, numbers, or hyphens. • The first character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. Example: elastic-cluster-snapshot-5 Constraints: • min: 1 • max: 63</param>
     public AwsDocdbElasticCopyClusterSnapshotOptions(
         string SnapshotArn,
         string TargetSnapshotName
@@ -67,7 +68,7 @@ public record AwsDocdbElasticCopyClusterSnapshotOptions : AwsOptions, IValidatab
     public string? SnapshotArn { get; private init; }
 
     /// <summary>
-    /// The identifier of the new elastic cluster snapshot to create from the source cluster snapshot. This parameter is not case sensitive. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: elastic-cluster-snapshot-5 Constraints: o min: 1 o max: 63
+    /// The identifier of the new elastic cluster snapshot to create from the source cluster snapshot. This parameter is not case sensitive. Constraints: • Must contain from 1 to 63 letters, numbers, or hyphens. • The first character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. Example: elastic-cluster-snapshot-5 Constraints: • min: 1 • max: 63
     /// </summary>
     [CliOption("--target-snapshot-name")]
     public string? TargetSnapshotName { get; private init; }
@@ -79,13 +80,13 @@ public record AwsDocdbElasticCopyClusterSnapshotOptions : AwsOptions, IValidatab
     public bool? CopyTags { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services KMS key ID for an encrypted elastic cluster snapshot. The Amazon Web Services KMS key ID is the Amazon Resource Name (ARN), Amazon Web Services KMS key identifier, or the Amazon Web Services KMS key alias for the Amazon Web Services KMS encryp- tion key. If you copy an encrypted elastic cluster snapshot from your Amazon Web Services account, you can specify a value for KmsKeyId to en- crypt the copy with a new Amazon Web ServicesS KMS encryption key. If you don't specify a value for KmsKeyId , then the copy of the elastic cluster snapshot is encrypted with the same AWS KMS key as the source elastic cluster snapshot. To copy an encrypted elastic cluster snapshot to another Amazon Web Services region, set KmsKeyId to the Amazon Web Services KMS key ID that you want to use to encrypt the copy of the elastic cluster snapshot in the destination region. Amazon Web Services KMS encryp- tion keys are specific to the Amazon Web Services region that they are created in, and you can't use encryption keys from one Amazon Web Services region in another Amazon Web Services region. If you copy an unencrypted elastic cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
+    /// The Amazon Web Services KMS key ID for an encrypted elastic cluster snapshot. The Amazon Web Services KMS key ID is the Amazon Resource Name (ARN), Amazon Web Services KMS key identifier, or the Amazon Web Services KMS key alias for the Amazon Web Services KMS encryption key. If you copy an encrypted elastic cluster snapshot from your Amazon Web Services account, you can specify a value for KmsKeyId to encrypt the copy with a new Amazon Web ServicesS KMS encryption key. If you don't specify a value for KmsKeyId , then the copy of the elastic cluster snapshot is encrypted with the same AWS KMS key as the source elastic cluster snapshot. To copy an encrypted elastic cluster snapshot to another Amazon Web Services region, set KmsKeyId to the Amazon Web Services KMS key ID that you want to use to encrypt the copy of the elastic cluster snapshot in the destination region. Amazon Web Services KMS encryption keys are specific to the Amazon Web Services region that they are created in, and you can't use encryption keys from one Amazon Web Services region in another Amazon Web Services region. If you copy an unencrypted elastic cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// The tags to be assigned to the elastic cluster snapshot. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to be assigned to the elastic cluster snapshot. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

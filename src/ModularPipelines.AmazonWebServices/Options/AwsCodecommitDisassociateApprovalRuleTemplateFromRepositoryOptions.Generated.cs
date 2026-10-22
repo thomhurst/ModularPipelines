@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the association between a template and a repository so that ap- proval rules based on the template are not automatically created when pull requests are created in the specified repository. This does not delete any approval rules previously created for pull requests through the template association. See also: AWS API Documentation
+/// Removes the association between a template and a repository so that approval rules based on the template are not automatically created when pull requests are created in the specified repository. This does not delete any approval rules previously created for pull requests through the template association. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsCodecommitDisassociateApprovalRuleTemplateFromRepositoryOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the association between a template and a repository so that ap- proval rules based on the template are not automatically created when pull requests are created in the specified repository. This does not delete any approval rules previously created for pull requests through the template association. See also: AWS API Documentation
+    /// Removes the association between a template and a repository so that approval rules based on the template are not automatically created when pull requests are created in the specified repository. This does not delete any approval rules previously created for pull requests through the template association. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApprovalRuleTemplateName">The name of the approval rule template to disassociate from a speci- fied repository. Constraints: o min: 1 o max: 100</param>
-    /// <param name="RepositoryName">The name of the repository you want to disassociate from the tem- plate. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
+    /// <param name="ApprovalRuleTemplateName">The name of the approval rule template to disassociate from a specified repository. Constraints: • min: 1 • max: 100</param>
+    /// <param name="RepositoryName">The name of the repository you want to disassociate from the template. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+</param>
     public AwsCodecommitDisassociateApprovalRuleTemplateFromRepositoryOptions(
         string ApprovalRuleTemplateName,
         string RepositoryName
@@ -60,13 +62,13 @@ public record AwsCodecommitDisassociateApprovalRuleTemplateFromRepositoryOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the approval rule template to disassociate from a speci- fied repository. Constraints: o min: 1 o max: 100
+    /// The name of the approval rule template to disassociate from a specified repository. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--approval-rule-template-name")]
     public string? ApprovalRuleTemplateName { get; private init; }
 
     /// <summary>
-    /// The name of the repository you want to disassociate from the tem- plate. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// The name of the repository you want to disassociate from the template. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }

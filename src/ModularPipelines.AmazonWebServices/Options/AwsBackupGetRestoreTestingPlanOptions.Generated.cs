@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns RestoreTestingPlan details for the specified RestoreTesting- PlanName . The details are the body of a restore testing plan in JSON format, in addition to plan metadata. See also: AWS API Documentation
+/// Returns RestoreTestingPlan details for the specified RestoreTestingPlanName . The details are the body of a restore testing plan in JSON format, in addition to plan metadata. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsBackupGetRestoreTestingPlanOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns RestoreTestingPlan details for the specified RestoreTesting- PlanName . The details are the body of a restore testing plan in JSON format, in addition to plan metadata. See also: AWS API Documentation
+    /// Returns RestoreTestingPlan details for the specified RestoreTestingPlanName . The details are the body of a restore testing plan in JSON format, in addition to plan metadata. See also: AWS API Documentation
     /// </summary>
     /// <param name="RestoreTestingPlanName">Required unique name of the restore testing plan.</param>
     public AwsBackupGetRestoreTestingPlanOptions(

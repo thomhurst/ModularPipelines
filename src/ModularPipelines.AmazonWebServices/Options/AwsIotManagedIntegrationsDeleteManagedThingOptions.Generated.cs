@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Delete a managed thing. For direct-connected and hub-connected devices connecting with Managed integrations via a controller, all of the de- vices connected to it will have their status changed to PENDING . It is not possible to remove a cloud-to-cloud device. See also: AWS API Documentation
+/// Delete a managed thing. For direct-connected and hub-connected devices connecting with Managed integrations via a controller, all of the devices connected to it will have their status changed to PENDING . It is not possible to remove a cloud-to-cloud device. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsIotManagedIntegrationsDeleteManagedThingOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Delete a managed thing. For direct-connected and hub-connected devices connecting with Managed integrations via a controller, all of the de- vices connected to it will have their status changed to PENDING . It is not possible to remove a cloud-to-cloud device. See also: AWS API Documentation
+    /// Delete a managed thing. For direct-connected and hub-connected devices connecting with Managed integrations via a controller, all of the devices connected to it will have their status changed to PENDING . It is not possible to remove a cloud-to-cloud device. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The id of the managed thing. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9:_-]*</param>
+    /// <param name="Identifier">The id of the managed thing. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9:_-]*</param>
     public AwsIotManagedIntegrationsDeleteManagedThingOptions(
         string Identifier
     )
@@ -56,7 +58,7 @@ public record AwsIotManagedIntegrationsDeleteManagedThingOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The id of the managed thing. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9:_-]*
+    /// The id of the managed thing. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9:_-]*
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }

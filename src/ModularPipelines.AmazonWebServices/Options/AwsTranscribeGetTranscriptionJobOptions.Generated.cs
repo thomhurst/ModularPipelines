@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides information about the specified transcription job. To view the status of the specified transcription job, check the Tran- scriptionJobStatus field. If the status is COMPLETED , the job is fin- ished. You can find the results at the location specified in Tran- scriptFileUri . If the status is FAILED , FailureReason provides de- tails on why your transcription job failed. If you enabled content redaction, the redacted transcript can be found at the location specified in RedactedTranscript...
+/// Provides information about the specified transcription job. To view the status of the specified transcription job, check the TranscriptionJobStatus field. If the status is COMPLETED , the job is finished. You can find the results at the location specified in TranscriptFileUri . If the status is FAILED , FailureReason provides details on why your transcription job failed. If you enabled content redaction, the redacted transcript can be found at the location specified in RedactedTranscriptFileUri ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsTranscribeGetTranscriptionJobOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides information about the specified transcription job. To view the status of the specified transcription job, check the Tran- scriptionJobStatus field. If the status is COMPLETED , the job is fin- ished. You can find the results at the location specified in Tran- scriptFileUri . If the status is FAILED , FailureReason provides de- tails on why your transcription job failed. If you enabled content redaction, the redacted transcript can be found at the location specified in RedactedTranscript...
+    /// Provides information about the specified transcription job. To view the status of the specified transcription job, check the TranscriptionJobStatus field. If the status is COMPLETED , the job is finished. You can find the results at the location specified in TranscriptFileUri . If the status is FAILED , FailureReason provides details on why your transcription job failed. If you enabled content redaction, the redacted transcript can be found at the location specified in RedactedTranscriptFileUri ...
     /// </summary>
-    /// <param name="TranscriptionJobName">The name of the transcription job you want information about. Job names are case sensitive. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+</param>
+    /// <param name="TranscriptionJobName">The name of the transcription job you want information about. Job names are case sensitive. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z._-]+</param>
     public AwsTranscribeGetTranscriptionJobOptions(
         string TranscriptionJobName
     )
@@ -56,7 +58,7 @@ public record AwsTranscribeGetTranscriptionJobOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the transcription job you want information about. Job names are case sensitive. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+
+    /// The name of the transcription job you want information about. Job names are case sensitive. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z._-]+
     /// </summary>
     [CliOption("--transcription-job-name")]
     public string? TranscriptionJobName { get; private init; }

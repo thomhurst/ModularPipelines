@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a URL that you can use to access the application UIs for a specified resource, such as a session. For resources in a running state, the application UI is a live user in- terface such as the Spark web UI. For terminated resources, the appli- cation UI is a persistent application user interface such as the Spark History Server. NOTE: The URL is valid for one hour after you generate it. To access the application UI after that hour elapses, you must invoke the API again to generate a new URL...
+/// Returns a URL that you can use to access the application UIs for a specified resource, such as a session. For resources in a running state, the application UI is a live user interface such as the Spark web UI. For terminated resources, the application UI is a persistent application user interface such as the Spark History Server. NOTE: The URL is valid for one hour after you generate it. To access the application UI after that hour elapses, you must invoke the API again to generate a new URL. Se...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsEmrServerlessGetResourceDashboardOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a URL that you can use to access the application UIs for a specified resource, such as a session. For resources in a running state, the application UI is a live user in- terface such as the Spark web UI. For terminated resources, the appli- cation UI is a persistent application user interface such as the Spark History Server. NOTE: The URL is valid for one hour after you generate it. To access the application UI after that hour elapses, you must invoke the API again to generate a new URL...
+    /// Returns a URL that you can use to access the application UIs for a specified resource, such as a session. For resources in a running state, the application UI is a live user interface such as the Spark web UI. For terminated resources, the application UI is a persistent application user interface such as the Spark History Server. NOTE: The URL is valid for one hour after you generate it. To access the application UI after that hour elapses, you must invoke the API again to generate a new URL. Se...
     /// </summary>
-    /// <param name="ApplicationId">The ID of the application that the resource belongs to. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
-    /// <param name="ResourceId">The ID of the resource. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
-    /// <param name="ResourceType">The type of resource to access the dashboard for. Currently, only Session is supported. Possible values: o SESSION</param>
+    /// <param name="ApplicationId">The ID of the application that the resource belongs to. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+</param>
+    /// <param name="ResourceId">The ID of the resource. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+</param>
+    /// <param name="ResourceType">The type of resource to access the dashboard for. Currently, only Session is supported. Possible values: • SESSION</param>
     public AwsEmrServerlessGetResourceDashboardOptions(
         string ApplicationId,
         string ResourceId,
@@ -64,22 +66,28 @@ public record AwsEmrServerlessGetResourceDashboardOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the application that the resource belongs to. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// The ID of the application that the resource belongs to. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The ID of the resource. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// The ID of the resource. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// The type of resource to access the dashboard for. Currently, only Session is supported. Possible values: o SESSION
+    /// The type of resource to access the dashboard for. Currently, only Session is supported. Possible values: • SESSION
     /// </summary>
     [CliOption("--resource-type")]
     public string? ResourceType { get; private init; }
+
+    /// <summary>
+    /// Allows access to system profile logs for Lake Formation-enabled sessions. Default is false.
+    /// </summary>
+    [CliFlag("--access-system-profile-logs", NegatedName = "--no-access-system-profile-logs")]
+    public bool? AccessSystemProfileLogs { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

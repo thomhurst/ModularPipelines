@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsKinesisVideoWebrtcStorageJoinStorageSessionOptions : AwsOptions
     /// <summary>
     /// NOTE: Before using this API, you must call the GetSignalingChannelEndpoint API to request the WEBRTC endpoint. You then specify the endpoint and region in your JoinStorageSession API request. Join the ongoing one way-video and/or multi-way audio WebRTC session as a video producing device for an input channel. If theres no existing session for the channel, a new streaming session needs to be created, and the Amazon Resource Name (ARN) of the signaling channel must be provided. Currently for the S...
     /// </summary>
-    /// <param name="ChannelArn">The Amazon Resource Name (ARN) of the signaling channel. Constraints: o pattern: ^arn:(aws[a-zA-Z-]*):kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+$</param>
+    /// <param name="ChannelArn">The Amazon Resource Name (ARN) of the signaling channel. Constraints: • pattern: ^arn:(aws[a-zA-Z-]*):kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+$</param>
     public AwsKinesisVideoWebrtcStorageJoinStorageSessionOptions(
         string ChannelArn
     )
@@ -56,7 +58,7 @@ public record AwsKinesisVideoWebrtcStorageJoinStorageSessionOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the signaling channel. Constraints: o pattern: ^arn:(aws[a-zA-Z-]*):kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+$
+    /// The Amazon Resource Name (ARN) of the signaling channel. Constraints: • pattern: ^arn:(aws[a-zA-Z-]*):kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+$
     /// </summary>
     [CliOption("--channel-arn")]
     public string? ChannelArn { get; private init; }

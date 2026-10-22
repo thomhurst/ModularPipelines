@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws launchwizard commands.
+/// aws launch-wizard commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsLaunchWizard : IAwsLaunchWizard
@@ -92,7 +92,7 @@ public class AwsLaunchWizard : IAwsLaunchWizard
     }
 
     /// <summary>
-    /// Returns details for a given workload and deployment pattern, including the available specifications. You can use the ListWorkloads operation to discover the available workload names and the ListWorkloadDeploymentPatterns operation to discover the available de- ployment pattern names of a given workload. See also: AWS API Documentation
+    /// Returns details for a given workload and deployment pattern, including the available specifications. You can use the ListWorkloads operation to discover the available workload names and the ListWorkloadDeploymentPatterns operation to discover the available deployment pattern names of a given workload. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsLaunchWizard : IAwsLaunchWizard
     }
 
     /// <summary>
-    /// Lists the deployment pattern versions. See also: AWS API Documentation list-deployment-pattern-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: deploymentPatternVersions
+    /// Lists the deployment pattern versions. See also: AWS API Documentation list-deployment-pattern-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: deploymentPatternVersions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsLaunchWizard : IAwsLaunchWizard
     }
 
     /// <summary>
-    /// Lists the workload deployment patterns for a given workload name. You can use the ListWorkloads operation to discover the available workload names. See also: AWS API Documentation list-workload-deployment-patterns is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must e...
+    /// Lists the workload deployment patterns for a given workload name. You can use the ListWorkloads operation to discover the available workload names. See also: AWS API Documentation list-workload-deployment-patterns is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extra...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsLaunchWizard : IAwsLaunchWizard
     }
 
     /// <summary>
-    /// Lists the available workload names. You can use the ListWorkloadDeploymentPatterns operation to discover the available de- ployment patterns for a given workload. See also: AWS API Documentation list-workloads is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extra...
+    /// Lists the available workload names. You can use the ListWorkloadDeploymentPatterns operation to discover the available deployment patterns for a given workload. See also: AWS API Documentation list-workloads is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract dat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

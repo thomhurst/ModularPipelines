@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +30,9 @@ public record AwsEcrUpdateImageStorageClassOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Transitions an image between storage classes. You can transition images from Amazon ECR standard storage class to Amazon ECR archival storage class for long-term storage, or restore archived images back to Amazon ECR standard. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryName">The name of the repository that contains the image to transition. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*</param>
-    /// <param name="ImageId">An object with identifying information for an image in an Amazon ECR repository. imageDigest -&gt; (string) The sha256 digest of the image manifest. imageTag -&gt; (string) The tag used for the image. Constraints: o min: 1 o max: 300 Shorthand Syntax: imageDigest=string,imageTag=string JSON Syntax: { "imageDigest": "string", "imageTag": "string" }</param>
-    /// <param name="TargetStorageClass">The target storage class for the image. Possible values: o STANDARD o ARCHIVE</param>
+    /// <param name="RepositoryName">The name of the repository that contains the image to transition. Constraints: • min: 2 • max: 256 • pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*</param>
+    /// <param name="ImageId">An object with identifying information for an image in an Amazon ECR repository. imageDigest -&gt; (string) The sha256 digest of the image manifest. imageTag -&gt; (string) The tag used for the image. Constraints: • min: 1 • max: 300 Shorthand Syntax: imageDigest=string,imageTag=string JSON Syntax: { "imageDigest": "string", "imageTag": "string" }</param>
+    /// <param name="TargetStorageClass">The target storage class for the image. Possible values: • STANDARD • ARCHIVE</param>
     public AwsEcrUpdateImageStorageClassOptions(
         string RepositoryName,
         string ImageId,
@@ -64,25 +66,25 @@ public record AwsEcrUpdateImageStorageClassOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the repository that contains the image to transition. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*
+    /// The name of the repository that contains the image to transition. Constraints: • min: 2 • max: 256 • pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
 
     /// <summary>
-    /// An object with identifying information for an image in an Amazon ECR repository. imageDigest -&gt; (string) The sha256 digest of the image manifest. imageTag -&gt; (string) The tag used for the image. Constraints: o min: 1 o max: 300 Shorthand Syntax: imageDigest=string,imageTag=string JSON Syntax: { "imageDigest": "string", "imageTag": "string" }
+    /// An object with identifying information for an image in an Amazon ECR repository. imageDigest -&gt; (string) The sha256 digest of the image manifest. imageTag -&gt; (string) The tag used for the image. Constraints: • min: 1 • max: 300 Shorthand Syntax: imageDigest=string,imageTag=string JSON Syntax: { "imageDigest": "string", "imageTag": "string" }
     /// </summary>
     [CliOption("--image-id")]
     public string? ImageId { get; private init; }
 
     /// <summary>
-    /// The target storage class for the image. Possible values: o STANDARD o ARCHIVE
+    /// The target storage class for the image. Possible values: • STANDARD • ARCHIVE
     /// </summary>
     [CliOption("--target-storage-class")]
     public AwsEcrUpdateImageStorageClassTargetStorageClass? TargetStorageClass { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID associated with the registry that contains the image to transition. If you do not specify a registry, the default registry is assumed. Constraints: o pattern: [0-9]{12}
+    /// The Amazon Web Services account ID associated with the registry that contains the image to transition. If you do not specify a registry, the default registry is assumed. Constraints: • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; set; }

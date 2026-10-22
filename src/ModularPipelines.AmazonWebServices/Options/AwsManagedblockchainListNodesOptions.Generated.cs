@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +31,7 @@ public record AwsManagedblockchainListNodesOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Returns information about the nodes within a network. Applies to Hyperledger Fabric and Ethereum. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The unique identifier of the network for which to list nodes. Constraints: o min: 1 o max: 32</param>
+    /// <param name="NetworkId">The unique identifier of the network for which to list nodes. Constraints: • min: 1 • max: 32</param>
     public AwsManagedblockchainListNodesOptions(
         string NetworkId
     )
@@ -58,31 +60,31 @@ public record AwsManagedblockchainListNodesOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the network for which to list nodes. Constraints: o min: 1 o max: 32
+    /// The unique identifier of the network for which to list nodes. Constraints: • min: 1 • max: 32
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the member who owns the nodes to list. Applies only to Hyperledger Fabric and is required for Hyperledger Fabric. Constraints: o min: 1 o max: 32
+    /// The unique identifier of the member who owns the nodes to list. Applies only to Hyperledger Fabric and is required for Hyperledger Fabric. Constraints: • min: 1 • max: 32
     /// </summary>
     [CliOption("--member-id")]
     public string? MemberId { get; set; }
 
     /// <summary>
-    /// An optional status specifier. If provided, only nodes currently in this status are listed. Possible values: o CREATING o AVAILABLE o UNHEALTHY o CREATE_FAILED o UPDATING o DELETING o DELETED o FAILED o INACCESSIBLE_ENCRYPTION_KEY
+    /// An optional status specifier. If provided, only nodes currently in this status are listed. Possible values: • CREATING • AVAILABLE • UNHEALTHY • CREATE_FAILED • UPDATING • DELETING • DELETED • FAILED • INACCESSIBLE_ENCRYPTION_KEY
     /// </summary>
     [CliOption("--status")]
     public AwsManagedblockchainListNodesStatus? Status { get; set; }
 
     /// <summary>
-    /// The maximum number of nodes to list. Constraints: o min: 1 o max: 20
+    /// The maximum number of nodes to list. Constraints: • min: 1 • max: 20
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The pagination token that indicates the next set of results to re- trieve. Constraints: o max: 128
+    /// The pagination token that indicates the next set of results to retrieve. Constraints: • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

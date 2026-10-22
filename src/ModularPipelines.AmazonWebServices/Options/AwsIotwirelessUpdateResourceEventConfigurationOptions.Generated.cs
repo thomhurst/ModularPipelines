@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsIotwirelessUpdateResourceEventConfigurationOptions : AwsOptions
     /// <summary>
     /// Update the event configuration for a particular resource identifier. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">Resource identifier to opt in for event messaging. Constraints: o max: 256</param>
-    /// <param name="IdentifierType">Identifier type of the particular resource identifier for event con- figuration. Possible values: o PartnerAccountId o DevEui o GatewayEui o WirelessDeviceId o WirelessGatewayId</param>
+    /// <param name="Identifier">Resource identifier to opt in for event messaging. Constraints: • max: 256</param>
+    /// <param name="IdentifierType">Identifier type of the particular resource identifier for event configuration. Possible values: • PartnerAccountId • DevEui • GatewayEui • WirelessDeviceId • WirelessGatewayId</param>
     public AwsIotwirelessUpdateResourceEventConfigurationOptions(
         string Identifier,
         AwsIotwirelessUpdateResourceEventConfigurationIdentifierType IdentifierType
@@ -60,49 +62,49 @@ public record AwsIotwirelessUpdateResourceEventConfigurationOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Resource identifier to opt in for event messaging. Constraints: o max: 256
+    /// Resource identifier to opt in for event messaging. Constraints: • max: 256
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// Identifier type of the particular resource identifier for event con- figuration. Possible values: o PartnerAccountId o DevEui o GatewayEui o WirelessDeviceId o WirelessGatewayId
+    /// Identifier type of the particular resource identifier for event configuration. Possible values: • PartnerAccountId • DevEui • GatewayEui • WirelessDeviceId • WirelessGatewayId
     /// </summary>
     [CliOption("--identifier-type")]
     public AwsIotwirelessUpdateResourceEventConfigurationIdentifierType? IdentifierType { get; private init; }
 
     /// <summary>
-    /// Partner type of the resource if the identifier type is PartnerAc- countId Possible values: o Sidewalk
+    /// Partner type of the resource if the identifier type is PartnerAccountId Possible values: • Sidewalk
     /// </summary>
     [CliOption("--partner-type")]
     public string? PartnerType { get; set; }
 
     /// <summary>
-    /// Event configuration for the device registration state event. Sidewalk -&gt; (structure) Device registration state event configuration object for en- abling or disabling Sidewalk related event topics. AmazonIdEventTopic -&gt; (string) Denotes whether the Amazon ID event topic is enabled or dis- abled. Possible values: o Enabled o Disabled WirelessDeviceIdEventTopic -&gt; (string) Denotes whether the wireless device ID device registration state event topic is enabled or disabled. Possible values: o Enabled o Disabled Shorthand Syntax: Sidewalk={AmazonIdEventTopic=string},WirelessDeviceIdEventTopic=string JSON Syntax: { "Sidewalk": { "AmazonIdEventTopic": "Enabled"|"Disabled" }, "WirelessDeviceIdEventTopic": "Enabled"|"Disabled" }
+    /// Event configuration for the device registration state event. Sidewalk -&gt; (structure) Device registration state event configuration object for enabling or disabling Sidewalk related event topics. AmazonIdEventTopic -&gt; (string) Denotes whether the Amazon ID event topic is enabled or disabled. Possible values: • Enabled • Disabled WirelessDeviceIdEventTopic -&gt; (string) Denotes whether the wireless device ID device registration state event topic is enabled or disabled. Possible values: • Enabled • Disabled Shorthand Syntax: Sidewalk={AmazonIdEventTopic=string},WirelessDeviceIdEventTopic=string JSON Syntax: { "Sidewalk": { "AmazonIdEventTopic": "Enabled"|"Disabled" }, "WirelessDeviceIdEventTopic": "Enabled"|"Disabled" }
     /// </summary>
     [CliOption("--device-registration-state")]
     public string? DeviceRegistrationState { get; set; }
 
     /// <summary>
-    /// Event configuration for the proximity event. Sidewalk -&gt; (structure) Proximity event configuration object for enabling or disabling Sidewalk related event topics. AmazonIdEventTopic -&gt; (string) Denotes whether the Amazon ID event topic is enabled or dis- abled. Possible values: o Enabled o Disabled WirelessDeviceIdEventTopic -&gt; (string) Denotes whether the wireless device ID proximity event topic is enabled or disabled. Possible values: o Enabled o Disabled Shorthand Syntax: Sidewalk={AmazonIdEventTopic=string},WirelessDeviceIdEventTopic=string JSON Syntax: { "Sidewalk": { "AmazonIdEventTopic": "Enabled"|"Disabled" }, "WirelessDeviceIdEventTopic": "Enabled"|"Disabled" }
+    /// Event configuration for the proximity event. Sidewalk -&gt; (structure) Proximity event configuration object for enabling or disabling Sidewalk related event topics. AmazonIdEventTopic -&gt; (string) Denotes whether the Amazon ID event topic is enabled or disabled. Possible values: • Enabled • Disabled WirelessDeviceIdEventTopic -&gt; (string) Denotes whether the wireless device ID proximity event topic is enabled or disabled. Possible values: • Enabled • Disabled Shorthand Syntax: Sidewalk={AmazonIdEventTopic=string},WirelessDeviceIdEventTopic=string JSON Syntax: { "Sidewalk": { "AmazonIdEventTopic": "Enabled"|"Disabled" }, "WirelessDeviceIdEventTopic": "Enabled"|"Disabled" }
     /// </summary>
     [CliOption("--proximity")]
     public string? Proximity { get; set; }
 
     /// <summary>
-    /// Event configuration for the join event. LoRaWAN -&gt; (structure) Join event configuration object for enabling or disabling Lo- RaWAN related event topics. DevEuiEventTopic -&gt; (string) Denotes whether the Dev EUI join event topic is enabled or disabled. Possible values: o Enabled o Disabled WirelessDeviceIdEventTopic -&gt; (string) Denotes whether the wireless device ID join event topic is en- abled or disabled. Possible values: o Enabled o Disabled Shorthand Syntax: LoRaWAN={DevEuiEventTopic=string},WirelessDeviceIdEventTopic=string JSON Syntax: { "LoRaWAN": { "DevEuiEventTopic": "Enabled"|"Disabled" }, "WirelessDeviceIdEventTopic": "Enabled"|"Disabled" }
+    /// Event configuration for the join event. LoRaWAN -&gt; (structure) Join event configuration object for enabling or disabling LoRaWAN related event topics. DevEuiEventTopic -&gt; (string) Denotes whether the Dev EUI join event topic is enabled or disabled. Possible values: • Enabled • Disabled WirelessDeviceIdEventTopic -&gt; (string) Denotes whether the wireless device ID join event topic is enabled or disabled. Possible values: • Enabled • Disabled Shorthand Syntax: LoRaWAN={DevEuiEventTopic=string},WirelessDeviceIdEventTopic=string JSON Syntax: { "LoRaWAN": { "DevEuiEventTopic": "Enabled"|"Disabled" }, "WirelessDeviceIdEventTopic": "Enabled"|"Disabled" }
     /// </summary>
     [CliOption("--join")]
     public string? Join { get; set; }
 
     /// <summary>
-    /// Event configuration for the connection status event. LoRaWAN -&gt; (structure) Connection status event configuration object for enabling or disabling LoRaWAN related event topics. GatewayEuiEventTopic -&gt; (string) Denotes whether the gateway EUI connection status event topic is enabled or disabled. Possible values: o Enabled o Disabled WirelessGatewayIdEventTopic -&gt; (string) Denotes whether the wireless gateway ID connection status event topic is enabled or disabled. Possible values: o Enabled o Disabled Shorthand Syntax: LoRaWAN={GatewayEuiEventTopic=string},WirelessGatewayIdEventTopic=string JSON Syntax: { "LoRaWAN": { "GatewayEuiEventTopic": "Enabled"|"Disabled" }, "WirelessGatewayIdEventTopic": "Enabled"|"Disabled" }
+    /// Event configuration for the connection status event. LoRaWAN -&gt; (structure) Connection status event configuration object for enabling or disabling LoRaWAN related event topics. GatewayEuiEventTopic -&gt; (string) Denotes whether the gateway EUI connection status event topic is enabled or disabled. Possible values: • Enabled • Disabled WirelessGatewayIdEventTopic -&gt; (string) Denotes whether the wireless gateway ID connection status event topic is enabled or disabled. Possible values: • Enabled • Disabled Shorthand Syntax: LoRaWAN={GatewayEuiEventTopic=string},WirelessGatewayIdEventTopic=string JSON Syntax: { "LoRaWAN": { "GatewayEuiEventTopic": "Enabled"|"Disabled" }, "WirelessGatewayIdEventTopic": "Enabled"|"Disabled" }
     /// </summary>
     [CliOption("--connection-status")]
     public string? ConnectionStatus { get; set; }
 
     /// <summary>
-    /// Event configuration for the message delivery status event. Sidewalk -&gt; (structure) SidewalkEventNotificationConfigurations object, which is the event configuration object for Sidewalk-related event topics. AmazonIdEventTopic -&gt; (string) Denotes whether the Amazon ID event topic is enabled or dis- abled. Possible values: o Enabled o Disabled WirelessDeviceIdEventTopic -&gt; (string) Denotes whether the wireless device ID message delivery status event topic is enabled or disabled. Possible values: o Enabled o Disabled Shorthand Syntax: Sidewalk={AmazonIdEventTopic=string},WirelessDeviceIdEventTopic=string JSON Syntax: { "Sidewalk": { "AmazonIdEventTopic": "Enabled"|"Disabled" }, "WirelessDeviceIdEventTopic": "Enabled"|"Disabled" }
+    /// Event configuration for the message delivery status event. Sidewalk -&gt; (structure) SidewalkEventNotificationConfigurations object, which is the event configuration object for Sidewalk-related event topics. AmazonIdEventTopic -&gt; (string) Denotes whether the Amazon ID event topic is enabled or disabled. Possible values: • Enabled • Disabled WirelessDeviceIdEventTopic -&gt; (string) Denotes whether the wireless device ID message delivery status event topic is enabled or disabled. Possible values: • Enabled • Disabled Shorthand Syntax: Sidewalk={AmazonIdEventTopic=string},WirelessDeviceIdEventTopic=string JSON Syntax: { "Sidewalk": { "AmazonIdEventTopic": "Enabled"|"Disabled" }, "WirelessDeviceIdEventTopic": "Enabled"|"Disabled" }
     /// </summary>
     [CliOption("--message-delivery-status")]
     public string? MessageDeliveryStatus { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMgnListTagsForResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// List all tags for your Application Migration Service resources. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">List tags for resource request by ARN. Constraints: o min: 20 o max: 2048</param>
+    /// <param name="ResourceArn">List tags for resource request by ARN. Constraints: • min: 20 • max: 2048</param>
     public AwsMgnListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsMgnListTagsForResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// List tags for resource request by ARN. Constraints: o min: 20 o max: 2048
+    /// List tags for resource request by ARN. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

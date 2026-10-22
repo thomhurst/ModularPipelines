@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -30,17 +31,17 @@ public record AwsOdbCreateExadbVmClusterOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates an Exascale VM cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DisplayName">A user-friendly name for the Exascale VM cluster. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*</param>
-    /// <param name="EnabledEcpuCount">The number of ECPUs to enable for the Exascale VM cluster. Constraints: o min: 0</param>
-    /// <param name="ExascaleDbStorageVaultId">The unique identifier of the Exascale storage vault for this Exas- cale VM cluster. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
-    /// <param name="GridImageId">The Grid Infrastructure software image ID for the Exascale VM clus- ter. Constraints: o min: 1 o max: 255</param>
-    /// <param name="Hostname">The host name for the Exascale VM cluster. Constraints: o min: 1 o max: 12 o pattern: [a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]</param>
-    /// <param name="NodeCount">The number of nodes in the Exascale VM cluster. Constraints: o min: 1</param>
-    /// <param name="OdbNetworkId">The unique identifier of the ODB network for the Exascale VM clus- ter. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
-    /// <param name="Shape">The shape of the Exascale VM cluster. Constraints: o min: 1 o max: 255</param>
-    /// <param name="SshPublicKeys">The public key portion of one or more key pairs used for SSH access to the Exascale VM cluster. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...</param>
-    /// <param name="TotalEcpuCount">The total number of ECPUs for the Exascale VM cluster. Constraints: o min: 2</param>
-    /// <param name="VmFileSystemStorageTotalSizeInGbs">The total amount of file system storage, in gigabytes (GB), for the Exascale VM cluster. Constraints: o min: 0</param>
+    /// <param name="DisplayName">A user-friendly name for the Exascale VM cluster. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*</param>
+    /// <param name="EnabledEcpuCount">The number of ECPUs to enable for the Exascale VM cluster. Constraints: • min: 0</param>
+    /// <param name="ExascaleDbStorageVaultId">The unique identifier of the Exascale storage vault for this Exascale VM cluster. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
+    /// <param name="GridImageId">The Grid Infrastructure software image ID for the Exascale VM cluster. Constraints: • min: 1 • max: 255</param>
+    /// <param name="Hostname">The host name for the Exascale VM cluster. Constraints: • min: 1 • max: 12 • pattern: [a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]</param>
+    /// <param name="NodeCount">The number of nodes in the Exascale VM cluster. Constraints: • min: 1</param>
+    /// <param name="OdbNetworkId">The unique identifier of the ODB network for the Exascale VM cluster. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
+    /// <param name="Shape">The shape of the Exascale VM cluster. Constraints: • min: 1 • max: 255</param>
+    /// <param name="SshPublicKeys">The public key portion of one or more key pairs used for SSH access to the Exascale VM cluster. Constraints: • min: 1 • max: 1024 (string) Syntax: "string" "string" ...</param>
+    /// <param name="TotalEcpuCount">The total number of ECPUs for the Exascale VM cluster. Constraints: • min: 2</param>
+    /// <param name="VmFileSystemStorageTotalSizeInGbs">The total amount of file system storage, in gigabytes (GB), for the Exascale VM cluster. Constraints: • min: 0</param>
     public AwsOdbCreateExadbVmClusterOptions(
         string DisplayName,
         int EnabledEcpuCount,
@@ -106,127 +107,127 @@ public record AwsOdbCreateExadbVmClusterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A user-friendly name for the Exascale VM cluster. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*
+    /// A user-friendly name for the Exascale VM cluster. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; private init; }
 
     /// <summary>
-    /// The number of ECPUs to enable for the Exascale VM cluster. Constraints: o min: 0
+    /// The number of ECPUs to enable for the Exascale VM cluster. Constraints: • min: 0
     /// </summary>
     [CliOption("--enabled-ecpu-count")]
     public int? EnabledEcpuCount { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the Exascale storage vault for this Exas- cale VM cluster. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// The unique identifier of the Exascale storage vault for this Exascale VM cluster. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
     /// </summary>
     [CliOption("--exascale-db-storage-vault-id")]
     public string? ExascaleDbStorageVaultId { get; private init; }
 
     /// <summary>
-    /// The Grid Infrastructure software image ID for the Exascale VM clus- ter. Constraints: o min: 1 o max: 255
+    /// The Grid Infrastructure software image ID for the Exascale VM cluster. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--grid-image-id")]
     public string? GridImageId { get; private init; }
 
     /// <summary>
-    /// The host name for the Exascale VM cluster. Constraints: o min: 1 o max: 12 o pattern: [a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]
+    /// The host name for the Exascale VM cluster. Constraints: • min: 1 • max: 12 • pattern: [a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]
     /// </summary>
     [CliOption("--hostname")]
     public string? Hostname { get; private init; }
 
     /// <summary>
-    /// The number of nodes in the Exascale VM cluster. Constraints: o min: 1
+    /// The number of nodes in the Exascale VM cluster. Constraints: • min: 1
     /// </summary>
     [CliOption("--node-count")]
     public int? NodeCount { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the ODB network for the Exascale VM clus- ter. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// The unique identifier of the ODB network for the Exascale VM cluster. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
     /// </summary>
     [CliOption("--odb-network-id")]
     public string? OdbNetworkId { get; private init; }
 
     /// <summary>
-    /// The shape of the Exascale VM cluster. Constraints: o min: 1 o max: 255
+    /// The shape of the Exascale VM cluster. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--shape")]
     public string? Shape { get; private init; }
 
     /// <summary>
-    /// The public key portion of one or more key pairs used for SSH access to the Exascale VM cluster. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...
+    /// The public key portion of one or more key pairs used for SSH access to the Exascale VM cluster. Constraints: • min: 1 • max: 1024 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--ssh-public-keys", GroupValues = true)]
     public IEnumerable<string>? SshPublicKeys { get; private init; }
 
     /// <summary>
-    /// The total number of ECPUs for the Exascale VM cluster. Constraints: o min: 2
+    /// The total number of ECPUs for the Exascale VM cluster. Constraints: • min: 2
     /// </summary>
     [CliOption("--total-ecpu-count")]
     public int? TotalEcpuCount { get; private init; }
 
     /// <summary>
-    /// The total amount of file system storage, in gigabytes (GB), for the Exascale VM cluster. Constraints: o min: 0
+    /// The total amount of file system storage, in gigabytes (GB), for the Exascale VM cluster. Constraints: • min: 0
     /// </summary>
     [CliOption("--vm-file-system-storage-total-size-in-gbs")]
     public int? VmFileSystemStorageTotalSizeInGbs { get; private init; }
 
     /// <summary>
-    /// A name for the Grid Infrastructure cluster. The name isn't case sen- sitive. Constraints: o min: 1 o max: 11 o pattern: [a-zA-Z][a-zA-Z0-9-]*
+    /// A name for the Grid Infrastructure cluster. The name isn't case sensitive. Constraints: • min: 1 • max: 11 • pattern: [a-zA-Z][a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--cluster-name")]
     public string? ClusterName { get; set; }
 
     /// <summary>
-    /// The set of preferences for the various diagnostic collection options for the Exascale VM cluster. isDiagnosticsEventsEnabled -&gt; (boolean) Indicates whether diagnostic collection is enabled for the VM cluster. isHealthMonitoringEnabled -&gt; (boolean) Indicates whether health monitoring is enabled for the VM clus- ter. isIncidentLogsEnabled -&gt; (boolean) Indicates whether incident logs are enabled for the cloud VM cluster. Shorthand Syntax: isDiagnosticsEventsEnabled=boolean,isHealthMonitoringEnabled=boolean,isIncidentLogsEnabled=boolean JSON Syntax: { "isDiagnosticsEventsEnabled": true|false, "isHealthMonitoringEnabled": true|false, "isIncidentLogsEnabled": true|false }
+    /// The set of preferences for the various diagnostic collection options for the Exascale VM cluster. isDiagnosticsEventsEnabled -&gt; (boolean) Indicates whether diagnostic collection is enabled for the VM cluster. isHealthMonitoringEnabled -&gt; (boolean) Indicates whether health monitoring is enabled for the VM cluster. isIncidentLogsEnabled -&gt; (boolean) Indicates whether incident logs are enabled for the cloud VM cluster. Shorthand Syntax: isDiagnosticsEventsEnabled=boolean,isHealthMonitoringEnabled=boolean,isIncidentLogsEnabled=boolean JSON Syntax: { "isDiagnosticsEventsEnabled": true|false, "isHealthMonitoringEnabled": true|false, "isIncidentLogsEnabled": true|false }
     /// </summary>
     [CliOption("--data-collection-options")]
     public string? DataCollectionOptions { get; set; }
 
     /// <summary>
-    /// The Oracle license model to apply to the Exascale VM cluster. Possible values: o BRING_YOUR_OWN_LICENSE o LICENSE_INCLUDED
+    /// The Oracle license model to apply to the Exascale VM cluster. Possible values: • BRING_YOUR_OWN_LICENSE • LICENSE_INCLUDED
     /// </summary>
     [CliOption("--license-model")]
     public AwsOdbCreateExadbVmClusterLicenseModel? LicenseModel { get; set; }
 
     /// <summary>
-    /// The port number for TCP connections to the Single Client Access Name (SCAN) listener. Constraints: o min: 1024 o max: 8999
+    /// The port number for TCP connections to the Single Client Access Name (SCAN) listener. Constraints: • min: 1024 • max: 8999
     /// </summary>
     [CliOption("--scan-listener-port-tcp")]
     public int? ScanListenerPortTcp { get; set; }
 
     /// <summary>
-    /// The port number for TCP connections with SSL to the Single Client Access Name (SCAN) listener. Constraints: o min: 1024 o max: 8999
+    /// The port number for TCP connections with SSL to the Single Client Access Name (SCAN) listener. Constraints: • min: 1024 • max: 8999
     /// </summary>
     [CliOption("--scan-listener-port-tcp-ssl")]
     public int? ScanListenerPortTcpSsl { get; set; }
 
     /// <summary>
-    /// The shape attribute for the Exascale VM cluster. Possible values: o SMART_STORAGE o BLOCK_STORAGE
+    /// The shape attribute for the Exascale VM cluster. Possible values: • SMART_STORAGE • BLOCK_STORAGE
     /// </summary>
     [CliOption("--shape-attribute")]
     public AwsOdbCreateExadbVmClusterShapeAttribute? ShapeAttribute { get; set; }
 
     /// <summary>
-    /// The version of the operating system of the image for the Exascale VM cluster. Constraints: o min: 1 o max: 255
+    /// The version of the operating system of the image for the Exascale VM cluster. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--system-version")]
     public string? SystemVersion { get; set; }
 
     /// <summary>
-    /// The list of resource tags to apply to the Exascale VM cluster. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The list of resource tags to apply to the Exascale VM cluster. Constraints: • min: 1 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The time zone for the Exascale VM cluster. Constraints: o min: 1 o max: 255
+    /// The time zone for the Exascale VM cluster. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--time-zone")]
     public string? TimeZone { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you submit the same request twice with the same client token, the service ignores the second request and returns the result of the first. If you don't specify a client token, the AWS SDK automatically generates one. The client token is valid for up to 24 hours after it's first used. Constraints: o min: 8 o max: 64 o pattern: [a-zA-Z0-9_\/.=-]+
+    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you submit the same request twice with the same client token, the service ignores the second request and returns the result of the first. If you don't specify a client token, the AWS SDK automatically generates one. The client token is valid for up to 24 hours after it's first used. Constraints: • min: 8 • max: 64 • pattern: [a-zA-Z0-9_\/.=-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

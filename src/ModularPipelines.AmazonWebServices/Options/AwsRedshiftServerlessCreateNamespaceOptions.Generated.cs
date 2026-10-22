@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsRedshiftServerlessCreateNamespaceOptions : AwsOptions, IValidat
     /// <summary>
     /// Creates a namespace in Amazon Redshift Serverless. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NamespaceName">The name of the namespace. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$</param>
+    /// <param name="NamespaceName">The name of the namespace. Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$</param>
     public AwsRedshiftServerlessCreateNamespaceOptions(
         string NamespaceName
     )
@@ -57,7 +59,7 @@ public record AwsRedshiftServerlessCreateNamespaceOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the namespace. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$
+    /// The name of the namespace. Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$
     /// </summary>
     [CliOption("--namespace-name")]
     public string? NamespaceName { get; private init; }
@@ -106,25 +108,25 @@ public record AwsRedshiftServerlessCreateNamespaceOptions : AwsOptions, IValidat
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// The types of logs the namespace can export. Available export types are userlog , connectionlog , and useractivitylog . Constraints: o min: 0 o max: 16 (string) Possible values: o useractivitylog o userlog o connectionlog Syntax: "string" "string" ...
+    /// The types of logs the namespace can export. Available export types are userlog , connectionlog , and useractivitylog . Constraints: • min: 0 • max: 16 (string) Possible values: • useractivitylog • userlog • connectionlog Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--log-exports", GroupValues = true)]
     public IEnumerable<string>? LogExports { get; set; }
 
     /// <summary>
-    /// If true , Amazon Redshift uses Secrets Manager to manage the name- space's admin credentials. You can't use adminUserPassword if man- ageAdminPassword is true. If manageAdminPassword is false or not set, Amazon Redshift uses adminUserPassword for the admin user ac- count's password.
+    /// If true , Amazon Redshift uses Secrets Manager to manage the namespace's admin credentials. You can't use adminUserPassword if manageAdminPassword is true. If manageAdminPassword is false or not set, Amazon Redshift uses adminUserPassword for the admin user account's password.
     /// </summary>
     [CliFlag("--manage-admin-password", NegatedName = "--no-manage-admin-password")]
     public bool? ManageAdminPassword { get; set; }
 
     /// <summary>
-    /// The ARN for the Redshift application that integrates with IAM Iden- tity Center. Constraints: o min: 1 o max: 1024
+    /// The ARN for the Redshift application that integrates with IAM Identity Center. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--redshift-idc-application-arn")]
     public string? RedshiftIdcApplicationArn { get; set; }
 
     /// <summary>
-    /// A list of tag instances. Constraints: o min: 0 o max: 200 (structure) A map of key-value pairs. key -&gt; (string) [required] The key to use in the tag. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// A list of tag instances. Constraints: • min: 0 • max: 200 (structure) A map of key-value pairs. key -&gt; (string) [required] The key to use in the tag. Constraints: • min: 1 • max: 128 value -&gt; (string) [required] The value of the tag. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsTnbUpdateSolNetworkPackageOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Updates the operational state of a network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on. A network service descriptor is a .yaml file in a network package that uses the TOSCA standard to describe the network functions you want to deploy and the Amazon Web Services infrastructure you want to deploy the network functions on. See also: AWS API Do...
     /// </summary>
-    /// <param name="NsdInfoId">ID of the network service descriptor in the network package. Constraints: o pattern: ^np-[a-f0-9]{17}$</param>
-    /// <param name="NsdOperationalState">Operational state of the network service descriptor in the network package. Possible values: o ENABLED o DISABLED</param>
+    /// <param name="NsdInfoId">ID of the network service descriptor in the network package. Constraints: • pattern: ^np-[a-f0-9]{17}$</param>
+    /// <param name="NsdOperationalState">Operational state of the network service descriptor in the network package. Possible values: • ENABLED • DISABLED</param>
     public AwsTnbUpdateSolNetworkPackageOptions(
         string NsdInfoId,
         AwsTnbUpdateSolNetworkPackageNsdOperationalState NsdOperationalState
@@ -60,13 +62,13 @@ public record AwsTnbUpdateSolNetworkPackageOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID of the network service descriptor in the network package. Constraints: o pattern: ^np-[a-f0-9]{17}$
+    /// ID of the network service descriptor in the network package. Constraints: • pattern: ^np-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--nsd-info-id")]
     public string? NsdInfoId { get; private init; }
 
     /// <summary>
-    /// Operational state of the network service descriptor in the network package. Possible values: o ENABLED o DISABLED
+    /// Operational state of the network service descriptor in the network package. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--nsd-operational-state")]
     public AwsTnbUpdateSolNetworkPackageNsdOperationalState? NsdOperationalState { get; private init; }

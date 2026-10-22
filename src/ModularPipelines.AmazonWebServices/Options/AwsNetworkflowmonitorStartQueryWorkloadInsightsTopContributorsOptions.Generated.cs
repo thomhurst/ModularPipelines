@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Create a query with the Network Flow Monitor query interface that you can run to return workload insights top contributors. Specify the scope that you want to create a query for. The call returns a query ID that you can use with GetQueryResultsWorkloadInsightsTopContributors to run the query and re- turn the top contributors for the workload insights for a scope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be...
+/// Create a query with the Network Flow Monitor query interface that you can run to return workload insights top contributors. Specify the scope that you want to create a query for. The call returns a query ID that you can use with GetQueryResultsWorkloadInsightsTopContributors to run the query and return the top contributors for the workload insights for a scope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be a...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,13 +28,13 @@ public record AwsNetworkflowmonitorStartQueryWorkloadInsightsTopContributorsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Create a query with the Network Flow Monitor query interface that you can run to return workload insights top contributors. Specify the scope that you want to create a query for. The call returns a query ID that you can use with GetQueryResultsWorkloadInsightsTopContributors to run the query and re- turn the top contributors for the workload insights for a scope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be...
+    /// Create a query with the Network Flow Monitor query interface that you can run to return workload insights top contributors. Specify the scope that you want to create a query for. The call returns a query ID that you can use with GetQueryResultsWorkloadInsightsTopContributors to run the query and return the top contributors for the workload insights for a scope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be a...
     /// </summary>
-    /// <param name="ScopeId">The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identi- fier that includes all the resources for a specific root account. A scope ID is returned from a CreateScope API call.</param>
+    /// <param name="ScopeId">The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account. A scope ID is returned from a CreateScope API call.</param>
     /// <param name="StartTime">The timestamp that is the date and time that is the beginning of the period that you want to retrieve results for with your query.</param>
     /// <param name="EndTime">The timestamp that is the date and time end of the period that you want to retrieve results for with your query.</param>
-    /// <param name="MetricName">The metric that you want to query top contributors for. That is, you can specify this metric to return the top contributor network flows, for this type of metric, for a monitor and (optionally) within a specific category, such as network flows between Availability Zones. Possible values: o TIMEOUTS o RETRANSMISSIONS o DATA_TRANSFERRED</param>
-    /// <param name="DestinationCategory">The destination category for a top contributors row. Destination categories can be one of the following: o INTRA_AZ : Top contributor network flows within a single Avail- ability Zone o INTER_AZ : Top contributor network flows between Availability Zones o INTER_REGION : Top contributor network flows between Regions (to the edge of another Region) o INTER_VPC : Top contributor network flows between VPCs o AWS_SERVICES : Top contributor network flows to or from Amazon Web Services services o UNCLASSIFIED : Top contributor network flows that do not have a bucket classification Possible values: o INTRA_AZ o INTER_AZ o INTER_VPC o UNCLASSIFIED o AMAZON_S3 o AMAZON_DYNAMODB o INTER_REGION</param>
+    /// <param name="MetricName">The metric that you want to query top contributors for. That is, you can specify this metric to return the top contributor network flows, for this type of metric, for a monitor and (optionally) within a specific category, such as network flows between Availability Zones. Possible values: • TIMEOUTS • RETRANSMISSIONS • DATA_TRANSFERRED</param>
+    /// <param name="DestinationCategory">The destination category for a top contributors row. Destination categories can be one of the following: • INTRA_AZ : Top contributor network flows within a single Availability Zone • INTER_AZ : Top contributor network flows between Availability Zones • INTER_REGION : Top contributor network flows between Regions (to the edge of another Region) • INTER_VPC : Top contributor network flows between VPCs • AWS_SERVICES : Top contributor network flows to or from Amazon Web Services services • UNCLASSIFIED : Top contributor network flows that do not have a bucket classification Possible values: • INTRA_AZ • INTER_AZ • INTER_VPC • UNCLASSIFIED • AMAZON_S3 • AMAZON_DYNAMODB • INTER_REGION</param>
     public AwsNetworkflowmonitorStartQueryWorkloadInsightsTopContributorsOptions(
         string ScopeId,
         string StartTime,
@@ -71,7 +73,7 @@ public record AwsNetworkflowmonitorStartQueryWorkloadInsightsTopContributorsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identi- fier that includes all the resources for a specific root account. A scope ID is returned from a CreateScope API call.
+    /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account. A scope ID is returned from a CreateScope API call.
     /// </summary>
     [CliOption("--scope-id")]
     public string? ScopeId { get; private init; }
@@ -89,19 +91,19 @@ public record AwsNetworkflowmonitorStartQueryWorkloadInsightsTopContributorsOpti
     public string? EndTime { get; private init; }
 
     /// <summary>
-    /// The metric that you want to query top contributors for. That is, you can specify this metric to return the top contributor network flows, for this type of metric, for a monitor and (optionally) within a specific category, such as network flows between Availability Zones. Possible values: o TIMEOUTS o RETRANSMISSIONS o DATA_TRANSFERRED
+    /// The metric that you want to query top contributors for. That is, you can specify this metric to return the top contributor network flows, for this type of metric, for a monitor and (optionally) within a specific category, such as network flows between Availability Zones. Possible values: • TIMEOUTS • RETRANSMISSIONS • DATA_TRANSFERRED
     /// </summary>
     [CliOption("--metric-name")]
     public AwsNetworkflowmonitorStartQueryWorkloadInsightsTopContributorsMetricName? MetricName { get; private init; }
 
     /// <summary>
-    /// The destination category for a top contributors row. Destination categories can be one of the following: o INTRA_AZ : Top contributor network flows within a single Avail- ability Zone o INTER_AZ : Top contributor network flows between Availability Zones o INTER_REGION : Top contributor network flows between Regions (to the edge of another Region) o INTER_VPC : Top contributor network flows between VPCs o AWS_SERVICES : Top contributor network flows to or from Amazon Web Services services o UNCLASSIFIED : Top contributor network flows that do not have a bucket classification Possible values: o INTRA_AZ o INTER_AZ o INTER_VPC o UNCLASSIFIED o AMAZON_S3 o AMAZON_DYNAMODB o INTER_REGION
+    /// The destination category for a top contributors row. Destination categories can be one of the following: • INTRA_AZ : Top contributor network flows within a single Availability Zone • INTER_AZ : Top contributor network flows between Availability Zones • INTER_REGION : Top contributor network flows between Regions (to the edge of another Region) • INTER_VPC : Top contributor network flows between VPCs • AWS_SERVICES : Top contributor network flows to or from Amazon Web Services services • UNCLASSIFIED : Top contributor network flows that do not have a bucket classification Possible values: • INTRA_AZ • INTER_AZ • INTER_VPC • UNCLASSIFIED • AMAZON_S3 • AMAZON_DYNAMODB • INTER_REGION
     /// </summary>
     [CliOption("--destination-category")]
     public AwsNetworkflowmonitorStartQueryWorkloadInsightsTopContributorsDestinationCategory? DestinationCategory { get; private init; }
 
     /// <summary>
-    /// The maximum number of top contributors to return. Constraints: o min: 1 o max: 500
+    /// The maximum number of top contributors to return. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the specified voice profiles voice print and refreshes its ex- piration timestamp. WARNING: As a condition of using this feature, you acknowledge that the col- lection, use, storage, and retention of your callers biometric iden- tifiers and biometric information (biometric data) in the form of a digital voiceprint requires the callers informed consent via a writ- ten release. Such consent is required under various state laws, in- cluding biometrics laws in Illinois, Texas, Washington and...
+/// Updates the specified voice profiles voice print and refreshes its expiration timestamp. WARNING: As a condition of using this feature, you acknowledge that the collection, use, storage, and retention of your callers biometric identifiers and biometric information (biometric data) in the form of a digital voiceprint requires the callers informed consent via a written release. Such consent is required under various state laws, including biometrics laws in Illinois, Texas, Washington and other sta...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsChimeSdkVoiceUpdateVoiceProfileOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the specified voice profiles voice print and refreshes its ex- piration timestamp. WARNING: As a condition of using this feature, you acknowledge that the col- lection, use, storage, and retention of your callers biometric iden- tifiers and biometric information (biometric data) in the form of a digital voiceprint requires the callers informed consent via a writ- ten release. Such consent is required under various state laws, in- cluding biometrics laws in Illinois, Texas, Washington and...
+    /// Updates the specified voice profiles voice print and refreshes its expiration timestamp. WARNING: As a condition of using this feature, you acknowledge that the collection, use, storage, and retention of your callers biometric identifiers and biometric information (biometric data) in the form of a digital voiceprint requires the callers informed consent via a written release. Such consent is required under various state laws, including biometrics laws in Illinois, Texas, Washington and other sta...
     /// </summary>
-    /// <param name="VoiceProfileId">The profile ID. Constraints: o min: 1 o max: 256 o pattern: .*\S.*</param>
-    /// <param name="SpeakerSearchTaskId">The ID of the speaker search task. Constraints: o min: 1 o max: 256 o pattern: .*\S.*</param>
+    /// <param name="VoiceProfileId">The profile ID. Constraints: • min: 1 • max: 256 • pattern: .*\S.*</param>
+    /// <param name="SpeakerSearchTaskId">The ID of the speaker search task. Constraints: • min: 1 • max: 256 • pattern: .*\S.*</param>
     public AwsChimeSdkVoiceUpdateVoiceProfileOptions(
         string VoiceProfileId,
         string SpeakerSearchTaskId
@@ -60,13 +62,13 @@ public record AwsChimeSdkVoiceUpdateVoiceProfileOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The profile ID. Constraints: o min: 1 o max: 256 o pattern: .*\S.*
+    /// The profile ID. Constraints: • min: 1 • max: 256 • pattern: .*\S.*
     /// </summary>
     [CliOption("--voice-profile-id")]
     public string? VoiceProfileId { get; private init; }
 
     /// <summary>
-    /// The ID of the speaker search task. Constraints: o min: 1 o max: 256 o pattern: .*\S.*
+    /// The ID of the speaker search task. Constraints: • min: 1 • max: 256 • pattern: .*\S.*
     /// </summary>
     [CliOption("--speaker-search-task-id")]
     public string? SpeakerSearchTaskId { get; private init; }

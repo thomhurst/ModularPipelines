@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsMgnDisassociateApplicationsOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Disassociate applications from wave. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WaveId">Wave ID. Constraints: o min: 22 o max: 22 o pattern: wave-[0-9a-zA-Z]{17}</param>
-    /// <param name="ApplicationIds">Application IDs list. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 21 o max: 21 o pattern: app-[0-9a-zA-Z]{17} Syntax: "string" "string" ...</param>
+    /// <param name="WaveId">Wave ID. Constraints: • min: 22 • max: 22 • pattern: wave-[0-9a-zA-Z]{17}</param>
+    /// <param name="ApplicationIds">Application IDs list. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 21 • max: 21 • pattern: app-[0-9a-zA-Z]{17} Syntax: "string" "string" ...</param>
     public AwsMgnDisassociateApplicationsOptions(
         string WaveId,
         IEnumerable<string> ApplicationIds
@@ -71,19 +73,19 @@ public record AwsMgnDisassociateApplicationsOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Wave ID. Constraints: o min: 22 o max: 22 o pattern: wave-[0-9a-zA-Z]{17}
+    /// Wave ID. Constraints: • min: 22 • max: 22 • pattern: wave-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--wave-id")]
     public string? WaveId { get; private init; }
 
     /// <summary>
-    /// Application IDs list. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 21 o max: 21 o pattern: app-[0-9a-zA-Z]{17} Syntax: "string" "string" ...
+    /// Application IDs list. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 21 • max: 21 • pattern: app-[0-9a-zA-Z]{17} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--application-ids", GroupValues = true)]
     public IEnumerable<string>? ApplicationIds { get; private init; }
 
     /// <summary>
-    /// Account ID. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.*
+    /// Account ID. Constraints: • min: 12 • max: 12 • pattern: .*[0-9]{12,}.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }

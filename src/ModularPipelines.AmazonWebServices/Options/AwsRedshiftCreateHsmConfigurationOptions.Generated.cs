@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,12 +30,12 @@ public record AwsRedshiftCreateHsmConfigurationOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Creates an HSM configuration that contains the information required by an Amazon Redshift cluster to store and use database encryption keys in a Hardware Security Module (HSM). After creating the HSM configuration, you can specify it as a parameter when creating a cluster. The cluster will then store its encryption keys in the HSM. In addition to creating an HSM configuration, you must also create an HSM client certificate. For more information, go to Hardware Security Modules in the Amazon Reds...
     /// </summary>
-    /// <param name="HsmConfigurationIdentifier">The identifier to be assigned to the new Amazon Redshift HSM config- uration. Constraints: o max: 2147483647</param>
-    /// <param name="Description">A text description of the HSM configuration to be created. Constraints: o max: 2147483647</param>
-    /// <param name="HsmIpAddress">The IP address that the Amazon Redshift cluster must use to access the HSM. Constraints: o max: 2147483647</param>
-    /// <param name="HsmPartitionName">The name of the partition in the HSM where the Amazon Redshift clus- ters will store their database encryption keys. Constraints: o max: 2147483647</param>
-    /// <param name="HsmPartitionPassword">The password required to access the HSM partition. Constraints: o max: 2147483647</param>
-    /// <param name="HsmServerPublicCertificate">The HSMs public certificate file. When using Cloud HSM, the file name is server.pem. Constraints: o max: 2147483647</param>
+    /// <param name="HsmConfigurationIdentifier">The identifier to be assigned to the new Amazon Redshift HSM configuration. Constraints: • max: 2147483647</param>
+    /// <param name="Description">A text description of the HSM configuration to be created. Constraints: • max: 2147483647</param>
+    /// <param name="HsmIpAddress">The IP address that the Amazon Redshift cluster must use to access the HSM. Constraints: • max: 2147483647</param>
+    /// <param name="HsmPartitionName">The name of the partition in the HSM where the Amazon Redshift clusters will store their database encryption keys. Constraints: • max: 2147483647</param>
+    /// <param name="HsmPartitionPassword">The password required to access the HSM partition. Constraints: • max: 2147483647</param>
+    /// <param name="HsmServerPublicCertificate">The HSMs public certificate file. When using Cloud HSM, the file name is server.pem. Constraints: • max: 2147483647</param>
     public AwsRedshiftCreateHsmConfigurationOptions(
         string HsmConfigurationIdentifier,
         string Description,
@@ -77,44 +79,44 @@ public record AwsRedshiftCreateHsmConfigurationOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier to be assigned to the new Amazon Redshift HSM config- uration. Constraints: o max: 2147483647
+    /// The identifier to be assigned to the new Amazon Redshift HSM configuration. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--hsm-configuration-identifier")]
     public string? HsmConfigurationIdentifier { get; private init; }
 
     /// <summary>
-    /// A text description of the HSM configuration to be created. Constraints: o max: 2147483647
+    /// A text description of the HSM configuration to be created. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; private init; }
 
     /// <summary>
-    /// The IP address that the Amazon Redshift cluster must use to access the HSM. Constraints: o max: 2147483647
+    /// The IP address that the Amazon Redshift cluster must use to access the HSM. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--hsm-ip-address")]
     public string? HsmIpAddress { get; private init; }
 
     /// <summary>
-    /// The name of the partition in the HSM where the Amazon Redshift clus- ters will store their database encryption keys. Constraints: o max: 2147483647
+    /// The name of the partition in the HSM where the Amazon Redshift clusters will store their database encryption keys. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--hsm-partition-name")]
     public string? HsmPartitionName { get; private init; }
 
     /// <summary>
-    /// The password required to access the HSM partition. Constraints: o max: 2147483647
+    /// The password required to access the HSM partition. Constraints: • max: 2147483647
     /// </summary>
     [SecretValue]
     [CliOption("--hsm-partition-password")]
     public string? HsmPartitionPassword { get; private init; }
 
     /// <summary>
-    /// The HSMs public certificate file. When using Cloud HSM, the file name is server.pem. Constraints: o max: 2147483647
+    /// The HSMs public certificate file. When using Cloud HSM, the file name is server.pem. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--hsm-server-public-certificate")]
     public string? HsmServerPublicCertificate { get; private init; }
 
     /// <summary>
-    /// A list of tag instances. (structure) A tag consisting of a name/value pair for a resource. Key -&gt; (string) The key, or name, for the resource tag. Constraints: o max: 2147483647 Value -&gt; (string) The value for the resource tag. Constraints: o max: 2147483647 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tag instances. (structure) A tag consisting of a name/value pair for a resource. Key -&gt; (string) The key, or name, for the resource tag. Constraints: • max: 2147483647 Value -&gt; (string) The value for the resource tag. Constraints: • max: 2147483647 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

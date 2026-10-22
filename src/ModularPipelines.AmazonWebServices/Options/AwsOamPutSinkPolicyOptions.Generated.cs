@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates the resource policy that grants permissions to source accounts to link to the monitoring account sink. When you create a sink policy, you can grant permissions to all accounts in an organi- zation or to individual accounts. You can also use a sink policy to limit the types of data that is shared. The six types of services with their respective resource types that you can allow or deny are: o Metrics - Specify with AWS::CloudWatch::Metric o Log groups - Specify with AWS::Logs::...
+/// Creates or updates the resource policy that grants permissions to source accounts to link to the monitoring account sink. When you create a sink policy, you can grant permissions to all accounts in an organization or to individual accounts. You can also use a sink policy to limit the types of data that is shared. The six types of services with their respective resource types that you can allow or deny are: • Metrics - Specify with AWS::CloudWatch::Metric • Log groups - Specify with AWS::Logs::Lo...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsOamPutSinkPolicyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates or updates the resource policy that grants permissions to source accounts to link to the monitoring account sink. When you create a sink policy, you can grant permissions to all accounts in an organi- zation or to individual accounts. You can also use a sink policy to limit the types of data that is shared. The six types of services with their respective resource types that you can allow or deny are: o Metrics - Specify with AWS::CloudWatch::Metric o Log groups - Specify with AWS::Logs::...
+    /// Creates or updates the resource policy that grants permissions to source accounts to link to the monitoring account sink. When you create a sink policy, you can grant permissions to all accounts in an organization or to individual accounts. You can also use a sink policy to limit the types of data that is shared. The six types of services with their respective resource types that you can allow or deny are: • Metrics - Specify with AWS::CloudWatch::Metric • Log groups - Specify with AWS::Logs::Lo...
     /// </summary>
-    /// <param name="Policy">The JSON policy to use. If you are updating an existing policy, the entire existing policy is replaced by what you specify here. The policy must be in JSON string format with quotation marks es- caped and no newlines. For examples of different types of policies, see the Examples sec- tion on this page.</param>
-    /// <param name="SinkIdentifier">The ARN of the sink to attach this policy to. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_:\.\-\/]{0,2047}$</param>
+    /// <param name="Policy">The JSON policy to use. If you are updating an existing policy, the entire existing policy is replaced by what you specify here. The policy must be in JSON string format with quotation marks escaped and no newlines. For examples of different types of policies, see the Examples section on this page.</param>
+    /// <param name="SinkIdentifier">The ARN of the sink to attach this policy to. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_:\.\-\/]{0,2047}$</param>
     public AwsOamPutSinkPolicyOptions(
         string Policy,
         string SinkIdentifier
@@ -60,13 +62,13 @@ public record AwsOamPutSinkPolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The JSON policy to use. If you are updating an existing policy, the entire existing policy is replaced by what you specify here. The policy must be in JSON string format with quotation marks es- caped and no newlines. For examples of different types of policies, see the Examples sec- tion on this page.
+    /// The JSON policy to use. If you are updating an existing policy, the entire existing policy is replaced by what you specify here. The policy must be in JSON string format with quotation marks escaped and no newlines. For examples of different types of policies, see the Examples section on this page.
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; private init; }
 
     /// <summary>
-    /// The ARN of the sink to attach this policy to. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_:\.\-\/]{0,2047}$
+    /// The ARN of the sink to attach this policy to. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_:\.\-\/]{0,2047}$
     /// </summary>
     [CliOption("--sink-identifier")]
     public string? SinkIdentifier { get; private init; }

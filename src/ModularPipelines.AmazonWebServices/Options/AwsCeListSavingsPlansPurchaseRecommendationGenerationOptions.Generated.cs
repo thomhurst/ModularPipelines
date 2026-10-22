@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a list of your historical recommendation generations within the past 30 days. See also: AWS API Documentation list-savings-plans-purchase-recommendation-generation is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the follow...
+/// Retrieves a list of your historical recommendation generations within the past 30 days. See also: AWS API Documentation list-savings-plans-purchase-recommendation-generation is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followin...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,28 +24,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCeListSavingsPlansPurchaseRecommendationGenerationOptions : AwsOptions
 {
     /// <summary>
-    /// The status of the recommendation generation. Possible values: o SUCCEEDED o PROCESSING o FAILED
+    /// The status of the recommendation generation. Possible values: • SUCCEEDED • PROCESSING • FAILED
     /// </summary>
     [CliOption("--generation-status")]
     public AwsCeListSavingsPlansPurchaseRecommendationGenerationGenerationStatus? GenerationStatus { get; set; }
 
     /// <summary>
-    /// The IDs for each specific recommendation. (string) Constraints: o min: 36 o max: 36 o pattern: ^[\S\s]{8}-[\S\s]{4}-[\S\s]{4}-[\S\s]{4}-[\S\s]{12}$ Syntax: "string" "string" ...
+    /// The IDs for each specific recommendation. (string) Constraints: • min: 36 • max: 36 • pattern: ^[\S\s]{8}-[\S\s]{4}-[\S\s]{4}-[\S\s]{4}-[\S\s]{12}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--recommendation-ids", GroupValues = true)]
     public IEnumerable<string>? RecommendationIds { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 0 o max: 6000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 0 • max: 6000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -55,9 +52,12 @@ public record AwsCeListSavingsPlansPurchaseRecommendationGenerationOptions : Aws
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

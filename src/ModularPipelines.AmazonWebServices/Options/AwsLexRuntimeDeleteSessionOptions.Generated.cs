@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,7 +31,7 @@ public record AwsLexRuntimeDeleteSessionOptions : AwsOptions, IValidatableObject
     /// </summary>
     /// <param name="BotName">The name of the bot that contains the session data.</param>
     /// <param name="BotAlias">The alias in use for the bot that contains the session data.</param>
-    /// <param name="UserId">The identifier of the user associated with the session data. Constraints: o min: 2 o max: 100 o pattern: [0-9a-zA-Z._:-]+</param>
+    /// <param name="UserId">The identifier of the user associated with the session data. Constraints: • min: 2 • max: 100 • pattern: [0-9a-zA-Z._:-]+</param>
     public AwsLexRuntimeDeleteSessionOptions(
         string BotName,
         string BotAlias,
@@ -76,7 +78,7 @@ public record AwsLexRuntimeDeleteSessionOptions : AwsOptions, IValidatableObject
     public string? BotAlias { get; private init; }
 
     /// <summary>
-    /// The identifier of the user associated with the session data. Constraints: o min: 2 o max: 100 o pattern: [0-9a-zA-Z._:-]+
+    /// The identifier of the user associated with the session data. Constraints: • min: 2 • max: 100 • pattern: [0-9a-zA-Z._:-]+
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; private init; }

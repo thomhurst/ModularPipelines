@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsAmpDeleteQueryLoggingConfigurationOptions : AwsOptions, IValida
     /// <summary>
     /// Deletes the query logging configuration for the specified workspace. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceId">The ID of the workspace from which to delete the query logging con- figuration. Constraints: o min: 1 o max: 64 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*</param>
+    /// <param name="WorkspaceId">The ID of the workspace from which to delete the query logging configuration. Constraints: • min: 1 • max: 64 • pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*</param>
     public AwsAmpDeleteQueryLoggingConfigurationOptions(
         string WorkspaceId
     )
@@ -57,13 +59,13 @@ public record AwsAmpDeleteQueryLoggingConfigurationOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the workspace from which to delete the query logging con- figuration. Constraints: o min: 1 o max: 64 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*
+    /// The ID of the workspace from which to delete the query logging configuration. Constraints: • min: 1 • max: 64 • pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
 
     /// <summary>
-    /// (Optional) A unique, case-sensitive identifier that you can provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
+    /// (Optional) A unique, case-sensitive identifier that you can provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 64 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

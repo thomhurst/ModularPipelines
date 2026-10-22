@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,12 +31,12 @@ public record AwsDeadlineUpdateTaskOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates a task. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The farm ID to update. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="QueueId">The queue ID to update. Constraints: o pattern: queue-[0-9a-f]{32}</param>
-    /// <param name="JobId">The job ID to update. Constraints: o pattern: job-[0-9a-f]{32}</param>
-    /// <param name="StepId">The step ID to update. Constraints: o pattern: step-[0-9a-f]{32}</param>
-    /// <param name="TaskId">The task ID to update. Constraints: o pattern: task-[0-9a-f]{32}-(0|([1-9][0-9]{0,9}))</param>
-    /// <param name="TargetRunStatus">The run status with which to start the task. Possible values: o READY o FAILED o SUCCEEDED o CANCELED o SUSPENDED o PENDING</param>
+    /// <param name="FarmId">The farm ID to update. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="QueueId">The queue ID to update. Constraints: • pattern: queue-[0-9a-f]{32}</param>
+    /// <param name="JobId">The job ID to update. Constraints: • pattern: job-[0-9a-f]{32}</param>
+    /// <param name="StepId">The step ID to update. Constraints: • pattern: step-[0-9a-f]{32}</param>
+    /// <param name="TaskId">The task ID to update. Constraints: • pattern: task-[0-9a-f]{32}-(0|([1-9][0-9]{0,9}))</param>
+    /// <param name="TargetRunStatus">The run status with which to start the task. Possible values: • READY • FAILED • SUCCEEDED • CANCELED • SUSPENDED • PENDING</param>
     public AwsDeadlineUpdateTaskOptions(
         string FarmId,
         string QueueId,
@@ -77,43 +79,43 @@ public record AwsDeadlineUpdateTaskOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID to update. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID to update. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The queue ID to update. Constraints: o pattern: queue-[0-9a-f]{32}
+    /// The queue ID to update. Constraints: • pattern: queue-[0-9a-f]{32}
     /// </summary>
     [CliOption("--queue-id")]
     public string? QueueId { get; private init; }
 
     /// <summary>
-    /// The job ID to update. Constraints: o pattern: job-[0-9a-f]{32}
+    /// The job ID to update. Constraints: • pattern: job-[0-9a-f]{32}
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// The step ID to update. Constraints: o pattern: step-[0-9a-f]{32}
+    /// The step ID to update. Constraints: • pattern: step-[0-9a-f]{32}
     /// </summary>
     [CliOption("--step-id")]
     public string? StepId { get; private init; }
 
     /// <summary>
-    /// The task ID to update. Constraints: o pattern: task-[0-9a-f]{32}-(0|([1-9][0-9]{0,9}))
+    /// The task ID to update. Constraints: • pattern: task-[0-9a-f]{32}-(0|([1-9][0-9]{0,9}))
     /// </summary>
     [CliOption("--task-id")]
     public string? TaskId { get; private init; }
 
     /// <summary>
-    /// The run status with which to start the task. Possible values: o READY o FAILED o SUCCEEDED o CANCELED o SUSPENDED o PENDING
+    /// The run status with which to start the task. Possible values: • READY • FAILED • SUCCEEDED • CANCELED • SUSPENDED • PENDING
     /// </summary>
     [CliOption("--target-run-status")]
     public AwsDeadlineUpdateTaskTargetRunStatus? TargetRunStatus { get; private init; }
 
     /// <summary>
-    /// The unique token which the server uses to recognize retries of the same request. Constraints: o min: 1 o max: 64
+    /// The unique token which the server uses to recognize retries of the same request. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

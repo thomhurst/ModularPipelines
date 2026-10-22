@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of edge packaging jobs. See also: AWS API Documentation list-edge-packaging-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: EdgePackagingJobSummaries
+/// Returns a list of edge packaging jobs. See also: AWS API Documentation list-edge-packaging-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: EdgePackagingJobSummaries
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -48,40 +48,37 @@ public record AwsSagemakerListEdgePackagingJobsOptions : AwsOptions
     public string? LastModifiedTimeBefore { get; set; }
 
     /// <summary>
-    /// Filter for jobs containing this name in their packaging job name. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9\-]+
+    /// Filter for jobs containing this name in their packaging job name. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9\-]+
     /// </summary>
     [CliOption("--name-contains")]
     public string? NameContains { get; set; }
 
     /// <summary>
-    /// Filter for jobs where the model name contains this string. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9\-]+
+    /// Filter for jobs where the model name contains this string. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9\-]+
     /// </summary>
     [CliOption("--model-name-contains")]
     public string? ModelNameContains { get; set; }
 
     /// <summary>
-    /// The job status to filter for. Possible values: o STARTING o INPROGRESS o COMPLETED o FAILED o STOPPING o STOPPED
+    /// The job status to filter for. Possible values: • STARTING • INPROGRESS • COMPLETED • FAILED • STOPPING • STOPPED
     /// </summary>
     [CliOption("--status-equals")]
     public AwsSagemakerListEdgePackagingJobsStatusEquals? StatusEquals { get; set; }
 
     /// <summary>
-    /// Use to specify what column to sort by. Possible values: o NAME o MODEL_NAME o CREATION_TIME o LAST_MODIFIED_TIME o STATUS
+    /// Use to specify what column to sort by. Possible values: • NAME • MODEL_NAME • CREATION_TIME • LAST_MODIFIED_TIME • STATUS
     /// </summary>
     [CliOption("--sort-by")]
     public AwsSagemakerListEdgePackagingJobsSortBy? SortBy { get; set; }
 
     /// <summary>
-    /// What direction to sort by. Possible values: o Ascending o Descending
+    /// What direction to sort by. Possible values: • Ascending • Descending
     /// </summary>
     [CliOption("--sort-order")]
     public AwsSagemakerListEdgePackagingJobsSortOrder? SortOrder { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -91,15 +88,18 @@ public record AwsSagemakerListEdgePackagingJobsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

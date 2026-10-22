@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMailmanagerGetArchiveSearchResultsOptions : AwsOptions, IValida
     /// <summary>
     /// Returns the results of a completed email archive search job. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SearchId">The identifier of the completed search job. Constraints: o min: 1 o max: 64</param>
+    /// <param name="SearchId">The identifier of the completed search job. Constraints: • min: 1 • max: 64</param>
     public AwsMailmanagerGetArchiveSearchResultsOptions(
         string SearchId
     )
@@ -56,7 +58,7 @@ public record AwsMailmanagerGetArchiveSearchResultsOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the completed search job. Constraints: o min: 1 o max: 64
+    /// The identifier of the completed search job. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--search-id")]
     public string? SearchId { get; private init; }

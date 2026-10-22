@@ -47,7 +47,7 @@ public class AwsPcs : IAwsPcs
     }
 
     /// <summary>
-    /// Creates a managed set of compute nodes. You associate a compute node group with a cluster through 1 or more PCS queues or as part of the lo- gin fleet. A compute node group includes the definition of the compute properties and lifecycle management. PCS uses the information you pro- vide to this API action to launch compute nodes in your account. You can only specify subnets in the same Amazon VPC as your cluster. You receive billing charges for the compute nodes that PCS launches in your account...
+    /// Creates a managed set of compute nodes. You associate a compute node group with a cluster through 1 or more PCS queues or as part of the login fleet. A compute node group includes the definition of the compute properties and lifecycle management. PCS uses the information you provide to this API action to launch compute nodes in your account. You can only specify subnets in the same Amazon VPC as your cluster. You receive billing charges for the compute nodes that PCS launches in your account. Yo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsPcs : IAwsPcs
     }
 
     /// <summary>
-    /// Returns detailed information about a compute node group. This API ac- tion provides networking information, EC2 instance type, compute node group status, and scheduler (such as Slurm) configuration. See also: AWS API Documentation
+    /// Returns detailed information about a compute node group. This API action provides networking information, EC2 instance type, compute node group status, and scheduler (such as Slurm) configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsPcs : IAwsPcs
     }
 
     /// <summary>
-    /// Returns a list of running clusters in your account. See also: AWS API Documentation list-clusters is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: clusters
+    /// Returns a list of running clusters in your account. See also: AWS API Documentation list-clusters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: clusters
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsPcs : IAwsPcs
     }
 
     /// <summary>
-    /// Returns a list of all compute node groups associated with a cluster. See also: AWS API Documentation list-compute-node-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: computeNodeGroups
+    /// Returns a list of all compute node groups associated with a cluster. See also: AWS API Documentation list-compute-node-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: computeNodeGroups
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsPcs : IAwsPcs
     }
 
     /// <summary>
-    /// Returns a list of all queues associated with a cluster. See also: AWS API Documentation list-queues is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: queues
+    /// Returns a list of all queues associated with a cluster. See also: AWS API Documentation list-queues is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: queues
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

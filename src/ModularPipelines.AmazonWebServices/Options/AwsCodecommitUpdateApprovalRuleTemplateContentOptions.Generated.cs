@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCodecommitUpdateApprovalRuleTemplateContentOptions : AwsOptions
     /// <summary>
     /// Updates the content of an approval rule template. You can change the number of required approvals, the membership of the approval rule, and whether an approval pool is defined. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApprovalRuleTemplateName">The name of the approval rule template where you want to update the content of the rule. Constraints: o min: 1 o max: 100</param>
-    /// <param name="NewRuleContent">The content that replaces the existing content of the rule. Content statements must be complete. You cannot provide only the changes. Constraints: o min: 1 o max: 3000</param>
+    /// <param name="ApprovalRuleTemplateName">The name of the approval rule template where you want to update the content of the rule. Constraints: • min: 1 • max: 100</param>
+    /// <param name="NewRuleContent">The content that replaces the existing content of the rule. Content statements must be complete. You cannot provide only the changes. Constraints: • min: 1 • max: 3000</param>
     public AwsCodecommitUpdateApprovalRuleTemplateContentOptions(
         string ApprovalRuleTemplateName,
         string NewRuleContent
@@ -60,13 +62,13 @@ public record AwsCodecommitUpdateApprovalRuleTemplateContentOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the approval rule template where you want to update the content of the rule. Constraints: o min: 1 o max: 100
+    /// The name of the approval rule template where you want to update the content of the rule. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--approval-rule-template-name")]
     public string? ApprovalRuleTemplateName { get; private init; }
 
     /// <summary>
-    /// The content that replaces the existing content of the rule. Content statements must be complete. You cannot provide only the changes. Constraints: o min: 1 o max: 3000
+    /// The content that replaces the existing content of the rule. Content statements must be complete. You cannot provide only the changes. Constraints: • min: 1 • max: 3000
     /// </summary>
     [CliOption("--new-rule-content")]
     public string? NewRuleContent { get; private init; }

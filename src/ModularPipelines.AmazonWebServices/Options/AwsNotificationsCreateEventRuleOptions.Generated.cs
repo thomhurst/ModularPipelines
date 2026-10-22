@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +29,10 @@ public record AwsNotificationsCreateEventRuleOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Creates an ` EventRule https://docs.aws.amazon.com/notifications/latest/userguide/glossary.html`__ that is associated with a specified NotificationConfiguration . See also: AWS API Documentation
     /// </summary>
-    /// <param name="NotificationConfigurationArn">The Amazon Resource Name (ARN) of the NotificationConfiguration as- sociated with this EventRule . Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}</param>
-    /// <param name="Source">The matched event source. Must match one of the valid EventBridge sources. Only Amazon Web Services service sourced events are supported. For example, aws.ec2 and aws.cloudwatch . For more information, see Event delivery from Amazon Web Services services in the Amazon EventBridge User Guide . Constraints: o min: 1 o max: 36 o pattern: aws.([a-z0-9\-])+</param>
-    /// <param name="EventType">The event type to match. Must match one of the valid Amazon EventBridge event types. For ex- ample, EC2 Instance State-change Notification and Amazon CloudWatch Alarm State Change. For more information, see Event delivery from Amazon Web Services services in the Amazon EventBridge User Guide . Constraints: o min: 1 o max: 128 o pattern: ([a-zA-Z0-9 \-\(\)])+</param>
-    /// <param name="Regions">A list of Amazon Web Services Regions that send events to this Even- tRule . Constraints: o min: 1 (string) Constraints: o min: 2 o max: 25 o pattern: ([a-z]{1,4})-([a-z]{1,15}-)+([0-9]) Syntax: "string" "string" ...</param>
+    /// <param name="NotificationConfigurationArn">The Amazon Resource Name (ARN) of the NotificationConfiguration associated with this EventRule . Constraints: • pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:configuration/[a-z0-9]{27}</param>
+    /// <param name="Source">The matched event source. Must match one of the valid EventBridge sources. Only Amazon Web Services service sourced events are supported. For example, aws.ec2 and aws.cloudwatch . For more information, see Event delivery from Amazon Web Services services in the Amazon EventBridge User Guide . Constraints: • min: 1 • max: 36 • pattern: aws.([a-z0-9\-])+</param>
+    /// <param name="EventType">The event type to match. Must match one of the valid Amazon EventBridge event types. For example, EC2 Instance State-change Notification and Amazon CloudWatch Alarm State Change. For more information, see Event delivery from Amazon Web Services services in the Amazon EventBridge User Guide . Constraints: • min: 1 • max: 128 • pattern: ([a-zA-Z0-9 \-\(\)])+</param>
+    /// <param name="Regions">A list of Amazon Web Services Regions that send events to this EventRule . Constraints: • min: 1 (string) Constraints: • min: 2 • max: 25 • pattern: ([a-z]{1,4})-([a-z]{1,15}-)+([0-9]) Syntax: "string" "string" ...</param>
     public AwsNotificationsCreateEventRuleOptions(
         string NotificationConfigurationArn,
         string Source,
@@ -79,31 +81,31 @@ public record AwsNotificationsCreateEventRuleOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the NotificationConfiguration as- sociated with this EventRule . Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}
+    /// The Amazon Resource Name (ARN) of the NotificationConfiguration associated with this EventRule . Constraints: • pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:configuration/[a-z0-9]{27}
     /// </summary>
     [CliOption("--notification-configuration-arn")]
     public string? NotificationConfigurationArn { get; private init; }
 
     /// <summary>
-    /// The matched event source. Must match one of the valid EventBridge sources. Only Amazon Web Services service sourced events are supported. For example, aws.ec2 and aws.cloudwatch . For more information, see Event delivery from Amazon Web Services services in the Amazon EventBridge User Guide . Constraints: o min: 1 o max: 36 o pattern: aws.([a-z0-9\-])+
+    /// The matched event source. Must match one of the valid EventBridge sources. Only Amazon Web Services service sourced events are supported. For example, aws.ec2 and aws.cloudwatch . For more information, see Event delivery from Amazon Web Services services in the Amazon EventBridge User Guide . Constraints: • min: 1 • max: 36 • pattern: aws.([a-z0-9\-])+
     /// </summary>
     [CliOption("--source")]
     public string? Source { get; private init; }
 
     /// <summary>
-    /// The event type to match. Must match one of the valid Amazon EventBridge event types. For ex- ample, EC2 Instance State-change Notification and Amazon CloudWatch Alarm State Change. For more information, see Event delivery from Amazon Web Services services in the Amazon EventBridge User Guide . Constraints: o min: 1 o max: 128 o pattern: ([a-zA-Z0-9 \-\(\)])+
+    /// The event type to match. Must match one of the valid Amazon EventBridge event types. For example, EC2 Instance State-change Notification and Amazon CloudWatch Alarm State Change. For more information, see Event delivery from Amazon Web Services services in the Amazon EventBridge User Guide . Constraints: • min: 1 • max: 128 • pattern: ([a-zA-Z0-9 \-\(\)])+
     /// </summary>
     [CliOption("--event-type")]
     public string? EventType { get; private init; }
 
     /// <summary>
-    /// A list of Amazon Web Services Regions that send events to this Even- tRule . Constraints: o min: 1 (string) Constraints: o min: 2 o max: 25 o pattern: ([a-z]{1,4})-([a-z]{1,15}-)+([0-9]) Syntax: "string" "string" ...
+    /// A list of Amazon Web Services Regions that send events to this EventRule . Constraints: • min: 1 (string) Constraints: • min: 2 • max: 25 • pattern: ([a-z]{1,4})-([a-z]{1,15}-)+([0-9]) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--regions", GroupValues = true)]
     public IEnumerable<string>? Regions { get; private init; }
 
     /// <summary>
-    /// An additional event pattern used to further filter the events this EventRule receives. For more information, see Amazon EventBridge event patterns in the Amazon EventBridge User Guide. Constraints: o min: 0 o max: 4096
+    /// An additional event pattern used to further filter the events this EventRule receives. For more information, see Amazon EventBridge event patterns in the Amazon EventBridge User Guide. Constraints: • min: 0 • max: 4096
     /// </summary>
     [CliOption("--event-pattern")]
     public string? EventPattern { get; set; }

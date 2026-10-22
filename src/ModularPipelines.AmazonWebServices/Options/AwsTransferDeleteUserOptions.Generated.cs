@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsTransferDeleteUserOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the user belonging to a file transfer protocol-enabled server you specify. No response returns from this operation. NOTE: When you delete a user from a server, the user's information is lost. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServerId">A system-assigned unique identifier for a server instance that has the user assigned to it. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})</param>
-    /// <param name="UserName">A unique string that identifies a user that is being deleted from a server. Constraints: o min: 3 o max: 100 o pattern: [\w][\w@.-]{2,99}</param>
+    /// <param name="ServerId">A system-assigned unique identifier for a server instance that has the user assigned to it. Constraints: • min: 19 • max: 19 • pattern: s-([0-9a-f]{17})</param>
+    /// <param name="UserName">A unique string that identifies a user that is being deleted from a server. Constraints: • min: 3 • max: 100 • pattern: [\w][\w@.-]{2,99}</param>
     public AwsTransferDeleteUserOptions(
         string ServerId,
         string UserName
@@ -60,13 +62,13 @@ public record AwsTransferDeleteUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A system-assigned unique identifier for a server instance that has the user assigned to it. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})
+    /// A system-assigned unique identifier for a server instance that has the user assigned to it. Constraints: • min: 19 • max: 19 • pattern: s-([0-9a-f]{17})
     /// </summary>
     [CliOption("--server-id")]
     public string? ServerId { get; private init; }
 
     /// <summary>
-    /// A unique string that identifies a user that is being deleted from a server. Constraints: o min: 3 o max: 100 o pattern: [\w][\w@.-]{2,99}
+    /// A unique string that identifies a user that is being deleted from a server. Constraints: • min: 3 • max: 100 • pattern: [\w][\w@.-]{2,99}
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; private init; }

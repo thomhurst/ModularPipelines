@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the association between your connection and a specified exter- nal Git repository. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository. See also: AWS API Documentation
+/// Updates the association between your connection and a specified external Git repository. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsCodestarConnectionsUpdateRepositoryLinkOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the association between your connection and a specified exter- nal Git repository. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository. See also: AWS API Documentation
+    /// Updates the association between your connection and a specified external Git repository. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryLinkId">The ID of the repository link to be updated. Constraints: o pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$</param>
+    /// <param name="RepositoryLinkId">The ID of the repository link to be updated. Constraints: • pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$</param>
     public AwsCodestarConnectionsUpdateRepositoryLinkOptions(
         string RepositoryLinkId
     )
@@ -56,19 +58,19 @@ public record AwsCodestarConnectionsUpdateRepositoryLinkOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the repository link to be updated. Constraints: o pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$
+    /// The ID of the repository link to be updated. Constraints: • pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$
     /// </summary>
     [CliOption("--repository-link-id")]
     public string? RepositoryLinkId { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the connection for the repository link to be updated. The updated connection ARN must have the same providerType (such as GitHub) as the original connection ARN for the repo link. Constraints: o min: 0 o max: 256 o pattern: arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+
+    /// The Amazon Resource Name (ARN) of the connection for the repository link to be updated. The updated connection ARN must have the same providerType (such as GitHub) as the original connection ARN for the repo link. Constraints: • min: 0 • max: 256 • pattern: arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+
     /// </summary>
     [CliOption("--connection-arn")]
     public string? ConnectionArn { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the encryption key for the reposi- tory link to be updated. Constraints: o min: 1 o max: 1024 o pattern: arn:aws(-[\w]+)*:kms:[a-z\-0-9]+:\d{12}:key/[a-zA-Z0-9\-]+
+    /// The Amazon Resource Name (ARN) of the encryption key for the repository link to be updated. Constraints: • min: 1 • max: 1024 • pattern: arn:aws(-[\w]+)*:kms:[a-z\-0-9]+:\d{12}:key/[a-zA-Z0-9\-]+
     /// </summary>
     [CliOption("--encryption-key-arn")]
     public string? EncryptionKeyArn { get; set; }

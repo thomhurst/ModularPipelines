@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsQuicksightUpdateFlowPermissionsOptions : AwsOptions, IValidatab
     /// <summary>
     /// Updates permissions against principals on a flow. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the flow you are updating permissions against. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}</param>
-    /// <param name="FlowId">The unique identifier of the flow to update permissions for. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the flow you are updating permissions against. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12}</param>
+    /// <param name="FlowId">The unique identifier of the flow to update permissions for. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
     public AwsQuicksightUpdateFlowPermissionsOptions(
         string AwsAccountId,
         string FlowId
@@ -60,25 +62,25 @@ public record AwsQuicksightUpdateFlowPermissionsOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the flow you are updating permissions against. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
+    /// The ID of the Amazon Web Services account that contains the flow you are updating permissions against. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the flow to update permissions for. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The unique identifier of the flow to update permissions for. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--flow-id")]
     public string? FlowId { get; private init; }
 
     /// <summary>
-    /// The permissions that you want to grant on this flow. Constraints: o min: 0 o max: 100 (structure) A structure that contains the permission information for one principal against one flow. Actions -&gt; (list) [required] A list of actions that the principal can perform against the flow. The following are the list of values to set a principal as a flow owner: o quicksight:PublishFlow o quicksight:GetFlow o quicksight:UpdateFlowPermissions o quicksight:GetFlowSession o quicksight:StartFlowSession o quicksight:StopFlowSession o quicksight:UpdateFlowSession o quicksight:UnpublishFlow o quicksight:GetFlowStages o quicksight:DeleteFlow o quicksight:DescribeFlowPermissions o quicksight:UpdateFlow o quicksight:CreatePresignedUrl The following are the list of values to set a principal as a flow viewer: o quicksight:GetFlow o quicksight:UpdateFlowSession o quicksight:StartFlowSession o quicksight:StopFlowSession o quicksight:GetFlowSession o quicksight:CreatePresignedUrl o quicksight:GetFlowStages (string) Constraints: o min: 1 o max: 64 Principal -&gt; (string) [required] The Amazon Resource Name (ARN) of the principal. This can be an Amazon Quick user, group or namespace associated with the flow. Namespace principal can only be set as a viewer and will grant everyone in the same namespace viewer permissions. Constraints: o min: 1 o max: 256 Shorthand Syntax: Actions=string,string,Principal=string ... JSON Syntax: [ { "Actions": ["string", ...], "Principal": "string" } ... ]
+    /// The permissions that you want to grant on this flow. Constraints: • min: 0 • max: 100 (structure) A structure that contains the permission information for one principal against one flow. Actions -&gt; (list) [required] A list of actions that the principal can perform against the flow. The following are the list of values to set a principal as a flow owner: • quicksight:PublishFlow • quicksight:GetFlow • quicksight:UpdateFlowPermissions • quicksight:GetFlowSession • quicksight:StartFlowSession • quicksight:StopFlowSession • quicksight:UpdateFlowSession • quicksight:UnpublishFlow • quicksight:GetFlowStages • quicksight:DeleteFlow • quicksight:DescribeFlowPermissions • quicksight:UpdateFlow • quicksight:CreatePresignedUrl The following are the list of values to set a principal as a flow viewer: • quicksight:GetFlow • quicksight:UpdateFlowSession • quicksight:StartFlowSession • quicksight:StopFlowSession • quicksight:GetFlowSession • quicksight:CreatePresignedUrl • quicksight:GetFlowStages (string) Constraints: • min: 1 • max: 64 Principal -&gt; (string) [required] The Amazon Resource Name (ARN) of the principal. This can be an Amazon Quick user, group or namespace associated with the flow. Namespace principal can only be set as a viewer and will grant everyone in the same namespace viewer permissions. Constraints: • min: 1 • max: 256 Shorthand Syntax: Actions=string,string,Principal=string ... JSON Syntax: [ { "Actions": ["string", ...], "Principal": "string" } ... ]
     /// </summary>
     [CliOption("--grant-permissions", GroupValues = true)]
     public IEnumerable<string>? GrantPermissions { get; set; }
 
     /// <summary>
-    /// The permissions that you want to revoke from this flow. Constraints: o min: 0 o max: 100 (structure) A structure that contains the permission information for one principal against one flow. Actions -&gt; (list) [required] A list of actions that the principal can perform against the flow. The following are the list of values to set a principal as a flow owner: o quicksight:PublishFlow o quicksight:GetFlow o quicksight:UpdateFlowPermissions o quicksight:GetFlowSession o quicksight:StartFlowSession o quicksight:StopFlowSession o quicksight:UpdateFlowSession o quicksight:UnpublishFlow o quicksight:GetFlowStages o quicksight:DeleteFlow o quicksight:DescribeFlowPermissions o quicksight:UpdateFlow o quicksight:CreatePresignedUrl The following are the list of values to set a principal as a flow viewer: o quicksight:GetFlow o quicksight:UpdateFlowSession o quicksight:StartFlowSession o quicksight:StopFlowSession o quicksight:GetFlowSession o quicksight:CreatePresignedUrl o quicksight:GetFlowStages (string) Constraints: o min: 1 o max: 64 Principal -&gt; (string) [required] The Amazon Resource Name (ARN) of the principal. This can be an Amazon Quick user, group or namespace associated with the flow. Namespace principal can only be set as a viewer and will grant everyone in the same namespace viewer permissions. Constraints: o min: 1 o max: 256 Shorthand Syntax: Actions=string,string,Principal=string ... JSON Syntax: [ { "Actions": ["string", ...], "Principal": "string" } ... ]
+    /// The permissions that you want to revoke from this flow. Constraints: • min: 0 • max: 100 (structure) A structure that contains the permission information for one principal against one flow. Actions -&gt; (list) [required] A list of actions that the principal can perform against the flow. The following are the list of values to set a principal as a flow owner: • quicksight:PublishFlow • quicksight:GetFlow • quicksight:UpdateFlowPermissions • quicksight:GetFlowSession • quicksight:StartFlowSession • quicksight:StopFlowSession • quicksight:UpdateFlowSession • quicksight:UnpublishFlow • quicksight:GetFlowStages • quicksight:DeleteFlow • quicksight:DescribeFlowPermissions • quicksight:UpdateFlow • quicksight:CreatePresignedUrl The following are the list of values to set a principal as a flow viewer: • quicksight:GetFlow • quicksight:UpdateFlowSession • quicksight:StartFlowSession • quicksight:StopFlowSession • quicksight:GetFlowSession • quicksight:CreatePresignedUrl • quicksight:GetFlowStages (string) Constraints: • min: 1 • max: 64 Principal -&gt; (string) [required] The Amazon Resource Name (ARN) of the principal. This can be an Amazon Quick user, group or namespace associated with the flow. Namespace principal can only be set as a viewer and will grant everyone in the same namespace viewer permissions. Constraints: • min: 1 • max: 256 Shorthand Syntax: Actions=string,string,Principal=string ... JSON Syntax: [ { "Actions": ["string", ...], "Principal": "string" } ... ]
     /// </summary>
     [CliOption("--revoke-permissions", GroupValues = true)]
     public IEnumerable<string>? RevokePermissions { get; set; }

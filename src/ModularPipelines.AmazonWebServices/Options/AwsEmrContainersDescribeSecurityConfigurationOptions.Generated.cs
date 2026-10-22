@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Displays detailed information about a specified security configuration. Security configurations in Amazon EMR on EKS are templates for differ- ent security setups. You can use security configurations to configure the Lake Formation integration setup. You can also create a security configuration to re-use a security setup each time you create a virtual cluster. See also: AWS API Documentation
+/// Displays detailed information about a specified security configuration. Security configurations in Amazon EMR on EKS are templates for different security setups. You can use security configurations to configure the Lake Formation integration setup. You can also create a security configuration to re-use a security setup each time you create a virtual cluster. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsEmrContainersDescribeSecurityConfigurationOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Displays detailed information about a specified security configuration. Security configurations in Amazon EMR on EKS are templates for differ- ent security setups. You can use security configurations to configure the Lake Formation integration setup. You can also create a security configuration to re-use a security setup each time you create a virtual cluster. See also: AWS API Documentation
+    /// Displays detailed information about a specified security configuration. Security configurations in Amazon EMR on EKS are templates for different security setups. You can use security configurations to configure the Lake Formation integration setup. You can also create a security configuration to re-use a security setup each time you create a virtual cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the security configuration. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
+    /// <param name="Id">The ID of the security configuration. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+</param>
     public AwsEmrContainersDescribeSecurityConfigurationOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsEmrContainersDescribeSecurityConfigurationOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the security configuration. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// The ID of the security configuration. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

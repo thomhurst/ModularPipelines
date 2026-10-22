@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSesUpdateAccountSendingEnabledOptions : AwsOptions
 {
     /// <summary>
-    /// Describes whether email sending is enabled or disabled for your Ama- zon SES account in the current Amazon Web Services Region.
+    /// Describes whether email sending is enabled or disabled for your Amazon SES account in the current Amazon Web Services Region.
     /// </summary>
     [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }

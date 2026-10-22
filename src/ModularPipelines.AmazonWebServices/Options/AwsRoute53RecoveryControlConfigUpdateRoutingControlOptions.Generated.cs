@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a routing control. You can only update the name of the routing control. To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recov- ery Controller. See also: AWS API Documentation
+/// Updates a routing control. You can only update the name of the routing control. To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recovery Controller. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsRoute53RecoveryControlConfigUpdateRoutingControlOptions : AwsOp
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a routing control. You can only update the name of the routing control. To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recov- ery Controller. See also: AWS API Documentation
+    /// Updates a routing control. You can only update the name of the routing control. To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recovery Controller. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RoutingControlArn">The Amazon Resource Name (ARN) of the routing control. Constraints: o min: 1 o max: 256 o pattern: ^[A-Za-z0-9:\/_-]*$</param>
-    /// <param name="RoutingControlName">The name of the routing control. Constraints: o min: 1 o max: 64 o pattern: ^\S+$</param>
+    /// <param name="RoutingControlArn">The Amazon Resource Name (ARN) of the routing control. Constraints: • min: 1 • max: 256 • pattern: ^[A-Za-z0-9:\/_-]*$</param>
+    /// <param name="RoutingControlName">The name of the routing control. Constraints: • min: 1 • max: 64 • pattern: ^\S+$</param>
     public AwsRoute53RecoveryControlConfigUpdateRoutingControlOptions(
         string RoutingControlArn,
         string RoutingControlName
@@ -60,13 +62,13 @@ public record AwsRoute53RecoveryControlConfigUpdateRoutingControlOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the routing control. Constraints: o min: 1 o max: 256 o pattern: ^[A-Za-z0-9:\/_-]*$
+    /// The Amazon Resource Name (ARN) of the routing control. Constraints: • min: 1 • max: 256 • pattern: ^[A-Za-z0-9:\/_-]*$
     /// </summary>
     [CliOption("--routing-control-arn")]
     public string? RoutingControlArn { get; private init; }
 
     /// <summary>
-    /// The name of the routing control. Constraints: o min: 1 o max: 64 o pattern: ^\S+$
+    /// The name of the routing control. Constraints: • min: 1 • max: 64 • pattern: ^\S+$
     /// </summary>
     [CliOption("--routing-control-name")]
     public string? RoutingControlName { get; private init; }

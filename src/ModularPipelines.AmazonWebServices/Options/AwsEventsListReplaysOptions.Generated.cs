@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists your replays. You can either list all the replays or you can pro- vide a prefix to match to the replay names. Filter parameters are ex- clusive. See also: AWS API Documentation
+/// Lists your replays. You can either list all the replays or you can provide a prefix to match to the replay names. Filter parameters are exclusive. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,32 +24,32 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEventsListReplaysOptions : AwsOptions
 {
     /// <summary>
-    /// A name prefix to filter the replays returned. Only replays with name that match the prefix are returned. Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+
+    /// A name prefix to filter the replays returned. Only replays with name that match the prefix are returned. Constraints: • min: 1 • max: 64 • pattern: [\.\-_A-Za-z0-9]+
     /// </summary>
     [CliOption("--name-prefix")]
     public string? NamePrefix { get; set; }
 
     /// <summary>
-    /// The state of the replay. Possible values: o STARTING o RUNNING o CANCELLING o COMPLETED o CANCELLED o FAILED
+    /// The state of the replay. Possible values: • STARTING • RUNNING • CANCELLING • COMPLETED • CANCELLED • FAILED
     /// </summary>
     [CliOption("--state")]
     public AwsEventsListReplaysState? State { get; set; }
 
     /// <summary>
-    /// The ARN of the archive from which the events are replayed. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws([a-z]|\-)*:events:([a-z]|\d|\-)*:([0-9]{12})?:.+\/.+$
+    /// The ARN of the archive from which the events are replayed. Constraints: • min: 1 • max: 1600 • pattern: ^arn:aws([a-z]|\-)*:events:([a-z]|\d|\-)*:([0-9]{12})?:.+\/.+$
     /// </summary>
     [CliOption("--event-source-arn")]
     public string? EventSourceArn { get; set; }
 
     /// <summary>
-    /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidTo- ken error. Constraints: o min: 1 o max: 2048
+    /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error. Constraints: • min: 1 • max: 2048
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of replays to retrieve. Constraints: o min: 1 o max: 100
+    /// The maximum number of replays to retrieve. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }

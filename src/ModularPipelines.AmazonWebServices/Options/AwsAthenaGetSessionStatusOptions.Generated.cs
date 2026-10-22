@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAthenaGetSessionStatusOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets the current status of a session. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SessionId">The session ID. Constraints: o min: 1 o max: 256</param>
+    /// <param name="SessionId">The session ID. Constraints: • min: 1 • max: 256</param>
     public AwsAthenaGetSessionStatusOptions(
         string SessionId
     )
@@ -56,7 +58,7 @@ public record AwsAthenaGetSessionStatusOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The session ID. Constraints: o min: 1 o max: 256
+    /// The session ID. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }

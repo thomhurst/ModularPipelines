@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets information about a partner account. If PartnerAccountId and Part- nerType are null , returns all partner accounts. See also: AWS API Documentation
+/// Gets information about a partner account. If PartnerAccountId and PartnerType are null , returns all partner accounts. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsIotwirelessGetPartnerAccountOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets information about a partner account. If PartnerAccountId and Part- nerType are null , returns all partner accounts. See also: AWS API Documentation
+    /// Gets information about a partner account. If PartnerAccountId and PartnerType are null , returns all partner accounts. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PartnerAccountId">The partner account ID to disassociate from the AWS account. Constraints: o max: 256</param>
-    /// <param name="PartnerType">The partner type. Possible values: o Sidewalk</param>
+    /// <param name="PartnerAccountId">The partner account ID to disassociate from the AWS account. Constraints: • max: 256</param>
+    /// <param name="PartnerType">The partner type. Possible values: • Sidewalk</param>
     public AwsIotwirelessGetPartnerAccountOptions(
         string PartnerAccountId,
         string PartnerType
@@ -60,13 +62,13 @@ public record AwsIotwirelessGetPartnerAccountOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The partner account ID to disassociate from the AWS account. Constraints: o max: 256
+    /// The partner account ID to disassociate from the AWS account. Constraints: • max: 256
     /// </summary>
     [CliOption("--partner-account-id")]
     public string? PartnerAccountId { get; private init; }
 
     /// <summary>
-    /// The partner type. Possible values: o Sidewalk
+    /// The partner type. Possible values: • Sidewalk
     /// </summary>
     [CliOption("--partner-type")]
     public string? PartnerType { get; private init; }

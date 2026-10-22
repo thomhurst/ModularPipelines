@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsNovaActGetWorkflowRunOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves the current state, configuration, and execution details of a workflow run. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkflowDefinitionName">The name of the workflow definition containing the workflow run. Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9_-]{1,40}</param>
-    /// <param name="WorkflowRunId">The unique identifier of the workflow run to retrieve. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="WorkflowDefinitionName">The name of the workflow definition containing the workflow run. Constraints: • min: 1 • max: 40 • pattern: [a-zA-Z0-9_-]{1,40}</param>
+    /// <param name="WorkflowRunId">The unique identifier of the workflow run to retrieve. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     public AwsNovaActGetWorkflowRunOptions(
         string WorkflowDefinitionName,
         string WorkflowRunId
@@ -60,13 +62,13 @@ public record AwsNovaActGetWorkflowRunOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workflow definition containing the workflow run. Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9_-]{1,40}
+    /// The name of the workflow definition containing the workflow run. Constraints: • min: 1 • max: 40 • pattern: [a-zA-Z0-9_-]{1,40}
     /// </summary>
     [CliOption("--workflow-definition-name")]
     public string? WorkflowDefinitionName { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the workflow run to retrieve. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier of the workflow run to retrieve. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--workflow-run-id")]
     public string? WorkflowRunId { get; private init; }

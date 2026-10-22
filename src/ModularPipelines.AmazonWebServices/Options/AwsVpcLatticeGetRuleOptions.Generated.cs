@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves information about the specified listener rules. You can also retrieve information about the default listener rule. For more informa- tion, see Listener rules in the Amazon VPC Lattice User Guide . See also: AWS API Documentation
+/// Retrieves information about the specified listener rules. You can also retrieve information about the default listener rule. For more information, see Listener rules in the Amazon VPC Lattice User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsVpcLatticeGetRuleOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves information about the specified listener rules. You can also retrieve information about the default listener rule. For more informa- tion, see Listener rules in the Amazon VPC Lattice User Guide . See also: AWS API Documentation
+    /// Retrieves information about the specified listener rules. You can also retrieve information about the default listener rule. For more information, see Listener rules in the Amazon VPC Lattice User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceIdentifier">The ID or ARN of the service. Constraints: o min: 17 o max: 2048 o pattern: ((svc-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}))</param>
-    /// <param name="ListenerIdentifier">The ID or ARN of the listener. Constraints: o min: 20 o max: 2048 o pattern: ((listener-[0-9a-z]{17})|(^arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}/listener/lis- tener-[0-9a-z]{17}$))</param>
-    /// <param name="RuleIdentifier">The ID or ARN of the listener rule. Constraints: o min: 20 o max: 2048 o pattern: ((rule-[0-9a-z]{17})|(^arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}/listener/lis- tener-[0-9a-z]{17}/rule/rule-[0-9a-z]{17}$))</param>
+    /// <param name="ServiceIdentifier">The ID or ARN of the service. Constraints: • min: 17 • max: 2048 • pattern: ((svc-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}))</param>
+    /// <param name="ListenerIdentifier">The ID or ARN of the listener. Constraints: • min: 20 • max: 2048 • pattern: ((listener-[0-9a-z]{17})|(^arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}/listener/listener-[0-9a-z]{17}$))</param>
+    /// <param name="RuleIdentifier">The ID or ARN of the listener rule. Constraints: • min: 20 • max: 2048 • pattern: ((rule-[0-9a-z]{17})|(^arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}/listener/listener-[0-9a-z]{17}/rule/rule-[0-9a-z]{17}$))</param>
     public AwsVpcLatticeGetRuleOptions(
         string ServiceIdentifier,
         string ListenerIdentifier,
@@ -64,19 +66,19 @@ public record AwsVpcLatticeGetRuleOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or ARN of the service. Constraints: o min: 17 o max: 2048 o pattern: ((svc-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}))
+    /// The ID or ARN of the service. Constraints: • min: 17 • max: 2048 • pattern: ((svc-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}))
     /// </summary>
     [CliOption("--service-identifier")]
     public string? ServiceIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID or ARN of the listener. Constraints: o min: 20 o max: 2048 o pattern: ((listener-[0-9a-z]{17})|(^arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}/listener/lis- tener-[0-9a-z]{17}$))
+    /// The ID or ARN of the listener. Constraints: • min: 20 • max: 2048 • pattern: ((listener-[0-9a-z]{17})|(^arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}/listener/listener-[0-9a-z]{17}$))
     /// </summary>
     [CliOption("--listener-identifier")]
     public string? ListenerIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID or ARN of the listener rule. Constraints: o min: 20 o max: 2048 o pattern: ((rule-[0-9a-z]{17})|(^arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}/listener/lis- tener-[0-9a-z]{17}/rule/rule-[0-9a-z]{17}$))
+    /// The ID or ARN of the listener rule. Constraints: • min: 20 • max: 2048 • pattern: ((rule-[0-9a-z]{17})|(^arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}/listener/listener-[0-9a-z]{17}/rule/rule-[0-9a-z]{17}$))
     /// </summary>
     [CliOption("--rule-identifier")]
     public string? RuleIdentifier { get; private init; }

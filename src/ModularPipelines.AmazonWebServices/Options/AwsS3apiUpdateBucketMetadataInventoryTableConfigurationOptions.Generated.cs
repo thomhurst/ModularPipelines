@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables or disables a live inventory table for an S3 Metadata configu- ration on a general purpose bucket. For more information, see Accelerating data discovery with S3 Metadata in the Amazon S3 User Guide . Permissions To use this operation, you must have the following permissions. For more information, see Setting up permissions for configuring metadata tables in the Amazon S3 User Guide . If you want to encrypt your inventory table with server-side encryption with Key Management Service (KMS)...
+/// Enables or disables a live inventory table for an S3 Metadata configuration on a general purpose bucket. For more information, see Accelerating data discovery with S3 Metadata in the Amazon S3 User Guide . Permissions To use this operation, you must have the following permissions. For more information, see Setting up permissions for configuring metadata tables in the Amazon S3 User Guide . If you want to encrypt your inventory table with server-side encryption with Key Management Service (KMS) k...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsS3apiUpdateBucketMetadataInventoryTableConfigurationOptions : A
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enables or disables a live inventory table for an S3 Metadata configu- ration on a general purpose bucket. For more information, see Accelerating data discovery with S3 Metadata in the Amazon S3 User Guide . Permissions To use this operation, you must have the following permissions. For more information, see Setting up permissions for configuring metadata tables in the Amazon S3 User Guide . If you want to encrypt your inventory table with server-side encryption with Key Management Service (KMS)...
+    /// Enables or disables a live inventory table for an S3 Metadata configuration on a general purpose bucket. For more information, see Accelerating data discovery with S3 Metadata in the Amazon S3 User Guide . Permissions To use this operation, you must have the following permissions. For more information, see Setting up permissions for configuring metadata tables in the Amazon S3 User Guide . If you want to encrypt your inventory table with server-side encryption with Key Management Service (KMS) k...
     /// </summary>
-    /// <param name="Bucket">The general purpose bucket that corresponds to the metadata configu- ration that you want to enable or disable an inventory table for.</param>
-    /// <param name="InventoryTableConfiguration">The contents of your inventory table configuration. ConfigurationState -&gt; (string) [required] The configuration state of the inventory table, indicating whether the inventory table is enabled or disabled. Possible values: o ENABLED o DISABLED EncryptionConfiguration -&gt; (structure) The encryption configuration for the inventory table. SseAlgorithm -&gt; (string) [required] The encryption type specified for a metadata table. To spec- ify server-side encryption with Key Management Service (KMS) keys (SSE-KMS), use the aws:kms value. To specify server-side encryption with Amazon S3 managed keys (SSE-S3), use the AES256 value. Possible values: o aws:kms o AES256 KmsKeyArn -&gt; (string) If server-side encryption with Key Management Service (KMS) keys (SSE-KMS) is specified, you must also specify the KMS key Amazon Resource Name (ARN). You must specify a cus- tomer-managed KMS key that's located in the same Region as the general purpose bucket that corresponds to the metadata table configuration. Shorthand Syntax: ConfigurationState=string,EncryptionConfiguration={SseAlgorithm=string,KmsKeyArn=string} JSON Syntax: { "ConfigurationState": "ENABLED"|"DISABLED", "EncryptionConfiguration": { "SseAlgorithm": "aws:kms"|"AES256", "KmsKeyArn": "string" } }</param>
+    /// <param name="Bucket">The general purpose bucket that corresponds to the metadata configuration that you want to enable or disable an inventory table for.</param>
+    /// <param name="InventoryTableConfiguration">The contents of your inventory table configuration. ConfigurationState -&gt; (string) [required] The configuration state of the inventory table, indicating whether the inventory table is enabled or disabled. Possible values: • ENABLED • DISABLED EncryptionConfiguration -&gt; (structure) The encryption configuration for the inventory table. SseAlgorithm -&gt; (string) [required] The encryption type specified for a metadata table. To specify server-side encryption with Key Management Service (KMS) keys (SSE-KMS), use the aws:kms value. To specify server-side encryption with Amazon S3 managed keys (SSE-S3), use the AES256 value. Possible values: • aws:kms • AES256 KmsKeyArn -&gt; (string) If server-side encryption with Key Management Service (KMS) keys (SSE-KMS) is specified, you must also specify the KMS key Amazon Resource Name (ARN). You must specify a customer-managed KMS key that's located in the same Region as the general purpose bucket that corresponds to the metadata table configuration. Shorthand Syntax: ConfigurationState=string,EncryptionConfiguration={SseAlgorithm=string,KmsKeyArn=string} JSON Syntax: { "ConfigurationState": "ENABLED"|"DISABLED", "EncryptionConfiguration": { "SseAlgorithm": "aws:kms"|"AES256", "KmsKeyArn": "string" } }</param>
     public AwsS3apiUpdateBucketMetadataInventoryTableConfigurationOptions(
         string Bucket,
         string InventoryTableConfiguration
@@ -61,13 +63,13 @@ public record AwsS3apiUpdateBucketMetadataInventoryTableConfigurationOptions : A
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The general purpose bucket that corresponds to the metadata configu- ration that you want to enable or disable an inventory table for.
+    /// The general purpose bucket that corresponds to the metadata configuration that you want to enable or disable an inventory table for.
     /// </summary>
     [CliOption("--bucket")]
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// The contents of your inventory table configuration. ConfigurationState -&gt; (string) [required] The configuration state of the inventory table, indicating whether the inventory table is enabled or disabled. Possible values: o ENABLED o DISABLED EncryptionConfiguration -&gt; (structure) The encryption configuration for the inventory table. SseAlgorithm -&gt; (string) [required] The encryption type specified for a metadata table. To spec- ify server-side encryption with Key Management Service (KMS) keys (SSE-KMS), use the aws:kms value. To specify server-side encryption with Amazon S3 managed keys (SSE-S3), use the AES256 value. Possible values: o aws:kms o AES256 KmsKeyArn -&gt; (string) If server-side encryption with Key Management Service (KMS) keys (SSE-KMS) is specified, you must also specify the KMS key Amazon Resource Name (ARN). You must specify a cus- tomer-managed KMS key that's located in the same Region as the general purpose bucket that corresponds to the metadata table configuration. Shorthand Syntax: ConfigurationState=string,EncryptionConfiguration={SseAlgorithm=string,KmsKeyArn=string} JSON Syntax: { "ConfigurationState": "ENABLED"|"DISABLED", "EncryptionConfiguration": { "SseAlgorithm": "aws:kms"|"AES256", "KmsKeyArn": "string" } }
+    /// The contents of your inventory table configuration. ConfigurationState -&gt; (string) [required] The configuration state of the inventory table, indicating whether the inventory table is enabled or disabled. Possible values: • ENABLED • DISABLED EncryptionConfiguration -&gt; (structure) The encryption configuration for the inventory table. SseAlgorithm -&gt; (string) [required] The encryption type specified for a metadata table. To specify server-side encryption with Key Management Service (KMS) keys (SSE-KMS), use the aws:kms value. To specify server-side encryption with Amazon S3 managed keys (SSE-S3), use the AES256 value. Possible values: • aws:kms • AES256 KmsKeyArn -&gt; (string) If server-side encryption with Key Management Service (KMS) keys (SSE-KMS) is specified, you must also specify the KMS key Amazon Resource Name (ARN). You must specify a customer-managed KMS key that's located in the same Region as the general purpose bucket that corresponds to the metadata table configuration. Shorthand Syntax: ConfigurationState=string,EncryptionConfiguration={SseAlgorithm=string,KmsKeyArn=string} JSON Syntax: { "ConfigurationState": "ENABLED"|"DISABLED", "EncryptionConfiguration": { "SseAlgorithm": "aws:kms"|"AES256", "KmsKeyArn": "string" } }
     /// </summary>
     [CliOption("--inventory-table-configuration")]
     public string? InventoryTableConfiguration { get; private init; }
@@ -79,7 +81,7 @@ public record AwsS3apiUpdateBucketMetadataInventoryTableConfigurationOptions : A
     public string? ContentMd5 { get; set; }
 
     /// <summary>
-    /// The checksum algorithm to use with your inventory table configura- tion. Possible values: o CRC32 o CRC32C o SHA1 o SHA256 o CRC64NVME o SHA512 o MD5 o XXHASH64 o XXHASH3 o XXHASH128
+    /// The checksum algorithm to use with your inventory table configuration. Possible values: • CRC32 • CRC32C • SHA1 • SHA256 • CRC64NVME • SHA512 • MD5 • XXHASH64 • XXHASH3 • XXHASH128
     /// </summary>
     [CliOption("--checksum-algorithm")]
     public AwsS3apiUpdateBucketMetadataInventoryTableConfigurationChecksumAlgorithm? ChecksumAlgorithm { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an Amazon Chime account under the administrator's AWS account. Only Team account types are currently supported for this action. For more information about different account types, see Managing Your Ama- zon Chime Accounts in the Amazon Chime Administration Guide . See also: AWS API Documentation
+/// Creates an Amazon Chime account under the administrator's AWS account. Only Team account types are currently supported for this action. For more information about different account types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administration Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsChimeCreateAccountOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an Amazon Chime account under the administrator's AWS account. Only Team account types are currently supported for this action. For more information about different account types, see Managing Your Ama- zon Chime Accounts in the Amazon Chime Administration Guide . See also: AWS API Documentation
+    /// Creates an Amazon Chime account under the administrator's AWS account. Only Team account types are currently supported for this action. For more information about different account types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administration Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the Amazon Chime account. Constraints: o min: 1 o max: 100 o pattern: .*\S.*</param>
+    /// <param name="Name">The name of the Amazon Chime account. Constraints: • min: 1 • max: 100 • pattern: .*\S.*</param>
     public AwsChimeCreateAccountOptions(
         string Name
     )
@@ -56,7 +58,7 @@ public record AwsChimeCreateAccountOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Amazon Chime account. Constraints: o min: 1 o max: 100 o pattern: .*\S.*
+    /// The name of the Amazon Chime account. Constraints: • min: 1 • max: 100 • pattern: .*\S.*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

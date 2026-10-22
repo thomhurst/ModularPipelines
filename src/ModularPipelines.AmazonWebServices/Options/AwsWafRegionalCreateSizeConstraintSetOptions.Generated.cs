@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsWafRegionalCreateSizeConstraintSetOptions : AwsOptions, IValida
     /// <summary>
     /// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Creates a SizeConstraintSet . You then use UpdateSizeConstraintSet to identify the part of a web request that you want AWS WAF to check for length, such as the length of the User-Agent header or the le...
     /// </summary>
-    /// <param name="Name">A friendly name or description of the SizeConstraintSet . You can't change Name after you create a SizeConstraintSet . Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
-    /// <param name="ChangeToken">The value returned by the most recent call to GetChangeToken . Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    /// <param name="Name">A friendly name or description of the SizeConstraintSet . You can't change Name after you create a SizeConstraintSet . Constraints: • min: 1 • max: 128 • pattern: .*\S.*</param>
+    /// <param name="ChangeToken">The value returned by the most recent call to GetChangeToken . Constraints: • min: 1 • max: 128 • pattern: .*\S.*</param>
     public AwsWafRegionalCreateSizeConstraintSetOptions(
         string Name,
         string ChangeToken
@@ -61,13 +63,13 @@ public record AwsWafRegionalCreateSizeConstraintSetOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A friendly name or description of the SizeConstraintSet . You can't change Name after you create a SizeConstraintSet . Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// A friendly name or description of the SizeConstraintSet . You can't change Name after you create a SizeConstraintSet . Constraints: • min: 1 • max: 128 • pattern: .*\S.*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The value returned by the most recent call to GetChangeToken . Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// The value returned by the most recent call to GetChangeToken . Constraints: • min: 1 • max: 128 • pattern: .*\S.*
     /// </summary>
     [SecretValue]
     [CliOption("--change-token")]

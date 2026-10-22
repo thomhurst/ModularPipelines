@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotwirelessGetWirelessDeviceStatisticsOptions : AwsOptions, IVa
     /// <summary>
     /// Gets operating information about a wireless device. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WirelessDeviceId">The ID of the wireless device for which to get the data. Constraints: o max: 256</param>
+    /// <param name="WirelessDeviceId">The ID of the wireless device for which to get the data. Constraints: • max: 256</param>
     public AwsIotwirelessGetWirelessDeviceStatisticsOptions(
         string WirelessDeviceId
     )
@@ -56,7 +58,7 @@ public record AwsIotwirelessGetWirelessDeviceStatisticsOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the wireless device for which to get the data. Constraints: o max: 256
+    /// The ID of the wireless device for which to get the data. Constraints: • max: 256
     /// </summary>
     [CliOption("--wireless-device-id")]
     public string? WirelessDeviceId { get; private init; }

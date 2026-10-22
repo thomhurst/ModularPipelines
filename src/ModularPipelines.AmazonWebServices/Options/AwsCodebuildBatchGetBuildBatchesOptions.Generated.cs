@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCodebuildBatchGetBuildBatchesOptions : AwsOptions, IValidatable
     /// <summary>
     /// Retrieves information about one or more batch builds. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Ids">An array that contains the batch build identifiers to retrieve. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 Syntax: "string" "string" ...</param>
+    /// <param name="Ids">An array that contains the batch build identifiers to retrieve. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 1 Syntax: "string" "string" ...</param>
     public AwsCodebuildBatchGetBuildBatchesOptions(
         IEnumerable<string> Ids
     )
@@ -67,7 +69,7 @@ public record AwsCodebuildBatchGetBuildBatchesOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An array that contains the batch build identifiers to retrieve. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 Syntax: "string" "string" ...
+    /// An array that contains the batch build identifiers to retrieve. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 1 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; private init; }

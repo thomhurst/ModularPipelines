@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCodebuildStopSandboxOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Stops a sandbox. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">Information about the requested sandbox ID. Constraints: o min: 1</param>
+    /// <param name="Id">Information about the requested sandbox ID. Constraints: • min: 1</param>
     public AwsCodebuildStopSandboxOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsCodebuildStopSandboxOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Information about the requested sandbox ID. Constraints: o min: 1
+    /// Information about the requested sandbox ID. Constraints: • min: 1
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

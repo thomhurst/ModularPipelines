@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsQuicksightDescribeTemplateOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Describes a template's metadata. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the template that you're describing. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="TemplateId">The ID for the template. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the template that you're describing. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="TemplateId">The ID for the template. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+</param>
     public AwsQuicksightDescribeTemplateOptions(
         string AwsAccountId,
         string TemplateId
@@ -60,25 +62,25 @@ public record AwsQuicksightDescribeTemplateOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the template that you're describing. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the template that you're describing. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID for the template. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// The ID for the template. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--template-id")]
     public string? TemplateId { get; private init; }
 
     /// <summary>
-    /// (Optional) The number for the version to describe. If a VersionNum- ber parameter value isn't provided, the latest version of the tem- plate is described. Constraints: o min: 1
+    /// (Optional) The number for the version to describe. If a VersionNumber parameter value isn't provided, the latest version of the template is described. Constraints: • min: 1
     /// </summary>
     [CliOption("--version-number")]
-    public int? VersionNumber { get; set; }
+    public long? VersionNumber { get; set; }
 
     /// <summary>
-    /// The alias of the template that you want to describe. If you name a specific alias, you describe the version that the alias points to. You can specify the latest version of the template by providing the keyword $LATEST in the AliasName parameter. The keyword $PUBLISHED doesn't apply to templates. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+|(\$LATEST)|(\$PUBLISHED)
+    /// The alias of the template that you want to describe. If you name a specific alias, you describe the version that the alias points to. You can specify the latest version of the template by providing the keyword $LATEST in the AliasName parameter. The keyword $PUBLISHED doesn't apply to templates. Constraints: • min: 1 • max: 2048 • pattern: [\w\-]+|(\$LATEST)|(\$PUBLISHED)
     /// </summary>
     [CliOption("--alias-name")]
     public string? AliasName { get; set; }

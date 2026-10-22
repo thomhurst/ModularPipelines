@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotUpdateCommandOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Update information about a command or mark a command for deprecation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CommandId">The unique identifier of the command to be updated. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="CommandId">The unique identifier of the command to be updated. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsIotUpdateCommandOptions(
         string CommandId
     )
@@ -56,25 +58,25 @@ public record AwsIotUpdateCommandOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the command to be updated. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// The unique identifier of the command to be updated. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--command-id")]
     public string? CommandId { get; private init; }
 
     /// <summary>
-    /// The new user-friendly name to use in the console for the command. Constraints: o max: 64 o pattern: [^\p{C}]*
+    /// The new user-friendly name to use in the console for the command. Constraints: • max: 64 • pattern: [^\p{C}]*
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// A short text description of the command. Constraints: o max: 2028 o pattern: [^\p{C}]*
+    /// A short text description of the command. Constraints: • max: 2028 • pattern: [^\p{C}]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A boolean that you can use to specify whether to deprecate a com- mand.
+    /// A boolean that you can use to specify whether to deprecate a command.
     /// </summary>
     [CliFlag("--deprecated", NegatedName = "--no-deprecated")]
     public bool? Deprecated { get; set; }

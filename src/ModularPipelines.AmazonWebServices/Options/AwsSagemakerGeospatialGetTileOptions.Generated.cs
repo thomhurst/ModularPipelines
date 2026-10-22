@@ -25,9 +25,9 @@ public record AwsSagemakerGeospatialGetTileOptions : AwsOptions
     /// <summary>
     /// Gets a web mercator tile for the given Earth Observation job. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the tile operation. Constraints: o pattern: ^arn:aws[a-z-]{0,12}:sagemaker-geospa- tial:[a-z0-9-]{1,25}:[0-9]{12}:earth-observa- tion-job/[a-z0-9]{12,}$</param>
-    /// <param name="ImageAssets">The particular assets or bands to tile. Constraints: o min: 1 (string) Syntax: "string" "string" ...</param>
-    /// <param name="Target">Determines what part of the Earth Observation job to tile. 'INPUT' or 'OUTPUT' are the valid options. Possible values: o INPUT o OUTPUT</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the tile operation. Constraints: • pattern: ^arn:aws[a-z-]{0,12}:sagemaker-geospatial:[a-z0-9-]{1,25}:[0-9]{12}:earth-observation-job/[a-z0-9]{12,}$</param>
+    /// <param name="ImageAssets">The particular assets or bands to tile. Constraints: • min: 1 (string) Syntax: "string" "string" ...</param>
+    /// <param name="Target">Determines what part of the Earth Observation job to tile. 'INPUT' or 'OUTPUT' are the valid options. Possible values: • INPUT • OUTPUT</param>
     /// <param name="X">The x coordinate of the tile input.</param>
     /// <param name="Y">The y coordinate of the tile input.</param>
     /// <param name="Z">The z coordinate of the tile input. outfile (string) [required] Filename where the content will be saved</param>
@@ -77,19 +77,19 @@ public record AwsSagemakerGeospatialGetTileOptions : AwsOptions
     }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the tile operation. Constraints: o pattern: ^arn:aws[a-z-]{0,12}:sagemaker-geospa- tial:[a-z0-9-]{1,25}:[0-9]{12}:earth-observa- tion-job/[a-z0-9]{12,}$
+    /// The Amazon Resource Name (ARN) of the tile operation. Constraints: • pattern: ^arn:aws[a-z-]{0,12}:sagemaker-geospatial:[a-z0-9-]{1,25}:[0-9]{12}:earth-observation-job/[a-z0-9]{12,}$
     /// </summary>
     [CliOption("--arn")]
     public string Arn { get; private init; }
 
     /// <summary>
-    /// The particular assets or bands to tile. Constraints: o min: 1 (string) Syntax: "string" "string" ...
+    /// The particular assets or bands to tile. Constraints: • min: 1 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--image-assets", GroupValues = true)]
     public IEnumerable<string> ImageAssets { get; private init; }
 
     /// <summary>
-    /// Determines what part of the Earth Observation job to tile. 'INPUT' or 'OUTPUT' are the valid options. Possible values: o INPUT o OUTPUT
+    /// Determines what part of the Earth Observation job to tile. 'INPUT' or 'OUTPUT' are the valid options. Possible values: • INPUT • OUTPUT
     /// </summary>
     [CliOption("--target")]
     public AwsSagemakerGeospatialGetTileTarget Target { get; private init; }
@@ -113,7 +113,7 @@ public record AwsSagemakerGeospatialGetTileOptions : AwsOptions
     public int Z { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role that you specify. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws[a-z-]*):iam::([0-9]{12}):role/[a-zA-Z0-9+=,.@_/-]+$
+    /// The Amazon Resource Name (ARN) of the IAM role that you specify. Constraints: • min: 20 • max: 2048 • pattern: ^arn:(aws[a-z-]*):iam::([0-9]{12}):role/[a-zA-Z0-9+=,.@_/-]+$
     /// </summary>
     [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; set; }
@@ -125,7 +125,7 @@ public record AwsSagemakerGeospatialGetTileOptions : AwsOptions
     public bool? ImageMask { get; set; }
 
     /// <summary>
-    /// The output data type of the tile operation. Possible values: o INT32 o FLOAT32 o INT16 o FLOAT64 o UINT16
+    /// The output data type of the tile operation. Possible values: • INT32 • FLOAT32 • INT16 • FLOAT64 • UINT16
     /// </summary>
     [CliOption("--output-data-type")]
     public AwsSagemakerGeospatialGetTileOutputDataType? OutputDataType { get; set; }

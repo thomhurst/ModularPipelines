@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves an authorization token. An authorization token represents your IAM authentication credentials. You can use it to access any Ama- zon ECR registry that your IAM principal has access to. The authoriza- tion token is valid for 12 hours. This API requires the ecr-pub- lic:GetAuthorizationToken and sts:GetServiceBearerToken permissions. See also: AWS API Documentation
+/// Retrieves an authorization token. An authorization token represents your IAM authentication credentials. You can use it to access any Amazon ECR registry that your IAM principal has access to. The authorization token is valid for 12 hours. This API requires the ecr-public:GetAuthorizationToken and sts:GetServiceBearerToken permissions. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

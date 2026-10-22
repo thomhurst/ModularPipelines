@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsOpensearchStartServiceSoftwareUpdateOptions : AwsOptions, IVali
     /// <summary>
     /// Schedules a service software update for an Amazon OpenSearch Service domain. For more information, see Service software updates in Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The name of the domain that you want to update to the latest service software. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="DomainName">The name of the domain that you want to update to the latest service software. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
     public AwsOpensearchStartServiceSoftwareUpdateOptions(
         string DomainName
     )
@@ -57,13 +59,13 @@ public record AwsOpensearchStartServiceSoftwareUpdateOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain that you want to update to the latest service software. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// The name of the domain that you want to update to the latest service software. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// When to start the service software update. o NOW - Immediately schedules the update to happen in the current hour if there's capacity available. o TIMESTAMP - Lets you specify a custom date and time to apply the update. If you specify this value, you must also provide a value for DesiredStartTime . o OFF_PEAK_WINDOW - Marks the update to be picked up during an up- coming off-peak window. There's no guarantee that the update will happen during the next immediate window. Depending on capacity, it might happen in subsequent days. Default: NOW if you don't specify a value for DesiredStartTime , and TIMESTAMP if you do. Possible values: o NOW o TIMESTAMP o OFF_PEAK_WINDOW
+    /// When to start the service software update. • NOW - Immediately schedules the update to happen in the current hour if there's capacity available. • TIMESTAMP - Lets you specify a custom date and time to apply the update. If you specify this value, you must also provide a value for DesiredStartTime . • OFF_PEAK_WINDOW - Marks the update to be picked up during an upcoming off-peak window. There's no guarantee that the update will happen during the next immediate window. Depending on capacity, it might happen in subsequent days. Default: NOW if you don't specify a value for DesiredStartTime , and TIMESTAMP if you do. Possible values: • NOW • TIMESTAMP • OFF_PEAK_WINDOW
     /// </summary>
     [CliOption("--schedule-at")]
     public AwsOpensearchStartServiceSoftwareUpdateScheduleAt? ScheduleAt { get; set; }
@@ -72,7 +74,7 @@ public record AwsOpensearchStartServiceSoftwareUpdateOptions : AwsOptions, IVali
     /// The Epoch timestamp when you want the service software update to start. You only need to specify this parameter if you set ScheduleAt to TIMESTAMP .
     /// </summary>
     [CliOption("--desired-start-time")]
-    public int? DesiredStartTime { get; set; }
+    public long? DesiredStartTime { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

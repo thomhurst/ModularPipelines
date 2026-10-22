@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2 (FleetIQ) Updates information about a registered game server to help Amazon GameLift Servers FleetIQ track game server availability. This operation is called by a game server process that is running on an instance in a game server group. Use this operation to update the following types of game server infor- mation. You can make all three types of updates in the same request: o To update the game server's utilization status from AVAILABLE (when t...
+/// This API works with the following fleet types: EC2 (FleetIQ) Updates information about a registered game server to help Amazon GameLift Servers FleetIQ track game server availability. This operation is called by a game server process that is running on an instance in a game server group. Use this operation to update the following types of game server information. You can make all three types of updates in the same request: • To update the game server's utilization status from AVAILABLE (when the...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsGameliftUpdateGameServerOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 (FleetIQ) Updates information about a registered game server to help Amazon GameLift Servers FleetIQ track game server availability. This operation is called by a game server process that is running on an instance in a game server group. Use this operation to update the following types of game server infor- mation. You can make all three types of updates in the same request: o To update the game server's utilization status from AVAILABLE (when t...
+    /// This API works with the following fleet types: EC2 (FleetIQ) Updates information about a registered game server to help Amazon GameLift Servers FleetIQ track game server availability. This operation is called by a game server process that is running on an instance in a game server group. Use this operation to update the following types of game server information. You can make all three types of updates in the same request: • To update the game server's utilization status from AVAILABLE (when the...
     /// </summary>
-    /// <param name="GameServerGroupName">A unique identifier for the game server group where the game server is running. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameserver- group\/[a-zA-Z0-9-\.]+)$</param>
-    /// <param name="GameServerId">A custom string that uniquely identifies the game server to update. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9-\.]+$</param>
+    /// <param name="GameServerGroupName">A unique identifier for the game server group where the game server is running. Constraints: • min: 1 • max: 256 • pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameservergroup\/[a-zA-Z0-9-\.]+)$</param>
+    /// <param name="GameServerId">A custom string that uniquely identifies the game server to update. Constraints: • min: 3 • max: 128 • pattern: ^[a-zA-Z0-9-\.]+$</param>
     public AwsGameliftUpdateGameServerOptions(
         string GameServerGroupName,
         string GameServerId
@@ -61,31 +63,31 @@ public record AwsGameliftUpdateGameServerOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the game server group where the game server is running. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameserver- group\/[a-zA-Z0-9-\.]+)$
+    /// A unique identifier for the game server group where the game server is running. Constraints: • min: 1 • max: 256 • pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameservergroup\/[a-zA-Z0-9-\.]+)$
     /// </summary>
     [CliOption("--game-server-group-name")]
     public string? GameServerGroupName { get; private init; }
 
     /// <summary>
-    /// A custom string that uniquely identifies the game server to update. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9-\.]+$
+    /// A custom string that uniquely identifies the game server to update. Constraints: • min: 3 • max: 128 • pattern: ^[a-zA-Z0-9-\.]+$
     /// </summary>
     [CliOption("--game-server-id")]
     public string? GameServerId { get; private init; }
 
     /// <summary>
-    /// A set of custom game server properties, formatted as a single string value. This data is passed to a game client or service when it re- quests information on game servers. Constraints: o min: 1 o max: 1024 o pattern: ^.*\S.*$
+    /// A set of custom game server properties, formatted as a single string value. This data is passed to a game client or service when it requests information on game servers. Constraints: • min: 1 • max: 1024 • pattern: ^.*\S.*$
     /// </summary>
     [CliOption("--game-server-data")]
     public string? GameServerData { get; set; }
 
     /// <summary>
-    /// Indicates if the game server is available or is currently hosting gameplay. You can update a game server status from AVAILABLE to UTI- LIZED , but you can't change a the status from UTILIZED to AVAILABLE . Possible values: o AVAILABLE o UTILIZED
+    /// Indicates if the game server is available or is currently hosting gameplay. You can update a game server status from AVAILABLE to UTILIZED , but you can't change the status from UTILIZED to AVAILABLE . Possible values: • AVAILABLE • UTILIZED
     /// </summary>
     [CliOption("--utilization-status")]
     public AwsGameliftUpdateGameServerUtilizationStatus? UtilizationStatus { get; set; }
 
     /// <summary>
-    /// Indicates health status of the game server. A request that includes this parameter updates the game server's LastHealthCheckTime time- stamp. Possible values: o HEALTHY
+    /// Indicates health status of the game server. A request that includes this parameter updates the game server's LastHealthCheckTime timestamp. Possible values: • HEALTHY
     /// </summary>
     [CliOption("--health-check")]
     public string? HealthCheck { get; set; }

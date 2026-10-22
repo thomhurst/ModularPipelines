@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a Resolver endpoint. The effect of deleting a Resolver endpoint depends on whether it's an inbound or an outbound Resolver endpoint: o Inbound : DNS queries from your network are no longer routed to the DNS service for the specified VPC. o Outbound : DNS queries from a VPC are no longer routed to your net- work. See also: AWS API Documentation
+/// Deletes a Resolver endpoint. The effect of deleting a Resolver endpoint depends on whether it's an inbound or an outbound Resolver endpoint: • Inbound : DNS queries from your network are no longer routed to the DNS service for the specified VPC. • Outbound : DNS queries from a VPC are no longer routed to your network. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRoute53resolverDeleteResolverEndpointOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a Resolver endpoint. The effect of deleting a Resolver endpoint depends on whether it's an inbound or an outbound Resolver endpoint: o Inbound : DNS queries from your network are no longer routed to the DNS service for the specified VPC. o Outbound : DNS queries from a VPC are no longer routed to your net- work. See also: AWS API Documentation
+    /// Deletes a Resolver endpoint. The effect of deleting a Resolver endpoint depends on whether it's an inbound or an outbound Resolver endpoint: • Inbound : DNS queries from your network are no longer routed to the DNS service for the specified VPC. • Outbound : DNS queries from a VPC are no longer routed to your network. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResolverEndpointId">The ID of the Resolver endpoint that you want to delete. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ResolverEndpointId">The ID of the Resolver endpoint that you want to delete. Constraints: • min: 1 • max: 64</param>
     public AwsRoute53resolverDeleteResolverEndpointOptions(
         string ResolverEndpointId
     )
@@ -56,7 +58,7 @@ public record AwsRoute53resolverDeleteResolverEndpointOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Resolver endpoint that you want to delete. Constraints: o min: 1 o max: 64
+    /// The ID of the Resolver endpoint that you want to delete. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--resolver-endpoint-id")]
     public string? ResolverEndpointId { get; private init; }

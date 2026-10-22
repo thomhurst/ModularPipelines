@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new maintenance window. NOTE: The value you specify for Duration determines the specific end time for the maintenance window based on the time it begins. No mainte- nance window tasks are permitted to start after the resulting end- time minus the number of hours you specify for Cutoff . For example, if the maintenance window starts at 3 PM, the duration is three hours, and the value you specify for Cutoff is one hour, no mainte- nance window tasks can start after 5 PM. See also: AWS AP...
+/// Creates a new maintenance window. NOTE: The value you specify for Duration determines the specific end time for the maintenance window based on the time it begins. No maintenance window tasks are permitted to start after the resulting endtime minus the number of hours you specify for Cutoff . For example, if the maintenance window starts at 3 PM, the duration is three hours, and the value you specify for Cutoff is one hour, no maintenance window tasks can start after 5 PM. See also: AWS API Docu...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,13 +28,13 @@ public record AwsSsmCreateMaintenanceWindowOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new maintenance window. NOTE: The value you specify for Duration determines the specific end time for the maintenance window based on the time it begins. No mainte- nance window tasks are permitted to start after the resulting end- time minus the number of hours you specify for Cutoff . For example, if the maintenance window starts at 3 PM, the duration is three hours, and the value you specify for Cutoff is one hour, no mainte- nance window tasks can start after 5 PM. See also: AWS AP...
+    /// Creates a new maintenance window. NOTE: The value you specify for Duration determines the specific end time for the maintenance window based on the time it begins. No maintenance window tasks are permitted to start after the resulting endtime minus the number of hours you specify for Cutoff . For example, if the maintenance window starts at 3 PM, the duration is three hours, and the value you specify for Cutoff is one hour, no maintenance window tasks can start after 5 PM. See also: AWS API Docu...
     /// </summary>
-    /// <param name="Name">The name of the maintenance window. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9_\-.]{3,128}$</param>
-    /// <param name="Schedule">The schedule of the maintenance window in the form of a cron or rate expression. Constraints: o min: 1 o max: 256</param>
-    /// <param name="Duration">The duration of the maintenance window in hours. Constraints: o min: 1 o max: 24</param>
-    /// <param name="Cutoff">The number of hours before the end of the maintenance window that Amazon Web Services Systems Manager stops scheduling new tasks for execution. Constraints: o min: 0 o max: 23</param>
-    /// <param name="AllowUnassociatedTargets">Enables a maintenance window task to run on managed nodes, even if you haven't registered those nodes as targets. If enabled, then you must specify the unregistered managed nodes (by node ID) when you register a task with the maintenance window. If you don't enable this option, then you must specify previ- ously-registered targets when you register a task with the mainte- nance window.</param>
+    /// <param name="Name">The name of the maintenance window. Constraints: • min: 3 • max: 128 • pattern: ^[a-zA-Z0-9_\-.]{3,128}$</param>
+    /// <param name="Schedule">The schedule of the maintenance window in the form of a cron or rate expression. Constraints: • min: 1 • max: 256</param>
+    /// <param name="Duration">The duration of the maintenance window in hours. Constraints: • min: 1 • max: 24</param>
+    /// <param name="Cutoff">The number of hours before the end of the maintenance window that Amazon Web Services Systems Manager stops scheduling new tasks for execution. Constraints: • min: 0 • max: 23</param>
+    /// <param name="AllowUnassociatedTargets">Enables a maintenance window task to run on managed nodes, even if you haven't registered those nodes as targets. If enabled, then you must specify the unregistered managed nodes (by node ID) when you register a task with the maintenance window. If you don't enable this option, then you must specify previously-registered targets when you register a task with the maintenance window.</param>
     public AwsSsmCreateMaintenanceWindowOptions(
         string Name,
         string Schedule,
@@ -70,43 +72,43 @@ public record AwsSsmCreateMaintenanceWindowOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the maintenance window. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9_\-.]{3,128}$
+    /// The name of the maintenance window. Constraints: • min: 3 • max: 128 • pattern: ^[a-zA-Z0-9_\-.]{3,128}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The schedule of the maintenance window in the form of a cron or rate expression. Constraints: o min: 1 o max: 256
+    /// The schedule of the maintenance window in the form of a cron or rate expression. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--schedule")]
     public string? Schedule { get; private init; }
 
     /// <summary>
-    /// The duration of the maintenance window in hours. Constraints: o min: 1 o max: 24
+    /// The duration of the maintenance window in hours. Constraints: • min: 1 • max: 24
     /// </summary>
     [CliOption("--duration")]
     public int? Duration { get; private init; }
 
     /// <summary>
-    /// The number of hours before the end of the maintenance window that Amazon Web Services Systems Manager stops scheduling new tasks for execution. Constraints: o min: 0 o max: 23
+    /// The number of hours before the end of the maintenance window that Amazon Web Services Systems Manager stops scheduling new tasks for execution. Constraints: • min: 0 • max: 23
     /// </summary>
     [CliOption("--cutoff")]
     public int? Cutoff { get; private init; }
 
     /// <summary>
-    /// Enables a maintenance window task to run on managed nodes, even if you haven't registered those nodes as targets. If enabled, then you must specify the unregistered managed nodes (by node ID) when you register a task with the maintenance window. If you don't enable this option, then you must specify previ- ously-registered targets when you register a task with the mainte- nance window.
+    /// Enables a maintenance window task to run on managed nodes, even if you haven't registered those nodes as targets. If enabled, then you must specify the unregistered managed nodes (by node ID) when you register a task with the maintenance window. If you don't enable this option, then you must specify previously-registered targets when you register a task with the maintenance window.
     /// </summary>
     [CliFlag("--allow-unassociated-targets", NegatedName = "--no-allow-unassociated-targets")]
     public bool? AllowUnassociatedTargets { get; private init; }
 
     /// <summary>
-    /// An optional description for the maintenance window. We recommend specifying a description to help you organize your maintenance win- dows. Constraints: o min: 1 o max: 128
+    /// An optional description for the maintenance window. We recommend specifying a description to help you organize your maintenance windows. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The date and time, in ISO-8601 Extended format, for when you want the maintenance window to become active. StartDate allows you to de- lay activation of the maintenance window until the specified future date. NOTE: When using a rate schedule, if you provide a start date that oc- curs in the past, the current date and time are used as the start date.
+    /// The date and time, in ISO-8601 Extended format, for when you want the maintenance window to become active. StartDate allows you to delay activation of the maintenance window until the specified future date. NOTE: When using a rate schedule, if you provide a start date that occurs in the past, the current date and time are used as the start date.
     /// </summary>
     [CliOption("--start-date")]
     public string? StartDate { get; set; }
@@ -118,26 +120,26 @@ public record AwsSsmCreateMaintenanceWindowOptions : AwsOptions, IValidatableObj
     public string? EndDate { get; set; }
 
     /// <summary>
-    /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more in- formation, see the Time Zone Database on the IANA website.
+    /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
     /// </summary>
     [CliOption("--schedule-timezone")]
     public string? ScheduleTimezone { get; set; }
 
     /// <summary>
-    /// The number of days to wait after the date and time specified by a cron expression before running the maintenance window. For example, the following cron expression schedules a maintenance window to run on the third Tuesday of every month at 11:30 PM. cron(30 23 ? * TUE#3 *) If the schedule offset is 2 , the maintenance window won't run until two days later. Constraints: o min: 1 o max: 6
+    /// The number of days to wait after the date and time specified by a cron expression before running the maintenance window. For example, the following cron expression schedules a maintenance window to run on the third Tuesday of every month at 11:30 PM. cron(30 23 ? * TUE#3 *) If the schedule offset is 2 , the maintenance window won't run until two days later. Constraints: • min: 1 • max: 6
     /// </summary>
     [CliOption("--schedule-offset")]
     public int? ScheduleOffset { get; set; }
 
     /// <summary>
-    /// User-provided idempotency token. Constraints: o min: 1 o max: 64
+    /// User-provided idempotency token. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a maintenance window to identify the type of tasks it will run, the types of tar- gets, and the environment it will run in. In this case, you could specify the following key-value pairs: o Key=TaskType,Value=AgentUpdate o Key=OS,Value=Windows o Key=Environment,Value=Production NOTE: To add tags to an existing maintenance window, use the AddTag- sToResource operation. Constraints: o max: 1000 (structure) Metadata that you assign to your Amazon Web Services resources. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. In Amazon Web Services Systems Manager, you can apply tags to Systems Manager documents (SSM documents), managed nodes, maintenance windows, parameters, patch baselines, OpsItems, and OpsMetadata. Key -&gt; (string) [required] The name of the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a maintenance window to identify the type of tasks it will run, the types of targets, and the environment it will run in. In this case, you could specify the following key-value pairs: • Key=TaskType,Value=AgentUpdate • Key=OS,Value=Windows • Key=Environment,Value=Production NOTE: To add tags to an existing maintenance window, use the AddTagsToResource operation. Constraints: • max: 1000 (structure) Metadata that you assign to your Amazon Web Services resources. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. In Amazon Web Services Systems Manager, you can apply tags to Systems Manager documents (SSM documents), managed nodes, maintenance windows, parameters, patch baselines, OpsItems, and OpsMetadata. Key -&gt; (string) [required] The name of the tag. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value of the tag. Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

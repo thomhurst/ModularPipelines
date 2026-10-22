@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsVpcLatticeGetServiceNetworkResourceAssociationOptions : AwsOpti
     /// <summary>
     /// Retrieves information about the specified association between a service network and a resource configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceNetworkResourceAssociationIdentifier">The ID of the association. Constraints: o min: 22 o max: 2048 o pattern: ((snra-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:servicenetworkresourceassocia- tion/snra-[0-9a-f]{17}))</param>
+    /// <param name="ServiceNetworkResourceAssociationIdentifier">The ID of the association. Constraints: • min: 22 • max: 2048 • pattern: ((snra-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:servicenetworkresourceassociation/snra-[0-9a-f]{17}))</param>
     public AwsVpcLatticeGetServiceNetworkResourceAssociationOptions(
         string ServiceNetworkResourceAssociationIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsVpcLatticeGetServiceNetworkResourceAssociationOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the association. Constraints: o min: 22 o max: 2048 o pattern: ((snra-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:servicenetworkresourceassocia- tion/snra-[0-9a-f]{17}))
+    /// The ID of the association. Constraints: • min: 22 • max: 2048 • pattern: ((snra-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:servicenetworkresourceassociation/snra-[0-9a-f]{17}))
     /// </summary>
     [CliOption("--service-network-resource-association-identifier")]
     public string? ServiceNetworkResourceAssociationIdentifier { get; private init; }

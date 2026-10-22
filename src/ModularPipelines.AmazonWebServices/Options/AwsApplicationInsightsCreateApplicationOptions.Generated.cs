@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsApplicationInsightsCreateApplicationOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the resource group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\.\-_]*
+    /// The name of the resource group. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9\.\-_]*
     /// </summary>
     [CliOption("--resource-group-name")]
     public string? ResourceGroupName { get; set; }
@@ -40,25 +40,25 @@ public record AwsApplicationInsightsCreateApplicationOptions : AwsOptions
     public bool? CweMonitorEnabled { get; set; }
 
     /// <summary>
-    /// The SNS topic provided to Application Insights that is associated to the created opsItem. Allows you to receive notifications for updates to the opsItem. Constraints: o min: 20 o max: 300 o pattern: ^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$
+    /// The SNS topic provided to Application Insights that is associated to the created opsItem. Allows you to receive notifications for updates to the opsItem. Constraints: • min: 20 • max: 300 • pattern: ^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$
     /// </summary>
     [CliOption("--ops-item-sns-topic-arn")]
     public string? OpsItemSnsTopicArn { get; set; }
 
     /// <summary>
-    /// The SNS notification topic ARN. Constraints: o min: 20 o max: 300 o pattern: ^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$
+    /// The SNS notification topic ARN. Constraints: • min: 20 • max: 300 • pattern: ^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$
     /// </summary>
     [CliOption("--sns-notification-arn")]
     public string? SnsNotificationArn { get; set; }
 
     /// <summary>
-    /// List of tags to add to the application. tag key (Key ) and an asso- ciated tag value (Value ). The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters. Constraints: o min: 0 o max: 200 (structure) An object that defines the tags associated with an application. A tag is a label that you optionally define and associate with an application. Tags can help you categorize and manage re- sources in different ways, such as by purpose, owner, environ- ment, or other criteria. Each tag consists of a required tag key and an associated tag value , both of which you define. A tag key is a general label that acts as a category for a more specific tag value. A tag value acts as a descriptor within a tag key. A tag key can con- tain as many as 128 characters. A tag value can contain as many as 256 characters. The characters can be Unicode letters, dig- its, white space, or one of the following symbols: _ . : / = + -. The following additional restrictions apply to tags: o Tag keys and values are case sensitive. o For each associated resource, each tag key must be unique and it can have only one value. o The aws: prefix is reserved for use by Amazon Web Services; you cant use it in any tag keys or values that you define. In addition, you can't edit or remove tag keys or values that use this prefix. Key -&gt; (string) [required] One part of a key-value pair that defines a tag. The maximum length of a tag key is 128 characters. The minimum length is 1 character. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The optional part of a key-value pair that defines a tag. The maximum length of a tag value is 256 characters. The minimum length is 0 characters. If you don't want an application to have a specific tag value, don't specify a value for this pa- rameter. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// List of tags to add to the application. tag key (Key ) and an associated tag value (Value ). The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters. Constraints: • min: 0 • max: 200 (structure) An object that defines the tags associated with an application. A tag is a label that you optionally define and associate with an application. Tags can help you categorize and manage resources in different ways, such as by purpose, owner, environment, or other criteria. Each tag consists of a required tag key and an associated tag value , both of which you define. A tag key is a general label that acts as a category for a more specific tag value. A tag value acts as a descriptor within a tag key. A tag key can contain as many as 128 characters. A tag value can contain as many as 256 characters. The characters can be Unicode letters, digits, white space, or one of the following symbols: _ . : / = + -. The following additional restrictions apply to tags: • Tag keys and values are case sensitive. • For each associated resource, each tag key must be unique and it can have only one value. • The aws: prefix is reserved for use by Amazon Web Services; you cant use it in any tag keys or values that you define. In addition, you can't edit or remove tag keys or values that use this prefix. Key -&gt; (string) [required] One part of a key-value pair that defines a tag. The maximum length of a tag key is 128 characters. The minimum length is 1 character. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The optional part of a key-value pair that defines a tag. The maximum length of a tag value is 256 characters. The minimum length is 0 characters. If you don't want an application to have a specific tag value, don't specify a value for this parameter. Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Indicates whether Application Insights automatically configures un- monitored resources in the resource group.
+    /// Indicates whether Application Insights automatically configures unmonitored resources in the resource group.
     /// </summary>
     [CliFlag("--auto-config-enabled", NegatedName = "--no-auto-config-enabled")]
     public bool? AutoConfigEnabled { get; set; }
@@ -70,7 +70,7 @@ public record AwsApplicationInsightsCreateApplicationOptions : AwsOptions
     public bool? AutoCreate { get; set; }
 
     /// <summary>
-    /// Application Insights can create applications based on a resource group or on an account. To create an account-based application using all of the resources in the account, set this parameter to AC- COUNT_BASED . Possible values: o ACCOUNT_BASED
+    /// Application Insights can create applications based on a resource group or on an account. To create an account-based application using all of the resources in the account, set this parameter to ACCOUNT_BASED . Possible values: • ACCOUNT_BASED
     /// </summary>
     [CliOption("--grouping-type")]
     public string? GroupingType { get; set; }

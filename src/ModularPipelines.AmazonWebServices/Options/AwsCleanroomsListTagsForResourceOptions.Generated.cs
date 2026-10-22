@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCleanroomsListTagsForResourceOptions : AwsOptions, IValidatable
     /// <summary>
     /// Lists all of the tags that have been added to a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) associated with the resource you want to list tags on. Constraints: o min: 0 o max: 100 o pattern: arn:aws:clean- rooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:[\d\w/-]+</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) associated with the resource you want to list tags on. Constraints: • min: 0 • max: 100 • pattern: arn:aws:cleanrooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:[\d\w/-]+</param>
     public AwsCleanroomsListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsCleanroomsListTagsForResourceOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) associated with the resource you want to list tags on. Constraints: o min: 0 o max: 100 o pattern: arn:aws:clean- rooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:[\d\w/-]+
+    /// The Amazon Resource Name (ARN) associated with the resource you want to list tags on. Constraints: • min: 0 • max: 100 • pattern: arn:aws:cleanrooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:[\d\w/-]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

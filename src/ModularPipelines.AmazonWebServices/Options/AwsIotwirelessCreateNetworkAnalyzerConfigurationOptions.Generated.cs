@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsIotwirelessCreateNetworkAnalyzerConfigurationOptions : AwsOptio
     /// <summary>
     /// Creates a new network analyzer configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">Name of the network analyzer configuration. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9-_]+</param>
+    /// <param name="Name">Name of the network analyzer configuration. Constraints: • min: 1 • max: 1024 • pattern: [a-zA-Z0-9-_]+</param>
     public AwsIotwirelessCreateNetworkAnalyzerConfigurationOptions(
         string Name
     )
@@ -57,50 +59,50 @@ public record AwsIotwirelessCreateNetworkAnalyzerConfigurationOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the network analyzer configuration. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9-_]+
+    /// Name of the network analyzer configuration. Constraints: • min: 1 • max: 1024 • pattern: [a-zA-Z0-9-_]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Trace content for your wireless devices, gateways, and multicast groups. WirelessDeviceFrameInfo -&gt; (string) FrameInfo of your wireless device resources for the trace content. Use FrameInfo to debug the communication between your LoRaWAN end devices and the network server. Possible values: o ENABLED o DISABLED LogLevel -&gt; (string) The log level for a log message. The log levels can be disabled, or set to ERROR to display less verbose logs containing only er- ror information, or to INFO for more detailed logs. Possible values: o INFO o ERROR o DISABLED MulticastFrameInfo -&gt; (string) FrameInfo of your multicast group resources for the trace content. Use FrameInfo to debug the multicast communication between your multicast groups and the network server. Possible values: o ENABLED o DISABLED Shorthand Syntax: WirelessDeviceFrameInfo=string,LogLevel=string,MulticastFrameInfo=string JSON Syntax: { "WirelessDeviceFrameInfo": "ENABLED"|"DISABLED", "LogLevel": "INFO"|"ERROR"|"DISABLED", "MulticastFrameInfo": "ENABLED"|"DISABLED" }
+    /// Trace content for your wireless devices, gateways, and multicast groups. WirelessDeviceFrameInfo -&gt; (string) FrameInfo of your wireless device resources for the trace content. Use FrameInfo to debug the communication between your LoRaWAN end devices and the network server. Possible values: • ENABLED • DISABLED LogLevel -&gt; (string) The log level for a log message. The log levels can be disabled, or set to ERROR to display less verbose logs containing only error information, or to INFO for more detailed logs. Possible values: • INFO • ERROR • DISABLED MulticastFrameInfo -&gt; (string) FrameInfo of your multicast group resources for the trace content. Use FrameInfo to debug the multicast communication between your multicast groups and the network server. Possible values: • ENABLED • DISABLED Shorthand Syntax: WirelessDeviceFrameInfo=string,LogLevel=string,MulticastFrameInfo=string JSON Syntax: { "WirelessDeviceFrameInfo": "ENABLED"|"DISABLED", "LogLevel": "INFO"|"ERROR"|"DISABLED", "MulticastFrameInfo": "ENABLED"|"DISABLED" }
     /// </summary>
     [CliOption("--trace-content")]
     public string? TraceContent { get; set; }
 
     /// <summary>
-    /// Wireless device resources to add to the network analyzer configura- tion. Provide the WirelessDeviceId of the resource to add in the in- put array. Constraints: o min: 0 o max: 250 (string) The ID of the wireless device. Constraints: o max: 256 Syntax: "string" "string" ...
+    /// Wireless device resources to add to the network analyzer configuration. Provide the WirelessDeviceId of the resource to add in the input array. Constraints: • min: 0 • max: 250 (string) The ID of the wireless device. Constraints: • max: 256 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--wireless-devices", GroupValues = true)]
     public IEnumerable<string>? WirelessDevices { get; set; }
 
     /// <summary>
-    /// Wireless gateway resources to add to the network analyzer configura- tion. Provide the WirelessGatewayId of the resource to add in the input array. (string) Constraints: o max: 256 Syntax: "string" "string" ...
+    /// Wireless gateway resources to add to the network analyzer configuration. Provide the WirelessGatewayId of the resource to add in the input array. (string) Constraints: • max: 256 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--wireless-gateways", GroupValues = true)]
     public IEnumerable<string>? WirelessGateways { get; set; }
 
     /// <summary>
-    /// The description of the new resource. Constraints: o max: 2048
+    /// The description of the new resource. Constraints: • max: 2048
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The tag to attach to the specified resource. Tags are metadata that you can use to manage a resource. Constraints: o min: 0 o max: 200 (structure) A simple label consisting of a customer-defined key-value pair Key -&gt; (string) [required] The tag's key value. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tag to attach to the specified resource. Tags are metadata that you can use to manage a resource. Constraints: • min: 0 • max: 200 (structure) A simple label consisting of a customer-defined key-value pair Key -&gt; (string) [required] The tag's key value. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The tag's value. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete suc- cessfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see Ensuring idempotency in Amazon EC2 API requests . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
+    /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see Ensuring idempotency in Amazon EC2 API requests . Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// Multicast Group resources to add to the network analyzer configrua- tion. Provide the MulticastGroupId of the resource to add in the in- put array. Constraints: o min: 0 o max: 10 (string) The ID of the multicast group. Constraints: o max: 256 Syntax: "string" "string" ...
+    /// Multicast Group resources to add to the network analyzer configruation. Provide the MulticastGroupId of the resource to add in the input array. Constraints: • min: 0 • max: 10 (string) The ID of the multicast group. Constraints: • max: 256 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--multicast-groups", GroupValues = true)]
     public IEnumerable<string>? MulticastGroups { get; set; }

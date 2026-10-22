@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSsmGuiconnectDeleteConnectionRecordingPreferencesOptions : AwsOptions
 {
     /// <summary>
-    /// User-provided idempotency token. Constraints: o min: 1 o max: 64
+    /// User-provided idempotency token. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

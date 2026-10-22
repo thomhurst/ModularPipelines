@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRoute53profilesUpdateProfileResourceAssociationOptions : AwsOpt
     /// <summary>
     /// Updates the specified Route 53 Profile resourse association. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileResourceAssociationId">ID of the resource association. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ProfileResourceAssociationId">ID of the resource association. Constraints: • min: 1 • max: 64</param>
     public AwsRoute53profilesUpdateProfileResourceAssociationOptions(
         string ProfileResourceAssociationId
     )
@@ -56,19 +58,19 @@ public record AwsRoute53profilesUpdateProfileResourceAssociationOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID of the resource association. Constraints: o min: 1 o max: 64
+    /// ID of the resource association. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--profile-resource-association-id")]
     public string? ProfileResourceAssociationId { get; private init; }
 
     /// <summary>
-    /// Name of the resource association. Constraints: o min: 0 o max: 64 o pattern: ^(?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)$
+    /// Name of the resource association. Constraints: • min: 0 • max: 64 • pattern: ^(?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// If you are adding a DNS Firewall rule group, include also a prior- ity. The priority indicates the processing order for the rule groups, starting with the priority assinged the lowest value. The allowed values for priority are between 100 and 9900.
+    /// If you are adding a DNS Firewall rule group, include also a priority. The priority indicates the processing order for the rule groups, starting with the priority assinged the lowest value. The allowed values for priority are between 100 and 9900.
     /// </summary>
     [CliOption("--resource-properties")]
     public string? ResourceProperties { get; set; }

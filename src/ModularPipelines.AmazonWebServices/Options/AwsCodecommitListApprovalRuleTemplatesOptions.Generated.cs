@@ -30,7 +30,7 @@ public record AwsCodecommitListApprovalRuleTemplatesOptions : AwsOptions
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// A non-zero, non-negative integer used to limit the number of re- turned results.
+    /// A non-zero, non-negative integer used to limit the number of returned results.
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

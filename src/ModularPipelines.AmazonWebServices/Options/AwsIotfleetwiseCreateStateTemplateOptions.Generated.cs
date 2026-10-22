@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a state template. State templates contain state properties, which are signals that belong to a signal catalog that is synchronized between the Amazon Web Services IoT FleetWise Edge and the Amazon Web Services Cloud. WARNING: Access to certain Amazon Web Services IoT FleetWise features is cur- rently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+/// Creates a state template. State templates contain state properties, which are signals that belong to a signal catalog that is synchronized between the Amazon Web Services IoT FleetWise Edge and the Amazon Web Services Cloud. WARNING: Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsIotfleetwiseCreateStateTemplateOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a state template. State templates contain state properties, which are signals that belong to a signal catalog that is synchronized between the Amazon Web Services IoT FleetWise Edge and the Amazon Web Services Cloud. WARNING: Access to certain Amazon Web Services IoT FleetWise features is cur- rently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+    /// Creates a state template. State templates contain state properties, which are signals that belong to a signal catalog that is synchronized between the Amazon Web Services IoT FleetWise Edge and the Amazon Web Services Cloud. WARNING: Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the state template. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+</param>
+    /// <param name="Name">The name of the state template. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z\d\-_:]+</param>
     /// <param name="SignalCatalogArn">The ARN of the signal catalog associated with the state template.</param>
-    /// <param name="StateTemplateProperties">A list of signals from which data is collected. The state template properties contain the fully qualified names of the signals. Constraints: o min: 1 o max: 500 (string) Constraints: o min: 1 o max: 150 o pattern: [a-zA-Z0-9_.]+ Syntax: "string" "string" ...</param>
+    /// <param name="StateTemplateProperties">A list of signals from which data is collected. The state template properties contain the fully qualified names of the signals. Constraints: • min: 1 • max: 500 (string) Constraints: • min: 1 • max: 150 • pattern: [a-zA-Z0-9_.]+ Syntax: "string" "string" ...</param>
     public AwsIotfleetwiseCreateStateTemplateOptions(
         string Name,
         string SignalCatalogArn,
@@ -75,7 +77,7 @@ public record AwsIotfleetwiseCreateStateTemplateOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the state template. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+
+    /// The name of the state template. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z\d\-_:]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -87,31 +89,31 @@ public record AwsIotfleetwiseCreateStateTemplateOptions : AwsOptions, IValidatab
     public string? SignalCatalogArn { get; private init; }
 
     /// <summary>
-    /// A list of signals from which data is collected. The state template properties contain the fully qualified names of the signals. Constraints: o min: 1 o max: 500 (string) Constraints: o min: 1 o max: 150 o pattern: [a-zA-Z0-9_.]+ Syntax: "string" "string" ...
+    /// A list of signals from which data is collected. The state template properties contain the fully qualified names of the signals. Constraints: • min: 1 • max: 500 (string) Constraints: • min: 1 • max: 150 • pattern: [a-zA-Z0-9_.]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--state-template-properties", GroupValues = true)]
     public IEnumerable<string>? StateTemplateProperties { get; private init; }
 
     /// <summary>
-    /// A brief description of the state template. Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+
+    /// A brief description of the state template. Constraints: • min: 1 • max: 2048 • pattern: [^\u0000-\u001F\u007F]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A list of vehicle attributes to associate with the payload published on the state template's MQTT topic. (See Processing last known state vehicle data using MQTT messaging ). For example, if you add Vehi- cle.Attributes.Make and Vehicle.Attributes.Model attributes, Amazon Web Services IoT FleetWise will enrich the protobuf encoded payload with those attributes in the extraDimensions field. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 150 o pattern: [a-zA-Z0-9_.]+ Syntax: "string" "string" ...
+    /// A list of vehicle attributes to associate with the payload published on the state template's MQTT topic. (See Processing last known state vehicle data using MQTT messaging ). For example, if you add Vehicle.Attributes.Make and Vehicle.Attributes.Model attributes, Amazon Web Services IoT FleetWise will enrich the protobuf encoded payload with those attributes in the extraDimensions field. Constraints: • min: 0 • max: 5 (string) Constraints: • min: 1 • max: 150 • pattern: [a-zA-Z0-9_.]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--data-extra-dimensions", GroupValues = true)]
     public IEnumerable<string>? DataExtraDimensions { get; set; }
 
     /// <summary>
-    /// A list of vehicle attributes to associate with user properties of the messages published on the state template's MQTT topic. (See Processing last known state vehicle data using MQTT messaging ). For example, if you add Vehicle.Attributes.Make and Vehicle.Attrib- utes.Model attributes, Amazon Web Services IoT FleetWise will in- clude these attributes as User Properties with the MQTT message. Default: An empty array Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 150 o pattern: [a-zA-Z0-9_.]+ Syntax: "string" "string" ...
+    /// A list of vehicle attributes to associate with user properties of the messages published on the state template's MQTT topic. (See Processing last known state vehicle data using MQTT messaging ). For example, if you add Vehicle.Attributes.Make and Vehicle.Attributes.Model attributes, Amazon Web Services IoT FleetWise will include these attributes as User Properties with the MQTT message. Default: An empty array Constraints: • min: 0 • max: 5 (string) Constraints: • min: 1 • max: 150 • pattern: [a-zA-Z0-9_.]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--metadata-extra-dimensions", GroupValues = true)]
     public IEnumerable<string>? MetadataExtraDimensions { get; set; }
 
     /// <summary>
-    /// Metadata that can be used to manage the state template. Constraints: o min: 0 o max: 50 (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Metadata that can be used to manage the state template. Constraints: • min: 0 • max: 50 (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The tag's value. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

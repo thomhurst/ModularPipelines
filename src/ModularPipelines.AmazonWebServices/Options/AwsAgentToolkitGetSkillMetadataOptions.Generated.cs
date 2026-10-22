@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAgentToolkitGetSkillMetadataOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Retrieves metadata for a skill, including its version, description, categories, and file list. Use --skill-version to get the metadata for a specific version of the skill. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SkillName">Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\-]+</param>
+    /// <param name="SkillName">Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9\-]+</param>
     public AwsAgentToolkitGetSkillMetadataOptions(
         string SkillName
     )
@@ -56,13 +58,13 @@ public record AwsAgentToolkitGetSkillMetadataOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\-]+
+    /// Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9\-]+
     /// </summary>
     [CliOption("--skill-name")]
     public string? SkillName { get; private init; }
 
     /// <summary>
-    /// Constraints: o pattern: v[0-9]+
+    /// Constraints: • pattern: v[0-9]+
     /// </summary>
     [CliOption("--skill-version")]
     public string? SkillVersion { get; set; }

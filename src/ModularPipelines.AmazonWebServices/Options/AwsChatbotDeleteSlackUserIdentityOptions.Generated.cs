@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsChatbotDeleteSlackUserIdentityOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Deletes a user level permission for a Slack channel configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ChatConfigurationArn">The ARN of the SlackChannelConfiguration associated with the user identity to delete. Constraints: o min: 19 o max: 1169 o pattern: arn:aws:(wheatley|chat- bot):[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}</param>
-    /// <param name="SlackTeamId">The ID of the Slack workspace authorized with AWS Chatbot. Constraints: o min: 1 o max: 255 o pattern: [0-9A-Z]{1,255}</param>
-    /// <param name="SlackUserId">The ID of the user in Slack Constraints: o min: 1 o max: 255 o pattern: (.*)</param>
+    /// <param name="ChatConfigurationArn">The ARN of the SlackChannelConfiguration associated with the user identity to delete. Constraints: • min: 19 • max: 1169 • pattern: arn:aws:(wheatley|chatbot):[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}</param>
+    /// <param name="SlackTeamId">The ID of the Slack workspace authorized with AWS Chatbot. Constraints: • min: 1 • max: 255 • pattern: [0-9A-Z]{1,255}</param>
+    /// <param name="SlackUserId">The ID of the user in Slack Constraints: • min: 1 • max: 255 • pattern: (.*)</param>
     public AwsChatbotDeleteSlackUserIdentityOptions(
         string ChatConfigurationArn,
         string SlackTeamId,
@@ -64,19 +66,19 @@ public record AwsChatbotDeleteSlackUserIdentityOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the SlackChannelConfiguration associated with the user identity to delete. Constraints: o min: 19 o max: 1169 o pattern: arn:aws:(wheatley|chat- bot):[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}
+    /// The ARN of the SlackChannelConfiguration associated with the user identity to delete. Constraints: • min: 19 • max: 1169 • pattern: arn:aws:(wheatley|chatbot):[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}
     /// </summary>
     [CliOption("--chat-configuration-arn")]
     public string? ChatConfigurationArn { get; private init; }
 
     /// <summary>
-    /// The ID of the Slack workspace authorized with AWS Chatbot. Constraints: o min: 1 o max: 255 o pattern: [0-9A-Z]{1,255}
+    /// The ID of the Slack workspace authorized with AWS Chatbot. Constraints: • min: 1 • max: 255 • pattern: [0-9A-Z]{1,255}
     /// </summary>
     [CliOption("--slack-team-id")]
     public string? SlackTeamId { get; private init; }
 
     /// <summary>
-    /// The ID of the user in Slack Constraints: o min: 1 o max: 255 o pattern: (.*)
+    /// The ID of the user in Slack Constraints: • min: 1 • max: 255 • pattern: (.*)
     /// </summary>
     [CliOption("--slack-user-id")]
     public string? SlackUserId { get; private init; }

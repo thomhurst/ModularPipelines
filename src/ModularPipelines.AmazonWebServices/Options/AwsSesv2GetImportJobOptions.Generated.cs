@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSesv2GetImportJobOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Provides information about an import job. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">The ID of the import job. Constraints: o min: 1</param>
+    /// <param name="JobId">The ID of the import job. Constraints: • min: 1</param>
     public AwsSesv2GetImportJobOptions(
         string JobId
     )
@@ -56,7 +58,7 @@ public record AwsSesv2GetImportJobOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the import job. Constraints: o min: 1
+    /// The ID of the import job. Constraints: • min: 1
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }

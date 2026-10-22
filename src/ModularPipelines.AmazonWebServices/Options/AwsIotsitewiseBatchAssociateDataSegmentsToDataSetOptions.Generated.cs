@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates a batch of data segments with a curated dataset. Data seg- ments are time-bounded slices of time series data selected from source session datasets. Data segments that belong to the same time series can't overlap in time, regardless of which dataset they belong to. See also: AWS API Documentation
+/// Associates a batch of data segments with a curated dataset. Data segments are time-bounded slices of time series data selected from source session datasets. Data segments that belong to the same time series can't overlap in time, regardless of which dataset they belong to. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsIotsitewiseBatchAssociateDataSegmentsToDataSetOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates a batch of data segments with a curated dataset. Data seg- ments are time-bounded slices of time series data selected from source session datasets. Data segments that belong to the same time series can't overlap in time, regardless of which dataset they belong to. See also: AWS API Documentation
+    /// Associates a batch of data segments with a curated dataset. Data segments are time-bounded slices of time series data selected from source session datasets. Data segments that belong to the same time series can't overlap in time, regardless of which dataset they belong to. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSetId">The ID of the curated dataset to associate data segments with. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
-    /// <param name="WorkspaceName">The name of the workspace that contains the dataset. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="AssociateDataSegmentEntries">The list of data segment entries to associate with the dataset. (structure) Contains information about a data segment entry to associate with a dataset. sourceDatasetId -&gt; (string) [required] The ID of the source dataset that contains the data segment. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ timeSeriesId -&gt; (string) [required] The ID of the time series. Constraints: o min: 36 o max: 73 startTimestamp -&gt; (structure) [required] The nanosecond-precision start time of the data segment to associate. timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Fractional nanosecond data is provided by offsetInNanos . Constraints: o min: 1 o max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: o min: 0 o max: 999999999 endTimestamp -&gt; (structure) [required] The nanosecond-precision end time of the data segment to as- sociate. timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Fractional nanosecond data is provided by offsetInNanos . Constraints: o min: 1 o max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: o min: 0 o max: 999999999 Shorthand Syntax: sourceDatasetId=string,timeSeriesId=string,startTimestamp={timeInSeconds=long,offsetInNanos=integer},endTimestamp={timeInSeconds=long,offsetInNanos=integer} ... JSON Syntax: [ { "sourceDatasetId": "string", "timeSeriesId": "string", "startTimestamp": { "timeInSeconds": long, "offsetInNanos": integer }, "endTimestamp": { "timeInSeconds": long, "offsetInNanos": integer } } ... ]</param>
+    /// <param name="DataSetId">The ID of the curated dataset to associate data segments with. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
+    /// <param name="WorkspaceName">The name of the workspace that contains the dataset. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="AssociateDataSegmentEntries">The list of data segment entries to associate with the dataset. (structure) Contains information about a data segment entry to associate with a dataset. sourceDatasetId -&gt; (string) [required] The ID of the source dataset that contains the data segment. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ timeSeriesId -&gt; (string) [required] The ID of the time series. Constraints: • min: 36 • max: 73 startTimestamp -&gt; (structure) [required] The nanosecond-precision start time of the data segment to associate. timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Fractional nanosecond data is provided by offsetInNanos . Constraints: • min: 1 • max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: • min: 0 • max: 999999999 endTimestamp -&gt; (structure) [required] The nanosecond-precision end time of the data segment to associate. timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Fractional nanosecond data is provided by offsetInNanos . Constraints: • min: 1 • max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: • min: 0 • max: 999999999 Shorthand Syntax: sourceDatasetId=string,timeSeriesId=string,startTimestamp={timeInSeconds=long,offsetInNanos=integer},endTimestamp={timeInSeconds=long,offsetInNanos=integer} ... JSON Syntax: [ { "sourceDatasetId": "string", "timeSeriesId": "string", "startTimestamp": { "timeInSeconds": long, "offsetInNanos": integer }, "endTimestamp": { "timeInSeconds": long, "offsetInNanos": integer } } ... ]</param>
     public AwsIotsitewiseBatchAssociateDataSegmentsToDataSetOptions(
         string DataSetId,
         string WorkspaceName,
@@ -76,25 +78,25 @@ public record AwsIotsitewiseBatchAssociateDataSegmentsToDataSetOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the curated dataset to associate data segments with. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+    /// The ID of the curated dataset to associate data segments with. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--dataset-id")]
     public string? DataSetId { get; private init; }
 
     /// <summary>
-    /// The name of the workspace that contains the dataset. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The name of the workspace that contains the dataset. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--workspace-name")]
     public string? WorkspaceName { get; private init; }
 
     /// <summary>
-    /// The list of data segment entries to associate with the dataset. (structure) Contains information about a data segment entry to associate with a dataset. sourceDatasetId -&gt; (string) [required] The ID of the source dataset that contains the data segment. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ timeSeriesId -&gt; (string) [required] The ID of the time series. Constraints: o min: 36 o max: 73 startTimestamp -&gt; (structure) [required] The nanosecond-precision start time of the data segment to associate. timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Fractional nanosecond data is provided by offsetInNanos . Constraints: o min: 1 o max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: o min: 0 o max: 999999999 endTimestamp -&gt; (structure) [required] The nanosecond-precision end time of the data segment to as- sociate. timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Fractional nanosecond data is provided by offsetInNanos . Constraints: o min: 1 o max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: o min: 0 o max: 999999999 Shorthand Syntax: sourceDatasetId=string,timeSeriesId=string,startTimestamp={timeInSeconds=long,offsetInNanos=integer},endTimestamp={timeInSeconds=long,offsetInNanos=integer} ... JSON Syntax: [ { "sourceDatasetId": "string", "timeSeriesId": "string", "startTimestamp": { "timeInSeconds": long, "offsetInNanos": integer }, "endTimestamp": { "timeInSeconds": long, "offsetInNanos": integer } } ... ]
+    /// The list of data segment entries to associate with the dataset. (structure) Contains information about a data segment entry to associate with a dataset. sourceDatasetId -&gt; (string) [required] The ID of the source dataset that contains the data segment. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ timeSeriesId -&gt; (string) [required] The ID of the time series. Constraints: • min: 36 • max: 73 startTimestamp -&gt; (structure) [required] The nanosecond-precision start time of the data segment to associate. timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Fractional nanosecond data is provided by offsetInNanos . Constraints: • min: 1 • max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: • min: 0 • max: 999999999 endTimestamp -&gt; (structure) [required] The nanosecond-precision end time of the data segment to associate. timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Fractional nanosecond data is provided by offsetInNanos . Constraints: • min: 1 • max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: • min: 0 • max: 999999999 Shorthand Syntax: sourceDatasetId=string,timeSeriesId=string,startTimestamp={timeInSeconds=long,offsetInNanos=integer},endTimestamp={timeInSeconds=long,offsetInNanos=integer} ... JSON Syntax: [ { "sourceDatasetId": "string", "timeSeriesId": "string", "startTimestamp": { "timeInSeconds": long, "offsetInNanos": integer }, "endTimestamp": { "timeInSeconds": long, "offsetInNanos": integer } } ... ]
     /// </summary>
     [CliOption("--associate-data-segment-entries", GroupValues = true)]
     public IEnumerable<string>? AssociateDataSegmentEntries { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure that the request is idempotent. If you retry a request that completed successfully using the same client token, the retry succeeds without performing any further actions. Constraints: o min: 36 o max: 64 o pattern: \S{36,64}
+    /// A unique, case-sensitive identifier that you provide to ensure that the request is idempotent. If you retry a request that completed successfully using the same client token, the retry succeeds without performing any further actions. Constraints: • min: 36 • max: 64 • pattern: \S{36,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

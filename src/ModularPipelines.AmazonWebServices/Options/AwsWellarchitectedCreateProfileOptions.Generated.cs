@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -29,9 +30,9 @@ public record AwsWellarchitectedCreateProfileOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Create a profile. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileName">Name of the profile. Constraints: o min: 3 o max: 100</param>
-    /// <param name="ProfileDescription">The profile description. Constraints: o min: 3 o max: 100</param>
-    /// <param name="ProfileQuestions">The profile questions. (structure) An update to a profile question. QuestionId -&gt; (string) The ID of the question. Constraints: o min: 1 o max: 128 SelectedChoiceIds -&gt; (list) The selected choices. (string) The ID of a choice. Constraints: o min: 1 o max: 64 Shorthand Syntax: QuestionId=string,SelectedChoiceIds=string,string ... JSON Syntax: [ { "QuestionId": "string", "SelectedChoiceIds": ["string", ...] } ... ]</param>
+    /// <param name="ProfileName">Name of the profile. Constraints: • min: 3 • max: 100</param>
+    /// <param name="ProfileDescription">The profile description. Constraints: • min: 3 • max: 100</param>
+    /// <param name="ProfileQuestions">The profile questions. (structure) An update to a profile question. QuestionId -&gt; (string) The ID of the question. Constraints: • min: 1 • max: 128 SelectedChoiceIds -&gt; (list) The selected choices. (string) The ID of a choice. Constraints: • min: 1 • max: 64 Shorthand Syntax: QuestionId=string,SelectedChoiceIds=string,string ... JSON Syntax: [ { "QuestionId": "string", "SelectedChoiceIds": ["string", ...] } ... ]</param>
     public AwsWellarchitectedCreateProfileOptions(
         string ProfileName,
         string ProfileDescription,
@@ -77,32 +78,32 @@ public record AwsWellarchitectedCreateProfileOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the profile. Constraints: o min: 3 o max: 100
+    /// Name of the profile. Constraints: • min: 3 • max: 100
     /// </summary>
     [CliOption("--profile-name")]
     public string? ProfileName { get; private init; }
 
     /// <summary>
-    /// The profile description. Constraints: o min: 3 o max: 100
+    /// The profile description. Constraints: • min: 3 • max: 100
     /// </summary>
     [CliOption("--profile-description")]
     public string? ProfileDescription { get; private init; }
 
     /// <summary>
-    /// The profile questions. (structure) An update to a profile question. QuestionId -&gt; (string) The ID of the question. Constraints: o min: 1 o max: 128 SelectedChoiceIds -&gt; (list) The selected choices. (string) The ID of a choice. Constraints: o min: 1 o max: 64 Shorthand Syntax: QuestionId=string,SelectedChoiceIds=string,string ... JSON Syntax: [ { "QuestionId": "string", "SelectedChoiceIds": ["string", ...] } ... ]
+    /// The profile questions. (structure) An update to a profile question. QuestionId -&gt; (string) The ID of the question. Constraints: • min: 1 • max: 128 SelectedChoiceIds -&gt; (list) The selected choices. (string) The ID of a choice. Constraints: • min: 1 • max: 64 Shorthand Syntax: QuestionId=string,SelectedChoiceIds=string,string ... JSON Syntax: [ { "QuestionId": "string", "SelectedChoiceIds": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--profile-questions", GroupValues = true)]
     public IEnumerable<string>? ProfileQuestions { get; private init; }
 
     /// <summary>
-    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. WARNING: This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail. Constraints: o min: 1 o max: 2048 o pattern: [\x00-\x7F]*
+    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. WARNING: This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail. Constraints: • min: 1 • max: 2048 • pattern: [\x00-\x7F]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// The tags assigned to the profile. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{N}\p{Z}_.:/=+@-]+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags assigned to the profile. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{N}\p{Z}_.:/=+@-]+ value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

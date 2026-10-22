@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves information about the working draft (DRAFT version) of a prompt or a version of it, depending on whether you include the promptVersion field or not. For more information, see View information about prompts using Prompt management and View information about a ver- sion of your prompt in the Amazon Bedrock User Guide. See also: AWS API Documentation get-prompt uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, ar...
+/// Retrieves information about the working draft (DRAFT version) of a prompt or a version of it, depending on whether you include the promptVersion field or not. For more information, see View information about prompts using Prompt management and View information about a version of your prompt in the Amazon Bedrock User Guide. See also: AWS API Documentation get-prompt uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arra...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsBedrockAgentGetPromptOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves information about the working draft (DRAFT version) of a prompt or a version of it, depending on whether you include the promptVersion field or not. For more information, see View information about prompts using Prompt management and View information about a ver- sion of your prompt in the Amazon Bedrock User Guide. See also: AWS API Documentation get-prompt uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, ar...
+    /// Retrieves information about the working draft (DRAFT version) of a prompt or a version of it, depending on whether you include the promptVersion field or not. For more information, see View information about prompts using Prompt management and View information about a version of your prompt in the Amazon Bedrock User Guide. See also: AWS API Documentation get-prompt uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arra...
     /// </summary>
-    /// <param name="PromptIdentifier">The unique identifier of the prompt. Constraints: o pattern: ([0-9a-zA-Z]{10})|(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10})(?::[0-9]{1,5})?</param>
+    /// <param name="PromptIdentifier">The unique identifier of the prompt. Constraints: • pattern: ([0-9a-zA-Z]{10})|(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10})(?::[0-9]{1,5})?</param>
     public AwsBedrockAgentGetPromptOptions(
         string PromptIdentifier
     )
@@ -57,19 +59,19 @@ public record AwsBedrockAgentGetPromptOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the prompt. Constraints: o pattern: ([0-9a-zA-Z]{10})|(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10})(?::[0-9]{1,5})?
+    /// The unique identifier of the prompt. Constraints: • pattern: ([0-9a-zA-Z]{10})|(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10})(?::[0-9]{1,5})?
     /// </summary>
     [CliOption("--prompt-identifier")]
     public string? PromptIdentifier { get; private init; }
 
     /// <summary>
-    /// The version of the prompt about which you want to retrieve informa- tion. Omit this field to return information about the working draft of the prompt. Constraints: o min: 1 o max: 5 o pattern: (DRAFT|[0-9]{0,4}[1-9][0-9]{0,4})
+    /// The version of the prompt about which you want to retrieve information. Omit this field to return information about the working draft of the prompt. Constraints: • min: 1 • max: 5 • pattern: (DRAFT|[0-9]{0,4}[1-9][0-9]{0,4})
     /// </summary>
     [CliOption("--prompt-version")]
     public string? PromptVersion { get; set; }
 
     /// <summary>
-    /// Controls the scope of data returned. Set to METADATA_ONLY to return only resource metadata. Set to ALL_DATA or omit this field to return the full response. Possible values: o ALL_DATA o METADATA_ONLY
+    /// Controls the scope of data returned. Set to METADATA_ONLY to return only resource metadata. Set to ALL_DATA or omit this field to return the full response. Possible values: • ALL_DATA • METADATA_ONLY
     /// </summary>
     [CliOption("--included-data")]
     public AwsBedrockAgentGetPromptIncludedData? IncludedData { get; set; }

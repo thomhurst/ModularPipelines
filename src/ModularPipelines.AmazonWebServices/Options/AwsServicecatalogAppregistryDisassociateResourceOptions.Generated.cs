@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disassociates a resource from application. Both the resource and the application can be specified either by ID or name. Minimum permissions You must have the following permissions to remove a resource that's been associated with an application using the APPLY_APPLICATION_TAG op- tion for AssociateResource . o tag:GetResources o tag:UntagResources You must also have the following permissions if you don't use the AWSServiceCatalogAppRegistryFullAccess policy. For more information, see AWSServiceCa...
+/// Disassociates a resource from application. Both the resource and the application can be specified either by ID or name. Minimum permissions You must have the following permissions to remove a resource that's been associated with an application using the APPLY_APPLICATION_TAG option for AssociateResource . • tag:GetResources • tag:UntagResources You must also have the following permissions if you don't use the AWSServiceCatalogAppRegistryFullAccess policy. For more information, see AWSServiceCata...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsServicecatalogAppregistryDisassociateResourceOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disassociates a resource from application. Both the resource and the application can be specified either by ID or name. Minimum permissions You must have the following permissions to remove a resource that's been associated with an application using the APPLY_APPLICATION_TAG op- tion for AssociateResource . o tag:GetResources o tag:UntagResources You must also have the following permissions if you don't use the AWSServiceCatalogAppRegistryFullAccess policy. For more information, see AWSServiceCa...
+    /// Disassociates a resource from application. Both the resource and the application can be specified either by ID or name. Minimum permissions You must have the following permissions to remove a resource that's been associated with an application using the APPLY_APPLICATION_TAG option for AssociateResource . • tag:GetResources • tag:UntagResources You must also have the following permissions if you don't use the AWSServiceCatalogAppRegistryFullAccess policy. For more information, see AWSServiceCata...
     /// </summary>
-    /// <param name="Application">The name or ID of the application. Constraints: o min: 1 o max: 256 o pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecata- log:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[-.\w]+)</param>
-    /// <param name="ResourceType">The type of the resource that is being disassociated. Possible values: o CFN_STACK o RESOURCE_TAG_VALUE</param>
-    /// <param name="Resource">The name or ID of the resource. Constraints: o min: 1 o max: 256 o pattern: \S+</param>
+    /// <param name="Application">The name or ID of the application. Constraints: • min: 1 • max: 256 • pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[-.\w]+)</param>
+    /// <param name="ResourceType">The type of the resource that is being disassociated. Possible values: • CFN_STACK • RESOURCE_TAG_VALUE</param>
+    /// <param name="Resource">The name or ID of the resource. Constraints: • min: 1 • max: 256 • pattern: \S+</param>
     public AwsServicecatalogAppregistryDisassociateResourceOptions(
         string Application,
         AwsServicecatalogAppregistryDisassociateResourceResourceType ResourceType,
@@ -64,19 +66,19 @@ public record AwsServicecatalogAppregistryDisassociateResourceOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or ID of the application. Constraints: o min: 1 o max: 256 o pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecata- log:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[-.\w]+)
+    /// The name or ID of the application. Constraints: • min: 1 • max: 256 • pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[-.\w]+)
     /// </summary>
     [CliOption("--application")]
     public string? Application { get; private init; }
 
     /// <summary>
-    /// The type of the resource that is being disassociated. Possible values: o CFN_STACK o RESOURCE_TAG_VALUE
+    /// The type of the resource that is being disassociated. Possible values: • CFN_STACK • RESOURCE_TAG_VALUE
     /// </summary>
     [CliOption("--resource-type")]
     public AwsServicecatalogAppregistryDisassociateResourceResourceType? ResourceType { get; private init; }
 
     /// <summary>
-    /// The name or ID of the resource. Constraints: o min: 1 o max: 256 o pattern: \S+
+    /// The name or ID of the resource. Constraints: • min: 1 • max: 256 • pattern: \S+
     /// </summary>
     [CliOption("--resource")]
     public string? Resource { get; private init; }

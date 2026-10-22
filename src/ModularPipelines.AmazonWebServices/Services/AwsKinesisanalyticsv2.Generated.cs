@@ -32,7 +32,7 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     #region Commands
 
     /// <summary>
-    /// Adds an Amazon CloudWatch log stream to monitor application configura- tion errors. See also: AWS API Documentation
+    /// Adds an Amazon CloudWatch log stream to monitor application configuration errors. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     }
 
     /// <summary>
-    /// Adds a streaming source to your SQL-based Kinesis Data Analytics appli- cation. You can add a streaming source when you create an application, or you can use this operation to add a streaming source after you create an application. For more information, see CreateApplication . Any configuration update, including adding a streaming source using this operation, results in a new version of the application. You can use the DescribeApplication operation to find the current application version. See al...
+    /// Adds a streaming source to your SQL-based Kinesis Data Analytics application. You can add a streaming source when you create an application, or you can use this operation to add a streaming source after you create an application. For more information, see CreateApplication . Any configuration update, including adding a streaming source using this operation, results in a new version of the application. You can use the DescribeApplication operation to find the current application version. See also...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     }
 
     /// <summary>
-    /// Adds an InputProcessingConfiguration to a SQL-based Kinesis Data Ana- lytics application. An input processor pre-processes records on the in- put stream before the application's SQL code executes. Currently, the only input processor available is Amazon Lambda . See also: AWS API Documentation
+    /// Adds an InputProcessingConfiguration to a SQL-based Kinesis Data Analytics application. An input processor pre-processes records on the input stream before the application's SQL code executes. Currently, the only input processor available is Amazon Lambda . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     }
 
     /// <summary>
-    /// Adds an external destination to your SQL-based Kinesis Data Analytics application. If you want Kinesis Data Analytics to deliver data from an in-applica- tion stream within your application to an external destination (such as an Kinesis data stream, a Kinesis Data Firehose delivery stream, or an Amazon Lambda function), you add the relevant configuration to your ap- plication using this operation. You can configure one or more outputs for your application. Each output configuration maps an in-ap...
+    /// Adds an external destination to your SQL-based Kinesis Data Analytics application. If you want Kinesis Data Analytics to deliver data from an in-application stream within your application to an external destination (such as an Kinesis data stream, a Kinesis Data Firehose delivery stream, or an Amazon Lambda function), you add the relevant configuration to your application using this operation. You can configure one or more outputs for your application. Each output configuration maps an in-applic...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     }
 
     /// <summary>
-    /// Adds a reference data source to an existing SQL-based Kinesis Data Ana- lytics application. Kinesis Data Analytics reads reference data (that is, an Amazon S3 ob- ject) and creates an in-application table within your application. In the request, you provide the source (S3 bucket name and object key name), name of the in-application table to create, and the necessary mapping information that describes how data in an Amazon S3 object maps to columns in the resulting in-application table. See also:...
+    /// Adds a reference data source to an existing SQL-based Kinesis Data Analytics application. Kinesis Data Analytics reads reference data (that is, an Amazon S3 object) and creates an in-application table within your application. In the request, you provide the source (S3 bucket name and object key name), name of the in-application table to create, and the necessary mapping information that describes how data in an Amazon S3 object maps to columns in the resulting in-application table. See also: AWS...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     }
 
     /// <summary>
-    /// Adds a Virtual Private Cloud (VPC) configuration to the application. Applications can use VPCs to store and access resources securely. Note the following about VPC configurations for Managed Service for Apache Flink applications: o VPC configurations are not supported for SQL applications. o When a VPC is added to a Managed Service for Apache Flink applica- tion, the application can no longer be accessed from the Internet di- rectly. To enable Internet access to the application, add an Internet ...
+    /// Adds a Virtual Private Cloud (VPC) configuration to the application. Applications can use VPCs to store and access resources securely. Note the following about VPC configurations for Managed Service for Apache Flink applications: • VPC configurations are not supported for SQL applications. • When a VPC is added to a Managed Service for Apache Flink application, the application can no longer be accessed from the Internet directly. To enable Internet access to the application, add an Internet gate...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     }
 
     /// <summary>
-    /// Creates and returns a URL that you can use to connect to an applica- tion's extension. The IAM role or user used to call this API defines the permissions to access the extension. After the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request that attempts to connect to the extension. You control the amount of time that the URL will be valid using the SessionExpirationDurationInSeconds p...
+    /// Creates and returns a URL that you can use to connect to an application's extension. The IAM role or user used to call this API defines the permissions to access the extension. After the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request that attempts to connect to the extension. You control the amount of time that the URL will be valid using the SessionExpirationDurationInSeconds par...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     }
 
     /// <summary>
-    /// Deletes the output destination configuration from your SQL-based Kine- sis Data Analytics application's configuration. Kinesis Data Analytics will no longer write data from the corresponding in-application stream to the external output destination. See also: AWS API Documentation
+    /// Deletes the output destination configuration from your SQL-based Kinesis Data Analytics application's configuration. Kinesis Data Analytics will no longer write data from the corresponding in-application stream to the external output destination. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     }
 
     /// <summary>
-    /// Deletes a reference data source configuration from the specified SQL-based Kinesis Data Analytics application's configuration. If the application is running, Kinesis Data Analytics immediately re- moves the in-application table that you created using the AddApplica- tionReferenceDataSource operation. See also: AWS API Documentation
+    /// Deletes a reference data source configuration from the specified SQL-based Kinesis Data Analytics application's configuration. If the application is running, Kinesis Data Analytics immediately removes the in-application table that you created using the AddApplicationReferenceDataSource operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     }
 
     /// <summary>
-    /// Removes a VPC configuration from a Managed Service for Apache Flink ap- plication. See also: AWS API Documentation
+    /// Removes a VPC configuration from a Managed Service for Apache Flink application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     }
 
     /// <summary>
-    /// Provides a detailed description of a specified version of the applica- tion. To see a list of all the versions of an application, invoke the ListApplicationVersions operation. NOTE: This operation is supported only for Managed Service for Apache Flink. See also: AWS API Documentation
+    /// Provides a detailed description of a specified version of the application. To see a list of all the versions of an application, invoke the ListApplicationVersions operation. NOTE: This operation is supported only for Managed Service for Apache Flink. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     }
 
     /// <summary>
-    /// Infers a schema for a SQL-based Kinesis Data Analytics application by evaluating sample records on the specified streaming source (Kinesis data stream or Kinesis Data Firehose delivery stream) or Amazon S3 ob- ject. In the response, the operation returns the inferred schema and also the sample records that the operation used to infer the schema. You can use the inferred schema when configuring a streaming source for your application. When you create an application using the Kinesis Data Analytic...
+    /// Infers a schema for a SQL-based Kinesis Data Analytics application by evaluating sample records on the specified streaming source (Kinesis data stream or Kinesis Data Firehose delivery stream) or Amazon S3 object. In the response, the operation returns the inferred schema and also the sample records that the operation used to infer the schema. You can use the inferred schema when configuring a streaming source for your application. When you create an application using the Kinesis Data Analytics ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     }
 
     /// <summary>
-    /// Lists information about the current application snapshots. See also: AWS API Documentation list-application-snapshots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: SnapshotSummaries
+    /// Lists information about the current application snapshots. See also: AWS API Documentation list-application-snapshots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SnapshotSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,22 +377,7 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     }
 
     /// <summary>
-    /// Returns a list of Managed Service for Apache Flink applications in your account. For each application, the response includes the application name, Amazon Resource Name (ARN), and status. If you want detailed information about a specific application, use De- scribeApplication . See also: AWS API Documentation list-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListApplicationsAsync(
-        AwsKinesisanalyticsv2ListApplicationsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2ListApplicationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists all the versions for the specified application, including ver- sions that were rolled back. The response also includes a summary of the configuration associated with each version. To get the complete description of a specific application version, in- voke the DescribeApplicationVersion operation. NOTE: This operation is supported only for Managed Service for Apache Flink. See also: AWS API Documentation list-application-versions is a paginated operation. Multiple API calls may be issued in...
+    /// Lists all the versions for the specified application, including versions that were rolled back. The response also includes a summary of the configuration associated with each version. To get the complete description of a specific application version, invoke the DescribeApplicationVersion operation. NOTE: This operation is supported only for Managed Service for Apache Flink. See also: AWS API Documentation list-application-versions is a paginated operation. Multiple API calls may be issued in ord...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -404,6 +389,21 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a list of Managed Service for Apache Flink applications in your account. For each application, the response includes the application name, Amazon Resource Name (ARN), and status. If you want detailed information about a specific application, use DescribeApplication . See also: AWS API Documentation list-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argu...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListApplicationsAsync(
+        AwsKinesisanalyticsv2ListApplicationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2ListApplicationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -422,7 +422,7 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     }
 
     /// <summary>
-    /// Reverts the application to the previous running version. You can roll back an application if you suspect it is stuck in a transient status or in the running status. You can roll back an application only if it is in the UPDATING , AU- TOSCALING , or RUNNING statuses. When you rollback an application, it loads state data from the last successful snapshot. If the application has no snapshots, Managed Ser- vice for Apache Flink rejects the rollback request. See also: AWS API Documentation
+    /// Reverts the application to the previous running version. You can roll back an application if you suspect it is stuck in a transient status or in the running status. You can roll back an application only if it is in the UPDATING , AUTOSCALING , or RUNNING statuses. When you rollback an application, it loads state data from the last successful snapshot. If the application has no snapshots, Managed Service for Apache Flink rejects the rollback request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     }
 
     /// <summary>
-    /// Starts the specified Managed Service for Apache Flink application. Af- ter creating an application, you must exclusively call this operation to start your application. See also: AWS API Documentation
+    /// Starts the specified Managed Service for Apache Flink application. After creating an application, you must exclusively call this operation to start your application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     }
 
     /// <summary>
-    /// Removes one or more tags from a Managed Service for Apache Flink appli- cation. For more information, see Using Tagging . See also: AWS API Documentation
+    /// Removes one or more tags from a Managed Service for Apache Flink application. For more information, see Using Tagging . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     }
 
     /// <summary>
-    /// Updates the maintenance configuration of the Managed Service for Apache Flink application. You can invoke this operation on an application that is in one of the two following states: READY or RUNNING . If you invoke it when the ap- plication is in a state other than these two states, it throws a Re- sourceInUseException . The service makes use of the updated configura- tion the next time it schedules maintenance for the application. If you invoke this operation after the service schedules mainte...
+    /// Updates the maintenance configuration of the Managed Service for Apache Flink application. You can invoke this operation on an application that is in one of the two following states: READY or RUNNING . If you invoke it when the application is in a state other than these two states, it throws a ResourceInUseException . The service makes use of the updated configuration the next time it schedules maintenance for the application. If you invoke this operation after the service schedules maintenance,...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

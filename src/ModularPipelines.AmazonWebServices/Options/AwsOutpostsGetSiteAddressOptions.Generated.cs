@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsOutpostsGetSiteAddressOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets the site address of the specified site. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SiteId">The ID or the Amazon Resource Name (ARN) of the site. Constraints: o min: 1 o max: 255 o pattern: ^(arn:aws([a-z-]+)?:out- posts:[a-z\d-]+:\d{12}:site/)?(os-[a-f0-9]{17})$</param>
-    /// <param name="AddressType">The type of the address you request. Possible values: o SHIPPING_ADDRESS o OPERATING_ADDRESS</param>
+    /// <param name="SiteId">The ID or the Amazon Resource Name (ARN) of the site. Constraints: • min: 1 • max: 255 • pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:site/)?(os-[a-f0-9]{17})$</param>
+    /// <param name="AddressType">The type of the address you request. Possible values: • SHIPPING_ADDRESS • OPERATING_ADDRESS</param>
     public AwsOutpostsGetSiteAddressOptions(
         string SiteId,
         AwsOutpostsGetSiteAddressAddressType AddressType
@@ -60,13 +62,13 @@ public record AwsOutpostsGetSiteAddressOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or the Amazon Resource Name (ARN) of the site. Constraints: o min: 1 o max: 255 o pattern: ^(arn:aws([a-z-]+)?:out- posts:[a-z\d-]+:\d{12}:site/)?(os-[a-f0-9]{17})$
+    /// The ID or the Amazon Resource Name (ARN) of the site. Constraints: • min: 1 • max: 255 • pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:site/)?(os-[a-f0-9]{17})$
     /// </summary>
     [CliOption("--site-id")]
     public string? SiteId { get; private init; }
 
     /// <summary>
-    /// The type of the address you request. Possible values: o SHIPPING_ADDRESS o OPERATING_ADDRESS
+    /// The type of the address you request. Possible values: • SHIPPING_ADDRESS • OPERATING_ADDRESS
     /// </summary>
     [CliOption("--address-type")]
     public AwsOutpostsGetSiteAddressAddressType? AddressType { get; private init; }

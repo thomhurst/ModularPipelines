@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsAppflowListFlowsOptions : AwsOptions
 {
     /// <summary>
-    /// Specifies the maximum number of items that should be returned in the result set. Constraints: o min: 1 o max: 100
+    /// Specifies the maximum number of items that should be returned in the result set. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The pagination token for next page of data. Constraints: o max: 2048 o pattern: \S+
+    /// The pagination token for next page of data. Constraints: • max: 2048 • pattern: \S+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

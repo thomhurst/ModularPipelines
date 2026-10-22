@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts an asynchronous job that runs an existing dashboard schedule and sends the dashboard snapshot through email. Only one job can run simultaneously in a given schedule. Repeated re- quests are skipped with a 202 HTTP status code. For more information, see Scheduling and sending Amazon Quick Sight re- ports by email and Configuring email report settings for a Amazon Quick Sight dashboard in the Amazon Quick Sight User Guide . See also: AWS API Documentation
+/// Starts an asynchronous job that runs an existing dashboard schedule and sends the dashboard snapshot through email. Only one job can run simultaneously in a given schedule. Repeated requests are skipped with a 202 HTTP status code. For more information, see Scheduling and sending Amazon Quick Sight reports by email and Configuring email report settings for a Amazon Quick Sight dashboard in the Amazon Quick Sight User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsQuicksightStartDashboardSnapshotJobScheduleOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts an asynchronous job that runs an existing dashboard schedule and sends the dashboard snapshot through email. Only one job can run simultaneously in a given schedule. Repeated re- quests are skipped with a 202 HTTP status code. For more information, see Scheduling and sending Amazon Quick Sight re- ports by email and Configuring email report settings for a Amazon Quick Sight dashboard in the Amazon Quick Sight User Guide . See also: AWS API Documentation
+    /// Starts an asynchronous job that runs an existing dashboard schedule and sends the dashboard snapshot through email. Only one job can run simultaneously in a given schedule. Repeated requests are skipped with a 202 HTTP status code. For more information, see Scheduling and sending Amazon Quick Sight reports by email and Configuring email report settings for a Amazon Quick Sight dashboard in the Amazon Quick Sight User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that the dashboard snap- shot job is executed in. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="DashboardId">The ID of the dashboard that you want to start a snapshot job sched- ule for. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
-    /// <param name="ScheduleId">The ID of the schedule that you want to start a snapshot job sched- ule for. The schedule ID can be found in the Amazon Quick Sight con- sole in the Schedules pane of the dashboard that the schedule is configured for. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that the dashboard snapshot job is executed in. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="DashboardId">The ID of the dashboard that you want to start a snapshot job schedule for. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+</param>
+    /// <param name="ScheduleId">The ID of the schedule that you want to start a snapshot job schedule for. The schedule ID can be found in the Amazon Quick Sight console in the Schedules pane of the dashboard that the schedule is configured for. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+</param>
     public AwsQuicksightStartDashboardSnapshotJobScheduleOptions(
         string AwsAccountId,
         string DashboardId,
@@ -64,19 +66,19 @@ public record AwsQuicksightStartDashboardSnapshotJobScheduleOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that the dashboard snap- shot job is executed in. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that the dashboard snapshot job is executed in. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID of the dashboard that you want to start a snapshot job sched- ule for. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// The ID of the dashboard that you want to start a snapshot job schedule for. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--dashboard-id")]
     public string? DashboardId { get; private init; }
 
     /// <summary>
-    /// The ID of the schedule that you want to start a snapshot job sched- ule for. The schedule ID can be found in the Amazon Quick Sight con- sole in the Schedules pane of the dashboard that the schedule is configured for. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// The ID of the schedule that you want to start a snapshot job schedule for. The schedule ID can be found in the Amazon Quick Sight console in the Schedules pane of the dashboard that the schedule is configured for. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--schedule-id")]
     public string? ScheduleId { get; private init; }

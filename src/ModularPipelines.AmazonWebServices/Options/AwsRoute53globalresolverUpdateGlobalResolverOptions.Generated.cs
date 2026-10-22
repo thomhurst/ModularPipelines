@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsRoute53globalresolverUpdateGlobalResolverOptions : AwsOptions, 
     /// <summary>
     /// Updates the configuration of a Route 53 Global Resolver instance. You can modify the name, description, and observability Region. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GlobalResolverId">The ID of the Global Resolver. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+</param>
+    /// <param name="GlobalResolverId">The ID of the Global Resolver. Constraints: • min: 1 • max: 64 • pattern: [-.a-zA-Z0-9]+</param>
     public AwsRoute53globalresolverUpdateGlobalResolverOptions(
         string GlobalResolverId
     )
@@ -57,37 +59,37 @@ public record AwsRoute53globalresolverUpdateGlobalResolverOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Global Resolver. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+
+    /// The ID of the Global Resolver. Constraints: • min: 1 • max: 64 • pattern: [-.a-zA-Z0-9]+
     /// </summary>
     [CliOption("--global-resolver-id")]
     public string? GlobalResolverId { get; private init; }
 
     /// <summary>
-    /// The name of the Global Resolver. Constraints: o min: 1 o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+)
+    /// The name of the Global Resolver. Constraints: • min: 1 • max: 64 • pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+)
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services Regions in which the users' Global Resolver query resolution logs will be propagated. Constraints: o min: 0 o max: 32
+    /// The Amazon Web Services Regions in which the users' Global Resolver query resolution logs will be propagated. Constraints: • min: 0 • max: 32
     /// </summary>
     [CliOption("--observability-region")]
     public string? ObservabilityRegion { get; set; }
 
     /// <summary>
-    /// The description of the Global Resolver. Constraints: o min: 1 o max: 256
+    /// The description of the Global Resolver. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The IP address type for the Global Resolver. Valid values are IPV4 or DUAL_STACK for both IPv4 and IPv6 support. Possible values: o IPV4 o DUAL_STACK
+    /// The IP address type for the Global Resolver. Valid values are IPV4 or DUAL_STACK for both IPv4 and IPv6 support. Possible values: • IPV4 • DUAL_STACK
     /// </summary>
     [CliOption("--ip-address-type")]
     public AwsRoute53globalresolverUpdateGlobalResolverIpAddressType? IpAddressType { get; set; }
 
     /// <summary>
-    /// The list of Amazon Web Services Regions where the Global Resolver will operate. The resolver will be distributed across these Regions to provide global availability and low-latency DNS resolution. (string) Constraints: o min: 0 o max: 32 Syntax: "string" "string" ...
+    /// The list of Amazon Web Services Regions where the Global Resolver will operate. The resolver will be distributed across these Regions to provide global availability and low-latency DNS resolution. (string) Constraints: • min: 0 • max: 32 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--regions", GroupValues = true)]
     public IEnumerable<string>? Regions { get; set; }

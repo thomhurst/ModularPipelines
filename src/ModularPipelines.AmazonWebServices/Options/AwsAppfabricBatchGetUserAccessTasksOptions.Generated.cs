@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets user access details in a batch request. This action polls data from the tasks that are kicked off by the Star- tUserAccessTasks action. See also: AWS API Documentation
+/// Gets user access details in a batch request. This action polls data from the tasks that are kicked off by the StartUserAccessTasks action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsAppfabricBatchGetUserAccessTasksOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets user access details in a batch request. This action polls data from the tasks that are kicked off by the Star- tUserAccessTasks action. See also: AWS API Documentation
+    /// Gets user access details in a batch request. This action polls data from the tasks that are kicked off by the StartUserAccessTasks action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppBundleIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="TaskIdList">The tasks IDs to use for the request. Constraints: o min: 1 o max: 50 (string) Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Syntax: "string" "string" ...</param>
+    /// <param name="AppBundleIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: • min: 1 • max: 1011 • pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="TaskIdList">The tasks IDs to use for the request. Constraints: • min: 1 • max: 50 (string) Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Syntax: "string" "string" ...</param>
     public AwsAppfabricBatchGetUserAccessTasksOptions(
         string AppBundleIdentifier,
         IEnumerable<string> TaskIdList
@@ -71,13 +73,13 @@ public record AwsAppfabricBatchGetUserAccessTasksOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: • min: 1 • max: 1011 • pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--app-bundle-identifier")]
     public string? AppBundleIdentifier { get; private init; }
 
     /// <summary>
-    /// The tasks IDs to use for the request. Constraints: o min: 1 o max: 50 (string) Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Syntax: "string" "string" ...
+    /// The tasks IDs to use for the request. Constraints: • min: 1 • max: 50 (string) Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--task-id-list", GroupValues = true)]
     public IEnumerable<string>? TaskIdList { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,11 +29,11 @@ public record AwsSagemakerUpdatePipelineVersionOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Updates a pipeline version. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PipelineArn">The Amazon Resource Name (ARN) of the pipeline. Constraints: o min: 0 o max: 2048 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:([0-9]{12}|aws):pipeline/.*</param>
-    /// <param name="PipelineVersionId">The pipeline version ID to update. Constraints: o min: 1</param>
+    /// <param name="PipelineArn">The Amazon Resource Name (ARN) of the pipeline. Constraints: • min: 0 • max: 2048 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:([0-9]{12}|aws):pipeline/.*</param>
+    /// <param name="PipelineVersionId">The pipeline version ID to update. Constraints: • min: 1</param>
     public AwsSagemakerUpdatePipelineVersionOptions(
         string PipelineArn,
-        int PipelineVersionId
+        long PipelineVersionId
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(PipelineArn);
@@ -59,25 +61,25 @@ public record AwsSagemakerUpdatePipelineVersionOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the pipeline. Constraints: o min: 0 o max: 2048 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:([0-9]{12}|aws):pipeline/.*
+    /// The Amazon Resource Name (ARN) of the pipeline. Constraints: • min: 0 • max: 2048 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:([0-9]{12}|aws):pipeline/.*
     /// </summary>
     [CliOption("--pipeline-arn")]
     public string? PipelineArn { get; private init; }
 
     /// <summary>
-    /// The pipeline version ID to update. Constraints: o min: 1
+    /// The pipeline version ID to update. Constraints: • min: 1
     /// </summary>
     [CliOption("--pipeline-version-id")]
-    public int? PipelineVersionId { get; private init; }
+    public long? PipelineVersionId { get; private init; }
 
     /// <summary>
-    /// The display name of the pipeline version. Constraints: o min: 1 o max: 82 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,81}
+    /// The display name of the pipeline version. Constraints: • min: 1 • max: 82 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,81}
     /// </summary>
     [CliOption("--pipeline-version-display-name")]
     public string? PipelineVersionDisplayName { get; set; }
 
     /// <summary>
-    /// The description of the pipeline version. Constraints: o min: 0 o max: 3072 o pattern: .*
+    /// The description of the pipeline version. Constraints: • min: 0 • max: 3072 • pattern: .*
     /// </summary>
     [CliOption("--pipeline-version-description")]
     public string? PipelineVersionDescription { get; set; }

@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Grants permission to create a ticket in the chosen ITSM based on find- ing information for the provided finding metadata UID. See also: AWS API Documentation
+/// Grants permission to create a ticket in the chosen ITSM based on finding information for the provided finding metadata UID. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsSecurityhubCreateTicketV2Options : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Grants permission to create a ticket in the chosen ITSM based on find- ing information for the provided finding metadata UID. See also: AWS API Documentation
+    /// Grants permission to create a ticket in the chosen ITSM based on finding information for the provided finding metadata UID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectorId">The UUID of the connectorV2 to identify connectorV2 resource. Constraints: o pattern: .*\S.*</param>
-    /// <param name="FindingMetadataUid">The the unique ID for the finding. Constraints: o pattern: .*\S.*</param>
+    /// <param name="ConnectorId">The UUID of the connectorV2 to identify connectorV2 resource. Constraints: • pattern: .*\S.*</param>
+    /// <param name="FindingMetadataUid">The the unique ID for the finding. Constraints: • pattern: .*\S.*</param>
     public AwsSecurityhubCreateTicketV2Options(
         string ConnectorId,
         string FindingMetadataUid
@@ -61,26 +63,26 @@ public record AwsSecurityhubCreateTicketV2Options : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The UUID of the connectorV2 to identify connectorV2 resource. Constraints: o pattern: .*\S.*
+    /// The UUID of the connectorV2 to identify connectorV2 resource. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--connector-id")]
     public string? ConnectorId { get; private init; }
 
     /// <summary>
-    /// The the unique ID for the finding. Constraints: o pattern: .*\S.*
+    /// The the unique ID for the finding. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--finding-metadata-uid")]
     public string? FindingMetadataUid { get; private init; }
 
     /// <summary>
-    /// The client idempotency token. Constraints: o min: 1 o max: 63 o pattern: ^[\x21-\x7E]{1,64}$
+    /// The client idempotency token. Constraints: • min: 1 • max: 63 • pattern: ^[\x21-\x7E]{1,64}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The mode for ticket creation. When set to DRYRUN, the ticket is cre- ated using a Security Hub owned template test finding to verify the integration is working correctly. Possible values: o DRYRUN
+    /// The mode for ticket creation. When set to DRYRUN, the ticket is created using a Security Hub owned template test finding to verify the integration is working correctly. Possible values: • DRYRUN
     /// </summary>
     [CliOption("--mode")]
     public string? Mode { get; set; }

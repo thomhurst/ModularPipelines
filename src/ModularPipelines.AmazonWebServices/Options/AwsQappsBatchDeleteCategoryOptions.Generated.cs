@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsQappsBatchDeleteCategoryOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Deletes Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see Custom labels for Amazon Q Apps . See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The unique identifier of the Amazon Q Business application environ- ment instance.</param>
-    /// <param name="Categories">The list of IDs of the categories to be deleted. Constraints: o min: 0 o max: 10 (string) Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12} Syntax: "string" "string" ...</param>
+    /// <param name="InstanceId">The unique identifier of the Amazon Q Business application environment instance.</param>
+    /// <param name="Categories">The list of IDs of the categories to be deleted. Constraints: • min: 0 • max: 10 (string) Constraints: • pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12} Syntax: "string" "string" ...</param>
     public AwsQappsBatchDeleteCategoryOptions(
         string InstanceId,
         IEnumerable<string> Categories
@@ -71,13 +73,13 @@ public record AwsQappsBatchDeleteCategoryOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Amazon Q Business application environ- ment instance.
+    /// The unique identifier of the Amazon Q Business application environment instance.
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The list of IDs of the categories to be deleted. Constraints: o min: 0 o max: 10 (string) Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12} Syntax: "string" "string" ...
+    /// The list of IDs of the categories to be deleted. Constraints: • min: 0 • max: 10 (string) Constraints: • pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--categories", GroupValues = true)]
     public IEnumerable<string>? Categories { get; private init; }

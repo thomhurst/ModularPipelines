@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Generates an Amazon Q App definition based on either a conversation or a problem statement provided as input.The resulting app definition can be used to call CreateQApp . This API doesn't create Amazon Q Apps di- rectly. See also: AWS API Documentation predict-q-app uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type docum...
+/// Generates an Amazon Q App definition based on either a conversation or a problem statement provided as input.The resulting app definition can be used to call CreateQApp . This API doesn't create Amazon Q Apps directly. See also: AWS API Documentation predict-q-app uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type documen...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsQappsPredictQAppOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Generates an Amazon Q App definition based on either a conversation or a problem statement provided as input.The resulting app definition can be used to call CreateQApp . This API doesn't create Amazon Q Apps di- rectly. See also: AWS API Documentation predict-q-app uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type docum...
+    /// Generates an Amazon Q App definition based on either a conversation or a problem statement provided as input.The resulting app definition can be used to call CreateQApp . This API doesn't create Amazon Q Apps directly. See also: AWS API Documentation predict-q-app uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type documen...
     /// </summary>
-    /// <param name="InstanceId">The unique identifier of the Amazon Q Business application environ- ment instance.</param>
+    /// <param name="InstanceId">The unique identifier of the Amazon Q Business application environment instance.</param>
     public AwsQappsPredictQAppOptions(
         string InstanceId
     )
@@ -56,13 +58,13 @@ public record AwsQappsPredictQAppOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Amazon Q Business application environ- ment instance.
+    /// The unique identifier of the Amazon Q Business application environment instance.
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The input to generate the Q App definition from, either a conversa- tion or problem statement. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: conversation, problemStatement. conversation -&gt; (list) A conversation to use as input for generating the Q App defini- tion. Constraints: o min: 1 o max: 25 (structure) A message in a conversation, used as input for generating an Amazon Q App definition. body -&gt; (string) [required] The text content of the conversation message. Constraints: o min: 0 o max: 7000 type -&gt; (string) [required] The type of the conversation message. Possible values: o USER o SYSTEM problemStatement -&gt; (string) A problem statement to use as input for generating the Q App de- finition. Constraints: o min: 0 o max: 10000 Shorthand Syntax: conversation=[{body=string,type=string},{body=string,type=string}],problemStatement=string JSON Syntax: { "conversation": [ { "body": "string", "type": "USER"|"SYSTEM" } ... ], "problemStatement": "string" }
+    /// The input to generate the Q App definition from, either a conversation or problem statement. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: conversation, problemStatement. conversation -&gt; (list) A conversation to use as input for generating the Q App definition. Constraints: • min: 1 • max: 25 (structure) A message in a conversation, used as input for generating an Amazon Q App definition. body -&gt; (string) [required] The text content of the conversation message. Constraints: • min: 0 • max: 7000 type -&gt; (string) [required] The type of the conversation message. Possible values: • USER • SYSTEM problemStatement -&gt; (string) A problem statement to use as input for generating the Q App definition. Constraints: • min: 0 • max: 10000 Shorthand Syntax: conversation=[{body=string,type=string},{body=string,type=string}],problemStatement=string JSON Syntax: { "conversation": [ { "body": "string", "type": "USER"|"SYSTEM" } ... ], "problemStatement": "string" }
     /// </summary>
     [CliOption("--options")]
     public string? Options { get; set; }

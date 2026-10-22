@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +31,7 @@ public record AwsCodecommitUpdatePullRequestStatusOptions : AwsOptions, IValidat
     /// Updates the status of a pull request. See also: AWS API Documentation
     /// </summary>
     /// <param name="PullRequestId">The system-generated ID of the pull request. To get this ID, use ListPullRequests .</param>
-    /// <param name="PullRequestStatus">The status of the pull request. The only valid operations are to up- date the status from OPEN to OPEN , OPEN to CLOSED or from CLOSED to CLOSED . Possible values: o OPEN o CLOSED</param>
+    /// <param name="PullRequestStatus">The status of the pull request. The only valid operations are to update the status from OPEN to OPEN , OPEN to CLOSED or from CLOSED to CLOSED . Possible values: • OPEN • CLOSED</param>
     public AwsCodecommitUpdatePullRequestStatusOptions(
         string PullRequestId,
         AwsCodecommitUpdatePullRequestStatusPullRequestStatus PullRequestStatus
@@ -66,7 +68,7 @@ public record AwsCodecommitUpdatePullRequestStatusOptions : AwsOptions, IValidat
     public string? PullRequestId { get; private init; }
 
     /// <summary>
-    /// The status of the pull request. The only valid operations are to up- date the status from OPEN to OPEN , OPEN to CLOSED or from CLOSED to CLOSED . Possible values: o OPEN o CLOSED
+    /// The status of the pull request. The only valid operations are to update the status from OPEN to OPEN , OPEN to CLOSED or from CLOSED to CLOSED . Possible values: • OPEN • CLOSED
     /// </summary>
     [CliOption("--pull-request-status")]
     public AwsCodecommitUpdatePullRequestStatusPullRequestStatus? PullRequestStatus { get; private init; }

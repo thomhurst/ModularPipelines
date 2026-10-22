@@ -28,8 +28,7 @@ public interface IAwsConnectcampaigns
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCampaignAsync(AwsConnectcampaignsCreateCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCampaignAsync(AwsConnectcampaignsCreateCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a campaign from the specified Amazon Connect account. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsConnectcampaigns
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCampaignAsync(AwsConnectcampaignsDeleteCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCampaignAsync(AwsConnectcampaignsDeleteCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a connect instance config from the specified AWS account. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsConnectcampaigns
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteConnectInstanceConfigAsync(AwsConnectcampaignsDeleteConnectInstanceConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteConnectInstanceConfigAsync(AwsConnectcampaignsDeleteConnectInstanceConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete the Connect Campaigns onboarding job for the specified Amazon Connect instance. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsConnectcampaigns
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteInstanceOnboardingJobAsync(AwsConnectcampaignsDeleteInstanceOnboardingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteInstanceOnboardingJobAsync(AwsConnectcampaignsDeleteInstanceOnboardingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specific campaign. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsConnectcampaigns
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeCampaignAsync(AwsConnectcampaignsDescribeCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeCampaignAsync(AwsConnectcampaignsDescribeCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get state of campaigns for the specified Amazon Connect account. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsConnectcampaigns
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCampaignStateBatchAsync(AwsConnectcampaignsGetCampaignStateBatchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCampaignStateBatchAsync(AwsConnectcampaignsGetCampaignStateBatchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get state of a campaign for the specified Amazon Connect account. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsConnectcampaigns
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCampaignStateAsync(AwsConnectcampaignsGetCampaignStateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCampaignStateAsync(AwsConnectcampaignsGetCampaignStateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the specific Connect instance config. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsConnectcampaigns
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetConnectInstanceConfigAsync(AwsConnectcampaignsGetConnectInstanceConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetConnectInstanceConfigAsync(AwsConnectcampaignsGetConnectInstanceConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the specific instance onboarding job status. See also: AWS API Documentation
@@ -108,18 +100,16 @@ public interface IAwsConnectcampaigns
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetInstanceOnboardingJobStatusAsync(AwsConnectcampaignsGetInstanceOnboardingJobStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetInstanceOnboardingJobStatusAsync(AwsConnectcampaignsGetInstanceOnboardingJobStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Provides summary information about the campaigns under the specified Amazon Connect account. See also: AWS API Documentation list-campaigns is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: campaignS...
+    /// Provides summary information about the campaigns under the specified Amazon Connect account. See also: AWS API Documentation list-campaigns is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: campaignSumma...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCampaignsAsync(AwsConnectcampaignsListCampaignsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCampaignsAsync(AwsConnectcampaignsListCampaignsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List tags for a resource. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsConnectcampaigns
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsConnectcampaignsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsConnectcampaignsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Pauses a campaign for the specified Amazon Connect account. See also: AWS API Documentation
@@ -138,18 +127,16 @@ public interface IAwsConnectcampaigns
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PauseCampaignAsync(AwsConnectcampaignsPauseCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PauseCampaignAsync(AwsConnectcampaignsPauseCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates dials requests for the specified campaign Amazon Connect ac- count. This API is idempotent. See also: AWS API Documentation
+    /// Creates dials requests for the specified campaign Amazon Connect account. This API is idempotent. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutDialRequestBatchAsync(AwsConnectcampaignsPutDialRequestBatchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutDialRequestBatchAsync(AwsConnectcampaignsPutDialRequestBatchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a campaign for the specified Amazon Connect account. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsConnectcampaigns
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ResumeCampaignAsync(AwsConnectcampaignsResumeCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ResumeCampaignAsync(AwsConnectcampaignsResumeCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a campaign for the specified Amazon Connect account. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsConnectcampaigns
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartCampaignAsync(AwsConnectcampaignsStartCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartCampaignAsync(AwsConnectcampaignsStartCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Onboard the specific Amazon Connect instance to Connect Campaigns. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsConnectcampaigns
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartInstanceOnboardingJobAsync(AwsConnectcampaignsStartInstanceOnboardingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartInstanceOnboardingJobAsync(AwsConnectcampaignsStartInstanceOnboardingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a campaign for the specified Amazon Connect account. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsConnectcampaigns
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopCampaignAsync(AwsConnectcampaignsStopCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopCampaignAsync(AwsConnectcampaignsStopCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Tag a resource. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsConnectcampaigns
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsConnectcampaignsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsConnectcampaignsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Untag a resource. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsConnectcampaigns
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsConnectcampaignsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsConnectcampaignsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the dialer config of a campaign. This API is idempotent. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsConnectcampaigns
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateCampaignDialerConfigAsync(AwsConnectcampaignsUpdateCampaignDialerConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateCampaignDialerConfigAsync(AwsConnectcampaignsUpdateCampaignDialerConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the name of a campaign. This API is idempotent. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsConnectcampaigns
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateCampaignNameAsync(AwsConnectcampaignsUpdateCampaignNameOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateCampaignNameAsync(AwsConnectcampaignsUpdateCampaignNameOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the outbound call config of a campaign. This API is idempotent. See also: AWS API Documentation
@@ -238,7 +217,6 @@ public interface IAwsConnectcampaigns
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateCampaignOutboundCallConfigAsync(AwsConnectcampaignsUpdateCampaignOutboundCallConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateCampaignOutboundCallConfigAsync(AwsConnectcampaignsUpdateCampaignOutboundCallConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

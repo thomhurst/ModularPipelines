@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new change data capture (CDC) stream for a cluster. The stream captures database changes and delivers them to the specified target destination. Required permissions dsql:CreateStream Permission to create a new stream. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id iam:PassRole Permission to pass the IAM role specified in the target definition to the service. Resources: ARN of the IAM role specified in targetDefinition.kine- sis.roleArn kms:Decrypt Required when the cluste...
+/// Creates a new change data capture (CDC) stream for a cluster. The stream captures database changes and delivers them to the specified target destination. Required permissions dsql:CreateStream Permission to create a new stream. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id iam:PassRole Permission to pass the IAM role specified in the target definition to the service. Resources: ARN of the IAM role specified in targetDefinition.kinesis.roleArn kms:Decrypt Required when the cluster ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,12 +28,12 @@ public record AwsDsqlCreateStreamOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new change data capture (CDC) stream for a cluster. The stream captures database changes and delivers them to the specified target destination. Required permissions dsql:CreateStream Permission to create a new stream. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id iam:PassRole Permission to pass the IAM role specified in the target definition to the service. Resources: ARN of the IAM role specified in targetDefinition.kine- sis.roleArn kms:Decrypt Required when the cluste...
+    /// Creates a new change data capture (CDC) stream for a cluster. The stream captures database changes and delivers them to the specified target destination. Required permissions dsql:CreateStream Permission to create a new stream. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id iam:PassRole Permission to pass the IAM role specified in the target definition to the service. Resources: ARN of the IAM role specified in targetDefinition.kinesis.roleArn kms:Decrypt Required when the cluster ...
     /// </summary>
-    /// <param name="ClusterIdentifier">The ID of the cluster for which to create the stream. Constraints: o pattern: [a-z0-9]{26}</param>
-    /// <param name="TargetDefinition">The target destination configuration for the stream. Contains Kine- sis stream configuration including stream ARN and IAM role ARN. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: kinesis. kinesis -&gt; (structure) Kinesis stream target configuration. streamArn -&gt; (string) [required] The ARN of the Kinesis stream. Constraints: o min: 1 o max: 2048 o pattern: arn:aws[a-zA-Z-]*:kine- sis:[a-z0-9-]*:[0-9]{12}:stream/[a-zA-Z0-9+=,.@_/\-]+ roleArn -&gt; (string) [required] The ARN of the IAM role that grants permission to write to the Kinesis stream. This can be a standard role (arn:aws:iam::account-id:role/role-name ) or a role with a path prefix (arn:aws:iam::account-id:role/ser- vice-role/role-name ), such as roles auto-created by the con- sole. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role(/[a-zA-Z0-9+=,.@_-]+)+ Shorthand Syntax: kinesis={streamArn=string,roleArn=string} JSON Syntax: { "kinesis": { "streamArn": "string", "roleArn": "string" } }</param>
-    /// <param name="Ordering">The ordering mode for the stream. Determines how change events are ordered when delivered to the target. Possible values: o UNORDERED</param>
-    /// <param name="Format">The format of the stream records. Possible values: o JSON</param>
+    /// <param name="ClusterIdentifier">The ID of the cluster for which to create the stream. Constraints: • pattern: [a-z0-9]{26}</param>
+    /// <param name="TargetDefinition">The target destination configuration for the stream. Contains Kinesis stream configuration including stream ARN and IAM role ARN. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: kinesis. kinesis -&gt; (structure) Kinesis stream target configuration. streamArn -&gt; (string) [required] The ARN of the Kinesis stream. Constraints: • min: 1 • max: 2048 • pattern: arn:aws[a-zA-Z-]*:kinesis:[a-z0-9-]*:[0-9]{12}:stream/[a-zA-Z0-9+=,.@_/\-]+ roleArn -&gt; (string) [required] The ARN of the IAM role that grants permission to write to the Kinesis stream. This can be a standard role (arn:aws:iam::account-id:role/role-name ) or a role with a path prefix (arn:aws:iam::account-id:role/service-role/role-name ), such as roles auto-created by the console. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role(/[a-zA-Z0-9+=,.@_-]+)+ Shorthand Syntax: kinesis={streamArn=string,roleArn=string} JSON Syntax: { "kinesis": { "streamArn": "string", "roleArn": "string" } }</param>
+    /// <param name="Ordering">The ordering mode for the stream. Determines how change events are ordered when delivered to the target. Possible values: • UNORDERED</param>
+    /// <param name="Format">The format of the stream records. Possible values: • JSON</param>
     public AwsDsqlCreateStreamOptions(
         string ClusterIdentifier,
         string TargetDefinition,
@@ -70,37 +71,37 @@ public record AwsDsqlCreateStreamOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the cluster for which to create the stream. Constraints: o pattern: [a-z0-9]{26}
+    /// The ID of the cluster for which to create the stream. Constraints: • pattern: [a-z0-9]{26}
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The target destination configuration for the stream. Contains Kine- sis stream configuration including stream ARN and IAM role ARN. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: kinesis. kinesis -&gt; (structure) Kinesis stream target configuration. streamArn -&gt; (string) [required] The ARN of the Kinesis stream. Constraints: o min: 1 o max: 2048 o pattern: arn:aws[a-zA-Z-]*:kine- sis:[a-z0-9-]*:[0-9]{12}:stream/[a-zA-Z0-9+=,.@_/\-]+ roleArn -&gt; (string) [required] The ARN of the IAM role that grants permission to write to the Kinesis stream. This can be a standard role (arn:aws:iam::account-id:role/role-name ) or a role with a path prefix (arn:aws:iam::account-id:role/ser- vice-role/role-name ), such as roles auto-created by the con- sole. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role(/[a-zA-Z0-9+=,.@_-]+)+ Shorthand Syntax: kinesis={streamArn=string,roleArn=string} JSON Syntax: { "kinesis": { "streamArn": "string", "roleArn": "string" } }
+    /// The target destination configuration for the stream. Contains Kinesis stream configuration including stream ARN and IAM role ARN. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: kinesis. kinesis -&gt; (structure) Kinesis stream target configuration. streamArn -&gt; (string) [required] The ARN of the Kinesis stream. Constraints: • min: 1 • max: 2048 • pattern: arn:aws[a-zA-Z-]*:kinesis:[a-z0-9-]*:[0-9]{12}:stream/[a-zA-Z0-9+=,.@_/\-]+ roleArn -&gt; (string) [required] The ARN of the IAM role that grants permission to write to the Kinesis stream. This can be a standard role (arn:aws:iam::account-id:role/role-name ) or a role with a path prefix (arn:aws:iam::account-id:role/service-role/role-name ), such as roles auto-created by the console. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role(/[a-zA-Z0-9+=,.@_-]+)+ Shorthand Syntax: kinesis={streamArn=string,roleArn=string} JSON Syntax: { "kinesis": { "streamArn": "string", "roleArn": "string" } }
     /// </summary>
     [CliOption("--target-definition")]
     public string? TargetDefinition { get; private init; }
 
     /// <summary>
-    /// The ordering mode for the stream. Determines how change events are ordered when delivered to the target. Possible values: o UNORDERED
+    /// The ordering mode for the stream. Determines how change events are ordered when delivered to the target. Possible values: • UNORDERED
     /// </summary>
     [CliOption("--ordering")]
     public string? Ordering { get; private init; }
 
     /// <summary>
-    /// The format of the stream records. Possible values: o JSON
+    /// The format of the stream records. Possible values: • JSON
     /// </summary>
     [CliOption("--format")]
     public string? Format { get; private init; }
 
     /// <summary>
-    /// A map of key and value pairs to use to tag your stream. Constraints: o min: 0 o max: 200 key -&gt; (string) Unique tag key, maximum 128 Unicode characters in UTF-8. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.:/=+\-@ ]* value -&gt; (string) Tag value, maximum 256 Unicode characters in UTF-8. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9_.:/=+\-@ ]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of key and value pairs to use to tag your stream. Constraints: • min: 0 • max: 200 key -&gt; (string) Unique tag key, maximum 128 Unicode characters in UTF-8. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.:/=+\-@ ]* value -&gt; (string) Tag value, maximum 256 Unicode characters in UTF-8. Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9_.:/=+\-@ ]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original re- quest completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK au- tomatically generates one. Constraints: o min: 1 o max: 128 o pattern: [!-~]+
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK automatically generates one. Constraints: • min: 1 • max: 128 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

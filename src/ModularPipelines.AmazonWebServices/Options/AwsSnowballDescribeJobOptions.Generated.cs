@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about a specific job including shipping informa- tion, job status, and other important metadata. See also: AWS API Documentation
+/// Returns information about a specific job including shipping information, job status, and other important metadata. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSnowballDescribeJobOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns information about a specific job including shipping informa- tion, job status, and other important metadata. See also: AWS API Documentation
+    /// Returns information about a specific job including shipping information, job status, and other important metadata. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000 . Constraints: o min: 39 o max: 39 o pattern: (M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="JobId">The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000 . Constraints: • min: 39 • max: 39 • pattern: (M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     public AwsSnowballDescribeJobOptions(
         string JobId
     )
@@ -56,7 +58,7 @@ public record AwsSnowballDescribeJobOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000 . Constraints: o min: 39 o max: 39 o pattern: (M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000 . Constraints: • min: 39 • max: 39 • pattern: (M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }

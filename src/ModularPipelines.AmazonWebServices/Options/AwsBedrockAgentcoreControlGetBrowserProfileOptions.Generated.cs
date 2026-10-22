@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBedrockAgentcoreControlGetBrowserProfileOptions : AwsOptions, I
     /// <summary>
     /// Gets information about a browser profile. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileId">The unique identifier of the browser profile to retrieve. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10}</param>
+    /// <param name="ProfileId">The unique identifier of the browser profile to retrieve. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10}</param>
     public AwsBedrockAgentcoreControlGetBrowserProfileOptions(
         string ProfileId
     )
@@ -56,7 +58,7 @@ public record AwsBedrockAgentcoreControlGetBrowserProfileOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the browser profile to retrieve. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10}
+    /// The unique identifier of the browser profile to retrieve. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--profile-id")]
     public string? ProfileId { get; private init; }

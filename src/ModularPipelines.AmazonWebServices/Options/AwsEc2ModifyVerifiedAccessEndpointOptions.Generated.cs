@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the configuration of the specified Amazon Web Services Veri- fied Access endpoint. See also: AWS API Documentation
+/// Modifies the configuration of the specified Amazon Web Services Verified Access endpoint. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +28,7 @@ public record AwsEc2ModifyVerifiedAccessEndpointOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the configuration of the specified Amazon Web Services Veri- fied Access endpoint. See also: AWS API Documentation
+    /// Modifies the configuration of the specified Amazon Web Services Verified Access endpoint. See also: AWS API Documentation
     /// </summary>
     /// <param name="VerifiedAccessEndpointId">The ID of the Verified Access endpoint.</param>
     public AwsEc2ModifyVerifiedAccessEndpointOptions(
@@ -69,13 +71,13 @@ public record AwsEc2ModifyVerifiedAccessEndpointOptions : AwsOptions, IValidatab
     public string? VerifiedAccessGroupId { get; set; }
 
     /// <summary>
-    /// The load balancer details if creating the Verified Access endpoint as load-balancer type. SubnetIds -&gt; (list) The IDs of the subnets. (string) Protocol -&gt; (string) The IP protocol. Possible values: o http o https o tcp Port -&gt; (integer) The IP port number. Constraints: o min: 1 o max: 65535 PortRanges -&gt; (list) The port ranges. (structure) Describes the port range for a Verified Access endpoint. FromPort -&gt; (integer) The start of the port range. Constraints: o min: 1 o max: 65535 ToPort -&gt; (integer) The end of the port range. Constraints: o min: 1 o max: 65535 Shorthand Syntax: SubnetIds=string,string,Protocol=string,Port=integer,PortRanges=[{FromPort=integer,ToPort=integer},{FromPort=integer,ToPort=integer}] JSON Syntax: { "SubnetIds": ["string", ...], "Protocol": "http"|"https"|"tcp", "Port": integer, "PortRanges": [ { "FromPort": integer, "ToPort": integer } ... ] }
+    /// The load balancer details if creating the Verified Access endpoint as load-balancer type. SubnetIds -&gt; (list) The IDs of the subnets. (string) Protocol -&gt; (string) The IP protocol. Possible values: • http • https • tcp Port -&gt; (integer) The IP port number. Constraints: • min: 1 • max: 65535 PortRanges -&gt; (list) The port ranges. (structure) Describes the port range for a Verified Access endpoint. FromPort -&gt; (integer) The start of the port range. Constraints: • min: 1 • max: 65535 ToPort -&gt; (integer) The end of the port range. Constraints: • min: 1 • max: 65535 Shorthand Syntax: SubnetIds=string,string,Protocol=string,Port=integer,PortRanges=[{FromPort=integer,ToPort=integer},{FromPort=integer,ToPort=integer}] JSON Syntax: { "SubnetIds": ["string", ...], "Protocol": "http"|"https"|"tcp", "Port": integer, "PortRanges": [ { "FromPort": integer, "ToPort": integer } ... ] }
     /// </summary>
     [CliOption("--load-balancer-options")]
     public string? LoadBalancerOptions { get; set; }
 
     /// <summary>
-    /// The network interface options. Protocol -&gt; (string) The IP protocol. Possible values: o http o https o tcp Port -&gt; (integer) The IP port number. Constraints: o min: 1 o max: 65535 PortRanges -&gt; (list) The port ranges. (structure) Describes the port range for a Verified Access endpoint. FromPort -&gt; (integer) The start of the port range. Constraints: o min: 1 o max: 65535 ToPort -&gt; (integer) The end of the port range. Constraints: o min: 1 o max: 65535 Shorthand Syntax: Protocol=string,Port=integer,PortRanges=[{FromPort=integer,ToPort=integer},{FromPort=integer,ToPort=integer}] JSON Syntax: { "Protocol": "http"|"https"|"tcp", "Port": integer, "PortRanges": [ { "FromPort": integer, "ToPort": integer } ... ] }
+    /// The network interface options. Protocol -&gt; (string) The IP protocol. Possible values: • http • https • tcp Port -&gt; (integer) The IP port number. Constraints: • min: 1 • max: 65535 PortRanges -&gt; (list) The port ranges. (structure) Describes the port range for a Verified Access endpoint. FromPort -&gt; (integer) The start of the port range. Constraints: • min: 1 • max: 65535 ToPort -&gt; (integer) The end of the port range. Constraints: • min: 1 • max: 65535 Shorthand Syntax: Protocol=string,Port=integer,PortRanges=[{FromPort=integer,ToPort=integer},{FromPort=integer,ToPort=integer}] JSON Syntax: { "Protocol": "http"|"https"|"tcp", "Port": integer, "PortRanges": [ { "FromPort": integer, "ToPort": integer } ... ] }
     /// </summary>
     [CliOption("--network-interface-options")]
     public string? NetworkInterfaceOptions { get; set; }
@@ -87,26 +89,26 @@ public record AwsEc2ModifyVerifiedAccessEndpointOptions : AwsOptions, IValidatab
     public string? Description { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive token that you provide to ensure idempo- tency of your modification request. For more information, see Ensuring idempotency .
+    /// A unique, case-sensitive token that you provide to ensure idempotency of your modification request. For more information, see Ensuring idempotency .
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// The RDS options. SubnetIds -&gt; (list) The IDs of the subnets. (string) Port -&gt; (integer) The port. Constraints: o min: 1 o max: 65535 RdsEndpoint -&gt; (string) The RDS endpoint. Shorthand Syntax: SubnetIds=string,string,Port=integer,RdsEndpoint=string JSON Syntax: { "SubnetIds": ["string", ...], "Port": integer, "RdsEndpoint": "string" }
+    /// The RDS options. SubnetIds -&gt; (list) The IDs of the subnets. (string) Port -&gt; (integer) The port. Constraints: • min: 1 • max: 65535 RdsEndpoint -&gt; (string) The RDS endpoint. Shorthand Syntax: SubnetIds=string,string,Port=integer,RdsEndpoint=string JSON Syntax: { "SubnetIds": ["string", ...], "Port": integer, "RdsEndpoint": "string" }
     /// </summary>
     [CliOption("--rds-options")]
     public string? RdsOptions { get; set; }
 
     /// <summary>
-    /// The CIDR options. PortRanges -&gt; (list) The port ranges. (structure) Describes the port range for a Verified Access endpoint. FromPort -&gt; (integer) The start of the port range. Constraints: o min: 1 o max: 65535 ToPort -&gt; (integer) The end of the port range. Constraints: o min: 1 o max: 65535 Shorthand Syntax: PortRanges=[{FromPort=integer,ToPort=integer},{FromPort=integer,ToPort=integer}] JSON Syntax: { "PortRanges": [ { "FromPort": integer, "ToPort": integer } ... ] }
+    /// The CIDR options. PortRanges -&gt; (list) The port ranges. (structure) Describes the port range for a Verified Access endpoint. FromPort -&gt; (integer) The start of the port range. Constraints: • min: 1 • max: 65535 ToPort -&gt; (integer) The end of the port range. Constraints: • min: 1 • max: 65535 Shorthand Syntax: PortRanges=[{FromPort=integer,ToPort=integer},{FromPort=integer,ToPort=integer}] JSON Syntax: { "PortRanges": [ { "FromPort": integer, "ToPort": integer } ... ] }
     /// </summary>
     [CliOption("--cidr-options")]
     public string? CidrOptions { get; set; }

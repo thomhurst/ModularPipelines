@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsRoute53globalresolverUpdateAccessTokenOptions : AwsOptions, IVa
     /// <summary>
     /// Updates the configuration of an access token. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccessTokenId">The ID of the token. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+</param>
-    /// <param name="Name">The new name of the token. Constraints: o min: 1 o max: 32 o pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+)</param>
+    /// <param name="AccessTokenId">The ID of the token. Constraints: • min: 1 • max: 64 • pattern: [-.a-zA-Z0-9]+</param>
+    /// <param name="Name">The new name of the token. Constraints: • min: 1 • max: 32 • pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+)</param>
     public AwsRoute53globalresolverUpdateAccessTokenOptions(
         string AccessTokenId,
         string Name
@@ -60,13 +62,13 @@ public record AwsRoute53globalresolverUpdateAccessTokenOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the token. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+
+    /// The ID of the token. Constraints: • min: 1 • max: 64 • pattern: [-.a-zA-Z0-9]+
     /// </summary>
     [CliOption("--access-token-id")]
     public string? AccessTokenId { get; private init; }
 
     /// <summary>
-    /// The new name of the token. Constraints: o min: 1 o max: 32 o pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+)
+    /// The new name of the token. Constraints: • min: 1 • max: 32 • pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+)
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

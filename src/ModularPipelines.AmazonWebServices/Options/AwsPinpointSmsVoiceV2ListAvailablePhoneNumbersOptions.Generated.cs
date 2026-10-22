@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Search available phone numbers from aggregator inventory, optionally filtered by pattern. If NumberPreference is omitted, returns unfiltered available numbers. Returns empty list (not an exception) when no num- bers match. ResourceNotFoundException is thrown only for invalid Regis- trationId (campaign not found). See also: AWS API Documentation list-available-phone-numbers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can di...
+/// Retrieves a list of phone numbers that are available to request, based on the country, capabilities, and number type that you specify. You can optionally provide a number preference to return only numbers that match a specific digit pattern. If no numbers match your search, this operation returns an empty list rather than an error. This operation currently supports only TEN_DLC number types in the US . See also: AWS API Documentation list-available-phone-numbers is a paginated operation. Multipl...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsPinpointSmsVoiceV2ListAvailablePhoneNumbersOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Search available phone numbers from aggregator inventory, optionally filtered by pattern. If NumberPreference is omitted, returns unfiltered available numbers. Returns empty list (not an exception) when no num- bers match. ResourceNotFoundException is thrown only for invalid Regis- trationId (campaign not found). See also: AWS API Documentation list-available-phone-numbers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can di...
+    /// Retrieves a list of phone numbers that are available to request, based on the country, capabilities, and number type that you specify. You can optionally provide a number preference to return only numbers that match a specific digit pattern. If no numbers match your search, this operation returns an empty list rather than an error. This operation currently supports only TEN_DLC number types in the US . See also: AWS API Documentation list-available-phone-numbers is a paginated operation. Multipl...
     /// </summary>
-    /// <param name="IsoCountryCode">The two-character code, in ISO 3166-1 alpha-2 format, for the coun- try or region in which to search for available phone numbers. This operation currently supports only US . Constraints: o min: 2 o max: 2 o pattern: [A-Z]{2}</param>
-    /// <param name="NumberCapabilities">The capabilities to filter by, such as SMS. Only phone numbers that support all of the specified capabilities are returned. Constraints: o min: 1 o max: 4 (string) Possible values: o SMS o VOICE o MMS o RCS Syntax: "string" "string" ...</param>
-    /// <param name="NumberType">The type of phone number to search for. Possible values: o TEN_DLC</param>
+    /// <param name="IsoCountryCode">The two-character code, in ISO 3166-1 alpha-2 format, for the country or region in which to search for available phone numbers. This operation currently supports only US . Constraints: • min: 2 • max: 2 • pattern: [A-Z]{2}</param>
+    /// <param name="NumberCapabilities">The capabilities to filter by, such as SMS. Only phone numbers that support all of the specified capabilities are returned. Constraints: • min: 1 • max: 4 (string) Possible values: • SMS • VOICE • MMS • RCS Syntax: "string" "string" ...</param>
+    /// <param name="NumberType">The type of phone number to search for. Possible values: • TEN_DLC</param>
     public AwsPinpointSmsVoiceV2ListAvailablePhoneNumbersOptions(
         string IsoCountryCode,
         IEnumerable<string> NumberCapabilities,
@@ -76,40 +78,37 @@ public record AwsPinpointSmsVoiceV2ListAvailablePhoneNumbersOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The two-character code, in ISO 3166-1 alpha-2 format, for the coun- try or region in which to search for available phone numbers. This operation currently supports only US . Constraints: o min: 2 o max: 2 o pattern: [A-Z]{2}
+    /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region in which to search for available phone numbers. This operation currently supports only US . Constraints: • min: 2 • max: 2 • pattern: [A-Z]{2}
     /// </summary>
     [CliOption("--iso-country-code")]
     public string? IsoCountryCode { get; private init; }
 
     /// <summary>
-    /// The capabilities to filter by, such as SMS. Only phone numbers that support all of the specified capabilities are returned. Constraints: o min: 1 o max: 4 (string) Possible values: o SMS o VOICE o MMS o RCS Syntax: "string" "string" ...
+    /// The capabilities to filter by, such as SMS. Only phone numbers that support all of the specified capabilities are returned. Constraints: • min: 1 • max: 4 (string) Possible values: • SMS • VOICE • MMS • RCS Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--number-capabilities", GroupValues = true)]
     public IEnumerable<string>? NumberCapabilities { get; private init; }
 
     /// <summary>
-    /// The type of phone number to search for. Possible values: o TEN_DLC
+    /// The type of phone number to search for. Possible values: • TEN_DLC
     /// </summary>
     [CliOption("--number-type")]
     public string? NumberType { get; private init; }
 
     /// <summary>
-    /// The registration associated with the request. A registration is re- quired for regulated number types. You can specify either: o The unique identifier of the registration. o The Amazon Resource Name (ARN) of the registration. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The registration associated with the request. A registration is required for regulated number types. You can specify either: • The unique identifier of the registration. • The Amazon Resource Name (ARN) of the registration. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--registration-id")]
     public string? RegistrationId { get; set; }
 
     /// <summary>
-    /// Optional. If omitted, returns unfiltered available numbers. Max 1 element for List API. Constraints: o min: 1 o max: 1 (structure) A single number preference specifies a pattern type and filter value. PreferenceType -&gt; (list) [required] The type of match to apply to the filter values. o StartsWith : Returns numbers that begin with the filter value. o EndsWith : Returns numbers that end with the filter value. o Contains : Returns numbers that contain the filter value. o ExactMatch : Returns the number that exactly matches the filter value. Constraints: o min: 1 o max: 1 (string) The type of pattern matching to apply. Possible values: o StartsWith o EndsWith o Contains o ExactMatch Filter -&gt; (list) [required] The digit pattern values to match against available phone numbers, using the specified preference type. Constraints: o min: 1 o max: 10 (string) A filter value either a pattern (e.g., "+1510") or full E.164 number. Constraints: o min: 2 o max: 16 o pattern: \+?[0-9]{1,15} Shorthand Syntax: PreferenceType=string,string,Filter=string,string ... JSON Syntax: [ { "PreferenceType": ["StartsWith"|"EndsWith"|"Contains"|"ExactMatch", ...], "Filter": ["string", ...] } ... ]
+    /// An optional selection preference used to return only phone numbers that match a specific digit pattern, such as numbers that start with, end with, or contain a particular sequence. You can specify at most one preference. Number preferences apply only to TEN_DLC numbers in the US . Constraints: • min: 1 • max: 1 (structure) A single number preference that specifies how to match available phone numbers. Each preference pairs a match type with one or more filter values. PreferenceType -&gt; (list) [required] The type of match to apply to the filter values. • StartsWith : Returns numbers that begin with the filter value. • EndsWith : Returns numbers that end with the filter value. • Contains : Returns numbers that contain the filter value. • ExactMatch : Returns the number that exactly matches the filter value. Constraints: • min: 1 • max: 1 (string) The type of pattern matching to apply. Possible values: • StartsWith • EndsWith • Contains • ExactMatch Filter -&gt; (list) [required] The digit pattern values to match against available phone numbers, using the specified preference type. Constraints: • min: 1 • max: 10 (string) A filter value either a pattern (e.g., "+1510") or full E.164 number. Constraints: • min: 2 • max: 16 • pattern: \+?[0-9]{1,15} Shorthand Syntax: PreferenceType=string,string,Filter=string,string ... JSON Syntax: [ { "PreferenceType": ["StartsWith"|"EndsWith"|"Contains"|"ExactMatch", ...], "Filter": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--number-preference", GroupValues = true)]
     public IEnumerable<string>? NumberPreference { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -119,16 +118,19 @@ public record AwsPinpointSmsVoiceV2ListAvailablePhoneNumbersOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 10
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 10
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

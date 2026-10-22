@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API. You set the number of capacity units that you require for Amazon Kendra Intelligent Ranking to rescore or re-rank a search service's re- sults. For an example of using the CreateRescoreExecutionPlan API, including using the Python and Java SDKs, see Semantically ranking a search ser- vice's results . See also: AWS API Documentation
+/// Creates a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API. You set the number of capacity units that you require for Amazon Kendra Intelligent Ranking to rescore or re-rank a search service's results. For an example of using the CreateRescoreExecutionPlan API, including using the Python and Java SDKs, see Semantically ranking a search service's results . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsKendraRankingCreateRescoreExecutionPlanOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API. You set the number of capacity units that you require for Amazon Kendra Intelligent Ranking to rescore or re-rank a search service's re- sults. For an example of using the CreateRescoreExecutionPlan API, including using the Python and Java SDKs, see Semantically ranking a search ser- vice's results . See also: AWS API Documentation
+    /// Creates a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API. You set the number of capacity units that you require for Amazon Kendra Intelligent Ranking to rescore or re-rank a search service's results. For an example of using the CreateRescoreExecutionPlan API, including using the Python and Java SDKs, see Semantically ranking a search service's results . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">A name for the rescore execution plan. Constraints: o min: 1 o max: 1000 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*</param>
+    /// <param name="Name">A name for the rescore execution plan. Constraints: • min: 1 • max: 1000 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*</param>
     public AwsKendraRankingCreateRescoreExecutionPlanOptions(
         string Name
     )
@@ -57,31 +59,31 @@ public record AwsKendraRankingCreateRescoreExecutionPlanOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name for the rescore execution plan. Constraints: o min: 1 o max: 1000 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// A name for the rescore execution plan. Constraints: • min: 1 • max: 1000 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A description for the rescore execution plan. Constraints: o min: 0 o max: 1000 o pattern: ^\P{C}*$
+    /// A description for the rescore execution plan. Constraints: • min: 0 • max: 1000 • pattern: ^\P{C}*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// You can set additional capacity units to meet the needs of your rescore execution plan. You are given a single capacity unit by de- fault. If you want to use the default capacity, you don't set addi- tional capacity units. For more information on the default capacity and additional capacity units, see Adjusting capacity . RescoreCapacityUnits -&gt; (integer) [required] The amount of extra capacity for your rescore execution plan. A single extra capacity unit for a rescore execution plan pro- vides 0.01 rescore requests per second. You can add up to 1000 extra capacity units. Constraints: o min: 0 Shorthand Syntax: RescoreCapacityUnits=integer JSON Syntax: { "RescoreCapacityUnits": integer }
+    /// You can set additional capacity units to meet the needs of your rescore execution plan. You are given a single capacity unit by default. If you want to use the default capacity, you don't set additional capacity units. For more information on the default capacity and additional capacity units, see Adjusting capacity . RescoreCapacityUnits -&gt; (integer) [required] The amount of extra capacity for your rescore execution plan. A single extra capacity unit for a rescore execution plan provides 0.01 rescore requests per second. You can add up to 1000 extra capacity units. Constraints: • min: 0 Shorthand Syntax: RescoreCapacityUnits=integer JSON Syntax: { "RescoreCapacityUnits": integer }
     /// </summary>
     [CliOption("--capacity-units")]
     public string? CapacityUnits { get; set; }
 
     /// <summary>
-    /// A list of key-value pairs that identify or categorize your rescore execution plan. You can also use tags to help control access to the rescore execution plan. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @. Constraints: o min: 0 o max: 200 (structure) A key-value pair that identifies or categorizes a rescore execu- tion plan. A rescore execution plan is an Amazon Kendra Intelli- gent Ranking resource used for provisioning the Rescore API. You can also use a tag to help control access to a rescore execution plan. A tag key and value can consist of Unicode letters, dig- its, white space, and any of the following symbols: _ . : / = + - @. Key -&gt; (string) [required] The key for the tag. Keys are not case sensitive and must be unique. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value associated with the tag. The value can be an empty string but it can't be null. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of key-value pairs that identify or categorize your rescore execution plan. You can also use tags to help control access to the rescore execution plan. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @. Constraints: • min: 0 • max: 200 (structure) A key-value pair that identifies or categorizes a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API. You can also use a tag to help control access to a rescore execution plan. A tag key and value can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @. Key -&gt; (string) [required] The key for the tag. Keys are not case sensitive and must be unique. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The value associated with the tag. The value can be an empty string but it can't be null. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// A token that you provide to identify the request to create a rescore execution plan. Multiple calls to the CreateRescoreExecutionPlanRe- quest API with the same client token will create only one rescore execution plan. Constraints: o min: 1 o max: 64 o pattern: ^$|[\x00-\x7F]+
+    /// A token that you provide to identify the request to create a rescore execution plan. Multiple calls to the CreateRescoreExecutionPlanRequest API with the same client token will create only one rescore execution plan. Constraints: • min: 1 • max: 64 • pattern: ^$|[\x00-\x7F]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

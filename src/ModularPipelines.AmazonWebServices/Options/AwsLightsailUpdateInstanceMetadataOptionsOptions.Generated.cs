@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the Amazon Lightsail instance metadata parameters on a running or stopped instance. When you modify the parameters on a running in- stance, the GetInstance or GetInstances API operation initially re- sponds with a state of pending . After the parameter modifications are successfully applied, the state changes to applied in subsequent GetInstance or GetInstances API calls. For more information, see Use IMDSv2 with an Amazon Lightsail instance in the Amazon Lightsail Devel- oper Guide . S...
+/// Modifies the Amazon Lightsail instance metadata parameters on a running or stopped instance. When you modify the parameters on a running instance, the GetInstance or GetInstances API operation initially responds with a state of pending . After the parameter modifications are successfully applied, the state changes to applied in subsequent GetInstance or GetInstances API calls. For more information, see Use IMDSv2 with an Amazon Lightsail instance in the Amazon Lightsail Developer Guide . See als...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsLightsailUpdateInstanceMetadataOptionsOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the Amazon Lightsail instance metadata parameters on a running or stopped instance. When you modify the parameters on a running in- stance, the GetInstance or GetInstances API operation initially re- sponds with a state of pending . After the parameter modifications are successfully applied, the state changes to applied in subsequent GetInstance or GetInstances API calls. For more information, see Use IMDSv2 with an Amazon Lightsail instance in the Amazon Lightsail Devel- oper Guide . S...
+    /// Modifies the Amazon Lightsail instance metadata parameters on a running or stopped instance. When you modify the parameters on a running instance, the GetInstance or GetInstances API operation initially responds with a state of pending . After the parameter modifications are successfully applied, the state changes to applied in subsequent GetInstance or GetInstances API calls. For more information, see Use IMDSv2 with an Amazon Lightsail instance in the Amazon Lightsail Developer Guide . See als...
     /// </summary>
-    /// <param name="InstanceName">The name of the instance for which to update metadata parameters. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="InstanceName">The name of the instance for which to update metadata parameters. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailUpdateInstanceMetadataOptionsOptions(
         string InstanceName
     )
@@ -57,31 +59,31 @@ public record AwsLightsailUpdateInstanceMetadataOptionsOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the instance for which to update metadata parameters. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the instance for which to update metadata parameters. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--instance-name")]
     public string? InstanceName { get; private init; }
 
     /// <summary>
-    /// The state of token usage for your instance metadata requests. If the parameter is not specified in the request, the default state is op- tional . If the state is optional , you can choose whether to retrieve in- stance metadata with a signed token header on your request. If you retrieve the IAM role credentials without a token, the version 1.0 role credentials are returned. If you retrieve the IAM role creden- tials by using a valid signed token, the version 2.0 role creden- tials are returned. If the state is required , you must send a signed token header with all instance metadata retrieval requests. In this state, retrieving the IAM role credential always returns the version 2.0 credentials. The version 1.0 credentials are not available. Possible values: o optional o required
+    /// The state of token usage for your instance metadata requests. If the parameter is not specified in the request, the default state is optional . If the state is optional , you can choose whether to retrieve instance metadata with a signed token header on your request. If you retrieve the IAM role credentials without a token, the version 1.0 role credentials are returned. If you retrieve the IAM role credentials by using a valid signed token, the version 2.0 role credentials are returned. If the state is required , you must send a signed token header with all instance metadata retrieval requests. In this state, retrieving the IAM role credential always returns the version 2.0 credentials. The version 1.0 credentials are not available. Possible values: • optional • required
     /// </summary>
     [CliOption("--http-tokens")]
     public AwsLightsailUpdateInstanceMetadataOptionsHttpTokens? HttpTokens { get; set; }
 
     /// <summary>
-    /// Enables or disables the HTTP metadata endpoint on your instances. If this parameter is not specified, the existing state is maintained. If you specify a value of disabled , you cannot access your instance metadata. Possible values: o disabled o enabled
+    /// Enables or disables the HTTP metadata endpoint on your instances. If this parameter is not specified, the existing state is maintained. If you specify a value of disabled , you cannot access your instance metadata. Possible values: • disabled • enabled
     /// </summary>
     [CliOption("--http-endpoint")]
     public AwsLightsailUpdateInstanceMetadataOptionsHttpEndpoint? HttpEndpoint { get; set; }
 
     /// <summary>
-    /// The desired HTTP PUT response hop limit for instance metadata re- quests. A larger number means that the instance metadata requests can travel farther. If no parameter is specified, the existing state is maintained.
+    /// The desired HTTP PUT response hop limit for instance metadata requests. A larger number means that the instance metadata requests can travel farther. If no parameter is specified, the existing state is maintained.
     /// </summary>
     [CliOption("--http-put-response-hop-limit")]
     public int? HttpPutResponseHopLimit { get; set; }
 
     /// <summary>
-    /// Enables or disables the IPv6 endpoint for the instance metadata ser- vice. This setting applies only when the HTTP metadata endpoint is enabled. NOTE: This parameter is available only for instances in the Europe (Stockholm) Amazon Web Services Region (eu-north-1 ). Possible values: o disabled o enabled
+    /// Enables or disables the IPv6 endpoint for the instance metadata service. This setting applies only when the HTTP metadata endpoint is enabled. NOTE: This parameter is available only for instances in the Europe (Stockholm) Amazon Web Services Region (eu-north-1 ). Possible values: • disabled • enabled
     /// </summary>
     [CliOption("--http-protocol-ipv6")]
     public AwsLightsailUpdateInstanceMetadataOptionsHttpProtocolIpv6? HttpProtocolIpv6 { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsPartnercentralSellingListTagsForResourceOptions : AwsOptions, I
     /// <summary>
     /// Returns a list of tags for a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource for which you want to retrieve tags. Constraints: o pattern: (?=.{1,1000}$)arn:[\w+=/,.@-]+:partner- central:[\w+=/,.@-]*:[0-9]{12}:cata- log/([a-zA-Z]+)/[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource for which you want to retrieve tags. Constraints: • pattern: (?=.{1,1000}$)arn:[\w+=/,.@-]+:partnercentral:[\w+=/,.@-]*:[0-9]{12}:catalog/([a-zA-Z]+)/[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
     public AwsPartnercentralSellingListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsPartnercentralSellingListTagsForResourceOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource for which you want to retrieve tags. Constraints: o pattern: (?=.{1,1000}$)arn:[\w+=/,.@-]+:partner- central:[\w+=/,.@-]*:[0-9]{12}:cata- log/([a-zA-Z]+)/[\w+=,.@-]+(/[\w+=,.@-]+)*
+    /// The Amazon Resource Name (ARN) of the resource for which you want to retrieve tags. Constraints: • pattern: (?=.{1,1000}$)arn:[\w+=/,.@-]+:partnercentral:[\w+=/,.@-]*:[0-9]{12}:catalog/([a-zA-Z]+)/[\w+=,.@-]+(/[\w+=,.@-]+)*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

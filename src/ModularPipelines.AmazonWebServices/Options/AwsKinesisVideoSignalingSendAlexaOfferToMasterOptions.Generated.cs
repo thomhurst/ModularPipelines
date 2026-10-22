@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API allows you to connect WebRTC-enabled devices with Alexa dis- play devices. When invoked, it sends the Alexa Session Description Pro- tocol (SDP) offer to the master peer. The offer is delivered as soon as the master is connected to the specified signaling channel. This API returns the SDP answer from the connected master. If the master is not connected to the signaling channel, redelivery requests are made until the message expires. See also: AWS API Documentation
+/// This API allows you to connect WebRTC-enabled devices with Alexa display devices. When invoked, it sends the Alexa Session Description Protocol (SDP) offer to the master peer. The offer is delivered as soon as the master is connected to the specified signaling channel. This API returns the SDP answer from the connected master. If the master is not connected to the signaling channel, redelivery requests are made until the message expires. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsKinesisVideoSignalingSendAlexaOfferToMasterOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API allows you to connect WebRTC-enabled devices with Alexa dis- play devices. When invoked, it sends the Alexa Session Description Pro- tocol (SDP) offer to the master peer. The offer is delivered as soon as the master is connected to the specified signaling channel. This API returns the SDP answer from the connected master. If the master is not connected to the signaling channel, redelivery requests are made until the message expires. See also: AWS API Documentation
+    /// This API allows you to connect WebRTC-enabled devices with Alexa display devices. When invoked, it sends the Alexa Session Description Protocol (SDP) offer to the master peer. The offer is delivered as soon as the master is connected to the specified signaling channel. This API returns the SDP answer from the connected master. If the master is not connected to the signaling channel, redelivery requests are made until the message expires. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ChannelArn">The ARN of the signaling channel by which Alexa and the master peer communicate. Constraints: o min: 1 o max: 1024 o pattern: arn:aws:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+</param>
-    /// <param name="SenderClientId">The unique identifier for the sender client. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="MessagePayload">The base64-encoded SDP offer content. Constraints: o min: 1 o max: 10000 o pattern: [a-zA-Z0-9+/=]+</param>
+    /// <param name="ChannelArn">The ARN of the signaling channel by which Alexa and the master peer communicate. Constraints: • min: 1 • max: 1024 • pattern: arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+</param>
+    /// <param name="SenderClientId">The unique identifier for the sender client. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="MessagePayload">The base64-encoded SDP offer content. Constraints: • min: 1 • max: 10000 • pattern: [a-zA-Z0-9+/=]+</param>
     public AwsKinesisVideoSignalingSendAlexaOfferToMasterOptions(
         string ChannelArn,
         string SenderClientId,
@@ -64,19 +66,19 @@ public record AwsKinesisVideoSignalingSendAlexaOfferToMasterOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the signaling channel by which Alexa and the master peer communicate. Constraints: o min: 1 o max: 1024 o pattern: arn:aws:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
+    /// The ARN of the signaling channel by which Alexa and the master peer communicate. Constraints: • min: 1 • max: 1024 • pattern: arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
     /// </summary>
     [CliOption("--channel-arn")]
     public string? ChannelArn { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the sender client. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+
+    /// The unique identifier for the sender client. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--sender-client-id")]
     public string? SenderClientId { get; private init; }
 
     /// <summary>
-    /// The base64-encoded SDP offer content. Constraints: o min: 1 o max: 10000 o pattern: [a-zA-Z0-9+/=]+
+    /// The base64-encoded SDP offer content. Constraints: • min: 1 • max: 10000 • pattern: [a-zA-Z0-9+/=]+
     /// </summary>
     [CliOption("--message-payload")]
     public string? MessagePayload { get; private init; }

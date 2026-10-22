@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsElementalinferenceUpdateDictionaryOptions : AwsOptions, IValida
     /// <summary>
     /// Updates the specified dictionary. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the dictionary to update. Constraints: o min: 1 o max: 19 o pattern: [a-zA-Z0-9]+</param>
+    /// <param name="Id">The ID of the dictionary to update. Constraints: • min: 1 • max: 19 • pattern: [a-zA-Z0-9]+</param>
     public AwsElementalinferenceUpdateDictionaryOptions(
         string Id
     )
@@ -57,25 +59,25 @@ public record AwsElementalinferenceUpdateDictionaryOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the dictionary to update. Constraints: o min: 1 o max: 19 o pattern: [a-zA-Z0-9]+
+    /// The ID of the dictionary to update. Constraints: • min: 1 • max: 19 • pattern: [a-zA-Z0-9]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// A new name for the dictionary. If not specified, the name is not changed. Constraints: o pattern: [a-zA-Z0-9]([a-zA-Z0-9-_]{0,126}[a-zA-Z0-9])?
+    /// A new name for the dictionary. If not specified, the name is not changed. Constraints: • pattern: [a-zA-Z0-9]([a-zA-Z0-9-_]{0,126}[a-zA-Z0-9])?
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A new language for the dictionary. If not specified, the language is not changed. Possible values: o eng o fra o ita o deu o spa o por
+    /// A new language for the dictionary. If not specified, the language is not changed. Possible values: • eng • fra • ita • deu • spa • por
     /// </summary>
     [CliOption("--language")]
     public AwsElementalinferenceUpdateDictionaryLanguage? Language { get; set; }
 
     /// <summary>
-    /// New dictionary entries. If not specified, the entries are not changed. Constraints: o min: 0 o max: 40960
+    /// New dictionary entries. If not specified, the entries are not changed. Constraints: • min: 0 • max: 40960
     /// </summary>
     [CliOption("--entries")]
     public string? Entries { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCustomerProfilesGetWorkflowOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Get details of specified workflow. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="WorkflowId">Unique identifier for the workflow. Constraints: o pattern: [a-f0-9]{32}</param>
+    /// <param name="DomainName">The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="WorkflowId">Unique identifier for the workflow. Constraints: • pattern: [a-f0-9]{32}</param>
     public AwsCustomerProfilesGetWorkflowOptions(
         string DomainName,
         string WorkflowId
@@ -60,13 +62,13 @@ public record AwsCustomerProfilesGetWorkflowOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// Unique identifier for the workflow. Constraints: o pattern: [a-f0-9]{32}
+    /// Unique identifier for the workflow. Constraints: • pattern: [a-f0-9]{32}
     /// </summary>
     [CliOption("--workflow-id")]
     public string? WorkflowId { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Given a user pool ID, returns configuration for sign-in with WebAuthn authenticators and for multi-factor authentication (MFA). This opera- tion describes the following: o The WebAuthn relying party (RP) ID and user-verification settings. o The required, optional, or disabled state of MFA for all user pool users. o The message templates for email and SMS MFA. o The enabled or disabled state of time-based one-time password (TOTP) MFA. NOTE: Amazon Cognito evaluates Identity and Access Management ...
+/// Given a user pool ID, returns configuration for sign-in with WebAuthn authenticators and for multi-factor authentication (MFA). This operation describes the following: • The WebAuthn relying party (RP) ID and user-verification settings. • The required, optional, or disabled state of MFA for all user pool users. • The message templates for email and SMS MFA. • The enabled or disabled state of time-based one-time password (TOTP) MFA. NOTE: Amazon Cognito evaluates Identity and Access Management (I...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsCognitoIdpGetUserPoolMfaConfigOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Given a user pool ID, returns configuration for sign-in with WebAuthn authenticators and for multi-factor authentication (MFA). This opera- tion describes the following: o The WebAuthn relying party (RP) ID and user-verification settings. o The required, optional, or disabled state of MFA for all user pool users. o The message templates for email and SMS MFA. o The enabled or disabled state of time-based one-time password (TOTP) MFA. NOTE: Amazon Cognito evaluates Identity and Access Management ...
+    /// Given a user pool ID, returns configuration for sign-in with WebAuthn authenticators and for multi-factor authentication (MFA). This operation describes the following: • The WebAuthn relying party (RP) ID and user-verification settings. • The required, optional, or disabled state of MFA for all user pool users. • The message templates for email and SMS MFA. • The enabled or disabled state of time-based one-time password (TOTP) MFA. NOTE: Amazon Cognito evaluates Identity and Access Management (I...
     /// </summary>
-    /// <param name="UserPoolId">The ID of the user pool where you want to query WebAuthn and MFA configuration. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="UserPoolId">The ID of the user pool where you want to query WebAuthn and MFA configuration. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+</param>
     public AwsCognitoIdpGetUserPoolMfaConfigOptions(
         string UserPoolId
     )
@@ -56,7 +58,7 @@ public record AwsCognitoIdpGetUserPoolMfaConfigOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the user pool where you want to query WebAuthn and MFA configuration. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// The ID of the user pool where you want to query WebAuthn and MFA configuration. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--user-pool-id")]
     public string? UserPoolId { get; private init; }

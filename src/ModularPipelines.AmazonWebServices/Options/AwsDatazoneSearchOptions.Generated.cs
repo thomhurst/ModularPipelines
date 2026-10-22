@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Searches for assets in Amazon DataZone. Search in Amazon DataZone is a powerful capability that enables users to discover and explore data assets, glossary terms, and data products across their organization. It provides both basic and advanced search functionality, allowing users to find resources based on names, de- scriptions, metadata, and other attributes. Search can be scoped to specific types of resources (like assets, glossary terms, or data prod- ucts) and can be filtered using various c...
+/// Searches for assets in Amazon DataZone. Search in Amazon DataZone is a powerful capability that enables users to discover and explore data assets, glossary terms, and data products across their organization. It provides both basic and advanced search functionality, allowing users to find resources based on names, descriptions, metadata, and other attributes. Search can be scoped to specific types of resources (like assets, glossary terms, or data products) and can be filtered using various crite...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +29,10 @@ public record AwsDatazoneSearchOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Searches for assets in Amazon DataZone. Search in Amazon DataZone is a powerful capability that enables users to discover and explore data assets, glossary terms, and data products across their organization. It provides both basic and advanced search functionality, allowing users to find resources based on names, de- scriptions, metadata, and other attributes. Search can be scoped to specific types of resources (like assets, glossary terms, or data prod- ucts) and can be filtered using various c...
+    /// Searches for assets in Amazon DataZone. Search in Amazon DataZone is a powerful capability that enables users to discover and explore data assets, glossary terms, and data products across their organization. It provides both basic and advanced search functionality, allowing users to find resources based on names, descriptions, metadata, and other attributes. Search can be scoped to specific types of resources (like assets, glossary terms, or data products) and can be filtered using various crite...
     /// </summary>
-    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="SearchScope">The scope of the search. Possible values: o ASSET o GLOSSARY o GLOSSARY_TERM o DATA_PRODUCT</param>
+    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="SearchScope">The scope of the search. Possible values: • ASSET • GLOSSARY • GLOSSARY_TERM • DATA_PRODUCT</param>
     public AwsDatazoneSearchOptions(
         string DomainIdentifier,
         AwsDatazoneSearchSearchScope SearchScope
@@ -61,58 +63,55 @@ public record AwsDatazoneSearchOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon DataZone domain. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The identifier of the Amazon DataZone domain. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The scope of the search. Possible values: o ASSET o GLOSSARY o GLOSSARY_TERM o DATA_PRODUCT
+    /// The scope of the search. Possible values: • ASSET • GLOSSARY • GLOSSARY_TERM • DATA_PRODUCT
     /// </summary>
     [CliOption("--search-scope")]
     public AwsDatazoneSearchSearchScope? SearchScope { get; private init; }
 
     /// <summary>
-    /// The identifier of the owning project specified for the search. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the owning project specified for the search. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--owning-project-identifier")]
     public string? OwningProjectIdentifier { get; set; }
 
     /// <summary>
-    /// Specifies the text for which to search. Constraints: o min: 1 o max: 512
+    /// Specifies the text for which to search. Constraints: • min: 1 • max: 512
     /// </summary>
     [CliOption("--search-text")]
     public string? SearchText { get; set; }
 
     /// <summary>
-    /// The details of the search. Constraints: o min: 1 o max: 10 (structure) The details of the search. attribute -&gt; (string) [required] The search attribute. Constraints: o min: 1 o max: 128 Shorthand Syntax: attribute=string ... JSON Syntax: [ { "attribute": "string" } ... ]
+    /// The details of the search. Constraints: • min: 1 • max: 10 (structure) The details of the search. attribute -&gt; (string) [required] The search attribute. Constraints: • min: 1 • max: 128 Shorthand Syntax: attribute=string ... JSON Syntax: [ { "attribute": "string" } ... ]
     /// </summary>
     [CliOption("--search-in", GroupValues = true)]
     public IEnumerable<string>? SearchIn { get; set; }
 
     /// <summary>
-    /// Specifies the search filters. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: filter, and, or. filter -&gt; (structure) A search filter in Amazon DataZone. attribute -&gt; (string) [required] A search filter attribute in Amazon DataZone. Constraints: o min: 1 o max: 128 value -&gt; (string) A search filter string value in Amazon DataZone. Constraints: o min: 0 o max: 128 intValue -&gt; (long) A search filter integer value in Amazon DataZone. operator -&gt; (string) Specifies the search filter operator. Possible values: o EQ o LE o LT o GE o GT o TEXT_SEARCH and -&gt; (list) The 'and' search filter clause in Amazon DataZone. Constraints: o min: 1 o max: 100 (tagged union structure) A search filter clause in Amazon DataZone. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: filter, and, or. filter -&gt; (structure) A search filter in Amazon DataZone. attribute -&gt; (string) [required] A search filter attribute in Amazon DataZone. Constraints: o min: 1 o max: 128 value -&gt; (string) A search filter string value in Amazon DataZone. Constraints: o min: 0 o max: 128 intValue -&gt; (long) A search filter integer value in Amazon DataZone. operator -&gt; (string) Specifies the search filter operator. Possible values: o EQ o LE o LT o GE o GT o TEXT_SEARCH and -&gt; (list) The 'and' search filter clause in Amazon DataZone. Constraints: o min: 1 o max: 100 ( ... recursive ... ) or -&gt; (list) The 'or' search filter clause in Amazon DataZone. Constraints: o min: 1 o max: 100 ( ... recursive ... ) or -&gt; (list) The 'or' search filter clause in Amazon DataZone. Constraints: o min: 1 o max: 100 (tagged union structure) A search filter clause in Amazon DataZone. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: filter, and, or. filter -&gt; (structure) A search filter in Amazon DataZone. attribute -&gt; (string) [required] A search filter attribute in Amazon DataZone. Constraints: o min: 1 o max: 128 value -&gt; (string) A search filter string value in Amazon DataZone. Constraints: o min: 0 o max: 128 intValue -&gt; (long) A search filter integer value in Amazon DataZone. operator -&gt; (string) Specifies the search filter operator. Possible values: o EQ o LE o LT o GE o GT o TEXT_SEARCH and -&gt; (list) The 'and' search filter clause in Amazon DataZone. Constraints: o min: 1 o max: 100 ( ... recursive ... ) or -&gt; (list) The 'or' search filter clause in Amazon DataZone. Constraints: o min: 1 o max: 100 ( ... recursive ... ) JSON Syntax: { "filter": { "attribute": "string", "value": "string", "intValue": long, "operator": "EQ"|"LE"|"LT"|"GE"|"GT"|"TEXT_SEARCH" }, "and": [ { "filter": { "attribute": "string", "value": "string", "intValue": long, "operator": "EQ"|"LE"|"LT"|"GE"|"GT"|"TEXT_SEARCH" }, "and": [ { ... recursive ... } ... ], "or": [ { ... recursive ... } ... ] } ... ], "or": [ { "filter": { "attribute": "string", "value": "string", "intValue": long, "operator": "EQ"|"LE"|"LT"|"GE"|"GT"|"TEXT_SEARCH" }, "and": [ { ... recursive ... } ... ], "or": [ { ... recursive ... } ... ] } ... ] }
+    /// Specifies the search filters. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: filter, and, or. filter -&gt; (structure) A search filter in Amazon DataZone. attribute -&gt; (string) [required] A search filter attribute in Amazon DataZone. Constraints: • min: 1 • max: 128 value -&gt; (string) A search filter string value in Amazon DataZone. Constraints: • min: 0 • max: 128 intValue -&gt; (long) A search filter integer value in Amazon DataZone. operator -&gt; (string) Specifies the search filter operator. Possible values: • EQ • LE • LT • GE • GT • TEXT_SEARCH and -&gt; (list) The 'and' search filter clause in Amazon DataZone. Constraints: • min: 1 • max: 100 (tagged union structure) A search filter clause in Amazon DataZone. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: filter, and, or. filter -&gt; (structure) A search filter in Amazon DataZone. attribute -&gt; (string) [required] A search filter attribute in Amazon DataZone. Constraints: • min: 1 • max: 128 value -&gt; (string) A search filter string value in Amazon DataZone. Constraints: • min: 0 • max: 128 intValue -&gt; (long) A search filter integer value in Amazon DataZone. operator -&gt; (string) Specifies the search filter operator. Possible values: • EQ • LE • LT • GE • GT • TEXT_SEARCH and -&gt; (list) The 'and' search filter clause in Amazon DataZone. Constraints: • min: 1 • max: 100 ( ... recursive ... ) or -&gt; (list) The 'or' search filter clause in Amazon DataZone. Constraints: • min: 1 • max: 100 ( ... recursive ... ) or -&gt; (list) The 'or' search filter clause in Amazon DataZone. Constraints: • min: 1 • max: 100 (tagged union structure) A search filter clause in Amazon DataZone. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: filter, and, or. filter -&gt; (structure) A search filter in Amazon DataZone. attribute -&gt; (string) [required] A search filter attribute in Amazon DataZone. Constraints: • min: 1 • max: 128 value -&gt; (string) A search filter string value in Amazon DataZone. Constraints: • min: 0 • max: 128 intValue -&gt; (long) A search filter integer value in Amazon DataZone. operator -&gt; (string) Specifies the search filter operator. Possible values: • EQ • LE • LT • GE • GT • TEXT_SEARCH and -&gt; (list) The 'and' search filter clause in Amazon DataZone. Constraints: • min: 1 • max: 100 ( ... recursive ... ) or -&gt; (list) The 'or' search filter clause in Amazon DataZone. Constraints: • min: 1 • max: 100 ( ... recursive ... ) JSON Syntax: { "filter": { "attribute": "string", "value": "string", "intValue": long, "operator": "EQ"|"LE"|"LT"|"GE"|"GT"|"TEXT_SEARCH" }, "and": [ { "filter": { "attribute": "string", "value": "string", "intValue": long, "operator": "EQ"|"LE"|"LT"|"GE"|"GT"|"TEXT_SEARCH" }, "and": [ { ... recursive ... } ... ], "or": [ { ... recursive ... } ... ] } ... ], "or": [ { "filter": { "attribute": "string", "value": "string", "intValue": long, "operator": "EQ"|"LE"|"LT"|"GE"|"GT"|"TEXT_SEARCH" }, "and": [ { ... recursive ... } ... ], "or": [ { ... recursive ... } ... ] } ... ] }
     /// </summary>
     [CliOption("--filters")]
     public string? Filters { get; set; }
 
     /// <summary>
-    /// Specifies the way in which the search results are to be sorted. attribute -&gt; (string) [required] The attribute detail of the way to sort search results. Constraints: o min: 1 o max: 128 order -&gt; (string) The order detail of the wya to sort search results. Possible values: o ASCENDING o DESCENDING Shorthand Syntax: attribute=string,order=string JSON Syntax: { "attribute": "string", "order": "ASCENDING"|"DESCENDING" }
+    /// Specifies the way in which the search results are to be sorted. attribute -&gt; (string) [required] The attribute detail of the way to sort search results. Constraints: • min: 1 • max: 128 order -&gt; (string) The order detail of the wya to sort search results. Possible values: • ASCENDING • DESCENDING Shorthand Syntax: attribute=string,order=string JSON Syntax: { "attribute": "string", "order": "ASCENDING"|"DESCENDING" }
     /// </summary>
     [CliOption("--sort")]
     public string? Sort { get; set; }
 
     /// <summary>
-    /// Specifies additional attributes for the Search action. (string) Possible values: o FORMS o TIME_SERIES_DATA_POINT_FORMS o TEXT_MATCH_RATIONALE Syntax: "string" "string" ...
+    /// Specifies additional attributes for the Search action. (string) Possible values: • FORMS • TIME_SERIES_DATA_POINT_FORMS • TEXT_MATCH_RATIONALE Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--additional-attributes", GroupValues = true)]
     public IEnumerable<string>? AdditionalAttributes { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -122,16 +121,19 @@ public record AwsDatazoneSearchOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 50
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

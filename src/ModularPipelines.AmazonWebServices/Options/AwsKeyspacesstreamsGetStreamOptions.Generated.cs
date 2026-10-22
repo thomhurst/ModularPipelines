@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsKeyspacesstreamsGetStreamOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Returns detailed information about a specific data capture stream for an Amazon Keyspaces table. The information includes the stream's Amazon Resource Name (ARN), creation time, current status, retention period, shard composition, and associated table details. This operation helps you monitor and manage the configuration of your Amazon Keyspaces data streams. See also: AWS API Documentation get-stream is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data...
     /// </summary>
-    /// <param name="StreamArn">The Amazon Resource Name (ARN) of the stream for which detailed in- formation is requested. This uniquely identifies the specific stream you want to get information about. Constraints: o min: 37 o max: 1024</param>
+    /// <param name="StreamArn">The Amazon Resource Name (ARN) of the stream for which detailed information is requested. This uniquely identifies the specific stream you want to get information about. Constraints: • min: 37 • max: 1024</param>
     public AwsKeyspacesstreamsGetStreamOptions(
         string StreamArn
     )
@@ -57,22 +59,19 @@ public record AwsKeyspacesstreamsGetStreamOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the stream for which detailed in- formation is requested. This uniquely identifies the specific stream you want to get information about. Constraints: o min: 37 o max: 1024
+    /// The Amazon Resource Name (ARN) of the stream for which detailed information is requested. This uniquely identifies the specific stream you want to get information about. Constraints: • min: 37 • max: 1024
     /// </summary>
     [CliOption("--stream-arn")]
     public string? StreamArn { get; private init; }
 
     /// <summary>
-    /// Optional filter criteria to apply when retrieving shards. You can filter shards based on their parent shardID to get a list of chil- dren shards to narrow down the results returned by the GetStream op- eration. type -&gt; (string) The type of shard filter to use, which determines how the shar- dId parameter is interpreted. Possible values: o CHILD_SHARDS shardId -&gt; (string) The identifier of a specific shard used to filter results based on the specified filter type. Constraints: o min: 28 o max: 65 Shorthand Syntax: type=string,shardId=string JSON Syntax: { "type": "CHILD_SHARDS", "shardId": "string" }
+    /// Optional filter criteria to apply when retrieving shards. You can filter shards based on their parent shardID to get a list of children shards to narrow down the results returned by the GetStream operation. type -&gt; (string) The type of shard filter to use, which determines how the shardId parameter is interpreted. Possible values: • CHILD_SHARDS shardId -&gt; (string) The identifier of a specific shard used to filter results based on the specified filter type. Constraints: • min: 28 • max: 65 Shorthand Syntax: type=string,shardId=string JSON Syntax: { "type": "CHILD_SHARDS", "shardId": "string" }
     /// </summary>
     [CliOption("--shard-filter")]
     public string? ShardFilter { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -82,16 +81,19 @@ public record AwsKeyspacesstreamsGetStreamOptions : AwsOptions, IValidatableObje
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

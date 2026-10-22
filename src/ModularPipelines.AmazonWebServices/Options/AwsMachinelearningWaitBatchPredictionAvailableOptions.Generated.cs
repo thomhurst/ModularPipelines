@@ -24,64 +24,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsMachinelearningWaitBatchPredictionAvailableOptions : AwsOptions
 {
     /// <summary>
-    /// Use one of the following variables to filter a list of BatchPredic- tion : o CreatedAt - Sets the search criteria to the BatchPrediction cre- ation date. o Status - Sets the search criteria to the BatchPrediction status. o Name - Sets the search criteria to the contents of the BatchPre- diction ** ** Name . System Message: WARNING/2 (&lt;string&gt;:, line 88) Inline strong start-string without end-string. o IAMUser - Sets the search criteria to the user account that in- voked the BatchPrediction creation. o MLModelId - Sets the search criteria to the MLModel used in the BatchPrediction . o DataSourceId - Sets the search criteria to the DataSource used in the BatchPrediction . o DataURI - Sets the search criteria to the data file(s) used in the BatchPrediction . The URL can identify either a file or an Amazon Simple Storage Solution (Amazon S3) bucket or directory. Possible values: o CreatedAt o LastUpdatedAt o Status o Name o IAMUser o MLModelId o DataSourceId o DataURI
+    /// Use one of the following variables to filter a list of BatchPrediction : • CreatedAt - Sets the search criteria to the BatchPrediction creation date. • Status - Sets the search criteria to the BatchPrediction status. • Name - Sets the search criteria to the contents of the BatchPrediction ** ** Name . System Message: WARNING/2 (&lt;string&gt;:, line 88) Inline strong start-string without end-string. • IAMUser - Sets the search criteria to the user account that invoked the BatchPrediction creation. • MLModelId - Sets the search criteria to the MLModel used in the BatchPrediction . • DataSourceId - Sets the search criteria to the DataSource used in the BatchPrediction . • DataURI - Sets the search criteria to the data file(s) used in the BatchPrediction . The URL can identify either a file or an Amazon Simple Storage Solution (Amazon S3) bucket or directory. Possible values: • CreatedAt • LastUpdatedAt • Status • Name • IAMUser • MLModelId • DataSourceId • DataURI
     /// </summary>
     [CliOption("--filter-variable")]
     public AwsMachinelearningWaitBatchPredictionAvailableFilterVariable? FilterVariable { get; set; }
 
     /// <summary>
-    /// The equal to operator. The BatchPrediction results will have Filter- Variable values that exactly match the value specified with EQ . Constraints: o max: 1024 o pattern: .*\S.*|^$
+    /// The equal to operator. The BatchPrediction results will have FilterVariable values that exactly match the value specified with EQ . Constraints: • max: 1024 • pattern: .*\S.*|^$
     /// </summary>
     [CliOption("--eq")]
     public string? Eq { get; set; }
 
     /// <summary>
-    /// The greater than operator. The BatchPrediction results will have FilterVariable values that are greater than the value specified with GT . Constraints: o max: 1024 o pattern: .*\S.*|^$
+    /// The greater than operator. The BatchPrediction results will have FilterVariable values that are greater than the value specified with GT . Constraints: • max: 1024 • pattern: .*\S.*|^$
     /// </summary>
     [CliOption("--gt")]
     public string? Gt { get; set; }
 
     /// <summary>
-    /// The less than operator. The BatchPrediction results will have Fil- terVariable values that are less than the value specified with LT . Constraints: o max: 1024 o pattern: .*\S.*|^$
+    /// The less than operator. The BatchPrediction results will have FilterVariable values that are less than the value specified with LT . Constraints: • max: 1024 • pattern: .*\S.*|^$
     /// </summary>
     [CliOption("--lt")]
     public string? Lt { get; set; }
 
     /// <summary>
-    /// The greater than or equal to operator. The BatchPrediction results will have FilterVariable values that are greater than or equal to the value specified with GE . Constraints: o max: 1024 o pattern: .*\S.*|^$
+    /// The greater than or equal to operator. The BatchPrediction results will have FilterVariable values that are greater than or equal to the value specified with GE . Constraints: • max: 1024 • pattern: .*\S.*|^$
     /// </summary>
     [CliOption("--ge")]
     public string? Ge { get; set; }
 
     /// <summary>
-    /// The less than or equal to operator. The BatchPrediction results will have FilterVariable values that are less than or equal to the value specified with LE . Constraints: o max: 1024 o pattern: .*\S.*|^$
+    /// The less than or equal to operator. The BatchPrediction results will have FilterVariable values that are less than or equal to the value specified with LE . Constraints: • max: 1024 • pattern: .*\S.*|^$
     /// </summary>
     [CliOption("--le")]
     public string? Le { get; set; }
 
     /// <summary>
-    /// The not equal to operator. The BatchPrediction results will have FilterVariable values not equal to the value specified with NE . Constraints: o max: 1024 o pattern: .*\S.*|^$
+    /// The not equal to operator. The BatchPrediction results will have FilterVariable values not equal to the value specified with NE . Constraints: • max: 1024 • pattern: .*\S.*|^$
     /// </summary>
     [CliOption("--ne")]
     public string? Ne { get; set; }
 
     /// <summary>
-    /// A string that is found at the beginning of a variable, such as Name or Id . For example, a Batch Prediction operation could have the Name 2014-09-09-HolidayGiftMailer . To search for this BatchPrediction , select Name for the FilterVariable and any of the following strings for the Prefix : o 2014-09 o 2014-09-09 o 2014-09-09-Holiday Constraints: o max: 1024 o pattern: .*\S.*|^$
+    /// A string that is found at the beginning of a variable, such as Name or Id . For example, a Batch Prediction operation could have the Name 2014-09-09-HolidayGiftMailer . To search for this BatchPrediction , select Name for the FilterVariable and any of the following strings for the Prefix : • 2014-09 • 2014-09-09 • 2014-09-09-Holiday Constraints: • max: 1024 • pattern: .*\S.*|^$
     /// </summary>
     [CliOption("--prefix")]
     public string? Prefix { get; set; }
 
     /// <summary>
-    /// A two-value parameter that determines the sequence of the resulting list of MLModel s. o asc - Arranges the list in ascending order (A-Z, 0-9). o dsc - Arranges the list in descending order (Z-A, 9-0). Results are sorted by FilterVariable . Possible values: o asc o dsc
+    /// A two-value parameter that determines the sequence of the resulting list of MLModel s. • asc - Arranges the list in ascending order (A-Z, 0-9). • dsc - Arranges the list in descending order (Z-A, 9-0). Results are sorted by FilterVariable . Possible values: • asc • dsc
     /// </summary>
     [CliOption("--sort-order")]
     public AwsMachinelearningWaitBatchPredictionAvailableSortOrder? SortOrder { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -91,15 +88,18 @@ public record AwsMachinelearningWaitBatchPredictionAvailableOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an workgroup in Amazon Redshift Serverless. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. If a workgroup is in an account with VPC BPA turned on, the following capabilities are blocked: o Creating a public access workgroup o Modifying a private workgroup to public o Adding a subnet with VPC BPA turned on to the workgroup...
+/// Creates an workgroup in Amazon Redshift Serverless. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. If a workgroup is in an account with VPC BPA turned on, the following capabilities are blocked: • Creating a public access workgroup • Modifying a private workgroup to public • Adding a subnet with VPC BPA turned on to the workgroup...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsRedshiftServerlessCreateWorkgroupOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an workgroup in Amazon Redshift Serverless. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. If a workgroup is in an account with VPC BPA turned on, the following capabilities are blocked: o Creating a public access workgroup o Modifying a private workgroup to public o Adding a subnet with VPC BPA turned on to the workgroup...
+    /// Creates an workgroup in Amazon Redshift Serverless. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. If a workgroup is in an account with VPC BPA turned on, the following capabilities are blocked: • Creating a public access workgroup • Modifying a private workgroup to public • Adding a subnet with VPC BPA turned on to the workgroup...
     /// </summary>
-    /// <param name="NamespaceName">The name of the namespace to associate with the workgroup. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$</param>
-    /// <param name="WorkgroupName">The name of the created workgroup. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$</param>
+    /// <param name="NamespaceName">The name of the namespace to associate with the workgroup. Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$</param>
+    /// <param name="WorkgroupName">The name of the created workgroup. Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$</param>
     public AwsRedshiftServerlessCreateWorkgroupOptions(
         string NamespaceName,
         string WorkgroupName
@@ -60,25 +62,25 @@ public record AwsRedshiftServerlessCreateWorkgroupOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the namespace to associate with the workgroup. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$
+    /// The name of the namespace to associate with the workgroup. Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$
     /// </summary>
     [CliOption("--namespace-name")]
     public string? NamespaceName { get; private init; }
 
     /// <summary>
-    /// The name of the created workgroup. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$
+    /// The name of the created workgroup. Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$
     /// </summary>
     [CliOption("--workgroup-name")]
     public string? WorkgroupName { get; private init; }
 
     /// <summary>
-    /// The base data warehouse capacity of the workgroup in Redshift Pro- cessing Units (RPUs).
+    /// The base data warehouse capacity of the workgroup in Redshift Processing Units (RPUs).
     /// </summary>
     [CliOption("--base-capacity")]
     public int? BaseCapacity { get; set; }
 
     /// <summary>
-    /// An array of parameters to set for advanced control over a database. The options are auto_mv , datestyle , enable_case_sensitive_identi- fier , enable_user_activity_logging , query_group , search_path , require_ssl , use_fips_ssl , and either wlm_json_configuration or query monitoring metrics that let you define performance boundaries. You can either specify individual query monitoring metrics (such as max_scan_row_count , max_query_execution_time ) or use wlm_json_con- figuration to define query queues with rules, but not both. If you're using wlm_json_configuration , the maximum size of parameter- Value is 8000 characters. For more information about query monitor- ing rules and available metrics, see Query monitoring metrics for Amazon Redshift Serverless . (structure) An array of key-value pairs to set for advanced control over Amazon Redshift Serverless. parameterKey -&gt; (string) The key of the parameter. The options are auto_mv , datestyle , enable_case_sensitive_identifier , enable_user_activ- ity_logging , query_group , search_path , require_ssl , use_fips_ssl , and either wlm_json_configuration or query monitoring metrics that let you define performance bound- aries. You can either specify individual query monitoring metrics (such as max_scan_row_count , max_query_execu- tion_time ) or use wlm_json_configuration to define query queues with rules, but not both. If you're using wlm_json_configuration , the maximum size of parameterValue is 8000 characters. For more information about query monitor- ing rules and available metrics, see Query monitoring metrics for Amazon Redshift Serverless . parameterValue -&gt; (string) The value of the parameter to set. Shorthand Syntax: parameterKey=string,parameterValue=string ... JSON Syntax: [ { "parameterKey": "string", "parameterValue": "string" } ... ]
+    /// An array of parameters to set for advanced control over a database. The options are auto_mv , datestyle , enable_case_sensitive_identifier , enable_user_activity_logging , query_group , search_path , require_ssl , use_fips_ssl , and either wlm_json_configuration or query monitoring metrics that let you define performance boundaries. You can either specify individual query monitoring metrics (such as max_scan_row_count , max_query_execution_time ) or use wlm_json_configuration to define query queues with rules, but not both. If you're using wlm_json_configuration , the maximum size of parameterValue is 8000 characters. For more information about query monitoring rules and available metrics, see Query monitoring metrics for Amazon Redshift Serverless . (structure) An array of key-value pairs to set for advanced control over Amazon Redshift Serverless. parameterKey -&gt; (string) The key of the parameter. The options are auto_mv , datestyle , enable_case_sensitive_identifier , enable_user_activity_logging , query_group , search_path , require_ssl , use_fips_ssl , and either wlm_json_configuration or query monitoring metrics that let you define performance boundaries. You can either specify individual query monitoring metrics (such as max_scan_row_count , max_query_execution_time ) or use wlm_json_configuration to define query queues with rules, but not both. If you're using wlm_json_configuration , the maximum size of parameterValue is 8000 characters. For more information about query monitoring rules and available metrics, see Query monitoring metrics for Amazon Redshift Serverless . parameterValue -&gt; (string) The value of the parameter to set. Shorthand Syntax: parameterKey=string,parameterValue=string ... JSON Syntax: [ { "parameterKey": "string", "parameterValue": "string" } ... ]
     /// </summary>
     [CliOption("--config-parameters", GroupValues = true)]
     public IEnumerable<string>? ConfigParameters { get; set; }
@@ -90,13 +92,13 @@ public record AwsRedshiftServerlessCreateWorkgroupOptions : AwsOptions, IValidat
     public bool? EnhancedVpcRouting { get; set; }
 
     /// <summary>
-    /// tomatic-optimization (boolean) If true , allocates additional compute resources for running auto- matic optimization operations. Default: false
+    /// If true , allocates additional compute resources for running automatic optimization operations. Default: false
     /// </summary>
     [CliFlag("--extra-compute-for-automatic-optimization", NegatedName = "--no-extra-compute-for-automatic-optimization")]
     public bool? ExtraComputeForAutomaticOptimization { get; set; }
 
     /// <summary>
-    /// The IP address type that the workgroup supports. Possible values are ipv4 and dualstack . Constraints: o pattern: ^(ipv4|dualstack)$
+    /// The IP address type that the workgroup supports. Possible values are ipv4 and dualstack . Constraints: • pattern: ^(ipv4|dualstack)$
     /// </summary>
     [CliOption("--ip-address-type")]
     public string? IpAddressType { get; set; }
@@ -114,7 +116,7 @@ public record AwsRedshiftServerlessCreateWorkgroupOptions : AwsOptions, IValidat
     public int? Port { get; set; }
 
     /// <summary>
-    /// An object that represents the price performance target settings for the workgroup. level -&gt; (integer) The target price performance level for the workgroup. Valid val- ues include 1, 25, 50, 75, and 100. These correspond to the price performance levels LOW_COST, ECONOMICAL, BALANCED, RE- SOURCEFUL, and HIGH_PERFORMANCE. Constraints: o min: 1 o max: 100 status -&gt; (string) Whether the price performance target is enabled for the work- group. Possible values: o ENABLED o DISABLED Shorthand Syntax: level=integer,status=string JSON Syntax: { "level": integer, "status": "ENABLED"|"DISABLED" }
+    /// An object that represents the price performance target settings for the workgroup. level -&gt; (integer) The target price performance level for the workgroup. Valid values include 1, 25, 50, 75, and 100. These correspond to the price performance levels LOW_COST, ECONOMICAL, BALANCED, RESOURCEFUL, and HIGH_PERFORMANCE. Constraints: • min: 1 • max: 100 status -&gt; (string) Whether the price performance target is enabled for the workgroup. Possible values: • ENABLED • DISABLED Shorthand Syntax: level=integer,status=string JSON Syntax: { "level": integer, "status": "ENABLED"|"DISABLED" }
     /// </summary>
     [CliOption("--price-performance-target")]
     public string? PricePerformanceTarget { get; set; }
@@ -138,13 +140,13 @@ public record AwsRedshiftServerlessCreateWorkgroupOptions : AwsOptions, IValidat
     public IEnumerable<string>? SubnetIds { get; set; }
 
     /// <summary>
-    /// A array of tag instances. Constraints: o min: 0 o max: 200 (structure) A map of key-value pairs. key -&gt; (string) [required] The key to use in the tag. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// A array of tag instances. Constraints: • min: 0 • max: 200 (structure) A map of key-value pairs. key -&gt; (string) [required] The key to use in the tag. Constraints: • min: 1 • max: 128 value -&gt; (string) [required] The value of the tag. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// An optional parameter for the name of the track for the workgroup. If you don't provide a track name, the workgroup is assigned to the current track. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9_]+$
+    /// An optional parameter for the name of the track for the workgroup. If you don't provide a track name, the workgroup is assigned to the current track. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9_]+$
     /// </summary>
     [CliOption("--track-name")]
     public string? TrackName { get; set; }

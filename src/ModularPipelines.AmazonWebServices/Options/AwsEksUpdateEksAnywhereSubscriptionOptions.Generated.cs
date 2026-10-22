@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,7 +31,7 @@ public record AwsEksUpdateEksAnywhereSubscriptionOptions : AwsOptions, IValidata
     /// Update an EKS Anywhere Subscription. Only auto renewal and tags can be updated after subscription creation. See also: AWS API Documentation
     /// </summary>
     /// <param name="Id">The ID of the subscription.</param>
-    /// <param name="AutoRenew">A boolean indicating whether or not to automatically renew the sub- scription.</param>
+    /// <param name="AutoRenew">A boolean indicating whether or not to automatically renew the subscription.</param>
     public AwsEksUpdateEksAnywhereSubscriptionOptions(
         string Id,
         bool AutoRenew
@@ -66,7 +68,7 @@ public record AwsEksUpdateEksAnywhereSubscriptionOptions : AwsOptions, IValidata
     public string? Id { get; private init; }
 
     /// <summary>
-    /// A boolean indicating whether or not to automatically renew the sub- scription.
+    /// A boolean indicating whether or not to automatically renew the subscription.
     /// </summary>
     [CliFlag("--auto-renew", NegatedName = "--no-auto-renew")]
     public bool? AutoRenew { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the cluster with the configuration that is specified in the re- quest body. See also: AWS API Documentation
+/// Updates the cluster with the configuration that is specified in the request body. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsKafkaUpdateClusterConfigurationOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the cluster with the configuration that is specified in the re- quest body. See also: AWS API Documentation
+    /// Updates the cluster with the configuration that is specified in the request body. See also: AWS API Documentation
     /// </summary>
     /// <param name="ClusterArn">The Amazon Resource Name (ARN) that uniquely identifies the cluster.</param>
-    /// <param name="ConfigurationInfo">Represents the configuration that you want MSK to use for the bro- kers in a cluster. Arn -&gt; (string) [required] ARN of the configuration to use. Revision -&gt; (long) [required] The revision of the configuration to use. Shorthand Syntax: Arn=string,Revision=long JSON Syntax: { "Arn": "string", "Revision": long }</param>
+    /// <param name="ConfigurationInfo">Represents the configuration that you want MSK to use for the brokers in a cluster. Arn -&gt; (string) [required] ARN of the configuration to use. Revision -&gt; (long) [required] The revision of the configuration to use. Shorthand Syntax: Arn=string,Revision=long JSON Syntax: { "Arn": "string", "Revision": long }</param>
     /// <param name="CurrentVersion">The version of the cluster that needs to be updated.</param>
     public AwsKafkaUpdateClusterConfigurationOptions(
         string ClusterArn,
@@ -70,7 +72,7 @@ public record AwsKafkaUpdateClusterConfigurationOptions : AwsOptions, IValidatab
     public string? ClusterArn { get; private init; }
 
     /// <summary>
-    /// Represents the configuration that you want MSK to use for the bro- kers in a cluster. Arn -&gt; (string) [required] ARN of the configuration to use. Revision -&gt; (long) [required] The revision of the configuration to use. Shorthand Syntax: Arn=string,Revision=long JSON Syntax: { "Arn": "string", "Revision": long }
+    /// Represents the configuration that you want MSK to use for the brokers in a cluster. Arn -&gt; (string) [required] ARN of the configuration to use. Revision -&gt; (long) [required] The revision of the configuration to use. Shorthand Syntax: Arn=string,Revision=long JSON Syntax: { "Arn": "string", "Revision": long }
     /// </summary>
     [CliOption("--configuration-info")]
     public string? ConfigurationInfo { get; private init; }

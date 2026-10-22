@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCloudfrontCreateRealtimeLogConfigOptions : AwsOptions, IValidat
     /// <summary>
     /// Creates a real-time log configuration. After you create a real-time log configuration, you can attach it to one or more cache behaviors to send real-time log data to the specified Amazon Kinesis data stream. For more information about real-time log configurations, see Real-time logs in the Amazon CloudFront Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="EndPoints">Contains information about the Amazon Kinesis data stream where you are sending real-time log data. (structure) Contains information about the Amazon Kinesis data stream where you're sending real-time log data in a real-time log configura- tion. StreamType -&gt; (string) [required] The type of data stream where you are sending real-time log data. The only valid value is Kinesis . KinesisStreamConfig -&gt; (structure) Contains information about the Amazon Kinesis data stream where you are sending real-time log data in a real-time log configuration. RoleARN -&gt; (string) [required] The Amazon Resource Name (ARN) of an Identity and Access Management (IAM) role that CloudFront can use to send real-time log data to your Kinesis data stream. For more information the IAM role, see Real-time log con- figuration IAM role in the Amazon CloudFront Developer Guide . StreamARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the Kinesis data stream where you are sending real-time log data. Shorthand Syntax: StreamType=string,KinesisStreamConfig={RoleARN=string,StreamARN=string} ... JSON Syntax: [ { "StreamType": "string", "KinesisStreamConfig": { "RoleARN": "string", "StreamARN": "string" } } ... ]</param>
+    /// <param name="EndPoints">Contains information about the Amazon Kinesis data stream where you are sending real-time log data. (structure) Contains information about the Amazon Kinesis data stream where you're sending real-time log data in a real-time log configuration. StreamType -&gt; (string) [required] The type of data stream where you are sending real-time log data. The only valid value is Kinesis . KinesisStreamConfig -&gt; (structure) Contains information about the Amazon Kinesis data stream where you are sending real-time log data in a real-time log configuration. RoleARN -&gt; (string) [required] The Amazon Resource Name (ARN) of an Identity and Access Management (IAM) role that CloudFront can use to send real-time log data to your Kinesis data stream. For more information the IAM role, see Real-time log configuration IAM role in the Amazon CloudFront Developer Guide . StreamARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the Kinesis data stream where you are sending real-time log data. Shorthand Syntax: StreamType=string,KinesisStreamConfig={RoleARN=string,StreamARN=string} ... JSON Syntax: [ { "StreamType": "string", "KinesisStreamConfig": { "RoleARN": "string", "StreamARN": "string" } } ... ]</param>
     /// <param name="Fields">A list of fields to include in each real-time log record. For more information about fields, see Real-time log configuration fields in the Amazon CloudFront Developer Guide . (string) Syntax: "string" "string" ...</param>
     /// <param name="Name">A unique name to identify this real-time log configuration.</param>
     /// <param name="SamplingRate">The sampling rate for this real-time log configuration. You can specify a whole number between 1 and 100 (inclusive) to determine the percentage of viewer requests that are represented in the real-time log data.</param>
@@ -35,7 +37,7 @@ public record AwsCloudfrontCreateRealtimeLogConfigOptions : AwsOptions, IValidat
         IEnumerable<string> EndPoints,
         IEnumerable<string> Fields,
         string Name,
-        int SamplingRate
+        long SamplingRate
     )
     {
         {
@@ -89,7 +91,7 @@ public record AwsCloudfrontCreateRealtimeLogConfigOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Contains information about the Amazon Kinesis data stream where you are sending real-time log data. (structure) Contains information about the Amazon Kinesis data stream where you're sending real-time log data in a real-time log configura- tion. StreamType -&gt; (string) [required] The type of data stream where you are sending real-time log data. The only valid value is Kinesis . KinesisStreamConfig -&gt; (structure) Contains information about the Amazon Kinesis data stream where you are sending real-time log data in a real-time log configuration. RoleARN -&gt; (string) [required] The Amazon Resource Name (ARN) of an Identity and Access Management (IAM) role that CloudFront can use to send real-time log data to your Kinesis data stream. For more information the IAM role, see Real-time log con- figuration IAM role in the Amazon CloudFront Developer Guide . StreamARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the Kinesis data stream where you are sending real-time log data. Shorthand Syntax: StreamType=string,KinesisStreamConfig={RoleARN=string,StreamARN=string} ... JSON Syntax: [ { "StreamType": "string", "KinesisStreamConfig": { "RoleARN": "string", "StreamARN": "string" } } ... ]
+    /// Contains information about the Amazon Kinesis data stream where you are sending real-time log data. (structure) Contains information about the Amazon Kinesis data stream where you're sending real-time log data in a real-time log configuration. StreamType -&gt; (string) [required] The type of data stream where you are sending real-time log data. The only valid value is Kinesis . KinesisStreamConfig -&gt; (structure) Contains information about the Amazon Kinesis data stream where you are sending real-time log data in a real-time log configuration. RoleARN -&gt; (string) [required] The Amazon Resource Name (ARN) of an Identity and Access Management (IAM) role that CloudFront can use to send real-time log data to your Kinesis data stream. For more information the IAM role, see Real-time log configuration IAM role in the Amazon CloudFront Developer Guide . StreamARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the Kinesis data stream where you are sending real-time log data. Shorthand Syntax: StreamType=string,KinesisStreamConfig={RoleARN=string,StreamARN=string} ... JSON Syntax: [ { "StreamType": "string", "KinesisStreamConfig": { "RoleARN": "string", "StreamARN": "string" } } ... ]
     /// </summary>
     [CliOption("--end-points", GroupValues = true)]
     public IEnumerable<string>? EndPoints { get; private init; }
@@ -110,7 +112,7 @@ public record AwsCloudfrontCreateRealtimeLogConfigOptions : AwsOptions, IValidat
     /// The sampling rate for this real-time log configuration. You can specify a whole number between 1 and 100 (inclusive) to determine the percentage of viewer requests that are represented in the real-time log data.
     /// </summary>
     [CliOption("--sampling-rate")]
-    public int? SamplingRate { get; private init; }
+    public long? SamplingRate { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

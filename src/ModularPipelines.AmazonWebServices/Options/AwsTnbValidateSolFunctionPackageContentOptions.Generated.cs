@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Validates function package content. This can be used as a dry run be- fore uploading function package content with PutSolFunctionPackageContent . A function package is a .zip file in CSAR (Cloud Service Archive) for- mat that contains a network function (an ETSI standard telecommunica- tion application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your net- work. See also: AWS API Documentation
+/// Validates function package content. This can be used as a dry run before uploading function package content with PutSolFunctionPackageContent . A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsTnbValidateSolFunctionPackageContentOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Validates function package content. This can be used as a dry run be- fore uploading function package content with PutSolFunctionPackageContent . A function package is a .zip file in CSAR (Cloud Service Archive) for- mat that contains a network function (an ETSI standard telecommunica- tion application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your net- work. See also: AWS API Documentation
+    /// Validates function package content. This can be used as a dry run before uploading function package content with PutSolFunctionPackageContent . A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network. See also: AWS API Documentation
     /// </summary>
     /// <param name="File">Function package file.</param>
-    /// <param name="VnfPkgId">Function package ID. Constraints: o pattern: ^fp-[a-f0-9]{17}$</param>
+    /// <param name="VnfPkgId">Function package ID. Constraints: • pattern: ^fp-[a-f0-9]{17}$</param>
     public AwsTnbValidateSolFunctionPackageContentOptions(
         string File,
         string VnfPkgId
@@ -66,13 +68,13 @@ public record AwsTnbValidateSolFunctionPackageContentOptions : AwsOptions, IVali
     public string? File { get; private init; }
 
     /// <summary>
-    /// Function package ID. Constraints: o pattern: ^fp-[a-f0-9]{17}$
+    /// Function package ID. Constraints: • pattern: ^fp-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--vnf-pkg-id")]
     public string? VnfPkgId { get; private init; }
 
     /// <summary>
-    /// Function package content type. Possible values: o application/zip
+    /// Function package content type. Possible values: • application/zip
     /// </summary>
     [CliOption("--content-type")]
     public string? ContentType { get; set; }

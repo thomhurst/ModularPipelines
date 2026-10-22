@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a traffic distribution group given an Connect Customer instance that has been replicated. NOTE: The SignInConfig distribution is available only on a default Traf- ficDistributionGroup (see the IsDefault parameter in the TrafficDistributionGroup data type). If you call UpdateTrafficDis- tribution with a modified SignInConfig and a non-default TrafficDis- tributionGroup , an InvalidRequestException is returned. For more information about creating traffic distribution groups, see Set up tra...
+/// Creates a traffic distribution group given an Connect Customer instance that has been replicated. NOTE: The SignInConfig distribution is available only on a default TrafficDistributionGroup (see the IsDefault parameter in the TrafficDistributionGroup data type). If you call UpdateTrafficDistribution with a modified SignInConfig and a non-default TrafficDistributionGroup , an InvalidRequestException is returned. For more information about creating traffic distribution groups, see Set up traffic d...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsConnectCreateTrafficDistributionGroupOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a traffic distribution group given an Connect Customer instance that has been replicated. NOTE: The SignInConfig distribution is available only on a default Traf- ficDistributionGroup (see the IsDefault parameter in the TrafficDistributionGroup data type). If you call UpdateTrafficDis- tribution with a modified SignInConfig and a non-default TrafficDis- tributionGroup , an InvalidRequestException is returned. For more information about creating traffic distribution groups, see Set up tra...
+    /// Creates a traffic distribution group given an Connect Customer instance that has been replicated. NOTE: The SignInConfig distribution is available only on a default TrafficDistributionGroup (see the IsDefault parameter in the TrafficDistributionGroup data type). If you call UpdateTrafficDistribution with a modified SignInConfig and a non-default TrafficDistributionGroup , an InvalidRequestException is returned. For more information about creating traffic distribution groups, see Set up traffic d...
     /// </summary>
-    /// <param name="Name">The name for the traffic distribution group. Constraints: o min: 1 o max: 128 o pattern: (^[\S].*[\S]$)|(^[\S]$)</param>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance that has been repli- cated. You can find the instanceId in the ARN of the instance. Constraints: o min: 1 o max: 250 o pattern: ^(arn:([a-zA-Z0-9-]+):con- nect:[a-z]+-[a-z-]+-[0-9]+:[0-9]+:instance/)?[a-zA-Z0-9_-]+$</param>
+    /// <param name="Name">The name for the traffic distribution group. Constraints: • min: 1 • max: 128 • pattern: (^[\S].*[\S]$)|(^[\S]$)</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance that has been replicated. You can find the instanceId in the ARN of the instance. Constraints: • min: 1 • max: 250 • pattern: ^(arn:([a-zA-Z0-9-]+):connect:[a-z]+-[a-z-]+-[0-9]+:[0-9]+:instance/)?[a-zA-Z0-9_-]+$</param>
     public AwsConnectCreateTrafficDistributionGroupOptions(
         string Name,
         string InstanceId
@@ -62,32 +63,32 @@ public record AwsConnectCreateTrafficDistributionGroupOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name for the traffic distribution group. Constraints: o min: 1 o max: 128 o pattern: (^[\S].*[\S]$)|(^[\S]$)
+    /// The name for the traffic distribution group. Constraints: • min: 1 • max: 128 • pattern: (^[\S].*[\S]$)|(^[\S]$)
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The identifier of the Connect Customer instance that has been repli- cated. You can find the instanceId in the ARN of the instance. Constraints: o min: 1 o max: 250 o pattern: ^(arn:([a-zA-Z0-9-]+):con- nect:[a-z]+-[a-z-]+-[0-9]+:[0-9]+:instance/)?[a-zA-Z0-9_-]+$
+    /// The identifier of the Connect Customer instance that has been replicated. You can find the instanceId in the ARN of the instance. Constraints: • min: 1 • max: 250 • pattern: ^(arn:([a-zA-Z0-9-]+):connect:[a-z]+-[a-z-]+-[0-9]+:[0-9]+:instance/)?[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// A description for the traffic distribution group. Constraints: o min: 1 o max: 250 o pattern: (^[\S].*[\S]$)|(^[\S]$)
+    /// A description for the traffic distribution group. Constraints: • min: 1 • max: 250 • pattern: (^[\S].*[\S]$)|(^[\S]$)
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for this re- source. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

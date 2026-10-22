@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of your queues that have the RedrivePolicy queue at- tribute configured with a dead-letter queue. The ListDeadLetterSourceQueues methods supports pagination. Set parame- ter MaxResults in the request to specify the maximum number of results to be returned in the response. If you do not set MaxResults , the re- sponse includes a maximum of 1,000 results. If you set MaxResults and there are additional results to display, the response includes a value for NextToken . Use NextToken as...
+/// Returns a list of your queues that have the RedrivePolicy queue attribute configured with a dead-letter queue. The ListDeadLetterSourceQueues methods supports pagination. Set parameter MaxResults in the request to specify the maximum number of results to be returned in the response. If you do not set MaxResults , the response includes a maximum of 1,000 results. If you set MaxResults and there are additional results to display, the response includes a value for NextToken . Use NextToken as a par...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +28,7 @@ public record AwsSqsListDeadLetterSourceQueuesOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a list of your queues that have the RedrivePolicy queue at- tribute configured with a dead-letter queue. The ListDeadLetterSourceQueues methods supports pagination. Set parame- ter MaxResults in the request to specify the maximum number of results to be returned in the response. If you do not set MaxResults , the re- sponse includes a maximum of 1,000 results. If you set MaxResults and there are additional results to display, the response includes a value for NextToken . Use NextToken as...
+    /// Returns a list of your queues that have the RedrivePolicy queue attribute configured with a dead-letter queue. The ListDeadLetterSourceQueues methods supports pagination. Set parameter MaxResults in the request to specify the maximum number of results to be returned in the response. If you do not set MaxResults , the response includes a maximum of 1,000 results. If you set MaxResults and there are additional results to display, the response includes a value for NextToken . Use NextToken as a par...
     /// </summary>
     /// <param name="QueueUrl">The URL of a dead-letter queue. Queue URLs and names are case-sensitive.</param>
     public AwsSqsListDeadLetterSourceQueuesOptions(
@@ -65,9 +67,6 @@ public record AwsSqsListDeadLetterSourceQueuesOptions : AwsOptions, IValidatable
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -76,16 +75,19 @@ public record AwsSqsListDeadLetterSourceQueuesOptions : AwsOptions, IValidatable
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

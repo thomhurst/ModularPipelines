@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsGlueBatchDeleteConnectionOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Deletes a list of connection definitions from the Data Catalog. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectionNameList">A list of names of the connections to delete. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Syntax: "string" "string" ...</param>
+    /// <param name="ConnectionNameList">A list of names of the connections to delete. Constraints: • min: 0 • max: 25 (string) Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Syntax: "string" "string" ...</param>
     public AwsGlueBatchDeleteConnectionOptions(
         IEnumerable<string> ConnectionNameList
     )
@@ -67,13 +69,13 @@ public record AwsGlueBatchDeleteConnectionOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of names of the connections to delete. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Syntax: "string" "string" ...
+    /// A list of names of the connections to delete. Constraints: • min: 0 • max: 25 (string) Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--connection-name-list", GroupValues = true)]
     public IEnumerable<string>? ConnectionNameList { get; private init; }
 
     /// <summary>
-    /// The ID of the Data Catalog in which the connections reside. If none is provided, the Amazon Web Services account ID is used by default. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The ID of the Data Catalog in which the connections reside. If none is provided, the Amazon Web Services account ID is used by default. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }

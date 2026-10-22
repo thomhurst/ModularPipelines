@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a branch in a repository and points the branch to a commit. NOTE: Calling the create branch operation does not set a repository's de- fault branch. To do this, call the update default branch operation. See also: AWS API Documentation
+/// Creates a branch in a repository and points the branch to a commit. NOTE: Calling the create branch operation does not set a repository's default branch. To do this, call the update default branch operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsCodecommitCreateBranchOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a branch in a repository and points the branch to a commit. NOTE: Calling the create branch operation does not set a repository's de- fault branch. To do this, call the update default branch operation. See also: AWS API Documentation
+    /// Creates a branch in a repository and points the branch to a commit. NOTE: Calling the create branch operation does not set a repository's default branch. To do this, call the update default branch operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryName">The name of the repository in which you want to create the new branch. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
-    /// <param name="BranchName">The name of the new branch to create. Constraints: o min: 1 o max: 256</param>
+    /// <param name="RepositoryName">The name of the repository in which you want to create the new branch. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+</param>
+    /// <param name="BranchName">The name of the new branch to create. Constraints: • min: 1 • max: 256</param>
     /// <param name="CommitId">The ID of the commit to point the new branch to.</param>
     public AwsCodecommitCreateBranchOptions(
         string RepositoryName,
@@ -64,13 +66,13 @@ public record AwsCodecommitCreateBranchOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the repository in which you want to create the new branch. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// The name of the repository in which you want to create the new branch. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
 
     /// <summary>
-    /// The name of the new branch to create. Constraints: o min: 1 o max: 256
+    /// The name of the new branch to create. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--branch-name")]
     public string? BranchName { get; private init; }

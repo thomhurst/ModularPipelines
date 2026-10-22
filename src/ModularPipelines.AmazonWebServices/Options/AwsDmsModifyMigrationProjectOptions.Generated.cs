@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the specified migration project using the provided parameters. Required permissions: dms:UpdateMigrationProject . For more infor- mation, see Actions, resources, and condition keys for Database Mi- gration Service . NOTE: The migration project must be closed before you can modify it. See also: AWS API Documentation
+/// Modifies the specified migration project using the provided parameters. Required permissions: dms:UpdateMigrationProject . For more information, see Actions, resources, and condition keys for Database Migration Service . NOTE: The migration project must be closed before you can modify it. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsDmsModifyMigrationProjectOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the specified migration project using the provided parameters. Required permissions: dms:UpdateMigrationProject . For more infor- mation, see Actions, resources, and condition keys for Database Mi- gration Service . NOTE: The migration project must be closed before you can modify it. See also: AWS API Documentation
+    /// Modifies the specified migration project using the provided parameters. Required permissions: dms:UpdateMigrationProject . For more information, see Actions, resources, and condition keys for Database Migration Service . NOTE: The migration project must be closed before you can modify it. See also: AWS API Documentation
     /// </summary>
     /// <param name="MigrationProjectIdentifier">The identifier of the migration project. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen, or contain two consecutive hyphens.</param>
     public AwsDmsModifyMigrationProjectOptions(
@@ -68,13 +70,13 @@ public record AwsDmsModifyMigrationProjectOptions : AwsOptions, IValidatableObje
     public string? MigrationProjectName { get; set; }
 
     /// <summary>
-    /// Information about the source data provider, including the name, ARN, and Amazon Web Services Secrets Manager parameters. (structure) Information about a data provider. DataProviderIdentifier -&gt; (string) [required] The name or Amazon Resource Name (ARN) of the data provider. SecretsManagerSecretId -&gt; (string) The identifier of the Amazon Web Services Secrets Manager Se- cret used to store access credentials for the data provider. SecretsManagerAccessRoleArn -&gt; (string) The ARN of the role used to access Amazon Web Services Se- crets Manager. Shorthand Syntax: DataProviderIdentifier=string,SecretsManagerSecretId=string,SecretsManagerAccessRoleArn=string ... JSON Syntax: [ { "DataProviderIdentifier": "string", "SecretsManagerSecretId": "string", "SecretsManagerAccessRoleArn": "string" } ... ]
+    /// Information about the source data provider, including the name, ARN, and Amazon Web Services Secrets Manager parameters. (structure) Information about a data provider. DataProviderIdentifier -&gt; (string) [required] The name or Amazon Resource Name (ARN) of the data provider. SecretsManagerSecretId -&gt; (string) The identifier of the Amazon Web Services Secrets Manager Secret used to store access credentials for the data provider. SecretsManagerAccessRoleArn -&gt; (string) The ARN of the role used to access Amazon Web Services Secrets Manager. Shorthand Syntax: DataProviderIdentifier=string,SecretsManagerSecretId=string,SecretsManagerAccessRoleArn=string ... JSON Syntax: [ { "DataProviderIdentifier": "string", "SecretsManagerSecretId": "string", "SecretsManagerAccessRoleArn": "string" } ... ]
     /// </summary>
     [CliOption("--source-data-provider-descriptors", GroupValues = true)]
     public IEnumerable<string>? SourceDataProviderDescriptors { get; set; }
 
     /// <summary>
-    /// Information about the target data provider, including the name, ARN, and Amazon Web Services Secrets Manager parameters. (structure) Information about a data provider. DataProviderIdentifier -&gt; (string) [required] The name or Amazon Resource Name (ARN) of the data provider. SecretsManagerSecretId -&gt; (string) The identifier of the Amazon Web Services Secrets Manager Se- cret used to store access credentials for the data provider. SecretsManagerAccessRoleArn -&gt; (string) The ARN of the role used to access Amazon Web Services Se- crets Manager. Shorthand Syntax: DataProviderIdentifier=string,SecretsManagerSecretId=string,SecretsManagerAccessRoleArn=string ... JSON Syntax: [ { "DataProviderIdentifier": "string", "SecretsManagerSecretId": "string", "SecretsManagerAccessRoleArn": "string" } ... ]
+    /// Information about the target data provider, including the name, ARN, and Amazon Web Services Secrets Manager parameters. (structure) Information about a data provider. DataProviderIdentifier -&gt; (string) [required] The name or Amazon Resource Name (ARN) of the data provider. SecretsManagerSecretId -&gt; (string) The identifier of the Amazon Web Services Secrets Manager Secret used to store access credentials for the data provider. SecretsManagerAccessRoleArn -&gt; (string) The ARN of the role used to access Amazon Web Services Secrets Manager. Shorthand Syntax: DataProviderIdentifier=string,SecretsManagerSecretId=string,SecretsManagerAccessRoleArn=string ... JSON Syntax: [ { "DataProviderIdentifier": "string", "SecretsManagerSecretId": "string", "SecretsManagerAccessRoleArn": "string" } ... ]
     /// </summary>
     [CliOption("--target-data-provider-descriptors", GroupValues = true)]
     public IEnumerable<string>? TargetDataProviderDescriptors { get; set; }
@@ -86,7 +88,7 @@ public record AwsDmsModifyMigrationProjectOptions : AwsOptions, IValidatableObje
     public string? InstanceProfileIdentifier { get; set; }
 
     /// <summary>
-    /// A JSON string that specifies the transformation rules for the migra- tion project. Transformation rules let you customize how DMS Schema Conversion converts your source database objects, including renam- ing, adding prefixes or suffixes, and changing data types. For the transformation rule format and examples, see Transformation rules in DMS Schema Conversion . NOTE: Homogeneous data migrations do not support transformation rules.
+    /// A JSON string that specifies the transformation rules for the migration project. Transformation rules let you customize how DMS Schema Conversion converts your source database objects, including renaming, adding prefixes or suffixes, and changing data types. For the transformation rule format and examples, see Transformation rules in DMS Schema Conversion . NOTE: Homogeneous data migrations do not support transformation rules.
     /// </summary>
     [CliOption("--transformation-rules")]
     public string? TransformationRules { get; set; }

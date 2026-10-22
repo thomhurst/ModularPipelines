@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsEfsDescribeBackupPolicyOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns the backup policy for the specified EFS file system. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FileSystemId">Specifies which EFS file system for which to retrieve the BackupPol- icy . Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$</param>
+    /// <param name="FileSystemId">Specifies which EFS file system for which to retrieve the BackupPolicy . Constraints: • max: 128 • pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$</param>
     public AwsEfsDescribeBackupPolicyOptions(
         string FileSystemId
     )
@@ -56,7 +58,7 @@ public record AwsEfsDescribeBackupPolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies which EFS file system for which to retrieve the BackupPol- icy . Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$
+    /// Specifies which EFS file system for which to retrieve the BackupPolicy . Constraints: • max: 128 • pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$
     /// </summary>
     [CliOption("--file-system-id")]
     public string? FileSystemId { get; private init; }

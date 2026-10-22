@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCloudfrontGetContinuousDeploymentPolicyConfigOptions : AwsOptio
     /// <summary>
     /// Gets configuration information about a continuous deployment policy. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The identifier of the continuous deployment policy whose configura- tion you are getting.</param>
+    /// <param name="Id">The identifier of the continuous deployment policy whose configuration you are getting.</param>
     public AwsCloudfrontGetContinuousDeploymentPolicyConfigOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsCloudfrontGetContinuousDeploymentPolicyConfigOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the continuous deployment policy whose configura- tion you are getting.
+    /// The identifier of the continuous deployment policy whose configuration you are getting.
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

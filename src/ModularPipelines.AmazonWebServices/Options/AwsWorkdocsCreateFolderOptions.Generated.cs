@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsWorkdocsCreateFolderOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a folder with the specified name and parent folder. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ParentFolderId">The ID of the parent folder. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+</param>
+    /// <param name="ParentFolderId">The ID of the parent folder. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+</param>
     public AwsWorkdocsCreateFolderOptions(
         string ParentFolderId
     )
@@ -57,20 +59,20 @@ public record AwsWorkdocsCreateFolderOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the parent folder. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+
+    /// The ID of the parent folder. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+
     /// </summary>
     [CliOption("--parent-folder-id")]
     public string? ParentFolderId { get; private init; }
 
     /// <summary>
-    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: o min: 1 o max: 8199
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: • min: 1 • max: 8199
     /// </summary>
     [SecretValue]
     [CliOption("--authentication-token")]
     public string? AuthenticationToken { get; set; }
 
     /// <summary>
-    /// The name of the new folder. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\u202D\u202F-\uFFFF]+
+    /// The name of the new folder. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\u202D\u202F-\uFFFF]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }

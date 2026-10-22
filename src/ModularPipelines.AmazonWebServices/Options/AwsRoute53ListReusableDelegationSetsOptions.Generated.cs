@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsRoute53ListReusableDelegationSetsOptions : AwsOptions
 {
     /// <summary>
-    /// If the value of IsTruncated in the previous response was true , you have more reusable delegation sets. To get another group, submit an- other ListReusableDelegationSets request. For the value of marker , specify the value of NextMarker from the previous response, which is the ID of the first reusable delegation set that Amazon Route 53 will return if you submit another request. If the value of IsTruncated in the previous response was false , there are no more reusable delegation sets to get. Constraints: o max: 64
+    /// If the value of IsTruncated in the previous response was true , you have more reusable delegation sets. To get another group, submit another ListReusableDelegationSets request. For the value of marker , specify the value of NextMarker from the previous response, which is the ID of the first reusable delegation set that Amazon Route 53 will return if you submit another request. If the value of IsTruncated in the previous response was false , there are no more reusable delegation sets to get. Constraints: • max: 64
     /// </summary>
     [CliOption("--marker")]
     public string? Marker { get; set; }
 
     /// <summary>
-    /// The number of reusable delegation sets that you want Amazon Route 53 to return in the response to this request. If you specify a value greater than 100, Route 53 returns only the first 100 reusable dele- gation sets.
+    /// The number of reusable delegation sets that you want Amazon Route 53 to return in the response to this request. If you specify a value greater than 100, Route 53 returns only the first 100 reusable delegation sets.
     /// </summary>
     [CliOption("--max-items")]
     public string? MaxItems { get; set; }

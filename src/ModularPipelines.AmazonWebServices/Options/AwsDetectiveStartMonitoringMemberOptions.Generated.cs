@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sends a request to enable data ingest for a member account that has a status of ACCEPTED_BUT_DISABLED . For valid member accounts, the status is updated as follows. o If Detective enabled the member account, then the new status is EN- ABLED . o If Detective cannot enable the member account, the status remains AC- CEPTED_BUT_DISABLED . See also: AWS API Documentation
+/// Sends a request to enable data ingest for a member account that has a status of ACCEPTED_BUT_DISABLED . For valid member accounts, the status is updated as follows. • If Detective enabled the member account, then the new status is ENABLED . • If Detective cannot enable the member account, the status remains ACCEPTED_BUT_DISABLED . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsDetectiveStartMonitoringMemberOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sends a request to enable data ingest for a member account that has a status of ACCEPTED_BUT_DISABLED . For valid member accounts, the status is updated as follows. o If Detective enabled the member account, then the new status is EN- ABLED . o If Detective cannot enable the member account, the status remains AC- CEPTED_BUT_DISABLED . See also: AWS API Documentation
+    /// Sends a request to enable data ingest for a member account that has a status of ACCEPTED_BUT_DISABLED . For valid member accounts, the status is updated as follows. • If Detective enabled the member account, then the new status is ENABLED . • If Detective cannot enable the member account, the status remains ACCEPTED_BUT_DISABLED . See also: AWS API Documentation
     /// </summary>
-    /// <param name="GraphArn">The ARN of the behavior graph. Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$</param>
-    /// <param name="AccountId">The account ID of the member account to try to enable. The account must be an invited member account with a status of AC- CEPTED_BUT_DISABLED . Constraints: o min: 12 o max: 12 o pattern: ^[0-9]+$</param>
+    /// <param name="GraphArn">The ARN of the behavior graph. Constraints: • pattern: ^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$</param>
+    /// <param name="AccountId">The account ID of the member account to try to enable. The account must be an invited member account with a status of ACCEPTED_BUT_DISABLED . Constraints: • min: 12 • max: 12 • pattern: ^[0-9]+$</param>
     public AwsDetectiveStartMonitoringMemberOptions(
         string GraphArn,
         string AccountId
@@ -60,13 +62,13 @@ public record AwsDetectiveStartMonitoringMemberOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the behavior graph. Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$
+    /// The ARN of the behavior graph. Constraints: • pattern: ^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$
     /// </summary>
     [CliOption("--graph-arn")]
     public string? GraphArn { get; private init; }
 
     /// <summary>
-    /// The account ID of the member account to try to enable. The account must be an invited member account with a status of AC- CEPTED_BUT_DISABLED . Constraints: o min: 12 o max: 12 o pattern: ^[0-9]+$
+    /// The account ID of the member account to try to enable. The account must be an invited member account with a status of ACCEPTED_BUT_DISABLED . Constraints: • min: 12 • max: 12 • pattern: ^[0-9]+$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }

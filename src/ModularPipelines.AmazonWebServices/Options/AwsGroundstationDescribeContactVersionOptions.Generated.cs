@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsGroundstationDescribeContactVersionOptions : AwsOptions, IValid
     /// <summary>
     /// Describes a specific version of a contact. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ContactId">UUID of a contact. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="VersionId">Version ID of a contact. Constraints: o min: 1 o max: 128</param>
+    /// <param name="ContactId">UUID of a contact. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="VersionId">Version ID of a contact. Constraints: • min: 1 • max: 128</param>
     public AwsGroundstationDescribeContactVersionOptions(
         string ContactId,
         int VersionId
@@ -59,13 +61,13 @@ public record AwsGroundstationDescribeContactVersionOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// UUID of a contact. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// UUID of a contact. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--contact-id")]
     public string? ContactId { get; private init; }
 
     /// <summary>
-    /// Version ID of a contact. Constraints: o min: 1 o max: 128
+    /// Version ID of a contact. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--version-id")]
     public int? VersionId { get; private init; }

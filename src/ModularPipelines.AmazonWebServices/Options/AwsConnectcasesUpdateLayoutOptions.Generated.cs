@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the attributes of an existing layout. If the action is successful, the service sends back an HTTP 200 re- sponse with an empty HTTP body. A ValidationException is returned when you add non-existent fieldIds to a layout. NOTE: Title and Status fields cannot be part of layouts because they are not configurable. See also: AWS API Documentation
+/// Updates the attributes of an existing layout. If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body. A ValidationException is returned when you add non-existent fieldIds to a layout. NOTE: Title and Status fields cannot be part of layouts because they are not configurable. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsConnectcasesUpdateLayoutOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the attributes of an existing layout. If the action is successful, the service sends back an HTTP 200 re- sponse with an empty HTTP body. A ValidationException is returned when you add non-existent fieldIds to a layout. NOTE: Title and Status fields cannot be part of layouts because they are not configurable. See also: AWS API Documentation
+    /// Updates the attributes of an existing layout. If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body. A ValidationException is returned when you add non-existent fieldIds to a layout. NOTE: Title and Status fields cannot be part of layouts because they are not configurable. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500</param>
-    /// <param name="LayoutId">The unique identifier of the layout. Constraints: o min: 1 o max: 500</param>
+    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500</param>
+    /// <param name="LayoutId">The unique identifier of the layout. Constraints: • min: 1 • max: 500</param>
     public AwsConnectcasesUpdateLayoutOptions(
         string DomainId,
         string LayoutId
@@ -60,25 +62,25 @@ public record AwsConnectcasesUpdateLayoutOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500
+    /// The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the layout. Constraints: o min: 1 o max: 500
+    /// The unique identifier of the layout. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--layout-id")]
     public string? LayoutId { get; private init; }
 
     /// <summary>
-    /// The name of the layout. It must be unique per domain. Constraints: o min: 1 o max: 100 o pattern: .*[\S]
+    /// The name of the layout. It must be unique per domain. Constraints: • min: 1 • max: 100 • pattern: .*[\S]
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Information about which fields will be present in the layout, the order of the fields. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: basic. basic -&gt; (structure) Content specific to BasicLayout type. It configures fields in the top panel and More Info tab of Cases user interface. topPanel -&gt; (structure) This represents sections in a panel of the page layout. sections -&gt; (list) Ordered list containing different kinds of sections that can be added. Constraints: o min: 0 o max: 1 (tagged union structure) This represents a sections within a panel or tab of the page layout. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: fieldGroup. fieldGroup -&gt; (structure) Consists of a group of fields and associated prop- erties. name -&gt; (string) Name of the field group. Constraints: o min: 0 o max: 100 fields -&gt; (list) [required] Represents an ordered list containing field re- lated information. Constraints: o min: 0 o max: 220 (structure) Object for field related information. id -&gt; (string) [required] Unique identifier of a field. Constraints: o min: 1 o max: 500 moreInfo -&gt; (structure) This represents sections in a tab of the page layout. sections -&gt; (list) Ordered list containing different kinds of sections that can be added. Constraints: o min: 0 o max: 1 (tagged union structure) This represents a sections within a panel or tab of the page layout. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: fieldGroup. fieldGroup -&gt; (structure) Consists of a group of fields and associated prop- erties. name -&gt; (string) Name of the field group. Constraints: o min: 0 o max: 100 fields -&gt; (list) [required] Represents an ordered list containing field re- lated information. Constraints: o min: 0 o max: 220 (structure) Object for field related information. id -&gt; (string) [required] Unique identifier of a field. Constraints: o min: 1 o max: 500 JSON Syntax: { "basic": { "topPanel": { "sections": [ { "fieldGroup": { "name": "string", "fields": [ { "id": "string" } ... ] } } ... ] }, "moreInfo": { "sections": [ { "fieldGroup": { "name": "string", "fields": [ { "id": "string" } ... ] } } ... ] } } }
+    /// Information about which fields will be present in the layout, the order of the fields. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: basic. basic -&gt; (structure) Content specific to BasicLayout type. It configures fields in the top panel and More Info tab of Cases user interface. topPanel -&gt; (structure) This represents sections in a panel of the page layout. sections -&gt; (list) Ordered list containing different kinds of sections that can be added. Constraints: • min: 0 • max: 1 (tagged union structure) This represents a sections within a panel or tab of the page layout. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: fieldGroup. fieldGroup -&gt; (structure) Consists of a group of fields and associated properties. name -&gt; (string) Name of the field group. Constraints: • min: 0 • max: 100 fields -&gt; (list) [required] Represents an ordered list containing field related information. Constraints: • min: 0 • max: 220 (structure) Object for field related information. id -&gt; (string) [required] Unique identifier of a field. Constraints: • min: 1 • max: 500 moreInfo -&gt; (structure) This represents sections in a tab of the page layout. sections -&gt; (list) Ordered list containing different kinds of sections that can be added. Constraints: • min: 0 • max: 1 (tagged union structure) This represents a sections within a panel or tab of the page layout. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: fieldGroup. fieldGroup -&gt; (structure) Consists of a group of fields and associated properties. name -&gt; (string) Name of the field group. Constraints: • min: 0 • max: 100 fields -&gt; (list) [required] Represents an ordered list containing field related information. Constraints: • min: 0 • max: 220 (structure) Object for field related information. id -&gt; (string) [required] Unique identifier of a field. Constraints: • min: 1 • max: 500 JSON Syntax: { "basic": { "topPanel": { "sections": [ { "fieldGroup": { "name": "string", "fields": [ { "id": "string" } ... ] } } ... ] }, "moreInfo": { "sections": [ { "fieldGroup": { "name": "string", "fields": [ { "id": "string" } ... ] } } ... ] } } }
     /// </summary>
     [CliOption("--content")]
     public string? Content { get; set; }

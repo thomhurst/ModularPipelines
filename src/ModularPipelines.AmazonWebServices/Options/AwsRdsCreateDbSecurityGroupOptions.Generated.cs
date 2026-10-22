@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRdsCreateDbSecurityGroupOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Creates a new DB security group. DB security groups control access to a DB instance. A DB security group controls access to EC2-Classic DB instances that are not in a VPC. NOTE: EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that you migrate as soon as possible. For more information, see Migrate from EC2-Classic to a VPC in the Amazon EC2 User Guide , the blog EC2-Classic Networking is Retiring Heres How to Prepare , and Moving a DB in...
     /// </summary>
-    /// <param name="DbSecurityGroupName">The name for the DB security group. This value is stored as a lower- case string. Constraints: o Must be 1 to 255 letters, numbers, or hyphens. o First character must be a letter o Can't end with a hyphen or contain two consecutive hyphens o Must not be "Default" Example: mysecuritygroup</param>
+    /// <param name="DbSecurityGroupName">The name for the DB security group. This value is stored as a lowercase string. Constraints: • Must be 1 to 255 letters, numbers, or hyphens. • First character must be a letter • Can't end with a hyphen or contain two consecutive hyphens • Must not be "Default" Example: mysecuritygroup</param>
     /// <param name="DbSecurityGroupDescription">The description for the DB security group.</param>
     public AwsRdsCreateDbSecurityGroupOptions(
         string DbSecurityGroupName,
@@ -60,7 +62,7 @@ public record AwsRdsCreateDbSecurityGroupOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name for the DB security group. This value is stored as a lower- case string. Constraints: o Must be 1 to 255 letters, numbers, or hyphens. o First character must be a letter o Can't end with a hyphen or contain two consecutive hyphens o Must not be "Default" Example: mysecuritygroup
+    /// The name for the DB security group. This value is stored as a lowercase string. Constraints: • Must be 1 to 255 letters, numbers, or hyphens. • First character must be a letter • Can't end with a hyphen or contain two consecutive hyphens • Must not be "Default" Example: mysecuritygroup
     /// </summary>
     [CliOption("--db-security-group-name")]
     public string? DbSecurityGroupName { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsVpcLatticeGetAccessLogSubscriptionOptions : AwsOptions, IValida
     /// <summary>
     /// Retrieves information about the specified access log subscription. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccessLogSubscriptionIdentifier">The ID or ARN of the access log subscription. Constraints: o min: 17 o max: 2048 o pattern: ((als-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:accesslogsubscrip- tion/als-[0-9a-z]{17}))</param>
+    /// <param name="AccessLogSubscriptionIdentifier">The ID or ARN of the access log subscription. Constraints: • min: 17 • max: 2048 • pattern: ((als-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:accesslogsubscription/als-[0-9a-z]{17}))</param>
     public AwsVpcLatticeGetAccessLogSubscriptionOptions(
         string AccessLogSubscriptionIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsVpcLatticeGetAccessLogSubscriptionOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or ARN of the access log subscription. Constraints: o min: 17 o max: 2048 o pattern: ((als-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:accesslogsubscrip- tion/als-[0-9a-z]{17}))
+    /// The ID or ARN of the access log subscription. Constraints: • min: 17 • max: 2048 • pattern: ((als-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:accesslogsubscription/als-[0-9a-z]{17}))
     /// </summary>
     [CliOption("--access-log-subscription-identifier")]
     public string? AccessLogSubscriptionIdentifier { get; private init; }

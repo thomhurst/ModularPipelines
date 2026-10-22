@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsApigatewayCreateUsagePlanKeyOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Creates a usage plan key for adding an existing API key to a usage plan. See also: AWS API Documentation
     /// </summary>
-    /// <param name="UsagePlanId">The Id of the UsagePlan resource representing the usage plan con- taining the to-be-created UsagePlanKey resource representing a plan customer.</param>
+    /// <param name="UsagePlanId">The Id of the UsagePlan resource representing the usage plan containing the to-be-created UsagePlanKey resource representing a plan customer.</param>
     /// <param name="KeyId">The identifier of a UsagePlanKey resource for a plan customer.</param>
     /// <param name="KeyType">The type of a UsagePlanKey resource for a plan customer.</param>
     public AwsApigatewayCreateUsagePlanKeyOptions(
@@ -64,7 +66,7 @@ public record AwsApigatewayCreateUsagePlanKeyOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Id of the UsagePlan resource representing the usage plan con- taining the to-be-created UsagePlanKey resource representing a plan customer.
+    /// The Id of the UsagePlan resource representing the usage plan containing the to-be-created UsagePlanKey resource representing a plan customer.
     /// </summary>
     [CliOption("--usage-plan-id")]
     public string? UsagePlanId { get; private init; }

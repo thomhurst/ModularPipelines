@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a spending limit for a specified quantum device. Spending lim- its help you control costs by setting maximum amounts that can be spent on quantum computing tasks within a specified time period. Simulators do not support spending limits. See also: AWS API Documentation
+/// Creates a spending limit for a specified quantum device. Spending limits help you control costs by setting maximum amounts that can be spent on quantum computing tasks within a specified time period. Simulators do not support spending limits. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsBraketCreateSpendingLimitOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a spending limit for a specified quantum device. Spending lim- its help you control costs by setting maximum amounts that can be spent on quantum computing tasks within a specified time period. Simulators do not support spending limits. See also: AWS API Documentation
+    /// Creates a spending limit for a specified quantum device. Spending limits help you control costs by setting maximum amounts that can be spent on quantum computing tasks within a specified time period. Simulators do not support spending limits. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DeviceArn">The Amazon Resource Name (ARN) of the quantum device to apply the spending limit to. Constraints: o min: 1 o max: 256</param>
-    /// <param name="SpendingLimit">The maximum amount that can be spent on the specified device, in USD. Constraints: o min: 1 o pattern: \d+(\.\d{1,2})?</param>
+    /// <param name="DeviceArn">The Amazon Resource Name (ARN) of the quantum device to apply the spending limit to. Constraints: • min: 1 • max: 256</param>
+    /// <param name="SpendingLimit">The maximum amount that can be spent on the specified device, in USD. Constraints: • min: 1 • pattern: \d+(\.\d{1,2})?</param>
     public AwsBraketCreateSpendingLimitOptions(
         string DeviceArn,
         string SpendingLimit
@@ -62,19 +63,19 @@ public record AwsBraketCreateSpendingLimitOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the quantum device to apply the spending limit to. Constraints: o min: 1 o max: 256
+    /// The Amazon Resource Name (ARN) of the quantum device to apply the spending limit to. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--device-arn")]
     public string? DeviceArn { get; private init; }
 
     /// <summary>
-    /// The maximum amount that can be spent on the specified device, in USD. Constraints: o min: 1 o pattern: \d+(\.\d{1,2})?
+    /// The maximum amount that can be spent on the specified device, in USD. Constraints: • min: 1 • pattern: \d+(\.\d{1,2})?
     /// </summary>
     [CliOption("--spending-limit")]
     public string? SpendingLimit { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Braket ignores the request, but does not return an error. Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Braket ignores the request, but does not return an error. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

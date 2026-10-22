@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This operation sets the transfer lock on the domain (specifically the clientTransferProhibited status) to prevent domain transfers. Success- ful submission returns an operation ID that you can use to track the progress and completion of the action. If the request is not completed successfully, the domain registrant will be notified by email. See also: AWS API Documentation
+/// This operation sets the transfer lock on the domain (specifically the clientTransferProhibited status) to prevent domain transfers. Successful submission returns an operation ID that you can use to track the progress and completion of the action. If the request is not completed successfully, the domain registrant will be notified by email. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRoute53domainsEnableDomainTransferLockOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This operation sets the transfer lock on the domain (specifically the clientTransferProhibited status) to prevent domain transfers. Success- ful submission returns an operation ID that you can use to track the progress and completion of the action. If the request is not completed successfully, the domain registrant will be notified by email. See also: AWS API Documentation
+    /// This operation sets the transfer lock on the domain (specifically the clientTransferProhibited status) to prevent domain transfers. Successful submission returns an operation ID that you can use to track the progress and completion of the action. If the request is not completed successfully, the domain registrant will be notified by email. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The name of the domain that you want to set the transfer lock for. Constraints: o max: 255</param>
+    /// <param name="DomainName">The name of the domain that you want to set the transfer lock for. Constraints: • max: 255</param>
     public AwsRoute53domainsEnableDomainTransferLockOptions(
         string DomainName
     )
@@ -56,7 +58,7 @@ public record AwsRoute53domainsEnableDomainTransferLockOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain that you want to set the transfer lock for. Constraints: o max: 255
+    /// The name of the domain that you want to set the transfer lock for. Constraints: • max: 255
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Authorizes the specified Amazon Web Services account to restore the specified snapshot. For more information about working with snapshots, go to Amazon Red- shift Snapshots in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
+/// Authorizes the specified Amazon Web Services account to restore the specified snapshot. For more information about working with snapshots, go to Amazon Redshift Snapshots in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRedshiftAuthorizeSnapshotAccessOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Authorizes the specified Amazon Web Services account to restore the specified snapshot. For more information about working with snapshots, go to Amazon Red- shift Snapshots in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
+    /// Authorizes the specified Amazon Web Services account to restore the specified snapshot. For more information about working with snapshots, go to Amazon Redshift Snapshots in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountWithRestoreAccess">The identifier of the Amazon Web Services account authorized to re- store the specified snapshot. To share a snapshot with Amazon Web Services Support, specify ama- zon-redshift-support. Constraints: o max: 2147483647</param>
+    /// <param name="AccountWithRestoreAccess">The identifier of the Amazon Web Services account authorized to restore the specified snapshot. To share a snapshot with Amazon Web Services Support, specify amazon-redshift-support. Constraints: • max: 2147483647</param>
     public AwsRedshiftAuthorizeSnapshotAccessOptions(
         string AccountWithRestoreAccess
     )
@@ -56,25 +58,25 @@ public record AwsRedshiftAuthorizeSnapshotAccessOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Web Services account authorized to re- store the specified snapshot. To share a snapshot with Amazon Web Services Support, specify ama- zon-redshift-support. Constraints: o max: 2147483647
+    /// The identifier of the Amazon Web Services account authorized to restore the specified snapshot. To share a snapshot with Amazon Web Services Support, specify amazon-redshift-support. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--account-with-restore-access")]
     public string? AccountWithRestoreAccess { get; private init; }
 
     /// <summary>
-    /// The identifier of the snapshot the account is authorized to restore. Constraints: o max: 2147483647
+    /// The identifier of the snapshot the account is authorized to restore. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--snapshot-identifier")]
     public string? SnapshotIdentifier { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the snapshot to authorize access to. Constraints: o max: 2147483647
+    /// The Amazon Resource Name (ARN) of the snapshot to authorize access to. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--snapshot-arn")]
     public string? SnapshotArn { get; set; }
 
     /// <summary>
-    /// The identifier of the cluster the snapshot was created from. o If the snapshot to access doesn't exist and the associated IAM policy doesn't allow access to all () snapshots* - This parameter is required. Otherwise, permissions aren't available to check if the snapshot exists. o If the snapshot to access exists - This parameter isn't required. Redshift can retrieve the cluster identifier and use it to vali- date snapshot authorization. Constraints: o max: 2147483647
+    /// The identifier of the cluster the snapshot was created from. • If the snapshot to access doesn't exist and the associated IAM policy doesn't allow access to all () snapshots* - This parameter is required. Otherwise, permissions aren't available to check if the snapshot exists. • If the snapshot to access exists - This parameter isn't required. Redshift can retrieve the cluster identifier and use it to validate snapshot authorization. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--snapshot-cluster-identifier")]
     public string? SnapshotClusterIdentifier { get; set; }

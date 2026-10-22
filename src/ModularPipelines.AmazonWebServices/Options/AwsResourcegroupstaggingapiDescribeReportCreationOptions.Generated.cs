@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the status of the StartReportCreation operation. You can call this operation only from the organization's management ac- count and from the us-east-1 Region. See also: AWS API Documentation
+/// Describes the status of the StartReportCreation operation. You can call this operation only from the organization's management account and from the us-east-1 Region. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

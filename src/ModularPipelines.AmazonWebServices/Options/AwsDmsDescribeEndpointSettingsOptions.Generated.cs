@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,7 +64,7 @@ public record AwsDmsDescribeEndpointSettingsOptions : AwsOptions, IValidatableOb
     public string? EngineName { get; private init; }
 
     /// <summary>
-    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination to- ken called a marker is included in the response so that the remain- ing results can be retrieved.
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
     /// </summary>
     [CliOption("--max-records")]
     public int? MaxRecords { get; set; }

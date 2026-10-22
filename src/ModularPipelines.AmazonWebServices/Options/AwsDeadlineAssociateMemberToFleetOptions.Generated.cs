@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,12 +30,12 @@ public record AwsDeadlineAssociateMemberToFleetOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Assigns a fleet membership level to a member. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The farm ID of the fleet to associate with the member. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="FleetId">The ID of the fleet to associate with a member. Constraints: o pattern: fleet-[0-9a-f]{32}</param>
-    /// <param name="PrincipalType">The member's principal type to associate with the fleet. Possible values: o USER o GROUP</param>
-    /// <param name="IdentityStoreId">The member's identity store ID to associate with the fleet. Constraints: o min: 1 o max: 36 o pattern: d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="MembershipLevel">The principal's membership level for the associated fleet. Possible values: o VIEWER o CONTRIBUTOR o OWNER o MANAGER</param>
-    /// <param name="PrincipalId">The member's principal ID to associate with a fleet. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}</param>
+    /// <param name="FarmId">The farm ID of the fleet to associate with the member. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="FleetId">The ID of the fleet to associate with a member. Constraints: • pattern: fleet-[0-9a-f]{32}</param>
+    /// <param name="PrincipalType">The member's principal type to associate with the fleet. Possible values: • USER • GROUP</param>
+    /// <param name="IdentityStoreId">The member's identity store ID to associate with the fleet. Constraints: • min: 1 • max: 36 • pattern: d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="MembershipLevel">The principal's membership level for the associated fleet. Possible values: • VIEWER • CONTRIBUTOR • OWNER • MANAGER</param>
+    /// <param name="PrincipalId">The member's principal ID to associate with a fleet. Constraints: • min: 1 • max: 47 • pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}</param>
     public AwsDeadlineAssociateMemberToFleetOptions(
         string FarmId,
         string FleetId,
@@ -75,43 +77,43 @@ public record AwsDeadlineAssociateMemberToFleetOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID of the fleet to associate with the member. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID of the fleet to associate with the member. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The ID of the fleet to associate with a member. Constraints: o pattern: fleet-[0-9a-f]{32}
+    /// The ID of the fleet to associate with a member. Constraints: • pattern: fleet-[0-9a-f]{32}
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }
 
     /// <summary>
-    /// The member's principal type to associate with the fleet. Possible values: o USER o GROUP
+    /// The member's principal type to associate with the fleet. Possible values: • USER • GROUP
     /// </summary>
     [CliOption("--principal-type")]
     public AwsDeadlineAssociateMemberToFleetPrincipalType? PrincipalType { get; private init; }
 
     /// <summary>
-    /// The member's identity store ID to associate with the fleet. Constraints: o min: 1 o max: 36 o pattern: d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The member's identity store ID to associate with the fleet. Constraints: • min: 1 • max: 36 • pattern: d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--identity-store-id")]
     public string? IdentityStoreId { get; private init; }
 
     /// <summary>
-    /// The principal's membership level for the associated fleet. Possible values: o VIEWER o CONTRIBUTOR o OWNER o MANAGER
+    /// The principal's membership level for the associated fleet. Possible values: • VIEWER • CONTRIBUTOR • OWNER • MANAGER
     /// </summary>
     [CliOption("--membership-level")]
     public AwsDeadlineAssociateMemberToFleetMembershipLevel? MembershipLevel { get; private init; }
 
     /// <summary>
-    /// The member's principal ID to associate with a fleet. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}
+    /// The member's principal ID to associate with a fleet. Constraints: • min: 1 • max: 47 • pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}
     /// </summary>
     [CliOption("--principal-id")]
     public string? PrincipalId { get; private init; }
 
     /// <summary>
-    /// The Region of the IAM Identity Center instance. If not provided, the service defaults to the Region of the farm. Constraints: o min: 1 o max: 25 o pattern: [a-z0-9-]+
+    /// The Region of the IAM Identity Center instance. If not provided, the service defaults to the Region of the farm. Constraints: • min: 1 • max: 25 • pattern: [a-z0-9-]+
     /// </summary>
     [CliOption("--identity-center-region")]
     public string? IdentityCenterRegion { get; set; }

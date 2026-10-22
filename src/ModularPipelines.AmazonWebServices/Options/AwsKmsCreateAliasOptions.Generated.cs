@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a friendly name for a KMS key. NOTE: Adding, deleting, or updating an alias can allow or deny permission to the KMS key. For details, see ABAC for KMS in the Key Management Service Developer Guide . You can use an alias to identify a KMS key in the KMS console, in the DescribeKey operation and in cryptographic operations , such as En- crypt and GenerateDataKey . You can also change the KMS key that's as- sociated with the alias ( UpdateAlias ) or delete the alias ( DeleteAlias ) at any t...
+/// Creates a friendly name for a KMS key. NOTE: Adding, deleting, or updating an alias can allow or deny permission to the KMS key. For details, see ABAC for KMS in the Key Management Service Developer Guide . You can use an alias to identify a KMS key in the KMS console, in the DescribeKey operation and in cryptographic operations , such as Encrypt and GenerateDataKey . You can also change the KMS key that's associated with the alias ( UpdateAlias ) or delete the alias ( DeleteAlias ) at any time....
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsKmsCreateAliasOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a friendly name for a KMS key. NOTE: Adding, deleting, or updating an alias can allow or deny permission to the KMS key. For details, see ABAC for KMS in the Key Management Service Developer Guide . You can use an alias to identify a KMS key in the KMS console, in the DescribeKey operation and in cryptographic operations , such as En- crypt and GenerateDataKey . You can also change the KMS key that's as- sociated with the alias ( UpdateAlias ) or delete the alias ( DeleteAlias ) at any t...
+    /// Creates a friendly name for a KMS key. NOTE: Adding, deleting, or updating an alias can allow or deny permission to the KMS key. For details, see ABAC for KMS in the Key Management Service Developer Guide . You can use an alias to identify a KMS key in the KMS console, in the DescribeKey operation and in cryptographic operations , such as Encrypt and GenerateDataKey . You can also change the KMS key that's associated with the alias ( UpdateAlias ) or delete the alias ( DeleteAlias ) at any time....
     /// </summary>
-    /// <param name="AliasName">Specifies the alias name. This value must begin with alias/ followed by a name, such as alias/ExampleAlias . WARNING: Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. The AliasName value must be string of 1-256 characters. It can con- tain only alphanumeric characters, forward slashes (/), underscores (_), and dashes (-). The alias name cannot begin with alias/aws/ . The alias/aws/ prefix is reserved for Amazon Web Services managed keys . Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9:/_-]+$</param>
-    /// <param name="TargetKeyId">Associates the alias with the specified customer managed key . The KMS key must be in the same Amazon Web Services Region. A valid key ID is required. If you supply a null or empty string value, this operation returns an error. For help finding the key ID and ARN, see Find the key ID and key ARN in the * Key Management Service Developer Guide * . Specify the key ID or key ARN of the KMS key. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048</param>
+    /// <param name="AliasName">Specifies the alias name. This value must begin with alias/ followed by a name, such as alias/ExampleAlias . WARNING: Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. The AliasName value must be string of 1-256 characters. It can contain only alphanumeric characters, forward slashes (/), underscores (_), and dashes (-). The alias name cannot begin with alias/aws/ . The alias/aws/ prefix is reserved for Amazon Web Services managed keys . Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9:/_-]+$</param>
+    /// <param name="TargetKeyId">Associates the alias with the specified customer managed key . The KMS key must be in the same Amazon Web Services Region. A valid key ID is required. If you supply a null or empty string value, this operation returns an error. For help finding the key ID and ARN, see Find the key ID and key ARN in the * Key Management Service Developer Guide * . Specify the key ID or key ARN of the KMS key. For example: • Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab • Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey . Constraints: • min: 1 • max: 2048</param>
     public AwsKmsCreateAliasOptions(
         string AliasName,
         string TargetKeyId
@@ -60,13 +62,13 @@ public record AwsKmsCreateAliasOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the alias name. This value must begin with alias/ followed by a name, such as alias/ExampleAlias . WARNING: Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. The AliasName value must be string of 1-256 characters. It can con- tain only alphanumeric characters, forward slashes (/), underscores (_), and dashes (-). The alias name cannot begin with alias/aws/ . The alias/aws/ prefix is reserved for Amazon Web Services managed keys . Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9:/_-]+$
+    /// Specifies the alias name. This value must begin with alias/ followed by a name, such as alias/ExampleAlias . WARNING: Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. The AliasName value must be string of 1-256 characters. It can contain only alphanumeric characters, forward slashes (/), underscores (_), and dashes (-). The alias name cannot begin with alias/aws/ . The alias/aws/ prefix is reserved for Amazon Web Services managed keys . Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9:/_-]+$
     /// </summary>
     [CliOption("--alias-name")]
     public string? AliasName { get; private init; }
 
     /// <summary>
-    /// Associates the alias with the specified customer managed key . The KMS key must be in the same Amazon Web Services Region. A valid key ID is required. If you supply a null or empty string value, this operation returns an error. For help finding the key ID and ARN, see Find the key ID and key ARN in the * Key Management Service Developer Guide * . Specify the key ID or key ARN of the KMS key. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048
+    /// Associates the alias with the specified customer managed key . The KMS key must be in the same Amazon Web Services Region. A valid key ID is required. If you supply a null or empty string value, this operation returns an error. For help finding the key ID and ARN, see Find the key ID and key ARN in the * Key Management Service Developer Guide * . Specify the key ID or key ARN of the KMS key. For example: • Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab • Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey . Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--target-key-id")]
     public string? TargetKeyId { get; private init; }

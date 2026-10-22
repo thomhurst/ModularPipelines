@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an app bundle. You must delete all associated app authoriza- tions before you can delete an app bundle. See also: AWS API Documentation
+/// Deletes an app bundle. You must delete all associated app authorizations before you can delete an app bundle. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsAppfabricDeleteAppBundleOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an app bundle. You must delete all associated app authoriza- tions before you can delete an app bundle. See also: AWS API Documentation
+    /// Deletes an app bundle. You must delete all associated app authorizations before you can delete an app bundle. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppBundleIdentifier">The ID or Amazon Resource Name (ARN) of the app bundle that needs to be deleted. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="AppBundleIdentifier">The ID or Amazon Resource Name (ARN) of the app bundle that needs to be deleted. Constraints: • min: 1 • max: 1011 • pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
     public AwsAppfabricDeleteAppBundleOptions(
         string AppBundleIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsAppfabricDeleteAppBundleOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or Amazon Resource Name (ARN) of the app bundle that needs to be deleted. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The ID or Amazon Resource Name (ARN) of the app bundle that needs to be deleted. Constraints: • min: 1 • max: 1011 • pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--app-bundle-identifier")]
     public string? AppBundleIdentifier { get; private init; }

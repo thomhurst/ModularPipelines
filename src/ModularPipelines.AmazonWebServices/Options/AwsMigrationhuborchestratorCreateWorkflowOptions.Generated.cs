@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,9 +29,9 @@ public record AwsMigrationhuborchestratorCreateWorkflowOptions : AwsOptions, IVa
     /// <summary>
     /// Create a workflow to orchestrate your migrations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the migration workflow. Constraints: o min: 1 o max: 100 o pattern: [-a-zA-Z0-9_.+]+[-a-zA-Z0-9_.+ ]*</param>
-    /// <param name="TemplateId">The ID of the template. Constraints: o min: 1 o max: 100 o pattern: [-a-zA-Z0-9_.+]+[-a-zA-Z0-9_.+ ]*</param>
-    /// <param name="InputParameters">The input parameters required to create a migration workflow. key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-_ ()]+ value -&gt; (tagged union structure) A map of key value pairs that is generated when you create a mi- gration workflow. The key value pairs will differ based on your selection of the template. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: integerValue, stringValue, listOf- StringsValue, mapOfStringValue. integerValue -&gt; (integer) The value of the integer. stringValue -&gt; (string) String value. Constraints: o min: 0 o max: 100 listOfStringsValue -&gt; (list) List of string values. (string) Constraints: o min: 0 o max: 500 mapOfStringValue -&gt; (map) Map of string values. key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-_ ()]+ value -&gt; (string) Constraints: o min: 0 o max: 100 Shorthand Syntax: KeyName1={integerValue=integer,stringValue=string,listOfStringsValue=[string,string],mapOfStringValue={KeyName1=string,KeyName2=string}},KeyName2={integerValue=integer,stringValue=string,listOfStringsValue=[string,string],mapOfStringValue={KeyName1=string,KeyName2=string}} JSON Syntax: {"string": { "integerValue": integer, "stringValue": "string", "listOfStringsValue": ["string", ...], "mapOfStringValue": {"string": "string" ...} } ...}</param>
+    /// <param name="Name">The name of the migration workflow. Constraints: • min: 1 • max: 100 • pattern: [-a-zA-Z0-9_.+]+[-a-zA-Z0-9_.+ ]*</param>
+    /// <param name="TemplateId">The ID of the template. Constraints: • min: 1 • max: 100 • pattern: [-a-zA-Z0-9_.+]+[-a-zA-Z0-9_.+ ]*</param>
+    /// <param name="InputParameters">The input parameters required to create a migration workflow. key -&gt; (string) Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-_ ()]+ value -&gt; (tagged union structure) A map of key value pairs that is generated when you create a migration workflow. The key value pairs will differ based on your selection of the template. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: integerValue, stringValue, listOfStringsValue, mapOfStringValue. integerValue -&gt; (integer) The value of the integer. stringValue -&gt; (string) String value. Constraints: • min: 0 • max: 100 listOfStringsValue -&gt; (list) List of string values. (string) Constraints: • min: 0 • max: 500 mapOfStringValue -&gt; (map) Map of string values. key -&gt; (string) Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-_ ()]+ value -&gt; (string) Constraints: • min: 0 • max: 100 Shorthand Syntax: KeyName1={integerValue=integer,stringValue=string,listOfStringsValue=[string,string],mapOfStringValue={KeyName1=string,KeyName2=string}},KeyName2={integerValue=integer,stringValue=string,listOfStringsValue=[string,string],mapOfStringValue={KeyName1=string,KeyName2=string}} JSON Syntax: {"string": { "integerValue": integer, "stringValue": "string", "listOfStringsValue": ["string", ...], "mapOfStringValue": {"string": "string" ...} } ...}</param>
     public AwsMigrationhuborchestratorCreateWorkflowOptions(
         string Name,
         string TemplateId,
@@ -76,43 +77,43 @@ public record AwsMigrationhuborchestratorCreateWorkflowOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the migration workflow. Constraints: o min: 1 o max: 100 o pattern: [-a-zA-Z0-9_.+]+[-a-zA-Z0-9_.+ ]*
+    /// The name of the migration workflow. Constraints: • min: 1 • max: 100 • pattern: [-a-zA-Z0-9_.+]+[-a-zA-Z0-9_.+ ]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The ID of the template. Constraints: o min: 1 o max: 100 o pattern: [-a-zA-Z0-9_.+]+[-a-zA-Z0-9_.+ ]*
+    /// The ID of the template. Constraints: • min: 1 • max: 100 • pattern: [-a-zA-Z0-9_.+]+[-a-zA-Z0-9_.+ ]*
     /// </summary>
     [CliOption("--template-id")]
     public string? TemplateId { get; private init; }
 
     /// <summary>
-    /// The input parameters required to create a migration workflow. key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-_ ()]+ value -&gt; (tagged union structure) A map of key value pairs that is generated when you create a mi- gration workflow. The key value pairs will differ based on your selection of the template. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: integerValue, stringValue, listOf- StringsValue, mapOfStringValue. integerValue -&gt; (integer) The value of the integer. stringValue -&gt; (string) String value. Constraints: o min: 0 o max: 100 listOfStringsValue -&gt; (list) List of string values. (string) Constraints: o min: 0 o max: 500 mapOfStringValue -&gt; (map) Map of string values. key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-_ ()]+ value -&gt; (string) Constraints: o min: 0 o max: 100 Shorthand Syntax: KeyName1={integerValue=integer,stringValue=string,listOfStringsValue=[string,string],mapOfStringValue={KeyName1=string,KeyName2=string}},KeyName2={integerValue=integer,stringValue=string,listOfStringsValue=[string,string],mapOfStringValue={KeyName1=string,KeyName2=string}} JSON Syntax: {"string": { "integerValue": integer, "stringValue": "string", "listOfStringsValue": ["string", ...], "mapOfStringValue": {"string": "string" ...} } ...}
+    /// The input parameters required to create a migration workflow. key -&gt; (string) Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-_ ()]+ value -&gt; (tagged union structure) A map of key value pairs that is generated when you create a migration workflow. The key value pairs will differ based on your selection of the template. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: integerValue, stringValue, listOfStringsValue, mapOfStringValue. integerValue -&gt; (integer) The value of the integer. stringValue -&gt; (string) String value. Constraints: • min: 0 • max: 100 listOfStringsValue -&gt; (list) List of string values. (string) Constraints: • min: 0 • max: 500 mapOfStringValue -&gt; (map) Map of string values. key -&gt; (string) Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-_ ()]+ value -&gt; (string) Constraints: • min: 0 • max: 100 Shorthand Syntax: KeyName1={integerValue=integer,stringValue=string,listOfStringsValue=[string,string],mapOfStringValue={KeyName1=string,KeyName2=string}},KeyName2={integerValue=integer,stringValue=string,listOfStringsValue=[string,string],mapOfStringValue={KeyName1=string,KeyName2=string}} JSON Syntax: {"string": { "integerValue": integer, "stringValue": "string", "listOfStringsValue": ["string", ...], "mapOfStringValue": {"string": "string" ...} } ...}
     /// </summary>
     [CliOption("--input-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? InputParameters { get; private init; }
 
     /// <summary>
-    /// The description of the migration workflow. Constraints: o min: 0 o max: 500 o pattern: [-a-zA-Z0-9_.+, ]*
+    /// The description of the migration workflow. Constraints: • min: 0 • max: 500 • pattern: [-a-zA-Z0-9_.+, ]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The configuration ID of the application configured in Application Discovery Service. Constraints: o min: 0 o max: 100 o pattern: [-a-zA-Z0-9_.+]*
+    /// The configuration ID of the application configured in Application Discovery Service. Constraints: • min: 0 • max: 100 • pattern: [-a-zA-Z0-9_.+]*
     /// </summary>
     [CliOption("--application-configuration-id")]
     public string? ApplicationConfigurationId { get; set; }
 
     /// <summary>
-    /// The servers on which a step will be run. (string) Constraints: o min: 0 o max: 500 Syntax: "string" "string" ...
+    /// The servers on which a step will be run. (string) Constraints: • min: 0 • max: 500 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--step-targets", GroupValues = true)]
     public IEnumerable<string>? StepTargets { get; set; }
 
     /// <summary>
-    /// The tags to add on a migration workflow. key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-_ ()]+ value -&gt; (string) Constraints: o min: 0 o max: 100 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to add on a migration workflow. key -&gt; (string) Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-_ ()]+ value -&gt; (string) Constraints: • min: 0 • max: 100 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

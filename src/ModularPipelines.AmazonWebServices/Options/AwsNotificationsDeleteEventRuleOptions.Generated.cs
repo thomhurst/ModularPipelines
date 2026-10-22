@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsNotificationsDeleteEventRuleOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Deletes an EventRule . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the EventRule to delete. Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}/rule/[a-z0-9]{27}</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the EventRule to delete. Constraints: • pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:configuration/[a-z0-9]{27}/rule/[a-z0-9]{27}</param>
     public AwsNotificationsDeleteEventRuleOptions(
         string Arn
     )
@@ -56,7 +58,7 @@ public record AwsNotificationsDeleteEventRuleOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the EventRule to delete. Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}/rule/[a-z0-9]{27}
+    /// The Amazon Resource Name (ARN) of the EventRule to delete. Constraints: • pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:configuration/[a-z0-9]{27}/rule/[a-z0-9]{27}
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }

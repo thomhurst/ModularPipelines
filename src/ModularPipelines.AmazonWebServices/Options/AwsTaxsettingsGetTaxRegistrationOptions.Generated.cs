@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsTaxsettingsGetTaxRegistrationOptions : AwsOptions
 {
     /// <summary>
-    /// Your unique account identifier. Constraints: o min: 12 o max: 12 o pattern: \d+
+    /// Your unique account identifier. Constraints: • min: 12 • max: 12 • pattern: \d+
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }

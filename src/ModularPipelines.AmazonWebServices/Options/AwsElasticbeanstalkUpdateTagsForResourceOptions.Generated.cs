@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Update the list of tags applied to an Elastic Beanstalk resource. Two lists can be passed: TagsToAdd for tags to add or update, and TagsToRe- move . Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see Tagging Application Resources . If you create a custom policy to control permission to this operation, specify one of the following two virtual actions (or both) instead of the API operation name: elasticbeanstalk:AddTags Controls permission to call U...
+/// Update the list of tags applied to an Elastic Beanstalk resource. Two lists can be passed: TagsToAdd for tags to add or update, and TagsToRemove . Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see Tagging Application Resources . If you create a custom policy to control permission to this operation, specify one of the following two virtual actions (or both) instead of the API operation name: elasticbeanstalk:AddTags Controls permission to call Upd...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsElasticbeanstalkUpdateTagsForResourceOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Update the list of tags applied to an Elastic Beanstalk resource. Two lists can be passed: TagsToAdd for tags to add or update, and TagsToRe- move . Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see Tagging Application Resources . If you create a custom policy to control permission to this operation, specify one of the following two virtual actions (or both) instead of the API operation name: elasticbeanstalk:AddTags Controls permission to call U...
+    /// Update the list of tags applied to an Elastic Beanstalk resource. Two lists can be passed: TagsToAdd for tags to add or update, and TagsToRemove . Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see Tagging Application Resources . If you create a custom policy to control permission to this operation, specify one of the following two virtual actions (or both) instead of the API operation name: elasticbeanstalk:AddTags Controls permission to call Upd...
     /// </summary>
     /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resouce to be updated. Must be the ARN of an Elastic Beanstalk resource.</param>
     public AwsElasticbeanstalkUpdateTagsForResourceOptions(
@@ -62,13 +64,13 @@ public record AwsElasticbeanstalkUpdateTagsForResourceOptions : AwsOptions, IVal
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A list of tags to add or update. If a key of an existing tag is added, the tag's value is updated. Specify at least one of these parameters: TagsToAdd , TagsToRemove . (structure) Describes a tag applied to a resource in an environment. Key -&gt; (string) The key of the tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) The value of the tag. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tags to add or update. If a key of an existing tag is added, the tag's value is updated. Specify at least one of these parameters: TagsToAdd , TagsToRemove . (structure) Describes a tag applied to a resource in an environment. Key -&gt; (string) The key of the tag. Constraints: • min: 1 • max: 128 Value -&gt; (string) The value of the tag. Constraints: • min: 1 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags-to-add", GroupValues = true)]
     public IEnumerable<string>? TagsToAdd { get; set; }
 
     /// <summary>
-    /// A list of tag keys to remove. If a tag key doesn't exist, it is silently ignored. Specify at least one of these parameters: TagsToAdd , TagsToRemove . (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// A list of tag keys to remove. If a tag key doesn't exist, it is silently ignored. Specify at least one of these parameters: TagsToAdd , TagsToRemove . (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tags-to-remove", GroupValues = true)]
     public IEnumerable<string>? TagsToRemove { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Stops an Amazon RDS DB instance temporarily. When you stop a DB in- stance, Amazon RDS retains the DB instance's metadata, including its endpoint, DB parameter group, and option group membership. Amazon RDS also retains the transaction logs so you can do a point-in-time restore if necessary. The instance restarts automatically after 7 days. For more information, see Stopping an Amazon RDS DB Instance Temporar- ily in the Amazon RDS User Guide. NOTE: This command doesn't apply to RDS Custom, Auro...
+/// Stops an Amazon RDS DB instance temporarily. When you stop a DB instance, Amazon RDS retains the DB instance's metadata, including its endpoint, DB parameter group, and option group membership. Amazon RDS also retains the transaction logs so you can do a point-in-time restore if necessary. The instance restarts automatically after 7 days. For more information, see Stopping an Amazon RDS DB Instance Temporarily in the Amazon RDS User Guide. NOTE: This command doesn't apply to RDS Custom, Aurora M...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsRdsStopDbInstanceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Stops an Amazon RDS DB instance temporarily. When you stop a DB in- stance, Amazon RDS retains the DB instance's metadata, including its endpoint, DB parameter group, and option group membership. Amazon RDS also retains the transaction logs so you can do a point-in-time restore if necessary. The instance restarts automatically after 7 days. For more information, see Stopping an Amazon RDS DB Instance Temporar- ily in the Amazon RDS User Guide. NOTE: This command doesn't apply to RDS Custom, Auro...
+    /// Stops an Amazon RDS DB instance temporarily. When you stop a DB instance, Amazon RDS retains the DB instance's metadata, including its endpoint, DB parameter group, and option group membership. Amazon RDS also retains the transaction logs so you can do a point-in-time restore if necessary. The instance restarts automatically after 7 days. For more information, see Stopping an Amazon RDS DB Instance Temporarily in the Amazon RDS User Guide. NOTE: This command doesn't apply to RDS Custom, Aurora M...
     /// </summary>
     /// <param name="DbInstanceIdentifier">The user-supplied instance identifier.</param>
     public AwsRdsStopDbInstanceOptions(
@@ -62,7 +64,7 @@ public record AwsRdsStopDbInstanceOptions : AwsOptions, IValidatableObject
     public string? DbInstanceIdentifier { get; private init; }
 
     /// <summary>
-    /// The user-supplied instance identifier of the DB Snapshot created im- mediately before the DB instance is stopped.
+    /// The user-supplied instance identifier of the DB Snapshot created immediately before the DB instance is stopped.
     /// </summary>
     [CliOption("--db-snapshot-identifier")]
     public string? DbSnapshotIdentifier { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the known host key or certificate used by the Amazon Lightsail browser-based SSH or RDP clients to authenticate an instance. This op- eration enables the Lightsail browser-based SSH or RDP clients to con- nect to the instance after a host key mismatch. WARNING: Perform this operation only if you were expecting the host key or certificate mismatch or if you are familiar with the new host key or certificate on the instance. For more information, see Troubleshooting connection issues when u...
+/// Deletes the known host key or certificate used by the Amazon Lightsail browser-based SSH or RDP clients to authenticate an instance. This operation enables the Lightsail browser-based SSH or RDP clients to connect to the instance after a host key mismatch. WARNING: Perform this operation only if you were expecting the host key or certificate mismatch or if you are familiar with the new host key or certificate on the instance. For more information, see Troubleshooting connection issues when using...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLightsailDeleteKnownHostKeysOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the known host key or certificate used by the Amazon Lightsail browser-based SSH or RDP clients to authenticate an instance. This op- eration enables the Lightsail browser-based SSH or RDP clients to con- nect to the instance after a host key mismatch. WARNING: Perform this operation only if you were expecting the host key or certificate mismatch or if you are familiar with the new host key or certificate on the instance. For more information, see Troubleshooting connection issues when u...
+    /// Deletes the known host key or certificate used by the Amazon Lightsail browser-based SSH or RDP clients to authenticate an instance. This operation enables the Lightsail browser-based SSH or RDP clients to connect to the instance after a host key mismatch. WARNING: Perform this operation only if you were expecting the host key or certificate mismatch or if you are familiar with the new host key or certificate on the instance. For more information, see Troubleshooting connection issues when using...
     /// </summary>
-    /// <param name="InstanceName">The name of the instance for which you want to reset the host key or certificate. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="InstanceName">The name of the instance for which you want to reset the host key or certificate. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailDeleteKnownHostKeysOptions(
         string InstanceName
     )
@@ -56,7 +58,7 @@ public record AwsLightsailDeleteKnownHostKeysOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the instance for which you want to reset the host key or certificate. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the instance for which you want to reset the host key or certificate. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--instance-name")]
     public string? InstanceName { get; private init; }

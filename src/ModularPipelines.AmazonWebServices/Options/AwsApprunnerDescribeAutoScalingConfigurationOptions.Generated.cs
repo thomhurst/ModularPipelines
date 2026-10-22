@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Return a full description of an App Runner automatic scaling configura- tion resource. See also: AWS API Documentation
+/// Return a full description of an App Runner automatic scaling configuration resource. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsApprunnerDescribeAutoScalingConfigurationOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Return a full description of an App Runner automatic scaling configura- tion resource. See also: AWS API Documentation
+    /// Return a full description of an App Runner automatic scaling configuration resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AutoScalingConfigurationArn">The Amazon Resource Name (ARN) of the App Runner auto scaling con- figuration that you want a description for. The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either `` .../name `` or `` .../name /revision `` . If a revision isn't specified, the latest active revision is described. System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}</param>
+    /// <param name="AutoScalingConfigurationArn">The Amazon Resource Name (ARN) of the App Runner auto scaling configuration that you want a description for. The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either `` .../name `` or `` .../name /revision `` . If a revision isn't specified, the latest active revision is described. System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}</param>
     public AwsApprunnerDescribeAutoScalingConfigurationOptions(
         string AutoScalingConfigurationArn
     )
@@ -56,7 +58,7 @@ public record AwsApprunnerDescribeAutoScalingConfigurationOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the App Runner auto scaling con- figuration that you want a description for. The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either `` .../name `` or `` .../name /revision `` . If a revision isn't specified, the latest active revision is described. System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}
+    /// The Amazon Resource Name (ARN) of the App Runner auto scaling configuration that you want a description for. The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either `` .../name `` or `` .../name /revision `` . If a revision isn't specified, the latest active revision is described. System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}
     /// </summary>
     [CliOption("--auto-scaling-configuration-arn")]
     public string? AutoScalingConfigurationArn { get; private init; }

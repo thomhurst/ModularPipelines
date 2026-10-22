@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves capacity usage metrics for your EC2 resources. Returns time-series data for metrics like unused capacity, utilization rates, and costs across On-Demand, Spot, and Capacity Reservations. Data can be grouped and filtered by various dimensions such as region, account, and instance family. See also: AWS API Documentation get-capacity-manager-metric-data is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable paginati...
+/// Retrieves capacity usage metrics for your EC2 resources. Returns time-series data for metrics like unused capacity, utilization rates, and costs across On-Demand, Spot, and Capacity Reservations. Data can be grouped and filtered by various dimensions such as region, account, and instance family. See also: AWS API Documentation get-capacity-manager-metric-data is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +28,12 @@ public record AwsEc2GetCapacityManagerMetricDataOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves capacity usage metrics for your EC2 resources. Returns time-series data for metrics like unused capacity, utilization rates, and costs across On-Demand, Spot, and Capacity Reservations. Data can be grouped and filtered by various dimensions such as region, account, and instance family. See also: AWS API Documentation get-capacity-manager-metric-data is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable paginati...
+    /// Retrieves capacity usage metrics for your EC2 resources. Returns time-series data for metrics like unused capacity, utilization rates, and costs across On-Demand, Spot, and Capacity Reservations. Data can be grouped and filtered by various dimensions such as region, account, and instance family. See also: AWS API Documentation get-capacity-manager-metric-data is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination...
     /// </summary>
-    /// <param name="MetricNames">The names of the metrics to retrieve. Maximum of 10 metrics per re- quest. Constraints: o min: 0 o max: 40 (string) Possible values: o reservation-total-capacity-hrs-vcpu o reservation-total-capacity-hrs-inst o reservation-max-size-vcpu o reservation-max-size-inst o reservation-min-size-vcpu o reservation-min-size-inst o reservation-unused-total-capacity-hrs-vcpu o reservation-unused-total-capacity-hrs-inst o reservation-unused-total-estimated-cost o reservation-max-unused-size-vcpu o reservation-max-unused-size-inst o reservation-min-unused-size-vcpu o reservation-min-unused-size-inst o reservation-max-utilization o reservation-min-utilization o reservation-avg-utilization-vcpu o reservation-avg-utilization-inst o reservation-total-count o reservation-total-estimated-cost o reservation-avg-future-size-vcpu o reservation-avg-future-size-inst o reservation-min-future-size-vcpu o reservation-min-future-size-inst o reservation-max-future-size-vcpu o reservation-max-future-size-inst o reservation-avg-committed-size-vcpu o reservation-avg-committed-size-inst o reservation-max-committed-size-vcpu o reservation-max-committed-size-inst o reservation-min-committed-size-vcpu o reservation-min-committed-size-inst o reserved-total-usage-hrs-vcpu o reserved-total-usage-hrs-inst o reserved-total-estimated-cost o unreserved-total-usage-hrs-vcpu o unreserved-total-usage-hrs-inst o unreserved-total-estimated-cost o spot-total-usage-hrs-vcpu o spot-total-usage-hrs-inst o spot-total-estimated-cost o spot-avg-run-time-before-interruption-inst o spot-max-run-time-before-interruption-inst o spot-min-run-time-before-interruption-inst o spot-total-interruptions-inst o spot-total-interruptions-vcpu o spot-total-count-inst o spot-total-count-vcpu o spot-interruption-rate-inst o spot-interruption-rate-vcpu Syntax: "string" "string" ...</param>
-    /// <param name="StartTime">The start time for the metric data query, in ISO 8601 format. The time range (end time - start time) must be a multiple of the speci- fied period.</param>
-    /// <param name="EndTime">The end time for the metric data query, in ISO 8601 format. If the end time is beyond the latest ingested data, it will be automati- cally adjusted to the latest available data point.</param>
-    /// <param name="Period">The granularity, in seconds, of the returned data points. Constraints: o min: 3600</param>
+    /// <param name="MetricNames">The names of the metrics to retrieve. Maximum of 10 metrics per request. Constraints: • min: 0 • max: 40 (string) Possible values: • reservation-total-capacity-hrs-vcpu • reservation-total-capacity-hrs-inst • reservation-max-size-vcpu • reservation-max-size-inst • reservation-min-size-vcpu • reservation-min-size-inst • reservation-unused-total-capacity-hrs-vcpu • reservation-unused-total-capacity-hrs-inst • reservation-unused-total-estimated-cost • reservation-max-unused-size-vcpu • reservation-max-unused-size-inst • reservation-min-unused-size-vcpu • reservation-min-unused-size-inst • reservation-max-utilization • reservation-min-utilization • reservation-avg-utilization-vcpu • reservation-avg-utilization-inst • reservation-total-count • reservation-total-estimated-cost • reservation-avg-future-size-vcpu • reservation-avg-future-size-inst • reservation-min-future-size-vcpu • reservation-min-future-size-inst • reservation-max-future-size-vcpu • reservation-max-future-size-inst • reservation-avg-committed-size-vcpu • reservation-avg-committed-size-inst • reservation-max-committed-size-vcpu • reservation-max-committed-size-inst • reservation-min-committed-size-vcpu • reservation-min-committed-size-inst • reserved-total-usage-hrs-vcpu • reserved-total-usage-hrs-inst • reserved-total-estimated-cost • unreserved-total-usage-hrs-vcpu • unreserved-total-usage-hrs-inst • unreserved-total-estimated-cost • spot-total-usage-hrs-vcpu • spot-total-usage-hrs-inst • spot-total-estimated-cost • spot-avg-run-time-before-interruption-inst • spot-max-run-time-before-interruption-inst • spot-min-run-time-before-interruption-inst • spot-total-interruptions-inst • spot-total-interruptions-vcpu • spot-total-count-inst • spot-total-count-vcpu • spot-interruption-rate-inst • spot-interruption-rate-vcpu Syntax: "string" "string" ...</param>
+    /// <param name="StartTime">The start time for the metric data query, in ISO 8601 format. The time range (end time - start time) must be a multiple of the specified period.</param>
+    /// <param name="EndTime">The end time for the metric data query, in ISO 8601 format. If the end time is beyond the latest ingested data, it will be automatically adjusted to the latest available data point.</param>
+    /// <param name="Period">The granularity, in seconds, of the returned data points. Constraints: • min: 3600</param>
     public AwsEc2GetCapacityManagerMetricDataOptions(
         IEnumerable<string> MetricNames,
         string StartTime,
@@ -79,52 +81,49 @@ public record AwsEc2GetCapacityManagerMetricDataOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The names of the metrics to retrieve. Maximum of 10 metrics per re- quest. Constraints: o min: 0 o max: 40 (string) Possible values: o reservation-total-capacity-hrs-vcpu o reservation-total-capacity-hrs-inst o reservation-max-size-vcpu o reservation-max-size-inst o reservation-min-size-vcpu o reservation-min-size-inst o reservation-unused-total-capacity-hrs-vcpu o reservation-unused-total-capacity-hrs-inst o reservation-unused-total-estimated-cost o reservation-max-unused-size-vcpu o reservation-max-unused-size-inst o reservation-min-unused-size-vcpu o reservation-min-unused-size-inst o reservation-max-utilization o reservation-min-utilization o reservation-avg-utilization-vcpu o reservation-avg-utilization-inst o reservation-total-count o reservation-total-estimated-cost o reservation-avg-future-size-vcpu o reservation-avg-future-size-inst o reservation-min-future-size-vcpu o reservation-min-future-size-inst o reservation-max-future-size-vcpu o reservation-max-future-size-inst o reservation-avg-committed-size-vcpu o reservation-avg-committed-size-inst o reservation-max-committed-size-vcpu o reservation-max-committed-size-inst o reservation-min-committed-size-vcpu o reservation-min-committed-size-inst o reserved-total-usage-hrs-vcpu o reserved-total-usage-hrs-inst o reserved-total-estimated-cost o unreserved-total-usage-hrs-vcpu o unreserved-total-usage-hrs-inst o unreserved-total-estimated-cost o spot-total-usage-hrs-vcpu o spot-total-usage-hrs-inst o spot-total-estimated-cost o spot-avg-run-time-before-interruption-inst o spot-max-run-time-before-interruption-inst o spot-min-run-time-before-interruption-inst o spot-total-interruptions-inst o spot-total-interruptions-vcpu o spot-total-count-inst o spot-total-count-vcpu o spot-interruption-rate-inst o spot-interruption-rate-vcpu Syntax: "string" "string" ...
+    /// The names of the metrics to retrieve. Maximum of 10 metrics per request. Constraints: • min: 0 • max: 40 (string) Possible values: • reservation-total-capacity-hrs-vcpu • reservation-total-capacity-hrs-inst • reservation-max-size-vcpu • reservation-max-size-inst • reservation-min-size-vcpu • reservation-min-size-inst • reservation-unused-total-capacity-hrs-vcpu • reservation-unused-total-capacity-hrs-inst • reservation-unused-total-estimated-cost • reservation-max-unused-size-vcpu • reservation-max-unused-size-inst • reservation-min-unused-size-vcpu • reservation-min-unused-size-inst • reservation-max-utilization • reservation-min-utilization • reservation-avg-utilization-vcpu • reservation-avg-utilization-inst • reservation-total-count • reservation-total-estimated-cost • reservation-avg-future-size-vcpu • reservation-avg-future-size-inst • reservation-min-future-size-vcpu • reservation-min-future-size-inst • reservation-max-future-size-vcpu • reservation-max-future-size-inst • reservation-avg-committed-size-vcpu • reservation-avg-committed-size-inst • reservation-max-committed-size-vcpu • reservation-max-committed-size-inst • reservation-min-committed-size-vcpu • reservation-min-committed-size-inst • reserved-total-usage-hrs-vcpu • reserved-total-usage-hrs-inst • reserved-total-estimated-cost • unreserved-total-usage-hrs-vcpu • unreserved-total-usage-hrs-inst • unreserved-total-estimated-cost • spot-total-usage-hrs-vcpu • spot-total-usage-hrs-inst • spot-total-estimated-cost • spot-avg-run-time-before-interruption-inst • spot-max-run-time-before-interruption-inst • spot-min-run-time-before-interruption-inst • spot-total-interruptions-inst • spot-total-interruptions-vcpu • spot-total-count-inst • spot-total-count-vcpu • spot-interruption-rate-inst • spot-interruption-rate-vcpu Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--metric-names", GroupValues = true)]
     public IEnumerable<string>? MetricNames { get; private init; }
 
     /// <summary>
-    /// The start time for the metric data query, in ISO 8601 format. The time range (end time - start time) must be a multiple of the speci- fied period.
+    /// The start time for the metric data query, in ISO 8601 format. The time range (end time - start time) must be a multiple of the specified period.
     /// </summary>
     [CliOption("--start-time")]
     public string? StartTime { get; private init; }
 
     /// <summary>
-    /// The end time for the metric data query, in ISO 8601 format. If the end time is beyond the latest ingested data, it will be automati- cally adjusted to the latest available data point.
+    /// The end time for the metric data query, in ISO 8601 format. If the end time is beyond the latest ingested data, it will be automatically adjusted to the latest available data point.
     /// </summary>
     [CliOption("--end-time")]
     public string? EndTime { get; private init; }
 
     /// <summary>
-    /// The granularity, in seconds, of the returned data points. Constraints: o min: 3600
+    /// The granularity, in seconds, of the returned data points. Constraints: • min: 3600
     /// </summary>
     [CliOption("--period")]
     public int? Period { get; private init; }
 
     /// <summary>
-    /// The dimensions by which to group the metric data. This determines how the data is aggregated and returned. Constraints: o min: 0 o max: 20 (string) Possible values: o resource-region o availability-zone-id o account-id o account-name o instance-family o instance-type o instance-platform o reservation-arn o reservation-id o reservation-type o reservation-create-timestamp o reservation-start-timestamp o reservation-end-timestamp o reservation-end-date-type o tenancy o reservation-state o reservation-instance-match-criteria o reservation-unused-financial-owner Constraints: o min: 0 o max: 300 Syntax: "string" "string" ...
+    /// The dimensions by which to group the metric data. This determines how the data is aggregated and returned. Constraints: • min: 0 • max: 20 (string) Possible values: • resource-region • availability-zone-id • account-id • account-name • instance-family • instance-type • instance-platform • reservation-arn • reservation-id • reservation-type • reservation-create-timestamp • reservation-start-timestamp • reservation-end-timestamp • reservation-end-date-type • tenancy • reservation-state • reservation-instance-match-criteria • reservation-unused-financial-owner Constraints: • min: 0 • max: 300 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--group-by", GroupValues = true)]
     public IEnumerable<string>? GroupBy { get; set; }
 
     /// <summary>
-    /// Conditions to filter the metric data. Each filter specifies a dimen- sion, comparison operator ('equals', 'in'), and values to match against. Constraints: o min: 0 o max: 20 (structure) Represents a filter condition for Capacity Manager queries. Con- tains dimension-based filtering criteria used to narrow down metric data and dimension results. DimensionCondition -&gt; (structure) The dimension-based condition that specifies how to filter the data based on dimension values. Dimension -&gt; (string) The name of the dimension to filter by. Possible values: o resource-region o availability-zone-id o account-id o account-name o instance-family o instance-type o instance-platform o reservation-arn o reservation-id o reservation-type o reservation-create-timestamp o reservation-start-timestamp o reservation-end-timestamp o reservation-end-date-type o tenancy o reservation-state o reservation-instance-match-criteria o reservation-unused-financial-owner Constraints: o min: 0 o max: 300 Comparison -&gt; (string) The comparison operator to use for the filter. Possible values: o equals o in Values -&gt; (list) The list of values to match against the specified dimen- sion. For 'equals' comparison, only the first value is used. For 'in' comparison, any matching value will sat- isfy the condition. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 0 o max: 300 Shorthand Syntax: DimensionCondition={Dimension=string,Comparison=string,Values=[string,string]} ... JSON Syntax: [ { "DimensionCondition": { "Dimension": "resource-region"|"availability-zone-id"|"account-id"|"account-name"|"instance-family"|"instance-type"|"instance-platform"|"reservation-arn"|"reservation-id"|"reservation-type"|"reservation-create-timestamp"|"reservation-start-timestamp"|"reservation-end-timestamp"|"reservation-end-date-type"|"tenancy"|"reservation-state"|"reservation-instance-match-criteria"|"reservation-unused-financial-owner", "Comparison": "equals"|"in", "Values": ["string", ...] } } ... ]
+    /// Conditions to filter the metric data. Each filter specifies a dimension, comparison operator ('equals', 'in'), and values to match against. Constraints: • min: 0 • max: 20 (structure) Represents a filter condition for Capacity Manager queries. Contains dimension-based filtering criteria used to narrow down metric data and dimension results. DimensionCondition -&gt; (structure) The dimension-based condition that specifies how to filter the data based on dimension values. Dimension -&gt; (string) The name of the dimension to filter by. Possible values: • resource-region • availability-zone-id • account-id • account-name • instance-family • instance-type • instance-platform • reservation-arn • reservation-id • reservation-type • reservation-create-timestamp • reservation-start-timestamp • reservation-end-timestamp • reservation-end-date-type • tenancy • reservation-state • reservation-instance-match-criteria • reservation-unused-financial-owner Constraints: • min: 0 • max: 300 Comparison -&gt; (string) The comparison operator to use for the filter. Possible values: • equals • in Values -&gt; (list) The list of values to match against the specified dimension. For 'equals' comparison, only the first value is used. For 'in' comparison, any matching value will satisfy the condition. Constraints: • min: 0 • max: 10 (string) Constraints: • min: 0 • max: 300 Shorthand Syntax: DimensionCondition={Dimension=string,Comparison=string,Values=[string,string]} ... JSON Syntax: [ { "DimensionCondition": { "Dimension": "resource-region"|"availability-zone-id"|"account-id"|"account-name"|"instance-family"|"instance-type"|"instance-platform"|"reservation-arn"|"reservation-id"|"reservation-type"|"reservation-create-timestamp"|"reservation-start-timestamp"|"reservation-end-timestamp"|"reservation-end-date-type"|"tenancy"|"reservation-state"|"reservation-instance-match-criteria"|"reservation-unused-financial-owner", "Comparison": "equals"|"in", "Values": ["string", ...] } } ... ]
     /// </summary>
     [CliOption("--filter-by", GroupValues = true)]
     public IEnumerable<string>? FilterBy { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -134,16 +133,19 @@ public record AwsEc2GetCapacityManagerMetricDataOptions : AwsOptions, IValidatab
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

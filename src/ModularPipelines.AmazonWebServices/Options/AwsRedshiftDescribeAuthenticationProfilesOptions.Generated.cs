@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsRedshiftDescribeAuthenticationProfilesOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the authentication profile to describe. If not specified then all authentication profiles owned by the account are listed. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9\-]+$
+    /// The name of the authentication profile to describe. If not specified then all authentication profiles owned by the account are listed. Constraints: • max: 63 • pattern: ^[a-zA-Z0-9\-]+$
     /// </summary>
     [CliOption("--authentication-profile-name")]
     public string? AuthenticationProfileName { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsServicediscoveryDeleteServiceAttributesOptions : AwsOptions, IV
     /// <summary>
     /// Deletes specific attributes associated with a service. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceId">The ID or Amazon Resource Name (ARN) of the service from which the attributes will be deleted. For services created in a namespace shared with your Amazon Web Services account, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide . Constraints: o max: 255</param>
-    /// <param name="Attributes">A list of keys corresponding to each attribute that you want to delete. Constraints: o min: 1 o max: 30 (string) Constraints: o max: 255 Syntax: "string" "string" ...</param>
+    /// <param name="ServiceId">The ID or Amazon Resource Name (ARN) of the service from which the attributes will be deleted. For services created in a namespace shared with your Amazon Web Services account, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide . Constraints: • max: 255</param>
+    /// <param name="Attributes">A list of keys corresponding to each attribute that you want to delete. Constraints: • min: 1 • max: 30 (string) Constraints: • max: 255 Syntax: "string" "string" ...</param>
     public AwsServicediscoveryDeleteServiceAttributesOptions(
         string ServiceId,
         IEnumerable<string> Attributes
@@ -71,13 +73,13 @@ public record AwsServicediscoveryDeleteServiceAttributesOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or Amazon Resource Name (ARN) of the service from which the attributes will be deleted. For services created in a namespace shared with your Amazon Web Services account, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide . Constraints: o max: 255
+    /// The ID or Amazon Resource Name (ARN) of the service from which the attributes will be deleted. For services created in a namespace shared with your Amazon Web Services account, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide . Constraints: • max: 255
     /// </summary>
     [CliOption("--service-id")]
     public string? ServiceId { get; private init; }
 
     /// <summary>
-    /// A list of keys corresponding to each attribute that you want to delete. Constraints: o min: 1 o max: 30 (string) Constraints: o max: 255 Syntax: "string" "string" ...
+    /// A list of keys corresponding to each attribute that you want to delete. Constraints: • min: 1 • max: 30 (string) Constraints: • max: 255 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--attributes", GroupValues = true)]
     public IEnumerable<string>? Attributes { get; private init; }

@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the input source and all of its imported resources from the Re- silience Hub application. See also: AWS API Documentation
+/// Deletes the input source and all of its imported resources from the Resilience Hub application. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsResiliencehubDeleteAppInputSourceOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the input source and all of its imported resources from the Re- silience Hub application. See also: AWS API Documentation
+    /// Deletes the input source and all of its imported resources from the Resilience Hub application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppArn">Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$</param>
+    /// <param name="AppArn">Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$</param>
     public AwsResiliencehubDeleteAppInputSourceOptions(
         string AppArn
     )
@@ -57,32 +59,32 @@ public record AwsResiliencehubDeleteAppInputSourceOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
     /// </summary>
     [CliOption("--app-arn")]
     public string? AppArn { get; private init; }
 
     /// <summary>
-    /// Used for an idempotency token. A client token is a unique, case-sen- sitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests. Constraints: o min: 1 o max: 63 o pattern: ^[A-Za-z0-9_.-]{0,63}$
+    /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests. Constraints: • min: 1 • max: 63 • pattern: ^[A-Za-z0-9_.-]{0,63}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The namespace on your Amazon Elastic Kubernetes Service cluster that you want to delete from the Resilience Hub application. eksClusterArn -&gt; (string) [required] Amazon Resource Name (ARN) of the Amazon Elastic Kubernetes Ser- vice cluster. The format for this ARN is: arn:aws :eks:region :account-id :cluster/cluster-name . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Ser- vices General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$ namespace -&gt; (string) [required] Name of the namespace that is located on your Amazon Elastic Ku- bernetes Service cluster. Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?$ Shorthand Syntax: eksClusterArn=string,namespace=string JSON Syntax: { "eksClusterArn": "string", "namespace": "string" }
+    /// The namespace on your Amazon Elastic Kubernetes Service cluster that you want to delete from the Resilience Hub application. eksClusterArn -&gt; (string) [required] Amazon Resource Name (ARN) of the Amazon Elastic Kubernetes Service cluster. The format for this ARN is: arn:aws :eks:region :account-id :cluster/cluster-name . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$ namespace -&gt; (string) [required] Name of the namespace that is located on your Amazon Elastic Kubernetes Service cluster. Constraints: • min: 1 • max: 63 • pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?$ Shorthand Syntax: eksClusterArn=string,namespace=string JSON Syntax: { "eksClusterArn": "string", "namespace": "string" }
     /// </summary>
     [CliOption("--eks-source-cluster-namespace")]
     public string? EksSourceClusterNamespace { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the imported resource you want to remove from the Resilience Hub application. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Ser- vices General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
+    /// The Amazon Resource Name (ARN) of the imported resource you want to remove from the Resilience Hub application. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
     /// </summary>
     [CliOption("--source-arn")]
     public string? SourceArn { get; set; }
 
     /// <summary>
-    /// The imported Terraform s3 state le you want to remove from the Re- silience Hub application. s3StateFileUrl -&gt; (string) [required] The URL of the Terraform s3 state file you need to import. Constraints: o min: 0 o max: 2000 o pattern: ^((https://([^/]+)\.s3((-|\.)[^/]+)?\.amazon- aws\.com(.cn)?)|(s3://([^/]+)))/\S{1,2000}$ Shorthand Syntax: s3StateFileUrl=string JSON Syntax: { "s3StateFileUrl": "string" }
+    /// The imported Terraform s3 state le you want to remove from the Resilience Hub application. s3StateFileUrl -&gt; (string) [required] The URL of the Terraform s3 state file you need to import. Constraints: • min: 0 • max: 2000 • pattern: ^((https://([^/]+)\.s3((-|\.)[^/]+)?\.amazonaws\.com(.cn)?)|(s3://([^/]+)))/\S{1,2000}$ Shorthand Syntax: s3StateFileUrl=string JSON Syntax: { "s3StateFileUrl": "string" }
     /// </summary>
     [CliOption("--terraform-source")]
     public string? TerraformSource { get; set; }

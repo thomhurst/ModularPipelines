@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsPersonalizeDescribeDataSetImportJobOptions : AwsOptions, IValid
     /// <summary>
     /// Describes the dataset import job created by CreateDatasetImportJob , including the import job status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSetImportJobArn">The Amazon Resource Name (ARN) of the dataset import job to de- scribe. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="DataSetImportJobArn">The Amazon Resource Name (ARN) of the dataset import job to describe. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
     public AwsPersonalizeDescribeDataSetImportJobOptions(
         string DataSetImportJobArn
     )
@@ -56,7 +58,7 @@ public record AwsPersonalizeDescribeDataSetImportJobOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the dataset import job to de- scribe. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the dataset import job to describe. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--dataset-import-job-arn")]
     public string? DataSetImportJobArn { get; private init; }

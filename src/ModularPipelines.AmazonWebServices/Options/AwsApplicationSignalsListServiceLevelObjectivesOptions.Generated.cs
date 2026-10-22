@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of SLOs created in this account. See also: AWS API Documentation list-service-level-objectives is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SloSummaries
+/// Returns a list of SLOs created in this account. See also: AWS API Documentation list-service-level-objectives is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SloSummaries
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,52 +25,49 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsApplicationSignalsListServiceLevelObjectivesOptions : AwsOptions
 {
     /// <summary>
-    /// You can use this optional field to specify which services you want to retrieve SLO information for. This is a string-to-string map. It can include the following fields. o Type designates the type of object this is. o ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Re- source . o Name specifies the name of the object. This is used only if the value of the Type field is Service , RemoteService , or AWS::Ser- vice . o Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource . o Environment specifies the location where this object is hosted, or what it belongs to. Constraints: o min: 1 o max: 4 key -&gt; (string) Constraints: o pattern: [a-zA-Z]{1,50} value -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: [ -~]*[!-~]+[ -~]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// You can use this optional field to specify which services you want to retrieve SLO information for. This is a string-to-string map. It can include the following fields. • Type designates the type of object this is. • ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource . • Name specifies the name of the object. This is used only if the value of the Type field is Service , RemoteService , or AWS::Service . • Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource . • Environment specifies the location where this object is hosted, or what it belongs to. Constraints: • min: 1 • max: 4 key -&gt; (string) Constraints: • pattern: [a-zA-Z]{1,50} value -&gt; (string) Constraints: • min: 1 • max: 1024 • pattern: [ -~]*[!-~]+[ -~]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--key-attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? KeyAttributes { get; set; }
 
     /// <summary>
-    /// The name of the operation that this SLO is associated with. Constraints: o min: 1 o max: 255
+    /// The name of the operation that this SLO is associated with. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--operation-name")]
     public string? OperationName { get; set; }
 
     /// <summary>
-    /// Identifies the dependency using the DependencyKeyAttributes and De- pendencyOperationName . DependencyKeyAttributes -&gt; (map) [required] This is a string-to-string map. It can include the following fields. o Type designates the type of object this is. o ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource . o Name specifies the name of the object. This is used only if the value of the Type field is Service , RemoteService , or AWS::Service . o Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource . o Environment specifies the location where this object is hosted, or what it belongs to. Constraints: o min: 1 o max: 4 key -&gt; (string) Constraints: o pattern: [a-zA-Z]{1,50} value -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: [ -~]*[!-~]+[ -~]* DependencyOperationName -&gt; (string) [required] The name of the called operation in the dependency. Constraints: o min: 1 o max: 255 Shorthand Syntax: DependencyKeyAttributes={KeyName1=string,KeyName2=string},DependencyOperationName=string JSON Syntax: { "DependencyKeyAttributes": {"string": "string" ...}, "DependencyOperationName": "string" }
+    /// Identifies the dependency using the DependencyKeyAttributes and DependencyOperationName . DependencyKeyAttributes -&gt; (map) [required] This is a string-to-string map. It can include the following fields. • Type designates the type of object this is. • ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource . • Name specifies the name of the object. This is used only if the value of the Type field is Service , RemoteService , or AWS::Service . • Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource . • Environment specifies the location where this object is hosted, or what it belongs to. Constraints: • min: 1 • max: 4 key -&gt; (string) Constraints: • pattern: [a-zA-Z]{1,50} value -&gt; (string) Constraints: • min: 1 • max: 1024 • pattern: [ -~]*[!-~]+[ -~]* DependencyOperationName -&gt; (string) [required] The name of the called operation in the dependency. Constraints: • min: 1 • max: 255 Shorthand Syntax: DependencyKeyAttributes={KeyName1=string,KeyName2=string},DependencyOperationName=string JSON Syntax: { "DependencyKeyAttributes": {"string": "string" ...}, "DependencyOperationName": "string" }
     /// </summary>
     [CliOption("--dependency-config")]
     public string? DependencyConfig { get; set; }
 
     /// <summary>
-    /// Use this optional field to only include SLOs with the specified met- ric source types in the output. Supported types are: o Service operation o Service dependency o Service o CloudWatch metric o AppMonitor o Canary Constraints: o min: 1 o max: 3 (string) Possible values: o ServiceOperation o CloudWatchMetric o ServiceDependency o AppMonitor o Canary o Service Syntax: "string" "string" ...
+    /// Use this optional field to only include SLOs with the specified metric source types in the output. Supported types are: • Service operation • Service dependency • Service • CloudWatch metric • AppMonitor • Canary Constraints: • min: 1 • max: 3 (string) Possible values: • ServiceOperation • CloudWatchMetric • ServiceDependency • AppMonitor • Canary • Service Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--metric-source-types", GroupValues = true)]
     public IEnumerable<string>? MetricSourceTypes { get; set; }
 
     /// <summary>
-    /// If you are using this operation in a monitoring account, specify true to include SLO from source accounts in the returned data. When you are monitoring an account, you can use Amazon Web Services account ID in KeyAttribute filter for service source account and SloOwnerawsaccountID for SLO source account with IncludeLinkedAc- counts to filter the returned data to only a single source account.
+    /// If you are using this operation in a monitoring account, specify true to include SLO from source accounts in the returned data. When you are monitoring an account, you can use Amazon Web Services account ID in KeyAttribute filter for service source account and SloOwnerawsaccountID for SLO source account with IncludeLinkedAccounts to filter the returned data to only a single source account.
     /// </summary>
     [CliFlag("--include-linked-accounts", NegatedName = "--no-include-linked-accounts")]
     public bool? IncludeLinkedAccounts { get; set; }
 
     /// <summary>
-    /// SLO's Amazon Web Services account ID. Constraints: o pattern: [0-9]{12}
+    /// SLO's Amazon Web Services account ID. Constraints: • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--slo-owner-aws-account-id")]
     public string? SloOwnerAwsAccountId { get; set; }
 
     /// <summary>
-    /// Identifies the metric source to filter SLOs by. MetricSourceKeyAttributes -&gt; (map) [required] Key attributes that identify the metric source. Constraints: o min: 1 o max: 4 key -&gt; (string) Constraints: o pattern: [a-zA-Z]{1,50} value -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: [ -~]*[!-~]+[ -~]* MetricSourceAttributes -&gt; (map) Additional attributes for the metric source. Constraints: o min: 1 o max: 4 key -&gt; (string) Constraints: o pattern: [a-zA-Z]{1,50} value -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: [ -~]*[!-~]+[ -~]* Shorthand Syntax: MetricSourceKeyAttributes={KeyName1=string,KeyName2=string},MetricSourceAttributes={KeyName1=string,KeyName2=string} JSON Syntax: { "MetricSourceKeyAttributes": {"string": "string" ...}, "MetricSourceAttributes": {"string": "string" ...} }
+    /// Identifies the metric source to filter SLOs by. MetricSourceKeyAttributes -&gt; (map) [required] Key attributes that identify the metric source. Constraints: • min: 1 • max: 4 key -&gt; (string) Constraints: • pattern: [a-zA-Z]{1,50} value -&gt; (string) Constraints: • min: 1 • max: 1024 • pattern: [ -~]*[!-~]+[ -~]* MetricSourceAttributes -&gt; (map) Additional attributes for the metric source. Constraints: • min: 1 • max: 4 key -&gt; (string) Constraints: • pattern: [a-zA-Z]{1,50} value -&gt; (string) Constraints: • min: 1 • max: 1024 • pattern: [ -~]*[!-~]+[ -~]* Shorthand Syntax: MetricSourceKeyAttributes={KeyName1=string,KeyName2=string},MetricSourceAttributes={KeyName1=string,KeyName2=string} JSON Syntax: { "MetricSourceKeyAttributes": {"string": "string" ...}, "MetricSourceAttributes": {"string": "string" ...} }
     /// </summary>
     [CliOption("--metric-source")]
     public string? MetricSource { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -79,15 +77,18 @@ public record AwsApplicationSignalsListServiceLevelObjectivesOptions : AwsOption
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 50
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

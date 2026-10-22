@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsArcZonalShiftUpdateZonalShiftOptions : AwsOptions, IValidatable
     /// <summary>
     /// Update an active zonal shift in Amazon Application Recovery Controller in your Amazon Web Services account. You can update a zonal shift to set a new expiration, or edit or replace the comment for the zonal shift. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ZonalShiftId">The identifier of a zonal shift. Constraints: o min: 6 o max: 36 o pattern: [A-Za-z0-9-]+</param>
+    /// <param name="ZonalShiftId">The identifier of a zonal shift. Constraints: • min: 6 • max: 36 • pattern: [A-Za-z0-9-]+</param>
     public AwsArcZonalShiftUpdateZonalShiftOptions(
         string ZonalShiftId
     )
@@ -56,19 +58,19 @@ public record AwsArcZonalShiftUpdateZonalShiftOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of a zonal shift. Constraints: o min: 6 o max: 36 o pattern: [A-Za-z0-9-]+
+    /// The identifier of a zonal shift. Constraints: • min: 6 • max: 36 • pattern: [A-Za-z0-9-]+
     /// </summary>
     [CliOption("--zonal-shift-id")]
     public string? ZonalShiftId { get; private init; }
 
     /// <summary>
-    /// A comment that you enter about the zonal shift. Only the latest com- ment is retained; no comment history is maintained. A new comment overwrites any existing comment string. Constraints: o min: 0 o max: 128
+    /// A comment that you enter about the zonal shift. Only the latest comment is retained; no comment history is maintained. A new comment overwrites any existing comment string. Constraints: • min: 0 • max: 128
     /// </summary>
     [CliOption("--comment")]
     public string? Comment { get; set; }
 
     /// <summary>
-    /// The length of time that you want a zonal shift to be active, which ARC converts to an expiry time (expiration time). Zonal shifts are temporary. You can set a zonal shift to be active initially for up to three days (72 hours). If you want to still keep traffic away from an Availability Zone, you can update the zonal shift and set a new expiration. You can also cancel a zonal shift, before it expires, for example, if you're ready to restore traffic to the Availability Zone. To set a length of time for a zonal shift to be active, specify a whole number, and then one of the following, with no space: o A lowercase letter m: To specify that the value is in minutes. o A lowercase letter h: To specify that the value is in hours. For example: 20h means the zonal shift expires in 20 hours. 120m means the zonal shift expires in 120 minutes (2 hours). Constraints: o min: 2 o max: 5 o pattern: ([1-9][0-9]*)(m|h)
+    /// The length of time that you want a zonal shift to be active, which ARC converts to an expiry time (expiration time). Zonal shifts are temporary. You can set a zonal shift to be active initially for up to three days (72 hours). If you want to still keep traffic away from an Availability Zone, you can update the zonal shift and set a new expiration. You can also cancel a zonal shift, before it expires, for example, if you're ready to restore traffic to the Availability Zone. To set a length of time for a zonal shift to be active, specify a whole number, and then one of the following, with no space: • A lowercase letter m: To specify that the value is in minutes. • A lowercase letter h: To specify that the value is in hours. For example: 20h means the zonal shift expires in 20 hours. 120m means the zonal shift expires in 120 minutes (2 hours). Constraints: • min: 2 • max: 5 • pattern: ([1-9][0-9]*)(m|h)
     /// </summary>
     [CliOption("--expires-in")]
     public string? ExpiresIn { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsChimeSdkMediaPipelinesListTagsForResourceOptions : AwsOptions, 
     /// <summary>
     /// Lists the tags available for a media pipeline. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the media pipeline associated with any tags. The ARN con- sists of the pipeline's region, resource ID, and pipeline ID. Constraints: o min: 1 o max: 1011 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$</param>
+    /// <param name="ResourceArn">The ARN of the media pipeline associated with any tags. The ARN consists of the pipeline's region, resource ID, and pipeline ID. Constraints: • min: 1 • max: 1011 • pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$</param>
     public AwsChimeSdkMediaPipelinesListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsChimeSdkMediaPipelinesListTagsForResourceOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the media pipeline associated with any tags. The ARN con- sists of the pipeline's region, resource ID, and pipeline ID. Constraints: o min: 1 o max: 1011 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$
+    /// The ARN of the media pipeline associated with any tags. The ARN consists of the pipeline's region, resource ID, and pipeline ID. Constraints: • min: 1 • max: 1011 • pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

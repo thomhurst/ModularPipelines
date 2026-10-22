@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Set multiple routing control states. You can set the value for each state to be ON or OFF. When the state is ON, traffic flows to a cell. When it's OFF, traffic does not flow. With Route 53 ARC, you can add safety rules for routing controls, which are safeguards for routing control state updates that help prevent un- expected outcomes, like fail open traffic routing. However, there are scenarios when you might want to bypass the routing control safeguards that are enforced with safety rules that...
+/// Set multiple routing control states. You can set the value for each state to be ON or OFF. When the state is ON, traffic flows to a cell. When it's OFF, traffic does not flow. With Route 53 ARC, you can add safety rules for routing controls, which are safeguards for routing control state updates that help prevent unexpected outcomes, like fail open traffic routing. However, there are scenarios when you might want to bypass the routing control safeguards that are enforced with safety rules that y...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRoute53RecoveryClusterUpdateRoutingControlStatesOptions : AwsOp
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Set multiple routing control states. You can set the value for each state to be ON or OFF. When the state is ON, traffic flows to a cell. When it's OFF, traffic does not flow. With Route 53 ARC, you can add safety rules for routing controls, which are safeguards for routing control state updates that help prevent un- expected outcomes, like fail open traffic routing. However, there are scenarios when you might want to bypass the routing control safeguards that are enforced with safety rules that...
+    /// Set multiple routing control states. You can set the value for each state to be ON or OFF. When the state is ON, traffic flows to a cell. When it's OFF, traffic does not flow. With Route 53 ARC, you can add safety rules for routing controls, which are safeguards for routing control state updates that help prevent unexpected outcomes, like fail open traffic routing. However, there are scenarios when you might want to bypass the routing control safeguards that are enforced with safety rules that y...
     /// </summary>
-    /// <param name="UpdateRoutingControlStateEntries">A set of routing control entries that you want to update. (structure) A routing control state entry. RoutingControlArn -&gt; (string) [required] The Amazon Resource Name (ARN) for a routing control state entry. Constraints: o min: 1 o max: 255 o pattern: ^[A-Za-z0-9:.\/_-]*$ RoutingControlState -&gt; (string) [required] The routing control state in a set of routing control state entries. Possible values: o On o Off Shorthand Syntax: RoutingControlArn=string,RoutingControlState=string ... JSON Syntax: [ { "RoutingControlArn": "string", "RoutingControlState": "On"|"Off" } ... ]</param>
+    /// <param name="UpdateRoutingControlStateEntries">A set of routing control entries that you want to update. (structure) A routing control state entry. RoutingControlArn -&gt; (string) [required] The Amazon Resource Name (ARN) for a routing control state entry. Constraints: • min: 1 • max: 255 • pattern: ^[A-Za-z0-9:.\/_-]*$ RoutingControlState -&gt; (string) [required] The routing control state in a set of routing control state entries. Possible values: • On • Off Shorthand Syntax: RoutingControlArn=string,RoutingControlState=string ... JSON Syntax: [ { "RoutingControlArn": "string", "RoutingControlState": "On"|"Off" } ... ]</param>
     public AwsRoute53RecoveryClusterUpdateRoutingControlStatesOptions(
         IEnumerable<string> UpdateRoutingControlStateEntries
     )
@@ -67,13 +69,13 @@ public record AwsRoute53RecoveryClusterUpdateRoutingControlStatesOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A set of routing control entries that you want to update. (structure) A routing control state entry. RoutingControlArn -&gt; (string) [required] The Amazon Resource Name (ARN) for a routing control state entry. Constraints: o min: 1 o max: 255 o pattern: ^[A-Za-z0-9:.\/_-]*$ RoutingControlState -&gt; (string) [required] The routing control state in a set of routing control state entries. Possible values: o On o Off Shorthand Syntax: RoutingControlArn=string,RoutingControlState=string ... JSON Syntax: [ { "RoutingControlArn": "string", "RoutingControlState": "On"|"Off" } ... ]
+    /// A set of routing control entries that you want to update. (structure) A routing control state entry. RoutingControlArn -&gt; (string) [required] The Amazon Resource Name (ARN) for a routing control state entry. Constraints: • min: 1 • max: 255 • pattern: ^[A-Za-z0-9:.\/_-]*$ RoutingControlState -&gt; (string) [required] The routing control state in a set of routing control state entries. Possible values: • On • Off Shorthand Syntax: RoutingControlArn=string,RoutingControlState=string ... JSON Syntax: [ { "RoutingControlArn": "string", "RoutingControlState": "On"|"Off" } ... ]
     /// </summary>
     [CliOption("--update-routing-control-state-entries", GroupValues = true)]
     public IEnumerable<string>? UpdateRoutingControlStateEntries { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Names (ARNs) for the safety rules that you want to override when you're updating routing control states. You can override one safety rule or multiple safety rules by including one or more ARNs, separated by commas. For more information, see Override safety rules to reroute traffic in the Amazon Route 53 Application Recovery Controller Developer Guide. (string) Constraints: o min: 1 o max: 255 o pattern: ^[A-Za-z0-9:.\/_-]*$ Syntax: "string" "string" ...
+    /// The Amazon Resource Names (ARNs) for the safety rules that you want to override when you're updating routing control states. You can override one safety rule or multiple safety rules by including one or more ARNs, separated by commas. For more information, see Override safety rules to reroute traffic in the Amazon Route 53 Application Recovery Controller Developer Guide. (string) Constraints: • min: 1 • max: 255 • pattern: ^[A-Za-z0-9:.\/_-]*$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--safety-rules-to-override", GroupValues = true)]
     public IEnumerable<string>? SafetyRulesToOverride { get; set; }

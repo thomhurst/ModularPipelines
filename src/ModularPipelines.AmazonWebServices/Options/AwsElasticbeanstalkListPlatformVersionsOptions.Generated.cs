@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the platform versions available for your account in an Amazon Web Services Region. Provides summary information about each platform ver- sion. Compare to DescribePlatformVersion , which provides full details about a single platform version. This action only returns information about platform versions that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of ten platform versions. When the user calls the ListPlat...
+/// Lists the platform versions available for your account in an Amazon Web Services Region. Provides summary information about each platform version. Compare to DescribePlatformVersion , which provides full details about a single platform version. This action only returns information about platform versions that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of ten platform versions. When the user calls the ListPlatfo...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,16 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsElasticbeanstalkListPlatformVersionsOptions : AwsOptions
 {
     /// <summary>
-    /// Criteria for restricting the resulting list of platform versions. The filter is interpreted as a logical conjunction (AND) of the sep- arate PlatformFilter terms. (structure) Describes criteria to restrict the results when listing platform versions. The filter is evaluated as follows: Type Operator Values[1] Type -&gt; (string) The platform version attribute to which the filter values are applied. Valid values: PlatformName | PlatformVersion | PlatformStatus | PlatformBranchName | PlatformLifecycleState | PlatformOwner | SupportedTier | SupportedAddon | ProgrammingLanguageName | OperatingSystemName Operator -&gt; (string) The operator to apply to the Type with each of the Values . Valid values: = | != | &lt; | &lt;= | &gt; | &gt;= | contains | be- gins_with | ends_with Values -&gt; (list) The list of values applied to the filtering platform version attribute. Only one value is supported for all current opera- tors. The following list shows valid filter values for some filter attributes. o PlatformStatus : Creating | Failed | Ready | Deleting | Deleted o PlatformLifecycleState : recommended o SupportedTier : WebServer/Standard | Worker/SQS/HTTP o SupportedAddon : Log/S3 | Monitoring/Healthd | WorkerDae- mon/SQSD (string) Shorthand Syntax: Type=string,Operator=string,Values=string,string ... JSON Syntax: [ { "Type": "string", "Operator": "string", "Values": ["string", ...] } ... ]
+    /// Criteria for restricting the resulting list of platform versions. The filter is interpreted as a logical conjunction (AND) of the separate PlatformFilter terms. (structure) Describes criteria to restrict the results when listing platform versions. The filter is evaluated as follows: Type Operator Values[1] Type -&gt; (string) The platform version attribute to which the filter values are applied. Valid values: PlatformName | PlatformVersion | PlatformStatus | PlatformBranchName | PlatformLifecycleState | PlatformOwner | SupportedTier | SupportedAddon | ProgrammingLanguageName | OperatingSystemName Operator -&gt; (string) The operator to apply to the Type with each of the Values . Valid values: = | != | &lt; | &lt;= | &gt; | &gt;= | contains | begins_with | ends_with Values -&gt; (list) The list of values applied to the filtering platform version attribute. Only one value is supported for all current operators. The following list shows valid filter values for some filter attributes. • PlatformStatus : Creating | Failed | Ready | Deleting | Deleted • PlatformLifecycleState : recommended • SupportedTier : WebServer/Standard | Worker/SQS/HTTP • SupportedAddon : Log/S3 | Monitoring/Healthd | WorkerDaemon/SQSD (string) Shorthand Syntax: Type=string,Operator=string,Values=string,string ... JSON Syntax: [ { "Type": "string", "Operator": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -42,15 +39,18 @@ public record AwsElasticbeanstalkListPlatformVersionsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

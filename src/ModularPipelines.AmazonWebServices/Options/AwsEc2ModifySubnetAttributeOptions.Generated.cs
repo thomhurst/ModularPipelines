@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies a subnet attribute. You can only modify one attribute at a time. Use this action to modify subnets on Amazon Web Services Outposts. o To modify a subnet on an Outpost rack, set both MapCustomerOwnedIpOn- Launch and CustomerOwnedIpv4Pool . These two parameters act as a sin- gle attribute. o To modify a subnet on an Outpost server, set either EnableLniAtDevi- ceIndex or DisableLniAtDeviceIndex . For more information about Amazon Web Services Outposts, see the fol- lowing: o Outpost server...
+/// Modifies a subnet attribute. You can only modify one attribute at a time. Use this action to modify subnets on Amazon Web Services Outposts. • To modify a subnet on an Outpost rack, set both MapCustomerOwnedIpOnLaunch and CustomerOwnedIpv4Pool . These two parameters act as a single attribute. • To modify a subnet on an Outpost server, set either EnableLniAtDeviceIndex or DisableLniAtDeviceIndex . For more information about Amazon Web Services Outposts, see the following: • Outpost servers • Outp...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +28,7 @@ public record AwsEc2ModifySubnetAttributeOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies a subnet attribute. You can only modify one attribute at a time. Use this action to modify subnets on Amazon Web Services Outposts. o To modify a subnet on an Outpost rack, set both MapCustomerOwnedIpOn- Launch and CustomerOwnedIpv4Pool . These two parameters act as a sin- gle attribute. o To modify a subnet on an Outpost server, set either EnableLniAtDevi- ceIndex or DisableLniAtDeviceIndex . For more information about Amazon Web Services Outposts, see the fol- lowing: o Outpost server...
+    /// Modifies a subnet attribute. You can only modify one attribute at a time. Use this action to modify subnets on Amazon Web Services Outposts. • To modify a subnet on an Outpost rack, set both MapCustomerOwnedIpOnLaunch and CustomerOwnedIpv4Pool . These two parameters act as a single attribute. • To modify a subnet on an Outpost server, set either EnableLniAtDeviceIndex or DisableLniAtDeviceIndex . For more information about Amazon Web Services Outposts, see the following: • Outpost servers • Outp...
     /// </summary>
     /// <param name="SubnetId">The ID of the subnet.</param>
     public AwsEc2ModifySubnetAttributeOptions(
@@ -63,49 +65,49 @@ public record AwsEc2ModifySubnetAttributeOptions : AwsOptions, IValidatableObjec
     public string? SubnetId { get; private init; }
 
     /// <summary>
-    /// ation (structure) Specify true to indicate that network interfaces created in the specified subnet should be assigned an IPv6 address. This includes a network interface that's created when launching an instance into the subnet (the instance therefore receives an IPv6 address). If you enable the IPv6 addressing feature for your subnet, your net- work interface or instance only receives an IPv6 address if it's created using version 2016-11-15 or later of the Amazon EC2 API. Value -&gt; (boolean) The attribute value. The valid values are true or false .
+    /// Specify true to indicate that network interfaces created in the specified subnet should be assigned an IPv6 address. This includes a network interface that's created when launching an instance into the subnet (the instance therefore receives an IPv6 address). If you enable the IPv6 addressing feature for your subnet, your network interface or instance only receives an IPv6 address if it's created using version 2016-11-15 or later of the Amazon EC2 API. Value -&gt; (boolean) The attribute value. The valid values are true or false .
     /// </summary>
     [CliFlag("--assign-ipv6-address-on-creation", NegatedName = "--no-assign-ipv6-address-on-creation")]
     public bool? AssignIpv6AddressOnCreation { get; set; }
 
     /// <summary>
-    /// Specify true to indicate that network interfaces attached to in- stances created in the specified subnet should be assigned a public IPv4 address. Amazon Web Services charges for all public IPv4 addresses, including public IPv4 addresses associated with running instances and Elastic IP addresses. For more information, see the Public IPv4 Address tab on the Amazon VPC pricing page . Value -&gt; (boolean) The attribute value. The valid values are true or false .
+    /// Specify true to indicate that network interfaces attached to instances created in the specified subnet should be assigned a public IPv4 address. Amazon Web Services charges for all public IPv4 addresses, including public IPv4 addresses associated with running instances and Elastic IP addresses. For more information, see the Public IPv4 Address tab on the Amazon VPC pricing page . Value -&gt; (boolean) The attribute value. The valid values are true or false .
     /// </summary>
     [CliFlag("--map-public-ip-on-launch", NegatedName = "--no-map-public-ip-on-launch")]
     public bool? MapPublicIpOnLaunch { get; set; }
 
     /// <summary>
-    /// tomer-owned-ip-on-launch (structure) Specify true to indicate that network interfaces attached to in- stances created in the specified subnet should be assigned a cus- tomer-owned IPv4 address. When this value is true , you must specify the customer-owned IP pool using CustomerOwnedIpv4Pool . Value -&gt; (boolean) The attribute value. The valid values are true or false .
+    /// Specify true to indicate that network interfaces attached to instances created in the specified subnet should be assigned a customer-owned IPv4 address. When this value is true , you must specify the customer-owned IP pool using CustomerOwnedIpv4Pool . Value -&gt; (boolean) The attribute value. The valid values are true or false .
     /// </summary>
     [CliFlag("--map-customer-owned-ip-on-launch", NegatedName = "--no-map-customer-owned-ip-on-launch")]
     public bool? MapCustomerOwnedIpOnLaunch { get; set; }
 
     /// <summary>
-    /// The customer-owned IPv4 address pool associated with the subnet. You must set this value when you specify true for MapCus- tomerOwnedIpOnLaunch .
+    /// The customer-owned IPv4 address pool associated with the subnet. You must set this value when you specify true for MapCustomerOwnedIpOnLaunch .
     /// </summary>
     [CliOption("--customer-owned-ipv4-pool")]
     public string? CustomerOwnedIpv4Pool { get; set; }
 
     /// <summary>
-    /// Indicates whether DNS queries made to the Amazon-provided DNS Re- solver in this subnet should return synthetic IPv6 addresses for IPv4-only destinations. You must first configure a NAT gateway in a public subnet (separate from the subnet containing the IPv6-only workloads). For example, the subnet containing the NAT gateway should have a 0.0.0.0/0 route pointing to the internet gateway. For more information, see Configure DNS64 and NAT64 in the Amazon VPC User Guide . Value -&gt; (boolean) The attribute value. The valid values are true or false .
+    /// Indicates whether DNS queries made to the Amazon-provided DNS Resolver in this subnet should return synthetic IPv6 addresses for IPv4-only destinations. You must first configure a NAT gateway in a public subnet (separate from the subnet containing the IPv6-only workloads). For example, the subnet containing the NAT gateway should have a 0.0.0.0/0 route pointing to the internet gateway. For more information, see Configure DNS64 and NAT64 in the Amazon VPC User Guide . Value -&gt; (boolean) The attribute value. The valid values are true or false .
     /// </summary>
     [CliFlag("--enable-dns64", NegatedName = "--no-enable-dns64")]
     public bool? EnableDns64 { get; set; }
 
     /// <summary>
-    /// The type of hostname to assign to instances in the subnet at launch. For IPv4-only and dual-stack (IPv4 and IPv6) subnets, an instance DNS name can be based on the instance IPv4 address (ip-name) or the instance ID (resource-name). For IPv6 only subnets, an instance DNS name must be based on the instance ID (resource-name). Possible values: o ip-name o resource-name
+    /// The type of hostname to assign to instances in the subnet at launch. For IPv4-only and dual-stack (IPv4 and IPv6) subnets, an instance DNS name can be based on the instance IPv4 address (ip-name) or the instance ID (resource-name). For IPv6 only subnets, an instance DNS name must be based on the instance ID (resource-name). Possible values: • ip-name • resource-name
     /// </summary>
     [CliOption("--private-dns-hostname-type-on-launch")]
     public AwsEc2ModifySubnetAttributePrivateDnsHostnameTypeOnLaunch? PrivateDnsHostnameTypeOnLaunch { get; set; }
 
     /// <summary>
-    /// source-name-dns-a-record-on-launch (structure) Indicates whether to respond to DNS queries for instance hostnames with DNS A records. Value -&gt; (boolean) The attribute value. The valid values are true or false .
+    /// Indicates whether to respond to DNS queries for instance hostnames with DNS A records. Value -&gt; (boolean) The attribute value. The valid values are true or false .
     /// </summary>
     [CliFlag("--enable-resource-name-dns-a-record-on-launch", NegatedName = "--no-enable-resource-name-dns-a-record-on-launch")]
     public bool? EnableResourceNameDnsARecordOnLaunch { get; set; }
 
     /// <summary>
-    /// source-name-dns-aaaa-record-on-launch (structure) Indicates whether to respond to DNS queries for instance hostnames with DNS AAAA records. Value -&gt; (boolean) The attribute value. The valid values are true or false .
+    /// Indicates whether to respond to DNS queries for instance hostnames with DNS AAAA records. Value -&gt; (boolean) The attribute value. The valid values are true or false .
     /// </summary>
     [CliFlag("--enable-resource-name-dns-aaaa-record-on-launch", NegatedName = "--no-enable-resource-name-dns-aaaa-record-on-launch")]
     public bool? EnableResourceNameDnsAaaaRecordOnLaunch { get; set; }
@@ -117,7 +119,7 @@ public record AwsEc2ModifySubnetAttributeOptions : AwsOptions, IValidatableObjec
     public int? EnableLniAtDeviceIndex { get; set; }
 
     /// <summary>
-    /// Specify true to indicate that local network interfaces at the cur- rent position should be disabled. Value -&gt; (boolean) The attribute value. The valid values are true or false .
+    /// Specify true to indicate that local network interfaces at the current position should be disabled. Value -&gt; (boolean) The attribute value. The valid values are true or false .
     /// </summary>
     [CliFlag("--disable-lni-at-device-index", NegatedName = "--no-disable-lni-at-device-index")]
     public bool? DisableLniAtDeviceIndex { get; set; }

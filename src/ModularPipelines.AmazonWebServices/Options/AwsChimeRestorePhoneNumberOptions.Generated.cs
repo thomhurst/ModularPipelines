@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsChimeRestorePhoneNumberOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Moves a phone number from the Deletion queue back into the phone number Inventory . See also: AWS API Documentation
     /// </summary>
-    /// <param name="PhoneNumberId">The phone number. Constraints: o pattern: .*\S.*</param>
+    /// <param name="PhoneNumberId">The phone number. Constraints: • pattern: .*\S.*</param>
     public AwsChimeRestorePhoneNumberOptions(
         string PhoneNumberId
     )
@@ -56,7 +58,7 @@ public record AwsChimeRestorePhoneNumberOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The phone number. Constraints: o pattern: .*\S.*
+    /// The phone number. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--phone-number-id")]
     public string? PhoneNumberId { get; private init; }

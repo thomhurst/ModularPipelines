@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRedshiftModifyClusterMaintenanceOptions : AwsOptions, IValidata
     /// <summary>
     /// Modifies the maintenance settings of a cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterIdentifier">A unique identifier for the cluster. Constraints: o max: 2147483647</param>
+    /// <param name="ClusterIdentifier">A unique identifier for the cluster. Constraints: • max: 2147483647</param>
     public AwsRedshiftModifyClusterMaintenanceOptions(
         string ClusterIdentifier
     )
@@ -56,19 +58,19 @@ public record AwsRedshiftModifyClusterMaintenanceOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the cluster. Constraints: o max: 2147483647
+    /// A unique identifier for the cluster. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// A boolean indicating whether to enable the deferred maintenance win- dow.
+    /// A boolean indicating whether to enable the deferred maintenance window.
     /// </summary>
     [CliFlag("--defer-maintenance", NegatedName = "--no-defer-maintenance")]
     public bool? DeferMaintenance { get; set; }
 
     /// <summary>
-    /// A unique identifier for the deferred maintenance window. Constraints: o max: 2147483647
+    /// A unique identifier for the deferred maintenance window. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--defer-maintenance-identifier")]
     public string? DeferMaintenanceIdentifier { get; set; }

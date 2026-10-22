@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsStoragegatewayUpdateGatewayInformationOptions : AwsOptions, IVa
     /// <summary>
     /// Updates a gateway's metadata, which includes the gateway's name, time zone, and metadata cache size. To specify which gateway to update, use the Amazon Resource Name (ARN) of the gateway in your request. NOTE: For gateways activated after September 2, 2015, the gateway's ARN contains the gateway ID rather than the gateway name. However, changing the name of the gateway has no effect on the gateway's ARN. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500</param>
+    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: • min: 50 • max: 500</param>
     public AwsStoragegatewayUpdateGatewayInformationOptions(
         string GatewayArn
     )
@@ -57,31 +59,31 @@ public record AwsStoragegatewayUpdateGatewayInformationOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500
+    /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: • min: 50 • max: 500
     /// </summary>
     [CliOption("--gateway-arn")]
     public string? GatewayArn { get; private init; }
 
     /// <summary>
-    /// The name you configured for your gateway. Constraints: o min: 2 o max: 255 o pattern: ^[ -\.0-\[\]-~]*[!-\.0-\[\]-~][ -\.0-\[\]-~]*$
+    /// The name you configured for your gateway. Constraints: • min: 2 • max: 255 • pattern: ^[ -\.0-\[\]-~]*[!-\.0-\[\]-~][ -\.0-\[\]-~]*$
     /// </summary>
     [CliOption("--gateway-name")]
     public string? GatewayName { get; set; }
 
     /// <summary>
-    /// A value that indicates the time zone of the gateway. Constraints: o min: 3 o max: 10
+    /// A value that indicates the time zone of the gateway. Constraints: • min: 3 • max: 10
     /// </summary>
     [CliOption("--gateway-timezone")]
     public string? GatewayTimezone { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that you want to use to monitor and log events in the gateway. For more information, see What is Amazon CloudWatch Logs? Constraints: o max: 562
+    /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that you want to use to monitor and log events in the gateway. For more information, see What is Amazon CloudWatch Logs? Constraints: • max: 562
     /// </summary>
     [CliOption("--cloud-watch-log-group-arn")]
     public string? CloudWatchLogGroupArn { get; set; }
 
     /// <summary>
-    /// Specifies the size of the gateway's metadata cache. This setting im- pacts gateway performance and hardware recommendations. For more in- formation, see Performance guidance for gateways with multiple file shares in the Amazon S3 File Gateway User Guide . Possible values: o Small o Medium o Large
+    /// Specifies the size of the gateway's metadata cache. This setting impacts gateway performance and hardware recommendations. For more information, see Performance guidance for gateways with multiple file shares in the Amazon S3 File Gateway User Guide . Possible values: • Small • Medium • Large
     /// </summary>
     [CliOption("--gateway-capacity")]
     public AwsStoragegatewayUpdateGatewayInformationGatewayCapacity? GatewayCapacity { get; set; }

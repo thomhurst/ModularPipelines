@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds or updates tags for the specified Firehose stream. A tag is a key-value pair that you can define and assign to Amazon Web Services resources. If you specify a tag that already exists, the tag value is replaced with the value that you specify in the request. Tags are meta- data. For example, you can add friendly names and descriptions or other types of information that can help you distinguish the Firehose stream. For more information about tags, see Using Cost Allocation Tags in the Amazon ...
+/// Adds or updates tags for the specified Firehose stream. A tag is a key-value pair that you can define and assign to Amazon Web Services resources. If you specify a tag that already exists, the tag value is replaced with the value that you specify in the request. Tags are metadata. For example, you can add friendly names and descriptions or other types of information that can help you distinguish the Firehose stream. For more information about tags, see Using Cost Allocation Tags in the Amazon We...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsFirehoseTagDeliveryStreamOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds or updates tags for the specified Firehose stream. A tag is a key-value pair that you can define and assign to Amazon Web Services resources. If you specify a tag that already exists, the tag value is replaced with the value that you specify in the request. Tags are meta- data. For example, you can add friendly names and descriptions or other types of information that can help you distinguish the Firehose stream. For more information about tags, see Using Cost Allocation Tags in the Amazon ...
+    /// Adds or updates tags for the specified Firehose stream. A tag is a key-value pair that you can define and assign to Amazon Web Services resources. If you specify a tag that already exists, the tag value is replaced with the value that you specify in the request. Tags are metadata. For example, you can add friendly names and descriptions or other types of information that can help you distinguish the Firehose stream. For more information about tags, see Using Cost Allocation Tags in the Amazon We...
     /// </summary>
-    /// <param name="DeliveryStreamName">The name of the Firehose stream to which you want to add the tags. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="Tags">A set of key-value pairs to use to create the tags. Constraints: o min: 1 o max: 50 (structure) Metadata that you can assign to a Firehose stream, consisting of a key-value pair. Key -&gt; (string) [required] A unique identifier for the tag. Maximum length: 128 charac- ters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @ Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:\/=+\-@%]*$ Value -&gt; (string) An optional string, which you can use to describe or define the tag. Maximum length: 256 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @ Constraints: o min: 0 o max: 256 o pattern: ^[\p{L}\p{Z}\p{N}_.:\/=+\-@%]*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="DeliveryStreamName">The name of the Firehose stream to which you want to add the tags. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="Tags">A set of key-value pairs to use to create the tags. Constraints: • min: 1 • max: 50 (structure) Metadata that you can assign to a Firehose stream, consisting of a key-value pair. Key -&gt; (string) [required] A unique identifier for the tag. Maximum length: 128 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @ Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:\/=+\-@%]*$ Value -&gt; (string) An optional string, which you can use to describe or define the tag. Maximum length: 256 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @ Constraints: • min: 0 • max: 256 • pattern: ^[\p{L}\p{Z}\p{N}_.:\/=+\-@%]*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsFirehoseTagDeliveryStreamOptions(
         string DeliveryStreamName,
         IEnumerable<string> Tags
@@ -71,13 +73,13 @@ public record AwsFirehoseTagDeliveryStreamOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Firehose stream to which you want to add the tags. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the Firehose stream to which you want to add the tags. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--delivery-stream-name")]
     public string? DeliveryStreamName { get; private init; }
 
     /// <summary>
-    /// A set of key-value pairs to use to create the tags. Constraints: o min: 1 o max: 50 (structure) Metadata that you can assign to a Firehose stream, consisting of a key-value pair. Key -&gt; (string) [required] A unique identifier for the tag. Maximum length: 128 charac- ters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @ Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:\/=+\-@%]*$ Value -&gt; (string) An optional string, which you can use to describe or define the tag. Maximum length: 256 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @ Constraints: o min: 0 o max: 256 o pattern: ^[\p{L}\p{Z}\p{N}_.:\/=+\-@%]*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A set of key-value pairs to use to create the tags. Constraints: • min: 1 • max: 50 (structure) Metadata that you can assign to a Firehose stream, consisting of a key-value pair. Key -&gt; (string) [required] A unique identifier for the tag. Maximum length: 128 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @ Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:\/=+\-@%]*$ Value -&gt; (string) An optional string, which you can use to describe or define the tag. Maximum length: 256 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @ Constraints: • min: 0 • max: 256 • pattern: ^[\p{L}\p{Z}\p{N}_.:\/=+\-@%]*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }

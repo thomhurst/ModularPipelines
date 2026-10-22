@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -17,7 +18,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts a new run and returns details about the run, or duplicates an existing run. A run is a single invocation of a workflow. If you pro- vide request IDs, Amazon Web Services HealthOmics identifies duplicate requests and starts the run only once. Monitor the progress of the run by calling the GetRun API operation. To start a new run, the following inputs are required: o A service role ARN (roleArn ). o The run's workflow ID (workflowId , not the uuid or runId ). o An Amazon S3 location (output...
+/// Starts a new run and returns details about the run, or duplicates an existing run. A run is a single invocation of a workflow. If you provide request IDs, Amazon Web Services HealthOmics identifies duplicate requests and starts the run only once. Monitor the progress of the run by calling the GetRun API operation. To start a new run, the following inputs are required: • A service role ARN (roleArn ). • The run's workflow ID (workflowId , not the uuid or runId ). • An Amazon S3 location (outputUr...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsOmicsStartRunOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts a new run and returns details about the run, or duplicates an existing run. A run is a single invocation of a workflow. If you pro- vide request IDs, Amazon Web Services HealthOmics identifies duplicate requests and starts the run only once. Monitor the progress of the run by calling the GetRun API operation. To start a new run, the following inputs are required: o A service role ARN (roleArn ). o The run's workflow ID (workflowId , not the uuid or runId ). o An Amazon S3 location (output...
+    /// Starts a new run and returns details about the run, or duplicates an existing run. A run is a single invocation of a workflow. If you provide request IDs, Amazon Web Services HealthOmics identifies duplicate requests and starts the run only once. Monitor the progress of the run by calling the GetRun API operation. To start a new run, the following inputs are required: • A service role ARN (roleArn ). • The run's workflow ID (workflowId , not the uuid or runId ). • An Amazon S3 location (outputUr...
     /// </summary>
-    /// <param name="RoleArn">A service role for the run. The roleArn requires access to Amazon Web Services HealthOmics, S3, Cloudwatch logs, and EC2. An example roleArn is arn:aws:iam::123456789012:role/omics-service-role-ser- viceRole-W8O1XMPL7QZ . In this example, the Amazon Web Services ac- count ID is 123456789012 and the role name is omics-ser- vice-role-serviceRole-W8O1XMPL7QZ . Constraints: o min: 1 o max: 128 o pattern: arn:.+</param>
-    /// <param name="OutputUri">An output S3 URI for the run. The S3 bucket must be in the same re- gion as the workflow. The role ARN must have permission to write to this S3 bucket. Constraints: o min: 1 o max: 750 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+</param>
+    /// <param name="RoleArn">A service role for the run. The roleArn requires access to Amazon Web Services HealthOmics, S3, Cloudwatch logs, and EC2. An example roleArn is arn:aws:iam::123456789012:role/omics-service-role-serviceRole-W8O1XMPL7QZ . In this example, the Amazon Web Services account ID is 123456789012 and the role name is omics-service-role-serviceRole-W8O1XMPL7QZ . Constraints: • min: 1 • max: 128 • pattern: arn:.+</param>
+    /// <param name="OutputUri">An output S3 URI for the run. The S3 bucket must be in the same region as the workflow. The role ARN must have permission to write to this S3 bucket. Constraints: • min: 1 • max: 750 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+</param>
     public AwsOmicsStartRunOptions(
         string RoleArn,
         string OutputUri
@@ -62,145 +63,145 @@ public record AwsOmicsStartRunOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A service role for the run. The roleArn requires access to Amazon Web Services HealthOmics, S3, Cloudwatch logs, and EC2. An example roleArn is arn:aws:iam::123456789012:role/omics-service-role-ser- viceRole-W8O1XMPL7QZ . In this example, the Amazon Web Services ac- count ID is 123456789012 and the role name is omics-ser- vice-role-serviceRole-W8O1XMPL7QZ . Constraints: o min: 1 o max: 128 o pattern: arn:.+
+    /// A service role for the run. The roleArn requires access to Amazon Web Services HealthOmics, S3, Cloudwatch logs, and EC2. An example roleArn is arn:aws:iam::123456789012:role/omics-service-role-serviceRole-W8O1XMPL7QZ . In this example, the Amazon Web Services account ID is 123456789012 and the role name is omics-service-role-serviceRole-W8O1XMPL7QZ . Constraints: • min: 1 • max: 128 • pattern: arn:.+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// An output S3 URI for the run. The S3 bucket must be in the same re- gion as the workflow. The role ARN must have permission to write to this S3 bucket. Constraints: o min: 1 o max: 750 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// An output S3 URI for the run. The S3 bucket must be in the same region as the workflow. The role ARN must have permission to write to this S3 bucket. Constraints: • min: 1 • max: 750 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [CliOption("--output-uri")]
     public string? OutputUri { get; private init; }
 
     /// <summary>
-    /// The run's workflow ID. The workflowId is not the UUID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+
+    /// The run's workflow ID. The workflowId is not the UUID. Constraints: • min: 1 • max: 18 • pattern: [0-9]+
     /// </summary>
     [CliOption("--workflow-id")]
     public string? WorkflowId { get; set; }
 
     /// <summary>
-    /// The run's workflow type. The workflowType must be specified if you are running a READY2RUN workflow. If you are running a PRIVATE work- flow (default), you do not need to include the workflow type. Possible values: o PRIVATE o READY2RUN Constraints: o min: 1 o max: 64
+    /// The run's workflow type. The workflowType must be specified if you are running a READY2RUN workflow. If you are running a PRIVATE workflow (default), you do not need to include the workflow type. Possible values: • PRIVATE • READY2RUN Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--workflow-type")]
     public AwsOmicsStartRunWorkflowType? WorkflowType { get; set; }
 
     /// <summary>
-    /// The ID of a run to duplicate. Constraints: o min: 1 o max: 18 o pattern: [0-9]+
+    /// The ID of a run to duplicate. Constraints: • min: 1 • max: 18 • pattern: [0-9]+
     /// </summary>
     [CliOption("--run-id")]
     public string? RunId { get; set; }
 
     /// <summary>
-    /// A name for the run. This is recommended to view and organize runs in the Amazon Web Services HealthOmics console and CloudWatch logs. Constraints: o min: 1 o max: 128 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// A name for the run. This is recommended to view and organize runs in the Amazon Web Services HealthOmics console and CloudWatch logs. Constraints: • min: 1 • max: 128 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Identifier of the cache associated with this run. If you don't spec- ify a cache ID, no task outputs are cached for this run. Constraints: o min: 1 o max: 18 o pattern: [0-9]+
+    /// Identifier of the cache associated with this run. If you don't specify a cache ID, no task outputs are cached for this run. Constraints: • min: 1 • max: 18 • pattern: [0-9]+
     /// </summary>
     [CliOption("--cache-id")]
     public string? CacheId { get; set; }
 
     /// <summary>
-    /// The cache behavior for the run. You specify this value if you want to override the default behavior for the cache. You had set the de- fault value when you created the cache. For more information, see Run cache behavior in the Amazon Web Services HealthOmics User Guide . Possible values: o CACHE_ON_FAILURE o CACHE_ALWAYS Constraints: o min: 1 o max: 64
+    /// The cache behavior for the run. You specify this value if you want to override the default behavior for the cache. You had set the default value when you created the cache. For more information, see Run cache behavior in the Amazon Web Services HealthOmics User Guide . Possible values: • CACHE_ON_FAILURE • CACHE_ALWAYS Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--cache-behavior")]
     public AwsOmicsStartRunCacheBehavior? CacheBehavior { get; set; }
 
     /// <summary>
-    /// The run's group ID. Use a run group to cap the compute resources (and number of concurrent runs) for the runs that you add to the run group. Constraints: o min: 1 o max: 18 o pattern: [0-9]+
+    /// The run's group ID. Use a run group to cap the compute resources (and number of concurrent runs) for the runs that you add to the run group. Constraints: • min: 1 • max: 18 • pattern: [0-9]+
     /// </summary>
     [CliOption("--run-group-id")]
     public string? RunGroupId { get; set; }
 
     /// <summary>
-    /// Use the run priority (highest: 1) to establish the order of runs in a run group when you start a run. If multiple runs share the same priority, the run that was initiated first will have the higher pri- ority. Runs that do not belong to a run group can be assigned a pri- ority. The priorities of these runs are ranked among other runs that are not in a run group. For more information, see Run priority in the Amazon Web Services HealthOmics User Guide . Constraints: o min: 0 o max: 100000
+    /// Use the run priority (highest: 1) to establish the order of runs in a run group when you start a run. If multiple runs share the same priority, the run that was initiated first will have the higher priority. Runs that do not belong to a run group can be assigned a priority. The priorities of these runs are ranked among other runs that are not in a run group. For more information, see Run priority in the Amazon Web Services HealthOmics User Guide . Constraints: • min: 0 • max: 100000
     /// </summary>
     [CliOption("--priority")]
     public int? Priority { get; set; }
 
     /// <summary>
-    /// Parameters for the run. The run needs all required parameters and can include optional parameters. The run cannot include any parame- ters that are not defined in the parameter template. To retrieve pa- rameters from the run, use the GetRun API operation. JSON Syntax: {...}
+    /// Parameters for the run. The run needs all required parameters and can include optional parameters. The run cannot include any parameters that are not defined in the parameter template. To retrieve parameters from the run, use the GetRun API operation. JSON Syntax: {...}
     /// </summary>
     [CliOption("--parameters")]
     public string? Parameters { get; set; }
 
     /// <summary>
-    /// The STATIC storage capacity (in gibibytes, GiB) for this run. The default run storage capacity is 1200 GiB. If your requested storage capacity is unavailable, the system rounds up the value to the near- est 1200 GiB multiple. If the requested storage capacity is still unavailable, the system rounds up the value to the nearest 2400 GiB multiple. This field is not required if the storage type is DYNAMIC (the system ignores any value that you enter). Constraints: o min: 0 o max: 100000
+    /// The STATIC storage capacity (in gibibytes, GiB) for this run. The default run storage capacity is 1200 GiB. If your requested storage capacity is unavailable, the system rounds up the value to the nearest 1200 GiB multiple. If the requested storage capacity is still unavailable, the system rounds up the value to the nearest 2400 GiB multiple. This field is not required if the storage type is DYNAMIC (the system ignores any value that you enter). Constraints: • min: 0 • max: 100000
     /// </summary>
     [CliOption("--storage-capacity")]
     public int? StorageCapacity { get; set; }
 
     /// <summary>
-    /// A log level for the run. Possible values: o OFF o FATAL o ERROR o ALL Constraints: o min: 1 o max: 64
+    /// A log level for the run. Possible values: • OFF • FATAL • ERROR • ALL Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--log-level")]
     public AwsOmicsStartRunLogLevel? LogLevel { get; set; }
 
     /// <summary>
-    /// Tags for the run. You can add up to 50 tags per run. For more infor- mation, see Adding a tag in the Amazon Web Services HealthOmics User Guide . key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags for the run. You can add up to 50 tags per run. For more information, see Adding a tag in the Amazon Web Services HealthOmics User Guide . key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// An idempotency token used to dedupe retry requests so that duplicate runs are not created. Constraints: o min: 1 o max: 128 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// An idempotency token used to dedupe retry requests so that duplicate runs are not created. Constraints: • min: 1 • max: 128 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [CliOption("--request-id")]
     public string? RequestId { get; set; }
 
     /// <summary>
-    /// The retention mode for the run. The default value is RETAIN . Amazon Web Services HealthOmics stores a fixed number of runs that are available to the console and API. In the default mode (RETAIN ), you need to remove runs manually when the number of run exceeds the maximum. If you set the retention mode to REMOVE , Amazon Web Ser- vices HealthOmics automatically removes runs (that have mode set to REMOVE ) when the number of run exceeds the maximum. All run logs are available in CloudWatch logs, if you need information about a run that is no longer available to the API. For more information about retention mode, see Specifying run reten- tion mode in the Amazon Web Services HealthOmics User Guide . Possible values: o RETAIN o REMOVE Constraints: o min: 1 o max: 64
+    /// The retention mode for the run. The default value is RETAIN . Amazon Web Services HealthOmics stores a fixed number of runs that are available to the console and API. In the default mode (RETAIN ), you need to remove runs manually when the number of run exceeds the maximum. If you set the retention mode to REMOVE , Amazon Web Services HealthOmics automatically removes runs (that have mode set to REMOVE ) when the number of run exceeds the maximum. All run logs are available in CloudWatch logs, if you need information about a run that is no longer available to the API. For more information about retention mode, see Specifying run retention mode in the Amazon Web Services HealthOmics User Guide . Possible values: • RETAIN • REMOVE Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--retention-mode")]
     public AwsOmicsStartRunRetentionMode? RetentionMode { get; set; }
 
     /// <summary>
-    /// The storage type for the run. If you set the storage type to DYNAMIC , Amazon Web Services HealthOmics dynamically scales the storage up or down, based on file system utilization. By default, the run uses STATIC storage type, which allocates a fixed amount of storage. For more information about DYNAMIC and STATIC storage, see Run storage types in the Amazon Web Services HealthOmics User Guide . Possible values: o STATIC o DYNAMIC Constraints: o min: 1 o max: 64
+    /// The storage type for the run. If you set the storage type to DYNAMIC , Amazon Web Services HealthOmics dynamically scales the storage up or down, based on file system utilization. By default, the run uses STATIC storage type, which allocates a fixed amount of storage. For more information about DYNAMIC and STATIC storage, see Run storage types in the Amazon Web Services HealthOmics User Guide . Possible values: • STATIC • DYNAMIC Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--storage-type")]
     public AwsOmicsStartRunStorageType? StorageType { get; set; }
 
     /// <summary>
-    /// The 12-digit account ID of the workflow owner that is used for run- ning a shared workflow. The workflow owner ID can be retrieved using the GetShare API operation. If you are the workflow owner, you do not need to include this ID. Constraints: o pattern: [0-9]{12}
+    /// The 12-digit account ID of the workflow owner that is used for running a shared workflow. The workflow owner ID can be retrieved using the GetShare API operation. If you are the workflow owner, you do not need to include this ID. Constraints: • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--workflow-owner-id")]
     public string? WorkflowOwnerId { get; set; }
 
     /// <summary>
-    /// The name of the workflow version. Use workflow versions to track and organize changes to the workflow. If your workflow has multiple ver- sions, the run uses the default version unless you specify a version name. To learn more, see Workflow versioning in the Amazon Web Ser- vices HealthOmics User Guide . Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9][A-Za-z0-9\-\._]*
+    /// The name of the workflow version. Use workflow versions to track and organize changes to the workflow. If your workflow has multiple versions, the run uses the default version unless you specify a version name. To learn more, see Workflow versioning in the Amazon Web Services HealthOmics User Guide . Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9][A-Za-z0-9\-\._]*
     /// </summary>
     [CliOption("--workflow-version-name")]
     public string? WorkflowVersionName { get; set; }
 
     /// <summary>
-    /// Optional configuration for run networking behavior. If not speci- fied, this will default to RESTRICTED. Possible values: o RESTRICTED o VPC
+    /// Optional configuration for run networking behavior. If not specified, this will default to RESTRICTED. Possible values: • RESTRICTED • VPC
     /// </summary>
     [CliOption("--networking-mode")]
     public AwsOmicsStartRunNetworkingMode? NetworkingMode { get; set; }
 
     /// <summary>
-    /// Optional configuration for enabling scratch ephemeral storage mounted at /tmp. If not specified, this will default to SHARED. This configuration is applicable only for CPU tasks. For tasks using GPUs, scratch storage is always LOCAL. Possible values: o LOCAL o SHARED Constraints: o min: 1 o max: 64
+    /// Optional configuration for enabling scratch ephemeral storage mounted at /tmp. If not specified, this will default to SHARED. This configuration is applicable only for CPU tasks. For tasks using GPUs, scratch storage is always LOCAL. Possible values: • LOCAL • SHARED Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--scratch-storage-mode")]
     public AwsOmicsStartRunScratchStorageMode? ScratchStorageMode { get; set; }
 
     /// <summary>
-    /// Optional configuration name to use for the workflow run. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9][A-Za-z0-9\-\._]*
+    /// Optional configuration name to use for the workflow run. Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9][A-Za-z0-9\-\._]*
     /// </summary>
     [CliOption("--configuration-name")]
     public string? ConfigurationName { get; set; }
 
     /// <summary>
-    /// Optional inline policy json for scoping down permissions via a ses- sion policy on the IAM role provided in the roleArn parameter. Constraints: o min: 1 o max: 2048 o pattern: [\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}\t\n\r]+
+    /// Optional inline policy json for scoping down permissions via a session policy on the IAM role provided in the roleArn parameter. Constraints: • min: 1 • max: 2048 • pattern: [\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}\t\n\r]+
     /// </summary>
     [CliOption("--session-policy")]
     public string? SessionPolicy { get; set; }
 
     /// <summary>
-    /// Engine-specific settings for the workflow run. Use this field to specify configuration options that are specific to the workflow en- gine (for example, Nextflow profiles). JSON Syntax: {...}
+    /// Engine-specific settings for the workflow run. Use this field to specify configuration options that are specific to the workflow engine (for example, Nextflow profiles). JSON Syntax: {...}
     /// </summary>
     [CliOption("--engine-settings")]
     public string? EngineSettings { get; set; }

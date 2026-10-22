@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,10 +30,10 @@ public record AwsBedrockRuntimeApplyGuardrailOptions : AwsOptions, IValidatableO
     /// <summary>
     /// The action to apply a guardrail. For troubleshooting some of the common errors you might encounter when using the ApplyGuardrail API, see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide See also: AWS API Documentation
     /// </summary>
-    /// <param name="GuardrailIdentifier">The guardrail identifier used in the request to apply the guardrail. Constraints: o min: 0 o max: 2048 o pattern: (|([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))</param>
-    /// <param name="GuardrailVersion">The guardrail version used in the request to apply the guardrail. Constraints: o pattern: (|([1-9][0-9]{0,7})|(DRAFT))</param>
-    /// <param name="Source">The source of data used in the request to apply the guardrail. Possible values: o INPUT o OUTPUT</param>
-    /// <param name="Content">The content details used in the request to apply the guardrail. (tagged union structure) The content block to be evaluated by the guardrail. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: text, image. text -&gt; (structure) Text within content block to be evaluated by the guardrail. text -&gt; (string) [required] The input text details to be evaluated by the guardrail. qualifiers -&gt; (list) The qualifiers describing the text block. (string) Possible values: o grounding_source o query o guard_content image -&gt; (structure) Image within guardrail content block to be evaluated by the guardrail. format -&gt; (string) [required] The format details for the file type of the image blocked by the guardrail. Possible values: o png o jpeg source -&gt; (tagged union structure) [required] The image source (image bytes) details of the image blocked by the guardrail. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: bytes. bytes -&gt; (blob) The bytes details of the guardrail image source. Ob- ject used in independent api. Constraints: o min: 1 Shorthand Syntax: text={text=string,qualifiers=[string,string]},image={format=string,source={bytes=blob}} ... JSON Syntax: [ { "text": { "text": "string", "qualifiers": ["grounding_source"|"query"|"guard_content", ...] }, "image": { "format": "png"|"jpeg", "source": { "bytes": blob } } } ... ]</param>
+    /// <param name="GuardrailIdentifier">The guardrail identifier used in the request to apply the guardrail. Constraints: • min: 0 • max: 2048 • pattern: (|([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))</param>
+    /// <param name="GuardrailVersion">The guardrail version used in the request to apply the guardrail. Constraints: • pattern: (|([1-9][0-9]{0,7})|(DRAFT))</param>
+    /// <param name="Source">The source of data used in the request to apply the guardrail. Possible values: • INPUT • OUTPUT</param>
+    /// <param name="Content">The content details used in the request to apply the guardrail. (tagged union structure) The content block to be evaluated by the guardrail. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: text, image. text -&gt; (structure) Text within content block to be evaluated by the guardrail. text -&gt; (string) [required] The input text details to be evaluated by the guardrail. qualifiers -&gt; (list) The qualifiers describing the text block. (string) Possible values: • grounding_source • query • guard_content image -&gt; (structure) Image within guardrail content block to be evaluated by the guardrail. format -&gt; (string) [required] The format details for the file type of the image blocked by the guardrail. Possible values: • png • jpeg source -&gt; (tagged union structure) [required] The image source (image bytes) details of the image blocked by the guardrail. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: bytes. bytes -&gt; (blob) The bytes details of the guardrail image source. Object used in independent api. Constraints: • min: 1 Shorthand Syntax: text={text=string,qualifiers=[string,string]},image={format=string,source={bytes=blob}} ... JSON Syntax: [ { "text": { "text": "string", "qualifiers": ["grounding_source"|"query"|"guard_content", ...] }, "image": { "format": "png"|"jpeg", "source": { "bytes": blob } } } ... ]</param>
     public AwsBedrockRuntimeApplyGuardrailOptions(
         string GuardrailIdentifier,
         string GuardrailVersion,
@@ -79,31 +81,31 @@ public record AwsBedrockRuntimeApplyGuardrailOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The guardrail identifier used in the request to apply the guardrail. Constraints: o min: 0 o max: 2048 o pattern: (|([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))
+    /// The guardrail identifier used in the request to apply the guardrail. Constraints: • min: 0 • max: 2048 • pattern: (|([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))
     /// </summary>
     [CliOption("--guardrail-identifier")]
     public string? GuardrailIdentifier { get; private init; }
 
     /// <summary>
-    /// The guardrail version used in the request to apply the guardrail. Constraints: o pattern: (|([1-9][0-9]{0,7})|(DRAFT))
+    /// The guardrail version used in the request to apply the guardrail. Constraints: • pattern: (|([1-9][0-9]{0,7})|(DRAFT))
     /// </summary>
     [CliOption("--guardrail-version")]
     public string? GuardrailVersion { get; private init; }
 
     /// <summary>
-    /// The source of data used in the request to apply the guardrail. Possible values: o INPUT o OUTPUT
+    /// The source of data used in the request to apply the guardrail. Possible values: • INPUT • OUTPUT
     /// </summary>
     [CliOption("--source")]
     public AwsBedrockRuntimeApplyGuardrailSource? Source { get; private init; }
 
     /// <summary>
-    /// The content details used in the request to apply the guardrail. (tagged union structure) The content block to be evaluated by the guardrail. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: text, image. text -&gt; (structure) Text within content block to be evaluated by the guardrail. text -&gt; (string) [required] The input text details to be evaluated by the guardrail. qualifiers -&gt; (list) The qualifiers describing the text block. (string) Possible values: o grounding_source o query o guard_content image -&gt; (structure) Image within guardrail content block to be evaluated by the guardrail. format -&gt; (string) [required] The format details for the file type of the image blocked by the guardrail. Possible values: o png o jpeg source -&gt; (tagged union structure) [required] The image source (image bytes) details of the image blocked by the guardrail. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: bytes. bytes -&gt; (blob) The bytes details of the guardrail image source. Ob- ject used in independent api. Constraints: o min: 1 Shorthand Syntax: text={text=string,qualifiers=[string,string]},image={format=string,source={bytes=blob}} ... JSON Syntax: [ { "text": { "text": "string", "qualifiers": ["grounding_source"|"query"|"guard_content", ...] }, "image": { "format": "png"|"jpeg", "source": { "bytes": blob } } } ... ]
+    /// The content details used in the request to apply the guardrail. (tagged union structure) The content block to be evaluated by the guardrail. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: text, image. text -&gt; (structure) Text within content block to be evaluated by the guardrail. text -&gt; (string) [required] The input text details to be evaluated by the guardrail. qualifiers -&gt; (list) The qualifiers describing the text block. (string) Possible values: • grounding_source • query • guard_content image -&gt; (structure) Image within guardrail content block to be evaluated by the guardrail. format -&gt; (string) [required] The format details for the file type of the image blocked by the guardrail. Possible values: • png • jpeg source -&gt; (tagged union structure) [required] The image source (image bytes) details of the image blocked by the guardrail. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: bytes. bytes -&gt; (blob) The bytes details of the guardrail image source. Object used in independent api. Constraints: • min: 1 Shorthand Syntax: text={text=string,qualifiers=[string,string]},image={format=string,source={bytes=blob}} ... JSON Syntax: [ { "text": { "text": "string", "qualifiers": ["grounding_source"|"query"|"guard_content", ...] }, "image": { "format": "png"|"jpeg", "source": { "bytes": blob } } } ... ]
     /// </summary>
     [CliOption("--content", GroupValues = true)]
     public IEnumerable<string>? Content { get; private init; }
 
     /// <summary>
-    /// Specifies the scope of the output that you get in the response. Set to FULL to return the entire output, including any detected and non-detected entries in the response for enhanced debugging. Note that the full output scope doesn't apply to word filters or regex in sensitive information filters. It does apply to all other filtering policies, including sensitive information with filters that can detect personally identifiable information (PII). Possible values: o INTERVENTIONS o FULL
+    /// Specifies the scope of the output that you get in the response. Set to FULL to return the entire output, including any detected and non-detected entries in the response for enhanced debugging. Note that the full output scope doesn't apply to word filters or regex in sensitive information filters. It does apply to all other filtering policies, including sensitive information with filters that can detect personally identifiable information (PII). Possible values: • INTERVENTIONS • FULL
     /// </summary>
     [CliOption("--output-scope")]
     public AwsBedrockRuntimeApplyGuardrailOutputScope? OutputScope { get; set; }

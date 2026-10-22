@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsQbusinessGetGroupOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Describes a group by group name. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The identifier of the application id the group is attached to. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
-    /// <param name="IndexId">The identifier of the index the group is attached to. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
-    /// <param name="GroupName">The name of the group. Constraints: o min: 1 o max: 1024 o pattern: \P{C}*</param>
+    /// <param name="ApplicationId">The identifier of the application id the group is attached to. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="IndexId">The identifier of the index the group is attached to. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="GroupName">The name of the group. Constraints: • min: 1 • max: 1024 • pattern: \P{C}*</param>
     public AwsQbusinessGetGroupOptions(
         string ApplicationId,
         string IndexId,
@@ -64,25 +66,25 @@ public record AwsQbusinessGetGroupOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the application id the group is attached to. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The identifier of the application id the group is attached to. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The identifier of the index the group is attached to. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The identifier of the index the group is attached to. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--index-id")]
     public string? IndexId { get; private init; }
 
     /// <summary>
-    /// The name of the group. Constraints: o min: 1 o max: 1024 o pattern: \P{C}*
+    /// The name of the group. Constraints: • min: 1 • max: 1024 • pattern: \P{C}*
     /// </summary>
     [CliOption("--group-name")]
     public string? GroupName { get; private init; }
 
     /// <summary>
-    /// The identifier of the data source the group is attached to. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The identifier of the data source the group is attached to. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--data-source-id")]
     public string? DataSourceId { get; set; }

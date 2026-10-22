@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsRolesanywhereUntagResourceOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Removes tags from the resource. Required permissions: rolesanywhere:UntagResource . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource. Constraints: o min: 1 o max: 1011</param>
-    /// <param name="TagKeys">A list of keys. Tag keys are the unique identifiers of tags. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: [ a-zA-Z0-9_.:/=+@-]* Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The ARN of the resource. Constraints: • min: 1 • max: 1011</param>
+    /// <param name="TagKeys">A list of keys. Tag keys are the unique identifiers of tags. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 • pattern: [ a-zA-Z0-9_.:/=+@-]* Syntax: "string" "string" ...</param>
     public AwsRolesanywhereUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsRolesanywhereUntagResourceOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource. Constraints: o min: 1 o max: 1011
+    /// The ARN of the resource. Constraints: • min: 1 • max: 1011
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A list of keys. Tag keys are the unique identifiers of tags. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: [ a-zA-Z0-9_.:/=+@-]* Syntax: "string" "string" ...
+    /// A list of keys. Tag keys are the unique identifiers of tags. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 • pattern: [ a-zA-Z0-9_.:/=+@-]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

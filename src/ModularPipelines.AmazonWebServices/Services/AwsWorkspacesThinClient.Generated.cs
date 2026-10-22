@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws workspacesthinclient commands.
+/// aws workspaces-thin-client commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsWorkspacesThinClient : IAwsWorkspacesThinClient
@@ -137,7 +137,7 @@ public class AwsWorkspacesThinClient : IAwsWorkspacesThinClient
     }
 
     /// <summary>
-    /// Returns a list of thin client devices. See also: AWS API Documentation list-devices is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: devices
+    /// Returns a list of thin client devices. See also: AWS API Documentation list-devices is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: devices
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

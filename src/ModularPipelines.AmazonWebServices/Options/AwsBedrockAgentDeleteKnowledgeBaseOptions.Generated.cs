@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBedrockAgentDeleteKnowledgeBaseOptions : AwsOptions, IValidatab
     /// <summary>
     /// Deletes a knowledge base. Before deleting a knowledge base, you should disassociate the knowledge base from any agents that it is associated with by making a DisassociateAgentKnowledgeBase request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="KnowledgeBaseId">The unique identifier of the knowledge base to delete. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="KnowledgeBaseId">The unique identifier of the knowledge base to delete. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
     public AwsBedrockAgentDeleteKnowledgeBaseOptions(
         string KnowledgeBaseId
     )
@@ -56,7 +58,7 @@ public record AwsBedrockAgentDeleteKnowledgeBaseOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the knowledge base to delete. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The unique identifier of the knowledge base to delete. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--knowledge-base-id")]
     public string? KnowledgeBaseId { get; private init; }

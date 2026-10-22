@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Get information about a single parameter by specifying the parameter name. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the speci- fied name for a parameter contains spaces between characters, the re- quest fails with a ValidationException error. NOTE: To get information about more than one parameter at a time, use the GetParameters operation. NOTE: Parameter Store throughput defines the number of API transactions...
+/// Get information about a single parameter by specifying the parameter name. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error. NOTE: To get information about more than one parameter at a time, use the GetParameters operation. NOTE: Parameter Store throughput defines the number of API transactions per...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSsmGetParameterOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Get information about a single parameter by specifying the parameter name. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the speci- fied name for a parameter contains spaces between characters, the re- quest fails with a ValidationException error. NOTE: To get information about more than one parameter at a time, use the GetParameters operation. NOTE: Parameter Store throughput defines the number of API transactions...
+    /// Get information about a single parameter by specifying the parameter name. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error. NOTE: To get information about more than one parameter at a time, use the GetParameters operation. NOTE: Parameter Store throughput defines the number of API transactions per...
     /// </summary>
-    /// <param name="Name">The name or Amazon Resource Name (ARN) of the parameter that you want to query. For parameters shared with you from another account, you must use the full ARN. To query by parameter label, use "Name": "name:label" . To query by parameter version, use "Name": "name:version" . For more information about shared parameters, see Working with shared parameters in the Amazon Web Services Systems Manager User Guide . Constraints: o min: 1 o max: 2048</param>
+    /// <param name="Name">The name or Amazon Resource Name (ARN) of the parameter that you want to query. For parameters shared with you from another account, you must use the full ARN. To query by parameter label, use "Name": "name:label" . To query by parameter version, use "Name": "name:version" . For more information about shared parameters, see Working with shared parameters in the Amazon Web Services Systems Manager User Guide . Constraints: • min: 1 • max: 2048</param>
     public AwsSsmGetParameterOptions(
         string Name
     )
@@ -56,7 +58,7 @@ public record AwsSsmGetParameterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of the parameter that you want to query. For parameters shared with you from another account, you must use the full ARN. To query by parameter label, use "Name": "name:label" . To query by parameter version, use "Name": "name:version" . For more information about shared parameters, see Working with shared parameters in the Amazon Web Services Systems Manager User Guide . Constraints: o min: 1 o max: 2048
+    /// The name or Amazon Resource Name (ARN) of the parameter that you want to query. For parameters shared with you from another account, you must use the full ARN. To query by parameter label, use "Name": "name:label" . To query by parameter version, use "Name": "name:version" . For more information about shared parameters, see Working with shared parameters in the Amazon Web Services Systems Manager User Guide . Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

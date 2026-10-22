@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +30,9 @@ public record AwsChimeSdkIdentityCreateAppInstanceUserOptions : AwsOptions, IVal
     /// <summary>
     /// Creates a user under an Amazon Chime AppInstance . The request consists of a unique appInstanceUserId and Name for that user. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppInstanceArn">The ARN of the AppInstance request. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
-    /// <param name="AppInstanceUserId">The user ID of the AppInstance . Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9]([A-Za-z0-9\:\-\_\.\@]{0,62}[A-Za-z0-9])?</param>
-    /// <param name="Name">The user's name. Constraints: o min: 1 o max: 100 o pattern: .*\S.*</param>
+    /// <param name="AppInstanceArn">The ARN of the AppInstance request. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="AppInstanceUserId">The user ID of the AppInstance . Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9]([A-Za-z0-9\:\-\_\.\@]{0,62}[A-Za-z0-9])?</param>
+    /// <param name="Name">The user's name. Constraints: • min: 1 • max: 100 • pattern: .*\S.*</param>
     public AwsChimeSdkIdentityCreateAppInstanceUserOptions(
         string AppInstanceArn,
         string AppInstanceUserId,
@@ -65,44 +67,44 @@ public record AwsChimeSdkIdentityCreateAppInstanceUserOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the AppInstance request. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The ARN of the AppInstance request. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--app-instance-arn")]
     public string? AppInstanceArn { get; private init; }
 
     /// <summary>
-    /// The user ID of the AppInstance . Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9]([A-Za-z0-9\:\-\_\.\@]{0,62}[A-Za-z0-9])?
+    /// The user ID of the AppInstance . Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9]([A-Za-z0-9\:\-\_\.\@]{0,62}[A-Za-z0-9])?
     /// </summary>
     [CliOption("--app-instance-user-id")]
     public string? AppInstanceUserId { get; private init; }
 
     /// <summary>
-    /// The user's name. Constraints: o min: 1 o max: 100 o pattern: .*\S.*
+    /// The user's name. Constraints: • min: 1 • max: 100 • pattern: .*\S.*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The request's metadata. Limited to a 1KB string in UTF-8. Constraints: o min: 0 o max: 1024 o pattern: .*
+    /// The request's metadata. Limited to a 1KB string in UTF-8. Constraints: • min: 0 • max: 1024 • pattern: .*
     /// </summary>
     [CliOption("--metadata")]
     public string? Metadata { get; set; }
 
     /// <summary>
-    /// The unique ID of the request. Use different tokens to request addi- tional AppInstances . Constraints: o min: 2 o max: 64 o pattern: [-_a-zA-Z0-9]*
+    /// The unique ID of the request. Use different tokens to request additional AppInstances . Constraints: • min: 2 • max: 64 • pattern: [-_a-zA-Z0-9]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// Tags assigned to the AppInstanceUser . Constraints: o min: 1 o max: 50 (structure) A tag object containing a key-value pair. Key -&gt; (string) [required] The key in a tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value in a tag. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Tags assigned to the AppInstanceUser . Constraints: • min: 1 • max: 50 (structure) A tag object containing a key-value pair. Key -&gt; (string) [required] The key in a tag. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The value in a tag. Constraints: • min: 1 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Settings that control the interval after which the AppInstanceUser is automatically deleted. ExpirationDays -&gt; (integer) [required] The period in days after which an AppInstanceUser will be auto- matically deleted. Constraints: o min: 1 o max: 5475 ExpirationCriterion -&gt; (string) [required] Specifies the conditions under which an AppInstanceUser will ex- pire. Possible values: o CREATED_TIMESTAMP Shorthand Syntax: ExpirationDays=integer,ExpirationCriterion=string JSON Syntax: { "ExpirationDays": integer, "ExpirationCriterion": "CREATED_TIMESTAMP" }
+    /// Settings that control the interval after which the AppInstanceUser is automatically deleted. ExpirationDays -&gt; (integer) [required] The period in days after which an AppInstanceUser will be automatically deleted. Constraints: • min: 1 • max: 5475 ExpirationCriterion -&gt; (string) [required] Specifies the conditions under which an AppInstanceUser will expire. Possible values: • CREATED_TIMESTAMP Shorthand Syntax: ExpirationDays=integer,ExpirationCriterion=string JSON Syntax: { "ExpirationDays": integer, "ExpirationCriterion": "CREATED_TIMESTAMP" }
     /// </summary>
     [CliOption("--expiration-settings")]
     public string? ExpirationSettings { get; set; }

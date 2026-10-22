@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists payment requests available to you as a seller or buyer. Both sellers (proposers) and buyers (acceptors) can use this operation to find payment requests by specifying their party type and applying op- tional parameters. NOTE: PartyType is a required parameter. A ValidationException is returned if PartyType is not provided. Pagination is supported through maxRe- sults (1-50, default 50) and nextToken parameters. See also: AWS API Documentation list-agreement-payment-requests is a paginated o...
+/// Lists payment requests available to you as a seller or buyer. Both sellers (proposers) and buyers (acceptors) can use this operation to find payment requests by specifying their party type and applying optional parameters. NOTE: PartyType is a required parameter. A ValidationException is returned if PartyType is not provided. Pagination is supported through maxResults (1-50, default 50) and nextToken parameters. See also: AWS API Documentation list-agreement-payment-requests is a paginated opera...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsMarketplaceAgreementListAgreementPaymentRequestsOptions : AwsOp
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists payment requests available to you as a seller or buyer. Both sellers (proposers) and buyers (acceptors) can use this operation to find payment requests by specifying their party type and applying op- tional parameters. NOTE: PartyType is a required parameter. A ValidationException is returned if PartyType is not provided. Pagination is supported through maxRe- sults (1-50, default 50) and nextToken parameters. See also: AWS API Documentation list-agreement-payment-requests is a paginated o...
+    /// Lists payment requests available to you as a seller or buyer. Both sellers (proposers) and buyers (acceptors) can use this operation to find payment requests by specifying their party type and applying optional parameters. NOTE: PartyType is a required parameter. A ValidationException is returned if PartyType is not provided. Pagination is supported through maxResults (1-50, default 50) and nextToken parameters. See also: AWS API Documentation list-agreement-payment-requests is a paginated opera...
     /// </summary>
-    /// <param name="PartyType">The party type for the payment requests. Required parameter. Use Proposer to list payment requests where you are the seller, or Ac- ceptor to list payment requests where you are the buyer. Constraints: o min: 1 o max: 32 o pattern: [A-Za-z]+</param>
+    /// <param name="PartyType">The party type for the payment requests. Required parameter. Use Proposer to list payment requests where you are the seller, or Acceptor to list payment requests where you are the buyer. Constraints: • min: 1 • max: 32 • pattern: [A-Za-z]+</param>
     public AwsMarketplaceAgreementListAgreementPaymentRequestsOptions(
         string PartyType
     )
@@ -58,40 +60,37 @@ public record AwsMarketplaceAgreementListAgreementPaymentRequestsOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The party type for the payment requests. Required parameter. Use Proposer to list payment requests where you are the seller, or Ac- ceptor to list payment requests where you are the buyer. Constraints: o min: 1 o max: 32 o pattern: [A-Za-z]+
+    /// The party type for the payment requests. Required parameter. Use Proposer to list payment requests where you are the seller, or Acceptor to list payment requests where you are the buyer. Constraints: • min: 1 • max: 32 • pattern: [A-Za-z]+
     /// </summary>
     [CliOption("--party-type")]
     public string? PartyType { get; private init; }
 
     /// <summary>
-    /// An optional parameter to list payment requests by agreement type (e.g., PurchaseAgreement ). Constraints: o min: 1 o max: 64 o pattern: [A-Za-z]+
+    /// An optional parameter to list payment requests by agreement type (e.g., PurchaseAgreement ). Constraints: • min: 1 • max: 64 • pattern: [A-Za-z]+
     /// </summary>
     [CliOption("--agreement-type")]
     public string? AgreementType { get; set; }
 
     /// <summary>
-    /// An optional parameter to list payment requests by catalog (e.g., AWSMarketplace ). Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9.-]+
+    /// An optional parameter to list payment requests by catalog (e.g., AWSMarketplace ). Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9.-]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; set; }
 
     /// <summary>
-    /// An optional parameter to list payment requests for a specific agree- ment. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+
+    /// An optional parameter to list payment requests for a specific agreement. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_/-]+
     /// </summary>
     [CliOption("--agreement-id")]
     public string? AgreementId { get; set; }
 
     /// <summary>
-    /// An optional parameter to list payment requests by status. Valid val- ues include VALIDATING , VALIDATION_FAILED , PENDING_APPROVAL , AP- PROVED , REJECTED , and CANCELLED . Possible values: o VALIDATING o VALIDATION_FAILED o PENDING_APPROVAL o APPROVED o REJECTED o CANCELLED
+    /// An optional parameter to list payment requests by status. Valid values include VALIDATING , VALIDATION_FAILED , PENDING_APPROVAL , APPROVED , REJECTED , and CANCELLED . Possible values: • VALIDATING • VALIDATION_FAILED • PENDING_APPROVAL • APPROVED • REJECTED • CANCELLED
     /// </summary>
     [CliOption("--status")]
     public AwsMarketplaceAgreementListAgreementPaymentRequestsStatus? Status { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -101,16 +100,19 @@ public record AwsMarketplaceAgreementListAgreementPaymentRequestsOptions : AwsOp
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 50
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsConnectparticipantDescribeViewOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Retrieves the view for the specified view token. For security recommendations, see Connect Customer Chat security best practices . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ViewToken">An encrypted token originating from the interactive message of a ShowView block operation. Represents the desired view. Constraints: o min: 1 o max: 1000</param>
-    /// <param name="ConnectionToken">The connection token. Constraints: o min: 1 o max: 1000</param>
+    /// <param name="ViewToken">An encrypted token originating from the interactive message of a ShowView block operation. Represents the desired view. Constraints: • min: 1 • max: 1000</param>
+    /// <param name="ConnectionToken">The connection token. Constraints: • min: 1 • max: 1000</param>
     public AwsConnectparticipantDescribeViewOptions(
         string ViewToken,
         string ConnectionToken
@@ -61,14 +63,14 @@ public record AwsConnectparticipantDescribeViewOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An encrypted token originating from the interactive message of a ShowView block operation. Represents the desired view. Constraints: o min: 1 o max: 1000
+    /// An encrypted token originating from the interactive message of a ShowView block operation. Represents the desired view. Constraints: • min: 1 • max: 1000
     /// </summary>
     [SecretValue]
     [CliOption("--view-token")]
     public string? ViewToken { get; private init; }
 
     /// <summary>
-    /// The connection token. Constraints: o min: 1 o max: 1000
+    /// The connection token. Constraints: • min: 1 • max: 1000
     /// </summary>
     [SecretValue]
     [CliOption("--connection-token")]

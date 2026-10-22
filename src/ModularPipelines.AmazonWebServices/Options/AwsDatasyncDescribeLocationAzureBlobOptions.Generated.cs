@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDatasyncDescribeLocationAzureBlobOptions : AwsOptions, IValidat
     /// <summary>
     /// Provides details about how an DataSync transfer location for Microsoft Azure Blob Storage is configured. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LocationArn">Specifies the Amazon Resource Name (ARN) of your Azure Blob Storage transfer location. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$</param>
+    /// <param name="LocationArn">Specifies the Amazon Resource Name (ARN) of your Azure Blob Storage transfer location. Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$</param>
     public AwsDatasyncDescribeLocationAzureBlobOptions(
         string LocationArn
     )
@@ -56,7 +58,7 @@ public record AwsDatasyncDescribeLocationAzureBlobOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the Amazon Resource Name (ARN) of your Azure Blob Storage transfer location. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$
+    /// Specifies the Amazon Resource Name (ARN) of your Azure Blob Storage transfer location. Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$
     /// </summary>
     [CliOption("--location-arn")]
     public string? LocationArn { get; private init; }

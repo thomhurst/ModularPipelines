@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDrsStartSourceNetworkReplicationOptions : AwsOptions, IValidata
     /// <summary>
     /// Starts replication for a Source Network. This action would make the Source Network protected. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceNetworkId">ID of the Source Network to replicate. Constraints: o min: 20 o max: 20 o pattern: sn-[0-9a-zA-Z]{17}</param>
+    /// <param name="SourceNetworkId">ID of the Source Network to replicate. Constraints: • min: 20 • max: 20 • pattern: sn-[0-9a-zA-Z]{17}</param>
     public AwsDrsStartSourceNetworkReplicationOptions(
         string SourceNetworkId
     )
@@ -56,7 +58,7 @@ public record AwsDrsStartSourceNetworkReplicationOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID of the Source Network to replicate. Constraints: o min: 20 o max: 20 o pattern: sn-[0-9a-zA-Z]{17}
+    /// ID of the Source Network to replicate. Constraints: • min: 20 • max: 20 • pattern: sn-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--source-network-id")]
     public string? SourceNetworkId { get; private init; }

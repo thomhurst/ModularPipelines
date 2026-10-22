@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +30,9 @@ public record AwsWorkdocsDeleteDocumentVersionOptions : AwsOptions, IValidatable
     /// <summary>
     /// Deletes a specific version of a document. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DocumentId">The ID of the document associated with the version being deleted. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+</param>
-    /// <param name="VersionId">The ID of the version being deleted. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+</param>
-    /// <param name="DeletePriorVersions"></param>
+    /// <param name="DocumentId">The ID of the document associated with the version being deleted. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+</param>
+    /// <param name="VersionId">The ID of the version being deleted. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+</param>
+    /// <param name="DeletePriorVersions">Deletes all versions of a document prior to the current version.</param>
     public AwsWorkdocsDeleteDocumentVersionOptions(
         string DocumentId,
         string VersionId,
@@ -64,22 +66,25 @@ public record AwsWorkdocsDeleteDocumentVersionOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the document associated with the version being deleted. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+
+    /// The ID of the document associated with the version being deleted. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+
     /// </summary>
     [CliOption("--document-id")]
     public string? DocumentId { get; private init; }
 
     /// <summary>
-    /// The ID of the version being deleted. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+
+    /// The ID of the version being deleted. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+
     /// </summary>
     [CliOption("--version-id")]
     public string? VersionId { get; private init; }
 
+    /// <summary>
+    /// Deletes all versions of a document prior to the current version.
+    /// </summary>
     [CliFlag("--delete-prior-versions", NegatedName = "--no-delete-prior-versions")]
     public bool? DeletePriorVersions { get; private init; }
 
     /// <summary>
-    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: o min: 1 o max: 8199
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: • min: 1 • max: 8199
     /// </summary>
     [SecretValue]
     [CliOption("--authentication-token")]

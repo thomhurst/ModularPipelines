@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves information about a policy generation request within the AgentCore Policy system. Policy generation converts natural language descriptions into Dogwood policy statements using AI-powered transla- tion, enabling non-technical users to create policies. See also: AWS API Documentation
+/// Retrieves information about a policy generation request within the AgentCore Policy system. Policy generation converts natural language descriptions into Dogwood policy statements using AI-powered translation, enabling non-technical users to create policies. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsBedrockAgentcoreControlGetPolicyGenerationOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves information about a policy generation request within the AgentCore Policy system. Policy generation converts natural language descriptions into Dogwood policy statements using AI-powered transla- tion, enabling non-technical users to create policies. See also: AWS API Documentation
+    /// Retrieves information about a policy generation request within the AgentCore Policy system. Policy generation converts natural language descriptions into Dogwood policy statements using AI-powered translation, enabling non-technical users to create policies. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyGenerationId">The unique identifier of the policy generation request to be re- trieved. This must be a valid generation ID from a previous StartPolicyGeneration call. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}</param>
-    /// <param name="PolicyEngineId">The identifier of the policy engine associated with the policy gen- eration request. This provides the context for the generation opera- tion and schema validation. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}</param>
+    /// <param name="PolicyGenerationId">The unique identifier of the policy generation request to be retrieved. This must be a valid generation ID from a previous StartPolicyGeneration call. Constraints: • min: 12 • max: 59 • pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}</param>
+    /// <param name="PolicyEngineId">The identifier of the policy engine associated with the policy generation request. This provides the context for the generation operation and schema validation. Constraints: • min: 12 • max: 59 • pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}</param>
     public AwsBedrockAgentcoreControlGetPolicyGenerationOptions(
         string PolicyGenerationId,
         string PolicyEngineId
@@ -60,13 +62,13 @@ public record AwsBedrockAgentcoreControlGetPolicyGenerationOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the policy generation request to be re- trieved. This must be a valid generation ID from a previous StartPolicyGeneration call. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}
+    /// The unique identifier of the policy generation request to be retrieved. This must be a valid generation ID from a previous StartPolicyGeneration call. Constraints: • min: 12 • max: 59 • pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}
     /// </summary>
     [CliOption("--policy-generation-id")]
     public string? PolicyGenerationId { get; private init; }
 
     /// <summary>
-    /// The identifier of the policy engine associated with the policy gen- eration request. This provides the context for the generation opera- tion and schema validation. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}
+    /// The identifier of the policy engine associated with the policy generation request. This provides the context for the generation operation and schema validation. Constraints: • min: 12 • max: 59 • pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}
     /// </summary>
     [CliOption("--policy-engine-id")]
     public string? PolicyEngineId { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a SAML provider resource in IAM. Deleting the provider resource from IAM does not update any roles that reference the SAML provider resource's ARN as a principal in their trust policies. Any attempt to assume a role that references a non-ex- istent provider resource ARN fails. NOTE: This operation requires Signature Version 4 . See also: AWS API Documentation
+/// Deletes a SAML provider resource in IAM. Deleting the provider resource from IAM does not update any roles that reference the SAML provider resource's ARN as a principal in their trust policies. Any attempt to assume a role that references a non-existent provider resource ARN fails. NOTE: This operation requires Signature Version 4 . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsIamDeleteSamlProviderOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a SAML provider resource in IAM. Deleting the provider resource from IAM does not update any roles that reference the SAML provider resource's ARN as a principal in their trust policies. Any attempt to assume a role that references a non-ex- istent provider resource ARN fails. NOTE: This operation requires Signature Version 4 . See also: AWS API Documentation
+    /// Deletes a SAML provider resource in IAM. Deleting the provider resource from IAM does not update any roles that reference the SAML provider resource's ARN as a principal in their trust policies. Any attempt to assume a role that references a non-existent provider resource ARN fails. NOTE: This operation requires Signature Version 4 . See also: AWS API Documentation
     /// </summary>
-    /// <param name="SamlProviderArn">The Amazon Resource Name (ARN) of the SAML provider to delete. Constraints: o min: 20 o max: 2048</param>
+    /// <param name="SamlProviderArn">The Amazon Resource Name (ARN) of the SAML provider to delete. Constraints: • min: 20 • max: 2048</param>
     public AwsIamDeleteSamlProviderOptions(
         string SamlProviderArn
     )
@@ -56,7 +58,7 @@ public record AwsIamDeleteSamlProviderOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the SAML provider to delete. Constraints: o min: 20 o max: 2048
+    /// The Amazon Resource Name (ARN) of the SAML provider to delete. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--saml-provider-arn")]
     public string? SamlProviderArn { get; private init; }

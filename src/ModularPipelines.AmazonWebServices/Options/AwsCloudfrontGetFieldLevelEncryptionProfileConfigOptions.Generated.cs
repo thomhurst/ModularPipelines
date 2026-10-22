@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCloudfrontGetFieldLevelEncryptionProfileConfigOptions : AwsOpti
     /// <summary>
     /// Get the field-level encryption profile configuration information. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">Get the ID for the field-level encryption profile configuration in- formation.</param>
+    /// <param name="Id">Get the ID for the field-level encryption profile configuration information.</param>
     public AwsCloudfrontGetFieldLevelEncryptionProfileConfigOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsCloudfrontGetFieldLevelEncryptionProfileConfigOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Get the ID for the field-level encryption profile configuration in- formation.
+    /// Get the ID for the field-level encryption profile configuration information.
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a list of read set activation jobs and returns the metadata in a JSON formatted output. To extract metadata from a read set activa- tion job, use the GetReadSetActivationJob API operation. See also: AWS API Documentation list-read-set-activation-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a ...
+/// Retrieves a list of read set activation jobs and returns the metadata in a JSON formatted output. To extract metadata from a read set activation job, use the GetReadSetActivationJob API operation. See also: AWS API Documentation list-read-set-activation-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagina...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsOmicsListReadSetActivationJobsOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves a list of read set activation jobs and returns the metadata in a JSON formatted output. To extract metadata from a read set activa- tion job, use the GetReadSetActivationJob API operation. See also: AWS API Documentation list-read-set-activation-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a ...
+    /// Retrieves a list of read set activation jobs and returns the metadata in a JSON formatted output. To extract metadata from a read set activation job, use the GetReadSetActivationJob API operation. See also: AWS API Documentation list-read-set-activation-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagina...
     /// </summary>
-    /// <param name="SequenceStoreId">The read set's sequence store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
+    /// <param name="SequenceStoreId">The read set's sequence store ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+</param>
     public AwsOmicsListReadSetActivationJobsOptions(
         string SequenceStoreId
     )
@@ -57,22 +59,19 @@ public record AwsOmicsListReadSetActivationJobsOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The read set's sequence store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// The read set's sequence store ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+
     /// </summary>
     [CliOption("--sequence-store-id")]
     public string? SequenceStoreId { get; private init; }
 
     /// <summary>
-    /// A filter to apply to the list. status -&gt; (string) The filter's status. Possible values: o SUBMITTED o IN_PROGRESS o CANCELLING o CANCELLED o FAILED o COMPLETED o COMPLETED_WITH_FAILURES createdAfter -&gt; (timestamp) The filter's start date. createdBefore -&gt; (timestamp) The filter's end date. Shorthand Syntax: status=string,createdAfter=timestamp,createdBefore=timestamp JSON Syntax: { "status": "SUBMITTED"|"IN_PROGRESS"|"CANCELLING"|"CANCELLED"|"FAILED"|"COMPLETED"|"COMPLETED_WITH_FAILURES", "createdAfter": timestamp, "createdBefore": timestamp }
+    /// A filter to apply to the list. status -&gt; (string) The filter's status. Possible values: • SUBMITTED • IN_PROGRESS • CANCELLING • CANCELLED • FAILED • COMPLETED • COMPLETED_WITH_FAILURES createdAfter -&gt; (timestamp) The filter's start date. createdBefore -&gt; (timestamp) The filter's end date. Shorthand Syntax: status=string,createdAfter=timestamp,createdBefore=timestamp JSON Syntax: { "status": "SUBMITTED"|"IN_PROGRESS"|"CANCELLING"|"CANCELLED"|"FAILED"|"COMPLETED"|"COMPLETED_WITH_FAILURES", "createdAfter": timestamp, "createdBefore": timestamp }
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -82,16 +81,19 @@ public record AwsOmicsListReadSetActivationJobsOptions : AwsOptions, IValidatabl
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

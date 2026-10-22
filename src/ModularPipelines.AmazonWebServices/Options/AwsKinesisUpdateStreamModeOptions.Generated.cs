@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the capacity mode of the data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data stream. If you'd still like to proactively scale your on-demand data streams capacity, you can unlock the warm throughput feature for on-demand data streams by enabling MinimumThroughputBillingCommitment for your ac- count. Once your account has MinimumThroughputBillingCommitment en- abled, you can specify the warm throu...
+/// Updates the capacity mode of the data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data stream. If you'd still like to proactively scale your on-demand data streams capacity, you can unlock the warm throughput feature for on-demand data streams by enabling MinimumThroughputBillingCommitment for your account. Once your account has MinimumThroughputBillingCommitment enabled, you can specify the warm throughpu...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsKinesisUpdateStreamModeOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the capacity mode of the data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data stream. If you'd still like to proactively scale your on-demand data streams capacity, you can unlock the warm throughput feature for on-demand data streams by enabling MinimumThroughputBillingCommitment for your ac- count. Once your account has MinimumThroughputBillingCommitment en- abled, you can specify the warm throu...
+    /// Updates the capacity mode of the data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data stream. If you'd still like to proactively scale your on-demand data streams capacity, you can unlock the warm throughput feature for on-demand data streams by enabling MinimumThroughputBillingCommitment for your account. Once your account has MinimumThroughputBillingCommitment enabled, you can specify the warm throughpu...
     /// </summary>
-    /// <param name="StreamArn">Specifies the ARN of the data stream whose capacity mode you want to update. Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+</param>
-    /// <param name="StreamModeDetails">Specifies the capacity mode to which you want to set your data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data streams. StreamMode -&gt; (string) [required] Specifies the capacity mode to which you want to set your data stream. Currently, in Kinesis Data Streams, you can choose be- tween an on-demand capacity mode and a provisioned capacity mode for your data streams. Possible values: o PROVISIONED o ON_DEMAND Shorthand Syntax: StreamMode=string JSON Syntax: { "StreamMode": "PROVISIONED"|"ON_DEMAND" }</param>
+    /// <param name="StreamArn">Specifies the ARN of the data stream whose capacity mode you want to update. Constraints: • min: 1 • max: 2048 • pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+</param>
+    /// <param name="StreamModeDetails">Specifies the capacity mode to which you want to set your data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data streams. StreamMode -&gt; (string) [required] Specifies the capacity mode to which you want to set your data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data streams. Possible values: • PROVISIONED • ON_DEMAND Shorthand Syntax: StreamMode=string JSON Syntax: { "StreamMode": "PROVISIONED"|"ON_DEMAND" }</param>
     public AwsKinesisUpdateStreamModeOptions(
         string StreamArn,
         string StreamModeDetails
@@ -60,25 +62,25 @@ public record AwsKinesisUpdateStreamModeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ARN of the data stream whose capacity mode you want to update. Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+
+    /// Specifies the ARN of the data stream whose capacity mode you want to update. Constraints: • min: 1 • max: 2048 • pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+
     /// </summary>
     [CliOption("--stream-arn")]
     public string? StreamArn { get; private init; }
 
     /// <summary>
-    /// Specifies the capacity mode to which you want to set your data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data streams. StreamMode -&gt; (string) [required] Specifies the capacity mode to which you want to set your data stream. Currently, in Kinesis Data Streams, you can choose be- tween an on-demand capacity mode and a provisioned capacity mode for your data streams. Possible values: o PROVISIONED o ON_DEMAND Shorthand Syntax: StreamMode=string JSON Syntax: { "StreamMode": "PROVISIONED"|"ON_DEMAND" }
+    /// Specifies the capacity mode to which you want to set your data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data streams. StreamMode -&gt; (string) [required] Specifies the capacity mode to which you want to set your data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data streams. Possible values: • PROVISIONED • ON_DEMAND Shorthand Syntax: StreamMode=string JSON Syntax: { "StreamMode": "PROVISIONED"|"ON_DEMAND" }
     /// </summary>
     [CliOption("--stream-mode-details")]
     public string? StreamModeDetails { get; private init; }
 
     /// <summary>
-    /// Not Implemented. Reserved for future use. Constraints: o min: 1 o max: 24 o pattern: [a-z0-9]{20}-[a-z0-9]{3}
+    /// Not Implemented. Reserved for future use. Constraints: • min: 1 • max: 24 • pattern: [a-z0-9]{20}-[a-z0-9]{3}
     /// </summary>
     [CliOption("--stream-id")]
     public string? StreamId { get; set; }
 
     /// <summary>
-    /// The target warm throughput in MB/s that the stream should be scaled to handle. This represents the throughput capacity that will be im- mediately available for write operations. This field is only valid when the stream mode is being updated to on-demand. Constraints: o min: 0
+    /// The target warm throughput in MB/s that the stream should be scaled to handle. This represents the throughput capacity that will be immediately available for write operations. This field is only valid when the stream mode is being updated to on-demand. Constraints: • min: 0
     /// </summary>
     [CliOption("--warm-throughput-mi-bps")]
     public int? WarmThroughputMiBps { get; set; }

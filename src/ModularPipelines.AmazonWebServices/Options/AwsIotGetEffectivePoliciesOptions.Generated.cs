@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotGetEffectivePoliciesOptions : AwsOptions
 {
     /// <summary>
-    /// The principal. Valid principals are CertificateArn (arn:aws:iot:re- gion :accountId :cert/certificateId ), thingGroupArn (arn:aws:iot:region :accountId :thinggroup/groupName ) and CognitoId (region :id ).
+    /// The principal. Valid principals are CertificateArn (arn:aws:iot:region :accountId :cert/certificateId ), thingGroupArn (arn:aws:iot:region :accountId :thinggroup/groupName ) and CognitoId (region :id ).
     /// </summary>
     [CliOption("--principal")]
     public string? Principal { get; set; }
@@ -34,7 +34,7 @@ public record AwsIotGetEffectivePoliciesOptions : AwsOptions
     public string? CognitoIdentityPoolId { get; set; }
 
     /// <summary>
-    /// The thing name. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The thing name. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--thing-name")]
     public string? ThingName { get; set; }

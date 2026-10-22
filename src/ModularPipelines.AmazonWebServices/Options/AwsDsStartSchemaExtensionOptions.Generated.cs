@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +29,10 @@ public record AwsDsStartSchemaExtensionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Applies a schema extension to a Microsoft AD directory. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The identifier of the directory for which the schema extension will be applied to. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
-    /// <param name="CreateSnapshotBeforeSchemaExtension">fore-schema-extension (boolean) [required] If true, creates a snapshot of the directory before applying the schema extension.</param>
-    /// <param name="LdifContent">The LDIF file represented as a string. To construct the LdifContent string, precede each line as it would be formatted in an ldif file with n. See the example request below for more details. The file size can be no larger than 1MB. Constraints: o min: 1 o max: 500000</param>
-    /// <param name="Description">A description of the schema extension. Constraints: o min: 0 o max: 128 o pattern: ^([a-zA-Z0-9_])[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$</param>
+    /// <param name="DirectoryId">The identifier of the directory for which the schema extension will be applied to. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="CreateSnapshotBeforeSchemaExtension">If true, creates a snapshot of the directory before applying the schema extension.</param>
+    /// <param name="LdifContent">The LDIF file represented as a string. To construct the LdifContent string, precede each line as it would be formatted in an ldif file with n. See the example request below for more details. The file size can be no larger than 1MB. Constraints: • min: 1 • max: 500000</param>
+    /// <param name="Description">A description of the schema extension. Constraints: • min: 0 • max: 128 • pattern: ^([a-zA-Z0-9_])[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$</param>
     public AwsDsStartSchemaExtensionOptions(
         string DirectoryId,
         bool CreateSnapshotBeforeSchemaExtension,
@@ -67,25 +69,25 @@ public record AwsDsStartSchemaExtensionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the directory for which the schema extension will be applied to. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The identifier of the directory for which the schema extension will be applied to. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// fore-schema-extension (boolean) [required] If true, creates a snapshot of the directory before applying the schema extension.
+    /// If true, creates a snapshot of the directory before applying the schema extension.
     /// </summary>
     [CliFlag("--create-snapshot-before-schema-extension", NegatedName = "--no-create-snapshot-before-schema-extension")]
     public bool? CreateSnapshotBeforeSchemaExtension { get; private init; }
 
     /// <summary>
-    /// The LDIF file represented as a string. To construct the LdifContent string, precede each line as it would be formatted in an ldif file with n. See the example request below for more details. The file size can be no larger than 1MB. Constraints: o min: 1 o max: 500000
+    /// The LDIF file represented as a string. To construct the LdifContent string, precede each line as it would be formatted in an ldif file with n. See the example request below for more details. The file size can be no larger than 1MB. Constraints: • min: 1 • max: 500000
     /// </summary>
     [CliOption("--ldif-content")]
     public string? LdifContent { get; private init; }
 
     /// <summary>
-    /// A description of the schema extension. Constraints: o min: 0 o max: 128 o pattern: ^([a-zA-Z0-9_])[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$
+    /// A description of the schema extension. Constraints: • min: 0 • max: 128 • pattern: ^([a-zA-Z0-9_])[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; private init; }

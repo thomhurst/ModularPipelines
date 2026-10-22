@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new custom model in Amazon Bedrock. After the model is ac- tive, you can use it for inference. You can provide the model data source in one of the following ways: o customModelDataSource Specify a SageMaker AI model package ARN. Ama- zon Bedrock resolves the model package to retrieve the model arti- facts. This is the preferred method for new SageMaker AI training outputs. o modelSourceConfig Specify an Amazon S3 URI pointing to the Ama- zon-managed Amazon S3 bucket containing your mod...
+/// Creates a new custom model in Amazon Bedrock. After the model is active, you can use it for inference. You can provide the model data source in one of the following ways: • customModelDataSource Specify a SageMaker AI model package ARN. Amazon Bedrock resolves the model package to retrieve the model artifacts. This is the preferred method for new SageMaker AI training outputs. • modelSourceConfig Specify an Amazon S3 URI pointing to the Amazon-managed Amazon S3 bucket containing your model artif...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsBedrockCreateCustomModelOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new custom model in Amazon Bedrock. After the model is ac- tive, you can use it for inference. You can provide the model data source in one of the following ways: o customModelDataSource Specify a SageMaker AI model package ARN. Ama- zon Bedrock resolves the model package to retrieve the model arti- facts. This is the preferred method for new SageMaker AI training outputs. o modelSourceConfig Specify an Amazon S3 URI pointing to the Ama- zon-managed Amazon S3 bucket containing your mod...
+    /// Creates a new custom model in Amazon Bedrock. After the model is active, you can use it for inference. You can provide the model data source in one of the following ways: • customModelDataSource Specify a SageMaker AI model package ARN. Amazon Bedrock resolves the model package to retrieve the model artifacts. This is the preferred method for new SageMaker AI training outputs. • modelSourceConfig Specify an Amazon S3 URI pointing to the Amazon-managed Amazon S3 bucket containing your model artif...
     /// </summary>
-    /// <param name="ModelName">A unique name for the custom model. Constraints: o min: 1 o max: 63 o pattern: ([0-9a-zA-Z][_-]?){1,63}</param>
+    /// <param name="ModelName">A unique name for the custom model. Constraints: • min: 1 • max: 63 • pattern: ([0-9a-zA-Z][_-]?){1,63}</param>
     public AwsBedrockCreateCustomModelOptions(
         string ModelName
     )
@@ -57,43 +59,43 @@ public record AwsBedrockCreateCustomModelOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique name for the custom model. Constraints: o min: 1 o max: 63 o pattern: ([0-9a-zA-Z][_-]?){1,63}
+    /// A unique name for the custom model. Constraints: • min: 1 • max: 63 • pattern: ([0-9a-zA-Z][_-]?){1,63}
     /// </summary>
     [CliOption("--model-name")]
     public string? ModelName { get; private init; }
 
     /// <summary>
-    /// The data source for the model. The Amazon S3 URI in the model source must be for the Amazon-managed Amazon S3 bucket containing your model artifacts. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3DataSource. s3DataSource -&gt; (structure) The Amazon S3 data source of the model to import. s3Uri -&gt; (string) [required] The URI of the Amazon S3 data source. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][-.a-z0-9]{1,61}[a-z0-9](?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/? Shorthand Syntax: s3DataSource={s3Uri=string} JSON Syntax: { "s3DataSource": { "s3Uri": "string" } }
+    /// The data source for the model. The Amazon S3 URI in the model source must be for the Amazon-managed Amazon S3 bucket containing your model artifacts. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3DataSource. s3DataSource -&gt; (structure) The Amazon S3 data source of the model to import. s3Uri -&gt; (string) [required] The URI of the Amazon S3 data source. Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][-.a-z0-9]{1,61}[a-z0-9](?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/? Shorthand Syntax: s3DataSource={s3Uri=string} JSON Syntax: { "s3DataSource": { "s3Uri": "string" } }
     /// </summary>
     [CliOption("--model-source-config")]
     public string? ModelSourceConfig { get; set; }
 
     /// <summary>
-    /// The data source for the custom model. Use this field to specify a SageMaker AI model package ARN as the source for your custom model. Amazon Bedrock resolves the model package to retrieve the model ar- tifacts. You can specify either customModelDataSource or modelSourceConfig , but not both. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: modelPackageArnDataSource. modelPackageArnDataSource -&gt; (structure) A SageMaker AI model package ARN as the data source for the cus- tom model. When you specify a model package ARN, Amazon Bedrock resolves the model package to retrieve the model artifacts. modelPackageArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the SageMaker AI model package. The ARN must be for a model package of restricted type. To use a model package ARN, you must have the sagemaker:De- scribeModelPackage and sagemaker:AccessModelPackageData per- missions on the model package resource. Constraints: o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]{9,16}:[0-9]{12}:model-package/[\S]{1,2048} Shorthand Syntax: modelPackageArnDataSource={modelPackageArn=string} JSON Syntax: { "modelPackageArnDataSource": { "modelPackageArn": "string" } }
+    /// The data source for the custom model. Use this field to specify a SageMaker AI model package ARN as the source for your custom model. Amazon Bedrock resolves the model package to retrieve the model artifacts. You can specify either customModelDataSource or modelSourceConfig , but not both. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: modelPackageArnDataSource. modelPackageArnDataSource -&gt; (structure) A SageMaker AI model package ARN as the data source for the custom model. When you specify a model package ARN, Amazon Bedrock resolves the model package to retrieve the model artifacts. modelPackageArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the SageMaker AI model package. The ARN must be for a model package of restricted type. To use a model package ARN, you must have the sagemaker:DescribeModelPackage and sagemaker:AccessModelPackageData permissions on the model package resource. Constraints: • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]{9,16}:[0-9]{12}:model-package/[\S]{1,2048} Shorthand Syntax: modelPackageArnDataSource={modelPackageArn=string} JSON Syntax: { "modelPackageArnDataSource": { "modelPackageArn": "string" } }
     /// </summary>
     [CliOption("--custom-model-data-source")]
     public string? CustomModelDataSource { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the customer managed KMS key to encrypt the custom model. If you don't provide a KMS key, Amazon Bedrock uses an Amazon Web Services-managed KMS key to encrypt the model. If you provide a customer managed KMS key, your Amazon Bedrock ser- vice role must have permissions to use it. For more information see Encryption of imported models . Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}
+    /// The Amazon Resource Name (ARN) of the customer managed KMS key to encrypt the custom model. If you don't provide a KMS key, Amazon Bedrock uses an Amazon Web Services-managed KMS key to encrypt the model. If you provide a customer managed KMS key, your Amazon Bedrock service role must have permissions to use it. For more information see Encryption of imported models . Constraints: • min: 1 • max: 2048 • pattern: arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}
     /// </summary>
     [CliOption("--model-kms-key-arn")]
     public string? ModelKmsKeyArn { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of an IAM service role that Amazon Bedrock assumes to perform tasks on your behalf. This role must have permissions to access the Amazon S3 bucket containing your model ar- tifacts and the KMS key (if specified). For more information, see Setting up an IAM service role for importing models in the Amazon Bedrock User Guide. This field is required when you use modelSourceConfig with an Amazon S3 data source. It is not required when you use customModelData- Source with a model package ARN, because Amazon Bedrock uses its own credentials to access the model artifacts. Constraints: o min: 0 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+
+    /// The Amazon Resource Name (ARN) of an IAM service role that Amazon Bedrock assumes to perform tasks on your behalf. This role must have permissions to access the Amazon S3 bucket containing your model artifacts and the KMS key (if specified). For more information, see Setting up an IAM service role for importing models in the Amazon Bedrock User Guide. This field is required when you use modelSourceConfig with an Amazon S3 data source. It is not required when you use customModelDataSource with a model package ARN, because Amazon Bedrock uses its own credentials to access the model artifacts. Constraints: • min: 0 • max: 2048 • pattern: arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
     /// <summary>
-    /// A list of key-value pairs to associate with the custom model re- source. You can use these tags to organize and identify your re- sources. For more information, see Tagging resources in the Amazon Bedrock User Guide . Constraints: o min: 0 o max: 200 (structure) Definition of the key/value pair for a tag. key -&gt; (string) [required] Key for the tag. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) [required] Value for the tag. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// A list of key-value pairs to associate with the custom model resource. You can use these tags to organize and identify your resources. For more information, see Tagging resources in the Amazon Bedrock User Guide . Constraints: • min: 0 • max: 200 (structure) Definition of the key/value pair for a tag. key -&gt; (string) [required] Key for the tag. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) [required] Value for the tag. Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--model-tags", GroupValues = true)]
     public IEnumerable<string>? ModelTags { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency . Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency . Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]

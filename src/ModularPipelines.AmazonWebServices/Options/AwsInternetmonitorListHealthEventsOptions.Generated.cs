@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +31,7 @@ public record AwsInternetmonitorListHealthEventsOptions : AwsOptions, IValidatab
     /// <summary>
     /// Lists all health events for a monitor in Amazon CloudWatch Internet Monitor. Returns information for health events including the event start and end times, and the status. NOTE: Health events that have start times during the time frame that is requested are not included in the list of health events. See also: AWS API Documentation list-health-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by provid...
     /// </summary>
-    /// <param name="MonitorName">The name of the monitor. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="MonitorName">The name of the monitor. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsInternetmonitorListHealthEventsOptions(
         string MonitorName
     )
@@ -58,7 +60,7 @@ public record AwsInternetmonitorListHealthEventsOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the monitor. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the monitor. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--monitor-name")]
     public string? MonitorName { get; private init; }
@@ -70,28 +72,25 @@ public record AwsInternetmonitorListHealthEventsOptions : AwsOptions, IValidatab
     public string? StartTime { get; set; }
 
     /// <summary>
-    /// The time when a health event ended. If the health event is still on- going, then the end time is not set.
+    /// The time when a health event ended. If the health event is still ongoing, then the end time is not set.
     /// </summary>
     [CliOption("--end-time")]
     public string? EndTime { get; set; }
 
     /// <summary>
-    /// The status of a health event. Possible values: o ACTIVE o RESOLVED
+    /// The status of a health event. Possible values: • ACTIVE • RESOLVED
     /// </summary>
     [CliOption("--event-status")]
     public AwsInternetmonitorListHealthEventsEventStatus? EventStatus { get; set; }
 
     /// <summary>
-    /// The account ID for an account that you've set up cross-account shar- ing for in Amazon CloudWatch Internet Monitor. You configure cross-account sharing by using Amazon CloudWatch Observability Ac- cess Manager. For more information, see Internet Monitor cross-ac- count observability in the Amazon CloudWatch Internet Monitor User Guide. Constraints: o min: 12 o max: 12
+    /// The account ID for an account that you've set up cross-account sharing for in Amazon CloudWatch Internet Monitor. You configure cross-account sharing by using Amazon CloudWatch Observability Access Manager. For more information, see Internet Monitor cross-account observability in the Amazon CloudWatch Internet Monitor User Guide. Constraints: • min: 12 • max: 12
     /// </summary>
     [CliOption("--linked-account-id")]
     public string? LinkedAccountId { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -101,16 +100,19 @@ public record AwsInternetmonitorListHealthEventsOptions : AwsOptions, IValidatab
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 25
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 25
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

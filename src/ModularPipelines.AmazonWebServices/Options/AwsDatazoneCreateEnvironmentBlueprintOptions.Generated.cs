@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsDatazoneCreateEnvironmentBlueprintOptions : AwsOptions, IValida
     /// <summary>
     /// Creates a Amazon DataZone blueprint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The identifier of the domain in which this blueprint is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Name">The name of this Amazon DataZone blueprint. Constraints: o min: 1 o max: 64 o pattern: [\w -]+</param>
-    /// <param name="ProvisioningProperties">The provisioning properties of this Amazon DataZone blueprint. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cloudFormation. cloudFormation -&gt; (structure) The cloud formation properties included as part of the provi- sioning properties of an environment blueprint. templateUrl -&gt; (string) [required] The template URL of the cloud formation provisioning proper- ties of the environment blueprint. Shorthand Syntax: cloudFormation={templateUrl=string} JSON Syntax: { "cloudFormation": { "templateUrl": "string" } }</param>
+    /// <param name="DomainIdentifier">The identifier of the domain in which this blueprint is created. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Name">The name of this Amazon DataZone blueprint. Constraints: • min: 1 • max: 64 • pattern: [\w -]+</param>
+    /// <param name="ProvisioningProperties">The provisioning properties of this Amazon DataZone blueprint. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cloudFormation. cloudFormation -&gt; (structure) The cloud formation properties included as part of the provisioning properties of an environment blueprint. templateUrl -&gt; (string) [required] The template URL of the cloud formation provisioning properties of the environment blueprint. Shorthand Syntax: cloudFormation={templateUrl=string} JSON Syntax: { "cloudFormation": { "templateUrl": "string" } }</param>
     public AwsDatazoneCreateEnvironmentBlueprintOptions(
         string DomainIdentifier,
         string Name,
@@ -64,37 +66,37 @@ public record AwsDatazoneCreateEnvironmentBlueprintOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the domain in which this blueprint is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The identifier of the domain in which this blueprint is created. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The name of this Amazon DataZone blueprint. Constraints: o min: 1 o max: 64 o pattern: [\w -]+
+    /// The name of this Amazon DataZone blueprint. Constraints: • min: 1 • max: 64 • pattern: [\w -]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The provisioning properties of this Amazon DataZone blueprint. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cloudFormation. cloudFormation -&gt; (structure) The cloud formation properties included as part of the provi- sioning properties of an environment blueprint. templateUrl -&gt; (string) [required] The template URL of the cloud formation provisioning proper- ties of the environment blueprint. Shorthand Syntax: cloudFormation={templateUrl=string} JSON Syntax: { "cloudFormation": { "templateUrl": "string" } }
+    /// The provisioning properties of this Amazon DataZone blueprint. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cloudFormation. cloudFormation -&gt; (structure) The cloud formation properties included as part of the provisioning properties of an environment blueprint. templateUrl -&gt; (string) [required] The template URL of the cloud formation provisioning properties of the environment blueprint. Shorthand Syntax: cloudFormation={templateUrl=string} JSON Syntax: { "cloudFormation": { "templateUrl": "string" } }
     /// </summary>
     [CliOption("--provisioning-properties")]
     public string? ProvisioningProperties { get; private init; }
 
     /// <summary>
-    /// The description of the Amazon DataZone blueprint. Constraints: o min: 0 o max: 2048
+    /// The description of the Amazon DataZone blueprint. Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The user parameters of this Amazon DataZone blueprint. (structure) The details of user parameters of an environment blueprint. keyName -&gt; (string) [required] The key name of the parameter. Constraints: o pattern: [a-zA-Z_][a-zA-Z0-9_]* description -&gt; (string) The description of the parameter. Constraints: o min: 0 o max: 2048 fieldType -&gt; (string) [required] The filed type of the parameter. defaultValue -&gt; (string) The default value of the parameter. isEditable -&gt; (boolean) Specifies whether the parameter is editable. isOptional -&gt; (boolean) Specifies whether the custom parameter is optional. isUpdateSupported -&gt; (boolean) Specifies whether a parameter value can be updated after cre- ation. Shorthand Syntax: keyName=string,description=string,fieldType=string,defaultValue=string,isEditable=boolean,isOptional=boolean,isUpdateSupported=boolean ... JSON Syntax: [ { "keyName": "string", "description": "string", "fieldType": "string", "defaultValue": "string", "isEditable": true|false, "isOptional": true|false, "isUpdateSupported": true|false } ... ]
+    /// The user parameters of this Amazon DataZone blueprint. (structure) The details of user parameters of an environment blueprint. keyName -&gt; (string) [required] The key name of the parameter. Constraints: • pattern: [a-zA-Z_][a-zA-Z0-9_]* description -&gt; (string) The description of the parameter. Constraints: • min: 0 • max: 2048 fieldType -&gt; (string) [required] The filed type of the parameter. defaultValue -&gt; (string) The default value of the parameter. isEditable -&gt; (boolean) Specifies whether the parameter is editable. isOptional -&gt; (boolean) Specifies whether the custom parameter is optional. isUpdateSupported -&gt; (boolean) Specifies whether a parameter value can be updated after creation. Shorthand Syntax: keyName=string,description=string,fieldType=string,defaultValue=string,isEditable=boolean,isOptional=boolean,isUpdateSupported=boolean ... JSON Syntax: [ { "keyName": "string", "description": "string", "fieldType": "string", "defaultValue": "string", "isEditable": true|false, "isOptional": true|false, "isUpdateSupported": true|false } ... ]
     /// </summary>
     [CliOption("--user-parameters", GroupValues = true)]
     public IEnumerable<string>? UserParameters { get; set; }
 
     /// <summary>
-    /// The category of the Amazon DataZone blueprint. The only valid value is TOOLING , which creates a blueprint that provisions the tooling resources of a project. Possible values: o TOOLING
+    /// The category of the Amazon DataZone blueprint. The only valid value is TOOLING , which creates a blueprint that provisions the tooling resources of a project. Possible values: • TOOLING
     /// </summary>
     [CliOption("--blueprint-category")]
     public string? BlueprintCategory { get; set; }

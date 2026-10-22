@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes a dataset group created using the CreateDatasetGroup opera- tion. In addition to listing the parameters provided in the CreateDataset- Group request, this operation includes the following properties: o DatasetArns - The datasets belonging to the group. o CreationTime o LastModificationTime o Status See also: AWS API Documentation
+/// Describes a dataset group created using the CreateDatasetGroup operation. In addition to listing the parameters provided in the CreateDatasetGroup request, this operation includes the following properties: • DatasetArns - The datasets belonging to the group. • CreationTime • LastModificationTime • Status See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsForecastDescribeDataSetGroupOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes a dataset group created using the CreateDatasetGroup opera- tion. In addition to listing the parameters provided in the CreateDataset- Group request, this operation includes the following properties: o DatasetArns - The datasets belonging to the group. o CreationTime o LastModificationTime o Status See also: AWS API Documentation
+    /// Describes a dataset group created using the CreateDatasetGroup operation. In addition to listing the parameters provided in the CreateDatasetGroup request, this operation includes the following properties: • DatasetArns - The datasets belonging to the group. • CreationTime • LastModificationTime • Status See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSetGroupArn">The Amazon Resource Name (ARN) of the dataset group. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    /// <param name="DataSetGroupArn">The Amazon Resource Name (ARN) of the dataset group. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
     public AwsForecastDescribeDataSetGroupOptions(
         string DataSetGroupArn
     )
@@ -56,7 +58,7 @@ public record AwsForecastDescribeDataSetGroupOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the dataset group. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the dataset group. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
     /// </summary>
     [CliOption("--dataset-group-arn")]
     public string? DataSetGroupArn { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the details of the network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like ter- minate, update, and delete) can be performed. See also: AWS API Documentation
+/// Gets the details of the network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsTnbGetSolNetworkInstanceOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets the details of the network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like ter- minate, update, and delete) can be performed. See also: AWS API Documentation
+    /// Gets the details of the network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NsInstanceId">ID of the network instance. Constraints: o pattern: ^ni-[a-f0-9]{17}$</param>
+    /// <param name="NsInstanceId">ID of the network instance. Constraints: • pattern: ^ni-[a-f0-9]{17}$</param>
     public AwsTnbGetSolNetworkInstanceOptions(
         string NsInstanceId
     )
@@ -56,7 +58,7 @@ public record AwsTnbGetSolNetworkInstanceOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID of the network instance. Constraints: o pattern: ^ni-[a-f0-9]{17}$
+    /// ID of the network instance. Constraints: • pattern: ^ni-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--ns-instance-id")]
     public string? NsInstanceId { get; private init; }

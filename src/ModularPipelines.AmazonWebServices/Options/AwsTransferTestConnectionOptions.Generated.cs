@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsTransferTestConnectionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Tests whether your SFTP connector is set up successfully. We highly recommend that you call this operation to test your ability to transfer files between local Amazon Web Services storage and a trading partner's SFTP server. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectorId">The unique identifier for the connector. Constraints: o min: 19 o max: 19 o pattern: c-([0-9a-f]{17})</param>
+    /// <param name="ConnectorId">The unique identifier for the connector. Constraints: • min: 19 • max: 19 • pattern: c-([0-9a-f]{17})</param>
     public AwsTransferTestConnectionOptions(
         string ConnectorId
     )
@@ -56,7 +58,7 @@ public record AwsTransferTestConnectionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the connector. Constraints: o min: 19 o max: 19 o pattern: c-([0-9a-f]{17})
+    /// The unique identifier for the connector. Constraints: • min: 19 • max: 19 • pattern: c-([0-9a-f]{17})
     /// </summary>
     [CliOption("--connector-id")]
     public string? ConnectorId { get; private init; }

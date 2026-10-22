@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,9 +31,9 @@ public record AwsSagemakerListHubContentVersionsOptions : AwsOptions, IValidatab
     /// <summary>
     /// List hub content versions. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HubName">The name of the hub to list the content versions of. Constraints: o pattern: (arn:[a-z0-9-\.]{1,63}:sage- maker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
-    /// <param name="HubContentType">The type of hub content to list versions of. Possible values: o Model o Notebook o ModelReference o DataSet o JsonDoc</param>
-    /// <param name="HubContentName">The name of the hub content. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="HubName">The name of the hub to list the content versions of. Constraints: • pattern: (arn:[a-z0-9-\.]{1,63}:sagemaker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="HubContentType">The type of hub content to list versions of. Possible values: • Model • Notebook • ModelReference • DataSet • JsonDoc</param>
+    /// <param name="HubContentName">The name of the hub content. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
     public AwsSagemakerListHubContentVersionsOptions(
         string HubName,
         AwsSagemakerListHubContentVersionsHubContentType HubContentType,
@@ -65,31 +67,31 @@ public record AwsSagemakerListHubContentVersionsOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the hub to list the content versions of. Constraints: o pattern: (arn:[a-z0-9-\.]{1,63}:sage- maker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the hub to list the content versions of. Constraints: • pattern: (arn:[a-z0-9-\.]{1,63}:sagemaker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--hub-name")]
     public string? HubName { get; private init; }
 
     /// <summary>
-    /// The type of hub content to list versions of. Possible values: o Model o Notebook o ModelReference o DataSet o JsonDoc
+    /// The type of hub content to list versions of. Possible values: • Model • Notebook • ModelReference • DataSet • JsonDoc
     /// </summary>
     [CliOption("--hub-content-type")]
     public AwsSagemakerListHubContentVersionsHubContentType? HubContentType { get; private init; }
 
     /// <summary>
-    /// The name of the hub content. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the hub content. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--hub-content-name")]
     public string? HubContentName { get; private init; }
 
     /// <summary>
-    /// The lower bound of the hub content versions to list. Constraints: o min: 5 o max: 14 o pattern: \d{1,4}.\d{1,4}.\d{1,4}
+    /// The lower bound of the hub content versions to list. Constraints: • min: 5 • max: 14 • pattern: \d{1,4}.\d{1,4}.\d{1,4}
     /// </summary>
     [CliOption("--min-version")]
     public string? MinVersion { get; set; }
 
     /// <summary>
-    /// The upper bound of the hub content schema version. Constraints: o min: 5 o max: 14 o pattern: \d{1,4}.\d{1,4}.\d{1,4}
+    /// The upper bound of the hub content schema version. Constraints: • min: 5 • max: 14 • pattern: \d{1,4}.\d{1,4}.\d{1,4}
     /// </summary>
     [CliOption("--max-schema-version")]
     public string? MaxSchemaVersion { get; set; }
@@ -107,25 +109,25 @@ public record AwsSagemakerListHubContentVersionsOptions : AwsOptions, IValidatab
     public string? CreationTimeAfter { get; set; }
 
     /// <summary>
-    /// Sort hub content versions by either name or creation time. Possible values: o HubContentName o CreationTime o HubContentStatus
+    /// Sort hub content versions by either name or creation time. Possible values: • HubContentName • CreationTime • HubContentStatus
     /// </summary>
     [CliOption("--sort-by")]
     public AwsSagemakerListHubContentVersionsSortBy? SortBy { get; set; }
 
     /// <summary>
-    /// Sort hub content versions by ascending or descending order. Possible values: o Ascending o Descending
+    /// Sort hub content versions by ascending or descending order. Possible values: • Ascending • Descending
     /// </summary>
     [CliOption("--sort-order")]
     public AwsSagemakerListHubContentVersionsSortOrder? SortOrder { get; set; }
 
     /// <summary>
-    /// The maximum number of hub content versions to list. Constraints: o min: 1 o max: 100
+    /// The maximum number of hub content versions to list. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If the response to a previous ListHubContentVersions request was truncated, the response includes a NextToken . To retrieve the next set of hub content versions, use the token in the next request. Constraints: o min: 0 o max: 8192 o pattern: .*
+    /// If the response to a previous ListHubContentVersions request was truncated, the response includes a NextToken . To retrieve the next set of hub content versions, use the token in the next request. Constraints: • min: 0 • max: 8192 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

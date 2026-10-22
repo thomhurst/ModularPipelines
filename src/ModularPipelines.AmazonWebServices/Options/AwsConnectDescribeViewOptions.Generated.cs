@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the view for the specified Connect Customer instance and view identifier. The view identifier can be supplied as a ViewId or ARN. $SAVED needs to be supplied if a view is unpublished. The view identifier can contain an optional qualifier, for example, &lt;view-id&gt;:$SAVED , which is either an actual version number or an Con- nect Customer managed qualifier $SAVED | $LATEST . If it is not sup- plied, then $LATEST is assumed for customer managed views and an error is returned if there is no ...
+/// Retrieves the view for the specified Connect Customer instance and view identifier. The view identifier can be supplied as a ViewId or ARN. $SAVED needs to be supplied if a view is unpublished. The view identifier can contain an optional qualifier, for example, &lt;view-id&gt;:$SAVED , which is either an actual version number or an Connect Customer managed qualifier $SAVED | $LATEST . If it is not supplied, then $LATEST is assumed for customer managed views and an error is returned if there is no publ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsConnectDescribeViewOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the view for the specified Connect Customer instance and view identifier. The view identifier can be supplied as a ViewId or ARN. $SAVED needs to be supplied if a view is unpublished. The view identifier can contain an optional qualifier, for example, &lt;view-id&gt;:$SAVED , which is either an actual version number or an Con- nect Customer managed qualifier $SAVED | $LATEST . If it is not sup- plied, then $LATEST is assumed for customer managed views and an error is returned if there is no ...
+    /// Retrieves the view for the specified Connect Customer instance and view identifier. The view identifier can be supplied as a ViewId or ARN. $SAVED needs to be supplied if a view is unpublished. The view identifier can contain an optional qualifier, for example, &lt;view-id&gt;:$SAVED , which is either an actual version number or an Connect Customer managed qualifier $SAVED | $LATEST . If it is not supplied, then $LATEST is assumed for customer managed views and an error is returned if there is no publ...
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9\_\-:\/]+$</param>
-    /// <param name="ViewId">The ViewId of the view. This must be an ARN for Amazon Web Services managed views. Constraints: o min: 1 o max: 500 o pattern: ^[a-zA-Z0-9\_\-:\/$]+$</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9\_\-:\/]+$</param>
+    /// <param name="ViewId">The ViewId of the view. This must be an ARN for Amazon Web Services managed views. Constraints: • min: 1 • max: 500 • pattern: ^[a-zA-Z0-9\_\-:\/$]+$</param>
     public AwsConnectDescribeViewOptions(
         string InstanceId,
         string ViewId
@@ -60,13 +62,13 @@ public record AwsConnectDescribeViewOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9\_\-:\/]+$
+    /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9\_\-:\/]+$
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The ViewId of the view. This must be an ARN for Amazon Web Services managed views. Constraints: o min: 1 o max: 500 o pattern: ^[a-zA-Z0-9\_\-:\/$]+$
+    /// The ViewId of the view. This must be an ARN for Amazon Web Services managed views. Constraints: • min: 1 • max: 500 • pattern: ^[a-zA-Z0-9\_\-:\/$]+$
     /// </summary>
     [CliOption("--view-id")]
     public string? ViewId { get; private init; }

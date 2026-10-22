@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,7 +29,7 @@ public record AwsInspector2GetCodeSecurityIntegrationOptions : AwsOptions, IVali
     /// <summary>
     /// Retrieves information about a code security integration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IntegrationArn">The Amazon Resource Name (ARN) of the code security integration to retrieve. Constraints: o pattern: arn:(aws[a-zA-Z-]*)?:inspec- tor2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:codesecurity-integra- tion/[a-f0-9-]{36}</param>
+    /// <param name="IntegrationArn">The Amazon Resource Name (ARN) of the code security integration to retrieve. Constraints: • pattern: arn:(aws[a-zA-Z-]*)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:codesecurity-integration/[a-f0-9-]{36}</param>
     public AwsInspector2GetCodeSecurityIntegrationOptions(
         string IntegrationArn
     )
@@ -57,13 +58,13 @@ public record AwsInspector2GetCodeSecurityIntegrationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the code security integration to retrieve. Constraints: o pattern: arn:(aws[a-zA-Z-]*)?:inspec- tor2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:codesecurity-integra- tion/[a-f0-9-]{36}
+    /// The Amazon Resource Name (ARN) of the code security integration to retrieve. Constraints: • pattern: arn:(aws[a-zA-Z-]*)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:codesecurity-integration/[a-f0-9-]{36}
     /// </summary>
     [CliOption("--integration-arn")]
     public string? IntegrationArn { get; private init; }
 
     /// <summary>
-    /// The tags associated with the code security integration. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags associated with the code security integration. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

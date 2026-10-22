@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides an overview of your system's health. If additional member ac- counts are part of your organization, you can filter those accounts us- ing the AccountIds field. See also: AWS API Documentation describe-organization-resource-collection-health is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated r...
+/// Provides an overview of your system's health. If additional member accounts are part of your organization, you can filter those accounts using the AccountIds field. See also: AWS API Documentation describe-organization-resource-collection-health is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response,...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsDevopsGuruDescribeOrganizationResourceCollectionHealthOptions :
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides an overview of your system's health. If additional member ac- counts are part of your organization, you can filter those accounts us- ing the AccountIds field. See also: AWS API Documentation describe-organization-resource-collection-health is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated r...
+    /// Provides an overview of your system's health. If additional member accounts are part of your organization, you can filter those accounts using the AccountIds field. See also: AWS API Documentation describe-organization-resource-collection-health is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response,...
     /// </summary>
-    /// <param name="OrganizationResourceCollectionType">An Amazon Web Services resource collection type. This type specifies how analyzed Amazon Web Services resources are defined. The two types of Amazon Web Services resource collections supported are Ama- zon Web Services CloudFormation stacks and Amazon Web Services re- sources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key . You can specify up to 500 Amazon Web Services CloudFormation stacks. Possible values: o AWS_CLOUD_FORMATION o AWS_SERVICE o AWS_ACCOUNT o AWS_TAGS</param>
+    /// <param name="OrganizationResourceCollectionType">An Amazon Web Services resource collection type. This type specifies how analyzed Amazon Web Services resources are defined. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key . You can specify up to 500 Amazon Web Services CloudFormation stacks. Possible values: • AWS_CLOUD_FORMATION • AWS_SERVICE • AWS_ACCOUNT • AWS_TAGS</param>
     public AwsDevopsGuruDescribeOrganizationResourceCollectionHealthOptions(
         AwsDevopsGuruDescribeOrganizationResourceCollectionHealthOrganizationResourceCollectionType OrganizationResourceCollectionType
     )
@@ -57,34 +59,31 @@ public record AwsDevopsGuruDescribeOrganizationResourceCollectionHealthOptions :
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An Amazon Web Services resource collection type. This type specifies how analyzed Amazon Web Services resources are defined. The two types of Amazon Web Services resource collections supported are Ama- zon Web Services CloudFormation stacks and Amazon Web Services re- sources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key . You can specify up to 500 Amazon Web Services CloudFormation stacks. Possible values: o AWS_CLOUD_FORMATION o AWS_SERVICE o AWS_ACCOUNT o AWS_TAGS
+    /// An Amazon Web Services resource collection type. This type specifies how analyzed Amazon Web Services resources are defined. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key . You can specify up to 500 Amazon Web Services CloudFormation stacks. Possible values: • AWS_CLOUD_FORMATION • AWS_SERVICE • AWS_ACCOUNT • AWS_TAGS
     /// </summary>
     [CliOption("--organization-resource-collection-type")]
     public AwsDevopsGuruDescribeOrganizationResourceCollectionHealthOrganizationResourceCollectionType? OrganizationResourceCollectionType { get; private init; }
 
     /// <summary>
-    /// The ID of the Amazon Web Services account. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 12 o max: 12 o pattern: ^\d{12}$ Syntax: "string" "string" ...
+    /// The ID of the Amazon Web Services account. Constraints: • min: 0 • max: 5 (string) Constraints: • min: 12 • max: 12 • pattern: ^\d{12}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
 
     /// <summary>
-    /// The ID of the organizational unit. Constraints: o min: 0 o max: 5 (string) Constraints: o max: 68 o pattern: ^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$ Syntax: "string" "string" ...
+    /// The ID of the organizational unit. Constraints: • min: 0 • max: 5 (string) Constraints: • max: 68 • pattern: ^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--organizational-unit-ids", GroupValues = true)]
     public IEnumerable<string>? OrganizationalUnitIds { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return with a single call. To re- trieve the remaining results, make another call with the returned nextToken value. Constraints: o min: 1 o max: 500
+    /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -94,10 +93,13 @@ public record AwsDevopsGuruDescribeOrganizationResourceCollectionHealthOptions :
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

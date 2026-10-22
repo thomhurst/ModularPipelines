@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSchedulerGetScheduleOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves the specified schedule. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the schedule to retrieve. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-zA-Z-_.]+$</param>
+    /// <param name="Name">The name of the schedule to retrieve. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-zA-Z-_.]+$</param>
     public AwsSchedulerGetScheduleOptions(
         string Name
     )
@@ -56,13 +58,13 @@ public record AwsSchedulerGetScheduleOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the schedule to retrieve. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-zA-Z-_.]+$
+    /// The name of the schedule to retrieve. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-zA-Z-_.]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The name of the schedule group associated with this schedule. If you omit this, EventBridge Scheduler assumes that the schedule is asso- ciated with the default group. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-zA-Z-_.]+$
+    /// The name of the schedule group associated with this schedule. If you omit this, EventBridge Scheduler assumes that the schedule is associated with the default group. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-zA-Z-_.]+$
     /// </summary>
     [CliOption("--group-name")]
     public string? GroupName { get; set; }

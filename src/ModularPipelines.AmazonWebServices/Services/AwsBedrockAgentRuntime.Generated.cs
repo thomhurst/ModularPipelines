@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws bedrockagentruntime commands.
+/// aws bedrock-agent-runtime commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsBedrockAgentRuntime : IAwsBedrockAgentRuntime
@@ -32,7 +32,7 @@ public class AwsBedrockAgentRuntime : IAwsBedrockAgentRuntime
     #region Commands
 
     /// <summary>
-    /// Checks whether a user has access to a specific document by verifying against the ingested access control list (ACL) in a knowledge base. Use this operation to validate that document-level access control is work- ing as expected after ingestion. To use this operation, you must have the bedrock:CheckIngestedDocumentAcl permission. See also: AWS API Documentation
+    /// Checks whether a user has access to a specific document by verifying against the ingested access control list (ACL) in a knowledge base. Use this operation to validate that document-level access control is working as expected after ingestion. To use this operation, you must have the bedrock:CheckIngestedDocumentAcl permission. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsBedrockAgentRuntime : IAwsBedrockAgentRuntime
     }
 
     /// <summary>
-    /// Creates a new invocation within a session. An invocation groups the re- lated invocation steps that store the content from a conversation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . Related APIs o ListInvocations o ListSessions o GetSession See also: AWS API Documentation
+    /// Creates a new invocation within a session. An invocation groups the related invocation steps that store the content from a conversation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . Related APIs • ListInvocations • ListSessions • GetSession See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsBedrockAgentRuntime : IAwsBedrockAgentRuntime
     }
 
     /// <summary>
-    /// Creates a session to temporarily store conversations for generative AI (GenAI) applications built with open-source frameworks such as Lang- Graph and LlamaIndex. Sessions enable you to save the state of conver- sations at checkpoints, with the added security and infrastructure of Amazon Web Services. For more information, see Store and retrieve con- versation history and context with Amazon Bedrock sessions . By default, Amazon Bedrock uses Amazon Web Services-managed keys for session encryption...
+    /// Creates a session to temporarily store conversations for generative AI (GenAI) applications built with open-source frameworks such as LangGraph and LlamaIndex. Sessions enable you to save the state of conversations at checkpoints, with the added security and infrastructure of Amazon Web Services. For more information, see Store and retrieve conversation history and context with Amazon Bedrock sessions . By default, Amazon Bedrock uses Amazon Web Services-managed keys for session encryption, incl...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsBedrockAgentRuntime : IAwsBedrockAgentRuntime
     }
 
     /// <summary>
-    /// Generates an SQL query from a natural language query. For more informa- tion, see Generate a query for structured data in the Amazon Bedrock User Guide. See also: AWS API Documentation
+    /// Generates an SQL query from a natural language query. For more information, see Generate a query for structured data in the Amazon Bedrock User Guide. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsBedrockAgentRuntime : IAwsBedrockAgentRuntime
     }
 
     /// <summary>
-    /// Retrieves the flow definition snapshot used for a flow execution. The snapshot represents the flow metadata and definition as it existed at the time the execution was started. Note that even if the flow is edited after an execution starts, the snapshot connected to the execu- tion remains unchanged. NOTE: Flow executions is in preview release for Amazon Bedrock and is sub- ject to change. See also: AWS API Documentation
+    /// Retrieves the flow definition snapshot used for a flow execution. The snapshot represents the flow metadata and definition as it existed at the time the execution was started. Note that even if the flow is edited after an execution starts, the snapshot connected to the execution remains unchanged. NOTE: Flow executions is in preview release for Amazon Bedrock and is subject to change. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsBedrockAgentRuntime : IAwsBedrockAgentRuntime
     }
 
     /// <summary>
-    /// Retrieves details about a specific flow execution, including its sta- tus, start and end times, and any errors that occurred during execu- tion. See also: AWS API Documentation
+    /// Retrieves details about a specific flow execution, including its status, start and end times, and any errors that occurred during execution. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsBedrockAgentRuntime : IAwsBedrockAgentRuntime
     }
 
     /// <summary>
-    /// Retrieves the ingested access control list (ACL) for a specific docu- ment in a knowledge base. Use this operation to inspect the allow and deny lists that were ingested for a document to troubleshoot access control issues. To use this operation, you must have the bedrock:GetIngestedDocumentAcl permission. See also: AWS API Documentation
+    /// Retrieves the ingested access control list (ACL) for a specific document in a knowledge base. Use this operation to inspect the allow and deny lists that were ingested for a document to troubleshoot access control issues. To use this operation, you must have the bedrock:GetIngestedDocumentAcl permission. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsBedrockAgentRuntime : IAwsBedrockAgentRuntime
     }
 
     /// <summary>
-    /// Retrieves the details of a specific invocation step within an invoca- tion in a session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . See also: AWS API Documentation
+    /// Retrieves the details of a specific invocation step within an invocation in a session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsBedrockAgentRuntime : IAwsBedrockAgentRuntime
     }
 
     /// <summary>
-    /// Lists events that occurred during a flow execution. Events provide de- tailed information about the execution progress, including node inputs and outputs, flow inputs and outputs, condition results, and failure events. NOTE: Flow executions is in preview release for Amazon Bedrock and is sub- ject to change. See also: AWS API Documentation list-flow-execution-events uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arra...
+    /// Lists events that occurred during a flow execution. Events provide detailed information about the execution progress, including node inputs and outputs, flow inputs and outputs, condition results, and failure events. NOTE: Flow executions is in preview release for Amazon Bedrock and is subject to change. See also: AWS API Documentation list-flow-execution-events uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsBedrockAgentRuntime : IAwsBedrockAgentRuntime
     }
 
     /// <summary>
-    /// Lists all executions of a flow. Results can be paginated and include summary information about each execution, such as status, start and end times, and the execution's Amazon Resource Name (ARN). NOTE: Flow executions is in preview release for Amazon Bedrock and is sub- ject to change. See also: AWS API Documentation list-flow-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no...
+    /// Lists all executions of a flow. Results can be paginated and include summary information about each execution, such as status, start and end times, and the execution's Amazon Resource Name (ARN). NOTE: Flow executions is in preview release for Amazon Bedrock and is subject to change. See also: AWS API Documentation list-flow-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-p...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -265,21 +265,6 @@ public class AwsBedrockAgentRuntime : IAwsBedrockAgentRuntime
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListFlowExecutionsAsync(
         AwsBedrockAgentRuntimeListFlowExecutionsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists all invocations associated with a specific session. For more in- formation about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . See also: AWS API Documentation list-invocations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListInvocationsAsync(
-        AwsBedrockAgentRuntimeListInvocationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -302,7 +287,22 @@ public class AwsBedrockAgentRuntime : IAwsBedrockAgentRuntime
     }
 
     /// <summary>
-    /// Lists all sessions in your Amazon Web Services account. For more infor- mation about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . See also: AWS API Documentation list-sessions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query a...
+    /// Lists all invocations associated with a specific session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . See also: AWS API Documentation list-invocations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListInvocationsAsync(
+        AwsBedrockAgentRuntimeListInvocationsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists all sessions in your Amazon Web Services account. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . See also: AWS API Documentation list-sessions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argumen...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsBedrockAgentRuntime : IAwsBedrockAgentRuntime
     }
 
     /// <summary>
-    /// Add an invocation step to an invocation in a session. An invocation step stores fine-grained state checkpoints, including text and images, for each interaction. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock ses- sions . Related APIs: o GetInvocationStep o ListInvocationSteps o ListInvocations o ListSessions See also: AWS API Documentation
+    /// Add an invocation step to an invocation in a session. An invocation step stores fine-grained state checkpoints, including text and images, for each interaction. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . Related APIs: • GetInvocationStep • ListInvocationSteps • ListInvocations • ListSessions See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsBedrockAgentRuntime : IAwsBedrockAgentRuntime
     }
 
     /// <summary>
-    /// Reranks the relevance of sources based on queries. For more informa- tion, see Improve the relevance of query responses with a reranker model . See also: AWS API Documentation rerank uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syn- tax does not support document types. re...
+    /// Reranks the relevance of sources based on queries. For more information, see Improve the relevance of query responses with a reranker model . See also: AWS API Documentation rerank uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. rerank...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsBedrockAgentRuntime : IAwsBedrockAgentRuntime
     }
 
     /// <summary>
-    /// Queries a knowledge base and retrieves information from it. See also: AWS API Documentation retrieve uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syn- tax does not support document types. retrieve is a paginated operation. Multiple API calls may be issued in order to retr...
+    /// Queries a knowledge base and retrieves information from it. See also: AWS API Documentation retrieve uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. retrieve is a paginated operation. Multiple API calls may be issued in order to retrie...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsBedrockAgentRuntime : IAwsBedrockAgentRuntime
     }
 
     /// <summary>
-    /// Starts an execution of an Amazon Bedrock flow. Unlike flows that run until completion or time out after five minutes, flow executions let you run flows asynchronously for longer durations. Flow executions also yield control so that your application can perform other tasks. This operation returns an Amazon Resource Name (ARN) that you can use to track and manage your flow execution. NOTE: Flow executions is in preview release for Amazon Bedrock and is sub- ject to change. See also: AWS API Docume...
+    /// Starts an execution of an Amazon Bedrock flow. Unlike flows that run until completion or time out after five minutes, flow executions let you run flows asynchronously for longer durations. Flow executions also yield control so that your application can perform other tasks. This operation returns an Amazon Resource Name (ARN) that you can use to track and manage your flow execution. NOTE: Flow executions is in preview release for Amazon Bedrock and is subject to change. See also: AWS API Document...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsBedrockAgentRuntime : IAwsBedrockAgentRuntime
     }
 
     /// <summary>
-    /// Stops an Amazon Bedrock flow's execution. This operation prevents fur- ther processing of the flow and changes the execution status to Aborted . See also: AWS API Documentation
+    /// Stops an Amazon Bedrock flow's execution. This operation prevents further processing of the flow and changes the execution status to Aborted . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsBedrockAgentRuntime : IAwsBedrockAgentRuntime
     }
 
     /// <summary>
-    /// Associate tags with a resource. For more information, see Tagging re- sources in the Amazon Bedrock User Guide. See also: AWS API Documentation
+    /// Associate tags with a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsBedrockAgentRuntime : IAwsBedrockAgentRuntime
     }
 
     /// <summary>
-    /// Updates the metadata or encryption settings of a session. For more in- formation about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . See also: AWS API Documentation
+    /// Updates the metadata or encryption settings of a session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

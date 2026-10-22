@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -30,9 +31,9 @@ public record AwsM2CreateApplicationOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a new application with given parameters. Requires an existing runtime environment and application definition file. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Definition">The application definition for this application. You can specify ei- ther inline JSON or an S3 bucket location. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: content, s3Location. content -&gt; (string) The content of the application definition. This is a JSON object that contains the resource configuration/definitions that iden- tify an application. Constraints: o min: 1 o max: 65000 s3Location -&gt; (string) The S3 bucket that contains the application definition. Constraints: o pattern: ^\S{1,2000}$ Shorthand Syntax: content=string,s3Location=string JSON Syntax: { "content": "string", "s3Location": "string" }</param>
-    /// <param name="EngineType">The type of the target platform for this application. Possible values: o microfocus o bluage</param>
-    /// <param name="Name">The unique identifier of the application. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$</param>
+    /// <param name="Definition">The application definition for this application. You can specify either inline JSON or an S3 bucket location. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: content, s3Location. content -&gt; (string) The content of the application definition. This is a JSON object that contains the resource configuration/definitions that identify an application. Constraints: • min: 1 • max: 65000 s3Location -&gt; (string) The S3 bucket that contains the application definition. Constraints: • pattern: ^\S{1,2000}$ Shorthand Syntax: content=string,s3Location=string JSON Syntax: { "content": "string", "s3Location": "string" }</param>
+    /// <param name="EngineType">The type of the target platform for this application. Possible values: • microfocus • bluage</param>
+    /// <param name="Name">The unique identifier of the application. Constraints: • pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$</param>
     public AwsM2CreateApplicationOptions(
         string Definition,
         AwsM2CreateApplicationEngineType EngineType,
@@ -66,32 +67,32 @@ public record AwsM2CreateApplicationOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The application definition for this application. You can specify ei- ther inline JSON or an S3 bucket location. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: content, s3Location. content -&gt; (string) The content of the application definition. This is a JSON object that contains the resource configuration/definitions that iden- tify an application. Constraints: o min: 1 o max: 65000 s3Location -&gt; (string) The S3 bucket that contains the application definition. Constraints: o pattern: ^\S{1,2000}$ Shorthand Syntax: content=string,s3Location=string JSON Syntax: { "content": "string", "s3Location": "string" }
+    /// The application definition for this application. You can specify either inline JSON or an S3 bucket location. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: content, s3Location. content -&gt; (string) The content of the application definition. This is a JSON object that contains the resource configuration/definitions that identify an application. Constraints: • min: 1 • max: 65000 s3Location -&gt; (string) The S3 bucket that contains the application definition. Constraints: • pattern: ^\S{1,2000}$ Shorthand Syntax: content=string,s3Location=string JSON Syntax: { "content": "string", "s3Location": "string" }
     /// </summary>
     [CliOption("--definition")]
     public string? Definition { get; private init; }
 
     /// <summary>
-    /// The type of the target platform for this application. Possible values: o microfocus o bluage
+    /// The type of the target platform for this application. Possible values: • microfocus • bluage
     /// </summary>
     [CliOption("--engine-type")]
     public AwsM2CreateApplicationEngineType? EngineType { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the application. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$
+    /// The unique identifier of the application. Constraints: • pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A client token is a unique, case-sensitive string of up to 128 ASCII characters with ASCII values of 33-126 inclusive. It's generated by the client to ensure idempotent operations, allowing for safe re- tries without unintended side effects. Constraints: o min: 0 o max: 128 o pattern: ^[!-~]+$
+    /// A client token is a unique, case-sensitive string of up to 128 ASCII characters with ASCII values of 33-126 inclusive. It's generated by the client to ensure idempotent operations, allowing for safe retries without unintended side effects. Constraints: • min: 0 • max: 128 • pattern: ^[!-~]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The description of the application. Constraints: o min: 0 o max: 500
+    /// The description of the application. Constraints: • min: 0 • max: 500
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -103,13 +104,13 @@ public record AwsM2CreateApplicationOptions : AwsOptions, IValidatableObject
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that identifies a role that the ap- plication uses to access Amazon Web Services resources that are not part of the application or are in a different Amazon Web Services account. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]|):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+=,@.-]{0,1023}$
+    /// The Amazon Resource Name (ARN) that identifies a role that the application uses to access Amazon Web Services resources that are not part of the application or are in a different Amazon Web Services account. Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]|):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+=,@.-]{0,1023}$
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
     /// <summary>
-    /// A list of tags to apply to the application. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:).+$ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A list of tags to apply to the application. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:).+$ value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

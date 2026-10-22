@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Update a newly added or existing commitment. You can update the commit- ment group based on a commitment ID and a Bill scenario ID. NOTE: The BatchUpdateBillScenarioCommitmentModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calcula- tor:UpdateBillScenarioCommitmentModification in your policies. See also: AWS API Documentation
+/// Update a newly added or existing commitment. You can update the commitment group based on a commitment ID and a Bill scenario ID. NOTE: The BatchUpdateBillScenarioCommitmentModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:UpdateBillScenarioCommitmentModification in your policies. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsBcmPricingCalculatorBatchUpdateBillScenarioCommitmentModificati
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Update a newly added or existing commitment. You can update the commit- ment group based on a commitment ID and a Bill scenario ID. NOTE: The BatchUpdateBillScenarioCommitmentModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calcula- tor:UpdateBillScenarioCommitmentModification in your policies. See also: AWS API Documentation
+    /// Update a newly added or existing commitment. You can update the commitment group based on a commitment ID and a Bill scenario ID. NOTE: The BatchUpdateBillScenarioCommitmentModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:UpdateBillScenarioCommitmentModification in your policies. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BillScenarioId">The ID of the Bill Scenario for which you want to modify the commit- ment group of a modeled commitment. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="CommitmentModifications">List of commitments that you want to update in a Bill Scenario. Constraints: o min: 1 o max: 25 (structure) Represents an entry in a batch operation to update bill scenario commitment modifications. id -&gt; (string) [required] The unique identifier of the commitment modification to up- date. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} group -&gt; (string) The updated group identifier for the commitment modification. Constraints: o min: 0 o max: 30 o pattern: [a-zA-Z0-9-]* Shorthand Syntax: id=string,group=string ... JSON Syntax: [ { "id": "string", "group": "string" } ... ]</param>
+    /// <param name="BillScenarioId">The ID of the Bill Scenario for which you want to modify the commitment group of a modeled commitment. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="CommitmentModifications">List of commitments that you want to update in a Bill Scenario. Constraints: • min: 1 • max: 25 (structure) Represents an entry in a batch operation to update bill scenario commitment modifications. id -&gt; (string) [required] The unique identifier of the commitment modification to update. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} group -&gt; (string) The updated group identifier for the commitment modification. Constraints: • min: 0 • max: 30 • pattern: [a-zA-Z0-9-]* Shorthand Syntax: id=string,group=string ... JSON Syntax: [ { "id": "string", "group": "string" } ... ]</param>
     public AwsBcmPricingCalculatorBatchUpdateBillScenarioCommitmentModificationOptions(
         string BillScenarioId,
         IEnumerable<string> CommitmentModifications
@@ -71,13 +73,13 @@ public record AwsBcmPricingCalculatorBatchUpdateBillScenarioCommitmentModificati
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Bill Scenario for which you want to modify the commit- ment group of a modeled commitment. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The ID of the Bill Scenario for which you want to modify the commitment group of a modeled commitment. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--bill-scenario-id")]
     public string? BillScenarioId { get; private init; }
 
     /// <summary>
-    /// List of commitments that you want to update in a Bill Scenario. Constraints: o min: 1 o max: 25 (structure) Represents an entry in a batch operation to update bill scenario commitment modifications. id -&gt; (string) [required] The unique identifier of the commitment modification to up- date. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} group -&gt; (string) The updated group identifier for the commitment modification. Constraints: o min: 0 o max: 30 o pattern: [a-zA-Z0-9-]* Shorthand Syntax: id=string,group=string ... JSON Syntax: [ { "id": "string", "group": "string" } ... ]
+    /// List of commitments that you want to update in a Bill Scenario. Constraints: • min: 1 • max: 25 (structure) Represents an entry in a batch operation to update bill scenario commitment modifications. id -&gt; (string) [required] The unique identifier of the commitment modification to update. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} group -&gt; (string) The updated group identifier for the commitment modification. Constraints: • min: 0 • max: 30 • pattern: [a-zA-Z0-9-]* Shorthand Syntax: id=string,group=string ... JSON Syntax: [ { "id": "string", "group": "string" } ... ]
     /// </summary>
     [CliOption("--commitment-modifications", GroupValues = true)]
     public IEnumerable<string>? CommitmentModifications { get; private init; }

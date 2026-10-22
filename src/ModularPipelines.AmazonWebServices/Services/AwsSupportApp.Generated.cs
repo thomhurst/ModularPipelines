@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws supportapp commands.
+/// aws support-app commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsSupportApp : IAwsSupportApp
@@ -32,7 +32,7 @@ public class AwsSupportApp : IAwsSupportApp
     #region Commands
 
     /// <summary>
-    /// Creates a Slack channel configuration for your Amazon Web Services ac- count. NOTE: o You can add up to 5 Slack workspaces for your account. o You can add up to 20 Slack channels for your account. A Slack channel can have up to 100 Amazon Web Services accounts. This means that only 100 accounts can add the same Slack channel to the Ama- zon Web Services Support App. We recommend that you only add the ac- counts that you need to manage support cases for your organization. This can reduce the noti...
+    /// Creates a Slack channel configuration for your Amazon Web Services account. NOTE: • You can add up to 5 Slack workspaces for your account. • You can add up to 20 Slack channels for your account. A Slack channel can have up to 100 Amazon Web Services accounts. This means that only 100 accounts can add the same Slack channel to the Amazon Web Services Support App. We recommend that you only add the accounts that you need to manage support cases for your organization. This can reduce the notificati...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsSupportApp : IAwsSupportApp
     }
 
     /// <summary>
-    /// Deletes an alias for an Amazon Web Services account ID. The alias ap- pears in the Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App. See also: AWS API Documentation
+    /// Deletes an alias for an Amazon Web Services account ID. The alias appears in the Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsSupportApp : IAwsSupportApp
     }
 
     /// <summary>
-    /// Deletes a Slack channel configuration from your Amazon Web Services ac- count. This operation doesn't delete your Slack channel. See also: AWS API Documentation
+    /// Deletes a Slack channel configuration from your Amazon Web Services account. This operation doesn't delete your Slack channel. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsSupportApp : IAwsSupportApp
     }
 
     /// <summary>
-    /// Lists the Slack channel configurations for an Amazon Web Services ac- count. See also: AWS API Documentation
+    /// Lists the Slack channel configurations for an Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsSupportApp : IAwsSupportApp
     }
 
     /// <summary>
-    /// Lists the Slack workspace configurations for an Amazon Web Services ac- count. See also: AWS API Documentation
+    /// Lists the Slack workspace configurations for an Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsSupportApp : IAwsSupportApp
     }
 
     /// <summary>
-    /// Creates or updates an individual alias for each Amazon Web Services ac- count ID. The alias appears in the Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App. See also: AWS API Documentation
+    /// Creates or updates an individual alias for each Amazon Web Services account ID. The alias appears in the Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsSupportApp : IAwsSupportApp
     }
 
     /// <summary>
-    /// Registers a Slack workspace for your Amazon Web Services account. To call this API, your account must be part of an organization in Organi- zations. If you're the management account and you want to register Slack work- spaces for your organization, you must complete the following tasks: o Sign in to the Amazon Web Services Support Center and authorize the Slack workspaces where you want your organization to have access to. See Authorize a Slack workspace in the Amazon Web Services Support User G...
+    /// Registers a Slack workspace for your Amazon Web Services account. To call this API, your account must be part of an organization in Organizations. If you're the management account and you want to register Slack workspaces for your organization, you must complete the following tasks: • Sign in to the Amazon Web Services Support Center and authorize the Slack workspaces where you want your organization to have access to. See Authorize a Slack workspace in the Amazon Web Services Support User Guide...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsSupportApp : IAwsSupportApp
     }
 
     /// <summary>
-    /// Updates the configuration for a Slack channel, such as case update no- tifications. See also: AWS API Documentation
+    /// Updates the configuration for a Slack channel, such as case update notifications. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

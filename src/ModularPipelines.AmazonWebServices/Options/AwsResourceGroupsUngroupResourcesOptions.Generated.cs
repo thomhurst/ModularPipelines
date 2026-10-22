@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the specified resources from the specified group. This opera- tion works only with static groups that you populated using the GroupResources operation. It doesn't work with any resource groups that are automatically populated by tag-based or CloudFormation stack-based queries. Minimum permissions To run this command, you must have the following permissions: o resource-groups:UngroupResources See also: AWS API Documentation
+/// Removes the specified resources from the specified group. This operation works only with static groups that you populated using the GroupResources operation. It doesn't work with any resource groups that are automatically populated by tag-based or CloudFormation stack-based queries. Minimum permissions To run this command, you must have the following permissions: • resource-groups:UngroupResources See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsResourceGroupsUngroupResourcesOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the specified resources from the specified group. This opera- tion works only with static groups that you populated using the GroupResources operation. It doesn't work with any resource groups that are automatically populated by tag-based or CloudFormation stack-based queries. Minimum permissions To run this command, you must have the following permissions: o resource-groups:UngroupResources See also: AWS API Documentation
+    /// Removes the specified resources from the specified group. This operation works only with static groups that you populated using the GroupResources operation. It doesn't work with any resource groups that are automatically populated by tag-based or CloudFormation stack-based queries. Minimum permissions To run this command, you must have the following permissions: • resource-groups:UngroupResources See also: AWS API Documentation
     /// </summary>
-    /// <param name="Group">The name or the Amazon resource name (ARN) of the resource group from which to remove the resources. Constraints: o min: 1 o max: 1600 o pattern: [a-zA-Z0-9_\.-]{1,300}|[a-zA-Z0-9_\.-]{1,150}/[a-z0-9]{26}|arn:aws(-[a-z]+)*:re- source-groups:[a-z]{2}(-[a-z]+)+-\d{1}:[0-9]{12}:group/([a-zA-Z0-9_\.-]{1,300}|[a-zA-Z0-9_\.-]{1,150}/[a-z0-9]{26})</param>
-    /// <param name="ResourceArns">The Amazon resource names (ARNs) of the resources to be removed from the group. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: arn:aws(-[a-z]+)*:[a-z0-9\-]*:([a-z]{2}(-[a-z]+)+-\d{1})?:([0-9]{12})?:.+ Syntax: "string" "string" ...</param>
+    /// <param name="Group">The name or the Amazon resource name (ARN) of the resource group from which to remove the resources. Constraints: • min: 1 • max: 1600 • pattern: [a-zA-Z0-9_\.-]{1,300}|[a-zA-Z0-9_\.-]{1,150}/[a-z0-9]{26}|arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\d{1}:[0-9]{12}:group/([a-zA-Z0-9_\.-]{1,300}|[a-zA-Z0-9_\.-]{1,150}/[a-z0-9]{26})</param>
+    /// <param name="ResourceArns">The Amazon resource names (ARNs) of the resources to be removed from the group. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: arn:aws(-[a-z]+)*:[a-z0-9\-]*:([a-z]{2}(-[a-z]+)+-\d{1})?:([0-9]{12})?:.+ Syntax: "string" "string" ...</param>
     public AwsResourceGroupsUngroupResourcesOptions(
         string Group,
         IEnumerable<string> ResourceArns
@@ -71,13 +73,13 @@ public record AwsResourceGroupsUngroupResourcesOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or the Amazon resource name (ARN) of the resource group from which to remove the resources. Constraints: o min: 1 o max: 1600 o pattern: [a-zA-Z0-9_\.-]{1,300}|[a-zA-Z0-9_\.-]{1,150}/[a-z0-9]{26}|arn:aws(-[a-z]+)*:re- source-groups:[a-z]{2}(-[a-z]+)+-\d{1}:[0-9]{12}:group/([a-zA-Z0-9_\.-]{1,300}|[a-zA-Z0-9_\.-]{1,150}/[a-z0-9]{26})
+    /// The name or the Amazon resource name (ARN) of the resource group from which to remove the resources. Constraints: • min: 1 • max: 1600 • pattern: [a-zA-Z0-9_\.-]{1,300}|[a-zA-Z0-9_\.-]{1,150}/[a-z0-9]{26}|arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\d{1}:[0-9]{12}:group/([a-zA-Z0-9_\.-]{1,300}|[a-zA-Z0-9_\.-]{1,150}/[a-z0-9]{26})
     /// </summary>
     [CliOption("--group")]
     public string? Group { get; private init; }
 
     /// <summary>
-    /// The Amazon resource names (ARNs) of the resources to be removed from the group. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: arn:aws(-[a-z]+)*:[a-z0-9\-]*:([a-z]{2}(-[a-z]+)+-\d{1})?:([0-9]{12})?:.+ Syntax: "string" "string" ...
+    /// The Amazon resource names (ARNs) of the resources to be removed from the group. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: arn:aws(-[a-z]+)*:[a-z0-9\-]*:([a-z]{2}(-[a-z]+)+-\d{1})?:([0-9]{12})?:.+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resource-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceArns { get; private init; }

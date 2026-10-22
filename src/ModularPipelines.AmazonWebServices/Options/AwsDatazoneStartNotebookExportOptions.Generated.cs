@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts a notebook export in Amazon SageMaker Unified Studio. This oper- ation exports a notebook to a specified file format and stores the out- put in Amazon Simple Storage Service. See also: AWS API Documentation
+/// Starts a notebook export in Amazon SageMaker Unified Studio. This operation exports a notebook to a specified file format and stores the output in Amazon Simple Storage Service. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,12 +29,12 @@ public record AwsDatazoneStartNotebookExportOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts a notebook export in Amazon SageMaker Unified Studio. This oper- ation exports a notebook to a specified file format and stores the out- put in Amazon Simple Storage Service. See also: AWS API Documentation
+    /// Starts a notebook export in Amazon SageMaker Unified Studio. This operation exports a notebook to a specified file format and stores the output in Amazon Simple Storage Service. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The identifier of the Amazon SageMaker Unified Studio domain in which to export the notebook. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="NotebookIdentifier">The identifier of the notebook to export. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="OwningProjectIdentifier">The identifier of the project that owns the notebook. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="FileFormat">The file format for the notebook export. Valid values are PDF and IPYNB . Possible values: o PDF o IPYNB</param>
+    /// <param name="DomainIdentifier">The identifier of the Amazon SageMaker Unified Studio domain in which to export the notebook. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="NotebookIdentifier">The identifier of the notebook to export. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="OwningProjectIdentifier">The identifier of the project that owns the notebook. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="FileFormat">The file format for the notebook export. Valid values are PDF and IPYNB . Possible values: • PDF • IPYNB</param>
     public AwsDatazoneStartNotebookExportOptions(
         string DomainIdentifier,
         string NotebookIdentifier,
@@ -69,31 +71,31 @@ public record AwsDatazoneStartNotebookExportOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon SageMaker Unified Studio domain in which to export the notebook. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which to export the notebook. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the notebook to export. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the notebook to export. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--notebook-identifier")]
     public string? NotebookIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the project that owns the notebook. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the project that owns the notebook. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--owning-project-identifier")]
     public string? OwningProjectIdentifier { get; private init; }
 
     /// <summary>
-    /// The file format for the notebook export. Valid values are PDF and IPYNB . Possible values: o PDF o IPYNB
+    /// The file format for the notebook export. Valid values are PDF and IPYNB . Possible values: • PDF • IPYNB
     /// </summary>
     [CliOption("--file-format")]
     public AwsDatazoneStartNotebookExportFileFormat? FileFormat { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure idempotency of the re- quest. This field is automatically populated if not provided. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

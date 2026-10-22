@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This action gets an Amazon S3 on Outposts bucket's lifecycle config- uration. To get an S3 bucket's lifecycle configuration, see GetBucketLifecycleConfiguration in the Amazon S3 API Reference . Returns the lifecycle configuration information set on the Outposts bucket. For more information, see Using Amazon S3 on Outposts and for information about lifecycle configuration, see Object Lifecycle Manage- ment in Amazon S3 User Guide . To use this action, you must have permission to perform the...
+/// NOTE: This action gets an Amazon S3 on Outposts bucket's lifecycle configuration. To get an S3 bucket's lifecycle configuration, see GetBucketLifecycleConfiguration in the Amazon S3 API Reference . Returns the lifecycle configuration information set on the Outposts bucket. For more information, see Using Amazon S3 on Outposts and for information about lifecycle configuration, see Object Lifecycle Management in Amazon S3 User Guide . To use this action, you must have permission to perform the s3-...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsS3controlGetBucketLifecycleConfigurationOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This action gets an Amazon S3 on Outposts bucket's lifecycle config- uration. To get an S3 bucket's lifecycle configuration, see GetBucketLifecycleConfiguration in the Amazon S3 API Reference . Returns the lifecycle configuration information set on the Outposts bucket. For more information, see Using Amazon S3 on Outposts and for information about lifecycle configuration, see Object Lifecycle Manage- ment in Amazon S3 User Guide . To use this action, you must have permission to perform the...
+    /// NOTE: This action gets an Amazon S3 on Outposts bucket's lifecycle configuration. To get an S3 bucket's lifecycle configuration, see GetBucketLifecycleConfiguration in the Amazon S3 API Reference . Returns the lifecycle configuration information set on the Outposts bucket. For more information, see Using Amazon S3 on Outposts and for information about lifecycle configuration, see Object Lifecycle Management in Amazon S3 User Guide . To use this action, you must have permission to perform the s3-...
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID of the Outposts bucket. Constraints: o max: 64 o pattern: ^\d{12}$</param>
-    /// <param name="Bucket">The Amazon Resource Name (ARN) of the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket ac- cessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:out- post/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt; . For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2 , use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-out- post/bucket/reports . The value must be URL encoded. Constraints: o min: 3 o max: 255</param>
+    /// <param name="AccountId">The Amazon Web Services account ID of the Outposts bucket. Constraints: • max: 64 • pattern: ^\d{12}$</param>
+    /// <param name="Bucket">The Amazon Resource Name (ARN) of the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt; . For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2 , use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports . The value must be URL encoded. Constraints: • min: 3 • max: 255</param>
     public AwsS3controlGetBucketLifecycleConfigurationOptions(
         string AccountId,
         string Bucket
@@ -60,13 +62,13 @@ public record AwsS3controlGetBucketLifecycleConfigurationOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID of the Outposts bucket. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID of the Outposts bucket. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket ac- cessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:out- post/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt; . For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2 , use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-out- post/bucket/reports . The value must be URL encoded. Constraints: o min: 3 o max: 255
+    /// The Amazon Resource Name (ARN) of the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt; . For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2 , use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports . The value must be URL encoded. Constraints: • min: 3 • max: 255
     /// </summary>
     [CliOption("--bucket")]
     public string? Bucket { get; private init; }

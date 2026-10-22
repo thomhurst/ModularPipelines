@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Initiates code remediation for one or more security findings. This cre- ates pull requests in integrated repositories to fix the identified vulnerabilities. See also: AWS API Documentation
+/// Initiates code remediation for one or more security findings. This creates pull requests in integrated repositories to fix the identified vulnerabilities. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsSecurityagentStartCodeRemediationOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Initiates code remediation for one or more security findings. This cre- ates pull requests in integrated repositories to fix the identified vulnerabilities. See also: AWS API Documentation
+    /// Initiates code remediation for one or more security findings. This creates pull requests in integrated repositories to fix the identified vulnerabilities. See also: AWS API Documentation
     /// </summary>
     /// <param name="AgentSpaceId">The unique identifier of the agent space.</param>
     /// <param name="FindingIds">The list of finding identifiers to initiate code remediation for. (string) Syntax: "string" "string" ...</param>
@@ -89,7 +91,7 @@ public record AwsSecurityagentStartCodeRemediationOptions : AwsOptions, IValidat
     public string? PentestJobId { get; set; }
 
     /// <summary>
-    /// The unique identifier of the code review job that produced the find- ings. Mutually exclusive with pentestJobId .
+    /// The unique identifier of the code review job that produced the findings. Mutually exclusive with pentestJobId .
     /// </summary>
     [CliOption("--code-review-job-id")]
     public string? CodeReviewJobId { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves contact metric data for a specified contact. Use cases Following are common use cases for position in queue and estimated wait time: o Customer-Facing Wait Time Announcements - Display or announce the es- timated wait time and position in queue to customers before or during their queue experience. o Callback Offerings - Offer customers a callback option when the esti- mated wait time or position in queue exceeds a defined threshold. o Queue Routing Decisions - Route incoming contacts t...
+/// Retrieves contact metric data for a specified contact. Use cases Following are common use cases for position in queue and estimated wait time: • Customer-Facing Wait Time Announcements - Display or announce the estimated wait time and position in queue to customers before or during their queue experience. • Callback Offerings - Offer customers a callback option when the estimated wait time or position in queue exceeds a defined threshold. • Queue Routing Decisions - Route incoming contacts to le...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsConnectGetContactMetricsOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves contact metric data for a specified contact. Use cases Following are common use cases for position in queue and estimated wait time: o Customer-Facing Wait Time Announcements - Display or announce the es- timated wait time and position in queue to customers before or during their queue experience. o Callback Offerings - Offer customers a callback option when the esti- mated wait time or position in queue exceeds a defined threshold. o Queue Routing Decisions - Route incoming contacts t...
+    /// Retrieves contact metric data for a specified contact. Use cases Following are common use cases for position in queue and estimated wait time: • Customer-Facing Wait Time Announcements - Display or announce the estimated wait time and position in queue to customers before or during their queue experience. • Callback Offerings - Offer customers a callback option when the estimated wait time or position in queue exceeds a defined threshold. • Queue Routing Decisions - Route incoming contacts to le...
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 250 o pattern: ^(arn:(aws|aws-us-gov):con- nect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:in- stance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
-    /// <param name="ContactId">The identifier of the contact in this instance of Connect Customer. Constraints: o min: 1 o max: 250 o pattern: ^(arn:(aws|aws-us-gov):con- nect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:in- stance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
-    /// <param name="Metrics">A list of contact level metrics to retrieve.Supported metrics in- clude POSITION_IN_QUEUE (the contact's current position in the queue) and ESTIMATED_WAIT_TIME (the predicted time in seconds until the contact is connected to an agent) Constraints: o min: 1 (structure) Contains the details of a metric to be retrieved for a contact. Use this object to specify which contact level metrics you want to include in your GetContactMetrics request. Name -&gt; (string) [required] The name of the metric to retrieve. Supported values are PO- SITION_IN_QUEUE (returns the contact's current position in the queue) and ESTIMATED_WAIT_TIME (returns the predicted wait time in seconds). Possible values: o ESTIMATED_WAIT_TIME o POSITION_IN_QUEUE Shorthand Syntax: Name=string ... JSON Syntax: [ { "Name": "ESTIMATED_WAIT_TIME"|"POSITION_IN_QUEUE" } ... ]</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 250 • pattern: ^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:instance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="ContactId">The identifier of the contact in this instance of Connect Customer. Constraints: • min: 1 • max: 250 • pattern: ^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:instance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="Metrics">A list of contact level metrics to retrieve.Supported metrics include POSITION_IN_QUEUE (the contact's current position in the queue) and ESTIMATED_WAIT_TIME (the predicted time in seconds until the contact is connected to an agent) Constraints: • min: 1 (structure) Contains the details of a metric to be retrieved for a contact. Use this object to specify which contact level metrics you want to include in your GetContactMetrics request. Name -&gt; (string) [required] The name of the metric to retrieve. Supported values are POSITION_IN_QUEUE (returns the contact's current position in the queue) and ESTIMATED_WAIT_TIME (returns the predicted wait time in seconds). Possible values: • ESTIMATED_WAIT_TIME • POSITION_IN_QUEUE Shorthand Syntax: Name=string ... JSON Syntax: [ { "Name": "ESTIMATED_WAIT_TIME"|"POSITION_IN_QUEUE" } ... ]</param>
     public AwsConnectGetContactMetricsOptions(
         string InstanceId,
         string ContactId,
@@ -75,19 +77,19 @@ public record AwsConnectGetContactMetricsOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 250 o pattern: ^(arn:(aws|aws-us-gov):con- nect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:in- stance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 250 • pattern: ^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:instance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the contact in this instance of Connect Customer. Constraints: o min: 1 o max: 250 o pattern: ^(arn:(aws|aws-us-gov):con- nect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:in- stance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The identifier of the contact in this instance of Connect Customer. Constraints: • min: 1 • max: 250 • pattern: ^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:instance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--contact-id")]
     public string? ContactId { get; private init; }
 
     /// <summary>
-    /// A list of contact level metrics to retrieve.Supported metrics in- clude POSITION_IN_QUEUE (the contact's current position in the queue) and ESTIMATED_WAIT_TIME (the predicted time in seconds until the contact is connected to an agent) Constraints: o min: 1 (structure) Contains the details of a metric to be retrieved for a contact. Use this object to specify which contact level metrics you want to include in your GetContactMetrics request. Name -&gt; (string) [required] The name of the metric to retrieve. Supported values are PO- SITION_IN_QUEUE (returns the contact's current position in the queue) and ESTIMATED_WAIT_TIME (returns the predicted wait time in seconds). Possible values: o ESTIMATED_WAIT_TIME o POSITION_IN_QUEUE Shorthand Syntax: Name=string ... JSON Syntax: [ { "Name": "ESTIMATED_WAIT_TIME"|"POSITION_IN_QUEUE" } ... ]
+    /// A list of contact level metrics to retrieve.Supported metrics include POSITION_IN_QUEUE (the contact's current position in the queue) and ESTIMATED_WAIT_TIME (the predicted time in seconds until the contact is connected to an agent) Constraints: • min: 1 (structure) Contains the details of a metric to be retrieved for a contact. Use this object to specify which contact level metrics you want to include in your GetContactMetrics request. Name -&gt; (string) [required] The name of the metric to retrieve. Supported values are POSITION_IN_QUEUE (returns the contact's current position in the queue) and ESTIMATED_WAIT_TIME (returns the predicted wait time in seconds). Possible values: • ESTIMATED_WAIT_TIME • POSITION_IN_QUEUE Shorthand Syntax: Name=string ... JSON Syntax: [ { "Name": "ESTIMATED_WAIT_TIME"|"POSITION_IN_QUEUE" } ... ]
     /// </summary>
     [CliOption("--metrics", GroupValues = true)]
     public IEnumerable<string>? Metrics { get; private init; }

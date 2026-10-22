@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Update the specified channel. You can edit if MediaPackage sends ingest or egress access logs to the CloudWatch log group, if content will be encrypted, the description on a channel, and your channel's policy set- tings. You can't edit the name of the channel or CloudFront distribu- tion details. Any edits you make that impact the video output may not be reflected for a few minutes. See also: AWS API Documentation
+/// Update the specified channel. You can edit if MediaPackage sends ingest or egress access logs to the CloudWatch log group, if content will be encrypted, the description on a channel, and your channel's policy settings. You can't edit the name of the channel or CloudFront distribution details. Any edits you make that impact the video output may not be reflected for a few minutes. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsMediapackagev2UpdateChannelOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Update the specified channel. You can edit if MediaPackage sends ingest or egress access logs to the CloudWatch log group, if content will be encrypted, the description on a channel, and your channel's policy set- tings. You can't edit the name of the channel or CloudFront distribu- tion details. Any edits you make that impact the video output may not be reflected for a few minutes. See also: AWS API Documentation
+    /// Update the specified channel. You can edit if MediaPackage sends ingest or egress access logs to the CloudWatch log group, if content will be encrypted, the description on a channel, and your channel's policy settings. You can't edit the name of the channel or CloudFront distribution details. Any edits you make that impact the video output may not be reflected for a few minutes. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ChannelGroupName">The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your ac- count in the AWS Region. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="ChannelName">The name that describes the channel. The name is the primary identi- fier for the channel, and must be unique for your account in the AWS Region and channel group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ChannelGroupName">The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ChannelName">The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsMediapackagev2UpdateChannelOptions(
         string ChannelGroupName,
         string ChannelName
@@ -60,43 +62,43 @@ public record AwsMediapackagev2UpdateChannelOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your ac- count in the AWS Region. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--channel-group-name")]
     public string? ChannelGroupName { get; private init; }
 
     /// <summary>
-    /// The name that describes the channel. The name is the primary identi- fier for the channel, and must be unique for your account in the AWS Region and channel group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--channel-name")]
     public string? ChannelName { get; private init; }
 
     /// <summary>
-    /// The expected current Entity Tag (ETag) for the resource. If the specified ETag does not match the resource's current entity tag, the update request will be rejected. Constraints: o min: 1 o max: 256 o pattern: [\S]+
+    /// The expected current Entity Tag (ETag) for the resource. If the specified ETag does not match the resource's current entity tag, the update request will be rejected. Constraints: • min: 1 • max: 256 • pattern: [\S]+
     /// </summary>
     [CliOption("--e-tag")]
     public string? ETag { get; set; }
 
     /// <summary>
-    /// Any descriptive information that you want to add to the channel for future identification purposes. Constraints: o min: 0 o max: 1024
+    /// Any descriptive information that you want to add to the channel for future identification purposes. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF . MQCSInputSwitching -&gt; (boolean) When true, AWS Elemental MediaPackage performs input switching based on the MQCS. Default is false. This setting is valid only when InputType is CMAF . PreferredInput -&gt; (integer) For CMAF inputs, indicates which input MediaPackage should pre- fer when both inputs have equal MQCS scores. Select 1 to prefer the first ingest endpoint, or 2 to prefer the second ingest end- point. If you don't specify a preferred input, MediaPackage uses its default switching behavior when MQCS scores are equal. Constraints: o min: 1 o max: 2 Shorthand Syntax: MQCSInputSwitching=boolean,PreferredInput=integer JSON Syntax: { "MQCSInputSwitching": true|false, "PreferredInput": integer }
+    /// The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF . MQCSInputSwitching -&gt; (boolean) When true, AWS Elemental MediaPackage performs input switching based on the MQCS. Default is false. This setting is valid only when InputType is CMAF . PreferredInput -&gt; (integer) For CMAF inputs, indicates which input MediaPackage should prefer when both inputs have equal MQCS scores. Select 1 to prefer the first ingest endpoint, or 2 to prefer the second ingest endpoint. If you don't specify a preferred input, MediaPackage uses its default switching behavior when MQCS scores are equal. Constraints: • min: 1 • max: 2 Shorthand Syntax: MQCSInputSwitching=boolean,PreferredInput=integer JSON Syntax: { "MQCSInputSwitching": true|false, "PreferredInput": integer }
     /// </summary>
     [CliOption("--input-switch-configuration")]
     public string? InputSwitchConfiguration { get; set; }
 
     /// <summary>
-    /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This set- ting is valid only when InputType is CMAF . PublishMQCS -&gt; (boolean) When true, AWS Elemental MediaPackage includes the MQCS in re- sponses to the CDN. This setting is valid only when InputType is CMAF . Shorthand Syntax: PublishMQCS=boolean JSON Syntax: { "PublishMQCS": true|false }
+    /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF . PublishMQCS -&gt; (boolean) When true, AWS Elemental MediaPackage includes the MQCS in responses to the CDN. This setting is valid only when InputType is CMAF . Shorthand Syntax: PublishMQCS=boolean JSON Syntax: { "PublishMQCS": true|false }
     /// </summary>
     [CliOption("--output-header-configuration")]
     public string? OutputHeaderConfiguration { get; set; }
 
     /// <summary>
-    /// The multiview configuration for the channel. This setting is re- quired when the channel's InputType is MULTIVIEW , and can't be set for any other input type. Because InputType is immutable, you can change a multiview channel's sources and layouts. You can't add or remove the multiview configuration itself. AvailableSources -&gt; (list) [required] The channels that players can use as tiles in this multiview channel's output. Each source channel must be in the same chan- nel group as the multiview channel, and must have an InputType of CMAF . Only the channels that you list here are available as tiles. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+ AvailableLayouts -&gt; (list) [required] The tile layouts that players can request from this multiview channel's origin endpoints. Only the layouts that you list here are available. Each layout must appear at most once. Constraints: o min: 1 o max: 6 (string) A tile layout for a multiview channel. Each layout determines how many source tiles are composited into the output and how those tiles are arranged. The allowed values are: o LAYOUT_2EH Two tiles of equal size, arranged horizontally. o LAYOUT_2PL Two tiles, with one larger primary tile. o LAYOUT_3EL Three tiles of equal size, arranged in two columns. o LAYOUT_3PL Three tiles, with one larger primary tile on the left and two stacked on the right. o LAYOUT_4E Four tiles of equal size, arranged in a two-by-two grid. o LAYOUT_4PL Four tiles, with one larger primary tile on the left and three stacked on the right. Possible values: o LAYOUT_2EH o LAYOUT_2PL o LAYOUT_3EL o LAYOUT_3PL o LAYOUT_4E o LAYOUT_4PL Shorthand Syntax: AvailableSources=string,string,AvailableLayouts=string,string JSON Syntax: { "AvailableSources": ["string", ...], "AvailableLayouts": ["LAYOUT_2EH"|"LAYOUT_2PL"|"LAYOUT_3EL"|"LAYOUT_3PL"|"LAYOUT_4E"|"LAYOUT_4PL", ...] }
+    /// The multiview configuration for the channel. This setting is required when the channel's InputType is MULTIVIEW , and can't be set for any other input type. Because InputType is immutable, you can change a multiview channel's sources and layouts. You can't add or remove the multiview configuration itself. AvailableSources -&gt; (list) [required] The channels that players can use as tiles in this multiview channel's output. Each source channel must be in the same channel group as the multiview channel, and must have an InputType of CMAF . Only the channels that you list here are available as tiles. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+ AvailableLayouts -&gt; (list) [required] The tile layouts that players can request from this multiview channel's origin endpoints. Only the layouts that you list here are available. Each layout must appear at most once. Constraints: • min: 1 • max: 6 (string) A tile layout for a multiview channel. Each layout determines how many source tiles are composited into the output and how those tiles are arranged. The allowed values are: • LAYOUT_2EH Two tiles of equal size, arranged horizontally. • LAYOUT_2PL Two tiles, with one larger primary tile. • LAYOUT_3EL Three tiles of equal size, arranged in two columns. • LAYOUT_3PL Three tiles, with one larger primary tile on the left and two stacked on the right. • LAYOUT_4E Four tiles of equal size, arranged in a two-by-two grid. • LAYOUT_4PL Four tiles, with one larger primary tile on the left and three stacked on the right. Possible values: • LAYOUT_2EH • LAYOUT_2PL • LAYOUT_3EL • LAYOUT_3PL • LAYOUT_4E • LAYOUT_4PL Shorthand Syntax: AvailableSources=string,string,AvailableLayouts=string,string JSON Syntax: { "AvailableSources": ["string", ...], "AvailableLayouts": ["LAYOUT_2EH"|"LAYOUT_2PL"|"LAYOUT_3EL"|"LAYOUT_3PL"|"LAYOUT_4E"|"LAYOUT_4PL", ...] }
     /// </summary>
     [CliOption("--multiview-configuration")]
     public string? MultiviewConfiguration { get; set; }

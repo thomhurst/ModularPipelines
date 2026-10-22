@@ -32,7 +32,7 @@ public class AwsCloudsearchdomain : IAwsCloudsearchdomain
     #region Commands
 
     /// <summary>
-    /// Retrieves a list of documents that match the specified search criteria. How you specify the search criteria depends on which query parser you use. Amazon CloudSearch supports four query parsers: o simple : search all text and text-array fields for the specified string. Search for phrases, individual terms, and prefixes. o structured : search specific fields, construct compound queries using Boolean operators, and use advanced features such as term boosting and proximity searching. o lucene : spe...
+    /// Retrieves a list of documents that match the specified search criteria. How you specify the search criteria depends on which query parser you use. Amazon CloudSearch supports four query parsers: • simple : search all text and text-array fields for the specified string. Search for phrases, individual terms, and prefixes. • structured : search specific fields, construct compound queries using Boolean operators, and use advanced features such as term boosting and proximity searching. • lucene : spe...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsCloudsearchdomain : IAwsCloudsearchdomain
     }
 
     /// <summary>
-    /// Retrieves autocomplete suggestions for a partial query string. You can use suggestions enable you to display likely matches before users fin- ish typing. In Amazon CloudSearch, suggestions are based on the con- tents of a particular text field. When you request suggestions, Amazon CloudSearch finds all of the documents whose values in the suggester field start with the specified query string. The beginning of the field must match the query string to be considered a match. For more information ab...
+    /// Retrieves autocomplete suggestions for a partial query string. You can use suggestions enable you to display likely matches before users finish typing. In Amazon CloudSearch, suggestions are based on the contents of a particular text field. When you request suggestions, Amazon CloudSearch finds all of the documents whose values in the suggester field start with the specified query string. The beginning of the field must match the query string to be considered a match. For more information about ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsCloudsearchdomain : IAwsCloudsearchdomain
     }
 
     /// <summary>
-    /// Posts a batch of documents to a search domain for indexing. A document batch is a collection of add and delete operations that represent the documents you want to add, update, or delete from your domain. Batches can be described in either JSON or XML. Each item that you want Amazon CloudSearch to return as a search result (such as a product) is repre- sented as a document. Every document has a unique ID and one or more fields that contain the data that you want to search and return in re- sults....
+    /// Posts a batch of documents to a search domain for indexing. A document batch is a collection of add and delete operations that represent the documents you want to add, update, or delete from your domain. Batches can be described in either JSON or XML. Each item that you want Amazon CloudSearch to return as a search result (such as a product) is represented as a document. Every document has a unique ID and one or more fields that contain the data that you want to search and return in results. Ind...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other en- tities. No response is returned from this call. See also: AWS API Documentation
+/// Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities. No response is returned from this call. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsTransferUntagResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other en- tities. No response is returned from this call. See also: AWS API Documentation
+    /// Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities. No response is returned from this call. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The value of the resource that will have the tag removed. An Amazon Resource Name (ARN) is an identifier for a specific Amazon Web Ser- vices resource, such as a server, user, or role. Constraints: o min: 20 o max: 1600 o pattern: arn:\S+</param>
-    /// <param name="TagKeys">TagKeys are key-value pairs assigned to ARNs that can be used to group and search for resources by type. This metadata can be at- tached to resources for any purpose. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 0 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="Arn">The value of the resource that will have the tag removed. An Amazon Resource Name (ARN) is an identifier for a specific Amazon Web Services resource, such as a server, user, or role. Constraints: • min: 20 • max: 1600 • pattern: arn:\S+</param>
+    /// <param name="TagKeys">TagKeys are key-value pairs assigned to ARNs that can be used to group and search for resources by type. This metadata can be attached to resources for any purpose. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 0 • max: 128 Syntax: "string" "string" ...</param>
     public AwsTransferUntagResourceOptions(
         string Arn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsTransferUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The value of the resource that will have the tag removed. An Amazon Resource Name (ARN) is an identifier for a specific Amazon Web Ser- vices resource, such as a server, user, or role. Constraints: o min: 20 o max: 1600 o pattern: arn:\S+
+    /// The value of the resource that will have the tag removed. An Amazon Resource Name (ARN) is an identifier for a specific Amazon Web Services resource, such as a server, user, or role. Constraints: • min: 20 • max: 1600 • pattern: arn:\S+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// TagKeys are key-value pairs assigned to ARNs that can be used to group and search for resources by type. This metadata can be at- tached to resources for any purpose. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 0 o max: 128 Syntax: "string" "string" ...
+    /// TagKeys are key-value pairs assigned to ARNs that can be used to group and search for resources by type. This metadata can be attached to resources for any purpose. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 0 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

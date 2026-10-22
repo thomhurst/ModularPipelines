@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts the generation of an exclusions preview for the specified as- sessment template. The exclusions preview lists the potential exclu- sions (ExclusionPreview) that Inspector can detect before it runs the assessment. See also: AWS API Documentation
+/// Starts the generation of an exclusions preview for the specified assessment template. The exclusions preview lists the potential exclusions (ExclusionPreview) that Inspector can detect before it runs the assessment. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsInspectorCreateExclusionsPreviewOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts the generation of an exclusions preview for the specified as- sessment template. The exclusions preview lists the potential exclu- sions (ExclusionPreview) that Inspector can detect before it runs the assessment. See also: AWS API Documentation
+    /// Starts the generation of an exclusions preview for the specified assessment template. The exclusions preview lists the potential exclusions (ExclusionPreview) that Inspector can detect before it runs the assessment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssessmentTemplateArn">The ARN that specifies the assessment template for which you want to create an exclusions preview. Constraints: o min: 1 o max: 300</param>
+    /// <param name="AssessmentTemplateArn">The ARN that specifies the assessment template for which you want to create an exclusions preview. Constraints: • min: 1 • max: 300</param>
     public AwsInspectorCreateExclusionsPreviewOptions(
         string AssessmentTemplateArn
     )
@@ -56,7 +58,7 @@ public record AwsInspectorCreateExclusionsPreviewOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN that specifies the assessment template for which you want to create an exclusions preview. Constraints: o min: 1 o max: 300
+    /// The ARN that specifies the assessment template for which you want to create an exclusions preview. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--assessment-template-arn")]
     public string? AssessmentTemplateArn { get; private init; }

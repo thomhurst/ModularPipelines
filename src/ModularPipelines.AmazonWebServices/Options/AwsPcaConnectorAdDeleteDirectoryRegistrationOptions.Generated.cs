@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsPcaConnectorAdDeleteDirectoryRegistrationOptions : AwsOptions, 
     /// <summary>
     /// Deletes a directory registration. Deleting a directory registration deauthorizes Amazon Web Services Private CA with the directory. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryRegistrationArn">The Amazon Resource Name (ARN) that was returned when you called CreateDirectoryRegistration . Constraints: o min: 5 o max: 200 o pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:directory-reg- istration\/d-[0-9a-f]{10}$</param>
+    /// <param name="DirectoryRegistrationArn">The Amazon Resource Name (ARN) that was returned when you called CreateDirectoryRegistration . Constraints: • min: 5 • max: 200 • pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:directory-registration\/d-[0-9a-f]{10}$</param>
     public AwsPcaConnectorAdDeleteDirectoryRegistrationOptions(
         string DirectoryRegistrationArn
     )
@@ -56,7 +58,7 @@ public record AwsPcaConnectorAdDeleteDirectoryRegistrationOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that was returned when you called CreateDirectoryRegistration . Constraints: o min: 5 o max: 200 o pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:directory-reg- istration\/d-[0-9a-f]{10}$
+    /// The Amazon Resource Name (ARN) that was returned when you called CreateDirectoryRegistration . Constraints: • min: 5 • max: 200 • pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:directory-registration\/d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-registration-arn")]
     public string? DirectoryRegistrationArn { get; private init; }

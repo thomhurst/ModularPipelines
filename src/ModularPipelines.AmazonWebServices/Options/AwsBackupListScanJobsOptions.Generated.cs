@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of existing scan jobs for an authenticated account for the last 30 days. See also: AWS API Documentation list-scan-jobs is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ScanJobs
+/// Returns a list of existing scan jobs for an authenticated account for the last 30 days. See also: AWS API Documentation list-scan-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ScanJobs
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,7 +24,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsBackupListScanJobsOptions : AwsOptions
 {
     /// <summary>
-    /// The account ID to list the jobs from. Returns only backup jobs asso- ciated with the specified account ID. If used from an Amazon Web Services Organizations management ac- count, passing * returns all jobs across the organization. Pattern: ^[0-9]{12}$
+    /// The account ID to list the jobs from. Returns only backup jobs associated with the specified account ID. If used from an Amazon Web Services Organizations management account, passing * returns all jobs across the organization. Pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--by-account-id")]
     public string? ByAccountId { get; set; }
@@ -36,7 +36,7 @@ public record AwsBackupListScanJobsOptions : AwsOptions
     public string? ByBackupVaultName { get; set; }
 
     /// <summary>
-    /// Returns only scan jobs completed after a date expressed in Unix for- mat and Coordinated Universal Time (UTC).
+    /// Returns only scan jobs completed after a date expressed in Unix format and Coordinated Universal Time (UTC).
     /// </summary>
     [CliOption("--by-complete-after")]
     public string? ByCompleteAfter { get; set; }
@@ -48,46 +48,43 @@ public record AwsBackupListScanJobsOptions : AwsOptions
     public string? ByCompleteBefore { get; set; }
 
     /// <summary>
-    /// Returns only the scan jobs for the specified malware scanner. Cur- rently only supports GUARDDUTY . Possible values: o GUARDDUTY
+    /// Returns only the scan jobs for the specified malware scanner. Currently only supports GUARDDUTY . Possible values: • GUARDDUTY
     /// </summary>
     [CliOption("--by-malware-scanner")]
     public string? ByMalwareScanner { get; set; }
 
     /// <summary>
-    /// Returns only the scan jobs that are ran against the specified recov- ery point.
+    /// Returns only the scan jobs that are ran against the specified recovery point.
     /// </summary>
     [CliOption("--by-recovery-point-arn")]
     public string? ByRecoveryPointArn { get; set; }
 
     /// <summary>
-    /// Returns only scan jobs that match the specified resource Amazon Re- source Name (ARN).
+    /// Returns only scan jobs that match the specified resource Amazon Resource Name (ARN).
     /// </summary>
     [CliOption("--by-resource-arn")]
     public string? ByResourceArn { get; set; }
 
     /// <summary>
-    /// Returns restore testing selections by the specified restore testing plan name. o EBS for Amazon Elastic Block Store o EC2 for Amazon Elastic Compute Cloud o S3 for Amazon Simple Storage Service (Amazon S3) Pattern: ^[a-zA-Z0-9\-\_\.]{1,50}$ Possible values: o EBS o EC2 o S3
+    /// Returns restore testing selections by the specified restore testing plan name. • EBS for Amazon Elastic Block Store • EC2 for Amazon Elastic Compute Cloud • S3 for Amazon Simple Storage Service (Amazon S3) Pattern: ^[a-zA-Z0-9\-\_\.]{1,50}$ Possible values: • EBS • EC2 • S3
     /// </summary>
     [CliOption("--by-resource-type")]
     public AwsBackupListScanJobsByResourceType? ByResourceType { get; set; }
 
     /// <summary>
-    /// Returns only the scan jobs for the specified scan results: o THREATS_FOUND o NO_THREATS_FOUND Possible values: o NO_THREATS_FOUND o THREATS_FOUND o UNKNOWN
+    /// Returns only the scan jobs for the specified scan results: • THREATS_FOUND • NO_THREATS_FOUND Possible values: • NO_THREATS_FOUND • THREATS_FOUND • UNKNOWN
     /// </summary>
     [CliOption("--by-scan-result-status")]
     public AwsBackupListScanJobsByScanResultStatus? ByScanResultStatus { get; set; }
 
     /// <summary>
-    /// Returns only the scan jobs for the specified scanning job state. Possible values: o CANCELED o COMPLETED o COMPLETED_WITH_ISSUES o CREATED o FAILED o RUNNING
+    /// Returns only the scan jobs for the specified scanning job state. Possible values: • CANCELED • COMPLETED • COMPLETED_WITH_ISSUES • CREATED • FAILED • RUNNING
     /// </summary>
     [CliOption("--by-state")]
     public AwsBackupListScanJobsByState? ByState { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -97,15 +94,18 @@ public record AwsBackupListScanJobsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

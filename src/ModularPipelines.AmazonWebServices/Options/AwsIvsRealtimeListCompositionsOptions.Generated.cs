@@ -23,26 +23,26 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIvsRealtimeListCompositionsOptions : AwsOptions
 {
     /// <summary>
-    /// Filters the Composition list to match the specified Stage ARN. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+
+    /// Filters the Composition list to match the specified Stage ARN. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--filter-by-stage-arn")]
     public string? FilterByStageArn { get; set; }
 
     /// <summary>
-    /// Filters the Composition list to match the specified EncoderConfigu- ration attached to at least one of its output. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:encoder-configura- tion/[a-zA-Z0-9-]+
+    /// Filters the Composition list to match the specified EncoderConfiguration attached to at least one of its output. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:encoder-configuration/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--filter-by-encoder-configuration-arn")]
     public string? FilterByEncoderConfigurationArn { get; set; }
 
     /// <summary>
-    /// The first Composition to retrieve. This is used for pagination; see the nextToken response field. Constraints: o min: 0 o max: 1024 o pattern: [a-zA-Z0-9+/=_-]*
+    /// The first Composition to retrieve. This is used for pagination; see the nextToken response field. Constraints: • min: 0 • max: 1024 • pattern: [a-zA-Z0-9+/=_-]*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Maximum number of results to return. Default: 100. Constraints: o min: 1 o max: 100
+    /// Maximum number of results to return. Default: 100. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

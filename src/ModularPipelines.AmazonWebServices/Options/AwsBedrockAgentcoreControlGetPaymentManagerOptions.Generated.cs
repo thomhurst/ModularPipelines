@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBedrockAgentcoreControlGetPaymentManagerOptions : AwsOptions, I
     /// <summary>
     /// Retrieves information about a specific payment manager. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PaymentManagerId">The unique identifier of the payment manager to retrieve. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}</param>
+    /// <param name="PaymentManagerId">The unique identifier of the payment manager to retrieve. Constraints: • min: 12 • max: 211 • pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}</param>
     public AwsBedrockAgentcoreControlGetPaymentManagerOptions(
         string PaymentManagerId
     )
@@ -56,7 +58,7 @@ public record AwsBedrockAgentcoreControlGetPaymentManagerOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the payment manager to retrieve. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
+    /// The unique identifier of the payment manager to retrieve. Constraints: • min: 12 • max: 211 • pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
     /// </summary>
     [CliOption("--payment-manager-id")]
     public string? PaymentManagerId { get; private init; }

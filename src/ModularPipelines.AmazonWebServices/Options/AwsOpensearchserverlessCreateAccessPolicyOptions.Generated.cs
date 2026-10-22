@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a data access policy for OpenSearch Serverless. Access policies limit access to collections and the resources within them, and allow a user to access that data irrespective of the access mechanism or net- work source. For more information, see Data access control for Amazon OpenSearch Serverless . See also: AWS API Documentation create-access-policy uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and o...
+/// Creates a data access policy for OpenSearch Serverless. Access policies limit access to collections and the resources within them, and allow a user to access that data irrespective of the access mechanism or network source. For more information, see Data access control for Amazon OpenSearch Serverless . See also: AWS API Documentation create-access-policy uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and obj...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsOpensearchserverlessCreateAccessPolicyOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a data access policy for OpenSearch Serverless. Access policies limit access to collections and the resources within them, and allow a user to access that data irrespective of the access mechanism or net- work source. For more information, see Data access control for Amazon OpenSearch Serverless . See also: AWS API Documentation create-access-policy uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and o...
+    /// Creates a data access policy for OpenSearch Serverless. Access policies limit access to collections and the resources within them, and allow a user to access that data irrespective of the access mechanism or network source. For more information, see Data access control for Amazon OpenSearch Serverless . See also: AWS API Documentation create-access-policy uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and obj...
     /// </summary>
-    /// <param name="Type">The type of policy. Possible values: o data</param>
-    /// <param name="Name">The name of the policy. Constraints: o min: 3 o max: 32 o pattern: [a-z][a-z0-9-]+</param>
-    /// <param name="Policy">The JSON policy document to use as the content for the policy. Constraints: o min: 1 o max: 20480 o pattern: .*[\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]+.*</param>
+    /// <param name="Type">The type of policy. Possible values: • data</param>
+    /// <param name="Name">The name of the policy. Constraints: • min: 3 • max: 32 • pattern: [a-z][a-z0-9-]+</param>
+    /// <param name="Policy">The JSON policy document to use as the content for the policy. Constraints: • min: 1 • max: 20480 • pattern: .*[\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]+.*</param>
     public AwsOpensearchserverlessCreateAccessPolicyOptions(
         string Type,
         string Name,
@@ -65,31 +67,31 @@ public record AwsOpensearchserverlessCreateAccessPolicyOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of policy. Possible values: o data
+    /// The type of policy. Possible values: • data
     /// </summary>
     [CliOption("--type")]
     public string? Type { get; private init; }
 
     /// <summary>
-    /// The name of the policy. Constraints: o min: 3 o max: 32 o pattern: [a-z][a-z0-9-]+
+    /// The name of the policy. Constraints: • min: 3 • max: 32 • pattern: [a-z][a-z0-9-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The JSON policy document to use as the content for the policy. Constraints: o min: 1 o max: 20480 o pattern: .*[\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]+.*
+    /// The JSON policy document to use as the content for the policy. Constraints: • min: 1 • max: 20480 • pattern: .*[\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]+.*
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; private init; }
 
     /// <summary>
-    /// A description of the policy. Typically used to store information about the permissions defined in the policy. Constraints: o min: 0 o max: 1000
+    /// A description of the policy. Typically used to store information about the permissions defined in the policy. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 1 o max: 512
+    /// Unique, case-sensitive identifier to ensure idempotency of the request. Constraints: • min: 1 • max: 512
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

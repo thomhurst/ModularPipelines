@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists all connection objects to which the caller has access. Allows for optional filtering by the following properties: o state o environmentId o provider o attach point Only Connection objects matching all filters will be returned. See also: AWS API Documentation list-connections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --que...
+/// Lists all connection objects to which the caller has access. Allows for optional filtering by the following properties: • state • environmentId • provider • attach point Only Connection objects matching all filters will be returned. See also: AWS API Documentation list-connections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --que...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,34 +24,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsInterconnectListConnectionsOptions : AwsOptions
 {
     /// <summary>
-    /// Filter the results to only include Connection objects in the given Connection$state . Possible values: o available o requested o pending o down o deleting o deleted o failed o updating
+    /// Filter the results to only include Connection objects in the given Connection$state . Possible values: • available • requested • pending • down • deleting • deleted • failed • updating
     /// </summary>
     [CliOption("--state")]
     public AwsInterconnectListConnectionsState? State { get; set; }
 
     /// <summary>
-    /// Filter the results to only include Connection objects on the given Environment . Constraints: o min: 1 o max: 64
+    /// Filter the results to only include Connection objects on the given Environment . Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; set; }
 
     /// <summary>
-    /// Filter the results to only include Connection objects to the given Provider . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cloudServiceProvider, lastMileProvider. cloudServiceProvider -&gt; (string) The provider's name. Specifically, connections to/from this Cloud Service Provider will be considered Multicloud connec- tions. Constraints: o min: 0 o max: 32 lastMileProvider -&gt; (string) The provider's name. Specifically, connections to/from this Last Mile Provider will be considered LastMile connections. Constraints: o min: 0 o max: 32 Shorthand Syntax: cloudServiceProvider=string,lastMileProvider=string JSON Syntax: { "cloudServiceProvider": "string", "lastMileProvider": "string" }
+    /// Filter the results to only include Connection objects to the given Provider . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cloudServiceProvider, lastMileProvider. cloudServiceProvider -&gt; (string) The provider's name. Specifically, connections to/from this Cloud Service Provider will be considered Multicloud connections. Constraints: • min: 0 • max: 32 lastMileProvider -&gt; (string) The provider's name. Specifically, connections to/from this Last Mile Provider will be considered LastMile connections. Constraints: • min: 0 • max: 32 Shorthand Syntax: cloudServiceProvider=string,lastMileProvider=string JSON Syntax: { "cloudServiceProvider": "string", "lastMileProvider": "string" }
     /// </summary>
     [CliOption("--provider")]
     public string? Provider { get; set; }
 
     /// <summary>
-    /// Filter results to only include Connection objects attached to the given AttachPoint . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: directConnectGateway, arn. directConnectGateway -&gt; (string) Identifies an DirectConnect Gateway attach point by DirectCon- nectGatewayID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12} arn -&gt; (string) Identifies an attach point by full ARN. Constraints: o min: 59 o max: 150 o pattern: arn:aws[a-z-]*:interconnect:[^:]+:[0-9]{12}:connec- tion/(mcc|lmcc)-[a-z0-9]{8} Shorthand Syntax: directConnectGateway=string,arn=string JSON Syntax: { "directConnectGateway": "string", "arn": "string" }
+    /// Filter results to only include Connection objects attached to the given AttachPoint . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: directConnectGateway, arn. directConnectGateway -&gt; (string) Identifies an DirectConnect Gateway attach point by DirectConnectGatewayID. Constraints: • min: 36 • max: 36 • pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12} arn -&gt; (string) Identifies an attach point by full ARN. Constraints: • min: 59 • max: 150 • pattern: arn:aws[a-z-]*:interconnect:[^:]+:[0-9]{12}:connection/(mcc|lmcc)-[a-z0-9]{8} Shorthand Syntax: directConnectGateway=string,arn=string JSON Syntax: { "directConnectGateway": "string", "arn": "string" }
     /// </summary>
     [CliOption("--attach-point")]
     public string? AttachPoint { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -61,15 +58,18 @@ public record AwsInterconnectListConnectionsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

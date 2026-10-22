@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Executes an openCypher explain request. See The openCypher explain fea- ture for more information. When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ReadDataViaQuery IAM action in that cluster. Note that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys availab...
+/// Executes an openCypher explain request. See The openCypher explain feature for more information. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ReadDataViaQuery IAM action in that cluster. Note that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys available i...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,10 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsNeptunedataExecuteOpenCypherExplainQueryOptions : AwsOptions
 {
     /// <summary>
-    /// Executes an openCypher explain request. See The openCypher explain fea- ture for more information. When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ReadDataViaQuery IAM action in that cluster. Note that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys availab...
+    /// Executes an openCypher explain request. See The openCypher explain feature for more information. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ReadDataViaQuery IAM action in that cluster. Note that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys available i...
     /// </summary>
     /// <param name="OpenCypherQuery">The openCypher query string.</param>
-    /// <param name="ExplainMode">The openCypher explain mode. Can be one of: static , dynamic , or details . Possible values: o static o dynamic o details outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="ExplainMode">The openCypher explain mode. Can be one of: static , dynamic , or details . Possible values: • static • dynamic • details outfile (string) [required] Filename where the content will be saved</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsNeptunedataExecuteOpenCypherExplainQueryOptions(
         string OpenCypherQuery,
@@ -55,7 +55,7 @@ public record AwsNeptunedataExecuteOpenCypherExplainQueryOptions : AwsOptions
     public string OpenCypherQuery { get; private init; }
 
     /// <summary>
-    /// The openCypher explain mode. Can be one of: static , dynamic , or details . Possible values: o static o dynamic o details outfile (string) [required] Filename where the content will be saved
+    /// The openCypher explain mode. Can be one of: static , dynamic , or details . Possible values: • static • dynamic • details outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--explain-mode")]
     public string ExplainMode { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRoute53resolverGetFirewallDomainListOptions : AwsOptions, IVali
     /// <summary>
     /// Retrieves the specified firewall domain list. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FirewallDomainListId">The ID of the domain list. Constraints: o min: 1 o max: 64</param>
+    /// <param name="FirewallDomainListId">The ID of the domain list. Constraints: • min: 1 • max: 64</param>
     public AwsRoute53resolverGetFirewallDomainListOptions(
         string FirewallDomainListId
     )
@@ -56,7 +58,7 @@ public record AwsRoute53resolverGetFirewallDomainListOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the domain list. Constraints: o min: 1 o max: 64
+    /// The ID of the domain list. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--firewall-domain-list-id")]
     public string? FirewallDomainListId { get; private init; }

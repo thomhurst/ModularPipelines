@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +29,10 @@ public record AwsWorkmailPutMailboxPermissionsOptions : AwsOptions, IValidatable
     /// <summary>
     /// Sets permissions for a user, group, or resource. This replaces any pre-existing permissions. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The identifier of the organization under which the user, group, or resource exists. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
-    /// <param name="EntityId">The identifier of the user or resource for which to update mailbox permissions. The identifier can be UserId, ResourceID, or Group Id , Username, Resourcename, or Groupname , or email . o Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: entity@domain.tld o Entity name: entity Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+</param>
-    /// <param name="GranteeId">The identifier of the user, group, or resource to which to grant the permissions. The identifier can be UserId, ResourceID, or Group Id , Username, Resourcename, or Groupname , or email . o Grantee ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: grantee@domain.tld o Grantee name: grantee Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+</param>
-    /// <param name="PermissionValues">The permissions granted to the grantee. SEND_AS allows the grantee to send email as the owner of the mailbox (the grantee is not men- tioned on these emails). SEND_ON_BEHALF allows the grantee to send email on behalf of the owner of the mailbox (the grantee is not men- tioned as the physical sender of these emails). FULL_ACCESS allows the grantee full access to the mailbox, irrespective of other folder-level permissions set on the mailbox. (string) Possible values: o FULL_ACCESS o SEND_AS o SEND_ON_BEHALF Syntax: "string" "string" ...</param>
+    /// <param name="OrganizationId">The identifier of the organization under which the user, group, or resource exists. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="EntityId">The identifier of the user or resource for which to update mailbox permissions. The identifier can be UserId, ResourceID, or Group Id , Username, Resourcename, or Groupname , or email . • Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234 • Email address: entity@domain.tld • Entity name: entity Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+</param>
+    /// <param name="GranteeId">The identifier of the user, group, or resource to which to grant the permissions. The identifier can be UserId, ResourceID, or Group Id , Username, Resourcename, or Groupname , or email . • Grantee ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234 • Email address: grantee@domain.tld • Grantee name: grantee Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+</param>
+    /// <param name="PermissionValues">The permissions granted to the grantee. SEND_AS allows the grantee to send email as the owner of the mailbox (the grantee is not mentioned on these emails). SEND_ON_BEHALF allows the grantee to send email on behalf of the owner of the mailbox (the grantee is not mentioned as the physical sender of these emails). FULL_ACCESS allows the grantee full access to the mailbox, irrespective of other folder-level permissions set on the mailbox. (string) Possible values: • FULL_ACCESS • SEND_AS • SEND_ON_BEHALF Syntax: "string" "string" ...</param>
     public AwsWorkmailPutMailboxPermissionsOptions(
         string OrganizationId,
         string EntityId,
@@ -79,25 +81,25 @@ public record AwsWorkmailPutMailboxPermissionsOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the organization under which the user, group, or resource exists. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The identifier of the organization under which the user, group, or resource exists. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The identifier of the user or resource for which to update mailbox permissions. The identifier can be UserId, ResourceID, or Group Id , Username, Resourcename, or Groupname , or email . o Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: entity@domain.tld o Entity name: entity Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+
+    /// The identifier of the user or resource for which to update mailbox permissions. The identifier can be UserId, ResourceID, or Group Id , Username, Resourcename, or Groupname , or email . • Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234 • Email address: entity@domain.tld • Entity name: entity Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+
     /// </summary>
     [CliOption("--entity-id")]
     public string? EntityId { get; private init; }
 
     /// <summary>
-    /// The identifier of the user, group, or resource to which to grant the permissions. The identifier can be UserId, ResourceID, or Group Id , Username, Resourcename, or Groupname , or email . o Grantee ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: grantee@domain.tld o Grantee name: grantee Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+
+    /// The identifier of the user, group, or resource to which to grant the permissions. The identifier can be UserId, ResourceID, or Group Id , Username, Resourcename, or Groupname , or email . • Grantee ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234 • Email address: grantee@domain.tld • Grantee name: grantee Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+
     /// </summary>
     [CliOption("--grantee-id")]
     public string? GranteeId { get; private init; }
 
     /// <summary>
-    /// The permissions granted to the grantee. SEND_AS allows the grantee to send email as the owner of the mailbox (the grantee is not men- tioned on these emails). SEND_ON_BEHALF allows the grantee to send email on behalf of the owner of the mailbox (the grantee is not men- tioned as the physical sender of these emails). FULL_ACCESS allows the grantee full access to the mailbox, irrespective of other folder-level permissions set on the mailbox. (string) Possible values: o FULL_ACCESS o SEND_AS o SEND_ON_BEHALF Syntax: "string" "string" ...
+    /// The permissions granted to the grantee. SEND_AS allows the grantee to send email as the owner of the mailbox (the grantee is not mentioned on these emails). SEND_ON_BEHALF allows the grantee to send email on behalf of the owner of the mailbox (the grantee is not mentioned as the physical sender of these emails). FULL_ACCESS allows the grantee full access to the mailbox, irrespective of other folder-level permissions set on the mailbox. (string) Possible values: • FULL_ACCESS • SEND_AS • SEND_ON_BEHALF Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--permission-values", GroupValues = true)]
     public IEnumerable<string>? PermissionValues { get; private init; }

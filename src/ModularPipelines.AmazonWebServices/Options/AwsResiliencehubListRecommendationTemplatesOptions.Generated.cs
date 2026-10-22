@@ -23,44 +23,44 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsResiliencehubListRecommendationTemplatesOptions : AwsOptions
 {
     /// <summary>
-    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition :resiliencehub:region :account :app-assess- ment/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
+    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition :resiliencehub:region :account :app-assessment/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
     /// </summary>
     [CliOption("--assessment-arn")]
     public string? AssessmentArn { get; set; }
 
     /// <summary>
-    /// Maximum number of results to include in the response. If more re- sults exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. Constraints: o min: 1 o max: 100
+    /// Maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The name for one of the listed recommendation templates. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$
+    /// The name for one of the listed recommendation templates. Constraints: • pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Null, or the token from a previous call to get the next set of re- sults. Constraints: o pattern: ^\S{1,2000}$
+    /// Null, or the token from a previous call to get the next set of results. Constraints: • pattern: ^\S{1,2000}$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) for a recommendation template. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
+    /// The Amazon Resource Name (ARN) for a recommendation template. Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
     /// </summary>
     [CliOption("--recommendation-template-arn")]
     public string? RecommendationTemplateArn { get; set; }
 
     /// <summary>
-    /// The default is to sort by ascending startTime . To sort by descend- ing startTime , set reverseOrder to true .
+    /// The default is to sort by ascending startTime . To sort by descending startTime , set reverseOrder to true .
     /// </summary>
     [CliFlag("--reverse-order", NegatedName = "--no-reverse-order")]
     public bool? ReverseOrder { get; set; }
 
     /// <summary>
-    /// Status of the action. Constraints: o min: 1 o max: 4 (string) Possible values: o Pending o InProgress o Failed o Success Syntax: "string" "string" ...
+    /// Status of the action. Constraints: • min: 1 • max: 4 (string) Possible values: • Pending • InProgress • Failed • Success Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--status", GroupValues = true)]
     public IEnumerable<string>? Status { get; set; }

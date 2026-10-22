@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of resource metadata for a given list of workflow names. After calling the ListWorkflows operation, you can call this operation to access the data to which you have been granted permissions. This op- eration supports all IAM permissions, including permission conditions that uses tags. See also: AWS API Documentation
+/// Returns a list of resource metadata for a given list of workflow names. After calling the ListWorkflows operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsGlueBatchGetWorkflowsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a list of resource metadata for a given list of workflow names. After calling the ListWorkflows operation, you can call this operation to access the data to which you have been granted permissions. This op- eration supports all IAM permissions, including permission conditions that uses tags. See also: AWS API Documentation
+    /// Returns a list of resource metadata for a given list of workflow names. After calling the ListWorkflows operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Names">A list of workflow names, which may be the names returned from the ListWorkflows operation. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Syntax: "string" "string" ...</param>
+    /// <param name="Names">A list of workflow names, which may be the names returned from the ListWorkflows operation. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Syntax: "string" "string" ...</param>
     public AwsGlueBatchGetWorkflowsOptions(
         IEnumerable<string> Names
     )
@@ -67,13 +69,13 @@ public record AwsGlueBatchGetWorkflowsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of workflow names, which may be the names returned from the ListWorkflows operation. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Syntax: "string" "string" ...
+    /// A list of workflow names, which may be the names returned from the ListWorkflows operation. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; private init; }
 
     /// <summary>
-    /// Specifies whether to include a graph when returning the workflow re- source metadata.
+    /// Specifies whether to include a graph when returning the workflow resource metadata.
     /// </summary>
     [CliFlag("--include-graph", NegatedName = "--no-include-graph")]
     public bool? IncludeGraph { get; set; }

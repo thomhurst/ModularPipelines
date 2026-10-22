@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the email sending status of the Amazon SES account for the cur- rent Region. You can execute this operation no more than once per second. See also: AWS API Documentation
+/// Returns the email sending status of the Amazon SES account for the current Region. You can execute this operation no more than once per second. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

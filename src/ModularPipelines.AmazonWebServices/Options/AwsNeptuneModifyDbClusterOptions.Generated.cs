@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsNeptuneModifyDbClusterOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Modify a setting for a DB cluster. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbClusterIdentifier">The DB cluster identifier for the cluster being modified. This para- meter is not case-sensitive. Constraints: o Must match the identifier of an existing DBCluster.</param>
+    /// <param name="DbClusterIdentifier">The DB cluster identifier for the cluster being modified. This parameter is not case-sensitive. Constraints: • Must match the identifier of an existing DBCluster.</param>
     public AwsNeptuneModifyDbClusterOptions(
         string DbClusterIdentifier
     )
@@ -57,31 +59,31 @@ public record AwsNeptuneModifyDbClusterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The DB cluster identifier for the cluster being modified. This para- meter is not case-sensitive. Constraints: o Must match the identifier of an existing DBCluster.
+    /// The DB cluster identifier for the cluster being modified. This parameter is not case-sensitive. Constraints: • Must match the identifier of an existing DBCluster.
     /// </summary>
     [CliOption("--db-cluster-identifier")]
     public string? DbClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The new DB cluster identifier for the DB cluster when renaming a DB cluster. This value is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens o The first character must be a letter o Cannot end with a hyphen or contain two consecutive hyphens Example: my-cluster2
+    /// The new DB cluster identifier for the DB cluster when renaming a DB cluster. This value is stored as a lowercase string. Constraints: • Must contain from 1 to 63 letters, numbers, or hyphens • The first character must be a letter • Cannot end with a hyphen or contain two consecutive hyphens Example: my-cluster2
     /// </summary>
     [CliOption("--new-db-cluster-identifier")]
     public string? NewDbClusterIdentifier { get; set; }
 
     /// <summary>
-    /// A value that specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as pos- sible, regardless of the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is set to false , changes to the DB cluster are applied during the next maintenance window. The ApplyImmediately parameter only affects NewDBClusterIdentifier values. If you set the ApplyImmediately parameter value to false, then changes to NewDBClusterIdentifier values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. Default: false
+    /// A value that specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is set to false , changes to the DB cluster are applied during the next maintenance window. The ApplyImmediately parameter only affects NewDBClusterIdentifier values. If you set the ApplyImmediately parameter value to false, then changes to NewDBClusterIdentifier values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. Default: false
     /// </summary>
     [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; set; }
 
     /// <summary>
-    /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints: o Must be a value from 1 to 35
+    /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints: • Must be a value from 1 to 35
     /// </summary>
     [CliOption("--backup-retention-period")]
     public int? BackupRetentionPeriod { get; set; }
 
     /// <summary>
-    /// The name of the DB cluster parameter group to use for the DB clus- ter.
+    /// The name of the DB cluster parameter group to use for the DB cluster.
     /// </summary>
     [CliOption("--db-cluster-parameter-group-name")]
     public string? DbClusterParameterGroupName { get; set; }
@@ -112,7 +114,7 @@ public record AwsNeptuneModifyDbClusterOptions : AwsOptions, IValidatableObject
     public string? OptionGroupName { get; set; }
 
     /// <summary>
-    /// The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod para- meter. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Region. Constraints: o Must be in the format hh24:mi-hh24:mi . o Must be in Universal Coordinated Time (UTC). o Must not conflict with the preferred maintenance window. o Must be at least 30 minutes.
+    /// The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Region. Constraints: • Must be in the format hh24:mi-hh24:mi . • Must be in Universal Coordinated Time (UTC). • Must not conflict with the preferred maintenance window. • Must be at least 30 minutes.
     /// </summary>
     [CliOption("--preferred-backup-window")]
     public string? PreferredBackupWindow { get; set; }
@@ -124,7 +126,7 @@ public record AwsNeptuneModifyDbClusterOptions : AwsOptions, IValidatableObject
     public string? PreferredMaintenanceWindow { get; set; }
 
     /// <summary>
-    /// tication (boolean) True to enable mapping of Amazon Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false
+    /// True to enable mapping of Amazon Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false
     /// </summary>
     [CliFlag("--enable-iam-database-authentication", NegatedName = "--no-enable-iam-database-authentication")]
     public bool? EnableIamDatabaseAuthentication { get; set; }
@@ -136,49 +138,49 @@ public record AwsNeptuneModifyDbClusterOptions : AwsOptions, IValidatableObject
     public string? CloudwatchLogsExportConfiguration { get; set; }
 
     /// <summary>
-    /// The version number of the database engine to which you want to up- grade. Changing this parameter results in an outage. The change is applied during the next maintenance window unless the ApplyImmedi- ately parameter is set to true. For a list of valid engine versions, see Engine Releases for Amazon Neptune , or call DescribeDBEngineVersions .
+    /// The version number of the database engine to which you want to upgrade. Changing this parameter results in an outage. The change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true. For a list of valid engine versions, see Engine Releases for Amazon Neptune , or call DescribeDBEngineVersions .
     /// </summary>
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
     /// <summary>
-    /// A value that indicates whether upgrades between different major ver- sions are allowed. Constraints: You must set the allow-major-version-upgrade flag when providing an EngineVersion parameter that uses a different major version than the DB cluster's current version.
+    /// A value that indicates whether upgrades between different major versions are allowed. Constraints: You must set the allow-major-version-upgrade flag when providing an EngineVersion parameter that uses a different major version than the DB cluster's current version.
     /// </summary>
     [CliFlag("--allow-major-version-upgrade", NegatedName = "--no-allow-major-version-upgrade")]
     public bool? AllowMajorVersionUpgrade { get; set; }
 
     /// <summary>
-    /// The name of the DB parameter group to apply to all instances of the DB cluster. NOTE: When you apply a parameter group using DBInstanceParameterGroup- Name , parameter changes aren't applied during the next mainte- nance window but instead are applied immediately. Default: The existing name setting Constraints: o The DB parameter group must be in the same DB parameter group fam- ily as the target DB cluster version. o The DBInstanceParameterGroupName parameter is only valid in combi- nation with the AllowMajorVersionUpgrade parameter.
+    /// The name of the DB parameter group to apply to all instances of the DB cluster. NOTE: When you apply a parameter group using DBInstanceParameterGroupName , parameter changes aren't applied during the next maintenance window but instead are applied immediately. Default: The existing name setting Constraints: • The DB parameter group must be in the same DB parameter group family as the target DB cluster version. • The DBInstanceParameterGroupName parameter is only valid in combination with the AllowMajorVersionUpgrade parameter.
     /// </summary>
     [CliOption("--db-instance-parameter-group-name")]
     public string? DbInstanceParameterGroupName { get; set; }
 
     /// <summary>
-    /// A value that indicates whether the DB cluster has deletion protec- tion enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled.
+    /// A value that indicates whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled.
     /// </summary>
     [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
-    /// If set to ``true`` , tags are copied to any snapshot of the DB clus- ter that is created.
+    /// If set to ``true`` , tags are copied to any snapshot of the DB cluster that is created.
     /// </summary>
     [CliFlag("--copy-tags-to-snapshot", NegatedName = "--no-copy-tags-to-snapshot")]
     public bool? CopyTagsToSnapshot { get; set; }
 
     /// <summary>
-    /// Contains the scaling configuration of a Neptune Serverless DB clus- ter. For more information, see Using Amazon Neptune Serverless in the Amazon Neptune User Guide . MinCapacity -&gt; (double) The minimum number of Neptune capacity units (NCUs) for a DB in- stance in a Neptune Serverless cluster. You can specify NCU val- ues in half-step increments, such as 8, 8.5, 9, and so on. MaxCapacity -&gt; (double) The maximum number of Neptune capacity units (NCUs) for a DB in- stance in a Neptune Serverless cluster. You can specify NCU val- ues in half-step increments, such as 40, 40.5, 41, and so on. Shorthand Syntax: MinCapacity=double,MaxCapacity=double JSON Syntax: { "MinCapacity": double, "MaxCapacity": double }
+    /// Contains the scaling configuration of a Neptune Serverless DB cluster. For more information, see Using Amazon Neptune Serverless in the Amazon Neptune User Guide . MinCapacity -&gt; (double) The minimum number of Neptune capacity units (NCUs) for a DB instance in a Neptune Serverless cluster. You can specify NCU values in half-step increments, such as 8, 8.5, 9, and so on. MaxCapacity -&gt; (double) The maximum number of Neptune capacity units (NCUs) for a DB instance in a Neptune Serverless cluster. You can specify NCU values in half-step increments, such as 40, 40.5, 41, and so on. Shorthand Syntax: MinCapacity=double,MaxCapacity=double JSON Syntax: { "MinCapacity": double, "MaxCapacity": double }
     /// </summary>
     [CliOption("--serverless-v2-scaling-configuration")]
     public string? ServerlessV2ScalingConfiguration { get; set; }
 
     /// <summary>
-    /// The storage type to associate with the DB cluster. Valid Values: o ** standard ** ( the default ) Configures cost-effective database storage for applications with moderate to small I/O usage. System Message: WARNING/2 (&lt;string&gt;:, line 468) Inline strong start-string without end-string. o ** iopt1 ** Enables I/O-Optimized storage that's designed to meet the needs of I/O-intensive graph workloads that require pre- dictable pricing with low I/O latency and consistent I/O through- put. Neptune I/O-Optimized storage is only available starting with engine release 1.3.0.0. System Message: WARNING/2 (&lt;string&gt;:, line 470) Inline strong start-string without end-string.
+    /// The storage type to associate with the DB cluster. Valid Values: o ** standard ** ( the default ) Configures cost-effective database storage for applications with moderate to small I/O usage. System Message: WARNING/2 (&lt;string&gt;:, line 468) Inline strong start-string without end-string. o ** iopt1 ** Enables I/O-Optimized storage that's designed to meet the needs of I/O-intensive graph workloads that require predictable pricing with low I/O latency and consistent I/O throughput. Neptune I/O-Optimized storage is only available starting with engine release 1.3.0.0. System Message: WARNING/2 (&lt;string&gt;:, line 470) Inline strong start-string without end-string.
     /// </summary>
     [CliOption("--storage-type")]
     public string? StorageType { get; set; }
 
     /// <summary>
-    /// The network type of the DB cluster. Valid Values: o ** IPV4 ** The DB cluster uses only IPv4 addresses for communica- tion. System Message: WARNING/2 (&lt;string&gt;:, line 487) Inline strong start-string without end-string. o ** DUAL ** The DB cluster uses both IPv4 and IPv6 addresses for com- munication. The DB subnet group associated with the cluster must support IPv6. System Message: WARNING/2 (&lt;string&gt;:, line 489) Inline strong start-string without end-string.
+    /// The network type of the DB cluster. Valid Values: o ** IPV4 ** The DB cluster uses only IPv4 addresses for communication. System Message: WARNING/2 (&lt;string&gt;:, line 487) Inline strong start-string without end-string. o ** DUAL ** The DB cluster uses both IPv4 and IPv6 addresses for communication. The DB subnet group associated with the cluster must support IPv6. System Message: WARNING/2 (&lt;string&gt;:, line 489) Inline strong start-string without end-string.
     /// </summary>
     [CliOption("--network-type")]
     public string? NetworkType { get; set; }

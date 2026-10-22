@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disassociates GuardDuty member accounts (from the current administrator account) specified by the account IDs. When you disassociate an invited member from a GuardDuty delegated ad- ministrator, the member account details obtained from the CreateMembers API, including the associated email addresses, are retained. This is done so that the delegated administrator can invoke the InviteMembers API without the need to invoke the CreateMembers API again. To remove the details associated with a member ...
+/// Disassociates GuardDuty member accounts (from the current administrator account) specified by the account IDs. When you disassociate an invited member from a GuardDuty delegated administrator, the member account details obtained from the CreateMembers API, including the associated email addresses, are retained. This is done so that the delegated administrator can invoke the InviteMembers API without the need to invoke the CreateMembers API again. To remove the details associated with a member ac...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsGuarddutyDisassociateMembersOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disassociates GuardDuty member accounts (from the current administrator account) specified by the account IDs. When you disassociate an invited member from a GuardDuty delegated ad- ministrator, the member account details obtained from the CreateMembers API, including the associated email addresses, are retained. This is done so that the delegated administrator can invoke the InviteMembers API without the need to invoke the CreateMembers API again. To remove the details associated with a member ...
+    /// Disassociates GuardDuty member accounts (from the current administrator account) specified by the account IDs. When you disassociate an invited member from a GuardDuty delegated administrator, the member account details obtained from the CreateMembers API, including the associated email addresses, are retained. This is done so that the delegated administrator can invoke the InviteMembers API without the need to invoke the CreateMembers API again. To remove the details associated with a member ac...
     /// </summary>
-    /// <param name="DetectorId">The unique ID of the detector of the GuardDuty account whose members you want to disassociate from the administrator account. Constraints: o min: 1 o max: 300</param>
-    /// <param name="AccountIds">A list of account IDs of the GuardDuty member accounts that you want to disassociate from the administrator account. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 12 o max: 12 Syntax: "string" "string" ...</param>
+    /// <param name="DetectorId">The unique ID of the detector of the GuardDuty account whose members you want to disassociate from the administrator account. Constraints: • min: 1 • max: 300</param>
+    /// <param name="AccountIds">A list of account IDs of the GuardDuty member accounts that you want to disassociate from the administrator account. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 12 • max: 12 Syntax: "string" "string" ...</param>
     public AwsGuarddutyDisassociateMembersOptions(
         string DetectorId,
         IEnumerable<string> AccountIds
@@ -71,13 +73,13 @@ public record AwsGuarddutyDisassociateMembersOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the detector of the GuardDuty account whose members you want to disassociate from the administrator account. Constraints: o min: 1 o max: 300
+    /// The unique ID of the detector of the GuardDuty account whose members you want to disassociate from the administrator account. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }
 
     /// <summary>
-    /// A list of account IDs of the GuardDuty member accounts that you want to disassociate from the administrator account. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 12 o max: 12 Syntax: "string" "string" ...
+    /// A list of account IDs of the GuardDuty member accounts that you want to disassociate from the administrator account. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 12 • max: 12 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; private init; }

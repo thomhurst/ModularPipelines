@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsLocationDeleteKeyOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the specified API key. The API key must have been deactivated more than 90 days previously. For more information, see Use API keys to authenticate in the Amazon Location Service Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="KeyName">The name of the API key to delete. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    /// <param name="KeyName">The name of the API key to delete. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+</param>
     public AwsLocationDeleteKeyOptions(
         string KeyName
     )
@@ -57,7 +59,7 @@ public record AwsLocationDeleteKeyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the API key to delete. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// The name of the API key to delete. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+
     /// </summary>
     [CliOption("--key-name")]
     public string? KeyName { get; private init; }

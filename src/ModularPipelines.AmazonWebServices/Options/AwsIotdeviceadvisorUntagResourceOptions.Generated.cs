@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsIotdeviceadvisorUntagResourceOptions : AwsOptions, IValidatable
     /// <summary>
     /// Removes tags from an IoT Device Advisor resource. Requires permission to access the UntagResource action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The resource ARN of an IoT Device Advisor resource. This can be SuiteDefinition ARN or SuiteRun ARN. Constraints: o min: 20 o max: 2048</param>
-    /// <param name="TagKeys">List of tag keys to remove from the IoT Device Advisor resource. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The resource ARN of an IoT Device Advisor resource. This can be SuiteDefinition ARN or SuiteRun ARN. Constraints: • min: 20 • max: 2048</param>
+    /// <param name="TagKeys">List of tag keys to remove from the IoT Device Advisor resource. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
     public AwsIotdeviceadvisorUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsIotdeviceadvisorUntagResourceOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The resource ARN of an IoT Device Advisor resource. This can be SuiteDefinition ARN or SuiteRun ARN. Constraints: o min: 20 o max: 2048
+    /// The resource ARN of an IoT Device Advisor resource. This can be SuiteDefinition ARN or SuiteRun ARN. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// List of tag keys to remove from the IoT Device Advisor resource. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// List of tag keys to remove from the IoT Device Advisor resource. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

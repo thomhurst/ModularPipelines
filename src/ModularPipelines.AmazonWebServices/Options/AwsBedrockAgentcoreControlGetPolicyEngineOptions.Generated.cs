@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves detailed information about a specific policy engine within the AgentCore Policy system. This operation returns the complete policy engine configuration, metadata, and current status, allowing adminis- trators to review and manage policy engine settings. See also: AWS API Documentation
+/// Retrieves detailed information about a specific policy engine within the AgentCore Policy system. This operation returns the complete policy engine configuration, metadata, and current status, allowing administrators to review and manage policy engine settings. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsBedrockAgentcoreControlGetPolicyEngineOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves detailed information about a specific policy engine within the AgentCore Policy system. This operation returns the complete policy engine configuration, metadata, and current status, allowing adminis- trators to review and manage policy engine settings. See also: AWS API Documentation
+    /// Retrieves detailed information about a specific policy engine within the AgentCore Policy system. This operation returns the complete policy engine configuration, metadata, and current status, allowing administrators to review and manage policy engine settings. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyEngineId">The unique identifier of the policy engine to be retrieved. This must be a valid policy engine ID that exists within the account. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}</param>
+    /// <param name="PolicyEngineId">The unique identifier of the policy engine to be retrieved. This must be a valid policy engine ID that exists within the account. Constraints: • min: 12 • max: 59 • pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}</param>
     public AwsBedrockAgentcoreControlGetPolicyEngineOptions(
         string PolicyEngineId
     )
@@ -56,7 +58,7 @@ public record AwsBedrockAgentcoreControlGetPolicyEngineOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the policy engine to be retrieved. This must be a valid policy engine ID that exists within the account. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}
+    /// The unique identifier of the policy engine to be retrieved. This must be a valid policy engine ID that exists within the account. Constraints: • min: 12 • max: 59 • pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}
     /// </summary>
     [CliOption("--policy-engine-id")]
     public string? PolicyEngineId { get; private init; }

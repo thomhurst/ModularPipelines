@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsElbDescribeTagsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Describes the tags associated with the specified load balancers. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LoadBalancerNames">The names of the load balancers. Constraints: o min: 1 o max: 20 (string) Syntax: "string" "string" ...</param>
+    /// <param name="LoadBalancerNames">The names of the load balancers. Constraints: • min: 1 • max: 20 (string) Syntax: "string" "string" ...</param>
     public AwsElbDescribeTagsOptions(
         IEnumerable<string> LoadBalancerNames
     )
@@ -67,7 +69,7 @@ public record AwsElbDescribeTagsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The names of the load balancers. Constraints: o min: 1 o max: 20 (string) Syntax: "string" "string" ...
+    /// The names of the load balancers. Constraints: • min: 1 • max: 20 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--load-balancer-names", GroupValues = true)]
     public IEnumerable<string>? LoadBalancerNames { get; private init; }

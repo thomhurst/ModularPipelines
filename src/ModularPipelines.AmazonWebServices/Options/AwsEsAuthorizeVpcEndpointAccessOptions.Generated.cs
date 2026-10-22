@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsEsAuthorizeVpcEndpointAccessOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Provides access to an Amazon OpenSearch Service domain through the use of an interface VPC endpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The name of the OpenSearch Service domain to provide access to. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
-    /// <param name="Account">The account ID to grant access to. Constraints: o pattern: ^[0-9]+$</param>
+    /// <param name="DomainName">The name of the OpenSearch Service domain to provide access to. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="Account">The account ID to grant access to. Constraints: • pattern: ^[0-9]+$</param>
     public AwsEsAuthorizeVpcEndpointAccessOptions(
         string DomainName,
         string Account
@@ -60,13 +62,13 @@ public record AwsEsAuthorizeVpcEndpointAccessOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the OpenSearch Service domain to provide access to. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// The name of the OpenSearch Service domain to provide access to. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The account ID to grant access to. Constraints: o pattern: ^[0-9]+$
+    /// The account ID to grant access to. Constraints: • pattern: ^[0-9]+$
     /// </summary>
     [CliOption("--account")]
     public string? Account { get; private init; }

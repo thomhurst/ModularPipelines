@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,10 +30,10 @@ public record AwsBedrockAgentcoreControlUpdateRegistryRecordStatusOptions : AwsO
     /// <summary>
     /// Updates the status of a registry record. Use this operation to approve, reject, or deprecate a registry record. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RegistryId">The identifier of the registry containing the record. You can spec- ify either the Amazon Resource Name (ARN) or the ID of the registry. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}</param>
-    /// <param name="RecordId">The identifier of the registry record to update the status for. You can specify either the Amazon Resource Name (ARN) or the ID of the record. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:reg- istry/[a-zA-Z0-9]{12,16}/record/)?[a-zA-Z0-9]{12}</param>
-    /// <param name="Status">The target status for the registry record. Possible values: o DRAFT o PENDING_APPROVAL o APPROVED o REJECTED o DEPRECATED o CREATING o UPDATING o CREATE_FAILED o UPDATE_FAILED</param>
-    /// <param name="StatusReason">The reason for the status change, such as why the record was ap- proved or rejected. Constraints: o min: 0 o max: 255</param>
+    /// <param name="RegistryId">The identifier of the registry containing the record. You can specify either the Amazon Resource Name (ARN) or the ID of the registry. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(-[^:]+)?:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}</param>
+    /// <param name="RecordId">The identifier of the registry record to update the status for. You can specify either the Amazon Resource Name (ARN) or the ID of the record. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(-[^:]+)?:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:registry/[a-zA-Z0-9]{12,16}/record/)?[a-zA-Z0-9]{12}</param>
+    /// <param name="Status">The target status for the registry record. Possible values: • DRAFT • PENDING_APPROVAL • APPROVED • REJECTED • DEPRECATED • CREATING • UPDATING • CREATE_FAILED • UPDATE_FAILED</param>
+    /// <param name="StatusReason">The reason for the status change, such as why the record was approved or rejected. Constraints: • min: 0 • max: 255</param>
     public AwsBedrockAgentcoreControlUpdateRegistryRecordStatusOptions(
         string RegistryId,
         string RecordId,
@@ -68,25 +70,25 @@ public record AwsBedrockAgentcoreControlUpdateRegistryRecordStatusOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the registry containing the record. You can spec- ify either the Amazon Resource Name (ARN) or the ID of the registry. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}
+    /// The identifier of the registry containing the record. You can specify either the Amazon Resource Name (ARN) or the ID of the registry. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(-[^:]+)?:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; private init; }
 
     /// <summary>
-    /// The identifier of the registry record to update the status for. You can specify either the Amazon Resource Name (ARN) or the ID of the record. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:reg- istry/[a-zA-Z0-9]{12,16}/record/)?[a-zA-Z0-9]{12}
+    /// The identifier of the registry record to update the status for. You can specify either the Amazon Resource Name (ARN) or the ID of the record. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(-[^:]+)?:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:registry/[a-zA-Z0-9]{12,16}/record/)?[a-zA-Z0-9]{12}
     /// </summary>
     [CliOption("--record-id")]
     public string? RecordId { get; private init; }
 
     /// <summary>
-    /// The target status for the registry record. Possible values: o DRAFT o PENDING_APPROVAL o APPROVED o REJECTED o DEPRECATED o CREATING o UPDATING o CREATE_FAILED o UPDATE_FAILED
+    /// The target status for the registry record. Possible values: • DRAFT • PENDING_APPROVAL • APPROVED • REJECTED • DEPRECATED • CREATING • UPDATING • CREATE_FAILED • UPDATE_FAILED
     /// </summary>
     [CliOption("--status")]
     public AwsBedrockAgentcoreControlUpdateRegistryRecordStatusStatus? Status { get; private init; }
 
     /// <summary>
-    /// The reason for the status change, such as why the record was ap- proved or rejected. Constraints: o min: 0 o max: 255
+    /// The reason for the status change, such as why the record was approved or rejected. Constraints: • min: 0 • max: 255
     /// </summary>
     [CliOption("--status-reason")]
     public string? StatusReason { get; private init; }

@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists all of the templates in a Cases domain. Each list item is a con- densed summary object of the template. Other template APIs are: o CreateTemplate o DeleteTemplate o GetTemplate o UpdateTemplate See also: AWS API Documentation
+/// Lists all of the templates in a Cases domain. Each list item is a condensed summary object of the template. Other template APIs are: • CreateTemplate • DeleteTemplate • GetTemplate • UpdateTemplate See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsConnectcasesListTemplatesOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists all of the templates in a Cases domain. Each list item is a con- densed summary object of the template. Other template APIs are: o CreateTemplate o DeleteTemplate o GetTemplate o UpdateTemplate See also: AWS API Documentation
+    /// Lists all of the templates in a Cases domain. Each list item is a condensed summary object of the template. Other template APIs are: • CreateTemplate • DeleteTemplate • GetTemplate • UpdateTemplate See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500</param>
+    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500</param>
     public AwsConnectcasesListTemplatesOptions(
         string DomainId
     )
@@ -57,26 +59,26 @@ public record AwsConnectcasesListTemplatesOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500
+    /// The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// The maximum number of results to return per page. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to return per page. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. Constraints: o min: 0 o max: 9000
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. Constraints: • min: 0 • max: 9000
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// A list of status values to filter on. Constraints: o min: 1 o max: 2 (string) Possible values: o Active o Inactive Syntax: "string" "string" ...
+    /// A list of status values to filter on. Constraints: • min: 1 • max: 2 (string) Possible values: • Active • Inactive Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--status", GroupValues = true)]
     public IEnumerable<string>? Status { get; set; }

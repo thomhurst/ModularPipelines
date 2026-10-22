@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Runs an on-demand evaluation for the specified resource to determine whether the resource details will comply with configured Config rules. You can also use it for evaluation purposes. Config recommends using an evaluation context. It runs an execution against the resource details with all of the Config rules in your account that match with the speci- fied proactive mode and resource type. NOTE: Ensure you have the cloudformation:DescribeType role setup to vali- date the resource type schema. Yo...
+/// Runs an on-demand evaluation for the specified resource to determine whether the resource details will comply with configured Config rules. You can also use it for evaluation purposes. Config recommends using an evaluation context. It runs an execution against the resource details with all of the Config rules in your account that match with the specified proactive mode and resource type. NOTE: Ensure you have the cloudformation:DescribeType role setup to validate the resource type schema. You ca...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +29,10 @@ public record AwsConfigserviceStartResourceEvaluationOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Runs an on-demand evaluation for the specified resource to determine whether the resource details will comply with configured Config rules. You can also use it for evaluation purposes. Config recommends using an evaluation context. It runs an execution against the resource details with all of the Config rules in your account that match with the speci- fied proactive mode and resource type. NOTE: Ensure you have the cloudformation:DescribeType role setup to vali- date the resource type schema. Yo...
+    /// Runs an on-demand evaluation for the specified resource to determine whether the resource details will comply with configured Config rules. You can also use it for evaluation purposes. Config recommends using an evaluation context. It runs an execution against the resource details with all of the Config rules in your account that match with the specified proactive mode and resource type. NOTE: Ensure you have the cloudformation:DescribeType role setup to validate the resource type schema. You ca...
     /// </summary>
-    /// <param name="ResourceDetails">Returns a ResourceDetails object. ResourceId -&gt; (string) [required] A unique resource ID for an evaluation. Constraints: o min: 1 o max: 768 ResourceType -&gt; (string) [required] The type of resource being evaluated. Constraints: o min: 1 o max: 256 ResourceConfiguration -&gt; (string) [required] The resource definition to be evaluated as per the resource con- figuration schema type. Constraints: o min: 1 o max: 51200 ResourceConfigurationSchemaType -&gt; (string) The schema type of the resource configuration. NOTE: You can find the Resource type schema , or CFN_RE- SOURCE_SCHEMA , in "Amazon Web Services public extensions " within the CloudFormation registry or with the following CLI commmand: aws cloudformation describe-type --type-name "AWS::S3::Bucket" --type RESOURCE . For more information, see Managing extensions through the CloudFormation registry and Amazon Web Services resource and property types reference in the CloudFormation User Guide. Possible values: o CFN_RESOURCE_SCHEMA Shorthand Syntax: ResourceId=string,ResourceType=string,ResourceConfiguration=string,ResourceConfigurationSchemaType=string JSON Syntax: { "ResourceId": "string", "ResourceType": "string", "ResourceConfiguration": "string", "ResourceConfigurationSchemaType": "CFN_RESOURCE_SCHEMA" }</param>
-    /// <param name="EvaluationMode">The mode of an evaluation. NOTE: The only valid value for this API is PROACTIVE . Possible values: o DETECTIVE o PROACTIVE</param>
+    /// <param name="ResourceDetails">Returns a ResourceDetails object. ResourceId -&gt; (string) [required] A unique resource ID for an evaluation. Constraints: • min: 1 • max: 768 ResourceType -&gt; (string) [required] The type of resource being evaluated. Constraints: • min: 1 • max: 256 ResourceConfiguration -&gt; (string) [required] The resource definition to be evaluated as per the resource configuration schema type. Constraints: • min: 1 • max: 51200 ResourceConfigurationSchemaType -&gt; (string) The schema type of the resource configuration. NOTE: You can find the Resource type schema , or CFN_RESOURCE_SCHEMA , in "Amazon Web Services public extensions " within the CloudFormation registry or with the following CLI commmand: aws cloudformation describe-type --type-name "AWS::S3::Bucket" --type RESOURCE . For more information, see Managing extensions through the CloudFormation registry and Amazon Web Services resource and property types reference in the CloudFormation User Guide. Possible values: • CFN_RESOURCE_SCHEMA Shorthand Syntax: ResourceId=string,ResourceType=string,ResourceConfiguration=string,ResourceConfigurationSchemaType=string JSON Syntax: { "ResourceId": "string", "ResourceType": "string", "ResourceConfiguration": "string", "ResourceConfigurationSchemaType": "CFN_RESOURCE_SCHEMA" }</param>
+    /// <param name="EvaluationMode">The mode of an evaluation. NOTE: The only valid value for this API is PROACTIVE . Possible values: • DETECTIVE • PROACTIVE</param>
     public AwsConfigserviceStartResourceEvaluationOptions(
         string ResourceDetails,
         AwsConfigserviceStartResourceEvaluationEvaluationMode EvaluationMode
@@ -61,31 +63,31 @@ public record AwsConfigserviceStartResourceEvaluationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Returns a ResourceDetails object. ResourceId -&gt; (string) [required] A unique resource ID for an evaluation. Constraints: o min: 1 o max: 768 ResourceType -&gt; (string) [required] The type of resource being evaluated. Constraints: o min: 1 o max: 256 ResourceConfiguration -&gt; (string) [required] The resource definition to be evaluated as per the resource con- figuration schema type. Constraints: o min: 1 o max: 51200 ResourceConfigurationSchemaType -&gt; (string) The schema type of the resource configuration. NOTE: You can find the Resource type schema , or CFN_RE- SOURCE_SCHEMA , in "Amazon Web Services public extensions " within the CloudFormation registry or with the following CLI commmand: aws cloudformation describe-type --type-name "AWS::S3::Bucket" --type RESOURCE . For more information, see Managing extensions through the CloudFormation registry and Amazon Web Services resource and property types reference in the CloudFormation User Guide. Possible values: o CFN_RESOURCE_SCHEMA Shorthand Syntax: ResourceId=string,ResourceType=string,ResourceConfiguration=string,ResourceConfigurationSchemaType=string JSON Syntax: { "ResourceId": "string", "ResourceType": "string", "ResourceConfiguration": "string", "ResourceConfigurationSchemaType": "CFN_RESOURCE_SCHEMA" }
+    /// Returns a ResourceDetails object. ResourceId -&gt; (string) [required] A unique resource ID for an evaluation. Constraints: • min: 1 • max: 768 ResourceType -&gt; (string) [required] The type of resource being evaluated. Constraints: • min: 1 • max: 256 ResourceConfiguration -&gt; (string) [required] The resource definition to be evaluated as per the resource configuration schema type. Constraints: • min: 1 • max: 51200 ResourceConfigurationSchemaType -&gt; (string) The schema type of the resource configuration. NOTE: You can find the Resource type schema , or CFN_RESOURCE_SCHEMA , in "Amazon Web Services public extensions " within the CloudFormation registry or with the following CLI commmand: aws cloudformation describe-type --type-name "AWS::S3::Bucket" --type RESOURCE . For more information, see Managing extensions through the CloudFormation registry and Amazon Web Services resource and property types reference in the CloudFormation User Guide. Possible values: • CFN_RESOURCE_SCHEMA Shorthand Syntax: ResourceId=string,ResourceType=string,ResourceConfiguration=string,ResourceConfigurationSchemaType=string JSON Syntax: { "ResourceId": "string", "ResourceType": "string", "ResourceConfiguration": "string", "ResourceConfigurationSchemaType": "CFN_RESOURCE_SCHEMA" }
     /// </summary>
     [CliOption("--resource-details")]
     public string? ResourceDetails { get; private init; }
 
     /// <summary>
-    /// The mode of an evaluation. NOTE: The only valid value for this API is PROACTIVE . Possible values: o DETECTIVE o PROACTIVE
+    /// The mode of an evaluation. NOTE: The only valid value for this API is PROACTIVE . Possible values: • DETECTIVE • PROACTIVE
     /// </summary>
     [CliOption("--evaluation-mode")]
     public AwsConfigserviceStartResourceEvaluationEvaluationMode? EvaluationMode { get; private init; }
 
     /// <summary>
-    /// Returns an EvaluationContext object. EvaluationContextIdentifier -&gt; (string) A unique EvaluationContextIdentifier ID for an EvaluationCon- text. Constraints: o min: 1 o max: 128 Shorthand Syntax: EvaluationContextIdentifier=string JSON Syntax: { "EvaluationContextIdentifier": "string" }
+    /// Returns an EvaluationContext object. EvaluationContextIdentifier -&gt; (string) A unique EvaluationContextIdentifier ID for an EvaluationContext. Constraints: • min: 1 • max: 128 Shorthand Syntax: EvaluationContextIdentifier=string JSON Syntax: { "EvaluationContextIdentifier": "string" }
     /// </summary>
     [CliOption("--evaluation-context")]
     public string? EvaluationContext { get; set; }
 
     /// <summary>
-    /// The timeout for an evaluation. The default is 900 seconds. You can- not specify a number greater than 3600. If you specify 0, Config uses the default. Constraints: o min: 0 o max: 3600
+    /// The timeout for an evaluation. The default is 900 seconds. You cannot specify a number greater than 3600. If you specify 0, Config uses the default. Constraints: • min: 0 • max: 3600
     /// </summary>
     [CliOption("--evaluation-timeout")]
     public int? EvaluationTimeout { get; set; }
 
     /// <summary>
-    /// A client token is a unique, case-sensitive string of up to 64 ASCII characters. To make an idempotent API request using one of these ac- tions, specify a client token in the request. NOTE: Avoid reusing the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful re- quest using the same client token, but one or more of the para- meters are different, other than the Region or Availability Zone, the retry fails with an IdempotentParameterMismatch error. Constraints: o min: 64 o max: 256
+    /// A client token is a unique, case-sensitive string of up to 64 ASCII characters. To make an idempotent API request using one of these actions, specify a client token in the request. NOTE: Avoid reusing the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, other than the Region or Availability Zone, the retry fails with an IdempotentParameterMismatch error. Constraints: • min: 64 • max: 256
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Allows a user or application in a secure environment to access data in a specific Amazon S3 location registered with Lake Formation by provid- ing temporary scoped credentials that are limited to the requested data location and the caller's authorized access level. GetDataAccess is logged in CloudTrail whenever a principal requests temporary data location credentials to access data in a data lake location that is registered with Lake Formation. The API operation returns an error in the following...
+/// Allows a user or application in a secure environment to access data in a specific Amazon S3 location registered with Lake Formation by providing temporary scoped credentials that are limited to the requested data location and the caller's authorized access level. GetDataAccess is logged in CloudTrail whenever a principal requests temporary data location credentials to access data in a data lake location that is registered with Lake Formation. The API operation returns an error in the following s...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLakeformationGetTemporaryDataLocationCredentialsOptions : AwsOptions
 {
     /// <summary>
-    /// The time period, between 900 and 43,200 seconds, for the timeout of the temporary credentials. Constraints: o min: 900 o max: 43200
+    /// The time period, between 900 and 43,200 seconds, for the timeout of the temporary credentials. Constraints: • min: 900 • max: 43200
     /// </summary>
     [CliOption("--duration-seconds")]
     public int? DurationSeconds { get; set; }
 
     /// <summary>
-    /// A structure used to include auditing information on the privileged API. AdditionalAuditContext -&gt; (string) The filter engine can populate the 'AdditionalAuditContext' in- formation with the request ID for you to track. This information will be displayed in CloudTrail log in your account. Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Shorthand Syntax: AdditionalAuditContext=string JSON Syntax: { "AdditionalAuditContext": "string" }
+    /// A structure used to include auditing information on the privileged API. AdditionalAuditContext -&gt; (string) The filter engine can populate the 'AdditionalAuditContext' information with the request ID for you to track. This information will be displayed in CloudTrail log in your account. Constraints: • min: 0 • max: 2048 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Shorthand Syntax: AdditionalAuditContext=string JSON Syntax: { "AdditionalAuditContext": "string" }
     /// </summary>
     [CliOption("--audit-context")]
     public string? AuditContext { get; set; }
@@ -41,7 +41,7 @@ public record AwsLakeformationGetTemporaryDataLocationCredentialsOptions : AwsOp
     public IEnumerable<string>? DataLocations { get; set; }
 
     /// <summary>
-    /// The credential scope is determined by the caller's Lake Formation permission on the associated table. Credential scope can be either: o READ - Provides read-only access to the data location. o READ_WRITE - Provides both read and write access to the data loca- tion. Possible values: o READ o READWRITE
+    /// The credential scope is determined by the caller's Lake Formation permission on the associated table. Credential scope can be either: • READ - Provides read-only access to the data location. • READ_WRITE - Provides both read and write access to the data location. Possible values: • READ • READWRITE
     /// </summary>
     [CliOption("--credentials-scope")]
     public AwsLakeformationGetTemporaryDataLocationCredentialsCredentialsScope? CredentialsScope { get; set; }

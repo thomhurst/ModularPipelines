@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,11 +30,11 @@ public record AwsLexv2ModelsSearchAssociatedTranscriptsOptions : AwsOptions, IVa
     /// <summary>
     /// Search for associated transcripts that meet the specified criteria. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BotId">The unique identifier of the bot associated with the transcripts that you are searching. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="BotVersion">The version of the bot containing the transcripts that you are searching. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$</param>
+    /// <param name="BotId">The unique identifier of the bot associated with the transcripts that you are searching. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotVersion">The version of the bot containing the transcripts that you are searching. Constraints: • min: 1 • max: 5 • pattern: ^(DRAFT|[0-9]+)$</param>
     /// <param name="LocaleId">The identifier of the language and locale of the transcripts to search. The string must match one of the supported locales. For more information, see Supported languages</param>
-    /// <param name="BotRecommendationId">The unique identifier of the bot recommendation associated with the transcripts to search. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="Filters">A list of filter objects. Constraints: o min: 1 o max: 1 (structure) Filters to search for the associated transcript. name -&gt; (string) [required] The name of the field to use for filtering. The allowed names are IntentId and SlotTypeId. Possible values: o IntentId o SlotTypeId values -&gt; (list) [required] The values to use to filter the transcript. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 100 o pattern: ^[0-9a-zA-Z_()\s-]+$ Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "IntentId"|"SlotTypeId", "values": ["string", ...] } ... ]</param>
+    /// <param name="BotRecommendationId">The unique identifier of the bot recommendation associated with the transcripts to search. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="Filters">A list of filter objects. Constraints: • min: 1 • max: 1 (structure) Filters to search for the associated transcript. name -&gt; (string) [required] The name of the field to use for filtering. The allowed names are IntentId and SlotTypeId. Possible values: • IntentId • SlotTypeId values -&gt; (list) [required] The values to use to filter the transcript. Constraints: • min: 1 • max: 1 (string) Constraints: • min: 1 • max: 100 • pattern: ^[0-9a-zA-Z_()\s-]+$ Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "IntentId"|"SlotTypeId", "values": ["string", ...] } ... ]</param>
     public AwsLexv2ModelsSearchAssociatedTranscriptsOptions(
         string BotId,
         string BotVersion,
@@ -84,13 +86,13 @@ public record AwsLexv2ModelsSearchAssociatedTranscriptsOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the bot associated with the transcripts that you are searching. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier of the bot associated with the transcripts that you are searching. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
 
     /// <summary>
-    /// The version of the bot containing the transcripts that you are searching. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$
+    /// The version of the bot containing the transcripts that you are searching. Constraints: • min: 1 • max: 5 • pattern: ^(DRAFT|[0-9]+)$
     /// </summary>
     [CliOption("--bot-version")]
     public string? BotVersion { get; private init; }
@@ -102,31 +104,31 @@ public record AwsLexv2ModelsSearchAssociatedTranscriptsOptions : AwsOptions, IVa
     public string? LocaleId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the bot recommendation associated with the transcripts to search. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier of the bot recommendation associated with the transcripts to search. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-recommendation-id")]
     public string? BotRecommendationId { get; private init; }
 
     /// <summary>
-    /// A list of filter objects. Constraints: o min: 1 o max: 1 (structure) Filters to search for the associated transcript. name -&gt; (string) [required] The name of the field to use for filtering. The allowed names are IntentId and SlotTypeId. Possible values: o IntentId o SlotTypeId values -&gt; (list) [required] The values to use to filter the transcript. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 100 o pattern: ^[0-9a-zA-Z_()\s-]+$ Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "IntentId"|"SlotTypeId", "values": ["string", ...] } ... ]
+    /// A list of filter objects. Constraints: • min: 1 • max: 1 (structure) Filters to search for the associated transcript. name -&gt; (string) [required] The name of the field to use for filtering. The allowed names are IntentId and SlotTypeId. Possible values: • IntentId • SlotTypeId values -&gt; (list) [required] The values to use to filter the transcript. Constraints: • min: 1 • max: 1 (string) Constraints: • min: 1 • max: 100 • pattern: ^[0-9a-zA-Z_()\s-]+$ Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "IntentId"|"SlotTypeId", "values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; private init; }
 
     /// <summary>
-    /// How SearchResults are ordered. Valid values are Ascending or De- scending. The default is Descending. Possible values: o Ascending o Descending
+    /// How SearchResults are ordered. Valid values are Ascending or Descending. The default is Descending. Possible values: • Ascending • Descending
     /// </summary>
     [CliOption("--search-order")]
     public AwsLexv2ModelsSearchAssociatedTranscriptsSearchOrder? SearchOrder { get; set; }
 
     /// <summary>
-    /// The maximum number of bot recommendations to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned. Constraints: o min: 1 o max: 1000
+    /// The maximum number of bot recommendations to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If the response from the SearchAssociatedTranscriptsRequest opera- tion contains more results than specified in the maxResults parame- ter, an index is returned in the response. Use that index in the nextIndex parameter to return the next page of results. Constraints: o min: 0 o max: 10000000
+    /// If the response from the SearchAssociatedTranscriptsRequest operation contains more results than specified in the maxResults parameter, an index is returned in the response. Use that index in the nextIndex parameter to return the next page of results. Constraints: • min: 0 • max: 10000000
     /// </summary>
     [CliOption("--next-index")]
     public int? NextIndex { get; set; }

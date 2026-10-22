@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotDescribeThingGroupOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Describe a thing group. Requires permission to access the DescribeThingGroup action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ThingGroupName">The name of the thing group. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+</param>
+    /// <param name="ThingGroupName">The name of the thing group. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+</param>
     public AwsIotDescribeThingGroupOptions(
         string ThingGroupName
     )
@@ -56,7 +58,7 @@ public record AwsIotDescribeThingGroupOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the thing group. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The name of the thing group. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--thing-group-name")]
     public string? ThingGroupName { get; private init; }

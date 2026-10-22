@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsElbv2SetRulePrioritiesOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Sets the priorities of the specified rules. You can reorder the rules as long as there are no priority conflicts in the new order. Any existing rules that you do not specify retain their current priority. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RulePriorities">The rule priorities. (structure) Information about the priorities for the rules for a listener. RuleArn -&gt; (string) The Amazon Resource Name (ARN) of the rule. Priority -&gt; (integer) The rule priority. Constraints: o min: 1 o max: 50000 Shorthand Syntax: RuleArn=string,Priority=integer ... JSON Syntax: [ { "RuleArn": "string", "Priority": integer } ... ]</param>
+    /// <param name="RulePriorities">The rule priorities. (structure) Information about the priorities for the rules for a listener. RuleArn -&gt; (string) The Amazon Resource Name (ARN) of the rule. Priority -&gt; (integer) The rule priority. Constraints: • min: 1 • max: 50000 Shorthand Syntax: RuleArn=string,Priority=integer ... JSON Syntax: [ { "RuleArn": "string", "Priority": integer } ... ]</param>
     public AwsElbv2SetRulePrioritiesOptions(
         IEnumerable<string> RulePriorities
     )
@@ -67,7 +69,7 @@ public record AwsElbv2SetRulePrioritiesOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The rule priorities. (structure) Information about the priorities for the rules for a listener. RuleArn -&gt; (string) The Amazon Resource Name (ARN) of the rule. Priority -&gt; (integer) The rule priority. Constraints: o min: 1 o max: 50000 Shorthand Syntax: RuleArn=string,Priority=integer ... JSON Syntax: [ { "RuleArn": "string", "Priority": integer } ... ]
+    /// The rule priorities. (structure) Information about the priorities for the rules for a listener. RuleArn -&gt; (string) The Amazon Resource Name (ARN) of the rule. Priority -&gt; (integer) The rule priority. Constraints: • min: 1 • max: 50000 Shorthand Syntax: RuleArn=string,Priority=integer ... JSON Syntax: [ { "RuleArn": "string", "Priority": integer } ... ]
     /// </summary>
     [CliOption("--rule-priorities", GroupValues = true)]
     public IEnumerable<string>? RulePriorities { get; private init; }

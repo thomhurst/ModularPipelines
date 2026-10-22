@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotwirelessUpdateNetworkAnalyzerConfigurationOptions : AwsOptio
     /// <summary>
     /// Update network analyzer configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfigurationName">Name of the network analyzer configuration. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9-_]+</param>
+    /// <param name="ConfigurationName">Name of the network analyzer configuration. Constraints: • min: 1 • max: 1024 • pattern: [a-zA-Z0-9-_]+</param>
     public AwsIotwirelessUpdateNetworkAnalyzerConfigurationOptions(
         string ConfigurationName
     )
@@ -56,55 +58,55 @@ public record AwsIotwirelessUpdateNetworkAnalyzerConfigurationOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the network analyzer configuration. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9-_]+
+    /// Name of the network analyzer configuration. Constraints: • min: 1 • max: 1024 • pattern: [a-zA-Z0-9-_]+
     /// </summary>
     [CliOption("--configuration-name")]
     public string? ConfigurationName { get; private init; }
 
     /// <summary>
-    /// Trace content for your wireless devices, gateways, and multicast groups. WirelessDeviceFrameInfo -&gt; (string) FrameInfo of your wireless device resources for the trace content. Use FrameInfo to debug the communication between your LoRaWAN end devices and the network server. Possible values: o ENABLED o DISABLED LogLevel -&gt; (string) The log level for a log message. The log levels can be disabled, or set to ERROR to display less verbose logs containing only er- ror information, or to INFO for more detailed logs. Possible values: o INFO o ERROR o DISABLED MulticastFrameInfo -&gt; (string) FrameInfo of your multicast group resources for the trace content. Use FrameInfo to debug the multicast communication between your multicast groups and the network server. Possible values: o ENABLED o DISABLED Shorthand Syntax: WirelessDeviceFrameInfo=string,LogLevel=string,MulticastFrameInfo=string JSON Syntax: { "WirelessDeviceFrameInfo": "ENABLED"|"DISABLED", "LogLevel": "INFO"|"ERROR"|"DISABLED", "MulticastFrameInfo": "ENABLED"|"DISABLED" }
+    /// Trace content for your wireless devices, gateways, and multicast groups. WirelessDeviceFrameInfo -&gt; (string) FrameInfo of your wireless device resources for the trace content. Use FrameInfo to debug the communication between your LoRaWAN end devices and the network server. Possible values: • ENABLED • DISABLED LogLevel -&gt; (string) The log level for a log message. The log levels can be disabled, or set to ERROR to display less verbose logs containing only error information, or to INFO for more detailed logs. Possible values: • INFO • ERROR • DISABLED MulticastFrameInfo -&gt; (string) FrameInfo of your multicast group resources for the trace content. Use FrameInfo to debug the multicast communication between your multicast groups and the network server. Possible values: • ENABLED • DISABLED Shorthand Syntax: WirelessDeviceFrameInfo=string,LogLevel=string,MulticastFrameInfo=string JSON Syntax: { "WirelessDeviceFrameInfo": "ENABLED"|"DISABLED", "LogLevel": "INFO"|"ERROR"|"DISABLED", "MulticastFrameInfo": "ENABLED"|"DISABLED" }
     /// </summary>
     [CliOption("--trace-content")]
     public string? TraceContent { get; set; }
 
     /// <summary>
-    /// Wireless device resources to add to the network analyzer configura- tion. Provide the WirelessDeviceId of the resource to add in the in- put array. Constraints: o min: 0 o max: 250 (string) The ID of the wireless device. Constraints: o max: 256 Syntax: "string" "string" ...
+    /// Wireless device resources to add to the network analyzer configuration. Provide the WirelessDeviceId of the resource to add in the input array. Constraints: • min: 0 • max: 250 (string) The ID of the wireless device. Constraints: • max: 256 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--wireless-devices-to-add", GroupValues = true)]
     public IEnumerable<string>? WirelessDevicesToAdd { get; set; }
 
     /// <summary>
-    /// Wireless device resources to remove from the network analyzer con- figuration. Provide the WirelessDeviceId of the resources to remove in the input array. Constraints: o min: 0 o max: 250 (string) The ID of the wireless device. Constraints: o max: 256 Syntax: "string" "string" ...
+    /// Wireless device resources to remove from the network analyzer configuration. Provide the WirelessDeviceId of the resources to remove in the input array. Constraints: • min: 0 • max: 250 (string) The ID of the wireless device. Constraints: • max: 256 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--wireless-devices-to-remove", GroupValues = true)]
     public IEnumerable<string>? WirelessDevicesToRemove { get; set; }
 
     /// <summary>
-    /// Wireless gateway resources to add to the network analyzer configura- tion. Provide the WirelessGatewayId of the resource to add in the input array. (string) Constraints: o max: 256 Syntax: "string" "string" ...
+    /// Wireless gateway resources to add to the network analyzer configuration. Provide the WirelessGatewayId of the resource to add in the input array. (string) Constraints: • max: 256 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--wireless-gateways-to-add", GroupValues = true)]
     public IEnumerable<string>? WirelessGatewaysToAdd { get; set; }
 
     /// <summary>
-    /// Wireless gateway resources to remove from the network analyzer con- figuration. Provide the WirelessGatewayId of the resources to remove in the input array. (string) Constraints: o max: 256 Syntax: "string" "string" ...
+    /// Wireless gateway resources to remove from the network analyzer configuration. Provide the WirelessGatewayId of the resources to remove in the input array. (string) Constraints: • max: 256 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--wireless-gateways-to-remove", GroupValues = true)]
     public IEnumerable<string>? WirelessGatewaysToRemove { get; set; }
 
     /// <summary>
-    /// The description of the new resource. Constraints: o max: 2048
+    /// The description of the new resource. Constraints: • max: 2048
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Multicast group resources to add to the network analyzer configura- tion. Provide the MulticastGroupId of the resource to add in the in- put array. Constraints: o min: 0 o max: 10 (string) The ID of the multicast group. Constraints: o max: 256 Syntax: "string" "string" ...
+    /// Multicast group resources to add to the network analyzer configuration. Provide the MulticastGroupId of the resource to add in the input array. Constraints: • min: 0 • max: 10 (string) The ID of the multicast group. Constraints: • max: 256 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--multicast-groups-to-add", GroupValues = true)]
     public IEnumerable<string>? MulticastGroupsToAdd { get; set; }
 
     /// <summary>
-    /// Multicast group resources to remove from the network analyzer con- figuration. Provide the MulticastGroupId of the resources to remove in the input array. Constraints: o min: 0 o max: 10 (string) The ID of the multicast group. Constraints: o max: 256 Syntax: "string" "string" ...
+    /// Multicast group resources to remove from the network analyzer configuration. Provide the MulticastGroupId of the resources to remove in the input array. Constraints: • min: 0 • max: 10 (string) The ID of the multicast group. Constraints: • max: 256 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--multicast-groups-to-remove", GroupValues = true)]
     public IEnumerable<string>? MulticastGroupsToRemove { get; set; }

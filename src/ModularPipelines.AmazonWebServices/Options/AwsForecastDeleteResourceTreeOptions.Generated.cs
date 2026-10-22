@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an entire resource tree. This operation will delete the parent resource and its child resources. Child resources are resources that were created from another resource. For example, when a forecast is generated from a predictor, the fore- cast is the child resource and the predictor is the parent resource. Amazon Forecast resources possess the following parent-child resource hierarchies: o Dataset : dataset import jobs o Dataset Group : predictors, predictor backtest export jobs, fore- ca...
+/// Deletes an entire resource tree. This operation will delete the parent resource and its child resources. Child resources are resources that were created from another resource. For example, when a forecast is generated from a predictor, the forecast is the child resource and the predictor is the parent resource. Amazon Forecast resources possess the following parent-child resource hierarchies: • Dataset : dataset import jobs • Dataset Group : predictors, predictor backtest export jobs, forecasts,...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsForecastDeleteResourceTreeOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an entire resource tree. This operation will delete the parent resource and its child resources. Child resources are resources that were created from another resource. For example, when a forecast is generated from a predictor, the fore- cast is the child resource and the predictor is the parent resource. Amazon Forecast resources possess the following parent-child resource hierarchies: o Dataset : dataset import jobs o Dataset Group : predictors, predictor backtest export jobs, fore- ca...
+    /// Deletes an entire resource tree. This operation will delete the parent resource and its child resources. Child resources are resources that were created from another resource. For example, when a forecast is generated from a predictor, the forecast is the child resource and the predictor is the parent resource. Amazon Forecast resources possess the following parent-child resource hierarchies: • Dataset : dataset import jobs • Dataset Group : predictors, predictor backtest export jobs, forecasts,...
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the parent resource to delete. All child resources of the parent resource will also be deleted. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the parent resource to delete. All child resources of the parent resource will also be deleted. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
     public AwsForecastDeleteResourceTreeOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsForecastDeleteResourceTreeOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the parent resource to delete. All child resources of the parent resource will also be deleted. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the parent resource to delete. All child resources of the parent resource will also be deleted. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

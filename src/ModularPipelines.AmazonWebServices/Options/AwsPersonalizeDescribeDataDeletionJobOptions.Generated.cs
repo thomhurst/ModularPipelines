@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the data deletion job created by CreateDataDeletionJob , in- cluding the job status. See also: AWS API Documentation
+/// Describes the data deletion job created by CreateDataDeletionJob , including the job status. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsPersonalizeDescribeDataDeletionJobOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes the data deletion job created by CreateDataDeletionJob , in- cluding the job status. See also: AWS API Documentation
+    /// Describes the data deletion job created by CreateDataDeletionJob , including the job status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataDeletionJobArn">The Amazon Resource Name (ARN) of the data deletion job. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="DataDeletionJobArn">The Amazon Resource Name (ARN) of the data deletion job. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
     public AwsPersonalizeDescribeDataDeletionJobOptions(
         string DataDeletionJobArn
     )
@@ -56,7 +58,7 @@ public record AwsPersonalizeDescribeDataDeletionJobOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the data deletion job. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the data deletion job. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--data-deletion-job-arn")]
     public string? DataDeletionJobArn { get; private init; }

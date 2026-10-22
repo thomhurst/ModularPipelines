@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves multiple workers in a single request. This is a batch version of the GetWorker API. The result of getting each worker is reported individually in the re- sponse. Because the batch request can result in a combination of suc- cessful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200. See also: AWS API Documentation
+/// Retrieves multiple workers in a single request. This is a batch version of the GetWorker API. The result of getting each worker is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsDeadlineBatchGetWorkerOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves multiple workers in a single request. This is a batch version of the GetWorker API. The result of getting each worker is reported individually in the re- sponse. Because the batch request can result in a combination of suc- cessful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200. See also: AWS API Documentation
+    /// Retrieves multiple workers in a single request. This is a batch version of the GetWorker API. The result of getting each worker is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifiers">The list of worker identifiers to retrieve. You can specify up to 100 identifiers per request. Constraints: o min: 1 o max: 100 (structure) The identifiers for a worker. farmId -&gt; (string) [required] The farm ID of the worker. Constraints: o pattern: farm-[0-9a-f]{32} fleetId -&gt; (string) [required] The fleet ID of the worker. Constraints: o pattern: fleet-[0-9a-f]{32} workerId -&gt; (string) [required] The worker ID. Constraints: o pattern: worker-[0-9a-f]{32} Shorthand Syntax: farmId=string,fleetId=string,workerId=string ... JSON Syntax: [ { "farmId": "string", "fleetId": "string", "workerId": "string" } ... ]</param>
+    /// <param name="Identifiers">The list of worker identifiers to retrieve. You can specify up to 100 identifiers per request. Constraints: • min: 1 • max: 100 (structure) The identifiers for a worker. farmId -&gt; (string) [required] The farm ID of the worker. Constraints: • pattern: farm-[0-9a-f]{32} fleetId -&gt; (string) [required] The fleet ID of the worker. Constraints: • pattern: fleet-[0-9a-f]{32} workerId -&gt; (string) [required] The worker ID. Constraints: • pattern: worker-[0-9a-f]{32} Shorthand Syntax: farmId=string,fleetId=string,workerId=string ... JSON Syntax: [ { "farmId": "string", "fleetId": "string", "workerId": "string" } ... ]</param>
     public AwsDeadlineBatchGetWorkerOptions(
         IEnumerable<string> Identifiers
     )
@@ -67,7 +69,7 @@ public record AwsDeadlineBatchGetWorkerOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The list of worker identifiers to retrieve. You can specify up to 100 identifiers per request. Constraints: o min: 1 o max: 100 (structure) The identifiers for a worker. farmId -&gt; (string) [required] The farm ID of the worker. Constraints: o pattern: farm-[0-9a-f]{32} fleetId -&gt; (string) [required] The fleet ID of the worker. Constraints: o pattern: fleet-[0-9a-f]{32} workerId -&gt; (string) [required] The worker ID. Constraints: o pattern: worker-[0-9a-f]{32} Shorthand Syntax: farmId=string,fleetId=string,workerId=string ... JSON Syntax: [ { "farmId": "string", "fleetId": "string", "workerId": "string" } ... ]
+    /// The list of worker identifiers to retrieve. You can specify up to 100 identifiers per request. Constraints: • min: 1 • max: 100 (structure) The identifiers for a worker. farmId -&gt; (string) [required] The farm ID of the worker. Constraints: • pattern: farm-[0-9a-f]{32} fleetId -&gt; (string) [required] The fleet ID of the worker. Constraints: • pattern: fleet-[0-9a-f]{32} workerId -&gt; (string) [required] The worker ID. Constraints: • pattern: worker-[0-9a-f]{32} Shorthand Syntax: farmId=string,fleetId=string,workerId=string ... JSON Syntax: [ { "farmId": "string", "fleetId": "string", "workerId": "string" } ... ]
     /// </summary>
     [CliOption("--identifiers", GroupValues = true)]
     public IEnumerable<string>? Identifiers { get; private init; }

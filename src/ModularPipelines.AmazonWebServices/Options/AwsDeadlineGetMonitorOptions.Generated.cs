@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDeadlineGetMonitorOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets information about the specified monitor. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MonitorId">The unique identifier for the monitor. This ID is returned by the CreateMonitor operation. Constraints: o pattern: monitor-[0-9a-f]{32}</param>
+    /// <param name="MonitorId">The unique identifier for the monitor. This ID is returned by the CreateMonitor operation. Constraints: • pattern: monitor-[0-9a-f]{32}</param>
     public AwsDeadlineGetMonitorOptions(
         string MonitorId
     )
@@ -56,7 +58,7 @@ public record AwsDeadlineGetMonitorOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the monitor. This ID is returned by the CreateMonitor operation. Constraints: o pattern: monitor-[0-9a-f]{32}
+    /// The unique identifier for the monitor. This ID is returned by the CreateMonitor operation. Constraints: • pattern: monitor-[0-9a-f]{32}
     /// </summary>
     [CliOption("--monitor-id")]
     public string? MonitorId { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRamGetPermissionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves the contents of a managed permission in JSON format. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PermissionArn">Specifies the Amazon Resource Name (ARN) of the permission whose contents you want to retrieve. To find the ARN for a permission, use either the ListPermissions operation or go to the Permissions li- brary page in the RAM console and then choose the name of the per- mission. The ARN is displayed on the detail page.</param>
+    /// <param name="PermissionArn">Specifies the Amazon Resource Name (ARN) of the permission whose contents you want to retrieve. To find the ARN for a permission, use either the ListPermissions operation or go to the Permissions library page in the RAM console and then choose the name of the permission. The ARN is displayed on the detail page.</param>
     public AwsRamGetPermissionOptions(
         string PermissionArn
     )
@@ -56,13 +58,13 @@ public record AwsRamGetPermissionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the Amazon Resource Name (ARN) of the permission whose contents you want to retrieve. To find the ARN for a permission, use either the ListPermissions operation or go to the Permissions li- brary page in the RAM console and then choose the name of the per- mission. The ARN is displayed on the detail page.
+    /// Specifies the Amazon Resource Name (ARN) of the permission whose contents you want to retrieve. To find the ARN for a permission, use either the ListPermissions operation or go to the Permissions library page in the RAM console and then choose the name of the permission. The ARN is displayed on the detail page.
     /// </summary>
     [CliOption("--permission-arn")]
     public string? PermissionArn { get; private init; }
 
     /// <summary>
-    /// Specifies the version number of the RAM permission to retrieve. If you don't specify this parameter, the operation retrieves the de- fault version. To see the list of available versions, use ListPermissionVersions .
+    /// Specifies the version number of the RAM permission to retrieve. If you don't specify this parameter, the operation retrieves the default version. To see the list of available versions, use ListPermissionVersions .
     /// </summary>
     [CliOption("--permission-version")]
     public int? PermissionVersion { get; set; }

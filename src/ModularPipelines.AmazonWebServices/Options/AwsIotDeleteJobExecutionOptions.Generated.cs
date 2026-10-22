@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,13 +29,13 @@ public record AwsIotDeleteJobExecutionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a job execution. Requires permission to access the DeleteJobExecution action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">The ID of the job whose execution on a particular device will be deleted. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="ThingName">The name of the thing whose job execution will be deleted. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+</param>
+    /// <param name="JobId">The ID of the job whose execution on a particular device will be deleted. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ThingName">The name of the thing whose job execution will be deleted. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+</param>
     /// <param name="ExecutionNumber">The ID of the job execution to be deleted. The executionNumber refers to the execution of a particular job on a particular device. Note that once a job execution is deleted, the executionNumber may be reused by IoT, so be sure you get and use the correct value here.</param>
     public AwsIotDeleteJobExecutionOptions(
         string JobId,
         string ThingName,
-        int ExecutionNumber
+        long ExecutionNumber
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(JobId);
@@ -63,13 +65,13 @@ public record AwsIotDeleteJobExecutionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the job whose execution on a particular device will be deleted. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// The ID of the job whose execution on a particular device will be deleted. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// The name of the thing whose job execution will be deleted. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The name of the thing whose job execution will be deleted. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--thing-name")]
     public string? ThingName { get; private init; }
@@ -78,7 +80,7 @@ public record AwsIotDeleteJobExecutionOptions : AwsOptions, IValidatableObject
     /// The ID of the job execution to be deleted. The executionNumber refers to the execution of a particular job on a particular device. Note that once a job execution is deleted, the executionNumber may be reused by IoT, so be sure you get and use the correct value here.
     /// </summary>
     [CliOption("--execution-number")]
-    public int? ExecutionNumber { get; private init; }
+    public long? ExecutionNumber { get; private init; }
 
     /// <summary>
     /// (Optional) When true, you can delete a job execution which is "IN_PROGRESS". Otherwise, you can only delete a job execution which is in a terminal state ("SUCCEEDED", "FAILED", "REJECTED", "REMOVED" or "CANCELED") or an exception will occur. The default is false. NOTE: Deleting a job execution which is "IN_PROGRESS", will cause the device to be unable to access job information or update the job execution status. Use caution and ensure that the device is able to recover to a valid state.
@@ -87,7 +89,7 @@ public record AwsIotDeleteJobExecutionOptions : AwsOptions, IValidatableObject
     public bool? Force { get; set; }
 
     /// <summary>
-    /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format. $aws/things/*THING_NAME* /jobs/*JOB_ID* /notify-namespace-*NAME- SPACE_ID* / NOTE: The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices. Constraints: o pattern: [a-zA-Z0-9_-]+
+    /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format. $aws/things/*THING_NAME* /jobs/*JOB_ID* /notify-namespace-*NAMESPACE_ID* / NOTE: The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices. Constraints: • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--namespace-id")]
     public string? NamespaceId { get; set; }

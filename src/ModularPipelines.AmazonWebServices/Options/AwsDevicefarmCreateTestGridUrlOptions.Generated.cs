@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a signed, short-term URL that can be passed to a Selenium Re- moteWebDriver constructor. See also: AWS API Documentation
+/// Creates a signed, short-term URL that can be passed to a Selenium RemoteWebDriver constructor. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsDevicefarmCreateTestGridUrlOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a signed, short-term URL that can be passed to a Selenium Re- moteWebDriver constructor. See also: AWS API Documentation
+    /// Creates a signed, short-term URL that can be passed to a Selenium RemoteWebDriver constructor. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProjectArn">ARN (from CreateTestGridProject or ListTestGridProjects ) to asso- ciate with the short-term URL. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+</param>
-    /// <param name="ExpiresInSeconds">Lifetime, in seconds, of the URL. Constraints: o min: 60 o max: 86400</param>
+    /// <param name="ProjectArn">ARN (from CreateTestGridProject or ListTestGridProjects ) to associate with the short-term URL. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+</param>
+    /// <param name="ExpiresInSeconds">Lifetime, in seconds, of the URL. Constraints: • min: 60 • max: 86400</param>
     public AwsDevicefarmCreateTestGridUrlOptions(
         string ProjectArn,
         int ExpiresInSeconds
@@ -59,13 +61,13 @@ public record AwsDevicefarmCreateTestGridUrlOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN (from CreateTestGridProject or ListTestGridProjects ) to asso- ciate with the short-term URL. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// ARN (from CreateTestGridProject or ListTestGridProjects ) to associate with the short-term URL. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+
     /// </summary>
     [CliOption("--project-arn")]
     public string? ProjectArn { get; private init; }
 
     /// <summary>
-    /// Lifetime, in seconds, of the URL. Constraints: o min: 60 o max: 86400
+    /// Lifetime, in seconds, of the URL. Constraints: • min: 60 • max: 86400
     /// </summary>
     [CliOption("--expires-in-seconds")]
     public int? ExpiresInSeconds { get; private init; }

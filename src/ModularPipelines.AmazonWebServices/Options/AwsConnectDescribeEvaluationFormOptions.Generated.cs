@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes an evaluation form in the specified Connect Customer in- stance. If the version property is not provided, the latest version of the evaluation form is described. See also: AWS API Documentation
+/// Describes an evaluation form in the specified Connect Customer instance. If the version property is not provided, the latest version of the evaluation form is described. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsConnectDescribeEvaluationFormOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes an evaluation form in the specified Connect Customer in- stance. If the version property is not provided, the latest version of the evaluation form is described. See also: AWS API Documentation
+    /// Describes an evaluation form in the specified Connect Customer instance. If the version property is not provided, the latest version of the evaluation form is described. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="EvaluationFormId">A unique identifier for the contact evaluation. Constraints: o min: 1 o max: 500</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="EvaluationFormId">A unique identifier for the contact evaluation. Constraints: • min: 1 • max: 500</param>
     public AwsConnectDescribeEvaluationFormOptions(
         string InstanceId,
         string EvaluationFormId
@@ -60,13 +62,13 @@ public record AwsConnectDescribeEvaluationFormOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the contact evaluation. Constraints: o min: 1 o max: 500
+    /// A unique identifier for the contact evaluation. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--evaluation-form-id")]
     public string? EvaluationFormId { get; private init; }

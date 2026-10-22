@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the association between an OpsItem and a related item. For ex- ample, this API operation can delete an Incident Manager incident from an OpsItem. Incident Manager is a tool in Amazon Web Services Systems Manager. See also: AWS API Documentation
+/// Deletes the association between an OpsItem and a related item. For example, this API operation can delete an Incident Manager incident from an OpsItem. Incident Manager is a tool in Amazon Web Services Systems Manager. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsSsmDisassociateOpsItemRelatedItemOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the association between an OpsItem and a related item. For ex- ample, this API operation can delete an Incident Manager incident from an OpsItem. Incident Manager is a tool in Amazon Web Services Systems Manager. See also: AWS API Documentation
+    /// Deletes the association between an OpsItem and a related item. For example, this API operation can delete an Incident Manager incident from an OpsItem. Incident Manager is a tool in Amazon Web Services Systems Manager. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OpsItemId">The ID of the OpsItem for which you want to delete an association between the OpsItem and a related item. Constraints: o pattern: ^(oi)-[0-9a-f]{12}$</param>
-    /// <param name="AssociationId">The ID of the association for which you want to delete an associa- tion between the OpsItem and a related item.</param>
+    /// <param name="OpsItemId">The ID of the OpsItem for which you want to delete an association between the OpsItem and a related item. Constraints: • pattern: ^(oi)-[0-9a-f]{12}$</param>
+    /// <param name="AssociationId">The ID of the association for which you want to delete an association between the OpsItem and a related item.</param>
     public AwsSsmDisassociateOpsItemRelatedItemOptions(
         string OpsItemId,
         string AssociationId
@@ -60,13 +62,13 @@ public record AwsSsmDisassociateOpsItemRelatedItemOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the OpsItem for which you want to delete an association between the OpsItem and a related item. Constraints: o pattern: ^(oi)-[0-9a-f]{12}$
+    /// The ID of the OpsItem for which you want to delete an association between the OpsItem and a related item. Constraints: • pattern: ^(oi)-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--ops-item-id")]
     public string? OpsItemId { get; private init; }
 
     /// <summary>
-    /// The ID of the association for which you want to delete an associa- tion between the OpsItem and a related item.
+    /// The ID of the association for which you want to delete an association between the OpsItem and a related item.
     /// </summary>
     [CliOption("--association-id")]
     public string? AssociationId { get; private init; }

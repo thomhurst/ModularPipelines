@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsPiCreatePerformanceAnalysisReportOptions : AwsOptions, IValidat
     /// <summary>
     /// Creates a new performance analysis report for a specific time period for the DB instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceType">The Amazon Web Services service for which Performance Insights will return metrics. Valid value is RDS . Possible values: o RDS o DOCDB</param>
-    /// <param name="Identifier">An immutable, Amazon Web Services Region-unique identifier for a data source. Performance Insights gathers metrics from this data source. To use an Amazon RDS instance as a data source, you specify its DbiResourceId value. For example, specify db-ADECBTYHKT- SAUMUZQYPDS2GW4A . Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-]+$</param>
+    /// <param name="ServiceType">The Amazon Web Services service for which Performance Insights will return metrics. Valid value is RDS . Possible values: • RDS • DOCDB</param>
+    /// <param name="Identifier">An immutable, Amazon Web Services Region-unique identifier for a data source. Performance Insights gathers metrics from this data source. To use an Amazon RDS instance as a data source, you specify its DbiResourceId value. For example, specify db-ADECBTYHKTSAUMUZQYPDS2GW4A . Constraints: • min: 0 • max: 256 • pattern: ^[a-zA-Z0-9-]+$</param>
     /// <param name="StartTime">The start time defined for the analysis report.</param>
     public AwsPiCreatePerformanceAnalysisReportOptions(
         AwsPiCreatePerformanceAnalysisReportServiceType ServiceType,
@@ -64,13 +66,13 @@ public record AwsPiCreatePerformanceAnalysisReportOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services service for which Performance Insights will return metrics. Valid value is RDS . Possible values: o RDS o DOCDB
+    /// The Amazon Web Services service for which Performance Insights will return metrics. Valid value is RDS . Possible values: • RDS • DOCDB
     /// </summary>
     [CliOption("--service-type")]
     public AwsPiCreatePerformanceAnalysisReportServiceType? ServiceType { get; private init; }
 
     /// <summary>
-    /// An immutable, Amazon Web Services Region-unique identifier for a data source. Performance Insights gathers metrics from this data source. To use an Amazon RDS instance as a data source, you specify its DbiResourceId value. For example, specify db-ADECBTYHKT- SAUMUZQYPDS2GW4A . Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-]+$
+    /// An immutable, Amazon Web Services Region-unique identifier for a data source. Performance Insights gathers metrics from this data source. To use an Amazon RDS instance as a data source, you specify its DbiResourceId value. For example, specify db-ADECBTYHKTSAUMUZQYPDS2GW4A . Constraints: • min: 0 • max: 256 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
@@ -88,7 +90,7 @@ public record AwsPiCreatePerformanceAnalysisReportOptions : AwsOptions, IValidat
     public string? EndTime { get; set; }
 
     /// <summary>
-    /// The metadata assigned to the analysis report consisting of a key-value pair. Constraints: o min: 0 o max: 200 (structure) Metadata assigned to an Amazon RDS resource consisting of a key-value pair. Key -&gt; (string) [required] A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$" ). Constraints: o min: 1 o max: 128 o pattern: ^.*$ Value -&gt; (string) [required] A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Constraints: o min: 0 o max: 256 o pattern: ^.*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The metadata assigned to the analysis report consisting of a key-value pair. Constraints: • min: 0 • max: 200 (structure) Metadata assigned to an Amazon RDS resource consisting of a key-value pair. Key -&gt; (string) [required] A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$" ). Constraints: • min: 1 • max: 128 • pattern: ^.*$ Value -&gt; (string) [required] A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Constraints: • min: 0 • max: 256 • pattern: ^.*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

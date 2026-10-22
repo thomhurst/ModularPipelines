@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a user's registered time-based one-time password (TOTP) multi-factor authentication (MFA) factor, also known as a software to- ken. After this operation, the user can no longer sign in with TOTP MFA, and can register a new TOTP factor with AssociateSoftwareToken . Use this operation when a user loses access to their TOTP-generating device, for example, a lost or reset phone, and needs to register a new one. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in...
+/// Deletes a user's registered time-based one-time password (TOTP) multi-factor authentication (MFA) factor, also known as a software token. After this operation, the user can no longer sign in with TOTP MFA, and can register a new TOTP factor with AssociateSoftwareToken . Use this operation when a user loses access to their TOTP-generating device, for example, a lost or reset phone, and needs to register a new one. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) policies in req...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsCognitoIdpAdminDeleteSoftwareTokenOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a user's registered time-based one-time password (TOTP) multi-factor authentication (MFA) factor, also known as a software to- ken. After this operation, the user can no longer sign in with TOTP MFA, and can register a new TOTP factor with AssociateSoftwareToken . Use this operation when a user loses access to their TOTP-generating device, for example, a lost or reset phone, and needs to register a new one. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in...
+    /// Deletes a user's registered time-based one-time password (TOTP) multi-factor authentication (MFA) factor, also known as a software token. After this operation, the user can no longer sign in with TOTP MFA, and can register a new TOTP factor with AssociateSoftwareToken . Use this operation when a user loses access to their TOTP-generating device, for example, a lost or reset phone, and needs to register a new one. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) policies in req...
     /// </summary>
-    /// <param name="UserPoolId">The ID of the user pool where you want to delete the user's software token. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
-    /// <param name="Username">The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+</param>
+    /// <param name="UserPoolId">The ID of the user pool where you want to delete the user's software token. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="Username">The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+</param>
     public AwsCognitoIdpAdminDeleteSoftwareTokenOptions(
         string UserPoolId,
         string Username
@@ -60,13 +62,13 @@ public record AwsCognitoIdpAdminDeleteSoftwareTokenOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the user pool where you want to delete the user's software token. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// The ID of the user pool where you want to delete the user's software token. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--user-pool-id")]
     public string? UserPoolId { get; private init; }
 
     /// <summary>
-    /// The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+
+    /// The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+
     /// </summary>
     [CliOption("--username")]
     public string? Username { get; private init; }

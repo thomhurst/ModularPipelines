@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Resets the personal meeting PIN for the specified user on an Amazon Chime account. Returns the User object with the updated personal meet- ing PIN. See also: AWS API Documentation
+/// Resets the personal meeting PIN for the specified user on an Amazon Chime account. Returns the User object with the updated personal meeting PIN. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsChimeResetPersonalPinOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Resets the personal meeting PIN for the specified user on an Amazon Chime account. Returns the User object with the updated personal meet- ing PIN. See also: AWS API Documentation
+    /// Resets the personal meeting PIN for the specified user on an Amazon Chime account. Returns the User object with the updated personal meeting PIN. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Chime account ID. Constraints: o pattern: .*\S.*</param>
-    /// <param name="UserId">The user ID. Constraints: o pattern: .*\S.*</param>
+    /// <param name="AccountId">The Amazon Chime account ID. Constraints: • pattern: .*\S.*</param>
+    /// <param name="UserId">The user ID. Constraints: • pattern: .*\S.*</param>
     public AwsChimeResetPersonalPinOptions(
         string AccountId,
         string UserId
@@ -60,13 +62,13 @@ public record AwsChimeResetPersonalPinOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Chime account ID. Constraints: o pattern: .*\S.*
+    /// The Amazon Chime account ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The user ID. Constraints: o pattern: .*\S.*
+    /// The user ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; private init; }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns attributes for one or more collections, including the collec- tion endpoint, the OpenSearch Dashboards endpoint, and FIPS-compliant endpoints. For more information, see Creating and managing Amazon OpenSearch Serverless collections . See also: AWS API Documentation
+/// Returns attributes for one or more collections, including the collection endpoint, the OpenSearch Dashboards endpoint, and FIPS-compliant endpoints. For more information, see Creating and managing Amazon OpenSearch Serverless collections . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsOpensearchserverlessBatchGetCollectionOptions : AwsOptions
 {
     /// <summary>
-    /// A list of collection IDs. You can't provide names and IDs in the same request. The ID is part of the collection endpoint. You can also retrieve it using the ListCollections API. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 3 o max: 40 o pattern: [a-z0-9]{3,40} Syntax: "string" "string" ...
+    /// A list of collection IDs. You can't provide names and IDs in the same request. The ID is part of the collection endpoint. You can also retrieve it using the ListCollections API. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 3 • max: 40 • pattern: [a-z0-9]{3,40} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
-    /// A list of collection names. You can't provide names and IDs in the same request. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 3 o max: 64 o pattern: [a-z][a-z0-9-]+ Syntax: "string" "string" ...
+    /// A list of collection names. You can't provide names and IDs in the same request. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 3 • max: 64 • pattern: [a-z][a-z0-9-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; set; }

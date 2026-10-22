@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified feed. You can delete the feed at any time. Ele- mental Inference doesn't block you from deleting a feed when the call- ing application is calling PutMedia or GetMetadata on that feed, al- though both these calls will start to fail. For more information about managing inactive feeds, see the Elemental Inference User Guide. See also: AWS API Documentation
+/// Deletes the specified feed. You can delete the feed at any time. Elemental Inference doesn't block you from deleting a feed when the calling application is calling PutMedia or GetMetadata on that feed, although both these calls will start to fail. For more information about managing inactive feeds, see the Elemental Inference User Guide. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsElementalinferenceDeleteFeedOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified feed. You can delete the feed at any time. Ele- mental Inference doesn't block you from deleting a feed when the call- ing application is calling PutMedia or GetMetadata on that feed, al- though both these calls will start to fail. For more information about managing inactive feeds, see the Elemental Inference User Guide. See also: AWS API Documentation
+    /// Deletes the specified feed. You can delete the feed at any time. Elemental Inference doesn't block you from deleting a feed when the calling application is calling PutMedia or GetMetadata on that feed, although both these calls will start to fail. For more information about managing inactive feeds, see the Elemental Inference User Guide. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the feed. Constraints: o pattern: [a-z0-9]{19}</param>
+    /// <param name="Id">The ID of the feed. Constraints: • pattern: [a-z0-9]{19}</param>
     public AwsElementalinferenceDeleteFeedOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsElementalinferenceDeleteFeedOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the feed. Constraints: o pattern: [a-z0-9]{19}
+    /// The ID of the feed. Constraints: • pattern: [a-z0-9]{19}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

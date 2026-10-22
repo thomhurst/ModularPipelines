@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsPcsUntagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes tags from an PCS resource. To delete a tag, specify the tag key and the Amazon Resource Name (ARN) of the PCS resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource. Constraints: o min: 1 o max: 1011 o pattern: arn:aws.*:pcs:.*:[0-9]{12}:.*/[a-z0-9_\-]+</param>
-    /// <param name="TagKeys">1 or more tag keys to remove from the resource. Specify only tag keys and not tag values. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource. Constraints: • min: 1 • max: 1011 • pattern: arn:aws.*:pcs:.*:[0-9]{12}:.*/[a-z0-9_\-]+</param>
+    /// <param name="TagKeys">1 or more tag keys to remove from the resource. Specify only tag keys and not tag values. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
     public AwsPcsUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsPcsUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource. Constraints: o min: 1 o max: 1011 o pattern: arn:aws.*:pcs:.*:[0-9]{12}:.*/[a-z0-9_\-]+
+    /// The Amazon Resource Name (ARN) of the resource. Constraints: • min: 1 • max: 1011 • pattern: arn:aws.*:pcs:.*:[0-9]{12}:.*/[a-z0-9_\-]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// 1 or more tag keys to remove from the resource. Specify only tag keys and not tag values. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// 1 or more tag keys to remove from the resource. Specify only tag keys and not tag values. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

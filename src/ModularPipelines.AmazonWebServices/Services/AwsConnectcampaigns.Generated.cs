@@ -167,7 +167,7 @@ public class AwsConnectcampaigns : IAwsConnectcampaigns
     }
 
     /// <summary>
-    /// Provides summary information about the campaigns under the specified Amazon Connect account. See also: AWS API Documentation list-campaigns is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: campaignS...
+    /// Provides summary information about the campaigns under the specified Amazon Connect account. See also: AWS API Documentation list-campaigns is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: campaignSumma...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsConnectcampaigns : IAwsConnectcampaigns
     }
 
     /// <summary>
-    /// Creates dials requests for the specified campaign Amazon Connect ac- count. This API is idempotent. See also: AWS API Documentation
+    /// Creates dials requests for the specified campaign Amazon Connect account. This API is idempotent. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

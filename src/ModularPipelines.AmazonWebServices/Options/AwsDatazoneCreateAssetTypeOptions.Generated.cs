@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a custom asset type. Prerequisites: o The formsInput field is required, however, can be passed as empty (e.g. -forms-input {}) . o You must have CreateAssetType permissions. o The domain-identifier and owning-project-identifier must be valid and active. o The name of the asset type must be unique within the domain dupli- cate names will cause failure. o JSON input must be valid incorrect formatting causes Invalid JSON errors. See also: AWS API Documentation
+/// Creates a custom asset type. Prerequisites: • The formsInput field is required, however, can be passed as empty (e.g. -forms-input {}) . • You must have CreateAssetType permissions. • The domain-identifier and owning-project-identifier must be valid and active. • The name of the asset type must be unique within the domain duplicate names will cause failure. • JSON input must be valid incorrect formatting causes Invalid JSON errors. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +27,12 @@ public record AwsDatazoneCreateAssetTypeOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a custom asset type. Prerequisites: o The formsInput field is required, however, can be passed as empty (e.g. -forms-input {}) . o You must have CreateAssetType permissions. o The domain-identifier and owning-project-identifier must be valid and active. o The name of the asset type must be unique within the domain dupli- cate names will cause failure. o JSON input must be valid incorrect formatting causes Invalid JSON errors. See also: AWS API Documentation
+    /// Creates a custom asset type. Prerequisites: • The formsInput field is required, however, can be passed as empty (e.g. -forms-input {}) . • You must have CreateAssetType permissions. • The domain-identifier and owning-project-identifier must be valid and active. • The name of the asset type must be unique within the domain duplicate names will cause failure. • JSON input must be valid incorrect formatting causes Invalid JSON errors. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The unique identifier of the Amazon DataZone domain where the custom asset type is being created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Name">The name of the custom asset type. Constraints: o min: 1 o max: 256 o pattern: [^\.]*.*</param>
-    /// <param name="FormsInput">The metadata forms that are to be attached to the custom asset type. Constraints: o min: 0 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w* value -&gt; (structure) The details of the form entry. typeIdentifier -&gt; (string) [required] The type ID of the form entry. Constraints: o min: 1 o max: 385 o pattern: (?!\.)[\w\.]*\w typeRevision -&gt; (string) [required] The type revision of the form entry. Constraints: o min: 1 o max: 64 required -&gt; (boolean) Specifies whether a form entry is required. Shorthand Syntax: KeyName1={typeIdentifier=string,typeRevision=string,required=boolean},KeyName2={typeIdentifier=string,typeRevision=string,required=boolean} JSON Syntax: {"string": { "typeIdentifier": "string", "typeRevision": "string", "required": true|false } ...}</param>
-    /// <param name="OwningProjectIdentifier">The identifier of the Amazon DataZone project that is to own the custom asset type. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The unique identifier of the Amazon DataZone domain where the custom asset type is being created. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Name">The name of the custom asset type. Constraints: • min: 1 • max: 256 • pattern: [^\.]*.*</param>
+    /// <param name="FormsInput">The metadata forms that are to be attached to the custom asset type. Constraints: • min: 0 • max: 10 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: (?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w* value -&gt; (structure) The details of the form entry. typeIdentifier -&gt; (string) [required] The type ID of the form entry. Constraints: • min: 1 • max: 385 • pattern: (?!\.)[\w\.]*\w typeRevision -&gt; (string) [required] The type revision of the form entry. Constraints: • min: 1 • max: 64 required -&gt; (boolean) Specifies whether a form entry is required. Shorthand Syntax: KeyName1={typeIdentifier=string,typeRevision=string,required=boolean},KeyName2={typeIdentifier=string,typeRevision=string,required=boolean} JSON Syntax: {"string": { "typeIdentifier": "string", "typeRevision": "string", "required": true|false } ...}</param>
+    /// <param name="OwningProjectIdentifier">The identifier of the Amazon DataZone project that is to own the custom asset type. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneCreateAssetTypeOptions(
         string DomainIdentifier,
         string Name,
@@ -80,31 +81,31 @@ public record AwsDatazoneCreateAssetTypeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Amazon DataZone domain where the custom asset type is being created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The unique identifier of the Amazon DataZone domain where the custom asset type is being created. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The name of the custom asset type. Constraints: o min: 1 o max: 256 o pattern: [^\.]*.*
+    /// The name of the custom asset type. Constraints: • min: 1 • max: 256 • pattern: [^\.]*.*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The metadata forms that are to be attached to the custom asset type. Constraints: o min: 0 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w* value -&gt; (structure) The details of the form entry. typeIdentifier -&gt; (string) [required] The type ID of the form entry. Constraints: o min: 1 o max: 385 o pattern: (?!\.)[\w\.]*\w typeRevision -&gt; (string) [required] The type revision of the form entry. Constraints: o min: 1 o max: 64 required -&gt; (boolean) Specifies whether a form entry is required. Shorthand Syntax: KeyName1={typeIdentifier=string,typeRevision=string,required=boolean},KeyName2={typeIdentifier=string,typeRevision=string,required=boolean} JSON Syntax: {"string": { "typeIdentifier": "string", "typeRevision": "string", "required": true|false } ...}
+    /// The metadata forms that are to be attached to the custom asset type. Constraints: • min: 0 • max: 10 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: (?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w* value -&gt; (structure) The details of the form entry. typeIdentifier -&gt; (string) [required] The type ID of the form entry. Constraints: • min: 1 • max: 385 • pattern: (?!\.)[\w\.]*\w typeRevision -&gt; (string) [required] The type revision of the form entry. Constraints: • min: 1 • max: 64 required -&gt; (boolean) Specifies whether a form entry is required. Shorthand Syntax: KeyName1={typeIdentifier=string,typeRevision=string,required=boolean},KeyName2={typeIdentifier=string,typeRevision=string,required=boolean} JSON Syntax: {"string": { "typeIdentifier": "string", "typeRevision": "string", "required": true|false } ...}
     /// </summary>
     [CliOption("--forms-input", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? FormsInput { get; private init; }
 
     /// <summary>
-    /// The identifier of the Amazon DataZone project that is to own the custom asset type. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the Amazon DataZone project that is to own the custom asset type. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--owning-project-identifier")]
     public string? OwningProjectIdentifier { get; private init; }
 
     /// <summary>
-    /// The descripton of the custom asset type. Constraints: o min: 0 o max: 2048
+    /// The descripton of the custom asset type. Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

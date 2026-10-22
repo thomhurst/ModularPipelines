@@ -29,7 +29,7 @@ public record AwsEc2ListVolumesInRecycleBinOptions : AwsOptions
     public IEnumerable<string>? VolumeIds { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -41,7 +41,7 @@ public record AwsEc2ListVolumesInRecycleBinOptions : AwsOptions
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous re- quest.
+    /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

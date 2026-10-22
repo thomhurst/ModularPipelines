@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of summaries describing EnabledBaseline resources. You can filter the list by the corresponding Baseline or Target of the En- abledBaseline resources. For usage examples, see ` the Amazon Web Ser- vices Control Tower User Guide https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html`__ . See also: AWS API Documentation list-enabled-baselines is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. ...
+/// Returns a list of summaries describing EnabledBaseline resources. You can filter the list by the corresponding Baseline or Target of the EnabledBaseline resources. For usage examples, see ` the Amazon Web Services Control Tower User Guide https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html`__ . See also: AWS API Documentation list-enabled-baselines is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsControltowerListEnabledBaselinesOptions : AwsOptions
 {
     /// <summary>
-    /// A filter applied on the ListEnabledBaseline operation. Allowed fil- ters are baselineIdentifiers and targetIdentifiers . The filter can be applied for either, or both. targetIdentifiers -&gt; (list) Identifiers for the targets of the Baseline filter operation. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+ baselineIdentifiers -&gt; (list) Identifiers for the Baseline objects returned as part of the filter operation. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+ parentIdentifiers -&gt; (list) An optional filter that sets up a list of parentIdentifiers to filter the results of the ListEnabledBaseline output. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+ statuses -&gt; (list) A list of EnablementStatus items. Constraints: o min: 1 o max: 1 (string) Possible values: o SUCCEEDED o FAILED o UNDER_CHANGE inheritanceDriftStatuses -&gt; (list) A list of EnabledBaselineDriftStatus items for enabled base- lines. Constraints: o min: 1 o max: 1 (string) Possible values: o IN_SYNC o DRIFTED Shorthand Syntax: targetIdentifiers=string,string,baselineIdentifiers=string,string,parentIdentifiers=string,string,statuses=string,string,inheritanceDriftStatuses=string,string JSON Syntax: { "targetIdentifiers": ["string", ...], "baselineIdentifiers": ["string", ...], "parentIdentifiers": ["string", ...], "statuses": ["SUCCEEDED"|"FAILED"|"UNDER_CHANGE", ...], "inheritanceDriftStatuses": ["IN_SYNC"|"DRIFTED", ...] }
+    /// A filter applied on the ListEnabledBaseline operation. Allowed filters are baselineIdentifiers and targetIdentifiers . The filter can be applied for either, or both. targetIdentifiers -&gt; (list) Identifiers for the targets of the Baseline filter operation. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 20 • max: 2048 • pattern: arn:aws[0-9a-zA-Z_\-:\/]+ baselineIdentifiers -&gt; (list) Identifiers for the Baseline objects returned as part of the filter operation. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 20 • max: 2048 • pattern: arn:aws[0-9a-zA-Z_\-:\/]+ parentIdentifiers -&gt; (list) An optional filter that sets up a list of parentIdentifiers to filter the results of the ListEnabledBaseline output. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 20 • max: 2048 • pattern: arn:aws[0-9a-zA-Z_\-:\/]+ statuses -&gt; (list) A list of EnablementStatus items. Constraints: • min: 1 • max: 1 (string) Possible values: • SUCCEEDED • FAILED • UNDER_CHANGE inheritanceDriftStatuses -&gt; (list) A list of EnabledBaselineDriftStatus items for enabled baselines. Constraints: • min: 1 • max: 1 (string) Possible values: • IN_SYNC • DRIFTED Shorthand Syntax: targetIdentifiers=string,string,baselineIdentifiers=string,string,parentIdentifiers=string,string,statuses=string,string,inheritanceDriftStatuses=string,string JSON Syntax: { "targetIdentifiers": ["string", ...], "baselineIdentifiers": ["string", ...], "parentIdentifiers": ["string", ...], "statuses": ["SUCCEEDED"|"FAILED"|"UNDER_CHANGE", ...], "inheritanceDriftStatuses": ["IN_SYNC"|"DRIFTED", ...] }
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; set; }
@@ -37,9 +37,6 @@ public record AwsControltowerListEnabledBaselinesOptions : AwsOptions
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -48,15 +45,18 @@ public record AwsControltowerListEnabledBaselinesOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 5 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 5 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

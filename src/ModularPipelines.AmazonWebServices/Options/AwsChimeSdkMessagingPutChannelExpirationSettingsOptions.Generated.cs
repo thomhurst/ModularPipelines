@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sets the number of days before the channel is automatically deleted. NOTE: o A background process deletes expired channels within 6 hours of expiration. Actual deletion times may vary. o Expired channels that have not yet been deleted appear as active, and you can update their expiration settings. The system honors the new settings. o The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. See al...
+/// Sets the number of days before the channel is automatically deleted. NOTE: • A background process deletes expired channels within 6 hours of expiration. Actual deletion times may vary. • Expired channels that have not yet been deleted appear as active, and you can update their expiration settings. The system honors the new settings. • The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. See al...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsChimeSdkMessagingPutChannelExpirationSettingsOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sets the number of days before the channel is automatically deleted. NOTE: o A background process deletes expired channels within 6 hours of expiration. Actual deletion times may vary. o Expired channels that have not yet been deleted appear as active, and you can update their expiration settings. The system honors the new settings. o The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. See al...
+    /// Sets the number of days before the channel is automatically deleted. NOTE: • A background process deletes expired channels within 6 hours of expiration. Actual deletion times may vary. • Expired channels that have not yet been deleted appear as active, and you can update their expiration settings. The system honors the new settings. • The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. See al...
     /// </summary>
-    /// <param name="ChannelArn">The ARN of the channel. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="ChannelArn">The ARN of the channel. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
     public AwsChimeSdkMessagingPutChannelExpirationSettingsOptions(
         string ChannelArn
     )
@@ -56,19 +58,19 @@ public record AwsChimeSdkMessagingPutChannelExpirationSettingsOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the channel. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The ARN of the channel. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--channel-arn")]
     public string? ChannelArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--chime-bearer")]
     public string? ChimeBearer { get; set; }
 
     /// <summary>
-    /// Settings that control the interval after which a channel is deleted. ExpirationDays -&gt; (integer) [required] The period in days after which the system automatically deletes a channel. Constraints: o min: 1 o max: 5475 ExpirationCriterion -&gt; (string) [required] The conditions that must be met for a channel to expire. Possible values: o CREATED_TIMESTAMP o LAST_MESSAGE_TIMESTAMP Shorthand Syntax: ExpirationDays=integer,ExpirationCriterion=string JSON Syntax: { "ExpirationDays": integer, "ExpirationCriterion": "CREATED_TIMESTAMP"|"LAST_MESSAGE_TIMESTAMP" }
+    /// Settings that control the interval after which a channel is deleted. ExpirationDays -&gt; (integer) [required] The period in days after which the system automatically deletes a channel. Constraints: • min: 1 • max: 5475 ExpirationCriterion -&gt; (string) [required] The conditions that must be met for a channel to expire. Possible values: • CREATED_TIMESTAMP • LAST_MESSAGE_TIMESTAMP Shorthand Syntax: ExpirationDays=integer,ExpirationCriterion=string JSON Syntax: { "ExpirationDays": integer, "ExpirationCriterion": "CREATED_TIMESTAMP"|"LAST_MESSAGE_TIMESTAMP" }
     /// </summary>
     [CliOption("--expiration-settings")]
     public string? ExpirationSettings { get; set; }

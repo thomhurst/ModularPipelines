@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsTrustedadvisorGetOrganizationRecommendationOptions : AwsOptions
     /// <summary>
     /// Get a specific recommendation within an AWS Organizations organization. This API supports only prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationRecommendationIdentifier">The Recommendation identifier Constraints: o min: 20 o max: 200 o pattern: arn:[\w-]+:trustedadvisor:::organization-recommenda- tion\/[\w-]+</param>
+    /// <param name="OrganizationRecommendationIdentifier">The Recommendation identifier Constraints: • min: 20 • max: 200 • pattern: arn:[\w-]+:trustedadvisor:::organization-recommendation\/[\w-]+</param>
     public AwsTrustedadvisorGetOrganizationRecommendationOptions(
         string OrganizationRecommendationIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsTrustedadvisorGetOrganizationRecommendationOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Recommendation identifier Constraints: o min: 20 o max: 200 o pattern: arn:[\w-]+:trustedadvisor:::organization-recommenda- tion\/[\w-]+
+    /// The Recommendation identifier Constraints: • min: 20 • max: 200 • pattern: arn:[\w-]+:trustedadvisor:::organization-recommendation\/[\w-]+
     /// </summary>
     [CliOption("--organization-recommendation-identifier")]
     public string? OrganizationRecommendationIdentifier { get; private init; }

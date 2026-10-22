@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the current status of an asynchronous request to create an account. You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation
+/// Retrieves the current status of an asynchronous request to create an account. You can only call this operation from the management account or a member account that is a delegated administrator. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsOrganizationsDescribeCreateAccountStatusOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the current status of an asynchronous request to create an account. You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation
+    /// Retrieves the current status of an asynchronous request to create an account. You can only call this operation from the management account or a member account that is a delegated administrator. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CreateAccountRequestId">Specifies the Id value that uniquely identifies the CreateAccount request. You can get the value from the CreateAccountStatus.Id re- sponse in an earlier CreateAccount request, or from the ListCre- ateAccountStatus operation. The regex pattern for a create account request ID string requires "car-" followed by from 8 to 32 lowercase letters or digits. Constraints: o max: 36 o pattern: ^car-[a-z0-9]{8,32}$</param>
+    /// <param name="CreateAccountRequestId">Specifies the Id value that uniquely identifies the CreateAccount request. You can get the value from the CreateAccountStatus.Id response in an earlier CreateAccount request, or from the ListCreateAccountStatus operation. The regex pattern for a create account request ID string requires "car-" followed by from 8 to 32 lowercase letters or digits. Constraints: • max: 36 • pattern: ^car-[a-z0-9]{8,32}$</param>
     public AwsOrganizationsDescribeCreateAccountStatusOptions(
         string CreateAccountRequestId
     )
@@ -56,7 +58,7 @@ public record AwsOrganizationsDescribeCreateAccountStatusOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the Id value that uniquely identifies the CreateAccount request. You can get the value from the CreateAccountStatus.Id re- sponse in an earlier CreateAccount request, or from the ListCre- ateAccountStatus operation. The regex pattern for a create account request ID string requires "car-" followed by from 8 to 32 lowercase letters or digits. Constraints: o max: 36 o pattern: ^car-[a-z0-9]{8,32}$
+    /// Specifies the Id value that uniquely identifies the CreateAccount request. You can get the value from the CreateAccountStatus.Id response in an earlier CreateAccount request, or from the ListCreateAccountStatus operation. The regex pattern for a create account request ID string requires "car-" followed by from 8 to 32 lowercase letters or digits. Constraints: • max: 36 • pattern: ^car-[a-z0-9]{8,32}$
     /// </summary>
     [CliOption("--create-account-request-id")]
     public string? CreateAccountRequestId { get; private init; }

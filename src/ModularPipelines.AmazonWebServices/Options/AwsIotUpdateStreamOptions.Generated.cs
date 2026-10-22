@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotUpdateStreamOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates an existing stream. The stream version will be incremented by one. Requires permission to access the UpdateStream action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StreamId">The stream ID. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="StreamId">The stream ID. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsIotUpdateStreamOptions(
         string StreamId
     )
@@ -56,25 +58,25 @@ public record AwsIotUpdateStreamOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The stream ID. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+
+    /// The stream ID. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--stream-id")]
     public string? StreamId { get; private init; }
 
     /// <summary>
-    /// The description of the stream. Constraints: o max: 2028 o pattern: [^\p{C}]+
+    /// The description of the stream. Constraints: • max: 2028 • pattern: [^\p{C}]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The files associated with the stream. Constraints: o min: 1 o max: 50 (structure) Represents a file to stream. fileId -&gt; (integer) The file ID. Constraints: o min: 0 o max: 255 s3Location -&gt; (structure) The location of the file in S3. bucket -&gt; (string) The S3 bucket. Constraints: o min: 1 key -&gt; (string) The S3 key. Constraints: o min: 1 version -&gt; (string) The S3 bucket version. Shorthand Syntax: fileId=integer,s3Location={bucket=string,key=string,version=string} ... JSON Syntax: [ { "fileId": integer, "s3Location": { "bucket": "string", "key": "string", "version": "string" } } ... ]
+    /// The files associated with the stream. Constraints: • min: 1 • max: 50 (structure) Represents a file to stream. fileId -&gt; (integer) The file ID. Constraints: • min: 0 • max: 255 s3Location -&gt; (structure) The location of the file in S3. bucket -&gt; (string) The S3 bucket. Constraints: • min: 1 key -&gt; (string) The S3 key. Constraints: • min: 1 version -&gt; (string) The S3 bucket version. Shorthand Syntax: fileId=integer,s3Location={bucket=string,key=string,version=string} ... JSON Syntax: [ { "fileId": integer, "s3Location": { "bucket": "string", "key": "string", "version": "string" } } ... ]
     /// </summary>
     [CliOption("--files", GroupValues = true)]
     public IEnumerable<string>? Files { get; set; }
 
     /// <summary>
-    /// An IAM role that allows the IoT service principal assumes to access your S3 files. Constraints: o min: 20 o max: 2048
+    /// An IAM role that allows the IoT service principal assumes to access your S3 files. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }

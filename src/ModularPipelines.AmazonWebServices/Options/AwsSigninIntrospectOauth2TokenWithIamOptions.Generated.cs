@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Grants permission to inspect the metadata and state of an OAuth 2.0 ac- cess token or refresh token Implements RFC 7662 OAuth 2.0 Token Introspection over a SigV4-authen- ticated endpoint. Inspects the metadata of an access_token or re- fresh_token issued by AWS Sign-In and returns the claims associated with it. Inactive token semantics (RFC 7662 2.2): when the supplied token is un- known, expired, revoked, malformed, or owned by a different account, the response body is exactly { "active": fals...
+/// Grants permission to inspect the metadata and state of an OAuth 2.0 access token or refresh token Implements RFC 7662 OAuth 2.0 Token Introspection over a SigV4-authenticated endpoint. Inspects the metadata of an access_token or refresh_token issued by AWS Sign-In and returns the claims associated with it. Inactive token semantics (RFC 7662 2.2): when the supplied token is unknown, expired, revoked, malformed, or owned by a different account, the response body is exactly { "active": false } with...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsSigninIntrospectOauth2TokenWithIamOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Grants permission to inspect the metadata and state of an OAuth 2.0 ac- cess token or refresh token Implements RFC 7662 OAuth 2.0 Token Introspection over a SigV4-authen- ticated endpoint. Inspects the metadata of an access_token or re- fresh_token issued by AWS Sign-In and returns the claims associated with it. Inactive token semantics (RFC 7662 2.2): when the supplied token is un- known, expired, revoked, malformed, or owned by a different account, the response body is exactly { "active": fals...
+    /// Grants permission to inspect the metadata and state of an OAuth 2.0 access token or refresh token Implements RFC 7662 OAuth 2.0 Token Introspection over a SigV4-authenticated endpoint. Inspects the metadata of an access_token or refresh_token issued by AWS Sign-In and returns the claims associated with it. Inactive token semantics (RFC 7662 2.2): when the supplied token is unknown, expired, revoked, malformed, or owned by a different account, the response body is exactly { "active": false } with...
     /// </summary>
-    /// <param name="Token">The string value of the token to introspect. May be either an ac- cess_token or a refresh_token issued by AWS Sign-In. Constraints: o min: 1 o max: 4096 o pattern: ASO[AR][A-Za-z0-9+/=_\-]+</param>
+    /// <param name="Token">The string value of the token to introspect. May be either an access_token or a refresh_token issued by AWS Sign-In. Constraints: • min: 1 • max: 4096 • pattern: ASO[AR][A-Za-z0-9+/=_\-]+</param>
     public AwsSigninIntrospectOauth2TokenWithIamOptions(
         string Token
     )
@@ -58,14 +60,14 @@ public record AwsSigninIntrospectOauth2TokenWithIamOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The string value of the token to introspect. May be either an ac- cess_token or a refresh_token issued by AWS Sign-In. Constraints: o min: 1 o max: 4096 o pattern: ASO[AR][A-Za-z0-9+/=_\-]+
+    /// The string value of the token to introspect. May be either an access_token or a refresh_token issued by AWS Sign-In. Constraints: • min: 1 • max: 4096 • pattern: ASO[AR][A-Za-z0-9+/=_\-]+
     /// </summary>
     [SecretValue]
     [CliOption("--token")]
     public string? Token { get; private init; }
 
     /// <summary>
-    /// Optional hint about the type of the token submitted for introspec- tion. The server uses this hint to optimize lookup, but still falls back to the other token type on miss. Allowed values: access_token, refresh_token. Constraints: o pattern: (access_token|refresh_token)
+    /// Optional hint about the type of the token submitted for introspection. The server uses this hint to optimize lookup, but still falls back to the other token type on miss. Allowed values: access_token, refresh_token. Constraints: • pattern: (access_token|refresh_token)
     /// </summary>
     [CliOption("--token-type-hint")]
     public AwsSigninIntrospectOauth2TokenWithIamTokenTypeHint? TokenTypeHint { get; set; }

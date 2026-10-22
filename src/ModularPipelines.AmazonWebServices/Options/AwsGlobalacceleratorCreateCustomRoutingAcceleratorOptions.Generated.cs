@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Create a custom routing accelerator. A custom routing accelerator di- rects traffic to one of possibly thousands of Amazon EC2 instance des- tinations running in a single or multiple virtual private clouds (VPC) subnet endpoints. Be aware that, by default, all destination EC2 instances in a VPC sub- net endpoint cannot receive traffic. To enable all destinations to re- ceive traffic, or to specify individual port mappings that can receive traffic, see the AllowCustomRoutingTraffic operation. WAR...
+/// Create a custom routing accelerator. A custom routing accelerator directs traffic to one of possibly thousands of Amazon EC2 instance destinations running in a single or multiple virtual private clouds (VPC) subnet endpoints. Be aware that, by default, all destination EC2 instances in a VPC subnet endpoint cannot receive traffic. To enable all destinations to receive traffic, or to specify individual port mappings that can receive traffic, see the AllowCustomRoutingTraffic operation. WARNING: Gl...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsGlobalacceleratorCreateCustomRoutingAcceleratorOptions : AwsOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Create a custom routing accelerator. A custom routing accelerator di- rects traffic to one of possibly thousands of Amazon EC2 instance des- tinations running in a single or multiple virtual private clouds (VPC) subnet endpoints. Be aware that, by default, all destination EC2 instances in a VPC sub- net endpoint cannot receive traffic. To enable all destinations to re- ceive traffic, or to specify individual port mappings that can receive traffic, see the AllowCustomRoutingTraffic operation. WAR...
+    /// Create a custom routing accelerator. A custom routing accelerator directs traffic to one of possibly thousands of Amazon EC2 instance destinations running in a single or multiple virtual private clouds (VPC) subnet endpoints. Be aware that, by default, all destination EC2 instances in a VPC subnet endpoint cannot receive traffic. To enable all destinations to receive traffic, or to specify individual port mappings that can receive traffic, see the AllowCustomRoutingTraffic operation. WARNING: Gl...
     /// </summary>
-    /// <param name="Name">The name of a custom routing accelerator. The name can have a maxi- mum of 64 characters, must contain only alphanumeric characters or hyphens (-), and must not begin or end with a hyphen. Constraints: o max: 255</param>
+    /// <param name="Name">The name of a custom routing accelerator. The name can have a maximum of 64 characters, must contain only alphanumeric characters or hyphens (-), and must not begin or end with a hyphen. Constraints: • max: 255</param>
     public AwsGlobalacceleratorCreateCustomRoutingAcceleratorOptions(
         string Name
     )
@@ -58,19 +60,19 @@ public record AwsGlobalacceleratorCreateCustomRoutingAcceleratorOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of a custom routing accelerator. The name can have a maxi- mum of 64 characters, must contain only alphanumeric characters or hyphens (-), and must not begin or end with a hyphen. Constraints: o max: 255
+    /// The name of a custom routing accelerator. The name can have a maximum of 64 characters, must contain only alphanumeric characters or hyphens (-), and must not begin or end with a hyphen. Constraints: • max: 255
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The IP address type that an accelerator supports. For a custom rout- ing accelerator, the value must be IPV4. Possible values: o IPV4 o DUAL_STACK
+    /// The IP address type that an accelerator supports. For a custom routing accelerator, the value must be IPV4. Possible values: • IPV4 • DUAL_STACK
     /// </summary>
     [CliOption("--ip-address-type")]
     public AwsGlobalacceleratorCreateCustomRoutingAcceleratorIpAddressType? IpAddressType { get; set; }
 
     /// <summary>
-    /// Optionally, if you've added your own IP address pool to Global Ac- celerator (BYOIP), you can choose an IPv4 address from your own pool to use for the accelerator's static IPv4 address when you create an accelerator. After you bring an address range to Amazon Web Services, it appears in your account as an address pool. When you create an accelerator, you can assign one IPv4 address from your range to it. Global Accel- erator assigns you a second static IPv4 address from an Amazon IP address range. If you bring two IPv4 address ranges to Amazon Web Services, you can assign one IPv4 address from each range to your accelerator. This restriction is because Global Accelerator assigns each address range to a different network zone, for high availabil- ity. You can specify one or two addresses, separated by a space. Do not include the /32 suffix. Note that you can't update IP addresses for an existing accelerator. To change them, you must create a new accelerator with the new ad- dresses. For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide . Constraints: o min: 0 o max: 2 (string) Constraints: o max: 45 Syntax: "string" "string" ...
+    /// Optionally, if you've added your own IP address pool to Global Accelerator (BYOIP), you can choose an IPv4 address from your own pool to use for the accelerator's static IPv4 address when you create an accelerator. After you bring an address range to Amazon Web Services, it appears in your account as an address pool. When you create an accelerator, you can assign one IPv4 address from your range to it. Global Accelerator assigns you a second static IPv4 address from an Amazon IP address range. If you bring two IPv4 address ranges to Amazon Web Services, you can assign one IPv4 address from each range to your accelerator. This restriction is because Global Accelerator assigns each address range to a different network zone, for high availability. You can specify one or two addresses, separated by a space. Do not include the /32 suffix. Note that you can't update IP addresses for an existing accelerator. To change them, you must create a new accelerator with the new addresses. For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide . Constraints: • min: 0 • max: 2 (string) Constraints: • max: 45 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--ip-addresses", GroupValues = true)]
     public IEnumerable<string>? IpAddresses { get; set; }
@@ -82,14 +84,14 @@ public record AwsGlobalacceleratorCreateCustomRoutingAcceleratorOptions : AwsOpt
     public bool? Enabled { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotencythat is, the uniquenessof the request. Constraints: o max: 255
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotencythat is, the uniquenessof the request. Constraints: • max: 255
     /// </summary>
     [SecretValue]
     [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
 
     /// <summary>
-    /// Create tags for an accelerator. For more information, see Tagging in Global Accelerator in the Global Accelerator Developer Guide . (structure) A complex type that contains a Tag key and Tag value. Key -&gt; (string) [required] A string that contains a Tag key. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] A string that contains a Tag value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Create tags for an accelerator. For more information, see Tagging in Global Accelerator in the Global Accelerator Developer Guide . (structure) A complex type that contains a Tag key and Tag value. Key -&gt; (string) [required] A string that contains a Tag key. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] A string that contains a Tag value. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

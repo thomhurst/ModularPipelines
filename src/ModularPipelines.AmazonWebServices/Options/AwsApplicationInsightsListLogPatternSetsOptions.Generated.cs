@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsApplicationInsightsListLogPatternSetsOptions : AwsOptions, IVal
     /// <summary>
     /// Lists the log pattern sets in the specific application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceGroupName">The name of the resource group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\.\-_]*</param>
+    /// <param name="ResourceGroupName">The name of the resource group. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9\.\-_]*</param>
     public AwsApplicationInsightsListLogPatternSetsOptions(
         string ResourceGroupName
     )
@@ -57,26 +59,26 @@ public record AwsApplicationInsightsListLogPatternSetsOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the resource group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\.\-_]*
+    /// The name of the resource group. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9\.\-_]*
     /// </summary>
     [CliOption("--resource-group-name")]
     public string? ResourceGroupName { get; private init; }
 
     /// <summary>
-    /// The maximum number of results to return in a single call. To re- trieve the remaining results, make another call with the returned NextToken value. Constraints: o min: 1 o max: 40
+    /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value. Constraints: • min: 1 • max: 40
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The token to request the next page of results. Constraints: o min: 1 o max: 1024 o pattern: .+
+    /// The token to request the next page of results. Constraints: • min: 1 • max: 1024 • pattern: .+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services account ID for the resource group owner. Constraints: o min: 12 o max: 12 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID for the resource group owner. Constraints: • min: 12 • max: 12 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDatazoneUpdateEnvironmentOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Updates the specified environment in Amazon DataZone. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The identifier of the domain in which the environment is to be up- dated. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Identifier">The identifier of the environment that is to be updated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The identifier of the domain in which the environment is to be updated. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The identifier of the environment that is to be updated. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneUpdateEnvironmentOptions(
         string DomainIdentifier,
         string Identifier
@@ -60,13 +62,13 @@ public record AwsDatazoneUpdateEnvironmentOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the domain in which the environment is to be up- dated. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The identifier of the domain in which the environment is to be updated. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the environment that is to be updated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the environment that is to be updated. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
@@ -78,13 +80,13 @@ public record AwsDatazoneUpdateEnvironmentOptions : AwsOptions, IValidatableObje
     public string? Name { get; set; }
 
     /// <summary>
-    /// The description to be updated as part of the UpdateEnvironment ac- tion.
+    /// The description to be updated as part of the UpdateEnvironment action.
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The glossary terms to be updated as part of the UpdateEnvironment action. Constraints: o min: 1 o max: 20 (string) Constraints: o pattern: [a-zA-Z0-9_-]{1,36} Syntax: "string" "string" ...
+    /// The glossary terms to be updated as part of the UpdateEnvironment action. Constraints: • min: 1 • max: 20 (string) Constraints: • pattern: [a-zA-Z0-9_-]{1,36} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--glossary-terms", GroupValues = true)]
     public IEnumerable<string>? GlossaryTerms { get; set; }
@@ -102,7 +104,7 @@ public record AwsDatazoneUpdateEnvironmentOptions : AwsOptions, IValidatableObje
     public IEnumerable<string>? UserParameters { get; set; }
 
     /// <summary>
-    /// The configuration name of the environment. Constraints: o min: 1 o max: 64 o pattern: [\w -]+
+    /// The configuration name of the environment. Constraints: • min: 1 • max: 64 • pattern: [\w -]+
     /// </summary>
     [CliOption("--environment-configuration-name")]
     public string? EnvironmentConfigurationName { get; set; }

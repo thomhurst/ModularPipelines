@@ -24,44 +24,44 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSagemakerListProjectsOptions : AwsOptions
 {
     /// <summary>
-    /// A filter that returns the projects that were created after a speci- fied time.
+    /// A filter that returns the projects that were created after a specified time.
     /// </summary>
     [CliOption("--creation-time-after")]
     public string? CreationTimeAfter { get; set; }
 
     /// <summary>
-    /// A filter that returns the projects that were created before a speci- fied time.
+    /// A filter that returns the projects that were created before a specified time.
     /// </summary>
     [CliOption("--creation-time-before")]
     public string? CreationTimeBefore { get; set; }
 
     /// <summary>
-    /// The maximum number of projects to return in the response. Constraints: o min: 1 o max: 100
+    /// The maximum number of projects to return in the response. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// A filter that returns the projects whose name contains a specified string. Constraints: o min: 1 o max: 32 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}
+    /// A filter that returns the projects whose name contains a specified string. Constraints: • min: 1 • max: 32 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}
     /// </summary>
     [CliOption("--name-contains")]
     public string? NameContains { get; set; }
 
     /// <summary>
-    /// If the result of the previous ListProjects request was truncated, the response includes a NextToken . To retrieve the next set of projects, use the token in the next request. Constraints: o min: 0 o max: 8192 o pattern: .*
+    /// If the result of the previous ListProjects request was truncated, the response includes a NextToken . To retrieve the next set of projects, use the token in the next request. Constraints: • min: 0 • max: 8192 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The field by which to sort results. The default is CreationTime . Possible values: o Name o CreationTime
+    /// The field by which to sort results. The default is CreationTime . Possible values: • Name • CreationTime
     /// </summary>
     [CliOption("--sort-by")]
     public AwsSagemakerListProjectsSortBy? SortBy { get; set; }
 
     /// <summary>
-    /// The sort order for results. The default is Ascending . Possible values: o Ascending o Descending
+    /// The sort order for results. The default is Ascending . Possible values: • Ascending • Descending
     /// </summary>
     [CliOption("--sort-order")]
     public AwsSagemakerListProjectsSortOrder? SortOrder { get; set; }

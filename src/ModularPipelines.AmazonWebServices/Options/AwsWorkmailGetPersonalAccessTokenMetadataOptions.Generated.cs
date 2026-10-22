@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Requests details of a specific Personal Access Token within the Work- Mail organization. See also: AWS API Documentation
+/// Requests details of a specific Personal Access Token within the WorkMail organization. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsWorkmailGetPersonalAccessTokenMetadataOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Requests details of a specific Personal Access Token within the Work- Mail organization. See also: AWS API Documentation
+    /// Requests details of a specific Personal Access Token within the WorkMail organization. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The Organization ID. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
-    /// <param name="PersonalAccessTokenId">The Personal Access Token ID. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="OrganizationId">The Organization ID. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="PersonalAccessTokenId">The Personal Access Token ID. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsWorkmailGetPersonalAccessTokenMetadataOptions(
         string OrganizationId,
         string PersonalAccessTokenId
@@ -60,13 +62,13 @@ public record AwsWorkmailGetPersonalAccessTokenMetadataOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Organization ID. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The Organization ID. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The Personal Access Token ID. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// The Personal Access Token ID. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--personal-access-token-id")]
     public string? PersonalAccessTokenId { get; private init; }

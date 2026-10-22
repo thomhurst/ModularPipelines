@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets a single sign-on URL that can be used to connect to AWS Blu In- sights. See also: AWS API Documentation
+/// Gets a single sign-on URL that can be used to connect to AWS Blu Insights. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

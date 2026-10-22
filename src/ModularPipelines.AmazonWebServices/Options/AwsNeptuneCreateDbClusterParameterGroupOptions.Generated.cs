@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new DB cluster parameter group. Parameters in a DB cluster parameter group apply to all of the in- stances in a DB cluster. A DB cluster parameter group is initially created with the default pa- rameters for the database engine used by instances in the DB cluster. To provide custom values for any of the parameters, you must modify the group after creating it using ModifyDBClusterParameterGroup . Once you've created a DB cluster parameter group, you need to associate it with your DB clu...
+/// Creates a new DB cluster parameter group. Parameters in a DB cluster parameter group apply to all of the instances in a DB cluster. A DB cluster parameter group is initially created with the default parameters for the database engine used by instances in the DB cluster. To provide custom values for any of the parameters, you must modify the group after creating it using ModifyDBClusterParameterGroup . Once you've created a DB cluster parameter group, you need to associate it with your DB cluster...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsNeptuneCreateDbClusterParameterGroupOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new DB cluster parameter group. Parameters in a DB cluster parameter group apply to all of the in- stances in a DB cluster. A DB cluster parameter group is initially created with the default pa- rameters for the database engine used by instances in the DB cluster. To provide custom values for any of the parameters, you must modify the group after creating it using ModifyDBClusterParameterGroup . Once you've created a DB cluster parameter group, you need to associate it with your DB clu...
+    /// Creates a new DB cluster parameter group. Parameters in a DB cluster parameter group apply to all of the instances in a DB cluster. A DB cluster parameter group is initially created with the default parameters for the database engine used by instances in the DB cluster. To provide custom values for any of the parameters, you must modify the group after creating it using ModifyDBClusterParameterGroup . Once you've created a DB cluster parameter group, you need to associate it with your DB cluster...
     /// </summary>
-    /// <param name="DbClusterParameterGroupName">The name of the DB cluster parameter group. Constraints: o Must match the name of an existing DBClusterParameterGroup. NOTE: This value is stored as a lowercase string.</param>
+    /// <param name="DbClusterParameterGroupName">The name of the DB cluster parameter group. Constraints: • Must match the name of an existing DBClusterParameterGroup. NOTE: This value is stored as a lowercase string.</param>
     /// <param name="DbParameterGroupFamily">The DB cluster parameter group family name. A DB cluster parameter group can be associated with one and only one DB cluster parameter group family, and can be applied only to a DB cluster running a database engine and engine version compatible with that DB cluster parameter group family.</param>
     /// <param name="Description">The description for the DB cluster parameter group.</param>
     public AwsNeptuneCreateDbClusterParameterGroupOptions(
@@ -64,7 +66,7 @@ public record AwsNeptuneCreateDbClusterParameterGroupOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the DB cluster parameter group. Constraints: o Must match the name of an existing DBClusterParameterGroup. NOTE: This value is stored as a lowercase string.
+    /// The name of the DB cluster parameter group. Constraints: • Must match the name of an existing DBClusterParameterGroup. NOTE: This value is stored as a lowercase string.
     /// </summary>
     [CliOption("--db-cluster-parameter-group-name")]
     public string? DbClusterParameterGroupName { get; private init; }

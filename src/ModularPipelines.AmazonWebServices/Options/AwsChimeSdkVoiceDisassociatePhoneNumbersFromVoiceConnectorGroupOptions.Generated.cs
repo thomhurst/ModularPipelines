@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsChimeSdkVoiceDisassociatePhoneNumbersFromVoiceConnectorGroupOpt
     /// <summary>
     /// Disassociates the specified phone numbers from the specified Amazon Chime SDK Voice Connector group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VoiceConnectorGroupId">The Voice Connector group ID. Constraints: o pattern: .*\S.*</param>
-    /// <param name="E164PhoneNumbers">The list of phone numbers, in E.164 format. (string) Constraints: o pattern: ^\+?[1-9]\d{1,14}$ Syntax: "string" "string" ...</param>
+    /// <param name="VoiceConnectorGroupId">The Voice Connector group ID. Constraints: • pattern: .*\S.*</param>
+    /// <param name="E164PhoneNumbers">The list of phone numbers, in E.164 format. (string) Constraints: • pattern: ^\+?[1-9]\d{1,14}$ Syntax: "string" "string" ...</param>
     public AwsChimeSdkVoiceDisassociatePhoneNumbersFromVoiceConnectorGroupOptions(
         string VoiceConnectorGroupId,
         IEnumerable<string> E164PhoneNumbers
@@ -71,13 +73,13 @@ public record AwsChimeSdkVoiceDisassociatePhoneNumbersFromVoiceConnectorGroupOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Voice Connector group ID. Constraints: o pattern: .*\S.*
+    /// The Voice Connector group ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--voice-connector-group-id")]
     public string? VoiceConnectorGroupId { get; private init; }
 
     /// <summary>
-    /// The list of phone numbers, in E.164 format. (string) Constraints: o pattern: ^\+?[1-9]\d{1,14}$ Syntax: "string" "string" ...
+    /// The list of phone numbers, in E.164 format. (string) Constraints: • pattern: ^\+?[1-9]\d{1,14}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--e164-phone-numbers", GroupValues = true)]
     public IEnumerable<string>? E164PhoneNumbers { get; private init; }

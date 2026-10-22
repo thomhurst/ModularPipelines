@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides Amazon EMR release label details, such as the releases avail- able the Region where the API request is run, and the available appli- cations for a specific Amazon EMR release label. Can also list Amazon EMR releases that support a specified version of Spark. See also: AWS API Documentation
+/// Provides Amazon EMR release label details, such as the releases available the Region where the API request is run, and the available applications for a specific Amazon EMR release label. Can also list Amazon EMR releases that support a specified version of Spark. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -36,7 +36,7 @@ public record AwsEmrDescribeReleaseLabelOptions : AwsOptions
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Reserved for future use. Currently set to null. Constraints: o min: 1 o max: 100
+    /// Reserved for future use. Currently set to null. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

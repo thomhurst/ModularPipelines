@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMigrationhubstrategyStopAssessmentOptions : AwsOptions, IValida
     /// <summary>
     /// Stops the assessment of an on-premises environment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssessmentId">The assessmentId returned by StartAssessment . Constraints: o min: 0 o max: 52 o pattern: [0-9a-z-:]+</param>
+    /// <param name="AssessmentId">The assessmentId returned by StartAssessment . Constraints: • min: 0 • max: 52 • pattern: [0-9a-z-:]+</param>
     public AwsMigrationhubstrategyStopAssessmentOptions(
         string AssessmentId
     )
@@ -56,7 +58,7 @@ public record AwsMigrationhubstrategyStopAssessmentOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The assessmentId returned by StartAssessment . Constraints: o min: 0 o max: 52 o pattern: [0-9a-z-:]+
+    /// The assessmentId returned by StartAssessment . Constraints: • min: 0 • max: 52 • pattern: [0-9a-z-:]+
     /// </summary>
     [CliOption("--assessment-id")]
     public string? AssessmentId { get; private init; }

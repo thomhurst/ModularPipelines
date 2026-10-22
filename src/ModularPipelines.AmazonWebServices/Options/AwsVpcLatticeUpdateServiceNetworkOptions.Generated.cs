@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsVpcLatticeUpdateServiceNetworkOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Updates the specified service network. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceNetworkIdentifier">The ID or ARN of the service network. Constraints: o min: 3 o max: 2048 o pattern: ((sn-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:servicenetwork/sn-[0-9a-z]{17}))</param>
-    /// <param name="AuthType">The type of IAM policy. o NONE : The resource does not use an IAM policy. This is the de- fault. o AWS_IAM : The resource uses an IAM policy. When this type is used, auth is enabled and an auth policy is required. Possible values: o NONE o AWS_IAM</param>
+    /// <param name="ServiceNetworkIdentifier">The ID or ARN of the service network. Constraints: • min: 3 • max: 2048 • pattern: ((sn-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:servicenetwork/sn-[0-9a-z]{17}))</param>
+    /// <param name="AuthType">The type of IAM policy. • NONE : The resource does not use an IAM policy. This is the default. • AWS_IAM : The resource uses an IAM policy. When this type is used, auth is enabled and an auth policy is required. Possible values: • NONE • AWS_IAM</param>
     public AwsVpcLatticeUpdateServiceNetworkOptions(
         string ServiceNetworkIdentifier,
         AwsVpcLatticeUpdateServiceNetworkAuthType AuthType
@@ -60,13 +62,13 @@ public record AwsVpcLatticeUpdateServiceNetworkOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or ARN of the service network. Constraints: o min: 3 o max: 2048 o pattern: ((sn-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:servicenetwork/sn-[0-9a-z]{17}))
+    /// The ID or ARN of the service network. Constraints: • min: 3 • max: 2048 • pattern: ((sn-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:servicenetwork/sn-[0-9a-z]{17}))
     /// </summary>
     [CliOption("--service-network-identifier")]
     public string? ServiceNetworkIdentifier { get; private init; }
 
     /// <summary>
-    /// The type of IAM policy. o NONE : The resource does not use an IAM policy. This is the de- fault. o AWS_IAM : The resource uses an IAM policy. When this type is used, auth is enabled and an auth policy is required. Possible values: o NONE o AWS_IAM
+    /// The type of IAM policy. • NONE : The resource does not use an IAM policy. This is the default. • AWS_IAM : The resource uses an IAM policy. When this type is used, auth is enabled and an auth policy is required. Possible values: • NONE • AWS_IAM
     /// </summary>
     [CliOption("--auth-type")]
     public AwsVpcLatticeUpdateServiceNetworkAuthType? AuthType { get; private init; }

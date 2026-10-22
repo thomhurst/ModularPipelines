@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCodecommitUpdateRepositoryNameOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Renames a repository. The repository name must be unique across the calling Amazon Web Services account. Repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. The suffix .git is prohibited. For more information about the limits on repository names, see Quotas in the CodeCommit User Guide. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OldName">The current name of the repository. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
-    /// <param name="NewName">The new name for the repository. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
+    /// <param name="OldName">The current name of the repository. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+</param>
+    /// <param name="NewName">The new name for the repository. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+</param>
     public AwsCodecommitUpdateRepositoryNameOptions(
         string OldName,
         string NewName
@@ -60,13 +62,13 @@ public record AwsCodecommitUpdateRepositoryNameOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The current name of the repository. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// The current name of the repository. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+
     /// </summary>
     [CliOption("--old-name")]
     public string? OldName { get; private init; }
 
     /// <summary>
-    /// The new name for the repository. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// The new name for the repository. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+
     /// </summary>
     [CliOption("--new-name")]
     public string? NewName { get; private init; }

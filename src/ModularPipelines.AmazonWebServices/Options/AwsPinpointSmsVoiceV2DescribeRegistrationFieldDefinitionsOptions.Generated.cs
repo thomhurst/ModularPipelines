@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the specified registration type field definitions. You can use DescribeRegistrationFieldDefinitions to view the requirements for creating, filling out, and submitting each registration type. See also: AWS API Documentation describe-registration-field-definitions is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu...
+/// Retrieves the specified registration type field definitions. You can use DescribeRegistrationFieldDefinitions to view the requirements for creating, filling out, and submitting each registration type. See also: AWS API Documentation describe-registration-field-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argume...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsPinpointSmsVoiceV2DescribeRegistrationFieldDefinitionsOptions :
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the specified registration type field definitions. You can use DescribeRegistrationFieldDefinitions to view the requirements for creating, filling out, and submitting each registration type. See also: AWS API Documentation describe-registration-field-definitions is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu...
+    /// Retrieves the specified registration type field definitions. You can use DescribeRegistrationFieldDefinitions to view the requirements for creating, filling out, and submitting each registration type. See also: AWS API Documentation describe-registration-field-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argume...
     /// </summary>
-    /// <param name="RegistrationType">The type of registration form. The list of RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_]+</param>
+    /// <param name="RegistrationType">The type of registration form. The list of RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_]+</param>
     public AwsPinpointSmsVoiceV2DescribeRegistrationFieldDefinitionsOptions(
         string RegistrationType
     )
@@ -57,28 +59,25 @@ public record AwsPinpointSmsVoiceV2DescribeRegistrationFieldDefinitionsOptions :
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of registration form. The list of RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_]+
+    /// The type of registration form. The list of RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_]+
     /// </summary>
     [CliOption("--registration-type")]
     public string? RegistrationType { get; private init; }
 
     /// <summary>
-    /// The path to the section of the registration. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9_]+
+    /// The path to the section of the registration. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9_]+
     /// </summary>
     [CliOption("--section-path")]
     public string? SectionPath { get; set; }
 
     /// <summary>
-    /// An array of paths to the registration form field. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9_\.]+ Syntax: "string" "string" ...
+    /// An array of paths to the registration form field. Constraints: • min: 0 • max: 5 (string) Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9_\.]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--field-paths", GroupValues = true)]
     public IEnumerable<string>? FieldPaths { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -88,16 +87,19 @@ public record AwsPinpointSmsVoiceV2DescribeRegistrationFieldDefinitionsOptions :
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

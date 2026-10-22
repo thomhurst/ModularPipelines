@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsSagemakerStartPipelineExecutionOptions : AwsOptions, IValidatab
     /// <summary>
     /// Starts a pipeline execution. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PipelineName">The name or Amazon Resource Name (ARN) of the pipeline. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:([0-9]{12}|aws):pipeline/.*)?([a-zA-Z0-9](-*[a-zA-Z0-9]){0,255})</param>
+    /// <param name="PipelineName">The name or Amazon Resource Name (ARN) of the pipeline. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:([0-9]{12}|aws):pipeline/.*)?([a-zA-Z0-9](-*[a-zA-Z0-9]){0,255})</param>
     public AwsSagemakerStartPipelineExecutionOptions(
         string PipelineName
     )
@@ -57,56 +59,56 @@ public record AwsSagemakerStartPipelineExecutionOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of the pipeline. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:([0-9]{12}|aws):pipeline/.*)?([a-zA-Z0-9](-*[a-zA-Z0-9]){0,255})
+    /// The name or Amazon Resource Name (ARN) of the pipeline. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:([0-9]{12}|aws):pipeline/.*)?([a-zA-Z0-9](-*[a-zA-Z0-9]){0,255})
     /// </summary>
     [CliOption("--pipeline-name")]
     public string? PipelineName { get; private init; }
 
     /// <summary>
-    /// The display name of the pipeline execution. Constraints: o min: 1 o max: 82 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,81}
+    /// The display name of the pipeline execution. Constraints: • min: 1 • max: 82 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,81}
     /// </summary>
     [CliOption("--pipeline-execution-display-name")]
     public string? PipelineExecutionDisplayName { get; set; }
 
     /// <summary>
-    /// Contains a list of pipeline parameters. This list can be empty. Constraints: o min: 0 o max: 200 (structure) Assigns a value to a named Pipeline parameter. Name -&gt; (string) [required] The name of the parameter to assign a value to. This parame- ter name must match a named parameter in the pipeline defini- tion. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9\-_]* Value -&gt; (string) [required] The literal value for the parameter. Constraints: o min: 0 o max: 1024 Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
+    /// Contains a list of pipeline parameters. This list can be empty. Constraints: • min: 0 • max: 200 (structure) Assigns a value to a named Pipeline parameter. Name -&gt; (string) [required] The name of the parameter to assign a value to. This parameter name must match a named parameter in the pipeline definition. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9\-_]* Value -&gt; (string) [required] The literal value for the parameter. Constraints: • min: 0 • max: 1024 Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--pipeline-parameters", GroupValues = true)]
     public IEnumerable<string>? PipelineParameters { get; set; }
 
     /// <summary>
-    /// The description of the pipeline execution. Constraints: o min: 0 o max: 3072 o pattern: .*
+    /// The description of the pipeline execution. Constraints: • min: 0 • max: 3072 • pattern: .*
     /// </summary>
     [CliOption("--pipeline-execution-description")]
     public string? PipelineExecutionDescription { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than once. Constraints: o min: 32 o max: 128
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than once. Constraints: • min: 32 • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// This configuration, if specified, overrides the parallelism configu- ration of the parent pipeline for this specific run. MaxParallelExecutionSteps -&gt; (integer) [required] The max number of steps that can be executed in parallel. Constraints: o min: 1 Shorthand Syntax: MaxParallelExecutionSteps=integer JSON Syntax: { "MaxParallelExecutionSteps": integer }
+    /// This configuration, if specified, overrides the parallelism configuration of the parent pipeline for this specific run. MaxParallelExecutionSteps -&gt; (integer) [required] The max number of steps that can be executed in parallel. Constraints: • min: 1 Shorthand Syntax: MaxParallelExecutionSteps=integer JSON Syntax: { "MaxParallelExecutionSteps": integer }
     /// </summary>
     [CliOption("--parallelism-configuration")]
     public string? ParallelismConfiguration { get; set; }
 
     /// <summary>
-    /// The selective execution configuration applied to the pipeline run. SourcePipelineExecutionArn -&gt; (string) The ARN from a reference execution of the current pipeline. Used to copy input collaterals needed for the selected steps to run. The execution status of the pipeline can be either Failed or Success . This field is required if the steps you specify for Selected- Steps depend on output collaterals from any non-specified pipeline steps. For more information, see Selective Execution for Pipeline Steps . Constraints: o min: 0 o max: 2048 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:pipeline\/.*\/execution\/.* SelectedSteps -&gt; (list) [required] A list of pipeline steps to run. All step(s) in all path(s) be- tween two selected steps should be included. Constraints: o min: 1 o max: 50 (structure) A step selected to run in selective execution mode. StepName -&gt; (string) [required] The name of the pipeline step. Constraints: o min: 0 o max: 256 Shorthand Syntax: SourcePipelineExecutionArn=string,SelectedSteps=[{StepName=string},{StepName=string}] JSON Syntax: { "SourcePipelineExecutionArn": "string", "SelectedSteps": [ { "StepName": "string" } ... ] }
+    /// The selective execution configuration applied to the pipeline run. SourcePipelineExecutionArn -&gt; (string) The ARN from a reference execution of the current pipeline. Used to copy input collaterals needed for the selected steps to run. The execution status of the pipeline can be either Failed or Success . This field is required if the steps you specify for SelectedSteps depend on output collaterals from any non-specified pipeline steps. For more information, see Selective Execution for Pipeline Steps . Constraints: • min: 0 • max: 2048 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:pipeline\/.*\/execution\/.* SelectedSteps -&gt; (list) [required] A list of pipeline steps to run. All step(s) in all path(s) between two selected steps should be included. Constraints: • min: 1 • max: 50 (structure) A step selected to run in selective execution mode. StepName -&gt; (string) [required] The name of the pipeline step. Constraints: • min: 0 • max: 256 Shorthand Syntax: SourcePipelineExecutionArn=string,SelectedSteps=[{StepName=string},{StepName=string}] JSON Syntax: { "SourcePipelineExecutionArn": "string", "SelectedSteps": [ { "StepName": "string" } ... ] }
     /// </summary>
     [CliOption("--selective-execution-config")]
     public string? SelectiveExecutionConfig { get; set; }
 
     /// <summary>
-    /// The ID of the pipeline version to start execution from. Constraints: o min: 1
+    /// The ID of the pipeline version to start execution from. Constraints: • min: 1
     /// </summary>
     [CliOption("--pipeline-version-id")]
-    public int? PipelineVersionId { get; set; }
+    public long? PipelineVersionId { get; set; }
 
     /// <summary>
-    /// The MLflow experiment name of the pipeline execution. Constraints: o min: 1 o max: 256 o pattern: .*
+    /// The MLflow experiment name of the pipeline execution. Constraints: • min: 1 • max: 256 • pattern: .*
     /// </summary>
     [CliOption("--mlflow-experiment-name")]
     public string? MlflowExperimentName { get; set; }

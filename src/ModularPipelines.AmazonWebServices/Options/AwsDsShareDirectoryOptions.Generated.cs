@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Shares a specified directory (DirectoryId ) in your Amazon Web Services account (directory owner) with another Amazon Web Services account (di- rectory consumer). With this operation you can use your directory from any Amazon Web Services account and from any Amazon VPC within an Ama- zon Web Services Region. When you share your Managed Microsoft AD directory, Directory Service creates a shared directory in the directory consumer account. This shared directory contains the metadata to provide ac...
+/// Shares a specified directory (DirectoryId ) in your Amazon Web Services account (directory owner) with another Amazon Web Services account (directory consumer). With this operation you can use your directory from any Amazon Web Services account and from any Amazon VPC within an Amazon Web Services Region. When you share your Managed Microsoft AD directory, Directory Service creates a shared directory in the directory consumer account. This shared directory contains the metadata to provide access...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsDsShareDirectoryOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Shares a specified directory (DirectoryId ) in your Amazon Web Services account (directory owner) with another Amazon Web Services account (di- rectory consumer). With this operation you can use your directory from any Amazon Web Services account and from any Amazon VPC within an Ama- zon Web Services Region. When you share your Managed Microsoft AD directory, Directory Service creates a shared directory in the directory consumer account. This shared directory contains the metadata to provide ac...
+    /// Shares a specified directory (DirectoryId ) in your Amazon Web Services account (directory owner) with another Amazon Web Services account (directory consumer). With this operation you can use your directory from any Amazon Web Services account and from any Amazon VPC within an Amazon Web Services Region. When you share your Managed Microsoft AD directory, Directory Service creates a shared directory in the directory consumer account. This shared directory contains the metadata to provide access...
     /// </summary>
-    /// <param name="DirectoryId">Identifier of the Managed Microsoft AD directory that you want to share with other Amazon Web Services accounts. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
-    /// <param name="ShareTarget">Identifier for the directory consumer account with whom the direc- tory is to be shared. Id -&gt; (string) [required] Identifier of the directory consumer account. Constraints: o min: 1 o max: 64 Type -&gt; (string) [required] Type of identifier to be used in the Id field. Possible values: o ACCOUNT Shorthand Syntax: Id=string,Type=string JSON Syntax: { "Id": "string", "Type": "ACCOUNT" }</param>
-    /// <param name="ShareMethod">The method used when sharing a directory to determine whether the directory should be shared within your Amazon Web Services organiza- tion (ORGANIZATIONS ) or with any Amazon Web Services account by sending a directory sharing request (HANDSHAKE ). Possible values: o ORGANIZATIONS o HANDSHAKE</param>
+    /// <param name="DirectoryId">Identifier of the Managed Microsoft AD directory that you want to share with other Amazon Web Services accounts. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="ShareTarget">Identifier for the directory consumer account with whom the directory is to be shared. Id -&gt; (string) [required] Identifier of the directory consumer account. Constraints: • min: 1 • max: 64 Type -&gt; (string) [required] Type of identifier to be used in the Id field. Possible values: • ACCOUNT Shorthand Syntax: Id=string,Type=string JSON Syntax: { "Id": "string", "Type": "ACCOUNT" }</param>
+    /// <param name="ShareMethod">The method used when sharing a directory to determine whether the directory should be shared within your Amazon Web Services organization (ORGANIZATIONS ) or with any Amazon Web Services account by sending a directory sharing request (HANDSHAKE ). Possible values: • ORGANIZATIONS • HANDSHAKE</param>
     public AwsDsShareDirectoryOptions(
         string DirectoryId,
         string ShareTarget,
@@ -64,25 +66,25 @@ public record AwsDsShareDirectoryOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifier of the Managed Microsoft AD directory that you want to share with other Amazon Web Services accounts. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// Identifier of the Managed Microsoft AD directory that you want to share with other Amazon Web Services accounts. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// Identifier for the directory consumer account with whom the direc- tory is to be shared. Id -&gt; (string) [required] Identifier of the directory consumer account. Constraints: o min: 1 o max: 64 Type -&gt; (string) [required] Type of identifier to be used in the Id field. Possible values: o ACCOUNT Shorthand Syntax: Id=string,Type=string JSON Syntax: { "Id": "string", "Type": "ACCOUNT" }
+    /// Identifier for the directory consumer account with whom the directory is to be shared. Id -&gt; (string) [required] Identifier of the directory consumer account. Constraints: • min: 1 • max: 64 Type -&gt; (string) [required] Type of identifier to be used in the Id field. Possible values: • ACCOUNT Shorthand Syntax: Id=string,Type=string JSON Syntax: { "Id": "string", "Type": "ACCOUNT" }
     /// </summary>
     [CliOption("--share-target")]
     public string? ShareTarget { get; private init; }
 
     /// <summary>
-    /// The method used when sharing a directory to determine whether the directory should be shared within your Amazon Web Services organiza- tion (ORGANIZATIONS ) or with any Amazon Web Services account by sending a directory sharing request (HANDSHAKE ). Possible values: o ORGANIZATIONS o HANDSHAKE
+    /// The method used when sharing a directory to determine whether the directory should be shared within your Amazon Web Services organization (ORGANIZATIONS ) or with any Amazon Web Services account by sending a directory sharing request (HANDSHAKE ). Possible values: • ORGANIZATIONS • HANDSHAKE
     /// </summary>
     [CliOption("--share-method")]
     public AwsDsShareDirectoryShareMethod? ShareMethod { get; private init; }
 
     /// <summary>
-    /// A directory share request that is sent by the directory owner to the directory consumer. The request includes a typed message to help the directory consumer administrator determine whether to approve or re- ject the share invitation. Constraints: o max: 1024
+    /// A directory share request that is sent by the directory owner to the directory consumer. The request includes a typed message to help the directory consumer administrator determine whether to approve or reject the share invitation. Constraints: • max: 1024
     /// </summary>
     [CliOption("--share-notes")]
     public string? ShareNotes { get; set; }

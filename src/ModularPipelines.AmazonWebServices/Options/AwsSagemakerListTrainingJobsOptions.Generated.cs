@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists training jobs. NOTE: When StatusEquals and MaxResults are set at the same time, the MaxResults number of training jobs are first retrieved ignoring the StatusEquals parameter and then they are filtered by the StatusE- quals parameter, which is returned as a response. For example, if ListTrainingJobs is invoked with the following para- meters: { ... MaxResults: 100, StatusEquals: InProgress ... } First, 100 trainings jobs with any status, including those other than InProgress , are selected...
+/// Lists training jobs. NOTE: When StatusEquals and MaxResults are set at the same time, the MaxResults number of training jobs are first retrieved ignoring the StatusEquals parameter and then they are filtered by the StatusEquals parameter, which is returned as a response. For example, if ListTrainingJobs is invoked with the following parameters: { ... MaxResults: 100, StatusEquals: InProgress ... } First, 100 trainings jobs with any status, including those other than InProgress , are selected (so...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -30,64 +30,61 @@ public record AwsSagemakerListTrainingJobsOptions : AwsOptions
     public string? CreationTimeAfter { get; set; }
 
     /// <summary>
-    /// A filter that returns only training jobs created before the speci- fied time (timestamp).
+    /// A filter that returns only training jobs created before the specified time (timestamp).
     /// </summary>
     [CliOption("--creation-time-before")]
     public string? CreationTimeBefore { get; set; }
 
     /// <summary>
-    /// A filter that returns only training jobs modified after the speci- fied time (timestamp).
+    /// A filter that returns only training jobs modified after the specified time (timestamp).
     /// </summary>
     [CliOption("--last-modified-time-after")]
     public string? LastModifiedTimeAfter { get; set; }
 
     /// <summary>
-    /// A filter that returns only training jobs modified before the speci- fied time (timestamp).
+    /// A filter that returns only training jobs modified before the specified time (timestamp).
     /// </summary>
     [CliOption("--last-modified-time-before")]
     public string? LastModifiedTimeBefore { get; set; }
 
     /// <summary>
-    /// A string in the training job name. This filter returns only training jobs whose name contains the specified string. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9\-]+
+    /// A string in the training job name. This filter returns only training jobs whose name contains the specified string. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9\-]+
     /// </summary>
     [CliOption("--name-contains")]
     public string? NameContains { get; set; }
 
     /// <summary>
-    /// A filter that retrieves only training jobs with a specific status. Possible values: o InProgress o Completed o Failed o Stopping o Stopped o Deleting
+    /// A filter that retrieves only training jobs with a specific status. Possible values: • InProgress • Completed • Failed • Stopping • Stopped • Deleting
     /// </summary>
     [CliOption("--status-equals")]
     public AwsSagemakerListTrainingJobsStatusEquals? StatusEquals { get; set; }
 
     /// <summary>
-    /// The field to sort results by. The default is CreationTime . Possible values: o Name o CreationTime o Status
+    /// The field to sort results by. The default is CreationTime . Possible values: • Name • CreationTime • Status
     /// </summary>
     [CliOption("--sort-by")]
     public AwsSagemakerListTrainingJobsSortBy? SortBy { get; set; }
 
     /// <summary>
-    /// The sort order for results. The default is Ascending . Possible values: o Ascending o Descending
+    /// The sort order for results. The default is Ascending . Possible values: • Ascending • Descending
     /// </summary>
     [CliOption("--sort-order")]
     public AwsSagemakerListTrainingJobsSortOrder? SortOrder { get; set; }
 
     /// <summary>
-    /// A filter that retrieves only training jobs with a specific warm pool status. Possible values: o Available o Terminated o Reused o InUse
+    /// A filter that retrieves only training jobs with a specific warm pool status. Possible values: • Available • Terminated • Reused • InUse
     /// </summary>
     [CliOption("--warm-pool-status-equals")]
     public AwsSagemakerListTrainingJobsWarmPoolStatusEquals? WarmPoolStatusEquals { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN); of the training plan to filter training jobs by. For more information about reserving GPU capacity for your SageMaker training jobs using Amazon SageMaker Training Plan, see `` CreateTrainingPlan `` . Constraints: o min: 50 o max: 2048 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:train- ing-plan/.*
+    /// The Amazon Resource Name (ARN); of the training plan to filter training jobs by. For more information about reserving GPU capacity for your SageMaker training jobs using Amazon SageMaker Training Plan, see `` CreateTrainingPlan `` . Constraints: • min: 50 • max: 2048 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:training-plan/.*
     /// </summary>
     [CliOption("--training-plan-arn-equals")]
     public string? TrainingPlanArnEquals { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -97,15 +94,18 @@ public record AwsSagemakerListTrainingJobsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

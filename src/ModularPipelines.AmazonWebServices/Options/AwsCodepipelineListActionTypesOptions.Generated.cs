@@ -24,22 +24,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCodepipelineListActionTypesOptions : AwsOptions
 {
     /// <summary>
-    /// Filters the list of action types to those created by a specified en- tity. Possible values: o AWS o ThirdParty o Custom
+    /// Filters the list of action types to those created by a specified entity. Possible values: • AWS • ThirdParty • Custom
     /// </summary>
     [CliOption("--action-owner-filter")]
     public AwsCodepipelineListActionTypesActionOwnerFilter? ActionOwnerFilter { get; set; }
 
     /// <summary>
-    /// The Region to filter on for the list of action types. Constraints: o min: 4 o max: 30
+    /// The Region to filter on for the list of action types. Constraints: • min: 4 • max: 30
     /// </summary>
     [CliOption("--region-filter")]
     public string? RegionFilter { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -49,9 +46,12 @@ public record AwsCodepipelineListActionTypesOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBedrockAgentcoreControlGetBrowserOptions : AwsOptions, IValidat
     /// <summary>
     /// Gets information about a custom browser. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BrowserId">The unique identifier of the browser to retrieve. Constraints: o pattern: (aws\.browser\.v1|[a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10})</param>
+    /// <param name="BrowserId">The unique identifier of the browser to retrieve. Constraints: • pattern: (aws\.browser\.v1|[a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10})</param>
     public AwsBedrockAgentcoreControlGetBrowserOptions(
         string BrowserId
     )
@@ -56,7 +58,7 @@ public record AwsBedrockAgentcoreControlGetBrowserOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the browser to retrieve. Constraints: o pattern: (aws\.browser\.v1|[a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10})
+    /// The unique identifier of the browser to retrieve. Constraints: • pattern: (aws\.browser\.v1|[a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10})
     /// </summary>
     [CliOption("--browser-id")]
     public string? BrowserId { get; private init; }

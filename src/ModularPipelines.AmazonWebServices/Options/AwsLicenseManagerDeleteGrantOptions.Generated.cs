@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsLicenseManagerDeleteGrantOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Deletes the specified grant. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GrantArn">Amazon Resource Name (ARN) of the grant. Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$</param>
+    /// <param name="GrantArn">Amazon Resource Name (ARN) of the grant. Constraints: • max: 2048 • pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$</param>
     /// <param name="GrantVersion">Current version of the grant.</param>
     public AwsLicenseManagerDeleteGrantOptions(
         string GrantArn,
@@ -60,7 +62,7 @@ public record AwsLicenseManagerDeleteGrantOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Resource Name (ARN) of the grant. Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$
+    /// Amazon Resource Name (ARN) of the grant. Constraints: • max: 2048 • pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$
     /// </summary>
     [CliOption("--grant-arn")]
     public string? GrantArn { get; private init; }
@@ -72,7 +74,7 @@ public record AwsLicenseManagerDeleteGrantOptions : AwsOptions, IValidatableObje
     public string? GrantVersion { get; private init; }
 
     /// <summary>
-    /// The Status reason for the delete request. Constraints: o max: 400 o pattern: [\s\S]+
+    /// The Status reason for the delete request. Constraints: • max: 400 • pattern: [\s\S]+
     /// </summary>
     [CliOption("--status-reason")]
     public string? StatusReason { get; set; }

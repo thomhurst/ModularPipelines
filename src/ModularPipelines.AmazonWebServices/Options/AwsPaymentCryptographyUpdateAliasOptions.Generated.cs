@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates an existing Amazon Web Services Payment Cryptography alias with a different key. Each alias is associated with only one Amazon Web Services Payment Cryptography key at a time, although a key can have multiple aliases. The alias and the Amazon Web Services Payment Cryp- tography key must be in the same Amazon Web Services account and Amazon Web Services Region Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o CreateAlia...
+/// Associates an existing Amazon Web Services Payment Cryptography alias with a different key. Each alias is associated with only one Amazon Web Services Payment Cryptography key at a time, although a key can have multiple aliases. The alias and the Amazon Web Services Payment Cryptography key must be in the same Amazon Web Services account and Amazon Web Services Region Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: • CreateAlias ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsPaymentCryptographyUpdateAliasOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates an existing Amazon Web Services Payment Cryptography alias with a different key. Each alias is associated with only one Amazon Web Services Payment Cryptography key at a time, although a key can have multiple aliases. The alias and the Amazon Web Services Payment Cryp- tography key must be in the same Amazon Web Services account and Amazon Web Services Region Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o CreateAlia...
+    /// Associates an existing Amazon Web Services Payment Cryptography alias with a different key. Each alias is associated with only one Amazon Web Services Payment Cryptography key at a time, although a key can have multiple aliases. The alias and the Amazon Web Services Payment Cryptography key must be in the same Amazon Web Services account and Amazon Web Services Region Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: • CreateAlias ...
     /// </summary>
-    /// <param name="AliasName">The alias whose associated key is changing. Constraints: o min: 7 o max: 256 o pattern: alias/[a-zA-Z0-9/_-]+</param>
+    /// <param name="AliasName">The alias whose associated key is changing. Constraints: • min: 7 • max: 256 • pattern: alias/[a-zA-Z0-9/_-]+</param>
     public AwsPaymentCryptographyUpdateAliasOptions(
         string AliasName
     )
@@ -56,13 +58,13 @@ public record AwsPaymentCryptographyUpdateAliasOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The alias whose associated key is changing. Constraints: o min: 7 o max: 256 o pattern: alias/[a-zA-Z0-9/_-]+
+    /// The alias whose associated key is changing. Constraints: • min: 7 • max: 256 • pattern: alias/[a-zA-Z0-9/_-]+
     /// </summary>
     [CliOption("--alias-name")]
     public string? AliasName { get; private init; }
 
     /// <summary>
-    /// The KeyARN for the key that you are updating or removing from the alias. Constraints: o min: 70 o max: 150 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:key/[0-9a-zA-Z]{16,64}
+    /// The KeyARN for the key that you are updating or removing from the alias. Constraints: • min: 70 • max: 150 • pattern: arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:key/[0-9a-zA-Z]{16,64}
     /// </summary>
     [CliOption("--key-arn")]
     public string? KeyArn { get; set; }

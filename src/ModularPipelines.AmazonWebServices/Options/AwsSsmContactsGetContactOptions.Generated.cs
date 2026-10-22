@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSsmContactsGetContactOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves information about the specified contact or escalation plan. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ContactId">The Amazon Resource Name (ARN) of the contact or escalation plan. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*</param>
+    /// <param name="ContactId">The Amazon Resource Name (ARN) of the contact or escalation plan. Constraints: • min: 1 • max: 2048 • pattern: arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*</param>
     public AwsSsmContactsGetContactOptions(
         string ContactId
     )
@@ -56,7 +58,7 @@ public record AwsSsmContactsGetContactOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the contact or escalation plan. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*
+    /// The Amazon Resource Name (ARN) of the contact or escalation plan. Constraints: • min: 1 • max: 2048 • pattern: arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*
     /// </summary>
     [CliOption("--contact-id")]
     public string? ContactId { get; private init; }

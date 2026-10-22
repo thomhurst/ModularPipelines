@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSesv2DeleteEmailIdentityOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Deletes an email identity. An identity can be either an email address or a domain name. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EmailIdentity">The identity (that is, the email address or domain) to delete. Constraints: o min: 1</param>
+    /// <param name="EmailIdentity">The identity (that is, the email address or domain) to delete. Constraints: • min: 1</param>
     public AwsSesv2DeleteEmailIdentityOptions(
         string EmailIdentity
     )
@@ -56,7 +58,7 @@ public record AwsSesv2DeleteEmailIdentityOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identity (that is, the email address or domain) to delete. Constraints: o min: 1
+    /// The identity (that is, the email address or domain) to delete. Constraints: • min: 1
     /// </summary>
     [CliOption("--email-identity")]
     public string? EmailIdentity { get; private init; }

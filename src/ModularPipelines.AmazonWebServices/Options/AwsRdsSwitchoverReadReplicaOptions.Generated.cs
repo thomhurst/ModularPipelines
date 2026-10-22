@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Switches over an Oracle standby database in an Oracle Data Guard envi- ronment, making it the new primary database. Issue this command in the Region that hosts the current standby database. See also: AWS API Documentation
+/// Switches over an Oracle standby database in an Oracle Data Guard environment, making it the new primary database. Issue this command in the Region that hosts the current standby database. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRdsSwitchoverReadReplicaOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Switches over an Oracle standby database in an Oracle Data Guard envi- ronment, making it the new primary database. Issue this command in the Region that hosts the current standby database. See also: AWS API Documentation
+    /// Switches over an Oracle standby database in an Oracle Data Guard environment, making it the new primary database. Issue this command in the Region that hosts the current standby database. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbInstanceIdentifier">The DB instance identifier of the current standby database. This value is stored as a lowercase string. Constraints: o Must match the identier of an existing Oracle read replica DB in- stance.</param>
+    /// <param name="DbInstanceIdentifier">The DB instance identifier of the current standby database. This value is stored as a lowercase string. Constraints: • Must match the identier of an existing Oracle read replica DB instance.</param>
     public AwsRdsSwitchoverReadReplicaOptions(
         string DbInstanceIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsRdsSwitchoverReadReplicaOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The DB instance identifier of the current standby database. This value is stored as a lowercase string. Constraints: o Must match the identier of an existing Oracle read replica DB in- stance.
+    /// The DB instance identifier of the current standby database. This value is stored as a lowercase string. Constraints: • Must match the identier of an existing Oracle read replica DB instance.
     /// </summary>
     [CliOption("--db-instance-identifier")]
     public string? DbInstanceIdentifier { get; private init; }

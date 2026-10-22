@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds an attribute to an existing data table. Creating a new primary at- tribute uses the empty value for the specified value type for all ex- isting records. This should not affect uniqueness of published data ta- bles since the existing primary values will already be unique. Creating attributes does not create any values. System managed tables may not allow customers to create new attributes. See also: AWS API Documentation
+/// Adds an attribute to an existing data table. Creating a new primary attribute uses the empty value for the specified value type for all existing records. This should not affect uniqueness of published data tables since the existing primary values will already be unique. Creating attributes does not create any values. System managed tables may not allow customers to create new attributes. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +28,12 @@ public record AwsConnectCreateDataTableAttributeOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds an attribute to an existing data table. Creating a new primary at- tribute uses the empty value for the specified value type for all ex- isting records. This should not affect uniqueness of published data ta- bles since the existing primary values will already be unique. Creating attributes does not create any values. System managed tables may not allow customers to create new attributes. See also: AWS API Documentation
+    /// Adds an attribute to an existing data table. Creating a new primary attribute uses the empty value for the specified value type for all existing records. This should not affect uniqueness of published data tables since the existing primary values will already be unique. Creating attributes does not create any values. System managed tables may not allow customers to create new attributes. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The unique identifier for the Amazon Connect instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="DataTableId">The unique identifier for the data table. Must also accept the table ARN with or without a version alias. If the version is provided as part of the identifier or ARN, the version must be one of the two available system managed aliases, $SAVED or $LATEST. Constraints: o min: 1 o max: 256</param>
-    /// <param name="Name">The name for the attribute. Must conform to Connect human readable string specification and have 1-127 characters. Must not start with the reserved case insensitive values 'connect:' and 'aws:'. White- space trimmed before persisting. Must be unique for the data table using case-insensitive comparison. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$</param>
-    /// <param name="ValueType">The type of value allowed or the resultant type after the value's expression is evaluated. Must be one of TEXT, TEXT_LIST, NUMBER, NUMBER_LIST, and BOOLEAN. Possible values: o TEXT o NUMBER o BOOLEAN o TEXT_LIST o NUMBER_LIST</param>
+    /// <param name="InstanceId">The unique identifier for the Amazon Connect instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="DataTableId">The unique identifier for the data table. Must also accept the table ARN with or without a version alias. If the version is provided as part of the identifier or ARN, the version must be one of the two available system managed aliases, $SAVED or $LATEST. Constraints: • min: 1 • max: 256</param>
+    /// <param name="Name">The name for the attribute. Must conform to Connect human readable string specification and have 1-127 characters. Must not start with the reserved case insensitive values 'connect:' and 'aws:'. Whitespace trimmed before persisting. Must be unique for the data table using case-insensitive comparison. Constraints: • min: 1 • max: 127 • pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$</param>
+    /// <param name="ValueType">The type of value allowed or the resultant type after the value's expression is evaluated. Must be one of TEXT, TEXT_LIST, NUMBER, NUMBER_LIST, and BOOLEAN. Possible values: • TEXT • NUMBER • BOOLEAN • TEXT_LIST • NUMBER_LIST</param>
     public AwsConnectCreateDataTableAttributeOptions(
         string InstanceId,
         string DataTableId,
@@ -68,43 +70,43 @@ public record AwsConnectCreateDataTableAttributeOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the Amazon Connect instance. Constraints: o min: 1 o max: 100
+    /// The unique identifier for the Amazon Connect instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias. If the version is provided as part of the identifier or ARN, the version must be one of the two available system managed aliases, $SAVED or $LATEST. Constraints: o min: 1 o max: 256
+    /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias. If the version is provided as part of the identifier or ARN, the version must be one of the two available system managed aliases, $SAVED or $LATEST. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--data-table-id")]
     public string? DataTableId { get; private init; }
 
     /// <summary>
-    /// The name for the attribute. Must conform to Connect human readable string specification and have 1-127 characters. Must not start with the reserved case insensitive values 'connect:' and 'aws:'. White- space trimmed before persisting. Must be unique for the data table using case-insensitive comparison. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$
+    /// The name for the attribute. Must conform to Connect human readable string specification and have 1-127 characters. Must not start with the reserved case insensitive values 'connect:' and 'aws:'. Whitespace trimmed before persisting. Must be unique for the data table using case-insensitive comparison. Constraints: • min: 1 • max: 127 • pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The type of value allowed or the resultant type after the value's expression is evaluated. Must be one of TEXT, TEXT_LIST, NUMBER, NUMBER_LIST, and BOOLEAN. Possible values: o TEXT o NUMBER o BOOLEAN o TEXT_LIST o NUMBER_LIST
+    /// The type of value allowed or the resultant type after the value's expression is evaluated. Must be one of TEXT, TEXT_LIST, NUMBER, NUMBER_LIST, and BOOLEAN. Possible values: • TEXT • NUMBER • BOOLEAN • TEXT_LIST • NUMBER_LIST
     /// </summary>
     [CliOption("--value-type")]
     public AwsConnectCreateDataTableAttributeValueType? ValueType { get; private init; }
 
     /// <summary>
-    /// An optional description for the attribute. Must conform to Connect human readable string specification and have 0-250 characters. Whitespace trimmed before persisting. Constraints: o min: 0 o max: 250 o pattern: ^[\\P{C}\r\n\t]+$
+    /// An optional description for the attribute. Must conform to Connect human readable string specification and have 0-250 characters. Whitespace trimmed before persisting. Constraints: • min: 0 • max: 250 • pattern: ^[\\P{C}\r\n\t]+$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Optional boolean that defaults to false. Determines if the value is used to identify a record in the table. Values for primary attrib- utes must not be expressions.
+    /// Optional boolean that defaults to false. Determines if the value is used to identify a record in the table. Values for primary attributes must not be expressions.
     /// </summary>
     [CliFlag("--primary", NegatedName = "--no-primary")]
     public bool? Primary { get; set; }
 
     /// <summary>
-    /// Optional validation rules for the attribute. Borrows heavily from JSON Schema - Draft 2020-12. The maximum length of arrays within validations and depth of validations is 5. There are default limits that apply to all types. Customer specified limits in excess of the default limits are not permitted. MinLength -&gt; (integer) The minimum number of characters a text value can contain. Ap- plies to TEXT value type and values within a TEXT_LIST. Must be less than or equal to MaxLength. Constraints: o min: 0 o max: 1000 MaxLength -&gt; (integer) The maximum number of characters a text value can contain. Ap- plies to TEXT value type and values within a TEXT_LIST. Must be greater than or equal to MinLength. Constraints: o min: 0 o max: 1000 MinValues -&gt; (integer) The minimum number of values in a list. Must be an integer greater than or equal to 0 and less than or equal to MaxValues. Applies to all list types. Constraints: o min: 0 o max: 100 MaxValues -&gt; (integer) The maximum number of values in a list. Must be an integer greater than or equal to 0 and greater than or equal to MinVal- ues. Applies to all list types. Constraints: o min: 0 o max: 100 IgnoreCase -&gt; (boolean) Boolean that defaults to false. Applies to text lists and text primary attributes. When true, enforces case-insensitive unique- ness for primary attributes and allows case-insensitive lookups. Minimum -&gt; (double) The smallest inclusive numeric value for NUMBER value type. Can- not be provided when ExclusiveMinimum is also provided. Must be less than or equal to Maximum and less than ExclusiveMaximum. Applies to NUMBER and values within NUMBER_LIST. Maximum -&gt; (double) The largest inclusive numeric value for NUMBER value type. Can be provided alongside ExclusiveMaximum where both operate inde- pendently. Must be greater than or equal to Minimum and greater than ExclusiveMinimum. Applies to NUMBER and values within NUM- BER_LIST. ExclusiveMinimum -&gt; (double) The smallest exclusive numeric value for NUMBER value type. Can be provided alongside Minimum where both operate independently. Must be less than ExclusiveMaximum and Maximum. Applies to NUM- BER and values within NUMBER_LIST. ExclusiveMaximum -&gt; (double) The largest exclusive numeric value for NUMBER value type. Can be provided alongside Maximum where both operate independently. Must be greater than ExclusiveMinimum and Minimum. Applies to NUMBER and values within NUMBER_LIST. MultipleOf -&gt; (double) Specifies that numeric values must be multiples of this number. Must be greater than 0. The result of dividing a value by this multiple must result in an integer. Applies to NUMBER and values within NUMBER_LIST. Constraints: o min: 0 Enum -&gt; (structure) Defines enumeration constraints for attribute values. Can spec- ify a list of allowed values and whether custom values are per- mitted beyond the enumerated list. Strict -&gt; (boolean) Boolean that defaults to false. When true, only values speci- fied in the enum list are allowed. When false, custom values beyond the enumerated list are permitted. Values -&gt; (list) A list of predefined values that are allowed for this at- tribute. These values are always permitted regardless of the Strict setting. (string) Shorthand Syntax: MinLength=integer,MaxLength=integer,MinValues=integer,MaxValues=integer,IgnoreCase=boolean,Minimum=double,Maximum=double,ExclusiveMinimum=double,ExclusiveMaximum=double,MultipleOf=double,Enum={Strict=boolean,Values=[string,string]} JSON Syntax: { "MinLength": integer, "MaxLength": integer, "MinValues": integer, "MaxValues": integer, "IgnoreCase": true|false, "Minimum": double, "Maximum": double, "ExclusiveMinimum": double, "ExclusiveMaximum": double, "MultipleOf": double, "Enum": { "Strict": true|false, "Values": ["string", ...] } }
+    /// Optional validation rules for the attribute. Borrows heavily from JSON Schema - Draft 2020-12. The maximum length of arrays within validations and depth of validations is 5. There are default limits that apply to all types. Customer specified limits in excess of the default limits are not permitted. MinLength -&gt; (integer) The minimum number of characters a text value can contain. Applies to TEXT value type and values within a TEXT_LIST. Must be less than or equal to MaxLength. Constraints: • min: 0 • max: 1000 MaxLength -&gt; (integer) The maximum number of characters a text value can contain. Applies to TEXT value type and values within a TEXT_LIST. Must be greater than or equal to MinLength. Constraints: • min: 0 • max: 1000 MinValues -&gt; (integer) The minimum number of values in a list. Must be an integer greater than or equal to 0 and less than or equal to MaxValues. Applies to all list types. Constraints: • min: 0 • max: 100 MaxValues -&gt; (integer) The maximum number of values in a list. Must be an integer greater than or equal to 0 and greater than or equal to MinValues. Applies to all list types. Constraints: • min: 0 • max: 100 IgnoreCase -&gt; (boolean) Boolean that defaults to false. Applies to text lists and text primary attributes. When true, enforces case-insensitive uniqueness for primary attributes and allows case-insensitive lookups. Minimum -&gt; (double) The smallest inclusive numeric value for NUMBER value type. Cannot be provided when ExclusiveMinimum is also provided. Must be less than or equal to Maximum and less than ExclusiveMaximum. Applies to NUMBER and values within NUMBER_LIST. Maximum -&gt; (double) The largest inclusive numeric value for NUMBER value type. Can be provided alongside ExclusiveMaximum where both operate independently. Must be greater than or equal to Minimum and greater than ExclusiveMinimum. Applies to NUMBER and values within NUMBER_LIST. ExclusiveMinimum -&gt; (double) The smallest exclusive numeric value for NUMBER value type. Can be provided alongside Minimum where both operate independently. Must be less than ExclusiveMaximum and Maximum. Applies to NUMBER and values within NUMBER_LIST. ExclusiveMaximum -&gt; (double) The largest exclusive numeric value for NUMBER value type. Can be provided alongside Maximum where both operate independently. Must be greater than ExclusiveMinimum and Minimum. Applies to NUMBER and values within NUMBER_LIST. MultipleOf -&gt; (double) Specifies that numeric values must be multiples of this number. Must be greater than 0. The result of dividing a value by this multiple must result in an integer. Applies to NUMBER and values within NUMBER_LIST. Constraints: • min: 0 Enum -&gt; (structure) Defines enumeration constraints for attribute values. Can specify a list of allowed values and whether custom values are permitted beyond the enumerated list. Strict -&gt; (boolean) Boolean that defaults to false. When true, only values specified in the enum list are allowed. When false, custom values beyond the enumerated list are permitted. Values -&gt; (list) A list of predefined values that are allowed for this attribute. These values are always permitted regardless of the Strict setting. (string) Shorthand Syntax: MinLength=integer,MaxLength=integer,MinValues=integer,MaxValues=integer,IgnoreCase=boolean,Minimum=double,Maximum=double,ExclusiveMinimum=double,ExclusiveMaximum=double,MultipleOf=double,Enum={Strict=boolean,Values=[string,string]} JSON Syntax: { "MinLength": integer, "MaxLength": integer, "MinValues": integer, "MaxValues": integer, "IgnoreCase": true|false, "Minimum": double, "Maximum": double, "ExclusiveMinimum": double, "ExclusiveMaximum": double, "MultipleOf": double, "Enum": { "Strict": true|false, "Values": ["string", ...] } }
     /// </summary>
     [CliOption("--validation")]
     public string? Validation { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsConnectDeletePushNotificationRegistrationOptions : AwsOptions, 
     /// <summary>
     /// Deletes registration for a device token and a chat contact. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="RegistrationId">The identifier for the registration. Constraints: o min: 1 o max: 256</param>
-    /// <param name="ContactId">The identifier of the contact within the Connect Customer instance. Constraints: o min: 1 o max: 256</param>
+    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="RegistrationId">The identifier for the registration. Constraints: • min: 1 • max: 256</param>
+    /// <param name="ContactId">The identifier of the contact within the Connect Customer instance. Constraints: • min: 1 • max: 256</param>
     public AwsConnectDeletePushNotificationRegistrationOptions(
         string InstanceId,
         string RegistrationId,
@@ -64,19 +66,19 @@ public record AwsConnectDeletePushNotificationRegistrationOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier for the registration. Constraints: o min: 1 o max: 256
+    /// The identifier for the registration. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--registration-id")]
     public string? RegistrationId { get; private init; }
 
     /// <summary>
-    /// The identifier of the contact within the Connect Customer instance. Constraints: o min: 1 o max: 256
+    /// The identifier of the contact within the Connect Customer instance. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--contact-id")]
     public string? ContactId { get; private init; }

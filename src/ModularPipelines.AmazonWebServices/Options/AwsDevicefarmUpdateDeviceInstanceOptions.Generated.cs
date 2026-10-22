@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDevicefarmUpdateDeviceInstanceOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Updates information about a private device instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the device instance. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the device instance. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+</param>
     public AwsDevicefarmUpdateDeviceInstanceOptions(
         string Arn
     )
@@ -56,19 +58,19 @@ public record AwsDevicefarmUpdateDeviceInstanceOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the device instance. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// The Amazon Resource Name (ARN) of the device instance. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The ARN of the profile that you want to associate with the device instance. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// The ARN of the profile that you want to associate with the device instance. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+
     /// </summary>
     [CliOption("--profile-arn")]
     public string? ProfileArn { get; set; }
 
     /// <summary>
-    /// An array of strings that you want to associate with the device in- stance. (string) Syntax: "string" "string" ...
+    /// An array of strings that you want to associate with the device instance. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--labels", GroupValues = true)]
     public IEnumerable<string>? Labels { get; set; }

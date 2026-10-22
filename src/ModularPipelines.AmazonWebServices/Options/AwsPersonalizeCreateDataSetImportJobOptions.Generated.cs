@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a job that imports training data from your data source (an Ama- zon S3 bucket) to an Amazon Personalize dataset. To allow Amazon Per- sonalize to import the training data, you must specify an IAM service role that has permission to read from the data source, as Amazon Per- sonalize makes a copy of your data and processes it internally. For in- formation on granting access to your Amazon S3 bucket, see Giving Ama- zon Personalize Access to Amazon S3 Resources . If you already created a re...
+/// Creates a job that imports training data from your data source (an Amazon S3 bucket) to an Amazon Personalize dataset. To allow Amazon Personalize to import the training data, you must specify an IAM service role that has permission to read from the data source, as Amazon Personalize makes a copy of your data and processes it internally. For information on granting access to your Amazon S3 bucket, see Giving Amazon Personalize Access to Amazon S3 Resources . If you already created a recommender ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsPersonalizeCreateDataSetImportJobOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a job that imports training data from your data source (an Ama- zon S3 bucket) to an Amazon Personalize dataset. To allow Amazon Per- sonalize to import the training data, you must specify an IAM service role that has permission to read from the data source, as Amazon Per- sonalize makes a copy of your data and processes it internally. For in- formation on granting access to your Amazon S3 bucket, see Giving Ama- zon Personalize Access to Amazon S3 Resources . If you already created a re...
+    /// Creates a job that imports training data from your data source (an Amazon S3 bucket) to an Amazon Personalize dataset. To allow Amazon Personalize to import the training data, you must specify an IAM service role that has permission to read from the data source, as Amazon Personalize makes a copy of your data and processes it internally. For information on granting access to your Amazon S3 bucket, see Giving Amazon Personalize Access to Amazon S3 Resources . If you already created a recommender ...
     /// </summary>
-    /// <param name="JobName">The name for the dataset import job. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*</param>
-    /// <param name="DataSetArn">The ARN of the dataset that receives the imported data. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
-    /// <param name="DataSource">The Amazon S3 bucket that contains the training data to import. dataLocation -&gt; (string) For dataset import jobs, the path to the Amazon S3 bucket where the data that you want to upload to your dataset is stored. For data deletion jobs, the path to the Amazon S3 bucket that stores the list of records to delete. For example: s3://bucket-name/folder-name/fileName.csv If your CSV files are in a folder in your Amazon S3 bucket and you want your import job or data deletion job to consider multi- ple files, you can specify the path to the folder. With a data deletion job, Amazon Personalize uses all files in the folder and any sub folder. Use the following syntax with a / after the folder name: s3://bucket-name/folder-name/ Constraints: o max: 256 o pattern: (s3|http|https)://.+ Shorthand Syntax: dataLocation=string JSON Syntax: { "dataLocation": "string" }</param>
+    /// <param name="JobName">The name for the dataset import job. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*</param>
+    /// <param name="DataSetArn">The ARN of the dataset that receives the imported data. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="DataSource">The Amazon S3 bucket that contains the training data to import. dataLocation -&gt; (string) For dataset import jobs, the path to the Amazon S3 bucket where the data that you want to upload to your dataset is stored. For data deletion jobs, the path to the Amazon S3 bucket that stores the list of records to delete. For example: s3://bucket-name/folder-name/fileName.csv If your CSV files are in a folder in your Amazon S3 bucket and you want your import job or data deletion job to consider multiple files, you can specify the path to the folder. With a data deletion job, Amazon Personalize uses all files in the folder and any sub folder. Use the following syntax with a / after the folder name: s3://bucket-name/folder-name/ Constraints: • max: 256 • pattern: (s3|http|https)://.+ Shorthand Syntax: dataLocation=string JSON Syntax: { "dataLocation": "string" }</param>
     public AwsPersonalizeCreateDataSetImportJobOptions(
         string JobName,
         string DataSetArn,
@@ -65,43 +67,43 @@ public record AwsPersonalizeCreateDataSetImportJobOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name for the dataset import job. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*
+    /// The name for the dataset import job. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*
     /// </summary>
     [CliOption("--job-name")]
     public string? JobName { get; private init; }
 
     /// <summary>
-    /// The ARN of the dataset that receives the imported data. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The ARN of the dataset that receives the imported data. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--dataset-arn")]
     public string? DataSetArn { get; private init; }
 
     /// <summary>
-    /// The Amazon S3 bucket that contains the training data to import. dataLocation -&gt; (string) For dataset import jobs, the path to the Amazon S3 bucket where the data that you want to upload to your dataset is stored. For data deletion jobs, the path to the Amazon S3 bucket that stores the list of records to delete. For example: s3://bucket-name/folder-name/fileName.csv If your CSV files are in a folder in your Amazon S3 bucket and you want your import job or data deletion job to consider multi- ple files, you can specify the path to the folder. With a data deletion job, Amazon Personalize uses all files in the folder and any sub folder. Use the following syntax with a / after the folder name: s3://bucket-name/folder-name/ Constraints: o max: 256 o pattern: (s3|http|https)://.+ Shorthand Syntax: dataLocation=string JSON Syntax: { "dataLocation": "string" }
+    /// The Amazon S3 bucket that contains the training data to import. dataLocation -&gt; (string) For dataset import jobs, the path to the Amazon S3 bucket where the data that you want to upload to your dataset is stored. For data deletion jobs, the path to the Amazon S3 bucket that stores the list of records to delete. For example: s3://bucket-name/folder-name/fileName.csv If your CSV files are in a folder in your Amazon S3 bucket and you want your import job or data deletion job to consider multiple files, you can specify the path to the folder. With a data deletion job, Amazon Personalize uses all files in the folder and any sub folder. Use the following syntax with a / after the folder name: s3://bucket-name/folder-name/ Constraints: • max: 256 • pattern: (s3|http|https)://.+ Shorthand Syntax: dataLocation=string JSON Syntax: { "dataLocation": "string" }
     /// </summary>
     [CliOption("--data-source")]
     public string? DataSource { get; private init; }
 
     /// <summary>
-    /// The ARN of the IAM role that has permissions to read from the Amazon S3 data source. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// The ARN of the IAM role that has permissions to read from the Amazon S3 data source. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
     /// <summary>
-    /// A list of tags to apply to the dataset import job. Constraints: o min: 0 o max: 200 (structure) The optional metadata that you apply to resources to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. For more information see Tagging Amazon Personalize resources . tagKey -&gt; (string) [required] One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ tagValue -&gt; (string) [required] The optional part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: tagKey=string,tagValue=string ... JSON Syntax: [ { "tagKey": "string", "tagValue": "string" } ... ]
+    /// A list of tags to apply to the dataset import job. Constraints: • min: 0 • max: 200 (structure) The optional metadata that you apply to resources to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. For more information see Tagging Amazon Personalize resources . tagKey -&gt; (string) [required] One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ tagValue -&gt; (string) [required] The optional part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key). Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: tagKey=string,tagValue=string ... JSON Syntax: [ { "tagKey": "string", "tagValue": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Specify how to add the new records to an existing dataset. The de- fault import mode is FULL . If you haven't imported bulk records into the dataset previously, you can only specify FULL . o Specify FULL to overwrite all existing bulk data in your dataset. Data you imported individually is not replaced. o Specify INCREMENTAL to append the new records to the existing data in your dataset. Amazon Personalize replaces any record with the same ID with the new one. Possible values: o FULL o INCREMENTAL
+    /// Specify how to add the new records to an existing dataset. The default import mode is FULL . If you haven't imported bulk records into the dataset previously, you can only specify FULL . • Specify FULL to overwrite all existing bulk data in your dataset. Data you imported individually is not replaced. • Specify INCREMENTAL to append the new records to the existing data in your dataset. Amazon Personalize replaces any record with the same ID with the new one. Possible values: • FULL • INCREMENTAL
     /// </summary>
     [CliOption("--import-mode")]
     public AwsPersonalizeCreateDataSetImportJobImportMode? ImportMode { get; set; }
 
     /// <summary>
-    /// rics-to-s3 (boolean) If you created a metric attribution, specify whether to publish met- rics for this import job to Amazon S3
+    /// If you created a metric attribution, specify whether to publish metrics for this import job to Amazon S3
     /// </summary>
     [CliFlag("--publish-attribution-metrics-to-s3", NegatedName = "--no-publish-attribution-metrics-to-s3")]
     public bool? PublishAttributionMetricsToS3 { get; set; }

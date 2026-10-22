@@ -23,19 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSigninPutResourcePermissionStatementOptions : AwsOptions
 {
     /// <summary>
-    /// VPC identifier to restrict console access Constraints: o pattern: vpc-([0-9a-f]{8}|[0-9a-f]{17})
+    /// VPC identifier to restrict console access Constraints: • pattern: vpc-([0-9a-f]{8}|[0-9a-f]{17})
     /// </summary>
     [CliOption("--source-vpc")]
     public string? SourceVpc { get; set; }
 
     /// <summary>
-    /// SignIn VPC endpoint identifier Constraints: o pattern: vpce-[a-z0-9]{8,20}
+    /// SignIn VPC endpoint identifier Constraints: • pattern: vpce-[a-z0-9]{8,20}
     /// </summary>
     [CliOption("--signin-source-vpce")]
     public string? SigninSourceVpce { get; set; }
 
     /// <summary>
-    /// Console VPC endpoint identifier Constraints: o pattern: vpce-[a-z0-9]{8,20}
+    /// Console VPC endpoint identifier Constraints: • pattern: vpce-[a-z0-9]{8,20}
     /// </summary>
     [CliOption("--console-source-vpce")]
     public string? ConsoleSourceVpce { get; set; }
@@ -53,19 +53,19 @@ public record AwsSigninPutResourcePermissionStatementOptions : AwsOptions
     public string? SourceIp { get; set; }
 
     /// <summary>
-    /// AWS region where the VPC and VPC endpoint reside Required when sourceVpc or signinSourceVpce/consoleSourceVpce is provided Constraints: o pattern: [a-z]{2}(-[a-z]+)+-\d+
+    /// AWS region where the VPC and VPC endpoint reside Required when sourceVpc or signinSourceVpce/consoleSourceVpce is provided Constraints: • pattern: [a-z]{2}(-[a-z]+)+-\d+
     /// </summary>
     [CliOption("--requested-region")]
     public string? RequestedRegion { get; set; }
 
     /// <summary>
-    /// Principal to exclude from the permission statement Constraints: o min: 20 o max: 2048 o pattern: arn:aws:((iam::[0-9]{12}:role/[a-zA-Z0-9_+=,.@-]{1,64})|(iam::[0-9]{12}:user/[a-zA-Z0-9_+=,.@-]{1,64})|(sts::[0-9]{12}:fed- erated-user/[a-zA-Z0-9_+=,.@-]{2,193})|(iam::[0-9]{12}:root))
+    /// Principal to exclude from the permission statement Constraints: • min: 20 • max: 2048 • pattern: arn:aws:((iam::[0-9]{12}:role/[a-zA-Z0-9_+=,.@-]{1,64})|(iam::[0-9]{12}:user/[a-zA-Z0-9_+=,.@-]{1,64})|(sts::[0-9]{12}:federated-user/[a-zA-Z0-9_+=,.@-]{2,193})|(iam::[0-9]{12}:root))
     /// </summary>
     [CliOption("--excluded-principal")]
     public string? ExcludedPrincipal { get; set; }
 
     /// <summary>
-    /// Idempotency token for the request Constraints: o min: 1 o max: 64 o pattern: [!-~]+
+    /// Idempotency token for the request Constraints: • min: 1 • max: 64 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotDescribeCertificateOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets information about the specified certificate. Requires permission to access the DescribeCertificate action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CertificateId">The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.) Constraints: o min: 64 o max: 64 o pattern: (0x)?[a-fA-F0-9]+</param>
+    /// <param name="CertificateId">The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.) Constraints: • min: 64 • max: 64 • pattern: (0x)?[a-fA-F0-9]+</param>
     public AwsIotDescribeCertificateOptions(
         string CertificateId
     )
@@ -56,7 +58,7 @@ public record AwsIotDescribeCertificateOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.) Constraints: o min: 64 o max: 64 o pattern: (0x)?[a-fA-F0-9]+
+    /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.) Constraints: • min: 64 • max: 64 • pattern: (0x)?[a-fA-F0-9]+
     /// </summary>
     [CliOption("--certificate-id")]
     public string? CertificateId { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new table from a table in an Amazon Redshift cluster snap- shot. You must create the new table within the Amazon Redshift cluster that the snapshot was taken from. You cannot use RestoreTableFromClusterSnapshot to restore a table with the same name as an existing table in an Amazon Redshift cluster. That is, you cannot overwrite an existing table in a cluster with a restored table. If you want to replace your original table with a new, restored table, then rename or drop your original ...
+/// Creates a new table from a table in an Amazon Redshift cluster snapshot. You must create the new table within the Amazon Redshift cluster that the snapshot was taken from. You cannot use RestoreTableFromClusterSnapshot to restore a table with the same name as an existing table in an Amazon Redshift cluster. That is, you cannot overwrite an existing table in a cluster with a restored table. If you want to replace your original table with a new, restored table, then rename or drop your original ta...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,13 +27,13 @@ public record AwsRedshiftRestoreTableFromClusterSnapshotOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new table from a table in an Amazon Redshift cluster snap- shot. You must create the new table within the Amazon Redshift cluster that the snapshot was taken from. You cannot use RestoreTableFromClusterSnapshot to restore a table with the same name as an existing table in an Amazon Redshift cluster. That is, you cannot overwrite an existing table in a cluster with a restored table. If you want to replace your original table with a new, restored table, then rename or drop your original ...
+    /// Creates a new table from a table in an Amazon Redshift cluster snapshot. You must create the new table within the Amazon Redshift cluster that the snapshot was taken from. You cannot use RestoreTableFromClusterSnapshot to restore a table with the same name as an existing table in an Amazon Redshift cluster. That is, you cannot overwrite an existing table in a cluster with a restored table. If you want to replace your original table with a new, restored table, then rename or drop your original ta...
     /// </summary>
-    /// <param name="ClusterIdentifier">The identifier of the Amazon Redshift cluster to restore the table to. Constraints: o max: 2147483647</param>
-    /// <param name="SnapshotIdentifier">The identifier of the snapshot to restore the table from. This snap- shot must have been created from the Amazon Redshift cluster speci- fied by the ClusterIdentifier parameter. Constraints: o max: 2147483647</param>
-    /// <param name="SourceDatabaseName">The name of the source database that contains the table to restore from. Constraints: o max: 2147483647</param>
-    /// <param name="SourceTableName">The name of the source table to restore from. Constraints: o max: 2147483647</param>
-    /// <param name="NewTableName">The name of the table to create as a result of the current request. Constraints: o max: 2147483647</param>
+    /// <param name="ClusterIdentifier">The identifier of the Amazon Redshift cluster to restore the table to. Constraints: • max: 2147483647</param>
+    /// <param name="SnapshotIdentifier">The identifier of the snapshot to restore the table from. This snapshot must have been created from the Amazon Redshift cluster specified by the ClusterIdentifier parameter. Constraints: • max: 2147483647</param>
+    /// <param name="SourceDatabaseName">The name of the source database that contains the table to restore from. Constraints: • max: 2147483647</param>
+    /// <param name="SourceTableName">The name of the source table to restore from. Constraints: • max: 2147483647</param>
+    /// <param name="NewTableName">The name of the table to create as a result of the current request. Constraints: • max: 2147483647</param>
     public AwsRedshiftRestoreTableFromClusterSnapshotOptions(
         string ClusterIdentifier,
         string SnapshotIdentifier,
@@ -72,55 +74,55 @@ public record AwsRedshiftRestoreTableFromClusterSnapshotOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Redshift cluster to restore the table to. Constraints: o max: 2147483647
+    /// The identifier of the Amazon Redshift cluster to restore the table to. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the snapshot to restore the table from. This snap- shot must have been created from the Amazon Redshift cluster speci- fied by the ClusterIdentifier parameter. Constraints: o max: 2147483647
+    /// The identifier of the snapshot to restore the table from. This snapshot must have been created from the Amazon Redshift cluster specified by the ClusterIdentifier parameter. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--snapshot-identifier")]
     public string? SnapshotIdentifier { get; private init; }
 
     /// <summary>
-    /// The name of the source database that contains the table to restore from. Constraints: o max: 2147483647
+    /// The name of the source database that contains the table to restore from. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--source-database-name")]
     public string? SourceDatabaseName { get; private init; }
 
     /// <summary>
-    /// The name of the source table to restore from. Constraints: o max: 2147483647
+    /// The name of the source table to restore from. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--source-table-name")]
     public string? SourceTableName { get; private init; }
 
     /// <summary>
-    /// The name of the table to create as a result of the current request. Constraints: o max: 2147483647
+    /// The name of the table to create as a result of the current request. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--new-table-name")]
     public string? NewTableName { get; private init; }
 
     /// <summary>
-    /// The name of the source schema that contains the table to restore from. If you do not specify a SourceSchemaName value, the default is public . Constraints: o max: 2147483647
+    /// The name of the source schema that contains the table to restore from. If you do not specify a SourceSchemaName value, the default is public . Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--source-schema-name")]
     public string? SourceSchemaName { get; set; }
 
     /// <summary>
-    /// The name of the database to restore the table to. Constraints: o max: 2147483647
+    /// The name of the database to restore the table to. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--target-database-name")]
     public string? TargetDatabaseName { get; set; }
 
     /// <summary>
-    /// The name of the schema to restore the table to. Constraints: o max: 2147483647
+    /// The name of the schema to restore the table to. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--target-schema-name")]
     public string? TargetSchemaName { get; set; }
 
     /// <summary>
-    /// fier (boolean) Indicates whether name identifiers for database, schema, and table are case sensitive. If true , the names are case sensitive. If false (default), the names are not case sensitive.
+    /// Indicates whether name identifiers for database, schema, and table are case sensitive. If true , the names are case sensitive. If false (default), the names are not case sensitive.
     /// </summary>
     [CliFlag("--enable-case-sensitive-identifier", NegatedName = "--no-enable-case-sensitive-identifier")]
     public bool? EnableCaseSensitiveIdentifier { get; set; }

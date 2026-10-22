@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsAppmeshCreateVirtualServiceOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Creates a virtual service within a service mesh. A virtual service is an abstraction of a real service that is provided by a virtual node directly or indirectly by means of a virtual router. Dependent services call your virtual service by its virtualServiceName , and those requests are routed to the virtual node or virtual router that is specified as the provider for the virtual service. For more information about virtual services, see Virtual services . See also: AWS API Documentation
     /// </summary>
-    /// <param name="MeshName">The name of the service mesh to create the virtual service in. Constraints: o min: 1 o max: 255</param>
-    /// <param name="Spec">The virtual service specification to apply. provider -&gt; (tagged union structure) The App Mesh object that is acting as the provider for a virtual service. You can specify a single virtual node or virtual router. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: virtualNode, virtualRouter. virtualNode -&gt; (structure) The virtual node associated with a virtual service. virtualNodeName -&gt; (string) [required] The name of the virtual node that is acting as a service provider. Constraints: o min: 1 o max: 255 virtualRouter -&gt; (structure) The virtual router associated with a virtual service. virtualRouterName -&gt; (string) [required] The name of the virtual router that is acting as a ser- vice provider. Constraints: o min: 1 o max: 255 Shorthand Syntax: provider={virtualNode={virtualNodeName=string},virtualRouter={virtualRouterName=string}} JSON Syntax: { "provider": { "virtualNode": { "virtualNodeName": "string" }, "virtualRouter": { "virtualRouterName": "string" } } }</param>
+    /// <param name="MeshName">The name of the service mesh to create the virtual service in. Constraints: • min: 1 • max: 255</param>
+    /// <param name="Spec">The virtual service specification to apply. provider -&gt; (tagged union structure) The App Mesh object that is acting as the provider for a virtual service. You can specify a single virtual node or virtual router. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: virtualNode, virtualRouter. virtualNode -&gt; (structure) The virtual node associated with a virtual service. virtualNodeName -&gt; (string) [required] The name of the virtual node that is acting as a service provider. Constraints: • min: 1 • max: 255 virtualRouter -&gt; (structure) The virtual router associated with a virtual service. virtualRouterName -&gt; (string) [required] The name of the virtual router that is acting as a service provider. Constraints: • min: 1 • max: 255 Shorthand Syntax: provider={virtualNode={virtualNodeName=string},virtualRouter={virtualRouterName=string}} JSON Syntax: { "provider": { "virtualNode": { "virtualNodeName": "string" }, "virtualRouter": { "virtualRouterName": "string" } } }</param>
     /// <param name="VirtualServiceName">The name to use for the virtual service.</param>
     public AwsAppmeshCreateVirtualServiceOptions(
         string MeshName,
@@ -65,13 +67,13 @@ public record AwsAppmeshCreateVirtualServiceOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the service mesh to create the virtual service in. Constraints: o min: 1 o max: 255
+    /// The name of the service mesh to create the virtual service in. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--mesh-name")]
     public string? MeshName { get; private init; }
 
     /// <summary>
-    /// The virtual service specification to apply. provider -&gt; (tagged union structure) The App Mesh object that is acting as the provider for a virtual service. You can specify a single virtual node or virtual router. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: virtualNode, virtualRouter. virtualNode -&gt; (structure) The virtual node associated with a virtual service. virtualNodeName -&gt; (string) [required] The name of the virtual node that is acting as a service provider. Constraints: o min: 1 o max: 255 virtualRouter -&gt; (structure) The virtual router associated with a virtual service. virtualRouterName -&gt; (string) [required] The name of the virtual router that is acting as a ser- vice provider. Constraints: o min: 1 o max: 255 Shorthand Syntax: provider={virtualNode={virtualNodeName=string},virtualRouter={virtualRouterName=string}} JSON Syntax: { "provider": { "virtualNode": { "virtualNodeName": "string" }, "virtualRouter": { "virtualRouterName": "string" } } }
+    /// The virtual service specification to apply. provider -&gt; (tagged union structure) The App Mesh object that is acting as the provider for a virtual service. You can specify a single virtual node or virtual router. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: virtualNode, virtualRouter. virtualNode -&gt; (structure) The virtual node associated with a virtual service. virtualNodeName -&gt; (string) [required] The name of the virtual node that is acting as a service provider. Constraints: • min: 1 • max: 255 virtualRouter -&gt; (structure) The virtual router associated with a virtual service. virtualRouterName -&gt; (string) [required] The name of the virtual router that is acting as a service provider. Constraints: • min: 1 • max: 255 Shorthand Syntax: provider={virtualNode={virtualNodeName=string},virtualRouter={virtualRouterName=string}} JSON Syntax: { "provider": { "virtualNode": { "virtualNodeName": "string" }, "virtualRouter": { "virtualRouterName": "string" } } }
     /// </summary>
     [CliOption("--spec")]
     public string? Spec { get; private init; }
@@ -90,13 +92,13 @@ public record AwsAppmeshCreateVirtualServiceOptions : AwsOptions, IValidatableOb
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then the account that you specify must share the mesh with your account before you can create the re- source in the service mesh. For more information about mesh sharing, see Working with shared meshes . Constraints: o min: 12 o max: 12
+    /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then the account that you specify must share the mesh with your account before you can create the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes . Constraints: • min: 12 • max: 12
     /// </summary>
     [CliOption("--mesh-owner")]
     public string? MeshOwner { get; set; }
 
     /// <summary>
-    /// Optional metadata that you can apply to the virtual service to as- sist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. Constraints: o min: 0 o max: 50 (structure) Optional metadata that you apply to a resource to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. key -&gt; (string) [required] One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// Optional metadata that you can apply to the virtual service to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. Constraints: • min: 0 • max: 50 (structure) Optional metadata that you apply to a resource to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. key -&gt; (string) [required] One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: • min: 1 • max: 128 value -&gt; (string) [required] The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

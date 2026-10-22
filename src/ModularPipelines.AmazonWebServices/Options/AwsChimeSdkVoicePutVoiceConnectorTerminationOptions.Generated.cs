@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsChimeSdkVoicePutVoiceConnectorTerminationOptions : AwsOptions, 
     /// <summary>
     /// Updates a Voice Connector's termination settings. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VoiceConnectorId">The Voice Connector ID. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
-    /// <param name="Termination">The termination settings to be updated. CpsLimit -&gt; (integer) The limit on calls per second. Max value based on account ser- vice quota. Default value of 1. Constraints: o min: 1 DefaultPhoneNumber -&gt; (string) The default outbound calling number. Constraints: o pattern: ^\+?[1-9]\d{1,14}$ CallingRegions -&gt; (list) The countries to which calls are allowed, in ISO 3166-1 alpha-2 format. Required. (string) CidrAllowedList -&gt; (list) The IP addresses allowed to make calls, in CIDR format. (string) Disabled -&gt; (boolean) When termination is disabled, outbound calls cannot be made. Shorthand Syntax: CpsLimit=integer,DefaultPhoneNumber=string,CallingRegions=string,string,CidrAllowedList=string,string,Disabled=boolean JSON Syntax: { "CpsLimit": integer, "DefaultPhoneNumber": "string", "CallingRegions": ["string", ...], "CidrAllowedList": ["string", ...], "Disabled": true|false }</param>
+    /// <param name="VoiceConnectorId">The Voice Connector ID. Constraints: • pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
+    /// <param name="Termination">The termination settings to be updated. CpsLimit -&gt; (integer) The limit on calls per second. Max value based on account service quota. Default value of 1. Constraints: • min: 1 DefaultPhoneNumber -&gt; (string) The default outbound calling number. Constraints: • pattern: ^\+?[1-9]\d{1,14}$ CallingRegions -&gt; (list) The countries to which calls are allowed, in ISO 3166-1 alpha-2 format. Required. (string) CidrAllowedList -&gt; (list) The IP addresses allowed to make calls, in CIDR format. (string) Disabled -&gt; (boolean) When termination is disabled, outbound calls cannot be made. Shorthand Syntax: CpsLimit=integer,DefaultPhoneNumber=string,CallingRegions=string,string,CidrAllowedList=string,string,Disabled=boolean JSON Syntax: { "CpsLimit": integer, "DefaultPhoneNumber": "string", "CallingRegions": ["string", ...], "CidrAllowedList": ["string", ...], "Disabled": true|false }</param>
     public AwsChimeSdkVoicePutVoiceConnectorTerminationOptions(
         string VoiceConnectorId,
         string Termination
@@ -60,13 +62,13 @@ public record AwsChimeSdkVoicePutVoiceConnectorTerminationOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Voice Connector ID. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
+    /// The Voice Connector ID. Constraints: • pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
     /// </summary>
     [CliOption("--voice-connector-id")]
     public string? VoiceConnectorId { get; private init; }
 
     /// <summary>
-    /// The termination settings to be updated. CpsLimit -&gt; (integer) The limit on calls per second. Max value based on account ser- vice quota. Default value of 1. Constraints: o min: 1 DefaultPhoneNumber -&gt; (string) The default outbound calling number. Constraints: o pattern: ^\+?[1-9]\d{1,14}$ CallingRegions -&gt; (list) The countries to which calls are allowed, in ISO 3166-1 alpha-2 format. Required. (string) CidrAllowedList -&gt; (list) The IP addresses allowed to make calls, in CIDR format. (string) Disabled -&gt; (boolean) When termination is disabled, outbound calls cannot be made. Shorthand Syntax: CpsLimit=integer,DefaultPhoneNumber=string,CallingRegions=string,string,CidrAllowedList=string,string,Disabled=boolean JSON Syntax: { "CpsLimit": integer, "DefaultPhoneNumber": "string", "CallingRegions": ["string", ...], "CidrAllowedList": ["string", ...], "Disabled": true|false }
+    /// The termination settings to be updated. CpsLimit -&gt; (integer) The limit on calls per second. Max value based on account service quota. Default value of 1. Constraints: • min: 1 DefaultPhoneNumber -&gt; (string) The default outbound calling number. Constraints: • pattern: ^\+?[1-9]\d{1,14}$ CallingRegions -&gt; (list) The countries to which calls are allowed, in ISO 3166-1 alpha-2 format. Required. (string) CidrAllowedList -&gt; (list) The IP addresses allowed to make calls, in CIDR format. (string) Disabled -&gt; (boolean) When termination is disabled, outbound calls cannot be made. Shorthand Syntax: CpsLimit=integer,DefaultPhoneNumber=string,CallingRegions=string,string,CidrAllowedList=string,string,Disabled=boolean JSON Syntax: { "CpsLimit": integer, "DefaultPhoneNumber": "string", "CallingRegions": ["string", ...], "CidrAllowedList": ["string", ...], "Disabled": true|false }
     /// </summary>
     [CliOption("--termination")]
     public string? Termination { get; private init; }

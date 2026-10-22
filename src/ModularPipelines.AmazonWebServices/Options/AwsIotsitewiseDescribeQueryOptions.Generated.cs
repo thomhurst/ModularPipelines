@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsIotsitewiseDescribeQueryOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Retrieves information about a query, including its status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceName">The name of the workspace associated with the query. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="QueryId">The unique identifier for the query execution. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="WorkspaceName">The name of the workspace associated with the query. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="QueryId">The unique identifier for the query execution. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]+</param>
     public AwsIotsitewiseDescribeQueryOptions(
         string WorkspaceName,
         string QueryId
@@ -60,13 +62,13 @@ public record AwsIotsitewiseDescribeQueryOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workspace associated with the query. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The name of the workspace associated with the query. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--workspace-name")]
     public string? WorkspaceName { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the query execution. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+
+    /// The unique identifier for the query execution. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--query-id")]
     public string? QueryId { get; private init; }

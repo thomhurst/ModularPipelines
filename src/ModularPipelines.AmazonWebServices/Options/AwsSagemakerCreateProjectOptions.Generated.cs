@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a machine learning (ML) project that can contain one or more templates that set up an ML pipeline from training to deploying an ap- proved model. See also: AWS API Documentation
+/// Creates a machine learning (ML) project that can contain one or more templates that set up an ML pipeline from training to deploying an approved model. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSagemakerCreateProjectOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a machine learning (ML) project that can contain one or more templates that set up an ML pipeline from training to deploying an ap- proved model. See also: AWS API Documentation
+    /// Creates a machine learning (ML) project that can contain one or more templates that set up an ML pipeline from training to deploying an approved model. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProjectName">The name of the project. Constraints: o min: 1 o max: 32 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}</param>
+    /// <param name="ProjectName">The name of the project. Constraints: • min: 1 • max: 32 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}</param>
     public AwsSagemakerCreateProjectOptions(
         string ProjectName
     )
@@ -56,31 +58,31 @@ public record AwsSagemakerCreateProjectOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the project. Constraints: o min: 1 o max: 32 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}
+    /// The name of the project. Constraints: • min: 1 • max: 32 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}
     /// </summary>
     [CliOption("--project-name")]
     public string? ProjectName { get; private init; }
 
     /// <summary>
-    /// A description for the project. Constraints: o min: 0 o max: 1024 o pattern: [\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*
+    /// A description for the project. Constraints: • min: 0 • max: 1024 • pattern: [\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*
     /// </summary>
     [CliOption("--project-description")]
     public string? ProjectDescription { get; set; }
 
     /// <summary>
-    /// The product ID and provisioning artifact ID to provision a service catalog. The provisioning artifact ID will default to the latest provisioning artifact ID of the product, if you don't provide the provisioning artifact ID. For more information, see What is Amazon Web Services Service Catalog . ProductId -&gt; (string) [required] The ID of the product to provision. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9_\-]* ProvisioningArtifactId -&gt; (string) The ID of the provisioning artifact. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9_\-]* PathId -&gt; (string) The path identifier of the product. This value is optional if the product has a default path, and required if the product has more than one path. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9_\-]* ProvisioningParameters -&gt; (list) A list of key value pairs that you specify when you provision a product. (structure) A key value pair used when you provision a project as a ser- vice catalog product. For information, see What is Amazon Web Services Service Catalog . Key -&gt; (string) The key that identifies a provisioning parameter. Constraints: o min: 1 o max: 1000 o pattern: .* Value -&gt; (string) The value of the provisioning parameter. Constraints: o min: 0 o max: 4096 o pattern: .* Shorthand Syntax: ProductId=string,ProvisioningArtifactId=string,PathId=string,ProvisioningParameters=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "ProductId": "string", "ProvisioningArtifactId": "string", "PathId": "string", "ProvisioningParameters": [ { "Key": "string", "Value": "string" } ... ] }
+    /// The product ID and provisioning artifact ID to provision a service catalog. The provisioning artifact ID will default to the latest provisioning artifact ID of the product, if you don't provide the provisioning artifact ID. For more information, see What is Amazon Web Services Service Catalog . ProductId -&gt; (string) [required] The ID of the product to provision. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9_\-]* ProvisioningArtifactId -&gt; (string) The ID of the provisioning artifact. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9_\-]* PathId -&gt; (string) The path identifier of the product. This value is optional if the product has a default path, and required if the product has more than one path. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9_\-]* ProvisioningParameters -&gt; (list) A list of key value pairs that you specify when you provision a product. (structure) A key value pair used when you provision a project as a service catalog product. For information, see What is Amazon Web Services Service Catalog . Key -&gt; (string) The key that identifies a provisioning parameter. Constraints: • min: 1 • max: 1000 • pattern: .* Value -&gt; (string) The value of the provisioning parameter. Constraints: • min: 0 • max: 4096 • pattern: .* Shorthand Syntax: ProductId=string,ProvisioningArtifactId=string,PathId=string,ProvisioningParameters=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "ProductId": "string", "ProvisioningArtifactId": "string", "PathId": "string", "ProvisioningParameters": [ { "Key": "string", "Value": "string" } ... ] }
     /// </summary>
     [CliOption("--service-catalog-provisioning-details")]
     public string? ServiceCatalogProvisioningDetails { get; set; }
 
     /// <summary>
-    /// An array of key-value pairs that you want to use to organize and track your Amazon Web Services resource costs. For more information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide . Constraints: o min: 0 o max: 50 (structure) A tag object that consists of a key and an optional value, used to manage metadata for SageMaker Amazon Web Services resources. You can add tags to notebook instances, training jobs, hyperpa- rameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. For more information on adding tags to SageMaker resources, see AddTags . For more information on adding metadata to your Amazon Web Ser- vices resources with tagging, see Tagging Amazon Web Services resources . For advice on best practices for managing Amazon Web Services resources with tagging, see Tagging Best Practices: Im- plement an Effective Amazon Web Services Resource Tagging Strat- egy . Key -&gt; (string) [required] The tag key. Tag keys must be unique per resource. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// An array of key-value pairs that you want to use to organize and track your Amazon Web Services resource costs. For more information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide . Constraints: • min: 0 • max: 50 (structure) A tag object that consists of a key and an optional value, used to manage metadata for SageMaker Amazon Web Services resources. You can add tags to notebook instances, training jobs, hyperparameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. For more information on adding tags to SageMaker resources, see AddTags . For more information on adding metadata to your Amazon Web Services resources with tagging, see Tagging Amazon Web Services resources . For advice on best practices for managing Amazon Web Services resources with tagging, see Tagging Best Practices: Implement an Effective Amazon Web Services Resource Tagging Strategy . Key -&gt; (string) [required] The tag key. Tag keys must be unique per resource. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// An array of template provider configurations for creating infra- structure resources for the project. Constraints: o min: 1 o max: 1 (structure) Contains configuration details for a template provider. Only one type of template provider can be specified. CfnTemplateProvider -&gt; (structure) The CloudFormation template provider configuration for creat- ing infrastructure resources. TemplateName -&gt; (string) [required] A unique identifier for the template within the project. Constraints: o min: 1 o max: 32 o pattern: (?=.{1,32}$)[a-zA-Z0-9](-*[a-zA-Z0-9])* TemplateURL -&gt; (string) [required] The Amazon S3 URL of the CloudFormation template. Constraints: o min: 1 o max: 1024 o pattern: (?=.{1,1024}$)(https)://([^/]+)/(.+) RoleARN -&gt; (string) The IAM role that CloudFormation assumes when creating the stack. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Parameters -&gt; (list) An array of CloudFormation stack parameters. Constraints: o min: 0 o max: 180 (structure) A key-value pair that represents a parameter for the CloudFormation stack. Key -&gt; (string) [required] The name of the CloudFormation parameter. Constraints: o min: 1 o max: 255 o pattern: .{1,255} Value -&gt; (string) The value of the CloudFormation parameter. Constraints: o min: 0 o max: 4096 o pattern: .{0,4096} JSON Syntax: [ { "CfnTemplateProvider": { "TemplateName": "string", "TemplateURL": "string", "RoleARN": "string", "Parameters": [ { "Key": "string", "Value": "string" } ... ] } } ... ]
+    /// An array of template provider configurations for creating infrastructure resources for the project. Constraints: • min: 1 • max: 1 (structure) Contains configuration details for a template provider. Only one type of template provider can be specified. CfnTemplateProvider -&gt; (structure) The CloudFormation template provider configuration for creating infrastructure resources. TemplateName -&gt; (string) [required] A unique identifier for the template within the project. Constraints: • min: 1 • max: 32 • pattern: (?=.{1,32}$)[a-zA-Z0-9](-*[a-zA-Z0-9])* TemplateURL -&gt; (string) [required] The Amazon S3 URL of the CloudFormation template. Constraints: • min: 1 • max: 1024 • pattern: (?=.{1,1024}$)(https)://([^/]+)/(.+) RoleARN -&gt; (string) The IAM role that CloudFormation assumes when creating the stack. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Parameters -&gt; (list) An array of CloudFormation stack parameters. Constraints: • min: 0 • max: 180 (structure) A key-value pair that represents a parameter for the CloudFormation stack. Key -&gt; (string) [required] The name of the CloudFormation parameter. Constraints: • min: 1 • max: 255 • pattern: .{1,255} Value -&gt; (string) The value of the CloudFormation parameter. Constraints: • min: 0 • max: 4096 • pattern: .{0,4096} JSON Syntax: [ { "CfnTemplateProvider": { "TemplateName": "string", "TemplateURL": "string", "RoleARN": "string", "Parameters": [ { "Key": "string", "Value": "string" } ... ] } } ... ]
     /// </summary>
     [CliOption("--template-providers", GroupValues = true)]
     public IEnumerable<string>? TemplateProviders { get; set; }

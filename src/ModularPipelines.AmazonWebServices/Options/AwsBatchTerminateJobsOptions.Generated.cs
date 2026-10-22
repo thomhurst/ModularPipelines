@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Terminates up to 50 jobs in a job queue. This is a bulk version of TerminateJob . Jobs that are in the STARTING or RUNNING state are ter- minated, which causes them to transition to FAILED . Jobs that have not progressed to the STARTING state are cancelled. Batch reports the result for each job individually in the response. Jobs that were processed successfully are reported in the successful list. Jobs that encountered errors are reported in the errors list. The response returns an HTTP status c...
+/// Terminates up to 50 jobs in a job queue. This is a bulk version of TerminateJob . Jobs that are in the STARTING or RUNNING state are terminated, which causes them to transition to FAILED . Jobs that have not progressed to the STARTING state are cancelled. Batch reports the result for each job individually in the response. Jobs that were processed successfully are reported in the successful list. Jobs that encountered errors are reported in the errors list. The response returns an HTTP status cod...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsBatchTerminateJobsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Terminates up to 50 jobs in a job queue. This is a bulk version of TerminateJob . Jobs that are in the STARTING or RUNNING state are ter- minated, which causes them to transition to FAILED . Jobs that have not progressed to the STARTING state are cancelled. Batch reports the result for each job individually in the response. Jobs that were processed successfully are reported in the successful list. Jobs that encountered errors are reported in the errors list. The response returns an HTTP status c...
+    /// Terminates up to 50 jobs in a job queue. This is a bulk version of TerminateJob . Jobs that are in the STARTING or RUNNING state are terminated, which causes them to transition to FAILED . Jobs that have not progressed to the STARTING state are cancelled. Batch reports the result for each job individually in the response. Jobs that were processed successfully are reported in the successful list. Jobs that encountered errors are reported in the errors list. The response returns an HTTP status cod...
     /// </summary>
     /// <param name="Jobs">An array of up to 50 Batch job IDs of the jobs to terminate. (string) Syntax: "string" "string" ...</param>
-    /// <param name="Reason">A message to attach to the job that explains the reason for termi- nating it. This message is returned by future DescribeJobs opera- tions on the job. It is also recorded in the Batch activity logs. This parameter has a limit of 1024 characters.</param>
+    /// <param name="Reason">A message to attach to the job that explains the reason for terminating it. This message is returned by future DescribeJobs operations on the job. It is also recorded in the Batch activity logs. This parameter has a limit of 1024 characters.</param>
     public AwsBatchTerminateJobsOptions(
         IEnumerable<string> Jobs,
         string Reason
@@ -77,7 +79,7 @@ public record AwsBatchTerminateJobsOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? Jobs { get; private init; }
 
     /// <summary>
-    /// A message to attach to the job that explains the reason for termi- nating it. This message is returned by future DescribeJobs opera- tions on the job. It is also recorded in the Batch activity logs. This parameter has a limit of 1024 characters.
+    /// A message to attach to the job that explains the reason for terminating it. This message is returned by future DescribeJobs operations on the job. It is also recorded in the Batch activity logs. This parameter has a limit of 1024 characters.
     /// </summary>
     [CliOption("--reason")]
     public string? Reason { get; private init; }

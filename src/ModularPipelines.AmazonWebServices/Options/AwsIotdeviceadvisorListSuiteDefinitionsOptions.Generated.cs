@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotdeviceadvisorListSuiteDefinitionsOptions : AwsOptions
 {
     /// <summary>
-    /// The maximum number of results to return at once. Constraints: o min: 1 o max: 50
+    /// The maximum number of results to return at once. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// A token used to get the next set of results. Constraints: o max: 2000
+    /// A token used to get the next set of results. Constraints: • max: 2000
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws chimesdkmediapipelines commands.
+/// aws chime-sdk-media-pipelines commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
@@ -62,7 +62,7 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
     }
 
     /// <summary>
-    /// A structure that contains the static configurations for a media in- sights pipeline. See also: AWS API Documentation
+    /// A structure that contains the static configurations for a media insights pipeline. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
     }
 
     /// <summary>
-    /// Starts a speaker search task. WARNING: Before starting any speaker search tasks, you must provide all no- tices and obtain all consents from the speaker as required under ap- plicable privacy and biometrics laws, and as required under the AWS service terms for the Amazon Chime SDK. See also: AWS API Documentation
+    /// Starts a speaker search task. WARNING: Before starting any speaker search tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the AWS service terms for the Amazon Chime SDK. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,12 +30,12 @@ public record AwsConnectCreateHoursOfOperationOverrideOptions : AwsOptions, IVal
     /// <summary>
     /// Creates an hours of operation override in an Connect Customer hours of operation resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. Constraints: • min: 1 • max: 100</param>
     /// <param name="HoursOfOperationId">The identifier for the hours of operation</param>
-    /// <param name="Name">The name of the hours of operation override. Constraints: o pattern: ^[\P{C}\r\n\t]{1,127}$</param>
-    /// <param name="Config">Configuration information for the hours of operation override: day, start time, and end time. Constraints: o min: 0 o max: 100 (structure) Information about the hours of operation override config: day, start time, and end time. Day -&gt; (string) The day that the hours of operation override applies to. Possible values: o SUNDAY o MONDAY o TUESDAY o WEDNESDAY o THURSDAY o FRIDAY o SATURDAY StartTime -&gt; (structure) The start time when your contact center opens if overrides are applied. Hours -&gt; (integer) [required] The hours. Constraints: o min: 0 o max: 23 Minutes -&gt; (integer) [required] The minutes. Constraints: o min: 0 o max: 59 EndTime -&gt; (structure) The end time that your contact center closes if overrides are applied. Hours -&gt; (integer) [required] The hours. Constraints: o min: 0 o max: 23 Minutes -&gt; (integer) [required] The minutes. Constraints: o min: 0 o max: 59 Shorthand Syntax: Day=string,StartTime={Hours=integer,Minutes=integer},EndTime={Hours=integer,Minutes=integer} ... JSON Syntax: [ { "Day": "SUNDAY"|"MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY", "StartTime": { "Hours": integer, "Minutes": integer }, "EndTime": { "Hours": integer, "Minutes": integer } } ... ]</param>
-    /// <param name="EffectiveFrom">The date from when the hours of operation override is effective. Constraints: o pattern: ^\d{4}-\d{2}-\d{2}$</param>
-    /// <param name="EffectiveTill">The date until when the hours of operation override is effective. Constraints: o pattern: ^\d{4}-\d{2}-\d{2}$</param>
+    /// <param name="Name">The name of the hours of operation override. Constraints: • pattern: ^[\P{C}\r\n\t]{1,127}$</param>
+    /// <param name="Config">Configuration information for the hours of operation override: day, start time, and end time. Constraints: • min: 0 • max: 100 (structure) Information about the hours of operation override config: day, start time, and end time. Day -&gt; (string) The day that the hours of operation override applies to. Possible values: • SUNDAY • MONDAY • TUESDAY • WEDNESDAY • THURSDAY • FRIDAY • SATURDAY StartTime -&gt; (structure) The start time when your contact center opens if overrides are applied. Hours -&gt; (integer) [required] The hours. Constraints: • min: 0 • max: 23 Minutes -&gt; (integer) [required] The minutes. Constraints: • min: 0 • max: 59 EndTime -&gt; (structure) The end time that your contact center closes if overrides are applied. Hours -&gt; (integer) [required] The hours. Constraints: • min: 0 • max: 23 Minutes -&gt; (integer) [required] The minutes. Constraints: • min: 0 • max: 59 Shorthand Syntax: Day=string,StartTime={Hours=integer,Minutes=integer},EndTime={Hours=integer,Minutes=integer} ... JSON Syntax: [ { "Day": "SUNDAY"|"MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY", "StartTime": { "Hours": integer, "Minutes": integer }, "EndTime": { "Hours": integer, "Minutes": integer } } ... ]</param>
+    /// <param name="EffectiveFrom">The date from when the hours of operation override is effective. Constraints: • pattern: ^\d{4}-\d{2}-\d{2}$</param>
+    /// <param name="EffectiveTill">The date until when the hours of operation override is effective. Constraints: • pattern: ^\d{4}-\d{2}-\d{2}$</param>
     public AwsConnectCreateHoursOfOperationOverrideOptions(
         string InstanceId,
         string HoursOfOperationId,
@@ -88,7 +90,7 @@ public record AwsConnectCreateHoursOfOperationOverrideOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
@@ -100,43 +102,43 @@ public record AwsConnectCreateHoursOfOperationOverrideOptions : AwsOptions, IVal
     public string? HoursOfOperationId { get; private init; }
 
     /// <summary>
-    /// The name of the hours of operation override. Constraints: o pattern: ^[\P{C}\r\n\t]{1,127}$
+    /// The name of the hours of operation override. Constraints: • pattern: ^[\P{C}\r\n\t]{1,127}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Configuration information for the hours of operation override: day, start time, and end time. Constraints: o min: 0 o max: 100 (structure) Information about the hours of operation override config: day, start time, and end time. Day -&gt; (string) The day that the hours of operation override applies to. Possible values: o SUNDAY o MONDAY o TUESDAY o WEDNESDAY o THURSDAY o FRIDAY o SATURDAY StartTime -&gt; (structure) The start time when your contact center opens if overrides are applied. Hours -&gt; (integer) [required] The hours. Constraints: o min: 0 o max: 23 Minutes -&gt; (integer) [required] The minutes. Constraints: o min: 0 o max: 59 EndTime -&gt; (structure) The end time that your contact center closes if overrides are applied. Hours -&gt; (integer) [required] The hours. Constraints: o min: 0 o max: 23 Minutes -&gt; (integer) [required] The minutes. Constraints: o min: 0 o max: 59 Shorthand Syntax: Day=string,StartTime={Hours=integer,Minutes=integer},EndTime={Hours=integer,Minutes=integer} ... JSON Syntax: [ { "Day": "SUNDAY"|"MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY", "StartTime": { "Hours": integer, "Minutes": integer }, "EndTime": { "Hours": integer, "Minutes": integer } } ... ]
+    /// Configuration information for the hours of operation override: day, start time, and end time. Constraints: • min: 0 • max: 100 (structure) Information about the hours of operation override config: day, start time, and end time. Day -&gt; (string) The day that the hours of operation override applies to. Possible values: • SUNDAY • MONDAY • TUESDAY • WEDNESDAY • THURSDAY • FRIDAY • SATURDAY StartTime -&gt; (structure) The start time when your contact center opens if overrides are applied. Hours -&gt; (integer) [required] The hours. Constraints: • min: 0 • max: 23 Minutes -&gt; (integer) [required] The minutes. Constraints: • min: 0 • max: 59 EndTime -&gt; (structure) The end time that your contact center closes if overrides are applied. Hours -&gt; (integer) [required] The hours. Constraints: • min: 0 • max: 23 Minutes -&gt; (integer) [required] The minutes. Constraints: • min: 0 • max: 59 Shorthand Syntax: Day=string,StartTime={Hours=integer,Minutes=integer},EndTime={Hours=integer,Minutes=integer} ... JSON Syntax: [ { "Day": "SUNDAY"|"MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY", "StartTime": { "Hours": integer, "Minutes": integer }, "EndTime": { "Hours": integer, "Minutes": integer } } ... ]
     /// </summary>
     [CliOption("--config", GroupValues = true)]
     public IEnumerable<string>? Config { get; private init; }
 
     /// <summary>
-    /// The date from when the hours of operation override is effective. Constraints: o pattern: ^\d{4}-\d{2}-\d{2}$
+    /// The date from when the hours of operation override is effective. Constraints: • pattern: ^\d{4}-\d{2}-\d{2}$
     /// </summary>
     [CliOption("--effective-from")]
     public string? EffectiveFrom { get; private init; }
 
     /// <summary>
-    /// The date until when the hours of operation override is effective. Constraints: o pattern: ^\d{4}-\d{2}-\d{2}$
+    /// The date until when the hours of operation override is effective. Constraints: • pattern: ^\d{4}-\d{2}-\d{2}$
     /// </summary>
     [CliOption("--effective-till")]
     public string? EffectiveTill { get; private init; }
 
     /// <summary>
-    /// The description of the hours of operation override. Constraints: o pattern: ^[\P{C}\r\n\t]{1,250}$
+    /// The description of the hours of operation override. Constraints: • pattern: ^[\P{C}\r\n\t]{1,250}$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Configuration for a recurring event. RecurrencePattern -&gt; (structure) [required] The recurrence pattern that defines how the event repeats. Exam- ple: Frequency, Interval, ByMonth, ByMonthDay, ByWeekdayOccur- rence Frequency -&gt; (string) [required] Defines how often the pattern repeats. This is the base unit for the recurrence schedule and works in conjunction with the Interval field to determine the exact repetition sequence. Possible values: o WEEKLY o MONTHLY o YEARLY Interval -&gt; (integer) [required] Specifies the number of frequency units between each occur- rence. Must be a positive integer. Examples: To repeat every week, set Interval=1 with WEEKLY frequency. To repeat every two months, set Interval=2 with MONTHLY frequency. Constraints: o min: 1 o max: 6 ByMonth -&gt; (list) Specifies which month the event should occur in (1-12, where 1=January, 12=December). Used with YEARLY frequency to sched- ule events in specific month. Note: It does not accept multiple values in the same list (integer) Constraints: o min: 1 o max: 12 ByMonthDay -&gt; (list) Specifies which day of the month the event should occur on (1-31). Used with MONTHLY or YEARLY frequency to schedule events on specific date within a month. Examples: [15] for events on the 15th of each month, [-1] for events on the last day of month. Note: It does not accept multiple values in the same list. If a specified day doesn't exist in a particular month (e.g., day 31 in February), the event will be skipped for that month. This field cannot be used simultaneously with ByWeek- dayOccurrence as they represent different scheduling ap- proaches (specific dates vs. relative weekday positions). (integer) Constraints: o min: -1 o max: 31 ByWeekdayOccurrence -&gt; (list) Specifies which occurrence of a weekday within the month the event should occur on. Must be used with MONTHLY or YEARLY frequency. Example: 2 corresponds to second occurrence of the weekday in the month. -1 corresponds to last occurrence of the weekday in the month The weekday itself is specified separately in the HoursOfOp- erationConfig. Example: To schedule the recurring event for the 2nd Thursday of April every year, set ByWeekdayOccur- rence=[2], Day=THURSDAY, ByMonth=[4], Frequency: YEARLY and INTERVAL=1. Constraints: o min: 0 o max: 1 (integer) Constraints: o min: -1 o max: 4 Shorthand Syntax: RecurrencePattern={Frequency=string,Interval=integer,ByMonth=[integer,integer],ByMonthDay=[integer,integer],ByWeekdayOccurrence=[integer,integer]} JSON Syntax: { "RecurrencePattern": { "Frequency": "WEEKLY"|"MONTHLY"|"YEARLY", "Interval": integer, "ByMonth": [integer, ...], "ByMonthDay": [integer, ...], "ByWeekdayOccurrence": [integer, ...] } }
+    /// Configuration for a recurring event. RecurrencePattern -&gt; (structure) [required] The recurrence pattern that defines how the event repeats. Example: Frequency, Interval, ByMonth, ByMonthDay, ByWeekdayOccurrence Frequency -&gt; (string) [required] Defines how often the pattern repeats. This is the base unit for the recurrence schedule and works in conjunction with the Interval field to determine the exact repetition sequence. Possible values: • WEEKLY • MONTHLY • YEARLY Interval -&gt; (integer) [required] Specifies the number of frequency units between each occurrence. Must be a positive integer. Examples: To repeat every week, set Interval=1 with WEEKLY frequency. To repeat every two months, set Interval=2 with MONTHLY frequency. Constraints: • min: 1 • max: 6 ByMonth -&gt; (list) Specifies which month the event should occur in (1-12, where 1=January, 12=December). Used with YEARLY frequency to schedule events in specific month. Note: It does not accept multiple values in the same list (integer) Constraints: • min: 1 • max: 12 ByMonthDay -&gt; (list) Specifies which day of the month the event should occur on (1-31). Used with MONTHLY or YEARLY frequency to schedule events on specific date within a month. Examples: [15] for events on the 15th of each month, [-1] for events on the last day of month. Note: It does not accept multiple values in the same list. If a specified day doesn't exist in a particular month (e.g., day 31 in February), the event will be skipped for that month. This field cannot be used simultaneously with ByWeekdayOccurrence as they represent different scheduling approaches (specific dates vs. relative weekday positions). (integer) Constraints: • min: -1 • max: 31 ByWeekdayOccurrence -&gt; (list) Specifies which occurrence of a weekday within the month the event should occur on. Must be used with MONTHLY or YEARLY frequency. Example: 2 corresponds to second occurrence of the weekday in the month. -1 corresponds to last occurrence of the weekday in the month The weekday itself is specified separately in the HoursOfOperationConfig. Example: To schedule the recurring event for the 2nd Thursday of April every year, set ByWeekdayOccurrence=[2], Day=THURSDAY, ByMonth=[4], Frequency: YEARLY and INTERVAL=1. Constraints: • min: 0 • max: 1 (integer) Constraints: • min: -1 • max: 4 Shorthand Syntax: RecurrencePattern={Frequency=string,Interval=integer,ByMonth=[integer,integer],ByMonthDay=[integer,integer],ByWeekdayOccurrence=[integer,integer]} JSON Syntax: { "RecurrencePattern": { "Frequency": "WEEKLY"|"MONTHLY"|"YEARLY", "Interval": integer, "ByMonth": [integer, ...], "ByMonthDay": [integer, ...], "ByWeekdayOccurrence": [integer, ...] } }
     /// </summary>
     [CliOption("--recurrence-config")]
     public string? RecurrenceConfig { get; set; }
 
     /// <summary>
-    /// Whether the override will be defined as a standard or as a recurring event . For more information about how override types are applied, see Build your list of overrides in the Administrator Guide . Possible values: o STANDARD o OPEN o CLOSED
+    /// Whether the override will be defined as a standard or as a recurring event . For more information about how override types are applied, see Build your list of overrides in the Administrator Guide . Possible values: • STANDARD • OPEN • CLOSED
     /// </summary>
     [CliOption("--override-type")]
     public AwsConnectCreateHoursOfOperationOverrideOverrideType? OverrideType { get; set; }

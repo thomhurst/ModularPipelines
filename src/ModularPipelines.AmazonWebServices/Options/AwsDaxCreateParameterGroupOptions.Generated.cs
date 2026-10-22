@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new parameter group. A parameter group is a collection of pa- rameters that you apply to all of the nodes in a DAX cluster. See also: AWS API Documentation
+/// Creates a new parameter group. A parameter group is a collection of parameters that you apply to all of the nodes in a DAX cluster. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsDaxCreateParameterGroupOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new parameter group. A parameter group is a collection of pa- rameters that you apply to all of the nodes in a DAX cluster. See also: AWS API Documentation
+    /// Creates a new parameter group. A parameter group is a collection of parameters that you apply to all of the nodes in a DAX cluster. See also: AWS API Documentation
     /// </summary>
     /// <param name="ParameterGroupName">The name of the parameter group to apply to all of the clusters in this replication group.</param>
     public AwsDaxCreateParameterGroupOptions(

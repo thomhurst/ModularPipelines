@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsRedshiftPutResourcePolicyOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Updates the resource policy for a specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource of which its resource policy is updated. Constraints: o max: 2147483647</param>
-    /// <param name="Policy">The content of the resource policy being updated. Constraints: o max: 2147483647</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource of which its resource policy is updated. Constraints: • max: 2147483647</param>
+    /// <param name="Policy">The content of the resource policy being updated. Constraints: • max: 2147483647</param>
     public AwsRedshiftPutResourcePolicyOptions(
         string ResourceArn,
         string Policy
@@ -60,13 +62,13 @@ public record AwsRedshiftPutResourcePolicyOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource of which its resource policy is updated. Constraints: o max: 2147483647
+    /// The Amazon Resource Name (ARN) of the resource of which its resource policy is updated. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The content of the resource policy being updated. Constraints: o max: 2147483647
+    /// The content of the resource policy being updated. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; private init; }

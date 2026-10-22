@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMarketplaceAgreementAcceptAgreementRequestOptions : AwsOptions,
     /// <summary>
     /// Accepts an agreement request to finalize the agreement. The acceptor can optionally provide purchase orders to associate with the agreement charges. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgreementRequestId">The unique identifier of the agreement request. Constraints: o min: 1 o max: 64 o pattern: ar-[A-Za-z0-9]+</param>
+    /// <param name="AgreementRequestId">The unique identifier of the agreement request. Constraints: • min: 1 • max: 64 • pattern: ar-[A-Za-z0-9]+</param>
     public AwsMarketplaceAgreementAcceptAgreementRequestOptions(
         string AgreementRequestId
     )
@@ -56,13 +58,13 @@ public record AwsMarketplaceAgreementAcceptAgreementRequestOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the agreement request. Constraints: o min: 1 o max: 64 o pattern: ar-[A-Za-z0-9]+
+    /// The unique identifier of the agreement request. Constraints: • min: 1 • max: 64 • pattern: ar-[A-Za-z0-9]+
     /// </summary>
     [CliOption("--agreement-request-id")]
     public string? AgreementRequestId { get; private init; }
 
     /// <summary>
-    /// A list of purchase orders associated with accepting a marketplace agreement request. Constraints: o min: 1 o max: 86 (structure) Contains information about a purchase order association to a charge within an agreement. chargeId -&gt; (string) [required] The unique identifier of the charge to associate the purchase order with. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+ chargeRevision -&gt; (long) The revision of the charge. Constraints: o min: 1 agreementId -&gt; (string) The unique identifier of the agreement associated with this charge. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+ purchaseOrderReference -&gt; (string) The purchase order reference to associate with the charge. Constraints: o min: 1 Shorthand Syntax: chargeId=string,chargeRevision=long,agreementId=string,purchaseOrderReference=string ... JSON Syntax: [ { "chargeId": "string", "chargeRevision": long, "agreementId": "string", "purchaseOrderReference": "string" } ... ]
+    /// A list of purchase orders associated with accepting a marketplace agreement request. Constraints: • min: 1 • max: 86 (structure) Contains information about a purchase order association to a charge within an agreement. chargeId -&gt; (string) [required] The unique identifier of the charge to associate the purchase order with. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_/-]+ chargeRevision -&gt; (long) The revision of the charge. Constraints: • min: 1 agreementId -&gt; (string) The unique identifier of the agreement associated with this charge. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_/-]+ purchaseOrderReference -&gt; (string) The purchase order reference to associate with the charge. Constraints: • min: 1 Shorthand Syntax: chargeId=string,chargeRevision=long,agreementId=string,purchaseOrderReference=string ... JSON Syntax: [ { "chargeId": "string", "chargeRevision": long, "agreementId": "string", "purchaseOrderReference": "string" } ... ]
     /// </summary>
     [CliOption("--purchase-orders", GroupValues = true)]
     public IEnumerable<string>? PurchaseOrders { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Stores a pronunciation lexicon in an Amazon Web Services Region. If a lexicon with the same name already exists in the region, it is over- written by the new lexicon. Lexicon operations have eventual consis- tency, therefore, it might take some time before the lexicon is avail- able to the SynthesizeSpeech operation. For more information, see Managing Lexicons . See also: AWS API Documentation
+/// Stores a pronunciation lexicon in an Amazon Web Services Region. If a lexicon with the same name already exists in the region, it is overwritten by the new lexicon. Lexicon operations have eventual consistency, therefore, it might take some time before the lexicon is available to the SynthesizeSpeech operation. For more information, see Managing Lexicons . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsPollyPutLexiconOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Stores a pronunciation lexicon in an Amazon Web Services Region. If a lexicon with the same name already exists in the region, it is over- written by the new lexicon. Lexicon operations have eventual consis- tency, therefore, it might take some time before the lexicon is avail- able to the SynthesizeSpeech operation. For more information, see Managing Lexicons . See also: AWS API Documentation
+    /// Stores a pronunciation lexicon in an Amazon Web Services Region. If a lexicon with the same name already exists in the region, it is overwritten by the new lexicon. Lexicon operations have eventual consistency, therefore, it might take some time before the lexicon is available to the SynthesizeSpeech operation. For more information, see Managing Lexicons . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">Name of the lexicon. The name must follow the regular express format [0-9A-Za-z]{1,20}. That is, the name is a case-sensitive alphanu- meric string up to 20 characters long. Constraints: o pattern: [0-9A-Za-z]{1,20}</param>
+    /// <param name="Name">Name of the lexicon. The name must follow the regular express format [0-9A-Za-z]{1,20}. That is, the name is a case-sensitive alphanumeric string up to 20 characters long. Constraints: • pattern: [0-9A-Za-z]{1,20}</param>
     /// <param name="Content">Content of the PLS lexicon as string data.</param>
     public AwsPollyPutLexiconOptions(
         string Name,
@@ -60,7 +62,7 @@ public record AwsPollyPutLexiconOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the lexicon. The name must follow the regular express format [0-9A-Za-z]{1,20}. That is, the name is a case-sensitive alphanu- meric string up to 20 characters long. Constraints: o pattern: [0-9A-Za-z]{1,20}
+    /// Name of the lexicon. The name must follow the regular express format [0-9A-Za-z]{1,20}. That is, the name is a case-sensitive alphanumeric string up to 20 characters long. Constraints: • pattern: [0-9A-Za-z]{1,20}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

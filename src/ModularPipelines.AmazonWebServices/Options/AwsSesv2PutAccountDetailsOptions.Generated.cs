@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsSesv2PutAccountDetailsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Update your Amazon SES account details. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MailType">The type of email your account will send. Possible values: o MARKETING o TRANSACTIONAL</param>
-    /// <param name="WebsiteUrl">The URL of your website. This information helps us better understand the type of content that you plan to send. Constraints: o min: 1 o max: 1000 o pattern: ^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?</param>
+    /// <param name="MailType">The type of email your account will send. Possible values: • MARKETING • TRANSACTIONAL</param>
+    /// <param name="WebsiteUrl">The URL of your website. This information helps us better understand the type of content that you plan to send. Constraints: • min: 1 • max: 1000 • pattern: ^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?</param>
     public AwsSesv2PutAccountDetailsOptions(
         AwsSesv2PutAccountDetailsMailType MailType,
         string WebsiteUrl
@@ -60,37 +62,37 @@ public record AwsSesv2PutAccountDetailsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of email your account will send. Possible values: o MARKETING o TRANSACTIONAL
+    /// The type of email your account will send. Possible values: • MARKETING • TRANSACTIONAL
     /// </summary>
     [CliOption("--mail-type")]
     public AwsSesv2PutAccountDetailsMailType? MailType { get; private init; }
 
     /// <summary>
-    /// The URL of your website. This information helps us better understand the type of content that you plan to send. Constraints: o min: 1 o max: 1000 o pattern: ^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?
+    /// The URL of your website. This information helps us better understand the type of content that you plan to send. Constraints: • min: 1 • max: 1000 • pattern: ^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?
     /// </summary>
     [CliOption("--website-url")]
     public string? WebsiteUrl { get; private init; }
 
     /// <summary>
-    /// The language you would prefer to be contacted with. Possible values: o EN o JA
+    /// The language you would prefer to be contacted with. Possible values: • EN • JA
     /// </summary>
     [CliOption("--contact-language")]
     public AwsSesv2PutAccountDetailsContactLanguage? ContactLanguage { get; set; }
 
     /// <summary>
-    /// A description of the types of email that you plan to send. Constraints: o max: 5000
+    /// A description of the types of email that you plan to send. Constraints: • max: 5000
     /// </summary>
     [CliOption("--use-case-description")]
     public string? UseCaseDescription { get; set; }
 
     /// <summary>
-    /// Additional email addresses that you would like to be notified re- garding Amazon SES matters. Constraints: o min: 1 o max: 4 (string) Constraints: o min: 6 o max: 254 o pattern: ^(.+)@(.+)$ Syntax: "string" "string" ...
+    /// Additional email addresses that you would like to be notified regarding Amazon SES matters. Constraints: • min: 1 • max: 4 (string) Constraints: • min: 6 • max: 254 • pattern: ^(.+)@(.+)$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--additional-contact-email-addresses", GroupValues = true)]
     public IEnumerable<string>? AdditionalContactEmailAddresses { get; set; }
 
     /// <summary>
-    /// Indicates whether or not your account should have production access in the current Amazon Web Services Region. If the value is false , then your account is in the sandbox . When your account is in the sandbox, you can only send email to verified identities. If the value is true , then your account has production access. When your account has production access, you can send email to any ad- dress. The sending quota and maximum sending rate for your account vary based on your specific use case.
+    /// Indicates whether or not your account should have production access in the current Amazon Web Services Region. If the value is false , then your account is in the sandbox . When your account is in the sandbox, you can only send email to verified identities. If the value is true , then your account has production access. When your account has production access, you can send email to any address. The sending quota and maximum sending rate for your account vary based on your specific use case.
     /// </summary>
     [CliFlag("--production-access-enabled", NegatedName = "--no-production-access-enabled")]
     public bool? ProductionAccessEnabled { get; set; }

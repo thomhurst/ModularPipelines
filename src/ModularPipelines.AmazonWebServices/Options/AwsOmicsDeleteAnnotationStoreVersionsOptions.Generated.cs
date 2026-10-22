@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsOmicsDeleteAnnotationStoreVersionsOptions : AwsOptions, IValida
     /// Deletes one or multiple versions of an annotation store. See also: AWS API Documentation
     /// </summary>
     /// <param name="Name">The name of the annotation store from which versions are being deleted.</param>
-    /// <param name="Versions">The versions of an annotation store to be deleted. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 3 o max: 255 o pattern: ([a-z]){1}([a-z0-9_]){2,254} Syntax: "string" "string" ...</param>
+    /// <param name="Versions">The versions of an annotation store to be deleted. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 3 • max: 255 • pattern: ([a-z]){1}([a-z0-9_]){2,254} Syntax: "string" "string" ...</param>
     public AwsOmicsDeleteAnnotationStoreVersionsOptions(
         string Name,
         IEnumerable<string> Versions
@@ -77,7 +79,7 @@ public record AwsOmicsDeleteAnnotationStoreVersionsOptions : AwsOptions, IValida
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The versions of an annotation store to be deleted. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 3 o max: 255 o pattern: ([a-z]){1}([a-z0-9_]){2,254} Syntax: "string" "string" ...
+    /// The versions of an annotation store to be deleted. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 3 • max: 255 • pattern: ([a-z]){1}([a-z0-9_]){2,254} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--versions", GroupValues = true)]
     public IEnumerable<string>? Versions { get; private init; }

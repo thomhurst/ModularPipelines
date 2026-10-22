@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API. You can update the number of capacity units you require for Amazon Kendra Intelligent Ranking to rescore or re-rank a search service's re- sults. See also: AWS API Documentation
+/// Updates a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API. You can update the number of capacity units you require for Amazon Kendra Intelligent Ranking to rescore or re-rank a search service's results. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsKendraRankingUpdateRescoreExecutionPlanOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API. You can update the number of capacity units you require for Amazon Kendra Intelligent Ranking to rescore or re-rank a search service's re- sults. See also: AWS API Documentation
+    /// Updates a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API. You can update the number of capacity units you require for Amazon Kendra Intelligent Ranking to rescore or re-rank a search service's results. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The identifier of the rescore execution plan that you want to up- date. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="Id">The identifier of the rescore execution plan that you want to update. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
     public AwsKendraRankingUpdateRescoreExecutionPlanOptions(
         string Id
     )
@@ -56,25 +58,25 @@ public record AwsKendraRankingUpdateRescoreExecutionPlanOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the rescore execution plan that you want to up- date. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// The identifier of the rescore execution plan that you want to update. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// A new name for the rescore execution plan. Constraints: o min: 1 o max: 1000 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// A new name for the rescore execution plan. Constraints: • min: 1 • max: 1000 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A new description for the rescore execution plan. Constraints: o min: 0 o max: 1000 o pattern: ^\P{C}*$
+    /// A new description for the rescore execution plan. Constraints: • min: 0 • max: 1000 • pattern: ^\P{C}*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// You can set additional capacity units to meet the needs of your rescore execution plan. You are given a single capacity unit by de- fault. If you want to use the default capacity, you don't set addi- tional capacity units. For more information on the default capacity and additional capacity units, see Adjusting capacity . RescoreCapacityUnits -&gt; (integer) [required] The amount of extra capacity for your rescore execution plan. A single extra capacity unit for a rescore execution plan pro- vides 0.01 rescore requests per second. You can add up to 1000 extra capacity units. Constraints: o min: 0 Shorthand Syntax: RescoreCapacityUnits=integer JSON Syntax: { "RescoreCapacityUnits": integer }
+    /// You can set additional capacity units to meet the needs of your rescore execution plan. You are given a single capacity unit by default. If you want to use the default capacity, you don't set additional capacity units. For more information on the default capacity and additional capacity units, see Adjusting capacity . RescoreCapacityUnits -&gt; (integer) [required] The amount of extra capacity for your rescore execution plan. A single extra capacity unit for a rescore execution plan provides 0.01 rescore requests per second. You can add up to 1000 extra capacity units. Constraints: • min: 0 Shorthand Syntax: RescoreCapacityUnits=integer JSON Syntax: { "RescoreCapacityUnits": integer }
     /// </summary>
     [CliOption("--capacity-units")]
     public string? CapacityUnits { get; set; }

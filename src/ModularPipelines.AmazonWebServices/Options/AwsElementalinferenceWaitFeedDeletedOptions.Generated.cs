@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Wait until a Feed is deleted It will poll every 3 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation
+/// Wait until a Feed is deleted It will poll every 3 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsElementalinferenceWaitFeedDeletedOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Wait until a Feed is deleted It will poll every 3 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation
+    /// Wait until a Feed is deleted It will poll every 3 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the feed to query. Constraints: o pattern: [a-z0-9]{19}</param>
+    /// <param name="Id">The ID of the feed to query. Constraints: • pattern: [a-z0-9]{19}</param>
     public AwsElementalinferenceWaitFeedDeletedOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsElementalinferenceWaitFeedDeletedOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the feed to query. Constraints: o pattern: [a-z0-9]{19}
+    /// The ID of the feed to query. Constraints: • pattern: [a-z0-9]{19}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

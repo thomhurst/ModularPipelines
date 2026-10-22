@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSqsGetQueueUrlOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// The GetQueueUrl API returns the URL of an existing Amazon SQS queue. This is useful when you know the queue's name but need to retrieve its URL for further operations. To access a queue owned by another Amazon Web Services account, use the QueueOwnerAWSAccountId parameter to specify the account ID of the queue's owner. Note that the queue owner must grant you the necessary permissions to access the queue. For more information about accessing shared queues, see the `` AddPermission `` API or Allo...
     /// </summary>
-    /// <param name="QueueName">(Required) The name of the queue for which you want to fetch the URL. The name can be up to 80 characters long and can include al- phanumeric characters, hyphens (-), and underscores (_). Queue URLs and names are case-sensitive.</param>
+    /// <param name="QueueName">(Required) The name of the queue for which you want to fetch the URL. The name can be up to 80 characters long and can include alphanumeric characters, hyphens (-), and underscores (_). Queue URLs and names are case-sensitive.</param>
     public AwsSqsGetQueueUrlOptions(
         string QueueName
     )
@@ -56,7 +58,7 @@ public record AwsSqsGetQueueUrlOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// (Required) The name of the queue for which you want to fetch the URL. The name can be up to 80 characters long and can include al- phanumeric characters, hyphens (-), and underscores (_). Queue URLs and names are case-sensitive.
+    /// (Required) The name of the queue for which you want to fetch the URL. The name can be up to 80 characters long and can include alphanumeric characters, hyphens (-), and underscores (_). Queue URLs and names are case-sensitive.
     /// </summary>
     [CliOption("--queue-name")]
     public string? QueueName { get; private init; }

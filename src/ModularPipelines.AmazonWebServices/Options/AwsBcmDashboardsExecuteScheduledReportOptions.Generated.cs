@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Triggers an immediate execution of a scheduled report, outside of its regular schedule. The scheduled report must be in ENABLED state. Call- ing this operation on a DISABLED scheduled report returns a Valida- tionException . NOTE: If a clientToken is provided, the service uses it for idempotency. Requests with the same client token will not trigger a new execution within the same minute. See also: AWS API Documentation
+/// Triggers an immediate execution of a scheduled report, outside of its regular schedule. The scheduled report must be in ENABLED state. Calling this operation on a DISABLED scheduled report returns a ValidationException . NOTE: If a clientToken is provided, the service uses it for idempotency. Requests with the same client token will not trigger a new execution within the same minute. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsBcmDashboardsExecuteScheduledReportOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Triggers an immediate execution of a scheduled report, outside of its regular schedule. The scheduled report must be in ENABLED state. Call- ing this operation on a DISABLED scheduled report returns a Valida- tionException . NOTE: If a clientToken is provided, the service uses it for idempotency. Requests with the same client token will not trigger a new execution within the same minute. See also: AWS API Documentation
+    /// Triggers an immediate execution of a scheduled report, outside of its regular schedule. The scheduled report must be in ENABLED state. Calling this operation on a DISABLED scheduled report returns a ValidationException . NOTE: If a clientToken is provided, the service uses it for idempotency. Requests with the same client token will not trigger a new execution within the same minute. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The ARN of the scheduled report to execute. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:scheduled-re- port/(\*|[-a-z0-9]+)</param>
+    /// <param name="Arn">The ARN of the scheduled report to execute. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:scheduled-report/(\*|[-a-z0-9]+)</param>
     public AwsBcmDashboardsExecuteScheduledReportOptions(
         string Arn
     )
@@ -57,13 +59,13 @@ public record AwsBcmDashboardsExecuteScheduledReportOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the scheduled report to execute. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:scheduled-re- port/(\*|[-a-z0-9]+)
+    /// The ARN of the scheduled report to execute. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:scheduled-report/(\*|[-a-z0-9]+)
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 128 o pattern: [\u0021-\u007E]+
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 128 • pattern: [\u0021-\u007E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

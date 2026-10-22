@@ -23,14 +23,14 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsOpensearchserverlessListCollectionGroupsOptions : AwsOptions
 {
     /// <summary>
-    /// If your initial ListCollectionGroups operation returns a nextToken , you can include the returned nextToken in subsequent ListCollection- Groups operations, which returns results in the next page.
+    /// If your initial ListCollectionGroups operation returns a nextToken , you can include the returned nextToken in subsequent ListCollectionGroups operations, which returns results in the next page.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return. Default is 20. You can use nextToken to get the next page of results. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to return. Default is 20. You can use nextToken to get the next page of results. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

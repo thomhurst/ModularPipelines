@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCodepipelineRegisterWebhookWithThirdPartyOptions : AwsOptions
 {
     /// <summary>
-    /// The name of an existing webhook created with PutWebhook to register with a supported third party. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+
+    /// The name of an existing webhook created with PutWebhook to register with a supported third party. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+
     /// </summary>
     [CliOption("--webhook-name")]
     public string? WebhookName { get; set; }

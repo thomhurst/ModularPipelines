@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +29,10 @@ public record AwsLightsailSetupInstanceHttpsOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Creates an SSL/TLS certificate that secures traffic for your website. After the certificate is created, it is installed on the specified Lightsail instance. If you provide more than one domain name in the request, at least one name must be less than or equal to 63 characters in length. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceName">The name of the Lightsail instance. Constraints: o pattern: \w[\w\-]*\w</param>
-    /// <param name="EmailAddress">The contact method for SSL/TLS certificate renewal alerts. You can enter one email address. Constraints: o min: 6 o max: 254 o pattern: ^[\w!#$%&amp;.'*+\/=?^_\x60{|}~\-]{1,64}@[a-zA-Z0-9\-]{1,63}(\.[a-zA-Z0-9\-]{1,63}){0,8}(\.[a-zA-Z]{2,63})$</param>
-    /// <param name="DomainNames">The name of the domain and subdomains that were specified for the SSL/TLS certificate. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 4 o max: 253 o pattern: ^[a-zA-Z0-9\-]{1,63}(\.[a-zA-Z0-9\-]{1,63}){0,8}(\.[a-zA-Z]{2,63})$ Syntax: "string" "string" ...</param>
-    /// <param name="CertificateProvider">The certificate authority that issues the SSL/TLS certificate. Possible values: o LetsEncrypt</param>
+    /// <param name="InstanceName">The name of the Lightsail instance. Constraints: • pattern: \w[\w\-]*\w</param>
+    /// <param name="EmailAddress">The contact method for SSL/TLS certificate renewal alerts. You can enter one email address. Constraints: • min: 6 • max: 254 • pattern: ^[\w!#$%&amp;.'*+\/=?^_\x60{|}~/-]{1,64}@[a-zA-Z0-9\-]{1,63}(\.[a-zA-Z0-9\-]{1,63}){0,8}(\.[a-zA-Z]{2,63})$</param>
+    /// <param name="DomainNames">The name of the domain and subdomains that were specified for the SSL/TLS certificate. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 4 • max: 253 • pattern: ^[a-zA-Z0-9\-]{1,63}(\.[a-zA-Z0-9\-]{1,63}){0,8}(\.[a-zA-Z]{2,63})$ Syntax: "string" "string" ...</param>
+    /// <param name="CertificateProvider">The certificate authority that issues the SSL/TLS certificate. Possible values: • LetsEncrypt</param>
     public AwsLightsailSetupInstanceHttpsOptions(
         string InstanceName,
         string EmailAddress,
@@ -79,25 +81,25 @@ public record AwsLightsailSetupInstanceHttpsOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Lightsail instance. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the Lightsail instance. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--instance-name")]
     public string? InstanceName { get; private init; }
 
     /// <summary>
-    /// The contact method for SSL/TLS certificate renewal alerts. You can enter one email address. Constraints: o min: 6 o max: 254 o pattern: ^[\w!#$%&amp;.'*+\/=?^_\x60{|}~\-]{1,64}@[a-zA-Z0-9\-]{1,63}(\.[a-zA-Z0-9\-]{1,63}){0,8}(\.[a-zA-Z]{2,63})$
+    /// The contact method for SSL/TLS certificate renewal alerts. You can enter one email address. Constraints: • min: 6 • max: 254 • pattern: ^[\w!#$%&amp;.'*+\/=?^_\x60{|}~/-]{1,64}@[a-zA-Z0-9\-]{1,63}(\.[a-zA-Z0-9\-]{1,63}){0,8}(\.[a-zA-Z]{2,63})$
     /// </summary>
     [CliOption("--email-address")]
     public string? EmailAddress { get; private init; }
 
     /// <summary>
-    /// The name of the domain and subdomains that were specified for the SSL/TLS certificate. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 4 o max: 253 o pattern: ^[a-zA-Z0-9\-]{1,63}(\.[a-zA-Z0-9\-]{1,63}){0,8}(\.[a-zA-Z]{2,63})$ Syntax: "string" "string" ...
+    /// The name of the domain and subdomains that were specified for the SSL/TLS certificate. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 4 • max: 253 • pattern: ^[a-zA-Z0-9\-]{1,63}(\.[a-zA-Z0-9\-]{1,63}){0,8}(\.[a-zA-Z]{2,63})$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--domain-names", GroupValues = true)]
     public IEnumerable<string>? DomainNames { get; private init; }
 
     /// <summary>
-    /// The certificate authority that issues the SSL/TLS certificate. Possible values: o LetsEncrypt
+    /// The certificate authority that issues the SSL/TLS certificate. Possible values: • LetsEncrypt
     /// </summary>
     [CliOption("--certificate-provider")]
     public string? CertificateProvider { get; private init; }

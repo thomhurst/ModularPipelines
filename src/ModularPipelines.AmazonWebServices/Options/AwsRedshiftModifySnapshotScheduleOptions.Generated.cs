@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsRedshiftModifySnapshotScheduleOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Modifies a snapshot schedule. Any schedule associated with a cluster is modified asynchronously. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ScheduleIdentifier">A unique alphanumeric identifier of the schedule to modify. Constraints: o max: 2147483647</param>
-    /// <param name="ScheduleDefinitions">An updated list of schedule definitions. A schedule definition is made up of schedule expressions, for example, "cron(30 12 * )" or "rate(12 hours)". System Message: WARNING/2 (&lt;string&gt;:, line 85) Inline emphasis start-string without end-string. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...</param>
+    /// <param name="ScheduleIdentifier">A unique alphanumeric identifier of the schedule to modify. Constraints: • max: 2147483647</param>
+    /// <param name="ScheduleDefinitions">An updated list of schedule definitions. A schedule definition is made up of schedule expressions, for example, "cron(30 12 * )" or "rate(12 hours)". System Message: WARNING/2 (&lt;string&gt;:, line 85) Inline emphasis start-string without end-string. (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...</param>
     public AwsRedshiftModifySnapshotScheduleOptions(
         string ScheduleIdentifier,
         IEnumerable<string> ScheduleDefinitions
@@ -71,13 +73,13 @@ public record AwsRedshiftModifySnapshotScheduleOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique alphanumeric identifier of the schedule to modify. Constraints: o max: 2147483647
+    /// A unique alphanumeric identifier of the schedule to modify. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--schedule-identifier")]
     public string? ScheduleIdentifier { get; private init; }
 
     /// <summary>
-    /// An updated list of schedule definitions. A schedule definition is made up of schedule expressions, for example, "cron(30 12 * )" or "rate(12 hours)". System Message: WARNING/2 (&lt;string&gt;:, line 85) Inline emphasis start-string without end-string. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// An updated list of schedule definitions. A schedule definition is made up of schedule expressions, for example, "cron(30 12 * )" or "rate(12 hours)". System Message: WARNING/2 (&lt;string&gt;:, line 85) Inline emphasis start-string without end-string. (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--schedule-definitions", GroupValues = true)]
     public IEnumerable<string>? ScheduleDefinitions { get; private init; }

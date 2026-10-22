@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDmsExportMetadataModelAssessmentOptions : AwsOptions, IValidata
     /// <summary>
     /// Saves a copy of a database migration assessment report to your Amazon S3 bucket. DMS can save your assessment report as a comma-separated value (CSV) or a PDF file. Required permissions: dms:ExportMetadataModelAssessment . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
     /// </summary>
-    /// <param name="MigrationProjectIdentifier">The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255</param>
-    /// <param name="SelectionRules">A JSON string that identifies the metadata models to export a con- version assessment report for. For the selection rule format and ex- amples, see Selection rules in DMS Schema Conversion . Usage: o Accepts only source selection rules, where server-name in the ob- ject locator matches the source data provider. o Supports only explicit rule actions.</param>
+    /// <param name="MigrationProjectIdentifier">The migration project name or Amazon Resource Name (ARN). Constraints: • max: 255</param>
+    /// <param name="SelectionRules">A JSON string that identifies the metadata models to export a conversion assessment report for. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: • Accepts only source selection rules, where server-name in the object locator matches the source data provider. • Supports only explicit rule actions.</param>
     public AwsDmsExportMetadataModelAssessmentOptions(
         string MigrationProjectIdentifier,
         string SelectionRules
@@ -60,13 +62,13 @@ public record AwsDmsExportMetadataModelAssessmentOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255
+    /// The migration project name or Amazon Resource Name (ARN). Constraints: • max: 255
     /// </summary>
     [CliOption("--migration-project-identifier")]
     public string? MigrationProjectIdentifier { get; private init; }
 
     /// <summary>
-    /// A JSON string that identifies the metadata models to export a con- version assessment report for. For the selection rule format and ex- amples, see Selection rules in DMS Schema Conversion . Usage: o Accepts only source selection rules, where server-name in the ob- ject locator matches the source data provider. o Supports only explicit rule actions.
+    /// A JSON string that identifies the metadata models to export a conversion assessment report for. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: • Accepts only source selection rules, where server-name in the object locator matches the source data provider. • Supports only explicit rule actions.
     /// </summary>
     [CliOption("--selection-rules")]
     public string? SelectionRules { get; private init; }
@@ -78,7 +80,7 @@ public record AwsDmsExportMetadataModelAssessmentOptions : AwsOptions, IValidata
     public string? FileName { get; set; }
 
     /// <summary>
-    /// The file format of the assessment file. Constraints: o min: 1 (string) Possible values: o pdf o csv Syntax: "string" "string" ...
+    /// The file format of the assessment file. Constraints: • min: 1 (string) Possible values: • pdf • csv Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--assessment-report-types", GroupValues = true)]
     public IEnumerable<string>? AssessmentReportTypes { get; set; }

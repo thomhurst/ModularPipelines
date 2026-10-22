@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMacie2UpdateResourceProfileOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Updates the sensitivity score for an S3 bucket. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the S3 bucket that the request ap- plies to.</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the S3 bucket that the request applies to.</param>
     public AwsMacie2UpdateResourceProfileOptions(
         string ResourceArn
     )
@@ -56,13 +58,13 @@ public record AwsMacie2UpdateResourceProfileOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the S3 bucket that the request ap- plies to.
+    /// The Amazon Resource Name (ARN) of the S3 bucket that the request applies to.
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The new sensitivity score for the bucket. Valid values are: 100, as- sign the maximum score and apply the Sensitive label to the bucket; and, null (empty), assign a score that Amazon Macie calculates auto- matically after you submit the request.
+    /// The new sensitivity score for the bucket. Valid values are: 100, assign the maximum score and apply the Sensitive label to the bucket; and, null (empty), assign a score that Amazon Macie calculates automatically after you submit the request.
     /// </summary>
     [CliOption("--sensitivity-score-override")]
     public int? SensitivityScoreOverride { get; set; }

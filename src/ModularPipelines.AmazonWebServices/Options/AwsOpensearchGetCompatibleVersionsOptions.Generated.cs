@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsOpensearchGetCompatibleVersionsOptions : AwsOptions
 {
     /// <summary>
-    /// The name of an existing domain. Provide this parameter to limit the results to a single domain. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// The name of an existing domain. Provide this parameter to limit the results to a single domain. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: We recommend using Organizations instead of Security Hub CSPM invi- tations to manage your member accounts. For information, see Managing Security Hub CSPM administrator and member accounts with Organizations in the Security Hub CSPM User Guide . Invites other Amazon Web Services accounts to become member accounts for the Security Hub CSPM administrator account that the invitation is sent from. This operation is only used to invite accounts that don't belong to an Amazon Web Services organ...
+/// NOTE: We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts. For information, see Managing Security Hub CSPM administrator and member accounts with Organizations in the Security Hub CSPM User Guide . Invites other Amazon Web Services accounts to become member accounts for the Security Hub CSPM administrator account that the invitation is sent from. This operation is only used to invite accounts that don't belong to an Amazon Web Services organiz...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSecurityhubInviteMembersOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: We recommend using Organizations instead of Security Hub CSPM invi- tations to manage your member accounts. For information, see Managing Security Hub CSPM administrator and member accounts with Organizations in the Security Hub CSPM User Guide . Invites other Amazon Web Services accounts to become member accounts for the Security Hub CSPM administrator account that the invitation is sent from. This operation is only used to invite accounts that don't belong to an Amazon Web Services organ...
+    /// NOTE: We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts. For information, see Managing Security Hub CSPM administrator and member accounts with Organizations in the Security Hub CSPM User Guide . Invites other Amazon Web Services accounts to become member accounts for the Security Hub CSPM administrator account that the invitation is sent from. This operation is only used to invite accounts that don't belong to an Amazon Web Services organiz...
     /// </summary>
-    /// <param name="AccountIds">The list of account IDs of the Amazon Web Services accounts to in- vite to Security Hub CSPM as members. (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...</param>
+    /// <param name="AccountIds">The list of account IDs of the Amazon Web Services accounts to invite to Security Hub CSPM as members. (string) Constraints: • pattern: .*\S.* Syntax: "string" "string" ...</param>
     public AwsSecurityhubInviteMembersOptions(
         IEnumerable<string> AccountIds
     )
@@ -67,7 +69,7 @@ public record AwsSecurityhubInviteMembersOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The list of account IDs of the Amazon Web Services accounts to in- vite to Security Hub CSPM as members. (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...
+    /// The list of account IDs of the Amazon Web Services accounts to invite to Security Hub CSPM as members. (string) Constraints: • pattern: .*\S.* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; private init; }

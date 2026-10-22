@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsEc2ResetAddressAttributeOptions : AwsOptions, IValidatableObjec
     /// Resets the attribute of the specified IP address. For requirements, see Using reverse DNS for email applications . See also: AWS API Documentation
     /// </summary>
     /// <param name="AllocationId">[EC2-VPC] The allocation ID.</param>
-    /// <param name="Attribute">The attribute of the IP address. Possible values: o domain-name</param>
+    /// <param name="Attribute">The attribute of the IP address. Possible values: • domain-name</param>
     public AwsEc2ResetAddressAttributeOptions(
         string AllocationId,
         string Attribute
@@ -66,13 +68,13 @@ public record AwsEc2ResetAddressAttributeOptions : AwsOptions, IValidatableObjec
     public string? AllocationId { get; private init; }
 
     /// <summary>
-    /// The attribute of the IP address. Possible values: o domain-name
+    /// The attribute of the IP address. Possible values: • domain-name
     /// </summary>
     [CliOption("--attribute")]
     public string? Attribute { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

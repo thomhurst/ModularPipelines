@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Apply the service update to a list of clusters supplied. For more in- formation on service updates and applying them, see Applying the ser- vice updates . See also: AWS API Documentation
+/// Apply the service update to a list of clusters supplied. For more information on service updates and applying them, see Applying the service updates . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsMemorydbBatchUpdateClusterOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Apply the service update to a list of clusters supplied. For more in- formation on service updates and applying them, see Applying the ser- vice updates . See also: AWS API Documentation
+    /// Apply the service update to a list of clusters supplied. For more information on service updates and applying them, see Applying the service updates . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterNames">The cluster names to apply the updates. Constraints: o max: 20 (string) Syntax: "string" "string" ...</param>
+    /// <param name="ClusterNames">The cluster names to apply the updates. Constraints: • max: 20 (string) Syntax: "string" "string" ...</param>
     public AwsMemorydbBatchUpdateClusterOptions(
         IEnumerable<string> ClusterNames
     )
@@ -67,7 +69,7 @@ public record AwsMemorydbBatchUpdateClusterOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The cluster names to apply the updates. Constraints: o max: 20 (string) Syntax: "string" "string" ...
+    /// The cluster names to apply the updates. Constraints: • max: 20 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--cluster-names", GroupValues = true)]
     public IEnumerable<string>? ClusterNames { get; private init; }

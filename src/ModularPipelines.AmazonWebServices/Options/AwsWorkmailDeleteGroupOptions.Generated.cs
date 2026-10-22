@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsWorkmailDeleteGroupOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a group from WorkMail. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The organization that contains the group. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
-    /// <param name="GroupId">The identifier of the group to be deleted. The identifier can be the GroupId , or Groupname . The following identity formats are available: o Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 o Group name: group Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+</param>
+    /// <param name="OrganizationId">The organization that contains the group. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="GroupId">The identifier of the group to be deleted. The identifier can be the GroupId , or Groupname . The following identity formats are available: • Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 • Group name: group Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+</param>
     public AwsWorkmailDeleteGroupOptions(
         string OrganizationId,
         string GroupId
@@ -60,13 +62,13 @@ public record AwsWorkmailDeleteGroupOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The organization that contains the group. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The organization that contains the group. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The identifier of the group to be deleted. The identifier can be the GroupId , or Groupname . The following identity formats are available: o Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 o Group name: group Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+
+    /// The identifier of the group to be deleted. The identifier can be the GroupId , or Groupname . The following identity formats are available: • Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 • Group name: group Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+
     /// </summary>
     [CliOption("--group-id")]
     public string? GroupId { get; private init; }

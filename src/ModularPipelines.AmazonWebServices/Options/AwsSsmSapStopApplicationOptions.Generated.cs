@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSsmSapStopApplicationOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Request is an operation to stop an application. Parameter ApplicationId is required. Parameters StopConnectedEntity and IncludeEc2InstanceShutdown are optional. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The ID of the application. Constraints: o min: 1 o max: 60 o pattern: [\w\d\.-]+</param>
+    /// <param name="ApplicationId">The ID of the application. Constraints: • min: 1 • max: 60 • pattern: [\w\d\.-]+</param>
     public AwsSsmSapStopApplicationOptions(
         string ApplicationId
     )
@@ -56,19 +58,19 @@ public record AwsSsmSapStopApplicationOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the application. Constraints: o min: 1 o max: 60 o pattern: [\w\d\.-]+
+    /// The ID of the application. Constraints: • min: 1 • max: 60 • pattern: [\w\d\.-]+
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// Specify the ConnectedEntityType . Accepted type is DBMS . If this parameter is included, the connected DBMS (Database Manage- ment System) will be stopped. Possible values: o DBMS
+    /// Specify the ConnectedEntityType . Accepted type is DBMS . If this parameter is included, the connected DBMS (Database Management System) will be stopped. Possible values: • DBMS
     /// </summary>
     [CliOption("--stop-connected-entity")]
     public string? StopConnectedEntity { get; set; }
 
     /// <summary>
-    /// Boolean. If included and if set to True , the StopApplication opera- tion will shut down the associated Amazon EC2 instance in addition to the application.
+    /// Boolean. If included and if set to True , the StopApplication operation will shut down the associated Amazon EC2 instance in addition to the application.
     /// </summary>
     [CliFlag("--include-ec2-instance-shutdown", NegatedName = "--no-include-ec2-instance-shutdown")]
     public bool? IncludeEc2InstanceShutdown { get; set; }

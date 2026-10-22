@@ -24,20 +24,20 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotwirelessListDeviceProfilesOptions : AwsOptions
 {
     /// <summary>
-    /// To retrieve the next set of results, the nextToken value from a pre- vious response; otherwise null to receive the first set of results. Constraints: o max: 4096
+    /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results. Constraints: • max: 4096
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return in this operation. Constraints: o min: 0 o max: 250
+    /// The maximum number of results to return in this operation. Constraints: • min: 0 • max: 250
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// A filter to list only device profiles that use this type, which can be LoRaWAN or Sidewalk . Possible values: o Sidewalk o LoRaWAN
+    /// A filter to list only device profiles that use this type, which can be LoRaWAN or Sidewalk . Possible values: • Sidewalk • LoRaWAN
     /// </summary>
     [CliOption("--device-profile-type")]
     public AwsIotwirelessListDeviceProfilesDeviceProfileType? DeviceProfileType { get; set; }

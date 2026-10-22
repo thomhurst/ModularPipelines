@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsConnectcampaignsv2StartInstanceOnboardingJobOptions : AwsOption
     /// <summary>
     /// Onboard the specific Amazon Connect instance to Connect Campaigns. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectInstanceId">Amazon Connect Instance Id Constraints: o min: 1 o max: 256 o pattern: [-_.a-zA-Z0-9]+</param>
-    /// <param name="EncryptionConfig">Encryption config for Connect Instance. Note that sensitive data will always be encrypted. If disabled, service will perform encryp- tion with its own key. If enabled, a KMS key id needs to be provided and KMS charges will apply. KMS is only type supported enabled -&gt; (boolean) [required] Boolean to indicate if custom encryption has been enabled. encryptionType -&gt; (string) Server-side encryption type. Possible values: o KMS keyArn -&gt; (string) KMS key id/arn for encryption config. Constraints: o min: 0 o max: 500 Shorthand Syntax: enabled=boolean,encryptionType=string,keyArn=string JSON Syntax: { "enabled": true|false, "encryptionType": "KMS", "keyArn": "string" }</param>
+    /// <param name="ConnectInstanceId">Amazon Connect Instance Id Constraints: • min: 1 • max: 256 • pattern: [-_.a-zA-Z0-9]+</param>
+    /// <param name="EncryptionConfig">Encryption config for Connect Instance. Note that sensitive data will always be encrypted. If disabled, service will perform encryption with its own key. If enabled, a KMS key id needs to be provided and KMS charges will apply. KMS is only type supported enabled -&gt; (boolean) [required] Boolean to indicate if custom encryption has been enabled. encryptionType -&gt; (string) Server-side encryption type. Possible values: • KMS keyArn -&gt; (string) KMS key id/arn for encryption config. Constraints: • min: 0 • max: 500 Shorthand Syntax: enabled=boolean,encryptionType=string,keyArn=string JSON Syntax: { "enabled": true|false, "encryptionType": "KMS", "keyArn": "string" }</param>
     public AwsConnectcampaignsv2StartInstanceOnboardingJobOptions(
         string ConnectInstanceId,
         string EncryptionConfig
@@ -60,13 +62,13 @@ public record AwsConnectcampaignsv2StartInstanceOnboardingJobOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Connect Instance Id Constraints: o min: 1 o max: 256 o pattern: [-_.a-zA-Z0-9]+
+    /// Amazon Connect Instance Id Constraints: • min: 1 • max: 256 • pattern: [-_.a-zA-Z0-9]+
     /// </summary>
     [CliOption("--connect-instance-id")]
     public string? ConnectInstanceId { get; private init; }
 
     /// <summary>
-    /// Encryption config for Connect Instance. Note that sensitive data will always be encrypted. If disabled, service will perform encryp- tion with its own key. If enabled, a KMS key id needs to be provided and KMS charges will apply. KMS is only type supported enabled -&gt; (boolean) [required] Boolean to indicate if custom encryption has been enabled. encryptionType -&gt; (string) Server-side encryption type. Possible values: o KMS keyArn -&gt; (string) KMS key id/arn for encryption config. Constraints: o min: 0 o max: 500 Shorthand Syntax: enabled=boolean,encryptionType=string,keyArn=string JSON Syntax: { "enabled": true|false, "encryptionType": "KMS", "keyArn": "string" }
+    /// Encryption config for Connect Instance. Note that sensitive data will always be encrypted. If disabled, service will perform encryption with its own key. If enabled, a KMS key id needs to be provided and KMS charges will apply. KMS is only type supported enabled -&gt; (boolean) [required] Boolean to indicate if custom encryption has been enabled. encryptionType -&gt; (string) Server-side encryption type. Possible values: • KMS keyArn -&gt; (string) KMS key id/arn for encryption config. Constraints: • min: 0 • max: 500 Shorthand Syntax: enabled=boolean,encryptionType=string,keyArn=string JSON Syntax: { "enabled": true|false, "encryptionType": "KMS", "keyArn": "string" }
     /// </summary>
     [CliOption("--encryption-config")]
     public string? EncryptionConfig { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Wait until JMESPath query ExportDescription.ExportStatus returns COM- PLETED when polling with describe-export. It will poll every 20 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+/// Wait until JMESPath query ExportDescription.ExportStatus returns COMPLETED when polling with describe-export. It will poll every 20 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsDynamodbWaitExportCompletedOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Wait until JMESPath query ExportDescription.ExportStatus returns COM- PLETED when polling with describe-export. It will poll every 20 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query ExportDescription.ExportStatus returns COMPLETED when polling with describe-export. It will poll every 20 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExportArn">The Amazon Resource Name (ARN) associated with the export. Constraints: o min: 37 o max: 1024</param>
+    /// <param name="ExportArn">The Amazon Resource Name (ARN) associated with the export. Constraints: • min: 37 • max: 1024</param>
     public AwsDynamodbWaitExportCompletedOptions(
         string ExportArn
     )
@@ -56,7 +58,7 @@ public record AwsDynamodbWaitExportCompletedOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) associated with the export. Constraints: o min: 37 o max: 1024
+    /// The Amazon Resource Name (ARN) associated with the export. Constraints: • min: 37 • max: 1024
     /// </summary>
     [CliOption("--export-arn")]
     public string? ExportArn { get; private init; }

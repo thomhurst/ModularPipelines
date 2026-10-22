@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsRumPutRumMetricsDestinationOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Creates or updates a destination to receive extended metrics from CloudWatch RUM. You can send extended metrics to CloudWatch or to a CloudWatch Evidently experiment. For more information about extended metrics, see BatchCreateRumMetricDefinitions . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppMonitorName">The name of the CloudWatch RUM app monitor that will send the met- rics. Constraints: o min: 1 o max: 255 o pattern: (?!\.)[\.\-_#A-Za-z0-9]+</param>
-    /// <param name="Destination">Defines the destination to send the metrics to. Valid values are CloudWatch and Evidently . If you specify Evidently , you must also specify the ARN of the CloudWatchEvidently experiment that is to be the destination and an IAM role that has permission to write to the experiment. Possible values: o CloudWatch o Evidently</param>
+    /// <param name="AppMonitorName">The name of the CloudWatch RUM app monitor that will send the metrics. Constraints: • min: 1 • max: 255 • pattern: (?!\.)[\.\-_#A-Za-z0-9]+</param>
+    /// <param name="Destination">Defines the destination to send the metrics to. Valid values are CloudWatch and Evidently . If you specify Evidently , you must also specify the ARN of the CloudWatchEvidently experiment that is to be the destination and an IAM role that has permission to write to the experiment. Possible values: • CloudWatch • Evidently</param>
     public AwsRumPutRumMetricsDestinationOptions(
         string AppMonitorName,
         AwsRumPutRumMetricsDestinationDestination Destination
@@ -60,25 +62,25 @@ public record AwsRumPutRumMetricsDestinationOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the CloudWatch RUM app monitor that will send the met- rics. Constraints: o min: 1 o max: 255 o pattern: (?!\.)[\.\-_#A-Za-z0-9]+
+    /// The name of the CloudWatch RUM app monitor that will send the metrics. Constraints: • min: 1 • max: 255 • pattern: (?!\.)[\.\-_#A-Za-z0-9]+
     /// </summary>
     [CliOption("--app-monitor-name")]
     public string? AppMonitorName { get; private init; }
 
     /// <summary>
-    /// Defines the destination to send the metrics to. Valid values are CloudWatch and Evidently . If you specify Evidently , you must also specify the ARN of the CloudWatchEvidently experiment that is to be the destination and an IAM role that has permission to write to the experiment. Possible values: o CloudWatch o Evidently
+    /// Defines the destination to send the metrics to. Valid values are CloudWatch and Evidently . If you specify Evidently , you must also specify the ARN of the CloudWatchEvidently experiment that is to be the destination and an IAM role that has permission to write to the experiment. Possible values: • CloudWatch • Evidently
     /// </summary>
     [CliOption("--destination")]
     public AwsRumPutRumMetricsDestinationDestination? Destination { get; private init; }
 
     /// <summary>
-    /// Use this parameter only if Destination is Evidently . This parameter specifies the ARN of the Evidently experiment that will receive the extended metrics. Constraints: o min: 0 o max: 2048 o pattern: .*arn:[^:]*:[^:]*:[^:]*:[^:]*:.*
+    /// Use this parameter only if Destination is Evidently . This parameter specifies the ARN of the Evidently experiment that will receive the extended metrics. Constraints: • min: 0 • max: 2048 • pattern: .*arn:[^:]*:[^:]*:[^:]*:[^:]*:.*
     /// </summary>
     [CliOption("--destination-arn")]
     public string? DestinationArn { get; set; }
 
     /// <summary>
-    /// This parameter is required if Destination is Evidently . If Destina- tion is CloudWatch , don't use this parameter. This parameter specifies the ARN of an IAM role that RUM will assume to write to the Evidently experiment that you are sending metrics to. This role must have permission to write to that experiment. If you specify this parameter, you must be signed on to a role that has PassRole permissions attached to it, to allow the role to be passed. The CloudWatchAmazonCloudWatchRUMFullAccess policy doesn't include PassRole permissions. Constraints: o pattern: .*arn:[^:]*:[^:]*:[^:]*:[^:]*:.*
+    /// This parameter is required if Destination is Evidently . If Destination is CloudWatch , don't use this parameter. This parameter specifies the ARN of an IAM role that RUM will assume to write to the Evidently experiment that you are sending metrics to. This role must have permission to write to that experiment. If you specify this parameter, you must be signed on to a role that has PassRole permissions attached to it, to allow the role to be passed. The CloudWatchAmazonCloudWatchRUMFullAccess policy doesn't include PassRole permissions. Constraints: • pattern: .*arn:[^:]*:[^:]*:[^:]*:[^:]*:.*
     /// </summary>
     [CliOption("--iam-role-arn")]
     public string? IamRoleArn { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsSwfUntagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Remove a tag from a Amazon SWF domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) for the Amazon SWF domain. Constraints: o min: 1 o max: 1600</param>
-    /// <param name="TagKeys">The list of tags to remove from the Amazon SWF domain. (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) for the Amazon SWF domain. Constraints: • min: 1 • max: 1600</param>
+    /// <param name="TagKeys">The list of tags to remove from the Amazon SWF domain. (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
     public AwsSwfUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsSwfUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) for the Amazon SWF domain. Constraints: o min: 1 o max: 1600
+    /// The Amazon Resource Name (ARN) for the Amazon SWF domain. Constraints: • min: 1 • max: 1600
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The list of tags to remove from the Amazon SWF domain. (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// The list of tags to remove from the Amazon SWF domain. (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

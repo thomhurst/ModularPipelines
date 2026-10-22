@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,7 +64,7 @@ public record AwsEc2ModifyIpamPoolOptions : AwsOptions, IValidatableObject
     public string? IpamPoolId { get; private init; }
 
     /// <summary>
-    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -74,43 +76,43 @@ public record AwsEc2ModifyIpamPoolOptions : AwsOptions, IValidatableObject
     public string? Description { get; set; }
 
     /// <summary>
-    /// If true, IPAM will continuously look for resources within the CIDR range of this pool and automatically import them as allocations into your IPAM. The CIDRs that will be allocated for these resources must not already be allocated to other resources in order for the import to succeed. IPAM will import a CIDR regardless of its compliance with the pool's allocation rules, so a resource might be imported and subsequently marked as noncompliant. If IPAM discovers multiple CIDRs that overlap, IPAM will import the largest CIDR only. If IPAM discovers multiple CIDRs with matching CIDRs, IPAM will randomly im- port one of them only. A locale must be set on the pool for this feature to work.
+    /// If true, IPAM will continuously look for resources within the CIDR range of this pool and automatically import them as allocations into your IPAM. The CIDRs that will be allocated for these resources must not already be allocated to other resources in order for the import to succeed. IPAM will import a CIDR regardless of its compliance with the pool's allocation rules, so a resource might be imported and subsequently marked as noncompliant. If IPAM discovers multiple CIDRs that overlap, IPAM will import the largest CIDR only. If IPAM discovers multiple CIDRs with matching CIDRs, IPAM will randomly import one of them only. A locale must be set on the pool for this feature to work.
     /// </summary>
     [CliFlag("--auto-import", NegatedName = "--no-auto-import")]
     public bool? AutoImport { get; set; }
 
     /// <summary>
-    /// The minimum netmask length required for CIDR allocations in this IPAM pool to be compliant. Possible netmask lengths for IPv4 ad- dresses are 0 - 32. Possible netmask lengths for IPv6 addresses are 0 - 128. The minimum netmask length must be less than the maximum netmask length. Constraints: o min: 0 o max: 128
+    /// The minimum netmask length required for CIDR allocations in this IPAM pool to be compliant. Possible netmask lengths for IPv4 addresses are 0 - 32. Possible netmask lengths for IPv6 addresses are 0 - 128. The minimum netmask length must be less than the maximum netmask length. Constraints: • min: 0 • max: 128
     /// </summary>
     [CliOption("--allocation-min-netmask-length")]
     public int? AllocationMinNetmaskLength { get; set; }
 
     /// <summary>
-    /// The maximum netmask length possible for CIDR allocations in this IPAM pool to be compliant. Possible netmask lengths for IPv4 ad- dresses are 0 - 32. Possible netmask lengths for IPv6 addresses are 0 - 128.The maximum netmask length must be greater than the minimum netmask length. Constraints: o min: 0 o max: 128
+    /// The maximum netmask length possible for CIDR allocations in this IPAM pool to be compliant. Possible netmask lengths for IPv4 addresses are 0 - 32. Possible netmask lengths for IPv6 addresses are 0 - 128.The maximum netmask length must be greater than the minimum netmask length. Constraints: • min: 0 • max: 128
     /// </summary>
     [CliOption("--allocation-max-netmask-length")]
     public int? AllocationMaxNetmaskLength { get; set; }
 
     /// <summary>
-    /// The default netmask length for allocations added to this pool. If, for example, the CIDR assigned to this pool is 10.0.0.0/8 and you enter 16 here, new allocations will default to 10.0.0.0/16. Constraints: o min: 0 o max: 128
+    /// The default netmask length for allocations added to this pool. If, for example, the CIDR assigned to this pool is 10.0.0.0/8 and you enter 16 here, new allocations will default to 10.0.0.0/16. Constraints: • min: 0 • max: 128
     /// </summary>
     [CliOption("--allocation-default-netmask-length")]
     public int? AllocationDefaultNetmaskLength { get; set; }
 
     /// <summary>
-    /// fault-netmask-length (boolean) Clear the default netmask length allocation rule for this pool.
+    /// Clear the default netmask length allocation rule for this pool.
     /// </summary>
     [CliFlag("--clear-allocation-default-netmask-length", NegatedName = "--no-clear-allocation-default-netmask-length")]
     public bool? ClearAllocationDefaultNetmaskLength { get; set; }
 
     /// <summary>
-    /// Add tag allocation rules to a pool. For more information about allo- cation rules, see Create a top-level pool in the Amazon VPC IPAM User Guide . (structure) A tag on an IPAM resource. Key -&gt; (string) The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, re- gardless of the tag value. Value -&gt; (string) The value for the tag. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Add tag allocation rules to a pool. For more information about allocation rules, see Create a top-level pool in the Amazon VPC IPAM User Guide . (structure) A tag on an IPAM resource. Key -&gt; (string) The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value. Value -&gt; (string) The value for the tag. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--add-allocation-resource-tags", GroupValues = true)]
     public IEnumerable<string>? AddAllocationResourceTags { get; set; }
 
     /// <summary>
-    /// Remove tag allocation rules from a pool. (structure) A tag on an IPAM resource. Key -&gt; (string) The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, re- gardless of the tag value. Value -&gt; (string) The value for the tag. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Remove tag allocation rules from a pool. (structure) A tag on an IPAM resource. Key -&gt; (string) The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value. Value -&gt; (string) The value for the tag. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--remove-allocation-resource-tags", GroupValues = true)]
     public IEnumerable<string>? RemoveAllocationResourceTags { get; set; }

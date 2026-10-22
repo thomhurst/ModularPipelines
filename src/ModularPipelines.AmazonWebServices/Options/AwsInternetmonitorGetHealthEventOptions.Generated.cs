@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets information that Amazon CloudWatch Internet Monitor has created and stored about a health event for a specified monitor. This informa- tion includes the impacted locations, and all the information related to the event, by location. The information returned includes the impact on performance, availabil- ity, and round-trip time, information about the network providers (ASNs), the event type, and so on. Information rolled up at the global traffic level is also returned, in- cluding the impact...
+/// Gets information that Amazon CloudWatch Internet Monitor has created and stored about a health event for a specified monitor. This information includes the impacted locations, and all the information related to the event, by location. The information returned includes the impact on performance, availability, and round-trip time, information about the network providers (ASNs), the event type, and so on. Information rolled up at the global traffic level is also returned, including the impact type ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsInternetmonitorGetHealthEventOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets information that Amazon CloudWatch Internet Monitor has created and stored about a health event for a specified monitor. This informa- tion includes the impacted locations, and all the information related to the event, by location. The information returned includes the impact on performance, availabil- ity, and round-trip time, information about the network providers (ASNs), the event type, and so on. Information rolled up at the global traffic level is also returned, in- cluding the impact...
+    /// Gets information that Amazon CloudWatch Internet Monitor has created and stored about a health event for a specified monitor. This information includes the impacted locations, and all the information related to the event, by location. The information returned includes the impact on performance, availability, and round-trip time, information about the network providers (ASNs), the event type, and so on. Information rolled up at the global traffic level is also returned, including the impact type ...
     /// </summary>
-    /// <param name="MonitorName">The name of the monitor. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="EventId">The internally-generated identifier of a health event. Because Even- tID contains the forward slash (/) character, you must URL-encode the EventID field in the request URL. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9/_.-]+</param>
+    /// <param name="MonitorName">The name of the monitor. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="EventId">The internally-generated identifier of a health event. Because EventID contains the forward slash (/) character, you must URL-encode the EventID field in the request URL. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9/_.-]+</param>
     public AwsInternetmonitorGetHealthEventOptions(
         string MonitorName,
         string EventId
@@ -60,19 +62,19 @@ public record AwsInternetmonitorGetHealthEventOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the monitor. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the monitor. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--monitor-name")]
     public string? MonitorName { get; private init; }
 
     /// <summary>
-    /// The internally-generated identifier of a health event. Because Even- tID contains the forward slash (/) character, you must URL-encode the EventID field in the request URL. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9/_.-]+
+    /// The internally-generated identifier of a health event. Because EventID contains the forward slash (/) character, you must URL-encode the EventID field in the request URL. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9/_.-]+
     /// </summary>
     [CliOption("--event-id")]
     public string? EventId { get; private init; }
 
     /// <summary>
-    /// The account ID for an account that you've set up cross-account shar- ing for in Amazon CloudWatch Internet Monitor. You configure cross-account sharing by using Amazon CloudWatch Observability Ac- cess Manager. For more information, see Internet Monitor cross-ac- count observability in the Amazon CloudWatch Internet Monitor User Guide. Constraints: o min: 12 o max: 12
+    /// The account ID for an account that you've set up cross-account sharing for in Amazon CloudWatch Internet Monitor. You configure cross-account sharing by using Amazon CloudWatch Observability Access Manager. For more information, see Internet Monitor cross-account observability in the Amazon CloudWatch Internet Monitor User Guide. Constraints: • min: 12 • max: 12
     /// </summary>
     [CliOption("--linked-account-id")]
     public string? LinkedAccountId { get; set; }

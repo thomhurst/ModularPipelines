@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an approval rule from a specified pull request. Approval rules can be deleted from a pull request only if the pull request is open, and if the approval rule was created specifically for a pull request and not generated from an approval rule template associated with the repository where the pull request was created. You cannot delete an ap- proval rule from a merged or closed pull request. See also: AWS API Documentation
+/// Deletes an approval rule from a specified pull request. Approval rules can be deleted from a pull request only if the pull request is open, and if the approval rule was created specifically for a pull request and not generated from an approval rule template associated with the repository where the pull request was created. You cannot delete an approval rule from a merged or closed pull request. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsCodecommitDeletePullRequestApprovalRuleOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an approval rule from a specified pull request. Approval rules can be deleted from a pull request only if the pull request is open, and if the approval rule was created specifically for a pull request and not generated from an approval rule template associated with the repository where the pull request was created. You cannot delete an ap- proval rule from a merged or closed pull request. See also: AWS API Documentation
+    /// Deletes an approval rule from a specified pull request. Approval rules can be deleted from a pull request only if the pull request is open, and if the approval rule was created specifically for a pull request and not generated from an approval rule template associated with the repository where the pull request was created. You cannot delete an approval rule from a merged or closed pull request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PullRequestId">The system-generated ID of the pull request that contains the ap- proval rule you want to delete.</param>
-    /// <param name="ApprovalRuleName">The name of the approval rule you want to delete. Constraints: o min: 1 o max: 100</param>
+    /// <param name="PullRequestId">The system-generated ID of the pull request that contains the approval rule you want to delete.</param>
+    /// <param name="ApprovalRuleName">The name of the approval rule you want to delete. Constraints: • min: 1 • max: 100</param>
     public AwsCodecommitDeletePullRequestApprovalRuleOptions(
         string PullRequestId,
         string ApprovalRuleName
@@ -60,13 +62,13 @@ public record AwsCodecommitDeletePullRequestApprovalRuleOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The system-generated ID of the pull request that contains the ap- proval rule you want to delete.
+    /// The system-generated ID of the pull request that contains the approval rule you want to delete.
     /// </summary>
     [CliOption("--pull-request-id")]
     public string? PullRequestId { get; private init; }
 
     /// <summary>
-    /// The name of the approval rule you want to delete. Constraints: o min: 1 o max: 100
+    /// The name of the approval rule you want to delete. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--approval-rule-name")]
     public string? ApprovalRuleName { get; private init; }

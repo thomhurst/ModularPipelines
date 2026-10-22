@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds one or more resources to an existing subscription. The subscrip- tion must be in an active state that is not pending other changes. NOTE: For subscriptions in the CloudFront plan family, the associated re- sources must include exactly one Amazon CloudFront distribution and one WAF web ACL. You can also include other supported resources, such as Amazon Route 53 hosted zones, and CloudFront KeyValueStores. See also: AWS API Documentation
+/// Adds one or more resources to an existing subscription. The subscription must be in an active state that is not pending other changes. NOTE: For subscriptions in the CloudFront plan family, the associated resources must include exactly one Amazon CloudFront distribution and one WAF web ACL. You can also include other supported resources, such as Amazon Route 53 hosted zones, and CloudFront KeyValueStores. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsPricingPlanManagerAssociateResourcesToSubscriptionOptions : Aws
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds one or more resources to an existing subscription. The subscrip- tion must be in an active state that is not pending other changes. NOTE: For subscriptions in the CloudFront plan family, the associated re- sources must include exactly one Amazon CloudFront distribution and one WAF web ACL. You can also include other supported resources, such as Amazon Route 53 hosted zones, and CloudFront KeyValueStores. See also: AWS API Documentation
+    /// Adds one or more resources to an existing subscription. The subscription must be in an active state that is not pending other changes. NOTE: For subscriptions in the CloudFront plan family, the associated resources must include exactly one Amazon CloudFront distribution and one WAF web ACL. You can also include other supported resources, such as Amazon Route 53 hosted zones, and CloudFront KeyValueStores. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The ARN of the subscription to add resources to. Constraints: o min: 1 o max: 2048</param>
-    /// <param name="ResourceArns">The ARNs of the resources to add to the subscription. Constraints: o min: 1 o max: 10 (string) Syntax: "string" "string" ...</param>
+    /// <param name="Arn">The ARN of the subscription to add resources to. Constraints: • min: 1 • max: 2048</param>
+    /// <param name="ResourceArns">The ARNs of the resources to add to the subscription. Constraints: • min: 1 • max: 10 (string) Syntax: "string" "string" ...</param>
     /// <param name="IfMatch">The ETag value from a previous GetSubscription or ListSubscriptions response.</param>
     public AwsPricingPlanManagerAssociateResourcesToSubscriptionOptions(
         string Arn,
@@ -76,13 +78,13 @@ public record AwsPricingPlanManagerAssociateResourcesToSubscriptionOptions : Aws
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the subscription to add resources to. Constraints: o min: 1 o max: 2048
+    /// The ARN of the subscription to add resources to. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The ARNs of the resources to add to the subscription. Constraints: o min: 1 o max: 10 (string) Syntax: "string" "string" ...
+    /// The ARNs of the resources to add to the subscription. Constraints: • min: 1 • max: 10 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resource-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceArns { get; private init; }
@@ -94,7 +96,7 @@ public record AwsPricingPlanManagerAssociateResourcesToSubscriptionOptions : Aws
     public string? IfMatch { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the request is handled only once. Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier that you provide to ensure the request is handled only once. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

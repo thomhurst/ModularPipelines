@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an archive rule for the specified analyzer. Archive rules auto- matically archive new findings that meet the criteria you define when you create the rule. To learn about filter keys that you can use to create an archive rule, see IAM Access Analyzer filter keys in the IAM User Guide . See also: AWS API Documentation
+/// Creates an archive rule for the specified analyzer. Archive rules automatically archive new findings that meet the criteria you define when you create the rule. To learn about filter keys that you can use to create an archive rule, see IAM Access Analyzer filter keys in the IAM User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsAccessanalyzerCreateArchiveRuleOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an archive rule for the specified analyzer. Archive rules auto- matically archive new findings that meet the criteria you define when you create the rule. To learn about filter keys that you can use to create an archive rule, see IAM Access Analyzer filter keys in the IAM User Guide . See also: AWS API Documentation
+    /// Creates an archive rule for the specified analyzer. Archive rules automatically archive new findings that meet the criteria you define when you create the rule. To learn about filter keys that you can use to create an archive rule, see IAM Access Analyzer filter keys in the IAM User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AnalyzerName">The name of the created analyzer. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z_][A-Za-z0-9_.-]*</param>
-    /// <param name="RuleName">The name of the rule to create. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][A-Za-z0-9_.-]*</param>
-    /// <param name="Filter">The criteria for the rule. key -&gt; (string) value -&gt; (structure) The criteria to use in the filter that defines the archive rule. For more information on available filter keys, see IAM Access Analyzer filter keys . eq -&gt; (list) An "equals" operator to match for the filter used to create the rule. Constraints: o min: 1 o max: 20 (string) neq -&gt; (list) A "not equals" operator to match for the filter used to cre- ate the rule. Constraints: o min: 1 o max: 20 (string) contains -&gt; (list) A "contains" operator to match for the filter used to create the rule. Constraints: o min: 1 o max: 20 (string) exists -&gt; (boolean) An "exists" operator to match for the filter used to create the rule. Shorthand Syntax: KeyName1={eq=[string,string],neq=[string,string],contains=[string,string],exists=boolean},KeyName2={eq=[string,string],neq=[string,string],contains=[string,string],exists=boolean} JSON Syntax: {"string": { "eq": ["string", ...], "neq": ["string", ...], "contains": ["string", ...], "exists": true|false } ...}</param>
+    /// <param name="AnalyzerName">The name of the created analyzer. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z_][A-Za-z0-9_.-]*</param>
+    /// <param name="RuleName">The name of the rule to create. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][A-Za-z0-9_.-]*</param>
+    /// <param name="Filter">The criteria for the rule. key -&gt; (string) value -&gt; (structure) The criteria to use in the filter that defines the archive rule. For more information on available filter keys, see IAM Access Analyzer filter keys . eq -&gt; (list) An "equals" operator to match for the filter used to create the rule. Constraints: • min: 1 • max: 20 (string) neq -&gt; (list) A "not equals" operator to match for the filter used to create the rule. Constraints: • min: 1 • max: 20 (string) contains -&gt; (list) A "contains" operator to match for the filter used to create the rule. Constraints: • min: 1 • max: 20 (string) exists -&gt; (boolean) An "exists" operator to match for the filter used to create the rule. Shorthand Syntax: KeyName1={eq=[string,string],neq=[string,string],contains=[string,string],exists=boolean},KeyName2={eq=[string,string],neq=[string,string],contains=[string,string],exists=boolean} JSON Syntax: {"string": { "eq": ["string", ...], "neq": ["string", ...], "contains": ["string", ...], "exists": true|false } ...}</param>
     public AwsAccessanalyzerCreateArchiveRuleOptions(
         string AnalyzerName,
         string RuleName,
@@ -77,19 +78,19 @@ public record AwsAccessanalyzerCreateArchiveRuleOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the created analyzer. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z_][A-Za-z0-9_.-]*
+    /// The name of the created analyzer. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z_][A-Za-z0-9_.-]*
     /// </summary>
     [CliOption("--analyzer-name")]
     public string? AnalyzerName { get; private init; }
 
     /// <summary>
-    /// The name of the rule to create. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][A-Za-z0-9_.-]*
+    /// The name of the rule to create. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][A-Za-z0-9_.-]*
     /// </summary>
     [CliOption("--rule-name")]
     public string? RuleName { get; private init; }
 
     /// <summary>
-    /// The criteria for the rule. key -&gt; (string) value -&gt; (structure) The criteria to use in the filter that defines the archive rule. For more information on available filter keys, see IAM Access Analyzer filter keys . eq -&gt; (list) An "equals" operator to match for the filter used to create the rule. Constraints: o min: 1 o max: 20 (string) neq -&gt; (list) A "not equals" operator to match for the filter used to cre- ate the rule. Constraints: o min: 1 o max: 20 (string) contains -&gt; (list) A "contains" operator to match for the filter used to create the rule. Constraints: o min: 1 o max: 20 (string) exists -&gt; (boolean) An "exists" operator to match for the filter used to create the rule. Shorthand Syntax: KeyName1={eq=[string,string],neq=[string,string],contains=[string,string],exists=boolean},KeyName2={eq=[string,string],neq=[string,string],contains=[string,string],exists=boolean} JSON Syntax: {"string": { "eq": ["string", ...], "neq": ["string", ...], "contains": ["string", ...], "exists": true|false } ...}
+    /// The criteria for the rule. key -&gt; (string) value -&gt; (structure) The criteria to use in the filter that defines the archive rule. For more information on available filter keys, see IAM Access Analyzer filter keys . eq -&gt; (list) An "equals" operator to match for the filter used to create the rule. Constraints: • min: 1 • max: 20 (string) neq -&gt; (list) A "not equals" operator to match for the filter used to create the rule. Constraints: • min: 1 • max: 20 (string) contains -&gt; (list) A "contains" operator to match for the filter used to create the rule. Constraints: • min: 1 • max: 20 (string) exists -&gt; (boolean) An "exists" operator to match for the filter used to create the rule. Shorthand Syntax: KeyName1={eq=[string,string],neq=[string,string],contains=[string,string],exists=boolean},KeyName2={eq=[string,string],neq=[string,string],contains=[string,string],exists=boolean} JSON Syntax: {"string": { "eq": ["string", ...], "neq": ["string", ...], "contains": ["string", ...], "exists": true|false } ...}
     /// </summary>
     [CliOption("--filter", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Filter { get; private init; }

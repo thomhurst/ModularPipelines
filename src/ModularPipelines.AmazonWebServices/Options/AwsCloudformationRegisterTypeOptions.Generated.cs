@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Registers an extension with the CloudFormation service. Registering an extension makes it available for use in CloudFormation templates in your Amazon Web Services account, and includes: o Validating the extension schema. o Determining which handlers, if any, have been specified for the ex- tension. o Making the extension available for use in your account. For more information about how to develop extensions and ready them for registration, see Creating resource types using the CloudFormation CL...
+/// Registers an extension with the CloudFormation service. Registering an extension makes it available for use in CloudFormation templates in your Amazon Web Services account, and includes: • Validating the extension schema. • Determining which handlers, if any, have been specified for the extension. • Making the extension available for use in your account. For more information about how to develop extensions and ready them for registration, see Creating resource types using the CloudFormation CLI ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +29,10 @@ public record AwsCloudformationRegisterTypeOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Registers an extension with the CloudFormation service. Registering an extension makes it available for use in CloudFormation templates in your Amazon Web Services account, and includes: o Validating the extension schema. o Determining which handlers, if any, have been specified for the ex- tension. o Making the extension available for use in your account. For more information about how to develop extensions and ready them for registration, see Creating resource types using the CloudFormation CL...
+    /// Registers an extension with the CloudFormation service. Registering an extension makes it available for use in CloudFormation templates in your Amazon Web Services account, and includes: • Validating the extension schema. • Determining which handlers, if any, have been specified for the extension. • Making the extension available for use in your account. For more information about how to develop extensions and ready them for registration, see Creating resource types using the CloudFormation CLI ...
     /// </summary>
-    /// <param name="TypeName">The name of the extension being registered. We suggest that extension names adhere to the following patterns: o For resource types, company_or_organization::service::type . o For modules, company_or_organization::service::type::MODULE . o For Hooks, MyCompany::Testing::MyTestHook . NOTE: The following organization namespaces are reserved and can't be used in your extension names: o Alexa o AMZN o Amazon o AWS o Custom o Dev Constraints: o min: 10 o max: 204 o pattern: [A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MOD- ULE){0,1}</param>
-    /// <param name="SchemaHandlerPackage">A URL to the S3 bucket that contains the extension project package that contains the necessary files for the extension you want to reg- ister. For information about generating a schema handler package for the extension you want to register, see submit in the CloudFormation Command Line Interface (CLI) User Guide . NOTE: The user registering the extension must be able to access the package in the S3 bucket. That's, the user needs to have GetObject permissions for the schema handler package. For more information, see Actions, Resources, and Condition Keys for Ama- zon S3 in the Identity and Access Management User Guide . Constraints: o min: 1 o max: 4096</param>
+    /// <param name="TypeName">The name of the extension being registered. We suggest that extension names adhere to the following patterns: • For resource types, company_or_organization::service::type . • For modules, company_or_organization::service::type::MODULE . • For Hooks, MyCompany::Testing::MyTestHook . NOTE: The following organization namespaces are reserved and can't be used in your extension names: • Alexa • AMZN • Amazon • AWS • Custom • Dev Constraints: • min: 10 • max: 204 • pattern: [A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}</param>
+    /// <param name="SchemaHandlerPackage">A URL to the S3 bucket that contains the extension project package that contains the necessary files for the extension you want to register. For information about generating a schema handler package for the extension you want to register, see submit in the CloudFormation Command Line Interface (CLI) User Guide . NOTE: The user registering the extension must be able to access the package in the S3 bucket. That's, the user needs to have GetObject permissions for the schema handler package. For more information, see Actions, Resources, and Condition Keys for Amazon S3 in the Identity and Access Management User Guide . Constraints: • min: 1 • max: 4096</param>
     public AwsCloudformationRegisterTypeOptions(
         string TypeName,
         string SchemaHandlerPackage
@@ -62,37 +64,37 @@ public record AwsCloudformationRegisterTypeOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the extension being registered. We suggest that extension names adhere to the following patterns: o For resource types, company_or_organization::service::type . o For modules, company_or_organization::service::type::MODULE . o For Hooks, MyCompany::Testing::MyTestHook . NOTE: The following organization namespaces are reserved and can't be used in your extension names: o Alexa o AMZN o Amazon o AWS o Custom o Dev Constraints: o min: 10 o max: 204 o pattern: [A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MOD- ULE){0,1}
+    /// The name of the extension being registered. We suggest that extension names adhere to the following patterns: • For resource types, company_or_organization::service::type . • For modules, company_or_organization::service::type::MODULE . • For Hooks, MyCompany::Testing::MyTestHook . NOTE: The following organization namespaces are reserved and can't be used in your extension names: • Alexa • AMZN • Amazon • AWS • Custom • Dev Constraints: • min: 10 • max: 204 • pattern: [A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}
     /// </summary>
     [CliOption("--type-name")]
     public string? TypeName { get; private init; }
 
     /// <summary>
-    /// A URL to the S3 bucket that contains the extension project package that contains the necessary files for the extension you want to reg- ister. For information about generating a schema handler package for the extension you want to register, see submit in the CloudFormation Command Line Interface (CLI) User Guide . NOTE: The user registering the extension must be able to access the package in the S3 bucket. That's, the user needs to have GetObject permissions for the schema handler package. For more information, see Actions, Resources, and Condition Keys for Ama- zon S3 in the Identity and Access Management User Guide . Constraints: o min: 1 o max: 4096
+    /// A URL to the S3 bucket that contains the extension project package that contains the necessary files for the extension you want to register. For information about generating a schema handler package for the extension you want to register, see submit in the CloudFormation Command Line Interface (CLI) User Guide . NOTE: The user registering the extension must be able to access the package in the S3 bucket. That's, the user needs to have GetObject permissions for the schema handler package. For more information, see Actions, Resources, and Condition Keys for Amazon S3 in the Identity and Access Management User Guide . Constraints: • min: 1 • max: 4096
     /// </summary>
     [CliOption("--schema-handler-package")]
     public string? SchemaHandlerPackage { get; private init; }
 
     /// <summary>
-    /// The kind of extension. Possible values: o RESOURCE o MODULE o HOOK
+    /// The kind of extension. Possible values: • RESOURCE • MODULE • HOOK
     /// </summary>
     [CliOption("--type")]
     public AwsCloudformationRegisterTypeType? Type { get; set; }
 
     /// <summary>
-    /// Specifies logging configuration information for an extension. LogRoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the role that CloudFormation should assume when sending log entries to CloudWatch Logs. Constraints: o min: 1 o max: 256 o pattern: arn:.+:iam::[0-9]{12}:role/.+ LogGroupName -&gt; (string) [required] The Amazon CloudWatch Logs group to which CloudFormation sends error logging information when invoking the extension's han- dlers. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+ Shorthand Syntax: LogRoleArn=string,LogGroupName=string JSON Syntax: { "LogRoleArn": "string", "LogGroupName": "string" }
+    /// Specifies logging configuration information for an extension. LogRoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the role that CloudFormation should assume when sending log entries to CloudWatch Logs. Constraints: • min: 1 • max: 256 • pattern: arn:.+:iam::[0-9]{12}:role/.+ LogGroupName -&gt; (string) [required] The Amazon CloudWatch Logs group to which CloudFormation sends error logging information when invoking the extension's handlers. Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+ Shorthand Syntax: LogRoleArn=string,LogGroupName=string JSON Syntax: { "LogRoleArn": "string", "LogGroupName": "string" }
     /// </summary>
     [CliOption("--logging-config")]
     public string? LoggingConfig { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role for CloudFormation to assume when invoking the extension. For CloudFormation to assume the specified execution role, the role must contain a trust relationship with the CloudFormation service principal (resources.cloudformation.amazonaws.com ). For more infor- mation about adding trust relationships, see Modifying a role trust policy in the Identity and Access Management User Guide . If your extension calls Amazon Web Services APIs in any of its han- dlers, you must create an * IAM execution role * that includes the necessary permissions to call those Amazon Web Services APIs, and provision that execution role in your account. When CloudFormation needs to invoke the resource type handler, CloudFormation assumes this execution role to create a temporary session token, which it then passes to the resource type handler, thereby supplying your re- source type with the appropriate credentials. Constraints: o min: 1 o max: 256 o pattern: arn:.+:iam::[0-9]{12}:role/.+
+    /// The Amazon Resource Name (ARN) of the IAM role for CloudFormation to assume when invoking the extension. For CloudFormation to assume the specified execution role, the role must contain a trust relationship with the CloudFormation service principal (resources.cloudformation.amazonaws.com ). For more information about adding trust relationships, see Modifying a role trust policy in the Identity and Access Management User Guide . If your extension calls Amazon Web Services APIs in any of its handlers, you must create an * IAM execution role * that includes the necessary permissions to call those Amazon Web Services APIs, and provision that execution role in your account. When CloudFormation needs to invoke the resource type handler, CloudFormation assumes this execution role to create a temporary session token, which it then passes to the resource type handler, thereby supplying your resource type with the appropriate credentials. Constraints: • min: 1 • max: 256 • pattern: arn:.+:iam::[0-9]{12}:role/.+
     /// </summary>
     [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; set; }
 
     /// <summary>
-    /// A unique identifier that acts as an idempotency key for this regis- tration request. Specifying a client request token prevents Cloud- Formation from generating more than one version of an extension from the same registration request, even if the request is submitted mul- tiple times. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][-a-zA-Z0-9]*
+    /// A unique identifier that acts as an idempotency key for this registration request. Specifying a client request token prevents CloudFormation from generating more than one version of an extension from the same registration request, even if the request is submitted multiple times. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][-a-zA-Z0-9]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sets the position of the specified receipt rule in the receipt rule set. For information about managing receipt rules, see the Amazon SES Devel- oper Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+/// Sets the position of the specified receipt rule in the receipt rule set. For information about managing receipt rules, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsSesSetReceiptRulePositionOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sets the position of the specified receipt rule in the receipt rule set. For information about managing receipt rules, see the Amazon SES Devel- oper Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// Sets the position of the specified receipt rule in the receipt rule set. For information about managing receipt rules, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
     /// <param name="RuleSetName">The name of the receipt rule set that contains the receipt rule to reposition.</param>
     /// <param name="RuleName">The name of the receipt rule to reposition.</param>
@@ -72,7 +74,7 @@ public record AwsSesSetReceiptRulePositionOptions : AwsOptions, IValidatableObje
     public string? RuleName { get; private init; }
 
     /// <summary>
-    /// The name of the receipt rule after which to place the specified re- ceipt rule.
+    /// The name of the receipt rule after which to place the specified receipt rule.
     /// </summary>
     [CliOption("--after")]
     public string? After { get; set; }

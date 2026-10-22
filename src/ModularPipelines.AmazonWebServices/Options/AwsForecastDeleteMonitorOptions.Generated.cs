@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsForecastDeleteMonitorOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a monitor resource. You can only delete a monitor resource with a status of ACTIVE , ACTIVE_STOPPED , CREATE_FAILED , or CREATE_STOPPED . See also: AWS API Documentation
     /// </summary>
-    /// <param name="MonitorArn">The Amazon Resource Name (ARN) of the monitor resource to delete. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    /// <param name="MonitorArn">The Amazon Resource Name (ARN) of the monitor resource to delete. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
     public AwsForecastDeleteMonitorOptions(
         string MonitorArn
     )
@@ -56,7 +58,7 @@ public record AwsForecastDeleteMonitorOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the monitor resource to delete. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the monitor resource to delete. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
     /// </summary>
     [CliOption("--monitor-arn")]
     public string? MonitorArn { get; private init; }

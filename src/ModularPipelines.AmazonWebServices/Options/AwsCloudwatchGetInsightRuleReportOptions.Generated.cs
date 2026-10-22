@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This operation returns the time series data collected by a Contributor Insights rule. The data includes the identity and number of contribu- tors to the log group. You can also optionally return one or more statistics about each data point in the time series. These statistics can include the following: o UniqueContributors -- the number of unique contributors for each data point. o MaxContributorValue -- the value of the top contributor for each data point. The identity of the contributor might ...
+/// This operation returns the time series data collected by a Contributor Insights rule. The data includes the identity and number of contributors to the log group. You can also optionally return one or more statistics about each data point in the time series. These statistics can include the following: • UniqueContributors -- the number of unique contributors for each data point. • MaxContributorValue -- the value of the top contributor for each data point. The identity of the contributor might ch...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +27,12 @@ public record AwsCloudwatchGetInsightRuleReportOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This operation returns the time series data collected by a Contributor Insights rule. The data includes the identity and number of contribu- tors to the log group. You can also optionally return one or more statistics about each data point in the time series. These statistics can include the following: o UniqueContributors -- the number of unique contributors for each data point. o MaxContributorValue -- the value of the top contributor for each data point. The identity of the contributor might ...
+    /// This operation returns the time series data collected by a Contributor Insights rule. The data includes the identity and number of contributors to the log group. You can also optionally return one or more statistics about each data point in the time series. These statistics can include the following: • UniqueContributors -- the number of unique contributors for each data point. • MaxContributorValue -- the value of the top contributor for each data point. The identity of the contributor might ch...
     /// </summary>
-    /// <param name="RuleName">The name of the rule that you want to see data from. Constraints: o min: 1 o max: 128 o pattern: [\x20-\x7E]+</param>
-    /// <param name="StartTime">The start time of the data to use in the report. When used in a raw HTTP Query API, it is formatted as yyyy-MM-dd'T'HH:mm:ss . For exam- ple, 2019-07-01T23:59:59 .</param>
-    /// <param name="EndTime">The end time of the data to use in the report. When used in a raw HTTP Query API, it is formatted as yyyy-MM-dd'T'HH:mm:ss . For exam- ple, 2019-07-01T23:59:59 .</param>
-    /// <param name="Period">The period, in seconds, to use for the statistics in the In- sightRuleMetricDatapoint results. Constraints: o min: 1</param>
+    /// <param name="RuleName">The name of the rule that you want to see data from. Constraints: • min: 1 • max: 128 • pattern: [\x20-\x7E]+</param>
+    /// <param name="StartTime">The start time of the data to use in the report. When used in a raw HTTP Query API, it is formatted as yyyy-MM-dd'T'HH:mm:ss . For example, 2019-07-01T23:59:59 .</param>
+    /// <param name="EndTime">The end time of the data to use in the report. When used in a raw HTTP Query API, it is formatted as yyyy-MM-dd'T'HH:mm:ss . For example, 2019-07-01T23:59:59 .</param>
+    /// <param name="Period">The period, in seconds, to use for the statistics in the InsightRuleMetricDatapoint results. Constraints: • min: 1</param>
     public AwsCloudwatchGetInsightRuleReportOptions(
         string RuleName,
         string StartTime,
@@ -67,25 +69,25 @@ public record AwsCloudwatchGetInsightRuleReportOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the rule that you want to see data from. Constraints: o min: 1 o max: 128 o pattern: [\x20-\x7E]+
+    /// The name of the rule that you want to see data from. Constraints: • min: 1 • max: 128 • pattern: [\x20-\x7E]+
     /// </summary>
     [CliOption("--rule-name")]
     public string? RuleName { get; private init; }
 
     /// <summary>
-    /// The start time of the data to use in the report. When used in a raw HTTP Query API, it is formatted as yyyy-MM-dd'T'HH:mm:ss . For exam- ple, 2019-07-01T23:59:59 .
+    /// The start time of the data to use in the report. When used in a raw HTTP Query API, it is formatted as yyyy-MM-dd'T'HH:mm:ss . For example, 2019-07-01T23:59:59 .
     /// </summary>
     [CliOption("--start-time")]
     public string? StartTime { get; private init; }
 
     /// <summary>
-    /// The end time of the data to use in the report. When used in a raw HTTP Query API, it is formatted as yyyy-MM-dd'T'HH:mm:ss . For exam- ple, 2019-07-01T23:59:59 .
+    /// The end time of the data to use in the report. When used in a raw HTTP Query API, it is formatted as yyyy-MM-dd'T'HH:mm:ss . For example, 2019-07-01T23:59:59 .
     /// </summary>
     [CliOption("--end-time")]
     public string? EndTime { get; private init; }
 
     /// <summary>
-    /// The period, in seconds, to use for the statistics in the In- sightRuleMetricDatapoint results. Constraints: o min: 1
+    /// The period, in seconds, to use for the statistics in the InsightRuleMetricDatapoint results. Constraints: • min: 1
     /// </summary>
     [CliOption("--period")]
     public int? Period { get; private init; }
@@ -97,13 +99,13 @@ public record AwsCloudwatchGetInsightRuleReportOptions : AwsOptions, IValidatabl
     public int? MaxContributorCount { get; set; }
 
     /// <summary>
-    /// Specifies which metrics to use for aggregation of contributor values for the report. You can specify one or more of the following met- rics: o UniqueContributors -- the number of unique contributors for each data point. o MaxContributorValue -- the value of the top contributor for each data point. The identity of the contributor might change for each data point in the graph. If this rule aggregates by COUNT, the top contributor for each data point is the contributor with the most occurrences in that period. If the rule aggregates by SUM, the top contributor is the contributor with the highest sum in the log field specified by the rule's Value , during that period. o SampleCount -- the number of data points matched by the rule. o Sum -- the sum of the values from all contributors during the time period represented by that data point. o Minimum -- the minimum value from a single observation during the time period represented by that data point. o Maximum -- the maximum value from a single observation during the time period represented by that data point. o Average -- the average value from all contributors during the time period represented by that data point. (string) Constraints: o min: 1 o max: 32 o pattern: [\x20-\x7E]+ Syntax: "string" "string" ...
+    /// Specifies which metrics to use for aggregation of contributor values for the report. You can specify one or more of the following metrics: • UniqueContributors -- the number of unique contributors for each data point. • MaxContributorValue -- the value of the top contributor for each data point. The identity of the contributor might change for each data point in the graph. If this rule aggregates by COUNT, the top contributor for each data point is the contributor with the most occurrences in that period. If the rule aggregates by SUM, the top contributor is the contributor with the highest sum in the log field specified by the rule's Value , during that period. • SampleCount -- the number of data points matched by the rule. • Sum -- the sum of the values from all contributors during the time period represented by that data point. • Minimum -- the minimum value from a single observation during the time period represented by that data point. • Maximum -- the maximum value from a single observation during the time period represented by that data point. • Average -- the average value from all contributors during the time period represented by that data point. (string) Constraints: • min: 1 • max: 32 • pattern: [\x20-\x7E]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--metrics", GroupValues = true)]
     public IEnumerable<string>? Metrics { get; set; }
 
     /// <summary>
-    /// Determines what statistic to use to rank the contributors. Valid values are Sum and Maximum . Constraints: o min: 1 o max: 32 o pattern: [\x20-\x7E]+
+    /// Determines what statistic to use to rank the contributors. Valid values are Sum and Maximum . Constraints: • min: 1 • max: 32 • pattern: [\x20-\x7E]+
     /// </summary>
     [CliOption("--order-by")]
     public string? OrderBy { get; set; }

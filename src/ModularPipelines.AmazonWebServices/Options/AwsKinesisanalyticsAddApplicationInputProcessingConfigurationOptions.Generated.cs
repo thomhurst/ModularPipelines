@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This documentation is for version 1 of the Amazon Kinesis Data Ana- lytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation . Adds an InputProcessingConfiguration to an application. An input processor preprocesses records on the input stream before the applica- tion's SQL code executes. Currently, the only input processor available is AWS Lambda . ...
+/// NOTE: This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation . Adds an InputProcessingConfiguration to an application. An input processor preprocesses records on the input stream before the application's SQL code executes. Currently, the only input processor available is AWS Lambda . See ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,15 +27,15 @@ public record AwsKinesisanalyticsAddApplicationInputProcessingConfigurationOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This documentation is for version 1 of the Amazon Kinesis Data Ana- lytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation . Adds an InputProcessingConfiguration to an application. An input processor preprocesses records on the input stream before the applica- tion's SQL code executes. Currently, the only input processor available is AWS Lambda . ...
+    /// NOTE: This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation . Adds an InputProcessingConfiguration to an application. An input processor preprocesses records on the input stream before the application's SQL code executes. Currently, the only input processor available is AWS Lambda . See ...
     /// </summary>
-    /// <param name="ApplicationName">Name of the application to which you want to add the input process- ing configuration. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="CurrentApplicationVersionId">Version of the application to which you want to add the input pro- cessing configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is re- turned. Constraints: o min: 1 o max: 999999999</param>
-    /// <param name="InputId">The ID of the input configuration to add the input processing con- figuration to. You can get a list of the input IDs for an applica- tion using the DescribeApplication operation. Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="InputProcessingConfiguration">The InputProcessingConfiguration to add to the application. InputLambdaProcessor -&gt; (structure) [required] The InputLambdaProcessor that is used to preprocess the records in the stream before being processed by your application code. ResourceARN -&gt; (string) [required] The ARN of the AWS Lambda function that operates on records in the stream. NOTE: To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda Constraints: o min: 1 o max: 2048 o pattern: arn:.* RoleARN -&gt; (string) [required] The ARN of the IAM role that is used to access the AWS Lambda function. Constraints: o min: 1 o max: 2048 o pattern: arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Shorthand Syntax: InputLambdaProcessor={ResourceARN=string,RoleARN=string} JSON Syntax: { "InputLambdaProcessor": { "ResourceARN": "string", "RoleARN": "string" } }</param>
+    /// <param name="ApplicationName">Name of the application to which you want to add the input processing configuration. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="CurrentApplicationVersionId">Version of the application to which you want to add the input processing configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned. Constraints: • min: 1 • max: 999999999</param>
+    /// <param name="InputId">The ID of the input configuration to add the input processing configuration to. You can get a list of the input IDs for an application using the DescribeApplication operation. Constraints: • min: 1 • max: 50 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="InputProcessingConfiguration">The InputProcessingConfiguration to add to the application. InputLambdaProcessor -&gt; (structure) [required] The InputLambdaProcessor that is used to preprocess the records in the stream before being processed by your application code. ResourceARN -&gt; (string) [required] The ARN of the AWS Lambda function that operates on records in the stream. NOTE: To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda Constraints: • min: 1 • max: 2048 • pattern: arn:.* RoleARN -&gt; (string) [required] The ARN of the IAM role that is used to access the AWS Lambda function. Constraints: • min: 1 • max: 2048 • pattern: arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Shorthand Syntax: InputLambdaProcessor={ResourceARN=string,RoleARN=string} JSON Syntax: { "InputLambdaProcessor": { "ResourceARN": "string", "RoleARN": "string" } }</param>
     public AwsKinesisanalyticsAddApplicationInputProcessingConfigurationOptions(
         string ApplicationName,
-        int CurrentApplicationVersionId,
+        long CurrentApplicationVersionId,
         string InputId,
         string InputProcessingConfiguration
     )
@@ -67,25 +69,25 @@ public record AwsKinesisanalyticsAddApplicationInputProcessingConfigurationOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the application to which you want to add the input process- ing configuration. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// Name of the application to which you want to add the input processing configuration. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; private init; }
 
     /// <summary>
-    /// Version of the application to which you want to add the input pro- cessing configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is re- turned. Constraints: o min: 1 o max: 999999999
+    /// Version of the application to which you want to add the input processing configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned. Constraints: • min: 1 • max: 999999999
     /// </summary>
     [CliOption("--current-application-version-id")]
-    public int? CurrentApplicationVersionId { get; private init; }
+    public long? CurrentApplicationVersionId { get; private init; }
 
     /// <summary>
-    /// The ID of the input configuration to add the input processing con- figuration to. You can get a list of the input IDs for an applica- tion using the DescribeApplication operation. Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9_.-]+
+    /// The ID of the input configuration to add the input processing configuration to. You can get a list of the input IDs for an application using the DescribeApplication operation. Constraints: • min: 1 • max: 50 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--input-id")]
     public string? InputId { get; private init; }
 
     /// <summary>
-    /// The InputProcessingConfiguration to add to the application. InputLambdaProcessor -&gt; (structure) [required] The InputLambdaProcessor that is used to preprocess the records in the stream before being processed by your application code. ResourceARN -&gt; (string) [required] The ARN of the AWS Lambda function that operates on records in the stream. NOTE: To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda Constraints: o min: 1 o max: 2048 o pattern: arn:.* RoleARN -&gt; (string) [required] The ARN of the IAM role that is used to access the AWS Lambda function. Constraints: o min: 1 o max: 2048 o pattern: arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Shorthand Syntax: InputLambdaProcessor={ResourceARN=string,RoleARN=string} JSON Syntax: { "InputLambdaProcessor": { "ResourceARN": "string", "RoleARN": "string" } }
+    /// The InputProcessingConfiguration to add to the application. InputLambdaProcessor -&gt; (structure) [required] The InputLambdaProcessor that is used to preprocess the records in the stream before being processed by your application code. ResourceARN -&gt; (string) [required] The ARN of the AWS Lambda function that operates on records in the stream. NOTE: To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda Constraints: • min: 1 • max: 2048 • pattern: arn:.* RoleARN -&gt; (string) [required] The ARN of the IAM role that is used to access the AWS Lambda function. Constraints: • min: 1 • max: 2048 • pattern: arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Shorthand Syntax: InputLambdaProcessor={ResourceARN=string,RoleARN=string} JSON Syntax: { "InputLambdaProcessor": { "ResourceARN": "string", "RoleARN": "string" } }
     /// </summary>
     [CliOption("--input-processing-configuration")]
     public string? InputProcessingConfiguration { get; private init; }

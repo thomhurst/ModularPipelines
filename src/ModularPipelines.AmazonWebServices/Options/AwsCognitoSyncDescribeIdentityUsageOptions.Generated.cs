@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets usage information for an identity, including number of datasets and data usage. This API can be called with temporary user credentials provided by Cog- nito Identity or with developer credentials. See also: AWS API Documentation
+/// Gets usage information for an identity, including number of datasets and data usage. This API can be called with temporary user credentials provided by Cognito Identity or with developer credentials. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsCognitoSyncDescribeIdentityUsageOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets usage information for an identity, including number of datasets and data usage. This API can be called with temporary user credentials provided by Cog- nito Identity or with developer credentials. See also: AWS API Documentation
+    /// Gets usage information for an identity, including number of datasets and data usage. This API can be called with temporary user credentials provided by Cognito Identity or with developer credentials. See also: AWS API Documentation
     /// </summary>
     /// <param name="IdentityPoolId"></param>
     /// <param name="IdentityId"></param>

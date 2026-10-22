@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsWorkmailListGroupsForEntityOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Returns all the groups to which an entity belongs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The identifier for the organization under which the entity exists. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
-    /// <param name="EntityId">The identifier for the entity. The entity ID can accept UserId or GroupID , Username or Groupname , or email . o Entity ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: entity@domain.tld o Entity name: entity Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+</param>
+    /// <param name="OrganizationId">The identifier for the organization under which the entity exists. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="EntityId">The identifier for the entity. The entity ID can accept UserId or GroupID , Username or Groupname , or email . • Entity ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 • Email address: entity@domain.tld • Entity name: entity Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+</param>
     public AwsWorkmailListGroupsForEntityOptions(
         string OrganizationId,
         string EntityId
@@ -61,32 +63,32 @@ public record AwsWorkmailListGroupsForEntityOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the organization under which the entity exists. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The identifier for the organization under which the entity exists. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The identifier for the entity. The entity ID can accept UserId or GroupID , Username or Groupname , or email . o Entity ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: entity@domain.tld o Entity name: entity Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+
+    /// The identifier for the entity. The entity ID can accept UserId or GroupID , Username or Groupname , or email . • Entity ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 • Email address: entity@domain.tld • Entity name: entity Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+
     /// </summary>
     [CliOption("--entity-id")]
     public string? EntityId { get; private init; }
 
     /// <summary>
-    /// Limit the search results based on the filter criteria. GroupNamePrefix -&gt; (string) Filters only group names that start with the provided name pre- fix. Constraints: o max: 256 Shorthand Syntax: GroupNamePrefix=string JSON Syntax: { "GroupNamePrefix": "string" }
+    /// Limit the search results based on the filter criteria. GroupNamePrefix -&gt; (string) Filters only group names that start with the provided name prefix. Constraints: • max: 256 Shorthand Syntax: GroupNamePrefix=string JSON Syntax: { "GroupNamePrefix": "string" }
     /// </summary>
     [CliOption("--filters")]
     public string? Filters { get; set; }
 
     /// <summary>
-    /// The token to use to retrieve the next page of results. The first call does not contain any tokens. Constraints: o min: 1 o max: 1024 o pattern: [\S\s]*|[a-zA-Z0-9/+=]{1,1024}
+    /// The token to use to retrieve the next page of results. The first call does not contain any tokens. Constraints: • min: 1 • max: 1024 • pattern: [\S\s]*|[a-zA-Z0-9/+=]{1,1024}
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return in a single call. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to return in a single call. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

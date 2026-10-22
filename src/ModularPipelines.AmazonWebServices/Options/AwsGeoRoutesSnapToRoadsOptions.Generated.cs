@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsGeoRoutesSnapToRoadsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// SnapToRoads matches GPS trace to roads most likely traveled on. For more information, see Snap to Roads in the Amazon Location Service Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="TracePoints">List of trace points to be snapped onto the road network. Constraints: o min: 2 o max: 5000 (structure) TracePoint indices for which the provided notice code corre- sponds to. Heading -&gt; (double) GPS Heading at the position. Constraints: o min: 0.0 o max: 360.0 Position -&gt; (list) [required] Position in World Geodetic System (WGS 84) format: [longi- tude, latitude]. Constraints: o min: 2 o max: 2 (double) Speed -&gt; (double) Speed at the specified trace point . Unit : kilometers per hour Constraints: o min: 0.0 Timestamp -&gt; (string) Timestamp of the event. Constraints: o pattern: ([1-2][0-9]{3})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]|60)(\.[0-9]{0,9})?(Z|[+-]([01][0-9]|2[0-3]):[0-5][0-9]) Shorthand Syntax: Heading=double,Position=double,double,Speed=double,Timestamp=string ... JSON Syntax: [ { "Heading": double, "Position": [double, ...], "Speed": double, "Timestamp": "string" } ... ]</param>
+    /// <param name="TracePoints">List of trace points to be snapped onto the road network. Constraints: • min: 2 • max: 5000 (structure) TracePoint indices for which the provided notice code corresponds to. Heading -&gt; (double) GPS Heading at the position. Constraints: • min: 0.0 • max: 360.0 Position -&gt; (list) [required] Position in World Geodetic System (WGS 84) format: [longitude, latitude]. Constraints: • min: 2 • max: 2 (double) Speed -&gt; (double) Speed at the specified trace point . Unit : kilometers per hour Constraints: • min: 0.0 Timestamp -&gt; (string) Timestamp of the event. Constraints: • pattern: ([1-2][0-9]{3})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]|60)(\.[0-9]{0,9})?(Z|[+-]([01][0-9]|2[0-3]):[0-5][0-9]) Shorthand Syntax: Heading=double,Position=double,double,Speed=double,Timestamp=string ... JSON Syntax: [ { "Heading": double, "Position": [double, ...], "Speed": double, "Timestamp": "string" } ... ]</param>
     public AwsGeoRoutesSnapToRoadsOptions(
         IEnumerable<string> TracePoints
     )
@@ -68,37 +70,37 @@ public record AwsGeoRoutesSnapToRoadsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// List of trace points to be snapped onto the road network. Constraints: o min: 2 o max: 5000 (structure) TracePoint indices for which the provided notice code corre- sponds to. Heading -&gt; (double) GPS Heading at the position. Constraints: o min: 0.0 o max: 360.0 Position -&gt; (list) [required] Position in World Geodetic System (WGS 84) format: [longi- tude, latitude]. Constraints: o min: 2 o max: 2 (double) Speed -&gt; (double) Speed at the specified trace point . Unit : kilometers per hour Constraints: o min: 0.0 Timestamp -&gt; (string) Timestamp of the event. Constraints: o pattern: ([1-2][0-9]{3})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]|60)(\.[0-9]{0,9})?(Z|[+-]([01][0-9]|2[0-3]):[0-5][0-9]) Shorthand Syntax: Heading=double,Position=double,double,Speed=double,Timestamp=string ... JSON Syntax: [ { "Heading": double, "Position": [double, ...], "Speed": double, "Timestamp": "string" } ... ]
+    /// List of trace points to be snapped onto the road network. Constraints: • min: 2 • max: 5000 (structure) TracePoint indices for which the provided notice code corresponds to. Heading -&gt; (double) GPS Heading at the position. Constraints: • min: 0.0 • max: 360.0 Position -&gt; (list) [required] Position in World Geodetic System (WGS 84) format: [longitude, latitude]. Constraints: • min: 2 • max: 2 (double) Speed -&gt; (double) Speed at the specified trace point . Unit : kilometers per hour Constraints: • min: 0.0 Timestamp -&gt; (string) Timestamp of the event. Constraints: • pattern: ([1-2][0-9]{3})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]|60)(\.[0-9]{0,9})?(Z|[+-]([01][0-9]|2[0-3]):[0-5][0-9]) Shorthand Syntax: Heading=double,Position=double,double,Speed=double,Timestamp=string ... JSON Syntax: [ { "Heading": double, "Position": [double, ...], "Speed": double, "Timestamp": "string" } ... ]
     /// </summary>
     [CliOption("--trace-points", GroupValues = true)]
     public IEnumerable<string>? TracePoints { get; private init; }
 
     /// <summary>
-    /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request. Constraints: o min: 0 o max: 1000
+    /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--key")]
     public string? Key { get; set; }
 
     /// <summary>
-    /// Chooses what the returned SnappedGeometry format should be. Default value: FlexiblePolyline Possible values: o FlexiblePolyline o Simple
+    /// Chooses what the returned SnappedGeometry format should be. Default value: FlexiblePolyline Possible values: • FlexiblePolyline • Simple
     /// </summary>
     [CliOption("--snapped-geometry-format")]
     public AwsGeoRoutesSnapToRoadsSnappedGeometryFormat? SnappedGeometryFormat { get; set; }
 
     /// <summary>
-    /// The radius around the provided tracepoint that is considered for snapping. Unit : meters Default value: 300 Constraints: o min: 0 o max: 10000
+    /// The radius around the provided tracepoint that is considered for snapping. Unit : meters Default value: 300 Constraints: • min: 0 • max: 10000
     /// </summary>
     [CliOption("--snap-radius")]
-    public int? SnapRadius { get; set; }
+    public long? SnapRadius { get; set; }
 
     /// <summary>
-    /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. Default value: Car Possible values: o Car o Pedestrian o Scooter o Truck
+    /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. Default value: Car Possible values: • Car • Pedestrian • Scooter • Truck
     /// </summary>
     [CliOption("--travel-mode")]
     public AwsGeoRoutesSnapToRoadsTravelMode? TravelMode { get; set; }
 
     /// <summary>
-    /// Travel mode related options for the provided travel mode. Truck -&gt; (structure) Travel mode options when the provided travel mode is Truck . GrossWeight -&gt; (long) Gross weight of the vehicle including trailers, and goods at capacity. Unit : kilograms Constraints: o min: 0 o max: 4294967295 HazardousCargos -&gt; (list) List of Hazardous cargos contained in the vehicle. Constraints: o min: 0 o max: 11 (string) Possible values: o Combustible o Corrosive o Explosive o Flammable o Gas o HarmfulToWater o Organic o Other o Poison o PoisonousInhalation o Radioactive Height -&gt; (long) Height of the vehicle. Unit : centimeters Constraints: o min: 0 o max: 5000 Length -&gt; (long) Length of the vehicle. Unit : centimeters Constraints: o min: 0 o max: 30000 Trailer -&gt; (structure) Trailer options corresponding to the vehicle. TrailerCount -&gt; (integer) Number of trailers attached to the vehicle. Default value: 0 Constraints: o min: 0 o max: 4 TunnelRestrictionCode -&gt; (string) The tunnel restriction code. Tunnel categories in this list indicate the restrictions which apply to certain tunnels in Great Britain. They relate to the types of dangerous goods that can be transported through them. o Tunnel Category B o Risk Level : Limited risk o Restrictions : Few restrictions o Tunnel Category C o Risk Level : Medium risk o Restrictions : Some restrictions o Tunnel Category D o Risk Level : High risk o Restrictions : Many restrictions occur o Tunnel Category E o Risk Level : Very high risk o Restrictions : Restricted tunnel Constraints: o min: 1 o max: 1 Width -&gt; (long) Width of the vehicle in centimeters. Constraints: o min: 0 o max: 5000 Shorthand Syntax: Truck={GrossWeight=long,HazardousCargos=[string,string],Height=long,Length=long,Trailer={TrailerCount=integer},TunnelRestrictionCode=string,Width=long} JSON Syntax: { "Truck": { "GrossWeight": long, "HazardousCargos": ["Combustible"|"Corrosive"|"Explosive"|"Flammable"|"Gas"|"HarmfulToWater"|"Organic"|"Other"|"Poison"|"PoisonousInhalation"|"Radioactive", ...], "Height": long, "Length": long, "Trailer": { "TrailerCount": integer }, "TunnelRestrictionCode": "string", "Width": long } }
+    /// Travel mode related options for the provided travel mode. Truck -&gt; (structure) Travel mode options when the provided travel mode is Truck . GrossWeight -&gt; (long) Gross weight of the vehicle including trailers, and goods at capacity. Unit : kilograms Constraints: • min: 0 • max: 4294967295 HazardousCargos -&gt; (list) List of Hazardous cargos contained in the vehicle. Constraints: • min: 0 • max: 11 (string) Possible values: • Combustible • Corrosive • Explosive • Flammable • Gas • HarmfulToWater • Organic • Other • Poison • PoisonousInhalation • Radioactive Height -&gt; (long) Height of the vehicle. Unit : centimeters Constraints: • min: 0 • max: 5000 Length -&gt; (long) Length of the vehicle. Unit : centimeters Constraints: • min: 0 • max: 30000 Trailer -&gt; (structure) Trailer options corresponding to the vehicle. TrailerCount -&gt; (integer) Number of trailers attached to the vehicle. Default value: 0 Constraints: • min: 0 • max: 4 TunnelRestrictionCode -&gt; (string) The tunnel restriction code. Tunnel categories in this list indicate the restrictions which apply to certain tunnels in Great Britain. They relate to the types of dangerous goods that can be transported through them. • Tunnel Category B • Risk Level : Limited risk • Restrictions : Few restrictions • Tunnel Category C • Risk Level : Medium risk • Restrictions : Some restrictions • Tunnel Category D • Risk Level : High risk • Restrictions : Many restrictions occur • Tunnel Category E • Risk Level : Very high risk • Restrictions : Restricted tunnel Constraints: • min: 1 • max: 1 Width -&gt; (long) Width of the vehicle in centimeters. Constraints: • min: 0 • max: 5000 Shorthand Syntax: Truck={GrossWeight=long,HazardousCargos=[string,string],Height=long,Length=long,Trailer={TrailerCount=integer},TunnelRestrictionCode=string,Width=long} JSON Syntax: { "Truck": { "GrossWeight": long, "HazardousCargos": ["Combustible"|"Corrosive"|"Explosive"|"Flammable"|"Gas"|"HarmfulToWater"|"Organic"|"Other"|"Poison"|"PoisonousInhalation"|"Radioactive", ...], "Height": long, "Length": long, "Trailer": { "TrailerCount": integer }, "TunnelRestrictionCode": "string", "Width": long } }
     /// </summary>
     [CliOption("--travel-mode-options")]
     public string? TravelModeOptions { get; set; }

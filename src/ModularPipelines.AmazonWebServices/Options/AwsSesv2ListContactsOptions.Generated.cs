@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -63,13 +65,13 @@ public record AwsSesv2ListContactsOptions : AwsOptions, IValidatableObject
     public string? ContactListName { get; private init; }
 
     /// <summary>
-    /// A filter that can be applied to a list of contacts. FilteredStatus -&gt; (string) The status by which you are filtering: OPT_IN or OPT_OUT . Possible values: o OPT_IN o OPT_OUT TopicFilter -&gt; (structure) Used for filtering by a specific topic preference. TopicName -&gt; (string) The name of a topic on which you wish to apply the filter. UseDefaultIfPreferenceUnavailable -&gt; (boolean) Notes that the default subscription status should be applied to a contact because the contact has not noted their prefer- ence for subscribing to a topic. Shorthand Syntax: FilteredStatus=string,TopicFilter={TopicName=string,UseDefaultIfPreferenceUnavailable=boolean} JSON Syntax: { "FilteredStatus": "OPT_IN"|"OPT_OUT", "TopicFilter": { "TopicName": "string", "UseDefaultIfPreferenceUnavailable": true|false } }
+    /// A filter that can be applied to a list of contacts. FilteredStatus -&gt; (string) The status by which you are filtering: OPT_IN or OPT_OUT . Possible values: • OPT_IN • OPT_OUT TopicFilter -&gt; (structure) Used for filtering by a specific topic preference. TopicName -&gt; (string) The name of a topic on which you wish to apply the filter. UseDefaultIfPreferenceUnavailable -&gt; (boolean) Notes that the default subscription status should be applied to a contact because the contact has not noted their preference for subscribing to a topic. Shorthand Syntax: FilteredStatus=string,TopicFilter={TopicName=string,UseDefaultIfPreferenceUnavailable=boolean} JSON Syntax: { "FilteredStatus": "OPT_IN"|"OPT_OUT", "TopicFilter": { "TopicName": "string", "UseDefaultIfPreferenceUnavailable": true|false } }
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; set; }
 
     /// <summary>
-    /// The number of contacts that may be returned at once, which is depen- dent on if there are more or less contacts than the value of the Pa- geSize. Use this parameter to paginate results. If additional con- tacts exist beyond the specified limit, the NextToken element is sent in the response. Use the NextToken value in subsequent requests to retrieve additional contacts.
+    /// The number of contacts that may be returned at once, which is dependent on if there are more or less contacts than the value of the PageSize. Use this parameter to paginate results. If additional contacts exist beyond the specified limit, the NextToken element is sent in the response. Use the NextToken value in subsequent requests to retrieve additional contacts.
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an assessment report in Audit Manager. When you run the DeleteAssessmentReport operation, Audit Manager at- tempts to delete the following data: o The specified assessment report thats stored in your S3 bucket o The associated metadata thats stored in Audit Manager If Audit Manager cant access the assessment report in your S3 bucket, the report isnt deleted. In this event, the DeleteAssessmentReport op- eration doesnt fail. Instead, it proceeds to delete the associated metadata only. You...
+/// Deletes an assessment report in Audit Manager. When you run the DeleteAssessmentReport operation, Audit Manager attempts to delete the following data: • The specified assessment report thats stored in your S3 bucket • The associated metadata thats stored in Audit Manager If Audit Manager cant access the assessment report in your S3 bucket, the report isnt deleted. In this event, the DeleteAssessmentReport operation doesnt fail. Instead, it proceeds to delete the associated metadata only. You mus...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsAuditManagerDeleteAssessmentReportOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an assessment report in Audit Manager. When you run the DeleteAssessmentReport operation, Audit Manager at- tempts to delete the following data: o The specified assessment report thats stored in your S3 bucket o The associated metadata thats stored in Audit Manager If Audit Manager cant access the assessment report in your S3 bucket, the report isnt deleted. In this event, the DeleteAssessmentReport op- eration doesnt fail. Instead, it proceeds to delete the associated metadata only. You...
+    /// Deletes an assessment report in Audit Manager. When you run the DeleteAssessmentReport operation, Audit Manager attempts to delete the following data: • The specified assessment report thats stored in your S3 bucket • The associated metadata thats stored in Audit Manager If Audit Manager cant access the assessment report in your S3 bucket, the report isnt deleted. In this event, the DeleteAssessmentReport operation doesnt fail. Instead, it proceeds to delete the associated metadata only. You mus...
     /// </summary>
-    /// <param name="AssessmentId">The unique identifier for the assessment. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
-    /// <param name="AssessmentReportId">The unique identifier for the assessment report. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="AssessmentId">The unique identifier for the assessment. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="AssessmentReportId">The unique identifier for the assessment report. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
     public AwsAuditManagerDeleteAssessmentReportOptions(
         string AssessmentId,
         string AssessmentReportId
@@ -60,13 +62,13 @@ public record AwsAuditManagerDeleteAssessmentReportOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the assessment. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The unique identifier for the assessment. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--assessment-id")]
     public string? AssessmentId { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the assessment report. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The unique identifier for the assessment report. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--assessment-report-id")]
     public string? AssessmentReportId { get; private init; }

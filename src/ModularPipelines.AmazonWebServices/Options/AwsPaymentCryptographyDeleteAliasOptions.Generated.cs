@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the alias, but doesn't affect the underlying key. Each key can have multiple aliases. To get the aliases of all keys, use the UpdateAlias operation. To change the alias of a key, first use DeleteAlias to delete the current alias and then use CreateAlias to create a new alias. To associate an existing alias with a different key, call UpdateAlias . Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o CreateAlias o GetAlias o L...
+/// Deletes the alias, but doesn't affect the underlying key. Each key can have multiple aliases. To get the aliases of all keys, use the UpdateAlias operation. To change the alias of a key, first use DeleteAlias to delete the current alias and then use CreateAlias to create a new alias. To associate an existing alias with a different key, call UpdateAlias . Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: • CreateAlias • GetAlias • L...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsPaymentCryptographyDeleteAliasOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the alias, but doesn't affect the underlying key. Each key can have multiple aliases. To get the aliases of all keys, use the UpdateAlias operation. To change the alias of a key, first use DeleteAlias to delete the current alias and then use CreateAlias to create a new alias. To associate an existing alias with a different key, call UpdateAlias . Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o CreateAlias o GetAlias o L...
+    /// Deletes the alias, but doesn't affect the underlying key. Each key can have multiple aliases. To get the aliases of all keys, use the UpdateAlias operation. To change the alias of a key, first use DeleteAlias to delete the current alias and then use CreateAlias to create a new alias. To associate an existing alias with a different key, call UpdateAlias . Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: • CreateAlias • GetAlias • L...
     /// </summary>
-    /// <param name="AliasName">A friendly name that you can use to refer Amazon Web Services Pay- ment Cryptography key. This value must begin with alias/ followed by a name, such as alias/ExampleAlias . Constraints: o min: 7 o max: 256 o pattern: alias/[a-zA-Z0-9/_-]+</param>
+    /// <param name="AliasName">A friendly name that you can use to refer Amazon Web Services Payment Cryptography key. This value must begin with alias/ followed by a name, such as alias/ExampleAlias . Constraints: • min: 7 • max: 256 • pattern: alias/[a-zA-Z0-9/_-]+</param>
     public AwsPaymentCryptographyDeleteAliasOptions(
         string AliasName
     )
@@ -56,7 +58,7 @@ public record AwsPaymentCryptographyDeleteAliasOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A friendly name that you can use to refer Amazon Web Services Pay- ment Cryptography key. This value must begin with alias/ followed by a name, such as alias/ExampleAlias . Constraints: o min: 7 o max: 256 o pattern: alias/[a-zA-Z0-9/_-]+
+    /// A friendly name that you can use to refer Amazon Web Services Payment Cryptography key. This value must begin with alias/ followed by a name, such as alias/ExampleAlias . Constraints: • min: 7 • max: 256 • pattern: alias/[a-zA-Z0-9/_-]+
     /// </summary>
     [CliOption("--alias-name")]
     public string? AliasName { get; private init; }

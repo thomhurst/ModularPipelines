@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists all the fraudster registration jobs in the domain with the given JobStatus . If JobStatus is not provided, this lists all fraudster reg- istration jobs in the given domain. See also: AWS API Documentation list-fraudster-registration-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated respons...
+/// Lists all the fraudster registration jobs in the domain with the given JobStatus . If JobStatus is not provided, this lists all fraudster registration jobs in the given domain. See also: AWS API Documentation list-fraudster-registration-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsVoiceIdListFraudsterRegistrationJobsOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists all the fraudster registration jobs in the domain with the given JobStatus . If JobStatus is not provided, this lists all fraudster reg- istration jobs in the given domain. See also: AWS API Documentation list-fraudster-registration-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated respons...
+    /// Lists all the fraudster registration jobs in the domain with the given JobStatus . If JobStatus is not provided, this lists all fraudster registration jobs in the given domain. See also: AWS API Documentation list-fraudster-registration-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the...
     /// </summary>
-    /// <param name="DomainId">The identifier of the domain that contains the fraudster registra- tion Jobs. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$</param>
+    /// <param name="DomainId">The identifier of the domain that contains the fraudster registration Jobs. Constraints: • min: 22 • max: 22 • pattern: ^[a-zA-Z0-9]{22}$</param>
     public AwsVoiceIdListFraudsterRegistrationJobsOptions(
         string DomainId
     )
@@ -58,22 +60,19 @@ public record AwsVoiceIdListFraudsterRegistrationJobsOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the domain that contains the fraudster registra- tion Jobs. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$
+    /// The identifier of the domain that contains the fraudster registration Jobs. Constraints: • min: 22 • max: 22 • pattern: ^[a-zA-Z0-9]{22}$
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// Provides the status of your fraudster registration job. Possible values: o SUBMITTED o IN_PROGRESS o COMPLETED o COMPLETED_WITH_ERRORS o FAILED
+    /// Provides the status of your fraudster registration job. Possible values: • SUBMITTED • IN_PROGRESS • COMPLETED • COMPLETED_WITH_ERRORS • FAILED
     /// </summary>
     [CliOption("--job-status")]
     public AwsVoiceIdListFraudsterRegistrationJobsJobStatus? JobStatus { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -83,16 +82,19 @@ public record AwsVoiceIdListFraudsterRegistrationJobsOptions : AwsOptions, IVali
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

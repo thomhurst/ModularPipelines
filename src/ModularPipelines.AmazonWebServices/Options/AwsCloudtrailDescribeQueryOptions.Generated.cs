@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Returns metadata about a query, including query run time in millisec- onds, number of events scanned and matched, and query status. If the query results were delivered to an S3 bucket, the response also pro- vides th...
+/// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Returns metadata about a query, including query run time in milliseconds, number of events scanned and matched, and query status. If the query results were delivered to an S3 bucket, the response also provides the S3...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,31 +22,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudtrailDescribeQueryOptions : AwsOptions
 {
     /// <summary>
-    /// The ARN (or the ID suffix of the ARN) of an event data store on which the specified query was run. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$
+    /// The ARN (or the ID suffix of the ARN) of an event data store on which the specified query was run. Constraints: • min: 3 • max: 256 • pattern: ^[a-zA-Z0-9._/\-:]+$
     /// </summary>
     [CliOption("--event-data-store")]
     public string? EventDataStore { get; set; }
 
     /// <summary>
-    /// The query ID. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9\-]+$
+    /// The query ID. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9\-]+$
     /// </summary>
     [CliOption("--query-id")]
     public string? QueryId { get; set; }
 
     /// <summary>
-    /// The alias that identifies a query template. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z][a-zA-Z0-9._\-]*$
+    /// The alias that identifies a query template. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z][a-zA-Z0-9._\-]*$
     /// </summary>
     [CliOption("--query-alias")]
     public string? QueryAlias { get; set; }
 
     /// <summary>
-    /// The ID of the dashboard refresh. Constraints: o min: 10 o max: 20 o pattern: \d+
+    /// The ID of the dashboard refresh. Constraints: • min: 10 • max: 20 • pattern: \d+
     /// </summary>
     [CliOption("--refresh-id")]
     public string? RefreshId { get; set; }
 
     /// <summary>
-    /// The account ID of the event data store owner. Constraints: o min: 12 o max: 16 o pattern: \d+
+    /// The account ID of the event data store owner. Constraints: • min: 12 • max: 16 • pattern: \d+
     /// </summary>
     [CliOption("--event-data-store-owner-account-id")]
     public string? EventDataStoreOwnerAccountId { get; set; }

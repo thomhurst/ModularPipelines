@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a wireless gateway. NOTE: When deleting a wireless gateway, you might run into duplication er- rors for the following reasons. o If you specify a GatewayEui value that already exists. o If you used a ClientRequestToken with the same parameters within the last 10 minutes. To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period. See also: AWS API Documentation
+/// Deletes a wireless gateway. NOTE: When deleting a wireless gateway, you might run into duplication errors for the following reasons. • If you specify a GatewayEui value that already exists. • If you used a ClientRequestToken with the same parameters within the last 10 minutes. To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsIotwirelessDeleteWirelessGatewayOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a wireless gateway. NOTE: When deleting a wireless gateway, you might run into duplication er- rors for the following reasons. o If you specify a GatewayEui value that already exists. o If you used a ClientRequestToken with the same parameters within the last 10 minutes. To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period. See also: AWS API Documentation
+    /// Deletes a wireless gateway. NOTE: When deleting a wireless gateway, you might run into duplication errors for the following reasons. • If you specify a GatewayEui value that already exists. • If you used a ClientRequestToken with the same parameters within the last 10 minutes. To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the resource to delete. Constraints: o max: 256</param>
+    /// <param name="Id">The ID of the resource to delete. Constraints: • max: 256</param>
     public AwsIotwirelessDeleteWirelessGatewayOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsIotwirelessDeleteWirelessGatewayOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the resource to delete. Constraints: o max: 256
+    /// The ID of the resource to delete. Constraints: • max: 256
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the phone number settings for the administrator's AWS ac- count, such as the default outbound calling name. See also: AWS API Documentation
+/// Retrieves the phone number settings for the administrator's AWS account, such as the default outbound calling name. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

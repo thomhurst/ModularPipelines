@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists information about the IAM OpenID Connect (OIDC) provider resource objects defined in the Amazon Web Services account. NOTE: IAM resource-listing operations return a subset of the available at- tributes for the resource. For example, this operation does not re- turn tags, even though they are an attribute of the returned object. To view all of the information for an OIDC provider, see GetOpenIDConnectProvider . See also: AWS API Documentation
+/// Lists information about the IAM OpenID Connect (OIDC) provider resource objects defined in the Amazon Web Services account. NOTE: IAM resource-listing operations return a subset of the available attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for an OIDC provider, see GetOpenIDConnectProvider . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

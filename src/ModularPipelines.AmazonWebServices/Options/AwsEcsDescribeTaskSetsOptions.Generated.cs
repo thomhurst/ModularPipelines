@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -78,7 +80,7 @@ public record AwsEcsDescribeTaskSetsOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? TaskSets { get; set; }
 
     /// <summary>
-    /// Specifies whether to see the resource tags for the task set. If TAGS is specified, the tags are included in the response. If this field is omitted, tags aren't included in the response. (string) Possible values: o TAGS Syntax: "string" "string" ...
+    /// Specifies whether to see the resource tags for the task set. If TAGS is specified, the tags are included in the response. If this field is omitted, tags aren't included in the response. (string) Possible values: • TAGS Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--include", GroupValues = true)]
     public IEnumerable<string>? Include { get; set; }

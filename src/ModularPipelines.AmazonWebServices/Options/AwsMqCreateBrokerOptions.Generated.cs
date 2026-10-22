@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -17,7 +18,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a broker. Note: This API is asynchronous. To create a broker, you must either use the AmazonMQFullAccess IAM pol- icy or include the following EC2 permissions in your IAM policy. o ec2:CreateNetworkInterface This permission is required to allow Ama- zon MQ to create an elastic network interface (ENI) on behalf of your account. o ec2:CreateNetworkInterfacePermission This permission is required to attach the ENI to the broker instance. o ec2:DeleteNetworkInterface o ec2:DeleteNetworkInterf...
+/// Creates a broker. Note: This API is asynchronous. To create a broker, you must either use the AmazonMQFullAccess IAM policy or include the following EC2 permissions in your IAM policy. • ec2:CreateNetworkInterface This permission is required to allow Amazon MQ to create an elastic network interface (ENI) on behalf of your account. • ec2:CreateNetworkInterfacePermission This permission is required to attach the ENI to the broker instance. • ec2:DeleteNetworkInterface • ec2:DeleteNetworkInterfaceP...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,13 +28,13 @@ public record AwsMqCreateBrokerOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a broker. Note: This API is asynchronous. To create a broker, you must either use the AmazonMQFullAccess IAM pol- icy or include the following EC2 permissions in your IAM policy. o ec2:CreateNetworkInterface This permission is required to allow Ama- zon MQ to create an elastic network interface (ENI) on behalf of your account. o ec2:CreateNetworkInterfacePermission This permission is required to attach the ENI to the broker instance. o ec2:DeleteNetworkInterface o ec2:DeleteNetworkInterf...
+    /// Creates a broker. Note: This API is asynchronous. To create a broker, you must either use the AmazonMQFullAccess IAM policy or include the following EC2 permissions in your IAM policy. • ec2:CreateNetworkInterface This permission is required to allow Amazon MQ to create an elastic network interface (ENI) on behalf of your account. • ec2:CreateNetworkInterfacePermission This permission is required to attach the ENI to the broker instance. • ec2:DeleteNetworkInterface • ec2:DeleteNetworkInterfaceP...
     /// </summary>
-    /// <param name="BrokerName">Required. The broker's name. This value must be unique in your Ama- zon Web Services account, 1-50 characters long, must contain only letters, numbers, dashes, and underscores, and must not contain white spaces, brackets, wildcard characters, or special characters. WARNING: Do not add personally identifiable information (PII) or other confidential or sensitive information in broker names. Broker names are accessible to other Amazon Web Services services, in- cluding CloudWatch Logs. Broker names are not intended to be used for private or sensitive data.</param>
-    /// <param name="DeploymentMode">Required. The broker's deployment mode. Possible values: o SINGLE_INSTANCE o ACTIVE_STANDBY_MULTI_AZ o CLUSTER_MULTI_AZ</param>
-    /// <param name="EngineType">Required. The type of broker engine. Currently, Amazon MQ supports ACTIVEMQ and RABBITMQ. Possible values: o ACTIVEMQ o RABBITMQ</param>
+    /// <param name="BrokerName">Required. The broker's name. This value must be unique in your Amazon Web Services account, 1-50 characters long, must contain only letters, numbers, dashes, and underscores, and must not contain white spaces, brackets, wildcard characters, or special characters. WARNING: Do not add personally identifiable information (PII) or other confidential or sensitive information in broker names. Broker names are accessible to other Amazon Web Services services, including CloudWatch Logs. Broker names are not intended to be used for private or sensitive data.</param>
+    /// <param name="DeploymentMode">Required. The broker's deployment mode. Possible values: • SINGLE_INSTANCE • ACTIVE_STANDBY_MULTI_AZ • CLUSTER_MULTI_AZ</param>
+    /// <param name="EngineType">Required. The type of broker engine. Currently, Amazon MQ supports ACTIVEMQ and RABBITMQ. Possible values: • ACTIVEMQ • RABBITMQ</param>
     /// <param name="HostInstanceType">Required. The broker's instance type.</param>
-    /// <param name="PubliclyAccessible">Enables connections from applications outside of the VPC that hosts the broker's subnets. Set to false by default, if no value is pro- vided.</param>
+    /// <param name="PubliclyAccessible">Enables connections from applications outside of the VPC that hosts the broker's subnets. Set to false by default, if no value is provided.</param>
     public AwsMqCreateBrokerOptions(
         string BrokerName,
         AwsMqCreateBrokerDeploymentMode DeploymentMode,
@@ -71,19 +72,19 @@ public record AwsMqCreateBrokerOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Required. The broker's name. This value must be unique in your Ama- zon Web Services account, 1-50 characters long, must contain only letters, numbers, dashes, and underscores, and must not contain white spaces, brackets, wildcard characters, or special characters. WARNING: Do not add personally identifiable information (PII) or other confidential or sensitive information in broker names. Broker names are accessible to other Amazon Web Services services, in- cluding CloudWatch Logs. Broker names are not intended to be used for private or sensitive data.
+    /// Required. The broker's name. This value must be unique in your Amazon Web Services account, 1-50 characters long, must contain only letters, numbers, dashes, and underscores, and must not contain white spaces, brackets, wildcard characters, or special characters. WARNING: Do not add personally identifiable information (PII) or other confidential or sensitive information in broker names. Broker names are accessible to other Amazon Web Services services, including CloudWatch Logs. Broker names are not intended to be used for private or sensitive data.
     /// </summary>
     [CliOption("--broker-name")]
     public string? BrokerName { get; private init; }
 
     /// <summary>
-    /// Required. The broker's deployment mode. Possible values: o SINGLE_INSTANCE o ACTIVE_STANDBY_MULTI_AZ o CLUSTER_MULTI_AZ
+    /// Required. The broker's deployment mode. Possible values: • SINGLE_INSTANCE • ACTIVE_STANDBY_MULTI_AZ • CLUSTER_MULTI_AZ
     /// </summary>
     [CliOption("--deployment-mode")]
     public AwsMqCreateBrokerDeploymentMode? DeploymentMode { get; private init; }
 
     /// <summary>
-    /// Required. The type of broker engine. Currently, Amazon MQ supports ACTIVEMQ and RABBITMQ. Possible values: o ACTIVEMQ o RABBITMQ
+    /// Required. The type of broker engine. Currently, Amazon MQ supports ACTIVEMQ and RABBITMQ. Possible values: • ACTIVEMQ • RABBITMQ
     /// </summary>
     [CliOption("--engine-type")]
     public AwsMqCreateBrokerEngineType? EngineType { get; private init; }
@@ -95,25 +96,25 @@ public record AwsMqCreateBrokerOptions : AwsOptions, IValidatableObject
     public string? HostInstanceType { get; private init; }
 
     /// <summary>
-    /// Enables connections from applications outside of the VPC that hosts the broker's subnets. Set to false by default, if no value is pro- vided.
+    /// Enables connections from applications outside of the VPC that hosts the broker's subnets. Set to false by default, if no value is provided.
     /// </summary>
     [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; private init; }
 
     /// <summary>
-    /// Optional. The authentication strategy used to secure the broker. The default is SIMPLE. Possible values: o SIMPLE o LDAP o CONFIG_MANAGED
+    /// Optional. The authentication strategy used to secure the broker. The default is SIMPLE. Possible values: • SIMPLE • LDAP • CONFIG_MANAGED
     /// </summary>
     [CliOption("--authentication-strategy")]
     public AwsMqCreateBrokerAuthenticationStrategy? AuthenticationStrategy { get; set; }
 
     /// <summary>
-    /// Enables automatic upgrades to new patch versions for brokers as new versions are released and supported by Amazon MQ. Automatic upgrades occur during the scheduled maintenance window or after a manual bro- ker reboot. Set to true by default, if no value is specified. NOTE: Must be set to true for ActiveMQ brokers version 5.18 and above and for RabbitMQ brokers version 3.13 and above.
+    /// Enables automatic upgrades to new patch versions for brokers as new versions are released and supported by Amazon MQ. Automatic upgrades occur during the scheduled maintenance window or after a manual broker reboot. Set to true by default, if no value is specified. NOTE: Must be set to true for ActiveMQ brokers version 5.18 and above and for RabbitMQ brokers version 3.13 and above.
     /// </summary>
     [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
 
     /// <summary>
-    /// A list of information about the configuration. Id -&gt; (string) [required] Required. The unique ID that Amazon MQ generates for the config- uration. Revision -&gt; (integer) The revision number of the configuration. Shorthand Syntax: Id=string,Revision=integer JSON Syntax: { "Id": "string", "Revision": integer }
+    /// A list of information about the configuration. Id -&gt; (string) [required] Required. The unique ID that Amazon MQ generates for the configuration. Revision -&gt; (integer) The revision number of the configuration. Shorthand Syntax: Id=string,Revision=integer JSON Syntax: { "Id": "string", "Revision": integer }
     /// </summary>
     [CliOption("--configuration")]
     public string? Configuration { get; set; }
@@ -125,19 +126,19 @@ public record AwsMqCreateBrokerOptions : AwsOptions, IValidatableObject
     public string? CreatorRequestId { get; set; }
 
     /// <summary>
-    /// Encryption options for the broker. KmsKeyId -&gt; (string) The customer master key (CMK) to use for the A KMS (KMS). This key is used to encrypt your data at rest. If not provided, Ama- zon MQ will use a default CMK to encrypt your data. UseAwsOwnedKey -&gt; (boolean) [required] Enables the use of an Amazon Web Services owned CMK using KMS (KMS). Set to true by default, if no value is provided, for ex- ample, for RabbitMQ brokers. Shorthand Syntax: KmsKeyId=string,UseAwsOwnedKey=boolean JSON Syntax: { "KmsKeyId": "string", "UseAwsOwnedKey": true|false }
+    /// Encryption options for the broker. KmsKeyId -&gt; (string) The customer master key (CMK) to use for the A KMS (KMS). This key is used to encrypt your data at rest. If not provided, Amazon MQ will use a default CMK to encrypt your data. UseAwsOwnedKey -&gt; (boolean) [required] Enables the use of an Amazon Web Services owned CMK using KMS (KMS). Set to true by default, if no value is provided, for example, for RabbitMQ brokers. Shorthand Syntax: KmsKeyId=string,UseAwsOwnedKey=boolean JSON Syntax: { "KmsKeyId": "string", "UseAwsOwnedKey": true|false }
     /// </summary>
     [CliOption("--encryption-options")]
     public string? EncryptionOptions { get; set; }
 
     /// <summary>
-    /// The broker engine version. Defaults to the latest available version for the specified broker engine type. For more information, see the ActiveMQ version management and the RabbitMQ version management sec- tions in the Amazon MQ Developer Guide.
+    /// The broker engine version. Defaults to the latest available version for the specified broker engine type. For more information, see the ActiveMQ version management and the RabbitMQ version management sections in the Amazon MQ Developer Guide.
     /// </summary>
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
     /// <summary>
-    /// Optional. The metadata of the LDAP server used to authenticate and authorize connections to the broker. Does not apply to RabbitMQ bro- kers. Hosts -&gt; (list) [required] Specifies the location of the LDAP server such as Directory Ser- vice for Microsoft Active Directory. Optional failover server. (string) RoleBase -&gt; (string) [required] The distinguished name of the node in the directory information tree (DIT) to search for roles or groups. For example, ou=group, ou=corp, dc=corp, dc=example, dc=com. RoleName -&gt; (string) Specifies the LDAP attribute that identifies the group name at- tribute in the object returned from the group membership query. RoleSearchMatching -&gt; (string) [required] The LDAP search filter used to find roles within the roleBase. The distinguished name of the user matched by userSearchMatching is substituted into the {0} placeholder in the search filter. The client's username is substituted into the {1} placeholder. For example, if you set this option to (member=uid={1})for the user janedoe, the search filter becomes (member=uid=janedoe) af- ter string substitution. It matches all role entries that have a member attribute equal to uid=janedoe under the subtree selected by the roleBase. RoleSearchSubtree -&gt; (boolean) The directory search scope for the role. If set to true, scope is to search the entire subtree. ServiceAccountPassword -&gt; (string) [required] Service account password. A service account is an account in your LDAP server that has access to initiate a connection. For example, cn=admin,dc=corp, dc=example, dc=com. ServiceAccountUsername -&gt; (string) [required] Service account username. A service account is an account in your LDAP server that has access to initiate a connection. For example, cn=admin,dc=corp, dc=example, dc=com. UserBase -&gt; (string) [required] Select a particular subtree of the directory information tree (DIT) to search for user entries. The subtree is specified by a DN, which specifies the base node of the subtree. For example, by setting this option to ou=Users,ou=corp, dc=corp, dc=example, dc=com, the search for user entries is restricted to the subtree beneath ou=Users, ou=corp, dc=corp, dc=example, dc=com. UserRoleName -&gt; (string) Specifies the name of the LDAP attribute for the user group mem- bership. UserSearchMatching -&gt; (string) [required] The LDAP search filter used to find users within the userBase. The client's username is substituted into the {0} placeholder in the search filter. For example, if this option is set to (uid={0}) and the received username is janedoe, the search fil- ter becomes (uid=janedoe) after string substitution. It will re- sult in matching an entry like uid=janedoe, ou=Users,ou=corp, dc=corp, dc=example, dc=com. UserSearchSubtree -&gt; (boolean) The directory search scope for the user. If set to true, scope is to search the entire subtree. Shorthand Syntax: Hosts=string,string,RoleBase=string,RoleName=string,RoleSearchMatching=string,RoleSearchSubtree=boolean,ServiceAccountPassword=string,ServiceAccountUsername=string,UserBase=string,UserRoleName=string,UserSearchMatching=string,UserSearchSubtree=boolean JSON Syntax: { "Hosts": ["string", ...], "RoleBase": "string", "RoleName": "string", "RoleSearchMatching": "string", "RoleSearchSubtree": true|false, "ServiceAccountPassword": "string", "ServiceAccountUsername": "string", "UserBase": "string", "UserRoleName": "string", "UserSearchMatching": "string", "UserSearchSubtree": true|false }
+    /// Optional. The metadata of the LDAP server used to authenticate and authorize connections to the broker. Does not apply to RabbitMQ brokers. Hosts -&gt; (list) [required] Specifies the location of the LDAP server such as Directory Service for Microsoft Active Directory. Optional failover server. (string) RoleBase -&gt; (string) [required] The distinguished name of the node in the directory information tree (DIT) to search for roles or groups. For example, ou=group, ou=corp, dc=corp, dc=example, dc=com. RoleName -&gt; (string) Specifies the LDAP attribute that identifies the group name attribute in the object returned from the group membership query. RoleSearchMatching -&gt; (string) [required] The LDAP search filter used to find roles within the roleBase. The distinguished name of the user matched by userSearchMatching is substituted into the {0} placeholder in the search filter. The client's username is substituted into the {1} placeholder. For example, if you set this option to (member=uid={1})for the user janedoe, the search filter becomes (member=uid=janedoe) after string substitution. It matches all role entries that have a member attribute equal to uid=janedoe under the subtree selected by the roleBase. RoleSearchSubtree -&gt; (boolean) The directory search scope for the role. If set to true, scope is to search the entire subtree. ServiceAccountPassword -&gt; (string) [required] Service account password. A service account is an account in your LDAP server that has access to initiate a connection. For example, cn=admin,dc=corp, dc=example, dc=com. ServiceAccountUsername -&gt; (string) [required] Service account username. A service account is an account in your LDAP server that has access to initiate a connection. For example, cn=admin,dc=corp, dc=example, dc=com. UserBase -&gt; (string) [required] Select a particular subtree of the directory information tree (DIT) to search for user entries. The subtree is specified by a DN, which specifies the base node of the subtree. For example, by setting this option to ou=Users,ou=corp, dc=corp, dc=example, dc=com, the search for user entries is restricted to the subtree beneath ou=Users, ou=corp, dc=corp, dc=example, dc=com. UserRoleName -&gt; (string) Specifies the name of the LDAP attribute for the user group membership. UserSearchMatching -&gt; (string) [required] The LDAP search filter used to find users within the userBase. The client's username is substituted into the {0} placeholder in the search filter. For example, if this option is set to (uid={0}) and the received username is janedoe, the search filter becomes (uid=janedoe) after string substitution. It will result in matching an entry like uid=janedoe, ou=Users,ou=corp, dc=corp, dc=example, dc=com. UserSearchSubtree -&gt; (boolean) The directory search scope for the user. If set to true, scope is to search the entire subtree. Shorthand Syntax: Hosts=string,string,RoleBase=string,RoleName=string,RoleSearchMatching=string,RoleSearchSubtree=boolean,ServiceAccountPassword=string,ServiceAccountUsername=string,UserBase=string,UserRoleName=string,UserSearchMatching=string,UserSearchSubtree=boolean JSON Syntax: { "Hosts": ["string", ...], "RoleBase": "string", "RoleName": "string", "RoleSearchMatching": "string", "RoleSearchSubtree": true|false, "ServiceAccountPassword": "string", "ServiceAccountUsername": "string", "UserBase": "string", "UserRoleName": "string", "UserSearchMatching": "string", "UserSearchSubtree": true|false }
     /// </summary>
     [CliOption("--ldap-server-metadata")]
     public string? LdapServerMetadata { get; set; }
@@ -149,13 +150,13 @@ public record AwsMqCreateBrokerOptions : AwsOptions, IValidatableObject
     public string? Logs { get; set; }
 
     /// <summary>
-    /// The parameters that determine the WeeklyStartTime. DayOfWeek -&gt; (string) [required] Required. The day of the week. Possible values: o MONDAY o TUESDAY o WEDNESDAY o THURSDAY o FRIDAY o SATURDAY o SUNDAY TimeOfDay -&gt; (string) [required] Required. The time, in 24-hour format. TimeZone -&gt; (string) The time zone, UTC by default, in either the Country/City for- mat, or the UTC offset format. Shorthand Syntax: DayOfWeek=string,TimeOfDay=string,TimeZone=string JSON Syntax: { "DayOfWeek": "MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY"|"SUNDAY", "TimeOfDay": "string", "TimeZone": "string" }
+    /// The parameters that determine the WeeklyStartTime. DayOfWeek -&gt; (string) [required] Required. The day of the week. Possible values: • MONDAY • TUESDAY • WEDNESDAY • THURSDAY • FRIDAY • SATURDAY • SUNDAY TimeOfDay -&gt; (string) [required] Required. The time, in 24-hour format. TimeZone -&gt; (string) The time zone, UTC by default, in either the Country/City format, or the UTC offset format. Shorthand Syntax: DayOfWeek=string,TimeOfDay=string,TimeZone=string JSON Syntax: { "DayOfWeek": "MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY"|"SUNDAY", "TimeOfDay": "string", "TimeZone": "string" }
     /// </summary>
     [CliOption("--maintenance-window-start-time")]
     public string? MaintenanceWindowStartTime { get; set; }
 
     /// <summary>
-    /// The list of rules (1 minimum, 125 maximum) that authorize connec- tions to brokers. (string) Syntax: "string" "string" ...
+    /// The list of rules (1 minimum, 125 maximum) that authorize connections to brokers. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--security-groups", GroupValues = true)]
     public IEnumerable<string>? SecurityGroups { get; set; }
@@ -167,13 +168,13 @@ public record AwsMqCreateBrokerOptions : AwsOptions, IValidatableObject
     public int? StorageSize { get; set; }
 
     /// <summary>
-    /// The broker's storage type. Possible values: o EBS o EFS
+    /// The broker's storage type. Possible values: • EBS • EFS
     /// </summary>
     [CliOption("--storage-type")]
     public AwsMqCreateBrokerStorageType? StorageType { get; set; }
 
     /// <summary>
-    /// The list of groups that define which subnets and IP ranges the bro- ker can use from different Availability Zones. If you specify more than one subnet, the subnets must be in different Availability Zones. Amazon MQ will not be able to create VPC endpoints for your broker with multiple subnets in the same Availability Zone. A SIN- GLE_INSTANCE deployment requires one subnet (for example, the de- fault subnet). An ACTIVE_STANDBY_MULTI_AZ Amazon MQ for ActiveMQ de- ployment requires two subnets. A CLUSTER_MULTI_AZ Amazon MQ for Rab- bitMQ deployment has no subnet requirements when deployed with pub- lic accessibility. Deployment without public accessibility requires at least one subnet. WARNING: If you specify subnets in a shared VPC for a RabbitMQ broker, the associated VPC to which the specified subnets belong must be owned by your Amazon Web Services account. Amazon MQ will not be able to create VPC endpoints in VPCs that are not owned by your Amazon Web Services account. (string) Syntax: "string" "string" ...
+    /// The list of groups that define which subnets and IP ranges the broker can use from different Availability Zones. If you specify more than one subnet, the subnets must be in different Availability Zones. Amazon MQ will not be able to create VPC endpoints for your broker with multiple subnets in the same Availability Zone. A SINGLE_INSTANCE deployment requires one subnet (for example, the default subnet). An ACTIVE_STANDBY_MULTI_AZ Amazon MQ for ActiveMQ deployment requires two subnets. A CLUSTER_MULTI_AZ Amazon MQ for RabbitMQ deployment has no subnet requirements when deployed with public accessibility. Deployment without public accessibility requires at least one subnet. WARNING: If you specify subnets in a shared VPC for a RabbitMQ broker, the associated VPC to which the specified subnets belong must be owned by your Amazon Web Services account. Amazon MQ will not be able to create VPC endpoints in VPCs that are not owned by your Amazon Web Services account. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; set; }
@@ -185,13 +186,13 @@ public record AwsMqCreateBrokerOptions : AwsOptions, IValidatableObject
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The list of broker users (persons or applications) who can access queues and topics. For Amazon MQ for RabbitMQ brokers, an adminis- trative user is required if using simple authentication and autho- rization. For brokers using OAuth2, this user is optional. When pro- vided, one and only one administrative user is accepted and created when a broker is first provisioned. All subsequent broker users are created by making RabbitMQ API calls directly to brokers or via the RabbitMQ web console. (structure) A user associated with the broker. For Amazon MQ for RabbitMQ brokers, one and only one administrative user is accepted and created when a broker is first provisioned. All subsequent bro- ker users are created by making RabbitMQ API calls directly to brokers or via the RabbitMQ web console. ConsoleAccess -&gt; (boolean) Enables access to the ActiveMQ Web Console for the ActiveMQ user. Does not apply to RabbitMQ brokers. Groups -&gt; (list) The list of groups (20 maximum) to which the ActiveMQ user belongs. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long. Does not apply to Rab- bitMQ brokers. (string) Password -&gt; (string) [required] Required. The password of the user. This value must be at least 12 characters long, must contain at least 4 unique characters, and must not contain commas, colons, or equal signs (,:=). Username -&gt; (string) [required] The username of the broker user. The following restrictions apply to broker usernames: o For Amazon MQ for ActiveMQ brokers, this value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long. o para&gt;For Amazon MQ for RabbitMQ brokers, this value can contain only alphanumeric characters, dashes, periods, un- derscores (- . _). This value must not contain a tilde (~) character. Amazon MQ prohibts using guest as a valid use- name. This value must be 2-100 characters long. WARNING: Do not add personally identifiable information (PII) or other confidential or sensitive information in broker usernames. Broker usernames are accessible to other Ama- zon Web Services services, including CloudWatch Logs. Broker usernames are not intended to be used for private or sensitive data. ReplicationUser -&gt; (boolean) Defines if this user is intended for CRDR replication pur- poses. Shorthand Syntax: ConsoleAccess=boolean,Groups=string,string,Password=string,Username=string,ReplicationUser=boolean ... JSON Syntax: [ { "ConsoleAccess": true|false, "Groups": ["string", ...], "Password": "string", "Username": "string", "ReplicationUser": true|false } ... ]
+    /// The list of broker users (persons or applications) who can access queues and topics. For Amazon MQ for RabbitMQ brokers, an administrative user is required if using simple authentication and authorization. For brokers using OAuth2, this user is optional. When provided, one and only one administrative user is accepted and created when a broker is first provisioned. All subsequent broker users are created by making RabbitMQ API calls directly to brokers or via the RabbitMQ web console. (structure) A user associated with the broker. For Amazon MQ for RabbitMQ brokers, one and only one administrative user is accepted and created when a broker is first provisioned. All subsequent broker users are created by making RabbitMQ API calls directly to brokers or via the RabbitMQ web console. ConsoleAccess -&gt; (boolean) Enables access to the ActiveMQ Web Console for the ActiveMQ user. Does not apply to RabbitMQ brokers. Groups -&gt; (list) The list of groups (20 maximum) to which the ActiveMQ user belongs. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long. Does not apply to RabbitMQ brokers. (string) Password -&gt; (string) [required] Required. The password of the user. This value must be at least 12 characters long, must contain at least 4 unique characters, and must not contain commas, colons, or equal signs (,:=). Username -&gt; (string) [required] The username of the broker user. The following restrictions apply to broker usernames: • For Amazon MQ for ActiveMQ brokers, this value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long. • para&gt;For Amazon MQ for RabbitMQ brokers, this value can contain only alphanumeric characters, dashes, periods, underscores (- . _). This value must not contain a tilde (~) character. Amazon MQ prohibts using guest as a valid usename. This value must be 2-100 characters long. WARNING: Do not add personally identifiable information (PII) or other confidential or sensitive information in broker usernames. Broker usernames are accessible to other Amazon Web Services services, including CloudWatch Logs. Broker usernames are not intended to be used for private or sensitive data. ReplicationUser -&gt; (boolean) Defines if this user is intended for CRDR replication purposes. Shorthand Syntax: ConsoleAccess=boolean,Groups=string,string,Password=string,Username=string,ReplicationUser=boolean ... JSON Syntax: [ { "ConsoleAccess": true|false, "Groups": ["string", ...], "Password": "string", "Username": "string", "ReplicationUser": true|false } ... ]
     /// </summary>
     [CliOption("--users", GroupValues = true)]
     public IEnumerable<string>? Users { get; set; }
 
     /// <summary>
-    /// Defines whether this broker is a part of a data replication pair. Possible values: o NONE o CRDR
+    /// Defines whether this broker is a part of a data replication pair. Possible values: • NONE • CRDR
     /// </summary>
     [CliOption("--data-replication-mode")]
     public AwsMqCreateBrokerDataReplicationMode? DataReplicationMode { get; set; }

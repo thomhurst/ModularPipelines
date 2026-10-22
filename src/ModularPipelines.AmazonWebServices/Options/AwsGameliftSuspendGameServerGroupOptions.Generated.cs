@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2 (FleetIQ) Temporarily stops activity on a game server group without terminating instances or the game server group. You can restart activity by calling ResumeGameServerGroup . You can suspend the following activity: o Instance type replacement - This activity evaluates the current game hosting viability of all Spot instance types that are defined for the game server group. It updates the Auto Scaling group to remove nonvi- able Spot Instance typ...
+/// This API works with the following fleet types: EC2 (FleetIQ) Temporarily stops activity on a game server group without terminating instances or the game server group. You can restart activity by calling ResumeGameServerGroup . You can suspend the following activity: • Instance type replacement - This activity evaluates the current game hosting viability of all Spot instance types that are defined for the game server group. It updates the Auto Scaling group to remove nonviable Spot Instance types...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsGameliftSuspendGameServerGroupOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 (FleetIQ) Temporarily stops activity on a game server group without terminating instances or the game server group. You can restart activity by calling ResumeGameServerGroup . You can suspend the following activity: o Instance type replacement - This activity evaluates the current game hosting viability of all Spot instance types that are defined for the game server group. It updates the Auto Scaling group to remove nonvi- able Spot Instance typ...
+    /// This API works with the following fleet types: EC2 (FleetIQ) Temporarily stops activity on a game server group without terminating instances or the game server group. You can restart activity by calling ResumeGameServerGroup . You can suspend the following activity: • Instance type replacement - This activity evaluates the current game hosting viability of all Spot instance types that are defined for the game server group. It updates the Auto Scaling group to remove nonviable Spot Instance types...
     /// </summary>
-    /// <param name="GameServerGroupName">A unique identifier for the game server group. Use either the name or ARN value. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameserver- group\/[a-zA-Z0-9-\.]+)$</param>
-    /// <param name="SuspendActions">The activity to suspend for this game server group. Constraints: o min: 1 o max: 1 (string) Possible values: o REPLACE_INSTANCE_TYPES Syntax: "string" "string" ...</param>
+    /// <param name="GameServerGroupName">A unique identifier for the game server group. Use either the name or ARN value. Constraints: • min: 1 • max: 256 • pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameservergroup\/[a-zA-Z0-9-\.]+)$</param>
+    /// <param name="SuspendActions">The activity to suspend for this game server group. Constraints: • min: 1 • max: 1 (string) Possible values: • REPLACE_INSTANCE_TYPES Syntax: "string" "string" ...</param>
     public AwsGameliftSuspendGameServerGroupOptions(
         string GameServerGroupName,
         IEnumerable<string> SuspendActions
@@ -71,13 +73,13 @@ public record AwsGameliftSuspendGameServerGroupOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the game server group. Use either the name or ARN value. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameserver- group\/[a-zA-Z0-9-\.]+)$
+    /// A unique identifier for the game server group. Use either the name or ARN value. Constraints: • min: 1 • max: 256 • pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameservergroup\/[a-zA-Z0-9-\.]+)$
     /// </summary>
     [CliOption("--game-server-group-name")]
     public string? GameServerGroupName { get; private init; }
 
     /// <summary>
-    /// The activity to suspend for this game server group. Constraints: o min: 1 o max: 1 (string) Possible values: o REPLACE_INSTANCE_TYPES Syntax: "string" "string" ...
+    /// The activity to suspend for this game server group. Constraints: • min: 1 • max: 1 (string) Possible values: • REPLACE_INSTANCE_TYPES Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--suspend-actions", GroupValues = true)]
     public IEnumerable<string>? SuspendActions { get; private init; }

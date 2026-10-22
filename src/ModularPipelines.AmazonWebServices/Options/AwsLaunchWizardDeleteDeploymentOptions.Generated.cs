@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsLaunchWizardDeleteDeploymentOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Deletes a deployment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DeploymentId">The ID of the deployment. Constraints: o min: 2 o max: 128 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="DeploymentId">The ID of the deployment. Constraints: • min: 2 • max: 128 • pattern: [a-zA-Z0-9-]+</param>
     public AwsLaunchWizardDeleteDeploymentOptions(
         string DeploymentId
     )
@@ -56,7 +58,7 @@ public record AwsLaunchWizardDeleteDeploymentOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the deployment. Constraints: o min: 2 o max: 128 o pattern: [a-zA-Z0-9-]+
+    /// The ID of the deployment. Constraints: • min: 2 • max: 128 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--deployment-id")]
     public string? DeploymentId { get; private init; }

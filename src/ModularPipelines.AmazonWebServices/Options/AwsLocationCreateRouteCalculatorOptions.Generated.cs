@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -17,7 +18,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Routes API V2 unless you re- quire Grab data. o CreateRouteCalculator is part of a previous Amazon Location Ser- vice Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources. o If you are using an Amazon...
+/// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Routes API V2 unless you require Grab data. • CreateRouteCalculator is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources. • If you are using an Amazon Web S...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsLocationCreateRouteCalculatorOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Routes API V2 unless you re- quire Grab data. o CreateRouteCalculator is part of a previous Amazon Location Ser- vice Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources. o If you are using an Amazon...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Routes API V2 unless you require Grab data. • CreateRouteCalculator is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources. • If you are using an Amazon Web S...
     /// </summary>
-    /// <param name="CalculatorName">The name of the route calculator resource. Requirements: o Can use alphanumeric characters (AZ, az, 09) , hyphens (-), peri- ods (.), and underscores (_). o Must be a unique Route calculator resource name. o No spaces allowed. For example, ExampleRouteCalculator . Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
-    /// <param name="DataSource">Specifies the data provider of traffic and road network data. NOTE: This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error. Valid values include: o Esri For additional information about Esri 's coverage in your region of interest, see Esri details on street networks and traf- fic coverage . Route calculators that use Esri as a data source only calculate routes that are shorter than 400 km. o Grab Grab provides routing functionality for Southeast Asia. For additional information about GrabMaps ' coverage, see GrabMaps countries and areas covered . o Here For additional information about HERE Technologies ' cover- age in your region of interest, see HERE car routing coverage and HERE truck routing coverage . For additional information , see Data providers on the Amazon Loca- tion Service Developer Guide .</param>
+    /// <param name="CalculatorName">The name of the route calculator resource. Requirements: • Can use alphanumeric characters (AZ, az, 09) , hyphens (-), periods (.), and underscores (_). • Must be a unique Route calculator resource name. • No spaces allowed. For example, ExampleRouteCalculator . Constraints: • min: 1 • max: 100 • pattern: [-._\w]+</param>
+    /// <param name="DataSource">Specifies the data provider of traffic and road network data. NOTE: This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error. Valid values include: • Esri For additional information about Esri 's coverage in your region of interest, see Esri details on street networks and traffic coverage . Route calculators that use Esri as a data source only calculate routes that are shorter than 400 km. • Grab Grab provides routing functionality for Southeast Asia. For additional information about GrabMaps ' coverage, see GrabMaps countries and areas covered . • Here For additional information about HERE Technologies ' coverage in your region of interest, see HERE car routing coverage and HERE truck routing coverage . For additional information , see Data providers on the Amazon Location Service Developer Guide .</param>
     public AwsLocationCreateRouteCalculatorOptions(
         string CalculatorName,
         string DataSource
@@ -62,31 +63,31 @@ public record AwsLocationCreateRouteCalculatorOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the route calculator resource. Requirements: o Can use alphanumeric characters (AZ, az, 09) , hyphens (-), peri- ods (.), and underscores (_). o Must be a unique Route calculator resource name. o No spaces allowed. For example, ExampleRouteCalculator . Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// The name of the route calculator resource. Requirements: • Can use alphanumeric characters (AZ, az, 09) , hyphens (-), periods (.), and underscores (_). • Must be a unique Route calculator resource name. • No spaces allowed. For example, ExampleRouteCalculator . Constraints: • min: 1 • max: 100 • pattern: [-._\w]+
     /// </summary>
     [CliOption("--calculator-name")]
     public string? CalculatorName { get; private init; }
 
     /// <summary>
-    /// Specifies the data provider of traffic and road network data. NOTE: This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error. Valid values include: o Esri For additional information about Esri 's coverage in your region of interest, see Esri details on street networks and traf- fic coverage . Route calculators that use Esri as a data source only calculate routes that are shorter than 400 km. o Grab Grab provides routing functionality for Southeast Asia. For additional information about GrabMaps ' coverage, see GrabMaps countries and areas covered . o Here For additional information about HERE Technologies ' cover- age in your region of interest, see HERE car routing coverage and HERE truck routing coverage . For additional information , see Data providers on the Amazon Loca- tion Service Developer Guide .
+    /// Specifies the data provider of traffic and road network data. NOTE: This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error. Valid values include: • Esri For additional information about Esri 's coverage in your region of interest, see Esri details on street networks and traffic coverage . Route calculators that use Esri as a data source only calculate routes that are shorter than 400 km. • Grab Grab provides routing functionality for Southeast Asia. For additional information about GrabMaps ' coverage, see GrabMaps countries and areas covered . • Here For additional information about HERE Technologies ' coverage in your region of interest, see HERE car routing coverage and HERE truck routing coverage . For additional information , see Data providers on the Amazon Location Service Developer Guide .
     /// </summary>
     [CliOption("--data-source")]
     public string? DataSource { get; private init; }
 
     /// <summary>
-    /// No longer used. If included, the only allowed value is RequestBase- dUsage . Possible values: o RequestBasedUsage o MobileAssetTracking o MobileAssetManagement
+    /// No longer used. If included, the only allowed value is RequestBasedUsage . Possible values: • RequestBasedUsage • MobileAssetTracking • MobileAssetManagement
     /// </summary>
     [CliOption("--pricing-plan")]
     public AwsLocationCreateRouteCalculatorPricingPlan? PricingPlan { get; set; }
 
     /// <summary>
-    /// The optional description for the route calculator resource. Constraints: o min: 0 o max: 1000
+    /// The optional description for the route calculator resource. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Applies one or more tags to the route calculator resource. A tag is a key-value pair helps manage, identify, search, and filter your re- sources by labelling them. o For example: { "tag1" : "value1" , "tag2" : "value2" } Format: "key" : "value" Restrictions: o Maximum 50 tags per resource o Each resource tag must be unique with a maximum of one value. o Maximum key length: 128 Unicode characters in UTF-8 o Maximum value length: 256 Unicode characters in UTF-8 o Can use alphanumeric characters (AZ, az, 09), and the following characters: + - = . _ : / @. o Cannot use "aws:" as a prefix for a key. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.,:/=+\-@]*) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.,:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Applies one or more tags to the route calculator resource. A tag is a key-value pair helps manage, identify, search, and filter your resources by labelling them. • For example: { "tag1" : "value1" , "tag2" : "value2" } Format: "key" : "value" Restrictions: • Maximum 50 tags per resource • Each resource tag must be unique with a maximum of one value. • Maximum key length: 128 Unicode characters in UTF-8 • Maximum value length: 256 Unicode characters in UTF-8 • Can use alphanumeric characters (AZ, az, 09), and the following characters: + - = . _ : / @. • Cannot use "aws:" as a prefix for a key. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.,:/=+\-@]*) value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.,:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

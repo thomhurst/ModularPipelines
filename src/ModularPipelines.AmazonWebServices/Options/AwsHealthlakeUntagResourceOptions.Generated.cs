@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsHealthlakeUntagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Remove a user-specifed key and value tag from a data store. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the data store from which tags are being removed. Constraints: o min: 1 o max: 1011 o pattern: arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:health- lake:[a-z0-9-]+:\d{12}:(datastore\/fhir\/.{32}|dataTransformation- Profile\/[a-f0-9]{32})</param>
-    /// <param name="TagKeys">The keys for the tags to be removed from the data store. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the data store from which tags are being removed. Constraints: • min: 1 • max: 1011 • pattern: arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:healthlake:[a-z0-9-]+:\d{12}:(datastore\/fhir\/.{32}|dataTransformationProfile\/[a-f0-9]{32})</param>
+    /// <param name="TagKeys">The keys for the tags to be removed from the data store. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Syntax: "string" "string" ...</param>
     public AwsHealthlakeUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsHealthlakeUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the data store from which tags are being removed. Constraints: o min: 1 o max: 1011 o pattern: arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:health- lake:[a-z0-9-]+:\d{12}:(datastore\/fhir\/.{32}|dataTransformation- Profile\/[a-f0-9]{32})
+    /// The Amazon Resource Name (ARN) of the data store from which tags are being removed. Constraints: • min: 1 • max: 1011 • pattern: arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:healthlake:[a-z0-9-]+:\d{12}:(datastore\/fhir\/.{32}|dataTransformationProfile\/[a-f0-9]{32})
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The keys for the tags to be removed from the data store. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Syntax: "string" "string" ...
+    /// The keys for the tags to be removed from the data store. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

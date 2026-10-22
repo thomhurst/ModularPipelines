@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDatazoneCancelSubscriptionOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Cancels the subscription to the specified asset. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The unique identifier of the Amazon DataZone domain where the sub- scription request is being cancelled. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Identifier">The unique identifier of the subscription that is being cancelled. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The unique identifier of the Amazon DataZone domain where the subscription request is being cancelled. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The unique identifier of the subscription that is being cancelled. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneCancelSubscriptionOptions(
         string DomainIdentifier,
         string Identifier
@@ -60,13 +62,13 @@ public record AwsDatazoneCancelSubscriptionOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Amazon DataZone domain where the sub- scription request is being cancelled. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The unique identifier of the Amazon DataZone domain where the subscription request is being cancelled. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the subscription that is being cancelled. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The unique identifier of the subscription that is being cancelled. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }

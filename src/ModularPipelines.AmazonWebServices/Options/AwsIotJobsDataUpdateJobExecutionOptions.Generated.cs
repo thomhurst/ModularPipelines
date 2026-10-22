@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -29,9 +30,9 @@ public record AwsIotJobsDataUpdateJobExecutionOptions : AwsOptions, IValidatable
     /// <summary>
     /// Updates the status of a job execution. Requires permission to access the UpdateJobExecution action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">The unique identifier assigned to this job when it was created. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="ThingName">The name of the thing associated with the device. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+</param>
-    /// <param name="Status">The new status for the job execution (IN_PROGRESS, FAILED, SUCCESS, or REJECTED). This must be specified on every update. Possible values: o QUEUED o IN_PROGRESS o SUCCEEDED o FAILED o TIMED_OUT o REJECTED o REMOVED o CANCELED</param>
+    /// <param name="JobId">The unique identifier assigned to this job when it was created. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ThingName">The name of the thing associated with the device. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+</param>
+    /// <param name="Status">The new status for the job execution (IN_PROGRESS, FAILED, SUCCESS, or REJECTED). This must be specified on every update. Possible values: • QUEUED • IN_PROGRESS • SUCCEEDED • FAILED • TIMED_OUT • REJECTED • REMOVED • CANCELED</param>
     public AwsIotJobsDataUpdateJobExecutionOptions(
         string JobId,
         string ThingName,
@@ -65,40 +66,40 @@ public record AwsIotJobsDataUpdateJobExecutionOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier assigned to this job when it was created. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// The unique identifier assigned to this job when it was created. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// The name of the thing associated with the device. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The name of the thing associated with the device. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--thing-name")]
     public string? ThingName { get; private init; }
 
     /// <summary>
-    /// The new status for the job execution (IN_PROGRESS, FAILED, SUCCESS, or REJECTED). This must be specified on every update. Possible values: o QUEUED o IN_PROGRESS o SUCCEEDED o FAILED o TIMED_OUT o REJECTED o REMOVED o CANCELED
+    /// The new status for the job execution (IN_PROGRESS, FAILED, SUCCESS, or REJECTED). This must be specified on every update. Possible values: • QUEUED • IN_PROGRESS • SUCCEEDED • FAILED • TIMED_OUT • REJECTED • REMOVED • CANCELED
     /// </summary>
     [CliOption("--status")]
     public AwsIotJobsDataUpdateJobExecutionStatus? Status { get; private init; }
 
     /// <summary>
-    /// Optional. A collection of name/value pairs that describe the status of the job execution. If not specified, the statusDetails are un- changed. The maximum length of the value in the name/value pair is 1,024 characters. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+ value -&gt; (string) Constraints: o min: 1 o pattern: [^\p{C}]+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Optional. A collection of name/value pairs that describe the status of the job execution. If not specified, the statusDetails are unchanged. The maximum length of the value in the name/value pair is 1,024 characters. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+ value -&gt; (string) Constraints: • min: 1 • pattern: [^\p{C}]+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--status-details", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? StatusDetails { get; set; }
 
     /// <summary>
-    /// Specifies the amount of time this device has to finish execution of this job. If the job execution status is not set to a terminal state before this timer expires, or before the timer is reset (by again calling UpdateJobExecution , setting the status to IN_PROGRESS , and specifying a new timeout value in this field) the job execution sta- tus will be automatically set to TIMED_OUT . Note that setting or resetting the step timeout has no effect on the in progress timeout that may have been specified when the job was created (CreateJob us- ing field timeoutConfig ). Valid values for this parameter range from 1 to 10080 (1 minute to 7 days). A value of -1 is also valid and will cancel the current step timer (created by an earlier use of UpdateJobExecutionRequest ).
+    /// Specifies the amount of time this device has to finish execution of this job. If the job execution status is not set to a terminal state before this timer expires, or before the timer is reset (by again calling UpdateJobExecution , setting the status to IN_PROGRESS , and specifying a new timeout value in this field) the job execution status will be automatically set to TIMED_OUT . Note that setting or resetting the step timeout has no effect on the in progress timeout that may have been specified when the job was created (CreateJob using field timeoutConfig ). Valid values for this parameter range from 1 to 10080 (1 minute to 7 days). A value of -1 is also valid and will cancel the current step timer (created by an earlier use of UpdateJobExecutionRequest ).
     /// </summary>
     [CliOption("--step-timeout-in-minutes")]
-    public int? StepTimeoutInMinutes { get; set; }
+    public long? StepTimeoutInMinutes { get; set; }
 
     /// <summary>
-    /// Optional. The expected current version of the job execution. Each time you update the job execution, its version is incremented. If the version of the job execution stored in Jobs does not match, the update is rejected with a VersionMismatch error, and an ErrorRe- sponse that contains the current job execution status data is re- turned. (This makes it unnecessary to perform a separate De- scribeJobExecution request in order to obtain the job execution sta- tus data.)
+    /// Optional. The expected current version of the job execution. Each time you update the job execution, its version is incremented. If the version of the job execution stored in Jobs does not match, the update is rejected with a VersionMismatch error, and an ErrorResponse that contains the current job execution status data is returned. (This makes it unnecessary to perform a separate DescribeJobExecution request in order to obtain the job execution status data.)
     /// </summary>
     [CliOption("--expected-version")]
-    public int? ExpectedVersion { get; set; }
+    public long? ExpectedVersion { get; set; }
 
     /// <summary>
     /// Optional. When included and set to true, the response contains the JobExecutionState data. The default is false.
@@ -116,7 +117,7 @@ public record AwsIotJobsDataUpdateJobExecutionOptions : AwsOptions, IValidatable
     /// Optional. A number that identifies a particular job execution on a particular device.
     /// </summary>
     [CliOption("--execution-number")]
-    public int? ExecutionNumber { get; set; }
+    public long? ExecutionNumber { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Remove the association between one or more DBProxyTarget data struc- tures and a DBProxyTargetGroup . See also: AWS API Documentation
+/// Remove the association between one or more DBProxyTarget data structures and a DBProxyTargetGroup . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRdsDeregisterDbProxyTargetsOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Remove the association between one or more DBProxyTarget data struc- tures and a DBProxyTargetGroup . See also: AWS API Documentation
+    /// Remove the association between one or more DBProxyTarget data structures and a DBProxyTargetGroup . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbProxyName">The identifier of the DBProxy that is associated with the DBProxy- TargetGroup . Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*</param>
+    /// <param name="DbProxyName">The identifier of the DBProxy that is associated with the DBProxyTargetGroup . Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*</param>
     public AwsRdsDeregisterDbProxyTargetsOptions(
         string DbProxyName
     )
@@ -56,13 +58,13 @@ public record AwsRdsDeregisterDbProxyTargetsOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the DBProxy that is associated with the DBProxy- TargetGroup . Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
+    /// The identifier of the DBProxy that is associated with the DBProxyTargetGroup . Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--db-proxy-name")]
     public string? DbProxyName { get; private init; }
 
     /// <summary>
-    /// The identifier of the DBProxyTargetGroup . Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
+    /// The identifier of the DBProxyTargetGroup . Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--target-group-name")]
     public string? TargetGroupName { get; set; }

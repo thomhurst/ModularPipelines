@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,14 +30,14 @@ public record AwsWorkspacesImportCustomWorkspaceImageOptions : AwsOptions, IVali
     /// <summary>
     /// Imports the specified Windows 10 or 11 Bring Your Own License (BYOL) image into Amazon WorkSpaces using EC2 Image Builder. The image must be an already licensed image that is in your Amazon Web Services account, and you must own the image. For more information about creating BYOL images, see Bring Your Own Windows Desktop Licenses . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ImageName">The name of the WorkSpace image. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_./()\\-]+$</param>
-    /// <param name="ImageDescription">The description of the WorkSpace image. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9_./() -]+$</param>
-    /// <param name="ComputeType">The supported compute type for the WorkSpace image. Possible values: o BASE o GRAPHICS_G4DN o GRAPHICS_G6 o GRAPHICS_G7</param>
-    /// <param name="Protocol">The supported protocol for the WorkSpace image. Windows 11 does not support PCOIP protocol. Possible values: o PCOIP o DCV o BYOP</param>
-    /// <param name="ImageSource">The options for image import source. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Ec2ImportTaskId, ImageBuildVersionArn, Ec2ImageId. Ec2ImportTaskId -&gt; (string) The EC2 import task ID to import the image from the Amazon EC2 VM import process. Constraints: o min: 19 o max: 28 o pattern: ^import-ami\-([a-zA-Z0-9]{8}|[a-zA-Z0-9]{17})$ ImageBuildVersionArn -&gt; (string) The ARN of the EC2 Image Builder image. Constraints: o min: 1 o max: 2048 o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):im- age/[a-z0-9-_]+/(?:(?:([0-9]+|x)\.([0-9]+|x)\.([0-9]+|x))|(?:[0-9]+\.[0-9]+\.[0-9]+/[0-9]+))$ Ec2ImageId -&gt; (string) The identifier of the EC2 image. Constraints: o pattern: ^ami\-([a-f0-9]{8}|[a-f0-9]{17})$ Shorthand Syntax: Ec2ImportTaskId=string,ImageBuildVersionArn=string,Ec2ImageId=string JSON Syntax: { "Ec2ImportTaskId": "string", "ImageBuildVersionArn": "string", "Ec2ImageId": "string" }</param>
-    /// <param name="InfrastructureConfigurationArn">The infrastructure configuration ARN that specifies how the Work- Space image is built. Constraints: o min: 1 o max: 2048 o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infra- structure-configuration/[a-z0-9-_]+$</param>
-    /// <param name="Platform">The platform for the WorkSpace image source. Possible values: o WINDOWS</param>
-    /// <param name="OsVersion">The OS version for the WorkSpace image source. Possible values: o Windows_10 o Windows_11</param>
+    /// <param name="ImageName">The name of the WorkSpace image. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_./()\\-]+$</param>
+    /// <param name="ImageDescription">The description of the WorkSpace image. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9_./() -]+$</param>
+    /// <param name="ComputeType">The supported compute type for the WorkSpace image. Possible values: • BASE • GRAPHICS_G4DN • GRAPHICS_G6 • GRAPHICS_G7</param>
+    /// <param name="Protocol">The supported protocol for the WorkSpace image. Windows 11 does not support PCOIP protocol. Possible values: • PCOIP • DCV • BYOP</param>
+    /// <param name="ImageSource">The options for image import source. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Ec2ImportTaskId, ImageBuildVersionArn, Ec2ImageId. Ec2ImportTaskId -&gt; (string) The EC2 import task ID to import the image from the Amazon EC2 VM import process. Constraints: • min: 19 • max: 28 • pattern: ^import-ami\-([a-zA-Z0-9]{8}|[a-zA-Z0-9]{17})$ ImageBuildVersionArn -&gt; (string) The ARN of the EC2 Image Builder image. Constraints: • min: 1 • max: 2048 • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):image/[a-z0-9-_]+/(?:(?:([0-9]+|x)\.([0-9]+|x)\.([0-9]+|x))|(?:[0-9]+\.[0-9]+\.[0-9]+/[0-9]+))$ Ec2ImageId -&gt; (string) The identifier of the EC2 image. Constraints: • pattern: ^ami\-([a-f0-9]{8}|[a-f0-9]{17})$ Shorthand Syntax: Ec2ImportTaskId=string,ImageBuildVersionArn=string,Ec2ImageId=string JSON Syntax: { "Ec2ImportTaskId": "string", "ImageBuildVersionArn": "string", "Ec2ImageId": "string" }</param>
+    /// <param name="InfrastructureConfigurationArn">The infrastructure configuration ARN that specifies how the WorkSpace image is built. Constraints: • min: 1 • max: 2048 • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infrastructure-configuration/[a-z0-9-_]+$</param>
+    /// <param name="Platform">The platform for the WorkSpace image source. Possible values: • WINDOWS</param>
+    /// <param name="OsVersion">The OS version for the WorkSpace image source. Possible values: • Windows_10 • Windows_11</param>
     public AwsWorkspacesImportCustomWorkspaceImageOptions(
         string ImageName,
         string ImageDescription,
@@ -82,55 +84,55 @@ public record AwsWorkspacesImportCustomWorkspaceImageOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the WorkSpace image. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_./()\\-]+$
+    /// The name of the WorkSpace image. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_./()\\-]+$
     /// </summary>
     [CliOption("--image-name")]
     public string? ImageName { get; private init; }
 
     /// <summary>
-    /// The description of the WorkSpace image. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9_./() -]+$
+    /// The description of the WorkSpace image. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9_./() -]+$
     /// </summary>
     [CliOption("--image-description")]
     public string? ImageDescription { get; private init; }
 
     /// <summary>
-    /// The supported compute type for the WorkSpace image. Possible values: o BASE o GRAPHICS_G4DN o GRAPHICS_G6 o GRAPHICS_G7
+    /// The supported compute type for the WorkSpace image. Possible values: • BASE • GRAPHICS_G4DN • GRAPHICS_G6 • GRAPHICS_G7
     /// </summary>
     [CliOption("--compute-type")]
     public AwsWorkspacesImportCustomWorkspaceImageComputeType? ComputeType { get; private init; }
 
     /// <summary>
-    /// The supported protocol for the WorkSpace image. Windows 11 does not support PCOIP protocol. Possible values: o PCOIP o DCV o BYOP
+    /// The supported protocol for the WorkSpace image. Windows 11 does not support PCOIP protocol. Possible values: • PCOIP • DCV • BYOP
     /// </summary>
     [CliOption("--protocol")]
     public AwsWorkspacesImportCustomWorkspaceImageProtocol? Protocol { get; private init; }
 
     /// <summary>
-    /// The options for image import source. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Ec2ImportTaskId, ImageBuildVersionArn, Ec2ImageId. Ec2ImportTaskId -&gt; (string) The EC2 import task ID to import the image from the Amazon EC2 VM import process. Constraints: o min: 19 o max: 28 o pattern: ^import-ami\-([a-zA-Z0-9]{8}|[a-zA-Z0-9]{17})$ ImageBuildVersionArn -&gt; (string) The ARN of the EC2 Image Builder image. Constraints: o min: 1 o max: 2048 o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):im- age/[a-z0-9-_]+/(?:(?:([0-9]+|x)\.([0-9]+|x)\.([0-9]+|x))|(?:[0-9]+\.[0-9]+\.[0-9]+/[0-9]+))$ Ec2ImageId -&gt; (string) The identifier of the EC2 image. Constraints: o pattern: ^ami\-([a-f0-9]{8}|[a-f0-9]{17})$ Shorthand Syntax: Ec2ImportTaskId=string,ImageBuildVersionArn=string,Ec2ImageId=string JSON Syntax: { "Ec2ImportTaskId": "string", "ImageBuildVersionArn": "string", "Ec2ImageId": "string" }
+    /// The options for image import source. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Ec2ImportTaskId, ImageBuildVersionArn, Ec2ImageId. Ec2ImportTaskId -&gt; (string) The EC2 import task ID to import the image from the Amazon EC2 VM import process. Constraints: • min: 19 • max: 28 • pattern: ^import-ami\-([a-zA-Z0-9]{8}|[a-zA-Z0-9]{17})$ ImageBuildVersionArn -&gt; (string) The ARN of the EC2 Image Builder image. Constraints: • min: 1 • max: 2048 • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):image/[a-z0-9-_]+/(?:(?:([0-9]+|x)\.([0-9]+|x)\.([0-9]+|x))|(?:[0-9]+\.[0-9]+\.[0-9]+/[0-9]+))$ Ec2ImageId -&gt; (string) The identifier of the EC2 image. Constraints: • pattern: ^ami\-([a-f0-9]{8}|[a-f0-9]{17})$ Shorthand Syntax: Ec2ImportTaskId=string,ImageBuildVersionArn=string,Ec2ImageId=string JSON Syntax: { "Ec2ImportTaskId": "string", "ImageBuildVersionArn": "string", "Ec2ImageId": "string" }
     /// </summary>
     [CliOption("--image-source")]
     public string? ImageSource { get; private init; }
 
     /// <summary>
-    /// The infrastructure configuration ARN that specifies how the Work- Space image is built. Constraints: o min: 1 o max: 2048 o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infra- structure-configuration/[a-z0-9-_]+$
+    /// The infrastructure configuration ARN that specifies how the WorkSpace image is built. Constraints: • min: 1 • max: 2048 • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infrastructure-configuration/[a-z0-9-_]+$
     /// </summary>
     [CliOption("--infrastructure-configuration-arn")]
     public string? InfrastructureConfigurationArn { get; private init; }
 
     /// <summary>
-    /// The platform for the WorkSpace image source. Possible values: o WINDOWS
+    /// The platform for the WorkSpace image source. Possible values: • WINDOWS
     /// </summary>
     [CliOption("--platform")]
     public string? Platform { get; private init; }
 
     /// <summary>
-    /// The OS version for the WorkSpace image source. Possible values: o Windows_10 o Windows_11
+    /// The OS version for the WorkSpace image source. Possible values: • Windows_10 • Windows_11
     /// </summary>
     [CliOption("--os-version")]
     public AwsWorkspacesImportCustomWorkspaceImageOsVersion? OsVersion { get; private init; }
 
     /// <summary>
-    /// The resource tags. Each WorkSpaces resource can have a maximum of 50 tags. (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 127 Value -&gt; (string) The value of the tag. Constraints: o max: 255 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The resource tags. Each WorkSpaces resource can have a maximum of 50 tags. (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 127 Value -&gt; (string) The value of the tag. Constraints: • max: 255 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

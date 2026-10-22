@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Generates a CloudFormation template that streamlines and automates the integration of VPC flow logs with Amazon Athena. This make it easier for you to query and gain insights from VPC flow logs data. Based on the information that you provide, we configure resources in the tem- plate to do the following: o Create a table in Athena that maps fields to a custom log format o Create a Lambda function that updates the table with new partitions on a daily, weekly, or monthly basis o Create a table part...
+/// Generates a CloudFormation template that streamlines and automates the integration of VPC flow logs with Amazon Athena. This make it easier for you to query and gain insights from VPC flow logs data. Based on the information that you provide, we configure resources in the template to do the following: • Create a table in Athena that maps fields to a custom log format • Create a Lambda function that updates the table with new partitions on a daily, weekly, or monthly basis • Create a table partit...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsEc2GetFlowLogsIntegrationTemplateOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Generates a CloudFormation template that streamlines and automates the integration of VPC flow logs with Amazon Athena. This make it easier for you to query and gain insights from VPC flow logs data. Based on the information that you provide, we configure resources in the tem- plate to do the following: o Create a table in Athena that maps fields to a custom log format o Create a Lambda function that updates the table with new partitions on a daily, weekly, or monthly basis o Create a table part...
+    /// Generates a CloudFormation template that streamlines and automates the integration of VPC flow logs with Amazon Athena. This make it easier for you to query and gain insights from VPC flow logs data. Based on the information that you provide, we configure resources in the template to do the following: • Create a table in Athena that maps fields to a custom log format • Create a Lambda function that updates the table with new partitions on a daily, weekly, or monthly basis • Create a table partit...
     /// </summary>
     /// <param name="FlowLogId">The ID of the flow log.</param>
-    /// <param name="ConfigDeliveryS3DestinationArn">To store the CloudFormation template in Amazon S3, specify the loca- tion in Amazon S3.</param>
-    /// <param name="IntegrateServices">Information about the service integration. AthenaIntegrations -&gt; (list) Information about the integration with Amazon Athena. Constraints: o min: 1 o max: 10 (structure) Describes integration options for Amazon Athena. IntegrationResultS3DestinationArn -&gt; (string) [required] The location in Amazon S3 to store the generated Cloud- Formation template. PartitionLoadFrequency -&gt; (string) [required] The schedule for adding new partitions to the table. Possible values: o none o daily o weekly o monthly PartitionStartDate -&gt; (timestamp) The start date for the partition. PartitionEndDate -&gt; (timestamp) The end date for the partition. Shorthand Syntax: AthenaIntegrations=[{IntegrationResultS3DestinationArn=string,PartitionLoadFrequency=string,PartitionStartDate=timestamp,PartitionEndDate=timestamp},{IntegrationResultS3DestinationArn=string,PartitionLoadFrequency=string,PartitionStartDate=timestamp,PartitionEndDate=timestamp}] JSON Syntax: { "AthenaIntegrations": [ { "IntegrationResultS3DestinationArn": "string", "PartitionLoadFrequency": "none"|"daily"|"weekly"|"monthly", "PartitionStartDate": timestamp, "PartitionEndDate": timestamp } ... ] }</param>
+    /// <param name="ConfigDeliveryS3DestinationArn">To store the CloudFormation template in Amazon S3, specify the location in Amazon S3.</param>
+    /// <param name="IntegrateServices">Information about the service integration. AthenaIntegrations -&gt; (list) Information about the integration with Amazon Athena. Constraints: • min: 1 • max: 10 (structure) Describes integration options for Amazon Athena. IntegrationResultS3DestinationArn -&gt; (string) [required] The location in Amazon S3 to store the generated CloudFormation template. PartitionLoadFrequency -&gt; (string) [required] The schedule for adding new partitions to the table. Possible values: • none • daily • weekly • monthly PartitionStartDate -&gt; (timestamp) The start date for the partition. PartitionEndDate -&gt; (timestamp) The end date for the partition. Shorthand Syntax: AthenaIntegrations=[{IntegrationResultS3DestinationArn=string,PartitionLoadFrequency=string,PartitionStartDate=timestamp,PartitionEndDate=timestamp},{IntegrationResultS3DestinationArn=string,PartitionLoadFrequency=string,PartitionStartDate=timestamp,PartitionEndDate=timestamp}] JSON Syntax: { "AthenaIntegrations": [ { "IntegrationResultS3DestinationArn": "string", "PartitionLoadFrequency": "none"|"daily"|"weekly"|"monthly", "PartitionStartDate": timestamp, "PartitionEndDate": timestamp } ... ] }</param>
     public AwsEc2GetFlowLogsIntegrationTemplateOptions(
         string FlowLogId,
         string ConfigDeliveryS3DestinationArn,
@@ -70,19 +72,19 @@ public record AwsEc2GetFlowLogsIntegrationTemplateOptions : AwsOptions, IValidat
     public string? FlowLogId { get; private init; }
 
     /// <summary>
-    /// To store the CloudFormation template in Amazon S3, specify the loca- tion in Amazon S3.
+    /// To store the CloudFormation template in Amazon S3, specify the location in Amazon S3.
     /// </summary>
     [CliOption("--config-delivery-s3-destination-arn")]
     public string? ConfigDeliveryS3DestinationArn { get; private init; }
 
     /// <summary>
-    /// Information about the service integration. AthenaIntegrations -&gt; (list) Information about the integration with Amazon Athena. Constraints: o min: 1 o max: 10 (structure) Describes integration options for Amazon Athena. IntegrationResultS3DestinationArn -&gt; (string) [required] The location in Amazon S3 to store the generated Cloud- Formation template. PartitionLoadFrequency -&gt; (string) [required] The schedule for adding new partitions to the table. Possible values: o none o daily o weekly o monthly PartitionStartDate -&gt; (timestamp) The start date for the partition. PartitionEndDate -&gt; (timestamp) The end date for the partition. Shorthand Syntax: AthenaIntegrations=[{IntegrationResultS3DestinationArn=string,PartitionLoadFrequency=string,PartitionStartDate=timestamp,PartitionEndDate=timestamp},{IntegrationResultS3DestinationArn=string,PartitionLoadFrequency=string,PartitionStartDate=timestamp,PartitionEndDate=timestamp}] JSON Syntax: { "AthenaIntegrations": [ { "IntegrationResultS3DestinationArn": "string", "PartitionLoadFrequency": "none"|"daily"|"weekly"|"monthly", "PartitionStartDate": timestamp, "PartitionEndDate": timestamp } ... ] }
+    /// Information about the service integration. AthenaIntegrations -&gt; (list) Information about the integration with Amazon Athena. Constraints: • min: 1 • max: 10 (structure) Describes integration options for Amazon Athena. IntegrationResultS3DestinationArn -&gt; (string) [required] The location in Amazon S3 to store the generated CloudFormation template. PartitionLoadFrequency -&gt; (string) [required] The schedule for adding new partitions to the table. Possible values: • none • daily • weekly • monthly PartitionStartDate -&gt; (timestamp) The start date for the partition. PartitionEndDate -&gt; (timestamp) The end date for the partition. Shorthand Syntax: AthenaIntegrations=[{IntegrationResultS3DestinationArn=string,PartitionLoadFrequency=string,PartitionStartDate=timestamp,PartitionEndDate=timestamp},{IntegrationResultS3DestinationArn=string,PartitionLoadFrequency=string,PartitionStartDate=timestamp,PartitionEndDate=timestamp}] JSON Syntax: { "AthenaIntegrations": [ { "IntegrationResultS3DestinationArn": "string", "PartitionLoadFrequency": "none"|"daily"|"weekly"|"monthly", "PartitionStartDate": timestamp, "PartitionEndDate": timestamp } ... ] }
     /// </summary>
     [CliOption("--integrate-services")]
     public string? IntegrateServices { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Grants permission to retrieve details for a connectorV2 based on con- nector id. See also: AWS API Documentation
+/// Grants permission to retrieve details for a connectorV2 based on connector id. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSecurityhubGetConnectorV2Options : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Grants permission to retrieve details for a connectorV2 based on con- nector id. See also: AWS API Documentation
+    /// Grants permission to retrieve details for a connectorV2 based on connector id. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectorId">The UUID of the connectorV2 to identify connectorV2 resource. Constraints: o pattern: .*\S.*</param>
+    /// <param name="ConnectorId">The UUID of the connectorV2 to identify connectorV2 resource. Constraints: • pattern: .*\S.*</param>
     public AwsSecurityhubGetConnectorV2Options(
         string ConnectorId
     )
@@ -56,7 +58,7 @@ public record AwsSecurityhubGetConnectorV2Options : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The UUID of the connectorV2 to identify connectorV2 resource. Constraints: o pattern: .*\S.*
+    /// The UUID of the connectorV2 to identify connectorV2 resource. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--connector-id")]
     public string? ConnectorId { get; private init; }

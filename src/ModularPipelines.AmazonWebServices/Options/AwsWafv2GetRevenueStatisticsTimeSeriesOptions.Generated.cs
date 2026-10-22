@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves time series data for monetization revenue. Returns data points aggregated at the specified interval for the given time window. This operation is only available for CLOUDFRONT scope. The maximum sup- ported time window is 90 days. When no CurrencyMode filter is provided, results default to REAL . To retrieve test data, include a CurrencyMode filter with the value TEST . See also: AWS API Documentation
+/// Retrieves time series data for monetization revenue. Returns data points aggregated at the specified interval for the given time window. This operation is only available for CLOUDFRONT scope. The maximum supported time window is 90 days. When no CurrencyMode filter is provided, results default to REAL . To retrieve test data, include a CurrencyMode filter with the value TEST . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,13 +28,13 @@ public record AwsWafv2GetRevenueStatisticsTimeSeriesOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves time series data for monetization revenue. Returns data points aggregated at the specified interval for the given time window. This operation is only available for CLOUDFRONT scope. The maximum sup- ported time window is 90 days. When no CurrencyMode filter is provided, results default to REAL . To retrieve test data, include a CurrencyMode filter with the value TEST . See also: AWS API Documentation
+    /// Retrieves time series data for monetization revenue. Returns data points aggregated at the specified interval for the given time window. This operation is only available for CLOUDFRONT scope. The maximum supported time window is 90 days. When no CurrencyMode filter is provided, results default to REAL . To retrieve test data, include a CurrencyMode filter with the value TEST . See also: AWS API Documentation
     /// </summary>
-    /// <param name="StatisticType">The type of time series data to retrieve: DATE_HISTOGRAM for revenue over time, or PAYMENT_TRAFFIC for payment traffic patterns. Possible values: o DATE_HISTOGRAM o PAYMENT_TRAFFIC</param>
-    /// <param name="TimeWindow">The time range for the query. Specify start and end timestamps. StartTime -&gt; (timestamp) [required] The beginning of the time range from which you want GetSample- dRequests to return a sample of the requests that your Amazon Web Services resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can specify any time range in the previous three hours. EndTime -&gt; (timestamp) [required] The end of the time range from which you want GetSampledRequests to return a sample of the requests that your Amazon Web Services resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can spec- ify any time range in the previous three hours. Shorthand Syntax: StartTime=timestamp,EndTime=timestamp JSON Syntax: { "StartTime": timestamp, "EndTime": timestamp }</param>
-    /// <param name="Scope">Specifies whether this is for a Amazon CloudFront distribution (CLOUDFRONT ) or for a regional application (REGIONAL ). Possible values: o CLOUDFRONT o REGIONAL</param>
-    /// <param name="Interval">The time interval for aggregating data points: MINUTELY , FIVE_MINUTELY , HOURLY , or DAILY . Possible values: o MINUTELY o FIVE_MINUTELY o HOURLY o DAILY</param>
-    /// <param name="Currency">The currency for the amounts in the response. Possible values: o USDC</param>
+    /// <param name="StatisticType">The type of time series data to retrieve: DATE_HISTOGRAM for revenue over time, or PAYMENT_TRAFFIC for payment traffic patterns. Possible values: • DATE_HISTOGRAM • PAYMENT_TRAFFIC</param>
+    /// <param name="TimeWindow">The time range for the query. Specify start and end timestamps. StartTime -&gt; (timestamp) [required] The beginning of the time range from which you want GetSampledRequests to return a sample of the requests that your Amazon Web Services resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can specify any time range in the previous three hours. EndTime -&gt; (timestamp) [required] The end of the time range from which you want GetSampledRequests to return a sample of the requests that your Amazon Web Services resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can specify any time range in the previous three hours. Shorthand Syntax: StartTime=timestamp,EndTime=timestamp JSON Syntax: { "StartTime": timestamp, "EndTime": timestamp }</param>
+    /// <param name="Scope">Specifies whether this is for a Amazon CloudFront distribution (CLOUDFRONT ) or for a regional application (REGIONAL ). Possible values: • CLOUDFRONT • REGIONAL</param>
+    /// <param name="Interval">The time interval for aggregating data points: MINUTELY , FIVE_MINUTELY , HOURLY , or DAILY . Possible values: • MINUTELY • FIVE_MINUTELY • HOURLY • DAILY</param>
+    /// <param name="Currency">The currency for the amounts in the response. Possible values: • USDC</param>
     public AwsWafv2GetRevenueStatisticsTimeSeriesOptions(
         AwsWafv2GetRevenueStatisticsTimeSeriesStatisticType StatisticType,
         string TimeWindow,
@@ -70,55 +72,55 @@ public record AwsWafv2GetRevenueStatisticsTimeSeriesOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of time series data to retrieve: DATE_HISTOGRAM for revenue over time, or PAYMENT_TRAFFIC for payment traffic patterns. Possible values: o DATE_HISTOGRAM o PAYMENT_TRAFFIC
+    /// The type of time series data to retrieve: DATE_HISTOGRAM for revenue over time, or PAYMENT_TRAFFIC for payment traffic patterns. Possible values: • DATE_HISTOGRAM • PAYMENT_TRAFFIC
     /// </summary>
     [CliOption("--statistic-type")]
     public AwsWafv2GetRevenueStatisticsTimeSeriesStatisticType? StatisticType { get; private init; }
 
     /// <summary>
-    /// The time range for the query. Specify start and end timestamps. StartTime -&gt; (timestamp) [required] The beginning of the time range from which you want GetSample- dRequests to return a sample of the requests that your Amazon Web Services resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can specify any time range in the previous three hours. EndTime -&gt; (timestamp) [required] The end of the time range from which you want GetSampledRequests to return a sample of the requests that your Amazon Web Services resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can spec- ify any time range in the previous three hours. Shorthand Syntax: StartTime=timestamp,EndTime=timestamp JSON Syntax: { "StartTime": timestamp, "EndTime": timestamp }
+    /// The time range for the query. Specify start and end timestamps. StartTime -&gt; (timestamp) [required] The beginning of the time range from which you want GetSampledRequests to return a sample of the requests that your Amazon Web Services resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can specify any time range in the previous three hours. EndTime -&gt; (timestamp) [required] The end of the time range from which you want GetSampledRequests to return a sample of the requests that your Amazon Web Services resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can specify any time range in the previous three hours. Shorthand Syntax: StartTime=timestamp,EndTime=timestamp JSON Syntax: { "StartTime": timestamp, "EndTime": timestamp }
     /// </summary>
     [CliOption("--time-window")]
     public string? TimeWindow { get; private init; }
 
     /// <summary>
-    /// Specifies whether this is for a Amazon CloudFront distribution (CLOUDFRONT ) or for a regional application (REGIONAL ). Possible values: o CLOUDFRONT o REGIONAL
+    /// Specifies whether this is for a Amazon CloudFront distribution (CLOUDFRONT ) or for a regional application (REGIONAL ). Possible values: • CLOUDFRONT • REGIONAL
     /// </summary>
     [CliOption("--scope")]
     public AwsWafv2GetRevenueStatisticsTimeSeriesScope? Scope { get; private init; }
 
     /// <summary>
-    /// The time interval for aggregating data points: MINUTELY , FIVE_MINUTELY , HOURLY , or DAILY . Possible values: o MINUTELY o FIVE_MINUTELY o HOURLY o DAILY
+    /// The time interval for aggregating data points: MINUTELY , FIVE_MINUTELY , HOURLY , or DAILY . Possible values: • MINUTELY • FIVE_MINUTELY • HOURLY • DAILY
     /// </summary>
     [CliOption("--interval")]
     public AwsWafv2GetRevenueStatisticsTimeSeriesInterval? Interval { get; private init; }
 
     /// <summary>
-    /// The currency for the amounts in the response. Possible values: o USDC
+    /// The currency for the amounts in the response. Possible values: • USDC
     /// </summary>
     [CliOption("--currency")]
     public string? Currency { get; private init; }
 
     /// <summary>
-    /// The dimension to group results by. Possible values: o NAME o CATEGORY o INTENT o ORGANIZATION o WEBACL
+    /// The dimension to group results by. Possible values: • NAME • CATEGORY • INTENT • ORGANIZATION • WEBACL
     /// </summary>
     [CliOption("--group-by")]
     public AwsWafv2GetRevenueStatisticsTimeSeriesGroupBy? GroupBy { get; set; }
 
     /// <summary>
-    /// Optional filters to narrow the results. Constraints: o min: 1 o max: 20 (structure) A filter for narrowing monetization statistics and settlement record results. Specify a filter name and one or more values to match. Filter behavior: o Multiple values within one filter: OR (match any) o Multiple filters: AND (all must match) o No duplicate filter names allowed (rejected with error) o Duplicate values within a filter are silently deduplicated o If no CurrencyMode filter is specified, defaults to REAL Name -&gt; (string) [required] The filter name. Format: Key is a string, Value is a list of strings. Enum-restricted (invalid values rejected): o CurrencyMode : REAL , TEST o ChainName : BASE , SOLANA , BASE_SEPOLIA , SOLANA_DEVNET o SettlementStatus : SETTLED , PENDING , FAILED , SERVICE_ER- ROR , SKIPPED_ORIGIN_ERROR , DUPLICATE o HttpSourceName : CF , ALB , APIGW , APPRUNNER , COGNITO , VERIFIED_ACCESS ARN-validated: o WebACLArn : valid WAFv2 web ACL ARN Free-text (any string up to 256 chars): o SourceName : The name of the bot. Populated from Bot Con- trol verified bot labels. o SourceCategory : The category classification of the bot. From Bot Control categorization. o Intent : The declared intent of the bot request. o Organization : The organization operating the bot. o UriPathPrefix : The URI path of the request that was mone- tized. o RequestId : The WAF request ID associated with the transac- tion. Matches the requestId in WAF logs. Pattern: ^[a-zA-Z0-9:._\-=+/]+$ o TransactionId : The blockchain transaction identifier. Pat- tern: ^[a-zA-Z0-9:._\-=+/]+$ o TerminatingRuleName : The name of the WAF rule that trig- gered the Monetize action. o PayerAddress : The blockchain wallet address of the paying client. Pattern: ^[a-zA-Z0-9:._\-=+/]+$ o HttpSourceId : The identifier of the Amazon Web Services resource associated with the web ACL (for example, Cloud- Front distribution ID). Constraints: o min: 1 o max: 128 Values -&gt; (list) [required] The values to filter on. Specify as a list of strings. Re- sults match any of the specified values (OR logic). Duplicate values are silently deduplicated. Maximum: 20 values per fil- ter. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// Optional filters to narrow the results. Constraints: • min: 1 • max: 20 (structure) A filter for narrowing monetization statistics and settlement record results. Specify a filter name and one or more values to match. Filter behavior: • Multiple values within one filter: OR (match any) • Multiple filters: AND (all must match) • No duplicate filter names allowed (rejected with error) • Duplicate values within a filter are silently deduplicated • If no CurrencyMode filter is specified, defaults to REAL Name -&gt; (string) [required] The filter name. Format: Key is a string, Value is a list of strings. Enum-restricted (invalid values rejected): • CurrencyMode : REAL , TEST • ChainName : BASE , SOLANA , BASE_SEPOLIA , SOLANA_DEVNET • SettlementStatus : SETTLED , PENDING , FAILED , SERVICE_ERROR , SKIPPED_ORIGIN_ERROR , DUPLICATE • HttpSourceName : CF , ALB , APIGW , APPRUNNER , COGNITO , VERIFIED_ACCESS ARN-validated: • WebACLArn : valid WAFv2 web ACL ARN Free-text (any string up to 256 chars): • SourceName : The name of the bot. Populated from Bot Control verified bot labels. • SourceCategory : The category classification of the bot. From Bot Control categorization. • Intent : The declared intent of the bot request. • Organization : The organization operating the bot. • UriPathPrefix : The URI path of the request that was monetized. • RequestId : The WAF request ID associated with the transaction. Matches the requestId in WAF logs. Pattern: ^[a-zA-Z0-9:._\-=+/]+$ • TransactionId : The blockchain transaction identifier. Pattern: ^[a-zA-Z0-9:._\-=+/]+$ • TerminatingRuleName : The name of the WAF rule that triggered the Monetize action. • PayerAddress : The blockchain wallet address of the paying client. Pattern: ^[a-zA-Z0-9:._\-=+/]+$ • HttpSourceId : The identifier of the Amazon Web Services resource associated with the web ACL (for example, CloudFront distribution ID). Constraints: • min: 1 • max: 128 Values -&gt; (list) [required] The values to filter on. Specify as a list of strings. Results match any of the specified values (OR logic). Duplicate values are silently deduplicated. Maximum: 20 values per filter. Constraints: • min: 1 • max: 20 (string) Constraints: • min: 1 • max: 256 Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// The maximum number of data points to return. Minimum: 1. Maximum: 10000. Constraints: o min: 1 o max: 10000
+    /// The maximum number of data points to return. Minimum: 1. Maximum: 10000. Constraints: • min: 1 • max: 10000
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }
 
     /// <summary>
-    /// When you get a paginated response, this marker indicates that addi- tional results are available. Constraints: o min: 1 o max: 256 o pattern: .*\S.*
+    /// When you get a paginated response, this marker indicates that additional results are available. Constraints: • min: 1 • max: 256 • pattern: .*\S.*
     /// </summary>
     [CliOption("--next-marker")]
     public string? NextMarker { get; set; }

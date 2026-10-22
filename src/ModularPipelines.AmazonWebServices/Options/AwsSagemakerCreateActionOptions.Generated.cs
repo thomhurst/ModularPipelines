@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -17,7 +18,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an action . An action is a lineage tracking entity that repre- sents an action or activity. For example, a model deployment or an HPO job. Generally, an action involves at least one input or output arti- fact. For more information, see Amazon SageMaker ML Lineage Tracking . See also: AWS API Documentation
+/// Creates an action . An action is a lineage tracking entity that represents an action or activity. For example, a model deployment or an HPO job. Generally, an action involves at least one input or output artifact. For more information, see Amazon SageMaker ML Lineage Tracking . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsSagemakerCreateActionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an action . An action is a lineage tracking entity that repre- sents an action or activity. For example, a model deployment or an HPO job. Generally, an action involves at least one input or output arti- fact. For more information, see Amazon SageMaker ML Lineage Tracking . See also: AWS API Documentation
+    /// Creates an action . An action is a lineage tracking entity that represents an action or activity. For example, a model deployment or an HPO job. Generally, an action involves at least one input or output artifact. For more information, see Amazon SageMaker ML Lineage Tracking . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ActionName">The name of the action. Must be unique to your account in an Amazon Web Services Region. Constraints: o min: 1 o max: 120 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}</param>
-    /// <param name="Source">The source type, ID, and URI. SourceUri -&gt; (string) [required] The URI of the source. Constraints: o min: 1 o max: 2048 o pattern: .* SourceType -&gt; (string) The type of the source. Constraints: o min: 0 o max: 256 SourceId -&gt; (string) The ID of the source. Constraints: o min: 0 o max: 256 Shorthand Syntax: SourceUri=string,SourceType=string,SourceId=string JSON Syntax: { "SourceUri": "string", "SourceType": "string", "SourceId": "string" }</param>
-    /// <param name="ActionType">The action type. Constraints: o min: 0 o max: 256</param>
+    /// <param name="ActionName">The name of the action. Must be unique to your account in an Amazon Web Services Region. Constraints: • min: 1 • max: 120 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}</param>
+    /// <param name="Source">The source type, ID, and URI. SourceUri -&gt; (string) [required] The URI of the source. Constraints: • min: 1 • max: 2048 • pattern: .* SourceType -&gt; (string) The type of the source. Constraints: • min: 0 • max: 256 SourceId -&gt; (string) The ID of the source. Constraints: • min: 0 • max: 256 Shorthand Syntax: SourceUri=string,SourceType=string,SourceId=string JSON Syntax: { "SourceUri": "string", "SourceType": "string", "SourceId": "string" }</param>
+    /// <param name="ActionType">The action type. Constraints: • min: 0 • max: 256</param>
     public AwsSagemakerCreateActionOptions(
         string ActionName,
         string Source,
@@ -66,49 +67,49 @@ public record AwsSagemakerCreateActionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the action. Must be unique to your account in an Amazon Web Services Region. Constraints: o min: 1 o max: 120 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}
+    /// The name of the action. Must be unique to your account in an Amazon Web Services Region. Constraints: • min: 1 • max: 120 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}
     /// </summary>
     [CliOption("--action-name")]
     public string? ActionName { get; private init; }
 
     /// <summary>
-    /// The source type, ID, and URI. SourceUri -&gt; (string) [required] The URI of the source. Constraints: o min: 1 o max: 2048 o pattern: .* SourceType -&gt; (string) The type of the source. Constraints: o min: 0 o max: 256 SourceId -&gt; (string) The ID of the source. Constraints: o min: 0 o max: 256 Shorthand Syntax: SourceUri=string,SourceType=string,SourceId=string JSON Syntax: { "SourceUri": "string", "SourceType": "string", "SourceId": "string" }
+    /// The source type, ID, and URI. SourceUri -&gt; (string) [required] The URI of the source. Constraints: • min: 1 • max: 2048 • pattern: .* SourceType -&gt; (string) The type of the source. Constraints: • min: 0 • max: 256 SourceId -&gt; (string) The ID of the source. Constraints: • min: 0 • max: 256 Shorthand Syntax: SourceUri=string,SourceType=string,SourceId=string JSON Syntax: { "SourceUri": "string", "SourceType": "string", "SourceId": "string" }
     /// </summary>
     [CliOption("--source")]
     public string? Source { get; private init; }
 
     /// <summary>
-    /// The action type. Constraints: o min: 0 o max: 256
+    /// The action type. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--action-type")]
     public string? ActionType { get; private init; }
 
     /// <summary>
-    /// The description of the action. Constraints: o min: 0 o max: 3072 o pattern: .*
+    /// The description of the action. Constraints: • min: 0 • max: 3072 • pattern: .*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The status of the action. Possible values: o Unknown o InProgress o Completed o Failed o Stopping o Stopped
+    /// The status of the action. Possible values: • Unknown • InProgress • Completed • Failed • Stopping • Stopped
     /// </summary>
     [CliOption("--status")]
     public AwsSagemakerCreateActionStatus? Status { get; set; }
 
     /// <summary>
-    /// A list of properties to add to the action. Constraints: o min: 0 o max: 30 key -&gt; (string) Constraints: o min: 0 o max: 2500 o pattern: .* value -&gt; (string) Constraints: o min: 0 o max: 2500 o pattern: .* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A list of properties to add to the action. Constraints: • min: 0 • max: 30 key -&gt; (string) Constraints: • min: 0 • max: 2500 • pattern: .* value -&gt; (string) Constraints: • min: 0 • max: 2500 • pattern: .* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--properties", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Properties { get; set; }
 
     /// <summary>
-    /// Metadata properties of the tracking entity, trial, or trial compo- nent. CommitId -&gt; (string) The commit ID. Constraints: o min: 0 o max: 1024 o pattern: .* Repository -&gt; (string) The repository. Constraints: o min: 0 o max: 1024 o pattern: .* GeneratedBy -&gt; (string) The entity this entity was generated by. Constraints: o min: 0 o max: 1024 o pattern: .* ProjectId -&gt; (string) The project ID. Constraints: o min: 0 o max: 1024 o pattern: .* Shorthand Syntax: CommitId=string,Repository=string,GeneratedBy=string,ProjectId=string JSON Syntax: { "CommitId": "string", "Repository": "string", "GeneratedBy": "string", "ProjectId": "string" }
+    /// Metadata properties of the tracking entity, trial, or trial component. CommitId -&gt; (string) The commit ID. Constraints: • min: 0 • max: 1024 • pattern: .* Repository -&gt; (string) The repository. Constraints: • min: 0 • max: 1024 • pattern: .* GeneratedBy -&gt; (string) The entity this entity was generated by. Constraints: • min: 0 • max: 1024 • pattern: .* ProjectId -&gt; (string) The project ID. Constraints: • min: 0 • max: 1024 • pattern: .* Shorthand Syntax: CommitId=string,Repository=string,GeneratedBy=string,ProjectId=string JSON Syntax: { "CommitId": "string", "Repository": "string", "GeneratedBy": "string", "ProjectId": "string" }
     /// </summary>
     [CliOption("--metadata-properties")]
     public string? MetadataProperties { get; set; }
 
     /// <summary>
-    /// A list of tags to apply to the action. Constraints: o min: 0 o max: 50 (structure) A tag object that consists of a key and an optional value, used to manage metadata for SageMaker Amazon Web Services resources. You can add tags to notebook instances, training jobs, hyperpa- rameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. For more information on adding tags to SageMaker resources, see AddTags . For more information on adding metadata to your Amazon Web Ser- vices resources with tagging, see Tagging Amazon Web Services resources . For advice on best practices for managing Amazon Web Services resources with tagging, see Tagging Best Practices: Im- plement an Effective Amazon Web Services Resource Tagging Strat- egy . Key -&gt; (string) [required] The tag key. Tag keys must be unique per resource. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tags to apply to the action. Constraints: • min: 0 • max: 50 (structure) A tag object that consists of a key and an optional value, used to manage metadata for SageMaker Amazon Web Services resources. You can add tags to notebook instances, training jobs, hyperparameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. For more information on adding tags to SageMaker resources, see AddTags . For more information on adding metadata to your Amazon Web Services resources with tagging, see Tagging Amazon Web Services resources . For advice on best practices for managing Amazon Web Services resources with tagging, see Tagging Best Practices: Implement an Effective Amazon Web Services Resource Tagging Strategy . Key -&gt; (string) [required] The tag key. Tag keys must be unique per resource. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

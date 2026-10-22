@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an online evaluation configuration and stops any ongoing evalu- ation processes associated with it. See also: AWS API Documentation
+/// Deletes an online evaluation configuration and stops any ongoing evaluation processes associated with it. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsBedrockAgentcoreControlDeleteOnlineEvaluationConfigOptions : Aw
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an online evaluation configuration and stops any ongoing evalu- ation processes associated with it. See also: AWS API Documentation
+    /// Deletes an online evaluation configuration and stops any ongoing evaluation processes associated with it. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OnlineEvaluationConfigId">The unique identifier of the online evaluation configuration to delete. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
+    /// <param name="OnlineEvaluationConfigId">The unique identifier of the online evaluation configuration to delete. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
     public AwsBedrockAgentcoreControlDeleteOnlineEvaluationConfigOptions(
         string OnlineEvaluationConfigId
     )
@@ -56,7 +58,7 @@ public record AwsBedrockAgentcoreControlDeleteOnlineEvaluationConfigOptions : Aw
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the online evaluation configuration to delete. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
+    /// The unique identifier of the online evaluation configuration to delete. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--online-evaluation-config-id")]
     public string? OnlineEvaluationConfigId { get; private init; }

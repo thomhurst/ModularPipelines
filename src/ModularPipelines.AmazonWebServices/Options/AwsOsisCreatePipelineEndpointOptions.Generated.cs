@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsOsisCreatePipelineEndpointOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Creates a VPC endpoint for an OpenSearch Ingestion pipeline. Pipeline endpoints allow you to ingest data from your VPC into pipelines that you have access to. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PipelineArn">The Amazon Resource Name (ARN) of the pipeline to create the end- point for. Constraints: o min: 46 o max: 76 o pattern: ^arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):osis:.+:pipeline\/.+$</param>
-    /// <param name="VpcOptions">Container for the VPC configuration for the pipeline endpoint, in- cluding subnet IDs and security group IDs. SubnetIds -&gt; (list) A list of subnet IDs where the pipeline endpoint network inter- faces are created. Constraints: o min: 1 o max: 12 (string) Constraints: o min: 15 o max: 24 o pattern: subnet-\w{8}(\w{9})? SecurityGroupIds -&gt; (list) A list of security group IDs that control network access to the pipeline endpoint. Constraints: o min: 1 o max: 12 (string) Constraints: o min: 11 o max: 20 o pattern: sg-\w{8}(\w{9})? Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...] }</param>
+    /// <param name="PipelineArn">The Amazon Resource Name (ARN) of the pipeline to create the endpoint for. Constraints: • min: 46 • max: 76 • pattern: ^arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):osis:.+:pipeline\/.+$</param>
+    /// <param name="VpcOptions">Container for the VPC configuration for the pipeline endpoint, including subnet IDs and security group IDs. SubnetIds -&gt; (list) A list of subnet IDs where the pipeline endpoint network interfaces are created. Constraints: • min: 1 • max: 12 (string) Constraints: • min: 15 • max: 24 • pattern: subnet-\w{8}(\w{9})? SecurityGroupIds -&gt; (list) A list of security group IDs that control network access to the pipeline endpoint. Constraints: • min: 1 • max: 12 (string) Constraints: • min: 11 • max: 20 • pattern: sg-\w{8}(\w{9})? Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...] }</param>
     public AwsOsisCreatePipelineEndpointOptions(
         string PipelineArn,
         string VpcOptions
@@ -60,13 +62,13 @@ public record AwsOsisCreatePipelineEndpointOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the pipeline to create the end- point for. Constraints: o min: 46 o max: 76 o pattern: ^arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):osis:.+:pipeline\/.+$
+    /// The Amazon Resource Name (ARN) of the pipeline to create the endpoint for. Constraints: • min: 46 • max: 76 • pattern: ^arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):osis:.+:pipeline\/.+$
     /// </summary>
     [CliOption("--pipeline-arn")]
     public string? PipelineArn { get; private init; }
 
     /// <summary>
-    /// Container for the VPC configuration for the pipeline endpoint, in- cluding subnet IDs and security group IDs. SubnetIds -&gt; (list) A list of subnet IDs where the pipeline endpoint network inter- faces are created. Constraints: o min: 1 o max: 12 (string) Constraints: o min: 15 o max: 24 o pattern: subnet-\w{8}(\w{9})? SecurityGroupIds -&gt; (list) A list of security group IDs that control network access to the pipeline endpoint. Constraints: o min: 1 o max: 12 (string) Constraints: o min: 11 o max: 20 o pattern: sg-\w{8}(\w{9})? Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...] }
+    /// Container for the VPC configuration for the pipeline endpoint, including subnet IDs and security group IDs. SubnetIds -&gt; (list) A list of subnet IDs where the pipeline endpoint network interfaces are created. Constraints: • min: 1 • max: 12 (string) Constraints: • min: 15 • max: 24 • pattern: subnet-\w{8}(\w{9})? SecurityGroupIds -&gt; (list) A list of security group IDs that control network access to the pipeline endpoint. Constraints: • min: 1 • max: 12 (string) Constraints: • min: 11 • max: 20 • pattern: sg-\w{8}(\w{9})? Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...] }
     /// </summary>
     [CliOption("--vpc-options")]
     public string? VpcOptions { get; private init; }

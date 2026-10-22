@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsIotDataSendDirectMessageOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Sends an MQTT message directly to a specific client identified by its client ID. SendDirectMessage targets a single client ID. The receiving client does not need to subscribe to the topic, but the receiver's policy must allow iot:Receive on the specified topic. Requires permission to access the SendDirectMessage action. For more information about messaging costs, see Amazon Web Services IoT Core pricing . See also: AWS API Documentation NOTE: For production code it is strongly recommended to use...
     /// </summary>
-    /// <param name="ClientId">The unique identifier of the MQTT client to send the message to. Client IDs must not exceed 128 characters and can't start with a dollar sign ($). MQTT client IDs must be URL encoded (percent-en- coded) when they contain characters that are not valid in HTTP re- quests, such as spaces, forward slashes (/), and UTF-8 characters. For more information, see Amazon Web Services IoT Core message bro- ker and protocol limits and quotas . Constraints: o min: 1 o max: 128 o pattern: ^[^$].*</param>
-    /// <param name="Topic">The topic of the outbound MQTT Publish message to the receiving client. For more information, see Amazon Web Services IoT Core mes- sage broker and protocol limits and quotas .</param>
+    /// <param name="ClientId">The unique identifier of the MQTT client to send the message to. Client IDs must not exceed 128 characters and can't start with a dollar sign ($). MQTT client IDs must be URL encoded (percent-encoded) when they contain characters that are not valid in HTTP requests, such as spaces, forward slashes (/), and UTF-8 characters. For more information, see Amazon Web Services IoT Core message broker and protocol limits and quotas . Constraints: • min: 1 • max: 128 • pattern: ^[^$].*</param>
+    /// <param name="Topic">The topic of the outbound MQTT Publish message to the receiving client. For more information, see Amazon Web Services IoT Core message broker and protocol limits and quotas .</param>
     public AwsIotDataSendDirectMessageOptions(
         string ClientId,
         string Topic
@@ -61,13 +63,13 @@ public record AwsIotDataSendDirectMessageOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the MQTT client to send the message to. Client IDs must not exceed 128 characters and can't start with a dollar sign ($). MQTT client IDs must be URL encoded (percent-en- coded) when they contain characters that are not valid in HTTP re- quests, such as spaces, forward slashes (/), and UTF-8 characters. For more information, see Amazon Web Services IoT Core message bro- ker and protocol limits and quotas . Constraints: o min: 1 o max: 128 o pattern: ^[^$].*
+    /// The unique identifier of the MQTT client to send the message to. Client IDs must not exceed 128 characters and can't start with a dollar sign ($). MQTT client IDs must be URL encoded (percent-encoded) when they contain characters that are not valid in HTTP requests, such as spaces, forward slashes (/), and UTF-8 characters. For more information, see Amazon Web Services IoT Core message broker and protocol limits and quotas . Constraints: • min: 1 • max: 128 • pattern: ^[^$].*
     /// </summary>
     [CliOption("--client-id")]
     public string? ClientId { get; private init; }
 
     /// <summary>
-    /// The topic of the outbound MQTT Publish message to the receiving client. For more information, see Amazon Web Services IoT Core mes- sage broker and protocol limits and quotas .
+    /// The topic of the outbound MQTT Publish message to the receiving client. For more information, see Amazon Web Services IoT Core message broker and protocol limits and quotas .
     /// </summary>
     [CliOption("--topic")]
     public string? Topic { get; private init; }
@@ -85,19 +87,19 @@ public record AwsIotDataSendDirectMessageOptions : AwsOptions, IValidatableObjec
     public string? ResponseTopic { get; set; }
 
     /// <summary>
-    /// A Boolean value that specifies whether to wait for delivery confir- mation from the receiving client. When set to true , the API delivers the message at QoS 1 and waits for the client to send a delivery confirmation (PUBACK) before re- turning a successful response. If delivery confirmation is not re- ceived within the specified timeout period, the API returns HTTP 504. When set to false , the API delivers the message at QoS 0 and re- turns after Amazon Web Services IoT Core attempts to deliver the message. Valid values: true | false Default value: false
+    /// A Boolean value that specifies whether to wait for delivery confirmation from the receiving client. When set to true , the API delivers the message at QoS 1 and waits for the client to send a delivery confirmation (PUBACK) before returning a successful response. If delivery confirmation is not received within the specified timeout period, the API returns HTTP 504. When set to false , the API delivers the message at QoS 0 and returns after Amazon Web Services IoT Core attempts to deliver the message. Valid values: true | false Default value: false
     /// </summary>
     [CliFlag("--confirmation", NegatedName = "--no-confirmation")]
     public bool? Confirmation { get; set; }
 
     /// <summary>
-    /// An integer that represents the maximum time, in seconds, to wait for a delivery confirmation (PUBACK) from the receiving client after the message has been delivered. This parameter is only used when confir- mation is set to true . If confirmation is false , this parameter is ignored. The total API response time may be higher than this value due to in- ternal processing. Set your HTTP client timeout to a value greater than this parameter. Valid range: 1 to 15 seconds. Default value: 5 seconds.
+    /// An integer that represents the maximum time, in seconds, to wait for a delivery confirmation (PUBACK) from the receiving client after the message has been delivered. This parameter is only used when confirmation is set to true . If confirmation is false , this parameter is ignored. The total API response time may be higher than this value due to internal processing. Set your HTTP client timeout to a value greater than this parameter. Valid range: 1 to 15 seconds. Default value: 5 seconds.
     /// </summary>
     [CliOption("--timeout")]
     public int? Timeout { get; set; }
 
     /// <summary>
-    /// The message body. MQTT accepts text, binary, and empty (null) mes- sage payloads.
+    /// The message body. MQTT accepts text, binary, and empty (null) message payloads.
     /// </summary>
     [CliOption("--payload")]
     public string? Payload { get; set; }
@@ -109,7 +111,7 @@ public record AwsIotDataSendDirectMessageOptions : AwsOptions, IValidatableObjec
     public IEnumerable<string>? UserProperties { get; set; }
 
     /// <summary>
-    /// An Enum string value that indicates whether the payload is formatted as UTF-8. payloadFormatIndicator is an HTTP header value in the API. Possible values: o UNSPECIFIED_BYTES o UTF8_DATA
+    /// An Enum string value that indicates whether the payload is formatted as UTF-8. payloadFormatIndicator is an HTTP header value in the API. Possible values: • UNSPECIFIED_BYTES • UTF8_DATA
     /// </summary>
     [CliOption("--payload-format-indicator")]
     public AwsIotDataSendDirectMessagePayloadFormatIndicator? PayloadFormatIndicator { get; set; }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,10 +30,10 @@ public record AwsLicenseManagerCheckoutBorrowLicenseOptions : AwsOptions, IValid
     /// <summary>
     /// Checks out the specified license for offline use. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LicenseArn">Amazon Resource Name (ARN) of the license. The license must use the borrow consumption configuration. Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$</param>
-    /// <param name="Entitlements">License entitlements. Partial checkouts are not supported. (structure) Data associated with an entitlement resource. Name -&gt; (string) [required] Entitlement data name. Value -&gt; (string) Entitlement data value. Unit -&gt; (string) [required] Entitlement data unit. Possible values: o Count o None o Seconds o Microseconds o Milliseconds o Bytes o Kilobytes o Megabytes o Gigabytes o Terabytes o Bits o Kilobits o Megabits o Gigabits o Terabits o Percent o Bytes/Second o Kilobytes/Second o Megabytes/Second o Gigabytes/Second o Terabytes/Second o Bits/Second o Kilobits/Second o Megabits/Second o Gigabits/Second o Terabits/Second o Count/Second Shorthand Syntax: Name=string,Value=string,Unit=string ... JSON Syntax: [ { "Name": "string", "Value": "string", "Unit": "Count"|"None"|"Seconds"|"Microseconds"|"Milliseconds"|"Bytes"|"Kilobytes"|"Megabytes"|"Gigabytes"|"Terabytes"|"Bits"|"Kilobits"|"Megabits"|"Gigabits"|"Terabits"|"Percent"|"Bytes/Second"|"Kilobytes/Second"|"Megabytes/Second"|"Gigabytes/Second"|"Terabytes/Second"|"Bits/Second"|"Kilobits/Second"|"Megabits/Second"|"Gigabits/Second"|"Terabits/Second"|"Count/Second" } ... ]</param>
-    /// <param name="DigitalSignatureMethod">Digital signature method. The possible value is JSON Web Signature (JWS) algorithm PS384. For more information, see RFC 7518 Digital Signature with RSASSA-PSS . Possible values: o JWT_PS384</param>
-    /// <param name="ClientToken">Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o max: 2048 o pattern: \S+</param>
+    /// <param name="LicenseArn">Amazon Resource Name (ARN) of the license. The license must use the borrow consumption configuration. Constraints: • max: 2048 • pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$</param>
+    /// <param name="Entitlements">License entitlements. Partial checkouts are not supported. (structure) Data associated with an entitlement resource. Name -&gt; (string) [required] Entitlement data name. Value -&gt; (string) Entitlement data value. Unit -&gt; (string) [required] Entitlement data unit. Possible values: • Count • None • Seconds • Microseconds • Milliseconds • Bytes • Kilobytes • Megabytes • Gigabytes • Terabytes • Bits • Kilobits • Megabits • Gigabits • Terabits • Percent • Bytes/Second • Kilobytes/Second • Megabytes/Second • Gigabytes/Second • Terabytes/Second • Bits/Second • Kilobits/Second • Megabits/Second • Gigabits/Second • Terabits/Second • Count/Second Shorthand Syntax: Name=string,Value=string,Unit=string ... JSON Syntax: [ { "Name": "string", "Value": "string", "Unit": "Count"|"None"|"Seconds"|"Microseconds"|"Milliseconds"|"Bytes"|"Kilobytes"|"Megabytes"|"Gigabytes"|"Terabytes"|"Bits"|"Kilobits"|"Megabits"|"Gigabits"|"Terabits"|"Percent"|"Bytes/Second"|"Kilobytes/Second"|"Megabytes/Second"|"Gigabytes/Second"|"Terabytes/Second"|"Bits/Second"|"Kilobits/Second"|"Megabits/Second"|"Gigabits/Second"|"Terabits/Second"|"Count/Second" } ... ]</param>
+    /// <param name="DigitalSignatureMethod">Digital signature method. The possible value is JSON Web Signature (JWS) algorithm PS384. For more information, see RFC 7518 Digital Signature with RSASSA-PSS . Possible values: • JWT_PS384</param>
+    /// <param name="ClientToken">Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • max: 2048 • pattern: \S+</param>
     public AwsLicenseManagerCheckoutBorrowLicenseOptions(
         string LicenseArn,
         IEnumerable<string> Entitlements,
@@ -80,25 +82,25 @@ public record AwsLicenseManagerCheckoutBorrowLicenseOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Resource Name (ARN) of the license. The license must use the borrow consumption configuration. Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$
+    /// Amazon Resource Name (ARN) of the license. The license must use the borrow consumption configuration. Constraints: • max: 2048 • pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$
     /// </summary>
     [CliOption("--license-arn")]
     public string? LicenseArn { get; private init; }
 
     /// <summary>
-    /// License entitlements. Partial checkouts are not supported. (structure) Data associated with an entitlement resource. Name -&gt; (string) [required] Entitlement data name. Value -&gt; (string) Entitlement data value. Unit -&gt; (string) [required] Entitlement data unit. Possible values: o Count o None o Seconds o Microseconds o Milliseconds o Bytes o Kilobytes o Megabytes o Gigabytes o Terabytes o Bits o Kilobits o Megabits o Gigabits o Terabits o Percent o Bytes/Second o Kilobytes/Second o Megabytes/Second o Gigabytes/Second o Terabytes/Second o Bits/Second o Kilobits/Second o Megabits/Second o Gigabits/Second o Terabits/Second o Count/Second Shorthand Syntax: Name=string,Value=string,Unit=string ... JSON Syntax: [ { "Name": "string", "Value": "string", "Unit": "Count"|"None"|"Seconds"|"Microseconds"|"Milliseconds"|"Bytes"|"Kilobytes"|"Megabytes"|"Gigabytes"|"Terabytes"|"Bits"|"Kilobits"|"Megabits"|"Gigabits"|"Terabits"|"Percent"|"Bytes/Second"|"Kilobytes/Second"|"Megabytes/Second"|"Gigabytes/Second"|"Terabytes/Second"|"Bits/Second"|"Kilobits/Second"|"Megabits/Second"|"Gigabits/Second"|"Terabits/Second"|"Count/Second" } ... ]
+    /// License entitlements. Partial checkouts are not supported. (structure) Data associated with an entitlement resource. Name -&gt; (string) [required] Entitlement data name. Value -&gt; (string) Entitlement data value. Unit -&gt; (string) [required] Entitlement data unit. Possible values: • Count • None • Seconds • Microseconds • Milliseconds • Bytes • Kilobytes • Megabytes • Gigabytes • Terabytes • Bits • Kilobits • Megabits • Gigabits • Terabits • Percent • Bytes/Second • Kilobytes/Second • Megabytes/Second • Gigabytes/Second • Terabytes/Second • Bits/Second • Kilobits/Second • Megabits/Second • Gigabits/Second • Terabits/Second • Count/Second Shorthand Syntax: Name=string,Value=string,Unit=string ... JSON Syntax: [ { "Name": "string", "Value": "string", "Unit": "Count"|"None"|"Seconds"|"Microseconds"|"Milliseconds"|"Bytes"|"Kilobytes"|"Megabytes"|"Gigabytes"|"Terabytes"|"Bits"|"Kilobits"|"Megabits"|"Gigabits"|"Terabits"|"Percent"|"Bytes/Second"|"Kilobytes/Second"|"Megabytes/Second"|"Gigabytes/Second"|"Terabytes/Second"|"Bits/Second"|"Kilobits/Second"|"Megabits/Second"|"Gigabits/Second"|"Terabits/Second"|"Count/Second" } ... ]
     /// </summary>
     [CliOption("--entitlements", GroupValues = true)]
     public IEnumerable<string>? Entitlements { get; private init; }
 
     /// <summary>
-    /// Digital signature method. The possible value is JSON Web Signature (JWS) algorithm PS384. For more information, see RFC 7518 Digital Signature with RSASSA-PSS . Possible values: o JWT_PS384
+    /// Digital signature method. The possible value is JSON Web Signature (JWS) algorithm PS384. For more information, see RFC 7518 Digital Signature with RSASSA-PSS . Possible values: • JWT_PS384
     /// </summary>
     [CliOption("--digital-signature-method")]
     public string? DigitalSignatureMethod { get; private init; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o max: 2048 o pattern: \S+
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • max: 2048 • pattern: \S+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

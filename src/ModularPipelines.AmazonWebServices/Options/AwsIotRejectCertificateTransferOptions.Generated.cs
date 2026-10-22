@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Rejects a pending certificate transfer. After IoT rejects a certificate transfer, the certificate status changes from PENDING_TRANSFER to INAC- TIVE . To check for pending certificate transfers, call ListCertificates to enumerate your certificates. This operation can only be called by the transfer destination. After it is called, the certificate will be returned to the source's account in the INACTIVE state. Requires permission to access the RejectCertificateTransfer action. See also: AWS API Do...
+/// Rejects a pending certificate transfer. After IoT rejects a certificate transfer, the certificate status changes from PENDING_TRANSFER to INACTIVE . To check for pending certificate transfers, call ListCertificates to enumerate your certificates. This operation can only be called by the transfer destination. After it is called, the certificate will be returned to the source's account in the INACTIVE state. Requires permission to access the RejectCertificateTransfer action. See also: AWS API Docu...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsIotRejectCertificateTransferOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Rejects a pending certificate transfer. After IoT rejects a certificate transfer, the certificate status changes from PENDING_TRANSFER to INAC- TIVE . To check for pending certificate transfers, call ListCertificates to enumerate your certificates. This operation can only be called by the transfer destination. After it is called, the certificate will be returned to the source's account in the INACTIVE state. Requires permission to access the RejectCertificateTransfer action. See also: AWS API Do...
+    /// Rejects a pending certificate transfer. After IoT rejects a certificate transfer, the certificate status changes from PENDING_TRANSFER to INACTIVE . To check for pending certificate transfers, call ListCertificates to enumerate your certificates. This operation can only be called by the transfer destination. After it is called, the certificate will be returned to the source's account in the INACTIVE state. Requires permission to access the RejectCertificateTransfer action. See also: AWS API Docu...
     /// </summary>
-    /// <param name="CertificateId">The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.) Constraints: o min: 64 o max: 64 o pattern: (0x)?[a-fA-F0-9]+</param>
+    /// <param name="CertificateId">The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.) Constraints: • min: 64 • max: 64 • pattern: (0x)?[a-fA-F0-9]+</param>
     public AwsIotRejectCertificateTransferOptions(
         string CertificateId
     )
@@ -56,13 +58,13 @@ public record AwsIotRejectCertificateTransferOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.) Constraints: o min: 64 o max: 64 o pattern: (0x)?[a-fA-F0-9]+
+    /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.) Constraints: • min: 64 • max: 64 • pattern: (0x)?[a-fA-F0-9]+
     /// </summary>
     [CliOption("--certificate-id")]
     public string? CertificateId { get; private init; }
 
     /// <summary>
-    /// The reason the certificate transfer was rejected. Constraints: o max: 128 o pattern: [\s\S]*
+    /// The reason the certificate transfer was rejected. Constraints: • max: 128 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--reject-reason")]
     public string? RejectReason { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the settings for the specified user, such as phone number set- tings. See also: AWS API Documentation
+/// Updates the settings for the specified user, such as phone number settings. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsChimeUpdateUserSettingsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the settings for the specified user, such as phone number set- tings. See also: AWS API Documentation
+    /// Updates the settings for the specified user, such as phone number settings. See also: AWS API Documentation
     /// </summary>
     /// <param name="AccountId">The Amazon Chime account ID.</param>
     /// <param name="UserId">The user ID.</param>

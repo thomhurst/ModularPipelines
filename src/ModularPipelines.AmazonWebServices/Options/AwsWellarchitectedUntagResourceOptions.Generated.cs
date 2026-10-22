@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsWellarchitectedUntagResourceOptions : AwsOptions, IValidatableO
     /// Deletes specified tags from a resource. NOTE: The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN. To specify multiple tags, use separate tagKeys parameters, for example: DELETE /tags/WorkloadArn?tagKeys=key1&amp;tagKeys=key2 See also: AWS API Documentation
     /// </summary>
     /// <param name="WorkloadArn">The ARN for the workload.</param>
-    /// <param name="TagKeys">A list of tag keys. Existing tags of the resource whose keys are members of this list are removed from the resource. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{N}\p{Z}_.:/=+@-]+ Syntax: "string" "string" ...</param>
+    /// <param name="TagKeys">A list of tag keys. Existing tags of the resource whose keys are members of this list are removed from the resource. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{N}\p{Z}_.:/=+@-]+ Syntax: "string" "string" ...</param>
     public AwsWellarchitectedUntagResourceOptions(
         string WorkloadArn,
         IEnumerable<string> TagKeys
@@ -77,7 +79,7 @@ public record AwsWellarchitectedUntagResourceOptions : AwsOptions, IValidatableO
     public string? WorkloadArn { get; private init; }
 
     /// <summary>
-    /// A list of tag keys. Existing tags of the resource whose keys are members of this list are removed from the resource. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{N}\p{Z}_.:/=+@-]+ Syntax: "string" "string" ...
+    /// A list of tag keys. Existing tags of the resource whose keys are members of this list are removed from the resource. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{N}\p{Z}_.:/=+@-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

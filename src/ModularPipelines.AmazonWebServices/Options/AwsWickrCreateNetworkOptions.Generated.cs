@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new Wickr network with specified access level and configura- tion. This operation provisions a new communication network for your organization. See also: AWS API Documentation
+/// Creates a new Wickr network with specified access level and configuration. This operation provisions a new communication network for your organization. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsWickrCreateNetworkOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new Wickr network with specified access level and configura- tion. This operation provisions a new communication network for your organization. See also: AWS API Documentation
+    /// Creates a new Wickr network with specified access level and configuration. This operation provisions a new communication network for your organization. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkName">The name for the new network. Must be between 1 and 20 characters. Constraints: o pattern: [\S\s]*</param>
-    /// <param name="AccessLevel">The access level for the network. Valid values are STANDARD or PRE- MIUM, which determine the features and capabilities available to network members. Possible values: o STANDARD o PREMIUM</param>
+    /// <param name="NetworkName">The name for the new network. Must be between 1 and 20 characters. Constraints: • pattern: [\S\s]*</param>
+    /// <param name="AccessLevel">The access level for the network. Valid values are STANDARD or PREMIUM, which determine the features and capabilities available to network members. Possible values: • STANDARD • PREMIUM</param>
     public AwsWickrCreateNetworkOptions(
         string NetworkName,
         AwsWickrCreateNetworkAccessLevel AccessLevel
@@ -60,13 +62,13 @@ public record AwsWickrCreateNetworkOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name for the new network. Must be between 1 and 20 characters. Constraints: o pattern: [\S\s]*
+    /// The name for the new network. Must be between 1 and 20 characters. Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--network-name")]
     public string? NetworkName { get; private init; }
 
     /// <summary>
-    /// The access level for the network. Valid values are STANDARD or PRE- MIUM, which determine the features and capabilities available to network members. Possible values: o STANDARD o PREMIUM
+    /// The access level for the network. Valid values are STANDARD or PREMIUM, which determine the features and capabilities available to network members. Possible values: • STANDARD • PREMIUM
     /// </summary>
     [CliOption("--access-level")]
     public AwsWickrCreateNetworkAccessLevel? AccessLevel { get; private init; }
@@ -78,7 +80,7 @@ public record AwsWickrCreateNetworkOptions : AwsOptions, IValidatableObject
     public bool? EnablePremiumFreeTrial { get; set; }
 
     /// <summary>
-    /// The ARN of the Amazon Web Services KMS customer managed key to use for encrypting sensitive data in the network. Constraints: o pattern: [\S\s]*
+    /// The ARN of the Amazon Web Services KMS customer managed key to use for encrypting sensitive data in the network. Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--encryption-key-arn")]
     public string? EncryptionKeyArn { get; set; }

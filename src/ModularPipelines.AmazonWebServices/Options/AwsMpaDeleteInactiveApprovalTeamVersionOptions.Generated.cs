@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an inactive approval team. For more information, see Team health in the Multi-party approval User Guide . You can also use this operation to delete a team draft. For more infor- mation, see Interacting with drafts in the Multi-party approval User Guide . See also: AWS API Documentation
+/// Deletes an inactive approval team. For more information, see Team health in the Multi-party approval User Guide . You can also use this operation to delete a team draft. For more information, see Interacting with drafts in the Multi-party approval User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsMpaDeleteInactiveApprovalTeamVersionOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an inactive approval team. For more information, see Team health in the Multi-party approval User Guide . You can also use this operation to delete a team draft. For more infor- mation, see Interacting with drafts in the Multi-party approval User Guide . See also: AWS API Documentation
+    /// Deletes an inactive approval team. For more information, see Team health in the Multi-party approval User Guide . You can also use this operation to delete a team draft. For more information, see Interacting with drafts in the Multi-party approval User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">Amaazon Resource Name (ARN) for the team. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:ap- proval-team/[a-zA-Z0-9._-]+</param>
-    /// <param name="VersionId">Version ID for the team. Constraints: o min: 0 o max: 1000</param>
+    /// <param name="Arn">Amaazon Resource Name (ARN) for the team. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:approval-team/[a-zA-Z0-9._-]+</param>
+    /// <param name="VersionId">Version ID for the team. Constraints: • min: 0 • max: 1000</param>
     public AwsMpaDeleteInactiveApprovalTeamVersionOptions(
         string Arn,
         string VersionId
@@ -60,13 +62,13 @@ public record AwsMpaDeleteInactiveApprovalTeamVersionOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amaazon Resource Name (ARN) for the team. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:ap- proval-team/[a-zA-Z0-9._-]+
+    /// Amaazon Resource Name (ARN) for the team. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:approval-team/[a-zA-Z0-9._-]+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// Version ID for the team. Constraints: o min: 0 o max: 1000
+    /// Version ID for the team. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--version-id")]
     public string? VersionId { get; private init; }

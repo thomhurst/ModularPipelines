@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds one or more key-value tags to a Kinesis Analytics application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50. For more in- formation, see Using Tagging . See also: AWS API Documentation
+/// Adds one or more key-value tags to a Kinesis Analytics application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50. For more information, see Using Tagging . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsKinesisanalyticsTagResourceOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds one or more key-value tags to a Kinesis Analytics application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50. For more in- formation, see Using Tagging . See also: AWS API Documentation
+    /// Adds one or more key-value tags to a Kinesis Analytics application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50. For more information, see Using Tagging . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the application to assign the tags. Constraints: o min: 1 o max: 2048 o pattern: arn:aws:kinesisanalyt- ics:[a-z]{2}-[a-z]+-\d{1}+:\d{12}+:applica- tion/[a-zA-Z0-9_.-]{1,128}</param>
-    /// <param name="Tags">The key-value tags to assign to the application. Constraints: o min: 1 o max: 200 (structure) A key-value pair (the value is optional) that you can define and assign to AWS resources. If you specify a tag that already ex- ists, the tag value is replaced with the value that you specify in the request. Note that the maximum number of application tags includes system tags. The maximum number of user-defined appli- cation tags is 50. For more information, see Using Tagging . Key -&gt; (string) [required] The key of the key-value tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) The value of the key-value tag. The value is optional. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="ResourceArn">The ARN of the application to assign the tags. Constraints: • min: 1 • max: 2048 • pattern: arn:aws:kinesisanalytics:[a-z]{2}-[a-z]+-\d{1}+:\d{12}+:application/[a-zA-Z0-9_.-]{1,128}</param>
+    /// <param name="Tags">The key-value tags to assign to the application. Constraints: • min: 1 • max: 200 (structure) A key-value pair (the value is optional) that you can define and assign to AWS resources. If you specify a tag that already exists, the tag value is replaced with the value that you specify in the request. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50. For more information, see Using Tagging . Key -&gt; (string) [required] The key of the key-value tag. Constraints: • min: 1 • max: 128 Value -&gt; (string) The value of the key-value tag. The value is optional. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsKinesisanalyticsTagResourceOptions(
         string ResourceArn,
         IEnumerable<string> Tags
@@ -71,13 +73,13 @@ public record AwsKinesisanalyticsTagResourceOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the application to assign the tags. Constraints: o min: 1 o max: 2048 o pattern: arn:aws:kinesisanalyt- ics:[a-z]{2}-[a-z]+-\d{1}+:\d{12}+:applica- tion/[a-zA-Z0-9_.-]{1,128}
+    /// The ARN of the application to assign the tags. Constraints: • min: 1 • max: 2048 • pattern: arn:aws:kinesisanalytics:[a-z]{2}-[a-z]+-\d{1}+:\d{12}+:application/[a-zA-Z0-9_.-]{1,128}
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The key-value tags to assign to the application. Constraints: o min: 1 o max: 200 (structure) A key-value pair (the value is optional) that you can define and assign to AWS resources. If you specify a tag that already ex- ists, the tag value is replaced with the value that you specify in the request. Note that the maximum number of application tags includes system tags. The maximum number of user-defined appli- cation tags is 50. For more information, see Using Tagging . Key -&gt; (string) [required] The key of the key-value tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) The value of the key-value tag. The value is optional. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The key-value tags to assign to the application. Constraints: • min: 1 • max: 200 (structure) A key-value pair (the value is optional) that you can define and assign to AWS resources. If you specify a tag that already exists, the tag value is replaced with the value that you specify in the request. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50. For more information, see Using Tagging . Key -&gt; (string) [required] The key of the key-value tag. Constraints: • min: 1 • max: 128 Value -&gt; (string) The value of the key-value tag. The value is optional. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }

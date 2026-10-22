@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a log stream for the specified log group. A log stream is a se- quence of log events that originate from a single source, such as an application instance or a resource that is being monitored. There is no limit on the number of log streams that you can create for a log group. There is a limit of 50 TPS on CreateLogStream operations, after which transactions are throttled. You must use the following guidelines when naming a log stream: o Log stream names must be unique within the log grou...
+/// Creates a log stream for the specified log group. A log stream is a sequence of log events that originate from a single source, such as an application instance or a resource that is being monitored. There is no limit on the number of log streams that you can create for a log group. There is a limit of 50 TPS on CreateLogStream operations, after which transactions are throttled. You must use the following guidelines when naming a log stream: • Log stream names must be unique within the log group....
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsLogsCreateLogStreamOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a log stream for the specified log group. A log stream is a se- quence of log events that originate from a single source, such as an application instance or a resource that is being monitored. There is no limit on the number of log streams that you can create for a log group. There is a limit of 50 TPS on CreateLogStream operations, after which transactions are throttled. You must use the following guidelines when naming a log stream: o Log stream names must be unique within the log grou...
+    /// Creates a log stream for the specified log group. A log stream is a sequence of log events that originate from a single source, such as an application instance or a resource that is being monitored. There is no limit on the number of log streams that you can create for a log group. There is a limit of 50 TPS on CreateLogStream operations, after which transactions are throttled. You must use the following guidelines when naming a log stream: • Log stream names must be unique within the log group....
     /// </summary>
-    /// <param name="LogGroupName">The name of the log group. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+</param>
-    /// <param name="LogStreamName">The name of the log stream. Constraints: o min: 1 o max: 512 o pattern: [^:*]*</param>
+    /// <param name="LogGroupName">The name of the log group. Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+</param>
+    /// <param name="LogStreamName">The name of the log stream. Constraints: • min: 1 • max: 512 • pattern: [^:*]*</param>
     public AwsLogsCreateLogStreamOptions(
         string LogGroupName,
         string LogStreamName
@@ -60,13 +62,13 @@ public record AwsLogsCreateLogStreamOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the log group. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+
+    /// The name of the log group. Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+
     /// </summary>
     [CliOption("--log-group-name")]
     public string? LogGroupName { get; private init; }
 
     /// <summary>
-    /// The name of the log stream. Constraints: o min: 1 o max: 512 o pattern: [^:*]*
+    /// The name of the log stream. Constraints: • min: 1 • max: 512 • pattern: [^:*]*
     /// </summary>
     [CliOption("--log-stream-name")]
     public string? LogStreamName { get; private init; }

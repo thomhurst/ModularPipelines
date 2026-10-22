@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsServicecatalogDescribeServiceActionExecutionParametersOptions :
     /// <summary>
     /// Finds the default parameters for a specific self-service action on a specific provisioned product and returns a map of the results to the user. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProvisionedProductId">The identifier of the provisioned product. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
-    /// <param name="ServiceActionId">The self-service action identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="ProvisionedProductId">The identifier of the provisioned product. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="ServiceActionId">The self-service action identifier. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*</param>
     public AwsServicecatalogDescribeServiceActionExecutionParametersOptions(
         string ProvisionedProductId,
         string ServiceActionId
@@ -60,19 +62,19 @@ public record AwsServicecatalogDescribeServiceActionExecutionParametersOptions :
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the provisioned product. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The identifier of the provisioned product. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--provisioned-product-id")]
     public string? ProvisionedProductId { get; private init; }
 
     /// <summary>
-    /// The self-service action identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The self-service action identifier. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--service-action-id")]
     public string? ServiceActionId { get; private init; }
 
     /// <summary>
-    /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
+    /// The language code. • jp - Japanese • zh - Chinese Constraints: • max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }

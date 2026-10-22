@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Changes the plan tier of an existing subscription. NOTE: Upgrades take effect immediately. Downgrades are scheduled and the current tier remains unchanged until the end of the billing cycle (calendar month). You cannot update a subscription while a scheduled change is pending. To make a new change, first cancel the pending change using CancelSubscriptionChange . This operation replaces the plan tier value. If you omit the op- tional usageLevel field, it is reset to the default. See also: AWS API...
+/// Changes the plan tier of an existing subscription. NOTE: Upgrades take effect immediately. Downgrades are scheduled and the current tier remains unchanged until the end of the billing cycle (calendar month). You cannot update a subscription while a scheduled change is pending. To make a new change, first cancel the pending change using CancelSubscriptionChange . This operation replaces the plan tier value. If you omit the optional usageLevel field, it is reset to the default. See also: AWS API D...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsPricingPlanManagerUpdateSubscriptionOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Changes the plan tier of an existing subscription. NOTE: Upgrades take effect immediately. Downgrades are scheduled and the current tier remains unchanged until the end of the billing cycle (calendar month). You cannot update a subscription while a scheduled change is pending. To make a new change, first cancel the pending change using CancelSubscriptionChange . This operation replaces the plan tier value. If you omit the op- tional usageLevel field, it is reset to the default. See also: AWS API...
+    /// Changes the plan tier of an existing subscription. NOTE: Upgrades take effect immediately. Downgrades are scheduled and the current tier remains unchanged until the end of the billing cycle (calendar month). You cannot update a subscription while a scheduled change is pending. To make a new change, first cancel the pending change using CancelSubscriptionChange . This operation replaces the plan tier value. If you omit the optional usageLevel field, it is reset to the default. See also: AWS API D...
     /// </summary>
-    /// <param name="Arn">The ARN of the subscription to update. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="Arn">The ARN of the subscription to update. Constraints: • min: 1 • max: 2048</param>
     /// <param name="PlanTier">The new tier level for the subscription.</param>
     /// <param name="IfMatch">The ETag value from a previous GetSubscription or ListSubscriptions response. This ensures you are updating the expected version of the subscription.</param>
     public AwsPricingPlanManagerUpdateSubscriptionOptions(
@@ -65,7 +67,7 @@ public record AwsPricingPlanManagerUpdateSubscriptionOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the subscription to update. Constraints: o min: 1 o max: 2048
+    /// The ARN of the subscription to update. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
@@ -89,7 +91,7 @@ public record AwsPricingPlanManagerUpdateSubscriptionOptions : AwsOptions, IVali
     public string? UsageLevel { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the request is handled only once. Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier that you provide to ensure the request is handled only once. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

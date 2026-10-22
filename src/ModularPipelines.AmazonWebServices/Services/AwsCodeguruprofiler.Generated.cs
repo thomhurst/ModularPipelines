@@ -167,7 +167,7 @@ public class AwsCodeguruprofiler : IAwsCodeguruprofiler
     }
 
     /// <summary>
-    /// Gets the aggregated profile of a profiling group for a specified time range. Amazon CodeGuru Profiler collects posted agent profiles for a profiling group into aggregated profiles. &lt;note&gt; &lt;p&gt; Because aggregated profiles expire over time &lt;code&gt;Get- Profile&lt;/code&gt; is not idempotent. &lt;/p&gt; &lt;/note&gt; &lt;p&gt; Specify the time range for the requested aggregated profile using 1 or 2 of the fol- lowing parameters: &lt;code&gt;startTime&lt;/code&gt;, &lt;code&gt;endTime&lt;/code&gt;, &lt;code&gt;period&lt;/code&gt;. The maximum time range allowed...
+    /// Gets the aggregated profile of a profiling group for a specified time range. Amazon CodeGuru Profiler collects posted agent profiles for a profiling group into aggregated profiles. &lt;note&gt; &lt;p&gt; Because aggregated profiles expire over time &lt;code&gt;GetProfile&lt;/code&gt; is not idempotent. &lt;/p&gt; &lt;/note&gt; &lt;p&gt; Specify the time range for the requested aggregated profile using 1 or 2 of the following parameters: &lt;code&gt;startTime&lt;/code&gt;, &lt;code&gt;endTime&lt;/code&gt;, &lt;code&gt;period&lt;/code&gt;. The maximum time range allowed is ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsCodeguruprofiler : IAwsCodeguruprofiler
     }
 
     /// <summary>
-    /// Lists the start times of the available aggregated profiles of a profil- ing group for an aggregation period within the specified time range. See also: AWS API Documentation list-profile-times is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resul...
+    /// Lists the start times of the available aggregated profiles of a profiling group for an aggregation period within the specified time range. See also: AWS API Documentation list-profile-times is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsCodeguruprofiler : IAwsCodeguruprofiler
     }
 
     /// <summary>
-    /// Adds permissions to a profiling group's resource-based policy that are provided using an action group. If a profiling group doesn't have a re- source-based policy, one is created for it using the permissions in the action group and the roles and users in the principals parameter. &lt;p&gt; The one supported action group that can be added is &lt;code&gt;agent- Permission&lt;/code&gt; which grants &lt;code&gt;ConfigureAgent&lt;/code&gt; and &lt;code&gt;PostAgent&lt;/code&gt; permissions. For more information, see &lt;a href="https://docs.aws...
+    /// Adds permissions to a profiling group's resource-based policy that are provided using an action group. If a profiling group doesn't have a resource-based policy, one is created for it using the permissions in the action group and the roles and users in the principals parameter. &lt;p&gt; The one supported action group that can be added is &lt;code&gt;agentPermission&lt;/code&gt; which grants &lt;code&gt;ConfigureAgent&lt;/code&gt; and &lt;code&gt;PostAgent&lt;/code&gt; permissions. For more information, see &lt;a href="https://docs.aws.ama...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsCodeguruprofiler : IAwsCodeguruprofiler
     }
 
     /// <summary>
-    /// Removes permissions from a profiling group's resource-based policy that are provided using an action group. The one supported action group that can be removed is agentPermission which grants ConfigureAgent and PostAgent permissions. For more information, see Resource-based poli- cies in CodeGuru Profiler in the Amazon CodeGuru Profiler User Guide , ` ConfigureAgent https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html`__ , and ` PostAgentProfile https://docs.aws.amazon...
+    /// Removes permissions from a profiling group's resource-based policy that are provided using an action group. The one supported action group that can be removed is agentPermission which grants ConfigureAgent and PostAgent permissions. For more information, see Resource-based policies in CodeGuru Profiler in the Amazon CodeGuru Profiler User Guide , ` ConfigureAgent https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html`__ , and ` PostAgentProfile https://docs.aws.amazon.c...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

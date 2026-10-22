@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets an Amazon DataZone asset type. Asset types define the categories and characteristics of different kinds of data assets within Amazon DataZone.. They determine what meta- data fields are required, what operations are possible, and how the as- set integrates with other Amazon Web Services services. Asset types can range from built-in types like Amazon S3 buckets and Amazon Web Ser- vices Glue tables to custom types defined for specific organizational needs. Understanding asset types is crucia...
+/// Gets an Amazon DataZone asset type. Asset types define the categories and characteristics of different kinds of data assets within Amazon DataZone.. They determine what metadata fields are required, what operations are possible, and how the asset integrates with other Amazon Web Services services. Asset types can range from built-in types like Amazon S3 buckets and Amazon Web Services Glue tables to custom types defined for specific organizational needs. Understanding asset types is crucial for ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsDatazoneGetAssetTypeOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets an Amazon DataZone asset type. Asset types define the categories and characteristics of different kinds of data assets within Amazon DataZone.. They determine what meta- data fields are required, what operations are possible, and how the as- set integrates with other Amazon Web Services services. Asset types can range from built-in types like Amazon S3 buckets and Amazon Web Ser- vices Glue tables to custom types defined for specific organizational needs. Understanding asset types is crucia...
+    /// Gets an Amazon DataZone asset type. Asset types define the categories and characteristics of different kinds of data assets within Amazon DataZone.. They determine what metadata fields are required, what operations are possible, and how the asset integrates with other Amazon Web Services services. Asset types can range from built-in types like Amazon S3 buckets and Amazon Web Services Glue tables to custom types defined for specific organizational needs. Understanding asset types is crucial for ...
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which the asset type exists. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Identifier">The ID of the asset type. Constraints: o min: 1 o max: 513 o pattern: (?!\.)[\w\.]*\w</param>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which the asset type exists. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The ID of the asset type. Constraints: • min: 1 • max: 513 • pattern: (?!\.)[\w\.]*\w</param>
     public AwsDatazoneGetAssetTypeOptions(
         string DomainIdentifier,
         string Identifier
@@ -60,19 +62,19 @@ public record AwsDatazoneGetAssetTypeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon DataZone domain in which the asset type exists. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the Amazon DataZone domain in which the asset type exists. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the asset type. Constraints: o min: 1 o max: 513 o pattern: (?!\.)[\w\.]*\w
+    /// The ID of the asset type. Constraints: • min: 1 • max: 513 • pattern: (?!\.)[\w\.]*\w
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The revision of the asset type. Constraints: o min: 1 o max: 64
+    /// The revision of the asset type. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--revision")]
     public string? Revision { get; set; }

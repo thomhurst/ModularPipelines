@@ -29,7 +29,7 @@ public record AwsDmsDescribeFleetAdvisorLsaAnalysisOptions : AwsOptions
     public int? MaxRecords { get; set; }
 
     /// <summary>
-    /// If NextToken is returned by a previous response, there are more re- sults available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to re- trieve the next page. Keep all other arguments unchanged.
+    /// If NextToken is returned by a previous response, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

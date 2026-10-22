@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,10 +31,10 @@ public record AwsDatazoneBatchPutAttributesMetadataOptions : AwsOptions, IValida
     /// <summary>
     /// Writes the attribute metadata. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The domain ID where you want to write the attribute metadata. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="EntityType">The entity type for which you want to write the attribute metadata. Possible values: o ASSET o LISTING</param>
-    /// <param name="EntityIdentifier">The entity ID for which you want to write the attribute metadata. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Attributes">The attributes of the metadata. Constraints: o min: 0 o max: 5 (structure) The attribute input. attributeIdentifier -&gt; (string) [required] The ID of the attribute. Constraints: o min: 1 o max: 256 forms -&gt; (list) [required] The metadata forms as part of the attribute input. Constraints: o min: 0 o max: 10 (structure) The details of a metadata form. formName -&gt; (string) [required] The name of the metadata form. Constraints: o min: 1 o max: 128 o pattern: (?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w* typeIdentifier -&gt; (string) The ID of the metadata form type. Constraints: o min: 1 o max: 385 o pattern: (?!\.)[\w\.]*\w typeRevision -&gt; (string) The revision of the metadata form type. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ content -&gt; (string) The content of the metadata form. Constraints: o min: 0 o max: 300000 Shorthand Syntax: attributeIdentifier=string,forms=[{formName=string,typeIdentifier=string,typeRevision=string,content=string},{formName=string,typeIdentifier=string,typeRevision=string,content=string}] ... JSON Syntax: [ { "attributeIdentifier": "string", "forms": [ { "formName": "string", "typeIdentifier": "string", "typeRevision": "string", "content": "string" } ... ] } ... ]</param>
+    /// <param name="DomainIdentifier">The domain ID where you want to write the attribute metadata. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EntityType">The entity type for which you want to write the attribute metadata. Possible values: • ASSET • LISTING</param>
+    /// <param name="EntityIdentifier">The entity ID for which you want to write the attribute metadata. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Attributes">The attributes of the metadata. Constraints: • min: 0 • max: 5 (structure) The attribute input. attributeIdentifier -&gt; (string) [required] The ID of the attribute. Constraints: • min: 1 • max: 256 forms -&gt; (list) [required] The metadata forms as part of the attribute input. Constraints: • min: 0 • max: 10 (structure) The details of a metadata form. formName -&gt; (string) [required] The name of the metadata form. Constraints: • min: 1 • max: 128 • pattern: (?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w* typeIdentifier -&gt; (string) The ID of the metadata form type. Constraints: • min: 1 • max: 385 • pattern: (?!\.)[\w\.]*\w typeRevision -&gt; (string) The revision of the metadata form type. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+ content -&gt; (string) The content of the metadata form. Constraints: • min: 0 • max: 300000 Shorthand Syntax: attributeIdentifier=string,forms=[{formName=string,typeIdentifier=string,typeRevision=string,content=string},{formName=string,typeIdentifier=string,typeRevision=string,content=string}] ... JSON Syntax: [ { "attributeIdentifier": "string", "forms": [ { "formName": "string", "typeIdentifier": "string", "typeRevision": "string", "content": "string" } ... ] } ... ]</param>
     public AwsDatazoneBatchPutAttributesMetadataOptions(
         string DomainIdentifier,
         AwsDatazoneBatchPutAttributesMetadataEntityType EntityType,
@@ -80,31 +82,31 @@ public record AwsDatazoneBatchPutAttributesMetadataOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The domain ID where you want to write the attribute metadata. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The domain ID where you want to write the attribute metadata. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The entity type for which you want to write the attribute metadata. Possible values: o ASSET o LISTING
+    /// The entity type for which you want to write the attribute metadata. Possible values: • ASSET • LISTING
     /// </summary>
     [CliOption("--entity-type")]
     public AwsDatazoneBatchPutAttributesMetadataEntityType? EntityType { get; private init; }
 
     /// <summary>
-    /// The entity ID for which you want to write the attribute metadata. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The entity ID for which you want to write the attribute metadata. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--entity-identifier")]
     public string? EntityIdentifier { get; private init; }
 
     /// <summary>
-    /// The attributes of the metadata. Constraints: o min: 0 o max: 5 (structure) The attribute input. attributeIdentifier -&gt; (string) [required] The ID of the attribute. Constraints: o min: 1 o max: 256 forms -&gt; (list) [required] The metadata forms as part of the attribute input. Constraints: o min: 0 o max: 10 (structure) The details of a metadata form. formName -&gt; (string) [required] The name of the metadata form. Constraints: o min: 1 o max: 128 o pattern: (?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w* typeIdentifier -&gt; (string) The ID of the metadata form type. Constraints: o min: 1 o max: 385 o pattern: (?!\.)[\w\.]*\w typeRevision -&gt; (string) The revision of the metadata form type. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ content -&gt; (string) The content of the metadata form. Constraints: o min: 0 o max: 300000 Shorthand Syntax: attributeIdentifier=string,forms=[{formName=string,typeIdentifier=string,typeRevision=string,content=string},{formName=string,typeIdentifier=string,typeRevision=string,content=string}] ... JSON Syntax: [ { "attributeIdentifier": "string", "forms": [ { "formName": "string", "typeIdentifier": "string", "typeRevision": "string", "content": "string" } ... ] } ... ]
+    /// The attributes of the metadata. Constraints: • min: 0 • max: 5 (structure) The attribute input. attributeIdentifier -&gt; (string) [required] The ID of the attribute. Constraints: • min: 1 • max: 256 forms -&gt; (list) [required] The metadata forms as part of the attribute input. Constraints: • min: 0 • max: 10 (structure) The details of a metadata form. formName -&gt; (string) [required] The name of the metadata form. Constraints: • min: 1 • max: 128 • pattern: (?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w* typeIdentifier -&gt; (string) The ID of the metadata form type. Constraints: • min: 1 • max: 385 • pattern: (?!\.)[\w\.]*\w typeRevision -&gt; (string) The revision of the metadata form type. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+ content -&gt; (string) The content of the metadata form. Constraints: • min: 0 • max: 300000 Shorthand Syntax: attributeIdentifier=string,forms=[{formName=string,typeIdentifier=string,typeRevision=string,content=string},{formName=string,typeIdentifier=string,typeRevision=string,content=string}] ... JSON Syntax: [ { "attributeIdentifier": "string", "forms": [ { "formName": "string", "typeIdentifier": "string", "typeRevision": "string", "content": "string" } ... ] } ... ]
     /// </summary>
     [CliOption("--attributes", GroupValues = true)]
     public IEnumerable<string>? Attributes { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure idempotency of the re- quest. This field is automatically populated if not provided. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

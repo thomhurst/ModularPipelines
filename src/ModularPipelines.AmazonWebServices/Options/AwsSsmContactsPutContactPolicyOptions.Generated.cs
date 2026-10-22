@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsSsmContactsPutContactPolicyOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Adds a resource policy to the specified contact or escalation plan. The resource policy is used to share the contact or escalation plan using Resource Access Manager (RAM). For more information about cross-account sharing, see Setting up cross-account functionality . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ContactArn">The Amazon Resource Name (ARN) of the contact or escalation plan. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*</param>
-    /// <param name="Policy">Details of the resource policy. Constraints: o min: 1 o max: 395000 o pattern: .*\S.*</param>
+    /// <param name="ContactArn">The Amazon Resource Name (ARN) of the contact or escalation plan. Constraints: • min: 1 • max: 2048 • pattern: arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*</param>
+    /// <param name="Policy">Details of the resource policy. Constraints: • min: 1 • max: 395000 • pattern: .*\S.*</param>
     public AwsSsmContactsPutContactPolicyOptions(
         string ContactArn,
         string Policy
@@ -60,13 +62,13 @@ public record AwsSsmContactsPutContactPolicyOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the contact or escalation plan. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*
+    /// The Amazon Resource Name (ARN) of the contact or escalation plan. Constraints: • min: 1 • max: 2048 • pattern: arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*
     /// </summary>
     [CliOption("--contact-arn")]
     public string? ContactArn { get; private init; }
 
     /// <summary>
-    /// Details of the resource policy. Constraints: o min: 1 o max: 395000 o pattern: .*\S.*
+    /// Details of the resource policy. Constraints: • min: 1 • max: 395000 • pattern: .*\S.*
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; private init; }

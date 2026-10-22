@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a certificate authority (CA) from your cluster. Deleting a certificate authority removes its public certificate from the cluster's trust bundle. You can't delete the certificate authority that's currently signing certificates for the cluster (its signingSta- tus is IN_USE ) to remove the outgoing CA, first activate the succes- sor CA with ` ActivateCertificateAuthority https://docs.aws.amazon.com/eks/latest/APIReference/API_ActivateCertificateAuthority.html`__ . Amazon EKS also protects ...
+/// Deletes a certificate authority (CA) from your cluster. Deleting a certificate authority removes its public certificate from the cluster's trust bundle. You can't delete the certificate authority that's currently signing certificates for the cluster (its signingStatus is IN_USE ) to remove the outgoing CA, first activate the successor CA with ` ActivateCertificateAuthority https://docs.aws.amazon.com/eks/latest/APIReference/API_ActivateCertificateAuthority.html`__ . Amazon EKS also protects a su...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +28,7 @@ public record AwsEksDeleteCertificateAuthorityOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a certificate authority (CA) from your cluster. Deleting a certificate authority removes its public certificate from the cluster's trust bundle. You can't delete the certificate authority that's currently signing certificates for the cluster (its signingSta- tus is IN_USE ) to remove the outgoing CA, first activate the succes- sor CA with ` ActivateCertificateAuthority https://docs.aws.amazon.com/eks/latest/APIReference/API_ActivateCertificateAuthority.html`__ . Amazon EKS also protects ...
+    /// Deletes a certificate authority (CA) from your cluster. Deleting a certificate authority removes its public certificate from the cluster's trust bundle. You can't delete the certificate authority that's currently signing certificates for the cluster (its signingStatus is IN_USE ) to remove the outgoing CA, first activate the successor CA with ` ActivateCertificateAuthority https://docs.aws.amazon.com/eks/latest/APIReference/API_ActivateCertificateAuthority.html`__ . Amazon EKS also protects a su...
     /// </summary>
     /// <param name="ClusterName">The name of your cluster.</param>
     /// <param name="CertificateAuthorityId">The ID of the certificate authority to delete. You can't delete the certificate authority that's currently signing certificates for the cluster.</param>

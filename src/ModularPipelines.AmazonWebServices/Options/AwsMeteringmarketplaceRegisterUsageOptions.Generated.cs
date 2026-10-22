@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Paid container software products sold through Amazon Web Services Mar- ketplace must integrate with the Amazon Web Services Marketplace Meter- ing Service and call the RegisterUsage operation for software entitle- ment and metering. Free and BYOL products for Amazon ECS or Amazon EKS aren't required to call RegisterUsage , but you may choose to do so if you would like to receive usage data in your seller reports. The sec- tions below explain the behavior of RegisterUsage . RegisterUsage per- for...
+/// Paid container software products sold through Amazon Web Services Marketplace must integrate with the Amazon Web Services Marketplace Metering Service and call the RegisterUsage operation for software entitlement and metering. Free and BYOL products for Amazon ECS or Amazon EKS aren't required to call RegisterUsage , but you may choose to do so if you would like to receive usage data in your seller reports. The sections below explain the behavior of RegisterUsage . RegisterUsage performs two pri...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsMeteringmarketplaceRegisterUsageOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Paid container software products sold through Amazon Web Services Mar- ketplace must integrate with the Amazon Web Services Marketplace Meter- ing Service and call the RegisterUsage operation for software entitle- ment and metering. Free and BYOL products for Amazon ECS or Amazon EKS aren't required to call RegisterUsage , but you may choose to do so if you would like to receive usage data in your seller reports. The sec- tions below explain the behavior of RegisterUsage . RegisterUsage per- for...
+    /// Paid container software products sold through Amazon Web Services Marketplace must integrate with the Amazon Web Services Marketplace Metering Service and call the RegisterUsage operation for software entitlement and metering. Free and BYOL products for Amazon ECS or Amazon EKS aren't required to call RegisterUsage , but you may choose to do so if you would like to receive usage data in your seller reports. The sections below explain the behavior of RegisterUsage . RegisterUsage performs two pri...
     /// </summary>
-    /// <param name="ProductCode">Product code is used to uniquely identify a product in Amazon Web Services Marketplace. The product code should be the same as the one used during the publishing of a new product. Constraints: o min: 0 o max: 255 o pattern: ^[-a-zA-Z0-9/=:_.@]*$</param>
-    /// <param name="PublicKeyVersion">Public Key Version provided by Amazon Web Services Marketplace Constraints: o min: 1</param>
+    /// <param name="ProductCode">Product code is used to uniquely identify a product in Amazon Web Services Marketplace. The product code should be the same as the one used during the publishing of a new product. Constraints: • min: 0 • max: 255 • pattern: ^[-a-zA-Z0-9/=:_.@]*$</param>
+    /// <param name="PublicKeyVersion">Public Key Version provided by Amazon Web Services Marketplace Constraints: • min: 1</param>
     public AwsMeteringmarketplaceRegisterUsageOptions(
         string ProductCode,
         int PublicKeyVersion
@@ -59,19 +61,19 @@ public record AwsMeteringmarketplaceRegisterUsageOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Product code is used to uniquely identify a product in Amazon Web Services Marketplace. The product code should be the same as the one used during the publishing of a new product. Constraints: o min: 0 o max: 255 o pattern: ^[-a-zA-Z0-9/=:_.@]*$
+    /// Product code is used to uniquely identify a product in Amazon Web Services Marketplace. The product code should be the same as the one used during the publishing of a new product. Constraints: • min: 0 • max: 255 • pattern: ^[-a-zA-Z0-9/=:_.@]*$
     /// </summary>
     [CliOption("--product-code")]
     public string? ProductCode { get; private init; }
 
     /// <summary>
-    /// Public Key Version provided by Amazon Web Services Marketplace Constraints: o min: 1
+    /// Public Key Version provided by Amazon Web Services Marketplace Constraints: • min: 1
     /// </summary>
     [CliOption("--public-key-version")]
     public int? PublicKeyVersion { get; private init; }
 
     /// <summary>
-    /// (Optional) To scope down the registration to a specific running software instance and guard against replay attacks. Constraints: o max: 255 o pattern: [\s\S]*
+    /// (Optional) To scope down the registration to a specific running software instance and guard against replay attacks. Constraints: • max: 255 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--nonce")]
     public string? Nonce { get; set; }

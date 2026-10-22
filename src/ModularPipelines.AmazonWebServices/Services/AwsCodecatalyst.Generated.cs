@@ -32,7 +32,7 @@ public class AwsCodecatalyst : IAwsCodecatalyst
     #region Commands
 
     /// <summary>
-    /// Creates a personal access token (PAT) for the current user. A personal access token (PAT) is similar to a password. It is associated with your user identity for use across all spaces and projects in Amazon CodeCat- alyst. You use PATs to access CodeCatalyst from resources that include integrated development environments (IDEs) and Git-based source reposi- tories. PATs represent you in Amazon CodeCatalyst and you can manage them in your user settings.For more information, see Managing personal ac...
+    /// Creates a personal access token (PAT) for the current user. A personal access token (PAT) is similar to a password. It is associated with your user identity for use across all spaces and projects in Amazon CodeCatalyst. You use PATs to access CodeCatalyst from resources that include integrated development environments (IDEs) and Git-based source repositories. PATs represent you in Amazon CodeCatalyst and you can manage them in your user settings.For more information, see Managing personal access...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsCodecatalyst : IAwsCodecatalyst
     }
 
     /// <summary>
-    /// Creates a Dev Environment in Amazon CodeCatalyst, a cloud-based devel- opment environment that you can use to quickly work on the code stored in the source repositories of your project. NOTE: When created in the Amazon CodeCatalyst console, by default a Dev Environment is configured to have a 2 core processor, 4GB of RAM, and 16GB of persistent storage. None of these defaults apply to a Dev Environment created programmatically. See also: AWS API Documentation
+    /// Creates a Dev Environment in Amazon CodeCatalyst, a cloud-based development environment that you can use to quickly work on the code stored in the source repositories of your project. NOTE: When created in the Amazon CodeCatalyst console, by default a Dev Environment is configured to have a 2 core processor, 4GB of RAM, and 16GB of persistent storage. None of these defaults apply to a Dev Environment created programmatically. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsCodecatalyst : IAwsCodecatalyst
     }
 
     /// <summary>
-    /// Creates a branch in a specified source repository in Amazon CodeCata- lyst. NOTE: This API only creates a branch in a source repository hosted in Ama- zon CodeCatalyst. You cannot use this API to create a branch in a linked repository. See also: AWS API Documentation
+    /// Creates a branch in a specified source repository in Amazon CodeCatalyst. NOTE: This API only creates a branch in a source repository hosted in Amazon CodeCatalyst. You cannot use this API to create a branch in a linked repository. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsCodecatalyst : IAwsCodecatalyst
     }
 
     /// <summary>
-    /// Deletes a specified personal access token (PAT). A personal access to- ken can only be deleted by the user who created it. See also: AWS API Documentation
+    /// Deletes a specified personal access token (PAT). A personal access token can only be deleted by the user who created it. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsCodecatalyst : IAwsCodecatalyst
     }
 
     /// <summary>
-    /// Deletes a source repository in Amazon CodeCatalyst. You cannot use this API to delete a linked repository. It can only be used to delete a Ama- zon CodeCatalyst source repository. See also: AWS API Documentation
+    /// Deletes a source repository in Amazon CodeCatalyst. You cannot use this API to delete a linked repository. It can only be used to delete a Amazon CodeCatalyst source repository. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsCodecatalyst : IAwsCodecatalyst
     }
 
     /// <summary>
-    /// Retrieves a list of active sessions for a Dev Environment in a project. See also: AWS API Documentation list-dev-environment-sessions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Retrieves a list of active sessions for a Dev Environment in a project. See also: AWS API Documentation list-dev-environment-sessions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsCodecatalyst : IAwsCodecatalyst
     }
 
     /// <summary>
-    /// Retrieves a list of events that occurred during a specific time in a space. You can use these events to audit user and system activity in a space. For more information, see Monitoring in the Amazon CodeCatalyst User Guide . NOTE: ListEventLogs guarantees events for the last 30 days in a given space. You can also view and retrieve a list of management events over the last 90 days for Amazon CodeCatalyst in the CloudTrail con- sole by viewing Event history, or by creating a trail to create and mai...
+    /// Retrieves a list of events that occurred during a specific time in a space. You can use these events to audit user and system activity in a space. For more information, see Monitoring in the Amazon CodeCatalyst User Guide . NOTE: ListEventLogs guarantees events for the last 30 days in a given space. You can also view and retrieve a list of management events over the last 90 days for Amazon CodeCatalyst in the CloudTrail console by viewing Event history, or by creating a trail to create and maint...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsCodecatalyst : IAwsCodecatalyst
     }
 
     /// <summary>
-    /// Retrieves a list of projects. See also: AWS API Documentation list-projects is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Retrieves a list of projects. See also: AWS API Documentation list-projects is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsCodecatalyst : IAwsCodecatalyst
     }
 
     /// <summary>
-    /// Retrieves a list of source repositories in a project. See also: AWS API Documentation list-source-repositories is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
+    /// Retrieves a list of source repositories in a project. See also: AWS API Documentation list-source-repositories is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsCodecatalyst : IAwsCodecatalyst
     }
 
     /// <summary>
-    /// Retrieves a list of branches in a specified source repository. See also: AWS API Documentation list-source-repository-branches is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Retrieves a list of branches in a specified source repository. See also: AWS API Documentation list-source-repository-branches is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsCodecatalyst : IAwsCodecatalyst
     }
 
     /// <summary>
-    /// Retrieves a list of spaces. See also: AWS API Documentation list-spaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: items
+    /// Retrieves a list of spaces. See also: AWS API Documentation list-spaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsCodecatalyst : IAwsCodecatalyst
     }
 
     /// <summary>
-    /// Retrieves a list of workflows in a specified project. See also: AWS API Documentation list-workflows is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Retrieves a list of workflows in a specified project. See also: AWS API Documentation list-workflows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsCodecatalyst : IAwsCodecatalyst
     }
 
     /// <summary>
-    /// Changes one or more values for a Dev Environment. Updating certain val- ues of the Dev Environment will cause a restart. See also: AWS API Documentation
+    /// Changes one or more values for a Dev Environment. Updating certain values of the Dev Environment will cause a restart. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

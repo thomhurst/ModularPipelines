@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCodebuildDeleteReportOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a report. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The ARN of the report to delete. Constraints: o min: 1</param>
+    /// <param name="Arn">The ARN of the report to delete. Constraints: • min: 1</param>
     public AwsCodebuildDeleteReportOptions(
         string Arn
     )
@@ -56,7 +58,7 @@ public record AwsCodebuildDeleteReportOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the report to delete. Constraints: o min: 1
+    /// The ARN of the report to delete. Constraints: • min: 1
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }

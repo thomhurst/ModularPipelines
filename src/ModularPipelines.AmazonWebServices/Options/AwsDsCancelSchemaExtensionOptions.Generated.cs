@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Cancels an in-progress schema extension to a Microsoft AD directory. Once a schema extension has started replicating to all domain con- trollers, the task can no longer be canceled. A schema extension can be canceled during any of the following states; Initializing , Creat- ingSnapshot , and UpdatingSchema . See also: AWS API Documentation
+/// Cancels an in-progress schema extension to a Microsoft AD directory. Once a schema extension has started replicating to all domain controllers, the task can no longer be canceled. A schema extension can be canceled during any of the following states; Initializing , CreatingSnapshot , and UpdatingSchema . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsDsCancelSchemaExtensionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Cancels an in-progress schema extension to a Microsoft AD directory. Once a schema extension has started replicating to all domain con- trollers, the task can no longer be canceled. A schema extension can be canceled during any of the following states; Initializing , Creat- ingSnapshot , and UpdatingSchema . See also: AWS API Documentation
+    /// Cancels an in-progress schema extension to a Microsoft AD directory. Once a schema extension has started replicating to all domain controllers, the task can no longer be canceled. A schema extension can be canceled during any of the following states; Initializing , CreatingSnapshot , and UpdatingSchema . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The identifier of the directory whose schema extension will be can- celed. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
-    /// <param name="SchemaExtensionId">The identifier of the schema extension that will be canceled. Constraints: o pattern: ^e-[0-9a-f]{10}$</param>
+    /// <param name="DirectoryId">The identifier of the directory whose schema extension will be canceled. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="SchemaExtensionId">The identifier of the schema extension that will be canceled. Constraints: • pattern: ^e-[0-9a-f]{10}$</param>
     public AwsDsCancelSchemaExtensionOptions(
         string DirectoryId,
         string SchemaExtensionId
@@ -60,13 +62,13 @@ public record AwsDsCancelSchemaExtensionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the directory whose schema extension will be can- celed. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The identifier of the directory whose schema extension will be canceled. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// The identifier of the schema extension that will be canceled. Constraints: o pattern: ^e-[0-9a-f]{10}$
+    /// The identifier of the schema extension that will be canceled. Constraints: • pattern: ^e-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--schema-extension-id")]
     public string? SchemaExtensionId { get; private init; }

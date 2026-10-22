@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsS3filesPutFileSystemPolicyOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Creates or replaces the IAM resource policy for an S3 File System to control access permissions. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FileSystemId">The ID or Amazon Resource Name (ARN) of the S3 File System to apply the resource policy to. Constraints: o min: 0 o max: 128 o pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{17,40}|fs-[0-9a-f]{17,40})</param>
+    /// <param name="FileSystemId">The ID or Amazon Resource Name (ARN) of the S3 File System to apply the resource policy to. Constraints: • min: 0 • max: 128 • pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-system/fs-[0-9a-f]{17,40}|fs-[0-9a-f]{17,40})</param>
     /// <param name="Policy">The JSON-formatted resource policy to apply to the file system. The policy defines the permissions for accessing the file system. The policy must be a valid JSON document that follows IAM policy syntax.</param>
     public AwsS3filesPutFileSystemPolicyOptions(
         string FileSystemId,
@@ -60,7 +62,7 @@ public record AwsS3filesPutFileSystemPolicyOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or Amazon Resource Name (ARN) of the S3 File System to apply the resource policy to. Constraints: o min: 0 o max: 128 o pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{17,40}|fs-[0-9a-f]{17,40})
+    /// The ID or Amazon Resource Name (ARN) of the S3 File System to apply the resource policy to. Constraints: • min: 0 • max: 128 • pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-system/fs-[0-9a-f]{17,40}|fs-[0-9a-f]{17,40})
     /// </summary>
     [CliOption("--file-system-id")]
     public string? FileSystemId { get; private init; }

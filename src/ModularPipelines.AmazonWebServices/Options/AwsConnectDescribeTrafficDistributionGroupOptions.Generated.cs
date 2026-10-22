@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsConnectDescribeTrafficDistributionGroupOptions : AwsOptions, IV
     /// <summary>
     /// Gets details and status of a traffic distribution group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TrafficDistributionGroupId">The identifier of the traffic distribution group. This can be the ID or the ARN if the API is being called in the Region where the traf- fic distribution group was created. The ARN must be provided if the call is from the replicated Region. Constraints: o pattern: ^(arn:(aws|aws-us-gov):con- nect:[a-z]{2}-[a-z-]+-[0-9]{1}:[0-9]{1,20}:traffic-distribu- tion-group/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="TrafficDistributionGroupId">The identifier of the traffic distribution group. This can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created. The ARN must be provided if the call is from the replicated Region. Constraints: • pattern: ^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z-]+-[0-9]{1}:[0-9]{1,20}:traffic-distribution-group/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
     public AwsConnectDescribeTrafficDistributionGroupOptions(
         string TrafficDistributionGroupId
     )
@@ -56,7 +58,7 @@ public record AwsConnectDescribeTrafficDistributionGroupOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the traffic distribution group. This can be the ID or the ARN if the API is being called in the Region where the traf- fic distribution group was created. The ARN must be provided if the call is from the replicated Region. Constraints: o pattern: ^(arn:(aws|aws-us-gov):con- nect:[a-z]{2}-[a-z-]+-[0-9]{1}:[0-9]{1,20}:traffic-distribu- tion-group/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The identifier of the traffic distribution group. This can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created. The ARN must be provided if the call is from the replicated Region. Constraints: • pattern: ^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z-]+-[0-9]{1}:[0-9]{1,20}:traffic-distribution-group/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--traffic-distribution-group-id")]
     public string? TrafficDistributionGroupId { get; private init; }

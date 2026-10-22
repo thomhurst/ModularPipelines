@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsConnectCreateContactFlowModuleVersionOptions : AwsOptions, IVal
     /// <summary>
     /// Creates an immutable snapshot of a contact flow module, preserving its content and settings at a specific point in time for version control and rollback capabilities. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     /// <param name="ContactFlowModuleId">The identifier of the flow module.</param>
     public AwsConnectCreateContactFlowModuleVersionOptions(
         string InstanceId,
@@ -60,7 +62,7 @@ public record AwsConnectCreateContactFlowModuleVersionOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
@@ -72,13 +74,13 @@ public record AwsConnectCreateContactFlowModuleVersionOptions : AwsOptions, IVal
     public string? ContactFlowModuleId { get; private init; }
 
     /// <summary>
-    /// The description of the flow module version. Constraints: o min: 0 o max: 500 o pattern: .*\S.*
+    /// The description of the flow module version. Constraints: • min: 0 • max: 500 • pattern: .*\S.*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Indicates the checksum value of the flow module content. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9]{64}$
+    /// Indicates the checksum value of the flow module content. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9]{64}$
     /// </summary>
     [CliOption("--flow-module-content-sha256")]
     public string? FlowModuleContentSha256 { get; set; }

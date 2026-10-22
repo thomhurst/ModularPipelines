@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a run batch resource and its associated metadata. This opera- tion does not delete the individual workflow runs. To delete the runs, call DeleteRunBatch before calling DeleteBatch . DeleteBatch requires the batch to be in a terminal state: PROCESSED , FAILED , CANCELLED , RUNS_DELETE_FAILED , or RUNS_DELETED . After DeleteBatch completes, the batch metadata is no longer accessible. You cannot call GetBatch , ListRunsInBatch , DeleteRunBatch , or CancelRunBatch on a deleted batch. See als...
+/// Deletes a run batch resource and its associated metadata. This operation does not delete the individual workflow runs. To delete the runs, call DeleteRunBatch before calling DeleteBatch . DeleteBatch requires the batch to be in a terminal state: PROCESSED , FAILED , CANCELLED , RUNS_DELETE_FAILED , or RUNS_DELETED . After DeleteBatch completes, the batch metadata is no longer accessible. You cannot call GetBatch , ListRunsInBatch , DeleteRunBatch , or CancelRunBatch on a deleted batch. See also:...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsOmicsDeleteBatchOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a run batch resource and its associated metadata. This opera- tion does not delete the individual workflow runs. To delete the runs, call DeleteRunBatch before calling DeleteBatch . DeleteBatch requires the batch to be in a terminal state: PROCESSED , FAILED , CANCELLED , RUNS_DELETE_FAILED , or RUNS_DELETED . After DeleteBatch completes, the batch metadata is no longer accessible. You cannot call GetBatch , ListRunsInBatch , DeleteRunBatch , or CancelRunBatch on a deleted batch. See als...
+    /// Deletes a run batch resource and its associated metadata. This operation does not delete the individual workflow runs. To delete the runs, call DeleteRunBatch before calling DeleteBatch . DeleteBatch requires the batch to be in a terminal state: PROCESSED , FAILED , CANCELLED , RUNS_DELETE_FAILED , or RUNS_DELETED . After DeleteBatch completes, the batch metadata is no longer accessible. You cannot call GetBatch , ListRunsInBatch , DeleteRunBatch , or CancelRunBatch on a deleted batch. See also:...
     /// </summary>
-    /// <param name="BatchId">The identifier portion of the run batch ARN. Constraints: o min: 1 o max: 18 o pattern: [0-9]+</param>
+    /// <param name="BatchId">The identifier portion of the run batch ARN. Constraints: • min: 1 • max: 18 • pattern: [0-9]+</param>
     public AwsOmicsDeleteBatchOptions(
         string BatchId
     )
@@ -56,7 +58,7 @@ public record AwsOmicsDeleteBatchOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier portion of the run batch ARN. Constraints: o min: 1 o max: 18 o pattern: [0-9]+
+    /// The identifier portion of the run batch ARN. Constraints: • min: 1 • max: 18 • pattern: [0-9]+
     /// </summary>
     [CliOption("--batch-id")]
     public string? BatchId { get; private init; }

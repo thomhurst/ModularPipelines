@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsSupportauthzUntagResourceOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Removes one or more tags from a support permit resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource to untag. Constraints: o min: 1 o max: 512 o pattern: arn:[a-z0-9-]+:[a-z0-9-]+:[a-z0-9-]*:[0-9]{12}:.+</param>
-    /// <param name="TagKeys">The tag keys to remove from the resource. (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The ARN of the resource to untag. Constraints: • min: 1 • max: 512 • pattern: arn:[a-z0-9-]+:[a-z0-9-]+:[a-z0-9-]*:[0-9]{12}:.+</param>
+    /// <param name="TagKeys">The tag keys to remove from the resource. (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
     public AwsSupportauthzUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsSupportauthzUntagResourceOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource to untag. Constraints: o min: 1 o max: 512 o pattern: arn:[a-z0-9-]+:[a-z0-9-]+:[a-z0-9-]*:[0-9]{12}:.+
+    /// The ARN of the resource to untag. Constraints: • min: 1 • max: 512 • pattern: arn:[a-z0-9-]+:[a-z0-9-]+:[a-z0-9-]*:[0-9]{12}:.+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The tag keys to remove from the resource. (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// The tag keys to remove from the resource. (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsPartnercentralRevenueMeasurementGetRevenueAttributionOptions : 
     /// <summary>
     /// Retrieves the details of a specific revenue attribution. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">The catalog that the revenue attribution belongs to. Possible values: o AWS o Sandbox</param>
-    /// <param name="Identifier">The unique identifier of the revenue attribution to retrieve. Ac- cepts a direct ID or ARN. Constraints: o min: 16 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/revenue-attribution/ra-[a-z0-9]{13}|ra-[a-z0-9]{13})</param>
+    /// <param name="Catalog">The catalog that the revenue attribution belongs to. Possible values: • AWS • Sandbox</param>
+    /// <param name="Identifier">The unique identifier of the revenue attribution to retrieve. Accepts a direct ID or ARN. Constraints: • min: 16 • max: 1011 • pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/revenue-attribution/ra-[a-z0-9]{13}|ra-[a-z0-9]{13})</param>
     public AwsPartnercentralRevenueMeasurementGetRevenueAttributionOptions(
         AwsPartnercentralRevenueMeasurementGetRevenueAttributionCatalog Catalog,
         string Identifier
@@ -60,19 +62,19 @@ public record AwsPartnercentralRevenueMeasurementGetRevenueAttributionOptions : 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog that the revenue attribution belongs to. Possible values: o AWS o Sandbox
+    /// The catalog that the revenue attribution belongs to. Possible values: • AWS • Sandbox
     /// </summary>
     [CliOption("--catalog")]
     public AwsPartnercentralRevenueMeasurementGetRevenueAttributionCatalog? Catalog { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the revenue attribution to retrieve. Ac- cepts a direct ID or ARN. Constraints: o min: 16 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/revenue-attribution/ra-[a-z0-9]{13}|ra-[a-z0-9]{13})
+    /// The unique identifier of the revenue attribution to retrieve. Accepts a direct ID or ARN. Constraints: • min: 16 • max: 1011 • pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/revenue-attribution/ra-[a-z0-9]{13}|ra-[a-z0-9]{13})
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The revision of the attribution to retrieve. Omit to return the lat- est revision. Constraints: o min: 1 o max: 19 o pattern: [1-9][0-9]*
+    /// The revision of the attribution to retrieve. Omit to return the latest revision. Constraints: • min: 1 • max: 19 • pattern: [1-9][0-9]*
     /// </summary>
     [CliOption("--revision")]
     public string? Revision { get; set; }

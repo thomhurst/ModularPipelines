@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +30,9 @@ public record AwsAmplifyStartJobOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Starts a new job for a branch of an Amplify app. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppId">The unique ID for an Amplify app. Constraints: o min: 1 o max: 20 o pattern: d[a-z0-9]+</param>
-    /// <param name="BranchName">The name of the branch to use for the job. Constraints: o min: 1 o max: 255 o pattern: (?s).+</param>
-    /// <param name="JobType">Describes the type for the job. The job type RELEASE starts a new job with the latest change from the specified branch. This value is available only for apps that are connected to a repository. The job type RETRY retries an existing job. If the job type value is RETRY , the jobId is also required. Possible values: o RELEASE o RETRY o MANUAL o WEB_HOOK Constraints: o max: 10</param>
+    /// <param name="AppId">The unique ID for an Amplify app. Constraints: • min: 1 • max: 20 • pattern: d[a-z0-9]+</param>
+    /// <param name="BranchName">The name of the branch to use for the job. Constraints: • min: 1 • max: 255 • pattern: (?s).+</param>
+    /// <param name="JobType">Describes the type for the job. The job type RELEASE starts a new job with the latest change from the specified branch. This value is available only for apps that are connected to a repository. The job type RETRY retries an existing job. If the job type value is RETRY , the jobId is also required. Possible values: • RELEASE • RETRY • MANUAL • WEB_HOOK Constraints: • max: 10</param>
     public AwsAmplifyStartJobOptions(
         string AppId,
         string BranchName,
@@ -64,43 +66,43 @@ public record AwsAmplifyStartJobOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID for an Amplify app. Constraints: o min: 1 o max: 20 o pattern: d[a-z0-9]+
+    /// The unique ID for an Amplify app. Constraints: • min: 1 • max: 20 • pattern: d[a-z0-9]+
     /// </summary>
     [CliOption("--app-id")]
     public string? AppId { get; private init; }
 
     /// <summary>
-    /// The name of the branch to use for the job. Constraints: o min: 1 o max: 255 o pattern: (?s).+
+    /// The name of the branch to use for the job. Constraints: • min: 1 • max: 255 • pattern: (?s).+
     /// </summary>
     [CliOption("--branch-name")]
     public string? BranchName { get; private init; }
 
     /// <summary>
-    /// Describes the type for the job. The job type RELEASE starts a new job with the latest change from the specified branch. This value is available only for apps that are connected to a repository. The job type RETRY retries an existing job. If the job type value is RETRY , the jobId is also required. Possible values: o RELEASE o RETRY o MANUAL o WEB_HOOK Constraints: o max: 10
+    /// Describes the type for the job. The job type RELEASE starts a new job with the latest change from the specified branch. This value is available only for apps that are connected to a repository. The job type RETRY retries an existing job. If the job type value is RETRY , the jobId is also required. Possible values: • RELEASE • RETRY • MANUAL • WEB_HOOK Constraints: • max: 10
     /// </summary>
     [CliOption("--job-type")]
     public AwsAmplifyStartJobJobType? JobType { get; private init; }
 
     /// <summary>
-    /// The unique ID for an existing job. This is required if the value of jobType is RETRY . Constraints: o max: 255 o pattern: [0-9]+
+    /// The unique ID for an existing job. This is required if the value of jobType is RETRY . Constraints: • max: 255 • pattern: [0-9]+
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; set; }
 
     /// <summary>
-    /// A descriptive reason for starting the job. Constraints: o max: 255 o pattern: (?s).*
+    /// A descriptive reason for starting the job. Constraints: • max: 255 • pattern: (?s).*
     /// </summary>
     [CliOption("--job-reason")]
     public string? JobReason { get; set; }
 
     /// <summary>
-    /// The commit ID from a third-party repository provider for the job. Constraints: o max: 255 o pattern: (?s).*
+    /// The commit ID from a third-party repository provider for the job. Constraints: • max: 255 • pattern: (?s).*
     /// </summary>
     [CliOption("--commit-id")]
     public string? CommitId { get; set; }
 
     /// <summary>
-    /// The commit message from a third-party repository provider for the job. Constraints: o max: 10000 o pattern: (?s).*
+    /// The commit message from a third-party repository provider for the job. Constraints: • max: 10000 • pattern: (?s).*
     /// </summary>
     [CliOption("--commit-message")]
     public string? CommitMessage { get; set; }

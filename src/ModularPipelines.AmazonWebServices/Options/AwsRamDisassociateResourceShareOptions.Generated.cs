@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -63,19 +65,19 @@ public record AwsRamDisassociateResourceShareOptions : AwsOptions, IValidatableO
     public string? ResourceShareArn { get; private init; }
 
     /// <summary>
-    /// Specifies a list of Amazon Resource Names (ARNs) for one or more re- sources that you want to remove from the resource share. After the operation runs, these resources are no longer shared with principals associated with the resource share. (string) Syntax: "string" "string" ...
+    /// Specifies a list of Amazon Resource Names (ARNs) for one or more resources that you want to remove from the resource share. After the operation runs, these resources are no longer shared with principals associated with the resource share. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resource-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceArns { get; set; }
 
     /// <summary>
-    /// Specifies a list of one or more principals that no longer are to have access to the resources in this resource share. You can include the following values: o An Amazon Web Services account ID, for example: 123456789012 o An Amazon Resource Name (ARN) of an organization in Organizations, for example: organizations::123456789012:organization/o-example- orgid o An ARN of an organizational unit (OU) in Organizations, for exam- ple: organizations::123456789012:ou/o-exampleorgid/ou-example- rootid-exampleouid123 o An ARN of an IAM role, for example: iam::123456789012:role/role- name o An ARN of an IAM user, for example: iam::123456789012user/username o A service principal name, for example: service-id.amazonaws.com NOTE: Not all resource types can be shared with IAM roles and users. For more information, see Sharing with IAM roles and users in the Resource Access Manager User Guide . (string) Syntax: "string" "string" ...
+    /// Specifies a list of one or more principals that no longer are to have access to the resources in this resource share. You can include the following values: • An Amazon Web Services account ID, for example: 123456789012 • An Amazon Resource Name (ARN) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid • An ARN of an organizational unit (OU) in Organizations, for example: organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123 • An ARN of an IAM role, for example: iam::123456789012:role/rolename • An ARN of an IAM user, for example: iam::123456789012user/username • A service principal name, for example: service-id.amazonaws.com NOTE: Not all resource types can be shared with IAM roles and users. For more information, see Sharing with IAM roles and users in the Resource Access Manager User Guide . (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--principals", GroupValues = true)]
     public IEnumerable<string>? Principals { get; set; }
 
     /// <summary>
-    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error.
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

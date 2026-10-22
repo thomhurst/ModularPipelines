@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +30,9 @@ public record AwsIotsitewiseExecuteActionOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Executes an action on a target resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TargetResource">The resource the action will be taken on. assetId -&gt; (string) The ID of the asset, in UUID format. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ computationModelId -&gt; (string) The ID of the computation model. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ Shorthand Syntax: assetId=string,computationModelId=string JSON Syntax: { "assetId": "string", "computationModelId": "string" }</param>
-    /// <param name="ActionDefinitionId">The ID of the action definition. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
-    /// <param name="ActionPayload">The JSON payload of the action. stringValue -&gt; (string) [required] The payload of the action in a JSON string. Constraints: o pattern: [^\u0000-\u001F\u007F]+ Shorthand Syntax: stringValue=string JSON Syntax: { "stringValue": "string" }</param>
+    /// <param name="TargetResource">The resource the action will be taken on. assetId -&gt; (string) The ID of the asset, in UUID format. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ computationModelId -&gt; (string) The ID of the computation model. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ Shorthand Syntax: assetId=string,computationModelId=string JSON Syntax: { "assetId": "string", "computationModelId": "string" }</param>
+    /// <param name="ActionDefinitionId">The ID of the action definition. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
+    /// <param name="ActionPayload">The JSON payload of the action. stringValue -&gt; (string) [required] The payload of the action in a JSON string. Constraints: • pattern: [^\u0000-\u001F\u007F]+ Shorthand Syntax: stringValue=string JSON Syntax: { "stringValue": "string" }</param>
     public AwsIotsitewiseExecuteActionOptions(
         string TargetResource,
         string ActionDefinitionId,
@@ -65,32 +67,32 @@ public record AwsIotsitewiseExecuteActionOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The resource the action will be taken on. assetId -&gt; (string) The ID of the asset, in UUID format. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ computationModelId -&gt; (string) The ID of the computation model. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ Shorthand Syntax: assetId=string,computationModelId=string JSON Syntax: { "assetId": "string", "computationModelId": "string" }
+    /// The resource the action will be taken on. assetId -&gt; (string) The ID of the asset, in UUID format. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ computationModelId -&gt; (string) The ID of the computation model. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ Shorthand Syntax: assetId=string,computationModelId=string JSON Syntax: { "assetId": "string", "computationModelId": "string" }
     /// </summary>
     [CliOption("--target-resource")]
     public string? TargetResource { get; private init; }
 
     /// <summary>
-    /// The ID of the action definition. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+    /// The ID of the action definition. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--action-definition-id")]
     public string? ActionDefinitionId { get; private init; }
 
     /// <summary>
-    /// The JSON payload of the action. stringValue -&gt; (string) [required] The payload of the action in a JSON string. Constraints: o pattern: [^\u0000-\u001F\u007F]+ Shorthand Syntax: stringValue=string JSON Syntax: { "stringValue": "string" }
+    /// The JSON payload of the action. stringValue -&gt; (string) [required] The payload of the action in a JSON string. Constraints: • pattern: [^\u0000-\u001F\u007F]+ Shorthand Syntax: stringValue=string JSON Syntax: { "stringValue": "string" }
     /// </summary>
     [CliOption("--action-payload")]
     public string? ActionPayload { get; private init; }
 
     /// <summary>
-    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required. Constraints: o min: 36 o max: 64 o pattern: \S{36,64}
+    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required. Constraints: • min: 36 • max: 64 • pattern: \S{36,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The detailed resource this action resolves to. assetId -&gt; (string) [required] The ID of the asset that the resource resolves to. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ Shorthand Syntax: assetId=string JSON Syntax: { "assetId": "string" }
+    /// The detailed resource this action resolves to. assetId -&gt; (string) [required] The ID of the asset that the resource resolves to. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ Shorthand Syntax: assetId=string JSON Syntax: { "assetId": "string" }
     /// </summary>
     [CliOption("--resolve-to")]
     public string? ResolveTo { get; set; }

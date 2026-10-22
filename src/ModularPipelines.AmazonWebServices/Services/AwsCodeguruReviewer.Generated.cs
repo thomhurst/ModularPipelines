@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws codegurureviewer commands.
+/// aws codeguru-reviewer commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsCodeguruReviewer : IAwsCodeguruReviewer
@@ -33,7 +33,7 @@ public class AwsCodeguruReviewer : IAwsCodeguruReviewer
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws codeguru-reviewer wait sub-commands.
     /// </summary>
     public AwsCodeguruReviewerWait Wait => _wait ??= new AwsCodeguruReviewerWait(_command);
 
@@ -42,7 +42,7 @@ public class AwsCodeguruReviewer : IAwsCodeguruReviewer
     #region Commands
 
     /// <summary>
-    /// Use to associate an Amazon Web Services CodeCommit repository or a repository managed by Amazon Web Services CodeStar Connections with Amazon CodeGuru Reviewer. When you associate a repository, CodeGuru Re- viewer reviews source code changes in the repository's pull requests and provides automatic recommendations. You can view recommendations using the CodeGuru Reviewer console. For more information, see Recommendations in Amazon CodeGuru Reviewer in the Amazon CodeGuru Re- viewer User Guide. If...
+    /// Use to associate an Amazon Web Services CodeCommit repository or a repository managed by Amazon Web Services CodeStar Connections with Amazon CodeGuru Reviewer. When you associate a repository, CodeGuru Reviewer reviews source code changes in the repository's pull requests and provides automatic recommendations. You can view recommendations using the CodeGuru Reviewer console. For more information, see Recommendations in Amazon CodeGuru Reviewer in the Amazon CodeGuru Reviewer User Guide. If you...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -117,7 +117,7 @@ public class AwsCodeguruReviewer : IAwsCodeguruReviewer
     }
 
     /// <summary>
-    /// Removes the association between Amazon CodeGuru Reviewer and a reposi- tory. See also: AWS API Documentation
+    /// Removes the association between Amazon CodeGuru Reviewer and a repository. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -177,7 +177,7 @@ public class AwsCodeguruReviewer : IAwsCodeguruReviewer
     }
 
     /// <summary>
-    /// Returns a list of RepositoryAssociationSummary objects that contain summary information about a repository association. You can filter the returned list by ProviderType , Name , State , and Owner . See also: AWS API Documentation list-repository-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a pa...
+    /// Returns a list of RepositoryAssociationSummary objects that contain summary information about a repository association. You can filter the returned list by ProviderType , Name , State , and Owner . See also: AWS API Documentation list-repository-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagina...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -192,7 +192,7 @@ public class AwsCodeguruReviewer : IAwsCodeguruReviewer
     }
 
     /// <summary>
-    /// Returns the list of tags associated with an associated repository re- source. See also: AWS API Documentation
+    /// Returns the list of tags associated with an associated repository resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

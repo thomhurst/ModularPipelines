@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCloudfrontUpdateTrustStoreOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Updates a trust store. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The trust store ID. Constraints: o min: 1 o max: 64</param>
-    /// <param name="IfMatch">The current version (ETag value) of the trust store you are updat- ing.</param>
+    /// <param name="Id">The trust store ID. Constraints: • min: 1 • max: 64</param>
+    /// <param name="IfMatch">The current version (ETag value) of the trust store you are updating.</param>
     public AwsCloudfrontUpdateTrustStoreOptions(
         string Id,
         string IfMatch
@@ -60,25 +62,25 @@ public record AwsCloudfrontUpdateTrustStoreOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The trust store ID. Constraints: o min: 1 o max: 64
+    /// The trust store ID. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The current version (ETag value) of the trust store you are updat- ing.
+    /// The current version (ETag value) of the trust store you are updating.
     /// </summary>
     [CliOption("--if-match")]
     public string? IfMatch { get; private init; }
 
     /// <summary>
-    /// The CA certificates bundle source. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: CaCertificatesBundleS3Location. CaCertificatesBundleS3Location -&gt; (structure) The CA certificates bundle location in Amazon S3. Bucket -&gt; (string) [required] The S3 bucket. Key -&gt; (string) [required] The location's key. Region -&gt; (string) [required] The location's Region. Constraints: o min: 1 o max: 32 o pattern: [a-z]{2}-[a-z]+-\d Version -&gt; (string) The location's version. Shorthand Syntax: CaCertificatesBundleS3Location={Bucket=string,Key=string,Region=string,Version=string} JSON Syntax: { "CaCertificatesBundleS3Location": { "Bucket": "string", "Key": "string", "Region": "string", "Version": "string" } }
+    /// The CA certificates bundle source. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: CaCertificatesBundleS3Location. CaCertificatesBundleS3Location -&gt; (structure) The CA certificates bundle location in Amazon S3. Bucket -&gt; (string) [required] The S3 bucket. Key -&gt; (string) [required] The location's key. Region -&gt; (string) [required] The location's Region. Constraints: • min: 1 • max: 32 • pattern: [a-z]{2}-[a-z]+-\d Version -&gt; (string) The location's version. Shorthand Syntax: CaCertificatesBundleS3Location={Bucket=string,Key=string,Region=string,Version=string} JSON Syntax: { "CaCertificatesBundleS3Location": { "Bucket": "string", "Key": "string", "Region": "string", "Version": "string" } }
     /// </summary>
     [CliOption("--ca-certificates-bundle-source")]
     public string? CaCertificatesBundleSource { get; set; }
 
     /// <summary>
-    /// cate-ocsp-endpoint (boolean) A Boolean that determines whether to use the CA certificate's OCSP endpoint to check certificate revocation status.
+    /// A Boolean that determines whether to use the CA certificate's OCSP endpoint to check certificate revocation status.
     /// </summary>
     [CliFlag("--use-client-certificate-ocsp-endpoint", NegatedName = "--no-use-client-certificate-ocsp-endpoint")]
     public bool? UseClientCertificateOcspEndpoint { get; set; }

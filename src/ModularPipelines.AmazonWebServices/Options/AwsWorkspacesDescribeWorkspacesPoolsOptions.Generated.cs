@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more infor- mation, see Amazon WorkSpaces Pools end of support . Describes the specified WorkSpaces Pools. See also: AWS API Documentation
+/// NOTE: End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see Amazon WorkSpaces Pools end of support . Describes the specified WorkSpaces Pools. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,25 +23,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsWorkspacesDescribeWorkspacesPoolsOptions : AwsOptions
 {
     /// <summary>
-    /// The identifier of the WorkSpaces Pools. Constraints: o min: 1 o max: 25 (string) Constraints: o pattern: ^wspool-[0-9a-z]{9}$ Syntax: "string" "string" ...
+    /// The identifier of the WorkSpaces Pools. Constraints: • min: 1 • max: 25 (string) Constraints: • pattern: ^wspool-[0-9a-z]{9}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--pool-ids", GroupValues = true)]
     public IEnumerable<string>? PoolIds { get; set; }
 
     /// <summary>
-    /// The filter conditions for the WorkSpaces Pool to return. Constraints: o min: 1 o max: 25 (structure) Describes the filter conditions for WorkSpaces Pools to return. Name -&gt; (string) [required] The name of the pool to filter. Possible values: o PoolName Values -&gt; (list) [required] The values for filtering WorkSpaces Pools. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 128 o pattern: ^[A-Za-z0-9][A-Za-z0-9_.-]+$ Operator -&gt; (string) [required] The operator values for filtering WorkSpaces Pools. Possible values: o EQUALS o NOTEQUALS o CONTAINS o NOTCONTAINS Shorthand Syntax: Name=string,Values=string,string,Operator=string ... JSON Syntax: [ { "Name": "PoolName", "Values": ["string", ...], "Operator": "EQUALS"|"NOTEQUALS"|"CONTAINS"|"NOTCONTAINS" } ... ]
+    /// The filter conditions for the WorkSpaces Pool to return. Constraints: • min: 1 • max: 25 (structure) Describes the filter conditions for WorkSpaces Pools to return. Name -&gt; (string) [required] The name of the pool to filter. Possible values: • PoolName Values -&gt; (list) [required] The values for filtering WorkSpaces Pools. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 1 • max: 128 • pattern: ^[A-Za-z0-9][A-Za-z0-9_.-]+$ Operator -&gt; (string) [required] The operator values for filtering WorkSpaces Pools. Possible values: • EQUALS • NOTEQUALS • CONTAINS • NOTCONTAINS Shorthand Syntax: Name=string,Values=string,string,Operator=string ... JSON Syntax: [ { "Name": "PoolName", "Values": ["string", ...], "Operator": "EQUALS"|"NOTEQUALS"|"CONTAINS"|"NOTCONTAINS" } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// The maximum number of items to return. Constraints: o min: 1 o max: 25
+    /// The maximum number of items to return. Constraints: • min: 1 • max: 25
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }
 
     /// <summary>
-    /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results. Constraints: o min: 1 o max: 2048
+    /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results. Constraints: • min: 1 • max: 2048
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

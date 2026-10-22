@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This documentation is for version 1 of the Amazon Kinesis Data Ana- lytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation . Deletes output destination configuration from your application configu- ration. Amazon Kinesis Analytics will no longer write data from the corresponding in-application stream to the external output destination. This operati...
+/// NOTE: This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation . Deletes output destination configuration from your application configuration. Amazon Kinesis Analytics will no longer write data from the corresponding in-application stream to the external output destination. This operation r...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,14 +27,14 @@ public record AwsKinesisanalyticsDeleteApplicationOutputOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This documentation is for version 1 of the Amazon Kinesis Data Ana- lytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation . Deletes output destination configuration from your application configu- ration. Amazon Kinesis Analytics will no longer write data from the corresponding in-application stream to the external output destination. This operati...
+    /// NOTE: This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation . Deletes output destination configuration from your application configuration. Amazon Kinesis Analytics will no longer write data from the corresponding in-application stream to the external output destination. This operation r...
     /// </summary>
-    /// <param name="ApplicationName">Amazon Kinesis Analytics application name. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="CurrentApplicationVersionId">Amazon Kinesis Analytics application version. You can use the DescribeApplication operation to get the current application ver- sion. If the version specified is not the current version, the Con- currentModificationException is returned. Constraints: o min: 1 o max: 999999999</param>
-    /// <param name="OutputId">The ID of the configuration to delete. Each output configuration that is added to the application, either when the application is created or later using the AddApplicationOutput operation, has a unique ID. You need to provide the ID to uniquely identify the out- put configuration that you want to delete from the application con- figuration. You can use the DescribeApplication operation to get the specific OutputId . Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="ApplicationName">Amazon Kinesis Analytics application name. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="CurrentApplicationVersionId">Amazon Kinesis Analytics application version. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned. Constraints: • min: 1 • max: 999999999</param>
+    /// <param name="OutputId">The ID of the configuration to delete. Each output configuration that is added to the application, either when the application is created or later using the AddApplicationOutput operation, has a unique ID. You need to provide the ID to uniquely identify the output configuration that you want to delete from the application configuration. You can use the DescribeApplication operation to get the specific OutputId . Constraints: • min: 1 • max: 50 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsKinesisanalyticsDeleteApplicationOutputOptions(
         string ApplicationName,
-        int CurrentApplicationVersionId,
+        long CurrentApplicationVersionId,
         string OutputId
     )
     {
@@ -63,19 +65,19 @@ public record AwsKinesisanalyticsDeleteApplicationOutputOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Kinesis Analytics application name. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// Amazon Kinesis Analytics application name. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; private init; }
 
     /// <summary>
-    /// Amazon Kinesis Analytics application version. You can use the DescribeApplication operation to get the current application ver- sion. If the version specified is not the current version, the Con- currentModificationException is returned. Constraints: o min: 1 o max: 999999999
+    /// Amazon Kinesis Analytics application version. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned. Constraints: • min: 1 • max: 999999999
     /// </summary>
     [CliOption("--current-application-version-id")]
-    public int? CurrentApplicationVersionId { get; private init; }
+    public long? CurrentApplicationVersionId { get; private init; }
 
     /// <summary>
-    /// The ID of the configuration to delete. Each output configuration that is added to the application, either when the application is created or later using the AddApplicationOutput operation, has a unique ID. You need to provide the ID to uniquely identify the out- put configuration that you want to delete from the application con- figuration. You can use the DescribeApplication operation to get the specific OutputId . Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9_.-]+
+    /// The ID of the configuration to delete. Each output configuration that is added to the application, either when the application is created or later using the AddApplicationOutput operation, has a unique ID. You need to provide the ID to uniquely identify the output configuration that you want to delete from the application configuration. You can use the DescribeApplication operation to get the specific OutputId . Constraints: • min: 1 • max: 50 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--output-id")]
     public string? OutputId { get; private init; }

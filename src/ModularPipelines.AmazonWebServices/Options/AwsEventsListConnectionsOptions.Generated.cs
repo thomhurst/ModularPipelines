@@ -24,26 +24,26 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEventsListConnectionsOptions : AwsOptions
 {
     /// <summary>
-    /// A name prefix to filter results returned. Only connections with a name that starts with the prefix are returned. Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+
+    /// A name prefix to filter results returned. Only connections with a name that starts with the prefix are returned. Constraints: • min: 1 • max: 64 • pattern: [\.\-_A-Za-z0-9]+
     /// </summary>
     [CliOption("--name-prefix")]
     public string? NamePrefix { get; set; }
 
     /// <summary>
-    /// The state of the connection. Possible values: o CREATING o UPDATING o DELETING o AUTHORIZED o DEAUTHORIZED o AUTHORIZING o DEAUTHORIZING o ACTIVE o FAILED_CONNECTIVITY
+    /// The state of the connection. Possible values: • CREATING • UPDATING • DELETING • AUTHORIZED • DEAUTHORIZED • AUTHORIZING • DEAUTHORIZING • ACTIVE • FAILED_CONNECTIVITY
     /// </summary>
     [CliOption("--connection-state")]
     public AwsEventsListConnectionsConnectionState? ConnectionState { get; set; }
 
     /// <summary>
-    /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidTo- ken error. Constraints: o min: 1 o max: 2048
+    /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error. Constraints: • min: 1 • max: 2048
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of connections to return. Constraints: o min: 1 o max: 100
+    /// The maximum number of connections to return. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }

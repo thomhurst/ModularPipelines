@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -17,7 +18,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a custom dictionary for improving transcription accuracy. A dictionary contains custom words and phrases that the ASR engine might not recognize, such as brand names, technical terms, or proper nouns. You can reference a dictionary when configuring a smart subtitles out- put. See also: AWS API Documentation
+/// Creates a custom dictionary for improving transcription accuracy. A dictionary contains custom words and phrases that the ASR engine might not recognize, such as brand names, technical terms, or proper nouns. You can reference a dictionary when configuring a smart subtitles output. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsElementalinferenceCreateDictionaryOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a custom dictionary for improving transcription accuracy. A dictionary contains custom words and phrases that the ASR engine might not recognize, such as brand names, technical terms, or proper nouns. You can reference a dictionary when configuring a smart subtitles out- put. See also: AWS API Documentation
+    /// Creates a custom dictionary for improving transcription accuracy. A dictionary contains custom words and phrases that the ASR engine might not recognize, such as brand names, technical terms, or proper nouns. You can reference a dictionary when configuring a smart subtitles output. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">A user-friendly name for this dictionary. Constraints: o pattern: [a-zA-Z0-9]([a-zA-Z0-9-_]{0,126}[a-zA-Z0-9])?</param>
-    /// <param name="Language">The language of the dictionary entries. Specify the language using an ISO 639-2/T three-letter code. Supported values: eng, fra, ita, deu, spa, por. Possible values: o eng o fra o ita o deu o spa o por</param>
+    /// <param name="Name">A user-friendly name for this dictionary. Constraints: • pattern: [a-zA-Z0-9]([a-zA-Z0-9-_]{0,126}[a-zA-Z0-9])?</param>
+    /// <param name="Language">The language of the dictionary entries. Specify the language using an ISO 639-2/T three-letter code. Supported values: eng, fra, ita, deu, spa, por. Possible values: • eng • fra • ita • deu • spa • por</param>
     public AwsElementalinferenceCreateDictionaryOptions(
         string Name,
         AwsElementalinferenceCreateDictionaryLanguage Language
@@ -61,25 +62,25 @@ public record AwsElementalinferenceCreateDictionaryOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A user-friendly name for this dictionary. Constraints: o pattern: [a-zA-Z0-9]([a-zA-Z0-9-_]{0,126}[a-zA-Z0-9])?
+    /// A user-friendly name for this dictionary. Constraints: • pattern: [a-zA-Z0-9]([a-zA-Z0-9-_]{0,126}[a-zA-Z0-9])?
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The language of the dictionary entries. Specify the language using an ISO 639-2/T three-letter code. Supported values: eng, fra, ita, deu, spa, por. Possible values: o eng o fra o ita o deu o spa o por
+    /// The language of the dictionary entries. Specify the language using an ISO 639-2/T three-letter code. Supported values: eng, fra, ita, deu, spa, por. Possible values: • eng • fra • ita • deu • spa • por
     /// </summary>
     [CliOption("--language")]
     public AwsElementalinferenceCreateDictionaryLanguage? Language { get; private init; }
 
     /// <summary>
-    /// The dictionary entries payload. Contains the custom words and phrases for the dictionary. Maximum size is 40,960 characters. Constraints: o min: 0 o max: 40960
+    /// The dictionary entries payload. Contains the custom words and phrases for the dictionary. Maximum size is 40,960 characters. Constraints: • min: 0 • max: 40960
     /// </summary>
     [CliOption("--entries")]
     public string? Entries { get; set; }
 
     /// <summary>
-    /// Optional tags to associate with the dictionary. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Optional tags to associate with the dictionary. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

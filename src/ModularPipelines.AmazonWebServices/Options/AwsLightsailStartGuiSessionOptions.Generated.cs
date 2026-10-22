@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsLightsailStartGuiSessionOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Initiates a graphical user interface (GUI) session thats used to access a virtual computers operating system and application. The session will be active for 1 hour. Use this action to resume the session after it expires. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceName">The resource name. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="ResourceName">The resource name. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailStartGuiSessionOptions(
         string ResourceName
     )
@@ -56,7 +58,7 @@ public record AwsLightsailStartGuiSessionOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The resource name. Constraints: o pattern: \w[\w\-]*\w
+    /// The resource name. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--resource-name")]
     public string? ResourceName { get; private init; }

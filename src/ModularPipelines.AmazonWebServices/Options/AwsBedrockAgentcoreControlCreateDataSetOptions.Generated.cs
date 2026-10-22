@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -18,7 +19,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new dataset resource asynchronously. Returns immediately with status CREATING. Poll GetDataset until status transitions to ACTIVE or CREATE_FAILED. See also: AWS API Documentation create-dataset uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not supp...
+/// Creates a new dataset resource asynchronously. Returns immediately with status CREATING. Poll GetDataset until status transitions to ACTIVE or CREATE_FAILED. See also: AWS API Documentation create-dataset uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not suppor...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,11 +29,11 @@ public record AwsBedrockAgentcoreControlCreateDataSetOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new dataset resource asynchronously. Returns immediately with status CREATING. Poll GetDataset until status transitions to ACTIVE or CREATE_FAILED. See also: AWS API Documentation create-dataset uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not supp...
+    /// Creates a new dataset resource asynchronously. Returns immediately with status CREATING. Poll GetDataset until status transitions to ACTIVE or CREATE_FAILED. See also: AWS API Documentation create-dataset uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not suppor...
     /// </summary>
-    /// <param name="DataSetName">Human-readable name for the dataset. Must be unique within the ac- count. Immutable after creation. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}</param>
-    /// <param name="Source">Source of initial examples. Provide either inline examples or an S3 URI pointing to a JSONL file. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: inlineExamples, s3Source. inlineExamples -&gt; (structure) Inline examples provided directly in the request body. examples -&gt; (list) [required] Examples to add. Each example is assigned an auto-generated UUID. Constraints: o min: 1 o max: 1000 (document) s3Source -&gt; (structure) Amazon S3 URI pointing to a JSONL file in the customer's bucket. s3Uri -&gt; (string) [required] Amazon S3 URI of the JSONL file (for example, s3://my-bucket/path/to/examples.jsonl ). Constraints: o pattern: s3://[a-z0-9][a-z0-9.\-]{1,61}[a-z0-9]/.{1,1024} Shorthand Syntax: inlineExamples={},s3Source={s3Uri=string} JSON Syntax: { "inlineExamples": { "examples": [ {...} ... ] }, "s3Source": { "s3Uri": "string" } }</param>
-    /// <param name="SchemaType">Versioned schema type governing the structure of examples. Immutable after creation. Possible values: o AGENTCORE_EVALUATION_PREDEFINED_V1 o AGENTCORE_EVALUATION_SIMULATED_V1 o THIRD_PARTY_EVALUATION_V1</param>
+    /// <param name="DataSetName">Human-readable name for the dataset. Must be unique within the account. Immutable after creation. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}</param>
+    /// <param name="Source">Source of initial examples. Provide either inline examples or an S3 URI pointing to a JSONL file. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: inlineExamples, s3Source. inlineExamples -&gt; (structure) Inline examples provided directly in the request body. examples -&gt; (list) [required] Examples to add. Each example is assigned an auto-generated UUID. Constraints: • min: 1 • max: 1000 (document) s3Source -&gt; (structure) Amazon S3 URI pointing to a JSONL file in the customer's bucket. s3Uri -&gt; (string) [required] Amazon S3 URI of the JSONL file (for example, s3://my-bucket/path/to/examples.jsonl ). Constraints: • pattern: s3://[a-z0-9][a-z0-9.\-]{1,61}[a-z0-9]/.{1,1024} Shorthand Syntax: inlineExamples={},s3Source={s3Uri=string} JSON Syntax: { "inlineExamples": { "examples": [ {...} ... ] }, "s3Source": { "s3Uri": "string" } }</param>
+    /// <param name="SchemaType">Versioned schema type governing the structure of examples. Immutable after creation. Possible values: • AGENTCORE_EVALUATION_PREDEFINED_V1 • AGENTCORE_EVALUATION_SIMULATED_V1 • THIRD_PARTY_EVALUATION_V1</param>
     public AwsBedrockAgentcoreControlCreateDataSetOptions(
         string DataSetName,
         string Source,
@@ -66,44 +67,44 @@ public record AwsBedrockAgentcoreControlCreateDataSetOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Human-readable name for the dataset. Must be unique within the ac- count. Immutable after creation. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}
+    /// Human-readable name for the dataset. Must be unique within the account. Immutable after creation. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}
     /// </summary>
     [CliOption("--dataset-name")]
     public string? DataSetName { get; private init; }
 
     /// <summary>
-    /// Source of initial examples. Provide either inline examples or an S3 URI pointing to a JSONL file. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: inlineExamples, s3Source. inlineExamples -&gt; (structure) Inline examples provided directly in the request body. examples -&gt; (list) [required] Examples to add. Each example is assigned an auto-generated UUID. Constraints: o min: 1 o max: 1000 (document) s3Source -&gt; (structure) Amazon S3 URI pointing to a JSONL file in the customer's bucket. s3Uri -&gt; (string) [required] Amazon S3 URI of the JSONL file (for example, s3://my-bucket/path/to/examples.jsonl ). Constraints: o pattern: s3://[a-z0-9][a-z0-9.\-]{1,61}[a-z0-9]/.{1,1024} Shorthand Syntax: inlineExamples={},s3Source={s3Uri=string} JSON Syntax: { "inlineExamples": { "examples": [ {...} ... ] }, "s3Source": { "s3Uri": "string" } }
+    /// Source of initial examples. Provide either inline examples or an S3 URI pointing to a JSONL file. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: inlineExamples, s3Source. inlineExamples -&gt; (structure) Inline examples provided directly in the request body. examples -&gt; (list) [required] Examples to add. Each example is assigned an auto-generated UUID. Constraints: • min: 1 • max: 1000 (document) s3Source -&gt; (structure) Amazon S3 URI pointing to a JSONL file in the customer's bucket. s3Uri -&gt; (string) [required] Amazon S3 URI of the JSONL file (for example, s3://my-bucket/path/to/examples.jsonl ). Constraints: • pattern: s3://[a-z0-9][a-z0-9.\-]{1,61}[a-z0-9]/.{1,1024} Shorthand Syntax: inlineExamples={},s3Source={s3Uri=string} JSON Syntax: { "inlineExamples": { "examples": [ {...} ... ] }, "s3Source": { "s3Uri": "string" } }
     /// </summary>
     [CliOption("--source")]
     public string? Source { get; private init; }
 
     /// <summary>
-    /// Versioned schema type governing the structure of examples. Immutable after creation. Possible values: o AGENTCORE_EVALUATION_PREDEFINED_V1 o AGENTCORE_EVALUATION_SIMULATED_V1 o THIRD_PARTY_EVALUATION_V1
+    /// Versioned schema type governing the structure of examples. Immutable after creation. Possible values: • AGENTCORE_EVALUATION_PREDEFINED_V1 • AGENTCORE_EVALUATION_SIMULATED_V1 • THIRD_PARTY_EVALUATION_V1
     /// </summary>
     [CliOption("--schema-type")]
     public AwsBedrockAgentcoreControlCreateDataSetSchemaType? SchemaType { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previ- ous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A description of the dataset. Constraints: o min: 0 o max: 200
+    /// A description of the dataset. Constraints: • min: 0 • max: 200
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Optional KMS key ARN for server-side encryption on service Amazon S3 writes. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(|-cn|-us-gov):kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}
+    /// Optional KMS key ARN for server-side encryption on service Amazon S3 writes. Constraints: • min: 1 • max: 2048 • pattern: arn:aws(|-cn|-us-gov):kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}
     /// </summary>
     [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }
 
     /// <summary>
-    /// A map of tag keys and values to assign to the dataset. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of tag keys and values to assign to the dataset. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsConnecthealthGetMedicalScribeListeningSessionOptions : AwsOptio
     /// <summary>
     /// Retrieves details about an existing Medical Scribe listening session See also: AWS API Documentation
     /// </summary>
-    /// <param name="SessionId">The Session identifier Constraints: o min: 36 o max: 36 o pattern: .*[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}.*</param>
-    /// <param name="DomainId">The Domain identifier Constraints: o min: 20 o max: 25 o pattern: (hai-|dom-)[a-z0-9]+</param>
-    /// <param name="SubscriptionId">The Subscription identifier Constraints: o min: 25 o max: 25 o pattern: sub-[a-zA-Z0-9]{21}</param>
+    /// <param name="SessionId">The Session identifier Constraints: • min: 36 • max: 36 • pattern: .*[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}.*</param>
+    /// <param name="DomainId">The Domain identifier Constraints: • min: 20 • max: 25 • pattern: (hai-|dom-)[a-z0-9]+</param>
+    /// <param name="SubscriptionId">The Subscription identifier Constraints: • min: 25 • max: 25 • pattern: sub-[a-zA-Z0-9]{21}</param>
     public AwsConnecthealthGetMedicalScribeListeningSessionOptions(
         string SessionId,
         string DomainId,
@@ -64,19 +66,19 @@ public record AwsConnecthealthGetMedicalScribeListeningSessionOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Session identifier Constraints: o min: 36 o max: 36 o pattern: .*[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}.*
+    /// The Session identifier Constraints: • min: 36 • max: 36 • pattern: .*[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}.*
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }
 
     /// <summary>
-    /// The Domain identifier Constraints: o min: 20 o max: 25 o pattern: (hai-|dom-)[a-z0-9]+
+    /// The Domain identifier Constraints: • min: 20 • max: 25 • pattern: (hai-|dom-)[a-z0-9]+
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// The Subscription identifier Constraints: o min: 25 o max: 25 o pattern: sub-[a-zA-Z0-9]{21}
+    /// The Subscription identifier Constraints: • min: 25 • max: 25 • pattern: sub-[a-zA-Z0-9]{21}
     /// </summary>
     [CliOption("--subscription-id")]
     public string? SubscriptionId { get; private init; }

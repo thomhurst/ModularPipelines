@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -29,9 +30,9 @@ public record AwsInspector2CreateCodeSecurityScanConfigurationOptions : AwsOptio
     /// <summary>
     /// Creates a scan configuration for code security scanning. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the scan configuration. Constraints: o min: 1 o max: 60 o pattern: [a-zA-Z0-9-_$:.]*</param>
-    /// <param name="Level">The security level for the scan configuration. Possible values: o ORGANIZATION o ACCOUNT</param>
-    /// <param name="Configuration">The configuration settings for the code security scan. periodicScanConfiguration -&gt; (structure) Configuration settings for periodic scans that run on a sched- uled basis. frequency -&gt; (string) The frequency at which periodic scans are performed (such as weekly or monthly). If you don't provide the frequencyExpression Amazon Inspector chooses day for the scan to run. If you provide the frequen- cyExpression , the schedule must match the specified fre- quency . Possible values: o WEEKLY o MONTHLY o NEVER frequencyExpression -&gt; (string) The schedule expression for periodic scans, in cron format. Constraints: o min: 1 o max: 256 continuousIntegrationScanConfiguration -&gt; (structure) Configuration settings for continuous integration scans that run automatically when code changes are made. supportedEvents -&gt; (list) [required] The repository events that trigger continuous integration scans, such as pull requests or commits. Constraints: o min: 1 o max: 2 (string) Possible values: o PULL_REQUEST o PUSH ruleSetCategories -&gt; (list) [required] The categories of security rules to be applied during the scan. Constraints: o min: 1 o max: 3 (string) Possible values: o SAST o IAC o SCA Shorthand Syntax: periodicScanConfiguration={frequency=string,frequencyExpression=string},continuousIntegrationScanConfiguration={supportedEvents=[string,string]},ruleSetCategories=string,string JSON Syntax: { "periodicScanConfiguration": { "frequency": "WEEKLY"|"MONTHLY"|"NEVER", "frequencyExpression": "string" }, "continuousIntegrationScanConfiguration": { "supportedEvents": ["PULL_REQUEST"|"PUSH", ...] }, "ruleSetCategories": ["SAST"|"IAC"|"SCA", ...] }</param>
+    /// <param name="Name">The name of the scan configuration. Constraints: • min: 1 • max: 60 • pattern: [a-zA-Z0-9-_$:.]*</param>
+    /// <param name="Level">The security level for the scan configuration. Possible values: • ORGANIZATION • ACCOUNT</param>
+    /// <param name="Configuration">The configuration settings for the code security scan. periodicScanConfiguration -&gt; (structure) Configuration settings for periodic scans that run on a scheduled basis. frequency -&gt; (string) The frequency at which periodic scans are performed (such as weekly or monthly). If you don't provide the frequencyExpression Amazon Inspector chooses day for the scan to run. If you provide the frequencyExpression , the schedule must match the specified frequency . Possible values: • WEEKLY • MONTHLY • NEVER frequencyExpression -&gt; (string) The schedule expression for periodic scans, in cron format. Constraints: • min: 1 • max: 256 continuousIntegrationScanConfiguration -&gt; (structure) Configuration settings for continuous integration scans that run automatically when code changes are made. supportedEvents -&gt; (list) [required] The repository events that trigger continuous integration scans, such as pull requests or commits. Constraints: • min: 1 • max: 2 (string) Possible values: • PULL_REQUEST • PUSH ruleSetCategories -&gt; (list) [required] The categories of security rules to be applied during the scan. Constraints: • min: 1 • max: 3 (string) Possible values: • SAST • IAC • SCA Shorthand Syntax: periodicScanConfiguration={frequency=string,frequencyExpression=string},continuousIntegrationScanConfiguration={supportedEvents=[string,string]},ruleSetCategories=string,string JSON Syntax: { "periodicScanConfiguration": { "frequency": "WEEKLY"|"MONTHLY"|"NEVER", "frequencyExpression": "string" }, "continuousIntegrationScanConfiguration": { "supportedEvents": ["PULL_REQUEST"|"PUSH", ...] }, "ruleSetCategories": ["SAST"|"IAC"|"SCA", ...] }</param>
     public AwsInspector2CreateCodeSecurityScanConfigurationOptions(
         string Name,
         AwsInspector2CreateCodeSecurityScanConfigurationLevel Level,
@@ -65,31 +66,31 @@ public record AwsInspector2CreateCodeSecurityScanConfigurationOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the scan configuration. Constraints: o min: 1 o max: 60 o pattern: [a-zA-Z0-9-_$:.]*
+    /// The name of the scan configuration. Constraints: • min: 1 • max: 60 • pattern: [a-zA-Z0-9-_$:.]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The security level for the scan configuration. Possible values: o ORGANIZATION o ACCOUNT
+    /// The security level for the scan configuration. Possible values: • ORGANIZATION • ACCOUNT
     /// </summary>
     [CliOption("--level")]
     public AwsInspector2CreateCodeSecurityScanConfigurationLevel? Level { get; private init; }
 
     /// <summary>
-    /// The configuration settings for the code security scan. periodicScanConfiguration -&gt; (structure) Configuration settings for periodic scans that run on a sched- uled basis. frequency -&gt; (string) The frequency at which periodic scans are performed (such as weekly or monthly). If you don't provide the frequencyExpression Amazon Inspector chooses day for the scan to run. If you provide the frequen- cyExpression , the schedule must match the specified fre- quency . Possible values: o WEEKLY o MONTHLY o NEVER frequencyExpression -&gt; (string) The schedule expression for periodic scans, in cron format. Constraints: o min: 1 o max: 256 continuousIntegrationScanConfiguration -&gt; (structure) Configuration settings for continuous integration scans that run automatically when code changes are made. supportedEvents -&gt; (list) [required] The repository events that trigger continuous integration scans, such as pull requests or commits. Constraints: o min: 1 o max: 2 (string) Possible values: o PULL_REQUEST o PUSH ruleSetCategories -&gt; (list) [required] The categories of security rules to be applied during the scan. Constraints: o min: 1 o max: 3 (string) Possible values: o SAST o IAC o SCA Shorthand Syntax: periodicScanConfiguration={frequency=string,frequencyExpression=string},continuousIntegrationScanConfiguration={supportedEvents=[string,string]},ruleSetCategories=string,string JSON Syntax: { "periodicScanConfiguration": { "frequency": "WEEKLY"|"MONTHLY"|"NEVER", "frequencyExpression": "string" }, "continuousIntegrationScanConfiguration": { "supportedEvents": ["PULL_REQUEST"|"PUSH", ...] }, "ruleSetCategories": ["SAST"|"IAC"|"SCA", ...] }
+    /// The configuration settings for the code security scan. periodicScanConfiguration -&gt; (structure) Configuration settings for periodic scans that run on a scheduled basis. frequency -&gt; (string) The frequency at which periodic scans are performed (such as weekly or monthly). If you don't provide the frequencyExpression Amazon Inspector chooses day for the scan to run. If you provide the frequencyExpression , the schedule must match the specified frequency . Possible values: • WEEKLY • MONTHLY • NEVER frequencyExpression -&gt; (string) The schedule expression for periodic scans, in cron format. Constraints: • min: 1 • max: 256 continuousIntegrationScanConfiguration -&gt; (structure) Configuration settings for continuous integration scans that run automatically when code changes are made. supportedEvents -&gt; (list) [required] The repository events that trigger continuous integration scans, such as pull requests or commits. Constraints: • min: 1 • max: 2 (string) Possible values: • PULL_REQUEST • PUSH ruleSetCategories -&gt; (list) [required] The categories of security rules to be applied during the scan. Constraints: • min: 1 • max: 3 (string) Possible values: • SAST • IAC • SCA Shorthand Syntax: periodicScanConfiguration={frequency=string,frequencyExpression=string},continuousIntegrationScanConfiguration={supportedEvents=[string,string]},ruleSetCategories=string,string JSON Syntax: { "periodicScanConfiguration": { "frequency": "WEEKLY"|"MONTHLY"|"NEVER", "frequencyExpression": "string" }, "continuousIntegrationScanConfiguration": { "supportedEvents": ["PULL_REQUEST"|"PUSH", ...] }, "ruleSetCategories": ["SAST"|"IAC"|"SCA", ...] }
     /// </summary>
     [CliOption("--configuration")]
     public string? Configuration { get; private init; }
 
     /// <summary>
-    /// The scope settings that define which repositories will be scanned. Include this parameter to create a default scan configuration. Oth- erwise Amazon Inspector creates a general scan configuration. A default scan configuration automatically applies to all existing and future projects imported into Amazon Inspector. Use the BatchAs- sociateCodeSecurityScanConfiguration operation to associate a gen- eral scan configuration with projects. projectSelectionScope -&gt; (string) The scope of projects to be selected for scanning within the in- tegrated repositories. Setting the value to ALL applies the scope settings to all existing and future projects imported into Amazon Inspector. Possible values: o ALL Shorthand Syntax: projectSelectionScope=string JSON Syntax: { "projectSelectionScope": "ALL" }
+    /// The scope settings that define which repositories will be scanned. Include this parameter to create a default scan configuration. Otherwise Amazon Inspector creates a general scan configuration. A default scan configuration automatically applies to all existing and future projects imported into Amazon Inspector. Use the BatchAssociateCodeSecurityScanConfiguration operation to associate a general scan configuration with projects. projectSelectionScope -&gt; (string) The scope of projects to be selected for scanning within the integrated repositories. Setting the value to ALL applies the scope settings to all existing and future projects imported into Amazon Inspector. Possible values: • ALL Shorthand Syntax: projectSelectionScope=string JSON Syntax: { "projectSelectionScope": "ALL" }
     /// </summary>
     [CliOption("--scope-settings")]
     public string? ScopeSettings { get; set; }
 
     /// <summary>
-    /// The tags to apply to the scan configuration. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to apply to the scan configuration. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

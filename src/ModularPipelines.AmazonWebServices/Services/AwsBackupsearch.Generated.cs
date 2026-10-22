@@ -77,7 +77,7 @@ public class AwsBackupsearch : IAwsBackupsearch
     }
 
     /// <summary>
-    /// This operation returns a list of a specified search job. See also: AWS API Documentation list-search-job-results is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Results
+    /// This operation returns a list of a specified search job. See also: AWS API Documentation list-search-job-results is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Results
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsBackupsearch : IAwsBackupsearch
     }
 
     /// <summary>
-    /// This operation exports search results of a search job to a specified destination S3 bucket. See also: AWS API Documentation list-search-result-export-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query express...
+    /// This operation exports search results of a search job to a specified destination S3 bucket. See also: AWS API Documentation list-search-result-export-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsBackupsearch : IAwsBackupsearch
     }
 
     /// <summary>
-    /// This operation creates a search job which returns recovery points fil- tered by SearchScope and items filtered by ItemFilters. You can optionally include ClientToken, EncryptionKeyArn, Name, and/or Tags. See also: AWS API Documentation
+    /// This operation creates a search job which returns recovery points filtered by SearchScope and items filtered by ItemFilters. You can optionally include ClientToken, EncryptionKeyArn, Name, and/or Tags. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

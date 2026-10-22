@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsSesv2PutEmailIdentityMailFromAttributesOptions : AwsOptions, IV
     /// <summary>
     /// Used to enable or disable the custom Mail-From domain configuration for an email identity. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EmailIdentity">The verified email identity. Constraints: o min: 1</param>
+    /// <param name="EmailIdentity">The verified email identity. Constraints: • min: 1</param>
     public AwsSesv2PutEmailIdentityMailFromAttributesOptions(
         string EmailIdentity
     )
@@ -57,19 +59,19 @@ public record AwsSesv2PutEmailIdentityMailFromAttributesOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The verified email identity. Constraints: o min: 1
+    /// The verified email identity. Constraints: • min: 1
     /// </summary>
     [CliOption("--email-identity")]
     public string? EmailIdentity { get; private init; }
 
     /// <summary>
-    /// The custom MAIL FROM domain that you want the verified identity to use. The MAIL FROM domain must meet the following criteria: o It has to be a subdomain of the verified identity. o It can't be used to receive email. o It can't be used in a "From" address if the MAIL FROM domain is a destination for feedback forwarding emails.
+    /// The custom MAIL FROM domain that you want the verified identity to use. The MAIL FROM domain must meet the following criteria: • It has to be a subdomain of the verified identity. • It can't be used to receive email. • It can't be used in a "From" address if the MAIL FROM domain is a destination for feedback forwarding emails.
     /// </summary>
     [CliOption("--mail-from-domain")]
     public string? MailFromDomain { get; set; }
 
     /// <summary>
-    /// The action to take if the required MX record isn't found when you send an email. When you set this value to UseDefaultValue , the mail is sent using amazonses.com as the MAIL FROM domain. When you set this value to RejectMessage , the Amazon SES API v2 returns a Mail- FromDomainNotVerified error, and doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configu- ration is in the Pending , Failed , and TemporaryFailure states. Possible values: o USE_DEFAULT_VALUE o REJECT_MESSAGE
+    /// The action to take if the required MX record isn't found when you send an email. When you set this value to UseDefaultValue , the mail is sent using amazonses.com as the MAIL FROM domain. When you set this value to RejectMessage , the Amazon SES API v2 returns a MailFromDomainNotVerified error, and doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configuration is in the Pending , Failed , and TemporaryFailure states. Possible values: • USE_DEFAULT_VALUE • REJECT_MESSAGE
     /// </summary>
     [CliOption("--behavior-on-mx-failure")]
     public AwsSesv2PutEmailIdentityMailFromAttributesBehaviorOnMxFailure? BehaviorOnMxFailure { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMediatailorUpdateLiveSourceOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Updates a live source's configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HttpPackageConfigurations">A list of HTTP package configurations for the live source on this account. (structure) The HTTP package configuration properties for the requested VOD source. Path -&gt; (string) [required] The relative path to the URL for this VOD source. This is combined with SourceLocation::HttpConfiguration::BaseUrl to form a valid URL. SourceGroup -&gt; (string) [required] The name of the source group. This has to match one of the Channel::Outputs::SourceGroup . Type -&gt; (string) [required] The streaming protocol for this package configuration. Sup- ported values are HLS and DASH . Possible values: o DASH o HLS Shorthand Syntax: Path=string,SourceGroup=string,Type=string ... JSON Syntax: [ { "Path": "string", "SourceGroup": "string", "Type": "DASH"|"HLS" } ... ]</param>
+    /// <param name="HttpPackageConfigurations">A list of HTTP package configurations for the live source on this account. (structure) The HTTP package configuration properties for the requested VOD source. Path -&gt; (string) [required] The relative path to the URL for this VOD source. This is combined with SourceLocation::HttpConfiguration::BaseUrl to form a valid URL. SourceGroup -&gt; (string) [required] The name of the source group. This has to match one of the Channel::Outputs::SourceGroup . Type -&gt; (string) [required] The streaming protocol for this package configuration. Supported values are HLS and DASH . Possible values: • DASH • HLS Shorthand Syntax: Path=string,SourceGroup=string,Type=string ... JSON Syntax: [ { "Path": "string", "SourceGroup": "string", "Type": "DASH"|"HLS" } ... ]</param>
     /// <param name="LiveSourceName">The name of the live source.</param>
     /// <param name="SourceLocationName">The name of the source location associated with this Live Source.</param>
     public AwsMediatailorUpdateLiveSourceOptions(
@@ -75,7 +77,7 @@ public record AwsMediatailorUpdateLiveSourceOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of HTTP package configurations for the live source on this account. (structure) The HTTP package configuration properties for the requested VOD source. Path -&gt; (string) [required] The relative path to the URL for this VOD source. This is combined with SourceLocation::HttpConfiguration::BaseUrl to form a valid URL. SourceGroup -&gt; (string) [required] The name of the source group. This has to match one of the Channel::Outputs::SourceGroup . Type -&gt; (string) [required] The streaming protocol for this package configuration. Sup- ported values are HLS and DASH . Possible values: o DASH o HLS Shorthand Syntax: Path=string,SourceGroup=string,Type=string ... JSON Syntax: [ { "Path": "string", "SourceGroup": "string", "Type": "DASH"|"HLS" } ... ]
+    /// A list of HTTP package configurations for the live source on this account. (structure) The HTTP package configuration properties for the requested VOD source. Path -&gt; (string) [required] The relative path to the URL for this VOD source. This is combined with SourceLocation::HttpConfiguration::BaseUrl to form a valid URL. SourceGroup -&gt; (string) [required] The name of the source group. This has to match one of the Channel::Outputs::SourceGroup . Type -&gt; (string) [required] The streaming protocol for this package configuration. Supported values are HLS and DASH . Possible values: • DASH • HLS Shorthand Syntax: Path=string,SourceGroup=string,Type=string ... JSON Syntax: [ { "Path": "string", "SourceGroup": "string", "Type": "DASH"|"HLS" } ... ]
     /// </summary>
     [CliOption("--http-package-configurations", GroupValues = true)]
     public IEnumerable<string>? HttpPackageConfigurations { get; private init; }

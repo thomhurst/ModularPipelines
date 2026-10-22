@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBedrockAgentcoreControlDeleteConsentPortalOptions : AwsOptions,
     /// <summary>
     /// Deletes a consent portal. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConsentPortalIdentifier">The identifier of the consent portal. You can specify either the consent portal ID or its Amazon Resource Name (ARN). Constraints: o pattern: [a-zA-Z0-9\-_]{1,50}-[A-Za-z0-9]{10}</param>
+    /// <param name="ConsentPortalIdentifier">The identifier of the consent portal. You can specify either the consent portal ID or its Amazon Resource Name (ARN). Constraints: • pattern: [a-zA-Z0-9\-_]{1,50}-[A-Za-z0-9]{10}</param>
     public AwsBedrockAgentcoreControlDeleteConsentPortalOptions(
         string ConsentPortalIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsBedrockAgentcoreControlDeleteConsentPortalOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the consent portal. You can specify either the consent portal ID or its Amazon Resource Name (ARN). Constraints: o pattern: [a-zA-Z0-9\-_]{1,50}-[A-Za-z0-9]{10}
+    /// The identifier of the consent portal. You can specify either the consent portal ID or its Amazon Resource Name (ARN). Constraints: • pattern: [a-zA-Z0-9\-_]{1,50}-[A-Za-z0-9]{10}
     /// </summary>
     [CliOption("--consent-portal-identifier")]
     public string? ConsentPortalIdentifier { get; private init; }

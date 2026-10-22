@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns query execution runtime statistics related to a single execu- tion of a query if you have access to the workgroup in which the query ran. Statistics from the Timeline section of the response object are available as soon as QueryExecutionStatus$State is in a SUCCEEDED or FAILED state. The remaining non-timeline statistics in the response (like stage-level input and output row count and data size) are updated asynchronously and may not be available immediately after a query com- pletes or,...
+/// Returns query execution runtime statistics related to a single execution of a query if you have access to the workgroup in which the query ran. Statistics from the Timeline section of the response object are available as soon as QueryExecutionStatus$State is in a SUCCEEDED or FAILED state. The remaining non-timeline statistics in the response (like stage-level input and output row count and data size) are updated asynchronously and may not be available immediately after a query completes or, in ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsAthenaGetQueryRuntimeStatisticsOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns query execution runtime statistics related to a single execu- tion of a query if you have access to the workgroup in which the query ran. Statistics from the Timeline section of the response object are available as soon as QueryExecutionStatus$State is in a SUCCEEDED or FAILED state. The remaining non-timeline statistics in the response (like stage-level input and output row count and data size) are updated asynchronously and may not be available immediately after a query com- pletes or,...
+    /// Returns query execution runtime statistics related to a single execution of a query if you have access to the workgroup in which the query ran. Statistics from the Timeline section of the response object are available as soon as QueryExecutionStatus$State is in a SUCCEEDED or FAILED state. The remaining non-timeline statistics in the response (like stage-level input and output row count and data size) are updated asynchronously and may not be available immediately after a query completes or, in ...
     /// </summary>
-    /// <param name="QueryExecutionId">The unique ID of the query execution. Constraints: o min: 1 o max: 128 o pattern: \S+</param>
+    /// <param name="QueryExecutionId">The unique ID of the query execution. Constraints: • min: 1 • max: 128 • pattern: \S+</param>
     public AwsAthenaGetQueryRuntimeStatisticsOptions(
         string QueryExecutionId
     )
@@ -56,7 +58,7 @@ public record AwsAthenaGetQueryRuntimeStatisticsOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the query execution. Constraints: o min: 1 o max: 128 o pattern: \S+
+    /// The unique ID of the query execution. Constraints: • min: 1 • max: 128 • pattern: \S+
     /// </summary>
     [CliOption("--query-execution-id")]
     public string? QueryExecutionId { get; private init; }

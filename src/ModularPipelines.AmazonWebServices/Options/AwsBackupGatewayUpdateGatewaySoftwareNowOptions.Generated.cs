@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the gateway virtual machine (VM) software. The request immedi- ately triggers the software update. NOTE: When you make this request, you get a 200 OK success response imme- diately. However, it might take some time for the update to com- plete. See also: AWS API Documentation
+/// Updates the gateway virtual machine (VM) software. The request immediately triggers the software update. NOTE: When you make this request, you get a 200 OK success response immediately. However, it might take some time for the update to complete. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsBackupGatewayUpdateGatewaySoftwareNowOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the gateway virtual machine (VM) software. The request immedi- ately triggers the software update. NOTE: When you make this request, you get a 200 OK success response imme- diately. However, it might take some time for the update to com- plete. See also: AWS API Documentation
+    /// Updates the gateway virtual machine (VM) software. The request immediately triggers the software update. NOTE: When you make this request, you get a 200 OK success response immediately. However, it might take some time for the update to complete. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway to be updated. Constraints: o min: 50 o max: 180 o pattern: arn:(aws|aws-cn|aws-us-gov):backup-gate- way(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+</param>
+    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway to be updated. Constraints: • min: 50 • max: 180 • pattern: arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+</param>
     public AwsBackupGatewayUpdateGatewaySoftwareNowOptions(
         string GatewayArn
     )
@@ -56,7 +58,7 @@ public record AwsBackupGatewayUpdateGatewaySoftwareNowOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the gateway to be updated. Constraints: o min: 50 o max: 180 o pattern: arn:(aws|aws-cn|aws-us-gov):backup-gate- way(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+
+    /// The Amazon Resource Name (ARN) of the gateway to be updated. Constraints: • min: 50 • max: 180 • pattern: arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+
     /// </summary>
     [CliOption("--gateway-arn")]
     public string? GatewayArn { get; private init; }

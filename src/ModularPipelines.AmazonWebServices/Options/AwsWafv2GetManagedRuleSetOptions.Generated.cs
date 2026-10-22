@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the specified managed rule set. NOTE: This is intended for use only by vendors of managed rule sets. Ven- dors are Amazon Web Services and Amazon Web Services Marketplace sellers. Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your cus- tomers. The APIs are ListManagedRuleSets , GetManagedRuleSet , Put- ManagedRuleSetVersions , and UpdateManagedRuleSetVersionExpiryDate . See also: AWS API Documentation
+/// Retrieves the specified managed rule set. NOTE: This is intended for use only by vendors of managed rule sets. Vendors are Amazon Web Services and Amazon Web Services Marketplace sellers. Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your customers. The APIs are ListManagedRuleSets , GetManagedRuleSet , PutManagedRuleSetVersions , and UpdateManagedRuleSetVersionExpiryDate . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsWafv2GetManagedRuleSetOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the specified managed rule set. NOTE: This is intended for use only by vendors of managed rule sets. Ven- dors are Amazon Web Services and Amazon Web Services Marketplace sellers. Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your cus- tomers. The APIs are ListManagedRuleSets , GetManagedRuleSet , Put- ManagedRuleSetVersions , and UpdateManagedRuleSetVersionExpiryDate . See also: AWS API Documentation
+    /// Retrieves the specified managed rule set. NOTE: This is intended for use only by vendors of managed rule sets. Vendors are Amazon Web Services and Amazon Web Services Marketplace sellers. Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your customers. The APIs are ListManagedRuleSets , GetManagedRuleSet , PutManagedRuleSetVersions , and UpdateManagedRuleSetVersionExpiryDate . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the managed rule set. You use this, along with the rule set ID, to identify the rule set. This name is assigned to the corresponding managed rule group, which your customers can access and use. Constraints: o min: 1 o max: 128 o pattern: ^[\w\-]+$</param>
-    /// <param name="Scope">Specifies whether this is for a global resource type, such as a Ama- zon CloudFront distribution. For an Amplify application, use CLOUD- FRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: o CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . o API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: o CLOUDFRONT o REGIONAL</param>
-    /// <param name="Id">A unique identifier for the managed rule set. The ID is returned in the responses to commands like list . You provide it to operations like get and update . Constraints: o min: 1 o max: 36 o pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$</param>
+    /// <param name="Name">The name of the managed rule set. You use this, along with the rule set ID, to identify the rule set. This name is assigned to the corresponding managed rule group, which your customers can access and use. Constraints: • min: 1 • max: 128 • pattern: ^[\w\-]+$</param>
+    /// <param name="Scope">Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: • CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . • API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: • CLOUDFRONT • REGIONAL</param>
+    /// <param name="Id">A unique identifier for the managed rule set. The ID is returned in the responses to commands like list . You provide it to operations like get and update . Constraints: • min: 1 • max: 36 • pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$</param>
     public AwsWafv2GetManagedRuleSetOptions(
         string Name,
         AwsWafv2GetManagedRuleSetScope Scope,
@@ -64,19 +66,19 @@ public record AwsWafv2GetManagedRuleSetOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the managed rule set. You use this, along with the rule set ID, to identify the rule set. This name is assigned to the corresponding managed rule group, which your customers can access and use. Constraints: o min: 1 o max: 128 o pattern: ^[\w\-]+$
+    /// The name of the managed rule set. You use this, along with the rule set ID, to identify the rule set. This name is assigned to the corresponding managed rule group, which your customers can access and use. Constraints: • min: 1 • max: 128 • pattern: ^[\w\-]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Specifies whether this is for a global resource type, such as a Ama- zon CloudFront distribution. For an Amplify application, use CLOUD- FRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: o CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . o API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: o CLOUDFRONT o REGIONAL
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: • CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . • API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: • CLOUDFRONT • REGIONAL
     /// </summary>
     [CliOption("--scope")]
     public AwsWafv2GetManagedRuleSetScope? Scope { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the managed rule set. The ID is returned in the responses to commands like list . You provide it to operations like get and update . Constraints: o min: 1 o max: 36 o pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$
+    /// A unique identifier for the managed rule set. The ID is returned in the responses to commands like list . You provide it to operations like get and update . Constraints: • min: 1 • max: 36 • pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

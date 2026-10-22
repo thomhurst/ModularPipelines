@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsWellarchitectedGetMilestoneOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Get a milestone for an existing workload. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkloadId">The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}</param>
-    /// <param name="MilestoneNumber">The milestone number. A workload can have a maximum of 100 milestones. Constraints: o min: 1 o max: 100</param>
+    /// <param name="WorkloadId">The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: • min: 32 • max: 32 • pattern: [0-9a-f]{32}</param>
+    /// <param name="MilestoneNumber">The milestone number. A workload can have a maximum of 100 milestones. Constraints: • min: 1 • max: 100</param>
     public AwsWellarchitectedGetMilestoneOptions(
         string WorkloadId,
         int MilestoneNumber
@@ -59,13 +61,13 @@ public record AwsWellarchitectedGetMilestoneOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}
+    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: • min: 32 • max: 32 • pattern: [0-9a-f]{32}
     /// </summary>
     [CliOption("--workload-id")]
     public string? WorkloadId { get; private init; }
 
     /// <summary>
-    /// The milestone number. A workload can have a maximum of 100 milestones. Constraints: o min: 1 o max: 100
+    /// The milestone number. A workload can have a maximum of 100 milestones. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--milestone-number")]
     public int? MilestoneNumber { get; private init; }

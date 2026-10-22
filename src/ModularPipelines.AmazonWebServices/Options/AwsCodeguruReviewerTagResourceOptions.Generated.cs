@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,8 +29,8 @@ public record AwsCodeguruReviewerTagResourceOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Adds one or more tags to an associated repository. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the RepositoryAssociation object. You can retrieve this ARN by calling ListRepositoryAssociations . Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:asso- cia- tion:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
-    /// <param name="Tags">An array of key-value pairs used to tag an associated repository. A tag is a custom attribute label with two parts: o A tag key (for example, CostCenter , Environment , Project , or Secret ). Tag keys are case sensitive. o An optional field known as a tag value (for example, 111122223333 , Production , or a team name). Omitting the tag value is the same as using an empty string. Like tag keys, tag values are case sen- sitive. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the RepositoryAssociation object. You can retrieve this ARN by calling ListRepositoryAssociations . Constraints: • min: 1 • max: 1600 • pattern: ^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:association:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="Tags">An array of key-value pairs used to tag an associated repository. A tag is a custom attribute label with two parts: • A tag key (for example, CostCenter , Environment , Project , or Secret ). Tag keys are case sensitive. • An optional field known as a tag value (for example, 111122223333 , Production , or a team name). Omitting the tag value is the same as using an empty string. Like tag keys, tag values are case sensitive. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsCodeguruReviewerTagResourceOptions(
         string ResourceArn,
         IReadOnlyList<KeyValue> Tags
@@ -72,13 +73,13 @@ public record AwsCodeguruReviewerTagResourceOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the RepositoryAssociation object. You can retrieve this ARN by calling ListRepositoryAssociations . Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:asso- cia- tion:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The Amazon Resource Name (ARN) of the RepositoryAssociation object. You can retrieve this ARN by calling ListRepositoryAssociations . Constraints: • min: 1 • max: 1600 • pattern: ^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:association:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// An array of key-value pairs used to tag an associated repository. A tag is a custom attribute label with two parts: o A tag key (for example, CostCenter , Environment , Project , or Secret ). Tag keys are case sensitive. o An optional field known as a tag value (for example, 111122223333 , Production , or a team name). Omitting the tag value is the same as using an empty string. Like tag keys, tag values are case sen- sitive. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// An array of key-value pairs used to tag an associated repository. A tag is a custom attribute label with two parts: • A tag key (for example, CostCenter , Environment , Project , or Secret ). Tag keys are case sensitive. • An optional field known as a tag value (for example, 111122223333 , Production , or a team name). Omitting the tag value is the same as using an empty string. Like tag keys, tag values are case sensitive. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; private init; }

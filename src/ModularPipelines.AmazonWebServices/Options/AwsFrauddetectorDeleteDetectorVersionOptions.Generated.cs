@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsFrauddetectorDeleteDetectorVersionOptions : AwsOptions, IValida
     /// <summary>
     /// Deletes the detector version. You cannot delete detector versions that are in ACTIVE status. When you delete a detector version, Amazon Fraud Detector permanently deletes the detector and the data is no longer stored in Amazon Fraud Detector. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DetectorId">The ID of the parent detector for the detector version to delete. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
-    /// <param name="DetectorVersionId">The ID of the detector version to delete. Constraints: o min: 1 o max: 5 o pattern: ^([1-9][0-9]*)$</param>
+    /// <param name="DetectorId">The ID of the parent detector for the detector version to delete. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="DetectorVersionId">The ID of the detector version to delete. Constraints: • min: 1 • max: 5 • pattern: ^([1-9][0-9]*)$</param>
     public AwsFrauddetectorDeleteDetectorVersionOptions(
         string DetectorId,
         string DetectorVersionId
@@ -60,13 +62,13 @@ public record AwsFrauddetectorDeleteDetectorVersionOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the parent detector for the detector version to delete. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// The ID of the parent detector for the detector version to delete. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }
 
     /// <summary>
-    /// The ID of the detector version to delete. Constraints: o min: 1 o max: 5 o pattern: ^([1-9][0-9]*)$
+    /// The ID of the detector version to delete. Constraints: • min: 1 • max: 5 • pattern: ^([1-9][0-9]*)$
     /// </summary>
     [CliOption("--detector-version-id")]
     public string? DetectorVersionId { get; private init; }

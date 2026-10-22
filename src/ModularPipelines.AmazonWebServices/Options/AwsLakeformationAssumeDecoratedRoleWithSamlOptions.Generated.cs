@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Allows a caller to assume an IAM role decorated as the SAML user speci- fied in the SAML assertion included in the request. This decoration al- lows Lake Formation to enforce access policies against the SAML users and groups. This API operation requires SAML federation setup in the callers account as it can only be called with valid SAML assertions. Lake Formation does not scope down the permission of the assumed role. All permissions attached to the role via the SAML federation setup will be in...
+/// Allows a caller to assume an IAM role decorated as the SAML user specified in the SAML assertion included in the request. This decoration allows Lake Formation to enforce access policies against the SAML users and groups. This API operation requires SAML federation setup in the callers account as it can only be called with valid SAML assertions. Lake Formation does not scope down the permission of the assumed role. All permissions attached to the role via the SAML federation setup will be includ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsLakeformationAssumeDecoratedRoleWithSamlOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Allows a caller to assume an IAM role decorated as the SAML user speci- fied in the SAML assertion included in the request. This decoration al- lows Lake Formation to enforce access policies against the SAML users and groups. This API operation requires SAML federation setup in the callers account as it can only be called with valid SAML assertions. Lake Formation does not scope down the permission of the assumed role. All permissions attached to the role via the SAML federation setup will be in...
+    /// Allows a caller to assume an IAM role decorated as the SAML user specified in the SAML assertion included in the request. This decoration allows Lake Formation to enforce access policies against the SAML users and groups. This API operation requires SAML federation setup in the callers account as it can only be called with valid SAML assertions. Lake Formation does not scope down the permission of the assumed role. All permissions attached to the role via the SAML federation setup will be includ...
     /// </summary>
-    /// <param name="SamlAssertion">A SAML assertion consisting of an assertion statement for the user who needs temporary credentials. This must match the SAML assertion that was issued to IAM. This must be Base64 encoded. Constraints: o min: 4 o max: 100000</param>
-    /// <param name="RoleArn">The role that represents an IAM principal whose scope down policy allows it to call credential vending APIs such as GetTemporaryTable- Credentials . The caller must also have iam:PassRole permission on this role. Constraints: o pattern: arn:aws:iam::[0-9]*:role/.*</param>
-    /// <param name="PrincipalArn">The Amazon Resource Name (ARN) of the SAML provider in IAM that de- scribes the IdP. Constraints: o pattern: arn:aws:iam::[0-9]*:saml-provider/.*</param>
+    /// <param name="SamlAssertion">A SAML assertion consisting of an assertion statement for the user who needs temporary credentials. This must match the SAML assertion that was issued to IAM. This must be Base64 encoded. Constraints: • min: 4 • max: 100000</param>
+    /// <param name="RoleArn">The role that represents an IAM principal whose scope down policy allows it to call credential vending APIs such as GetTemporaryTableCredentials . The caller must also have iam:PassRole permission on this role. Constraints: • pattern: arn:aws:iam::[0-9]*:role/.*</param>
+    /// <param name="PrincipalArn">The Amazon Resource Name (ARN) of the SAML provider in IAM that describes the IdP. Constraints: • pattern: arn:aws:iam::[0-9]*:saml-provider/.*</param>
     public AwsLakeformationAssumeDecoratedRoleWithSamlOptions(
         string SamlAssertion,
         string RoleArn,
@@ -64,25 +66,25 @@ public record AwsLakeformationAssumeDecoratedRoleWithSamlOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A SAML assertion consisting of an assertion statement for the user who needs temporary credentials. This must match the SAML assertion that was issued to IAM. This must be Base64 encoded. Constraints: o min: 4 o max: 100000
+    /// A SAML assertion consisting of an assertion statement for the user who needs temporary credentials. This must match the SAML assertion that was issued to IAM. This must be Base64 encoded. Constraints: • min: 4 • max: 100000
     /// </summary>
     [CliOption("--saml-assertion")]
     public string? SamlAssertion { get; private init; }
 
     /// <summary>
-    /// The role that represents an IAM principal whose scope down policy allows it to call credential vending APIs such as GetTemporaryTable- Credentials . The caller must also have iam:PassRole permission on this role. Constraints: o pattern: arn:aws:iam::[0-9]*:role/.*
+    /// The role that represents an IAM principal whose scope down policy allows it to call credential vending APIs such as GetTemporaryTableCredentials . The caller must also have iam:PassRole permission on this role. Constraints: • pattern: arn:aws:iam::[0-9]*:role/.*
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the SAML provider in IAM that de- scribes the IdP. Constraints: o pattern: arn:aws:iam::[0-9]*:saml-provider/.*
+    /// The Amazon Resource Name (ARN) of the SAML provider in IAM that describes the IdP. Constraints: • pattern: arn:aws:iam::[0-9]*:saml-provider/.*
     /// </summary>
     [CliOption("--principal-arn")]
     public string? PrincipalArn { get; private init; }
 
     /// <summary>
-    /// The time period, between 900 and 43,200 seconds, for the timeout of the temporary credentials. Constraints: o min: 900 o max: 43200
+    /// The time period, between 900 and 43,200 seconds, for the timeout of the temporary credentials. Constraints: • min: 900 • max: 43200
     /// </summary>
     [CliOption("--duration-seconds")]
     public int? DurationSeconds { get; set; }

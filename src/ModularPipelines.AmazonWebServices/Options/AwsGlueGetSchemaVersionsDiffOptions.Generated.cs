@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +29,10 @@ public record AwsGlueGetSchemaVersionsDiffOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Fetches the schema version difference in the specified difference type between two stored schema versions in the Schema Registry. This API allows you to compare two schema versions between two schema definitions under the same schema. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SchemaId">This is a wrapper structure to contain schema identity fields. The structure contains: o SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. o SchemaId$SchemaName: The name of the schema. One of SchemaArn or SchemaName has to be provided. SchemaArn -&gt; (string) The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: o min: 1 o max: 10240 o pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* SchemaName -&gt; (string) The name of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ RegistryName -&gt; (string) The name of the schema registry that contains the schema. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ Shorthand Syntax: SchemaArn=string,SchemaName=string,RegistryName=string JSON Syntax: { "SchemaArn": "string", "SchemaName": "string", "RegistryName": "string" }</param>
-    /// <param name="FirstSchemaVersionNumber">The first of the two schema versions to be compared. LatestVersion -&gt; (boolean) The latest version available for the schema. VersionNumber -&gt; (long) The version number of the schema. Constraints: o min: 1 o max: 100000 Shorthand Syntax: LatestVersion=boolean,VersionNumber=long JSON Syntax: { "LatestVersion": true|false, "VersionNumber": long }</param>
-    /// <param name="SecondSchemaVersionNumber">The second of the two schema versions to be compared. LatestVersion -&gt; (boolean) The latest version available for the schema. VersionNumber -&gt; (long) The version number of the schema. Constraints: o min: 1 o max: 100000 Shorthand Syntax: LatestVersion=boolean,VersionNumber=long JSON Syntax: { "LatestVersion": true|false, "VersionNumber": long }</param>
-    /// <param name="SchemaDiffType">Refers to SYNTAX_DIFF , which is the currently supported diff type. Possible values: o SYNTAX_DIFF</param>
+    /// <param name="SchemaId">This is a wrapper structure to contain schema identity fields. The structure contains: • SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. • SchemaId$SchemaName: The name of the schema. One of SchemaArn or SchemaName has to be provided. SchemaArn -&gt; (string) The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: • min: 1 • max: 10240 • pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* SchemaName -&gt; (string) The name of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-_$#.]+ RegistryName -&gt; (string) The name of the schema registry that contains the schema. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-_$#.]+ Shorthand Syntax: SchemaArn=string,SchemaName=string,RegistryName=string JSON Syntax: { "SchemaArn": "string", "SchemaName": "string", "RegistryName": "string" }</param>
+    /// <param name="FirstSchemaVersionNumber">The first of the two schema versions to be compared. LatestVersion -&gt; (boolean) The latest version available for the schema. VersionNumber -&gt; (long) The version number of the schema. Constraints: • min: 1 • max: 100000 Shorthand Syntax: LatestVersion=boolean,VersionNumber=long JSON Syntax: { "LatestVersion": true|false, "VersionNumber": long }</param>
+    /// <param name="SecondSchemaVersionNumber">The second of the two schema versions to be compared. LatestVersion -&gt; (boolean) The latest version available for the schema. VersionNumber -&gt; (long) The version number of the schema. Constraints: • min: 1 • max: 100000 Shorthand Syntax: LatestVersion=boolean,VersionNumber=long JSON Syntax: { "LatestVersion": true|false, "VersionNumber": long }</param>
+    /// <param name="SchemaDiffType">Refers to SYNTAX_DIFF , which is the currently supported diff type. Possible values: • SYNTAX_DIFF</param>
     public AwsGlueGetSchemaVersionsDiffOptions(
         string SchemaId,
         string FirstSchemaVersionNumber,
@@ -68,25 +70,25 @@ public record AwsGlueGetSchemaVersionsDiffOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// This is a wrapper structure to contain schema identity fields. The structure contains: o SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. o SchemaId$SchemaName: The name of the schema. One of SchemaArn or SchemaName has to be provided. SchemaArn -&gt; (string) The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: o min: 1 o max: 10240 o pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* SchemaName -&gt; (string) The name of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ RegistryName -&gt; (string) The name of the schema registry that contains the schema. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ Shorthand Syntax: SchemaArn=string,SchemaName=string,RegistryName=string JSON Syntax: { "SchemaArn": "string", "SchemaName": "string", "RegistryName": "string" }
+    /// This is a wrapper structure to contain schema identity fields. The structure contains: • SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. • SchemaId$SchemaName: The name of the schema. One of SchemaArn or SchemaName has to be provided. SchemaArn -&gt; (string) The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: • min: 1 • max: 10240 • pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* SchemaName -&gt; (string) The name of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-_$#.]+ RegistryName -&gt; (string) The name of the schema registry that contains the schema. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-_$#.]+ Shorthand Syntax: SchemaArn=string,SchemaName=string,RegistryName=string JSON Syntax: { "SchemaArn": "string", "SchemaName": "string", "RegistryName": "string" }
     /// </summary>
     [CliOption("--schema-id")]
     public string? SchemaId { get; private init; }
 
     /// <summary>
-    /// The first of the two schema versions to be compared. LatestVersion -&gt; (boolean) The latest version available for the schema. VersionNumber -&gt; (long) The version number of the schema. Constraints: o min: 1 o max: 100000 Shorthand Syntax: LatestVersion=boolean,VersionNumber=long JSON Syntax: { "LatestVersion": true|false, "VersionNumber": long }
+    /// The first of the two schema versions to be compared. LatestVersion -&gt; (boolean) The latest version available for the schema. VersionNumber -&gt; (long) The version number of the schema. Constraints: • min: 1 • max: 100000 Shorthand Syntax: LatestVersion=boolean,VersionNumber=long JSON Syntax: { "LatestVersion": true|false, "VersionNumber": long }
     /// </summary>
     [CliOption("--first-schema-version-number")]
     public string? FirstSchemaVersionNumber { get; private init; }
 
     /// <summary>
-    /// The second of the two schema versions to be compared. LatestVersion -&gt; (boolean) The latest version available for the schema. VersionNumber -&gt; (long) The version number of the schema. Constraints: o min: 1 o max: 100000 Shorthand Syntax: LatestVersion=boolean,VersionNumber=long JSON Syntax: { "LatestVersion": true|false, "VersionNumber": long }
+    /// The second of the two schema versions to be compared. LatestVersion -&gt; (boolean) The latest version available for the schema. VersionNumber -&gt; (long) The version number of the schema. Constraints: • min: 1 • max: 100000 Shorthand Syntax: LatestVersion=boolean,VersionNumber=long JSON Syntax: { "LatestVersion": true|false, "VersionNumber": long }
     /// </summary>
     [CliOption("--second-schema-version-number")]
     public string? SecondSchemaVersionNumber { get; private init; }
 
     /// <summary>
-    /// Refers to SYNTAX_DIFF , which is the currently supported diff type. Possible values: o SYNTAX_DIFF
+    /// Refers to SYNTAX_DIFF , which is the currently supported diff type. Possible values: • SYNTAX_DIFF
     /// </summary>
     [CliOption("--schema-diff-type")]
     public string? SchemaDiffType { get; private init; }

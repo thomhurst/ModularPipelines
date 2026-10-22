@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsLightsailUpdateBucketBundleOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Updates the bundle, or storage plan, of an existing Amazon Lightsail bucket. A bucket bundle specifies the monthly cost, storage space, and data transfer quota for a bucket. You can update a bucket's bundle only one time within a monthly Amazon Web Services billing cycle. To determine if you can update a bucket's bundle, use the GetBuckets action. The ableToUpdateBundle parameter in the response will indicate whether you can currently update a bucket's bundle. Update a bucket's bundle if it's co...
     /// </summary>
-    /// <param name="BucketName">The name of the bucket for which to update the bundle. Constraints: o min: 3 o max: 54 o pattern: ^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$</param>
-    /// <param name="BundleId">The ID of the new bundle to apply to the bucket. Use the GetBucketBundles action to get a list of bundle IDs that you can specify. Constraints: o pattern: .*\S.*</param>
+    /// <param name="BucketName">The name of the bucket for which to update the bundle. Constraints: • min: 3 • max: 54 • pattern: ^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$</param>
+    /// <param name="BundleId">The ID of the new bundle to apply to the bucket. Use the GetBucketBundles action to get a list of bundle IDs that you can specify. Constraints: • pattern: .*\S.*</param>
     public AwsLightsailUpdateBucketBundleOptions(
         string BucketName,
         string BundleId
@@ -60,13 +62,13 @@ public record AwsLightsailUpdateBucketBundleOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the bucket for which to update the bundle. Constraints: o min: 3 o max: 54 o pattern: ^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$
+    /// The name of the bucket for which to update the bundle. Constraints: • min: 3 • max: 54 • pattern: ^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$
     /// </summary>
     [CliOption("--bucket-name")]
     public string? BucketName { get; private init; }
 
     /// <summary>
-    /// The ID of the new bundle to apply to the bucket. Use the GetBucketBundles action to get a list of bundle IDs that you can specify. Constraints: o pattern: .*\S.*
+    /// The ID of the new bundle to apply to the bucket. Use the GetBucketBundles action to get a list of bundle IDs that you can specify. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--bundle-id")]
     public string? BundleId { get; private init; }

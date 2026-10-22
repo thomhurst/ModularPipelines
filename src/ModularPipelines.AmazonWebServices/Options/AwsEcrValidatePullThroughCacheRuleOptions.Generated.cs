@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsEcrValidatePullThroughCacheRuleOptions : AwsOptions, IValidatab
     /// <summary>
     /// Validates an existing pull through cache rule for an upstream registry that requires authentication. This will retrieve the contents of the Amazon Web Services Secrets Manager secret, verify the syntax, and then validate that authentication to the upstream registry is successful. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EcrRepositoryPrefix">The repository name prefix associated with the pull through cache rule. Constraints: o min: 2 o max: 30 o pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$</param>
+    /// <param name="EcrRepositoryPrefix">The repository name prefix associated with the pull through cache rule. Constraints: • min: 2 • max: 30 • pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$</param>
     public AwsEcrValidatePullThroughCacheRuleOptions(
         string EcrRepositoryPrefix
     )
@@ -56,13 +58,13 @@ public record AwsEcrValidatePullThroughCacheRuleOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The repository name prefix associated with the pull through cache rule. Constraints: o min: 2 o max: 30 o pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$
+    /// The repository name prefix associated with the pull through cache rule. Constraints: • min: 2 • max: 30 • pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$
     /// </summary>
     [CliOption("--ecr-repository-prefix")]
     public string? EcrRepositoryPrefix { get; private init; }
 
     /// <summary>
-    /// The registry ID associated with the pull through cache rule. If you do not specify a registry, the default registry is assumed. Constraints: o pattern: [0-9]{12}
+    /// The registry ID associated with the pull through cache rule. If you do not specify a registry, the default registry is assumed. Constraints: • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; set; }

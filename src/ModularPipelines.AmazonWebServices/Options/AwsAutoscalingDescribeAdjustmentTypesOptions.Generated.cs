@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the available adjustment types for step scaling and simple scaling policies. The following adjustment types are supported: o ChangeInCapacity o ExactCapacity o PercentChangeInCapacity See also: AWS API Documentation
+/// Describes the available adjustment types for step scaling and simple scaling policies. The following adjustment types are supported: • ChangeInCapacity • ExactCapacity • PercentChangeInCapacity See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,10 +29,10 @@ public record AwsLaunchWizardCreateDeploymentOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Creates a deployment for the given workload. Deployments created by this operation are not available in the Launch Wizard console to use the Clone deployment action on. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkloadName">The name of the workload. You can use the ` ListWorkloads https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloads.html`__ operation to discover supported values for this parameter. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z][a-zA-Z0-9-_]*</param>
-    /// <param name="DeploymentPatternName">The name of the deployment pattern supported by a given workload. You can use the ` ListWorkloadDeploymentPatterns https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloadDeploymentPatterns.html`__ operation to discover supported values for this parameter. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9][a-zA-Z0-9-]*</param>
-    /// <param name="Name">The name of the deployment. Constraints: o min: 1 o max: 50 o pattern: [A-Za-z0-9_\.-]+</param>
-    /// <param name="Specifications">The settings specified for the deployment. These settings define how to deploy and configure your resources created by the deployment. For more information about the specifications required for creating a deployment for a SAP workload, see SAP deployment specifications . To retrieve the specifications required to create a deployment for other workloads, use the ` GetWorkloadDeploymentPattern https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_GetWorkloadDeploymentPattern.html`__ operation. Constraints: o min: 1 o max: 100 key -&gt; (string) Constraints: o min: 3 o max: 256 o pattern: [a-zA-Z0-9-:]+ value -&gt; (string) Constraints: o min: 1 o max: 1500 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="WorkloadName">The name of the workload. You can use the ` ListWorkloads https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloads.html`__ operation to discover supported values for this parameter. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z][a-zA-Z0-9-_]*</param>
+    /// <param name="DeploymentPatternName">The name of the deployment pattern supported by a given workload. You can use the ` ListWorkloadDeploymentPatterns https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloadDeploymentPatterns.html`__ operation to discover supported values for this parameter. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="Name">The name of the deployment. Constraints: • min: 1 • max: 50 • pattern: [A-Za-z0-9_\.-]+</param>
+    /// <param name="Specifications">The settings specified for the deployment. These settings define how to deploy and configure your resources created by the deployment. For more information about the specifications required for creating a deployment for a SAP workload, see SAP deployment specifications . To retrieve the specifications required to create a deployment for other workloads, use the ` GetWorkloadDeploymentPattern https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_GetWorkloadDeploymentPattern.html`__ operation. Constraints: • min: 1 • max: 100 key -&gt; (string) Constraints: • min: 3 • max: 256 • pattern: [a-zA-Z0-9-:]+ value -&gt; (string) Constraints: • min: 1 • max: 1500 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsLaunchWizardCreateDeploymentOptions(
         string WorkloadName,
         string DeploymentPatternName,
@@ -80,37 +81,37 @@ public record AwsLaunchWizardCreateDeploymentOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workload. You can use the ` ListWorkloads https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloads.html`__ operation to discover supported values for this parameter. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z][a-zA-Z0-9-_]*
+    /// The name of the workload. You can use the ` ListWorkloads https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloads.html`__ operation to discover supported values for this parameter. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z][a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--workload-name")]
     public string? WorkloadName { get; private init; }
 
     /// <summary>
-    /// The name of the deployment pattern supported by a given workload. You can use the ` ListWorkloadDeploymentPatterns https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloadDeploymentPatterns.html`__ operation to discover supported values for this parameter. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9][a-zA-Z0-9-]*
+    /// The name of the deployment pattern supported by a given workload. You can use the ` ListWorkloadDeploymentPatterns https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloadDeploymentPatterns.html`__ operation to discover supported values for this parameter. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9][a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--deployment-pattern-name")]
     public string? DeploymentPatternName { get; private init; }
 
     /// <summary>
-    /// The name of the deployment. Constraints: o min: 1 o max: 50 o pattern: [A-Za-z0-9_\.-]+
+    /// The name of the deployment. Constraints: • min: 1 • max: 50 • pattern: [A-Za-z0-9_\.-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The settings specified for the deployment. These settings define how to deploy and configure your resources created by the deployment. For more information about the specifications required for creating a deployment for a SAP workload, see SAP deployment specifications . To retrieve the specifications required to create a deployment for other workloads, use the ` GetWorkloadDeploymentPattern https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_GetWorkloadDeploymentPattern.html`__ operation. Constraints: o min: 1 o max: 100 key -&gt; (string) Constraints: o min: 3 o max: 256 o pattern: [a-zA-Z0-9-:]+ value -&gt; (string) Constraints: o min: 1 o max: 1500 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The settings specified for the deployment. These settings define how to deploy and configure your resources created by the deployment. For more information about the specifications required for creating a deployment for a SAP workload, see SAP deployment specifications . To retrieve the specifications required to create a deployment for other workloads, use the ` GetWorkloadDeploymentPattern https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_GetWorkloadDeploymentPattern.html`__ operation. Constraints: • min: 1 • max: 100 key -&gt; (string) Constraints: • min: 3 • max: 256 • pattern: [a-zA-Z0-9-:]+ value -&gt; (string) Constraints: • min: 1 • max: 1500 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--specifications", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Specifications { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// The tags to add to the deployment. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9 _.:/=+@-]+ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9 _.:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to add to the deployment. Constraints: • min: 1 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9 _.:/=+@-]+ value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9 _.:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

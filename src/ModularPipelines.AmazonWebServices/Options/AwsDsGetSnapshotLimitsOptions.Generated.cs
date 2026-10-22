@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDsGetSnapshotLimitsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Obtains the manual snapshot limits for a directory. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">Contains the identifier of the directory to obtain the limits for. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="DirectoryId">Contains the identifier of the directory to obtain the limits for. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
     public AwsDsGetSnapshotLimitsOptions(
         string DirectoryId
     )
@@ -56,7 +58,7 @@ public record AwsDsGetSnapshotLimitsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Contains the identifier of the directory to obtain the limits for. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// Contains the identifier of the directory to obtain the limits for. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }

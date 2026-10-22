@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +29,10 @@ public record AwsFrauddetectorUpdateRuleVersionOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Updates a rule version resulting in a new rule version. Updates a rule version resulting in a new rule version (version 1, 2, 3 ...). See also: AWS API Documentation
     /// </summary>
-    /// <param name="Rule">The rule to update. detectorId -&gt; (string) [required] The detector for which the rule is associated. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$ ruleId -&gt; (string) [required] The rule ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$ ruleVersion -&gt; (string) [required] The rule version. Constraints: o min: 1 o max: 5 o pattern: ^([1-9][0-9]*)$ Shorthand Syntax: detectorId=string,ruleId=string,ruleVersion=string JSON Syntax: { "detectorId": "string", "ruleId": "string", "ruleVersion": "string" }</param>
-    /// <param name="Expression">The rule expression. Constraints: o min: 1 o max: 4096</param>
-    /// <param name="Language">The language. Possible values: o DETECTORPL</param>
-    /// <param name="Outcomes">The outcomes. Constraints: o min: 1 (string) Syntax: "string" "string" ...</param>
+    /// <param name="Rule">The rule to update. detectorId -&gt; (string) [required] The detector for which the rule is associated. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$ ruleId -&gt; (string) [required] The rule ID. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$ ruleVersion -&gt; (string) [required] The rule version. Constraints: • min: 1 • max: 5 • pattern: ^([1-9][0-9]*)$ Shorthand Syntax: detectorId=string,ruleId=string,ruleVersion=string JSON Syntax: { "detectorId": "string", "ruleId": "string", "ruleVersion": "string" }</param>
+    /// <param name="Expression">The rule expression. Constraints: • min: 1 • max: 4096</param>
+    /// <param name="Language">The language. Possible values: • DETECTORPL</param>
+    /// <param name="Outcomes">The outcomes. Constraints: • min: 1 (string) Syntax: "string" "string" ...</param>
     public AwsFrauddetectorUpdateRuleVersionOptions(
         string Rule,
         string Expression,
@@ -79,37 +81,37 @@ public record AwsFrauddetectorUpdateRuleVersionOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The rule to update. detectorId -&gt; (string) [required] The detector for which the rule is associated. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$ ruleId -&gt; (string) [required] The rule ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$ ruleVersion -&gt; (string) [required] The rule version. Constraints: o min: 1 o max: 5 o pattern: ^([1-9][0-9]*)$ Shorthand Syntax: detectorId=string,ruleId=string,ruleVersion=string JSON Syntax: { "detectorId": "string", "ruleId": "string", "ruleVersion": "string" }
+    /// The rule to update. detectorId -&gt; (string) [required] The detector for which the rule is associated. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$ ruleId -&gt; (string) [required] The rule ID. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$ ruleVersion -&gt; (string) [required] The rule version. Constraints: • min: 1 • max: 5 • pattern: ^([1-9][0-9]*)$ Shorthand Syntax: detectorId=string,ruleId=string,ruleVersion=string JSON Syntax: { "detectorId": "string", "ruleId": "string", "ruleVersion": "string" }
     /// </summary>
     [CliOption("--rule")]
     public string? Rule { get; private init; }
 
     /// <summary>
-    /// The rule expression. Constraints: o min: 1 o max: 4096
+    /// The rule expression. Constraints: • min: 1 • max: 4096
     /// </summary>
     [CliOption("--expression")]
     public string? Expression { get; private init; }
 
     /// <summary>
-    /// The language. Possible values: o DETECTORPL
+    /// The language. Possible values: • DETECTORPL
     /// </summary>
     [CliOption("--language")]
     public string? Language { get; private init; }
 
     /// <summary>
-    /// The outcomes. Constraints: o min: 1 (string) Syntax: "string" "string" ...
+    /// The outcomes. Constraints: • min: 1 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--outcomes", GroupValues = true)]
     public IEnumerable<string>? Outcomes { get; private init; }
 
     /// <summary>
-    /// The description. Constraints: o min: 1 o max: 128
+    /// The description. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The tags to assign to the rule version. Constraints: o min: 0 o max: 200 (structure) A key and value pair. key -&gt; (string) [required] A tag key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] A value assigned to a tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// The tags to assign to the rule version. Constraints: • min: 0 • max: 200 (structure) A key and value pair. key -&gt; (string) [required] A tag key. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] A value assigned to a tag key. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

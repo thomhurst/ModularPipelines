@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Initiates a connection to a target (for example, a managed node) for a Session Manager session. Returns a URL and token that can be used to open a WebSocket connection for sending input and receiving outputs. NOTE: Amazon Web Services CLI usage: start-session is an interactive com- mand that requires the Session Manager plugin to be installed on the client machine making the call. For information, see Install the Session Manager plugin for the Amazon Web Services CLI in the Amazon Web Services S...
+/// Initiates a connection to a target (for example, a managed node) for a Session Manager session. Returns a URL and token that can be used to open a WebSocket connection for sending input and receiving outputs. NOTE: Amazon Web Services CLI usage: start-session is an interactive command that requires the Session Manager plugin to be installed on the client machine making the call. For information, see Install the Session Manager plugin for the Amazon Web Services CLI in the Amazon Web Services Sys...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsSsmStartSessionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Initiates a connection to a target (for example, a managed node) for a Session Manager session. Returns a URL and token that can be used to open a WebSocket connection for sending input and receiving outputs. NOTE: Amazon Web Services CLI usage: start-session is an interactive com- mand that requires the Session Manager plugin to be installed on the client machine making the call. For information, see Install the Session Manager plugin for the Amazon Web Services CLI in the Amazon Web Services S...
+    /// Initiates a connection to a target (for example, a managed node) for a Session Manager session. Returns a URL and token that can be used to open a WebSocket connection for sending input and receiving outputs. NOTE: Amazon Web Services CLI usage: start-session is an interactive command that requires the Session Manager plugin to be installed on the client machine making the call. For information, see Install the Session Manager plugin for the Amazon Web Services CLI in the Amazon Web Services Sys...
     /// </summary>
-    /// <param name="Target">The managed node to connect to for the session. Constraints: o min: 1 o max: 400</param>
+    /// <param name="Target">The managed node to connect to for the session. Constraints: • min: 1 • max: 400</param>
     public AwsSsmStartSessionOptions(
         string Target
     )
@@ -57,25 +58,25 @@ public record AwsSsmStartSessionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The managed node to connect to for the session. Constraints: o min: 1 o max: 400
+    /// The managed node to connect to for the session. Constraints: • min: 1 • max: 400
     /// </summary>
     [CliOption("--target")]
     public string? Target { get; private init; }
 
     /// <summary>
-    /// The name of the SSM document you want to use to define the type of session, input parameters, or preferences for the session. For exam- ple, SSM-SessionManagerRunShell . You can call the GetDocument API to verify the document exists before attempting to start a session. If no document name is provided, a shell to the managed node is launched by default. For more information, see Start a session in the Amazon Web Services Systems Manager User Guide . Constraints: o pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$
+    /// The name of the SSM document you want to use to define the type of session, input parameters, or preferences for the session. For example, SSM-SessionManagerRunShell . You can call the GetDocument API to verify the document exists before attempting to start a session. If no document name is provided, a shell to the managed node is launched by default. For more information, see Start a session in the Amazon Web Services Systems Manager User Guide . Constraints: • pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$
     /// </summary>
     [CliOption("--document-name")]
     public string? DocumentName { get; set; }
 
     /// <summary>
-    /// The reason for connecting to the instance. This value is included in the details for the Amazon CloudWatch Events event created when you start the session. Constraints: o min: 1 o max: 256 o pattern: ^.{1,256}$
+    /// The reason for connecting to the instance. This value is included in the details for the Amazon CloudWatch Events event created when you start the session. Constraints: • min: 1 • max: 256 • pattern: ^.{1,256}$
     /// </summary>
     [CliOption("--reason")]
     public string? Reason { get; set; }
 
     /// <summary>
-    /// The values you want to specify for the parameters defined in the Session document. For more information about these parameters, see Create a Session Manager preferences document in the Amazon Web Ser- vices Systems Manager User Guide . key -&gt; (string) Constraints: o min: 1 o max: 255 value -&gt; (list) (string) Constraints: o min: 1 o max: 65535 Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
+    /// The values you want to specify for the parameters defined in the Session document. For more information about these parameters, see Create a Session Manager preferences document in the Amazon Web Services Systems Manager User Guide . key -&gt; (string) Constraints: • min: 1 • max: 255 value -&gt; (list) (string) Constraints: • min: 1 • max: 65535 Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
     [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }

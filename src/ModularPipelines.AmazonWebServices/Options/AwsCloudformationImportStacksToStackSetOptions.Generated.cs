@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Import existing stacks into a new StackSets. Use the stack import oper- ation to import up to 10 stacks into a new StackSet in the same account as the source stack or in a different administrator account and Region, by specifying the stack ID of the stack you intend to import. See also: AWS API Documentation
+/// Import existing stacks into a new StackSets. Use the stack import operation to import up to 10 stacks into a new StackSet in the same account as the source stack or in a different administrator account and Region, by specifying the stack ID of the stack you intend to import. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsCloudformationImportStacksToStackSetOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Import existing stacks into a new StackSets. Use the stack import oper- ation to import up to 10 stacks into a new StackSet in the same account as the source stack or in a different administrator account and Region, by specifying the stack ID of the stack you intend to import. See also: AWS API Documentation
+    /// Import existing stacks into a new StackSets. Use the stack import operation to import up to 10 stacks into a new StackSet in the same account as the source stack or in a different administrator account and Region, by specifying the stack ID of the stack you intend to import. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StackSetName">The name of the StackSet. The name must be unique in the Region where you create your StackSet. Constraints: o pattern: [a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?</param>
+    /// <param name="StackSetName">The name of the StackSet. The name must be unique in the Region where you create your StackSet. Constraints: • pattern: [a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?</param>
     public AwsCloudformationImportStacksToStackSetOptions(
         string StackSetName
     )
@@ -57,7 +59,7 @@ public record AwsCloudformationImportStacksToStackSetOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the StackSet. The name must be unique in the Region where you create your StackSet. Constraints: o pattern: [a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?
+    /// The name of the StackSet. The name must be unique in the Region where you create your StackSet. Constraints: • pattern: [a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?
     /// </summary>
     [CliOption("--stack-set-name")]
     public string? StackSetName { get; private init; }
@@ -69,31 +71,31 @@ public record AwsCloudformationImportStacksToStackSetOptions : AwsOptions, IVali
     public IEnumerable<string>? StackIds { get; set; }
 
     /// <summary>
-    /// The Amazon S3 URL which contains list of stack ids to be inputted. Specify either StackIds or StackIdsUrl . Constraints: o min: 1 o max: 5120 o pattern: (s3://|http(s?)://).+
+    /// The Amazon S3 URL which contains list of stack ids to be inputted. Specify either StackIds or StackIdsUrl . Constraints: • min: 1 • max: 5120 • pattern: (s3://|http(s?)://).+
     /// </summary>
     [CliOption("--stack-ids-url")]
     public string? StackIdsUrl { get; set; }
 
     /// <summary>
-    /// The list of OU ID's to which the imported stacks must be mapped as deployment targets. (string) Constraints: o pattern: ^(ou-[a-z0-9]{4,32}-[a-z0-9]{8,32}|r-[a-z0-9]{4,32})$ Syntax: "string" "string" ...
+    /// The list of OU ID's to which the imported stacks must be mapped as deployment targets. (string) Constraints: • pattern: ^(ou-[a-z0-9]{4,32}-[a-z0-9]{8,32}|r-[a-z0-9]{4,32})$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--organizational-unit-ids", GroupValues = true)]
     public IEnumerable<string>? OrganizationalUnitIds { get; set; }
 
     /// <summary>
-    /// The user-specified preferences for how CloudFormation performs a StackSet operation. For more information about maximum concurrent accounts and failure tolerance, see StackSet operation options . RegionConcurrencyType -&gt; (string) The concurrency type of deploying StackSets operations in Re- gions, could be in parallel or one Region at a time. Possible values: o SEQUENTIAL o PARALLEL RegionOrder -&gt; (list) The order of the Regions where you want to perform the stack op- eration. (string) Constraints: o pattern: ^[a-zA-Z0-9-]{1,128}$ FailureToleranceCount -&gt; (integer) The number of accounts per Region this operation can fail in be- fore CloudFormation stops the operation in that Region. If the operation is stopped in a Region, CloudFormation doesn't attempt the operation in any subsequent Regions. You can specify either FailureToleranceCount or FailureToleran- cePercentage , but not both. By default, 0 is specified. Constraints: o min: 0 FailureTolerancePercentage -&gt; (integer) The percentage of accounts per Region this stack operation can fail in before CloudFormation stops the operation in that Re- gion. If the operation is stopped in a Region, CloudFormation doesn't attempt the operation in any subsequent Regions. When calculating the number of accounts based on the specified percentage, CloudFormation rounds down to the next whole number. You can specify either FailureToleranceCount or FailureToleran- cePercentage , but not both. By default, 0 is specified. Constraints: o min: 0 o max: 100 MaxConcurrentCount -&gt; (integer) The maximum number of accounts in which to perform this opera- tion at one time. This can depend on the value of FailureToler- anceCount depending on your ConcurrencyMode . MaxConcurrentCount is at most one more than the FailureToleranceCount if you're us- ing STRICT_FAILURE_TOLERANCE . Note that this setting lets you specify the maximum for opera- tions. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. You can specify either MaxConcurrentCount or MaxConcurrentPer- centage , but not both. By default, 1 is specified. Constraints: o min: 1 MaxConcurrentPercentage -&gt; (integer) The maximum percentage of accounts in which to perform this op- eration at one time. When calculating the number of accounts based on the specified percentage, CloudFormation rounds down to the next whole number. This is true except in cases where rounding down would result is zero. In this case, CloudFormation sets the number as one in- stead. Note that this setting lets you specify the maximum for opera- tions. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. You can specify either MaxConcurrentCount or MaxConcurrentPer- centage , but not both. By default, 1 is specified. Constraints: o min: 1 o max: 100 ConcurrencyMode -&gt; (string) Specifies how the concurrency level behaves during the operation execution. o STRICT_FAILURE_TOLERANCE : This option dynamically lowers the concurrency level to ensure the number of failed accounts never exceeds the value of FailureToleranceCount +1. The ini- tial actual concurrency is set to the lower of either the value of the MaxConcurrentCount , or the value of FailureTol- eranceCount +1. The actual concurrency is then reduced propor- tionally by the number of failures. This is the default behav- ior. If failure tolerance or Maximum concurrent accounts are set to percentages, the behavior is similar. o SOFT_FAILURE_TOLERANCE : This option decouples FailureToler- anceCount from the actual concurrency. This allows StackSet operations to run at the concurrency level set by the MaxCon- currentCount value, or MaxConcurrentPercentage , regardless of the number of failures. Possible values: o STRICT_FAILURE_TOLERANCE o SOFT_FAILURE_TOLERANCE Shorthand Syntax: RegionConcurrencyType=string,RegionOrder=string,string,FailureToleranceCount=integer,FailureTolerancePercentage=integer,MaxConcurrentCount=integer,MaxConcurrentPercentage=integer,ConcurrencyMode=string JSON Syntax: { "RegionConcurrencyType": "SEQUENTIAL"|"PARALLEL", "RegionOrder": ["string", ...], "FailureToleranceCount": integer, "FailureTolerancePercentage": integer, "MaxConcurrentCount": integer, "MaxConcurrentPercentage": integer, "ConcurrencyMode": "STRICT_FAILURE_TOLERANCE"|"SOFT_FAILURE_TOLERANCE" }
+    /// The user-specified preferences for how CloudFormation performs a StackSet operation. For more information about maximum concurrent accounts and failure tolerance, see StackSet operation options . RegionConcurrencyType -&gt; (string) The concurrency type of deploying StackSets operations in Regions, could be in parallel or one Region at a time. Possible values: • SEQUENTIAL • PARALLEL RegionOrder -&gt; (list) The order of the Regions where you want to perform the stack operation. (string) Constraints: • pattern: ^[a-zA-Z0-9-]{1,128}$ FailureToleranceCount -&gt; (integer) The number of accounts per Region this operation can fail in before CloudFormation stops the operation in that Region. If the operation is stopped in a Region, CloudFormation doesn't attempt the operation in any subsequent Regions. You can specify either FailureToleranceCount or FailureTolerancePercentage , but not both. By default, 0 is specified. Constraints: • min: 0 FailureTolerancePercentage -&gt; (integer) The percentage of accounts per Region this stack operation can fail in before CloudFormation stops the operation in that Region. If the operation is stopped in a Region, CloudFormation doesn't attempt the operation in any subsequent Regions. When calculating the number of accounts based on the specified percentage, CloudFormation rounds down to the next whole number. You can specify either FailureToleranceCount or FailureTolerancePercentage , but not both. By default, 0 is specified. Constraints: • min: 0 • max: 100 MaxConcurrentCount -&gt; (integer) The maximum number of accounts in which to perform this operation at one time. This can depend on the value of FailureToleranceCount depending on your ConcurrencyMode . MaxConcurrentCount is at most one more than the FailureToleranceCount if you're using STRICT_FAILURE_TOLERANCE . Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. You can specify either MaxConcurrentCount or MaxConcurrentPercentage , but not both. By default, 1 is specified. Constraints: • min: 1 MaxConcurrentPercentage -&gt; (integer) The maximum percentage of accounts in which to perform this operation at one time. When calculating the number of accounts based on the specified percentage, CloudFormation rounds down to the next whole number. This is true except in cases where rounding down would result is zero. In this case, CloudFormation sets the number as one instead. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. You can specify either MaxConcurrentCount or MaxConcurrentPercentage , but not both. By default, 1 is specified. Constraints: • min: 1 • max: 100 ConcurrencyMode -&gt; (string) Specifies how the concurrency level behaves during the operation execution. • STRICT_FAILURE_TOLERANCE : This option dynamically lowers the concurrency level to ensure the number of failed accounts never exceeds the value of FailureToleranceCount +1. The initial actual concurrency is set to the lower of either the value of the MaxConcurrentCount , or the value of FailureToleranceCount +1. The actual concurrency is then reduced proportionally by the number of failures. This is the default behavior. If failure tolerance or Maximum concurrent accounts are set to percentages, the behavior is similar. • SOFT_FAILURE_TOLERANCE : This option decouples FailureToleranceCount from the actual concurrency. This allows StackSet operations to run at the concurrency level set by the MaxConcurrentCount value, or MaxConcurrentPercentage , regardless of the number of failures. Possible values: • STRICT_FAILURE_TOLERANCE • SOFT_FAILURE_TOLERANCE Shorthand Syntax: RegionConcurrencyType=string,RegionOrder=string,string,FailureToleranceCount=integer,FailureTolerancePercentage=integer,MaxConcurrentCount=integer,MaxConcurrentPercentage=integer,ConcurrencyMode=string JSON Syntax: { "RegionConcurrencyType": "SEQUENTIAL"|"PARALLEL", "RegionOrder": ["string", ...], "FailureToleranceCount": integer, "FailureTolerancePercentage": integer, "MaxConcurrentCount": integer, "MaxConcurrentPercentage": integer, "ConcurrencyMode": "STRICT_FAILURE_TOLERANCE"|"SOFT_FAILURE_TOLERANCE" }
     /// </summary>
     [CliOption("--operation-preferences")]
     public string? OperationPreferences { get; set; }
 
     /// <summary>
-    /// A unique, user defined, identifier for the StackSet operation. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][-a-zA-Z0-9]*
+    /// A unique, user defined, identifier for the StackSet operation. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][-a-zA-Z0-9]*
     /// </summary>
     [CliOption("--operation-id")]
     public string? OperationId { get; set; }
 
     /// <summary>
-    /// By default, SELF is specified. Use SELF for StackSets with self-man- aged permissions. o If you are signed in to the management account, specify SELF . o For service managed StackSets, specify DELEGATED_ADMIN . Possible values: o SELF o DELEGATED_ADMIN
+    /// By default, SELF is specified. Use SELF for StackSets with self-managed permissions. • If you are signed in to the management account, specify SELF . • For service managed StackSets, specify DELEGATED_ADMIN . Possible values: • SELF • DELEGATED_ADMIN
     /// </summary>
     [CliOption("--call-as")]
     public AwsCloudformationImportStacksToStackSetCallAs? CallAs { get; set; }

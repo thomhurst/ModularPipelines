@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +29,10 @@ public record AwsAppfabricUpdateIngestionDestinationOptions : AwsOptions, IValid
     /// <summary>
     /// Updates an ingestion destination, which specifies how an application's ingested data is processed by Amazon Web Services AppFabric and where it's delivered. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppBundleIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="IngestionIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="IngestionDestinationIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion destination to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="DestinationConfiguration">Contains information about the destination of ingested data. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: auditLog. auditLog -&gt; (structure) Contains information about an audit log destination configura- tion. destination -&gt; (tagged union structure) [required] Contains information about an audit log destination. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: s3Bucket, firehoseStream. s3Bucket -&gt; (structure) Contains information about an Amazon S3 bucket. bucketName -&gt; (string) [required] The name of the Amazon S3 bucket. Constraints: o min: 3 o max: 63 prefix -&gt; (string) The object key to use. Constraints: o min: 1 o max: 120 firehoseStream -&gt; (structure) Contains information about an Amazon Kinesis Data Fire- hose delivery stream. streamName -&gt; (string) [required] The name of the Amazon Kinesis Data Firehose delivery stream. Constraints: o min: 3 o max: 64 JSON Syntax: { "auditLog": { "destination": { "s3Bucket": { "bucketName": "string", "prefix": "string" }, "firehoseStream": { "streamName": "string" } } } }</param>
+    /// <param name="AppBundleIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: • min: 1 • max: 1011 • pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="IngestionIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion to use for the request. Constraints: • min: 1 • max: 1011 • pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="IngestionDestinationIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion destination to use for the request. Constraints: • min: 1 • max: 1011 • pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="DestinationConfiguration">Contains information about the destination of ingested data. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: auditLog. auditLog -&gt; (structure) Contains information about an audit log destination configuration. destination -&gt; (tagged union structure) [required] Contains information about an audit log destination. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3Bucket, firehoseStream. s3Bucket -&gt; (structure) Contains information about an Amazon S3 bucket. bucketName -&gt; (string) [required] The name of the Amazon S3 bucket. Constraints: • min: 3 • max: 63 prefix -&gt; (string) The object key to use. Constraints: • min: 1 • max: 120 firehoseStream -&gt; (structure) Contains information about an Amazon Kinesis Data Firehose delivery stream. streamName -&gt; (string) [required] The name of the Amazon Kinesis Data Firehose delivery stream. Constraints: • min: 3 • max: 64 JSON Syntax: { "auditLog": { "destination": { "s3Bucket": { "bucketName": "string", "prefix": "string" }, "firehoseStream": { "streamName": "string" } } } }</param>
     public AwsAppfabricUpdateIngestionDestinationOptions(
         string AppBundleIdentifier,
         string IngestionIdentifier,
@@ -68,25 +70,25 @@ public record AwsAppfabricUpdateIngestionDestinationOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: • min: 1 • max: 1011 • pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--app-bundle-identifier")]
     public string? AppBundleIdentifier { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion to use for the request. Constraints: • min: 1 • max: 1011 • pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--ingestion-identifier")]
     public string? IngestionIdentifier { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion destination to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion destination to use for the request. Constraints: • min: 1 • max: 1011 • pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--ingestion-destination-identifier")]
     public string? IngestionDestinationIdentifier { get; private init; }
 
     /// <summary>
-    /// Contains information about the destination of ingested data. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: auditLog. auditLog -&gt; (structure) Contains information about an audit log destination configura- tion. destination -&gt; (tagged union structure) [required] Contains information about an audit log destination. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: s3Bucket, firehoseStream. s3Bucket -&gt; (structure) Contains information about an Amazon S3 bucket. bucketName -&gt; (string) [required] The name of the Amazon S3 bucket. Constraints: o min: 3 o max: 63 prefix -&gt; (string) The object key to use. Constraints: o min: 1 o max: 120 firehoseStream -&gt; (structure) Contains information about an Amazon Kinesis Data Fire- hose delivery stream. streamName -&gt; (string) [required] The name of the Amazon Kinesis Data Firehose delivery stream. Constraints: o min: 3 o max: 64 JSON Syntax: { "auditLog": { "destination": { "s3Bucket": { "bucketName": "string", "prefix": "string" }, "firehoseStream": { "streamName": "string" } } } }
+    /// Contains information about the destination of ingested data. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: auditLog. auditLog -&gt; (structure) Contains information about an audit log destination configuration. destination -&gt; (tagged union structure) [required] Contains information about an audit log destination. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3Bucket, firehoseStream. s3Bucket -&gt; (structure) Contains information about an Amazon S3 bucket. bucketName -&gt; (string) [required] The name of the Amazon S3 bucket. Constraints: • min: 3 • max: 63 prefix -&gt; (string) The object key to use. Constraints: • min: 1 • max: 120 firehoseStream -&gt; (structure) Contains information about an Amazon Kinesis Data Firehose delivery stream. streamName -&gt; (string) [required] The name of the Amazon Kinesis Data Firehose delivery stream. Constraints: • min: 3 • max: 64 JSON Syntax: { "auditLog": { "destination": { "s3Bucket": { "bucketName": "string", "prefix": "string" }, "firehoseStream": { "streamName": "string" } } } }
     /// </summary>
     [CliOption("--destination-configuration")]
     public string? DestinationConfiguration { get; private init; }

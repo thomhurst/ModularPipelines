@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,9 +31,9 @@ public record AwsQconnectUpdateAiPromptOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates an AI Prompt. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssistantId">The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
-    /// <param name="AiPromptId">The identifier of the Amazon Q in Connect AI Prompt. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}(:[A-Z0-9_$]+){0,1}</param>
-    /// <param name="VisibilityStatus">The visibility status of the Amazon Q in Connect AI prompt. Possible values: o SAVED o PUBLISHED</param>
+    /// <param name="AssistantId">The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
+    /// <param name="AiPromptId">The identifier of the Amazon Q in Connect AI Prompt. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}(:[A-Z0-9_$]+){0,1}</param>
+    /// <param name="VisibilityStatus">The visibility status of the Amazon Q in Connect AI prompt. Possible values: • SAVED • PUBLISHED</param>
     public AwsQconnectUpdateAiPromptOptions(
         string AssistantId,
         string AiPromptId,
@@ -65,50 +67,50 @@ public record AwsQconnectUpdateAiPromptOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}
     /// </summary>
     [CliOption("--assistant-id")]
     public string? AssistantId { get; private init; }
 
     /// <summary>
-    /// The identifier of the Amazon Q in Connect AI Prompt. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}(:[A-Z0-9_$]+){0,1}
+    /// The identifier of the Amazon Q in Connect AI Prompt. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}(:[A-Z0-9_$]+){0,1}
     /// </summary>
     [CliOption("--ai-prompt-id")]
     public string? AiPromptId { get; private init; }
 
     /// <summary>
-    /// The visibility status of the Amazon Q in Connect AI prompt. Possible values: o SAVED o PUBLISHED
+    /// The visibility status of the Amazon Q in Connect AI prompt. Possible values: • SAVED • PUBLISHED
     /// </summary>
     [CliOption("--visibility-status")]
     public AwsQconnectUpdateAiPromptVisibilityStatus? VisibilityStatus { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs .. Constraints: o min: 1 o max: 4096
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs .. Constraints: • min: 1 • max: 4096
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The configuration of the prompt template for this AI Prompt. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: textFullAIPromptEditTemplateConfigura- tion. textFullAIPromptEditTemplateConfiguration -&gt; (structure) The configuration for a prompt template that supports full tex- tual prompt configuration using a YAML prompt. text -&gt; (string) [required] The YAML text for the AI Prompt template. Constraints: o min: 1 o max: 1000000 Shorthand Syntax: textFullAIPromptEditTemplateConfiguration={text=string} JSON Syntax: { "textFullAIPromptEditTemplateConfiguration": { "text": "string" } }
+    /// The configuration of the prompt template for this AI Prompt. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: textFullAIPromptEditTemplateConfiguration. textFullAIPromptEditTemplateConfiguration -&gt; (structure) The configuration for a prompt template that supports full textual prompt configuration using a YAML prompt. text -&gt; (string) [required] The YAML text for the AI Prompt template. Constraints: • min: 1 • max: 1000000 Shorthand Syntax: textFullAIPromptEditTemplateConfiguration={text=string} JSON Syntax: { "textFullAIPromptEditTemplateConfiguration": { "text": "string" } }
     /// </summary>
     [CliOption("--template-configuration")]
     public string? TemplateConfiguration { get; set; }
 
     /// <summary>
-    /// The description of the Amazon Q in Connect AI Prompt. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9\s_.,-]+.*
+    /// The description of the Amazon Q in Connect AI Prompt. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9\s_.,-]+.*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The identifier of the model used for this AI Prompt. NOTE: For information about which models are supported in each Amazon Web Services Region, see Supported models for system/custom prompts . Constraints: o min: 1 o max: 2048
+    /// The identifier of the model used for this AI Prompt. NOTE: For information about which models are supported in each Amazon Web Services Region, see Supported models for system/custom prompts . Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--model-id")]
     public string? ModelId { get; set; }
 
     /// <summary>
-    /// The updated inference configuration for the AI Prompt. temperature -&gt; (float) The temperature setting for controlling randomness in the gener- ated response. Constraints: o min: 0 o max: 1 topP -&gt; (float) The top-P sampling parameter for nucleus sampling. Constraints: o min: 0 o max: 1 topK -&gt; (integer) The top-K sampling parameter for token selection. Constraints: o min: 0 o max: 200 maxTokensToSample -&gt; (integer) The maximum number of tokens to generate in the response. Constraints: o min: 1 o max: 4096 Shorthand Syntax: temperature=float,topP=float,topK=integer,maxTokensToSample=integer JSON Syntax: { "temperature": float, "topP": float, "topK": integer, "maxTokensToSample": integer }
+    /// The updated inference configuration for the AI Prompt. temperature -&gt; (float) The temperature setting for controlling randomness in the generated response. Constraints: • min: 0 • max: 1 topP -&gt; (float) The top-P sampling parameter for nucleus sampling. Constraints: • min: 0 • max: 1 topK -&gt; (integer) The top-K sampling parameter for token selection. Constraints: • min: 0 • max: 200 maxTokensToSample -&gt; (integer) The maximum number of tokens to generate in the response. Constraints: • min: 1 • max: 4096 Shorthand Syntax: temperature=float,topP=float,topK=integer,maxTokensToSample=integer JSON Syntax: { "temperature": float, "topP": float, "topK": integer, "maxTokensToSample": integer }
     /// </summary>
     [CliOption("--inference-configuration")]
     public string? InferenceConfiguration { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsSsmSapUntagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Delete the tags for a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource. Constraints: o pattern: arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\/.+</param>
-    /// <param name="TagKeys">Adds/updates or removes credentials for applications registered with AWS Systems Manager for SAP. (string) Constraints: o pattern: (?!aws:)[a-zA-Z+-=._:/]+ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource. Constraints: • pattern: arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\/.+</param>
+    /// <param name="TagKeys">Adds/updates or removes credentials for applications registered with AWS Systems Manager for SAP. (string) Constraints: • pattern: (?!aws:)[a-zA-Z+-=._:/]+ Syntax: "string" "string" ...</param>
     public AwsSsmSapUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsSsmSapUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource. Constraints: o pattern: arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\/.+
+    /// The Amazon Resource Name (ARN) of the resource. Constraints: • pattern: arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\/.+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Adds/updates or removes credentials for applications registered with AWS Systems Manager for SAP. (string) Constraints: o pattern: (?!aws:)[a-zA-Z+-=._:/]+ Syntax: "string" "string" ...
+    /// Adds/updates or removes credentials for applications registered with AWS Systems Manager for SAP. (string) Constraints: • pattern: (?!aws:)[a-zA-Z+-=._:/]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsS3controlPutJobTaggingOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Sets the supplied tag-set on an S3 Batch Operations job. A tag is a key-value pair. You can associate S3 Batch Operations tags with any job by sending a PUT request against the tagging subresource that is associated with the job. To modify the existing tag set, you can either replace the existing tag set entirely, or make changes within the existing tag set by retrieving the existing tag set using GetJobTagging , modify that tag set, and use this operation to replace the tag set with the one you...
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID associated with the S3 Batch Op- erations job. Constraints: o max: 64 o pattern: ^\d{12}$</param>
-    /// <param name="JobId">The ID for the S3 Batch Operations job whose tags you want to re- place. Constraints: o min: 5 o max: 36 o pattern: [a-zA-Z0-9\-\_]+</param>
-    /// <param name="Tags">The set of tags to associate with the S3 Batch Operations job. (structure) A container for a key-value name pair. Key -&gt; (string) [required] Key of the tag Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="AccountId">The Amazon Web Services account ID associated with the S3 Batch Operations job. Constraints: • max: 64 • pattern: ^\d{12}$</param>
+    /// <param name="JobId">The ID for the S3 Batch Operations job whose tags you want to replace. Constraints: • min: 5 • max: 36 • pattern: [a-zA-Z0-9\-\_]+</param>
+    /// <param name="Tags">The set of tags to associate with the S3 Batch Operations job. (structure) A container for a key-value name pair. Key -&gt; (string) [required] Key of the tag Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsS3controlPutJobTaggingOptions(
         string AccountId,
         string JobId,
@@ -75,19 +77,19 @@ public record AwsS3controlPutJobTaggingOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID associated with the S3 Batch Op- erations job. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID associated with the S3 Batch Operations job. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The ID for the S3 Batch Operations job whose tags you want to re- place. Constraints: o min: 5 o max: 36 o pattern: [a-zA-Z0-9\-\_]+
+    /// The ID for the S3 Batch Operations job whose tags you want to replace. Constraints: • min: 5 • max: 36 • pattern: [a-zA-Z0-9\-\_]+
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// The set of tags to associate with the S3 Batch Operations job. (structure) A container for a key-value name pair. Key -&gt; (string) [required] Key of the tag Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The set of tags to associate with the S3 Batch Operations job. (structure) A container for a key-value name pair. Key -&gt; (string) [required] Key of the tag Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }

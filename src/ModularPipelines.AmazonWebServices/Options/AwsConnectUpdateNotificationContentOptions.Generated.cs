@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the localized content of an existing notification. This opera- tion applies to all users for whom the notification was sent. See also: AWS API Documentation
+/// Updates the localized content of an existing notification. This operation applies to all users for whom the notification was sent. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsConnectUpdateNotificationContentOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the localized content of an existing notification. This opera- tion applies to all users for whom the notification was sent. See also: AWS API Documentation
+    /// Updates the localized content of an existing notification. This operation applies to all users for whom the notification was sent. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="NotificationId">The unique identifier for the notification to update. Constraints: o min: 1 o max: 256</param>
-    /// <param name="Content">The updated localized content of the notification. A map of locale codes and values. Maximum 500 visible characters per locale. key -&gt; (string) The locale code for localized content. Supported values include en_US, de_DE, es_ES, fr_FR, id_ID, it_IT, ja_JP, ko_KR, pt_BR, zh_CN, and zh_TW. Possible values: o en_US o de_DE o es_ES o fr_FR o id_ID o it_IT o ja_JP o ko_KR o pt_BR o zh_CN o zh_TW value -&gt; (string) A localized string value. Maximum length is 500 visible charac- ters. In a markdown link of the form [label](url) , only the la- bel counts toward the limit. Constraints: o min: 0 o max: 3000 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: en_US de_DE es_ES fr_FR id_ID it_IT ja_JP ko_KR pt_BR zh_CN zh_TW JSON Syntax: {"en_US"|"de_DE"|"es_ES"|"fr_FR"|"id_ID"|"it_IT"|"ja_JP"|"ko_KR"|"pt_BR"|"zh_CN"|"zh_TW": "string" ...}</param>
+    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="NotificationId">The unique identifier for the notification to update. Constraints: • min: 1 • max: 256</param>
+    /// <param name="Content">The updated localized content of the notification. A map of locale codes and values. Maximum 500 visible characters per locale. key -&gt; (string) The locale code for localized content. Supported values include en_US, de_DE, es_ES, fr_FR, id_ID, it_IT, ja_JP, ko_KR, pt_BR, zh_CN, and zh_TW. Possible values: • en_US • de_DE • es_ES • fr_FR • id_ID • it_IT • ja_JP • ko_KR • pt_BR • zh_CN • zh_TW value -&gt; (string) A localized string value. Maximum length is 500 visible characters. In a markdown link of the form [label](url) , only the label counts toward the limit. Constraints: • min: 0 • max: 3000 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: en_US de_DE es_ES fr_FR id_ID it_IT ja_JP ko_KR pt_BR zh_CN zh_TW JSON Syntax: {"en_US"|"de_DE"|"es_ES"|"fr_FR"|"id_ID"|"it_IT"|"ja_JP"|"ko_KR"|"pt_BR"|"zh_CN"|"zh_TW": "string" ...}</param>
     public AwsConnectUpdateNotificationContentOptions(
         string InstanceId,
         string NotificationId,
@@ -76,19 +77,19 @@ public record AwsConnectUpdateNotificationContentOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the notification to update. Constraints: o min: 1 o max: 256
+    /// The unique identifier for the notification to update. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--notification-id")]
     public string? NotificationId { get; private init; }
 
     /// <summary>
-    /// The updated localized content of the notification. A map of locale codes and values. Maximum 500 visible characters per locale. key -&gt; (string) The locale code for localized content. Supported values include en_US, de_DE, es_ES, fr_FR, id_ID, it_IT, ja_JP, ko_KR, pt_BR, zh_CN, and zh_TW. Possible values: o en_US o de_DE o es_ES o fr_FR o id_ID o it_IT o ja_JP o ko_KR o pt_BR o zh_CN o zh_TW value -&gt; (string) A localized string value. Maximum length is 500 visible charac- ters. In a markdown link of the form [label](url) , only the la- bel counts toward the limit. Constraints: o min: 0 o max: 3000 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: en_US de_DE es_ES fr_FR id_ID it_IT ja_JP ko_KR pt_BR zh_CN zh_TW JSON Syntax: {"en_US"|"de_DE"|"es_ES"|"fr_FR"|"id_ID"|"it_IT"|"ja_JP"|"ko_KR"|"pt_BR"|"zh_CN"|"zh_TW": "string" ...}
+    /// The updated localized content of the notification. A map of locale codes and values. Maximum 500 visible characters per locale. key -&gt; (string) The locale code for localized content. Supported values include en_US, de_DE, es_ES, fr_FR, id_ID, it_IT, ja_JP, ko_KR, pt_BR, zh_CN, and zh_TW. Possible values: • en_US • de_DE • es_ES • fr_FR • id_ID • it_IT • ja_JP • ko_KR • pt_BR • zh_CN • zh_TW value -&gt; (string) A localized string value. Maximum length is 500 visible characters. In a markdown link of the form [label](url) , only the label counts toward the limit. Constraints: • min: 0 • max: 3000 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: en_US de_DE es_ES fr_FR id_ID it_IT ja_JP ko_KR pt_BR zh_CN zh_TW JSON Syntax: {"en_US"|"de_DE"|"es_ES"|"fr_FR"|"id_ID"|"it_IT"|"ja_JP"|"ko_KR"|"pt_BR"|"zh_CN"|"zh_TW": "string" ...}
     /// </summary>
     [CliOption("--content", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Content { get; private init; }

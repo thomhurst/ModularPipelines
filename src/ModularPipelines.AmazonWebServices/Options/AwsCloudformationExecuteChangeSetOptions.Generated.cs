@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a stack using the input information that was provided when the specified change set was created. After the call successfully com- pletes, CloudFormation starts updating the stack. Use the De- scribeStacks action to view the status of the update. When you execute a change set, CloudFormation deletes all other change sets associated with the stack because they aren't valid for the up- dated stack. If a stack policy is associated with the stack, CloudFormation enforces the policy during the...
+/// Updates a stack using the input information that was provided when the specified change set was created. After the call successfully completes, CloudFormation starts updating the stack. Use the DescribeStacks action to view the status of the update. When you execute a change set, CloudFormation deletes all other change sets associated with the stack because they aren't valid for the updated stack. If a stack policy is associated with the stack, CloudFormation enforces the policy during the updat...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsCloudformationExecuteChangeSetOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a stack using the input information that was provided when the specified change set was created. After the call successfully com- pletes, CloudFormation starts updating the stack. Use the De- scribeStacks action to view the status of the update. When you execute a change set, CloudFormation deletes all other change sets associated with the stack because they aren't valid for the up- dated stack. If a stack policy is associated with the stack, CloudFormation enforces the policy during the...
+    /// Updates a stack using the input information that was provided when the specified change set was created. After the call successfully completes, CloudFormation starts updating the stack. Use the DescribeStacks action to view the status of the update. When you execute a change set, CloudFormation deletes all other change sets associated with the stack because they aren't valid for the updated stack. If a stack policy is associated with the stack, CloudFormation enforces the policy during the updat...
     /// </summary>
-    /// <param name="ChangeSetName">The name or Amazon Resource Name (ARN) of the change set that you want use to update the specified stack. Constraints: o min: 1 o max: 1600 o pattern: [a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*</param>
+    /// <param name="ChangeSetName">The name or Amazon Resource Name (ARN) of the change set that you want use to update the specified stack. Constraints: • min: 1 • max: 1600 • pattern: [a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*</param>
     public AwsCloudformationExecuteChangeSetOptions(
         string ChangeSetName
     )
@@ -57,32 +59,32 @@ public record AwsCloudformationExecuteChangeSetOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of the change set that you want use to update the specified stack. Constraints: o min: 1 o max: 1600 o pattern: [a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*
+    /// The name or Amazon Resource Name (ARN) of the change set that you want use to update the specified stack. Constraints: • min: 1 • max: 1600 • pattern: [a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*
     /// </summary>
     [CliOption("--change-set-name")]
     public string? ChangeSetName { get; private init; }
 
     /// <summary>
-    /// If you specified the name of a change set, specify the stack name or Amazon Resource Name (ARN) that's associated with the change set you want to execute. Constraints: o min: 1 o pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)
+    /// If you specified the name of a change set, specify the stack name or Amazon Resource Name (ARN) that's associated with the change set you want to execute. Constraints: • min: 1 • pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)
     /// </summary>
     [CliOption("--stack-name")]
     public string? StackName { get; set; }
 
     /// <summary>
-    /// A unique identifier for this ExecuteChangeSet request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to execute a change set to update a stack with the same name. You might retry ExecuteChangeSet requests to en- sure that CloudFormation successfully received them. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][-a-zA-Z0-9]*
+    /// A unique identifier for this ExecuteChangeSet request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to execute a change set to update a stack with the same name. You might retry ExecuteChangeSet requests to ensure that CloudFormation successfully received them. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][-a-zA-Z0-9]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// Preserves the state of previously provisioned resources when an op- eration fails. This parameter can't be specified when the OnStack- Failure parameter to the CreateChangeSet API operation was speci- fied. o True - if the stack creation fails, do nothing. This is equivalent to specifying DO_NOTHING for the OnStackFailure parameter to the CreateChangeSet API operation. o False - if the stack creation fails, roll back the stack. This is equivalent to specifying ROLLBACK for the OnStackFailure parameter to the CreateChangeSet API operation. Default: True
+    /// Preserves the state of previously provisioned resources when an operation fails. This parameter can't be specified when the OnStackFailure parameter to the CreateChangeSet API operation was specified. • True - if the stack creation fails, do nothing. This is equivalent to specifying DO_NOTHING for the OnStackFailure parameter to the CreateChangeSet API operation. • False - if the stack creation fails, roll back the stack. This is equivalent to specifying ROLLBACK for the OnStackFailure parameter to the CreateChangeSet API operation. Default: True
     /// </summary>
     [CliFlag("--disable-rollback", NegatedName = "--no-disable-rollback")]
     public bool? DisableRollback { get; set; }
 
     /// <summary>
-    /// When set to true , newly created resources are deleted when the op- eration rolls back. This includes newly created resources marked with a deletion policy of Retain . Default: false
+    /// When set to true , newly created resources are deleted when the operation rolls back. This includes newly created resources marked with a deletion policy of Retain . Default: false
     /// </summary>
     [CliFlag("--retain-except-on-create", NegatedName = "--no-retain-except-on-create")]
     public bool? RetainExceptOnCreate { get; set; }

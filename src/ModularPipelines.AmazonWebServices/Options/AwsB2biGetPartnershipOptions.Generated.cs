@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the details for a partnership, based on the partner and pro- file IDs specified. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities. See also: AWS API Documentation
+/// Retrieves the details for a partnership, based on the partner and profile IDs specified. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsB2biGetPartnershipOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the details for a partnership, based on the partner and pro- file IDs specified. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities. See also: AWS API Documentation
+    /// Retrieves the details for a partnership, based on the partner and profile IDs specified. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PartnershipId">Specifies the unique, system-generated identifier for a partnership. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="PartnershipId">Specifies the unique, system-generated identifier for a partnership. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsB2biGetPartnershipOptions(
         string PartnershipId
     )
@@ -56,7 +58,7 @@ public record AwsB2biGetPartnershipOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the unique, system-generated identifier for a partnership. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// Specifies the unique, system-generated identifier for a partnership. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--partnership-id")]
     public string? PartnershipId { get; private init; }

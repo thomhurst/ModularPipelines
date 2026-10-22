@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified Amazon Web Services account alias. For informa- tion about using an Amazon Web Services account alias, see Creating, deleting, and listing an Amazon Web Services account alias in the Ama- zon Web Services Sign-In User Guide . See also: AWS API Documentation
+/// Deletes the specified Amazon Web Services account alias. For information about using an Amazon Web Services account alias, see Creating, deleting, and listing an Amazon Web Services account alias in the Amazon Web Services Sign-In User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsIamDeleteAccountAliasOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified Amazon Web Services account alias. For informa- tion about using an Amazon Web Services account alias, see Creating, deleting, and listing an Amazon Web Services account alias in the Ama- zon Web Services Sign-In User Guide . See also: AWS API Documentation
+    /// Deletes the specified Amazon Web Services account alias. For information about using an Amazon Web Services account alias, see Creating, deleting, and listing an Amazon Web Services account alias in the Amazon Web Services Sign-In User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountAlias">The name of the account alias to delete. This parameter allows (through its regex pattern ) a string of char- acters consisting of lowercase letters, digits, and dashes. You can- not start or finish with a dash, nor can you have two dashes in a row. Constraints: o min: 3 o max: 63 o pattern: ^[a-z0-9]([a-z0-9]|-(?!-)){1,61}[a-z0-9]$</param>
+    /// <param name="AccountAlias">The name of the account alias to delete. This parameter allows (through its regex pattern ) a string of characters consisting of lowercase letters, digits, and dashes. You cannot start or finish with a dash, nor can you have two dashes in a row. Constraints: • min: 3 • max: 63 • pattern: ^[a-z0-9]([a-z0-9]|-(?!-)){1,61}[a-z0-9]$</param>
     public AwsIamDeleteAccountAliasOptions(
         string AccountAlias
     )
@@ -56,7 +58,7 @@ public record AwsIamDeleteAccountAliasOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the account alias to delete. This parameter allows (through its regex pattern ) a string of char- acters consisting of lowercase letters, digits, and dashes. You can- not start or finish with a dash, nor can you have two dashes in a row. Constraints: o min: 3 o max: 63 o pattern: ^[a-z0-9]([a-z0-9]|-(?!-)){1,61}[a-z0-9]$
+    /// The name of the account alias to delete. This parameter allows (through its regex pattern ) a string of characters consisting of lowercase letters, digits, and dashes. You cannot start or finish with a dash, nor can you have two dashes in a row. Constraints: • min: 3 • max: 63 • pattern: ^[a-z0-9]([a-z0-9]|-(?!-)){1,61}[a-z0-9]$
     /// </summary>
     [CliOption("--account-alias")]
     public string? AccountAlias { get; private init; }

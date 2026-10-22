@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Get the position information for a given wireless device or a wireless gateway resource. The position information uses the World Geodetic Sys- tem (WGS84) . See also: AWS API Documentation
+/// Get the position information for a given wireless device or a wireless gateway resource. The position information uses the World Geodetic System (WGS84) . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,10 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotwirelessGetResourcePositionOptions : AwsOptions
 {
     /// <summary>
-    /// Get the position information for a given wireless device or a wireless gateway resource. The position information uses the World Geodetic Sys- tem (WGS84) . See also: AWS API Documentation
+    /// Get the position information for a given wireless device or a wireless gateway resource. The position information uses the World Geodetic System (WGS84) . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceIdentifier">The identifier of the resource for which position information is re- trieved. It can be the wireless device ID or the wireless gateway ID, depending on the resource type. Constraints: o pattern: [a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}</param>
-    /// <param name="ResourceType">The type of resource for which position information is retrieved, which can be a wireless device or a wireless gateway. Possible values: o WirelessDevice o WirelessGateway outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="ResourceIdentifier">The identifier of the resource for which position information is retrieved. It can be the wireless device ID or the wireless gateway ID, depending on the resource type. Constraints: • pattern: [a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}</param>
+    /// <param name="ResourceType">The type of resource for which position information is retrieved, which can be a wireless device or a wireless gateway. Possible values: • WirelessDevice • WirelessGateway outfile (string) [required] Filename where the content will be saved</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsIotwirelessGetResourcePositionOptions(
         string ResourceIdentifier,
@@ -49,13 +49,13 @@ public record AwsIotwirelessGetResourcePositionOptions : AwsOptions
     }
 
     /// <summary>
-    /// The identifier of the resource for which position information is re- trieved. It can be the wireless device ID or the wireless gateway ID, depending on the resource type. Constraints: o pattern: [a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}
+    /// The identifier of the resource for which position information is retrieved. It can be the wireless device ID or the wireless gateway ID, depending on the resource type. Constraints: • pattern: [a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}
     /// </summary>
     [CliOption("--resource-identifier")]
     public string ResourceIdentifier { get; private init; }
 
     /// <summary>
-    /// The type of resource for which position information is retrieved, which can be a wireless device or a wireless gateway. Possible values: o WirelessDevice o WirelessGateway outfile (string) [required] Filename where the content will be saved
+    /// The type of resource for which position information is retrieved, which can be a wireless device or a wireless gateway. Possible values: • WirelessDevice • WirelessGateway outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--resource-type")]
     public string ResourceType { get; private init; }

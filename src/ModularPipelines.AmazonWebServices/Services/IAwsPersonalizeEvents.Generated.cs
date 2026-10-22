@@ -13,7 +13,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws personalizeevents commands.
+/// aws personalize-events commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,14 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsPersonalizeEvents
 {
     /// <summary>
-    /// Records action interaction event data. An action interaction event is an interaction between a user and an action . For example, a user tak- ing an action, such a enrolling in a membership program or downloading your app. For more information about recording action interactions, see Recording action interaction events . For more information about actions in an Actions dataset, see Actions dataset . See also: AWS API Documentation
+    /// Records action interaction event data. An action interaction event is an interaction between a user and an action . For example, a user taking an action, such a enrolling in a membership program or downloading your app. For more information about recording action interactions, see Recording action interaction events . For more information about actions in an Actions dataset, see Actions dataset . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutActionInteractionsAsync(AwsPersonalizeEventsPutActionInteractionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutActionInteractionsAsync(AwsPersonalizeEventsPutActionInteractionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds one or more actions to an Actions dataset. For more information see Importing actions individually . See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsPersonalizeEvents
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutActionsAsync(AwsPersonalizeEventsPutActionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutActionsAsync(AwsPersonalizeEventsPutActionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Records item interaction event data. For more information see Recording item interaction events . See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsPersonalizeEvents
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutEventsAsync(AwsPersonalizeEventsPutEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutEventsAsync(AwsPersonalizeEventsPutEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds one or more items to an Items dataset. For more information see Importing items individually . See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsPersonalizeEvents
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutItemsAsync(AwsPersonalizeEventsPutItemsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutItemsAsync(AwsPersonalizeEventsPutItemsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds one or more users to a Users dataset. For more information see Importing users individually . See also: AWS API Documentation
@@ -68,7 +64,6 @@ public interface IAwsPersonalizeEvents
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutUsersAsync(AwsPersonalizeEventsPutUsersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutUsersAsync(AwsPersonalizeEventsPutUsersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

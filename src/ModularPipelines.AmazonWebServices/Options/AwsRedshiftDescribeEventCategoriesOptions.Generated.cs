@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsRedshiftDescribeEventCategoriesOptions : AwsOptions
 {
     /// <summary>
-    /// The source type, such as cluster or parameter group, to which the described event categories apply. Valid values: cluster, cluster-snapshot, cluster-parameter-group, cluster-security-group, and scheduled-action. Constraints: o max: 2147483647
+    /// The source type, such as cluster or parameter group, to which the described event categories apply. Valid values: cluster, cluster-snapshot, cluster-parameter-group, cluster-security-group, and scheduled-action. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--source-type")]
     public AwsRedshiftDescribeEventCategoriesSourceType? SourceType { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified parameter group. You cannot delete a parameter group if it is associated with any clusters. You cannot delete the de- fault parameter groups in your account. See also: AWS API Documentation
+/// Deletes the specified parameter group. You cannot delete a parameter group if it is associated with any clusters. You cannot delete the default parameter groups in your account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsMemorydbDeleteParameterGroupOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified parameter group. You cannot delete a parameter group if it is associated with any clusters. You cannot delete the de- fault parameter groups in your account. See also: AWS API Documentation
+    /// Deletes the specified parameter group. You cannot delete a parameter group if it is associated with any clusters. You cannot delete the default parameter groups in your account. See also: AWS API Documentation
     /// </summary>
     /// <param name="ParameterGroupName">The name of the parameter group to delete.</param>
     public AwsMemorydbDeleteParameterGroupOptions(

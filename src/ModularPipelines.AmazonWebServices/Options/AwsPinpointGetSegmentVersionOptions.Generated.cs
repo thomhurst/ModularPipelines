@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsPinpointGetSegmentVersionOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Retrieves information about the configuration, dimension, and other settings for a specific version of a segment that's associated with an application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.</param>
+    /// <param name="ApplicationId">The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.</param>
     /// <param name="SegmentId">The unique identifier for the segment.</param>
-    /// <param name="SegmentVersion">The unique version number (Version property) for the campaign ver- sion.</param>
+    /// <param name="SegmentVersion">The unique version number (Version property) for the campaign version.</param>
     public AwsPinpointGetSegmentVersionOptions(
         string ApplicationId,
         string SegmentId,
@@ -64,7 +66,7 @@ public record AwsPinpointGetSegmentVersionOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.
+    /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
@@ -76,7 +78,7 @@ public record AwsPinpointGetSegmentVersionOptions : AwsOptions, IValidatableObje
     public string? SegmentId { get; private init; }
 
     /// <summary>
-    /// The unique version number (Version property) for the campaign ver- sion.
+    /// The unique version number (Version property) for the campaign version.
     /// </summary>
     [CliOption("--segment-version")]
     public string? SegmentVersion { get; private init; }

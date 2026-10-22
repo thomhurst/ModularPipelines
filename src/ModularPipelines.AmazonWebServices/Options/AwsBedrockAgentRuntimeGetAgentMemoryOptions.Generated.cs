@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,10 +30,10 @@ public record AwsBedrockAgentRuntimeGetAgentMemoryOptions : AwsOptions, IValidat
     /// <summary>
     /// Gets the sessions stored in the memory of the agent. See also: AWS API Documentation get-agent-memory is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: memoryContents
     /// </summary>
-    /// <param name="AgentAliasId">The unique identifier of an alias of an agent. Constraints: o min: 0 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="AgentId">The unique identifier of the agent to which the alias belongs. Constraints: o min: 0 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="MemoryId">The unique identifier of the memory. Constraints: o min: 2 o max: 100 o pattern: ^[0-9a-zA-Z._:-]+$</param>
-    /// <param name="MemoryType">The type of memory. Possible values: o SESSION_SUMMARY</param>
+    /// <param name="AgentAliasId">The unique identifier of an alias of an agent. Constraints: • min: 0 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="AgentId">The unique identifier of the agent to which the alias belongs. Constraints: • min: 0 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="MemoryId">The unique identifier of the memory. Constraints: • min: 2 • max: 100 • pattern: ^[0-9a-zA-Z._:-]+$</param>
+    /// <param name="MemoryType">The type of memory. Possible values: • SESSION_SUMMARY</param>
     public AwsBedrockAgentRuntimeGetAgentMemoryOptions(
         string AgentAliasId,
         string AgentId,
@@ -69,40 +71,37 @@ public record AwsBedrockAgentRuntimeGetAgentMemoryOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of an alias of an agent. Constraints: o min: 0 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier of an alias of an agent. Constraints: • min: 0 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--agent-alias-id")]
     public string? AgentAliasId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the agent to which the alias belongs. Constraints: o min: 0 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier of the agent to which the alias belongs. Constraints: • min: 0 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--agent-id")]
     public string? AgentId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the memory. Constraints: o min: 2 o max: 100 o pattern: ^[0-9a-zA-Z._:-]+$
+    /// The unique identifier of the memory. Constraints: • min: 2 • max: 100 • pattern: ^[0-9a-zA-Z._:-]+$
     /// </summary>
     [CliOption("--memory-id")]
     public string? MemoryId { get; private init; }
 
     /// <summary>
-    /// The type of memory. Possible values: o SESSION_SUMMARY
+    /// The type of memory. Possible values: • SESSION_SUMMARY
     /// </summary>
     [CliOption("--memory-type")]
     public string? MemoryType { get; private init; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -112,10 +111,13 @@ public record AwsBedrockAgentRuntimeGetAgentMemoryOptions : AwsOptions, IValidat
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

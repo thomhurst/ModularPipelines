@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsPinpointUpdateEmailChannelOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Enables the email channel for an application or updates the status and settings of the email channel for an application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.</param>
-    /// <param name="EmailChannelRequest">Specifies the status and settings of the email channel for an appli- cation. ConfigurationSet -&gt; (string) The Amazon SES configuration set that you want to apply to mes- sages that you send through the channel. Enabled -&gt; (boolean) Specifies whether to enable the email channel for the applica- tion. FromAddress -&gt; (string) [required] The verified email address that you want to send email from when you send email through the channel. Identity -&gt; (string) [required] The Amazon Resource Name (ARN) of the identity, verified with Amazon Simple Email Service (Amazon SES), that you want to use when you send email through the channel. RoleArn -&gt; (string) The ARN of the AWS Identity and Access Management (IAM) role that you want Amazon Pinpoint to use when it submits email-re- lated event data for the channel. OrchestrationSendingRoleArn -&gt; (string) The ARN of an IAM role for Amazon Pinpoint to use to send email from your campaigns or journeys through Amazon SES. Shorthand Syntax: ConfigurationSet=string,Enabled=boolean,FromAddress=string,Identity=string,RoleArn=string,OrchestrationSendingRoleArn=string JSON Syntax: { "ConfigurationSet": "string", "Enabled": true|false, "FromAddress": "string", "Identity": "string", "RoleArn": "string", "OrchestrationSendingRoleArn": "string" }</param>
+    /// <param name="ApplicationId">The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.</param>
+    /// <param name="EmailChannelRequest">Specifies the status and settings of the email channel for an application. ConfigurationSet -&gt; (string) The Amazon SES configuration set that you want to apply to messages that you send through the channel. Enabled -&gt; (boolean) Specifies whether to enable the email channel for the application. FromAddress -&gt; (string) [required] The verified email address that you want to send email from when you send email through the channel. Identity -&gt; (string) [required] The Amazon Resource Name (ARN) of the identity, verified with Amazon Simple Email Service (Amazon SES), that you want to use when you send email through the channel. RoleArn -&gt; (string) The ARN of the AWS Identity and Access Management (IAM) role that you want Amazon Pinpoint to use when it submits email-related event data for the channel. OrchestrationSendingRoleArn -&gt; (string) The ARN of an IAM role for Amazon Pinpoint to use to send email from your campaigns or journeys through Amazon SES. Shorthand Syntax: ConfigurationSet=string,Enabled=boolean,FromAddress=string,Identity=string,RoleArn=string,OrchestrationSendingRoleArn=string JSON Syntax: { "ConfigurationSet": "string", "Enabled": true|false, "FromAddress": "string", "Identity": "string", "RoleArn": "string", "OrchestrationSendingRoleArn": "string" }</param>
     public AwsPinpointUpdateEmailChannelOptions(
         string ApplicationId,
         string EmailChannelRequest
@@ -60,13 +62,13 @@ public record AwsPinpointUpdateEmailChannelOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.
+    /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// Specifies the status and settings of the email channel for an appli- cation. ConfigurationSet -&gt; (string) The Amazon SES configuration set that you want to apply to mes- sages that you send through the channel. Enabled -&gt; (boolean) Specifies whether to enable the email channel for the applica- tion. FromAddress -&gt; (string) [required] The verified email address that you want to send email from when you send email through the channel. Identity -&gt; (string) [required] The Amazon Resource Name (ARN) of the identity, verified with Amazon Simple Email Service (Amazon SES), that you want to use when you send email through the channel. RoleArn -&gt; (string) The ARN of the AWS Identity and Access Management (IAM) role that you want Amazon Pinpoint to use when it submits email-re- lated event data for the channel. OrchestrationSendingRoleArn -&gt; (string) The ARN of an IAM role for Amazon Pinpoint to use to send email from your campaigns or journeys through Amazon SES. Shorthand Syntax: ConfigurationSet=string,Enabled=boolean,FromAddress=string,Identity=string,RoleArn=string,OrchestrationSendingRoleArn=string JSON Syntax: { "ConfigurationSet": "string", "Enabled": true|false, "FromAddress": "string", "Identity": "string", "RoleArn": "string", "OrchestrationSendingRoleArn": "string" }
+    /// Specifies the status and settings of the email channel for an application. ConfigurationSet -&gt; (string) The Amazon SES configuration set that you want to apply to messages that you send through the channel. Enabled -&gt; (boolean) Specifies whether to enable the email channel for the application. FromAddress -&gt; (string) [required] The verified email address that you want to send email from when you send email through the channel. Identity -&gt; (string) [required] The Amazon Resource Name (ARN) of the identity, verified with Amazon Simple Email Service (Amazon SES), that you want to use when you send email through the channel. RoleArn -&gt; (string) The ARN of the AWS Identity and Access Management (IAM) role that you want Amazon Pinpoint to use when it submits email-related event data for the channel. OrchestrationSendingRoleArn -&gt; (string) The ARN of an IAM role for Amazon Pinpoint to use to send email from your campaigns or journeys through Amazon SES. Shorthand Syntax: ConfigurationSet=string,Enabled=boolean,FromAddress=string,Identity=string,RoleArn=string,OrchestrationSendingRoleArn=string JSON Syntax: { "ConfigurationSet": "string", "Enabled": true|false, "FromAddress": "string", "Identity": "string", "RoleArn": "string", "OrchestrationSendingRoleArn": "string" }
     /// </summary>
     [CliOption("--email-channel-request")]
     public string? EmailChannelRequest { get; private init; }

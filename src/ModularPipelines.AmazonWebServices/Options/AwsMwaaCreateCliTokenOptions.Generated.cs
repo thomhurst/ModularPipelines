@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMwaaCreateCliTokenOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a CLI token for the Airflow CLI. To learn more, see Creating an Apache Airflow CLI token . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the Amazon MWAA environment. For example, MyMWAAEnviron- ment . Constraints: o min: 1 o max: 80 o pattern: [a-zA-Z][0-9a-zA-Z-_]*</param>
+    /// <param name="Name">The name of the Amazon MWAA environment. For example, MyMWAAEnvironment . Constraints: • min: 1 • max: 80 • pattern: [a-zA-Z][0-9a-zA-Z-_]*</param>
     public AwsMwaaCreateCliTokenOptions(
         string Name
     )
@@ -56,7 +58,7 @@ public record AwsMwaaCreateCliTokenOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Amazon MWAA environment. For example, MyMWAAEnviron- ment . Constraints: o min: 1 o max: 80 o pattern: [a-zA-Z][0-9a-zA-Z-_]*
+    /// The name of the Amazon MWAA environment. For example, MyMWAAEnvironment . Constraints: • min: 1 • max: 80 • pattern: [a-zA-Z][0-9a-zA-Z-_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

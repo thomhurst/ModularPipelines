@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -130,7 +132,7 @@ public record AwsServerlessrepoCreateApplicationOptions : AwsOptions, IValidatab
     public string? SourceCodeArchiveUrl { get; set; }
 
     /// <summary>
-    /// A link to a public repository for the source code of your applica- tion, for example the URL of a specific GitHub commit.
+    /// A link to a public repository for the source code of your application, for example the URL of a specific GitHub commit.
     /// </summary>
     [CliOption("--source-code-url")]
     public string? SourceCodeUrl { get; set; }

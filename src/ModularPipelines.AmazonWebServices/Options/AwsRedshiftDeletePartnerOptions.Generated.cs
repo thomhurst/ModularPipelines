@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +29,10 @@ public record AwsRedshiftDeletePartnerOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a partner integration from a cluster. Data can still flow to the cluster until the integration is deleted at the partner's website. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID that owns the cluster. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]+$</param>
-    /// <param name="ClusterIdentifier">The cluster identifier of the cluster that receives data from the partner. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9\-]+$</param>
-    /// <param name="DatabaseName">The name of the database that receives data from the partner. Constraints: o max: 127 o pattern: ^[\p{L}_][\p{L}\p{N}@$#_]+$</param>
-    /// <param name="PartnerName">The name of the partner that is authorized to send data. Constraints: o max: 255 o pattern: ^[a-zA-Z0-9\-_]+$</param>
+    /// <param name="AccountId">The Amazon Web Services account ID that owns the cluster. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]+$</param>
+    /// <param name="ClusterIdentifier">The cluster identifier of the cluster that receives data from the partner. Constraints: • max: 63 • pattern: ^[a-zA-Z0-9\-]+$</param>
+    /// <param name="DatabaseName">The name of the database that receives data from the partner. Constraints: • max: 127 • pattern: ^[\p{L}_][\p{L}\p{N}@$#_]+$</param>
+    /// <param name="PartnerName">The name of the partner that is authorized to send data. Constraints: • max: 255 • pattern: ^[a-zA-Z0-9\-_]+$</param>
     public AwsRedshiftDeletePartnerOptions(
         string AccountId,
         string ClusterIdentifier,
@@ -68,25 +70,25 @@ public record AwsRedshiftDeletePartnerOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID that owns the cluster. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]+$
+    /// The Amazon Web Services account ID that owns the cluster. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]+$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The cluster identifier of the cluster that receives data from the partner. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9\-]+$
+    /// The cluster identifier of the cluster that receives data from the partner. Constraints: • max: 63 • pattern: ^[a-zA-Z0-9\-]+$
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The name of the database that receives data from the partner. Constraints: o max: 127 o pattern: ^[\p{L}_][\p{L}\p{N}@$#_]+$
+    /// The name of the database that receives data from the partner. Constraints: • max: 127 • pattern: ^[\p{L}_][\p{L}\p{N}@$#_]+$
     /// </summary>
     [CliOption("--database-name")]
     public string? DatabaseName { get; private init; }
 
     /// <summary>
-    /// The name of the partner that is authorized to send data. Constraints: o max: 255 o pattern: ^[a-zA-Z0-9\-_]+$
+    /// The name of the partner that is authorized to send data. Constraints: • max: 255 • pattern: ^[a-zA-Z0-9\-_]+$
     /// </summary>
     [CliOption("--partner-name")]
     public string? PartnerName { get; private init; }

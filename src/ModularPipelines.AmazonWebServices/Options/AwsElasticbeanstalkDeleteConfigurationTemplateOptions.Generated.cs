@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsElasticbeanstalkDeleteConfigurationTemplateOptions : AwsOptions
     /// <summary>
     /// Deletes the specified configuration template. NOTE: When you launch an environment using a configuration template, the environment gets a copy of the template. You can delete or modify the environment's copy of the template without affecting the running environment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationName">The name of the application to delete the configuration template from. Constraints: o min: 1 o max: 100</param>
-    /// <param name="TemplateName">The name of the configuration template to delete. Constraints: o min: 1 o max: 100</param>
+    /// <param name="ApplicationName">The name of the application to delete the configuration template from. Constraints: • min: 1 • max: 100</param>
+    /// <param name="TemplateName">The name of the configuration template to delete. Constraints: • min: 1 • max: 100</param>
     public AwsElasticbeanstalkDeleteConfigurationTemplateOptions(
         string ApplicationName,
         string TemplateName
@@ -60,13 +62,13 @@ public record AwsElasticbeanstalkDeleteConfigurationTemplateOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the application to delete the configuration template from. Constraints: o min: 1 o max: 100
+    /// The name of the application to delete the configuration template from. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; private init; }
 
     /// <summary>
-    /// The name of the configuration template to delete. Constraints: o min: 1 o max: 100
+    /// The name of the configuration template to delete. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--template-name")]
     public string? TemplateName { get; private init; }

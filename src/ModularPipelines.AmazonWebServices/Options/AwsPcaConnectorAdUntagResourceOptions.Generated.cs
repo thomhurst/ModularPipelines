@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsPcaConnectorAdUntagResourceOptions : AwsOptions, IValidatableOb
     /// Removes one or more tags from your resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceArn">The Amazon Resource Name (ARN) that was returned when you created the resource.</param>
-    /// <param name="TagKeys">Specifies a list of tag keys that you want to remove from the speci- fied resources. (string) Syntax: "string" "string" ...</param>
+    /// <param name="TagKeys">Specifies a list of tag keys that you want to remove from the specified resources. (string) Syntax: "string" "string" ...</param>
     public AwsPcaConnectorAdUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -77,7 +79,7 @@ public record AwsPcaConnectorAdUntagResourceOptions : AwsOptions, IValidatableOb
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Specifies a list of tag keys that you want to remove from the speci- fied resources. (string) Syntax: "string" "string" ...
+    /// Specifies a list of tag keys that you want to remove from the specified resources. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

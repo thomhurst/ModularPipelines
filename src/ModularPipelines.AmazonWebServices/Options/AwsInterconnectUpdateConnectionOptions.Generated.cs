@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsInterconnectUpdateConnectionOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Modifies an existing connection. Currently we support modifications to the connection's description and/or bandwidth. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The identifier of the Connection that should be updated. Constraints: o min: 1 o max: 32 o pattern: (mcc|lmcc)-[a-z0-9]{8}</param>
+    /// <param name="Identifier">The identifier of the Connection that should be updated. Constraints: • min: 1 • max: 32 • pattern: (mcc|lmcc)-[a-z0-9]{8}</param>
     public AwsInterconnectUpdateConnectionOptions(
         string Identifier
     )
@@ -57,19 +59,19 @@ public record AwsInterconnectUpdateConnectionOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connection that should be updated. Constraints: o min: 1 o max: 32 o pattern: (mcc|lmcc)-[a-z0-9]{8}
+    /// The identifier of the Connection that should be updated. Constraints: • min: 1 • max: 32 • pattern: (mcc|lmcc)-[a-z0-9]{8}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// An updated description to apply to the Connection Constraints: o min: 1 o max: 255 o pattern: [-a-zA-Z0-9_ ]+
+    /// An updated description to apply to the Connection Constraints: • min: 1 • max: 255 • pattern: [-a-zA-Z0-9_ ]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Request a new bandwidth size on the given Connection . Note that changes to the size may be subject to additional policy, and does require the remote partner provider to acknowledge and per- mit this new bandwidth size. Constraints: o min: 1 o max: 8 o pattern: \d+[MG]bps
+    /// Request a new bandwidth size on the given Connection . Note that changes to the size may be subject to additional policy, and does require the remote partner provider to acknowledge and permit this new bandwidth size. Constraints: • min: 1 • max: 8 • pattern: \d+[MG]bps
     /// </summary>
     [CliOption("--bandwidth")]
     public string? Bandwidth { get; set; }

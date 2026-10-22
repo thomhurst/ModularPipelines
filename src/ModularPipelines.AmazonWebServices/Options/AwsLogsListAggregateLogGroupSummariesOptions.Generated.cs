@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns an aggregate summary of all log groups in the Region grouped by specified data source characteristics. Supports optional filtering by log group class, name patterns, and data sources. If you perform this action in a monitoring account, you can also return aggregated sum- maries of log groups from source accounts that are linked to the moni- toring account. For more information about using cross-account observ- ability to set up monitoring accounts and source accounts, see CloudWatch cros...
+/// Returns an aggregate summary of all log groups in the Region grouped by specified data source characteristics. Supports optional filtering by log group class, name patterns, and data sources. If you perform this action in a monitoring account, you can also return aggregated summaries of log groups from source accounts that are linked to the monitoring account. For more information about using cross-account observability to set up monitoring accounts and source accounts, see CloudWatch cross-acco...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsLogsListAggregateLogGroupSummariesOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns an aggregate summary of all log groups in the Region grouped by specified data source characteristics. Supports optional filtering by log group class, name patterns, and data sources. If you perform this action in a monitoring account, you can also return aggregated sum- maries of log groups from source accounts that are linked to the moni- toring account. For more information about using cross-account observ- ability to set up monitoring accounts and source accounts, see CloudWatch cros...
+    /// Returns an aggregate summary of all log groups in the Region grouped by specified data source characteristics. Supports optional filtering by log group class, name patterns, and data sources. If you perform this action in a monitoring account, you can also return aggregated summaries of log groups from source accounts that are linked to the monitoring account. For more information about using cross-account observability to set up monitoring accounts and source accounts, see CloudWatch cross-acco...
     /// </summary>
-    /// <param name="GroupBy">Specifies how to group the log groups in the summary. Possible values: o DATA_SOURCE_NAME_TYPE_AND_FORMAT o DATA_SOURCE_NAME_AND_TYPE</param>
+    /// <param name="GroupBy">Specifies how to group the log groups in the summary. Possible values: • DATA_SOURCE_NAME_TYPE_AND_FORMAT • DATA_SOURCE_NAME_AND_TYPE</param>
     public AwsLogsListAggregateLogGroupSummariesOptions(
         AwsLogsListAggregateLogGroupSummariesGroupBy GroupBy
     )
@@ -57,46 +59,43 @@ public record AwsLogsListAggregateLogGroupSummariesOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies how to group the log groups in the summary. Possible values: o DATA_SOURCE_NAME_TYPE_AND_FORMAT o DATA_SOURCE_NAME_AND_TYPE
+    /// Specifies how to group the log groups in the summary. Possible values: • DATA_SOURCE_NAME_TYPE_AND_FORMAT • DATA_SOURCE_NAME_AND_TYPE
     /// </summary>
     [CliOption("--group-by")]
     public AwsLogsListAggregateLogGroupSummariesGroupBy? GroupBy { get; private init; }
 
     /// <summary>
-    /// When includeLinkedAccounts is set to true , use this parameter to specify the list of accounts to search. You can specify as many as 20 account IDs in the array. Constraints: o min: 0 o max: 20 (string) Constraints: o min: 12 o max: 12 o pattern: ^\d{12}$ Syntax: "string" "string" ...
+    /// When includeLinkedAccounts is set to true , use this parameter to specify the list of accounts to search. You can specify as many as 20 account IDs in the array. Constraints: • min: 0 • max: 20 (string) Constraints: • min: 12 • max: 12 • pattern: ^\d{12}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-identifiers", GroupValues = true)]
     public IEnumerable<string>? AccountIdentifiers { get; set; }
 
     /// <summary>
-    /// If you are using a monitoring account, set this to true to have the operation return log groups in the accounts listed in accountIdenti- fiers . If this parameter is set to true and accountIdentifiers contains a null value, the operation returns all log groups in the monitoring account and all log groups in all source accounts that are linked to the monitoring account. The default for this parameter is false .
+    /// If you are using a monitoring account, set this to true to have the operation return log groups in the accounts listed in accountIdentifiers . If this parameter is set to true and accountIdentifiers contains a null value, the operation returns all log groups in the monitoring account and all log groups in all source accounts that are linked to the monitoring account. The default for this parameter is false .
     /// </summary>
     [CliFlag("--include-linked-accounts", NegatedName = "--no-include-linked-accounts")]
     public bool? IncludeLinkedAccounts { get; set; }
 
     /// <summary>
-    /// Filters the results by log group class to include only log groups of the specified class. Possible values: o STANDARD o INFREQUENT_ACCESS o DELIVERY
+    /// Filters the results by log group class to include only log groups of the specified class. Possible values: • STANDARD • INFREQUENT_ACCESS • DELIVERY
     /// </summary>
     [CliOption("--log-group-class")]
     public AwsLogsListAggregateLogGroupSummariesLogGroupClass? LogGroupClass { get; set; }
 
     /// <summary>
-    /// Use this parameter to limit the returned log groups to only those with names that match the pattern that you specify. This parameter is a regular expression that can match prefixes and substrings, and supports wildcard matching and matching multiple patterns, as in the following examples. o Use ^ to match log group names by prefix. o For a substring match, specify the string to match. All matches are case sensitive o To match multiple patterns, separate them with a | as in the exam- ple ^/aws/lambda|discovery You can specify as many as five different regular expression pat- terns in this field, each of which must be between 3 and 24 charac- ters. You can include the ^ symbol as many as five times, and in- clude the | symbol as many as four times. Constraints: o min: 3 o max: 129 o pattern: (\^?[\.\-_\/#A-Za-z0-9]{3,24})(\|\^?[\.\-_\/#A-Za-z0-9]{3,24}){0,4}
+    /// Use this parameter to limit the returned log groups to only those with names that match the pattern that you specify. This parameter is a regular expression that can match prefixes and substrings, and supports wildcard matching and matching multiple patterns, as in the following examples. • Use ^ to match log group names by prefix. • For a substring match, specify the string to match. All matches are case sensitive • To match multiple patterns, separate them with a | as in the example ^/aws/lambda|discovery You can specify as many as five different regular expression patterns in this field, each of which must be between 3 and 24 characters. You can include the ^ symbol as many as five times, and include the | symbol as many as four times. Constraints: • min: 3 • max: 129 • pattern: (\^?[\.\-_\/#A-Za-z0-9]{3,24})(\|\^?[\.\-_\/#A-Za-z0-9]{3,24}){0,4}
     /// </summary>
     [CliOption("--log-group-name-pattern")]
     public string? LogGroupNamePattern { get; set; }
 
     /// <summary>
-    /// Filters the results by data source characteristics to include only log groups associated with the specified data sources. Constraints: o min: 1 o max: 5 (structure) Filter criteria for data sources, used to specify which data sources to include in operations based on name and type. name -&gt; (string) [required] The name pattern to filter data sources by. type -&gt; (string) The type pattern to filter data sources by. Shorthand Syntax: name=string,type=string ... JSON Syntax: [ { "name": "string", "type": "string" } ... ]
+    /// Filters the results by data source characteristics to include only log groups associated with the specified data sources. Constraints: • min: 1 • max: 5 (structure) Filter criteria for data sources, used to specify which data sources to include in operations based on name and type. name -&gt; (string) [required] The name pattern to filter data sources by. type -&gt; (string) The type pattern to filter data sources by. Shorthand Syntax: name=string,type=string ... JSON Syntax: [ { "name": "string", "type": "string" } ... ]
     /// </summary>
     [CliOption("--data-sources", GroupValues = true)]
     public IEnumerable<string>? DataSources { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -106,16 +105,19 @@ public record AwsLogsListAggregateLogGroupSummariesOptions : AwsOptions, IValida
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 50
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

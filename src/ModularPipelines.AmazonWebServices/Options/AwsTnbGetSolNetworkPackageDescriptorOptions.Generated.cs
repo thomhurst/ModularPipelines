@@ -24,7 +24,7 @@ public record AwsTnbGetSolNetworkPackageDescriptorOptions : AwsOptions
     /// <summary>
     /// Gets the content of the network service descriptor. A network service descriptor is a .yaml file in a network package that uses the TOSCA standard to describe the network functions you want to deploy and the Amazon Web Services infrastructure you want to deploy the network functions on. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NsdInfoId">ID of the network service descriptor in the network package. Constraints: o pattern: ^np-[a-f0-9]{17}$ outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="NsdInfoId">ID of the network service descriptor in the network package. Constraints: • pattern: ^np-[a-f0-9]{17}$ outfile (string) [required] Filename where the content will be saved</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsTnbGetSolNetworkPackageDescriptorOptions(
         string NsdInfoId,
@@ -44,7 +44,7 @@ public record AwsTnbGetSolNetworkPackageDescriptorOptions : AwsOptions
     }
 
     /// <summary>
-    /// ID of the network service descriptor in the network package. Constraints: o pattern: ^np-[a-f0-9]{17}$ outfile (string) [required] Filename where the content will be saved
+    /// ID of the network service descriptor in the network package. Constraints: • pattern: ^np-[a-f0-9]{17}$ outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--nsd-info-id")]
     public string NsdInfoId { get; private init; }

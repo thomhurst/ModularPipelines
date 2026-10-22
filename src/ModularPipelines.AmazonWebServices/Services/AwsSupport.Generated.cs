@@ -32,7 +32,7 @@ public class AwsSupport : IAwsSupport
     #region Commands
 
     /// <summary>
-    /// Adds one or more attachments to an attachment set. An attachment set is a temporary container for attachments that you add to a case or case communication. The set is available for 1 hour after it's created. The expiryTime returned in the response is when the set expires. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Opera- tions plan to use the Amazon Web Services Support API. If you're in an Amazon Web Ser...
+    /// Adds one or more attachments to an attachment set. An attachment set is a temporary container for attachments that you add to a case or case communication. The set is available for 1 hour after it's created. The expiryTime returned in the response is when the set expires. NOTE: • You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API. If you're in an Amazon Web Servi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsSupport : IAwsSupport
     }
 
     /// <summary>
-    /// Adds additional customer communication to a Amazon Web Services Support case. Use the caseId parameter to identify the case to which to add communication. To list a set of email addresses to copy on the communi- cation, use the ccEmailAddresses parameter. The communicationBody value contains the text of the communication. To attach files larger than 5 MB to the communication, use the upload- Ids parameter. WARNING: Amazon Web Services Support automatically redacts sensitive informa- tion from su...
+    /// Adds additional customer communication to a Amazon Web Services Support case. Use the caseId parameter to identify the case to which to add communication. To list a set of email addresses to copy on the communication, use the ccEmailAddresses parameter. The communicationBody value contains the text of the communication. To attach files larger than 5 MB to the communication, use the uploadIds parameter. WARNING: Amazon Web Services Support automatically redacts sensitive information from support ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsSupport : IAwsSupport
     }
 
     /// <summary>
-    /// Completes an attachment upload that was started with GetAttachmentU- ploadLinks . After you upload a part of the file to its presigned Ama- zon S3 URL, call CompleteAttachmentUpload with the partIndex and eTag of that part. You can include one part per call, or multiple parts in a single call. After CompleteAttachmentUpload has been called for every part of the file, the service processes the upload asynchronously. The attachment-ready status might not be reflected immediately. Use De- scribeAtt...
+    /// Completes an attachment upload that was started with GetAttachmentUploadLinks . After you upload a part of the file to its presigned Amazon S3 URL, call CompleteAttachmentUpload with the partIndex and eTag of that part. You can include one part per call, or multiple parts in a single call. After CompleteAttachmentUpload has been called for every part of the file, the service processes the upload asynchronously. The attachment-ready status might not be reflected immediately. Use DescribeAttachmen...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsSupport : IAwsSupport
     }
 
     /// <summary>
-    /// Creates a case in the Amazon Web Services Support Center. This opera- tion is similar to how you create a case in the Amazon Web Services Support Center Create Case page. The Amazon Web Services Support API doesn't support requesting service limit increases. You can submit a service limit increase in the follow- ing ways: o Submit a request from the Amazon Web Services Support Center Create Case page. o Use the Service Quotas RequestServiceQuotaIncrease operation. WARNING: Amazon Web Services Su...
+    /// Creates a case in the Amazon Web Services Support Center. This operation is similar to how you create a case in the Amazon Web Services Support Center Create Case page. The Amazon Web Services Support API doesn't support requesting service limit increases. You can submit a service limit increase in the following ways: • Submit a request from the Amazon Web Services Support Center Create Case page. • Use the Service Quotas RequestServiceQuotaIncrease operation. WARNING: Amazon Web Services Suppor...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsSupport : IAwsSupport
     }
 
     /// <summary>
-    /// Returns the attachment that has the specified ID. Attachments can in- clude screenshots, error logs, or other files that describe your issue. Attachment IDs are generated by the case management system when you add an attachment to a case or case communication. Attachment IDs are re- turned in the AttachmentDetails objects that are returned by the De- scribeCommunications operation. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon W...
+    /// Returns the attachment that has the specified ID. Attachments can include screenshots, error logs, or other files that describe your issue. Attachment IDs are generated by the case management system when you add an attachment to a case or case communication. Attachment IDs are returned in the AttachmentDetails objects that are returned by the DescribeCommunications operation. NOTE: • You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Ser...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsSupport : IAwsSupport
     }
 
     /// <summary>
-    /// Returns the current status, file name, and progress of a multipart at- tachment upload that was started with GetAttachmentUploadLinks . Use this operation to track where an upload is in the workflow. While parts are still being uploaded and reported through CompleteAttachmentUpload , the uploadStatus is attachment-not-ready and uploadProgress reports the total number of parts and how many have been completed so far. Af- ter every part has been reported and the service finishes processing the upl...
+    /// Returns the current status, file name, and progress of a multipart attachment upload that was started with GetAttachmentUploadLinks . Use this operation to track where an upload is in the workflow. While parts are still being uploaded and reported through CompleteAttachmentUpload , the uploadStatus is attachment-not-ready and uploadProgress reports the total number of parts and how many have been completed so far. After every part has been reported and the service finishes processing the upload ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsSupport : IAwsSupport
     }
 
     /// <summary>
-    /// Returns a list of cases that you specify by passing one or more case IDs. You can use the afterTime and beforeTime parameters to filter the cases by date. You can set values for the includeResolvedCases and in- cludeCommunications parameters to specify how much information to re- turn. The response returns the following in JSON format: o One or more CaseDetails data types. o One or more nextToken values, which specify where to paginate the re- turned records represented by the CaseDetails object...
+    /// Returns a list of cases that you specify by passing one or more case IDs. You can use the afterTime and beforeTime parameters to filter the cases by date. You can set values for the includeResolvedCases and includeCommunications parameters to specify how much information to return. The response returns the following in JSON format: • One or more CaseDetails data types. • One or more nextToken values, which specify where to paginate the returned records represented by the CaseDetails objects. Cas...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsSupport : IAwsSupport
     }
 
     /// <summary>
-    /// Returns communications and attachments for one or more support cases. Use the afterTime and beforeTime parameters to filter by date. You can use the caseId parameter to restrict the results to a specific case. Case data is available for 24 months after creation. If a case was cre- ated more than 24 months ago, a request for data might cause an error. You can use the maxResults and nextToken parameters to control the pag- ination of the results. Set maxResults to the number of cases that you want...
+    /// Returns communications and attachments for one or more support cases. Use the afterTime and beforeTime parameters to filter by date. You can use the caseId parameter to restrict the results to a specific case. Case data is available for 24 months after creation. If a case was created more than 24 months ago, a request for data might cause an error. You can use the maxResults and nextToken parameters to control the pagination of the results. Set maxResults to the number of cases that you want to ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsSupport : IAwsSupport
     }
 
     /// <summary>
-    /// Returns a list of CreateCaseOption types along with the corresponding supported hours and language availability. You can specify the language categoryCode , issueType and serviceCode used to retrieve the Create- CaseOptions. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Opera- tions plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Ama...
+    /// Returns a list of CreateCaseOption types along with the corresponding supported hours and language availability. You can specify the language categoryCode , issueType and serviceCode used to retrieve the CreateCaseOptions. NOTE: • You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsSupport : IAwsSupport
     }
 
     /// <summary>
-    /// Returns the current list of Amazon Web Services services and a list of service categories for each service. You then use service names and categories in your CreateCase requests. Each Amazon Web Services ser- vice has its own set of categories. The service codes and category codes correspond to the values that ap- pear in the Service and Category lists on the Amazon Web Services Sup- port Center Create Case page. The values in those fields don't neces- sarily match the service codes and categori...
+    /// Returns the current list of Amazon Web Services services and a list of service categories for each service. You then use service names and categories in your CreateCase requests. Each Amazon Web Services service has its own set of categories. The service codes and category codes correspond to the values that appear in the Service and Category lists on the Amazon Web Services Support Center Create Case page. The values in those fields don't necessarily match the service codes and categories retur...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsSupport : IAwsSupport
     }
 
     /// <summary>
-    /// Returns the list of severity levels that you can assign to a support case. The severity level for a case is also a field in the CaseDetails data type that you include for a CreateCase request. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Opera- tions plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, ...
+    /// Returns the list of severity levels that you can assign to a support case. The severity level for a case is also a field in the CaseDetails data type that you include for a CreateCase request. NOTE: • You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsSupport : IAwsSupport
     }
 
     /// <summary>
-    /// Returns a list of supported languages for a specified categoryCode , issueType and serviceCode . The returned supported languages will in- clude a ISO 639-1 code for the language , and the language display name. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Opera- tions plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Servi...
+    /// Returns a list of supported languages for a specified categoryCode , issueType and serviceCode . The returned supported languages will include a ISO 639-1 code for the language , and the language display name. NOTE: • You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsSupport : IAwsSupport
     }
 
     /// <summary>
-    /// Returns the refresh status of the Trusted Advisor checks that have the specified check IDs. You can get the check IDs by calling the Descri- beTrustedAdvisorChecks operation. Some checks are refreshed automatically, and you can't return their re- fresh statuses by using the DescribeTrustedAdvisorCheckRefreshStatuses operation. If you call this operation for these checks, you might see an InvalidParameterValue error. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Servi...
+    /// Returns the refresh status of the Trusted Advisor checks that have the specified check IDs. You can get the check IDs by calling the DescribeTrustedAdvisorChecks operation. Some checks are refreshed automatically, and you can't return their refresh statuses by using the DescribeTrustedAdvisorCheckRefreshStatuses operation. If you call this operation for these checks, you might see an InvalidParameterValue error. NOTE: • You must have an Amazon Web Services Business Support+, Amazon Web Services ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsSupport : IAwsSupport
     }
 
     /// <summary>
-    /// Returns the results of the Trusted Advisor check that has the specified check ID. You can get the check IDs by calling the DescribeTrustedAd- visorChecks operation. The response contains a TrustedAdvisorCheckResult object, which con- tains these three objects: o TrustedAdvisorCategorySpecificSummary o TrustedAdvisorResourceDetail o TrustedAdvisorResourcesSummary In addition, the response contains these fields: o status - The alert status of the check can be ok (green), warning (yellow), error (r...
+    /// Returns the results of the Trusted Advisor check that has the specified check ID. You can get the check IDs by calling the DescribeTrustedAdvisorChecks operation. The response contains a TrustedAdvisorCheckResult object, which contains these three objects: • TrustedAdvisorCategorySpecificSummary • TrustedAdvisorResourceDetail • TrustedAdvisorResourcesSummary In addition, the response contains these fields: • status - The alert status of the check can be ok (green), warning (yellow), error (red),...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,22 +242,7 @@ public class AwsSupport : IAwsSupport
     }
 
     /// <summary>
-    /// Returns information about all available Trusted Advisor checks, includ- ing the name, ID, category, description, and metadata. You must specify a language code. The response contains a TrustedAdvisorCheckDescription object for each check. You must set the Amazon Web Services Region to us-east-1. NOTE: o You must have a Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Opera- tions plan to use the Amazon Web Services Support API. o If yo...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeTrustedAdvisorChecksAsync(
-        AwsSupportDescribeTrustedAdvisorChecksOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns the results for the Trusted Advisor check summaries for the check IDs that you specified. You can get the check IDs by calling the DescribeTrustedAdvisorChecks operation. The response contains an array of TrustedAdvisorCheckSummary objects. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Opera- tions plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn'...
+    /// Returns the results for the Trusted Advisor check summaries for the check IDs that you specified. You can get the check IDs by calling the DescribeTrustedAdvisorChecks operation. The response contains an array of TrustedAdvisorCheckSummary objects. NOTE: • You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +257,22 @@ public class AwsSupport : IAwsSupport
     }
 
     /// <summary>
-    /// Returns a presigned download URL for an attachment that is associated with a case communication. The download link works for an attachment of any size, including attachments added through AddAttachmentsToSet and attachments uploaded through GetAttachmentUploadLinks . The download URL is time-limited and expires at the date and time indicated in the downloadUrl response field. Download the attachment from the URL before it expires. NOTE: o You must have an Amazon Web Services Business Support+, A...
+    /// Returns information about all available Trusted Advisor checks, including the name, ID, category, description, and metadata. You must specify a language code. The response contains a TrustedAdvisorCheckDescription object for each check. You must set the Amazon Web Services Region to us-east-1. NOTE: • You must have a Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API. • If you ca...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeTrustedAdvisorChecksAsync(
+        AwsSupportDescribeTrustedAdvisorChecksOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a presigned download URL for an attachment that is associated with a case communication. The download link works for an attachment of any size, including attachments added through AddAttachmentsToSet and attachments uploaded through GetAttachmentUploadLinks . The download URL is time-limited and expires at the date and time indicated in the downloadUrl response field. Download the attachment from the URL before it expires. NOTE: • You must have an Amazon Web Services Business Support+, A...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsSupport : IAwsSupport
     }
 
     /// <summary>
-    /// Returns one or more presigned upload URLs for uploading a large file attachment to a support case by using a multipart upload workflow. The maximum file size that you can upload with this workflow is 150 MB, and parts can be up to 100 MB each. Initiate a new upload by providing fileName and fileSizeBytes ; the response returns a unique uploadId , the part size, the total number of parts, and a list of presigned up- load URLs for the requested range of parts. A maximum of 10 upload URLs are retur...
+    /// Returns one or more presigned upload URLs for uploading a large file attachment to a support case by using a multipart upload workflow. The maximum file size that you can upload with this workflow is 150 MB, and parts can be up to 100 MB each. Initiate a new upload by providing fileName and fileSizeBytes ; the response returns a unique uploadId , the part size, the total number of parts, and a list of presigned upload URLs for the requested range of parts. A maximum of 10 upload URLs are returne...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsSupport : IAwsSupport
     }
 
     /// <summary>
-    /// Refreshes the Trusted Advisor check that you specify using the check ID. You can get the check IDs by calling the DescribeTrustedAdvisor- Checks operation. Some checks are refreshed automatically. If you call the Re- freshTrustedAdvisorCheck operation to refresh them, you might see the InvalidParameterValue error. The response contains a TrustedAdvisorCheckRefreshStatus object. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web S...
+    /// Refreshes the Trusted Advisor check that you specify using the check ID. You can get the check IDs by calling the DescribeTrustedAdvisorChecks operation. Some checks are refreshed automatically. If you call the RefreshTrustedAdvisorCheck operation to refresh them, you might see the InvalidParameterValue error. The response contains a TrustedAdvisorCheckRefreshStatus object. NOTE: • You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Servi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsSupport : IAwsSupport
     }
 
     /// <summary>
-    /// Resolves a support case. This operation takes a caseId and returns the initial and final state of the case. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Opera- tions plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Serv...
+    /// Resolves a support case. This operation takes a caseId and returns the initial and final state of the case. NOTE: • You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Servic...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

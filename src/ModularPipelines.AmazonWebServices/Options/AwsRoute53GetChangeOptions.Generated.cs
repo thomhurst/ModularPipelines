@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the current status of a change batch request. The status is one of the following values: o PENDING indicates that the changes in this request have not propa- gated to all Amazon Route 53 DNS servers managing the hosted zone. This is the initial status of all change batch requests. o INSYNC indicates that the changes have propagated to all Route 53 DNS servers managing the hosted zone. See also: AWS API Documentation
+/// Returns the current status of a change batch request. The status is one of the following values: • PENDING indicates that the changes in this request have not propagated to all Amazon Route 53 DNS servers managing the hosted zone. This is the initial status of all change batch requests. • INSYNC indicates that the changes have propagated to all Route 53 DNS servers managing the hosted zone. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRoute53GetChangeOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the current status of a change batch request. The status is one of the following values: o PENDING indicates that the changes in this request have not propa- gated to all Amazon Route 53 DNS servers managing the hosted zone. This is the initial status of all change batch requests. o INSYNC indicates that the changes have propagated to all Route 53 DNS servers managing the hosted zone. See also: AWS API Documentation
+    /// Returns the current status of a change batch request. The status is one of the following values: • PENDING indicates that the changes in this request have not propagated to all Amazon Route 53 DNS servers managing the hosted zone. This is the initial status of all change batch requests. • INSYNC indicates that the changes have propagated to all Route 53 DNS servers managing the hosted zone. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the change batch request. The value that you specify here is the value that ChangeResourceRecordSets returned in the Id ele- ment when you submitted the request. Constraints: o min: 1 o max: 6500</param>
+    /// <param name="Id">The ID of the change batch request. The value that you specify here is the value that ChangeResourceRecordSets returned in the Id element when you submitted the request. Constraints: • min: 1 • max: 6500</param>
     public AwsRoute53GetChangeOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsRoute53GetChangeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the change batch request. The value that you specify here is the value that ChangeResourceRecordSets returned in the Id ele- ment when you submitted the request. Constraints: o min: 1 o max: 6500
+    /// The ID of the change batch request. The value that you specify here is the value that ChangeResourceRecordSets returned in the Id element when you submitted the request. Constraints: • min: 1 • max: 6500
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

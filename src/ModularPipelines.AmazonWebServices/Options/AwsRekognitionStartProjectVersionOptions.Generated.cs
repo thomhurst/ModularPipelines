@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Starts the running of the version of a model. Starting a model takes a while to complete. To check the current state of the model, use De- scribeProjectVersions . Once the model is running, you can detect custom labels in new images by calling DetectCustomLabels . NOTE: You are charged for the amount of time that the model is running. To stop a running model, call StopProjectVersion . This operation requires permissions to pe...
+/// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Starts the running of the version of a model. Starting a model takes a while to complete. To check the current state of the model, use DescribeProjectVersions . Once the model is running, you can detect custom labels in new images by calling DetectCustomLabels . NOTE: You are charged for the amount of time that the model is running. To stop a running model, call StopProjectVersion . This operation requires permissions to perf...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsRekognitionStartProjectVersionOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Starts the running of the version of a model. Starting a model takes a while to complete. To check the current state of the model, use De- scribeProjectVersions . Once the model is running, you can detect custom labels in new images by calling DetectCustomLabels . NOTE: You are charged for the amount of time that the model is running. To stop a running model, call StopProjectVersion . This operation requires permissions to pe...
+    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Starts the running of the version of a model. Starting a model takes a while to complete. To check the current state of the model, use DescribeProjectVersions . Once the model is running, you can detect custom labels in new images by calling DetectCustomLabels . NOTE: You are charged for the amount of time that the model is running. To stop a running model, call StopProjectVersion . This operation requires permissions to perf...
     /// </summary>
-    /// <param name="ProjectVersionArn">The Amazon Resource Name(ARN) of the model version that you want to start. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/ver- sion\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)</param>
-    /// <param name="MinInferenceUnits">The minimum number of inference units to use. A single inference unit represents 1 hour of processing. Use a higher number to increase the TPS throughput of your model. You are charged for the number of inference units that you use. Constraints: o min: 1</param>
+    /// <param name="ProjectVersionArn">The Amazon Resource Name(ARN) of the model version that you want to start. Constraints: • min: 20 • max: 2048 • pattern: (^arn:[a-z\d-]+:rekognition:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/version\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)</param>
+    /// <param name="MinInferenceUnits">The minimum number of inference units to use. A single inference unit represents 1 hour of processing. Use a higher number to increase the TPS throughput of your model. You are charged for the number of inference units that you use. Constraints: • min: 1</param>
     public AwsRekognitionStartProjectVersionOptions(
         string ProjectVersionArn,
         int MinInferenceUnits
@@ -59,19 +61,19 @@ public record AwsRekognitionStartProjectVersionOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name(ARN) of the model version that you want to start. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/ver- sion\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)
+    /// The Amazon Resource Name(ARN) of the model version that you want to start. Constraints: • min: 20 • max: 2048 • pattern: (^arn:[a-z\d-]+:rekognition:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/version\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)
     /// </summary>
     [CliOption("--project-version-arn")]
     public string? ProjectVersionArn { get; private init; }
 
     /// <summary>
-    /// The minimum number of inference units to use. A single inference unit represents 1 hour of processing. Use a higher number to increase the TPS throughput of your model. You are charged for the number of inference units that you use. Constraints: o min: 1
+    /// The minimum number of inference units to use. A single inference unit represents 1 hour of processing. Use a higher number to increase the TPS throughput of your model. You are charged for the number of inference units that you use. Constraints: • min: 1
     /// </summary>
     [CliOption("--min-inference-units")]
     public int? MinInferenceUnits { get; private init; }
 
     /// <summary>
-    /// The maximum number of inference units to use for auto-scaling the model. If you don't specify a value, Amazon Rekognition Custom La- bels doesn't auto-scale the model. Constraints: o min: 1
+    /// The maximum number of inference units to use for auto-scaling the model. If you don't specify a value, Amazon Rekognition Custom Labels doesn't auto-scale the model. Constraints: • min: 1
     /// </summary>
     [CliOption("--max-inference-units")]
     public int? MaxInferenceUnits { get; set; }

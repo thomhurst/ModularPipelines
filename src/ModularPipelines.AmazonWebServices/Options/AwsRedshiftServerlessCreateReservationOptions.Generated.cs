@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,7 +31,7 @@ public record AwsRedshiftServerlessCreateReservationOptions : AwsOptions, IValid
     /// Creates an Amazon Redshift Serverless reservation, which gives you the option to commit to a specified number of Redshift Processing Units (RPUs) for a year at a discount from Serverless on-demand (OD) rates. See also: AWS API Documentation
     /// </summary>
     /// <param name="Capacity">The number of Redshift Processing Units (RPUs) to reserve.</param>
-    /// <param name="OfferingId">The ID of the offering associated with the reservation. The offering determines the payment schedule for the reservation. Constraints: o min: 1 o max: 64</param>
+    /// <param name="OfferingId">The ID of the offering associated with the reservation. The offering determines the payment schedule for the reservation. Constraints: • min: 1 • max: 64</param>
     public AwsRedshiftServerlessCreateReservationOptions(
         int Capacity,
         string OfferingId
@@ -66,7 +68,7 @@ public record AwsRedshiftServerlessCreateReservationOptions : AwsOptions, IValid
     public int? Capacity { get; private init; }
 
     /// <summary>
-    /// The ID of the offering associated with the reservation. The offering determines the payment schedule for the reservation. Constraints: o min: 1 o max: 64
+    /// The ID of the offering associated with the reservation. The offering determines the payment schedule for the reservation. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--offering-id")]
     public string? OfferingId { get; private init; }

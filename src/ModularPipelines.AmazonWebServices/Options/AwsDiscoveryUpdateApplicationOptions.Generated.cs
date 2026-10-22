@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDiscoveryUpdateApplicationOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Updates metadata about an application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfigurationId">Configuration ID of the application to be updated. Constraints: o max: 200 o pattern: \S+</param>
+    /// <param name="ConfigurationId">Configuration ID of the application to be updated. Constraints: • max: 200 • pattern: \S+</param>
     public AwsDiscoveryUpdateApplicationOptions(
         string ConfigurationId
     )
@@ -56,25 +58,25 @@ public record AwsDiscoveryUpdateApplicationOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Configuration ID of the application to be updated. Constraints: o max: 200 o pattern: \S+
+    /// Configuration ID of the application to be updated. Constraints: • max: 200 • pattern: \S+
     /// </summary>
     [CliOption("--configuration-id")]
     public string? ConfigurationId { get; private init; }
 
     /// <summary>
-    /// New name of the application to be updated. Constraints: o max: 127 o pattern: [\s\S]*\S[\s\S]*
+    /// New name of the application to be updated. Constraints: • max: 127 • pattern: [\s\S]*\S[\s\S]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// New description of the application to be updated. Constraints: o max: 1000 o pattern: (^$|[\s\S]*\S[\s\S]*)
+    /// New description of the application to be updated. Constraints: • max: 1000 • pattern: (^$|[\s\S]*\S[\s\S]*)
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The new migration wave of the application that you want to update. Constraints: o min: 0 o max: 256 o pattern: ^($|[^\s\x00]( *[^\s\x00])*$)
+    /// The new migration wave of the application that you want to update. Constraints: • min: 0 • max: 256 • pattern: ^($|[^\s\x00]( *[^\s\x00])*$)
     /// </summary>
     [CliOption("--wave")]
     public string? Wave { get; set; }

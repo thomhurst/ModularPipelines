@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the available resilience test templates. A test template is a pre-configured, AWS recommended test that defines which resilience ca- pability to validate. See also: AWS API Documentation
+/// Lists the available resilience test templates. A test template is a pre-configured, AWS recommended test that defines which resilience capability to validate. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

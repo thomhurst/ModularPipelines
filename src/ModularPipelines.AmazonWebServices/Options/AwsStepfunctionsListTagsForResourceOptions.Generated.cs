@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsStepfunctionsListTagsForResourceOptions : AwsOptions, IValidata
     /// <summary>
     /// List tags for a given resource. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @ . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) for the Step Functions state machine or activity. Constraints: o min: 1 o max: 256</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) for the Step Functions state machine or activity. Constraints: • min: 1 • max: 256</param>
     public AwsStepfunctionsListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsStepfunctionsListTagsForResourceOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) for the Step Functions state machine or activity. Constraints: o min: 1 o max: 256
+    /// The Amazon Resource Name (ARN) for the Step Functions state machine or activity. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

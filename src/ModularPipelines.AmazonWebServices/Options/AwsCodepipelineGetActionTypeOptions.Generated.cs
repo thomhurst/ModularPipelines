@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +29,10 @@ public record AwsCodepipelineGetActionTypeOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Returns information about an action type created for an external provider, where the action is to be used by customers of the external provider. The action can be created with any supported integration model. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Category">Defines what kind of action can be taken in the stage. The following are the valid values: o Source o Build o Test o Deploy o Approval o Invoke o Compute Possible values: o Source o Build o Deploy o Test o Invoke o Approval o Compute</param>
-    /// <param name="Owner">The creator of an action type that was created with any supported integration model. There are two valid values: AWS and ThirdParty . Constraints: o pattern: AWS|ThirdParty</param>
-    /// <param name="Provider">The provider of the action type being called. The provider name is specified when the action type is created. Constraints: o min: 1 o max: 35 o pattern: [0-9A-Za-z_-]+</param>
-    /// <param name="ActionVersion">A string that describes the action type version. Constraints: o min: 1 o max: 9 o pattern: [0-9A-Za-z_-]+</param>
+    /// <param name="Category">Defines what kind of action can be taken in the stage. The following are the valid values: • Source • Build • Test • Deploy • Approval • Invoke • Compute Possible values: • Source • Build • Deploy • Test • Invoke • Approval • Compute</param>
+    /// <param name="Owner">The creator of an action type that was created with any supported integration model. There are two valid values: AWS and ThirdParty . Constraints: • pattern: AWS|ThirdParty</param>
+    /// <param name="Provider">The provider of the action type being called. The provider name is specified when the action type is created. Constraints: • min: 1 • max: 35 • pattern: [0-9A-Za-z_-]+</param>
+    /// <param name="ActionVersion">A string that describes the action type version. Constraints: • min: 1 • max: 9 • pattern: [0-9A-Za-z_-]+</param>
     public AwsCodepipelineGetActionTypeOptions(
         string Category,
         string Owner,
@@ -68,25 +70,25 @@ public record AwsCodepipelineGetActionTypeOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Defines what kind of action can be taken in the stage. The following are the valid values: o Source o Build o Test o Deploy o Approval o Invoke o Compute Possible values: o Source o Build o Deploy o Test o Invoke o Approval o Compute
+    /// Defines what kind of action can be taken in the stage. The following are the valid values: • Source • Build • Test • Deploy • Approval • Invoke • Compute Possible values: • Source • Build • Deploy • Test • Invoke • Approval • Compute
     /// </summary>
     [CliOption("--category")]
     public string? Category { get; private init; }
 
     /// <summary>
-    /// The creator of an action type that was created with any supported integration model. There are two valid values: AWS and ThirdParty . Constraints: o pattern: AWS|ThirdParty
+    /// The creator of an action type that was created with any supported integration model. There are two valid values: AWS and ThirdParty . Constraints: • pattern: AWS|ThirdParty
     /// </summary>
     [CliOption("--owner")]
     public string? Owner { get; private init; }
 
     /// <summary>
-    /// The provider of the action type being called. The provider name is specified when the action type is created. Constraints: o min: 1 o max: 35 o pattern: [0-9A-Za-z_-]+
+    /// The provider of the action type being called. The provider name is specified when the action type is created. Constraints: • min: 1 • max: 35 • pattern: [0-9A-Za-z_-]+
     /// </summary>
     [CliOption("--provider")]
     public string? Provider { get; private init; }
 
     /// <summary>
-    /// A string that describes the action type version. Constraints: o min: 1 o max: 9 o pattern: [0-9A-Za-z_-]+
+    /// A string that describes the action type version. Constraints: • min: 1 • max: 9 • pattern: [0-9A-Za-z_-]+
     /// </summary>
     [CliOption("--action-version")]
     public string? ActionVersion { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsVoiceIdDescribeWatchlistOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Describes the specified watchlist. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The identifier of the domain that contains the watchlist. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$</param>
-    /// <param name="WatchlistId">The identifier of the watchlist that you are describing. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$</param>
+    /// <param name="DomainId">The identifier of the domain that contains the watchlist. Constraints: • min: 22 • max: 22 • pattern: ^[a-zA-Z0-9]{22}$</param>
+    /// <param name="WatchlistId">The identifier of the watchlist that you are describing. Constraints: • min: 22 • max: 22 • pattern: ^[a-zA-Z0-9]{22}$</param>
     public AwsVoiceIdDescribeWatchlistOptions(
         string DomainId,
         string WatchlistId
@@ -60,13 +62,13 @@ public record AwsVoiceIdDescribeWatchlistOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the domain that contains the watchlist. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$
+    /// The identifier of the domain that contains the watchlist. Constraints: • min: 22 • max: 22 • pattern: ^[a-zA-Z0-9]{22}$
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// The identifier of the watchlist that you are describing. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$
+    /// The identifier of the watchlist that you are describing. Constraints: • min: 22 • max: 22 • pattern: ^[a-zA-Z0-9]{22}$
     /// </summary>
     [CliOption("--watchlist-id")]
     public string? WatchlistId { get; private init; }

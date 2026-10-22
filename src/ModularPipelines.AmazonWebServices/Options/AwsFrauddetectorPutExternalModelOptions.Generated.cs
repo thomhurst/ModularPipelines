@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates an Amazon SageMaker model endpoint. You can also use this action to update the configuration of the model endpoint, includ- ing the IAM role and/or the mapped variables. See also: AWS API Documentation
+/// Creates or updates an Amazon SageMaker model endpoint. You can also use this action to update the configuration of the model endpoint, including the IAM role and/or the mapped variables. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,14 +28,14 @@ public record AwsFrauddetectorPutExternalModelOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates or updates an Amazon SageMaker model endpoint. You can also use this action to update the configuration of the model endpoint, includ- ing the IAM role and/or the mapped variables. See also: AWS API Documentation
+    /// Creates or updates an Amazon SageMaker model endpoint. You can also use this action to update the configuration of the model endpoint, including the IAM role and/or the mapped variables. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ModelEndpoint">The model endpoints name. Constraints: o min: 1 o max: 63 o pattern: ^[0-9A-Za-z_-]+$</param>
-    /// <param name="ModelSource">The source of the model. Possible values: o SAGEMAKER</param>
+    /// <param name="ModelEndpoint">The model endpoints name. Constraints: • min: 1 • max: 63 • pattern: ^[0-9A-Za-z_-]+$</param>
+    /// <param name="ModelSource">The source of the model. Possible values: • SAGEMAKER</param>
     /// <param name="InvokeModelEndpointRoleArn">The IAM role used to invoke the model endpoint.</param>
-    /// <param name="InputConfiguration">The model endpoint input configuration. eventTypeName -&gt; (string) The event type name. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$ format -&gt; (string) The format of the model input configuration. The format differs depending on if it is passed through to SageMaker or constructed by Amazon Fraud Detector. Possible values: o TEXT_CSV o APPLICATION_JSON useEventVariables -&gt; (boolean) [required] The event variables. jsonInputTemplate -&gt; (string) Template for constructing the JSON input-data sent to SageMaker. At event-evaluation, the placeholders for variable names in the template will be replaced with the variable values before being sent to SageMaker. Constraints: o min: 1 o max: 2000 csvInputTemplate -&gt; (string) Template for constructing the CSV input-data sent to SageMaker. At event-evaluation, the placeholders for variable-names in the template will be replaced with the variable values before being sent to SageMaker. Constraints: o min: 1 o max: 2000 Shorthand Syntax: eventTypeName=string,format=string,useEventVariables=boolean,jsonInputTemplate=string,csvInputTemplate=string JSON Syntax: { "eventTypeName": "string", "format": "TEXT_CSV"|"APPLICATION_JSON", "useEventVariables": true|false, "jsonInputTemplate": "string", "csvInputTemplate": "string" }</param>
-    /// <param name="OutputConfiguration">The model endpoint output configuration. format -&gt; (string) [required] The format of the model output configuration. Possible values: o TEXT_CSV o APPLICATION_JSONLINES jsonKeyToVariableMap -&gt; (map) A map of JSON keys in response from SageMaker to the Amazon Fraud Detector variables. key -&gt; (string) value -&gt; (string) csvIndexToVariableMap -&gt; (map) A map of CSV index values in the SageMaker response to the Ama- zon Fraud Detector variables. key -&gt; (string) value -&gt; (string) Shorthand Syntax: format=string,jsonKeyToVariableMap={KeyName1=string,KeyName2=string},csvIndexToVariableMap={KeyName1=string,KeyName2=string} JSON Syntax: { "format": "TEXT_CSV"|"APPLICATION_JSONLINES", "jsonKeyToVariableMap": {"string": "string" ...}, "csvIndexToVariableMap": {"string": "string" ...} }</param>
-    /// <param name="ModelEndpointStatus">The model endpoints status in Amazon Fraud Detector. Possible values: o ASSOCIATED o DISSOCIATED</param>
+    /// <param name="InputConfiguration">The model endpoint input configuration. eventTypeName -&gt; (string) The event type name. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$ format -&gt; (string) The format of the model input configuration. The format differs depending on if it is passed through to SageMaker or constructed by Amazon Fraud Detector. Possible values: • TEXT_CSV • APPLICATION_JSON useEventVariables -&gt; (boolean) [required] The event variables. jsonInputTemplate -&gt; (string) Template for constructing the JSON input-data sent to SageMaker. At event-evaluation, the placeholders for variable names in the template will be replaced with the variable values before being sent to SageMaker. Constraints: • min: 1 • max: 2000 csvInputTemplate -&gt; (string) Template for constructing the CSV input-data sent to SageMaker. At event-evaluation, the placeholders for variable-names in the template will be replaced with the variable values before being sent to SageMaker. Constraints: • min: 1 • max: 2000 Shorthand Syntax: eventTypeName=string,format=string,useEventVariables=boolean,jsonInputTemplate=string,csvInputTemplate=string JSON Syntax: { "eventTypeName": "string", "format": "TEXT_CSV"|"APPLICATION_JSON", "useEventVariables": true|false, "jsonInputTemplate": "string", "csvInputTemplate": "string" }</param>
+    /// <param name="OutputConfiguration">The model endpoint output configuration. format -&gt; (string) [required] The format of the model output configuration. Possible values: • TEXT_CSV • APPLICATION_JSONLINES jsonKeyToVariableMap -&gt; (map) A map of JSON keys in response from SageMaker to the Amazon Fraud Detector variables. key -&gt; (string) value -&gt; (string) csvIndexToVariableMap -&gt; (map) A map of CSV index values in the SageMaker response to the Amazon Fraud Detector variables. key -&gt; (string) value -&gt; (string) Shorthand Syntax: format=string,jsonKeyToVariableMap={KeyName1=string,KeyName2=string},csvIndexToVariableMap={KeyName1=string,KeyName2=string} JSON Syntax: { "format": "TEXT_CSV"|"APPLICATION_JSONLINES", "jsonKeyToVariableMap": {"string": "string" ...}, "csvIndexToVariableMap": {"string": "string" ...} }</param>
+    /// <param name="ModelEndpointStatus">The model endpoints status in Amazon Fraud Detector. Possible values: • ASSOCIATED • DISSOCIATED</param>
     public AwsFrauddetectorPutExternalModelOptions(
         string ModelEndpoint,
         string ModelSource,
@@ -76,13 +78,13 @@ public record AwsFrauddetectorPutExternalModelOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The model endpoints name. Constraints: o min: 1 o max: 63 o pattern: ^[0-9A-Za-z_-]+$
+    /// The model endpoints name. Constraints: • min: 1 • max: 63 • pattern: ^[0-9A-Za-z_-]+$
     /// </summary>
     [CliOption("--model-endpoint")]
     public string? ModelEndpoint { get; private init; }
 
     /// <summary>
-    /// The source of the model. Possible values: o SAGEMAKER
+    /// The source of the model. Possible values: • SAGEMAKER
     /// </summary>
     [CliOption("--model-source")]
     public string? ModelSource { get; private init; }
@@ -94,25 +96,25 @@ public record AwsFrauddetectorPutExternalModelOptions : AwsOptions, IValidatable
     public string? InvokeModelEndpointRoleArn { get; private init; }
 
     /// <summary>
-    /// The model endpoint input configuration. eventTypeName -&gt; (string) The event type name. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$ format -&gt; (string) The format of the model input configuration. The format differs depending on if it is passed through to SageMaker or constructed by Amazon Fraud Detector. Possible values: o TEXT_CSV o APPLICATION_JSON useEventVariables -&gt; (boolean) [required] The event variables. jsonInputTemplate -&gt; (string) Template for constructing the JSON input-data sent to SageMaker. At event-evaluation, the placeholders for variable names in the template will be replaced with the variable values before being sent to SageMaker. Constraints: o min: 1 o max: 2000 csvInputTemplate -&gt; (string) Template for constructing the CSV input-data sent to SageMaker. At event-evaluation, the placeholders for variable-names in the template will be replaced with the variable values before being sent to SageMaker. Constraints: o min: 1 o max: 2000 Shorthand Syntax: eventTypeName=string,format=string,useEventVariables=boolean,jsonInputTemplate=string,csvInputTemplate=string JSON Syntax: { "eventTypeName": "string", "format": "TEXT_CSV"|"APPLICATION_JSON", "useEventVariables": true|false, "jsonInputTemplate": "string", "csvInputTemplate": "string" }
+    /// The model endpoint input configuration. eventTypeName -&gt; (string) The event type name. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$ format -&gt; (string) The format of the model input configuration. The format differs depending on if it is passed through to SageMaker or constructed by Amazon Fraud Detector. Possible values: • TEXT_CSV • APPLICATION_JSON useEventVariables -&gt; (boolean) [required] The event variables. jsonInputTemplate -&gt; (string) Template for constructing the JSON input-data sent to SageMaker. At event-evaluation, the placeholders for variable names in the template will be replaced with the variable values before being sent to SageMaker. Constraints: • min: 1 • max: 2000 csvInputTemplate -&gt; (string) Template for constructing the CSV input-data sent to SageMaker. At event-evaluation, the placeholders for variable-names in the template will be replaced with the variable values before being sent to SageMaker. Constraints: • min: 1 • max: 2000 Shorthand Syntax: eventTypeName=string,format=string,useEventVariables=boolean,jsonInputTemplate=string,csvInputTemplate=string JSON Syntax: { "eventTypeName": "string", "format": "TEXT_CSV"|"APPLICATION_JSON", "useEventVariables": true|false, "jsonInputTemplate": "string", "csvInputTemplate": "string" }
     /// </summary>
     [CliOption("--input-configuration")]
     public string? InputConfiguration { get; private init; }
 
     /// <summary>
-    /// The model endpoint output configuration. format -&gt; (string) [required] The format of the model output configuration. Possible values: o TEXT_CSV o APPLICATION_JSONLINES jsonKeyToVariableMap -&gt; (map) A map of JSON keys in response from SageMaker to the Amazon Fraud Detector variables. key -&gt; (string) value -&gt; (string) csvIndexToVariableMap -&gt; (map) A map of CSV index values in the SageMaker response to the Ama- zon Fraud Detector variables. key -&gt; (string) value -&gt; (string) Shorthand Syntax: format=string,jsonKeyToVariableMap={KeyName1=string,KeyName2=string},csvIndexToVariableMap={KeyName1=string,KeyName2=string} JSON Syntax: { "format": "TEXT_CSV"|"APPLICATION_JSONLINES", "jsonKeyToVariableMap": {"string": "string" ...}, "csvIndexToVariableMap": {"string": "string" ...} }
+    /// The model endpoint output configuration. format -&gt; (string) [required] The format of the model output configuration. Possible values: • TEXT_CSV • APPLICATION_JSONLINES jsonKeyToVariableMap -&gt; (map) A map of JSON keys in response from SageMaker to the Amazon Fraud Detector variables. key -&gt; (string) value -&gt; (string) csvIndexToVariableMap -&gt; (map) A map of CSV index values in the SageMaker response to the Amazon Fraud Detector variables. key -&gt; (string) value -&gt; (string) Shorthand Syntax: format=string,jsonKeyToVariableMap={KeyName1=string,KeyName2=string},csvIndexToVariableMap={KeyName1=string,KeyName2=string} JSON Syntax: { "format": "TEXT_CSV"|"APPLICATION_JSONLINES", "jsonKeyToVariableMap": {"string": "string" ...}, "csvIndexToVariableMap": {"string": "string" ...} }
     /// </summary>
     [CliOption("--output-configuration")]
     public string? OutputConfiguration { get; private init; }
 
     /// <summary>
-    /// The model endpoints status in Amazon Fraud Detector. Possible values: o ASSOCIATED o DISSOCIATED
+    /// The model endpoints status in Amazon Fraud Detector. Possible values: • ASSOCIATED • DISSOCIATED
     /// </summary>
     [CliOption("--model-endpoint-status")]
     public AwsFrauddetectorPutExternalModelModelEndpointStatus? ModelEndpointStatus { get; private init; }
 
     /// <summary>
-    /// A collection of key and value pairs. Constraints: o min: 0 o max: 200 (structure) A key and value pair. key -&gt; (string) [required] A tag key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] A value assigned to a tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// A collection of key and value pairs. Constraints: • min: 0 • max: 200 (structure) A key and value pair. key -&gt; (string) [required] A tag key. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] A value assigned to a tag key. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

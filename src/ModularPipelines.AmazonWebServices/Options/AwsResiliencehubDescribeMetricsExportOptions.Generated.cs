@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsResiliencehubDescribeMetricsExportOptions : AwsOptions, IValida
     /// <summary>
     /// Describes the metrics of the application configuration being exported. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MetricsExportId">Identifier of the metrics export task. Constraints: o min: 1 o max: 255</param>
+    /// <param name="MetricsExportId">Identifier of the metrics export task. Constraints: • min: 1 • max: 255</param>
     public AwsResiliencehubDescribeMetricsExportOptions(
         string MetricsExportId
     )
@@ -56,7 +58,7 @@ public record AwsResiliencehubDescribeMetricsExportOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifier of the metrics export task. Constraints: o min: 1 o max: 255
+    /// Identifier of the metrics export task. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--metrics-export-id")]
     public string? MetricsExportId { get; private init; }

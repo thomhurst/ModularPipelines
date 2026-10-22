@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotGetCommandOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets information about the specified command. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CommandId">The unique identifier of the command for which you want to retrieve information. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="CommandId">The unique identifier of the command for which you want to retrieve information. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsIotGetCommandOptions(
         string CommandId
     )
@@ -56,7 +58,7 @@ public record AwsIotGetCommandOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the command for which you want to retrieve information. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// The unique identifier of the command for which you want to retrieve information. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--command-id")]
     public string? CommandId { get; private init; }

@@ -33,7 +33,7 @@ public class AwsOmics : IAwsOmics
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws omics wait sub-commands.
     /// </summary>
     public AwsOmicsWait Wait => _wait ??= new AwsOmicsWait(_command);
 
@@ -42,7 +42,7 @@ public class AwsOmics : IAwsOmics
     #region Commands
 
     /// <summary>
-    /// Stops a multipart read set upload into a sequence store and returns a response with no body if the operation is successful. To confirm that a multipart read set upload has been stopped, use the ListMultipartRead- SetUploads API operation to view all active multipart read set uploads. See also: AWS API Documentation
+    /// Stops a multipart read set upload into a sequence store and returns a response with no body if the operation is successful. To confirm that a multipart read set upload has been stopped, use the ListMultipartReadSetUploads API operation to view all active multipart read set uploads. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -72,7 +72,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Deletes one or more read sets. If the operation is successful, it re- turns a response with no body. If there is an error with deleting one of the read sets, the operation returns an error list. If the operation successfully deletes only a subset of files, it will return an error list for the remaining files that fail to be deleted. There is a limit of 100 read sets that can be deleted in each BatchDeleteReadSet API call. See also: AWS API Documentation
+    /// Deletes one or more read sets. If the operation is successful, it returns a response with no body. If there is an error with deleting one of the read sets, the operation returns an error list. If the operation successfully deletes only a subset of files, it will return an error list for the remaining files that fail to be deleted. There is a limit of 100 read sets that can be deleted in each BatchDeleteReadSet API call. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -102,7 +102,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Cancels all runs within a specified batch. This operation prevents not-yet-submitted runs from starting and submits CancelRun requests for runs that have already started. Cancel is only allowed on batches in PENDING , SUBMITTING , or IN- PROGRESS state. Cancel operations are non-atomic and may be partially successful. Use GetBatch to review successfulCancelSubmissionCount and failedCancelSubmissionCount in the submissionSummary . Only one cancel or delete operation per batch is allowed at a time...
+    /// Cancels all runs within a specified batch. This operation prevents not-yet-submitted runs from starting and submits CancelRun requests for runs that have already started. Cancel is only allowed on batches in PENDING , SUBMITTING , or INPROGRESS state. Cancel operations are non-atomic and may be partially successful. Use GetBatch to review successfulCancelSubmissionCount and failedCancelSubmissionCount in the submissionSummary . Only one cancel or delete operation per batch is allowed at a time. ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -147,7 +147,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Completes a multipart read set upload into a sequence store after you have initiated the upload process with CreateMultipartReadSetUpload and uploaded all read set parts using UploadReadSetPart . You must specify the parts you uploaded using the parts parameter. If the operation is successful, it returns the read set ID(s) of the uploaded read set(s). For more information, see Direct upload to a sequence store in the Ama- zon Web Services HealthOmics User Guide . See also: AWS API Documentation
+    /// Completes a multipart read set upload into a sequence store after you have initiated the upload process with CreateMultipartReadSetUpload and uploaded all read set parts using UploadReadSetPart . You must specify the parts you uploaded using the parts parameter. If the operation is successful, it returns the read set ID(s) of the uploaded read set(s). For more information, see Direct upload to a sequence store in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -207,7 +207,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Initiates a multipart read set upload for uploading partitioned source files into a sequence store. You can directly import source files from an EC2 instance and other local compute, or from an S3 bucket. To sepa- rate these source files into parts, use the split operation. Each part cannot be larger than 100 MB. If the operation is successful, it pro- vides an uploadId which is required by the UploadReadSetPart API opera- tion to upload parts into a sequence store. To continue uploading a multi...
+    /// Initiates a multipart read set upload for uploading partitioned source files into a sequence store. You can directly import source files from an EC2 instance and other local compute, or from an S3 bucket. To separate these source files into parts, use the split operation. Each part cannot be larger than 100 MB. If the operation is successful, it provides an uploadId which is required by the UploadReadSetPart API operation to upload parts into a sequence store. To continue uploading a multipart r...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -222,7 +222,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Creates a reference store and returns metadata in JSON format. Refer- ence stores are used to store reference genomes in FASTA format. A ref- erence store is created when the first reference genome is imported. To import additional reference genomes from an Amazon S3 bucket, use the StartReferenceImportJob API operation. For more information, see Creating a HealthOmics reference store in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
+    /// Creates a reference store and returns metadata in JSON format. Reference stores are used to store reference genomes in FASTA format. A reference store is created when the first reference genome is imported. To import additional reference genomes from an Amazon S3 bucket, use the StartReferenceImportJob API operation. For more information, see Creating a HealthOmics reference store in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -237,7 +237,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Creates a run cache to store and reference task outputs from completed private runs. Specify an Amazon S3 location where Amazon Web Services HealthOmics saves the cached data. This data must be immediately acces- sible and not in an archived state. You can save intermediate task files to a run cache if they are declared as task outputs in the work- flow definition file. For more information, see Call caching and Creating a run cache in the Amazon Web Services HealthOmics User Guide . See also: A...
+    /// Creates a run cache to store and reference task outputs from completed private runs. Specify an Amazon S3 location where Amazon Web Services HealthOmics saves the cached data. This data must be immediately accessible and not in an archived state. You can save intermediate task files to a run cache if they are declared as task outputs in the workflow definition file. For more information, see Call caching and Creating a run cache in the Amazon Web Services HealthOmics User Guide . See also: AWS A...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -267,7 +267,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Creates a sequence store and returns its metadata. Sequence stores are used to store sequence data files called read sets that are saved in FASTQ, BAM, uBAM, or CRAM formats. For aligned formats (BAM and CRAM), a sequence store can only use one reference genome. For unaligned for- mats (FASTQ and uBAM), a reference genome is not required. You can cre- ate multiple sequence stores per region per account. The following are optional parameters you can specify for your sequence store: o Use s3Access...
+    /// Creates a sequence store and returns its metadata. Sequence stores are used to store sequence data files called read sets that are saved in FASTQ, BAM, uBAM, or CRAM formats. For aligned formats (BAM and CRAM), a sequence store can only use one reference genome. For unaligned formats (FASTQ and uBAM), a reference genome is not required. You can create multiple sequence stores per region per account. The following are optional parameters you can specify for your sequence store: • Use s3AccessConf...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -282,7 +282,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Creates a cross-account shared resource. The resource owner makes an offer to share the resource with the principal subscriber (an Amazon Web Services user with a different account than the resource owner). The following resources support cross-account sharing: o HealthOmics variant stores o HealthOmics annotation stores o Private workflows See also: AWS API Documentation
+    /// Creates a cross-account shared resource. The resource owner makes an offer to share the resource with the principal subscriber (an Amazon Web Services user with a different account than the resource owner). The following resources support cross-account sharing: • HealthOmics variant stores • HealthOmics annotation stores • Private workflows See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -312,7 +312,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Creates a private workflow. Before you create a private workflow, you must create and configure these required resources: o Workflow definition file: A workflow definition file written in WDL, Nextflow, or CWL. The workflow definition specifies the inputs and outputs for runs that use the workflow. It also includes specifica- tions for the runs and run tasks for your workflow, including compute and memory requirements. The workflow definition file must be in .zip format. For more information, se...
+    /// Creates a private workflow. Before you create a private workflow, you must create and configure these required resources: • Workflow definition file: A workflow definition file written in WDL, Nextflow, or CWL. The workflow definition specifies the inputs and outputs for runs that use the workflow. It also includes specifications for the runs and run tasks for your workflow, including compute and memory requirements. The workflow definition file must be in .zip format. For more information, see ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -372,7 +372,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Deletes a run batch resource and its associated metadata. This opera- tion does not delete the individual workflow runs. To delete the runs, call DeleteRunBatch before calling DeleteBatch . DeleteBatch requires the batch to be in a terminal state: PROCESSED , FAILED , CANCELLED , RUNS_DELETE_FAILED , or RUNS_DELETED . After DeleteBatch completes, the batch metadata is no longer accessible. You cannot call GetBatch , ListRunsInBatch , DeleteRunBatch , or CancelRunBatch on a deleted batch. See als...
+    /// Deletes a run batch resource and its associated metadata. This operation does not delete the individual workflow runs. To delete the runs, call DeleteRunBatch before calling DeleteBatch . DeleteBatch requires the batch to be in a terminal state: PROCESSED , FAILED , CANCELLED , RUNS_DELETE_FAILED , or RUNS_DELETED . After DeleteBatch completes, the batch metadata is no longer accessible. You cannot call GetBatch , ListRunsInBatch , DeleteRunBatch , or CancelRunBatch on a deleted batch. See also:...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -402,7 +402,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Deletes a reference genome and returns a response with no body if the operation is successful. The read set associated with the reference genome must first be deleted before deleting the reference genome. Af- ter the reference genome is deleted, you can delete the reference store using the DeleteReferenceStore API operation. For more information, see Deleting HealthOmics reference and sequence stores in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
+    /// Deletes a reference genome and returns a response with no body if the operation is successful. The read set associated with the reference genome must first be deleted before deleting the reference genome. After the reference genome is deleted, you can delete the reference store using the DeleteReferenceStore API operation. For more information, see Deleting HealthOmics reference and sequence stores in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -432,7 +432,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Deletes the individual workflow runs within a batch. This operation is separate from DeleteBatch , which removes the batch metadata. Delete is only allowed on batches in PROCESSED or CANCELLED state. Delete operations are non-atomic and may be partially successful. Use GetBatch to review successfulDeleteSubmissionCount and failedDeleteSub- missionCount in the submissionSummary . Only one cancel or delete oper- ation per batch is allowed at a time. See also: AWS API Documentation
+    /// Deletes the individual workflow runs within a batch. This operation is separate from DeleteBatch , which removes the batch metadata. Delete is only allowed on batches in PROCESSED or CANCELLED state. Delete operations are non-atomic and may be partially successful. Use GetBatch to review successfulDeleteSubmissionCount and failedDeleteSubmissionCount in the submissionSummary . Only one cancel or delete operation per batch is allowed at a time. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -447,7 +447,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Deletes a run cache and returns a response with no body if the opera- tion is successful. This action removes the cache metadata stored in the service account, but does not delete the data in Amazon S3. You can access the cache data in Amazon S3, for inspection or to troubleshoot issues. You can remove old cache data using standard S3 Delete opera- tions. For more information, see Deleting a run cache in the Amazon Web Ser- vices HealthOmics User Guide . See also: AWS API Documentation
+    /// Deletes a run cache and returns a response with no body if the operation is successful. This action removes the cache metadata stored in the service account, but does not delete the data in Amazon S3. You can access the cache data in Amazon S3, for inspection or to troubleshoot issues. You can remove old cache data using standard S3 Delete operations. For more information, see Deleting a run cache in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -462,7 +462,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Deletes a run group and returns a response with no body if the opera- tion is successful. To verify that the run group is deleted: o Use ListRunGroups to confirm the workflow no longer appears in the list. o Use GetRunGroup to verify the workflow cannot be found. See also: AWS API Documentation
+    /// Deletes a run group and returns a response with no body if the operation is successful. To verify that the run group is deleted: • Use ListRunGroups to confirm the workflow no longer appears in the list. • Use GetRunGroup to verify the workflow cannot be found. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -477,7 +477,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Deletes a run and returns a response with no body if the operation is successful. You can only delete a run that has reached a COMPLETED , FAILED , or CANCELLED stage. A completed run has delivered an output, or was cancelled and resulted in no output. When you delete a run, only the metadata associated with the run is deleted. The run outputs remain in Amazon S3 and logs remain in CloudWatch. To verify that the workflow is deleted: o Use ListRuns to confirm the workflow no longer appears in the...
+    /// Deletes a run and returns a response with no body if the operation is successful. You can only delete a run that has reached a COMPLETED , FAILED , or CANCELLED stage. A completed run has delivered an output, or was cancelled and resulted in no output. When you delete a run, only the metadata associated with the run is deleted. The run outputs remain in Amazon S3 and logs remain in CloudWatch. To verify that the workflow is deleted: • Use ListRuns to confirm the workflow no longer appears in the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -507,7 +507,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Deletes a sequence store and returns a response with no body if the op- eration is successful. You can only delete a sequence store when it does not contain any read sets. Use the BatchDeleteReadSet API operation to ensure that all read sets in the sequence store are deleted. When a sequence store is deleted, all tags associated with the store are also deleted. For more information, see Deleting HealthOmics reference and sequence stores in the Amazon Web Services HealthOmics User Guide . See als...
+    /// Deletes a sequence store and returns a response with no body if the operation is successful. You can only delete a sequence store when it does not contain any read sets. Use the BatchDeleteReadSet API operation to ensure that all read sets in the sequence store are deleted. When a sequence store is deleted, all tags associated with the store are also deleted. For more information, see Deleting HealthOmics reference and sequence stores in the Amazon Web Services HealthOmics User Guide . See also:...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -522,7 +522,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Deletes a resource share. If you are the resource owner, the subscriber will no longer have access to the shared resource. If you are the sub- scriber, this operation deletes your access to the share. See also: AWS API Documentation
+    /// Deletes a resource share. If you are the resource owner, the subscriber will no longer have access to the shared resource. If you are the subscriber, this operation deletes your access to the share. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -552,7 +552,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Deletes a workflow by specifying its ID. This operation returns a re- sponse with no body if the deletion is successful. To verify that the workflow is deleted: o Use ListWorkflows to confirm the workflow no longer appears in the list. o Use GetWorkflow to verify the workflow cannot be found. See also: AWS API Documentation
+    /// Deletes a workflow by specifying its ID. This operation returns a response with no body if the deletion is successful. To verify that the workflow is deleted: • Use ListWorkflows to confirm the workflow no longer appears in the list. • Use GetWorkflow to verify the workflow cannot be found. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -627,7 +627,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Retrieves details and current status for a specific run batch, includ- ing submission progress and run execution counts. See also: AWS API Documentation get-batch uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Retrieves details and current status for a specific run batch, including submission progress and run execution counts. See also: AWS API Documentation get-batch uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -762,7 +762,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Downloads parts of data from a reference genome and returns the refer- ence file in the same format that it was uploaded. For more information, see Creating a HealthOmics reference store in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
+    /// Downloads parts of data from a reference genome and returns the reference file in the same format that it was uploaded. For more information, see Creating a HealthOmics reference store in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -927,7 +927,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Gets all information about a workflow using its ID. If a workflow is shared with you, you cannot export the workflow. For more information about your workflow status, see Verify the work- flow status in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
+    /// Gets all information about a workflow using its ID. If a workflow is shared with you, you cannot export the workflow. For more information about your workflow status, see Verify the workflow status in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -972,6 +972,21 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
+    /// Lists the versions of an annotation store. See also: AWS API Documentation list-annotation-store-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: annotationStoreVersions
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAnnotationStoreVersionsAsync(
+        AwsOmicsListAnnotationStoreVersionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// WARNING: Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see Amazon Web Services HealthOmics variant store and annotation store availability change . Retrieves a list of annotation stores. See also: AWS API Documentation list-annotation-stores is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. Yo...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -987,22 +1002,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Lists the versions of an annotation store. See also: AWS API Documentation list-annotation-store-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: annotationStoreVersions
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListAnnotationStoreVersionsAsync(
-        AwsOmicsListAnnotationStoreVersionsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns a list of run batches in your account, with optional filtering by status, name, or run group. Results are paginated. Only one filter per call is supported. See also: AWS API Documentation list-batch is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract da...
+    /// Returns a list of run batches in your account, with optional filtering by status, name, or run group. Results are paginated. Only one filter per call is supported. See also: AWS API Documentation list-batch is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1032,7 +1032,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Lists in-progress multipart read set uploads for a sequence store and returns it in a JSON formatted output. Multipart read set uploads are initiated by the CreateMultipartReadSetUploads API operation. This op- eration returns a response with no body when the upload is complete. See also: AWS API Documentation list-multipart-read-set-uploads is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing th...
+    /// Lists in-progress multipart read set uploads for a sequence store and returns it in a JSON formatted output. Multipart read set uploads are initiated by the CreateMultipartReadSetUploads API operation. This operation returns a response with no body when the upload is complete. See also: AWS API Documentation list-multipart-read-set-uploads is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1047,7 +1047,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Retrieves a list of read set activation jobs and returns the metadata in a JSON formatted output. To extract metadata from a read set activa- tion job, use the GetReadSetActivationJob API operation. See also: AWS API Documentation list-read-set-activation-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a ...
+    /// Retrieves a list of read set activation jobs and returns the metadata in a JSON formatted output. To extract metadata from a read set activation job, use the GetReadSetActivationJob API operation. See also: AWS API Documentation list-read-set-activation-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagina...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1077,7 +1077,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Retrieves a list of read set import jobs and returns the data in JSON format. See also: AWS API Documentation list-read-set-import-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: importJobs
+    /// Retrieves a list of read set import jobs and returns the data in JSON format. See also: AWS API Documentation list-read-set-import-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: importJobs
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1085,21 +1085,6 @@ public class AwsOmics : IAwsOmics
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListReadSetImportJobsAsync(
         AwsOmicsListReadSetImportJobsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Retrieves a list of read sets from a sequence store ID and returns the metadata in JSON format. See also: AWS API Documentation list-read-sets is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: readSe...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListReadSetsAsync(
-        AwsOmicsListReadSetsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1122,14 +1107,14 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Retrieves the metadata of one or more reference import jobs for a ref- erence store. See also: AWS API Documentation list-reference-import-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: importJ...
+    /// Retrieves a list of read sets from a sequence store ID and returns the metadata in JSON format. See also: AWS API Documentation list-read-sets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: readSets
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListReferenceImportJobsAsync(
-        AwsOmicsListReferenceImportJobsOptions options,
+    public virtual async Task<CommandResult> ListReadSetsAsync(
+        AwsOmicsListReadSetsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1137,14 +1122,14 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Retrieves the metadata of one or more reference genomes in a reference store. For more information, see Creating a reference store in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation list-references is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --quer...
+    /// Retrieves the metadata of one or more reference import jobs for a reference store. See also: AWS API Documentation list-reference-import-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: importJobs
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListReferencesAsync(
-        AwsOmicsListReferencesOptions options,
+    public virtual async Task<CommandResult> ListReferenceImportJobsAsync(
+        AwsOmicsListReferenceImportJobsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1167,7 +1152,22 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Retrieves a list of your run caches and the metadata for each cache. See also: AWS API Documentation list-run-caches is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Retrieves the metadata of one or more reference genomes in a reference store. For more information, see Creating a reference store in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation list-references is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListReferencesAsync(
+        AwsOmicsListReferencesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves a list of your run caches and the metadata for each cache. See also: AWS API Documentation list-run-caches is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1182,7 +1182,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Retrieves a list of all run groups and returns the metadata for each run group. See also: AWS API Documentation list-run-groups is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Retrieves a list of all run groups and returns the metadata for each run group. See also: AWS API Documentation list-run-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1194,6 +1194,21 @@ public class AwsOmics : IAwsOmics
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListRunGroupsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a list of tasks and status information within their specified run. Use this operation to monitor runs and to identify which specific tasks have failed. See also: AWS API Documentation list-run-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListRunTasksAsync(
+        AwsOmicsListRunTasksOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1212,7 +1227,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Retrieves a list of runs and returns each run's metadata and status. Amazon Web Services HealthOmics stores a configurable number of runs, as determined by service limits, that are available to the console and API. If the ListRuns response doesn't include specific runs that you expected, you can find all run logs in the CloudWatch logs. For more information about viewing the run logs, see CloudWatch logs in the Ama- zon Web Services HealthOmics User Guide . See also: AWS API Documentation list-r...
+    /// Retrieves a list of runs and returns each run's metadata and status. Amazon Web Services HealthOmics stores a configurable number of runs, as determined by service limits, that are available to the console and API. If the ListRuns response doesn't include specific runs that you expected, you can find all run logs in the CloudWatch logs. For more information about viewing the run logs, see CloudWatch logs in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation list-run...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1224,21 +1239,6 @@ public class AwsOmics : IAwsOmics
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListRunsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns a list of tasks and status information within their specified run. Use this operation to monitor runs and to identify which specific tasks have failed. See also: AWS API Documentation list-run-tasks is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract ...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListRunTasksAsync(
-        AwsOmicsListRunTasksOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1257,7 +1257,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Retrieves the resource shares associated with an account. Use the fil- ter parameter to retrieve a specific subset of the shares. See also: AWS API Documentation list-shares is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow...
+    /// Retrieves the resource shares associated with an account. Use the filter parameter to retrieve a specific subset of the shares. See also: AWS API Documentation list-shares is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1317,22 +1317,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Retrieves a list of existing workflows. You can filter for specific workflows by their name and type. Using the type parameter, specify PRIVATE to retrieve a list of private workflows or specify READY2RUN for a list of all Ready2Run workflows. If you do not specify the type of workflow, this operation returns a list of existing workflows. See also: AWS API Documentation list-workflows is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListWorkflowsAsync(
-        AwsOmicsListWorkflowsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListWorkflowsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists the workflow versions for the specified workflow. For more infor- mation, see Workflow versioning in Amazon Web Services HealthOmics in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation list-workflow-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response,...
+    /// Lists the workflow versions for the specified workflow. For more information, see Workflow versioning in Amazon Web Services HealthOmics in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation list-workflow-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1344,6 +1329,21 @@ public class AwsOmics : IAwsOmics
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves a list of existing workflows. You can filter for specific workflows by their name and type. Using the type parameter, specify PRIVATE to retrieve a list of private workflows or specify READY2RUN for a list of all Ready2Run workflows. If you do not specify the type of workflow, this operation returns a list of existing workflows. See also: AWS API Documentation list-workflows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListWorkflowsAsync(
+        AwsOmicsListWorkflowsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListWorkflowsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1377,7 +1377,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Activates an archived read set and returns its metadata in a JSON for- matted output. Amazon Web Services HealthOmics automatically archives unused read sets after 30 days. To monitor the status of your read set activation job, use the GetReadSetActivationJob operation. To learn more, see Activating read sets in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
+    /// Activates an archived read set and returns its metadata in a JSON formatted output. Amazon Web Services HealthOmics automatically archives unused read sets after 30 days. To monitor the status of your read set activation job, use the GetReadSetActivationJob operation. To learn more, see Activating read sets in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1407,7 +1407,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Imports a read set from the sequence store. Read set import jobs sup- port a maximum of 100 read sets of different types. Monitor the progress of your read set import job by calling the GetReadSetImportJob API operation. See also: AWS API Documentation
+    /// Imports a read set from the sequence store. Read set import jobs support a maximum of 100 read sets of different types. Monitor the progress of your read set import job by calling the GetReadSetImportJob API operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1422,7 +1422,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Imports a reference genome from Amazon S3 into a specified reference store. You can have multiple reference genomes in a reference store. You can only import reference genomes one at a time into each reference store. Monitor the status of your reference import job by using the Ge- tReferenceImportJob API operation. See also: AWS API Documentation
+    /// Imports a reference genome from Amazon S3 into a specified reference store. You can have multiple reference genomes in a reference store. You can only import reference genomes one at a time into each reference store. Monitor the status of your reference import job by using the GetReferenceImportJob API operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1437,7 +1437,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Starts a batch of workflow runs. You can group up to 100,000 runs into a single batch that share a common configuration defined in defaultRun- Setting . Per-run overrides can be provided either inline via inline- Settings (up to 100 runs) or via a JSON file stored in Amazon S3 via s3UriSettings (up to 100,000 runs). StartRunBatch validates common fields synchronously and returns im- mediately with a batch ID and status CREATING . The batch transi- tions to PENDING once initial setup completes. R...
+    /// Starts a batch of workflow runs. You can group up to 100,000 runs into a single batch that share a common configuration defined in defaultRunSetting . Per-run overrides can be provided either inline via inlineSettings (up to 100 runs) or via a JSON file stored in Amazon S3 via s3UriSettings (up to 100,000 runs). StartRunBatch validates common fields synchronously and returns immediately with a batch ID and status CREATING . The batch transitions to PENDING once initial setup completes. Runs are ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1452,7 +1452,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Starts a new run and returns details about the run, or duplicates an existing run. A run is a single invocation of a workflow. If you pro- vide request IDs, Amazon Web Services HealthOmics identifies duplicate requests and starts the run only once. Monitor the progress of the run by calling the GetRun API operation. To start a new run, the following inputs are required: o A service role ARN (roleArn ). o The run's workflow ID (workflowId , not the uuid or runId ). o An Amazon S3 location (output...
+    /// Starts a new run and returns details about the run, or duplicates an existing run. A run is a single invocation of a workflow. If you provide request IDs, Amazon Web Services HealthOmics identifies duplicate requests and starts the run only once. Monitor the progress of the run by calling the GetRun API operation. To start a new run, the following inputs are required: • A service role ARN (roleArn ). • The run's workflow ID (workflowId , not the uuid or runId ). • An Amazon S3 location (outputUr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1542,7 +1542,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Updates a run cache using its ID and returns a response with no body if the operation is successful. You can update the run cache description, name, or the default run cache behavior with CACHE_ON_FAILURE or CACHE_ALWAYS . To confirm that your run cache settings have been prop- erly updated, use the GetRunCache API operation. For more information, see How call caching works in the Amazon Web Ser- vices HealthOmics User Guide . See also: AWS API Documentation
+    /// Updates a run cache using its ID and returns a response with no body if the operation is successful. You can update the run cache description, name, or the default run cache behavior with CACHE_ON_FAILURE or CACHE_ALWAYS . To confirm that your run cache settings have been properly updated, use the GetRunCache API operation. For more information, see How call caching works in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1557,7 +1557,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Updates the settings of a run group and returns a response with no body if the operation is successful. You can update the following settings with UpdateRunGroup : o Maximum number of CPUs o Run time (measured in minutes) o Number of GPUs o Number of concurrent runs o Group name To confirm that the settings have been successfully updated, use the ListRunGroups or GetRunGroup API operations to verify that the desired changes have been made. See also: AWS API Documentation
+    /// Updates the settings of a run group and returns a response with no body if the operation is successful. You can update the following settings with UpdateRunGroup : • Maximum number of CPUs • Run time (measured in minutes) • Number of GPUs • Number of concurrent runs • Group name To confirm that the settings have been successfully updated, use the ListRunGroups or GetRunGroup API operations to verify that the desired changes have been made. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1602,7 +1602,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Updates information about a workflow. You can update the following workflow information: o Name o Description o Default storage type o Default storage capacity (with workflow ID) This operation returns a response with no body if the operation is suc- cessful. You can check the workflow updates by calling the GetWorkflow API operation. For more information, see Update a private workflow in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
+    /// Updates information about a workflow. You can update the following workflow information: • Name • Description • Default storage type • Default storage capacity (with workflow ID) This operation returns a response with no body if the operation is successful. You can check the workflow updates by calling the GetWorkflow API operation. For more information, see Update a private workflow in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1617,7 +1617,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Updates information about the workflow version. For more information, see Workflow versioning in Amazon Web Services HealthOmics in the Ama- zon Web Services HealthOmics User Guide . See also: AWS API Documentation
+    /// Updates information about the workflow version. For more information, see Workflow versioning in Amazon Web Services HealthOmics in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1632,7 +1632,7 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Uploads a specific part of a read set into a sequence store. When you a upload a read set part with a part number that already exists, the new part replaces the existing one. This operation returns a JSON formatted response containing a string identifier that is used to confirm that parts are being added to the intended upload. For more information, see Direct upload to a sequence store in the Ama- zon Web Services HealthOmics User Guide . See also: AWS API Documentation
+    /// Uploads a specific part of a read set into a sequence store. When you a upload a read set part with a part number that already exists, the new part replaces the existing one. This operation returns a JSON formatted response containing a string identifier that is used to confirm that parts are being added to the intended upload. For more information, see Direct upload to a sequence store in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

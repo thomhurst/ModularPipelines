@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCodebuildBatchGetReportGroupsOptions : AwsOptions, IValidatable
     /// <summary>
     /// Returns an array of report groups. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ReportGroupArns">An array of report group ARNs that identify the report groups to re- turn. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 Syntax: "string" "string" ...</param>
+    /// <param name="ReportGroupArns">An array of report group ARNs that identify the report groups to return. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 Syntax: "string" "string" ...</param>
     public AwsCodebuildBatchGetReportGroupsOptions(
         IEnumerable<string> ReportGroupArns
     )
@@ -67,7 +69,7 @@ public record AwsCodebuildBatchGetReportGroupsOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An array of report group ARNs that identify the report groups to re- turn. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 Syntax: "string" "string" ...
+    /// An array of report group ARNs that identify the report groups to return. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--report-group-arns", GroupValues = true)]
     public IEnumerable<string>? ReportGroupArns { get; private init; }

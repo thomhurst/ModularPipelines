@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsGameliftDeleteScalingPolicyOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// This API works with the following fleet types: EC2, Container Deletes a fleet scaling policy. Once deleted, the policy is no longer in force and Amazon GameLift Servers removes all record of it. To delete a scaling policy, specify both the scaling policy name and the fleet ID it is associated with. To temporarily suspend scaling policies, use StopFleetActions . This operation suspends all policies for the fleet. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">A descriptive label that is associated with a fleet's scaling pol- icy. Policy names do not need to be unique. Constraints: o min: 1 o max: 1024</param>
-    /// <param name="FleetId">A unique identifier for the fleet to be deleted. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
+    /// <param name="Name">A descriptive label that is associated with a fleet's scaling policy. Policy names do not need to be unique. Constraints: • min: 1 • max: 1024</param>
+    /// <param name="FleetId">A unique identifier for the fleet to be deleted. You can use either the fleet ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
     public AwsGameliftDeleteScalingPolicyOptions(
         string Name,
         string FleetId
@@ -60,13 +62,13 @@ public record AwsGameliftDeleteScalingPolicyOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A descriptive label that is associated with a fleet's scaling pol- icy. Policy names do not need to be unique. Constraints: o min: 1 o max: 1024
+    /// A descriptive label that is associated with a fleet's scaling policy. Policy names do not need to be unique. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the fleet to be deleted. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
+    /// A unique identifier for the fleet to be deleted. You can use either the fleet ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }

@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an additional token for a specified stage. This can be done af- ter stage creation or when tokens expire. Tokens always are scoped to the stage for which they are created. Encryption keys are owned by Amazon IVS and never used directly by your application. See also: AWS API Documentation
+/// Creates an additional token for a specified stage. This can be done after stage creation or when tokens expire. Tokens always are scoped to the stage for which they are created. Encryption keys are owned by Amazon IVS and never used directly by your application. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsIvsRealtimeCreateParticipantTokenOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an additional token for a specified stage. This can be done af- ter stage creation or when tokens expire. Tokens always are scoped to the stage for which they are created. Encryption keys are owned by Amazon IVS and never used directly by your application. See also: AWS API Documentation
+    /// Creates an additional token for a specified stage. This can be done after stage creation or when tokens expire. Tokens always are scoped to the stage for which they are created. Encryption keys are owned by Amazon IVS and never used directly by your application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StageArn">ARN of the stage to which this token is scoped. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+</param>
+    /// <param name="StageArn">ARN of the stage to which this token is scoped. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+</param>
     public AwsIvsRealtimeCreateParticipantTokenOptions(
         string StageArn
     )
@@ -57,31 +58,31 @@ public record AwsIvsRealtimeCreateParticipantTokenOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of the stage to which this token is scoped. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+
+    /// ARN of the stage to which this token is scoped. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--stage-arn")]
     public string? StageArn { get; private init; }
 
     /// <summary>
-    /// Duration (in minutes), after which the token expires. Default: 720 (12 hours). Constraints: o min: 1 o max: 20160
+    /// Duration (in minutes), after which the token expires. Default: 720 (12 hours). Constraints: • min: 1 • max: 20160
     /// </summary>
     [CliOption("--duration")]
     public int? Duration { get; set; }
 
     /// <summary>
-    /// Name that can be specified to help identify the token. This can be any UTF-8 encoded text. This field is exposed to all stage partici- pants and should not be used for personally identifying, confiden- tial, or sensitive information. Constraints: o min: 0 o max: 128
+    /// Name that can be specified to help identify the token. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information. Constraints: • min: 0 • max: 128
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; set; }
 
     /// <summary>
-    /// Application-provided attributes to encode into the token and attach to a stage. Map keys and values can contain UTF-8 encoded text. The maximum length of this field is 1 KB total. This field is exposed to all stage participants and should not be used for personally identi- fying, confidential, or sensitive information. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Application-provided attributes to encode into the token and attach to a stage. Map keys and values can contain UTF-8 encoded text. The maximum length of this field is 1 KB total. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
     /// <summary>
-    /// Set of capabilities that the user is allowed to perform in the stage. Default: PUBLISH, SUBSCRIBE . Constraints: o min: 0 o max: 2 (string) Possible values: o PUBLISH o SUBSCRIBE Syntax: "string" "string" ...
+    /// Set of capabilities that the user is allowed to perform in the stage. Default: PUBLISH, SUBSCRIBE . Constraints: • min: 0 • max: 2 (string) Possible values: • PUBLISH • SUBSCRIBE Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--capabilities", GroupValues = true)]
     public IEnumerable<string>? Capabilities { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves information about a specific email address that's on the sup- pression list for your account or for a specific tenant. To target a tenant's suppression list, specify the TenantName parameter. If you omit TenantName , the operation targets the account-level suppression list. See also: AWS API Documentation
+/// Retrieves information about a specific email address that's on the suppression list for your account or for a specific tenant. To target a tenant's suppression list, specify the TenantName parameter. If you omit TenantName , the operation targets the account-level suppression list. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsSesv2GetSuppressedDestinationOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves information about a specific email address that's on the sup- pression list for your account or for a specific tenant. To target a tenant's suppression list, specify the TenantName parameter. If you omit TenantName , the operation targets the account-level suppression list. See also: AWS API Documentation
+    /// Retrieves information about a specific email address that's on the suppression list for your account or for a specific tenant. To target a tenant's suppression list, specify the TenantName parameter. If you omit TenantName , the operation targets the account-level suppression list. See also: AWS API Documentation
     /// </summary>
     /// <param name="EmailAddress">The email address that's on the suppression list for your account or for the specified tenant.</param>
     public AwsSesv2GetSuppressedDestinationOptions(
@@ -62,7 +64,7 @@ public record AwsSesv2GetSuppressedDestinationOptions : AwsOptions, IValidatable
     public string? EmailAddress { get; private init; }
 
     /// <summary>
-    /// The name of the tenant whose suppression list you want to query. If you omit this parameter, the operation targets the account-level suppression list. Constraints: o min: 1
+    /// The name of the tenant whose suppression list you want to query. If you omit this parameter, the operation targets the account-level suppression list. Constraints: • min: 1
     /// </summary>
     [CliOption("--tenant-name")]
     public string? TenantName { get; set; }

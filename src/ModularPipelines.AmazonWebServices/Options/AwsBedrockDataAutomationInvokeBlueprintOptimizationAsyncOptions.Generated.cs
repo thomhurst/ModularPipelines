@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +29,10 @@ public record AwsBedrockDataAutomationInvokeBlueprintOptimizationAsyncOptions : 
     /// <summary>
     /// Invoke an async job to perform Blueprint Optimization See also: AWS API Documentation
     /// </summary>
-    /// <param name="Blueprint">Blueprint to be optimized blueprintArn -&gt; (string) [required] Arn of blueprint. Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blue- print/(bedrock-data-automation-pub- lic-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36}) stage -&gt; (string) Stage of blueprint. Possible values: o DEVELOPMENT o LIVE Shorthand Syntax: blueprintArn=string,stage=string JSON Syntax: { "blueprintArn": "string", "stage": "DEVELOPMENT"|"LIVE" }</param>
-    /// <param name="Samples">List of Blueprint Optimization Samples (structure) Blueprint Recommendation Sample assetS3Object -&gt; (structure) [required] S3 Object of the asset s3Uri -&gt; (string) [required] S3 uri. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? version -&gt; (string) S3 object version. Constraints: o min: 1 o max: 1024 groundTruthS3Object -&gt; (structure) [required] Ground truth for the Blueprint and Asset combination s3Uri -&gt; (string) [required] S3 uri. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? version -&gt; (string) S3 object version. Constraints: o min: 1 o max: 1024 Shorthand Syntax: assetS3Object={s3Uri=string,version=string},groundTruthS3Object={s3Uri=string,version=string} ... JSON Syntax: [ { "assetS3Object": { "s3Uri": "string", "version": "string" }, "groundTruthS3Object": { "s3Uri": "string", "version": "string" } } ... ]</param>
-    /// <param name="OutputConfiguration">Output configuration where the results should be placed s3Object -&gt; (structure) [required] S3 object. s3Uri -&gt; (string) [required] S3 uri. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? version -&gt; (string) S3 object version. Constraints: o min: 1 o max: 1024 Shorthand Syntax: s3Object={s3Uri=string,version=string} JSON Syntax: { "s3Object": { "s3Uri": "string", "version": "string" } }</param>
-    /// <param name="DataAutomationProfileArn">Data automation profile ARN Constraints: o min: 1 o max: 128 o pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-au- tomation-profile/[a-zA-Z0-9-_.]+</param>
+    /// <param name="Blueprint">Blueprint to be optimized blueprintArn -&gt; (string) [required] Arn of blueprint. Constraints: • min: 0 • max: 128 • pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blueprint/(bedrock-data-automation-public-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36}) stage -&gt; (string) Stage of blueprint. Possible values: • DEVELOPMENT • LIVE Shorthand Syntax: blueprintArn=string,stage=string JSON Syntax: { "blueprintArn": "string", "stage": "DEVELOPMENT"|"LIVE" }</param>
+    /// <param name="Samples">List of Blueprint Optimization Samples (structure) Blueprint Recommendation Sample assetS3Object -&gt; (structure) [required] S3 Object of the asset s3Uri -&gt; (string) [required] S3 uri. Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? version -&gt; (string) S3 object version. Constraints: • min: 1 • max: 1024 groundTruthS3Object -&gt; (structure) [required] Ground truth for the Blueprint and Asset combination s3Uri -&gt; (string) [required] S3 uri. Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? version -&gt; (string) S3 object version. Constraints: • min: 1 • max: 1024 Shorthand Syntax: assetS3Object={s3Uri=string,version=string},groundTruthS3Object={s3Uri=string,version=string} ... JSON Syntax: [ { "assetS3Object": { "s3Uri": "string", "version": "string" }, "groundTruthS3Object": { "s3Uri": "string", "version": "string" } } ... ]</param>
+    /// <param name="OutputConfiguration">Output configuration where the results should be placed s3Object -&gt; (structure) [required] S3 object. s3Uri -&gt; (string) [required] S3 uri. Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? version -&gt; (string) S3 object version. Constraints: • min: 1 • max: 1024 Shorthand Syntax: s3Object={s3Uri=string,version=string} JSON Syntax: { "s3Object": { "s3Uri": "string", "version": "string" } }</param>
+    /// <param name="DataAutomationProfileArn">Data automation profile ARN Constraints: • min: 1 • max: 128 • pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-automation-profile/[a-zA-Z0-9-_.]+</param>
     public AwsBedrockDataAutomationInvokeBlueprintOptimizationAsyncOptions(
         string Blueprint,
         IEnumerable<string> Samples,
@@ -79,37 +81,37 @@ public record AwsBedrockDataAutomationInvokeBlueprintOptimizationAsyncOptions : 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Blueprint to be optimized blueprintArn -&gt; (string) [required] Arn of blueprint. Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blue- print/(bedrock-data-automation-pub- lic-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36}) stage -&gt; (string) Stage of blueprint. Possible values: o DEVELOPMENT o LIVE Shorthand Syntax: blueprintArn=string,stage=string JSON Syntax: { "blueprintArn": "string", "stage": "DEVELOPMENT"|"LIVE" }
+    /// Blueprint to be optimized blueprintArn -&gt; (string) [required] Arn of blueprint. Constraints: • min: 0 • max: 128 • pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blueprint/(bedrock-data-automation-public-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36}) stage -&gt; (string) Stage of blueprint. Possible values: • DEVELOPMENT • LIVE Shorthand Syntax: blueprintArn=string,stage=string JSON Syntax: { "blueprintArn": "string", "stage": "DEVELOPMENT"|"LIVE" }
     /// </summary>
     [CliOption("--blueprint")]
     public string? Blueprint { get; private init; }
 
     /// <summary>
-    /// List of Blueprint Optimization Samples (structure) Blueprint Recommendation Sample assetS3Object -&gt; (structure) [required] S3 Object of the asset s3Uri -&gt; (string) [required] S3 uri. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? version -&gt; (string) S3 object version. Constraints: o min: 1 o max: 1024 groundTruthS3Object -&gt; (structure) [required] Ground truth for the Blueprint and Asset combination s3Uri -&gt; (string) [required] S3 uri. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? version -&gt; (string) S3 object version. Constraints: o min: 1 o max: 1024 Shorthand Syntax: assetS3Object={s3Uri=string,version=string},groundTruthS3Object={s3Uri=string,version=string} ... JSON Syntax: [ { "assetS3Object": { "s3Uri": "string", "version": "string" }, "groundTruthS3Object": { "s3Uri": "string", "version": "string" } } ... ]
+    /// List of Blueprint Optimization Samples (structure) Blueprint Recommendation Sample assetS3Object -&gt; (structure) [required] S3 Object of the asset s3Uri -&gt; (string) [required] S3 uri. Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? version -&gt; (string) S3 object version. Constraints: • min: 1 • max: 1024 groundTruthS3Object -&gt; (structure) [required] Ground truth for the Blueprint and Asset combination s3Uri -&gt; (string) [required] S3 uri. Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? version -&gt; (string) S3 object version. Constraints: • min: 1 • max: 1024 Shorthand Syntax: assetS3Object={s3Uri=string,version=string},groundTruthS3Object={s3Uri=string,version=string} ... JSON Syntax: [ { "assetS3Object": { "s3Uri": "string", "version": "string" }, "groundTruthS3Object": { "s3Uri": "string", "version": "string" } } ... ]
     /// </summary>
     [CliOption("--samples", GroupValues = true)]
     public IEnumerable<string>? Samples { get; private init; }
 
     /// <summary>
-    /// Output configuration where the results should be placed s3Object -&gt; (structure) [required] S3 object. s3Uri -&gt; (string) [required] S3 uri. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? version -&gt; (string) S3 object version. Constraints: o min: 1 o max: 1024 Shorthand Syntax: s3Object={s3Uri=string,version=string} JSON Syntax: { "s3Object": { "s3Uri": "string", "version": "string" } }
+    /// Output configuration where the results should be placed s3Object -&gt; (structure) [required] S3 object. s3Uri -&gt; (string) [required] S3 uri. Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? version -&gt; (string) S3 object version. Constraints: • min: 1 • max: 1024 Shorthand Syntax: s3Object={s3Uri=string,version=string} JSON Syntax: { "s3Object": { "s3Uri": "string", "version": "string" } }
     /// </summary>
     [CliOption("--output-configuration")]
     public string? OutputConfiguration { get; private init; }
 
     /// <summary>
-    /// Data automation profile ARN Constraints: o min: 1 o max: 128 o pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-au- tomation-profile/[a-zA-Z0-9-_.]+
+    /// Data automation profile ARN Constraints: • min: 1 • max: 128 • pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-automation-profile/[a-zA-Z0-9-_.]+
     /// </summary>
     [CliOption("--data-automation-profile-arn")]
     public string? DataAutomationProfileArn { get; private init; }
 
     /// <summary>
-    /// Encryption configuration. kmsKeyId -&gt; (string) [required] KMS Key Identifier Constraints: o min: 1 o max: 2048 o pattern: [A-Za-z0-9][A-Za-z0-9:_/+=,@.-]+ kmsEncryptionContext -&gt; (map) KMS Encryption Context Constraints: o min: 1 key -&gt; (string) Encryption context key. Constraints: o min: 1 o max: 2000 o pattern: .*\S.* value -&gt; (string) Encryption context value. Constraints: o min: 1 o max: 2000 o pattern: .*\S.* Shorthand Syntax: kmsKeyId=string,kmsEncryptionContext={KeyName1=string,KeyName2=string} JSON Syntax: { "kmsKeyId": "string", "kmsEncryptionContext": {"string": "string" ...} }
+    /// Encryption configuration. kmsKeyId -&gt; (string) [required] KMS Key Identifier Constraints: • min: 1 • max: 2048 • pattern: [A-Za-z0-9][A-Za-z0-9:_/+=,@.-]+ kmsEncryptionContext -&gt; (map) KMS Encryption Context Constraints: • min: 1 key -&gt; (string) Encryption context key. Constraints: • min: 1 • max: 2000 • pattern: .*\S.* value -&gt; (string) Encryption context value. Constraints: • min: 1 • max: 2000 • pattern: .*\S.* Shorthand Syntax: kmsKeyId=string,kmsEncryptionContext={KeyName1=string,KeyName2=string} JSON Syntax: { "kmsKeyId": "string", "kmsEncryptionContext": {"string": "string" ...} }
     /// </summary>
     [CliOption("--encryption-configuration")]
     public string? EncryptionConfiguration { get; set; }
 
     /// <summary>
-    /// List of tags. Constraints: o min: 0 o max: 200 (structure) Key value pair of a tag key -&gt; (string) [required] Defines the context of the tag. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] Defines the value within the context. e.g. &lt;key=reason, value=training&gt;. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// List of tags. Constraints: • min: 0 • max: 200 (structure) Key value pair of a tag key -&gt; (string) [required] Defines the context of the tag. Constraints: • min: 1 • max: 128 value -&gt; (string) [required] Defines the value within the context. e.g. &lt;key=reason, value=training&gt;. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDeployDeleteDeploymentConfigOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Deletes a deployment configuration. NOTE: A deployment configuration cannot be deleted if it is currently in use. Predefined configurations cannot be deleted. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DeploymentConfigName">The name of a deployment configuration associated with the user or Amazon Web Services account. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]*</param>
+    /// <param name="DeploymentConfigName">The name of a deployment configuration associated with the user or Amazon Web Services account. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9+=,.@_-]*</param>
     public AwsDeployDeleteDeploymentConfigOptions(
         string DeploymentConfigName
     )
@@ -56,7 +58,7 @@ public record AwsDeployDeleteDeploymentConfigOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of a deployment configuration associated with the user or Amazon Web Services account. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]*
+    /// The name of a deployment configuration associated with the user or Amazon Web Services account. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9+=,.@_-]*
     /// </summary>
     [CliOption("--deployment-config-name")]
     public string? DeploymentConfigName { get; private init; }

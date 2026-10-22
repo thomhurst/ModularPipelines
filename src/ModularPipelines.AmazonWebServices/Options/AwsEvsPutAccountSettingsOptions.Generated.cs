@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates account-level EVS settings for your Amazon Web Ser- vices account in the specified Amazon Web Services Region. EVS settings included in the request are created or overwritten. Set- tings omitted from the request retain their current values. See also: AWS API Documentation
+/// Creates or updates account-level EVS settings for your Amazon Web Services account in the specified Amazon Web Services Region. EVS settings included in the request are created or overwritten. Settings omitted from the request retain their current values. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsEvsPutAccountSettingsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates or updates account-level EVS settings for your Amazon Web Ser- vices account in the specified Amazon Web Services Region. EVS settings included in the request are created or overwritten. Set- tings omitted from the request retain their current values. See also: AWS API Documentation
+    /// Creates or updates account-level EVS settings for your Amazon Web Services account in the specified Amazon Web Services Region. EVS settings included in the request are created or overwritten. Settings omitted from the request retain their current values. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Settings">A list of regional account-level EVS settings to create or update. Only the settings included in this list are modified. Constraints: o min: 0 o max: 100 (structure) A regional account-level EVS setting, represented as a name and value pair. name -&gt; (string) [required] The name of the EVS setting. Valid values are: o vcfPortedCoreCount (type: numeric string) - The total num- ber of VCF license cores ported to Amazon EVS for the ac- count in that Region. The maximum value is 1,000,000 cores. This setting value is shared with Broadcom for record-keep- ing. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9]+ value -&gt; (string) [required] The value of the EVS setting. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9]+ Shorthand Syntax: name=string,value=string ... JSON Syntax: [ { "name": "string", "value": "string" } ... ]</param>
+    /// <param name="Settings">A list of regional account-level EVS settings to create or update. Only the settings included in this list are modified. Constraints: • min: 0 • max: 100 (structure) A regional account-level EVS setting, represented as a name and value pair. name -&gt; (string) [required] The name of the EVS setting. Valid values are: • vcfPortedCoreCount (type: numeric string) - The total number of VCF license cores ported to Amazon EVS for the account in that Region. The maximum value is 1,000,000 cores. This setting value is shared with Broadcom for record-keeping. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9]+ value -&gt; (string) [required] The value of the EVS setting. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9]+ Shorthand Syntax: name=string,value=string ... JSON Syntax: [ { "name": "string", "value": "string" } ... ]</param>
     public AwsEvsPutAccountSettingsOptions(
         IEnumerable<string> Settings
     )
@@ -67,7 +69,7 @@ public record AwsEvsPutAccountSettingsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of regional account-level EVS settings to create or update. Only the settings included in this list are modified. Constraints: o min: 0 o max: 100 (structure) A regional account-level EVS setting, represented as a name and value pair. name -&gt; (string) [required] The name of the EVS setting. Valid values are: o vcfPortedCoreCount (type: numeric string) - The total num- ber of VCF license cores ported to Amazon EVS for the ac- count in that Region. The maximum value is 1,000,000 cores. This setting value is shared with Broadcom for record-keep- ing. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9]+ value -&gt; (string) [required] The value of the EVS setting. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9]+ Shorthand Syntax: name=string,value=string ... JSON Syntax: [ { "name": "string", "value": "string" } ... ]
+    /// A list of regional account-level EVS settings to create or update. Only the settings included in this list are modified. Constraints: • min: 0 • max: 100 (structure) A regional account-level EVS setting, represented as a name and value pair. name -&gt; (string) [required] The name of the EVS setting. Valid values are: • vcfPortedCoreCount (type: numeric string) - The total number of VCF license cores ported to Amazon EVS for the account in that Region. The maximum value is 1,000,000 cores. This setting value is shared with Broadcom for record-keeping. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9]+ value -&gt; (string) [required] The value of the EVS setting. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9]+ Shorthand Syntax: name=string,value=string ... JSON Syntax: [ { "name": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--settings", GroupValues = true)]
     public IEnumerable<string>? Settings { get; private init; }

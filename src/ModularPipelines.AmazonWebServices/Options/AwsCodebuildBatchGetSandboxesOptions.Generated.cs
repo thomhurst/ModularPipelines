@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCodebuildBatchGetSandboxesOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Gets information about the sandbox status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Ids">A comma separated list of sandboxIds or sandboxArns . (string) Constraints: o min: 1 Syntax: "string" "string" ...</param>
+    /// <param name="Ids">A comma separated list of sandboxIds or sandboxArns . (string) Constraints: • min: 1 Syntax: "string" "string" ...</param>
     public AwsCodebuildBatchGetSandboxesOptions(
         IEnumerable<string> Ids
     )
@@ -67,7 +69,7 @@ public record AwsCodebuildBatchGetSandboxesOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A comma separated list of sandboxIds or sandboxArns . (string) Constraints: o min: 1 Syntax: "string" "string" ...
+    /// A comma separated list of sandboxIds or sandboxArns . (string) Constraints: • min: 1 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; private init; }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws chimesdkvoice commands.
+/// aws chime-sdk-voice commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsChimeSdkVoice : IAwsChimeSdkVoice
@@ -32,7 +32,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     #region Commands
 
     /// <summary>
-    /// Associates phone numbers with the specified Amazon Chime SDK Voice Con- nector group. See also: AWS API Documentation
+    /// Associates phone numbers with the specified Amazon Chime SDK Voice Connector group. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     }
 
     /// <summary>
-    /// Associates phone numbers with the specified Amazon Chime SDK Voice Con- nector. See also: AWS API Documentation
+    /// Associates phone numbers with the specified Amazon Chime SDK Voice Connector. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     }
 
     /// <summary>
-    /// Moves phone numbers into the Deletion queue . Phone numbers must be disassociated from any users or Amazon Chime SDK Voice Connectors be- fore they can be deleted. Phone numbers remain in the Deletion queue for 7 days before they are deleted permanently. See also: AWS API Documentation
+    /// Moves phone numbers into the Deletion queue . Phone numbers must be disassociated from any users or Amazon Chime SDK Voice Connectors before they can be deleted. Phone numbers remain in the Deletion queue for 7 days before they are deleted permanently. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     }
 
     /// <summary>
-    /// Updates phone number product types, calling names, or phone number names. You can update one attribute at a time for each UpdatePhoneNum- berRequestItem . For example, you can update the product type, the calling name, or phone name. NOTE: You cannot have a duplicate phoneNumberId in a request. See also: AWS API Documentation
+    /// Updates phone number product types, calling names, or phone number names. You can update one attribute at a time for each UpdatePhoneNumberRequestItem . For example, you can update the product type, the calling name, or phone name. NOTE: You cannot have a duplicate phoneNumberId in a request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     }
 
     /// <summary>
-    /// Creates an order for phone numbers to be provisioned. For numbers out- side the U.S., you must use the Amazon Chime SDK SIP media application dial-in product type. See also: AWS API Documentation
+    /// Creates an order for phone numbers to be provisioned. For numbers outside the U.S., you must use the Amazon Chime SDK SIP media application dial-in product type. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     }
 
     /// <summary>
-    /// Creates an outbound call to a phone number from the phone number speci- fied in the request, and it invokes the endpoint of the specified sip- MediaApplicationId . See also: AWS API Documentation
+    /// Creates an outbound call to a phone number from the phone number specified in the request, and it invokes the endpoint of the specified sipMediaApplicationId . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     }
 
     /// <summary>
-    /// Creates a SIP media application. For more information about SIP media applications, see Managing SIP media applications and rules in the Ama- zon Chime SDK Administrator Guide . See also: AWS API Documentation
+    /// Creates a SIP media application. For more information about SIP media applications, see Managing SIP media applications and rules in the Amazon Chime SDK Administrator Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     }
 
     /// <summary>
-    /// Creates an Amazon Chime SDK Voice Connector group under the administra- tor's AWS account. You can associate Amazon Chime SDK Voice Connectors with the Voice Connector group by including VoiceConnectorItems in the request. You can include Voice Connectors from different AWS Regions in your group. This creates a fault tolerant mechanism for fallback in case of availability events. See also: AWS API Documentation
+    /// Creates an Amazon Chime SDK Voice Connector group under the administrator's AWS account. You can associate Amazon Chime SDK Voice Connectors with the Voice Connector group by including VoiceConnectorItems in the request. You can include Voice Connectors from different AWS Regions in your group. This creates a fault tolerant mechanism for fallback in case of availability events. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     }
 
     /// <summary>
-    /// Creates a voice profile, which consists of an enrolled user and their latest voice print. WARNING: Before creating any voice profiles, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the AWS service terms for the Amazon Chime SDK. For more information about voice profiles and voice analytics, see Using Amazon Chime SDK Voice Analytics in the Amazon Chime SDK Devel- oper Guide . See also: AWS API...
+    /// Creates a voice profile, which consists of an enrolled user and their latest voice print. WARNING: Before creating any voice profiles, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the AWS service terms for the Amazon Chime SDK. For more information about voice profiles and voice analytics, see Using Amazon Chime SDK Voice Analytics in the Amazon Chime SDK Developer Guide . See also: AWS API D...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     }
 
     /// <summary>
-    /// Moves the specified phone number into the Deletion queue . A phone num- ber must be disassociated from any users or Amazon Chime SDK Voice Con- nectors before it can be deleted. Deleted phone numbers remain in the Deletion queue queue for 7 days be- fore they are deleted permanently. See also: AWS API Documentation
+    /// Moves the specified phone number into the Deletion queue . A phone number must be disassociated from any users or Amazon Chime SDK Voice Connectors before it can be deleted. Deleted phone numbers remain in the Deletion queue queue for 7 days before they are deleted permanently. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     }
 
     /// <summary>
-    /// Deletes an Amazon Chime SDK Voice Connector group. Any VoiceConnec- torItems and phone numbers associated with the group must be removed before it can be deleted. See also: AWS API Documentation
+    /// Deletes an Amazon Chime SDK Voice Connector group. Any VoiceConnectorItems and phone numbers associated with the group must be removed before it can be deleted. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     }
 
     /// <summary>
-    /// Deletes an Amazon Chime SDK Voice Connector. Any phone numbers associ- ated with the Amazon Chime SDK Voice Connector must be disassociated from it before it can be deleted. See also: AWS API Documentation
+    /// Deletes an Amazon Chime SDK Voice Connector. Any phone numbers associated with the Amazon Chime SDK Voice Connector must be disassociated from it before it can be deleted. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     }
 
     /// <summary>
-    /// Deletes the specified SIP credentials used by your equipment to authen- ticate during call termination. See also: AWS API Documentation
+    /// Deletes the specified SIP credentials used by your equipment to authenticate during call termination. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     }
 
     /// <summary>
-    /// Retrieves details for the specified phone number ID, such as associa- tions, capabilities, and product type. See also: AWS API Documentation
+    /// Retrieves details for the specified phone number ID, such as associations, capabilities, and product type. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     }
 
     /// <summary>
-    /// Retrieves details for the specified phone number order, such as the or- der creation timestamp, phone numbers in E.164 format, product type, and order status. See also: AWS API Documentation
+    /// Retrieves details for the specified phone number order, such as the order creation timestamp, phone numbers in E.164 format, product type, and order status. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     }
 
     /// <summary>
-    /// Retrieves the phone number settings for the administrator's AWS ac- count, such as the default outbound calling name. See also: AWS API Documentation
+    /// Retrieves the phone number settings for the administrator's AWS account, such as the default outbound calling name. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     }
 
     /// <summary>
-    /// Retrieves the logging configuration for the specified SIP media appli- cation. See also: AWS API Documentation
+    /// Retrieves the logging configuration for the specified SIP media application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     }
 
     /// <summary>
-    /// Retrieves the details of a SIP rule, such as the rule ID, name, trig- gers, and target endpoints. See also: AWS API Documentation
+    /// Retrieves the details of a SIP rule, such as the rule ID, name, triggers, and target endpoints. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     }
 
     /// <summary>
-    /// Retrieves information about the last time a SIP OPTIONS ping was re- ceived from your SIP infrastructure for the specified Amazon Chime SDK Voice Connector. See also: AWS API Documentation
+    /// Retrieves information about the last time a SIP OPTIONS ping was received from your SIP infrastructure for the specified Amazon Chime SDK Voice Connector. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -677,7 +677,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     }
 
     /// <summary>
-    /// Retrieves the termination setting details for the specified Voice Con- nector. See also: AWS API Documentation
+    /// Retrieves the termination setting details for the specified Voice Connector. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -752,7 +752,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     }
 
     /// <summary>
-    /// Lists the phone numbers for an administrator's Amazon Chime SDK ac- count. See also: AWS API Documentation
+    /// Lists the phone numbers for an administrator's Amazon Chime SDK account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -782,7 +782,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     }
 
     /// <summary>
-    /// Lists the SIP media applications under the administrator's AWS account. See also: AWS API Documentation list-sip-media-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SipMediaApplicati...
+    /// Lists the SIP media applications under the administrator's AWS account. See also: AWS API Documentation list-sip-media-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SipMediaApplications
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -797,7 +797,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     }
 
     /// <summary>
-    /// Lists the SIP rules under the administrator's AWS account. See also: AWS API Documentation list-sip-rules is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SipRules
+    /// Lists the SIP rules under the administrator's AWS account. See also: AWS API Documentation list-sip-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SipRules
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -842,7 +842,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     }
 
     /// <summary>
-    /// Lists the Amazon Chime SDK Voice Connector groups in the administra- tor's AWS account. See also: AWS API Documentation
+    /// Lists the Amazon Chime SDK Voice Connector groups in the administrator's AWS account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -854,6 +854,21 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceListVoiceConnectorGroupsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the SIP credentials for the specified Amazon Chime SDK Voice Connector. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListVoiceConnectorTerminationCredentialsAsync(
+        AwsChimeSdkVoiceListVoiceConnectorTerminationCredentialsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -869,21 +884,6 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceListVoiceConnectorsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists the SIP credentials for the specified Amazon Chime SDK Voice Con- nector. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListVoiceConnectorTerminationCredentialsAsync(
-        AwsChimeSdkVoiceListVoiceConnectorTerminationCredentialsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -917,7 +917,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     }
 
     /// <summary>
-    /// Updates the logging configuration for the specified SIP media applica- tion. See also: AWS API Documentation
+    /// Updates the logging configuration for the specified SIP media application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1067,7 +1067,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     }
 
     /// <summary>
-    /// Starts a speaker search task. WARNING: Before starting any speaker search tasks, you must provide all no- tices and obtain all consents from the speaker as required under ap- plicable privacy and biometrics laws, and as required under the AWS service terms for the Amazon Chime SDK. See also: AWS API Documentation
+    /// Starts a speaker search task. WARNING: Before starting any speaker search tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the AWS service terms for the Amazon Chime SDK. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1172,7 +1172,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     }
 
     /// <summary>
-    /// Updates phone number details, such as product type, calling name, or phone number name for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type, calling name, or phone number name in one action. For numbers outside the U.S., you must use the Amazon Chime SDK SIP Me- dia Application Dial-In product type. Updates to outbound calling names can take 72 hours to complete. Pend- ing updates to outbound calling names must b...
+    /// Updates phone number details, such as product type, calling name, or phone number name for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type, calling name, or phone number name in one action. For numbers outside the U.S., you must use the Amazon Chime SDK SIP Media Application Dial-In product type. Updates to outbound calling names can take 72 hours to complete. Pending updates to outbound calling names must be co...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1202,7 +1202,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     }
 
     /// <summary>
-    /// Invokes the AWS Lambda function associated with the SIP media applica- tion and transaction ID in an update request. The Lambda function can then return a new set of actions. See also: AWS API Documentation
+    /// Invokes the AWS Lambda function associated with the SIP media application and transaction ID in an update request. The Lambda function can then return a new set of actions. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1292,7 +1292,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     }
 
     /// <summary>
-    /// Updates the specified voice profiles voice print and refreshes its ex- piration timestamp. WARNING: As a condition of using this feature, you acknowledge that the col- lection, use, storage, and retention of your callers biometric iden- tifiers and biometric information (biometric data) in the form of a digital voiceprint requires the callers informed consent via a writ- ten release. Such consent is required under various state laws, in- cluding biometrics laws in Illinois, Texas, Washington and...
+    /// Updates the specified voice profiles voice print and refreshes its expiration timestamp. WARNING: As a condition of using this feature, you acknowledge that the collection, use, storage, and retention of your callers biometric identifiers and biometric information (biometric data) in the form of a digital voiceprint requires the callers informed consent via a written release. Such consent is required under various state laws, including biometrics laws in Illinois, Texas, Washington and other sta...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1307,7 +1307,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     }
 
     /// <summary>
-    /// Validates an address to be used for 911 calls made with Amazon Chime SDK Voice Connectors. You can use validated addresses in a Presence In- formation Data Format Location Object file that you include in SIP re- quests. That helps ensure that addresses are routed to the appropriate Public Safety Answering Point. See also: AWS API Documentation
+    /// Validates an address to be used for 911 calls made with Amazon Chime SDK Voice Connectors. You can use validated addresses in a Presence Information Data Format Location Object file that you include in SIP requests. That helps ensure that addresses are routed to the appropriate Public Safety Answering Point. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

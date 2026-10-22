@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSupportAppDeleteSlackWorkspaceConfigurationOptions : AwsOptions
     /// <summary>
     /// Deletes a Slack workspace configuration from your Amazon Web Services account. This operation doesn't delete your Slack workspace. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TeamId">The team ID in Slack. This ID uniquely identifies a Slack workspace, such as T012ABCDEFG . Constraints: o min: 1 o max: 256 o pattern: ^\S+$</param>
+    /// <param name="TeamId">The team ID in Slack. This ID uniquely identifies a Slack workspace, such as T012ABCDEFG . Constraints: • min: 1 • max: 256 • pattern: ^\S+$</param>
     public AwsSupportAppDeleteSlackWorkspaceConfigurationOptions(
         string TeamId
     )
@@ -56,7 +58,7 @@ public record AwsSupportAppDeleteSlackWorkspaceConfigurationOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The team ID in Slack. This ID uniquely identifies a Slack workspace, such as T012ABCDEFG . Constraints: o min: 1 o max: 256 o pattern: ^\S+$
+    /// The team ID in Slack. This ID uniquely identifies a Slack workspace, such as T012ABCDEFG . Constraints: • min: 1 • max: 256 • pattern: ^\S+$
     /// </summary>
     [CliOption("--team-id")]
     public string? TeamId { get; private init; }

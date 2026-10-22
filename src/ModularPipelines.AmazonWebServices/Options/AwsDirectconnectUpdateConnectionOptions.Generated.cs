@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the Direct Connect connection configuration. You can update the following parameters for a connection: o The connection name o The connection's MAC Security (MACsec) encryption mode. See also: AWS API Documentation
+/// Updates the Direct Connect connection configuration. You can update the following parameters for a connection: • The connection name • The connection's MAC Security (MACsec) encryption mode. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsDirectconnectUpdateConnectionOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the Direct Connect connection configuration. You can update the following parameters for a connection: o The connection name o The connection's MAC Security (MACsec) encryption mode. See also: AWS API Documentation
+    /// Updates the Direct Connect connection configuration. You can update the following parameters for a connection: • The connection name • The connection's MAC Security (MACsec) encryption mode. See also: AWS API Documentation
     /// </summary>
     /// <param name="ConnectionId">The ID of the connection. You can use DescribeConnections to retrieve the connection ID.</param>
     public AwsDirectconnectUpdateConnectionOptions(

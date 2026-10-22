@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Displays the tags associated with a resource. Both sinks and links sup- port tagging. See also: AWS API Documentation
+/// Displays the tags associated with a resource. Both sinks and links support tagging. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsOamListTagsForResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Displays the tags associated with a resource. Both sinks and links sup- port tagging. See also: AWS API Documentation
+    /// Displays the tags associated with a resource. Both sinks and links support tagging. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource that you want to view tags for. The ARN format of a sink is `` arn:aws:oam:Region :account-id :sink/sink-id `` System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. The ARN format of a link is `` arn:aws:oam:Region :account-id :link/link-id `` System Message: WARNING/2 (&lt;string&gt;:, line 76) Inline literal start-string without end-string. For more information about ARN format, see CloudWatch Logs resources and operations . WARNING: Unlike tagging permissions in other Amazon Web Services ser- vices, to retrieve the list of tags for links or sinks you must have the oam:RequestTag permission. The aws:ReguestTag permis- sion does not allow you to tag and untag links and sinks. Constraints: o pattern: ^arn:(\w|-)+:oam:.+:.+:.+</param>
+    /// <param name="ResourceArn">The ARN of the resource that you want to view tags for. The ARN format of a sink is `` arn:aws:oam:Region :account-id :sink/sink-id `` System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. The ARN format of a link is `` arn:aws:oam:Region :account-id :link/link-id `` System Message: WARNING/2 (&lt;string&gt;:, line 76) Inline literal start-string without end-string. For more information about ARN format, see CloudWatch Logs resources and operations . WARNING: Unlike tagging permissions in other Amazon Web Services services, to retrieve the list of tags for links or sinks you must have the oam:RequestTag permission. The aws:ReguestTag permission does not allow you to tag and untag links and sinks. Constraints: • pattern: ^arn:(\w|-)+:oam:.+:.+:.+</param>
     public AwsOamListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsOamListTagsForResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource that you want to view tags for. The ARN format of a sink is `` arn:aws:oam:Region :account-id :sink/sink-id `` System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. The ARN format of a link is `` arn:aws:oam:Region :account-id :link/link-id `` System Message: WARNING/2 (&lt;string&gt;:, line 76) Inline literal start-string without end-string. For more information about ARN format, see CloudWatch Logs resources and operations . WARNING: Unlike tagging permissions in other Amazon Web Services ser- vices, to retrieve the list of tags for links or sinks you must have the oam:RequestTag permission. The aws:ReguestTag permis- sion does not allow you to tag and untag links and sinks. Constraints: o pattern: ^arn:(\w|-)+:oam:.+:.+:.+
+    /// The ARN of the resource that you want to view tags for. The ARN format of a sink is `` arn:aws:oam:Region :account-id :sink/sink-id `` System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. The ARN format of a link is `` arn:aws:oam:Region :account-id :link/link-id `` System Message: WARNING/2 (&lt;string&gt;:, line 76) Inline literal start-string without end-string. For more information about ARN format, see CloudWatch Logs resources and operations . WARNING: Unlike tagging permissions in other Amazon Web Services services, to retrieve the list of tags for links or sinks you must have the oam:RequestTag permission. The aws:ReguestTag permission does not allow you to tag and untag links and sinks. Constraints: • pattern: ^arn:(\w|-)+:oam:.+:.+:.+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

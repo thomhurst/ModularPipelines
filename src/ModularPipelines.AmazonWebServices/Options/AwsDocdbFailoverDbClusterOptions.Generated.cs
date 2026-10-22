@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDocdbFailoverDbClusterOptions : AwsOptions
 {
     /// <summary>
-    /// A cluster identifier to force a failover for. This parameter is not case sensitive. Constraints: o Must match the identifier of an existing DBCluster .
+    /// A cluster identifier to force a failover for. This parameter is not case sensitive. Constraints: • Must match the identifier of an existing DBCluster .
     /// </summary>
     [CliOption("--db-cluster-identifier")]
     public string? DbClusterIdentifier { get; set; }

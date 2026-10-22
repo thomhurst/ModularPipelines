@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRedshiftServerlessGetReservationOptions : AwsOptions, IValidata
     /// <summary>
     /// Gets an Amazon Redshift Serverless reservation. A reservation gives you the option to commit to a specified number of Redshift Processing Units (RPUs) for a year at a discount from Serverless on-demand (OD) rates. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ReservationId">The ID of the reservation to retrieve. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ReservationId">The ID of the reservation to retrieve. Constraints: • min: 1 • max: 64</param>
     public AwsRedshiftServerlessGetReservationOptions(
         string ReservationId
     )
@@ -56,7 +58,7 @@ public record AwsRedshiftServerlessGetReservationOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the reservation to retrieve. Constraints: o min: 1 o max: 64
+    /// The ID of the reservation to retrieve. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--reservation-id")]
     public string? ReservationId { get; private init; }

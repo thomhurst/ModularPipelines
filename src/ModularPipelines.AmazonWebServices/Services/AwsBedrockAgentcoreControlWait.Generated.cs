@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws wait commands.
+/// aws bedrock-agentcore-control wait commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsBedrockAgentcoreControlWait
@@ -47,7 +47,7 @@ public class AwsBedrockAgentcoreControlWait
     }
 
     /// <summary>
-    /// Wait until a Policy is active It will poll every 5 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 24 failed checks. See also: AWS API Documentation
+    /// Wait until a Policy is active It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 24 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

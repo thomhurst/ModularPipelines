@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsOsisGetResourcePolicyOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves the resource-based policy attached to an OpenSearch Ingestion resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource for which to retrieve the policy. Constraints: o min: 46 o max: 76 o pattern: ^arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):osis:.+:pipeline\/.+$</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource for which to retrieve the policy. Constraints: • min: 46 • max: 76 • pattern: ^arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):osis:.+:pipeline\/.+$</param>
     public AwsOsisGetResourcePolicyOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsOsisGetResourcePolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource for which to retrieve the policy. Constraints: o min: 46 o max: 76 o pattern: ^arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):osis:.+:pipeline\/.+$
+    /// The Amazon Resource Name (ARN) of the resource for which to retrieve the policy. Constraints: • min: 46 • max: 76 • pattern: ^arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):osis:.+:pipeline\/.+$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsHealthlakeTagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Add a user-specifed key and value tag to a data store. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) that grants access to the data store tags are being added to. Constraints: o min: 1 o max: 1011 o pattern: arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:health- lake:[a-z0-9-]+:\d{12}:(datastore\/fhir\/.{32}|dataTransformation- Profile\/[a-f0-9]{32})</param>
-    /// <param name="Tags">The user-specified key and value pair tags being added to a data store. Constraints: o min: 0 o max: 200 (structure) A label consisting of a user-defined key and value. The form for tags is {"Key", "Value"} Key -&gt; (string) [required] The key portion of a tag. Tag keys are case sensitive. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value portion of a tag. Tag values are case-sensitive. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) that grants access to the data store tags are being added to. Constraints: • min: 1 • max: 1011 • pattern: arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:healthlake:[a-z0-9-]+:\d{12}:(datastore\/fhir\/.{32}|dataTransformationProfile\/[a-f0-9]{32})</param>
+    /// <param name="Tags">The user-specified key and value pair tags being added to a data store. Constraints: • min: 0 • max: 200 (structure) A label consisting of a user-defined key and value. The form for tags is {"Key", "Value"} Key -&gt; (string) [required] The key portion of a tag. Tag keys are case sensitive. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value portion of a tag. Tag values are case-sensitive. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsHealthlakeTagResourceOptions(
         string ResourceArn,
         IEnumerable<string> Tags
@@ -71,13 +73,13 @@ public record AwsHealthlakeTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that grants access to the data store tags are being added to. Constraints: o min: 1 o max: 1011 o pattern: arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:health- lake:[a-z0-9-]+:\d{12}:(datastore\/fhir\/.{32}|dataTransformation- Profile\/[a-f0-9]{32})
+    /// The Amazon Resource Name (ARN) that grants access to the data store tags are being added to. Constraints: • min: 1 • max: 1011 • pattern: arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:healthlake:[a-z0-9-]+:\d{12}:(datastore\/fhir\/.{32}|dataTransformationProfile\/[a-f0-9]{32})
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The user-specified key and value pair tags being added to a data store. Constraints: o min: 0 o max: 200 (structure) A label consisting of a user-defined key and value. The form for tags is {"Key", "Value"} Key -&gt; (string) [required] The key portion of a tag. Tag keys are case sensitive. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value portion of a tag. Tag values are case-sensitive. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The user-specified key and value pair tags being added to a data store. Constraints: • min: 0 • max: 200 (structure) A label consisting of a user-defined key and value. The form for tags is {"Key", "Value"} Key -&gt; (string) [required] The key portion of a tag. Tag keys are case sensitive. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value portion of a tag. Tag values are case-sensitive. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }

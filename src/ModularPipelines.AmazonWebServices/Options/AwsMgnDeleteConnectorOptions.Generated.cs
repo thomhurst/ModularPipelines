@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMgnDeleteConnectorOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Delete Connector. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectorId">Delete Connector request connector ID. Constraints: o min: 27 o max: 27 o pattern: connector-[0-9a-zA-Z]{17}</param>
+    /// <param name="ConnectorId">Delete Connector request connector ID. Constraints: • min: 27 • max: 27 • pattern: connector-[0-9a-zA-Z]{17}</param>
     public AwsMgnDeleteConnectorOptions(
         string ConnectorId
     )
@@ -56,7 +58,7 @@ public record AwsMgnDeleteConnectorOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Delete Connector request connector ID. Constraints: o min: 27 o max: 27 o pattern: connector-[0-9a-zA-Z]{17}
+    /// Delete Connector request connector ID. Constraints: • min: 27 • max: 27 • pattern: connector-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--connector-id")]
     public string? ConnectorId { get; private init; }

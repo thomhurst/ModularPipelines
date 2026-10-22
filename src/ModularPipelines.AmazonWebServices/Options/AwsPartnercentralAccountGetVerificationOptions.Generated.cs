@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsPartnercentralAccountGetVerificationOptions : AwsOptions, IVali
     /// <summary>
     /// Retrieves the current status and details of a verification process for a partner account. This operation allows partners to check the progress and results of business or registrant verification processes. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VerificationType">The type of verification to retrieve information for. Valid values include business verification for company registration details and registrant verification for individual identity confirmation. Possible values: o BUSINESS_VERIFICATION o REGISTRANT_VERIFICATION</param>
+    /// <param name="VerificationType">The type of verification to retrieve information for. Valid values include business verification for company registration details and registrant verification for individual identity confirmation. Possible values: • BUSINESS_VERIFICATION • REGISTRANT_VERIFICATION</param>
     public AwsPartnercentralAccountGetVerificationOptions(
         AwsPartnercentralAccountGetVerificationVerificationType VerificationType
     )
@@ -56,7 +58,7 @@ public record AwsPartnercentralAccountGetVerificationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of verification to retrieve information for. Valid values include business verification for company registration details and registrant verification for individual identity confirmation. Possible values: o BUSINESS_VERIFICATION o REGISTRANT_VERIFICATION
+    /// The type of verification to retrieve information for. Valid values include business verification for company registration details and registrant verification for individual identity confirmation. Possible values: • BUSINESS_VERIFICATION • REGISTRANT_VERIFICATION
     /// </summary>
     [CliOption("--verification-type")]
     public AwsPartnercentralAccountGetVerificationVerificationType? VerificationType { get; private init; }

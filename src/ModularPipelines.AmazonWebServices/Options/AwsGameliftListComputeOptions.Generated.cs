@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves information on the compute resources in an Amazon GameLift Servers fleet. Use the pagination parameters to retrieve results in a set of sequential pages. Request options o Retrieve a list of all computes in a fleet. Specify a fleet ID. o Retrieve a list of all computes in a specific fleet location. Specify a fleet ID and location. Results If successful, this operation returns information on a set of computes. Dep...
+/// This API works with the following fleet types: EC2, Anywhere, Container Retrieves information on the compute resources in an Amazon GameLift Servers fleet. Use the pagination parameters to retrieve results in a set of sequential pages. Request options • Retrieve a list of all computes in a fleet. Specify a fleet ID. • Retrieve a list of all computes in a specific fleet location. Specify a fleet ID and location. Results If successful, this operation returns information on a set of computes. Depen...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsGameliftListComputeOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves information on the compute resources in an Amazon GameLift Servers fleet. Use the pagination parameters to retrieve results in a set of sequential pages. Request options o Retrieve a list of all computes in a fleet. Specify a fleet ID. o Retrieve a list of all computes in a specific fleet location. Specify a fleet ID and location. Results If successful, this operation returns information on a set of computes. Dep...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Retrieves information on the compute resources in an Amazon GameLift Servers fleet. Use the pagination parameters to retrieve results in a set of sequential pages. Request options • Retrieve a list of all computes in a fleet. Specify a fleet ID. • Retrieve a list of all computes in a specific fleet location. Specify a fleet ID and location. Results If successful, this operation returns information on a set of computes. Depen...
     /// </summary>
-    /// <param name="FleetId">A unique identifier for the fleet to retrieve compute resources for. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
+    /// <param name="FleetId">A unique identifier for the fleet to retrieve compute resources for. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
     public AwsGameliftListComputeOptions(
         string FleetId
     )
@@ -58,34 +60,31 @@ public record AwsGameliftListComputeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the fleet to retrieve compute resources for. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
+    /// A unique identifier for the fleet to retrieve compute resources for. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }
 
     /// <summary>
-    /// The name of a location to retrieve compute resources for. For an Amazon GameLift Servers Anywhere fleet, use a custom location. For a managed fleet, provide a Amazon Web Services Region or Local Zone code (for example: us-west-2 or us-west-2-lax-1 ). Constraints: o min: 1 o max: 64 o pattern: ^[A-Za-z0-9\-]+$
+    /// The name of a location to retrieve compute resources for. For an Amazon GameLift Servers Anywhere fleet, use a custom location. For a managed fleet, provide a Amazon Web Services Region or Local Zone code (for example: us-west-2 or us-west-2-lax-1 ). Constraints: • min: 1 • max: 64 • pattern: ^[A-Za-z0-9\-]+$
     /// </summary>
     [CliOption("--location")]
     public string? Location { get; set; }
 
     /// <summary>
-    /// For computes in a managed container fleet, the name of the deployed container group definition. Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9\-]+$|^arn:.*:containergroupdefini- tion\/[a-zA-Z0-9\-]+(:[0-9]+)?$
+    /// For computes in a managed container fleet, the name of the deployed container group definition. Constraints: • min: 1 • max: 512 • pattern: ^[a-zA-Z0-9\-]+$|^arn:.*:containergroupdefinition\/[a-zA-Z0-9\-]+(:[0-9]+)?$
     /// </summary>
     [CliOption("--container-group-definition-name")]
     public string? ContainerGroupDefinitionName { get; set; }
 
     /// <summary>
-    /// The status of computes in a managed container fleet, based on the success of the latest update deployment. o ACTIVE -- The compute is deployed with the correct container defi- nitions. It is ready to process game servers and host game ses- sions. o IMPAIRED -- An update deployment to the compute failed, and the compute is deployed with incorrect container definitions. Possible values: o ACTIVE o IMPAIRED
+    /// The status of computes in a managed container fleet, based on the success of the latest update deployment. • ACTIVE -- The compute is deployed with the correct container definitions. It is ready to process game servers and host game sessions. • IMPAIRED -- An update deployment to the compute failed, and the compute is deployed with incorrect container definitions. Possible values: • ACTIVE • IMPAIRED
     /// </summary>
     [CliOption("--compute-status")]
     public AwsGameliftListComputeComputeStatus? ComputeStatus { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -95,16 +94,19 @@ public record AwsGameliftListComputeOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

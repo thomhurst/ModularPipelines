@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Replaces an IAM instance profile for the specified running instance. You can use this action to change the IAM instance profile that's asso- ciated with an instance without having to disassociate the existing IAM instance profile first. Use DescribeIamInstanceProfileAssociations to get the association ID. See also: AWS API Documentation
+/// Replaces an IAM instance profile for the specified running instance. You can use this action to change the IAM instance profile that's associated with an instance without having to disassociate the existing IAM instance profile first. Use DescribeIamInstanceProfileAssociations to get the association ID. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsEc2ReplaceIamInstanceProfileAssociationOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Replaces an IAM instance profile for the specified running instance. You can use this action to change the IAM instance profile that's asso- ciated with an instance without having to disassociate the existing IAM instance profile first. Use DescribeIamInstanceProfileAssociations to get the association ID. See also: AWS API Documentation
+    /// Replaces an IAM instance profile for the specified running instance. You can use this action to change the IAM instance profile that's associated with an instance without having to disassociate the existing IAM instance profile first. Use DescribeIamInstanceProfileAssociations to get the association ID. See also: AWS API Documentation
     /// </summary>
     /// <param name="IamInstanceProfile">The IAM instance profile. Arn -&gt; (string) The Amazon Resource Name (ARN) of the instance profile. Name -&gt; (string) The name of the instance profile. Shorthand Syntax: Arn=string,Name=string JSON Syntax: { "Arn": "string", "Name": "string" }</param>
     /// <param name="AssociationId">The ID of the existing IAM instance profile association.</param>

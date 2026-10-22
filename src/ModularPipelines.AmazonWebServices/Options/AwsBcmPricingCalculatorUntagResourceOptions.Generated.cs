@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsBcmPricingCalculatorUntagResourceOptions : AwsOptions, IValidat
     /// <summary>
     /// Removes one or more tags from a specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the resource to remove tags from. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:bcm-pricing-calcula- tor:[-a-z0-9]*:[0-9]{12}:[-a-z0-9/:_]+</param>
-    /// <param name="TagKeys">The keys of the tags to remove from the resource. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: [\w\s:+=@/-]+ Syntax: "string" "string" ...</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the resource to remove tags from. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:bcm-pricing-calculator:[-a-z0-9]*:[0-9]{12}:[-a-z0-9/:_]+</param>
+    /// <param name="TagKeys">The keys of the tags to remove from the resource. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 • pattern: [\w\s:+=@/-]+ Syntax: "string" "string" ...</param>
     public AwsBcmPricingCalculatorUntagResourceOptions(
         string Arn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsBcmPricingCalculatorUntagResourceOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource to remove tags from. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:bcm-pricing-calcula- tor:[-a-z0-9]*:[0-9]{12}:[-a-z0-9/:_]+
+    /// The Amazon Resource Name (ARN) of the resource to remove tags from. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:bcm-pricing-calculator:[-a-z0-9]*:[0-9]{12}:[-a-z0-9/:_]+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The keys of the tags to remove from the resource. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: [\w\s:+=@/-]+ Syntax: "string" "string" ...
+    /// The keys of the tags to remove from the resource. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 • pattern: [\w\s:+=@/-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

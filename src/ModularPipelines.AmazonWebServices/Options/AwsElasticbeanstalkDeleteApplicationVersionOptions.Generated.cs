@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsElasticbeanstalkDeleteApplicationVersionOptions : AwsOptions, I
     /// <summary>
     /// Deletes the specified version from the specified application. NOTE: You cannot delete an application version that is associated with a running environment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationName">The name of the application to which the version belongs. Constraints: o min: 1 o max: 100</param>
-    /// <param name="VersionLabel">The label of the version to delete. Constraints: o min: 1 o max: 100</param>
+    /// <param name="ApplicationName">The name of the application to which the version belongs. Constraints: • min: 1 • max: 100</param>
+    /// <param name="VersionLabel">The label of the version to delete. Constraints: • min: 1 • max: 100</param>
     public AwsElasticbeanstalkDeleteApplicationVersionOptions(
         string ApplicationName,
         string VersionLabel
@@ -60,13 +62,13 @@ public record AwsElasticbeanstalkDeleteApplicationVersionOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the application to which the version belongs. Constraints: o min: 1 o max: 100
+    /// The name of the application to which the version belongs. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; private init; }
 
     /// <summary>
-    /// The label of the version to delete. Constraints: o min: 1 o max: 100
+    /// The label of the version to delete. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--version-label")]
     public string? VersionLabel { get; private init; }

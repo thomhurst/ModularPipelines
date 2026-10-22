@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a long-lived token. A refresh token is a JWT token used to get an access token. With an ac- cess token, you can call AssumeRoleWithWebIdentity to get role creden- tials that you can use to call License Manager to manage the specified license. See also: AWS API Documentation
+/// Creates a long-lived token. A refresh token is a JWT token used to get an access token. With an access token, you can call AssumeRoleWithWebIdentity to get role credentials that you can use to call License Manager to manage the specified license. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsLicenseManagerCreateTokenOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a long-lived token. A refresh token is a JWT token used to get an access token. With an ac- cess token, you can call AssumeRoleWithWebIdentity to get role creden- tials that you can use to call License Manager to manage the specified license. See also: AWS API Documentation
+    /// Creates a long-lived token. A refresh token is a JWT token used to get an access token. With an access token, you can call AssumeRoleWithWebIdentity to get role credentials that you can use to call License Manager to manage the specified license. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LicenseArn">Amazon Resource Name (ARN) of the license. The ARN is mapped to the aud claim of the JWT token. Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$</param>
-    /// <param name="ClientToken">Idempotency token, valid for 10 minutes. Constraints: o max: 2048 o pattern: \S+</param>
+    /// <param name="LicenseArn">Amazon Resource Name (ARN) of the license. The ARN is mapped to the aud claim of the JWT token. Constraints: • max: 2048 • pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$</param>
+    /// <param name="ClientToken">Idempotency token, valid for 10 minutes. Constraints: • max: 2048 • pattern: \S+</param>
     public AwsLicenseManagerCreateTokenOptions(
         string LicenseArn,
         string ClientToken
@@ -61,20 +63,20 @@ public record AwsLicenseManagerCreateTokenOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Resource Name (ARN) of the license. The ARN is mapped to the aud claim of the JWT token. Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$
+    /// Amazon Resource Name (ARN) of the license. The ARN is mapped to the aud claim of the JWT token. Constraints: • max: 2048 • pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$
     /// </summary>
     [CliOption("--license-arn")]
     public string? LicenseArn { get; private init; }
 
     /// <summary>
-    /// Idempotency token, valid for 10 minutes. Constraints: o max: 2048 o pattern: \S+
+    /// Idempotency token, valid for 10 minutes. Constraints: • max: 2048 • pattern: \S+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; private init; }
 
     /// <summary>
-    /// Amazon Resource Name (ARN) of the IAM roles to embed in the token. License Manager does not check whether the roles are in use. (string) Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ Syntax: "string" "string" ...
+    /// Amazon Resource Name (ARN) of the IAM roles to embed in the token. License Manager does not check whether the roles are in use. (string) Constraints: • max: 2048 • pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--role-arns", GroupValues = true)]
     public IEnumerable<string>? RoleArns { get; set; }
@@ -86,7 +88,7 @@ public record AwsLicenseManagerCreateTokenOptions : AwsOptions, IValidatableObje
     public int? ExpirationInDays { get; set; }
 
     /// <summary>
-    /// Data specified by the caller to be included in the JWT token. The data is mapped to the amr claim of the JWT token. Constraints: o max: 3 (string) Syntax: "string" "string" ...
+    /// Data specified by the caller to be included in the JWT token. The data is mapped to the amr claim of the JWT token. Constraints: • max: 3 (string) Syntax: "string" "string" ...
     /// </summary>
     [SecretValue]
     [CliOption("--token-properties", GroupValues = true)]

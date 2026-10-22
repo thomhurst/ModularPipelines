@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns or creates a unique endpoint specific to the Amazon Web Ser- vices account making the call. NOTE: The first time DescribeEndpoint is called, an endpoint is created. All subsequent calls to DescribeEndpoint return the same endpoint. Requires permission to access the DescribeEndpoint action. See also: AWS API Documentation
+/// Returns or creates a unique endpoint specific to the Amazon Web Services account making the call. NOTE: The first time DescribeEndpoint is called, an endpoint is created. All subsequent calls to DescribeEndpoint return the same endpoint. Requires permission to access the DescribeEndpoint action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotDescribeEndpointOptions : AwsOptions
 {
     /// <summary>
-    /// The endpoint type. Valid endpoint types include: o iot:Data - Returns a VeriSign signed data endpoint. o iot:Data-ATS - Returns an ATS signed data endpoint. o iot:CredentialProvider - Returns an IoT credentials provider API endpoint. o iot:Jobs - Returns an IoT device management Jobs API endpoint. We strongly recommend that customers use the newer iot:Data-ATS end- point type to avoid issues related to the widespread distrust of Symantec certificate authorities. ATS Signed Certificates are more secure and are trusted by most popular browsers. Constraints: o max: 128 o pattern: [\s\S]*
+    /// The endpoint type. Valid endpoint types include: • iot:Data - Returns a VeriSign signed data endpoint. • iot:Data-ATS - Returns an ATS signed data endpoint. • iot:CredentialProvider - Returns an IoT credentials provider API endpoint. • iot:Jobs - Returns an IoT device management Jobs API endpoint. We strongly recommend that customers use the newer iot:Data-ATS endpoint type to avoid issues related to the widespread distrust of Symantec certificate authorities. ATS Signed Certificates are more secure and are trusted by most popular browsers. Constraints: • max: 128 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--endpoint-type")]
     public string? EndpointType { get; set; }

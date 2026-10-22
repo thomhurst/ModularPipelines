@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws devopsagent commands.
+/// aws devops-agent commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsDevopsAgent : IAwsDevopsAgent
@@ -32,7 +32,7 @@ public class AwsDevopsAgent : IAwsDevopsAgent
     #region Commands
 
     /// <summary>
-    /// Adds a specific service association to an AgentSpace. It overwrites the existing association of the same service. Returns 201 Created on suc- cess. See also: AWS API Documentation
+    /// Adds a specific service association to an AgentSpace. It overwrites the existing association of the same service. Returns 201 Created on success. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsDevopsAgent : IAwsDevopsAgent
     }
 
     /// <summary>
-    /// Creates a new AgentSpace with the specified name and description. Du- plicate space names are allowed. See also: AWS API Documentation
+    /// Creates a new AgentSpace with the specified name and description. Duplicate space names are allowed. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsDevopsAgent : IAwsDevopsAgent
     }
 
     /// <summary>
-    /// Creates a file in an asset See also: AWS API Documentation create-asset-file uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Creates a file in an asset See also: AWS API Documentation create-asset-file uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsDevopsAgent : IAwsDevopsAgent
     }
 
     /// <summary>
-    /// Creates a new backlog task in the specified agent space See also: AWS API Documentation create-backlog-task uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Creates a new backlog task in the specified agent space See also: AWS API Documentation create-backlog-task uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsDevopsAgent : IAwsDevopsAgent
     }
 
     /// <summary>
-    /// Creates a new Trigger in the specified agent space See also: AWS API Documentation create-trigger uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Creates a new Trigger in the specified agent space See also: AWS API Documentation create-trigger uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsDevopsAgent : IAwsDevopsAgent
     }
 
     /// <summary>
-    /// Deletes a specific service association from an AgentSpace. This opera- tion is idempotent and returns a 204 No Content response on success. See also: AWS API Documentation
+    /// Deletes a specific service association from an AgentSpace. This operation is idempotent and returns a 204 No Content response on success. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsDevopsAgent : IAwsDevopsAgent
     }
 
     /// <summary>
-    /// Gets a file from an asset See also: AWS API Documentation get-asset-file uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Gets a file from an asset See also: AWS API Documentation get-asset-file uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsDevopsAgent : IAwsDevopsAgent
     }
 
     /// <summary>
-    /// Gets a backlog task for the specified agent space and task id See also: AWS API Documentation get-backlog-task uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Gets a backlog task for the specified agent space and task id See also: AWS API Documentation get-backlog-task uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsDevopsAgent : IAwsDevopsAgent
     }
 
     /// <summary>
-    /// Lists files in an asset See also: AWS API Documentation list-asset-files uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-asset-files is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data...
+    /// Lists files in an asset See also: AWS API Documentation list-asset-files uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-asset-files is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data s...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -490,21 +490,6 @@ public class AwsDevopsAgent : IAwsDevopsAgent
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAssetFilesAsync(
         AwsDevopsAgentListAssetFilesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists assets in the specified agent space See also: AWS API Documentation list-assets uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entir...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListAssetsAsync(
-        AwsDevopsAgentListAssetsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -542,6 +527,21 @@ public class AwsDevopsAgent : IAwsDevopsAgent
     }
 
     /// <summary>
+    /// Lists assets in the specified agent space See also: AWS API Documentation list-assets uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entir...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAssetsAsync(
+        AwsDevopsAgentListAssetsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// List all associations for given AgentSpace See also: AWS API Documentation list-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: associations
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -557,7 +557,7 @@ public class AwsDevopsAgent : IAwsDevopsAgent
     }
 
     /// <summary>
-    /// Lists backlog tasks in the specified agent space with optional filter- ing and sorting See also: AWS API Documentation list-backlog-tasks uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-backlog-tasks is a paginated operation. Mu...
+    /// Lists backlog tasks in the specified agent space with optional filtering and sorting See also: AWS API Documentation list-backlog-tasks uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-backlog-tasks is a paginated operation. Multip...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsDevopsAgent : IAwsDevopsAgent
     }
 
     /// <summary>
-    /// List executions See also: AWS API Documentation list-executions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: executions
+    /// List executions See also: AWS API Documentation list-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: executions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -602,7 +602,7 @@ public class AwsDevopsAgent : IAwsDevopsAgent
     }
 
     /// <summary>
-    /// Lists goals in the specified agent space with optional filtering See also: AWS API Documentation list-goals is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: goals
+    /// Lists goals in the specified agent space with optional filtering See also: AWS API Documentation list-goals is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: goals
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +617,7 @@ public class AwsDevopsAgent : IAwsDevopsAgent
     }
 
     /// <summary>
-    /// List journal records for a specific execution See also: AWS API Documentation list-journal-records uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-journal-records is a paginated operation. Multiple API calls may be issued in ord...
+    /// List journal records for a specific execution See also: AWS API Documentation list-journal-records uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-journal-records is a paginated operation. Multiple API calls may be issued in order...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -632,7 +632,7 @@ public class AwsDevopsAgent : IAwsDevopsAgent
     }
 
     /// <summary>
-    /// List pending messages for a specific execution. See also: AWS API Documentation list-pending-messages uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// List pending messages for a specific execution. See also: AWS API Documentation list-pending-messages uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -677,7 +677,7 @@ public class AwsDevopsAgent : IAwsDevopsAgent
     }
 
     /// <summary>
-    /// List a list of registered service on the account level. See also: AWS API Documentation list-services uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-services is a paginated operation. Multiple API calls may be is- sued in order t...
+    /// List a list of registered service on the account level. See also: AWS API Documentation list-services uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-services is a paginated operation. Multiple API calls may be issued in order to ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -707,7 +707,7 @@ public class AwsDevopsAgent : IAwsDevopsAgent
     }
 
     /// <summary>
-    /// Lists Triggers in the specified agent space See also: AWS API Documentation list-triggers uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-triggers is a paginated operation. Multiple API calls may be is- sued in order to retrieve t...
+    /// Lists Triggers in the specified agent space See also: AWS API Documentation list-triggers uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-triggers is a paginated operation. Multiple API calls may be issued in order to retrieve the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -797,7 +797,7 @@ public class AwsDevopsAgent : IAwsDevopsAgent
     }
 
     /// <summary>
-    /// Updates an approval request with the terminal decision (APPROVED or RE- JECTED). A single operation handles both verbs via the action enum. See also: AWS API Documentation
+    /// Updates an approval request with the terminal decision (APPROVED or REJECTED). A single operation handles both verbs via the action enum. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -812,7 +812,7 @@ public class AwsDevopsAgent : IAwsDevopsAgent
     }
 
     /// <summary>
-    /// Updates a file in an asset See also: AWS API Documentation update-asset-file uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Updates a file in an asset See also: AWS API Documentation update-asset-file uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -857,7 +857,7 @@ public class AwsDevopsAgent : IAwsDevopsAgent
     }
 
     /// <summary>
-    /// Update an existing backlog task. See also: AWS API Documentation update-backlog-task uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Update an existing backlog task. See also: AWS API Documentation update-backlog-task uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -917,7 +917,7 @@ public class AwsDevopsAgent : IAwsDevopsAgent
     }
 
     /// <summary>
-    /// Updates an existing recommendation with new content, status, or meta- data See also: AWS API Documentation
+    /// Updates an existing recommendation with new content, status, or metadata See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -932,7 +932,7 @@ public class AwsDevopsAgent : IAwsDevopsAgent
     }
 
     /// <summary>
-    /// Updates the status of an existing Trigger See also: AWS API Documentation update-trigger uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Updates the status of an existing Trigger See also: AWS API Documentation update-trigger uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -947,7 +947,7 @@ public class AwsDevopsAgent : IAwsDevopsAgent
     }
 
     /// <summary>
-    /// Validates an aws association and set status and returns a 204 No Con- tent response on success. See also: AWS API Documentation
+    /// Validates an aws association and set status and returns a 204 No Content response on success. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

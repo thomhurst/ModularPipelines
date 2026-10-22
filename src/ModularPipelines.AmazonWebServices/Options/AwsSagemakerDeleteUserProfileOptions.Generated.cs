@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a user profile. When a user profile is deleted, the user loses access to their EFS volume, including data, notebooks, and other arti- facts. See also: AWS API Documentation
+/// Deletes a user profile. When a user profile is deleted, the user loses access to their EFS volume, including data, notebooks, and other artifacts. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsSagemakerDeleteUserProfileOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a user profile. When a user profile is deleted, the user loses access to their EFS volume, including data, notebooks, and other arti- facts. See also: AWS API Documentation
+    /// Deletes a user profile. When a user profile is deleted, the user loses access to their EFS volume, including data, notebooks, and other artifacts. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The domain ID. Constraints: o min: 0 o max: 63 o pattern: d-(-*[a-z0-9]){1,61}</param>
-    /// <param name="UserProfileName">The user profile name. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="DomainId">The domain ID. Constraints: • min: 0 • max: 63 • pattern: d-(-*[a-z0-9]){1,61}</param>
+    /// <param name="UserProfileName">The user profile name. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
     public AwsSagemakerDeleteUserProfileOptions(
         string DomainId,
         string UserProfileName
@@ -60,13 +62,13 @@ public record AwsSagemakerDeleteUserProfileOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The domain ID. Constraints: o min: 0 o max: 63 o pattern: d-(-*[a-z0-9]){1,61}
+    /// The domain ID. Constraints: • min: 0 • max: 63 • pattern: d-(-*[a-z0-9]){1,61}
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// The user profile name. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The user profile name. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--user-profile-name")]
     public string? UserProfileName { get; private init; }

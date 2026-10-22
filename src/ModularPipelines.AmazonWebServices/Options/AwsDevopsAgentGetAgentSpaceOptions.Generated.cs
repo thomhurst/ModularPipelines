@@ -10,7 +10,10 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -27,7 +30,7 @@ public record AwsDevopsAgentGetAgentSpaceOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Retrieves detailed information about a specific AgentSpace. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentSpaceId">The unique identifier of the AgentSpace Constraints: o pattern: [a-zA-Z0-9-]{1,64}</param>
+    /// <param name="AgentSpaceId">The unique identifier of the AgentSpace Constraints: • pattern: [a-zA-Z0-9-]{1,64}</param>
     public AwsDevopsAgentGetAgentSpaceOptions(
         string AgentSpaceId
     )
@@ -56,10 +59,16 @@ public record AwsDevopsAgentGetAgentSpaceOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the AgentSpace Constraints: o pattern: [a-zA-Z0-9-]{1,64}
+    /// The unique identifier of the AgentSpace Constraints: • pattern: [a-zA-Z0-9-]{1,64}
     /// </summary>
     [CliOption("--agent-space-id")]
     public string? AgentSpaceId { get; private init; }
+
+    /// <summary>
+    /// How much data to include in the response. Possible values: • METADATA_ONLY • ALL_DATA
+    /// </summary>
+    [CliOption("--included-data")]
+    public AwsDevopsAgentGetAgentSpaceIncludedData? IncludedData { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

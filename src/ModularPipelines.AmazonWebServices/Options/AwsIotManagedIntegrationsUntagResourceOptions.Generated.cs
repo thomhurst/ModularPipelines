@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsIotManagedIntegrationsUntagResourceOptions : AwsOptions, IValid
     /// <summary>
     /// Removes tags from a specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource from which to remove tags. Constraints: o min: 1 o max: 200 o pattern: arn:aws:iotmanagedintegrations:[0-9a-zA-Z-]+:[0-9]+:(man- aged-thing|provisioning-profile|ota-task|credential-locker|ac- count-association)/[0-9a-zA-Z]+</param>
-    /// <param name="TagKeys">A list of tag keys to remove from the resource. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource from which to remove tags. Constraints: • min: 1 • max: 200 • pattern: arn:aws:iotmanagedintegrations:[0-9a-zA-Z-]+:[0-9]+:(managed-thing|provisioning-profile|ota-task|credential-locker|account-association)/[0-9a-zA-Z]+</param>
+    /// <param name="TagKeys">A list of tag keys to remove from the resource. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
     public AwsIotManagedIntegrationsUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsIotManagedIntegrationsUntagResourceOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource from which to remove tags. Constraints: o min: 1 o max: 200 o pattern: arn:aws:iotmanagedintegrations:[0-9a-zA-Z-]+:[0-9]+:(man- aged-thing|provisioning-profile|ota-task|credential-locker|ac- count-association)/[0-9a-zA-Z]+
+    /// The Amazon Resource Name (ARN) of the resource from which to remove tags. Constraints: • min: 1 • max: 200 • pattern: arn:aws:iotmanagedintegrations:[0-9a-zA-Z-]+:[0-9]+:(managed-thing|provisioning-profile|ota-task|credential-locker|account-association)/[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A list of tag keys to remove from the resource. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// A list of tag keys to remove from the resource. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

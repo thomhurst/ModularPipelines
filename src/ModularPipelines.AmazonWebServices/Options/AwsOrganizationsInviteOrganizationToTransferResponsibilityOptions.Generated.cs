@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sends an invitation to another organization's management account to designate your account with the specified responsibilities for their organization. The invitation is implemented as a Handshake whose de- tails are in the response. You can only call this operation from the management account. See also: AWS API Documentation
+/// Sends an invitation to another organization's management account to designate your account with the specified responsibilities for their organization. The invitation is implemented as a Handshake whose details are in the response. You can only call this operation from the management account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +27,12 @@ public record AwsOrganizationsInviteOrganizationToTransferResponsibilityOptions 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sends an invitation to another organization's management account to designate your account with the specified responsibilities for their organization. The invitation is implemented as a Handshake whose de- tails are in the response. You can only call this operation from the management account. See also: AWS API Documentation
+    /// Sends an invitation to another organization's management account to designate your account with the specified responsibilities for their organization. The invitation is implemented as a Handshake whose details are in the response. You can only call this operation from the management account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Type">The type of responsibility you want to designate to your organiza- tion. Currently, only BILLING is supported. Possible values: o BILLING</param>
-    /// <param name="Target">A HandshakeParty object. Contains details for the account you want to invite. Currently, only ACCOUNT and EMAIL are supported. Id -&gt; (string) [required] ID for the participant: Acccount ID, organization ID, or email address. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits. Constraints: o min: 1 o max: 64 o pattern: [\s\S]* Type -&gt; (string) [required] The type of ID for the participant. NOTE: ORGANIZATION is valid only in the response context (identify- ing the inviting organization). Valid input values for the Target parameter are ACCOUNT and EMAIL only. Possible values: o ACCOUNT o ORGANIZATION o EMAIL Shorthand Syntax: Id=string,Type=string JSON Syntax: { "Id": "string", "Type": "ACCOUNT"|"ORGANIZATION"|"EMAIL" }</param>
-    /// <param name="StartTimestamp">Timestamp when the recipient will begin managing the specified re- sponsibilities.</param>
-    /// <param name="SourceName">Name you want to assign to the transfer. Constraints: o min: 1 o max: 128 o pattern: ^[ -~]+$</param>
+    /// <param name="Type">The type of responsibility you want to designate to your organization. Currently, only BILLING is supported. Possible values: • BILLING</param>
+    /// <param name="Target">A HandshakeParty object. Contains details for the account you want to invite. Currently, only ACCOUNT and EMAIL are supported. Id -&gt; (string) [required] ID for the participant: Acccount ID, organization ID, or email address. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits. Constraints: • min: 1 • max: 64 • pattern: [\s\S]* Type -&gt; (string) [required] The type of ID for the participant. NOTE: ORGANIZATION is valid only in the response context (identifying the inviting organization). Valid input values for the Target parameter are ACCOUNT and EMAIL only. Possible values: • ACCOUNT • ORGANIZATION • EMAIL Shorthand Syntax: Id=string,Type=string JSON Syntax: { "Id": "string", "Type": "ACCOUNT"|"ORGANIZATION"|"EMAIL" }</param>
+    /// <param name="StartTimestamp">Timestamp when the recipient will begin managing the specified responsibilities.</param>
+    /// <param name="SourceName">Name you want to assign to the transfer. Constraints: • min: 1 • max: 128 • pattern: ^[ -~]+$</param>
     public AwsOrganizationsInviteOrganizationToTransferResponsibilityOptions(
         string Type,
         string Target,
@@ -68,37 +70,37 @@ public record AwsOrganizationsInviteOrganizationToTransferResponsibilityOptions 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of responsibility you want to designate to your organiza- tion. Currently, only BILLING is supported. Possible values: o BILLING
+    /// The type of responsibility you want to designate to your organization. Currently, only BILLING is supported. Possible values: • BILLING
     /// </summary>
     [CliOption("--type")]
     public string? Type { get; private init; }
 
     /// <summary>
-    /// A HandshakeParty object. Contains details for the account you want to invite. Currently, only ACCOUNT and EMAIL are supported. Id -&gt; (string) [required] ID for the participant: Acccount ID, organization ID, or email address. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits. Constraints: o min: 1 o max: 64 o pattern: [\s\S]* Type -&gt; (string) [required] The type of ID for the participant. NOTE: ORGANIZATION is valid only in the response context (identify- ing the inviting organization). Valid input values for the Target parameter are ACCOUNT and EMAIL only. Possible values: o ACCOUNT o ORGANIZATION o EMAIL Shorthand Syntax: Id=string,Type=string JSON Syntax: { "Id": "string", "Type": "ACCOUNT"|"ORGANIZATION"|"EMAIL" }
+    /// A HandshakeParty object. Contains details for the account you want to invite. Currently, only ACCOUNT and EMAIL are supported. Id -&gt; (string) [required] ID for the participant: Acccount ID, organization ID, or email address. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits. Constraints: • min: 1 • max: 64 • pattern: [\s\S]* Type -&gt; (string) [required] The type of ID for the participant. NOTE: ORGANIZATION is valid only in the response context (identifying the inviting organization). Valid input values for the Target parameter are ACCOUNT and EMAIL only. Possible values: • ACCOUNT • ORGANIZATION • EMAIL Shorthand Syntax: Id=string,Type=string JSON Syntax: { "Id": "string", "Type": "ACCOUNT"|"ORGANIZATION"|"EMAIL" }
     /// </summary>
     [CliOption("--target")]
     public string? Target { get; private init; }
 
     /// <summary>
-    /// Timestamp when the recipient will begin managing the specified re- sponsibilities.
+    /// Timestamp when the recipient will begin managing the specified responsibilities.
     /// </summary>
     [CliOption("--start-timestamp")]
     public string? StartTimestamp { get; private init; }
 
     /// <summary>
-    /// Name you want to assign to the transfer. Constraints: o min: 1 o max: 128 o pattern: ^[ -~]+$
+    /// Name you want to assign to the transfer. Constraints: • min: 1 • max: 128 • pattern: ^[ -~]+$
     /// </summary>
     [CliOption("--source-name")]
     public string? SourceName { get; private init; }
 
     /// <summary>
-    /// Additional information that you want to include in the invitation. Constraints: o max: 1024 o pattern: [\s\S]*
+    /// Additional information that you want to include in the invitation. Constraints: • max: 1024 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--notes")]
     public string? Notes { get; set; }
 
     /// <summary>
-    /// A list of tags that you want to attach to the transfer. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null . For more information about tagging, see Tagging Organizations resources in the Organizations User Guide. WARNING: Any tags in the request are checked for compliance with any ap- plicable tag policies when the request is made. The request is rejected if the tags in the request don't match the requirements of the policy at that time. Tag policy compliance is * not * checked again when the invitation is accepted and the tags are actually attached to the transfer. That means that if the tag policy changes between the invitation and the acceptance, then that tags could potentially be non-compliant. NOTE: If any one of the tags is not valid or if you exceed the allowed number of tags for a transfer, then the entire request fails and invitations are not sent. (structure) A custom key-value pair associated with a resource within your organization. You can attach tags to any of the following organization re- sources. o Amazon Web Services account o Organizational unit (OU) o Organization root o Policy Key -&gt; (string) [required] The key identifier, or name, of the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The string value that's associated with the key of the tag. You can set the value of a tag to an empty string, but you can't set the value of a tag to null. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tags that you want to attach to the transfer. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null . For more information about tagging, see Tagging Organizations resources in the Organizations User Guide. WARNING: Any tags in the request are checked for compliance with any applicable tag policies when the request is made. The request is rejected if the tags in the request don't match the requirements of the policy at that time. Tag policy compliance is * not * checked again when the invitation is accepted and the tags are actually attached to the transfer. That means that if the tag policy changes between the invitation and the acceptance, then that tags could potentially be non-compliant. NOTE: If any one of the tags is not valid or if you exceed the allowed number of tags for a transfer, then the entire request fails and invitations are not sent. (structure) A custom key-value pair associated with a resource within your organization. You can attach tags to any of the following organization resources. • Amazon Web Services account • Organizational unit (OU) • Organization root • Policy Key -&gt; (string) [required] The key identifier, or name, of the tag. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The string value that's associated with the key of the tag. You can set the value of a tag to an empty string, but you can't set the value of a tag to null. Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

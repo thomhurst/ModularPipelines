@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,8 +29,8 @@ public record AwsBackupCreateBackupAccessPointOptions : AwsOptions, IValidatable
     /// <summary>
     /// Creates a backup access point for an Amazon S3 recovery point. A backup access point provides on-demand, read-only access to the backup data in a recovery point through an Amazon S3 access point, without initiating a restore. While a backup access point is active for a recovery point, Backup pauses lifecycle transitions and blocks deletion of that recovery point. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the backup access point. This name is shared with the Amazon S3 access point namespace. It must be unique within your ac- count and Region and cannot conflict with an existing Amazon S3 ac- cess point. For more information about access point naming, see Access points naming rules, restrictions, and limitations in the Amazon S3 User Guide . Constraints: o min: 3 o max: 50 o pattern: [\da-z]{1}[\da-z-]{1,48}[\da-z]{1}(?&lt;!-s3alias)(?&lt;!-ext-s3alias)</param>
-    /// <param name="RecoveryPointArn">The Amazon Resource Name (ARN) of the recovery point for which to create the backup access point. The recovery point must be an Amazon S3 recovery point in the AVAILABLE , STOPPED , or COMPLETED state. Constraints: o pattern: (arn:aws[a-z-]*:[a-z-\d]+:[a-z-\d]+:).+</param>
+    /// <param name="Name">The name of the backup access point. This name is shared with the Amazon S3 access point namespace. It must be unique within your account and Region and cannot conflict with an existing Amazon S3 access point. For more information about access point naming, see Access points naming rules, restrictions, and limitations in the Amazon S3 User Guide . Constraints: • min: 3 • max: 50 • pattern: [\da-z]{1}[\da-z-]{1,48}[\da-z]{1}(?&lt;!-s3alias)(?&lt;!-ext-s3alias)</param>
+    /// <param name="RecoveryPointArn">The Amazon Resource Name (ARN) of the recovery point for which to create the backup access point. The recovery point must be an Amazon S3 recovery point in the AVAILABLE , STOPPED , or COMPLETED state. Constraints: • pattern: (arn:aws[a-z-]*:[a-z-\d]+:[a-z-\d]+:).+</param>
     public AwsBackupCreateBackupAccessPointOptions(
         string Name,
         string RecoveryPointArn
@@ -61,31 +62,31 @@ public record AwsBackupCreateBackupAccessPointOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the backup access point. This name is shared with the Amazon S3 access point namespace. It must be unique within your ac- count and Region and cannot conflict with an existing Amazon S3 ac- cess point. For more information about access point naming, see Access points naming rules, restrictions, and limitations in the Amazon S3 User Guide . Constraints: o min: 3 o max: 50 o pattern: [\da-z]{1}[\da-z-]{1,48}[\da-z]{1}(?&lt;!-s3alias)(?&lt;!-ext-s3alias)
+    /// The name of the backup access point. This name is shared with the Amazon S3 access point namespace. It must be unique within your account and Region and cannot conflict with an existing Amazon S3 access point. For more information about access point naming, see Access points naming rules, restrictions, and limitations in the Amazon S3 User Guide . Constraints: • min: 3 • max: 50 • pattern: [\da-z]{1}[\da-z-]{1,48}[\da-z]{1}(?&lt;!-s3alias)(?&lt;!-ext-s3alias)
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the recovery point for which to create the backup access point. The recovery point must be an Amazon S3 recovery point in the AVAILABLE , STOPPED , or COMPLETED state. Constraints: o pattern: (arn:aws[a-z-]*:[a-z-\d]+:[a-z-\d]+:).+
+    /// The Amazon Resource Name (ARN) of the recovery point for which to create the backup access point. The recovery point must be an Amazon S3 recovery point in the AVAILABLE , STOPPED , or COMPLETED state. Constraints: • pattern: (arn:aws[a-z-]*:[a-z-\d]+:[a-z-\d]+:).+
     /// </summary>
     [CliOption("--recovery-point-arn")]
     public string? RecoveryPointArn { get; private init; }
 
     /// <summary>
-    /// Metadata for the backup access point. For continuous (point-in-time) recovery points, you must include an AccessPointInTime timestamp (in format 2021-11-27T03:30:27Z ). The access point provides access to the content present in the backup at that specific time. You can specify any time within the continuous backup's retention period, up to the latest restorable time. For snapshot recovery points, do not include AccessPointInTime . key -&gt; (string) Constraints: o min: 1 value -&gt; (string) Constraints: o min: 1 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Metadata for the backup access point. For continuous (point-in-time) recovery points, you must include an AccessPointInTime timestamp (in format 2021-11-27T03:30:27Z ). The access point provides access to the content present in the backup at that specific time. You can specify any time within the continuous backup's retention period, up to the latest restorable time. For snapshot recovery points, do not include AccessPointInTime . key -&gt; (string) Constraints: • min: 1 value -&gt; (string) Constraints: • min: 1 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--access-point-metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AccessPointMetadata { get; set; }
 
     /// <summary>
-    /// An optional resource-based policy, in JSON format, to apply to the underlying Amazon S3 access point. The policy controls how backup data can be accessed through the access point. If you do not specify a policy, access is governed by the caller's IAM permissions. For more information, see Configuring IAM policies for using access points in the Amazon S3 User Guide . Constraints: o min: 1 o max: 200000
+    /// An optional resource-based policy, in JSON format, to apply to the underlying Amazon S3 access point. The policy controls how backup data can be accessed through the access point. If you do not specify a policy, access is governed by the caller's IAM permissions. For more information, see Configuring IAM policies for using access points in the Amazon S3 User Guide . Constraints: • min: 1 • max: 200000
     /// </summary>
     [CliOption("--access-point-policy")]
     public string? AccessPointPolicy { get; set; }
 
     /// <summary>
-    /// The tags to assign to the backup access point. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to assign to the backup access point. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

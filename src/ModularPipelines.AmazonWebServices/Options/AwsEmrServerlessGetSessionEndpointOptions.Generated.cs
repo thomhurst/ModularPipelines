@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the session endpoint URL and a time-limited authentication to- ken for the specified session. Use the endpoint and token to connect a client to the session. Call this operation again when the authentica- tion token expires to obtain a new token. See also: AWS API Documentation
+/// Returns the session endpoint URL and a time-limited authentication token for the specified session. Use the endpoint and token to connect a client to the session. Call this operation again when the authentication token expires to obtain a new token. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsEmrServerlessGetSessionEndpointOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the session endpoint URL and a time-limited authentication to- ken for the specified session. Use the endpoint and token to connect a client to the session. Call this operation again when the authentica- tion token expires to obtain a new token. See also: AWS API Documentation
+    /// Returns the session endpoint URL and a time-limited authentication token for the specified session. Use the endpoint and token to connect a client to the session. Call this operation again when the authentication token expires to obtain a new token. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The ID of the application that the session belongs to. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
-    /// <param name="SessionId">The ID of the session. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
+    /// <param name="ApplicationId">The ID of the application that the session belongs to. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+</param>
+    /// <param name="SessionId">The ID of the session. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+</param>
     public AwsEmrServerlessGetSessionEndpointOptions(
         string ApplicationId,
         string SessionId
@@ -60,13 +62,13 @@ public record AwsEmrServerlessGetSessionEndpointOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the application that the session belongs to. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// The ID of the application that the session belongs to. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The ID of the session. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// The ID of the session. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }

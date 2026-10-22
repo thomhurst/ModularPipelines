@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2 Updates metadata in a build resource, including the build name and ver- sion. To update the metadata, specify the build ID to update and pro- vide the new values. If successful, a build object containing the up- dated metadata is returned. Learn more Upload a Custom Server Build All APIs by task See also: AWS API Documentation
+/// This API works with the following fleet types: EC2 Updates metadata in a build resource, including the build name and version. To update the metadata, specify the build ID to update and provide the new values. If successful, a build object containing the updated metadata is returned. Learn more Upload a Custom Server Build All APIs by task See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsGameliftUpdateBuildOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 Updates metadata in a build resource, including the build name and ver- sion. To update the metadata, specify the build ID to update and pro- vide the new values. If successful, a build object containing the up- dated metadata is returned. Learn more Upload a Custom Server Build All APIs by task See also: AWS API Documentation
+    /// This API works with the following fleet types: EC2 Updates metadata in a build resource, including the build name and version. To update the metadata, specify the build ID to update and provide the new values. If successful, a build object containing the updated metadata is returned. Learn more Upload a Custom Server Build All APIs by task See also: AWS API Documentation
     /// </summary>
-    /// <param name="BuildId">A unique identifier for the build to update. You can use either the build ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^(build-\S+|arn:.*:build\/build-\S+)$</param>
+    /// <param name="BuildId">A unique identifier for the build to update. You can use either the build ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^(build-\S+|arn:.*:build\/build-\S+)$</param>
     public AwsGameliftUpdateBuildOptions(
         string BuildId
     )
@@ -56,19 +58,19 @@ public record AwsGameliftUpdateBuildOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the build to update. You can use either the build ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^(build-\S+|arn:.*:build\/build-\S+)$
+    /// A unique identifier for the build to update. You can use either the build ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^(build-\S+|arn:.*:build\/build-\S+)$
     /// </summary>
     [CliOption("--build-id")]
     public string? BuildId { get; private init; }
 
     /// <summary>
-    /// A descriptive label that is associated with a build. Build names do not need to be unique. Constraints: o min: 1 o max: 1024
+    /// A descriptive label that is associated with a build. Build names do not need to be unique. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Version information that is associated with a build or script. Ver- sion strings do not need to be unique. Constraints: o min: 1 o max: 1024
+    /// Version information that is associated with a build or script. Version strings do not need to be unique. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--build-version")]
     public string? BuildVersion { get; set; }

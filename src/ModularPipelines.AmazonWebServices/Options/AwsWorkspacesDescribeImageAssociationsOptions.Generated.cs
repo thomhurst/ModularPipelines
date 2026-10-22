@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsWorkspacesDescribeImageAssociationsOptions : AwsOptions, IValid
     /// <summary>
     /// Describes the associations between the applications and the specified image. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ImageId">The identifier of the image. Constraints: o pattern: wsi-[0-9a-z]{9,63}$</param>
-    /// <param name="AssociatedResourceTypes">The resource types of the associated resource. (string) Possible values: o APPLICATION Syntax: "string" "string" ...</param>
+    /// <param name="ImageId">The identifier of the image. Constraints: • pattern: wsi-[0-9a-z]{9,63}$</param>
+    /// <param name="AssociatedResourceTypes">The resource types of the associated resource. (string) Possible values: • APPLICATION Syntax: "string" "string" ...</param>
     public AwsWorkspacesDescribeImageAssociationsOptions(
         string ImageId,
         IEnumerable<string> AssociatedResourceTypes
@@ -71,13 +73,13 @@ public record AwsWorkspacesDescribeImageAssociationsOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the image. Constraints: o pattern: wsi-[0-9a-z]{9,63}$
+    /// The identifier of the image. Constraints: • pattern: wsi-[0-9a-z]{9,63}$
     /// </summary>
     [CliOption("--image-id")]
     public string? ImageId { get; private init; }
 
     /// <summary>
-    /// The resource types of the associated resource. (string) Possible values: o APPLICATION Syntax: "string" "string" ...
+    /// The resource types of the associated resource. (string) Possible values: • APPLICATION Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--associated-resource-types", GroupValues = true)]
     public IEnumerable<string>? AssociatedResourceTypes { get; private init; }

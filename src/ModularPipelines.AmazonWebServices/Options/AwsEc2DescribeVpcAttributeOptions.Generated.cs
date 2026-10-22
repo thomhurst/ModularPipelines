@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsEc2DescribeVpcAttributeOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Describes the specified attribute of the specified VPC. You can specify only one attribute at a time. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Attribute">The VPC attribute. Possible values: o enableDnsSupport o enableDnsHostnames o enableNetworkAddressUsageMetrics</param>
+    /// <param name="Attribute">The VPC attribute. Possible values: • enableDnsSupport • enableDnsHostnames • enableNetworkAddressUsageMetrics</param>
     /// <param name="VpcId">The ID of the VPC.</param>
     public AwsEc2DescribeVpcAttributeOptions(
         AwsEc2DescribeVpcAttributeAttribute Attribute,
@@ -60,7 +62,7 @@ public record AwsEc2DescribeVpcAttributeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The VPC attribute. Possible values: o enableDnsSupport o enableDnsHostnames o enableNetworkAddressUsageMetrics
+    /// The VPC attribute. Possible values: • enableDnsSupport • enableDnsHostnames • enableNetworkAddressUsageMetrics
     /// </summary>
     [CliOption("--attribute")]
     public AwsEc2DescribeVpcAttributeAttribute? Attribute { get; private init; }
@@ -72,7 +74,7 @@ public record AwsEc2DescribeVpcAttributeOptions : AwsOptions, IValidatableObject
     public string? VpcId { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

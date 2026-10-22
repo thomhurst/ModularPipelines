@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists all your certificate providers in your Amazon Web Services ac- count. Requires permission to access the ListCertificateProviders action. See also: AWS API Documentation
+/// Lists all your certificate providers in your Amazon Web Services account. Requires permission to access the ListCertificateProviders action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotListCertificateProvidersOptions : AwsOptions
 {
     /// <summary>
-    /// The token for the next set of results, or null if there are no more results. Constraints: o max: 1024 o pattern: [A-Za-z0-9+/]+={0,2}
+    /// The token for the next set of results, or null if there are no more results. Constraints: • max: 1024 • pattern: [A-Za-z0-9+/]+={0,2}
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

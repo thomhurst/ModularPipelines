@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: We recommend that you use the UpdateDomainAssociation API operation to move a domain association, as it supports both standard distribu- tions and distribution tenants. AssociateAlias performs similar checks but only supports standard distributions. Moves a domain from its current standard distribution or distribution tenant to another one. You must first disable the source distribution (standard distribution or distribution tenant) and then separately call this operation to move the domai...
+/// NOTE: We recommend that you use the UpdateDomainAssociation API operation to move a domain association, as it supports both standard distributions and distribution tenants. AssociateAlias performs similar checks but only supports standard distributions. Moves a domain from its current standard distribution or distribution tenant to another one. You must first disable the source distribution (standard distribution or distribution tenant) and then separately call this operation to move the domain ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsCloudfrontUpdateDomainAssociationOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: We recommend that you use the UpdateDomainAssociation API operation to move a domain association, as it supports both standard distribu- tions and distribution tenants. AssociateAlias performs similar checks but only supports standard distributions. Moves a domain from its current standard distribution or distribution tenant to another one. You must first disable the source distribution (standard distribution or distribution tenant) and then separately call this operation to move the domai...
+    /// NOTE: We recommend that you use the UpdateDomainAssociation API operation to move a domain association, as it supports both standard distributions and distribution tenants. AssociateAlias performs similar checks but only supports standard distributions. Moves a domain from its current standard distribution or distribution tenant to another one. You must first disable the source distribution (standard distribution or distribution tenant) and then separately call this operation to move the domain ...
     /// </summary>
     /// <param name="Domain">The domain to update.</param>
-    /// <param name="TargetResource">The target standard distribution or distribution tenant resource for the domain. You can specify either DistributionId or Distribution- TenantId , but not both. DistributionId -&gt; (string) The ID of the multi-tenant distribution. DistributionTenantId -&gt; (string) The ID of the distribution tenant. Shorthand Syntax: DistributionId=string,DistributionTenantId=string JSON Syntax: { "DistributionId": "string", "DistributionTenantId": "string" }</param>
+    /// <param name="TargetResource">The target standard distribution or distribution tenant resource for the domain. You can specify either DistributionId or DistributionTenantId , but not both. DistributionId -&gt; (string) The ID of the multi-tenant distribution. DistributionTenantId -&gt; (string) The ID of the distribution tenant. Shorthand Syntax: DistributionId=string,DistributionTenantId=string JSON Syntax: { "DistributionId": "string", "DistributionTenantId": "string" }</param>
     public AwsCloudfrontUpdateDomainAssociationOptions(
         string Domain,
         string TargetResource
@@ -66,7 +68,7 @@ public record AwsCloudfrontUpdateDomainAssociationOptions : AwsOptions, IValidat
     public string? Domain { get; private init; }
 
     /// <summary>
-    /// The target standard distribution or distribution tenant resource for the domain. You can specify either DistributionId or Distribution- TenantId , but not both. DistributionId -&gt; (string) The ID of the multi-tenant distribution. DistributionTenantId -&gt; (string) The ID of the distribution tenant. Shorthand Syntax: DistributionId=string,DistributionTenantId=string JSON Syntax: { "DistributionId": "string", "DistributionTenantId": "string" }
+    /// The target standard distribution or distribution tenant resource for the domain. You can specify either DistributionId or DistributionTenantId , but not both. DistributionId -&gt; (string) The ID of the multi-tenant distribution. DistributionTenantId -&gt; (string) The ID of the distribution tenant. Shorthand Syntax: DistributionId=string,DistributionTenantId=string JSON Syntax: { "DistributionId": "string", "DistributionTenantId": "string" }
     /// </summary>
     [CliOption("--target-resource")]
     public string? TargetResource { get; private init; }

@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists all inference executions that have been performed by the speci- fied inference scheduler. See also: AWS API Documentation
+/// Lists all inference executions that have been performed by the specified inference scheduler. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsLookoutequipmentListInferenceExecutionsOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists all inference executions that have been performed by the speci- fied inference scheduler. See also: AWS API Documentation
+    /// Lists all inference executions that have been performed by the specified inference scheduler. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InferenceSchedulerName">The name of the inference scheduler for the inference execution listed. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    /// <param name="InferenceSchedulerName">The name of the inference scheduler for the inference execution listed. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
     public AwsLookoutequipmentListInferenceExecutionsOptions(
         string InferenceSchedulerName
     )
@@ -58,20 +60,20 @@ public record AwsLookoutequipmentListInferenceExecutionsOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the inference scheduler for the inference execution listed. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// The name of the inference scheduler for the inference execution listed. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$
     /// </summary>
     [CliOption("--inference-scheduler-name")]
     public string? InferenceSchedulerName { get; private init; }
 
     /// <summary>
-    /// An opaque pagination token indicating where to continue the listing of inference executions. Constraints: o max: 8192 o pattern: \p{ASCII}{0,8192}
+    /// An opaque pagination token indicating where to continue the listing of inference executions. Constraints: • max: 8192 • pattern: \p{ASCII}{0,8192}
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Specifies the maximum number of inference executions to list. Constraints: o min: 1 o max: 500
+    /// Specifies the maximum number of inference executions to list. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -89,7 +91,7 @@ public record AwsLookoutequipmentListInferenceExecutionsOptions : AwsOptions, IV
     public string? DataEndTimeBefore { get; set; }
 
     /// <summary>
-    /// The status of the inference execution. Possible values: o IN_PROGRESS o SUCCESS o FAILED
+    /// The status of the inference execution. Possible values: • IN_PROGRESS • SUCCESS • FAILED
     /// </summary>
     [CliOption("--status")]
     public AwsLookoutequipmentListInferenceExecutionsStatus? Status { get; set; }

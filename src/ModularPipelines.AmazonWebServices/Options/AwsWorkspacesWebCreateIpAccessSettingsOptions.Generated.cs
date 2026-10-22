@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -29,7 +30,7 @@ public record AwsWorkspacesWebCreateIpAccessSettingsOptions : AwsOptions, IValid
     /// <summary>
     /// Creates an IP access settings resource that can be associated with a web portal. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IpRules">The IP rules of the IP access settings. Constraints: o min: 1 o max: 100 (structure) The IP rules of the IP access settings. ipRange -&gt; (string) [required] The IP range of the IP rule. description -&gt; (string) The description of the IP rule. Constraints: o min: 1 o max: 256 o pattern: .+ Shorthand Syntax: ipRange=string,description=string ... JSON Syntax: [ { "ipRange": "string", "description": "string" } ... ]</param>
+    /// <param name="IpRules">The IP rules of the IP access settings. Constraints: • min: 1 • max: 100 (structure) The IP rules of the IP access settings. ipRange -&gt; (string) [required] The IP range of the IP rule. description -&gt; (string) The description of the IP rule. Constraints: • min: 1 • max: 256 • pattern: .+ Shorthand Syntax: ipRange=string,description=string ... JSON Syntax: [ { "ipRange": "string", "description": "string" } ... ]</param>
     public AwsWorkspacesWebCreateIpAccessSettingsOptions(
         IEnumerable<string> IpRules
     )
@@ -69,43 +70,43 @@ public record AwsWorkspacesWebCreateIpAccessSettingsOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The IP rules of the IP access settings. Constraints: o min: 1 o max: 100 (structure) The IP rules of the IP access settings. ipRange -&gt; (string) [required] The IP range of the IP rule. description -&gt; (string) The description of the IP rule. Constraints: o min: 1 o max: 256 o pattern: .+ Shorthand Syntax: ipRange=string,description=string ... JSON Syntax: [ { "ipRange": "string", "description": "string" } ... ]
+    /// The IP rules of the IP access settings. Constraints: • min: 1 • max: 100 (structure) The IP rules of the IP access settings. ipRange -&gt; (string) [required] The IP range of the IP rule. description -&gt; (string) The description of the IP rule. Constraints: • min: 1 • max: 256 • pattern: .+ Shorthand Syntax: ipRange=string,description=string ... JSON Syntax: [ { "ipRange": "string", "description": "string" } ... ]
     /// </summary>
     [CliOption("--ip-rules", GroupValues = true)]
     public IEnumerable<string>? IpRules { get; private init; }
 
     /// <summary>
-    /// The display name of the IP access settings. Constraints: o min: 1 o max: 64 o pattern: .+
+    /// The display name of the IP access settings. Constraints: • min: 1 • max: 64 • pattern: .+
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The description of the IP access settings. Constraints: o min: 1 o max: 256 o pattern: .+
+    /// The description of the IP access settings. Constraints: • min: 1 • max: 256 • pattern: .+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The tags to add to the IP access settings resource. A tag is a key-value pair. Constraints: o min: 0 o max: 200 (structure) The tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value of the tag Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags to add to the IP access settings resource. A tag is a key-value pair. Constraints: • min: 0 • max: 200 (structure) The tag. Key -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value of the tag Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The custom managed key of the IP access settings. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=\/,.@-]+:kms:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:key\/[a-zA-Z0-9-]+
+    /// The custom managed key of the IP access settings. Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=\/,.@-]+:kms:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:key\/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--customer-managed-key")]
     public string? CustomerManagedKey { get; set; }
 
     /// <summary>
-    /// Additional encryption context of the IP access settings. key -&gt; (string) Constraints: o min: 0 o max: 131072 o pattern: [\s\S]* value -&gt; (string) Constraints: o min: 0 o max: 131072 o pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Additional encryption context of the IP access settings. key -&gt; (string) Constraints: • min: 0 • max: 131072 • pattern: [\s\S]* value -&gt; (string) Constraints: • min: 0 • max: 131072 • pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--additional-encryption-context", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AdditionalEncryptionContext { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original re- quest completes successfully, subsequent retries with the same client token returns the result from the original successful re- quest. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK. Constraints: o min: 1 o max: 512
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK. Constraints: • min: 1 • max: 512
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

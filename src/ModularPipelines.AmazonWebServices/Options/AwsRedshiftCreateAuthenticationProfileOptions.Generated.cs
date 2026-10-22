@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsRedshiftCreateAuthenticationProfileOptions : AwsOptions, IValid
     /// <summary>
     /// Creates an authentication profile with the specified parameters. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AuthenticationProfileName">The name of the authentication profile to be created. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9\-]+$</param>
-    /// <param name="AuthenticationProfileContent">The content of the authentication profile in JSON format. The maxi- mum length of the JSON string is determined by a quota for your ac- count. Constraints: o max: 2147483647</param>
+    /// <param name="AuthenticationProfileName">The name of the authentication profile to be created. Constraints: • max: 63 • pattern: ^[a-zA-Z0-9\-]+$</param>
+    /// <param name="AuthenticationProfileContent">The content of the authentication profile in JSON format. The maximum length of the JSON string is determined by a quota for your account. Constraints: • max: 2147483647</param>
     public AwsRedshiftCreateAuthenticationProfileOptions(
         string AuthenticationProfileName,
         string AuthenticationProfileContent
@@ -60,13 +62,13 @@ public record AwsRedshiftCreateAuthenticationProfileOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the authentication profile to be created. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9\-]+$
+    /// The name of the authentication profile to be created. Constraints: • max: 63 • pattern: ^[a-zA-Z0-9\-]+$
     /// </summary>
     [CliOption("--authentication-profile-name")]
     public string? AuthenticationProfileName { get; private init; }
 
     /// <summary>
-    /// The content of the authentication profile in JSON format. The maxi- mum length of the JSON string is determined by a quota for your ac- count. Constraints: o max: 2147483647
+    /// The content of the authentication profile in JSON format. The maximum length of the JSON string is determined by a quota for your account. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--authentication-profile-content")]
     public string? AuthenticationProfileContent { get; private init; }

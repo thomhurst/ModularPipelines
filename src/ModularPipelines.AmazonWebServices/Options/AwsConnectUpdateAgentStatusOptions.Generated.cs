@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsConnectUpdateAgentStatusOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Updates agent status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     /// <param name="AgentStatusId">The identifier of the agent status.</param>
     public AwsConnectUpdateAgentStatusOptions(
         string InstanceId,
@@ -61,7 +63,7 @@ public record AwsConnectUpdateAgentStatusOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
@@ -73,25 +75,25 @@ public record AwsConnectUpdateAgentStatusOptions : AwsOptions, IValidatableObjec
     public string? AgentStatusId { get; private init; }
 
     /// <summary>
-    /// The name of the agent status. Constraints: o min: 1 o max: 127
+    /// The name of the agent status. Constraints: • min: 1 • max: 127
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The description of the agent status. Constraints: o min: 0 o max: 250
+    /// The description of the agent status. Constraints: • min: 0 • max: 250
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The state of the agent status. Possible values: o ENABLED o DISABLED
+    /// The state of the agent status. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--state")]
     public AwsConnectUpdateAgentStatusState? State { get; set; }
 
     /// <summary>
-    /// The display order of the agent status. Constraints: o min: 1 o max: 50
+    /// The display order of the agent status. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--display-order")]
     public int? DisplayOrder { get; set; }

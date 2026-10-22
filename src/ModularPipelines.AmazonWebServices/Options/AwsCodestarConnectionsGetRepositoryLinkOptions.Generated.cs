@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns details about a repository link. A repository link allows Git sync to monitor and sync changes from files in a specified Git reposi- tory. See also: AWS API Documentation
+/// Returns details about a repository link. A repository link allows Git sync to monitor and sync changes from files in a specified Git repository. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsCodestarConnectionsGetRepositoryLinkOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns details about a repository link. A repository link allows Git sync to monitor and sync changes from files in a specified Git reposi- tory. See also: AWS API Documentation
+    /// Returns details about a repository link. A repository link allows Git sync to monitor and sync changes from files in a specified Git repository. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryLinkId">The ID of the repository link to get. Constraints: o pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$</param>
+    /// <param name="RepositoryLinkId">The ID of the repository link to get. Constraints: • pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$</param>
     public AwsCodestarConnectionsGetRepositoryLinkOptions(
         string RepositoryLinkId
     )
@@ -56,7 +58,7 @@ public record AwsCodestarConnectionsGetRepositoryLinkOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the repository link to get. Constraints: o pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$
+    /// The ID of the repository link to get. Constraints: • pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$
     /// </summary>
     [CliOption("--repository-link-id")]
     public string? RepositoryLinkId { get; private init; }

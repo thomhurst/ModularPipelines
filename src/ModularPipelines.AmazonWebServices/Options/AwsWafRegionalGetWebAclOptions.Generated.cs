@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsWafRegionalGetWebAclOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the WebACL that is specified by WebACLId . See also: AWS API Documentation
     /// </summary>
-    /// <param name="WebAclId">The WebACLId of the WebACL that you want to get. WebACLId is re- turned by CreateWebACL and by ListWebACLs . Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    /// <param name="WebAclId">The WebACLId of the WebACL that you want to get. WebACLId is returned by CreateWebACL and by ListWebACLs . Constraints: • min: 1 • max: 128 • pattern: .*\S.*</param>
     public AwsWafRegionalGetWebAclOptions(
         string WebAclId
     )
@@ -56,7 +58,7 @@ public record AwsWafRegionalGetWebAclOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The WebACLId of the WebACL that you want to get. WebACLId is re- turned by CreateWebACL and by ListWebACLs . Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// The WebACLId of the WebACL that you want to get. WebACLId is returned by CreateWebACL and by ListWebACLs . Constraints: • min: 1 • max: 128 • pattern: .*\S.*
     /// </summary>
     [CliOption("--web-acl-id")]
     public string? WebAclId { get; private init; }

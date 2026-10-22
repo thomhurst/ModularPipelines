@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsChimeSdkVoiceDeleteVoiceConnectorExternalSystemsConfigurationOp
     /// <summary>
     /// Deletes the external systems configuration for a Voice Connector. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VoiceConnectorId">The ID of the Voice Connector for which to delete the external sys- tem configuration. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
+    /// <param name="VoiceConnectorId">The ID of the Voice Connector for which to delete the external system configuration. Constraints: • pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
     public AwsChimeSdkVoiceDeleteVoiceConnectorExternalSystemsConfigurationOptions(
         string VoiceConnectorId
     )
@@ -56,7 +58,7 @@ public record AwsChimeSdkVoiceDeleteVoiceConnectorExternalSystemsConfigurationOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Voice Connector for which to delete the external sys- tem configuration. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
+    /// The ID of the Voice Connector for which to delete the external system configuration. Constraints: • pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
     /// </summary>
     [CliOption("--voice-connector-id")]
     public string? VoiceConnectorId { get; private init; }

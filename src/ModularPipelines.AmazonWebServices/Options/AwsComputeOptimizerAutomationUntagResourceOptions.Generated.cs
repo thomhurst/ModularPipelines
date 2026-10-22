@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,12 +30,12 @@ public record AwsComputeOptimizerAutomationUntagResourceOptions : AwsOptions, IV
     /// <summary>
     /// Removes tags from the specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource to untag. Constraints: o pattern: arn:aws:compute-optimizer::[0-9]{12}:automa- tion-rule/[a-zA-Z0-9_-]+</param>
+    /// <param name="ResourceArn">The ARN of the resource to untag. Constraints: • pattern: arn:aws:compute-optimizer::[0-9]{12}:automation-rule/[a-zA-Z0-9_-]+</param>
     /// <param name="RuleRevision">The revision number of the automation rule to untag. This ensures you're untagging the correct version of the rule.</param>
     /// <param name="TagKeys">The keys of the tags to remove from the resource. (string) Syntax: "string" "string" ...</param>
     public AwsComputeOptimizerAutomationUntagResourceOptions(
         string ResourceArn,
-        int RuleRevision,
+        long RuleRevision,
         IEnumerable<string> TagKeys
     )
     {
@@ -75,7 +77,7 @@ public record AwsComputeOptimizerAutomationUntagResourceOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource to untag. Constraints: o pattern: arn:aws:compute-optimizer::[0-9]{12}:automa- tion-rule/[a-zA-Z0-9_-]+
+    /// The ARN of the resource to untag. Constraints: • pattern: arn:aws:compute-optimizer::[0-9]{12}:automation-rule/[a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -84,7 +86,7 @@ public record AwsComputeOptimizerAutomationUntagResourceOptions : AwsOptions, IV
     /// The revision number of the automation rule to untag. This ensures you're untagging the correct version of the rule.
     /// </summary>
     [CliOption("--rule-revision")]
-    public int? RuleRevision { get; private init; }
+    public long? RuleRevision { get; private init; }
 
     /// <summary>
     /// The keys of the tags to remove from the resource. (string) Syntax: "string" "string" ...
@@ -93,7 +95,7 @@ public record AwsComputeOptimizerAutomationUntagResourceOptions : AwsOptions, IV
     public IEnumerable<string>? TagKeys { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Must be 1-64 characters long and contain only alphanumeric characters, underscores, and hyphens. Constraints: o pattern: [a-zA-Z0-9_-]{1,64}
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Must be 1-64 characters long and contain only alphanumeric characters, underscores, and hyphens. Constraints: • pattern: [a-zA-Z0-9_-]{1,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

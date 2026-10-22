@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +31,8 @@ public record AwsOpensearchserverlessDeleteSecurityPolicyOptions : AwsOptions, I
     /// <summary>
     /// Deletes an OpenSearch Serverless security policy. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Type">The type of policy. Possible values: o encryption o network</param>
-    /// <param name="Name">The name of the policy to delete. Constraints: o min: 3 o max: 32 o pattern: [a-z][a-z0-9-]+</param>
+    /// <param name="Type">The type of policy. Possible values: • encryption • network</param>
+    /// <param name="Name">The name of the policy to delete. Constraints: • min: 3 • max: 32 • pattern: [a-z][a-z0-9-]+</param>
     public AwsOpensearchserverlessDeleteSecurityPolicyOptions(
         AwsOpensearchserverlessDeleteSecurityPolicyType Type,
         string Name
@@ -61,19 +63,19 @@ public record AwsOpensearchserverlessDeleteSecurityPolicyOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of policy. Possible values: o encryption o network
+    /// The type of policy. Possible values: • encryption • network
     /// </summary>
     [CliOption("--type")]
     public AwsOpensearchserverlessDeleteSecurityPolicyType? Type { get; private init; }
 
     /// <summary>
-    /// The name of the policy to delete. Constraints: o min: 3 o max: 32 o pattern: [a-z][a-z0-9-]+
+    /// The name of the policy to delete. Constraints: • min: 3 • max: 32 • pattern: [a-z][a-z0-9-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 1 o max: 512
+    /// Unique, case-sensitive identifier to ensure idempotency of the request. Constraints: • min: 1 • max: 512
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

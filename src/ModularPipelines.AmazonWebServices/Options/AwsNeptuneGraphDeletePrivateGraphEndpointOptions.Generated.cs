@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsNeptuneGraphDeletePrivateGraphEndpointOptions : AwsOptions, IVa
     /// <summary>
     /// Deletes a private graph endpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GraphIdentifier">The unique identifier of the Neptune Analytics graph. Constraints: o pattern: g-[a-z0-9]{10}</param>
-    /// <param name="VpcId">The ID of the VPC where the private endpoint is located. Constraints: o pattern: vpc-[a-z0-9]+</param>
+    /// <param name="GraphIdentifier">The unique identifier of the Neptune Analytics graph. Constraints: • pattern: g-[a-z0-9]{10}</param>
+    /// <param name="VpcId">The ID of the VPC where the private endpoint is located. Constraints: • pattern: vpc-[a-z0-9]+</param>
     public AwsNeptuneGraphDeletePrivateGraphEndpointOptions(
         string GraphIdentifier,
         string VpcId
@@ -60,13 +62,13 @@ public record AwsNeptuneGraphDeletePrivateGraphEndpointOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Neptune Analytics graph. Constraints: o pattern: g-[a-z0-9]{10}
+    /// The unique identifier of the Neptune Analytics graph. Constraints: • pattern: g-[a-z0-9]{10}
     /// </summary>
     [CliOption("--graph-identifier")]
     public string? GraphIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the VPC where the private endpoint is located. Constraints: o pattern: vpc-[a-z0-9]+
+    /// The ID of the VPC where the private endpoint is located. Constraints: • pattern: vpc-[a-z0-9]+
     /// </summary>
     [CliOption("--vpc-id")]
     public string? VpcId { get; private init; }

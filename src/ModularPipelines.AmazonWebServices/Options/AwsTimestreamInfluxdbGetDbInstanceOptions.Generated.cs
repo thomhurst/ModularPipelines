@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsTimestreamInfluxdbGetDbInstanceOptions : AwsOptions, IValidatab
     /// <summary>
     /// Returns a Timestream for InfluxDB DB instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The id of the DB instance. Constraints: o min: 3 o max: 64 o pattern: [a-zA-Z0-9]+</param>
+    /// <param name="Identifier">The id of the DB instance. Constraints: • min: 3 • max: 64 • pattern: [a-zA-Z0-9]+</param>
     public AwsTimestreamInfluxdbGetDbInstanceOptions(
         string Identifier
     )
@@ -56,7 +58,7 @@ public record AwsTimestreamInfluxdbGetDbInstanceOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The id of the DB instance. Constraints: o min: 3 o max: 64 o pattern: [a-zA-Z0-9]+
+    /// The id of the DB instance. Constraints: • min: 3 • max: 64 • pattern: [a-zA-Z0-9]+
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }

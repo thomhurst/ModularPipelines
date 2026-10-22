@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a state machine version . After you delete a version, you can't call StartExecution using that version's ARN or use the version with a state machine alias . NOTE: Deleting a state machine version won't terminate its in-progress ex- ecutions. NOTE: You can't delete a state machine version currently referenced by one or more aliases. Before you delete a version, you must ei- ther delete the aliases or update them to point to another state machine version. Related operations: o PublishState...
+/// Deletes a state machine version . After you delete a version, you can't call StartExecution using that version's ARN or use the version with a state machine alias . NOTE: Deleting a state machine version won't terminate its in-progress executions. NOTE: You can't delete a state machine version currently referenced by one or more aliases. Before you delete a version, you must either delete the aliases or update them to point to another state machine version. Related operations: • PublishStateMach...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsStepfunctionsDeleteStateMachineVersionOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a state machine version . After you delete a version, you can't call StartExecution using that version's ARN or use the version with a state machine alias . NOTE: Deleting a state machine version won't terminate its in-progress ex- ecutions. NOTE: You can't delete a state machine version currently referenced by one or more aliases. Before you delete a version, you must ei- ther delete the aliases or update them to point to another state machine version. Related operations: o PublishState...
+    /// Deletes a state machine version . After you delete a version, you can't call StartExecution using that version's ARN or use the version with a state machine alias . NOTE: Deleting a state machine version won't terminate its in-progress executions. NOTE: You can't delete a state machine version currently referenced by one or more aliases. Before you delete a version, you must either delete the aliases or update them to point to another state machine version. Related operations: • PublishStateMach...
     /// </summary>
-    /// <param name="StateMachineVersionArn">The Amazon Resource Name (ARN) of the state machine version to delete. Constraints: o min: 1 o max: 2000</param>
+    /// <param name="StateMachineVersionArn">The Amazon Resource Name (ARN) of the state machine version to delete. Constraints: • min: 1 • max: 2000</param>
     public AwsStepfunctionsDeleteStateMachineVersionOptions(
         string StateMachineVersionArn
     )
@@ -56,7 +58,7 @@ public record AwsStepfunctionsDeleteStateMachineVersionOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the state machine version to delete. Constraints: o min: 1 o max: 2000
+    /// The Amazon Resource Name (ARN) of the state machine version to delete. Constraints: • min: 1 • max: 2000
     /// </summary>
     [CliOption("--state-machine-version-arn")]
     public string? StateMachineVersionArn { get; private init; }

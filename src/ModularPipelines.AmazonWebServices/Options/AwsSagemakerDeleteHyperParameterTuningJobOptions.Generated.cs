@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSagemakerDeleteHyperParameterTuningJobOptions : AwsOptions, IVa
     /// <summary>
     /// Deletes a hyperparameter tuning job. The DeleteHyperParameterTuningJob API deletes only the tuning job entry that was created in SageMaker when you called the CreateHyperParameterTuningJob API. It does not delete training jobs, artifacts, or the IAM role that you specified when creating the model. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HyperParameterTuningJobName">The name of the hyperparameter tuning job that you want to delete. Constraints: o min: 1 o max: 32 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}</param>
+    /// <param name="HyperParameterTuningJobName">The name of the hyperparameter tuning job that you want to delete. Constraints: • min: 1 • max: 32 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}</param>
     public AwsSagemakerDeleteHyperParameterTuningJobOptions(
         string HyperParameterTuningJobName
     )
@@ -56,7 +58,7 @@ public record AwsSagemakerDeleteHyperParameterTuningJobOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the hyperparameter tuning job that you want to delete. Constraints: o min: 1 o max: 32 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}
+    /// The name of the hyperparameter tuning job that you want to delete. Constraints: • min: 1 • max: 32 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}
     /// </summary>
     [CliOption("--hyper-parameter-tuning-job-name")]
     public string? HyperParameterTuningJobName { get; private init; }

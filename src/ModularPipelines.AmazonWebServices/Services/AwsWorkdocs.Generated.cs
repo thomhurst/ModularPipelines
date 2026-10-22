@@ -32,7 +32,7 @@ public class AwsWorkdocs : IAwsWorkdocs
     #region Commands
 
     /// <summary>
-    /// Aborts the upload of the specified document version that was previously initiated by InitiateDocumentVersionUpload . The client should make this call only when it no longer intends to upload the document ver- sion, or fails to do so. See also: AWS API Documentation
+    /// Aborts the upload of the specified document version that was previously initiated by InitiateDocumentVersionUpload . The client should make this call only when it no longer intends to upload the document version, or fails to do so. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsWorkdocs : IAwsWorkdocs
     }
 
     /// <summary>
-    /// Activates the specified user. Only active users can access Amazon Work- Docs. See also: AWS API Documentation
+    /// Activates the specified user. Only active users can access Amazon WorkDocs. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsWorkdocs : IAwsWorkdocs
     }
 
     /// <summary>
-    /// Deactivates the specified user, which revokes the user's access to Ama- zon WorkDocs. See also: AWS API Documentation
+    /// Deactivates the specified user, which revokes the user's access to Amazon WorkDocs. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsWorkdocs : IAwsWorkdocs
     }
 
     /// <summary>
-    /// Retrieves the document versions for the specified document. By default, only active versions are returned. See also: AWS API Documentation describe-document-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing quer...
+    /// Retrieves the document versions for the specified document. By default, only active versions are returned. See also: AWS API Documentation describe-document-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsWorkdocs : IAwsWorkdocs
     }
 
     /// <summary>
-    /// Describes the groups specified by the query. Groups are defined by the underlying Active Directory. See also: AWS API Documentation describe-groups is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: G...
+    /// Describes the groups specified by the query. Groups are defined by the underlying Active Directory. See also: AWS API Documentation describe-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Group...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsWorkdocs : IAwsWorkdocs
     }
 
     /// <summary>
-    /// Lists the specified notification subscriptions. See also: AWS API Documentation describe-notification-subscriptions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Subscriptions
+    /// Lists the specified notification subscriptions. See also: AWS API Documentation describe-notification-subscriptions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Subscriptions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsWorkdocs : IAwsWorkdocs
     }
 
     /// <summary>
-    /// Describes the permissions of a specified resource. See also: AWS API Documentation describe-resource-permissions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Principals
+    /// Describes the permissions of a specified resource. See also: AWS API Documentation describe-resource-permissions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Principals
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsWorkdocs : IAwsWorkdocs
     }
 
     /// <summary>
-    /// Describes the current user's special folders; the RootFolder and the RecycleBin . RootFolder is the root of user's files and folders and Re- cycleBin is the root of recycled items. This is not a valid action for SigV4 (administrative API) clients. This action requires an authentication token. To get an authentication token, register an application with Amazon WorkDocs. For more informa- tion, see Authentication and Access Control for User Applications in the Amazon WorkDocs Developer Guide . See...
+    /// Describes the current user's special folders; the RootFolder and the RecycleBin . RootFolder is the root of user's files and folders and RecycleBin is the root of recycled items. This is not a valid action for SigV4 (administrative API) clients. This action requires an authentication token. To get an authentication token, register an application with Amazon WorkDocs. For more information, see Authentication and Access Control for User Applications in the Amazon WorkDocs Developer Guide . See als...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsWorkdocs : IAwsWorkdocs
     }
 
     /// <summary>
-    /// Describes the specified users. You can describe all users or filter the results (for example, by status or organization). By default, Amazon WorkDocs returns the first 24 active or pending users. If there are more results, the response includes a marker that you can use to request the next set of results. See also: AWS API Documentation describe-users is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by ...
+    /// Describes the specified users. You can describe all users or filter the results (for example, by status or organization). By default, Amazon WorkDocs returns the first 24 active or pending users. If there are more results, the response includes a marker that you can use to request the next set of results. See also: AWS API Documentation describe-users is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by prov...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsWorkdocs : IAwsWorkdocs
     }
 
     /// <summary>
-    /// Retrieves details of the current user for whom the authentication token was generated. This is not a valid action for SigV4 (administrative API) clients. This action requires an authentication token. To get an authentication token, register an application with Amazon WorkDocs. For more informa- tion, see Authentication and Access Control for User Applications in the Amazon WorkDocs Developer Guide . See also: AWS API Documentation
+    /// Retrieves details of the current user for whom the authentication token was generated. This is not a valid action for SigV4 (administrative API) clients. This action requires an authentication token. To get an authentication token, register an application with Amazon WorkDocs. For more information, see Authentication and Access Control for User Applications in the Amazon WorkDocs Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsWorkdocs : IAwsWorkdocs
     }
 
     /// <summary>
-    /// Retrieves the path information (the hierarchy from the root folder) for the specified folder. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested folder and only includes the IDs of the parent fold- ers in the path. You can limit the maximum number of levels. You can also request the parent folder names. See also: AWS API Documentation
+    /// Retrieves the path information (the hierarchy from the root folder) for the specified folder. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested folder and only includes the IDs of the parent folders in the path. You can limit the maximum number of levels. You can also request the parent folder names. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +617,7 @@ public class AwsWorkdocs : IAwsWorkdocs
     }
 
     /// <summary>
-    /// Searches metadata and the content of folders, documents, document ver- sions, and comments. See also: AWS API Documentation search-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
+    /// Searches metadata and the content of folders, documents, document versions, and comments. See also: AWS API Documentation search-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -632,7 +632,7 @@ public class AwsWorkdocs : IAwsWorkdocs
     }
 
     /// <summary>
-    /// Updates the specified attributes of a document. The user must have ac- cess to both the document and its parent folder, if applicable. See also: AWS API Documentation
+    /// Updates the specified attributes of a document. The user must have access to both the document and its parent folder, if applicable. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

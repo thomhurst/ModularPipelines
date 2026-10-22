@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,7 +29,7 @@ public record AwsMacie2CreateMemberOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Associates an account with an Amazon Macie administrator account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Account">The details of the account to associate with the administrator ac- count. accountId -&gt; (string) [required] The Amazon Web Services account ID for the account. email -&gt; (string) [required] The email address for the account. Shorthand Syntax: accountId=string,email=string JSON Syntax: { "accountId": "string", "email": "string" }</param>
+    /// <param name="Account">The details of the account to associate with the administrator account. accountId -&gt; (string) [required] The Amazon Web Services account ID for the account. email -&gt; (string) [required] The email address for the account. Shorthand Syntax: accountId=string,email=string JSON Syntax: { "accountId": "string", "email": "string" }</param>
     public AwsMacie2CreateMemberOptions(
         string Account
     )
@@ -57,7 +58,7 @@ public record AwsMacie2CreateMemberOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The details of the account to associate with the administrator ac- count. accountId -&gt; (string) [required] The Amazon Web Services account ID for the account. email -&gt; (string) [required] The email address for the account. Shorthand Syntax: accountId=string,email=string JSON Syntax: { "accountId": "string", "email": "string" }
+    /// The details of the account to associate with the administrator account. accountId -&gt; (string) [required] The Amazon Web Services account ID for the account. email -&gt; (string) [required] The email address for the account. Shorthand Syntax: accountId=string,email=string JSON Syntax: { "accountId": "string", "email": "string" }
     /// </summary>
     [CliOption("--account")]
     public string? Account { get; private init; }

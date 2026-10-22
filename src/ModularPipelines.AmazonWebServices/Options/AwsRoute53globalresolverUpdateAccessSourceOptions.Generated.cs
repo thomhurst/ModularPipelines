@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsRoute53globalresolverUpdateAccessSourceOptions : AwsOptions, IV
     /// <summary>
     /// Updates the configuration of an access source. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccessSourceId">The unique identifier of the access source to update. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+</param>
+    /// <param name="AccessSourceId">The unique identifier of the access source to update. Constraints: • min: 1 • max: 64 • pattern: [-.a-zA-Z0-9]+</param>
     public AwsRoute53globalresolverUpdateAccessSourceOptions(
         string AccessSourceId
     )
@@ -57,31 +59,31 @@ public record AwsRoute53globalresolverUpdateAccessSourceOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the access source to update. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+
+    /// The unique identifier of the access source to update. Constraints: • min: 1 • max: 64 • pattern: [-.a-zA-Z0-9]+
     /// </summary>
     [CliOption("--access-source-id")]
     public string? AccessSourceId { get; private init; }
 
     /// <summary>
-    /// The CIDR block for the access source. Constraints: o min: 1 o max: 43
+    /// The CIDR block for the access source. Constraints: • min: 1 • max: 43
     /// </summary>
     [CliOption("--cidr")]
     public string? Cidr { get; set; }
 
     /// <summary>
-    /// The IP address type for the access source. Possible values: o IPV4 o IPV6
+    /// The IP address type for the access source. Possible values: • IPV4 • IPV6
     /// </summary>
     [CliOption("--ip-address-type")]
     public AwsRoute53globalresolverUpdateAccessSourceIpAddressType? IpAddressType { get; set; }
 
     /// <summary>
-    /// The name of the access source. Constraints: o min: 1 o max: 32 o pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+)
+    /// The name of the access source. Constraints: • min: 1 • max: 32 • pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+)
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The protocol for the access source. Possible values: o DO53 o DOH o DOT
+    /// The protocol for the access source. Possible values: • DO53 • DOH • DOT
     /// </summary>
     [CliOption("--protocol")]
     public AwsRoute53globalresolverUpdateAccessSourceProtocol? Protocol { get; set; }

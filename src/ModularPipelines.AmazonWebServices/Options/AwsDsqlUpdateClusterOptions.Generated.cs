@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The UpdateCluster API allows you to modify both single-Region and multi-Region cluster configurations. With the multiRegionProperties pa- rameter, you can add or modify witness Region support and manage peer relationships with clusters in other Regions. NOTE: Note that updating multi-Region clusters requires additional IAM permissions beyond those needed for standard cluster updates, as detailed in the Permissions section. Required permissions dsql:UpdateCluster Permission to update a DSQL clust...
+/// The UpdateCluster API allows you to modify both single-Region and multi-Region cluster configurations. With the multiRegionProperties parameter, you can add or modify witness Region support and manage peer relationships with clusters in other Regions. NOTE: Note that updating multi-Region clusters requires additional IAM permissions beyond those needed for standard cluster updates, as detailed in the Permissions section. Required permissions dsql:UpdateCluster Permission to update a DSQL cluster...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsDsqlUpdateClusterOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The UpdateCluster API allows you to modify both single-Region and multi-Region cluster configurations. With the multiRegionProperties pa- rameter, you can add or modify witness Region support and manage peer relationships with clusters in other Regions. NOTE: Note that updating multi-Region clusters requires additional IAM permissions beyond those needed for standard cluster updates, as detailed in the Permissions section. Required permissions dsql:UpdateCluster Permission to update a DSQL clust...
+    /// The UpdateCluster API allows you to modify both single-Region and multi-Region cluster configurations. With the multiRegionProperties parameter, you can add or modify witness Region support and manage peer relationships with clusters in other Regions. NOTE: Note that updating multi-Region clusters requires additional IAM permissions beyond those needed for standard cluster updates, as detailed in the Permissions section. Required permissions dsql:UpdateCluster Permission to update a DSQL cluster...
     /// </summary>
-    /// <param name="Identifier">The ID of the cluster you want to update. Constraints: o pattern: [a-z0-9]{26}</param>
+    /// <param name="Identifier">The ID of the cluster you want to update. Constraints: • pattern: [a-z0-9]{26}</param>
     public AwsDsqlUpdateClusterOptions(
         string Identifier
     )
@@ -57,7 +59,7 @@ public record AwsDsqlUpdateClusterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the cluster you want to update. Constraints: o pattern: [a-z0-9]{26}
+    /// The ID of the cluster you want to update. Constraints: • pattern: [a-z0-9]{26}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
@@ -69,20 +71,20 @@ public record AwsDsqlUpdateClusterOptions : AwsOptions, IValidatableObject
     public bool? DeletionProtectionEnabled { get; set; }
 
     /// <summary>
-    /// The KMS key that encrypts and protects the data on your cluster. You can specify the ARN, ID, or alias of an existing key or have Amazon Web Services create a default key for you. To switch to the key owned by Amazon Web Services, specify the re- served value AWS_OWNED_KMS_KEY . Constraints: o min: 1 o max: 2048 o pattern: [a-zA-Z0-9:/_-]+
+    /// The KMS key that encrypts and protects the data on your cluster. You can specify the ARN, ID, or alias of an existing key or have Amazon Web Services create a default key for you. To switch to the key owned by Amazon Web Services, specify the reserved value AWS_OWNED_KMS_KEY . Constraints: • min: 1 • max: 2048 • pattern: [a-zA-Z0-9:/_-]+
     /// </summary>
     [CliOption("--kms-encryption-key")]
     public string? KmsEncryptionKey { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original re- quest completes successfully. The subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK au- tomatically generates one. Constraints: o min: 1 o max: 128 o pattern: [!-~]+
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully. The subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK automatically generates one. Constraints: • min: 1 • max: 128 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The new multi-Region cluster configuration settings to be applied during an update operation. witnessRegion -&gt; (string) The Region that serves as the witness region for a multi-Region cluster. The witness Region helps maintain cluster consistency and quorum. Constraints: o min: 0 o max: 50 clusters -&gt; (list) The set of peered clusters that form the multi-Region cluster configuration. Each peered cluster represents a database in- stance in a different Region. (string) The Amazon Resource Name of the cluster. Constraints: o pattern: arn:aws(-[^:]+)?:dsql:[a-z0-9-]{1,20}:[0-9]{12}:clus- ter/[a-z0-9]{26} Shorthand Syntax: witnessRegion=string,clusters=string,string JSON Syntax: { "witnessRegion": "string", "clusters": ["string", ...] }
+    /// The new multi-Region cluster configuration settings to be applied during an update operation. witnessRegion -&gt; (string) The Region that serves as the witness region for a multi-Region cluster. The witness Region helps maintain cluster consistency and quorum. Constraints: • min: 0 • max: 50 clusters -&gt; (list) The set of peered clusters that form the multi-Region cluster configuration. Each peered cluster represents a database instance in a different Region. (string) The Amazon Resource Name of the cluster. Constraints: • pattern: arn:aws(-[^:]+)?:dsql:[a-z0-9-]{1,20}:[0-9]{12}:cluster/[a-z0-9]{26} Shorthand Syntax: witnessRegion=string,clusters=string,string JSON Syntax: { "witnessRegion": "string", "clusters": ["string", ...] }
     /// </summary>
     [CliOption("--multi-region-properties")]
     public string? MultiRegionProperties { get; set; }

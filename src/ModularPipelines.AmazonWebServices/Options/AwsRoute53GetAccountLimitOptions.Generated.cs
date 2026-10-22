@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the specified limit for the current account, for example, the max- imum number of health checks that you can create using the account. For the default limit, see Limits in the Amazon Route 53 Developer Guide . To request a higher limit, open a case . NOTE: You can also view account limits in Amazon Web Services Trusted Ad- visor. Sign in to the Amazon Web Services Management Console and open the Trusted Advisor console at https://console.aws.amazon.com/trustedadvisor/ . Then choose Service ...
+/// Gets the specified limit for the current account, for example, the maximum number of health checks that you can create using the account. For the default limit, see Limits in the Amazon Route 53 Developer Guide . To request a higher limit, open a case . NOTE: You can also view account limits in Amazon Web Services Trusted Advisor. Sign in to the Amazon Web Services Management Console and open the Trusted Advisor console at https://console.aws.amazon.com/trustedadvisor/ . Then choose Service limi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsRoute53GetAccountLimitOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets the specified limit for the current account, for example, the max- imum number of health checks that you can create using the account. For the default limit, see Limits in the Amazon Route 53 Developer Guide . To request a higher limit, open a case . NOTE: You can also view account limits in Amazon Web Services Trusted Ad- visor. Sign in to the Amazon Web Services Management Console and open the Trusted Advisor console at https://console.aws.amazon.com/trustedadvisor/ . Then choose Service ...
+    /// Gets the specified limit for the current account, for example, the maximum number of health checks that you can create using the account. For the default limit, see Limits in the Amazon Route 53 Developer Guide . To request a higher limit, open a case . NOTE: You can also view account limits in Amazon Web Services Trusted Advisor. Sign in to the Amazon Web Services Management Console and open the Trusted Advisor console at https://console.aws.amazon.com/trustedadvisor/ . Then choose Service limi...
     /// </summary>
-    /// <param name="Type">The limit that you want to get. Valid values include the following: o MAX_HEALTH_CHECKS_BY_OWNER : The maximum number of health checks that you can create using the current account. o MAX_HOSTED_ZONES_BY_OWNER : The maximum number of hosted zones that you can create using the current account. o MAX_REUSABLE_DELEGATION_SETS_BY_OWNER : The maximum number of reusable delegation sets that you can create using the current ac- count. o MAX_TRAFFIC_POLICIES_BY_OWNER : The maximum number of traffic policies that you can create using the current account. o MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER : The maximum number of traffic policy instances that you can create using the current ac- count. (Traffic policy instances are referred to as traffic flow policy records in the Amazon Route 53 console.) Possible values: o MAX_HEALTH_CHECKS_BY_OWNER o MAX_HOSTED_ZONES_BY_OWNER o MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER o MAX_REUSABLE_DELEGATION_SETS_BY_OWNER o MAX_TRAFFIC_POLICIES_BY_OWNER</param>
+    /// <param name="Type">The limit that you want to get. Valid values include the following: • MAX_HEALTH_CHECKS_BY_OWNER : The maximum number of health checks that you can create using the current account. • MAX_HOSTED_ZONES_BY_OWNER : The maximum number of hosted zones that you can create using the current account. • MAX_REUSABLE_DELEGATION_SETS_BY_OWNER : The maximum number of reusable delegation sets that you can create using the current account. • MAX_TRAFFIC_POLICIES_BY_OWNER : The maximum number of traffic policies that you can create using the current account. • MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER : The maximum number of traffic policy instances that you can create using the current account. (Traffic policy instances are referred to as traffic flow policy records in the Amazon Route 53 console.) Possible values: • MAX_HEALTH_CHECKS_BY_OWNER • MAX_HOSTED_ZONES_BY_OWNER • MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER • MAX_REUSABLE_DELEGATION_SETS_BY_OWNER • MAX_TRAFFIC_POLICIES_BY_OWNER</param>
     public AwsRoute53GetAccountLimitOptions(
         AwsRoute53GetAccountLimitType Type
     )
@@ -56,7 +58,7 @@ public record AwsRoute53GetAccountLimitOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The limit that you want to get. Valid values include the following: o MAX_HEALTH_CHECKS_BY_OWNER : The maximum number of health checks that you can create using the current account. o MAX_HOSTED_ZONES_BY_OWNER : The maximum number of hosted zones that you can create using the current account. o MAX_REUSABLE_DELEGATION_SETS_BY_OWNER : The maximum number of reusable delegation sets that you can create using the current ac- count. o MAX_TRAFFIC_POLICIES_BY_OWNER : The maximum number of traffic policies that you can create using the current account. o MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER : The maximum number of traffic policy instances that you can create using the current ac- count. (Traffic policy instances are referred to as traffic flow policy records in the Amazon Route 53 console.) Possible values: o MAX_HEALTH_CHECKS_BY_OWNER o MAX_HOSTED_ZONES_BY_OWNER o MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER o MAX_REUSABLE_DELEGATION_SETS_BY_OWNER o MAX_TRAFFIC_POLICIES_BY_OWNER
+    /// The limit that you want to get. Valid values include the following: • MAX_HEALTH_CHECKS_BY_OWNER : The maximum number of health checks that you can create using the current account. • MAX_HOSTED_ZONES_BY_OWNER : The maximum number of hosted zones that you can create using the current account. • MAX_REUSABLE_DELEGATION_SETS_BY_OWNER : The maximum number of reusable delegation sets that you can create using the current account. • MAX_TRAFFIC_POLICIES_BY_OWNER : The maximum number of traffic policies that you can create using the current account. • MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER : The maximum number of traffic policy instances that you can create using the current account. (Traffic policy instances are referred to as traffic flow policy records in the Amazon Route 53 console.) Possible values: • MAX_HEALTH_CHECKS_BY_OWNER • MAX_HOSTED_ZONES_BY_OWNER • MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER • MAX_REUSABLE_DELEGATION_SETS_BY_OWNER • MAX_TRAFFIC_POLICIES_BY_OWNER
     /// </summary>
     [CliOption("--type")]
     public AwsRoute53GetAccountLimitType? Type { get; private init; }

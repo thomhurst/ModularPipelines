@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsLookoutequipmentDescribeLabelOptions : AwsOptions, IValidatable
     /// <summary>
     /// Returns the name of the label. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LabelGroupName">Returns the name of the group containing the label. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
-    /// <param name="LabelId">Returns the ID of the label. Constraints: o max: 32 o pattern: [A-Fa-f0-9]{0,32}</param>
+    /// <param name="LabelGroupName">Returns the name of the group containing the label. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    /// <param name="LabelId">Returns the ID of the label. Constraints: • max: 32 • pattern: [A-Fa-f0-9]{0,32}</param>
     public AwsLookoutequipmentDescribeLabelOptions(
         string LabelGroupName,
         string LabelId
@@ -60,13 +62,13 @@ public record AwsLookoutequipmentDescribeLabelOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Returns the name of the group containing the label. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// Returns the name of the group containing the label. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$
     /// </summary>
     [CliOption("--label-group-name")]
     public string? LabelGroupName { get; private init; }
 
     /// <summary>
-    /// Returns the ID of the label. Constraints: o max: 32 o pattern: [A-Fa-f0-9]{0,32}
+    /// Returns the ID of the label. Constraints: • max: 32 • pattern: [A-Fa-f0-9]{0,32}
     /// </summary>
     [CliOption("--label-id")]
     public string? LabelId { get; private init; }

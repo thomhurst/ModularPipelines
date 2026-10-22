@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRoute53domainsUpdateTagsForDomainOptions : AwsOptions, IValidat
     /// <summary>
     /// This operation adds or updates tags for a specified domain. All tag operations are eventually consistent; subsequent operations might not immediately represent all issued operations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The domain for which you want to add or update tags. Constraints: o max: 255</param>
+    /// <param name="DomainName">The domain for which you want to add or update tags. Constraints: • max: 255</param>
     public AwsRoute53domainsUpdateTagsForDomainOptions(
         string DomainName
     )
@@ -56,13 +58,13 @@ public record AwsRoute53domainsUpdateTagsForDomainOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The domain for which you want to add or update tags. Constraints: o max: 255
+    /// The domain for which you want to add or update tags. Constraints: • max: 255
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// A list of the tag keys and values that you want to add or update. If you specify a key that already exists, the corresponding value will be replaced. (structure) Each tag includes the following elements. Key -&gt; (string) The key (name) of a tag. Valid values: A-Z, a-z, 0-9, space, ".:/=+-@" Constraints: Each key can be 1-128 characters long. Constraints: o min: 1 o max: 128 Value -&gt; (string) The value of a tag. Valid values: A-Z, a-z, 0-9, space, ".:/=+-@" Constraints: Each value can be 0-256 characters long. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of the tag keys and values that you want to add or update. If you specify a key that already exists, the corresponding value will be replaced. (structure) Each tag includes the following elements. Key -&gt; (string) The key (name) of a tag. Valid values: A-Z, a-z, 0-9, space, ".:/=+-@" Constraints: Each key can be 1-128 characters long. Constraints: • min: 1 • max: 128 Value -&gt; (string) The value of a tag. Valid values: A-Z, a-z, 0-9, space, ".:/=+-@" Constraints: Each value can be 0-256 characters long. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags-to-update", GroupValues = true)]
     public IEnumerable<string>? TagsToUpdate { get; set; }

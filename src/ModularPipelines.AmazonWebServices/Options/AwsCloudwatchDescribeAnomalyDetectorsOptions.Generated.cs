@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the anomaly detection models that you have created in your ac- count. For single metric anomaly detectors, you can list all of the models in your account or filter the results to only the models that are related to a certain namespace, metric name, or metric dimension. For metric math anomaly detectors, you can list them by adding MET- RIC_MATH to the AnomalyDetectorTypes array. This will return all metric math anomaly detectors in your account. See also: AWS API Documentation describe-ano...
+/// Lists the anomaly detection models that you have created in your account. For single metric anomaly detectors, you can list all of the models in your account or filter the results to only the models that are related to a certain namespace, metric name, or metric dimension. For metric math anomaly detectors, you can list them by adding METRIC_MATH to the AnomalyDetectorTypes array. This will return all metric math anomaly detectors in your account. See also: AWS API Documentation describe-anomaly...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,40 +23,37 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudwatchDescribeAnomalyDetectorsOptions : AwsOptions
 {
     /// <summary>
-    /// Specifies the unique identifiers of the anomaly detectors to de- scribe. You can specify up to 50 identifiers. If you specify this parameter, you cannot also specify the Namespace , MetricName , Di- mensions , or AnomalyDetectorTypes metric filters. Constraints: o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9_./:%()+-]+ Syntax: "string" "string" ...
+    /// Specifies the unique identifiers of the anomaly detectors to describe. You can specify up to 50 identifiers. If you specify this parameter, you cannot also specify the Namespace , MetricName , Dimensions , or AnomalyDetectorTypes metric filters. Constraints: • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9_./:%()+-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--anomaly-detector-ids", GroupValues = true)]
     public IEnumerable<string>? AnomalyDetectorIds { get; set; }
 
     /// <summary>
-    /// Limits the results to only the anomaly detection models that are as- sociated with the specified namespace. Constraints: o min: 1 o max: 255 o pattern: [^:].*
+    /// Limits the results to only the anomaly detection models that are associated with the specified namespace. Constraints: • min: 1 • max: 255 • pattern: [^:].*
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
     /// <summary>
-    /// Limits the results to only the anomaly detection models that are as- sociated with the specified metric name. If there are multiple met- rics with this name in different namespaces that have anomaly detec- tion models, they're all returned. Constraints: o min: 1 o max: 255
+    /// Limits the results to only the anomaly detection models that are associated with the specified metric name. If there are multiple metrics with this name in different namespaces that have anomaly detection models, they're all returned. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--metric-name")]
     public string? MetricName { get; set; }
 
     /// <summary>
-    /// Limits the results to only the anomaly detection models that are as- sociated with the specified metric dimensions. If there are multiple metrics that have these dimensions and have anomaly detection models associated, they're all returned. Constraints: o max: 30 (structure) A dimension is a name/value pair that is part of the identity of a metric. Because dimensions are part of the unique identifier for a metric, whenever you add a unique name/value pair to one of your metrics, you are creating a new variation of that met- ric. For example, many Amazon EC2 metrics publish InstanceId as a dimension name, and the actual instance ID as the value for that dimension. You can assign up to 30 dimensions to a metric. Name -&gt; (string) [required] The name of the dimension. Dimension names must contain only ASCII characters, must include at least one non-whitespace character, and cannot start with a colon (: ). ASCII control characters are not supported as part of dimension names. Constraints: o min: 1 o max: 255 Value -&gt; (string) [required] The value of the dimension. Dimension values must contain only ASCII characters and must include at least one non-whitespace character. ASCII control characters are not supported as part of dimension values. Constraints: o min: 1 o max: 1024 Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
+    /// Limits the results to only the anomaly detection models that are associated with the specified metric dimensions. If there are multiple metrics that have these dimensions and have anomaly detection models associated, they're all returned. Constraints: • max: 30 (structure) A dimension is a name/value pair that is part of the identity of a metric. Because dimensions are part of the unique identifier for a metric, whenever you add a unique name/value pair to one of your metrics, you are creating a new variation of that metric. For example, many Amazon EC2 metrics publish InstanceId as a dimension name, and the actual instance ID as the value for that dimension. You can assign up to 30 dimensions to a metric. Name -&gt; (string) [required] The name of the dimension. Dimension names must contain only ASCII characters, must include at least one non-whitespace character, and cannot start with a colon (: ). ASCII control characters are not supported as part of dimension names. Constraints: • min: 1 • max: 255 Value -&gt; (string) [required] The value of the dimension. Dimension values must contain only ASCII characters and must include at least one non-whitespace character. ASCII control characters are not supported as part of dimension values. Constraints: • min: 1 • max: 1024 Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--dimensions", GroupValues = true)]
     public IEnumerable<string>? Dimensions { get; set; }
 
     /// <summary>
-    /// The anomaly detector types to request when using DescribeAnomalyDe- tectorsInput . If empty, defaults to SINGLE_METRIC . Constraints: o max: 2 (string) Possible values: o SINGLE_METRIC o METRIC_MATH Syntax: "string" "string" ...
+    /// The anomaly detector types to request when using DescribeAnomalyDetectorsInput . If empty, defaults to SINGLE_METRIC . Constraints: • max: 2 (string) Possible values: • SINGLE_METRIC • METRIC_MATH Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--anomaly-detector-types", GroupValues = true)]
     public IEnumerable<string>? AnomalyDetectorTypes { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -66,15 +63,18 @@ public record AwsCloudwatchDescribeAnomalyDetectorsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

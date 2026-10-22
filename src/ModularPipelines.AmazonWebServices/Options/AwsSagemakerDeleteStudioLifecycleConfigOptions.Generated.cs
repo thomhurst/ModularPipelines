@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the Amazon SageMaker AI Studio Lifecycle Configuration. In or- der to delete the Lifecycle Configuration, there must be no running apps using the Lifecycle Configuration. You must also remove the Life- cycle Configuration from UserSettings in all Domains and UserProfiles. See also: AWS API Documentation
+/// Deletes the Amazon SageMaker AI Studio Lifecycle Configuration. In order to delete the Lifecycle Configuration, there must be no running apps using the Lifecycle Configuration. You must also remove the Lifecycle Configuration from UserSettings in all Domains and UserProfiles. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSagemakerDeleteStudioLifecycleConfigOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the Amazon SageMaker AI Studio Lifecycle Configuration. In or- der to delete the Lifecycle Configuration, there must be no running apps using the Lifecycle Configuration. You must also remove the Life- cycle Configuration from UserSettings in all Domains and UserProfiles. See also: AWS API Documentation
+    /// Deletes the Amazon SageMaker AI Studio Lifecycle Configuration. In order to delete the Lifecycle Configuration, there must be no running apps using the Lifecycle Configuration. You must also remove the Lifecycle Configuration from UserSettings in all Domains and UserProfiles. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StudioLifecycleConfigName">The name of the Amazon SageMaker AI Studio Lifecycle Configuration to delete. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="StudioLifecycleConfigName">The name of the Amazon SageMaker AI Studio Lifecycle Configuration to delete. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
     public AwsSagemakerDeleteStudioLifecycleConfigOptions(
         string StudioLifecycleConfigName
     )
@@ -56,7 +58,7 @@ public record AwsSagemakerDeleteStudioLifecycleConfigOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Amazon SageMaker AI Studio Lifecycle Configuration to delete. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the Amazon SageMaker AI Studio Lifecycle Configuration to delete. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--studio-lifecycle-config-name")]
     public string? StudioLifecycleConfigName { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsOmicsGetRunOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets detailed information about a specific run using its ID. Amazon Web Services HealthOmics stores a configurable number of runs, as determined by service limits, that are available to the console and API. If GetRun does not return the requested run, you can find all run logs in the CloudWatch logs. For more information about viewing the run logs, see CloudWatch logs in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation get-run uses document type values. Document t...
     /// </summary>
-    /// <param name="Id">The run's ID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+</param>
+    /// <param name="Id">The run's ID. Constraints: • min: 1 • max: 18 • pattern: [0-9]+</param>
     public AwsOmicsGetRunOptions(
         string Id
     )
@@ -56,13 +58,13 @@ public record AwsOmicsGetRunOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The run's ID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+
+    /// The run's ID. Constraints: • min: 1 • max: 18 • pattern: [0-9]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The run's export format. Constraints: o min: 0 o max: 32 (string) Possible values: o DEFINITION Constraints: o min: 1 o max: 64 Syntax: "string" "string" ...
+    /// The run's export format. Constraints: • min: 0 • max: 32 (string) Possible values: • DEFINITION Constraints: • min: 1 • max: 64 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--export", GroupValues = true)]
     public IEnumerable<string>? Export { get; set; }

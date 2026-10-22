@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disassociates a VPC from a query logging configuration. NOTE: Before you can delete a query logging configuration, you must first disassociate all VPCs from the configuration. If you used Resource Access Manager (RAM) to share a query logging configuration with other accounts, VPCs can be disassociated from the configuration in the following ways: o The accounts that you shared the configuration with can disassoci- ate VPCs from the configuration. o You can stop sharing the configuration. See al...
+/// Disassociates a VPC from a query logging configuration. NOTE: Before you can delete a query logging configuration, you must first disassociate all VPCs from the configuration. If you used Resource Access Manager (RAM) to share a query logging configuration with other accounts, VPCs can be disassociated from the configuration in the following ways: • The accounts that you shared the configuration with can disassociate VPCs from the configuration. • You can stop sharing the configuration. See also...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsRoute53resolverDisassociateResolverQueryLogConfigOptions : AwsO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disassociates a VPC from a query logging configuration. NOTE: Before you can delete a query logging configuration, you must first disassociate all VPCs from the configuration. If you used Resource Access Manager (RAM) to share a query logging configuration with other accounts, VPCs can be disassociated from the configuration in the following ways: o The accounts that you shared the configuration with can disassoci- ate VPCs from the configuration. o You can stop sharing the configuration. See al...
+    /// Disassociates a VPC from a query logging configuration. NOTE: Before you can delete a query logging configuration, you must first disassociate all VPCs from the configuration. If you used Resource Access Manager (RAM) to share a query logging configuration with other accounts, VPCs can be disassociated from the configuration in the following ways: • The accounts that you shared the configuration with can disassociate VPCs from the configuration. • You can stop sharing the configuration. See also...
     /// </summary>
-    /// <param name="ResolverQueryLogConfigId">The ID of the query logging configuration that you want to disasso- ciate a specified VPC from. Constraints: o min: 1 o max: 64</param>
-    /// <param name="ResourceId">The ID of the Amazon VPC that you want to disassociate from a speci- fied query logging configuration. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ResolverQueryLogConfigId">The ID of the query logging configuration that you want to disassociate a specified VPC from. Constraints: • min: 1 • max: 64</param>
+    /// <param name="ResourceId">The ID of the Amazon VPC that you want to disassociate from a specified query logging configuration. Constraints: • min: 1 • max: 64</param>
     public AwsRoute53resolverDisassociateResolverQueryLogConfigOptions(
         string ResolverQueryLogConfigId,
         string ResourceId
@@ -60,13 +62,13 @@ public record AwsRoute53resolverDisassociateResolverQueryLogConfigOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the query logging configuration that you want to disasso- ciate a specified VPC from. Constraints: o min: 1 o max: 64
+    /// The ID of the query logging configuration that you want to disassociate a specified VPC from. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--resolver-query-log-config-id")]
     public string? ResolverQueryLogConfigId { get; private init; }
 
     /// <summary>
-    /// The ID of the Amazon VPC that you want to disassociate from a speci- fied query logging configuration. Constraints: o min: 1 o max: 64
+    /// The ID of the Amazon VPC that you want to disassociate from a specified query logging configuration. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }

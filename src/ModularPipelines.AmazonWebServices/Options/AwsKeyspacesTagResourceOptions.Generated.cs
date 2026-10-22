@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates a set of tags with a Amazon Keyspaces resource. You can then activate these user-defined tags so that they appear on the Cost Man- agement Console for cost allocation tracking. For more information, see Adding tags and labels to Amazon Keyspaces resources in the Amazon Key- spaces Developer Guide . For IAM policy examples that show how to control access to Amazon Key- spaces resources based on tags, see Amazon Keyspaces resource access based on tags in the Amazon Keyspaces Developer G...
+/// Associates a set of tags with a Amazon Keyspaces resource. You can then activate these user-defined tags so that they appear on the Cost Management Console for cost allocation tracking. For more information, see Adding tags and labels to Amazon Keyspaces resources in the Amazon Keyspaces Developer Guide . For IAM policy examples that show how to control access to Amazon Keyspaces resources based on tags, see Amazon Keyspaces resource access based on tags in the Amazon Keyspaces Developer Guide ....
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsKeyspacesTagResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates a set of tags with a Amazon Keyspaces resource. You can then activate these user-defined tags so that they appear on the Cost Man- agement Console for cost allocation tracking. For more information, see Adding tags and labels to Amazon Keyspaces resources in the Amazon Key- spaces Developer Guide . For IAM policy examples that show how to control access to Amazon Key- spaces resources based on tags, see Amazon Keyspaces resource access based on tags in the Amazon Keyspaces Developer G...
+    /// Associates a set of tags with a Amazon Keyspaces resource. You can then activate these user-defined tags so that they appear on the Cost Management Console for cost allocation tracking. For more information, see Adding tags and labels to Amazon Keyspaces resources in the Amazon Keyspaces Developer Guide . For IAM policy examples that show how to control access to Amazon Keyspaces resources based on tags, see Amazon Keyspaces resource access based on tags in the Amazon Keyspaces Developer Guide ....
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Amazon Keyspaces resource to which to add tags. Constraints: o min: 20 o max: 1000 o pattern: arn:(aws[a-zA-Z0-9-]*):cassandra:.+.*</param>
-    /// <param name="Tags">The tags to be assigned to the Amazon Keyspaces resource. Constraints: o min: 1 o max: 60 (structure) Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a single Amazon Keyspaces resource. Amazon Web Services-assigned tag names and values are automati- cally assigned the aws: prefix, which the user cannot assign. Amazon Web Services-assigned tag names do not count towards the tag limit of 50. User-assigned tag names have the prefix user: in the Cost Allocation Report. You cannot backdate the applica- tion of a tag. For more information, see Adding tags and labels to Amazon Key- spaces resources in the Amazon Keyspaces Developer Guide . key -&gt; (string) [required] The key of the tag. Tag keys are case sensitive. Each Amazon Keyspaces resource can only have up to one tag with the same key. If you try to add an existing tag (same key), the exist- ing tag value will be updated to the new value. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The value of the tag. Tag values are case-sensitive and can be null. Constraints: o min: 1 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Amazon Keyspaces resource to which to add tags. Constraints: • min: 20 • max: 1000 • pattern: arn:(aws[a-zA-Z0-9-]*):cassandra:.+.*</param>
+    /// <param name="Tags">The tags to be assigned to the Amazon Keyspaces resource. Constraints: • min: 1 • max: 60 (structure) Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a single Amazon Keyspaces resource. Amazon Web Services-assigned tag names and values are automatically assigned the aws: prefix, which the user cannot assign. Amazon Web Services-assigned tag names do not count towards the tag limit of 50. User-assigned tag names have the prefix user: in the Cost Allocation Report. You cannot backdate the application of a tag. For more information, see Adding tags and labels to Amazon Keyspaces resources in the Amazon Keyspaces Developer Guide . key -&gt; (string) [required] The key of the tag. Tag keys are case sensitive. Each Amazon Keyspaces resource can only have up to one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value. Constraints: • min: 1 • max: 128 value -&gt; (string) [required] The value of the tag. Tag values are case-sensitive and can be null. Constraints: • min: 1 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
     public AwsKeyspacesTagResourceOptions(
         string ResourceArn,
         IEnumerable<string> Tags
@@ -71,13 +73,13 @@ public record AwsKeyspacesTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Amazon Keyspaces resource to which to add tags. Constraints: o min: 20 o max: 1000 o pattern: arn:(aws[a-zA-Z0-9-]*):cassandra:.+.*
+    /// The Amazon Resource Name (ARN) of the Amazon Keyspaces resource to which to add tags. Constraints: • min: 20 • max: 1000 • pattern: arn:(aws[a-zA-Z0-9-]*):cassandra:.+.*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The tags to be assigned to the Amazon Keyspaces resource. Constraints: o min: 1 o max: 60 (structure) Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a single Amazon Keyspaces resource. Amazon Web Services-assigned tag names and values are automati- cally assigned the aws: prefix, which the user cannot assign. Amazon Web Services-assigned tag names do not count towards the tag limit of 50. User-assigned tag names have the prefix user: in the Cost Allocation Report. You cannot backdate the applica- tion of a tag. For more information, see Adding tags and labels to Amazon Key- spaces resources in the Amazon Keyspaces Developer Guide . key -&gt; (string) [required] The key of the tag. Tag keys are case sensitive. Each Amazon Keyspaces resource can only have up to one tag with the same key. If you try to add an existing tag (same key), the exist- ing tag value will be updated to the new value. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The value of the tag. Tag values are case-sensitive and can be null. Constraints: o min: 1 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// The tags to be assigned to the Amazon Keyspaces resource. Constraints: • min: 1 • max: 60 (structure) Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a single Amazon Keyspaces resource. Amazon Web Services-assigned tag names and values are automatically assigned the aws: prefix, which the user cannot assign. Amazon Web Services-assigned tag names do not count towards the tag limit of 50. User-assigned tag names have the prefix user: in the Cost Allocation Report. You cannot backdate the application of a tag. For more information, see Adding tags and labels to Amazon Keyspaces resources in the Amazon Keyspaces Developer Guide . key -&gt; (string) [required] The key of the tag. Tag keys are case sensitive. Each Amazon Keyspaces resource can only have up to one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value. Constraints: • min: 1 • max: 128 value -&gt; (string) [required] The value of the tag. Tag values are case-sensitive and can be null. Constraints: • min: 1 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }

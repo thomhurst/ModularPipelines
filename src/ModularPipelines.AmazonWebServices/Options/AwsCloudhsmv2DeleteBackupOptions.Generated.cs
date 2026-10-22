@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCloudhsmv2DeleteBackupOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a specified CloudHSM backup. A backup can be restored up to 7 days after the DeleteBackup request is made. For more information on restoring a backup, see RestoreBackup . Cross-account use: No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BackupId">The ID of the backup to be deleted. To find the ID of a backup, use the DescribeBackups operation. Constraints: o pattern: backup-[2-7a-zA-Z]{11,16}</param>
+    /// <param name="BackupId">The ID of the backup to be deleted. To find the ID of a backup, use the DescribeBackups operation. Constraints: • pattern: backup-[2-7a-zA-Z]{11,16}</param>
     public AwsCloudhsmv2DeleteBackupOptions(
         string BackupId
     )
@@ -56,7 +58,7 @@ public record AwsCloudhsmv2DeleteBackupOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the backup to be deleted. To find the ID of a backup, use the DescribeBackups operation. Constraints: o pattern: backup-[2-7a-zA-Z]{11,16}
+    /// The ID of the backup to be deleted. To find the ID of a backup, use the DescribeBackups operation. Constraints: • pattern: backup-[2-7a-zA-Z]{11,16}
     /// </summary>
     [CliOption("--backup-id")]
     public string? BackupId { get; private init; }

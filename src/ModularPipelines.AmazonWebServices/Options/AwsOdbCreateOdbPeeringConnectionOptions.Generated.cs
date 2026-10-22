@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -29,8 +30,8 @@ public record AwsOdbCreateOdbPeeringConnectionOptions : AwsOptions, IValidatable
     /// <summary>
     /// Creates a peering connection between an ODB network and a VPC. A peering connection enables private connectivity between the networks for application-tier communication. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OdbNetworkId">The unique identifier of the ODB network that initiates the peering connection. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
-    /// <param name="PeerNetworkId">The unique identifier of the peer network. This can be either a VPC ID or another ODB network ID. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
+    /// <param name="OdbNetworkId">The unique identifier of the ODB network that initiates the peering connection. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
+    /// <param name="PeerNetworkId">The unique identifier of the peer network. This can be either a VPC ID or another ODB network ID. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
     public AwsOdbCreateOdbPeeringConnectionOptions(
         string OdbNetworkId,
         string PeerNetworkId
@@ -62,44 +63,44 @@ public record AwsOdbCreateOdbPeeringConnectionOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the ODB network that initiates the peering connection. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// The unique identifier of the ODB network that initiates the peering connection. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
     /// </summary>
     [CliOption("--odb-network-id")]
     public string? OdbNetworkId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the peer network. This can be either a VPC ID or another ODB network ID. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// The unique identifier of the peer network. This can be either a VPC ID or another ODB network ID. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
     /// </summary>
     [CliOption("--peer-network-id")]
     public string? PeerNetworkId { get; private init; }
 
     /// <summary>
-    /// The display name for the ODB peering connection. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*
+    /// The display name for the ODB peering connection. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// A list of CIDR blocks to add to the peering connection. These CIDR blocks define the IP address ranges that can communicate through the peering connection. (string) Constraints: o min: 1 o max: 18 o pattern: (?:(?:\d|[01]?\d\d|2[0-4]\d|25[0-5])\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d|\d)\/(?:[1-2][0-9]|3[0-2]|[1-9]) Syntax: "string" "string" ...
+    /// A list of CIDR blocks to add to the peering connection. These CIDR blocks define the IP address ranges that can communicate through the peering connection. (string) Constraints: • min: 1 • max: 18 • pattern: (?:(?:\d|[01]?\d\d|2[0-4]\d|25[0-5])\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d|\d)\/(?:[1-2][0-9]|3[0-2]|[1-9]) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--peer-network-cidrs-to-be-added", GroupValues = true)]
     public IEnumerable<string>? PeerNetworkCidrsToBeAdded { get; set; }
 
     /// <summary>
-    /// The unique identifier of the VPC route table for which a route to the ODB network is automatically created during peering connection establishment. Constraints: o min: 1 o max: 1 (string) Constraints: o pattern: rtb-[a-z0-9]{8,17} Syntax: "string" "string" ...
+    /// The unique identifier of the VPC route table for which a route to the ODB network is automatically created during peering connection establishment. Constraints: • min: 1 • max: 1 (string) Constraints: • pattern: rtb-[a-z0-9]{8,17} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--peer-network-route-table-ids", GroupValues = true)]
     public IEnumerable<string>? PeerNetworkRouteTableIds { get; set; }
 
     /// <summary>
-    /// The client token for the ODB peering connection request. Constraints: o Must be unique for each request. Constraints: o min: 8 o max: 64 o pattern: [a-zA-Z0-9_\/.=-]+
+    /// The client token for the ODB peering connection request. Constraints: • Must be unique for each request. Constraints: • min: 8 • max: 64 • pattern: [a-zA-Z0-9_\/.=-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The tags to assign to the ODB peering connection. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to assign to the ODB peering connection. Constraints: • min: 1 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

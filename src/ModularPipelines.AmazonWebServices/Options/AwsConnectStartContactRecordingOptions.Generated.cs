@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts recording the contact: o If the API is called before the agent joins the call, recording starts when the agent joins the call. o If the API is called after the agent joins the call, recording starts at the time of the API call. StartContactRecording is a one-time action. For example, if you use StopContactRecording to stop recording an ongoing call, you can't use StartContactRecording to restart it. For scenarios where the recording has started and you want to suspend and resume it, such ...
+/// Starts recording the contact: • If the API is called before the agent joins the call, recording starts when the agent joins the call. • If the API is called after the agent joins the call, recording starts at the time of the API call. StartContactRecording is a one-time action. For example, if you use StopContactRecording to stop recording an ongoing call, you can't use StartContactRecording to restart it. For scenarios where the recording has started and you want to suspend and resume it, such ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +27,12 @@ public record AwsConnectStartContactRecordingOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts recording the contact: o If the API is called before the agent joins the call, recording starts when the agent joins the call. o If the API is called after the agent joins the call, recording starts at the time of the API call. StartContactRecording is a one-time action. For example, if you use StopContactRecording to stop recording an ongoing call, you can't use StartContactRecording to restart it. For scenarios where the recording has started and you want to suspend and resume it, such ...
+    /// Starts recording the contact: • If the API is called before the agent joins the call, recording starts when the agent joins the call. • If the API is called after the agent joins the call, recording starts at the time of the API call. StartContactRecording is a one-time action. For example, if you use StopContactRecording to stop recording an ongoing call, you can't use StartContactRecording to restart it. For scenarios where the recording has started and you want to suspend and resume it, such ...
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="ContactId">The identifier of the contact. Constraints: o min: 1 o max: 256</param>
-    /// <param name="InitialContactId">The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center. Constraints: o min: 1 o max: 256</param>
-    /// <param name="VoiceRecordingConfiguration">The person being recorded. VoiceRecordingTrack -&gt; (string) Identifies which track is being recorded. Possible values: o FROM_AGENT o TO_AGENT o ALL IvrRecordingTrack -&gt; (string) Identifies which IVR track is being recorded. One and only one of the track configurations should be presented in the request. Possible values: o ALL Shorthand Syntax: VoiceRecordingTrack=string,IvrRecordingTrack=string JSON Syntax: { "VoiceRecordingTrack": "FROM_AGENT"|"TO_AGENT"|"ALL", "IvrRecordingTrack": "ALL" }</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="ContactId">The identifier of the contact. Constraints: • min: 1 • max: 256</param>
+    /// <param name="InitialContactId">The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center. Constraints: • min: 1 • max: 256</param>
+    /// <param name="VoiceRecordingConfiguration">The person being recorded. VoiceRecordingTrack -&gt; (string) Identifies which track is being recorded. Possible values: • FROM_AGENT • TO_AGENT • ALL IvrRecordingTrack -&gt; (string) Identifies which IVR track is being recorded. One and only one of the track configurations should be presented in the request. Possible values: • ALL Shorthand Syntax: VoiceRecordingTrack=string,IvrRecordingTrack=string JSON Syntax: { "VoiceRecordingTrack": "FROM_AGENT"|"TO_AGENT"|"ALL", "IvrRecordingTrack": "ALL" }</param>
     public AwsConnectStartContactRecordingOptions(
         string InstanceId,
         string ContactId,
@@ -68,25 +70,25 @@ public record AwsConnectStartContactRecordingOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the contact. Constraints: o min: 1 o max: 256
+    /// The identifier of the contact. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--contact-id")]
     public string? ContactId { get; private init; }
 
     /// <summary>
-    /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center. Constraints: o min: 1 o max: 256
+    /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--initial-contact-id")]
     public string? InitialContactId { get; private init; }
 
     /// <summary>
-    /// The person being recorded. VoiceRecordingTrack -&gt; (string) Identifies which track is being recorded. Possible values: o FROM_AGENT o TO_AGENT o ALL IvrRecordingTrack -&gt; (string) Identifies which IVR track is being recorded. One and only one of the track configurations should be presented in the request. Possible values: o ALL Shorthand Syntax: VoiceRecordingTrack=string,IvrRecordingTrack=string JSON Syntax: { "VoiceRecordingTrack": "FROM_AGENT"|"TO_AGENT"|"ALL", "IvrRecordingTrack": "ALL" }
+    /// The person being recorded. VoiceRecordingTrack -&gt; (string) Identifies which track is being recorded. Possible values: • FROM_AGENT • TO_AGENT • ALL IvrRecordingTrack -&gt; (string) Identifies which IVR track is being recorded. One and only one of the track configurations should be presented in the request. Possible values: • ALL Shorthand Syntax: VoiceRecordingTrack=string,IvrRecordingTrack=string JSON Syntax: { "VoiceRecordingTrack": "FROM_AGENT"|"TO_AGENT"|"ALL", "IvrRecordingTrack": "ALL" }
     /// </summary>
     [CliOption("--voice-recording-configuration")]
     public string? VoiceRecordingConfiguration { get; private init; }

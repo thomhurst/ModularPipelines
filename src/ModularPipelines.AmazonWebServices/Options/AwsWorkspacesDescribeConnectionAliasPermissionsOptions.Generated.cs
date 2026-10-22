@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the permissions that the owner of a connection alias has granted to another Amazon Web Services account for the specified con- nection alias. For more information, see Cross-Region Redirection for Amazon WorkSpaces . See also: AWS API Documentation
+/// Describes the permissions that the owner of a connection alias has granted to another Amazon Web Services account for the specified connection alias. For more information, see Cross-Region Redirection for Amazon WorkSpaces . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsWorkspacesDescribeConnectionAliasPermissionsOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes the permissions that the owner of a connection alias has granted to another Amazon Web Services account for the specified con- nection alias. For more information, see Cross-Region Redirection for Amazon WorkSpaces . See also: AWS API Documentation
+    /// Describes the permissions that the owner of a connection alias has granted to another Amazon Web Services account for the specified connection alias. For more information, see Cross-Region Redirection for Amazon WorkSpaces . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AliasId">The identifier of the connection alias. Constraints: o min: 13 o max: 68 o pattern: ^wsca-[0-9a-z]{8,63}$</param>
+    /// <param name="AliasId">The identifier of the connection alias. Constraints: • min: 13 • max: 68 • pattern: ^wsca-[0-9a-z]{8,63}$</param>
     public AwsWorkspacesDescribeConnectionAliasPermissionsOptions(
         string AliasId
     )
@@ -57,20 +59,20 @@ public record AwsWorkspacesDescribeConnectionAliasPermissionsOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the connection alias. Constraints: o min: 13 o max: 68 o pattern: ^wsca-[0-9a-z]{8,63}$
+    /// The identifier of the connection alias. Constraints: • min: 13 • max: 68 • pattern: ^wsca-[0-9a-z]{8,63}$
     /// </summary>
     [CliOption("--alias-id")]
     public string? AliasId { get; private init; }
 
     /// <summary>
-    /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results. Constraints: o min: 1 o max: 2048
+    /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results. Constraints: • min: 1 • max: 2048
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return. Constraints: o min: 1 o max: 25
+    /// The maximum number of results to return. Constraints: • min: 1 • max: 25
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

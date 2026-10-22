@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsElasticacheModifyUserOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Changes user password(s) and/or access string. See also: AWS API Documentation
     /// </summary>
-    /// <param name="UserId">The ID of the user. Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]*</param>
+    /// <param name="UserId">The ID of the user. Constraints: • min: 1 • pattern: [a-zA-Z][a-zA-Z0-9\-]*</param>
     public AwsElasticacheModifyUserOptions(
         string UserId
     )
@@ -57,25 +59,25 @@ public record AwsElasticacheModifyUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the user. Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]*
+    /// The ID of the user. Constraints: • min: 1 • pattern: [a-zA-Z][a-zA-Z0-9\-]*
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; private init; }
 
     /// <summary>
-    /// Access permissions string used for this user. Constraints: o pattern: .*\S.*
+    /// Access permissions string used for this user. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--access-string")]
     public string? AccessString { get; set; }
 
     /// <summary>
-    /// Adds additional user permissions to the access string. Constraints: o pattern: .*\S.*
+    /// Adds additional user permissions to the access string. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--append-access-string")]
     public string? AppendAccessString { get; set; }
 
     /// <summary>
-    /// The passwords belonging to the user. You are allowed up to two. Constraints: o min: 1 (string) Syntax: "string" "string" ...
+    /// The passwords belonging to the user. You are allowed up to two. Constraints: • min: 1 (string) Syntax: "string" "string" ...
     /// </summary>
     [SecretValue]
     [CliOption("--passwords", GroupValues = true)]
@@ -88,13 +90,13 @@ public record AwsElasticacheModifyUserOptions : AwsOptions, IValidatableObject
     public bool? NoPasswordRequired { get; set; }
 
     /// <summary>
-    /// Specifies how to authenticate the user. Type -&gt; (string) Specifies the authentication type. Possible options are IAM au- thentication, password and no password. Possible values: o password o no-password-required o iam Passwords -&gt; (list) Specifies the passwords to use for authentication if Type is set to password . Constraints: o min: 1 (string) Shorthand Syntax: Type=string,Passwords=string,string JSON Syntax: { "Type": "password"|"no-password-required"|"iam", "Passwords": ["string", ...] }
+    /// Specifies how to authenticate the user. Type -&gt; (string) Specifies the authentication type. Possible options are IAM authentication, password and no password. Possible values: • password • no-password-required • iam Passwords -&gt; (list) Specifies the passwords to use for authentication if Type is set to password . Constraints: • min: 1 (string) Shorthand Syntax: Type=string,Passwords=string,string JSON Syntax: { "Type": "password"|"no-password-required"|"iam", "Passwords": ["string", ...] }
     /// </summary>
     [CliOption("--authentication-mode")]
     public string? AuthenticationMode { get; set; }
 
     /// <summary>
-    /// Modifies the engine listed for a user. The options are valkey or re- dis. Constraints: o pattern: [a-zA-Z]*
+    /// Modifies the engine listed for a user. The options are valkey or redis. Constraints: • pattern: [a-zA-Z]*
     /// </summary>
     [CliOption("--engine")]
     public string? Engine { get; set; }

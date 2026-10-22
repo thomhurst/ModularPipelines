@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsChatbotDeleteChimeWebhookConfigurationOptions : AwsOptions, IVa
     /// <summary>
     /// Deletes a Amazon Chime webhook configuration for AWS Chatbot. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ChatConfigurationArn">The Amazon Resource Name (ARN) of the ChimeWebhookConfiguration to delete. Constraints: o min: 19 o max: 1169 o pattern: arn:aws:(wheatley|chat- bot):[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}</param>
+    /// <param name="ChatConfigurationArn">The Amazon Resource Name (ARN) of the ChimeWebhookConfiguration to delete. Constraints: • min: 19 • max: 1169 • pattern: arn:aws:(wheatley|chatbot):[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}</param>
     public AwsChatbotDeleteChimeWebhookConfigurationOptions(
         string ChatConfigurationArn
     )
@@ -56,7 +58,7 @@ public record AwsChatbotDeleteChimeWebhookConfigurationOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the ChimeWebhookConfiguration to delete. Constraints: o min: 19 o max: 1169 o pattern: arn:aws:(wheatley|chat- bot):[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}
+    /// The Amazon Resource Name (ARN) of the ChimeWebhookConfiguration to delete. Constraints: • min: 19 • max: 1169 • pattern: arn:aws:(wheatley|chatbot):[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}
     /// </summary>
     [CliOption("--chat-configuration-arn")]
     public string? ChatConfigurationArn { get; private init; }

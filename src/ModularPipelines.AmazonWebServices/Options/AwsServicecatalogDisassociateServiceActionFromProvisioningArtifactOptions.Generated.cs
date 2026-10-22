@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +30,9 @@ public record AwsServicecatalogDisassociateServiceActionFromProvisioningArtifact
     /// <summary>
     /// Disassociates the specified self-service action association from the specified provisioning artifact. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProductId">The product identifier. For example, prod-abcdzk7xy33qa . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
-    /// <param name="ProvisioningArtifactId">The identifier of the provisioning artifact. For example, pa-4abcd- jnxjj6ne . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
-    /// <param name="ServiceActionId">The self-service action identifier. For example, act-fs7abcd89wxyz . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="ProductId">The product identifier. For example, prod-abcdzk7xy33qa . Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="ProvisioningArtifactId">The identifier of the provisioning artifact. For example, pa-4abcdjnxjj6ne . Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="ServiceActionId">The self-service action identifier. For example, act-fs7abcd89wxyz . Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*</param>
     public AwsServicecatalogDisassociateServiceActionFromProvisioningArtifactOptions(
         string ProductId,
         string ProvisioningArtifactId,
@@ -65,31 +67,31 @@ public record AwsServicecatalogDisassociateServiceActionFromProvisioningArtifact
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The product identifier. For example, prod-abcdzk7xy33qa . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The product identifier. For example, prod-abcdzk7xy33qa . Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--product-id")]
     public string? ProductId { get; private init; }
 
     /// <summary>
-    /// The identifier of the provisioning artifact. For example, pa-4abcd- jnxjj6ne . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The identifier of the provisioning artifact. For example, pa-4abcdjnxjj6ne . Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--provisioning-artifact-id")]
     public string? ProvisioningArtifactId { get; private init; }
 
     /// <summary>
-    /// The self-service action identifier. For example, act-fs7abcd89wxyz . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The self-service action identifier. For example, act-fs7abcd89wxyz . Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--service-action-id")]
     public string? ServiceActionId { get; private init; }
 
     /// <summary>
-    /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
+    /// The language code. • jp - Japanese • zh - Chinese Constraints: • max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
     /// <summary>
-    /// A unique identifier that you provide to ensure idempotency. If mul- tiple requests from the same Amazon Web Services account use the same idempotency token, the same response is returned for each re- peated request. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// A unique identifier that you provide to ensure idempotency. If multiple requests from the same Amazon Web Services account use the same idempotency token, the same response is returned for each repeated request. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [SecretValue]
     [CliOption("--idempotency-token")]

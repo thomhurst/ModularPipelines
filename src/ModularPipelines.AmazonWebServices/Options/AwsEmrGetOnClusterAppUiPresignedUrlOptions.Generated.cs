@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The presigned URL properties for the cluster's application user inter- face. See also: AWS API Documentation
+/// The presigned URL properties for the cluster's application user interface. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsEmrGetOnClusterAppUiPresignedUrlOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The presigned URL properties for the cluster's application user inter- face. See also: AWS API Documentation
+    /// The presigned URL properties for the cluster's application user interface. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterId">The cluster ID associated with the cluster's application user inter- face presigned URL. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="ClusterId">The cluster ID associated with the cluster's application user interface presigned URL. Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
     public AwsEmrGetOnClusterAppUiPresignedUrlOptions(
         string ClusterId
     )
@@ -57,19 +59,19 @@ public record AwsEmrGetOnClusterAppUiPresignedUrlOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The cluster ID associated with the cluster's application user inter- face presigned URL. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The cluster ID associated with the cluster's application user interface presigned URL. Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--cluster-id")]
     public string? ClusterId { get; private init; }
 
     /// <summary>
-    /// The application UI type associated with the cluster's application user interface presigned URL. Possible values: o SparkHistoryServer o YarnTimelineService o TezUI o ApplicationMaster o JobHistoryServer o ResourceManager
+    /// The application UI type associated with the cluster's application user interface presigned URL. Possible values: • SparkHistoryServer • YarnTimelineService • TezUI • ApplicationMaster • JobHistoryServer • ResourceManager
     /// </summary>
     [CliOption("--on-cluster-app-ui-type")]
     public AwsEmrGetOnClusterAppUiPresignedUrlOnClusterAppUiType? OnClusterAppUiType { get; set; }
 
     /// <summary>
-    /// The application ID associated with the cluster's application user interface presigned URL. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The application ID associated with the cluster's application user interface presigned URL. Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; set; }
@@ -81,7 +83,7 @@ public record AwsEmrGetOnClusterAppUiPresignedUrlOptions : AwsOptions, IValidata
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// The execution role ARN associated with the cluster's application user interface presigned URL. Constraints: o min: 20 o max: 2048
+    /// The execution role ARN associated with the cluster's application user interface presigned URL. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; set; }

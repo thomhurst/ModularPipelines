@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,9 +29,9 @@ public record AwsIvsRealtimeStartParticipantReplicationOptions : AwsOptions, IVa
     /// <summary>
     /// Starts replicating a publishing participant from a source stage to a destination stage. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceStageArn">ARN of the stage where the participant is publishing. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+</param>
-    /// <param name="DestinationStageArn">ARN of the stage to which the participant will be replicated. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+</param>
-    /// <param name="ParticipantId">Participant ID of the publisher that will be replicated. This is as- signed by IVS and returned by CreateParticipantToken or the jti (JWT ID) used to create a self signed token . Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-_]*</param>
+    /// <param name="SourceStageArn">ARN of the stage where the participant is publishing. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+</param>
+    /// <param name="DestinationStageArn">ARN of the stage to which the participant will be replicated. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+</param>
+    /// <param name="ParticipantId">Participant ID of the publisher that will be replicated. This is assigned by IVS and returned by CreateParticipantToken or the jti (JWT ID) used to create a self signed token . Constraints: • min: 0 • max: 64 • pattern: [a-zA-Z0-9-_]*</param>
     public AwsIvsRealtimeStartParticipantReplicationOptions(
         string SourceStageArn,
         string DestinationStageArn,
@@ -65,31 +66,31 @@ public record AwsIvsRealtimeStartParticipantReplicationOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of the stage where the participant is publishing. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+
+    /// ARN of the stage where the participant is publishing. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--source-stage-arn")]
     public string? SourceStageArn { get; private init; }
 
     /// <summary>
-    /// ARN of the stage to which the participant will be replicated. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+
+    /// ARN of the stage to which the participant will be replicated. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--destination-stage-arn")]
     public string? DestinationStageArn { get; private init; }
 
     /// <summary>
-    /// Participant ID of the publisher that will be replicated. This is as- signed by IVS and returned by CreateParticipantToken or the jti (JWT ID) used to create a self signed token . Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-_]*
+    /// Participant ID of the publisher that will be replicated. This is assigned by IVS and returned by CreateParticipantToken or the jti (JWT ID) used to create a self signed token . Constraints: • min: 0 • max: 64 • pattern: [a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--participant-id")]
     public string? ParticipantId { get; private init; }
 
     /// <summary>
-    /// If the participant disconnects and then reconnects within the speci- fied interval, replication will continue to be ACTIVE . Default: 0. Constraints: o min: 0 o max: 300
+    /// If the participant disconnects and then reconnects within the specified interval, replication will continue to be ACTIVE . Default: 0. Constraints: • min: 0 • max: 300
     /// </summary>
     [CliOption("--reconnect-window-seconds")]
     public int? ReconnectWindowSeconds { get; set; }
 
     /// <summary>
-    /// Application-provided attributes to set on the replicated participant in the destination stage. Map keys and values can contain UTF-8 en- coded text. The maximum length of this field is 1 KB total. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information. These attributes are merged with any attributes set for this partic- ipant when creating the token. If there is overlap in keys, the val- ues in these attributes are replaced. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Application-provided attributes to set on the replicated participant in the destination stage. Map keys and values can contain UTF-8 encoded text. The maximum length of this field is 1 KB total. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information. These attributes are merged with any attributes set for this participant when creating the token. If there is overlap in keys, the values in these attributes are replaced. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }

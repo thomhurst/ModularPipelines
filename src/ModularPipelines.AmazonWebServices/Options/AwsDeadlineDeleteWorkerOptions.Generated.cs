@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsDeadlineDeleteWorkerOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a worker. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The farm ID of the worker to delete. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="FleetId">The fleet ID of the worker to delete. Constraints: o pattern: fleet-[0-9a-f]{32}</param>
-    /// <param name="WorkerId">The worker ID of the worker to delete. Constraints: o pattern: worker-[0-9a-f]{32}</param>
+    /// <param name="FarmId">The farm ID of the worker to delete. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="FleetId">The fleet ID of the worker to delete. Constraints: • pattern: fleet-[0-9a-f]{32}</param>
+    /// <param name="WorkerId">The worker ID of the worker to delete. Constraints: • pattern: worker-[0-9a-f]{32}</param>
     public AwsDeadlineDeleteWorkerOptions(
         string FarmId,
         string FleetId,
@@ -64,19 +66,19 @@ public record AwsDeadlineDeleteWorkerOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID of the worker to delete. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID of the worker to delete. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The fleet ID of the worker to delete. Constraints: o pattern: fleet-[0-9a-f]{32}
+    /// The fleet ID of the worker to delete. Constraints: • pattern: fleet-[0-9a-f]{32}
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }
 
     /// <summary>
-    /// The worker ID of the worker to delete. Constraints: o pattern: worker-[0-9a-f]{32}
+    /// The worker ID of the worker to delete. Constraints: • pattern: worker-[0-9a-f]{32}
     /// </summary>
     [CliOption("--worker-id")]
     public string? WorkerId { get; private init; }

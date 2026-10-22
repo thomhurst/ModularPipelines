@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsMghNotifyApplicationStateOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Sets the migration state of an application. For a given application identified by the value passed to ApplicationId , its status is set or updated by passing one of three values to Status : NOT_STARTED | IN_PROGRESS | COMPLETED . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The configurationId in Application Discovery Service that uniquely identifies the grouped application. Constraints: o min: 1 o max: 1600 o pattern: ^.{1,1600}$</param>
-    /// <param name="Status">Status of the application - Not Started, In-Progress, Complete. Possible values: o NOT_STARTED o IN_PROGRESS o COMPLETED</param>
+    /// <param name="ApplicationId">The configurationId in Application Discovery Service that uniquely identifies the grouped application. Constraints: • min: 1 • max: 1600 • pattern: ^.{1,1600}$</param>
+    /// <param name="Status">Status of the application - Not Started, In-Progress, Complete. Possible values: • NOT_STARTED • IN_PROGRESS • COMPLETED</param>
     public AwsMghNotifyApplicationStateOptions(
         string ApplicationId,
         AwsMghNotifyApplicationStateStatus Status
@@ -60,13 +62,13 @@ public record AwsMghNotifyApplicationStateOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The configurationId in Application Discovery Service that uniquely identifies the grouped application. Constraints: o min: 1 o max: 1600 o pattern: ^.{1,1600}$
+    /// The configurationId in Application Discovery Service that uniquely identifies the grouped application. Constraints: • min: 1 • max: 1600 • pattern: ^.{1,1600}$
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// Status of the application - Not Started, In-Progress, Complete. Possible values: o NOT_STARTED o IN_PROGRESS o COMPLETED
+    /// Status of the application - Not Started, In-Progress, Complete. Possible values: • NOT_STARTED • IN_PROGRESS • COMPLETED
     /// </summary>
     [CliOption("--status")]
     public AwsMghNotifyApplicationStateStatus? Status { get; private init; }

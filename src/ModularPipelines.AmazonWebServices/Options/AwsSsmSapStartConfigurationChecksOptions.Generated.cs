@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Initiates configuration check operations against a specified applica- tion. See also: AWS API Documentation
+/// Initiates configuration check operations against a specified application. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSsmSapStartConfigurationChecksOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Initiates configuration check operations against a specified applica- tion. See also: AWS API Documentation
+    /// Initiates configuration check operations against a specified application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The ID of the application. Constraints: o min: 1 o max: 60 o pattern: [\w\d\.-]+</param>
+    /// <param name="ApplicationId">The ID of the application. Constraints: • min: 1 • max: 60 • pattern: [\w\d\.-]+</param>
     public AwsSsmSapStartConfigurationChecksOptions(
         string ApplicationId
     )
@@ -56,13 +58,13 @@ public record AwsSsmSapStartConfigurationChecksOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the application. Constraints: o min: 1 o max: 60 o pattern: [\w\d\.-]+
+    /// The ID of the application. Constraints: • min: 1 • max: 60 • pattern: [\w\d\.-]+
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The list of configuration checks to perform. (string) Possible values: o SAP_CHECK_01 o SAP_CHECK_02 o SAP_CHECK_03 Syntax: "string" "string" ...
+    /// The list of configuration checks to perform. (string) Possible values: • SAP_CHECK_01 • SAP_CHECK_02 • SAP_CHECK_03 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--configuration-check-ids", GroupValues = true)]
     public IEnumerable<string>? ConfigurationCheckIds { get; set; }

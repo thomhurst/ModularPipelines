@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsIotwirelessUpdateDestinationOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Updates properties of a destination. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The new name of the resource. Constraints: o max: 128 o pattern: [a-zA-Z0-9-_]+</param>
+    /// <param name="Name">The new name of the resource. Constraints: • max: 128 • pattern: [a-zA-Z0-9-_]+</param>
     public AwsIotwirelessUpdateDestinationOptions(
         string Name
     )
@@ -57,31 +59,31 @@ public record AwsIotwirelessUpdateDestinationOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The new name of the resource. Constraints: o max: 128 o pattern: [a-zA-Z0-9-_]+
+    /// The new name of the resource. Constraints: • max: 128 • pattern: [a-zA-Z0-9-_]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The type of value in Expression . Possible values: o RuleName o MqttTopic
+    /// The type of value in Expression . Possible values: • RuleName • MqttTopic
     /// </summary>
     [CliOption("--expression-type")]
     public AwsIotwirelessUpdateDestinationExpressionType? ExpressionType { get; set; }
 
     /// <summary>
-    /// The new rule name or topic rule to send messages to. Constraints: o max: 2048
+    /// The new rule name or topic rule to send messages to. Constraints: • max: 2048
     /// </summary>
     [CliOption("--expression")]
     public string? Expression { get; set; }
 
     /// <summary>
-    /// A new description of the resource. Constraints: o max: 2048
+    /// A new description of the resource. Constraints: • max: 2048
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The ARN of the IAM Role that authorizes the destination. Constraints: o min: 20 o max: 2048
+    /// The ARN of the IAM Role that authorizes the destination. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }

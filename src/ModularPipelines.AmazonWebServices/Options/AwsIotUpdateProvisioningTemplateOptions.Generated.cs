@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotUpdateProvisioningTemplateOptions : AwsOptions, IValidatable
     /// <summary>
     /// Updates a provisioning template. Requires permission to access the UpdateProvisioningTemplate action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TemplateName">The name of the provisioning template. Constraints: o min: 1 o max: 36 o pattern: ^[0-9A-Za-z_-]+$</param>
+    /// <param name="TemplateName">The name of the provisioning template. Constraints: • min: 1 • max: 36 • pattern: ^[0-9A-Za-z_-]+$</param>
     public AwsIotUpdateProvisioningTemplateOptions(
         string TemplateName
     )
@@ -56,13 +58,13 @@ public record AwsIotUpdateProvisioningTemplateOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the provisioning template. Constraints: o min: 1 o max: 36 o pattern: ^[0-9A-Za-z_-]+$
+    /// The name of the provisioning template. Constraints: • min: 1 • max: 36 • pattern: ^[0-9A-Za-z_-]+$
     /// </summary>
     [CliOption("--template-name")]
     public string? TemplateName { get; private init; }
 
     /// <summary>
-    /// The description of the provisioning template. Constraints: o min: 0 o max: 500 o pattern: [^\p{C}]*
+    /// The description of the provisioning template. Constraints: • min: 0 • max: 500 • pattern: [^\p{C}]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -80,13 +82,13 @@ public record AwsIotUpdateProvisioningTemplateOptions : AwsOptions, IValidatable
     public int? DefaultVersionId { get; set; }
 
     /// <summary>
-    /// The ARN of the role associated with the provisioning template. This IoT role grants permission to provision a device. Constraints: o min: 20 o max: 2048
+    /// The ARN of the role associated with the provisioning template. This IoT role grants permission to provision a device. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--provisioning-role-arn")]
     public string? ProvisioningRoleArn { get; set; }
 
     /// <summary>
-    /// Updates the pre-provisioning hook template. Only supports template of type FLEET_PROVISIONING . For more information about provisioning template types, see type . payloadVersion -&gt; (string) The payload that was sent to the target function. Note: Only Lambda functions are currently supported. Constraints: o min: 10 o max: 32 o pattern: ^[0-9-]+$ targetArn -&gt; (string) [required] The ARN of the target function. Note: Only Lambda functions are currently supported. Constraints: o max: 2048 Shorthand Syntax: payloadVersion=string,targetArn=string JSON Syntax: { "payloadVersion": "string", "targetArn": "string" }
+    /// Updates the pre-provisioning hook template. Only supports template of type FLEET_PROVISIONING . For more information about provisioning template types, see type . payloadVersion -&gt; (string) The payload that was sent to the target function. Note: Only Lambda functions are currently supported. Constraints: • min: 10 • max: 32 • pattern: ^[0-9-]+$ targetArn -&gt; (string) [required] The ARN of the target function. Note: Only Lambda functions are currently supported. Constraints: • max: 2048 Shorthand Syntax: payloadVersion=string,targetArn=string JSON Syntax: { "payloadVersion": "string", "targetArn": "string" }
     /// </summary>
     [CliOption("--pre-provisioning-hook")]
     public string? PreProvisioningHook { get; set; }

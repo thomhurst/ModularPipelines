@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsChimeDeleteRoomOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a chat room in an Amazon Chime Enterprise account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Chime account ID. Constraints: o pattern: .*\S.*</param>
-    /// <param name="RoomId">The chat room ID. Constraints: o pattern: .*\S.*</param>
+    /// <param name="AccountId">The Amazon Chime account ID. Constraints: • pattern: .*\S.*</param>
+    /// <param name="RoomId">The chat room ID. Constraints: • pattern: .*\S.*</param>
     public AwsChimeDeleteRoomOptions(
         string AccountId,
         string RoomId
@@ -60,13 +62,13 @@ public record AwsChimeDeleteRoomOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Chime account ID. Constraints: o pattern: .*\S.*
+    /// The Amazon Chime account ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The chat room ID. Constraints: o pattern: .*\S.*
+    /// The chat room ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--room-id")]
     public string? RoomId { get; private init; }

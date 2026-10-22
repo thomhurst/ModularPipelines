@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the log events of a container of your Amazon Lightsail con- tainer service. If your container service has more than one node (i.e., a scale greater than 1), then the log events that are returned for the specified con- tainer are merged from all nodes on your container service. NOTE: Container logs are retained for a certain amount of time. For more information, see Amazon Lightsail endpoints and quotas in the Amazon Web Services General Reference . See also: AWS API Documentation
+/// Returns the log events of a container of your Amazon Lightsail container service. If your container service has more than one node (i.e., a scale greater than 1), then the log events that are returned for the specified container are merged from all nodes on your container service. NOTE: Container logs are retained for a certain amount of time. For more information, see Amazon Lightsail endpoints and quotas in the Amazon Web Services General Reference . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsLightsailGetContainerLogOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the log events of a container of your Amazon Lightsail con- tainer service. If your container service has more than one node (i.e., a scale greater than 1), then the log events that are returned for the specified con- tainer are merged from all nodes on your container service. NOTE: Container logs are retained for a certain amount of time. For more information, see Amazon Lightsail endpoints and quotas in the Amazon Web Services General Reference . See also: AWS API Documentation
+    /// Returns the log events of a container of your Amazon Lightsail container service. If your container service has more than one node (i.e., a scale greater than 1), then the log events that are returned for the specified container are merged from all nodes on your container service. NOTE: Container logs are retained for a certain amount of time. For more information, see Amazon Lightsail endpoints and quotas in the Amazon Web Services General Reference . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceName">The name of the container service for which to get a container log. Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$</param>
+    /// <param name="ServiceName">The name of the container service for which to get a container log. Constraints: • min: 1 • max: 63 • pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$</param>
     /// <param name="ContainerName">The name of the container that is either running or previously ran on the container service for which to return a log.</param>
     public AwsLightsailGetContainerLogOptions(
         string ServiceName,
@@ -61,7 +63,7 @@ public record AwsLightsailGetContainerLogOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the container service for which to get a container log. Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$
+    /// The name of the container service for which to get a container log. Constraints: • min: 1 • max: 63 • pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$
     /// </summary>
     [CliOption("--service-name")]
     public string? ServiceName { get; private init; }
@@ -73,25 +75,25 @@ public record AwsLightsailGetContainerLogOptions : AwsOptions, IValidatableObjec
     public string? ContainerName { get; private init; }
 
     /// <summary>
-    /// The start of the time interval for which to get log data. Constraints: o Specified in Coordinated Universal Time (UTC). o Specified in the Unix time format. For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, specify 1538424000 as the start time. You can convert a human-friendly time to Unix time format using a converter like Epoch converter .
+    /// The start of the time interval for which to get log data. Constraints: • Specified in Coordinated Universal Time (UTC). • Specified in the Unix time format. For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, specify 1538424000 as the start time. You can convert a human-friendly time to Unix time format using a converter like Epoch converter .
     /// </summary>
     [CliOption("--start-time")]
     public string? StartTime { get; set; }
 
     /// <summary>
-    /// The end of the time interval for which to get log data. Constraints: o Specified in Coordinated Universal Time (UTC). o Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 9 PM UTC, specify 1538427600 as the end time. You can convert a human-friendly time to Unix time format using a converter like Epoch converter .
+    /// The end of the time interval for which to get log data. Constraints: • Specified in Coordinated Universal Time (UTC). • Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 9 PM UTC, specify 1538427600 as the end time. You can convert a human-friendly time to Unix time format using a converter like Epoch converter .
     /// </summary>
     [CliOption("--end-time")]
     public string? EndTime { get; set; }
 
     /// <summary>
-    /// The pattern to use to filter the returned log events to a specific term. The following are a few examples of filter patterns that you can specify: o To return all log events, specify a filter pattern of "" . o To exclude log events that contain the ERROR term, and return all other log events, specify a filter pattern of "-ERROR" . o To return log events that contain the ERROR term, specify a filter pattern of "ERROR" . o To return log events that contain both the ERROR and Exception terms, specify a filter pattern of "ERROR Exception" . o To return log events that contain the ERROR or the Exception term, specify a filter pattern of "?ERROR ?Exception" .
+    /// The pattern to use to filter the returned log events to a specific term. The following are a few examples of filter patterns that you can specify: • To return all log events, specify a filter pattern of "" . • To exclude log events that contain the ERROR term, and return all other log events, specify a filter pattern of "-ERROR" . • To return log events that contain the ERROR term, specify a filter pattern of "ERROR" . • To return log events that contain both the ERROR and Exception terms, specify a filter pattern of "ERROR Exception" . • To return log events that contain the ERROR or the Exception term, specify a filter pattern of "?ERROR ?Exception" .
     /// </summary>
     [CliOption("--filter-pattern")]
     public string? FilterPattern { get; set; }
 
     /// <summary>
-    /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetContainerLog request. If your results are paginated, the response will return a next page to- ken that you can specify as the page token in a subsequent request.
+    /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetContainerLog request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
     /// </summary>
     [SecretValue]
     [CliOption("--page-token")]

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDevopsGuruDescribeInsightOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Returns details about an insight that you specify using its ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the insight. Constraints: o min: 1 o max: 100 o pattern: ^[\w-]*$</param>
+    /// <param name="Id">The ID of the insight. Constraints: • min: 1 • max: 100 • pattern: ^[\w-]*$</param>
     public AwsDevopsGuruDescribeInsightOptions(
         string Id
     )
@@ -56,13 +58,13 @@ public record AwsDevopsGuruDescribeInsightOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the insight. Constraints: o min: 1 o max: 100 o pattern: ^[\w-]*$
+    /// The ID of the insight. Constraints: • min: 1 • max: 100 • pattern: ^[\w-]*$
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The ID of the member account in the organization. Constraints: o min: 12 o max: 12 o pattern: ^\d{12}$
+    /// The ID of the member account in the organization. Constraints: • min: 12 • max: 12 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }

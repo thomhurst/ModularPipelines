@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the content and status of IP rules. Traffic from a source is allowed when the source satisfies either the IpRestrictionRule , Vp- cIdRestrictionRule , or VpcEndpointIdRestrictionRule . To use this op- eration, you must provide the entire map of rules. You can use the De- scribeIpRestriction operation to get the current rule map. See also: AWS API Documentation
+/// Updates the content and status of IP rules. Traffic from a source is allowed when the source satisfies either the IpRestrictionRule , VpcIdRestrictionRule , or VpcEndpointIdRestrictionRule . To use this operation, you must provide the entire map of rules. You can use the DescribeIpRestriction operation to get the current rule map. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsQuicksightUpdateIpRestrictionOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the content and status of IP rules. Traffic from a source is allowed when the source satisfies either the IpRestrictionRule , Vp- cIdRestrictionRule , or VpcEndpointIdRestrictionRule . To use this op- eration, you must provide the entire map of rules. You can use the De- scribeIpRestriction operation to get the current rule map. See also: AWS API Documentation
+    /// Updates the content and status of IP rules. Traffic from a source is allowed when the source satisfies either the IpRestrictionRule , VpcIdRestrictionRule , or VpcEndpointIdRestrictionRule . To use this operation, you must provide the entire map of rules. You can use the DescribeIpRestriction operation to get the current rule map. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the IP rules. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the IP rules. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
     public AwsQuicksightUpdateIpRestrictionOptions(
         string AwsAccountId
     )
@@ -57,25 +58,25 @@ public record AwsQuicksightUpdateIpRestrictionOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the IP rules. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the IP rules. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// A map that describes the updated IP rules with CIDR ranges and de- scriptions. key -&gt; (string) Constraints: o pattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(3[0-2]|[1-2][0-9]|[1-9]))$ value -&gt; (string) Constraints: o min: 0 o max: 150 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map that describes the updated IP rules with CIDR ranges and descriptions. key -&gt; (string) Constraints: • pattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(3[0-2]|[1-2][0-9]|[1-9]))$ value -&gt; (string) Constraints: • min: 0 • max: 150 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--ip-restriction-rule-map", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? IpRestrictionRuleMap { get; set; }
 
     /// <summary>
-    /// A map of VPC IDs and their corresponding rules. When you configure this parameter, traffic from all VPC endpoints that are present in the specified VPC is allowed. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: ^vpc-[0-9a-z]*$ value -&gt; (string) Constraints: o min: 0 o max: 150 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of VPC IDs and their corresponding rules. When you configure this parameter, traffic from all VPC endpoints that are present in the specified VPC is allowed. key -&gt; (string) Constraints: • min: 1 • max: 255 • pattern: ^vpc-[0-9a-z]*$ value -&gt; (string) Constraints: • min: 0 • max: 150 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--vpc-id-restriction-rule-map", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? VpcIdRestrictionRuleMap { get; set; }
 
     /// <summary>
-    /// A map of allowed VPC endpoint IDs and their corresponding rule de- scriptions. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: ^vpce-[0-9a-z]*$ value -&gt; (string) Constraints: o min: 0 o max: 150 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of allowed VPC endpoint IDs and their corresponding rule descriptions. key -&gt; (string) Constraints: • min: 1 • max: 255 • pattern: ^vpce-[0-9a-z]*$ value -&gt; (string) Constraints: • min: 0 • max: 150 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--vpc-endpoint-id-restriction-rule-map", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? VpcEndpointIdRestrictionRuleMap { get; set; }

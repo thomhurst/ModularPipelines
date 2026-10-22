@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsGroundstationGetDataflowEndpointGroupOptions : AwsOptions, IVal
     /// <summary>
     /// Returns the dataflow endpoint group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataflowEndpointGroupId">UUID of a dataflow endpoint group. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="DataflowEndpointGroupId">UUID of a dataflow endpoint group. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
     public AwsGroundstationGetDataflowEndpointGroupOptions(
         string DataflowEndpointGroupId
     )
@@ -56,7 +58,7 @@ public record AwsGroundstationGetDataflowEndpointGroupOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// UUID of a dataflow endpoint group. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// UUID of a dataflow endpoint group. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--dataflow-endpoint-group-id")]
     public string? DataflowEndpointGroupId { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsLakeformationCancelTransactionOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Attempts to cancel the specified transaction. Returns an exception if the transaction was previously committed. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TransactionId">The transaction to cancel. Constraints: o min: 1 o max: 255 o pattern: [\p{L}\p{N}\p{P}]*</param>
+    /// <param name="TransactionId">The transaction to cancel. Constraints: • min: 1 • max: 255 • pattern: [\p{L}\p{N}\p{P}]*</param>
     public AwsLakeformationCancelTransactionOptions(
         string TransactionId
     )
@@ -56,7 +58,7 @@ public record AwsLakeformationCancelTransactionOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The transaction to cancel. Constraints: o min: 1 o max: 255 o pattern: [\p{L}\p{N}\p{P}]*
+    /// The transaction to cancel. Constraints: • min: 1 • max: 255 • pattern: [\p{L}\p{N}\p{P}]*
     /// </summary>
     [CliOption("--transaction-id")]
     public string? TransactionId { get; private init; }

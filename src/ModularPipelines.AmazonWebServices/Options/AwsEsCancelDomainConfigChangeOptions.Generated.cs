@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsEsCancelDomainConfigChangeOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Cancels a pending configuration change on an Amazon OpenSearch Service domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">Name of the OpenSearch Service domain configuration request to can- cel. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="DomainName">Name of the OpenSearch Service domain configuration request to cancel. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
     public AwsEsCancelDomainConfigChangeOptions(
         string DomainName
     )
@@ -56,7 +58,7 @@ public record AwsEsCancelDomainConfigChangeOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the OpenSearch Service domain configuration request to can- cel. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// Name of the OpenSearch Service domain configuration request to cancel. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }

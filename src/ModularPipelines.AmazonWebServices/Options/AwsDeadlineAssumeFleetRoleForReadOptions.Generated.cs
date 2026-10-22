@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Get Amazon Web Services credentials from the fleet role. The IAM per- missions of the credentials are scoped down to have read-only access. See also: AWS API Documentation
+/// Get Amazon Web Services credentials from the fleet role. The IAM permissions of the credentials are scoped down to have read-only access. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsDeadlineAssumeFleetRoleForReadOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Get Amazon Web Services credentials from the fleet role. The IAM per- missions of the credentials are scoped down to have read-only access. See also: AWS API Documentation
+    /// Get Amazon Web Services credentials from the fleet role. The IAM permissions of the credentials are scoped down to have read-only access. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The farm ID for the fleet's farm. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="FleetId">The fleet ID. Constraints: o pattern: fleet-[0-9a-f]{32}</param>
+    /// <param name="FarmId">The farm ID for the fleet's farm. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="FleetId">The fleet ID. Constraints: • pattern: fleet-[0-9a-f]{32}</param>
     public AwsDeadlineAssumeFleetRoleForReadOptions(
         string FarmId,
         string FleetId
@@ -60,13 +62,13 @@ public record AwsDeadlineAssumeFleetRoleForReadOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID for the fleet's farm. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID for the fleet's farm. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The fleet ID. Constraints: o pattern: fleet-[0-9a-f]{32}
+    /// The fleet ID. Constraints: • pattern: fleet-[0-9a-f]{32}
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }

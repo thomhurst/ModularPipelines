@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the content of a related item associated with a case. The fol- lowing related item types are supported: o Comment - Update the text content of an existing comment o Custom - Update the fields of a custom related item. You can add, modify, and remove fields from a custom related item. There's a quota for the number of fields allowed in a Custom type related item. See Amazon Connect Cases quotas . Important things to know o When updating a Custom related item, all existing and new fields, ...
+/// Updates the content of a related item associated with a case. The following related item types are supported: • Comment - Update the text content of an existing comment • Custom - Update the fields of a custom related item. You can add, modify, and remove fields from a custom related item. There's a quota for the number of fields allowed in a Custom type related item. See Amazon Connect Cases quotas . Important things to know • When updating a Custom related item, all existing and new fields, an...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +27,12 @@ public record AwsConnectcasesUpdateRelatedItemOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the content of a related item associated with a case. The fol- lowing related item types are supported: o Comment - Update the text content of an existing comment o Custom - Update the fields of a custom related item. You can add, modify, and remove fields from a custom related item. There's a quota for the number of fields allowed in a Custom type related item. See Amazon Connect Cases quotas . Important things to know o When updating a Custom related item, all existing and new fields, ...
+    /// Updates the content of a related item associated with a case. The following related item types are supported: • Comment - Update the text content of an existing comment • Custom - Update the fields of a custom related item. You can add, modify, and remove fields from a custom related item. There's a quota for the number of fields allowed in a Custom type related item. See Amazon Connect Cases quotas . Important things to know • When updating a Custom related item, all existing and new fields, an...
     /// </summary>
-    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500</param>
-    /// <param name="CaseId">A unique identifier of the case. Constraints: o min: 1 o max: 500</param>
-    /// <param name="RelatedItemId">Unique identifier of a related item. Constraints: o min: 1 o max: 500</param>
-    /// <param name="Content">The content of a related item to be updated. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: comment, custom. comment -&gt; (structure) Represents the updated content of a Comment related item. body -&gt; (string) [required] Updated text in the body of a Comment on a case. Constraints: o min: 1 o max: 15000 contentType -&gt; (string) [required] Type of the text in the box of a Comment on a case. Possible values: o Text/Plain custom -&gt; (structure) Represents the updated content of a Custom related item. fields -&gt; (list) [required] List of updated field values for the Custom related item. All existing and new fields, and their associated values should be included. Fields not included as part of this request will be removed. Constraints: o min: 1 o max: 50 (structure) Object for case field values. id -&gt; (string) [required] Unique identifier of a field. Constraints: o min: 1 o max: 500 value -&gt; (tagged union structure) [required] Union of potential field value types. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: stringValue, doubleValue, booleanValue, emptyValue, userArn- Value. stringValue -&gt; (string) String value type. Constraints: o min: 0 o max: 4100 doubleValue -&gt; (double) Can be either null, or have a Double number value type. Only one value can be provided. booleanValue -&gt; (boolean) Can be either null, or have a Boolean value type. Only one value can be provided. emptyValue -&gt; (structure) An empty value. userArnValue -&gt; (string) Represents the user that performed the audit. JSON Syntax: { "comment": { "body": "string", "contentType": "Text/Plain" }, "custom": { "fields": [ { "id": "string", "value": { "stringValue": "string", "doubleValue": double, "booleanValue": true|false, "emptyValue": { }, "userArnValue": "string" } } ... ] } }</param>
+    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500</param>
+    /// <param name="CaseId">A unique identifier of the case. Constraints: • min: 1 • max: 500</param>
+    /// <param name="RelatedItemId">Unique identifier of a related item. Constraints: • min: 1 • max: 500</param>
+    /// <param name="Content">The content of a related item to be updated. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: comment, custom. comment -&gt; (structure) Represents the updated content of a Comment related item. body -&gt; (string) [required] Updated text in the body of a Comment on a case. Constraints: • min: 1 • max: 15000 contentType -&gt; (string) [required] Type of the text in the box of a Comment on a case. Possible values: • Text/Plain custom -&gt; (structure) Represents the updated content of a Custom related item. fields -&gt; (list) [required] List of updated field values for the Custom related item. All existing and new fields, and their associated values should be included. Fields not included as part of this request will be removed. Constraints: • min: 1 • max: 50 (structure) Object for case field values. id -&gt; (string) [required] Unique identifier of a field. Constraints: • min: 1 • max: 500 value -&gt; (tagged union structure) [required] Union of potential field value types. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: stringValue, doubleValue, booleanValue, emptyValue, userArnValue. stringValue -&gt; (string) String value type. Constraints: • min: 0 • max: 4100 doubleValue -&gt; (double) Can be either null, or have a Double number value type. Only one value can be provided. booleanValue -&gt; (boolean) Can be either null, or have a Boolean value type. Only one value can be provided. emptyValue -&gt; (structure) An empty value. userArnValue -&gt; (string) Represents the user that performed the audit. JSON Syntax: { "comment": { "body": "string", "contentType": "Text/Plain" }, "custom": { "fields": [ { "id": "string", "value": { "stringValue": "string", "doubleValue": double, "booleanValue": true|false, "emptyValue": { }, "userArnValue": "string" } } ... ] } }</param>
     public AwsConnectcasesUpdateRelatedItemOptions(
         string DomainId,
         string CaseId,
@@ -68,31 +70,31 @@ public record AwsConnectcasesUpdateRelatedItemOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500
+    /// The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// A unique identifier of the case. Constraints: o min: 1 o max: 500
+    /// A unique identifier of the case. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--case-id")]
     public string? CaseId { get; private init; }
 
     /// <summary>
-    /// Unique identifier of a related item. Constraints: o min: 1 o max: 500
+    /// Unique identifier of a related item. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--related-item-id")]
     public string? RelatedItemId { get; private init; }
 
     /// <summary>
-    /// The content of a related item to be updated. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: comment, custom. comment -&gt; (structure) Represents the updated content of a Comment related item. body -&gt; (string) [required] Updated text in the body of a Comment on a case. Constraints: o min: 1 o max: 15000 contentType -&gt; (string) [required] Type of the text in the box of a Comment on a case. Possible values: o Text/Plain custom -&gt; (structure) Represents the updated content of a Custom related item. fields -&gt; (list) [required] List of updated field values for the Custom related item. All existing and new fields, and their associated values should be included. Fields not included as part of this request will be removed. Constraints: o min: 1 o max: 50 (structure) Object for case field values. id -&gt; (string) [required] Unique identifier of a field. Constraints: o min: 1 o max: 500 value -&gt; (tagged union structure) [required] Union of potential field value types. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: stringValue, doubleValue, booleanValue, emptyValue, userArn- Value. stringValue -&gt; (string) String value type. Constraints: o min: 0 o max: 4100 doubleValue -&gt; (double) Can be either null, or have a Double number value type. Only one value can be provided. booleanValue -&gt; (boolean) Can be either null, or have a Boolean value type. Only one value can be provided. emptyValue -&gt; (structure) An empty value. userArnValue -&gt; (string) Represents the user that performed the audit. JSON Syntax: { "comment": { "body": "string", "contentType": "Text/Plain" }, "custom": { "fields": [ { "id": "string", "value": { "stringValue": "string", "doubleValue": double, "booleanValue": true|false, "emptyValue": { }, "userArnValue": "string" } } ... ] } }
+    /// The content of a related item to be updated. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: comment, custom. comment -&gt; (structure) Represents the updated content of a Comment related item. body -&gt; (string) [required] Updated text in the body of a Comment on a case. Constraints: • min: 1 • max: 15000 contentType -&gt; (string) [required] Type of the text in the box of a Comment on a case. Possible values: • Text/Plain custom -&gt; (structure) Represents the updated content of a Custom related item. fields -&gt; (list) [required] List of updated field values for the Custom related item. All existing and new fields, and their associated values should be included. Fields not included as part of this request will be removed. Constraints: • min: 1 • max: 50 (structure) Object for case field values. id -&gt; (string) [required] Unique identifier of a field. Constraints: • min: 1 • max: 500 value -&gt; (tagged union structure) [required] Union of potential field value types. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: stringValue, doubleValue, booleanValue, emptyValue, userArnValue. stringValue -&gt; (string) String value type. Constraints: • min: 0 • max: 4100 doubleValue -&gt; (double) Can be either null, or have a Double number value type. Only one value can be provided. booleanValue -&gt; (boolean) Can be either null, or have a Boolean value type. Only one value can be provided. emptyValue -&gt; (structure) An empty value. userArnValue -&gt; (string) Represents the user that performed the audit. JSON Syntax: { "comment": { "body": "string", "contentType": "Text/Plain" }, "custom": { "fields": [ { "id": "string", "value": { "stringValue": "string", "doubleValue": double, "booleanValue": true|false, "emptyValue": { }, "userArnValue": "string" } } ... ] } }
     /// </summary>
     [CliOption("--content")]
     public string? Content { get; private init; }
 
     /// <summary>
-    /// Represents the user who performed the update of the related item. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: userArn, customEntity. userArn -&gt; (string) Represents the Amazon Connect ARN of the user. Constraints: o min: 1 o max: 500 customEntity -&gt; (string) Any provided entity. Constraints: o min: 1 o max: 500 o pattern: [a-zA-Z0-9_\-\.@:/ ]*[a-zA-Z0-9_\-\.@:/] Shorthand Syntax: userArn=string,customEntity=string JSON Syntax: { "userArn": "string", "customEntity": "string" }
+    /// Represents the user who performed the update of the related item. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: userArn, customEntity. userArn -&gt; (string) Represents the Amazon Connect ARN of the user. Constraints: • min: 1 • max: 500 customEntity -&gt; (string) Any provided entity. Constraints: • min: 1 • max: 500 • pattern: [a-zA-Z0-9_\-\.@:/ ]*[a-zA-Z0-9_\-\.@:/] Shorthand Syntax: userArn=string,customEntity=string JSON Syntax: { "userArn": "string", "customEntity": "string" }
     /// </summary>
     [CliOption("--performed-by")]
     public string? PerformedBy { get; set; }

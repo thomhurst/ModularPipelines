@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,9 +31,9 @@ public record AwsNetworkFirewallUpdateProxyRulePrioritiesOptions : AwsOptions, I
     /// <summary>
     /// Updates proxy rule priorities within a proxy rule group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RuleGroupRequestPhase">Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied. Possible values: o PRE_DNS o PRE_REQ o POST_RES</param>
-    /// <param name="Rules">proxy rule resources to update to new positions. (structure) Proxy rule name and new desired position. ProxyRuleName -&gt; (string) The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$ NewPosition -&gt; (integer) Where to move a proxy rule in a proxy rule group. Shorthand Syntax: ProxyRuleName=string,NewPosition=integer ... JSON Syntax: [ { "ProxyRuleName": "string", "NewPosition": integer } ... ]</param>
-    /// <param name="UpdateToken">A token used for optimistic locking. Network Firewall returns a to- ken to your requests that access the proxy rule group. The token marks the state of the proxy rule group resource at the time of the request. To make changes to the proxy rule group, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the proxy rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token. Constraints: o min: 1 o max: 1024 o pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$</param>
+    /// <param name="RuleGroupRequestPhase">Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied. Possible values: • PRE_DNS • PRE_REQ • POST_RES</param>
+    /// <param name="Rules">proxy rule resources to update to new positions. (structure) Proxy rule name and new desired position. ProxyRuleName -&gt; (string) The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$ NewPosition -&gt; (integer) Where to move a proxy rule in a proxy rule group. Shorthand Syntax: ProxyRuleName=string,NewPosition=integer ... JSON Syntax: [ { "ProxyRuleName": "string", "NewPosition": integer } ... ]</param>
+    /// <param name="UpdateToken">A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule group. The token marks the state of the proxy rule group resource at the time of the request. To make changes to the proxy rule group, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the proxy rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token. Constraints: • min: 1 • max: 1024 • pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$</param>
     public AwsNetworkFirewallUpdateProxyRulePrioritiesOptions(
         AwsNetworkFirewallUpdateProxyRulePrioritiesRuleGroupRequestPhase RuleGroupRequestPhase,
         IEnumerable<string> Rules,
@@ -76,32 +78,32 @@ public record AwsNetworkFirewallUpdateProxyRulePrioritiesOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied. Possible values: o PRE_DNS o PRE_REQ o POST_RES
+    /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied. Possible values: • PRE_DNS • PRE_REQ • POST_RES
     /// </summary>
     [CliOption("--rule-group-request-phase")]
     public AwsNetworkFirewallUpdateProxyRulePrioritiesRuleGroupRequestPhase? RuleGroupRequestPhase { get; private init; }
 
     /// <summary>
-    /// proxy rule resources to update to new positions. (structure) Proxy rule name and new desired position. ProxyRuleName -&gt; (string) The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$ NewPosition -&gt; (integer) Where to move a proxy rule in a proxy rule group. Shorthand Syntax: ProxyRuleName=string,NewPosition=integer ... JSON Syntax: [ { "ProxyRuleName": "string", "NewPosition": integer } ... ]
+    /// proxy rule resources to update to new positions. (structure) Proxy rule name and new desired position. ProxyRuleName -&gt; (string) The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$ NewPosition -&gt; (integer) Where to move a proxy rule in a proxy rule group. Shorthand Syntax: ProxyRuleName=string,NewPosition=integer ... JSON Syntax: [ { "ProxyRuleName": "string", "NewPosition": integer } ... ]
     /// </summary>
     [CliOption("--rules", GroupValues = true)]
     public IEnumerable<string>? Rules { get; private init; }
 
     /// <summary>
-    /// A token used for optimistic locking. Network Firewall returns a to- ken to your requests that access the proxy rule group. The token marks the state of the proxy rule group resource at the time of the request. To make changes to the proxy rule group, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the proxy rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token. Constraints: o min: 1 o max: 1024 o pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule group. The token marks the state of the proxy rule group resource at the time of the request. To make changes to the proxy rule group, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the proxy rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token. Constraints: • min: 1 • max: 1024 • pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$
     /// </summary>
     [SecretValue]
     [CliOption("--update-token")]
     public string? UpdateToken { get; private init; }
 
     /// <summary>
-    /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
+    /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--proxy-rule-group-name")]
     public string? ProxyRuleGroupName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*
+    /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*
     /// </summary>
     [CliOption("--proxy-rule-group-arn")]
     public string? ProxyRuleGroupArn { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an identity source that references an identity provider (IdP) such as Amazon Cognito. After you delete the identity source, you can no longer use tokens for identities from that identity source to repre- sent principals in authorization queries made using IsAuthorizedWithToken . operations. See also: AWS API Documentation
+/// Deletes an identity source that references an identity provider (IdP) such as Amazon Cognito. After you delete the identity source, you can no longer use tokens for identities from that identity source to represent principals in authorization queries made using IsAuthorizedWithToken . operations. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsVerifiedpermissionsDeleteIdentitySourceOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an identity source that references an identity provider (IdP) such as Amazon Cognito. After you delete the identity source, you can no longer use tokens for identities from that identity source to repre- sent principals in authorization queries made using IsAuthorizedWithToken . operations. See also: AWS API Documentation
+    /// Deletes an identity source that references an identity provider (IdP) such as Amazon Cognito. After you delete the identity source, you can no longer use tokens for identities from that identity source to represent principals in authorization queries made using IsAuthorizedWithToken . operations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyStoreId">Specifies the ID of the policy store that contains the identity source that you want to delete. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: o ID: PSEXAMPLEabcdefg111111 o Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*</param>
-    /// <param name="IdentitySourceId">Specifies the ID of the identity source that you want to delete. Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-]*</param>
+    /// <param name="PolicyStoreId">Specifies the ID of the policy store that contains the identity source that you want to delete. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: • ID: PSEXAMPLEabcdefg111111 • Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]*</param>
+    /// <param name="IdentitySourceId">Specifies the ID of the identity source that you want to delete. Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-]*</param>
     public AwsVerifiedpermissionsDeleteIdentitySourceOptions(
         string PolicyStoreId,
         string IdentitySourceId
@@ -60,13 +62,13 @@ public record AwsVerifiedpermissionsDeleteIdentitySourceOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ID of the policy store that contains the identity source that you want to delete. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: o ID: PSEXAMPLEabcdefg111111 o Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*
+    /// Specifies the ID of the policy store that contains the identity source that you want to delete. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: • ID: PSEXAMPLEabcdefg111111 • Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]*
     /// </summary>
     [CliOption("--policy-store-id")]
     public string? PolicyStoreId { get; private init; }
 
     /// <summary>
-    /// Specifies the ID of the identity source that you want to delete. Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-]*
+    /// Specifies the ID of the identity source that you want to delete. Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--identity-source-id")]
     public string? IdentitySourceId { get; private init; }

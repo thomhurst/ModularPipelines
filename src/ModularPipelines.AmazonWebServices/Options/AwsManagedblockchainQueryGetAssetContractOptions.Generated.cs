@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the information about a specific contract deployed on the blockchain. NOTE: o The Bitcoin blockchain networks do not support this operation. o Metadata is currently only available for some ERC-20 contracts. Metadata will be available for additional contracts in the future. See also: AWS API Documentation
+/// Gets the information about a specific contract deployed on the blockchain. NOTE: • The Bitcoin blockchain networks do not support this operation. • Metadata is currently only available for some ERC-20 contracts. Metadata will be available for additional contracts in the future. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsManagedblockchainQueryGetAssetContractOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets the information about a specific contract deployed on the blockchain. NOTE: o The Bitcoin blockchain networks do not support this operation. o Metadata is currently only available for some ERC-20 contracts. Metadata will be available for additional contracts in the future. See also: AWS API Documentation
+    /// Gets the information about a specific contract deployed on the blockchain. NOTE: • The Bitcoin blockchain networks do not support this operation. • Metadata is currently only available for some ERC-20 contracts. Metadata will be available for additional contracts in the future. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ContractIdentifier">Contains the blockchain address and network information about the contract. network -&gt; (string) [required] The blockchain network of the contract. Possible values: o ETHEREUM_MAINNET o ETHEREUM_SEPOLIA_TESTNET o BITCOIN_MAINNET o BITCOIN_TESTNET contractAddress -&gt; (string) [required] Container for the blockchain address about a contract. Constraints: o pattern: [-A-Za-z0-9]{13,74} Shorthand Syntax: network=string,contractAddress=string JSON Syntax: { "network": "ETHEREUM_MAINNET"|"ETHEREUM_SEPOLIA_TESTNET"|"BITCOIN_MAINNET"|"BITCOIN_TESTNET", "contractAddress": "string" }</param>
+    /// <param name="ContractIdentifier">Contains the blockchain address and network information about the contract. network -&gt; (string) [required] The blockchain network of the contract. Possible values: • ETHEREUM_MAINNET • ETHEREUM_SEPOLIA_TESTNET • BITCOIN_MAINNET • BITCOIN_TESTNET contractAddress -&gt; (string) [required] Container for the blockchain address about a contract. Constraints: • pattern: [-A-Za-z0-9]{13,74} Shorthand Syntax: network=string,contractAddress=string JSON Syntax: { "network": "ETHEREUM_MAINNET"|"ETHEREUM_SEPOLIA_TESTNET"|"BITCOIN_MAINNET"|"BITCOIN_TESTNET", "contractAddress": "string" }</param>
     public AwsManagedblockchainQueryGetAssetContractOptions(
         string ContractIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsManagedblockchainQueryGetAssetContractOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Contains the blockchain address and network information about the contract. network -&gt; (string) [required] The blockchain network of the contract. Possible values: o ETHEREUM_MAINNET o ETHEREUM_SEPOLIA_TESTNET o BITCOIN_MAINNET o BITCOIN_TESTNET contractAddress -&gt; (string) [required] Container for the blockchain address about a contract. Constraints: o pattern: [-A-Za-z0-9]{13,74} Shorthand Syntax: network=string,contractAddress=string JSON Syntax: { "network": "ETHEREUM_MAINNET"|"ETHEREUM_SEPOLIA_TESTNET"|"BITCOIN_MAINNET"|"BITCOIN_TESTNET", "contractAddress": "string" }
+    /// Contains the blockchain address and network information about the contract. network -&gt; (string) [required] The blockchain network of the contract. Possible values: • ETHEREUM_MAINNET • ETHEREUM_SEPOLIA_TESTNET • BITCOIN_MAINNET • BITCOIN_TESTNET contractAddress -&gt; (string) [required] Container for the blockchain address about a contract. Constraints: • pattern: [-A-Za-z0-9]{13,74} Shorthand Syntax: network=string,contractAddress=string JSON Syntax: { "network": "ETHEREUM_MAINNET"|"ETHEREUM_SEPOLIA_TESTNET"|"BITCOIN_MAINNET"|"BITCOIN_TESTNET", "contractAddress": "string" }
     /// </summary>
     [CliOption("--contract-identifier")]
     public string? ContractIdentifier { get; private init; }

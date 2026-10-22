@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsQuicksightCreateTopicV2Options : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a new Q topic. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that you want to create a topic in. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="TopicId">The ID for the topic that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account. Constraints: o max: 256 o pattern: ^[A-Za-z0-9-_.\\+]*$</param>
-    /// <param name="Topic">The definition of a topic to create. Name -&gt; (string) [required] The name of the topic. Constraints: o min: 1 o max: 128 Description -&gt; (string) The description of the topic. Constraints: o max: 256 DataSets -&gt; (list) The data sets that the topic is associated with. Constraints: o min: 1 o max: 100 (structure) A structure that represents a data set reference of a topic. DataSetArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the data set. DataSetName -&gt; (string) The name of the data set. Constraints: o max: 256 DataSetRelations -&gt; (list) The relations between the data sets that the topic is associated with. Constraints: o max: 100 (structure) A structure that represents a relation between two data sets of a topic. Left -&gt; (structure) [required] The left endpoint of the data set relation. DataSetArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the data set at this endpoint of the relation. ColumnNames -&gt; (list) [required] The names of the columns that are used in the data set relation. Constraints: o min: 1 o max: 5 (string) Right -&gt; (structure) [required] The right endpoint of the data set relation. DataSetArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the data set at this endpoint of the relation. ColumnNames -&gt; (list) [required] The names of the columns that are used in the data set relation. Constraints: o min: 1 o max: 5 (string) JSON Syntax: { "Name": "string", "Description": "string", "DataSets": [ { "DataSetArn": "string", "DataSetName": "string" } ... ], "DataSetRelations": [ { "Left": { "DataSetArn": "string", "ColumnNames": ["string", ...] }, "Right": { "DataSetArn": "string", "ColumnNames": ["string", ...] } } ... ] }</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that you want to create a topic in. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="TopicId">The ID for the topic that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account. Constraints: • max: 256 • pattern: ^[A-Za-z0-9-_.\\+]*$</param>
+    /// <param name="Topic">The definition of a topic to create. Name -&gt; (string) [required] The name of the topic. Constraints: • min: 1 • max: 128 Description -&gt; (string) The description of the topic. Constraints: • max: 256 DataSets -&gt; (list) The data sets that the topic is associated with. Constraints: • min: 1 • max: 100 (structure) A structure that represents a data set reference of a topic. DataSetArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the data set. DataSetName -&gt; (string) The name of the data set. Constraints: • max: 256 DataSetRelations -&gt; (list) The relations between the data sets that the topic is associated with. Constraints: • max: 100 (structure) A structure that represents a relation between two data sets of a topic. Left -&gt; (structure) [required] The left endpoint of the data set relation. DataSetArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the data set at this endpoint of the relation. ColumnNames -&gt; (list) [required] The names of the columns that are used in the data set relation. Constraints: • min: 1 • max: 5 (string) Right -&gt; (structure) [required] The right endpoint of the data set relation. DataSetArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the data set at this endpoint of the relation. ColumnNames -&gt; (list) [required] The names of the columns that are used in the data set relation. Constraints: • min: 1 • max: 5 (string) JSON Syntax: { "Name": "string", "Description": "string", "DataSets": [ { "DataSetArn": "string", "DataSetName": "string" } ... ], "DataSetRelations": [ { "Left": { "DataSetArn": "string", "ColumnNames": ["string", ...] }, "Right": { "DataSetArn": "string", "ColumnNames": ["string", ...] } } ... ] }</param>
     public AwsQuicksightCreateTopicV2Options(
         string AwsAccountId,
         string TopicId,
@@ -64,37 +66,37 @@ public record AwsQuicksightCreateTopicV2Options : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that you want to create a topic in. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that you want to create a topic in. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID for the topic that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account. Constraints: o max: 256 o pattern: ^[A-Za-z0-9-_.\\+]*$
+    /// The ID for the topic that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account. Constraints: • max: 256 • pattern: ^[A-Za-z0-9-_.\\+]*$
     /// </summary>
     [CliOption("--topic-id")]
     public string? TopicId { get; private init; }
 
     /// <summary>
-    /// The definition of a topic to create. Name -&gt; (string) [required] The name of the topic. Constraints: o min: 1 o max: 128 Description -&gt; (string) The description of the topic. Constraints: o max: 256 DataSets -&gt; (list) The data sets that the topic is associated with. Constraints: o min: 1 o max: 100 (structure) A structure that represents a data set reference of a topic. DataSetArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the data set. DataSetName -&gt; (string) The name of the data set. Constraints: o max: 256 DataSetRelations -&gt; (list) The relations between the data sets that the topic is associated with. Constraints: o max: 100 (structure) A structure that represents a relation between two data sets of a topic. Left -&gt; (structure) [required] The left endpoint of the data set relation. DataSetArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the data set at this endpoint of the relation. ColumnNames -&gt; (list) [required] The names of the columns that are used in the data set relation. Constraints: o min: 1 o max: 5 (string) Right -&gt; (structure) [required] The right endpoint of the data set relation. DataSetArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the data set at this endpoint of the relation. ColumnNames -&gt; (list) [required] The names of the columns that are used in the data set relation. Constraints: o min: 1 o max: 5 (string) JSON Syntax: { "Name": "string", "Description": "string", "DataSets": [ { "DataSetArn": "string", "DataSetName": "string" } ... ], "DataSetRelations": [ { "Left": { "DataSetArn": "string", "ColumnNames": ["string", ...] }, "Right": { "DataSetArn": "string", "ColumnNames": ["string", ...] } } ... ] }
+    /// The definition of a topic to create. Name -&gt; (string) [required] The name of the topic. Constraints: • min: 1 • max: 128 Description -&gt; (string) The description of the topic. Constraints: • max: 256 DataSets -&gt; (list) The data sets that the topic is associated with. Constraints: • min: 1 • max: 100 (structure) A structure that represents a data set reference of a topic. DataSetArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the data set. DataSetName -&gt; (string) The name of the data set. Constraints: • max: 256 DataSetRelations -&gt; (list) The relations between the data sets that the topic is associated with. Constraints: • max: 100 (structure) A structure that represents a relation between two data sets of a topic. Left -&gt; (structure) [required] The left endpoint of the data set relation. DataSetArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the data set at this endpoint of the relation. ColumnNames -&gt; (list) [required] The names of the columns that are used in the data set relation. Constraints: • min: 1 • max: 5 (string) Right -&gt; (structure) [required] The right endpoint of the data set relation. DataSetArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the data set at this endpoint of the relation. ColumnNames -&gt; (list) [required] The names of the columns that are used in the data set relation. Constraints: • min: 1 • max: 5 (string) JSON Syntax: { "Name": "string", "Description": "string", "DataSets": [ { "DataSetArn": "string", "DataSetName": "string" } ... ], "DataSetRelations": [ { "Left": { "DataSetArn": "string", "ColumnNames": ["string", ...] }, "Right": { "DataSetArn": "string", "ColumnNames": ["string", ...] } } ... ] }
     /// </summary>
     [CliOption("--topic")]
     public string? Topic { get; private init; }
 
     /// <summary>
-    /// Contains a map of the key-value pairs for the resource tag or tags that are assigned to the topic. Constraints: o min: 1 o max: 200 (structure) The key or keys of the key-value pairs for the resource tag or tags assigned to the resource. Key -&gt; (string) [required] Tag key. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] Tag value. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Contains a map of the key-value pairs for the resource tag or tags that are assigned to the topic. Constraints: • min: 1 • max: 200 (structure) The key or keys of the key-value pairs for the resource tag or tags assigned to the resource. Key -&gt; (string) [required] Tag key. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] Tag value. Constraints: • min: 1 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Names (ARNs) of the folders that you want the topic to reside in. Constraints: o max: 1 (string) Syntax: "string" "string" ...
+    /// The Amazon Resource Names (ARNs) of the folders that you want the topic to reside in. Constraints: • max: 1 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--folder-arns", GroupValues = true)]
     public IEnumerable<string>? FolderArns { get; set; }
 
     /// <summary>
-    /// Instructions that provide additional guidance and context for re- sponse generation. CustomInstructionsString -&gt; (string) [required] A text field for providing additional guidance or context for response generation. Constraints: o max: 5000 Shorthand Syntax: CustomInstructionsString=string JSON Syntax: { "CustomInstructionsString": "string" }
+    /// Instructions that provide additional guidance and context for response generation. CustomInstructionsString -&gt; (string) [required] A text field for providing additional guidance or context for response generation. Constraints: • max: 5000 Shorthand Syntax: CustomInstructionsString=string JSON Syntax: { "CustomInstructionsString": "string" }
     /// </summary>
     [CliOption("--custom-instructions")]
     public string? CustomInstructions { get; set; }

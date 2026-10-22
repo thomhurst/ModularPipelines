@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsAthenaStopQueryExecutionOptions : AwsOptions
 {
     /// <summary>
-    /// The unique ID of the query execution to stop. Constraints: o min: 1 o max: 128 o pattern: \S+
+    /// The unique ID of the query execution to stop. Constraints: • min: 1 • max: 128 • pattern: \S+
     /// </summary>
     [CliOption("--query-execution-id")]
     public string? QueryExecutionId { get; set; }

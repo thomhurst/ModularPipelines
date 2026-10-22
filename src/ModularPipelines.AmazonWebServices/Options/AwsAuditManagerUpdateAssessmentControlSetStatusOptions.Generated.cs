@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,10 +30,10 @@ public record AwsAuditManagerUpdateAssessmentControlSetStatusOptions : AwsOption
     /// <summary>
     /// Updates the status of a control set in an Audit Manager assessment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssessmentId">The unique identifier for the assessment. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
-    /// <param name="ControlSetId">The unique identifier for the control set. Constraints: o min: 0 o max: 2048 o pattern: .*</param>
-    /// <param name="Status">The status of the control set that's being updated. Possible values: o ACTIVE o UNDER_REVIEW o REVIEWED</param>
-    /// <param name="Comment">The comment that's related to the status update. Constraints: o max: 350 o pattern: ^[\w\W\s\S]*$</param>
+    /// <param name="AssessmentId">The unique identifier for the assessment. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="ControlSetId">The unique identifier for the control set. Constraints: • min: 0 • max: 2048 • pattern: .*</param>
+    /// <param name="Status">The status of the control set that's being updated. Possible values: • ACTIVE • UNDER_REVIEW • REVIEWED</param>
+    /// <param name="Comment">The comment that's related to the status update. Constraints: • max: 350 • pattern: ^[\w\W\s\S]*$</param>
     public AwsAuditManagerUpdateAssessmentControlSetStatusOptions(
         string AssessmentId,
         string ControlSetId,
@@ -68,25 +70,25 @@ public record AwsAuditManagerUpdateAssessmentControlSetStatusOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the assessment. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The unique identifier for the assessment. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--assessment-id")]
     public string? AssessmentId { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the control set. Constraints: o min: 0 o max: 2048 o pattern: .*
+    /// The unique identifier for the control set. Constraints: • min: 0 • max: 2048 • pattern: .*
     /// </summary>
     [CliOption("--control-set-id")]
     public string? ControlSetId { get; private init; }
 
     /// <summary>
-    /// The status of the control set that's being updated. Possible values: o ACTIVE o UNDER_REVIEW o REVIEWED
+    /// The status of the control set that's being updated. Possible values: • ACTIVE • UNDER_REVIEW • REVIEWED
     /// </summary>
     [CliOption("--status")]
     public AwsAuditManagerUpdateAssessmentControlSetStatusStatus? Status { get; private init; }
 
     /// <summary>
-    /// The comment that's related to the status update. Constraints: o max: 350 o pattern: ^[\w\W\s\S]*$
+    /// The comment that's related to the status update. Constraints: • max: 350 • pattern: ^[\w\W\s\S]*$
     /// </summary>
     [CliOption("--comment")]
     public string? Comment { get; private init; }

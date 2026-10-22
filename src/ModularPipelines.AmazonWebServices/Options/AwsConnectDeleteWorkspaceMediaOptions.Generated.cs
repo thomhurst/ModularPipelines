@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +30,9 @@ public record AwsConnectDeleteWorkspaceMediaOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Deletes a media asset (such as a logo) from a workspace. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="WorkspaceId">The identifier of the workspace. Constraints: o min: 1 o max: 256</param>
-    /// <param name="MediaType">The type of media to delete. Valid values are: IMAGE_LOGO_FAVICON and IMAGE_LOGO_HORIZONTAL . Possible values: o IMAGE_LOGO_LIGHT_FAVICON o IMAGE_LOGO_DARK_FAVICON o IMAGE_LOGO_LIGHT_HORIZONTAL o IMAGE_LOGO_DARK_HORIZONTAL</param>
+    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="WorkspaceId">The identifier of the workspace. Constraints: • min: 1 • max: 256</param>
+    /// <param name="MediaType">The type of media to delete. Valid values are: IMAGE_LOGO_FAVICON and IMAGE_LOGO_HORIZONTAL . Possible values: • IMAGE_LOGO_LIGHT_FAVICON • IMAGE_LOGO_DARK_FAVICON • IMAGE_LOGO_LIGHT_HORIZONTAL • IMAGE_LOGO_DARK_HORIZONTAL</param>
     public AwsConnectDeleteWorkspaceMediaOptions(
         string InstanceId,
         string WorkspaceId,
@@ -64,19 +66,19 @@ public record AwsConnectDeleteWorkspaceMediaOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the workspace. Constraints: o min: 1 o max: 256
+    /// The identifier of the workspace. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
 
     /// <summary>
-    /// The type of media to delete. Valid values are: IMAGE_LOGO_FAVICON and IMAGE_LOGO_HORIZONTAL . Possible values: o IMAGE_LOGO_LIGHT_FAVICON o IMAGE_LOGO_DARK_FAVICON o IMAGE_LOGO_LIGHT_HORIZONTAL o IMAGE_LOGO_DARK_HORIZONTAL
+    /// The type of media to delete. Valid values are: IMAGE_LOGO_FAVICON and IMAGE_LOGO_HORIZONTAL . Possible values: • IMAGE_LOGO_LIGHT_FAVICON • IMAGE_LOGO_DARK_FAVICON • IMAGE_LOGO_LIGHT_HORIZONTAL • IMAGE_LOGO_DARK_HORIZONTAL
     /// </summary>
     [CliOption("--media-type")]
     public AwsConnectDeleteWorkspaceMediaMediaType? MediaType { get; private init; }

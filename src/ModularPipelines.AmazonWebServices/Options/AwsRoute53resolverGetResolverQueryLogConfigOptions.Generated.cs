@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets information about a specified Resolver query logging configura- tion, such as the number of VPCs that the configuration is logging queries for and the location that logs are sent to. See also: AWS API Documentation
+/// Gets information about a specified Resolver query logging configuration, such as the number of VPCs that the configuration is logging queries for and the location that logs are sent to. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRoute53resolverGetResolverQueryLogConfigOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets information about a specified Resolver query logging configura- tion, such as the number of VPCs that the configuration is logging queries for and the location that logs are sent to. See also: AWS API Documentation
+    /// Gets information about a specified Resolver query logging configuration, such as the number of VPCs that the configuration is logging queries for and the location that logs are sent to. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResolverQueryLogConfigId">The ID of the Resolver query logging configuration that you want to get information about. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ResolverQueryLogConfigId">The ID of the Resolver query logging configuration that you want to get information about. Constraints: • min: 1 • max: 64</param>
     public AwsRoute53resolverGetResolverQueryLogConfigOptions(
         string ResolverQueryLogConfigId
     )
@@ -56,7 +58,7 @@ public record AwsRoute53resolverGetResolverQueryLogConfigOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Resolver query logging configuration that you want to get information about. Constraints: o min: 1 o max: 64
+    /// The ID of the Resolver query logging configuration that you want to get information about. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--resolver-query-log-config-id")]
     public string? ResolverQueryLogConfigId { get; private init; }

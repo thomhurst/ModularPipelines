@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsNeptuneGraphGetGraphSnapshotOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Retrieves a specified graph snapshot. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SnapshotIdentifier">The ID of the snapshot to retrieve. Constraints: o pattern: gs-[a-z0-9]{10}</param>
+    /// <param name="SnapshotIdentifier">The ID of the snapshot to retrieve. Constraints: • pattern: gs-[a-z0-9]{10}</param>
     public AwsNeptuneGraphGetGraphSnapshotOptions(
         string SnapshotIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsNeptuneGraphGetGraphSnapshotOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the snapshot to retrieve. Constraints: o pattern: gs-[a-z0-9]{10}
+    /// The ID of the snapshot to retrieve. Constraints: • pattern: gs-[a-z0-9]{10}
     /// </summary>
     [CliOption("--snapshot-identifier")]
     public string? SnapshotIdentifier { get; private init; }

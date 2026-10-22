@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsQuicksightDescribeVpcConnectionOptions : AwsOptions, IValidatab
     /// <summary>
     /// Describes a VPC connection. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The Amazon Web Services account ID of the account that contains the VPC connection that you want described. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="VpcConnectionId">The ID of the VPC connection that you're creating. This ID is a unique identifier for each Amazon Web Services Region in an Amazon Web Services account. Constraints: o min: 1 o max: 1000</param>
+    /// <param name="AwsAccountId">The Amazon Web Services account ID of the account that contains the VPC connection that you want described. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="VpcConnectionId">The ID of the VPC connection that you're creating. This ID is a unique identifier for each Amazon Web Services Region in an Amazon Web Services account. Constraints: • min: 1 • max: 1000</param>
     public AwsQuicksightDescribeVpcConnectionOptions(
         string AwsAccountId,
         string VpcConnectionId
@@ -60,13 +62,13 @@ public record AwsQuicksightDescribeVpcConnectionOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID of the account that contains the VPC connection that you want described. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The Amazon Web Services account ID of the account that contains the VPC connection that you want described. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID of the VPC connection that you're creating. This ID is a unique identifier for each Amazon Web Services Region in an Amazon Web Services account. Constraints: o min: 1 o max: 1000
+    /// The ID of the VPC connection that you're creating. This ID is a unique identifier for each Amazon Web Services Region in an Amazon Web Services account. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--vpc-connection-id")]
     public string? VpcConnectionId { get; private init; }

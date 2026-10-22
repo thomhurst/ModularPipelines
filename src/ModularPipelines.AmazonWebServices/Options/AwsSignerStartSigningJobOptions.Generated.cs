@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Initiates a signing job to be performed on the code provided. Signing jobs are viewable by the ListSigningJobs operation. Note the following requirements: o You must create an Amazon S3 source bucket. For more information, see Creating a Bucket in the Amazon S3 Getting Started Guide . o Your S3 source bucket must be version enabled. o You must create an S3 destination bucket. AWS Signer uses your S3 destination bucket to write your signed code. o You specify the name of the source and destinatio...
+/// Initiates a signing job to be performed on the code provided. Signing jobs are viewable by the ListSigningJobs operation. Note the following requirements: • You must create an Amazon S3 source bucket. For more information, see Creating a Bucket in the Amazon S3 Getting Started Guide . • Your S3 source bucket must be version enabled. • You must create an S3 destination bucket. AWS Signer uses your S3 destination bucket to write your signed code. • You specify the name of the source and destinatio...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsSignerStartSigningJobOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Initiates a signing job to be performed on the code provided. Signing jobs are viewable by the ListSigningJobs operation. Note the following requirements: o You must create an Amazon S3 source bucket. For more information, see Creating a Bucket in the Amazon S3 Getting Started Guide . o Your S3 source bucket must be version enabled. o You must create an S3 destination bucket. AWS Signer uses your S3 destination bucket to write your signed code. o You specify the name of the source and destinatio...
+    /// Initiates a signing job to be performed on the code provided. Signing jobs are viewable by the ListSigningJobs operation. Note the following requirements: • You must create an Amazon S3 source bucket. For more information, see Creating a Bucket in the Amazon S3 Getting Started Guide . • Your S3 source bucket must be version enabled. • You must create an S3 destination bucket. AWS Signer uses your S3 destination bucket to write your signed code. • You specify the name of the source and destinatio...
     /// </summary>
-    /// <param name="Source">The S3 bucket that contains the object to sign or a BLOB that con- tains your raw code. s3 -&gt; (structure) The S3Source object. bucketName -&gt; (string) [required] Name of the S3 bucket. key -&gt; (string) [required] Key name of the bucket object that contains your unsigned code. version -&gt; (string) [required] Version of your source image in your version enabled S3 bucket. Shorthand Syntax: s3={bucketName=string,key=string,version=string} JSON Syntax: { "s3": { "bucketName": "string", "key": "string", "version": "string" } }</param>
+    /// <param name="Source">The S3 bucket that contains the object to sign or a BLOB that contains your raw code. s3 -&gt; (structure) The S3Source object. bucketName -&gt; (string) [required] Name of the S3 bucket. key -&gt; (string) [required] Key name of the bucket object that contains your unsigned code. version -&gt; (string) [required] Version of your source image in your version enabled S3 bucket. Shorthand Syntax: s3={bucketName=string,key=string,version=string} JSON Syntax: { "s3": { "bucketName": "string", "key": "string", "version": "string" } }</param>
     /// <param name="Destination">The S3 bucket in which to save your signed object. The destination contains the name of your bucket and an optional prefix. s3 -&gt; (structure) The S3Destination object. bucketName -&gt; (string) Name of the S3 bucket. prefix -&gt; (string) An S3 prefix that you can use to limit responses to those that begin with the specified prefix. Shorthand Syntax: s3={bucketName=string,prefix=string} JSON Syntax: { "s3": { "bucketName": "string", "prefix": "string" } }</param>
-    /// <param name="ProfileName">The name of the signing profile. Constraints: o min: 2 o max: 64 o pattern: ^[a-zA-Z0-9_]{2,}</param>
+    /// <param name="ProfileName">The name of the signing profile. Constraints: • min: 2 • max: 64 • pattern: ^[a-zA-Z0-9_]{2,}</param>
     public AwsSignerStartSigningJobOptions(
         string Source,
         string Destination,
@@ -65,7 +67,7 @@ public record AwsSignerStartSigningJobOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The S3 bucket that contains the object to sign or a BLOB that con- tains your raw code. s3 -&gt; (structure) The S3Source object. bucketName -&gt; (string) [required] Name of the S3 bucket. key -&gt; (string) [required] Key name of the bucket object that contains your unsigned code. version -&gt; (string) [required] Version of your source image in your version enabled S3 bucket. Shorthand Syntax: s3={bucketName=string,key=string,version=string} JSON Syntax: { "s3": { "bucketName": "string", "key": "string", "version": "string" } }
+    /// The S3 bucket that contains the object to sign or a BLOB that contains your raw code. s3 -&gt; (structure) The S3Source object. bucketName -&gt; (string) [required] Name of the S3 bucket. key -&gt; (string) [required] Key name of the bucket object that contains your unsigned code. version -&gt; (string) [required] Version of your source image in your version enabled S3 bucket. Shorthand Syntax: s3={bucketName=string,key=string,version=string} JSON Syntax: { "s3": { "bucketName": "string", "key": "string", "version": "string" } }
     /// </summary>
     [CliOption("--source")]
     public string? Source { get; private init; }
@@ -77,7 +79,7 @@ public record AwsSignerStartSigningJobOptions : AwsOptions, IValidatableObject
     public string? Destination { get; private init; }
 
     /// <summary>
-    /// The name of the signing profile. Constraints: o min: 2 o max: 64 o pattern: ^[a-zA-Z0-9_]{2,}
+    /// The name of the signing profile. Constraints: • min: 2 • max: 64 • pattern: ^[a-zA-Z0-9_]{2,}
     /// </summary>
     [CliOption("--profile-name")]
     public string? ProfileName { get; private init; }
@@ -90,7 +92,7 @@ public record AwsSignerStartSigningJobOptions : AwsOptions, IValidatableObject
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// The AWS account ID of the signing profile owner. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The AWS account ID of the signing profile owner. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--profile-owner")]
     public string? ProfileOwner { get; set; }

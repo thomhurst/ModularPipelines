@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a SIP media application. For more information about SIP media applications, see Managing SIP media applications and rules in the Ama- zon Chime SDK Administrator Guide . See also: AWS API Documentation
+/// Creates a SIP media application. For more information about SIP media applications, see Managing SIP media applications and rules in the Amazon Chime SDK Administrator Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsChimeSdkVoiceCreateSipMediaApplicationOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a SIP media application. For more information about SIP media applications, see Managing SIP media applications and rules in the Ama- zon Chime SDK Administrator Guide . See also: AWS API Documentation
+    /// Creates a SIP media application. For more information about SIP media applications, see Managing SIP media applications and rules in the Amazon Chime SDK Administrator Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="AwsRegion">The AWS Region assigned to the SIP media application.</param>
-    /// <param name="Name">The SIP media application's name. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 _.-]+</param>
-    /// <param name="Endpoints">List of endpoints (Lambda ARNs) specified for the SIP media applica- tion. Constraints: o min: 1 o max: 1 (structure) The endpoint assigned to a SIP media application. LambdaArn -&gt; (string) Valid Amazon Resource Name (ARN) of the Lambda function, ver- sion, or alias. The function must be created in the same AWS Region as the SIP media application. Constraints: o max: 10000 o pattern: arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1}:\d{12}:func- tion:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))? Shorthand Syntax: LambdaArn=string ... JSON Syntax: [ { "LambdaArn": "string" } ... ]</param>
+    /// <param name="Name">The SIP media application's name. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9 _.-]+</param>
+    /// <param name="Endpoints">List of endpoints (Lambda ARNs) specified for the SIP media application. Constraints: • min: 1 • max: 1 (structure) The endpoint assigned to a SIP media application. LambdaArn -&gt; (string) Valid Amazon Resource Name (ARN) of the Lambda function, version, or alias. The function must be created in the same AWS Region as the SIP media application. Constraints: • max: 10000 • pattern: arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1}:\d{12}:function:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))? Shorthand Syntax: LambdaArn=string ... JSON Syntax: [ { "LambdaArn": "string" } ... ]</param>
     public AwsChimeSdkVoiceCreateSipMediaApplicationOptions(
         string AwsRegion,
         string Name,
@@ -81,19 +83,19 @@ public record AwsChimeSdkVoiceCreateSipMediaApplicationOptions : AwsOptions, IVa
     public string? AwsRegion { get; private init; }
 
     /// <summary>
-    /// The SIP media application's name. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 _.-]+
+    /// The SIP media application's name. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9 _.-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// List of endpoints (Lambda ARNs) specified for the SIP media applica- tion. Constraints: o min: 1 o max: 1 (structure) The endpoint assigned to a SIP media application. LambdaArn -&gt; (string) Valid Amazon Resource Name (ARN) of the Lambda function, ver- sion, or alias. The function must be created in the same AWS Region as the SIP media application. Constraints: o max: 10000 o pattern: arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1}:\d{12}:func- tion:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))? Shorthand Syntax: LambdaArn=string ... JSON Syntax: [ { "LambdaArn": "string" } ... ]
+    /// List of endpoints (Lambda ARNs) specified for the SIP media application. Constraints: • min: 1 • max: 1 (structure) The endpoint assigned to a SIP media application. LambdaArn -&gt; (string) Valid Amazon Resource Name (ARN) of the Lambda function, version, or alias. The function must be created in the same AWS Region as the SIP media application. Constraints: • max: 10000 • pattern: arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1}:\d{12}:function:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))? Shorthand Syntax: LambdaArn=string ... JSON Syntax: [ { "LambdaArn": "string" } ... ]
     /// </summary>
     [CliOption("--endpoints", GroupValues = true)]
     public IEnumerable<string>? Endpoints { get; private init; }
 
     /// <summary>
-    /// The tags assigned to the SIP media application. Constraints: o min: 1 o max: 50 (structure) Describes a tag applied to a resource. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags assigned to the SIP media application. Constraints: • min: 1 • max: 50 (structure) Describes a tag applied to a resource. Key -&gt; (string) [required] The tag's key. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The tag's value. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

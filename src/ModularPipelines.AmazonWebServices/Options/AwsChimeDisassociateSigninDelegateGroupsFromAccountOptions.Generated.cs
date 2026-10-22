@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsChimeDisassociateSigninDelegateGroupsFromAccountOptions : AwsOp
     /// <summary>
     /// Disassociates the specified sign-in delegate groups from the specified Amazon Chime account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Chime account ID. Constraints: o pattern: .*\S.*</param>
-    /// <param name="GroupNames">The sign-in delegate group names. Constraints: o min: 1 (string) Syntax: "string" "string" ...</param>
+    /// <param name="AccountId">The Amazon Chime account ID. Constraints: • pattern: .*\S.*</param>
+    /// <param name="GroupNames">The sign-in delegate group names. Constraints: • min: 1 (string) Syntax: "string" "string" ...</param>
     public AwsChimeDisassociateSigninDelegateGroupsFromAccountOptions(
         string AccountId,
         IEnumerable<string> GroupNames
@@ -71,13 +73,13 @@ public record AwsChimeDisassociateSigninDelegateGroupsFromAccountOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Chime account ID. Constraints: o pattern: .*\S.*
+    /// The Amazon Chime account ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The sign-in delegate group names. Constraints: o min: 1 (string) Syntax: "string" "string" ...
+    /// The sign-in delegate group names. Constraints: • min: 1 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--group-names", GroupValues = true)]
     public IEnumerable<string>? GroupNames { get; private init; }

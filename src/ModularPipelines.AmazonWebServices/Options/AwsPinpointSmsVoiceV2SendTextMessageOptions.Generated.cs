@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -29,7 +30,7 @@ public record AwsPinpointSmsVoiceV2SendTextMessageOptions : AwsOptions, IValidat
     /// <summary>
     /// Creates a new text message and sends it to a recipient's phone number. SendTextMessage only sends an SMS message to one recipient each time it is invoked. SMS throughput limits are measured in Message Parts per Second (MPS). Your MPS limit depends on the destination country of your messages, as well as the type of phone number (origination number) that you use to send the message. For more information about MPS, see Message Parts per Second (MPS) limits in the End User Messaging SMS User Guide ....
     /// </summary>
-    /// <param name="DestinationPhoneNumber">The destination phone number in E.164 format. Constraints: o min: 1 o max: 20 o pattern: \+?[1-9][0-9]{1,18}</param>
+    /// <param name="DestinationPhoneNumber">The destination phone number in E.164 format. Constraints: • min: 1 • max: 20 • pattern: \+?[1-9][0-9]{1,18}</param>
     public AwsPinpointSmsVoiceV2SendTextMessageOptions(
         string DestinationPhoneNumber
     )
@@ -58,61 +59,61 @@ public record AwsPinpointSmsVoiceV2SendTextMessageOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The destination phone number in E.164 format. Constraints: o min: 1 o max: 20 o pattern: \+?[1-9][0-9]{1,18}
+    /// The destination phone number in E.164 format. Constraints: • min: 1 • max: 20 • pattern: \+?[1-9][0-9]{1,18}
     /// </summary>
     [CliOption("--destination-phone-number")]
     public string? DestinationPhoneNumber { get; private init; }
 
     /// <summary>
-    /// The origination identity of the message. This can be either the Pho- neNumber, PhoneNumberId, PhoneNumberArn, RcsAgentId, RcsAgentArn, SenderId, SenderIdArn, PoolId, or PoolArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/\+-]+
+    /// The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, RcsAgentId, RcsAgentArn, SenderId, SenderIdArn, PoolId, or PoolArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/\+-]+
     /// </summary>
     [CliOption("--origination-identity")]
     public string? OriginationIdentity { get; set; }
 
     /// <summary>
-    /// The body of the text message. Constraints: o min: 1 o max: 1600 o pattern: (?!\s*$)[\s\S]+
+    /// The body of the text message. Constraints: • min: 1 • max: 1600 • pattern: (?!\s*$)[\s\S]+
     /// </summary>
     [CliOption("--message-body")]
     public string? MessageBody { get; set; }
 
     /// <summary>
-    /// The type of message. Valid values are for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive. Possible values: o TRANSACTIONAL o PROMOTIONAL
+    /// The type of message. Valid values are for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive. Possible values: • TRANSACTIONAL • PROMOTIONAL
     /// </summary>
     [CliOption("--message-type")]
     public AwsPinpointSmsVoiceV2SendTextMessageMessageType? MessageType { get; set; }
 
     /// <summary>
-    /// When you register a short code in the US, you must specify a program name. If you dont have a US short code, omit this attribute. Constraints: o min: 1 o max: 30 o pattern: [ \S]+
+    /// When you register a short code in the US, you must specify a program name. If you dont have a US short code, omit this attribute. Constraints: • min: 1 • max: 30 • pattern: [ \S]+
     /// </summary>
     [CliOption("--keyword")]
     public string? Keyword { get; set; }
 
     /// <summary>
-    /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--configuration-set-name")]
     public string? ConfigurationSetName { get; set; }
 
     /// <summary>
-    /// The maximum amount that you want to spend, in US dollars, per each text message. If the calculated amount to send the text message is greater than MaxPrice , the message is not sent and an error is re- turned. Constraints: o min: 2 o max: 8 o pattern: [0-9]{0,2}\.[0-9]{1,5}
+    /// The maximum amount that you want to spend, in US dollars, per each text message. If the calculated amount to send the text message is greater than MaxPrice , the message is not sent and an error is returned. Constraints: • min: 2 • max: 8 • pattern: [0-9]{0,2}\.[0-9]{1,5}
     /// </summary>
     [CliOption("--max-price")]
     public string? MaxPrice { get; set; }
 
     /// <summary>
-    /// How long the text message is valid for, in seconds. By default this is 72 hours. If the messages isn't handed off before the TTL expires we stop attempting to hand off the message and return TTL_EXPIRED event. Constraints: o min: 5 o max: 259200
+    /// How long the text message is valid for, in seconds. By default this is 72 hours. If the messages isn't handed off before the TTL expires we stop attempting to hand off the message and return TTL_EXPIRED event. Constraints: • min: 5 • max: 259200
     /// </summary>
     [CliOption("--time-to-live")]
     public int? TimeToLive { get; set; }
 
     /// <summary>
-    /// You can specify custom data in this field. If you do, that data is logged to the event destination. Constraints: o min: 0 o max: 5 key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: \S+ value -&gt; (string) Constraints: o min: 1 o max: 800 o pattern: (?!\s)^[\s\S]+(?&lt;!\s) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// You can specify custom data in this field. If you do, that data is logged to the event destination. Constraints: • min: 0 • max: 5 key -&gt; (string) Constraints: • min: 1 • max: 100 • pattern: \S+ value -&gt; (string) Constraints: • min: 1 • max: 800 • pattern: (?!\s)^[\s\S]+(?&lt;!\s) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--context", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Context { get; set; }
 
     /// <summary>
-    /// This field is used for any country-specific registration require- ments. Currently, this setting is only used when you send messages to recipients in India using a sender ID. For more information see Special requirements for sending SMS messages to recipients in India . o IN_ENTITY_ID The entity ID or Principal Entity (PE) ID that you received after completing the sender ID registration process. o IN_TEMPLATE_ID The template ID that you received after completing the sender ID registration process. WARNING: Make sure that the Template ID that you specify matches your message template exactly. If your message doesn't match the tem- plate that you provided during the registration process, the mo- bile carriers might reject your message. Constraints: o min: 0 o max: 10 key -&gt; (string) Possible values: o IN_TEMPLATE_ID o IN_ENTITY_ID value -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: \S+ Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: IN_TEMPLATE_ID IN_ENTITY_ID JSON Syntax: {"IN_TEMPLATE_ID"|"IN_ENTITY_ID": "string" ...}
+    /// This field is used for any country-specific registration requirements. Currently, this setting is only used when you send messages to recipients in India using a sender ID. For more information see Special requirements for sending SMS messages to recipients in India . • IN_ENTITY_ID The entity ID or Principal Entity (PE) ID that you received after completing the sender ID registration process. • IN_TEMPLATE_ID The template ID that you received after completing the sender ID registration process. WARNING: Make sure that the Template ID that you specify matches your message template exactly. If your message doesn't match the template that you provided during the registration process, the mobile carriers might reject your message. Constraints: • min: 0 • max: 10 key -&gt; (string) Possible values: • IN_TEMPLATE_ID • IN_ENTITY_ID value -&gt; (string) Constraints: • min: 1 • max: 64 • pattern: \S+ Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: IN_TEMPLATE_ID IN_ENTITY_ID JSON Syntax: {"IN_TEMPLATE_ID"|"IN_ENTITY_ID": "string" ...}
     /// </summary>
     [CliOption("--destination-country-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? DestinationCountryParameters { get; set; }
@@ -124,7 +125,7 @@ public record AwsPinpointSmsVoiceV2SendTextMessageOptions : AwsOptions, IValidat
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// The unique identifier for the protect configuration. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The unique identifier for the protect configuration. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--protect-configuration-id")]
     public string? ProtectConfigurationId { get; set; }

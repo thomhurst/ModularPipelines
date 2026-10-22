@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates a lifecycle hook for the specified Auto Scaling group. Lifecycle hooks let you create solutions that are aware of events in the Auto Scaling instance lifecycle, and then perform a custom action on instances when the corresponding lifecycle event occurs. This step is a part of the procedure for adding a lifecycle hook to an Auto Scaling group: o (Optional) Create a launch template or launch configuration with a user data script that runs while an instance is in a wait state due...
+/// Creates or updates a lifecycle hook for the specified Auto Scaling group. Lifecycle hooks let you create solutions that are aware of events in the Auto Scaling instance lifecycle, and then perform a custom action on instances when the corresponding lifecycle event occurs. This step is a part of the procedure for adding a lifecycle hook to an Auto Scaling group: • (Optional) Create a launch template or launch configuration with a user data script that runs while an instance is in a wait state due...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsAutoscalingPutLifecycleHookOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates or updates a lifecycle hook for the specified Auto Scaling group. Lifecycle hooks let you create solutions that are aware of events in the Auto Scaling instance lifecycle, and then perform a custom action on instances when the corresponding lifecycle event occurs. This step is a part of the procedure for adding a lifecycle hook to an Auto Scaling group: o (Optional) Create a launch template or launch configuration with a user data script that runs while an instance is in a wait state due...
+    /// Creates or updates a lifecycle hook for the specified Auto Scaling group. Lifecycle hooks let you create solutions that are aware of events in the Auto Scaling instance lifecycle, and then perform a custom action on instances when the corresponding lifecycle event occurs. This step is a part of the procedure for adding a lifecycle hook to an Auto Scaling group: • (Optional) Create a launch template or launch configuration with a user data script that runs while an instance is in a wait state due...
     /// </summary>
-    /// <param name="LifecycleHookName">The name of the lifecycle hook. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9\-_\/]+</param>
-    /// <param name="AutoScalingGroupName">The name of the Auto Scaling group. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="LifecycleHookName">The name of the lifecycle hook. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z0-9\-_\/]+</param>
+    /// <param name="AutoScalingGroupName">The name of the Auto Scaling group. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
     public AwsAutoscalingPutLifecycleHookOptions(
         string LifecycleHookName,
         string AutoScalingGroupName
@@ -60,37 +62,37 @@ public record AwsAutoscalingPutLifecycleHookOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the lifecycle hook. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9\-_\/]+
+    /// The name of the lifecycle hook. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z0-9\-_\/]+
     /// </summary>
     [CliOption("--lifecycle-hook-name")]
     public string? LifecycleHookName { get; private init; }
 
     /// <summary>
-    /// The name of the Auto Scaling group. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The name of the Auto Scaling group. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--auto-scaling-group-name")]
     public string? AutoScalingGroupName { get; private init; }
 
     /// <summary>
-    /// The lifecycle transition. For Auto Scaling groups, there are two ma- jor lifecycle transitions. o To create a lifecycle hook for scale-out events, specify autoscal- ing:EC2_INSTANCE_LAUNCHING . o To create a lifecycle hook for scale-in events, specify autoscal- ing:EC2_INSTANCE_TERMINATING . Required for new lifecycle hooks, but optional when updating exist- ing hooks.
+    /// The lifecycle transition. For Auto Scaling groups, there are two major lifecycle transitions. • To create a lifecycle hook for scale-out events, specify autoscaling:EC2_INSTANCE_LAUNCHING . • To create a lifecycle hook for scale-in events, specify autoscaling:EC2_INSTANCE_TERMINATING . Required for new lifecycle hooks, but optional when updating existing hooks.
     /// </summary>
     [CliOption("--lifecycle-transition")]
     public string? LifecycleTransition { get; set; }
 
     /// <summary>
-    /// The ARN of the IAM role that allows the Auto Scaling group to pub- lish to the specified notification target. Valid only if the notification target is an Amazon SNS topic or an Amazon SQS queue. Required for new lifecycle hooks, but optional when updating existing hooks. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The ARN of the IAM role that allows the Auto Scaling group to publish to the specified notification target. Valid only if the notification target is an Amazon SNS topic or an Amazon SQS queue. Required for new lifecycle hooks, but optional when updating existing hooks. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the notification target that Ama- zon EC2 Auto Scaling uses to notify you when an instance is in a wait state for the lifecycle hook. You can specify either an Amazon SNS topic or an Amazon SQS queue. If you specify an empty string, this overrides the current ARN. This operation uses the JSON format when sending notifications to an Amazon SQS queue, and an email key-value pair format when sending notifications to an Amazon SNS topic. When you specify a notification target, Amazon EC2 Auto Scaling sends it a test message. Test messages contain the following addi- tional key-value pair: "Event": "autoscaling:TEST_NOTIFICATION" . Constraints: o min: 0 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The Amazon Resource Name (ARN) of the notification target that Amazon EC2 Auto Scaling uses to notify you when an instance is in a wait state for the lifecycle hook. You can specify either an Amazon SNS topic or an Amazon SQS queue. If you specify an empty string, this overrides the current ARN. This operation uses the JSON format when sending notifications to an Amazon SQS queue, and an email key-value pair format when sending notifications to an Amazon SNS topic. When you specify a notification target, Amazon EC2 Auto Scaling sends it a test message. Test messages contain the following additional key-value pair: "Event": "autoscaling:TEST_NOTIFICATION" . Constraints: • min: 0 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--notification-target-arn")]
     public string? NotificationTargetArn { get; set; }
 
     /// <summary>
-    /// Additional information that you want to include any time Amazon EC2 Auto Scaling sends a message to the notification target. Constraints: o min: 1 o max: 4000 o pattern: [\u0009\u000A\u000D\u0020-\u007e]+
+    /// Additional information that you want to include any time Amazon EC2 Auto Scaling sends a message to the notification target. Constraints: • min: 1 • max: 4000 • pattern: [\u0009\u000A\u000D\u0020-\u007e]+
     /// </summary>
     [CliOption("--notification-metadata")]
     public string? NotificationMetadata { get; set; }

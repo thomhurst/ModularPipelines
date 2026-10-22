@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Use the AcceptEngagementInvitation action to accept an engagement invi- tation shared by AWS. Accepting the invitation indicates your willing- ness to participate in the engagement, granting you access to all en- gagement-related data. See also: AWS API Documentation
+/// Use the AcceptEngagementInvitation action to accept an engagement invitation shared by AWS. Accepting the invitation indicates your willingness to participate in the engagement, granting you access to all engagement-related data. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsPartnercentralSellingAcceptEngagementInvitationOptions : AwsOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Use the AcceptEngagementInvitation action to accept an engagement invi- tation shared by AWS. Accepting the invitation indicates your willing- ness to participate in the engagement, granting you access to all en- gagement-related data. See also: AWS API Documentation
+    /// Use the AcceptEngagementInvitation action to accept an engagement invitation shared by AWS. Accepting the invitation indicates your willingness to participate in the engagement, granting you access to all engagement-related data. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">The CatalogType parameter specifies the catalog associated with the engagement invitation. Accepted values are AWS and Sandbox , which determine the environment in which the engagement invitation is man- aged. Constraints: o pattern: [a-zA-Z]+</param>
-    /// <param name="Identifier">The Identifier parameter in the AcceptEngagementInvitationRequest specifies the unique identifier of the EngagementInvitation to be accepted. Providing the correct identifier ensures that the intended invitation is accepted. Constraints: o pattern: (?=.{1,255}$)(arn:.*|engi-[0-9a-z]{13})</param>
+    /// <param name="Catalog">The CatalogType parameter specifies the catalog associated with the engagement invitation. Accepted values are AWS and Sandbox , which determine the environment in which the engagement invitation is managed. Constraints: • pattern: [a-zA-Z]+</param>
+    /// <param name="Identifier">The Identifier parameter in the AcceptEngagementInvitationRequest specifies the unique identifier of the EngagementInvitation to be accepted. Providing the correct identifier ensures that the intended invitation is accepted. Constraints: • pattern: (?=.{1,255}$)(arn:.*|engi-[0-9a-z]{13})</param>
     public AwsPartnercentralSellingAcceptEngagementInvitationOptions(
         string Catalog,
         string Identifier
@@ -60,13 +62,13 @@ public record AwsPartnercentralSellingAcceptEngagementInvitationOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The CatalogType parameter specifies the catalog associated with the engagement invitation. Accepted values are AWS and Sandbox , which determine the environment in which the engagement invitation is man- aged. Constraints: o pattern: [a-zA-Z]+
+    /// The CatalogType parameter specifies the catalog associated with the engagement invitation. Accepted values are AWS and Sandbox , which determine the environment in which the engagement invitation is managed. Constraints: • pattern: [a-zA-Z]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// The Identifier parameter in the AcceptEngagementInvitationRequest specifies the unique identifier of the EngagementInvitation to be accepted. Providing the correct identifier ensures that the intended invitation is accepted. Constraints: o pattern: (?=.{1,255}$)(arn:.*|engi-[0-9a-z]{13})
+    /// The Identifier parameter in the AcceptEngagementInvitationRequest specifies the unique identifier of the EngagementInvitation to be accepted. Providing the correct identifier ensures that the intended invitation is accepted. Constraints: • pattern: (?=.{1,255}$)(arn:.*|engi-[0-9a-z]{13})
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }

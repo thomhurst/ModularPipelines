@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +29,10 @@ public record AwsCognitoIdentityMergeDeveloperIdentitiesOptions : AwsOptions, IV
     /// <summary>
     /// Merges two users having different IdentityId s, existing in the same identity pool, and identified by the same developer provider. You can use this action to request that discrete users be merged and identified as a single user in the Cognito environment. Cognito associates the given source user (SourceUserIdentifier ) with the IdentityId of the DestinationUserIdentifier . Only developer-authenticated users can be merged. If the users to be merged are associated with the same public provider, bu...
     /// </summary>
-    /// <param name="SourceUserIdentifier">User identifier for the source user. The value should be a Develope- rUserIdentifier . Constraints: o min: 1 o max: 1024</param>
-    /// <param name="DestinationUserIdentifier">User identifier for the destination user. The value should be a De- veloperUserIdentifier . Constraints: o min: 1 o max: 1024</param>
-    /// <param name="DeveloperProviderName">The "domain" by which Cognito will refer to your users. This is a (pseudo) domain name that you provide while creating an identity pool. This name acts as a placeholder that allows your backend and the Cognito service to communicate about the developer provider. For the DeveloperProviderName , you can use letters as well as period (.), underscore (_), and dash (-). Constraints: o min: 1 o max: 128 o pattern: [\w._-]+</param>
-    /// <param name="IdentityPoolId">An identity pool ID in the format REGION:GUID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+</param>
+    /// <param name="SourceUserIdentifier">User identifier for the source user. The value should be a DeveloperUserIdentifier . Constraints: • min: 1 • max: 1024</param>
+    /// <param name="DestinationUserIdentifier">User identifier for the destination user. The value should be a DeveloperUserIdentifier . Constraints: • min: 1 • max: 1024</param>
+    /// <param name="DeveloperProviderName">The "domain" by which Cognito will refer to your users. This is a (pseudo) domain name that you provide while creating an identity pool. This name acts as a placeholder that allows your backend and the Cognito service to communicate about the developer provider. For the DeveloperProviderName , you can use letters as well as period (.), underscore (_), and dash (-). Constraints: • min: 1 • max: 128 • pattern: [\w._-]+</param>
+    /// <param name="IdentityPoolId">An identity pool ID in the format REGION:GUID. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+</param>
     public AwsCognitoIdentityMergeDeveloperIdentitiesOptions(
         string SourceUserIdentifier,
         string DestinationUserIdentifier,
@@ -68,25 +70,25 @@ public record AwsCognitoIdentityMergeDeveloperIdentitiesOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// User identifier for the source user. The value should be a Develope- rUserIdentifier . Constraints: o min: 1 o max: 1024
+    /// User identifier for the source user. The value should be a DeveloperUserIdentifier . Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--source-user-identifier")]
     public string? SourceUserIdentifier { get; private init; }
 
     /// <summary>
-    /// User identifier for the destination user. The value should be a De- veloperUserIdentifier . Constraints: o min: 1 o max: 1024
+    /// User identifier for the destination user. The value should be a DeveloperUserIdentifier . Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--destination-user-identifier")]
     public string? DestinationUserIdentifier { get; private init; }
 
     /// <summary>
-    /// The "domain" by which Cognito will refer to your users. This is a (pseudo) domain name that you provide while creating an identity pool. This name acts as a placeholder that allows your backend and the Cognito service to communicate about the developer provider. For the DeveloperProviderName , you can use letters as well as period (.), underscore (_), and dash (-). Constraints: o min: 1 o max: 128 o pattern: [\w._-]+
+    /// The "domain" by which Cognito will refer to your users. This is a (pseudo) domain name that you provide while creating an identity pool. This name acts as a placeholder that allows your backend and the Cognito service to communicate about the developer provider. For the DeveloperProviderName , you can use letters as well as period (.), underscore (_), and dash (-). Constraints: • min: 1 • max: 128 • pattern: [\w._-]+
     /// </summary>
     [CliOption("--developer-provider-name")]
     public string? DeveloperProviderName { get; private init; }
 
     /// <summary>
-    /// An identity pool ID in the format REGION:GUID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+
+    /// An identity pool ID in the format REGION:GUID. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+
     /// </summary>
     [CliOption("--identity-pool-id")]
     public string? IdentityPoolId { get; private init; }

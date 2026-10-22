@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -23,43 +24,43 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsOmicsCreateRunGroupOptions : AwsOptions
 {
     /// <summary>
-    /// A name for the group. Constraints: o min: 1 o max: 128 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// A name for the group. Constraints: • min: 1 • max: 128 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The maximum number of CPUs that can run concurrently across all ac- tive runs in the run group. Constraints: o min: 1 o max: 100000
+    /// The maximum number of CPUs that can run concurrently across all active runs in the run group. Constraints: • min: 1 • max: 100000
     /// </summary>
     [CliOption("--max-cpus")]
     public int? MaxCpus { get; set; }
 
     /// <summary>
-    /// The maximum number of runs that can be running at the same time. Constraints: o min: 1 o max: 100000
+    /// The maximum number of runs that can be running at the same time. Constraints: • min: 1 • max: 100000
     /// </summary>
     [CliOption("--max-runs")]
     public int? MaxRuns { get; set; }
 
     /// <summary>
-    /// The maximum time for each run (in minutes). If a run exceeds the maximum run time, the run fails automatically. Constraints: o min: 1 o max: 100000
+    /// The maximum time for each run (in minutes). If a run exceeds the maximum run time, the run fails automatically. Constraints: • min: 1 • max: 100000
     /// </summary>
     [CliOption("--max-duration")]
     public int? MaxDuration { get; set; }
 
     /// <summary>
-    /// Tags for the group. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags for the group. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// To ensure that requests don't run multiple times, specify a unique ID for each request. Constraints: o min: 1 o max: 128 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// To ensure that requests don't run multiple times, specify a unique ID for each request. Constraints: • min: 1 • max: 128 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [CliOption("--request-id")]
     public string? RequestId { get; set; }
 
     /// <summary>
-    /// The maximum number of GPUs that can run concurrently across all ac- tive runs in the run group. Constraints: o min: 1 o max: 100000
+    /// The maximum number of GPUs that can run concurrently across all active runs in the run group. Constraints: • min: 1 • max: 100000
     /// </summary>
     [CliOption("--max-gpus")]
     public int? MaxGpus { get; set; }

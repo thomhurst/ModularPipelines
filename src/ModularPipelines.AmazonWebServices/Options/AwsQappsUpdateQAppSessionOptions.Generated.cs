@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsQappsUpdateQAppSessionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the session for a given Q App sessionId . This is only valid when at least one card of the session is in the WAITING state. Data for each WAITING card can be provided as input. If inputs are not provided, the call will be accepted but session will not move forward. Inputs for cards that are not in the WAITING status will be ignored. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The unique identifier of the Amazon Q Business application environ- ment instance.</param>
-    /// <param name="SessionId">The unique identifier of the Q App session to provide input for. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}</param>
+    /// <param name="InstanceId">The unique identifier of the Amazon Q Business application environment instance.</param>
+    /// <param name="SessionId">The unique identifier of the Q App session to provide input for. Constraints: • pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}</param>
     public AwsQappsUpdateQAppSessionOptions(
         string InstanceId,
         string SessionId
@@ -60,19 +62,19 @@ public record AwsQappsUpdateQAppSessionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Amazon Q Business application environ- ment instance.
+    /// The unique identifier of the Amazon Q Business application environment instance.
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the Q App session to provide input for. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}
+    /// The unique identifier of the Q App session to provide input for. Constraints: • pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }
 
     /// <summary>
-    /// The input values to provide for the current state of the Q App ses- sion. Constraints: o min: 0 o max: 20 (structure) The value or result associated with a card in a Amazon Q App session. cardId -&gt; (string) [required] The unique identifier of the card. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12} value -&gt; (string) [required] The value or result associated with the card. Constraints: o min: 0 o max: 40000 submissionMutation -&gt; (structure) The structure that describes how the current form card value is mutated. Only applies for form cards when multiple re- sponses are allowed. submissionId -&gt; (string) [required] The unique identifier of the submission. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12} mutationType -&gt; (string) [required] The operation that is performed on a submission. Possible values: o edit o delete o add Shorthand Syntax: cardId=string,value=string,submissionMutation={submissionId=string,mutationType=string} ... JSON Syntax: [ { "cardId": "string", "value": "string", "submissionMutation": { "submissionId": "string", "mutationType": "edit"|"delete"|"add" } } ... ]
+    /// The input values to provide for the current state of the Q App session. Constraints: • min: 0 • max: 20 (structure) The value or result associated with a card in a Amazon Q App session. cardId -&gt; (string) [required] The unique identifier of the card. Constraints: • pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12} value -&gt; (string) [required] The value or result associated with the card. Constraints: • min: 0 • max: 40000 submissionMutation -&gt; (structure) The structure that describes how the current form card value is mutated. Only applies for form cards when multiple responses are allowed. submissionId -&gt; (string) [required] The unique identifier of the submission. Constraints: • pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12} mutationType -&gt; (string) [required] The operation that is performed on a submission. Possible values: • edit • delete • add Shorthand Syntax: cardId=string,value=string,submissionMutation={submissionId=string,mutationType=string} ... JSON Syntax: [ { "cardId": "string", "value": "string", "submissionMutation": { "submissionId": "string", "mutationType": "edit"|"delete"|"add" } } ... ]
     /// </summary>
     [CliOption("--values", GroupValues = true)]
     public IEnumerable<string>? Values { get; set; }

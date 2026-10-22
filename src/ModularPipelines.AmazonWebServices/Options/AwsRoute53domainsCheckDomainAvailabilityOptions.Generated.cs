@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRoute53domainsCheckDomainAvailabilityOptions : AwsOptions, IVal
     /// <summary>
     /// This operation checks the availability of one domain name. Note that if the availability status of a domain is pending, you must submit another request to determine the availability of the domain name. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The name of the domain that you want to get availability for. The top-level domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of supported TLDs, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide . The domain name can contain only the following characters: o Letters a through z. Domain names are not case sensitive. o Numbers 0 through 9. o Hyphen (-). You can't specify a hyphen at the beginning or end of a label. o Period (.) to separate the labels in the name, such as the . in example.com . Internationalized domain names are not supported for some top-level domains. To determine whether the TLD that you want to use supports internationalized domain names, see Domains that You Can Register with Amazon Route 53 . For more information, see Formatting Interna- tionalized Domain Names . Constraints: o max: 255</param>
+    /// <param name="DomainName">The name of the domain that you want to get availability for. The top-level domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of supported TLDs, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide . The domain name can contain only the following characters: • Letters a through z. Domain names are not case sensitive. • Numbers 0 through 9. • Hyphen (-). You can't specify a hyphen at the beginning or end of a label. • Period (.) to separate the labels in the name, such as the . in example.com . Internationalized domain names are not supported for some top-level domains. To determine whether the TLD that you want to use supports internationalized domain names, see Domains that You Can Register with Amazon Route 53 . For more information, see Formatting Internationalized Domain Names . Constraints: • max: 255</param>
     public AwsRoute53domainsCheckDomainAvailabilityOptions(
         string DomainName
     )
@@ -56,13 +58,13 @@ public record AwsRoute53domainsCheckDomainAvailabilityOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain that you want to get availability for. The top-level domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of supported TLDs, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide . The domain name can contain only the following characters: o Letters a through z. Domain names are not case sensitive. o Numbers 0 through 9. o Hyphen (-). You can't specify a hyphen at the beginning or end of a label. o Period (.) to separate the labels in the name, such as the . in example.com . Internationalized domain names are not supported for some top-level domains. To determine whether the TLD that you want to use supports internationalized domain names, see Domains that You Can Register with Amazon Route 53 . For more information, see Formatting Interna- tionalized Domain Names . Constraints: o max: 255
+    /// The name of the domain that you want to get availability for. The top-level domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of supported TLDs, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide . The domain name can contain only the following characters: • Letters a through z. Domain names are not case sensitive. • Numbers 0 through 9. • Hyphen (-). You can't specify a hyphen at the beginning or end of a label. • Period (.) to separate the labels in the name, such as the . in example.com . Internationalized domain names are not supported for some top-level domains. To determine whether the TLD that you want to use supports internationalized domain names, see Domains that You Can Register with Amazon Route 53 . For more information, see Formatting Internationalized Domain Names . Constraints: • max: 255
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// Reserved for future use. Constraints: o pattern: |[A-Za-z]{2,3}
+    /// Reserved for future use. Constraints: • pattern: (|[A-Za-z]{2,3})
     /// </summary>
     [CliOption("--idn-lang-code")]
     public string? IdnLangCode { get; set; }

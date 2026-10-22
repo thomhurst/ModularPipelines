@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAppmeshDeleteMeshOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes an existing service mesh. You must delete all resources (virtual services, routes, virtual routers, and virtual nodes) in the service mesh before you can delete the mesh itself. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MeshName">The name of the service mesh to delete. Constraints: o min: 1 o max: 255</param>
+    /// <param name="MeshName">The name of the service mesh to delete. Constraints: • min: 1 • max: 255</param>
     public AwsAppmeshDeleteMeshOptions(
         string MeshName
     )
@@ -56,7 +58,7 @@ public record AwsAppmeshDeleteMeshOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the service mesh to delete. Constraints: o min: 1 o max: 255
+    /// The name of the service mesh to delete. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--mesh-name")]
     public string? MeshName { get; private init; }

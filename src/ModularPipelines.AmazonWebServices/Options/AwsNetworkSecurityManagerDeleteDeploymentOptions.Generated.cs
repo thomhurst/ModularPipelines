@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsNetworkSecurityManagerDeleteDeploymentOptions : AwsOptions, IVa
     /// <summary>
     /// Deletes the specified deployment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DeploymentIdentifier">The identifier of the deployment. This is the deployment's Amazon Resource Name (ARN). Constraints: o min: 1 o max: 1010</param>
+    /// <param name="DeploymentIdentifier">The identifier of the deployment. This is the deployment's Amazon Resource Name (ARN). Constraints: • min: 1 • max: 1010</param>
     public AwsNetworkSecurityManagerDeleteDeploymentOptions(
         string DeploymentIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsNetworkSecurityManagerDeleteDeploymentOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the deployment. This is the deployment's Amazon Resource Name (ARN). Constraints: o min: 1 o max: 1010
+    /// The identifier of the deployment. This is the deployment's Amazon Resource Name (ARN). Constraints: • min: 1 • max: 1010
     /// </summary>
     [CliOption("--deployment-identifier")]
     public string? DeploymentIdentifier { get; private init; }

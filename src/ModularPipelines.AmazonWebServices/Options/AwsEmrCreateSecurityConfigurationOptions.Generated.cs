@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsEmrCreateSecurityConfigurationOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Creates a security configuration, which is stored in the service and can be specified when a cluster is created. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the security configuration. Constraints: o min: 0 o max: 10280 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
-    /// <param name="SecurityConfiguration">The security configuration details in JSON format. For JSON parame- ters and examples, see Use Security Configurations to Set Up Cluster Security in the Amazon EMR Management Guide .</param>
+    /// <param name="Name">The name of the security configuration. Constraints: • min: 0 • max: 10280 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="SecurityConfiguration">The security configuration details in JSON format. For JSON parameters and examples, see Use Security Configurations to Set Up Cluster Security in the Amazon EMR Management Guide .</param>
     public AwsEmrCreateSecurityConfigurationOptions(
         string Name,
         string SecurityConfiguration
@@ -60,13 +62,13 @@ public record AwsEmrCreateSecurityConfigurationOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the security configuration. Constraints: o min: 0 o max: 10280 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The name of the security configuration. Constraints: • min: 0 • max: 10280 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The security configuration details in JSON format. For JSON parame- ters and examples, see Use Security Configurations to Set Up Cluster Security in the Amazon EMR Management Guide .
+    /// The security configuration details in JSON format. For JSON parameters and examples, see Use Security Configurations to Set Up Cluster Security in the Amazon EMR Management Guide .
     /// </summary>
     [CliOption("--security-configuration")]
     public string? SecurityConfiguration { get; private init; }

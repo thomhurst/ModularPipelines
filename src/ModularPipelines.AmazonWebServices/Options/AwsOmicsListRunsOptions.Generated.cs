@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a list of runs and returns each run's metadata and status. Amazon Web Services HealthOmics stores a configurable number of runs, as determined by service limits, that are available to the console and API. If the ListRuns response doesn't include specific runs that you expected, you can find all run logs in the CloudWatch logs. For more information about viewing the run logs, see CloudWatch logs in the Ama- zon Web Services HealthOmics User Guide . See also: AWS API Documentation list-r...
+/// Retrieves a list of runs and returns each run's metadata and status. Amazon Web Services HealthOmics stores a configurable number of runs, as determined by service limits, that are available to the console and API. If the ListRuns response doesn't include specific runs that you expected, you can find all run logs in the CloudWatch logs. For more information about viewing the run logs, see CloudWatch logs in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation list-run...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,19 +24,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsOmicsListRunsOptions : AwsOptions
 {
     /// <summary>
-    /// Filter the list by run name. Constraints: o min: 1 o max: 128 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// Filter the list by run name. Constraints: • min: 1 • max: 128 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Filter the list by run group ID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+
+    /// Filter the list by run group ID. Constraints: • min: 1 • max: 18 • pattern: [0-9]+
     /// </summary>
     [CliOption("--run-group-id")]
     public string? RunGroupId { get; set; }
 
     /// <summary>
-    /// Filter by batch ID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+
+    /// Filter by batch ID. Constraints: • min: 1 • max: 18 • pattern: [0-9]+
     /// </summary>
     [CliOption("--batch-id")]
     public string? BatchId { get; set; }
@@ -49,7 +49,7 @@ public record AwsOmicsListRunsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The status of a run. Possible values: o PENDING o STARTING o RUNNING o STOPPING o COMPLETED o DELETED o CANCELLED o FAILED Constraints: o min: 1 o max: 64
+    /// The status of a run. Possible values: • PENDING • STARTING • RUNNING • STOPPING • COMPLETED • DELETED • CANCELLED • FAILED Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--status")]
     public AwsOmicsListRunsStatus? Status { get; set; }
@@ -57,19 +57,19 @@ public record AwsOmicsListRunsOptions : AwsOptions
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

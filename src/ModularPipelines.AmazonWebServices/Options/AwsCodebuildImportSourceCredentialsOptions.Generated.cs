@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Imports the source repository credentials for an CodeBuild project that has its source code stored in a GitHub, GitHub Enterprise, GitLab, Git- Lab Self Managed, or Bitbucket repository. See also: AWS API Documentation
+/// Imports the source repository credentials for an CodeBuild project that has its source code stored in a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket repository. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +29,11 @@ public record AwsCodebuildImportSourceCredentialsOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Imports the source repository credentials for an CodeBuild project that has its source code stored in a GitHub, GitHub Enterprise, GitLab, Git- Lab Self Managed, or Bitbucket repository. See also: AWS API Documentation
+    /// Imports the source repository credentials for an CodeBuild project that has its source code stored in a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket repository. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Token">For GitHub or GitHub Enterprise, this is the personal access token. For Bitbucket, this is either the access token or the app password. For the authType CODECONNECTIONS, this is the connectionArn . For the authType SECRETS_MANAGER, this is the secretArn . Constraints: o min: 1</param>
-    /// <param name="ServerType">The source provider used for this project. Possible values: o GITHUB o BITBUCKET o GITHUB_ENTERPRISE o GITLAB o GITLAB_SELF_MANAGED</param>
-    /// <param name="AuthType">The type of authentication used to connect to a GitHub, GitHub En- terprise, GitLab, GitLab Self Managed, or Bitbucket repository. An OAUTH connection is not supported by the API and must be created us- ing the CodeBuild console. Possible values: o OAUTH o BASIC_AUTH o PERSONAL_ACCESS_TOKEN o CODECONNECTIONS o SECRETS_MANAGER</param>
+    /// <param name="Token">For GitHub or GitHub Enterprise, this is the personal access token. For Bitbucket, this is either the access token or the app password. For the authType CODECONNECTIONS, this is the connectionArn . For the authType SECRETS_MANAGER, this is the secretArn . Constraints: • min: 1</param>
+    /// <param name="ServerType">The source provider used for this project. Possible values: • GITHUB • BITBUCKET • GITHUB_ENTERPRISE • GITLAB • GITLAB_SELF_MANAGED</param>
+    /// <param name="AuthType">The type of authentication used to connect to a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket repository. An OAUTH connection is not supported by the API and must be created using the CodeBuild console. Possible values: • OAUTH • BASIC_AUTH • PERSONAL_ACCESS_TOKEN • CODECONNECTIONS • SECRETS_MANAGER</param>
     public AwsCodebuildImportSourceCredentialsOptions(
         string Token,
         AwsCodebuildImportSourceCredentialsServerType ServerType,
@@ -64,32 +66,32 @@ public record AwsCodebuildImportSourceCredentialsOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// For GitHub or GitHub Enterprise, this is the personal access token. For Bitbucket, this is either the access token or the app password. For the authType CODECONNECTIONS, this is the connectionArn . For the authType SECRETS_MANAGER, this is the secretArn . Constraints: o min: 1
+    /// For GitHub or GitHub Enterprise, this is the personal access token. For Bitbucket, this is either the access token or the app password. For the authType CODECONNECTIONS, this is the connectionArn . For the authType SECRETS_MANAGER, this is the secretArn . Constraints: • min: 1
     /// </summary>
     [SecretValue]
     [CliOption("--token")]
     public string? Token { get; private init; }
 
     /// <summary>
-    /// The source provider used for this project. Possible values: o GITHUB o BITBUCKET o GITHUB_ENTERPRISE o GITLAB o GITLAB_SELF_MANAGED
+    /// The source provider used for this project. Possible values: • GITHUB • BITBUCKET • GITHUB_ENTERPRISE • GITLAB • GITLAB_SELF_MANAGED
     /// </summary>
     [CliOption("--server-type")]
     public AwsCodebuildImportSourceCredentialsServerType? ServerType { get; private init; }
 
     /// <summary>
-    /// The type of authentication used to connect to a GitHub, GitHub En- terprise, GitLab, GitLab Self Managed, or Bitbucket repository. An OAUTH connection is not supported by the API and must be created us- ing the CodeBuild console. Possible values: o OAUTH o BASIC_AUTH o PERSONAL_ACCESS_TOKEN o CODECONNECTIONS o SECRETS_MANAGER
+    /// The type of authentication used to connect to a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket repository. An OAUTH connection is not supported by the API and must be created using the CodeBuild console. Possible values: • OAUTH • BASIC_AUTH • PERSONAL_ACCESS_TOKEN • CODECONNECTIONS • SECRETS_MANAGER
     /// </summary>
     [CliOption("--auth-type")]
     public AwsCodebuildImportSourceCredentialsAuthType? AuthType { get; private init; }
 
     /// <summary>
-    /// The Bitbucket username when the authType is BASIC_AUTH. This parame- ter is not valid for other types of source providers or connections. Constraints: o min: 1
+    /// The Bitbucket username when the authType is BASIC_AUTH. This parameter is not valid for other types of source providers or connections. Constraints: • min: 1
     /// </summary>
     [CliOption("--username")]
     public string? Username { get; set; }
 
     /// <summary>
-    /// Set to false to prevent overwriting the repository source creden- tials. Set to true to overwrite the repository source credentials. The default value is true .
+    /// Set to false to prevent overwriting the repository source credentials. Set to true to overwrite the repository source credentials. The default value is true .
     /// </summary>
     [CliFlag("--should-overwrite", NegatedName = "--no-should-overwrite")]
     public bool? ShouldOverwrite { get; set; }

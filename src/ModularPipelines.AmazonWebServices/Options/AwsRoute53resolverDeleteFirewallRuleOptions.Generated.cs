@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified firewall rule. Identify the rule using either FirewallDomainListId (for domain-list and DNS Firewall Advanced rules) or FirewallThreatProtectionId (for partner-managed and DNS Firewall Ad- vanced rules) together with FirewallRuleGroupId . DeleteFirewallRule is the only operation that succeeds against a rule whose Status is CREATION_FAILED . See also: AWS API Documentation
+/// Deletes the specified firewall rule. Identify the rule using either FirewallDomainListId (for domain-list and DNS Firewall Advanced rules) or FirewallThreatProtectionId (for partner-managed and DNS Firewall Advanced rules) together with FirewallRuleGroupId . DeleteFirewallRule is the only operation that succeeds against a rule whose Status is CREATION_FAILED . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRoute53resolverDeleteFirewallRuleOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified firewall rule. Identify the rule using either FirewallDomainListId (for domain-list and DNS Firewall Advanced rules) or FirewallThreatProtectionId (for partner-managed and DNS Firewall Ad- vanced rules) together with FirewallRuleGroupId . DeleteFirewallRule is the only operation that succeeds against a rule whose Status is CREATION_FAILED . See also: AWS API Documentation
+    /// Deletes the specified firewall rule. Identify the rule using either FirewallDomainListId (for domain-list and DNS Firewall Advanced rules) or FirewallThreatProtectionId (for partner-managed and DNS Firewall Advanced rules) together with FirewallRuleGroupId . DeleteFirewallRule is the only operation that succeeds against a rule whose Status is CREATION_FAILED . See also: AWS API Documentation
     /// </summary>
-    /// <param name="FirewallRuleGroupId">The unique identifier of the firewall rule group that you want to delete the rule from. Constraints: o min: 1 o max: 64</param>
+    /// <param name="FirewallRuleGroupId">The unique identifier of the firewall rule group that you want to delete the rule from. Constraints: • min: 1 • max: 64</param>
     public AwsRoute53resolverDeleteFirewallRuleOptions(
         string FirewallRuleGroupId
     )
@@ -56,25 +58,25 @@ public record AwsRoute53resolverDeleteFirewallRuleOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the firewall rule group that you want to delete the rule from. Constraints: o min: 1 o max: 64
+    /// The unique identifier of the firewall rule group that you want to delete the rule from. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--firewall-rule-group-id")]
     public string? FirewallRuleGroupId { get; private init; }
 
     /// <summary>
-    /// The ID of the domain list that's used in the rule. Constraints: o min: 1 o max: 64
+    /// The ID of the domain list that's used in the rule. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--firewall-domain-list-id")]
     public string? FirewallDomainListId { get; set; }
 
     /// <summary>
-    /// The ID that is created for a DNS Firewall Advanced rule. Constraints: o min: 1 o max: 64
+    /// The ID that is created for a DNS Firewall Advanced rule. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--firewall-threat-protection-id")]
     public string? FirewallThreatProtectionId { get; set; }
 
     /// <summary>
-    /// The DNS query type that the rule you are deleting evaluates. Allowed values are; o A: Returns an IPv4 address. o AAAA: Returns an Ipv6 address. o CAA: Restricts CAs that can create SSL/TLS certifications for the domain. o CNAME: Returns another domain name. o DS: Record that identifies the DNSSEC signing key of a delegated zone. o MX: Specifies mail servers. o NAPTR: Regular-expression-based rewriting of domain names. o NS: Authoritative name servers. o PTR: Maps an IP address to a domain name. o SOA: Start of authority record for the zone. o SPF: Lists the servers authorized to send emails from a domain. o SRV: Application specific values that identify servers. o TXT: Verifies email senders and application-specific values. o A query type you define by using the DNS type ID, for example 28 for AAAA. The values must be defined as TYPENUMBER, where the NUM- BER can be 1-65534, for example, TYPE28. For more information, see List of DNS record types . Constraints: o min: 1 o max: 16
+    /// The DNS query type that the rule you are deleting evaluates. Allowed values are; • A: Returns an IPv4 address. • AAAA: Returns an Ipv6 address. • CAA: Restricts CAs that can create SSL/TLS certifications for the domain. • CNAME: Returns another domain name. • DS: Record that identifies the DNSSEC signing key of a delegated zone. • MX: Specifies mail servers. • NAPTR: Regular-expression-based rewriting of domain names. • NS: Authoritative name servers. • PTR: Maps an IP address to a domain name. • SOA: Start of authority record for the zone. • SPF: Lists the servers authorized to send emails from a domain. • SRV: Application specific values that identify servers. • TXT: Verifies email senders and application-specific values. • A query type you define by using the DNS type ID, for example 28 for AAAA. The values must be defined as TYPENUMBER, where the NUMBER can be 1-65534, for example, TYPE28. For more information, see List of DNS record types . Constraints: • min: 1 • max: 16
     /// </summary>
     [CliOption("--qtype")]
     public string? Qtype { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsWafv2GetPermissionPolicyOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Returns the IAM policy that is attached to the specified rule group. You must be the owner of the rule group to perform this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the rule group for which you want to get the policy. Constraints: o min: 20 o max: 2048 o pattern: .*\S.*</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the rule group for which you want to get the policy. Constraints: • min: 20 • max: 2048 • pattern: .*\S.*</param>
     public AwsWafv2GetPermissionPolicyOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsWafv2GetPermissionPolicyOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the rule group for which you want to get the policy. Constraints: o min: 20 o max: 2048 o pattern: .*\S.*
+    /// The Amazon Resource Name (ARN) of the rule group for which you want to get the policy. Constraints: • min: 20 • max: 2048 • pattern: .*\S.*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

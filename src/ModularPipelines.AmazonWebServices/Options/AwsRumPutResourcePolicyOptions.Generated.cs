@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRumPutResourcePolicyOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Use this operation to assign a resource-based policy to a CloudWatch RUM app monitor to control access to it. Each app monitor can have one resource-based policy. The maximum size of the policy is 4 KB. To learn more about using resource policies with RUM, see Using resource-based policies with CloudWatch RUM . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the app monitor that you want to apply this re- source-based policy to. To find the names of your app monitors, you can use the ListAppMonitors operation. Constraints: o min: 1 o max: 255 o pattern: (?!\.)[\.\-_#A-Za-z0-9]+</param>
+    /// <param name="Name">The name of the app monitor that you want to apply this resource-based policy to. To find the names of your app monitors, you can use the ListAppMonitors operation. Constraints: • min: 1 • max: 255 • pattern: (?!\.)[\.\-_#A-Za-z0-9]+</param>
     /// <param name="PolicyDocument">The JSON to use as the resource policy. The document can be up to 4 KB in size. For more information about the contents and syntax for this policy, see Using resource-based policies with CloudWatch RUM .</param>
     public AwsRumPutResourcePolicyOptions(
         string Name,
@@ -60,7 +62,7 @@ public record AwsRumPutResourcePolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the app monitor that you want to apply this re- source-based policy to. To find the names of your app monitors, you can use the ListAppMonitors operation. Constraints: o min: 1 o max: 255 o pattern: (?!\.)[\.\-_#A-Za-z0-9]+
+    /// The name of the app monitor that you want to apply this resource-based policy to. To find the names of your app monitors, you can use the ListAppMonitors operation. Constraints: • min: 1 • max: 255 • pattern: (?!\.)[\.\-_#A-Za-z0-9]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -72,7 +74,7 @@ public record AwsRumPutResourcePolicyOptions : AwsOptions, IValidatableObject
     public string? PolicyDocument { get; private init; }
 
     /// <summary>
-    /// A string value that you can use to conditionally update your policy. You can provide the revision ID of your existing policy to make mu- tating requests against that policy. When you assign a policy revision ID, then later requests about that policy will be rejected with an InvalidPolicyRevisionIdException er- ror if they don't provide the correct current revision ID. Constraints: o min: 1 o max: 255
+    /// A string value that you can use to conditionally update your policy. You can provide the revision ID of your existing policy to make mutating requests against that policy. When you assign a policy revision ID, then later requests about that policy will be rejected with an InvalidPolicyRevisionIdException error if they don't provide the correct current revision ID. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--policy-revision-id")]
     public string? PolicyRevisionId { get; set; }

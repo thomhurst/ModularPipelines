@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -63,13 +65,13 @@ public record AwsSesSetIdentityMailFromDomainOptions : AwsOptions, IValidatableO
     public string? Identity { get; private init; }
 
     /// <summary>
-    /// The custom MAIL FROM domain for the verified identity to use. The MAIL FROM domain must 1) be a subdomain of the verified identity, 2) not be used in a "From" address if the MAIL FROM domain is the des- tination of email feedback forwarding (for more information, see the Amazon SES Developer Guide ), and 3) not be used to receive emails. A value of null disables the custom MAIL FROM setting for the iden- tity.
+    /// The custom MAIL FROM domain for the verified identity to use. The MAIL FROM domain must 1) be a subdomain of the verified identity, 2) not be used in a "From" address if the MAIL FROM domain is the destination of email feedback forwarding (for more information, see the Amazon SES Developer Guide ), and 3) not be used to receive emails. A value of null disables the custom MAIL FROM setting for the identity.
     /// </summary>
     [CliOption("--mail-from-domain")]
     public string? MailFromDomain { get; set; }
 
     /// <summary>
-    /// The action for Amazon SES to take if it cannot successfully read the required MX record when you send an email. If you choose UseDefault- Value , Amazon SES uses amazonses.com (or a subdomain of that) as the MAIL FROM domain. If you choose RejectMessage , Amazon SES re- turns a MailFromDomainNotVerified error and not send the email. The action specified in BehaviorOnMXFailure is taken when the custom MAIL FROM domain setup is in the Pending , Failed , and Temporary- Failure states. Possible values: o UseDefaultValue o RejectMessage
+    /// The action for Amazon SES to take if it cannot successfully read the required MX record when you send an email. If you choose UseDefaultValue , Amazon SES uses amazonses.com (or a subdomain of that) as the MAIL FROM domain. If you choose RejectMessage , Amazon SES returns a MailFromDomainNotVerified error and not send the email. The action specified in BehaviorOnMXFailure is taken when the custom MAIL FROM domain setup is in the Pending , Failed , and TemporaryFailure states. Possible values: • UseDefaultValue • RejectMessage
     /// </summary>
     [CliOption("--behavior-on-mx-failure")]
     public AwsSesSetIdentityMailFromDomainBehaviorOnMxFailure? BehaviorOnMxFailure { get; set; }

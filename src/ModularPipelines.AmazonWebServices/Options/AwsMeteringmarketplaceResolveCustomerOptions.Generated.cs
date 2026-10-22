@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// ResolveCustomer is called by a SaaS application during the registra- tion process. When a buyer visits your website during the registra- tion process, the buyer submits a registration token through their browser. The registration token is resolved through this API to ob- tain a CustomerIdentifier along with the CustomerAWSAccountId , Pro- ductCode , and LicenseArn . WARNING: For new SaaS product integrations, the CustomerIdentifier field is not populated in the ResolveCustomer API response. New ...
+/// ResolveCustomer is called by a SaaS application during the registration process. When a buyer visits your website during the registration process, the buyer submits a registration token through their browser. The registration token is resolved through this API to obtain a CustomerIdentifier along with the CustomerAWSAccountId , ProductCode , and LicenseArn . WARNING: For new SaaS product integrations, the CustomerIdentifier field is not populated in the ResolveCustomer API response. New integrat...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsMeteringmarketplaceResolveCustomerOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// ResolveCustomer is called by a SaaS application during the registra- tion process. When a buyer visits your website during the registra- tion process, the buyer submits a registration token through their browser. The registration token is resolved through this API to ob- tain a CustomerIdentifier along with the CustomerAWSAccountId , Pro- ductCode , and LicenseArn . WARNING: For new SaaS product integrations, the CustomerIdentifier field is not populated in the ResolveCustomer API response. New ...
+    /// ResolveCustomer is called by a SaaS application during the registration process. When a buyer visits your website during the registration process, the buyer submits a registration token through their browser. The registration token is resolved through this API to obtain a CustomerIdentifier along with the CustomerAWSAccountId , ProductCode , and LicenseArn . WARNING: For new SaaS product integrations, the CustomerIdentifier field is not populated in the ResolveCustomer API response. New integrat...
     /// </summary>
-    /// <param name="RegistrationToken">When a buyer visits your website during the registration process, the buyer submits a registration token through the browser. The reg- istration token is resolved to obtain a CustomerIdentifier along with the CustomerAWSAccountId , ProductCode , and LicenseArn . NOTE: For new SaaS product integrations, the CustomerIdentifier field is not populated. Use CustomerAWSAccountId and LicenseArn for customer identification. Constraints: o pattern: [\s\S]+</param>
+    /// <param name="RegistrationToken">When a buyer visits your website during the registration process, the buyer submits a registration token through the browser. The registration token is resolved to obtain a CustomerIdentifier along with the CustomerAWSAccountId , ProductCode , and LicenseArn . NOTE: For new SaaS product integrations, the CustomerIdentifier field is not populated. Use CustomerAWSAccountId and LicenseArn for customer identification. Constraints: • pattern: [\s\S]+</param>
     public AwsMeteringmarketplaceResolveCustomerOptions(
         string RegistrationToken
     )
@@ -57,7 +59,7 @@ public record AwsMeteringmarketplaceResolveCustomerOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// When a buyer visits your website during the registration process, the buyer submits a registration token through the browser. The reg- istration token is resolved to obtain a CustomerIdentifier along with the CustomerAWSAccountId , ProductCode , and LicenseArn . NOTE: For new SaaS product integrations, the CustomerIdentifier field is not populated. Use CustomerAWSAccountId and LicenseArn for customer identification. Constraints: o pattern: [\s\S]+
+    /// When a buyer visits your website during the registration process, the buyer submits a registration token through the browser. The registration token is resolved to obtain a CustomerIdentifier along with the CustomerAWSAccountId , ProductCode , and LicenseArn . NOTE: For new SaaS product integrations, the CustomerIdentifier field is not populated. Use CustomerAWSAccountId and LicenseArn for customer identification. Constraints: • pattern: [\s\S]+
     /// </summary>
     [SecretValue]
     [CliOption("--registration-token")]

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about the specified cache report, including comple- tion status and generation progress. See also: AWS API Documentation
+/// Returns information about the specified cache report, including completion status and generation progress. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsStoragegatewayDescribeCacheReportOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns information about the specified cache report, including comple- tion status and generation progress. See also: AWS API Documentation
+    /// Returns information about the specified cache report, including completion status and generation progress. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CacheReportArn">The Amazon Resource Name (ARN) of the cache report you want to de- scribe. Constraints: o min: 50 o max: 500</param>
+    /// <param name="CacheReportArn">The Amazon Resource Name (ARN) of the cache report you want to describe. Constraints: • min: 50 • max: 500</param>
     public AwsStoragegatewayDescribeCacheReportOptions(
         string CacheReportArn
     )
@@ -56,7 +58,7 @@ public record AwsStoragegatewayDescribeCacheReportOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the cache report you want to de- scribe. Constraints: o min: 50 o max: 500
+    /// The Amazon Resource Name (ARN) of the cache report you want to describe. Constraints: • min: 50 • max: 500
     /// </summary>
     [CliOption("--cache-report-arn")]
     public string? CacheReportArn { get; private init; }

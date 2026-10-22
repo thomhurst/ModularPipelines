@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsWafRegionalGetGeoMatchSetOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the GeoMatchSet that is specified by GeoMatchSetId . See also: AWS API Documentation
     /// </summary>
-    /// <param name="GeoMatchSetId">The GeoMatchSetId of the GeoMatchSet that you want to get. Geo- MatchSetId is returned by CreateGeoMatchSet and by ListGeoMatch- Sets . Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    /// <param name="GeoMatchSetId">The GeoMatchSetId of the GeoMatchSet that you want to get. GeoMatchSetId is returned by CreateGeoMatchSet and by ListGeoMatchSets . Constraints: • min: 1 • max: 128 • pattern: .*\S.*</param>
     public AwsWafRegionalGetGeoMatchSetOptions(
         string GeoMatchSetId
     )
@@ -56,7 +58,7 @@ public record AwsWafRegionalGetGeoMatchSetOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The GeoMatchSetId of the GeoMatchSet that you want to get. Geo- MatchSetId is returned by CreateGeoMatchSet and by ListGeoMatch- Sets . Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// The GeoMatchSetId of the GeoMatchSet that you want to get. GeoMatchSetId is returned by CreateGeoMatchSet and by ListGeoMatchSets . Constraints: • min: 1 • max: 128 • pattern: .*\S.*
     /// </summary>
     [CliOption("--geo-match-set-id")]
     public string? GeoMatchSetId { get; private init; }

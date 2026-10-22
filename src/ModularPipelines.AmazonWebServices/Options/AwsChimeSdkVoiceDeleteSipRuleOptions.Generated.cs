@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsChimeSdkVoiceDeleteSipRuleOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Deletes a SIP rule. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SipRuleId">The SIP rule ID. Constraints: o pattern: .*\S.*</param>
+    /// <param name="SipRuleId">The SIP rule ID. Constraints: • pattern: .*\S.*</param>
     public AwsChimeSdkVoiceDeleteSipRuleOptions(
         string SipRuleId
     )
@@ -56,7 +58,7 @@ public record AwsChimeSdkVoiceDeleteSipRuleOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The SIP rule ID. Constraints: o pattern: .*\S.*
+    /// The SIP rule ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--sip-rule-id")]
     public string? SipRuleId { get; private init; }

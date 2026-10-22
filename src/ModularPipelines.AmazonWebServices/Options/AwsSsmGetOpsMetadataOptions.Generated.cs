@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// View operational metadata related to an application in Application Man- ager. See also: AWS API Documentation
+/// View operational metadata related to an application in Application Manager. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsSsmGetOpsMetadataOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// View operational metadata related to an application in Application Man- ager. See also: AWS API Documentation
+    /// View operational metadata related to an application in Application Manager. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OpsMetadataArn">The Amazon Resource Name (ARN) of an OpsMetadata Object to view. Constraints: o min: 1 o max: 1011 o pattern: arn:(aws[a-zA-Z-]*)?:ssm:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:opsmeta- data\/([a-zA-Z0-9-_\.\/]*)</param>
+    /// <param name="OpsMetadataArn">The Amazon Resource Name (ARN) of an OpsMetadata Object to view. Constraints: • min: 1 • max: 1011 • pattern: arn:(aws[a-zA-Z-]*)?:ssm:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:opsmetadata\/([a-zA-Z0-9-_\.\/]*)</param>
     public AwsSsmGetOpsMetadataOptions(
         string OpsMetadataArn
     )
@@ -57,19 +59,19 @@ public record AwsSsmGetOpsMetadataOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of an OpsMetadata Object to view. Constraints: o min: 1 o max: 1011 o pattern: arn:(aws[a-zA-Z-]*)?:ssm:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:opsmeta- data\/([a-zA-Z0-9-_\.\/]*)
+    /// The Amazon Resource Name (ARN) of an OpsMetadata Object to view. Constraints: • min: 1 • max: 1011 • pattern: arn:(aws[a-zA-Z-]*)?:ssm:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:opsmetadata\/([a-zA-Z0-9-_\.\/]*)
     /// </summary>
     [CliOption("--ops-metadata-arn")]
     public string? OpsMetadataArn { get; private init; }
 
     /// <summary>
-    /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results. Constraints: o min: 1 o max: 10
+    /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results. Constraints: • min: 1 • max: 10
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// A token to start the list. Use this token to get the next set of re- sults.
+    /// A token to start the list. Use this token to get the next set of results.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

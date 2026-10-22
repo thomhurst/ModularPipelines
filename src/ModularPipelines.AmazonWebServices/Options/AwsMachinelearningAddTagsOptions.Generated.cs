@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds one or more tags to an object, up to a limit of 10. Each tag con- sists of a key and an optional value. If you add a tag using a key that is already associated with the ML object, AddTags updates the tag's value. See also: AWS API Documentation
+/// Adds one or more tags to an object, up to a limit of 10. Each tag consists of a key and an optional value. If you add a tag using a key that is already associated with the ML object, AddTags updates the tag's value. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsMachinelearningAddTagsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds one or more tags to an object, up to a limit of 10. Each tag con- sists of a key and an optional value. If you add a tag using a key that is already associated with the ML object, AddTags updates the tag's value. See also: AWS API Documentation
+    /// Adds one or more tags to an object, up to a limit of 10. Each tag consists of a key and an optional value. If you add a tag using a key that is already associated with the ML object, AddTags updates the tag's value. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Tags">The key-value pairs to use to create tags. If you specify a key without specifying a value, Amazon ML creates a tag with the speci- fied key and a value of null. Constraints: o max: 100 (structure) A custom key-value pair associated with an ML object, such as an ML model. Key -&gt; (string) A unique identifier for the tag. Valid characters include Unicode letters, digits, white space, _, ., /, =, +, -, %, and @. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) An optional string, typically used to describe or define the tag. Valid characters include Unicode letters, digits, white space, _, ., /, =, +, -, %, and @. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
-    /// <param name="ResourceId">The ID of the ML object to tag. For example, exampleModelId . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="ResourceType">The type of the ML object to tag. Possible values: o BatchPrediction o DataSource o Evaluation o MLModel</param>
+    /// <param name="Tags">The key-value pairs to use to create tags. If you specify a key without specifying a value, Amazon ML creates a tag with the specified key and a value of null. Constraints: • max: 100 (structure) A custom key-value pair associated with an ML object, such as an ML model. Key -&gt; (string) A unique identifier for the tag. Valid characters include Unicode letters, digits, white space, _, ., /, =, +, -, %, and @. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) An optional string, typically used to describe or define the tag. Valid characters include Unicode letters, digits, white space, _, ., /, =, +, -, %, and @. Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="ResourceId">The ID of the ML object to tag. For example, exampleModelId . Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="ResourceType">The type of the ML object to tag. Possible values: • BatchPrediction • DataSource • Evaluation • MLModel</param>
     public AwsMachinelearningAddTagsOptions(
         IEnumerable<string> Tags,
         string ResourceId,
@@ -75,19 +77,19 @@ public record AwsMachinelearningAddTagsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The key-value pairs to use to create tags. If you specify a key without specifying a value, Amazon ML creates a tag with the speci- fied key and a value of null. Constraints: o max: 100 (structure) A custom key-value pair associated with an ML object, such as an ML model. Key -&gt; (string) A unique identifier for the tag. Valid characters include Unicode letters, digits, white space, _, ., /, =, +, -, %, and @. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) An optional string, typically used to describe or define the tag. Valid characters include Unicode letters, digits, white space, _, ., /, =, +, -, %, and @. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The key-value pairs to use to create tags. If you specify a key without specifying a value, Amazon ML creates a tag with the specified key and a value of null. Constraints: • max: 100 (structure) A custom key-value pair associated with an ML object, such as an ML model. Key -&gt; (string) A unique identifier for the tag. Valid characters include Unicode letters, digits, white space, _, ., /, =, +, -, %, and @. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) An optional string, typically used to describe or define the tag. Valid characters include Unicode letters, digits, white space, _, ., /, =, +, -, %, and @. Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }
 
     /// <summary>
-    /// The ID of the ML object to tag. For example, exampleModelId . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// The ID of the ML object to tag. For example, exampleModelId . Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// The type of the ML object to tag. Possible values: o BatchPrediction o DataSource o Evaluation o MLModel
+    /// The type of the ML object to tag. Possible values: • BatchPrediction • DataSource • Evaluation • MLModel
     /// </summary>
     [CliOption("--resource-type")]
     public AwsMachinelearningAddTagsResourceType? ResourceType { get; private init; }

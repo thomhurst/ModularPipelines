@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsWellarchitectedListLensReviewsOptions : AwsOptions, IValidatabl
     /// <summary>
     /// List lens reviews for a particular workload. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkloadId">The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}</param>
+    /// <param name="WorkloadId">The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: • min: 32 • max: 32 • pattern: [0-9a-f]{32}</param>
     public AwsWellarchitectedListLensReviewsOptions(
         string WorkloadId
     )
@@ -57,26 +59,26 @@ public record AwsWellarchitectedListLensReviewsOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}
+    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: • min: 32 • max: 32 • pattern: [0-9a-f]{32}
     /// </summary>
     [CliOption("--workload-id")]
     public string? WorkloadId { get; private init; }
 
     /// <summary>
-    /// The milestone number. A workload can have a maximum of 100 milestones. Constraints: o min: 1 o max: 100
+    /// The milestone number. A workload can have a maximum of 100 milestones. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--milestone-number")]
     public int? MilestoneNumber { get; set; }
 
     /// <summary>
-    /// The token to use to retrieve the next set of results. Constraints: o pattern: [A-Za-z0-9+\/=_-]+
+    /// The token to use to retrieve the next set of results. Constraints: • pattern: [A-Za-z0-9+\/=_-]+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return for this request. Constraints: o min: 1 o max: 50
+    /// The maximum number of results to return for this request. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

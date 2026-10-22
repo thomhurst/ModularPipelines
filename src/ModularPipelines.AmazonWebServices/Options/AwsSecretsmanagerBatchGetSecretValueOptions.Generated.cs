@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the contents of the encrypted fields SecretString or Secret- Binary for up to 20 secrets. To retrieve a single secret, call GetSe- cretValue . To choose which secrets to retrieve, you can specify a list of secrets by name or ARN, or you can use filters. If Secrets Manager encounters errors such as AccessDeniedException while attempting to retrieve any of the secrets, you can see the errors in Errors in the response. Secrets Manager generates CloudTrail GetSecretValue log entries for ea...
+/// Retrieves the contents of the encrypted fields SecretString or SecretBinary for up to 20 secrets. To retrieve a single secret, call GetSecretValue . To choose which secrets to retrieve, you can specify a list of secrets by name or ARN, or you can use filters. If Secrets Manager encounters errors such as AccessDeniedException while attempting to retrieve any of the secrets, you can see the errors in Errors in the response. Secrets Manager generates CloudTrail GetSecretValue log entries for each s...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,26 +23,26 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSecretsmanagerBatchGetSecretValueOptions : AwsOptions
 {
     /// <summary>
-    /// The ARN or names of the secrets to retrieve. You must include Fil- ters or SecretIdList , but not both. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...
+    /// The ARN or names of the secrets to retrieve. You must include Filters or SecretIdList , but not both. Constraints: • min: 1 • max: 20 (string) Constraints: • min: 1 • max: 2048 Syntax: "string" "string" ...
     /// </summary>
     [SecretValue]
     [CliOption("--secret-id-list", GroupValues = true)]
     public IEnumerable<string>? SecretIdList { get; set; }
 
     /// <summary>
-    /// The filters to choose which secrets to retrieve. You must include Filters or SecretIdList , but not both. Constraints: o max: 10 (structure) Allows you to add filters when you use the search function in Secrets Manager. For more information, see Find secrets in Se- crets Manager . Key -&gt; (string) The following are keys you can use: o description : Prefix match, not case-sensitive. o name : Prefix match, case-sensitive. o tag-key : Prefix match, case-sensitive. o tag-value : Prefix match, case-sensitive. o primary-region : Prefix match, case-sensitive. o owning-service : Prefix match, case-sensitive. o all : Breaks the filter value string into words and then searches all attributes for matches. Not case-sensitive. Possible values: o description o name o tag-key o tag-value o primary-region o owning-service o all Values -&gt; (list) The keyword to filter for. You can prefix your search value with an exclamation mark (! ) in order to perform negation filters. Constraints: o min: 1 o max: 10 (string) Constraints: o max: 512 o pattern: ^\!?[a-zA-Z0-9 :_@\/\+\=\.\-\!]*$ Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "description"|"name"|"tag-key"|"tag-value"|"primary-region"|"owning-service"|"all", "Values": ["string", ...] } ... ]
+    /// The filters to choose which secrets to retrieve. You must include Filters or SecretIdList , but not both. Constraints: • max: 10 (structure) Allows you to add filters when you use the search function in Secrets Manager. For more information, see Find secrets in Secrets Manager . Key -&gt; (string) The following are keys you can use: • description : Prefix match, not case-sensitive. • name : Prefix match, case-sensitive. • tag-key : Prefix match, case-sensitive. • tag-value : Prefix match, case-sensitive. • primary-region : Prefix match, case-sensitive. • owning-service : Prefix match, case-sensitive. • all : Breaks the filter value string into words and then searches all attributes for matches. Not case-sensitive. Possible values: • description • name • tag-key • tag-value • primary-region • owning-service • all Values -&gt; (list) The keyword to filter for. You can prefix your search value with an exclamation mark (! ) in order to perform negation filters. Constraints: • min: 1 • max: 10 (string) Constraints: • max: 512 • pattern: ^\!?[a-zA-Z0-9 :_@\/\+\=\.\-\!]*$ Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "description"|"name"|"tag-key"|"tag-value"|"primary-region"|"owning-service"|"all", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// The number of results to include in the response. If there are more results available, in the response, Secrets Man- ager includes NextToken . To get the next results, call BatchGetSe- cretValue again with the value from NextToken . To use this parame- ter, you must also use the Filters parameter. Constraints: o min: 1 o max: 20
+    /// The number of results to include in the response. If there are more results available, in the response, Secrets Manager includes NextToken . To get the next results, call BatchGetSecretValue again with the value from NextToken . To use this parameter, you must also use the Filters parameter. Constraints: • min: 1 • max: 20
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// A token that indicates where the output should continue from, if a previous call did not show all results. To get the next results, call BatchGetSecretValue again with this value. Constraints: o min: 1 o max: 4096
+    /// A token that indicates where the output should continue from, if a previous call did not show all results. To get the next results, call BatchGetSecretValue again with this value. Constraints: • min: 1 • max: 4096
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an existing S3 Batch Operations job's priority. For more infor- mation, see S3 Batch Operations in the Amazon S3 User Guide . Permissions To use the UpdateJobPriority operation, you must have permission to perform the s3:UpdateJobPriority action. Related actions include: o CreateJob o ListJobs o DescribeJob o UpdateJobStatus See also: AWS API Documentation
+/// Updates an existing S3 Batch Operations job's priority. For more information, see S3 Batch Operations in the Amazon S3 User Guide . Permissions To use the UpdateJobPriority operation, you must have permission to perform the s3:UpdateJobPriority action. Related actions include: • CreateJob • ListJobs • DescribeJob • UpdateJobStatus See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsS3controlUpdateJobPriorityOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an existing S3 Batch Operations job's priority. For more infor- mation, see S3 Batch Operations in the Amazon S3 User Guide . Permissions To use the UpdateJobPriority operation, you must have permission to perform the s3:UpdateJobPriority action. Related actions include: o CreateJob o ListJobs o DescribeJob o UpdateJobStatus See also: AWS API Documentation
+    /// Updates an existing S3 Batch Operations job's priority. For more information, see S3 Batch Operations in the Amazon S3 User Guide . Permissions To use the UpdateJobPriority operation, you must have permission to perform the s3:UpdateJobPriority action. Related actions include: • CreateJob • ListJobs • DescribeJob • UpdateJobStatus See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID associated with the S3 Batch Op- erations job. Constraints: o max: 64 o pattern: ^\d{12}$</param>
-    /// <param name="JobId">The ID for the job whose priority you want to update. Constraints: o min: 5 o max: 36 o pattern: [a-zA-Z0-9\-\_]+</param>
-    /// <param name="Priority">The priority you want to assign to this job. Constraints: o min: 0 o max: 2147483647</param>
+    /// <param name="AccountId">The Amazon Web Services account ID associated with the S3 Batch Operations job. Constraints: • max: 64 • pattern: ^\d{12}$</param>
+    /// <param name="JobId">The ID for the job whose priority you want to update. Constraints: • min: 5 • max: 36 • pattern: [a-zA-Z0-9\-\_]+</param>
+    /// <param name="Priority">The priority you want to assign to this job. Constraints: • min: 0 • max: 2147483647</param>
     public AwsS3controlUpdateJobPriorityOptions(
         string AccountId,
         string JobId,
@@ -63,19 +65,19 @@ public record AwsS3controlUpdateJobPriorityOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID associated with the S3 Batch Op- erations job. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID associated with the S3 Batch Operations job. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The ID for the job whose priority you want to update. Constraints: o min: 5 o max: 36 o pattern: [a-zA-Z0-9\-\_]+
+    /// The ID for the job whose priority you want to update. Constraints: • min: 5 • max: 36 • pattern: [a-zA-Z0-9\-\_]+
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// The priority you want to assign to this job. Constraints: o min: 0 o max: 2147483647
+    /// The priority you want to assign to this job. Constraints: • min: 0 • max: 2147483647
     /// </summary>
     [CliOption("--priority")]
     public int? Priority { get; private init; }

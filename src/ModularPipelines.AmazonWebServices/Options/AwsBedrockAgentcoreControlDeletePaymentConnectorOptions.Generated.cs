@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsBedrockAgentcoreControlDeletePaymentConnectorOptions : AwsOptio
     /// <summary>
     /// Deletes a payment connector. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PaymentManagerId">The unique identifier of the parent payment manager. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}</param>
-    /// <param name="PaymentConnectorId">The unique identifier of the payment connector to delete. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z_][-]?){1,100}-[0-9a-z]{10}</param>
+    /// <param name="PaymentManagerId">The unique identifier of the parent payment manager. Constraints: • min: 12 • max: 211 • pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}</param>
+    /// <param name="PaymentConnectorId">The unique identifier of the payment connector to delete. Constraints: • min: 12 • max: 211 • pattern: ([0-9a-z_][-]?){1,100}-[0-9a-z]{10}</param>
     public AwsBedrockAgentcoreControlDeletePaymentConnectorOptions(
         string PaymentManagerId,
         string PaymentConnectorId
@@ -61,19 +63,19 @@ public record AwsBedrockAgentcoreControlDeletePaymentConnectorOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the parent payment manager. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
+    /// The unique identifier of the parent payment manager. Constraints: • min: 12 • max: 211 • pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
     /// </summary>
     [CliOption("--payment-manager-id")]
     public string? PaymentManagerId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the payment connector to delete. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z_][-]?){1,100}-[0-9a-z]{10}
+    /// The unique identifier of the payment connector to delete. Constraints: • min: 12 • max: 211 • pattern: ([0-9a-z_][-]?){1,100}-[0-9a-z]{10}
     /// </summary>
     [CliOption("--payment-connector-id")]
     public string? PaymentConnectorId { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previ- ous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

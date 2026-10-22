@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -75,7 +77,7 @@ public record AwsDocdbModifyEventSubscriptionOptions : AwsOptions, IValidatableO
     public AwsDocdbModifyEventSubscriptionSourceType? SourceType { get; set; }
 
     /// <summary>
-    /// A list of event categories for a SourceType that you want to sub- scribe to. (string) Syntax: "string" "string" ...
+    /// A list of event categories for a SourceType that you want to subscribe to. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--event-categories", GroupValues = true)]
     public IEnumerable<string>? EventCategories { get; set; }

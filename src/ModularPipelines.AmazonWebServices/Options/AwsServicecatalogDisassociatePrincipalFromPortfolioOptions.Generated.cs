@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disassociates a previously associated principal ARN from a specified portfolio. The PrincipalType and PrincipalARN must match the AssociatePrincipal- WithPortfolio call request details. For example, to disassociate an as- sociation created with a PrincipalARN of PrincipalType IAM you must use the PrincipalType IAM when calling DisassociatePrincipalFromPortfolio . For portfolios that have been shared with principal name sharing en- abled: after disassociating a principal, share recipient accounts...
+/// Disassociates a previously associated principal ARN from a specified portfolio. The PrincipalType and PrincipalARN must match the AssociatePrincipalWithPortfolio call request details. For example, to disassociate an association created with a PrincipalARN of PrincipalType IAM you must use the PrincipalType IAM when calling DisassociatePrincipalFromPortfolio . For portfolios that have been shared with principal name sharing enabled: after disassociating a principal, share recipient accounts will ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsServicecatalogDisassociatePrincipalFromPortfolioOptions : AwsOp
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disassociates a previously associated principal ARN from a specified portfolio. The PrincipalType and PrincipalARN must match the AssociatePrincipal- WithPortfolio call request details. For example, to disassociate an as- sociation created with a PrincipalARN of PrincipalType IAM you must use the PrincipalType IAM when calling DisassociatePrincipalFromPortfolio . For portfolios that have been shared with principal name sharing en- abled: after disassociating a principal, share recipient accounts...
+    /// Disassociates a previously associated principal ARN from a specified portfolio. The PrincipalType and PrincipalARN must match the AssociatePrincipalWithPortfolio call request details. For example, to disassociate an association created with a PrincipalARN of PrincipalType IAM you must use the PrincipalType IAM when calling DisassociatePrincipalFromPortfolio . For portfolios that have been shared with principal name sharing enabled: after disassociating a principal, share recipient accounts will ...
     /// </summary>
-    /// <param name="PortfolioId">The portfolio identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
-    /// <param name="PrincipalArn">The ARN of the principal (user, role, or group). This field allows an ARN with no accountID with or without wildcard characters if PrincipalType is IAM_PATTERN . Constraints: o min: 1 o max: 1000</param>
+    /// <param name="PortfolioId">The portfolio identifier. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="PrincipalArn">The ARN of the principal (user, role, or group). This field allows an ARN with no accountID with or without wildcard characters if PrincipalType is IAM_PATTERN . Constraints: • min: 1 • max: 1000</param>
     public AwsServicecatalogDisassociatePrincipalFromPortfolioOptions(
         string PortfolioId,
         string PrincipalArn
@@ -61,25 +63,25 @@ public record AwsServicecatalogDisassociatePrincipalFromPortfolioOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The portfolio identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The portfolio identifier. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--portfolio-id")]
     public string? PortfolioId { get; private init; }
 
     /// <summary>
-    /// The ARN of the principal (user, role, or group). This field allows an ARN with no accountID with or without wildcard characters if PrincipalType is IAM_PATTERN . Constraints: o min: 1 o max: 1000
+    /// The ARN of the principal (user, role, or group). This field allows an ARN with no accountID with or without wildcard characters if PrincipalType is IAM_PATTERN . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--principal-arn")]
     public string? PrincipalArn { get; private init; }
 
     /// <summary>
-    /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
+    /// The language code. • jp - Japanese • zh - Chinese Constraints: • max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
     /// <summary>
-    /// The supported value is IAM if you use a fully defined ARN, or IAM_PATTERN if you specify an IAM ARN with no AccountId, with or without wildcard characters. Possible values: o IAM o IAM_PATTERN
+    /// The supported value is IAM if you use a fully defined ARN, or IAM_PATTERN if you specify an IAM ARN with no AccountId, with or without wildcard characters. Possible values: • IAM • IAM_PATTERN
     /// </summary>
     [CliOption("--principal-type")]
     public AwsServicecatalogDisassociatePrincipalFromPortfolioPrincipalType? PrincipalType { get; set; }

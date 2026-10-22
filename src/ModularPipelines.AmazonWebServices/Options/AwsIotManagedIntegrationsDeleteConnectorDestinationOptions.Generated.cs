@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Delete a connector destination linked to a cloud-to-cloud (C2C) connec- tor. NOTE: Deletion can't be done if the account association has used this con- nector destination. See also: AWS API Documentation
+/// Delete a connector destination linked to a cloud-to-cloud (C2C) connector. NOTE: Deletion can't be done if the account association has used this connector destination. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsIotManagedIntegrationsDeleteConnectorDestinationOptions : AwsOp
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Delete a connector destination linked to a cloud-to-cloud (C2C) connec- tor. NOTE: Deletion can't be done if the account association has used this con- nector destination. See also: AWS API Documentation
+    /// Delete a connector destination linked to a cloud-to-cloud (C2C) connector. NOTE: Deletion can't be done if the account association has used this connector destination. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The identifier of the connector destination. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+</param>
+    /// <param name="Identifier">The identifier of the connector destination. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9-_]+</param>
     public AwsIotManagedIntegrationsDeleteConnectorDestinationOptions(
         string Identifier
     )
@@ -56,7 +58,7 @@ public record AwsIotManagedIntegrationsDeleteConnectorDestinationOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the connector destination. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+
+    /// The identifier of the connector destination. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9-_]+
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }

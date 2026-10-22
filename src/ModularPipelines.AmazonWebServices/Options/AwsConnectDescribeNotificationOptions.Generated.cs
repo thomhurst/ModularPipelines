@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsConnectDescribeNotificationOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Retrieves detailed information about a specific notification, including its content, priority, recipients, and metadata. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="NotificationId">The unique identifier for the notification. Constraints: o min: 1 o max: 256</param>
+    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="NotificationId">The unique identifier for the notification. Constraints: • min: 1 • max: 256</param>
     public AwsConnectDescribeNotificationOptions(
         string InstanceId,
         string NotificationId
@@ -60,13 +62,13 @@ public record AwsConnectDescribeNotificationOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the notification. Constraints: o min: 1 o max: 256
+    /// The unique identifier for the notification. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--notification-id")]
     public string? NotificationId { get; private init; }

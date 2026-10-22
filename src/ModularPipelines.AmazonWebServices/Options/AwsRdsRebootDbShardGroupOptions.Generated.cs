@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRdsRebootDbShardGroupOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// You might need to reboot your DB shard group, usually for maintenance reasons. For example, if you make certain modifications, reboot the DB shard group for the changes to take effect. This operation applies only to Aurora Limitless Database DBb shard groups. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbShardGroupIdentifier">The name of the DB shard group to reboot. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*</param>
+    /// <param name="DbShardGroupIdentifier">The name of the DB shard group to reboot. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*</param>
     public AwsRdsRebootDbShardGroupOptions(
         string DbShardGroupIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsRdsRebootDbShardGroupOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the DB shard group to reboot. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
+    /// The name of the DB shard group to reboot. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--db-shard-group-identifier")]
     public string? DbShardGroupIdentifier { get; private init; }

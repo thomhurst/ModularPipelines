@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRedshiftDeleteEventSubscriptionOptions : AwsOptions, IValidatab
     /// <summary>
     /// Deletes an Amazon Redshift event notification subscription. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SubscriptionName">The name of the Amazon Redshift event notification subscription to be deleted. Constraints: o max: 2147483647</param>
+    /// <param name="SubscriptionName">The name of the Amazon Redshift event notification subscription to be deleted. Constraints: • max: 2147483647</param>
     public AwsRedshiftDeleteEventSubscriptionOptions(
         string SubscriptionName
     )
@@ -56,7 +58,7 @@ public record AwsRedshiftDeleteEventSubscriptionOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Amazon Redshift event notification subscription to be deleted. Constraints: o max: 2147483647
+    /// The name of the Amazon Redshift event notification subscription to be deleted. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--subscription-name")]
     public string? SubscriptionName { get; private init; }

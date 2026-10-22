@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsConnectUpdateViewMetadataOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Updates the view metadata. Note that either Name or Description must be provided. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9\_\-:\/]+$</param>
-    /// <param name="ViewId">The identifier of the view. Both ViewArn and ViewId can be used. Constraints: o min: 1 o max: 500 o pattern: ^[a-zA-Z0-9\_\-:\/$]+$</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9\_\-:\/]+$</param>
+    /// <param name="ViewId">The identifier of the view. Both ViewArn and ViewId can be used. Constraints: • min: 1 • max: 500 • pattern: ^[a-zA-Z0-9\_\-:\/$]+$</param>
     public AwsConnectUpdateViewMetadataOptions(
         string InstanceId,
         string ViewId
@@ -60,25 +62,25 @@ public record AwsConnectUpdateViewMetadataOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9\_\-:\/]+$
+    /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9\_\-:\/]+$
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the view. Both ViewArn and ViewId can be used. Constraints: o min: 1 o max: 500 o pattern: ^[a-zA-Z0-9\_\-:\/$]+$
+    /// The identifier of the view. Both ViewArn and ViewId can be used. Constraints: • min: 1 • max: 500 • pattern: ^[a-zA-Z0-9\_\-:\/$]+$
     /// </summary>
     [CliOption("--view-id")]
     public string? ViewId { get; private init; }
 
     /// <summary>
-    /// The name of the view. Constraints: o min: 1 o max: 255 o pattern: ^([\p{L}\p{N}_.:\/=+\-@()']+[\p{L}\p{Z}\p{N}_.:\/=+\-@()']*)$
+    /// The name of the view. Constraints: • min: 1 • max: 255 • pattern: ^([\p{L}\p{N}_.:\/=+\-@()']+[\p{L}\p{Z}\p{N}_.:\/=+\-@()']*)$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The description of the view. Constraints: o min: 1 o max: 4096 o pattern: ^([\p{L}\p{N}_.:\/=+\-@,()']+[\p{L}\p{Z}\p{N}_.:\/=+\-@,()']*)$
+    /// The description of the view. Constraints: • min: 1 • max: 4096 • pattern: ^([\p{L}\p{N}_.:\/=+\-@,()']+[\p{L}\p{Z}\p{N}_.:\/=+\-@,()']*)$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -30,7 +32,7 @@ public record AwsAmplifybackendDeleteBackendStorageOptions : AwsOptions, IValida
     /// <param name="AppId">The app ID.</param>
     /// <param name="BackendEnvironmentName">The name of the backend environment.</param>
     /// <param name="ResourceName">The name of the storage resource.</param>
-    /// <param name="ServiceName">The name of the storage service. Possible values: o S3</param>
+    /// <param name="ServiceName">The name of the storage service. Possible values: • S3</param>
     public AwsAmplifybackendDeleteBackendStorageOptions(
         string AppId,
         string BackendEnvironmentName,
@@ -86,7 +88,7 @@ public record AwsAmplifybackendDeleteBackendStorageOptions : AwsOptions, IValida
     public string? ResourceName { get; private init; }
 
     /// <summary>
-    /// The name of the storage service. Possible values: o S3
+    /// The name of the storage service. Possible values: • S3
     /// </summary>
     [CliOption("--service-name")]
     public string? ServiceName { get; private init; }

@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Stops an in-progress operation on a StackSet and its associated stack instances. StackSets will cancel all the unstarted stack instance de- ployments and wait for those are in-progress to complete. See also: AWS API Documentation
+/// Stops an in-progress operation on a StackSet and its associated stack instances. StackSets will cancel all the unstarted stack instance deployments and wait for those are in-progress to complete. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsCloudformationStopStackSetOperationOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Stops an in-progress operation on a StackSet and its associated stack instances. StackSets will cancel all the unstarted stack instance de- ployments and wait for those are in-progress to complete. See also: AWS API Documentation
+    /// Stops an in-progress operation on a StackSet and its associated stack instances. StackSets will cancel all the unstarted stack instance deployments and wait for those are in-progress to complete. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StackSetName">The name or unique ID of the StackSet that you want to stop the op- eration for.</param>
-    /// <param name="OperationId">The ID of the stack operation. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][-a-zA-Z0-9]*</param>
+    /// <param name="StackSetName">The name or unique ID of the StackSet that you want to stop the operation for.</param>
+    /// <param name="OperationId">The ID of the stack operation. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][-a-zA-Z0-9]*</param>
     public AwsCloudformationStopStackSetOperationOptions(
         string StackSetName,
         string OperationId
@@ -61,19 +63,19 @@ public record AwsCloudformationStopStackSetOperationOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or unique ID of the StackSet that you want to stop the op- eration for.
+    /// The name or unique ID of the StackSet that you want to stop the operation for.
     /// </summary>
     [CliOption("--stack-set-name")]
     public string? StackSetName { get; private init; }
 
     /// <summary>
-    /// The ID of the stack operation. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][-a-zA-Z0-9]*
+    /// The ID of the stack operation. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][-a-zA-Z0-9]*
     /// </summary>
     [CliOption("--operation-id")]
     public string? OperationId { get; private init; }
 
     /// <summary>
-    /// Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. Valid only if the StackSet uses service-managed permissions. By default, SELF is specified. Use SELF for StackSets with self-man- aged permissions. o If you are signed in to the management account, specify SELF . o If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN . Your Amazon Web Services account must be regis- tered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide . Possible values: o SELF o DELEGATED_ADMIN
+    /// Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. Valid only if the StackSet uses service-managed permissions. By default, SELF is specified. Use SELF for StackSets with self-managed permissions. • If you are signed in to the management account, specify SELF . • If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN . Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide . Possible values: • SELF • DELEGATED_ADMIN
     /// </summary>
     [CliOption("--call-as")]
     public AwsCloudformationStopStackSetOperationCallAs? CallAs { get; set; }

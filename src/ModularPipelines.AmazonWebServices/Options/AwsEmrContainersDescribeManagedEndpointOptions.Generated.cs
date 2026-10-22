@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Displays detailed information about a managed endpoint. A managed end- point is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster. See also: AWS API Documentation
+/// Displays detailed information about a managed endpoint. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsEmrContainersDescribeManagedEndpointOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Displays detailed information about a managed endpoint. A managed end- point is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster. See also: AWS API Documentation
+    /// Displays detailed information about a managed endpoint. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">This output displays ID of the managed endpoint. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
-    /// <param name="VirtualClusterId">The ID of the endpoint's virtual cluster. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
+    /// <param name="Id">This output displays ID of the managed endpoint. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+</param>
+    /// <param name="VirtualClusterId">The ID of the endpoint's virtual cluster. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+</param>
     public AwsEmrContainersDescribeManagedEndpointOptions(
         string Id,
         string VirtualClusterId
@@ -60,13 +62,13 @@ public record AwsEmrContainersDescribeManagedEndpointOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// This output displays ID of the managed endpoint. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// This output displays ID of the managed endpoint. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The ID of the endpoint's virtual cluster. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// The ID of the endpoint's virtual cluster. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+
     /// </summary>
     [CliOption("--virtual-cluster-id")]
     public string? VirtualClusterId { get; private init; }

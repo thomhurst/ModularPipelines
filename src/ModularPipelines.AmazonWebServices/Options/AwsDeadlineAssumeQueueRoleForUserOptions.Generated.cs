@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDeadlineAssumeQueueRoleForUserOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Allows a user to assume a role for a queue. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The farm ID of the queue that the user assumes the role for. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="QueueId">The queue ID of the queue that the user assumes the role for. Constraints: o pattern: queue-[0-9a-f]{32}</param>
+    /// <param name="FarmId">The farm ID of the queue that the user assumes the role for. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="QueueId">The queue ID of the queue that the user assumes the role for. Constraints: • pattern: queue-[0-9a-f]{32}</param>
     public AwsDeadlineAssumeQueueRoleForUserOptions(
         string FarmId,
         string QueueId
@@ -60,13 +62,13 @@ public record AwsDeadlineAssumeQueueRoleForUserOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID of the queue that the user assumes the role for. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID of the queue that the user assumes the role for. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The queue ID of the queue that the user assumes the role for. Constraints: o pattern: queue-[0-9a-f]{32}
+    /// The queue ID of the queue that the user assumes the role for. Constraints: • pattern: queue-[0-9a-f]{32}
     /// </summary>
     [CliOption("--queue-id")]
     public string? QueueId { get; private init; }

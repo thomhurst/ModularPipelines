@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsLakeformationCommitTransactionOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Attempts to commit the specified transaction. Returns an exception if the transaction was previously aborted. This API action is idempotent if called multiple times for the same transaction. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TransactionId">The transaction to commit. Constraints: o min: 1 o max: 255 o pattern: [\p{L}\p{N}\p{P}]*</param>
+    /// <param name="TransactionId">The transaction to commit. Constraints: • min: 1 • max: 255 • pattern: [\p{L}\p{N}\p{P}]*</param>
     public AwsLakeformationCommitTransactionOptions(
         string TransactionId
     )
@@ -56,7 +58,7 @@ public record AwsLakeformationCommitTransactionOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The transaction to commit. Constraints: o min: 1 o max: 255 o pattern: [\p{L}\p{N}\p{P}]*
+    /// The transaction to commit. Constraints: • min: 1 • max: 255 • pattern: [\p{L}\p{N}\p{P}]*
     /// </summary>
     [CliOption("--transaction-id")]
     public string? TransactionId { get; private init; }

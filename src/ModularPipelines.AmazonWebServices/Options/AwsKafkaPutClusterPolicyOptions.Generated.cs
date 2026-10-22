@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates the MSK cluster policy specified by the cluster Ama- zon Resource Name (ARN) in the request. See also: AWS API Documentation
+/// Creates or updates the MSK cluster policy specified by the cluster Amazon Resource Name (ARN) in the request. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsKafkaPutClusterPolicyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates or updates the MSK cluster policy specified by the cluster Ama- zon Resource Name (ARN) in the request. See also: AWS API Documentation
+    /// Creates or updates the MSK cluster policy specified by the cluster Amazon Resource Name (ARN) in the request. See also: AWS API Documentation
     /// </summary>
     /// <param name="ClusterArn">The Amazon Resource Name (ARN) of the cluster.</param>
     /// <param name="Policy">The policy.</param>

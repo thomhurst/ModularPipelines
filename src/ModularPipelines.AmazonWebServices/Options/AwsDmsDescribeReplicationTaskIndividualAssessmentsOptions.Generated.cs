@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a paginated list of individual assessments based on filter set- tings. These filter settings can specify a combination of premigration assess- ment runs, migration tasks, and assessment status values. See also: AWS API Documentation
+/// Returns a paginated list of individual assessments based on filter settings. These filter settings can specify a combination of premigration assessment runs, migration tasks, and assessment status values. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDmsDescribeReplicationTaskIndividualAssessmentsOptions : AwsOptions
 {
     /// <summary>
-    /// Filters applied to the individual assessments described in the form of key-value pairs. Valid filter names: replication-task-assessment-run-arn , replica- tion-task-arn , status (structure) Identifies the name and value of a filter object. This filter is used to limit the number and type of DMS objects that are re- turned for a particular Describe* call or similar operation. Filters are used as an optional parameter for certain API opera- tions. Name -&gt; (string) [required] The name of the filter as specified for a Describe* or simi- lar operation. Values -&gt; (list) [required] The filter value, which can specify one or more values used to narrow the returned results. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// Filters applied to the individual assessments described in the form of key-value pairs. Valid filter names: replication-task-assessment-run-arn , replication-task-arn , status (structure) Identifies the name and value of a filter object. This filter is used to limit the number and type of DMS objects that are returned for a particular Describe* call or similar operation. Filters are used as an optional parameter for certain API operations. Name -&gt; (string) [required] The name of the filter as specified for a Describe* or similar operation. Values -&gt; (list) [required] The filter value, which can specify one or more values used to narrow the returned results. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination to- ken called a marker is included in the response so that the remain- ing results can be retrieved.
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
     /// </summary>
     [CliOption("--max-records")]
     public int? MaxRecords { get; set; }

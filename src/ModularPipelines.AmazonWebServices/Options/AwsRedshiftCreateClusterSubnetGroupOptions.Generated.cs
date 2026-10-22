@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new Amazon Redshift subnet group. You must provide a list of one or more subnets in your existing Amazon Virtual Private Cloud (Ama- zon VPC) when creating Amazon Redshift subnet group. For information about subnet groups, go to Amazon Redshift Cluster Sub- net Groups in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
+/// Creates a new Amazon Redshift subnet group. You must provide a list of one or more subnets in your existing Amazon Virtual Private Cloud (Amazon VPC) when creating Amazon Redshift subnet group. For information about subnet groups, go to Amazon Redshift Cluster Subnet Groups in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsRedshiftCreateClusterSubnetGroupOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new Amazon Redshift subnet group. You must provide a list of one or more subnets in your existing Amazon Virtual Private Cloud (Ama- zon VPC) when creating Amazon Redshift subnet group. For information about subnet groups, go to Amazon Redshift Cluster Sub- net Groups in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
+    /// Creates a new Amazon Redshift subnet group. You must provide a list of one or more subnets in your existing Amazon Virtual Private Cloud (Amazon VPC) when creating Amazon Redshift subnet group. For information about subnet groups, go to Amazon Redshift Cluster Subnet Groups in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterSubnetGroupName">The name for the subnet group. Amazon Redshift stores the value as a lowercase string. Constraints: o Must contain no more than 255 alphanumeric characters or hyphens. o Must not be "Default". o Must be unique for all subnet groups that are created by your Ama- zon Web Services account. Example: examplesubnetgroup Constraints: o max: 2147483647</param>
-    /// <param name="Description">A description for the subnet group. Constraints: o max: 2147483647</param>
-    /// <param name="SubnetIds">An array of VPC subnet IDs. A maximum of 20 subnets can be modified in a single request. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...</param>
+    /// <param name="ClusterSubnetGroupName">The name for the subnet group. Amazon Redshift stores the value as a lowercase string. Constraints: • Must contain no more than 255 alphanumeric characters or hyphens. • Must not be "Default". • Must be unique for all subnet groups that are created by your Amazon Web Services account. Example: examplesubnetgroup Constraints: • max: 2147483647</param>
+    /// <param name="Description">A description for the subnet group. Constraints: • max: 2147483647</param>
+    /// <param name="SubnetIds">An array of VPC subnet IDs. A maximum of 20 subnets can be modified in a single request. (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...</param>
     public AwsRedshiftCreateClusterSubnetGroupOptions(
         string ClusterSubnetGroupName,
         string Description,
@@ -75,25 +77,25 @@ public record AwsRedshiftCreateClusterSubnetGroupOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name for the subnet group. Amazon Redshift stores the value as a lowercase string. Constraints: o Must contain no more than 255 alphanumeric characters or hyphens. o Must not be "Default". o Must be unique for all subnet groups that are created by your Ama- zon Web Services account. Example: examplesubnetgroup Constraints: o max: 2147483647
+    /// The name for the subnet group. Amazon Redshift stores the value as a lowercase string. Constraints: • Must contain no more than 255 alphanumeric characters or hyphens. • Must not be "Default". • Must be unique for all subnet groups that are created by your Amazon Web Services account. Example: examplesubnetgroup Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-subnet-group-name")]
     public string? ClusterSubnetGroupName { get; private init; }
 
     /// <summary>
-    /// A description for the subnet group. Constraints: o max: 2147483647
+    /// A description for the subnet group. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; private init; }
 
     /// <summary>
-    /// An array of VPC subnet IDs. A maximum of 20 subnets can be modified in a single request. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// An array of VPC subnet IDs. A maximum of 20 subnets can be modified in a single request. (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; private init; }
 
     /// <summary>
-    /// A list of tag instances. (structure) A tag consisting of a name/value pair for a resource. Key -&gt; (string) The key, or name, for the resource tag. Constraints: o max: 2147483647 Value -&gt; (string) The value for the resource tag. Constraints: o max: 2147483647 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tag instances. (structure) A tag consisting of a name/value pair for a resource. Key -&gt; (string) The key, or name, for the resource tag. Constraints: • max: 2147483647 Value -&gt; (string) The value for the resource tag. Constraints: • max: 2147483647 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

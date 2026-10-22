@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Global Datastore offers fully managed, fast, reliable and secure cross-region replication. Using Global Datastore with Valkey or Redis OSS, you can create cross-region read replica clusters for ElastiCache to enable low-latency reads and disaster recovery across regions. For more information, see Replication Across Regions Using Global Datastore . o The GlobalReplicationGroupIdSuffix is the name of the Global datas- tore. o The PrimaryReplicationGroupId represents the name of the primary cluster...
+/// Global Datastore offers fully managed, fast, reliable and secure cross-region replication. Using Global Datastore with Valkey or Redis OSS, you can create cross-region read replica clusters for ElastiCache to enable low-latency reads and disaster recovery across regions. For more information, see Replication Across Regions Using Global Datastore . • The GlobalReplicationGroupIdSuffix is the name of the Global datastore. • The PrimaryReplicationGroupId represents the name of the primary cluster t...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsElasticacheCreateGlobalReplicationGroupOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Global Datastore offers fully managed, fast, reliable and secure cross-region replication. Using Global Datastore with Valkey or Redis OSS, you can create cross-region read replica clusters for ElastiCache to enable low-latency reads and disaster recovery across regions. For more information, see Replication Across Regions Using Global Datastore . o The GlobalReplicationGroupIdSuffix is the name of the Global datas- tore. o The PrimaryReplicationGroupId represents the name of the primary cluster...
+    /// Global Datastore offers fully managed, fast, reliable and secure cross-region replication. Using Global Datastore with Valkey or Redis OSS, you can create cross-region read replica clusters for ElastiCache to enable low-latency reads and disaster recovery across regions. For more information, see Replication Across Regions Using Global Datastore . • The GlobalReplicationGroupIdSuffix is the name of the Global datastore. • The PrimaryReplicationGroupId represents the name of the primary cluster t...
     /// </summary>
-    /// <param name="GlobalReplicationGroupIdSuffix">The suffix name of a Global datastore. Amazon ElastiCache automati- cally applies a prefix to the Global datastore ID when it is cre- ated. Each Amazon Region has its own prefix. For instance, a Global datastore ID created in the US-West-1 region will begin with "dsdfu" along with the suffix name you provide. The suffix, combined with the auto-generated prefix, guarantees uniqueness of the Global data- store name across multiple regions. For a full list of Amazon Regions and their respective Global datas- tore iD prefixes, see Using the Amazon CLI with Global datastores .</param>
-    /// <param name="PrimaryReplicationGroupId">The name of the primary cluster that accepts writes and will repli- cate updates to the secondary cluster. This value is stored as a lowercase string.</param>
+    /// <param name="GlobalReplicationGroupIdSuffix">The suffix name of a Global datastore. Amazon ElastiCache automatically applies a prefix to the Global datastore ID when it is created. Each Amazon Region has its own prefix. For instance, a Global datastore ID created in the US-West-1 region will begin with "dsdfu" along with the suffix name you provide. The suffix, combined with the auto-generated prefix, guarantees uniqueness of the Global datastore name across multiple regions. For a full list of Amazon Regions and their respective Global datastore iD prefixes, see Using the Amazon CLI with Global datastores .</param>
+    /// <param name="PrimaryReplicationGroupId">The name of the primary cluster that accepts writes and will replicate updates to the secondary cluster. This value is stored as a lowercase string.</param>
     public AwsElasticacheCreateGlobalReplicationGroupOptions(
         string GlobalReplicationGroupIdSuffix,
         string PrimaryReplicationGroupId
@@ -60,13 +62,13 @@ public record AwsElasticacheCreateGlobalReplicationGroupOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The suffix name of a Global datastore. Amazon ElastiCache automati- cally applies a prefix to the Global datastore ID when it is cre- ated. Each Amazon Region has its own prefix. For instance, a Global datastore ID created in the US-West-1 region will begin with "dsdfu" along with the suffix name you provide. The suffix, combined with the auto-generated prefix, guarantees uniqueness of the Global data- store name across multiple regions. For a full list of Amazon Regions and their respective Global datas- tore iD prefixes, see Using the Amazon CLI with Global datastores .
+    /// The suffix name of a Global datastore. Amazon ElastiCache automatically applies a prefix to the Global datastore ID when it is created. Each Amazon Region has its own prefix. For instance, a Global datastore ID created in the US-West-1 region will begin with "dsdfu" along with the suffix name you provide. The suffix, combined with the auto-generated prefix, guarantees uniqueness of the Global datastore name across multiple regions. For a full list of Amazon Regions and their respective Global datastore iD prefixes, see Using the Amazon CLI with Global datastores .
     /// </summary>
     [CliOption("--global-replication-group-id-suffix")]
     public string? GlobalReplicationGroupIdSuffix { get; private init; }
 
     /// <summary>
-    /// The name of the primary cluster that accepts writes and will repli- cate updates to the secondary cluster. This value is stored as a lowercase string.
+    /// The name of the primary cluster that accepts writes and will replicate updates to the secondary cluster. This value is stored as a lowercase string.
     /// </summary>
     [CliOption("--primary-replication-group-id")]
     public string? PrimaryReplicationGroupId { get; private init; }

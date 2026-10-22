@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Attaches a block storage disk to a running or stopped Lightsail in- stance and exposes it to the instance with the specified disk name. The attach disk operation supports tag-based access control via re- source tags applied to the resource identified by disk name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+/// Attaches a block storage disk to a running or stopped Lightsail instance and exposes it to the instance with the specified disk name. The attach disk operation supports tag-based access control via resource tags applied to the resource identified by disk name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsLightsailAttachDiskOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Attaches a block storage disk to a running or stopped Lightsail in- stance and exposes it to the instance with the specified disk name. The attach disk operation supports tag-based access control via re- source tags applied to the resource identified by disk name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+    /// Attaches a block storage disk to a running or stopped Lightsail instance and exposes it to the instance with the specified disk name. The attach disk operation supports tag-based access control via resource tags applied to the resource identified by disk name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DiskName">The unique Lightsail disk name (my-disk ). Constraints: o pattern: \w[\w\-]*\w</param>
-    /// <param name="InstanceName">The name of the Lightsail instance where you want to utilize the storage disk. Constraints: o pattern: \w[\w\-]*\w</param>
-    /// <param name="DiskPath">The disk path to expose to the instance (/dev/xvdf ). Constraints: o pattern: .*\S.*</param>
+    /// <param name="DiskName">The unique Lightsail disk name (my-disk ). Constraints: • pattern: \w[\w\-]*\w</param>
+    /// <param name="InstanceName">The name of the Lightsail instance where you want to utilize the storage disk. Constraints: • pattern: \w[\w\-]*\w</param>
+    /// <param name="DiskPath">The disk path to expose to the instance (/dev/xvdf ). Constraints: • pattern: .*\S.*</param>
     public AwsLightsailAttachDiskOptions(
         string DiskName,
         string InstanceName,
@@ -64,25 +66,25 @@ public record AwsLightsailAttachDiskOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique Lightsail disk name (my-disk ). Constraints: o pattern: \w[\w\-]*\w
+    /// The unique Lightsail disk name (my-disk ). Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--disk-name")]
     public string? DiskName { get; private init; }
 
     /// <summary>
-    /// The name of the Lightsail instance where you want to utilize the storage disk. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the Lightsail instance where you want to utilize the storage disk. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--instance-name")]
     public string? InstanceName { get; private init; }
 
     /// <summary>
-    /// The disk path to expose to the instance (/dev/xvdf ). Constraints: o pattern: .*\S.*
+    /// The disk path to expose to the instance (/dev/xvdf ). Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--disk-path")]
     public string? DiskPath { get; private init; }
 
     /// <summary>
-    /// A Boolean value used to determine the automatic mounting of a stor- age volume to a virtual computer. The default value is False . WARNING: This value only applies to Lightsail for Research resources.
+    /// A Boolean value used to determine the automatic mounting of a storage volume to a virtual computer. The default value is False . WARNING: This value only applies to Lightsail for Research resources.
     /// </summary>
     [CliFlag("--auto-mounting", NegatedName = "--no-auto-mounting")]
     public bool? AutoMounting { get; set; }

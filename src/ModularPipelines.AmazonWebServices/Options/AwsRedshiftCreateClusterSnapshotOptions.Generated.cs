@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a manual snapshot of the specified cluster. The cluster must be in the available state. For more information about working with snapshots, go to Amazon Red- shift Snapshots in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
+/// Creates a manual snapshot of the specified cluster. The cluster must be in the available state. For more information about working with snapshots, go to Amazon Redshift Snapshots in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsRedshiftCreateClusterSnapshotOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a manual snapshot of the specified cluster. The cluster must be in the available state. For more information about working with snapshots, go to Amazon Red- shift Snapshots in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
+    /// Creates a manual snapshot of the specified cluster. The cluster must be in the available state. For more information about working with snapshots, go to Amazon Redshift Snapshots in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="SnapshotIdentifier">A unique identifier for the snapshot that you are requesting. This identifier must be unique for all snapshots within the Amazon Web Services account. Constraints: o Cannot be null, empty, or blank o Must contain from 1 to 255 alphanumeric characters or hyphens o First character must be a letter o Cannot end with a hyphen or contain two consecutive hyphens Example: my-snapshot-id Constraints: o max: 2147483647</param>
-    /// <param name="ClusterIdentifier">The cluster identifier for which you want a snapshot. Constraints: o max: 2147483647</param>
+    /// <param name="SnapshotIdentifier">A unique identifier for the snapshot that you are requesting. This identifier must be unique for all snapshots within the Amazon Web Services account. Constraints: • Cannot be null, empty, or blank • Must contain from 1 to 255 alphanumeric characters or hyphens • First character must be a letter • Cannot end with a hyphen or contain two consecutive hyphens Example: my-snapshot-id Constraints: • max: 2147483647</param>
+    /// <param name="ClusterIdentifier">The cluster identifier for which you want a snapshot. Constraints: • max: 2147483647</param>
     public AwsRedshiftCreateClusterSnapshotOptions(
         string SnapshotIdentifier,
         string ClusterIdentifier
@@ -60,13 +62,13 @@ public record AwsRedshiftCreateClusterSnapshotOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the snapshot that you are requesting. This identifier must be unique for all snapshots within the Amazon Web Services account. Constraints: o Cannot be null, empty, or blank o Must contain from 1 to 255 alphanumeric characters or hyphens o First character must be a letter o Cannot end with a hyphen or contain two consecutive hyphens Example: my-snapshot-id Constraints: o max: 2147483647
+    /// A unique identifier for the snapshot that you are requesting. This identifier must be unique for all snapshots within the Amazon Web Services account. Constraints: • Cannot be null, empty, or blank • Must contain from 1 to 255 alphanumeric characters or hyphens • First character must be a letter • Cannot end with a hyphen or contain two consecutive hyphens Example: my-snapshot-id Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--snapshot-identifier")]
     public string? SnapshotIdentifier { get; private init; }
 
     /// <summary>
-    /// The cluster identifier for which you want a snapshot. Constraints: o max: 2147483647
+    /// The cluster identifier for which you want a snapshot. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
@@ -78,7 +80,7 @@ public record AwsRedshiftCreateClusterSnapshotOptions : AwsOptions, IValidatable
     public int? ManualSnapshotRetentionPeriod { get; set; }
 
     /// <summary>
-    /// A list of tag instances. (structure) A tag consisting of a name/value pair for a resource. Key -&gt; (string) The key, or name, for the resource tag. Constraints: o max: 2147483647 Value -&gt; (string) The value for the resource tag. Constraints: o max: 2147483647 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tag instances. (structure) A tag consisting of a name/value pair for a resource. Key -&gt; (string) The key, or name, for the resource tag. Constraints: • max: 2147483647 Value -&gt; (string) The value for the resource tag. Constraints: • max: 2147483647 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

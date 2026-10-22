@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// List pending messages for a specific execution. See also: AWS API Documentation list-pending-messages uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+/// List pending messages for a specific execution. See also: AWS API Documentation list-pending-messages uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsDevopsAgentListPendingMessagesOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// List pending messages for a specific execution. See also: AWS API Documentation list-pending-messages uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// List pending messages for a specific execution. See also: AWS API Documentation list-pending-messages uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="AgentSpaceId">Unique identifier for an agent space (allows alphanumeric characters and hyphens; 1-64 characters) Constraints: o pattern: [a-zA-Z0-9-]{1,64}</param>
-    /// <param name="ExecutionId">The unique identifier of the execution whose journal records to re- trieve Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="AgentSpaceId">Unique identifier for an agent space (allows alphanumeric characters and hyphens; 1-64 characters) Constraints: • pattern: [a-zA-Z0-9-]{1,64}</param>
+    /// <param name="ExecutionId">The unique identifier of the execution whose journal records to retrieve Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsDevopsAgentListPendingMessagesOptions(
         string AgentSpaceId,
         string ExecutionId
@@ -60,13 +62,13 @@ public record AwsDevopsAgentListPendingMessagesOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Unique identifier for an agent space (allows alphanumeric characters and hyphens; 1-64 characters) Constraints: o pattern: [a-zA-Z0-9-]{1,64}
+    /// Unique identifier for an agent space (allows alphanumeric characters and hyphens; 1-64 characters) Constraints: • pattern: [a-zA-Z0-9-]{1,64}
     /// </summary>
     [CliOption("--agent-space-id")]
     public string? AgentSpaceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the execution whose journal records to re- trieve Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The unique identifier of the execution whose journal records to retrieve Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--execution-id")]
     public string? ExecutionId { get; private init; }

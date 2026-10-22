@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsConnectUpdateContactFlowModuleAliasOptions : AwsOptions, IValid
     /// <summary>
     /// Updates a specific Aliases metadata, including the version its tied to, its name, and description. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 250 o pattern: ^(arn:(aws|aws-us-gov):con- nect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:in- stance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
-    /// <param name="ContactFlowModuleId">The identifier of the flow module. Constraints: o min: 1 o max: 256</param>
-    /// <param name="AliasId">The identifier of the alias. Constraints: o min: 1 o max: 500</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 250 • pattern: ^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:instance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="ContactFlowModuleId">The identifier of the flow module. Constraints: • min: 1 • max: 256</param>
+    /// <param name="AliasId">The identifier of the alias. Constraints: • min: 1 • max: 500</param>
     public AwsConnectUpdateContactFlowModuleAliasOptions(
         string InstanceId,
         string ContactFlowModuleId,
@@ -64,40 +66,40 @@ public record AwsConnectUpdateContactFlowModuleAliasOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 250 o pattern: ^(arn:(aws|aws-us-gov):con- nect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:in- stance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 250 • pattern: ^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:instance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the flow module. Constraints: o min: 1 o max: 256
+    /// The identifier of the flow module. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--contact-flow-module-id")]
     public string? ContactFlowModuleId { get; private init; }
 
     /// <summary>
-    /// The identifier of the alias. Constraints: o min: 1 o max: 500
+    /// The identifier of the alias. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--alias-id")]
     public string? AliasId { get; private init; }
 
     /// <summary>
-    /// The name of the alias. Constraints: o min: 1 o max: 127 o pattern: .*\S.*
+    /// The name of the alias. Constraints: • min: 1 • max: 127 • pattern: .*\S.*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The description of the alias. Constraints: o min: 0 o max: 500 o pattern: .*\S.*
+    /// The description of the alias. Constraints: • min: 0 • max: 500 • pattern: .*\S.*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The version of the flow module. Constraints: o min: 1
+    /// The version of the flow module. Constraints: • min: 1
     /// </summary>
     [CliOption("--contact-flow-module-version")]
-    public int? ContactFlowModuleVersion { get; set; }
+    public long? ContactFlowModuleVersion { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

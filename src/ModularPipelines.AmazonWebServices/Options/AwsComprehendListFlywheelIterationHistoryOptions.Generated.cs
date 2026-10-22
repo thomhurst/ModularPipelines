@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Information about the history of a flywheel iteration. For more infor- mation about flywheels, see Flywheel overview in the Amazon Comprehend Developer Guide . See also: AWS API Documentation
+/// Information about the history of a flywheel iteration. For more information about flywheels, see Flywheel overview in the Amazon Comprehend Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsComprehendListFlywheelIterationHistoryOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Information about the history of a flywheel iteration. For more infor- mation about flywheels, see Flywheel overview in the Amazon Comprehend Developer Guide . See also: AWS API Documentation
+    /// Information about the history of a flywheel iteration. For more information about flywheels, see Flywheel overview in the Amazon Comprehend Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="FlywheelArn">The ARN of the flywheel. Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:fly- wheel/[a-zA-Z0-9](-*[a-zA-Z0-9])*</param>
+    /// <param name="FlywheelArn">The ARN of the flywheel. Constraints: • max: 256 • pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:flywheel/[a-zA-Z0-9](-*[a-zA-Z0-9])*</param>
     public AwsComprehendListFlywheelIterationHistoryOptions(
         string FlywheelArn
     )
@@ -57,26 +59,26 @@ public record AwsComprehendListFlywheelIterationHistoryOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the flywheel. Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:fly- wheel/[a-zA-Z0-9](-*[a-zA-Z0-9])*
+    /// The ARN of the flywheel. Constraints: • max: 256 • pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:flywheel/[a-zA-Z0-9](-*[a-zA-Z0-9])*
     /// </summary>
     [CliOption("--flywheel-arn")]
     public string? FlywheelArn { get; private init; }
 
     /// <summary>
-    /// Filter the flywheel iteration history based on creation time. CreationTimeAfter -&gt; (timestamp) Filter the flywheel iterations to include iterations created af- ter the specified time. CreationTimeBefore -&gt; (timestamp) Filter the flywheel iterations to include iterations created be- fore the specified time. Shorthand Syntax: CreationTimeAfter=timestamp,CreationTimeBefore=timestamp JSON Syntax: { "CreationTimeAfter": timestamp, "CreationTimeBefore": timestamp }
+    /// Filter the flywheel iteration history based on creation time. CreationTimeAfter -&gt; (timestamp) Filter the flywheel iterations to include iterations created after the specified time. CreationTimeBefore -&gt; (timestamp) Filter the flywheel iterations to include iterations created before the specified time. Shorthand Syntax: CreationTimeAfter=timestamp,CreationTimeBefore=timestamp JSON Syntax: { "CreationTimeAfter": timestamp, "CreationTimeBefore": timestamp }
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; set; }
 
     /// <summary>
-    /// Next token Constraints: o min: 1
+    /// Next token Constraints: • min: 1
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Maximum number of iteration history results to return Constraints: o min: 1 o max: 500
+    /// Maximum number of iteration history results to return Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

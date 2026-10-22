@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsAmpUpdateScraperLoggingConfigurationOptions : AwsOptions, IVali
     /// <summary>
     /// Updates the logging configuration for a Amazon Managed Service for Prometheus scraper. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ScraperId">The ID of the scraper whose logging configuration will be updated. Constraints: o min: 1 o max: 64 o pattern: [0-9A-Za-z][-.0-9A-Z_a-z]*</param>
-    /// <param name="LoggingDestination">The destination where scraper logs will be sent. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cloudWatchLogs. cloudWatchLogs -&gt; (structure) The CloudWatch Logs configuration for the scraper logging desti- nation. logGroupArn -&gt; (string) [required] The ARN of the CloudWatch log group to which the vended log data will be published. This log group must exist prior to calling this operation. Constraints: o pattern: arn:aws[a-z0-9-]*:logs:[a-z0-9-]+:[0-9]{12}:log-group:[A-Za-z0-9\.\-\_\#/]{1,512}\:\* Shorthand Syntax: cloudWatchLogs={logGroupArn=string} JSON Syntax: { "cloudWatchLogs": { "logGroupArn": "string" } }</param>
+    /// <param name="ScraperId">The ID of the scraper whose logging configuration will be updated. Constraints: • min: 1 • max: 64 • pattern: [0-9A-Za-z][-.0-9A-Z_a-z]*</param>
+    /// <param name="LoggingDestination">The destination where scraper logs will be sent. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cloudWatchLogs. cloudWatchLogs -&gt; (structure) The CloudWatch Logs configuration for the scraper logging destination. logGroupArn -&gt; (string) [required] The ARN of the CloudWatch log group to which the vended log data will be published. This log group must exist prior to calling this operation. Constraints: • pattern: arn:aws[a-z0-9-]*:logs:[a-z0-9-]+:[0-9]{12}:log-group:[A-Za-z0-9\.\-\_\#/]{1,512}\:\* Shorthand Syntax: cloudWatchLogs={logGroupArn=string} JSON Syntax: { "cloudWatchLogs": { "logGroupArn": "string" } }</param>
     public AwsAmpUpdateScraperLoggingConfigurationOptions(
         string ScraperId,
         string LoggingDestination
@@ -60,19 +62,19 @@ public record AwsAmpUpdateScraperLoggingConfigurationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the scraper whose logging configuration will be updated. Constraints: o min: 1 o max: 64 o pattern: [0-9A-Za-z][-.0-9A-Z_a-z]*
+    /// The ID of the scraper whose logging configuration will be updated. Constraints: • min: 1 • max: 64 • pattern: [0-9A-Za-z][-.0-9A-Z_a-z]*
     /// </summary>
     [CliOption("--scraper-id")]
     public string? ScraperId { get; private init; }
 
     /// <summary>
-    /// The destination where scraper logs will be sent. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cloudWatchLogs. cloudWatchLogs -&gt; (structure) The CloudWatch Logs configuration for the scraper logging desti- nation. logGroupArn -&gt; (string) [required] The ARN of the CloudWatch log group to which the vended log data will be published. This log group must exist prior to calling this operation. Constraints: o pattern: arn:aws[a-z0-9-]*:logs:[a-z0-9-]+:[0-9]{12}:log-group:[A-Za-z0-9\.\-\_\#/]{1,512}\:\* Shorthand Syntax: cloudWatchLogs={logGroupArn=string} JSON Syntax: { "cloudWatchLogs": { "logGroupArn": "string" } }
+    /// The destination where scraper logs will be sent. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cloudWatchLogs. cloudWatchLogs -&gt; (structure) The CloudWatch Logs configuration for the scraper logging destination. logGroupArn -&gt; (string) [required] The ARN of the CloudWatch log group to which the vended log data will be published. This log group must exist prior to calling this operation. Constraints: • pattern: arn:aws[a-z0-9-]*:logs:[a-z0-9-]+:[0-9]{12}:log-group:[A-Za-z0-9\.\-\_\#/]{1,512}\:\* Shorthand Syntax: cloudWatchLogs={logGroupArn=string} JSON Syntax: { "cloudWatchLogs": { "logGroupArn": "string" } }
     /// </summary>
     [CliOption("--logging-destination")]
     public string? LoggingDestination { get; private init; }
 
     /// <summary>
-    /// The list of scraper components to configure for logging. Constraints: o min: 1 (structure) A component of a Amazon Managed Service for Prometheus scraper that can be configured for logging. type -&gt; (string) [required] The type of the scraper component. Possible values: o SERVICE_DISCOVERY o COLLECTOR o EXPORTER config -&gt; (structure) The configuration settings for the scraper component. options -&gt; (map) Configuration options for the scraper component. key -&gt; (string) value -&gt; (string) Shorthand Syntax: type=string,config={options={KeyName1=string,KeyName2=string}} ... JSON Syntax: [ { "type": "SERVICE_DISCOVERY"|"COLLECTOR"|"EXPORTER", "config": { "options": {"string": "string" ...} } } ... ]
+    /// The list of scraper components to configure for logging. Constraints: • min: 1 (structure) A component of a Amazon Managed Service for Prometheus scraper that can be configured for logging. type -&gt; (string) [required] The type of the scraper component. Possible values: • SERVICE_DISCOVERY • COLLECTOR • EXPORTER config -&gt; (structure) The configuration settings for the scraper component. options -&gt; (map) Configuration options for the scraper component. key -&gt; (string) value -&gt; (string) Shorthand Syntax: type=string,config={options={KeyName1=string,KeyName2=string}} ... JSON Syntax: [ { "type": "SERVICE_DISCOVERY"|"COLLECTOR"|"EXPORTER", "config": { "options": {"string": "string" ...} } } ... ]
     /// </summary>
     [CliOption("--scraper-components", GroupValues = true)]
     public IEnumerable<string>? ScraperComponents { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsWorkspacesCreateTagsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates the specified tags for the specified WorkSpaces resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceId">The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bun- dles, IP access control groups, and connection aliases. Constraints: o min: 1</param>
-    /// <param name="Tags">The tags. Each WorkSpaces resource can have a maximum of 50 tags. (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 127 Value -&gt; (string) The value of the tag. Constraints: o max: 255 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="ResourceId">The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, IP access control groups, and connection aliases. Constraints: • min: 1</param>
+    /// <param name="Tags">The tags. Each WorkSpaces resource can have a maximum of 50 tags. (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 127 Value -&gt; (string) The value of the tag. Constraints: • max: 255 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsWorkspacesCreateTagsOptions(
         string ResourceId,
         IEnumerable<string> Tags
@@ -71,13 +73,13 @@ public record AwsWorkspacesCreateTagsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bun- dles, IP access control groups, and connection aliases. Constraints: o min: 1
+    /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, IP access control groups, and connection aliases. Constraints: • min: 1
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// The tags. Each WorkSpaces resource can have a maximum of 50 tags. (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 127 Value -&gt; (string) The value of the tag. Constraints: o max: 255 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags. Each WorkSpaces resource can have a maximum of 50 tags. (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 127 Value -&gt; (string) The value of the tag. Constraints: • max: 255 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }

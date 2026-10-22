@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsChimeSdkVoiceCreateVoiceConnectorOptions : AwsOptions, IValidat
     /// <summary>
     /// Creates an Amazon Chime SDK Voice Connector. For more information about Voice Connectors, see Managing Amazon Chime SDK Voice Connector groups in the Amazon Chime SDK Administrator Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the Voice Connector. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 _.-]+</param>
+    /// <param name="Name">The name of the Voice Connector. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9 _.-]+</param>
     /// <param name="RequireEncryption">Enables or disables encryption for the Voice Connector.</param>
     public AwsChimeSdkVoiceCreateVoiceConnectorOptions(
         string Name,
@@ -60,7 +62,7 @@ public record AwsChimeSdkVoiceCreateVoiceConnectorOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Voice Connector. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 _.-]+
+    /// The name of the Voice Connector. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9 _.-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -72,25 +74,25 @@ public record AwsChimeSdkVoiceCreateVoiceConnectorOptions : AwsOptions, IValidat
     public bool? RequireEncryption { get; private init; }
 
     /// <summary>
-    /// The AWS Region in which the Amazon Chime SDK Voice Connector is cre- ated. Default value: us-east-1 . Possible values: o us-east-1 o us-west-2 o ca-central-1 o eu-central-1 o eu-west-1 o eu-west-2 o ap-northeast-2 o ap-northeast-1 o ap-southeast-1 o ap-southeast-2
+    /// The AWS Region in which the Amazon Chime SDK Voice Connector is created. Default value: us-east-1 . Possible values: • us-east-1 • us-west-2 • ca-central-1 • eu-central-1 • eu-west-1 • eu-west-2 • ap-northeast-2 • ap-northeast-1 • ap-southeast-1 • ap-southeast-2
     /// </summary>
     [CliOption("--aws-region")]
     public AwsChimeSdkVoiceCreateVoiceConnectorAwsRegion? AwsRegion { get; set; }
 
     /// <summary>
-    /// The tags assigned to the Voice Connector. Constraints: o min: 1 o max: 50 (structure) Describes a tag applied to a resource. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags assigned to the Voice Connector. Constraints: • min: 1 • max: 50 (structure) Describes a tag applied to a resource. Key -&gt; (string) [required] The tag's key. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The tag's value. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The connectors for use with Connect Customer. The following options are available: o CONNECT_CALL_TRANSFER_CONNECTOR - Enables enterprises to integrate Connect Customer with other voice systems to directly transfer voice calls and metadata without using the public telephone net- work. They can use Connect Customer telephony and Interactive Voice Response (IVR) with their existing voice systems to modern- ize the IVR experience of their existing contact center and their enterprise and branch voice systems. Additionally, enterprises mi- grating their contact center to Connect Customer can start with Connect telephony and IVR for immediate modernization ahead of agent migration. NOTE: This integration is a gated feature. Please reach out to your account team to discuss this feature with a Connect Specialist. o CONNECT_ANALYTICS_CONNECTOR - Enables enterprises to integrate Connect Customer with other voice systems for real-time and post-call analytics. They can use Connect Customer Contact Lens with their existing voice systems to provides call recordings, conversational analytics (including contact transcript, sensitive data redaction, content categorization, theme detection, sentiment analysis, real-time alerts, and post-contact summary), and agent performance evaluations (including evaluation forms, automated evaluation, supervisor review) with a rich user experience to dis- play, search and filter customer interactions, and programmatic access to data streams and the data lake. Additionally, enter- prises migrating their contact center to Connect Customer can start with Contact Lens analytics and performance insights ahead of agent migration. Possible values: o CONNECT_CALL_TRANSFER_CONNECTOR o CONNECT_ANALYTICS_CONNECTOR
+    /// The connectors for use with Connect Customer. The following options are available: • CONNECT_CALL_TRANSFER_CONNECTOR - Enables enterprises to integrate Connect Customer with other voice systems to directly transfer voice calls and metadata without using the public telephone network. They can use Connect Customer telephony and Interactive Voice Response (IVR) with their existing voice systems to modernize the IVR experience of their existing contact center and their enterprise and branch voice systems. Additionally, enterprises migrating their contact center to Connect Customer can start with Connect telephony and IVR for immediate modernization ahead of agent migration. NOTE: This integration is a gated feature. Please reach out to your account team to discuss this feature with a Connect Specialist. • CONNECT_ANALYTICS_CONNECTOR - Enables enterprises to integrate Connect Customer with other voice systems for real-time and post-call analytics. They can use Connect Customer Contact Lens with their existing voice systems to provides call recordings, conversational analytics (including contact transcript, sensitive data redaction, content categorization, theme detection, sentiment analysis, real-time alerts, and post-contact summary), and agent performance evaluations (including evaluation forms, automated evaluation, supervisor review) with a rich user experience to display, search and filter customer interactions, and programmatic access to data streams and the data lake. Additionally, enterprises migrating their contact center to Connect Customer can start with Contact Lens analytics and performance insights ahead of agent migration. Possible values: • CONNECT_CALL_TRANSFER_CONNECTOR • CONNECT_ANALYTICS_CONNECTOR
     /// </summary>
     [CliOption("--integration-type")]
     public AwsChimeSdkVoiceCreateVoiceConnectorIntegrationType? IntegrationType { get; set; }
 
     /// <summary>
-    /// The type of network for the Voice Connector. Possible values: o IPV4_ONLY o DUAL_STACK
+    /// The type of network for the Voice Connector. Possible values: • IPV4_ONLY • DUAL_STACK
     /// </summary>
     [CliOption("--network-type")]
     public AwsChimeSdkVoiceCreateVoiceConnectorNetworkType? NetworkType { get; set; }

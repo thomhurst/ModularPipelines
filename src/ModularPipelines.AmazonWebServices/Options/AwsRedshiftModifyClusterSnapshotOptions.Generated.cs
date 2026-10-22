@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the settings for a snapshot. This exanmple modifies the manual retention period setting for a clus- ter snapshot. See also: AWS API Documentation
+/// Modifies the settings for a snapshot. This exanmple modifies the manual retention period setting for a cluster snapshot. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRedshiftModifyClusterSnapshotOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the settings for a snapshot. This exanmple modifies the manual retention period setting for a clus- ter snapshot. See also: AWS API Documentation
+    /// Modifies the settings for a snapshot. This exanmple modifies the manual retention period setting for a cluster snapshot. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SnapshotIdentifier">The identifier of the snapshot whose setting you want to modify. Constraints: o max: 2147483647</param>
+    /// <param name="SnapshotIdentifier">The identifier of the snapshot whose setting you want to modify. Constraints: • max: 2147483647</param>
     public AwsRedshiftModifyClusterSnapshotOptions(
         string SnapshotIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsRedshiftModifyClusterSnapshotOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the snapshot whose setting you want to modify. Constraints: o max: 2147483647
+    /// The identifier of the snapshot whose setting you want to modify. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--snapshot-identifier")]
     public string? SnapshotIdentifier { get; private init; }

@@ -23,14 +23,14 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCustomerProfilesListDomainsOptions : AwsOptions
 {
     /// <summary>
-    /// The pagination token from the previous ListDomain API call. Constraints: o min: 1 o max: 1024
+    /// The pagination token from the previous ListDomain API call. Constraints: • min: 1 • max: 1024
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of objects returned per page. Constraints: o min: 1 o max: 100
+    /// The maximum number of objects returned per page. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

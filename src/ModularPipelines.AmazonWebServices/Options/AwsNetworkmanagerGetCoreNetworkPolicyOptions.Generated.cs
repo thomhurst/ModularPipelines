@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsNetworkmanagerGetCoreNetworkPolicyOptions : AwsOptions, IValida
     /// <summary>
     /// Returns details about a core network policy. You can get details about your current live policy or any previous policy version. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CoreNetworkId">The ID of a core network. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$</param>
+    /// <param name="CoreNetworkId">The ID of a core network. Constraints: • min: 0 • max: 50 • pattern: ^core-network-([0-9a-f]{8,17})$</param>
     public AwsNetworkmanagerGetCoreNetworkPolicyOptions(
         string CoreNetworkId
     )
@@ -57,7 +59,7 @@ public record AwsNetworkmanagerGetCoreNetworkPolicyOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of a core network. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$
+    /// The ID of a core network. Constraints: • min: 0 • max: 50 • pattern: ^core-network-([0-9a-f]{8,17})$
     /// </summary>
     [CliOption("--core-network-id")]
     public string? CoreNetworkId { get; private init; }
@@ -69,7 +71,7 @@ public record AwsNetworkmanagerGetCoreNetworkPolicyOptions : AwsOptions, IValida
     public int? PolicyVersionId { get; set; }
 
     /// <summary>
-    /// The alias of a core network policy Possible values: o LIVE o LATEST
+    /// The alias of a core network policy Possible values: • LIVE • LATEST
     /// </summary>
     [CliOption("--alias")]
     public AwsNetworkmanagerGetCoreNetworkPolicyAlias? Alias { get; set; }

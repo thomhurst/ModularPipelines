@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,10 +30,10 @@ public record AwsStoragegatewayJoinDomainOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Adds a file gateway to an Active Directory domain. This operation is only supported for file gateways that support the SMB file protocol. NOTE: Joining a domain creates an Active Directory computer account in the default organizational unit, using the gateway's Gateway ID as the account name (for example, SGW-1234ADE). If your Active Directory environment requires that you pre-stage accounts to facilitate the join domain process, you will need to create this account ahead of time. To create the ...
     /// </summary>
-    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500</param>
-    /// <param name="DomainName">The name of the domain that you want the gateway to join. Constraints: o min: 1 o max: 1024 o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+$</param>
-    /// <param name="UserName">Sets the user name of user who has permission to add the gateway to the Active Directory domain. The domain user account should be en- abled to join computers to the domain. For example, you can use the domain administrator account or an account with delegated permis- sions to join computers to the domain. Constraints: o min: 1 o max: 1024 o pattern: ^\w[\w\.\- ]*$</param>
-    /// <param name="Password">Sets the password of the user who has permission to add the gateway to the Active Directory domain. Constraints: o min: 1 o max: 1024 o pattern: ^[ -~]+$</param>
+    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: • min: 50 • max: 500</param>
+    /// <param name="DomainName">The name of the domain that you want the gateway to join. Constraints: • min: 1 • max: 1024 • pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+$</param>
+    /// <param name="UserName">Sets the user name of user who has permission to add the gateway to the Active Directory domain. The domain user account should be enabled to join computers to the domain. For example, you can use the domain administrator account or an account with delegated permissions to join computers to the domain. Constraints: • min: 1 • max: 1024 • pattern: ^\w[\w\.\- ]*$</param>
+    /// <param name="Password">Sets the password of the user who has permission to add the gateway to the Active Directory domain. Constraints: • min: 1 • max: 1024 • pattern: ^[ -~]+$</param>
     public AwsStoragegatewayJoinDomainOptions(
         string GatewayArn,
         string DomainName,
@@ -69,44 +71,44 @@ public record AwsStoragegatewayJoinDomainOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500
+    /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: • min: 50 • max: 500
     /// </summary>
     [CliOption("--gateway-arn")]
     public string? GatewayArn { get; private init; }
 
     /// <summary>
-    /// The name of the domain that you want the gateway to join. Constraints: o min: 1 o max: 1024 o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+$
+    /// The name of the domain that you want the gateway to join. Constraints: • min: 1 • max: 1024 • pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// Sets the user name of user who has permission to add the gateway to the Active Directory domain. The domain user account should be en- abled to join computers to the domain. For example, you can use the domain administrator account or an account with delegated permis- sions to join computers to the domain. Constraints: o min: 1 o max: 1024 o pattern: ^\w[\w\.\- ]*$
+    /// Sets the user name of user who has permission to add the gateway to the Active Directory domain. The domain user account should be enabled to join computers to the domain. For example, you can use the domain administrator account or an account with delegated permissions to join computers to the domain. Constraints: • min: 1 • max: 1024 • pattern: ^\w[\w\.\- ]*$
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; private init; }
 
     /// <summary>
-    /// Sets the password of the user who has permission to add the gateway to the Active Directory domain. Constraints: o min: 1 o max: 1024 o pattern: ^[ -~]+$
+    /// Sets the password of the user who has permission to add the gateway to the Active Directory domain. Constraints: • min: 1 • max: 1024 • pattern: ^[ -~]+$
     /// </summary>
     [SecretValue]
     [CliOption("--password")]
     public string? Password { get; private init; }
 
     /// <summary>
-    /// The organizational unit (OU) is a container in an Active Directory that can hold users, groups, computers, and other OUs and this para- meter specifies the OU that the gateway will join within the AD do- main. Constraints: o min: 1 o max: 1024
+    /// The organizational unit (OU) is a container in an Active Directory that can hold users, groups, computers, and other OUs and this parameter specifies the OU that the gateway will join within the AD domain. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--organizational-unit")]
     public string? OrganizationalUnit { get; set; }
 
     /// <summary>
-    /// List of IP addresses, NetBIOS names, or host names of your domain server. If you need to specify the port number include it after the colon (:). For example, mydc.mydomain.com:389 . NOTE: S3 File Gateway supports IPv6 addresses in addition to IPv4 and other existing formats. FSx File Gateway does not support IPv6. (string) Constraints: o min: 2 o max: 1024 o pattern: ^(([a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9\-]*[A-Za-z0-9])(:(\d+))?$|^(?:\[(?:(?:(?:[A-Fa-f0-9]{1,4}:){6}|(?=(?:[A-Fa-f0-9]{0,4}:){0,6}(?:[0-9]{1,3}\.){3}[0-9]{1,3}(?![:.\w]))(?:(?:[0-9A-Fa-f]{1,4}:){0,5}|:)(?:(?::[0-9A-Fa-f]{1,4}){1,5}:|:)|::(?:[A-Fa-f0-9]{1,4}:){5})(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|(?:[A-Fa-f0-9]{1,4}:){7}[A-Fa-f0-9]{1,4}|(?=(?:[A-Fa-f0-9]{0,4}:){0,7}[A-Fa-f0-9]{0,4}(?![:.\w]))(?:(?:[0-9A-Fa-f]{1,4}:){1,7}|:)(?:(:[0-9A-Fa-f]{1,4}){1,7}|:)|(?:[A-Fa-f0-9]{1,4}:){7}:|:(:[A-Fa-f0-9]{1,4}){7})\]:\d+$|^(?:(?:(?:[A-Fa-f0-9]{1,4}:){6}|(?=(?:[A-Fa-f0-9]{0,4}:){0,6}(?:[0-9]{1,3}\.){3}[0-9]{1,3}(?![:.\w]))(?:(?:[0-9A-Fa-f]{1,4}:){0,5}|:)(?:(?::[0-9A-Fa-f]{1,4}){1,5}:|:)|::(?:[A-Fa-f0-9]{1,4}:){5})(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|(?:[A-Fa-f0-9]{1,4}:){7}[A-Fa-f0-9]{1,4}|(?=(?:[A-Fa-f0-9]{0,4}:){0,7}[A-Fa-f0-9]{0,4}(?![:.\w]))(?:(?:[0-9A-Fa-f]{1,4}:){1,7}|:)(?:(:[0-9A-Fa-f]{1,4}){1,7}|:)|(?:[A-Fa-f0-9]{1,4}:){7}:|:(:[A-Fa-f0-9]{1,4}){7})$) Syntax: "string" "string" ...
+    /// List of IP addresses, NetBIOS names, or host names of your domain server. If you need to specify the port number include it after the colon (:). For example, mydc.mydomain.com:389 . NOTE: S3 File Gateway supports IPv6 addresses in addition to IPv4 and other existing formats. FSx File Gateway does not support IPv6. (string) Constraints: • min: 2 • max: 1024 • pattern: ^(([a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9\-]*[A-Za-z0-9])(:(\d+))?$|^(?:\[(?:(?:(?:[A-Fa-f0-9]{1,4}:){6}|(?=(?:[A-Fa-f0-9]{0,4}:){0,6}(?:[0-9]{1,3}\.){3}[0-9]{1,3}(?![:.\w]))(?:(?:[0-9A-Fa-f]{1,4}:){0,5}|:)(?:(?::[0-9A-Fa-f]{1,4}){1,5}:|:)|::(?:[A-Fa-f0-9]{1,4}:){5})(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|(?:[A-Fa-f0-9]{1,4}:){7}[A-Fa-f0-9]{1,4}|(?=(?:[A-Fa-f0-9]{0,4}:){0,7}[A-Fa-f0-9]{0,4}(?![:.\w]))(?:(?:[0-9A-Fa-f]{1,4}:){1,7}|:)(?:(:[0-9A-Fa-f]{1,4}){1,7}|:)|(?:[A-Fa-f0-9]{1,4}:){7}:|:(:[A-Fa-f0-9]{1,4}){7})\]:\d+$|^(?:(?:(?:[A-Fa-f0-9]{1,4}:){6}|(?=(?:[A-Fa-f0-9]{0,4}:){0,6}(?:[0-9]{1,3}\.){3}[0-9]{1,3}(?![:.\w]))(?:(?:[0-9A-Fa-f]{1,4}:){0,5}|:)(?:(?::[0-9A-Fa-f]{1,4}){1,5}:|:)|::(?:[A-Fa-f0-9]{1,4}:){5})(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|(?:[A-Fa-f0-9]{1,4}:){7}[A-Fa-f0-9]{1,4}|(?=(?:[A-Fa-f0-9]{0,4}:){0,7}[A-Fa-f0-9]{0,4}(?![:.\w]))(?:(?:[0-9A-Fa-f]{1,4}:){1,7}|:)(?:(:[0-9A-Fa-f]{1,4}){1,7}|:)|(?:[A-Fa-f0-9]{1,4}:){7}:|:(:[A-Fa-f0-9]{1,4}){7})$) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--domain-controllers", GroupValues = true)]
     public IEnumerable<string>? DomainControllers { get; set; }
 
     /// <summary>
-    /// Specifies the time in seconds, in which the JoinDomain operation must complete. The default is 20 seconds. Constraints: o min: 0 o max: 3600
+    /// Specifies the time in seconds, in which the JoinDomain operation must complete. The default is 20 seconds. Constraints: • min: 0 • max: 3600
     /// </summary>
     [CliOption("--timeout-in-seconds")]
     public int? TimeoutInSeconds { get; set; }

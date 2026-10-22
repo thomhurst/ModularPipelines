@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBedrockAgentcoreControlGetHarnessOptions : AwsOptions, IValidat
     /// <summary>
     /// Operation to get a single harness. See also: AWS API Documentation get-harness uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="HarnessId">The ID of the harness to retrieve. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,39}-[a-zA-Z0-9]{10}</param>
+    /// <param name="HarnessId">The ID of the harness to retrieve. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9_]{0,39}-[a-zA-Z0-9]{10}</param>
     public AwsBedrockAgentcoreControlGetHarnessOptions(
         string HarnessId
     )
@@ -56,13 +58,13 @@ public record AwsBedrockAgentcoreControlGetHarnessOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the harness to retrieve. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,39}-[a-zA-Z0-9]{10}
+    /// The ID of the harness to retrieve. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9_]{0,39}-[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--harness-id")]
     public string? HarnessId { get; private init; }
 
     /// <summary>
-    /// Specific version of the harness to retrieve. If omitted, returns the current Harness configuration, including its status. Constraints: o min: 1 o max: 5 o pattern: ([1-9][0-9]{0,4})
+    /// Specific version of the harness to retrieve. If omitted, returns the current Harness configuration, including its status. Constraints: • min: 1 • max: 5 • pattern: ([1-9][0-9]{0,4})
     /// </summary>
     [CliOption("--harness-version")]
     public string? HarnessVersion { get; set; }

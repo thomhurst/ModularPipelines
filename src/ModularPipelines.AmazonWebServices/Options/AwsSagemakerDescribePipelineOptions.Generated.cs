@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSagemakerDescribePipelineOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Describes the details of a pipeline. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PipelineName">The name or Amazon Resource Name (ARN) of the pipeline to describe. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:([0-9]{12}|aws):pipeline/.*)?([a-zA-Z0-9](-*[a-zA-Z0-9]){0,255})</param>
+    /// <param name="PipelineName">The name or Amazon Resource Name (ARN) of the pipeline to describe. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:([0-9]{12}|aws):pipeline/.*)?([a-zA-Z0-9](-*[a-zA-Z0-9]){0,255})</param>
     public AwsSagemakerDescribePipelineOptions(
         string PipelineName
     )
@@ -56,16 +58,16 @@ public record AwsSagemakerDescribePipelineOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of the pipeline to describe. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:([0-9]{12}|aws):pipeline/.*)?([a-zA-Z0-9](-*[a-zA-Z0-9]){0,255})
+    /// The name or Amazon Resource Name (ARN) of the pipeline to describe. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:([0-9]{12}|aws):pipeline/.*)?([a-zA-Z0-9](-*[a-zA-Z0-9]){0,255})
     /// </summary>
     [CliOption("--pipeline-name")]
     public string? PipelineName { get; private init; }
 
     /// <summary>
-    /// The ID of the pipeline version to describe. Constraints: o min: 1
+    /// The ID of the pipeline version to describe. Constraints: • min: 1
     /// </summary>
     [CliOption("--pipeline-version-id")]
-    public int? PipelineVersionId { get; set; }
+    public long? PipelineVersionId { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

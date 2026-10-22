@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsChimeSdkVoiceUpdateSipMediaApplicationOptions : AwsOptions, IVa
     /// <summary>
     /// Updates the details of the specified SIP media application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SipMediaApplicationId">The SIP media application ID. Constraints: o pattern: .*\S.*</param>
+    /// <param name="SipMediaApplicationId">The SIP media application ID. Constraints: • pattern: .*\S.*</param>
     public AwsChimeSdkVoiceUpdateSipMediaApplicationOptions(
         string SipMediaApplicationId
     )
@@ -56,19 +58,19 @@ public record AwsChimeSdkVoiceUpdateSipMediaApplicationOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The SIP media application ID. Constraints: o pattern: .*\S.*
+    /// The SIP media application ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--sip-media-application-id")]
     public string? SipMediaApplicationId { get; private init; }
 
     /// <summary>
-    /// The new name for the specified SIP media application. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 _.-]+
+    /// The new name for the specified SIP media application. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9 _.-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The new set of endpoints for the specified SIP media application. Constraints: o min: 1 o max: 1 (structure) The endpoint assigned to a SIP media application. LambdaArn -&gt; (string) Valid Amazon Resource Name (ARN) of the Lambda function, ver- sion, or alias. The function must be created in the same AWS Region as the SIP media application. Constraints: o max: 10000 o pattern: arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1}:\d{12}:func- tion:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))? Shorthand Syntax: LambdaArn=string ... JSON Syntax: [ { "LambdaArn": "string" } ... ]
+    /// The new set of endpoints for the specified SIP media application. Constraints: • min: 1 • max: 1 (structure) The endpoint assigned to a SIP media application. LambdaArn -&gt; (string) Valid Amazon Resource Name (ARN) of the Lambda function, version, or alias. The function must be created in the same AWS Region as the SIP media application. Constraints: • max: 10000 • pattern: arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1}:\d{12}:function:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))? Shorthand Syntax: LambdaArn=string ... JSON Syntax: [ { "LambdaArn": "string" } ... ]
     /// </summary>
     [CliOption("--endpoints", GroupValues = true)]
     public IEnumerable<string>? Endpoints { get; set; }

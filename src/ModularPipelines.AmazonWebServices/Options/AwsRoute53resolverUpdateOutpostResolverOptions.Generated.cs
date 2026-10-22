@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// You can use UpdateOutpostResolver to update the instance count, type, or name of a Resolver on an Outpost. NOTE: This operation applies to first-generation Outposts only. On sec- ond-generation Outposts, Resolver is managed automatically by Amazon Web Services and can't be updated directly. See also: AWS API Documentation
+/// You can use UpdateOutpostResolver to update the instance count, type, or name of a Resolver on an Outpost. NOTE: This operation applies to first-generation Outposts only. On second-generation Outposts, Resolver is managed automatically by Amazon Web Services and can't be updated directly. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRoute53resolverUpdateOutpostResolverOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// You can use UpdateOutpostResolver to update the instance count, type, or name of a Resolver on an Outpost. NOTE: This operation applies to first-generation Outposts only. On sec- ond-generation Outposts, Resolver is managed automatically by Amazon Web Services and can't be updated directly. See also: AWS API Documentation
+    /// You can use UpdateOutpostResolver to update the instance count, type, or name of a Resolver on an Outpost. NOTE: This operation applies to first-generation Outposts only. On second-generation Outposts, Resolver is managed automatically by Amazon Web Services and can't be updated directly. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">A unique string that identifies Resolver on an Outpost. Constraints: o min: 1 o max: 64</param>
+    /// <param name="Id">A unique string that identifies Resolver on an Outpost. Constraints: • min: 1 • max: 64</param>
     public AwsRoute53resolverUpdateOutpostResolverOptions(
         string Id
     )
@@ -56,13 +58,13 @@ public record AwsRoute53resolverUpdateOutpostResolverOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique string that identifies Resolver on an Outpost. Constraints: o min: 1 o max: 64
+    /// A unique string that identifies Resolver on an Outpost. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// Name of the Resolver on the Outpost. Constraints: o min: 1 o max: 255
+    /// Name of the Resolver on the Outpost. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
@@ -74,7 +76,7 @@ public record AwsRoute53resolverUpdateOutpostResolverOptions : AwsOptions, IVali
     public int? InstanceCount { get; set; }
 
     /// <summary>
-    /// Amazon EC2 instance type. Constraints: o min: 1 o max: 255
+    /// Amazon EC2 instance type. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--preferred-instance-type")]
     public string? PreferredInstanceType { get; set; }

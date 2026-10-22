@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsOmicsCancelRunOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Cancels a run using its ID and returns a response with no body if the operation is successful. To confirm that the run has been cancelled, use the ListRuns API operation to check that it is no longer listed. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The run's ID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+</param>
+    /// <param name="Id">The run's ID. Constraints: • min: 1 • max: 18 • pattern: [0-9]+</param>
     public AwsOmicsCancelRunOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsOmicsCancelRunOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The run's ID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+
+    /// The run's ID. Constraints: • min: 1 • max: 18 • pattern: [0-9]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

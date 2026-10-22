@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCloudtrailUpdateChannelOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Updates a channel specified by a required channel ARN or UUID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Channel">The ARN or ID (the ARN suffix) of the channel that you want to up- date. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$</param>
+    /// <param name="Channel">The ARN or ID (the ARN suffix) of the channel that you want to update. Constraints: • min: 3 • max: 256 • pattern: ^[a-zA-Z0-9._/\-:]+$</param>
     public AwsCloudtrailUpdateChannelOptions(
         string Channel
     )
@@ -56,19 +58,19 @@ public record AwsCloudtrailUpdateChannelOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN or ID (the ARN suffix) of the channel that you want to up- date. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$
+    /// The ARN or ID (the ARN suffix) of the channel that you want to update. Constraints: • min: 3 • max: 256 • pattern: ^[a-zA-Z0-9._/\-:]+$
     /// </summary>
     [CliOption("--channel")]
     public string? Channel { get; private init; }
 
     /// <summary>
-    /// The ARNs of event data stores that you want to log events arriving through the channel. Constraints: o min: 1 o max: 200 (structure) Contains information about the destination receiving events. Type -&gt; (string) [required] The type of destination for events arriving from a channel. For channels used for a CloudTrail Lake integration, the value is EVENT_DATA_STORE . For service-linked channels, the value is AWS_SERVICE . Possible values: o EVENT_DATA_STORE o AWS_SERVICE Location -&gt; (string) [required] For channels used for a CloudTrail Lake integration, the lo- cation is the ARN of an event data store that receives events from a channel. For service-linked channels, the location is the name of the Amazon Web Services service. Constraints: o min: 3 o max: 1024 o pattern: ^[a-zA-Z0-9._/\-:*]+$ Shorthand Syntax: Type=string,Location=string ... JSON Syntax: [ { "Type": "EVENT_DATA_STORE"|"AWS_SERVICE", "Location": "string" } ... ]
+    /// The ARNs of event data stores that you want to log events arriving through the channel. Constraints: • min: 1 • max: 200 (structure) Contains information about the destination receiving events. Type -&gt; (string) [required] The type of destination for events arriving from a channel. For channels used for a CloudTrail Lake integration, the value is EVENT_DATA_STORE . For service-linked channels, the value is AWS_SERVICE . Possible values: • EVENT_DATA_STORE • AWS_SERVICE Location -&gt; (string) [required] For channels used for a CloudTrail Lake integration, the location is the ARN of an event data store that receives events from a channel. For service-linked channels, the location is the name of the Amazon Web Services service. Constraints: • min: 3 • max: 1024 • pattern: ^[a-zA-Z0-9._/\-:*]+$ Shorthand Syntax: Type=string,Location=string ... JSON Syntax: [ { "Type": "EVENT_DATA_STORE"|"AWS_SERVICE", "Location": "string" } ... ]
     /// </summary>
     [CliOption("--destinations", GroupValues = true)]
     public IEnumerable<string>? Destinations { get; set; }
 
     /// <summary>
-    /// Changes the name of the channel. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9._\-]+$
+    /// Changes the name of the channel. Constraints: • min: 3 • max: 128 • pattern: ^[a-zA-Z0-9._\-]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }

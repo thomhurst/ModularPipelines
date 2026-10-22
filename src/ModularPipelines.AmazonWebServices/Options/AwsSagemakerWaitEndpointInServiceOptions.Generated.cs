@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Wait until JMESPath query EndpointStatus returns InService when polling with describe-endpoint. It will poll every 30 seconds until a success- ful state has been reached. This will exit with a return code of 255 after 120 failed checks. See also: AWS API Documentation
+/// Wait until JMESPath query EndpointStatus returns InService when polling with describe-endpoint. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 120 failed checks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSagemakerWaitEndpointInServiceOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Wait until JMESPath query EndpointStatus returns InService when polling with describe-endpoint. It will poll every 30 seconds until a success- ful state has been reached. This will exit with a return code of 255 after 120 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query EndpointStatus returns InService when polling with describe-endpoint. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 120 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EndpointName">The name of the endpoint. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="EndpointName">The name of the endpoint. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
     public AwsSagemakerWaitEndpointInServiceOptions(
         string EndpointName
     )
@@ -56,7 +58,7 @@ public record AwsSagemakerWaitEndpointInServiceOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the endpoint. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the endpoint. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--endpoint-name")]
     public string? EndpointName { get; private init; }

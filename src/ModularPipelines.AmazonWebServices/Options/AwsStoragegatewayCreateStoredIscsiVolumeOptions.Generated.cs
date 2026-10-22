@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a volume on a specified gateway. This operation is only sup- ported in the stored volume gateway type. The size of the volume to create is inferred from the disk size. You can choose to preserve existing data on the disk, create volume from an existing snapshot, or create an empty volume. If you choose to create an empty gateway volume, then any existing data on the disk is erased. In the request, you must specify the gateway and the disk information on which you are creating the volume....
+/// Creates a volume on a specified gateway. This operation is only supported in the stored volume gateway type. The size of the volume to create is inferred from the disk size. You can choose to preserve existing data on the disk, create volume from an existing snapshot, or create an empty volume. If you choose to create an empty gateway volume, then any existing data on the disk is erased. In the request, you must specify the gateway and the disk information on which you are creating the volume. I...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,13 +28,13 @@ public record AwsStoragegatewayCreateStoredIscsiVolumeOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a volume on a specified gateway. This operation is only sup- ported in the stored volume gateway type. The size of the volume to create is inferred from the disk size. You can choose to preserve existing data on the disk, create volume from an existing snapshot, or create an empty volume. If you choose to create an empty gateway volume, then any existing data on the disk is erased. In the request, you must specify the gateway and the disk information on which you are creating the volume....
+    /// Creates a volume on a specified gateway. This operation is only supported in the stored volume gateway type. The size of the volume to create is inferred from the disk size. You can choose to preserve existing data on the disk, create volume from an existing snapshot, or create an empty volume. If you choose to create an empty gateway volume, then any existing data on the disk is erased. In the request, you must specify the gateway and the disk information on which you are creating the volume. I...
     /// </summary>
-    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500</param>
-    /// <param name="DiskId">The unique identifier for the gateway local disk that is configured as a stored volume. Use ListLocalDisks to list disk IDs for a gate- way. Constraints: o min: 1 o max: 300</param>
-    /// <param name="PreserveExistingData"></param>
-    /// <param name="TargetName">The name of the iSCSI target used by an initiator to connect to a volume and used as a suffix for the target ARN. For example, speci- fying TargetName as myvolume results in the target ARN of arn:aws:storagegateway:us-east-2:111122223333:gate- way/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume . The target name must be unique across all volumes on a gateway. If you don't specify a value, Storage Gateway uses the value that was previously used for this volume as the new target name. Constraints: o min: 1 o max: 200 o pattern: ^[-\.;a-z0-9]+$</param>
-    /// <param name="NetworkInterfaceId">The network interface of the gateway on which to expose the iSCSI target. Accepts IPv4 and IPv6 addresses. Use DescribeGatewayInfor- mation to get a list of the network interfaces available on a gate- way. Valid Values: A valid IP address.</param>
+    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: • min: 50 • max: 500</param>
+    /// <param name="DiskId">The unique identifier for the gateway local disk that is configured as a stored volume. Use ListLocalDisks to list disk IDs for a gateway. Constraints: • min: 1 • max: 300</param>
+    /// <param name="PreserveExistingData">Set to true if you want to preserve the data on the local disk. Otherwise, set to false to create an empty volume. Valid Values: true | false</param>
+    /// <param name="TargetName">The name of the iSCSI target used by an initiator to connect to a volume and used as a suffix for the target ARN. For example, specifying TargetName as myvolume results in the target ARN of arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume . The target name must be unique across all volumes on a gateway. If you don't specify a value, Storage Gateway uses the value that was previously used for this volume as the new target name. Constraints: • min: 1 • max: 200 • pattern: ^[-\.;a-z0-9]+$</param>
+    /// <param name="NetworkInterfaceId">The network interface of the gateway on which to expose the iSCSI target. Accepts IPv4 and IPv6 addresses. Use DescribeGatewayInformation to get a list of the network interfaces available on a gateway. Valid Values: A valid IP address.</param>
     public AwsStoragegatewayCreateStoredIscsiVolumeOptions(
         string GatewayArn,
         string DiskId,
@@ -71,34 +73,37 @@ public record AwsStoragegatewayCreateStoredIscsiVolumeOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500
+    /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: • min: 50 • max: 500
     /// </summary>
     [CliOption("--gateway-arn")]
     public string? GatewayArn { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the gateway local disk that is configured as a stored volume. Use ListLocalDisks to list disk IDs for a gate- way. Constraints: o min: 1 o max: 300
+    /// The unique identifier for the gateway local disk that is configured as a stored volume. Use ListLocalDisks to list disk IDs for a gateway. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--disk-id")]
     public string? DiskId { get; private init; }
 
+    /// <summary>
+    /// Set to true if you want to preserve the data on the local disk. Otherwise, set to false to create an empty volume. Valid Values: true | false
+    /// </summary>
     [CliFlag("--preserve-existing-data", NegatedName = "--no-preserve-existing-data")]
     public bool? PreserveExistingData { get; private init; }
 
     /// <summary>
-    /// The name of the iSCSI target used by an initiator to connect to a volume and used as a suffix for the target ARN. For example, speci- fying TargetName as myvolume results in the target ARN of arn:aws:storagegateway:us-east-2:111122223333:gate- way/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume . The target name must be unique across all volumes on a gateway. If you don't specify a value, Storage Gateway uses the value that was previously used for this volume as the new target name. Constraints: o min: 1 o max: 200 o pattern: ^[-\.;a-z0-9]+$
+    /// The name of the iSCSI target used by an initiator to connect to a volume and used as a suffix for the target ARN. For example, specifying TargetName as myvolume results in the target ARN of arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume . The target name must be unique across all volumes on a gateway. If you don't specify a value, Storage Gateway uses the value that was previously used for this volume as the new target name. Constraints: • min: 1 • max: 200 • pattern: ^[-\.;a-z0-9]+$
     /// </summary>
     [CliOption("--target-name")]
     public string? TargetName { get; private init; }
 
     /// <summary>
-    /// The network interface of the gateway on which to expose the iSCSI target. Accepts IPv4 and IPv6 addresses. Use DescribeGatewayInfor- mation to get a list of the network interfaces available on a gate- way. Valid Values: A valid IP address.
+    /// The network interface of the gateway on which to expose the iSCSI target. Accepts IPv4 and IPv6 addresses. Use DescribeGatewayInformation to get a list of the network interfaces available on a gateway. Valid Values: A valid IP address.
     /// </summary>
     [CliOption("--network-interface-id")]
     public AwsStoragegatewayCreateStoredIscsiVolumeNetworkInterfaceId? NetworkInterfaceId { get; private init; }
 
     /// <summary>
-    /// The snapshot ID (e.g., "snap-1122aabb") of the snapshot to restore as the new stored volume. Specify this field if you want to create the iSCSI storage volume from a snapshot; otherwise, do not include this field. To list snapshots for your account use DescribeSnapshots in the Amazon Elastic Compute Cloud API Reference . Constraints: o pattern: \Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\z
+    /// The snapshot ID (e.g., "snap-1122aabb") of the snapshot to restore as the new stored volume. Specify this field if you want to create the iSCSI storage volume from a snapshot; otherwise, do not include this field. To list snapshots for your account use DescribeSnapshots in the Amazon Elastic Compute Cloud API Reference . Constraints: • pattern: \Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\z
     /// </summary>
     [CliOption("--snapshot-id")]
     public string? SnapshotId { get; set; }
@@ -110,13 +115,13 @@ public record AwsStoragegatewayCreateStoredIscsiVolumeOptions : AwsOptions, IVal
     public bool? KmsEncrypted { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true . Optional. Constraints: o min: 7 o max: 2048 o pattern: (^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\S+)$)|(^alias/(\S+)$)
+    /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true . Optional. Constraints: • min: 7 • max: 2048 • pattern: (^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\S+)$)|(^alias/(\S+)$)
     /// </summary>
     [CliOption("--kms-key")]
     public string? KmsKey { get; set; }
 
     /// <summary>
-    /// A list of up to 50 tags that can be assigned to a stored volume. Each tag is a key-value pair. NOTE: Valid characters for key and value are letters, spaces, and num- bers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. (structure) A key-value pair that helps you manage, filter, and search for your resource. Allowed characters: letters, white space, and numbers, representable in UTF-8, and the following characters: + - = . _ : /. Key -&gt; (string) [required] Tag key. The key can't start with aws:. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag key. Constraints: o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of up to 50 tags that can be assigned to a stored volume. Each tag is a key-value pair. NOTE: Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. (structure) A key-value pair that helps you manage, filter, and search for your resource. Allowed characters: letters, white space, and numbers, representable in UTF-8, and the following characters: + - = . _ : /. Key -&gt; (string) [required] Tag key. The key can't start with aws:. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag key. Constraints: • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

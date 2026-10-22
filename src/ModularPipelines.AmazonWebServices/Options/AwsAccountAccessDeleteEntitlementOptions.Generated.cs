@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAccountAccessDeleteEntitlementOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Deletes an entitlement from an account access manager application. This operation is idempotent; deleting an entitlement that has already been deleted does not return an error. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationArn">Specifies the ARN of the application that the entitlement belongs to. Constraints: o min: 49 o max: 2048 o pattern: arn:[a-z0-9-]+:account-ac- cess:[a-z0-9]+(-[a-z0-9]+)*:[0-9]{12}:application/[a-zA-Z0-9-]+</param>
+    /// <param name="ApplicationArn">Specifies the ARN of the application that the entitlement belongs to. Constraints: • min: 49 • max: 2048 • pattern: arn:[a-z0-9-]+:account-access:[a-z0-9]+(-[a-z0-9]+)*:[0-9]{12}:application/[a-zA-Z0-9-]+</param>
     /// <param name="EntitlementId">Specifies the unique identifier of the entitlement to delete.</param>
     public AwsAccountAccessDeleteEntitlementOptions(
         string ApplicationArn,
@@ -60,7 +62,7 @@ public record AwsAccountAccessDeleteEntitlementOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ARN of the application that the entitlement belongs to. Constraints: o min: 49 o max: 2048 o pattern: arn:[a-z0-9-]+:account-ac- cess:[a-z0-9]+(-[a-z0-9]+)*:[0-9]{12}:application/[a-zA-Z0-9-]+
+    /// Specifies the ARN of the application that the entitlement belongs to. Constraints: • min: 49 • max: 2048 • pattern: arn:[a-z0-9-]+:account-access:[a-z0-9]+(-[a-z0-9]+)*:[0-9]{12}:application/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--application-arn")]
     public string? ApplicationArn { get; private init; }

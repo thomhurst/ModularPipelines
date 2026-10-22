@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the gateway virtual machine (VM) software. The request immedi- ately triggers the software update. NOTE: When you make this request, you get a 200 OK success response imme- diately. However, it might take some time for the update to com- plete. You can call DescribeGatewayInformation to verify the gate- way is in the STATE_RUNNING state. WARNING: A software update forces a system restart of your gateway. You can minimize the chance of any disruption to your applications by in- creasing y...
+/// Updates the gateway virtual machine (VM) software. The request immediately triggers the software update. NOTE: When you make this request, you get a 200 OK success response immediately. However, it might take some time for the update to complete. You can call DescribeGatewayInformation to verify the gateway is in the STATE_RUNNING state. WARNING: A software update forces a system restart of your gateway. You can minimize the chance of any disruption to your applications by increasing your iSCSI ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsStoragegatewayUpdateGatewaySoftwareNowOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the gateway virtual machine (VM) software. The request immedi- ately triggers the software update. NOTE: When you make this request, you get a 200 OK success response imme- diately. However, it might take some time for the update to com- plete. You can call DescribeGatewayInformation to verify the gate- way is in the STATE_RUNNING state. WARNING: A software update forces a system restart of your gateway. You can minimize the chance of any disruption to your applications by in- creasing y...
+    /// Updates the gateway virtual machine (VM) software. The request immediately triggers the software update. NOTE: When you make this request, you get a 200 OK success response immediately. However, it might take some time for the update to complete. You can call DescribeGatewayInformation to verify the gateway is in the STATE_RUNNING state. WARNING: A software update forces a system restart of your gateway. You can minimize the chance of any disruption to your applications by increasing your iSCSI ...
     /// </summary>
-    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500</param>
+    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: • min: 50 • max: 500</param>
     public AwsStoragegatewayUpdateGatewaySoftwareNowOptions(
         string GatewayArn
     )
@@ -56,7 +58,7 @@ public record AwsStoragegatewayUpdateGatewaySoftwareNowOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500
+    /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: • min: 50 • max: 500
     /// </summary>
     [CliOption("--gateway-arn")]
     public string? GatewayArn { get; private init; }

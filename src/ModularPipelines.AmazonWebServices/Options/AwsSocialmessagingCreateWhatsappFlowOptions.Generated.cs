@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new WhatsApp Flow. Flows enable businesses to create rich, interactive forms and experiences that users can complete without leav- ing WhatsApp. The Flow is created in DRAFT status. If publish is set to true and a valid flowJson is provided, the Flow is published immedi- ately. See also: AWS API Documentation
+/// Creates a new WhatsApp Flow. Flows enable businesses to create rich, interactive forms and experiences that users can complete without leaving WhatsApp. The Flow is created in DRAFT status. If publish is set to true and a valid flowJson is provided, the Flow is published immediately. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsSocialmessagingCreateWhatsappFlowOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new WhatsApp Flow. Flows enable businesses to create rich, interactive forms and experiences that users can complete without leav- ing WhatsApp. The Flow is created in DRAFT status. If publish is set to true and a valid flowJson is provided, the Flow is published immedi- ately. See also: AWS API Documentation
+    /// Creates a new WhatsApp Flow. Flows enable businesses to create rich, interactive forms and experiences that users can complete without leaving WhatsApp. The Flow is created in DRAFT status. If publish is set to true and a valid flowJson is provided, the Flow is published immediately. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the WhatsApp Business Account to associate with this Flow. Constraints: o min: 1 o max: 115 o pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*</param>
-    /// <param name="FlowName">The name of the Flow. Must be unique within the WhatsApp Business Account. Constraints: o min: 1 o max: 200</param>
-    /// <param name="Categories">The categories that classify the business purpose of the Flow. At least one category is required. Constraints: o min: 1 o max: 9 (string) The category that classifies the business purpose of a WhatsApp Flow. Possible values: o SIGN_UP o SIGN_IN o APPOINTMENT_BOOKING o LEAD_GENERATION o SHOPPING o CONTACT_US o CUSTOMER_SUPPORT o SURVEY o OTHER Syntax: "string" "string" ...</param>
+    /// <param name="Id">The ID of the WhatsApp Business Account to associate with this Flow. Constraints: • min: 1 • max: 115 • pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*</param>
+    /// <param name="FlowName">The name of the Flow. Must be unique within the WhatsApp Business Account. Constraints: • min: 1 • max: 200</param>
+    /// <param name="Categories">The categories that classify the business purpose of the Flow. At least one category is required. Constraints: • min: 1 • max: 9 (string) The category that classifies the business purpose of a WhatsApp Flow. Possible values: • SIGN_UP • SIGN_IN • APPOINTMENT_BOOKING • LEAD_GENERATION • SHOPPING • CONTACT_US • CUSTOMER_SUPPORT • SURVEY • OTHER Syntax: "string" "string" ...</param>
     public AwsSocialmessagingCreateWhatsappFlowOptions(
         string Id,
         string FlowName,
@@ -75,25 +77,25 @@ public record AwsSocialmessagingCreateWhatsappFlowOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the WhatsApp Business Account to associate with this Flow. Constraints: o min: 1 o max: 115 o pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*
+    /// The ID of the WhatsApp Business Account to associate with this Flow. Constraints: • min: 1 • max: 115 • pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The name of the Flow. Must be unique within the WhatsApp Business Account. Constraints: o min: 1 o max: 200
+    /// The name of the Flow. Must be unique within the WhatsApp Business Account. Constraints: • min: 1 • max: 200
     /// </summary>
     [CliOption("--flow-name")]
     public string? FlowName { get; private init; }
 
     /// <summary>
-    /// The categories that classify the business purpose of the Flow. At least one category is required. Constraints: o min: 1 o max: 9 (string) The category that classifies the business purpose of a WhatsApp Flow. Possible values: o SIGN_UP o SIGN_IN o APPOINTMENT_BOOKING o LEAD_GENERATION o SHOPPING o CONTACT_US o CUSTOMER_SUPPORT o SURVEY o OTHER Syntax: "string" "string" ...
+    /// The categories that classify the business purpose of the Flow. At least one category is required. Constraints: • min: 1 • max: 9 (string) The category that classifies the business purpose of a WhatsApp Flow. Possible values: • SIGN_UP • SIGN_IN • APPOINTMENT_BOOKING • LEAD_GENERATION • SHOPPING • CONTACT_US • CUSTOMER_SUPPORT • SURVEY • OTHER Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--categories", GroupValues = true)]
     public IEnumerable<string>? Categories { get; private init; }
 
     /// <summary>
-    /// The Flow JSON definition that describes the screens, components, and logic of the Flow. Maximum size is 10 MB. Constraints: o min: 1 o max: 10485760
+    /// The Flow JSON definition that describes the screens, components, and logic of the Flow. Maximum size is 10 MB. Constraints: • min: 1 • max: 10485760
     /// </summary>
     [CliOption("--flow-json")]
     public string? FlowJson { get; set; }
@@ -105,13 +107,13 @@ public record AwsSocialmessagingCreateWhatsappFlowOptions : AwsOptions, IValidat
     public bool? Publish { get; set; }
 
     /// <summary>
-    /// The ID of an existing Flow within the same WhatsApp Business Account to clone. Constraints: o min: 1 o max: 100 o pattern: [0-9]+
+    /// The ID of an existing Flow within the same WhatsApp Business Account to clone. Constraints: • min: 1 • max: 100 • pattern: [0-9]+
     /// </summary>
     [CliOption("--clone-flow-id")]
     public string? CloneFlowId { get; set; }
 
     /// <summary>
-    /// The HTTPS endpoint that Meta calls for a data exchange Flow. Constraints: o min: 1 o max: 2048
+    /// The HTTPS endpoint that Meta calls for a data exchange Flow. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--endpoint-uri")]
     public string? EndpointUri { get; set; }

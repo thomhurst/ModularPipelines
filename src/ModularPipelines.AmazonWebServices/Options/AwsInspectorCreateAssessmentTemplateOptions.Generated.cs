@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an assessment template for the assessment target that is speci- fied by the ARN of the assessment target. If the service-linked role isnt already registered, this action also creates and registers a ser- vice-linked role to grant Amazon Inspector access to AWS Services needed to perform security assessments. See also: AWS API Documentation
+/// Creates an assessment template for the assessment target that is specified by the ARN of the assessment target. If the service-linked role isnt already registered, this action also creates and registers a service-linked role to grant Amazon Inspector access to AWS Services needed to perform security assessments. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +27,12 @@ public record AwsInspectorCreateAssessmentTemplateOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an assessment template for the assessment target that is speci- fied by the ARN of the assessment target. If the service-linked role isnt already registered, this action also creates and registers a ser- vice-linked role to grant Amazon Inspector access to AWS Services needed to perform security assessments. See also: AWS API Documentation
+    /// Creates an assessment template for the assessment target that is specified by the ARN of the assessment target. If the service-linked role isnt already registered, this action also creates and registers a service-linked role to grant Amazon Inspector access to AWS Services needed to perform security assessments. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssessmentTargetArn">The ARN that specifies the assessment target for which you want to create the assessment template. Constraints: o min: 1 o max: 300</param>
-    /// <param name="AssessmentTemplateName">The user-defined name that identifies the assessment template that you want to create. You can create several assessment templates for an assessment target. The names of the assessment templates that correspond to a particular assessment target must be unique. Constraints: o min: 1 o max: 140</param>
-    /// <param name="DurationInSeconds">The duration of the assessment run in seconds. Constraints: o min: 180 o max: 86400</param>
-    /// <param name="RulesPackageArns">The ARNs that specify the rules packages that you want to attach to the assessment template. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...</param>
+    /// <param name="AssessmentTargetArn">The ARN that specifies the assessment target for which you want to create the assessment template. Constraints: • min: 1 • max: 300</param>
+    /// <param name="AssessmentTemplateName">The user-defined name that identifies the assessment template that you want to create. You can create several assessment templates for an assessment target. The names of the assessment templates that correspond to a particular assessment target must be unique. Constraints: • min: 1 • max: 140</param>
+    /// <param name="DurationInSeconds">The duration of the assessment run in seconds. Constraints: • min: 180 • max: 86400</param>
+    /// <param name="RulesPackageArns">The ARNs that specify the rules packages that you want to attach to the assessment template. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 300 Syntax: "string" "string" ...</param>
     public AwsInspectorCreateAssessmentTemplateOptions(
         string AssessmentTargetArn,
         string AssessmentTemplateName,
@@ -78,31 +80,31 @@ public record AwsInspectorCreateAssessmentTemplateOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN that specifies the assessment target for which you want to create the assessment template. Constraints: o min: 1 o max: 300
+    /// The ARN that specifies the assessment target for which you want to create the assessment template. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--assessment-target-arn")]
     public string? AssessmentTargetArn { get; private init; }
 
     /// <summary>
-    /// The user-defined name that identifies the assessment template that you want to create. You can create several assessment templates for an assessment target. The names of the assessment templates that correspond to a particular assessment target must be unique. Constraints: o min: 1 o max: 140
+    /// The user-defined name that identifies the assessment template that you want to create. You can create several assessment templates for an assessment target. The names of the assessment templates that correspond to a particular assessment target must be unique. Constraints: • min: 1 • max: 140
     /// </summary>
     [CliOption("--assessment-template-name")]
     public string? AssessmentTemplateName { get; private init; }
 
     /// <summary>
-    /// The duration of the assessment run in seconds. Constraints: o min: 180 o max: 86400
+    /// The duration of the assessment run in seconds. Constraints: • min: 180 • max: 86400
     /// </summary>
     [CliOption("--duration-in-seconds")]
     public int? DurationInSeconds { get; private init; }
 
     /// <summary>
-    /// The ARNs that specify the rules packages that you want to attach to the assessment template. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...
+    /// The ARNs that specify the rules packages that you want to attach to the assessment template. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 300 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--rules-package-arns", GroupValues = true)]
     public IEnumerable<string>? RulesPackageArns { get; private init; }
 
     /// <summary>
-    /// The user-defined attributes that are assigned to every finding that is generated by the assessment run that uses this assessment tem- plate. An attribute is a key and value pair (an Attribute object). Within an assessment template, each key must be unique. Constraints: o min: 0 o max: 10 (structure) This data type is used as a request parameter in the AddAttrib- utesToFindings and CreateAssessmentTemplate actions. key -&gt; (string) [required] The attribute key. Constraints: o min: 1 o max: 128 value -&gt; (string) The value assigned to the attribute key. Constraints: o min: 1 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// The user-defined attributes that are assigned to every finding that is generated by the assessment run that uses this assessment template. An attribute is a key and value pair (an Attribute object). Within an assessment template, each key must be unique. Constraints: • min: 0 • max: 10 (structure) This data type is used as a request parameter in the AddAttributesToFindings and CreateAssessmentTemplate actions. key -&gt; (string) [required] The attribute key. Constraints: • min: 1 • max: 128 value -&gt; (string) The value assigned to the attribute key. Constraints: • min: 1 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--user-attributes-for-findings", GroupValues = true)]
     public IEnumerable<string>? UserAttributesForFindings { get; set; }

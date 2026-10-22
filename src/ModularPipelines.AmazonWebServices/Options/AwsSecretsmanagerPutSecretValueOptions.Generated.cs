@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsSecretsmanagerPutSecretValueOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Creates a new version of your secret by creating a new encrypted value and attaching it to the secret. version can contain a new SecretString value or a new SecretBinary value. Do not call PutSecretValue at a sustained rate of more than once every 10 minutes. When you update the secret value, Secrets Manager creates a new version of the secret. Secrets Manager keeps 100 of the most recent versions, but it keeps all secret versions created in the last 24 hours. If you call PutSecretValue more tha...
     /// </summary>
-    /// <param name="SecretId">The ARN or name of the secret to add a new version to. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . If the secret doesn't already exist, use CreateSecret instead. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="SecretId">The ARN or name of the secret to add a new version to. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . If the secret doesn't already exist, use CreateSecret instead. Constraints: • min: 1 • max: 2048</param>
     public AwsSecretsmanagerPutSecretValueOptions(
         string SecretId
     )
@@ -57,41 +59,41 @@ public record AwsSecretsmanagerPutSecretValueOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN or name of the secret to add a new version to. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . If the secret doesn't already exist, use CreateSecret instead. Constraints: o min: 1 o max: 2048
+    /// The ARN or name of the secret to add a new version to. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . If the secret doesn't already exist, use CreateSecret instead. Constraints: • min: 1 • max: 2048
     /// </summary>
     [SecretValue]
     [CliOption("--secret-id")]
     public string? SecretId { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the new version of the secret. NOTE: If you use the Amazon Web Services CLI or one of the Amazon Web Services SDKs to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes it as the value for this parameter in the request. If you generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken and include it in the request. This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during a rotation. We recommend that you generate a UUID-type value to ensure uniqueness of your versions within the specified secret. o If the ClientRequestToken value isn't already associated with a version of the secret then a new version of the secret is created. o If a version with this value already exists and that version's Se- cretString or SecretBinary values are the same as those in the re- quest then the request is ignored. The operation is idempotent. o If a version with this value already exists and the version of the SecretString and SecretBinary values are different from those in the request, then the request fails because you can't modify a se- cret version. You can only create new versions to store new secret values. This value becomes the VersionId of the new version. Constraints: o min: 32 o max: 64
+    /// A unique identifier for the new version of the secret. NOTE: If you use the Amazon Web Services CLI or one of the Amazon Web Services SDKs to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes it as the value for this parameter in the request. If you generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken and include it in the request. This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during a rotation. We recommend that you generate a UUID-type value to ensure uniqueness of your versions within the specified secret. • If the ClientRequestToken value isn't already associated with a version of the secret then a new version of the secret is created. • If a version with this value already exists and that version's SecretString or SecretBinary values are the same as those in the request then the request is ignored. The operation is idempotent. • If a version with this value already exists and the version of the SecretString and SecretBinary values are different from those in the request, then the request fails because you can't modify a secret version. You can only create new versions to store new secret values. This value becomes the VersionId of the new version. Constraints: • min: 32 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// The binary data to encrypt and store in the new version of the se- cret. To use this parameter in the command-line tools, we recommend that you store your binary data in a file and then pass the contents of the file as a parameter. You must include SecretBinary or SecretString , but not both. You can't access this value from the Secrets Manager console. Sensitive: This field contains sensitive information, so the service does not include it in CloudTrail log entries. If you create your own log entries, you must also avoid logging the information in this field. Constraints: o min: 1 o max: 65536
+    /// The binary data to encrypt and store in the new version of the secret. To use this parameter in the command-line tools, we recommend that you store your binary data in a file and then pass the contents of the file as a parameter. You must include SecretBinary or SecretString , but not both. You can't access this value from the Secrets Manager console. Sensitive: This field contains sensitive information, so the service does not include it in CloudTrail log entries. If you create your own log entries, you must also avoid logging the information in this field. Constraints: • min: 1 • max: 65536
     /// </summary>
     [SecretValue]
     [CliOption("--secret-binary")]
     public string? SecretBinary { get; set; }
 
     /// <summary>
-    /// The text to encrypt and store in the new version of the secret. You must include SecretBinary or SecretString , but not both. We recommend you create the secret string as JSON key/value pairs, as shown in the example. Sensitive: This field contains sensitive information, so the service does not include it in CloudTrail log entries. If you create your own log entries, you must also avoid logging the information in this field. Constraints: o min: 1 o max: 65536
+    /// The text to encrypt and store in the new version of the secret. You must include SecretBinary or SecretString , but not both. We recommend you create the secret string as JSON key/value pairs, as shown in the example. Sensitive: This field contains sensitive information, so the service does not include it in CloudTrail log entries. If you create your own log entries, you must also avoid logging the information in this field. Constraints: • min: 1 • max: 65536
     /// </summary>
     [SecretValue]
     [CliOption("--secret-string")]
     public string? SecretString { get; set; }
 
     /// <summary>
-    /// A list of staging labels to attach to this version of the secret. Secrets Manager uses staging labels to track versions of a secret through the rotation process. If you specify a staging label that's already associated with a dif- ferent version of the same secret, then Secrets Manager removes the label from the other version and attaches it to this version. If you specify AWSCURRENT , and it is already attached to another version, then Secrets Manager also moves the staging label AWSPREVIOUS to the version that AWSCURRENT was removed from. If you don't include VersionStages , then Secrets Manager automati- cally moves the staging label AWSCURRENT to this version. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 256 Syntax: "string" "string" ...
+    /// A list of staging labels to attach to this version of the secret. Secrets Manager uses staging labels to track versions of a secret through the rotation process. If you specify a staging label that's already associated with a different version of the same secret, then Secrets Manager removes the label from the other version and attaches it to this version. If you specify AWSCURRENT , and it is already attached to another version, then Secrets Manager also moves the staging label AWSPREVIOUS to the version that AWSCURRENT was removed from. If you don't include VersionStages , then Secrets Manager automatically moves the staging label AWSCURRENT to this version. Constraints: • min: 1 • max: 20 (string) Constraints: • min: 1 • max: 256 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--version-stages", GroupValues = true)]
     public IEnumerable<string>? VersionStages { get; set; }
 
     /// <summary>
-    /// A unique identifier that indicates the source of the request. Re- quired for secret rotations using an IAM assumed role or cross-ac- count rotation, in which you rotate a secret in one account by using a Lambda rotation function in another account. In both cases, the rotation function assumes an IAM role to call Secrets Manager, and then Secrets Manager validates the identity using the token. For more information, see How rotation works and Rotation by Lambda functions . Sensitive: This field contains sensitive information, so the service does not include it in CloudTrail log entries. If you create your own log entries, you must also avoid logging the information in this field. Constraints: o min: 36 o max: 256 o pattern: ^[a-zA-Z0-9\-]+$
+    /// A unique identifier that indicates the source of the request. Required for secret rotations using an IAM assumed role or cross-account rotation, in which you rotate a secret in one account by using a Lambda rotation function in another account. In both cases, the rotation function assumes an IAM role to call Secrets Manager, and then Secrets Manager validates the identity using the token. For more information, see How rotation works and Rotation by Lambda functions . Sensitive: This field contains sensitive information, so the service does not include it in CloudTrail log entries. If you create your own log entries, you must also avoid logging the information in this field. Constraints: • min: 36 • max: 256 • pattern: ^[a-zA-Z0-9\-]+$
     /// </summary>
     [SecretValue]
     [CliOption("--rotation-token")]

@@ -122,7 +122,7 @@ public class AwsIvs : IAwsIvs
     }
 
     /// <summary>
-    /// Creates a new recording configuration, used to enable recording to Ama- zon S3. Known issue: In the us-east-1 region, if you use the Amazon Web Ser- vices CLI to create a recording configuration, it returns success even if the S3 bucket is in a different region. In this case, the state of the recording configuration is CREATE_FAILED (instead of ACTIVE ). (In other regions, the CLI correctly returns failure if the bucket is in a different region.) Workaround: Ensure that your S3 bucket is in the ...
+    /// Creates a new recording configuration, used to enable recording to Amazon S3. Known issue: In the us-east-1 region, if you use the Amazon Web Services CLI to create a recording configuration, it returns success even if the S3 bucket is in a different region. In this case, the state of the recording configuration is CREATE_FAILED (instead of ACTIVE ). (In other regions, the CLI correctly returns failure if the bucket is in a different region.) Workaround: Ensure that your S3 bucket is in the same...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsIvs : IAwsIvs
     }
 
     /// <summary>
-    /// Creates a stream key, used to initiate a stream, for the specified channel ARN. Note that CreateChannel creates a stream key. If you subsequently use CreateStreamKey on the same channel, it will fail because a stream key already exists and there is a limit of 1 stream key per channel. To re- set the stream key on a channel, use DeleteStreamKey and then Creat- eStreamKey. See also: AWS API Documentation
+    /// Creates a stream key, used to initiate a stream, for the specified channel ARN. Note that CreateChannel creates a stream key. If you subsequently use CreateStreamKey on the same channel, it will fail because a stream key already exists and there is a limit of 1 stream key per channel. To reset the stream key on a channel, use DeleteStreamKey and then CreateStreamKey. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsIvs : IAwsIvs
     }
 
     /// <summary>
-    /// Deletes the specified channel and its associated stream keys. If you try to delete a live channel, you will get an error (409 Con- flictException). To delete a channel that is live, call StopStream , wait for the Amazon EventBridge "Stream End" event (to verify that the stream's state is no longer Live), then call DeleteChannel. (See Using EventBridge with Amazon IVS .) See also: AWS API Documentation
+    /// Deletes the specified channel and its associated stream keys. If you try to delete a live channel, you will get an error (409 ConflictException). To delete a channel that is live, call StopStream , wait for the Amazon EventBridge "Stream End" event (to verify that the stream's state is no longer Live), then call DeleteChannel. (See Using EventBridge with Amazon IVS .) See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsIvs : IAwsIvs
     }
 
     /// <summary>
-    /// Deletes a specified authorization key pair. This invalidates future viewer tokens generated using the key pairs privateKey . For more in- formation, see Setting Up Private Channels in the Amazon IVS User Guide . See also: AWS API Documentation
+    /// Deletes a specified authorization key pair. This invalidates future viewer tokens generated using the key pairs privateKey . For more information, see Setting Up Private Channels in the Amazon IVS User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsIvs : IAwsIvs
     }
 
     /// <summary>
-    /// Gets a specified playback authorization key pair and returns the arn and fingerprint . The privateKey held by the caller can be used to gen- erate viewer authorization tokens, to grant viewers access to private channels. For more information, see Setting Up Private Channels in the Amazon IVS User Guide . See also: AWS API Documentation
+    /// Gets a specified playback authorization key pair and returns the arn and fingerprint . The privateKey held by the caller can be used to generate viewer authorization tokens, to grant viewers access to private channels. For more information, see Setting Up Private Channels in the Amazon IVS User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsIvs : IAwsIvs
     }
 
     /// <summary>
-    /// Imports the public portion of a new key pair and returns its arn and fingerprint . The privateKey can then be used to generate viewer autho- rization tokens, to grant viewers access to private channels. For more information, see Setting Up Private Channels in the Amazon IVS User Guide . See also: AWS API Documentation
+    /// Imports the public portion of a new key pair and returns its arn and fingerprint . The privateKey can then be used to generate viewer authorization tokens, to grant viewers access to private channels. For more information, see Setting Up Private Channels in the Amazon IVS User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsIvs : IAwsIvs
     }
 
     /// <summary>
-    /// Inserts an ad marker in the playlist for the specified channel and du- ration using the ad configuration associated with the channel. Note: AWS Elemental MediaTailor (EMT), the service that handles ad requests, provides CloudWatch metrics to help you monitor the suc- cess or failure of each InsertAdBreak operation. See Monitoring AWS Elemental MediaTailor with Amazon CloudWatch metrics in the AWS Ele- mental MediaTailor User Guide for details on available metrics. See also: AWS API Documentation
+    /// Inserts an ad marker in the playlist for the specified channel and duration using the ad configuration associated with the channel. Note: AWS Elemental MediaTailor (EMT), the service that handles ad requests, provides CloudWatch metrics to help you monitor the success or failure of each InsertAdBreak operation. See Monitoring AWS Elemental MediaTailor with Amazon CloudWatch metrics in the AWS Elemental MediaTailor User Guide for details on available metrics. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsIvs : IAwsIvs
     }
 
     /// <summary>
-    /// Gets summary information about all channels in your account, in the Amazon Web Services region where the API request is processed. This list can be filtered to match a specified name or recording-configura- tion ARN. Filters are mutually exclusive and cannot be used together. If you try to use both filters, you will get an error (409 ConflictEx- ception). See also: AWS API Documentation list-channels is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire dat...
+    /// Gets summary information about all channels in your account, in the Amazon Web Services region where the API request is processed. This list can be filtered to match a specified name or recording-configuration ARN. Filters are mutually exclusive and cannot be used together. If you try to use both filters, you will get an error (409 ConflictException). See also: AWS API Documentation list-channels is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsIvs : IAwsIvs
     }
 
     /// <summary>
-    /// Gets summary information about playback key pairs. For more informa- tion, see Setting Up Private Channels in the Amazon IVS User Guide . See also: AWS API Documentation list-playback-key-pairs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the res...
+    /// Gets summary information about playback key pairs. For more information, see Setting Up Private Channels in the Amazon IVS User Guide . See also: AWS API Documentation list-playback-key-pairs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resul...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsIvs : IAwsIvs
     }
 
     /// <summary>
-    /// Gets summary information about all recording configurations in your ac- count, in the Amazon Web Services region where the API request is processed. See also: AWS API Documentation list-recording-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extr...
+    /// Gets summary information about all recording configurations in your account, in the Amazon Web Services region where the API request is processed. See also: AWS API Documentation list-recording-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract da...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsIvs : IAwsIvs
     }
 
     /// <summary>
-    /// Gets summary information about live streams in your account, in the Amazon Web Services region where the API request is processed. See also: AWS API Documentation list-streams is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the foll...
+    /// Gets summary information about live streams in your account, in the Amazon Web Services region where the API request is processed. See also: AWS API Documentation list-streams is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsIvs : IAwsIvs
     }
 
     /// <summary>
-    /// Inserts metadata into the active stream of the specified channel. At most 5 requests per second per channel are allowed, each with a maximum 1 KB payload. (If 5 TPS is not sufficient for your needs, we recommend batching your data into a single PutMetadata call.) At most 155 re- quests per second per account are allowed. Also see Embedding Metadata within a Video Stream in the Amazon IVS User Guide . See also: AWS API Documentation
+    /// Inserts metadata into the active stream of the specified channel. At most 5 requests per second per channel are allowed, each with a maximum 1 KB payload. (If 5 TPS is not sufficient for your needs, we recommend batching your data into a single PutMetadata call.) At most 155 requests per second per account are allowed. Also see Embedding Metadata within a Video Stream in the Amazon IVS User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsIvs : IAwsIvs
     }
 
     /// <summary>
-    /// Starts the process of revoking the viewer session associated with a specified channel ARN and viewer ID. Optionally, you can provide a ver- sion to revoke viewer sessions less than and including that version. For instructions on associating a viewer ID with a viewer session, see Setting Up Private Channels . See also: AWS API Documentation
+    /// Starts the process of revoking the viewer session associated with a specified channel ARN and viewer ID. Optionally, you can provide a version to revoke viewer sessions less than and including that version. For instructions on associating a viewer ID with a viewer session, see Setting Up Private Channels . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

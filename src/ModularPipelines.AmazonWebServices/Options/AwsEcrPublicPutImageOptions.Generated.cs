@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsEcrPublicPutImageOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates or updates the image manifest and tags that are associated with an image. When an image is pushed and all new image layers have been uploaded, the PutImage API is called once to create or update the image manifest and the tags that are associated with the image. NOTE: This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. See also: AWS API Documentati...
     /// </summary>
-    /// <param name="RepositoryName">The name of the repository where the image is put. Constraints: o min: 2 o max: 205 o pattern: (?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*</param>
-    /// <param name="ImageManifest">The image manifest that corresponds to the image to be uploaded. Constraints: o min: 1 o max: 4194304</param>
+    /// <param name="RepositoryName">The name of the repository where the image is put. Constraints: • min: 2 • max: 205 • pattern: (?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*</param>
+    /// <param name="ImageManifest">The image manifest that corresponds to the image to be uploaded. Constraints: • min: 1 • max: 4194304</param>
     public AwsEcrPublicPutImageOptions(
         string RepositoryName,
         string ImageManifest
@@ -60,37 +62,37 @@ public record AwsEcrPublicPutImageOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the repository where the image is put. Constraints: o min: 2 o max: 205 o pattern: (?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*
+    /// The name of the repository where the image is put. Constraints: • min: 2 • max: 205 • pattern: (?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
 
     /// <summary>
-    /// The image manifest that corresponds to the image to be uploaded. Constraints: o min: 1 o max: 4194304
+    /// The image manifest that corresponds to the image to be uploaded. Constraints: • min: 1 • max: 4194304
     /// </summary>
     [CliOption("--image-manifest")]
     public string? ImageManifest { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID, or registry alias, that's asso- ciated with the public registry that contains the repository where the image is put. If you do not specify a registry, the default pub- lic registry is assumed. Constraints: o min: 2 o max: 50
+    /// The Amazon Web Services account ID, or registry alias, that's associated with the public registry that contains the repository where the image is put. If you do not specify a registry, the default public registry is assumed. Constraints: • min: 2 • max: 50
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
 
     /// <summary>
-    /// The media type of the image manifest. If you push an image manifest that doesn't contain the mediaType field, you must specify the im- ageManifestMediaType in the request.
+    /// The media type of the image manifest. If you push an image manifest that doesn't contain the mediaType field, you must specify the imageManifestMediaType in the request.
     /// </summary>
     [CliOption("--image-manifest-media-type")]
     public string? ImageManifestMediaType { get; set; }
 
     /// <summary>
-    /// The tag to associate with the image. This parameter is required for images that use the Docker Image Manifest V2 Schema 2 or Open Con- tainer Initiative (OCI) formats. Constraints: o min: 1 o max: 300
+    /// The tag to associate with the image. This parameter is required for images that use the Docker Image Manifest V2 Schema 2 or Open Container Initiative (OCI) formats. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--image-tag")]
     public string? ImageTag { get; set; }
 
     /// <summary>
-    /// The image digest of the image manifest that corresponds to the im- age.
+    /// The image digest of the image manifest that corresponds to the image.
     /// </summary>
     [CliOption("--image-digest")]
     public string? ImageDigest { get; set; }

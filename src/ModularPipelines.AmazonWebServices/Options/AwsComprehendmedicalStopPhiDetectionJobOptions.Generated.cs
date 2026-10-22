@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsComprehendmedicalStopPhiDetectionJobOptions : AwsOptions, IVali
     /// <summary>
     /// Stops a protected health information (PHI) detection job in progress. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">The identifier of the PHI detection job to stop. Constraints: o min: 1 o max: 32 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$</param>
+    /// <param name="JobId">The identifier of the PHI detection job to stop. Constraints: • min: 1 • max: 32 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$</param>
     public AwsComprehendmedicalStopPhiDetectionJobOptions(
         string JobId
     )
@@ -56,7 +58,7 @@ public record AwsComprehendmedicalStopPhiDetectionJobOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the PHI detection job to stop. Constraints: o min: 1 o max: 32 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$
+    /// The identifier of the PHI detection job to stop. Constraints: • min: 1 • max: 32 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }

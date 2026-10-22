@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates a MAC Security (MACsec) Connection Key Name (CKN)/ Connec- tivity Association Key (CAK) pair with a Direct Connect connection. You must supply either the secretARN, or the CKN/CAK (ckn and cak ) pair in the request. For information about MAC Security (MACsec) key considerations, see MACsec pre-shared CKN/CAK key considerations in the Direct Connect User Guide . See also: AWS API Documentation
+/// Associates a MAC Security (MACsec) Connection Key Name (CKN)/ Connectivity Association Key (CAK) pair with a Direct Connect connection. You must supply either the secretARN, or the CKN/CAK (ckn and cak ) pair in the request. For information about MAC Security (MACsec) key considerations, see MACsec pre-shared CKN/CAK key considerations in the Direct Connect User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsDirectconnectAssociateMacSecKeyOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates a MAC Security (MACsec) Connection Key Name (CKN)/ Connec- tivity Association Key (CAK) pair with a Direct Connect connection. You must supply either the secretARN, or the CKN/CAK (ckn and cak ) pair in the request. For information about MAC Security (MACsec) key considerations, see MACsec pre-shared CKN/CAK key considerations in the Direct Connect User Guide . See also: AWS API Documentation
+    /// Associates a MAC Security (MACsec) Connection Key Name (CKN)/ Connectivity Association Key (CAK) pair with a Direct Connect connection. You must supply either the secretARN, or the CKN/CAK (ckn and cak ) pair in the request. For information about MAC Security (MACsec) key considerations, see MACsec pre-shared CKN/CAK key considerations in the Direct Connect User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectionId">The ID of the dedicated connection (dxcon-xxxx), interconnect (dx- con-xxxx), or LAG (dxlag-xxxx). You can use DescribeConnections , DescribeInterconnects , or De- scribeLags to retrieve connection ID.</param>
+    /// <param name="ConnectionId">The ID of the dedicated connection (dxcon-xxxx), interconnect (dxcon-xxxx), or LAG (dxlag-xxxx). You can use DescribeConnections , DescribeInterconnects , or DescribeLags to retrieve connection ID.</param>
     public AwsDirectconnectAssociateMacSecKeyOptions(
         string ConnectionId
     )
@@ -56,7 +58,7 @@ public record AwsDirectconnectAssociateMacSecKeyOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the dedicated connection (dxcon-xxxx), interconnect (dx- con-xxxx), or LAG (dxlag-xxxx). You can use DescribeConnections , DescribeInterconnects , or De- scribeLags to retrieve connection ID.
+    /// The ID of the dedicated connection (dxcon-xxxx), interconnect (dxcon-xxxx), or LAG (dxlag-xxxx). You can use DescribeConnections , DescribeInterconnects , or DescribeLags to retrieve connection ID.
     /// </summary>
     [CliOption("--connection-id")]
     public string? ConnectionId { get; private init; }
@@ -68,13 +70,13 @@ public record AwsDirectconnectAssociateMacSecKeyOptions : AwsOptions, IValidatab
     public string? SecretArn { get; set; }
 
     /// <summary>
-    /// The MAC Security (MACsec) CKN to associate with the connection. You can create the CKN/CAK pair using an industry standard tool. The valid values are 64 hexadecimal characters (0-9, A-E). If you use this request parameter, you must use the cak request pa- rameter and not use the secretARN request parameter.
+    /// The MAC Security (MACsec) CKN to associate with the connection. You can create the CKN/CAK pair using an industry standard tool. The valid values are 64 hexadecimal characters (0-9, A-E). If you use this request parameter, you must use the cak request parameter and not use the secretARN request parameter.
     /// </summary>
     [CliOption("--ckn")]
     public string? Ckn { get; set; }
 
     /// <summary>
-    /// The MAC Security (MACsec) CAK to associate with the connection. You can create the CKN/CAK pair using an industry standard tool. The valid values are 64 hexadecimal characters (0-9, A-E). If you use this request parameter, you must use the ckn request pa- rameter and not use the secretARN request parameter.
+    /// The MAC Security (MACsec) CAK to associate with the connection. You can create the CKN/CAK pair using an industry standard tool. The valid values are 64 hexadecimal characters (0-9, A-E). If you use this request parameter, you must use the ckn request parameter and not use the secretARN request parameter.
     /// </summary>
     [CliOption("--cak")]
     public string? Cak { get; set; }

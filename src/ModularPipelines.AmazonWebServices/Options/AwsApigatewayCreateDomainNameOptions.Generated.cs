@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -77,14 +78,14 @@ public record AwsApigatewayCreateDomainNameOptions : AwsOptions, IValidatableObj
     public string? CertificateBody { get; set; }
 
     /// <summary>
-    /// [Deprecated] Your edge-optimized endpoint's domain name certifi- cate's private key.
+    /// [Deprecated] Your edge-optimized endpoint's domain name certificate's private key.
     /// </summary>
     [SecretValue]
     [CliOption("--certificate-private-key")]
     public string? CertificatePrivateKey { get; set; }
 
     /// <summary>
-    /// [Deprecated] The intermediate certificates and optionally the root certificate, one after the other without any blank lines, used by an edge-optimized endpoint for this domain name. If you include the root certificate, your certificate chain must start with intermedi- ate certificates and end with the root certificate. Use the interme- diate certificates that were provided by your certificate authority. Do not include any intermediaries that are not in the chain of trust path.
+    /// [Deprecated] The intermediate certificates and optionally the root certificate, one after the other without any blank lines, used by an edge-optimized endpoint for this domain name. If you include the root certificate, your certificate chain must start with intermediate certificates and end with the root certificate. Use the intermediate certificates that were provided by your certificate authority. Do not include any intermediaries that are not in the chain of trust path.
     /// </summary>
     [CliOption("--certificate-chain")]
     public string? CertificateChain { get; set; }
@@ -96,7 +97,7 @@ public record AwsApigatewayCreateDomainNameOptions : AwsOptions, IValidatableObj
     public string? CertificateArn { get; set; }
 
     /// <summary>
-    /// The user-friendly name of the certificate that will be used by re- gional endpoint for this domain name.
+    /// The user-friendly name of the certificate that will be used by regional endpoint for this domain name.
     /// </summary>
     [CliOption("--regional-certificate-name")]
     public string? RegionalCertificateName { get; set; }
@@ -108,7 +109,7 @@ public record AwsApigatewayCreateDomainNameOptions : AwsOptions, IValidatableObj
     public string? RegionalCertificateArn { get; set; }
 
     /// <summary>
-    /// The endpoint configuration of this DomainName showing the endpoint types and IP address types of the domain name. types -&gt; (list) A list of endpoint types of an API (RestApi) or its custom do- main name (DomainName). For an edge-optimized API and its custom domain name, the endpoint type is "EDGE" . For a regional API and its custom domain name, the endpoint type is REGIONAL . For a private API, the endpoint type is PRIVATE . (string) The endpoint type. The valid values are EDGE for edge-opti- mized API setup, most suitable for mobile applications; RE- GIONAL for regional API endpoint setup, most suitable for calling from AWS Region; and PRIVATE for private APIs. Possible values: o REGIONAL o EDGE o PRIVATE ipAddressType -&gt; (string) The IP address types that can invoke an API (RestApi) or a Do- mainName. Use ipv4 to allow only IPv4 addresses to invoke an API or DomainName, or use dualstack to allow both IPv4 and IPv6 ad- dresses to invoke an API or a DomainName. For the PRIVATE end- point type, only dualstack is supported. Possible values: o ipv4 o dualstack vpcEndpointIds -&gt; (list) A list of VpcEndpointIds of an API (RestApi) against which to create Route53 ALIASes. It is only supported for PRIVATE end- point type. (string) Shorthand Syntax: types=string,string,ipAddressType=string,vpcEndpointIds=string,string JSON Syntax: { "types": ["REGIONAL"|"EDGE"|"PRIVATE", ...], "ipAddressType": "ipv4"|"dualstack", "vpcEndpointIds": ["string", ...] }
+    /// The endpoint configuration of this DomainName showing the endpoint types and IP address types of the domain name. types -&gt; (list) A list of endpoint types of an API (RestApi) or its custom domain name (DomainName). For an edge-optimized API and its custom domain name, the endpoint type is "EDGE" . For a regional API and its custom domain name, the endpoint type is REGIONAL . For a private API, the endpoint type is PRIVATE . (string) The endpoint type. The valid values are EDGE for edge-optimized API setup, most suitable for mobile applications; REGIONAL for regional API endpoint setup, most suitable for calling from AWS Region; and PRIVATE for private APIs. Possible values: • REGIONAL • EDGE • PRIVATE ipAddressType -&gt; (string) The IP address types that can invoke an API (RestApi) or a DomainName. Use ipv4 to allow only IPv4 addresses to invoke an API or DomainName, or use dualstack to allow both IPv4 and IPv6 addresses to invoke an API or a DomainName. For the PRIVATE endpoint type, only dualstack is supported. Possible values: • ipv4 • dualstack vpcEndpointIds -&gt; (list) A list of VpcEndpointIds of an API (RestApi) against which to create Route53 ALIASes. It is only supported for PRIVATE endpoint type. (string) Shorthand Syntax: types=string,string,ipAddressType=string,vpcEndpointIds=string,string JSON Syntax: { "types": ["REGIONAL"|"EDGE"|"PRIVATE", ...], "ipAddressType": "ipv4"|"dualstack", "vpcEndpointIds": ["string", ...] }
     /// </summary>
     [CliOption("--endpoint-configuration")]
     public string? EndpointConfiguration { get; set; }
@@ -120,37 +121,37 @@ public record AwsApigatewayCreateDomainNameOptions : AwsOptions, IValidatableObj
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The Transport Layer Security (TLS) version + cipher suite for this DomainName. Possible values: o TLS_1_0 o TLS_1_2 o SecurityPolicy_TLS13_1_3_2025_09 o SecurityPolicy_TLS13_1_3_FIPS_2025_09 o SecurityPolicy_TLS13_1_2_PFS_PQ_2025_09 o SecurityPolicy_TLS13_1_2_FIPS_PQ_2025_09 o SecurityPolicy_TLS13_1_2_FIPS_PFS_PQ_2025_09 o SecurityPolicy_TLS13_1_2_Ext2_PQ_2025_09 o SecurityPolicy_TLS13_1_2_Ext2_FIPS_PQ_2025_09 o SecurityPolicy_TLS13_1_2_PQ_2025_09 o SecurityPolicy_TLS13_1_2_2021_06 o SecurityPolicy_TLS13_2025_EDGE o SecurityPolicy_TLS12_PFS_2025_EDGE o SecurityPolicy_TLS12_2018_EDGE
+    /// The Transport Layer Security (TLS) version + cipher suite for this DomainName. Possible values: • TLS_1_0 • TLS_1_2 • SecurityPolicy_TLS13_1_3_2025_09 • SecurityPolicy_TLS13_1_3_FIPS_2025_09 • SecurityPolicy_TLS13_1_2_PFS_PQ_2025_09 • SecurityPolicy_TLS13_1_2_FIPS_PQ_2025_09 • SecurityPolicy_TLS13_1_2_FIPS_PFS_PQ_2025_09 • SecurityPolicy_TLS13_1_2_Ext2_PQ_2025_09 • SecurityPolicy_TLS13_1_2_Ext2_FIPS_PQ_2025_09 • SecurityPolicy_TLS13_1_2_PQ_2025_09 • SecurityPolicy_TLS13_1_2_2021_06 • SecurityPolicy_TLS13_2025_EDGE • SecurityPolicy_TLS12_PFS_2025_EDGE • SecurityPolicy_TLS12_2018_EDGE
     /// </summary>
     [CliOption("--security-policy")]
     public AwsApigatewayCreateDomainNameSecurityPolicy? SecurityPolicy { get; set; }
 
     /// <summary>
-    /// The endpoint access mode of the DomainName. Only available for Do- mainNames that use security policies that start with SecurityPolicy_ . Possible values: o BASIC o STRICT
+    /// The endpoint access mode of the DomainName. Only available for DomainNames that use security policies that start with SecurityPolicy_ . Possible values: • BASIC • STRICT
     /// </summary>
     [CliOption("--endpoint-access-mode")]
     public AwsApigatewayCreateDomainNameEndpointAccessMode? EndpointAccessMode { get; set; }
 
     /// <summary>
-    /// The mutual TLS authentication configuration for a custom domain name. If specified, API Gateway performs two-way authentication be- tween the client and the server. Clients must present a trusted cer- tificate to access your API. truststoreUri -&gt; (string) An Amazon S3 URL that specifies the truststore for mutual TLS authentication, for example s3://bucket-name/key-name . The truststore can contain certificates from public or private cer- tificate authorities. To update the truststore, upload a new version to S3, and then update your custom domain name to use the new version. To update the truststore, you must have permis- sions to access the S3 object. truststoreVersion -&gt; (string) The version of the S3 object that contains your truststore. To specify a version, you must have versioning enabled for the S3 bucket Shorthand Syntax: truststoreUri=string,truststoreVersion=string JSON Syntax: { "truststoreUri": "string", "truststoreVersion": "string" }
+    /// The mutual TLS authentication configuration for a custom domain name. If specified, API Gateway performs two-way authentication between the client and the server. Clients must present a trusted certificate to access your API. truststoreUri -&gt; (string) An Amazon S3 URL that specifies the truststore for mutual TLS authentication, for example s3://bucket-name/key-name . The truststore can contain certificates from public or private certificate authorities. To update the truststore, upload a new version to S3, and then update your custom domain name to use the new version. To update the truststore, you must have permissions to access the S3 object. truststoreVersion -&gt; (string) The version of the S3 object that contains your truststore. To specify a version, you must have versioning enabled for the S3 bucket Shorthand Syntax: truststoreUri=string,truststoreVersion=string JSON Syntax: { "truststoreUri": "string", "truststoreVersion": "string" }
     /// </summary>
     [CliOption("--mutual-tls-authentication")]
     public string? MutualTlsAuthentication { get; set; }
 
     /// <summary>
-    /// The ARN of the public certificate issued by ACM to validate owner- ship of your custom domain. Only required when configuring mutual TLS and using an ACM imported or private CA certificate ARN as the regionalCertificateArn.
+    /// The ARN of the public certificate issued by ACM to validate ownership of your custom domain. Only required when configuring mutual TLS and using an ACM imported or private CA certificate ARN as the regionalCertificateArn.
     /// </summary>
     [CliOption("--ownership-verification-certificate-arn")]
     public string? OwnershipVerificationCertificateArn { get; set; }
 
     /// <summary>
-    /// A stringified JSON policy document that applies to the execute-api service for this DomainName regardless of the caller and Method con- figuration. Supported only for private custom domain names.
+    /// A stringified JSON policy document that applies to the execute-api service for this DomainName regardless of the caller and Method configuration. Supported only for private custom domain names.
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; set; }
 
     /// <summary>
-    /// The routing mode for this domain name. The routing mode determines how API Gateway sends traffic from your custom domain name to your private APIs. Possible values: o BASE_PATH_MAPPING_ONLY o ROUTING_RULE_ONLY o ROUTING_RULE_THEN_BASE_PATH_MAPPING
+    /// The routing mode for this domain name. The routing mode determines how API Gateway sends traffic from your custom domain name to your private APIs. Possible values: • BASE_PATH_MAPPING_ONLY • ROUTING_RULE_ONLY • ROUTING_RULE_THEN_BASE_PATH_MAPPING
     /// </summary>
     [CliOption("--routing-mode")]
     public AwsApigatewayCreateDomainNameRoutingMode? RoutingMode { get; set; }

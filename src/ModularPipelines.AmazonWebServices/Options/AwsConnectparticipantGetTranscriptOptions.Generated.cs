@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a transcript of the session, including details about any at- tachments. For information about accessing past chat contact tran- scripts for a persistent chat, see Enable persistent chat . For security recommendations, see Connect Customer Chat security best practices . If you have a process that consumes events in the transcript of an chat that has ended, note that chat transcripts contain the following event content types if the event has occurred during the chat session: o applicatio...
+/// Retrieves a transcript of the session, including details about any attachments. For information about accessing past chat contact transcripts for a persistent chat, see Enable persistent chat . For security recommendations, see Connect Customer Chat security best practices . If you have a process that consumes events in the transcript of an chat that has ended, note that chat transcripts contain the following event content types if the event has occurred during the chat session: • application/vn...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsConnectparticipantGetTranscriptOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves a transcript of the session, including details about any at- tachments. For information about accessing past chat contact tran- scripts for a persistent chat, see Enable persistent chat . For security recommendations, see Connect Customer Chat security best practices . If you have a process that consumes events in the transcript of an chat that has ended, note that chat transcripts contain the following event content types if the event has occurred during the chat session: o applicatio...
+    /// Retrieves a transcript of the session, including details about any attachments. For information about accessing past chat contact transcripts for a persistent chat, see Enable persistent chat . For security recommendations, see Connect Customer Chat security best practices . If you have a process that consumes events in the transcript of an chat that has ended, note that chat transcripts contain the following event content types if the event has occurred during the chat session: • application/vn...
     /// </summary>
-    /// <param name="ConnectionToken">The authentication token associated with the participant's connec- tion. Constraints: o min: 1 o max: 1000</param>
+    /// <param name="ConnectionToken">The authentication token associated with the participant's connection. Constraints: • min: 1 • max: 1000</param>
     public AwsConnectparticipantGetTranscriptOptions(
         string ConnectionToken
     )
@@ -58,45 +60,45 @@ public record AwsConnectparticipantGetTranscriptOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The authentication token associated with the participant's connec- tion. Constraints: o min: 1 o max: 1000
+    /// The authentication token associated with the participant's connection. Constraints: • min: 1 • max: 1000
     /// </summary>
     [SecretValue]
     [CliOption("--connection-token")]
     public string? ConnectionToken { get; private init; }
 
     /// <summary>
-    /// The contactId from the current contact chain for which transcript is needed. Constraints: o min: 1 o max: 256
+    /// The contactId from the current contact chain for which transcript is needed. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--contact-id")]
     public string? ContactId { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return in the page. Default: 10. Constraints: o min: 0 o max: 100
+    /// The maximum number of results to return in the page. Default: 10. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The pagination token. Use the value returned previously in the next subsequent request to retrieve the next set of results. Constraints: o min: 1 o max: 1000
+    /// The pagination token. Use the value returned previously in the next subsequent request to retrieve the next set of results. Constraints: • min: 1 • max: 1000
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The direction from StartPosition from which to retrieve message. De- fault: BACKWARD when no StartPosition is provided, FORWARD with StartPosition. Possible values: o FORWARD o BACKWARD
+    /// The direction from StartPosition from which to retrieve message. Default: BACKWARD when no StartPosition is provided, FORWARD with StartPosition. Possible values: • FORWARD • BACKWARD
     /// </summary>
     [CliOption("--scan-direction")]
     public AwsConnectparticipantGetTranscriptScanDirection? ScanDirection { get; set; }
 
     /// <summary>
-    /// The sort order for the records. Default: DESCENDING. Possible values: o DESCENDING o ASCENDING
+    /// The sort order for the records. Default: DESCENDING. Possible values: • DESCENDING • ASCENDING
     /// </summary>
     [CliOption("--sort-order")]
     public AwsConnectparticipantGetTranscriptSortOrder? SortOrder { get; set; }
 
     /// <summary>
-    /// A filtering option for where to start. Id -&gt; (string) The ID of the message or event where to start. Constraints: o min: 1 o max: 256 AbsoluteTime -&gt; (string) The time in ISO format where to start. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z. Constraints: o min: 1 o max: 100 MostRecent -&gt; (integer) The start position of the most recent message where you want to start. Constraints: o min: 0 o max: 100 Shorthand Syntax: Id=string,AbsoluteTime=string,MostRecent=integer JSON Syntax: { "Id": "string", "AbsoluteTime": "string", "MostRecent": integer }
+    /// A filtering option for where to start. Id -&gt; (string) The ID of the message or event where to start. Constraints: • min: 1 • max: 256 AbsoluteTime -&gt; (string) The time in ISO format where to start. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z. Constraints: • min: 1 • max: 100 MostRecent -&gt; (integer) The start position of the most recent message where you want to start. Constraints: • min: 0 • max: 100 Shorthand Syntax: Id=string,AbsoluteTime=string,MostRecent=integer JSON Syntax: { "Id": "string", "AbsoluteTime": "string", "MostRecent": integer }
     /// </summary>
     [CliOption("--start-position")]
     public string? StartPosition { get; set; }

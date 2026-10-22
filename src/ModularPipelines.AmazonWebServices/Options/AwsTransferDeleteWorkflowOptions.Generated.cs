@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsTransferDeleteWorkflowOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the specified workflow. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkflowId">A unique identifier for the workflow. Constraints: o min: 19 o max: 19 o pattern: w-([a-z0-9]{17})</param>
+    /// <param name="WorkflowId">A unique identifier for the workflow. Constraints: • min: 19 • max: 19 • pattern: w-([a-z0-9]{17})</param>
     public AwsTransferDeleteWorkflowOptions(
         string WorkflowId
     )
@@ -56,7 +58,7 @@ public record AwsTransferDeleteWorkflowOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the workflow. Constraints: o min: 19 o max: 19 o pattern: w-([a-z0-9]{17})
+    /// A unique identifier for the workflow. Constraints: • min: 19 • max: 19 • pattern: w-([a-z0-9]{17})
     /// </summary>
     [CliOption("--workflow-id")]
     public string? WorkflowId { get; private init; }

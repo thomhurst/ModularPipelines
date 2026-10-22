@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsFrauddetectorUpdateModelOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Updates model description. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ModelId">The model ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_]+$</param>
-    /// <param name="ModelType">The model type. Possible values: o ONLINE_FRAUD_INSIGHTS o TRANSACTION_FRAUD_INSIGHTS o ACCOUNT_TAKEOVER_INSIGHTS</param>
+    /// <param name="ModelId">The model ID. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_]+$</param>
+    /// <param name="ModelType">The model type. Possible values: • ONLINE_FRAUD_INSIGHTS • TRANSACTION_FRAUD_INSIGHTS • ACCOUNT_TAKEOVER_INSIGHTS</param>
     public AwsFrauddetectorUpdateModelOptions(
         string ModelId,
         AwsFrauddetectorUpdateModelModelType ModelType
@@ -60,19 +62,19 @@ public record AwsFrauddetectorUpdateModelOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The model ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_]+$
+    /// The model ID. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_]+$
     /// </summary>
     [CliOption("--model-id")]
     public string? ModelId { get; private init; }
 
     /// <summary>
-    /// The model type. Possible values: o ONLINE_FRAUD_INSIGHTS o TRANSACTION_FRAUD_INSIGHTS o ACCOUNT_TAKEOVER_INSIGHTS
+    /// The model type. Possible values: • ONLINE_FRAUD_INSIGHTS • TRANSACTION_FRAUD_INSIGHTS • ACCOUNT_TAKEOVER_INSIGHTS
     /// </summary>
     [CliOption("--model-type")]
     public AwsFrauddetectorUpdateModelModelType? ModelType { get; private init; }
 
     /// <summary>
-    /// The new model description. Constraints: o min: 1 o max: 128
+    /// The new model description. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

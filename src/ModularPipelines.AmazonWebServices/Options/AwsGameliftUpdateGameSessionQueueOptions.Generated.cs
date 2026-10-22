@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Updates the configuration of a game session queue, which determines how the queue processes new game session requests. To update settings, specify the queue name to be updated and provide the new settings. When updating destinations, provide a complete list of destinations. Learn more Using Multi-Region Queues See also: AWS API Documentation
+/// This API works with the following fleet types: EC2, Anywhere, Container Updates the configuration of a game session queue, which determines how the queue processes new game session requests. To update settings, specify the queue name to be updated and provide the new settings. When updating destinations, provide a complete list of destinations. Learn more Using Multi-Region Queues See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsGameliftUpdateGameSessionQueueOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Updates the configuration of a game session queue, which determines how the queue processes new game session requests. To update settings, specify the queue name to be updated and provide the new settings. When updating destinations, provide a complete list of destinations. Learn more Using Multi-Region Queues See also: AWS API Documentation
+    /// This API works with the following fleet types: EC2, Anywhere, Container Updates the configuration of a game session queue, which determines how the queue processes new game session requests. To update settings, specify the queue name to be updated and provide the new settings. When updating destinations, provide a complete list of destinations. Learn more Using Multi-Region Queues See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">A descriptive label that is associated with game session queue. Queue names must be unique within each Region. You can use either the queue ID or ARN value. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-]+|arn:.*:gamesessionqueue\/[a-zA-Z0-9-]+)$</param>
+    /// <param name="Name">A descriptive label that is associated with game session queue. Queue names must be unique within each Region. You can use either the queue ID or ARN value. Constraints: • min: 1 • max: 256 • pattern: ^([a-zA-Z0-9-]+|arn:.*:gamesessionqueue\/[a-zA-Z0-9-]+)$</param>
     public AwsGameliftUpdateGameSessionQueueOptions(
         string Name
     )
@@ -56,49 +58,49 @@ public record AwsGameliftUpdateGameSessionQueueOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A descriptive label that is associated with game session queue. Queue names must be unique within each Region. You can use either the queue ID or ARN value. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-]+|arn:.*:gamesessionqueue\/[a-zA-Z0-9-]+)$
+    /// A descriptive label that is associated with game session queue. Queue names must be unique within each Region. You can use either the queue ID or ARN value. Constraints: • min: 1 • max: 256 • pattern: ^([a-zA-Z0-9-]+|arn:.*:gamesessionqueue\/[a-zA-Z0-9-]+)$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The maximum time, in seconds, that a new game session placement re- quest remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status. NOTE: The minimum value is 10 and the maximum value is 600. Constraints: o min: 0
+    /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status. NOTE: The minimum value is 10 and the maximum value is 600. Constraints: • min: 0
     /// </summary>
     [CliOption("--timeout-in-seconds")]
     public int? TimeoutInSeconds { get; set; }
 
     /// <summary>
-    /// A set of policies that enforce a sliding cap on player latency when processing game sessions placement requests. Use multiple policies to gradually relax the cap over time if Amazon GameLift Servers can't make a placement. Policies are evaluated in order starting with the lowest maximum latency value. When updating policies, pro- vide a complete collection of policies. (structure) Sets a latency cap for individual players when placing a game session. With a latency policy in force, a game session cannot be placed in a fleet location where a player reports latency higher than the cap. Latency policies are used only with place- ment request that provide player latency information. Player la- tency policies can be stacked to gradually relax latency re- quirements over time. MaximumIndividualPlayerLatencyMilliseconds -&gt; (integer) The maximum latency value that is allowed for any player, in milliseconds. All policies must have a value set for this property. Constraints: o min: 0 PolicyDurationSeconds -&gt; (integer) The length of time, in seconds, that the policy is enforced while placing a new game session. A null value for this prop- erty means that the policy is enforced until the queue times out. Constraints: o min: 0 Shorthand Syntax: MaximumIndividualPlayerLatencyMilliseconds=integer,PolicyDurationSeconds=integer ... JSON Syntax: [ { "MaximumIndividualPlayerLatencyMilliseconds": integer, "PolicyDurationSeconds": integer } ... ]
+    /// A set of policies that enforce a sliding cap on player latency when processing game sessions placement requests. Use multiple policies to gradually relax the cap over time if Amazon GameLift Servers can't make a placement. Policies are evaluated in order starting with the lowest maximum latency value. When updating policies, provide a complete collection of policies. (structure) Sets a latency cap for individual players when placing a game session. With a latency policy in force, a game session cannot be placed in a fleet location where a player reports latency higher than the cap. Latency policies are used only with placement requests that provide player latency information. Player latency policies can be stacked to gradually relax latency requirements over time. MaximumIndividualPlayerLatencyMilliseconds -&gt; (integer) The maximum latency value that is allowed for any player, in milliseconds. All policies must have a value set for this property. Constraints: • min: 0 PolicyDurationSeconds -&gt; (integer) The length of time, in seconds, that the policy is enforced while placing a new game session. A null value for this property means that the policy is enforced until the queue times out. Constraints: • min: 0 Shorthand Syntax: MaximumIndividualPlayerLatencyMilliseconds=integer,PolicyDurationSeconds=integer ... JSON Syntax: [ { "MaximumIndividualPlayerLatencyMilliseconds": integer, "PolicyDurationSeconds": integer } ... ]
     /// </summary>
     [CliOption("--player-latency-policies", GroupValues = true)]
     public IEnumerable<string>? PlayerLatencyPolicies { get; set; }
 
     /// <summary>
-    /// A list of fleets and/or fleet aliases that can be used to fulfill game session placement requests in the queue. Destinations are iden- tified by either a fleet ARN or a fleet alias ARN, and are listed in order of placement preference. When updating this list, provide a complete list of destinations. (structure) A fleet or alias designated in a game session queue. Queues ful- fill requests for new game sessions by placing a new game ses- sion on any of the queue's destinations. DestinationArn -&gt; (string) The Amazon Resource Name (ARN) that is assigned to fleet or fleet alias. ARNs, which include a fleet ID or alias ID and a Region name, provide a unique identifier across all Regions. Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9:/-]+$ Shorthand Syntax: DestinationArn=string ... JSON Syntax: [ { "DestinationArn": "string" } ... ]
+    /// A list of fleets and/or fleet aliases that can be used to fulfill game session placement requests in the queue. Destinations are identified by either a fleet ARN or a fleet alias ARN, and are listed in order of placement preference. When updating this list, provide a complete list of destinations. (structure) A fleet or alias designated in a game session queue. Queues fulfill requests for new game sessions by placing a new game session on any of the queue's destinations. DestinationArn -&gt; (string) The Amazon Resource Name (ARN) that is assigned to fleet or fleet alias. ARNs, which include a fleet ID or alias ID and a Region name, provide a unique identifier across all Regions. Constraints: • min: 1 • max: 512 • pattern: ^[a-zA-Z0-9:/-]+$ Shorthand Syntax: DestinationArn=string ... JSON Syntax: [ { "DestinationArn": "string" } ... ]
     /// </summary>
     [CliOption("--destinations", GroupValues = true)]
     public IEnumerable<string>? Destinations { get; set; }
 
     /// <summary>
-    /// A list of locations where a queue is allowed to place new game ses- sions. Locations are specified in the form of Amazon Web Services Region codes, such as us-west-2 . If this parameter is not set, game sessions can be placed in any queue location. To remove an existing filter configuration, pass in an empty set. AllowedLocations -&gt; (list) A list of locations to allow game session placement in, in the form of Amazon Web Services Region codes such as us-west-2 . Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 64 o pattern: ^[A-Za-z0-9\-]+$ Shorthand Syntax: AllowedLocations=string,string JSON Syntax: { "AllowedLocations": ["string", ...] }
+    /// A list of locations where a queue is allowed to place new game sessions. Locations are specified in the form of Amazon Web Services Region codes, such as us-west-2 . If this parameter is not set, game sessions can be placed in any queue location. To remove an existing filter configuration, pass in an empty set. AllowedLocations -&gt; (list) A list of locations to allow game session placement in, in the form of Amazon Web Services Region codes such as us-west-2 . Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 64 • pattern: ^[A-Za-z0-9\-]+$ Shorthand Syntax: AllowedLocations=string,string JSON Syntax: { "AllowedLocations": ["string", ...] }
     /// </summary>
     [CliOption("--filter-configuration")]
     public string? FilterConfiguration { get; set; }
 
     /// <summary>
-    /// Custom settings to use when prioritizing destinations and locations for game session placements. This configuration replaces the FleetIQ default prioritization process. Priority types that are not explic- itly named will be automatically applied at the end of the prioriti- zation process. To remove an existing priority configuration, pass in an empty set. PriorityOrder -&gt; (list) A custom sequence to use when prioritizing where to place new game sessions. Each priority type is listed once. o LATENCY -- Amazon GameLift Servers prioritizes locations where the average player latency is lowest. Player latency data is provided in each game session placement request. o COST -- Amazon GameLift Servers prioritizes queue destinations with the lowest current hosting costs. Cost is evaluated based on the destination's location, instance type, and fleet type (Spot or On-Demand). o DESTINATION -- Amazon GameLift Servers prioritizes based on the list order of destinations in the queue configuration. o LOCATION -- Amazon GameLift Servers prioritizes based on the provided order of locations, as defined in LocationOrder . Constraints: o min: 1 o max: 4 (string) Possible values: o LATENCY o COST o DESTINATION o LOCATION LocationOrder -&gt; (list) The prioritization order to use for fleet locations, when the PriorityOrder property includes LOCATION . Locations can include Amazon Web Services Region codes (such as us-west-2 ), local zones, and custom locations (for Anywhere fleets). Each location must be listed only once. For details, see Amazon GameLift Servers service locations. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 64 o pattern: ^[A-Za-z0-9\-]+$ Shorthand Syntax: PriorityOrder=string,string,LocationOrder=string,string JSON Syntax: { "PriorityOrder": ["LATENCY"|"COST"|"DESTINATION"|"LOCATION", ...], "LocationOrder": ["string", ...] }
+    /// Custom settings to use when prioritizing destinations and locations for game session placements. This configuration replaces the FleetIQ default prioritization process. Priority types that are not explicitly named will be automatically applied at the end of the prioritization process. To remove an existing priority configuration, pass in an empty set. PriorityOrder -&gt; (list) A custom sequence to use when prioritizing where to place new game sessions. Each priority type is listed once. • LATENCY -- Amazon GameLift Servers prioritizes locations where the average player latency is lowest. Player latency data is provided in each game session placement request. • COST -- Amazon GameLift Servers prioritizes queue destinations with the lowest current hosting costs. Cost is evaluated based on the destination's location, instance type, and fleet type (Spot or On-Demand). • DESTINATION -- Amazon GameLift Servers prioritizes based on the list order of destinations in the queue configuration. • LOCATION -- Amazon GameLift Servers prioritizes based on the provided order of locations, as defined in LocationOrder . Constraints: • min: 1 • max: 4 (string) Possible values: • LATENCY • COST • DESTINATION • LOCATION LocationOrder -&gt; (list) The prioritization order to use for fleet locations, when the PriorityOrder property includes LOCATION . Locations can include Amazon Web Services Region codes (such as us-west-2 ), local zones, and custom locations (for Anywhere fleets). Each location must be listed only once. For details, see Amazon GameLift Servers service locations. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 64 • pattern: ^[A-Za-z0-9\-]+$ Shorthand Syntax: PriorityOrder=string,string,LocationOrder=string,string JSON Syntax: { "PriorityOrder": ["LATENCY"|"COST"|"DESTINATION"|"LOCATION", ...], "LocationOrder": ["string", ...] }
     /// </summary>
     [CliOption("--priority-configuration")]
     public string? PriorityConfiguration { get; set; }
 
     /// <summary>
-    /// Information to be added to all events that are related to this game session queue. Constraints: o min: 0 o max: 256 o pattern: ^[\s\S]*$
+    /// Information to be added to all events that are related to this game session queue. Constraints: • min: 0 • max: 256 • pattern: ^[\s\S]*$
     /// </summary>
     [CliOption("--custom-event-data")]
     public string? CustomEventData { get; set; }
 
     /// <summary>
-    /// An SNS topic ARN that is set up to receive game session placement notifications. See Setting up notifications for game session place- ment . Constraints: o min: 0 o max: 300 o pattern: ^[a-zA-Z0-9:_-]*(\.fifo)?$
+    /// An SNS topic ARN that is set up to receive game session placement notifications. See Setting up notifications for game session placement . Constraints: • min: 0 • max: 300 • pattern: ^[a-zA-Z0-9:_-]*(\.fifo)?$
     /// </summary>
     [CliOption("--notification-target")]
     public string? NotificationTarget { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsWorkspacesThinClientGetDeviceOptions : AwsOptions, IValidatable
     /// <summary>
     /// Returns information for a thin client device. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the device for which to return information. Constraints: o pattern: [a-zA-Z0-9]{24}</param>
+    /// <param name="Id">The ID of the device for which to return information. Constraints: • pattern: [a-zA-Z0-9]{24}</param>
     public AwsWorkspacesThinClientGetDeviceOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsWorkspacesThinClientGetDeviceOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the device for which to return information. Constraints: o pattern: [a-zA-Z0-9]{24}
+    /// The ID of the device for which to return information. Constraints: • pattern: [a-zA-Z0-9]{24}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

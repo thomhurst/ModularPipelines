@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsManagedblockchainListProposalsOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Returns a list of proposals for the network. Applies only to Hyperledger Fabric. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The unique identifier of the network. Constraints: o min: 1 o max: 32</param>
+    /// <param name="NetworkId">The unique identifier of the network. Constraints: • min: 1 • max: 32</param>
     public AwsManagedblockchainListProposalsOptions(
         string NetworkId
     )
@@ -57,19 +59,19 @@ public record AwsManagedblockchainListProposalsOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the network. Constraints: o min: 1 o max: 32
+    /// The unique identifier of the network. Constraints: • min: 1 • max: 32
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }
 
     /// <summary>
-    /// The maximum number of proposals to return. Constraints: o min: 1 o max: 100
+    /// The maximum number of proposals to return. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The pagination token that indicates the next set of results to re- trieve. Constraints: o max: 128
+    /// The pagination token that indicates the next set of results to retrieve. Constraints: • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

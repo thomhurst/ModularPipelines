@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates, changes, or deletes CIDR blocks within a collection. Contains authoritative IP information mapping blocks to one or multiple loca- tions. A change request can update multiple locations in a collection at a time, which is helpful if you want to move one or more CIDR blocks from one location to another in one transaction, without downtime. Limits The max number of CIDR blocks included in the request is 1000. As a re- sult, big updates require multiple API calls. PUT and DELETE_IF_EXISTS U...
+/// Creates, changes, or deletes CIDR blocks within a collection. Contains authoritative IP information mapping blocks to one or multiple locations. A change request can update multiple locations in a collection at a time, which is helpful if you want to move one or more CIDR blocks from one location to another in one transaction, without downtime. Limits The max number of CIDR blocks included in the request is 1000. As a result, big updates require multiple API calls. PUT and DELETE_IF_EXISTS Use C...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsRoute53ChangeCidrCollectionOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates, changes, or deletes CIDR blocks within a collection. Contains authoritative IP information mapping blocks to one or multiple loca- tions. A change request can update multiple locations in a collection at a time, which is helpful if you want to move one or more CIDR blocks from one location to another in one transaction, without downtime. Limits The max number of CIDR blocks included in the request is 1000. As a re- sult, big updates require multiple API calls. PUT and DELETE_IF_EXISTS U...
+    /// Creates, changes, or deletes CIDR blocks within a collection. Contains authoritative IP information mapping blocks to one or multiple locations. A change request can update multiple locations in a collection at a time, which is helpful if you want to move one or more CIDR blocks from one location to another in one transaction, without downtime. Limits The max number of CIDR blocks included in the request is 1000. As a result, big updates require multiple API calls. PUT and DELETE_IF_EXISTS Use C...
     /// </summary>
-    /// <param name="Id">The UUID of the CIDR collection to update. Constraints: o pattern: [0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}</param>
-    /// <param name="Changes">Information about changes to a CIDR collection. Constraints: o min: 1 o max: 1000 (structure) A complex type that contains information about the CIDR collec- tion change. LocationName -&gt; (string) [required] Name of the location that is associated with the CIDR collec- tion. Constraints: o min: 1 o max: 16 o pattern: [0-9A-Za-z_\-]+ Action -&gt; (string) [required] CIDR collection change action. Possible values: o PUT o DELETE_IF_EXISTS CidrList -&gt; (list) [required] List of CIDR blocks. Constraints: o min: 1 o max: 1000 (string) Constraints: o min: 1 o max: 50 o pattern: .*\S.* Shorthand Syntax: LocationName=string,Action=string,CidrList=string,string ... JSON Syntax: [ { "LocationName": "string", "Action": "PUT"|"DELETE_IF_EXISTS", "CidrList": ["string", ...] } ... ]</param>
+    /// <param name="Id">The UUID of the CIDR collection to update. Constraints: • pattern: [0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}</param>
+    /// <param name="Changes">Information about changes to a CIDR collection. Constraints: • min: 1 • max: 1000 (structure) A complex type that contains information about the CIDR collection change. LocationName -&gt; (string) [required] Name of the location that is associated with the CIDR collection. Constraints: • min: 1 • max: 16 • pattern: [0-9A-Za-z_\-]+ Action -&gt; (string) [required] CIDR collection change action. Possible values: • PUT • DELETE_IF_EXISTS CidrList -&gt; (list) [required] List of CIDR blocks. Constraints: • min: 1 • max: 1000 (string) Constraints: • min: 1 • max: 50 • pattern: .*\S.* Shorthand Syntax: LocationName=string,Action=string,CidrList=string,string ... JSON Syntax: [ { "LocationName": "string", "Action": "PUT"|"DELETE_IF_EXISTS", "CidrList": ["string", ...] } ... ]</param>
     public AwsRoute53ChangeCidrCollectionOptions(
         string Id,
         IEnumerable<string> Changes
@@ -71,22 +73,22 @@ public record AwsRoute53ChangeCidrCollectionOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The UUID of the CIDR collection to update. Constraints: o pattern: [0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}
+    /// The UUID of the CIDR collection to update. Constraints: • pattern: [0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// Information about changes to a CIDR collection. Constraints: o min: 1 o max: 1000 (structure) A complex type that contains information about the CIDR collec- tion change. LocationName -&gt; (string) [required] Name of the location that is associated with the CIDR collec- tion. Constraints: o min: 1 o max: 16 o pattern: [0-9A-Za-z_\-]+ Action -&gt; (string) [required] CIDR collection change action. Possible values: o PUT o DELETE_IF_EXISTS CidrList -&gt; (list) [required] List of CIDR blocks. Constraints: o min: 1 o max: 1000 (string) Constraints: o min: 1 o max: 50 o pattern: .*\S.* Shorthand Syntax: LocationName=string,Action=string,CidrList=string,string ... JSON Syntax: [ { "LocationName": "string", "Action": "PUT"|"DELETE_IF_EXISTS", "CidrList": ["string", ...] } ... ]
+    /// Information about changes to a CIDR collection. Constraints: • min: 1 • max: 1000 (structure) A complex type that contains information about the CIDR collection change. LocationName -&gt; (string) [required] Name of the location that is associated with the CIDR collection. Constraints: • min: 1 • max: 16 • pattern: [0-9A-Za-z_\-]+ Action -&gt; (string) [required] CIDR collection change action. Possible values: • PUT • DELETE_IF_EXISTS CidrList -&gt; (list) [required] List of CIDR blocks. Constraints: • min: 1 • max: 1000 (string) Constraints: • min: 1 • max: 50 • pattern: .*\S.* Shorthand Syntax: LocationName=string,Action=string,CidrList=string,string ... JSON Syntax: [ { "LocationName": "string", "Action": "PUT"|"DELETE_IF_EXISTS", "CidrList": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--changes", GroupValues = true)]
     public IEnumerable<string>? Changes { get; private init; }
 
     /// <summary>
-    /// A sequential counter that Amazon Route 53 sets to 1 when you create a collection and increments it by 1 each time you update the collec- tion. We recommend that you use ListCidrCollection to get the current value of CollectionVersion for the collection that you want to up- date, and then include that value with the change request. This pre- vents Route 53 from overwriting an intervening update: o If the value in the request matches the value of CollectionVersion in the collection, Route 53 updates the collection. o If the value of CollectionVersion in the collection is greater than the value in the request, the collection was changed after you got the version number. Route 53 does not update the collec- tion, and it returns a CidrCollectionVersionMismatch error. Constraints: o min: 1
+    /// A sequential counter that Amazon Route 53 sets to 1 when you create a collection and increments it by 1 each time you update the collection. We recommend that you use ListCidrCollection to get the current value of CollectionVersion for the collection that you want to update, and then include that value with the change request. This prevents Route 53 from overwriting an intervening update: • If the value in the request matches the value of CollectionVersion in the collection, Route 53 updates the collection. • If the value of CollectionVersion in the collection is greater than the value in the request, the collection was changed after you got the version number. Route 53 does not update the collection, and it returns a CidrCollectionVersionMismatch error. Constraints: • min: 1
     /// </summary>
     [CliOption("--collection-version")]
-    public int? CollectionVersion { get; set; }
+    public long? CollectionVersion { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

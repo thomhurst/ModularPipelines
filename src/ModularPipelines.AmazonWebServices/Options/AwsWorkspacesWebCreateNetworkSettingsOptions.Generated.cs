@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +30,9 @@ public record AwsWorkspacesWebCreateNetworkSettingsOptions : AwsOptions, IValida
     /// <summary>
     /// Creates a network settings resource that can be associated with a web portal. Once associated with a web portal, network settings define how streaming instances will connect with your specified VPC. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VpcId">The VPC that streaming instances will connect to. Constraints: o min: 1 o max: 255 o pattern: vpc-[0-9a-z]*</param>
-    /// <param name="SubnetIds">The subnets in which network interfaces are created to connect streaming instances to your VPC. At least two of these subnets must be in different availability zones. Constraints: o min: 2 o max: 5 (string) Constraints: o min: 1 o max: 32 o pattern: subnet-([0-9a-f]{8}|[0-9a-f]{17}) Syntax: "string" "string" ...</param>
-    /// <param name="SecurityGroupIds">One or more security groups used to control access from streaming instances to your VPC. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 128 o pattern: [\w+\-]+ Syntax: "string" "string" ...</param>
+    /// <param name="VpcId">The VPC that streaming instances will connect to. Constraints: • min: 1 • max: 255 • pattern: vpc-[0-9a-z]*</param>
+    /// <param name="SubnetIds">The subnets in which network interfaces are created to connect streaming instances to your VPC. At least two of these subnets must be in different availability zones. Constraints: • min: 2 • max: 5 (string) Constraints: • min: 1 • max: 32 • pattern: subnet-([0-9a-f]{8}|[0-9a-f]{17}) Syntax: "string" "string" ...</param>
+    /// <param name="SecurityGroupIds">One or more security groups used to control access from streaming instances to your VPC. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 1 • max: 128 • pattern: [\w+\-]+ Syntax: "string" "string" ...</param>
     public AwsWorkspacesWebCreateNetworkSettingsOptions(
         string VpcId,
         IEnumerable<string> SubnetIds,
@@ -87,31 +89,31 @@ public record AwsWorkspacesWebCreateNetworkSettingsOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The VPC that streaming instances will connect to. Constraints: o min: 1 o max: 255 o pattern: vpc-[0-9a-z]*
+    /// The VPC that streaming instances will connect to. Constraints: • min: 1 • max: 255 • pattern: vpc-[0-9a-z]*
     /// </summary>
     [CliOption("--vpc-id")]
     public string? VpcId { get; private init; }
 
     /// <summary>
-    /// The subnets in which network interfaces are created to connect streaming instances to your VPC. At least two of these subnets must be in different availability zones. Constraints: o min: 2 o max: 5 (string) Constraints: o min: 1 o max: 32 o pattern: subnet-([0-9a-f]{8}|[0-9a-f]{17}) Syntax: "string" "string" ...
+    /// The subnets in which network interfaces are created to connect streaming instances to your VPC. At least two of these subnets must be in different availability zones. Constraints: • min: 2 • max: 5 (string) Constraints: • min: 1 • max: 32 • pattern: subnet-([0-9a-f]{8}|[0-9a-f]{17}) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; private init; }
 
     /// <summary>
-    /// One or more security groups used to control access from streaming instances to your VPC. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 128 o pattern: [\w+\-]+ Syntax: "string" "string" ...
+    /// One or more security groups used to control access from streaming instances to your VPC. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 1 • max: 128 • pattern: [\w+\-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; private init; }
 
     /// <summary>
-    /// The tags to add to the network settings resource. A tag is a key-value pair. Constraints: o min: 0 o max: 200 (structure) The tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value of the tag Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags to add to the network settings resource. A tag is a key-value pair. Constraints: • min: 0 • max: 200 (structure) The tag. Key -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value of the tag Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original re- quest completes successfully, subsequent retries with the same client token returns the result from the original successful re- quest. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK. Constraints: o min: 1 o max: 512
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK. Constraints: • min: 1 • max: 512
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

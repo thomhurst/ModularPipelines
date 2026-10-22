@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an ID namespace association. See also: AWS API Documentation create-id-namespace-association uses document type values. Document types follow the JSON data model where valid values are: strings, num- bers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+/// Creates an ID namespace association. See also: AWS API Documentation create-id-namespace-association uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsCleanroomsCreateIdNamespaceAssociationOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an ID namespace association. See also: AWS API Documentation create-id-namespace-association uses document type values. Document types follow the JSON data model where valid values are: strings, num- bers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Creates an ID namespace association. See also: AWS API Documentation create-id-namespace-association uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="MembershipIdentifier">The unique identifier of the membership that contains the ID name- space association. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="InputReferenceConfig">The input reference configuration needed to create the ID namespace association. inputReferenceArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Entity Resolution resource that is being associated to the collaboration. Valid resource ARNs are from the ID namespaces that you own. Constraints: o min: 0 o max: 256 o pattern: arn:aws:entityresolu- tion:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:idnamespace/[\d\w-]+ manageResourcePolicies -&gt; (boolean) [required] When TRUE , Clean Rooms manages permissions for the ID namespace association resource. When FALSE , the resource owner manages permissions for the ID namespace association resource. Shorthand Syntax: inputReferenceArn=string,manageResourcePolicies=boolean JSON Syntax: { "inputReferenceArn": "string", "manageResourcePolicies": true|false }</param>
-    /// <param name="Name">The name for the ID namespace association. Constraints: o min: 1 o max: 100 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*</param>
+    /// <param name="MembershipIdentifier">The unique identifier of the membership that contains the ID namespace association. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="InputReferenceConfig">The input reference configuration needed to create the ID namespace association. inputReferenceArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Entity Resolution resource that is being associated to the collaboration. Valid resource ARNs are from the ID namespaces that you own. Constraints: • min: 0 • max: 256 • pattern: arn:aws:entityresolution:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:idnamespace/[\d\w-]+ manageResourcePolicies -&gt; (boolean) [required] When TRUE , Clean Rooms manages permissions for the ID namespace association resource. When FALSE , the resource owner manages permissions for the ID namespace association resource. Shorthand Syntax: inputReferenceArn=string,manageResourcePolicies=boolean JSON Syntax: { "inputReferenceArn": "string", "manageResourcePolicies": true|false }</param>
+    /// <param name="Name">The name for the ID namespace association. Constraints: • min: 1 • max: 100 • pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*</param>
     public AwsCleanroomsCreateIdNamespaceAssociationOptions(
         string MembershipIdentifier,
         string InputReferenceConfig,
@@ -65,37 +66,37 @@ public record AwsCleanroomsCreateIdNamespaceAssociationOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the membership that contains the ID name- space association. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier of the membership that contains the ID namespace association. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--membership-identifier")]
     public string? MembershipIdentifier { get; private init; }
 
     /// <summary>
-    /// The input reference configuration needed to create the ID namespace association. inputReferenceArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Entity Resolution resource that is being associated to the collaboration. Valid resource ARNs are from the ID namespaces that you own. Constraints: o min: 0 o max: 256 o pattern: arn:aws:entityresolu- tion:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:idnamespace/[\d\w-]+ manageResourcePolicies -&gt; (boolean) [required] When TRUE , Clean Rooms manages permissions for the ID namespace association resource. When FALSE , the resource owner manages permissions for the ID namespace association resource. Shorthand Syntax: inputReferenceArn=string,manageResourcePolicies=boolean JSON Syntax: { "inputReferenceArn": "string", "manageResourcePolicies": true|false }
+    /// The input reference configuration needed to create the ID namespace association. inputReferenceArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Entity Resolution resource that is being associated to the collaboration. Valid resource ARNs are from the ID namespaces that you own. Constraints: • min: 0 • max: 256 • pattern: arn:aws:entityresolution:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:idnamespace/[\d\w-]+ manageResourcePolicies -&gt; (boolean) [required] When TRUE , Clean Rooms manages permissions for the ID namespace association resource. When FALSE , the resource owner manages permissions for the ID namespace association resource. Shorthand Syntax: inputReferenceArn=string,manageResourcePolicies=boolean JSON Syntax: { "inputReferenceArn": "string", "manageResourcePolicies": true|false }
     /// </summary>
     [CliOption("--input-reference-config")]
     public string? InputReferenceConfig { get; private init; }
 
     /// <summary>
-    /// The name for the ID namespace association. Constraints: o min: 1 o max: 100 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*
+    /// The name for the ID namespace association. Constraints: • min: 1 • max: 100 • pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The description of the ID namespace association. Constraints: o min: 0 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
+    /// The description of the ID namespace association. Constraints: • min: 0 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The configuration settings for the ID mapping table. allowUseAsDimensionColumn -&gt; (boolean) [required] An indicator as to whether you can use your column as a dimen- sion column in the ID mapping table (TRUE ) or not (FALSE ). Default is FALSE . Shorthand Syntax: allowUseAsDimensionColumn=boolean JSON Syntax: { "allowUseAsDimensionColumn": true|false }
+    /// The configuration settings for the ID mapping table. allowUseAsDimensionColumn -&gt; (boolean) [required] An indicator as to whether you can use your column as a dimension column in the ID mapping table (TRUE ) or not (FALSE ). Default is FALSE . Shorthand Syntax: allowUseAsDimensionColumn=boolean JSON Syntax: { "allowUseAsDimensionColumn": true|false }
     /// </summary>
     [CliOption("--id-mapping-config")]
     public string? IdMappingConfig { get; set; }

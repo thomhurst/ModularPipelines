@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsChimeSdkMediaPipelinesCreateMediaStreamPipelineOptions : AwsOpt
     /// <summary>
     /// Creates a streaming media pipeline. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Sources">The data sources for the media pipeline. Constraints: o min: 1 (structure) Structure that contains the settings for media stream sources. SourceType -&gt; (string) [required] The type of media stream source. Possible values: o ChimeSdkMeeting SourceArn -&gt; (string) [required] The ARN of the meeting. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ Shorthand Syntax: SourceType=string,SourceArn=string ... JSON Syntax: [ { "SourceType": "ChimeSdkMeeting", "SourceArn": "string" } ... ]</param>
-    /// <param name="Sinks">The data sink for the media pipeline. Constraints: o min: 1 o max: 2 (structure) Structure that contains the settings for a media stream sink. SinkArn -&gt; (string) [required] The ARN of the Kinesis Video Stream pool returned by the CreateMediaPipelineKinesisVideoStreamPool API. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ SinkType -&gt; (string) [required] The media stream sink's type. Possible values: o KinesisVideoStreamPool ReservedStreamCapacity -&gt; (integer) [required] Specifies the number of streams that the sink can accept. Constraints: o min: 1 o max: 10 MediaStreamType -&gt; (string) [required] The media stream sink's media stream type. Possible values: o MixedAudio o IndividualAudio Shorthand Syntax: SinkArn=string,SinkType=string,ReservedStreamCapacity=integer,MediaStreamType=string ... JSON Syntax: [ { "SinkArn": "string", "SinkType": "KinesisVideoStreamPool", "ReservedStreamCapacity": integer, "MediaStreamType": "MixedAudio"|"IndividualAudio" } ... ]</param>
+    /// <param name="Sources">The data sources for the media pipeline. Constraints: • min: 1 (structure) Structure that contains the settings for media stream sources. SourceType -&gt; (string) [required] The type of media stream source. Possible values: • ChimeSdkMeeting SourceArn -&gt; (string) [required] The ARN of the meeting. Constraints: • min: 1 • max: 1024 • pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ Shorthand Syntax: SourceType=string,SourceArn=string ... JSON Syntax: [ { "SourceType": "ChimeSdkMeeting", "SourceArn": "string" } ... ]</param>
+    /// <param name="Sinks">The data sink for the media pipeline. Constraints: • min: 1 • max: 2 (structure) Structure that contains the settings for a media stream sink. SinkArn -&gt; (string) [required] The ARN of the Kinesis Video Stream pool returned by the CreateMediaPipelineKinesisVideoStreamPool API. Constraints: • min: 1 • max: 1024 • pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ SinkType -&gt; (string) [required] The media stream sink's type. Possible values: • KinesisVideoStreamPool ReservedStreamCapacity -&gt; (integer) [required] Specifies the number of streams that the sink can accept. Constraints: • min: 1 • max: 10 MediaStreamType -&gt; (string) [required] The media stream sink's media stream type. Possible values: • MixedAudio • IndividualAudio Shorthand Syntax: SinkArn=string,SinkType=string,ReservedStreamCapacity=integer,MediaStreamType=string ... JSON Syntax: [ { "SinkArn": "string", "SinkType": "KinesisVideoStreamPool", "ReservedStreamCapacity": integer, "MediaStreamType": "MixedAudio"|"IndividualAudio" } ... ]</param>
     public AwsChimeSdkMediaPipelinesCreateMediaStreamPipelineOptions(
         IEnumerable<string> Sources,
         IEnumerable<string> Sinks
@@ -83,26 +85,26 @@ public record AwsChimeSdkMediaPipelinesCreateMediaStreamPipelineOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The data sources for the media pipeline. Constraints: o min: 1 (structure) Structure that contains the settings for media stream sources. SourceType -&gt; (string) [required] The type of media stream source. Possible values: o ChimeSdkMeeting SourceArn -&gt; (string) [required] The ARN of the meeting. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ Shorthand Syntax: SourceType=string,SourceArn=string ... JSON Syntax: [ { "SourceType": "ChimeSdkMeeting", "SourceArn": "string" } ... ]
+    /// The data sources for the media pipeline. Constraints: • min: 1 (structure) Structure that contains the settings for media stream sources. SourceType -&gt; (string) [required] The type of media stream source. Possible values: • ChimeSdkMeeting SourceArn -&gt; (string) [required] The ARN of the meeting. Constraints: • min: 1 • max: 1024 • pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ Shorthand Syntax: SourceType=string,SourceArn=string ... JSON Syntax: [ { "SourceType": "ChimeSdkMeeting", "SourceArn": "string" } ... ]
     /// </summary>
     [CliOption("--sources", GroupValues = true)]
     public IEnumerable<string>? Sources { get; private init; }
 
     /// <summary>
-    /// The data sink for the media pipeline. Constraints: o min: 1 o max: 2 (structure) Structure that contains the settings for a media stream sink. SinkArn -&gt; (string) [required] The ARN of the Kinesis Video Stream pool returned by the CreateMediaPipelineKinesisVideoStreamPool API. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ SinkType -&gt; (string) [required] The media stream sink's type. Possible values: o KinesisVideoStreamPool ReservedStreamCapacity -&gt; (integer) [required] Specifies the number of streams that the sink can accept. Constraints: o min: 1 o max: 10 MediaStreamType -&gt; (string) [required] The media stream sink's media stream type. Possible values: o MixedAudio o IndividualAudio Shorthand Syntax: SinkArn=string,SinkType=string,ReservedStreamCapacity=integer,MediaStreamType=string ... JSON Syntax: [ { "SinkArn": "string", "SinkType": "KinesisVideoStreamPool", "ReservedStreamCapacity": integer, "MediaStreamType": "MixedAudio"|"IndividualAudio" } ... ]
+    /// The data sink for the media pipeline. Constraints: • min: 1 • max: 2 (structure) Structure that contains the settings for a media stream sink. SinkArn -&gt; (string) [required] The ARN of the Kinesis Video Stream pool returned by the CreateMediaPipelineKinesisVideoStreamPool API. Constraints: • min: 1 • max: 1024 • pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ SinkType -&gt; (string) [required] The media stream sink's type. Possible values: • KinesisVideoStreamPool ReservedStreamCapacity -&gt; (integer) [required] Specifies the number of streams that the sink can accept. Constraints: • min: 1 • max: 10 MediaStreamType -&gt; (string) [required] The media stream sink's media stream type. Possible values: • MixedAudio • IndividualAudio Shorthand Syntax: SinkArn=string,SinkType=string,ReservedStreamCapacity=integer,MediaStreamType=string ... JSON Syntax: [ { "SinkArn": "string", "SinkType": "KinesisVideoStreamPool", "ReservedStreamCapacity": integer, "MediaStreamType": "MixedAudio"|"IndividualAudio" } ... ]
     /// </summary>
     [CliOption("--sinks", GroupValues = true)]
     public IEnumerable<string>? Sinks { get; private init; }
 
     /// <summary>
-    /// The token assigned to the client making the request. Constraints: o min: 2 o max: 64 o pattern: [-_a-zA-Z0-9]*
+    /// The token assigned to the client making the request. Constraints: • min: 2 • max: 64 • pattern: [-_a-zA-Z0-9]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// The tags assigned to the media pipeline. Constraints: o min: 1 o max: 200 (structure) A key/value pair that grants users access to meeting resources. Key -&gt; (string) [required] The key half of a tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value half of a tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags assigned to the media pipeline. Constraints: • min: 1 • max: 200 (structure) A key/value pair that grants users access to meeting resources. Key -&gt; (string) [required] The key half of a tag. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The value half of a tag. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

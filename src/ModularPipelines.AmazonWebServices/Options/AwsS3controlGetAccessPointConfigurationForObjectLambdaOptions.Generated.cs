@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation is not supported by directory buckets. Returns configuration for an Object Lambda Access Point. The following actions are related to GetAccessPointConfigurationForOb- jectLambda : o PutAccessPointConfigurationForObjectLambda See also: AWS API Documentation
+/// NOTE: This operation is not supported by directory buckets. Returns configuration for an Object Lambda Access Point. The following actions are related to GetAccessPointConfigurationForObjectLambda : • PutAccessPointConfigurationForObjectLambda See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsS3controlGetAccessPointConfigurationForObjectLambdaOptions : Aw
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation is not supported by directory buckets. Returns configuration for an Object Lambda Access Point. The following actions are related to GetAccessPointConfigurationForOb- jectLambda : o PutAccessPointConfigurationForObjectLambda See also: AWS API Documentation
+    /// NOTE: This operation is not supported by directory buckets. Returns configuration for an Object Lambda Access Point. The following actions are related to GetAccessPointConfigurationForObjectLambda : • PutAccessPointConfigurationForObjectLambda See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The account ID for the account that owns the specified Object Lambda Access Point. Constraints: o max: 64 o pattern: ^\d{12}$</param>
-    /// <param name="Name">The name of the Object Lambda Access Point you want to return the configuration for. Constraints: o min: 3 o max: 45 o pattern: ^[a-z0-9]([a-z0-9\-]*[a-z0-9])?$</param>
+    /// <param name="AccountId">The account ID for the account that owns the specified Object Lambda Access Point. Constraints: • max: 64 • pattern: ^\d{12}$</param>
+    /// <param name="Name">The name of the Object Lambda Access Point you want to return the configuration for. Constraints: • min: 3 • max: 45 • pattern: ^[a-z0-9]([a-z0-9\-]*[a-z0-9])?$</param>
     public AwsS3controlGetAccessPointConfigurationForObjectLambdaOptions(
         string AccountId,
         string Name
@@ -60,13 +62,13 @@ public record AwsS3controlGetAccessPointConfigurationForObjectLambdaOptions : Aw
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The account ID for the account that owns the specified Object Lambda Access Point. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The account ID for the account that owns the specified Object Lambda Access Point. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The name of the Object Lambda Access Point you want to return the configuration for. Constraints: o min: 3 o max: 45 o pattern: ^[a-z0-9]([a-z0-9\-]*[a-z0-9])?$
+    /// The name of the Object Lambda Access Point you want to return the configuration for. Constraints: • min: 3 • max: 45 • pattern: ^[a-z0-9]([a-z0-9\-]*[a-z0-9])?$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

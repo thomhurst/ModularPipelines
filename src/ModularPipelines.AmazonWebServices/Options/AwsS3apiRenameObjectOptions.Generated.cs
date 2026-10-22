@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Renames an existing object in a directory bucket that uses the S3 Ex- press One Zone storage class. You can use RenameObject by specifying an existing objects name as the source and the new name of the object as the destination within the same directory bucket. NOTE: RenameObject is only supported for objects stored in the S3 Express One Zone storage class. To prevent overwriting an object, you can use the If-None-Match condi- tional header. o If-None-Match - Renames the object only if an object...
+/// Renames an existing object in a directory bucket that uses the S3 Express One Zone storage class. You can use RenameObject by specifying an existing objects name as the source and the new name of the object as the destination within the same directory bucket. NOTE: RenameObject is only supported for objects stored in the S3 Express One Zone storage class. To prevent overwriting an object, you can use the If-None-Match conditional header. • If-None-Match - Renames the object only if an object wit...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsS3apiRenameObjectOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Renames an existing object in a directory bucket that uses the S3 Ex- press One Zone storage class. You can use RenameObject by specifying an existing objects name as the source and the new name of the object as the destination within the same directory bucket. NOTE: RenameObject is only supported for objects stored in the S3 Express One Zone storage class. To prevent overwriting an object, you can use the If-None-Match condi- tional header. o If-None-Match - Renames the object only if an object...
+    /// Renames an existing object in a directory bucket that uses the S3 Express One Zone storage class. You can use RenameObject by specifying an existing objects name as the source and the new name of the object as the destination within the same directory bucket. NOTE: RenameObject is only supported for objects stored in the S3 Express One Zone storage class. To prevent overwriting an object, you can use the If-None-Match conditional header. • If-None-Match - Renames the object only if an object wit...
     /// </summary>
     /// <param name="Bucket">The bucket name of the directory bucket containing the object. You must use virtual-hosted-style requests in the format Bucket-name.s3express-zone-id.region-code.amazonaws.com . Path-style requests are not supported. Directory bucket names must be unique in the chosen Availability Zone. Bucket names must follow the format bucket-base-name--zone-id--x-s3 (for example, amzn-s3-demo-bucket--usw2-az1--x-s3 ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide .</param>
-    /// <param name="Key">Key name of the object to rename. Constraints: o min: 1</param>
-    /// <param name="RenameSource">Specifies the source for the rename operation. The value must be URL encoded. Constraints: o pattern: \/?.+\/.+</param>
+    /// <param name="Key">Key name of the object to rename. Constraints: • min: 1</param>
+    /// <param name="RenameSource">Specifies the source for the rename operation. The value must be URL encoded. Constraints: • pattern: \/?.+\/.+</param>
     public AwsS3apiRenameObjectOptions(
         string Bucket,
         string Key,
@@ -71,31 +73,31 @@ public record AwsS3apiRenameObjectOptions : AwsOptions, IValidatableObject
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// Key name of the object to rename. Constraints: o min: 1
+    /// Key name of the object to rename. Constraints: • min: 1
     /// </summary>
     [CliOption("--key")]
     public string? Key { get; private init; }
 
     /// <summary>
-    /// Specifies the source for the rename operation. The value must be URL encoded. Constraints: o pattern: \/?.+\/.+
+    /// Specifies the source for the rename operation. The value must be URL encoded. Constraints: • pattern: \/?.+\/.+
     /// </summary>
     [CliOption("--rename-source")]
     public string? RenameSource { get; private init; }
 
     /// <summary>
-    /// Renames the object only if the ETag (entity tag) value provided dur- ing the operation matches the ETag of the object in S3. The If-Match header field makes the request method conditional on ETags. If the ETag values do not match, the operation returns a 412 Precondition Failed error. Expects the ETag value as a string.
+    /// Renames the object only if the ETag (entity tag) value provided during the operation matches the ETag of the object in S3. The If-Match header field makes the request method conditional on ETags. If the ETag values do not match, the operation returns a 412 Precondition Failed error. Expects the ETag value as a string.
     /// </summary>
     [CliOption("--destination-if-match")]
     public string? DestinationIfMatch { get; set; }
 
     /// <summary>
-    /// Renames the object only if the destination does not already exist in the specified directory bucket. If the object does exist when you send a request with If-None-Match:* , the S3 API will return a 412 Precondition Failed error, preventing an overwrite. The If-None-Match header prevents overwrites of existing data by vali- dating that there's not an object with the same key name already in your directory bucket. Expects the * character (asterisk).
+    /// Renames the object only if the destination does not already exist in the specified directory bucket. If the object does exist when you send a request with If-None-Match:* , the S3 API will return a 412 Precondition Failed error, preventing an overwrite. The If-None-Match header prevents overwrites of existing data by validating that there's not an object with the same key name already in your directory bucket. Expects the * character (asterisk).
     /// </summary>
     [CliOption("--destination-if-none-match")]
     public string? DestinationIfNoneMatch { get; set; }
 
     /// <summary>
-    /// Renames the object if the destination exists and if it has been mod- ified since the specified time.
+    /// Renames the object if the destination exists and if it has been modified since the specified time.
     /// </summary>
     [CliOption("--destination-if-modified-since")]
     public string? DestinationIfModifiedSince { get; set; }
@@ -131,7 +133,7 @@ public record AwsS3apiRenameObjectOptions : AwsOptions, IValidatableObject
     public string? SourceIfUnmodifiedSince { get; set; }
 
     /// <summary>
-    /// A unique string with a max of 64 ASCII characters in the ASCII range of 33 - 126. NOTE: RenameObject supports idempotency using a client token. To make an idempotent API request using RenameObject , specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parame- ters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails and an IdempotentParameterMismatch error is returned.
+    /// A unique string with a max of 64 ASCII characters in the ASCII range of 33 - 126. NOTE: RenameObject supports idempotency using a client token. To make an idempotent API request using RenameObject , specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails and an IdempotentParameterMismatch error is returned.
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

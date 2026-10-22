@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws servicecatalogappregistry commands.
+/// aws servicecatalog-appregistry commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsServicecatalogAppregistry : IAwsServicecatalogAppregistry
@@ -32,7 +32,7 @@ public class AwsServicecatalogAppregistry : IAwsServicecatalogAppregistry
     #region Commands
 
     /// <summary>
-    /// Associates an attribute group with an application to augment the appli- cation's metadata with the group's attributes. This feature enables ap- plications to be described with user-defined details that are ma- chine-readable, such as third-party integrations. See also: AWS API Documentation
+    /// Associates an attribute group with an application to augment the application's metadata with the group's attributes. This feature enables applications to be described with user-defined details that are machine-readable, such as third-party integrations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsServicecatalogAppregistry : IAwsServicecatalogAppregistry
     }
 
     /// <summary>
-    /// Associates a resource with an application. The resource can be speci- fied by its ARN or name. The application can be specified by ARN, ID, or name. Minimum permissions You must have the following permissions to associate a resource using the OPTIONS parameter set to APPLY_APPLICATION_TAG . o tag:GetResources o tag:TagResources You must also have these additional permissions if you don't use the AWSServiceCatalogAppRegistryFullAccess policy. For more information, see AWSServiceCatalogAppRegistry...
+    /// Associates a resource with an application. The resource can be specified by its ARN or name. The application can be specified by ARN, ID, or name. Minimum permissions You must have the following permissions to associate a resource using the OPTIONS parameter set to APPLY_APPLICATION_TAG . • tag:GetResources • tag:TagResources You must also have these additional permissions if you don't use the AWSServiceCatalogAppRegistryFullAccess policy. For more information, see AWSServiceCatalogAppRegistryFu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsServicecatalogAppregistry : IAwsServicecatalogAppregistry
     }
 
     /// <summary>
-    /// Creates a new attribute group as a container for user-defined attrib- utes. This feature enables users to have full control over their cloud application's metadata in a rich machine-readable format to facilitate integration with automated workflows and third-party tools. See also: AWS API Documentation
+    /// Creates a new attribute group as a container for user-defined attributes. This feature enables users to have full control over their cloud application's metadata in a rich machine-readable format to facilitate integration with automated workflows and third-party tools. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsServicecatalogAppregistry : IAwsServicecatalogAppregistry
     }
 
     /// <summary>
-    /// Disassociates an attribute group from an application to remove the ex- tra attributes contained in the attribute group from the application's metadata. This operation reverts AssociateAttributeGroup . See also: AWS API Documentation
+    /// Disassociates an attribute group from an application to remove the extra attributes contained in the attribute group from the application's metadata. This operation reverts AssociateAttributeGroup . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsServicecatalogAppregistry : IAwsServicecatalogAppregistry
     }
 
     /// <summary>
-    /// Disassociates a resource from application. Both the resource and the application can be specified either by ID or name. Minimum permissions You must have the following permissions to remove a resource that's been associated with an application using the APPLY_APPLICATION_TAG op- tion for AssociateResource . o tag:GetResources o tag:UntagResources You must also have the following permissions if you don't use the AWSServiceCatalogAppRegistryFullAccess policy. For more information, see AWSServiceCa...
+    /// Disassociates a resource from application. Both the resource and the application can be specified either by ID or name. Minimum permissions You must have the following permissions to remove a resource that's been associated with an application using the APPLY_APPLICATION_TAG option for AssociateResource . • tag:GetResources • tag:UntagResources You must also have the following permissions if you don't use the AWSServiceCatalogAppRegistryFullAccess policy. For more information, see AWSServiceCata...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsServicecatalogAppregistry : IAwsServicecatalogAppregistry
     }
 
     /// <summary>
-    /// Retrieves metadata information about one of your applications. The ap- plication can be specified by its ARN, ID, or name (which is unique within one account in one region at a given point in time). Specify by ARN or ID in automated workflows if you want to make sure that the ex- act same application is returned or a ResourceNotFoundException is thrown, avoiding the ABA addressing problem. See also: AWS API Documentation
+    /// Retrieves metadata information about one of your applications. The application can be specified by its ARN, ID, or name (which is unique within one account in one region at a given point in time). Specify by ARN or ID in automated workflows if you want to make sure that the exact same application is returned or a ResourceNotFoundException is thrown, avoiding the ABA addressing problem. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsServicecatalogAppregistry : IAwsServicecatalogAppregistry
     }
 
     /// <summary>
-    /// Lists all attribute groups that are associated with specified applica- tion. Results are paginated. See also: AWS API Documentation list-associated-attribute-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following que...
+    /// Lists all attribute groups that are associated with specified application. Results are paginated. See also: AWS API Documentation list-associated-attribute-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query exp...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsServicecatalogAppregistry : IAwsServicecatalogAppregistry
     }
 
     /// <summary>
-    /// Lists all of the resources that are associated with the specified ap- plication. Results are paginated. NOTE: If you share an application, and a consumer account associates a tag query to the application, all of the users who can access the appli- cation can also view the tag values in all accounts that are associ- ated with it using this API. See also: AWS API Documentation list-associated-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data ...
+    /// Lists all of the resources that are associated with the specified application. Results are paginated. NOTE: If you share an application, and a consumer account associates a tag query to the application, all of the users who can access the application can also view the tag values in all accounts that are associated with it using this API. See also: AWS API Documentation list-associated-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsServicecatalogAppregistry : IAwsServicecatalogAppregistry
     }
 
     /// <summary>
-    /// Lists the details of all attribute groups associated with a specific application. The results display in pages. See also: AWS API Documentation list-attribute-groups-for-application is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results o...
+    /// Lists the details of all attribute groups associated with a specific application. The results display in pages. See also: AWS API Documentation list-attribute-groups-for-application is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsServicecatalogAppregistry : IAwsServicecatalogAppregistry
     }
 
     /// <summary>
-    /// Lists all attribute groups which you have access to. Results are pagi- nated. See also: AWS API Documentation list-attribute-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: attributeGroups
+    /// Lists all attribute groups which you have access to. Results are paginated. See also: AWS API Documentation list-attribute-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: attributeGroups
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsServicecatalogAppregistry : IAwsServicecatalogAppregistry
     }
 
     /// <summary>
-    /// Syncs the resource with current AppRegistry records. Specifically, the resources AppRegistry system tags sync with its asso- ciated application. We remove the resource's AppRegistry system tags if it does not associate with the application. The caller must have per- missions to read and update the resource. See also: AWS API Documentation
+    /// Syncs the resource with current AppRegistry records. Specifically, the resources AppRegistry system tags sync with its associated application. We remove the resource's AppRegistry system tags if it does not associate with the application. The caller must have permissions to read and update the resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

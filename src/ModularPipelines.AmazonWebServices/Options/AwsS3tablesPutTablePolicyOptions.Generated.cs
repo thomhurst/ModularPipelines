@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new table policy or replaces an existing table policy for a table. For more information, see Adding a table policy in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:PutTablePolicy permission to use this opera- tion. See also: AWS API Documentation
+/// Creates a new table policy or replaces an existing table policy for a table. For more information, see Adding a table policy in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:PutTablePolicy permission to use this operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +27,12 @@ public record AwsS3tablesPutTablePolicyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new table policy or replaces an existing table policy for a table. For more information, see Adding a table policy in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:PutTablePolicy permission to use this opera- tion. See also: AWS API Documentation
+    /// Creates a new table policy or replaces an existing table policy for a table. For more information, see Adding a table policy in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:PutTablePolicy permission to use this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TableBucketArn">The Amazon Resource Name (ARN) of the table bucket that contains the table. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})</param>
-    /// <param name="Namespace">The namespace associated with the table. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*</param>
-    /// <param name="Name">The name of the table. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*</param>
-    /// <param name="ResourcePolicy">The JSON that defines the policy. Constraints: o min: 1 o max: 20480</param>
+    /// <param name="TableBucketArn">The Amazon Resource Name (ARN) of the table bucket that contains the table. Constraints: • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})</param>
+    /// <param name="Namespace">The namespace associated with the table. Constraints: • min: 1 • max: 255 • pattern: [0-9a-z_]*</param>
+    /// <param name="Name">The name of the table. Constraints: • min: 1 • max: 255 • pattern: [0-9a-z_]*</param>
+    /// <param name="ResourcePolicy">The JSON that defines the policy. Constraints: • min: 1 • max: 20480</param>
     public AwsS3tablesPutTablePolicyOptions(
         string TableBucketArn,
         string Namespace,
@@ -68,25 +70,25 @@ public record AwsS3tablesPutTablePolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the table bucket that contains the table. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})
+    /// The Amazon Resource Name (ARN) of the table bucket that contains the table. Constraints: • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})
     /// </summary>
     [CliOption("--table-bucket-arn")]
     public string? TableBucketArn { get; private init; }
 
     /// <summary>
-    /// The namespace associated with the table. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*
+    /// The namespace associated with the table. Constraints: • min: 1 • max: 255 • pattern: [0-9a-z_]*
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; private init; }
 
     /// <summary>
-    /// The name of the table. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*
+    /// The name of the table. Constraints: • min: 1 • max: 255 • pattern: [0-9a-z_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The JSON that defines the policy. Constraints: o min: 1 o max: 20480
+    /// The JSON that defines the policy. Constraints: • min: 1 • max: 20480
     /// </summary>
     [CliOption("--resource-policy")]
     public string? ResourcePolicy { get; private init; }

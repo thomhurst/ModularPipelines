@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,7 +29,7 @@ public record AwsBcmDataExportsGetTableOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns the metadata for the specified table and table properties. This includes the list of columns in the table schema, their data types, and column descriptions. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TableName">The name of the table. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]*</param>
+    /// <param name="TableName">The name of the table. Constraints: • min: 0 • max: 1024 • pattern: [\S\s]*</param>
     public AwsBcmDataExportsGetTableOptions(
         string TableName
     )
@@ -57,13 +58,13 @@ public record AwsBcmDataExportsGetTableOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the table. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]*
+    /// The name of the table. Constraints: • min: 0 • max: 1024 • pattern: [\S\s]*
     /// </summary>
     [CliOption("--table-name")]
     public string? TableName { get; private init; }
 
     /// <summary>
-    /// TableProperties are additional configurations you can provide to change the data and schema of a table. Each table can have different TableProperties. Tables are not required to have any TableProper- ties. Each table property has a default value that it assumes if not specified. key -&gt; (string) Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* value -&gt; (string) Constraints: o min: 0 o max: 16384 o pattern: [\S\s]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// TableProperties are additional configurations you can provide to change the data and schema of a table. Each table can have different TableProperties. Tables are not required to have any TableProperties. Each table property has a default value that it assumes if not specified. key -&gt; (string) Constraints: • min: 0 • max: 1024 • pattern: [\S\s]* value -&gt; (string) Constraints: • min: 0 • max: 16384 • pattern: [\S\s]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--table-properties", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? TableProperties { get; set; }

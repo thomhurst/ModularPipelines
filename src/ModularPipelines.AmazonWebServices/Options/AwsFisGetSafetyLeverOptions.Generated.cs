@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsFisGetSafetyLeverOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets information about the specified safety lever. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the safety lever. Constraints: o max: 64 o pattern: [\S]+</param>
+    /// <param name="Id">The ID of the safety lever. Constraints: • max: 64 • pattern: [\S]+</param>
     public AwsFisGetSafetyLeverOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsFisGetSafetyLeverOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the safety lever. Constraints: o max: 64 o pattern: [\S]+
+    /// The ID of the safety lever. Constraints: • max: 64 • pattern: [\S]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

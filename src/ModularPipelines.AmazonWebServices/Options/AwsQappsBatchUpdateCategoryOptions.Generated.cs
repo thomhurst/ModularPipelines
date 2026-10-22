@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsQappsBatchUpdateCategoryOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Updates Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see Custom labels for Amazon Q Apps . See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The unique identifier of the Amazon Q Business application environ- ment instance.</param>
-    /// <param name="Categories">The list of categories to be updated with their new values. Constraints: o min: 0 o max: 10 (structure) A label that web experience users associate with a library item. Web experience users use Categories to tag and filter library items. id -&gt; (string) [required] The unique identifier of the category. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12} title -&gt; (string) [required] The name of the category. Constraints: o min: 1 o max: 30 o pattern: [a-zA-Z0-9_]+( [a-zA-Z0-9_]+)* color -&gt; (string) The color of the category, represented as a hexadecimal value of either 3 or 6 digits. Constraints: o min: 4 o max: 7 o pattern: #([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6}) Shorthand Syntax: id=string,title=string,color=string ... JSON Syntax: [ { "id": "string", "title": "string", "color": "string" } ... ]</param>
+    /// <param name="InstanceId">The unique identifier of the Amazon Q Business application environment instance.</param>
+    /// <param name="Categories">The list of categories to be updated with their new values. Constraints: • min: 0 • max: 10 (structure) A label that web experience users associate with a library item. Web experience users use Categories to tag and filter library items. id -&gt; (string) [required] The unique identifier of the category. Constraints: • pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12} title -&gt; (string) [required] The name of the category. Constraints: • min: 1 • max: 30 • pattern: [a-zA-Z0-9_]+( [a-zA-Z0-9_]+)* color -&gt; (string) The color of the category, represented as a hexadecimal value of either 3 or 6 digits. Constraints: • min: 4 • max: 7 • pattern: #([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6}) Shorthand Syntax: id=string,title=string,color=string ... JSON Syntax: [ { "id": "string", "title": "string", "color": "string" } ... ]</param>
     public AwsQappsBatchUpdateCategoryOptions(
         string InstanceId,
         IEnumerable<string> Categories
@@ -71,13 +73,13 @@ public record AwsQappsBatchUpdateCategoryOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Amazon Q Business application environ- ment instance.
+    /// The unique identifier of the Amazon Q Business application environment instance.
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The list of categories to be updated with their new values. Constraints: o min: 0 o max: 10 (structure) A label that web experience users associate with a library item. Web experience users use Categories to tag and filter library items. id -&gt; (string) [required] The unique identifier of the category. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12} title -&gt; (string) [required] The name of the category. Constraints: o min: 1 o max: 30 o pattern: [a-zA-Z0-9_]+( [a-zA-Z0-9_]+)* color -&gt; (string) The color of the category, represented as a hexadecimal value of either 3 or 6 digits. Constraints: o min: 4 o max: 7 o pattern: #([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6}) Shorthand Syntax: id=string,title=string,color=string ... JSON Syntax: [ { "id": "string", "title": "string", "color": "string" } ... ]
+    /// The list of categories to be updated with their new values. Constraints: • min: 0 • max: 10 (structure) A label that web experience users associate with a library item. Web experience users use Categories to tag and filter library items. id -&gt; (string) [required] The unique identifier of the category. Constraints: • pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12} title -&gt; (string) [required] The name of the category. Constraints: • min: 1 • max: 30 • pattern: [a-zA-Z0-9_]+( [a-zA-Z0-9_]+)* color -&gt; (string) The color of the category, represented as a hexadecimal value of either 3 or 6 digits. Constraints: • min: 4 • max: 7 • pattern: #([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6}) Shorthand Syntax: id=string,title=string,color=string ... JSON Syntax: [ { "id": "string", "title": "string", "color": "string" } ... ]
     /// </summary>
     [CliOption("--categories", GroupValues = true)]
     public IEnumerable<string>? Categories { get; private init; }

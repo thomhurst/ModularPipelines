@@ -28,8 +28,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAppAsync(AwsPinpointCreateAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAppAsync(AwsPinpointCreateAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new campaign for an application or updates the settings of an existing campaign for an application. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCampaignAsync(AwsPinpointCreateCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCampaignAsync(AwsPinpointCreateCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a message template for messages that are sent through the email channel. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEmailTemplateAsync(AwsPinpointCreateEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateEmailTemplateAsync(AwsPinpointCreateEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an export job for an application. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateExportJobAsync(AwsPinpointCreateExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateExportJobAsync(AwsPinpointCreateExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an import job for an application. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateImportJobAsync(AwsPinpointCreateImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateImportJobAsync(AwsPinpointCreateImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new message template for messages using the in-app message channel. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateInAppTemplateAsync(AwsPinpointCreateInAppTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateInAppTemplateAsync(AwsPinpointCreateInAppTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a journey for an application. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateJourneyAsync(AwsPinpointCreateJourneyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateJourneyAsync(AwsPinpointCreateJourneyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a message template for messages that are sent through a push notification channel. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePushTemplateAsync(AwsPinpointCreatePushTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePushTemplateAsync(AwsPinpointCreatePushTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon Pinpoint configuration for a recommender model. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRecommenderConfigurationAsync(AwsPinpointCreateRecommenderConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRecommenderConfigurationAsync(AwsPinpointCreateRecommenderConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSegmentAsync(AwsPinpointCreateSegmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSegmentAsync(AwsPinpointCreateSegmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a message template for messages that are sent through the SMS channel. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSmsTemplateAsync(AwsPinpointCreateSmsTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSmsTemplateAsync(AwsPinpointCreateSmsTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a message template for messages that are sent through the voice channel. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateVoiceTemplateAsync(AwsPinpointCreateVoiceTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateVoiceTemplateAsync(AwsPinpointCreateVoiceTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables the ADM channel for an application and deletes any existing settings for the channel. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAdmChannelAsync(AwsPinpointDeleteAdmChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAdmChannelAsync(AwsPinpointDeleteAdmChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables the APNs channel for an application and deletes any existing settings for the channel. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteApnsChannelAsync(AwsPinpointDeleteApnsChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteApnsChannelAsync(AwsPinpointDeleteApnsChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables the APNs sandbox channel for an application and deletes any existing settings for the channel. See also: AWS API Documentation
@@ -168,18 +154,16 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteApnsSandboxChannelAsync(AwsPinpointDeleteApnsSandboxChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteApnsSandboxChannelAsync(AwsPinpointDeleteApnsSandboxChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Disables the APNs VoIP channel for an application and deletes any ex- isting settings for the channel. See also: AWS API Documentation
+    /// Disables the APNs VoIP channel for an application and deletes any existing settings for the channel. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteApnsVoipChannelAsync(AwsPinpointDeleteApnsVoipChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteApnsVoipChannelAsync(AwsPinpointDeleteApnsVoipChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables the APNs VoIP sandbox channel for an application and deletes any existing settings for the channel. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteApnsVoipSandboxChannelAsync(AwsPinpointDeleteApnsVoipSandboxChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteApnsVoipSandboxChannelAsync(AwsPinpointDeleteApnsVoipSandboxChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an application. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAppAsync(AwsPinpointDeleteAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAppAsync(AwsPinpointDeleteAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables the Baidu channel for an application and deletes any existing settings for the channel. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBaiduChannelAsync(AwsPinpointDeleteBaiduChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBaiduChannelAsync(AwsPinpointDeleteBaiduChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a campaign from an application. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCampaignAsync(AwsPinpointDeleteCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCampaignAsync(AwsPinpointDeleteCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables the email channel for an application and deletes any existing settings for the channel. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteEmailChannelAsync(AwsPinpointDeleteEmailChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteEmailChannelAsync(AwsPinpointDeleteEmailChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a message template for messages that were sent through the email channel. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteEmailTemplateAsync(AwsPinpointDeleteEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteEmailTemplateAsync(AwsPinpointDeleteEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an endpoint from an application. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteEndpointAsync(AwsPinpointDeleteEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteEndpointAsync(AwsPinpointDeleteEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the event stream for an application. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteEventStreamAsync(AwsPinpointDeleteEventStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteEventStreamAsync(AwsPinpointDeleteEventStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables the GCM channel for an application and deletes any existing settings for the channel. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteGcmChannelAsync(AwsPinpointDeleteGcmChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteGcmChannelAsync(AwsPinpointDeleteGcmChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a message template for messages sent using the in-app message channel. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteInAppTemplateAsync(AwsPinpointDeleteInAppTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteInAppTemplateAsync(AwsPinpointDeleteInAppTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a journey from an application. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteJourneyAsync(AwsPinpointDeleteJourneyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteJourneyAsync(AwsPinpointDeleteJourneyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a message template for messages that were sent through a push notification channel. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePushTemplateAsync(AwsPinpointDeletePushTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePushTemplateAsync(AwsPinpointDeletePushTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Amazon Pinpoint configuration for a recommender model. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRecommenderConfigurationAsync(AwsPinpointDeleteRecommenderConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRecommenderConfigurationAsync(AwsPinpointDeleteRecommenderConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a segment from an application. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSegmentAsync(AwsPinpointDeleteSegmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSegmentAsync(AwsPinpointDeleteSegmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables the SMS channel for an application and deletes any existing settings for the channel. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSmsChannelAsync(AwsPinpointDeleteSmsChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSmsChannelAsync(AwsPinpointDeleteSmsChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a message template for messages that were sent through the SMS channel. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSmsTemplateAsync(AwsPinpointDeleteSmsTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSmsTemplateAsync(AwsPinpointDeleteSmsTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes all the endpoints that are associated with a specific user ID. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteUserEndpointsAsync(AwsPinpointDeleteUserEndpointsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteUserEndpointsAsync(AwsPinpointDeleteUserEndpointsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables the voice channel for an application and deletes any existing settings for the channel. See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVoiceChannelAsync(AwsPinpointDeleteVoiceChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVoiceChannelAsync(AwsPinpointDeleteVoiceChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a message template for messages that were sent through the voice channel. See also: AWS API Documentation
@@ -368,8 +334,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVoiceTemplateAsync(AwsPinpointDeleteVoiceTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVoiceTemplateAsync(AwsPinpointDeleteVoiceTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the status and settings of the ADM channel for an application. See also: AWS API Documentation
@@ -378,8 +343,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAdmChannelAsync(AwsPinpointGetAdmChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAdmChannelAsync(AwsPinpointGetAdmChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the status and settings of the APNs channel for an application. See also: AWS API Documentation
@@ -388,8 +352,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetApnsChannelAsync(AwsPinpointGetApnsChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetApnsChannelAsync(AwsPinpointGetApnsChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the status and settings of the APNs sandbox channel for an application. See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetApnsSandboxChannelAsync(AwsPinpointGetApnsSandboxChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetApnsSandboxChannelAsync(AwsPinpointGetApnsSandboxChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the status and settings of the APNs VoIP channel for an application. See also: AWS API Documentation
@@ -408,8 +370,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetApnsVoipChannelAsync(AwsPinpointGetApnsVoipChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetApnsVoipChannelAsync(AwsPinpointGetApnsVoipChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the status and settings of the APNs VoIP sandbox channel for an application. See also: AWS API Documentation
@@ -418,28 +379,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetApnsVoipSandboxChannelAsync(AwsPinpointGetApnsVoipSandboxChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Retrieves (queries) pre-aggregated data for a standard metric that ap- plies to an application. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> GetApplicationDateRangeKpiAsync(AwsPinpointGetApplicationDateRangeKpiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Retrieves information about the settings for an application. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> GetApplicationSettingsAsync(AwsPinpointGetApplicationSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetApnsVoipSandboxChannelAsync(AwsPinpointGetApnsVoipSandboxChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about an application. See also: AWS API Documentation
@@ -448,8 +388,25 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAppAsync(AwsPinpointGetAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAppAsync(AwsPinpointGetAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves (queries) pre-aggregated data for a standard metric that applies to an application. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> GetApplicationDateRangeKpiAsync(AwsPinpointGetApplicationDateRangeKpiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves information about the settings for an application. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> GetApplicationSettingsAsync(AwsPinpointGetApplicationSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about all the applications that are associated with your Amazon Pinpoint account. See also: AWS API Documentation
@@ -458,18 +415,16 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAppsAsync(AwsPinpointGetAppsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAppsAsync(AwsPinpointGetAppsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves information about the status and settings of the Baidu chan- nel for an application. See also: AWS API Documentation
+    /// Retrieves information about the status and settings of the Baidu channel for an application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBaiduChannelAsync(AwsPinpointGetBaiduChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBaiduChannelAsync(AwsPinpointGetBaiduChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about all the activities for a campaign. See also: AWS API Documentation
@@ -478,58 +433,52 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCampaignActivitiesAsync(AwsPinpointGetCampaignActivitiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCampaignActivitiesAsync(AwsPinpointGetCampaignActivitiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves (queries) pre-aggregated data for a standard metric that ap- plies to a campaign. See also: AWS API Documentation
+    /// Retrieves (queries) pre-aggregated data for a standard metric that applies to a campaign. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCampaignDateRangeKpiAsync(AwsPinpointGetCampaignDateRangeKpiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCampaignDateRangeKpiAsync(AwsPinpointGetCampaignDateRangeKpiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves information about the status, configuration, and other set- tings for a campaign. See also: AWS API Documentation
+    /// Retrieves information about the status, configuration, and other settings for a campaign. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCampaignAsync(AwsPinpointGetCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCampaignAsync(AwsPinpointGetCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves information about the status, configuration, and other set- tings for all the campaigns that are associated with an application. See also: AWS API Documentation
+    /// Retrieves information about the status, configuration, and other settings for a specific version of a campaign. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCampaignsAsync(AwsPinpointGetCampaignsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCampaignVersionAsync(AwsPinpointGetCampaignVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves information about the status, configuration, and other set- tings for a specific version of a campaign. See also: AWS API Documentation
+    /// Retrieves information about the status, configuration, and other settings for all versions of a campaign. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCampaignVersionAsync(AwsPinpointGetCampaignVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCampaignVersionsAsync(AwsPinpointGetCampaignVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves information about the status, configuration, and other set- tings for all versions of a campaign. See also: AWS API Documentation
+    /// Retrieves information about the status, configuration, and other settings for all the campaigns that are associated with an application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCampaignVersionsAsync(AwsPinpointGetCampaignVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCampaignsAsync(AwsPinpointGetCampaignsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the history and status of each channel for an application. See also: AWS API Documentation
@@ -538,18 +487,16 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetChannelsAsync(AwsPinpointGetChannelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetChannelsAsync(AwsPinpointGetChannelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves information about the status and settings of the email chan- nel for an application. See also: AWS API Documentation
+    /// Retrieves information about the status and settings of the email channel for an application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEmailChannelAsync(AwsPinpointGetEmailChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEmailChannelAsync(AwsPinpointGetEmailChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the content and settings of a message template for messages that are sent through the email channel. See also: AWS API Documentation
@@ -558,8 +505,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEmailTemplateAsync(AwsPinpointGetEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEmailTemplateAsync(AwsPinpointGetEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the settings and attributes of a specific endpoint for an application. See also: AWS API Documentation
@@ -568,28 +514,25 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEndpointAsync(AwsPinpointGetEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEndpointAsync(AwsPinpointGetEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves information about the event stream settings for an applica- tion. See also: AWS API Documentation
+    /// Retrieves information about the event stream settings for an application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEventStreamAsync(AwsPinpointGetEventStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEventStreamAsync(AwsPinpointGetEventStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves information about the status and settings of a specific ex- port job for an application. See also: AWS API Documentation
+    /// Retrieves information about the status and settings of a specific export job for an application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetExportJobAsync(AwsPinpointGetExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetExportJobAsync(AwsPinpointGetExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the status and settings of all the export jobs for an application. See also: AWS API Documentation
@@ -598,8 +541,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetExportJobsAsync(AwsPinpointGetExportJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetExportJobsAsync(AwsPinpointGetExportJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the status and settings of the GCM channel for an application. See also: AWS API Documentation
@@ -608,18 +550,16 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetGcmChannelAsync(AwsPinpointGetGcmChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetGcmChannelAsync(AwsPinpointGetGcmChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves information about the status and settings of a specific im- port job for an application. See also: AWS API Documentation
+    /// Retrieves information about the status and settings of a specific import job for an application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetImportJobAsync(AwsPinpointGetImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetImportJobAsync(AwsPinpointGetImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the status and settings of all the import jobs for an application. See also: AWS API Documentation
@@ -628,8 +568,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetImportJobsAsync(AwsPinpointGetImportJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetImportJobsAsync(AwsPinpointGetImportJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the in-app messages targeted for the provided endpoint ID. See also: AWS API Documentation
@@ -638,8 +577,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetInAppMessagesAsync(AwsPinpointGetInAppMessagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetInAppMessagesAsync(AwsPinpointGetInAppMessagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the content and settings of a message template for messages sent through the in-app channel. See also: AWS API Documentation
@@ -648,18 +586,16 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetInAppTemplateAsync(AwsPinpointGetInAppTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetInAppTemplateAsync(AwsPinpointGetInAppTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves (queries) pre-aggregated data for a standard engagement met- ric that applies to a journey. See also: AWS API Documentation
+    /// Retrieves (queries) pre-aggregated data for a standard engagement metric that applies to a journey. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetJourneyDateRangeKpiAsync(AwsPinpointGetJourneyDateRangeKpiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetJourneyDateRangeKpiAsync(AwsPinpointGetJourneyDateRangeKpiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a journey activity. See also: AWS API Documentation
@@ -668,8 +604,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetJourneyExecutionActivityMetricsAsync(AwsPinpointGetJourneyExecutionActivityMetricsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetJourneyExecutionActivityMetricsAsync(AwsPinpointGetJourneyExecutionActivityMetricsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a journey. See also: AWS API Documentation
@@ -678,18 +613,16 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetJourneyExecutionMetricsAsync(AwsPinpointGetJourneyExecutionMetricsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetJourneyExecutionMetricsAsync(AwsPinpointGetJourneyExecutionMetricsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves information about the status, configuration, and other set- tings for a journey. See also: AWS API Documentation
+    /// Retrieves information about the status, configuration, and other settings for a journey. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetJourneyAsync(AwsPinpointGetJourneyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetJourneyAsync(AwsPinpointGetJourneyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves (queries) pre-aggregated data for a standard run execution metric that applies to a journey activity. See also: AWS API Documentation
@@ -698,8 +631,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetJourneyRunExecutionActivityMetricsAsync(AwsPinpointGetJourneyRunExecutionActivityMetricsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetJourneyRunExecutionActivityMetricsAsync(AwsPinpointGetJourneyRunExecutionActivityMetricsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves (queries) pre-aggregated data for a standard run execution metric that applies to a journey. See also: AWS API Documentation
@@ -708,8 +640,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetJourneyRunExecutionMetricsAsync(AwsPinpointGetJourneyRunExecutionMetricsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetJourneyRunExecutionMetricsAsync(AwsPinpointGetJourneyRunExecutionMetricsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides information about the runs of a journey. See also: AWS API Documentation
@@ -718,8 +649,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetJourneyRunsAsync(AwsPinpointGetJourneyRunsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetJourneyRunsAsync(AwsPinpointGetJourneyRunsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the content and settings of a message template for messages that are sent through a push notification channel. See also: AWS API Documentation
@@ -728,18 +658,16 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPushTemplateAsync(AwsPinpointGetPushTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPushTemplateAsync(AwsPinpointGetPushTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves information about an Amazon Pinpoint configuration for a rec- ommender model. See also: AWS API Documentation
+    /// Retrieves information about an Amazon Pinpoint configuration for a recommender model. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRecommenderConfigurationAsync(AwsPinpointGetRecommenderConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRecommenderConfigurationAsync(AwsPinpointGetRecommenderConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about all the recommender model configurations that are associated with your Amazon Pinpoint account. See also: AWS API Documentation
@@ -748,8 +676,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRecommenderConfigurationsAsync(AwsPinpointGetRecommenderConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRecommenderConfigurationsAsync(AwsPinpointGetRecommenderConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the status and settings of the export jobs for a segment. See also: AWS API Documentation
@@ -758,8 +685,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSegmentExportJobsAsync(AwsPinpointGetSegmentExportJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSegmentExportJobsAsync(AwsPinpointGetSegmentExportJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the status and settings of the import jobs for a segment. See also: AWS API Documentation
@@ -768,8 +694,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSegmentImportJobsAsync(AwsPinpointGetSegmentImportJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSegmentImportJobsAsync(AwsPinpointGetSegmentImportJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the configuration, dimension, and other settings for a specific segment that's associated with an application. See also: AWS API Documentation
@@ -778,18 +703,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSegmentAsync(AwsPinpointGetSegmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Retrieves information about the configuration, dimension, and other settings for all the segments that are associated with an application. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSegmentsAsync(AwsPinpointGetSegmentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSegmentAsync(AwsPinpointGetSegmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the configuration, dimension, and other settings for a specific version of a segment that's associated with an application. See also: AWS API Documentation
@@ -798,8 +712,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSegmentVersionAsync(AwsPinpointGetSegmentVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSegmentVersionAsync(AwsPinpointGetSegmentVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the configuration, dimension, and other settings for all the versions of a specific segment that's associated with an application. See also: AWS API Documentation
@@ -808,8 +721,16 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSegmentVersionsAsync(AwsPinpointGetSegmentVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSegmentVersionsAsync(AwsPinpointGetSegmentVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves information about the configuration, dimension, and other settings for all the segments that are associated with an application. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> GetSegmentsAsync(AwsPinpointGetSegmentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the status and settings of the SMS channel for an application. See also: AWS API Documentation
@@ -818,8 +739,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSmsChannelAsync(AwsPinpointGetSmsChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSmsChannelAsync(AwsPinpointGetSmsChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the content and settings of a message template for messages that are sent through the SMS channel. See also: AWS API Documentation
@@ -828,8 +748,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSmsTemplateAsync(AwsPinpointGetSmsTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSmsTemplateAsync(AwsPinpointGetSmsTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about all the endpoints that are associated with a specific user ID. See also: AWS API Documentation
@@ -838,18 +757,16 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetUserEndpointsAsync(AwsPinpointGetUserEndpointsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetUserEndpointsAsync(AwsPinpointGetUserEndpointsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves information about the status and settings of the voice chan- nel for an application. See also: AWS API Documentation
+    /// Retrieves information about the status and settings of the voice channel for an application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVoiceChannelAsync(AwsPinpointGetVoiceChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVoiceChannelAsync(AwsPinpointGetVoiceChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the content and settings of a message template for messages that are sent through the voice channel. See also: AWS API Documentation
@@ -858,18 +775,16 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVoiceTemplateAsync(AwsPinpointGetVoiceTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVoiceTemplateAsync(AwsPinpointGetVoiceTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves information about the status, configuration, and other set- tings for all the journeys that are associated with an application. See also: AWS API Documentation
+    /// Retrieves information about the status, configuration, and other settings for all the journeys that are associated with an application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListJourneysAsync(AwsPinpointListJourneysOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListJourneysAsync(AwsPinpointListJourneysOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves all the tags (keys and values) that are associated with an application, campaign, message template, or segment. See also: AWS API Documentation
@@ -878,28 +793,25 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsPinpointListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsPinpointListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves information about all the message templates that are associ- ated with your Amazon Pinpoint account. See also: AWS API Documentation
+    /// Retrieves information about all the versions of a specific message template. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTemplatesAsync(AwsPinpointListTemplatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTemplateVersionsAsync(AwsPinpointListTemplateVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves information about all the versions of a specific message tem- plate. See also: AWS API Documentation
+    /// Retrieves information about all the message templates that are associated with your Amazon Pinpoint account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTemplateVersionsAsync(AwsPinpointListTemplateVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTemplatesAsync(AwsPinpointListTemplatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a phone number. See also: AWS API Documentation
@@ -908,18 +820,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PhoneNumberValidateAsync(AwsPinpointPhoneNumberValidateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Creates a new event to record for endpoints, or creates or updates end- point data that existing events are associated with. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> PutEventsAsync(AwsPinpointPutEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PhoneNumberValidateAsync(AwsPinpointPhoneNumberValidateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new event stream for an application or updates the settings of an existing event stream for an application. See also: AWS API Documentation
@@ -928,18 +829,25 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutEventStreamAsync(AwsPinpointPutEventStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutEventStreamAsync(AwsPinpointPutEventStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Removes one or more custom attributes, of the same attribute type, from the application. Existing endpoints still have the attributes but Ama- zon Pinpoint will stop capturing new or changed values for these at- tributes. See also: AWS API Documentation
+    /// Creates a new event to record for endpoints, or creates or updates endpoint data that existing events are associated with. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveAttributesAsync(AwsPinpointRemoveAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutEventsAsync(AwsPinpointPutEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Removes one or more custom attributes, of the same attribute type, from the application. Existing endpoints still have the attributes but Amazon Pinpoint will stop capturing new or changed values for these attributes. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> RemoveAttributesAsync(AwsPinpointRemoveAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates and sends a direct message. See also: AWS API Documentation
@@ -948,8 +856,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendMessagesAsync(AwsPinpointSendMessagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendMessagesAsync(AwsPinpointSendMessagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Send an OTP message See also: AWS API Documentation
@@ -958,8 +865,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendOtpMessageAsync(AwsPinpointSendOtpMessageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendOtpMessageAsync(AwsPinpointSendOtpMessageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates and sends a message to a list of users. See also: AWS API Documentation
@@ -968,8 +874,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendUsersMessagesAsync(AwsPinpointSendUsersMessagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendUsersMessagesAsync(AwsPinpointSendUsersMessagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds one or more tags (keys and values) to an application, campaign, message template, or segment. See also: AWS API Documentation
@@ -978,18 +883,16 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsPinpointTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsPinpointTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Removes one or more tags (keys and values) from an application, cam- paign, message template, or segment. See also: AWS API Documentation
+    /// Removes one or more tags (keys and values) from an application, campaign, message template, or segment. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsPinpointUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsPinpointUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables the ADM channel for an application or updates the status and settings of the ADM channel for an application. See also: AWS API Documentation
@@ -998,8 +901,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAdmChannelAsync(AwsPinpointUpdateAdmChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAdmChannelAsync(AwsPinpointUpdateAdmChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables the APNs channel for an application or updates the status and settings of the APNs channel for an application. See also: AWS API Documentation
@@ -1008,18 +910,16 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateApnsChannelAsync(AwsPinpointUpdateApnsChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateApnsChannelAsync(AwsPinpointUpdateApnsChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Enables the APNs sandbox channel for an application or updates the sta- tus and settings of the APNs sandbox channel for an application. See also: AWS API Documentation
+    /// Enables the APNs sandbox channel for an application or updates the status and settings of the APNs sandbox channel for an application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateApnsSandboxChannelAsync(AwsPinpointUpdateApnsSandboxChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateApnsSandboxChannelAsync(AwsPinpointUpdateApnsSandboxChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables the APNs VoIP channel for an application or updates the status and settings of the APNs VoIP channel for an application. See also: AWS API Documentation
@@ -1028,18 +928,16 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateApnsVoipChannelAsync(AwsPinpointUpdateApnsVoipChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateApnsVoipChannelAsync(AwsPinpointUpdateApnsVoipChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Enables the APNs VoIP sandbox channel for an application or updates the status and settings of the APNs VoIP sandbox channel for an applica- tion. See also: AWS API Documentation
+    /// Enables the APNs VoIP sandbox channel for an application or updates the status and settings of the APNs VoIP sandbox channel for an application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateApnsVoipSandboxChannelAsync(AwsPinpointUpdateApnsVoipSandboxChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateApnsVoipSandboxChannelAsync(AwsPinpointUpdateApnsVoipSandboxChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the settings for an application. See also: AWS API Documentation
@@ -1048,8 +946,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateApplicationSettingsAsync(AwsPinpointUpdateApplicationSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateApplicationSettingsAsync(AwsPinpointUpdateApplicationSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables the Baidu channel for an application or updates the status and settings of the Baidu channel for an application. See also: AWS API Documentation
@@ -1058,8 +955,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBaiduChannelAsync(AwsPinpointUpdateBaiduChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateBaiduChannelAsync(AwsPinpointUpdateBaiduChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the configuration and other settings for a campaign. See also: AWS API Documentation
@@ -1068,8 +964,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateCampaignAsync(AwsPinpointUpdateCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateCampaignAsync(AwsPinpointUpdateCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables the email channel for an application or updates the status and settings of the email channel for an application. See also: AWS API Documentation
@@ -1078,8 +973,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateEmailChannelAsync(AwsPinpointUpdateEmailChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateEmailChannelAsync(AwsPinpointUpdateEmailChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing message template for messages that are sent through the email channel. See also: AWS API Documentation
@@ -1088,28 +982,25 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateEmailTemplateAsync(AwsPinpointUpdateEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateEmailTemplateAsync(AwsPinpointUpdateEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a new endpoint for an application or updates the settings and attributes of an existing endpoint for an application. You can also use this operation to define custom attributes for an endpoint. If an up- date includes one or more values for a custom attribute, Amazon Pin- point replaces (overwrites) any existing values with the new values. See also: AWS API Documentation
+    /// Creates a new endpoint for an application or updates the settings and attributes of an existing endpoint for an application. You can also use this operation to define custom attributes for an endpoint. If an update includes one or more values for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateEndpointAsync(AwsPinpointUpdateEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateEndpointAsync(AwsPinpointUpdateEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a new batch of endpoints for an application or updates the set- tings and attributes of a batch of existing endpoints for an applica- tion. You can also use this operation to define custom attributes for a batch of endpoints. If an update includes one or more values for a cus- tom attribute, Amazon Pinpoint replaces (overwrites) any existing val- ues with the new values. See also: AWS API Documentation
+    /// Creates a new batch of endpoints for an application or updates the settings and attributes of a batch of existing endpoints for an application. You can also use this operation to define custom attributes for a batch of endpoints. If an update includes one or more values for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateEndpointsBatchAsync(AwsPinpointUpdateEndpointsBatchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateEndpointsBatchAsync(AwsPinpointUpdateEndpointsBatchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables the GCM channel for an application or updates the status and settings of the GCM channel for an application. See also: AWS API Documentation
@@ -1118,8 +1009,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateGcmChannelAsync(AwsPinpointUpdateGcmChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateGcmChannelAsync(AwsPinpointUpdateGcmChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing message template for messages sent through the in-app message channel. See also: AWS API Documentation
@@ -1128,8 +1018,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateInAppTemplateAsync(AwsPinpointUpdateInAppTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateInAppTemplateAsync(AwsPinpointUpdateInAppTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the configuration and other settings for a journey. See also: AWS API Documentation
@@ -1138,8 +1027,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateJourneyAsync(AwsPinpointUpdateJourneyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateJourneyAsync(AwsPinpointUpdateJourneyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels (stops) an active journey. See also: AWS API Documentation
@@ -1148,8 +1036,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateJourneyStateAsync(AwsPinpointUpdateJourneyStateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateJourneyStateAsync(AwsPinpointUpdateJourneyStateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing message template for messages that are sent through a push notification channel. See also: AWS API Documentation
@@ -1158,8 +1045,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePushTemplateAsync(AwsPinpointUpdatePushTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePushTemplateAsync(AwsPinpointUpdatePushTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an Amazon Pinpoint configuration for a recommender model. See also: AWS API Documentation
@@ -1168,8 +1054,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRecommenderConfigurationAsync(AwsPinpointUpdateRecommenderConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRecommenderConfigurationAsync(AwsPinpointUpdateRecommenderConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application. See also: AWS API Documentation
@@ -1178,8 +1063,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSegmentAsync(AwsPinpointUpdateSegmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSegmentAsync(AwsPinpointUpdateSegmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables the SMS channel for an application or updates the status and settings of the SMS channel for an application. See also: AWS API Documentation
@@ -1188,8 +1072,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSmsChannelAsync(AwsPinpointUpdateSmsChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSmsChannelAsync(AwsPinpointUpdateSmsChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing message template for messages that are sent through the SMS channel. See also: AWS API Documentation
@@ -1198,18 +1081,16 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSmsTemplateAsync(AwsPinpointUpdateSmsTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSmsTemplateAsync(AwsPinpointUpdateSmsTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Changes the status of a specific version of a message template to ac- tive . See also: AWS API Documentation
+    /// Changes the status of a specific version of a message template to active . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTemplateActiveVersionAsync(AwsPinpointUpdateTemplateActiveVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTemplateActiveVersionAsync(AwsPinpointUpdateTemplateActiveVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables the voice channel for an application or updates the status and settings of the voice channel for an application. See also: AWS API Documentation
@@ -1218,8 +1099,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateVoiceChannelAsync(AwsPinpointUpdateVoiceChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateVoiceChannelAsync(AwsPinpointUpdateVoiceChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing message template for messages that are sent through the voice channel. See also: AWS API Documentation
@@ -1228,8 +1108,7 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateVoiceTemplateAsync(AwsPinpointUpdateVoiceTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateVoiceTemplateAsync(AwsPinpointUpdateVoiceTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Verify an OTP See also: AWS API Documentation
@@ -1238,7 +1117,6 @@ public interface IAwsPinpoint
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> VerifyOtpMessageAsync(AwsPinpointVerifyOtpMessageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> VerifyOtpMessageAsync(AwsPinpointVerifyOtpMessageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

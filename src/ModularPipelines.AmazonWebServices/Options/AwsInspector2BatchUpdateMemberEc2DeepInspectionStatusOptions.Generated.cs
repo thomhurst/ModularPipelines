@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Activates or deactivates Amazon Inspector deep inspection for the pro- vided member accounts in your organization. You must be the delegated administrator of an organization in Amazon Inspector to use this API. See also: AWS API Documentation
+/// Activates or deactivates Amazon Inspector deep inspection for the provided member accounts in your organization. You must be the delegated administrator of an organization in Amazon Inspector to use this API. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsInspector2BatchUpdateMemberEc2DeepInspectionStatusOptions : Aws
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Activates or deactivates Amazon Inspector deep inspection for the pro- vided member accounts in your organization. You must be the delegated administrator of an organization in Amazon Inspector to use this API. See also: AWS API Documentation
+    /// Activates or deactivates Amazon Inspector deep inspection for the provided member accounts in your organization. You must be the delegated administrator of an organization in Amazon Inspector to use this API. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountIds">The unique identifiers for the Amazon Web Services accounts to change Amazon Inspector deep inspection status for. Constraints: o min: 0 o max: 100 (structure) An object that contains details about the status of Amazon In- spector deep inspection for a member account in your organiza- tion. accountId -&gt; (string) [required] The unique identifier for the Amazon Web Services account of the organization member. Constraints: o min: 12 o max: 12 o pattern: \d{12} activateDeepInspection -&gt; (boolean) [required] Whether Amazon Inspector deep inspection is active in the ac- count. If TRUE Amazon Inspector deep inspection is active, if FALSE it is not active. Shorthand Syntax: accountId=string,activateDeepInspection=boolean ... JSON Syntax: [ { "accountId": "string", "activateDeepInspection": true|false } ... ]</param>
+    /// <param name="AccountIds">The unique identifiers for the Amazon Web Services accounts to change Amazon Inspector deep inspection status for. Constraints: • min: 0 • max: 100 (structure) An object that contains details about the status of Amazon Inspector deep inspection for a member account in your organization. accountId -&gt; (string) [required] The unique identifier for the Amazon Web Services account of the organization member. Constraints: • min: 12 • max: 12 • pattern: \d{12} activateDeepInspection -&gt; (boolean) [required] Whether Amazon Inspector deep inspection is active in the account. If TRUE Amazon Inspector deep inspection is active, if FALSE it is not active. Shorthand Syntax: accountId=string,activateDeepInspection=boolean ... JSON Syntax: [ { "accountId": "string", "activateDeepInspection": true|false } ... ]</param>
     public AwsInspector2BatchUpdateMemberEc2DeepInspectionStatusOptions(
         IEnumerable<string> AccountIds
     )
@@ -67,7 +69,7 @@ public record AwsInspector2BatchUpdateMemberEc2DeepInspectionStatusOptions : Aws
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifiers for the Amazon Web Services accounts to change Amazon Inspector deep inspection status for. Constraints: o min: 0 o max: 100 (structure) An object that contains details about the status of Amazon In- spector deep inspection for a member account in your organiza- tion. accountId -&gt; (string) [required] The unique identifier for the Amazon Web Services account of the organization member. Constraints: o min: 12 o max: 12 o pattern: \d{12} activateDeepInspection -&gt; (boolean) [required] Whether Amazon Inspector deep inspection is active in the ac- count. If TRUE Amazon Inspector deep inspection is active, if FALSE it is not active. Shorthand Syntax: accountId=string,activateDeepInspection=boolean ... JSON Syntax: [ { "accountId": "string", "activateDeepInspection": true|false } ... ]
+    /// The unique identifiers for the Amazon Web Services accounts to change Amazon Inspector deep inspection status for. Constraints: • min: 0 • max: 100 (structure) An object that contains details about the status of Amazon Inspector deep inspection for a member account in your organization. accountId -&gt; (string) [required] The unique identifier for the Amazon Web Services account of the organization member. Constraints: • min: 12 • max: 12 • pattern: \d{12} activateDeepInspection -&gt; (boolean) [required] Whether Amazon Inspector deep inspection is active in the account. If TRUE Amazon Inspector deep inspection is active, if FALSE it is not active. Shorthand Syntax: accountId=string,activateDeepInspection=boolean ... JSON Syntax: [ { "accountId": "string", "activateDeepInspection": true|false } ... ]
     /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; private init; }

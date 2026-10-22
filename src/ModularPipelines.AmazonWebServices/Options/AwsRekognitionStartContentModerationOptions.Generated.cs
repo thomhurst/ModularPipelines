@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts asynchronous detection of inappropriate, unwanted, or offensive content in a stored video. For a list of moderation labels in Amazon Rekognition, see Using the image and video moderation APIs . Amazon Rekognition Video can moderate content in a video stored in an Amazon S3 bucket. Use Video to specify the bucket name and the file- name of the video. StartContentModeration returns a job identifier (Jo- bId ) which you use to get the results of the analysis. When content analysis is finishe...
+/// Starts asynchronous detection of inappropriate, unwanted, or offensive content in a stored video. For a list of moderation labels in Amazon Rekognition, see Using the image and video moderation APIs . Amazon Rekognition Video can moderate content in a video stored in an Amazon S3 bucket. Use Video to specify the bucket name and the filename of the video. StartContentModeration returns a job identifier (JobId ) which you use to get the results of the analysis. When content analysis is finished, A...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsRekognitionStartContentModerationOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts asynchronous detection of inappropriate, unwanted, or offensive content in a stored video. For a list of moderation labels in Amazon Rekognition, see Using the image and video moderation APIs . Amazon Rekognition Video can moderate content in a video stored in an Amazon S3 bucket. Use Video to specify the bucket name and the file- name of the video. StartContentModeration returns a job identifier (Jo- bId ) which you use to get the results of the analysis. When content analysis is finishe...
+    /// Starts asynchronous detection of inappropriate, unwanted, or offensive content in a stored video. For a list of moderation labels in Amazon Rekognition, see Using the image and video moderation APIs . Amazon Rekognition Video can moderate content in a video stored in an Amazon S3 bucket. Use Video to specify the bucket name and the filename of the video. StartContentModeration returns a job identifier (JobId ) which you use to get the results of the analysis. When content analysis is finished, A...
     /// </summary>
-    /// <param name="Video">The video in which you want to detect inappropriate, unwanted, or offensive content. The video must be stored in an Amazon S3 bucket. S3Object -&gt; (structure) The Amazon S3 bucket name and file name for the video. Bucket -&gt; (string) Name of the S3 bucket. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) S3 object key name. Constraints: o min: 1 o max: 1024 Version -&gt; (string) If the bucket is versioning enabled, you can specify the ob- ject version. Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }</param>
+    /// <param name="Video">The video in which you want to detect inappropriate, unwanted, or offensive content. The video must be stored in an Amazon S3 bucket. S3Object -&gt; (structure) The Amazon S3 bucket name and file name for the video. Bucket -&gt; (string) Name of the S3 bucket. Constraints: • min: 3 • max: 255 • pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) S3 object key name. Constraints: • min: 1 • max: 1024 Version -&gt; (string) If the bucket is versioning enabled, you can specify the object version. Constraints: • min: 1 • max: 1024 Shorthand Syntax: S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }</param>
     public AwsRekognitionStartContentModerationOptions(
         string Video
     )
@@ -57,32 +59,32 @@ public record AwsRekognitionStartContentModerationOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The video in which you want to detect inappropriate, unwanted, or offensive content. The video must be stored in an Amazon S3 bucket. S3Object -&gt; (structure) The Amazon S3 bucket name and file name for the video. Bucket -&gt; (string) Name of the S3 bucket. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) S3 object key name. Constraints: o min: 1 o max: 1024 Version -&gt; (string) If the bucket is versioning enabled, you can specify the ob- ject version. Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }
+    /// The video in which you want to detect inappropriate, unwanted, or offensive content. The video must be stored in an Amazon S3 bucket. S3Object -&gt; (structure) The Amazon S3 bucket name and file name for the video. Bucket -&gt; (string) Name of the S3 bucket. Constraints: • min: 3 • max: 255 • pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) S3 object key name. Constraints: • min: 1 • max: 1024 Version -&gt; (string) If the bucket is versioning enabled, you can specify the object version. Constraints: • min: 1 • max: 1024 Shorthand Syntax: S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }
     /// </summary>
     [CliOption("--video")]
     public string? Video { get; private init; }
 
     /// <summary>
-    /// Specifies the minimum confidence that Amazon Rekognition must have in order to return a moderated content label. Confidence represents how certain Amazon Rekognition is that the moderated content is cor- rectly identified. 0 is the lowest confidence. 100 is the highest confidence. Amazon Rekognition doesn't return any moderated content labels with a confidence level lower than this specified value. If you don't specify MinConfidence , GetContentModeration returns la- bels with confidence values greater than or equal to 50 percent. Constraints: o min: 0 o max: 100
+    /// Specifies the minimum confidence that Amazon Rekognition must have in order to return a moderated content label. Confidence represents how certain Amazon Rekognition is that the moderated content is correctly identified. 0 is the lowest confidence. 100 is the highest confidence. Amazon Rekognition doesn't return any moderated content labels with a confidence level lower than this specified value. If you don't specify MinConfidence , GetContentModeration returns labels with confidence values greater than or equal to 50 percent. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--min-confidence")]
-    public int? MinConfidence { get; set; }
+    public double? MinConfidence { get; set; }
 
     /// <summary>
-    /// Idempotent token used to identify the start request. If you use the same token with multiple StartContentModeration requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
+    /// Idempotent token used to identify the start request. If you use the same token with multiple StartContentModeration requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// The Amazon SNS topic ARN that you want Amazon Rekognition Video to publish the completion status of the content analysis to. The Amazon SNS topic must have a topic name that begins with AmazonRekognition if you are using the AmazonRekognitionServiceRole permissions policy to access the topic. SNSTopicArn -&gt; (string) [required] The Amazon SNS topic to which Amazon Rekognition posts the com- pletion status. Constraints: o pattern: (^arn:aws:sns:.*:\w{12}:.+$) RoleArn -&gt; (string) [required] The ARN of an IAM role that gives Amazon Rekognition publishing permissions to the Amazon SNS topic. Constraints: o pattern: arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Shorthand Syntax: SNSTopicArn=string,RoleArn=string JSON Syntax: { "SNSTopicArn": "string", "RoleArn": "string" }
+    /// The Amazon SNS topic ARN that you want Amazon Rekognition Video to publish the completion status of the content analysis to. The Amazon SNS topic must have a topic name that begins with AmazonRekognition if you are using the AmazonRekognitionServiceRole permissions policy to access the topic. SNSTopicArn -&gt; (string) [required] The Amazon SNS topic to which Amazon Rekognition posts the completion status. Constraints: • pattern: (^arn:aws:sns:.*:\w{12}:.+$) RoleArn -&gt; (string) [required] The ARN of an IAM role that gives Amazon Rekognition publishing permissions to the Amazon SNS topic. Constraints: • pattern: arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Shorthand Syntax: SNSTopicArn=string,RoleArn=string JSON Syntax: { "SNSTopicArn": "string", "RoleArn": "string" }
     /// </summary>
     [CliOption("--notification-channel")]
     public string? NotificationChannel { get; set; }
 
     /// <summary>
-    /// An identifier you specify that's returned in the completion notifi- cation that's published to your Amazon Simple Notification Service topic. For example, you can use JobTag to group related jobs and identify them in the completion notification. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9_.\-:+=\/]+
+    /// An identifier you specify that's returned in the completion notification that's published to your Amazon Simple Notification Service topic. For example, you can use JobTag to group related jobs and identify them in the completion notification. Constraints: • min: 1 • max: 1024 • pattern: [a-zA-Z0-9_.\-:+=\/]+
     /// </summary>
     [CliOption("--job-tag")]
     public string? JobTag { get; set; }

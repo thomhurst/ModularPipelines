@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the encryption configuration. By default, Amazon Web Services IoT Core encrypts your data at rest using Amazon Web Services owned keys. Amazon Web Services IoT Core also supports symmetric customer managed keys from Key Management Service (KMS). With customer managed keys, you create, own, and manage the KMS keys in your Amazon Web Ser- vices account. Before using this API, you must set up permissions for Amazon Web Ser- vices IoT Core to access KMS. For more information, see Data encryp...
+/// Updates the encryption configuration. By default, Amazon Web Services IoT Core encrypts your data at rest using Amazon Web Services owned keys. Amazon Web Services IoT Core also supports symmetric customer managed keys from Key Management Service (KMS). With customer managed keys, you create, own, and manage the KMS keys in your Amazon Web Services account. Before using this API, you must set up permissions for Amazon Web Services IoT Core to access KMS. For more information, see Data encryption...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsIotUpdateEncryptionConfigurationOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the encryption configuration. By default, Amazon Web Services IoT Core encrypts your data at rest using Amazon Web Services owned keys. Amazon Web Services IoT Core also supports symmetric customer managed keys from Key Management Service (KMS). With customer managed keys, you create, own, and manage the KMS keys in your Amazon Web Ser- vices account. Before using this API, you must set up permissions for Amazon Web Ser- vices IoT Core to access KMS. For more information, see Data encryp...
+    /// Updates the encryption configuration. By default, Amazon Web Services IoT Core encrypts your data at rest using Amazon Web Services owned keys. Amazon Web Services IoT Core also supports symmetric customer managed keys from Key Management Service (KMS). With customer managed keys, you create, own, and manage the KMS keys in your Amazon Web Services account. Before using this API, you must set up permissions for Amazon Web Services IoT Core to access KMS. For more information, see Data encryption...
     /// </summary>
-    /// <param name="EncryptionType">The type of the KMS key. Possible values: o CUSTOMER_MANAGED_KMS_KEY o AWS_OWNED_KMS_KEY</param>
+    /// <param name="EncryptionType">The type of the KMS key. Possible values: • CUSTOMER_MANAGED_KMS_KEY • AWS_OWNED_KMS_KEY</param>
     public AwsIotUpdateEncryptionConfigurationOptions(
         AwsIotUpdateEncryptionConfigurationEncryptionType EncryptionType
     )
@@ -56,19 +58,19 @@ public record AwsIotUpdateEncryptionConfigurationOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of the KMS key. Possible values: o CUSTOMER_MANAGED_KMS_KEY o AWS_OWNED_KMS_KEY
+    /// The type of the KMS key. Possible values: • CUSTOMER_MANAGED_KMS_KEY • AWS_OWNED_KMS_KEY
     /// </summary>
     [CliOption("--encryption-type")]
     public AwsIotUpdateEncryptionConfigurationEncryptionType? EncryptionType { get; private init; }
 
     /// <summary>
-    /// The ARN of the customer managedKMS key. Constraints: o max: 2048
+    /// The ARN of the customer managedKMS key. Constraints: • max: 2048
     /// </summary>
     [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role assumed by Amazon Web Services IoT Core to call KMS on behalf of the customer. Constraints: o max: 2048
+    /// The Amazon Resource Name (ARN) of the IAM role assumed by Amazon Web Services IoT Core to call KMS on behalf of the customer. Constraints: • max: 2048
     /// </summary>
     [CliOption("--kms-access-role-arn")]
     public string? KmsAccessRoleArn { get; set; }

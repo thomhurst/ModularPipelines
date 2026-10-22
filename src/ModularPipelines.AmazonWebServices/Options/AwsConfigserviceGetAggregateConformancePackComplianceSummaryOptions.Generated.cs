@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the count of compliant and noncompliant conformance packs across all Amazon Web Services accounts and Amazon Web Services Regions in an aggregator. You can filter based on Amazon Web Services account ID or Amazon Web Services Region. NOTE: The results can return an empty result page, but if you have a next- Token, the results are displayed on the next page. See also: AWS API Documentation
+/// Returns the count of compliant and noncompliant conformance packs across all Amazon Web Services accounts and Amazon Web Services Regions in an aggregator. You can filter based on Amazon Web Services account ID or Amazon Web Services Region. NOTE: The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsConfigserviceGetAggregateConformancePackComplianceSummaryOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the count of compliant and noncompliant conformance packs across all Amazon Web Services accounts and Amazon Web Services Regions in an aggregator. You can filter based on Amazon Web Services account ID or Amazon Web Services Region. NOTE: The results can return an empty result page, but if you have a next- Token, the results are displayed on the next page. See also: AWS API Documentation
+    /// Returns the count of compliant and noncompliant conformance packs across all Amazon Web Services accounts and Amazon Web Services Regions in an aggregator. You can filter based on Amazon Web Services account ID or Amazon Web Services Region. NOTE: The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfigurationAggregatorName">The name of the configuration aggregator. Constraints: o min: 1 o max: 256 o pattern: [\w\-]+</param>
+    /// <param name="ConfigurationAggregatorName">The name of the configuration aggregator. Constraints: • min: 1 • max: 256 • pattern: [\w\-]+</param>
     public AwsConfigserviceGetAggregateConformancePackComplianceSummaryOptions(
         string ConfigurationAggregatorName
     )
@@ -58,25 +60,25 @@ public record AwsConfigserviceGetAggregateConformancePackComplianceSummaryOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the configuration aggregator. Constraints: o min: 1 o max: 256 o pattern: [\w\-]+
+    /// The name of the configuration aggregator. Constraints: • min: 1 • max: 256 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--configuration-aggregator-name")]
     public string? ConfigurationAggregatorName { get; private init; }
 
     /// <summary>
-    /// Filters the results based on the AggregateConformancePackCompliance- SummaryFilters object. AccountId -&gt; (string) The 12-digit Amazon Web Services account ID of the source ac- count. Constraints: o pattern: \d{12} AwsRegion -&gt; (string) The source Amazon Web Services Region from where the data is ag- gregated. Constraints: o min: 1 o max: 64 Shorthand Syntax: AccountId=string,AwsRegion=string JSON Syntax: { "AccountId": "string", "AwsRegion": "string" }
+    /// Filters the results based on the AggregateConformancePackComplianceSummaryFilters object. AccountId -&gt; (string) The 12-digit Amazon Web Services account ID of the source account. Constraints: • pattern: \d{12} AwsRegion -&gt; (string) The source Amazon Web Services Region from where the data is aggregated. Constraints: • min: 1 • max: 64 Shorthand Syntax: AccountId=string,AwsRegion=string JSON Syntax: { "AccountId": "string", "AwsRegion": "string" }
     /// </summary>
     [CliOption("--filters")]
     public string? Filters { get; set; }
 
     /// <summary>
-    /// Groups the result based on Amazon Web Services account ID or Amazon Web Services Region. Possible values: o ACCOUNT_ID o AWS_REGION
+    /// Groups the result based on Amazon Web Services account ID or Amazon Web Services Region. Possible values: • ACCOUNT_ID • AWS_REGION
     /// </summary>
     [CliOption("--group-by-key")]
     public AwsConfigserviceGetAggregateConformancePackComplianceSummaryGroupByKey? GroupByKey { get; set; }
 
     /// <summary>
-    /// The maximum number of results returned on each page. The default is maximum. If you specify 0, Config uses the default. Constraints: o min: 0 o max: 100
+    /// The maximum number of results returned on each page. The default is maximum. If you specify 0, Config uses the default. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }

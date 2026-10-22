@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsAuditManagerGetEvidenceFolderOptions : AwsOptions, IValidatable
     /// <summary>
     /// Gets an evidence folder from a specified assessment in Audit Manager. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssessmentId">The unique identifier for the assessment. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
-    /// <param name="ControlSetId">The unique identifier for the control set. Constraints: o min: 1 o max: 300 o pattern: ^[\w\W\s\S]*$</param>
-    /// <param name="EvidenceFolderId">The unique identifier for the folder that the evidence is stored in. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="AssessmentId">The unique identifier for the assessment. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="ControlSetId">The unique identifier for the control set. Constraints: • min: 1 • max: 300 • pattern: ^[\w\W\s\S]*$</param>
+    /// <param name="EvidenceFolderId">The unique identifier for the folder that the evidence is stored in. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
     public AwsAuditManagerGetEvidenceFolderOptions(
         string AssessmentId,
         string ControlSetId,
@@ -64,19 +66,19 @@ public record AwsAuditManagerGetEvidenceFolderOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the assessment. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The unique identifier for the assessment. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--assessment-id")]
     public string? AssessmentId { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the control set. Constraints: o min: 1 o max: 300 o pattern: ^[\w\W\s\S]*$
+    /// The unique identifier for the control set. Constraints: • min: 1 • max: 300 • pattern: ^[\w\W\s\S]*$
     /// </summary>
     [CliOption("--control-set-id")]
     public string? ControlSetId { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the folder that the evidence is stored in. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The unique identifier for the folder that the evidence is stored in. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--evidence-folder-id")]
     public string? EvidenceFolderId { get; private init; }

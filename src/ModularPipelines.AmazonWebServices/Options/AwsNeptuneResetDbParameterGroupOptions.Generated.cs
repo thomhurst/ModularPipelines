@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the parameters of a DB parameter group to the engine/system default value. To reset specific parameters, provide a list of the fol- lowing: ParameterName and ApplyMethod . To reset the entire DB parame- ter group, specify the DBParameterGroup name and ResetAllParameters pa- rameters. When resetting the entire group, dynamic parameters are up- dated immediately and static parameters are set to pending-reboot to take effect on the next DB instance restart or RebootDBInstance re- quest. Se...
+/// Modifies the parameters of a DB parameter group to the engine/system default value. To reset specific parameters, provide a list of the following: ParameterName and ApplyMethod . To reset the entire DB parameter group, specify the DBParameterGroup name and ResetAllParameters parameters. When resetting the entire group, dynamic parameters are updated immediately and static parameters are set to pending-reboot to take effect on the next DB instance restart or RebootDBInstance request. See also: AW...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsNeptuneResetDbParameterGroupOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the parameters of a DB parameter group to the engine/system default value. To reset specific parameters, provide a list of the fol- lowing: ParameterName and ApplyMethod . To reset the entire DB parame- ter group, specify the DBParameterGroup name and ResetAllParameters pa- rameters. When resetting the entire group, dynamic parameters are up- dated immediately and static parameters are set to pending-reboot to take effect on the next DB instance restart or RebootDBInstance re- quest. Se...
+    /// Modifies the parameters of a DB parameter group to the engine/system default value. To reset specific parameters, provide a list of the following: ParameterName and ApplyMethod . To reset the entire DB parameter group, specify the DBParameterGroup name and ResetAllParameters parameters. When resetting the entire group, dynamic parameters are updated immediately and static parameters are set to pending-reboot to take effect on the next DB instance restart or RebootDBInstance request. See also: AW...
     /// </summary>
-    /// <param name="DbParameterGroupName">The name of the DB parameter group. Constraints: o Must match the name of an existing DBParameterGroup.</param>
+    /// <param name="DbParameterGroupName">The name of the DB parameter group. Constraints: • Must match the name of an existing DBParameterGroup.</param>
     public AwsNeptuneResetDbParameterGroupOptions(
         string DbParameterGroupName
     )
@@ -56,7 +58,7 @@ public record AwsNeptuneResetDbParameterGroupOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the DB parameter group. Constraints: o Must match the name of an existing DBParameterGroup.
+    /// The name of the DB parameter group. Constraints: • Must match the name of an existing DBParameterGroup.
     /// </summary>
     [CliOption("--db-parameter-group-name")]
     public string? DbParameterGroupName { get; private init; }
@@ -68,7 +70,7 @@ public record AwsNeptuneResetDbParameterGroupOptions : AwsOptions, IValidatableO
     public bool? ResetAllParameters { get; set; }
 
     /// <summary>
-    /// To reset the entire DB parameter group, specify the DBParameterGroup name and ResetAllParameters parameters. To reset specific parame- ters, provide a list of the following: ParameterName and ApplyMethod . A maximum of 20 parameters can be modified in a single request. Valid Values (for Apply method): pending-reboot (structure) Specifies a parameter. ParameterName -&gt; (string) Specifies the name of the parameter. ParameterValue -&gt; (string) Specifies the value of the parameter. Description -&gt; (string) Provides a description of the parameter. Source -&gt; (string) Indicates the source of the parameter value. ApplyType -&gt; (string) Specifies the engine specific parameters type. DataType -&gt; (string) Specifies the valid data type for the parameter. AllowedValues -&gt; (string) Specifies the valid range of values for the parameter. IsModifiable -&gt; (boolean) Indicates whether (true ) or not (false ) the parameter can be modified. Some parameters have security or operational im- plications that prevent them from being changed. MinimumEngineVersion -&gt; (string) The earliest engine version to which the parameter can apply. ApplyMethod -&gt; (string) Indicates when to apply parameter updates. Possible values: o immediate o pending-reboot Shorthand Syntax: ParameterName=string,ParameterValue=string,Description=string,Source=string,ApplyType=string,DataType=string,AllowedValues=string,IsModifiable=boolean,MinimumEngineVersion=string,ApplyMethod=string ... JSON Syntax: [ { "ParameterName": "string", "ParameterValue": "string", "Description": "string", "Source": "string", "ApplyType": "string", "DataType": "string", "AllowedValues": "string", "IsModifiable": true|false, "MinimumEngineVersion": "string", "ApplyMethod": "immediate"|"pending-reboot" } ... ]
+    /// To reset the entire DB parameter group, specify the DBParameterGroup name and ResetAllParameters parameters. To reset specific parameters, provide a list of the following: ParameterName and ApplyMethod . A maximum of 20 parameters can be modified in a single request. Valid Values (for Apply method): pending-reboot (structure) Specifies a parameter. ParameterName -&gt; (string) Specifies the name of the parameter. ParameterValue -&gt; (string) Specifies the value of the parameter. Description -&gt; (string) Provides a description of the parameter. Source -&gt; (string) Indicates the source of the parameter value. ApplyType -&gt; (string) Specifies the engine specific parameters type. DataType -&gt; (string) Specifies the valid data type for the parameter. AllowedValues -&gt; (string) Specifies the valid range of values for the parameter. IsModifiable -&gt; (boolean) Indicates whether (true ) or not (false ) the parameter can be modified. Some parameters have security or operational implications that prevent them from being changed. MinimumEngineVersion -&gt; (string) The earliest engine version to which the parameter can apply. ApplyMethod -&gt; (string) Indicates when to apply parameter updates. Possible values: • immediate • pending-reboot Shorthand Syntax: ParameterName=string,ParameterValue=string,Description=string,Source=string,ApplyType=string,DataType=string,AllowedValues=string,IsModifiable=boolean,MinimumEngineVersion=string,ApplyMethod=string ... JSON Syntax: [ { "ParameterName": "string", "ParameterValue": "string", "Description": "string", "Source": "string", "ApplyType": "string", "DataType": "string", "AllowedValues": "string", "IsModifiable": true|false, "MinimumEngineVersion": "string", "ApplyMethod": "immediate"|"pending-reboot" } ... ]
     /// </summary>
     [CliOption("--parameters", GroupValues = true)]
     public IEnumerable<string>? Parameters { get; set; }

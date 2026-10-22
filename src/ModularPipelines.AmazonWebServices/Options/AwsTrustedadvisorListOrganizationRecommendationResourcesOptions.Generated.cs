@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// List Resources of a Recommendation within an Organization. This API only supports prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Re- gion. See also: AWS API Documentation list-organization-recommendation-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and...
+/// List Resources of a Recommendation within an Organization. This API only supports prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region. See also: AWS API Documentation list-organization-recommendation-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsTrustedadvisorListOrganizationRecommendationResourcesOptions : 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// List Resources of a Recommendation within an Organization. This API only supports prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Re- gion. See also: AWS API Documentation list-organization-recommendation-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and...
+    /// List Resources of a Recommendation within an Organization. This API only supports prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region. See also: AWS API Documentation list-organization-recommendation-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the...
     /// </summary>
-    /// <param name="OrganizationRecommendationIdentifier">The AWS Organization organization's Recommendation identifier Constraints: o min: 20 o max: 200 o pattern: arn:[\w-]+:trustedadvisor:::organization-recommenda- tion\/[\w-]+</param>
+    /// <param name="OrganizationRecommendationIdentifier">The AWS Organization organization's Recommendation identifier Constraints: • min: 20 • max: 200 • pattern: arn:[\w-]+:trustedadvisor:::organization-recommendation\/[\w-]+</param>
     public AwsTrustedadvisorListOrganizationRecommendationResourcesOptions(
         string OrganizationRecommendationIdentifier
     )
@@ -58,19 +60,19 @@ public record AwsTrustedadvisorListOrganizationRecommendationResourcesOptions : 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The AWS Organization organization's Recommendation identifier Constraints: o min: 20 o max: 200 o pattern: arn:[\w-]+:trustedadvisor:::organization-recommenda- tion\/[\w-]+
+    /// The AWS Organization organization's Recommendation identifier Constraints: • min: 20 • max: 200 • pattern: arn:[\w-]+:trustedadvisor:::organization-recommendation\/[\w-]+
     /// </summary>
     [CliOption("--organization-recommendation-identifier")]
     public string? OrganizationRecommendationIdentifier { get; private init; }
 
     /// <summary>
-    /// The status of the resource Possible values: o ok o warning o error
+    /// The status of the resource Possible values: • ok • warning • error
     /// </summary>
     [CliOption("--status")]
     public AwsTrustedadvisorListOrganizationRecommendationResourcesStatus? Status { get; set; }
 
     /// <summary>
-    /// The exclusion status of the resource Possible values: o excluded o included
+    /// The exclusion status of the resource Possible values: • excluded • included
     /// </summary>
     [CliOption("--exclusion-status")]
     public AwsTrustedadvisorListOrganizationRecommendationResourcesExclusionStatus? ExclusionStatus { get; set; }
@@ -82,16 +84,13 @@ public record AwsTrustedadvisorListOrganizationRecommendationResourcesOptions : 
     public string? RegionCode { get; set; }
 
     /// <summary>
-    /// An account affected by this organization recommendation Constraints: o min: 12 o max: 12 o pattern: \d+
+    /// An account affected by this organization recommendation Constraints: • min: 12 • max: 12 • pattern: \d+
     /// </summary>
     [CliOption("--affected-account-id")]
     public string? AffectedAccountId { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -101,16 +100,19 @@ public record AwsTrustedadvisorListOrganizationRecommendationResourcesOptions : 
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 200
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 200
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

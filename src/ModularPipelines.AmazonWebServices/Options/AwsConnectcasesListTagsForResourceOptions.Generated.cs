@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsConnectcasesListTagsForResourceOptions : AwsOptions, IValidatab
     /// <summary>
     /// Lists tags for a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) Constraints: o min: 1 o max: 500</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) Constraints: • min: 1 • max: 500</param>
     public AwsConnectcasesListTagsForResourceOptions(
         string Arn
     )
@@ -56,7 +58,7 @@ public record AwsConnectcasesListTagsForResourceOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) Constraints: o min: 1 o max: 500
+    /// The Amazon Resource Name (ARN) Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }

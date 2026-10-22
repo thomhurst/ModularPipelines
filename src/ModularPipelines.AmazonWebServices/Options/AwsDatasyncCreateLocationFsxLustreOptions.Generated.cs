@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a transfer location for an Amazon FSx for Lustre file system. DataSync can use this location as a source or destination for transfer- ring data. Before you begin, make sure that you understand how DataSync accesses FSx for Lustre file systems . See also: AWS API Documentation
+/// Creates a transfer location for an Amazon FSx for Lustre file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses FSx for Lustre file systems . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsDatasyncCreateLocationFsxLustreOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a transfer location for an Amazon FSx for Lustre file system. DataSync can use this location as a source or destination for transfer- ring data. Before you begin, make sure that you understand how DataSync accesses FSx for Lustre file systems . See also: AWS API Documentation
+    /// Creates a transfer location for an Amazon FSx for Lustre file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses FSx for Lustre file systems . See also: AWS API Documentation
     /// </summary>
-    /// <param name="FsxFilesystemArn">Specifies the Amazon Resource Name (ARN) of the FSx for Lustre file system. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):fsx:[a-z\-0-9]+:[0-9]{12}:file-sys- tem/fs-[0-9a-f]+$</param>
-    /// <param name="SecurityGroupArns">Specifies the Amazon Resource Names (ARNs) of up to five security groups that provide access to your FSx for Lustre file system. The security groups must be able to access the file system's ports. The file system must also allow access from the security groups. For information about file system access, see the ` Amazon FSx for Lus- tre User Guide https://docs.aws.amazon.com/fsx/latest/LustreGuide/limit-access-security-groups.html`__ . Constraints: o min: 1 o max: 5 (string) Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):ec2:[a-z\-0-9]*:[0-9]{12}:se- curity-group/sg-[a-f0-9]+$ Syntax: "string" "string" ...</param>
+    /// <param name="FsxFilesystemArn">Specifies the Amazon Resource Name (ARN) of the FSx for Lustre file system. Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):fsx:[a-z\-0-9]+:[0-9]{12}:file-system/fs-[0-9a-f]+$</param>
+    /// <param name="SecurityGroupArns">Specifies the Amazon Resource Names (ARNs) of up to five security groups that provide access to your FSx for Lustre file system. The security groups must be able to access the file system's ports. The file system must also allow access from the security groups. For information about file system access, see the ` Amazon FSx for Lustre User Guide https://docs.aws.amazon.com/fsx/latest/LustreGuide/limit-access-security-groups.html`__ . Constraints: • min: 1 • max: 5 (string) Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):ec2:[a-z\-0-9]*:[0-9]{12}:security-group/sg-[a-f0-9]+$ Syntax: "string" "string" ...</param>
     public AwsDatasyncCreateLocationFsxLustreOptions(
         string FsxFilesystemArn,
         IEnumerable<string> SecurityGroupArns
@@ -71,25 +73,25 @@ public record AwsDatasyncCreateLocationFsxLustreOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the Amazon Resource Name (ARN) of the FSx for Lustre file system. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):fsx:[a-z\-0-9]+:[0-9]{12}:file-sys- tem/fs-[0-9a-f]+$
+    /// Specifies the Amazon Resource Name (ARN) of the FSx for Lustre file system. Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):fsx:[a-z\-0-9]+:[0-9]{12}:file-system/fs-[0-9a-f]+$
     /// </summary>
     [CliOption("--fsx-filesystem-arn")]
     public string? FsxFilesystemArn { get; private init; }
 
     /// <summary>
-    /// Specifies the Amazon Resource Names (ARNs) of up to five security groups that provide access to your FSx for Lustre file system. The security groups must be able to access the file system's ports. The file system must also allow access from the security groups. For information about file system access, see the ` Amazon FSx for Lus- tre User Guide https://docs.aws.amazon.com/fsx/latest/LustreGuide/limit-access-security-groups.html`__ . Constraints: o min: 1 o max: 5 (string) Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):ec2:[a-z\-0-9]*:[0-9]{12}:se- curity-group/sg-[a-f0-9]+$ Syntax: "string" "string" ...
+    /// Specifies the Amazon Resource Names (ARNs) of up to five security groups that provide access to your FSx for Lustre file system. The security groups must be able to access the file system's ports. The file system must also allow access from the security groups. For information about file system access, see the ` Amazon FSx for Lustre User Guide https://docs.aws.amazon.com/fsx/latest/LustreGuide/limit-access-security-groups.html`__ . Constraints: • min: 1 • max: 5 (string) Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):ec2:[a-z\-0-9]*:[0-9]{12}:security-group/sg-[a-f0-9]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--security-group-arns", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupArns { get; private init; }
 
     /// <summary>
-    /// Specifies a mount path for your FSx for Lustre file system. The path can include subdirectories. When the location is used as a source, DataSync reads data from the mount path. When the location is used as a destination, DataSync writes data to the mount path. If you don't include this parameter, DataSync uses the file system's root directory (/ ). Constraints: o max: 4096 o pattern: ^[a-zA-Z0-9_\-\+\./\(\)\$\p{Zs}]+$
+    /// Specifies a mount path for your FSx for Lustre file system. The path can include subdirectories. When the location is used as a source, DataSync reads data from the mount path. When the location is used as a destination, DataSync writes data to the mount path. If you don't include this parameter, DataSync uses the file system's root directory (/ ). Constraints: • max: 4096 • pattern: ^[a-zA-Z0-9_\-\+\./\(\)\$\p{Zs}]+$
     /// </summary>
     [CliOption("--subdirectory")]
     public string? Subdirectory { get; set; }
 
     /// <summary>
-    /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your location. Constraints: o min: 0 o max: 50 (structure) A key-value pair representing a single tag that's been applied to an Amazon Web Services resource. Key -&gt; (string) [required] The key for an Amazon Web Services resource tag. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9\s+=._:/-]+$ Value -&gt; (string) The value for an Amazon Web Services resource tag. Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9\s+=._:@/-]+$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your location. Constraints: • min: 0 • max: 50 (structure) A key-value pair representing a single tag that's been applied to an Amazon Web Services resource. Key -&gt; (string) [required] The key for an Amazon Web Services resource tag. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9\s+=._:/-]+$ Value -&gt; (string) The value for an Amazon Web Services resource tag. Constraints: • min: 0 • max: 256 • pattern: ^[a-zA-Z0-9\s+=._:@/-]+$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

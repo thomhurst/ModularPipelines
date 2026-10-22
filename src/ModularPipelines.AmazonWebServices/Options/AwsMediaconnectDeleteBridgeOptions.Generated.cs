@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMediaconnectDeleteBridgeOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Deletes a bridge. Before you can delete a bridge, you must stop the bridge. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BridgeArn">The Amazon Resource Name (ARN) of the bridge that you want to delete. Constraints: o pattern: arn:.+:mediaconnect.+:bridge:.+</param>
+    /// <param name="BridgeArn">The Amazon Resource Name (ARN) of the bridge that you want to delete. Constraints: • pattern: arn:.+:mediaconnect.+:bridge:.+</param>
     public AwsMediaconnectDeleteBridgeOptions(
         string BridgeArn
     )
@@ -56,7 +58,7 @@ public record AwsMediaconnectDeleteBridgeOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the bridge that you want to delete. Constraints: o pattern: arn:.+:mediaconnect.+:bridge:.+
+    /// The Amazon Resource Name (ARN) of the bridge that you want to delete. Constraints: • pattern: arn:.+:mediaconnect.+:bridge:.+
     /// </summary>
     [CliOption("--bridge-arn")]
     public string? BridgeArn { get; private init; }

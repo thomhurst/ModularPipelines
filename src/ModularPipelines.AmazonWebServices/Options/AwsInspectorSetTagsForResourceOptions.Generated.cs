@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsInspectorSetTagsForResourceOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Sets tags (key and value pairs) to the assessment template that is specified by the ARN of the assessment template. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the assessment template that you want to set tags to. Constraints: o min: 1 o max: 300</param>
+    /// <param name="ResourceArn">The ARN of the assessment template that you want to set tags to. Constraints: • min: 1 • max: 300</param>
     public AwsInspectorSetTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,13 +58,13 @@ public record AwsInspectorSetTagsForResourceOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the assessment template that you want to set tags to. Constraints: o min: 1 o max: 300
+    /// The ARN of the assessment template that you want to set tags to. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A collection of key and value pairs that you want to set to the as- sessment template. Constraints: o min: 0 o max: 10 (structure) A key and value pair. This data type is used as a request para- meter in the SetTagsForResource action and a response element in the ListTagsForResource action. key -&gt; (string) [required] A tag key. Constraints: o min: 1 o max: 128 value -&gt; (string) A value assigned to a tag key. Constraints: o min: 1 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// A collection of key and value pairs that you want to set to the assessment template. Constraints: • min: 0 • max: 10 (structure) A key and value pair. This data type is used as a request parameter in the SetTagsForResource action and a response element in the ListTagsForResource action. key -&gt; (string) [required] A tag key. Constraints: • min: 1 • max: 128 value -&gt; (string) A value assigned to a tag key. Constraints: • min: 1 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

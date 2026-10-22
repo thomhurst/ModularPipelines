@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sets the scaling configuration for a Lambda Managed Instances function. The scaling configuration defines the minimum and maximum number of ex- ecution environments that can be provisioned for the function, allowing you to control scaling behavior and resource allocation. See also: AWS API Documentation
+/// Sets the scaling configuration for a Lambda Managed Instances function. The scaling configuration defines the minimum and maximum number of execution environments that can be provisioned for the function, allowing you to control scaling behavior and resource allocation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsLambdaPutFunctionScalingConfigOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sets the scaling configuration for a Lambda Managed Instances function. The scaling configuration defines the minimum and maximum number of ex- ecution environments that can be provisioned for the function, allowing you to control scaling behavior and resource allocation. See also: AWS API Documentation
+    /// Sets the scaling configuration for a Lambda Managed Instances function. The scaling configuration defines the minimum and maximum number of execution environments that can be provisioned for the function, allowing you to control scaling behavior and resource allocation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FunctionName">The name or ARN of the Lambda function. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_]+)</param>
-    /// <param name="Qualifier">Specify a version or alias to set the scaling configuration for a published version of the function. Constraints: o min: 1 o max: 128 o pattern: (\$LATEST\.PUBLISHED|[0-9]+)</param>
+    /// <param name="FunctionName">The name or ARN of the Lambda function. Constraints: • min: 1 • max: 140 • pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)</param>
+    /// <param name="Qualifier">Specify a version or alias to set the scaling configuration for a published version of the function. Constraints: • min: 1 • max: 128 • pattern: (\$LATEST\.PUBLISHED|[0-9]+)</param>
     public AwsLambdaPutFunctionScalingConfigOptions(
         string FunctionName,
         string Qualifier
@@ -60,19 +62,19 @@ public record AwsLambdaPutFunctionScalingConfigOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or ARN of the Lambda function. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_]+)
+    /// The name or ARN of the Lambda function. Constraints: • min: 1 • max: 140 • pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)
     /// </summary>
     [CliOption("--function-name")]
     public string? FunctionName { get; private init; }
 
     /// <summary>
-    /// Specify a version or alias to set the scaling configuration for a published version of the function. Constraints: o min: 1 o max: 128 o pattern: (\$LATEST\.PUBLISHED|[0-9]+)
+    /// Specify a version or alias to set the scaling configuration for a published version of the function. Constraints: • min: 1 • max: 128 • pattern: (\$LATEST\.PUBLISHED|[0-9]+)
     /// </summary>
     [CliOption("--qualifier")]
     public string? Qualifier { get; private init; }
 
     /// <summary>
-    /// The scaling configuration to apply to the function, including mini- mum and maximum execution environment limits. MinExecutionEnvironments -&gt; (integer) The minimum number of execution environments to maintain for the function. Constraints: o min: 0 o max: 15000 MaxExecutionEnvironments -&gt; (integer) The maximum number of execution environments that can be provi- sioned for the function. Constraints: o min: 0 o max: 15000 Shorthand Syntax: MinExecutionEnvironments=integer,MaxExecutionEnvironments=integer JSON Syntax: { "MinExecutionEnvironments": integer, "MaxExecutionEnvironments": integer }
+    /// The scaling configuration to apply to the function, including minimum and maximum execution environment limits. MinExecutionEnvironments -&gt; (integer) The minimum number of execution environments to maintain for the function. Constraints: • min: 0 • max: 15000 MaxExecutionEnvironments -&gt; (integer) The maximum number of execution environments that can be provisioned for the function. Constraints: • min: 0 • max: 15000 Shorthand Syntax: MinExecutionEnvironments=integer,MaxExecutionEnvironments=integer JSON Syntax: { "MinExecutionEnvironments": integer, "MaxExecutionEnvironments": integer }
     /// </summary>
     [CliOption("--function-scaling-config")]
     public string? FunctionScalingConfig { get; set; }

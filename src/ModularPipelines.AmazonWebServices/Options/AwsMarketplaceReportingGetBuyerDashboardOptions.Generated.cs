@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Generates an embedding URL for an Amazon QuickSight dashboard for an anonymous user. NOTE: This API is available only to Amazon Web Services Organization man- agement accounts or delegated administrators registered for the pro- curement insights (procurement-insights.marketplace.amazonaws.com ) feature. The following rules apply to a generated URL: o It contains a temporary bearer token, valid for 5 minutes after it is generated. Once redeemed within that period, it cannot be re-used again. o It...
+/// Generates an embedding URL for an Amazon QuickSight dashboard for an anonymous user. NOTE: This API is available only to Amazon Web Services Organization management accounts or delegated administrators registered for the procurement insights (procurement-insights.marketplace.amazonaws.com ) feature. The following rules apply to a generated URL: • It contains a temporary bearer token, valid for 5 minutes after it is generated. Once redeemed within that period, it cannot be re-used again. • It has...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsMarketplaceReportingGetBuyerDashboardOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Generates an embedding URL for an Amazon QuickSight dashboard for an anonymous user. NOTE: This API is available only to Amazon Web Services Organization man- agement accounts or delegated administrators registered for the pro- curement insights (procurement-insights.marketplace.amazonaws.com ) feature. The following rules apply to a generated URL: o It contains a temporary bearer token, valid for 5 minutes after it is generated. Once redeemed within that period, it cannot be re-used again. o It...
+    /// Generates an embedding URL for an Amazon QuickSight dashboard for an anonymous user. NOTE: This API is available only to Amazon Web Services Organization management accounts or delegated administrators registered for the procurement insights (procurement-insights.marketplace.amazonaws.com ) feature. The following rules apply to a generated URL: • It contains a temporary bearer token, valid for 5 minutes after it is generated. Once redeemed within that period, it cannot be re-used again. • It has...
     /// </summary>
-    /// <param name="DashboardIdentifier">The ARN of the requested dashboard. Constraints: o min: 1 o max: 1023 o pattern: arn:aws:aws-marketplace::[0-9]{12}:AWSMarketplace/Report- ingData/(Agreement_V1/Dashboard/AgreementSum- mary_V1|BillingEvent_V1/Dashboard/CostAnalysis_V1)</param>
-    /// <param name="EmbeddingDomains">Fully qualified domains that you add to the allow list for access to the generated URL that is then embedded. You can list up to two do- mains or subdomains in each API call. To include all subdomains un- der a specific domain, use * . For example, https://*.amazon.com in- cludes all subdomains under https://aws.amazon.com . Constraints: o min: 1 o max: 2 (string) Constraints: o min: 1 o max: 2000 o pattern: (https://[a-zA-Z\.\*0-9\-_]+[\.]{1}[a-zA-Z]{1,}[a-zA-Z0-9&amp;?/-_=]*[a-zA-Z\*0-9/]+|http[s]*://lo- calhost(:[0-9]{1,5})?) Syntax: "string" "string" ...</param>
+    /// <param name="DashboardIdentifier">The ARN of the requested dashboard. Constraints: • min: 1 • max: 1023 • pattern: arn:aws:aws-marketplace::[0-9]{12}:AWSMarketplace/ReportingData/(Agreement_V1/Dashboard/AgreementSummary_V1|BillingEvent_V1/Dashboard/CostAnalysis_V1)</param>
+    /// <param name="EmbeddingDomains">Fully qualified domains that you add to the allow list for access to the generated URL that is then embedded. You can list up to two domains or subdomains in each API call. To include all subdomains under a specific domain, use * . For example, https://*.amazon.com includes all subdomains under https://aws.amazon.com . Constraints: • min: 1 • max: 2 (string) Constraints: • min: 1 • max: 2000 • pattern: (https://[a-zA-Z\.\*0-9\-_]+[\.]{1}[a-zA-Z]{1,}[a-zA-Z0-9&amp;?/-_=]*[a-zA-Z\*0-9/]+|http[s]*://localhost(:[0-9]{1,5})?) Syntax: "string" "string" ...</param>
     public AwsMarketplaceReportingGetBuyerDashboardOptions(
         string DashboardIdentifier,
         IEnumerable<string> EmbeddingDomains
@@ -71,13 +73,13 @@ public record AwsMarketplaceReportingGetBuyerDashboardOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the requested dashboard. Constraints: o min: 1 o max: 1023 o pattern: arn:aws:aws-marketplace::[0-9]{12}:AWSMarketplace/Report- ingData/(Agreement_V1/Dashboard/AgreementSum- mary_V1|BillingEvent_V1/Dashboard/CostAnalysis_V1)
+    /// The ARN of the requested dashboard. Constraints: • min: 1 • max: 1023 • pattern: arn:aws:aws-marketplace::[0-9]{12}:AWSMarketplace/ReportingData/(Agreement_V1/Dashboard/AgreementSummary_V1|BillingEvent_V1/Dashboard/CostAnalysis_V1)
     /// </summary>
     [CliOption("--dashboard-identifier")]
     public string? DashboardIdentifier { get; private init; }
 
     /// <summary>
-    /// Fully qualified domains that you add to the allow list for access to the generated URL that is then embedded. You can list up to two do- mains or subdomains in each API call. To include all subdomains un- der a specific domain, use * . For example, https://*.amazon.com in- cludes all subdomains under https://aws.amazon.com . Constraints: o min: 1 o max: 2 (string) Constraints: o min: 1 o max: 2000 o pattern: (https://[a-zA-Z\.\*0-9\-_]+[\.]{1}[a-zA-Z]{1,}[a-zA-Z0-9&amp;?/-_=]*[a-zA-Z\*0-9/]+|http[s]*://lo- calhost(:[0-9]{1,5})?) Syntax: "string" "string" ...
+    /// Fully qualified domains that you add to the allow list for access to the generated URL that is then embedded. You can list up to two domains or subdomains in each API call. To include all subdomains under a specific domain, use * . For example, https://*.amazon.com includes all subdomains under https://aws.amazon.com . Constraints: • min: 1 • max: 2 (string) Constraints: • min: 1 • max: 2000 • pattern: (https://[a-zA-Z\.\*0-9\-_]+[\.]{1}[a-zA-Z]{1,}[a-zA-Z0-9&amp;?/-_=]*[a-zA-Z\*0-9/]+|http[s]*://localhost(:[0-9]{1,5})?) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--embedding-domains", GroupValues = true)]
     public IEnumerable<string>? EmbeddingDomains { get; private init; }

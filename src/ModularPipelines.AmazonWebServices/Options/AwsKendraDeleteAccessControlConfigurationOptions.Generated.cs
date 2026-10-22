@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an access control configuration that you created for your docu- ments in an index. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to docu- ments. See also: AWS API Documentation
+/// Deletes an access control configuration that you created for your documents in an index. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsKendraDeleteAccessControlConfigurationOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an access control configuration that you created for your docu- ments in an index. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to docu- ments. See also: AWS API Documentation
+    /// Deletes an access control configuration that you created for your documents in an index. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IndexId">The identifier of the index for an access control configuration. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
-    /// <param name="Id">The identifier of the access control configuration you want to delete. Constraints: o min: 1 o max: 36 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="IndexId">The identifier of the index for an access control configuration. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="Id">The identifier of the access control configuration you want to delete. Constraints: • min: 1 • max: 36 • pattern: [a-zA-Z0-9-]+</param>
     public AwsKendraDeleteAccessControlConfigurationOptions(
         string IndexId,
         string Id
@@ -60,13 +62,13 @@ public record AwsKendraDeleteAccessControlConfigurationOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the index for an access control configuration. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// The identifier of the index for an access control configuration. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--index-id")]
     public string? IndexId { get; private init; }
 
     /// <summary>
-    /// The identifier of the access control configuration you want to delete. Constraints: o min: 1 o max: 36 o pattern: [a-zA-Z0-9-]+
+    /// The identifier of the access control configuration you want to delete. Constraints: • min: 1 • max: 36 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

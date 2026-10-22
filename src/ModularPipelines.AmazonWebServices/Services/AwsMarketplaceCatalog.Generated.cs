@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws marketplacecatalog commands.
+/// aws marketplace-catalog commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsMarketplaceCatalog : IAwsMarketplaceCatalog
@@ -32,7 +32,7 @@ public class AwsMarketplaceCatalog : IAwsMarketplaceCatalog
     #region Commands
 
     /// <summary>
-    /// Returns metadata and content for multiple entities. This is the Batch version of the DescribeEntity API and uses the same IAM permission ac- tion as DescribeEntity API. See also: AWS API Documentation batch-describe-entities uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthan...
+    /// Returns metadata and content for multiple entities. This is the Batch version of the DescribeEntity API and uses the same IAM permission action as DescribeEntity API. See also: AWS API Documentation batch-describe-entities uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand synt...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsMarketplaceCatalog : IAwsMarketplaceCatalog
     }
 
     /// <summary>
-    /// Returns the metadata and detailed results of a single assessment, in- cluding the framework that was evaluated, the overall assessment re- sult, and a paginated list of individual control evaluation results. To list available assessments before describing one, use the Lis- tAssessments action. See also: AWS API Documentation describe-assessment is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing t...
+    /// Returns the metadata and detailed results of a single assessment, including the framework that was evaluated, the overall assessment result, and a paginated list of individual control evaluation results. To list available assessments before describing one, use the ListAssessments action. See also: AWS API Documentation describe-assessment is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --n...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsMarketplaceCatalog : IAwsMarketplaceCatalog
     }
 
     /// <summary>
-    /// Provides information about a given change set. See also: AWS API Documentation describe-change-set uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Provides information about a given change set. See also: AWS API Documentation describe-change-set uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsMarketplaceCatalog : IAwsMarketplaceCatalog
     }
 
     /// <summary>
-    /// Returns the metadata and content of the entity. See also: AWS API Documentation describe-entity uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Returns the metadata and content of the entity. See also: AWS API Documentation describe-entity uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsMarketplaceCatalog : IAwsMarketplaceCatalog
     }
 
     /// <summary>
-    /// Gets a resource-based policy of an entity that is identified by its re- source ARN. See also: AWS API Documentation
+    /// Gets a resource-based policy of an entity that is identified by its resource ARN. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsMarketplaceCatalog : IAwsMarketplaceCatalog
     }
 
     /// <summary>
-    /// Returns a paginated list of assessments associated with an entity or change set in AWS Marketplace. An assessment is the result of evaluat- ing a product or change set against a framework, such as AMI Security or Container Security. Use the AssessmentTargetFilter to scope results to a specific entity or change set, and use FrameworkFilters to scope results to a single framework. To retrieve detailed control-level results for an individual assessment, use the DescribeAssessment action. Results ar...
+    /// Returns a paginated list of assessments associated with an entity or change set in AWS Marketplace. An assessment is the result of evaluating a product or change set against a framework, such as AMI Security or Container Security. Use the AssessmentTargetFilter to scope results to a specific entity or change set, and use FrameworkFilters to scope results to a single framework. To retrieve detailed control-level results for an individual assessment, use the DescribeAssessment action. Results are ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsMarketplaceCatalog : IAwsMarketplaceCatalog
     }
 
     /// <summary>
-    /// Returns the list of change sets owned by the account being used to make the call. You can filter this list by providing any combination of en- tityId , ChangeSetName , and status. If you provide more than one fil- ter, the API operation applies a logical AND between the filters. You can describe a change during the 60-day request history retention period for API calls. See also: AWS API Documentation list-change-sets is a paginated operation. Multiple API calls may be issued in order to retrieve...
+    /// Returns the list of change sets owned by the account being used to make the call. You can filter this list by providing any combination of entityId , ChangeSetName , and status. If you provide more than one filter, the API operation applies a logical AND between the filters. You can describe a change during the 60-day request history retention period for API calls. See also: AWS API Documentation list-change-sets is a paginated operation. Multiple API calls may be issued in order to retrieve the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsMarketplaceCatalog : IAwsMarketplaceCatalog
     }
 
     /// <summary>
-    /// Provides the list of entities of a given type. See also: AWS API Documentation list-entities is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: EntitySummaryList
+    /// Provides the list of entities of a given type. See also: AWS API Documentation list-entities is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: EntitySummaryList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsMarketplaceCatalog : IAwsMarketplaceCatalog
     }
 
     /// <summary>
-    /// Allows you to request changes for your entities. Within a single ChangeSet , you can't start the same change type against the same en- tity multiple times. Additionally, when a ChangeSet is running, all the entities targeted by the different changes are locked until the change set has completed (either succeeded, cancelled, or failed). If you try to start a change set containing a change against an entity that is al- ready locked, you will receive a ResourceInUseException error. For example, you...
+    /// Allows you to request changes for your entities. Within a single ChangeSet , you can't start the same change type against the same entity multiple times. Additionally, when a ChangeSet is running, all the entities targeted by the different changes are locked until the change set has completed (either succeeded, cancelled, or failed). If you try to start a change set containing a change against an entity that is already locked, you will receive a ResourceInUseException error. For example, you can...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

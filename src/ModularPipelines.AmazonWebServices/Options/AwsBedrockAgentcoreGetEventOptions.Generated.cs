@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves information about a specific event in an AgentCore Memory re- source. To use this operation, you must have the bedrock-agentcore:GetEvent permission. See also: AWS API Documentation get-event uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support d...
+/// Retrieves information about a specific event in an AgentCore Memory resource. To use this operation, you must have the bedrock-agentcore:GetEvent permission. See also: AWS API Documentation get-event uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support doc...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +27,12 @@ public record AwsBedrockAgentcoreGetEventOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves information about a specific event in an AgentCore Memory re- source. To use this operation, you must have the bedrock-agentcore:GetEvent permission. See also: AWS API Documentation get-event uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support d...
+    /// Retrieves information about a specific event in an AgentCore Memory resource. To use this operation, you must have the bedrock-agentcore:GetEvent permission. See also: AWS API Documentation get-event uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support doc...
     /// </summary>
-    /// <param name="MemoryId">The identifier of the AgentCore Memory resource containing the event. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
-    /// <param name="SessionId">The identifier of the session containing the event. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_]*</param>
-    /// <param name="ActorId">The identifier of the actor associated with the event. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*</param>
-    /// <param name="EventId">The identifier of the event to retrieve. Constraints: o pattern: [0-9]+#[a-fA-F0-9]+</param>
+    /// <param name="MemoryId">The identifier of the AgentCore Memory resource containing the event. Constraints: • min: 12 • pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:memory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
+    /// <param name="SessionId">The identifier of the session containing the event. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9][a-zA-Z0-9-_]*</param>
+    /// <param name="ActorId">The identifier of the actor associated with the event. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*</param>
+    /// <param name="EventId">The identifier of the event to retrieve. Constraints: • pattern: [0-9]+#[a-fA-F0-9]+</param>
     public AwsBedrockAgentcoreGetEventOptions(
         string MemoryId,
         string SessionId,
@@ -68,25 +70,25 @@ public record AwsBedrockAgentcoreGetEventOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the AgentCore Memory resource containing the event. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
+    /// The identifier of the AgentCore Memory resource containing the event. Constraints: • min: 12 • pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:memory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--memory-id")]
     public string? MemoryId { get; private init; }
 
     /// <summary>
-    /// The identifier of the session containing the event. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_]*
+    /// The identifier of the session containing the event. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9][a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }
 
     /// <summary>
-    /// The identifier of the actor associated with the event. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*
+    /// The identifier of the actor associated with the event. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*
     /// </summary>
     [CliOption("--actor-id")]
     public string? ActorId { get; private init; }
 
     /// <summary>
-    /// The identifier of the event to retrieve. Constraints: o pattern: [0-9]+#[a-fA-F0-9]+
+    /// The identifier of the event to retrieve. Constraints: • pattern: [0-9]+#[a-fA-F0-9]+
     /// </summary>
     [CliOption("--event-id")]
     public string? EventId { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the phone configuration settings for the specified user. NOTE: We recommend using the UpdateUserConfig API, which supports addi- tional functionality that is not available in the UpdateUser- PhoneConfig API, such as voice enhancement settings and per-channel configuration for auto-accept and After Contact Work (ACW) timeouts. In comparison, the UpdateUserPhoneConfig API will always set the same ACW timeouts to all channels the user handles. See also: AWS API Documentation
+/// Updates the phone configuration settings for the specified user. NOTE: We recommend using the UpdateUserConfig API, which supports additional functionality that is not available in the UpdateUserPhoneConfig API, such as voice enhancement settings and per-channel configuration for auto-accept and After Contact Work (ACW) timeouts. In comparison, the UpdateUserPhoneConfig API will always set the same ACW timeouts to all channels the user handles. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsConnectUpdateUserPhoneConfigOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the phone configuration settings for the specified user. NOTE: We recommend using the UpdateUserConfig API, which supports addi- tional functionality that is not available in the UpdateUser- PhoneConfig API, such as voice enhancement settings and per-channel configuration for auto-accept and After Contact Work (ACW) timeouts. In comparison, the UpdateUserPhoneConfig API will always set the same ACW timeouts to all channels the user handles. See also: AWS API Documentation
+    /// Updates the phone configuration settings for the specified user. NOTE: We recommend using the UpdateUserConfig API, which supports additional functionality that is not available in the UpdateUserPhoneConfig API, such as voice enhancement settings and per-channel configuration for auto-accept and After Contact Work (ACW) timeouts. In comparison, the UpdateUserPhoneConfig API will always set the same ACW timeouts to all channels the user handles. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PhoneConfig">Information about phone configuration settings for the user. PhoneType -&gt; (string) The phone type. Possible values: o SOFT_PHONE o DESK_PHONE AutoAccept -&gt; (boolean) The Auto accept setting. AfterContactWorkTimeLimit -&gt; (integer) The After Call Work (ACW) timeout setting, in seconds. This pa- rameter has a minimum value of 0 and a maximum value of 2,000,000 seconds (24 days). Enter 0 if you don't want to allo- cate a specific amount of ACW time. It essentially means an in- definite amount of time. When the conversation ends, ACW starts; the agent must choose Close contact to end ACW. NOTE: When returned by a SearchUsers call, AfterContactWorkTime- Limit is returned in milliseconds. Constraints: o min: 0 DeskPhoneNumber -&gt; (string) The phone number for the user's desk phone. Constraints: o pattern: \+[1-9]\d{1,14}$ PersistentConnection -&gt; (boolean) The persistent connection setting for the user. Shorthand Syntax: PhoneType=string,AutoAccept=boolean,AfterContactWorkTimeLimit=integer,DeskPhoneNumber=string,PersistentConnection=boolean JSON Syntax: { "PhoneType": "SOFT_PHONE"|"DESK_PHONE", "AutoAccept": true|false, "AfterContactWorkTimeLimit": integer, "DeskPhoneNumber": "string", "PersistentConnection": true|false }</param>
+    /// <param name="PhoneConfig">Information about phone configuration settings for the user. PhoneType -&gt; (string) The phone type. Possible values: • SOFT_PHONE • DESK_PHONE AutoAccept -&gt; (boolean) The Auto accept setting. AfterContactWorkTimeLimit -&gt; (integer) The After Call Work (ACW) timeout setting, in seconds. This parameter has a minimum value of 0 and a maximum value of 2,000,000 seconds (24 days). Enter 0 if you don't want to allocate a specific amount of ACW time. It essentially means an indefinite amount of time. When the conversation ends, ACW starts; the agent must choose Close contact to end ACW. NOTE: When returned by a SearchUsers call, AfterContactWorkTimeLimit is returned in milliseconds. Constraints: • min: 0 DeskPhoneNumber -&gt; (string) The phone number for the user's desk phone. Constraints: • pattern: \+[1-9]\d{1,14}$ PersistentConnection -&gt; (boolean) The persistent connection setting for the user. Shorthand Syntax: PhoneType=string,AutoAccept=boolean,AfterContactWorkTimeLimit=integer,DeskPhoneNumber=string,PersistentConnection=boolean JSON Syntax: { "PhoneType": "SOFT_PHONE"|"DESK_PHONE", "AutoAccept": true|false, "AfterContactWorkTimeLimit": integer, "DeskPhoneNumber": "string", "PersistentConnection": true|false }</param>
     /// <param name="UserId">The identifier of the user account.</param>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     public AwsConnectUpdateUserPhoneConfigOptions(
         string PhoneConfig,
         string UserId,
@@ -64,7 +66,7 @@ public record AwsConnectUpdateUserPhoneConfigOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Information about phone configuration settings for the user. PhoneType -&gt; (string) The phone type. Possible values: o SOFT_PHONE o DESK_PHONE AutoAccept -&gt; (boolean) The Auto accept setting. AfterContactWorkTimeLimit -&gt; (integer) The After Call Work (ACW) timeout setting, in seconds. This pa- rameter has a minimum value of 0 and a maximum value of 2,000,000 seconds (24 days). Enter 0 if you don't want to allo- cate a specific amount of ACW time. It essentially means an in- definite amount of time. When the conversation ends, ACW starts; the agent must choose Close contact to end ACW. NOTE: When returned by a SearchUsers call, AfterContactWorkTime- Limit is returned in milliseconds. Constraints: o min: 0 DeskPhoneNumber -&gt; (string) The phone number for the user's desk phone. Constraints: o pattern: \+[1-9]\d{1,14}$ PersistentConnection -&gt; (boolean) The persistent connection setting for the user. Shorthand Syntax: PhoneType=string,AutoAccept=boolean,AfterContactWorkTimeLimit=integer,DeskPhoneNumber=string,PersistentConnection=boolean JSON Syntax: { "PhoneType": "SOFT_PHONE"|"DESK_PHONE", "AutoAccept": true|false, "AfterContactWorkTimeLimit": integer, "DeskPhoneNumber": "string", "PersistentConnection": true|false }
+    /// Information about phone configuration settings for the user. PhoneType -&gt; (string) The phone type. Possible values: • SOFT_PHONE • DESK_PHONE AutoAccept -&gt; (boolean) The Auto accept setting. AfterContactWorkTimeLimit -&gt; (integer) The After Call Work (ACW) timeout setting, in seconds. This parameter has a minimum value of 0 and a maximum value of 2,000,000 seconds (24 days). Enter 0 if you don't want to allocate a specific amount of ACW time. It essentially means an indefinite amount of time. When the conversation ends, ACW starts; the agent must choose Close contact to end ACW. NOTE: When returned by a SearchUsers call, AfterContactWorkTimeLimit is returned in milliseconds. Constraints: • min: 0 DeskPhoneNumber -&gt; (string) The phone number for the user's desk phone. Constraints: • pattern: \+[1-9]\d{1,14}$ PersistentConnection -&gt; (boolean) The persistent connection setting for the user. Shorthand Syntax: PhoneType=string,AutoAccept=boolean,AfterContactWorkTimeLimit=integer,DeskPhoneNumber=string,PersistentConnection=boolean JSON Syntax: { "PhoneType": "SOFT_PHONE"|"DESK_PHONE", "AutoAccept": true|false, "AfterContactWorkTimeLimit": integer, "DeskPhoneNumber": "string", "PersistentConnection": true|false }
     /// </summary>
     [CliOption("--phone-config")]
     public string? PhoneConfig { get; private init; }
@@ -76,7 +78,7 @@ public record AwsConnectUpdateUserPhoneConfigOptions : AwsOptions, IValidatableO
     public string? UserId { get; private init; }
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }

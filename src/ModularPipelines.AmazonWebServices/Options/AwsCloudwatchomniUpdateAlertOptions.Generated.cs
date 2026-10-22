@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCloudwatchomniUpdateAlertOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Updates an existing alert. Only non-null fields overwrite existing values. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SpaceId">The unique ID of the space. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="AlertId">The alert to update. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}</param>
+    /// <param name="SpaceId">The unique ID of the space. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="AlertId">The alert to update. Constraints: • min: 32 • max: 32 • pattern: [0-9a-f]{32}</param>
     public AwsCloudwatchomniUpdateAlertOptions(
         string SpaceId,
         string AlertId
@@ -60,37 +62,37 @@ public record AwsCloudwatchomniUpdateAlertOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the space. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique ID of the space. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--space-id")]
     public string? SpaceId { get; private init; }
 
     /// <summary>
-    /// The alert to update. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}
+    /// The alert to update. Constraints: • min: 32 • max: 32 • pattern: [0-9a-f]{32}
     /// </summary>
     [CliOption("--alert-id")]
     public string? AlertId { get; private init; }
 
     /// <summary>
-    /// The ID of the access profile associated with the alert. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// The ID of the access profile associated with the alert. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--profile-id")]
     public string? ProfileId { get; set; }
 
     /// <summary>
-    /// A new display name for the alert. Omit to leave the name unchanged (apply-if-present / PATCH). Same constraints as CreateAlert.name; the name is not the alert's identity, so a rename never changes the alertId. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.@~()-]+
+    /// A new display name for the alert. Omit to leave the name unchanged (apply-if-present / PATCH). Same constraints as CreateAlert.name; the name is not the alert's identity, so a rename never changes the alertId. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_.@~()-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A new description of the alert. Omit to leave unchanged. Constraints: o min: 0 o max: 1024
+    /// A new description of the alert. Omit to leave unchanged. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The rule that defines how the alert is evaluated. Omit to leave un- changed. Each sub-block is replaced whole when present: {@code query}, {@code condition}, {@code evaluation} and {@code noData} are applied only when supplied, and within a supplied block an omitted optional member is cleared to unset (null/absent) rather than pre- served from the stored alert or defaulted. See {@link AlertCondi- tion} and {@link AlertEvaluation}. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: telemetryRule. telemetryRule -&gt; (structure) The telemetry-based rule definition. query -&gt; (structure) The query expression to evaluate. language -&gt; (string) [required] The query language of the expression. Possible values: o SQL o PROMQL expression -&gt; (string) [required] The query expression to evaluate. Constraints: o min: 1 o max: 10000 condition -&gt; (structure) The condition that determines when the alert fires. thresholdMode -&gt; (string) How the threshold is applied to query results. Possible values: o COUNT_OF_RESULTS o FIELD_VALUE thresholdField -&gt; (string) The field the threshold is evaluated against. Constraints: o min: 0 o max: 256 comparator -&gt; (string) The comparison operator applied to the threshold. Possible values: o GT o LT o GTE o LTE warningThreshold -&gt; (double) The value at which the alert enters the WARNING state. criticalThreshold -&gt; (double) The value at which the alert enters the CRITICAL state. evaluation -&gt; (structure) The evaluation cadence and durations. intervalSeconds -&gt; (integer) [required] The interval between evaluations, in seconds. pendingDurationSeconds -&gt; (integer) The duration a breach must persist before the alert fires, in seconds. recoveryDurationSeconds -&gt; (integer) The duration a recovery must persist before the alert clears, in seconds. noData -&gt; (structure) How the alert behaves when a query produces no data. treatAs -&gt; (string) [required] The state to report when an evaluation produces no data. Possible values: o OK o WARNING o CRITICAL o NODATA Shorthand Syntax: telemetryRule={query={language=string,expression=string},condition={thresholdMode=string,thresholdField=string,comparator=string,warningThreshold=double,criticalThreshold=double},evaluation={intervalSeconds=integer,pendingDurationSeconds=integer,recoveryDurationSeconds=integer},noData={treatAs=string}} JSON Syntax: { "telemetryRule": { "query": { "language": "SQL"|"PROMQL", "expression": "string" }, "condition": { "thresholdMode": "COUNT_OF_RESULTS"|"FIELD_VALUE", "thresholdField": "string", "comparator": "GT"|"LT"|"GTE"|"LTE", "warningThreshold": double, "criticalThreshold": double }, "evaluation": { "intervalSeconds": integer, "pendingDurationSeconds": integer, "recoveryDurationSeconds": integer }, "noData": { "treatAs": "OK"|"WARNING"|"CRITICAL"|"NODATA" } } }
+    /// The rule that defines how the alert is evaluated. Omit to leave unchanged. Each sub-block is replaced whole when present: {@code query}, {@code condition}, {@code evaluation} and {@code noData} are applied only when supplied, and within a supplied block an omitted optional member is cleared to unset (null/absent) rather than preserved from the stored alert or defaulted. See {@link AlertCondition} and {@link AlertEvaluation}. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: telemetryRule. telemetryRule -&gt; (structure) The telemetry-based rule definition. query -&gt; (structure) The query expression to evaluate. language -&gt; (string) [required] The query language of the expression. Possible values: • SQL • PROMQL expression -&gt; (string) [required] The query expression to evaluate. Constraints: • min: 1 • max: 10000 condition -&gt; (structure) The condition that determines when the alert fires. thresholdMode -&gt; (string) How the threshold is applied to query results. Possible values: • COUNT_OF_RESULTS • FIELD_VALUE thresholdField -&gt; (string) The field the threshold is evaluated against. Constraints: • min: 0 • max: 256 comparator -&gt; (string) The comparison operator applied to the threshold. Possible values: • GT • LT • GTE • LTE warningThreshold -&gt; (double) The value at which the alert enters the WARNING state. criticalThreshold -&gt; (double) The value at which the alert enters the CRITICAL state. evaluation -&gt; (structure) The evaluation cadence and durations. intervalSeconds -&gt; (integer) [required] The interval between evaluations, in seconds. pendingDurationSeconds -&gt; (integer) The duration a breach must persist before the alert fires, in seconds. recoveryDurationSeconds -&gt; (integer) The duration a recovery must persist before the alert clears, in seconds. noData -&gt; (structure) How the alert behaves when a query produces no data. treatAs -&gt; (string) [required] The state to report when an evaluation produces no data. Possible values: • OK • WARNING • CRITICAL • NODATA Shorthand Syntax: telemetryRule={query={language=string,expression=string},condition={thresholdMode=string,thresholdField=string,comparator=string,warningThreshold=double,criticalThreshold=double},evaluation={intervalSeconds=integer,pendingDurationSeconds=integer,recoveryDurationSeconds=integer},noData={treatAs=string}} JSON Syntax: { "telemetryRule": { "query": { "language": "SQL"|"PROMQL", "expression": "string" }, "condition": { "thresholdMode": "COUNT_OF_RESULTS"|"FIELD_VALUE", "thresholdField": "string", "comparator": "GT"|"LT"|"GTE"|"LTE", "warningThreshold": double, "criticalThreshold": double }, "evaluation": { "intervalSeconds": integer, "pendingDurationSeconds": integer, "recoveryDurationSeconds": integer }, "noData": { "treatAs": "OK"|"WARNING"|"CRITICAL"|"NODATA" } } }
     /// </summary>
     [CliOption("--rule")]
     public string? Rule { get; set; }
@@ -102,7 +104,7 @@ public record AwsCloudwatchomniUpdateAlertOptions : AwsOptions, IValidatableObje
     public bool? NotificationsEnabled { get; set; }
 
     /// <summary>
-    /// Replaces the entire notification rule list when present; full-re- place, not merge. Omitted = leave existing rules unchanged. An empty list clears all rules (the alert keeps evaluating; only notifica- tions stop). Constraints: o min: 0 o max: 5 (structure) Single notification rule: which transitions trigger this rule and where the resulting notification should be sent. trigger -&gt; (structure) [required] The conditions that trigger this notification rule. stateValues -&gt; (list) Alert state(s) that trigger this rule. Empty / omitted = any state. Constraints: o min: 0 o max: 4 (string) Flat alert state. Severity is folded in: a WARN- ING/CRITICAL alert reports that state directly. {@code NODATA} indicates the evaluation produced no data (subject to the rule's noData.treatAs handling). Possible values: o OK o WARNING o CRITICAL o NODATA target -&gt; (structure) [required] The destination for notifications from this rule. type -&gt; (string) [required] The type of notification target. Possible values: o sns o slack o pagerduty arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the notification tar- get. For {@code slack} and {@code pagerduty}, an integra- tion ARN as returned by {@code ListIntegrations}. Constraints: o min: 1 o max: 1024 o pattern: arn:.+ metadata -&gt; (map) Additional target-specific metadata. Constraints: o min: 0 o max: 20 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 1024 Shorthand Syntax: trigger={stateValues=[string,string]},target={type=string,arn=string,metadata={KeyName1=string,KeyName2=string}} ... JSON Syntax: [ { "trigger": { "stateValues": ["OK"|"WARNING"|"CRITICAL"|"NODATA", ...] }, "target": { "type": "sns"|"slack"|"pagerduty", "arn": "string", "metadata": {"string": "string" ...} } } ... ]
+    /// Replaces the entire notification rule list when present; full-replace, not merge. Omitted = leave existing rules unchanged. An empty list clears all rules (the alert keeps evaluating; only notifications stop). Constraints: • min: 0 • max: 5 (structure) Single notification rule: which transitions trigger this rule and where the resulting notification should be sent. trigger -&gt; (structure) [required] The conditions that trigger this notification rule. stateValues -&gt; (list) Alert state(s) that trigger this rule. Empty / omitted = any state. Constraints: • min: 0 • max: 4 (string) Flat alert state. Severity is folded in: a WARNING/CRITICAL alert reports that state directly. {@code NODATA} indicates the evaluation produced no data (subject to the rule's noData.treatAs handling). Possible values: • OK • WARNING • CRITICAL • NODATA target -&gt; (structure) [required] The destination for notifications from this rule. type -&gt; (string) [required] The type of notification target. Possible values: • sns • slack • pagerduty arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the notification target. For {@code slack} and {@code pagerduty}, an integration ARN as returned by {@code ListIntegrations}. Constraints: • min: 1 • max: 1024 • pattern: arn:.+ metadata -&gt; (map) Additional target-specific metadata. Constraints: • min: 0 • max: 20 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 1024 Shorthand Syntax: trigger={stateValues=[string,string]},target={type=string,arn=string,metadata={KeyName1=string,KeyName2=string}} ... JSON Syntax: [ { "trigger": { "stateValues": ["OK"|"WARNING"|"CRITICAL"|"NODATA", ...] }, "target": { "type": "sns"|"slack"|"pagerduty", "arn": "string", "metadata": {"string": "string" ...} } } ... ]
     /// </summary>
     [CliOption("--notification-rules", GroupValues = true)]
     public IEnumerable<string>? NotificationRules { get; set; }

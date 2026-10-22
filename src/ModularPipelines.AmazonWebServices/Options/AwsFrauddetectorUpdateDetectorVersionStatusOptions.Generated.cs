@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +30,9 @@ public record AwsFrauddetectorUpdateDetectorVersionStatusOptions : AwsOptions, I
     /// <summary>
     /// Updates the detector versions status. You can perform the following promotions or demotions using UpdateDetectorVersionStatus : DRAFT to ACTIVE , ACTIVE to INACTIVE , and INACTIVE to ACTIVE . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DetectorId">The detector ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
-    /// <param name="DetectorVersionId">The detector version ID. Constraints: o min: 1 o max: 5 o pattern: ^([1-9][0-9]*)$</param>
-    /// <param name="Status">The new status. The only supported values are ACTIVE and INACTIVE Possible values: o DRAFT o ACTIVE o INACTIVE</param>
+    /// <param name="DetectorId">The detector ID. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="DetectorVersionId">The detector version ID. Constraints: • min: 1 • max: 5 • pattern: ^([1-9][0-9]*)$</param>
+    /// <param name="Status">The new status. The only supported values are ACTIVE and INACTIVE Possible values: • DRAFT • ACTIVE • INACTIVE</param>
     public AwsFrauddetectorUpdateDetectorVersionStatusOptions(
         string DetectorId,
         string DetectorVersionId,
@@ -64,19 +66,19 @@ public record AwsFrauddetectorUpdateDetectorVersionStatusOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The detector ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// The detector ID. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }
 
     /// <summary>
-    /// The detector version ID. Constraints: o min: 1 o max: 5 o pattern: ^([1-9][0-9]*)$
+    /// The detector version ID. Constraints: • min: 1 • max: 5 • pattern: ^([1-9][0-9]*)$
     /// </summary>
     [CliOption("--detector-version-id")]
     public string? DetectorVersionId { get; private init; }
 
     /// <summary>
-    /// The new status. The only supported values are ACTIVE and INACTIVE Possible values: o DRAFT o ACTIVE o INACTIVE
+    /// The new status. The only supported values are ACTIVE and INACTIVE Possible values: • DRAFT • ACTIVE • INACTIVE
     /// </summary>
     [CliOption("--status")]
     public AwsFrauddetectorUpdateDetectorVersionStatusStatus? Status { get; private init; }

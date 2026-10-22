@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables Multi-Region key replication settings for your Amazon Web Ser- vices account, causing new keys to be automatically replicated to the specified Amazon Web Services Regions when created. When Multi-Region key replication are enabled, any new keys created in your account will automatically be replicated to these regions unless you explicitly override this behavior during key creation. This simpli- fies key management for applications that operate across multiple re- gions. Existing keys are...
+/// Enables Multi-Region key replication settings for your Amazon Web Services account, causing new keys to be automatically replicated to the specified Amazon Web Services Regions when created. When Multi-Region key replication are enabled, any new keys created in your account will automatically be replicated to these regions unless you explicitly override this behavior during key creation. This simplifies key management for applications that operate across multiple regions. Existing keys are not a...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsPaymentCryptographyEnableDefaultKeyReplicationRegionsOptions : 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enables Multi-Region key replication settings for your Amazon Web Ser- vices account, causing new keys to be automatically replicated to the specified Amazon Web Services Regions when created. When Multi-Region key replication are enabled, any new keys created in your account will automatically be replicated to these regions unless you explicitly override this behavior during key creation. This simpli- fies key management for applications that operate across multiple re- gions. Existing keys are...
+    /// Enables Multi-Region key replication settings for your Amazon Web Services account, causing new keys to be automatically replicated to the specified Amazon Web Services Regions when created. When Multi-Region key replication are enabled, any new keys created in your account will automatically be replicated to these regions unless you explicitly override this behavior during key creation. This simplifies key management for applications that operate across multiple regions. Existing keys are not a...
     /// </summary>
-    /// <param name="ReplicationRegions">The list of Amazon Web Services Regions to enable as default repli- cation regions for the Amazon Web Services account for Multi-Region key replication . New keys created in this account will automatically be replicated to these regions unless explicitly overridden during key creation. (string) An Amazon Web Services Region identifier in the standard format (e.g., us-east-1 , eu-west-1 ). Used to specify regions for key replication operations. The re- gion must be a valid Amazon Web Services Region where Amazon Web Services Payment Cryptography is available. Constraints: o pattern: [a-z]{2}-[a-z]{1,16}-[0-9]+ Syntax: "string" "string" ...</param>
+    /// <param name="ReplicationRegions">The list of Amazon Web Services Regions to enable as default replication regions for the Amazon Web Services account for Multi-Region key replication . New keys created in this account will automatically be replicated to these regions unless explicitly overridden during key creation. (string) An Amazon Web Services Region identifier in the standard format (e.g., us-east-1 , eu-west-1 ). Used to specify regions for key replication operations. The region must be a valid Amazon Web Services Region where Amazon Web Services Payment Cryptography is available. Constraints: • pattern: [a-z]{2}-[a-z]{1,16}-[0-9]+ Syntax: "string" "string" ...</param>
     public AwsPaymentCryptographyEnableDefaultKeyReplicationRegionsOptions(
         IEnumerable<string> ReplicationRegions
     )
@@ -67,7 +69,7 @@ public record AwsPaymentCryptographyEnableDefaultKeyReplicationRegionsOptions : 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The list of Amazon Web Services Regions to enable as default repli- cation regions for the Amazon Web Services account for Multi-Region key replication . New keys created in this account will automatically be replicated to these regions unless explicitly overridden during key creation. (string) An Amazon Web Services Region identifier in the standard format (e.g., us-east-1 , eu-west-1 ). Used to specify regions for key replication operations. The re- gion must be a valid Amazon Web Services Region where Amazon Web Services Payment Cryptography is available. Constraints: o pattern: [a-z]{2}-[a-z]{1,16}-[0-9]+ Syntax: "string" "string" ...
+    /// The list of Amazon Web Services Regions to enable as default replication regions for the Amazon Web Services account for Multi-Region key replication . New keys created in this account will automatically be replicated to these regions unless explicitly overridden during key creation. (string) An Amazon Web Services Region identifier in the standard format (e.g., us-east-1 , eu-west-1 ). Used to specify regions for key replication operations. The region must be a valid Amazon Web Services Region where Amazon Web Services Payment Cryptography is available. Constraints: • pattern: [a-z]{2}-[a-z]{1,16}-[0-9]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--replication-regions", GroupValues = true)]
     public IEnumerable<string>? ReplicationRegions { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAppConfigDeleteExtensionOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Deletes an AppConfig extension. You must delete all associations to an extension before you delete the extension. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExtensionIdentifier">The name, ID, or Amazon Resource Name (ARN) of the extension you want to delete. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="ExtensionIdentifier">The name, ID, or Amazon Resource Name (ARN) of the extension you want to delete. Constraints: • min: 1 • max: 2048</param>
     public AwsAppConfigDeleteExtensionOptions(
         string ExtensionIdentifier
     )
@@ -56,13 +58,13 @@ public record AwsAppConfigDeleteExtensionOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name, ID, or Amazon Resource Name (ARN) of the extension you want to delete. Constraints: o min: 1 o max: 2048
+    /// The name, ID, or Amazon Resource Name (ARN) of the extension you want to delete. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--extension-identifier")]
     public string? ExtensionIdentifier { get; private init; }
 
     /// <summary>
-    /// A specific version of an extension to delete. If omitted, the high- est version is deleted.
+    /// A specific version of an extension to delete. If omitted, the highest version is deleted.
     /// </summary>
     [CliOption("--version-number")]
     public int? VersionNumber { get; set; }

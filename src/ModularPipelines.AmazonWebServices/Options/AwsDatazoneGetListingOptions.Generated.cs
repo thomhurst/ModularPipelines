@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets a listing (a record of an asset at a given time). If you specify a listing version, only details that are specific to that version are re- turned. See also: AWS API Documentation
+/// Gets a listing (a record of an asset at a given time). If you specify a listing version, only details that are specific to that version are returned. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsDatazoneGetListingOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets a listing (a record of an asset at a given time). If you specify a listing version, only details that are specific to that version are re- turned. See also: AWS API Documentation
+    /// Gets a listing (a record of an asset at a given time). If you specify a listing version, only details that are specific to that version are returned. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Identifier">The ID of the listing. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The ID of the listing. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneGetListingOptions(
         string DomainIdentifier,
         string Identifier
@@ -60,19 +62,19 @@ public record AwsDatazoneGetListingOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon DataZone domain. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the Amazon DataZone domain. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the listing. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The ID of the listing. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The revision of the listing. Constraints: o min: 1 o max: 64
+    /// The revision of the listing. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--listing-revision")]
     public string? ListingRevision { get; set; }

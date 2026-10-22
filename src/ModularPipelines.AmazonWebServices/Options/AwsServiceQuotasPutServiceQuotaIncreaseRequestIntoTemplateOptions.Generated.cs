@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,15 +29,15 @@ public record AwsServiceQuotasPutServiceQuotaIncreaseRequestIntoTemplateOptions 
     /// <summary>
     /// Adds a quota increase request to your quota request template. See also: AWS API Documentation
     /// </summary>
-    /// <param name="QuotaCode">Specifies the quota identifier. To find the quota code for a spe- cific quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the output for the quota you want. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][a-zA-Z0-9-]{1,128}</param>
-    /// <param name="ServiceCode">Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the ListServices operation. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z][a-zA-Z0-9-]{1,63}</param>
-    /// <param name="AwsRegion">Specifies the Amazon Web Services Region to which the template ap- plies. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z][a-zA-Z0-9-]{1,128}</param>
-    /// <param name="DesiredValue">Specifies the new, increased value for the quota. Constraints: o min: 0 o max: 10000000000</param>
+    /// <param name="QuotaCode">Specifies the quota identifier. To find the quota code for a specific quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the output for the quota you want. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z][a-zA-Z0-9-]{1,128}</param>
+    /// <param name="ServiceCode">Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the ListServices operation. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z][a-zA-Z0-9-]{1,63}</param>
+    /// <param name="AwsRegion">Specifies the Amazon Web Services Region to which the template applies. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z][a-zA-Z0-9-]{1,128}</param>
+    /// <param name="DesiredValue">Specifies the new, increased value for the quota. Constraints: • min: 0 • max: 10000000000</param>
     public AwsServiceQuotasPutServiceQuotaIncreaseRequestIntoTemplateOptions(
         string QuotaCode,
         string ServiceCode,
         string AwsRegion,
-        int DesiredValue
+        double DesiredValue
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(QuotaCode);
@@ -67,28 +69,28 @@ public record AwsServiceQuotasPutServiceQuotaIncreaseRequestIntoTemplateOptions 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the quota identifier. To find the quota code for a spe- cific quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the output for the quota you want. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][a-zA-Z0-9-]{1,128}
+    /// Specifies the quota identifier. To find the quota code for a specific quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the output for the quota you want. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z][a-zA-Z0-9-]{1,128}
     /// </summary>
     [CliOption("--quota-code")]
     public string? QuotaCode { get; private init; }
 
     /// <summary>
-    /// Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the ListServices operation. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z][a-zA-Z0-9-]{1,63}
+    /// Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the ListServices operation. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z][a-zA-Z0-9-]{1,63}
     /// </summary>
     [CliOption("--service-code")]
     public string? ServiceCode { get; private init; }
 
     /// <summary>
-    /// Specifies the Amazon Web Services Region to which the template ap- plies. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z][a-zA-Z0-9-]{1,128}
+    /// Specifies the Amazon Web Services Region to which the template applies. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z][a-zA-Z0-9-]{1,128}
     /// </summary>
     [CliOption("--aws-region")]
     public string? AwsRegion { get; private init; }
 
     /// <summary>
-    /// Specifies the new, increased value for the quota. Constraints: o min: 0 o max: 10000000000
+    /// Specifies the new, increased value for the quota. Constraints: • min: 0 • max: 10000000000
     /// </summary>
     [CliOption("--desired-value")]
-    public int? DesiredValue { get; private init; }
+    public double? DesiredValue { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

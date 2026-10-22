@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSesGetIdentityNotificationAttributesOptions : AwsOptions, IVali
     /// <summary>
     /// Given a list of verified identities (email addresses and/or domains), returns a structure describing identity notification attributes. This operation is throttled at one request per second and can only get notification attributes for up to 100 identities at a time. For more information about using notifications with Amazon SES, see the Amazon SES Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identities">A list of one or more identities. You can specify an identity by us- ing its name or by using its Amazon Resource Name (ARN). Examples: user@example.com , example.com , arn:aws:ses:us-east-1:123456789012:identity/example.com . (string) Syntax: "string" "string" ...</param>
+    /// <param name="Identities">A list of one or more identities. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com , example.com , arn:aws:ses:us-east-1:123456789012:identity/example.com . (string) Syntax: "string" "string" ...</param>
     public AwsSesGetIdentityNotificationAttributesOptions(
         IEnumerable<string> Identities
     )
@@ -67,7 +69,7 @@ public record AwsSesGetIdentityNotificationAttributesOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of one or more identities. You can specify an identity by us- ing its name or by using its Amazon Resource Name (ARN). Examples: user@example.com , example.com , arn:aws:ses:us-east-1:123456789012:identity/example.com . (string) Syntax: "string" "string" ...
+    /// A list of one or more identities. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com , example.com , arn:aws:ses:us-east-1:123456789012:identity/example.com . (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--identities", GroupValues = true)]
     public IEnumerable<string>? Identities { get; private init; }

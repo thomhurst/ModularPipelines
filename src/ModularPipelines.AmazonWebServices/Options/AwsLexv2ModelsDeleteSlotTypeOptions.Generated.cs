@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a slot type from a bot locale. If a slot is using the slot type, Amazon Lex throws a ResourceInUseEx- ception exception. To avoid the exception, set the skipResourceI- nUseCheck parameter to true . See also: AWS API Documentation
+/// Deletes a slot type from a bot locale. If a slot is using the slot type, Amazon Lex throws a ResourceInUseException exception. To avoid the exception, set the skipResourceInUseCheck parameter to true . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsLexv2ModelsDeleteSlotTypeOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a slot type from a bot locale. If a slot is using the slot type, Amazon Lex throws a ResourceInUseEx- ception exception. To avoid the exception, set the skipResourceI- nUseCheck parameter to true . See also: AWS API Documentation
+    /// Deletes a slot type from a bot locale. If a slot is using the slot type, Amazon Lex throws a ResourceInUseException exception. To avoid the exception, set the skipResourceInUseCheck parameter to true . See also: AWS API Documentation
     /// </summary>
-    /// <param name="SlotTypeId">The identifier of the slot type to delete. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="BotId">The identifier of the bot associated with the slot type. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="BotVersion">The version of the bot associated with the slot type. Constraints: o min: 5 o max: 5 o pattern: ^DRAFT$</param>
+    /// <param name="SlotTypeId">The identifier of the slot type to delete. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotId">The identifier of the bot associated with the slot type. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotVersion">The version of the bot associated with the slot type. Constraints: • min: 5 • max: 5 • pattern: ^DRAFT$</param>
     /// <param name="LocaleId">The identifier of the language and locale that the slot type will be deleted from. The string must match one of the supported locales. For more information, see Supported languages .</param>
     public AwsLexv2ModelsDeleteSlotTypeOptions(
         string SlotTypeId,
@@ -68,19 +70,19 @@ public record AwsLexv2ModelsDeleteSlotTypeOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the slot type to delete. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The identifier of the slot type to delete. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--slot-type-id")]
     public string? SlotTypeId { get; private init; }
 
     /// <summary>
-    /// The identifier of the bot associated with the slot type. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The identifier of the bot associated with the slot type. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
 
     /// <summary>
-    /// The version of the bot associated with the slot type. Constraints: o min: 5 o max: 5 o pattern: ^DRAFT$
+    /// The version of the bot associated with the slot type. Constraints: • min: 5 • max: 5 • pattern: ^DRAFT$
     /// </summary>
     [CliOption("--bot-version")]
     public string? BotVersion { get; private init; }
@@ -92,7 +94,7 @@ public record AwsLexv2ModelsDeleteSlotTypeOptions : AwsOptions, IValidatableObje
     public string? LocaleId { get; private init; }
 
     /// <summary>
-    /// By default, the DeleteSlotType operations throws a ResourceInUseEx- ception exception if you try to delete a slot type used by a slot. Set the skipResourceInUseCheck parameter to true to skip this check and remove the slot type even if a slot uses it.
+    /// By default, the DeleteSlotType operations throws a ResourceInUseException exception if you try to delete a slot type used by a slot. Set the skipResourceInUseCheck parameter to true to skip this check and remove the slot type even if a slot uses it.
     /// </summary>
     [CliFlag("--skip-resource-in-use-check", NegatedName = "--no-skip-resource-in-use-check")]
     public bool? SkipResourceInUseCheck { get; set; }

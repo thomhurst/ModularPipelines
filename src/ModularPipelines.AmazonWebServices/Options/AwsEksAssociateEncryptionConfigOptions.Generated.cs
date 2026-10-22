@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates an encryption configuration to an existing cluster. Use this API to enable encryption on existing clusters that don't al- ready have encryption enabled. This allows you to implement a de- fense-in-depth security strategy without migrating applications to new Amazon EKS clusters. See also: AWS API Documentation
+/// Associates an encryption configuration to an existing cluster. Use this API to enable encryption on existing clusters that don't already have encryption enabled. This allows you to implement a defense-in-depth security strategy without migrating applications to new Amazon EKS clusters. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsEksAssociateEncryptionConfigOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates an encryption configuration to an existing cluster. Use this API to enable encryption on existing clusters that don't al- ready have encryption enabled. This allows you to implement a de- fense-in-depth security strategy without migrating applications to new Amazon EKS clusters. See also: AWS API Documentation
+    /// Associates an encryption configuration to an existing cluster. Use this API to enable encryption on existing clusters that don't already have encryption enabled. This allows you to implement a defense-in-depth security strategy without migrating applications to new Amazon EKS clusters. See also: AWS API Documentation
     /// </summary>
     /// <param name="ClusterName">The name of your cluster.</param>
-    /// <param name="EncryptionConfig">The configuration you are using for encryption. Constraints: o max: 1 (structure) The encryption configuration for the cluster. resources -&gt; (list) WARNING: Amazon EKS encrypts all Kubernetes API data with envelope encryption by default for clusters running Kubernetes version 1.28 or higher, so this field no longer affects which resources are encrypted. Specifies the resources to be encrypted. The only supported value is secrets . (string) provider -&gt; (structure) Key Management Service (KMS) key. Either the ARN or the alias can be used. keyArn -&gt; (string) Amazon Resource Name (ARN) or alias of the KMS key. The KMS key must be symmetric and created in the same Amazon Web Services Region as the cluster. If the KMS key was created in a different account, the IAM principal must have access to the KMS key. For more information, see Allowing users in other accounts to use a KMS key in the Key Management Service Developer Guide . Shorthand Syntax: resources=string,string,provider={keyArn=string} ... JSON Syntax: [ { "resources": ["string", ...], "provider": { "keyArn": "string" } } ... ]</param>
+    /// <param name="EncryptionConfig">The configuration you are using for encryption. Constraints: • max: 1 (structure) The encryption configuration for the cluster. resources -&gt; (list) WARNING: Amazon EKS encrypts all Kubernetes API data with envelope encryption by default for clusters running Kubernetes version 1.28 or higher, so this field no longer affects which resources are encrypted. Specifies the resources to be encrypted. The only supported value is secrets . (string) provider -&gt; (structure) Key Management Service (KMS) key. Either the ARN or the alias can be used. keyArn -&gt; (string) Amazon Resource Name (ARN) or alias of the KMS key. The KMS key must be symmetric and created in the same Amazon Web Services Region as the cluster. If the KMS key was created in a different account, the IAM principal must have access to the KMS key. For more information, see Allowing users in other accounts to use a KMS key in the Key Management Service Developer Guide . Shorthand Syntax: resources=string,string,provider={keyArn=string} ... JSON Syntax: [ { "resources": ["string", ...], "provider": { "keyArn": "string" } } ... ]</param>
     public AwsEksAssociateEncryptionConfigOptions(
         string ClusterName,
         IEnumerable<string> EncryptionConfig
@@ -78,7 +80,7 @@ public record AwsEksAssociateEncryptionConfigOptions : AwsOptions, IValidatableO
     public string? ClusterName { get; private init; }
 
     /// <summary>
-    /// The configuration you are using for encryption. Constraints: o max: 1 (structure) The encryption configuration for the cluster. resources -&gt; (list) WARNING: Amazon EKS encrypts all Kubernetes API data with envelope encryption by default for clusters running Kubernetes version 1.28 or higher, so this field no longer affects which resources are encrypted. Specifies the resources to be encrypted. The only supported value is secrets . (string) provider -&gt; (structure) Key Management Service (KMS) key. Either the ARN or the alias can be used. keyArn -&gt; (string) Amazon Resource Name (ARN) or alias of the KMS key. The KMS key must be symmetric and created in the same Amazon Web Services Region as the cluster. If the KMS key was created in a different account, the IAM principal must have access to the KMS key. For more information, see Allowing users in other accounts to use a KMS key in the Key Management Service Developer Guide . Shorthand Syntax: resources=string,string,provider={keyArn=string} ... JSON Syntax: [ { "resources": ["string", ...], "provider": { "keyArn": "string" } } ... ]
+    /// The configuration you are using for encryption. Constraints: • max: 1 (structure) The encryption configuration for the cluster. resources -&gt; (list) WARNING: Amazon EKS encrypts all Kubernetes API data with envelope encryption by default for clusters running Kubernetes version 1.28 or higher, so this field no longer affects which resources are encrypted. Specifies the resources to be encrypted. The only supported value is secrets . (string) provider -&gt; (structure) Key Management Service (KMS) key. Either the ARN or the alias can be used. keyArn -&gt; (string) Amazon Resource Name (ARN) or alias of the KMS key. The KMS key must be symmetric and created in the same Amazon Web Services Region as the cluster. If the KMS key was created in a different account, the IAM principal must have access to the KMS key. For more information, see Allowing users in other accounts to use a KMS key in the Key Management Service Developer Guide . Shorthand Syntax: resources=string,string,provider={keyArn=string} ... JSON Syntax: [ { "resources": ["string", ...], "provider": { "keyArn": "string" } } ... ]
     /// </summary>
     [CliOption("--encryption-config", GroupValues = true)]
     public IEnumerable<string>? EncryptionConfig { get; private init; }

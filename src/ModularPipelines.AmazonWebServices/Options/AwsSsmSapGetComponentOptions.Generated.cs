@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the component of an application registered with AWS Systems Man- ager for SAP. See also: AWS API Documentation
+/// Gets the component of an application registered with AWS Systems Manager for SAP. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsSsmSapGetComponentOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets the component of an application registered with AWS Systems Man- ager for SAP. See also: AWS API Documentation
+    /// Gets the component of an application registered with AWS Systems Manager for SAP. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The ID of the application. Constraints: o min: 1 o max: 60 o pattern: [\w\d\.-]+</param>
-    /// <param name="ComponentId">The ID of the component. Constraints: o min: 1 o max: 100 o pattern: [\w\d-]+</param>
+    /// <param name="ApplicationId">The ID of the application. Constraints: • min: 1 • max: 60 • pattern: [\w\d\.-]+</param>
+    /// <param name="ComponentId">The ID of the component. Constraints: • min: 1 • max: 100 • pattern: [\w\d-]+</param>
     public AwsSsmSapGetComponentOptions(
         string ApplicationId,
         string ComponentId
@@ -60,13 +62,13 @@ public record AwsSsmSapGetComponentOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the application. Constraints: o min: 1 o max: 60 o pattern: [\w\d\.-]+
+    /// The ID of the application. Constraints: • min: 1 • max: 60 • pattern: [\w\d\.-]+
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The ID of the component. Constraints: o min: 1 o max: 100 o pattern: [\w\d-]+
+    /// The ID of the component. Constraints: • min: 1 • max: 100 • pattern: [\w\d-]+
     /// </summary>
     [CliOption("--component-id")]
     public string? ComponentId { get; private init; }

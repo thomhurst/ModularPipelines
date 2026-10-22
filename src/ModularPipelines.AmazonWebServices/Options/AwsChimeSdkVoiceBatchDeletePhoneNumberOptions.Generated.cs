@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Moves phone numbers into the Deletion queue . Phone numbers must be disassociated from any users or Amazon Chime SDK Voice Connectors be- fore they can be deleted. Phone numbers remain in the Deletion queue for 7 days before they are deleted permanently. See also: AWS API Documentation
+/// Moves phone numbers into the Deletion queue . Phone numbers must be disassociated from any users or Amazon Chime SDK Voice Connectors before they can be deleted. Phone numbers remain in the Deletion queue for 7 days before they are deleted permanently. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsChimeSdkVoiceBatchDeletePhoneNumberOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Moves phone numbers into the Deletion queue . Phone numbers must be disassociated from any users or Amazon Chime SDK Voice Connectors be- fore they can be deleted. Phone numbers remain in the Deletion queue for 7 days before they are deleted permanently. See also: AWS API Documentation
+    /// Moves phone numbers into the Deletion queue . Phone numbers must be disassociated from any users or Amazon Chime SDK Voice Connectors before they can be deleted. Phone numbers remain in the Deletion queue for 7 days before they are deleted permanently. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PhoneNumberIds">List of phone number IDs. Constraints: o min: 1 (string) Syntax: "string" "string" ...</param>
+    /// <param name="PhoneNumberIds">List of phone number IDs. Constraints: • min: 1 (string) Syntax: "string" "string" ...</param>
     public AwsChimeSdkVoiceBatchDeletePhoneNumberOptions(
         IEnumerable<string> PhoneNumberIds
     )
@@ -67,7 +69,7 @@ public record AwsChimeSdkVoiceBatchDeletePhoneNumberOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// List of phone number IDs. Constraints: o min: 1 (string) Syntax: "string" "string" ...
+    /// List of phone number IDs. Constraints: • min: 1 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--phone-number-ids", GroupValues = true)]
     public IEnumerable<string>? PhoneNumberIds { get; private init; }

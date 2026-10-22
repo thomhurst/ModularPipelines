@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsDatazoneDeleteDomainOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a Amazon DataZone domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The identifier of the Amazon Web Services domain that is to be deleted. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The identifier of the Amazon Web Services domain that is to be deleted. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneDeleteDomainOptions(
         string Identifier
     )
@@ -57,7 +59,7 @@ public record AwsDatazoneDeleteDomainOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Web Services domain that is to be deleted. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The identifier of the Amazon Web Services domain that is to be deleted. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
@@ -70,13 +72,13 @@ public record AwsDatazoneDeleteDomainOptions : AwsOptions, IValidatableObject
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Specifies whether to skip the check that prevents deletion of a do- main that still contains resources. When you use this parameter, Amazon DataZone deletes the domain but might not remove its associ- ated resources, which can leave orphaned resources behind. To delete a domain and fully clean up its associated resources, use cascad- eDelete instead. You can't use this parameter together with cascad- eDelete .
+    /// Specifies whether to skip the check that prevents deletion of a domain that still contains resources. When you use this parameter, Amazon DataZone deletes the domain but might not remove its associated resources, which can leave orphaned resources behind. To delete a domain and fully clean up its associated resources, use cascadeDelete instead. You can't use this parameter together with cascadeDelete .
     /// </summary>
     [CliFlag("--skip-deletion-check", NegatedName = "--no-skip-deletion-check")]
     public bool? SkipDeletionCheck { get; set; }
 
     /// <summary>
-    /// Specifies whether to delete the domain along with all of its associ- ated resources. When you use this parameter, Amazon DataZone deletes the domain and cleanly removes its associated resources without leaving orphaned resources behind. Amazon DataZone reports deletion progress in the deleteProgress field. Amazon DataZone reports any resources that it can't delete in the failureReasons field of the GetDomain response. You can't use this parameter together with skipDeletionCheck . If you don't specify a value, the default is false .
+    /// Specifies whether to delete the domain along with all of its associated resources. When you use this parameter, Amazon DataZone deletes the domain and cleanly removes its associated resources without leaving orphaned resources behind. Amazon DataZone reports deletion progress in the deleteProgress field. Amazon DataZone reports any resources that it can't delete in the failureReasons field of the GetDomain response. You can't use this parameter together with skipDeletionCheck . If you don't specify a value, the default is false .
     /// </summary>
     [CliFlag("--cascade-delete", NegatedName = "--no-cascade-delete")]
     public bool? CascadeDelete { get; set; }

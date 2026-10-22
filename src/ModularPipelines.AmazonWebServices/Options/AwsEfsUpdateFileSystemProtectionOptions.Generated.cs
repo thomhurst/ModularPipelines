@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates protection on the file system. This operation requires permissions for the elasticfilesystem:Update- FileSystemProtection action. See also: AWS API Documentation
+/// Updates protection on the file system. This operation requires permissions for the elasticfilesystem:UpdateFileSystemProtection action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsEfsUpdateFileSystemProtectionOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates protection on the file system. This operation requires permissions for the elasticfilesystem:Update- FileSystemProtection action. See also: AWS API Documentation
+    /// Updates protection on the file system. This operation requires permissions for the elasticfilesystem:UpdateFileSystemProtection action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FileSystemId">The ID of the file system to update. Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$</param>
+    /// <param name="FileSystemId">The ID of the file system to update. Constraints: • max: 128 • pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$</param>
     public AwsEfsUpdateFileSystemProtectionOptions(
         string FileSystemId
     )
@@ -57,13 +59,13 @@ public record AwsEfsUpdateFileSystemProtectionOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the file system to update. Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$
+    /// The ID of the file system to update. Constraints: • max: 128 • pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$
     /// </summary>
     [CliOption("--file-system-id")]
     public string? FileSystemId { get; private init; }
 
     /// <summary>
-    /// The status of the file system's replication overwrite protection. o ENABLED The file system cannot be used as the destination file system in a replication configuration. The file system is write- able. Replication overwrite protection is ENABLED by default. o DISABLED The file system can be used as the destination file sys- tem in a replication configuration. The file system is read-only and can only be modified by EFS replication. o REPLICATING The file system is being used as the destination file system in a replication configuration. The file system is read-only and is only modified only by EFS replication. If the replication configuration is deleted, the file system's replication overwrite protection is re-enabled and the file system becomes writeable. Possible values: o ENABLED o DISABLED o REPLICATING
+    /// The status of the file system's replication overwrite protection. • ENABLED The file system cannot be used as the destination file system in a replication configuration. The file system is writeable. Replication overwrite protection is ENABLED by default. • DISABLED The file system can be used as the destination file system in a replication configuration. The file system is read-only and can only be modified by EFS replication. • REPLICATING The file system is being used as the destination file system in a replication configuration. The file system is read-only and is only modified only by EFS replication. If the replication configuration is deleted, the file system's replication overwrite protection is re-enabled and the file system becomes writeable. Possible values: • ENABLED • DISABLED • REPLICATING
     /// </summary>
     [CliOption("--replication-overwrite-protection")]
     public AwsEfsUpdateFileSystemProtectionReplicationOverwriteProtection? ReplicationOverwriteProtection { get; set; }

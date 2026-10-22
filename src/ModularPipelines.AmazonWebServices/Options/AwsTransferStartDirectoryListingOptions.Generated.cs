@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a list of the contents of a directory from a remote SFTP server. You specify the connector ID, the output path, and the remote directory path. You can also specify the optional MaxItems value to control the maximum number of items that are listed from the remote di- rectory. This API returns a list of all files and directories in the remote directory (up to the maximum value), but does not return files or folders in sub-directories. That is, it only returns a list of files and director...
+/// Retrieves a list of the contents of a directory from a remote SFTP server. You specify the connector ID, the output path, and the remote directory path. You can also specify the optional MaxItems value to control the maximum number of items that are listed from the remote directory. This API returns a list of all files and directories in the remote directory (up to the maximum value), but does not return files or folders in sub-directories. That is, it only returns a list of files and directorie...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsTransferStartDirectoryListingOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves a list of the contents of a directory from a remote SFTP server. You specify the connector ID, the output path, and the remote directory path. You can also specify the optional MaxItems value to control the maximum number of items that are listed from the remote di- rectory. This API returns a list of all files and directories in the remote directory (up to the maximum value), but does not return files or folders in sub-directories. That is, it only returns a list of files and director...
+    /// Retrieves a list of the contents of a directory from a remote SFTP server. You specify the connector ID, the output path, and the remote directory path. You can also specify the optional MaxItems value to control the maximum number of items that are listed from the remote directory. This API returns a list of all files and directories in the remote directory (up to the maximum value), but does not return files or folders in sub-directories. That is, it only returns a list of files and directorie...
     /// </summary>
-    /// <param name="ConnectorId">The unique identifier for the connector. Constraints: o min: 19 o max: 19 o pattern: c-([0-9a-f]{17})</param>
-    /// <param name="RemoteDirectoryPath">Specifies the directory on the remote SFTP server for which you want to list its contents. Constraints: o min: 1 o max: 1024 o pattern: (.)+</param>
-    /// <param name="OutputDirectoryPath">Specifies the path (bucket and prefix) in Amazon S3 storage to store the results of the directory listing. Constraints: o min: 1 o max: 1024 o pattern: (.)+</param>
+    /// <param name="ConnectorId">The unique identifier for the connector. Constraints: • min: 19 • max: 19 • pattern: c-([0-9a-f]{17})</param>
+    /// <param name="RemoteDirectoryPath">Specifies the directory on the remote SFTP server for which you want to list its contents. Constraints: • min: 1 • max: 1024 • pattern: (.)+</param>
+    /// <param name="OutputDirectoryPath">Specifies the path (bucket and prefix) in Amazon S3 storage to store the results of the directory listing. Constraints: • min: 1 • max: 1024 • pattern: (.)+</param>
     public AwsTransferStartDirectoryListingOptions(
         string ConnectorId,
         string RemoteDirectoryPath,
@@ -64,25 +66,25 @@ public record AwsTransferStartDirectoryListingOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the connector. Constraints: o min: 19 o max: 19 o pattern: c-([0-9a-f]{17})
+    /// The unique identifier for the connector. Constraints: • min: 19 • max: 19 • pattern: c-([0-9a-f]{17})
     /// </summary>
     [CliOption("--connector-id")]
     public string? ConnectorId { get; private init; }
 
     /// <summary>
-    /// Specifies the directory on the remote SFTP server for which you want to list its contents. Constraints: o min: 1 o max: 1024 o pattern: (.)+
+    /// Specifies the directory on the remote SFTP server for which you want to list its contents. Constraints: • min: 1 • max: 1024 • pattern: (.)+
     /// </summary>
     [CliOption("--remote-directory-path")]
     public string? RemoteDirectoryPath { get; private init; }
 
     /// <summary>
-    /// Specifies the path (bucket and prefix) in Amazon S3 storage to store the results of the directory listing. Constraints: o min: 1 o max: 1024 o pattern: (.)+
+    /// Specifies the path (bucket and prefix) in Amazon S3 storage to store the results of the directory listing. Constraints: • min: 1 • max: 1024 • pattern: (.)+
     /// </summary>
     [CliOption("--output-directory-path")]
     public string? OutputDirectoryPath { get; private init; }
 
     /// <summary>
-    /// An optional parameter where you can specify the maximum number of file/directory names to retrieve. The default value is 1,000. Constraints: o min: 1
+    /// An optional parameter where you can specify the maximum number of file/directory names to retrieve. The default value is 1,000. Constraints: • min: 1
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }

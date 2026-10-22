@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCloudfrontGetPublicKeyConfigOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Gets a public key configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The identifier of the public key whose configuration you are get- ting.</param>
+    /// <param name="Id">The identifier of the public key whose configuration you are getting.</param>
     public AwsCloudfrontGetPublicKeyConfigOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsCloudfrontGetPublicKeyConfigOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the public key whose configuration you are get- ting.
+    /// The identifier of the public key whose configuration you are getting.
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

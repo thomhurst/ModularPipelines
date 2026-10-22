@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the specified schema conversion configuration using the pro- vided parameters. Required permissions: dms:UpdateConversionConfiguration . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
+/// Modifies the specified schema conversion configuration using the provided parameters. Required permissions: dms:UpdateConversionConfiguration . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsDmsModifyConversionConfigurationOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the specified schema conversion configuration using the pro- vided parameters. Required permissions: dms:UpdateConversionConfiguration . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
+    /// Modifies the specified schema conversion configuration using the provided parameters. Required permissions: dms:UpdateConversionConfiguration . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
     /// </summary>
-    /// <param name="MigrationProjectIdentifier">The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255</param>
-    /// <param name="ConversionConfiguration">A JSON string that contains the schema conversion settings to up- date. For the format and available settings, see Specifying schema conversion settings for migration projects . Usage: o Include only the sections and keys to change. The operation merges supplied values with the existing configuration.</param>
+    /// <param name="MigrationProjectIdentifier">The migration project name or Amazon Resource Name (ARN). Constraints: • max: 255</param>
+    /// <param name="ConversionConfiguration">A JSON string that contains the schema conversion settings to update. For the format and available settings, see Specifying schema conversion settings for migration projects . Usage: • Include only the sections and keys to change. The operation merges supplied values with the existing configuration.</param>
     public AwsDmsModifyConversionConfigurationOptions(
         string MigrationProjectIdentifier,
         string ConversionConfiguration
@@ -60,13 +62,13 @@ public record AwsDmsModifyConversionConfigurationOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255
+    /// The migration project name or Amazon Resource Name (ARN). Constraints: • max: 255
     /// </summary>
     [CliOption("--migration-project-identifier")]
     public string? MigrationProjectIdentifier { get; private init; }
 
     /// <summary>
-    /// A JSON string that contains the schema conversion settings to up- date. For the format and available settings, see Specifying schema conversion settings for migration projects . Usage: o Include only the sections and keys to change. The operation merges supplied values with the existing configuration.
+    /// A JSON string that contains the schema conversion settings to update. For the format and available settings, see Specifying schema conversion settings for migration projects . Usage: • Include only the sections and keys to change. The operation merges supplied values with the existing configuration.
     /// </summary>
     [CliOption("--conversion-configuration")]
     public string? ConversionConfiguration { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds a resouce policy to control access to a model group. For informa- tion about resoure policies, see Identity-based policies and re- source-based policies in the Amazon Web Services Identity and Access Management User Guide. . See also: AWS API Documentation
+/// Adds a resouce policy to control access to a model group. For information about resoure policies, see Identity-based policies and resource-based policies in the Amazon Web Services Identity and Access Management User Guide. . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsSagemakerPutModelPackageGroupPolicyOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds a resouce policy to control access to a model group. For informa- tion about resoure policies, see Identity-based policies and re- source-based policies in the Amazon Web Services Identity and Access Management User Guide. . See also: AWS API Documentation
+    /// Adds a resouce policy to control access to a model group. For information about resoure policies, see Identity-based policies and resource-based policies in the Amazon Web Services Identity and Access Management User Guide. . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ModelPackageGroupName">The name of the model group to add a resource policy to. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
-    /// <param name="ResourcePolicy">The resource policy for the model group. Constraints: o min: 1 o max: 20480 o pattern: .*</param>
+    /// <param name="ModelPackageGroupName">The name of the model group to add a resource policy to. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="ResourcePolicy">The resource policy for the model group. Constraints: • min: 1 • max: 20480 • pattern: .*</param>
     public AwsSagemakerPutModelPackageGroupPolicyOptions(
         string ModelPackageGroupName,
         string ResourcePolicy
@@ -60,13 +62,13 @@ public record AwsSagemakerPutModelPackageGroupPolicyOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the model group to add a resource policy to. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the model group to add a resource policy to. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--model-package-group-name")]
     public string? ModelPackageGroupName { get; private init; }
 
     /// <summary>
-    /// The resource policy for the model group. Constraints: o min: 1 o max: 20480 o pattern: .*
+    /// The resource policy for the model group. Constraints: • min: 1 • max: 20480 • pattern: .*
     /// </summary>
     [CliOption("--resource-policy")]
     public string? ResourcePolicy { get; private init; }

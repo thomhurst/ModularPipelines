@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsGuarddutyGetCustomDetectionRuleOptions : AwsOptions, IValidatab
     /// <summary>
     /// Returns details for a custom detection rule in GuardDuty, including its detection logic. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RuleId">The unique identifier for the custom detection rule. Constraints: o min: 1 o max: 100 o pattern: [a-z0-9]+(-[a-z0-9]+)*</param>
+    /// <param name="RuleId">The unique identifier for the custom detection rule. Constraints: • min: 1 • max: 100 • pattern: [a-z0-9]+(-[a-z0-9]+)*</param>
     public AwsGuarddutyGetCustomDetectionRuleOptions(
         string RuleId
     )
@@ -56,7 +58,7 @@ public record AwsGuarddutyGetCustomDetectionRuleOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the custom detection rule. Constraints: o min: 1 o max: 100 o pattern: [a-z0-9]+(-[a-z0-9]+)*
+    /// The unique identifier for the custom detection rule. Constraints: • min: 1 • max: 100 • pattern: [a-z0-9]+(-[a-z0-9]+)*
     /// </summary>
     [CliOption("--rule-id")]
     public string? RuleId { get; private init; }

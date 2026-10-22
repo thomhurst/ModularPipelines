@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSagemakerDescribeAutoMlJobOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Returns information about an AutoML job created by calling CreateAutoMLJob . NOTE: AutoML jobs created by calling CreateAutoMLJobV2 cannot be described by DescribeAutoMLJob . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AutoMlJobName">Requests information about an AutoML job using its unique name. Constraints: o min: 1 o max: 32 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}</param>
+    /// <param name="AutoMlJobName">Requests information about an AutoML job using its unique name. Constraints: • min: 1 • max: 32 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}</param>
     public AwsSagemakerDescribeAutoMlJobOptions(
         string AutoMlJobName
     )
@@ -56,7 +58,7 @@ public record AwsSagemakerDescribeAutoMlJobOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Requests information about an AutoML job using its unique name. Constraints: o min: 1 o max: 32 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}
+    /// Requests information about an AutoML job using its unique name. Constraints: • min: 1 • max: 32 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}
     /// </summary>
     [CliOption("--auto-ml-job-name")]
     public string? AutoMlJobName { get; private init; }

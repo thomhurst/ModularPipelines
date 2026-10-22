@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +29,10 @@ public record AwsDeadlineGetStepOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets a step. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The farm ID for the step. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="QueueId">The queue ID for the step. Constraints: o pattern: queue-[0-9a-f]{32}</param>
-    /// <param name="JobId">The job ID for the step. Constraints: o pattern: job-[0-9a-f]{32}</param>
-    /// <param name="StepId">The step ID. Constraints: o pattern: step-[0-9a-f]{32}</param>
+    /// <param name="FarmId">The farm ID for the step. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="QueueId">The queue ID for the step. Constraints: • pattern: queue-[0-9a-f]{32}</param>
+    /// <param name="JobId">The job ID for the step. Constraints: • pattern: job-[0-9a-f]{32}</param>
+    /// <param name="StepId">The step ID. Constraints: • pattern: step-[0-9a-f]{32}</param>
     public AwsDeadlineGetStepOptions(
         string FarmId,
         string QueueId,
@@ -68,25 +70,25 @@ public record AwsDeadlineGetStepOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID for the step. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID for the step. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The queue ID for the step. Constraints: o pattern: queue-[0-9a-f]{32}
+    /// The queue ID for the step. Constraints: • pattern: queue-[0-9a-f]{32}
     /// </summary>
     [CliOption("--queue-id")]
     public string? QueueId { get; private init; }
 
     /// <summary>
-    /// The job ID for the step. Constraints: o pattern: job-[0-9a-f]{32}
+    /// The job ID for the step. Constraints: • pattern: job-[0-9a-f]{32}
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// The step ID. Constraints: o pattern: step-[0-9a-f]{32}
+    /// The step ID. Constraints: • pattern: step-[0-9a-f]{32}
     /// </summary>
     [CliOption("--step-id")]
     public string? StepId { get; private init; }

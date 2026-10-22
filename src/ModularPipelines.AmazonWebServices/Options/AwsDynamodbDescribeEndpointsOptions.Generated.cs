@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the regional endpoint information. For more information on pol- icy permissions, please see Internetwork traffic privacy . See also: AWS API Documentation
+/// Returns the regional endpoint information. For more information on policy permissions, please see Internetwork traffic privacy . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

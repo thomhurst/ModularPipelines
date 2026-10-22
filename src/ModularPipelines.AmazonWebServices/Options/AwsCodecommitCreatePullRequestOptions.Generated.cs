@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsCodecommitCreatePullRequestOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Creates a pull request in the specified repository. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Title">The title of the pull request. This title is used to identify the pull request to other users in the repository. Constraints: o max: 150</param>
-    /// <param name="Targets">The targets for the pull request, including the source of the code to be reviewed (the source branch) and the destination where the creator of the pull request intends the code to be merged after the pull request is closed (the destination branch). (structure) Returns information about a target for a pull request. repositoryName -&gt; (string) [required] The name of the repository that contains the pull request. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+ sourceReference -&gt; (string) [required] The branch of the repository that contains the changes for the pull request. Also known as the source branch. destinationReference -&gt; (string) The branch of the repository where the pull request changes are merged. Also known as the destination branch. Shorthand Syntax: repositoryName=string,sourceReference=string,destinationReference=string ... JSON Syntax: [ { "repositoryName": "string", "sourceReference": "string", "destinationReference": "string" } ... ]</param>
+    /// <param name="Title">The title of the pull request. This title is used to identify the pull request to other users in the repository. Constraints: • max: 150</param>
+    /// <param name="Targets">The targets for the pull request, including the source of the code to be reviewed (the source branch) and the destination where the creator of the pull request intends the code to be merged after the pull request is closed (the destination branch). (structure) Returns information about a target for a pull request. repositoryName -&gt; (string) [required] The name of the repository that contains the pull request. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+ sourceReference -&gt; (string) [required] The branch of the repository that contains the changes for the pull request. Also known as the source branch. destinationReference -&gt; (string) The branch of the repository where the pull request changes are merged. Also known as the destination branch. Shorthand Syntax: repositoryName=string,sourceReference=string,destinationReference=string ... JSON Syntax: [ { "repositoryName": "string", "sourceReference": "string", "destinationReference": "string" } ... ]</param>
     public AwsCodecommitCreatePullRequestOptions(
         string Title,
         IEnumerable<string> Targets
@@ -72,25 +74,25 @@ public record AwsCodecommitCreatePullRequestOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The title of the pull request. This title is used to identify the pull request to other users in the repository. Constraints: o max: 150
+    /// The title of the pull request. This title is used to identify the pull request to other users in the repository. Constraints: • max: 150
     /// </summary>
     [CliOption("--title")]
     public string? Title { get; private init; }
 
     /// <summary>
-    /// The targets for the pull request, including the source of the code to be reviewed (the source branch) and the destination where the creator of the pull request intends the code to be merged after the pull request is closed (the destination branch). (structure) Returns information about a target for a pull request. repositoryName -&gt; (string) [required] The name of the repository that contains the pull request. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+ sourceReference -&gt; (string) [required] The branch of the repository that contains the changes for the pull request. Also known as the source branch. destinationReference -&gt; (string) The branch of the repository where the pull request changes are merged. Also known as the destination branch. Shorthand Syntax: repositoryName=string,sourceReference=string,destinationReference=string ... JSON Syntax: [ { "repositoryName": "string", "sourceReference": "string", "destinationReference": "string" } ... ]
+    /// The targets for the pull request, including the source of the code to be reviewed (the source branch) and the destination where the creator of the pull request intends the code to be merged after the pull request is closed (the destination branch). (structure) Returns information about a target for a pull request. repositoryName -&gt; (string) [required] The name of the repository that contains the pull request. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+ sourceReference -&gt; (string) [required] The branch of the repository that contains the changes for the pull request. Also known as the source branch. destinationReference -&gt; (string) The branch of the repository where the pull request changes are merged. Also known as the destination branch. Shorthand Syntax: repositoryName=string,sourceReference=string,destinationReference=string ... JSON Syntax: [ { "repositoryName": "string", "sourceReference": "string", "destinationReference": "string" } ... ]
     /// </summary>
     [CliOption("--targets", GroupValues = true)]
     public IEnumerable<string>? Targets { get; private init; }
 
     /// <summary>
-    /// A description of the pull request. Constraints: o max: 10240
+    /// A description of the pull request. Constraints: • max: 10240
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed pa- rameter. If a request is received with the same parameters and a to- ken is included, the request returns information about the initial request that used that token. NOTE: The Amazon Web ServicesSDKs prepopulate client request tokens. If you are using an Amazon Web ServicesSDK, an idempotency token is created for you.
+    /// A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request returns information about the initial request that used that token. NOTE: The Amazon Web ServicesSDKs prepopulate client request tokens. If you are using an Amazon Web ServicesSDK, an idempotency token is created for you.
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]

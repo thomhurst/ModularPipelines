@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,10 +30,10 @@ public record AwsLexv2ModelsListSlotsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets a list of slots that match the specified criteria. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BotId">The identifier of the bot that contains the slot. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="BotVersion">The version of the bot that contains the slot. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$</param>
-    /// <param name="LocaleId">The identifier of the language and locale of the slots to list. The string must match one of the supported locales. For more informa- tion, see Supported languages .</param>
-    /// <param name="IntentId">The unique identifier of the intent that contains the slot. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotId">The identifier of the bot that contains the slot. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotVersion">The version of the bot that contains the slot. Constraints: • min: 1 • max: 5 • pattern: ^(DRAFT|[0-9]+)$</param>
+    /// <param name="LocaleId">The identifier of the language and locale of the slots to list. The string must match one of the supported locales. For more information, see Supported languages .</param>
+    /// <param name="IntentId">The unique identifier of the intent that contains the slot. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
     public AwsLexv2ModelsListSlotsOptions(
         string BotId,
         string BotVersion,
@@ -69,43 +71,43 @@ public record AwsLexv2ModelsListSlotsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the bot that contains the slot. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The identifier of the bot that contains the slot. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
 
     /// <summary>
-    /// The version of the bot that contains the slot. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$
+    /// The version of the bot that contains the slot. Constraints: • min: 1 • max: 5 • pattern: ^(DRAFT|[0-9]+)$
     /// </summary>
     [CliOption("--bot-version")]
     public string? BotVersion { get; private init; }
 
     /// <summary>
-    /// The identifier of the language and locale of the slots to list. The string must match one of the supported locales. For more informa- tion, see Supported languages .
+    /// The identifier of the language and locale of the slots to list. The string must match one of the supported locales. For more information, see Supported languages .
     /// </summary>
     [CliOption("--locale-id")]
     public string? LocaleId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the intent that contains the slot. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier of the intent that contains the slot. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--intent-id")]
     public string? IntentId { get; private init; }
 
     /// <summary>
-    /// Determines the sort order for the response from the ListSlots opera- tion. You can choose to sort by the slot name or last updated date in either ascending or descending order. attribute -&gt; (string) [required] The attribute to use to sort the list. Possible values: o SlotName o LastUpdatedDateTime order -&gt; (string) [required] The order to sort the list. You can choose ascending or descend- ing. Possible values: o Ascending o Descending Shorthand Syntax: attribute=string,order=string JSON Syntax: { "attribute": "SlotName"|"LastUpdatedDateTime", "order": "Ascending"|"Descending" }
+    /// Determines the sort order for the response from the ListSlots operation. You can choose to sort by the slot name or last updated date in either ascending or descending order. attribute -&gt; (string) [required] The attribute to use to sort the list. Possible values: • SlotName • LastUpdatedDateTime order -&gt; (string) [required] The order to sort the list. You can choose ascending or descending. Possible values: • Ascending • Descending Shorthand Syntax: attribute=string,order=string JSON Syntax: { "attribute": "SlotName"|"LastUpdatedDateTime", "order": "Ascending"|"Descending" }
     /// </summary>
     [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
     /// <summary>
-    /// Provides the specification of a filter used to limit the slots in the response to only those that match the filter specification. You can only specify one filter and only one string to filter on. Constraints: o min: 1 o max: 1 (structure) Filters the response from the ListSlots operation. name -&gt; (string) [required] The name of the field to use for filtering. Possible values: o SlotName values -&gt; (list) [required] The value to use to filter the response. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 100 o pattern: ^[0-9a-zA-Z_()\s-]+$ operator -&gt; (string) [required] The operator to use for the filter. Specify EQ when the List- Slots operation should return only aliases that equal the specified value. Specify CO when the ListSlots operation should return aliases that contain the specified value. Possible values: o CO o EQ Shorthand Syntax: name=string,values=string,string,operator=string ... JSON Syntax: [ { "name": "SlotName", "values": ["string", ...], "operator": "CO"|"EQ" } ... ]
+    /// Provides the specification of a filter used to limit the slots in the response to only those that match the filter specification. You can only specify one filter and only one string to filter on. Constraints: • min: 1 • max: 1 (structure) Filters the response from the ListSlots operation. name -&gt; (string) [required] The name of the field to use for filtering. Possible values: • SlotName values -&gt; (list) [required] The value to use to filter the response. Constraints: • min: 1 • max: 1 (string) Constraints: • min: 1 • max: 100 • pattern: ^[0-9a-zA-Z_()\s-]+$ operator -&gt; (string) [required] The operator to use for the filter. Specify EQ when the ListSlots operation should return only aliases that equal the specified value. Specify CO when the ListSlots operation should return aliases that contain the specified value. Possible values: • CO • EQ Shorthand Syntax: name=string,values=string,string,operator=string ... JSON Syntax: [ { "name": "SlotName", "values": ["string", ...], "operator": "CO"|"EQ" } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// The maximum number of slots to return in each page of results. If there are fewer results than the max page size, only the actual num- ber of results are returned. Constraints: o min: 1 o max: 1000
+    /// The maximum number of slots to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

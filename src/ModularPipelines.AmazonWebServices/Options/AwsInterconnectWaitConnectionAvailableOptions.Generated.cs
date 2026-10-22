@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Wait until JMESPath query connection.state returns available when polling with get-connection. It will poll every 30 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation
+/// Wait until JMESPath query connection.state returns available when polling with get-connection. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsInterconnectWaitConnectionAvailableOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Wait until JMESPath query connection.state returns available when polling with get-connection. It will poll every 30 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query connection.state returns available when polling with get-connection. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The identifier of the requested Connection Constraints: o min: 1 o max: 32 o pattern: (mcc|lmcc)-[a-z0-9]{8}</param>
+    /// <param name="Identifier">The identifier of the requested Connection Constraints: • min: 1 • max: 32 • pattern: (mcc|lmcc)-[a-z0-9]{8}</param>
     public AwsInterconnectWaitConnectionAvailableOptions(
         string Identifier
     )
@@ -56,7 +58,7 @@ public record AwsInterconnectWaitConnectionAvailableOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the requested Connection Constraints: o min: 1 o max: 32 o pattern: (mcc|lmcc)-[a-z0-9]{8}
+    /// The identifier of the requested Connection Constraints: • min: 1 • max: 32 • pattern: (mcc|lmcc)-[a-z0-9]{8}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Allows a schema to be updated using JSON upload. Only available for de- velopment schemas. See JSON Schema Format for more information. See also: AWS API Documentation
+/// Allows a schema to be updated using JSON upload. Only available for development schemas. See JSON Schema Format for more information. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsClouddirectoryPutSchemaFromJsonOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Allows a schema to be updated using JSON upload. Only available for de- velopment schemas. See JSON Schema Format for more information. See also: AWS API Documentation
+    /// Allows a schema to be updated using JSON upload. Only available for development schemas. See JSON Schema Format for more information. See also: AWS API Documentation
     /// </summary>
     /// <param name="SchemaArn">The ARN of the schema to update.</param>
     /// <param name="Document">The replacement JSON schema.</param>

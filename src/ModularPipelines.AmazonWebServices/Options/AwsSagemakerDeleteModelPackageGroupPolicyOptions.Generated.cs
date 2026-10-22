@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSagemakerDeleteModelPackageGroupPolicyOptions : AwsOptions, IVa
     /// <summary>
     /// Deletes a model group resource policy. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ModelPackageGroupName">The name of the model group for which to delete the policy. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="ModelPackageGroupName">The name of the model group for which to delete the policy. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
     public AwsSagemakerDeleteModelPackageGroupPolicyOptions(
         string ModelPackageGroupName
     )
@@ -56,7 +58,7 @@ public record AwsSagemakerDeleteModelPackageGroupPolicyOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the model group for which to delete the policy. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the model group for which to delete the policy. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--model-package-group-name")]
     public string? ModelPackageGroupName { get; private init; }

@@ -22,25 +22,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsRedshiftRevokeEndpointAccessOptions : AwsOptions
 {
     /// <summary>
-    /// The cluster to revoke access from. Constraints: o max: 2147483647
+    /// The cluster to revoke access from. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services account ID whose access is to be revoked. Constraints: o max: 2147483647
+    /// The Amazon Web Services account ID whose access is to be revoked. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--account")]
     public string? Account { get; set; }
 
     /// <summary>
-    /// The virtual private cloud (VPC) identifiers for which access is to be revoked. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// The virtual private cloud (VPC) identifiers for which access is to be revoked. (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--vpc-ids", GroupValues = true)]
     public IEnumerable<string>? VpcIds { get; set; }
 
     /// <summary>
-    /// Indicates whether to force the revoke action. If true, the Red- shift-managed VPC endpoints associated with the endpoint authoriza- tion are also deleted.
+    /// Indicates whether to force the revoke action. If true, the Redshift-managed VPC endpoints associated with the endpoint authorization are also deleted.
     /// </summary>
     [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }

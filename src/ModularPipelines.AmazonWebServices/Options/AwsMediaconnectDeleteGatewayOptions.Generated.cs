@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMediaconnectDeleteGatewayOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Deletes a gateway. Before you can delete a gateway, you must deregister its instances and delete its bridges. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway that you want to delete. Constraints: o pattern: arn:.+:mediaconnect.+:gateway:.+</param>
+    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway that you want to delete. Constraints: • pattern: arn:.+:mediaconnect.+:gateway:.+</param>
     public AwsMediaconnectDeleteGatewayOptions(
         string GatewayArn
     )
@@ -56,7 +58,7 @@ public record AwsMediaconnectDeleteGatewayOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the gateway that you want to delete. Constraints: o pattern: arn:.+:mediaconnect.+:gateway:.+
+    /// The Amazon Resource Name (ARN) of the gateway that you want to delete. Constraints: • pattern: arn:.+:mediaconnect.+:gateway:.+
     /// </summary>
     [CliOption("--gateway-arn")]
     public string? GatewayArn { get; private init; }

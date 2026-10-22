@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified continuous backup recovery point from Backup and releases control of that continuous backup to the source service, such as Amazon RDS. The source service will continue to create and retain continuous backups using the lifecycle that you specified in your orig- inal backup plan. Does not support snapshot backup recovery points. See also: AWS API Documentation
+/// Deletes the specified continuous backup recovery point from Backup and releases control of that continuous backup to the source service, such as Amazon RDS. The source service will continue to create and retain continuous backups using the lifecycle that you specified in your original backup plan. Does not support snapshot backup recovery points. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsBackupDisassociateRecoveryPointOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified continuous backup recovery point from Backup and releases control of that continuous backup to the source service, such as Amazon RDS. The source service will continue to create and retain continuous backups using the lifecycle that you specified in your orig- inal backup plan. Does not support snapshot backup recovery points. See also: AWS API Documentation
+    /// Deletes the specified continuous backup recovery point from Backup and releases control of that continuous backup to the source service, such as Amazon RDS. The source service will continue to create and retain continuous backups using the lifecycle that you specified in your original backup plan. Does not support snapshot backup recovery points. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BackupVaultName">The unique name of an Backup vault. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$</param>
-    /// <param name="RecoveryPointArn">An Amazon Resource Name (ARN) that uniquely identifies an Backup re- covery point.</param>
+    /// <param name="BackupVaultName">The unique name of an Backup vault. Constraints: • pattern: ^[a-zA-Z0-9\-\_]{2,50}$</param>
+    /// <param name="RecoveryPointArn">An Amazon Resource Name (ARN) that uniquely identifies an Backup recovery point.</param>
     public AwsBackupDisassociateRecoveryPointOptions(
         string BackupVaultName,
         string RecoveryPointArn
@@ -60,13 +62,13 @@ public record AwsBackupDisassociateRecoveryPointOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of an Backup vault. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$
+    /// The unique name of an Backup vault. Constraints: • pattern: ^[a-zA-Z0-9\-\_]{2,50}$
     /// </summary>
     [CliOption("--backup-vault-name")]
     public string? BackupVaultName { get; private init; }
 
     /// <summary>
-    /// An Amazon Resource Name (ARN) that uniquely identifies an Backup re- covery point.
+    /// An Amazon Resource Name (ARN) that uniquely identifies an Backup recovery point.
     /// </summary>
     [CliOption("--recovery-point-arn")]
     public string? RecoveryPointArn { get; private init; }

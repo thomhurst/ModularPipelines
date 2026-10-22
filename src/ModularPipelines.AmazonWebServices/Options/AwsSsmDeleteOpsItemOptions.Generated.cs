@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Delete an OpsItem. You must have permission in Identity and Access Man- agement (IAM) to delete an OpsItem. WARNING: Note the following important information about this operation. o Deleting an OpsItem is irreversible. You can't restore a deleted OpsItem. o This operation uses an eventual consistency model , which means the system can take a few minutes to complete this operation. If you delete an OpsItem and immediately call, for example, GetOp- sItem , the deleted OpsItem might still appear in...
+/// Delete an OpsItem. You must have permission in Identity and Access Management (IAM) to delete an OpsItem. WARNING: Note the following important information about this operation. • Deleting an OpsItem is irreversible. You can't restore a deleted OpsItem. • This operation uses an eventual consistency model , which means the system can take a few minutes to complete this operation. If you delete an OpsItem and immediately call, for example, GetOpsItem , the deleted OpsItem might still appear in the...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSsmDeleteOpsItemOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Delete an OpsItem. You must have permission in Identity and Access Man- agement (IAM) to delete an OpsItem. WARNING: Note the following important information about this operation. o Deleting an OpsItem is irreversible. You can't restore a deleted OpsItem. o This operation uses an eventual consistency model , which means the system can take a few minutes to complete this operation. If you delete an OpsItem and immediately call, for example, GetOp- sItem , the deleted OpsItem might still appear in...
+    /// Delete an OpsItem. You must have permission in Identity and Access Management (IAM) to delete an OpsItem. WARNING: Note the following important information about this operation. • Deleting an OpsItem is irreversible. You can't restore a deleted OpsItem. • This operation uses an eventual consistency model , which means the system can take a few minutes to complete this operation. If you delete an OpsItem and immediately call, for example, GetOpsItem , the deleted OpsItem might still appear in the...
     /// </summary>
-    /// <param name="OpsItemId">The ID of the OpsItem that you want to delete. Constraints: o pattern: ^(oi)-[0-9a-f]{12}$</param>
+    /// <param name="OpsItemId">The ID of the OpsItem that you want to delete. Constraints: • pattern: ^(oi)-[0-9a-f]{12}$</param>
     public AwsSsmDeleteOpsItemOptions(
         string OpsItemId
     )
@@ -56,7 +58,7 @@ public record AwsSsmDeleteOpsItemOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the OpsItem that you want to delete. Constraints: o pattern: ^(oi)-[0-9a-f]{12}$
+    /// The ID of the OpsItem that you want to delete. Constraints: • pattern: ^(oi)-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--ops-item-id")]
     public string? OpsItemId { get; private init; }

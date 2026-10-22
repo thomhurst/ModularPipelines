@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the certificate revocation list (CRL). A CRL is a list of cer- tificates that have been revoked by the issuing certificate authority (CA). IAM Roles Anywhere validates against the CRL before issuing cre- dentials. Required permissions: rolesanywhere:UpdateCrl . See also: AWS API Documentation
+/// Updates the certificate revocation list (CRL). A CRL is a list of certificates that have been revoked by the issuing certificate authority (CA). IAM Roles Anywhere validates against the CRL before issuing credentials. Required permissions: rolesanywhere:UpdateCrl . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRolesanywhereUpdateCrlOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the certificate revocation list (CRL). A CRL is a list of cer- tificates that have been revoked by the issuing certificate authority (CA). IAM Roles Anywhere validates against the CRL before issuing cre- dentials. Required permissions: rolesanywhere:UpdateCrl . See also: AWS API Documentation
+    /// Updates the certificate revocation list (CRL). A CRL is a list of certificates that have been revoked by the issuing certificate authority (CA). IAM Roles Anywhere validates against the CRL before issuing credentials. Required permissions: rolesanywhere:UpdateCrl . See also: AWS API Documentation
     /// </summary>
-    /// <param name="CrlId">The unique identifier of the certificate revocation list (CRL). Constraints: o min: 36 o max: 36 o pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*</param>
+    /// <param name="CrlId">The unique identifier of the certificate revocation list (CRL). Constraints: • min: 36 • max: 36 • pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*</param>
     public AwsRolesanywhereUpdateCrlOptions(
         string CrlId
     )
@@ -56,19 +58,19 @@ public record AwsRolesanywhereUpdateCrlOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the certificate revocation list (CRL). Constraints: o min: 36 o max: 36 o pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*
+    /// The unique identifier of the certificate revocation list (CRL). Constraints: • min: 36 • max: 36 • pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*
     /// </summary>
     [CliOption("--crl-id")]
     public string? CrlId { get; private init; }
 
     /// <summary>
-    /// The name of the Crl. Constraints: o min: 1 o max: 255 o pattern: [ a-zA-Z0-9-_]*
+    /// The name of the Crl. Constraints: • min: 1 • max: 255 • pattern: [ a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The x509 v3 specified certificate revocation list (CRL). Constraints: o min: 1 o max: 300000
+    /// The x509 v3 specified certificate revocation list (CRL). Constraints: • min: 1 • max: 300000
     /// </summary>
     [CliOption("--crl-data")]
     public string? CrlData { get; set; }

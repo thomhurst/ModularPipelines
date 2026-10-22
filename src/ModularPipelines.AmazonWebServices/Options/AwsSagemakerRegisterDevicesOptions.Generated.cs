@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsSagemakerRegisterDevicesOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Register devices. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DeviceFleetName">The name of the fleet. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
-    /// <param name="Devices">A list of devices to register with SageMaker Edge Manager. (structure) Information of a particular device. DeviceName -&gt; (string) [required] The name of the device. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} Description -&gt; (string) Description of the device. Constraints: o min: 1 o max: 40 o pattern: [-a-zA-Z0-9_.,;:! ]* IotThingName -&gt; (string) Amazon Web Services Internet of Things (IoT) object name. Constraints: o min: 0 o max: 128 o pattern: [a-zA-Z0-9:_-]+ Shorthand Syntax: DeviceName=string,Description=string,IotThingName=string ... JSON Syntax: [ { "DeviceName": "string", "Description": "string", "IotThingName": "string" } ... ]</param>
+    /// <param name="DeviceFleetName">The name of the fleet. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="Devices">A list of devices to register with SageMaker Edge Manager. (structure) Information of a particular device. DeviceName -&gt; (string) [required] The name of the device. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} Description -&gt; (string) Description of the device. Constraints: • min: 1 • max: 40 • pattern: [-a-zA-Z0-9_.,;:! ]* IotThingName -&gt; (string) Amazon Web Services Internet of Things (IoT) object name. Constraints: • min: 0 • max: 128 • pattern: [a-zA-Z0-9:_-]+ Shorthand Syntax: DeviceName=string,Description=string,IotThingName=string ... JSON Syntax: [ { "DeviceName": "string", "Description": "string", "IotThingName": "string" } ... ]</param>
     public AwsSagemakerRegisterDevicesOptions(
         string DeviceFleetName,
         IEnumerable<string> Devices
@@ -71,19 +73,19 @@ public record AwsSagemakerRegisterDevicesOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the fleet. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the fleet. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--device-fleet-name")]
     public string? DeviceFleetName { get; private init; }
 
     /// <summary>
-    /// A list of devices to register with SageMaker Edge Manager. (structure) Information of a particular device. DeviceName -&gt; (string) [required] The name of the device. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} Description -&gt; (string) Description of the device. Constraints: o min: 1 o max: 40 o pattern: [-a-zA-Z0-9_.,;:! ]* IotThingName -&gt; (string) Amazon Web Services Internet of Things (IoT) object name. Constraints: o min: 0 o max: 128 o pattern: [a-zA-Z0-9:_-]+ Shorthand Syntax: DeviceName=string,Description=string,IotThingName=string ... JSON Syntax: [ { "DeviceName": "string", "Description": "string", "IotThingName": "string" } ... ]
+    /// A list of devices to register with SageMaker Edge Manager. (structure) Information of a particular device. DeviceName -&gt; (string) [required] The name of the device. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} Description -&gt; (string) Description of the device. Constraints: • min: 1 • max: 40 • pattern: [-a-zA-Z0-9_.,;:! ]* IotThingName -&gt; (string) Amazon Web Services Internet of Things (IoT) object name. Constraints: • min: 0 • max: 128 • pattern: [a-zA-Z0-9:_-]+ Shorthand Syntax: DeviceName=string,Description=string,IotThingName=string ... JSON Syntax: [ { "DeviceName": "string", "Description": "string", "IotThingName": "string" } ... ]
     /// </summary>
     [CliOption("--devices", GroupValues = true)]
     public IEnumerable<string>? Devices { get; private init; }
 
     /// <summary>
-    /// The tags associated with devices. Constraints: o min: 0 o max: 50 (structure) A tag object that consists of a key and an optional value, used to manage metadata for SageMaker Amazon Web Services resources. You can add tags to notebook instances, training jobs, hyperpa- rameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. For more information on adding tags to SageMaker resources, see AddTags . For more information on adding metadata to your Amazon Web Ser- vices resources with tagging, see Tagging Amazon Web Services resources . For advice on best practices for managing Amazon Web Services resources with tagging, see Tagging Best Practices: Im- plement an Effective Amazon Web Services Resource Tagging Strat- egy . Key -&gt; (string) [required] The tag key. Tag keys must be unique per resource. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags associated with devices. Constraints: • min: 0 • max: 50 (structure) A tag object that consists of a key and an optional value, used to manage metadata for SageMaker Amazon Web Services resources. You can add tags to notebook instances, training jobs, hyperparameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. For more information on adding tags to SageMaker resources, see AddTags . For more information on adding metadata to your Amazon Web Services resources with tagging, see Tagging Amazon Web Services resources . For advice on best practices for managing Amazon Web Services resources with tagging, see Tagging Best Practices: Implement an Effective Amazon Web Services Resource Tagging Strategy . Key -&gt; (string) [required] The tag key. Tag keys must be unique per resource. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

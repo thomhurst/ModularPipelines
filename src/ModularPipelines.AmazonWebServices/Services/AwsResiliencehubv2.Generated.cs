@@ -33,7 +33,7 @@ public class AwsResiliencehubv2 : IAwsResiliencehubv2
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws resiliencehubv2 wait sub-commands.
     /// </summary>
     public AwsResiliencehubv2Wait Wait => _wait ??= new AwsResiliencehubv2Wait(_command);
 
@@ -72,7 +72,7 @@ public class AwsResiliencehubv2 : IAwsResiliencehubv2
     }
 
     /// <summary>
-    /// Creates a resilience policy that defines availability and disaster re- covery requirements. See also: AWS API Documentation
+    /// Creates a resilience policy that defines availability and disaster recovery requirements. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -162,7 +162,7 @@ public class AwsResiliencehubv2 : IAwsResiliencehubv2
     }
 
     /// <summary>
-    /// Creates a test for a service by configuring a test template. Each ser- vice has one test per template. See also: AWS API Documentation
+    /// Creates a test for a service by configuring a test template. Each service has one test per template. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -342,7 +342,7 @@ public class AwsResiliencehubv2 : IAwsResiliencehubv2
     }
 
     /// <summary>
-    /// Retrieves the dependency insights generated for a service. The response reports the current generation status; insights are populated once gen- eration has completed. If generation failed, the response includes an error code, whose possible values are listed under the response's er- rorCode field, and a message describing the cause. To use this opera- tion, you must have the resiliencehub:GetDependencyInsights permission on the service. See also: AWS API Documentation
+    /// Retrieves the dependency insights generated for a service. The response reports the current generation status; insights are populated once generation has completed. If generation failed, the response includes an error code, whose possible values are listed under the response's errorCode field, and a message describing the cause. To use this operation, you must have the resiliencehub:GetDependencyInsights permission on the service. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -432,7 +432,7 @@ public class AwsResiliencehubv2 : IAwsResiliencehubv2
     }
 
     /// <summary>
-    /// Retrieves a test run by ID, including its status, results, and the con- figuration snapshotted when the run started. See also: AWS API Documentation
+    /// Retrieves a test run by ID, including its status, results, and the configuration snapshotted when the run started. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -507,7 +507,7 @@ public class AwsResiliencehubv2 : IAwsResiliencehubv2
     }
 
     /// <summary>
-    /// Lists resilience assertions for a service. See also: AWS API Documentation list-assertions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: assertions
+    /// Lists resilience assertions for a service. See also: AWS API Documentation list-assertions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: assertions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -537,7 +537,7 @@ public class AwsResiliencehubv2 : IAwsResiliencehubv2
     }
 
     /// <summary>
-    /// Lists failure mode assessments. See also: AWS API Documentation list-failure-mode-assessments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: assessmentSummaries
+    /// Lists failure mode assessments. See also: AWS API Documentation list-failure-mode-assessments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: assessmentSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -552,7 +552,7 @@ public class AwsResiliencehubv2 : IAwsResiliencehubv2
     }
 
     /// <summary>
-    /// List findings. See also: AWS API Documentation list-failure-mode-findings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: findingsSummary
+    /// List findings. See also: AWS API Documentation list-failure-mode-findings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: findingsSummary
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -582,7 +582,7 @@ public class AwsResiliencehubv2 : IAwsResiliencehubv2
     }
 
     /// <summary>
-    /// Lists resilience policies. See also: AWS API Documentation list-policies is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: policySummaries
+    /// Lists resilience policies. See also: AWS API Documentation list-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: policySummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -612,7 +612,7 @@ public class AwsResiliencehubv2 : IAwsResiliencehubv2
     }
 
     /// <summary>
-    /// List reports for a service, or all reports owned by the account if ser- viceArn is not provided. See also: AWS API Documentation list-reports is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: reportG...
+    /// List reports for a service, or all reports owned by the account if serviceArn is not provided. See also: AWS API Documentation list-reports is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: reportGenerat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -627,7 +627,7 @@ public class AwsResiliencehubv2 : IAwsResiliencehubv2
     }
 
     /// <summary>
-    /// Lists the AWS resources that AWS Fault Injection Service (AWS FIS) re- solved as targets for a test run. See also: AWS API Documentation list-resolved-test-run-target-resources is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the f...
+    /// Lists the AWS resources that AWS Fault Injection Service (AWS FIS) resolved as targets for a test run. See also: AWS API Documentation list-resolved-test-run-target-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -642,7 +642,7 @@ public class AwsResiliencehubv2 : IAwsResiliencehubv2
     }
 
     /// <summary>
-    /// List resources. See also: AWS API Documentation list-resources is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: serviceResources
+    /// List resources. See also: AWS API Documentation list-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: serviceResources
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -687,22 +687,7 @@ public class AwsResiliencehubv2 : IAwsResiliencehubv2
     }
 
     /// <summary>
-    /// Lists services. See also: AWS API Documentation list-services is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: serviceSummaries
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListServicesAsync(
-        AwsResiliencehubv2ListServicesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResiliencehubv2ListServicesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists topology edges for a service. See also: AWS API Documentation list-service-topology-edges is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: serviceTopologyEdgeSummaries
+    /// Lists topology edges for a service. See also: AWS API Documentation list-service-topology-edges is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: serviceTopologyEdgeSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -714,6 +699,21 @@ public class AwsResiliencehubv2 : IAwsResiliencehubv2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists services. See also: AWS API Documentation list-services is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: serviceSummaries
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListServicesAsync(
+        AwsResiliencehubv2ListServicesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResiliencehubv2ListServicesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -732,7 +732,7 @@ public class AwsResiliencehubv2 : IAwsResiliencehubv2
     }
 
     /// <summary>
-    /// Lists systems. See also: AWS API Documentation list-systems is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: systemSummaries
+    /// Lists systems. See also: AWS API Documentation list-systems is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: systemSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -762,7 +762,7 @@ public class AwsResiliencehubv2 : IAwsResiliencehubv2
     }
 
     /// <summary>
-    /// Lists the dependencies that a test run blocked. Each dependency re- flects the discovered classification captured when the run started, so results do not change if a dependency is reclassified after the run. See also: AWS API Documentation list-test-run-dependencies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on ...
+    /// Lists the dependencies that a test run blocked. Each dependency reflects the discovered classification captured when the run started, so results do not change if a dependency is reclassified after the run. See also: AWS API Documentation list-test-run-dependencies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -792,22 +792,7 @@ public class AwsResiliencehubv2 : IAwsResiliencehubv2
     }
 
     /// <summary>
-    /// Lists the runs of a test, or all test runs for a service. See also: AWS API Documentation list-test-runs is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: testRuns
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListTestRunsAsync(
-        AwsResiliencehubv2ListTestRunsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists the state-change events observed for a test run monitoring source. Events are returned for one source per call, in chronological order. See also: AWS API Documentation list-test-run-source-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data ...
+    /// Lists the state-change events observed for a test run monitoring source. Events are returned for one source per call, in chronological order. See also: AWS API Documentation list-test-run-source-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -822,7 +807,7 @@ public class AwsResiliencehubv2 : IAwsResiliencehubv2
     }
 
     /// <summary>
-    /// Lists the monitoring source snapshots captured for a test run, option- ally filtered by type. See also: AWS API Documentation list-test-run-sources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: testR...
+    /// Lists the monitoring source snapshots captured for a test run, optionally filtered by type. See also: AWS API Documentation list-test-run-sources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: testRun...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -837,14 +822,14 @@ public class AwsResiliencehubv2 : IAwsResiliencehubv2
     }
 
     /// <summary>
-    /// Lists the tests configured for a service. See also: AWS API Documentation list-tests is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: tests
+    /// Lists the runs of a test, or all test runs for a service. See also: AWS API Documentation list-test-runs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: testRuns
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListTestsAsync(
-        AwsResiliencehubv2ListTestsOptions options,
+    public virtual async Task<CommandResult> ListTestRunsAsync(
+        AwsResiliencehubv2ListTestRunsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -867,7 +852,7 @@ public class AwsResiliencehubv2 : IAwsResiliencehubv2
     }
 
     /// <summary>
-    /// Lists the available resilience test templates. A test template is a pre-configured, AWS recommended test that defines which resilience ca- pability to validate. See also: AWS API Documentation
+    /// Lists the available resilience test templates. A test template is a pre-configured, AWS recommended test that defines which resilience capability to validate. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -879,6 +864,21 @@ public class AwsResiliencehubv2 : IAwsResiliencehubv2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResiliencehubv2ListTestTemplatesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the tests configured for a service. See also: AWS API Documentation list-tests is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: tests
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListTestsAsync(
+        AwsResiliencehubv2ListTestsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -912,7 +912,7 @@ public class AwsResiliencehubv2 : IAwsResiliencehubv2
     }
 
     /// <summary>
-    /// Starts generating dependency insights for a service. Generation runs asynchronously; the response returns the initial status, and you re- trieve the results with GetDependencyInsights. To use this operation, you must have the resiliencehub:StartDependencyInsights permission on the service. See also: AWS API Documentation
+    /// Starts generating dependency insights for a service. Generation runs asynchronously; the response returns the initial status, and you retrieve the results with GetDependencyInsights. To use this operation, you must have the resiliencehub:StartDependencyInsights permission on the service. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

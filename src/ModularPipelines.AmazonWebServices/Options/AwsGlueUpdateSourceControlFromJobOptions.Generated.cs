@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Synchronizes a job to the source control repository. This operation takes the job artifacts from the Glue internal stores and makes a com- mit to the remote repository that is configured on the job. This API supports optional parameters which take in the repository in- formation. See also: AWS API Documentation
+/// Synchronizes a job to the source control repository. This operation takes the job artifacts from the Glue internal stores and makes a commit to the remote repository that is configured on the job. This API supports optional parameters which take in the repository information. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,55 +24,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsGlueUpdateSourceControlFromJobOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the Glue job to be synchronized to or from the remote repository. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The name of the Glue job to be synchronized to or from the remote repository. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--job-name")]
     public string? JobName { get; set; }
 
     /// <summary>
-    /// The provider for the remote repository. Possible values: GITHUB, AWS_CODE_COMMIT, GITLAB, BITBUCKET. Possible values: o GITHUB o GITLAB o BITBUCKET o AWS_CODE_COMMIT
+    /// The provider for the remote repository. Possible values: GITHUB, AWS_CODE_COMMIT, GITLAB, BITBUCKET. Possible values: • GITHUB • GITLAB • BITBUCKET • AWS_CODE_COMMIT
     /// </summary>
     [CliOption("--provider")]
     public AwsGlueUpdateSourceControlFromJobProvider? Provider { get; set; }
 
     /// <summary>
-    /// The name of the remote repository that contains the job artifacts. For BitBucket providers, RepositoryName should include WorkspaceName . Use the format &lt;WorkspaceName&gt;/&lt;RepositoryName&gt; . Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The name of the remote repository that contains the job artifacts. For BitBucket providers, RepositoryName should include WorkspaceName . Use the format &lt;WorkspaceName&gt;/&lt;RepositoryName&gt; . Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; set; }
 
     /// <summary>
-    /// The owner of the remote repository that contains the job artifacts. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The owner of the remote repository that contains the job artifacts. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--repository-owner")]
     public string? RepositoryOwner { get; set; }
 
     /// <summary>
-    /// An optional branch in the remote repository. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// An optional branch in the remote repository. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--branch-name")]
     public string? BranchName { get; set; }
 
     /// <summary>
-    /// An optional folder in the remote repository. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// An optional folder in the remote repository. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--folder")]
     public string? Folder { get; set; }
 
     /// <summary>
-    /// A commit ID for a commit in the remote repository. Constraints: o min: 1 o max: 40 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// A commit ID for a commit in the remote repository. Constraints: • min: 1 • max: 40 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--commit-id")]
     public string? CommitId { get; set; }
 
     /// <summary>
-    /// The type of authentication, which can be an authentication token stored in Amazon Web Services Secrets Manager, or a personal access token. Possible values: o PERSONAL_ACCESS_TOKEN o AWS_SECRETS_MANAGER
+    /// The type of authentication, which can be an authentication token stored in Amazon Web Services Secrets Manager, or a personal access token. Possible values: • PERSONAL_ACCESS_TOKEN • AWS_SECRETS_MANAGER
     /// </summary>
     [CliOption("--auth-strategy")]
     public AwsGlueUpdateSourceControlFromJobAuthStrategy? AuthStrategy { get; set; }
 
     /// <summary>
-    /// The value of the authorization token. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The value of the authorization token. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [SecretValue]
     [CliOption("--auth-token")]

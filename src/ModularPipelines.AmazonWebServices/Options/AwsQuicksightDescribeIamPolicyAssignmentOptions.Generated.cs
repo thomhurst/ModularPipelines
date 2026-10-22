@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes an existing IAM policy assignment, as specified by the as- signment name. See also: AWS API Documentation
+/// Describes an existing IAM policy assignment, as specified by the assignment name. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsQuicksightDescribeIamPolicyAssignmentOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes an existing IAM policy assignment, as specified by the as- signment name. See also: AWS API Documentation
+    /// Describes an existing IAM policy assignment, as specified by the assignment name. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the assign- ment that you want to describe. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="AssignmentName">The name of the assignment, also called a rule. Constraints: o min: 1 o pattern: (?=^.{2,256}$)(?!.*\s)[0-9a-zA-Z-_.:=+@]*$</param>
-    /// <param name="Namespace">The namespace that contains the assignment. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the assignment that you want to describe. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="AssignmentName">The name of the assignment, also called a rule. Constraints: • min: 1 • pattern: (?=^.{2,256}$)(?!.*\s)[0-9a-zA-Z-_.:=+@]*$</param>
+    /// <param name="Namespace">The namespace that contains the assignment. Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$</param>
     public AwsQuicksightDescribeIamPolicyAssignmentOptions(
         string AwsAccountId,
         string AssignmentName,
@@ -64,19 +66,19 @@ public record AwsQuicksightDescribeIamPolicyAssignmentOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the assign- ment that you want to describe. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the assignment that you want to describe. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The name of the assignment, also called a rule. Constraints: o min: 1 o pattern: (?=^.{2,256}$)(?!.*\s)[0-9a-zA-Z-_.:=+@]*$
+    /// The name of the assignment, also called a rule. Constraints: • min: 1 • pattern: (?=^.{2,256}$)(?!.*\s)[0-9a-zA-Z-_.:=+@]*$
     /// </summary>
     [CliOption("--assignment-name")]
     public string? AssignmentName { get; private init; }
 
     /// <summary>
-    /// The namespace that contains the assignment. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// The namespace that contains the assignment. Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; private init; }

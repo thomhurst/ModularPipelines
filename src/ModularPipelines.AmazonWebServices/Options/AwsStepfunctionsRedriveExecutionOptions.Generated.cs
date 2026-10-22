@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Restarts unsuccessful executions of Standard workflows that didn't com- plete successfully in the last 14 days. These include failed, aborted, or timed out executions. When you redrive an execution, it continues the failed execution from the unsuccessful step and uses the same in- put. Step Functions preserves the results and execution history of the successful steps, and doesn't rerun these steps when you redrive an ex- ecution. Redriven executions use the same state machine definition and exec...
+/// Restarts unsuccessful executions of Standard workflows that didn't complete successfully in the last 14 days. These include failed, aborted, or timed out executions. When you redrive an execution, it continues the failed execution from the unsuccessful step and uses the same input. Step Functions preserves the results and execution history of the successful steps, and doesn't rerun these steps when you redrive an execution. Redriven executions use the same state machine definition and execution ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsStepfunctionsRedriveExecutionOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Restarts unsuccessful executions of Standard workflows that didn't com- plete successfully in the last 14 days. These include failed, aborted, or timed out executions. When you redrive an execution, it continues the failed execution from the unsuccessful step and uses the same in- put. Step Functions preserves the results and execution history of the successful steps, and doesn't rerun these steps when you redrive an ex- ecution. Redriven executions use the same state machine definition and exec...
+    /// Restarts unsuccessful executions of Standard workflows that didn't complete successfully in the last 14 days. These include failed, aborted, or timed out executions. When you redrive an execution, it continues the failed execution from the unsuccessful step and uses the same input. Step Functions preserves the results and execution history of the successful steps, and doesn't rerun these steps when you redrive an execution. Redriven executions use the same state machine definition and execution ...
     /// </summary>
-    /// <param name="ExecutionArn">The Amazon Resource Name (ARN) of the execution to be redriven. Constraints: o min: 1 o max: 256</param>
+    /// <param name="ExecutionArn">The Amazon Resource Name (ARN) of the execution to be redriven. Constraints: • min: 1 • max: 256</param>
     public AwsStepfunctionsRedriveExecutionOptions(
         string ExecutionArn
     )
@@ -57,13 +59,13 @@ public record AwsStepfunctionsRedriveExecutionOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the execution to be redriven. Constraints: o min: 1 o max: 256
+    /// The Amazon Resource Name (ARN) of the execution to be redriven. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--execution-arn")]
     public string? ExecutionArn { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you dont specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency. The API will return idempotent responses for the last 10 client tokens used to success- fully redrive the execution. These client tokens are valid for up to 15 minutes after they are first used. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you dont specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency. The API will return idempotent responses for the last 10 client tokens used to successfully redrive the execution. These client tokens are valid for up to 15 minutes after they are first used. Constraints: • min: 1 • max: 64 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

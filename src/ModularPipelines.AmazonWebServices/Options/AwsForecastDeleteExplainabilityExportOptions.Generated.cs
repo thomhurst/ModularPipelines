@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsForecastDeleteExplainabilityExportOptions : AwsOptions, IValida
     /// <summary>
     /// Deletes an Explainability export. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExplainabilityExportArn">The Amazon Resource Name (ARN) of the Explainability export to delete. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    /// <param name="ExplainabilityExportArn">The Amazon Resource Name (ARN) of the Explainability export to delete. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
     public AwsForecastDeleteExplainabilityExportOptions(
         string ExplainabilityExportArn
     )
@@ -56,7 +58,7 @@ public record AwsForecastDeleteExplainabilityExportOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Explainability export to delete. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the Explainability export to delete. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
     /// </summary>
     [CliOption("--explainability-export-arn")]
     public string? ExplainabilityExportArn { get; private init; }

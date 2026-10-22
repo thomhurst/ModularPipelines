@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,13 +64,13 @@ public record AwsMemorydbResetParameterGroupOptions : AwsOptions, IValidatableOb
     public string? ParameterGroupName { get; private init; }
 
     /// <summary>
-    /// If true, all parameters in the parameter group are reset to their default values. If false, only the parameters listed by Parameter- Names are reset to their default values.
+    /// If true, all parameters in the parameter group are reset to their default values. If false, only the parameters listed by ParameterNames are reset to their default values.
     /// </summary>
     [CliFlag("--all-parameters", NegatedName = "--no-all-parameters")]
     public bool? AllParameters { get; set; }
 
     /// <summary>
-    /// An array of parameter names to reset to their default values. If AllParameters is true, do not use ParameterNames. If AllParameters is false, you must specify the name of at least one parameter to re- set. (string) Syntax: "string" "string" ...
+    /// An array of parameter names to reset to their default values. If AllParameters is true, do not use ParameterNames. If AllParameters is false, you must specify the name of at least one parameter to reset. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--parameter-names", GroupValues = true)]
     public IEnumerable<string>? ParameterNames { get; set; }

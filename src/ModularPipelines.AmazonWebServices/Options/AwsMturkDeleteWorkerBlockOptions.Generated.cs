@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The DeleteWorkerBlock operation allows you to reinstate a blocked Worker to work on your HITs. This operation reverses the effects of the CreateWorkerBlock operation. You need the Worker ID to use this opera- tion. If the Worker ID is missing or invalid, this operation fails and returns the message WorkerId is invalid. If the specified Worker is not blocked, this operation returns successfully. See also: AWS API Documentation
+/// The DeleteWorkerBlock operation allows you to reinstate a blocked Worker to work on your HITs. This operation reverses the effects of the CreateWorkerBlock operation. You need the Worker ID to use this operation. If the Worker ID is missing or invalid, this operation fails and returns the message WorkerId is invalid. If the specified Worker is not blocked, this operation returns successfully. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsMturkDeleteWorkerBlockOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The DeleteWorkerBlock operation allows you to reinstate a blocked Worker to work on your HITs. This operation reverses the effects of the CreateWorkerBlock operation. You need the Worker ID to use this opera- tion. If the Worker ID is missing or invalid, this operation fails and returns the message WorkerId is invalid. If the specified Worker is not blocked, this operation returns successfully. See also: AWS API Documentation
+    /// The DeleteWorkerBlock operation allows you to reinstate a blocked Worker to work on your HITs. This operation reverses the effects of the CreateWorkerBlock operation. You need the Worker ID to use this operation. If the Worker ID is missing or invalid, this operation fails and returns the message WorkerId is invalid. If the specified Worker is not blocked, this operation returns successfully. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkerId">The ID of the Worker to unblock. Constraints: o min: 1 o max: 64 o pattern: ^A[A-Z0-9]+$</param>
+    /// <param name="WorkerId">The ID of the Worker to unblock. Constraints: • min: 1 • max: 64 • pattern: ^A[A-Z0-9]+$</param>
     public AwsMturkDeleteWorkerBlockOptions(
         string WorkerId
     )
@@ -56,7 +58,7 @@ public record AwsMturkDeleteWorkerBlockOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Worker to unblock. Constraints: o min: 1 o max: 64 o pattern: ^A[A-Z0-9]+$
+    /// The ID of the Worker to unblock. Constraints: • min: 1 • max: 64 • pattern: ^A[A-Z0-9]+$
     /// </summary>
     [CliOption("--worker-id")]
     public string? WorkerId { get; private init; }

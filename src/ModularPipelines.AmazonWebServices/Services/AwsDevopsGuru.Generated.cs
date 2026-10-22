@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws devopsguru commands.
+/// aws devops-guru commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsDevopsGuru : IAwsDevopsGuru
@@ -32,7 +32,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     #region Commands
 
     /// <summary>
-    /// Adds a notification channel to DevOps Guru. A notification channel is used to notify you about important DevOps Guru events, such as when an insight is generated. If you use an Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru permission to send it notifica- tions. DevOps Guru adds the required policy on your behalf to send no- tifications using Amazon SNS in your account. DevOps Guru only supports standard SNS topics. For more information, see Permissio...
+    /// Adds a notification channel to DevOps Guru. A notification channel is used to notify you about important DevOps Guru events, such as when an insight is generated. If you use an Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru permission to send it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account. DevOps Guru only supports standard SNS topics. For more information, see Permissions f...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     }
 
     /// <summary>
-    /// Returns the number of open reactive insights, the number of open proac- tive insights, and the number of metrics analyzed in your Amazon Web Services account. Use these numbers to gauge the health of operations in your Amazon Web Services account. See also: AWS API Documentation
+    /// Returns the number of open reactive insights, the number of open proactive insights, and the number of metrics analyzed in your Amazon Web Services account. Use these numbers to gauge the health of operations in your Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     }
 
     /// <summary>
-    /// For the time range passed in, returns the number of open reactive in- sight that were created, the number of open proactive insights that were created, and the Mean Time to Recover (MTTR) for all closed reac- tive insights. See also: AWS API Documentation
+    /// For the time range passed in, returns the number of open reactive insight that were created, the number of open proactive insights that were created, and the Mean Time to Recover (MTTR) for all closed reactive insights. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     }
 
     /// <summary>
-    /// Returns the integration status of services that are integrated with De- vOps Guru as Consumer via EventBridge. The one service that can be in- tegrated with DevOps Guru is Amazon CodeGuru Profiler, which can pro- duce proactive recommendations which can be stored and viewed in DevOps Guru. See also: AWS API Documentation
+    /// Returns the integration status of services that are integrated with DevOps Guru as Consumer via EventBridge. The one service that can be integrated with DevOps Guru is Amazon CodeGuru Profiler, which can produce proactive recommendations which can be stored and viewed in DevOps Guru. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     }
 
     /// <summary>
-    /// Returns active insights, predictive insights, and resource hours ana- lyzed in last hour. See also: AWS API Documentation
+    /// Returns active insights, predictive insights, and resource hours analyzed in last hour. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     }
 
     /// <summary>
-    /// Returns an overview of your organization's history based on the speci- fied time range. The overview includes the total reactive and proactive insights. See also: AWS API Documentation
+    /// Returns an overview of your organization's history based on the specified time range. The overview includes the total reactive and proactive insights. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     }
 
     /// <summary>
-    /// Provides an overview of your system's health. If additional member ac- counts are part of your organization, you can filter those accounts us- ing the AccountIds field. See also: AWS API Documentation describe-organization-resource-collection-health is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated r...
+    /// Provides an overview of your system's health. If additional member accounts are part of your organization, you can filter those accounts using the AccountIds field. See also: AWS API Documentation describe-organization-resource-collection-health is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response,...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     }
 
     /// <summary>
-    /// Returns the number of open proactive insights, open reactive insights, and the Mean Time to Recover (MTTR) for all closed insights in resource collections in your account. You specify the type of Amazon Web Ser- vices resources collection. The two types of Amazon Web Services re- source collections supported are Amazon Web Services CloudFormation stacks and Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze the Amazon Web Service...
+    /// Returns the number of open proactive insights, open reactive insights, and the Mean Time to Recover (MTTR) for all closed insights in resource collections in your account. You specify the type of Amazon Web Services resources collection. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze the Amazon Web Services re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     }
 
     /// <summary>
-    /// Returns the integration status of services that are integrated with De- vOps Guru. The one service that can be integrated with DevOps Guru is Amazon Web Services Systems Manager, which can be used to create an Op- sItem for each generated insight. See also: AWS API Documentation
+    /// Returns the integration status of services that are integrated with DevOps Guru. The one service that can be integrated with DevOps Guru is Amazon Web Services Systems Manager, which can be used to create an OpsItem for each generated insight. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     }
 
     /// <summary>
-    /// Returns lists Amazon Web Services resources that are of the specified resource collection type. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key . You can specify up to 500 Amazon Web Services CloudFor- mat...
+    /// Returns lists Amazon Web Services resources that are of the specified resource collection type. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key . You can specify up to 500 Amazon Web Services CloudFormatio...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     }
 
     /// <summary>
-    /// Returns a list of the anomalies that belong to an insight that you specify using its ID. See also: AWS API Documentation list-anomalies-for-insight is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Rea...
+    /// Returns a list of the anomalies that belong to an insight that you specify using its ID. See also: AWS API Documentation list-anomalies-for-insight is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: React...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     }
 
     /// <summary>
-    /// Returns the list of log groups that contain log anomalies. See also: AWS API Documentation list-anomalous-log-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: InsightId, AnomalousLogGroups
+    /// Returns the list of log groups that contain log anomalies. See also: AWS API Documentation list-anomalous-log-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InsightId, AnomalousLogGroups
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     }
 
     /// <summary>
-    /// Returns a list of the events emitted by the resources that are evalu- ated by DevOps Guru. You can use filters to specify which events are returned. See also: AWS API Documentation list-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the re...
+    /// Returns a list of the events emitted by the resources that are evaluated by DevOps Guru. You can use filters to specify which events are returned. See also: AWS API Documentation list-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the result...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     }
 
     /// <summary>
-    /// Returns a list of insights in your Amazon Web Services account. You can specify which insights are returned by their start time and status (ON- GOING , CLOSED , or ANY ). See also: AWS API Documentation list-insights is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument mus...
+    /// Returns a list of insights in your Amazon Web Services account. You can specify which insights are returned by their start time and status (ONGOING , CLOSED , or ANY ). See also: AWS API Documentation list-insights is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     }
 
     /// <summary>
-    /// Returns the list of all log groups that are being monitored and tagged by DevOps Guru. See also: AWS API Documentation list-monitored-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Monitor...
+    /// Returns the list of all log groups that are being monitored and tagged by DevOps Guru. See also: AWS API Documentation list-monitored-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Monitored...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     }
 
     /// <summary>
-    /// Returns a list of notification channels configured for DevOps Guru. Each notification channel is used to notify you when DevOps Guru gener- ates an insight that contains information about how to improve your op- erations. The one supported notification channel is Amazon Simple Noti- fication Service (Amazon SNS). See also: AWS API Documentation list-notification-channels is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disabl...
+    /// Returns a list of notification channels configured for DevOps Guru. Each notification channel is used to notify you when DevOps Guru generates an insight that contains information about how to improve your operations. The one supported notification channel is Amazon Simple Notification Service (Amazon SNS). See also: AWS API Documentation list-notification-channels is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     }
 
     /// <summary>
-    /// Returns a list of insights associated with the account or OU Id. See also: AWS API Documentation list-organization-insights is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ProactiveInsights, Reactive...
+    /// Returns a list of insights associated with the account or OU Id. See also: AWS API Documentation list-organization-insights is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ProactiveInsights, ReactiveIn...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     }
 
     /// <summary>
-    /// Returns a list of a specified insight's recommendations. Each recommen- dation includes a list of related metrics and a list of related events. See also: AWS API Documentation list-recommendations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the ...
+    /// Returns a list of a specified insight's recommendations. Each recommendation includes a list of related metrics and a list of related events. See also: AWS API Documentation list-recommendations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     }
 
     /// <summary>
-    /// Removes a notification channel from DevOps Guru. A notification channel is used to notify you when DevOps Guru generates an insight that con- tains information about how to improve your operations. See also: AWS API Documentation
+    /// Removes a notification channel from DevOps Guru. A notification channel is used to notify you when DevOps Guru generates an insight that contains information about how to improve your operations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     }
 
     /// <summary>
-    /// Returns a list of insights in your Amazon Web Services account. You can specify which insights are returned by their start time, one or more statuses (ONGOING or CLOSED ), one or more severities (LOW , MEDIUM , and HIGH ), and type (REACTIVE or PROACTIVE ). Use the Filters parameter to specify status and severity search parame- ters. Use the Type parameter to specify REACTIVE or PROACTIVE in your search. See also: AWS API Documentation search-insights is a paginated operation. Multiple API calls...
+    /// Returns a list of insights in your Amazon Web Services account. You can specify which insights are returned by their start time, one or more statuses (ONGOING or CLOSED ), one or more severities (LOW , MEDIUM , and HIGH ), and type (REACTIVE or PROACTIVE ). Use the Filters parameter to specify status and severity search parameters. Use the Type parameter to specify REACTIVE or PROACTIVE in your search. See also: AWS API Documentation search-insights is a paginated operation. Multiple API calls m...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     }
 
     /// <summary>
-    /// Returns a list of insights in your organization. You can specify which insights are returned by their start time, one or more statuses (ONGO- ING , CLOSED , and CLOSED ), one or more severities (LOW , MEDIUM , and HIGH ), and type (REACTIVE or PROACTIVE ). Use the Filters parameter to specify status and severity search parame- ters. Use the Type parameter to specify REACTIVE or PROACTIVE in your search. See also: AWS API Documentation search-organization-insights is a paginated operation. Multip...
+    /// Returns a list of insights in your organization. You can specify which insights are returned by their start time, one or more statuses (ONGOING , CLOSED , and CLOSED ), one or more severities (LOW , MEDIUM , and HIGH ), and type (REACTIVE or PROACTIVE ). Use the Filters parameter to specify status and severity search parameters. Use the Type parameter to specify REACTIVE or PROACTIVE in your search. See also: AWS API Documentation search-organization-insights is a paginated operation. Multiple A...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     }
 
     /// <summary>
-    /// Enables or disables integration with a service that can be integrated with DevOps Guru. The one service that can be integrated with DevOps Guru is Amazon CodeGuru Profiler, which can produce proactive recommen- dations which can be stored and viewed in DevOps Guru. See also: AWS API Documentation
+    /// Enables or disables integration with a service that can be integrated with DevOps Guru. The one service that can be integrated with DevOps Guru is Amazon CodeGuru Profiler, which can produce proactive recommendations which can be stored and viewed in DevOps Guru. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     }
 
     /// <summary>
-    /// Updates the collection of resources that DevOps Guru analyzes. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be con- figured to analyze the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key . You can spec- ify up to 500 Amazon Web Services CloudFormation stacks. This method also cr...
+    /// Updates the collection of resources that DevOps Guru analyzes. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key . You can specify up to 500 Amazon Web Services CloudFormation stacks. This method also create...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsDevopsGuru : IAwsDevopsGuru
     }
 
     /// <summary>
-    /// Enables or disables integration with a service that can be integrated with DevOps Guru. The one service that can be integrated with DevOps Guru is Amazon Web Services Systems Manager, which can be used to cre- ate an OpsItem for each generated insight. See also: AWS API Documentation
+    /// Enables or disables integration with a service that can be integrated with DevOps Guru. The one service that can be integrated with DevOps Guru is Amazon Web Services Systems Manager, which can be used to create an OpsItem for each generated insight. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

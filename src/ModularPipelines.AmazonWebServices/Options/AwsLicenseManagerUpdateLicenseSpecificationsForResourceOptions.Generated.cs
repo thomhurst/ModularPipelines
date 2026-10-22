@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds or removes the specified license configurations for the specified Amazon Web Services resource. You can update the license specifications of AMIs, instances, and hosts. You cannot update the license specifications for launch tem- plates and CloudFormation templates, as they send license configura- tions to the operation that creates the resource. See also: AWS API Documentation
+/// Adds or removes the specified license configurations for the specified Amazon Web Services resource. You can update the license specifications of AMIs, instances, and hosts. You cannot update the license specifications for launch templates and CloudFormation templates, as they send license configurations to the operation that creates the resource. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsLicenseManagerUpdateLicenseSpecificationsForResourceOptions : A
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds or removes the specified license configurations for the specified Amazon Web Services resource. You can update the license specifications of AMIs, instances, and hosts. You cannot update the license specifications for launch tem- plates and CloudFormation templates, as they send license configura- tions to the operation that creates the resource. See also: AWS API Documentation
+    /// Adds or removes the specified license configurations for the specified Amazon Web Services resource. You can update the license specifications of AMIs, instances, and hosts. You cannot update the license specifications for launch templates and CloudFormation templates, as they send license configurations to the operation that creates the resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceArn">Amazon Resource Name (ARN) of the Amazon Web Services resource.</param>
     public AwsLicenseManagerUpdateLicenseSpecificationsForResourceOptions(
@@ -62,13 +64,13 @@ public record AwsLicenseManagerUpdateLicenseSpecificationsForResourceOptions : A
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// ARNs of the license configurations to add. (structure) Details for associating a license configuration with a resource. LicenseConfigurationArn -&gt; (string) [required] Amazon Resource Name (ARN) of the license configuration. AmiAssociationScope -&gt; (string) Scope of AMI associations. The possible value is cross-ac- count . Shorthand Syntax: LicenseConfigurationArn=string,AmiAssociationScope=string ... JSON Syntax: [ { "LicenseConfigurationArn": "string", "AmiAssociationScope": "string" } ... ]
+    /// ARNs of the license configurations to add. (structure) Details for associating a license configuration with a resource. LicenseConfigurationArn -&gt; (string) [required] Amazon Resource Name (ARN) of the license configuration. AmiAssociationScope -&gt; (string) Scope of AMI associations. The possible value is cross-account . Shorthand Syntax: LicenseConfigurationArn=string,AmiAssociationScope=string ... JSON Syntax: [ { "LicenseConfigurationArn": "string", "AmiAssociationScope": "string" } ... ]
     /// </summary>
     [CliOption("--add-license-specifications", GroupValues = true)]
     public IEnumerable<string>? AddLicenseSpecifications { get; set; }
 
     /// <summary>
-    /// ARNs of the license configurations to remove. (structure) Details for associating a license configuration with a resource. LicenseConfigurationArn -&gt; (string) [required] Amazon Resource Name (ARN) of the license configuration. AmiAssociationScope -&gt; (string) Scope of AMI associations. The possible value is cross-ac- count . Shorthand Syntax: LicenseConfigurationArn=string,AmiAssociationScope=string ... JSON Syntax: [ { "LicenseConfigurationArn": "string", "AmiAssociationScope": "string" } ... ]
+    /// ARNs of the license configurations to remove. (structure) Details for associating a license configuration with a resource. LicenseConfigurationArn -&gt; (string) [required] Amazon Resource Name (ARN) of the license configuration. AmiAssociationScope -&gt; (string) Scope of AMI associations. The possible value is cross-account . Shorthand Syntax: LicenseConfigurationArn=string,AmiAssociationScope=string ... JSON Syntax: [ { "LicenseConfigurationArn": "string", "AmiAssociationScope": "string" } ... ]
     /// </summary>
     [CliOption("--remove-license-specifications", GroupValues = true)]
     public IEnumerable<string>? RemoveLicenseSpecifications { get; set; }

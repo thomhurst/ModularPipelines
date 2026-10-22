@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Allows sellers (proposers) to withdraw an existing agreement cancella- tion request that is in a pending state. Once cancelled, the cancella- tion request transitions to CANCELLED status and can no longer be ap- proved or rejected by the buyer. NOTE: Only cancellation requests in PENDING_APPROVAL status can be can- celled. A ConflictException is thrown if the cancellation request is in any other status. See also: AWS API Documentation
+/// Allows sellers (proposers) to withdraw an existing agreement cancellation request that is in a pending state. Once cancelled, the cancellation request transitions to CANCELLED status and can no longer be approved or rejected by the buyer. NOTE: Only cancellation requests in PENDING_APPROVAL status can be cancelled. A ConflictException is thrown if the cancellation request is in any other status. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsMarketplaceAgreementCancelAgreementCancellationRequestOptions :
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Allows sellers (proposers) to withdraw an existing agreement cancella- tion request that is in a pending state. Once cancelled, the cancella- tion request transitions to CANCELLED status and can no longer be ap- proved or rejected by the buyer. NOTE: Only cancellation requests in PENDING_APPROVAL status can be can- celled. A ConflictException is thrown if the cancellation request is in any other status. See also: AWS API Documentation
+    /// Allows sellers (proposers) to withdraw an existing agreement cancellation request that is in a pending state. Once cancelled, the cancellation request transitions to CANCELLED status and can no longer be approved or rejected by the buyer. NOTE: Only cancellation requests in PENDING_APPROVAL status can be cancelled. A ConflictException is thrown if the cancellation request is in any other status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgreementId">The unique identifier of the agreement associated with the cancella- tion request. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+</param>
-    /// <param name="AgreementCancellationRequestId">The unique identifier of the cancellation request to cancel. Constraints: o min: 1 o max: 64 o pattern: acr-[a-zA-Z0-9]+</param>
-    /// <param name="CancellationReason">A required message explaining why the cancellation request is being withdrawn (1-2000 characters). Constraints: o min: 1 o max: 2000</param>
+    /// <param name="AgreementId">The unique identifier of the agreement associated with the cancellation request. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_/-]+</param>
+    /// <param name="AgreementCancellationRequestId">The unique identifier of the cancellation request to cancel. Constraints: • min: 1 • max: 64 • pattern: acr-[a-zA-Z0-9]+</param>
+    /// <param name="CancellationReason">A required message explaining why the cancellation request is being withdrawn (1-2000 characters). Constraints: • min: 1 • max: 2000</param>
     public AwsMarketplaceAgreementCancelAgreementCancellationRequestOptions(
         string AgreementId,
         string AgreementCancellationRequestId,
@@ -64,19 +66,19 @@ public record AwsMarketplaceAgreementCancelAgreementCancellationRequestOptions :
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the agreement associated with the cancella- tion request. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+
+    /// The unique identifier of the agreement associated with the cancellation request. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_/-]+
     /// </summary>
     [CliOption("--agreement-id")]
     public string? AgreementId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the cancellation request to cancel. Constraints: o min: 1 o max: 64 o pattern: acr-[a-zA-Z0-9]+
+    /// The unique identifier of the cancellation request to cancel. Constraints: • min: 1 • max: 64 • pattern: acr-[a-zA-Z0-9]+
     /// </summary>
     [CliOption("--agreement-cancellation-request-id")]
     public string? AgreementCancellationRequestId { get; private init; }
 
     /// <summary>
-    /// A required message explaining why the cancellation request is being withdrawn (1-2000 characters). Constraints: o min: 1 o max: 2000
+    /// A required message explaining why the cancellation request is being withdrawn (1-2000 characters). Constraints: • min: 1 • max: 2000
     /// </summary>
     [CliOption("--cancellation-reason")]
     public string? CancellationReason { get; private init; }

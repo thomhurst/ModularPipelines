@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSesv2GetEmailTemplateOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Displays the template object (which includes the subject line, HTML part and text part) for the template you specify. You can execute this operation no more than 50 times per second. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TemplateName">The name of the template. Constraints: o min: 1</param>
+    /// <param name="TemplateName">The name of the template. Constraints: • min: 1</param>
     public AwsSesv2GetEmailTemplateOptions(
         string TemplateName
     )
@@ -56,7 +58,7 @@ public record AwsSesv2GetEmailTemplateOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the template. Constraints: o min: 1
+    /// The name of the template. Constraints: • min: 1
     /// </summary>
     [CliOption("--template-name")]
     public string? TemplateName { get; private init; }

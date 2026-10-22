@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsEc2ResetImageAttributeOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Resets an attribute of an AMI to its default value. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Attribute">The attribute to reset (currently you can only reset the launch per- mission attribute). Possible values: o launchPermission</param>
+    /// <param name="Attribute">The attribute to reset (currently you can only reset the launch permission attribute). Possible values: • launchPermission</param>
     /// <param name="ImageId">The ID of the AMI.</param>
     public AwsEc2ResetImageAttributeOptions(
         string Attribute,
@@ -60,7 +62,7 @@ public record AwsEc2ResetImageAttributeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The attribute to reset (currently you can only reset the launch per- mission attribute). Possible values: o launchPermission
+    /// The attribute to reset (currently you can only reset the launch permission attribute). Possible values: • launchPermission
     /// </summary>
     [CliOption("--attribute")]
     public string? Attribute { get; private init; }
@@ -72,7 +74,7 @@ public record AwsEc2ResetImageAttributeOptions : AwsOptions, IValidatableObject
     public string? ImageId { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

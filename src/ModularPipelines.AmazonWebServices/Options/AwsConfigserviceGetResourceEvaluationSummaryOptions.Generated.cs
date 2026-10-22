@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a summary of resource evaluation for the specified resource evaluation ID from the proactive rules that were run. The results indi- cate which evaluation context was used to evaluate the rules, which re- source details were evaluated, the evaluation mode that was run, and whether the resource details comply with the configuration of the proactive rules. NOTE: To see additional information about the evaluation result, such as which rule flagged a resource as NON_COMPLIANT, use the GetComp...
+/// Returns a summary of resource evaluation for the specified resource evaluation ID from the proactive rules that were run. The results indicate which evaluation context was used to evaluate the rules, which resource details were evaluated, the evaluation mode that was run, and whether the resource details comply with the configuration of the proactive rules. NOTE: To see additional information about the evaluation result, such as which rule flagged a resource as NON_COMPLIANT, use the GetComplian...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsConfigserviceGetResourceEvaluationSummaryOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a summary of resource evaluation for the specified resource evaluation ID from the proactive rules that were run. The results indi- cate which evaluation context was used to evaluate the rules, which re- source details were evaluated, the evaluation mode that was run, and whether the resource details comply with the configuration of the proactive rules. NOTE: To see additional information about the evaluation result, such as which rule flagged a resource as NON_COMPLIANT, use the GetComp...
+    /// Returns a summary of resource evaluation for the specified resource evaluation ID from the proactive rules that were run. The results indicate which evaluation context was used to evaluate the rules, which resource details were evaluated, the evaluation mode that was run, and whether the resource details comply with the configuration of the proactive rules. NOTE: To see additional information about the evaluation result, such as which rule flagged a resource as NON_COMPLIANT, use the GetComplian...
     /// </summary>
-    /// <param name="ResourceEvaluationId">The unique ResourceEvaluationId of Amazon Web Services resource exe- cution for which you want to retrieve the evaluation summary. Constraints: o min: 1 o max: 128</param>
+    /// <param name="ResourceEvaluationId">The unique ResourceEvaluationId of Amazon Web Services resource execution for which you want to retrieve the evaluation summary. Constraints: • min: 1 • max: 128</param>
     public AwsConfigserviceGetResourceEvaluationSummaryOptions(
         string ResourceEvaluationId
     )
@@ -56,7 +58,7 @@ public record AwsConfigserviceGetResourceEvaluationSummaryOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ResourceEvaluationId of Amazon Web Services resource exe- cution for which you want to retrieve the evaluation summary. Constraints: o min: 1 o max: 128
+    /// The unique ResourceEvaluationId of Amazon Web Services resource execution for which you want to retrieve the evaluation summary. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--resource-evaluation-id")]
     public string? ResourceEvaluationId { get; private init; }

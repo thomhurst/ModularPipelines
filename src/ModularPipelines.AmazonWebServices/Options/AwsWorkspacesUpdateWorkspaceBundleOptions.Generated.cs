@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsWorkspacesUpdateWorkspaceBundleOptions : AwsOptions
 {
     /// <summary>
-    /// The identifier of the bundle. Constraints: o pattern: ^wsb-[0-9a-z]{8,63}$
+    /// The identifier of the bundle. Constraints: • pattern: ^wsb-[0-9a-z]{8,63}$
     /// </summary>
     [CliOption("--bundle-id")]
     public string? BundleId { get; set; }
 
     /// <summary>
-    /// The identifier of the image. Constraints: o pattern: wsi-[0-9a-z]{9,63}$
+    /// The identifier of the image. Constraints: • pattern: wsi-[0-9a-z]{9,63}$
     /// </summary>
     [CliOption("--image-id")]
     public string? ImageId { get; set; }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -17,7 +18,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Before you can send test messages to a verified destination phone num- ber you need to opt-in the verified destination phone number. Creates a new text message with a verification code and send it to a verified destination phone number. Once you have the verification code use Ver- ifyDestinationNumber to opt-in the verified destination phone number to receive messages. See also: AWS API Documentation
+/// Before you can send test messages to a verified destination phone number you need to opt-in the verified destination phone number. Creates a new text message with a verification code and send it to a verified destination phone number. Once you have the verification code use VerifyDestinationNumber to opt-in the verified destination phone number to receive messages. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsPinpointSmsVoiceV2SendDestinationNumberVerificationCodeOptions 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Before you can send test messages to a verified destination phone num- ber you need to opt-in the verified destination phone number. Creates a new text message with a verification code and send it to a verified destination phone number. Once you have the verification code use Ver- ifyDestinationNumber to opt-in the verified destination phone number to receive messages. See also: AWS API Documentation
+    /// Before you can send test messages to a verified destination phone number you need to opt-in the verified destination phone number. Creates a new text message with a verification code and send it to a verified destination phone number. Once you have the verification code use VerifyDestinationNumber to opt-in the verified destination phone number to receive messages. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VerifiedDestinationNumberId">The unique identifier for the verified destination phone number. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
-    /// <param name="VerificationChannel">Choose to send the verification code as an SMS or voice message. Possible values: o TEXT o VOICE</param>
+    /// <param name="VerifiedDestinationNumberId">The unique identifier for the verified destination phone number. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="VerificationChannel">Choose to send the verification code as an SMS or voice message. Possible values: • TEXT • VOICE</param>
     public AwsPinpointSmsVoiceV2SendDestinationNumberVerificationCodeOptions(
         string VerifiedDestinationNumberId,
         AwsPinpointSmsVoiceV2SendDestinationNumberVerificationCodeVerificationChannel VerificationChannel
@@ -61,43 +62,43 @@ public record AwsPinpointSmsVoiceV2SendDestinationNumberVerificationCodeOptions 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the verified destination phone number. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The unique identifier for the verified destination phone number. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--verified-destination-number-id")]
     public string? VerifiedDestinationNumberId { get; private init; }
 
     /// <summary>
-    /// Choose to send the verification code as an SMS or voice message. Possible values: o TEXT o VOICE
+    /// Choose to send the verification code as an SMS or voice message. Possible values: • TEXT • VOICE
     /// </summary>
     [CliOption("--verification-channel")]
     public AwsPinpointSmsVoiceV2SendDestinationNumberVerificationCodeVerificationChannel? VerificationChannel { get; private init; }
 
     /// <summary>
-    /// Choose the language to use for the message. Possible values: o DE_DE o EN_GB o EN_US o ES_419 o ES_ES o FR_CA o FR_FR o IT_IT o JA_JP o KO_KR o PT_BR o ZH_CN o ZH_TW
+    /// Choose the language to use for the message. Possible values: • DE_DE • EN_GB • EN_US • ES_419 • ES_ES • FR_CA • FR_FR • IT_IT • JA_JP • KO_KR • PT_BR • ZH_CN • ZH_TW
     /// </summary>
     [CliOption("--language-code")]
     public AwsPinpointSmsVoiceV2SendDestinationNumberVerificationCodeLanguageCode? LanguageCode { get; set; }
 
     /// <summary>
-    /// The origination identity of the message. This can be either the Pho- neNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/\+-]+
+    /// The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/\+-]+
     /// </summary>
     [CliOption("--origination-identity")]
     public string? OriginationIdentity { get; set; }
 
     /// <summary>
-    /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--configuration-set-name")]
     public string? ConfigurationSetName { get; set; }
 
     /// <summary>
-    /// You can specify custom data in this field. If you do, that data is logged to the event destination. Constraints: o min: 0 o max: 5 key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: \S+ value -&gt; (string) Constraints: o min: 1 o max: 800 o pattern: (?!\s)^[\s\S]+(?&lt;!\s) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// You can specify custom data in this field. If you do, that data is logged to the event destination. Constraints: • min: 0 • max: 5 key -&gt; (string) Constraints: • min: 1 • max: 100 • pattern: \S+ value -&gt; (string) Constraints: • min: 1 • max: 800 • pattern: (?!\s)^[\s\S]+(?&lt;!\s) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--context", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Context { get; set; }
 
     /// <summary>
-    /// This field is used for any country-specific registration require- ments. Currently, this setting is only used when you send messages to recipients in India using a sender ID. For more information see Special requirements for sending SMS messages to recipients in India . Constraints: o min: 0 o max: 10 key -&gt; (string) Possible values: o IN_TEMPLATE_ID o IN_ENTITY_ID value -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: \S+ Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: IN_TEMPLATE_ID IN_ENTITY_ID JSON Syntax: {"IN_TEMPLATE_ID"|"IN_ENTITY_ID": "string" ...}
+    /// This field is used for any country-specific registration requirements. Currently, this setting is only used when you send messages to recipients in India using a sender ID. For more information see Special requirements for sending SMS messages to recipients in India . Constraints: • min: 0 • max: 10 key -&gt; (string) Possible values: • IN_TEMPLATE_ID • IN_ENTITY_ID value -&gt; (string) Constraints: • min: 1 • max: 64 • pattern: \S+ Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: IN_TEMPLATE_ID IN_ENTITY_ID JSON Syntax: {"IN_TEMPLATE_ID"|"IN_ENTITY_ID": "string" ...}
     /// </summary>
     [CliOption("--destination-country-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? DestinationCountryParameters { get; set; }

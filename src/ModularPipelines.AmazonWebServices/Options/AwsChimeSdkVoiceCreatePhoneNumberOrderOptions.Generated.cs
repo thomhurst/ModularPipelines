@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an order for phone numbers to be provisioned. For numbers out- side the U.S., you must use the Amazon Chime SDK SIP media application dial-in product type. See also: AWS API Documentation
+/// Creates an order for phone numbers to be provisioned. For numbers outside the U.S., you must use the Amazon Chime SDK SIP media application dial-in product type. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsChimeSdkVoiceCreatePhoneNumberOrderOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an order for phone numbers to be provisioned. For numbers out- side the U.S., you must use the Amazon Chime SDK SIP media application dial-in product type. See also: AWS API Documentation
+    /// Creates an order for phone numbers to be provisioned. For numbers outside the U.S., you must use the Amazon Chime SDK SIP media application dial-in product type. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProductType">The phone number product type. Possible values: o VoiceConnector o SipMediaApplicationDialIn</param>
-    /// <param name="E164PhoneNumbers">List of phone numbers, in E.164 format. (string) Constraints: o pattern: ^\+?[1-9]\d{1,14}$ Syntax: "string" "string" ...</param>
+    /// <param name="ProductType">The phone number product type. Possible values: • VoiceConnector • SipMediaApplicationDialIn</param>
+    /// <param name="E164PhoneNumbers">List of phone numbers, in E.164 format. (string) Constraints: • pattern: ^\+?[1-9]\d{1,14}$ Syntax: "string" "string" ...</param>
     public AwsChimeSdkVoiceCreatePhoneNumberOrderOptions(
         AwsChimeSdkVoiceCreatePhoneNumberOrderProductType ProductType,
         IEnumerable<string> E164PhoneNumbers
@@ -71,19 +73,19 @@ public record AwsChimeSdkVoiceCreatePhoneNumberOrderOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The phone number product type. Possible values: o VoiceConnector o SipMediaApplicationDialIn
+    /// The phone number product type. Possible values: • VoiceConnector • SipMediaApplicationDialIn
     /// </summary>
     [CliOption("--product-type")]
     public AwsChimeSdkVoiceCreatePhoneNumberOrderProductType? ProductType { get; private init; }
 
     /// <summary>
-    /// List of phone numbers, in E.164 format. (string) Constraints: o pattern: ^\+?[1-9]\d{1,14}$ Syntax: "string" "string" ...
+    /// List of phone numbers, in E.164 format. (string) Constraints: • pattern: ^\+?[1-9]\d{1,14}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--e164-phone-numbers", GroupValues = true)]
     public IEnumerable<string>? E164PhoneNumbers { get; private init; }
 
     /// <summary>
-    /// Specifies the name assigned to one or more phone numbers. Constraints: o min: 0 o max: 256 o pattern: ^$|^[a-zA-Z0-9\,\.\_\-]+(\s+[a-zA-Z0-9\,\.\_\-]+)*$
+    /// Specifies the name assigned to one or more phone numbers. Constraints: • min: 0 • max: 256 • pattern: ^$|^[a-zA-Z0-9\,\.\_\-]+(\s+[a-zA-Z0-9\,\.\_\-]+)*$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API is used for fetching the ResourceProperty of the Glue connec- tion (for the source) or Glue database ARN (for the target) See also: AWS API Documentation
+/// This API is used for fetching the ResourceProperty of the Glue connection (for the source) or Glue database ARN (for the target) See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsGlueGetIntegrationResourcePropertyOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API is used for fetching the ResourceProperty of the Glue connec- tion (for the source) or Glue database ARN (for the target) See also: AWS API Documentation
+    /// This API is used for fetching the ResourceProperty of the Glue connection (for the source) or Glue database ARN (for the target) See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The connection ARN of the source, or the database ARN of the target. Constraints: o min: 1 o max: 512</param>
+    /// <param name="ResourceArn">The connection ARN of the source, or the database ARN of the target. Constraints: • min: 1 • max: 512</param>
     public AwsGlueGetIntegrationResourcePropertyOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsGlueGetIntegrationResourcePropertyOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The connection ARN of the source, or the database ARN of the target. Constraints: o min: 1 o max: 512
+    /// The connection ARN of the source, or the database ARN of the target. Constraints: • min: 1 • max: 512
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

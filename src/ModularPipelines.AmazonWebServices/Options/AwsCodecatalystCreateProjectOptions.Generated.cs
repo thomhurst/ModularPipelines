@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCodecatalystCreateProjectOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Creates a project in a specified space. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SpaceName">The name of the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*</param>
-    /// <param name="DisplayName">The friendly name of the project that will be displayed to users. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\. ][a-zA-Z0-9]+)*</param>
+    /// <param name="SpaceName">The name of the space. Constraints: • min: 3 • max: 63 • pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*</param>
+    /// <param name="DisplayName">The friendly name of the project that will be displayed to users. Constraints: • min: 3 • max: 63 • pattern: [a-zA-Z0-9]+(?:[-_\. ][a-zA-Z0-9]+)*</param>
     public AwsCodecatalystCreateProjectOptions(
         string SpaceName,
         string DisplayName
@@ -60,19 +62,19 @@ public record AwsCodecatalystCreateProjectOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
+    /// The name of the space. Constraints: • min: 3 • max: 63 • pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--space-name")]
     public string? SpaceName { get; private init; }
 
     /// <summary>
-    /// The friendly name of the project that will be displayed to users. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\. ][a-zA-Z0-9]+)*
+    /// The friendly name of the project that will be displayed to users. Constraints: • min: 3 • max: 63 • pattern: [a-zA-Z0-9]+(?:[-_\. ][a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; private init; }
 
     /// <summary>
-    /// The description of the project. This description will be displayed to all users of the project. We recommend providing a brief descrip- tion of the project and its intended purpose. Constraints: o min: 0 o max: 200 o pattern: [a-zA-Z0-9]+(?:[-_a-zA-Z0-9.,;:/\+=?&amp;$% ])*
+    /// The description of the project. This description will be displayed to all users of the project. We recommend providing a brief description of the project and its intended purpose. Constraints: • min: 0 • max: 200 • pattern: [a-zA-Z0-9]+(?:[-_a-zA-Z0-9.,;:/\+=?&amp;$% ])*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

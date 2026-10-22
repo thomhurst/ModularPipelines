@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Forces a failover for a DB cluster. For an Aurora DB cluster, failover for a DB cluster promotes one of the Aurora Replicas (read-only instances) in the DB cluster to be the pri- mary DB instance (the cluster writer). For a Multi-AZ DB cluster, after RDS terminates the primary DB in- stance, the internal monitoring system detects that the primary DB in- stance is unhealthy and promotes a readable standby (read-only in- stances) in the DB cluster to be the primary DB instance (the cluster writer)...
+/// Forces a failover for a DB cluster. For an Aurora DB cluster, failover for a DB cluster promotes one of the Aurora Replicas (read-only instances) in the DB cluster to be the primary DB instance (the cluster writer). For a Multi-AZ DB cluster, after RDS terminates the primary DB instance, the internal monitoring system detects that the primary DB instance is unhealthy and promotes a readable standby (read-only instances) in the DB cluster to be the primary DB instance (the cluster writer). Failov...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRdsFailoverDbClusterOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Forces a failover for a DB cluster. For an Aurora DB cluster, failover for a DB cluster promotes one of the Aurora Replicas (read-only instances) in the DB cluster to be the pri- mary DB instance (the cluster writer). For a Multi-AZ DB cluster, after RDS terminates the primary DB in- stance, the internal monitoring system detects that the primary DB in- stance is unhealthy and promotes a readable standby (read-only in- stances) in the DB cluster to be the primary DB instance (the cluster writer)...
+    /// Forces a failover for a DB cluster. For an Aurora DB cluster, failover for a DB cluster promotes one of the Aurora Replicas (read-only instances) in the DB cluster to be the primary DB instance (the cluster writer). For a Multi-AZ DB cluster, after RDS terminates the primary DB instance, the internal monitoring system detects that the primary DB instance is unhealthy and promotes a readable standby (read-only instances) in the DB cluster to be the primary DB instance (the cluster writer). Failov...
     /// </summary>
-    /// <param name="DbClusterIdentifier">The identifier of the DB cluster to force a failover for. This para- meter isn't case-sensitive. Constraints: o Must match the identifier of an existing DB cluster.</param>
+    /// <param name="DbClusterIdentifier">The identifier of the DB cluster to force a failover for. This parameter isn't case-sensitive. Constraints: • Must match the identifier of an existing DB cluster.</param>
     public AwsRdsFailoverDbClusterOptions(
         string DbClusterIdentifier
     )
@@ -56,13 +58,13 @@ public record AwsRdsFailoverDbClusterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the DB cluster to force a failover for. This para- meter isn't case-sensitive. Constraints: o Must match the identifier of an existing DB cluster.
+    /// The identifier of the DB cluster to force a failover for. This parameter isn't case-sensitive. Constraints: • Must match the identifier of an existing DB cluster.
     /// </summary>
     [CliOption("--db-cluster-identifier")]
     public string? DbClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The name of the DB instance to promote to the primary DB instance. Specify the DB instance identifier for an Aurora Replica or a Multi-AZ readable standby in the DB cluster, for example mydbclus- ter-replica1 . This setting isn't supported for RDS for MySQL Multi-AZ DB clusters.
+    /// The name of the DB instance to promote to the primary DB instance. Specify the DB instance identifier for an Aurora Replica or a Multi-AZ readable standby in the DB cluster, for example mydbcluster-replica1 . This setting isn't supported for RDS for MySQL Multi-AZ DB clusters.
     /// </summary>
     [CliOption("--target-db-instance-identifier")]
     public string? TargetDbInstanceIdentifier { get; set; }

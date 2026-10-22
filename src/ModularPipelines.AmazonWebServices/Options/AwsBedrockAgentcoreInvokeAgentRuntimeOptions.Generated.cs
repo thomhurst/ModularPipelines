@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sends a request to an agent or tool hosted in an Amazon Bedrock Agent- Core Runtime and receives responses in real-time. To invoke an agent, you can specify either the AgentCore Runtime ARN or the agent ID with an account ID, and provide a payload containing your request. When you use the agent ID instead of the full ARN, you don't need to URL-encode the identifier. You can optionally specify a quali- fier to target a specific endpoint of the agent. This operation supports streaming responses, a...
+/// Sends a request to an agent or tool hosted in an Amazon Bedrock AgentCore Runtime and receives responses in real-time. To invoke an agent, you can specify either the AgentCore Runtime ARN or the agent ID with an account ID, and provide a payload containing your request. When you use the agent ID instead of the full ARN, you don't need to URL-encode the identifier. You can optionally specify a qualifier to target a specific endpoint of the agent. This operation supports streaming responses, allow...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,10 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsBedrockAgentcoreInvokeAgentRuntimeOptions : AwsOptions
 {
     /// <summary>
-    /// Sends a request to an agent or tool hosted in an Amazon Bedrock Agent- Core Runtime and receives responses in real-time. To invoke an agent, you can specify either the AgentCore Runtime ARN or the agent ID with an account ID, and provide a payload containing your request. When you use the agent ID instead of the full ARN, you don't need to URL-encode the identifier. You can optionally specify a quali- fier to target a specific endpoint of the agent. This operation supports streaming responses, a...
+    /// Sends a request to an agent or tool hosted in an Amazon Bedrock AgentCore Runtime and receives responses in real-time. To invoke an agent, you can specify either the AgentCore Runtime ARN or the agent ID with an account ID, and provide a payload containing your request. When you use the agent ID instead of the full ARN, you don't need to URL-encode the identifier. You can optionally specify a qualifier to target a specific endpoint of the agent. This operation supports streaming responses, allow...
     /// </summary>
-    /// <param name="AgentRuntimeArn">The identifier of the agent runtime to invoke. You can specify ei- ther the full Amazon Web Services Resource Name (ARN) or the agent ID. If you use the agent ID, you must also provide the accountId query parameter.</param>
-    /// <param name="Payload">The input data to send to the agent runtime. The format of this data depends on the specific agent configuration and must match the spec- ified content type. For most agents, this is a JSON object contain- ing the user's request. Constraints: o min: 0 o max: 100000000 outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="AgentRuntimeArn">The identifier of the agent runtime to invoke. You can specify either the full Amazon Web Services Resource Name (ARN) or the agent ID. If you use the agent ID, you must also provide the accountId query parameter.</param>
+    /// <param name="Payload">The input data to send to the agent runtime. The format of this data depends on the specific agent configuration and must match the specified content type. For most agents, this is a JSON object containing the user's request. Constraints: • min: 0 • max: 100000000 outfile (string) [required] Filename where the content will be saved</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsBedrockAgentcoreInvokeAgentRuntimeOptions(
         string AgentRuntimeArn,
@@ -49,85 +49,85 @@ public record AwsBedrockAgentcoreInvokeAgentRuntimeOptions : AwsOptions
     }
 
     /// <summary>
-    /// The identifier of the agent runtime to invoke. You can specify ei- ther the full Amazon Web Services Resource Name (ARN) or the agent ID. If you use the agent ID, you must also provide the accountId query parameter.
+    /// The identifier of the agent runtime to invoke. You can specify either the full Amazon Web Services Resource Name (ARN) or the agent ID. If you use the agent ID, you must also provide the accountId query parameter.
     /// </summary>
     [CliOption("--agent-runtime-arn")]
     public string AgentRuntimeArn { get; private init; }
 
     /// <summary>
-    /// The input data to send to the agent runtime. The format of this data depends on the specific agent configuration and must match the spec- ified content type. For most agents, this is a JSON object contain- ing the user's request. Constraints: o min: 0 o max: 100000000 outfile (string) [required] Filename where the content will be saved
+    /// The input data to send to the agent runtime. The format of this data depends on the specific agent configuration and must match the specified content type. For most agents, this is a JSON object containing the user's request. Constraints: • min: 0 • max: 100000000 outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--payload")]
     public string Payload { get; private init; }
 
     /// <summary>
-    /// The MIME type of the input data in the payload. This tells the agent runtime how to interpret the payload data. Common values include ap- plication/json for JSON data. Constraints: o min: 1 o max: 256
+    /// The MIME type of the input data in the payload. This tells the agent runtime how to interpret the payload data. Common values include application/json for JSON data. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--content-type")]
     public string? ContentType { get; set; }
 
     /// <summary>
-    /// The desired MIME type for the response from the agent runtime. This tells the agent runtime what format to use for the response data. Common values include application/json for JSON data. Constraints: o min: 1 o max: 256
+    /// The desired MIME type for the response from the agent runtime. This tells the agent runtime what format to use for the response data. Common values include application/json for JSON data. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--accept")]
     public string? Accept { get; set; }
 
     /// <summary>
-    /// The identifier of the MCP session. Constraints: o min: 1 o max: 1024
+    /// The identifier of the MCP session. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--mcp-session-id")]
     public string? McpSessionId { get; set; }
 
     /// <summary>
-    /// The identifier of the runtime session. Constraints: o min: 33 o max: 256
+    /// The identifier of the runtime session. Constraints: • min: 33 • max: 256
     /// </summary>
     [CliOption("--runtime-session-id")]
     public string? RuntimeSessionId { get; set; }
 
     /// <summary>
-    /// The version of the MCP protocol being used. Constraints: o min: 1 o max: 1024
+    /// The version of the MCP protocol being used. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--mcp-protocol-version")]
     public string? McpProtocolVersion { get; set; }
 
     /// <summary>
-    /// The MCP method being invoked. For example, tools/call , re- sources/read , or prompts/get . Constraints: o min: 1 o max: 1024
+    /// The MCP method being invoked. For example, tools/call , resources/read , or prompts/get . Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--mcp-method")]
     public string? McpMethod { get; set; }
 
     /// <summary>
-    /// The name of the MCP resource, tool, or prompt being accessed. The value depends on the method: o tools/call The tool name. o resources/read The resource URI. o prompts/get The prompt name. Constraints: o min: 1 o max: 1024
+    /// The name of the MCP resource, tool, or prompt being accessed. The value depends on the method: • tools/call The tool name. • resources/read The resource URI. • prompts/get The prompt name. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--mcp-name")]
     public string? McpName { get; set; }
 
     /// <summary>
-    /// The identifier of the runtime user. Constraints: o min: 1 o max: 1024
+    /// The identifier of the runtime user. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--runtime-user-id")]
     public string? RuntimeUserId { get; set; }
 
     /// <summary>
-    /// The trace identifier for request tracking. Constraints: o min: 0 o max: 128
+    /// The trace identifier for request tracking. Constraints: • min: 0 • max: 128
     /// </summary>
     [CliOption("--trace-id")]
     public string? TraceId { get; set; }
 
     /// <summary>
-    /// The parent trace information for distributed tracing. Constraints: o min: 0 o max: 128
+    /// The parent trace information for distributed tracing. Constraints: • min: 0 • max: 128
     /// </summary>
     [CliOption("--trace-parent")]
     public string? TraceParent { get; set; }
 
     /// <summary>
-    /// The trace state information for distributed tracing. Constraints: o min: 0 o max: 512
+    /// The trace state information for distributed tracing. Constraints: • min: 0 • max: 512
     /// </summary>
     [CliOption("--trace-state")]
     public string? TraceState { get; set; }
 
     /// <summary>
-    /// Additional context information for distributed tracing. Constraints: o min: 0 o max: 8192
+    /// Additional context information for distributed tracing. Constraints: • min: 0 • max: 8192
     /// </summary>
     [CliOption("--baggage")]
     public string? Baggage { get; set; }
@@ -139,7 +139,7 @@ public record AwsBedrockAgentcoreInvokeAgentRuntimeOptions : AwsOptions
     public string? Qualifier { get; set; }
 
     /// <summary>
-    /// The identifier of the Amazon Web Services account for the agent run- time resource. This parameter is required when you specify an agent ID instead of the full ARN for agentRuntimeArn . Constraints: o pattern: [0-9]{12}
+    /// The identifier of the Amazon Web Services account for the agent runtime resource. This parameter is required when you specify an agent ID instead of the full ARN for agentRuntimeArn . Constraints: • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }

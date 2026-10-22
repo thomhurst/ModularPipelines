@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Validates the syntax of a matchmaking rule or rule set. This operation checks that the rule set is using syntactically correct JSON and that it conforms to allowed property expressions. To validate syntax, pro- vide a rule set JSON string. Learn more o Build a rule set See also: AWS API Documentation
+/// This API works with the following fleet types: EC2, Anywhere, Container Validates the syntax of a matchmaking rule or rule set. This operation checks that the rule set is using syntactically correct JSON and that it conforms to allowed property expressions. To validate syntax, provide a rule set JSON string. Learn more • Build a rule set See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsGameliftValidateMatchmakingRuleSetOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Validates the syntax of a matchmaking rule or rule set. This operation checks that the rule set is using syntactically correct JSON and that it conforms to allowed property expressions. To validate syntax, pro- vide a rule set JSON string. Learn more o Build a rule set See also: AWS API Documentation
+    /// This API works with the following fleet types: EC2, Anywhere, Container Validates the syntax of a matchmaking rule or rule set. This operation checks that the rule set is using syntactically correct JSON and that it conforms to allowed property expressions. To validate syntax, provide a rule set JSON string. Learn more • Build a rule set See also: AWS API Documentation
     /// </summary>
-    /// <param name="RuleSetBody">A collection of matchmaking rules to validate, formatted as a JSON string. Constraints: o min: 1 o max: 65535</param>
+    /// <param name="RuleSetBody">A collection of matchmaking rules to validate, formatted as a JSON string. Constraints: • min: 1 • max: 65535</param>
     public AwsGameliftValidateMatchmakingRuleSetOptions(
         string RuleSetBody
     )
@@ -56,7 +58,7 @@ public record AwsGameliftValidateMatchmakingRuleSetOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A collection of matchmaking rules to validate, formatted as a JSON string. Constraints: o min: 1 o max: 65535
+    /// A collection of matchmaking rules to validate, formatted as a JSON string. Constraints: • min: 1 • max: 65535
     /// </summary>
     [CliOption("--rule-set-body")]
     public string? RuleSetBody { get; private init; }

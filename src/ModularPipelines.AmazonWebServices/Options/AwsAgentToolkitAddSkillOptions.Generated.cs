@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Download and install an AWS skill to detected AI coding agents. By de- fault the latest version is installed globally to all detected agents. Use --agent to target a specific tool, or --skill-version to pin a spe- cific version.
+/// Download and install an AWS skill to detected AI coding agents. By default the latest version is installed globally to all detected agents. Use --agent to target a specific tool, or --skill-version to pin a specific version.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsAgentToolkitAddSkillOptions : AwsOptions
 {
     /// <summary>
-    /// Download and install an AWS skill to detected AI coding agents. By de- fault the latest version is installed globally to all detected agents. Use --agent to target a specific tool, or --skill-version to pin a spe- cific version.
+    /// Download and install an AWS skill to detected AI coding agents. By default the latest version is installed globally to all detected agents. Use --agent to target a specific tool, or --skill-version to pin a specific version.
     /// </summary>
     /// <param name="SkillName"></param>
     public AwsAgentToolkitAddSkillOptions(

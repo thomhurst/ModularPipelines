@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -30,7 +31,7 @@ public record AwsGlueGetPlanOptions : AwsOptions, IValidatableObject
     /// Gets code to perform a specified mapping. See also: AWS API Documentation
     /// </summary>
     /// <param name="Mapping">The list of mappings from a source table to target tables. (structure) Defines a mapping. SourceTable -&gt; (string) The name of the source table. SourcePath -&gt; (string) The source path. SourceType -&gt; (string) The source type. TargetTable -&gt; (string) The target table. TargetPath -&gt; (string) The target path. TargetType -&gt; (string) The target type. Shorthand Syntax: SourceTable=string,SourcePath=string,SourceType=string,TargetTable=string,TargetPath=string,TargetType=string ... JSON Syntax: [ { "SourceTable": "string", "SourcePath": "string", "SourceType": "string", "TargetTable": "string", "TargetPath": "string", "TargetType": "string" } ... ]</param>
-    /// <param name="Source">The source table. DatabaseName -&gt; (string) [required] The database in which the table metadata resides. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* TableName -&gt; (string) [required] The name of the table in question. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Shorthand Syntax: DatabaseName=string,TableName=string JSON Syntax: { "DatabaseName": "string", "TableName": "string" }</param>
+    /// <param name="Source">The source table. DatabaseName -&gt; (string) [required] The database in which the table metadata resides. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* TableName -&gt; (string) [required] The name of the table in question. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Shorthand Syntax: DatabaseName=string,TableName=string JSON Syntax: { "DatabaseName": "string", "TableName": "string" }</param>
     public AwsGlueGetPlanOptions(
         IEnumerable<string> Mapping,
         string Source
@@ -79,31 +80,31 @@ public record AwsGlueGetPlanOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? Mapping { get; private init; }
 
     /// <summary>
-    /// The source table. DatabaseName -&gt; (string) [required] The database in which the table metadata resides. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* TableName -&gt; (string) [required] The name of the table in question. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Shorthand Syntax: DatabaseName=string,TableName=string JSON Syntax: { "DatabaseName": "string", "TableName": "string" }
+    /// The source table. DatabaseName -&gt; (string) [required] The database in which the table metadata resides. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* TableName -&gt; (string) [required] The name of the table in question. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Shorthand Syntax: DatabaseName=string,TableName=string JSON Syntax: { "DatabaseName": "string", "TableName": "string" }
     /// </summary>
     [CliOption("--source")]
     public string? Source { get; private init; }
 
     /// <summary>
-    /// The target tables. (structure) Specifies a table definition in the Glue Data Catalog. DatabaseName -&gt; (string) [required] The database in which the table metadata resides. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* TableName -&gt; (string) [required] The name of the table in question. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Shorthand Syntax: DatabaseName=string,TableName=string ... JSON Syntax: [ { "DatabaseName": "string", "TableName": "string" } ... ]
+    /// The target tables. (structure) Specifies a table definition in the Glue Data Catalog. DatabaseName -&gt; (string) [required] The database in which the table metadata resides. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* TableName -&gt; (string) [required] The name of the table in question. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Shorthand Syntax: DatabaseName=string,TableName=string ... JSON Syntax: [ { "DatabaseName": "string", "TableName": "string" } ... ]
     /// </summary>
     [CliOption("--sinks", GroupValues = true)]
     public IEnumerable<string>? Sinks { get; set; }
 
     /// <summary>
-    /// The parameters for the mapping. Jdbc -&gt; (list) A JDBC location. Constraints: o min: 0 o max: 50 (structure) An argument or property of a node. Name -&gt; (string) [required] The name of the argument or property. Value -&gt; (string) [required] The value of the argument or property. Param -&gt; (boolean) True if the value is used as a parameter. S3 -&gt; (list) An Amazon Simple Storage Service (Amazon S3) location. Constraints: o min: 0 o max: 50 (structure) An argument or property of a node. Name -&gt; (string) [required] The name of the argument or property. Value -&gt; (string) [required] The value of the argument or property. Param -&gt; (boolean) True if the value is used as a parameter. DynamoDB -&gt; (list) An Amazon DynamoDB table location. Constraints: o min: 0 o max: 50 (structure) An argument or property of a node. Name -&gt; (string) [required] The name of the argument or property. Value -&gt; (string) [required] The value of the argument or property. Param -&gt; (boolean) True if the value is used as a parameter. Shorthand Syntax: Jdbc=[{Name=string,Value=string,Param=boolean},{Name=string,Value=string,Param=boolean}],S3=[{Name=string,Value=string,Param=boolean},{Name=string,Value=string,Param=boolean}],DynamoDB=[{Name=string,Value=string,Param=boolean},{Name=string,Value=string,Param=boolean}] JSON Syntax: { "Jdbc": [ { "Name": "string", "Value": "string", "Param": true|false } ... ], "S3": [ { "Name": "string", "Value": "string", "Param": true|false } ... ], "DynamoDB": [ { "Name": "string", "Value": "string", "Param": true|false } ... ] }
+    /// The parameters for the mapping. Jdbc -&gt; (list) A JDBC location. Constraints: • min: 0 • max: 50 (structure) An argument or property of a node. Name -&gt; (string) [required] The name of the argument or property. Value -&gt; (string) [required] The value of the argument or property. Param -&gt; (boolean) True if the value is used as a parameter. S3 -&gt; (list) An Amazon Simple Storage Service (Amazon S3) location. Constraints: • min: 0 • max: 50 (structure) An argument or property of a node. Name -&gt; (string) [required] The name of the argument or property. Value -&gt; (string) [required] The value of the argument or property. Param -&gt; (boolean) True if the value is used as a parameter. DynamoDB -&gt; (list) An Amazon DynamoDB table location. Constraints: • min: 0 • max: 50 (structure) An argument or property of a node. Name -&gt; (string) [required] The name of the argument or property. Value -&gt; (string) [required] The value of the argument or property. Param -&gt; (boolean) True if the value is used as a parameter. Shorthand Syntax: Jdbc=[{Name=string,Value=string,Param=boolean},{Name=string,Value=string,Param=boolean}],S3=[{Name=string,Value=string,Param=boolean},{Name=string,Value=string,Param=boolean}],DynamoDB=[{Name=string,Value=string,Param=boolean},{Name=string,Value=string,Param=boolean}] JSON Syntax: { "Jdbc": [ { "Name": "string", "Value": "string", "Param": true|false } ... ], "S3": [ { "Name": "string", "Value": "string", "Param": true|false } ... ], "DynamoDB": [ { "Name": "string", "Value": "string", "Param": true|false } ... ] }
     /// </summary>
     [CliOption("--location")]
     public string? Location { get; set; }
 
     /// <summary>
-    /// The programming language of the code to perform the mapping. Possible values: o PYTHON o SCALA
+    /// The programming language of the code to perform the mapping. Possible values: • PYTHON • SCALA
     /// </summary>
     [CliOption("--language")]
     public AwsGlueGetPlanLanguage? Language { get; set; }
 
     /// <summary>
-    /// A map to hold additional optional key-value parameters. Currently, these key-value pairs are supported: o inferSchema Specifies whether to set inferSchema to true or false for the default script generated by an Glue job. For example, to set inferSchema to true, pass the following key value pair: --ad- ditional-plan-options-map '{"inferSchema":"true"}' key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map to hold additional optional key-value parameters. Currently, these key-value pairs are supported: • inferSchema Specifies whether to set inferSchema to true or false for the default script generated by an Glue job. For example, to set inferSchema to true, pass the following key value pair: --additional-plan-options-map '{"inferSchema":"true"}' key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--additional-plan-options-map", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AdditionalPlanOptionsMap { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves aggregated statistics for your account. If you are a Guard- Duty administrator, you can retrieve the statistics for all the re- sources associated with the active member accounts in your organization who have enabled Runtime Monitoring and have the GuardDuty security agent running on their resources. See also: AWS API Documentation
+/// Retrieves aggregated statistics for your account. If you are a GuardDuty administrator, you can retrieve the statistics for all the resources associated with the active member accounts in your organization who have enabled Runtime Monitoring and have the GuardDuty security agent running on their resources. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsGuarddutyGetCoverageStatisticsOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves aggregated statistics for your account. If you are a Guard- Duty administrator, you can retrieve the statistics for all the re- sources associated with the active member accounts in your organization who have enabled Runtime Monitoring and have the GuardDuty security agent running on their resources. See also: AWS API Documentation
+    /// Retrieves aggregated statistics for your account. If you are a GuardDuty administrator, you can retrieve the statistics for all the resources associated with the active member accounts in your organization who have enabled Runtime Monitoring and have the GuardDuty security agent running on their resources. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DetectorId">The unique ID of the GuardDuty detector. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
-    /// <param name="StatisticsType">Represents the statistics type used to aggregate the coverage de- tails. (string) Possible values: o COUNT_BY_RESOURCE_TYPE o COUNT_BY_COVERAGE_STATUS Syntax: "string" "string" ...</param>
+    /// <param name="DetectorId">The unique ID of the GuardDuty detector. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300</param>
+    /// <param name="StatisticsType">Represents the statistics type used to aggregate the coverage details. (string) Possible values: • COUNT_BY_RESOURCE_TYPE • COUNT_BY_COVERAGE_STATUS Syntax: "string" "string" ...</param>
     public AwsGuarddutyGetCoverageStatisticsOptions(
         string DetectorId,
         IEnumerable<string> StatisticsType
@@ -71,19 +73,19 @@ public record AwsGuarddutyGetCoverageStatisticsOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the GuardDuty detector. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// The unique ID of the GuardDuty detector. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }
 
     /// <summary>
-    /// Represents the statistics type used to aggregate the coverage de- tails. (string) Possible values: o COUNT_BY_RESOURCE_TYPE o COUNT_BY_COVERAGE_STATUS Syntax: "string" "string" ...
+    /// Represents the statistics type used to aggregate the coverage details. (string) Possible values: • COUNT_BY_RESOURCE_TYPE • COUNT_BY_COVERAGE_STATUS Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--statistics-type", GroupValues = true)]
     public IEnumerable<string>? StatisticsType { get; private init; }
 
     /// <summary>
-    /// Represents the criteria used to filter the coverage statistics. FilterCriterion -&gt; (list) Represents a condition that when matched will be added to the response of the operation. Constraints: o min: 0 o max: 50 (structure) Represents a condition that when matched will be added to the response of the operation. CriterionKey -&gt; (string) An enum value representing possible filter fields. NOTE: Replace the enum value CLUSTER_NAME with EKS_CLUS- TER_NAME . CLUSTER_NAME has been deprecated. Possible values: o ACCOUNT_ID o RESOURCE_TYPE o COVERAGE_STATUS o ADDON_VERSION o CLUSTER_NAME o ECS_CLUSTER_NAME o MANAGEMENT_TYPE o EKS_CLUSTER_NAME o AGENT_VERSION o INSTANCE_ID o CLUSTER_ARN FilterCondition -&gt; (structure) Contains information about the condition. Equals -&gt; (list) Represents an equal condition that is applied to a single field while retrieving the coverage details. (string) NotEquals -&gt; (list) Represents a not equal condition that is applied to a single field while retrieving the coverage details. (string) JSON Syntax: { "FilterCriterion": [ { "CriterionKey": "ACCOUNT_ID"|"RESOURCE_TYPE"|"COVERAGE_STATUS"|"ADDON_VERSION"|"CLUSTER_NAME"|"ECS_CLUSTER_NAME"|"MANAGEMENT_TYPE"|"EKS_CLUSTER_NAME"|"AGENT_VERSION"|"INSTANCE_ID"|"CLUSTER_ARN", "FilterCondition": { "Equals": ["string", ...], "NotEquals": ["string", ...] } } ... ] }
+    /// Represents the criteria used to filter the coverage statistics. FilterCriterion -&gt; (list) Represents a condition that when matched will be added to the response of the operation. Constraints: • min: 0 • max: 50 (structure) Represents a condition that when matched will be added to the response of the operation. CriterionKey -&gt; (string) An enum value representing possible filter fields. NOTE: Replace the enum value CLUSTER_NAME with EKS_CLUSTER_NAME . CLUSTER_NAME has been deprecated. Possible values: • ACCOUNT_ID • RESOURCE_TYPE • COVERAGE_STATUS • ADDON_VERSION • CLUSTER_NAME • ECS_CLUSTER_NAME • MANAGEMENT_TYPE • EKS_CLUSTER_NAME • AGENT_VERSION • INSTANCE_ID • CLUSTER_ARN FilterCondition -&gt; (structure) Contains information about the condition. Equals -&gt; (list) Represents an equal condition that is applied to a single field while retrieving the coverage details. (string) NotEquals -&gt; (list) Represents a not equal condition that is applied to a single field while retrieving the coverage details. (string) JSON Syntax: { "FilterCriterion": [ { "CriterionKey": "ACCOUNT_ID"|"RESOURCE_TYPE"|"COVERAGE_STATUS"|"ADDON_VERSION"|"CLUSTER_NAME"|"ECS_CLUSTER_NAME"|"MANAGEMENT_TYPE"|"EKS_CLUSTER_NAME"|"AGENT_VERSION"|"INSTANCE_ID"|"CLUSTER_ARN", "FilterCondition": { "Equals": ["string", ...], "NotEquals": ["string", ...] } } ... ] }
     /// </summary>
     [CliOption("--filter-criteria")]
     public string? FilterCriteria { get; set; }

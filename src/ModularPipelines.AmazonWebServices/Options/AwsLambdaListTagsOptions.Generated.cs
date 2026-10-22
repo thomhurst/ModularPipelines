@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a function, event source mapping, or code signing configura- tion's tags . You can also view function tags with GetFunction . See also: AWS API Documentation
+/// Returns a function, event source mapping, or code signing configuration's tags . You can also view function tags with GetFunction . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLambdaListTagsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a function, event source mapping, or code signing configura- tion's tags . You can also view function tags with GetFunction . See also: AWS API Documentation
+    /// Returns a function, event source mapping, or code signing configuration's tags . You can also view function tags with GetFunction . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Resource">The resource's Amazon Resource Name (ARN). Note: Lambda does not support adding tags to function aliases or versions. Constraints: o min: 1 o max: 10000 o pattern: arn:(aws[a-zA-Z-]*):lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:(func- tion:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))?|code-signing-con- fig:csc-[a-z0-9]{17}|event-source-map- ping:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}|(ca- pacity-provider|network-connector):[a-zA-Z0-9-_]{1,64})</param>
+    /// <param name="Resource">The resource's Amazon Resource Name (ARN). Note: Lambda does not support adding tags to function aliases or versions. Constraints: • min: 1 • max: 10000 • pattern: arn:(aws[a-zA-Z-]*):lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:(function:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))?|code-signing-config:csc-[a-z0-9]{17}|event-source-mapping:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}|(capacity-provider|network-connector):[a-zA-Z0-9-_]{1,64})</param>
     public AwsLambdaListTagsOptions(
         string Resource
     )
@@ -56,7 +58,7 @@ public record AwsLambdaListTagsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The resource's Amazon Resource Name (ARN). Note: Lambda does not support adding tags to function aliases or versions. Constraints: o min: 1 o max: 10000 o pattern: arn:(aws[a-zA-Z-]*):lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:(func- tion:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))?|code-signing-con- fig:csc-[a-z0-9]{17}|event-source-map- ping:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}|(ca- pacity-provider|network-connector):[a-zA-Z0-9-_]{1,64})
+    /// The resource's Amazon Resource Name (ARN). Note: Lambda does not support adding tags to function aliases or versions. Constraints: • min: 1 • max: 10000 • pattern: arn:(aws[a-zA-Z-]*):lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:(function:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))?|code-signing-config:csc-[a-z0-9]{17}|event-source-mapping:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}|(capacity-provider|network-connector):[a-zA-Z0-9-_]{1,64})
     /// </summary>
     [CliOption("--resource")]
     public string? Resource { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCodecommitMergeBranchesByFastForwardOptions : AwsOptions, IVali
     /// <summary>
     /// Merges two branches using the fast-forward merge strategy. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryName">The name of the repository where you want to merge two branches. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
+    /// <param name="RepositoryName">The name of the repository where you want to merge two branches. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+</param>
     /// <param name="SourceCommitSpecifier">The branch, tag, HEAD, or other fully qualified reference used to identify a commit (for example, a branch name or a full commit ID).</param>
     /// <param name="DestinationCommitSpecifier">The branch, tag, HEAD, or other fully qualified reference used to identify a commit (for example, a branch name or a full commit ID).</param>
     public AwsCodecommitMergeBranchesByFastForwardOptions(
@@ -64,7 +66,7 @@ public record AwsCodecommitMergeBranchesByFastForwardOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the repository where you want to merge two branches. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// The name of the repository where you want to merge two branches. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
@@ -82,7 +84,7 @@ public record AwsCodecommitMergeBranchesByFastForwardOptions : AwsOptions, IVali
     public string? DestinationCommitSpecifier { get; private init; }
 
     /// <summary>
-    /// The branch where the merge is applied. Constraints: o min: 1 o max: 256
+    /// The branch where the merge is applied. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--target-branch")]
     public string? TargetBranch { get; set; }

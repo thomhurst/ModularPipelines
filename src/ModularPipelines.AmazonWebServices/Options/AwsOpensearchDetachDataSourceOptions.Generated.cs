@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsOpensearchDetachDataSourceOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Removes a data source from an OpenSearch application. The application must be in the ACTIVE state. This operation removes the data source saved object from the application and deletes the attachment record. Throws a ConflictException if the specified data source has a PENDING attachment, and a ResourceNotFoundException if the data source is not currently attached to the application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The unique identifier or name of the OpenSearch application to de- tach the data source from. Constraints: o pattern: [a-z0-9]{3,30}</param>
-    /// <param name="DataSourceArn">The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Access Man- agement for more information. Constraints: o min: 20 o max: 2048 o pattern: .*</param>
+    /// <param name="Id">The unique identifier or name of the OpenSearch application to detach the data source from. Constraints: • pattern: [a-z0-9]{3,30}</param>
+    /// <param name="DataSourceArn">The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Access Management for more information. Constraints: • min: 20 • max: 2048 • pattern: .*</param>
     public AwsOpensearchDetachDataSourceOptions(
         string Id,
         string DataSourceArn
@@ -60,13 +62,13 @@ public record AwsOpensearchDetachDataSourceOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier or name of the OpenSearch application to de- tach the data source from. Constraints: o pattern: [a-z0-9]{3,30}
+    /// The unique identifier or name of the OpenSearch application to detach the data source from. Constraints: • pattern: [a-z0-9]{3,30}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Access Man- agement for more information. Constraints: o min: 20 o max: 2048 o pattern: .*
+    /// The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Access Management for more information. Constraints: • min: 20 • max: 2048 • pattern: .*
     /// </summary>
     [CliOption("--data-source-arn")]
     public string? DataSourceArn { get; private init; }

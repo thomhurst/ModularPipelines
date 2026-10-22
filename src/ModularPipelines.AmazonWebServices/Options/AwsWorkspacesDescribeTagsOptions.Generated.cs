@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsWorkspacesDescribeTagsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Describes the specified tags for the specified WorkSpaces resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceId">The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bun- dles, IP access control groups, and connection aliases. Constraints: o min: 1</param>
+    /// <param name="ResourceId">The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, IP access control groups, and connection aliases. Constraints: • min: 1</param>
     public AwsWorkspacesDescribeTagsOptions(
         string ResourceId
     )
@@ -56,7 +58,7 @@ public record AwsWorkspacesDescribeTagsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bun- dles, IP access control groups, and connection aliases. Constraints: o min: 1
+    /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, IP access control groups, and connection aliases. Constraints: • min: 1
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }

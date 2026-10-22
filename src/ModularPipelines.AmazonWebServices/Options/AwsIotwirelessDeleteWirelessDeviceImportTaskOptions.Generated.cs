@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotwirelessDeleteWirelessDeviceImportTaskOptions : AwsOptions, 
     /// <summary>
     /// Delete an import task. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The unique identifier of the import task to be deleted. Constraints: o max: 256</param>
+    /// <param name="Id">The unique identifier of the import task to be deleted. Constraints: • max: 256</param>
     public AwsIotwirelessDeleteWirelessDeviceImportTaskOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsIotwirelessDeleteWirelessDeviceImportTaskOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the import task to be deleted. Constraints: o max: 256
+    /// The unique identifier of the import task to be deleted. Constraints: • max: 256
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

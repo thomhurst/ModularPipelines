@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIamGetAccessKeyLastUsedOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves information about when the specified access key was last used. The information includes the date and time of last use, along with the Amazon Web Services service and Region that were specified in the last request made with that key. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccessKeyId">The identifier of an access key. This parameter allows (through its regex pattern ) a string of char- acters that can consist of any upper or lowercased letter or digit. Constraints: o min: 16 o max: 128 o pattern: [\w]+</param>
+    /// <param name="AccessKeyId">The identifier of an access key. This parameter allows (through its regex pattern ) a string of characters that can consist of any upper or lowercased letter or digit. Constraints: • min: 16 • max: 128 • pattern: [\w]+</param>
     public AwsIamGetAccessKeyLastUsedOptions(
         string AccessKeyId
     )
@@ -56,7 +58,7 @@ public record AwsIamGetAccessKeyLastUsedOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of an access key. This parameter allows (through its regex pattern ) a string of char- acters that can consist of any upper or lowercased letter or digit. Constraints: o min: 16 o max: 128 o pattern: [\w]+
+    /// The identifier of an access key. This parameter allows (through its regex pattern ) a string of characters that can consist of any upper or lowercased letter or digit. Constraints: • min: 16 • max: 128 • pattern: [\w]+
     /// </summary>
     [CliOption("--access-key-id")]
     public string? AccessKeyId { get; private init; }

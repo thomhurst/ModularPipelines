@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsOpensearchDeleteApplicationOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Deletes a specified OpenSearch application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The unique identifier of the OpenSearch application to delete. Constraints: o pattern: [a-z0-9]{3,30}</param>
+    /// <param name="Id">The unique identifier of the OpenSearch application to delete. Constraints: • pattern: [a-z0-9]{3,30}</param>
     public AwsOpensearchDeleteApplicationOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsOpensearchDeleteApplicationOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the OpenSearch application to delete. Constraints: o pattern: [a-z0-9]{3,30}
+    /// The unique identifier of the OpenSearch application to delete. Constraints: • pattern: [a-z0-9]{3,30}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

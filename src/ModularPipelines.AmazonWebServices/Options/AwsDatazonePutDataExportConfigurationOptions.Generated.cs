@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates data export configuration details. If you want to temporarily disable export and later re-enable it for the same domain, use the --no-enable-export flag to disable and the --enable-export flag to re-enable. This preserves the configuration and allows you to re-enable export without deleting S3 table. NOTE: You can enable asset metadata export for only one domain per account per Region. To enable export for a different domain, complete the following steps: o Delete the export configuratio...
+/// Creates data export configuration details. If you want to temporarily disable export and later re-enable it for the same domain, use the --no-enable-export flag to disable and the --enable-export flag to re-enable. This preserves the configuration and allows you to re-enable export without deleting S3 table. NOTE: You can enable asset metadata export for only one domain per account per Region. To enable export for a different domain, complete the following steps: • Delete the export configuratio...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsDatazonePutDataExportConfigurationOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates data export configuration details. If you want to temporarily disable export and later re-enable it for the same domain, use the --no-enable-export flag to disable and the --enable-export flag to re-enable. This preserves the configuration and allows you to re-enable export without deleting S3 table. NOTE: You can enable asset metadata export for only one domain per account per Region. To enable export for a different domain, complete the following steps: o Delete the export configuratio...
+    /// Creates data export configuration details. If you want to temporarily disable export and later re-enable it for the same domain, use the --no-enable-export flag to disable and the --enable-export flag to re-enable. This preserves the configuration and allows you to re-enable export without deleting S3 table. NOTE: You can enable asset metadata export for only one domain per account per Region. To enable export for a different domain, complete the following steps: • Delete the export configuratio...
     /// </summary>
-    /// <param name="DomainIdentifier">The domain ID for which you want to create data export configuration details. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The domain ID for which you want to create data export configuration details. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
     /// <param name="EnableExport">Specifies that the export is to be enabled as part of creating data export configuration details.</param>
     public AwsDatazonePutDataExportConfigurationOptions(
         string DomainIdentifier,
@@ -60,7 +62,7 @@ public record AwsDatazonePutDataExportConfigurationOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The domain ID for which you want to create data export configuration details. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The domain ID for which you want to create data export configuration details. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
@@ -72,13 +74,13 @@ public record AwsDatazonePutDataExportConfigurationOptions : AwsOptions, IValida
     public bool? EnableExport { get; private init; }
 
     /// <summary>
-    /// The encryption configuration as part of creating data export config- uration details. The KMS key provided here as part of encryptionConfiguration must have the required permissions as described in KMS permissions for exporting asset metadata in Amazon SageMaker Unified Studio . kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the KMS key to use for encryp- tion. This field is required only when sseAlgorithm is set to aws:kms . sseAlgorithm -&gt; (string) The server-side encryption algorithm to use. Valid values are AES256 for S3-managed encryption keys, or aws:kms for Amazon Web Services KMS-managed encryption keys. If you choose SSE-KMS en- cryption you must grant the S3 Tables maintenance principal ac- cess to your KMS key. For more information, see Permissions re- quirements for S3 Tables SSE-KMS encryption . Shorthand Syntax: kmsKeyArn=string,sseAlgorithm=string JSON Syntax: { "kmsKeyArn": "string", "sseAlgorithm": "string" }
+    /// The encryption configuration as part of creating data export configuration details. The KMS key provided here as part of encryptionConfiguration must have the required permissions as described in KMS permissions for exporting asset metadata in Amazon SageMaker Unified Studio . kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the KMS key to use for encryption. This field is required only when sseAlgorithm is set to aws:kms . sseAlgorithm -&gt; (string) The server-side encryption algorithm to use. Valid values are AES256 for S3-managed encryption keys, or aws:kms for Amazon Web Services KMS-managed encryption keys. If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption . Shorthand Syntax: kmsKeyArn=string,sseAlgorithm=string JSON Syntax: { "kmsKeyArn": "string", "sseAlgorithm": "string" }
     /// </summary>
     [CliOption("--encryption-configuration")]
     public string? EncryptionConfiguration { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure idempotency of the re- quest. This field is automatically populated if not provided. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Get batched job details for a worker. See also: AWS API Documentation batch-get-job-entity uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+/// Get batched job details for a worker. See also: AWS API Documentation batch-get-job-entity uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +27,12 @@ public record AwsDeadlineBatchGetJobEntityOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Get batched job details for a worker. See also: AWS API Documentation batch-get-job-entity uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Get batched job details for a worker. See also: AWS API Documentation batch-get-job-entity uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="FarmId">The farm ID of the worker that's fetching job details. The worker must have an assignment on a job to fetch job details. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="FleetId">The fleet ID of the worker that's fetching job details. The worker must have an assignment on a job to fetch job details. Constraints: o pattern: fleet-[0-9a-f]{32}</param>
-    /// <param name="WorkerId">The worker ID of the worker containing the job details to get. Constraints: o pattern: worker-[0-9a-f]{32}</param>
-    /// <param name="Identifiers">The job identifiers to include within the job entity batch details. Constraints: o min: 1 o max: 10 (tagged union structure) The details of a job entity identifier. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: jobDetails, jobAttachmentDetails, stepDetails, environmentDetails. jobDetails -&gt; (structure) The job details. jobId -&gt; (string) [required] The job ID. Constraints: o pattern: job-[0-9a-f]{32} jobAttachmentDetails -&gt; (structure) The job attachment details. jobId -&gt; (string) [required] The job ID. Constraints: o pattern: job-[0-9a-f]{32} stepDetails -&gt; (structure) The step details. jobId -&gt; (string) [required] The job ID. Constraints: o pattern: job-[0-9a-f]{32} stepId -&gt; (string) [required] The step ID. Constraints: o pattern: step-[0-9a-f]{32} environmentDetails -&gt; (structure) The environment details. jobId -&gt; (string) [required] The job ID. Constraints: o pattern: job-[0-9a-f]{32} environmentId -&gt; (string) [required] The environment ID. Constraints: o min: 1 o max: 1024 o pattern: (STEP:step-[0-9a-f]{32}:.*)|(JOB:job-[0-9a-f]{32}:.*) Shorthand Syntax: jobDetails={jobId=string},jobAttachmentDetails={jobId=string},stepDetails={jobId=string,stepId=string},environmentDetails={jobId=string,environmentId=string} ... JSON Syntax: [ { "jobDetails": { "jobId": "string" }, "jobAttachmentDetails": { "jobId": "string" }, "stepDetails": { "jobId": "string", "stepId": "string" }, "environmentDetails": { "jobId": "string", "environmentId": "string" } } ... ]</param>
+    /// <param name="FarmId">The farm ID of the worker that's fetching job details. The worker must have an assignment on a job to fetch job details. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="FleetId">The fleet ID of the worker that's fetching job details. The worker must have an assignment on a job to fetch job details. Constraints: • pattern: fleet-[0-9a-f]{32}</param>
+    /// <param name="WorkerId">The worker ID of the worker containing the job details to get. Constraints: • pattern: worker-[0-9a-f]{32}</param>
+    /// <param name="Identifiers">The job identifiers to include within the job entity batch details. Constraints: • min: 1 • max: 10 (tagged union structure) The details of a job entity identifier. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: jobDetails, jobAttachmentDetails, stepDetails, environmentDetails. jobDetails -&gt; (structure) The job details. jobId -&gt; (string) [required] The job ID. Constraints: • pattern: job-[0-9a-f]{32} jobAttachmentDetails -&gt; (structure) The job attachment details. jobId -&gt; (string) [required] The job ID. Constraints: • pattern: job-[0-9a-f]{32} stepDetails -&gt; (structure) The step details. jobId -&gt; (string) [required] The job ID. Constraints: • pattern: job-[0-9a-f]{32} stepId -&gt; (string) [required] The step ID. Constraints: • pattern: step-[0-9a-f]{32} environmentDetails -&gt; (structure) The environment details. jobId -&gt; (string) [required] The job ID. Constraints: • pattern: job-[0-9a-f]{32} environmentId -&gt; (string) [required] The environment ID. Constraints: • min: 1 • max: 1024 • pattern: (STEP:step-[0-9a-f]{32}:.*)|(JOB:job-[0-9a-f]{32}:.*) Shorthand Syntax: jobDetails={jobId=string},jobAttachmentDetails={jobId=string},stepDetails={jobId=string,stepId=string},environmentDetails={jobId=string,environmentId=string} ... JSON Syntax: [ { "jobDetails": { "jobId": "string" }, "jobAttachmentDetails": { "jobId": "string" }, "stepDetails": { "jobId": "string", "stepId": "string" }, "environmentDetails": { "jobId": "string", "environmentId": "string" } } ... ]</param>
     public AwsDeadlineBatchGetJobEntityOptions(
         string FarmId,
         string FleetId,
@@ -79,25 +81,25 @@ public record AwsDeadlineBatchGetJobEntityOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID of the worker that's fetching job details. The worker must have an assignment on a job to fetch job details. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID of the worker that's fetching job details. The worker must have an assignment on a job to fetch job details. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The fleet ID of the worker that's fetching job details. The worker must have an assignment on a job to fetch job details. Constraints: o pattern: fleet-[0-9a-f]{32}
+    /// The fleet ID of the worker that's fetching job details. The worker must have an assignment on a job to fetch job details. Constraints: • pattern: fleet-[0-9a-f]{32}
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }
 
     /// <summary>
-    /// The worker ID of the worker containing the job details to get. Constraints: o pattern: worker-[0-9a-f]{32}
+    /// The worker ID of the worker containing the job details to get. Constraints: • pattern: worker-[0-9a-f]{32}
     /// </summary>
     [CliOption("--worker-id")]
     public string? WorkerId { get; private init; }
 
     /// <summary>
-    /// The job identifiers to include within the job entity batch details. Constraints: o min: 1 o max: 10 (tagged union structure) The details of a job entity identifier. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: jobDetails, jobAttachmentDetails, stepDetails, environmentDetails. jobDetails -&gt; (structure) The job details. jobId -&gt; (string) [required] The job ID. Constraints: o pattern: job-[0-9a-f]{32} jobAttachmentDetails -&gt; (structure) The job attachment details. jobId -&gt; (string) [required] The job ID. Constraints: o pattern: job-[0-9a-f]{32} stepDetails -&gt; (structure) The step details. jobId -&gt; (string) [required] The job ID. Constraints: o pattern: job-[0-9a-f]{32} stepId -&gt; (string) [required] The step ID. Constraints: o pattern: step-[0-9a-f]{32} environmentDetails -&gt; (structure) The environment details. jobId -&gt; (string) [required] The job ID. Constraints: o pattern: job-[0-9a-f]{32} environmentId -&gt; (string) [required] The environment ID. Constraints: o min: 1 o max: 1024 o pattern: (STEP:step-[0-9a-f]{32}:.*)|(JOB:job-[0-9a-f]{32}:.*) Shorthand Syntax: jobDetails={jobId=string},jobAttachmentDetails={jobId=string},stepDetails={jobId=string,stepId=string},environmentDetails={jobId=string,environmentId=string} ... JSON Syntax: [ { "jobDetails": { "jobId": "string" }, "jobAttachmentDetails": { "jobId": "string" }, "stepDetails": { "jobId": "string", "stepId": "string" }, "environmentDetails": { "jobId": "string", "environmentId": "string" } } ... ]
+    /// The job identifiers to include within the job entity batch details. Constraints: • min: 1 • max: 10 (tagged union structure) The details of a job entity identifier. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: jobDetails, jobAttachmentDetails, stepDetails, environmentDetails. jobDetails -&gt; (structure) The job details. jobId -&gt; (string) [required] The job ID. Constraints: • pattern: job-[0-9a-f]{32} jobAttachmentDetails -&gt; (structure) The job attachment details. jobId -&gt; (string) [required] The job ID. Constraints: • pattern: job-[0-9a-f]{32} stepDetails -&gt; (structure) The step details. jobId -&gt; (string) [required] The job ID. Constraints: • pattern: job-[0-9a-f]{32} stepId -&gt; (string) [required] The step ID. Constraints: • pattern: step-[0-9a-f]{32} environmentDetails -&gt; (structure) The environment details. jobId -&gt; (string) [required] The job ID. Constraints: • pattern: job-[0-9a-f]{32} environmentId -&gt; (string) [required] The environment ID. Constraints: • min: 1 • max: 1024 • pattern: (STEP:step-[0-9a-f]{32}:.*)|(JOB:job-[0-9a-f]{32}:.*) Shorthand Syntax: jobDetails={jobId=string},jobAttachmentDetails={jobId=string},stepDetails={jobId=string,stepId=string},environmentDetails={jobId=string,environmentId=string} ... JSON Syntax: [ { "jobDetails": { "jobId": "string" }, "jobAttachmentDetails": { "jobId": "string" }, "stepDetails": { "jobId": "string", "stepId": "string" }, "environmentDetails": { "jobId": "string", "environmentId": "string" } } ... ]
     /// </summary>
     [CliOption("--identifiers", GroupValues = true)]
     public IEnumerable<string>? Identifiers { get; private init; }

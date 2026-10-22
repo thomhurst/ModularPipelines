@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDsDescribeAdAssessmentOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves detailed information about a directory assessment, including its current status, validation results, and configuration details. Use this operation to monitor assessment progress and review results. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssessmentId">The identifier of the directory assessment to describe. Constraints: o pattern: ^da-[0-9a-f]{18}$</param>
+    /// <param name="AssessmentId">The identifier of the directory assessment to describe. Constraints: • pattern: ^da-[0-9a-f]{18}$</param>
     public AwsDsDescribeAdAssessmentOptions(
         string AssessmentId
     )
@@ -56,7 +58,7 @@ public record AwsDsDescribeAdAssessmentOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the directory assessment to describe. Constraints: o pattern: ^da-[0-9a-f]{18}$
+    /// The identifier of the directory assessment to describe. Constraints: • pattern: ^da-[0-9a-f]{18}$
     /// </summary>
     [CliOption("--assessment-id")]
     public string? AssessmentId { get; private init; }

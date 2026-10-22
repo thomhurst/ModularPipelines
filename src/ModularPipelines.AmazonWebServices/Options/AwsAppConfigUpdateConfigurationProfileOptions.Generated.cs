@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsAppConfigUpdateConfigurationProfileOptions : AwsOptions, IValid
     /// <summary>
     /// Updates a configuration profile. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The application ID. Constraints: o min: 1 o max: 64</param>
-    /// <param name="ConfigurationProfileId">The ID of the configuration profile. Constraints: o min: 1 o max: 128</param>
+    /// <param name="ApplicationId">The application ID. Constraints: • min: 1 • max: 64</param>
+    /// <param name="ConfigurationProfileId">The ID of the configuration profile. Constraints: • min: 1 • max: 128</param>
     public AwsAppConfigUpdateConfigurationProfileOptions(
         string ApplicationId,
         string ConfigurationProfileId
@@ -60,43 +62,43 @@ public record AwsAppConfigUpdateConfigurationProfileOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The application ID. Constraints: o min: 1 o max: 64
+    /// The application ID. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The ID of the configuration profile. Constraints: o min: 1 o max: 128
+    /// The ID of the configuration profile. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--configuration-profile-id")]
     public string? ConfigurationProfileId { get; private init; }
 
     /// <summary>
-    /// The name of the configuration profile. Constraints: o min: 1 o max: 128
+    /// The name of the configuration profile. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A description of the configuration profile. Constraints: o min: 0 o max: 1024
+    /// A description of the configuration profile. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The ARN of an IAM role with permission to access the configuration at the specified LocationUri . WARNING: A retrieval role ARN is not required for configurations stored in CodePipeline or the AppConfig hosted configuration store. It is required for all other sources that store your configuration. Constraints: o min: 20 o max: 2048 o pattern: ^((arn):(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov|aws-eusc):(iam)::\d{12}:role[/].*)$
+    /// The ARN of an IAM role with permission to access the configuration at the specified LocationUri . WARNING: A retrieval role ARN is not required for configurations stored in CodePipeline or the AppConfig hosted configuration store. It is required for all other sources that store your configuration. Constraints: • min: 20 • max: 2048 • pattern: ^((arn):(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov|aws-eusc):(iam)::\d{12}:role[/].*)$
     /// </summary>
     [CliOption("--retrieval-role-arn")]
     public string? RetrievalRoleArn { get; set; }
 
     /// <summary>
-    /// A list of methods for validating the configuration. Constraints: o min: 0 o max: 2 (structure) A validator provides a syntactic or semantic check to ensure the configuration that you want to deploy functions as intended. To validate your application configuration data, you provide a schema or an Amazon Web Services Lambda function that runs against the configuration. The configuration deployment or up- date can only proceed when the configuration data is valid. For more information, see About validators in the AppConfig User Guide . Type -&gt; (string) [required] AppConfig supports validators of type JSON_SCHEMA and LAMBDA Possible values: o JSON_SCHEMA o LAMBDA Content -&gt; (string) [required] Either the JSON Schema content or the Amazon Resource Name (ARN) of an Lambda function. Constraints: o min: 0 o max: 32768 Shorthand Syntax: Type=string,Content=string ... JSON Syntax: [ { "Type": "JSON_SCHEMA"|"LAMBDA", "Content": "string" } ... ]
+    /// A list of methods for validating the configuration. Constraints: • min: 0 • max: 2 (structure) A validator provides a syntactic or semantic check to ensure the configuration that you want to deploy functions as intended. To validate your application configuration data, you provide a schema or an Amazon Web Services Lambda function that runs against the configuration. The configuration deployment or update can only proceed when the configuration data is valid. For more information, see About validators in the AppConfig User Guide . Type -&gt; (string) [required] AppConfig supports validators of type JSON_SCHEMA and LAMBDA Possible values: • JSON_SCHEMA • LAMBDA Content -&gt; (string) [required] Either the JSON Schema content or the Amazon Resource Name (ARN) of an Lambda function. Constraints: • min: 0 • max: 32768 Shorthand Syntax: Type=string,Content=string ... JSON Syntax: [ { "Type": "JSON_SCHEMA"|"LAMBDA", "Content": "string" } ... ]
     /// </summary>
     [CliOption("--validators", GroupValues = true)]
     public IEnumerable<string>? Validators { get; set; }
 
     /// <summary>
-    /// The identifier for a Key Management Service key to encrypt new con- figuration data versions in the AppConfig hosted configuration store. This attribute is only used for hosted configuration types. The identifier can be an KMS key ID, alias, or the Amazon Resource Name (ARN) of the key ID or alias. To encrypt data managed in other configuration stores, see the documentation for how to specify an KMS key for that particular service. Constraints: o min: 0 o max: 2048
+    /// The identifier for a Key Management Service key to encrypt new configuration data versions in the AppConfig hosted configuration store. This attribute is only used for hosted configuration types. The identifier can be an KMS key ID, alias, or the Amazon Resource Name (ARN) of the key ID or alias. To encrypt data managed in other configuration stores, see the documentation for how to specify an KMS key for that particular service. Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--kms-key-identifier")]
     public string? KmsKeyIdentifier { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds or updates the list of authorized targets for an IAM Identity Cen- ter access scope for an application. See also: AWS API Documentation
+/// Adds or updates the list of authorized targets for an IAM Identity Center access scope for an application. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsSsoAdminPutApplicationAccessScopeOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds or updates the list of authorized targets for an IAM Identity Cen- ter access scope for an application. See also: AWS API Documentation
+    /// Adds or updates the list of authorized targets for an IAM Identity Center access scope for an application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Scope">Specifies the name of the access scope to be associated with the specified targets. Constraints: o pattern: ([A-Za-z0-9_]{1,50})(:[A-Za-z0-9_]{1,50}){0,1}(:[A-Za-z0-9_]{1,50}){0,1}</param>
-    /// <param name="ApplicationArn">Specifies the ARN of the application with the access scope with the targets to add or update. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:applica- tion/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}</param>
+    /// <param name="Scope">Specifies the name of the access scope to be associated with the specified targets. Constraints: • pattern: ([A-Za-z0-9_]{1,50})(:[A-Za-z0-9_]{1,50}){0,1}(:[A-Za-z0-9_]{1,50}){0,1}</param>
+    /// <param name="ApplicationArn">Specifies the ARN of the application with the access scope with the targets to add or update. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}</param>
     public AwsSsoAdminPutApplicationAccessScopeOptions(
         string Scope,
         string ApplicationArn
@@ -60,19 +62,19 @@ public record AwsSsoAdminPutApplicationAccessScopeOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the name of the access scope to be associated with the specified targets. Constraints: o pattern: ([A-Za-z0-9_]{1,50})(:[A-Za-z0-9_]{1,50}){0,1}(:[A-Za-z0-9_]{1,50}){0,1}
+    /// Specifies the name of the access scope to be associated with the specified targets. Constraints: • pattern: ([A-Za-z0-9_]{1,50})(:[A-Za-z0-9_]{1,50}){0,1}(:[A-Za-z0-9_]{1,50}){0,1}
     /// </summary>
     [CliOption("--scope")]
     public string? Scope { get; private init; }
 
     /// <summary>
-    /// Specifies the ARN of the application with the access scope with the targets to add or update. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:applica- tion/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}
+    /// Specifies the ARN of the application with the access scope with the targets to add or update. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}
     /// </summary>
     [CliOption("--application-arn")]
     public string? ApplicationArn { get; private init; }
 
     /// <summary>
-    /// Specifies an array list of ARNs that represent the authorized tar- gets for this access scope. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 100 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::(\d{12}:applica- tion/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}|:in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}) Syntax: "string" "string" ...
+    /// Specifies an array list of ARNs that represent the authorized targets for this access scope. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 100 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::(\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}|:instance/(sso)?ins-[a-zA-Z0-9-.]{16}) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--authorized-targets", GroupValues = true)]
     public IEnumerable<string>? AuthorizedTargets { get; set; }

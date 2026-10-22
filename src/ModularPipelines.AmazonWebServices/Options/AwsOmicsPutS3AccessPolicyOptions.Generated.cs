@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsOmicsPutS3AccessPolicyOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Adds an access policy to the specified store. See also: AWS API Documentation
     /// </summary>
-    /// <param name="S3AccessPointArn">The S3 access point ARN where you want to put the access policy. Constraints: o min: 1 o max: 1024 o pattern: arn:[^:]*:s3:[^:]*:[^:]*:accesspoint/.*</param>
-    /// <param name="S3AccessPolicy">The resource policy that controls S3 access to the store. Constraints: o min: 1 o max: 100000</param>
+    /// <param name="S3AccessPointArn">The S3 access point ARN where you want to put the access policy. Constraints: • min: 1 • max: 1024 • pattern: arn:[^:]*:s3:[^:]*:[^:]*:accesspoint/.*</param>
+    /// <param name="S3AccessPolicy">The resource policy that controls S3 access to the store. Constraints: • min: 1 • max: 100000</param>
     public AwsOmicsPutS3AccessPolicyOptions(
         string S3AccessPointArn,
         string S3AccessPolicy
@@ -60,13 +62,13 @@ public record AwsOmicsPutS3AccessPolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The S3 access point ARN where you want to put the access policy. Constraints: o min: 1 o max: 1024 o pattern: arn:[^:]*:s3:[^:]*:[^:]*:accesspoint/.*
+    /// The S3 access point ARN where you want to put the access policy. Constraints: • min: 1 • max: 1024 • pattern: arn:[^:]*:s3:[^:]*:[^:]*:accesspoint/.*
     /// </summary>
     [CliOption("--s3-access-point-arn")]
     public string? S3AccessPointArn { get; private init; }
 
     /// <summary>
-    /// The resource policy that controls S3 access to the store. Constraints: o min: 1 o max: 100000
+    /// The resource policy that controls S3 access to the store. Constraints: • min: 1 • max: 100000
     /// </summary>
     [CliOption("--s3-access-policy")]
     public string? S3AccessPolicy { get; private init; }

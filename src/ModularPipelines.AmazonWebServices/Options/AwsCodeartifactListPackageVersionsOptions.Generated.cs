@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,10 +31,10 @@ public record AwsCodeartifactListPackageVersionsOptions : AwsOptions, IValidatab
     /// <summary>
     /// Returns a list of PackageVersionSummary objects for package versions in a repository that match the request parameters. Package versions of all statuses will be returned by default when calling list-package-versions with no --status parameter. See also: AWS API Documentation list-package-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output te...
     /// </summary>
-    /// <param name="Domain">The name of the domain that contains the repository that contains the requested package versions. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
-    /// <param name="Repository">The name of the repository that contains the requested package ver- sions. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}</param>
-    /// <param name="Format">The format of the package versions you want to list. Possible values: o npm o pypi o maven o nuget o generic o ruby o swift o cargo</param>
-    /// <param name="Package">The name of the package for which you want to request package ver- sions. Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+</param>
+    /// <param name="Domain">The name of the domain that contains the repository that contains the requested package versions. Constraints: • min: 2 • max: 50 • pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
+    /// <param name="Repository">The name of the repository that contains the requested package versions. Constraints: • min: 2 • max: 100 • pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}</param>
+    /// <param name="Format">The format of the package versions you want to list. Possible values: • npm • pypi • maven • nuget • generic • ruby • swift • cargo</param>
+    /// <param name="Package">The name of the package for which you want to request package versions. Constraints: • min: 1 • max: 255 • pattern: [^#/\s]+</param>
     public AwsCodeartifactListPackageVersionsOptions(
         string Domain,
         string Repository,
@@ -69,64 +71,61 @@ public record AwsCodeartifactListPackageVersionsOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain that contains the repository that contains the requested package versions. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
+    /// The name of the domain that contains the repository that contains the requested package versions. Constraints: • min: 2 • max: 50 • pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; private init; }
 
     /// <summary>
-    /// The name of the repository that contains the requested package ver- sions. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}
+    /// The name of the repository that contains the requested package versions. Constraints: • min: 2 • max: 100 • pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}
     /// </summary>
     [CliOption("--repository")]
     public string? Repository { get; private init; }
 
     /// <summary>
-    /// The format of the package versions you want to list. Possible values: o npm o pypi o maven o nuget o generic o ruby o swift o cargo
+    /// The format of the package versions you want to list. Possible values: • npm • pypi • maven • nuget • generic • ruby • swift • cargo
     /// </summary>
     [CliOption("--format")]
     public AwsCodeartifactListPackageVersionsFormat? Format { get; private init; }
 
     /// <summary>
-    /// The name of the package for which you want to request package ver- sions. Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+
+    /// The name of the package for which you want to request package versions. Constraints: • min: 1 • max: 255 • pattern: [^#/\s]+
     /// </summary>
     [CliOption("--package")]
     public string? Package { get; private init; }
 
     /// <summary>
-    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
+    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--domain-owner")]
     public string? DomainOwner { get; set; }
 
     /// <summary>
-    /// The namespace of the package that contains the requested package versions. The package component that specifies its namespace depends on its type. For example: NOTE: The namespace is required when deleting package versions of the following formats: o Maven o Swift o generic o The namespace of a Maven package version is its groupId . o The namespace of an npm or Swift package version is its scope . o The namespace of a generic package is its namespace . o Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions of those formats do not have a namespace. Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+
+    /// The namespace of the package that contains the requested package versions. The package component that specifies its namespace depends on its type. For example: NOTE: The namespace is required when deleting package versions of the following formats: • Maven • Swift • generic • The namespace of a Maven package version is its groupId . • The namespace of an npm or Swift package version is its scope . • The namespace of a generic package is its namespace . • Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions of those formats do not have a namespace. Constraints: • min: 1 • max: 255 • pattern: [^#/\s]+
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
     /// <summary>
-    /// A string that filters the requested package versions by status. Possible values: o Published o Unfinished o Unlisted o Archived o Disposed o Deleted
+    /// A string that filters the requested package versions by status. Possible values: • Published • Unfinished • Unlisted • Archived • Disposed • Deleted
     /// </summary>
     [CliOption("--status")]
     public AwsCodeartifactListPackageVersionsStatus? Status { get; set; }
 
     /// <summary>
-    /// How to sort the requested list of package versions. Possible values: o PUBLISHED_TIME
+    /// How to sort the requested list of package versions. Possible values: • PUBLISHED_TIME
     /// </summary>
     [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
     /// <summary>
-    /// The originType used to filter package versions. Only package ver- sions with the provided originType will be returned. Possible values: o INTERNAL o EXTERNAL o UNKNOWN
+    /// The originType used to filter package versions. Only package versions with the provided originType will be returned. Possible values: • INTERNAL • EXTERNAL • UNKNOWN
     /// </summary>
     [CliOption("--origin-type")]
     public AwsCodeartifactListPackageVersionsOriginType? OriginType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -136,16 +135,19 @@ public record AwsCodeartifactListPackageVersionsOptions : AwsOptions, IValidatab
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

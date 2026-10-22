@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the Amazon ECS container agent on a specified container in- stance. Updating the Amazon ECS container agent doesn't interrupt run- ning tasks or services on the container instance. The process for up- dating the agent differs depending on whether your container instance was launched with the Amazon ECS-optimized AMI or another operating system. NOTE: The UpdateContainerAgent API isn't supported for container instances using the Amazon ECS-optimized Amazon Linux 2 (arm64) AMI. To update t...
+/// Updates the Amazon ECS container agent on a specified container instance. Updating the Amazon ECS container agent doesn't interrupt running tasks or services on the container instance. The process for updating the agent differs depending on whether your container instance was launched with the Amazon ECS-optimized AMI or another operating system. NOTE: The UpdateContainerAgent API isn't supported for container instances using the Amazon ECS-optimized Amazon Linux 2 (arm64) AMI. To update the con...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsEcsUpdateContainerAgentOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the Amazon ECS container agent on a specified container in- stance. Updating the Amazon ECS container agent doesn't interrupt run- ning tasks or services on the container instance. The process for up- dating the agent differs depending on whether your container instance was launched with the Amazon ECS-optimized AMI or another operating system. NOTE: The UpdateContainerAgent API isn't supported for container instances using the Amazon ECS-optimized Amazon Linux 2 (arm64) AMI. To update t...
+    /// Updates the Amazon ECS container agent on a specified container instance. Updating the Amazon ECS container agent doesn't interrupt running tasks or services on the container instance. The process for updating the agent differs depending on whether your container instance was launched with the Amazon ECS-optimized AMI or another operating system. NOTE: The UpdateContainerAgent API isn't supported for container instances using the Amazon ECS-optimized Amazon Linux 2 (arm64) AMI. To update the con...
     /// </summary>
-    /// <param name="ContainerInstance">The container instance ID or full ARN entries for the container in- stance where you would like to update the Amazon ECS container agent.</param>
+    /// <param name="ContainerInstance">The container instance ID or full ARN entries for the container instance where you would like to update the Amazon ECS container agent.</param>
     public AwsEcsUpdateContainerAgentOptions(
         string ContainerInstance
     )
@@ -56,7 +58,7 @@ public record AwsEcsUpdateContainerAgentOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The container instance ID or full ARN entries for the container in- stance where you would like to update the Amazon ECS container agent.
+    /// The container instance ID or full ARN entries for the container instance where you would like to update the Amazon ECS container agent.
     /// </summary>
     [CliOption("--container-instance")]
     public string? ContainerInstance { get; private init; }

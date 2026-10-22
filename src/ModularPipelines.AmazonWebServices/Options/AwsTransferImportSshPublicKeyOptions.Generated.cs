@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds a Secure Shell (SSH) public key to a Transfer Family user identi- fied by a UserName value assigned to the specific file transfer proto- col-enabled server, identified by ServerId . The response returns the UserName value, the ServerId value, and the name of the SshPublicKeyId . See also: AWS API Documentation
+/// Adds a Secure Shell (SSH) public key to a Transfer Family user identified by a UserName value assigned to the specific file transfer protocol-enabled server, identified by ServerId . The response returns the UserName value, the ServerId value, and the name of the SshPublicKeyId . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsTransferImportSshPublicKeyOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds a Secure Shell (SSH) public key to a Transfer Family user identi- fied by a UserName value assigned to the specific file transfer proto- col-enabled server, identified by ServerId . The response returns the UserName value, the ServerId value, and the name of the SshPublicKeyId . See also: AWS API Documentation
+    /// Adds a Secure Shell (SSH) public key to a Transfer Family user identified by a UserName value assigned to the specific file transfer protocol-enabled server, identified by ServerId . The response returns the UserName value, the ServerId value, and the name of the SshPublicKeyId . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServerId">A system-assigned unique identifier for a server. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})</param>
-    /// <param name="SshPublicKeyBody">The public key portion of an SSH key pair. Transfer Family accepts RSA, ECDSA, and ED25519 keys. Constraints: o min: 0 o max: 2048 o pattern: \s*(ssh|ecdsa)-[a-z0-9-]+[ \t]+(([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{1,3})?(={0,3})?)(\s*|[ \t]+[\S \t]*\s*)</param>
-    /// <param name="UserName">The name of the Transfer Family user that is assigned to one or more servers. Constraints: o min: 3 o max: 100 o pattern: [\w][\w@.-]{2,99}</param>
+    /// <param name="ServerId">A system-assigned unique identifier for a server. Constraints: • min: 19 • max: 19 • pattern: s-([0-9a-f]{17})</param>
+    /// <param name="SshPublicKeyBody">The public key portion of an SSH key pair. Transfer Family accepts RSA, ECDSA, and ED25519 keys. Constraints: • min: 0 • max: 2048 • pattern: \s*(ssh|ecdsa)-[a-z0-9-]+[ \t]+(([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{1,3})?(={0,3})?)(\s*|[ \t]+[\S \t]*\s*)</param>
+    /// <param name="UserName">The name of the Transfer Family user that is assigned to one or more servers. Constraints: • min: 3 • max: 100 • pattern: [\w][\w@.-]{2,99}</param>
     public AwsTransferImportSshPublicKeyOptions(
         string ServerId,
         string SshPublicKeyBody,
@@ -64,19 +66,19 @@ public record AwsTransferImportSshPublicKeyOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A system-assigned unique identifier for a server. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})
+    /// A system-assigned unique identifier for a server. Constraints: • min: 19 • max: 19 • pattern: s-([0-9a-f]{17})
     /// </summary>
     [CliOption("--server-id")]
     public string? ServerId { get; private init; }
 
     /// <summary>
-    /// The public key portion of an SSH key pair. Transfer Family accepts RSA, ECDSA, and ED25519 keys. Constraints: o min: 0 o max: 2048 o pattern: \s*(ssh|ecdsa)-[a-z0-9-]+[ \t]+(([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{1,3})?(={0,3})?)(\s*|[ \t]+[\S \t]*\s*)
+    /// The public key portion of an SSH key pair. Transfer Family accepts RSA, ECDSA, and ED25519 keys. Constraints: • min: 0 • max: 2048 • pattern: \s*(ssh|ecdsa)-[a-z0-9-]+[ \t]+(([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{1,3})?(={0,3})?)(\s*|[ \t]+[\S \t]*\s*)
     /// </summary>
     [CliOption("--ssh-public-key-body")]
     public string? SshPublicKeyBody { get; private init; }
 
     /// <summary>
-    /// The name of the Transfer Family user that is assigned to one or more servers. Constraints: o min: 3 o max: 100 o pattern: [\w][\w@.-]{2,99}
+    /// The name of the Transfer Family user that is assigned to one or more servers. Constraints: • min: 3 • max: 100 • pattern: [\w][\w@.-]{2,99}
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; private init; }

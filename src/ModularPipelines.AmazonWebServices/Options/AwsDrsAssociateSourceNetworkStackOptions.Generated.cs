@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associate a Source Network to an existing CloudFormation Stack and mod- ify launch templates to use this network. Can be used for reverting to previously deployed CloudFormation stacks. See also: AWS API Documentation
+/// Associate a Source Network to an existing CloudFormation Stack and modify launch templates to use this network. Can be used for reverting to previously deployed CloudFormation stacks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsDrsAssociateSourceNetworkStackOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associate a Source Network to an existing CloudFormation Stack and mod- ify launch templates to use this network. Can be used for reverting to previously deployed CloudFormation stacks. See also: AWS API Documentation
+    /// Associate a Source Network to an existing CloudFormation Stack and modify launch templates to use this network. Can be used for reverting to previously deployed CloudFormation stacks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceNetworkId">The Source Network ID to associate with CloudFormation template. Constraints: o min: 20 o max: 20 o pattern: sn-[0-9a-zA-Z]{17}</param>
-    /// <param name="CfnStackName">CloudFormation template to associate with a Source Network. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][-a-zA-Z0-9]*</param>
+    /// <param name="SourceNetworkId">The Source Network ID to associate with CloudFormation template. Constraints: • min: 20 • max: 20 • pattern: sn-[0-9a-zA-Z]{17}</param>
+    /// <param name="CfnStackName">CloudFormation template to associate with a Source Network. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z][-a-zA-Z0-9]*</param>
     public AwsDrsAssociateSourceNetworkStackOptions(
         string SourceNetworkId,
         string CfnStackName
@@ -60,13 +62,13 @@ public record AwsDrsAssociateSourceNetworkStackOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Source Network ID to associate with CloudFormation template. Constraints: o min: 20 o max: 20 o pattern: sn-[0-9a-zA-Z]{17}
+    /// The Source Network ID to associate with CloudFormation template. Constraints: • min: 20 • max: 20 • pattern: sn-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--source-network-id")]
     public string? SourceNetworkId { get; private init; }
 
     /// <summary>
-    /// CloudFormation template to associate with a Source Network. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][-a-zA-Z0-9]*
+    /// CloudFormation template to associate with a Source Network. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z][-a-zA-Z0-9]*
     /// </summary>
     [CliOption("--cfn-stack-name")]
     public string? CfnStackName { get; private init; }

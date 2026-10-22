@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsSsmContactsUntagResourceOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Removes tags from the specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the contact or escalation plan. Constraints: o min: 1 o max: 1011</param>
-    /// <param name="TagKeys">The key of the tag that you want to remove. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^[\\\/a-zA-Z0-9_+=\-]*$ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the contact or escalation plan. Constraints: • min: 1 • max: 1011</param>
+    /// <param name="TagKeys">The key of the tag that you want to remove. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ^[\\\/a-zA-Z0-9_+=\-]*$ Syntax: "string" "string" ...</param>
     public AwsSsmContactsUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsSsmContactsUntagResourceOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the contact or escalation plan. Constraints: o min: 1 o max: 1011
+    /// The Amazon Resource Name (ARN) of the contact or escalation plan. Constraints: • min: 1 • max: 1011
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The key of the tag that you want to remove. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^[\\\/a-zA-Z0-9_+=\-]*$ Syntax: "string" "string" ...
+    /// The key of the tag that you want to remove. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ^[\\\/a-zA-Z0-9_+=\-]*$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

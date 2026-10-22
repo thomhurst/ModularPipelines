@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Update the lifecyle of a Recommendation. This API only supports priori- tized recommendations and updates global priority recommendations, eliminating the need to call the API in each AWS Region. See also: AWS API Documentation
+/// Update the lifecyle of a Recommendation. This API only supports prioritized recommendations and updates global priority recommendations, eliminating the need to call the API in each AWS Region. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsTrustedadvisorUpdateRecommendationLifecycleOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Update the lifecyle of a Recommendation. This API only supports priori- tized recommendations and updates global priority recommendations, eliminating the need to call the API in each AWS Region. See also: AWS API Documentation
+    /// Update the lifecyle of a Recommendation. This API only supports prioritized recommendations and updates global priority recommendations, eliminating the need to call the API in each AWS Region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LifecycleStage">The new lifecycle stage Possible values: o pending_response o in_progress o dismissed o resolved</param>
-    /// <param name="RecommendationIdentifier">The Recommendation identifier for AWS Trusted Advisor Priority rec- ommendations Constraints: o min: 20 o max: 200 o pattern: arn:[\w-]+:trustedadvisor::\d{12}:recommendation\/[\w-]+</param>
+    /// <param name="LifecycleStage">The new lifecycle stage Possible values: • pending_response • in_progress • dismissed • resolved</param>
+    /// <param name="RecommendationIdentifier">The Recommendation identifier for AWS Trusted Advisor Priority recommendations Constraints: • min: 20 • max: 200 • pattern: arn:[\w-]+:trustedadvisor::\d{12}:recommendation\/[\w-]+</param>
     public AwsTrustedadvisorUpdateRecommendationLifecycleOptions(
         AwsTrustedadvisorUpdateRecommendationLifecycleLifecycleStage LifecycleStage,
         string RecommendationIdentifier
@@ -60,25 +62,25 @@ public record AwsTrustedadvisorUpdateRecommendationLifecycleOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The new lifecycle stage Possible values: o pending_response o in_progress o dismissed o resolved
+    /// The new lifecycle stage Possible values: • pending_response • in_progress • dismissed • resolved
     /// </summary>
     [CliOption("--lifecycle-stage")]
     public AwsTrustedadvisorUpdateRecommendationLifecycleLifecycleStage? LifecycleStage { get; private init; }
 
     /// <summary>
-    /// The Recommendation identifier for AWS Trusted Advisor Priority rec- ommendations Constraints: o min: 20 o max: 200 o pattern: arn:[\w-]+:trustedadvisor::\d{12}:recommendation\/[\w-]+
+    /// The Recommendation identifier for AWS Trusted Advisor Priority recommendations Constraints: • min: 20 • max: 200 • pattern: arn:[\w-]+:trustedadvisor::\d{12}:recommendation\/[\w-]+
     /// </summary>
     [CliOption("--recommendation-identifier")]
     public string? RecommendationIdentifier { get; private init; }
 
     /// <summary>
-    /// Reason for the lifecycle stage change Constraints: o min: 10 o max: 4096 o pattern: [\s\S]*
+    /// Reason for the lifecycle stage change Constraints: • min: 10 • max: 4096 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--update-reason")]
     public string? UpdateReason { get; set; }
 
     /// <summary>
-    /// Reason code for the lifecycle state change Possible values: o non_critical_account o temporary_account o valid_business_case o other_methods_available o low_priority o not_applicable o other
+    /// Reason code for the lifecycle state change Possible values: • non_critical_account • temporary_account • valid_business_case • other_methods_available • low_priority • not_applicable • other
     /// </summary>
     [CliOption("--update-reason-code")]
     public AwsTrustedadvisorUpdateRecommendationLifecycleUpdateReasonCode? UpdateReasonCode { get; set; }

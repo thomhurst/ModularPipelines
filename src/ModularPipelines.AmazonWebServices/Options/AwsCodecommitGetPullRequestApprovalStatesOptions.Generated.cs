@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets information about the approval states for a specified pull re- quest. Approval states only apply to pull requests that have one or more approval rules applied to them. See also: AWS API Documentation
+/// Gets information about the approval states for a specified pull request. Approval states only apply to pull requests that have one or more approval rules applied to them. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsCodecommitGetPullRequestApprovalStatesOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets information about the approval states for a specified pull re- quest. Approval states only apply to pull requests that have one or more approval rules applied to them. See also: AWS API Documentation
+    /// Gets information about the approval states for a specified pull request. Approval states only apply to pull requests that have one or more approval rules applied to them. See also: AWS API Documentation
     /// </summary>
     /// <param name="PullRequestId">The system-generated ID for the pull request.</param>
     /// <param name="RevisionId">The system-generated ID for the pull request revision.</param>

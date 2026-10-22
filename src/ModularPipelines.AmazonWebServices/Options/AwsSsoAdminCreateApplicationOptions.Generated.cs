@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an OAuth 2.0 customer managed application in IAM Identity Cen- ter for the given application provider. NOTE: This API does not support creating SAML 2.0 customer managed appli- cations or Amazon Web Services managed applications. To learn how to create an Amazon Web Services managed application, see the applica- tion user guide. You can create a SAML 2.0 customer managed applica- tion in the Amazon Web Services Management Console only. See Setting up customer managed SAML 2.0 application...
+/// Creates an OAuth 2.0 customer managed application in IAM Identity Center for the given application provider. NOTE: This API does not support creating SAML 2.0 customer managed applications or Amazon Web Services managed applications. To learn how to create an Amazon Web Services managed application, see the application user guide. You can create a SAML 2.0 customer managed application in the Amazon Web Services Management Console only. See Setting up customer managed SAML 2.0 applications . For ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +29,11 @@ public record AwsSsoAdminCreateApplicationOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an OAuth 2.0 customer managed application in IAM Identity Cen- ter for the given application provider. NOTE: This API does not support creating SAML 2.0 customer managed appli- cations or Amazon Web Services managed applications. To learn how to create an Amazon Web Services managed application, see the applica- tion user guide. You can create a SAML 2.0 customer managed applica- tion in the Amazon Web Services Management Console only. See Setting up customer managed SAML 2.0 application...
+    /// Creates an OAuth 2.0 customer managed application in IAM Identity Center for the given application provider. NOTE: This API does not support creating SAML 2.0 customer managed applications or Amazon Web Services managed applications. To learn how to create an Amazon Web Services managed application, see the application user guide. You can create a SAML 2.0 customer managed application in the Amazon Web Services Management Console only. See Setting up customer managed SAML 2.0 applications . For ...
     /// </summary>
-    /// <param name="InstanceArn">The ARN of the instance of IAM Identity Center under which the oper- ation will run. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Ama- zon Web Services General Reference . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
-    /// <param name="ApplicationProviderArn">The ARN of the application provider under which the operation will run. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::aws:application- Provider/[a-zA-Z0-9-/]+</param>
-    /// <param name="Name">The name of the . Constraints: o min: 1 o max: 100 o pattern: [\S\s]*</param>
+    /// <param name="InstanceArn">The ARN of the instance of IAM Identity Center under which the operation will run. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
+    /// <param name="ApplicationProviderArn">The ARN of the application provider under which the operation will run. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::aws:applicationProvider/[a-zA-Z0-9-/]+</param>
+    /// <param name="Name">The name of the . Constraints: • min: 1 • max: 100 • pattern: [\S\s]*</param>
     public AwsSsoAdminCreateApplicationOptions(
         string InstanceArn,
         string ApplicationProviderArn,
@@ -66,49 +68,49 @@ public record AwsSsoAdminCreateApplicationOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the instance of IAM Identity Center under which the oper- ation will run. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Ama- zon Web Services General Reference . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}
+    /// The ARN of the instance of IAM Identity Center under which the operation will run. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}
     /// </summary>
     [CliOption("--instance-arn")]
     public string? InstanceArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the application provider under which the operation will run. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::aws:application- Provider/[a-zA-Z0-9-/]+
+    /// The ARN of the application provider under which the operation will run. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::aws:applicationProvider/[a-zA-Z0-9-/]+
     /// </summary>
     [CliOption("--application-provider-arn")]
     public string? ApplicationProviderArn { get; private init; }
 
     /// <summary>
-    /// The name of the . Constraints: o min: 1 o max: 100 o pattern: [\S\s]*
+    /// The name of the . Constraints: • min: 1 • max: 100 • pattern: [\S\s]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The description of the . Constraints: o min: 1 o max: 128
+    /// The description of the . Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A structure that describes the options for the portal associated with an application. SignInOptions -&gt; (structure) A structure that describes the sign-in options for the access portal. Origin -&gt; (string) [required] This determines how IAM Identity Center navigates the user to the target application. It can be one of the following val- ues: o APPLICATION : IAM Identity Center redirects the customer to the configured ApplicationUrl . o IDENTITY_CENTER : IAM Identity Center uses SAML iden- tity-provider initiated authentication to sign the customer directly into a SAML-based application. Possible values: o IDENTITY_CENTER o APPLICATION ApplicationUrl -&gt; (string) The URL that accepts authentication requests for an applica- tion. This is a required parameter if the Origin parameter is APPLICATION . Constraints: o min: 1 o max: 512 o pattern: http(s)?:\/\/[-a-zA-Z0-9+&amp;@#\/%?=~_|!:,.;]*[-a-zA-Z0-9+&amp;bb@#\/%?=~_|] Visibility -&gt; (string) Indicates whether this application is visible in the access por- tal. Possible values: o ENABLED o DISABLED Shorthand Syntax: SignInOptions={Origin=string,ApplicationUrl=string},Visibility=string JSON Syntax: { "SignInOptions": { "Origin": "IDENTITY_CENTER"|"APPLICATION", "ApplicationUrl": "string" }, "Visibility": "ENABLED"|"DISABLED" }
+    /// A structure that describes the options for the portal associated with an application. SignInOptions -&gt; (structure) A structure that describes the sign-in options for the access portal. Origin -&gt; (string) [required] This determines how IAM Identity Center navigates the user to the target application. It can be one of the following values: • APPLICATION : IAM Identity Center redirects the customer to the configured ApplicationUrl . • IDENTITY_CENTER : IAM Identity Center uses SAML identity-provider initiated authentication to sign the customer directly into a SAML-based application. Possible values: • IDENTITY_CENTER • APPLICATION ApplicationUrl -&gt; (string) The URL that accepts authentication requests for an application. This is a required parameter if the Origin parameter is APPLICATION . Constraints: • min: 1 • max: 512 • pattern: http(s)?:\/\/[-a-zA-Z0-9+&amp;@#\/%?=~_|!:,.;]*[-a-zA-Z0-9+&amp;bb@#\/%?=~_|] Visibility -&gt; (string) Indicates whether this application is visible in the access portal. Possible values: • ENABLED • DISABLED Shorthand Syntax: SignInOptions={Origin=string,ApplicationUrl=string},Visibility=string JSON Syntax: { "SignInOptions": { "Origin": "IDENTITY_CENTER"|"APPLICATION", "ApplicationUrl": "string" }, "Visibility": "ENABLED"|"DISABLED" }
     /// </summary>
     [CliOption("--portal-options")]
     public string? PortalOptions { get; set; }
 
     /// <summary>
-    /// Specifies tags to be attached to the application. Constraints: o min: 0 o max: 75 (structure) A set of key-value pairs that are used to manage the resource. Tags can only be applied to permission sets and cannot be ap- plied to corresponding roles that IAM Identity Center creates in Amazon Web Services accounts. Key -&gt; (string) [required] The key for the tag. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Specifies tags to be attached to the application. Constraints: • min: 0 • max: 75 (structure) A set of key-value pairs that are used to manage the resource. Tags can only be applied to permission sets and cannot be applied to corresponding roles that IAM Identity Center creates in Amazon Web Services accounts. Key -&gt; (string) [required] The key for the tag. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value of the tag. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Specifies whether the application is enabled or disabled. Possible values: o ENABLED o DISABLED
+    /// Specifies whether the application is enabled or disabled. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--status")]
     public AwsSsoAdminCreateApplicationStatus? Status { get; set; }
 
     /// <summary>
-    /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
+    /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with different parameters, the retry fails with an IdempotentParameterMismatch error. Constraints: • min: 1 • max: 64 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

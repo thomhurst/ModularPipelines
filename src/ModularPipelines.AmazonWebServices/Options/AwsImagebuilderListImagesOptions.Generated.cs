@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the list of images that you have access to. See also: AWS API Documentation list-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: imageVersionList
+/// Returns the list of images that you have access to. See also: AWS API Documentation list-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: imageVersionList
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,34 +24,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsImagebuilderListImagesOptions : AwsOptions
 {
     /// <summary>
-    /// Filters the list to images owned by you, by Amazon, or shared with you by other accounts. By default, only your account's images are returned. Possible values: o Self o Shared o Amazon o ThirdParty o AWSMarketplace
+    /// Filters the list to images owned by you, by Amazon, or shared with you by other accounts. By default, only your account's images are returned. Possible values: • Self • Shared • Amazon • ThirdParty • AWSMarketplace
     /// </summary>
     [CliOption("--owner")]
     public AwsImagebuilderListImagesOwner? Owner { get; set; }
 
     /// <summary>
-    /// Use the following filters to streamline results: o name o osVersion o platform o type o version Constraints: o min: 1 o max: 10 (structure) A filter name and value pair that is used to return a more spe- cific list of results from a list operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. name -&gt; (string) The name of the filter. Filter names are case-sensitive. Constraints: o pattern: ^[a-zA-Z]{1,1024}$ values -&gt; (list) The filter values. Filter values are case-sensitive. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: ^[0-9a-zA-Z./_ :,{}"-]{1,1024}$ Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "string", "values": ["string", ...] } ... ]
+    /// Use the following filters to streamline results: • name • osVersion • platform • type • version Constraints: • min: 1 • max: 10 (structure) A filter name and value pair that is used to return a more specific list of results from a list operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. name -&gt; (string) The name of the filter. Filter names are case-sensitive. Constraints: • pattern: ^[a-zA-Z]{1,1024}$ values -&gt; (list) The filter values. Filter values are case-sensitive. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: ^[0-9a-zA-Z./_ :,{}"-]{1,1024}$ Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "string", "values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// Specifies whether to return one entry per image name, with all ver- sions of each image aggregated. Defaults to false , which returns one entry per image version. You can't combine this option with the version filter.
+    /// Specifies whether to return one entry per image name, with all versions of each image aggregated. Defaults to false , which returns one entry per image version. You can't combine this option with the version filter.
     /// </summary>
     [CliFlag("--by-name", NegatedName = "--no-by-name")]
     public bool? ByName { get; set; }
 
     /// <summary>
-    /// Specifies whether to include deprecated Amazon-managed images in the results. Deprecated images that you own are always returned. De- faults to false .
+    /// Specifies whether to include deprecated Amazon-managed images in the results. Deprecated images that you own are always returned. Defaults to false .
     /// </summary>
     [CliFlag("--include-deprecated", NegatedName = "--no-include-deprecated")]
     public bool? IncludeDeprecated { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -61,15 +58,18 @@ public record AwsImagebuilderListImagesOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 25
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 25
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

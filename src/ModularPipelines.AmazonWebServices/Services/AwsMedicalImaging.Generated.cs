@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws medicalimaging commands.
+/// aws medical-imaging commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsMedicalImaging : IAwsMedicalImaging
@@ -107,7 +107,7 @@ public class AwsMedicalImaging : IAwsMedicalImaging
     }
 
     /// <summary>
-    /// Get the import job properties to learn more about the job or job progress. NOTE: The jobStatus refers to the execution of the import job. Therefore, an import job can return a jobStatus as COMPLETED even if validation issues are discovered during the import process. If a jobStatus re- turns as COMPLETED , we still recommend you review the output mani- fests written to S3, as they provide details on the success or fail- ure of individual P10 object imports. See also: AWS API Documentation
+    /// Get the import job properties to learn more about the job or job progress. NOTE: The jobStatus refers to the execution of the import job. Therefore, an import job can return a jobStatus as COMPLETED even if validation issues are discovered during the import process. If a jobStatus returns as COMPLETED , we still recommend you review the output manifests written to S3, as they provide details on the success or failure of individual P10 object imports. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsMedicalImaging : IAwsMedicalImaging
     }
 
     /// <summary>
-    /// List data stores. See also: AWS API Documentation list-datastores is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: datastoreSummaries
+    /// List data stores. See also: AWS API Documentation list-datastores is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: datastoreSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsMedicalImaging : IAwsMedicalImaging
     }
 
     /// <summary>
-    /// List image set versions. See also: AWS API Documentation list-image-set-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: imageSetPropertiesList
+    /// List image set versions. See also: AWS API Documentation list-image-set-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: imageSetPropertiesList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsMedicalImaging : IAwsMedicalImaging
     }
 
     /// <summary>
-    /// Search image sets based on defined input attributes. NOTE: SearchImageSets accepts a single search query parameter and re- turns a paginated response of all image sets that have the matching criteria. All date range queries must be input as (lowerBound, upperBound) . By default, SearchImageSets uses the updatedAt field for sorting in descending order from newest to oldest. See also: AWS API Documentation search-image-sets is a paginated operation. Multiple API calls may be issued in order to ret...
+    /// Search image sets based on defined input attributes. NOTE: SearchImageSets accepts a single search query parameter and returns a paginated response of all image sets that have the matching criteria. All date range queries must be input as (lowerBound, upperBound) . By default, SearchImageSets uses the updatedAt field for sorting in descending order from newest to oldest. See also: AWS API Documentation search-image-sets is a paginated operation. Multiple API calls may be issued in order to retri...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsMedicalImaging : IAwsMedicalImaging
     }
 
     /// <summary>
-    /// Start importing bulk data into an ACTIVE data store. The import job im- ports DICOM P10 files or enhances existing DICOM files with JSON meta- data. The importConfiguration parameter specifies the import type. The data is found in the S3 prefix specified by the inputS3Uri parameter. The import job stores processing results in the file specified by the outputS3Uri parameter. See also: AWS API Documentation
+    /// Start importing bulk data into an ACTIVE data store. The import job imports DICOM P10 files or enhances existing DICOM files with JSON metadata. The importConfiguration parameter specifies the import type. The data is found in the S3 prefix specified by the inputS3Uri parameter. The import job stores processing results in the file specified by the outputS3Uri parameter. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

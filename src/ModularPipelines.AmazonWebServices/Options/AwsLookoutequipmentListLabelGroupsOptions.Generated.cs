@@ -23,20 +23,20 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLookoutequipmentListLabelGroupsOptions : AwsOptions
 {
     /// <summary>
-    /// The beginning of the name of the label groups to be listed. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// The beginning of the name of the label groups to be listed. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$
     /// </summary>
     [CliOption("--label-group-name-begins-with")]
     public string? LabelGroupNameBeginsWith { get; set; }
 
     /// <summary>
-    /// An opaque pagination token indicating where to continue the listing of label groups. Constraints: o max: 8192 o pattern: \p{ASCII}{0,8192}
+    /// An opaque pagination token indicating where to continue the listing of label groups. Constraints: • max: 8192 • pattern: \p{ASCII}{0,8192}
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Specifies the maximum number of label groups to list. Constraints: o min: 1 o max: 500
+    /// Specifies the maximum number of label groups to list. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

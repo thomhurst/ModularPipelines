@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsStepfunctionsGetActivityTaskOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Used by workers to retrieve a task (with the specified activity ARN) which has been scheduled for execution by a running state machine. This initiates a long poll, where the service holds the HTTP connection open and responds as soon as a task becomes available (i.e. an execution of a task of this type is needed.) The maximum time the service holds on to the request before responding is 60 seconds. If no task is available within 60 seconds, the poll returns a taskToken with a null string. WARNIN...
     /// </summary>
-    /// <param name="ActivityArn">The Amazon Resource Name (ARN) of the activity to retrieve tasks from (assigned when you create the task using CreateActivity .) Constraints: o min: 1 o max: 256</param>
+    /// <param name="ActivityArn">The Amazon Resource Name (ARN) of the activity to retrieve tasks from (assigned when you create the task using CreateActivity .) Constraints: • min: 1 • max: 256</param>
     public AwsStepfunctionsGetActivityTaskOptions(
         string ActivityArn
     )
@@ -56,13 +58,13 @@ public record AwsStepfunctionsGetActivityTaskOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the activity to retrieve tasks from (assigned when you create the task using CreateActivity .) Constraints: o min: 1 o max: 256
+    /// The Amazon Resource Name (ARN) of the activity to retrieve tasks from (assigned when you create the task using CreateActivity .) Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--activity-arn")]
     public string? ActivityArn { get; private init; }
 
     /// <summary>
-    /// You can provide an arbitrary name in order to identify the worker that the task is assigned to. This name is used when it is logged in the execution history. Constraints: o min: 1 o max: 80
+    /// You can provide an arbitrary name in order to identify the worker that the task is assigned to. This name is used when it is logged in the execution history. Constraints: • min: 1 • max: 80
     /// </summary>
     [CliOption("--worker-name")]
     public string? WorkerName { get; set; }

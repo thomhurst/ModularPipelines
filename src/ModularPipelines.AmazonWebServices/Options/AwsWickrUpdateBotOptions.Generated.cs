@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the properties of an existing bot in a Wickr network. This op- eration allows you to modify the bot's display name, security group, password, or suspension status. See also: AWS API Documentation
+/// Updates the properties of an existing bot in a Wickr network. This operation allows you to modify the bot's display name, security group, password, or suspension status. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsWickrUpdateBotOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the properties of an existing bot in a Wickr network. This op- eration allows you to modify the bot's display name, security group, password, or suspension status. See also: AWS API Documentation
+    /// Updates the properties of an existing bot in a Wickr network. This operation allows you to modify the bot's display name, security group, password, or suspension status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The ID of the Wickr network containing the bot to update. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
-    /// <param name="BotId">The unique identifier of the bot to update. Constraints: o min: 1 o max: 10 o pattern: [0-9]+</param>
+    /// <param name="NetworkId">The ID of the Wickr network containing the bot to update. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}</param>
+    /// <param name="BotId">The unique identifier of the bot to update. Constraints: • min: 1 • max: 10 • pattern: [0-9]+</param>
     public AwsWickrUpdateBotOptions(
         string NetworkId,
         string BotId
@@ -60,31 +62,31 @@ public record AwsWickrUpdateBotOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Wickr network containing the bot to update. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// The ID of the Wickr network containing the bot to update. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the bot to update. Constraints: o min: 1 o max: 10 o pattern: [0-9]+
+    /// The unique identifier of the bot to update. Constraints: • min: 1 • max: 10 • pattern: [0-9]+
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
 
     /// <summary>
-    /// The new display name for the bot. Constraints: o pattern: [\S\s]*
+    /// The new display name for the bot. Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The ID of the new security group to assign the bot to. Constraints: o pattern: [\S\s]*
+    /// The ID of the new security group to assign the bot to. Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--group-id")]
     public string? GroupId { get; set; }
 
     /// <summary>
-    /// The new password for the bot account. Constraints: o pattern: [\S\s]*
+    /// The new password for the bot account. Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--challenge")]
     public string? Challenge { get; set; }

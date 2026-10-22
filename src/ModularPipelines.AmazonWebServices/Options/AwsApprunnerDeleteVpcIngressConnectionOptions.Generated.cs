@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Delete an App Runner VPC Ingress Connection resource that's associated with an App Runner service. The VPC Ingress Connection must be in one of the following states to be deleted: o AVAILABLE o FAILED_CREATION o FAILED_UPDATE o FAILED_DELETION See also: AWS API Documentation
+/// Delete an App Runner VPC Ingress Connection resource that's associated with an App Runner service. The VPC Ingress Connection must be in one of the following states to be deleted: • AVAILABLE • FAILED_CREATION • FAILED_UPDATE • FAILED_DELETION See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsApprunnerDeleteVpcIngressConnectionOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Delete an App Runner VPC Ingress Connection resource that's associated with an App Runner service. The VPC Ingress Connection must be in one of the following states to be deleted: o AVAILABLE o FAILED_CREATION o FAILED_UPDATE o FAILED_DELETION See also: AWS API Documentation
+    /// Delete an App Runner VPC Ingress Connection resource that's associated with an App Runner service. The VPC Ingress Connection must be in one of the following states to be deleted: • AVAILABLE • FAILED_CREATION • FAILED_UPDATE • FAILED_DELETION See also: AWS API Documentation
     /// </summary>
-    /// <param name="VpcIngressConnectionArn">The Amazon Resource Name (ARN) of the App Runner VPC Ingress Connec- tion that you want to delete. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}</param>
+    /// <param name="VpcIngressConnectionArn">The Amazon Resource Name (ARN) of the App Runner VPC Ingress Connection that you want to delete. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}</param>
     public AwsApprunnerDeleteVpcIngressConnectionOptions(
         string VpcIngressConnectionArn
     )
@@ -56,7 +58,7 @@ public record AwsApprunnerDeleteVpcIngressConnectionOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the App Runner VPC Ingress Connec- tion that you want to delete. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}
+    /// The Amazon Resource Name (ARN) of the App Runner VPC Ingress Connection that you want to delete. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}
     /// </summary>
     [CliOption("--vpc-ingress-connection-arn")]
     public string? VpcIngressConnectionArn { get; private init; }

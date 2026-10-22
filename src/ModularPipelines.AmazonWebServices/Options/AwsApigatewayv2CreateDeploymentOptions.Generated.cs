@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -68,7 +70,7 @@ public record AwsApigatewayv2CreateDeploymentOptions : AwsOptions, IValidatableO
     public string? Description { get; set; }
 
     /// <summary>
-    /// The name of the Stage resource for the Deployment resource to cre- ate.
+    /// The name of the Stage resource for the Deployment resource to create.
     /// </summary>
     [CliOption("--stage-name")]
     public string? StageName { get; set; }

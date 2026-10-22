@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMediaconnectRemoveBridgeSourceOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Removes a source from a bridge. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BridgeArn">The Amazon Resource Name (ARN) of the bridge that you want to up- date. Constraints: o pattern: arn:.+:mediaconnect.+:bridge:.+</param>
+    /// <param name="BridgeArn">The Amazon Resource Name (ARN) of the bridge that you want to update. Constraints: • pattern: arn:.+:mediaconnect.+:bridge:.+</param>
     /// <param name="SourceName">The name of the bridge source that you want to remove.</param>
     public AwsMediaconnectRemoveBridgeSourceOptions(
         string BridgeArn,
@@ -60,7 +62,7 @@ public record AwsMediaconnectRemoveBridgeSourceOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the bridge that you want to up- date. Constraints: o pattern: arn:.+:mediaconnect.+:bridge:.+
+    /// The Amazon Resource Name (ARN) of the bridge that you want to update. Constraints: • pattern: arn:.+:mediaconnect.+:bridge:.+
     /// </summary>
     [CliOption("--bridge-arn")]
     public string? BridgeArn { get; private init; }

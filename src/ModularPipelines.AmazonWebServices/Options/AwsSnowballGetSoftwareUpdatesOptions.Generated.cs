@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSnowballGetSoftwareUpdatesOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Returns an Amazon S3 presigned URL for an update file associated with a specified JobId . See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">The ID for a job that you want to get the software update file for, for example JID123e4567-e89b-12d3-a456-426655440000 . Constraints: o min: 39 o max: 39 o pattern: (M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="JobId">The ID for a job that you want to get the software update file for, for example JID123e4567-e89b-12d3-a456-426655440000 . Constraints: • min: 39 • max: 39 • pattern: (M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     public AwsSnowballGetSoftwareUpdatesOptions(
         string JobId
     )
@@ -56,7 +58,7 @@ public record AwsSnowballGetSoftwareUpdatesOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID for a job that you want to get the software update file for, for example JID123e4567-e89b-12d3-a456-426655440000 . Constraints: o min: 39 o max: 39 o pattern: (M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The ID for a job that you want to get the software update file for, for example JID123e4567-e89b-12d3-a456-426655440000 . Constraints: • min: 39 • max: 39 • pattern: (M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }

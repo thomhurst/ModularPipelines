@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the account-level VPC Encryption Control configuration. This sets the encryption control mode and resource exclusions that apply to the VPCs in your account. VPC Encryption Control enables you to enforce encryption for all data in transit within and between VPCs to meet com- pliance requirements. For more information, see Enforce VPC encryption in transit in the Ama- zon VPC User Guide . See also: AWS API Documentation
+/// Modifies the account-level VPC Encryption Control configuration. This sets the encryption control mode and resource exclusions that apply to the VPCs in your account. VPC Encryption Control enables you to enforce encryption for all data in transit within and between VPCs to meet compliance requirements. For more information, see Enforce VPC encryption in transit in the Amazon VPC User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,61 +23,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEc2ModifyAccountVpcEncryptionControlOptions : AwsOptions
 {
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// The encryption mode for the account encryption control configura- tion. Possible values: o unmanaged o attempt-monitor o attempt-enforce
+    /// The encryption mode for the account encryption control configuration. Possible values: • unmanaged • attempt-monitor • attempt-enforce
     /// </summary>
     [CliOption("--mode")]
     public AwsEc2ModifyAccountVpcEncryptionControlMode? Mode { get; set; }
 
     /// <summary>
-    /// Specifies whether to exclude internet gateway resource from ac- count-level encryption enforcement. Possible values: o enable o disable
+    /// Specifies whether to exclude internet gateway resource from account-level encryption enforcement. Possible values: • enable • disable
     /// </summary>
     [CliOption("--internet-gateway")]
     public AwsEc2ModifyAccountVpcEncryptionControlInternetGateway? InternetGateway { get; set; }
 
     /// <summary>
-    /// Specifies whether to exclude egress-only internet gateway resource from account-level encryption enforcement. Possible values: o enable o disable
+    /// Specifies whether to exclude egress-only internet gateway resource from account-level encryption enforcement. Possible values: • enable • disable
     /// </summary>
     [CliOption("--egress-only-internet-gateway")]
     public AwsEc2ModifyAccountVpcEncryptionControlEgressOnlyInternetGateway? EgressOnlyInternetGateway { get; set; }
 
     /// <summary>
-    /// Specifies whether to exclude NAT gateway resource from account-level encryption enforcement. Possible values: o enable o disable
+    /// Specifies whether to exclude NAT gateway resource from account-level encryption enforcement. Possible values: • enable • disable
     /// </summary>
     [CliOption("--nat-gateway")]
     public AwsEc2ModifyAccountVpcEncryptionControlNatGateway? NatGateway { get; set; }
 
     /// <summary>
-    /// Specifies whether to exclude virtual private gateway resource from account-level encryption enforcement. Possible values: o enable o disable
+    /// Specifies whether to exclude virtual private gateway resource from account-level encryption enforcement. Possible values: • enable • disable
     /// </summary>
     [CliOption("--virtual-private-gateway")]
     public AwsEc2ModifyAccountVpcEncryptionControlVirtualPrivateGateway? VirtualPrivateGateway { get; set; }
 
     /// <summary>
-    /// Specifies whether to exclude VPC peering connection resource from account-level encryption enforcement. Possible values: o enable o disable
+    /// Specifies whether to exclude VPC peering connection resource from account-level encryption enforcement. Possible values: • enable • disable
     /// </summary>
     [CliOption("--vpc-peering")]
     public AwsEc2ModifyAccountVpcEncryptionControlVpcPeering? VpcPeering { get; set; }
 
     /// <summary>
-    /// Specifies whether to exclude Lambda service from account-level en- cryption enforcement. Possible values: o enable o disable
+    /// Specifies whether to exclude Lambda service from account-level encryption enforcement. Possible values: • enable • disable
     /// </summary>
     [CliOption("--lambda")]
     public AwsEc2ModifyAccountVpcEncryptionControlLambda? Lambda { get; set; }
 
     /// <summary>
-    /// Specifies whether to exclude VPC Lattice service from account-level encryption enforcement. Possible values: o enable o disable
+    /// Specifies whether to exclude VPC Lattice service from account-level encryption enforcement. Possible values: • enable • disable
     /// </summary>
     [CliOption("--vpc-lattice")]
     public AwsEc2ModifyAccountVpcEncryptionControlVpcLattice? VpcLattice { get; set; }
 
     /// <summary>
-    /// Specifies whether to exclude Elastic File System service from ac- count-level encryption enforcement. Possible values: o enable o disable
+    /// Specifies whether to exclude Elastic File System service from account-level encryption enforcement. Possible values: • enable • disable
     /// </summary>
     [CliOption("--elastic-file-system")]
     public AwsEc2ModifyAccountVpcEncryptionControlElasticFileSystem? ElasticFileSystem { get; set; }

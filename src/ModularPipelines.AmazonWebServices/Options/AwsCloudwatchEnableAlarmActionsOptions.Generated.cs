@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCloudwatchEnableAlarmActionsOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Enables the actions for the specified alarms. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AlarmNames">The names of the alarms. Constraints: o max: 100 (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...</param>
+    /// <param name="AlarmNames">The names of the alarms. Constraints: • max: 100 (string) Constraints: • min: 1 • max: 255 Syntax: "string" "string" ...</param>
     public AwsCloudwatchEnableAlarmActionsOptions(
         IEnumerable<string> AlarmNames
     )
@@ -67,7 +69,7 @@ public record AwsCloudwatchEnableAlarmActionsOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The names of the alarms. Constraints: o max: 100 (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...
+    /// The names of the alarms. Constraints: • max: 100 (string) Constraints: • min: 1 • max: 255 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--alarm-names", GroupValues = true)]
     public IEnumerable<string>? AlarmNames { get; private init; }

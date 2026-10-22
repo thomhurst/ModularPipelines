@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,13 +64,13 @@ public record AwsMacie2AcceptInvitationOptions : AwsOptions, IValidatableObject
     public string? InvitationId { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID for the account that sent the in- vitation.
+    /// The Amazon Web Services account ID for the account that sent the invitation.
     /// </summary>
     [CliOption("--administrator-account-id")]
     public string? AdministratorAccountId { get; set; }
 
     /// <summary>
-    /// (Deprecated) The Amazon Web Services account ID for the account that sent the invitation. This property has been replaced by the adminis- tratorAccountId property and is retained only for backward compati- bility.
+    /// (Deprecated) The Amazon Web Services account ID for the account that sent the invitation. This property has been replaced by the administratorAccountId property and is retained only for backward compatibility.
     /// </summary>
     [CliOption("--master-account")]
     public string? MasterAccount { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsPcaConnectorAdGetConnectorOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Lists information about your connector. You specify the connector on input by its ARN (Amazon Resource Name). See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectorArn">The Amazon Resource Name (ARN) that was returned when you called CreateConnector . Constraints: o min: 5 o max: 200 o pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:connec- tor\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$</param>
+    /// <param name="ConnectorArn">The Amazon Resource Name (ARN) that was returned when you called CreateConnector . Constraints: • min: 5 • max: 200 • pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:connector\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$</param>
     public AwsPcaConnectorAdGetConnectorOptions(
         string ConnectorArn
     )
@@ -56,7 +58,7 @@ public record AwsPcaConnectorAdGetConnectorOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that was returned when you called CreateConnector . Constraints: o min: 5 o max: 200 o pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:connec- tor\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$
+    /// The Amazon Resource Name (ARN) that was returned when you called CreateConnector . Constraints: • min: 5 • max: 200 • pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:connector\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--connector-arn")]
     public string? ConnectorArn { get; private init; }

@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This request obtains a list of copy jobs created or running within the the most recent 14 days. You can include parameters AccountID, State, ResourceType, MessageCategory, AggregationPeriod, MaxResults, or Next- Token to filter results. This request returns a summary that contains Region, Account, State, RestourceType, MessageCategory, StartTime, EndTime, and Count of in- cluded jobs. See also: AWS API Documentation
+/// This request obtains a list of copy jobs created or running within the the most recent 14 days. You can include parameters AccountID, State, ResourceType, MessageCategory, AggregationPeriod, MaxResults, or NextToken to filter results. This request returns a summary that contains Region, Account, State, RestourceType, MessageCategory, StartTime, EndTime, and Count of included jobs. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,43 +24,43 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsBackupListCopyJobSummariesOptions : AwsOptions
 {
     /// <summary>
-    /// Returns the job count for the specified account. If the request is sent from a member account or an account not part of Amazon Web Services Organizations, jobs within requestor's ac- count will be returned. Root, admin, and delegated administrator accounts can use the value ANY to return job counts from every account in the organization. AGGREGATE_ALL aggregates job counts from all accounts within the authenticated organization, then returns the sum. Constraints: o pattern: ^[0-9]{12}$
+    /// Returns the job count for the specified account. If the request is sent from a member account or an account not part of Amazon Web Services Organizations, jobs within requestor's account will be returned. Root, admin, and delegated administrator accounts can use the value ANY to return job counts from every account in the organization. AGGREGATE_ALL aggregates job counts from all accounts within the authenticated organization, then returns the sum. Constraints: • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
     /// <summary>
-    /// This parameter returns the job count for jobs with the specified state. The the value ANY returns count of all states. AGGREGATE_ALL aggregates job counts for all states and returns the sum. Possible values: o CREATED o RUNNING o ABORTING o ABORTED o COMPLETING o COMPLETED o FAILING o FAILED o PARTIAL o AGGREGATE_ALL o ANY
+    /// This parameter returns the job count for jobs with the specified state. The the value ANY returns count of all states. AGGREGATE_ALL aggregates job counts for all states and returns the sum. Possible values: • CREATED • RUNNING • ABORTING • ABORTED • COMPLETING • COMPLETED • FAILING • FAILED • PARTIAL • AGGREGATE_ALL • ANY
     /// </summary>
     [CliOption("--state")]
     public AwsBackupListCopyJobSummariesState? State { get; set; }
 
     /// <summary>
-    /// Returns the job count for the specified resource type. Use request GetSupportedResourceTypes to obtain strings for supported resource types. The the value ANY returns count of all resource types. AGGREGATE_ALL aggregates job counts for all resource types and returns the sum. The type of Amazon Web Services resource to be backed up; for exam- ple, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database. Constraints: o pattern: ^[a-zA-Z0-9\-\_\.]{1,50}$
+    /// Returns the job count for the specified resource type. Use request GetSupportedResourceTypes to obtain strings for supported resource types. The the value ANY returns count of all resource types. AGGREGATE_ALL aggregates job counts for all resource types and returns the sum. The type of Amazon Web Services resource to be backed up; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database. Constraints: • pattern: ^[a-zA-Z0-9\-\_\.]{1,50}$
     /// </summary>
     [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
     /// <summary>
-    /// This parameter returns the job count for the specified message cate- gory. Example accepted strings include AccessDenied , Success , and In- validParameters . See Monitoring for a list of accepted MessageCate- gory strings. The the value ANY returns count of all message categories. AGGREGATE_ALL aggregates job counts for all message categories and returns the sum.
+    /// This parameter returns the job count for the specified message category. Example accepted strings include AccessDenied , Success , and InvalidParameters . See Monitoring for a list of accepted MessageCategory strings. The the value ANY returns count of all message categories. AGGREGATE_ALL aggregates job counts for all message categories and returns the sum.
     /// </summary>
     [CliOption("--message-category")]
     public string? MessageCategory { get; set; }
 
     /// <summary>
-    /// The period for the returned results. o ONE_DAY - The daily job count for the prior 14 days. o SEVEN_DAYS - The aggregated job count for the prior 7 days. o FOURTEEN_DAYS - The aggregated job count for prior 14 days. Possible values: o ONE_DAY o SEVEN_DAYS o FOURTEEN_DAYS
+    /// The period for the returned results. • ONE_DAY - The daily job count for the prior 14 days. • SEVEN_DAYS - The aggregated job count for the prior 7 days. • FOURTEEN_DAYS - The aggregated job count for prior 14 days. Possible values: • ONE_DAY • SEVEN_DAYS • FOURTEEN_DAYS
     /// </summary>
     [CliOption("--aggregation-period")]
     public AwsBackupListCopyJobSummariesAggregationPeriod? AggregationPeriod { get; set; }
 
     /// <summary>
-    /// This parameter sets the maximum number of items to be returned. The value is an integer. Range of accepted values is from 1 to 500. Constraints: o min: 1 o max: 1000
+    /// This parameter sets the maximum number of items to be returned. The value is an integer. Range of accepted values is from 1 to 500. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The next item following a partial list of returned resources. For example, if a request is made to return MaxResults number of re- sources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned resources. For example, if a request is made to return MaxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

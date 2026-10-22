@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRedshiftBatchDeleteClusterSnapshotsOptions : AwsOptions, IValid
     /// <summary>
     /// Deletes a set of cluster snapshots. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifiers">A list of identifiers for the snapshots that you want to delete. (structure) SnapshotIdentifier -&gt; (string) [required] The unique identifier of the manual snapshot to be deleted. Constraints: Must be the name of an existing snapshot that is in the available , failed , or cancelled state. Constraints: o max: 2147483647 SnapshotClusterIdentifier -&gt; (string) The unique identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a pol- icy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints: Must be the name of valid cluster. Constraints: o max: 2147483647 Shorthand Syntax: SnapshotIdentifier=string,SnapshotClusterIdentifier=string ... JSON Syntax: [ { "SnapshotIdentifier": "string", "SnapshotClusterIdentifier": "string" } ... ]</param>
+    /// <param name="Identifiers">A list of identifiers for the snapshots that you want to delete. (structure) SnapshotIdentifier -&gt; (string) [required] The unique identifier of the manual snapshot to be deleted. Constraints: Must be the name of an existing snapshot that is in the available , failed , or cancelled state. Constraints: • max: 2147483647 SnapshotClusterIdentifier -&gt; (string) The unique identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints: Must be the name of valid cluster. Constraints: • max: 2147483647 Shorthand Syntax: SnapshotIdentifier=string,SnapshotClusterIdentifier=string ... JSON Syntax: [ { "SnapshotIdentifier": "string", "SnapshotClusterIdentifier": "string" } ... ]</param>
     public AwsRedshiftBatchDeleteClusterSnapshotsOptions(
         IEnumerable<string> Identifiers
     )
@@ -67,7 +69,7 @@ public record AwsRedshiftBatchDeleteClusterSnapshotsOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of identifiers for the snapshots that you want to delete. (structure) SnapshotIdentifier -&gt; (string) [required] The unique identifier of the manual snapshot to be deleted. Constraints: Must be the name of an existing snapshot that is in the available , failed , or cancelled state. Constraints: o max: 2147483647 SnapshotClusterIdentifier -&gt; (string) The unique identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a pol- icy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints: Must be the name of valid cluster. Constraints: o max: 2147483647 Shorthand Syntax: SnapshotIdentifier=string,SnapshotClusterIdentifier=string ... JSON Syntax: [ { "SnapshotIdentifier": "string", "SnapshotClusterIdentifier": "string" } ... ]
+    /// A list of identifiers for the snapshots that you want to delete. (structure) SnapshotIdentifier -&gt; (string) [required] The unique identifier of the manual snapshot to be deleted. Constraints: Must be the name of an existing snapshot that is in the available , failed , or cancelled state. Constraints: • max: 2147483647 SnapshotClusterIdentifier -&gt; (string) The unique identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints: Must be the name of valid cluster. Constraints: • max: 2147483647 Shorthand Syntax: SnapshotIdentifier=string,SnapshotClusterIdentifier=string ... JSON Syntax: [ { "SnapshotIdentifier": "string", "SnapshotClusterIdentifier": "string" } ... ]
     /// </summary>
     [CliOption("--identifiers", GroupValues = true)]
     public IEnumerable<string>? Identifiers { get; private init; }

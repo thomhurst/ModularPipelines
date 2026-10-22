@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// An SaaS partner can use this operation to list all the partner event source names that they have created. This operation is not used by Ama- zon Web Services customers. See also: AWS API Documentation
+/// An SaaS partner can use this operation to list all the partner event source names that they have created. This operation is not used by Amazon Web Services customers. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsEventsListPartnerEventSourcesOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// An SaaS partner can use this operation to list all the partner event source names that they have created. This operation is not used by Ama- zon Web Services customers. See also: AWS API Documentation
+    /// An SaaS partner can use this operation to list all the partner event source names that they have created. This operation is not used by Amazon Web Services customers. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NamePrefix">If you specify this, the results are limited to only those partner event sources that start with the string you specify. Constraints: o min: 1 o max: 256 o pattern: aws\.partner/[\.\-_A-Za-z0-9]+/[/\.\-_A-Za-z0-9]*</param>
+    /// <param name="NamePrefix">If you specify this, the results are limited to only those partner event sources that start with the string you specify. Constraints: • min: 1 • max: 256 • pattern: aws\.partner/[\.\-_A-Za-z0-9]+/[/\.\-_A-Za-z0-9]*</param>
     public AwsEventsListPartnerEventSourcesOptions(
         string NamePrefix
     )
@@ -57,20 +59,20 @@ public record AwsEventsListPartnerEventSourcesOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// If you specify this, the results are limited to only those partner event sources that start with the string you specify. Constraints: o min: 1 o max: 256 o pattern: aws\.partner/[\.\-_A-Za-z0-9]+/[/\.\-_A-Za-z0-9]*
+    /// If you specify this, the results are limited to only those partner event sources that start with the string you specify. Constraints: • min: 1 • max: 256 • pattern: aws\.partner/[\.\-_A-Za-z0-9]+/[/\.\-_A-Za-z0-9]*
     /// </summary>
     [CliOption("--name-prefix")]
     public string? NamePrefix { get; private init; }
 
     /// <summary>
-    /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidTo- ken error. Constraints: o min: 1 o max: 2048
+    /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error. Constraints: • min: 1 • max: 2048
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// pecifying this limits the number of results returned by this opera- tion. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results. Constraints: o min: 1 o max: 100
+    /// pecifying this limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a list that describes the configuration of Bring Your Own Li- cense (BYOL) for the specified account. See also: AWS API Documentation
+/// Retrieves a list that describes the configuration of Bring Your Own License (BYOL) for the specified account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

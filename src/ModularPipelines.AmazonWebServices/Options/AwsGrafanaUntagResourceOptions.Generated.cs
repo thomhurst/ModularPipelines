@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsGrafanaUntagResourceOptions : AwsOptions, IValidatableObject
     /// The UntagResource operation removes the association of the tag with the Amazon Managed Grafana resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceArn">The ARN of the resource the tag association is removed from.</param>
-    /// <param name="TagKeys">The key values of the tag to be removed from the resource. (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="TagKeys">The key values of the tag to be removed from the resource. (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
     public AwsGrafanaUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -77,7 +79,7 @@ public record AwsGrafanaUntagResourceOptions : AwsOptions, IValidatableObject
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The key values of the tag to be removed from the resource. (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// The key values of the tag to be removed from the resource. (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

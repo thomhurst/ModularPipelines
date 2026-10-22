@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the traffic distribution for a given traffic distribution group. WARNING: When you shift telephony traffic, also shift agents and/or agent sign-ins to ensure they can handle the calls in the other Region. If you don't shift the agents, voice calls will go to the shifted Re- gion but there won't be any agents available to receive the calls. NOTE: The SignInConfig distribution is available only on a default Traf- ficDistributionGroup (see the IsDefault parameter in the TrafficDistributionG...
+/// Updates the traffic distribution for a given traffic distribution group. WARNING: When you shift telephony traffic, also shift agents and/or agent sign-ins to ensure they can handle the calls in the other Region. If you don't shift the agents, voice calls will go to the shifted Region but there won't be any agents available to receive the calls. NOTE: The SignInConfig distribution is available only on a default TrafficDistributionGroup (see the IsDefault parameter in the TrafficDistributionGroup...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsConnectUpdateTrafficDistributionOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the traffic distribution for a given traffic distribution group. WARNING: When you shift telephony traffic, also shift agents and/or agent sign-ins to ensure they can handle the calls in the other Region. If you don't shift the agents, voice calls will go to the shifted Re- gion but there won't be any agents available to receive the calls. NOTE: The SignInConfig distribution is available only on a default Traf- ficDistributionGroup (see the IsDefault parameter in the TrafficDistributionG...
+    /// Updates the traffic distribution for a given traffic distribution group. WARNING: When you shift telephony traffic, also shift agents and/or agent sign-ins to ensure they can handle the calls in the other Region. If you don't shift the agents, voice calls will go to the shifted Region but there won't be any agents available to receive the calls. NOTE: The SignInConfig distribution is available only on a default TrafficDistributionGroup (see the IsDefault parameter in the TrafficDistributionGroup...
     /// </summary>
-    /// <param name="Id">The identifier of the traffic distribution group. This can be the ID or the ARN if the API is being called in the Region where the traf- fic distribution group was created. The ARN must be provided if the call is from the replicated Region. Constraints: o pattern: ^(arn:(aws|aws-us-gov):con- nect:[a-z]{2}-[a-z-]+-[0-9]{1}:[0-9]{1,20}:traffic-distribu- tion-group/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="Id">The identifier of the traffic distribution group. This can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created. The ARN must be provided if the call is from the replicated Region. Constraints: • pattern: ^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z-]+-[0-9]{1}:[0-9]{1,20}:traffic-distribution-group/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
     public AwsConnectUpdateTrafficDistributionOptions(
         string Id
     )
@@ -56,25 +58,25 @@ public record AwsConnectUpdateTrafficDistributionOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the traffic distribution group. This can be the ID or the ARN if the API is being called in the Region where the traf- fic distribution group was created. The ARN must be provided if the call is from the replicated Region. Constraints: o pattern: ^(arn:(aws|aws-us-gov):con- nect:[a-z]{2}-[a-z-]+-[0-9]{1}:[0-9]{1,20}:traffic-distribu- tion-group/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The identifier of the traffic distribution group. This can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created. The ARN must be provided if the call is from the replicated Region. Constraints: • pattern: ^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z-]+-[0-9]{1}:[0-9]{1,20}:traffic-distribution-group/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The distribution of traffic between the instance and its replica(s). Distributions -&gt; (list) [required] Information about traffic distributions. (structure) Information about a traffic distribution. Region -&gt; (string) [required] The Amazon Web Services Region where the traffic is dis- tributed. Constraints: o min: 8 o max: 31 o pattern: [a-z]{2}(-[a-z]+){1,2}(-[0-9])? Percentage -&gt; (integer) [required] The percentage of the traffic that is distributed, in in- crements of 10. Constraints: o min: 0 o max: 100 Shorthand Syntax: Distributions=[{Region=string,Percentage=integer},{Region=string,Percentage=integer}] JSON Syntax: { "Distributions": [ { "Region": "string", "Percentage": integer } ... ] }
+    /// The distribution of traffic between the instance and its replica(s). Distributions -&gt; (list) [required] Information about traffic distributions. (structure) Information about a traffic distribution. Region -&gt; (string) [required] The Amazon Web Services Region where the traffic is distributed. Constraints: • min: 8 • max: 31 • pattern: [a-z]{2}(-[a-z]+){1,2}(-[0-9])? Percentage -&gt; (integer) [required] The percentage of the traffic that is distributed, in increments of 10. Constraints: • min: 0 • max: 100 Shorthand Syntax: Distributions=[{Region=string,Percentage=integer},{Region=string,Percentage=integer}] JSON Syntax: { "Distributions": [ { "Region": "string", "Percentage": integer } ... ] }
     /// </summary>
     [CliOption("--telephony-config")]
     public string? TelephonyConfig { get; set; }
 
     /// <summary>
-    /// The distribution that determines which Amazon Web Services Regions should be used to sign in agents in to both the instance and its replica(s). Distributions -&gt; (list) [required] Information about traffic distributions. (structure) The distribution of sign in traffic between the instance and its replica(s). Region -&gt; (string) [required] The Amazon Web Services Region of the sign in distribu- tion. Constraints: o min: 8 o max: 31 o pattern: [a-z]{2}(-[a-z]+){1,2}(-[0-9])? Enabled -&gt; (boolean) [required] Whether sign in distribution is enabled. Shorthand Syntax: Distributions=[{Region=string,Enabled=boolean},{Region=string,Enabled=boolean}] JSON Syntax: { "Distributions": [ { "Region": "string", "Enabled": true|false } ... ] }
+    /// The distribution that determines which Amazon Web Services Regions should be used to sign in agents in to both the instance and its replica(s). Distributions -&gt; (list) [required] Information about traffic distributions. (structure) The distribution of sign in traffic between the instance and its replica(s). Region -&gt; (string) [required] The Amazon Web Services Region of the sign in distribution. Constraints: • min: 8 • max: 31 • pattern: [a-z]{2}(-[a-z]+){1,2}(-[0-9])? Enabled -&gt; (boolean) [required] Whether sign in distribution is enabled. Shorthand Syntax: Distributions=[{Region=string,Enabled=boolean},{Region=string,Enabled=boolean}] JSON Syntax: { "Distributions": [ { "Region": "string", "Enabled": true|false } ... ] }
     /// </summary>
     [CliOption("--sign-in-config")]
     public string? SignInConfig { get; set; }
 
     /// <summary>
-    /// The distribution of agents between the instance and its replica(s). Distributions -&gt; (list) [required] Information about traffic distributions. (structure) Information about a traffic distribution. Region -&gt; (string) [required] The Amazon Web Services Region where the traffic is dis- tributed. Constraints: o min: 8 o max: 31 o pattern: [a-z]{2}(-[a-z]+){1,2}(-[0-9])? Percentage -&gt; (integer) [required] The percentage of the traffic that is distributed, in in- crements of 10. Constraints: o min: 0 o max: 100 Shorthand Syntax: Distributions=[{Region=string,Percentage=integer},{Region=string,Percentage=integer}] JSON Syntax: { "Distributions": [ { "Region": "string", "Percentage": integer } ... ] }
+    /// The distribution of agents between the instance and its replica(s). Distributions -&gt; (list) [required] Information about traffic distributions. (structure) Information about a traffic distribution. Region -&gt; (string) [required] The Amazon Web Services Region where the traffic is distributed. Constraints: • min: 8 • max: 31 • pattern: [a-z]{2}(-[a-z]+){1,2}(-[0-9])? Percentage -&gt; (integer) [required] The percentage of the traffic that is distributed, in increments of 10. Constraints: • min: 0 • max: 100 Shorthand Syntax: Distributions=[{Region=string,Percentage=integer},{Region=string,Percentage=integer}] JSON Syntax: { "Distributions": [ { "Region": "string", "Percentage": integer } ... ] }
     /// </summary>
     [CliOption("--agent-config")]
     public string? AgentConfig { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsPollyDeleteLexiconOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the specified pronunciation lexicon stored in an Amazon Web Services Region. A lexicon which has been deleted is not available for speech synthesis, nor is it possible to retrieve it using either the GetLexicon or ListLexicon APIs. For more information, see Managing Lexicons . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the lexicon to delete. Must be an existing lexicon in the region. Constraints: o pattern: [0-9A-Za-z]{1,20}</param>
+    /// <param name="Name">The name of the lexicon to delete. Must be an existing lexicon in the region. Constraints: • pattern: [0-9A-Za-z]{1,20}</param>
     public AwsPollyDeleteLexiconOptions(
         string Name
     )
@@ -56,7 +58,7 @@ public record AwsPollyDeleteLexiconOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the lexicon to delete. Must be an existing lexicon in the region. Constraints: o pattern: [0-9A-Za-z]{1,20}
+    /// The name of the lexicon to delete. Must be an existing lexicon in the region. Constraints: • pattern: [0-9A-Za-z]{1,20}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

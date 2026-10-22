@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSagemakerDeleteDomainOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Used to delete a domain. If you onboarded with IAM mode, you will need to delete your domain to onboard again using IAM Identity Center. Use with caution. All of the members of the domain will lose access to their EFS volume, including data, notebooks, and other artifacts. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The domain ID. Constraints: o min: 0 o max: 63 o pattern: d-(-*[a-z0-9]){1,61}</param>
+    /// <param name="DomainId">The domain ID. Constraints: • min: 0 • max: 63 • pattern: d-(-*[a-z0-9]){1,61}</param>
     public AwsSagemakerDeleteDomainOptions(
         string DomainId
     )
@@ -56,13 +58,13 @@ public record AwsSagemakerDeleteDomainOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The domain ID. Constraints: o min: 0 o max: 63 o pattern: d-(-*[a-z0-9]){1,61}
+    /// The domain ID. Constraints: • min: 0 • max: 63 • pattern: d-(-*[a-z0-9]){1,61}
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// The retention policy for this domain, which specifies whether re- sources will be retained after the Domain is deleted. By default, all resources are retained (not automatically deleted). HomeEfsFileSystem -&gt; (string) The default is Retain , which specifies to keep the data stored on the Amazon EFS volume. Specify Delete to delete the data stored on the Amazon EFS vol- ume. Possible values: o Retain o Delete Shorthand Syntax: HomeEfsFileSystem=string JSON Syntax: { "HomeEfsFileSystem": "Retain"|"Delete" }
+    /// The retention policy for this domain, which specifies whether resources will be retained after the Domain is deleted. By default, all resources are retained (not automatically deleted). HomeEfsFileSystem -&gt; (string) The default is Retain , which specifies to keep the data stored on the Amazon EFS volume. Specify Delete to delete the data stored on the Amazon EFS volume. Possible values: • Retain • Delete Shorthand Syntax: HomeEfsFileSystem=string JSON Syntax: { "HomeEfsFileSystem": "Retain"|"Delete" }
     /// </summary>
     [CliOption("--retention-policy")]
     public string? RetentionPolicy { get; set; }

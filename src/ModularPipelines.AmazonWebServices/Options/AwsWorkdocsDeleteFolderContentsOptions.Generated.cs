@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsWorkdocsDeleteFolderContentsOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Deletes the contents of the specified folder. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FolderId">The ID of the folder. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+</param>
+    /// <param name="FolderId">The ID of the folder. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+</param>
     public AwsWorkdocsDeleteFolderContentsOptions(
         string FolderId
     )
@@ -57,13 +59,13 @@ public record AwsWorkdocsDeleteFolderContentsOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the folder. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+
+    /// The ID of the folder. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+
     /// </summary>
     [CliOption("--folder-id")]
     public string? FolderId { get; private init; }
 
     /// <summary>
-    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: o min: 1 o max: 8199
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: • min: 1 • max: 8199
     /// </summary>
     [SecretValue]
     [CliOption("--authentication-token")]

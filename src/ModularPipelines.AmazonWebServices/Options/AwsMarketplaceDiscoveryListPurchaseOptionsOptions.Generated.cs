@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the purchase options (offers and offer sets) available to the buyer. You can filter results by product, seller, purchase option type, visibility scope, and availability status. NOTE: You must include at least one of the following filters in the re- quest: a PRODUCT_ID filter to specify the product for which to re- trieve purchase options, or a VISIBILITY_SCOPE filter to retrieve purchase options by visibility. See also: AWS API Documentation list-purchase-options is a paginated operation...
+/// Returns the purchase options (offers and offer sets) available to the buyer. You can filter results by product, seller, purchase option type, visibility scope, and availability status. NOTE: You must include at least one of the following filters in the request: a PRODUCT_ID filter to specify the product for which to retrieve purchase options, or a VISIBILITY_SCOPE filter to retrieve purchase options by visibility. See also: AWS API Documentation list-purchase-options is a paginated operation. Mu...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,22 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsMarketplaceDiscoveryListPurchaseOptionsOptions : AwsOptions
 {
     /// <summary>
-    /// A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale. Constraints: o min: 1 o max: 256 o pattern: [^;,]+(\s*,\s*[^;,]+){0,1}
+    /// A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale. Constraints: • min: 1 • max: 256 • pattern: [^;,]+(\s*,\s*[^;,]+){0,1}
     /// </summary>
     [CliOption("--locale")]
     public string? Locale { get; set; }
 
     /// <summary>
-    /// Filters to narrow the results. Multiple filters are combined with AND logic. Multiple values within the same filter are combined with OR logic. Constraints: o min: 1 o max: 10 (structure) A filter used to narrow purchase option results by product, seller, type, visibility, or availability. filterType -&gt; (string) [required] The type of filter to apply, such as PRODUCT_ID , VISIBIL- ITY_SCOPE , or PURCHASE_OPTION_TYPE . Possible values: o PRODUCT_ID o SELLER_OF_RECORD_PROFILE_ID o PURCHASE_OPTION_TYPE o VISIBILITY_SCOPE o AVAILABILITY_STATUS filterValues -&gt; (list) [required] The values to filter by. Supported values depend on filter- Type : o PRODUCT_ID One or more product identifiers to filter by. o SELLER_OF_RECORD_PROFILE_ID One or more seller profile identifiers to filter by. o PURCHASE_OPTION_TYPE One or more purchase option types to filter by: OFFER or OFFERSET . o VISIBILITY_SCOPE The visibility scope to filter by: PRI- VATE . o AVAILABILITY_STATUS One or more availability statuses to filter by: AVAILABLE or EXPIRED . To retrieve private offers and offer sets visible to you, use VISIBILITY_SCOPE with PRIVATE . OR logic combines multiple values within the same filter. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 255 o pattern: [\w\-]+ Shorthand Syntax: filterType=string,filterValues=string,string ... JSON Syntax: [ { "filterType": "PRODUCT_ID"|"SELLER_OF_RECORD_PROFILE_ID"|"PURCHASE_OPTION_TYPE"|"VISIBILITY_SCOPE"|"AVAILABILITY_STATUS", "filterValues": ["string", ...] } ... ]
+    /// Filters to narrow the results. Multiple filters are combined with AND logic. Multiple values within the same filter are combined with OR logic. Constraints: • min: 1 • max: 10 (structure) A filter used to narrow purchase option results by product, seller, type, visibility, or availability. filterType -&gt; (string) [required] The type of filter to apply, such as PRODUCT_ID , VISIBILITY_SCOPE , or PURCHASE_OPTION_TYPE . Possible values: • PRODUCT_ID • SELLER_OF_RECORD_PROFILE_ID • PURCHASE_OPTION_TYPE • VISIBILITY_SCOPE • AVAILABILITY_STATUS filterValues -&gt; (list) [required] The values to filter by. Supported values depend on filterType : • PRODUCT_ID One or more product identifiers to filter by. • SELLER_OF_RECORD_PROFILE_ID One or more seller profile identifiers to filter by. • PURCHASE_OPTION_TYPE One or more purchase option types to filter by: OFFER or OFFERSET . • VISIBILITY_SCOPE The visibility scope to filter by: PRIVATE . • AVAILABILITY_STATUS One or more availability statuses to filter by: AVAILABLE or EXPIRED . To retrieve private offers and offer sets visible to you, use VISIBILITY_SCOPE with PRIVATE . OR logic combines multiple values within the same filter. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 255 • pattern: [\w\-]+ Shorthand Syntax: filterType=string,filterValues=string,string ... JSON Syntax: [ { "filterType": "PRODUCT_ID"|"SELLER_OF_RECORD_PROFILE_ID"|"PURCHASE_OPTION_TYPE"|"VISIBILITY_SCOPE"|"AVAILABILITY_STATUS", "filterValues": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -48,15 +45,18 @@ public record AwsMarketplaceDiscoveryListPurchaseOptionsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

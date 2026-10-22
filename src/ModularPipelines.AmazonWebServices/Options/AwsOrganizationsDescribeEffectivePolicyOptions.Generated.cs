@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the contents of the effective policy for specified policy type and account. The effective policy is the aggregation of any policies of the specified type that the account inherits, plus any policy of that type that is directly attached to the account. This operation applies only to management policies. It does not apply to authorization policies: service control policies (SCPs) and resource control policies (RCPs). For more information about policy inheritance, see Understanding man- age...
+/// Returns the contents of the effective policy for specified policy type and account. The effective policy is the aggregation of any policies of the specified type that the account inherits, plus any policy of that type that is directly attached to the account. This operation applies only to management policies. It does not apply to authorization policies: service control policies (SCPs) and resource control policies (RCPs). For more information about policy inheritance, see Understanding manageme...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsOrganizationsDescribeEffectivePolicyOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the contents of the effective policy for specified policy type and account. The effective policy is the aggregation of any policies of the specified type that the account inherits, plus any policy of that type that is directly attached to the account. This operation applies only to management policies. It does not apply to authorization policies: service control policies (SCPs) and resource control policies (RCPs). For more information about policy inheritance, see Understanding man- age...
+    /// Returns the contents of the effective policy for specified policy type and account. The effective policy is the aggregation of any policies of the specified type that the account inherits, plus any policy of that type that is directly attached to the account. This operation applies only to management policies. It does not apply to authorization policies: service control policies (SCPs) and resource control policies (RCPs). For more information about policy inheritance, see Understanding manageme...
     /// </summary>
-    /// <param name="PolicyType">The type of policy that you want information about. You can specify one of the following values: o DECLARATIVE_POLICY_EC2 o BACKUP_POLICY o TAG_POLICY o CHATBOT_POLICY o AISERVICES_OPT_OUT_POLICY o SECURITYHUB_POLICY o UPGRADE_ROLLOUT_POLICY o INSPECTOR_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_POLICY o GUARDDUTY_POLICY Possible values: o TAG_POLICY o BACKUP_POLICY o AISERVICES_OPT_OUT_POLICY o CHATBOT_POLICY o DECLARATIVE_POLICY_EC2 o SECURITYHUB_POLICY o INSPECTOR_POLICY o UPGRADE_ROLLOUT_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_POLICY o GUARDDUTY_POLICY</param>
+    /// <param name="PolicyType">The type of policy that you want information about. You can specify one of the following values: • DECLARATIVE_POLICY_EC2 • BACKUP_POLICY • TAG_POLICY • CHATBOT_POLICY • AISERVICES_OPT_OUT_POLICY • SECURITYHUB_POLICY • UPGRADE_ROLLOUT_POLICY • INSPECTOR_POLICY • BEDROCK_POLICY • S3_POLICY • NETWORK_SECURITY_DIRECTOR_POLICY • GUARDDUTY_POLICY Possible values: • TAG_POLICY • BACKUP_POLICY • AISERVICES_OPT_OUT_POLICY • CHATBOT_POLICY • DECLARATIVE_POLICY_EC2 • SECURITYHUB_POLICY • INSPECTOR_POLICY • UPGRADE_ROLLOUT_POLICY • BEDROCK_POLICY • S3_POLICY • NETWORK_SECURITY_DIRECTOR_POLICY • GUARDDUTY_POLICY</param>
     public AwsOrganizationsDescribeEffectivePolicyOptions(
         AwsOrganizationsDescribeEffectivePolicyPolicyType PolicyType
     )
@@ -56,13 +58,13 @@ public record AwsOrganizationsDescribeEffectivePolicyOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of policy that you want information about. You can specify one of the following values: o DECLARATIVE_POLICY_EC2 o BACKUP_POLICY o TAG_POLICY o CHATBOT_POLICY o AISERVICES_OPT_OUT_POLICY o SECURITYHUB_POLICY o UPGRADE_ROLLOUT_POLICY o INSPECTOR_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_POLICY o GUARDDUTY_POLICY Possible values: o TAG_POLICY o BACKUP_POLICY o AISERVICES_OPT_OUT_POLICY o CHATBOT_POLICY o DECLARATIVE_POLICY_EC2 o SECURITYHUB_POLICY o INSPECTOR_POLICY o UPGRADE_ROLLOUT_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_POLICY o GUARDDUTY_POLICY
+    /// The type of policy that you want information about. You can specify one of the following values: • DECLARATIVE_POLICY_EC2 • BACKUP_POLICY • TAG_POLICY • CHATBOT_POLICY • AISERVICES_OPT_OUT_POLICY • SECURITYHUB_POLICY • UPGRADE_ROLLOUT_POLICY • INSPECTOR_POLICY • BEDROCK_POLICY • S3_POLICY • NETWORK_SECURITY_DIRECTOR_POLICY • GUARDDUTY_POLICY Possible values: • TAG_POLICY • BACKUP_POLICY • AISERVICES_OPT_OUT_POLICY • CHATBOT_POLICY • DECLARATIVE_POLICY_EC2 • SECURITYHUB_POLICY • INSPECTOR_POLICY • UPGRADE_ROLLOUT_POLICY • BEDROCK_POLICY • S3_POLICY • NETWORK_SECURITY_DIRECTOR_POLICY • GUARDDUTY_POLICY
     /// </summary>
     [CliOption("--policy-type")]
     public AwsOrganizationsDescribeEffectivePolicyPolicyType? PolicyType { get; private init; }
 
     /// <summary>
-    /// When you're signed in as the management account, specify the ID of the account that you want details about. Specifying an organization root or organizational unit (OU) as the target is not supported. Constraints: o max: 100 o pattern: ^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$
+    /// When you're signed in as the management account, specify the ID of the account that you want details about. Specifying an organization root or organizational unit (OU) as the target is not supported. Constraints: • max: 100 • pattern: ^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$
     /// </summary>
     [CliOption("--target-id")]
     public string? TargetId { get; set; }

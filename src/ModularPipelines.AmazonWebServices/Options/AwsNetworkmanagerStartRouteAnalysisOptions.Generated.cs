@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts analyzing the routing path between the specified source and des- tination. For more information, see Route Analyzer . See also: AWS API Documentation
+/// Starts analyzing the routing path between the specified source and destination. For more information, see Route Analyzer . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsNetworkmanagerStartRouteAnalysisOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts analyzing the routing path between the specified source and des- tination. For more information, see Route Analyzer . See also: AWS API Documentation
+    /// Starts analyzing the routing path between the specified source and destination. For more information, see Route Analyzer . See also: AWS API Documentation
     /// </summary>
-    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
-    /// <param name="Source">The source from which traffic originates. TransitGatewayAttachmentArn -&gt; (string) The ARN of the transit gateway attachment. Constraints: o min: 0 o max: 500 o pattern: [\s\S]* IpAddress -&gt; (string) The IP address. Constraints: o min: 1 o max: 50 o pattern: [\s\S]* Shorthand Syntax: TransitGatewayAttachmentArn=string,IpAddress=string JSON Syntax: { "TransitGatewayAttachmentArn": "string", "IpAddress": "string" }</param>
-    /// <param name="Destination">The destination. TransitGatewayAttachmentArn -&gt; (string) The ARN of the transit gateway attachment. Constraints: o min: 0 o max: 500 o pattern: [\s\S]* IpAddress -&gt; (string) The IP address. Constraints: o min: 1 o max: 50 o pattern: [\s\S]* Shorthand Syntax: TransitGatewayAttachmentArn=string,IpAddress=string JSON Syntax: { "TransitGatewayAttachmentArn": "string", "IpAddress": "string" }</param>
+    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*</param>
+    /// <param name="Source">The source from which traffic originates. TransitGatewayAttachmentArn -&gt; (string) The ARN of the transit gateway attachment. Constraints: • min: 0 • max: 500 • pattern: [\s\S]* IpAddress -&gt; (string) The IP address. Constraints: • min: 1 • max: 50 • pattern: [\s\S]* Shorthand Syntax: TransitGatewayAttachmentArn=string,IpAddress=string JSON Syntax: { "TransitGatewayAttachmentArn": "string", "IpAddress": "string" }</param>
+    /// <param name="Destination">The destination. TransitGatewayAttachmentArn -&gt; (string) The ARN of the transit gateway attachment. Constraints: • min: 0 • max: 500 • pattern: [\s\S]* IpAddress -&gt; (string) The IP address. Constraints: • min: 1 • max: 50 • pattern: [\s\S]* Shorthand Syntax: TransitGatewayAttachmentArn=string,IpAddress=string JSON Syntax: { "TransitGatewayAttachmentArn": "string", "IpAddress": "string" }</param>
     public AwsNetworkmanagerStartRouteAnalysisOptions(
         string GlobalNetworkId,
         string Source,
@@ -64,19 +66,19 @@ public record AwsNetworkmanagerStartRouteAnalysisOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// The ID of the global network. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--global-network-id")]
     public string? GlobalNetworkId { get; private init; }
 
     /// <summary>
-    /// The source from which traffic originates. TransitGatewayAttachmentArn -&gt; (string) The ARN of the transit gateway attachment. Constraints: o min: 0 o max: 500 o pattern: [\s\S]* IpAddress -&gt; (string) The IP address. Constraints: o min: 1 o max: 50 o pattern: [\s\S]* Shorthand Syntax: TransitGatewayAttachmentArn=string,IpAddress=string JSON Syntax: { "TransitGatewayAttachmentArn": "string", "IpAddress": "string" }
+    /// The source from which traffic originates. TransitGatewayAttachmentArn -&gt; (string) The ARN of the transit gateway attachment. Constraints: • min: 0 • max: 500 • pattern: [\s\S]* IpAddress -&gt; (string) The IP address. Constraints: • min: 1 • max: 50 • pattern: [\s\S]* Shorthand Syntax: TransitGatewayAttachmentArn=string,IpAddress=string JSON Syntax: { "TransitGatewayAttachmentArn": "string", "IpAddress": "string" }
     /// </summary>
     [CliOption("--source")]
     public string? Source { get; private init; }
 
     /// <summary>
-    /// The destination. TransitGatewayAttachmentArn -&gt; (string) The ARN of the transit gateway attachment. Constraints: o min: 0 o max: 500 o pattern: [\s\S]* IpAddress -&gt; (string) The IP address. Constraints: o min: 1 o max: 50 o pattern: [\s\S]* Shorthand Syntax: TransitGatewayAttachmentArn=string,IpAddress=string JSON Syntax: { "TransitGatewayAttachmentArn": "string", "IpAddress": "string" }
+    /// The destination. TransitGatewayAttachmentArn -&gt; (string) The ARN of the transit gateway attachment. Constraints: • min: 0 • max: 500 • pattern: [\s\S]* IpAddress -&gt; (string) The IP address. Constraints: • min: 1 • max: 50 • pattern: [\s\S]* Shorthand Syntax: TransitGatewayAttachmentArn=string,IpAddress=string JSON Syntax: { "TransitGatewayAttachmentArn": "string", "IpAddress": "string" }
     /// </summary>
     [CliOption("--destination")]
     public string? Destination { get; private init; }

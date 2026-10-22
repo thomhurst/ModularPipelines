@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a resilience policy that defines availability and disaster re- covery requirements. See also: AWS API Documentation
+/// Creates a resilience policy that defines availability and disaster recovery requirements. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsResiliencehubv2CreatePolicyOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a resilience policy that defines availability and disaster re- covery requirements. See also: AWS API Documentation
+    /// Creates a resilience policy that defines availability and disaster recovery requirements. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">Resource name (used in ARN no spaces allowed). Constraints: o min: 2 o max: 60 o pattern: [A-Za-z0-9][A-Za-z0-9_\-]{1,59}</param>
+    /// <param name="Name">Resource name (used in ARN no spaces allowed). Constraints: • min: 2 • max: 60 • pattern: [A-Za-z0-9][A-Za-z0-9_\-]{1,59}</param>
     public AwsResiliencehubv2CreatePolicyOptions(
         string Name
     )
@@ -58,37 +59,37 @@ public record AwsResiliencehubv2CreatePolicyOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Resource name (used in ARN no spaces allowed). Constraints: o min: 2 o max: 60 o pattern: [A-Za-z0-9][A-Za-z0-9_\-]{1,59}
+    /// Resource name (used in ARN no spaces allowed). Constraints: • min: 2 • max: 60 • pattern: [A-Za-z0-9][A-Za-z0-9_\-]{1,59}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Resource description for services and policies. Constraints: o min: 0 o max: 615
+    /// Resource description for services and policies. Constraints: • min: 0 • max: 615
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The availability SLO for the resilience policy. target -&gt; (double) The target availability percentage, expressed as a value between 0 and 100. Constraints: o min: 0 o max: 100 Shorthand Syntax: target=double JSON Syntax: { "target": double }
+    /// The availability SLO for the resilience policy. target -&gt; (double) The target availability percentage, expressed as a value between 0 and 100. Constraints: • min: 0 • max: 100 Shorthand Syntax: target=double JSON Syntax: { "target": double }
     /// </summary>
     [CliOption("--availability-slo")]
     public string? AvailabilitySlo { get; set; }
 
     /// <summary>
-    /// The multi-AZ disaster recovery targets for the resilience policy. rtoInMinutes -&gt; (integer) The recovery time objective (RTO) target for multi-AZ, in min- utes. Constraints: o min: 0 rpoInMinutes -&gt; (integer) The recovery point objective (RPO) target for multi-AZ, in min- utes. Constraints: o min: 0 disasterRecoveryApproach -&gt; (string) The disaster recovery approach for multi-AZ. Possible values: o ACTIVE_ACTIVE o HOT_STANDBY o WARM_STANDBY o PILOT_LIGHT o BACKUP_AND_RESTORE Shorthand Syntax: rtoInMinutes=integer,rpoInMinutes=integer,disasterRecoveryApproach=string JSON Syntax: { "rtoInMinutes": integer, "rpoInMinutes": integer, "disasterRecoveryApproach": "ACTIVE_ACTIVE"|"HOT_STANDBY"|"WARM_STANDBY"|"PILOT_LIGHT"|"BACKUP_AND_RESTORE" }
+    /// The multi-AZ disaster recovery targets for the resilience policy. rtoInMinutes -&gt; (integer) The recovery time objective (RTO) target for multi-AZ, in minutes. Constraints: • min: 0 rpoInMinutes -&gt; (integer) The recovery point objective (RPO) target for multi-AZ, in minutes. Constraints: • min: 0 disasterRecoveryApproach -&gt; (string) The disaster recovery approach for multi-AZ. Possible values: • ACTIVE_ACTIVE • HOT_STANDBY • WARM_STANDBY • PILOT_LIGHT • BACKUP_AND_RESTORE Shorthand Syntax: rtoInMinutes=integer,rpoInMinutes=integer,disasterRecoveryApproach=string JSON Syntax: { "rtoInMinutes": integer, "rpoInMinutes": integer, "disasterRecoveryApproach": "ACTIVE_ACTIVE"|"HOT_STANDBY"|"WARM_STANDBY"|"PILOT_LIGHT"|"BACKUP_AND_RESTORE" }
     /// </summary>
     [CliOption("--multi-az")]
     public string? MultiAz { get; set; }
 
     /// <summary>
-    /// The multi-Region disaster recovery targets for the resilience pol- icy. rtoInMinutes -&gt; (integer) The recovery time objective (RTO) target for multi-Region, in minutes. Constraints: o min: 0 rpoInMinutes -&gt; (integer) The recovery point objective (RPO) target for multi-Region, in minutes. Constraints: o min: 0 disasterRecoveryApproach -&gt; (string) The disaster recovery approach for multi-Region. Possible values: o ACTIVE_ACTIVE o HOT_STANDBY o WARM_STANDBY o PILOT_LIGHT o BACKUP_AND_RESTORE Shorthand Syntax: rtoInMinutes=integer,rpoInMinutes=integer,disasterRecoveryApproach=string JSON Syntax: { "rtoInMinutes": integer, "rpoInMinutes": integer, "disasterRecoveryApproach": "ACTIVE_ACTIVE"|"HOT_STANDBY"|"WARM_STANDBY"|"PILOT_LIGHT"|"BACKUP_AND_RESTORE" }
+    /// The multi-Region disaster recovery targets for the resilience policy. rtoInMinutes -&gt; (integer) The recovery time objective (RTO) target for multi-Region, in minutes. Constraints: • min: 0 rpoInMinutes -&gt; (integer) The recovery point objective (RPO) target for multi-Region, in minutes. Constraints: • min: 0 disasterRecoveryApproach -&gt; (string) The disaster recovery approach for multi-Region. Possible values: • ACTIVE_ACTIVE • HOT_STANDBY • WARM_STANDBY • PILOT_LIGHT • BACKUP_AND_RESTORE Shorthand Syntax: rtoInMinutes=integer,rpoInMinutes=integer,disasterRecoveryApproach=string JSON Syntax: { "rtoInMinutes": integer, "rpoInMinutes": integer, "disasterRecoveryApproach": "ACTIVE_ACTIVE"|"HOT_STANDBY"|"WARM_STANDBY"|"PILOT_LIGHT"|"BACKUP_AND_RESTORE" }
     /// </summary>
     [CliOption("--multi-region")]
     public string? MultiRegion { get; set; }
 
     /// <summary>
-    /// The data recovery targets for the resilience policy. timeBetweenBackupsInMinutes -&gt; (integer) The target time between backups, in minutes. Constraints: o min: 0 Shorthand Syntax: timeBetweenBackupsInMinutes=integer JSON Syntax: { "timeBetweenBackupsInMinutes": integer }
+    /// The data recovery targets for the resilience policy. timeBetweenBackupsInMinutes -&gt; (integer) The target time between backups, in minutes. Constraints: • min: 0 Shorthand Syntax: timeBetweenBackupsInMinutes=integer JSON Syntax: { "timeBetweenBackupsInMinutes": integer }
     /// </summary>
     [CliOption("--data-recovery")]
     public string? DataRecovery { get; set; }
@@ -100,19 +101,19 @@ public record AwsResiliencehubv2CreatePolicyOptions : AwsOptions, IValidatableOb
     public bool? SharingEnabled { get; set; }
 
     /// <summary>
-    /// KMS key identifier accepts key ID, key ARN, alias name, or alias ARN. Constraints: o min: 1 o max: 2048
+    /// KMS key identifier accepts key ID, key ARN, alias name, or alias ARN. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// Resource tags. Constraints: o min: 1 o max: 50 key -&gt; (string) Tag key. Constraints: o min: 1 o max: 128 o pattern: [^\x00-\x1f\x22]+ value -&gt; (string) Tag value. Constraints: o min: 0 o max: 256 o pattern: [^\x00-\x1f\x22]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Resource tags. Constraints: • min: 1 • max: 50 key -&gt; (string) Tag key. Constraints: • min: 1 • max: 128 • pattern: [^\x00-\x1f\x22]+ value -&gt; (string) Tag value. Constraints: • min: 0 • max: 256 • pattern: [^\x00-\x1f\x22]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Idempotency token. Constraints: o min: 1 o max: 63 o pattern: [A-Za-z0-9_.-]{0,63}
+    /// Idempotency token. Constraints: • min: 1 • max: 63 • pattern: [A-Za-z0-9_.-]{0,63}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

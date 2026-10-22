@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsElementalinferenceExportDictionaryEntriesOptions : AwsOptions, 
     /// <summary>
     /// Exports the entries from the specified dictionary. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the dictionary whose entries you want to export. Constraints: o min: 1 o max: 19 o pattern: [a-zA-Z0-9]+</param>
+    /// <param name="Id">The ID of the dictionary whose entries you want to export. Constraints: • min: 1 • max: 19 • pattern: [a-zA-Z0-9]+</param>
     public AwsElementalinferenceExportDictionaryEntriesOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsElementalinferenceExportDictionaryEntriesOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the dictionary whose entries you want to export. Constraints: o min: 1 o max: 19 o pattern: [a-zA-Z0-9]+
+    /// The ID of the dictionary whose entries you want to export. Constraints: • min: 1 • max: 19 • pattern: [a-zA-Z0-9]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

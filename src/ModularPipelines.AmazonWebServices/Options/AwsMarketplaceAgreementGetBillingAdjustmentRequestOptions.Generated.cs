@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves detailed information about a specific billing adjustment re- quest. Sellers (proposers) can use this operation to view the status and details of a billing adjustment request they submitted. See also: AWS API Documentation
+/// Retrieves detailed information about a specific billing adjustment request. Sellers (proposers) can use this operation to view the status and details of a billing adjustment request they submitted. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsMarketplaceAgreementGetBillingAdjustmentRequestOptions : AwsOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves detailed information about a specific billing adjustment re- quest. Sellers (proposers) can use this operation to view the status and details of a billing adjustment request they submitted. See also: AWS API Documentation
+    /// Retrieves detailed information about a specific billing adjustment request. Sellers (proposers) can use this operation to view the status and details of a billing adjustment request they submitted. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgreementId">The unique identifier of the agreement associated with the billing adjustment request. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+</param>
-    /// <param name="BillingAdjustmentRequestId">The unique identifier of the billing adjustment request. Constraints: o min: 1 o max: 64 o pattern: ba-[a-zA-Z0-9]+</param>
+    /// <param name="AgreementId">The unique identifier of the agreement associated with the billing adjustment request. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_/-]+</param>
+    /// <param name="BillingAdjustmentRequestId">The unique identifier of the billing adjustment request. Constraints: • min: 1 • max: 64 • pattern: ba-[a-zA-Z0-9]+</param>
     public AwsMarketplaceAgreementGetBillingAdjustmentRequestOptions(
         string AgreementId,
         string BillingAdjustmentRequestId
@@ -60,13 +62,13 @@ public record AwsMarketplaceAgreementGetBillingAdjustmentRequestOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the agreement associated with the billing adjustment request. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+
+    /// The unique identifier of the agreement associated with the billing adjustment request. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_/-]+
     /// </summary>
     [CliOption("--agreement-id")]
     public string? AgreementId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the billing adjustment request. Constraints: o min: 1 o max: 64 o pattern: ba-[a-zA-Z0-9]+
+    /// The unique identifier of the billing adjustment request. Constraints: • min: 1 • max: 64 • pattern: ba-[a-zA-Z0-9]+
     /// </summary>
     [CliOption("--billing-adjustment-request-id")]
     public string? BillingAdjustmentRequestId { get; private init; }

@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a delivery . A delivery is a connection between a logical de- livery source and a logical delivery destination that you have already created. Only some Amazon Web Services services support being configured as a delivery source using this operation. These services are listed as Sup- ported [V2 Permissions] in the table at Enabling logging from Amazon Web Services services. A delivery destination can represent a log group in CloudWatch Logs, an Amazon S3 bucket, a delivery stream in Fireho...
+/// Creates a delivery . A delivery is a connection between a logical delivery source and a logical delivery destination that you have already created. Only some Amazon Web Services services support being configured as a delivery source using this operation. These services are listed as Supported [V2 Permissions] in the table at Enabling logging from Amazon Web Services services. A delivery destination can represent a log group in CloudWatch Logs, an Amazon S3 bucket, a delivery stream in Firehose, ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsLogsCreateDeliveryOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a delivery . A delivery is a connection between a logical de- livery source and a logical delivery destination that you have already created. Only some Amazon Web Services services support being configured as a delivery source using this operation. These services are listed as Sup- ported [V2 Permissions] in the table at Enabling logging from Amazon Web Services services. A delivery destination can represent a log group in CloudWatch Logs, an Amazon S3 bucket, a delivery stream in Fireho...
+    /// Creates a delivery . A delivery is a connection between a logical delivery source and a logical delivery destination that you have already created. Only some Amazon Web Services services support being configured as a delivery source using this operation. These services are listed as Supported [V2 Permissions] in the table at Enabling logging from Amazon Web Services services. A delivery destination can represent a log group in CloudWatch Logs, an Amazon S3 bucket, a delivery stream in Firehose, ...
     /// </summary>
-    /// <param name="DeliverySourceName">The name of the delivery source to use for this delivery. Constraints: o min: 1 o max: 60 o pattern: [\w-]*</param>
+    /// <param name="DeliverySourceName">The name of the delivery source to use for this delivery. Constraints: • min: 1 • max: 60 • pattern: [\w-]*</param>
     /// <param name="DeliveryDestinationArn">The ARN of the delivery destination to use for this delivery.</param>
     public AwsLogsCreateDeliveryOptions(
         string DeliverySourceName,
@@ -61,7 +62,7 @@ public record AwsLogsCreateDeliveryOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the delivery source to use for this delivery. Constraints: o min: 1 o max: 60 o pattern: [\w-]*
+    /// The name of the delivery source to use for this delivery. Constraints: • min: 1 • max: 60 • pattern: [\w-]*
     /// </summary>
     [CliOption("--delivery-source-name")]
     public string? DeliverySourceName { get; private init; }
@@ -73,25 +74,25 @@ public record AwsLogsCreateDeliveryOptions : AwsOptions, IValidatableObject
     public string? DeliveryDestinationArn { get; private init; }
 
     /// <summary>
-    /// The list of record fields to be delivered to the destination, in or- der. If the delivery's log source has mandatory fields, they must be included in this list. Constraints: o min: 0 o max: 128 (string) Constraints: o min: 1 o max: 64 Syntax: "string" "string" ...
+    /// The list of record fields to be delivered to the destination, in order. If the delivery's log source has mandatory fields, they must be included in this list. Constraints: • min: 0 • max: 128 (string) Constraints: • min: 1 • max: 64 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--record-fields", GroupValues = true)]
     public IEnumerable<string>? RecordFields { get; set; }
 
     /// <summary>
-    /// The field delimiter to use between record fields when the final out- put format of a delivery is in Plain , W3C , or Raw format. Constraints: o min: 0 o max: 5
+    /// The field delimiter to use between record fields when the final output format of a delivery is in Plain , W3C , or Raw format. Constraints: • min: 0 • max: 5
     /// </summary>
     [CliOption("--field-delimiter")]
     public string? FieldDelimiter { get; set; }
 
     /// <summary>
-    /// This structure contains parameters that are valid only when the de- livery's delivery destination is an S3 bucket. suffixPath -&gt; (string) This string allows re-configuring the S3 object prefix to con- tain either static or variable sections. The valid variables to use in the suffix path vary by log type. To find the values sup- ported for the suffix path for each log type, use the DescribeConfigurationTemplates operation and check the allowed- SuffixPathFields field in the response. For more information about how the destination prefix, suffix path, and Hive-compati- ble setting determine the Amazon S3 object key, see Amazon S3 object key for V2 deliveries . Constraints: o min: 1 o max: 256 enableHiveCompatiblePath -&gt; (boolean) This parameter causes the S3 objects that contain delivered logs to use a prefix structure that allows for integration with Apache Hive. Shorthand Syntax: suffixPath=string,enableHiveCompatiblePath=boolean JSON Syntax: { "suffixPath": "string", "enableHiveCompatiblePath": true|false }
+    /// This structure contains parameters that are valid only when the delivery's delivery destination is an S3 bucket. suffixPath -&gt; (string) This string allows re-configuring the S3 object prefix to contain either static or variable sections. The valid variables to use in the suffix path vary by log type. To find the values supported for the suffix path for each log type, use the DescribeConfigurationTemplates operation and check the allowedSuffixPathFields field in the response. For more information about how the destination prefix, suffix path, and Hive-compatible setting determine the Amazon S3 object key, see Amazon S3 object key for V2 deliveries . Constraints: • min: 1 • max: 256 enableHiveCompatiblePath -&gt; (boolean) This parameter causes the S3 objects that contain delivered logs to use a prefix structure that allows for integration with Apache Hive. Shorthand Syntax: suffixPath=string,enableHiveCompatiblePath=boolean JSON Syntax: { "suffixPath": "string", "enableHiveCompatiblePath": true|false }
     /// </summary>
     [CliOption("--s3-delivery-configuration")]
     public string? S3DeliveryConfiguration { get; set; }
 
     /// <summary>
-    /// An optional list of key-value pairs to associate with the resource. For more information about tagging, see Tagging Amazon Web Services resources Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ value -&gt; (string) Constraints: o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// An optional list of key-value pairs to associate with the resource. For more information about tagging, see Tagging Amazon Web Services resources Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ value -&gt; (string) Constraints: • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

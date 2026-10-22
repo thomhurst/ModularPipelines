@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsWorkspacesThinClientUpdateDeviceOptions : AwsOptions, IValidata
     /// <summary>
     /// Updates a thin client device. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the device to update. Constraints: o pattern: [a-zA-Z0-9]{24}</param>
+    /// <param name="Id">The ID of the device to update. Constraints: • pattern: [a-zA-Z0-9]{24}</param>
     public AwsWorkspacesThinClientUpdateDeviceOptions(
         string Id
     )
@@ -57,25 +59,25 @@ public record AwsWorkspacesThinClientUpdateDeviceOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the device to update. Constraints: o pattern: [a-zA-Z0-9]{24}
+    /// The ID of the device to update. Constraints: • pattern: [a-zA-Z0-9]{24}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The name of the device to update. Constraints: o min: 0 o max: 64 o pattern: $|^[0-9\p{IsAlphabetic}+:,.@'" -]*
+    /// The name of the device to update. Constraints: • min: 0 • max: 64 • pattern: $|^[0-9\p{IsAlphabetic}+:,.@'" -]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The ID of the software set to apply. Constraints: o pattern: [0-9]{1,9}
+    /// The ID of the software set to apply. Constraints: • pattern: [0-9]{1,9}
     /// </summary>
     [CliOption("--desired-software-set-id")]
     public string? DesiredSoftwareSetId { get; set; }
 
     /// <summary>
-    /// An option to define if software updates should be applied within a maintenance window. Possible values: o USE_MAINTENANCE_WINDOW o APPLY_IMMEDIATELY
+    /// An option to define if software updates should be applied within a maintenance window. Possible values: • USE_MAINTENANCE_WINDOW • APPLY_IMMEDIATELY
     /// </summary>
     [CliOption("--software-set-update-schedule")]
     public AwsWorkspacesThinClientUpdateDeviceSoftwareSetUpdateSchedule? SoftwareSetUpdateSchedule { get; set; }

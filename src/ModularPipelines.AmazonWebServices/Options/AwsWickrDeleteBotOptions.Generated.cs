@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a bot from a specified Wickr network. This operation perma- nently removes the bot account and its associated data from the net- work. See also: AWS API Documentation
+/// Deletes a bot from a specified Wickr network. This operation permanently removes the bot account and its associated data from the network. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsWickrDeleteBotOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a bot from a specified Wickr network. This operation perma- nently removes the bot account and its associated data from the net- work. See also: AWS API Documentation
+    /// Deletes a bot from a specified Wickr network. This operation permanently removes the bot account and its associated data from the network. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The ID of the Wickr network from which the bot will be deleted. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
-    /// <param name="BotId">The unique identifier of the bot to be deleted. Constraints: o min: 1 o max: 10 o pattern: [0-9]+</param>
+    /// <param name="NetworkId">The ID of the Wickr network from which the bot will be deleted. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}</param>
+    /// <param name="BotId">The unique identifier of the bot to be deleted. Constraints: • min: 1 • max: 10 • pattern: [0-9]+</param>
     public AwsWickrDeleteBotOptions(
         string NetworkId,
         string BotId
@@ -60,13 +62,13 @@ public record AwsWickrDeleteBotOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Wickr network from which the bot will be deleted. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// The ID of the Wickr network from which the bot will be deleted. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the bot to be deleted. Constraints: o min: 1 o max: 10 o pattern: [0-9]+
+    /// The unique identifier of the bot to be deleted. Constraints: • min: 1 • max: 10 • pattern: [0-9]+
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }

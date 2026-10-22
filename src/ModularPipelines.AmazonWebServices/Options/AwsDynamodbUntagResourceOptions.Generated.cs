@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the association of tags from an Amazon DynamoDB resource. You can call UntagResource up to five times per second, per account. o UntagResource is an asynchronous operation. If you issue a ListTag- sOfResource request immediately after an UntagResource request, Dy- namoDB might return your previous tag set, if there was one, or an empty tag set. This is because ListTagsOfResource uses an eventually consistent query, and the metadata for your tags or table might not be available at that mo...
+/// Removes the association of tags from an Amazon DynamoDB resource. You can call UntagResource up to five times per second, per account. • UntagResource is an asynchronous operation. If you issue a ListTagsOfResource request immediately after an UntagResource request, DynamoDB might return your previous tag set, if there was one, or an empty tag set. This is because ListTagsOfResource uses an eventually consistent query, and the metadata for your tags or table might not be available at that moment...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsDynamodbUntagResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the association of tags from an Amazon DynamoDB resource. You can call UntagResource up to five times per second, per account. o UntagResource is an asynchronous operation. If you issue a ListTag- sOfResource request immediately after an UntagResource request, Dy- namoDB might return your previous tag set, if there was one, or an empty tag set. This is because ListTagsOfResource uses an eventually consistent query, and the metadata for your tags or table might not be available at that mo...
+    /// Removes the association of tags from an Amazon DynamoDB resource. You can call UntagResource up to five times per second, per account. • UntagResource is an asynchronous operation. If you issue a ListTagsOfResource request immediately after an UntagResource request, DynamoDB might return your previous tag set, if there was one, or an empty tag set. This is because ListTagsOfResource uses an eventually consistent query, and the metadata for your tags or table might not be available at that moment...
     /// </summary>
-    /// <param name="ResourceArn">The DynamoDB resource that the tags will be removed from. This value is an Amazon Resource Name (ARN). Constraints: o min: 1 o max: 1283</param>
-    /// <param name="TagKeys">A list of tag keys. Existing tags of the resource whose keys are members of this list will be removed from the DynamoDB resource. (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The DynamoDB resource that the tags will be removed from. This value is an Amazon Resource Name (ARN). Constraints: • min: 1 • max: 1283</param>
+    /// <param name="TagKeys">A list of tag keys. Existing tags of the resource whose keys are members of this list will be removed from the DynamoDB resource. (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
     public AwsDynamodbUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsDynamodbUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The DynamoDB resource that the tags will be removed from. This value is an Amazon Resource Name (ARN). Constraints: o min: 1 o max: 1283
+    /// The DynamoDB resource that the tags will be removed from. This value is an Amazon Resource Name (ARN). Constraints: • min: 1 • max: 1283
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A list of tag keys. Existing tags of the resource whose keys are members of this list will be removed from the DynamoDB resource. (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// A list of tag keys. Existing tags of the resource whose keys are members of this list will be removed from the DynamoDB resource. (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

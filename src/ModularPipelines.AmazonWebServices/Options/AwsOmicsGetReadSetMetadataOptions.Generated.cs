@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsOmicsGetReadSetMetadataOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves the metadata for a read set from a sequence store in JSON format. This operation does not return tags. To retrieve the list of tags for a read set, use the ListTagsForResource API operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The read set's ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
-    /// <param name="SequenceStoreId">The read set's sequence store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
+    /// <param name="Id">The read set's ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+</param>
+    /// <param name="SequenceStoreId">The read set's sequence store ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+</param>
     public AwsOmicsGetReadSetMetadataOptions(
         string Id,
         string SequenceStoreId
@@ -60,13 +62,13 @@ public record AwsOmicsGetReadSetMetadataOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The read set's ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// The read set's ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The read set's sequence store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// The read set's sequence store ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+
     /// </summary>
     [CliOption("--sequence-store-id")]
     public string? SequenceStoreId { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsDaxTagResourceOptions : AwsOptions, IValidatableObject
     /// Associates a set of tags with a DAX resource. You can call TagResource up to 5 times per second, per account. See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceName">The name of the DAX resource to which tags should be added.</param>
-    /// <param name="Tags">The tags to be assigned to the DAX resource. (structure) A description of a tag. Every tag is a key-value pair. You can add up to 50 tags to a single DAX cluster. Amazon Web Services-assigned tag names and values are automati- cally assigned the aws: prefix, which the user cannot assign. Amazon Web Services-assigned tag names do not count towards the tag limit of 50. User-assigned tag names have the prefix user: . You cannot backdate the application of a tag. Key -&gt; (string) The key for the tag. Tag keys are case sensitive. Every DAX cluster can only have one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value. Value -&gt; (string) The value of the tag. Tag values are case-sensitive and can be null. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="Tags">The tags to be assigned to the DAX resource. (structure) A description of a tag. Every tag is a key-value pair. You can add up to 50 tags to a single DAX cluster. Amazon Web Services-assigned tag names and values are automatically assigned the aws: prefix, which the user cannot assign. Amazon Web Services-assigned tag names do not count towards the tag limit of 50. User-assigned tag names have the prefix user: . You cannot backdate the application of a tag. Key -&gt; (string) The key for the tag. Tag keys are case sensitive. Every DAX cluster can only have one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value. Value -&gt; (string) The value of the tag. Tag values are case-sensitive and can be null. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsDaxTagResourceOptions(
         string ResourceName,
         IEnumerable<string> Tags
@@ -77,7 +79,7 @@ public record AwsDaxTagResourceOptions : AwsOptions, IValidatableObject
     public string? ResourceName { get; private init; }
 
     /// <summary>
-    /// The tags to be assigned to the DAX resource. (structure) A description of a tag. Every tag is a key-value pair. You can add up to 50 tags to a single DAX cluster. Amazon Web Services-assigned tag names and values are automati- cally assigned the aws: prefix, which the user cannot assign. Amazon Web Services-assigned tag names do not count towards the tag limit of 50. User-assigned tag names have the prefix user: . You cannot backdate the application of a tag. Key -&gt; (string) The key for the tag. Tag keys are case sensitive. Every DAX cluster can only have one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value. Value -&gt; (string) The value of the tag. Tag values are case-sensitive and can be null. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags to be assigned to the DAX resource. (structure) A description of a tag. Every tag is a key-value pair. You can add up to 50 tags to a single DAX cluster. Amazon Web Services-assigned tag names and values are automatically assigned the aws: prefix, which the user cannot assign. Amazon Web Services-assigned tag names do not count towards the tag limit of 50. User-assigned tag names have the prefix user: . You cannot backdate the application of a tag. Key -&gt; (string) The key for the tag. Tag keys are case sensitive. Every DAX cluster can only have one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value. Value -&gt; (string) The value of the tag. Tag values are case-sensitive and can be null. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }

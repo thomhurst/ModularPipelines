@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -29,7 +30,7 @@ public record AwsResiliencehubv2CreateSystemOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Creates a system that represents a logical grouping of services. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">Resource name (used in ARN no spaces allowed). Constraints: o min: 2 o max: 60 o pattern: [A-Za-z0-9][A-Za-z0-9_\-]{1,59}</param>
+    /// <param name="Name">Resource name (used in ARN no spaces allowed). Constraints: • min: 2 • max: 60 • pattern: [A-Za-z0-9][A-Za-z0-9_\-]{1,59}</param>
     public AwsResiliencehubv2CreateSystemOptions(
         string Name
     )
@@ -58,13 +59,13 @@ public record AwsResiliencehubv2CreateSystemOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Resource name (used in ARN no spaces allowed). Constraints: o min: 2 o max: 60 o pattern: [A-Za-z0-9][A-Za-z0-9_\-]{1,59}
+    /// Resource name (used in ARN no spaces allowed). Constraints: • min: 2 • max: 60 • pattern: [A-Za-z0-9][A-Za-z0-9_\-]{1,59}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Resource description. Constraints: o min: 0 o max: 500
+    /// Resource description. Constraints: • min: 0 • max: 500
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -76,19 +77,19 @@ public record AwsResiliencehubv2CreateSystemOptions : AwsOptions, IValidatableOb
     public bool? SharingEnabled { get; set; }
 
     /// <summary>
-    /// KMS key identifier accepts key ID, key ARN, alias name, or alias ARN. Constraints: o min: 1 o max: 2048
+    /// KMS key identifier accepts key ID, key ARN, alias name, or alias ARN. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// Resource tags. Constraints: o min: 1 o max: 50 key -&gt; (string) Tag key. Constraints: o min: 1 o max: 128 o pattern: [^\x00-\x1f\x22]+ value -&gt; (string) Tag value. Constraints: o min: 0 o max: 256 o pattern: [^\x00-\x1f\x22]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Resource tags. Constraints: • min: 1 • max: 50 key -&gt; (string) Tag key. Constraints: • min: 1 • max: 128 • pattern: [^\x00-\x1f\x22]+ value -&gt; (string) Tag value. Constraints: • min: 0 • max: 256 • pattern: [^\x00-\x1f\x22]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Idempotency token. Constraints: o min: 1 o max: 63 o pattern: [A-Za-z0-9_.-]{0,63}
+    /// Idempotency token. Constraints: • min: 1 • max: 63 • pattern: [A-Za-z0-9_.-]{0,63}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

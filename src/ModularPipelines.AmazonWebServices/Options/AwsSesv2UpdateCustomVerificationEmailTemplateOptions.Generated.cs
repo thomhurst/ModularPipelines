@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSesv2UpdateCustomVerificationEmailTemplateOptions : AwsOptions,
     /// <summary>
     /// Updates an existing custom verification email template. For more information about custom verification email templates, see Using custom verification email templates in the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TemplateName">The name of the custom verification email template that you want to update. Constraints: o min: 1</param>
+    /// <param name="TemplateName">The name of the custom verification email template that you want to update. Constraints: • min: 1</param>
     /// <param name="FromEmailAddress">The email address that the custom verification email is sent from.</param>
     /// <param name="TemplateSubject">The subject line of the custom verification email.</param>
     /// <param name="TemplateContent">The content of the custom verification email. The total size of the email must be less than 10 MB. The message body may contain HTML, with some limitations. For more information, see Custom verification email frequently asked questions in the Amazon SES Developer Guide .</param>
@@ -76,7 +78,7 @@ public record AwsSesv2UpdateCustomVerificationEmailTemplateOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the custom verification email template that you want to update. Constraints: o min: 1
+    /// The name of the custom verification email template that you want to update. Constraints: • min: 1
     /// </summary>
     [CliOption("--template-name")]
     public string? TemplateName { get; private init; }

@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves information about a connector definition version, including the connectors that the version contains. Connectors are prebuilt mod- ules that interact with local infrastructure, device protocols, AWS, and other cloud services. See also: AWS API Documentation
+/// Retrieves information about a connector definition version, including the connectors that the version contains. Connectors are prebuilt modules that interact with local infrastructure, device protocols, AWS, and other cloud services. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +28,7 @@ public record AwsGreengrassGetConnectorDefinitionVersionOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves information about a connector definition version, including the connectors that the version contains. Connectors are prebuilt mod- ules that interact with local infrastructure, device protocols, AWS, and other cloud services. See also: AWS API Documentation
+    /// Retrieves information about a connector definition version, including the connectors that the version contains. Connectors are prebuilt modules that interact with local infrastructure, device protocols, AWS, and other cloud services. See also: AWS API Documentation
     /// </summary>
     /// <param name="ConnectorDefinitionId"></param>
     /// <param name="ConnectorDefinitionVersionId"></param>

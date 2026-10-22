@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Copies the specified source product to the specified target product or a new product. You can copy a product to the same account or another account. You can copy a product to the same Region or another Region. If you copy a product to another account, you must first share the product in a port- folio using CreatePortfolioShare . This operation is performed asynchronously. To track the progress of the operation, use DescribeCopyProductStatus . See also: AWS API Documentation
+/// Copies the specified source product to the specified target product or a new product. You can copy a product to the same account or another account. You can copy a product to the same Region or another Region. If you copy a product to another account, you must first share the product in a portfolio using CreatePortfolioShare . This operation is performed asynchronously. To track the progress of the operation, use DescribeCopyProductStatus . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsServicecatalogCopyProductOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Copies the specified source product to the specified target product or a new product. You can copy a product to the same account or another account. You can copy a product to the same Region or another Region. If you copy a product to another account, you must first share the product in a port- folio using CreatePortfolioShare . This operation is performed asynchronously. To track the progress of the operation, use DescribeCopyProductStatus . See also: AWS API Documentation
+    /// Copies the specified source product to the specified target product or a new product. You can copy a product to the same account or another account. You can copy a product to the same Region or another Region. If you copy a product to another account, you must first share the product in a portfolio using CreatePortfolioShare . This operation is performed asynchronously. To track the progress of the operation, use DescribeCopyProductStatus . See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceProductArn">The Amazon Resource Name (ARN) of the source product. Constraints: o min: 1 o max: 1224 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="SourceProductArn">The Amazon Resource Name (ARN) of the source product. Constraints: • min: 1 • max: 1224 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
     public AwsServicecatalogCopyProductOptions(
         string SourceProductArn
     )
@@ -57,43 +59,43 @@ public record AwsServicecatalogCopyProductOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the source product. Constraints: o min: 1 o max: 1224 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The Amazon Resource Name (ARN) of the source product. Constraints: • min: 1 • max: 1224 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--source-product-arn")]
     public string? SourceProductArn { get; private init; }
 
     /// <summary>
-    /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
+    /// The language code. • jp - Japanese • zh - Chinese Constraints: • max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
     /// <summary>
-    /// The identifier of the target product. By default, a new product is created. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The identifier of the target product. By default, a new product is created. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--target-product-id")]
     public string? TargetProductId { get; set; }
 
     /// <summary>
-    /// A name for the target product. The default is the name of the source product. Constraints: o max: 8191
+    /// A name for the target product. The default is the name of the source product. Constraints: • max: 8191
     /// </summary>
     [CliOption("--target-product-name")]
     public string? TargetProductName { get; set; }
 
     /// <summary>
-    /// The identifiers of the provisioning artifacts (also known as ver- sions) of the product to copy. By default, all provisioning arti- facts are copied. (map) key -&gt; (string) Possible values: o Id value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: Id ... JSON Syntax: [ {"Id": "string" ...} ... ]
+    /// The identifiers of the provisioning artifacts (also known as versions) of the product to copy. By default, all provisioning artifacts are copied. (map) key -&gt; (string) Possible values: • Id value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: Id ... JSON Syntax: [ {"Id": "string" ...} ... ]
     /// </summary>
     [CliOption("--source-provisioning-artifact-identifiers", GroupValues = true)]
     public IEnumerable<string>? SourceProvisioningArtifactIdentifiers { get; set; }
 
     /// <summary>
-    /// The copy options. If the value is CopyTags , the tags from the source product are copied to the target product. (string) Possible values: o CopyTags Syntax: "string" "string" ...
+    /// The copy options. If the value is CopyTags , the tags from the source product are copied to the target product. (string) Possible values: • CopyTags Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--copy-options", GroupValues = true)]
     public IEnumerable<string>? CopyOptions { get; set; }
 
     /// <summary>
-    /// A unique identifier that you provide to ensure idempotency. If mul- tiple requests differ only by the idempotency token, the same re- sponse is returned for each repeated request. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [SecretValue]
     [CliOption("--idempotency-token")]

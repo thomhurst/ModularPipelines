@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsNotificationsUntagResourceOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Untags a resource with a specified Amazon Resource Name (ARN). For more information, see Tagging your Amazon Web Services resources in the Tagging Amazon Web Services Resources User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) to use to untag a resource. Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}</param>
-    /// <param name="TagKeys">The tag keys to use to untag a resource. Constraints: o min: 0 o max: 200 (string) Constraints: o pattern: (?!aws:).{1,128} Syntax: "string" "string" ...</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) to use to untag a resource. Constraints: • pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:configuration/[a-z0-9]{27}</param>
+    /// <param name="TagKeys">The tag keys to use to untag a resource. Constraints: • min: 0 • max: 200 (string) Constraints: • pattern: (?!aws:).{1,128} Syntax: "string" "string" ...</param>
     public AwsNotificationsUntagResourceOptions(
         string Arn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsNotificationsUntagResourceOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) to use to untag a resource. Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}
+    /// The Amazon Resource Name (ARN) to use to untag a resource. Constraints: • pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:configuration/[a-z0-9]{27}
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The tag keys to use to untag a resource. Constraints: o min: 0 o max: 200 (string) Constraints: o pattern: (?!aws:).{1,128} Syntax: "string" "string" ...
+    /// The tag keys to use to untag a resource. Constraints: • min: 0 • max: 200 (string) Constraints: • pattern: (?!aws:).{1,128} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

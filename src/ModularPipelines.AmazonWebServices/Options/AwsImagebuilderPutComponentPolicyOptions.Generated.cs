@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Applies a policy to a component. The preferred way to share resources is with the RAM API CreateResourceShare . If you use the PutComponent- Policy operation instead, you must also call the RAM API PromoteResourceShareCreatedFromPolicy . Otherwise, the resource isn't visible to the principals that it's shared with. See also: AWS API Documentation
+/// Applies a policy to a component. The preferred way to share resources is with the RAM API CreateResourceShare . If you use the PutComponentPolicy operation instead, you must also call the RAM API PromoteResourceShareCreatedFromPolicy . Otherwise, the resource isn't visible to the principals that it's shared with. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsImagebuilderPutComponentPolicyOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Applies a policy to a component. The preferred way to share resources is with the RAM API CreateResourceShare . If you use the PutComponent- Policy operation instead, you must also call the RAM API PromoteResourceShareCreatedFromPolicy . Otherwise, the resource isn't visible to the principals that it's shared with. See also: AWS API Documentation
+    /// Applies a policy to a component. The preferred way to share resources is with the RAM API CreateResourceShare . If you use the PutComponentPolicy operation instead, you must also call the RAM API PromoteResourceShareCreatedFromPolicy . Otherwise, the resource isn't visible to the principals that it's shared with. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ComponentArn">The Amazon Resource Name (ARN) of the component that this policy should be applied to. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):compo- nent/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$</param>
-    /// <param name="Policy">The policy to apply. Constraints: o min: 1 o max: 30000</param>
+    /// <param name="ComponentArn">The Amazon Resource Name (ARN) of the component that this policy should be applied to. Constraints: • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):component/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$</param>
+    /// <param name="Policy">The policy to apply. Constraints: • min: 1 • max: 30000</param>
     public AwsImagebuilderPutComponentPolicyOptions(
         string ComponentArn,
         string Policy
@@ -60,13 +62,13 @@ public record AwsImagebuilderPutComponentPolicyOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the component that this policy should be applied to. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):compo- nent/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$
+    /// The Amazon Resource Name (ARN) of the component that this policy should be applied to. Constraints: • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):component/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$
     /// </summary>
     [CliOption("--component-arn")]
     public string? ComponentArn { get; private init; }
 
     /// <summary>
-    /// The policy to apply. Constraints: o min: 1 o max: 30000
+    /// The policy to apply. Constraints: • min: 1 • max: 30000
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; private init; }

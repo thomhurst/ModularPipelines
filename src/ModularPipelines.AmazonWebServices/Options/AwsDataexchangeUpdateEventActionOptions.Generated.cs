@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,7 +64,7 @@ public record AwsDataexchangeUpdateEventActionOptions : AwsOptions, IValidatable
     public string? EventActionId { get; private init; }
 
     /// <summary>
-    /// What occurs after a certain event. ExportRevisionToS3 -&gt; (structure) Details for the export revision to Amazon S3 action. Encryption -&gt; (structure) Encryption configuration for the auto export job. KmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the AWS KMS key you want to use to encrypt the Amazon S3 objects. This para- meter is required if you choose aws:kms as an encryption type. Type -&gt; (string) [required] The type of server side encryption used for encrypting the objects in Amazon S3. Possible values: o aws:kms o AES256 RevisionDestination -&gt; (structure) [required] A revision destination is the Amazon S3 bucket folder desti- nation to where the export will be sent. Bucket -&gt; (string) [required] The Amazon S3 bucket that is the destination for the event action. KeyPattern -&gt; (string) A string representing the pattern for generated names of the individual assets in the revision. For more informa- tion about key patterns, see Key patterns when exporting revisions . Shorthand Syntax: ExportRevisionToS3={Encryption={KmsKeyArn=string,Type=string},RevisionDestination={Bucket=string,KeyPattern=string}} JSON Syntax: { "ExportRevisionToS3": { "Encryption": { "KmsKeyArn": "string", "Type": "aws:kms"|"AES256" }, "RevisionDestination": { "Bucket": "string", "KeyPattern": "string" } } }
+    /// What occurs after a certain event. ExportRevisionToS3 -&gt; (structure) Details for the export revision to Amazon S3 action. Encryption -&gt; (structure) Encryption configuration for the auto export job. KmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the AWS KMS key you want to use to encrypt the Amazon S3 objects. This parameter is required if you choose aws:kms as an encryption type. Type -&gt; (string) [required] The type of server side encryption used for encrypting the objects in Amazon S3. Possible values: • aws:kms • AES256 RevisionDestination -&gt; (structure) [required] A revision destination is the Amazon S3 bucket folder destination to where the export will be sent. Bucket -&gt; (string) [required] The Amazon S3 bucket that is the destination for the event action. KeyPattern -&gt; (string) A string representing the pattern for generated names of the individual assets in the revision. For more information about key patterns, see Key patterns when exporting revisions . Shorthand Syntax: ExportRevisionToS3={Encryption={KmsKeyArn=string,Type=string},RevisionDestination={Bucket=string,KeyPattern=string}} JSON Syntax: { "ExportRevisionToS3": { "Encryption": { "KmsKeyArn": "string", "Type": "aws:kms"|"AES256" }, "RevisionDestination": { "Bucket": "string", "KeyPattern": "string" } } }
     /// </summary>
     [CliOption("--action")]
     public string? Action { get; set; }

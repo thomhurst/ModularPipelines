@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsPaymentCryptographyDisableDefaultKeyReplicationRegionsOptions :
     /// <summary>
     /// Disables Multi-Region key replication settings for the specified Amazon Web Services Regions in your Amazon Web Services account, preventing new keys from being automatically replicated to those regions. After disabling Multi-Region key replication for specific regions, new keys created in your account will not be automatically replicated to those regions. You can still manually add replication to those regions for individual keys using the AddKeyReplicationRegions operation. This operation does...
     /// </summary>
-    /// <param name="ReplicationRegions">The list of Amazon Web Services Regions to remove from the account's default replication regions. New keys created after this operation will not automatically be replicated to these regions, though existing keys with replication to these regions will be unaffected. (string) An Amazon Web Services Region identifier in the standard format (e.g., us-east-1 , eu-west-1 ). Used to specify regions for key replication operations. The re- gion must be a valid Amazon Web Services Region where Amazon Web Services Payment Cryptography is available. Constraints: o pattern: [a-z]{2}-[a-z]{1,16}-[0-9]+ Syntax: "string" "string" ...</param>
+    /// <param name="ReplicationRegions">The list of Amazon Web Services Regions to remove from the account's default replication regions. New keys created after this operation will not automatically be replicated to these regions, though existing keys with replication to these regions will be unaffected. (string) An Amazon Web Services Region identifier in the standard format (e.g., us-east-1 , eu-west-1 ). Used to specify regions for key replication operations. The region must be a valid Amazon Web Services Region where Amazon Web Services Payment Cryptography is available. Constraints: • pattern: [a-z]{2}-[a-z]{1,16}-[0-9]+ Syntax: "string" "string" ...</param>
     public AwsPaymentCryptographyDisableDefaultKeyReplicationRegionsOptions(
         IEnumerable<string> ReplicationRegions
     )
@@ -67,7 +69,7 @@ public record AwsPaymentCryptographyDisableDefaultKeyReplicationRegionsOptions :
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The list of Amazon Web Services Regions to remove from the account's default replication regions. New keys created after this operation will not automatically be replicated to these regions, though existing keys with replication to these regions will be unaffected. (string) An Amazon Web Services Region identifier in the standard format (e.g., us-east-1 , eu-west-1 ). Used to specify regions for key replication operations. The re- gion must be a valid Amazon Web Services Region where Amazon Web Services Payment Cryptography is available. Constraints: o pattern: [a-z]{2}-[a-z]{1,16}-[0-9]+ Syntax: "string" "string" ...
+    /// The list of Amazon Web Services Regions to remove from the account's default replication regions. New keys created after this operation will not automatically be replicated to these regions, though existing keys with replication to these regions will be unaffected. (string) An Amazon Web Services Region identifier in the standard format (e.g., us-east-1 , eu-west-1 ). Used to specify regions for key replication operations. The region must be a valid Amazon Web Services Region where Amazon Web Services Payment Cryptography is available. Constraints: • pattern: [a-z]{2}-[a-z]{1,16}-[0-9]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--replication-regions", GroupValues = true)]
     public IEnumerable<string>? ReplicationRegions { get; private init; }

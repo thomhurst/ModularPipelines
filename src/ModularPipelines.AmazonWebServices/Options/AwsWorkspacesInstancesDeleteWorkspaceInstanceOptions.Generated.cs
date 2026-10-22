@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified WorkSpace WARNING: Usage of this API will result in deletion of the resource in ques- tion. See also: AWS API Documentation
+/// Deletes the specified WorkSpace WARNING: Usage of this API will result in deletion of the resource in question. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsWorkspacesInstancesDeleteWorkspaceInstanceOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified WorkSpace WARNING: Usage of this API will result in deletion of the resource in ques- tion. See also: AWS API Documentation
+    /// Deletes the specified WorkSpace WARNING: Usage of this API will result in deletion of the resource in question. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceInstanceId">Unique identifier of the WorkSpaces Instance targeted for deletion. Constraints: o min: 15 o max: 70 o pattern: wsinst-[0-9a-zA-Z]{8,63}</param>
+    /// <param name="WorkspaceInstanceId">Unique identifier of the WorkSpaces Instance targeted for deletion. Constraints: • min: 15 • max: 70 • pattern: wsinst-[0-9a-zA-Z]{8,63}</param>
     public AwsWorkspacesInstancesDeleteWorkspaceInstanceOptions(
         string WorkspaceInstanceId
     )
@@ -56,7 +58,7 @@ public record AwsWorkspacesInstancesDeleteWorkspaceInstanceOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Unique identifier of the WorkSpaces Instance targeted for deletion. Constraints: o min: 15 o max: 70 o pattern: wsinst-[0-9a-zA-Z]{8,63}
+    /// Unique identifier of the WorkSpaces Instance targeted for deletion. Constraints: • min: 15 • max: 70 • pattern: wsinst-[0-9a-zA-Z]{8,63}
     /// </summary>
     [CliOption("--workspace-instance-id")]
     public string? WorkspaceInstanceId { get; private init; }

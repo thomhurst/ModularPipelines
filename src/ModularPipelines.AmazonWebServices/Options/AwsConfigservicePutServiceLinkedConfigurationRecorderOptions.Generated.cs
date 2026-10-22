@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a service-linked configuration recorder that is linked to a specific Amazon Web Services service based on the ServicePrincipal you specify. The configuration recorder's name , recordingGroup , recordingMode , and recordingScope is set by the service that is linked to the configu- ration recorder. For more information and a list of supported services/service princi- pals, see ` Working with the Configuration Recorder https://docs.aws.amazon.com/config/latest/developerguide/stop-start-reco...
+/// Creates a service-linked configuration recorder that is linked to a specific Amazon Web Services service based on the ServicePrincipal you specify. The configuration recorder's name , recordingGroup , recordingMode , and recordingScope is set by the service that is linked to the configuration recorder. For more information and a list of supported services/service principals, see ` Working with the Configuration Recorder https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsConfigservicePutServiceLinkedConfigurationRecorderOptions : Aws
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a service-linked configuration recorder that is linked to a specific Amazon Web Services service based on the ServicePrincipal you specify. The configuration recorder's name , recordingGroup , recordingMode , and recordingScope is set by the service that is linked to the configu- ration recorder. For more information and a list of supported services/service princi- pals, see ` Working with the Configuration Recorder https://docs.aws.amazon.com/config/latest/developerguide/stop-start-reco...
+    /// Creates a service-linked configuration recorder that is linked to a specific Amazon Web Services service based on the ServicePrincipal you specify. The configuration recorder's name , recordingGroup , recordingMode , and recordingScope is set by the service that is linked to the configuration recorder. For more information and a list of supported services/service principals, see ` Working with the Configuration Recorder https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder...
     /// </summary>
-    /// <param name="ServicePrincipal">The service principal of the Amazon Web Services service for the service-linked configuration recorder that you want to create. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+</param>
+    /// <param name="ServicePrincipal">The service principal of the Amazon Web Services service for the service-linked configuration recorder that you want to create. Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+</param>
     public AwsConfigservicePutServiceLinkedConfigurationRecorderOptions(
         string ServicePrincipal
     )
@@ -56,13 +58,13 @@ public record AwsConfigservicePutServiceLinkedConfigurationRecorderOptions : Aws
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The service principal of the Amazon Web Services service for the service-linked configuration recorder that you want to create. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// The service principal of the Amazon Web Services service for the service-linked configuration recorder that you want to create. Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--service-principal")]
     public string? ServicePrincipal { get; private init; }
 
     /// <summary>
-    /// The tags for a service-linked configuration recorder. Each tag con- sists of a key and an optional value, both of which you define. Constraints: o min: 0 o max: 50 (structure) The tags for the resource. The metadata that you apply to a re- source to help you categorize and organize them. Each tag con- sists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. Key -&gt; (string) One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 Value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags for a service-linked configuration recorder. Each tag consists of a key and an optional value, both of which you define. Constraints: • min: 0 • max: 50 (structure) The tags for the resource. The metadata that you apply to a resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. Key -&gt; (string) One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: • min: 1 • max: 128 Value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

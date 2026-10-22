@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a budget to set spending thresholds for your rendering activ- ity. See also: AWS API Documentation
+/// Creates a budget to set spending thresholds for your rendering activity. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,19 +28,19 @@ public record AwsDeadlineCreateBudgetOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a budget to set spending thresholds for your rendering activ- ity. See also: AWS API Documentation
+    /// Creates a budget to set spending thresholds for your rendering activity. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The farm ID to include in this budget. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="DisplayName">The display name of the budget. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: o min: 1 o max: 100</param>
-    /// <param name="UsageTrackingResource">The queue ID provided to this budget to track usage. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: queueId. queueId -&gt; (string) The queue ID. Constraints: o pattern: queue-[0-9a-f]{32} Shorthand Syntax: queueId=string JSON Syntax: { "queueId": "string" }</param>
-    /// <param name="ApproximateDollarLimit">The dollar limit based on consumed usage. Constraints: o min: 0.01</param>
-    /// <param name="Actions">The budget actions to specify what happens when the budget runs out. Constraints: o min: 0 o max: 10 (structure) The budget action to add. type -&gt; (string) [required] The type of budget action to add. Possible values: o STOP_SCHEDULING_AND_COMPLETE_TASKS o STOP_SCHEDULING_AND_CANCEL_TASKS thresholdPercentage -&gt; (float) [required] The percentage threshold for the budget action to add. Constraints: o min: 0 o max: 100 description -&gt; (string) A description for the budget action to add. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: o min: 0 o max: 100 Shorthand Syntax: type=string,thresholdPercentage=float,description=string ... JSON Syntax: [ { "type": "STOP_SCHEDULING_AND_COMPLETE_TASKS"|"STOP_SCHEDULING_AND_CANCEL_TASKS", "thresholdPercentage": float, "description": "string" } ... ]</param>
+    /// <param name="FarmId">The farm ID to include in this budget. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="DisplayName">The display name of the budget. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: • min: 1 • max: 100</param>
+    /// <param name="UsageTrackingResource">The queue ID provided to this budget to track usage. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: queueId. queueId -&gt; (string) The queue ID. Constraints: • pattern: queue-[0-9a-f]{32} Shorthand Syntax: queueId=string JSON Syntax: { "queueId": "string" }</param>
+    /// <param name="ApproximateDollarLimit">The dollar limit based on consumed usage. Constraints: • min: 0.01</param>
+    /// <param name="Actions">The budget actions to specify what happens when the budget runs out. Constraints: • min: 0 • max: 10 (structure) The budget action to add. type -&gt; (string) [required] The type of budget action to add. Possible values: • STOP_SCHEDULING_AND_COMPLETE_TASKS • STOP_SCHEDULING_AND_CANCEL_TASKS thresholdPercentage -&gt; (float) [required] The percentage threshold for the budget action to add. Constraints: • min: 0 • max: 100 description -&gt; (string) A description for the budget action to add. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: • min: 0 • max: 100 Shorthand Syntax: type=string,thresholdPercentage=float,description=string ... JSON Syntax: [ { "type": "STOP_SCHEDULING_AND_COMPLETE_TASKS"|"STOP_SCHEDULING_AND_CANCEL_TASKS", "thresholdPercentage": float, "description": "string" } ... ]</param>
     /// <param name="Schedule">The schedule to associate with this budget. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: fixed. fixed -&gt; (structure) The fixed start and end time of the budget's schedule. startTime -&gt; (timestamp) [required] When the budget starts. endTime -&gt; (timestamp) [required] When the budget ends. Shorthand Syntax: fixed={startTime=timestamp,endTime=timestamp} JSON Syntax: { "fixed": { "startTime": timestamp, "endTime": timestamp } }</param>
     public AwsDeadlineCreateBudgetOptions(
         string FarmId,
         string DisplayName,
         string UsageTrackingResource,
-        int ApproximateDollarLimit,
+        double ApproximateDollarLimit,
         IEnumerable<string> Actions,
         string Schedule
     )
@@ -88,31 +89,31 @@ public record AwsDeadlineCreateBudgetOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID to include in this budget. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID to include in this budget. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The display name of the budget. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: o min: 1 o max: 100
+    /// The display name of the budget. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; private init; }
 
     /// <summary>
-    /// The queue ID provided to this budget to track usage. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: queueId. queueId -&gt; (string) The queue ID. Constraints: o pattern: queue-[0-9a-f]{32} Shorthand Syntax: queueId=string JSON Syntax: { "queueId": "string" }
+    /// The queue ID provided to this budget to track usage. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: queueId. queueId -&gt; (string) The queue ID. Constraints: • pattern: queue-[0-9a-f]{32} Shorthand Syntax: queueId=string JSON Syntax: { "queueId": "string" }
     /// </summary>
     [CliOption("--usage-tracking-resource")]
     public string? UsageTrackingResource { get; private init; }
 
     /// <summary>
-    /// The dollar limit based on consumed usage. Constraints: o min: 0.01
+    /// The dollar limit based on consumed usage. Constraints: • min: 0.01
     /// </summary>
     [CliOption("--approximate-dollar-limit")]
-    public int? ApproximateDollarLimit { get; private init; }
+    public double? ApproximateDollarLimit { get; private init; }
 
     /// <summary>
-    /// The budget actions to specify what happens when the budget runs out. Constraints: o min: 0 o max: 10 (structure) The budget action to add. type -&gt; (string) [required] The type of budget action to add. Possible values: o STOP_SCHEDULING_AND_COMPLETE_TASKS o STOP_SCHEDULING_AND_CANCEL_TASKS thresholdPercentage -&gt; (float) [required] The percentage threshold for the budget action to add. Constraints: o min: 0 o max: 100 description -&gt; (string) A description for the budget action to add. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: o min: 0 o max: 100 Shorthand Syntax: type=string,thresholdPercentage=float,description=string ... JSON Syntax: [ { "type": "STOP_SCHEDULING_AND_COMPLETE_TASKS"|"STOP_SCHEDULING_AND_CANCEL_TASKS", "thresholdPercentage": float, "description": "string" } ... ]
+    /// The budget actions to specify what happens when the budget runs out. Constraints: • min: 0 • max: 10 (structure) The budget action to add. type -&gt; (string) [required] The type of budget action to add. Possible values: • STOP_SCHEDULING_AND_COMPLETE_TASKS • STOP_SCHEDULING_AND_CANCEL_TASKS thresholdPercentage -&gt; (float) [required] The percentage threshold for the budget action to add. Constraints: • min: 0 • max: 100 description -&gt; (string) A description for the budget action to add. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: • min: 0 • max: 100 Shorthand Syntax: type=string,thresholdPercentage=float,description=string ... JSON Syntax: [ { "type": "STOP_SCHEDULING_AND_COMPLETE_TASKS"|"STOP_SCHEDULING_AND_CANCEL_TASKS", "thresholdPercentage": float, "description": "string" } ... ]
     /// </summary>
     [CliOption("--actions", GroupValues = true)]
     public IEnumerable<string>? Actions { get; private init; }
@@ -124,13 +125,13 @@ public record AwsDeadlineCreateBudgetOptions : AwsOptions, IValidatableObject
     public string? Schedule { get; private init; }
 
     /// <summary>
-    /// The description of the budget. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: o min: 0 o max: 100
+    /// The description of the budget. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The unique token which the server uses to recognize retries of the same request. Constraints: o min: 1 o max: 64
+    /// The unique token which the server uses to recognize retries of the same request. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

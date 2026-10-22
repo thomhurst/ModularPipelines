@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDrsDeleteRecoveryPlanStepOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Deletes a step from a Recovery Plan. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RecoveryPlanStepArn">The ARN of the Recovery Plan step to delete. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+</param>
+    /// <param name="RecoveryPlanStepArn">The ARN of the Recovery Plan step to delete. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+</param>
     public AwsDrsDeleteRecoveryPlanStepOptions(
         string RecoveryPlanStepArn
     )
@@ -56,7 +58,7 @@ public record AwsDrsDeleteRecoveryPlanStepOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the Recovery Plan step to delete. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+
+    /// The ARN of the Recovery Plan step to delete. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+
     /// </summary>
     [CliOption("--recovery-plan-step-arn")]
     public string? RecoveryPlanStepArn { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAppflowDescribeFlowOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Provides a description of the specified flow. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FlowName">The specified name of the flow. Spaces are not allowed. Use under- scores (_) or hyphens (-) only. Constraints: o max: 256 o pattern: [a-zA-Z0-9][\w!@#.-]+</param>
+    /// <param name="FlowName">The specified name of the flow. Spaces are not allowed. Use underscores (_) or hyphens (-) only. Constraints: • max: 256 • pattern: [a-zA-Z0-9][\w!@#.-]+</param>
     public AwsAppflowDescribeFlowOptions(
         string FlowName
     )
@@ -56,7 +58,7 @@ public record AwsAppflowDescribeFlowOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The specified name of the flow. Spaces are not allowed. Use under- scores (_) or hyphens (-) only. Constraints: o max: 256 o pattern: [a-zA-Z0-9][\w!@#.-]+
+    /// The specified name of the flow. Spaces are not allowed. Use underscores (_) or hyphens (-) only. Constraints: • max: 256 • pattern: [a-zA-Z0-9][\w!@#.-]+
     /// </summary>
     [CliOption("--flow-name")]
     public string? FlowName { get; private init; }

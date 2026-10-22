@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the URL for the Spark monitoring dashboard for a Glue re- source. See also: AWS API Documentation
+/// Retrieves the URL for the Spark monitoring dashboard for a Glue resource. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsGlueGetDashboardUrlOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the URL for the Spark monitoring dashboard for a Glue re- source. See also: AWS API Documentation
+    /// Retrieves the URL for the Spark monitoring dashboard for a Glue resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceId">The unique identifier of the resource for which to retrieve the dashboard URL. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="ResourceType">The type of the resource. Valid values are SESSION and JOB . Possible values: o JOB o SESSION</param>
+    /// <param name="ResourceId">The unique identifier of the resource for which to retrieve the dashboard URL. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="ResourceType">The type of the resource. Valid values are SESSION and JOB . Possible values: • JOB • SESSION</param>
     public AwsGlueGetDashboardUrlOptions(
         string ResourceId,
         AwsGlueGetDashboardUrlResourceType ResourceType
@@ -60,19 +62,19 @@ public record AwsGlueGetDashboardUrlOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the resource for which to retrieve the dashboard URL. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The unique identifier of the resource for which to retrieve the dashboard URL. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// The type of the resource. Valid values are SESSION and JOB . Possible values: o JOB o SESSION
+    /// The type of the resource. Valid values are SESSION and JOB . Possible values: • JOB • SESSION
     /// </summary>
     [CliOption("--resource-type")]
     public AwsGlueGetDashboardUrlResourceType? ResourceType { get; private init; }
 
     /// <summary>
-    /// The origin of the request. Constraints: o min: 1 o max: 128 o pattern: [\.\-_A-Za-z0-9]+
+    /// The origin of the request. Constraints: • min: 1 • max: 128 • pattern: [\.\-_A-Za-z0-9]+
     /// </summary>
     [CliOption("--request-origin")]
     public string? RequestOrigin { get; set; }

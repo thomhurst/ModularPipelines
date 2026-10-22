@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -17,7 +18,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Update a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like ter- minate, update, and delete) can be performed. Choose the updateType parameter to target the necessary update of the network instance. See also: AWS API Documentation update-sol-network-instance uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and...
+/// Update a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. Choose the updateType parameter to target the necessary update of the network instance. See also: AWS API Documentation update-sol-network-instance uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and o...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsTnbUpdateSolNetworkInstanceOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Update a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like ter- minate, update, and delete) can be performed. Choose the updateType parameter to target the necessary update of the network instance. See also: AWS API Documentation update-sol-network-instance uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and...
+    /// Update a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. Choose the updateType parameter to target the necessary update of the network instance. See also: AWS API Documentation update-sol-network-instance uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and o...
     /// </summary>
-    /// <param name="NsInstanceId">ID of the network instance. Constraints: o pattern: ^ni-[a-f0-9]{17}$</param>
-    /// <param name="UpdateType">The type of update. o Use the MODIFY_VNF_INFORMATION update type, to update a specific network function configuration, in the network instance. o Use the UPDATE_NS update type, to update the network instance to a new network service descriptor. Possible values: o MODIFY_VNF_INFORMATION o UPDATE_NS</param>
+    /// <param name="NsInstanceId">ID of the network instance. Constraints: • pattern: ^ni-[a-f0-9]{17}$</param>
+    /// <param name="UpdateType">The type of update. • Use the MODIFY_VNF_INFORMATION update type, to update a specific network function configuration, in the network instance. • Use the UPDATE_NS update type, to update the network instance to a new network service descriptor. Possible values: • MODIFY_VNF_INFORMATION • UPDATE_NS</param>
     public AwsTnbUpdateSolNetworkInstanceOptions(
         string NsInstanceId,
         AwsTnbUpdateSolNetworkInstanceUpdateType UpdateType
@@ -61,31 +62,31 @@ public record AwsTnbUpdateSolNetworkInstanceOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID of the network instance. Constraints: o pattern: ^ni-[a-f0-9]{17}$
+    /// ID of the network instance. Constraints: • pattern: ^ni-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--ns-instance-id")]
     public string? NsInstanceId { get; private init; }
 
     /// <summary>
-    /// The type of update. o Use the MODIFY_VNF_INFORMATION update type, to update a specific network function configuration, in the network instance. o Use the UPDATE_NS update type, to update the network instance to a new network service descriptor. Possible values: o MODIFY_VNF_INFORMATION o UPDATE_NS
+    /// The type of update. • Use the MODIFY_VNF_INFORMATION update type, to update a specific network function configuration, in the network instance. • Use the UPDATE_NS update type, to update the network instance to a new network service descriptor. Possible values: • MODIFY_VNF_INFORMATION • UPDATE_NS
     /// </summary>
     [CliOption("--update-type")]
     public AwsTnbUpdateSolNetworkInstanceUpdateType? UpdateType { get; private init; }
 
     /// <summary>
-    /// Identifies the network function information parameters and/or the configurable properties of the network function to be modified. Include this property only if the update type is MODIFY_VNF_INFORMA- TION . vnfConfigurableProperties -&gt; (document) [required] Provides values for the configurable properties declared in the function package descriptor. vnfInstanceId -&gt; (string) [required] ID of the network function instance. A network function instance is a function in a function package . Constraints: o pattern: ^fi-[a-f0-9]{17}$ Shorthand Syntax: vnfInstanceId=string JSON Syntax: { "vnfConfigurableProperties": {...}, "vnfInstanceId": "string" }
+    /// Identifies the network function information parameters and/or the configurable properties of the network function to be modified. Include this property only if the update type is MODIFY_VNF_INFORMATION . vnfConfigurableProperties -&gt; (document) [required] Provides values for the configurable properties declared in the function package descriptor. vnfInstanceId -&gt; (string) [required] ID of the network function instance. A network function instance is a function in a function package . Constraints: • pattern: ^fi-[a-f0-9]{17}$ Shorthand Syntax: vnfInstanceId=string JSON Syntax: { "vnfConfigurableProperties": {...}, "vnfInstanceId": "string" }
     /// </summary>
     [CliOption("--modify-vnf-info-data")]
     public string? ModifyVnfInfoData { get; set; }
 
     /// <summary>
-    /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are only applied to the network operation that is cre- ated. These tags are not applied to the network instance. Use tags to search and filter your resources or track your Amazon Web Ser- vices costs. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o pattern: ^(?!aws:).{1,128}$ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are only applied to the network operation that is created. These tags are not applied to the network instance. Use tags to search and filter your resources or track your Amazon Web Services costs. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • pattern: ^(?!aws:).{1,128}$ value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Identifies the network service descriptor and the configurable prop- erties of the descriptor, to be used for the update. Include this property only if the update type is UPDATE_NS . additionalParamsForNs -&gt; (document) Values for the configurable properties declared in the network service descriptor. nsdInfoId -&gt; (string) [required] ID of the network service descriptor. Constraints: o pattern: ^np-[a-f0-9]{17}$ Shorthand Syntax: nsdInfoId=string JSON Syntax: { "additionalParamsForNs": {...}, "nsdInfoId": "string" }
+    /// Identifies the network service descriptor and the configurable properties of the descriptor, to be used for the update. Include this property only if the update type is UPDATE_NS . additionalParamsForNs -&gt; (document) Values for the configurable properties declared in the network service descriptor. nsdInfoId -&gt; (string) [required] ID of the network service descriptor. Constraints: • pattern: ^np-[a-f0-9]{17}$ Shorthand Syntax: nsdInfoId=string JSON Syntax: { "additionalParamsForNs": {...}, "nsdInfoId": "string" }
     /// </summary>
     [CliOption("--update-ns")]
     public string? UpdateNs { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +30,9 @@ public record AwsSsmRemoveTagsFromResourceOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Removes tag keys from the specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceType">The type of resource from which you want to remove a tag. NOTE: The ManagedInstance type for this API operation is only for on-premises managed nodes. Specify the name of the managed node in the following format: mi-*ID_number* `` . For example, ``mi-1a2b3c4d5e6f . Possible values: o Document o ManagedInstance o MaintenanceWindow o Parameter o PatchBaseline o OpsItem o OpsMetadata o Automation o Association o CloudConnector</param>
-    /// <param name="ResourceId">The ID of the resource from which you want to remove tags. For exam- ple: ManagedInstance: mi-012345abcde MaintenanceWindow: mw-012345abcde Automation : example-c160-4567-8519-012345abcde PatchBaseline: pb-012345abcde OpsMetadata object: ResourceID for tagging is created from the Ama- zon Resource Name (ARN) for the object. Specifically, ResourceID is created from the strings that come after the word opsmetadata in the ARN. For example, an OpsMetadata object with an ARN of arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appman- ager has a ResourceID of either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager . For the Document and Parameter values, use the name of the resource. NOTE: The ManagedInstance type for this API operation is only for on-premises managed nodes. Specify the name of the managed node in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.</param>
-    /// <param name="TagKeys">Tag keys that you want to remove from the specified resource. (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceType">The type of resource from which you want to remove a tag. NOTE: The ManagedInstance type for this API operation is only for on-premises managed nodes. Specify the name of the managed node in the following format: mi-*ID_number* `` . For example, ``mi-1a2b3c4d5e6f . Possible values: • Document • ManagedInstance • MaintenanceWindow • Parameter • PatchBaseline • OpsItem • OpsMetadata • Automation • Association • CloudConnector</param>
+    /// <param name="ResourceId">The ID of the resource from which you want to remove tags. For example: ManagedInstance: mi-012345abcde MaintenanceWindow: mw-012345abcde Automation : example-c160-4567-8519-012345abcde PatchBaseline: pb-012345abcde OpsMetadata object: ResourceID for tagging is created from the Amazon Resource Name (ARN) for the object. Specifically, ResourceID is created from the strings that come after the word opsmetadata in the ARN. For example, an OpsMetadata object with an ARN of arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appmanager has a ResourceID of either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager . For the Document and Parameter values, use the name of the resource. NOTE: The ManagedInstance type for this API operation is only for on-premises managed nodes. Specify the name of the managed node in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.</param>
+    /// <param name="TagKeys">Tag keys that you want to remove from the specified resource. (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...</param>
     public AwsSsmRemoveTagsFromResourceOptions(
         AwsSsmRemoveTagsFromResourceResourceType ResourceType,
         string ResourceId,
@@ -75,19 +77,19 @@ public record AwsSsmRemoveTagsFromResourceOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of resource from which you want to remove a tag. NOTE: The ManagedInstance type for this API operation is only for on-premises managed nodes. Specify the name of the managed node in the following format: mi-*ID_number* `` . For example, ``mi-1a2b3c4d5e6f . Possible values: o Document o ManagedInstance o MaintenanceWindow o Parameter o PatchBaseline o OpsItem o OpsMetadata o Automation o Association o CloudConnector
+    /// The type of resource from which you want to remove a tag. NOTE: The ManagedInstance type for this API operation is only for on-premises managed nodes. Specify the name of the managed node in the following format: mi-*ID_number* `` . For example, ``mi-1a2b3c4d5e6f . Possible values: • Document • ManagedInstance • MaintenanceWindow • Parameter • PatchBaseline • OpsItem • OpsMetadata • Automation • Association • CloudConnector
     /// </summary>
     [CliOption("--resource-type")]
     public AwsSsmRemoveTagsFromResourceResourceType? ResourceType { get; private init; }
 
     /// <summary>
-    /// The ID of the resource from which you want to remove tags. For exam- ple: ManagedInstance: mi-012345abcde MaintenanceWindow: mw-012345abcde Automation : example-c160-4567-8519-012345abcde PatchBaseline: pb-012345abcde OpsMetadata object: ResourceID for tagging is created from the Ama- zon Resource Name (ARN) for the object. Specifically, ResourceID is created from the strings that come after the word opsmetadata in the ARN. For example, an OpsMetadata object with an ARN of arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appman- ager has a ResourceID of either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager . For the Document and Parameter values, use the name of the resource. NOTE: The ManagedInstance type for this API operation is only for on-premises managed nodes. Specify the name of the managed node in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
+    /// The ID of the resource from which you want to remove tags. For example: ManagedInstance: mi-012345abcde MaintenanceWindow: mw-012345abcde Automation : example-c160-4567-8519-012345abcde PatchBaseline: pb-012345abcde OpsMetadata object: ResourceID for tagging is created from the Amazon Resource Name (ARN) for the object. Specifically, ResourceID is created from the strings that come after the word opsmetadata in the ARN. For example, an OpsMetadata object with an ARN of arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appmanager has a ResourceID of either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager . For the Document and Parameter values, use the name of the resource. NOTE: The ManagedInstance type for this API operation is only for on-premises managed nodes. Specify the name of the managed node in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// Tag keys that you want to remove from the specified resource. (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
+    /// Tag keys that you want to remove from the specified resource. (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

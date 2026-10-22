@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Fetches the recommendations for a profile in the input Customer Pro- files domain. Fetches all the profile recommendations See also: AWS API Documentation
+/// Fetches the recommendations for a profile in the input Customer Profiles domain. Fetches all the profile recommendations See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsCustomerProfilesGetProfileRecommendationsOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Fetches the recommendations for a profile in the input Customer Pro- files domain. Fetches all the profile recommendations See also: AWS API Documentation
+    /// Fetches the recommendations for a profile in the input Customer Profiles domain. Fetches all the profile recommendations See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="ProfileId">The unique identifier of the profile for which to retrieve recommen- dations. Constraints: o pattern: [a-f0-9]{32}</param>
-    /// <param name="RecommenderName">The unique name of the recommender. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="DomainName">The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="ProfileId">The unique identifier of the profile for which to retrieve recommendations. Constraints: • pattern: [a-f0-9]{32}</param>
+    /// <param name="RecommenderName">The unique name of the recommender. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
     public AwsCustomerProfilesGetProfileRecommendationsOptions(
         string DomainName,
         string ProfileId,
@@ -65,61 +66,61 @@ public record AwsCustomerProfilesGetProfileRecommendationsOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the profile for which to retrieve recommen- dations. Constraints: o pattern: [a-f0-9]{32}
+    /// The unique identifier of the profile for which to retrieve recommendations. Constraints: • pattern: [a-f0-9]{32}
     /// </summary>
     [CliOption("--profile-id")]
     public string? ProfileId { get; private init; }
 
     /// <summary>
-    /// The unique name of the recommender. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the recommender. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--recommender-name")]
     public string? RecommenderName { get; private init; }
 
     /// <summary>
-    /// The contextual metadata used to provide dynamic runtime information to tailor recommendations. key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_.-]+$ value -&gt; (string) Constraints: o min: 1 o max: 255 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The contextual metadata used to provide dynamic runtime information to tailor recommendations. key -&gt; (string) Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_.-]+$ value -&gt; (string) Constraints: • min: 1 • max: 255 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--context", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Context { get; set; }
 
     /// <summary>
-    /// A list of filters to apply to the returned recommendations. Filters define criteria for including or excluding items from the recommen- dation results. Constraints: o max: 1 (structure) A filter that specifies criteria for including or excluding items from recommendations. Name -&gt; (string) The name of the recommender filter to apply. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$ Values -&gt; (map) The values to use when filtering recommendations. For each placeholder parameter in your filter expression, provide the parameter name (in matching case) as a key and the filter value(s) as the corresponding value. Separate multiple values for one parameter with a comma. Constraints: o max: 25 key -&gt; (string) Constraints: o max: 50 o pattern: [A-Za-z0-9_]+ value -&gt; (string) Constraints: o max: 3000 Shorthand Syntax: Name=string,Values={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "Name": "string", "Values": {"string": "string" ...} } ... ]
+    /// A list of filters to apply to the returned recommendations. Filters define criteria for including or excluding items from the recommendation results. Constraints: • max: 1 (structure) A filter that specifies criteria for including or excluding items from recommendations. Name -&gt; (string) The name of the recommender filter to apply. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$ Values -&gt; (map) The values to use when filtering recommendations. For each placeholder parameter in your filter expression, provide the parameter name (in matching case) as a key and the filter value(s) as the corresponding value. Separate multiple values for one parameter with a comma. Constraints: • max: 25 key -&gt; (string) Constraints: • max: 50 • pattern: [A-Za-z0-9_]+ value -&gt; (string) Constraints: • max: 3000 Shorthand Syntax: Name=string,Values={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "Name": "string", "Values": {"string": "string" ...} } ... ]
     /// </summary>
     [CliOption("--recommender-filters", GroupValues = true)]
     public IEnumerable<string>? RecommenderFilters { get; set; }
 
     /// <summary>
-    /// A list of promotional filters to apply to the recommendations. Pro- motional filters allow you to promote specific items within a con- figurable subset of recommendation results. Constraints: o max: 1 (structure) Contains information on a promotion. A promotion defines addi- tional business rules that apply to a configurable subset of recommended items. Name -&gt; (string) The name of the recommender filter to use for the promotion. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$ Values -&gt; (map) The values to use when promoting items. For each placeholder parameter in your promotion's filter expression, provide the parameter name (in matching case) as a key and the filter value(s) as the corresponding value. Separate multiple values for one parameter with a comma. Constraints: o max: 25 key -&gt; (string) Constraints: o max: 50 o pattern: [A-Za-z0-9_]+ value -&gt; (string) Constraints: o max: 3000 PromotionName -&gt; (string) The name of the promotion. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$ PercentPromotedItems -&gt; (integer) The percentage of recommended items to apply the promotion to. Constraints: o min: 1 o max: 100 Shorthand Syntax: Name=string,Values={KeyName1=string,KeyName2=string},PromotionName=string,PercentPromotedItems=integer ... JSON Syntax: [ { "Name": "string", "Values": {"string": "string" ...}, "PromotionName": "string", "PercentPromotedItems": integer } ... ]
+    /// A list of promotional filters to apply to the recommendations. Promotional filters allow you to promote specific items within a configurable subset of recommendation results. Constraints: • max: 1 (structure) Contains information on a promotion. A promotion defines additional business rules that apply to a configurable subset of recommended items. Name -&gt; (string) The name of the recommender filter to use for the promotion. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$ Values -&gt; (map) The values to use when promoting items. For each placeholder parameter in your promotion's filter expression, provide the parameter name (in matching case) as a key and the filter value(s) as the corresponding value. Separate multiple values for one parameter with a comma. Constraints: • max: 25 key -&gt; (string) Constraints: • max: 50 • pattern: [A-Za-z0-9_]+ value -&gt; (string) Constraints: • max: 3000 PromotionName -&gt; (string) The name of the promotion. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$ PercentPromotedItems -&gt; (integer) The percentage of recommended items to apply the promotion to. Constraints: • min: 1 • max: 100 Shorthand Syntax: Name=string,Values={KeyName1=string,KeyName2=string},PromotionName=string,PercentPromotedItems=integer ... JSON Syntax: [ { "Name": "string", "Values": {"string": "string" ...}, "PromotionName": "string", "PercentPromotedItems": integer } ... ]
     /// </summary>
     [CliOption("--recommender-promotional-filters", GroupValues = true)]
     public IEnumerable<string>? RecommenderPromotionalFilters { get; set; }
 
     /// <summary>
-    /// A list of item IDs to rank for the user. Use this when you want to re-rank a specific set of items rather than getting recommendations from the full item catalog. Required for personalized-ranking use cases. Constraints: o max: 50 (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...
+    /// A list of item IDs to rank for the user. Use this when you want to re-rank a specific set of items rather than getting recommendations from the full item catalog. Required for personalized-ranking use cases. Constraints: • max: 50 (string) Constraints: • min: 1 • max: 255 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--candidate-ids", GroupValues = true)]
     public IEnumerable<string>? CandidateIds { get; set; }
 
     /// <summary>
-    /// The maximum number of recommendations to return. The default value is 10. Constraints: o min: 1 o max: 500
+    /// The maximum number of recommendations to return. The default value is 10. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Configuration for including item metadata in the recommendation re- sponse. Use this to specify which metadata columns to return along- side recommended items. MetadataColumns -&gt; (list) A list of metadata column names from your Items dataset to in- clude in the recommendation response. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 150 Shorthand Syntax: MetadataColumns=string,string JSON Syntax: { "MetadataColumns": ["string", ...] }
+    /// Configuration for including item metadata in the recommendation response. Use this to specify which metadata columns to return alongside recommended items. MetadataColumns -&gt; (list) A list of metadata column names from your Items dataset to include in the recommendation response. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 150 Shorthand Syntax: MetadataColumns=string,string JSON Syntax: { "MetadataColumns": ["string", ...] }
     /// </summary>
     [CliOption("--metadata-config")]
     public string? MetadataConfig { get; set; }
 
     /// <summary>
-    /// Runtime diversity configuration for this request. Enables diver- sity-aware recommendations and optionally supplies values for place- holder-based diversity caps configured on the recommender. Enabled -&gt; (boolean) [required] Whether diversity-aware recommendations are enabled for this re- quest. Values -&gt; (map) An optional map of placeholder name to integer cap value used to resolve $name placeholders defined in the recommender's Diversi- tyConfig at inference time. Up to 2 entries are supported. Constraints: o max: 2 key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*$ value -&gt; (integer) Constraints: o min: 1 o max: 200 Shorthand Syntax: Enabled=boolean,Values={KeyName1=integer,KeyName2=integer} JSON Syntax: { "Enabled": true|false, "Values": {"string": integer ...} }
+    /// Runtime diversity configuration for this request. Enables diversity-aware recommendations and optionally supplies values for placeholder-based diversity caps configured on the recommender. Enabled -&gt; (boolean) [required] Whether diversity-aware recommendations are enabled for this request. Values -&gt; (map) An optional map of placeholder name to integer cap value used to resolve $name placeholders defined in the recommender's DiversityConfig at inference time. Up to 2 entries are supported. Constraints: • max: 2 key -&gt; (string) Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z][a-zA-Z0-9_]*$ value -&gt; (integer) Constraints: • min: 1 • max: 200 Shorthand Syntax: Enabled=boolean,Values={KeyName1=integer,KeyName2=integer} JSON Syntax: { "Enabled": true|false, "Values": {"string": integer ...} }
     /// </summary>
     [CliOption("--diversity-config")]
     public string? DiversityConfig { get; set; }

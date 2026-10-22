@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsWorkspacesInstancesAssociateVolumeOptions : AwsOptions, IValida
     /// <summary>
     /// Attaches a volume to a WorkSpace Instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceInstanceId">WorkSpace Instance to attach volume to. Constraints: o min: 15 o max: 70 o pattern: wsinst-[0-9a-zA-Z]{8,63}</param>
-    /// <param name="VolumeId">Volume to be attached. Constraints: o pattern: vol-[0-9a-zA-Z]{1,63}</param>
-    /// <param name="Device">Device path for volume attachment. Constraints: o min: 0 o max: 32</param>
+    /// <param name="WorkspaceInstanceId">WorkSpace Instance to attach volume to. Constraints: • min: 15 • max: 70 • pattern: wsinst-[0-9a-zA-Z]{8,63}</param>
+    /// <param name="VolumeId">Volume to be attached. Constraints: • pattern: vol-[0-9a-zA-Z]{1,63}</param>
+    /// <param name="Device">Device path for volume attachment. Constraints: • min: 0 • max: 32</param>
     public AwsWorkspacesInstancesAssociateVolumeOptions(
         string WorkspaceInstanceId,
         string VolumeId,
@@ -64,19 +66,19 @@ public record AwsWorkspacesInstancesAssociateVolumeOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// WorkSpace Instance to attach volume to. Constraints: o min: 15 o max: 70 o pattern: wsinst-[0-9a-zA-Z]{8,63}
+    /// WorkSpace Instance to attach volume to. Constraints: • min: 15 • max: 70 • pattern: wsinst-[0-9a-zA-Z]{8,63}
     /// </summary>
     [CliOption("--workspace-instance-id")]
     public string? WorkspaceInstanceId { get; private init; }
 
     /// <summary>
-    /// Volume to be attached. Constraints: o pattern: vol-[0-9a-zA-Z]{1,63}
+    /// Volume to be attached. Constraints: • pattern: vol-[0-9a-zA-Z]{1,63}
     /// </summary>
     [CliOption("--volume-id")]
     public string? VolumeId { get; private init; }
 
     /// <summary>
-    /// Device path for volume attachment. Constraints: o min: 0 o max: 32
+    /// Device path for volume attachment. Constraints: • min: 0 • max: 32
     /// </summary>
     [CliOption("--device")]
     public string? Device { get; private init; }

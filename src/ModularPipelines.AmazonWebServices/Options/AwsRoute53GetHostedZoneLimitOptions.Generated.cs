@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsRoute53GetHostedZoneLimitOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Gets the specified limit for a specified hosted zone, for example, the maximum number of records that you can create in the hosted zone. For the default limit, see Limits in the Amazon Route 53 Developer Guide . To request a higher limit, open a case . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Type">The limit that you want to get. Valid values include the following: o MAX_RRSETS_BY_ZONE : The maximum number of records that you can create in the specified hosted zone. o MAX_VPCS_ASSOCIATED_BY_ZONE : The maximum number of Amazon VPCs that you can associate with the specified private hosted zone. Possible values: o MAX_RRSETS_BY_ZONE o MAX_VPCS_ASSOCIATED_BY_ZONE</param>
-    /// <param name="HostedZoneId">The ID of the hosted zone that you want to get a limit for. Constraints: o max: 32</param>
+    /// <param name="Type">The limit that you want to get. Valid values include the following: • MAX_RRSETS_BY_ZONE : The maximum number of records that you can create in the specified hosted zone. • MAX_VPCS_ASSOCIATED_BY_ZONE : The maximum number of Amazon VPCs that you can associate with the specified private hosted zone. Possible values: • MAX_RRSETS_BY_ZONE • MAX_VPCS_ASSOCIATED_BY_ZONE</param>
+    /// <param name="HostedZoneId">The ID of the hosted zone that you want to get a limit for. Constraints: • max: 32</param>
     public AwsRoute53GetHostedZoneLimitOptions(
         AwsRoute53GetHostedZoneLimitType Type,
         string HostedZoneId
@@ -60,13 +62,13 @@ public record AwsRoute53GetHostedZoneLimitOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The limit that you want to get. Valid values include the following: o MAX_RRSETS_BY_ZONE : The maximum number of records that you can create in the specified hosted zone. o MAX_VPCS_ASSOCIATED_BY_ZONE : The maximum number of Amazon VPCs that you can associate with the specified private hosted zone. Possible values: o MAX_RRSETS_BY_ZONE o MAX_VPCS_ASSOCIATED_BY_ZONE
+    /// The limit that you want to get. Valid values include the following: • MAX_RRSETS_BY_ZONE : The maximum number of records that you can create in the specified hosted zone. • MAX_VPCS_ASSOCIATED_BY_ZONE : The maximum number of Amazon VPCs that you can associate with the specified private hosted zone. Possible values: • MAX_RRSETS_BY_ZONE • MAX_VPCS_ASSOCIATED_BY_ZONE
     /// </summary>
     [CliOption("--type")]
     public AwsRoute53GetHostedZoneLimitType? Type { get; private init; }
 
     /// <summary>
-    /// The ID of the hosted zone that you want to get a limit for. Constraints: o max: 32
+    /// The ID of the hosted zone that you want to get a limit for. Constraints: • max: 32
     /// </summary>
     [CliOption("--hosted-zone-id")]
     public string? HostedZoneId { get; private init; }

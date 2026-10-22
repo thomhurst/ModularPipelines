@@ -13,7 +13,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws chimesdkmediapipelines commands.
+/// aws chime-sdk-media-pipelines commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -28,8 +28,7 @@ public interface IAwsChimeSdkMediaPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMediaCapturePipelineAsync(AwsChimeSdkMediaPipelinesCreateMediaCapturePipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMediaCapturePipelineAsync(AwsChimeSdkMediaPipelinesCreateMediaCapturePipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a media concatenation pipeline. See also: AWS API Documentation
@@ -38,18 +37,16 @@ public interface IAwsChimeSdkMediaPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMediaConcatenationPipelineAsync(AwsChimeSdkMediaPipelinesCreateMediaConcatenationPipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMediaConcatenationPipelineAsync(AwsChimeSdkMediaPipelinesCreateMediaConcatenationPipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// A structure that contains the static configurations for a media in- sights pipeline. See also: AWS API Documentation
+    /// A structure that contains the static configurations for a media insights pipeline. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMediaInsightsPipelineConfigurationAsync(AwsChimeSdkMediaPipelinesCreateMediaInsightsPipelineConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMediaInsightsPipelineConfigurationAsync(AwsChimeSdkMediaPipelinesCreateMediaInsightsPipelineConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a media insights pipeline. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsChimeSdkMediaPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMediaInsightsPipelineAsync(AwsChimeSdkMediaPipelinesCreateMediaInsightsPipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMediaInsightsPipelineAsync(AwsChimeSdkMediaPipelinesCreateMediaInsightsPipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a media live connector pipeline in an Amazon Chime SDK meeting. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsChimeSdkMediaPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMediaLiveConnectorPipelineAsync(AwsChimeSdkMediaPipelinesCreateMediaLiveConnectorPipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMediaLiveConnectorPipelineAsync(AwsChimeSdkMediaPipelinesCreateMediaLiveConnectorPipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon Kinesis Video Stream pool for use with media stream pipelines. NOTE: If a meeting uses an opt-in Region as its MediaRegion , the KVS stream must be in that same Region. For example, if a meeting uses the af-south-1 Region, the KVS stream must also be in af-south-1 . However, if the meeting uses a Region that AWS turns on by default, the KVS stream can be in any available Region, including an opt-in Region. For example, if the meeting uses ca-central-1 , the KVS stream can be in...
@@ -78,8 +73,7 @@ public interface IAwsChimeSdkMediaPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMediaPipelineKinesisVideoStreamPoolAsync(AwsChimeSdkMediaPipelinesCreateMediaPipelineKinesisVideoStreamPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMediaPipelineKinesisVideoStreamPoolAsync(AwsChimeSdkMediaPipelinesCreateMediaPipelineKinesisVideoStreamPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a streaming media pipeline. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsChimeSdkMediaPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMediaStreamPipelineAsync(AwsChimeSdkMediaPipelinesCreateMediaStreamPipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMediaStreamPipelineAsync(AwsChimeSdkMediaPipelinesCreateMediaStreamPipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the media pipeline. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsChimeSdkMediaPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMediaCapturePipelineAsync(AwsChimeSdkMediaPipelinesDeleteMediaCapturePipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMediaCapturePipelineAsync(AwsChimeSdkMediaPipelinesDeleteMediaCapturePipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified configuration settings. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsChimeSdkMediaPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMediaInsightsPipelineConfigurationAsync(AwsChimeSdkMediaPipelinesDeleteMediaInsightsPipelineConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMediaInsightsPipelineConfigurationAsync(AwsChimeSdkMediaPipelinesDeleteMediaInsightsPipelineConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Amazon Kinesis Video Stream pool. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsChimeSdkMediaPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMediaPipelineKinesisVideoStreamPoolAsync(AwsChimeSdkMediaPipelinesDeleteMediaPipelineKinesisVideoStreamPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMediaPipelineKinesisVideoStreamPoolAsync(AwsChimeSdkMediaPipelinesDeleteMediaPipelineKinesisVideoStreamPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the media pipeline. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsChimeSdkMediaPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMediaPipelineAsync(AwsChimeSdkMediaPipelinesDeleteMediaPipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMediaPipelineAsync(AwsChimeSdkMediaPipelinesDeleteMediaPipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets an existing media pipeline. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsChimeSdkMediaPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMediaCapturePipelineAsync(AwsChimeSdkMediaPipelinesGetMediaCapturePipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMediaCapturePipelineAsync(AwsChimeSdkMediaPipelinesGetMediaCapturePipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the configuration settings for a media insights pipeline. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsChimeSdkMediaPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMediaInsightsPipelineConfigurationAsync(AwsChimeSdkMediaPipelinesGetMediaInsightsPipelineConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMediaInsightsPipelineConfigurationAsync(AwsChimeSdkMediaPipelinesGetMediaInsightsPipelineConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets an Kinesis video stream pool. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsChimeSdkMediaPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMediaPipelineKinesisVideoStreamPoolAsync(AwsChimeSdkMediaPipelinesGetMediaPipelineKinesisVideoStreamPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMediaPipelineKinesisVideoStreamPoolAsync(AwsChimeSdkMediaPipelinesGetMediaPipelineKinesisVideoStreamPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets an existing media pipeline. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsChimeSdkMediaPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMediaPipelineAsync(AwsChimeSdkMediaPipelinesGetMediaPipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMediaPipelineAsync(AwsChimeSdkMediaPipelinesGetMediaPipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details of the specified speaker search task. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsChimeSdkMediaPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSpeakerSearchTaskAsync(AwsChimeSdkMediaPipelinesGetSpeakerSearchTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSpeakerSearchTaskAsync(AwsChimeSdkMediaPipelinesGetSpeakerSearchTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details of a voice tone analysis task. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsChimeSdkMediaPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVoiceToneAnalysisTaskAsync(AwsChimeSdkMediaPipelinesGetVoiceToneAnalysisTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVoiceToneAnalysisTaskAsync(AwsChimeSdkMediaPipelinesGetVoiceToneAnalysisTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of media pipelines. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsChimeSdkMediaPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMediaCapturePipelinesAsync(AwsChimeSdkMediaPipelinesListMediaCapturePipelinesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMediaCapturePipelinesAsync(AwsChimeSdkMediaPipelinesListMediaCapturePipelinesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the available media insights pipeline configurations. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsChimeSdkMediaPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMediaInsightsPipelineConfigurationsAsync(AwsChimeSdkMediaPipelinesListMediaInsightsPipelineConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMediaInsightsPipelineConfigurationsAsync(AwsChimeSdkMediaPipelinesListMediaInsightsPipelineConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the video stream pools in the media pipeline. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsChimeSdkMediaPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMediaPipelineKinesisVideoStreamPoolsAsync(AwsChimeSdkMediaPipelinesListMediaPipelineKinesisVideoStreamPoolsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMediaPipelineKinesisVideoStreamPoolsAsync(AwsChimeSdkMediaPipelinesListMediaPipelineKinesisVideoStreamPoolsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of media pipelines. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsChimeSdkMediaPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMediaPipelinesAsync(AwsChimeSdkMediaPipelinesListMediaPipelinesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMediaPipelinesAsync(AwsChimeSdkMediaPipelinesListMediaPipelinesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the tags available for a media pipeline. See also: AWS API Documentation
@@ -238,18 +217,16 @@ public interface IAwsChimeSdkMediaPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsChimeSdkMediaPipelinesListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsChimeSdkMediaPipelinesListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Starts a speaker search task. WARNING: Before starting any speaker search tasks, you must provide all no- tices and obtain all consents from the speaker as required under ap- plicable privacy and biometrics laws, and as required under the AWS service terms for the Amazon Chime SDK. See also: AWS API Documentation
+    /// Starts a speaker search task. WARNING: Before starting any speaker search tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the AWS service terms for the Amazon Chime SDK. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartSpeakerSearchTaskAsync(AwsChimeSdkMediaPipelinesStartSpeakerSearchTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartSpeakerSearchTaskAsync(AwsChimeSdkMediaPipelinesStartSpeakerSearchTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a voice tone analysis task. For more information about voice tone analysis, see Using Amazon Chime SDK voice analytics in the Amazon Chime SDK Developer Guide . WARNING: Before starting any voice tone analysis tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the AWS service terms for the Amazon Chime SDK. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsChimeSdkMediaPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartVoiceToneAnalysisTaskAsync(AwsChimeSdkMediaPipelinesStartVoiceToneAnalysisTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartVoiceToneAnalysisTaskAsync(AwsChimeSdkMediaPipelinesStartVoiceToneAnalysisTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a speaker search task. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsChimeSdkMediaPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopSpeakerSearchTaskAsync(AwsChimeSdkMediaPipelinesStopSpeakerSearchTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopSpeakerSearchTaskAsync(AwsChimeSdkMediaPipelinesStopSpeakerSearchTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a voice tone analysis task. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsChimeSdkMediaPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopVoiceToneAnalysisTaskAsync(AwsChimeSdkMediaPipelinesStopVoiceToneAnalysisTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopVoiceToneAnalysisTaskAsync(AwsChimeSdkMediaPipelinesStopVoiceToneAnalysisTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The ARN of the media pipeline that you want to tag. Consists of the pipeline's endpoint region, resource ID, and pipeline ID. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsChimeSdkMediaPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsChimeSdkMediaPipelinesTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsChimeSdkMediaPipelinesTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes any tags from a media pipeline. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsChimeSdkMediaPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsChimeSdkMediaPipelinesUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsChimeSdkMediaPipelinesUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the media insights pipeline's configuration settings. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsChimeSdkMediaPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateMediaInsightsPipelineConfigurationAsync(AwsChimeSdkMediaPipelinesUpdateMediaInsightsPipelineConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateMediaInsightsPipelineConfigurationAsync(AwsChimeSdkMediaPipelinesUpdateMediaInsightsPipelineConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the status of a media insights pipeline. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsChimeSdkMediaPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateMediaInsightsPipelineStatusAsync(AwsChimeSdkMediaPipelinesUpdateMediaInsightsPipelineStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateMediaInsightsPipelineStatusAsync(AwsChimeSdkMediaPipelinesUpdateMediaInsightsPipelineStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an Amazon Kinesis Video Stream pool in a media pipeline. See also: AWS API Documentation
@@ -328,7 +298,6 @@ public interface IAwsChimeSdkMediaPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateMediaPipelineKinesisVideoStreamPoolAsync(AwsChimeSdkMediaPipelinesUpdateMediaPipelineKinesisVideoStreamPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateMediaPipelineKinesisVideoStreamPoolAsync(AwsChimeSdkMediaPipelinesUpdateMediaPipelineKinesisVideoStreamPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

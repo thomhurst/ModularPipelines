@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Copies the specified image from the specified Region to the current Re- gion. For more information about copying images, see Copy a Custom WorkSpaces Image . In the China (Ningxia) Region, you can copy images only within the same Region. In Amazon Web Services GovCloud (US), to copy images to and from other Regions, contact Amazon Web Services Support. WARNING: Before copying a shared image, be sure to verify that it has been shared from the correct Amazon Web Services account. To determine if a...
+/// Copies the specified image from the specified Region to the current Region. For more information about copying images, see Copy a Custom WorkSpaces Image . In the China (Ningxia) Region, you can copy images only within the same Region. In Amazon Web Services GovCloud (US), to copy images to and from other Regions, contact Amazon Web Services Support. WARNING: Before copying a shared image, be sure to verify that it has been shared from the correct Amazon Web Services account. To determine if an ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsWorkspacesCopyWorkspaceImageOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Copies the specified image from the specified Region to the current Re- gion. For more information about copying images, see Copy a Custom WorkSpaces Image . In the China (Ningxia) Region, you can copy images only within the same Region. In Amazon Web Services GovCloud (US), to copy images to and from other Regions, contact Amazon Web Services Support. WARNING: Before copying a shared image, be sure to verify that it has been shared from the correct Amazon Web Services account. To determine if a...
+    /// Copies the specified image from the specified Region to the current Region. For more information about copying images, see Copy a Custom WorkSpaces Image . In the China (Ningxia) Region, you can copy images only within the same Region. In Amazon Web Services GovCloud (US), to copy images to and from other Regions, contact Amazon Web Services Support. WARNING: Before copying a shared image, be sure to verify that it has been shared from the correct Amazon Web Services account. To determine if an ...
     /// </summary>
-    /// <param name="Name">The name of the image. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_./()\\-]+$</param>
-    /// <param name="SourceImageId">The identifier of the source image. Constraints: o pattern: wsi-[0-9a-z]{9,63}$</param>
-    /// <param name="SourceRegion">The identifier of the source Region. Constraints: o min: 1 o max: 31 o pattern: ^[-0-9a-z]{1,31}$</param>
+    /// <param name="Name">The name of the image. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_./()\\-]+$</param>
+    /// <param name="SourceImageId">The identifier of the source image. Constraints: • pattern: wsi-[0-9a-z]{9,63}$</param>
+    /// <param name="SourceRegion">The identifier of the source Region. Constraints: • min: 1 • max: 31 • pattern: ^[-0-9a-z]{1,31}$</param>
     public AwsWorkspacesCopyWorkspaceImageOptions(
         string Name,
         string SourceImageId,
@@ -64,31 +66,31 @@ public record AwsWorkspacesCopyWorkspaceImageOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the image. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_./()\\-]+$
+    /// The name of the image. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_./()\\-]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The identifier of the source image. Constraints: o pattern: wsi-[0-9a-z]{9,63}$
+    /// The identifier of the source image. Constraints: • pattern: wsi-[0-9a-z]{9,63}$
     /// </summary>
     [CliOption("--source-image-id")]
     public string? SourceImageId { get; private init; }
 
     /// <summary>
-    /// The identifier of the source Region. Constraints: o min: 1 o max: 31 o pattern: ^[-0-9a-z]{1,31}$
+    /// The identifier of the source Region. Constraints: • min: 1 • max: 31 • pattern: ^[-0-9a-z]{1,31}$
     /// </summary>
     [CliOption("--source-region")]
     public string? SourceRegion { get; private init; }
 
     /// <summary>
-    /// A description of the image. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9_./() -]+$
+    /// A description of the image. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9_./() -]+$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The tags for the image. (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 127 Value -&gt; (string) The value of the tag. Constraints: o max: 255 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags for the image. (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 127 Value -&gt; (string) The value of the tag. Constraints: • max: 255 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

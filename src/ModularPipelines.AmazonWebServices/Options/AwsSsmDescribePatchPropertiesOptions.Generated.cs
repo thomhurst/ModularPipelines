@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the properties of available patches organized by product, product family, classification, severity, and other properties of available patches. You can use the reported properties in the filters you specify in requests for operations such as CreatePatchBaseline , UpdatePatch- Baseline , DescribeAvailablePatches , and DescribePatchBaselines . The following section lists the properties that can be used in filters for each major operating system type: AMAZON_LINUX Valid properties: PRODUCT | C...
+/// Lists the properties of available patches organized by product, product family, classification, severity, and other properties of available patches. You can use the reported properties in the filters you specify in requests for operations such as CreatePatchBaseline , UpdatePatchBaseline , DescribeAvailablePatches , and DescribePatchBaselines . The following section lists the properties that can be used in filters for each major operating system type: AMAZON_LINUX Valid properties: PRODUCT | CLA...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +29,10 @@ public record AwsSsmDescribePatchPropertiesOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the properties of available patches organized by product, product family, classification, severity, and other properties of available patches. You can use the reported properties in the filters you specify in requests for operations such as CreatePatchBaseline , UpdatePatch- Baseline , DescribeAvailablePatches , and DescribePatchBaselines . The following section lists the properties that can be used in filters for each major operating system type: AMAZON_LINUX Valid properties: PRODUCT | C...
+    /// Lists the properties of available patches organized by product, product family, classification, severity, and other properties of available patches. You can use the reported properties in the filters you specify in requests for operations such as CreatePatchBaseline , UpdatePatchBaseline , DescribeAvailablePatches , and DescribePatchBaselines . The following section lists the properties that can be used in filters for each major operating system type: AMAZON_LINUX Valid properties: PRODUCT | CLA...
     /// </summary>
-    /// <param name="OperatingSystem">The operating system type for which to list patches. Possible values: o WINDOWS o AMAZON_LINUX o AMAZON_LINUX_2 o AMAZON_LINUX_2022 o UBUNTU o REDHAT_ENTERPRISE_LINUX o SUSE o CENTOS o ORACLE_LINUX o DEBIAN o MACOS o RASPBIAN o ROCKY_LINUX o ALMA_LINUX o AMAZON_LINUX_2023</param>
-    /// <param name="Property">The patch property for which you want to view patch details. Possible values: o PRODUCT o PRODUCT_FAMILY o CLASSIFICATION o MSRC_SEVERITY o PRIORITY o SEVERITY</param>
+    /// <param name="OperatingSystem">The operating system type for which to list patches. Possible values: • WINDOWS • AMAZON_LINUX • AMAZON_LINUX_2 • AMAZON_LINUX_2022 • UBUNTU • REDHAT_ENTERPRISE_LINUX • SUSE • CENTOS • ORACLE_LINUX • DEBIAN • MACOS • RASPBIAN • ROCKY_LINUX • ALMA_LINUX • AMAZON_LINUX_2023</param>
+    /// <param name="Property">The patch property for which you want to view patch details. Possible values: • PRODUCT • PRODUCT_FAMILY • CLASSIFICATION • MSRC_SEVERITY • PRIORITY • SEVERITY</param>
     public AwsSsmDescribePatchPropertiesOptions(
         AwsSsmDescribePatchPropertiesOperatingSystem OperatingSystem,
         AwsSsmDescribePatchPropertiesProperty Property
@@ -60,28 +62,25 @@ public record AwsSsmDescribePatchPropertiesOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The operating system type for which to list patches. Possible values: o WINDOWS o AMAZON_LINUX o AMAZON_LINUX_2 o AMAZON_LINUX_2022 o UBUNTU o REDHAT_ENTERPRISE_LINUX o SUSE o CENTOS o ORACLE_LINUX o DEBIAN o MACOS o RASPBIAN o ROCKY_LINUX o ALMA_LINUX o AMAZON_LINUX_2023
+    /// The operating system type for which to list patches. Possible values: • WINDOWS • AMAZON_LINUX • AMAZON_LINUX_2 • AMAZON_LINUX_2022 • UBUNTU • REDHAT_ENTERPRISE_LINUX • SUSE • CENTOS • ORACLE_LINUX • DEBIAN • MACOS • RASPBIAN • ROCKY_LINUX • ALMA_LINUX • AMAZON_LINUX_2023
     /// </summary>
     [CliOption("--operating-system")]
     public AwsSsmDescribePatchPropertiesOperatingSystem? OperatingSystem { get; private init; }
 
     /// <summary>
-    /// The patch property for which you want to view patch details. Possible values: o PRODUCT o PRODUCT_FAMILY o CLASSIFICATION o MSRC_SEVERITY o PRIORITY o SEVERITY
+    /// The patch property for which you want to view patch details. Possible values: • PRODUCT • PRODUCT_FAMILY • CLASSIFICATION • MSRC_SEVERITY • PRIORITY • SEVERITY
     /// </summary>
     [CliOption("--property")]
     public AwsSsmDescribePatchPropertiesProperty? Property { get; private init; }
 
     /// <summary>
-    /// Indicates whether to list patches for the Windows operating system or for applications released by Microsoft. Not applicable for the Linux or macOS operating systems. Possible values: o OS o APPLICATION
+    /// Indicates whether to list patches for the Windows operating system or for applications released by Microsoft. Not applicable for the Linux or macOS operating systems. Possible values: • OS • APPLICATION
     /// </summary>
     [CliOption("--patch-set")]
     public AwsSsmDescribePatchPropertiesPatchSet? PatchSet { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -91,16 +90,19 @@ public record AwsSsmDescribePatchPropertiesOptions : AwsOptions, IValidatableObj
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 50
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

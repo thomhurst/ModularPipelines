@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sets the status of a service-specific credential to Active or Inactive . Service-specific credentials that are inactive cannot be used for au- thentication to the service. This operation can be used to disable a user's service-specific credential as part of a credential rotation work flow. See also: AWS API Documentation
+/// Sets the status of a service-specific credential to Active or Inactive . Service-specific credentials that are inactive cannot be used for authentication to the service. This operation can be used to disable a user's service-specific credential as part of a credential rotation work flow. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsIamUpdateServiceSpecificCredentialOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sets the status of a service-specific credential to Active or Inactive . Service-specific credentials that are inactive cannot be used for au- thentication to the service. This operation can be used to disable a user's service-specific credential as part of a credential rotation work flow. See also: AWS API Documentation
+    /// Sets the status of a service-specific credential to Active or Inactive . Service-specific credentials that are inactive cannot be used for authentication to the service. This operation can be used to disable a user's service-specific credential as part of a credential rotation work flow. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceSpecificCredentialId">The unique identifier of the service-specific credential. This parameter allows (through its regex pattern ) a string of char- acters that can consist of any upper or lowercased letter or digit. Constraints: o min: 20 o max: 128 o pattern: [\w]+</param>
-    /// <param name="Status">The status to be assigned to the service-specific credential. Possible values: o Active o Inactive o Expired</param>
+    /// <param name="ServiceSpecificCredentialId">The unique identifier of the service-specific credential. This parameter allows (through its regex pattern ) a string of characters that can consist of any upper or lowercased letter or digit. Constraints: • min: 20 • max: 128 • pattern: [\w]+</param>
+    /// <param name="Status">The status to be assigned to the service-specific credential. Possible values: • Active • Inactive • Expired</param>
     public AwsIamUpdateServiceSpecificCredentialOptions(
         string ServiceSpecificCredentialId,
         AwsIamUpdateServiceSpecificCredentialStatus Status
@@ -60,19 +62,19 @@ public record AwsIamUpdateServiceSpecificCredentialOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the service-specific credential. This parameter allows (through its regex pattern ) a string of char- acters that can consist of any upper or lowercased letter or digit. Constraints: o min: 20 o max: 128 o pattern: [\w]+
+    /// The unique identifier of the service-specific credential. This parameter allows (through its regex pattern ) a string of characters that can consist of any upper or lowercased letter or digit. Constraints: • min: 20 • max: 128 • pattern: [\w]+
     /// </summary>
     [CliOption("--service-specific-credential-id")]
     public string? ServiceSpecificCredentialId { get; private init; }
 
     /// <summary>
-    /// The status to be assigned to the service-specific credential. Possible values: o Active o Inactive o Expired
+    /// The status to be assigned to the service-specific credential. Possible values: • Active • Inactive • Expired
     /// </summary>
     [CliOption("--status")]
     public AwsIamUpdateServiceSpecificCredentialStatus? Status { get; private init; }
 
     /// <summary>
-    /// The name of the IAM user associated with the service-specific cre- dential. If you do not specify this value, then the operation as- sumes the user whose credentials are used to call the operation. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+
+    /// The name of the IAM user associated with the service-specific credential. If you do not specify this value, then the operation assumes the user whose credentials are used to call the operation. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 1 • max: 64 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; set; }

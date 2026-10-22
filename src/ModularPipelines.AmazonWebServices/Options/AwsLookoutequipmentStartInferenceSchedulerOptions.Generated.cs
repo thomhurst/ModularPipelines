@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsLookoutequipmentStartInferenceSchedulerOptions : AwsOptions, IV
     /// <summary>
     /// Starts an inference scheduler. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InferenceSchedulerName">The name of the inference scheduler to be started. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    /// <param name="InferenceSchedulerName">The name of the inference scheduler to be started. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
     public AwsLookoutequipmentStartInferenceSchedulerOptions(
         string InferenceSchedulerName
     )
@@ -56,7 +58,7 @@ public record AwsLookoutequipmentStartInferenceSchedulerOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the inference scheduler to be started. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// The name of the inference scheduler to be started. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$
     /// </summary>
     [CliOption("--inference-scheduler-name")]
     public string? InferenceSchedulerName { get; private init; }

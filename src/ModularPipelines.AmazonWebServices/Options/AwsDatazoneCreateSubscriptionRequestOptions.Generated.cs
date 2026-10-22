@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,10 +30,10 @@ public record AwsDatazoneCreateSubscriptionRequestOptions : AwsOptions, IValidat
     /// <summary>
     /// Creates a subscription request in Amazon DataZone. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which the subscription re- quest is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="SubscribedPrincipals">The Amazon DataZone principals for whom the subscription request is created. Constraints: o min: 1 o max: 1 (tagged union structure) The principal that is to be given a subscriptiong grant. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: project, user, group, iam. project -&gt; (structure) The project that is to be given a subscription grant. identifier -&gt; (string) The identifier of the project that is to be given a sub- scription grant. Constraints: o pattern: [a-zA-Z0-9_-]{1,36} user -&gt; (structure) The subscribed user. identifier -&gt; (string) The ID of the subscribed user. Constraints: o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} group -&gt; (structure) The subscribed group. identifier -&gt; (string) The ID of the subscribed group. Constraints: o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} iam -&gt; (structure) The subscribed IAM principal. identifier -&gt; (string) The ARN of the subscribed IAM principal. Constraints: o min: 1 o max: 255 o pattern: arn:aws[^:]*:iam::\d{12}:(role|user)(/[\w+=,.@-]*)*/[\w+=,.@-]+ Shorthand Syntax: project={identifier=string},user={identifier=string},group={identifier=string},iam={identifier=string} ... JSON Syntax: [ { "project": { "identifier": "string" }, "user": { "identifier": "string" }, "group": { "identifier": "string" }, "iam": { "identifier": "string" } } ... ]</param>
-    /// <param name="SubscribedListings">The published asset for which the subscription grant is to be cre- ated. Constraints: o min: 1 o max: 1 (structure) The published asset for which the subscription grant is to be created. identifier -&gt; (string) [required] The identifier of the published asset for which the subscrip- tion grant is to be created. Constraints: o pattern: [a-zA-Z0-9_-]{1,36} Shorthand Syntax: identifier=string ... JSON Syntax: [ { "identifier": "string" } ... ]</param>
-    /// <param name="RequestReason">The reason for the subscription request. Constraints: o min: 1 o max: 4096</param>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which the subscription request is created. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="SubscribedPrincipals">The Amazon DataZone principals for whom the subscription request is created. Constraints: • min: 1 • max: 1 (tagged union structure) The principal that is to be given a subscriptiong grant. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: project, user, group, iam. project -&gt; (structure) The project that is to be given a subscription grant. identifier -&gt; (string) The identifier of the project that is to be given a subscription grant. Constraints: • pattern: [a-zA-Z0-9_-]{1,36} user -&gt; (structure) The subscribed user. identifier -&gt; (string) The ID of the subscribed user. Constraints: • pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} group -&gt; (structure) The subscribed group. identifier -&gt; (string) The ID of the subscribed group. Constraints: • pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} iam -&gt; (structure) The subscribed IAM principal. identifier -&gt; (string) The ARN of the subscribed IAM principal. Constraints: • min: 1 • max: 255 • pattern: arn:aws[^:]*:iam::\d{12}:(role|user)(/[\w+=,.@-]*)*/[\w+=,.@-]+ Shorthand Syntax: project={identifier=string},user={identifier=string},group={identifier=string},iam={identifier=string} ... JSON Syntax: [ { "project": { "identifier": "string" }, "user": { "identifier": "string" }, "group": { "identifier": "string" }, "iam": { "identifier": "string" } } ... ]</param>
+    /// <param name="SubscribedListings">The published asset for which the subscription grant is to be created. Constraints: • min: 1 • max: 1 (structure) The published asset for which the subscription grant is to be created. identifier -&gt; (string) [required] The identifier of the published asset for which the subscription grant is to be created. Constraints: • pattern: [a-zA-Z0-9_-]{1,36} Shorthand Syntax: identifier=string ... JSON Syntax: [ { "identifier": "string" } ... ]</param>
+    /// <param name="RequestReason">The reason for the subscription request. Constraints: • min: 1 • max: 4096</param>
     public AwsDatazoneCreateSubscriptionRequestOptions(
         string DomainIdentifier,
         IEnumerable<string> SubscribedPrincipals,
@@ -91,25 +93,25 @@ public record AwsDatazoneCreateSubscriptionRequestOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon DataZone domain in which the subscription re- quest is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the Amazon DataZone domain in which the subscription request is created. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The Amazon DataZone principals for whom the subscription request is created. Constraints: o min: 1 o max: 1 (tagged union structure) The principal that is to be given a subscriptiong grant. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: project, user, group, iam. project -&gt; (structure) The project that is to be given a subscription grant. identifier -&gt; (string) The identifier of the project that is to be given a sub- scription grant. Constraints: o pattern: [a-zA-Z0-9_-]{1,36} user -&gt; (structure) The subscribed user. identifier -&gt; (string) The ID of the subscribed user. Constraints: o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} group -&gt; (structure) The subscribed group. identifier -&gt; (string) The ID of the subscribed group. Constraints: o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} iam -&gt; (structure) The subscribed IAM principal. identifier -&gt; (string) The ARN of the subscribed IAM principal. Constraints: o min: 1 o max: 255 o pattern: arn:aws[^:]*:iam::\d{12}:(role|user)(/[\w+=,.@-]*)*/[\w+=,.@-]+ Shorthand Syntax: project={identifier=string},user={identifier=string},group={identifier=string},iam={identifier=string} ... JSON Syntax: [ { "project": { "identifier": "string" }, "user": { "identifier": "string" }, "group": { "identifier": "string" }, "iam": { "identifier": "string" } } ... ]
+    /// The Amazon DataZone principals for whom the subscription request is created. Constraints: • min: 1 • max: 1 (tagged union structure) The principal that is to be given a subscriptiong grant. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: project, user, group, iam. project -&gt; (structure) The project that is to be given a subscription grant. identifier -&gt; (string) The identifier of the project that is to be given a subscription grant. Constraints: • pattern: [a-zA-Z0-9_-]{1,36} user -&gt; (structure) The subscribed user. identifier -&gt; (string) The ID of the subscribed user. Constraints: • pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} group -&gt; (structure) The subscribed group. identifier -&gt; (string) The ID of the subscribed group. Constraints: • pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} iam -&gt; (structure) The subscribed IAM principal. identifier -&gt; (string) The ARN of the subscribed IAM principal. Constraints: • min: 1 • max: 255 • pattern: arn:aws[^:]*:iam::\d{12}:(role|user)(/[\w+=,.@-]*)*/[\w+=,.@-]+ Shorthand Syntax: project={identifier=string},user={identifier=string},group={identifier=string},iam={identifier=string} ... JSON Syntax: [ { "project": { "identifier": "string" }, "user": { "identifier": "string" }, "group": { "identifier": "string" }, "iam": { "identifier": "string" } } ... ]
     /// </summary>
     [CliOption("--subscribed-principals", GroupValues = true)]
     public IEnumerable<string>? SubscribedPrincipals { get; private init; }
 
     /// <summary>
-    /// The published asset for which the subscription grant is to be cre- ated. Constraints: o min: 1 o max: 1 (structure) The published asset for which the subscription grant is to be created. identifier -&gt; (string) [required] The identifier of the published asset for which the subscrip- tion grant is to be created. Constraints: o pattern: [a-zA-Z0-9_-]{1,36} Shorthand Syntax: identifier=string ... JSON Syntax: [ { "identifier": "string" } ... ]
+    /// The published asset for which the subscription grant is to be created. Constraints: • min: 1 • max: 1 (structure) The published asset for which the subscription grant is to be created. identifier -&gt; (string) [required] The identifier of the published asset for which the subscription grant is to be created. Constraints: • pattern: [a-zA-Z0-9_-]{1,36} Shorthand Syntax: identifier=string ... JSON Syntax: [ { "identifier": "string" } ... ]
     /// </summary>
     [CliOption("--subscribed-listings", GroupValues = true)]
     public IEnumerable<string>? SubscribedListings { get; private init; }
 
     /// <summary>
-    /// The reason for the subscription request. Constraints: o min: 1 o max: 4096
+    /// The reason for the subscription request. Constraints: • min: 1 • max: 4096
     /// </summary>
     [CliOption("--request-reason")]
     public string? RequestReason { get; private init; }
@@ -122,19 +124,19 @@ public record AwsDatazoneCreateSubscriptionRequestOptions : AwsOptions, IValidat
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The metadata form included in the subscription request. (structure) The details of a metadata form. formName -&gt; (string) [required] The name of the metadata form. Constraints: o min: 1 o max: 128 o pattern: (?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w* typeIdentifier -&gt; (string) The ID of the metadata form type. Constraints: o min: 1 o max: 385 o pattern: (?!\.)[\w\.]*\w typeRevision -&gt; (string) The revision of the metadata form type. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ content -&gt; (string) The content of the metadata form. Constraints: o min: 0 o max: 300000 Shorthand Syntax: formName=string,typeIdentifier=string,typeRevision=string,content=string ... JSON Syntax: [ { "formName": "string", "typeIdentifier": "string", "typeRevision": "string", "content": "string" } ... ]
+    /// The metadata form included in the subscription request. (structure) The details of a metadata form. formName -&gt; (string) [required] The name of the metadata form. Constraints: • min: 1 • max: 128 • pattern: (?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w* typeIdentifier -&gt; (string) The ID of the metadata form type. Constraints: • min: 1 • max: 385 • pattern: (?!\.)[\w\.]*\w typeRevision -&gt; (string) The revision of the metadata form type. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+ content -&gt; (string) The content of the metadata form. Constraints: • min: 0 • max: 300000 Shorthand Syntax: formName=string,typeIdentifier=string,typeRevision=string,content=string ... JSON Syntax: [ { "formName": "string", "typeIdentifier": "string", "typeRevision": "string", "content": "string" } ... ]
     /// </summary>
     [CliOption("--metadata-forms", GroupValues = true)]
     public IEnumerable<string>? MetadataForms { get; set; }
 
     /// <summary>
-    /// The asset permissions of the subscription request. (structure) The asset permissions. assetId -&gt; (string) [required] The asset ID as part of the asset permissions. Constraints: o pattern: [a-zA-Z0-9_-]{1,36} permissions -&gt; (tagged union structure) [required] The details as part of the asset permissions. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: s3. s3 -&gt; (list) The S3 details of the asset permissions. (string) Possible values: o READ o WRITE Shorthand Syntax: assetId=string,permissions={s3=[string,string]} ... JSON Syntax: [ { "assetId": "string", "permissions": { "s3": ["READ"|"WRITE", ...] } } ... ]
+    /// The asset permissions of the subscription request. (structure) The asset permissions. assetId -&gt; (string) [required] The asset ID as part of the asset permissions. Constraints: • pattern: [a-zA-Z0-9_-]{1,36} permissions -&gt; (tagged union structure) [required] The details as part of the asset permissions. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3. s3 -&gt; (list) The S3 details of the asset permissions. (string) Possible values: • READ • WRITE Shorthand Syntax: assetId=string,permissions={s3=[string,string]} ... JSON Syntax: [ { "assetId": "string", "permissions": { "s3": ["READ"|"WRITE", ...] } } ... ]
     /// </summary>
     [CliOption("--asset-permissions", GroupValues = true)]
     public IEnumerable<string>? AssetPermissions { get; set; }
 
     /// <summary>
-    /// The asset scopes of the subscription request. (structure) The accepted asset scope. assetId -&gt; (string) [required] The asset ID of the accepted asset scope. Constraints: o pattern: [a-zA-Z0-9_-]{1,36} filterIds -&gt; (list) [required] The filter IDs of the accepted asset scope. (string) Constraints: o pattern: [a-zA-Z0-9_-]{1,36} Shorthand Syntax: assetId=string,filterIds=string,string ... JSON Syntax: [ { "assetId": "string", "filterIds": ["string", ...] } ... ]
+    /// The asset scopes of the subscription request. (structure) The accepted asset scope. assetId -&gt; (string) [required] The asset ID of the accepted asset scope. Constraints: • pattern: [a-zA-Z0-9_-]{1,36} filterIds -&gt; (list) [required] The filter IDs of the accepted asset scope. (string) Constraints: • pattern: [a-zA-Z0-9_-]{1,36} Shorthand Syntax: assetId=string,filterIds=string,string ... JSON Syntax: [ { "assetId": "string", "filterIds": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--asset-scopes", GroupValues = true)]
     public IEnumerable<string>? AssetScopes { get; set; }

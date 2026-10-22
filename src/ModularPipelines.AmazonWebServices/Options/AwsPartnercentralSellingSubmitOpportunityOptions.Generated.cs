@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Use this action to submit an Opportunity that was previously created by partner for AWS review. After you perform this action, the Opportunity becomes non-editable until it is reviewed by AWS and has LifeCycle.Re- viewStatus as either Approved or Action Required . See also: AWS API Documentation
+/// Use this action to submit an Opportunity that was previously created by partner for AWS review. After you perform this action, the Opportunity becomes non-editable until it is reviewed by AWS and has LifeCycle.ReviewStatus as either Approved or Action Required . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsPartnercentralSellingSubmitOpportunityOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Use this action to submit an Opportunity that was previously created by partner for AWS review. After you perform this action, the Opportunity becomes non-editable until it is reviewed by AWS and has LifeCycle.Re- viewStatus as either Approved or Action Required . See also: AWS API Documentation
+    /// Use this action to submit an Opportunity that was previously created by partner for AWS review. After you perform this action, the Opportunity becomes non-editable until it is reviewed by AWS and has LifeCycle.ReviewStatus as either Approved or Action Required . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">Specifies the catalog related to the request. Valid values are: o AWS: Submits the opportunity request from the production AWS envi- ronment. o Sandbox: Submits the opportunity request from a sandbox environ- ment used for testing or development purposes. Constraints: o pattern: [a-zA-Z]+</param>
-    /// <param name="Identifier">The identifier of the Opportunity previously created by partner and needs to be submitted. Constraints: o pattern: O[0-9]{1,19}</param>
-    /// <param name="InvolvementType">Specifies the level of AWS sellers' involvement on the opportunity. Valid values: o Co-sell : Indicates the user wants to co-sell with AWS. Share the opportunity with AWS to receive deal assistance and support. o For Visibility Only : Indicates that the user does not need sup- port from AWS Sales Rep. Share this opportunity with AWS for visi- bility only, you will not receive deal assistance and support. Possible values: o For Visibility Only o Co-Sell</param>
+    /// <param name="Catalog">Specifies the catalog related to the request. Valid values are: • AWS: Submits the opportunity request from the production AWS environment. • Sandbox: Submits the opportunity request from a sandbox environment used for testing or development purposes. Constraints: • pattern: [a-zA-Z]+</param>
+    /// <param name="Identifier">The identifier of the Opportunity previously created by partner and needs to be submitted. Constraints: • pattern: O[0-9]{1,19}</param>
+    /// <param name="InvolvementType">Specifies the level of AWS sellers' involvement on the opportunity. Valid values: • Co-sell : Indicates the user wants to co-sell with AWS. Share the opportunity with AWS to receive deal assistance and support. • For Visibility Only : Indicates that the user does not need support from AWS Sales Rep. Share this opportunity with AWS for visibility only, you will not receive deal assistance and support. Possible values: • For Visibility Only • Co-Sell</param>
     public AwsPartnercentralSellingSubmitOpportunityOptions(
         string Catalog,
         string Identifier,
@@ -64,25 +66,25 @@ public record AwsPartnercentralSellingSubmitOpportunityOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the catalog related to the request. Valid values are: o AWS: Submits the opportunity request from the production AWS envi- ronment. o Sandbox: Submits the opportunity request from a sandbox environ- ment used for testing or development purposes. Constraints: o pattern: [a-zA-Z]+
+    /// Specifies the catalog related to the request. Valid values are: • AWS: Submits the opportunity request from the production AWS environment. • Sandbox: Submits the opportunity request from a sandbox environment used for testing or development purposes. Constraints: • pattern: [a-zA-Z]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// The identifier of the Opportunity previously created by partner and needs to be submitted. Constraints: o pattern: O[0-9]{1,19}
+    /// The identifier of the Opportunity previously created by partner and needs to be submitted. Constraints: • pattern: O[0-9]{1,19}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// Specifies the level of AWS sellers' involvement on the opportunity. Valid values: o Co-sell : Indicates the user wants to co-sell with AWS. Share the opportunity with AWS to receive deal assistance and support. o For Visibility Only : Indicates that the user does not need sup- port from AWS Sales Rep. Share this opportunity with AWS for visi- bility only, you will not receive deal assistance and support. Possible values: o For Visibility Only o Co-Sell
+    /// Specifies the level of AWS sellers' involvement on the opportunity. Valid values: • Co-sell : Indicates the user wants to co-sell with AWS. Share the opportunity with AWS to receive deal assistance and support. • For Visibility Only : Indicates that the user does not need support from AWS Sales Rep. Share this opportunity with AWS for visibility only, you will not receive deal assistance and support. Possible values: • For Visibility Only • Co-Sell
     /// </summary>
     [CliOption("--involvement-type")]
     public string? InvolvementType { get; private init; }
 
     /// <summary>
-    /// Determines whether to restrict visibility of the opportunity from AWS sales. Default value is Full. Valid values: o Full : The opportunity is fully visible to AWS sales. o Limited : The opportunity has restricted visibility to AWS sales. Possible values: o Full o Limited
+    /// Determines whether to restrict visibility of the opportunity from AWS sales. Default value is Full. Valid values: • Full : The opportunity is fully visible to AWS sales. • Limited : The opportunity has restricted visibility to AWS sales. Possible values: • Full • Limited
     /// </summary>
     [CliOption("--visibility")]
     public string? Visibility { get; set; }

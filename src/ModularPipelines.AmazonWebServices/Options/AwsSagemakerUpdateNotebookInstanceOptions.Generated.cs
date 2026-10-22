@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsSagemakerUpdateNotebookInstanceOptions : AwsOptions, IValidatab
     /// <summary>
     /// Updates a notebook instance. NotebookInstance updates include upgrading or downgrading the ML compute instance used for your notebook instance to accommodate changes in your workload requirements. NOTE: This API can attach lifecycle configurations to notebook instances. Lifecycle configuration scripts execute with root access and the notebook instance's IAM execution role privileges. Principals with this permission and access to lifecycle configurations can execute code with the execution role's...
     /// </summary>
-    /// <param name="NotebookInstanceName">The name of the notebook instance to update. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9])*</param>
+    /// <param name="NotebookInstanceName">The name of the notebook instance to update. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9])*</param>
     public AwsSagemakerUpdateNotebookInstanceOptions(
         string NotebookInstanceName
     )
@@ -57,67 +59,67 @@ public record AwsSagemakerUpdateNotebookInstanceOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the notebook instance to update. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9])*
+    /// The name of the notebook instance to update. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9])*
     /// </summary>
     [CliOption("--notebook-instance-name")]
     public string? NotebookInstanceName { get; private init; }
 
     /// <summary>
-    /// The Amazon ML compute instance type. Possible values: o ml.t2.medium o ml.t2.large o ml.t2.xlarge o ml.t2.2xlarge o ml.t3.medium o ml.t3.large o ml.t3.xlarge o ml.t3.2xlarge o ml.m4.xlarge o ml.m4.2xlarge o ml.m4.4xlarge o ml.m4.10xlarge o ml.m4.16xlarge o ml.m5.xlarge o ml.m5.2xlarge o ml.m5.4xlarge o ml.m5.12xlarge o ml.m5.24xlarge o ml.m5d.large o ml.m5d.xlarge o ml.m5d.2xlarge o ml.m5d.4xlarge o ml.m5d.8xlarge o ml.m5d.12xlarge o ml.m5d.16xlarge o ml.m5d.24xlarge o ml.c4.xlarge o ml.c4.2xlarge o ml.c4.4xlarge o ml.c4.8xlarge o ml.c5.xlarge o ml.c5.2xlarge o ml.c5.4xlarge o ml.c5.9xlarge o ml.c5.18xlarge o ml.c5d.xlarge o ml.c5d.2xlarge o ml.c5d.4xlarge o ml.c5d.9xlarge o ml.c5d.18xlarge o ml.p2.xlarge o ml.p2.8xlarge o ml.p2.16xlarge o ml.p3.2xlarge o ml.p3.8xlarge o ml.p3.16xlarge o ml.p3dn.24xlarge o ml.g4dn.xlarge o ml.g4dn.2xlarge o ml.g4dn.4xlarge o ml.g4dn.8xlarge o ml.g4dn.12xlarge o ml.g4dn.16xlarge o ml.r5.large o ml.r5.xlarge o ml.r5.2xlarge o ml.r5.4xlarge o ml.r5.8xlarge o ml.r5.12xlarge o ml.r5.16xlarge o ml.r5.24xlarge o ml.g5.xlarge o ml.g5.2xlarge o ml.g5.4xlarge o ml.g5.8xlarge o ml.g5.16xlarge o ml.g5.12xlarge o ml.g5.24xlarge o ml.g5.48xlarge o ml.inf1.xlarge o ml.inf1.2xlarge o ml.inf1.6xlarge o ml.inf1.24xlarge o ml.trn1.2xlarge o ml.trn1.32xlarge o ml.trn1n.32xlarge o ml.inf2.xlarge o ml.inf2.8xlarge o ml.inf2.24xlarge o ml.inf2.48xlarge o ml.p4d.24xlarge o ml.p4de.24xlarge o ml.p5.48xlarge o ml.p6-b200.48xlarge o ml.m6i.large o ml.m6i.xlarge o ml.m6i.2xlarge o ml.m6i.4xlarge o ml.m6i.8xlarge o ml.m6i.12xlarge o ml.m6i.16xlarge o ml.m6i.24xlarge o ml.m6i.32xlarge o ml.m7i.large o ml.m7i.xlarge o ml.m7i.2xlarge o ml.m7i.4xlarge o ml.m7i.8xlarge o ml.m7i.12xlarge o ml.m7i.16xlarge o ml.m7i.24xlarge o ml.m7i.48xlarge o ml.c6i.large o ml.c6i.xlarge o ml.c6i.2xlarge o ml.c6i.4xlarge o ml.c6i.8xlarge o ml.c6i.12xlarge o ml.c6i.16xlarge o ml.c6i.24xlarge o ml.c6i.32xlarge o ml.c7i.large o ml.c7i.xlarge o ml.c7i.2xlarge o ml.c7i.4xlarge o ml.c7i.8xlarge o ml.c7i.12xlarge o ml.c7i.16xlarge o ml.c7i.24xlarge o ml.c7i.48xlarge o ml.r6i.large o ml.r6i.xlarge o ml.r6i.2xlarge o ml.r6i.4xlarge o ml.r6i.8xlarge o ml.r6i.12xlarge o ml.r6i.16xlarge o ml.r6i.24xlarge o ml.r6i.32xlarge o ml.r7i.large o ml.r7i.xlarge o ml.r7i.2xlarge o ml.r7i.4xlarge o ml.r7i.8xlarge o ml.r7i.12xlarge o ml.r7i.16xlarge o ml.r7i.24xlarge o ml.r7i.48xlarge o ml.m6id.large o ml.m6id.xlarge o ml.m6id.2xlarge o ml.m6id.4xlarge o ml.m6id.8xlarge o ml.m6id.12xlarge o ml.m6id.16xlarge o ml.m6id.24xlarge o ml.m6id.32xlarge o ml.c6id.large o ml.c6id.xlarge o ml.c6id.2xlarge o ml.c6id.4xlarge o ml.c6id.8xlarge o ml.c6id.12xlarge o ml.c6id.16xlarge o ml.c6id.24xlarge o ml.c6id.32xlarge o ml.r6id.large o ml.r6id.xlarge o ml.r6id.2xlarge o ml.r6id.4xlarge o ml.r6id.8xlarge o ml.r6id.12xlarge o ml.r6id.16xlarge o ml.r6id.24xlarge o ml.r6id.32xlarge o ml.g6.xlarge o ml.g6.2xlarge o ml.g6.4xlarge o ml.g6.8xlarge o ml.g6.12xlarge o ml.g6.16xlarge o ml.g6.24xlarge o ml.g6.48xlarge o ml.g7e.2xlarge o ml.g7e.4xlarge o ml.g7e.8xlarge o ml.g7e.12xlarge o ml.g7e.24xlarge o ml.g7e.48xlarge o ml.p5.4xlarge o ml.p5en.48xlarge o ml.g6e.xlarge o ml.g6e.2xlarge o ml.g6e.4xlarge o ml.g6e.8xlarge o ml.g6e.12xlarge o ml.g6e.16xlarge o ml.g6e.24xlarge o ml.g6e.48xlarge
+    /// The Amazon ML compute instance type. Possible values: • ml.t2.medium • ml.t2.large • ml.t2.xlarge • ml.t2.2xlarge • ml.t3.medium • ml.t3.large • ml.t3.xlarge • ml.t3.2xlarge • ml.m4.xlarge • ml.m4.2xlarge • ml.m4.4xlarge • ml.m4.10xlarge • ml.m4.16xlarge • ml.m5.xlarge • ml.m5.2xlarge • ml.m5.4xlarge • ml.m5.12xlarge • ml.m5.24xlarge • ml.m5d.large • ml.m5d.xlarge • ml.m5d.2xlarge • ml.m5d.4xlarge • ml.m5d.8xlarge • ml.m5d.12xlarge • ml.m5d.16xlarge • ml.m5d.24xlarge • ml.c4.xlarge • ml.c4.2xlarge • ml.c4.4xlarge • ml.c4.8xlarge • ml.c5.xlarge • ml.c5.2xlarge • ml.c5.4xlarge • ml.c5.9xlarge • ml.c5.18xlarge • ml.c5d.xlarge • ml.c5d.2xlarge • ml.c5d.4xlarge • ml.c5d.9xlarge • ml.c5d.18xlarge • ml.p2.xlarge • ml.p2.8xlarge • ml.p2.16xlarge • ml.p3.2xlarge • ml.p3.8xlarge • ml.p3.16xlarge • ml.p3dn.24xlarge • ml.g4dn.xlarge • ml.g4dn.2xlarge • ml.g4dn.4xlarge • ml.g4dn.8xlarge • ml.g4dn.12xlarge • ml.g4dn.16xlarge • ml.r5.large • ml.r5.xlarge • ml.r5.2xlarge • ml.r5.4xlarge • ml.r5.8xlarge • ml.r5.12xlarge • ml.r5.16xlarge • ml.r5.24xlarge • ml.g5.xlarge • ml.g5.2xlarge • ml.g5.4xlarge • ml.g5.8xlarge • ml.g5.16xlarge • ml.g5.12xlarge • ml.g5.24xlarge • ml.g5.48xlarge • ml.inf1.xlarge • ml.inf1.2xlarge • ml.inf1.6xlarge • ml.inf1.24xlarge • ml.trn1.2xlarge • ml.trn1.32xlarge • ml.trn1n.32xlarge • ml.inf2.xlarge • ml.inf2.8xlarge • ml.inf2.24xlarge • ml.inf2.48xlarge • ml.p4d.24xlarge • ml.p4de.24xlarge • ml.p5.48xlarge • ml.p6-b200.48xlarge • ml.m6i.large • ml.m6i.xlarge • ml.m6i.2xlarge • ml.m6i.4xlarge • ml.m6i.8xlarge • ml.m6i.12xlarge • ml.m6i.16xlarge • ml.m6i.24xlarge • ml.m6i.32xlarge • ml.m7i.large • ml.m7i.xlarge • ml.m7i.2xlarge • ml.m7i.4xlarge • ml.m7i.8xlarge • ml.m7i.12xlarge • ml.m7i.16xlarge • ml.m7i.24xlarge • ml.m7i.48xlarge • ml.c6i.large • ml.c6i.xlarge • ml.c6i.2xlarge • ml.c6i.4xlarge • ml.c6i.8xlarge • ml.c6i.12xlarge • ml.c6i.16xlarge • ml.c6i.24xlarge • ml.c6i.32xlarge • ml.c7i.large • ml.c7i.xlarge • ml.c7i.2xlarge • ml.c7i.4xlarge • ml.c7i.8xlarge • ml.c7i.12xlarge • ml.c7i.16xlarge • ml.c7i.24xlarge • ml.c7i.48xlarge • ml.r6i.large • ml.r6i.xlarge • ml.r6i.2xlarge • ml.r6i.4xlarge • ml.r6i.8xlarge • ml.r6i.12xlarge • ml.r6i.16xlarge • ml.r6i.24xlarge • ml.r6i.32xlarge • ml.r7i.large • ml.r7i.xlarge • ml.r7i.2xlarge • ml.r7i.4xlarge • ml.r7i.8xlarge • ml.r7i.12xlarge • ml.r7i.16xlarge • ml.r7i.24xlarge • ml.r7i.48xlarge • ml.m6id.large • ml.m6id.xlarge • ml.m6id.2xlarge • ml.m6id.4xlarge • ml.m6id.8xlarge • ml.m6id.12xlarge • ml.m6id.16xlarge • ml.m6id.24xlarge • ml.m6id.32xlarge • ml.c6id.large • ml.c6id.xlarge • ml.c6id.2xlarge • ml.c6id.4xlarge • ml.c6id.8xlarge • ml.c6id.12xlarge • ml.c6id.16xlarge • ml.c6id.24xlarge • ml.c6id.32xlarge • ml.r6id.large • ml.r6id.xlarge • ml.r6id.2xlarge • ml.r6id.4xlarge • ml.r6id.8xlarge • ml.r6id.12xlarge • ml.r6id.16xlarge • ml.r6id.24xlarge • ml.r6id.32xlarge • ml.g6.xlarge • ml.g6.2xlarge • ml.g6.4xlarge • ml.g6.8xlarge • ml.g6.12xlarge • ml.g6.16xlarge • ml.g6.24xlarge • ml.g6.48xlarge • ml.g7e.2xlarge • ml.g7e.4xlarge • ml.g7e.8xlarge • ml.g7e.12xlarge • ml.g7e.24xlarge • ml.g7e.48xlarge • ml.p5.4xlarge • ml.p5en.48xlarge • ml.g6e.xlarge • ml.g6e.2xlarge • ml.g6e.4xlarge • ml.g6e.8xlarge • ml.g6e.12xlarge • ml.g6e.16xlarge • ml.g6e.24xlarge • ml.g6e.48xlarge
     /// </summary>
     [CliOption("--instance-type")]
     public string? InstanceType { get; set; }
 
     /// <summary>
-    /// The IP address type for the notebook instance. Specify ipv4 for IPv4-only connectivity or dualstack for both IPv4 and IPv6 connec- tivity. The notebook instance must be stopped before updating this setting. When you specify dualstack , the subnet must support IPv6 addressing. Possible values: o ipv4 o dualstack
+    /// The IP address type for the notebook instance. Specify ipv4 for IPv4-only connectivity or dualstack for both IPv4 and IPv6 connectivity. The notebook instance must be stopped before updating this setting. When you specify dualstack , the subnet must support IPv6 addressing. Possible values: • ipv4 • dualstack
     /// </summary>
     [CliOption("--ip-address-type")]
     public AwsSagemakerUpdateNotebookInstanceIpAddressType? IpAddressType { get; set; }
 
     /// <summary>
-    /// The platform identifier of the notebook instance runtime environ- ment. Constraints: o min: 0 o max: 20 o pattern: (notebook-al1-v1|notebook-al2-v1|notebook-al2-v2|note- book-al2-v3|notebook-al2023-v1)
+    /// The platform identifier of the notebook instance runtime environment. Constraints: • min: 0 • max: 20 • pattern: (notebook-al1-v1|notebook-al2-v1|notebook-al2-v2|notebook-al2-v3|notebook-al2023-v1)
     /// </summary>
     [CliOption("--platform-identifier")]
     public string? PlatformIdentifier { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role that SageMaker AI can assume to access the notebook instance. For more information, see SageMaker AI Roles . NOTE: To be able to pass this role to SageMaker AI, the caller of this API must have the iam:PassRole permission. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// The Amazon Resource Name (ARN) of the IAM role that SageMaker AI can assume to access the notebook instance. For more information, see SageMaker AI Roles . NOTE: To be able to pass this role to SageMaker AI, the caller of this API must have the iam:PassRole permission. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
     /// <summary>
-    /// The name of a lifecycle configuration to associate with the notebook instance. For information about lifestyle configurations, see Step 2.1: (Optional) Customize a Notebook Instance . Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9])*
+    /// The name of a lifecycle configuration to associate with the notebook instance. For information about lifestyle configurations, see Step 2.1: (Optional) Customize a Notebook Instance . Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9])*
     /// </summary>
     [CliOption("--lifecycle-config-name")]
     public string? LifecycleConfigName { get; set; }
 
     /// <summary>
-    /// Set to true to remove the notebook instance lifecycle configuration currently associated with the notebook instance. This operation is idempotent. If you specify a lifecycle configuration that is not as- sociated with the notebook instance when you call this method, it does not throw an error.
+    /// Set to true to remove the notebook instance lifecycle configuration currently associated with the notebook instance. This operation is idempotent. If you specify a lifecycle configuration that is not associated with the notebook instance when you call this method, it does not throw an error.
     /// </summary>
     [CliFlag("--disassociate-lifecycle-config", NegatedName = "--no-disassociate-lifecycle-config")]
     public bool? DisassociateLifecycleConfig { get; set; }
 
     /// <summary>
-    /// The size, in GB, of the ML storage volume to attach to the notebook instance. The default value is 5 GB. ML storage volumes are en- crypted, so SageMaker AI can't determine the amount of available free space on the volume. Because of this, you can increase the vol- ume size when you update a notebook instance, but you can't decrease the volume size. If you want to decrease the size of the ML storage volume in use, create a new notebook instance with the desired size. Constraints: o min: 5 o max: 16384
+    /// The size, in GB, of the ML storage volume to attach to the notebook instance. The default value is 5 GB. ML storage volumes are encrypted, so SageMaker AI can't determine the amount of available free space on the volume. Because of this, you can increase the volume size when you update a notebook instance, but you can't decrease the volume size. If you want to decrease the size of the ML storage volume in use, create a new notebook instance with the desired size. Constraints: • min: 5 • max: 16384
     /// </summary>
     [CliOption("--volume-size-in-gb")]
     public int? VolumeSizeInGb { get; set; }
 
     /// <summary>
-    /// The Git repository to associate with the notebook instance as its default code repository. This can be either the name of a Git repos- itory stored as a resource in your account, or the URL of a Git repository in Amazon Web Services CodeCommit or in any other Git repository. When you open a notebook instance, it opens in the di- rectory that contains this repository. For more information, see Associating Git Repositories with SageMaker AI Notebook Instances . Constraints: o min: 1 o max: 1024 o pattern: https://([^/]+)/?(.*)$|^[a-zA-Z0-9](-*[a-zA-Z0-9])*
+    /// The Git repository to associate with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in Amazon Web Services CodeCommit or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see Associating Git Repositories with SageMaker AI Notebook Instances . Constraints: • min: 1 • max: 1024 • pattern: https://([^/]+)/?(.*)$|^[a-zA-Z0-9](-*[a-zA-Z0-9])*
     /// </summary>
     [CliOption("--default-code-repository")]
     public string? DefaultCodeRepository { get; set; }
 
     /// <summary>
-    /// An array of up to three Git repositories to associate with the note- book instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in Amazon Web Services CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with SageMaker AI Notebook Instances . Constraints: o min: 0 o max: 3 (string) Constraints: o min: 1 o max: 1024 o pattern: https://([^/]+)/?(.*)$|^[a-zA-Z0-9](-*[a-zA-Z0-9])* Syntax: "string" "string" ...
+    /// An array of up to three Git repositories to associate with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in Amazon Web Services CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with SageMaker AI Notebook Instances . Constraints: • min: 0 • max: 3 (string) Constraints: • min: 1 • max: 1024 • pattern: https://([^/]+)/?(.*)$|^[a-zA-Z0-9](-*[a-zA-Z0-9])* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--additional-code-repositories", GroupValues = true)]
     public IEnumerable<string>? AdditionalCodeRepositories { get; set; }
 
     /// <summary>
-    /// This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify a list of the EI instance types to associate with this notebook instance. (string) Possible values: o ml.eia1.medium o ml.eia1.large o ml.eia1.xlarge o ml.eia2.medium o ml.eia2.large o ml.eia2.xlarge Syntax: "string" "string" ...
+    /// This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify a list of the EI instance types to associate with this notebook instance. (string) Possible values: • ml.eia1.medium • ml.eia1.large • ml.eia1.xlarge • ml.eia2.medium • ml.eia2.large • ml.eia2.xlarge Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--accelerator-types", GroupValues = true)]
     public IEnumerable<string>? AcceleratorTypes { get; set; }
@@ -129,25 +131,25 @@ public record AwsSagemakerUpdateNotebookInstanceOptions : AwsOptions, IValidatab
     public bool? DisassociateAcceleratorTypes { get; set; }
 
     /// <summary>
-    /// fault-code-repository (boolean) The name or URL of the default Git repository to remove from this notebook instance. This operation is idempotent. If you specify a Git repository that is not associated with the notebook instance when you call this method, it does not throw an error.
+    /// The name or URL of the default Git repository to remove from this notebook instance. This operation is idempotent. If you specify a Git repository that is not associated with the notebook instance when you call this method, it does not throw an error.
     /// </summary>
     [CliFlag("--disassociate-default-code-repository", NegatedName = "--no-disassociate-default-code-repository")]
     public bool? DisassociateDefaultCodeRepository { get; set; }
 
     /// <summary>
-    /// tional-code-repositories (boolean) A list of names or URLs of the default Git repositories to remove from this notebook instance. This operation is idempotent. If you specify a Git repository that is not associated with the notebook instance when you call this method, it does not throw an error.
+    /// A list of names or URLs of the default Git repositories to remove from this notebook instance. This operation is idempotent. If you specify a Git repository that is not associated with the notebook instance when you call this method, it does not throw an error.
     /// </summary>
     [CliFlag("--disassociate-additional-code-repositories", NegatedName = "--no-disassociate-additional-code-repositories")]
     public bool? DisassociateAdditionalCodeRepositories { get; set; }
 
     /// <summary>
-    /// Whether root access is enabled or disabled for users of the notebook instance. The default value is Enabled . NOTE: If you set this to Disabled , users don't have root access on the notebook instance, but lifecycle configuration scripts still run with root permissions. Possible values: o Enabled o Disabled
+    /// Whether root access is enabled or disabled for users of the notebook instance. The default value is Enabled . NOTE: If you set this to Disabled , users don't have root access on the notebook instance, but lifecycle configuration scripts still run with root permissions. Possible values: • Enabled • Disabled
     /// </summary>
     [CliOption("--root-access")]
     public AwsSagemakerUpdateNotebookInstanceRootAccess? RootAccess { get; set; }
 
     /// <summary>
-    /// Information on the IMDS configuration of the notebook instance MinimumInstanceMetadataServiceVersion -&gt; (string) [required] Indicates the minimum IMDS version that the notebook instance supports. When passed as part of CreateNotebookInstance , if no value is selected, then it defaults to IMDSv1. This means that both IMDSv1 and IMDSv2 are supported. If passed as part of Up- dateNotebookInstance , there is no default. Constraints: o min: 0 o max: 1 o pattern: 1|2 Shorthand Syntax: MinimumInstanceMetadataServiceVersion=string JSON Syntax: { "MinimumInstanceMetadataServiceVersion": "string" }
+    /// Information on the IMDS configuration of the notebook instance MinimumInstanceMetadataServiceVersion -&gt; (string) [required] Indicates the minimum IMDS version that the notebook instance supports. When passed as part of CreateNotebookInstance , if no value is selected, then it defaults to IMDSv1. This means that both IMDSv1 and IMDSv2 are supported. If passed as part of UpdateNotebookInstance , there is no default. Constraints: • min: 0 • max: 1 • pattern: 1|2 Shorthand Syntax: MinimumInstanceMetadataServiceVersion=string JSON Syntax: { "MinimumInstanceMetadataServiceVersion": "string" }
     /// </summary>
     [CliOption("--instance-metadata-service-configuration")]
     public string? InstanceMetadataServiceConfiguration { get; set; }

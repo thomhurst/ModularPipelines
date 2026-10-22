@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDevicefarmRenewOfferingOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Explicitly sets the quantity of devices to renew for an offering, starting from the effectiveDate of the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com . See also: AWS API Documentation
     /// </summary>
-    /// <param name="OfferingId">The ID of a request to renew an offering. Constraints: o min: 32</param>
+    /// <param name="OfferingId">The ID of a request to renew an offering. Constraints: • min: 32</param>
     /// <param name="Quantity">The quantity requested in an offering renewal.</param>
     public AwsDevicefarmRenewOfferingOptions(
         string OfferingId,
@@ -59,7 +61,7 @@ public record AwsDevicefarmRenewOfferingOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of a request to renew an offering. Constraints: o min: 32
+    /// The ID of a request to renew an offering. Constraints: • min: 32
     /// </summary>
     [CliOption("--offering-id")]
     public string? OfferingId { get; private init; }

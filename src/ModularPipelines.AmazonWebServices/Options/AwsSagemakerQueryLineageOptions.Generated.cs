@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Use this action to inspect your lineage and discover relationships be- tween entities. For more information, see Querying Lineage Entities in the Amazon SageMaker Developer Guide . See also: AWS API Documentation
+/// Use this action to inspect your lineage and discover relationships between entities. For more information, see Querying Lineage Entities in the Amazon SageMaker Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,43 +24,43 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSagemakerQueryLineageOptions : AwsOptions
 {
     /// <summary>
-    /// A list of resource Amazon Resource Name (ARN) that represent the starting point for your lineage query. Constraints: o min: 0 o max: 1 (string) Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(ex- periment|experiment-trial-component|artifact|action|con- text)/.* Syntax: "string" "string" ...
+    /// A list of resource Amazon Resource Name (ARN) that represent the starting point for your lineage query. Constraints: • min: 0 • max: 1 (string) Constraints: • min: 0 • max: 256 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(experiment|experiment-trial-component|artifact|action|context)/.* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--start-arns", GroupValues = true)]
     public IEnumerable<string>? StartArns { get; set; }
 
     /// <summary>
-    /// Associations between lineage entities have a direction. This parame- ter determines the direction from the StartArn(s) that the query traverses. Possible values: o Both o Ascendants o Descendants
+    /// Associations between lineage entities have a direction. This parameter determines the direction from the StartArn(s) that the query traverses. Possible values: • Both • Ascendants • Descendants
     /// </summary>
     [CliOption("--direction")]
     public AwsSagemakerQueryLineageDirection? Direction { get; set; }
 
     /// <summary>
-    /// Setting this value to True retrieves not only the entities of inter- est but also the Associations and lineage entities on the path. Set to False to only return lineage entities that match your query.
+    /// Setting this value to True retrieves not only the entities of interest but also the Associations and lineage entities on the path. Set to False to only return lineage entities that match your query.
     /// </summary>
     [CliFlag("--include-edges", NegatedName = "--no-include-edges")]
     public bool? IncludeEdges { get; set; }
 
     /// <summary>
-    /// A set of filtering parameters that allow you to specify which enti- ties should be returned. o Properties - Key-value pairs to match on the lineage entities' properties. o LineageTypes - A set of lineage entity types to match on. For ex- ample: TrialComponent , Artifact , or Context . o CreatedBefore - Filter entities created before this date. o ModifiedBefore - Filter entities modified before this date. o ModifiedAfter - Filter entities modified after this date. Types -&gt; (list) Filter the lineage entities connected to the StartArn by type. For example: DataSet , Model , Endpoint , or ModelDeployment . Constraints: o min: 0 o max: 5 (string) Constraints: o min: 0 o max: 40 LineageTypes -&gt; (list) Filter the lineage entities connected to the StartArn (s) by the type of the lineage entity. Constraints: o min: 0 o max: 4 (string) Possible values: o TrialComponent o Artifact o Context o Action CreatedBefore -&gt; (timestamp) Filter the lineage entities connected to the StartArn (s) by created date. CreatedAfter -&gt; (timestamp) Filter the lineage entities connected to the StartArn (s) after the create date. ModifiedBefore -&gt; (timestamp) Filter the lineage entities connected to the StartArn (s) before the last modified date. ModifiedAfter -&gt; (timestamp) Filter the lineage entities connected to the StartArn (s) after the last modified date. Properties -&gt; (map) Filter the lineage entities connected to the StartArn (s) by a set if property key value pairs. If multiple pairs are provided, an entity is included in the results if it matches any of the provided pairs. Constraints: o min: 0 o max: 5 key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: Types=string,string,LineageTypes=string,string,CreatedBefore=timestamp,CreatedAfter=timestamp,ModifiedBefore=timestamp,ModifiedAfter=timestamp,Properties={KeyName1=string,KeyName2=string} JSON Syntax: { "Types": ["string", ...], "LineageTypes": ["TrialComponent"|"Artifact"|"Context"|"Action", ...], "CreatedBefore": timestamp, "CreatedAfter": timestamp, "ModifiedBefore": timestamp, "ModifiedAfter": timestamp, "Properties": {"string": "string" ...} }
+    /// A set of filtering parameters that allow you to specify which entities should be returned. • Properties - Key-value pairs to match on the lineage entities' properties. • LineageTypes - A set of lineage entity types to match on. For example: TrialComponent , Artifact , or Context . • CreatedBefore - Filter entities created before this date. • ModifiedBefore - Filter entities modified before this date. • ModifiedAfter - Filter entities modified after this date. Types -&gt; (list) Filter the lineage entities connected to the StartArn by type. For example: DataSet , Model , Endpoint , or ModelDeployment . Constraints: • min: 0 • max: 5 (string) Constraints: • min: 0 • max: 40 LineageTypes -&gt; (list) Filter the lineage entities connected to the StartArn (s) by the type of the lineage entity. Constraints: • min: 0 • max: 4 (string) Possible values: • TrialComponent • Artifact • Context • Action CreatedBefore -&gt; (timestamp) Filter the lineage entities connected to the StartArn (s) by created date. CreatedAfter -&gt; (timestamp) Filter the lineage entities connected to the StartArn (s) after the create date. ModifiedBefore -&gt; (timestamp) Filter the lineage entities connected to the StartArn (s) before the last modified date. ModifiedAfter -&gt; (timestamp) Filter the lineage entities connected to the StartArn (s) after the last modified date. Properties -&gt; (map) Filter the lineage entities connected to the StartArn (s) by a set if property key value pairs. If multiple pairs are provided, an entity is included in the results if it matches any of the provided pairs. Constraints: • min: 0 • max: 5 key -&gt; (string) Constraints: • min: 0 • max: 256 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: Types=string,string,LineageTypes=string,string,CreatedBefore=timestamp,CreatedAfter=timestamp,ModifiedBefore=timestamp,ModifiedAfter=timestamp,Properties={KeyName1=string,KeyName2=string} JSON Syntax: { "Types": ["string", ...], "LineageTypes": ["TrialComponent"|"Artifact"|"Context"|"Action", ...], "CreatedBefore": timestamp, "CreatedAfter": timestamp, "ModifiedBefore": timestamp, "ModifiedAfter": timestamp, "Properties": {"string": "string" ...} }
     /// </summary>
     [CliOption("--filters")]
     public string? Filters { get; set; }
 
     /// <summary>
-    /// The maximum depth in lineage relationships from the StartArns that are traversed. Depth is a measure of the number of Associations from the StartArn entity to the matched results. Constraints: o max: 10
+    /// The maximum depth in lineage relationships from the StartArns that are traversed. Depth is a measure of the number of Associations from the StartArn entity to the matched results. Constraints: • max: 10
     /// </summary>
     [CliOption("--max-depth")]
     public int? MaxDepth { get; set; }
 
     /// <summary>
-    /// Limits the number of vertices in the results. Use the NextToken in a response to to retrieve the next page of results. Constraints: o max: 50
+    /// Limits the number of vertices in the results. Use the NextToken in a response to to retrieve the next page of results. Constraints: • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Limits the number of vertices in the request. Use the NextToken in a response to to retrieve the next page of results. Constraints: o min: 0 o max: 8192
+    /// Limits the number of vertices in the request. Use the NextToken in a response to to retrieve the next page of results. Constraints: • min: 0 • max: 8192
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

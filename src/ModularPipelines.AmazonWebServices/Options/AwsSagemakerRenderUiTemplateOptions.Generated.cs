@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Renders the UI template so that you can preview the worker's experi- ence. See also: AWS API Documentation
+/// Renders the UI template so that you can preview the worker's experience. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsSagemakerRenderUiTemplateOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Renders the UI template so that you can preview the worker's experi- ence. See also: AWS API Documentation
+    /// Renders the UI template so that you can preview the worker's experience. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Task">A RenderableTask object containing a representative task to render. Input -&gt; (string) [required] A JSON object that contains values for the variables defined in the template. It is made available to the template under the substitution variable task.input . For example, if you define a variable task.input.text in your template, you can supply the variable in the JSON object as "text": "sample text" . Constraints: o min: 2 o max: 128000 o pattern: [\S\s]+ Shorthand Syntax: Input=string JSON Syntax: { "Input": "string" }</param>
-    /// <param name="RoleArn">The Amazon Resource Name (ARN) that has access to the S3 objects that are used by the template. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
+    /// <param name="Task">A RenderableTask object containing a representative task to render. Input -&gt; (string) [required] A JSON object that contains values for the variables defined in the template. It is made available to the template under the substitution variable task.input . For example, if you define a variable task.input.text in your template, you can supply the variable in the JSON object as "text": "sample text" . Constraints: • min: 2 • max: 128000 • pattern: [\S\s]+ Shorthand Syntax: Input=string JSON Syntax: { "Input": "string" }</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) that has access to the S3 objects that are used by the template. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
     public AwsSagemakerRenderUiTemplateOptions(
         string Task,
         string RoleArn
@@ -60,25 +62,25 @@ public record AwsSagemakerRenderUiTemplateOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A RenderableTask object containing a representative task to render. Input -&gt; (string) [required] A JSON object that contains values for the variables defined in the template. It is made available to the template under the substitution variable task.input . For example, if you define a variable task.input.text in your template, you can supply the variable in the JSON object as "text": "sample text" . Constraints: o min: 2 o max: 128000 o pattern: [\S\s]+ Shorthand Syntax: Input=string JSON Syntax: { "Input": "string" }
+    /// A RenderableTask object containing a representative task to render. Input -&gt; (string) [required] A JSON object that contains values for the variables defined in the template. It is made available to the template under the substitution variable task.input . For example, if you define a variable task.input.text in your template, you can supply the variable in the JSON object as "text": "sample text" . Constraints: • min: 2 • max: 128000 • pattern: [\S\s]+ Shorthand Syntax: Input=string JSON Syntax: { "Input": "string" }
     /// </summary>
     [CliOption("--task")]
     public string? Task { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that has access to the S3 objects that are used by the template. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// The Amazon Resource Name (ARN) that has access to the S3 objects that are used by the template. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// A Template object containing the worker UI template to render. Content -&gt; (string) [required] The content of the Liquid template for the worker user inter- face. Constraints: o min: 1 o max: 128000 o pattern: [\S\s]+ Shorthand Syntax: Content=string JSON Syntax: { "Content": "string" }
+    /// A Template object containing the worker UI template to render. Content -&gt; (string) [required] The content of the Liquid template for the worker user interface. Constraints: • min: 1 • max: 128000 • pattern: [\S\s]+ Shorthand Syntax: Content=string JSON Syntax: { "Content": "string" }
     /// </summary>
     [CliOption("--ui-template")]
     public string? UiTemplate { get; set; }
 
     /// <summary>
-    /// The HumanTaskUiArn of the worker UI that you want to render. Do not provide a HumanTaskUiArn if you use the UiTemplate parameter. See a list of available Human Ui Amazon Resource Names (ARNs) in UiConfig . Constraints: o min: 0 o max: 1024 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]+:[0-9]{12}:hu- man-task-ui/.*
+    /// The HumanTaskUiArn of the worker UI that you want to render. Do not provide a HumanTaskUiArn if you use the UiTemplate parameter. See a list of available Human Ui Amazon Resource Names (ARNs) in UiConfig . Constraints: • min: 0 • max: 1024 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]+:[0-9]{12}:human-task-ui/.*
     /// </summary>
     [CliOption("--human-task-ui-arn")]
     public string? HumanTaskUiArn { get; set; }

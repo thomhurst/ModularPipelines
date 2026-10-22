@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Tests whether the specified event pattern matches the provided event. Most services in Amazon Web Services treat : or / as the same character in Amazon Resource Names (ARNs). However, EventBridge uses an exact match in event patterns and rules. Be sure to use the correct ARN char- acters when creating event patterns so that they match the ARN syntax in the event you want to match. See also: AWS API Documentation
+/// Tests whether the specified event pattern matches the provided event. Most services in Amazon Web Services treat : or / as the same character in Amazon Resource Names (ARNs). However, EventBridge uses an exact match in event patterns and rules. Be sure to use the correct ARN characters when creating event patterns so that they match the ARN syntax in the event you want to match. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsEventsTestEventPatternOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Tests whether the specified event pattern matches the provided event. Most services in Amazon Web Services treat : or / as the same character in Amazon Resource Names (ARNs). However, EventBridge uses an exact match in event patterns and rules. Be sure to use the correct ARN char- acters when creating event patterns so that they match the ARN syntax in the event you want to match. See also: AWS API Documentation
+    /// Tests whether the specified event pattern matches the provided event. Most services in Amazon Web Services treat : or / as the same character in Amazon Resource Names (ARNs). However, EventBridge uses an exact match in event patterns and rules. Be sure to use the correct ARN characters when creating event patterns so that they match the ARN syntax in the event you want to match. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EventPattern">The event pattern. For more information, see Events and Event Pat- terns in the * Amazon EventBridge User Guide * . Constraints: o max: 4096</param>
-    /// <param name="Event">The event, in JSON format, to test against the event pattern. The JSON must follow the format specified in Amazon Web Services Events , and the following fields are mandatory: o id o account o source o time o region o resources o detail-type</param>
+    /// <param name="EventPattern">The event pattern. For more information, see Events and Event Patterns in the * Amazon EventBridge User Guide * . Constraints: • max: 4096</param>
+    /// <param name="Event">The event, in JSON format, to test against the event pattern. The JSON must follow the format specified in Amazon Web Services Events , and the following fields are mandatory: • id • account • source • time • region • resources • detail-type</param>
     public AwsEventsTestEventPatternOptions(
         string EventPattern,
         string Event
@@ -60,13 +62,13 @@ public record AwsEventsTestEventPatternOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The event pattern. For more information, see Events and Event Pat- terns in the * Amazon EventBridge User Guide * . Constraints: o max: 4096
+    /// The event pattern. For more information, see Events and Event Patterns in the * Amazon EventBridge User Guide * . Constraints: • max: 4096
     /// </summary>
     [CliOption("--event-pattern")]
     public string? EventPattern { get; private init; }
 
     /// <summary>
-    /// The event, in JSON format, to test against the event pattern. The JSON must follow the format specified in Amazon Web Services Events , and the following fields are mandatory: o id o account o source o time o region o resources o detail-type
+    /// The event, in JSON format, to test against the event pattern. The JSON must follow the format specified in Amazon Web Services Events , and the following fields are mandatory: • id • account • source • time • region • resources • detail-type
     /// </summary>
     [CliOption("--event")]
     public string? Event { get; private init; }

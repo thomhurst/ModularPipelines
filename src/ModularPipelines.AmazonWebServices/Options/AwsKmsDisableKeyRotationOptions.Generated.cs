@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disables automatic rotation of the key material of the specified sym- metric encryption KMS key. Automatic key rotation is supported only on symmetric encryption KMS keys. You cannot enable automatic rotation of asymmetric KMS keys , HMAC KMS keys , KMS keys with imported key material , or KMS keys in a custom key store . To enable or disable automatic rotation of a set of related multi-Region keys , set the property on the primary key. You can enable ( EnableKeyRotation ) and disable automatic ...
+/// Disables automatic rotation of the key material of the specified symmetric encryption KMS key. Automatic key rotation is supported only on symmetric encryption KMS keys. You cannot enable automatic rotation of asymmetric KMS keys , HMAC KMS keys , KMS keys with imported key material , or KMS keys in a custom key store . To enable or disable automatic rotation of a set of related multi-Region keys , set the property on the primary key. You can enable ( EnableKeyRotation ) and disable automatic ro...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsKmsDisableKeyRotationOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disables automatic rotation of the key material of the specified sym- metric encryption KMS key. Automatic key rotation is supported only on symmetric encryption KMS keys. You cannot enable automatic rotation of asymmetric KMS keys , HMAC KMS keys , KMS keys with imported key material , or KMS keys in a custom key store . To enable or disable automatic rotation of a set of related multi-Region keys , set the property on the primary key. You can enable ( EnableKeyRotation ) and disable automatic ...
+    /// Disables automatic rotation of the key material of the specified symmetric encryption KMS key. Automatic key rotation is supported only on symmetric encryption KMS keys. You cannot enable automatic rotation of asymmetric KMS keys , HMAC KMS keys , KMS keys with imported key material , or KMS keys in a custom key store . To enable or disable automatic rotation of a set of related multi-Region keys , set the property on the primary key. You can enable ( EnableKeyRotation ) and disable automatic ro...
     /// </summary>
-    /// <param name="KeyId">Identifies a symmetric encryption KMS key. You cannot enable or dis- able automatic rotation of asymmetric KMS keys , HMAC KMS keys , KMS keys with imported key material , or KMS keys in a custom key store . Specify the key ID or key ARN of the KMS key. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048</param>
+    /// <param name="KeyId">Identifies a symmetric encryption KMS key. You cannot enable or disable automatic rotation of asymmetric KMS keys , HMAC KMS keys , KMS keys with imported key material , or KMS keys in a custom key store . Specify the key ID or key ARN of the KMS key. For example: • Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab • Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey . Constraints: • min: 1 • max: 2048</param>
     public AwsKmsDisableKeyRotationOptions(
         string KeyId
     )
@@ -56,7 +58,7 @@ public record AwsKmsDisableKeyRotationOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifies a symmetric encryption KMS key. You cannot enable or dis- able automatic rotation of asymmetric KMS keys , HMAC KMS keys , KMS keys with imported key material , or KMS keys in a custom key store . Specify the key ID or key ARN of the KMS key. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048
+    /// Identifies a symmetric encryption KMS key. You cannot enable or disable automatic rotation of asymmetric KMS keys , HMAC KMS keys , KMS keys with imported key material , or KMS keys in a custom key store . Specify the key ID or key ARN of the KMS key. For example: • Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab • Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey . Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--key-id")]
     public string? KeyId { get; private init; }

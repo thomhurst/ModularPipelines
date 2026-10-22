@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBedrockDataAutomationGetBlueprintOptimizationStatusOptions : Aw
     /// <summary>
     /// API used to get blueprint optimization status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InvocationArn">Invocation arn. Constraints: o min: 1 o max: 128 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:blue- print-optimization-invocation/[a-zA-Z0-9-_]+</param>
+    /// <param name="InvocationArn">Invocation arn. Constraints: • min: 1 • max: 128 • pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:blueprint-optimization-invocation/[a-zA-Z0-9-_]+</param>
     public AwsBedrockDataAutomationGetBlueprintOptimizationStatusOptions(
         string InvocationArn
     )
@@ -56,7 +58,7 @@ public record AwsBedrockDataAutomationGetBlueprintOptimizationStatusOptions : Aw
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Invocation arn. Constraints: o min: 1 o max: 128 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:blue- print-optimization-invocation/[a-zA-Z0-9-_]+
+    /// Invocation arn. Constraints: • min: 1 • max: 128 • pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:blueprint-optimization-invocation/[a-zA-Z0-9-_]+
     /// </summary>
     [CliOption("--invocation-arn")]
     public string? InvocationArn { get; private init; }

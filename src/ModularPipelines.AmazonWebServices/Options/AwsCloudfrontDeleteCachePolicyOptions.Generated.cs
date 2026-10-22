@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a cache policy. You cannot delete a cache policy if it's attached to a cache behavior. First update your distributions to remove the cache policy from all cache behaviors, then delete the cache policy. To delete a cache policy, you must provide the policy's identifier and version. To get these values, you can use ListCachePolicies or Get- CachePolicy . See also: AWS API Documentation
+/// Deletes a cache policy. You cannot delete a cache policy if it's attached to a cache behavior. First update your distributions to remove the cache policy from all cache behaviors, then delete the cache policy. To delete a cache policy, you must provide the policy's identifier and version. To get these values, you can use ListCachePolicies or GetCachePolicy . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsCloudfrontDeleteCachePolicyOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a cache policy. You cannot delete a cache policy if it's attached to a cache behavior. First update your distributions to remove the cache policy from all cache behaviors, then delete the cache policy. To delete a cache policy, you must provide the policy's identifier and version. To get these values, you can use ListCachePolicies or Get- CachePolicy . See also: AWS API Documentation
+    /// Deletes a cache policy. You cannot delete a cache policy if it's attached to a cache behavior. First update your distributions to remove the cache policy from all cache behaviors, then delete the cache policy. To delete a cache policy, you must provide the policy's identifier and version. To get these values, you can use ListCachePolicies or GetCachePolicy . See also: AWS API Documentation
     /// </summary>
     /// <param name="Id">The unique identifier for the cache policy that you are deleting. To get the identifier, you can use ListCachePolicies .</param>
     public AwsCloudfrontDeleteCachePolicyOptions(
@@ -62,7 +64,7 @@ public record AwsCloudfrontDeleteCachePolicyOptions : AwsOptions, IValidatableOb
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The version of the cache policy that you are deleting. The version is the cache policy's ETag value, which you can get using List- CachePolicies , GetCachePolicy , or GetCachePolicyConfig .
+    /// The version of the cache policy that you are deleting. The version is the cache policy's ETag value, which you can get using ListCachePolicies , GetCachePolicy , or GetCachePolicyConfig .
     /// </summary>
     [CliOption("--if-match")]
     public string? IfMatch { get; set; }

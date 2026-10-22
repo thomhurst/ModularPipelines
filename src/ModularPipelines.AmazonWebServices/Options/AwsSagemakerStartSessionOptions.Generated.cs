@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Initiates a remote connection session between a local integrated devel- opment environments (IDEs) and a remote SageMaker space. See also: AWS API Documentation
+/// Initiates a remote connection session between a local integrated development environments (IDEs) and a remote SageMaker space. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSagemakerStartSessionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Initiates a remote connection session between a local integrated devel- opment environments (IDEs) and a remote SageMaker space. See also: AWS API Documentation
+    /// Initiates a remote connection session between a local integrated development environments (IDEs) and a remote SageMaker space. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceIdentifier">The Amazon Resource Name (ARN) of the resource to which the remote connection will be established. For example, this identifies the specific ARN space application you want to connect to from your lo- cal IDE. Constraints: o min: 1 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:.*\/.*</param>
+    /// <param name="ResourceIdentifier">The Amazon Resource Name (ARN) of the resource to which the remote connection will be established. For example, this identifies the specific ARN space application you want to connect to from your local IDE. Constraints: • min: 1 • max: 256 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:.*\/.*</param>
     public AwsSagemakerStartSessionOptions(
         string ResourceIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsSagemakerStartSessionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource to which the remote connection will be established. For example, this identifies the specific ARN space application you want to connect to from your lo- cal IDE. Constraints: o min: 1 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:.*\/.*
+    /// The Amazon Resource Name (ARN) of the resource to which the remote connection will be established. For example, this identifies the specific ARN space application you want to connect to from your local IDE. Constraints: • min: 1 • max: 256 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:.*\/.*
     /// </summary>
     [CliOption("--resource-identifier")]
     public string? ResourceIdentifier { get; private init; }

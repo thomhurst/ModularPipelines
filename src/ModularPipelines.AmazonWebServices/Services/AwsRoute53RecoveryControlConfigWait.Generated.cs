@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws wait commands.
+/// aws route53-recovery-control-config wait commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsRoute53RecoveryControlConfigWait
@@ -62,7 +62,7 @@ public class AwsRoute53RecoveryControlConfigWait
     }
 
     /// <summary>
-    /// Wait until a control panel is created It will poll every 5 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 26 failed checks. See also: AWS API Documentation
+    /// Wait until a control panel is created It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 26 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsRoute53RecoveryControlConfigWait
     }
 
     /// <summary>
-    /// Wait until a control panel is deleted It will poll every 5 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 26 failed checks. See also: AWS API Documentation
+    /// Wait until a control panel is deleted It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 26 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

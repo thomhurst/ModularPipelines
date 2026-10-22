@@ -47,7 +47,7 @@ public class AwsResiliencehub : IAwsResiliencehub
     }
 
     /// <summary>
-    /// Adds the source of resource-maps to the draft version of an applica- tion. During assessment, Resilience Hub will use these resource-maps to resolve the latest physical ID for each resource in the application template. For more information about different types of resources sup- ported by Resilience Hub and how to add them in your application, see Step 2: How is your application managed? in the Resilience Hub User Guide. See also: AWS API Documentation
+    /// Adds the source of resource-maps to the draft version of an application. During assessment, Resilience Hub will use these resource-maps to resolve the latest physical ID for each resource in the application template. For more information about different types of resources supported by Resilience Hub and how to add them in your application, see Step 2: How is your application managed? in the Resilience Hub User Guide. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsResiliencehub : IAwsResiliencehub
     }
 
     /// <summary>
-    /// Enables you to include or exclude one or more operational recommenda- tions. See also: AWS API Documentation
+    /// Enables you to include or exclude one or more operational recommendations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsResiliencehub : IAwsResiliencehub
     }
 
     /// <summary>
-    /// Creates an Resilience Hub application. An Resilience Hub application is a collection of Amazon Web Services resources structured to prevent and recover Amazon Web Services application disruptions. To describe a Re- silience Hub application, you provide an application name, resources from one or more CloudFormation stacks, Resource Groups, Terraform state files, AppRegistry applications, and an appropriate resiliency policy. In addition, you can also add resources that are located on Amazon Elast...
+    /// Creates an Resilience Hub application. An Resilience Hub application is a collection of Amazon Web Services resources structured to prevent and recover Amazon Web Services application disruptions. To describe a Resilience Hub application, you provide an application name, resources from one or more CloudFormation stacks, Resource Groups, Terraform state files, AppRegistry applications, and an appropriate resiliency policy. In addition, you can also add resources that are located on Amazon Elastic...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsResiliencehub : IAwsResiliencehub
     }
 
     /// <summary>
-    /// Adds a resource to the Resilience Hub application and assigns it to the specified Application Components. If you specify a new Application Com- ponent, Resilience Hub will automatically create the Application Compo- nent. NOTE: o This action has no effect outside Resilience Hub. o This API updates the Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API. o To update appli...
+    /// Adds a resource to the Resilience Hub application and assigns it to the specified Application Components. If you specify a new Application Component, Resilience Hub will automatically create the Application Component. NOTE: • This action has no effect outside Resilience Hub. • This API updates the Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API. • To update applicati...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsResiliencehub : IAwsResiliencehub
     }
 
     /// <summary>
-    /// Creates a new recommendation template for the Resilience Hub applica- tion. See also: AWS API Documentation
+    /// Creates a new recommendation template for the Resilience Hub application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsResiliencehub : IAwsResiliencehub
     }
 
     /// <summary>
-    /// Deletes the input source and all of its imported resources from the Re- silience Hub application. See also: AWS API Documentation
+    /// Deletes the input source and all of its imported resources from the Resilience Hub application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsResiliencehub : IAwsResiliencehub
     }
 
     /// <summary>
-    /// Deletes an Application Component from the Resilience Hub application. NOTE: o This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API. o You will not be able to delete an Application Component if it has resources associated with it. See also: AWS API Documentation
+    /// Deletes an Application Component from the Resilience Hub application. NOTE: • This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API. • You will not be able to delete an Application Component if it has resources associated with it. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsResiliencehub : IAwsResiliencehub
     }
 
     /// <summary>
-    /// Deletes a resource from the Resilience Hub application. NOTE: o You can only delete a manually added resource. To exclude non-man- ually added resources, use the UpdateAppVersionResource API. o This action has no effect outside Resilience Hub. o This API updates the Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API. See also: AWS API Documentation
+    /// Deletes a resource from the Resilience Hub application. NOTE: • You can only delete a manually added resource. To exclude non-manually added resources, use the UpdateAppVersionResource API. • This action has no effect outside Resilience Hub. • This API updates the Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsResiliencehub : IAwsResiliencehub
     }
 
     /// <summary>
-    /// Describes a resource of the Resilience Hub application. NOTE: This API accepts only one of the following parameters to describe the resource: o resourceName o logicalResourceId o physicalResourceId (Along with physicalResourceId , you can also provide awsAccountId , and awsRegion ) See also: AWS API Documentation
+    /// Describes a resource of the Resilience Hub application. NOTE: This API accepts only one of the following parameters to describe the resource: • resourceName • logicalResourceId • physicalResourceId (Along with physicalResourceId , you can also provide awsAccountId , and awsRegion ) See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsResiliencehub : IAwsResiliencehub
     }
 
     /// <summary>
-    /// Returns the resolution status for the specified resolution identifier for an application version. If resolutionId is not specified, the cur- rent resolution status is returned. See also: AWS API Documentation
+    /// Returns the resolution status for the specified resolution identifier for an application version. If resolutionId is not specified, the current resolution status is returned. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsResiliencehub : IAwsResiliencehub
     }
 
     /// <summary>
-    /// Describes the status of importing resources to an application version. NOTE: If you get a 404 error with ResourceImportStatusNotFoundAppMeta- dataException , you must call importResourcesToDraftAppVersion after creating the application and before calling describeDraftAppVersion- ResourcesImportStatus to obtain the status. See also: AWS API Documentation
+    /// Describes the status of importing resources to an application version. NOTE: If you get a 404 error with ResourceImportStatusNotFoundAppMetadataException , you must call importResourcesToDraftAppVersion after creating the application and before calling describeDraftAppVersionResourcesImportStatus to obtain the status. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsResiliencehub : IAwsResiliencehub
     }
 
     /// <summary>
-    /// Describes a specified resiliency policy for an Resilience Hub applica- tion. The returned policy object includes creation time, data location constraints, the Amazon Resource Name (ARN) for the policy, tags, tier, and more. See also: AWS API Documentation
+    /// Describes a specified resiliency policy for an Resilience Hub application. The returned policy object includes creation time, data location constraints, the Amazon Resource Name (ARN) for the policy, tags, tier, and more. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsResiliencehub : IAwsResiliencehub
     }
 
     /// <summary>
-    /// Imports resources to Resilience Hub application draft version from dif- ferent input sources. For more information about the input sources sup- ported by Resilience Hub, see Discover the structure and describe your Resilience Hub application . See also: AWS API Documentation
+    /// Imports resources to Resilience Hub application draft version from different input sources. For more information about the input sources supported by Resilience Hub, see Discover the structure and describe your Resilience Hub application . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsResiliencehub : IAwsResiliencehub
     }
 
     /// <summary>
-    /// List of compliance drifts that were detected while running an assess- ment. See also: AWS API Documentation
+    /// List of compliance drifts that were detected while running an assessment. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsResiliencehub : IAwsResiliencehub
     }
 
     /// <summary>
-    /// List of resource drifts that were detected while running an assessment. See also: AWS API Documentation list-app-assessment-resource-drifts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: resourceD...
+    /// List of resource drifts that were detected while running an assessment. See also: AWS API Documentation list-app-assessment-resource-drifts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: resourceDrift...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,21 +542,6 @@ public class AwsResiliencehub : IAwsResiliencehub
     }
 
     /// <summary>
-    /// Lists your Resilience Hub applications. NOTE: You can filter applications using only one filter at a time or with- out using any filter. If you try to filter applications using multi- ple filters, you will get the following error: An error occurred (ValidationException) when calling the ListApps operation: Only one filter is supported for this opera- tion. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListAppsAsync(
-        AwsResiliencehubListAppsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResiliencehubListAppsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists all the Application Components in the Resilience Hub application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -617,7 +602,22 @@ public class AwsResiliencehub : IAwsResiliencehub
     }
 
     /// <summary>
-    /// Lists the metrics that can be exported. See also: AWS API Documentation list-metrics is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: rows
+    /// Lists your Resilience Hub applications. NOTE: You can filter applications using only one filter at a time or without using any filter. If you try to filter applications using multiple filters, you will get the following error: An error occurred (ValidationException) when calling the ListApps operation: Only one filter is supported for this operation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAppsAsync(
+        AwsResiliencehubListAppsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResiliencehubListAppsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the metrics that can be exported. See also: AWS API Documentation list-metrics is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: rows
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsResiliencehub : IAwsResiliencehub
     }
 
     /// <summary>
-    /// Lists the resource grouping recommendations suggested by Resilience Hub for your application. See also: AWS API Documentation list-resource-grouping-recommendations is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following q...
+    /// Lists the resource grouping recommendations suggested by Resilience Hub for your application. See also: AWS API Documentation list-resource-grouping-recommendations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query e...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -692,7 +692,7 @@ public class AwsResiliencehub : IAwsResiliencehub
     }
 
     /// <summary>
-    /// Lists the suggested resiliency policies for the Resilience Hub applica- tions. See also: AWS API Documentation
+    /// Lists the suggested resiliency policies for the Resilience Hub applications. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -917,7 +917,7 @@ public class AwsResiliencehub : IAwsResiliencehub
     }
 
     /// <summary>
-    /// Updates an existing Application Component in the Resilience Hub appli- cation. NOTE: This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API. See also: AWS API Documentation
+    /// Updates an existing Application Component in the Resilience Hub application. NOTE: This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -947,7 +947,7 @@ public class AwsResiliencehub : IAwsResiliencehub
     }
 
     /// <summary>
-    /// Updates the resource details in the Resilience Hub application. NOTE: o This action has no effect outside Resilience Hub. o This API updates the Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API. o To update application version with new physicalResourceID , you must call ResolveAppVersionResources API. See also: AWS API Documentation
+    /// Updates the resource details in the Resilience Hub application. NOTE: • This action has no effect outside Resilience Hub. • This API updates the Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API. • To update application version with new physicalResourceID , you must call ResolveAppVersionResources API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

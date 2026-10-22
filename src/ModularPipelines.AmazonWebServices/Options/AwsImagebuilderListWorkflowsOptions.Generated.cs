@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists workflow versions based on filtering parameters. To list the build versions of a specific workflow version, call ListWorkflowBuild- Versions . See also: AWS API Documentation list-workflows is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from t...
+/// Lists workflow versions based on filtering parameters. To list the build versions of a specific workflow version, call ListWorkflowBuildVersions . See also: AWS API Documentation list-workflows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the res...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,28 +24,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsImagebuilderListWorkflowsOptions : AwsOptions
 {
     /// <summary>
-    /// Filters results based on the workflow owner. By default, this re- quest returns the workflows that your account owns (Self ). Specify Amazon to list the workflows that Image Builder manages. Image Builder rejects the Shared and ThirdParty owner values for work- flows, and AWSMarketplace returns no results. Possible values: o Self o Shared o Amazon o ThirdParty o AWSMarketplace
+    /// Filters results based on the workflow owner. By default, this request returns the workflows that your account owns (Self ). Specify Amazon to list the workflows that Image Builder manages. Image Builder rejects the Shared and ThirdParty owner values for workflows, and AWSMarketplace returns no results. Possible values: • Self • Shared • Amazon • ThirdParty • AWSMarketplace
     /// </summary>
     [CliOption("--owner")]
     public AwsImagebuilderListWorkflowsOwner? Owner { get; set; }
 
     /// <summary>
-    /// Filters to narrow the list of workflows. You can filter on name , version , description , and type . Constraints: o min: 1 o max: 10 (structure) A filter name and value pair that is used to return a more spe- cific list of results from a list operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. name -&gt; (string) The name of the filter. Filter names are case-sensitive. Constraints: o pattern: ^[a-zA-Z]{1,1024}$ values -&gt; (list) The filter values. Filter values are case-sensitive. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: ^[0-9a-zA-Z./_ :,{}"-]{1,1024}$ Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "string", "values": ["string", ...] } ... ]
+    /// Filters to narrow the list of workflows. You can filter on name , version , description , and type . Constraints: • min: 1 • max: 10 (structure) A filter name and value pair that is used to return a more specific list of results from a list operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. name -&gt; (string) The name of the filter. Filter names are case-sensitive. Constraints: • pattern: ^[a-zA-Z]{1,1024}$ values -&gt; (list) The filter values. Filter values are case-sensitive. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: ^[0-9a-zA-Z./_ :,{}"-]{1,1024}$ Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "string", "values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// Specifies whether to return one entry per workflow name, with all versions of each workflow aggregated. Defaults to false , which re- turns one entry per workflow version. You can't combine this option with the version filter.
+    /// Specifies whether to return one entry per workflow name, with all versions of each workflow aggregated. Defaults to false , which returns one entry per workflow version. You can't combine this option with the version filter.
     /// </summary>
     [CliFlag("--by-name", NegatedName = "--no-by-name")]
     public bool? ByName { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -55,15 +52,18 @@ public record AwsImagebuilderListWorkflowsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 25
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 25
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

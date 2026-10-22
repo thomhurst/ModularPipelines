@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified key pair by removing the public key from Amazon Lightsail. You can delete key pairs that were created using the ImportKeyPair and CreateKeyPair actions, as well as the Lightsail default key pair. A new default key pair will not be created unless you launch an instance without specifying a custom key pair, or you call the DownloadDefaultKeyPair API. The delete key pair operation supports tag-based access control via re- source tags applied to the resource identified by key p...
+/// Deletes the specified key pair by removing the public key from Amazon Lightsail. You can delete key pairs that were created using the ImportKeyPair and CreateKeyPair actions, as well as the Lightsail default key pair. A new default key pair will not be created unless you launch an instance without specifying a custom key pair, or you call the DownloadDefaultKeyPair API. The delete key pair operation supports tag-based access control via resource tags applied to the resource identified by key pai...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLightsailDeleteKeyPairOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified key pair by removing the public key from Amazon Lightsail. You can delete key pairs that were created using the ImportKeyPair and CreateKeyPair actions, as well as the Lightsail default key pair. A new default key pair will not be created unless you launch an instance without specifying a custom key pair, or you call the DownloadDefaultKeyPair API. The delete key pair operation supports tag-based access control via re- source tags applied to the resource identified by key p...
+    /// Deletes the specified key pair by removing the public key from Amazon Lightsail. You can delete key pairs that were created using the ImportKeyPair and CreateKeyPair actions, as well as the Lightsail default key pair. A new default key pair will not be created unless you launch an instance without specifying a custom key pair, or you call the DownloadDefaultKeyPair API. The delete key pair operation supports tag-based access control via resource tags applied to the resource identified by key pai...
     /// </summary>
-    /// <param name="KeyPairName">The name of the key pair to delete. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="KeyPairName">The name of the key pair to delete. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailDeleteKeyPairOptions(
         string KeyPairName
     )
@@ -56,13 +58,13 @@ public record AwsLightsailDeleteKeyPairOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the key pair to delete. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the key pair to delete. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--key-pair-name")]
     public string? KeyPairName { get; private init; }
 
     /// <summary>
-    /// The RSA fingerprint of the Lightsail default key pair to delete. NOTE: The expectedFingerprint parameter is required only when specify- ing to delete a Lightsail default key pair.
+    /// The RSA fingerprint of the Lightsail default key pair to delete. NOTE: The expectedFingerprint parameter is required only when specifying to delete a Lightsail default key pair.
     /// </summary>
     [CliOption("--expected-fingerprint")]
     public string? ExpectedFingerprint { get; set; }

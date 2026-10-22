@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates a customer gateway with a device and optionally, with a link. If you specify a link, it must be associated with the specified device. You can only associate customer gateways that are connected to a VPN attachment on a transit gateway or core network registered in your global network. When you register a transit gateway or core network, customer gateways that are connected to the transit gateway are auto- matically included in the global network. To list customer gateways that are con...
+/// Associates a customer gateway with a device and optionally, with a link. If you specify a link, it must be associated with the specified device. You can only associate customer gateways that are connected to a VPN attachment on a transit gateway or core network registered in your global network. When you register a transit gateway or core network, customer gateways that are connected to the transit gateway are automatically included in the global network. To list customer gateways that are conne...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsNetworkmanagerAssociateCustomerGatewayOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates a customer gateway with a device and optionally, with a link. If you specify a link, it must be associated with the specified device. You can only associate customer gateways that are connected to a VPN attachment on a transit gateway or core network registered in your global network. When you register a transit gateway or core network, customer gateways that are connected to the transit gateway are auto- matically included in the global network. To list customer gateways that are con...
+    /// Associates a customer gateway with a device and optionally, with a link. If you specify a link, it must be associated with the specified device. You can only associate customer gateways that are connected to a VPN attachment on a transit gateway or core network registered in your global network. When you register a transit gateway or core network, customer gateways that are connected to the transit gateway are automatically included in the global network. To list customer gateways that are conne...
     /// </summary>
-    /// <param name="CustomerGatewayArn">The Amazon Resource Name (ARN) of the customer gateway. Constraints: o min: 0 o max: 500 o pattern: [\s\S]*</param>
-    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
-    /// <param name="DeviceId">The ID of the device. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
+    /// <param name="CustomerGatewayArn">The Amazon Resource Name (ARN) of the customer gateway. Constraints: • min: 0 • max: 500 • pattern: [\s\S]*</param>
+    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*</param>
+    /// <param name="DeviceId">The ID of the device. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*</param>
     public AwsNetworkmanagerAssociateCustomerGatewayOptions(
         string CustomerGatewayArn,
         string GlobalNetworkId,
@@ -64,25 +66,25 @@ public record AwsNetworkmanagerAssociateCustomerGatewayOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the customer gateway. Constraints: o min: 0 o max: 500 o pattern: [\s\S]*
+    /// The Amazon Resource Name (ARN) of the customer gateway. Constraints: • min: 0 • max: 500 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--customer-gateway-arn")]
     public string? CustomerGatewayArn { get; private init; }
 
     /// <summary>
-    /// The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// The ID of the global network. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--global-network-id")]
     public string? GlobalNetworkId { get; private init; }
 
     /// <summary>
-    /// The ID of the device. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// The ID of the device. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--device-id")]
     public string? DeviceId { get; private init; }
 
     /// <summary>
-    /// The ID of the link. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// The ID of the link. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--link-id")]
     public string? LinkId { get; set; }

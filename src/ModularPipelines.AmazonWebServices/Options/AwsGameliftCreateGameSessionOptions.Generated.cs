@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Creates a multiplayer game session for players in a specific fleet lo- cation. This operation prompts an available server process to start a game session and retrieves connection information for the new game ses- sion. As an alternative, consider using the Amazon GameLift Servers game session placement feature with StartGameSessionPlacement , which uses the FleetIQ algorithm and queues to optimize the placement process. Wh...
+/// This API works with the following fleet types: EC2, Anywhere, Container Creates a multiplayer game session for players in a specific fleet location. This operation prompts an available server process to start a game session and retrieves connection information for the new game session. As an alternative, consider using the Amazon GameLift Servers game session placement feature with StartGameSessionPlacement , which uses the FleetIQ algorithm and queues to optimize the placement process. When cre...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsGameliftCreateGameSessionOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Creates a multiplayer game session for players in a specific fleet lo- cation. This operation prompts an available server process to start a game session and retrieves connection information for the new game ses- sion. As an alternative, consider using the Amazon GameLift Servers game session placement feature with StartGameSessionPlacement , which uses the FleetIQ algorithm and queues to optimize the placement process. Wh...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Creates a multiplayer game session for players in a specific fleet location. This operation prompts an available server process to start a game session and retrieves connection information for the new game session. As an alternative, consider using the Amazon GameLift Servers game session placement feature with StartGameSessionPlacement , which uses the FleetIQ algorithm and queues to optimize the placement process. When cre...
     /// </summary>
-    /// <param name="MaximumPlayerSessionCount">The maximum number of players that can be connected simultaneously to the game session. Constraints: o min: 0</param>
+    /// <param name="MaximumPlayerSessionCount">The maximum number of players that can be connected simultaneously to the game session. Constraints: • min: 0</param>
     public AwsGameliftCreateGameSessionOptions(
         int MaximumPlayerSessionCount
     )
@@ -56,62 +58,62 @@ public record AwsGameliftCreateGameSessionOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The maximum number of players that can be connected simultaneously to the game session. Constraints: o min: 0
+    /// The maximum number of players that can be connected simultaneously to the game session. Constraints: • min: 0
     /// </summary>
     [CliOption("--maximum-player-session-count")]
     public int? MaximumPlayerSessionCount { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the fleet to create a game session in. You can use either the fleet ID or ARN value. Each request must refer- ence either a fleet ID or alias ID, but not both. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
+    /// A unique identifier for the fleet to create a game session in. You can use either the fleet ID or ARN value. Each request must reference either a fleet ID or alias ID, but not both. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; set; }
 
     /// <summary>
-    /// A unique identifier for the alias associated with the fleet to cre- ate a game session in. You can use either the alias ID or ARN value. Each request must reference either a fleet ID or alias ID, but not both. Constraints: o min: 1 o max: 512 o pattern: ^(alias-\S+|arn:.*:alias\/alias-\S+)$
+    /// A unique identifier for the alias associated with the fleet to create a game session in. You can use either the alias ID or ARN value. Each request must reference either a fleet ID or alias ID, but not both. Constraints: • min: 1 • max: 512 • pattern: ^(alias-\S+|arn:.*:alias\/alias-\S+)$
     /// </summary>
     [CliOption("--alias-id")]
     public string? AliasId { get; set; }
 
     /// <summary>
-    /// A descriptive label that is associated with a game session. Session names do not need to be unique. Constraints: o min: 1 o max: 1024
+    /// A descriptive label that is associated with a game session. Session names do not need to be unique. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A set of key-value pairs that can store custom data in a game ses- sion. For example: {"Key": "difficulty", "Value": "novice"} . For an example, see Create a game session with custom properties . NOTE: o Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys contain- ing periods cannot be searched and will be filtered out from search results due to search index limitations. o If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API re- sults. Constraints: o max: 16 (structure) This key-value pair can store custom data about a game session. For example, you might use a GameProperty to track a game ses- sion's map, level of difficulty, or remaining time. The diffi- culty level could be specified like this: {"Key": "difficulty", "Value":"Novice"} . You can set game properties when creating a game session. You can also modify game properties of an active game session. When searching for game sessions, you can filter on game property keys and values. You can't delete game properties from a game session. For examples of working with game properties, see Create a game session with properties . Key -&gt; (string) [required] The game property identifier. NOTE: o Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations. o If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API results. Constraints: o max: 32 Value -&gt; (string) [required] The game property value. Constraints: o max: 96 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"} . For an example, see Create a game session with custom properties . NOTE: • Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations. • If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API results. Constraints: • max: 16 (structure) This key-value pair can store custom data about a game session. For example, you might use a GameProperty to track a game session's map, level of difficulty, or remaining time. The difficulty level could be specified like this: {"Key": "difficulty", "Value":"Novice"} . You can set game properties when creating a game session. You can also modify game properties of an active game session. When searching for game sessions, you can filter on game property keys and values. You can't delete game properties from a game session. For examples of working with game properties, see Create a game session with properties . Key -&gt; (string) [required] The game property identifier. NOTE: • Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations. • If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API results. Constraints: • max: 32 Value -&gt; (string) [required] The game property value. Constraints: • max: 96 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--game-properties", GroupValues = true)]
     public IEnumerable<string>? GameProperties { get; set; }
 
     /// <summary>
-    /// A unique identifier for a player or entity creating the game ses- sion. If you add a resource creation limit policy to a fleet, the Cre- ateGameSession operation requires a CreatorId . Amazon GameLift Servers limits the number of game session creation requests with the same CreatorId in a specified time period. If you your fleet doesn't have a resource creation limit policy and you provide a CreatorId in your CreateGameSession requests, Amazon GameLift Servers limits requests to one request per CreatorId per second. To not limit CreateGameSession requests with the same CreatorId , don't provide a CreatorId in your CreateGameSession request. Constraints: o min: 1 o max: 1024
+    /// A unique identifier for a player or entity creating the game session. If you add a resource creation limit policy to a fleet, the CreateGameSession operation requires a CreatorId . Amazon GameLift Servers limits the number of game session creation requests with the same CreatorId in a specified time period. If your fleet doesn't have a resource creation limit policy and you provide a CreatorId in your CreateGameSession requests, Amazon GameLift Servers limits requests to one request per CreatorId per second. To not limit CreateGameSession requests with the same CreatorId , don't provide a CreatorId in your CreateGameSession request. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--creator-id")]
     public string? CreatorId { get; set; }
 
     /// <summary>
-    /// This parameter is deprecated. Use ``IdempotencyToken`` instead. Custom string that uniquely identifies a request for a new game ses- sion. Maximum token length is 48 characters. If provided, this string is included in the new game session's ID. Constraints: o min: 1 o max: 48 o pattern: ^[a-zA-Z0-9-]+$
+    /// This parameter is deprecated. Use ``IdempotencyToken`` instead. Custom string that uniquely identifies a request for a new game session. Maximum token length is 48 characters. If provided, this string is included in the new game session's ID. Constraints: • min: 1 • max: 48 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--game-session-id")]
     public string? GameSessionId { get; set; }
 
     /// <summary>
-    /// Custom string that uniquely identifies the new game session request. This is useful for ensuring that game session requests with the same idempotency token are processed only once. Subsequent requests with the same string return the original GameSession object, with an up- dated status. Maximum token length is 48 characters. If provided, this string is included in the new game session's ID. The value is always a full ARN in the following format: For Home Region game ses- sion - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;ID string&gt; . For Remote Location game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;loca- tion&gt;/&lt;ID string&gt; . Idempotency tokens remain in use for 30 days af- ter a game session has ended; game session objects are retained for this time period and then deleted. Constraints: o min: 1 o max: 48 o pattern: ^[a-zA-Z0-9-]+$
+    /// Custom string that uniquely identifies the new game session request. This is useful for ensuring that game session requests with the same idempotency token are processed only once. Subsequent requests with the same string return the original GameSession object, with an updated status. Maximum token length is 48 characters. If provided, this string is included in the new game session's ID. The value is always a full ARN in the following format: For Home Region game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;ID string&gt; . For Remote Location game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;location&gt;/&lt;ID string&gt; . Idempotency tokens remain in use for 30 days after a game session has ended; game session objects are retained for this time period and then deleted. Constraints: • min: 1 • max: 48 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [SecretValue]
     [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
 
     /// <summary>
-    /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see Start a game session . Constraints: o min: 1 o max: 262144
+    /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see Start a game session . Constraints: • min: 1 • max: 262144
     /// </summary>
     [CliOption("--game-session-data")]
     public string? GameSessionData { get; set; }
 
     /// <summary>
-    /// A fleet's remote location to place the new game session in. If this parameter is not set, the new game session is placed in the fleet's home Region. Specify a remote location with an Amazon Web Services Region code such as us-west-2 . When using an Anywhere fleet, this parameter is required and must be set to the Anywhere fleet's custom location. Constraints: o min: 1 o max: 64 o pattern: ^[A-Za-z0-9\-]+$
+    /// A fleet's remote location to place the new game session in. If this parameter is not set, the new game session is placed in the fleet's home Region. Specify a remote location with an Amazon Web Services Region code such as us-west-2 . When using an Anywhere fleet, this parameter is required and must be set to the Anywhere fleet's custom location. Constraints: • min: 1 • max: 64 • pattern: ^[A-Za-z0-9\-]+$
     /// </summary>
     [CliOption("--location")]
     public string? Location { get; set; }

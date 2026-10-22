@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API is in preview release for Connect Customer and is subject to change. Revokes authorization from the specified instance to access the speci- fied Amazon Lex or Amazon Lex V2 bot. See also: AWS API Documentation
+/// This API is in preview release for Connect Customer and is subject to change. Revokes authorization from the specified instance to access the specified Amazon Lex or Amazon Lex V2 bot. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsConnectDisassociateBotOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API is in preview release for Connect Customer and is subject to change. Revokes authorization from the specified instance to access the speci- fied Amazon Lex or Amazon Lex V2 bot. See also: AWS API Documentation
+    /// This API is in preview release for Connect Customer and is subject to change. Revokes authorization from the specified instance to access the specified Amazon Lex or Amazon Lex V2 bot. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     public AwsConnectDisassociateBotOptions(
         string InstanceId
     )
@@ -57,25 +59,25 @@ public record AwsConnectDisassociateBotOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// Configuration information of an Amazon Lex bot. Name -&gt; (string) [required] The name of the Amazon Lex bot. Constraints: o max: 50 LexRegion -&gt; (string) [required] The Amazon Web Services Region where the Amazon Lex bot was cre- ated. Constraints: o max: 60 Shorthand Syntax: Name=string,LexRegion=string JSON Syntax: { "Name": "string", "LexRegion": "string" }
+    /// Configuration information of an Amazon Lex bot. Name -&gt; (string) [required] The name of the Amazon Lex bot. Constraints: • max: 50 LexRegion -&gt; (string) [required] The Amazon Web Services Region where the Amazon Lex bot was created. Constraints: • max: 60 Shorthand Syntax: Name=string,LexRegion=string JSON Syntax: { "Name": "string", "LexRegion": "string" }
     /// </summary>
     [CliOption("--lex-bot")]
     public string? LexBot { get; set; }
 
     /// <summary>
-    /// The Amazon Lex V2 bot to disassociate from the instance. AliasArn -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Lex V2 bot. Constraints: o min: 1 o max: 100 Shorthand Syntax: AliasArn=string JSON Syntax: { "AliasArn": "string" }
+    /// The Amazon Lex V2 bot to disassociate from the instance. AliasArn -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Lex V2 bot. Constraints: • min: 1 • max: 100 Shorthand Syntax: AliasArn=string JSON Syntax: { "AliasArn": "string" }
     /// </summary>
     [CliOption("--lex-v2-bot")]
     public string? LexV2Bot { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

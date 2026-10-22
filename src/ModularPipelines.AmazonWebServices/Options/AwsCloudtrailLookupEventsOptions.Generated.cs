@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Looks up management events or CloudTrail Insights events that are cap- tured by CloudTrail. You can look up events that occurred in a Region within the last 90 days. NOTE: LookupEvents returns recent Insights events for trails that enable Insights. To view Insights events for an event data store, you can run queries on your Insights event data store, and you can also view the Lake dashboard for Insights. Lookup supports the following attributes for management events: o Amazon Web Services access...
+/// Looks up management events or CloudTrail Insights events that are captured by CloudTrail. You can look up events that occurred in a Region within the last 90 days. NOTE: LookupEvents returns recent Insights events for trails that enable Insights. To view Insights events for an event data store, you can run queries on your Insights event data store, and you can also view the Lake dashboard for Insights. Lookup supports the following attributes for management events: • Amazon Web Services access k...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudtrailLookupEventsOptions : AwsOptions
 {
     /// <summary>
-    /// Contains a list of lookup attributes. Currently the list can contain only one item. (structure) Specifies an attribute and value that filter the events re- turned. AttributeKey -&gt; (string) [required] Specifies an attribute on which to filter the events re- turned. Possible values: o EventId o EventName o ReadOnly o Username o ResourceType o ResourceName o EventSource o AccessKeyId AttributeValue -&gt; (string) [required] Specifies a value for the specified AttributeKey . The maximum length for the AttributeValue is 2000 characters. The following characters ('_ ', ' `` `` ', ', ', '\\n ') count as two characters towards the 2000 character limit. System Message: WARNING/2 (&lt;string&gt;:, line 198) Inline literal start-string without end-string. Constraints: o min: 1 o max: 2000 Shorthand Syntax: AttributeKey=string,AttributeValue=string ... JSON Syntax: [ { "AttributeKey": "EventId"|"EventName"|"ReadOnly"|"Username"|"ResourceType"|"ResourceName"|"EventSource"|"AccessKeyId", "AttributeValue": "string" } ... ]
+    /// Contains a list of lookup attributes. Currently the list can contain only one item. (structure) Specifies an attribute and value that filter the events returned. AttributeKey -&gt; (string) [required] Specifies an attribute on which to filter the events returned. Possible values: • EventId • EventName • ReadOnly • Username • ResourceType • ResourceName • EventSource • AccessKeyId AttributeValue -&gt; (string) [required] Specifies a value for the specified AttributeKey . The maximum length for the AttributeValue is 2000 characters. The following characters ('_ ', ' `` `` ', ', ', '\\n ') count as two characters towards the 2000 character limit. System Message: WARNING/2 (&lt;string&gt;:, line 198) Inline literal start-string without end-string. Constraints: • min: 1 • max: 2000 Shorthand Syntax: AttributeKey=string,AttributeValue=string ... JSON Syntax: [ { "AttributeKey": "EventId"|"EventName"|"ReadOnly"|"Username"|"ResourceType"|"ResourceName"|"EventSource"|"AccessKeyId", "AttributeValue": "string" } ... ]
     /// </summary>
     [CliOption("--lookup-attributes", GroupValues = true)]
     public IEnumerable<string>? LookupAttributes { get; set; }
@@ -41,16 +41,13 @@ public record AwsCloudtrailLookupEventsOptions : AwsOptions
     public string? EndTime { get; set; }
 
     /// <summary>
-    /// Specifies the event category. If you do not specify an event cate- gory, events of the category are not returned in the response. For example, if you do not specify insight as the value of EventCategory , no Insights events are returned. Possible values: o insight
+    /// Specifies the event category. If you do not specify an event category, events of the category are not returned in the response. For example, if you do not specify insight as the value of EventCategory , no Insights events are returned. Possible values: • insight
     /// </summary>
     [CliOption("--event-category")]
     public string? EventCategory { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -60,15 +57,18 @@ public record AwsCloudtrailLookupEventsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 50
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

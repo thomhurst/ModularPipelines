@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsConnectcampaignsUpdateCampaignOutboundCallConfigOptions : AwsOp
     /// <summary>
     /// Updates the outbound call config of a campaign. This API is idempotent. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">Identifier representing a Campaign Constraints: o min: 0 o max: 256 o pattern: [\S]*</param>
+    /// <param name="Id">Identifier representing a Campaign Constraints: • min: 0 • max: 256 • pattern: [\S]*</param>
     public AwsConnectcampaignsUpdateCampaignOutboundCallConfigOptions(
         string Id
     )
@@ -56,19 +58,19 @@ public record AwsConnectcampaignsUpdateCampaignOutboundCallConfigOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifier representing a Campaign Constraints: o min: 0 o max: 256 o pattern: [\S]*
+    /// Identifier representing a Campaign Constraints: • min: 0 • max: 256 • pattern: [\S]*
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The identifier of the contact flow for the outbound call. Constraints: o min: 0 o max: 500
+    /// The identifier of the contact flow for the outbound call. Constraints: • min: 0 • max: 500
     /// </summary>
     [CliOption("--connect-contact-flow-id")]
     public string? ConnectContactFlowId { get; set; }
 
     /// <summary>
-    /// The phone number associated with the Amazon Connect instance, in E.164 format. If you do not specify a source phone number, you must specify a queue. Constraints: o min: 0 o max: 100
+    /// The phone number associated with the Amazon Connect instance, in E.164 format. If you do not specify a source phone number, you must specify a queue. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--connect-source-phone-number")]
     public string? ConnectSourcePhoneNumber { get; set; }

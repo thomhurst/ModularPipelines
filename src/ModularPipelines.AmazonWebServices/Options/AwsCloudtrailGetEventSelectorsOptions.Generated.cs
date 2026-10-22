@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the settings for the event selectors that you configured for your trail. The information returned for your event selectors includes the following: o If your event selector includes read-only events, write-only events, or all events. This applies to management events, data events, and network activity events. o If your event selector includes management events. o If your event selector includes network activity events, the event sources for which you are logging network activity events....
+/// Describes the settings for the event selectors that you configured for your trail. The information returned for your event selectors includes the following: • If your event selector includes read-only events, write-only events, or all events. This applies to management events, data events, and network activity events. • If your event selector includes management events. • If your event selector includes network activity events, the event sources for which you are logging network activity events....
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsCloudtrailGetEventSelectorsOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes the settings for the event selectors that you configured for your trail. The information returned for your event selectors includes the following: o If your event selector includes read-only events, write-only events, or all events. This applies to management events, data events, and network activity events. o If your event selector includes management events. o If your event selector includes network activity events, the event sources for which you are logging network activity events....
+    /// Describes the settings for the event selectors that you configured for your trail. The information returned for your event selectors includes the following: • If your event selector includes read-only events, write-only events, or all events. This applies to management events, data events, and network activity events. • If your event selector includes management events. • If your event selector includes network activity events, the event sources for which you are logging network activity events....
     /// </summary>
-    /// <param name="TrailName">Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements: o Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-) o Start with a letter or number, and end with a letter or number o Be between 3 and 128 characters o Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid. o Not be in IP address format (for example, 192.168.5.4) If you specify a trail ARN, it must be in the format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</param>
+    /// <param name="TrailName">Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements: • Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-) • Start with a letter or number, and end with a letter or number • Be between 3 and 128 characters • Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid. • Not be in IP address format (for example, 192.168.5.4) If you specify a trail ARN, it must be in the format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</param>
     public AwsCloudtrailGetEventSelectorsOptions(
         string TrailName
     )
@@ -56,7 +58,7 @@ public record AwsCloudtrailGetEventSelectorsOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements: o Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-) o Start with a letter or number, and end with a letter or number o Be between 3 and 128 characters o Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid. o Not be in IP address format (for example, 192.168.5.4) If you specify a trail ARN, it must be in the format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
+    /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements: • Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-) • Start with a letter or number, and end with a letter or number • Be between 3 and 128 characters • Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid. • Not be in IP address format (for example, 192.168.5.4) If you specify a trail ARN, it must be in the format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
     /// </summary>
     [CliOption("--trail-name")]
     public string? TrailName { get; private init; }

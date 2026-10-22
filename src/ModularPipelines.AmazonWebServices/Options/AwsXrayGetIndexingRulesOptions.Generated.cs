@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsXrayGetIndexingRulesOptions : AwsOptions
 {
     /// <summary>
-    /// Specify the pagination token returned by a previous request to re- trieve the next page of indexes.
+    /// Specify the pagination token returned by a previous request to retrieve the next page of indexes.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsRoute53ListTagsForResourcesOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Lists tags for up to 10 health checks or hosted zones. For information about using tags for cost allocation, see Using Cost Allocation Tags in the Billing and Cost Management User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceType">The type of the resources. o The resource type for health checks is healthcheck . o The resource type for hosted zones is hostedzone . Possible values: o healthcheck o hostedzone</param>
-    /// <param name="ResourceIds">A complex type that contains the ResourceId element for each re- source for which you want to get a list of tags. Constraints: o min: 1 o max: 10 (string) Constraints: o max: 64 Syntax: "string" "string" ...</param>
+    /// <param name="ResourceType">The type of the resources. • The resource type for health checks is healthcheck . • The resource type for hosted zones is hostedzone . Possible values: • healthcheck • hostedzone</param>
+    /// <param name="ResourceIds">A complex type that contains the ResourceId element for each resource for which you want to get a list of tags. Constraints: • min: 1 • max: 10 (string) Constraints: • max: 64 Syntax: "string" "string" ...</param>
     public AwsRoute53ListTagsForResourcesOptions(
         AwsRoute53ListTagsForResourcesResourceType ResourceType,
         IEnumerable<string> ResourceIds
@@ -71,13 +73,13 @@ public record AwsRoute53ListTagsForResourcesOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of the resources. o The resource type for health checks is healthcheck . o The resource type for hosted zones is hostedzone . Possible values: o healthcheck o hostedzone
+    /// The type of the resources. • The resource type for health checks is healthcheck . • The resource type for hosted zones is hostedzone . Possible values: • healthcheck • hostedzone
     /// </summary>
     [CliOption("--resource-type")]
     public AwsRoute53ListTagsForResourcesResourceType? ResourceType { get; private init; }
 
     /// <summary>
-    /// A complex type that contains the ResourceId element for each re- source for which you want to get a list of tags. Constraints: o min: 1 o max: 10 (string) Constraints: o max: 64 Syntax: "string" "string" ...
+    /// A complex type that contains the ResourceId element for each resource for which you want to get a list of tags. Constraints: • min: 1 • max: 10 (string) Constraints: • max: 64 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resource-ids", GroupValues = true)]
     public IEnumerable<string>? ResourceIds { get; private init; }

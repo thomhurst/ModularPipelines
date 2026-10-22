@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Add a tag to a Step Functions resource. An array of key-value pairs. For more information, see Using Cost Allo- cation Tags in the Amazon Web Services Billing and Cost Management User Guide , and Controlling Access Using IAM Tags . Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @ . See also: AWS API Documentation
+/// Add a tag to a Step Functions resource. An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide , and Controlling Access Using IAM Tags . Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @ . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsStepfunctionsTagResourceOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Add a tag to a Step Functions resource. An array of key-value pairs. For more information, see Using Cost Allo- cation Tags in the Amazon Web Services Billing and Cost Management User Guide , and Controlling Access Using IAM Tags . Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @ . See also: AWS API Documentation
+    /// Add a tag to a Step Functions resource. An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide , and Controlling Access Using IAM Tags . Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @ . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) for the Step Functions state machine or activity. Constraints: o min: 1 o max: 256</param>
-    /// <param name="Tags">The list of tags to add to a resource. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @ . (structure) Tags are key-value pairs that can be associated with Step Func- tions state machines and activities. An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide , and Controlling Access Using IAM Tags . Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @ . key -&gt; (string) The key of a tag. Constraints: o min: 1 o max: 128 value -&gt; (string) The value of a tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) for the Step Functions state machine or activity. Constraints: • min: 1 • max: 256</param>
+    /// <param name="Tags">The list of tags to add to a resource. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @ . (structure) Tags are key-value pairs that can be associated with Step Functions state machines and activities. An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide , and Controlling Access Using IAM Tags . Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @ . key -&gt; (string) The key of a tag. Constraints: • min: 1 • max: 128 value -&gt; (string) The value of a tag. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
     public AwsStepfunctionsTagResourceOptions(
         string ResourceArn,
         IEnumerable<string> Tags
@@ -71,13 +73,13 @@ public record AwsStepfunctionsTagResourceOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) for the Step Functions state machine or activity. Constraints: o min: 1 o max: 256
+    /// The Amazon Resource Name (ARN) for the Step Functions state machine or activity. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The list of tags to add to a resource. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @ . (structure) Tags are key-value pairs that can be associated with Step Func- tions state machines and activities. An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide , and Controlling Access Using IAM Tags . Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @ . key -&gt; (string) The key of a tag. Constraints: o min: 1 o max: 128 value -&gt; (string) The value of a tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// The list of tags to add to a resource. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @ . (structure) Tags are key-value pairs that can be associated with Step Functions state machines and activities. An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide , and Controlling Access Using IAM Tags . Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @ . key -&gt; (string) The key of a tag. Constraints: • min: 1 • max: 128 value -&gt; (string) The value of a tag. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Wait until JMESPath query VerificationAttributes.*.VerificationStatus returns Success for all elements when polling with get-identity-verifi- cation-attributes. It will poll every 3 seconds until a successful state has been reached. This will exit with a return code of 255 after 20 failed checks. See also: AWS API Documentation
+/// Wait until JMESPath query VerificationAttributes.*.VerificationStatus returns Success for all elements when polling with get-identity-verification-attributes. It will poll every 3 seconds until a successful state has been reached. This will exit with a return code of 255 after 20 failed checks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsSesWaitIdentityExistsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Wait until JMESPath query VerificationAttributes.*.VerificationStatus returns Success for all elements when polling with get-identity-verifi- cation-attributes. It will poll every 3 seconds until a successful state has been reached. This will exit with a return code of 255 after 20 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query VerificationAttributes.*.VerificationStatus returns Success for all elements when polling with get-identity-verification-attributes. It will poll every 3 seconds until a successful state has been reached. This will exit with a return code of 255 after 20 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="Identities">A list of identities. (string) Syntax: "string" "string" ...</param>
     public AwsSesWaitIdentityExistsOptions(

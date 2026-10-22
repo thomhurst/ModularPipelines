@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Cancels an active export task. The request removes all artifacts of the export, including any partially-created Amazon S3 objects. If the ex- port task is complete or is in the process of transferring the final disk image, the command fails and returns an error. See also: AWS API Documentation
+/// Cancels an active export task. The request removes all artifacts of the export, including any partially-created Amazon S3 objects. If the export task is complete or is in the process of transferring the final disk image, the command fails and returns an error. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsEc2CancelExportTaskOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Cancels an active export task. The request removes all artifacts of the export, including any partially-created Amazon S3 objects. If the ex- port task is complete or is in the process of transferring the final disk image, the command fails and returns an error. See also: AWS API Documentation
+    /// Cancels an active export task. The request removes all artifacts of the export, including any partially-created Amazon S3 objects. If the export task is complete or is in the process of transferring the final disk image, the command fails and returns an error. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExportTaskId">The ID of the export task. This is the ID returned by the CreateIn- stanceExportTask and ExportImage operations.</param>
+    /// <param name="ExportTaskId">The ID of the export task. This is the ID returned by the CreateInstanceExportTask and ExportImage operations.</param>
     public AwsEc2CancelExportTaskOptions(
         string ExportTaskId
     )
@@ -56,7 +58,7 @@ public record AwsEc2CancelExportTaskOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the export task. This is the ID returned by the CreateIn- stanceExportTask and ExportImage operations.
+    /// The ID of the export task. This is the ID returned by the CreateInstanceExportTask and ExportImage operations.
     /// </summary>
     [CliOption("--export-task-id")]
     public string? ExportTaskId { get; private init; }

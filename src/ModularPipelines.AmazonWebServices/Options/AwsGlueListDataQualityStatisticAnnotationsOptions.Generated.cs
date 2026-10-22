@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsGlueListDataQualityStatisticAnnotationsOptions : AwsOptions
 {
     /// <summary>
-    /// The Statistic ID. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The Statistic ID. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--statistic-id")]
     public string? StatisticId { get; set; }
 
     /// <summary>
-    /// The Profile ID. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The Profile ID. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--profile-id")]
     public string? ProfileId { get; set; }
@@ -41,7 +41,7 @@ public record AwsGlueListDataQualityStatisticAnnotationsOptions : AwsOptions
     public string? TimestampFilter { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return in this request. Constraints: o min: 1 o max: 1000
+    /// The maximum number of results to return in this request. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

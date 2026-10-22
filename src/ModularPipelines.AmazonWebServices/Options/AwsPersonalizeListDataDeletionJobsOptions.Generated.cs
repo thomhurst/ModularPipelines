@@ -23,20 +23,20 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsPersonalizeListDataDeletionJobsOptions : AwsOptions
 {
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the dataset group to list data deletion jobs for. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the dataset group to list data deletion jobs for. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--dataset-group-arn")]
     public string? DataSetGroupArn { get; set; }
 
     /// <summary>
-    /// A token returned from the previous call to ListDataDeletionJobs for getting the next set of jobs (if they exist). Constraints: o max: 1500 o pattern: \p{ASCII}{0,1500}
+    /// A token returned from the previous call to ListDataDeletionJobs for getting the next set of jobs (if they exist). Constraints: • max: 1500 • pattern: \p{ASCII}{0,1500}
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of data deletion jobs to return. Constraints: o min: 1 o max: 100
+    /// The maximum number of data deletion jobs to return. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

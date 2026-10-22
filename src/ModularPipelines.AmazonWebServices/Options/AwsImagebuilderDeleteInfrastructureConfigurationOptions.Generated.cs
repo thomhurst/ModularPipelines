@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an infrastructure configuration. You can't delete a configura- tion that an image pipeline still references. The request fails with ResourceDependencyException . Update or delete the referencing pipelines first. See also: AWS API Documentation
+/// Deletes an infrastructure configuration. You can't delete a configuration that an image pipeline still references. The request fails with ResourceDependencyException . Update or delete the referencing pipelines first. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsImagebuilderDeleteInfrastructureConfigurationOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an infrastructure configuration. You can't delete a configura- tion that an image pipeline still references. The request fails with ResourceDependencyException . Update or delete the referencing pipelines first. See also: AWS API Documentation
+    /// Deletes an infrastructure configuration. You can't delete a configuration that an image pipeline still references. The request fails with ResourceDependencyException . Update or delete the referencing pipelines first. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InfrastructureConfigurationArn">The Amazon Resource Name (ARN) of the infrastructure configuration to delete. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infra- structure-configuration/[a-z0-9-_]+$</param>
+    /// <param name="InfrastructureConfigurationArn">The Amazon Resource Name (ARN) of the infrastructure configuration to delete. Constraints: • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infrastructure-configuration/[a-z0-9-_]+$</param>
     public AwsImagebuilderDeleteInfrastructureConfigurationOptions(
         string InfrastructureConfigurationArn
     )
@@ -56,7 +58,7 @@ public record AwsImagebuilderDeleteInfrastructureConfigurationOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the infrastructure configuration to delete. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infra- structure-configuration/[a-z0-9-_]+$
+    /// The Amazon Resource Name (ARN) of the infrastructure configuration to delete. Constraints: • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infrastructure-configuration/[a-z0-9-_]+$
     /// </summary>
     [CliOption("--infrastructure-configuration-arn")]
     public string? InfrastructureConfigurationArn { get; private init; }

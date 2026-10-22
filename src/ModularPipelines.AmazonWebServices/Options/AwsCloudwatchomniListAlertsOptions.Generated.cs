@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists alerts within a space, optionally filtered by exact name(s), a single name prefix, or exact alertId(s), with pagination. Use GetAlert to retrieve a single alert's full detail. See also: AWS API Documentation list-alerts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argum...
+/// Lists alerts within a space, optionally filtered by exact name(s), a single name prefix, or exact alertId(s), with pagination. Use GetAlert to retrieve a single alert's full detail. See also: AWS API Documentation list-alerts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argumen...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsCloudwatchomniListAlertsOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists alerts within a space, optionally filtered by exact name(s), a single name prefix, or exact alertId(s), with pagination. Use GetAlert to retrieve a single alert's full detail. See also: AWS API Documentation list-alerts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argum...
+    /// Lists alerts within a space, optionally filtered by exact name(s), a single name prefix, or exact alertId(s), with pagination. Use GetAlert to retrieve a single alert's full detail. See also: AWS API Documentation list-alerts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argumen...
     /// </summary>
-    /// <param name="SpaceId">The unique ID of the space. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="SpaceId">The unique ID of the space. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     public AwsCloudwatchomniListAlertsOptions(
         string SpaceId
     )
@@ -58,34 +60,31 @@ public record AwsCloudwatchomniListAlertsOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the space. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique ID of the space. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--space-id")]
     public string? SpaceId { get; private init; }
 
     /// <summary>
-    /// Filter criteria narrowing which alerts are returned. All members are optional; the three name/id filters are mutually exclusive. names -&gt; (list) Filter to alerts whose name exactly matches any entry (OR seman- tics). Mutually exclusive with {@code namePrefix} and {@code ids}. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.@~()-]+ namePrefix -&gt; (string) Filter to alerts whose name starts with this prefix. Mutually exclusive with {@code names} and {@code ids}. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.@~()-]+ ids -&gt; (list) Filter to alerts whose {@link AlertId} exactly matches any entry (OR semantics). Mutually exclusive with {@code names} and {@code namePrefix}. Constraints: o min: 1 o max: 50 (string) The stable alert identifier: a 32-character lowercase hex uuid, minted by the backend on create and immutable across updates. It deliberately carries no name, so that a future rename can- not change an alert's identity and break the ARNs, saved links and IAM policies pointing at it. Use {@code name} to display an alert and {@code alertId} to address one. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32} stateValue -&gt; (list) Filter to alerts currently in any of these states (OR seman- tics). Constraints: o min: 0 o max: 4 (string) Flat alert state. Severity is folded in: a WARNING/CRITICAL alert reports that state directly. {@code NODATA} indicates the evaluation produced no data (subject to the rule's no- Data.treatAs handling). Possible values: o OK o WARNING o CRITICAL o NODATA notificationsEnabled -&gt; (boolean) Filter to alerts by whether notifications are enabled. Shorthand Syntax: names=string,string,namePrefix=string,ids=string,string,stateValue=string,string,notificationsEnabled=boolean JSON Syntax: { "names": ["string", ...], "namePrefix": "string", "ids": ["string", ...], "stateValue": ["OK"|"WARNING"|"CRITICAL"|"NODATA", ...], "notificationsEnabled": true|false }
+    /// Filter criteria narrowing which alerts are returned. All members are optional; the three name/id filters are mutually exclusive. names -&gt; (list) Filter to alerts whose name exactly matches any entry (OR semantics). Mutually exclusive with {@code namePrefix} and {@code ids}. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_.@~()-]+ namePrefix -&gt; (string) Filter to alerts whose name starts with this prefix. Mutually exclusive with {@code names} and {@code ids}. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_.@~()-]+ ids -&gt; (list) Filter to alerts whose {@link AlertId} exactly matches any entry (OR semantics). Mutually exclusive with {@code names} and {@code namePrefix}. Constraints: • min: 1 • max: 50 (string) The stable alert identifier: a 32-character lowercase hex uuid, minted by the backend on create and immutable across updates. It deliberately carries no name, so that a future rename cannot change an alert's identity and break the ARNs, saved links and IAM policies pointing at it. Use {@code name} to display an alert and {@code alertId} to address one. Constraints: • min: 32 • max: 32 • pattern: [0-9a-f]{32} stateValue -&gt; (list) Filter to alerts currently in any of these states (OR semantics). Constraints: • min: 0 • max: 4 (string) Flat alert state. Severity is folded in: a WARNING/CRITICAL alert reports that state directly. {@code NODATA} indicates the evaluation produced no data (subject to the rule's noData.treatAs handling). Possible values: • OK • WARNING • CRITICAL • NODATA notificationsEnabled -&gt; (boolean) Filter to alerts by whether notifications are enabled. Shorthand Syntax: names=string,string,namePrefix=string,ids=string,string,stateValue=string,string,notificationsEnabled=boolean JSON Syntax: { "names": ["string", ...], "namePrefix": "string", "ids": ["string", ...], "stateValue": ["OK"|"WARNING"|"CRITICAL"|"NODATA", ...], "notificationsEnabled": true|false }
     /// </summary>
     [CliOption("--filter-criteria")]
     public string? FilterCriteria { get; set; }
 
     /// <summary>
-    /// The field to sort results by. Possible values: o NAME o STATE
+    /// The field to sort results by. Possible values: • NAME • STATE
     /// </summary>
     [CliOption("--sort-by")]
     public AwsCloudwatchomniListAlertsSortBy? SortBy { get; set; }
 
     /// <summary>
-    /// The order in which to sort results. Possible values: o ASC o DESC
+    /// The order in which to sort results. Possible values: • ASC • DESC
     /// </summary>
     [CliOption("--sort-order")]
     public AwsCloudwatchomniListAlertsSortOrder? SortOrder { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -95,16 +94,19 @@ public record AwsCloudwatchomniListAlertsOptions : AwsOptions, IValidatableObjec
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

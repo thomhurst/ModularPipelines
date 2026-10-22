@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a given Facet . All attributes and Rule s that are associated with the facet will be deleted. Only development schema facets are al- lowed deletion. See also: AWS API Documentation
+/// Deletes a given Facet . All attributes and Rule s that are associated with the facet will be deleted. Only development schema facets are allowed deletion. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsClouddirectoryDeleteFacetOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a given Facet . All attributes and Rule s that are associated with the facet will be deleted. Only development schema facets are al- lowed deletion. See also: AWS API Documentation
+    /// Deletes a given Facet . All attributes and Rule s that are associated with the facet will be deleted. Only development schema facets are allowed deletion. See also: AWS API Documentation
     /// </summary>
     /// <param name="SchemaArn">The Amazon Resource Name (ARN) that is associated with the Facet . For more information, see arns .</param>
-    /// <param name="Name">The name of the facet to delete. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$</param>
+    /// <param name="Name">The name of the facet to delete. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9._-]*$</param>
     public AwsClouddirectoryDeleteFacetOptions(
         string SchemaArn,
         string Name
@@ -66,7 +68,7 @@ public record AwsClouddirectoryDeleteFacetOptions : AwsOptions, IValidatableObje
     public string? SchemaArn { get; private init; }
 
     /// <summary>
-    /// The name of the facet to delete. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// The name of the facet to delete. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes currently cached content from your Amazon Lightsail content de- livery network (CDN) distribution. After resetting the cache, the next time a content request is made, your distribution pulls, serves, and caches it from the origin. See also: AWS API Documentation
+/// Deletes currently cached content from your Amazon Lightsail content delivery network (CDN) distribution. After resetting the cache, the next time a content request is made, your distribution pulls, serves, and caches it from the origin. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLightsailResetDistributionCacheOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the distribution for which to reset cache. Use the GetDistributions action to get a list of distribution names that you can specify. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the distribution for which to reset cache. Use the GetDistributions action to get a list of distribution names that you can specify. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--distribution-name")]
     public string? DistributionName { get; set; }

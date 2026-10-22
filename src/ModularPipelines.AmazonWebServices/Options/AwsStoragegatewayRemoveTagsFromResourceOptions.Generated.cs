@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsStoragegatewayRemoveTagsFromResourceOptions : AwsOptions, IVali
     /// <summary>
     /// Removes one or more tags from the specified resource. This operation is supported in storage gateways of all types. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource you want to remove the tags from. Constraints: o min: 50 o max: 500</param>
-    /// <param name="TagKeys">The keys of the tags you want to remove from the specified resource. A tag is composed of a key-value pair. (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource you want to remove the tags from. Constraints: • min: 50 • max: 500</param>
+    /// <param name="TagKeys">The keys of the tags you want to remove from the specified resource. A tag is composed of a key-value pair. (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...</param>
     public AwsStoragegatewayRemoveTagsFromResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsStoragegatewayRemoveTagsFromResourceOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource you want to remove the tags from. Constraints: o min: 50 o max: 500
+    /// The Amazon Resource Name (ARN) of the resource you want to remove the tags from. Constraints: • min: 50 • max: 500
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The keys of the tags you want to remove from the specified resource. A tag is composed of a key-value pair. (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
+    /// The keys of the tags you want to remove from the specified resource. A tag is composed of a key-value pair. (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

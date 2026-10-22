@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns detailed information about one or more specified events for one or more Amazon Web Services accounts in your organization. This infor- mation includes standard event data (such as the Amazon Web Services Region and service), an event description, and (depending on the event) possible metadata. This operation doesn't return affected entities, such as the resources related to the event. To return affected enti- ties, use the DescribeAffectedEntitiesForOrganization operation. NOTE: Before y...
+/// Returns detailed information about one or more specified events for one or more Amazon Web Services accounts in your organization. This information includes standard event data (such as the Amazon Web Services Region and service), an event description, and (depending on the event) possible metadata. This operation doesn't return affected entities, such as the resources related to the event. To return affected entities, use the DescribeAffectedEntitiesForOrganization operation. NOTE: Before you c...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsHealthDescribeEventDetailsForOrganizationOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns detailed information about one or more specified events for one or more Amazon Web Services accounts in your organization. This infor- mation includes standard event data (such as the Amazon Web Services Region and service), an event description, and (depending on the event) possible metadata. This operation doesn't return affected entities, such as the resources related to the event. To return affected enti- ties, use the DescribeAffectedEntitiesForOrganization operation. NOTE: Before y...
+    /// Returns detailed information about one or more specified events for one or more Amazon Web Services accounts in your organization. This information includes standard event data (such as the Amazon Web Services Region and service), an event description, and (depending on the event) possible metadata. This operation doesn't return affected entities, such as the resources related to the event. To return affected entities, use the DescribeAffectedEntitiesForOrganization operation. NOTE: Before you c...
     /// </summary>
-    /// <param name="OrganizationEventDetailFilters">A set of JSON elements that includes the awsAccountId and the even- tArn . Constraints: o min: 1 o max: 10 (structure) The values used to filter results from the DescribeEventDetailsForOrganization and DescribeAffectedEntitiesForOrganization operations. eventArn -&gt; (string) [required] The unique identifier for the event. The event ARN has the `` arn:aws:health:event-region ::event/SERVICE /EVENT_TYPE_CODE /EVENT_TYPE_PLUS_ID `` format. System Message: WARNING/2 (&lt;string&gt;:, line 131) Inline literal start-string without end-string. For example, an event ARN might look like the follow- ing: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIRE- MENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHED- ULED_ABC123-DEF456 Constraints: o max: 1600 o pattern: arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\w-]+){3} awsAccountId -&gt; (string) The 12-digit Amazon Web Services account numbers that con- tains the affected entities. Constraints: o max: 12 o pattern: ^\S+$ Shorthand Syntax: eventArn=string,awsAccountId=string ... JSON Syntax: [ { "eventArn": "string", "awsAccountId": "string" } ... ]</param>
+    /// <param name="OrganizationEventDetailFilters">A set of JSON elements that includes the awsAccountId and the eventArn . Constraints: • min: 1 • max: 10 (structure) The values used to filter results from the DescribeEventDetailsForOrganization and DescribeAffectedEntitiesForOrganization operations. eventArn -&gt; (string) [required] The unique identifier for the event. The event ARN has the `` arn:aws:health:event-region ::event/SERVICE /EVENT_TYPE_CODE /EVENT_TYPE_PLUS_ID `` format. System Message: WARNING/2 (&lt;string&gt;:, line 131) Inline literal start-string without end-string. For example, an event ARN might look like the following: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 Constraints: • max: 1600 • pattern: arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\w-]+){3} awsAccountId -&gt; (string) The 12-digit Amazon Web Services account numbers that contains the affected entities. Constraints: • max: 12 • pattern: ^\S+$ Shorthand Syntax: eventArn=string,awsAccountId=string ... JSON Syntax: [ { "eventArn": "string", "awsAccountId": "string" } ... ]</param>
     public AwsHealthDescribeEventDetailsForOrganizationOptions(
         IEnumerable<string> OrganizationEventDetailFilters
     )
@@ -67,13 +69,13 @@ public record AwsHealthDescribeEventDetailsForOrganizationOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A set of JSON elements that includes the awsAccountId and the even- tArn . Constraints: o min: 1 o max: 10 (structure) The values used to filter results from the DescribeEventDetailsForOrganization and DescribeAffectedEntitiesForOrganization operations. eventArn -&gt; (string) [required] The unique identifier for the event. The event ARN has the `` arn:aws:health:event-region ::event/SERVICE /EVENT_TYPE_CODE /EVENT_TYPE_PLUS_ID `` format. System Message: WARNING/2 (&lt;string&gt;:, line 131) Inline literal start-string without end-string. For example, an event ARN might look like the follow- ing: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIRE- MENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHED- ULED_ABC123-DEF456 Constraints: o max: 1600 o pattern: arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\w-]+){3} awsAccountId -&gt; (string) The 12-digit Amazon Web Services account numbers that con- tains the affected entities. Constraints: o max: 12 o pattern: ^\S+$ Shorthand Syntax: eventArn=string,awsAccountId=string ... JSON Syntax: [ { "eventArn": "string", "awsAccountId": "string" } ... ]
+    /// A set of JSON elements that includes the awsAccountId and the eventArn . Constraints: • min: 1 • max: 10 (structure) The values used to filter results from the DescribeEventDetailsForOrganization and DescribeAffectedEntitiesForOrganization operations. eventArn -&gt; (string) [required] The unique identifier for the event. The event ARN has the `` arn:aws:health:event-region ::event/SERVICE /EVENT_TYPE_CODE /EVENT_TYPE_PLUS_ID `` format. System Message: WARNING/2 (&lt;string&gt;:, line 131) Inline literal start-string without end-string. For example, an event ARN might look like the following: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 Constraints: • max: 1600 • pattern: arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\w-]+){3} awsAccountId -&gt; (string) The 12-digit Amazon Web Services account numbers that contains the affected entities. Constraints: • max: 12 • pattern: ^\S+$ Shorthand Syntax: eventArn=string,awsAccountId=string ... JSON Syntax: [ { "eventArn": "string", "awsAccountId": "string" } ... ]
     /// </summary>
     [CliOption("--organization-event-detail-filters", GroupValues = true)]
     public IEnumerable<string>? OrganizationEventDetailFilters { get; private init; }
 
     /// <summary>
-    /// The locale (language) to return information in. English (en) is the default and the only supported value at this time. Constraints: o min: 2 o max: 256 o pattern: .{2,256}
+    /// The locale (language) to return information in. English (en) is the default and the only supported value at this time. Constraints: • min: 2 • max: 256 • pattern: .{2,256}
     /// </summary>
     [CliOption("--locale")]
     public string? Locale { get; set; }

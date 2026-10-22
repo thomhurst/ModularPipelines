@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMediastoreGetLifecyclePolicyOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Retrieves the object lifecycle policy that is assigned to a container. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ContainerName">The name of the container that the object lifecycle policy is as- signed to. Constraints: o min: 1 o max: 255 o pattern: [\w-]+</param>
+    /// <param name="ContainerName">The name of the container that the object lifecycle policy is assigned to. Constraints: • min: 1 • max: 255 • pattern: [\w-]+</param>
     public AwsMediastoreGetLifecyclePolicyOptions(
         string ContainerName
     )
@@ -56,7 +58,7 @@ public record AwsMediastoreGetLifecyclePolicyOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the container that the object lifecycle policy is as- signed to. Constraints: o min: 1 o max: 255 o pattern: [\w-]+
+    /// The name of the container that the object lifecycle policy is assigned to. Constraints: • min: 1 • max: 255 • pattern: [\w-]+
     /// </summary>
     [CliOption("--container-name")]
     public string? ContainerName { get; private init; }

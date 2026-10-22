@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts an Amazon Aurora DB cluster that was stopped using the Amazon Web Services console, the stop-db-cluster CLI command, or the StopDB- Cluster operation. For more information, see Stopping and Starting an Aurora Cluster in the Amazon Aurora User Guide . NOTE: This operation only applies to Aurora DB clusters. See also: AWS API Documentation
+/// Starts an Amazon Aurora DB cluster that was stopped using the Amazon Web Services console, the stop-db-cluster CLI command, or the StopDBCluster operation. For more information, see Stopping and Starting an Aurora Cluster in the Amazon Aurora User Guide . NOTE: This operation only applies to Aurora DB clusters. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsRdsStartDbClusterOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts an Amazon Aurora DB cluster that was stopped using the Amazon Web Services console, the stop-db-cluster CLI command, or the StopDB- Cluster operation. For more information, see Stopping and Starting an Aurora Cluster in the Amazon Aurora User Guide . NOTE: This operation only applies to Aurora DB clusters. See also: AWS API Documentation
+    /// Starts an Amazon Aurora DB cluster that was stopped using the Amazon Web Services console, the stop-db-cluster CLI command, or the StopDBCluster operation. For more information, see Stopping and Starting an Aurora Cluster in the Amazon Aurora User Guide . NOTE: This operation only applies to Aurora DB clusters. See also: AWS API Documentation
     /// </summary>
     /// <param name="DbClusterIdentifier">The DB cluster identifier of the Amazon Aurora DB cluster to be started. This parameter is stored as a lowercase string.</param>
     public AwsRdsStartDbClusterOptions(

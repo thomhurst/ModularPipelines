@@ -33,7 +33,7 @@ public class AwsMedialive : IAwsMedialive
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws medialive wait sub-commands.
     /// </summary>
     public AwsMedialiveWait Wait => _wait ??= new AwsMedialiveWait(_command);
 
@@ -162,7 +162,7 @@ public class AwsMedialive : IAwsMedialive
     }
 
     /// <summary>
-    /// Create a ChannelPlacementGroup in the specified Cluster. As part of the create operation, you specify the Nodes to attach the group to.After you create a ChannelPlacementGroup, you add Channels to the group (you do this by modifying the Channels to add them to a specific group). You now have an association of Channels to ChannelPlacementGroup, and Chan- nelPlacementGroup to Nodes. This association means that all the Chan- nels in the group are able to run on any of the Nodes associated with the ...
+    /// Create a ChannelPlacementGroup in the specified Cluster. As part of the create operation, you specify the Nodes to attach the group to.After you create a ChannelPlacementGroup, you add Channels to the group (you do this by modifying the Channels to add them to a specific group). You now have an association of Channels to ChannelPlacementGroup, and ChannelPlacementGroup to Nodes. This association means that all the Channels in the group are able to run on any of the Nodes associated with the grou...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -237,7 +237,7 @@ public class AwsMedialive : IAwsMedialive
     }
 
     /// <summary>
-    /// Creates an eventbridge rule template to monitor events and send notifi- cations to your targeted resources. See also: AWS API Documentation
+    /// Creates an eventbridge rule template to monitor events and send notifications to your targeted resources. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -342,7 +342,7 @@ public class AwsMedialive : IAwsMedialive
     }
 
     /// <summary>
-    /// Create the Register Node script for all the nodes intended for a spe- cific Cluster. You will then run the script on each hardware unit that is intended for that Cluster. The script creates a Node in the speci- fied Cluster. It then binds the Node to this hardware unit, and acti- vates the node hardware for use with MediaLive Anywhere. See also: AWS API Documentation
+    /// Create the Register Node script for all the nodes intended for a specific Cluster. You will then run the script on each hardware unit that is intended for that Cluster. The script creates a Node in the specified Cluster. It then binds the Node to this hardware unit, and activates the node hardware for use with MediaLive Anywhere. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -372,7 +372,7 @@ public class AwsMedialive : IAwsMedialive
     }
 
     /// <summary>
-    /// Create an SdiSource for each video source that uses the SDI protocol. You will reference the SdiSource when you create an SDI input in Medi- aLive. You will also reference it in an SdiSourceMapping, in order to create a connection between the logical SdiSource and the physical SDI card and port that the physical SDI source uses. See also: AWS API Documentation
+    /// Create an SdiSource for each video source that uses the SDI protocol. You will reference the SdiSource when you create an SDI input in MediaLive. You will also reference it in an SdiSourceMapping, in order to create a connection between the logical SdiSource and the physical SDI card and port that the physical SDI source uses. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -387,7 +387,7 @@ public class AwsMedialive : IAwsMedialive
     }
 
     /// <summary>
-    /// Initiates the creation of a new signal map. Will discover a new medi- aResourceMap based on the provided discoveryEntryPointArn. See also: AWS API Documentation
+    /// Initiates the creation of a new signal map. Will discover a new mediaResourceMap based on the provided discoveryEntryPointArn. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -447,7 +447,7 @@ public class AwsMedialive : IAwsMedialive
     }
 
     /// <summary>
-    /// Deletes a cloudwatch alarm template group. You must detach this group from all signal maps and ensure its existing templates are moved to an- other group or deleted. See also: AWS API Documentation
+    /// Deletes a cloudwatch alarm template group. You must detach this group from all signal maps and ensure its existing templates are moved to another group or deleted. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -492,7 +492,7 @@ public class AwsMedialive : IAwsMedialive
     }
 
     /// <summary>
-    /// Deletes an eventbridge rule template group. You must detach this group from all signal maps and ensure its existing templates are moved to an- other group or deleted. See also: AWS API Documentation
+    /// Deletes an eventbridge rule template group. You must detach this group from all signal maps and ensure its existing templates are moved to another group or deleted. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -642,7 +642,7 @@ public class AwsMedialive : IAwsMedialive
     }
 
     /// <summary>
-    /// Delete an SdiSource. The SdiSource must not be part of any Sid- SourceMapping and must not be attached to any input. See also: AWS API Documentation
+    /// Delete an SdiSource. The SdiSource must not be part of any SidSourceMapping and must not be attached to any input. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1017,7 +1017,7 @@ public class AwsMedialive : IAwsMedialive
     }
 
     /// <summary>
-    /// List the alerts for a channel with optional filtering based on alert state. See also: AWS API Documentation list-alerts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Alerts
+    /// List the alerts for a channel with optional filtering based on alert state. See also: AWS API Documentation list-alerts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Alerts
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1032,7 +1032,7 @@ public class AwsMedialive : IAwsMedialive
     }
 
     /// <summary>
-    /// Retrieve the list of ChannelPlacementGroups in the specified Cluster. See also: AWS API Documentation list-channel-placement-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ChannelPlacementG...
+    /// Retrieve the list of ChannelPlacementGroups in the specified Cluster. See also: AWS API Documentation list-channel-placement-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ChannelPlacementGroup...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1047,7 +1047,7 @@ public class AwsMedialive : IAwsMedialive
     }
 
     /// <summary>
-    /// Produces list of channels that have been created See also: AWS API Documentation list-channels is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Channels
+    /// Produces list of channels that have been created See also: AWS API Documentation list-channels is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Channels
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1062,7 +1062,7 @@ public class AwsMedialive : IAwsMedialive
     }
 
     /// <summary>
-    /// Lists cloudwatch alarm template groups. See also: AWS API Documentation list-cloud-watch-alarm-template-groups is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: CloudWatchAlarmTemplateGroups
+    /// Lists cloudwatch alarm template groups. See also: AWS API Documentation list-cloud-watch-alarm-template-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: CloudWatchAlarmTemplateGroups
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1077,7 +1077,7 @@ public class AwsMedialive : IAwsMedialive
     }
 
     /// <summary>
-    /// Lists cloudwatch alarm templates. See also: AWS API Documentation list-cloud-watch-alarm-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: CloudWatchAlarmTemplates
+    /// Lists cloudwatch alarm templates. See also: AWS API Documentation list-cloud-watch-alarm-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: CloudWatchAlarmTemplates
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1107,7 +1107,7 @@ public class AwsMedialive : IAwsMedialive
     }
 
     /// <summary>
-    /// Retrieve the list of Clusters. See also: AWS API Documentation list-clusters is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Clusters
+    /// Retrieve the list of Clusters. See also: AWS API Documentation list-clusters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Clusters
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1122,7 +1122,7 @@ public class AwsMedialive : IAwsMedialive
     }
 
     /// <summary>
-    /// Lists eventbridge rule template groups. See also: AWS API Documentation list-event-bridge-rule-template-groups is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: EventBridgeRuleTemplateGroups
+    /// Lists eventbridge rule template groups. See also: AWS API Documentation list-event-bridge-rule-template-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: EventBridgeRuleTemplateGroups
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1137,7 +1137,7 @@ public class AwsMedialive : IAwsMedialive
     }
 
     /// <summary>
-    /// Lists eventbridge rule templates. See also: AWS API Documentation list-event-bridge-rule-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: EventBridgeRuleTemplates
+    /// Lists eventbridge rule templates. See also: AWS API Documentation list-event-bridge-rule-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: EventBridgeRuleTemplates
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1149,6 +1149,21 @@ public class AwsMedialive : IAwsMedialive
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMedialiveListEventBridgeRuleTemplatesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// List input devices that are currently being transferred. List input devices that you are transferring from your AWS account or input devices that another AWS account is transferring to you. See also: AWS API Documentation list-input-device-transfers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated respo...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListInputDeviceTransfersAsync(
+        AwsMedialiveListInputDeviceTransfersOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1167,22 +1182,7 @@ public class AwsMedialive : IAwsMedialive
     }
 
     /// <summary>
-    /// List input devices that are currently being transferred. List input de- vices that you are transferring from your AWS account or input devices that another AWS account is transferring to you. See also: AWS API Documentation list-input-device-transfers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListInputDeviceTransfersAsync(
-        AwsMedialiveListInputDeviceTransfersOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Produces a list of Input Security Groups for an account See also: AWS API Documentation list-input-security-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: InputSecurityGroups
+    /// Produces a list of Input Security Groups for an account See also: AWS API Documentation list-input-security-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InputSecurityGroups
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1197,7 +1197,7 @@ public class AwsMedialive : IAwsMedialive
     }
 
     /// <summary>
-    /// Produces list of inputs that have been created See also: AWS API Documentation list-inputs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Inputs
+    /// Produces list of inputs that have been created See also: AWS API Documentation list-inputs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Inputs
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1227,6 +1227,21 @@ public class AwsMedialive : IAwsMedialive
     }
 
     /// <summary>
+    /// List the programs that currently exist for a specific multiplex. See also: AWS API Documentation list-multiplex-programs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: MultiplexPrograms
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListMultiplexProgramsAsync(
+        AwsMedialiveListMultiplexProgramsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Retrieve a list of the existing multiplexes. See also: AWS API Documentation list-multiplexes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Multiplexes
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1242,22 +1257,7 @@ public class AwsMedialive : IAwsMedialive
     }
 
     /// <summary>
-    /// List the programs that currently exist for a specific multiplex. See also: AWS API Documentation list-multiplex-programs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: MultiplexPrograms
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListMultiplexProgramsAsync(
-        AwsMedialiveListMultiplexProgramsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Retrieve the list of Networks. See also: AWS API Documentation list-networks is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Networks
+    /// Retrieve the list of Networks. See also: AWS API Documentation list-networks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Networks
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1272,7 +1272,7 @@ public class AwsMedialive : IAwsMedialive
     }
 
     /// <summary>
-    /// Retrieve the list of Nodes. See also: AWS API Documentation list-nodes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Nodes
+    /// Retrieve the list of Nodes. See also: AWS API Documentation list-nodes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Nodes
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1287,7 +1287,7 @@ public class AwsMedialive : IAwsMedialive
     }
 
     /// <summary>
-    /// List offerings available for purchase. See also: AWS API Documentation list-offerings is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Offerings
+    /// List offerings available for purchase. See also: AWS API Documentation list-offerings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Offerings
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1362,7 +1362,7 @@ public class AwsMedialive : IAwsMedialive
     }
 
     /// <summary>
-    /// Retrieves an array of all the encoder engine versions that are avail- able in this AWS account. See also: AWS API Documentation
+    /// Retrieves an array of all the encoder engine versions that are available in this AWS account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1392,7 +1392,7 @@ public class AwsMedialive : IAwsMedialive
     }
 
     /// <summary>
-    /// Send a reboot command to the specified input device. The device will begin rebooting within a few seconds of sending the command. When the reboot is complete, the devices connection status will change to con- nected. See also: AWS API Documentation
+    /// Send a reboot command to the specified input device. The device will begin rebooting within a few seconds of sending the command. When the reboot is complete, the devices connection status will change to connected. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1467,7 +1467,7 @@ public class AwsMedialive : IAwsMedialive
     }
 
     /// <summary>
-    /// Start a maintenance window for the specified input device. Starting a maintenance window will give the device up to two hours to install software. If the device was streaming prior to the maintenance, it will resume streaming when the software is fully installed. Devices automat- ically install updates while they are powered on and their MediaLive channels are stopped. A maintenance window allows you to update a de- vice without having to stop MediaLive channels that use the device. The device m...
+    /// Start a maintenance window for the specified input device. Starting a maintenance window will give the device up to two hours to install software. If the device was streaming prior to the maintenance, it will resume streaming when the software is fully installed. Devices automatically install updates while they are powered on and their MediaLive channels are stopped. A maintenance window allows you to update a device without having to stop MediaLive channels that use the device. The device must ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1482,7 +1482,7 @@ public class AwsMedialive : IAwsMedialive
     }
 
     /// <summary>
-    /// Start an input device that is attached to a MediaConnect flow. (There is no need to start a device that is attached to a MediaLive input; Me- diaLive starts the device when the channel starts.) See also: AWS API Documentation
+    /// Start an input device that is attached to a MediaConnect flow. (There is no need to start a device that is attached to a MediaLive input; MediaLive starts the device when the channel starts.) See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1557,7 +1557,7 @@ public class AwsMedialive : IAwsMedialive
     }
 
     /// <summary>
-    /// Stop an input device that is attached to a MediaConnect flow. (There is no need to stop a device that is attached to a MediaLive input; Medi- aLive automatically stops the device when the channel stops.) See also: AWS API Documentation
+    /// Stop an input device that is attached to a MediaConnect flow. (There is no need to stop a device that is attached to a MediaLive input; MediaLive automatically stops the device when the channel stops.) See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

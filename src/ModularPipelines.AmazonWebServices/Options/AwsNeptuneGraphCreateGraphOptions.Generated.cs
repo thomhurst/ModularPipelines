@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,8 +29,8 @@ public record AwsNeptuneGraphCreateGraphOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a new Neptune Analytics graph. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GraphName">A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed. Constraints: o min: 1 o max: 63 o pattern: (?!g-)[a-z][a-z0-9]*(-[a-z0-9]+)*</param>
-    /// <param name="ProvisionedMemory">The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16 Constraints: o min: 16 o max: 24576</param>
+    /// <param name="GraphName">A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed. Constraints: • min: 1 • max: 63 • pattern: (?!g-)[a-z][a-z0-9]*(-[a-z0-9]+)*</param>
+    /// <param name="ProvisionedMemory">The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16 Constraints: • min: 16 • max: 24576</param>
     public AwsNeptuneGraphCreateGraphOptions(
         string GraphName,
         int ProvisionedMemory
@@ -60,43 +61,43 @@ public record AwsNeptuneGraphCreateGraphOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed. Constraints: o min: 1 o max: 63 o pattern: (?!g-)[a-z][a-z0-9]*(-[a-z0-9]+)*
+    /// A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed. Constraints: • min: 1 • max: 63 • pattern: (?!g-)[a-z][a-z0-9]*(-[a-z0-9]+)*
     /// </summary>
     [CliOption("--graph-name")]
     public string? GraphName { get; private init; }
 
     /// <summary>
-    /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16 Constraints: o min: 16 o max: 24576
+    /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16 Constraints: • min: 16 • max: 24576
     /// </summary>
     [CliOption("--provisioned-memory")]
     public int? ProvisionedMemory { get; private init; }
 
     /// <summary>
-    /// Adds metadata tags to the new graph. These tags can also be used with cost allocation reporting, or used in a Condition statement in an IAM policy. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Adds metadata tags to the new graph. These tags can also be used with cost allocation reporting, or used in a Condition statement in an IAM policy. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Specifies whether or not the graph can be reachable over the inter- net. All access to graphs is IAM authenticated. (true to enable, or false to disable.
+    /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable.
     /// </summary>
     [CliFlag("--public-connectivity", NegatedName = "--no-public-connectivity")]
     public bool? PublicConnectivity { get; set; }
 
     /// <summary>
-    /// Specifies a KMS key to use to encrypt data in the new graph. Constraints: o min: 1 o max: 1024 o pattern: arn:aws[^:]*:kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}
+    /// Specifies a KMS key to use to encrypt data in the new graph. Constraints: • min: 1 • max: 1024 • pattern: arn:aws[^:]*:kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}
     /// </summary>
     [CliOption("--kms-key-identifier")]
     public string? KmsKeyIdentifier { get; set; }
 
     /// <summary>
-    /// Specifies the number of dimensions for vector embeddings that will be loaded into the graph. The value is specified as dimension= value. Max = 65,535 dimension -&gt; (integer) [required] The number of dimensions. Constraints: o min: 1 o max: 65536 Shorthand Syntax: dimension=integer JSON Syntax: { "dimension": integer }
+    /// Specifies the number of dimensions for vector embeddings that will be loaded into the graph. The value is specified as dimension= value. Max = 65,535 dimension -&gt; (integer) [required] The number of dimensions. Constraints: • min: 1 • max: 65536 Shorthand Syntax: dimension=integer JSON Syntax: { "dimension": integer }
     /// </summary>
     [CliOption("--vector-search-configuration")]
     public string? VectorSearchConfiguration { get; set; }
 
     /// <summary>
-    /// The number of replicas in other AZs. Min =0, Max = 2, Default = 1. WARNING: Additional charges equivalent to the m-NCUs selected for the graph apply for each replica. Constraints: o min: 0 o max: 2
+    /// The number of replicas in other AZs. Min =0, Max = 2, Default = 1. WARNING: Additional charges equivalent to the m-NCUs selected for the graph apply for each replica. Constraints: • min: 0 • max: 2
     /// </summary>
     [CliOption("--replica-count")]
     public int? ReplicaCount { get; set; }

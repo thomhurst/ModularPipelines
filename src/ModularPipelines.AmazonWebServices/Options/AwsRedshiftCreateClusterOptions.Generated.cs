@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new cluster with the specified parameters. To create a cluster in Virtual Private Cloud (VPC), you must provide a cluster subnet group name. The cluster subnet group identifies the sub- nets of your VPC that Amazon Redshift uses when creating the cluster. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide . VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region f...
+/// Creates a new cluster with the specified parameters. To create a cluster in Virtual Private Cloud (VPC), you must provide a cluster subnet group name. The cluster subnet group identifies the subnets of your VPC that Amazon Redshift uses when creating the cluster. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide . VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region fro...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +29,11 @@ public record AwsRedshiftCreateClusterOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new cluster with the specified parameters. To create a cluster in Virtual Private Cloud (VPC), you must provide a cluster subnet group name. The cluster subnet group identifies the sub- nets of your VPC that Amazon Redshift uses when creating the cluster. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide . VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region f...
+    /// Creates a new cluster with the specified parameters. To create a cluster in Virtual Private Cloud (VPC), you must provide a cluster subnet group name. The cluster subnet group identifies the subnets of your VPC that Amazon Redshift uses when creating the cluster. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide . VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region fro...
     /// </summary>
-    /// <param name="ClusterIdentifier">A unique identifier for the cluster. You use this identifier to re- fer to the cluster for any subsequent cluster operations such as deleting or modifying. The identifier also appears in the Amazon Redshift console. Constraints: o Must contain from 1 to 63 alphanumeric characters or hyphens. o Alphabetic characters must be lowercase. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. o Must be unique for all clusters within an Amazon Web Services ac- count. Example: myexamplecluster Constraints: o max: 2147483647</param>
-    /// <param name="NodeType">The node type to be provisioned for the cluster. For information about node types, go to Working with Clusters in the Amazon Redshift Cluster Management Guide . Valid Values: dc2.large | dc2.8xlarge | rg.large | rg.xlarge | rg.4xlarge | rg.12xlarge | ra3.large | ra3.xlplus | ra3.4xlarge | ra3.16xlarge Constraints: o max: 2147483647</param>
-    /// <param name="MasterUsername">The user name associated with the admin user account for the cluster that is being created. Constraints: o Must be 1 - 128 alphanumeric characters or hyphens. The user name can't be PUBLIC . o Must contain only lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen. o The first character must be a letter. o Must not contain a colon (:) or a slash (/). o Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide. Constraints: o max: 2147483647</param>
+    /// <param name="ClusterIdentifier">A unique identifier for the cluster. You use this identifier to refer to the cluster for any subsequent cluster operations such as deleting or modifying. The identifier also appears in the Amazon Redshift console. Constraints: • Must contain from 1 to 63 alphanumeric characters or hyphens. • Alphabetic characters must be lowercase. • First character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. • Must be unique for all clusters within an Amazon Web Services account. Example: myexamplecluster Constraints: • max: 2147483647</param>
+    /// <param name="NodeType">The node type to be provisioned for the cluster. For information about node types, go to Working with Clusters in the Amazon Redshift Cluster Management Guide . Valid Values: dc2.large | dc2.8xlarge | rg.large | rg.xlarge | rg.4xlarge | rg.12xlarge | ra3.large | ra3.xlplus | ra3.4xlarge | ra3.16xlarge Constraints: • max: 2147483647</param>
+    /// <param name="MasterUsername">The user name associated with the admin user account for the cluster that is being created. Constraints: • Must be 1 - 128 alphanumeric characters or hyphens. The user name can't be PUBLIC . • Must contain only lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen. • The first character must be a letter. • Must not contain a colon (:) or a slash (/). • Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide. Constraints: • max: 2147483647</param>
     public AwsRedshiftCreateClusterOptions(
         string ClusterIdentifier,
         string NodeType,
@@ -66,74 +68,74 @@ public record AwsRedshiftCreateClusterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the cluster. You use this identifier to re- fer to the cluster for any subsequent cluster operations such as deleting or modifying. The identifier also appears in the Amazon Redshift console. Constraints: o Must contain from 1 to 63 alphanumeric characters or hyphens. o Alphabetic characters must be lowercase. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. o Must be unique for all clusters within an Amazon Web Services ac- count. Example: myexamplecluster Constraints: o max: 2147483647
+    /// A unique identifier for the cluster. You use this identifier to refer to the cluster for any subsequent cluster operations such as deleting or modifying. The identifier also appears in the Amazon Redshift console. Constraints: • Must contain from 1 to 63 alphanumeric characters or hyphens. • Alphabetic characters must be lowercase. • First character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. • Must be unique for all clusters within an Amazon Web Services account. Example: myexamplecluster Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The node type to be provisioned for the cluster. For information about node types, go to Working with Clusters in the Amazon Redshift Cluster Management Guide . Valid Values: dc2.large | dc2.8xlarge | rg.large | rg.xlarge | rg.4xlarge | rg.12xlarge | ra3.large | ra3.xlplus | ra3.4xlarge | ra3.16xlarge Constraints: o max: 2147483647
+    /// The node type to be provisioned for the cluster. For information about node types, go to Working with Clusters in the Amazon Redshift Cluster Management Guide . Valid Values: dc2.large | dc2.8xlarge | rg.large | rg.xlarge | rg.4xlarge | rg.12xlarge | ra3.large | ra3.xlplus | ra3.4xlarge | ra3.16xlarge Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--node-type")]
     public string? NodeType { get; private init; }
 
     /// <summary>
-    /// The user name associated with the admin user account for the cluster that is being created. Constraints: o Must be 1 - 128 alphanumeric characters or hyphens. The user name can't be PUBLIC . o Must contain only lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen. o The first character must be a letter. o Must not contain a colon (:) or a slash (/). o Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide. Constraints: o max: 2147483647
+    /// The user name associated with the admin user account for the cluster that is being created. Constraints: • Must be 1 - 128 alphanumeric characters or hyphens. The user name can't be PUBLIC . • Must contain only lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen. • The first character must be a letter. • Must not contain a colon (:) or a slash (/). • Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--master-username")]
     public string? MasterUsername { get; private init; }
 
     /// <summary>
-    /// The name of the first database to be created when the cluster is created. To create additional databases after the cluster is created, connect to the cluster with a SQL client and use SQL commands to create a database. For more information, go to Create a Database in the Ama- zon Redshift Database Developer Guide. Default: dev Constraints: o Must contain 1 to 64 alphanumeric characters. o Must contain only lowercase letters. o Cannot be a word that is reserved by the service. A list of re- served words can be found in Reserved Words in the Amazon Redshift Database Developer Guide. Constraints: o max: 2147483647
+    /// The name of the first database to be created when the cluster is created. To create additional databases after the cluster is created, connect to the cluster with a SQL client and use SQL commands to create a database. For more information, go to Create a Database in the Amazon Redshift Database Developer Guide. Default: dev Constraints: • Must contain 1 to 64 alphanumeric characters. • Must contain only lowercase letters. • Cannot be a word that is reserved by the service. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--db-name")]
     public string? DbName { get; set; }
 
     /// <summary>
-    /// The type of the cluster. When cluster type is specified as o single-node , the NumberOfNodes parameter is not required. o multi-node , the NumberOfNodes parameter is required. Valid Values: multi-node | single-node Default: multi-node Constraints: o max: 2147483647
+    /// The type of the cluster. When cluster type is specified as • single-node , the NumberOfNodes parameter is not required. • multi-node , the NumberOfNodes parameter is required. Valid Values: multi-node | single-node Default: multi-node Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-type")]
     public string? ClusterType { get; set; }
 
     /// <summary>
-    /// The password associated with the admin user account for the cluster that is being created. You can't use MasterUserPassword if ManageMasterPassword is true . Constraints: o Must be between 8 and 64 characters in length. o Must contain at least one uppercase letter. o Must contain at least one lowercase letter. o Must contain one number. o Can be any printable ASCII character (ASCII code 33-126) except ' (single quote), " (double quote), \ , / , or @ .
+    /// The password associated with the admin user account for the cluster that is being created. You can't use MasterUserPassword if ManageMasterPassword is true . Constraints: • Must be between 8 and 64 characters in length. • Must contain at least one uppercase letter. • Must contain at least one lowercase letter. • Must contain one number. • Can be any printable ASCII character (ASCII code 33-126) except ' (single quote), " (double quote), \ , / , or @ .
     /// </summary>
     [SecretValue]
     [CliOption("--master-user-password")]
     public string? MasterUserPassword { get; set; }
 
     /// <summary>
-    /// A list of security groups to be associated with this cluster. Default: The default cluster security group for Amazon Redshift. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// A list of security groups to be associated with this cluster. Default: The default cluster security group for Amazon Redshift. (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--cluster-security-groups", GroupValues = true)]
     public IEnumerable<string>? ClusterSecurityGroups { get; set; }
 
     /// <summary>
-    /// A list of Virtual Private Cloud (VPC) security groups to be associ- ated with the cluster. Default: The default VPC security group is associated with the clus- ter. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// A list of Virtual Private Cloud (VPC) security groups to be associated with the cluster. Default: The default VPC security group is associated with the cluster. (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
     /// <summary>
-    /// The name of a cluster subnet group to be associated with this clus- ter. If this parameter is not provided the resulting cluster will be de- ployed outside virtual private cloud (VPC). Constraints: o max: 2147483647
+    /// The name of a cluster subnet group to be associated with this cluster. If this parameter is not provided the resulting cluster will be deployed outside virtual private cloud (VPC). Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-subnet-group-name")]
     public string? ClusterSubnetGroupName { get; set; }
 
     /// <summary>
-    /// The EC2 Availability Zone (AZ) in which you want Amazon Redshift to provision the cluster. For example, if you have several EC2 in- stances running in a specific Availability Zone, then you might want the cluster to be provisioned in the same zone in order to decrease network latency. Default: A random, system-chosen Availability Zone in the region that is specified by the endpoint. Example: us-east-2d Constraint: The specified Availability Zone must be in the same re- gion as the current endpoint. Constraints: o max: 2147483647
+    /// The EC2 Availability Zone (AZ) in which you want Amazon Redshift to provision the cluster. For example, if you have several EC2 instances running in a specific Availability Zone, then you might want the cluster to be provisioned in the same zone in order to decrease network latency. Default: A random, system-chosen Availability Zone in the region that is specified by the endpoint. Example: us-east-2d Constraint: The specified Availability Zone must be in the same region as the current endpoint. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; set; }
 
     /// <summary>
-    /// The weekly time range (in UTC) during which automated cluster main- tenance can occur. Format: ddd:hh24:mi-ddd:hh24:mi Default: A 30-minute window selected at random from an 8-hour block of time per region, occurring on a random day of the week. For more information about the time blocks for each region, see Maintenance Windows in Amazon Redshift Cluster Management Guide. Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Minimum 30-minute window. Constraints: o max: 2147483647
+    /// The weekly time range (in UTC) during which automated cluster maintenance can occur. Format: ddd:hh24:mi-ddd:hh24:mi Default: A 30-minute window selected at random from an 8-hour block of time per region, occurring on a random day of the week. For more information about the time blocks for each region, see Maintenance Windows in Amazon Redshift Cluster Management Guide. Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Minimum 30-minute window. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
 
     /// <summary>
-    /// The name of the parameter group to be associated with this cluster. Default: The default Amazon Redshift cluster parameter group. For information about the default parameter group, go to Working with Amazon Redshift Parameter Groups Constraints: o Must be 1 to 255 alphanumeric characters or hyphens. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Constraints: o max: 2147483647
+    /// The name of the parameter group to be associated with this cluster. Default: The default Amazon Redshift cluster parameter group. For information about the default parameter group, go to Working with Amazon Redshift Parameter Groups Constraints: • Must be 1 to 255 alphanumeric characters or hyphens. • First character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-parameter-group-name")]
     public string? ClusterParameterGroupName { get; set; }
@@ -151,25 +153,25 @@ public record AwsRedshiftCreateClusterOptions : AwsOptions, IValidatableObject
     public int? ManualSnapshotRetentionPeriod { get; set; }
 
     /// <summary>
-    /// The port number on which the cluster accepts incoming connections. The cluster is accessible only via the JDBC and ODBC connection strings. Part of the connection string requires the port on which the cluster will listen for incoming connections. Default: 5439 Valid Values: o For clusters with RG or RA3 nodes - Select a port within the ranges 5431-5455 or 8191-8215 . (If you have an existing cluster with RG or RA3 nodes, it isn't required that you change the port to these ranges.) o For clusters with dc2 nodes - Select a port within the range 1150-65535 .
+    /// The port number on which the cluster accepts incoming connections. The cluster is accessible only via the JDBC and ODBC connection strings. Part of the connection string requires the port on which the cluster will listen for incoming connections. Default: 5439 Valid Values: • For clusters with RG or RA3 nodes - Select a port within the ranges 5431-5455 or 8191-8215 . (If you have an existing cluster with RG or RA3 nodes, it isn't required that you change the port to these ranges.) • For clusters with dc2 nodes - Select a port within the range 1150-65535 .
     /// </summary>
     [CliOption("--port")]
     public int? Port { get; set; }
 
     /// <summary>
-    /// The version of the Amazon Redshift engine software that you want to deploy on the cluster. The version selected runs on all the nodes in the cluster. Constraints: Only version 1.0 is currently available. Example: 1.0 Constraints: o max: 2147483647
+    /// The version of the Amazon Redshift engine software that you want to deploy on the cluster. The version selected runs on all the nodes in the cluster. Constraints: Only version 1.0 is currently available. Example: 1.0 Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-version")]
     public string? ClusterVersion { get; set; }
 
     /// <summary>
-    /// If true , major version upgrades can be applied during the mainte- nance window to the Amazon Redshift engine that is running on the cluster. When a new major version of the Amazon Redshift engine is released, you can request that the service automatically apply upgrades during the maintenance window to the Amazon Redshift engine that is running on your cluster. Default: true
+    /// If true , major version upgrades can be applied during the maintenance window to the Amazon Redshift engine that is running on the cluster. When a new major version of the Amazon Redshift engine is released, you can request that the service automatically apply upgrades during the maintenance window to the Amazon Redshift engine that is running on your cluster. Default: true
     /// </summary>
     [CliFlag("--allow-version-upgrade", NegatedName = "--no-allow-version-upgrade")]
     public bool? AllowVersionUpgrade { get; set; }
 
     /// <summary>
-    /// The number of compute nodes in the cluster. This parameter is re- quired when the ClusterType parameter is specified as multi-node . For information about determining how many nodes you need, go to Working with Clusters in the Amazon Redshift Cluster Management Guide . If you don't specify this parameter, you get a single-node cluster. When requesting a multi-node cluster, you must specify the number of nodes that you want in the cluster. Default: 1 Constraints: Value must be at least 1 and no more than 100.
+    /// The number of compute nodes in the cluster. This parameter is required when the ClusterType parameter is specified as multi-node . For information about determining how many nodes you need, go to Working with Clusters in the Amazon Redshift Cluster Management Guide . If you don't specify this parameter, you get a single-node cluster. When requesting a multi-node cluster, you must specify the number of nodes that you want in the cluster. Default: 1 Constraints: Value must be at least 1 and no more than 100.
     /// </summary>
     [CliOption("--number-of-nodes")]
     public int? NumberOfNodes { get; set; }
@@ -187,31 +189,31 @@ public record AwsRedshiftCreateClusterOptions : AwsOptions, IValidatableObject
     public bool? Encrypted { get; set; }
 
     /// <summary>
-    /// Specifies the name of the HSM client certificate the Amazon Redshift cluster uses to retrieve the data encryption keys stored in an HSM. Constraints: o max: 2147483647
+    /// Specifies the name of the HSM client certificate the Amazon Redshift cluster uses to retrieve the data encryption keys stored in an HSM. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--hsm-client-certificate-identifier")]
     public string? HsmClientCertificateIdentifier { get; set; }
 
     /// <summary>
-    /// Specifies the name of the HSM configuration that contains the infor- mation the Amazon Redshift cluster can use to retrieve and store keys in an HSM. Constraints: o max: 2147483647
+    /// Specifies the name of the HSM configuration that contains the information the Amazon Redshift cluster can use to retrieve and store keys in an HSM. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--hsm-configuration-identifier")]
     public string? HsmConfigurationIdentifier { get; set; }
 
     /// <summary>
-    /// The Elastic IP (EIP) address for the cluster. Constraints: The cluster must be provisioned in EC2-VPC and pub- licly-accessible through an Internet gateway. Don't specify the Elastic IP address for a publicly accessible cluster with availabil- ity zone relocation turned on. For more information about provision- ing clusters in EC2-VPC, go to Supported Platforms to Launch Your Cluster in the Amazon Redshift Cluster Management Guide. Constraints: o max: 2147483647
+    /// The Elastic IP (EIP) address for the cluster. Constraints: The cluster must be provisioned in EC2-VPC and publicly-accessible through an Internet gateway. Don't specify the Elastic IP address for a publicly accessible cluster with availability zone relocation turned on. For more information about provisioning clusters in EC2-VPC, go to Supported Platforms to Launch Your Cluster in the Amazon Redshift Cluster Management Guide. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--elastic-ip")]
     public string? ElasticIp { get; set; }
 
     /// <summary>
-    /// A list of tag instances. (structure) A tag consisting of a name/value pair for a resource. Key -&gt; (string) The key, or name, for the resource tag. Constraints: o max: 2147483647 Value -&gt; (string) The value for the resource tag. Constraints: o max: 2147483647 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tag instances. (structure) A tag consisting of a name/value pair for a resource. Key -&gt; (string) The key, or name, for the resource tag. Constraints: • max: 2147483647 Value -&gt; (string) The value for the resource tag. Constraints: • max: 2147483647 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The Key Management Service (KMS) key ID of the encryption key that you want to use to encrypt data in the cluster. Constraints: o max: 2147483647
+    /// The Key Management Service (KMS) key ID of the encryption key that you want to use to encrypt data in the cluster. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
@@ -223,67 +225,67 @@ public record AwsRedshiftCreateClusterOptions : AwsOptions, IValidatableObject
     public bool? EnhancedVpcRouting { get; set; }
 
     /// <summary>
-    /// Reserved. Constraints: o max: 2147483647
+    /// Reserved. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--additional-info")]
     public string? AdditionalInfo { get; set; }
 
     /// <summary>
-    /// A list of Identity and Access Management (IAM) roles that can be used by the cluster to access other Amazon Web Services services. You must supply the IAM roles in their Amazon Resource Name (ARN) format. The maximum number of IAM roles that you can associate is subject to a quota. For more information, go to Quotas and limits in the Amazon Redshift Cluster Management Guide . (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// A list of Identity and Access Management (IAM) roles that can be used by the cluster to access other Amazon Web Services services. You must supply the IAM roles in their Amazon Resource Name (ARN) format. The maximum number of IAM roles that you can associate is subject to a quota. For more information, go to Quotas and limits in the Amazon Redshift Cluster Management Guide . (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--iam-roles", GroupValues = true)]
     public IEnumerable<string>? IamRoles { get; set; }
 
     /// <summary>
-    /// An optional parameter for the name of the maintenance track for the cluster. If you don't provide a maintenance track name, the cluster is assigned to the current track. Constraints: o max: 2147483647
+    /// An optional parameter for the name of the maintenance track for the cluster. If you don't provide a maintenance track name, the cluster is assigned to the current track. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--maintenance-track-name")]
     public string? MaintenanceTrackName { get; set; }
 
     /// <summary>
-    /// A unique identifier for the snapshot schedule. Constraints: o max: 2147483647
+    /// A unique identifier for the snapshot schedule. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--snapshot-schedule-identifier")]
     public string? SnapshotScheduleIdentifier { get; set; }
 
     /// <summary>
-    /// The option to enable relocation for an Amazon Redshift cluster be- tween Availability Zones after the cluster is created.
+    /// The option to enable relocation for an Amazon Redshift cluster between Availability Zones after the cluster is created.
     /// </summary>
     [CliFlag("--availability-zone-relocation", NegatedName = "--no-availability-zone-relocation")]
     public bool? AvailabilityZoneRelocation { get; set; }
 
     /// <summary>
-    /// This parameter is retired. It does not set the AQUA configuration status. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator). Possible values: o enabled o disabled o auto
+    /// This parameter is retired. It does not set the AQUA configuration status. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator). Possible values: • enabled • disabled • auto
     /// </summary>
     [CliOption("--aqua-configuration-status")]
     public AwsRedshiftCreateClusterAquaConfigurationStatus? AquaConfigurationStatus { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) for the IAM role that was set as de- fault for the cluster when the cluster was created. Constraints: o max: 2147483647
+    /// The Amazon Resource Name (ARN) for the IAM role that was set as default for the cluster when the cluster was created. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--default-iam-role-arn")]
     public string? DefaultIamRoleArn { get; set; }
 
     /// <summary>
-    /// A flag that specifies whether to load sample data once the cluster is created. Constraints: o max: 2147483647
+    /// A flag that specifies whether to load sample data once the cluster is created. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--load-sample-data")]
     public string? LoadSampleData { get; set; }
 
     /// <summary>
-    /// If true , Amazon Redshift uses Secrets Manager to manage this clus- ter's admin credentials. You can't use MasterUserPassword if Manage- MasterPassword is true. If ManageMasterPassword is false or not set, Amazon Redshift uses MasterUserPassword for the admin user account's password.
+    /// If true , Amazon Redshift uses Secrets Manager to manage this cluster's admin credentials. You can't use MasterUserPassword if ManageMasterPassword is true. If ManageMasterPassword is false or not set, Amazon Redshift uses MasterUserPassword for the admin user account's password.
     /// </summary>
     [CliFlag("--manage-master-password", NegatedName = "--no-manage-master-password")]
     public bool? ManageMasterPassword { get; set; }
 
     /// <summary>
-    /// The ID of the Key Management Service (KMS) key used to encrypt and store the cluster's admin credentials secret. You can only use this parameter if ManageMasterPassword is true. Constraints: o max: 2147483647
+    /// The ID of the Key Management Service (KMS) key used to encrypt and store the cluster's admin credentials secret. You can only use this parameter if ManageMasterPassword is true. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--master-password-secret-kms-key-id")]
     public string? MasterPasswordSecretKmsKeyId { get; set; }
 
     /// <summary>
-    /// The IP address types that the cluster supports. Possible values are ipv4 and dualstack . Constraints: o max: 2147483647
+    /// The IP address types that the cluster supports. Possible values are ipv4 and dualstack . Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--ip-address-type")]
     public string? IpAddressType { get; set; }
@@ -295,19 +297,19 @@ public record AwsRedshiftCreateClusterOptions : AwsOptions, IValidatableObject
     public bool? MultiAz { get; set; }
 
     /// <summary>
-    /// The Amazon resource name (ARN) of the Amazon Redshift IAM Identity Center application. Constraints: o max: 2147483647
+    /// The Amazon resource name (ARN) of the Amazon Redshift IAM Identity Center application. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--redshift-idc-application-arn")]
     public string? RedshiftIdcApplicationArn { get; set; }
 
     /// <summary>
-    /// The name of the Glue data catalog that will be associated with the cluster enabled with Amazon Redshift federated permissions. Constraints: o Must contain at least one lowercase letter. o Can only contain lowercase letters (a-z), numbers (0-9), under- scores (_), and hyphens (-). Pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$ Example: my-catalog_01 Constraints: o min: 1 o max: 64 o pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$
+    /// The name of the Glue data catalog that will be associated with the cluster enabled with Amazon Redshift federated permissions. Constraints: • Must contain at least one lowercase letter. • Can only contain lowercase letters (a-z), numbers (0-9), underscores (_), and hyphens (-). Pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$ Example: my-catalog_01 Constraints: • min: 1 • max: 64 • pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$
     /// </summary>
     [CliOption("--catalog-name")]
     public string? CatalogName { get; set; }
 
     /// <summary>
-    /// tomatic-optimization (boolean) If true , allocates additional compute resources for running auto- matic optimization operations. Default: false
+    /// If true , allocates additional compute resources for running automatic optimization operations. Default: false
     /// </summary>
     [CliFlag("--extra-compute-for-automatic-optimization", NegatedName = "--no-extra-compute-for-automatic-optimization")]
     public bool? ExtraComputeForAutomaticOptimization { get; set; }

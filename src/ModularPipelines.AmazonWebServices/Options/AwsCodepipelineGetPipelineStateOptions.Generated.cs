@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about the state of a pipeline, including the stages and actions. NOTE: Values returned in the revisionId and revisionUrl fields indicate the source revision information, such as the commit ID, for the cur- rent state. See also: AWS API Documentation
+/// Returns information about the state of a pipeline, including the stages and actions. NOTE: Values returned in the revisionId and revisionUrl fields indicate the source revision information, such as the commit ID, for the current state. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsCodepipelineGetPipelineStateOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns information about the state of a pipeline, including the stages and actions. NOTE: Values returned in the revisionId and revisionUrl fields indicate the source revision information, such as the commit ID, for the cur- rent state. See also: AWS API Documentation
+    /// Returns information about the state of a pipeline, including the stages and actions. NOTE: Values returned in the revisionId and revisionUrl fields indicate the source revision information, such as the commit ID, for the current state. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the pipeline about which you want to get information. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+</param>
+    /// <param name="Name">The name of the pipeline about which you want to get information. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+</param>
     public AwsCodepipelineGetPipelineStateOptions(
         string Name
     )
@@ -56,7 +58,7 @@ public record AwsCodepipelineGetPipelineStateOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the pipeline about which you want to get information. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+
+    /// The name of the pipeline about which you want to get information. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

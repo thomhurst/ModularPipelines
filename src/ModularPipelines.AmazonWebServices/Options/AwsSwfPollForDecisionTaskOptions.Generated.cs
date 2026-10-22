@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Used by deciders to get a DecisionTask from the specified decision taskList . A decision task may be returned for any open workflow execu- tion that is using the specified task list. The task includes a pagi- nated view of the history of the workflow execution. The decider should use the workflow type and the history to determine how to properly han- dle the task. This action initiates a long poll, where the service holds the HTTP connection open and responds as soon a task becomes available. If...
+/// Used by deciders to get a DecisionTask from the specified decision taskList . A decision task may be returned for any open workflow execution that is using the specified task list. The task includes a paginated view of the history of the workflow execution. The decider should use the workflow type and the history to determine how to properly handle the task. This action initiates a long poll, where the service holds the HTTP connection open and responds as soon a task becomes available. If no de...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsSwfPollForDecisionTaskOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Used by deciders to get a DecisionTask from the specified decision taskList . A decision task may be returned for any open workflow execu- tion that is using the specified task list. The task includes a pagi- nated view of the history of the workflow execution. The decider should use the workflow type and the history to determine how to properly han- dle the task. This action initiates a long poll, where the service holds the HTTP connection open and responds as soon a task becomes available. If...
+    /// Used by deciders to get a DecisionTask from the specified decision taskList . A decision task may be returned for any open workflow execution that is using the specified task list. The task includes a paginated view of the history of the workflow execution. The decider should use the workflow type and the history to determine how to properly handle the task. This action initiates a long poll, where the service holds the HTTP connection open and responds as soon a task becomes available. If no de...
     /// </summary>
-    /// <param name="Domain">The name of the domain containing the task lists to poll. Constraints: o min: 1 o max: 256</param>
-    /// <param name="TaskList">Specifies the task list to poll for decision tasks. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . name -&gt; (string) [required] The name of the task list. Constraints: o min: 1 o max: 256 Shorthand Syntax: name=string JSON Syntax: { "name": "string" }</param>
+    /// <param name="Domain">The name of the domain containing the task lists to poll. Constraints: • min: 1 • max: 256</param>
+    /// <param name="TaskList">Specifies the task list to poll for decision tasks. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . name -&gt; (string) [required] The name of the task list. Constraints: • min: 1 • max: 256 Shorthand Syntax: name=string JSON Syntax: { "name": "string" }</param>
     public AwsSwfPollForDecisionTaskOptions(
         string Domain,
         string TaskList
@@ -61,19 +63,19 @@ public record AwsSwfPollForDecisionTaskOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain containing the task lists to poll. Constraints: o min: 1 o max: 256
+    /// The name of the domain containing the task lists to poll. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; private init; }
 
     /// <summary>
-    /// Specifies the task list to poll for decision tasks. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . name -&gt; (string) [required] The name of the task list. Constraints: o min: 1 o max: 256 Shorthand Syntax: name=string JSON Syntax: { "name": "string" }
+    /// Specifies the task list to poll for decision tasks. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . name -&gt; (string) [required] The name of the task list. Constraints: • min: 1 • max: 256 Shorthand Syntax: name=string JSON Syntax: { "name": "string" }
     /// </summary>
     [CliOption("--task-list")]
     public string? TaskList { get; private init; }
 
     /// <summary>
-    /// Identity of the decider making the request, which is recorded in the DecisionTaskStarted event in the workflow history. This enables di- agnostic tracing when problems arise. The form of this identity is user defined. Constraints: o max: 256
+    /// Identity of the decider making the request, which is recorded in the DecisionTaskStarted event in the workflow history. This enables diagnostic tracing when problems arise. The form of this identity is user defined. Constraints: • max: 256
     /// </summary>
     [CliOption("--identity")]
     public string? Identity { get; set; }
@@ -85,16 +87,13 @@ public record AwsSwfPollForDecisionTaskOptions : AwsOptions, IValidatableObject
     public bool? ReverseOrder { get; set; }
 
     /// <summary>
-    /// ous-started-event (boolean) When set to true , returns the events with eventTimestamp greater than or equal to eventTimestamp of the most recent Decision- TaskStarted event. By default, this parameter is set to false .
+    /// When set to true , returns the events with eventTimestamp greater than or equal to eventTimestamp of the most recent DecisionTaskStarted event. By default, this parameter is set to false .
     /// </summary>
     [CliFlag("--start-at-previous-started-event", NegatedName = "--no-start-at-previous-started-event")]
     public bool? StartAtPreviousStartedEvent { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -104,16 +103,19 @@ public record AwsSwfPollForDecisionTaskOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 0 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

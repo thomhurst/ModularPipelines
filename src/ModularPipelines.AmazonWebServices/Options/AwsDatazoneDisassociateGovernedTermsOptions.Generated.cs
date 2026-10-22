@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +29,10 @@ public record AwsDatazoneDisassociateGovernedTermsOptions : AwsOptions, IValidat
     /// <summary>
     /// Disassociates restricted terms from an asset. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the domain where you want to disassociate restricted terms from an asset. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="EntityIdentifier">The ID of an asset from which you want to disassociate restricted terms. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="EntityType">The type of the asset from which you want to disassociate restricted terms. Possible values: o ASSET</param>
-    /// <param name="GovernedGlossaryTerms">The restricted glossary terms that you want to disassociate from an asset. Constraints: o min: 1 o max: 5 (string) Constraints: o pattern: [a-zA-Z0-9_-]{1,36} Syntax: "string" "string" ...</param>
+    /// <param name="DomainIdentifier">The ID of the domain where you want to disassociate restricted terms from an asset. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EntityIdentifier">The ID of an asset from which you want to disassociate restricted terms. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EntityType">The type of the asset from which you want to disassociate restricted terms. Possible values: • ASSET</param>
+    /// <param name="GovernedGlossaryTerms">The restricted glossary terms that you want to disassociate from an asset. Constraints: • min: 1 • max: 5 (string) Constraints: • pattern: [a-zA-Z0-9_-]{1,36} Syntax: "string" "string" ...</param>
     public AwsDatazoneDisassociateGovernedTermsOptions(
         string DomainIdentifier,
         string EntityIdentifier,
@@ -79,25 +81,25 @@ public record AwsDatazoneDisassociateGovernedTermsOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the domain where you want to disassociate restricted terms from an asset. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the domain where you want to disassociate restricted terms from an asset. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of an asset from which you want to disassociate restricted terms. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The ID of an asset from which you want to disassociate restricted terms. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--entity-identifier")]
     public string? EntityIdentifier { get; private init; }
 
     /// <summary>
-    /// The type of the asset from which you want to disassociate restricted terms. Possible values: o ASSET
+    /// The type of the asset from which you want to disassociate restricted terms. Possible values: • ASSET
     /// </summary>
     [CliOption("--entity-type")]
     public string? EntityType { get; private init; }
 
     /// <summary>
-    /// The restricted glossary terms that you want to disassociate from an asset. Constraints: o min: 1 o max: 5 (string) Constraints: o pattern: [a-zA-Z0-9_-]{1,36} Syntax: "string" "string" ...
+    /// The restricted glossary terms that you want to disassociate from an asset. Constraints: • min: 1 • max: 5 (string) Constraints: • pattern: [a-zA-Z0-9_-]{1,36} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--governed-glossary-terms", GroupValues = true)]
     public IEnumerable<string>? GovernedGlossaryTerms { get; private init; }

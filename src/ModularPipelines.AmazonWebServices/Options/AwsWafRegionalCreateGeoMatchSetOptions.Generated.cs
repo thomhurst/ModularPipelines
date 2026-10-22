@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Creates an GeoMatchSet , which you use to specify which web requests you want to allow or block based on the country that the requests orig- inate from. For example, if you're receiving a lot of reques...
+/// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Creates an GeoMatchSet , which you use to specify which web requests you want to allow or block based on the country that the requests originate from. For example, if you're receiving a lot of requests...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsWafRegionalCreateGeoMatchSetOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Creates an GeoMatchSet , which you use to specify which web requests you want to allow or block based on the country that the requests orig- inate from. For example, if you're receiving a lot of reques...
+    /// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Creates an GeoMatchSet , which you use to specify which web requests you want to allow or block based on the country that the requests originate from. For example, if you're receiving a lot of requests...
     /// </summary>
-    /// <param name="Name">A friendly name or description of the GeoMatchSet . You can't change Name after you create the GeoMatchSet . Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
-    /// <param name="ChangeToken">The value returned by the most recent call to GetChangeToken . Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    /// <param name="Name">A friendly name or description of the GeoMatchSet . You can't change Name after you create the GeoMatchSet . Constraints: • min: 1 • max: 128 • pattern: .*\S.*</param>
+    /// <param name="ChangeToken">The value returned by the most recent call to GetChangeToken . Constraints: • min: 1 • max: 128 • pattern: .*\S.*</param>
     public AwsWafRegionalCreateGeoMatchSetOptions(
         string Name,
         string ChangeToken
@@ -61,13 +63,13 @@ public record AwsWafRegionalCreateGeoMatchSetOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A friendly name or description of the GeoMatchSet . You can't change Name after you create the GeoMatchSet . Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// A friendly name or description of the GeoMatchSet . You can't change Name after you create the GeoMatchSet . Constraints: • min: 1 • max: 128 • pattern: .*\S.*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The value returned by the most recent call to GetChangeToken . Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// The value returned by the most recent call to GetChangeToken . Constraints: • min: 1 • max: 128 • pattern: .*\S.*
     /// </summary>
     [SecretValue]
     [CliOption("--change-token")]

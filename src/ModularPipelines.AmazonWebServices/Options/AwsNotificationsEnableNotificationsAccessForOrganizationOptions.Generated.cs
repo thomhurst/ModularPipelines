@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables service trust between User Notifications and Amazon Web Ser- vices Organizations. See also: AWS API Documentation
+/// Enables service trust between User Notifications and Amazon Web Services Organizations. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

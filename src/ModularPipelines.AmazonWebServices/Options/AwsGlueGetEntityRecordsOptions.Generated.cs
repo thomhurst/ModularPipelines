@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API is used to query preview data from a given connection type or from a native Amazon S3 based Glue Data Catalog. Returns records as an array of JSON blobs. Each record is formatted us- ing Jackson JsonNode based on the field type defined by the DescribeEn- tity API. Spark connectors generate schemas according to the same data type map- ping as in the DescribeEntity API. Spark connectors convert data to the appropriate data types matching the schema when returning rows. See also: AWS API D...
+/// This API is used to query preview data from a given connection type or from a native Amazon S3 based Glue Data Catalog. Returns records as an array of JSON blobs. Each record is formatted using Jackson JsonNode based on the field type defined by the DescribeEntity API. Spark connectors generate schemas according to the same data type mapping as in the DescribeEntity API. Spark connectors convert data to the appropriate data types matching the schema when returning rows. See also: AWS API Documen...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,13 +28,13 @@ public record AwsGlueGetEntityRecordsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API is used to query preview data from a given connection type or from a native Amazon S3 based Glue Data Catalog. Returns records as an array of JSON blobs. Each record is formatted us- ing Jackson JsonNode based on the field type defined by the DescribeEn- tity API. Spark connectors generate schemas according to the same data type map- ping as in the DescribeEntity API. Spark connectors convert data to the appropriate data types matching the schema when returning rows. See also: AWS API D...
+    /// This API is used to query preview data from a given connection type or from a native Amazon S3 based Glue Data Catalog. Returns records as an array of JSON blobs. Each record is formatted using Jackson JsonNode based on the field type defined by the DescribeEntity API. Spark connectors generate schemas according to the same data type mapping as in the DescribeEntity API. Spark connectors convert data to the appropriate data types matching the schema when returning rows. See also: AWS API Documen...
     /// </summary>
     /// <param name="EntityName">Name of the entity that we want to query the preview data from the given connection type.</param>
-    /// <param name="Limit">Limits the number of records fetched with the request. Constraints: o min: 1 o max: 1000</param>
+    /// <param name="Limit">Limits the number of records fetched with the request. Constraints: • min: 1 • max: 1000</param>
     public AwsGlueGetEntityRecordsOptions(
         string EntityName,
-        int Limit
+        long Limit
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(EntityName);
@@ -67,44 +68,44 @@ public record AwsGlueGetEntityRecordsOptions : AwsOptions, IValidatableObject
     public string? EntityName { get; private init; }
 
     /// <summary>
-    /// Limits the number of records fetched with the request. Constraints: o min: 1 o max: 1000
+    /// Limits the number of records fetched with the request. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--limit")]
-    public int? Limit { get; private init; }
+    public long? Limit { get; private init; }
 
     /// <summary>
-    /// The name of the connection that contains the connection type creden- tials. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The name of the connection that contains the connection type credentials. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--connection-name")]
     public string? ConnectionName { get; set; }
 
     /// <summary>
-    /// The catalog ID of the catalog that contains the connection. This can be null, By default, the Amazon Web Services Account ID is the cata- log ID. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The catalog ID of the catalog that contains the connection. This can be null, By default, the Amazon Web Services Account ID is the catalog ID. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
     /// <summary>
-    /// A continuation token, included if this is a continuation call. Constraints: o min: 1 o max: 2048 o pattern: [-a-zA-Z0-9+=/:_]*
+    /// A continuation token, included if this is a continuation call. Constraints: • min: 1 • max: 2048 • pattern: [-a-zA-Z0-9+=/:_]*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The API version of the SaaS connector. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9.-]*
+    /// The API version of the SaaS connector. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9.-]*
     /// </summary>
     [CliOption("--data-store-api-version")]
     public string? DataStoreApiVersion { get; set; }
 
     /// <summary>
-    /// Connector options that are required to query the data. Constraints: o min: 0 o max: 100 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: [\w]* value -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: [\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Connector options that are required to query the data. Constraints: • min: 0 • max: 100 key -&gt; (string) Constraints: • min: 1 • max: 256 • pattern: [\w]* value -&gt; (string) Constraints: • min: 1 • max: 256 • pattern: [\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--connection-options", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ConnectionOptions { get; set; }
 
     /// <summary>
-    /// A filter predicate that you can apply in the query request. Constraints: o min: 1 o max: 100000
+    /// A filter predicate that you can apply in the query request. Constraints: • min: 1 • max: 100000
     /// </summary>
     [CliOption("--filter-predicate")]
     public string? FilterPredicate { get; set; }
@@ -116,7 +117,7 @@ public record AwsGlueGetEntityRecordsOptions : AwsOptions, IValidatableObject
     public string? OrderBy { get; set; }
 
     /// <summary>
-    /// List of fields that we want to fetch as part of preview data. Constraints: o min: 1 o max: 1000 (string) Syntax: "string" "string" ...
+    /// List of fields that we want to fetch as part of preview data. Constraints: • min: 1 • max: 1000 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--selected-fields", GroupValues = true)]
     public IEnumerable<string>? SelectedFields { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsAuditManagerBatchDisassociateAssessmentReportEvidenceOptions : 
     /// <summary>
     /// Disassociates a list of evidence from an assessment report in Audit Manager. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssessmentId">The identifier for the assessment. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
-    /// <param name="EvidenceFolderId">The identifier for the folder that the evidence is stored in. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
-    /// <param name="EvidenceIds">The list of evidence identifiers. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$ Syntax: "string" "string" ...</param>
+    /// <param name="AssessmentId">The identifier for the assessment. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="EvidenceFolderId">The identifier for the folder that the evidence is stored in. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="EvidenceIds">The list of evidence identifiers. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$ Syntax: "string" "string" ...</param>
     public AwsAuditManagerBatchDisassociateAssessmentReportEvidenceOptions(
         string AssessmentId,
         string EvidenceFolderId,
@@ -75,19 +77,19 @@ public record AwsAuditManagerBatchDisassociateAssessmentReportEvidenceOptions : 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the assessment. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The identifier for the assessment. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--assessment-id")]
     public string? AssessmentId { get; private init; }
 
     /// <summary>
-    /// The identifier for the folder that the evidence is stored in. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The identifier for the folder that the evidence is stored in. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--evidence-folder-id")]
     public string? EvidenceFolderId { get; private init; }
 
     /// <summary>
-    /// The list of evidence identifiers. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$ Syntax: "string" "string" ...
+    /// The list of evidence identifiers. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--evidence-ids", GroupValues = true)]
     public IEnumerable<string>? EvidenceIds { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotManagedIntegrationsGetManagedThingCapabilitiesOptions : AwsO
     /// <summary>
     /// Get the capabilities for a managed thing using the device ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The id of the device. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9:_-]*</param>
+    /// <param name="Identifier">The id of the device. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9:_-]*</param>
     public AwsIotManagedIntegrationsGetManagedThingCapabilitiesOptions(
         string Identifier
     )
@@ -56,7 +58,7 @@ public record AwsIotManagedIntegrationsGetManagedThingCapabilitiesOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The id of the device. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9:_-]*
+    /// The id of the device. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9:_-]*
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsConnectDeleteRuleOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a rule for the specified Connect Customer instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="RuleId">A unique identifier for the rule. Constraints: o min: 1 o max: 256</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="RuleId">A unique identifier for the rule. Constraints: • min: 1 • max: 256</param>
     public AwsConnectDeleteRuleOptions(
         string InstanceId,
         string RuleId
@@ -60,13 +62,13 @@ public record AwsConnectDeleteRuleOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the rule. Constraints: o min: 1 o max: 256
+    /// A unique identifier for the rule. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--rule-id")]
     public string? RuleId { get; private init; }

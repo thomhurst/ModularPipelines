@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsQuicksightDeleteThemeAliasOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Deletes the version of the theme that the specified theme alias points to. If you provide a specific alias, you delete the version of the theme that the alias points to. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the theme alias to delete. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="ThemeId">The ID for the theme that the specified alias is for. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
-    /// <param name="AliasName">The unique name for the theme alias to delete. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+|(\$LATEST)|(\$PUBLISHED)</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the theme alias to delete. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="ThemeId">The ID for the theme that the specified alias is for. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+</param>
+    /// <param name="AliasName">The unique name for the theme alias to delete. Constraints: • min: 1 • max: 2048 • pattern: [\w\-]+|(\$LATEST)|(\$PUBLISHED)</param>
     public AwsQuicksightDeleteThemeAliasOptions(
         string AwsAccountId,
         string ThemeId,
@@ -64,19 +66,19 @@ public record AwsQuicksightDeleteThemeAliasOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the theme alias to delete. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the theme alias to delete. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID for the theme that the specified alias is for. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// The ID for the theme that the specified alias is for. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--theme-id")]
     public string? ThemeId { get; private init; }
 
     /// <summary>
-    /// The unique name for the theme alias to delete. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+|(\$LATEST)|(\$PUBLISHED)
+    /// The unique name for the theme alias to delete. Constraints: • min: 1 • max: 2048 • pattern: [\w\-]+|(\$LATEST)|(\$PUBLISHED)
     /// </summary>
     [CliOption("--alias-name")]
     public string? AliasName { get; private init; }

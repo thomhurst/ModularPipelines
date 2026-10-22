@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsRoute53DeactivateKeySigningKeyOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Deactivates a key-signing key (KSK) so that it will not be used for signing by DNSSEC. This operation changes the KSK status to INACTIVE . See also: AWS API Documentation
     /// </summary>
-    /// <param name="HostedZoneId">A unique string used to identify a hosted zone. Constraints: o max: 32</param>
-    /// <param name="Name">A string used to identify a key-signing key (KSK). Constraints: o min: 3 o max: 128</param>
+    /// <param name="HostedZoneId">A unique string used to identify a hosted zone. Constraints: • max: 32</param>
+    /// <param name="Name">A string used to identify a key-signing key (KSK). Constraints: • min: 3 • max: 128</param>
     public AwsRoute53DeactivateKeySigningKeyOptions(
         string HostedZoneId,
         string Name
@@ -60,13 +62,13 @@ public record AwsRoute53DeactivateKeySigningKeyOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique string used to identify a hosted zone. Constraints: o max: 32
+    /// A unique string used to identify a hosted zone. Constraints: • max: 32
     /// </summary>
     [CliOption("--hosted-zone-id")]
     public string? HostedZoneId { get; private init; }
 
     /// <summary>
-    /// A string used to identify a key-signing key (KSK). Constraints: o min: 3 o max: 128
+    /// A string used to identify a key-signing key (KSK). Constraints: • min: 3 • max: 128
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBedrockBatchDeleteAdvancedPromptOptimizationJobOptions : AwsOpt
     /// <summary>
     /// Deletes one or more advanced prompt optimization jobs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobIdentifiers">A list of advanced prompt optimization job identifiers (ARNs or IDs) to delete. Constraints: o min: 1 o max: 25 (string) The ARN or ID of an advanced prompt optimization job. Constraints: o min: 0 o max: 1011 o pattern: ((arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:ad- vanced-prompt-optimization-job/)?[a-z0-9]{12}) Syntax: "string" "string" ...</param>
+    /// <param name="JobIdentifiers">A list of advanced prompt optimization job identifiers (ARNs or IDs) to delete. Constraints: • min: 1 • max: 25 (string) The ARN or ID of an advanced prompt optimization job. Constraints: • min: 0 • max: 1011 • pattern: ((arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:advanced-prompt-optimization-job/)?[a-z0-9]{12}) Syntax: "string" "string" ...</param>
     public AwsBedrockBatchDeleteAdvancedPromptOptimizationJobOptions(
         IEnumerable<string> JobIdentifiers
     )
@@ -67,7 +69,7 @@ public record AwsBedrockBatchDeleteAdvancedPromptOptimizationJobOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of advanced prompt optimization job identifiers (ARNs or IDs) to delete. Constraints: o min: 1 o max: 25 (string) The ARN or ID of an advanced prompt optimization job. Constraints: o min: 0 o max: 1011 o pattern: ((arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:ad- vanced-prompt-optimization-job/)?[a-z0-9]{12}) Syntax: "string" "string" ...
+    /// A list of advanced prompt optimization job identifiers (ARNs or IDs) to delete. Constraints: • min: 1 • max: 25 (string) The ARN or ID of an advanced prompt optimization job. Constraints: • min: 0 • max: 1011 • pattern: ((arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:advanced-prompt-optimization-job/)?[a-z0-9]{12}) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--job-identifiers", GroupValues = true)]
     public IEnumerable<string>? JobIdentifiers { get; private init; }

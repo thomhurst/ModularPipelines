@@ -92,7 +92,7 @@ public class AwsMgn : IAwsMgn
     }
 
     /// <summary>
-    /// Allows the user to set the SourceServer.LifeCycle.state property for specific Source Server IDs to one of the following: READY_FOR_TEST or READY_FOR_CUTOVER. This command only works if the Source Server is al- ready launchable (dataReplicationInfo.lagDuration is not null.) See also: AWS API Documentation
+    /// Allows the user to set the SourceServer.LifeCycle.state property for specific Source Server IDs to one of the following: READY_FOR_TEST or READY_FOR_CUTOVER. This command only works if the Source Server is already launchable (dataReplicationInfo.lagDuration is not null.) See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsMgn : IAwsMgn
     }
 
     /// <summary>
-    /// Deletes a network migration definition. This operation removes the mi- gration definition and all associated metadata. See also: AWS API Documentation
+    /// Deletes a network migration definition. This operation removes the migration definition and all associated metadata. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsMgn : IAwsMgn
     }
 
     /// <summary>
-    /// Returns a list of Jobs. Use the jobIDs and fromDate and toDate filters to limit which jobs are returned. The response is sorted by creation- DateTime - latest date first. Jobs are normally created by the StartTest, StartCutover, and TerminateTargetInstances APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to Support and only used in response to relevant support tickets. See also: AWS API Documentation describe-jobs is a paginated ope...
+    /// Returns a list of Jobs. Use the jobIDs and fromDate and toDate filters to limit which jobs are returned. The response is sorted by creationDateTime - latest date first. Jobs are normally created by the StartTest, StartCutover, and TerminateTargetInstances APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to Support and only used in response to relevant support tickets. See also: AWS API Documentation describe-jobs is a paginated opera...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsMgn : IAwsMgn
     }
 
     /// <summary>
-    /// Lists all Launch Configuration Templates, filtered by Launch Configura- tion Template IDs See also: AWS API Documentation describe-launch-configuration-templates is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query ...
+    /// Lists all Launch Configuration Templates, filtered by Launch Configuration Template IDs See also: AWS API Documentation describe-launch-configuration-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expres...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsMgn : IAwsMgn
     }
 
     /// <summary>
-    /// Lists all ReplicationConfigurationTemplates, filtered by replication configuration template IDs. See also: AWS API Documentation describe-replication-configuration-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the foll...
+    /// Lists all ReplicationConfigurationTemplates, filtered by replication configuration template IDs. See also: AWS API Documentation describe-replication-configuration-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followin...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsMgn : IAwsMgn
     }
 
     /// <summary>
-    /// Retrieves all SourceServers or multiple SourceServers by ID. See also: AWS API Documentation describe-source-servers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
+    /// Retrieves all SourceServers or multiple SourceServers by ID. See also: AWS API Documentation describe-source-servers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsMgn : IAwsMgn
     }
 
     /// <summary>
-    /// Returns a list of the installed vCenter clients. See also: AWS API Documentation describe-vcenter-clients is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
+    /// Returns a list of the installed vCenter clients. See also: AWS API Documentation describe-vcenter-clients is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsMgn : IAwsMgn
     }
 
     /// <summary>
-    /// Disconnects specific Source Servers from Application Migration Service. Data replication is stopped immediately. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. If the agent on the source server has not been prevented from communicating with Applica- tion Migration Service, then it will receive a command to uninstall it- self (...
+    /// Disconnects specific Source Servers from Application Migration Service. Data replication is stopped immediately. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. If the agent on the source server has not been prevented from communicating with Application Migration Service, then it will receive a command to uninstall itself (with...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -512,7 +512,7 @@ public class AwsMgn : IAwsMgn
     }
 
     /// <summary>
-    /// Retrieves detailed information about a specific construct within a map- per segment, including its properties and configuration data. See also: AWS API Documentation
+    /// Retrieves detailed information about a specific construct within a mapper segment, including its properties and configuration data. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsMgn : IAwsMgn
     }
 
     /// <summary>
-    /// List Connectors. See also: AWS API Documentation list-connectors is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// List Connectors. See also: AWS API Documentation list-connectors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -602,7 +602,7 @@ public class AwsMgn : IAwsMgn
     }
 
     /// <summary>
-    /// List exports. See also: AWS API Documentation list-exports is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: items
+    /// List exports. See also: AWS API Documentation list-exports is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -632,7 +632,7 @@ public class AwsMgn : IAwsMgn
     }
 
     /// <summary>
-    /// Lists import file enrichment jobs with optional filtering by job IDs. See also: AWS API Documentation list-import-file-enrichments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Lists import file enrichment jobs with optional filtering by job IDs. See also: AWS API Documentation list-import-file-enrichments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +647,7 @@ public class AwsMgn : IAwsMgn
     }
 
     /// <summary>
-    /// List imports. See also: AWS API Documentation list-imports is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: items
+    /// List imports. See also: AWS API Documentation list-imports is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -677,7 +677,7 @@ public class AwsMgn : IAwsMgn
     }
 
     /// <summary>
-    /// Lists network migration analysis jobs for a specified execution. Re- turns information about analysis job status and results. See also: AWS API Documentation list-network-migration-analyses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the res...
+    /// Lists network migration analysis jobs for a specified execution. Returns information about analysis job status and results. See also: AWS API Documentation list-network-migration-analyses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results o...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -692,7 +692,7 @@ public class AwsMgn : IAwsMgn
     }
 
     /// <summary>
-    /// Lists the results of network migration analyses, showing connectivity and compatibility findings for migrated resources. See also: AWS API Documentation list-network-migration-analysis-results is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the ...
+    /// Lists the results of network migration analyses, showing connectivity and compatibility findings for migrated resources. See also: AWS API Documentation list-network-migration-analysis-results is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -707,7 +707,7 @@ public class AwsMgn : IAwsMgn
     }
 
     /// <summary>
-    /// Lists code generation segments, which represent individual infrastruc- ture components generated as code templates. See also: AWS API Documentation list-network-migration-code-generation-segments is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from t...
+    /// Lists code generation segments, which represent individual infrastructure components generated as code templates. See also: AWS API Documentation list-network-migration-code-generation-segments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the res...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -722,7 +722,7 @@ public class AwsMgn : IAwsMgn
     }
 
     /// <summary>
-    /// Lists network migration code generation jobs, which convert network mappings into infrastructure-as-code templates. See also: AWS API Documentation list-network-migration-code-generations is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the resul...
+    /// Lists network migration code generation jobs, which convert network mappings into infrastructure-as-code templates. See also: AWS API Documentation list-network-migration-code-generations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results o...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -737,7 +737,7 @@ public class AwsMgn : IAwsMgn
     }
 
     /// <summary>
-    /// Lists all network migration definitions in the account, with optional filtering. See also: AWS API Documentation list-network-migration-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: i...
+    /// Lists all network migration definitions in the account, with optional filtering. See also: AWS API Documentation list-network-migration-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -752,7 +752,7 @@ public class AwsMgn : IAwsMgn
     }
 
     /// <summary>
-    /// Lists CloudFormation stacks that have been deployed as part of the net- work migration. See also: AWS API Documentation list-network-migration-deployed-stacks is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query e...
+    /// Lists CloudFormation stacks that have been deployed as part of the network migration. See also: AWS API Documentation list-network-migration-deployed-stacks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressio...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -767,7 +767,7 @@ public class AwsMgn : IAwsMgn
     }
 
     /// <summary>
-    /// Lists network migration deployment jobs and their current status. See also: AWS API Documentation list-network-migration-deployments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Lists network migration deployment jobs and their current status. See also: AWS API Documentation list-network-migration-deployments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -782,7 +782,7 @@ public class AwsMgn : IAwsMgn
     }
 
     /// <summary>
-    /// Lists network migration execution instances for a given definition, showing the status and progress of each execution. See also: AWS API Documentation list-network-migration-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results ...
+    /// Lists network migration execution instances for a given definition, showing the status and progress of each execution. See also: AWS API Documentation list-network-migration-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -797,7 +797,7 @@ public class AwsMgn : IAwsMgn
     }
 
     /// <summary>
-    /// Lists constructs within a mapper segment, representing individual in- frastructure components like VPCs, subnets, or security groups. See also: AWS API Documentation list-network-migration-mapper-segment-constructs is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must ...
+    /// Lists constructs within a mapper segment, representing individual infrastructure components like VPCs, subnets, or security groups. See also: AWS API Documentation list-network-migration-mapper-segment-constructs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extrac...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -812,7 +812,7 @@ public class AwsMgn : IAwsMgn
     }
 
     /// <summary>
-    /// Lists mapper segments, which represent logical groupings of network re- sources to be migrated together. See also: AWS API Documentation list-network-migration-mapper-segments is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the ...
+    /// Lists mapper segments, which represent logical groupings of network resources to be migrated together. See also: AWS API Documentation list-network-migration-mapper-segments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followin...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -827,22 +827,7 @@ public class AwsMgn : IAwsMgn
     }
 
     /// <summary>
-    /// Lists network migration mapping jobs, which analyze and create rela- tionships between source and target network resources. See also: AWS API Documentation list-network-migration-mappings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resul...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListNetworkMigrationMappingsAsync(
-        AwsMgnListNetworkMigrationMappingsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists mapping update jobs, which apply customer modifications to the generated network mappings. See also: AWS API Documentation list-network-migration-mapping-updates is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the followin...
+    /// Lists mapping update jobs, which apply customer modifications to the generated network mappings. See also: AWS API Documentation list-network-migration-mapping-updates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following quer...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -857,7 +842,22 @@ public class AwsMgn : IAwsMgn
     }
 
     /// <summary>
-    /// List source server post migration custom actions. See also: AWS API Documentation list-source-server-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
+    /// Lists network migration mapping jobs, which analyze and create relationships between source and target network resources. See also: AWS API Documentation list-network-migration-mappings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListNetworkMigrationMappingsAsync(
+        AwsMgnListNetworkMigrationMappingsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// List source server post migration custom actions. See also: AWS API Documentation list-source-server-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -902,7 +902,7 @@ public class AwsMgn : IAwsMgn
     }
 
     /// <summary>
-    /// Retrieves all waves or multiple waves by ID. See also: AWS API Documentation list-waves is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: items
+    /// Retrieves all waves or multiple waves by ID. See also: AWS API Documentation list-waves is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1067,7 +1067,7 @@ public class AwsMgn : IAwsMgn
     }
 
     /// <summary>
-    /// Starts an import file enrichment job to process and enrich network mi- gration import files with additional metadata and IP assignment strate- gies. See also: AWS API Documentation
+    /// Starts an import file enrichment job to process and enrich network migration import files with additional metadata and IP assignment strategies. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1142,7 +1142,7 @@ public class AwsMgn : IAwsMgn
     }
 
     /// <summary>
-    /// Starts the network migration mapping process for a given network migra- tion execution. See also: AWS API Documentation
+    /// Starts the network migration mapping process for a given network migration execution. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1157,7 +1157,7 @@ public class AwsMgn : IAwsMgn
     }
 
     /// <summary>
-    /// Starts a job to apply customer modifications to network migration map- pings, such as changing properties. See also: AWS API Documentation
+    /// Starts a job to apply customer modifications to network migration mappings, such as changing properties. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1217,7 +1217,7 @@ public class AwsMgn : IAwsMgn
     }
 
     /// <summary>
-    /// Adds or overwrites only the specified tags for the specified Applica- tion Migration Service resource or resources. When you specify an ex- isting tag key, the value is overwritten with the new value. Each re- source can have a maximum of 50 tags. Each tag consists of a key and optional value. See also: AWS API Documentation
+    /// Adds or overwrites only the specified tags for the specified Application Migration Service resource or resources. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1232,7 +1232,7 @@ public class AwsMgn : IAwsMgn
     }
 
     /// <summary>
-    /// Starts a job that terminates specific launched EC2 Test and Cutover in- stances. This command will not work for any Source Server with a life- cycle.state of TESTING, CUTTING_OVER, or CUTOVER. See also: AWS API Documentation
+    /// Starts a job that terminates specific launched EC2 Test and Cutover instances. This command will not work for any Source Server with a lifecycle.state of TESTING, CUTTING_OVER, or CUTOVER. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

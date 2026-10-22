@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAppstreamStartSoftwareDeploymentToImageBuilderOptions : AwsOpti
     /// <summary>
     /// Initiates license included applications deployment to an image builder instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ImageBuilderName">The name of the target image builder instance. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="ImageBuilderName">The name of the target image builder instance. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
     public AwsAppstreamStartSoftwareDeploymentToImageBuilderOptions(
         string ImageBuilderName
     )
@@ -56,13 +58,13 @@ public record AwsAppstreamStartSoftwareDeploymentToImageBuilderOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the target image builder instance. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// The name of the target image builder instance. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
     /// </summary>
     [CliOption("--image-builder-name")]
     public string? ImageBuilderName { get; private init; }
 
     /// <summary>
-    /// Whether to retry previously failed license included application de- ployments.
+    /// Whether to retry previously failed license included application deployments.
     /// </summary>
     [CliFlag("--retry-failed-deployments", NegatedName = "--no-retry-failed-deployments")]
     public bool? RetryFailedDeployments { get; set; }

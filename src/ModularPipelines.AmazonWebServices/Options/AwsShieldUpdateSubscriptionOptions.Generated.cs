@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsShieldUpdateSubscriptionOptions : AwsOptions
 {
     /// <summary>
-    /// When you initally create a subscription, AutoRenew is set to ENABLED . If ENABLED , the subscription will be automatically renewed at the end of the existing subscription period. You can change this by sub- mitting an UpdateSubscription request. If the UpdateSubscription re- quest does not included a value for AutoRenew , the existing value for AutoRenew remains unchanged. Possible values: o ENABLED o DISABLED
+    /// When you initally create a subscription, AutoRenew is set to ENABLED . If ENABLED , the subscription will be automatically renewed at the end of the existing subscription period. You can change this by submitting an UpdateSubscription request. If the UpdateSubscription request does not included a value for AutoRenew , the existing value for AutoRenew remains unchanged. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--auto-renew")]
     public AwsShieldUpdateSubscriptionAutoRenew? AutoRenew { get; set; }

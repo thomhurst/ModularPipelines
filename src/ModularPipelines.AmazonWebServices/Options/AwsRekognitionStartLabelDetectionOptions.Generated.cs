@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts asynchronous detection of labels in a stored video. Amazon Rekognition Video can detect labels in a video. Labels are in- stances of real-world entities. This includes objects like flower, tree, and table; events like wedding, graduation, and birthday party; concepts like landscape, evening, and nature; and activities like a person getting out of a car or a person skiing. The video must be stored in an Amazon S3 bucket. Use Video to specify the bucket name and the filename of the video. S...
+/// Starts asynchronous detection of labels in a stored video. Amazon Rekognition Video can detect labels in a video. Labels are instances of real-world entities. This includes objects like flower, tree, and table; events like wedding, graduation, and birthday party; concepts like landscape, evening, and nature; and activities like a person getting out of a car or a person skiing. The video must be stored in an Amazon S3 bucket. Use Video to specify the bucket name and the filename of the video. Sta...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsRekognitionStartLabelDetectionOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts asynchronous detection of labels in a stored video. Amazon Rekognition Video can detect labels in a video. Labels are in- stances of real-world entities. This includes objects like flower, tree, and table; events like wedding, graduation, and birthday party; concepts like landscape, evening, and nature; and activities like a person getting out of a car or a person skiing. The video must be stored in an Amazon S3 bucket. Use Video to specify the bucket name and the filename of the video. S...
+    /// Starts asynchronous detection of labels in a stored video. Amazon Rekognition Video can detect labels in a video. Labels are instances of real-world entities. This includes objects like flower, tree, and table; events like wedding, graduation, and birthday party; concepts like landscape, evening, and nature; and activities like a person getting out of a car or a person skiing. The video must be stored in an Amazon S3 bucket. Use Video to specify the bucket name and the filename of the video. Sta...
     /// </summary>
-    /// <param name="Video">The video in which you want to detect labels. The video must be stored in an Amazon S3 bucket. S3Object -&gt; (structure) The Amazon S3 bucket name and file name for the video. Bucket -&gt; (string) Name of the S3 bucket. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) S3 object key name. Constraints: o min: 1 o max: 1024 Version -&gt; (string) If the bucket is versioning enabled, you can specify the ob- ject version. Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }</param>
+    /// <param name="Video">The video in which you want to detect labels. The video must be stored in an Amazon S3 bucket. S3Object -&gt; (structure) The Amazon S3 bucket name and file name for the video. Bucket -&gt; (string) Name of the S3 bucket. Constraints: • min: 3 • max: 255 • pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) S3 object key name. Constraints: • min: 1 • max: 1024 Version -&gt; (string) If the bucket is versioning enabled, you can specify the object version. Constraints: • min: 1 • max: 1024 Shorthand Syntax: S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }</param>
     public AwsRekognitionStartLabelDetectionOptions(
         string Video
     )
@@ -57,44 +59,44 @@ public record AwsRekognitionStartLabelDetectionOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The video in which you want to detect labels. The video must be stored in an Amazon S3 bucket. S3Object -&gt; (structure) The Amazon S3 bucket name and file name for the video. Bucket -&gt; (string) Name of the S3 bucket. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) S3 object key name. Constraints: o min: 1 o max: 1024 Version -&gt; (string) If the bucket is versioning enabled, you can specify the ob- ject version. Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }
+    /// The video in which you want to detect labels. The video must be stored in an Amazon S3 bucket. S3Object -&gt; (structure) The Amazon S3 bucket name and file name for the video. Bucket -&gt; (string) Name of the S3 bucket. Constraints: • min: 3 • max: 255 • pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) S3 object key name. Constraints: • min: 1 • max: 1024 Version -&gt; (string) If the bucket is versioning enabled, you can specify the object version. Constraints: • min: 1 • max: 1024 Shorthand Syntax: S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }
     /// </summary>
     [CliOption("--video")]
     public string? Video { get; private init; }
 
     /// <summary>
-    /// Idempotent token used to identify the start request. If you use the same token with multiple StartLabelDetection requests, the same Jo- bId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
+    /// Idempotent token used to identify the start request. If you use the same token with multiple StartLabelDetection requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// Specifies the minimum confidence that Amazon Rekognition Video must have in order to return a detected label. Confidence represents how certain Amazon Rekognition is that a label is correctly identified.0 is the lowest confidence. 100 is the highest confidence. Amazon Rekognition Video doesn't return any labels with a confidence level lower than this specified value. If you don't specify MinConfidence , the operation returns labels and bounding boxes (if detected) with confidence values greater than or equal to 50 percent. Constraints: o min: 0 o max: 100
+    /// Specifies the minimum confidence that Amazon Rekognition Video must have in order to return a detected label. Confidence represents how certain Amazon Rekognition is that a label is correctly identified.0 is the lowest confidence. 100 is the highest confidence. Amazon Rekognition Video doesn't return any labels with a confidence level lower than this specified value. If you don't specify MinConfidence , the operation returns labels and bounding boxes (if detected) with confidence values greater than or equal to 50 percent. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--min-confidence")]
-    public int? MinConfidence { get; set; }
+    public double? MinConfidence { get; set; }
 
     /// <summary>
-    /// The Amazon SNS topic ARN you want Amazon Rekognition Video to pub- lish the completion status of the label detection operation to. The Amazon SNS topic must have a topic name that begins with Amazon- Rekognition if you are using the AmazonRekognitionServiceRole per- missions policy. SNSTopicArn -&gt; (string) [required] The Amazon SNS topic to which Amazon Rekognition posts the com- pletion status. Constraints: o pattern: (^arn:aws:sns:.*:\w{12}:.+$) RoleArn -&gt; (string) [required] The ARN of an IAM role that gives Amazon Rekognition publishing permissions to the Amazon SNS topic. Constraints: o pattern: arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Shorthand Syntax: SNSTopicArn=string,RoleArn=string JSON Syntax: { "SNSTopicArn": "string", "RoleArn": "string" }
+    /// The Amazon SNS topic ARN you want Amazon Rekognition Video to publish the completion status of the label detection operation to. The Amazon SNS topic must have a topic name that begins with AmazonRekognition if you are using the AmazonRekognitionServiceRole permissions policy. SNSTopicArn -&gt; (string) [required] The Amazon SNS topic to which Amazon Rekognition posts the completion status. Constraints: • pattern: (^arn:aws:sns:.*:\w{12}:.+$) RoleArn -&gt; (string) [required] The ARN of an IAM role that gives Amazon Rekognition publishing permissions to the Amazon SNS topic. Constraints: • pattern: arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Shorthand Syntax: SNSTopicArn=string,RoleArn=string JSON Syntax: { "SNSTopicArn": "string", "RoleArn": "string" }
     /// </summary>
     [CliOption("--notification-channel")]
     public string? NotificationChannel { get; set; }
 
     /// <summary>
-    /// An identifier you specify that's returned in the completion notifi- cation that's published to your Amazon Simple Notification Service topic. For example, you can use JobTag to group related jobs and identify them in the completion notification. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9_.\-:+=\/]+
+    /// An identifier you specify that's returned in the completion notification that's published to your Amazon Simple Notification Service topic. For example, you can use JobTag to group related jobs and identify them in the completion notification. Constraints: • min: 1 • max: 1024 • pattern: [a-zA-Z0-9_.\-:+=\/]+
     /// </summary>
     [CliOption("--job-tag")]
     public string? JobTag { get; set; }
 
     /// <summary>
-    /// The features to return after video analysis. You can specify that GENERAL_LABELS are returned. Constraints: o min: 0 o max: 1 (string) Possible values: o GENERAL_LABELS Syntax: "string" "string" ...
+    /// The features to return after video analysis. You can specify that GENERAL_LABELS are returned. Constraints: • min: 0 • max: 1 (string) Possible values: • GENERAL_LABELS Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--features", GroupValues = true)]
     public IEnumerable<string>? Features { get; set; }
 
     /// <summary>
-    /// The settings for a StartLabelDetection request.Contains the speci- fied parameters for the label detection request of an asynchronous label analysis operation. Settings can include filters for GEN- ERAL_LABELS. GeneralLabels -&gt; (structure) Contains filters for the object labels returned by DetectLabels. Filters can be inclusive, exclusive, or a combination of both and can be applied to individual labels or entire label cate- gories. To see a list of label categories, see Detecting Labels . LabelInclusionFilters -&gt; (list) The labels that should be included in the return from Detect- Labels. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 0 o max: 50 o pattern: [A-Za-z0-9 '-_(). ]* LabelExclusionFilters -&gt; (list) The labels that should be excluded from the return from De- tectLabels. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 0 o max: 50 o pattern: [A-Za-z0-9 '-_(). ]* LabelCategoryInclusionFilters -&gt; (list) The label categories that should be included in the return from DetectLabels. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 0 o max: 50 o pattern: [A-Za-z0-9 '-_(). ]* LabelCategoryExclusionFilters -&gt; (list) The label categories that should be excluded from the return from DetectLabels. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 0 o max: 50 o pattern: [A-Za-z0-9 '-_(). ]* Shorthand Syntax: GeneralLabels={LabelInclusionFilters=[string,string],LabelExclusionFilters=[string,string],LabelCategoryInclusionFilters=[string,string],LabelCategoryExclusionFilters=[string,string]} JSON Syntax: { "GeneralLabels": { "LabelInclusionFilters": ["string", ...], "LabelExclusionFilters": ["string", ...], "LabelCategoryInclusionFilters": ["string", ...], "LabelCategoryExclusionFilters": ["string", ...] } }
+    /// The settings for a StartLabelDetection request.Contains the specified parameters for the label detection request of an asynchronous label analysis operation. Settings can include filters for GENERAL_LABELS. GeneralLabels -&gt; (structure) Contains filters for the object labels returned by DetectLabels. Filters can be inclusive, exclusive, or a combination of both and can be applied to individual labels or entire label categories. To see a list of label categories, see Detecting Labels . LabelInclusionFilters -&gt; (list) The labels that should be included in the return from DetectLabels. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 0 • max: 50 • pattern: [A-Za-z0-9 '-_(). ]* LabelExclusionFilters -&gt; (list) The labels that should be excluded from the return from DetectLabels. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 0 • max: 50 • pattern: [A-Za-z0-9 '-_(). ]* LabelCategoryInclusionFilters -&gt; (list) The label categories that should be included in the return from DetectLabels. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 0 • max: 50 • pattern: [A-Za-z0-9 '-_(). ]* LabelCategoryExclusionFilters -&gt; (list) The label categories that should be excluded from the return from DetectLabels. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 0 • max: 50 • pattern: [A-Za-z0-9 '-_(). ]* Shorthand Syntax: GeneralLabels={LabelInclusionFilters=[string,string],LabelExclusionFilters=[string,string],LabelCategoryInclusionFilters=[string,string],LabelCategoryExclusionFilters=[string,string]} JSON Syntax: { "GeneralLabels": { "LabelInclusionFilters": ["string", ...], "LabelExclusionFilters": ["string", ...], "LabelCategoryInclusionFilters": ["string", ...], "LabelCategoryExclusionFilters": ["string", ...] } }
     /// </summary>
     [CliOption("--settings")]
     public string? Settings { get; set; }

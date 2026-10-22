@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsWorkmailDeleteAliasOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Remove one or more specified aliases from a set of aliases for a given user. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The identifier for the organization under which the user exists. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
-    /// <param name="EntityId">The identifier for the member (user or group) from which to have the aliases removed. Constraints: o min: 12 o max: 256</param>
-    /// <param name="Alias">The aliases to be removed from the user's set of aliases. Duplicate entries in the list are collapsed into single entries (the list is transformed into a set). Constraints: o min: 1 o max: 254 o pattern: [a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\.[a-zA-Z-]{2,}</param>
+    /// <param name="OrganizationId">The identifier for the organization under which the user exists. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="EntityId">The identifier for the member (user or group) from which to have the aliases removed. Constraints: • min: 12 • max: 256</param>
+    /// <param name="Alias">The aliases to be removed from the user's set of aliases. Duplicate entries in the list are collapsed into single entries (the list is transformed into a set). Constraints: • min: 1 • max: 254 • pattern: [a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\.[a-zA-Z-]{2,}</param>
     public AwsWorkmailDeleteAliasOptions(
         string OrganizationId,
         string EntityId,
@@ -64,19 +66,19 @@ public record AwsWorkmailDeleteAliasOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the organization under which the user exists. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The identifier for the organization under which the user exists. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The identifier for the member (user or group) from which to have the aliases removed. Constraints: o min: 12 o max: 256
+    /// The identifier for the member (user or group) from which to have the aliases removed. Constraints: • min: 12 • max: 256
     /// </summary>
     [CliOption("--entity-id")]
     public string? EntityId { get; private init; }
 
     /// <summary>
-    /// The aliases to be removed from the user's set of aliases. Duplicate entries in the list are collapsed into single entries (the list is transformed into a set). Constraints: o min: 1 o max: 254 o pattern: [a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\.[a-zA-Z-]{2,}
+    /// The aliases to be removed from the user's set of aliases. Duplicate entries in the list are collapsed into single entries (the list is transformed into a set). Constraints: • min: 1 • max: 254 • pattern: [a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\.[a-zA-Z-]{2,}
     /// </summary>
     [CliOption("--alias")]
     public string? Alias { get; private init; }

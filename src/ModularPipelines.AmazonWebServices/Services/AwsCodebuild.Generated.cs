@@ -197,7 +197,7 @@ public class AwsCodebuild : IAwsCodebuild
     }
 
     /// <summary>
-    /// Creates a report group. A report group contains a collection of re- ports. See also: AWS API Documentation
+    /// Creates a report group. A report group contains a collection of reports. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsCodebuild : IAwsCodebuild
     }
 
     /// <summary>
-    /// For an existing CodeBuild build project that has its source code stored in a GitHub or Bitbucket repository, enables CodeBuild to start re- building the source code every time a code change is pushed to the repository. WARNING: If you enable webhooks for an CodeBuild project, and the project is used as a build step in CodePipeline, then two identical builds are created for each commit. One build is triggered through webhooks, and one through CodePipeline. Because billing is on a per-build ba- si...
+    /// For an existing CodeBuild build project that has its source code stored in a GitHub or Bitbucket repository, enables CodeBuild to start rebuilding the source code every time a code change is pushed to the repository. WARNING: If you enable webhooks for an CodeBuild project, and the project is used as a build step in CodePipeline, then two identical builds are created for each commit. One build is triggered through webhooks, and one through CodePipeline. Because billing is on a per-build basis, y...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsCodebuild : IAwsCodebuild
     }
 
     /// <summary>
-    /// Deletes a set of GitHub, GitHub Enterprise, or Bitbucket source creden- tials. See also: AWS API Documentation
+    /// Deletes a set of GitHub, GitHub Enterprise, or Bitbucket source credentials. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsCodebuild : IAwsCodebuild
     }
 
     /// <summary>
-    /// Retrieves one or more code coverage reports. See also: AWS API Documentation describe-code-coverages is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: codeCoverages
+    /// Retrieves one or more code coverage reports. See also: AWS API Documentation describe-code-coverages is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: codeCoverages
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsCodebuild : IAwsCodebuild
     }
 
     /// <summary>
-    /// Analyzes and accumulates test report values for the specified test re- ports. See also: AWS API Documentation
+    /// Analyzes and accumulates test report values for the specified test reports. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsCodebuild : IAwsCodebuild
     }
 
     /// <summary>
-    /// Imports the source repository credentials for an CodeBuild project that has its source code stored in a GitHub, GitHub Enterprise, GitLab, Git- Lab Self Managed, or Bitbucket repository. See also: AWS API Documentation
+    /// Imports the source repository credentials for an CodeBuild project that has its source code stored in a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket repository. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsCodebuild : IAwsCodebuild
     }
 
     /// <summary>
-    /// Retrieves the identifiers of the build batches for a specific project. See also: AWS API Documentation list-build-batches-for-project is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ids
+    /// Retrieves the identifiers of the build batches for a specific project. See also: AWS API Documentation list-build-batches-for-project is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ids
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsCodebuild : IAwsCodebuild
     }
 
     /// <summary>
-    /// Gets a list of build IDs, with each build ID representing a single build. See also: AWS API Documentation list-builds is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: ids
+    /// Gets a list of build IDs, with each build ID representing a single build. See also: AWS API Documentation list-builds is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ids
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsCodebuild : IAwsCodebuild
     }
 
     /// <summary>
-    /// Gets a list of command executions for a sandbox. See also: AWS API Documentation list-command-executions-for-sandbox is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: commandExecutions
+    /// Gets a list of command executions for a sandbox. See also: AWS API Documentation list-command-executions-for-sandbox is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: commandExecutions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsCodebuild : IAwsCodebuild
     }
 
     /// <summary>
-    /// Gets a list of compute fleet names with each compute fleet name repre- senting a single compute fleet. See also: AWS API Documentation
+    /// Gets a list of compute fleet names with each compute fleet name representing a single compute fleet. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsCodebuild : IAwsCodebuild
     }
 
     /// <summary>
-    /// Gets a list of build project names, with each build project name repre- senting a single build project. See also: AWS API Documentation list-projects is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions:...
+    /// Gets a list of build project names, with each build project name representing a single build project. See also: AWS API Documentation list-projects is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: proje...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +557,7 @@ public class AwsCodebuild : IAwsCodebuild
     }
 
     /// <summary>
-    /// Gets a list ARNs for the report groups in the current Amazon Web Ser- vices account. See also: AWS API Documentation list-report-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: reportGroups
+    /// Gets a list ARNs for the report groups in the current Amazon Web Services account. See also: AWS API Documentation list-report-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: reportGroups
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsCodebuild : IAwsCodebuild
     }
 
     /// <summary>
-    /// Returns a list of ARNs for the reports that belong to a ReportGroup . See also: AWS API Documentation list-reports-for-report-group is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: reports
+    /// Returns a list of ARNs for the reports that belong to a ReportGroup . See also: AWS API Documentation list-reports-for-report-group is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: reports
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsCodebuild : IAwsCodebuild
     }
 
     /// <summary>
-    /// Returns a list of ARNs for the reports in the current Amazon Web Ser- vices account. See also: AWS API Documentation list-reports is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: reports
+    /// Returns a list of ARNs for the reports in the current Amazon Web Services account. See also: AWS API Documentation list-reports is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: reports
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -602,7 +602,7 @@ public class AwsCodebuild : IAwsCodebuild
     }
 
     /// <summary>
-    /// Gets a list of sandboxes for a given project. See also: AWS API Documentation list-sandboxes-for-project is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ids
+    /// Gets a list of sandboxes for a given project. See also: AWS API Documentation list-sandboxes-for-project is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ids
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +617,7 @@ public class AwsCodebuild : IAwsCodebuild
     }
 
     /// <summary>
-    /// Gets a list of sandboxes. See also: AWS API Documentation list-sandboxes is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ids
+    /// Gets a list of sandboxes. See also: AWS API Documentation list-sandboxes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ids
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +647,7 @@ public class AwsCodebuild : IAwsCodebuild
     }
 
     /// <summary>
-    /// Gets a list of report groups that are shared with other Amazon Web Ser- vices accounts or users. See also: AWS API Documentation list-shared-report-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressio...
+    /// Gets a list of report groups that are shared with other Amazon Web Services accounts or users. See also: AWS API Documentation list-shared-report-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -677,7 +677,7 @@ public class AwsCodebuild : IAwsCodebuild
     }
 
     /// <summary>
-    /// Stores a resource policy for the ARN of a Project or ReportGroup ob- ject. See also: AWS API Documentation
+    /// Stores a resource policy for the ARN of a Project or ReportGroup object. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -872,7 +872,7 @@ public class AwsCodebuild : IAwsCodebuild
     }
 
     /// <summary>
-    /// Changes the public visibility for a project. The project's build re- sults, logs, and artifacts are available to the general public. For more information, see Public build projects in the CodeBuild User Guide . WARNING: The following should be kept in mind when making your projects pub- lic: o All of a project's build results, logs, and artifacts, including builds that were run when the project was private, are available to the general public. o All build logs and artifacts are available to the ...
+    /// Changes the public visibility for a project. The project's build results, logs, and artifacts are available to the general public. For more information, see Public build projects in the CodeBuild User Guide . WARNING: The following should be kept in mind when making your projects public: • All of a project's build results, logs, and artifacts, including builds that were run when the project was private, are available to the general public. • All build logs and artifacts are available to the publ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

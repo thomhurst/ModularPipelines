@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsAthenaUpdateCapacityReservationOptions : AwsOptions, IValidatab
     /// <summary>
     /// Updates the number of requested data processing units for the capacity reservation with the specified name. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TargetDpus">The new number of requested data processing units. Constraints: o min: 4</param>
-    /// <param name="Name">The name of the capacity reservation. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9._-]+</param>
+    /// <param name="TargetDpus">The new number of requested data processing units. Constraints: • min: 4</param>
+    /// <param name="Name">The name of the capacity reservation. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9._-]+</param>
     public AwsAthenaUpdateCapacityReservationOptions(
         int TargetDpus,
         string Name
@@ -59,13 +61,13 @@ public record AwsAthenaUpdateCapacityReservationOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The new number of requested data processing units. Constraints: o min: 4
+    /// The new number of requested data processing units. Constraints: • min: 4
     /// </summary>
     [CliOption("--target-dpus")]
     public int? TargetDpus { get; private init; }
 
     /// <summary>
-    /// The name of the capacity reservation. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9._-]+
+    /// The name of the capacity reservation. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9._-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Displays the details about a resource set, including a list of the re- sources in the set. See also: AWS API Documentation
+/// Displays the details about a resource set, including a list of the resources in the set. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsRoute53RecoveryReadinessGetResourceSetOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Displays the details about a resource set, including a list of the re- sources in the set. See also: AWS API Documentation
+    /// Displays the details about a resource set, including a list of the resources in the set. See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceSetName">Name of a resource set.</param>
     public AwsRoute53RecoveryReadinessGetResourceSetOptions(

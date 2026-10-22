@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCognitoIdpDescribeIdentityProviderOptions : AwsOptions, IValida
     /// <summary>
     /// Given a user pool ID and identity provider (IdP) name, returns details about the IdP. See also: AWS API Documentation
     /// </summary>
-    /// <param name="UserPoolId">The ID of the user pool that has the IdP that you want to describe.. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
-    /// <param name="ProviderName">The name of the IdP that you want to describe. Constraints: o min: 1 o max: 32 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\p{Z}]+</param>
+    /// <param name="UserPoolId">The ID of the user pool that has the IdP that you want to describe.. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="ProviderName">The name of the IdP that you want to describe. Constraints: • min: 1 • max: 32 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\p{Z}]+</param>
     public AwsCognitoIdpDescribeIdentityProviderOptions(
         string UserPoolId,
         string ProviderName
@@ -60,13 +62,13 @@ public record AwsCognitoIdpDescribeIdentityProviderOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the user pool that has the IdP that you want to describe.. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// The ID of the user pool that has the IdP that you want to describe.. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--user-pool-id")]
     public string? UserPoolId { get; private init; }
 
     /// <summary>
-    /// The name of the IdP that you want to describe. Constraints: o min: 1 o max: 32 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\p{Z}]+
+    /// The name of the IdP that you want to describe. Constraints: • min: 1 • max: 32 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\p{Z}]+
     /// </summary>
     [CliOption("--provider-name")]
     public string? ProviderName { get; private init; }

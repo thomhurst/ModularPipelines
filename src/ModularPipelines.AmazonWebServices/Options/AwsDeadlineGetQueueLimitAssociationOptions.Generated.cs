@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsDeadlineGetQueueLimitAssociationOptions : AwsOptions, IValidata
     /// <summary>
     /// Gets information about a specific association between a queue and a limit. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The unique identifier of the farm that contains the associated queue and limit. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="QueueId">The unique identifier of the queue associated with the limit. Constraints: o pattern: queue-[0-9a-f]{32}</param>
-    /// <param name="LimitId">The unique identifier of the limit associated with the queue. Constraints: o pattern: limit-[0-9a-f]{32}</param>
+    /// <param name="FarmId">The unique identifier of the farm that contains the associated queue and limit. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="QueueId">The unique identifier of the queue associated with the limit. Constraints: • pattern: queue-[0-9a-f]{32}</param>
+    /// <param name="LimitId">The unique identifier of the limit associated with the queue. Constraints: • pattern: limit-[0-9a-f]{32}</param>
     public AwsDeadlineGetQueueLimitAssociationOptions(
         string FarmId,
         string QueueId,
@@ -64,19 +66,19 @@ public record AwsDeadlineGetQueueLimitAssociationOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the farm that contains the associated queue and limit. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The unique identifier of the farm that contains the associated queue and limit. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the queue associated with the limit. Constraints: o pattern: queue-[0-9a-f]{32}
+    /// The unique identifier of the queue associated with the limit. Constraints: • pattern: queue-[0-9a-f]{32}
     /// </summary>
     [CliOption("--queue-id")]
     public string? QueueId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the limit associated with the queue. Constraints: o pattern: limit-[0-9a-f]{32}
+    /// The unique identifier of the limit associated with the queue. Constraints: • pattern: limit-[0-9a-f]{32}
     /// </summary>
     [CliOption("--limit-id")]
     public string? LimitId { get; private init; }

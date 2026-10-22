@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Attaches a resource-based policy document to the resource, which can be a table or stream. When you attach a resource-based policy using this API, the policy application is ` eventually consistent https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html`__ . PutResourcePolicy is an idempotent operation; running it multiple times on the same resource using the same policy document will re- turn the same revision ID. If you specify an ExpectedRevisionId that...
+/// Attaches a resource-based policy document to the resource, which can be a table or stream. When you attach a resource-based policy using this API, the policy application is ` eventually consistent https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html`__ . PutResourcePolicy is an idempotent operation; running it multiple times on the same resource using the same policy document will return the same revision ID. If you specify an ExpectedRevisionId that d...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsDynamodbPutResourcePolicyOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Attaches a resource-based policy document to the resource, which can be a table or stream. When you attach a resource-based policy using this API, the policy application is ` eventually consistent https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html`__ . PutResourcePolicy is an idempotent operation; running it multiple times on the same resource using the same policy document will re- turn the same revision ID. If you specify an ExpectedRevisionId that...
+    /// Attaches a resource-based policy document to the resource, which can be a table or stream. When you attach a resource-based policy using this API, the policy application is ` eventually consistent https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html`__ . PutResourcePolicy is an idempotent operation; running it multiple times on the same resource using the same policy document will return the same revision ID. If you specify an ExpectedRevisionId that d...
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the DynamoDB resource to which the policy will be attached. The resources you can specify include ta- bles and streams. You can control index permissions using the base table's policy. To specify the same permission level for your table and its indexes, you can provide both the table and index Amazon Resource Name (ARN)s in the Resource field of a given Statement in your policy document. Alternatively, to specify different permissions for your table, in- dexes, or both, you can define multiple Statement fields in your policy document. Constraints: o min: 1 o max: 1283</param>
-    /// <param name="Policy">An Amazon Web Services resource-based policy document in JSON for- mat. o The maximum size supported for a resource-based policy document is 20 KB. DynamoDB counts whitespaces when calculating the size of a policy against this limit. o Within a resource-based policy, if the action for a DynamoDB ser- vice-linked role (SLR) to replicate data for a global table is de- nied, adding or deleting a replica will fail with an error. For a full list of all considerations that apply while attaching a resource-based policy, see Resource-based policy considerations .</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the DynamoDB resource to which the policy will be attached. The resources you can specify include tables and streams. You can control index permissions using the base table's policy. To specify the same permission level for your table and its indexes, you can provide both the table and index Amazon Resource Name (ARN)s in the Resource field of a given Statement in your policy document. Alternatively, to specify different permissions for your table, indexes, or both, you can define multiple Statement fields in your policy document. Constraints: • min: 1 • max: 1283</param>
+    /// <param name="Policy">An Amazon Web Services resource-based policy document in JSON format. • The maximum size supported for a resource-based policy document is 20 KB. DynamoDB counts whitespaces when calculating the size of a policy against this limit. • Within a resource-based policy, if the action for a DynamoDB service-linked role (SLR) to replicate data for a global table is denied, adding or deleting a replica will fail with an error. For a full list of all considerations that apply while attaching a resource-based policy, see Resource-based policy considerations .</param>
     public AwsDynamodbPutResourcePolicyOptions(
         string ResourceArn,
         string Policy
@@ -60,25 +62,25 @@ public record AwsDynamodbPutResourcePolicyOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the DynamoDB resource to which the policy will be attached. The resources you can specify include ta- bles and streams. You can control index permissions using the base table's policy. To specify the same permission level for your table and its indexes, you can provide both the table and index Amazon Resource Name (ARN)s in the Resource field of a given Statement in your policy document. Alternatively, to specify different permissions for your table, in- dexes, or both, you can define multiple Statement fields in your policy document. Constraints: o min: 1 o max: 1283
+    /// The Amazon Resource Name (ARN) of the DynamoDB resource to which the policy will be attached. The resources you can specify include tables and streams. You can control index permissions using the base table's policy. To specify the same permission level for your table and its indexes, you can provide both the table and index Amazon Resource Name (ARN)s in the Resource field of a given Statement in your policy document. Alternatively, to specify different permissions for your table, indexes, or both, you can define multiple Statement fields in your policy document. Constraints: • min: 1 • max: 1283
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// An Amazon Web Services resource-based policy document in JSON for- mat. o The maximum size supported for a resource-based policy document is 20 KB. DynamoDB counts whitespaces when calculating the size of a policy against this limit. o Within a resource-based policy, if the action for a DynamoDB ser- vice-linked role (SLR) to replicate data for a global table is de- nied, adding or deleting a replica will fail with an error. For a full list of all considerations that apply while attaching a resource-based policy, see Resource-based policy considerations .
+    /// An Amazon Web Services resource-based policy document in JSON format. • The maximum size supported for a resource-based policy document is 20 KB. DynamoDB counts whitespaces when calculating the size of a policy against this limit. • Within a resource-based policy, if the action for a DynamoDB service-linked role (SLR) to replicate data for a global table is denied, adding or deleting a replica will fail with an error. For a full list of all considerations that apply while attaching a resource-based policy, see Resource-based policy considerations .
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; private init; }
 
     /// <summary>
-    /// A string value that you can use to conditionally update your policy. You can provide the revision ID of your existing policy to make mu- tating requests against that policy. NOTE: When you provide an expected revision ID, if the revision ID of the existing policy on the resource doesn't match or if there's no policy attached to the resource, your request will be re- jected with a PolicyNotFoundException . To conditionally attach a policy when no policy exists for the re- source, specify NO_POLICY for the revision ID. Constraints: o min: 1 o max: 255
+    /// A string value that you can use to conditionally update your policy. You can provide the revision ID of your existing policy to make mutating requests against that policy. NOTE: When you provide an expected revision ID, if the revision ID of the existing policy on the resource doesn't match or if there's no policy attached to the resource, your request will be rejected with a PolicyNotFoundException . To conditionally attach a policy when no policy exists for the resource, specify NO_POLICY for the revision ID. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--expected-revision-id")]
     public string? ExpectedRevisionId { get; set; }
 
     /// <summary>
-    /// source-access (boolean) Set this parameter to true to confirm that you want to remove your permissions to change the policy of this resource in the future.
+    /// Set this parameter to true to confirm that you want to remove your permissions to change the policy of this resource in the future.
     /// </summary>
     [CliFlag("--confirm-remove-self-resource-access", NegatedName = "--no-confirm-remove-self-resource-access")]
     public bool? ConfirmRemoveSelfResourceAccess { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Displays information about the authentication methods used in one Ama- zon Managed Grafana workspace. See also: AWS API Documentation
+/// Displays information about the authentication methods used in one Amazon Managed Grafana workspace. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsGrafanaDescribeWorkspaceAuthenticationOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Displays information about the authentication methods used in one Ama- zon Managed Grafana workspace. See also: AWS API Documentation
+    /// Displays information about the authentication methods used in one Amazon Managed Grafana workspace. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceId">The ID of the workspace to return authentication information about. Constraints: o pattern: g-[0-9a-f]{10}</param>
+    /// <param name="WorkspaceId">The ID of the workspace to return authentication information about. Constraints: • pattern: g-[0-9a-f]{10}</param>
     public AwsGrafanaDescribeWorkspaceAuthenticationOptions(
         string WorkspaceId
     )
@@ -56,7 +58,7 @@ public record AwsGrafanaDescribeWorkspaceAuthenticationOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the workspace to return authentication information about. Constraints: o pattern: g-[0-9a-f]{10}
+    /// The ID of the workspace to return authentication information about. Constraints: • pattern: g-[0-9a-f]{10}
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }

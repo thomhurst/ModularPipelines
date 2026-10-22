@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new connection invitation to establish a partnership with an- other organization. See also: AWS API Documentation
+/// Creates a new connection invitation to establish a partnership with another organization. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,14 +29,14 @@ public record AwsPartnercentralAccountCreateConnectionInvitationOptions : AwsOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new connection invitation to establish a partnership with an- other organization. See also: AWS API Documentation
+    /// Creates a new connection invitation to establish a partnership with another organization. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">The catalog identifier where the connection invitation will be cre- ated. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+</param>
-    /// <param name="ConnectionType">The type of connection being requested (e.g., reseller, distributor, technology partner). Possible values: o OPPORTUNITY_COLLABORATION o SUBSIDIARY</param>
-    /// <param name="Email">The email address of the person to send the connection invitation to. Constraints: o min: 1 o max: 320 o pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*</param>
-    /// <param name="Message">A custom message to include with the connection invitation. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD\n]+</param>
-    /// <param name="Name">The name of the person sending the connection invitation. Constraints: o min: 1 o max: 80 o pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+</param>
-    /// <param name="ReceiverIdentifier">The identifier of the organization or partner to invite for connec- tion. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="Catalog">The catalog identifier where the connection invitation will be created. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="ConnectionType">The type of connection being requested (e.g., reseller, distributor, technology partner). Possible values: • OPPORTUNITY_COLLABORATION • SUBSIDIARY</param>
+    /// <param name="Email">The email address of the person to send the connection invitation to. Constraints: • min: 1 • max: 320 • pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*</param>
+    /// <param name="Message">A custom message to include with the connection invitation. Constraints: • min: 1 • max: 256 • pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD\n]+</param>
+    /// <param name="Name">The name of the person sending the connection invitation. Constraints: • min: 1 • max: 80 • pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+</param>
+    /// <param name="ReceiverIdentifier">The identifier of the organization or partner to invite for connection. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+</param>
     public AwsPartnercentralAccountCreateConnectionInvitationOptions(
         string Catalog,
         AwsPartnercentralAccountCreateConnectionInvitationConnectionType ConnectionType,
@@ -77,43 +79,43 @@ public record AwsPartnercentralAccountCreateConnectionInvitationOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog identifier where the connection invitation will be cre- ated. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+
+    /// The catalog identifier where the connection invitation will be created. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// The type of connection being requested (e.g., reseller, distributor, technology partner). Possible values: o OPPORTUNITY_COLLABORATION o SUBSIDIARY
+    /// The type of connection being requested (e.g., reseller, distributor, technology partner). Possible values: • OPPORTUNITY_COLLABORATION • SUBSIDIARY
     /// </summary>
     [CliOption("--connection-type")]
     public AwsPartnercentralAccountCreateConnectionInvitationConnectionType? ConnectionType { get; private init; }
 
     /// <summary>
-    /// The email address of the person to send the connection invitation to. Constraints: o min: 1 o max: 320 o pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*
+    /// The email address of the person to send the connection invitation to. Constraints: • min: 1 • max: 320 • pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*
     /// </summary>
     [CliOption("--email")]
     public string? Email { get; private init; }
 
     /// <summary>
-    /// A custom message to include with the connection invitation. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD\n]+
+    /// A custom message to include with the connection invitation. Constraints: • min: 1 • max: 256 • pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD\n]+
     /// </summary>
     [CliOption("--message")]
     public string? Message { get; private init; }
 
     /// <summary>
-    /// The name of the person sending the connection invitation. Constraints: o min: 1 o max: 80 o pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+
+    /// The name of the person sending the connection invitation. Constraints: • min: 1 • max: 80 • pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The identifier of the organization or partner to invite for connec- tion. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+
+    /// The identifier of the organization or partner to invite for connection. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--receiver-identifier")]
     public string? ReceiverIdentifier { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9-_]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

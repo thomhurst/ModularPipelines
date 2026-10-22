@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disassociates the fraudsters from the watchlist specified. Voice ID al- ways expects a fraudster to be a part of at least one watchlist. If you try to disassociate a fraudster from its only watchlist, a Valida- tionException is thrown. See also: AWS API Documentation
+/// Disassociates the fraudsters from the watchlist specified. Voice ID always expects a fraudster to be a part of at least one watchlist. If you try to disassociate a fraudster from its only watchlist, a ValidationException is thrown. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsVoiceIdDisassociateFraudsterOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disassociates the fraudsters from the watchlist specified. Voice ID al- ways expects a fraudster to be a part of at least one watchlist. If you try to disassociate a fraudster from its only watchlist, a Valida- tionException is thrown. See also: AWS API Documentation
+    /// Disassociates the fraudsters from the watchlist specified. Voice ID always expects a fraudster to be a part of at least one watchlist. If you try to disassociate a fraudster from its only watchlist, a ValidationException is thrown. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The identifier of the domain that contains the fraudster. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$</param>
-    /// <param name="FraudsterId">The identifier of the fraudster to be disassociated from the watch- list. Constraints: o min: 25 o max: 25 o pattern: ^id#[a-zA-Z0-9]{22}$</param>
-    /// <param name="WatchlistId">The identifier of the watchlist that you want to disassociate from the fraudster. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$</param>
+    /// <param name="DomainId">The identifier of the domain that contains the fraudster. Constraints: • min: 22 • max: 22 • pattern: ^[a-zA-Z0-9]{22}$</param>
+    /// <param name="FraudsterId">The identifier of the fraudster to be disassociated from the watchlist. Constraints: • min: 25 • max: 25 • pattern: ^id#[a-zA-Z0-9]{22}$</param>
+    /// <param name="WatchlistId">The identifier of the watchlist that you want to disassociate from the fraudster. Constraints: • min: 22 • max: 22 • pattern: ^[a-zA-Z0-9]{22}$</param>
     public AwsVoiceIdDisassociateFraudsterOptions(
         string DomainId,
         string FraudsterId,
@@ -64,19 +66,19 @@ public record AwsVoiceIdDisassociateFraudsterOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the domain that contains the fraudster. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$
+    /// The identifier of the domain that contains the fraudster. Constraints: • min: 22 • max: 22 • pattern: ^[a-zA-Z0-9]{22}$
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// The identifier of the fraudster to be disassociated from the watch- list. Constraints: o min: 25 o max: 25 o pattern: ^id#[a-zA-Z0-9]{22}$
+    /// The identifier of the fraudster to be disassociated from the watchlist. Constraints: • min: 25 • max: 25 • pattern: ^id#[a-zA-Z0-9]{22}$
     /// </summary>
     [CliOption("--fraudster-id")]
     public string? FraudsterId { get; private init; }
 
     /// <summary>
-    /// The identifier of the watchlist that you want to disassociate from the fraudster. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$
+    /// The identifier of the watchlist that you want to disassociate from the fraudster. Constraints: • min: 22 • max: 22 • pattern: ^[a-zA-Z0-9]{22}$
     /// </summary>
     [CliOption("--watchlist-id")]
     public string? WatchlistId { get; private init; }

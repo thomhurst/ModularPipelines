@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsQuicksightDescribeAnalysisDefinitionOptions : AwsOptions, IVali
     /// <summary>
     /// Provides a detailed description of the definition of an analysis. NOTE: If you do not need to know details about the content of an Analysis, for instance if you are trying to check the status of a recently created or updated Analysis, use the ` DescribeAnalysis https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeAnalysis.html`__ instead. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the analy- sis. You must be using the Amazon Web Services account that the analysis is in. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="AnalysisId">The ID of the analysis that you're describing. The ID is part of the URL of the analysis. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the analysis. You must be using the Amazon Web Services account that the analysis is in. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="AnalysisId">The ID of the analysis that you're describing. The ID is part of the URL of the analysis. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+</param>
     public AwsQuicksightDescribeAnalysisDefinitionOptions(
         string AwsAccountId,
         string AnalysisId
@@ -60,13 +62,13 @@ public record AwsQuicksightDescribeAnalysisDefinitionOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the analy- sis. You must be using the Amazon Web Services account that the analysis is in. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the analysis. You must be using the Amazon Web Services account that the analysis is in. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID of the analysis that you're describing. The ID is part of the URL of the analysis. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// The ID of the analysis that you're describing. The ID is part of the URL of the analysis. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--analysis-id")]
     public string? AnalysisId { get; private init; }

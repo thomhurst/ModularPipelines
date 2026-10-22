@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsBillingconductorDisassociateAccountsOptions : AwsOptions, IVali
     /// <summary>
     /// Removes the specified list of account IDs from the given billing group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the billing group that the array of account IDs will disassociate from. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:billing- group/)?[a-zA-Z0-9]{10,12}</param>
-    /// <param name="AccountIds">The array of account IDs to disassociate. Constraints: o min: 0 o max: 30 (string) Constraints: o pattern: [0-9]{12} Syntax: "string" "string" ...</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the billing group that the array of account IDs will disassociate from. Constraints: • pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:billinggroup/)?[a-zA-Z0-9]{10,12}</param>
+    /// <param name="AccountIds">The array of account IDs to disassociate. Constraints: • min: 0 • max: 30 (string) Constraints: • pattern: [0-9]{12} Syntax: "string" "string" ...</param>
     public AwsBillingconductorDisassociateAccountsOptions(
         string Arn,
         IEnumerable<string> AccountIds
@@ -71,13 +73,13 @@ public record AwsBillingconductorDisassociateAccountsOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the billing group that the array of account IDs will disassociate from. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:billing- group/)?[a-zA-Z0-9]{10,12}
+    /// The Amazon Resource Name (ARN) of the billing group that the array of account IDs will disassociate from. Constraints: • pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:billinggroup/)?[a-zA-Z0-9]{10,12}
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The array of account IDs to disassociate. Constraints: o min: 0 o max: 30 (string) Constraints: o pattern: [0-9]{12} Syntax: "string" "string" ...
+    /// The array of account IDs to disassociate. Constraints: • min: 0 • max: 30 (string) Constraints: • pattern: [0-9]{12} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; private init; }

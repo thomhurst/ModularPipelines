@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsSsmIncidentsUpdateTimelineEventOptions : AwsOptions, IValidatab
     /// <summary>
     /// Updates a timeline event. You can update events of type Custom Event . See also: AWS API Documentation
     /// </summary>
-    /// <param name="EventId">The ID of the event to update. You can use ListTimelineEvents to find an event's ID. Constraints: o min: 0 o max: 50</param>
-    /// <param name="IncidentRecordArn">The Amazon Resource Name (ARN) of the incident that includes the timeline event. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$</param>
+    /// <param name="EventId">The ID of the event to update. You can use ListTimelineEvents to find an event's ID. Constraints: • min: 0 • max: 50</param>
+    /// <param name="IncidentRecordArn">The Amazon Resource Name (ARN) of the incident that includes the timeline event. Constraints: • min: 0 • max: 1000 • pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$</param>
     public AwsSsmIncidentsUpdateTimelineEventOptions(
         string EventId,
         string IncidentRecordArn
@@ -61,32 +63,32 @@ public record AwsSsmIncidentsUpdateTimelineEventOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the event to update. You can use ListTimelineEvents to find an event's ID. Constraints: o min: 0 o max: 50
+    /// The ID of the event to update. You can use ListTimelineEvents to find an event's ID. Constraints: • min: 0 • max: 50
     /// </summary>
     [CliOption("--event-id")]
     public string? EventId { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the incident that includes the timeline event. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$
+    /// The Amazon Resource Name (ARN) of the incident that includes the timeline event. Constraints: • min: 0 • max: 1000 • pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$
     /// </summary>
     [CliOption("--incident-record-arn")]
     public string? IncidentRecordArn { get; private init; }
 
     /// <summary>
-    /// A token that ensures that a client calls the operation only once with the specified details. Constraints: o min: 0 o max: 128
+    /// A token that ensures that a client calls the operation only once with the specified details. Constraints: • min: 0 • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A short description of the event. Constraints: o min: 0 o max: 12000
+    /// A short description of the event. Constraints: • min: 0 • max: 12000
     /// </summary>
     [CliOption("--event-data")]
     public string? EventData { get; set; }
 
     /// <summary>
-    /// Updates all existing references in a TimelineEvent . A reference is an Amazon Web Services resource involved or associated with the in- cident. To specify a reference, enter its Amazon Resource Name (ARN). You can also specify a related item associated with that re- source. For example, to specify an Amazon DynamoDB (DynamoDB) table as a resource, use its ARN. You can also specify an Amazon Cloud- Watch metric associated with the DynamoDB table as a related item. WARNING: This update action overrides all existing references. If you want to keep existing references, you must specify them in the call. If you don't, this action removes any existing references and enters only new references. Constraints: o min: 0 o max: 10 (tagged union structure) An item referenced in a TimelineEvent that is involved in or somehow associated with an incident. You can specify an Amazon Resource Name (ARN) for an Amazon Web Services resource or a Re- latedItem ID. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: relatedItemId, resource. relatedItemId -&gt; (string) The ID of a RelatedItem referenced in a TimelineEvent . Constraints: o min: 0 o max: 200 o pattern: ^related-item/(ANALYSIS|INCIDENT|METRIC|PARENT|AT- TACHMENT|OTHER|AUTOMATION|INVOLVED_RE- SOURCE|TASK)/([0-9]|[A-F]){32}$ resource -&gt; (string) The Amazon Resource Name (ARN) of an Amazon Web Services re- source referenced in a TimelineEvent . Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$ Shorthand Syntax: relatedItemId=string,resource=string ... JSON Syntax: [ { "relatedItemId": "string", "resource": "string" } ... ]
+    /// Updates all existing references in a TimelineEvent . A reference is an Amazon Web Services resource involved or associated with the incident. To specify a reference, enter its Amazon Resource Name (ARN). You can also specify a related item associated with that resource. For example, to specify an Amazon DynamoDB (DynamoDB) table as a resource, use its ARN. You can also specify an Amazon CloudWatch metric associated with the DynamoDB table as a related item. WARNING: This update action overrides all existing references. If you want to keep existing references, you must specify them in the call. If you don't, this action removes any existing references and enters only new references. Constraints: • min: 0 • max: 10 (tagged union structure) An item referenced in a TimelineEvent that is involved in or somehow associated with an incident. You can specify an Amazon Resource Name (ARN) for an Amazon Web Services resource or a RelatedItem ID. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: relatedItemId, resource. relatedItemId -&gt; (string) The ID of a RelatedItem referenced in a TimelineEvent . Constraints: • min: 0 • max: 200 • pattern: ^related-item/(ANALYSIS|INCIDENT|METRIC|PARENT|ATTACHMENT|OTHER|AUTOMATION|INVOLVED_RESOURCE|TASK)/([0-9]|[A-F]){32}$ resource -&gt; (string) The Amazon Resource Name (ARN) of an Amazon Web Services resource referenced in a TimelineEvent . Constraints: • min: 0 • max: 1000 • pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$ Shorthand Syntax: relatedItemId=string,resource=string ... JSON Syntax: [ { "relatedItemId": "string", "resource": "string" } ... ]
     /// </summary>
     [CliOption("--event-references", GroupValues = true)]
     public IEnumerable<string>? EventReferences { get; set; }
@@ -98,7 +100,7 @@ public record AwsSsmIncidentsUpdateTimelineEventOptions : AwsOptions, IValidatab
     public string? EventTime { get; set; }
 
     /// <summary>
-    /// The type of event. You can update events of type Custom Event and Note . Constraints: o min: 0 o max: 100
+    /// The type of event. You can update events of type Custom Event and Note . Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--event-type")]
     public string? EventType { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -89,7 +91,7 @@ public record AwsMedialiveUpdateCloudWatchAlarmTemplateOptions : AwsOptions, IVa
     public string? TargetResourceType { get; set; }
 
     [CliOption("--threshold")]
-    public int? Threshold { get; set; }
+    public double? Threshold { get; set; }
 
     [CliOption("--treat-missing-data")]
     public string? TreatMissingData { get; set; }

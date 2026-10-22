@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Attaches a Transport Layer Security (TLS) certificate to your load bal- ancer. TLS is just an updated, more secure version of Secure Socket Layer (SSL). Once you create and validate your certificate, you can attach it to your load balancer. You can also use this API to rotate the certifi- cates on your account. Use the AttachLoadBalancerTlsCertificate action with the non-attached certificate, and it will replace the existing one and become the attached certificate. The AttachLoadBalancerTlsCerti...
+/// Attaches a Transport Layer Security (TLS) certificate to your load balancer. TLS is just an updated, more secure version of Secure Socket Layer (SSL). Once you create and validate your certificate, you can attach it to your load balancer. You can also use this API to rotate the certificates on your account. Use the AttachLoadBalancerTlsCertificate action with the non-attached certificate, and it will replace the existing one and become the attached certificate. The AttachLoadBalancerTlsCertifica...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsLightsailAttachLoadBalancerTlsCertificateOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Attaches a Transport Layer Security (TLS) certificate to your load bal- ancer. TLS is just an updated, more secure version of Secure Socket Layer (SSL). Once you create and validate your certificate, you can attach it to your load balancer. You can also use this API to rotate the certifi- cates on your account. Use the AttachLoadBalancerTlsCertificate action with the non-attached certificate, and it will replace the existing one and become the attached certificate. The AttachLoadBalancerTlsCerti...
+    /// Attaches a Transport Layer Security (TLS) certificate to your load balancer. TLS is just an updated, more secure version of Secure Socket Layer (SSL). Once you create and validate your certificate, you can attach it to your load balancer. You can also use this API to rotate the certificates on your account. Use the AttachLoadBalancerTlsCertificate action with the non-attached certificate, and it will replace the existing one and become the attached certificate. The AttachLoadBalancerTlsCertifica...
     /// </summary>
-    /// <param name="LoadBalancerName">The name of the load balancer to which you want to associate the SSL/TLS certificate. Constraints: o pattern: \w[\w\-]*\w</param>
-    /// <param name="CertificateName">The name of your SSL/TLS certificate. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="LoadBalancerName">The name of the load balancer to which you want to associate the SSL/TLS certificate. Constraints: • pattern: \w[\w\-]*\w</param>
+    /// <param name="CertificateName">The name of your SSL/TLS certificate. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailAttachLoadBalancerTlsCertificateOptions(
         string LoadBalancerName,
         string CertificateName
@@ -60,13 +62,13 @@ public record AwsLightsailAttachLoadBalancerTlsCertificateOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the load balancer to which you want to associate the SSL/TLS certificate. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the load balancer to which you want to associate the SSL/TLS certificate. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--load-balancer-name")]
     public string? LoadBalancerName { get; private init; }
 
     /// <summary>
-    /// The name of your SSL/TLS certificate. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of your SSL/TLS certificate. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--certificate-name")]
     public string? CertificateName { get; private init; }

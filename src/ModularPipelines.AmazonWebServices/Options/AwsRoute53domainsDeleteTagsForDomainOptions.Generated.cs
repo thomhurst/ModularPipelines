@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsRoute53domainsDeleteTagsForDomainOptions : AwsOptions, IValidat
     /// <summary>
     /// This operation deletes the specified tags for a domain. All tag operations are eventually consistent; subsequent operations might not immediately represent all issued operations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The domain for which you want to delete one or more tags. Constraints: o max: 255</param>
-    /// <param name="TagsToDelete">A list of tag keys to delete. (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="DomainName">The domain for which you want to delete one or more tags. Constraints: • max: 255</param>
+    /// <param name="TagsToDelete">A list of tag keys to delete. (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
     public AwsRoute53domainsDeleteTagsForDomainOptions(
         string DomainName,
         IEnumerable<string> TagsToDelete
@@ -71,13 +73,13 @@ public record AwsRoute53domainsDeleteTagsForDomainOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The domain for which you want to delete one or more tags. Constraints: o max: 255
+    /// The domain for which you want to delete one or more tags. Constraints: • max: 255
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// A list of tag keys to delete. (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// A list of tag keys to delete. (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tags-to-delete", GroupValues = true)]
     public IEnumerable<string>? TagsToDelete { get; private init; }

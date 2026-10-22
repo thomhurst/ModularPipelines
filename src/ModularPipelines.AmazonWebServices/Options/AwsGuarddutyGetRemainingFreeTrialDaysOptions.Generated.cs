@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsGuarddutyGetRemainingFreeTrialDaysOptions : AwsOptions, IValida
     /// <summary>
     /// Provides the number of days left for each data source used in the free trial period. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DetectorId">The unique ID of the detector of the GuardDuty member account. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
-    /// <param name="AccountIds">A list of account identifiers of the GuardDuty member account. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 12 o max: 12 Syntax: "string" "string" ...</param>
+    /// <param name="DetectorId">The unique ID of the detector of the GuardDuty member account. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300</param>
+    /// <param name="AccountIds">A list of account identifiers of the GuardDuty member account. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 12 • max: 12 Syntax: "string" "string" ...</param>
     public AwsGuarddutyGetRemainingFreeTrialDaysOptions(
         string DetectorId,
         IEnumerable<string> AccountIds
@@ -71,13 +73,13 @@ public record AwsGuarddutyGetRemainingFreeTrialDaysOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the detector of the GuardDuty member account. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// The unique ID of the detector of the GuardDuty member account. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }
 
     /// <summary>
-    /// A list of account identifiers of the GuardDuty member account. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 12 o max: 12 Syntax: "string" "string" ...
+    /// A list of account identifiers of the GuardDuty member account. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 12 • max: 12 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; private init; }

@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Attaches tags to a secret. Tags consist of a key name and a value. Tags are part of the secret's metadata. They are not associated with spe- cific versions of the secret. This operation appends tags to the exist- ing list of tags. For tag quotas and naming restrictions, see Service quotas for Tagging in the Amazon Web Services General Reference guide . WARNING: If you use tags as part of your security strategy, then adding or removing a tag can change permissions. If successfully completing this...
+/// Attaches tags to a secret. Tags consist of a key name and a value. Tags are part of the secret's metadata. They are not associated with specific versions of the secret. This operation appends tags to the existing list of tags. For tag quotas and naming restrictions, see Service quotas for Tagging in the Amazon Web Services General Reference guide . WARNING: If you use tags as part of your security strategy, then adding or removing a tag can change permissions. If successfully completing this ope...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsSecretsmanagerTagResourceOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Attaches tags to a secret. Tags consist of a key name and a value. Tags are part of the secret's metadata. They are not associated with spe- cific versions of the secret. This operation appends tags to the exist- ing list of tags. For tag quotas and naming restrictions, see Service quotas for Tagging in the Amazon Web Services General Reference guide . WARNING: If you use tags as part of your security strategy, then adding or removing a tag can change permissions. If successfully completing this...
+    /// Attaches tags to a secret. Tags consist of a key name and a value. Tags are part of the secret's metadata. They are not associated with specific versions of the secret. This operation appends tags to the existing list of tags. For tag quotas and naming restrictions, see Service quotas for Tagging in the Amazon Web Services General Reference guide . WARNING: If you use tags as part of your security strategy, then adding or removing a tag can change permissions. If successfully completing this ope...
     /// </summary>
-    /// <param name="SecretId">The identifier for the secret to attach tags to. You can specify ei- ther the Amazon Resource Name (ARN) or the friendly name of the se- cret. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . Constraints: o min: 1 o max: 2048</param>
-    /// <param name="Tags">The tags to attach to the secret as a JSON text string argument. Each element in the list consists of a Key and a Value . For storing multiple values, we recommend that you use a JSON text string argument and specify key/value pairs. For more information, see Specifying parameter values for the Amazon Web Services CLI in the Amazon Web Services CLI User Guide. (structure) A structure that contains information about a tag. Key -&gt; (string) The key identifier, or name, of the tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) The string value associated with the key of the tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="SecretId">The identifier for the secret to attach tags to. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . Constraints: • min: 1 • max: 2048</param>
+    /// <param name="Tags">The tags to attach to the secret as a JSON text string argument. Each element in the list consists of a Key and a Value . For storing multiple values, we recommend that you use a JSON text string argument and specify key/value pairs. For more information, see Specifying parameter values for the Amazon Web Services CLI in the Amazon Web Services CLI User Guide. (structure) A structure that contains information about a tag. Key -&gt; (string) The key identifier, or name, of the tag. Constraints: • min: 1 • max: 128 Value -&gt; (string) The string value associated with the key of the tag. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsSecretsmanagerTagResourceOptions(
         string SecretId,
         IEnumerable<string> Tags
@@ -72,14 +74,14 @@ public record AwsSecretsmanagerTagResourceOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the secret to attach tags to. You can specify ei- ther the Amazon Resource Name (ARN) or the friendly name of the se- cret. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . Constraints: o min: 1 o max: 2048
+    /// The identifier for the secret to attach tags to. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . Constraints: • min: 1 • max: 2048
     /// </summary>
     [SecretValue]
     [CliOption("--secret-id")]
     public string? SecretId { get; private init; }
 
     /// <summary>
-    /// The tags to attach to the secret as a JSON text string argument. Each element in the list consists of a Key and a Value . For storing multiple values, we recommend that you use a JSON text string argument and specify key/value pairs. For more information, see Specifying parameter values for the Amazon Web Services CLI in the Amazon Web Services CLI User Guide. (structure) A structure that contains information about a tag. Key -&gt; (string) The key identifier, or name, of the tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) The string value associated with the key of the tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags to attach to the secret as a JSON text string argument. Each element in the list consists of a Key and a Value . For storing multiple values, we recommend that you use a JSON text string argument and specify key/value pairs. For more information, see Specifying parameter values for the Amazon Web Services CLI in the Amazon Web Services CLI User Guide. (structure) A structure that contains information about a tag. Key -&gt; (string) The key identifier, or name, of the tag. Constraints: • min: 1 • max: 128 Value -&gt; (string) The string value associated with the key of the tag. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }

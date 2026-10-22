@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRedshiftDisassociateDataShareConsumerOptions : AwsOptions, IVal
     /// <summary>
     /// From a datashare consumer account, remove association for the specified datashare. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataShareArn">The Amazon Resource Name (ARN) of the datashare to remove associa- tion for. Constraints: o max: 2147483647</param>
+    /// <param name="DataShareArn">The Amazon Resource Name (ARN) of the datashare to remove association for. Constraints: • max: 2147483647</param>
     public AwsRedshiftDisassociateDataShareConsumerOptions(
         string DataShareArn
     )
@@ -56,25 +58,25 @@ public record AwsRedshiftDisassociateDataShareConsumerOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the datashare to remove associa- tion for. Constraints: o max: 2147483647
+    /// The Amazon Resource Name (ARN) of the datashare to remove association for. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--data-share-arn")]
     public string? DataShareArn { get; private init; }
 
     /// <summary>
-    /// A value that specifies whether association for the datashare is re- moved from the entire account.
+    /// A value that specifies whether association for the datashare is removed from the entire account.
     /// </summary>
     [CliFlag("--disassociate-entire-account", NegatedName = "--no-disassociate-entire-account")]
     public bool? DisassociateEntireAccount { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the consumer namespace that asso- ciation for the datashare is removed from. Constraints: o max: 2147483647
+    /// The Amazon Resource Name (ARN) of the consumer namespace that association for the datashare is removed from. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--consumer-arn")]
     public string? ConsumerArn { get; set; }
 
     /// <summary>
-    /// From a datashare consumer account, removes association of a datashare from all the existing and future namespaces in the speci- fied Amazon Web Services Region. Constraints: o max: 2147483647
+    /// From a datashare consumer account, removes association of a datashare from all the existing and future namespaces in the specified Amazon Web Services Region. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--consumer-region")]
     public string? ConsumerRegion { get; set; }

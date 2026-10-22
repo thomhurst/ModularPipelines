@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +31,7 @@ public record AwsWellarchitectedGetConsolidatedReportOptions : AwsOptions, IVali
     /// <summary>
     /// Get a consolidated report of your workloads. You can optionally choose to include workloads that have been shared with you. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Format">The format of the consolidated report. For PDF , Base64String is returned. For JSON , Metrics is returned. Possible values: o PDF o JSON</param>
+    /// <param name="Format">The format of the consolidated report. For PDF , Base64String is returned. For JSON , Metrics is returned. Possible values: • PDF • JSON</param>
     public AwsWellarchitectedGetConsolidatedReportOptions(
         AwsWellarchitectedGetConsolidatedReportFormat Format
     )
@@ -57,7 +59,7 @@ public record AwsWellarchitectedGetConsolidatedReportOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The format of the consolidated report. For PDF , Base64String is returned. For JSON , Metrics is returned. Possible values: o PDF o JSON
+    /// The format of the consolidated report. For PDF , Base64String is returned. For JSON , Metrics is returned. Possible values: • PDF • JSON
     /// </summary>
     [CliOption("--format")]
     public AwsWellarchitectedGetConsolidatedReportFormat? Format { get; private init; }
@@ -69,14 +71,14 @@ public record AwsWellarchitectedGetConsolidatedReportOptions : AwsOptions, IVali
     public bool? IncludeSharedResources { get; set; }
 
     /// <summary>
-    /// The token to use to retrieve the next set of results. Constraints: o pattern: [A-Za-z0-9+\/=_-]+
+    /// The token to use to retrieve the next set of results. Constraints: • pattern: [A-Za-z0-9+\/=_-]+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return for this request. Constraints: o min: 1 o max: 15
+    /// The maximum number of results to return for this request. Constraints: • min: 1 • max: 15
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsObservabilityadminGetTelemetryRuleOptions : AwsOptions, IValida
     /// <summary>
     /// Retrieves the details of a specific telemetry rule in your account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RuleIdentifier">The identifier (name or ARN) of the telemetry rule to retrieve. Constraints: o min: 1 o max: 1011</param>
+    /// <param name="RuleIdentifier">The identifier (name or ARN) of the telemetry rule to retrieve. Constraints: • min: 1 • max: 1011</param>
     public AwsObservabilityadminGetTelemetryRuleOptions(
         string RuleIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsObservabilityadminGetTelemetryRuleOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier (name or ARN) of the telemetry rule to retrieve. Constraints: o min: 1 o max: 1011
+    /// The identifier (name or ARN) of the telemetry rule to retrieve. Constraints: • min: 1 • max: 1011
     /// </summary>
     [CliOption("--rule-identifier")]
     public string? RuleIdentifier { get; private init; }

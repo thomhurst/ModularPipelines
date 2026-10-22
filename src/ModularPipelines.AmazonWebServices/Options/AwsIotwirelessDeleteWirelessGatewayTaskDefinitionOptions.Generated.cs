@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a wireless gateway task definition. Deleting this task defini- tion does not affect tasks that are currently in progress. See also: AWS API Documentation
+/// Deletes a wireless gateway task definition. Deleting this task definition does not affect tasks that are currently in progress. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsIotwirelessDeleteWirelessGatewayTaskDefinitionOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a wireless gateway task definition. Deleting this task defini- tion does not affect tasks that are currently in progress. See also: AWS API Documentation
+    /// Deletes a wireless gateway task definition. Deleting this task definition does not affect tasks that are currently in progress. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the resource to delete. Constraints: o max: 36 o pattern: [a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}</param>
+    /// <param name="Id">The ID of the resource to delete. Constraints: • max: 36 • pattern: [a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}</param>
     public AwsIotwirelessDeleteWirelessGatewayTaskDefinitionOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsIotwirelessDeleteWirelessGatewayTaskDefinitionOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the resource to delete. Constraints: o max: 36 o pattern: [a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}
+    /// The ID of the resource to delete. Constraints: • max: 36 • pattern: [a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

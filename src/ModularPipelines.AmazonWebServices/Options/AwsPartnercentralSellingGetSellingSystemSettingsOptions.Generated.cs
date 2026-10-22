@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsPartnercentralSellingGetSellingSystemSettingsOptions : AwsOptio
     /// <summary>
     /// Retrieves the currently set system settings, which include the IAM Role used for resource snapshot jobs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">Specifies the catalog in which the settings are defined. Acceptable values include AWS for production and Sandbox for testing environ- ments. Constraints: o pattern: [a-zA-Z]+</param>
+    /// <param name="Catalog">Specifies the catalog in which the settings are defined. Acceptable values include AWS for production and Sandbox for testing environments. Constraints: • pattern: [a-zA-Z]+</param>
     public AwsPartnercentralSellingGetSellingSystemSettingsOptions(
         string Catalog
     )
@@ -56,7 +58,7 @@ public record AwsPartnercentralSellingGetSellingSystemSettingsOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the catalog in which the settings are defined. Acceptable values include AWS for production and Sandbox for testing environ- ments. Constraints: o pattern: [a-zA-Z]+
+    /// Specifies the catalog in which the settings are defined. Acceptable values include AWS for production and Sandbox for testing environments. Constraints: • pattern: [a-zA-Z]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }

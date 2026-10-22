@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified disk snapshot. When you make periodic snapshots of a disk, the snapshots are incremen- tal, and only the blocks on the device that have changed since your last snapshot are saved in the new snapshot. When you delete a snap- shot, only the data not needed for any other snapshot is removed. So regardless of which prior snapshots have been deleted, all active snap- shots will have access to all the information needed to restore the disk. The delete disk snapshot operation supp...
+/// Deletes the specified disk snapshot. When you make periodic snapshots of a disk, the snapshots are incremental, and only the blocks on the device that have changed since your last snapshot are saved in the new snapshot. When you delete a snapshot, only the data not needed for any other snapshot is removed. So regardless of which prior snapshots have been deleted, all active snapshots will have access to all the information needed to restore the disk. The delete disk snapshot operation supports t...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLightsailDeleteDiskSnapshotOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified disk snapshot. When you make periodic snapshots of a disk, the snapshots are incremen- tal, and only the blocks on the device that have changed since your last snapshot are saved in the new snapshot. When you delete a snap- shot, only the data not needed for any other snapshot is removed. So regardless of which prior snapshots have been deleted, all active snap- shots will have access to all the information needed to restore the disk. The delete disk snapshot operation supp...
+    /// Deletes the specified disk snapshot. When you make periodic snapshots of a disk, the snapshots are incremental, and only the blocks on the device that have changed since your last snapshot are saved in the new snapshot. When you delete a snapshot, only the data not needed for any other snapshot is removed. So regardless of which prior snapshots have been deleted, all active snapshots will have access to all the information needed to restore the disk. The delete disk snapshot operation supports t...
     /// </summary>
-    /// <param name="DiskSnapshotName">The name of the disk snapshot you want to delete (my-disk-snapshot ). Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="DiskSnapshotName">The name of the disk snapshot you want to delete (my-disk-snapshot ). Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailDeleteDiskSnapshotOptions(
         string DiskSnapshotName
     )
@@ -56,7 +58,7 @@ public record AwsLightsailDeleteDiskSnapshotOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the disk snapshot you want to delete (my-disk-snapshot ). Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the disk snapshot you want to delete (my-disk-snapshot ). Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--disk-snapshot-name")]
     public string? DiskSnapshotName { get; private init; }

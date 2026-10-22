@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -63,13 +65,13 @@ public record AwsRedshiftServerlessUpdateUsageLimitOptions : AwsOptions, IValida
     public string? UsageLimitId { get; private init; }
 
     /// <summary>
-    /// The new limit amount. If time-based, this amount is in Redshift Pro- cessing Units (RPU) consumed per hour. If data-based, this amount is in terabytes (TB) of data transferred between Regions in cross-ac- count sharing. The value must be a positive number.
+    /// The new limit amount. If time-based, this amount is in Redshift Processing Units (RPU) consumed per hour. If data-based, this amount is in terabytes (TB) of data transferred between Regions in cross-account sharing. The value must be a positive number.
     /// </summary>
     [CliOption("--amount")]
-    public int? Amount { get; set; }
+    public long? Amount { get; set; }
 
     /// <summary>
-    /// The new action that Amazon Redshift Serverless takes when the limit is reached. Possible values: o log o emit-metric o deactivate
+    /// The new action that Amazon Redshift Serverless takes when the limit is reached. Possible values: • log • emit-metric • deactivate
     /// </summary>
     [CliOption("--breach-action")]
     public AwsRedshiftServerlessUpdateUsageLimitBreachAction? BreachAction { get; set; }

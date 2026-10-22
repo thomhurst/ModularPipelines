@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +31,8 @@ public record AwsAcmCreateAcmeEndpointOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates an ACME endpoint, which is a managed ACME server with a unique endpoint URL. After creation, ACME clients can use the endpoint URL to automate certificate issuance using the ACME protocol. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AuthorizationBehavior">The authorization behavior for the ACME endpoint. Possible values: o PRE_APPROVED</param>
-    /// <param name="CertificateAuthority">The type of certificate authority to use for issuing certificates through this ACME endpoint. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: PublicCertificateAuthority. PublicCertificateAuthority -&gt; (structure) Configuration for using a public certificate authority. AllowedKeyAlgorithms -&gt; (list) The key algorithms allowed for certificates issued by this certificate authority. (string) Possible values: o RSA_2048 o EC_prime256v1 o EC_secp384r1 Shorthand Syntax: PublicCertificateAuthority={AllowedKeyAlgorithms=[string,string]} JSON Syntax: { "PublicCertificateAuthority": { "AllowedKeyAlgorithms": ["RSA_2048"|"EC_prime256v1"|"EC_secp384r1", ...] } }</param>
+    /// <param name="AuthorizationBehavior">The authorization behavior for the ACME endpoint. Possible values: • PRE_APPROVED</param>
+    /// <param name="CertificateAuthority">The type of certificate authority to use for issuing certificates through this ACME endpoint. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: PublicCertificateAuthority. PublicCertificateAuthority -&gt; (structure) Configuration for using a public certificate authority. AllowedKeyAlgorithms -&gt; (list) The key algorithms allowed for certificates issued by this certificate authority. (string) Possible values: • RSA_2048 • EC_prime256v1 • EC_secp384r1 Shorthand Syntax: PublicCertificateAuthority={AllowedKeyAlgorithms=[string,string]} JSON Syntax: { "PublicCertificateAuthority": { "AllowedKeyAlgorithms": ["RSA_2048"|"EC_prime256v1"|"EC_secp384r1", ...] } }</param>
     public AwsAcmCreateAcmeEndpointOptions(
         string AuthorizationBehavior,
         string CertificateAuthority
@@ -62,38 +64,38 @@ public record AwsAcmCreateAcmeEndpointOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The authorization behavior for the ACME endpoint. Possible values: o PRE_APPROVED
+    /// The authorization behavior for the ACME endpoint. Possible values: • PRE_APPROVED
     /// </summary>
     [CliOption("--authorization-behavior")]
     public string? AuthorizationBehavior { get; private init; }
 
     /// <summary>
-    /// The type of certificate authority to use for issuing certificates through this ACME endpoint. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: PublicCertificateAuthority. PublicCertificateAuthority -&gt; (structure) Configuration for using a public certificate authority. AllowedKeyAlgorithms -&gt; (list) The key algorithms allowed for certificates issued by this certificate authority. (string) Possible values: o RSA_2048 o EC_prime256v1 o EC_secp384r1 Shorthand Syntax: PublicCertificateAuthority={AllowedKeyAlgorithms=[string,string]} JSON Syntax: { "PublicCertificateAuthority": { "AllowedKeyAlgorithms": ["RSA_2048"|"EC_prime256v1"|"EC_secp384r1", ...] } }
+    /// The type of certificate authority to use for issuing certificates through this ACME endpoint. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: PublicCertificateAuthority. PublicCertificateAuthority -&gt; (structure) Configuration for using a public certificate authority. AllowedKeyAlgorithms -&gt; (list) The key algorithms allowed for certificates issued by this certificate authority. (string) Possible values: • RSA_2048 • EC_prime256v1 • EC_secp384r1 Shorthand Syntax: PublicCertificateAuthority={AllowedKeyAlgorithms=[string,string]} JSON Syntax: { "PublicCertificateAuthority": { "AllowedKeyAlgorithms": ["RSA_2048"|"EC_prime256v1"|"EC_secp384r1", ...] } }
     /// </summary>
     [CliOption("--certificate-authority")]
     public string? CertificateAuthority { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure idempotency of the re- quest.
+    /// A unique, case-sensitive identifier to ensure idempotency of the request.
     /// </summary>
     [SecretValue]
     [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
 
     /// <summary>
-    /// Specifies whether ACME clients must provide contact information dur- ing account registration. Possible values: o REQUIRED o NOT_REQUIRED
+    /// Specifies whether ACME clients must provide contact information during account registration. Possible values: • REQUIRED • NOT_REQUIRED
     /// </summary>
     [CliOption("--contact")]
     public AwsAcmCreateAcmeEndpointContact? Contact { get; set; }
 
     /// <summary>
-    /// One or more tags to associate with the ACME endpoint. Constraints: o min: 1 o max: 50 (structure) A key-value pair that identifies or specifies metadata about an ACM resource. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// One or more tags to associate with the ACME endpoint. Constraints: • min: 1 • max: 50 (structure) A key-value pair that identifies or specifies metadata about an ACM resource. Key -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) The value of the tag. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Tags to apply to certificates issued through this ACME endpoint. Constraints: o min: 1 o max: 50 (structure) A key-value pair that identifies or specifies metadata about an ACM resource. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Tags to apply to certificates issued through this ACME endpoint. Constraints: • min: 1 • max: 50 (structure) A key-value pair that identifies or specifies metadata about an ACM resource. Key -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) The value of the tag. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--certificate-tags", GroupValues = true)]
     public IEnumerable<string>? CertificateTags { get; set; }

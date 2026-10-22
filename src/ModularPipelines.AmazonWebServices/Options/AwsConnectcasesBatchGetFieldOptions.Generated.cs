@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the description for the list of fields in the request parame- ters. See also: AWS API Documentation
+/// Returns the description for the list of fields in the request parameters. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsConnectcasesBatchGetFieldOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the description for the list of fields in the request parame- ters. See also: AWS API Documentation
+    /// Returns the description for the list of fields in the request parameters. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500</param>
-    /// <param name="Fields">A list of unique field identifiers. Constraints: o min: 1 o max: 50 (structure) Object for unique identifier of a field. id -&gt; (string) [required] Unique identifier of a field. Constraints: o min: 1 o max: 500 Shorthand Syntax: id=string ... JSON Syntax: [ { "id": "string" } ... ]</param>
+    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500</param>
+    /// <param name="Fields">A list of unique field identifiers. Constraints: • min: 1 • max: 50 (structure) Object for unique identifier of a field. id -&gt; (string) [required] Unique identifier of a field. Constraints: • min: 1 • max: 500 Shorthand Syntax: id=string ... JSON Syntax: [ { "id": "string" } ... ]</param>
     public AwsConnectcasesBatchGetFieldOptions(
         string DomainId,
         IEnumerable<string> Fields
@@ -71,13 +73,13 @@ public record AwsConnectcasesBatchGetFieldOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500
+    /// The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// A list of unique field identifiers. Constraints: o min: 1 o max: 50 (structure) Object for unique identifier of a field. id -&gt; (string) [required] Unique identifier of a field. Constraints: o min: 1 o max: 500 Shorthand Syntax: id=string ... JSON Syntax: [ { "id": "string" } ... ]
+    /// A list of unique field identifiers. Constraints: • min: 1 • max: 50 (structure) Object for unique identifier of a field. id -&gt; (string) [required] Unique identifier of a field. Constraints: • min: 1 • max: 500 Shorthand Syntax: id=string ... JSON Syntax: [ { "id": "string" } ... ]
     /// </summary>
     [CliOption("--fields", GroupValues = true)]
     public IEnumerable<string>? Fields { get; private init; }

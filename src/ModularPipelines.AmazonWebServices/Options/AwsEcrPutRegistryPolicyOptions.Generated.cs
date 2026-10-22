@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates the permissions policy for your registry. A registry policy is used to specify permissions for another Amazon Web Services account and is used when configuring cross-account replica- tion. For more information, see Registry permissions in the Amazon Elastic Container Registry User Guide . See also: AWS API Documentation
+/// Creates or updates the permissions policy for your registry. A registry policy is used to specify permissions for another Amazon Web Services account and is used when configuring cross-account replication. For more information, see Registry permissions in the Amazon Elastic Container Registry User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsEcrPutRegistryPolicyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates or updates the permissions policy for your registry. A registry policy is used to specify permissions for another Amazon Web Services account and is used when configuring cross-account replica- tion. For more information, see Registry permissions in the Amazon Elastic Container Registry User Guide . See also: AWS API Documentation
+    /// Creates or updates the permissions policy for your registry. A registry policy is used to specify permissions for another Amazon Web Services account and is used when configuring cross-account replication. For more information, see Registry permissions in the Amazon Elastic Container Registry User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyText">The JSON policy text to apply to your registry. The policy text fol- lows the same format as IAM policy text. For more information, see Registry permissions in the Amazon Elastic Container Registry User Guide . Constraints: o min: 0 o max: 10240</param>
+    /// <param name="PolicyText">The JSON policy text to apply to your registry. The policy text follows the same format as IAM policy text. For more information, see Registry permissions in the Amazon Elastic Container Registry User Guide . Constraints: • min: 0 • max: 10240</param>
     public AwsEcrPutRegistryPolicyOptions(
         string PolicyText
     )
@@ -56,7 +58,7 @@ public record AwsEcrPutRegistryPolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The JSON policy text to apply to your registry. The policy text fol- lows the same format as IAM policy text. For more information, see Registry permissions in the Amazon Elastic Container Registry User Guide . Constraints: o min: 0 o max: 10240
+    /// The JSON policy text to apply to your registry. The policy text follows the same format as IAM policy text. For more information, see Registry permissions in the Amazon Elastic Container Registry User Guide . Constraints: • min: 0 • max: 10240
     /// </summary>
     [CliOption("--policy-text")]
     public string? PolicyText { get; private init; }

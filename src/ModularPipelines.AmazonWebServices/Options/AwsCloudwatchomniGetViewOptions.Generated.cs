@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCloudwatchomniGetViewOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns the definition and metadata of the specified view. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the view. Constraints: o min: 6 o max: 256 o pattern: view\.[a-z0-9][a-z0-9_-]{0,250}</param>
+    /// <param name="Name">The name of the view. Constraints: • min: 6 • max: 256 • pattern: view\.[a-z0-9][a-z0-9_-]{0,250}</param>
     public AwsCloudwatchomniGetViewOptions(
         string Name
     )
@@ -56,7 +58,7 @@ public record AwsCloudwatchomniGetViewOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the view. Constraints: o min: 6 o max: 256 o pattern: view\.[a-z0-9][a-z0-9_-]{0,250}
+    /// The name of the view. Constraints: • min: 6 • max: 256 • pattern: view\.[a-z0-9][a-z0-9_-]{0,250}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

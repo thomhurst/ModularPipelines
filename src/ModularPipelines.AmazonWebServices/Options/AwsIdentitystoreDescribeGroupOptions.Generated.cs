@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the group metadata and attributes from GroupId in an identity store. NOTE: If you have access to a member account, you can use this API opera- tion from the member account. For more information, see Limiting ac- cess to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation
+/// Retrieves the group metadata and attributes from GroupId in an identity store. NOTE: If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsIdentitystoreDescribeGroupOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the group metadata and attributes from GroupId in an identity store. NOTE: If you have access to a member account, you can use this API opera- tion from the member account. For more information, see Limiting ac- cess to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation
+    /// Retrieves the group metadata and attributes from GroupId in an identity store. NOTE: If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="IdentityStoreId">The globally unique identifier for the identity store, such as d-1234567890 . In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890 . Constraints: o min: 1 o max: 93 o pattern: (arn:aws[a-z-]*:identitystore::\d{12}:identitys- tore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
-    /// <param name="GroupId">The identifier for a group in the identity store. You can specify the group by ID or by Amazon Resource Name (ARN). For example, group ID a1b2c3d4-5678-90ab-cdef-EXAMPLE22222 or group ARN arn:aws:identitystore:::group/a1b2c3d4-5678-90ab-cdef-EXAM- PLE22222 . Constraints: o min: 1 o max: 100 o pattern: (arn:aws[a-z-]*:identitystore:::(user|group|member- ship)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}</param>
+    /// <param name="IdentityStoreId">The globally unique identifier for the identity store, such as d-1234567890 . In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890 . Constraints: • min: 1 • max: 93 • pattern: (arn:aws[a-z-]*:identitystore::\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
+    /// <param name="GroupId">The identifier for a group in the identity store. You can specify the group by ID or by Amazon Resource Name (ARN). For example, group ID a1b2c3d4-5678-90ab-cdef-EXAMPLE22222 or group ARN arn:aws:identitystore:::group/a1b2c3d4-5678-90ab-cdef-EXAMPLE22222 . Constraints: • min: 1 • max: 100 • pattern: (arn:aws[a-z-]*:identitystore:::(user|group|membership)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}</param>
     public AwsIdentitystoreDescribeGroupOptions(
         string IdentityStoreId,
         string GroupId
@@ -60,13 +62,13 @@ public record AwsIdentitystoreDescribeGroupOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The globally unique identifier for the identity store, such as d-1234567890 . In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890 . Constraints: o min: 1 o max: 93 o pattern: (arn:aws[a-z-]*:identitystore::\d{12}:identitys- tore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
+    /// The globally unique identifier for the identity store, such as d-1234567890 . In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890 . Constraints: • min: 1 • max: 93 • pattern: (arn:aws[a-z-]*:identitystore::\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
     /// </summary>
     [CliOption("--identity-store-id")]
     public string? IdentityStoreId { get; private init; }
 
     /// <summary>
-    /// The identifier for a group in the identity store. You can specify the group by ID or by Amazon Resource Name (ARN). For example, group ID a1b2c3d4-5678-90ab-cdef-EXAMPLE22222 or group ARN arn:aws:identitystore:::group/a1b2c3d4-5678-90ab-cdef-EXAM- PLE22222 . Constraints: o min: 1 o max: 100 o pattern: (arn:aws[a-z-]*:identitystore:::(user|group|member- ship)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}
+    /// The identifier for a group in the identity store. You can specify the group by ID or by Amazon Resource Name (ARN). For example, group ID a1b2c3d4-5678-90ab-cdef-EXAMPLE22222 or group ARN arn:aws:identitystore:::group/a1b2c3d4-5678-90ab-cdef-EXAMPLE22222 . Constraints: • min: 1 • max: 100 • pattern: (arn:aws[a-z-]*:identitystore:::(user|group|membership)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}
     /// </summary>
     [CliOption("--group-id")]
     public string? GroupId { get; private init; }

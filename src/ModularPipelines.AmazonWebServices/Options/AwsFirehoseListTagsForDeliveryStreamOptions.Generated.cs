@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsFirehoseListTagsForDeliveryStreamOptions : AwsOptions, IValidat
     /// <summary>
     /// Lists the tags for the specified Firehose stream. This operation has a limit of five transactions per second per account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DeliveryStreamName">The name of the Firehose stream whose tags you want to list. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="DeliveryStreamName">The name of the Firehose stream whose tags you want to list. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsFirehoseListTagsForDeliveryStreamOptions(
         string DeliveryStreamName
     )
@@ -56,19 +58,19 @@ public record AwsFirehoseListTagsForDeliveryStreamOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Firehose stream whose tags you want to list. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the Firehose stream whose tags you want to list. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--delivery-stream-name")]
     public string? DeliveryStreamName { get; private init; }
 
     /// <summary>
-    /// The key to use as the starting point for the list of tags. If you set this parameter, ListTagsForDeliveryStream gets all tags that oc- cur after ExclusiveStartTagKey . Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:\/=+\-@%]*$
+    /// The key to use as the starting point for the list of tags. If you set this parameter, ListTagsForDeliveryStream gets all tags that occur after ExclusiveStartTagKey . Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:\/=+\-@%]*$
     /// </summary>
     [CliOption("--exclusive-start-tag-key")]
     public string? ExclusiveStartTagKey { get; set; }
 
     /// <summary>
-    /// The number of tags to return. If this number is less than the total number of tags associated with the Firehose stream, HasMoreTags is set to true in the response. To list additional tags, set Exclu- siveStartTagKey to the last key in the response. Constraints: o min: 1 o max: 50
+    /// The number of tags to return. If this number is less than the total number of tags associated with the Firehose stream, HasMoreTags is set to true in the response. To list additional tags, set ExclusiveStartTagKey to the last key in the response. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }

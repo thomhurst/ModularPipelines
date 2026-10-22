@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRoute53UpdateHostedZoneCommentOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Updates the comment for a specified hosted zone. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID for the hosted zone that you want to update the comment for. Constraints: o max: 32</param>
+    /// <param name="Id">The ID for the hosted zone that you want to update the comment for. Constraints: • max: 32</param>
     public AwsRoute53UpdateHostedZoneCommentOptions(
         string Id
     )
@@ -56,13 +58,13 @@ public record AwsRoute53UpdateHostedZoneCommentOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID for the hosted zone that you want to update the comment for. Constraints: o max: 32
+    /// The ID for the hosted zone that you want to update the comment for. Constraints: • max: 32
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The new comment for the hosted zone. If you don't specify a value for Comment , Amazon Route 53 deletes the existing value of the Com- ment element, if any. Constraints: o max: 256
+    /// The new comment for the hosted zone. If you don't specify a value for Comment , Amazon Route 53 deletes the existing value of the Comment element, if any. Constraints: • max: 256
     /// </summary>
     [CliOption("--comment")]
     public string? Comment { get; set; }

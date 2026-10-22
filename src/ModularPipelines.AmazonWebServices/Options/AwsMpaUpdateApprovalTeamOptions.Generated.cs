@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an approval team. You can request to update the team descrip- tion, approval threshold, and approvers in the team. NOTE: Updates require team approval Updates to an active team must be approved by the team. See also: AWS API Documentation
+/// Updates an approval team. You can request to update the team description, approval threshold, and approvers in the team. NOTE: Updates require team approval Updates to an active team must be approved by the team. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsMpaUpdateApprovalTeamOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an approval team. You can request to update the team descrip- tion, approval threshold, and approvers in the team. NOTE: Updates require team approval Updates to an active team must be approved by the team. See also: AWS API Documentation
+    /// Updates an approval team. You can request to update the team description, approval threshold, and approvers in the team. NOTE: Updates require team approval Updates to an active team must be approved by the team. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">Amazon Resource Name (ARN) for the team. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:ap- proval-team/[a-zA-Z0-9._-]+</param>
+    /// <param name="Arn">Amazon Resource Name (ARN) for the team. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:approval-team/[a-zA-Z0-9._-]+</param>
     public AwsMpaUpdateApprovalTeamOptions(
         string Arn
     )
@@ -56,31 +58,31 @@ public record AwsMpaUpdateApprovalTeamOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Resource Name (ARN) for the team. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:ap- proval-team/[a-zA-Z0-9._-]+
+    /// Amazon Resource Name (ARN) for the team. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:approval-team/[a-zA-Z0-9._-]+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// An ApprovalStrategy object. Contains details for how the team grants approval. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: MofN. MofN -&gt; (structure) Minimum number of approvals (M) required for a total number of approvers (N). MinApprovalsRequired -&gt; (integer) [required] Minimum number of approvals (M) required for a total number of approvers (N). Constraints: o min: 1 Shorthand Syntax: MofN={MinApprovalsRequired=integer} JSON Syntax: { "MofN": { "MinApprovalsRequired": integer } }
+    /// An ApprovalStrategy object. Contains details for how the team grants approval. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: MofN. MofN -&gt; (structure) Minimum number of approvals (M) required for a total number of approvers (N). MinApprovalsRequired -&gt; (integer) [required] Minimum number of approvals (M) required for a total number of approvers (N). Constraints: • min: 1 Shorthand Syntax: MofN={MinApprovalsRequired=integer} JSON Syntax: { "MofN": { "MinApprovalsRequired": integer } }
     /// </summary>
     [CliOption("--approval-strategy")]
     public string? ApprovalStrategy { get; set; }
 
     /// <summary>
-    /// An array of ApprovalTeamRequestApprover objects. Contains details for the approvers in the team. Constraints: o min: 1 o max: 20 (structure) Contains details for an approver. PrimaryIdentityId -&gt; (string) [required] ID for the user. Constraints: o min: 1 o max: 100 PrimaryIdentitySourceArn -&gt; (string) [required] Amazon Resource Name (ARN) for the identity source. The iden- tity source manages the user authentication for approvers. Constraints: o min: 0 o max: 1000 Shorthand Syntax: PrimaryIdentityId=string,PrimaryIdentitySourceArn=string ... JSON Syntax: [ { "PrimaryIdentityId": "string", "PrimaryIdentitySourceArn": "string" } ... ]
+    /// An array of ApprovalTeamRequestApprover objects. Contains details for the approvers in the team. Constraints: • min: 1 • max: 20 (structure) Contains details for an approver. PrimaryIdentityId -&gt; (string) [required] ID for the user. Constraints: • min: 1 • max: 100 PrimaryIdentitySourceArn -&gt; (string) [required] Amazon Resource Name (ARN) for the identity source. The identity source manages the user authentication for approvers. Constraints: • min: 0 • max: 1000 Shorthand Syntax: PrimaryIdentityId=string,PrimaryIdentitySourceArn=string ... JSON Syntax: [ { "PrimaryIdentityId": "string", "PrimaryIdentitySourceArn": "string" } ... ]
     /// </summary>
     [CliOption("--approvers", GroupValues = true)]
     public IEnumerable<string>? Approvers { get; set; }
 
     /// <summary>
-    /// Description for the team. Constraints: o min: 1 o max: 256
+    /// Description for the team. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A list of UpdateAction to perform when updating the team. Constraints: o min: 0 o max: 100 (string) Actions that can be taken when updating an approval team o SYNCHRONIZE_MFA_DEVICES : Synchronize MFA devices for all ap- provers on the team Possible values: o SYNCHRONIZE_MFA_DEVICES Syntax: "string" "string" ...
+    /// A list of UpdateAction to perform when updating the team. Constraints: • min: 0 • max: 100 (string) Actions that can be taken when updating an approval team • SYNCHRONIZE_MFA_DEVICES : Synchronize MFA devices for all approvers on the team Possible values: • SYNCHRONIZE_MFA_DEVICES Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--update-actions", GroupValues = true)]
     public IEnumerable<string>? UpdateActions { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsMarketplaceCatalogUntagResourceOptions : AwsOptions, IValidatab
     /// <summary>
     /// Removes a tag or list of tags from a resource (either an entity or change set ). See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">Required. The Amazon Resource Name (ARN) associated with the re- source you want to remove the tag from. Constraints: o min: 1 o max: 255 o pattern: ^arn:[\w+=/,.@-]+:aws-market- place:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*$</param>
-    /// <param name="TagKeys">Required. A list of key names of tags to be removed. Number of strings allowed: 0-256. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">Required. The Amazon Resource Name (ARN) associated with the resource you want to remove the tag from. Constraints: • min: 1 • max: 255 • pattern: ^arn:[\w+=/,.@-]+:aws-marketplace:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*$</param>
+    /// <param name="TagKeys">Required. A list of key names of tags to be removed. Number of strings allowed: 0-256. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...</param>
     public AwsMarketplaceCatalogUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsMarketplaceCatalogUntagResourceOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Required. The Amazon Resource Name (ARN) associated with the re- source you want to remove the tag from. Constraints: o min: 1 o max: 255 o pattern: ^arn:[\w+=/,.@-]+:aws-market- place:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*$
+    /// Required. The Amazon Resource Name (ARN) associated with the resource you want to remove the tag from. Constraints: • min: 1 • max: 255 • pattern: ^arn:[\w+=/,.@-]+:aws-marketplace:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Required. A list of key names of tags to be removed. Number of strings allowed: 0-256. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
+    /// Required. A list of key names of tags to be removed. Number of strings allowed: 0-256. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

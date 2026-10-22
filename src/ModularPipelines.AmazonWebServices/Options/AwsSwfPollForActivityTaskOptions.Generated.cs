@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Used by workers to get an ActivityTask from the specified activity taskList . This initiates a long poll, where the service holds the HTTP connection open and responds as soon as a task becomes available. The maximum time the service holds on to the request before responding is 60 seconds. If no task is available within 60 seconds, the poll returns an empty result. An empty result, in this context, means that an Activ- ityTask is returned, but that the value of taskToken is an empty string. If a...
+/// Used by workers to get an ActivityTask from the specified activity taskList . This initiates a long poll, where the service holds the HTTP connection open and responds as soon as a task becomes available. The maximum time the service holds on to the request before responding is 60 seconds. If no task is available within 60 seconds, the poll returns an empty result. An empty result, in this context, means that an ActivityTask is returned, but that the value of taskToken is an empty string. If a t...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsSwfPollForActivityTaskOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Used by workers to get an ActivityTask from the specified activity taskList . This initiates a long poll, where the service holds the HTTP connection open and responds as soon as a task becomes available. The maximum time the service holds on to the request before responding is 60 seconds. If no task is available within 60 seconds, the poll returns an empty result. An empty result, in this context, means that an Activ- ityTask is returned, but that the value of taskToken is an empty string. If a...
+    /// Used by workers to get an ActivityTask from the specified activity taskList . This initiates a long poll, where the service holds the HTTP connection open and responds as soon as a task becomes available. The maximum time the service holds on to the request before responding is 60 seconds. If no task is available within 60 seconds, the poll returns an empty result. An empty result, in this context, means that an ActivityTask is returned, but that the value of taskToken is an empty string. If a t...
     /// </summary>
-    /// <param name="Domain">The name of the domain that contains the task lists being polled. Constraints: o min: 1 o max: 256</param>
-    /// <param name="TaskList">Specifies the task list to poll for activity tasks. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . name -&gt; (string) [required] The name of the task list. Constraints: o min: 1 o max: 256 Shorthand Syntax: name=string JSON Syntax: { "name": "string" }</param>
+    /// <param name="Domain">The name of the domain that contains the task lists being polled. Constraints: • min: 1 • max: 256</param>
+    /// <param name="TaskList">Specifies the task list to poll for activity tasks. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . name -&gt; (string) [required] The name of the task list. Constraints: • min: 1 • max: 256 Shorthand Syntax: name=string JSON Syntax: { "name": "string" }</param>
     public AwsSwfPollForActivityTaskOptions(
         string Domain,
         string TaskList
@@ -60,19 +62,19 @@ public record AwsSwfPollForActivityTaskOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain that contains the task lists being polled. Constraints: o min: 1 o max: 256
+    /// The name of the domain that contains the task lists being polled. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; private init; }
 
     /// <summary>
-    /// Specifies the task list to poll for activity tasks. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . name -&gt; (string) [required] The name of the task list. Constraints: o min: 1 o max: 256 Shorthand Syntax: name=string JSON Syntax: { "name": "string" }
+    /// Specifies the task list to poll for activity tasks. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . name -&gt; (string) [required] The name of the task list. Constraints: • min: 1 • max: 256 Shorthand Syntax: name=string JSON Syntax: { "name": "string" }
     /// </summary>
     [CliOption("--task-list")]
     public string? TaskList { get; private init; }
 
     /// <summary>
-    /// Identity of the worker making the request, recorded in the Activity- TaskStarted event in the workflow history. This enables diagnostic tracing when problems arise. The form of this identity is user de- fined. Constraints: o max: 256
+    /// Identity of the worker making the request, recorded in the ActivityTaskStarted event in the workflow history. This enables diagnostic tracing when problems arise. The form of this identity is user defined. Constraints: • max: 256
     /// </summary>
     [CliOption("--identity")]
     public string? Identity { get; set; }

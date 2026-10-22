@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsFrauddetectorDeleteBatchPredictionJobOptions : AwsOptions, IVal
     /// <summary>
     /// Deletes a batch prediction job. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">The ID of the batch prediction job to delete. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="JobId">The ID of the batch prediction job to delete. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$</param>
     public AwsFrauddetectorDeleteBatchPredictionJobOptions(
         string JobId
     )
@@ -56,7 +58,7 @@ public record AwsFrauddetectorDeleteBatchPredictionJobOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the batch prediction job to delete. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// The ID of the batch prediction job to delete. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }

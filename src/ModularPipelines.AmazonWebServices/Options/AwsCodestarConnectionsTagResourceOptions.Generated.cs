@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCodestarConnectionsTagResourceOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to which you want to add or update tags. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+</param>
-    /// <param name="Tags">The tags you want to modify or add to the resource. Constraints: o min: 0 o max: 200 (structure) A tag is a key-value pair that is used to manage the resource. This tag is available for use by Amazon Web Services services that support tags. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 o pattern: .* Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to which you want to add or update tags. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+</param>
+    /// <param name="Tags">The tags you want to modify or add to the resource. Constraints: • min: 0 • max: 200 (structure) A tag is a key-value pair that is used to manage the resource. This tag is available for use by Amazon Web Services services that support tags. Key -&gt; (string) [required] The tag's key. Constraints: • min: 1 • max: 128 • pattern: .* Value -&gt; (string) [required] The tag's value. Constraints: • min: 0 • max: 256 • pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsCodestarConnectionsTagResourceOptions(
         string ResourceArn,
         IEnumerable<string> Tags
@@ -71,13 +73,13 @@ public record AwsCodestarConnectionsTagResourceOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource to which you want to add or update tags. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+
+    /// The Amazon Resource Name (ARN) of the resource to which you want to add or update tags. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The tags you want to modify or add to the resource. Constraints: o min: 0 o max: 200 (structure) A tag is a key-value pair that is used to manage the resource. This tag is available for use by Amazon Web Services services that support tags. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 o pattern: .* Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags you want to modify or add to the resource. Constraints: • min: 0 • max: 200 (structure) A tag is a key-value pair that is used to manage the resource. This tag is available for use by Amazon Web Services services that support tags. Key -&gt; (string) [required] The tag's key. Constraints: • min: 1 • max: 128 • pattern: .* Value -&gt; (string) [required] The tag's value. Constraints: • min: 0 • max: 256 • pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }

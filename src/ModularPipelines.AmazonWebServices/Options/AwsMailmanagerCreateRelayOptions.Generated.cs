@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,10 +30,10 @@ public record AwsMailmanagerCreateRelayOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a relay resource which can be used in rules to relay incoming emails to defined relay destinations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RelayName">The unique name of the relay resource. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-_]+</param>
-    /// <param name="ServerName">The destination relay server address. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-\.]+</param>
-    /// <param name="ServerPort">The destination relay server port. Constraints: o min: 1 o max: 65535</param>
-    /// <param name="Authentication">Authentication for the relay destination serverspecify the secretARN where the SMTP credentials are stored. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: SecretArn, NoAuthentication. SecretArn -&gt; (string) The ARN of the secret created in secrets manager where the relay server's SMTP credentials are stored. Constraints: o pattern: arn:(aws|aws-cn|aws-us-gov|aws-eusc):secretsman- ager:[a-z0-9-]+:\d{12}:secret:[a-zA-Z0-9/_+=,.@-]+ NoAuthentication -&gt; (structure) Keep an empty structure if the relay destination server does not require SMTP credential authentication. Shorthand Syntax: SecretArn=string,NoAuthentication={} JSON Syntax: { "SecretArn": "string", "NoAuthentication": { } }</param>
+    /// <param name="RelayName">The unique name of the relay resource. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-_]+</param>
+    /// <param name="ServerName">The destination relay server address. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-\.]+</param>
+    /// <param name="ServerPort">The destination relay server port. Constraints: • min: 1 • max: 65535</param>
+    /// <param name="Authentication">Authentication for the relay destination serverspecify the secretARN where the SMTP credentials are stored. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: SecretArn, NoAuthentication. SecretArn -&gt; (string) The ARN of the secret created in secrets manager where the relay server's SMTP credentials are stored. Constraints: • pattern: arn:(aws|aws-cn|aws-us-gov|aws-eusc):secretsmanager:[a-z0-9-]+:\d{12}:secret:[a-zA-Z0-9/_+=,.@-]+ NoAuthentication -&gt; (structure) Keep an empty structure if the relay destination server does not require SMTP credential authentication. Shorthand Syntax: SecretArn=string,NoAuthentication={} JSON Syntax: { "SecretArn": "string", "NoAuthentication": { } }</param>
     public AwsMailmanagerCreateRelayOptions(
         string RelayName,
         string ServerName,
@@ -68,38 +70,38 @@ public record AwsMailmanagerCreateRelayOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the relay resource. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-_]+
+    /// The unique name of the relay resource. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-_]+
     /// </summary>
     [CliOption("--relay-name")]
     public string? RelayName { get; private init; }
 
     /// <summary>
-    /// The destination relay server address. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-\.]+
+    /// The destination relay server address. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-\.]+
     /// </summary>
     [CliOption("--server-name")]
     public string? ServerName { get; private init; }
 
     /// <summary>
-    /// The destination relay server port. Constraints: o min: 1 o max: 65535
+    /// The destination relay server port. Constraints: • min: 1 • max: 65535
     /// </summary>
     [CliOption("--server-port")]
     public int? ServerPort { get; private init; }
 
     /// <summary>
-    /// Authentication for the relay destination serverspecify the secretARN where the SMTP credentials are stored. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: SecretArn, NoAuthentication. SecretArn -&gt; (string) The ARN of the secret created in secrets manager where the relay server's SMTP credentials are stored. Constraints: o pattern: arn:(aws|aws-cn|aws-us-gov|aws-eusc):secretsman- ager:[a-z0-9-]+:\d{12}:secret:[a-zA-Z0-9/_+=,.@-]+ NoAuthentication -&gt; (structure) Keep an empty structure if the relay destination server does not require SMTP credential authentication. Shorthand Syntax: SecretArn=string,NoAuthentication={} JSON Syntax: { "SecretArn": "string", "NoAuthentication": { } }
+    /// Authentication for the relay destination serverspecify the secretARN where the SMTP credentials are stored. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: SecretArn, NoAuthentication. SecretArn -&gt; (string) The ARN of the secret created in secrets manager where the relay server's SMTP credentials are stored. Constraints: • pattern: arn:(aws|aws-cn|aws-us-gov|aws-eusc):secretsmanager:[a-z0-9-]+:\d{12}:secret:[a-zA-Z0-9/_+=,.@-]+ NoAuthentication -&gt; (structure) Keep an empty structure if the relay destination server does not require SMTP credential authentication. Shorthand Syntax: SecretArn=string,NoAuthentication={} JSON Syntax: { "SecretArn": "string", "NoAuthentication": { } }
     /// </summary>
     [CliOption("--authentication")]
     public string? Authentication { get; private init; }
 
     /// <summary>
-    /// A unique token that Amazon SES uses to recognize subsequent retries of the same request. Constraints: o min: 1 o max: 128
+    /// A unique token that Amazon SES uses to recognize subsequent retries of the same request. Constraints: • min: 1 • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for the re- source. For example, { "tags": {"key1":"value1", "key2":"value2"} }. Constraints: o min: 0 o max: 200 (structure) A key-value pair (the value is optional), that you can define and assign to Amazon Web Services resources. Key -&gt; (string) [required] The key of the key-value tag. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9/_\+=\.:@\-]+ Value -&gt; (string) [required] The value of the key-value tag. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9/_\+=\.:@\-]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags used to organize, track, or control access for the resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }. Constraints: • min: 0 • max: 200 (structure) A key-value pair (the value is optional), that you can define and assign to Amazon Web Services resources. Key -&gt; (string) [required] The key of the key-value tag. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9/_\+=\.:@\-]+ Value -&gt; (string) [required] The value of the key-value tag. Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9/_\+=\.:@\-]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Remove a previously installed AWS skill from detected agents. By de- fault the skill is removed from all detected agents, use --agent to re- move from a specific tool only.
+/// Remove a previously installed AWS skill from detected agents. By default the skill is removed from all detected agents, use --agent to remove from a specific tool only.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsAgentToolkitRemoveSkillOptions : AwsOptions
 {
     /// <summary>
-    /// Remove a previously installed AWS skill from detected agents. By de- fault the skill is removed from all detected agents, use --agent to re- move from a specific tool only.
+    /// Remove a previously installed AWS skill from detected agents. By default the skill is removed from all detected agents, use --agent to remove from a specific tool only.
     /// </summary>
     /// <param name="SkillName"></param>
     public AwsAgentToolkitRemoveSkillOptions(

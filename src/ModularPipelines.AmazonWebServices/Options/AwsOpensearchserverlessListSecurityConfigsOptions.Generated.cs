@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about configured OpenSearch Serverless security configurations. For more information, see SAML authentication for Ama- zon OpenSearch Serverless . See also: AWS API Documentation
+/// Returns information about configured OpenSearch Serverless security configurations. For more information, see SAML authentication for Amazon OpenSearch Serverless . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsOpensearchserverlessListSecurityConfigsOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns information about configured OpenSearch Serverless security configurations. For more information, see SAML authentication for Ama- zon OpenSearch Serverless . See also: AWS API Documentation
+    /// Returns information about configured OpenSearch Serverless security configurations. For more information, see SAML authentication for Amazon OpenSearch Serverless . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Type">The type of security configuration. Possible values: o saml o iamidentitycenter o iamfederation</param>
+    /// <param name="Type">The type of security configuration. Possible values: • saml • iamidentitycenter • iamfederation</param>
     public AwsOpensearchserverlessListSecurityConfigsOptions(
         AwsOpensearchserverlessListSecurityConfigsType Type
     )
@@ -57,20 +59,20 @@ public record AwsOpensearchserverlessListSecurityConfigsOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of security configuration. Possible values: o saml o iamidentitycenter o iamfederation
+    /// The type of security configuration. Possible values: • saml • iamidentitycenter • iamfederation
     /// </summary>
     [CliOption("--type")]
     public AwsOpensearchserverlessListSecurityConfigsType? Type { get; private init; }
 
     /// <summary>
-    /// If your initial ListSecurityConfigs operation returns a nextToken , you can include the returned nextToken in subsequent ListSecurity- Configs operations, which returns results in the next page.
+    /// If your initial ListSecurityConfigs operation returns a nextToken , you can include the returned nextToken in subsequent ListSecurityConfigs operations, which returns results in the next page.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. The default is 20. Constraints: o min: 1 o max: 100
+    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. The default is 20. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

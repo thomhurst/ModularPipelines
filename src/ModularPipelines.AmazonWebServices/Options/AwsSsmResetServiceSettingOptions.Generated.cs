@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// ServiceSetting is an account-level setting for an Amazon Web Ser- vices service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an Amazon Web Services service charges money to the account based on feature or service usage, then the Amazon Web Services service team might create a default setting of "false". This means the user can't use this feature unless they change the setting to "true" and intention- ally opt in for a paid feature. ...
+/// ServiceSetting is an account-level setting for an Amazon Web Services service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an Amazon Web Services service charges money to the account based on feature or service usage, then the Amazon Web Services service team might create a default setting of "false". This means the user can't use this feature unless they change the setting to "true" and intentionally opt in for a paid feature. Serv...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSsmResetServiceSettingOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// ServiceSetting is an account-level setting for an Amazon Web Ser- vices service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an Amazon Web Services service charges money to the account based on feature or service usage, then the Amazon Web Services service team might create a default setting of "false". This means the user can't use this feature unless they change the setting to "true" and intention- ally opt in for a paid feature. ...
+    /// ServiceSetting is an account-level setting for an Amazon Web Services service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an Amazon Web Services service charges money to the account based on feature or service usage, then the Amazon Web Services service team might create a default setting of "false". This means the user can't use this feature unless they change the setting to "true" and intentionally opt in for a paid feature. Serv...
     /// </summary>
-    /// <param name="SettingId">The Amazon Resource Name (ARN) of the service setting to reset. The setting ID can be one of the following. o /ssm/appmanager/appmanager-enabled o /ssm/automation/customer-script-log-destination o /ssm/automation/customer-script-log-group-name o /ssm/automation/enable-adaptive-concurrency o /ssm/documents/console/public-sharing-permission o /ssm/managed-instance/activation-tier o /ssm/managed-instance/default-ec2-instance-management-role o /ssm/opsinsights/opscenter o /ssm/parameter-store/default-parameter-tier o /ssm/parameter-store/high-throughput-enabled Constraints: o min: 1 o max: 1000</param>
+    /// <param name="SettingId">The Amazon Resource Name (ARN) of the service setting to reset. The setting ID can be one of the following. • /ssm/appmanager/appmanager-enabled • /ssm/automation/customer-script-log-destination • /ssm/automation/customer-script-log-group-name • /ssm/automation/enable-adaptive-concurrency • /ssm/documents/console/public-sharing-permission • /ssm/managed-instance/activation-tier • /ssm/managed-instance/default-ec2-instance-management-role • /ssm/opsinsights/opscenter • /ssm/parameter-store/default-parameter-tier • /ssm/parameter-store/high-throughput-enabled Constraints: • min: 1 • max: 1000</param>
     public AwsSsmResetServiceSettingOptions(
         string SettingId
     )
@@ -56,7 +58,7 @@ public record AwsSsmResetServiceSettingOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the service setting to reset. The setting ID can be one of the following. o /ssm/appmanager/appmanager-enabled o /ssm/automation/customer-script-log-destination o /ssm/automation/customer-script-log-group-name o /ssm/automation/enable-adaptive-concurrency o /ssm/documents/console/public-sharing-permission o /ssm/managed-instance/activation-tier o /ssm/managed-instance/default-ec2-instance-management-role o /ssm/opsinsights/opscenter o /ssm/parameter-store/default-parameter-tier o /ssm/parameter-store/high-throughput-enabled Constraints: o min: 1 o max: 1000
+    /// The Amazon Resource Name (ARN) of the service setting to reset. The setting ID can be one of the following. • /ssm/appmanager/appmanager-enabled • /ssm/automation/customer-script-log-destination • /ssm/automation/customer-script-log-group-name • /ssm/automation/enable-adaptive-concurrency • /ssm/documents/console/public-sharing-permission • /ssm/managed-instance/activation-tier • /ssm/managed-instance/default-ec2-instance-management-role • /ssm/opsinsights/opscenter • /ssm/parameter-store/default-parameter-tier • /ssm/parameter-store/high-throughput-enabled Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--setting-id")]
     public string? SettingId { get; private init; }

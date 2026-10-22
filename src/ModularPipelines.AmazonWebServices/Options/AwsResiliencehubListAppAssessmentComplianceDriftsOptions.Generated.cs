@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// List of compliance drifts that were detected while running an assess- ment. See also: AWS API Documentation
+/// List of compliance drifts that were detected while running an assessment. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsResiliencehubListAppAssessmentComplianceDriftsOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// List of compliance drifts that were detected while running an assess- ment. See also: AWS API Documentation
+    /// List of compliance drifts that were detected while running an assessment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssessmentArn">Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition :resiliencehub:region :account :app-assess- ment/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$</param>
+    /// <param name="AssessmentArn">Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition :resiliencehub:region :account :app-assessment/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$</param>
     public AwsResiliencehubListAppAssessmentComplianceDriftsOptions(
         string AssessmentArn
     )
@@ -57,19 +59,19 @@ public record AwsResiliencehubListAppAssessmentComplianceDriftsOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition :resiliencehub:region :account :app-assess- ment/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
+    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition :resiliencehub:region :account :app-assessment/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
     /// </summary>
     [CliOption("--assessment-arn")]
     public string? AssessmentArn { get; private init; }
 
     /// <summary>
-    /// Maximum number of compliance drifts requested. Constraints: o min: 1 o max: 100
+    /// Maximum number of compliance drifts requested. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Null, or the token from a previous call to get the next set of re- sults. Constraints: o pattern: ^\S{1,2000}$
+    /// Null, or the token from a previous call to get the next set of results. Constraints: • pattern: ^\S{1,2000}$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

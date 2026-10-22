@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Determines the dominant language of the input text for a batch of docu- ments. For a list of languages that Amazon Comprehend can detect, see Amazon Comprehend Supported Languages . See also: AWS API Documentation
+/// Determines the dominant language of the input text for a batch of documents. For a list of languages that Amazon Comprehend can detect, see Amazon Comprehend Supported Languages . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsComprehendBatchDetectDominantLanguageOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Determines the dominant language of the input text for a batch of docu- ments. For a list of languages that Amazon Comprehend can detect, see Amazon Comprehend Supported Languages . See also: AWS API Documentation
+    /// Determines the dominant language of the input text for a batch of documents. For a list of languages that Amazon Comprehend can detect, see Amazon Comprehend Supported Languages . See also: AWS API Documentation
     /// </summary>
-    /// <param name="TextList">A list containing the UTF-8 encoded text of the input documents. The list can contain a maximum of 25 documents. Each document should contain at least 20 characters. The maximum size of each document is 5 KB. Constraints: o min: 1 (string) Constraints: o min: 1 Syntax: "string" "string" ...</param>
+    /// <param name="TextList">A list containing the UTF-8 encoded text of the input documents. The list can contain a maximum of 25 documents. Each document should contain at least 20 characters. The maximum size of each document is 5 KB. Constraints: • min: 1 (string) Constraints: • min: 1 Syntax: "string" "string" ...</param>
     public AwsComprehendBatchDetectDominantLanguageOptions(
         IEnumerable<string> TextList
     )
@@ -67,7 +69,7 @@ public record AwsComprehendBatchDetectDominantLanguageOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list containing the UTF-8 encoded text of the input documents. The list can contain a maximum of 25 documents. Each document should contain at least 20 characters. The maximum size of each document is 5 KB. Constraints: o min: 1 (string) Constraints: o min: 1 Syntax: "string" "string" ...
+    /// A list containing the UTF-8 encoded text of the input documents. The list can contain a maximum of 25 documents. Each document should contain at least 20 characters. The maximum size of each document is 5 KB. Constraints: • min: 1 (string) Constraints: • min: 1 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--text-list", GroupValues = true)]
     public IEnumerable<string>? TextList { get; private init; }

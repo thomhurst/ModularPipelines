@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsBudgetsDescribeBudgetOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Describes a budget. WARNING: The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits , see the Examples section. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The accountId that is associated with the budget that you want a de- scription of. Constraints: o min: 12 o max: 12 o pattern: \d{12}</param>
-    /// <param name="BudgetName">The name of the budget that you want a description of. Constraints: o min: 1 o max: 100 o pattern: ^(?![^:\\]*/action/|(?i).*&lt;script&gt;.*&lt;/script&gt;.*)[^:\\]+$</param>
+    /// <param name="AccountId">The accountId that is associated with the budget that you want a description of. Constraints: • min: 12 • max: 12 • pattern: \d{12}</param>
+    /// <param name="BudgetName">The name of the budget that you want a description of. Constraints: • min: 1 • max: 100 • pattern: ^(?![^:\\]*/action/|(?i).*&lt;script&gt;.*&lt;/script&gt;.*)[^:\\]+$</param>
     public AwsBudgetsDescribeBudgetOptions(
         string AccountId,
         string BudgetName
@@ -60,19 +62,19 @@ public record AwsBudgetsDescribeBudgetOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The accountId that is associated with the budget that you want a de- scription of. Constraints: o min: 12 o max: 12 o pattern: \d{12}
+    /// The accountId that is associated with the budget that you want a description of. Constraints: • min: 12 • max: 12 • pattern: \d{12}
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The name of the budget that you want a description of. Constraints: o min: 1 o max: 100 o pattern: ^(?![^:\\]*/action/|(?i).*&lt;script&gt;.*&lt;/script&gt;.*)[^:\\]+$
+    /// The name of the budget that you want a description of. Constraints: • min: 1 • max: 100 • pattern: ^(?![^:\\]*/action/|(?i).*&lt;script&gt;.*&lt;/script&gt;.*)[^:\\]+$
     /// </summary>
     [CliOption("--budget-name")]
     public string? BudgetName { get; private init; }
 
     /// <summary>
-    /// Specifies whether the response includes the filter expression asso- ciated with the budget. By showing the filter expression, you can see detailed filtering logic applied to the budget, such as Amazon Web Services services or tags that are being tracked.
+    /// Specifies whether the response includes the filter expression associated with the budget. By showing the filter expression, you can see detailed filtering logic applied to the budget, such as Amazon Web Services services or tags that are being tracked.
     /// </summary>
     [CliFlag("--show-filter-expression", NegatedName = "--no-show-filter-expression")]
     public bool? ShowFilterExpression { get; set; }

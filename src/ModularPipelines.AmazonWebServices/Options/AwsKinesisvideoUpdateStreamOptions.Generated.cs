@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates stream metadata, such as the device name and media type. You must provide the stream name or the Amazon Resource Name (ARN) of the stream. To make sure that you have the latest version of the stream before up- dating it, you can specify the stream version. Kinesis Video Streams assigns a version to each stream. When you update a stream, Kinesis Video Streams assigns a new version number. To get the latest stream version, use the DescribeStream API. UpdateStream is an asynchronous operati...
+/// Updates stream metadata, such as the device name and media type. You must provide the stream name or the Amazon Resource Name (ARN) of the stream. To make sure that you have the latest version of the stream before updating it, you can specify the stream version. Kinesis Video Streams assigns a version to each stream. When you update a stream, Kinesis Video Streams assigns a new version number. To get the latest stream version, use the DescribeStream API. UpdateStream is an asynchronous operation...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsKinesisvideoUpdateStreamOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates stream metadata, such as the device name and media type. You must provide the stream name or the Amazon Resource Name (ARN) of the stream. To make sure that you have the latest version of the stream before up- dating it, you can specify the stream version. Kinesis Video Streams assigns a version to each stream. When you update a stream, Kinesis Video Streams assigns a new version number. To get the latest stream version, use the DescribeStream API. UpdateStream is an asynchronous operati...
+    /// Updates stream metadata, such as the device name and media type. You must provide the stream name or the Amazon Resource Name (ARN) of the stream. To make sure that you have the latest version of the stream before updating it, you can specify the stream version. Kinesis Video Streams assigns a version to each stream. When you update a stream, Kinesis Video Streams assigns a new version number. To get the latest stream version, use the DescribeStream API. UpdateStream is an asynchronous operation...
     /// </summary>
-    /// <param name="CurrentVersion">The version of the stream whose metadata you want to update. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]+</param>
+    /// <param name="CurrentVersion">The version of the stream whose metadata you want to update. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9]+</param>
     public AwsKinesisvideoUpdateStreamOptions(
         string CurrentVersion
     )
@@ -56,31 +58,31 @@ public record AwsKinesisvideoUpdateStreamOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The version of the stream whose metadata you want to update. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]+
+    /// The version of the stream whose metadata you want to update. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9]+
     /// </summary>
     [CliOption("--current-version")]
     public string? CurrentVersion { get; private init; }
 
     /// <summary>
-    /// The name of the stream whose metadata you want to update. The stream name is an identifier for the stream, and must be unique for each account and region. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the stream whose metadata you want to update. The stream name is an identifier for the stream, and must be unique for each account and region. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
     /// <summary>
-    /// The ARN of the stream whose metadata you want to update. Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
+    /// The ARN of the stream whose metadata you want to update. Constraints: • min: 1 • max: 1024 • pattern: arn:[a-z\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
     /// </summary>
     [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
 
     /// <summary>
-    /// The name of the device that is writing to the stream. NOTE: In the current implementation, Kinesis Video Streams does not use this name. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the device that is writing to the stream. NOTE: In the current implementation, Kinesis Video Streams does not use this name. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--device-name")]
     public string? DeviceName { get; set; }
 
     /// <summary>
-    /// The stream's media type. Use MediaType to specify the type of con- tent that the stream contains to the consumers of the stream. For more information about media types, see Media Types . If you choose to specify the MediaType , see Naming Requirements . To play video on the console, you must specify the correct video type. For example, if the video in the stream is H.264, specify video/h264 as the MediaType . Constraints: o min: 1 o max: 128 o pattern: [\w\-\.\+]+/[\w\-\.\+]+(,[\w\-\.\+]+/[\w\-\.\+]+)*
+    /// The stream's media type. Use MediaType to specify the type of content that the stream contains to the consumers of the stream. For more information about media types, see Media Types . If you choose to specify the MediaType , see Naming Requirements . To play video on the console, you must specify the correct video type. For example, if the video in the stream is H.264, specify video/h264 as the MediaType . Constraints: • min: 1 • max: 128 • pattern: [\w\-\.\+]+/[\w\-\.\+]+(,[\w\-\.\+]+/[\w\-\.\+]+)*
     /// </summary>
     [CliOption("--media-type")]
     public string? MediaType { get; set; }

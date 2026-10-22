@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,12 +29,12 @@ public record AwsFrauddetectorCreateBatchPredictionJobOptions : AwsOptions, IVal
     /// <summary>
     /// Creates a batch prediction job. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">The ID of the batch prediction job. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
-    /// <param name="InputPath">The Amazon S3 location of your training file. Constraints: o min: 1 o max: 512 o pattern: ^s3:\/\/(.+)$</param>
-    /// <param name="OutputPath">The Amazon S3 location of your output file. Constraints: o min: 1 o max: 512 o pattern: ^s3:\/\/(.+)$</param>
-    /// <param name="EventTypeName">The name of the event type. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
-    /// <param name="DetectorName">The name of the detector. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
-    /// <param name="IamRoleArn">The ARN of the IAM role to use for this job request. The IAM Role must have read permissions to your input S3 bucket and write permissions to your output S3 bucket. For more information about bucket permissions, see User policy examples in the Amazon S3 User Guide . Constraints: o min: 1 o max: 256 o pattern: ^arn\:aws[a-z-]{0,15}\:iam\:\:[0-9]{12}\:role\/[^\s]{2,64}$</param>
+    /// <param name="JobId">The ID of the batch prediction job. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="InputPath">The Amazon S3 location of your training file. Constraints: • min: 1 • max: 512 • pattern: ^s3:\/\/(.+)$</param>
+    /// <param name="OutputPath">The Amazon S3 location of your output file. Constraints: • min: 1 • max: 512 • pattern: ^s3:\/\/(.+)$</param>
+    /// <param name="EventTypeName">The name of the event type. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="DetectorName">The name of the detector. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="IamRoleArn">The ARN of the IAM role to use for this job request. The IAM Role must have read permissions to your input S3 bucket and write permissions to your output S3 bucket. For more information about bucket permissions, see User policy examples in the Amazon S3 User Guide . Constraints: • min: 1 • max: 256 • pattern: ^arn\:aws[a-z-]{0,15}\:iam\:\:[0-9]{12}\:role\/[^\s]{2,64}$</param>
     public AwsFrauddetectorCreateBatchPredictionJobOptions(
         string JobId,
         string InputPath,
@@ -76,49 +78,49 @@ public record AwsFrauddetectorCreateBatchPredictionJobOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the batch prediction job. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// The ID of the batch prediction job. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// The Amazon S3 location of your training file. Constraints: o min: 1 o max: 512 o pattern: ^s3:\/\/(.+)$
+    /// The Amazon S3 location of your training file. Constraints: • min: 1 • max: 512 • pattern: ^s3:\/\/(.+)$
     /// </summary>
     [CliOption("--input-path")]
     public string? InputPath { get; private init; }
 
     /// <summary>
-    /// The Amazon S3 location of your output file. Constraints: o min: 1 o max: 512 o pattern: ^s3:\/\/(.+)$
+    /// The Amazon S3 location of your output file. Constraints: • min: 1 • max: 512 • pattern: ^s3:\/\/(.+)$
     /// </summary>
     [CliOption("--output-path")]
     public string? OutputPath { get; private init; }
 
     /// <summary>
-    /// The name of the event type. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// The name of the event type. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$
     /// </summary>
     [CliOption("--event-type-name")]
     public string? EventTypeName { get; private init; }
 
     /// <summary>
-    /// The name of the detector. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// The name of the detector. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$
     /// </summary>
     [CliOption("--detector-name")]
     public string? DetectorName { get; private init; }
 
     /// <summary>
-    /// The ARN of the IAM role to use for this job request. The IAM Role must have read permissions to your input S3 bucket and write permissions to your output S3 bucket. For more information about bucket permissions, see User policy examples in the Amazon S3 User Guide . Constraints: o min: 1 o max: 256 o pattern: ^arn\:aws[a-z-]{0,15}\:iam\:\:[0-9]{12}\:role\/[^\s]{2,64}$
+    /// The ARN of the IAM role to use for this job request. The IAM Role must have read permissions to your input S3 bucket and write permissions to your output S3 bucket. For more information about bucket permissions, see User policy examples in the Amazon S3 User Guide . Constraints: • min: 1 • max: 256 • pattern: ^arn\:aws[a-z-]{0,15}\:iam\:\:[0-9]{12}\:role\/[^\s]{2,64}$
     /// </summary>
     [CliOption("--iam-role-arn")]
     public string? IamRoleArn { get; private init; }
 
     /// <summary>
-    /// The detector version. Constraints: o min: 1 o max: 5 o pattern: ^([1-9][0-9]*)$
+    /// The detector version. Constraints: • min: 1 • max: 5 • pattern: ^([1-9][0-9]*)$
     /// </summary>
     [CliOption("--detector-version")]
     public string? DetectorVersion { get; set; }
 
     /// <summary>
-    /// A collection of key and value pairs. Constraints: o min: 0 o max: 200 (structure) A key and value pair. key -&gt; (string) [required] A tag key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] A value assigned to a tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// A collection of key and value pairs. Constraints: • min: 0 • max: 200 (structure) A key and value pair. key -&gt; (string) [required] A tag key. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] A value assigned to a tag key. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

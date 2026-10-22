@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -87,7 +89,7 @@ public record AwsEcsExecuteCommandOptions : AwsOptions, IValidatableObject
     public string? Cluster { get; set; }
 
     /// <summary>
-    /// The name of the container to execute the command on. A container name only needs to be specified for tasks containing multiple con- tainers.
+    /// The name of the container to execute the command on. A container name only needs to be specified for tasks containing multiple containers.
     /// </summary>
     [CliOption("--container")]
     public string? Container { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsSagemakerDescribeUserProfileOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Describes a user profile. For more information, see CreateUserProfile . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The domain ID. Constraints: o min: 0 o max: 63 o pattern: d-(-*[a-z0-9]){1,61}</param>
-    /// <param name="UserProfileName">The user profile name. This value is not case sensitive. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="DomainId">The domain ID. Constraints: • min: 0 • max: 63 • pattern: d-(-*[a-z0-9]){1,61}</param>
+    /// <param name="UserProfileName">The user profile name. This value is not case sensitive. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
     public AwsSagemakerDescribeUserProfileOptions(
         string DomainId,
         string UserProfileName
@@ -60,13 +62,13 @@ public record AwsSagemakerDescribeUserProfileOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The domain ID. Constraints: o min: 0 o max: 63 o pattern: d-(-*[a-z0-9]){1,61}
+    /// The domain ID. Constraints: • min: 0 • max: 63 • pattern: d-(-*[a-z0-9]){1,61}
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// The user profile name. This value is not case sensitive. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The user profile name. This value is not case sensitive. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--user-profile-name")]
     public string? UserProfileName { get; private init; }

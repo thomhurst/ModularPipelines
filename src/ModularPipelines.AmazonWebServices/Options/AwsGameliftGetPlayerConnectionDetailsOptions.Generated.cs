@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2 (server SDK 5.x or later), Container Retrieves connection details for game clients to connect to game ses- sions. Player gateway benefits: DDoS protection with negligible impact to latency. To enable player gateway on your fleet, set PlayerGatewayMode to EN- ABLED or REQUIRED when calling CreateFleet or CreateContainerFleet . How to use: After creating a game session and adding players, call this operation with the game session ID and player IDs...
+/// This API works with the following fleet types: EC2 (server SDK 5.x or later), Container Retrieves connection details for game clients to connect to game sessions. Player gateway benefits: DDoS protection with negligible impact to latency. To enable player gateway on your fleet, set PlayerGatewayMode to ENABLED or REQUIRED when calling CreateFleet or CreateContainerFleet . How to use: After creating a game session and adding players, call this operation with the game session ID and player IDs. Wh...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsGameliftGetPlayerConnectionDetailsOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 (server SDK 5.x or later), Container Retrieves connection details for game clients to connect to game ses- sions. Player gateway benefits: DDoS protection with negligible impact to latency. To enable player gateway on your fleet, set PlayerGatewayMode to EN- ABLED or REQUIRED when calling CreateFleet or CreateContainerFleet . How to use: After creating a game session and adding players, call this operation with the game session ID and player IDs...
+    /// This API works with the following fleet types: EC2 (server SDK 5.x or later), Container Retrieves connection details for game clients to connect to game sessions. Player gateway benefits: DDoS protection with negligible impact to latency. To enable player gateway on your fleet, set PlayerGatewayMode to ENABLED or REQUIRED when calling CreateFleet or CreateContainerFleet . How to use: After creating a game session and adding players, call this operation with the game session ID and player IDs. Wh...
     /// </summary>
-    /// <param name="GameSessionId">An identifier for the game session that is unique across all regions for which to retrieve player connection details. The value is always a full ARN in the following format: For Home Region game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;ID string&gt; . For Remote Location game session - arn:aws:gamelift:&lt;home_re- gion&gt;::gamesession/&lt;fleet ID&gt;/&lt;location&gt;/&lt;ID string&gt; . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9:/-]+$</param>
-    /// <param name="PlayerIds">List of unique identifiers for players. Connection details are re- turned for each player in this list. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...</param>
+    /// <param name="GameSessionId">An identifier for the game session that is unique across all regions for which to retrieve player connection details. The value is always a full ARN in the following format: For Home Region game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;ID string&gt; . For Remote Location game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;location&gt;/&lt;ID string&gt; . Constraints: • min: 1 • max: 512 • pattern: ^[a-zA-Z0-9:/-]+$</param>
+    /// <param name="PlayerIds">List of unique identifiers for players. Connection details are returned for each player in this list. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 1 • max: 1024 Syntax: "string" "string" ...</param>
     public AwsGameliftGetPlayerConnectionDetailsOptions(
         string GameSessionId,
         IEnumerable<string> PlayerIds
@@ -71,13 +73,13 @@ public record AwsGameliftGetPlayerConnectionDetailsOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An identifier for the game session that is unique across all regions for which to retrieve player connection details. The value is always a full ARN in the following format: For Home Region game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;ID string&gt; . For Remote Location game session - arn:aws:gamelift:&lt;home_re- gion&gt;::gamesession/&lt;fleet ID&gt;/&lt;location&gt;/&lt;ID string&gt; . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9:/-]+$
+    /// An identifier for the game session that is unique across all regions for which to retrieve player connection details. The value is always a full ARN in the following format: For Home Region game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;ID string&gt; . For Remote Location game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;location&gt;/&lt;ID string&gt; . Constraints: • min: 1 • max: 512 • pattern: ^[a-zA-Z0-9:/-]+$
     /// </summary>
     [CliOption("--game-session-id")]
     public string? GameSessionId { get; private init; }
 
     /// <summary>
-    /// List of unique identifiers for players. Connection details are re- turned for each player in this list. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...
+    /// List of unique identifiers for players. Connection details are returned for each player in this list. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 1 • max: 1024 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--player-ids", GroupValues = true)]
     public IEnumerable<string>? PlayerIds { get; private init; }

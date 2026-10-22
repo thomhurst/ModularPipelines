@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsAccessanalyzerGenerateFindingRecommendationOptions : AwsOptions
     /// <summary>
     /// Creates a recommendation for an unused permissions finding. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AnalyzerArn">The ARN of the analyzer used to generate the finding recommendation. Constraints: o pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}</param>
-    /// <param name="Id">The unique ID for the finding recommendation. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="AnalyzerArn">The ARN of the analyzer used to generate the finding recommendation. Constraints: • pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}</param>
+    /// <param name="Id">The unique ID for the finding recommendation. Constraints: • min: 1 • max: 2048</param>
     public AwsAccessanalyzerGenerateFindingRecommendationOptions(
         string AnalyzerArn,
         string Id
@@ -60,13 +62,13 @@ public record AwsAccessanalyzerGenerateFindingRecommendationOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the analyzer used to generate the finding recommendation. Constraints: o pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}
+    /// The ARN of the analyzer used to generate the finding recommendation. Constraints: • pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}
     /// </summary>
     [CliOption("--analyzer-arn")]
     public string? AnalyzerArn { get; private init; }
 
     /// <summary>
-    /// The unique ID for the finding recommendation. Constraints: o min: 1 o max: 2048
+    /// The unique ID for the finding recommendation. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

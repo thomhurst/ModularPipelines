@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// CancelJob cancels a job that is currently running or pending. If the job is already in a terminal state (Completed , Failed , or Can- celled ), the operation returns successfully with the current sta- tus. For more information, see Job concepts in the Amazon Location Service Developer Guide . See also: AWS API Documentation
+/// CancelJob cancels a job that is currently running or pending. If the job is already in a terminal state (Completed , Failed , or Cancelled ), the operation returns successfully with the current status. For more information, see Job concepts in the Amazon Location Service Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLocationCancelJobOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// CancelJob cancels a job that is currently running or pending. If the job is already in a terminal state (Completed , Failed , or Can- celled ), the operation returns successfully with the current sta- tus. For more information, see Job concepts in the Amazon Location Service Developer Guide . See also: AWS API Documentation
+    /// CancelJob cancels a job that is currently running or pending. If the job is already in a terminal state (Completed , Failed , or Cancelled ), the operation returns successfully with the current status. For more information, see Job concepts in the Amazon Location Service Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">The unique identifier of the job to cancel. Constraints: o min: 1 o max: 200 o pattern: [-._\w]+</param>
+    /// <param name="JobId">The unique identifier of the job to cancel. Constraints: • min: 1 • max: 200 • pattern: [-._\w]+</param>
     public AwsLocationCancelJobOptions(
         string JobId
     )
@@ -56,7 +58,7 @@ public record AwsLocationCancelJobOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the job to cancel. Constraints: o min: 1 o max: 200 o pattern: [-._\w]+
+    /// The unique identifier of the job to cancel. Constraints: • min: 1 • max: 200 • pattern: [-._\w]+
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }

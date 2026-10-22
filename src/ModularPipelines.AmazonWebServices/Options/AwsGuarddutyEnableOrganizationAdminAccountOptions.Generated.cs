@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Designates an Amazon Web Services account within the organization as your GuardDuty delegated administrator. Only the organization's manage- ment account can run this API operation. See also: AWS API Documentation
+/// Designates an Amazon Web Services account within the organization as your GuardDuty delegated administrator. Only the organization's management account can run this API operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsGuarddutyEnableOrganizationAdminAccountOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Designates an Amazon Web Services account within the organization as your GuardDuty delegated administrator. Only the organization's manage- ment account can run this API operation. See also: AWS API Documentation
+    /// Designates an Amazon Web Services account within the organization as your GuardDuty delegated administrator. Only the organization's management account can run this API operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="AdminAccountId">The Amazon Web Services account ID for the organization account to be enabled as a GuardDuty delegated administrator.</param>
     public AwsGuarddutyEnableOrganizationAdminAccountOptions(

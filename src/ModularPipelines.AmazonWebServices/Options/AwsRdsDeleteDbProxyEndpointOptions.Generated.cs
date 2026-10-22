@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRdsDeleteDbProxyEndpointOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Deletes a DBProxyEndpoint . Doing so removes the ability to access the DB proxy using the endpoint that you defined. The endpoint that you delete might have provided capabilities such as read/write or read-only operations, or using a different VPC than the DB proxy's default VPC. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbProxyEndpointName">The name of the DB proxy endpoint to delete. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*</param>
+    /// <param name="DbProxyEndpointName">The name of the DB proxy endpoint to delete. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*</param>
     public AwsRdsDeleteDbProxyEndpointOptions(
         string DbProxyEndpointName
     )
@@ -56,7 +58,7 @@ public record AwsRdsDeleteDbProxyEndpointOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the DB proxy endpoint to delete. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
+    /// The name of the DB proxy endpoint to delete. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--db-proxy-endpoint-name")]
     public string? DbProxyEndpointName { get; private init; }

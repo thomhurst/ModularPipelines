@@ -23,20 +23,20 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsApplicationInsightsListApplicationsOptions : AwsOptions
 {
     /// <summary>
-    /// The maximum number of results to return in a single call. To re- trieve the remaining results, make another call with the returned NextToken value. Constraints: o min: 1 o max: 40
+    /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value. Constraints: • min: 1 • max: 40
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The token to request the next page of results. Constraints: o min: 1 o max: 1024 o pattern: .+
+    /// The token to request the next page of results. Constraints: • min: 1 • max: 1024 • pattern: .+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services account ID for the resource group owner. Constraints: o min: 12 o max: 12 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID for the resource group owner. Constraints: • min: 12 • max: 12 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }

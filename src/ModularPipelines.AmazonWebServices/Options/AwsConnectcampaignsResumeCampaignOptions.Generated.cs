@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsConnectcampaignsResumeCampaignOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Stops a campaign for the specified Amazon Connect account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">Identifier representing a Campaign Constraints: o min: 0 o max: 256 o pattern: [\S]*</param>
+    /// <param name="Id">Identifier representing a Campaign Constraints: • min: 0 • max: 256 • pattern: [\S]*</param>
     public AwsConnectcampaignsResumeCampaignOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsConnectcampaignsResumeCampaignOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifier representing a Campaign Constraints: o min: 0 o max: 256 o pattern: [\S]*
+    /// Identifier representing a Campaign Constraints: • min: 0 • max: 256 • pattern: [\S]*
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

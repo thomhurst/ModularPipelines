@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a public namespace based on DNS, which is visible on the inter- net. The namespace defines your service naming scheme. For example, if you name your namespace example.com and name your service backend , the resulting DNS name for the service is backend.example.com . You can discover instances that were registered with a public DNS namespace by using either a DiscoverInstances request or using DNS. For the current quota on the number of namespaces that you can create using the same Amazon...
+/// Creates a public namespace based on DNS, which is visible on the internet. The namespace defines your service naming scheme. For example, if you name your namespace example.com and name your service backend , the resulting DNS name for the service is backend.example.com . You can discover instances that were registered with a public DNS namespace by using either a DiscoverInstances request or using DNS. For the current quota on the number of namespaces that you can create using the same Amazon W...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsServicediscoveryCreatePublicDnsNamespaceOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a public namespace based on DNS, which is visible on the inter- net. The namespace defines your service naming scheme. For example, if you name your namespace example.com and name your service backend , the resulting DNS name for the service is backend.example.com . You can discover instances that were registered with a public DNS namespace by using either a DiscoverInstances request or using DNS. For the current quota on the number of namespaces that you can create using the same Amazon...
+    /// Creates a public namespace based on DNS, which is visible on the internet. The namespace defines your service naming scheme. For example, if you name your namespace example.com and name your service backend , the resulting DNS name for the service is backend.example.com . You can discover instances that were registered with a public DNS namespace by using either a DiscoverInstances request or using DNS. For the current quota on the number of namespaces that you can create using the same Amazon W...
     /// </summary>
-    /// <param name="Name">The name that you want to assign to this namespace. NOTE: Do not include sensitive information in the name. The name is publicly available using DNS queries. Constraints: o max: 253 o pattern: ^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?$</param>
+    /// <param name="Name">The name that you want to assign to this namespace. NOTE: Do not include sensitive information in the name. The name is publicly available using DNS queries. Constraints: • max: 253 • pattern: ^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?$</param>
     public AwsServicediscoveryCreatePublicDnsNamespaceOptions(
         string Name
     )
@@ -56,31 +58,31 @@ public record AwsServicediscoveryCreatePublicDnsNamespaceOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name that you want to assign to this namespace. NOTE: Do not include sensitive information in the name. The name is publicly available using DNS queries. Constraints: o max: 253 o pattern: ^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?$
+    /// The name that you want to assign to this namespace. NOTE: Do not include sensitive information in the name. The name is publicly available using DNS queries. Constraints: • max: 253 • pattern: ^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A unique string that identifies the request and that allows failed CreatePublicDnsNamespace requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string (for example, a date/timestamp). Constraints: o max: 64
+    /// A unique string that identifies the request and that allows failed CreatePublicDnsNamespace requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string (for example, a date/timestamp). Constraints: • max: 64
     /// </summary>
     [CliOption("--creator-request-id")]
     public string? CreatorRequestId { get; set; }
 
     /// <summary>
-    /// A description for the namespace. Constraints: o max: 1024
+    /// A description for the namespace. Constraints: • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The tags to add to the namespace. Each tag consists of a key and an optional value that you define. Tags keys can be up to 128 charac- ters in length, and tag values can be up to 256 characters in length. Constraints: o min: 0 o max: 200 (structure) A custom key-value pair that's associated with a resource. Key -&gt; (string) [required] The key identifier, or name, of the tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The string value that's associated with the key of the tag. You can set the value of a tag to an empty string, but you can't set the value of a tag to null. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags to add to the namespace. Each tag consists of a key and an optional value that you define. Tags keys can be up to 128 characters in length, and tag values can be up to 256 characters in length. Constraints: • min: 0 • max: 200 (structure) A custom key-value pair that's associated with a resource. Key -&gt; (string) [required] The key identifier, or name, of the tag. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The string value that's associated with the key of the tag. You can set the value of a tag to an empty string, but you can't set the value of a tag to null. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Properties for the public DNS namespace. DnsProperties -&gt; (structure) [required] DNS properties for the public DNS namespace. SOA -&gt; (structure) [required] Start of Authority (SOA) record for the hosted zone for the public DNS namespace. TTL -&gt; (long) [required] The time to live (TTL) for purposes of negative caching. Constraints: o min: 0 o max: 2147483647 Shorthand Syntax: DnsProperties={SOA={TTL=long}} JSON Syntax: { "DnsProperties": { "SOA": { "TTL": long } } }
+    /// Properties for the public DNS namespace. DnsProperties -&gt; (structure) [required] DNS properties for the public DNS namespace. SOA -&gt; (structure) [required] Start of Authority (SOA) record for the hosted zone for the public DNS namespace. TTL -&gt; (long) [required] The time to live (TTL) for purposes of negative caching. Constraints: • min: 0 • max: 2147483647 Shorthand Syntax: DnsProperties={SOA={TTL=long}} JSON Syntax: { "DnsProperties": { "SOA": { "TTL": long } } }
     /// </summary>
     [CliOption("--properties")]
     public string? Properties { get; set; }

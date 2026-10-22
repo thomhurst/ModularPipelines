@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsSagemakerRetryPipelineExecutionOptions : AwsOptions, IValidatab
     /// <summary>
     /// Retry the execution of the pipeline. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PipelineExecutionArn">The Amazon Resource Name (ARN) of the pipeline execution. Constraints: o min: 0 o max: 2048 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:pipeline\/.*\/execution\/.*</param>
+    /// <param name="PipelineExecutionArn">The Amazon Resource Name (ARN) of the pipeline execution. Constraints: • min: 0 • max: 2048 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:pipeline\/.*\/execution\/.*</param>
     public AwsSagemakerRetryPipelineExecutionOptions(
         string PipelineExecutionArn
     )
@@ -57,20 +59,20 @@ public record AwsSagemakerRetryPipelineExecutionOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the pipeline execution. Constraints: o min: 0 o max: 2048 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:pipeline\/.*\/execution\/.*
+    /// The Amazon Resource Name (ARN) of the pipeline execution. Constraints: • min: 0 • max: 2048 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:pipeline\/.*\/execution\/.*
     /// </summary>
     [CliOption("--pipeline-execution-arn")]
     public string? PipelineExecutionArn { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than once. Constraints: o min: 32 o max: 128
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than once. Constraints: • min: 32 • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// This configuration, if specified, overrides the parallelism configu- ration of the parent pipeline. MaxParallelExecutionSteps -&gt; (integer) [required] The max number of steps that can be executed in parallel. Constraints: o min: 1 Shorthand Syntax: MaxParallelExecutionSteps=integer JSON Syntax: { "MaxParallelExecutionSteps": integer }
+    /// This configuration, if specified, overrides the parallelism configuration of the parent pipeline. MaxParallelExecutionSteps -&gt; (integer) [required] The max number of steps that can be executed in parallel. Constraints: • min: 1 Shorthand Syntax: MaxParallelExecutionSteps=integer JSON Syntax: { "MaxParallelExecutionSteps": integer }
     /// </summary>
     [CliOption("--parallelism-configuration")]
     public string? ParallelismConfiguration { get; set; }

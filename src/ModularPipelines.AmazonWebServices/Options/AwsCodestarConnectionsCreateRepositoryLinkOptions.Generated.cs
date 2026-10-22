@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a link to a specified external Git repository. A repository link allows Git sync to monitor and sync changes to files in a speci- fied Git repository. See also: AWS API Documentation
+/// Creates a link to a specified external Git repository. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsCodestarConnectionsCreateRepositoryLinkOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a link to a specified external Git repository. A repository link allows Git sync to monitor and sync changes to files in a speci- fied Git repository. See also: AWS API Documentation
+    /// Creates a link to a specified external Git repository. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectionArn">The Amazon Resource Name (ARN) of the connection to be associated with the repository link. Constraints: o min: 0 o max: 256 o pattern: arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+</param>
-    /// <param name="OwnerId">The owner ID for the repository associated with a specific sync con- figuration, such as the owner ID in GitHub. Constraints: o min: 1 o max: 255 o pattern: ^.*$</param>
-    /// <param name="RepositoryName">The name of the repository to be associated with the repository link. Constraints: o min: 1 o max: 128 o pattern: ^.*$</param>
+    /// <param name="ConnectionArn">The Amazon Resource Name (ARN) of the connection to be associated with the repository link. Constraints: • min: 0 • max: 256 • pattern: arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+</param>
+    /// <param name="OwnerId">The owner ID for the repository associated with a specific sync configuration, such as the owner ID in GitHub. Constraints: • min: 1 • max: 255 • pattern: ^.*$</param>
+    /// <param name="RepositoryName">The name of the repository to be associated with the repository link. Constraints: • min: 1 • max: 128 • pattern: ^.*$</param>
     public AwsCodestarConnectionsCreateRepositoryLinkOptions(
         string ConnectionArn,
         string OwnerId,
@@ -64,31 +66,31 @@ public record AwsCodestarConnectionsCreateRepositoryLinkOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the connection to be associated with the repository link. Constraints: o min: 0 o max: 256 o pattern: arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+
+    /// The Amazon Resource Name (ARN) of the connection to be associated with the repository link. Constraints: • min: 0 • max: 256 • pattern: arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+
     /// </summary>
     [CliOption("--connection-arn")]
     public string? ConnectionArn { get; private init; }
 
     /// <summary>
-    /// The owner ID for the repository associated with a specific sync con- figuration, such as the owner ID in GitHub. Constraints: o min: 1 o max: 255 o pattern: ^.*$
+    /// The owner ID for the repository associated with a specific sync configuration, such as the owner ID in GitHub. Constraints: • min: 1 • max: 255 • pattern: ^.*$
     /// </summary>
     [CliOption("--owner-id")]
     public string? OwnerId { get; private init; }
 
     /// <summary>
-    /// The name of the repository to be associated with the repository link. Constraints: o min: 1 o max: 128 o pattern: ^.*$
+    /// The name of the repository to be associated with the repository link. Constraints: • min: 1 • max: 128 • pattern: ^.*$
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) encryption key for the repository to be associated with the repository link. Constraints: o min: 1 o max: 1024 o pattern: arn:aws(-[\w]+)*:kms:[a-z\-0-9]+:\d{12}:key/[a-zA-Z0-9\-]+
+    /// The Amazon Resource Name (ARN) encryption key for the repository to be associated with the repository link. Constraints: • min: 1 • max: 1024 • pattern: arn:aws(-[\w]+)*:kms:[a-z\-0-9]+:\d{12}:key/[a-zA-Z0-9\-]+
     /// </summary>
     [CliOption("--encryption-key-arn")]
     public string? EncryptionKeyArn { get; set; }
 
     /// <summary>
-    /// The tags for the repository to be associated with the repository link. Constraints: o min: 0 o max: 200 (structure) A tag is a key-value pair that is used to manage the resource. This tag is available for use by Amazon Web Services services that support tags. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 o pattern: .* Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags for the repository to be associated with the repository link. Constraints: • min: 0 • max: 200 (structure) A tag is a key-value pair that is used to manage the resource. This tag is available for use by Amazon Web Services services that support tags. Key -&gt; (string) [required] The tag's key. Constraints: • min: 1 • max: 128 • pattern: .* Value -&gt; (string) [required] The tag's value. Constraints: • min: 0 • max: 256 • pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

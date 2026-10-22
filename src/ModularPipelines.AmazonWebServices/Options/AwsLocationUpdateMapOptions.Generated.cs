@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend upgrading to the Maps API V2 unless you require Grab data. o UpdateMap is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, power- ful, and complete API (version 2). o The Maps API version 2 has a simplified interface that can be used without creating or managing map resources. o If you are using an AWS SDK or the AWS CLI, note that the Map...
+/// WARNING: This operation is no longer current and may be deprecated in the future. We recommend upgrading to the Maps API V2 unless you require Grab data. • UpdateMap is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The Maps API version 2 has a simplified interface that can be used without creating or managing map resources. • If you are using an AWS SDK or the AWS CLI, note that the Maps AP...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsLocationUpdateMapOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend upgrading to the Maps API V2 unless you require Grab data. o UpdateMap is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, power- ful, and complete API (version 2). o The Maps API version 2 has a simplified interface that can be used without creating or managing map resources. o If you are using an AWS SDK or the AWS CLI, note that the Map...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend upgrading to the Maps API V2 unless you require Grab data. • UpdateMap is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The Maps API version 2 has a simplified interface that can be used without creating or managing map resources. • If you are using an AWS SDK or the AWS CLI, note that the Maps AP...
     /// </summary>
-    /// <param name="MapName">The name of the map resource to update. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    /// <param name="MapName">The name of the map resource to update. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+</param>
     public AwsLocationUpdateMapOptions(
         string MapName
     )
@@ -57,25 +59,25 @@ public record AwsLocationUpdateMapOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the map resource to update. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// The name of the map resource to update. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+
     /// </summary>
     [CliOption("--map-name")]
     public string? MapName { get; private init; }
 
     /// <summary>
-    /// No longer used. If included, the only allowed value is RequestBase- dUsage . Possible values: o RequestBasedUsage o MobileAssetTracking o MobileAssetManagement
+    /// No longer used. If included, the only allowed value is RequestBasedUsage . Possible values: • RequestBasedUsage • MobileAssetTracking • MobileAssetManagement
     /// </summary>
     [CliOption("--pricing-plan")]
     public AwsLocationUpdateMapPricingPlan? PricingPlan { get; set; }
 
     /// <summary>
-    /// Updates the description for the map resource. Constraints: o min: 0 o max: 1000
+    /// Updates the description for the map resource. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Updates the parts of the map configuration that can be updated, in- cluding the political view. PoliticalView -&gt; (string) Specifies the political view for the style. Set to an empty string to not use a political view, or, for styles that support specific political views, you can choose a view, such as IND for the Indian view. NOTE: Not all map resources or styles support political view styles. See Political views for more information. Constraints: o min: 0 o max: 3 o pattern: [A-Z]{3}$|^ CustomLayers -&gt; (list) Specifies the custom layers for the style. Leave unset to not enable any custom layer, or, for styles that support custom lay- ers, you can enable layer(s), such as POI layer for the Vec- torEsriNavigation style. Default is unset . NOTE: Not all map resources or styles support custom layers. See Custom Layers for more information. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 100 o pattern: [-._\w]+ Shorthand Syntax: PoliticalView=string,CustomLayers=string,string JSON Syntax: { "PoliticalView": "string", "CustomLayers": ["string", ...] }
+    /// Updates the parts of the map configuration that can be updated, including the political view. PoliticalView -&gt; (string) Specifies the political view for the style. Set to an empty string to not use a political view, or, for styles that support specific political views, you can choose a view, such as IND for the Indian view. NOTE: Not all map resources or styles support political view styles. See Political views for more information. Constraints: • min: 0 • max: 3 • pattern: [A-Z]{3}$|^ CustomLayers -&gt; (list) Specifies the custom layers for the style. Leave unset to not enable any custom layer, or, for styles that support custom layers, you can enable layer(s), such as POI layer for the VectorEsriNavigation style. Default is unset . NOTE: Not all map resources or styles support custom layers. See Custom Layers for more information. Constraints: • min: 0 • max: 10 (string) Constraints: • min: 1 • max: 100 • pattern: [-._\w]+ Shorthand Syntax: PoliticalView=string,CustomLayers=string,string JSON Syntax: { "PoliticalView": "string", "CustomLayers": ["string", ...] }
     /// </summary>
     [CliOption("--configuration-update")]
     public string? ConfigurationUpdate { get; set; }

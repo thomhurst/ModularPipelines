@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new Amazon QuickSight space. A space is a collection of re- sources that can be used to organize and manage QuickSight assets. See also: AWS API Documentation
+/// Creates a new Amazon QuickSight space. A space is a collection of resources that can be used to organize and manage QuickSight assets. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsQuicksightCreateSpaceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new Amazon QuickSight space. A space is a collection of re- sources that can be used to organize and manage QuickSight assets. See also: AWS API Documentation
+    /// Creates a new Amazon QuickSight space. A space is a collection of resources that can be used to organize and manage QuickSight assets. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the space. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="SpaceId">The ID of the space. This ID is unique per Amazon Web Services Re- gion for each Amazon Web Services account. Constraints: o min: 1 o max: 256 o pattern: [0-9a-zA-Z-_=.+]+</param>
-    /// <param name="Name">A display name for the space. Constraints: o min: 1 o max: 1000 o pattern: [\P{C}\n\r\t\f\v\p{Cf}]*</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the space. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="SpaceId">The ID of the space. This ID is unique per Amazon Web Services Region for each Amazon Web Services account. Constraints: • min: 1 • max: 256 • pattern: [0-9a-zA-Z-_=.+]+</param>
+    /// <param name="Name">A display name for the space. Constraints: • min: 1 • max: 1000 • pattern: [\P{C}\n\r\t\f\v\p{Cf}]*</param>
     public AwsQuicksightCreateSpaceOptions(
         string AwsAccountId,
         string SpaceId,
@@ -64,25 +66,25 @@ public record AwsQuicksightCreateSpaceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the space. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the space. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID of the space. This ID is unique per Amazon Web Services Re- gion for each Amazon Web Services account. Constraints: o min: 1 o max: 256 o pattern: [0-9a-zA-Z-_=.+]+
+    /// The ID of the space. This ID is unique per Amazon Web Services Region for each Amazon Web Services account. Constraints: • min: 1 • max: 256 • pattern: [0-9a-zA-Z-_=.+]+
     /// </summary>
     [CliOption("--space-id")]
     public string? SpaceId { get; private init; }
 
     /// <summary>
-    /// A display name for the space. Constraints: o min: 1 o max: 1000 o pattern: [\P{C}\n\r\t\f\v\p{Cf}]*
+    /// A display name for the space. Constraints: • min: 1 • max: 1000 • pattern: [\P{C}\n\r\t\f\v\p{Cf}]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A description of the space. Constraints: o min: 0 o max: 1000 o pattern: [\P{C}\n\r\t\f\v\p{Cf}]*
+    /// A description of the space. Constraints: • min: 0 • max: 1000 • pattern: [\P{C}\n\r\t\f\v\p{Cf}]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

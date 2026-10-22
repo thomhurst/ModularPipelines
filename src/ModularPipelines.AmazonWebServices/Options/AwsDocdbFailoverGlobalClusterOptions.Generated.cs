@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Promotes the specified secondary DB cluster to be the primary DB clus- ter in the global cluster when failing over a global cluster occurs. Use this operation to respond to an unplanned event, such as a regional disaster in the primary region. Failing over can result in a loss of write transaction data that wasn't replicated to the chosen secondary before the failover event occurred. However, the recovery process that promotes a DB instance on the chosen seconday DB cluster to be the pri- mary w...
+/// Promotes the specified secondary DB cluster to be the primary DB cluster in the global cluster when failing over a global cluster occurs. Use this operation to respond to an unplanned event, such as a regional disaster in the primary region. Failing over can result in a loss of write transaction data that wasn't replicated to the chosen secondary before the failover event occurred. However, the recovery process that promotes a DB instance on the chosen seconday DB cluster to be the primary write...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsDocdbFailoverGlobalClusterOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Promotes the specified secondary DB cluster to be the primary DB clus- ter in the global cluster when failing over a global cluster occurs. Use this operation to respond to an unplanned event, such as a regional disaster in the primary region. Failing over can result in a loss of write transaction data that wasn't replicated to the chosen secondary before the failover event occurred. However, the recovery process that promotes a DB instance on the chosen seconday DB cluster to be the pri- mary w...
+    /// Promotes the specified secondary DB cluster to be the primary DB cluster in the global cluster when failing over a global cluster occurs. Use this operation to respond to an unplanned event, such as a regional disaster in the primary region. Failing over can result in a loss of write transaction data that wasn't replicated to the chosen secondary before the failover event occurred. However, the recovery process that promotes a DB instance on the chosen seconday DB cluster to be the primary write...
     /// </summary>
-    /// <param name="GlobalClusterIdentifier">The identifier of the Amazon DocumentDB global cluster to apply this operation. The identifier is the unique key assigned by the user when the cluster is created. In other words, it's the name of the global cluster. Constraints: o Must match the identifier of an existing global cluster. o Minimum length of 1. Maximum length of 255. Pattern: [A-Za-z][0-9A-Za-z-:._]* Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
-    /// <param name="TargetDbClusterIdentifier">The identifier of the secondary Amazon DocumentDB cluster that you want to promote to the primary for the global cluster. Use the Ama- zon Resource Name (ARN) for the identifier so that Amazon DocumentDB can locate the cluster in its Amazon Web Services region. Constraints: o Must match the identifier of an existing secondary cluster. o Minimum length of 1. Maximum length of 255. Pattern: [A-Za-z][0-9A-Za-z-:._]* Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
+    /// <param name="GlobalClusterIdentifier">The identifier of the Amazon DocumentDB global cluster to apply this operation. The identifier is the unique key assigned by the user when the cluster is created. In other words, it's the name of the global cluster. Constraints: • Must match the identifier of an existing global cluster. • Minimum length of 1. Maximum length of 255. Pattern: [A-Za-z][0-9A-Za-z-:._]* Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
+    /// <param name="TargetDbClusterIdentifier">The identifier of the secondary Amazon DocumentDB cluster that you want to promote to the primary for the global cluster. Use the Amazon Resource Name (ARN) for the identifier so that Amazon DocumentDB can locate the cluster in its Amazon Web Services region. Constraints: • Must match the identifier of an existing secondary cluster. • Minimum length of 1. Maximum length of 255. Pattern: [A-Za-z][0-9A-Za-z-:._]* Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
     public AwsDocdbFailoverGlobalClusterOptions(
         string GlobalClusterIdentifier,
         string TargetDbClusterIdentifier
@@ -60,25 +62,25 @@ public record AwsDocdbFailoverGlobalClusterOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon DocumentDB global cluster to apply this operation. The identifier is the unique key assigned by the user when the cluster is created. In other words, it's the name of the global cluster. Constraints: o Must match the identifier of an existing global cluster. o Minimum length of 1. Maximum length of 255. Pattern: [A-Za-z][0-9A-Za-z-:._]* Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// The identifier of the Amazon DocumentDB global cluster to apply this operation. The identifier is the unique key assigned by the user when the cluster is created. In other words, it's the name of the global cluster. Constraints: • Must match the identifier of an existing global cluster. • Minimum length of 1. Maximum length of 255. Pattern: [A-Za-z][0-9A-Za-z-:._]* Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*
     /// </summary>
     [CliOption("--global-cluster-identifier")]
     public string? GlobalClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the secondary Amazon DocumentDB cluster that you want to promote to the primary for the global cluster. Use the Ama- zon Resource Name (ARN) for the identifier so that Amazon DocumentDB can locate the cluster in its Amazon Web Services region. Constraints: o Must match the identifier of an existing secondary cluster. o Minimum length of 1. Maximum length of 255. Pattern: [A-Za-z][0-9A-Za-z-:._]* Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// The identifier of the secondary Amazon DocumentDB cluster that you want to promote to the primary for the global cluster. Use the Amazon Resource Name (ARN) for the identifier so that Amazon DocumentDB can locate the cluster in its Amazon Web Services region. Constraints: • Must match the identifier of an existing secondary cluster. • Minimum length of 1. Maximum length of 255. Pattern: [A-Za-z][0-9A-Za-z-:._]* Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*
     /// </summary>
     [CliOption("--target-db-cluster-identifier")]
     public string? TargetDbClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// Specifies whether to allow data loss for this global cluster opera- tion. Allowing data loss triggers a global failover operation. If you don't specify AllowDataLoss , the global cluster operation defaults to a switchover. Constraints: o Can't be specified together with the Switchover parameter.
+    /// Specifies whether to allow data loss for this global cluster operation. Allowing data loss triggers a global failover operation. If you don't specify AllowDataLoss , the global cluster operation defaults to a switchover. Constraints: • Can't be specified together with the Switchover parameter.
     /// </summary>
     [CliFlag("--allow-data-loss", NegatedName = "--no-allow-data-loss")]
     public bool? AllowDataLoss { get; set; }
 
     /// <summary>
-    /// Specifies whether to switch over this global database cluster. Constraints: o Can't be specified together with the AllowDataLoss parameter.
+    /// Specifies whether to switch over this global database cluster. Constraints: • Can't be specified together with the AllowDataLoss parameter.
     /// </summary>
     [CliFlag("--switchover", NegatedName = "--no-switchover")]
     public bool? Switchover { get; set; }

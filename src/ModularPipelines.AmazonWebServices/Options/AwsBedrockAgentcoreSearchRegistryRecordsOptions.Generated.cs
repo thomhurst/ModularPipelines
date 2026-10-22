@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Searches for registry records using semantic, lexical, or hybrid queries. Returns metadata for matching records ordered by relevance within the specified registry. See also: AWS API Documentation search-registry-records uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syn...
+/// Searches for registry records using semantic, lexical, or hybrid queries. Returns metadata for matching records ordered by relevance within the specified registry. See also: AWS API Documentation search-registry-records uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsBedrockAgentcoreSearchRegistryRecordsOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Searches for registry records using semantic, lexical, or hybrid queries. Returns metadata for matching records ordered by relevance within the specified registry. See also: AWS API Documentation search-registry-records uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syn...
+    /// Searches for registry records using semantic, lexical, or hybrid queries. Returns metadata for matching records ordered by relevance within the specified registry. See also: AWS API Documentation search-registry-records uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax ...
     /// </summary>
-    /// <param name="SearchQuery">The search query to find matching registry records. Constraints: o min: 1 o max: 256</param>
-    /// <param name="RegistryIds">The list of registry identifiers to search within. Currently, you can specify exactly one registry identifier. You can provide either the full Amazon Web Services Resource Name (ARN) or the 12-character alphanumeric registry ID. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16} Syntax: "string" "string" ...</param>
+    /// <param name="SearchQuery">The search query to find matching registry records. Constraints: • min: 1 • max: 256</param>
+    /// <param name="RegistryIds">The list of registry identifiers to search within. Currently, you can specify exactly one registry identifier. You can provide either the full Amazon Web Services Resource Name (ARN) or the 12-character alphanumeric registry ID. Constraints: • min: 1 • max: 1 (string) Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(-[^:]+)?:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16} Syntax: "string" "string" ...</param>
     public AwsBedrockAgentcoreSearchRegistryRecordsOptions(
         string SearchQuery,
         IEnumerable<string> RegistryIds
@@ -71,25 +73,25 @@ public record AwsBedrockAgentcoreSearchRegistryRecordsOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The search query to find matching registry records. Constraints: o min: 1 o max: 256
+    /// The search query to find matching registry records. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--search-query")]
     public string? SearchQuery { get; private init; }
 
     /// <summary>
-    /// The list of registry identifiers to search within. Currently, you can specify exactly one registry identifier. You can provide either the full Amazon Web Services Resource Name (ARN) or the 12-character alphanumeric registry ID. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16} Syntax: "string" "string" ...
+    /// The list of registry identifiers to search within. Currently, you can specify exactly one registry identifier. You can provide either the full Amazon Web Services Resource Name (ARN) or the 12-character alphanumeric registry ID. Constraints: • min: 1 • max: 1 (string) Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(-[^:]+)?:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--registry-ids", GroupValues = true)]
     public IEnumerable<string>? RegistryIds { get; private init; }
 
     /// <summary>
-    /// The maximum number of records to return in a single call. Valid val- ues are 1 through 20. The default value is 10. Constraints: o min: 1 o max: 20
+    /// The maximum number of records to return in a single call. Valid values are 1 through 20. The default value is 10. Constraints: • min: 1 • max: 20
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// A metadata filter expression to narrow search results. Uses struc- tured JSON operators including field-level operators ($eq , $ne , $in ) and logical operators ($and , $or ) on filterable fields (name , descriptorType , version ). For example, to filter by descriptor type: {"descriptorType": {"$eq": "MCP"}} . To combine filters: {"$and": [{"descriptorType": {"$eq": "MCP"}}, {"name": {"$eq": "my-tool"}}]} . JSON Syntax: {...}
+    /// A metadata filter expression to narrow search results. Uses structured JSON operators including field-level operators ($eq , $ne , $in ) and logical operators ($and , $or ) on filterable fields (name , descriptorType , version ). For example, to filter by descriptor type: {"descriptorType": {"$eq": "MCP"}} . To combine filters: {"$and": [{"descriptorType": {"$eq": "MCP"}}, {"name": {"$eq": "my-tool"}}]} . JSON Syntax: {...}
     /// </summary>
     [CliOption("--filters")]
     public string? Filters { get; set; }

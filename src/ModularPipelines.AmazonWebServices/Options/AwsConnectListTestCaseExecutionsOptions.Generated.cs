@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +31,7 @@ public record AwsConnectListTestCaseExecutionsOptions : AwsOptions, IValidatable
     /// <summary>
     /// Lists all test case executions and allows filtering by test case id, test case name, start time, end time or status of the execution for the specified Amazon Connect instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Amazon Connect instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Amazon Connect instance. Constraints: • min: 1 • max: 100</param>
     public AwsConnectListTestCaseExecutionsOptions(
         string InstanceId
     )
@@ -58,37 +60,37 @@ public record AwsConnectListTestCaseExecutionsOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Connect instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Amazon Connect instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// Filter executions by test case identifier. Constraints: o max: 500
+    /// Filter executions by test case identifier. Constraints: • max: 500
     /// </summary>
     [CliOption("--test-case-id")]
     public string? TestCaseId { get; set; }
 
     /// <summary>
-    /// Filter executions by test case name. Constraints: o min: 1
+    /// Filter executions by test case name. Constraints: • min: 1
     /// </summary>
     [CliOption("--test-case-name")]
     public string? TestCaseName { get; set; }
 
     /// <summary>
-    /// Filter executions that started after this time. Constraints: o min: 0
+    /// Filter executions that started after this time. Constraints: • min: 0
     /// </summary>
     [CliOption("--start-time")]
-    public int? StartTime { get; set; }
+    public long? StartTime { get; set; }
 
     /// <summary>
-    /// Filter executions that started before this time. Constraints: o min: 0
+    /// Filter executions that started before this time. Constraints: • min: 0
     /// </summary>
     [CliOption("--end-time")]
-    public int? EndTime { get; set; }
+    public long? EndTime { get; set; }
 
     /// <summary>
-    /// Filter executions by status. Possible values: o INITIATED o PASSED o FAILED o IN_PROGRESS o STOPPED
+    /// Filter executions by status. Possible values: • INITIATED • PASSED • FAILED • IN_PROGRESS • STOPPED
     /// </summary>
     [CliOption("--status")]
     public AwsConnectListTestCaseExecutionsStatus? Status { get; set; }
@@ -101,7 +103,7 @@ public record AwsConnectListTestCaseExecutionsOptions : AwsOptions, IValidatable
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return per page. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to return per page. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

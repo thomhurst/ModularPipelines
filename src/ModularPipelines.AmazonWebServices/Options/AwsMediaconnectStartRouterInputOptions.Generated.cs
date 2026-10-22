@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMediaconnectStartRouterInputOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Starts a router input in AWS Elemental MediaConnect. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the router input that you want to start. Constraints: o pattern: arn:(aws[a-zA-Z-]*):mediacon- nect:[a-z0-9-]+:[0-9]{12}:routerInput:[a-z0-9]{12}</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the router input that you want to start. Constraints: • pattern: arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:routerInput:[a-z0-9]{12}</param>
     public AwsMediaconnectStartRouterInputOptions(
         string Arn
     )
@@ -56,7 +58,7 @@ public record AwsMediaconnectStartRouterInputOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the router input that you want to start. Constraints: o pattern: arn:(aws[a-zA-Z-]*):mediacon- nect:[a-z0-9-]+:[0-9]{12}:routerInput:[a-z0-9]{12}
+    /// The Amazon Resource Name (ARN) of the router input that you want to start. Constraints: • pattern: arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:routerInput:[a-z0-9]{12}
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }

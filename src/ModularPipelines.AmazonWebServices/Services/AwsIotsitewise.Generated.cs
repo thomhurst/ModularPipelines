@@ -33,7 +33,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws iotsitewise wait sub-commands.
     /// </summary>
     public AwsIotsitewiseWait Wait => _wait ??= new AwsIotsitewiseWait(_command);
 
@@ -42,7 +42,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     #region Commands
 
     /// <summary>
-    /// Associates a child asset with the given parent asset through a hierar- chy defined in the parent asset's model. For more information, see Associating assets in the IoT SiteWise User Guide . See also: AWS API Documentation
+    /// Associates a child asset with the given parent asset through a hierarchy defined in the parent asset's model. For more information, see Associating assets in the IoT SiteWise User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -72,7 +72,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Associates a batch of data segments with a curated dataset. Data seg- ments are time-bounded slices of time series data selected from source session datasets. Data segments that belong to the same time series can't overlap in time, regardless of which dataset they belong to. See also: AWS API Documentation
+    /// Associates a batch of data segments with a curated dataset. Data segments are time-bounded slices of time series data selected from source session datasets. Data segments that belong to the same time series can't overlap in time, regardless of which dataset they belong to. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -87,7 +87,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// WARNING: The IoT SiteWise Monitor feature will no longer be open to new cus- tomers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing cus- tomers can continue to use the service as normal. For more informa- tion, see IoT SiteWise Monitor availability change . Associates a group (batch) of assets with an IoT SiteWise Monitor project. See also: AWS API Documentation
+    /// WARNING: The IoT SiteWise Monitor feature will no longer be open to new customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see IoT SiteWise Monitor availability change . Associates a group (batch) of assets with an IoT SiteWise Monitor project. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -117,7 +117,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Disassociates a batch of data segments from a curated dataset. Disasso- ciating a data segment doesn't delete the underlying data in the source session dataset. See also: AWS API Documentation
+    /// Disassociates a batch of data segments from a curated dataset. Disassociating a data segment doesn't delete the underlying data in the source session dataset. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -147,7 +147,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Gets aggregated values (for example, average, minimum, and maximum) for one or more asset properties. For more information, see Querying aggre- gates in the IoT SiteWise User Guide . See also: AWS API Documentation
+    /// Gets aggregated values (for example, average, minimum, and maximum) for one or more asset properties. For more information, see Querying aggregates in the IoT SiteWise User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -177,7 +177,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Gets the current value for one or more asset properties. For more in- formation, see Querying current values in the IoT SiteWise User Guide . See also: AWS API Documentation
+    /// Gets the current value for one or more asset properties. For more information, see Querying current values in the IoT SiteWise User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -192,7 +192,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Sends a list of asset property values to IoT SiteWise. Each value is a timestamp-quality-value (TQV) data point. For more information, see Ingesting data using the API in the IoT SiteWise User Guide . To identify an asset property, you must specify one of the following: o The assetId and propertyId of an asset property. o A propertyAlias , which is a data stream alias (for example, /com- pany/windfarm/3/turbine/7/temperature ). To define an asset prop- erty's alias, see UpdateAssetProperty . WAR...
+    /// Sends a list of asset property values to IoT SiteWise. Each value is a timestamp-quality-value (TQV) data point. For more information, see Ingesting data using the API in the IoT SiteWise User Guide . To identify an asset property, you must specify one of the following: • The assetId and propertyId of an asset property. • A propertyAlias , which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature ). To define an asset property's alias, see UpdateAssetProperty . WARNING...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -207,7 +207,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Cancels a running or pending enrichment job. This is an idempotent op- erationcalling it multiple times with the same jobId is safe and re- turns the current status. Behavior o Jobs in PENDING or RUNNING status transition to CANCELLED o Jobs in RUNNING state may not be cancellable once they have pro- gressed to certain processing stages o Jobs already in terminal states (COMPLETED, FAILED, TIMED_OUT) cannot be cancelled; the operation returns a ConflictingOperationException o Cancelling an alrea...
+    /// Cancels a running or pending enrichment job. This is an idempotent operationcalling it multiple times with the same jobId is safe and returns the current status. Behavior • Jobs in PENDING or RUNNING status transition to CANCELLED • Jobs in RUNNING state may not be cancellable once they have progressed to certain processing stages • Jobs already in terminal states (COMPLETED, FAILED, TIMED_OUT) cannot be cancelled; the operation returns a ConflictingOperationException • Cancelling an already-CAN...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -222,7 +222,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Cancels a pipeline execution in the specified workspace. If the execu- tion is not in a terminal state (such as NOT_STARTED or RUNNING), it transitions to CANCELLING and asynchronously to CANCELLED. This opera- tion is idempotent: calling it on an execution that is already CAN- CELLING or CANCELLED returns success with the current state. Calling it on a terminal execution (SUCCEEDED or FAILED) returns a conflict error. You can optionally provide a reason; it is returned in the stateDetails field...
+    /// Cancels a pipeline execution in the specified workspace. If the execution is not in a terminal state (such as NOT_STARTED or RUNNING), it transitions to CANCELLING and asynchronously to CANCELLED. This operation is idempotent: calling it on an execution that is already CANCELLING or CANCELLED returns success with the current state. Calling it on a terminal execution (SUCCEEDED or FAILED) returns a conflict error. You can optionally provide a reason; it is returned in the stateDetails field when ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -252,7 +252,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// WARNING: The IoT SiteWise Monitor feature will no longer be open to new cus- tomers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing cus- tomers can continue to use the service as normal. For more informa- tion, see IoT SiteWise Monitor availability change . Creates an access policy that grants the specified identity (IAM Iden- tity Center user, IAM Identity Center group, or IAM user) access to the specified IoT SiteWise M...
+    /// WARNING: The IoT SiteWise Monitor feature will no longer be open to new customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see IoT SiteWise Monitor availability change . Creates an access policy that grants the specified identity (IAM Identity Center user, IAM Identity Center group, or IAM user) access to the specified IoT SiteWise Monitor p...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -267,7 +267,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Creates a new application for the workspace and IdC application pro- vided See also: AWS API Documentation
+    /// Creates a new application for the workspace and IdC application provided See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -282,7 +282,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Creates a custom composite model from specified property and hierarchy definitions. There are two types of custom composite models, inline and component-model-based . Use component-model-based custom composite models to define standard, reusable components. A component-model-based custom composite model consists of a name, a description, and the ID of the component model it references. A component-model-based custom composite model has no prop- erties of its own; its referenced component model p...
+    /// Creates a custom composite model from specified property and hierarchy definitions. There are two types of custom composite models, inline and component-model-based . Use component-model-based custom composite models to define standard, reusable components. A component-model-based custom composite model consists of a name, a description, and the ID of the component model it references. A component-model-based custom composite model has no properties of its own; its referenced component model pro...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -297,7 +297,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Creates an asset model from specified property and hierarchy defini- tions. You create assets from asset models. With asset models, you can easily create assets of the same type that have standardized defini- tions. Each asset created from a model inherits the asset model's prop- erty and hierarchy definitions. For more information, see Defining as- set models in the IoT SiteWise User Guide . You can create three types of asset models, ASSET_MODEL , COMPO- NENT_MODEL , or an INTERFACE . o ASSET_...
+    /// Creates an asset model from specified property and hierarchy definitions. You create assets from asset models. With asset models, you can easily create assets of the same type that have standardized definitions. Each asset created from a model inherits the asset model's property and hierarchy definitions. For more information, see Defining asset models in the IoT SiteWise User Guide . You can create three types of asset models, ASSET_MODEL , COMPONENT_MODEL , or an INTERFACE . • ASSET_MODEL (def...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -327,7 +327,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Defines a job to ingest data to IoT SiteWise from Amazon S3. For more information, see Create a bulk import job (CLI) in the Amazon Simple Storage Service User Guide . WARNING: Before you create a bulk import job that ingests data into time se- ries outside of a workspace, you must enable IoT SiteWise warm tier or IoT SiteWise cold tier. For more information about how to config- ure storage settings, see PutStorageConfiguration . This requirement doesn't apply to bulk import jobs that ingest dat...
+    /// Defines a job to ingest data to IoT SiteWise from Amazon S3. For more information, see Create a bulk import job (CLI) in the Amazon Simple Storage Service User Guide . WARNING: Before you create a bulk import job that ingests data into time series outside of a workspace, you must enable IoT SiteWise warm tier or IoT SiteWise cold tier. For more information about how to configure storage settings, see PutStorageConfiguration . This requirement doesn't apply to bulk import jobs that ingest data in...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -357,7 +357,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// WARNING: The IoT SiteWise Monitor feature will no longer be open to new cus- tomers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing cus- tomers can continue to use the service as normal. For more informa- tion, see IoT SiteWise Monitor availability change . Creates a dashboard in an IoT SiteWise Monitor project. See also: AWS API Documentation
+    /// WARNING: The IoT SiteWise Monitor feature will no longer be open to new customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see IoT SiteWise Monitor availability change . Creates a dashboard in an IoT SiteWise Monitor project. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -372,7 +372,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Starts an asynchronous job that exports dataset and time-series data from a workspace to Amazon S3. The operation returns a jobId immedi- ately; poll DescribeDatasetExportJob to track progress and ListDataset- ExportJobs to enumerate a workspace's jobs. See also: AWS API Documentation
+    /// Starts an asynchronous job that exports dataset and time-series data from a workspace to Amazon S3. The operation returns a jobId immediately; poll DescribeDatasetExportJob to track progress and ListDatasetExportJobs to enumerate a workspace's jobs. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -387,7 +387,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Creates a dataset. Session and curated datasets are created in a work- space. A session dataset contains data segments of time series data, and a curated dataset curates data segments selected from source ses- sion datasets. A dataset that connects to an external datasource is created outside of a workspace. See also: AWS API Documentation
+    /// Creates a dataset. Session and curated datasets are created in a workspace. A session dataset contains data segments of time series data, and a curated dataset curates data segments selected from source session datasets. A dataset that connects to an external datasource is created outside of a workspace. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -402,7 +402,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Creates an asynchronous enrichment job to analyze time-series sensor data. The operation returns immediately with job details while process- ing continues in the background. Idempotency Include a clientToken to make the operation idempotent. If you submit the same request with the same token within the idempotency window, you receive the original job details without creating a duplicate. Prerequisites Before creating a job, ensure: o The workspace is in ACTIVE state (not being deleted) o You hav...
+    /// Creates an asynchronous enrichment job to analyze time-series sensor data. The operation returns immediately with job details while processing continues in the background. Idempotency Include a clientToken to make the operation idempotent. If you submit the same request with the same token within the idempotency window, you receive the original job details without creating a duplicate. Prerequisites Before creating a job, ensure: • The workspace is in ACTIVE state (not being deleted) • You have ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -417,7 +417,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Creates a gateway, which is a virtual or edge device that delivers in- dustrial data streams from local servers to IoT SiteWise. For more in- formation, see Ingesting data using a gateway in the IoT SiteWise User Guide . See also: AWS API Documentation
+    /// Creates a gateway, which is a virtual or edge device that delivers industrial data streams from local servers to IoT SiteWise. For more information, see Ingesting data using a gateway in the IoT SiteWise User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -432,7 +432,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Creates a new pipeline in the specified workspace. A pipeline defines a directed acyclic graph (DAG) of compute nodes, where each node refer- ences a task and can declare dependencies on other nodes. Cyclic depen- dencies are not allowed. Nodes without dependencies run in parallel, while nodes with dependencies wait for all upstream nodes to complete successfully before starting. You can set environment variables at the pipeline level that are shared across all compute nodes, and override them a...
+    /// Creates a new pipeline in the specified workspace. A pipeline defines a directed acyclic graph (DAG) of compute nodes, where each node references a task and can declare dependencies on other nodes. Cyclic dependencies are not allowed. Nodes without dependencies run in parallel, while nodes with dependencies wait for all upstream nodes to complete successfully before starting. You can set environment variables at the pipeline level that are shared across all compute nodes, and override them at th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -447,7 +447,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// WARNING: The IoT SiteWise Monitor feature will no longer be open to new cus- tomers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing cus- tomers can continue to use the service as normal. For more informa- tion, see IoT SiteWise Monitor availability change . Creates a portal, which can contain projects and dashboards. IoT Site- Wise Monitor uses IAM Identity Center or IAM to authenticate portal users and manage user permis...
+    /// WARNING: The IoT SiteWise Monitor feature will no longer be open to new customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see IoT SiteWise Monitor availability change . Creates a portal, which can contain projects and dashboards. IoT SiteWise Monitor uses IAM Identity Center or IAM to authenticate portal users and manage user permissions. N...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -462,7 +462,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// WARNING: The IoT SiteWise Monitor feature will no longer be open to new cus- tomers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing cus- tomers can continue to use the service as normal. For more informa- tion, see IoT SiteWise Monitor availability change . Creates a project in the specified portal. NOTE: Make sure that the project name and description don't contain confi- dential information. See also: AWS API Documentat...
+    /// WARNING: The IoT SiteWise Monitor feature will no longer be open to new customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see IoT SiteWise Monitor availability change . Creates a project in the specified portal. NOTE: Make sure that the project name and description don't contain confidential information. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -477,7 +477,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Creates a new task in the specified workspace. A task defines a reusable containerized compute workload that can be referenced by one or more pipeline compute nodes. Specify a `containerTaskConfiguration &lt;- https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_Con- tainerTaskConfiguration.html&gt;`__ for custom container workloads with configurable ECR image, processing type, processing unit, and environ- ment variables. See also: AWS API Documentation
+    /// Creates a new task in the specified workspace. A task defines a reusable containerized compute workload that can be referenced by one or more pipeline compute nodes. Specify a `containerTaskConfiguration &lt;https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_ContainerTaskConfiguration.html&gt;`__ for custom container workloads with configurable ECR image, processing type, processing unit, and environment variables. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -492,7 +492,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Creates a workspace in IoT SiteWise. A workspace isolates its re- sources, such as datasets, time series, pipelines, and tasks, and their data from other workspaces, and has its own quotas and throttling lim- its. You must specify an encryption configuration when you create a workspace. The operation returns immediately with the workspace in the CREATING state. Provisioning completes asynchronously, after which the workspace state is ACTIVE , or FAILED if provisioning doesn't complete. See also:...
+    /// Creates a workspace in IoT SiteWise. A workspace isolates its resources, such as datasets, time series, pipelines, and tasks, and their data from other workspaces, and has its own quotas and throttling limits. You must specify an encryption configuration when you create a workspace. The operation returns immediately with the workspace in the CREATING state. Provisioning completes asynchronously, after which the workspace state is ACTIVE , or FAILED if provisioning doesn't complete. See also: AWS...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -552,7 +552,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Deletes an interface relationship between an asset model and an inter- face asset model. See also: AWS API Documentation
+    /// Deletes an interface relationship between an asset model and an interface asset model. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -567,7 +567,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Deletes an asset model. This action can't be undone. You must delete all assets created from an asset model before you can delete the model. Also, you can't delete an asset model if a parent asset model exists that contains a property formula expression that depends on the asset model that you want to delete. For more information, see Deleting as- sets and models in the IoT SiteWise User Guide . See also: AWS API Documentation
+    /// Deletes an asset model. This action can't be undone. You must delete all assets created from an asset model before you can delete the model. Also, you can't delete an asset model if a parent asset model exists that contains a property formula expression that depends on the asset model that you want to delete. For more information, see Deleting assets and models in the IoT SiteWise User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -717,7 +717,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Deletes a time series (data stream). If you delete a time series that's associated with an asset property, the asset property still exists, but the time series will no longer be associated with this asset property. You can't delete a time series until all of its data segments have been deleted from session datasets. To identify a time series, do one of the following: o If the time series isn't associated with an asset property, specify the alias of the time series. o If the time series is associ...
+    /// Deletes a time series (data stream). If you delete a time series that's associated with an asset property, the asset property still exists, but the time series will no longer be associated with this asset property. You can't delete a time series until all of its data segments have been deleted from session datasets. To identify a time series, do one of the following: • If the time series isn't associated with an asset property, specify the alias of the time series. • If the time series is associ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -792,7 +792,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Retrieves information about an asset composite model (also known as an asset component). An AssetCompositeModel is an instance of an AssetMod- elCompositeModel . If you want to see information about the model this is based on, call DescribeAssetModelCompositeModel . See also: AWS API Documentation
+    /// Retrieves information about an asset composite model (also known as an asset component). An AssetCompositeModel is an instance of an AssetModelCompositeModel . If you want to see information about the model this is based on, call DescribeAssetModelCompositeModel . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -807,7 +807,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Retrieves information about an asset model composite model (also known as an asset model component). For more information, see Custom compos- ite models (Components) in the IoT SiteWise User Guide . See also: AWS API Documentation
+    /// Retrieves information about an asset model composite model (also known as an asset model component). For more information, see Custom composite models (Components) in the IoT SiteWise User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -867,7 +867,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Retrieves information about an asset property. NOTE: When you call this operation for an attribute property, this re- sponse includes the default attribute value that you define in the asset model. If you update the default value in the model, this op- eration's response includes the new default value. This operation doesn't return the value of the asset property. To get the value of an asset property, use GetAssetPropertyValue . See also: AWS API Documentation
+    /// Retrieves information about an asset property. NOTE: When you call this operation for an attribute property, this response includes the default attribute value that you define in the asset model. If you update the default value in the model, this operation's response includes the new default value. This operation doesn't return the value of the asset property. To get the value of an asset property, use GetAssetPropertyValue . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -882,7 +882,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Retrieves information about a bulk import job request. For more infor- mation, see Describe a bulk import job (CLI) in the Amazon Simple Stor- age Service User Guide . See also: AWS API Documentation
+    /// Retrieves information about a bulk import job request. For more information, see Describe a bulk import job (CLI) in the Amazon Simple Storage Service User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -987,7 +987,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Retrieves detailed information about a specific enrichment job, includ- ing its current status, configuration, and timestamps. Use Cases o Monitor job progress by checking status updates with DescribeEnrich- mentJob o Retrieve the complete job configuration submitted during creation o Debug failed jobs by examining the failureMessage field o Track job lifecycle with creation, update, completion, and cancella- tion timestamps Status Monitoring Jobs progress through statuses: PENDING RUNNING termi...
+    /// Retrieves detailed information about a specific enrichment job, including its current status, configuration, and timestamps. Use Cases • Monitor job progress by checking status updates with DescribeEnrichmentJob • Retrieve the complete job configuration submitted during creation • Debug failed jobs by examining the failureMessage field • Track job lifecycle with creation, update, completion, and cancellation timestamps Status Monitoring Jobs progress through statuses: PENDING RUNNING terminal st...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1017,7 +1017,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Each gateway capability defines data sources for a gateway. This is the namespace of the gateway capability. . The namespace follows the format service:capability:version , where: o service - The service providing the capability, or iotsitewise . o capability - The specific capability type. Options include: opcuacol- lector for the OPC UA data source collector, or publisher for data publisher capability. o version - The version number of the capability. Option include 2 for Classic streams, V2 g...
+    /// Each gateway capability defines data sources for a gateway. This is the namespace of the gateway capability. . The namespace follows the format service:capability:version , where: • service - The service providing the capability, or iotsitewise . • capability - The specific capability type. Options include: opcuacollector for the OPC UA data source collector, or publisher for data publisher capability. • version - The version number of the capability. Option include 2 for Classic streams, V2 gat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1062,7 +1062,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Retrieves detailed information about a specific pipeline execution, in- cluding the overall execution status and the status of each individual compute node. Use this operation to monitor execution progress and in- spect per-node results, environment variables, and error details. See also: AWS API Documentation describe-pipeline-execution is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --...
+    /// Retrieves detailed information about a specific pipeline execution, including the overall execution status and the status of each individual compute node. Use this operation to monitor execution progress and inspect per-node results, environment variables, and error details. See also: AWS API Documentation describe-pipeline-execution is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pag...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1077,7 +1077,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Retrieves detailed information about a specific pipeline in a work- space. See also: AWS API Documentation
+    /// Retrieves detailed information about a specific pipeline in a workspace. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1182,7 +1182,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Retrieves information about a time series (data stream). To identify a time series, do one of the following: o If the time series isn't associated with an asset property, specify the alias of the time series. o If the time series is associated with an asset property, specify one of the following: o The alias of the time series. o The assetId and propertyId that identifies the asset property. See also: AWS API Documentation
+    /// Retrieves information about a time series (data stream). To identify a time series, do one of the following: • If the time series isn't associated with an asset property, specify the alias of the time series. • If the time series is associated with an asset property, specify one of the following: • The alias of the time series. • The assetId and propertyId that identifies the asset property. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1212,7 +1212,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Disassociates a child asset from the given parent asset through a hier- archy defined in the parent asset's model. See also: AWS API Documentation
+    /// Disassociates a child asset from the given parent asset through a hierarchy defined in the parent asset's model. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1257,7 +1257,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Run SQL queries to retrieve metadata and time-series data from asset models, assets, measurements, metrics, transforms, and aggregates. See also: AWS API Documentation execute-query is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of ...
+    /// Run SQL queries to retrieve metadata and time-series data from asset models, assets, measurements, metrics, transforms, and aggregates. See also: AWS API Documentation execute-query is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1272,7 +1272,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Gets aggregated values for an asset property. For more information, see Querying aggregates in the IoT SiteWise User Guide . To identify an asset property, you must specify one of the following: o The assetId and propertyId of an asset property. o A propertyAlias , which is a data stream alias (for example, /com- pany/windfarm/3/turbine/7/temperature ). To define an asset prop- erty's alias, see UpdateAssetProperty . See also: AWS API Documentation get-asset-property-aggregates is a paginated op...
+    /// Gets aggregated values for an asset property. For more information, see Querying aggregates in the IoT SiteWise User Guide . To identify an asset property, you must specify one of the following: • The assetId and propertyId of an asset property. • A propertyAlias , which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature ). To define an asset property's alias, see UpdateAssetProperty . See also: AWS API Documentation get-asset-property-aggregates is a paginated operat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1287,7 +1287,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Gets the history of an asset property's values. For more information, see Querying historical values in the IoT SiteWise User Guide . To identify an asset property, you must specify one of the following: o The assetId and propertyId of an asset property. o A propertyAlias , which is a data stream alias (for example, /com- pany/windfarm/3/turbine/7/temperature ). To define an asset prop- erty's alias, see UpdateAssetProperty . See also: AWS API Documentation get-asset-property-value-history is a ...
+    /// Gets the history of an asset property's values. For more information, see Querying historical values in the IoT SiteWise User Guide . To identify an asset property, you must specify one of the following: • The assetId and propertyId of an asset property. • A propertyAlias , which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature ). To define an asset property's alias, see UpdateAssetProperty . See also: AWS API Documentation get-asset-property-value-history is a pagi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1302,7 +1302,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Gets an asset property's current value. For more information, see Querying current values in the IoT SiteWise User Guide . To identify an asset property, you must specify one of the following: o The assetId and propertyId of an asset property. o A propertyAlias , which is a data stream alias (for example, /com- pany/windfarm/3/turbine/7/temperature ). To define an asset prop- erty's alias, see UpdateAssetProperty . See also: AWS API Documentation
+    /// Gets an asset property's current value. For more information, see Querying current values in the IoT SiteWise User Guide . To identify an asset property, you must specify one of the following: • The assetId and propertyId of an asset property. • A propertyAlias , which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature ). To define an asset property's alias, see UpdateAssetProperty . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1332,7 +1332,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Get interpolated values for an asset property for a specified time in- terval, during a period of time. If your time series is missing data points during the specified time interval, you can use interpolation to estimate the missing data. For example, you can use this operation to return the interpolated tem- perature values for a wind turbine every 24 hours over a duration of 7 days. To identify an asset property, you must specify one of the following: o The assetId and propertyId of an asset p...
+    /// Get interpolated values for an asset property for a specified time interval, during a period of time. If your time series is missing data points during the specified time interval, you can use interpolation to estimate the missing data. For example, you can use this operation to return the interpolated temperature values for a wind turbine every 24 hours over a duration of 7 days. To identify an asset property, you must specify one of the following: • The assetId and propertyId of an asset prope...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1362,7 +1362,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Retrieves the ranked results of a search, ordered by descending rele- vance score. Results are available only after the search has reached the SUCCEEDED status. Calling this on a search that exists but has not yet completed returns InvalidRequestException , while calling it on a search that does not exist returns ResourceNotFoundException . The re- sponse is paginated: when nextToken is present, pass it on a subsequent call to retrieve the next page. See also: AWS API Documentation get-search-re...
+    /// Retrieves the ranked results of a search, ordered by descending relevance score. Results are available only after the search has reached the SUCCEEDED status. Calling this on a search that exists but has not yet completed returns InvalidRequestException , while calling it on a search that does not exist returns ResourceNotFoundException . The response is paginated: when nextToken is present, pass it on a subsequent call to retrieve the next page. See also: AWS API Documentation get-search-result...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1392,7 +1392,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Retrieves a paginated list of actions for a specific target resource. See also: AWS API Documentation list-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: actionSummaries
+    /// Retrieves a paginated list of actions for a specific target resource. See also: AWS API Documentation list-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: actionSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1422,7 +1422,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Retrieves a paginated list of composite models associated with the as- set model See also: AWS API Documentation list-asset-model-composite-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: as...
+    /// Retrieves a paginated list of composite models associated with the asset model See also: AWS API Documentation list-asset-model-composite-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: assetMod...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1437,7 +1437,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Retrieves a paginated list of properties associated with an asset model. If you update properties associated with the model before you finish listing all the properties, you need to start all over again. See also: AWS API Documentation list-asset-model-properties is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on...
+    /// Retrieves a paginated list of properties associated with an asset model. If you update properties associated with the model before you finish listing all the properties, you need to start all over again. See also: AWS API Documentation list-asset-model-properties is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a p...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1467,7 +1467,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Retrieves a paginated list of properties associated with an asset. If you update properties associated with the model before you finish list- ing all the properties, you need to start all over again. See also: AWS API Documentation list-asset-properties is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated r...
+    /// Retrieves a paginated list of properties associated with an asset. If you update properties associated with the model before you finish listing all the properties, you need to start all over again. See also: AWS API Documentation list-asset-properties is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated res...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1497,7 +1497,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Retrieves a paginated list of asset summaries. You can use this operation to do the following: o List assets based on a specific asset model. o List top-level assets. You can't use this operation to list all assets. To retrieve summaries for all of your assets, use ListAssetModels to get all of your asset model IDs. Then, use ListAssets to get all assets for each asset model. See also: AWS API Documentation list-assets is a paginated operation. Multiple API calls may be issued in order to retrie...
+    /// Retrieves a paginated list of asset summaries. You can use this operation to do the following: • List assets based on a specific asset model. • List top-level assets. You can't use this operation to list all assets. To retrieve summaries for all of your assets, use ListAssetModels to get all of your asset model IDs. Then, use ListAssets to get all assets for each asset model. See also: AWS API Documentation list-assets is a paginated operation. Multiple API calls may be issued in order to retrie...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1512,7 +1512,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Retrieves a paginated list of associated assets. You can use this operation to do the following: o CHILD - List all child assets associated to the asset. o PARENT - List the asset's parent asset. See also: AWS API Documentation list-associated-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated resp...
+    /// Retrieves a paginated list of associated assets. You can use this operation to do the following: • CHILD - List all child assets associated to the asset. • PARENT - List the asset's parent asset. See also: AWS API Documentation list-associated-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated resp...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1527,7 +1527,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Retrieves a paginated list of bulk import job requests. For more infor- mation, see List bulk import jobs (CLI) in the IoT SiteWise User Guide . See also: AWS API Documentation list-bulk-import-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from th...
+    /// Retrieves a paginated list of bulk import job requests. For more information, see List bulk import jobs (CLI) in the IoT SiteWise User Guide . See also: AWS API Documentation list-bulk-import-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1542,7 +1542,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Retrieves a paginated list of composition relationships for an asset model of type COMPONENT_MODEL . See also: AWS API Documentation list-composition-relationships is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following quer...
+    /// Retrieves a paginated list of composition relationships for an asset model of type COMPONENT_MODEL . See also: AWS API Documentation list-composition-relationships is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1557,7 +1557,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Lists all data binding usages for computation models. This allows to identify where specific data bindings are being utilized across the computation models. This track dependencies between data sources and computation models. See also: AWS API Documentation list-computation-model-data-binding-usages is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --outp...
+    /// Lists all data binding usages for computation models. This allows to identify where specific data bindings are being utilized across the computation models. This track dependencies between data sources and computation models. See also: AWS API Documentation list-computation-model-data-binding-usages is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1572,7 +1572,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Lists all distinct resources that are resolved from the executed ac- tions of the computation model. See also: AWS API Documentation list-computation-model-resolve-to-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the f...
+    /// Lists all distinct resources that are resolved from the executed actions of the computation model. See also: AWS API Documentation list-computation-model-resolve-to-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1587,7 +1587,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Retrieves a paginated list of summaries of all computation models. See also: AWS API Documentation list-computation-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: computationModelSummaries
+    /// Retrieves a paginated list of summaries of all computation models. See also: AWS API Documentation list-computation-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: computationModelSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1602,7 +1602,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Retrieves a paginated list of dashboards for an IoT SiteWise Monitor project. See also: AWS API Documentation list-dashboards is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: dashboardSummaries
+    /// Retrieves a paginated list of dashboards for an IoT SiteWise Monitor project. See also: AWS API Documentation list-dashboards is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: dashboardSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1617,7 +1617,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Retrieves a paginated list of data segment relationships for a session dataset. Use this operation to find the curated datasets that reference data segments of the specified session dataset. Use the nextToken para- meter to retrieve additional results. See also: AWS API Documentation list-dataset-data-segment-relationships is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate arg...
+    /// Retrieves a paginated list of data segment relationships for a session dataset. Use this operation to find the curated datasets that reference data segments of the specified session dataset. Use the nextToken parameter to retrieve additional results. See also: AWS API Documentation list-dataset-data-segment-relationships is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argumen...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1647,7 +1647,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Retrieves a paginated list of dataset export jobs for a workspace. See also: AWS API Documentation list-dataset-export-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: jobs
+    /// Retrieves a paginated list of dataset export jobs for a workspace. See also: AWS API Documentation list-dataset-export-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: jobs
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1662,7 +1662,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Retrieves a paginated list of datasets for a specific target resource. See also: AWS API Documentation list-datasets is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: datasetSummaries
+    /// Retrieves a paginated list of datasets for a specific target resource. See also: AWS API Documentation list-datasets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: datasetSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1677,7 +1677,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Lists enrichment jobs within a workspace with optional filtering and pagination. Results are ordered by createdAt timestamp descending (newest first). Filtering Combine filters to narrow results: o datasetId: Filter by dataset o propertyAliasOR timeSeriesId: Filter by time series (specify one, not both) o status: Filter by job status (e.g., RUNNING to find active jobs) o jobType: Filter by enrichment type (currently only EVENT_DETECTION) o startDateand endDate: Filter by job creation time range ...
+    /// Lists enrichment jobs within a workspace with optional filtering and pagination. Results are ordered by createdAt timestamp descending (newest first). Filtering Combine filters to narrow results: • datasetId: Filter by dataset • propertyAliasOR timeSeriesId: Filter by time series (specify one, not both) • status: Filter by job status (e.g., RUNNING to find active jobs) • jobType: Filter by enrichment type (currently only EVENT_DETECTION) • startDateand endDate: Filter by job creation time range ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1692,7 +1692,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Retrieves a paginated list of summaries of all executions. See also: AWS API Documentation list-executions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: executionSummaries
+    /// Retrieves a paginated list of summaries of all executions. See also: AWS API Documentation list-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: executionSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1707,7 +1707,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Retrieves a paginated list of gateways. See also: AWS API Documentation list-gateways is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: gatewaySummaries
+    /// Retrieves a paginated list of gateways. See also: AWS API Documentation list-gateways is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: gatewaySummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1722,7 +1722,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Retrieves a paginated list of asset models that have a specific inter- face asset model applied to them. See also: AWS API Documentation list-interface-relationships is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following qu...
+    /// Retrieves a paginated list of asset models that have a specific interface asset model applied to them. See also: AWS API Documentation list-interface-relationships is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1737,7 +1737,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Lists pipeline executions for a specific pipeline in a workspace. Sup- ports filtering by state and time range. State can be combined with ei- ther startTime or endTime filters. Time range filters are grouped: use startTime filters (startTimeAfter, startTimeBefore) or endTime filters (endTimeAfter, endTimeBefore), but not both. Combining startTime and endTime filters returns an InvalidRequestException. Note: endTime fil- ters only return executions in terminal states, as in-progress execu- tions...
+    /// Lists pipeline executions for a specific pipeline in a workspace. Supports filtering by state and time range. State can be combined with either startTime or endTime filters. Time range filters are grouped: use startTime filters (startTimeAfter, startTimeBefore) or endTime filters (endTimeAfter, endTimeBefore), but not both. Combining startTime and endTime filters returns an InvalidRequestException. Note: endTime filters only return executions in terminal states, as in-progress executions have no...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1752,7 +1752,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Lists pipelines in a workspace. To get complete details about a pipeline, use DescribePipeline . See also: AWS API Documentation list-pipelines is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: pipel...
+    /// Lists pipelines in a workspace. To get complete details about a pipeline, use DescribePipeline . See also: AWS API Documentation list-pipelines is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: pipelineS...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1767,7 +1767,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Retrieves a paginated list of IoT SiteWise Monitor portals. See also: AWS API Documentation list-portals is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: portalSummaries
+    /// Retrieves a paginated list of IoT SiteWise Monitor portals. See also: AWS API Documentation list-portals is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: portalSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1797,7 +1797,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Retrieves a paginated list of projects for an IoT SiteWise Monitor por- tal. See also: AWS API Documentation list-projects is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: projectSummaries
+    /// Retrieves a paginated list of projects for an IoT SiteWise Monitor portal. See also: AWS API Documentation list-projects is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: projectSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1812,7 +1812,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Retrieves a paginated list of queries for a workspace. See also: AWS API Documentation list-queries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: queries
+    /// Retrieves a paginated list of queries for a workspace. See also: AWS API Documentation list-queries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: queries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1827,7 +1827,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Lists the searches in a workspace, most recently started first. Results can be narrowed with optional filters (status, search type, group, and started-at time range) and are paginated: when nextToken is present, pass it on a subsequent call to retrieve the next page. See also: AWS API Documentation list-searches is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. Wh...
+    /// Lists the searches in a workspace, most recently started first. Results can be narrowed with optional filters (status, search type, group, and started-at time range) and are paginated: when nextToken is present, pass it on a subsequent call to retrieve the next page. See also: AWS API Documentation list-searches is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When u...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1857,7 +1857,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Lists tasks in a workspace. To get complete details about a task, use DescribeTask . See also: AWS API Documentation list-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: taskSummaries
+    /// Lists tasks in a workspace. To get complete details about a task, use DescribeTask . See also: AWS API Documentation list-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: taskSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1887,7 +1887,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Retrieves a paginated list of workspaces. Use the nextToken parameter to retrieve additional results. See also: AWS API Documentation list-workspaces is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions:...
+    /// Retrieves a paginated list of workspaces. Use the nextToken parameter to retrieve additional results. See also: AWS API Documentation list-workspaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: wor...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1902,7 +1902,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Creates or updates an interface relationship between an asset model and an interface asset model. This operation applies an interface to an as- set model. See also: AWS API Documentation
+    /// Creates or updates an interface relationship between an asset model and an interface asset model. This operation applies an interface to an asset model. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1962,7 +1962,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Starts execution of a pipeline in the specified workspace. Each compute node runs according to the DAG dependency order defined in the pipeline. Nodes without dependencies start immediately, while dependent nodes wait for all upstream nodes to complete successfully. You can provide runtime environment variable overrides that take the highest priority in the environment variable hierarchy, without modify- ing the pipeline definition. See also: AWS API Documentation
+    /// Starts execution of a pipeline in the specified workspace. Each compute node runs according to the DAG dependency order defined in the pipeline. Nodes without dependencies start immediately, while dependent nodes wait for all upstream nodes to complete successfully. You can provide runtime environment variable overrides that take the highest priority in the environment variable hierarchy, without modifying the pipeline definition. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1977,7 +1977,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Starts an asynchronous SQL query against workspace telemetry, annota- tions, data segment, and dataset data. See also: AWS API Documentation
+    /// Starts an asynchronous SQL query against workspace telemetry, annotations, data segment, and dataset data. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1992,7 +1992,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Starts an asynchronous search over the data in a workspace. The search runs in the background; the response returns immediately with a searchId and an initial status of QUEUED . Use DescribeSearch to poll for completion and GetSearchResults to retrieve the results once the search reaches SUCCEEDED . The request is idempotent on clientToken : repeating a call with the same token returns the original search in- stead of starting a new one. See also: AWS API Documentation
+    /// Starts an asynchronous search over the data in a workspace. The search runs in the background; the response returns immediately with a searchId and an initial status of QUEUED . Use DescribeSearch to poll for completion and GetSearchResults to retrieve the results once the search reaches SUCCEEDED . The request is idempotent on clientToken : repeating a call with the same token returns the original search instead of starting a new one. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2037,7 +2037,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// WARNING: The IoT SiteWise Monitor feature will no longer be open to new cus- tomers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing cus- tomers can continue to use the service as normal. For more informa- tion, see IoT SiteWise Monitor availability change . Updates an existing access policy that specifies an identity's access to an IoT SiteWise Monitor portal or project resource. See also: AWS API Documentation
+    /// WARNING: The IoT SiteWise Monitor feature will no longer be open to new customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see IoT SiteWise Monitor availability change . Updates an existing access policy that specifies an identity's access to an IoT SiteWise Monitor portal or project resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2097,7 +2097,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Updates an asset property's alias and notification state. WARNING: This operation overwrites the property's existing alias and notifi- cation state. To keep your existing property's alias or notification state, you must include the existing values in the UpdateAssetProp- erty request. For more information, see DescribeAssetProperty . See also: AWS API Documentation
+    /// Updates an asset property's alias and notification state. WARNING: This operation overwrites the property's existing alias and notification state. To keep your existing property's alias or notification state, you must include the existing values in the UpdateAssetProperty request. For more information, see DescribeAssetProperty . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2127,7 +2127,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// WARNING: The IoT SiteWise Monitor feature will no longer be open to new cus- tomers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing cus- tomers can continue to use the service as normal. For more informa- tion, see IoT SiteWise Monitor availability change . Updates an IoT SiteWise Monitor dashboard. See also: AWS API Documentation
+    /// WARNING: The IoT SiteWise Monitor feature will no longer be open to new customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see IoT SiteWise Monitor availability change . Updates an IoT SiteWise Monitor dashboard. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2157,7 +2157,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Updates a gateway capability configuration or defines a new capability configuration. Each gateway capability defines data sources for a gate- way. Important workflow notes: Each gateway capability defines data sources for a gateway. This is the namespace of the gateway capability. . The namespace follows the format service:capability:version , where: o service - The service providing the capability, or iotsitewise . o capability - The specific capability type. Options include: opcuacol- lector ...
+    /// Updates a gateway capability configuration or defines a new capability configuration. Each gateway capability defines data sources for a gateway. Important workflow notes: Each gateway capability defines data sources for a gateway. This is the namespace of the gateway capability. . The namespace follows the format service:capability:version , where: • service - The service providing the capability, or iotsitewise . • capability - The specific capability type. Options include: opcuacollector for ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2187,7 +2187,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// Updates an existing pipeline in the specified workspace. Only the fields provided in the request are updated; fields not included in the request are preserved unchanged. You can update the pipeline descrip- tion, environment variables, and the list of compute nodes indepen- dently. See also: AWS API Documentation
+    /// Updates an existing pipeline in the specified workspace. Only the fields provided in the request are updated; fields not included in the request are preserved unchanged. You can update the pipeline description, environment variables, and the list of compute nodes independently. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2202,7 +2202,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// WARNING: The IoT SiteWise Monitor feature will no longer be open to new cus- tomers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing cus- tomers can continue to use the service as normal. For more informa- tion, see IoT SiteWise Monitor availability change . Updates an IoT SiteWise Monitor portal. See also: AWS API Documentation
+    /// WARNING: The IoT SiteWise Monitor feature will no longer be open to new customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see IoT SiteWise Monitor availability change . Updates an IoT SiteWise Monitor portal. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2217,7 +2217,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     }
 
     /// <summary>
-    /// WARNING: The IoT SiteWise Monitor feature will no longer be open to new cus- tomers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing cus- tomers can continue to use the service as normal. For more informa- tion, see IoT SiteWise Monitor availability change . Updates an IoT SiteWise Monitor project. See also: AWS API Documentation
+    /// WARNING: The IoT SiteWise Monitor feature will no longer be open to new customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see IoT SiteWise Monitor availability change . Updates an IoT SiteWise Monitor project. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the existing Glue Identity Center configuration, allowing modi- fication of scopes and permissions for the integration. See also: AWS API Documentation
+/// Updates the existing Glue Identity Center configuration, allowing modification of scopes and permissions for the integration. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsGlueUpdateGlueIdentityCenterConfigurationOptions : AwsOptions
 {
     /// <summary>
-    /// A list of Identity Center scopes that define the updated permissions and access levels for the Glue configuration. Constraints: o min: 1 o max: 50 (string) Constraints: o max: 50 Syntax: "string" "string" ...
+    /// A list of Identity Center scopes that define the updated permissions and access levels for the Glue configuration. Constraints: • min: 1 • max: 50 (string) Constraints: • max: 50 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--scopes", GroupValues = true)]
     public IEnumerable<string>? Scopes { get; set; }
 
     /// <summary>
-    /// abled (boolean) Specifies whether users can run background sessions when using Iden- tity Center authentication with Glue services.
+    /// Specifies whether users can run background sessions when using Identity Center authentication with Glue services.
     /// </summary>
     [CliFlag("--user-background-sessions-enabled", NegatedName = "--no-user-background-sessions-enabled")]
     public bool? UserBackgroundSessionsEnabled { get; set; }

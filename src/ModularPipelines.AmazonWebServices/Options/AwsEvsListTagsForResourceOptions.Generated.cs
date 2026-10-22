@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsEvsListTagsForResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Lists the tags for an Amazon EVS resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) that identifies the resource to list tags for. Constraints: o min: 1 o max: 1011 o pattern: arn:aws:evs:[a-z]{2}-[a-z]+-[0-9]:[0-9]{12}:environ- ment/[a-zA-Z0-9_-]+</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) that identifies the resource to list tags for. Constraints: • min: 1 • max: 1011 • pattern: arn:aws:evs:[a-z]{2}-[a-z]+-[0-9]:[0-9]{12}:environment/[a-zA-Z0-9_-]+</param>
     public AwsEvsListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsEvsListTagsForResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that identifies the resource to list tags for. Constraints: o min: 1 o max: 1011 o pattern: arn:aws:evs:[a-z]{2}-[a-z]+-[0-9]:[0-9]{12}:environ- ment/[a-zA-Z0-9_-]+
+    /// The Amazon Resource Name (ARN) that identifies the resource to list tags for. Constraints: • min: 1 • max: 1011 • pattern: arn:aws:evs:[a-z]{2}-[a-z]+-[0-9]:[0-9]{12}:environment/[a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

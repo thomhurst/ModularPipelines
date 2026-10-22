@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +29,10 @@ public record AwsLexv2ModelsStopBotRecommendationOptions : AwsOptions, IValidata
     /// <summary>
     /// Stop an already running Bot Recommendation request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BotId">The unique identifier of the bot containing the bot recommendation to be stopped. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="BotVersion">The version of the bot containing the bot recommendation. Constraints: o min: 5 o max: 5 o pattern: ^DRAFT$</param>
+    /// <param name="BotId">The unique identifier of the bot containing the bot recommendation to be stopped. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotVersion">The version of the bot containing the bot recommendation. Constraints: • min: 5 • max: 5 • pattern: ^DRAFT$</param>
     /// <param name="LocaleId">The identifier of the language and locale of the bot recommendation to stop. The string must match one of the supported locales. For more information, see Supported languages</param>
-    /// <param name="BotRecommendationId">The unique identifier of the bot recommendation to be stopped. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotRecommendationId">The unique identifier of the bot recommendation to be stopped. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
     public AwsLexv2ModelsStopBotRecommendationOptions(
         string BotId,
         string BotVersion,
@@ -68,13 +70,13 @@ public record AwsLexv2ModelsStopBotRecommendationOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the bot containing the bot recommendation to be stopped. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier of the bot containing the bot recommendation to be stopped. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
 
     /// <summary>
-    /// The version of the bot containing the bot recommendation. Constraints: o min: 5 o max: 5 o pattern: ^DRAFT$
+    /// The version of the bot containing the bot recommendation. Constraints: • min: 5 • max: 5 • pattern: ^DRAFT$
     /// </summary>
     [CliOption("--bot-version")]
     public string? BotVersion { get; private init; }
@@ -86,7 +88,7 @@ public record AwsLexv2ModelsStopBotRecommendationOptions : AwsOptions, IValidata
     public string? LocaleId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the bot recommendation to be stopped. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier of the bot recommendation to be stopped. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-recommendation-id")]
     public string? BotRecommendationId { get; private init; }

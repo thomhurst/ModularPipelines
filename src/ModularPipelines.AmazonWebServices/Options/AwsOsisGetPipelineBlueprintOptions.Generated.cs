@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves information about a specific blueprint for OpenSearch Inges- tion. Blueprints are templates for the configuration needed for a Cre- atePipeline request. For more information, see Using blueprints to cre- ate a pipeline . See also: AWS API Documentation
+/// Retrieves information about a specific blueprint for OpenSearch Ingestion. Blueprints are templates for the configuration needed for a CreatePipeline request. For more information, see Using blueprints to create a pipeline . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsOsisGetPipelineBlueprintOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves information about a specific blueprint for OpenSearch Inges- tion. Blueprints are templates for the configuration needed for a Cre- atePipeline request. For more information, see Using blueprints to cre- ate a pipeline . See also: AWS API Documentation
+    /// Retrieves information about a specific blueprint for OpenSearch Ingestion. Blueprints are templates for the configuration needed for a CreatePipeline request. For more information, see Using blueprints to create a pipeline . See also: AWS API Documentation
     /// </summary>
     /// <param name="BlueprintName">The name of the blueprint to retrieve.</param>
     public AwsOsisGetPipelineBlueprintOptions(
@@ -62,7 +64,7 @@ public record AwsOsisGetPipelineBlueprintOptions : AwsOptions, IValidatableObjec
     public string? BlueprintName { get; private init; }
 
     /// <summary>
-    /// The format format of the blueprint to retrieve. Constraints: o pattern: (YAML|JSON)
+    /// The format format of the blueprint to retrieve. Constraints: • pattern: (YAML|JSON)
     /// </summary>
     [CliOption("--format")]
     public string? Format { get; set; }

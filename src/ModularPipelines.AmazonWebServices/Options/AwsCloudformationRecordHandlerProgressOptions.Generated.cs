@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +31,8 @@ public record AwsCloudformationRecordHandlerProgressOptions : AwsOptions, IValid
     /// <summary>
     /// Reports progress of a resource handler to CloudFormation. Reserved for use by the CloudFormation CLI . Don't use this API in your code. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BearerToken">Reserved for use by the CloudFormation CLI . Constraints: o min: 1 o max: 128</param>
-    /// <param name="OperationStatus">Reserved for use by the CloudFormation CLI . Possible values: o PENDING o IN_PROGRESS o SUCCESS o FAILED</param>
+    /// <param name="BearerToken">Reserved for use by the CloudFormation CLI . Constraints: • min: 1 • max: 128</param>
+    /// <param name="OperationStatus">Reserved for use by the CloudFormation CLI . Possible values: • PENDING • IN_PROGRESS • SUCCESS • FAILED</param>
     public AwsCloudformationRecordHandlerProgressOptions(
         string BearerToken,
         AwsCloudformationRecordHandlerProgressOperationStatus OperationStatus
@@ -61,44 +63,44 @@ public record AwsCloudformationRecordHandlerProgressOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Reserved for use by the CloudFormation CLI . Constraints: o min: 1 o max: 128
+    /// Reserved for use by the CloudFormation CLI . Constraints: • min: 1 • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--bearer-token")]
     public string? BearerToken { get; private init; }
 
     /// <summary>
-    /// Reserved for use by the CloudFormation CLI . Possible values: o PENDING o IN_PROGRESS o SUCCESS o FAILED
+    /// Reserved for use by the CloudFormation CLI . Possible values: • PENDING • IN_PROGRESS • SUCCESS • FAILED
     /// </summary>
     [CliOption("--operation-status")]
     public AwsCloudformationRecordHandlerProgressOperationStatus? OperationStatus { get; private init; }
 
     /// <summary>
-    /// Reserved for use by the CloudFormation CLI . Possible values: o PENDING o IN_PROGRESS o SUCCESS o FAILED
+    /// Reserved for use by the CloudFormation CLI . Possible values: • PENDING • IN_PROGRESS • SUCCESS • FAILED
     /// </summary>
     [CliOption("--current-operation-status")]
     public AwsCloudformationRecordHandlerProgressCurrentOperationStatus? CurrentOperationStatus { get; set; }
 
     /// <summary>
-    /// Reserved for use by the CloudFormation CLI . Constraints: o max: 1024
+    /// Reserved for use by the CloudFormation CLI . Constraints: • max: 1024
     /// </summary>
     [CliOption("--status-message")]
     public string? StatusMessage { get; set; }
 
     /// <summary>
-    /// Reserved for use by the CloudFormation CLI . Possible values: o NotUpdatable o InvalidRequest o AccessDenied o InvalidCredentials o AlreadyExists o NotFound o ResourceConflict o Throttling o ServiceLimitExceeded o NotStabilized o GeneralServiceException o ServiceInternalError o NetworkFailure o InternalFailure o InvalidTypeConfiguration o HandlerInternalFailure o NonCompliant o Unknown o UnsupportedTarget
+    /// Reserved for use by the CloudFormation CLI . Possible values: • NotUpdatable • InvalidRequest • AccessDenied • InvalidCredentials • AlreadyExists • NotFound • ResourceConflict • Throttling • ServiceLimitExceeded • NotStabilized • GeneralServiceException • ServiceInternalError • NetworkFailure • InternalFailure • InvalidTypeConfiguration • HandlerInternalFailure • NonCompliant • Unknown • UnsupportedTarget
     /// </summary>
     [CliOption("--error-code")]
     public AwsCloudformationRecordHandlerProgressErrorCode? ErrorCode { get; set; }
 
     /// <summary>
-    /// Reserved for use by the CloudFormation CLI . Constraints: o min: 1 o max: 16384
+    /// Reserved for use by the CloudFormation CLI . Constraints: • min: 1 • max: 16384
     /// </summary>
     [CliOption("--resource-model")]
     public string? ResourceModel { get; set; }
 
     /// <summary>
-    /// Reserved for use by the CloudFormation CLI . Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][-a-zA-Z0-9]*
+    /// Reserved for use by the CloudFormation CLI . Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][-a-zA-Z0-9]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]

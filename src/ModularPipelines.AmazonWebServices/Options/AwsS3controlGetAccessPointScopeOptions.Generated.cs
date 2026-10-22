@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsS3controlGetAccessPointScopeOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Returns the access point scope for a directory bucket. To use this operation, you must have the permission to perform the s3express:GetAccessPointScope action. For information about REST API errors, see REST error responses . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID that owns the access point with the scope that you want to retrieve. Constraints: o max: 64 o pattern: ^\d{12}$</param>
-    /// <param name="Name">The name of the access point with the scope you want to retrieve. Constraints: o min: 3 o max: 255</param>
+    /// <param name="AccountId">The Amazon Web Services account ID that owns the access point with the scope that you want to retrieve. Constraints: • max: 64 • pattern: ^\d{12}$</param>
+    /// <param name="Name">The name of the access point with the scope you want to retrieve. Constraints: • min: 3 • max: 255</param>
     public AwsS3controlGetAccessPointScopeOptions(
         string AccountId,
         string Name
@@ -60,13 +62,13 @@ public record AwsS3controlGetAccessPointScopeOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID that owns the access point with the scope that you want to retrieve. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID that owns the access point with the scope that you want to retrieve. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The name of the access point with the scope you want to retrieve. Constraints: o min: 3 o max: 255
+    /// The name of the access point with the scope you want to retrieve. Constraints: • min: 3 • max: 255
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

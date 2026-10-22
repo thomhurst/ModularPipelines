@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Defines a ProfileObjectType. To add or remove tags on an existing ObjectType, see TagResource /- UntagResource . See also: AWS API Documentation
+/// Defines a ProfileObjectType. To add or remove tags on an existing ObjectType, see TagResource /UntagResource . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsCustomerProfilesPutProfileObjectTypeOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Defines a ProfileObjectType. To add or remove tags on an existing ObjectType, see TagResource /- UntagResource . See also: AWS API Documentation
+    /// Defines a ProfileObjectType. To add or remove tags on an existing ObjectType, see TagResource /UntagResource . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="ObjectTypeName">The name of the profile object type. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$</param>
-    /// <param name="Description">Description of the profile object type. Constraints: o min: 1 o max: 1000</param>
+    /// <param name="DomainName">The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="ObjectTypeName">The name of the profile object type. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$</param>
+    /// <param name="Description">Description of the profile object type. Constraints: • min: 1 • max: 1000</param>
     public AwsCustomerProfilesPutProfileObjectTypeOptions(
         string DomainName,
         string ObjectTypeName,
@@ -65,79 +66,79 @@ public record AwsCustomerProfilesPutProfileObjectTypeOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The name of the profile object type. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$
+    /// The name of the profile object type. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$
     /// </summary>
     [CliOption("--object-type-name")]
     public string? ObjectTypeName { get; private init; }
 
     /// <summary>
-    /// Description of the profile object type. Constraints: o min: 1 o max: 1000
+    /// Description of the profile object type. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the object template. For some attributes in the request, the service will use the default value from the object template when TemplateId is present. If these attributes are present in the request, the service may return a BadRequestException . These attributes include: AllowProfileCreation, SourceLastUpdatedTime- stampFormat, Fields, and Keys. For example, if AllowProfileCreation is set to true when TemplateId is set, the service may return a BadRequestException . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// A unique identifier for the object template. For some attributes in the request, the service will use the default value from the object template when TemplateId is present. If these attributes are present in the request, the service may return a BadRequestException . These attributes include: AllowProfileCreation, SourceLastUpdatedTimestampFormat, Fields, and Keys. For example, if AllowProfileCreation is set to true when TemplateId is set, the service may return a BadRequestException . Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--template-id")]
     public string? TemplateId { get; set; }
 
     /// <summary>
-    /// The number of days until the data in the object expires. Constraints: o min: 1 o max: 1098
+    /// The number of days until the data in the object expires. Constraints: • min: 1 • max: 1098
     /// </summary>
     [CliOption("--expiration-days")]
     public int? ExpirationDays { get; set; }
 
     /// <summary>
-    /// The customer-provided key to encrypt the profile object that will be created in this profile object type. Constraints: o min: 0 o max: 255
+    /// The customer-provided key to encrypt the profile object that will be created in this profile object type. Constraints: • min: 0 • max: 255
     /// </summary>
     [CliOption("--encryption-key")]
     public string? EncryptionKey { get; set; }
 
     /// <summary>
-    /// Indicates whether a profile should be created when data is received if one doesnt exist for an object of this type. The default is FALSE . If the AllowProfileCreation flag is set to FALSE , then the ser- vice tries to fetch a standard profile and associate this object with the profile. If it is set to TRUE , and if no match is found, then the service creates a new standard profile.
+    /// Indicates whether a profile should be created when data is received if one doesnt exist for an object of this type. The default is FALSE . If the AllowProfileCreation flag is set to FALSE , then the service tries to fetch a standard profile and associate this object with the profile. If it is set to TRUE , and if no match is found, then the service creates a new standard profile.
     /// </summary>
     [CliFlag("--allow-profile-creation", NegatedName = "--no-allow-profile-creation")]
     public bool? AllowProfileCreation { get; set; }
 
     /// <summary>
-    /// The format of your sourceLastUpdatedTimestamp that was previously set up. Constraints: o min: 1 o max: 255
+    /// The format of your sourceLastUpdatedTimestamp that was previously set up. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--source-last-updated-timestamp-format")]
     public string? SourceLastUpdatedTimestampFormat { get; set; }
 
     /// <summary>
-    /// The amount of profile object max count assigned to the object type Constraints: o min: 1
+    /// The amount of profile object max count assigned to the object type Constraints: • min: 1
     /// </summary>
     [CliOption("--max-profile-object-count")]
     public int? MaxProfileObjectCount { get; set; }
 
     /// <summary>
-    /// An integer that determines the priority of this object type when data from multiple sources is ingested. Lower values take priority. Object types without a specified source priority default to the low- est priority. Constraints: o min: 1
+    /// An integer that determines the priority of this object type when data from multiple sources is ingested. Lower values take priority. Object types without a specified source priority default to the lowest priority. Constraints: • min: 1
     /// </summary>
     [CliOption("--source-priority")]
     public int? SourcePriority { get; set; }
 
     /// <summary>
-    /// A map of the name and ObjectType field. key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_.-]+$ value -&gt; (structure) Represents a field in a ProfileObjectType. Source -&gt; (string) A field of a ProfileObject. For example: _source.FirstName, where _source is a ProfileObjectType of a Zendesk user and FirstName is a field in that ObjectType. Constraints: o min: 1 o max: 1000 Target -&gt; (string) The location of the data in the standard ProfileObject model. For example: _profile.Address.PostalCode. Do not include sen- sitive or personally identifiable information (PII) in the target field name. Constraints: o min: 1 o max: 1000 ContentType -&gt; (string) The content type of the field. Used for determining equality when searching. Possible values: o STRING o NUMBER o PHONE_NUMBER o EMAIL_ADDRESS o NAME Shorthand Syntax: KeyName1={Source=string,Target=string,ContentType=string},KeyName2={Source=string,Target=string,ContentType=string} JSON Syntax: {"string": { "Source": "string", "Target": "string", "ContentType": "STRING"|"NUMBER"|"PHONE_NUMBER"|"EMAIL_ADDRESS"|"NAME" } ...}
+    /// A map of the name and ObjectType field. key -&gt; (string) Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_.-]+$ value -&gt; (structure) Represents a field in a ProfileObjectType. Source -&gt; (string) A field of a ProfileObject. For example: _source.FirstName, where _source is a ProfileObjectType of a Zendesk user and FirstName is a field in that ObjectType. Constraints: • min: 1 • max: 1000 Target -&gt; (string) The location of the data in the standard ProfileObject model. For example: _profile.Address.PostalCode. Do not include sensitive or personally identifiable information (PII) in the target field name. Constraints: • min: 1 • max: 1000 ContentType -&gt; (string) The content type of the field. Used for determining equality when searching. Possible values: • STRING • NUMBER • PHONE_NUMBER • EMAIL_ADDRESS • NAME Shorthand Syntax: KeyName1={Source=string,Target=string,ContentType=string},KeyName2={Source=string,Target=string,ContentType=string} JSON Syntax: {"string": { "Source": "string", "Target": "string", "ContentType": "STRING"|"NUMBER"|"PHONE_NUMBER"|"EMAIL_ADDRESS"|"NAME" } ...}
     /// </summary>
     [CliOption("--fields", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Fields { get; set; }
 
     /// <summary>
-    /// A list of unique keys that can be used to map data to the profile. key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$ value -&gt; (list) (structure) An object that defines the Key element of a ProfileObject. A Key is a special element that can be used to search for a customer profile. StandardIdentifiers -&gt; (list) The types of keys that a ProfileObject can have. Each ProfileObject can have only 1 UNIQUE key but multiple PROFILE keys. PROFILE, ASSET, CASE, or ORDER means that this key can be used to tie an object to a PROFILE, AS- SET, CASE, or ORDER respectively. UNIQUE means that it can be used to uniquely identify an object. If a key a is marked as SECONDARY, it will be used to search for pro- files after all other PROFILE keys have been searched. A LOOKUP_ONLY key is only used to match a profile but is not persisted to be used for searching of the profile. A NEW_ONLY key is only used if the profile does not already exist before the object is ingested, otherwise it is only used for matching objects to profiles. (string) Possible values: o PROFILE o ASSET o CASE o DEVICE o WEB_ANALYTICS o ORDER o COMMUNICATION_RECORD o AIR_PREFERENCE o HOTEL_PREFERENCE o AIR_BOOKING o AIR_SEGMENT o HOTEL_RESERVATION o HOTEL_STAY_REVENUE o LOYALTY o LOYALTY_TRANSACTION o LOYALTY_PROMOTION o UNIQUE o SECONDARY o LOOKUP_ONLY o NEW_ONLY FieldNames -&gt; (list) The reference for the key name of the fields map. (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$ JSON Syntax: {"string": [ { "StandardIdentifiers": ["PROFILE"|"ASSET"|"CASE"|"DEVICE"|"WEB_ANALYTICS"|"ORDER"|"COMMUNICATION_RECORD"|"AIR_PREFERENCE"|"HOTEL_PREFERENCE"|"AIR_BOOKING"|"AIR_SEGMENT"|"HOTEL_RESERVATION"|"HOTEL_STAY_REVENUE"|"LOYALTY"|"LOYALTY_TRANSACTION"|"LOYALTY_PROMOTION"|"UNIQUE"|"SECONDARY"|"LOOKUP_ONLY"|"NEW_ONLY", ...], "FieldNames": ["string", ...] } ... ] ...}
+    /// A list of unique keys that can be used to map data to the profile. key -&gt; (string) Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$ value -&gt; (list) (structure) An object that defines the Key element of a ProfileObject. A Key is a special element that can be used to search for a customer profile. StandardIdentifiers -&gt; (list) The types of keys that a ProfileObject can have. Each ProfileObject can have only 1 UNIQUE key but multiple PROFILE keys. PROFILE, ASSET, CASE, or ORDER means that this key can be used to tie an object to a PROFILE, ASSET, CASE, or ORDER respectively. UNIQUE means that it can be used to uniquely identify an object. If a key a is marked as SECONDARY, it will be used to search for profiles after all other PROFILE keys have been searched. A LOOKUP_ONLY key is only used to match a profile but is not persisted to be used for searching of the profile. A NEW_ONLY key is only used if the profile does not already exist before the object is ingested, otherwise it is only used for matching objects to profiles. (string) Possible values: • PROFILE • ASSET • CASE • DEVICE • WEB_ANALYTICS • ORDER • COMMUNICATION_RECORD • AIR_PREFERENCE • HOTEL_PREFERENCE • AIR_BOOKING • AIR_SEGMENT • HOTEL_RESERVATION • HOTEL_STAY_REVENUE • LOYALTY • LOYALTY_TRANSACTION • LOYALTY_PROMOTION • UNIQUE • SECONDARY • LOOKUP_ONLY • NEW_ONLY FieldNames -&gt; (list) The reference for the key name of the fields map. (string) Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$ JSON Syntax: {"string": [ { "StandardIdentifiers": ["PROFILE"|"ASSET"|"CASE"|"DEVICE"|"WEB_ANALYTICS"|"ORDER"|"COMMUNICATION_RECORD"|"AIR_PREFERENCE"|"HOTEL_PREFERENCE"|"AIR_BOOKING"|"AIR_SEGMENT"|"HOTEL_RESERVATION"|"HOTEL_STAY_REVENUE"|"LOYALTY"|"LOYALTY_TRANSACTION"|"LOYALTY_PROMOTION"|"UNIQUE"|"SECONDARY"|"LOOKUP_ONLY"|"NEW_ONLY", ...], "FieldNames": ["string", ...] } ... ] ...}
     /// </summary>
     [CliOption("--keys", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Keys { get; set; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for this re- source. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags used to organize, track, or control access for this resource. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

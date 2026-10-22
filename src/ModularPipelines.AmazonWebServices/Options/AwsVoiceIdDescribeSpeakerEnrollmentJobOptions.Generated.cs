@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsVoiceIdDescribeSpeakerEnrollmentJobOptions : AwsOptions, IValid
     /// <summary>
     /// Describes the specified speaker enrollment job. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The identifier of the domain that contains the speaker enrollment job. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$</param>
-    /// <param name="JobId">The identifier of the speaker enrollment job you are describing. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$</param>
+    /// <param name="DomainId">The identifier of the domain that contains the speaker enrollment job. Constraints: • min: 22 • max: 22 • pattern: ^[a-zA-Z0-9]{22}$</param>
+    /// <param name="JobId">The identifier of the speaker enrollment job you are describing. Constraints: • min: 22 • max: 22 • pattern: ^[a-zA-Z0-9]{22}$</param>
     public AwsVoiceIdDescribeSpeakerEnrollmentJobOptions(
         string DomainId,
         string JobId
@@ -60,13 +62,13 @@ public record AwsVoiceIdDescribeSpeakerEnrollmentJobOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the domain that contains the speaker enrollment job. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$
+    /// The identifier of the domain that contains the speaker enrollment job. Constraints: • min: 22 • max: 22 • pattern: ^[a-zA-Z0-9]{22}$
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// The identifier of the speaker enrollment job you are describing. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$
+    /// The identifier of the speaker enrollment job you are describing. Constraints: • min: 22 • max: 22 • pattern: ^[a-zA-Z0-9]{22}$
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }

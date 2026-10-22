@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsChimeSdkIdentityUpdateAppInstanceUserEndpointOptions : AwsOptio
     /// <summary>
     /// Updates the details of an AppInstanceUserEndpoint . You can update the name and AllowMessage values. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppInstanceUserArn">The ARN of the AppInstanceUser . Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
-    /// <param name="EndpointId">The unique identifier of the AppInstanceUserEndpoint . Constraints: o min: 0 o max: 64 o pattern: .*</param>
+    /// <param name="AppInstanceUserArn">The ARN of the AppInstanceUser . Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="EndpointId">The unique identifier of the AppInstanceUserEndpoint . Constraints: • min: 0 • max: 64 • pattern: .*</param>
     public AwsChimeSdkIdentityUpdateAppInstanceUserEndpointOptions(
         string AppInstanceUserArn,
         string EndpointId
@@ -61,25 +63,25 @@ public record AwsChimeSdkIdentityUpdateAppInstanceUserEndpointOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the AppInstanceUser . Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The ARN of the AppInstanceUser . Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--app-instance-user-arn")]
     public string? AppInstanceUserArn { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the AppInstanceUserEndpoint . Constraints: o min: 0 o max: 64 o pattern: .*
+    /// The unique identifier of the AppInstanceUserEndpoint . Constraints: • min: 0 • max: 64 • pattern: .*
     /// </summary>
     [CliOption("--endpoint-id")]
     public string? EndpointId { get; private init; }
 
     /// <summary>
-    /// The name of the AppInstanceUserEndpoint . Constraints: o min: 0 o max: 1600 o pattern: .*
+    /// The name of the AppInstanceUserEndpoint . Constraints: • min: 0 • max: 1600 • pattern: .*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Boolean that controls whether the AppInstanceUserEndpoint is opted in to receive messages. ALL indicates the endpoint will receive all messages. NONE indicates the endpoint will receive no messages. Possible values: o ALL o NONE
+    /// Boolean that controls whether the AppInstanceUserEndpoint is opted in to receive messages. ALL indicates the endpoint will receive all messages. NONE indicates the endpoint will receive no messages. Possible values: • ALL • NONE
     /// </summary>
     [CliOption("--allow-messages")]
     public AwsChimeSdkIdentityUpdateAppInstanceUserEndpointAllowMessages? AllowMessages { get; set; }

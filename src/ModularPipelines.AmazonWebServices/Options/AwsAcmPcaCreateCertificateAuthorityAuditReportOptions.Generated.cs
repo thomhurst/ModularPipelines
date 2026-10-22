@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an audit report that lists every time that your CA private key is used to issue a certificate. The IssueCertificate and RevokeCertificate actions use the private key. To save the audit report to your designated Amazon S3 bucket, you must create a bucket policy that grants Amazon Web Services Private CA per- mission to access and write to it. For an example policy, see Prepare an Amazon S3 bucket for audit reports . Amazon Web Services Private CA assets that are stored in Amazon S3 can be...
+/// Creates an audit report that lists every time that your CA private key is used to issue a certificate. The IssueCertificate and RevokeCertificate actions use the private key. To save the audit report to your designated Amazon S3 bucket, you must create a bucket policy that grants Amazon Web Services Private CA permission to access and write to it. For an example policy, see Prepare an Amazon S3 bucket for audit reports . Amazon Web Services Private CA assets that are stored in Amazon S3 can be p...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsAcmPcaCreateCertificateAuthorityAuditReportOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an audit report that lists every time that your CA private key is used to issue a certificate. The IssueCertificate and RevokeCertificate actions use the private key. To save the audit report to your designated Amazon S3 bucket, you must create a bucket policy that grants Amazon Web Services Private CA per- mission to access and write to it. For an example policy, see Prepare an Amazon S3 bucket for audit reports . Amazon Web Services Private CA assets that are stored in Amazon S3 can be...
+    /// Creates an audit report that lists every time that your CA private key is used to issue a certificate. The IssueCertificate and RevokeCertificate actions use the private key. To save the audit report to your designated Amazon S3 bucket, you must create a bucket policy that grants Amazon Web Services Private CA permission to access and write to it. For an example policy, see Prepare an Amazon S3 bucket for audit reports . Amazon Web Services Private CA assets that are stored in Amazon S3 can be p...
     /// </summary>
-    /// <param name="CertificateAuthorityArn">The Amazon Resource Name (ARN) of the CA to be audited. This is of the form: `` arn:aws:acm-pca:region :account :certificate-author- ity/12345678-1234-1234-1234-123456789012 `` . System Message: WARNING/2 (&lt;string&gt;:, line 92) Inline literal start-string without end-string. Constraints: o min: 5 o max: 200 o pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
-    /// <param name="S3BucketName">The name of the S3 bucket that will contain the audit report. Constraints: o min: 3 o max: 63</param>
-    /// <param name="AuditReportResponseFormat">The format in which to create the report. This can be either JSON or CSV . Possible values: o JSON o CSV</param>
+    /// <param name="CertificateAuthorityArn">The Amazon Resource Name (ARN) of the CA to be audited. This is of the form: `` arn:aws:acm-pca:region :account :certificate-authority/12345678-1234-1234-1234-123456789012 `` . System Message: WARNING/2 (&lt;string&gt;:, line 92) Inline literal start-string without end-string. Constraints: • min: 5 • max: 200 • pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
+    /// <param name="S3BucketName">The name of the S3 bucket that will contain the audit report. Constraints: • min: 3 • max: 63</param>
+    /// <param name="AuditReportResponseFormat">The format in which to create the report. This can be either JSON or CSV . Possible values: • JSON • CSV</param>
     public AwsAcmPcaCreateCertificateAuthorityAuditReportOptions(
         string CertificateAuthorityArn,
         string S3BucketName,
@@ -64,19 +66,19 @@ public record AwsAcmPcaCreateCertificateAuthorityAuditReportOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the CA to be audited. This is of the form: `` arn:aws:acm-pca:region :account :certificate-author- ity/12345678-1234-1234-1234-123456789012 `` . System Message: WARNING/2 (&lt;string&gt;:, line 92) Inline literal start-string without end-string. Constraints: o min: 5 o max: 200 o pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*
+    /// The Amazon Resource Name (ARN) of the CA to be audited. This is of the form: `` arn:aws:acm-pca:region :account :certificate-authority/12345678-1234-1234-1234-123456789012 `` . System Message: WARNING/2 (&lt;string&gt;:, line 92) Inline literal start-string without end-string. Constraints: • min: 5 • max: 200 • pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*
     /// </summary>
     [CliOption("--certificate-authority-arn")]
     public string? CertificateAuthorityArn { get; private init; }
 
     /// <summary>
-    /// The name of the S3 bucket that will contain the audit report. Constraints: o min: 3 o max: 63
+    /// The name of the S3 bucket that will contain the audit report. Constraints: • min: 3 • max: 63
     /// </summary>
     [CliOption("--s3-bucket-name")]
     public string? S3BucketName { get; private init; }
 
     /// <summary>
-    /// The format in which to create the report. This can be either JSON or CSV . Possible values: o JSON o CSV
+    /// The format in which to create the report. This can be either JSON or CSV . Possible values: • JSON • CSV
     /// </summary>
     [CliOption("--audit-report-response-format")]
     public AwsAcmPcaCreateCertificateAuthorityAuditReportAuditReportResponseFormat? AuditReportResponseFormat { get; private init; }

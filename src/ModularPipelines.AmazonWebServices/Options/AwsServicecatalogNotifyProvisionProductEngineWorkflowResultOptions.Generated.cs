@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,9 +31,9 @@ public record AwsServicecatalogNotifyProvisionProductEngineWorkflowResultOptions
     /// <summary>
     /// Notifies the result of the provisioning engine execution. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkflowToken">The encrypted contents of the provisioning engine execution payload that Service Catalog sends after the Terraform product provisioning workflow starts. Constraints: o min: 1 o max: 20000 o pattern: [0-9A-Za-z+\/=]+</param>
-    /// <param name="RecordId">The identifier of the record. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
-    /// <param name="Status">The status of the provisioning engine execution. Possible values: o SUCCEEDED o FAILED</param>
+    /// <param name="WorkflowToken">The encrypted contents of the provisioning engine execution payload that Service Catalog sends after the Terraform product provisioning workflow starts. Constraints: • min: 1 • max: 20000 • pattern: [0-9A-Za-z+\/=]+</param>
+    /// <param name="RecordId">The identifier of the record. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="Status">The status of the provisioning engine execution. Possible values: • SUCCEEDED • FAILED</param>
     public AwsServicecatalogNotifyProvisionProductEngineWorkflowResultOptions(
         string WorkflowToken,
         string RecordId,
@@ -65,32 +67,32 @@ public record AwsServicecatalogNotifyProvisionProductEngineWorkflowResultOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The encrypted contents of the provisioning engine execution payload that Service Catalog sends after the Terraform product provisioning workflow starts. Constraints: o min: 1 o max: 20000 o pattern: [0-9A-Za-z+\/=]+
+    /// The encrypted contents of the provisioning engine execution payload that Service Catalog sends after the Terraform product provisioning workflow starts. Constraints: • min: 1 • max: 20000 • pattern: [0-9A-Za-z+\/=]+
     /// </summary>
     [SecretValue]
     [CliOption("--workflow-token")]
     public string? WorkflowToken { get; private init; }
 
     /// <summary>
-    /// The identifier of the record. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The identifier of the record. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--record-id")]
     public string? RecordId { get; private init; }
 
     /// <summary>
-    /// The status of the provisioning engine execution. Possible values: o SUCCEEDED o FAILED
+    /// The status of the provisioning engine execution. Possible values: • SUCCEEDED • FAILED
     /// </summary>
     [CliOption("--status")]
     public AwsServicecatalogNotifyProvisionProductEngineWorkflowResultStatus? Status { get; private init; }
 
     /// <summary>
-    /// The reason why the provisioning engine execution failed. Constraints: o min: 1 o max: 2048 o pattern: [\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*
+    /// The reason why the provisioning engine execution failed. Constraints: • min: 1 • max: 2048 • pattern: [\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*
     /// </summary>
     [CliOption("--failure-reason")]
     public string? FailureReason { get; set; }
 
     /// <summary>
-    /// The ID for the provisioned product resources that are part of a re- source group. UniqueTag -&gt; (structure) The unique key-value pair for a tag that identifies provisioned product resources. Key -&gt; (string) A unique key that's attached to a resource. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@]*)$ Value -&gt; (string) A unique value that's attached to a resource. Constraints: o min: 1 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@]*)$ Shorthand Syntax: UniqueTag={Key=string,Value=string} JSON Syntax: { "UniqueTag": { "Key": "string", "Value": "string" } }
+    /// The ID for the provisioned product resources that are part of a resource group. UniqueTag -&gt; (structure) The unique key-value pair for a tag that identifies provisioned product resources. Key -&gt; (string) A unique key that's attached to a resource. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@]*)$ Value -&gt; (string) A unique value that's attached to a resource. Constraints: • min: 1 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@]*)$ Shorthand Syntax: UniqueTag={Key=string,Value=string} JSON Syntax: { "UniqueTag": { "Key": "string", "Value": "string" } }
     /// </summary>
     [CliOption("--resource-identifier")]
     public string? ResourceIdentifier { get; set; }
@@ -102,7 +104,7 @@ public record AwsServicecatalogNotifyProvisionProductEngineWorkflowResultOptions
     public IEnumerable<string>? Outputs { get; set; }
 
     /// <summary>
-    /// The idempotency token that identifies the provisioning engine execu- tion. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// The idempotency token that identifies the provisioning engine execution. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [SecretValue]
     [CliOption("--idempotency-token")]

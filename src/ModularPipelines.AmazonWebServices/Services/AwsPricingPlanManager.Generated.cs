@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws pricingplanmanager commands.
+/// aws pricing-plan-manager commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsPricingPlanManager : IAwsPricingPlanManager
@@ -32,7 +32,7 @@ public class AwsPricingPlanManager : IAwsPricingPlanManager
     #region Commands
 
     /// <summary>
-    /// Approves a subscription that is in PENDING_APPROVAL status, activating it and starting billing. NOTE: This operation requires the current ETag value for concurrency con- trol. Retrieve it from a previous GetSubscription or ListSubscrip- tions response. See also: AWS API Documentation
+    /// Approves a subscription that is in PENDING_APPROVAL status, activating it and starting billing. NOTE: This operation requires the current ETag value for concurrency control. Retrieve it from a previous GetSubscription or ListSubscriptions response. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsPricingPlanManager : IAwsPricingPlanManager
     }
 
     /// <summary>
-    /// Adds one or more resources to an existing subscription. The subscrip- tion must be in an active state that is not pending other changes. NOTE: For subscriptions in the CloudFront plan family, the associated re- sources must include exactly one Amazon CloudFront distribution and one WAF web ACL. You can also include other supported resources, such as Amazon Route 53 hosted zones, and CloudFront KeyValueStores. See also: AWS API Documentation
+    /// Adds one or more resources to an existing subscription. The subscription must be in an active state that is not pending other changes. NOTE: For subscriptions in the CloudFront plan family, the associated resources must include exactly one Amazon CloudFront distribution and one WAF web ACL. You can also include other supported resources, such as Amazon Route 53 hosted zones, and CloudFront KeyValueStores. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsPricingPlanManager : IAwsPricingPlanManager
     }
 
     /// <summary>
-    /// Cancels a flat-rate pricing subscription. NOTE: For active subscriptions, the cancellation is scheduled to take ef- fect at the end of the current billing period. The subscription re- mains active until that date. To revert a pending cancellation, use CancelSubscriptionChange . For subscriptions in PENDING_APPROVAL status, the subscription is deleted immediately without scheduling. See also: AWS API Documentation
+    /// Cancels a flat-rate pricing subscription. NOTE: For active subscriptions, the cancellation is scheduled to take effect at the end of the current billing period. The subscription remains active until that date. To revert a pending cancellation, use CancelSubscriptionChange . For subscriptions in PENDING_APPROVAL status, the subscription is deleted immediately without scheduling. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsPricingPlanManager : IAwsPricingPlanManager
     }
 
     /// <summary>
-    /// Creates a flat-rate pricing subscription for the specified resources. NOTE: When approvalMode is set to MANUAL , paid-tier subscriptions are created in PENDING_APPROVAL status and require a separate Approve- PaidSubscription call before billing starts. Free-tier subscriptions are always activated immediately regardless of approval mode. When approvalMode is set to IMMEDIATE or is not specified, the sub- scription is activated immediately. See also: AWS API Documentation
+    /// Creates a flat-rate pricing subscription for the specified resources. NOTE: When approvalMode is set to MANUAL , paid-tier subscriptions are created in PENDING_APPROVAL status and require a separate ApprovePaidSubscription call before billing starts. Free-tier subscriptions are always activated immediately regardless of approval mode. When approvalMode is set to IMMEDIATE or is not specified, the subscription is activated immediately. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsPricingPlanManager : IAwsPricingPlanManager
     }
 
     /// <summary>
-    /// Removes one or more resources from an existing subscription. NOTE: For subscriptions in the CloudFront plan family, the associated re- sources must always include exactly one Amazon CloudFront distribu- tion and exactly one WAF web ACL. You cannot remove these required resources. See also: AWS API Documentation
+    /// Removes one or more resources from an existing subscription. NOTE: For subscriptions in the CloudFront plan family, the associated resources must always include exactly one Amazon CloudFront distribution and exactly one WAF web ACL. You cannot remove these required resources. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsPricingPlanManager : IAwsPricingPlanManager
     }
 
     /// <summary>
-    /// Changes the plan tier of an existing subscription. NOTE: Upgrades take effect immediately. Downgrades are scheduled and the current tier remains unchanged until the end of the billing cycle (calendar month). You cannot update a subscription while a scheduled change is pending. To make a new change, first cancel the pending change using CancelSubscriptionChange . This operation replaces the plan tier value. If you omit the op- tional usageLevel field, it is reset to the default. See also: AWS API...
+    /// Changes the plan tier of an existing subscription. NOTE: Upgrades take effect immediately. Downgrades are scheduled and the current tier remains unchanged until the end of the billing cycle (calendar month). You cannot update a subscription while a scheduled change is pending. To make a new change, first cancel the pending change using CancelSubscriptionChange . This operation replaces the plan tier value. If you omit the optional usageLevel field, it is reset to the default. See also: AWS API D...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

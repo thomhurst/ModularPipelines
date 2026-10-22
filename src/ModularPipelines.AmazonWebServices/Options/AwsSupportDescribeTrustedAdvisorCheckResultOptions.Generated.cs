@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the results of the Trusted Advisor check that has the specified check ID. You can get the check IDs by calling the DescribeTrustedAd- visorChecks operation. The response contains a TrustedAdvisorCheckResult object, which con- tains these three objects: o TrustedAdvisorCategorySpecificSummary o TrustedAdvisorResourceDetail o TrustedAdvisorResourcesSummary In addition, the response contains these fields: o status - The alert status of the check can be ok (green), warning (yellow), error (r...
+/// Returns the results of the Trusted Advisor check that has the specified check ID. You can get the check IDs by calling the DescribeTrustedAdvisorChecks operation. The response contains a TrustedAdvisorCheckResult object, which contains these three objects: • TrustedAdvisorCategorySpecificSummary • TrustedAdvisorResourceDetail • TrustedAdvisorResourcesSummary In addition, the response contains these fields: • status - The alert status of the check can be ok (green), warning (yellow), error (red),...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsSupportDescribeTrustedAdvisorCheckResultOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the results of the Trusted Advisor check that has the specified check ID. You can get the check IDs by calling the DescribeTrustedAd- visorChecks operation. The response contains a TrustedAdvisorCheckResult object, which con- tains these three objects: o TrustedAdvisorCategorySpecificSummary o TrustedAdvisorResourceDetail o TrustedAdvisorResourcesSummary In addition, the response contains these fields: o status - The alert status of the check can be ok (green), warning (yellow), error (r...
+    /// Returns the results of the Trusted Advisor check that has the specified check ID. You can get the check IDs by calling the DescribeTrustedAdvisorChecks operation. The response contains a TrustedAdvisorCheckResult object, which contains these three objects: • TrustedAdvisorCategorySpecificSummary • TrustedAdvisorResourceDetail • TrustedAdvisorResourcesSummary In addition, the response contains these fields: • status - The alert status of the check can be ok (green), warning (yellow), error (red),...
     /// </summary>
     /// <param name="CheckId">The unique identifier for the Trusted Advisor check.</param>
     public AwsSupportDescribeTrustedAdvisorCheckResultOptions(
@@ -62,7 +64,7 @@ public record AwsSupportDescribeTrustedAdvisorCheckResultOptions : AwsOptions, I
     public string? CheckId { get; private init; }
 
     /// <summary>
-    /// The ISO 639-1 code for the language that you want your check results to appear in. The Amazon Web Services Support API currently supports the following languages for Trusted Advisor: o Chinese, Simplified - zh o Chinese, Traditional - zh_TW o English - en o French - fr o German - de o Indonesian - id o Italian - it o Japanese - ja o Korean - ko o Portuguese, Brazilian - pt_BR o Spanish - es
+    /// The ISO 639-1 code for the language that you want your check results to appear in. The Amazon Web Services Support API currently supports the following languages for Trusted Advisor: • Chinese, Simplified - zh • Chinese, Traditional - zh_TW • English - en • French - fr • German - de • Indonesian - id • Italian - it • Japanese - ja • Korean - ko • Portuguese, Brazilian - pt_BR • Spanish - es
     /// </summary>
     [CliOption("--language")]
     public string? Language { get; set; }

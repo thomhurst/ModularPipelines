@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws wait commands.
+/// aws cloudformation wait commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsCloudformationWait
@@ -47,7 +47,7 @@ public class AwsCloudformationWait
     }
 
     /// <summary>
-    /// Wait until stack status is CREATE_COMPLETE. It will poll every 30 sec- onds until a successful state has been reached. This will exit with a return code of 255 after 120 failed checks. See also: AWS API Documentation stack-create-complete is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --...
+    /// Wait until stack status is CREATE_COMPLETE. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 120 failed checks. See also: AWS API Documentation stack-create-complete is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --qu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsCloudformationWait
     }
 
     /// <summary>
-    /// Wait until stack status is DELETE_COMPLETE. It will poll every 30 sec- onds until a successful state has been reached. This will exit with a return code of 255 after 120 failed checks. See also: AWS API Documentation stack-delete-complete is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --...
+    /// Wait until stack status is DELETE_COMPLETE. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 120 failed checks. See also: AWS API Documentation stack-delete-complete is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --qu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsCloudformationWait
     }
 
     /// <summary>
-    /// Wait until 200 response is received when polling with describe-stacks. It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 20 failed checks. See also: AWS API Documentation stack-exists is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated ...
+    /// Wait until 200 response is received when polling with describe-stacks. It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 20 failed checks. See also: AWS API Documentation stack-exists is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsCloudformationWait
     }
 
     /// <summary>
-    /// Wait until stack status is IMPORT_COMPLETE. It will poll every 30 sec- onds until a successful state has been reached. This will exit with a return code of 255 after 120 failed checks. See also: AWS API Documentation stack-import-complete is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --...
+    /// Wait until stack status is IMPORT_COMPLETE. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 120 failed checks. See also: AWS API Documentation stack-import-complete is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --qu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsCloudformationWait
     }
 
     /// <summary>
-    /// Wait until stack status is UPDATE_COMPLETE. It will poll every 30 sec- onds until a successful state has been reached. This will exit with a return code of 255 after 120 failed checks. See also: AWS API Documentation stack-update-complete is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --...
+    /// Wait until stack status is UPDATE_COMPLETE. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 120 failed checks. See also: AWS API Documentation stack-update-complete is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --qu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

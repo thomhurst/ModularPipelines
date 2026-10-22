@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an immutable version of the bot. When you create the first ver- sion of a bot, Amazon Lex sets the version number to 1. Subsequent bot versions increase in an increment of 1. The version number will always represent the total number of versions created of the bot, not the cur- rent number of versions. If a bot version is deleted, that bot version number will not be reused. See also: AWS API Documentation
+/// Creates an immutable version of the bot. When you create the first version of a bot, Amazon Lex sets the version number to 1. Subsequent bot versions increase in an increment of 1. The version number will always represent the total number of versions created of the bot, not the current number of versions. If a bot version is deleted, that bot version number will not be reused. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsLexv2ModelsCreateBotVersionOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an immutable version of the bot. When you create the first ver- sion of a bot, Amazon Lex sets the version number to 1. Subsequent bot versions increase in an increment of 1. The version number will always represent the total number of versions created of the bot, not the cur- rent number of versions. If a bot version is deleted, that bot version number will not be reused. See also: AWS API Documentation
+    /// Creates an immutable version of the bot. When you create the first version of a bot, Amazon Lex sets the version number to 1. Subsequent bot versions increase in an increment of 1. The version number will always represent the total number of versions created of the bot, not the current number of versions. If a bot version is deleted, that bot version number will not be reused. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BotId">The identifier of the bot to create the version for. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="BotVersionLocaleSpecification">Specifies the locales that Amazon Lex adds to this version. You can choose the Draft version or any other previously published version for each locale. When you specify a source version, the locale data is copied from the source version to the new version. Constraints: o min: 1 key -&gt; (string) value -&gt; (structure) The version of a bot used for a bot locale. sourceBotVersion -&gt; (string) [required] The version of a bot used for a bot locale. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$ Shorthand Syntax: KeyName1={sourceBotVersion=string},KeyName2={sourceBotVersion=string} JSON Syntax: {"string": { "sourceBotVersion": "string" } ...}</param>
+    /// <param name="BotId">The identifier of the bot to create the version for. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotVersionLocaleSpecification">Specifies the locales that Amazon Lex adds to this version. You can choose the Draft version or any other previously published version for each locale. When you specify a source version, the locale data is copied from the source version to the new version. Constraints: • min: 1 key -&gt; (string) value -&gt; (structure) The version of a bot used for a bot locale. sourceBotVersion -&gt; (string) [required] The version of a bot used for a bot locale. Constraints: • min: 1 • max: 5 • pattern: ^(DRAFT|[0-9]+)$ Shorthand Syntax: KeyName1={sourceBotVersion=string},KeyName2={sourceBotVersion=string} JSON Syntax: {"string": { "sourceBotVersion": "string" } ...}</param>
     public AwsLexv2ModelsCreateBotVersionOptions(
         string BotId,
         IReadOnlyList<KeyValue> BotVersionLocaleSpecification
@@ -72,19 +73,19 @@ public record AwsLexv2ModelsCreateBotVersionOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the bot to create the version for. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The identifier of the bot to create the version for. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
 
     /// <summary>
-    /// Specifies the locales that Amazon Lex adds to this version. You can choose the Draft version or any other previously published version for each locale. When you specify a source version, the locale data is copied from the source version to the new version. Constraints: o min: 1 key -&gt; (string) value -&gt; (structure) The version of a bot used for a bot locale. sourceBotVersion -&gt; (string) [required] The version of a bot used for a bot locale. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$ Shorthand Syntax: KeyName1={sourceBotVersion=string},KeyName2={sourceBotVersion=string} JSON Syntax: {"string": { "sourceBotVersion": "string" } ...}
+    /// Specifies the locales that Amazon Lex adds to this version. You can choose the Draft version or any other previously published version for each locale. When you specify a source version, the locale data is copied from the source version to the new version. Constraints: • min: 1 key -&gt; (string) value -&gt; (structure) The version of a bot used for a bot locale. sourceBotVersion -&gt; (string) [required] The version of a bot used for a bot locale. Constraints: • min: 1 • max: 5 • pattern: ^(DRAFT|[0-9]+)$ Shorthand Syntax: KeyName1={sourceBotVersion=string},KeyName2={sourceBotVersion=string} JSON Syntax: {"string": { "sourceBotVersion": "string" } ...}
     /// </summary>
     [CliOption("--bot-version-locale-specification", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? BotVersionLocaleSpecification { get; private init; }
 
     /// <summary>
-    /// A description of the version. Use the description to help identify the version in lists. Constraints: o min: 0 o max: 2000
+    /// A description of the version. Use the description to help identify the version in lists. Constraints: • min: 0 • max: 2000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

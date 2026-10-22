@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the settings for the sensitivity inspection template for an ac- count. See also: AWS API Documentation
+/// Updates the settings for the sensitivity inspection template for an account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsMacie2UpdateSensitivityInspectionTemplateOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the settings for the sensitivity inspection template for an ac- count. See also: AWS API Documentation
+    /// Updates the settings for the sensitivity inspection template for an account. See also: AWS API Documentation
     /// </summary>
     /// <param name="Id">The unique identifier for the Amazon Macie resource that the request applies to.</param>
     public AwsMacie2UpdateSensitivityInspectionTemplateOptions(
@@ -68,13 +70,13 @@ public record AwsMacie2UpdateSensitivityInspectionTemplateOptions : AwsOptions, 
     public string? Description { get; set; }
 
     /// <summary>
-    /// The managed data identifiers to explicitly exclude (not use) when performing automated sensitive data discovery. To exclude an allow list or custom data identifier that's currently included by the template, update the values for the SensitivityIn- spectionTemplateIncludes.allowListIds and SensitivityInspectionTem- plateIncludes.customDataIdentifierIds properties, respectively. managedDataIdentifierIds -&gt; (list) An array of unique identifiers, one for each managed data iden- tifier to exclude. To retrieve a list of valid values, use the ListManagedDataIdentifiers operation. (string) Shorthand Syntax: managedDataIdentifierIds=string,string JSON Syntax: { "managedDataIdentifierIds": ["string", ...] }
+    /// The managed data identifiers to explicitly exclude (not use) when performing automated sensitive data discovery. To exclude an allow list or custom data identifier that's currently included by the template, update the values for the SensitivityInspectionTemplateIncludes.allowListIds and SensitivityInspectionTemplateIncludes.customDataIdentifierIds properties, respectively. managedDataIdentifierIds -&gt; (list) An array of unique identifiers, one for each managed data identifier to exclude. To retrieve a list of valid values, use the ListManagedDataIdentifiers operation. (string) Shorthand Syntax: managedDataIdentifierIds=string,string JSON Syntax: { "managedDataIdentifierIds": ["string", ...] }
     /// </summary>
     [CliOption("--excludes")]
     public string? Excludes { get; set; }
 
     /// <summary>
-    /// The allow lists, custom data identifiers, and managed data identi- fiers to explicitly include (use) when performing automated sensi- tive data discovery. allowListIds -&gt; (list) An array of unique identifiers, one for each allow list to in- clude. (string) customDataIdentifierIds -&gt; (list) An array of unique identifiers, one for each custom data identi- fier to include. (string) managedDataIdentifierIds -&gt; (list) An array of unique identifiers, one for each managed data iden- tifier to include. Amazon Macie uses these managed data identifiers in addition to managed data identifiers that are subsequently released and rec- ommended for automated sensitive data discovery. To retrieve a list of valid values for the managed data identifiers that are currently available, use the ListManagedDataIdentifiers opera- tion. (string) Shorthand Syntax: allowListIds=string,string,customDataIdentifierIds=string,string,managedDataIdentifierIds=string,string JSON Syntax: { "allowListIds": ["string", ...], "customDataIdentifierIds": ["string", ...], "managedDataIdentifierIds": ["string", ...] }
+    /// The allow lists, custom data identifiers, and managed data identifiers to explicitly include (use) when performing automated sensitive data discovery. allowListIds -&gt; (list) An array of unique identifiers, one for each allow list to include. (string) customDataIdentifierIds -&gt; (list) An array of unique identifiers, one for each custom data identifier to include. (string) managedDataIdentifierIds -&gt; (list) An array of unique identifiers, one for each managed data identifier to include. Amazon Macie uses these managed data identifiers in addition to managed data identifiers that are subsequently released and recommended for automated sensitive data discovery. To retrieve a list of valid values for the managed data identifiers that are currently available, use the ListManagedDataIdentifiers operation. (string) Shorthand Syntax: allowListIds=string,string,customDataIdentifierIds=string,string,managedDataIdentifierIds=string,string JSON Syntax: { "allowListIds": ["string", ...], "customDataIdentifierIds": ["string", ...], "managedDataIdentifierIds": ["string", ...] }
     /// </summary>
     [CliOption("--includes")]
     public string? Includes { get; set; }

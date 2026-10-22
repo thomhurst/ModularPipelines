@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Generates a web preview URL for testing a WhatsApp Flow before publish- ing. Preview URLs expire in 30 days and can be shared with stakeholders for review. See also: AWS API Documentation
+/// Generates a web preview URL for testing a WhatsApp Flow before publishing. Preview URLs expire in 30 days and can be shared with stakeholders for review. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsSocialmessagingGetWhatsappFlowPreviewOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Generates a web preview URL for testing a WhatsApp Flow before publish- ing. Preview URLs expire in 30 days and can be shared with stakeholders for review. See also: AWS API Documentation
+    /// Generates a web preview URL for testing a WhatsApp Flow before publishing. Preview URLs expire in 30 days and can be shared with stakeholders for review. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the WhatsApp Business Account associated with this Flow. Constraints: o min: 1 o max: 115 o pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*</param>
-    /// <param name="FlowId">The unique identifier of the Flow to preview. Constraints: o min: 1 o max: 100 o pattern: [0-9]+</param>
+    /// <param name="Id">The ID of the WhatsApp Business Account associated with this Flow. Constraints: • min: 1 • max: 115 • pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*</param>
+    /// <param name="FlowId">The unique identifier of the Flow to preview. Constraints: • min: 1 • max: 100 • pattern: [0-9]+</param>
     public AwsSocialmessagingGetWhatsappFlowPreviewOptions(
         string Id,
         string FlowId
@@ -60,13 +62,13 @@ public record AwsSocialmessagingGetWhatsappFlowPreviewOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the WhatsApp Business Account associated with this Flow. Constraints: o min: 1 o max: 115 o pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*
+    /// The ID of the WhatsApp Business Account associated with this Flow. Constraints: • min: 1 • max: 115 • pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the Flow to preview. Constraints: o min: 1 o max: 100 o pattern: [0-9]+
+    /// The unique identifier of the Flow to preview. Constraints: • min: 1 • max: 100 • pattern: [0-9]+
     /// </summary>
     [CliOption("--flow-id")]
     public string? FlowId { get; private init; }

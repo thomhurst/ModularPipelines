@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsOmicsWaitWorkflowActiveOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Wait until a workflow is active. It will poll every 3 seconds until a successful state has been reached. This will exit with a return code of 255 after 10 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The workflow's ID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+</param>
+    /// <param name="Id">The workflow's ID. Constraints: • min: 1 • max: 18 • pattern: [0-9]+</param>
     public AwsOmicsWaitWorkflowActiveOptions(
         string Id
     )
@@ -57,25 +59,25 @@ public record AwsOmicsWaitWorkflowActiveOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The workflow's ID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+
+    /// The workflow's ID. Constraints: • min: 1 • max: 18 • pattern: [0-9]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The workflow's type. Possible values: o PRIVATE o READY2RUN Constraints: o min: 1 o max: 64
+    /// The workflow's type. Possible values: • PRIVATE • READY2RUN Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--type")]
     public AwsOmicsWaitWorkflowActiveType? Type { get; set; }
 
     /// <summary>
-    /// The export format for the workflow. Constraints: o min: 0 o max: 32 (string) Possible values: o DEFINITION o README Constraints: o min: 1 o max: 64 Syntax: "string" "string" ...
+    /// The export format for the workflow. Constraints: • min: 0 • max: 32 (string) Possible values: • DEFINITION • README Constraints: • min: 1 • max: 64 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--export", GroupValues = true)]
     public IEnumerable<string>? Export { get; set; }
 
     /// <summary>
-    /// The ID of the workflow owner. Constraints: o pattern: [0-9]{12}
+    /// The ID of the workflow owner. Constraints: • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--workflow-owner-id")]
     public string? WorkflowOwnerId { get; set; }

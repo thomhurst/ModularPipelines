@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsCloudfrontWaitInvalidationCompletedOptions : AwsOptions, IValid
     /// Wait until an invalidation has completed. It will poll every 20 seconds until a successful state has been reached. This will exit with a return code of 255 after 30 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="DistributionId">The distribution's ID.</param>
-    /// <param name="Id">The identifier for the invalidation request, for example, IDFD- VBD632BHDS5 .</param>
+    /// <param name="Id">The identifier for the invalidation request, for example, IDFDVBD632BHDS5 .</param>
     public AwsCloudfrontWaitInvalidationCompletedOptions(
         string DistributionId,
         string Id
@@ -66,7 +68,7 @@ public record AwsCloudfrontWaitInvalidationCompletedOptions : AwsOptions, IValid
     public string? DistributionId { get; private init; }
 
     /// <summary>
-    /// The identifier for the invalidation request, for example, IDFD- VBD632BHDS5 .
+    /// The identifier for the invalidation request, for example, IDFDVBD632BHDS5 .
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

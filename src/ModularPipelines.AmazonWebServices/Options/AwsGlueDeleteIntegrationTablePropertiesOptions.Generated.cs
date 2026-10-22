@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsGlueDeleteIntegrationTablePropertiesOptions : AwsOptions, IVali
     /// <summary>
     /// Deletes the table properties that have been created for the tables that need to be replicated. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The connection ARN of the source, or the database ARN of the target. Constraints: o min: 1 o max: 512</param>
-    /// <param name="TableName">The name of the table to be replicated. Constraints: o min: 1 o max: 128</param>
+    /// <param name="ResourceArn">The connection ARN of the source, or the database ARN of the target. Constraints: • min: 1 • max: 512</param>
+    /// <param name="TableName">The name of the table to be replicated. Constraints: • min: 1 • max: 128</param>
     public AwsGlueDeleteIntegrationTablePropertiesOptions(
         string ResourceArn,
         string TableName
@@ -60,13 +62,13 @@ public record AwsGlueDeleteIntegrationTablePropertiesOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The connection ARN of the source, or the database ARN of the target. Constraints: o min: 1 o max: 512
+    /// The connection ARN of the source, or the database ARN of the target. Constraints: • min: 1 • max: 512
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The name of the table to be replicated. Constraints: o min: 1 o max: 128
+    /// The name of the table to be replicated. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--table-name")]
     public string? TableName { get; private init; }

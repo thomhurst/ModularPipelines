@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sets one or more parameters of the specified parameter group to their default values and sets the source values of the parameters to "en- gine-default". To reset the entire parameter group specify the Rese- tAllParameters parameter. For parameter changes to take effect you must reboot any associated clusters. See also: AWS API Documentation
+/// Sets one or more parameters of the specified parameter group to their default values and sets the source values of the parameters to "engine-default". To reset the entire parameter group specify the ResetAllParameters parameter. For parameter changes to take effect you must reboot any associated clusters. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRedshiftResetClusterParameterGroupOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sets one or more parameters of the specified parameter group to their default values and sets the source values of the parameters to "en- gine-default". To reset the entire parameter group specify the Rese- tAllParameters parameter. For parameter changes to take effect you must reboot any associated clusters. See also: AWS API Documentation
+    /// Sets one or more parameters of the specified parameter group to their default values and sets the source values of the parameters to "engine-default". To reset the entire parameter group specify the ResetAllParameters parameter. For parameter changes to take effect you must reboot any associated clusters. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ParameterGroupName">The name of the cluster parameter group to be reset. Constraints: o max: 2147483647</param>
+    /// <param name="ParameterGroupName">The name of the cluster parameter group to be reset. Constraints: • max: 2147483647</param>
     public AwsRedshiftResetClusterParameterGroupOptions(
         string ParameterGroupName
     )
@@ -56,7 +58,7 @@ public record AwsRedshiftResetClusterParameterGroupOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the cluster parameter group to be reset. Constraints: o max: 2147483647
+    /// The name of the cluster parameter group to be reset. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--parameter-group-name")]
     public string? ParameterGroupName { get; private init; }
@@ -68,7 +70,7 @@ public record AwsRedshiftResetClusterParameterGroupOptions : AwsOptions, IValida
     public bool? ResetAllParameters { get; set; }
 
     /// <summary>
-    /// An array of names of parameters to be reset. If ResetAllParameters option is not used, then at least one parameter name must be sup- plied. Constraints: A maximum of 20 parameters can be reset in a single re- quest. (structure) Describes a parameter in a cluster parameter group. ParameterName -&gt; (string) The name of the parameter. Constraints: o max: 2147483647 ParameterValue -&gt; (string) The value of the parameter. If ParameterName is wlm_json_con- figuration , then the maximum size of ParameterValue is 8000 characters. Constraints: o max: 2147483647 Description -&gt; (string) A description of the parameter. Constraints: o max: 2147483647 Source -&gt; (string) The source of the parameter value, such as "engine-default" or "user". Constraints: o max: 2147483647 DataType -&gt; (string) The data type of the parameter. Constraints: o max: 2147483647 AllowedValues -&gt; (string) The valid range of values for the parameter. Constraints: o max: 2147483647 ApplyType -&gt; (string) Specifies how to apply the WLM configuration parameter. Some properties can be applied dynamically, while other properties require that any associated clusters be rebooted for the con- figuration changes to be applied. For more information about parameters and parameter groups, go to Amazon Redshift Para- meter Groups in the Amazon Redshift Cluster Management Guide . Possible values: o static o dynamic IsModifiable -&gt; (boolean) If true , the parameter can be modified. Some parameters have security or operational implications that prevent them from being changed. MinimumEngineVersion -&gt; (string) The earliest engine version to which the parameter can apply. Constraints: o max: 2147483647 Shorthand Syntax: ParameterName=string,ParameterValue=string,Description=string,Source=string,DataType=string,AllowedValues=string,ApplyType=string,IsModifiable=boolean,MinimumEngineVersion=string ... JSON Syntax: [ { "ParameterName": "string", "ParameterValue": "string", "Description": "string", "Source": "string", "DataType": "string", "AllowedValues": "string", "ApplyType": "static"|"dynamic", "IsModifiable": true|false, "MinimumEngineVersion": "string" } ... ]
+    /// An array of names of parameters to be reset. If ResetAllParameters option is not used, then at least one parameter name must be supplied. Constraints: A maximum of 20 parameters can be reset in a single request. (structure) Describes a parameter in a cluster parameter group. ParameterName -&gt; (string) The name of the parameter. Constraints: • max: 2147483647 ParameterValue -&gt; (string) The value of the parameter. If ParameterName is wlm_json_configuration , then the maximum size of ParameterValue is 8000 characters. Constraints: • max: 2147483647 Description -&gt; (string) A description of the parameter. Constraints: • max: 2147483647 Source -&gt; (string) The source of the parameter value, such as "engine-default" or "user". Constraints: • max: 2147483647 DataType -&gt; (string) The data type of the parameter. Constraints: • max: 2147483647 AllowedValues -&gt; (string) The valid range of values for the parameter. Constraints: • max: 2147483647 ApplyType -&gt; (string) Specifies how to apply the WLM configuration parameter. Some properties can be applied dynamically, while other properties require that any associated clusters be rebooted for the configuration changes to be applied. For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Management Guide . Possible values: • static • dynamic IsModifiable -&gt; (boolean) If true , the parameter can be modified. Some parameters have security or operational implications that prevent them from being changed. MinimumEngineVersion -&gt; (string) The earliest engine version to which the parameter can apply. Constraints: • max: 2147483647 Shorthand Syntax: ParameterName=string,ParameterValue=string,Description=string,Source=string,DataType=string,AllowedValues=string,ApplyType=string,IsModifiable=boolean,MinimumEngineVersion=string ... JSON Syntax: [ { "ParameterName": "string", "ParameterValue": "string", "Description": "string", "Source": "string", "DataType": "string", "AllowedValues": "string", "ApplyType": "static"|"dynamic", "IsModifiable": true|false, "MinimumEngineVersion": "string" } ... ]
     /// </summary>
     [CliOption("--parameters", GroupValues = true)]
     public IEnumerable<string>? Parameters { get; set; }

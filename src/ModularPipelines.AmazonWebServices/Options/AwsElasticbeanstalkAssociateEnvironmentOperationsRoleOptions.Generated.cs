@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsElasticbeanstalkAssociateEnvironmentOperationsRoleOptions : Aws
     /// <summary>
     /// WARNING: The operations role feature of Elastic Beanstalk is in beta release and is subject to change. Add or change the operations role used by an environment. After this call is made, Elastic Beanstalk uses the associated operations role for permissions to downstream services during subsequent calls acting on this environment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EnvironmentName">The name of the environment to which to set the operations role. Constraints: o min: 4 o max: 40</param>
-    /// <param name="OperationsRole">The Amazon Resource Name (ARN) of an existing IAM role to be used as the environment's operations role. Constraints: o min: 1 o max: 256</param>
+    /// <param name="EnvironmentName">The name of the environment to which to set the operations role. Constraints: • min: 4 • max: 40</param>
+    /// <param name="OperationsRole">The Amazon Resource Name (ARN) of an existing IAM role to be used as the environment's operations role. Constraints: • min: 1 • max: 256</param>
     public AwsElasticbeanstalkAssociateEnvironmentOperationsRoleOptions(
         string EnvironmentName,
         string OperationsRole
@@ -60,13 +62,13 @@ public record AwsElasticbeanstalkAssociateEnvironmentOperationsRoleOptions : Aws
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the environment to which to set the operations role. Constraints: o min: 4 o max: 40
+    /// The name of the environment to which to set the operations role. Constraints: • min: 4 • max: 40
     /// </summary>
     [CliOption("--environment-name")]
     public string? EnvironmentName { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of an existing IAM role to be used as the environment's operations role. Constraints: o min: 1 o max: 256
+    /// The Amazon Resource Name (ARN) of an existing IAM role to be used as the environment's operations role. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--operations-role")]
     public string? OperationsRole { get; private init; }

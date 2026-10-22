@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the status and configuration settings for retrieving occur- rences of sensitive data reported by findings. See also: AWS API Documentation
+/// Retrieves the status and configuration settings for retrieving occurrences of sensitive data reported by findings. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

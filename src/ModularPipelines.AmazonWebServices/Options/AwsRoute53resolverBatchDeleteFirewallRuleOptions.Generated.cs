@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRoute53resolverBatchDeleteFirewallRuleOptions : AwsOptions, IVa
     /// <summary>
     /// Deletes multiple DNS Firewall rules from the specified rule group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DeleteFirewallRuleEntries">The list of firewall rules to delete. (structure) The details for deleting a single firewall rule in a batch oper- ation. FirewallRuleGroupId -&gt; (string) [required] The unique identifier of the firewall rule group for the rule. Constraints: o min: 1 o max: 64 FirewallDomainListId -&gt; (string) The ID of the domain list that's used in the rule. Constraints: o min: 1 o max: 64 FirewallThreatProtectionId -&gt; (string) The ID of the DNS Firewall Advanced rule. Constraints: o min: 1 o max: 64 Qtype -&gt; (string) The DNS query type that the rule evaluates. Constraints: o min: 1 o max: 16 Shorthand Syntax: FirewallRuleGroupId=string,FirewallDomainListId=string,FirewallThreatProtectionId=string,Qtype=string ... JSON Syntax: [ { "FirewallRuleGroupId": "string", "FirewallDomainListId": "string", "FirewallThreatProtectionId": "string", "Qtype": "string" } ... ]</param>
+    /// <param name="DeleteFirewallRuleEntries">The list of firewall rules to delete. (structure) The details for deleting a single firewall rule in a batch operation. FirewallRuleGroupId -&gt; (string) [required] The unique identifier of the firewall rule group for the rule. Constraints: • min: 1 • max: 64 FirewallDomainListId -&gt; (string) The ID of the domain list that's used in the rule. Constraints: • min: 1 • max: 64 FirewallThreatProtectionId -&gt; (string) The ID of the DNS Firewall Advanced rule. Constraints: • min: 1 • max: 64 Qtype -&gt; (string) The DNS query type that the rule evaluates. Constraints: • min: 1 • max: 16 Shorthand Syntax: FirewallRuleGroupId=string,FirewallDomainListId=string,FirewallThreatProtectionId=string,Qtype=string ... JSON Syntax: [ { "FirewallRuleGroupId": "string", "FirewallDomainListId": "string", "FirewallThreatProtectionId": "string", "Qtype": "string" } ... ]</param>
     public AwsRoute53resolverBatchDeleteFirewallRuleOptions(
         IEnumerable<string> DeleteFirewallRuleEntries
     )
@@ -67,7 +69,7 @@ public record AwsRoute53resolverBatchDeleteFirewallRuleOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The list of firewall rules to delete. (structure) The details for deleting a single firewall rule in a batch oper- ation. FirewallRuleGroupId -&gt; (string) [required] The unique identifier of the firewall rule group for the rule. Constraints: o min: 1 o max: 64 FirewallDomainListId -&gt; (string) The ID of the domain list that's used in the rule. Constraints: o min: 1 o max: 64 FirewallThreatProtectionId -&gt; (string) The ID of the DNS Firewall Advanced rule. Constraints: o min: 1 o max: 64 Qtype -&gt; (string) The DNS query type that the rule evaluates. Constraints: o min: 1 o max: 16 Shorthand Syntax: FirewallRuleGroupId=string,FirewallDomainListId=string,FirewallThreatProtectionId=string,Qtype=string ... JSON Syntax: [ { "FirewallRuleGroupId": "string", "FirewallDomainListId": "string", "FirewallThreatProtectionId": "string", "Qtype": "string" } ... ]
+    /// The list of firewall rules to delete. (structure) The details for deleting a single firewall rule in a batch operation. FirewallRuleGroupId -&gt; (string) [required] The unique identifier of the firewall rule group for the rule. Constraints: • min: 1 • max: 64 FirewallDomainListId -&gt; (string) The ID of the domain list that's used in the rule. Constraints: • min: 1 • max: 64 FirewallThreatProtectionId -&gt; (string) The ID of the DNS Firewall Advanced rule. Constraints: • min: 1 • max: 64 Qtype -&gt; (string) The DNS query type that the rule evaluates. Constraints: • min: 1 • max: 16 Shorthand Syntax: FirewallRuleGroupId=string,FirewallDomainListId=string,FirewallThreatProtectionId=string,Qtype=string ... JSON Syntax: [ { "FirewallRuleGroupId": "string", "FirewallDomainListId": "string", "FirewallThreatProtectionId": "string", "Qtype": "string" } ... ]
     /// </summary>
     [CliOption("--delete-firewall-rule-entries", GroupValues = true)]
     public IEnumerable<string>? DeleteFirewallRuleEntries { get; private init; }

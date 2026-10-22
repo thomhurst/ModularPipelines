@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,7 +64,7 @@ public record AwsEc2ModifyCapacityReservationFleetOptions : AwsOptions, IValidat
     public string? CapacityReservationFleetId { get; private init; }
 
     /// <summary>
-    /// The total number of capacity units to be reserved by the Capacity Reservation Fleet. This value, together with the instance type weights that you assign to each instance type used by the Fleet de- termine the number of instances for which the Fleet reserves capac- ity. Both values are based on units that make sense for your work- load. For more information, see Total target capacity in the Amazon EC2 User Guide .
+    /// The total number of capacity units to be reserved by the Capacity Reservation Fleet. This value, together with the instance type weights that you assign to each instance type used by the Fleet determine the number of instances for which the Fleet reserves capacity. Both values are based on units that make sense for your workload. For more information, see Total target capacity in the Amazon EC2 User Guide .
     /// </summary>
     [CliOption("--total-target-capacity")]
     public int? TotalTargetCapacity { get; set; }
@@ -74,13 +76,13 @@ public record AwsEc2ModifyCapacityReservationFleetOptions : AwsOptions, IValidat
     public string? EndDate { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// Indicates whether to remove the end date from the Capacity Reserva- tion Fleet. If you remove the end date, the Capacity Reservation Fleet does not expire and it remains active until you explicitly cancel it using the CancelCapacityReservationFleet action. You can't specify RemoveEndDate and EndDate in the same request.
+    /// Indicates whether to remove the end date from the Capacity Reservation Fleet. If you remove the end date, the Capacity Reservation Fleet does not expire and it remains active until you explicitly cancel it using the CancelCapacityReservationFleet action. You can't specify RemoveEndDate and EndDate in the same request.
     /// </summary>
     [CliFlag("--remove-end-date", NegatedName = "--no-remove-end-date")]
     public bool? RemoveEndDate { get; set; }

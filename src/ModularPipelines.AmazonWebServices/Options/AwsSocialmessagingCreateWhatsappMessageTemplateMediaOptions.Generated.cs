@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSocialmessagingCreateWhatsappMessageTemplateMediaOptions : AwsO
     /// <summary>
     /// Uploads media for use in a WhatsApp message template. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the WhatsApp Business Account associated with this media upload. Constraints: o min: 1 o max: 115 o pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*</param>
+    /// <param name="Id">The ID of the WhatsApp Business Account associated with this media upload. Constraints: • min: 1 • max: 115 • pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*</param>
     public AwsSocialmessagingCreateWhatsappMessageTemplateMediaOptions(
         string Id
     )
@@ -56,13 +58,13 @@ public record AwsSocialmessagingCreateWhatsappMessageTemplateMediaOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the WhatsApp Business Account associated with this media upload. Constraints: o min: 1 o max: 115 o pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*
+    /// The ID of the WhatsApp Business Account associated with this media upload. Constraints: • min: 1 • max: 115 • pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// Contains information for the S3 bucket that contains media files. bucketName -&gt; (string) [required] The bucket name. Constraints: o min: 3 o max: 63 o pattern: [a-z0-9][a-z0-9.-]*[a-z0-9] key -&gt; (string) [required] The S3 key prefix that defines the storage location of your me- dia files. The prefix works like a folder path in S3, and is combined with the WhatsApp mediaId to create the final file path. For example, if a media file's WhatsApp mediaId is 123.ogg , and the key is audio/example.ogg , the final file path is audio/ex- ample.ogg123.ogg . For the same mediaId, a key of audio/ results in the file path audio/123.ogg . Constraints: o min: 0 o max: 1024 Shorthand Syntax: bucketName=string,key=string JSON Syntax: { "bucketName": "string", "key": "string" }
+    /// Contains information for the S3 bucket that contains media files. bucketName -&gt; (string) [required] The bucket name. Constraints: • min: 3 • max: 63 • pattern: [a-z0-9][a-z0-9.-]*[a-z0-9] key -&gt; (string) [required] The S3 key prefix that defines the storage location of your media files. The prefix works like a folder path in S3, and is combined with the WhatsApp mediaId to create the final file path. For example, if a media file's WhatsApp mediaId is 123.ogg , and the key is audio/example.ogg , the final file path is audio/example.ogg123.ogg . For the same mediaId, a key of audio/ results in the file path audio/123.ogg . Constraints: • min: 0 • max: 1024 Shorthand Syntax: bucketName=string,key=string JSON Syntax: { "bucketName": "string", "key": "string" }
     /// </summary>
     [CliOption("--source-s3-file")]
     public string? SourceS3File { get; set; }

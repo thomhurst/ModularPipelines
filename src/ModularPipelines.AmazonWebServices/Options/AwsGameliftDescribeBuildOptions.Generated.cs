@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2 Retrieves properties for a custom game build. To request a build re- source, specify a build ID. If successful, an object containing the build properties is returned. Learn more Upload a Custom Server Build All APIs by task See also: AWS API Documentation
+/// This API works with the following fleet types: EC2 Retrieves properties for a custom game build. To request a build resource, specify a build ID. If successful, an object containing the build properties is returned. Learn more Upload a Custom Server Build All APIs by task See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsGameliftDescribeBuildOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 Retrieves properties for a custom game build. To request a build re- source, specify a build ID. If successful, an object containing the build properties is returned. Learn more Upload a Custom Server Build All APIs by task See also: AWS API Documentation
+    /// This API works with the following fleet types: EC2 Retrieves properties for a custom game build. To request a build resource, specify a build ID. If successful, an object containing the build properties is returned. Learn more Upload a Custom Server Build All APIs by task See also: AWS API Documentation
     /// </summary>
-    /// <param name="BuildId">A unique identifier for the build to retrieve properties for. You can use either the build ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^(build-\S+|arn:.*:build\/build-\S+)$</param>
+    /// <param name="BuildId">A unique identifier for the build to retrieve properties for. You can use either the build ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^(build-\S+|arn:.*:build\/build-\S+)$</param>
     public AwsGameliftDescribeBuildOptions(
         string BuildId
     )
@@ -56,7 +58,7 @@ public record AwsGameliftDescribeBuildOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the build to retrieve properties for. You can use either the build ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^(build-\S+|arn:.*:build\/build-\S+)$
+    /// A unique identifier for the build to retrieve properties for. You can use either the build ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^(build-\S+|arn:.*:build\/build-\S+)$
     /// </summary>
     [CliOption("--build-id")]
     public string? BuildId { get; private init; }

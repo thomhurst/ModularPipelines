@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,8 +29,8 @@ public record AwsDevopsAgentTagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Adds or overwrites tags for the specified AWS DevOps Agent resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource to tag. Constraints: o pattern: arn:aws:aidevops:[a-z0-9-]+:\d{12}:(agentspace|ser- vice|private-connection)/[a-zA-Z0-9_-]+</param>
-    /// <param name="Tags">Tags to add to the resource. key -&gt; (string) Tag key string. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* value -&gt; (string) Tag value string. Constraints: o min: 0 o max: 256 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="ResourceArn">The ARN of the resource to tag. Constraints: • pattern: arn:aws:aidevops:[a-z0-9-]+:\d{12}:(agentspace|service|private-connection)/[a-zA-Z0-9_-]+</param>
+    /// <param name="Tags">Tags to add to the resource. key -&gt; (string) Tag key string. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* value -&gt; (string) Tag value string. Constraints: • min: 0 • max: 256 • pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsDevopsAgentTagResourceOptions(
         string ResourceArn,
         IReadOnlyList<KeyValue> Tags
@@ -72,13 +73,13 @@ public record AwsDevopsAgentTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource to tag. Constraints: o pattern: arn:aws:aidevops:[a-z0-9-]+:\d{12}:(agentspace|ser- vice|private-connection)/[a-zA-Z0-9_-]+
+    /// The ARN of the resource to tag. Constraints: • pattern: arn:aws:aidevops:[a-z0-9-]+:\d{12}:(agentspace|service|private-connection)/[a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Tags to add to the resource. key -&gt; (string) Tag key string. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* value -&gt; (string) Tag value string. Constraints: o min: 0 o max: 256 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags to add to the resource. key -&gt; (string) Tag key string. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* value -&gt; (string) Tag value string. Constraints: • min: 0 • max: 256 • pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; private init; }

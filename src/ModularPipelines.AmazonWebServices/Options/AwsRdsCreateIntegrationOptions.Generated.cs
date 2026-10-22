@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,9 +29,9 @@ public record AwsRdsCreateIntegrationOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a zero-ETL integration with Amazon Redshift. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceArn">The Amazon Resource Name (ARN) of the database to use as the source for replication. Constraints: o min: 1 o max: 255 o pattern: arn:aws[a-z\-]*:rds(-[a-z]*)?:[a-z0-9\-]*:[0-9]*:(clus- ter|db):[a-z][a-z0-9]*(-[a-z0-9]+)*</param>
-    /// <param name="TargetArn">The ARN of the Redshift data warehouse to use as the target for replication. Constraints: o min: 20 o max: 2048</param>
-    /// <param name="IntegrationName">The name of the integration. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*</param>
+    /// <param name="SourceArn">The Amazon Resource Name (ARN) of the database to use as the source for replication. Constraints: • min: 1 • max: 255 • pattern: arn:aws[a-z\-]*:rds(-[a-z]*)?:[a-z0-9\-]*:[0-9]*:(cluster|db):[a-z][a-z0-9]*(-[a-z0-9]+)*</param>
+    /// <param name="TargetArn">The ARN of the Redshift data warehouse to use as the target for replication. Constraints: • min: 20 • max: 2048</param>
+    /// <param name="IntegrationName">The name of the integration. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*</param>
     public AwsRdsCreateIntegrationOptions(
         string SourceArn,
         string TargetArn,
@@ -65,19 +66,19 @@ public record AwsRdsCreateIntegrationOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the database to use as the source for replication. Constraints: o min: 1 o max: 255 o pattern: arn:aws[a-z\-]*:rds(-[a-z]*)?:[a-z0-9\-]*:[0-9]*:(clus- ter|db):[a-z][a-z0-9]*(-[a-z0-9]+)*
+    /// The Amazon Resource Name (ARN) of the database to use as the source for replication. Constraints: • min: 1 • max: 255 • pattern: arn:aws[a-z\-]*:rds(-[a-z]*)?:[a-z0-9\-]*:[0-9]*:(cluster|db):[a-z][a-z0-9]*(-[a-z0-9]+)*
     /// </summary>
     [CliOption("--source-arn")]
     public string? SourceArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the Redshift data warehouse to use as the target for replication. Constraints: o min: 20 o max: 2048
+    /// The ARN of the Redshift data warehouse to use as the target for replication. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--target-arn")]
     public string? TargetArn { get; private init; }
 
     /// <summary>
-    /// The name of the integration. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
+    /// The name of the integration. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--integration-name")]
     public string? IntegrationName { get; private init; }
@@ -89,7 +90,7 @@ public record AwsRdsCreateIntegrationOptions : AwsOptions, IValidatableObject
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// An optional set of non-secret keyvalue pairs that contains addi- tional contextual information about the data. For more information, see Encryption context in the Amazon Web Services Key Management Service Developer Guide . You can only include this parameter if you specify the KMSKeyId pa- rameter. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// An optional set of non-secret keyvalue pairs that contains additional contextual information about the data. For more information, see Encryption context in the Amazon Web Services Key Management Service Developer Guide . You can only include this parameter if you specify the KMSKeyId parameter. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--additional-encryption-context", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AdditionalEncryptionContext { get; set; }
@@ -101,13 +102,13 @@ public record AwsRdsCreateIntegrationOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Data filtering options for the integration. For more information, see Data filtering for Aurora zero-ETL integrations with Amazon Red- shift or Data filtering for Amazon RDS zero-ETL integrations with Amazon Redshift . Constraints: o min: 1 o max: 25600 o pattern: [a-zA-Z0-9_ "\\\-$,*.:?+\/]*
+    /// Data filtering options for the integration. For more information, see Data filtering for Aurora zero-ETL integrations with Amazon Redshift or Data filtering for Amazon RDS zero-ETL integrations with Amazon Redshift . Constraints: • min: 1 • max: 25600 • pattern: [a-zA-Z0-9_ "\\\-$,*.:?+\/]*
     /// </summary>
     [CliOption("--data-filter")]
     public string? DataFilter { get; set; }
 
     /// <summary>
-    /// A description of the integration. Constraints: o min: 0 o max: 1000 o pattern: .*
+    /// A description of the integration. Constraints: • min: 0 • max: 1000 • pattern: .*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

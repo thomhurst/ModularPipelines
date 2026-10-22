@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Ends the specified contact. Use this API to stop queued callbacks. It does not work for voice contacts that use the following initiation methods: o DISCONNECT o TRANSFER o QUEUE_TRANSFER o EXTERNAL_OUTBOUND o MONITOR Chat and task contacts can be terminated in any state, regardless of initiation method. See also: AWS API Documentation
+/// Ends the specified contact. Use this API to stop queued callbacks. It does not work for voice contacts that use the following initiation methods: • DISCONNECT • TRANSFER • QUEUE_TRANSFER • EXTERNAL_OUTBOUND • MONITOR Chat and task contacts can be terminated in any state, regardless of initiation method. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsConnectStopContactOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Ends the specified contact. Use this API to stop queued callbacks. It does not work for voice contacts that use the following initiation methods: o DISCONNECT o TRANSFER o QUEUE_TRANSFER o EXTERNAL_OUTBOUND o MONITOR Chat and task contacts can be terminated in any state, regardless of initiation method. See also: AWS API Documentation
+    /// Ends the specified contact. Use this API to stop queued callbacks. It does not work for voice contacts that use the following initiation methods: • DISCONNECT • TRANSFER • QUEUE_TRANSFER • EXTERNAL_OUTBOUND • MONITOR Chat and task contacts can be terminated in any state, regardless of initiation method. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ContactId">The ID of the contact. Constraints: o min: 1 o max: 256</param>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="ContactId">The ID of the contact. Constraints: • min: 1 • max: 256</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     public AwsConnectStopContactOptions(
         string ContactId,
         string InstanceId
@@ -60,19 +62,19 @@ public record AwsConnectStopContactOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the contact. Constraints: o min: 1 o max: 256
+    /// The ID of the contact. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--contact-id")]
     public string? ContactId { get; private init; }
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The reason a contact can be disconnected. Only Connect Customer out- bound campaigns can provide this field. For a list and description of all the possible disconnect reasons by channel (including out- bound campaign voice contacts) see DisconnectReason under ContactTraceRecord in the Connect Customer Administrator Guide . Code -&gt; (string) A code that indicates how the contact was terminated. Shorthand Syntax: Code=string JSON Syntax: { "Code": "string" }
+    /// The reason a contact can be disconnected. Only Connect Customer outbound campaigns can provide this field. For a list and description of all the possible disconnect reasons by channel (including outbound campaign voice contacts) see DisconnectReason under ContactTraceRecord in the Connect Customer Administrator Guide . Code -&gt; (string) A code that indicates how the contact was terminated. Shorthand Syntax: Code=string JSON Syntax: { "Code": "string" }
     /// </summary>
     [CliOption("--disconnect-reason")]
     public string? DisconnectReason { get; set; }

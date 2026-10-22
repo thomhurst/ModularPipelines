@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a cluster. All nodes in the cluster run the same protocol-com- pliant cache engine software, either Memcached, Valkey or Redis OSS. This operation is not supported for Valkey or Redis OSS (cluster mode enabled) clusters. See also: AWS API Documentation
+/// Creates a cluster. All nodes in the cluster run the same protocol-compliant cache engine software, either Memcached, Valkey or Redis OSS. This operation is not supported for Valkey or Redis OSS (cluster mode enabled) clusters. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsElasticacheCreateCacheClusterOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a cluster. All nodes in the cluster run the same protocol-com- pliant cache engine software, either Memcached, Valkey or Redis OSS. This operation is not supported for Valkey or Redis OSS (cluster mode enabled) clusters. See also: AWS API Documentation
+    /// Creates a cluster. All nodes in the cluster run the same protocol-compliant cache engine software, either Memcached, Valkey or Redis OSS. This operation is not supported for Valkey or Redis OSS (cluster mode enabled) clusters. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CacheClusterId">The node group (shard) identifier. This parameter is stored as a lowercase string. Constraints: o A name must contain from 1 to 50 alphanumeric characters or hy- phens. o The first character must be a letter. o A name cannot end with a hyphen or contain two consecutive hy- phens.</param>
+    /// <param name="CacheClusterId">The node group (shard) identifier. This parameter is stored as a lowercase string. Constraints: • A name must contain from 1 to 50 alphanumeric characters or hyphens. • The first character must be a letter. • A name cannot end with a hyphen or contain two consecutive hyphens.</param>
     public AwsElasticacheCreateCacheClusterOptions(
         string CacheClusterId
     )
@@ -58,19 +60,19 @@ public record AwsElasticacheCreateCacheClusterOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The node group (shard) identifier. This parameter is stored as a lowercase string. Constraints: o A name must contain from 1 to 50 alphanumeric characters or hy- phens. o The first character must be a letter. o A name cannot end with a hyphen or contain two consecutive hy- phens.
+    /// The node group (shard) identifier. This parameter is stored as a lowercase string. Constraints: • A name must contain from 1 to 50 alphanumeric characters or hyphens. • The first character must be a letter. • A name cannot end with a hyphen or contain two consecutive hyphens.
     /// </summary>
     [CliOption("--cache-cluster-id")]
     public string? CacheClusterId { get; private init; }
 
     /// <summary>
-    /// The ID of the replication group to which this cluster should belong. If this parameter is specified, the cluster is added to the speci- fied replication group as a read replica; otherwise, the cluster is a standalone primary that is not part of any replication group. If the specified replication group is Multi-AZ enabled and the Availability Zone is not specified, the cluster is created in Avail- ability Zones that provide the best spread of read replicas across Availability Zones. NOTE: This parameter is only valid if the Engine parameter is redis .
+    /// The ID of the replication group to which this cluster should belong. If this parameter is specified, the cluster is added to the specified replication group as a read replica; otherwise, the cluster is a standalone primary that is not part of any replication group. If the specified replication group is Multi-AZ enabled and the Availability Zone is not specified, the cluster is created in Availability Zones that provide the best spread of read replicas across Availability Zones. NOTE: This parameter is only valid if the Engine parameter is redis .
     /// </summary>
     [CliOption("--replication-group-id")]
     public string? ReplicationGroupId { get; set; }
 
     /// <summary>
-    /// Specifies whether the nodes in this Memcached cluster are created in a single Availability Zone or created across multiple Availability Zones in the cluster's region. This parameter is only supported for Memcached clusters. If the AZMode and PreferredAvailabilityZones are not specified, ElastiCache assumes single-az mode. Possible values: o single-az o cross-az
+    /// Specifies whether the nodes in this Memcached cluster are created in a single Availability Zone or created across multiple Availability Zones in the cluster's region. This parameter is only supported for Memcached clusters. If the AZMode and PreferredAvailabilityZones are not specified, ElastiCache assumes single-az mode. Possible values: • single-az • cross-az
     /// </summary>
     [CliOption("--az-mode")]
     public AwsElasticacheCreateCacheClusterAzMode? AzMode { get; set; }
@@ -82,7 +84,7 @@ public record AwsElasticacheCreateCacheClusterOptions : AwsOptions, IValidatable
     public string? PreferredAvailabilityZone { get; set; }
 
     /// <summary>
-    /// A list of the Availability Zones in which cache nodes are created. The order of the zones in the list is not important. This option is only supported on Memcached. NOTE: If you are creating your cluster in an Amazon VPC (recommended) you can only locate nodes in Availability Zones that are associ- ated with the subnets in the selected subnet group. The number of Availability Zones listed must equal the value of NumCacheNodes . If you want all the nodes in the same Availability Zone, use Pre- ferredAvailabilityZone instead, or repeat the Availability Zone mul- tiple times in the list. Default: System chosen Availability Zones. (string) Syntax: "string" "string" ...
+    /// A list of the Availability Zones in which cache nodes are created. The order of the zones in the list is not important. This option is only supported on Memcached. NOTE: If you are creating your cluster in an Amazon VPC (recommended) you can only locate nodes in Availability Zones that are associated with the subnets in the selected subnet group. The number of Availability Zones listed must equal the value of NumCacheNodes . If you want all the nodes in the same Availability Zone, use PreferredAvailabilityZone instead, or repeat the Availability Zone multiple times in the list. Default: System chosen Availability Zones. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--preferred-availability-zones", GroupValues = true)]
     public IEnumerable<string>? PreferredAvailabilityZones { get; set; }
@@ -94,7 +96,7 @@ public record AwsElasticacheCreateCacheClusterOptions : AwsOptions, IValidatable
     public int? NumCacheNodes { get; set; }
 
     /// <summary>
-    /// The compute and memory capacity of the nodes in the node group (shard). The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and com- putational power at lower cost when compared to their equivalent previous generation counterparts. o General purpose: o Current generation: M7g node types : cache.m7g.large , cache.m7g.xlarge , cache.m7g.2xlarge , cache.m7g.4xlarge , cache.m7g.8xlarge , cache.m7g.12xlarge , cache.m7g.16xlarge NOTE: For region availability, see Supported Node Types M6g node types (available only for Redis OSS engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): cache.m6g.large , cache.m6g.xlarge , cache.m6g.2xlarge , cache.m6g.4xlarge , cache.m6g.8xlarge , cache.m6g.12xlarge , cache.m6g.16xlarge M5 node types: cache.m5.large , cache.m5.xlarge , cache.m5.2xlarge , cache.m5.4xlarge , cache.m5.12xlarge , cache.m5.24xlarge M4 node types: cache.m4.large , cache.m4.xlarge , cache.m4.2xlarge , cache.m4.4xlarge , cache.m4.10xlarge T4g node types (avail- able only for Redis OSS engine version 5.0.6 onward and Mem- cached engine version 1.5.16 onward): cache.t4g.micro , cache.t4g.small , cache.t4g.medium T3 node types: cache.t3.micro , cache.t3.small , cache.t3.medium T2 node types: cache.t2.micro , cache.t2.small , cache.t2.medium o Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.) T1 node types: cache.t1.micro M1 node types: cache.m1.small , cache.m1.medium , cache.m1.large , cache.m1.xlarge M3 node types: cache.m3.medium , cache.m3.large , cache.m3.xlarge , cache.m3.2xlarge o Compute optimized: o Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.) C1 node types: cache.c1.xlarge o Memory optimized: o Current generation: R7g node types : cache.r7g.large , cache.r7g.xlarge , cache.r7g.2xlarge , cache.r7g.4xlarge , cache.r7g.8xlarge , cache.r7g.12xlarge , cache.r7g.16xlarge NOTE: For region availability, see Supported Node Types R6g node types (available only for Redis OSS engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): cache.r6g.large , cache.r6g.xlarge , cache.r6g.2xlarge , cache.r6g.4xlarge , cache.r6g.8xlarge , cache.r6g.12xlarge , cache.r6g.16xlarge R5 node types: cache.r5.large , cache.r5.xlarge , cache.r5.2xlarge , cache.r5.4xlarge , cache.r5.12xlarge , cache.r5.24xlarge R4 node types: cache.r4.large , cache.r4.xlarge , cache.r4.2xlarge , cache.r4.4xlarge , cache.r4.8xlarge , cache.r4.16xlarge o Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.) M2 node types: cache.m2.xlarge , cache.m2.2xlarge , cache.m2.4xlarge R3 node types: cache.r3.large , cache.r3.xlarge , cache.r3.2xlarge , cache.r3.4xlarge , cache.r3.8xlarge Additional node type info o All current generation instance types are created in Amazon VPC by default. o Valkey or Redis OSS append-only files (AOF) are not supported for T1 or T2 instances. o Valkey or Redis OSS Multi-AZ with automatic failover is not sup- ported on T1 instances. o The configuration variables appendonly and appendfsync are not supported on Valkey, or on Redis OSS version 2.8.22 and later.
+    /// The compute and memory capacity of the nodes in the node group (shard). The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts. • General purpose: • Current generation: M7g node types : cache.m7g.large , cache.m7g.xlarge , cache.m7g.2xlarge , cache.m7g.4xlarge , cache.m7g.8xlarge , cache.m7g.12xlarge , cache.m7g.16xlarge NOTE: For region availability, see Supported Node Types M6g node types (available only for Redis OSS engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): cache.m6g.large , cache.m6g.xlarge , cache.m6g.2xlarge , cache.m6g.4xlarge , cache.m6g.8xlarge , cache.m6g.12xlarge , cache.m6g.16xlarge M5 node types: cache.m5.large , cache.m5.xlarge , cache.m5.2xlarge , cache.m5.4xlarge , cache.m5.12xlarge , cache.m5.24xlarge M4 node types: cache.m4.large , cache.m4.xlarge , cache.m4.2xlarge , cache.m4.4xlarge , cache.m4.10xlarge T4g node types (available only for Redis OSS engine version 5.0.6 onward and Memcached engine version 1.5.16 onward): cache.t4g.micro , cache.t4g.small , cache.t4g.medium T3 node types: cache.t3.micro , cache.t3.small , cache.t3.medium T2 node types: cache.t2.micro , cache.t2.small , cache.t2.medium • Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.) T1 node types: cache.t1.micro M1 node types: cache.m1.small , cache.m1.medium , cache.m1.large , cache.m1.xlarge M3 node types: cache.m3.medium , cache.m3.large , cache.m3.xlarge , cache.m3.2xlarge • Compute optimized: • Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.) C1 node types: cache.c1.xlarge • Memory optimized: • Current generation: R7g node types : cache.r7g.large , cache.r7g.xlarge , cache.r7g.2xlarge , cache.r7g.4xlarge , cache.r7g.8xlarge , cache.r7g.12xlarge , cache.r7g.16xlarge NOTE: For region availability, see Supported Node Types R6g node types (available only for Redis OSS engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): cache.r6g.large , cache.r6g.xlarge , cache.r6g.2xlarge , cache.r6g.4xlarge , cache.r6g.8xlarge , cache.r6g.12xlarge , cache.r6g.16xlarge R5 node types: cache.r5.large , cache.r5.xlarge , cache.r5.2xlarge , cache.r5.4xlarge , cache.r5.12xlarge , cache.r5.24xlarge R4 node types: cache.r4.large , cache.r4.xlarge , cache.r4.2xlarge , cache.r4.4xlarge , cache.r4.8xlarge , cache.r4.16xlarge • Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.) M2 node types: cache.m2.xlarge , cache.m2.2xlarge , cache.m2.4xlarge R3 node types: cache.r3.large , cache.r3.xlarge , cache.r3.2xlarge , cache.r3.4xlarge , cache.r3.8xlarge Additional node type info • All current generation instance types are created in Amazon VPC by default. • Valkey or Redis OSS append-only files (AOF) are not supported for T1 or T2 instances. • Valkey or Redis OSS Multi-AZ with automatic failover is not supported on T1 instances. • The configuration variables appendonly and appendfsync are not supported on Valkey, or on Redis OSS version 2.8.22 and later.
     /// </summary>
     [CliOption("--cache-node-type")]
     public string? CacheNodeType { get; set; }
@@ -106,19 +108,19 @@ public record AwsElasticacheCreateCacheClusterOptions : AwsOptions, IValidatable
     public string? Engine { get; set; }
 
     /// <summary>
-    /// The version number of the cache engine to be used for this cluster. To view the supported cache engine versions, use the De- scribeCacheEngineVersions operation. Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version ), but you cannot downgrade to an earlier engine version. If you want to use an earlier en- gine version, you must delete the existing cluster or replica- tion group and create it anew with the earlier engine version.
+    /// The version number of the cache engine to be used for this cluster. To view the supported cache engine versions, use the DescribeCacheEngineVersions operation. Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version ), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster or replication group and create it anew with the earlier engine version.
     /// </summary>
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
     /// <summary>
-    /// The name of the parameter group to associate with this cluster. If this argument is omitted, the default parameter group for the speci- fied engine is used. You cannot use any parameter group which has cluster-enabled='yes' when creating a cluster.
+    /// The name of the parameter group to associate with this cluster. If this argument is omitted, the default parameter group for the specified engine is used. You cannot use any parameter group which has cluster-enabled='yes' when creating a cluster.
     /// </summary>
     [CliOption("--cache-parameter-group-name")]
     public string? CacheParameterGroupName { get; set; }
 
     /// <summary>
-    /// The name of the subnet group to be used for the cluster. Use this parameter only when you are creating a cluster in an Amazon Virtual Private Cloud (Amazon VPC). WARNING: If you're going to launch your cluster in an Amazon VPC, you need to create a subnet group before you start creating a clus- ter. For more information, see Subnets and Subnet Groups .
+    /// The name of the subnet group to be used for the cluster. Use this parameter only when you are creating a cluster in an Amazon Virtual Private Cloud (Amazon VPC). WARNING: If you're going to launch your cluster in an Amazon VPC, you need to create a subnet group before you start creating a cluster. For more information, see Subnets and Subnet Groups .
     /// </summary>
     [CliOption("--cache-subnet-group-name")]
     public string? CacheSubnetGroupName { get; set; }
@@ -142,7 +144,7 @@ public record AwsElasticacheCreateCacheClusterOptions : AwsOptions, IValidatable
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// A single-element string list containing an Amazon Resource Name (ARN) that uniquely identifies a Valkey or Redis OSS RDB snapshot file stored in Amazon S3. The snapshot file is used to populate the node group (shard). The Amazon S3 object name in the ARN cannot con- tain any commas. NOTE: This parameter is only valid if the Engine parameter is redis . Example of an Amazon S3 ARN: arn:aws:s3:::my_bucket/snapshot1.rdb (string) Syntax: "string" "string" ...
+    /// A single-element string list containing an Amazon Resource Name (ARN) that uniquely identifies a Valkey or Redis OSS RDB snapshot file stored in Amazon S3. The snapshot file is used to populate the node group (shard). The Amazon S3 object name in the ARN cannot contain any commas. NOTE: This parameter is only valid if the Engine parameter is redis . Example of an Amazon S3 ARN: arn:aws:s3:::my_bucket/snapshot1.rdb (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--snapshot-arns", GroupValues = true)]
     public IEnumerable<string>? SnapshotArns { get; set; }
@@ -160,7 +162,7 @@ public record AwsElasticacheCreateCacheClusterOptions : AwsOptions, IValidatable
     public string? PreferredMaintenanceWindow { get; set; }
 
     /// <summary>
-    /// The port number on which each of the cache nodes accepts connec- tions.
+    /// The port number on which each of the cache nodes accepts connections.
     /// </summary>
     [CliOption("--port")]
     public int? Port { get; set; }
@@ -172,7 +174,7 @@ public record AwsElasticacheCreateCacheClusterOptions : AwsOptions, IValidatable
     public string? NotificationTopicArn { get; set; }
 
     /// <summary>
-    /// If you are running Valkey 7.2 and above or Redis OSS engine version 6.0 and above, set this parameter to yes to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for pre- vious versions.
+    /// If you are running Valkey 7.2 and above or Redis OSS engine version 6.0 and above, set this parameter to yes to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
     /// </summary>
     [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
@@ -190,14 +192,14 @@ public record AwsElasticacheCreateCacheClusterOptions : AwsOptions, IValidatable
     public string? SnapshotWindow { get; set; }
 
     /// <summary>
-    /// Reserved parameter. The password used to access a password pro- tected server. Password constraints: o Must be only printable ASCII characters. o Must be at least 16 characters and no more than 128 characters in length. o The only permitted printable special characters are !, &amp;, #, $, ^, &lt;, &gt;, and -. Other printable special characters cannot be used in the AUTH token. For more information, see AUTH password at http://redis.io/commands/AUTH.
+    /// Reserved parameter. The password used to access a password protected server. Password constraints: • Must be only printable ASCII characters. • Must be at least 16 characters and no more than 128 characters in length. • The only permitted printable special characters are !, &amp;, #, $, ^, &lt;, &gt;, and -. Other printable special characters cannot be used in the AUTH token. For more information, see AUTH password at http://redis.io/commands/AUTH.
     /// </summary>
     [SecretValue]
     [CliOption("--auth-token")]
     public string? AuthToken { get; set; }
 
     /// <summary>
-    /// Specifies whether the nodes in the cluster are created in a single outpost or across multiple outposts. Possible values: o single-outpost o cross-outpost
+    /// Specifies whether the nodes in the cluster are created in a single outpost or across multiple outposts. Possible values: • single-outpost • cross-outpost
     /// </summary>
     [CliOption("--outpost-mode")]
     public AwsElasticacheCreateCacheClusterOutpostMode? OutpostMode { get; set; }
@@ -215,7 +217,7 @@ public record AwsElasticacheCreateCacheClusterOptions : AwsOptions, IValidatable
     public IEnumerable<string>? PreferredOutpostArns { get; set; }
 
     /// <summary>
-    /// Specifies the destination, format and type of the logs. (structure) Specifies the destination, format and type of the logs. LogType -&gt; (string) Refers to slow-log or engine-log.. Possible values: o slow-log o engine-log DestinationType -&gt; (string) Specify either cloudwatch-logs or kinesis-firehose as the destination type. Possible values: o cloudwatch-logs o kinesis-firehose DestinationDetails -&gt; (structure) Configuration details of either a CloudWatch Logs destination or Kinesis Data Firehose destination. CloudWatchLogsDetails -&gt; (structure) The configuration details of the CloudWatch Logs destina- tion. LogGroup -&gt; (string) The name of the CloudWatch Logs log group. KinesisFirehoseDetails -&gt; (structure) The configuration details of the Kinesis Data Firehose destination. DeliveryStream -&gt; (string) The name of the Kinesis Data Firehose delivery stream. LogFormat -&gt; (string) Specifies either JSON or TEXT Possible values: o text o json Enabled -&gt; (boolean) Specify if log delivery is enabled. Default true . Shorthand Syntax: LogType=string,DestinationType=string,DestinationDetails={CloudWatchLogsDetails={LogGroup=string},KinesisFirehoseDetails={DeliveryStream=string}},LogFormat=string,Enabled=boolean ... JSON Syntax: [ { "LogType": "slow-log"|"engine-log", "DestinationType": "cloudwatch-logs"|"kinesis-firehose", "DestinationDetails": { "CloudWatchLogsDetails": { "LogGroup": "string" }, "KinesisFirehoseDetails": { "DeliveryStream": "string" } }, "LogFormat": "text"|"json", "Enabled": true|false } ... ]
+    /// Specifies the destination, format and type of the logs. (structure) Specifies the destination, format and type of the logs. LogType -&gt; (string) Refers to slow-log or engine-log.. Possible values: • slow-log • engine-log DestinationType -&gt; (string) Specify either cloudwatch-logs or kinesis-firehose as the destination type. Possible values: • cloudwatch-logs • kinesis-firehose DestinationDetails -&gt; (structure) Configuration details of either a CloudWatch Logs destination or Kinesis Data Firehose destination. CloudWatchLogsDetails -&gt; (structure) The configuration details of the CloudWatch Logs destination. LogGroup -&gt; (string) The name of the CloudWatch Logs log group. KinesisFirehoseDetails -&gt; (structure) The configuration details of the Kinesis Data Firehose destination. DeliveryStream -&gt; (string) The name of the Kinesis Data Firehose delivery stream. LogFormat -&gt; (string) Specifies either JSON or TEXT Possible values: • text • json Enabled -&gt; (boolean) Specify if log delivery is enabled. Default true . Shorthand Syntax: LogType=string,DestinationType=string,DestinationDetails={CloudWatchLogsDetails={LogGroup=string},KinesisFirehoseDetails={DeliveryStream=string}},LogFormat=string,Enabled=boolean ... JSON Syntax: [ { "LogType": "slow-log"|"engine-log", "DestinationType": "cloudwatch-logs"|"kinesis-firehose", "DestinationDetails": { "CloudWatchLogsDetails": { "LogGroup": "string" }, "KinesisFirehoseDetails": { "DeliveryStream": "string" } }, "LogFormat": "text"|"json", "Enabled": true|false } ... ]
     /// </summary>
     [CliOption("--log-delivery-configurations", GroupValues = true)]
     public IEnumerable<string>? LogDeliveryConfigurations { get; set; }
@@ -227,13 +229,13 @@ public record AwsElasticacheCreateCacheClusterOptions : AwsOptions, IValidatable
     public bool? TransitEncryptionEnabled { get; set; }
 
     /// <summary>
-    /// Must be either ipv4 | ipv6 | dual_stack . IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 to 7.1 and Memcached engine version 1.6.6 and above on all instances built on the Nitro system . Possible values: o ipv4 o ipv6 o dual_stack
+    /// Must be either ipv4 | ipv6 | dual_stack . IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 to 7.1 and Memcached engine version 1.6.6 and above on all instances built on the Nitro system . Possible values: • ipv4 • ipv6 • dual_stack
     /// </summary>
     [CliOption("--network-type")]
     public AwsElasticacheCreateCacheClusterNetworkType? NetworkType { get; set; }
 
     /// <summary>
-    /// The network type you choose when modifying a cluster, either ipv4 | ipv6 . IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 to 7.1 and Memcached engine version 1.6.6 and above on all instances built on the Nitro system . Possible values: o ipv4 o ipv6
+    /// The network type you choose when modifying a cluster, either ipv4 | ipv6 . IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 to 7.1 and Memcached engine version 1.6.6 and above on all instances built on the Nitro system . Possible values: • ipv4 • ipv6
     /// </summary>
     [CliOption("--ip-discovery")]
     public AwsElasticacheCreateCacheClusterIpDiscovery? IpDiscovery { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsFrauddetectorUpdateListOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates a list. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the list to update. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_]+$</param>
+    /// <param name="Name">The name of the list to update. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_]+$</param>
     public AwsFrauddetectorUpdateListOptions(
         string Name
     )
@@ -57,31 +59,31 @@ public record AwsFrauddetectorUpdateListOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the list to update. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_]+$
+    /// The name of the list to update. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// One or more list elements to add or replace. If you are providing the elements, make sure to specify the updateMode to use. If you are deleting all elements from the list, use REPLACE for the updateMode and provide an empty list (0 elements). Constraints: o min: 0 o max: 100000 (string) Constraints: o min: 1 o max: 320 o pattern: ^\S+( +\S+)*$ Syntax: "string" "string" ...
+    /// One or more list elements to add or replace. If you are providing the elements, make sure to specify the updateMode to use. If you are deleting all elements from the list, use REPLACE for the updateMode and provide an empty list (0 elements). Constraints: • min: 0 • max: 100000 (string) Constraints: • min: 1 • max: 320 • pattern: ^\S+( +\S+)*$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--elements", GroupValues = true)]
     public IEnumerable<string>? Elements { get; set; }
 
     /// <summary>
-    /// The new description. Constraints: o min: 1 o max: 128
+    /// The new description. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The update mode (type). o Use APPEND if you are adding elements to the list. o Use REPLACE if you replacing existing elements in the list. o Use REMOVE if you are removing elements from the list. Possible values: o REPLACE o APPEND o REMOVE
+    /// The update mode (type). • Use APPEND if you are adding elements to the list. • Use REPLACE if you replacing existing elements in the list. • Use REMOVE if you are removing elements from the list. Possible values: • REPLACE • APPEND • REMOVE
     /// </summary>
     [CliOption("--update-mode")]
     public AwsFrauddetectorUpdateListUpdateMode? UpdateMode { get; set; }
 
     /// <summary>
-    /// The variable type you want to assign to the list. NOTE: You cannot update a variable type of a list that already has a variable type assigned to it. You can assign a variable type to a list only if the list does not already have a variable type. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z_]{1,64}$
+    /// The variable type you want to assign to the list. NOTE: You cannot update a variable type of a list that already has a variable type assigned to it. You can assign a variable type to a list only if the list does not already have a variable type. Constraints: • min: 1 • max: 64 • pattern: ^[A-Z_]{1,64}$
     /// </summary>
     [CliOption("--variable-type")]
     public string? VariableType { get; set; }

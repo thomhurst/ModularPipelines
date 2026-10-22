@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified version of the specified policy. You cannot delete the default version of a policy using this action. To delete the default version of a policy, use DeletePolicy . To find out which ver- sion of a policy is marked as the default version, use ListPolicyVer- sions. Requires permission to access the DeletePolicyVersion action. See also: AWS API Documentation
+/// Deletes the specified version of the specified policy. You cannot delete the default version of a policy using this action. To delete the default version of a policy, use DeletePolicy . To find out which version of a policy is marked as the default version, use ListPolicyVersions. Requires permission to access the DeletePolicyVersion action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsIotDeletePolicyVersionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified version of the specified policy. You cannot delete the default version of a policy using this action. To delete the default version of a policy, use DeletePolicy . To find out which ver- sion of a policy is marked as the default version, use ListPolicyVer- sions. Requires permission to access the DeletePolicyVersion action. See also: AWS API Documentation
+    /// Deletes the specified version of the specified policy. You cannot delete the default version of a policy using this action. To delete the default version of a policy, use DeletePolicy . To find out which version of a policy is marked as the default version, use ListPolicyVersions. Requires permission to access the DeletePolicyVersion action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyName">The name of the policy. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+</param>
-    /// <param name="PolicyVersionId">The policy version ID. Constraints: o pattern: [0-9]+</param>
+    /// <param name="PolicyName">The name of the policy. Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+</param>
+    /// <param name="PolicyVersionId">The policy version ID. Constraints: • pattern: [0-9]+</param>
     public AwsIotDeletePolicyVersionOptions(
         string PolicyName,
         string PolicyVersionId
@@ -60,13 +62,13 @@ public record AwsIotDeletePolicyVersionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the policy. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// The name of the policy. Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--policy-name")]
     public string? PolicyName { get; private init; }
 
     /// <summary>
-    /// The policy version ID. Constraints: o pattern: [0-9]+
+    /// The policy version ID. Constraints: • pattern: [0-9]+
     /// </summary>
     [CliOption("--policy-version-id")]
     public string? PolicyVersionId { get; private init; }

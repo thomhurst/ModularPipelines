@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +30,9 @@ public record AwsCloudfrontTestFunctionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Tests a CloudFront function. To test a function, you provide an event object that represents an HTTP request or response that your CloudFront distribution could receive in production. CloudFront runs the function, passing it the event object that you provided, and returns the function's result (the modified event object) in the response. The response also contains function logs and error messages, if any exist. For more information about testing functions, see Testing functions in the Amazon Clo...
     /// </summary>
-    /// <param name="Name">The name of the function that you are testing. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_]{1,64}</param>
-    /// <param name="IfMatch">The current version (ETag value) of the function that you are test- ing, which you can get using DescribeFunction .</param>
-    /// <param name="EventObject">The event object to test the function with. For more information about the structure of the event object, see Testing functions in the Amazon CloudFront Developer Guide . Constraints: o min: 0 o max: 40960</param>
+    /// <param name="Name">The name of the function that you are testing. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_]{1,64}</param>
+    /// <param name="IfMatch">The current version (ETag value) of the function that you are testing, which you can get using DescribeFunction .</param>
+    /// <param name="EventObject">The event object to test the function with. For more information about the structure of the event object, see Testing functions in the Amazon CloudFront Developer Guide . Constraints: • min: 0 • max: 40960</param>
     public AwsCloudfrontTestFunctionOptions(
         string Name,
         string IfMatch,
@@ -65,25 +67,25 @@ public record AwsCloudfrontTestFunctionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the function that you are testing. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_]{1,64}
+    /// The name of the function that you are testing. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_]{1,64}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The current version (ETag value) of the function that you are test- ing, which you can get using DescribeFunction .
+    /// The current version (ETag value) of the function that you are testing, which you can get using DescribeFunction .
     /// </summary>
     [CliOption("--if-match")]
     public string? IfMatch { get; private init; }
 
     /// <summary>
-    /// The event object to test the function with. For more information about the structure of the event object, see Testing functions in the Amazon CloudFront Developer Guide . Constraints: o min: 0 o max: 40960
+    /// The event object to test the function with. For more information about the structure of the event object, see Testing functions in the Amazon CloudFront Developer Guide . Constraints: • min: 0 • max: 40960
     /// </summary>
     [CliOption("--event-object")]
     public string? EventObject { get; private init; }
 
     /// <summary>
-    /// The stage of the function that you are testing, either DEVELOPMENT or LIVE . Possible values: o DEVELOPMENT o LIVE
+    /// The stage of the function that you are testing, either DEVELOPMENT or LIVE . Possible values: • DEVELOPMENT • LIVE
     /// </summary>
     [CliOption("--stage")]
     public AwsCloudfrontTestFunctionStage? Stage { get; set; }

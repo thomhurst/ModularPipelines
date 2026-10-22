@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,7 +64,7 @@ public record AwsEc2ModifyIpamScopeOptions : AwsOptions, IValidatableObject
     public string? IpamScopeId { get; private init; }
 
     /// <summary>
-    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -74,13 +76,13 @@ public record AwsEc2ModifyIpamScopeOptions : AwsOptions, IValidatableObject
     public string? Description { get; set; }
 
     /// <summary>
-    /// The configuration that links an Amazon VPC IPAM scope to an external authority system. It specifies the type of external system and the external resource identifier that identifies your account or in- stance in that system. In IPAM, an external authority is a third-party IP address manage- ment system that provides CIDR blocks when you provision address space for top-level IPAM pools. This allows you to use your existing IP management system to control which address ranges are allocated to Amazon Web Services while using Amazon VPC IPAM to manage subnets within those ranges. Type -&gt; (string) The type of external authority. Possible values: o infoblox ExternalResourceIdentifier -&gt; (string) The identifier for the external resource managing this scope. For Infoblox integrations, this is the Infoblox resource identi- fier in the format &lt;version&gt;.identity.account.&lt;en- tity_realm&gt;.&lt;entity_id&gt; . Shorthand Syntax: Type=string,ExternalResourceIdentifier=string JSON Syntax: { "Type": "infoblox", "ExternalResourceIdentifier": "string" }
+    /// The configuration that links an Amazon VPC IPAM scope to an external authority system. It specifies the type of external system and the external resource identifier that identifies your account or instance in that system. In IPAM, an external authority is a third-party IP address management system that provides CIDR blocks when you provision address space for top-level IPAM pools. This allows you to use your existing IP management system to control which address ranges are allocated to Amazon Web Services while using Amazon VPC IPAM to manage subnets within those ranges. Type -&gt; (string) The type of external authority. Possible values: • infoblox ExternalResourceIdentifier -&gt; (string) The identifier for the external resource managing this scope. For Infoblox integrations, this is the Infoblox resource identifier in the format &lt;version&gt;.identity.account.&lt;entity_realm&gt;.&lt;entity_id&gt; . Shorthand Syntax: Type=string,ExternalResourceIdentifier=string JSON Syntax: { "Type": "infoblox", "ExternalResourceIdentifier": "string" }
     /// </summary>
     [CliOption("--external-authority-configuration")]
     public string? ExternalAuthorityConfiguration { get; set; }
 
     /// <summary>
-    /// thority-configuration (boolean) Remove the external authority configuration. true to remove.
+    /// Remove the external authority configuration. true to remove.
     /// </summary>
     [CliFlag("--remove-external-authority-configuration", NegatedName = "--no-remove-external-authority-configuration")]
     public bool? RemoveExternalAuthorityConfiguration { get; set; }

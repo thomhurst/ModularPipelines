@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the lifecycle configuration from the specified bucket. Amazon S3 removes all the lifecycle configuration rules in the lifecycle sub- resource associated with the bucket. Your objects never expire, and Amazon S3 no longer automatically deletes any objects on the basis of rules contained in the deleted lifecycle configuration. Permissions o General purpose bucket permissions - By default, all Amazon S3 re- sources are private, including buckets, objects, and related subre- sources (for exa...
+/// Deletes the lifecycle configuration from the specified bucket. Amazon S3 removes all the lifecycle configuration rules in the lifecycle subresource associated with the bucket. Your objects never expire, and Amazon S3 no longer automatically deletes any objects on the basis of rules contained in the deleted lifecycle configuration. Permissions • General purpose bucket permissions - By default, all Amazon S3 resources are private, including buckets, objects, and related subresources (for example, ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsS3apiDeleteBucketLifecycleOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the lifecycle configuration from the specified bucket. Amazon S3 removes all the lifecycle configuration rules in the lifecycle sub- resource associated with the bucket. Your objects never expire, and Amazon S3 no longer automatically deletes any objects on the basis of rules contained in the deleted lifecycle configuration. Permissions o General purpose bucket permissions - By default, all Amazon S3 re- sources are private, including buckets, objects, and related subre- sources (for exa...
+    /// Deletes the lifecycle configuration from the specified bucket. Amazon S3 removes all the lifecycle configuration rules in the lifecycle subresource associated with the bucket. Your objects never expire, and Amazon S3 no longer automatically deletes any objects on the basis of rules contained in the deleted lifecycle configuration. Permissions • General purpose bucket permissions - By default, all Amazon S3 resources are private, including buckets, objects, and related subresources (for example, ...
     /// </summary>
     /// <param name="Bucket">The bucket name of the lifecycle to delete.</param>
     public AwsS3apiDeleteBucketLifecycleOptions(
@@ -62,7 +64,7 @@ public record AwsS3apiDeleteBucketLifecycleOptions : AwsOptions, IValidatableObj
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied). NOTE: This parameter applies to general purpose buckets only. It is not supported for directory bucket lifecycle configurations.
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied). NOTE: This parameter applies to general purpose buckets only. It is not supported for directory bucket lifecycle configurations.
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }

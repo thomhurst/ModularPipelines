@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// You might need to reboot your DB instance, usually for maintenance rea- sons. For example, if you make certain modifications, or if you change the DB parameter group associated with the DB instance, you must reboot the instance for the changes to take effect. Rebooting a DB instance restarts the database engine service. Rebooting a DB instance results in a momentary outage, during which the DB in- stance status is set to rebooting. For more information about rebooting, see Rebooting a DB Instanc...
+/// You might need to reboot your DB instance, usually for maintenance reasons. For example, if you make certain modifications, or if you change the DB parameter group associated with the DB instance, you must reboot the instance for the changes to take effect. Rebooting a DB instance restarts the database engine service. Rebooting a DB instance results in a momentary outage, during which the DB instance status is set to rebooting. For more information about rebooting, see Rebooting a DB Instance in...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRdsRebootDbInstanceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// You might need to reboot your DB instance, usually for maintenance rea- sons. For example, if you make certain modifications, or if you change the DB parameter group associated with the DB instance, you must reboot the instance for the changes to take effect. Rebooting a DB instance restarts the database engine service. Rebooting a DB instance results in a momentary outage, during which the DB in- stance status is set to rebooting. For more information about rebooting, see Rebooting a DB Instanc...
+    /// You might need to reboot your DB instance, usually for maintenance reasons. For example, if you make certain modifications, or if you change the DB parameter group associated with the DB instance, you must reboot the instance for the changes to take effect. Rebooting a DB instance restarts the database engine service. Rebooting a DB instance results in a momentary outage, during which the DB instance status is set to rebooting. For more information about rebooting, see Rebooting a DB Instance in...
     /// </summary>
-    /// <param name="DbInstanceIdentifier">The DB instance identifier. This parameter is stored as a lowercase string. Constraints: o Must match the identifier of an existing DBInstance.</param>
+    /// <param name="DbInstanceIdentifier">The DB instance identifier. This parameter is stored as a lowercase string. Constraints: • Must match the identifier of an existing DBInstance.</param>
     public AwsRdsRebootDbInstanceOptions(
         string DbInstanceIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsRdsRebootDbInstanceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints: o Must match the identifier of an existing DBInstance.
+    /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints: • Must match the identifier of an existing DBInstance.
     /// </summary>
     [CliOption("--db-instance-identifier")]
     public string? DbInstanceIdentifier { get; private init; }

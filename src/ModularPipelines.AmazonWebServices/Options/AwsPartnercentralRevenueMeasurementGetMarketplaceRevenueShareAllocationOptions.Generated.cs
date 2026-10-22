@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the details of a specific marketplace revenue share alloca- tion. See also: AWS API Documentation
+/// Retrieves the details of a specific marketplace revenue share allocation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareAlloc
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the details of a specific marketplace revenue share alloca- tion. See also: AWS API Documentation
+    /// Retrieves the details of a specific marketplace revenue share allocation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">The catalog that the allocation belongs to. Possible values: o AWS o Sandbox</param>
-    /// <param name="ProductId">The AWS Marketplace product identifier of the parent revenue share. Constraints: o min: 18 o max: 18 o pattern: prod-[a-z0-9]{13}</param>
-    /// <param name="MarketplaceRevenueShareAllocationId">The unique identifier of the allocation to retrieve. Constraints: o min: 18 o max: 18 o pattern: mrsa-[A-Za-z0-9]{13}</param>
+    /// <param name="Catalog">The catalog that the allocation belongs to. Possible values: • AWS • Sandbox</param>
+    /// <param name="ProductId">The AWS Marketplace product identifier of the parent revenue share. Constraints: • min: 18 • max: 18 • pattern: prod-[a-z0-9]{13}</param>
+    /// <param name="MarketplaceRevenueShareAllocationId">The unique identifier of the allocation to retrieve. Constraints: • min: 18 • max: 18 • pattern: mrsa-[A-Za-z0-9]{13}</param>
     public AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareAllocationOptions(
         AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareAllocationCatalog Catalog,
         string ProductId,
@@ -64,25 +66,25 @@ public record AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareAlloc
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog that the allocation belongs to. Possible values: o AWS o Sandbox
+    /// The catalog that the allocation belongs to. Possible values: • AWS • Sandbox
     /// </summary>
     [CliOption("--catalog")]
     public AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareAllocationCatalog? Catalog { get; private init; }
 
     /// <summary>
-    /// The AWS Marketplace product identifier of the parent revenue share. Constraints: o min: 18 o max: 18 o pattern: prod-[a-z0-9]{13}
+    /// The AWS Marketplace product identifier of the parent revenue share. Constraints: • min: 18 • max: 18 • pattern: prod-[a-z0-9]{13}
     /// </summary>
     [CliOption("--product-id")]
     public string? ProductId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the allocation to retrieve. Constraints: o min: 18 o max: 18 o pattern: mrsa-[A-Za-z0-9]{13}
+    /// The unique identifier of the allocation to retrieve. Constraints: • min: 18 • max: 18 • pattern: mrsa-[A-Za-z0-9]{13}
     /// </summary>
     [CliOption("--marketplace-revenue-share-allocation-id")]
     public string? MarketplaceRevenueShareAllocationId { get; private init; }
 
     /// <summary>
-    /// The revision of the parent marketplace revenue share at which to re- trieve the allocation. Omit to return the latest. Constraints: o min: 1 o max: 19 o pattern: [1-9][0-9]*
+    /// The revision of the parent marketplace revenue share at which to retrieve the allocation. Omit to return the latest. Constraints: • min: 1 • max: 19 • pattern: [1-9][0-9]*
     /// </summary>
     [CliOption("--marketplace-revenue-share-revision")]
     public string? MarketplaceRevenueShareRevision { get; set; }

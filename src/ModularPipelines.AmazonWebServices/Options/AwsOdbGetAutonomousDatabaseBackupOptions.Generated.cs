@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsOdbGetAutonomousDatabaseBackupOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Gets information about a specific Autonomous Database backup. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AutonomousDatabaseBackupId">The unique identifier of the Autonomous Database backup to retrieve information about. Constraints: o min: 6 o max: 64 o pattern: [a-zA-Z0-9_~.-]+</param>
+    /// <param name="AutonomousDatabaseBackupId">The unique identifier of the Autonomous Database backup to retrieve information about. Constraints: • min: 6 • max: 64 • pattern: [a-zA-Z0-9_~.-]+</param>
     public AwsOdbGetAutonomousDatabaseBackupOptions(
         string AutonomousDatabaseBackupId
     )
@@ -56,7 +58,7 @@ public record AwsOdbGetAutonomousDatabaseBackupOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Autonomous Database backup to retrieve information about. Constraints: o min: 6 o max: 64 o pattern: [a-zA-Z0-9_~.-]+
+    /// The unique identifier of the Autonomous Database backup to retrieve information about. Constraints: • min: 6 • max: 64 • pattern: [a-zA-Z0-9_~.-]+
     /// </summary>
     [CliOption("--autonomous-database-backup-id")]
     public string? AutonomousDatabaseBackupId { get; private init; }

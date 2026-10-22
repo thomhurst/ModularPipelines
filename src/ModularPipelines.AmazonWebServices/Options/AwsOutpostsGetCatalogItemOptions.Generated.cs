@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsOutpostsGetCatalogItemOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets information about the specified catalog item. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CatalogItemId">The ID of the catalog item. Constraints: o min: 1 o max: 10 o pattern: OR-[A-Z0-9]{7}</param>
+    /// <param name="CatalogItemId">The ID of the catalog item. Constraints: • min: 1 • max: 10 • pattern: OR-[A-Z0-9]{7}</param>
     public AwsOutpostsGetCatalogItemOptions(
         string CatalogItemId
     )
@@ -56,7 +58,7 @@ public record AwsOutpostsGetCatalogItemOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the catalog item. Constraints: o min: 1 o max: 10 o pattern: OR-[A-Z0-9]{7}
+    /// The ID of the catalog item. Constraints: • min: 1 • max: 10 • pattern: OR-[A-Z0-9]{7}
     /// </summary>
     [CliOption("--catalog-item-id")]
     public string? CatalogItemId { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsStepfunctionsStopExecutionOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Stops an execution. This API action is not supported by EXPRESS state machines. For an execution with encryption enabled, Step Functions will encrypt the error and cause fields using the KMS key for the execution role. A caller can stop an execution without using any KMS permissions in the execution role if the caller provides a null value for both error and cause fields because no data needs to be encrypted. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExecutionArn">The Amazon Resource Name (ARN) of the execution to stop. Constraints: o min: 1 o max: 256</param>
+    /// <param name="ExecutionArn">The Amazon Resource Name (ARN) of the execution to stop. Constraints: • min: 1 • max: 256</param>
     public AwsStepfunctionsStopExecutionOptions(
         string ExecutionArn
     )
@@ -56,19 +58,19 @@ public record AwsStepfunctionsStopExecutionOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the execution to stop. Constraints: o min: 1 o max: 256
+    /// The Amazon Resource Name (ARN) of the execution to stop. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--execution-arn")]
     public string? ExecutionArn { get; private init; }
 
     /// <summary>
-    /// The error code of the failure. Constraints: o min: 0 o max: 256
+    /// The error code of the failure. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--error")]
     public string? Error { get; set; }
 
     /// <summary>
-    /// A more detailed explanation of the cause of the failure. Constraints: o min: 0 o max: 32768
+    /// A more detailed explanation of the cause of the failure. Constraints: • min: 0 • max: 32768
     /// </summary>
     [CliOption("--cause")]
     public string? Cause { get; set; }

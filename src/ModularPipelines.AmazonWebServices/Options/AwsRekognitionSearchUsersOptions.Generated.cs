@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Searches for UserIDs within a collection based on a FaceId or UserId . This API can be used to find the closest UserID (with a highest simi- larity) to associate a face. The request must be provided with either FaceId or UserId . The operation returns an array of UserID that match the FaceId or UserId , ordered by similarity score with the highest similarity first. See also: AWS API Documentation
+/// Searches for UserIDs within a collection based on a FaceId or UserId . This API can be used to find the closest UserID (with a highest similarity) to associate a face. The request must be provided with either FaceId or UserId . The operation returns an array of UserID that match the FaceId or UserId , ordered by similarity score with the highest similarity first. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRekognitionSearchUsersOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Searches for UserIDs within a collection based on a FaceId or UserId . This API can be used to find the closest UserID (with a highest simi- larity) to associate a face. The request must be provided with either FaceId or UserId . The operation returns an array of UserID that match the FaceId or UserId , ordered by similarity score with the highest similarity first. See also: AWS API Documentation
+    /// Searches for UserIDs within a collection based on a FaceId or UserId . This API can be used to find the closest UserID (with a highest similarity) to associate a face. The request must be provided with either FaceId or UserId . The operation returns an array of UserID that match the FaceId or UserId , ordered by similarity score with the highest similarity first. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CollectionId">The ID of an existing collection containing the UserID, used with a UserId or FaceId. If a FaceId is provided, UserId isnt required to be present in the Collection. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+</param>
+    /// <param name="CollectionId">The ID of an existing collection containing the UserID, used with a UserId or FaceId. If a FaceId is provided, UserId isnt required to be present in the Collection. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.\-]+</param>
     public AwsRekognitionSearchUsersOptions(
         string CollectionId
     )
@@ -56,31 +58,31 @@ public record AwsRekognitionSearchUsersOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of an existing collection containing the UserID, used with a UserId or FaceId. If a FaceId is provided, UserId isnt required to be present in the Collection. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+
+    /// The ID of an existing collection containing the UserID, used with a UserId or FaceId. If a FaceId is provided, UserId isnt required to be present in the Collection. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.\-]+
     /// </summary>
     [CliOption("--collection-id")]
     public string? CollectionId { get; private init; }
 
     /// <summary>
-    /// ID for the existing User. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.\-:]+
+    /// ID for the existing User. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.\-:]+
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; set; }
 
     /// <summary>
-    /// ID for the existing face. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// ID for the existing face. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--face-id")]
     public string? FaceId { get; set; }
 
     /// <summary>
-    /// Optional value that specifies the minimum confidence in the matched UserID to return. Default value of 80. Constraints: o min: 0 o max: 100
+    /// Optional value that specifies the minimum confidence in the matched UserID to return. Default value of 80. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--user-match-threshold")]
-    public int? UserMatchThreshold { get; set; }
+    public double? UserMatchThreshold { get; set; }
 
     /// <summary>
-    /// Maximum number of identities to return. Constraints: o min: 1 o max: 500
+    /// Maximum number of identities to return. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-users")]
     public int? MaxUsers { get; set; }

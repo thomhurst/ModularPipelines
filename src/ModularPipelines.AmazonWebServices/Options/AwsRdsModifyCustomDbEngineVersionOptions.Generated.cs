@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the status of a custom engine version (CEV). You can find CEVs to modify by calling DescribeDBEngineVersions . NOTE: The MediaImport service that imports files from Amazon S3 to create CEVs isn't integrated with Amazon Web Services CloudTrail. If you turn on data logging for Amazon RDS in CloudTrail, calls to the Mod- ifyCustomDbEngineVersion event aren't logged. However, you might see calls from the API gateway that accesses your Amazon S3 bucket. These calls originate from the MediaIm...
+/// Modifies the status of a custom engine version (CEV). You can find CEVs to modify by calling DescribeDBEngineVersions . NOTE: The MediaImport service that imports files from Amazon S3 to create CEVs isn't integrated with Amazon Web Services CloudTrail. If you turn on data logging for Amazon RDS in CloudTrail, calls to the ModifyCustomDbEngineVersion event aren't logged. However, you might see calls from the API gateway that accesses your Amazon S3 bucket. These calls originate from the MediaImpo...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsRdsModifyCustomDbEngineVersionOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the status of a custom engine version (CEV). You can find CEVs to modify by calling DescribeDBEngineVersions . NOTE: The MediaImport service that imports files from Amazon S3 to create CEVs isn't integrated with Amazon Web Services CloudTrail. If you turn on data logging for Amazon RDS in CloudTrail, calls to the Mod- ifyCustomDbEngineVersion event aren't logged. However, you might see calls from the API gateway that accesses your Amazon S3 bucket. These calls originate from the MediaIm...
+    /// Modifies the status of a custom engine version (CEV). You can find CEVs to modify by calling DescribeDBEngineVersions . NOTE: The MediaImport service that imports files from Amazon S3 to create CEVs isn't integrated with Amazon Web Services CloudTrail. If you turn on data logging for Amazon RDS in CloudTrail, calls to the ModifyCustomDbEngineVersion event aren't logged. However, you might see calls from the API gateway that accesses your Amazon S3 bucket. These calls originate from the MediaImpo...
     /// </summary>
-    /// <param name="Engine">The database engine. RDS Custom for Oracle supports the following values: o custom-oracle-ee o custom-oracle-ee-cdb o custom-oracle-se2 o custom-oracle-se2-cdb RDS Custom for SQL Server supports the following values: o custom-sqlserver-ee o custom-sqlserver-se o custom-sqlserver-web o custom-sqlserver-dev RDS for SQL Server supports the following values: o sqlserver-ee (Bring Your Own Media) o sqlserver-se (Bring Your Own Media) o sqlserver-dev-ee Constraints: o min: 1 o max: 35 o pattern: [A-Za-z0-9-]{1,35}</param>
-    /// <param name="EngineVersion">The custom engine version (CEV) that you want to modify. This option is required for RDS Custom for Oracle, but optional for Amazon RDS. The combination of Engine and EngineVersion is unique per customer per Amazon Web Services Region. Constraints: o min: 1 o max: 60 o pattern: [a-z0-9_.-]{1,60}</param>
+    /// <param name="Engine">The database engine. RDS Custom for Oracle supports the following values: • custom-oracle-ee • custom-oracle-ee-cdb • custom-oracle-se2 • custom-oracle-se2-cdb RDS Custom for SQL Server supports the following values: • custom-sqlserver-ee • custom-sqlserver-se • custom-sqlserver-web • custom-sqlserver-dev RDS for SQL Server supports the following values: • sqlserver-ee (Bring Your Own Media) • sqlserver-se (Bring Your Own Media) • sqlserver-dev-ee Constraints: • min: 1 • max: 35 • pattern: [A-Za-z0-9-]{1,35}</param>
+    /// <param name="EngineVersion">The custom engine version (CEV) that you want to modify. This option is required for RDS Custom for Oracle, but optional for Amazon RDS. The combination of Engine and EngineVersion is unique per customer per Amazon Web Services Region. Constraints: • min: 1 • max: 60 • pattern: [a-z0-9_.-]{1,60}</param>
     public AwsRdsModifyCustomDbEngineVersionOptions(
         string Engine,
         string EngineVersion
@@ -61,25 +63,25 @@ public record AwsRdsModifyCustomDbEngineVersionOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The database engine. RDS Custom for Oracle supports the following values: o custom-oracle-ee o custom-oracle-ee-cdb o custom-oracle-se2 o custom-oracle-se2-cdb RDS Custom for SQL Server supports the following values: o custom-sqlserver-ee o custom-sqlserver-se o custom-sqlserver-web o custom-sqlserver-dev RDS for SQL Server supports the following values: o sqlserver-ee (Bring Your Own Media) o sqlserver-se (Bring Your Own Media) o sqlserver-dev-ee Constraints: o min: 1 o max: 35 o pattern: [A-Za-z0-9-]{1,35}
+    /// The database engine. RDS Custom for Oracle supports the following values: • custom-oracle-ee • custom-oracle-ee-cdb • custom-oracle-se2 • custom-oracle-se2-cdb RDS Custom for SQL Server supports the following values: • custom-sqlserver-ee • custom-sqlserver-se • custom-sqlserver-web • custom-sqlserver-dev RDS for SQL Server supports the following values: • sqlserver-ee (Bring Your Own Media) • sqlserver-se (Bring Your Own Media) • sqlserver-dev-ee Constraints: • min: 1 • max: 35 • pattern: [A-Za-z0-9-]{1,35}
     /// </summary>
     [CliOption("--engine")]
     public string? Engine { get; private init; }
 
     /// <summary>
-    /// The custom engine version (CEV) that you want to modify. This option is required for RDS Custom for Oracle, but optional for Amazon RDS. The combination of Engine and EngineVersion is unique per customer per Amazon Web Services Region. Constraints: o min: 1 o max: 60 o pattern: [a-z0-9_.-]{1,60}
+    /// The custom engine version (CEV) that you want to modify. This option is required for RDS Custom for Oracle, but optional for Amazon RDS. The combination of Engine and EngineVersion is unique per customer per Amazon Web Services Region. Constraints: • min: 1 • max: 60 • pattern: [a-z0-9_.-]{1,60}
     /// </summary>
     [CliOption("--engine-version")]
     public string? EngineVersion { get; private init; }
 
     /// <summary>
-    /// An optional description of your CEV. Constraints: o min: 1 o max: 1000 o pattern: .*
+    /// An optional description of your CEV. Constraints: • min: 1 • max: 1000 • pattern: .*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The availability status to be assigned to the CEV. Valid values are as follows: available You can use this CEV to create a new RDS Custom DB instance. inactive You can create a new RDS Custom instance by restoring a DB snapshot with this CEV. You can't patch or create new instances with this CEV. You can change any status to any status. A typical reason to change status is to prevent the accidental use of a CEV, or to make a dep- recated CEV eligible for use again. For example, you might change the status of your CEV from available to inactive , and from inac- tive back to available . To change the availability status of the CEV, it must not currently be in use by an RDS Custom instance, snapshot, or automated backup. Possible values: o available o inactive o inactive-except-restore
+    /// The availability status to be assigned to the CEV. Valid values are as follows: available You can use this CEV to create a new RDS Custom DB instance. inactive You can create a new RDS Custom instance by restoring a DB snapshot with this CEV. You can't patch or create new instances with this CEV. You can change any status to any status. A typical reason to change status is to prevent the accidental use of a CEV, or to make a deprecated CEV eligible for use again. For example, you might change the status of your CEV from available to inactive , and from inactive back to available . To change the availability status of the CEV, it must not currently be in use by an RDS Custom instance, snapshot, or automated backup. Possible values: • available • inactive • inactive-except-restore
     /// </summary>
     [CliOption("--status")]
     public AwsRdsModifyCustomDbEngineVersionStatus? Status { get; set; }

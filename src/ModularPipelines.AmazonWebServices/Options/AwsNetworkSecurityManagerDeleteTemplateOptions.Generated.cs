@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsNetworkSecurityManagerDeleteTemplateOptions : AwsOptions, IVali
     /// <summary>
     /// Deletes the specified template. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TemplateIdentifier">The identifier of the template. This is the template's Amazon Re- source Name (ARN). Constraints: o min: 1 o max: 1010</param>
+    /// <param name="TemplateIdentifier">The identifier of the template. This is the template's Amazon Resource Name (ARN). Constraints: • min: 1 • max: 1010</param>
     public AwsNetworkSecurityManagerDeleteTemplateOptions(
         string TemplateIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsNetworkSecurityManagerDeleteTemplateOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the template. This is the template's Amazon Re- source Name (ARN). Constraints: o min: 1 o max: 1010
+    /// The identifier of the template. This is the template's Amazon Resource Name (ARN). Constraints: • min: 1 • max: 1010
     /// </summary>
     [CliOption("--template-identifier")]
     public string? TemplateIdentifier { get; private init; }

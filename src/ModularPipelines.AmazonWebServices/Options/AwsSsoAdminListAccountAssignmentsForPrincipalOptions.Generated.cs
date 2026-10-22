@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a list of the IAM Identity Center associated Amazon Web Ser- vices accounts that the principal has access to. This action must be called from the management account containing your organization in- stance of IAM Identity Center. This action is not valid for account in- stances of IAM Identity Center. See also: AWS API Documentation list-account-assignments-for-principal is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You...
+/// Retrieves a list of the IAM Identity Center associated Amazon Web Services accounts that the principal has access to. This action must be called from the management account containing your organization instance of IAM Identity Center. This action is not valid for account instances of IAM Identity Center. See also: AWS API Documentation list-account-assignments-for-principal is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can dis...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +29,11 @@ public record AwsSsoAdminListAccountAssignmentsForPrincipalOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves a list of the IAM Identity Center associated Amazon Web Ser- vices accounts that the principal has access to. This action must be called from the management account containing your organization in- stance of IAM Identity Center. This action is not valid for account in- stances of IAM Identity Center. See also: AWS API Documentation list-account-assignments-for-principal is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You...
+    /// Retrieves a list of the IAM Identity Center associated Amazon Web Services accounts that the principal has access to. This action must be called from the management account containing your organization instance of IAM Identity Center. This action is not valid for account instances of IAM Identity Center. See also: AWS API Documentation list-account-assignments-for-principal is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can dis...
     /// </summary>
-    /// <param name="InstanceArn">Specifies the ARN of the instance of IAM Identity Center that con- tains the principal. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
-    /// <param name="PrincipalId">Specifies the principal for which you want to retrieve the list of account assignments. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}</param>
-    /// <param name="PrincipalType">Specifies the type of the principal. Possible values: o USER o GROUP</param>
+    /// <param name="InstanceArn">Specifies the ARN of the instance of IAM Identity Center that contains the principal. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
+    /// <param name="PrincipalId">Specifies the principal for which you want to retrieve the list of account assignments. Constraints: • min: 1 • max: 47 • pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}</param>
+    /// <param name="PrincipalType">Specifies the type of the principal. Possible values: • USER • GROUP</param>
     public AwsSsoAdminListAccountAssignmentsForPrincipalOptions(
         string InstanceArn,
         string PrincipalId,
@@ -65,34 +67,31 @@ public record AwsSsoAdminListAccountAssignmentsForPrincipalOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ARN of the instance of IAM Identity Center that con- tains the principal. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}
+    /// Specifies the ARN of the instance of IAM Identity Center that contains the principal. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}
     /// </summary>
     [CliOption("--instance-arn")]
     public string? InstanceArn { get; private init; }
 
     /// <summary>
-    /// Specifies the principal for which you want to retrieve the list of account assignments. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}
+    /// Specifies the principal for which you want to retrieve the list of account assignments. Constraints: • min: 1 • max: 47 • pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}
     /// </summary>
     [CliOption("--principal-id")]
     public string? PrincipalId { get; private init; }
 
     /// <summary>
-    /// Specifies the type of the principal. Possible values: o USER o GROUP
+    /// Specifies the type of the principal. Possible values: • USER • GROUP
     /// </summary>
     [CliOption("--principal-type")]
     public AwsSsoAdminListAccountAssignmentsForPrincipalPrincipalType? PrincipalType { get; private init; }
 
     /// <summary>
-    /// Specifies an Amazon Web Services account ID number. Results are fil- tered to only those that match this ID number. AccountId -&gt; (string) The ID number of an Amazon Web Services account that filters the results in the response. Constraints: o min: 12 o max: 12 o pattern: \d{12} Shorthand Syntax: AccountId=string JSON Syntax: { "AccountId": "string" }
+    /// Specifies an Amazon Web Services account ID number. Results are filtered to only those that match this ID number. AccountId -&gt; (string) The ID number of an Amazon Web Services account that filters the results in the response. Constraints: • min: 12 • max: 12 • pattern: \d{12} Shorthand Syntax: AccountId=string JSON Syntax: { "AccountId": "string" }
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -102,16 +101,19 @@ public record AwsSsoAdminListAccountAssignmentsForPrincipalOptions : AwsOptions,
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

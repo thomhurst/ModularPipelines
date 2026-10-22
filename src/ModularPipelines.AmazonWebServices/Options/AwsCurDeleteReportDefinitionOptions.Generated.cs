@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCurDeleteReportDefinitionOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Deletes the specified report. Any tags associated with the report are also deleted. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ReportName">The name of the report that you want to delete. The name must be unique, is case sensitive, and can't include spaces. Constraints: o max: 256 o pattern: [0-9A-Za-z!\-_.*\'()]+</param>
+    /// <param name="ReportName">The name of the report that you want to delete. The name must be unique, is case sensitive, and can't include spaces. Constraints: • max: 256 • pattern: [0-9A-Za-z!\-_.*\'()]+</param>
     public AwsCurDeleteReportDefinitionOptions(
         string ReportName
     )
@@ -56,7 +58,7 @@ public record AwsCurDeleteReportDefinitionOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the report that you want to delete. The name must be unique, is case sensitive, and can't include spaces. Constraints: o max: 256 o pattern: [0-9A-Za-z!\-_.*\'()]+
+    /// The name of the report that you want to delete. The name must be unique, is case sensitive, and can't include spaces. Constraints: • max: 256 • pattern: [0-9A-Za-z!\-_.*\'()]+
     /// </summary>
     [CliOption("--report-name")]
     public string? ReportName { get; private init; }

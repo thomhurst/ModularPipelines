@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the configuration of the specified Amazon Web Services Veri- fied Access instance. See also: AWS API Documentation
+/// Modifies the configuration of the specified Amazon Web Services Verified Access instance. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +28,7 @@ public record AwsEc2ModifyVerifiedAccessInstanceOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the configuration of the specified Amazon Web Services Veri- fied Access instance. See also: AWS API Documentation
+    /// Modifies the configuration of the specified Amazon Web Services Verified Access instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="VerifiedAccessInstanceId">The ID of the Verified Access instance.</param>
     public AwsEc2ModifyVerifiedAccessInstanceOptions(
@@ -69,13 +71,13 @@ public record AwsEc2ModifyVerifiedAccessInstanceOptions : AwsOptions, IValidatab
     public string? Description { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive token that you provide to ensure idempo- tency of your modification request. For more information, see Ensuring idempotency .
+    /// A unique, case-sensitive token that you provide to ensure idempotency of your modification request. For more information, see Ensuring idempotency .
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

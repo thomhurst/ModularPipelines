@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRoute53resolverDisassociateFirewallRuleGroupOptions : AwsOption
     /// <summary>
     /// Disassociates a FirewallRuleGroup from a VPC, to remove DNS filtering from the VPC. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FirewallRuleGroupAssociationId">The identifier of the FirewallRuleGroupAssociation . Constraints: o min: 1 o max: 64</param>
+    /// <param name="FirewallRuleGroupAssociationId">The identifier of the FirewallRuleGroupAssociation . Constraints: • min: 1 • max: 64</param>
     public AwsRoute53resolverDisassociateFirewallRuleGroupOptions(
         string FirewallRuleGroupAssociationId
     )
@@ -56,7 +58,7 @@ public record AwsRoute53resolverDisassociateFirewallRuleGroupOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the FirewallRuleGroupAssociation . Constraints: o min: 1 o max: 64
+    /// The identifier of the FirewallRuleGroupAssociation . Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--firewall-rule-group-association-id")]
     public string? FirewallRuleGroupAssociationId { get; private init; }

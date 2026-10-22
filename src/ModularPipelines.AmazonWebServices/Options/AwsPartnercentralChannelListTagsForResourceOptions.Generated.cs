@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsPartnercentralChannelListTagsForResourceOptions : AwsOptions, I
     /// <summary>
     /// Lists tags associated with a specific resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to list tags for. Constraints: o min: 1 o max: 1011 o pattern: arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/(program-management-account/pma-[a-z0-9]{13}(/rela- tionship/rs-[a-z0-9]{13})?|channel-handshake/ch-[a-z0-9]{13})</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to list tags for. Constraints: • min: 1 • max: 1011 • pattern: arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/(program-management-account/pma-[a-z0-9]{13}(/relationship/rs-[a-z0-9]{13})?|channel-handshake/ch-[a-z0-9]{13})</param>
     public AwsPartnercentralChannelListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsPartnercentralChannelListTagsForResourceOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource to list tags for. Constraints: o min: 1 o max: 1011 o pattern: arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/(program-management-account/pma-[a-z0-9]{13}(/rela- tionship/rs-[a-z0-9]{13})?|channel-handshake/ch-[a-z0-9]{13})
+    /// The Amazon Resource Name (ARN) of the resource to list tags for. Constraints: • min: 1 • max: 1011 • pattern: arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/(program-management-account/pma-[a-z0-9]{13}(/relationship/rs-[a-z0-9]{13})?|channel-handshake/ch-[a-z0-9]{13})
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

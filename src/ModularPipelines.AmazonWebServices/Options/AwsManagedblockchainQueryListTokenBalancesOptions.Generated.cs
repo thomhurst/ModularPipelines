@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This action returns the following for a given blockchain network: o Lists all token balances owned by an address (either a contract ad- dress or a wallet address). o Lists all token balances for all tokens created by a contract. o Lists all token balances for a given token. NOTE: You must always specify the network property of the tokenFilter when using this operation. See also: AWS API Documentation list-token-balances is a paginated operation. Multiple API calls may be issued in order to retri...
+/// This action returns the following for a given blockchain network: • Lists all token balances owned by an address (either a contract address or a wallet address). • Lists all token balances for all tokens created by a contract. • Lists all token balances for a given token. NOTE: You must always specify the network property of the tokenFilter when using this operation. See also: AWS API Documentation list-token-balances is a paginated operation. Multiple API calls may be issued in order to retriev...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsManagedblockchainQueryListTokenBalancesOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This action returns the following for a given blockchain network: o Lists all token balances owned by an address (either a contract ad- dress or a wallet address). o Lists all token balances for all tokens created by a contract. o Lists all token balances for a given token. NOTE: You must always specify the network property of the tokenFilter when using this operation. See also: AWS API Documentation list-token-balances is a paginated operation. Multiple API calls may be issued in order to retri...
+    /// This action returns the following for a given blockchain network: • Lists all token balances owned by an address (either a contract address or a wallet address). • Lists all token balances for all tokens created by a contract. • Lists all token balances for a given token. NOTE: You must always specify the network property of the tokenFilter when using this operation. See also: AWS API Documentation list-token-balances is a paginated operation. Multiple API calls may be issued in order to retriev...
     /// </summary>
-    /// <param name="TokenFilter">The contract address or a token identifier on the blockchain network by which to filter the request. You must specify the contractAddress property of this container when listing tokens minted by a contract. NOTE: You must always specify the network property of this container when using this operation. network -&gt; (string) [required] The blockchain network of the token. Possible values: o ETHEREUM_MAINNET o ETHEREUM_SEPOLIA_TESTNET o BITCOIN_MAINNET o BITCOIN_TESTNET contractAddress -&gt; (string) This is the address of the contract. Constraints: o pattern: [-A-Za-z0-9]{13,74} tokenId -&gt; (string) The unique identifier of the token. Constraints: o pattern: [a-zA-Z0-9]{1,66} Shorthand Syntax: network=string,contractAddress=string,tokenId=string JSON Syntax: { "network": "ETHEREUM_MAINNET"|"ETHEREUM_SEPOLIA_TESTNET"|"BITCOIN_MAINNET"|"BITCOIN_TESTNET", "contractAddress": "string", "tokenId": "string" }</param>
+    /// <param name="TokenFilter">The contract address or a token identifier on the blockchain network by which to filter the request. You must specify the contractAddress property of this container when listing tokens minted by a contract. NOTE: You must always specify the network property of this container when using this operation. network -&gt; (string) [required] The blockchain network of the token. Possible values: • ETHEREUM_MAINNET • ETHEREUM_SEPOLIA_TESTNET • BITCOIN_MAINNET • BITCOIN_TESTNET contractAddress -&gt; (string) This is the address of the contract. Constraints: • pattern: [-A-Za-z0-9]{13,74} tokenId -&gt; (string) The unique identifier of the token. Constraints: • pattern: [a-zA-Z0-9]{1,66} Shorthand Syntax: network=string,contractAddress=string,tokenId=string JSON Syntax: { "network": "ETHEREUM_MAINNET"|"ETHEREUM_SEPOLIA_TESTNET"|"BITCOIN_MAINNET"|"BITCOIN_TESTNET", "contractAddress": "string", "tokenId": "string" }</param>
     public AwsManagedblockchainQueryListTokenBalancesOptions(
         string TokenFilter
     )
@@ -57,23 +59,20 @@ public record AwsManagedblockchainQueryListTokenBalancesOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The contract address or a token identifier on the blockchain network by which to filter the request. You must specify the contractAddress property of this container when listing tokens minted by a contract. NOTE: You must always specify the network property of this container when using this operation. network -&gt; (string) [required] The blockchain network of the token. Possible values: o ETHEREUM_MAINNET o ETHEREUM_SEPOLIA_TESTNET o BITCOIN_MAINNET o BITCOIN_TESTNET contractAddress -&gt; (string) This is the address of the contract. Constraints: o pattern: [-A-Za-z0-9]{13,74} tokenId -&gt; (string) The unique identifier of the token. Constraints: o pattern: [a-zA-Z0-9]{1,66} Shorthand Syntax: network=string,contractAddress=string,tokenId=string JSON Syntax: { "network": "ETHEREUM_MAINNET"|"ETHEREUM_SEPOLIA_TESTNET"|"BITCOIN_MAINNET"|"BITCOIN_TESTNET", "contractAddress": "string", "tokenId": "string" }
+    /// The contract address or a token identifier on the blockchain network by which to filter the request. You must specify the contractAddress property of this container when listing tokens minted by a contract. NOTE: You must always specify the network property of this container when using this operation. network -&gt; (string) [required] The blockchain network of the token. Possible values: • ETHEREUM_MAINNET • ETHEREUM_SEPOLIA_TESTNET • BITCOIN_MAINNET • BITCOIN_TESTNET contractAddress -&gt; (string) This is the address of the contract. Constraints: • pattern: [-A-Za-z0-9]{13,74} tokenId -&gt; (string) The unique identifier of the token. Constraints: • pattern: [a-zA-Z0-9]{1,66} Shorthand Syntax: network=string,contractAddress=string,tokenId=string JSON Syntax: { "network": "ETHEREUM_MAINNET"|"ETHEREUM_SEPOLIA_TESTNET"|"BITCOIN_MAINNET"|"BITCOIN_TESTNET", "contractAddress": "string", "tokenId": "string" }
     /// </summary>
     [SecretValue]
     [CliOption("--token-filter")]
     public string? TokenFilter { get; private init; }
 
     /// <summary>
-    /// The contract or wallet address on the blockchain network by which to filter the request. You must specify the address property of the ownerFilter when listing balances of tokens owned by the address. address -&gt; (string) [required] The contract or wallet address. Constraints: o pattern: [-A-Za-z0-9]{13,74} Shorthand Syntax: address=string JSON Syntax: { "address": "string" }
+    /// The contract or wallet address on the blockchain network by which to filter the request. You must specify the address property of the ownerFilter when listing balances of tokens owned by the address. address -&gt; (string) [required] The contract or wallet address. Constraints: • pattern: [-A-Za-z0-9]{13,74} Shorthand Syntax: address=string JSON Syntax: { "address": "string" }
     /// </summary>
     [CliOption("--owner-filter")]
     public string? OwnerFilter { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -83,16 +82,19 @@ public record AwsManagedblockchainQueryListTokenBalancesOptions : AwsOptions, IV
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 250
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 250
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

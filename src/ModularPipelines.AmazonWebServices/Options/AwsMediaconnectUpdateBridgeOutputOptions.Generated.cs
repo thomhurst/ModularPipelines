@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMediaconnectUpdateBridgeOutputOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Updates an existing bridge output. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BridgeArn">The Amazon Resource Name (ARN) of the bridge that you want to up- date. Constraints: o pattern: arn:.+:mediaconnect.+:bridge:.+</param>
+    /// <param name="BridgeArn">The Amazon Resource Name (ARN) of the bridge that you want to update. Constraints: • pattern: arn:.+:mediaconnect.+:bridge:.+</param>
     /// <param name="OutputName">Tname of the output that you want to update.</param>
     public AwsMediaconnectUpdateBridgeOutputOptions(
         string BridgeArn,
@@ -60,7 +62,7 @@ public record AwsMediaconnectUpdateBridgeOutputOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the bridge that you want to up- date. Constraints: o pattern: arn:.+:mediaconnect.+:bridge:.+
+    /// The Amazon Resource Name (ARN) of the bridge that you want to update. Constraints: • pattern: arn:.+:mediaconnect.+:bridge:.+
     /// </summary>
     [CliOption("--bridge-arn")]
     public string? BridgeArn { get; private init; }
@@ -72,7 +74,7 @@ public record AwsMediaconnectUpdateBridgeOutputOptions : AwsOptions, IValidatabl
     public string? OutputName { get; private init; }
 
     /// <summary>
-    /// The network of the bridge output. IpAddress -&gt; (string) The network output IP Address. NetworkName -&gt; (string) The network output's gateway network name. Port -&gt; (integer) The network output port. Protocol -&gt; (string) The network output protocol. NOTE: Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only. Possible values: o zixi-push o rtp-fec o rtp o zixi-pull o rist o st2110-jpegxs o cdi o srt-listener o srt-caller o fujitsu-qos o udp o ndi-speed-hq Ttl -&gt; (integer) The network output TTL. Shorthand Syntax: IpAddress=string,NetworkName=string,Port=integer,Protocol=string,Ttl=integer JSON Syntax: { "IpAddress": "string", "NetworkName": "string", "Port": integer, "Protocol": "zixi-push"|"rtp-fec"|"rtp"|"zixi-pull"|"rist"|"st2110-jpegxs"|"cdi"|"srt-listener"|"srt-caller"|"fujitsu-qos"|"udp"|"ndi-speed-hq", "Ttl": integer }
+    /// The network of the bridge output. IpAddress -&gt; (string) The network output IP Address. NetworkName -&gt; (string) The network output's gateway network name. Port -&gt; (integer) The network output port. Protocol -&gt; (string) The network output protocol. NOTE: Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only. Possible values: • zixi-push • rtp-fec • rtp • zixi-pull • rist • st2110-jpegxs • cdi • srt-listener • srt-caller • fujitsu-qos • udp • ndi-speed-hq Ttl -&gt; (integer) The network output TTL. Shorthand Syntax: IpAddress=string,NetworkName=string,Port=integer,Protocol=string,Ttl=integer JSON Syntax: { "IpAddress": "string", "NetworkName": "string", "Port": integer, "Protocol": "zixi-push"|"rtp-fec"|"rtp"|"zixi-pull"|"rist"|"st2110-jpegxs"|"cdi"|"srt-listener"|"srt-caller"|"fujitsu-qos"|"udp"|"ndi-speed-hq", "Ttl": integer }
     /// </summary>
     [CliOption("--network-output")]
     public string? NetworkOutput { get; set; }

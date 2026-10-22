@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Wait until a Stream is ACTIVE It will poll every 2 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+/// Wait until a Stream is ACTIVE It will poll every 2 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsDsqlWaitStreamActiveOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Wait until a Stream is ACTIVE It will poll every 2 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+    /// Wait until a Stream is ACTIVE It will poll every 2 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterIdentifier">The ID of the cluster containing the stream to retrieve. Constraints: o pattern: [a-z0-9]{26}</param>
-    /// <param name="StreamIdentifier">The ID of the stream to retrieve. Constraints: o pattern: [a-z0-9]{26}</param>
+    /// <param name="ClusterIdentifier">The ID of the cluster containing the stream to retrieve. Constraints: • pattern: [a-z0-9]{26}</param>
+    /// <param name="StreamIdentifier">The ID of the stream to retrieve. Constraints: • pattern: [a-z0-9]{26}</param>
     public AwsDsqlWaitStreamActiveOptions(
         string ClusterIdentifier,
         string StreamIdentifier
@@ -60,13 +62,13 @@ public record AwsDsqlWaitStreamActiveOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the cluster containing the stream to retrieve. Constraints: o pattern: [a-z0-9]{26}
+    /// The ID of the cluster containing the stream to retrieve. Constraints: • pattern: [a-z0-9]{26}
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the stream to retrieve. Constraints: o pattern: [a-z0-9]{26}
+    /// The ID of the stream to retrieve. Constraints: • pattern: [a-z0-9]{26}
     /// </summary>
     [CliOption("--stream-identifier")]
     public string? StreamIdentifier { get; private init; }

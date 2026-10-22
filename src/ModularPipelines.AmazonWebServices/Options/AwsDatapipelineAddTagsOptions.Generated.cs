@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDatapipelineAddTagsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Adds or modifies tags for the specified pipeline. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PipelineId">The ID of the pipeline. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
-    /// <param name="Tags">The tags to add, as key/value pairs. Constraints: o min: 0 o max: 10 (structure) Tags are key/value pairs defined by a user and associated with a pipeline to control access. AWS Data Pipeline allows you to as- sociate ten tags per pipeline. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide . key -&gt; (string) [required] The key name of a tag defined by a user. For more informa- tion, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide . Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The optional value portion of a tag defined by a user. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide . Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
+    /// <param name="PipelineId">The ID of the pipeline. Constraints: • min: 1 • max: 1024 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="Tags">The tags to add, as key/value pairs. Constraints: • min: 0 • max: 10 (structure) Tags are key/value pairs defined by a user and associated with a pipeline to control access. AWS Data Pipeline allows you to associate ten tags per pipeline. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide . key -&gt; (string) [required] The key name of a tag defined by a user. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide . Constraints: • min: 1 • max: 128 value -&gt; (string) [required] The optional value portion of a tag defined by a user. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide . Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
     public AwsDatapipelineAddTagsOptions(
         string PipelineId,
         IEnumerable<string> Tags
@@ -71,13 +73,13 @@ public record AwsDatapipelineAddTagsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the pipeline. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The ID of the pipeline. Constraints: • min: 1 • max: 1024 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--pipeline-id")]
     public string? PipelineId { get; private init; }
 
     /// <summary>
-    /// The tags to add, as key/value pairs. Constraints: o min: 0 o max: 10 (structure) Tags are key/value pairs defined by a user and associated with a pipeline to control access. AWS Data Pipeline allows you to as- sociate ten tags per pipeline. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide . key -&gt; (string) [required] The key name of a tag defined by a user. For more informa- tion, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide . Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The optional value portion of a tag defined by a user. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide . Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// The tags to add, as key/value pairs. Constraints: • min: 0 • max: 10 (structure) Tags are key/value pairs defined by a user and associated with a pipeline to control access. AWS Data Pipeline allows you to associate ten tags per pipeline. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide . key -&gt; (string) [required] The key name of a tag defined by a user. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide . Constraints: • min: 1 • max: 128 value -&gt; (string) [required] The optional value portion of a tag defined by a user. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide . Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }

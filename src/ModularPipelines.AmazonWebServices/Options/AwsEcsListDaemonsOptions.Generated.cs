@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of daemons. You can filter the results by cluster or ca- pacity provider. See also: AWS API Documentation
+/// Returns a list of daemons. You can filter the results by cluster or capacity provider. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -35,7 +35,7 @@ public record AwsEcsListDaemonsOptions : AwsOptions
     public IEnumerable<string>? CapacityProviderArns { get; set; }
 
     /// <summary>
-    /// The maximum number of daemon results that ListDaemons returned in paginated output. When this parameter is used, ListDaemons only re- turns maxResults results in a single page along with a nextToken re- sponse element. The remaining results of the initial request can be seen by sending another ListDaemons request with the returned next- Token value. This value can be between 1 and 100. If this parameter isn't used, then ListDaemons returns up to 100 results and a nextTo- ken value if applicable.
+    /// The maximum number of daemon results that ListDaemons returned in paginated output. When this parameter is used, ListDaemons only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListDaemons request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListDaemons returns up to 100 results and a nextToken value if applicable.
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a resource share. If you are the resource owner, the subscriber will no longer have access to the shared resource. If you are the sub- scriber, this operation deletes your access to the share. See also: AWS API Documentation
+/// Deletes a resource share. If you are the resource owner, the subscriber will no longer have access to the shared resource. If you are the subscriber, this operation deletes your access to the share. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsOmicsDeleteShareOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a resource share. If you are the resource owner, the subscriber will no longer have access to the shared resource. If you are the sub- scriber, this operation deletes your access to the share. See also: AWS API Documentation
+    /// Deletes a resource share. If you are the resource owner, the subscriber will no longer have access to the shared resource. If you are the subscriber, this operation deletes your access to the share. See also: AWS API Documentation
     /// </summary>
     /// <param name="ShareId">The ID for the resource share to be deleted.</param>
     public AwsOmicsDeleteShareOptions(

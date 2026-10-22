@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIvsGetAdConfigurationOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets the ad configuration represented by the specified ARN. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">ARN of the ad configuration to be retrieved. Constraints: o min: 0 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:ad-configura- tion/[a-zA-Z0-9-]+</param>
+    /// <param name="Arn">ARN of the ad configuration to be retrieved. Constraints: • min: 0 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:ad-configuration/[a-zA-Z0-9-]+</param>
     public AwsIvsGetAdConfigurationOptions(
         string Arn
     )
@@ -56,7 +58,7 @@ public record AwsIvsGetAdConfigurationOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of the ad configuration to be retrieved. Constraints: o min: 0 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:ad-configura- tion/[a-zA-Z0-9-]+
+    /// ARN of the ad configuration to be retrieved. Constraints: • min: 0 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:ad-configuration/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }

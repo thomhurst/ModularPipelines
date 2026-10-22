@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsLexv2ModelsListBuiltInSlotTypesOptions : AwsOptions, IValidatab
     /// <summary>
     /// Gets a list of built-in slot types that meet the specified criteria. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LocaleId">The identifier of the language and locale of the slot types to list. The string must match one of the supported locales. For more infor- mation, see Supported languages .</param>
+    /// <param name="LocaleId">The identifier of the language and locale of the slot types to list. The string must match one of the supported locales. For more information, see Supported languages .</param>
     public AwsLexv2ModelsListBuiltInSlotTypesOptions(
         string LocaleId
     )
@@ -57,19 +59,19 @@ public record AwsLexv2ModelsListBuiltInSlotTypesOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the language and locale of the slot types to list. The string must match one of the supported locales. For more infor- mation, see Supported languages .
+    /// The identifier of the language and locale of the slot types to list. The string must match one of the supported locales. For more information, see Supported languages .
     /// </summary>
     [CliOption("--locale-id")]
     public string? LocaleId { get; private init; }
 
     /// <summary>
-    /// Determines the sort order for the response from the ListBuiltInSlot- Types operation. You can choose to sort by the slot type signature in either ascending or descending order. attribute -&gt; (string) [required] The attribute to use to sort the list of built-in intents. Possible values: o SlotTypeSignature order -&gt; (string) [required] The order to sort the list. You can choose ascending or descend- ing. Possible values: o Ascending o Descending Shorthand Syntax: attribute=string,order=string JSON Syntax: { "attribute": "SlotTypeSignature", "order": "Ascending"|"Descending" }
+    /// Determines the sort order for the response from the ListBuiltInSlotTypes operation. You can choose to sort by the slot type signature in either ascending or descending order. attribute -&gt; (string) [required] The attribute to use to sort the list of built-in intents. Possible values: • SlotTypeSignature order -&gt; (string) [required] The order to sort the list. You can choose ascending or descending. Possible values: • Ascending • Descending Shorthand Syntax: attribute=string,order=string JSON Syntax: { "attribute": "SlotTypeSignature", "order": "Ascending"|"Descending" }
     /// </summary>
     [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
     /// <summary>
-    /// The maximum number of built-in slot types to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned. Constraints: o min: 20 o max: 20
+    /// The maximum number of built-in slot types to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned. Constraints: • min: 20 • max: 20
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

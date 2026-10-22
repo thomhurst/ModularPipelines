@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the executions of a maintenance window. This includes information about when the maintenance window was scheduled to be active, and in- formation about tasks registered and run with the maintenance window. See also: AWS API Documentation describe-maintenance-window-executions is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the ...
+/// Lists the executions of a maintenance window. This includes information about when the maintenance window was scheduled to be active, and information about tasks registered and run with the maintenance window. See also: AWS API Documentation describe-maintenance-window-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --quer...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsSsmDescribeMaintenanceWindowExecutionsOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the executions of a maintenance window. This includes information about when the maintenance window was scheduled to be active, and in- formation about tasks registered and run with the maintenance window. See also: AWS API Documentation describe-maintenance-window-executions is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the ...
+    /// Lists the executions of a maintenance window. This includes information about when the maintenance window was scheduled to be active, and information about tasks registered and run with the maintenance window. See also: AWS API Documentation describe-maintenance-window-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --quer...
     /// </summary>
-    /// <param name="WindowId">The ID of the maintenance window whose executions should be re- trieved. Constraints: o min: 20 o max: 20 o pattern: ^mw-[0-9a-f]{17}$</param>
+    /// <param name="WindowId">The ID of the maintenance window whose executions should be retrieved. Constraints: • min: 20 • max: 20 • pattern: ^mw-[0-9a-f]{17}$</param>
     public AwsSsmDescribeMaintenanceWindowExecutionsOptions(
         string WindowId
     )
@@ -57,22 +59,19 @@ public record AwsSsmDescribeMaintenanceWindowExecutionsOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the maintenance window whose executions should be re- trieved. Constraints: o min: 20 o max: 20 o pattern: ^mw-[0-9a-f]{17}$
+    /// The ID of the maintenance window whose executions should be retrieved. Constraints: • min: 20 • max: 20 • pattern: ^mw-[0-9a-f]{17}$
     /// </summary>
     [CliOption("--window-id")]
     public string? WindowId { get; private init; }
 
     /// <summary>
-    /// Each entry in the array is a structure containing: o Key. A string between 1 and 128 characters. Supported keys include ExecutedBefore and ExecutedAfter . o Values. An array of strings, each between 1 and 256 characters. Supported values are date/time strings in a valid ISO 8601 date/time format, such as 2024-11-04T05:00:00Z . Constraints: o min: 0 o max: 5 (structure) Filter used in the request. Supported filter keys depend on the API operation that includes the filter. API operations that use MaintenanceWindowFilter&gt; include the following: o DescribeMaintenanceWindowExecutions o DescribeMaintenanceWindowExecutionTaskInvocations o DescribeMaintenanceWindowExecutionTasks o DescribeMaintenanceWindows o DescribeMaintenanceWindowTargets o DescribeMaintenanceWindowTasks Key -&gt; (string) The name of the filter. Constraints: o min: 1 o max: 128 Values -&gt; (list) The filter values. (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...] } ... ]
+    /// Each entry in the array is a structure containing: • Key. A string between 1 and 128 characters. Supported keys include ExecutedBefore and ExecutedAfter . • Values. An array of strings, each between 1 and 256 characters. Supported values are date/time strings in a valid ISO 8601 date/time format, such as 2024-11-04T05:00:00Z . Constraints: • min: 0 • max: 5 (structure) Filter used in the request. Supported filter keys depend on the API operation that includes the filter. API operations that use MaintenanceWindowFilter&gt; include the following: • DescribeMaintenanceWindowExecutions • DescribeMaintenanceWindowExecutionTaskInvocations • DescribeMaintenanceWindowExecutionTasks • DescribeMaintenanceWindows • DescribeMaintenanceWindowTargets • DescribeMaintenanceWindowTasks Key -&gt; (string) The name of the filter. Constraints: • min: 1 • max: 128 Values -&gt; (list) The filter values. (string) Constraints: • min: 1 • max: 256 Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -82,16 +81,19 @@ public record AwsSsmDescribeMaintenanceWindowExecutionsOptions : AwsOptions, IVa
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 10 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 10 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

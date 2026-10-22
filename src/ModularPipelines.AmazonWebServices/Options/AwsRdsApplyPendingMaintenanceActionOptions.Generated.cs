@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsRdsApplyPendingMaintenanceActionOptions : AwsOptions, IValidata
     /// Applies a pending maintenance action to a resource (for example, to a DB instance). See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceIdentifier">The RDS Amazon Resource Name (ARN) of the resource that the pending maintenance action applies to. For information about creating an ARN, see Constructing an RDS Amazon Resource Name (ARN) .</param>
-    /// <param name="ApplyAction">The pending maintenance action to apply to this resource. Valid Values: o ca-certificate-rotation o db-upgrade o hardware-maintenance o os-upgrade o system-update For more information about these actions, see Maintenance actions for Amazon Aurora or Maintenance actions for Amazon RDS .</param>
-    /// <param name="OptInType">A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in request of type immediate can't be undone. Valid Values: o immediate - Apply the maintenance action immediately. o next-maintenance - Apply the maintenance action during the next maintenance window for the resource. o undo-opt-in - Cancel any existing next-maintenance opt-in re- quests.</param>
+    /// <param name="ApplyAction">The pending maintenance action to apply to this resource. Valid Values: • ca-certificate-rotation • db-upgrade • hardware-maintenance • os-upgrade • system-update For more information about these actions, see Maintenance actions for Amazon Aurora or Maintenance actions for Amazon RDS .</param>
+    /// <param name="OptInType">A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in request of type immediate can't be undone. Valid Values: • immediate - Apply the maintenance action immediately. • next-maintenance - Apply the maintenance action during the next maintenance window for the resource. • undo-opt-in - Cancel any existing next-maintenance opt-in requests.</param>
     public AwsRdsApplyPendingMaintenanceActionOptions(
         string ResourceIdentifier,
         string ApplyAction,
@@ -70,13 +72,13 @@ public record AwsRdsApplyPendingMaintenanceActionOptions : AwsOptions, IValidata
     public string? ResourceIdentifier { get; private init; }
 
     /// <summary>
-    /// The pending maintenance action to apply to this resource. Valid Values: o ca-certificate-rotation o db-upgrade o hardware-maintenance o os-upgrade o system-update For more information about these actions, see Maintenance actions for Amazon Aurora or Maintenance actions for Amazon RDS .
+    /// The pending maintenance action to apply to this resource. Valid Values: • ca-certificate-rotation • db-upgrade • hardware-maintenance • os-upgrade • system-update For more information about these actions, see Maintenance actions for Amazon Aurora or Maintenance actions for Amazon RDS .
     /// </summary>
     [CliOption("--apply-action")]
     public string? ApplyAction { get; private init; }
 
     /// <summary>
-    /// A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in request of type immediate can't be undone. Valid Values: o immediate - Apply the maintenance action immediately. o next-maintenance - Apply the maintenance action during the next maintenance window for the resource. o undo-opt-in - Cancel any existing next-maintenance opt-in re- quests.
+    /// A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in request of type immediate can't be undone. Valid Values: • immediate - Apply the maintenance action immediately. • next-maintenance - Apply the maintenance action during the next maintenance window for the resource. • undo-opt-in - Cancel any existing next-maintenance opt-in requests.
     /// </summary>
     [CliOption("--opt-in-type")]
     public string? OptInType { get; private init; }

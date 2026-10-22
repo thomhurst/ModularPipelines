@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsTnbListTagsForResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Lists tags for AWS TNB resources. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">Resource ARN. Constraints: o pattern: ^arn:aws:tnb:[a-z0-9-]+:[^:]*:.*$</param>
+    /// <param name="ResourceArn">Resource ARN. Constraints: • pattern: ^arn:aws:tnb:[a-z0-9-]+:[^:]*:.*$</param>
     public AwsTnbListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsTnbListTagsForResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Resource ARN. Constraints: o pattern: ^arn:aws:tnb:[a-z0-9-]+:[^:]*:.*$
+    /// Resource ARN. Constraints: • pattern: ^arn:aws:tnb:[a-z0-9-]+:[^:]*:.*$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

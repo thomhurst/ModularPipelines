@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -82,13 +83,13 @@ public record AwsS3apiWriteGetObjectResponseOptions : AwsOptions, IValidatableOb
     public string? Body { get; set; }
 
     /// <summary>
-    /// The integer status code for an HTTP response of a corresponding GetObject request. The following is a list of status codes. o 200 - OK o 206 - Partial Content o 304 - Not Modified o 400 - Bad Request o 401 - Unauthorized o 403 - Forbidden o 404 - Not Found o 405 - Method Not Allowed o 409 - Conflict o 411 - Length Required o 412 - Precondition Failed o 416 - Range Not Satisfiable o 500 - Internal Server Error o 503 - Service Unavailable
+    /// The integer status code for an HTTP response of a corresponding GetObject request. The following is a list of status codes. • 200 - OK • 206 - Partial Content • 304 - Not Modified • 400 - Bad Request • 401 - Unauthorized • 403 - Forbidden • 404 - Not Found • 405 - Method Not Allowed • 409 - Conflict • 411 - Length Required • 412 - Precondition Failed • 416 - Range Not Satisfiable • 500 - Internal Server Error • 503 - Service Unavailable
     /// </summary>
     [CliOption("--status-code")]
     public int? StatusCode { get; set; }
 
     /// <summary>
-    /// A string that uniquely identifies an error condition. Returned in the &lt;Code&gt; tag of the error XML response for a corresponding GetOb- ject call. Cannot be used with a successful StatusCode header or when the transformed object is provided in the body. All error codes from S3 are sentence-cased. The regular expression (regex) value is "^[A-Z][a-zA-Z]+$" .
+    /// A string that uniquely identifies an error condition. Returned in the &lt;Code&gt; tag of the error XML response for a corresponding GetObject call. Cannot be used with a successful StatusCode header or when the transformed object is provided in the body. All error codes from S3 are sentence-cased. The regular expression (regex) value is "^[A-Z][a-zA-Z]+$" .
     /// </summary>
     [CliOption("--error-code")]
     public string? ErrorCode { get; set; }
@@ -118,7 +119,7 @@ public record AwsS3apiWriteGetObjectResponseOptions : AwsOptions, IValidatableOb
     public string? ContentDisposition { get; set; }
 
     /// <summary>
-    /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the me- dia-type referenced by the Content-Type header field.
+    /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
     /// </summary>
     [CliOption("--content-encoding")]
     public string? ContentEncoding { get; set; }
@@ -133,7 +134,7 @@ public record AwsS3apiWriteGetObjectResponseOptions : AwsOptions, IValidatableOb
     /// The size of the content body in bytes.
     /// </summary>
     [CliOption("--content-length")]
-    public int? ContentLength { get; set; }
+    public long? ContentLength { get; set; }
 
     /// <summary>
     /// The portion of the object returned in the response.
@@ -148,13 +149,13 @@ public record AwsS3apiWriteGetObjectResponseOptions : AwsOptions, IValidatableOb
     public string? ContentType { get; set; }
 
     /// <summary>
-    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This speci- fies the Base64 encoded, 32-bit CRC32 checksum of the object re- turned by the Object Lambda function. This may not match the check- sum for the object stored in Amazon S3. Amazon S3 will perform vali- dation of the checksum values only when the original GetObject re- quest required checksum validation. For more information about checksums, see Checking object integrity in the Amazon S3 User Guide . Only one checksum header can be specified at a time. If you supply multiple checksum headers, this request will fail.
+    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This specifies the Base64 encoded, 32-bit CRC32 checksum of the object returned by the Object Lambda function. This may not match the checksum for the object stored in Amazon S3. Amazon S3 will perform validation of the checksum values only when the original GetObject request required checksum validation. For more information about checksums, see Checking object integrity in the Amazon S3 User Guide . Only one checksum header can be specified at a time. If you supply multiple checksum headers, this request will fail.
     /// </summary>
     [CliOption("--checksum-crc32")]
     public string? ChecksumCrc32 { get; set; }
 
     /// <summary>
-    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This speci- fies the Base64 encoded, 32-bit CRC32C checksum of the object re- turned by the Object Lambda function. This may not match the check- sum for the object stored in Amazon S3. Amazon S3 will perform vali- dation of the checksum values only when the original GetObject re- quest required checksum validation. For more information about checksums, see Checking object integrity in the Amazon S3 User Guide . Only one checksum header can be specified at a time. If you supply multiple checksum headers, this request will fail.
+    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This specifies the Base64 encoded, 32-bit CRC32C checksum of the object returned by the Object Lambda function. This may not match the checksum for the object stored in Amazon S3. Amazon S3 will perform validation of the checksum values only when the original GetObject request required checksum validation. For more information about checksums, see Checking object integrity in the Amazon S3 User Guide . Only one checksum header can be specified at a time. If you supply multiple checksum headers, this request will fail.
     /// </summary>
     [CliOption("--checksum-crc32-c")]
     public string? ChecksumCrc32C { get; set; }
@@ -166,13 +167,13 @@ public record AwsS3apiWriteGetObjectResponseOptions : AwsOptions, IValidatableOb
     public string? ChecksumCrc64Nvme { get; set; }
 
     /// <summary>
-    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This speci- fies the Base64 encoded, 160-bit SHA1 digest of the object returned by the Object Lambda function. This may not match the checksum for the object stored in Amazon S3. Amazon S3 will perform validation of the checksum values only when the original GetObject request re- quired checksum validation. For more information about checksums, see Checking object integrity in the Amazon S3 User Guide . Only one checksum header can be specified at a time. If you supply multiple checksum headers, this request will fail.
+    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This specifies the Base64 encoded, 160-bit SHA1 digest of the object returned by the Object Lambda function. This may not match the checksum for the object stored in Amazon S3. Amazon S3 will perform validation of the checksum values only when the original GetObject request required checksum validation. For more information about checksums, see Checking object integrity in the Amazon S3 User Guide . Only one checksum header can be specified at a time. If you supply multiple checksum headers, this request will fail.
     /// </summary>
     [CliOption("--checksum-sha1")]
     public string? ChecksumSha1 { get; set; }
 
     /// <summary>
-    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This speci- fies the Base64 encoded, 256-bit SHA256 digest of the object re- turned by the Object Lambda function. This may not match the check- sum for the object stored in Amazon S3. Amazon S3 will perform vali- dation of the checksum values only when the original GetObject re- quest required checksum validation. For more information about checksums, see Checking object integrity in the Amazon S3 User Guide . Only one checksum header can be specified at a time. If you supply multiple checksum headers, this request will fail.
+    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This specifies the Base64 encoded, 256-bit SHA256 digest of the object returned by the Object Lambda function. This may not match the checksum for the object stored in Amazon S3. Amazon S3 will perform validation of the checksum values only when the original GetObject request required checksum validation. For more information about checksums, see Checking object integrity in the Amazon S3 User Guide . Only one checksum header can be specified at a time. If you supply multiple checksum headers, this request will fail.
     /// </summary>
     [CliOption("--checksum-sha256")]
     public string? ChecksumSha256 { get; set; }
@@ -226,7 +227,7 @@ public record AwsS3apiWriteGetObjectResponseOptions : AwsOptions, IValidatableOb
     public string? Expires { get; set; }
 
     /// <summary>
-    /// If the object expiration is configured (see PUT Bucket lifecycle), the response includes this header. It includes the expiry-date and rule-id key-value pairs that provide the object expiration informa- tion. The value of the rule-id is URL-encoded.
+    /// If the object expiration is configured (see PUT Bucket lifecycle), the response includes this header. It includes the expiry-date and rule-id key-value pairs that provide the object expiration information. The value of the rule-id is URL-encoded.
     /// </summary>
     [CliOption("--expiration")]
     public string? Expiration { get; set; }
@@ -238,7 +239,7 @@ public record AwsS3apiWriteGetObjectResponseOptions : AwsOptions, IValidatableOb
     public string? LastModified { get; set; }
 
     /// <summary>
-    /// Set to the number of metadata entries not returned in x-amz-meta headers. This can happen if you create metadata using an API like SOAP that supports more flexible metadata than the REST API. For ex- ample, using SOAP, you can create metadata whose values are not le- gal HTTP headers.
+    /// Set to the number of metadata entries not returned in x-amz-meta headers. This can happen if you create metadata using an API like SOAP that supports more flexible metadata than the REST API. For example, using SOAP, you can create metadata whose values are not legal HTTP headers.
     /// </summary>
     [CliOption("--missing-meta")]
     public int? MissingMeta { get; set; }
@@ -250,13 +251,13 @@ public record AwsS3apiWriteGetObjectResponseOptions : AwsOptions, IValidatableOb
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
-    /// Indicates whether an object stored in Amazon S3 has Object Lock en- abled. For more information about S3 Object Lock, see Object Lock . Possible values: o GOVERNANCE o COMPLIANCE
+    /// Indicates whether an object stored in Amazon S3 has Object Lock enabled. For more information about S3 Object Lock, see Object Lock . Possible values: • GOVERNANCE • COMPLIANCE
     /// </summary>
     [CliOption("--object-lock-mode")]
     public AwsS3apiWriteGetObjectResponseObjectLockMode? ObjectLockMode { get; set; }
 
     /// <summary>
-    /// Indicates whether an object stored in Amazon S3 has an active legal hold. Possible values: o ON o OFF
+    /// Indicates whether an object stored in Amazon S3 has an active legal hold. Possible values: • ON • OFF
     /// </summary>
     [CliOption("--object-lock-legal-hold-status")]
     public AwsS3apiWriteGetObjectResponseObjectLockLegalHoldStatus? ObjectLockLegalHoldStatus { get; set; }
@@ -274,31 +275,31 @@ public record AwsS3apiWriteGetObjectResponseOptions : AwsOptions, IValidatableOb
     public int? PartsCount { get; set; }
 
     /// <summary>
-    /// Indicates if request involves bucket that is either a source or des- tination in a Replication rule. For more information about S3 Repli- cation, see Replication . Possible values: o COMPLETE o PENDING o FAILED o REPLICA o COMPLETED
+    /// Indicates if request involves bucket that is either a source or destination in a Replication rule. For more information about S3 Replication, see Replication . Possible values: • COMPLETE • PENDING • FAILED • REPLICA • COMPLETED
     /// </summary>
     [CliOption("--replication-status")]
     public AwsS3apiWriteGetObjectResponseReplicationStatus? ReplicationStatus { get; set; }
 
     /// <summary>
-    /// If present, indicates that the requester was successfully charged for the request. For more information, see Using Requester Pays buckets for storage transfers and usage in the Amazon Simple Storage Service user guide . NOTE: This functionality is not supported for directory buckets. Possible values: o requester
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see Using Requester Pays buckets for storage transfers and usage in the Amazon Simple Storage Service user guide . NOTE: This functionality is not supported for directory buckets. Possible values: • requester
     /// </summary>
     [CliOption("--request-charged")]
     public string? RequestCharged { get; set; }
 
     /// <summary>
-    /// Provides information about object restoration operation and expira- tion time of the restored object copy.
+    /// Provides information about object restoration operation and expiration time of the restored object copy.
     /// </summary>
     [CliOption("--restore")]
     public string? Restore { get; set; }
 
     /// <summary>
-    /// The server-side encryption algorithm used when storing requested ob- ject in Amazon S3 or Amazon FSx. NOTE: When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx . Possible values: o AES256 o aws:fsx o aws:backup o aws:kms o aws:kms:dsse
+    /// The server-side encryption algorithm used when storing requested object in Amazon S3 or Amazon FSx. NOTE: When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx . Possible values: • AES256 • aws:fsx • aws:backup • aws:kms • aws:kms:dsse
     /// </summary>
     [CliOption("--server-side-encryption")]
     public string? ServerSideEncryption { get; set; }
 
     /// <summary>
-    /// Encryption algorithm used if server-side encryption with a cus- tomer-provided encryption key was specified for object stored in Amazon S3.
+    /// Encryption algorithm used if server-side encryption with a customer-provided encryption key was specified for object stored in Amazon S3.
     /// </summary>
     [CliOption("--sse-customer-algorithm")]
     public string? SseCustomerAlgorithm { get; set; }
@@ -310,13 +311,13 @@ public record AwsS3apiWriteGetObjectResponseOptions : AwsOptions, IValidatableOb
     public string? SsekmsKeyId { get; set; }
 
     /// <summary>
-    /// 128-bit MD5 digest of customer-provided encryption key used in Ama- zon S3 to encrypt data stored in S3. For more information, see Protecting data using server-side encryption with customer-provided encryption keys (SSE-C) .
+    /// 128-bit MD5 digest of customer-provided encryption key used in Amazon S3 to encrypt data stored in S3. For more information, see Protecting data using server-side encryption with customer-provided encryption keys (SSE-C) .
     /// </summary>
     [CliOption("--sse-customer-key-md5")]
     public string? SseCustomerKeyMd5 { get; set; }
 
     /// <summary>
-    /// Provides storage class information of the object. Amazon S3 returns this header for all objects except for S3 Standard storage class ob- jects. For more information, see Storage Classes . Possible values: o STANDARD o REDUCED_REDUNDANCY o STANDARD_IA o ONEZONE_IA o INTELLIGENT_TIERING o GLACIER o DEEP_ARCHIVE o OUTPOSTS o GLACIER_IR o SNOW o EXPRESS_ONEZONE o FSX_OPENZFS o FSX_ONTAP o AWS_BACKUP_WARM o AWS_BACKUP_LOW_COST_WARM
+    /// Provides storage class information of the object. Amazon S3 returns this header for all objects except for S3 Standard storage class objects. For more information, see Storage Classes . Possible values: • STANDARD • REDUCED_REDUNDANCY • STANDARD_IA • ONEZONE_IA • INTELLIGENT_TIERING • GLACIER • DEEP_ARCHIVE • OUTPOSTS • GLACIER_IR • SNOW • EXPRESS_ONEZONE • FSX_OPENZFS • FSX_ONTAP • AWS_BACKUP_WARM • AWS_BACKUP_LOW_COST_WARM
     /// </summary>
     [CliOption("--storage-class")]
     public AwsS3apiWriteGetObjectResponseStorageClass? StorageClass { get; set; }

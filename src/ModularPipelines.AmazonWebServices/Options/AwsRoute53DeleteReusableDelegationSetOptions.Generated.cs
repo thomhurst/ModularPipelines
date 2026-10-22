@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRoute53DeleteReusableDelegationSetOptions : AwsOptions, IValida
     /// <summary>
     /// Deletes a reusable delegation set. WARNING: You can delete a reusable delegation set only if it isn't associated with any hosted zones. To verify that the reusable delegation set is not associated with any hosted zones, submit a GetReusableDelegationSet request and specify the ID of the reusable delegation set that you want to delete. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the reusable delegation set that you want to delete. Constraints: o max: 32</param>
+    /// <param name="Id">The ID of the reusable delegation set that you want to delete. Constraints: • max: 32</param>
     public AwsRoute53DeleteReusableDelegationSetOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsRoute53DeleteReusableDelegationSetOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the reusable delegation set that you want to delete. Constraints: o max: 32
+    /// The ID of the reusable delegation set that you want to delete. Constraints: • max: 32
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

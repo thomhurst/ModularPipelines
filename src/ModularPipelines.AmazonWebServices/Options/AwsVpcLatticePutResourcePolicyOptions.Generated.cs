@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Attaches a resource-based permission policy to a service or service network. The policy must contain the same actions and condition state- ments as the Amazon Web Services Resource Access Manager permission for sharing services and service networks. See also: AWS API Documentation
+/// Attaches a resource-based permission policy to a service or service network. The policy must contain the same actions and condition statements as the Amazon Web Services Resource Access Manager permission for sharing services and service networks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsVpcLatticePutResourcePolicyOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Attaches a resource-based permission policy to a service or service network. The policy must contain the same actions and condition state- ments as the Amazon Web Services Resource Access Manager permission for sharing services and service networks. See also: AWS API Documentation
+    /// Attaches a resource-based permission policy to a service or service network. The policy must contain the same actions and condition statements as the Amazon Web Services Resource Access Manager permission for sharing services and service networks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ID or ARN of the service network or service for which the policy is created. Constraints: o min: 20 o max: 200 o pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((ser- vicenetwork/sn)|(service/svc)|(resourceconfigura- tion/rcfg))-[0-9a-z]{17}</param>
-    /// <param name="Policy">An IAM policy. The policy string in JSON must not contain newlines or blank lines. Constraints: o min: 1 o max: 10000 o pattern: .*\S.*</param>
+    /// <param name="ResourceArn">The ID or ARN of the service network or service for which the policy is created. Constraints: • min: 20 • max: 200 • pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((servicenetwork/sn)|(service/svc)|(resourceconfiguration/rcfg))-[0-9a-z]{17}</param>
+    /// <param name="Policy">An IAM policy. The policy string in JSON must not contain newlines or blank lines. Constraints: • min: 1 • max: 10000 • pattern: .*\S.*</param>
     public AwsVpcLatticePutResourcePolicyOptions(
         string ResourceArn,
         string Policy
@@ -60,13 +62,13 @@ public record AwsVpcLatticePutResourcePolicyOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or ARN of the service network or service for which the policy is created. Constraints: o min: 20 o max: 200 o pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((ser- vicenetwork/sn)|(service/svc)|(resourceconfigura- tion/rcfg))-[0-9a-z]{17}
+    /// The ID or ARN of the service network or service for which the policy is created. Constraints: • min: 20 • max: 200 • pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((servicenetwork/sn)|(service/svc)|(resourceconfiguration/rcfg))-[0-9a-z]{17}
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// An IAM policy. The policy string in JSON must not contain newlines or blank lines. Constraints: o min: 1 o max: 10000 o pattern: .*\S.*
+    /// An IAM policy. The policy string in JSON must not contain newlines or blank lines. Constraints: • min: 1 • max: 10000 • pattern: .*\S.*
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; private init; }

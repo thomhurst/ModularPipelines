@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new library item for an Amazon Q App, allowing it to be dis- covered and used by other allowed users. See also: AWS API Documentation
+/// Creates a new library item for an Amazon Q App, allowing it to be discovered and used by other allowed users. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +27,12 @@ public record AwsQappsCreateLibraryItemOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new library item for an Amazon Q App, allowing it to be dis- covered and used by other allowed users. See also: AWS API Documentation
+    /// Creates a new library item for an Amazon Q App, allowing it to be discovered and used by other allowed users. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The unique identifier of the Amazon Q Business application environ- ment instance.</param>
-    /// <param name="AppId">The unique identifier of the Amazon Q App to publish to the library. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}</param>
-    /// <param name="AppVersion">The version of the Amazon Q App to publish to the library. Constraints: o min: 0 o max: 2147483647</param>
-    /// <param name="Categories">The categories to associate with the library item for easier discov- ery. Constraints: o min: 0 o max: 3 (string) Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12} Syntax: "string" "string" ...</param>
+    /// <param name="InstanceId">The unique identifier of the Amazon Q Business application environment instance.</param>
+    /// <param name="AppId">The unique identifier of the Amazon Q App to publish to the library. Constraints: • pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}</param>
+    /// <param name="AppVersion">The version of the Amazon Q App to publish to the library. Constraints: • min: 0 • max: 2147483647</param>
+    /// <param name="Categories">The categories to associate with the library item for easier discovery. Constraints: • min: 0 • max: 3 (string) Constraints: • pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12} Syntax: "string" "string" ...</param>
     public AwsQappsCreateLibraryItemOptions(
         string InstanceId,
         string AppId,
@@ -78,25 +80,25 @@ public record AwsQappsCreateLibraryItemOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Amazon Q Business application environ- ment instance.
+    /// The unique identifier of the Amazon Q Business application environment instance.
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the Amazon Q App to publish to the library. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}
+    /// The unique identifier of the Amazon Q App to publish to the library. Constraints: • pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}
     /// </summary>
     [CliOption("--app-id")]
     public string? AppId { get; private init; }
 
     /// <summary>
-    /// The version of the Amazon Q App to publish to the library. Constraints: o min: 0 o max: 2147483647
+    /// The version of the Amazon Q App to publish to the library. Constraints: • min: 0 • max: 2147483647
     /// </summary>
     [CliOption("--app-version")]
     public int? AppVersion { get; private init; }
 
     /// <summary>
-    /// The categories to associate with the library item for easier discov- ery. Constraints: o min: 0 o max: 3 (string) Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12} Syntax: "string" "string" ...
+    /// The categories to associate with the library item for easier discovery. Constraints: • min: 0 • max: 3 (string) Constraints: • pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--categories", GroupValues = true)]
     public IEnumerable<string>? Categories { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDatazoneDeleteLineageEventOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Deletes the specified lineage event. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the domain. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Identifier">The ID of the lineage event. Constraints: o pattern: [a-z0-9]{14}</param>
+    /// <param name="DomainIdentifier">The ID of the domain. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The ID of the lineage event. Constraints: • pattern: [a-z0-9]{14}</param>
     public AwsDatazoneDeleteLineageEventOptions(
         string DomainIdentifier,
         string Identifier
@@ -60,13 +62,13 @@ public record AwsDatazoneDeleteLineageEventOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the domain. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the domain. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the lineage event. Constraints: o pattern: [a-z0-9]{14}
+    /// The ID of the lineage event. Constraints: • pattern: [a-z0-9]{14}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }

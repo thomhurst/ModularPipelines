@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsFsxUpdateDataRepositoryAssociationOptions : AwsOptions, IValida
     /// <summary>
     /// Updates the configuration of an existing data repository association on an Amazon FSx for Lustre file system. Data repository associations are supported on all FSx for Lustre 2.12 and 2.15 file systems, excluding scratch_1 deployment type. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssociationId">The ID of the data repository association that you are updating. Constraints: o min: 13 o max: 23 o pattern: ^(dra-[0-9a-f]{8,})$</param>
+    /// <param name="AssociationId">The ID of the data repository association that you are updating. Constraints: • min: 13 • max: 23 • pattern: ^(dra-[0-9a-f]{8,})$</param>
     public AwsFsxUpdateDataRepositoryAssociationOptions(
         string AssociationId
     )
@@ -57,26 +59,26 @@ public record AwsFsxUpdateDataRepositoryAssociationOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the data repository association that you are updating. Constraints: o min: 13 o max: 23 o pattern: ^(dra-[0-9a-f]{8,})$
+    /// The ID of the data repository association that you are updating. Constraints: • min: 13 • max: 23 • pattern: ^(dra-[0-9a-f]{8,})$
     /// </summary>
     [CliOption("--association-id")]
     public string? AssociationId { get; private init; }
 
     /// <summary>
-    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Ama- zon Web Services SDK. Constraints: o min: 1 o max: 63 o pattern: [A-za-z0-9_.-]{0,63}$
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK. Constraints: • min: 1 • max: 63 • pattern: [A-za-z0-9_.-]{0,63}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// For files imported from a data repository, this value determines the stripe count and maximum amount of data per file (in MiB) stored on a single physical disk. The maximum number of disks that a single file can be striped across is limited by the total number of disks that make up the file system. The default chunk size is 1,024 MiB (1 GiB) and can go as high as 512,000 MiB (500 GiB). Amazon S3 objects have a maximum size of 5 TB. Constraints: o min: 1 o max: 512000
+    /// For files imported from a data repository, this value determines the stripe count and maximum amount of data per file (in MiB) stored on a single physical disk. The maximum number of disks that a single file can be striped across is limited by the total number of disks that make up the file system. The default chunk size is 1,024 MiB (1 GiB) and can go as high as 512,000 MiB (500 GiB). Amazon S3 objects have a maximum size of 5 TB. Constraints: • min: 1 • max: 512000
     /// </summary>
     [CliOption("--imported-file-chunk-size")]
     public int? ImportedFileChunkSize { get; set; }
 
     /// <summary>
-    /// The configuration for an Amazon S3 data repository linked to an Ama- zon FSx Lustre file system with a data repository association. The configuration defines which file events (new, changed, or deleted files or directories) are automatically imported from the linked data repository to the file system or automatically exported from the file system to the data repository. AutoImportPolicy -&gt; (structure) Specifies the type of updated objects (new, changed, deleted) that will be automatically imported from the linked S3 bucket to your file system. Events -&gt; (list) The AutoImportPolicy can have the following event values: o NEW - Amazon FSx automatically imports metadata of files added to the linked S3 bucket that do not currently exist in the FSx file system. o CHANGED - Amazon FSx automatically updates file metadata and invalidates existing file content on the file system as files change in the data repository. o DELETED - Amazon FSx automatically deletes files on the file system as corresponding files are deleted in the data repository. You can define any combination of event types for your Au- toImportPolicy . Constraints: o max: 3 (string) Possible values: o NEW o CHANGED o DELETED AutoExportPolicy -&gt; (structure) Specifies the type of updated objects (new, changed, deleted) that will be automatically exported from your file system to the linked S3 bucket. Events -&gt; (list) The AutoExportPolicy can have the following event values: o NEW - New files and directories are automatically exported to the data repository as they are added to the file sys- tem. o CHANGED - Changes to files and directories on the file sys- tem are automatically exported to the data repository. o DELETED - Files and directories are automatically deleted on the data repository when they are deleted on the file system. You can define any combination of event types for your Auto- ExportPolicy . Constraints: o max: 3 (string) Possible values: o NEW o CHANGED o DELETED Shorthand Syntax: AutoImportPolicy={Events=[string,string]},AutoExportPolicy={Events=[string,string]} JSON Syntax: { "AutoImportPolicy": { "Events": ["NEW"|"CHANGED"|"DELETED", ...] }, "AutoExportPolicy": { "Events": ["NEW"|"CHANGED"|"DELETED", ...] } }
+    /// The configuration for an Amazon S3 data repository linked to an Amazon FSx Lustre file system with a data repository association. The configuration defines which file events (new, changed, or deleted files or directories) are automatically imported from the linked data repository to the file system or automatically exported from the file system to the data repository. AutoImportPolicy -&gt; (structure) Specifies the type of updated objects (new, changed, deleted) that will be automatically imported from the linked S3 bucket to your file system. Events -&gt; (list) The AutoImportPolicy can have the following event values: • NEW - Amazon FSx automatically imports metadata of files added to the linked S3 bucket that do not currently exist in the FSx file system. • CHANGED - Amazon FSx automatically updates file metadata and invalidates existing file content on the file system as files change in the data repository. • DELETED - Amazon FSx automatically deletes files on the file system as corresponding files are deleted in the data repository. You can define any combination of event types for your AutoImportPolicy . Constraints: • max: 3 (string) Possible values: • NEW • CHANGED • DELETED AutoExportPolicy -&gt; (structure) Specifies the type of updated objects (new, changed, deleted) that will be automatically exported from your file system to the linked S3 bucket. Events -&gt; (list) The AutoExportPolicy can have the following event values: • NEW - New files and directories are automatically exported to the data repository as they are added to the file system. • CHANGED - Changes to files and directories on the file system are automatically exported to the data repository. • DELETED - Files and directories are automatically deleted on the data repository when they are deleted on the file system. You can define any combination of event types for your AutoExportPolicy . Constraints: • max: 3 (string) Possible values: • NEW • CHANGED • DELETED Shorthand Syntax: AutoImportPolicy={Events=[string,string]},AutoExportPolicy={Events=[string,string]} JSON Syntax: { "AutoImportPolicy": { "Events": ["NEW"|"CHANGED"|"DELETED", ...] }, "AutoExportPolicy": { "Events": ["NEW"|"CHANGED"|"DELETED", ...] } }
     /// </summary>
     [CliOption("--s3")]
     public string? S3 { get; set; }

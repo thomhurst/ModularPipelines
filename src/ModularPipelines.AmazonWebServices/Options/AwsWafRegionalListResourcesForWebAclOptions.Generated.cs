@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This is AWS WAF Classic Regional documentation. For more informa- tion, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of resources associated with the specified web ACL. See also: AWS API Documentation
+/// NOTE: This is AWS WAF Classic Regional documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of resources associated with the specified web ACL. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsWafRegionalListResourcesForWebAclOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This is AWS WAF Classic Regional documentation. For more informa- tion, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of resources associated with the specified web ACL. See also: AWS API Documentation
+    /// NOTE: This is AWS WAF Classic Regional documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of resources associated with the specified web ACL. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WebAclId">The unique identifier (ID) of the web ACL for which to list the as- sociated resources. Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    /// <param name="WebAclId">The unique identifier (ID) of the web ACL for which to list the associated resources. Constraints: • min: 1 • max: 128 • pattern: .*\S.*</param>
     public AwsWafRegionalListResourcesForWebAclOptions(
         string WebAclId
     )
@@ -57,13 +59,13 @@ public record AwsWafRegionalListResourcesForWebAclOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier (ID) of the web ACL for which to list the as- sociated resources. Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// The unique identifier (ID) of the web ACL for which to list the associated resources. Constraints: • min: 1 • max: 128 • pattern: .*\S.*
     /// </summary>
     [CliOption("--web-acl-id")]
     public string? WebAclId { get; private init; }
 
     /// <summary>
-    /// The type of resource to list, either an application load balancer or Amazon API Gateway. Possible values: o APPLICATION_LOAD_BALANCER o API_GATEWAY
+    /// The type of resource to list, either an application load balancer or Amazon API Gateway. Possible values: • APPLICATION_LOAD_BALANCER • API_GATEWAY
     /// </summary>
     [CliOption("--resource-type")]
     public AwsWafRegionalListResourcesForWebAclResourceType? ResourceType { get; set; }

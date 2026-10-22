@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This operation is used by SaaS partners to delete a partner event source. This operation is not used by Amazon Web Services customers. When you delete an event source, the status of the corresponding part- ner event bus in the Amazon Web Services customer account becomes DELETED. See also: AWS API Documentation
+/// This operation is used by SaaS partners to delete a partner event source. This operation is not used by Amazon Web Services customers. When you delete an event source, the status of the corresponding partner event bus in the Amazon Web Services customer account becomes DELETED. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsEventsDeletePartnerEventSourceOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This operation is used by SaaS partners to delete a partner event source. This operation is not used by Amazon Web Services customers. When you delete an event source, the status of the corresponding part- ner event bus in the Amazon Web Services customer account becomes DELETED. See also: AWS API Documentation
+    /// This operation is used by SaaS partners to delete a partner event source. This operation is not used by Amazon Web Services customers. When you delete an event source, the status of the corresponding partner event bus in the Amazon Web Services customer account becomes DELETED. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the event source to delete. Constraints: o min: 1 o max: 256 o pattern: aws\.partner(/[\.\-_A-Za-z0-9]+){2,}</param>
-    /// <param name="Account">The Amazon Web Services account ID of the Amazon Web Services cus- tomer that the event source was created for. Constraints: o min: 12 o max: 12 o pattern: \d{12}</param>
+    /// <param name="Name">The name of the event source to delete. Constraints: • min: 1 • max: 256 • pattern: aws\.partner(/[\.\-_A-Za-z0-9]+){2,}</param>
+    /// <param name="Account">The Amazon Web Services account ID of the Amazon Web Services customer that the event source was created for. Constraints: • min: 12 • max: 12 • pattern: \d{12}</param>
     public AwsEventsDeletePartnerEventSourceOptions(
         string Name,
         string Account
@@ -60,13 +62,13 @@ public record AwsEventsDeletePartnerEventSourceOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the event source to delete. Constraints: o min: 1 o max: 256 o pattern: aws\.partner(/[\.\-_A-Za-z0-9]+){2,}
+    /// The name of the event source to delete. Constraints: • min: 1 • max: 256 • pattern: aws\.partner(/[\.\-_A-Za-z0-9]+){2,}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID of the Amazon Web Services cus- tomer that the event source was created for. Constraints: o min: 12 o max: 12 o pattern: \d{12}
+    /// The Amazon Web Services account ID of the Amazon Web Services customer that the event source was created for. Constraints: • min: 12 • max: 12 • pattern: \d{12}
     /// </summary>
     [CliOption("--account")]
     public string? Account { get; private init; }

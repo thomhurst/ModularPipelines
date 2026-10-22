@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsConnectcampaignsv2DeleteConnectInstanceIntegrationOptions : Aws
     /// <summary>
     /// Delete the integration for the specified Amazon Connect instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectInstanceId">Amazon Connect Instance Id Constraints: o min: 1 o max: 256 o pattern: [-_.a-zA-Z0-9]+</param>
-    /// <param name="IntegrationIdentifier">Integration identifier for Connect instance NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: customerProfiles, qConnect, lambda. customerProfiles -&gt; (structure) Customer Profiles integration identifier domainArn -&gt; (string) [required] Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? qConnect -&gt; (structure) Q Connect integration identifier knowledgeBaseArn -&gt; (string) [required] Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? lambda -&gt; (structure) Lambda integration identifier functionArn -&gt; (string) [required] Lambda ARN for integration with Connect instances Constraints: o min: 1 o max: 140 o pattern: arn:aws[a-zA-Z-]*:lambda:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:func- tion:([a-zA-Z0-9-_]+)(:([a-zA-Z0-9-_]+))? Shorthand Syntax: customerProfiles={domainArn=string},qConnect={knowledgeBaseArn=string},lambda={functionArn=string} JSON Syntax: { "customerProfiles": { "domainArn": "string" }, "qConnect": { "knowledgeBaseArn": "string" }, "lambda": { "functionArn": "string" } }</param>
+    /// <param name="ConnectInstanceId">Amazon Connect Instance Id Constraints: • min: 1 • max: 256 • pattern: [-_.a-zA-Z0-9]+</param>
+    /// <param name="IntegrationIdentifier">Integration identifier for Connect instance NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: customerProfiles, qConnect, lambda. customerProfiles -&gt; (structure) Customer Profiles integration identifier domainArn -&gt; (string) [required] Amazon Resource Names(ARN) Constraints: • min: 20 • max: 500 • pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? qConnect -&gt; (structure) Q Connect integration identifier knowledgeBaseArn -&gt; (string) [required] Amazon Resource Names(ARN) Constraints: • min: 20 • max: 500 • pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? lambda -&gt; (structure) Lambda integration identifier functionArn -&gt; (string) [required] Lambda ARN for integration with Connect instances Constraints: • min: 1 • max: 140 • pattern: arn:aws[a-zA-Z-]*:lambda:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:function:([a-zA-Z0-9-_]+)(:([a-zA-Z0-9-_]+))? Shorthand Syntax: customerProfiles={domainArn=string},qConnect={knowledgeBaseArn=string},lambda={functionArn=string} JSON Syntax: { "customerProfiles": { "domainArn": "string" }, "qConnect": { "knowledgeBaseArn": "string" }, "lambda": { "functionArn": "string" } }</param>
     public AwsConnectcampaignsv2DeleteConnectInstanceIntegrationOptions(
         string ConnectInstanceId,
         string IntegrationIdentifier
@@ -60,13 +62,13 @@ public record AwsConnectcampaignsv2DeleteConnectInstanceIntegrationOptions : Aws
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Connect Instance Id Constraints: o min: 1 o max: 256 o pattern: [-_.a-zA-Z0-9]+
+    /// Amazon Connect Instance Id Constraints: • min: 1 • max: 256 • pattern: [-_.a-zA-Z0-9]+
     /// </summary>
     [CliOption("--connect-instance-id")]
     public string? ConnectInstanceId { get; private init; }
 
     /// <summary>
-    /// Integration identifier for Connect instance NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: customerProfiles, qConnect, lambda. customerProfiles -&gt; (structure) Customer Profiles integration identifier domainArn -&gt; (string) [required] Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? qConnect -&gt; (structure) Q Connect integration identifier knowledgeBaseArn -&gt; (string) [required] Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? lambda -&gt; (structure) Lambda integration identifier functionArn -&gt; (string) [required] Lambda ARN for integration with Connect instances Constraints: o min: 1 o max: 140 o pattern: arn:aws[a-zA-Z-]*:lambda:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:func- tion:([a-zA-Z0-9-_]+)(:([a-zA-Z0-9-_]+))? Shorthand Syntax: customerProfiles={domainArn=string},qConnect={knowledgeBaseArn=string},lambda={functionArn=string} JSON Syntax: { "customerProfiles": { "domainArn": "string" }, "qConnect": { "knowledgeBaseArn": "string" }, "lambda": { "functionArn": "string" } }
+    /// Integration identifier for Connect instance NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: customerProfiles, qConnect, lambda. customerProfiles -&gt; (structure) Customer Profiles integration identifier domainArn -&gt; (string) [required] Amazon Resource Names(ARN) Constraints: • min: 20 • max: 500 • pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? qConnect -&gt; (structure) Q Connect integration identifier knowledgeBaseArn -&gt; (string) [required] Amazon Resource Names(ARN) Constraints: • min: 20 • max: 500 • pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? lambda -&gt; (structure) Lambda integration identifier functionArn -&gt; (string) [required] Lambda ARN for integration with Connect instances Constraints: • min: 1 • max: 140 • pattern: arn:aws[a-zA-Z-]*:lambda:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:function:([a-zA-Z0-9-_]+)(:([a-zA-Z0-9-_]+))? Shorthand Syntax: customerProfiles={domainArn=string},qConnect={knowledgeBaseArn=string},lambda={functionArn=string} JSON Syntax: { "customerProfiles": { "domainArn": "string" }, "qConnect": { "knowledgeBaseArn": "string" }, "lambda": { "functionArn": "string" } }
     /// </summary>
     [CliOption("--integration-identifier")]
     public string? IntegrationIdentifier { get; private init; }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// DescribeEndpoints returns a list of available endpoints to make Timestream API calls against. This API is available through both Write and Query. Because the Timestream SDKs are designed to transparently work with the services architecture, including the management and mapping of the ser- vice endpoints, it is not recommended that you use this API unless : o You are using VPC endpoints (Amazon Web Services PrivateLink) with Timestream o Your application uses a programming language that does not ...
+/// DescribeEndpoints returns a list of available endpoints to make Timestream API calls against. This API is available through both Write and Query. Because the Timestream SDKs are designed to transparently work with the services architecture, including the management and mapping of the service endpoints, it is not recommended that you use this API unless : • You are using VPC endpoints (Amazon Web Services PrivateLink) with Timestream • Your application uses a programming language that does not ye...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the block status of a guest user in a Wickr network. This oper- ation allows you to block or unblock a guest user from accessing the network. See also: AWS API Documentation
+/// Updates the block status of a guest user in a Wickr network. This operation allows you to block or unblock a guest user from accessing the network. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsWickrUpdateGuestUserOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the block status of a guest user in a Wickr network. This oper- ation allows you to block or unblock a guest user from accessing the network. See also: AWS API Documentation
+    /// Updates the block status of a guest user in a Wickr network. This operation allows you to block or unblock a guest user from accessing the network. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The ID of the Wickr network where the guest user's status will be updated. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
-    /// <param name="UsernameHash">The username hash (unique identifier) of the guest user to update. Constraints: o pattern: [\S\s]*</param>
+    /// <param name="NetworkId">The ID of the Wickr network where the guest user's status will be updated. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}</param>
+    /// <param name="UsernameHash">The username hash (unique identifier) of the guest user to update. Constraints: • pattern: [\S\s]*</param>
     /// <param name="Block">Set to true to block the guest user or false to unblock them.</param>
     public AwsWickrUpdateGuestUserOptions(
         string NetworkId,
@@ -63,13 +65,13 @@ public record AwsWickrUpdateGuestUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Wickr network where the guest user's status will be updated. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// The ID of the Wickr network where the guest user's status will be updated. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }
 
     /// <summary>
-    /// The username hash (unique identifier) of the guest user to update. Constraints: o pattern: [\S\s]*
+    /// The username hash (unique identifier) of the guest user to update. Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--username-hash")]
     public string? UsernameHash { get; private init; }

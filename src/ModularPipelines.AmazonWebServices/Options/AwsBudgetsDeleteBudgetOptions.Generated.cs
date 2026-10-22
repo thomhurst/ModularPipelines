@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsBudgetsDeleteBudgetOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a budget. You can delete your budget at any time. WARNING: Deleting a budget also deletes the notifications and subscribers that are associated with that budget. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The accountId that is associated with the budget that you want to delete. Constraints: o min: 12 o max: 12 o pattern: \d{12}</param>
-    /// <param name="BudgetName">The name of the budget that you want to delete. Constraints: o min: 1 o max: 100 o pattern: ^(?![^:\\]*/action/|(?i).*&lt;script&gt;.*&lt;/script&gt;.*)[^:\\]+$</param>
+    /// <param name="AccountId">The accountId that is associated with the budget that you want to delete. Constraints: • min: 12 • max: 12 • pattern: \d{12}</param>
+    /// <param name="BudgetName">The name of the budget that you want to delete. Constraints: • min: 1 • max: 100 • pattern: ^(?![^:\\]*/action/|(?i).*&lt;script&gt;.*&lt;/script&gt;.*)[^:\\]+$</param>
     public AwsBudgetsDeleteBudgetOptions(
         string AccountId,
         string BudgetName
@@ -60,13 +62,13 @@ public record AwsBudgetsDeleteBudgetOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The accountId that is associated with the budget that you want to delete. Constraints: o min: 12 o max: 12 o pattern: \d{12}
+    /// The accountId that is associated with the budget that you want to delete. Constraints: • min: 12 • max: 12 • pattern: \d{12}
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The name of the budget that you want to delete. Constraints: o min: 1 o max: 100 o pattern: ^(?![^:\\]*/action/|(?i).*&lt;script&gt;.*&lt;/script&gt;.*)[^:\\]+$
+    /// The name of the budget that you want to delete. Constraints: • min: 1 • max: 100 • pattern: ^(?![^:\\]*/action/|(?i).*&lt;script&gt;.*&lt;/script&gt;.*)[^:\\]+$
     /// </summary>
     [CliOption("--budget-name")]
     public string? BudgetName { get; private init; }

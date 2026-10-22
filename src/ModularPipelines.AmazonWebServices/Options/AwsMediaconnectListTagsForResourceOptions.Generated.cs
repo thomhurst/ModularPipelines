@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMediaconnectListTagsForResourceOptions : AwsOptions, IValidatab
     /// <summary>
     /// List all tags on a MediaConnect resource in the current region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) that identifies the MediaConnect re- source for which to list the tags.</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) that identifies the MediaConnect resource for which to list the tags.</param>
     public AwsMediaconnectListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsMediaconnectListTagsForResourceOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that identifies the MediaConnect re- source for which to list the tags.
+    /// The Amazon Resource Name (ARN) that identifies the MediaConnect resource for which to list the tags.
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

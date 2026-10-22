@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsNeptuneGraphWaitGraphSnapshotDeletedOptions : AwsOptions, IVali
     /// <summary>
     /// Wait until GraphSnapshot is Deleted It will poll every 60 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SnapshotIdentifier">The ID of the snapshot to retrieve. Constraints: o pattern: gs-[a-z0-9]{10}</param>
+    /// <param name="SnapshotIdentifier">The ID of the snapshot to retrieve. Constraints: • pattern: gs-[a-z0-9]{10}</param>
     public AwsNeptuneGraphWaitGraphSnapshotDeletedOptions(
         string SnapshotIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsNeptuneGraphWaitGraphSnapshotDeletedOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the snapshot to retrieve. Constraints: o pattern: gs-[a-z0-9]{10}
+    /// The ID of the snapshot to retrieve. Constraints: • pattern: gs-[a-z0-9]{10}
     /// </summary>
     [CliOption("--snapshot-identifier")]
     public string? SnapshotIdentifier { get; private init; }

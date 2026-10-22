@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This action offboards the Organization of the caller Amazon Web Ser- vices account from the telemetry config feature. See also: AWS API Documentation
+/// This action offboards the Organization of the caller Amazon Web Services account from the telemetry config feature. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDynamodbDescribeContributorInsightsOptions : AwsOptions, IValid
     /// <summary>
     /// Returns information about contributor insights for a given table or global secondary index. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TableName">The name of the table to describe. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="TableName">The name of the table to describe. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: • min: 1 • max: 1024</param>
     public AwsDynamodbDescribeContributorInsightsOptions(
         string TableName
     )
@@ -56,13 +58,13 @@ public record AwsDynamodbDescribeContributorInsightsOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the table to describe. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024
+    /// The name of the table to describe. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--table-name")]
     public string? TableName { get; private init; }
 
     /// <summary>
-    /// The name of the global secondary index to describe, if applicable. Constraints: o min: 3 o max: 255 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the global secondary index to describe, if applicable. Constraints: • min: 3 • max: 255 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--index-name")]
     public string? IndexName { get; set; }

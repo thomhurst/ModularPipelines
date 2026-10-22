@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsBedrockAgentcoreControlGetGatewayRateLimitOptions : AwsOptions,
     /// <summary>
     /// Retrieves information about a gateway rate limit. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GatewayIdentifier">The unique identifier of the gateway. Constraints: o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}</param>
-    /// <param name="RateLimitId">The unique identifier of the rate limit to retrieve. Constraints: o min: 2 o max: 64 o pattern: [a-zA-Z0-9][a-zA-Z0-9\-_\.]{0,62}[a-zA-Z0-9]</param>
+    /// <param name="GatewayIdentifier">The unique identifier of the gateway. Constraints: • pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}</param>
+    /// <param name="RateLimitId">The unique identifier of the rate limit to retrieve. Constraints: • min: 2 • max: 64 • pattern: [a-zA-Z0-9][a-zA-Z0-9\-_\.]{0,62}[a-zA-Z0-9]</param>
     public AwsBedrockAgentcoreControlGetGatewayRateLimitOptions(
         string GatewayIdentifier,
         string RateLimitId
@@ -60,13 +62,13 @@ public record AwsBedrockAgentcoreControlGetGatewayRateLimitOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the gateway. Constraints: o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
+    /// The unique identifier of the gateway. Constraints: • pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
     /// </summary>
     [CliOption("--gateway-identifier")]
     public string? GatewayIdentifier { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the rate limit to retrieve. Constraints: o min: 2 o max: 64 o pattern: [a-zA-Z0-9][a-zA-Z0-9\-_\.]{0,62}[a-zA-Z0-9]
+    /// The unique identifier of the rate limit to retrieve. Constraints: • min: 2 • max: 64 • pattern: [a-zA-Z0-9][a-zA-Z0-9\-_\.]{0,62}[a-zA-Z0-9]
     /// </summary>
     [CliOption("--rate-limit-id")]
     public string? RateLimitId { get; private init; }

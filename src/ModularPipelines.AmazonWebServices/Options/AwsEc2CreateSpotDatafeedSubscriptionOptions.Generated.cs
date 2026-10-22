@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a data feed for Spot Instances, enabling you to view Spot In- stance usage logs. You can create one data feed per Amazon Web Services account. For more information, see Spot Instance data feed in the Ama- zon EC2 User Guide . See also: AWS API Documentation
+/// Creates a data feed for Spot Instances, enabling you to view Spot Instance usage logs. You can create one data feed per Amazon Web Services account. For more information, see Spot Instance data feed in the Amazon EC2 User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsEc2CreateSpotDatafeedSubscriptionOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a data feed for Spot Instances, enabling you to view Spot In- stance usage logs. You can create one data feed per Amazon Web Services account. For more information, see Spot Instance data feed in the Ama- zon EC2 User Guide . See also: AWS API Documentation
+    /// Creates a data feed for Spot Instances, enabling you to view Spot Instance usage logs. You can create one data feed per Amazon Web Services account. For more information, see Spot Instance data feed in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Bucket">The name of the Amazon S3 bucket in which to store the Spot Instance data feed. For more information about bucket names, see Bucket nam- ing rules in the Amazon S3 User Guide .</param>
+    /// <param name="Bucket">The name of the Amazon S3 bucket in which to store the Spot Instance data feed. For more information about bucket names, see Bucket naming rules in the Amazon S3 User Guide .</param>
     public AwsEc2CreateSpotDatafeedSubscriptionOptions(
         string Bucket
     )
@@ -56,13 +58,13 @@ public record AwsEc2CreateSpotDatafeedSubscriptionOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Amazon S3 bucket in which to store the Spot Instance data feed. For more information about bucket names, see Bucket nam- ing rules in the Amazon S3 User Guide .
+    /// The name of the Amazon S3 bucket in which to store the Spot Instance data feed. For more information about bucket names, see Bucket naming rules in the Amazon S3 User Guide .
     /// </summary>
     [CliOption("--bucket")]
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

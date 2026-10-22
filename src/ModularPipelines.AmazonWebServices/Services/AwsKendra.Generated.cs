@@ -32,7 +32,7 @@ public class AwsKendra : IAwsKendra
     #region Commands
 
     /// <summary>
-    /// Grants users or groups in your IAM Identity Center identity source ac- cess to your Amazon Kendra experience. You can create an Amazon Kendra experience such as a search application. For more information on creat- ing a search application experience, see Building a search experience with no code . See also: AWS API Documentation
+    /// Grants users or groups in your IAM Identity Center identity source access to your Amazon Kendra experience. You can create an Amazon Kendra experience such as a search application. For more information on creating a search application experience, see Building a search experience with no code . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Defines the specific permissions of users or groups in your IAM Iden- tity Center identity source with access to your Amazon Kendra experi- ence. You can create an Amazon Kendra experience such as a search ap- plication. For more information on creating a search application expe- rience, see Building a search experience with no code . See also: AWS API Documentation
+    /// Defines the specific permissions of users or groups in your IAM Identity Center identity source with access to your Amazon Kendra experience. You can create an Amazon Kendra experience such as a search application. For more information on creating a search application experience, see Building a search experience with no code . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Removes one or more documents from an index. The documents must have been added with the BatchPutDocument API. The documents are deleted asynchronously. You can see the progress of the deletion by using Amazon Web Services CloudWatch. Any error mes- sages related to the processing of the batch are sent to your Amazon Web Services CloudWatch log. You can also use the BatchGetDocumentSta- tus API to monitor the progress of deleting your documents. Deleting documents from an index using BatchDelete...
+    /// Removes one or more documents from an index. The documents must have been added with the BatchPutDocument API. The documents are deleted asynchronously. You can see the progress of the deletion by using Amazon Web Services CloudWatch. Any error messages related to the processing of the batch are sent to your Amazon Web Services CloudWatch log. You can also use the BatchGetDocumentStatus API to monitor the progress of deleting your documents. Deleting documents from an index using BatchDeleteDocu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Returns the indexing status for one or more documents submitted with the BatchPutDocument API. When you use the BatchPutDocument API, documents are indexed asynchro- nously. You can use the BatchGetDocumentStatus API to get the current status of a list of documents so that you can determine if they have been successfully indexed. You can also use the BatchGetDocumentStatus API to check the status of the BatchDeleteDocument API. When a document is deleted from the index, Amazon Kendra returns NOT...
+    /// Returns the indexing status for one or more documents submitted with the BatchPutDocument API. When you use the BatchPutDocument API, documents are indexed asynchronously. You can use the BatchGetDocumentStatus API to get the current status of a list of documents so that you can determine if they have been successfully indexed. You can also use the BatchGetDocumentStatus API to check the status of the BatchDeleteDocument API. When a document is deleted from the index, Amazon Kendra returns NOT_F...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Adds one or more documents to an index. The BatchPutDocument API enables you to ingest inline documents or a set of documents stored in an Amazon S3 bucket. Use this API to ingest your text and unstructured text into an index, add custom attributes to the documents, and to attach an access control list to the documents added to the index. The documents are indexed asynchronously. You can see the progress of the batch using Amazon Web Services CloudWatch. Any error messages re- lated to processin...
+    /// Adds one or more documents to an index. The BatchPutDocument API enables you to ingest inline documents or a set of documents stored in an Amazon S3 bucket. Use this API to ingest your text and unstructured text into an index, add custom attributes to the documents, and to attach an access control list to the documents added to the index. The documents are indexed asynchronously. You can see the progress of the batch using Amazon Web Services CloudWatch. Any error messages related to processing ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Creates a data source connector that you want to use with an Amazon Kendra index. You specify a name, data source connector type and description for your data source. You also specify configuration information for the data source connector. CreateDataSource is a synchronous operation. The operation returns 200 if the data source was successfully created. Otherwise, an ex- ception is raised. For an example of creating an index and data source using the Python SDK, see Getting started with Python ...
+    /// Creates a data source connector that you want to use with an Amazon Kendra index. You specify a name, data source connector type and description for your data source. You also specify configuration information for the data source connector. CreateDataSource is a synchronous operation. The operation returns 200 if the data source was successfully created. Otherwise, an exception is raised. For an example of creating an index and data source using the Python SDK, see Getting started with Python SD...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Creates a set of featured results to display at the top of the search results page. Featured results are placed above all other results for certain queries. You map specific queries to specific documents for featuring in the results. If a query contains an exact match, then one or more specific documents are featured in the search results. You can create up to 50 sets of featured results per index. You can re- quest to increase this limit by contacting Support . See also: AWS API Documentation
+    /// Creates a set of featured results to display at the top of the search results page. Featured results are placed above all other results for certain queries. You map specific queries to specific documents for featuring in the results. If a query contains an exact match, then one or more specific documents are featured in the search results. You can create up to 50 sets of featured results per index. You can request to increase this limit by contacting Support . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Creates an Amazon Kendra index. Index creation is an asynchronous API. To determine if index creation has completed, check the Status field returned from a call to DescribeIndex . The Status field is set to AC- TIVE when the index is ready to use. Once the index is active, you can index your documents using the Batch- PutDocument API or using one of the supported data sources . For an example of creating an index and data source using the Python SDK, see Getting started with Python SDK . For an ...
+    /// Creates an Amazon Kendra index. Index creation is an asynchronous API. To determine if index creation has completed, check the Status field returned from a call to DescribeIndex . The Status field is set to ACTIVE when the index is ready to use. Once the index is active, you can index your documents using the BatchPutDocument API or using one of the supported data sources . For an example of creating an index and data source using the Python SDK, see Getting started with Python SDK . For an exam...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Creates a thesaurus for an index. The thesaurus contains a list of syn- onyms in Solr format. For an example of adding a thesaurus file to an index, see Adding cus- tom synonyms to an index . See also: AWS API Documentation
+    /// Creates a thesaurus for an index. The thesaurus contains a list of synonyms in Solr format. For an example of adding a thesaurus file to an index, see Adding custom synonyms to an index . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Deletes an access control configuration that you created for your docu- ments in an index. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to docu- ments. See also: AWS API Documentation
+    /// Deletes an access control configuration that you created for your documents in an index. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Deletes an Amazon Kendra data source connector. An exception is not thrown if the data source is already being deleted. While the data source is being deleted, the Status field returned by a call to the De- scribeDataSource API is set to DELETING . For more information, see Deleting Data Sources . Deleting an entire data source or re-syncing your index after deleting specific documents from a data source could take up to an hour or more, depending on the number of documents you want to delete. S...
+    /// Deletes an Amazon Kendra data source connector. An exception is not thrown if the data source is already being deleted. While the data source is being deleted, the Status field returned by a call to the DescribeDataSource API is set to DELETING . For more information, see Deleting Data Sources . Deleting an entire data source or re-syncing your index after deleting specific documents from a data source could take up to an hour or more, depending on the number of documents you want to delete. See...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Gets information about an access control configuration that you created for your documents in an index. This includes user and group access in- formation for your documents. This is useful for user context filter- ing, where search results are filtered based on the user or their group access to documents. See also: AWS API Documentation
+    /// Gets information about an access control configuration that you created for your documents in an index. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Gets information about an Amazon Kendra data source connector. See also: AWS API Documentation describe-data-source uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Gets information about an Amazon Kendra data source connector. See also: AWS API Documentation describe-data-source uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Gets information about your Amazon Kendra experience such as a search application. For more information on creating a search application ex- perience, see Building a search experience with no code . See also: AWS API Documentation
+    /// Gets information about your Amazon Kendra experience such as a search application. For more information on creating a search application experience, see Building a search experience with no code . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Describes the processing of PUT and DELETE actions for mapping users to their groups. This includes information on the status of actions cur- rently processing or yet to be processed, when actions were last up- dated, when actions were received by Amazon Kendra, the latest action that should process and apply after other actions, and useful error messages if an action could not be processed. DescribePrincipalMapping is currently not supported in the Amazon Web Services GovCloud (US-West) region....
+    /// Describes the processing of PUT and DELETE actions for mapping users to their groups. This includes information on the status of actions currently processing or yet to be processed, when actions were last updated, when actions were received by Amazon Kendra, the latest action that should process and apply after other actions, and useful error messages if an action could not be processed. DescribePrincipalMapping is currently not supported in the Amazon Web Services GovCloud (US-West) region. See...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Gets information on the settings of query suggestions for an index. This is used to check the current settings applied to query sugges- tions. DescribeQuerySuggestionsConfig is currently not supported in the Amazon Web Services GovCloud (US-West) region. See also: AWS API Documentation
+    /// Gets information on the settings of query suggestions for an index. This is used to check the current settings applied to query suggestions. DescribeQuerySuggestionsConfig is currently not supported in the Amazon Web Services GovCloud (US-West) region. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Prevents users or groups in your IAM Identity Center identity source from accessing your Amazon Kendra experience. You can create an Amazon Kendra experience such as a search application. For more information on creating a search application experience, see Building a search experi- ence with no code . See also: AWS API Documentation
+    /// Prevents users or groups in your IAM Identity Center identity source from accessing your Amazon Kendra experience. You can create an Amazon Kendra experience such as a search application. For more information on creating a search application experience, see Building a search experience with no code . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Removes the specific permissions of users or groups in your IAM Iden- tity Center identity source with access to your Amazon Kendra experi- ence. You can create an Amazon Kendra experience such as a search ap- plication. For more information on creating a search application expe- rience, see Building a search experience with no code . See also: AWS API Documentation
+    /// Removes the specific permissions of users or groups in your IAM Identity Center identity source with access to your Amazon Kendra experience. You can create an Amazon Kendra experience such as a search application. For more information on creating a search application experience, see Building a search experience with no code . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Retrieves search metrics data. The data provides a snapshot of how your users interact with your search application and how effective the ap- plication is. See also: AWS API Documentation
+    /// Retrieves search metrics data. The data provides a snapshot of how your users interact with your search application and how effective the application is. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Lists one or more access control configurations for an index. This in- cludes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. See also: AWS API Documentation
+    /// Lists one or more access control configurations for an index. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -595,21 +595,6 @@ public class AwsKendra : IAwsKendra
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAccessControlConfigurationsAsync(
         AwsKendraListAccessControlConfigurationsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists the data source connectors that you have created. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListDataSourcesAsync(
-        AwsKendraListDataSourcesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -632,7 +617,22 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Lists specific permissions of users and groups with access to your Ama- zon Kendra experience. See also: AWS API Documentation
+    /// Lists the data source connectors that you have created. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListDataSourcesAsync(
+        AwsKendraListDataSourcesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists specific permissions of users and groups with access to your Amazon Kendra experience. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +647,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Lists users or groups in your IAM Identity Center identity source that are granted access to your Amazon Kendra experience. You can create an Amazon Kendra experience such as a search application. For more infor- mation on creating a search application experience, see Building a search experience with no code . See also: AWS API Documentation
+    /// Lists users or groups in your IAM Identity Center identity source that are granted access to your Amazon Kendra experience. You can create an Amazon Kendra experience such as a search application. For more information on creating a search application experience, see Building a search experience with no code . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Lists one or more Amazon Kendra experiences. You can create an Amazon Kendra experience such as a search application. For more information on creating a search application experience, see Building a search experi- ence with no code . See also: AWS API Documentation
+    /// Lists one or more Amazon Kendra experiences. You can create an Amazon Kendra experience such as a search application. For more information on creating a search application experience, see Building a search experience with no code . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -692,7 +692,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Lists all your sets of featured results for a given index. Features re- sults are placed above all other results for certain queries. If there's an exact match of a query, then one or more specific documents are featured in the search results. See also: AWS API Documentation
+    /// Lists all your sets of featured results for a given index. Features results are placed above all other results for certain queries. If there's an exact match of a query, then one or more specific documents are featured in the search results. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -707,7 +707,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Provides a list of groups that are mapped to users before a given or- dering or timestamp identifier. ListGroupsOlderThanOrderingId is currently not supported in the Ama- zon Web Services GovCloud (US-West) region. See also: AWS API Documentation
+    /// Provides a list of groups that are mapped to users before a given ordering or timestamp identifier. ListGroupsOlderThanOrderingId is currently not supported in the Amazon Web Services GovCloud (US-West) region. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -782,7 +782,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Maps users to their groups so that you only need to provide the user ID when you issue the query. You can also map sub groups to groups. For example, the group "Company Intellectual Property Teams" includes sub groups "Research" and "Engi- neering". These sub groups include their own list of users or people who work in these teams. Only users who work in research and engineer- ing, and therefore belong in the intellectual property group, can see top-secret company documents in their search resul...
+    /// Maps users to their groups so that you only need to provide the user ID when you issue the query. You can also map sub groups to groups. For example, the group "Company Intellectual Property Teams" includes sub groups "Research" and "Engineering". These sub groups include their own list of users or people who work in these teams. Only users who work in research and engineering, and therefore belong in the intellectual property group, can see top-secret company documents in their search results. ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -812,7 +812,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Retrieves relevant passages or text excerpts given an input query. This API is similar to the Query API. However, by default, the Query API only returns excerpt passages of up to 100 token words. With the Retrieve API, you can retrieve longer passages of up to 200 token words and up to 100 semantically relevant passages. This doesn't include question-answer or FAQ type responses from your index. The passages are text excerpts that can be semantically extracted from multiple docu- ments and multi...
+    /// Retrieves relevant passages or text excerpts given an input query. This API is similar to the Query API. However, by default, the Query API only returns excerpt passages of up to 100 token words. With the Retrieve API, you can retrieve longer passages of up to 200 token words and up to 100 semantically relevant passages. This doesn't include question-answer or FAQ type responses from your index. The passages are text excerpts that can be semantically extracted from multiple documents and multipl...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -827,7 +827,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Starts a synchronization job for a data source connector. If a synchro- nization job is already in progress, Amazon Kendra returns a ResourceI- nUseException exception. Re-syncing your data source with your index after modifying, adding, or deleting documents from your data source respository could take up to an hour or more, depending on the number of documents to sync. See also: AWS API Documentation
+    /// Starts a synchronization job for a data source connector. If a synchronization job is already in progress, Amazon Kendra returns a ResourceInUseException exception. Re-syncing your data source with your index after modifying, adding, or deleting documents from your data source respository could take up to an hour or more, depending on the number of documents to sync. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -857,7 +857,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Enables you to provide feedback to Amazon Kendra to improve the perfor- mance of your index. SubmitFeedback is currently not supported in the Amazon Web Services GovCloud (US-West) region. See also: AWS API Documentation
+    /// Enables you to provide feedback to Amazon Kendra to improve the performance of your index. SubmitFeedback is currently not supported in the Amazon Web Services GovCloud (US-West) region. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -872,7 +872,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Adds the specified tag to the specified index, FAQ, data source, or other resource. If the tag already exists, the existing value is re- placed with the new value. See also: AWS API Documentation
+    /// Adds the specified tag to the specified index, FAQ, data source, or other resource. If the tag already exists, the existing value is replaced with the new value. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -902,7 +902,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Updates an access control configuration for your documents in an index. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. You can update an access control configuration you created without in- dexing all of your documents again. For example, your index contains top-secret company documents that only certain employees or users should access. You crea...
+    /// Updates an access control configuration for your documents in an index. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. You can update an access control configuration you created without indexing all of your documents again. For example, your index contains top-secret company documents that only certain employees or users should access. You create...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -917,7 +917,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Updates an Amazon Kendra data source connector. See also: AWS API Documentation update-data-source uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Updates an Amazon Kendra data source connector. See also: AWS API Documentation update-data-source uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -947,7 +947,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Updates a set of featured results. Features results are placed above all other results for certain queries. You map specific queries to spe- cific documents for featuring in the results. If a query contains an exact match of a query, then one or more specific documents are fea- tured in the search results. See also: AWS API Documentation
+    /// Updates a set of featured results. Features results are placed above all other results for certain queries. You map specific queries to specific documents for featuring in the results. If a query contains an exact match of a query, then one or more specific documents are featured in the search results. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -977,7 +977,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Updates a block list used for query suggestions for an index. Updates to a block list might not take effect right away. Amazon Kendra needs to refresh the entire suggestions list to apply any updates to the block list. Other changes not related to the block list apply imme- diately. If a block list is updating, then you need to wait for the first update to finish before submitting another update. Amazon Kendra supports partial updates, so you only need to provide the fields you want to update. U...
+    /// Updates a block list used for query suggestions for an index. Updates to a block list might not take effect right away. Amazon Kendra needs to refresh the entire suggestions list to apply any updates to the block list. Other changes not related to the block list apply immediately. If a block list is updating, then you need to wait for the first update to finish before submitting another update. Amazon Kendra supports partial updates, so you only need to provide the fields you want to update. Upd...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -992,7 +992,7 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Updates the settings of query suggestions for an index. Amazon Kendra supports partial updates, so you only need to provide the fields you want to update. If an update is currently processing, you need to wait for the update to finish before making another update. Updates to query suggestions settings might not take effect right away. The time for your updated settings to take effect depends on the up- dates made and the number of search queries in your index. You can still enable/disable query ...
+    /// Updates the settings of query suggestions for an index. Amazon Kendra supports partial updates, so you only need to provide the fields you want to update. If an update is currently processing, you need to wait for the update to finish before making another update. Updates to query suggestions settings might not take effect right away. The time for your updated settings to take effect depends on the updates made and the number of search queries in your index. You can still enable/disable query su...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

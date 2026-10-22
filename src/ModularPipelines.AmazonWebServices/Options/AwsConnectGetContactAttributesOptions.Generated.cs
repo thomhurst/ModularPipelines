@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsConnectGetContactAttributesOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Retrieves the contact attributes for the specified contact. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="InitialContactId">The identifier of the initial contact. Constraints: o min: 1 o max: 256</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="InitialContactId">The identifier of the initial contact. Constraints: • min: 1 • max: 256</param>
     public AwsConnectGetContactAttributesOptions(
         string InstanceId,
         string InitialContactId
@@ -60,13 +62,13 @@ public record AwsConnectGetContactAttributesOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the initial contact. Constraints: o min: 1 o max: 256
+    /// The identifier of the initial contact. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--initial-contact-id")]
     public string? InitialContactId { get; private init; }

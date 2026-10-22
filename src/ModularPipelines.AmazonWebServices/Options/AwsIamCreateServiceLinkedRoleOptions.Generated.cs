@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an IAM role that is linked to a specific Amazon Web Services service. The service controls the attached policies and when the role can be deleted. This helps ensure that the service is not broken by an unexpectedly changed or deleted role, which could put your Amazon Web Services resources into an unknown state. Allowing the service to con- trol the role helps improve service stability and proper cleanup when a service and its role are no longer needed. For more information, see Using se...
+/// Creates an IAM role that is linked to a specific Amazon Web Services service. The service controls the attached policies and when the role can be deleted. This helps ensure that the service is not broken by an unexpectedly changed or deleted role, which could put your Amazon Web Services resources into an unknown state. Allowing the service to control the role helps improve service stability and proper cleanup when a service and its role are no longer needed. For more information, see Using serv...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsIamCreateServiceLinkedRoleOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an IAM role that is linked to a specific Amazon Web Services service. The service controls the attached policies and when the role can be deleted. This helps ensure that the service is not broken by an unexpectedly changed or deleted role, which could put your Amazon Web Services resources into an unknown state. Allowing the service to con- trol the role helps improve service stability and proper cleanup when a service and its role are no longer needed. For more information, see Using se...
+    /// Creates an IAM role that is linked to a specific Amazon Web Services service. The service controls the attached policies and when the role can be deleted. This helps ensure that the service is not broken by an unexpectedly changed or deleted role, which could put your Amazon Web Services resources into an unknown state. Allowing the service to control the role helps improve service stability and proper cleanup when a service and its role are no longer needed. For more information, see Using serv...
     /// </summary>
-    /// <param name="AwsServiceName">The service principal for the Amazon Web Services service to which this role is attached. You use a string similar to a URL but without the http:// in front. For example: elasticbeanstalk.amazonaws.com . Service principals are unique and case-sensitive. To find the exact service principal for your service-linked role, see Amazon Web Ser- vices services that work with IAM in the IAM User Guide . Look for the services that have Yes in the Service-Linked Role column. Choose the Yes link to view the service-linked role documentation for that service. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+</param>
+    /// <param name="AwsServiceName">The service principal for the Amazon Web Services service to which this role is attached. You use a string similar to a URL but without the http:// in front. For example: elasticbeanstalk.amazonaws.com . Service principals are unique and case-sensitive. To find the exact service principal for your service-linked role, see Amazon Web Services services that work with IAM in the IAM User Guide . Look for the services that have Yes in the Service-Linked Role column. Choose the Yes link to view the service-linked role documentation for that service. Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+</param>
     public AwsIamCreateServiceLinkedRoleOptions(
         string AwsServiceName
     )
@@ -56,19 +58,19 @@ public record AwsIamCreateServiceLinkedRoleOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The service principal for the Amazon Web Services service to which this role is attached. You use a string similar to a URL but without the http:// in front. For example: elasticbeanstalk.amazonaws.com . Service principals are unique and case-sensitive. To find the exact service principal for your service-linked role, see Amazon Web Ser- vices services that work with IAM in the IAM User Guide . Look for the services that have Yes in the Service-Linked Role column. Choose the Yes link to view the service-linked role documentation for that service. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// The service principal for the Amazon Web Services service to which this role is attached. You use a string similar to a URL but without the http:// in front. For example: elasticbeanstalk.amazonaws.com . Service principals are unique and case-sensitive. To find the exact service principal for your service-linked role, see Amazon Web Services services that work with IAM in the IAM User Guide . Look for the services that have Yes in the Service-Linked Role column. Choose the Yes link to view the service-linked role documentation for that service. Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--aws-service-name")]
     public string? AwsServiceName { get; private init; }
 
     /// <summary>
-    /// The description of the role. Constraints: o max: 1000 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]*
+    /// The description of the role. Constraints: • max: 1000 • pattern: [\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A string that you provide, which is combined with the service-pro- vided prefix to form the complete role name. If you make multiple requests for the same service, then you must supply a different Cus- tomSuffix for each request. Otherwise the request fails with a du- plicate role name error. For example, you could add -1 or -debug to the suffix. Some services do not support the CustomSuffix parameter. If you pro- vide an optional suffix and the operation fails, try the operation again without the suffix. Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+
+    /// A string that you provide, which is combined with the service-provided prefix to form the complete role name. If you make multiple requests for the same service, then you must supply a different CustomSuffix for each request. Otherwise the request fails with a duplicate role name error. For example, you could add -1 or -debug to the suffix. Some services do not support the CustomSuffix parameter. If you provide an optional suffix and the operation fails, try the operation again without the suffix. Constraints: • min: 1 • max: 64 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--custom-suffix")]
     public string? CustomSuffix { get; set; }

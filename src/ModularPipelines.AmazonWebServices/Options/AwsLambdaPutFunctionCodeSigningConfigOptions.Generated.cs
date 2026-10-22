@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsLambdaPutFunctionCodeSigningConfigOptions : AwsOptions, IValida
     /// <summary>
     /// Update the code signing configuration for the function. Changes to the code signing configuration take effect the next time a user tries to deploy a code package to the function. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CodeSigningConfigArn">The The Amazon Resource Name (ARN) of the code signing configura- tion. Constraints: o min: 0 o max: 200 o pattern: arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:code-sign- ing-config:csc-[a-z0-9]{17}</param>
-    /// <param name="FunctionName">The name or ARN of the Lambda function. Name formats o Function name - MyFunction . o Function ARN - arn:aws:lambda:us-west-2:123456789012:function:My- Function . o Partial ARN - 123456789012:function:MyFunction . The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: o min: 1 o max: 256 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST(\.PUB- LISHED)?|[a-zA-Z0-9-_]+))?</param>
+    /// <param name="CodeSigningConfigArn">The The Amazon Resource Name (ARN) of the code signing configuration. Constraints: • min: 0 • max: 200 • pattern: arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:code-signing-config:csc-[a-z0-9]{17}</param>
+    /// <param name="FunctionName">The name or ARN of the Lambda function. Name formats • Function name - MyFunction . • Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction . • Partial ARN - 123456789012:function:MyFunction . The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: • min: 1 • max: 256 • pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST(\.PUBLISHED)?|[a-zA-Z0-9-_]+))?</param>
     public AwsLambdaPutFunctionCodeSigningConfigOptions(
         string CodeSigningConfigArn,
         string FunctionName
@@ -60,13 +62,13 @@ public record AwsLambdaPutFunctionCodeSigningConfigOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The The Amazon Resource Name (ARN) of the code signing configura- tion. Constraints: o min: 0 o max: 200 o pattern: arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:code-sign- ing-config:csc-[a-z0-9]{17}
+    /// The The Amazon Resource Name (ARN) of the code signing configuration. Constraints: • min: 0 • max: 200 • pattern: arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:code-signing-config:csc-[a-z0-9]{17}
     /// </summary>
     [CliOption("--code-signing-config-arn")]
     public string? CodeSigningConfigArn { get; private init; }
 
     /// <summary>
-    /// The name or ARN of the Lambda function. Name formats o Function name - MyFunction . o Function ARN - arn:aws:lambda:us-west-2:123456789012:function:My- Function . o Partial ARN - 123456789012:function:MyFunction . The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: o min: 1 o max: 256 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST(\.PUB- LISHED)?|[a-zA-Z0-9-_]+))?
+    /// The name or ARN of the Lambda function. Name formats • Function name - MyFunction . • Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction . • Partial ARN - 123456789012:function:MyFunction . The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: • min: 1 • max: 256 • pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST(\.PUBLISHED)?|[a-zA-Z0-9-_]+))?
     /// </summary>
     [CliOption("--function-name")]
     public string? FunctionName { get; private init; }

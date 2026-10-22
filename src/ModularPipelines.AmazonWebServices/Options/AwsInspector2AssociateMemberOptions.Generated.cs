@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates an Amazon Web Services account with an Amazon Inspector del- egated administrator. An HTTP 200 response indicates the association was successfully started, but doesnt indicate whether it was completed. You can check if the association completed by using ListMembers for multiple accounts or GetMembers for a single account. See also: AWS API Documentation
+/// Associates an Amazon Web Services account with an Amazon Inspector delegated administrator. An HTTP 200 response indicates the association was successfully started, but doesnt indicate whether it was completed. You can check if the association completed by using ListMembers for multiple accounts or GetMembers for a single account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsInspector2AssociateMemberOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates an Amazon Web Services account with an Amazon Inspector del- egated administrator. An HTTP 200 response indicates the association was successfully started, but doesnt indicate whether it was completed. You can check if the association completed by using ListMembers for multiple accounts or GetMembers for a single account. See also: AWS API Documentation
+    /// Associates an Amazon Web Services account with an Amazon Inspector delegated administrator. An HTTP 200 response indicates the association was successfully started, but doesnt indicate whether it was completed. You can check if the association completed by using ListMembers for multiple accounts or GetMembers for a single account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID of the member account to be asso- ciated. Constraints: o min: 12 o max: 12 o pattern: \d{12}</param>
+    /// <param name="AccountId">The Amazon Web Services account ID of the member account to be associated. Constraints: • min: 12 • max: 12 • pattern: \d{12}</param>
     public AwsInspector2AssociateMemberOptions(
         string AccountId
     )
@@ -56,7 +58,7 @@ public record AwsInspector2AssociateMemberOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID of the member account to be asso- ciated. Constraints: o min: 12 o max: 12 o pattern: \d{12}
+    /// The Amazon Web Services account ID of the member account to be associated. Constraints: • min: 12 • max: 12 • pattern: \d{12}
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }

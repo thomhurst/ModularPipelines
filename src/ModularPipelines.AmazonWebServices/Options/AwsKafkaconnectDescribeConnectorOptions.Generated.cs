@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsKafkaconnectDescribeConnectorOptions : AwsOptions, IValidatable
     /// <summary>
     /// Returns summary information about the connector. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectorArn">The Amazon Resource Name (ARN) of the connector that you want to de- scribe.</param>
+    /// <param name="ConnectorArn">The Amazon Resource Name (ARN) of the connector that you want to describe.</param>
     public AwsKafkaconnectDescribeConnectorOptions(
         string ConnectorArn
     )
@@ -56,7 +58,7 @@ public record AwsKafkaconnectDescribeConnectorOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the connector that you want to de- scribe.
+    /// The Amazon Resource Name (ARN) of the connector that you want to describe.
     /// </summary>
     [CliOption("--connector-arn")]
     public string? ConnectorArn { get; private init; }

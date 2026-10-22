@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsEc2DisableInstanceSqlHaStandbyDetectionsOptions : AwsOptions, I
     /// <summary>
     /// Disable Amazon EC2 instances running in an SQL Server High Availability cluster from SQL Server High Availability instance standby detection monitoring. Once disabled, Amazon Web Services no longer monitors the metadata for the instances to determine whether they are active or standby nodes in the SQL Server High Availability cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceIds">The IDs of the instances to disable from SQL Server High Availabil- ity standby detection monitoring. Constraints: o min: 1 o max: 30 (string) Syntax: "string" "string" ...</param>
+    /// <param name="InstanceIds">The IDs of the instances to disable from SQL Server High Availability standby detection monitoring. Constraints: • min: 1 • max: 30 (string) Syntax: "string" "string" ...</param>
     public AwsEc2DisableInstanceSqlHaStandbyDetectionsOptions(
         IEnumerable<string> InstanceIds
     )
@@ -67,13 +69,13 @@ public record AwsEc2DisableInstanceSqlHaStandbyDetectionsOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The IDs of the instances to disable from SQL Server High Availabil- ity standby detection monitoring. Constraints: o min: 1 o max: 30 (string) Syntax: "string" "string" ...
+    /// The IDs of the instances to disable from SQL Server High Availability standby detection monitoring. Constraints: • min: 1 • max: 30 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--instance-ids", GroupValues = true)]
     public IEnumerable<string>? InstanceIds { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

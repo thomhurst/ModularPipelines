@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves information about a policy. You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation
+/// Retrieves information about a policy. You can only call this operation from the management account or a member account that is a delegated administrator. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsOrganizationsDescribePolicyOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves information about a policy. You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation
+    /// Retrieves information about a policy. You can only call this operation from the management account or a member account that is a delegated administrator. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyId">ID for the policy that you want details about. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the under- score character (_). Constraints: o max: 130 o pattern: ^p-[0-9a-zA-Z_]{8,128}$</param>
+    /// <param name="PolicyId">ID for the policy that you want details about. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_). Constraints: • max: 130 • pattern: ^p-[0-9a-zA-Z_]{8,128}$</param>
     public AwsOrganizationsDescribePolicyOptions(
         string PolicyId
     )
@@ -56,7 +58,7 @@ public record AwsOrganizationsDescribePolicyOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID for the policy that you want details about. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the under- score character (_). Constraints: o max: 130 o pattern: ^p-[0-9a-zA-Z_]{8,128}$
+    /// ID for the policy that you want details about. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_). Constraints: • max: 130 • pattern: ^p-[0-9a-zA-Z_]{8,128}$
     /// </summary>
     [CliOption("--policy-id")]
     public string? PolicyId { get; private init; }

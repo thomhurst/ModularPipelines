@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsWafv2ListMobileSdkReleasesOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Retrieves a list of the available releases for the mobile SDK and the specified device platform. The mobile SDK is not generally available. Customers who have access to the mobile SDK can use it to establish and manage WAF tokens for use in HTTP(S) requests from a mobile device to WAF. For more information, see WAF client application integration in the WAF Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Platform">The device platform to retrieve the list for. Possible values: o IOS o ANDROID</param>
+    /// <param name="Platform">The device platform to retrieve the list for. Possible values: • IOS • ANDROID</param>
     public AwsWafv2ListMobileSdkReleasesOptions(
         AwsWafv2ListMobileSdkReleasesPlatform Platform
     )
@@ -56,19 +58,19 @@ public record AwsWafv2ListMobileSdkReleasesOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The device platform to retrieve the list for. Possible values: o IOS o ANDROID
+    /// The device platform to retrieve the list for. Possible values: • IOS • ANDROID
     /// </summary>
     [CliOption("--platform")]
     public AwsWafv2ListMobileSdkReleasesPlatform? Platform { get; private init; }
 
     /// <summary>
-    /// When you request a list of objects with a Limit setting, if the num- ber of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request. Constraints: o min: 1 o max: 256 o pattern: .*\S.*
+    /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request. Constraints: • min: 1 • max: 256 • pattern: .*\S.*
     /// </summary>
     [CliOption("--next-marker")]
     public string? NextMarker { get; set; }
 
     /// <summary>
-    /// The maximum number of objects that you want WAF to return for this request. If more objects are available, in the response, WAF pro- vides a NextMarker value that you can use in a subsequent call to get the next batch of objects. Constraints: o min: 1 o max: 100
+    /// The maximum number of objects that you want WAF to return for this request. If more objects are available, in the response, WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }

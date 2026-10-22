@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBedrockRuntimeGetAsyncInvokeOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Retrieve information about an asynchronous invocation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InvocationArn">The invocation's ARN. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:async-in- voke/[a-z0-9]{12}</param>
+    /// <param name="InvocationArn">The invocation's ARN. Constraints: • min: 1 • max: 2048 • pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:async-invoke/[a-z0-9]{12}</param>
     public AwsBedrockRuntimeGetAsyncInvokeOptions(
         string InvocationArn
     )
@@ -56,7 +58,7 @@ public record AwsBedrockRuntimeGetAsyncInvokeOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The invocation's ARN. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:async-in- voke/[a-z0-9]{12}
+    /// The invocation's ARN. Constraints: • min: 1 • max: 2048 • pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:async-invoke/[a-z0-9]{12}
     /// </summary>
     [CliOption("--invocation-arn")]
     public string? InvocationArn { get; private init; }

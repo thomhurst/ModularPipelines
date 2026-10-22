@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsChimeSdkIdentityUpdateAppInstanceUserOptions : AwsOptions, IVal
     /// <summary>
     /// Updates the details of an AppInstanceUser . You can update names and metadata. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppInstanceUserArn">The ARN of the AppInstanceUser . Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
-    /// <param name="Name">The name of the AppInstanceUser . Constraints: o min: 1 o max: 100 o pattern: .*\S.*</param>
-    /// <param name="Metadata">The metadata of the AppInstanceUser . Constraints: o min: 0 o max: 1024 o pattern: .*</param>
+    /// <param name="AppInstanceUserArn">The ARN of the AppInstanceUser . Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="Name">The name of the AppInstanceUser . Constraints: • min: 1 • max: 100 • pattern: .*\S.*</param>
+    /// <param name="Metadata">The metadata of the AppInstanceUser . Constraints: • min: 0 • max: 1024 • pattern: .*</param>
     public AwsChimeSdkIdentityUpdateAppInstanceUserOptions(
         string AppInstanceUserArn,
         string Name,
@@ -64,19 +66,19 @@ public record AwsChimeSdkIdentityUpdateAppInstanceUserOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the AppInstanceUser . Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The ARN of the AppInstanceUser . Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--app-instance-user-arn")]
     public string? AppInstanceUserArn { get; private init; }
 
     /// <summary>
-    /// The name of the AppInstanceUser . Constraints: o min: 1 o max: 100 o pattern: .*\S.*
+    /// The name of the AppInstanceUser . Constraints: • min: 1 • max: 100 • pattern: .*\S.*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The metadata of the AppInstanceUser . Constraints: o min: 0 o max: 1024 o pattern: .*
+    /// The metadata of the AppInstanceUser . Constraints: • min: 0 • max: 1024 • pattern: .*
     /// </summary>
     [CliOption("--metadata")]
     public string? Metadata { get; private init; }

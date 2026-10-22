@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsWorkspacesDescribeWorkspaceAssociationsOptions : AwsOptions, IV
     /// <summary>
     /// Describes the associations betweens applications and the specified WorkSpace. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceId">The identifier of the WorkSpace. Constraints: o pattern: ^ws-[0-9a-z]{8,63}$</param>
-    /// <param name="AssociatedResourceTypes">The resource types of the associated resources. (string) Possible values: o APPLICATION Syntax: "string" "string" ...</param>
+    /// <param name="WorkspaceId">The identifier of the WorkSpace. Constraints: • pattern: ^ws-[0-9a-z]{8,63}$</param>
+    /// <param name="AssociatedResourceTypes">The resource types of the associated resources. (string) Possible values: • APPLICATION Syntax: "string" "string" ...</param>
     public AwsWorkspacesDescribeWorkspaceAssociationsOptions(
         string WorkspaceId,
         IEnumerable<string> AssociatedResourceTypes
@@ -71,13 +73,13 @@ public record AwsWorkspacesDescribeWorkspaceAssociationsOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the WorkSpace. Constraints: o pattern: ^ws-[0-9a-z]{8,63}$
+    /// The identifier of the WorkSpace. Constraints: • pattern: ^ws-[0-9a-z]{8,63}$
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
 
     /// <summary>
-    /// The resource types of the associated resources. (string) Possible values: o APPLICATION Syntax: "string" "string" ...
+    /// The resource types of the associated resources. (string) Possible values: • APPLICATION Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--associated-resource-types", GroupValues = true)]
     public IEnumerable<string>? AssociatedResourceTypes { get; private init; }

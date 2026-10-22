@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates a core network Connect peer with a device and optionally, with a link. If you specify a link, it must be associated with the specified device. You can only associate core network Connect peers that have been cre- ated on a core network Connect attachment on a core network. See also: AWS API Documentation
+/// Associates a core network Connect peer with a device and optionally, with a link. If you specify a link, it must be associated with the specified device. You can only associate core network Connect peers that have been created on a core network Connect attachment on a core network. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsNetworkmanagerAssociateConnectPeerOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates a core network Connect peer with a device and optionally, with a link. If you specify a link, it must be associated with the specified device. You can only associate core network Connect peers that have been cre- ated on a core network Connect attachment on a core network. See also: AWS API Documentation
+    /// Associates a core network Connect peer with a device and optionally, with a link. If you specify a link, it must be associated with the specified device. You can only associate core network Connect peers that have been created on a core network Connect attachment on a core network. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GlobalNetworkId">The ID of your global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
-    /// <param name="ConnectPeerId">The ID of the Connect peer. Constraints: o min: 0 o max: 50 o pattern: ^connect-peer-([0-9a-f]{8,17})$</param>
-    /// <param name="DeviceId">The ID of the device. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
+    /// <param name="GlobalNetworkId">The ID of your global network. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*</param>
+    /// <param name="ConnectPeerId">The ID of the Connect peer. Constraints: • min: 0 • max: 50 • pattern: ^connect-peer-([0-9a-f]{8,17})$</param>
+    /// <param name="DeviceId">The ID of the device. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*</param>
     public AwsNetworkmanagerAssociateConnectPeerOptions(
         string GlobalNetworkId,
         string ConnectPeerId,
@@ -64,25 +66,25 @@ public record AwsNetworkmanagerAssociateConnectPeerOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of your global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// The ID of your global network. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--global-network-id")]
     public string? GlobalNetworkId { get; private init; }
 
     /// <summary>
-    /// The ID of the Connect peer. Constraints: o min: 0 o max: 50 o pattern: ^connect-peer-([0-9a-f]{8,17})$
+    /// The ID of the Connect peer. Constraints: • min: 0 • max: 50 • pattern: ^connect-peer-([0-9a-f]{8,17})$
     /// </summary>
     [CliOption("--connect-peer-id")]
     public string? ConnectPeerId { get; private init; }
 
     /// <summary>
-    /// The ID of the device. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// The ID of the device. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--device-id")]
     public string? DeviceId { get; private init; }
 
     /// <summary>
-    /// The ID of the link. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// The ID of the link. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--link-id")]
     public string? LinkId { get; set; }

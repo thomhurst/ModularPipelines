@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates an Identity and Access Management (IAM) role with a DB clus- ter. See also: AWS API Documentation
+/// Associates an Identity and Access Management (IAM) role with a DB cluster. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsRdsAddRoleToDbClusterOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates an Identity and Access Management (IAM) role with a DB clus- ter. See also: AWS API Documentation
+    /// Associates an Identity and Access Management (IAM) role with a DB cluster. See also: AWS API Documentation
     /// </summary>
     /// <param name="DbClusterIdentifier">The name of the DB cluster to associate the IAM role with.</param>
-    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role to associate with the Aurora DB cluster, for example arn:aws:iam::123456789012:role/Auro- raAccessRole . Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z-]*:iam::[0-9]*:role/.*</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role to associate with the Aurora DB cluster, for example arn:aws:iam::123456789012:role/AuroraAccessRole . Constraints: • min: 20 • max: 2048 • pattern: arn:aws[a-z-]*:iam::[0-9]*:role/.*</param>
     public AwsRdsAddRoleToDbClusterOptions(
         string DbClusterIdentifier,
         string RoleArn
@@ -66,7 +68,7 @@ public record AwsRdsAddRoleToDbClusterOptions : AwsOptions, IValidatableObject
     public string? DbClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role to associate with the Aurora DB cluster, for example arn:aws:iam::123456789012:role/Auro- raAccessRole . Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z-]*:iam::[0-9]*:role/.*
+    /// The Amazon Resource Name (ARN) of the IAM role to associate with the Aurora DB cluster, for example arn:aws:iam::123456789012:role/AuroraAccessRole . Constraints: • min: 20 • max: 2048 • pattern: arn:aws[a-z-]*:iam::[0-9]*:role/.*
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }

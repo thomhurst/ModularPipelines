@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsLexv2ModelsCreateResourcePolicyOptions : AwsOptions, IValidatab
     /// <summary>
     /// Creates a new resource policy with the specified policy statements. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the bot or bot alias that the re- source policy is attached to. Constraints: o min: 1 o max: 1011</param>
-    /// <param name="Policy">A resource policy to add to the resource. The policy is a JSON structure that contains one or more statements that define the pol- icy. The policy must follow the IAM syntax. For more information about the contents of a JSON policy document, see IAM JSON policy reference . If the policy isn't valid, Amazon Lex returns a validation excep- tion. Constraints: o min: 2</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the bot or bot alias that the resource policy is attached to. Constraints: • min: 1 • max: 1011</param>
+    /// <param name="Policy">A resource policy to add to the resource. The policy is a JSON structure that contains one or more statements that define the policy. The policy must follow the IAM syntax. For more information about the contents of a JSON policy document, see IAM JSON policy reference . If the policy isn't valid, Amazon Lex returns a validation exception. Constraints: • min: 2</param>
     public AwsLexv2ModelsCreateResourcePolicyOptions(
         string ResourceArn,
         string Policy
@@ -60,13 +62,13 @@ public record AwsLexv2ModelsCreateResourcePolicyOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the bot or bot alias that the re- source policy is attached to. Constraints: o min: 1 o max: 1011
+    /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource policy is attached to. Constraints: • min: 1 • max: 1011
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A resource policy to add to the resource. The policy is a JSON structure that contains one or more statements that define the pol- icy. The policy must follow the IAM syntax. For more information about the contents of a JSON policy document, see IAM JSON policy reference . If the policy isn't valid, Amazon Lex returns a validation excep- tion. Constraints: o min: 2
+    /// A resource policy to add to the resource. The policy is a JSON structure that contains one or more statements that define the policy. The policy must follow the IAM syntax. For more information about the contents of a JSON policy document, see IAM JSON policy reference . If the policy isn't valid, Amazon Lex returns a validation exception. Constraints: • min: 2
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; private init; }

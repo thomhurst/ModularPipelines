@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsDatasyncCreateLocationEfsOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Creates a transfer location for an Amazon EFS file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses Amazon EFS file systems . See also: AWS API Documentation
     /// </summary>
-    /// <param name="EfsFilesystemArn">Specifies the ARN for your Amazon EFS file system. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):elastic- filesystem:[a-z\-0-9]+:[0-9]{12}:file-system/fs-[0-9a-f]{8,40}$</param>
-    /// <param name="Ec2Config">Specifies the subnet and security groups DataSync uses to connect to one of your Amazon EFS file system's mount targets . SubnetArn -&gt; (string) [required] Specifies the ARN of a subnet where DataSync creates the network interfaces for managing traffic during your transfer. The subnet must be located: o In the same virtual private cloud (VPC) as the Amazon EFS file system. o In the same Availability Zone as at least one mount target for the Amazon EFS file system. NOTE: You don't need to specify a subnet that includes a file sys- tem mount target. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):ec2:[a-z\-0-9]*:[0-9]{12}:sub- net/subnet-[a-f0-9]+$ SecurityGroupArns -&gt; (list) [required] Specifies the Amazon Resource Names (ARNs) of the security groups associated with an Amazon EFS file system's mount target. Constraints: o min: 1 o max: 5 (string) Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):ec2:[a-z\-0-9]*:[0-9]{12}:se- curity-group/sg-[a-f0-9]+$ Shorthand Syntax: SubnetArn=string,SecurityGroupArns=string,string JSON Syntax: { "SubnetArn": "string", "SecurityGroupArns": ["string", ...] }</param>
+    /// <param name="EfsFilesystemArn">Specifies the ARN for your Amazon EFS file system. Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):elasticfilesystem:[a-z\-0-9]+:[0-9]{12}:file-system/fs-[0-9a-f]{8,40}$</param>
+    /// <param name="Ec2Config">Specifies the subnet and security groups DataSync uses to connect to one of your Amazon EFS file system's mount targets . SubnetArn -&gt; (string) [required] Specifies the ARN of a subnet where DataSync creates the network interfaces for managing traffic during your transfer. The subnet must be located: • In the same virtual private cloud (VPC) as the Amazon EFS file system. • In the same Availability Zone as at least one mount target for the Amazon EFS file system. NOTE: You don't need to specify a subnet that includes a file system mount target. Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):ec2:[a-z\-0-9]*:[0-9]{12}:subnet/subnet-[a-f0-9]+$ SecurityGroupArns -&gt; (list) [required] Specifies the Amazon Resource Names (ARNs) of the security groups associated with an Amazon EFS file system's mount target. Constraints: • min: 1 • max: 5 (string) Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):ec2:[a-z\-0-9]*:[0-9]{12}:security-group/sg-[a-f0-9]+$ Shorthand Syntax: SubnetArn=string,SecurityGroupArns=string,string JSON Syntax: { "SubnetArn": "string", "SecurityGroupArns": ["string", ...] }</param>
     public AwsDatasyncCreateLocationEfsOptions(
         string EfsFilesystemArn,
         string Ec2Config
@@ -61,43 +63,43 @@ public record AwsDatasyncCreateLocationEfsOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ARN for your Amazon EFS file system. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):elastic- filesystem:[a-z\-0-9]+:[0-9]{12}:file-system/fs-[0-9a-f]{8,40}$
+    /// Specifies the ARN for your Amazon EFS file system. Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):elasticfilesystem:[a-z\-0-9]+:[0-9]{12}:file-system/fs-[0-9a-f]{8,40}$
     /// </summary>
     [CliOption("--efs-filesystem-arn")]
     public string? EfsFilesystemArn { get; private init; }
 
     /// <summary>
-    /// Specifies the subnet and security groups DataSync uses to connect to one of your Amazon EFS file system's mount targets . SubnetArn -&gt; (string) [required] Specifies the ARN of a subnet where DataSync creates the network interfaces for managing traffic during your transfer. The subnet must be located: o In the same virtual private cloud (VPC) as the Amazon EFS file system. o In the same Availability Zone as at least one mount target for the Amazon EFS file system. NOTE: You don't need to specify a subnet that includes a file sys- tem mount target. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):ec2:[a-z\-0-9]*:[0-9]{12}:sub- net/subnet-[a-f0-9]+$ SecurityGroupArns -&gt; (list) [required] Specifies the Amazon Resource Names (ARNs) of the security groups associated with an Amazon EFS file system's mount target. Constraints: o min: 1 o max: 5 (string) Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):ec2:[a-z\-0-9]*:[0-9]{12}:se- curity-group/sg-[a-f0-9]+$ Shorthand Syntax: SubnetArn=string,SecurityGroupArns=string,string JSON Syntax: { "SubnetArn": "string", "SecurityGroupArns": ["string", ...] }
+    /// Specifies the subnet and security groups DataSync uses to connect to one of your Amazon EFS file system's mount targets . SubnetArn -&gt; (string) [required] Specifies the ARN of a subnet where DataSync creates the network interfaces for managing traffic during your transfer. The subnet must be located: • In the same virtual private cloud (VPC) as the Amazon EFS file system. • In the same Availability Zone as at least one mount target for the Amazon EFS file system. NOTE: You don't need to specify a subnet that includes a file system mount target. Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):ec2:[a-z\-0-9]*:[0-9]{12}:subnet/subnet-[a-f0-9]+$ SecurityGroupArns -&gt; (list) [required] Specifies the Amazon Resource Names (ARNs) of the security groups associated with an Amazon EFS file system's mount target. Constraints: • min: 1 • max: 5 (string) Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):ec2:[a-z\-0-9]*:[0-9]{12}:security-group/sg-[a-f0-9]+$ Shorthand Syntax: SubnetArn=string,SecurityGroupArns=string,string JSON Syntax: { "SubnetArn": "string", "SecurityGroupArns": ["string", ...] }
     /// </summary>
     [CliOption("--ec2-config")]
     public string? Ec2Config { get; private init; }
 
     /// <summary>
-    /// Specifies a mount path for your Amazon EFS file system. This is where DataSync reads or writes data on your file system (depending on if this is a source or destination location). By default, DataSync uses the root directory (or access point if you provide one by using AccessPointArn ). You can also include subdi- rectories using forward slashes (for example, /path/to/folder ). Constraints: o max: 4096 o pattern: ^[a-zA-Z0-9_\-\+\./\(\)\p{Zs}]*$
+    /// Specifies a mount path for your Amazon EFS file system. This is where DataSync reads or writes data on your file system (depending on if this is a source or destination location). By default, DataSync uses the root directory (or access point if you provide one by using AccessPointArn ). You can also include subdirectories using forward slashes (for example, /path/to/folder ). Constraints: • max: 4096 • pattern: ^[a-zA-Z0-9_\-\+\./\(\)\p{Zs}]*$
     /// </summary>
     [CliOption("--subdirectory")]
     public string? Subdirectory { get; set; }
 
     /// <summary>
-    /// Specifies the key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recom- mend that you create a name tag for your location. Constraints: o min: 0 o max: 50 (structure) A key-value pair representing a single tag that's been applied to an Amazon Web Services resource. Key -&gt; (string) [required] The key for an Amazon Web Services resource tag. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9\s+=._:/-]+$ Value -&gt; (string) The value for an Amazon Web Services resource tag. Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9\s+=._:@/-]+$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Specifies the key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location. Constraints: • min: 0 • max: 50 (structure) A key-value pair representing a single tag that's been applied to an Amazon Web Services resource. Key -&gt; (string) [required] The key for an Amazon Web Services resource tag. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9\s+=._:/-]+$ Value -&gt; (string) The value for an Amazon Web Services resource tag. Constraints: • min: 0 • max: 256 • pattern: ^[a-zA-Z0-9\s+=._:@/-]+$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Specifies the Amazon Resource Name (ARN) of the access point that DataSync uses to mount your Amazon EFS file system. For more information, see Accessing restricted file systems . Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):elastic- filesystem:[a-z\-0-9]+:[0-9]{12}:access-point/fsap-[0-9a-f]{8,40}$
+    /// Specifies the Amazon Resource Name (ARN) of the access point that DataSync uses to mount your Amazon EFS file system. For more information, see Accessing restricted file systems . Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):elasticfilesystem:[a-z\-0-9]+:[0-9]{12}:access-point/fsap-[0-9a-f]{8,40}$
     /// </summary>
     [CliOption("--access-point-arn")]
     public string? AccessPointArn { get; set; }
 
     /// <summary>
-    /// Specifies an Identity and Access Management (IAM) role that allows DataSync to access your Amazon EFS file system. For information on creating this role, see Creating a DataSync IAM role for file system access . Constraints: o max: 2048 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):iam::[0-9]{12}:role/.*$
+    /// Specifies an Identity and Access Management (IAM) role that allows DataSync to access your Amazon EFS file system. For information on creating this role, see Creating a DataSync IAM role for file system access . Constraints: • max: 2048 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):iam::[0-9]{12}:role/.*$
     /// </summary>
     [CliOption("--file-system-access-role-arn")]
     public string? FileSystemAccessRoleArn { get; set; }
 
     /// <summary>
-    /// Specifies whether you want DataSync to use Transport Layer Security (TLS) 1.2 encryption when it transfers data to or from your Amazon EFS file system. If you specify an access point using AccessPointArn or an IAM role using FileSystemAccessRoleArn , you must set this parameter to TLS1_2 . Possible values: o NONE o TLS1_2
+    /// Specifies whether you want DataSync to use Transport Layer Security (TLS) 1.2 encryption when it transfers data to or from your Amazon EFS file system. If you specify an access point using AccessPointArn or an IAM role using FileSystemAccessRoleArn , you must set this parameter to TLS1_2 . Possible values: • NONE • TLS1_2
     /// </summary>
     [CliOption("--in-transit-encryption")]
     public AwsDatasyncCreateLocationEfsInTransitEncryption? InTransitEncryption { get; set; }

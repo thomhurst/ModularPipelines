@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,9 +29,9 @@ public record AwsCustomerProfilesCreateRecommenderSchemaOptions : AwsOptions, IV
     /// <summary>
     /// Creates a recommender schema. A recommender schema defines the set of data columns available for training recommenders and filters under a domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="RecommenderSchemaName">The name of the recommender schema. The name must be unique within the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="Fields">A map of dataset type to column definitions that specifies which data columns to include in the schema. The _webAnalytics and _cata- logItem keys are supported. Constraints: o min: 1 o max: 2 key -&gt; (string) value -&gt; (list) Constraints: o min: 1 o max: 9 (structure) Defines a column in a recommender schema, including the tar- get field name and optional feature and content type settings for training. TargetFieldName -&gt; (string) [required] The name of the target field in the dataset, such as Lo- cation.City or Attributes.MealTime . Constraints: o min: 1 o max: 1000 ContentType -&gt; (string) The data type of the column value. Valid values are String and Number . The default value is String . Possible values: o STRING o NUMBER FeatureType -&gt; (string) How the column is treated for model training. Valid val- ues are CATEGORICAL and TEXTUAL . Possible values: o TEXTUAL o CATEGORICAL Shorthand Syntax: KeyName1=[{TargetFieldName=string,ContentType=string,FeatureType=string},{TargetFieldName=string,ContentType=string,FeatureType=string}],KeyName2=[{TargetFieldName=string,ContentType=string,FeatureType=string},{TargetFieldName=string,ContentType=string,FeatureType=string}] JSON Syntax: {"string": [ { "TargetFieldName": "string", "ContentType": "STRING"|"NUMBER", "FeatureType": "TEXTUAL"|"CATEGORICAL" } ... ] ...}</param>
+    /// <param name="DomainName">The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="RecommenderSchemaName">The name of the recommender schema. The name must be unique within the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="Fields">A map of dataset type to column definitions that specifies which data columns to include in the schema. The _webAnalytics and _catalogItem keys are supported. Constraints: • min: 1 • max: 2 key -&gt; (string) value -&gt; (list) Constraints: • min: 1 • max: 9 (structure) Defines a column in a recommender schema, including the target field name and optional feature and content type settings for training. TargetFieldName -&gt; (string) [required] The name of the target field in the dataset, such as Location.City or Attributes.MealTime . Constraints: • min: 1 • max: 1000 ContentType -&gt; (string) The data type of the column value. Valid values are String and Number . The default value is String . Possible values: • STRING • NUMBER FeatureType -&gt; (string) How the column is treated for model training. Valid values are CATEGORICAL and TEXTUAL . Possible values: • TEXTUAL • CATEGORICAL Shorthand Syntax: KeyName1=[{TargetFieldName=string,ContentType=string,FeatureType=string},{TargetFieldName=string,ContentType=string,FeatureType=string}],KeyName2=[{TargetFieldName=string,ContentType=string,FeatureType=string},{TargetFieldName=string,ContentType=string,FeatureType=string}] JSON Syntax: {"string": [ { "TargetFieldName": "string", "ContentType": "STRING"|"NUMBER", "FeatureType": "TEXTUAL"|"CATEGORICAL" } ... ] ...}</param>
     public AwsCustomerProfilesCreateRecommenderSchemaOptions(
         string DomainName,
         string RecommenderSchemaName,
@@ -76,25 +77,25 @@ public record AwsCustomerProfilesCreateRecommenderSchemaOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The name of the recommender schema. The name must be unique within the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The name of the recommender schema. The name must be unique within the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--recommender-schema-name")]
     public string? RecommenderSchemaName { get; private init; }
 
     /// <summary>
-    /// A map of dataset type to column definitions that specifies which data columns to include in the schema. The _webAnalytics and _cata- logItem keys are supported. Constraints: o min: 1 o max: 2 key -&gt; (string) value -&gt; (list) Constraints: o min: 1 o max: 9 (structure) Defines a column in a recommender schema, including the tar- get field name and optional feature and content type settings for training. TargetFieldName -&gt; (string) [required] The name of the target field in the dataset, such as Lo- cation.City or Attributes.MealTime . Constraints: o min: 1 o max: 1000 ContentType -&gt; (string) The data type of the column value. Valid values are String and Number . The default value is String . Possible values: o STRING o NUMBER FeatureType -&gt; (string) How the column is treated for model training. Valid val- ues are CATEGORICAL and TEXTUAL . Possible values: o TEXTUAL o CATEGORICAL Shorthand Syntax: KeyName1=[{TargetFieldName=string,ContentType=string,FeatureType=string},{TargetFieldName=string,ContentType=string,FeatureType=string}],KeyName2=[{TargetFieldName=string,ContentType=string,FeatureType=string},{TargetFieldName=string,ContentType=string,FeatureType=string}] JSON Syntax: {"string": [ { "TargetFieldName": "string", "ContentType": "STRING"|"NUMBER", "FeatureType": "TEXTUAL"|"CATEGORICAL" } ... ] ...}
+    /// A map of dataset type to column definitions that specifies which data columns to include in the schema. The _webAnalytics and _catalogItem keys are supported. Constraints: • min: 1 • max: 2 key -&gt; (string) value -&gt; (list) Constraints: • min: 1 • max: 9 (structure) Defines a column in a recommender schema, including the target field name and optional feature and content type settings for training. TargetFieldName -&gt; (string) [required] The name of the target field in the dataset, such as Location.City or Attributes.MealTime . Constraints: • min: 1 • max: 1000 ContentType -&gt; (string) The data type of the column value. Valid values are String and Number . The default value is String . Possible values: • STRING • NUMBER FeatureType -&gt; (string) How the column is treated for model training. Valid values are CATEGORICAL and TEXTUAL . Possible values: • TEXTUAL • CATEGORICAL Shorthand Syntax: KeyName1=[{TargetFieldName=string,ContentType=string,FeatureType=string},{TargetFieldName=string,ContentType=string,FeatureType=string}],KeyName2=[{TargetFieldName=string,ContentType=string,FeatureType=string},{TargetFieldName=string,ContentType=string,FeatureType=string}] JSON Syntax: {"string": [ { "TargetFieldName": "string", "ContentType": "STRING"|"NUMBER", "FeatureType": "TEXTUAL"|"CATEGORICAL" } ... ] ...}
     /// </summary>
     [CliOption("--fields", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Fields { get; private init; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for this re- source. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags used to organize, track, or control access for this resource. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

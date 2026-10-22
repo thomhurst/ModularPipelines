@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEcrPublicPutRegistryCatalogDataOptions : AwsOptions
 {
     /// <summary>
-    /// The display name for a public registry. The display name is shown as the repository author in the Amazon ECR Public Gallery. NOTE: The registry display name is only publicly visible in the Amazon ECR Public Gallery for verified accounts. Constraints: o min: 0 o max: 100
+    /// The display name for a public registry. The display name is shown as the repository author in the Amazon ECR Public Gallery. NOTE: The registry display name is only publicly visible in the Amazon ECR Public Gallery for verified accounts. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }

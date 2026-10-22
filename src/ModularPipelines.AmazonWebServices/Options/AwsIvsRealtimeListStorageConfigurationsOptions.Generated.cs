@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets summary information about all storage configurations in your ac- count, in the AWS region where the API request is processed. See also: AWS API Documentation
+/// Gets summary information about all storage configurations in your account, in the AWS region where the API request is processed. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,14 +23,14 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIvsRealtimeListStorageConfigurationsOptions : AwsOptions
 {
     /// <summary>
-    /// The first storage configuration to retrieve. This is used for pagi- nation; see the nextToken response field. Constraints: o min: 0 o max: 1024 o pattern: [a-zA-Z0-9+/=_-]*
+    /// The first storage configuration to retrieve. This is used for pagination; see the nextToken response field. Constraints: • min: 0 • max: 1024 • pattern: [a-zA-Z0-9+/=_-]*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Maximum number of storage configurations to return. Default: your service quota or 100, whichever is smaller. Constraints: o min: 1 o max: 100
+    /// Maximum number of storage configurations to return. Default: your service quota or 100, whichever is smaller. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

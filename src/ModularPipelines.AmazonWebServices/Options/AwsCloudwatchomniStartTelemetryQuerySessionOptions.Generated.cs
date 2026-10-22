@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudwatchomniStartTelemetryQuerySessionOptions : AwsOptions
 {
     /// <summary>
-    /// A human-readable name for the session. Names under /aws/ are re- served for service integrations. Constraints: o min: 1 o max: 128 o pattern: ([a-zA-Z0-9_-]+|/aws/[a-zA-Z0-9_-]+(/[a-zA-Z0-9_-]+)?)
+    /// A human-readable name for the session. Names under /aws/ are reserved for service integrations. Constraints: • min: 1 • max: 128 • pattern: ([a-zA-Z0-9_-]+|/aws/[a-zA-Z0-9_-]+(/[a-zA-Z0-9_-]+)?)
     /// </summary>
     [CliOption("--session-name")]
     public string? SessionName { get; set; }

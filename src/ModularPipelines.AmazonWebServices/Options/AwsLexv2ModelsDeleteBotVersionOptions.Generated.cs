@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsLexv2ModelsDeleteBotVersionOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Deletes a specific version of a bot. To delete all versions of a bot, use the DeleteBot operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BotId">The identifier of the bot that contains the version. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="BotVersion">The version of the bot to delete. Constraints: o min: 1 o max: 5 o pattern: ^[0-9]+$</param>
+    /// <param name="BotId">The identifier of the bot that contains the version. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotVersion">The version of the bot to delete. Constraints: • min: 1 • max: 5 • pattern: ^[0-9]+$</param>
     public AwsLexv2ModelsDeleteBotVersionOptions(
         string BotId,
         string BotVersion
@@ -60,19 +62,19 @@ public record AwsLexv2ModelsDeleteBotVersionOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the bot that contains the version. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The identifier of the bot that contains the version. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
 
     /// <summary>
-    /// The version of the bot to delete. Constraints: o min: 1 o max: 5 o pattern: ^[0-9]+$
+    /// The version of the bot to delete. Constraints: • min: 1 • max: 5 • pattern: ^[0-9]+$
     /// </summary>
     [CliOption("--bot-version")]
     public string? BotVersion { get; private init; }
 
     /// <summary>
-    /// By default, Amazon Lex checks if any other resource, such as an alias or bot network, is using the bot version before it is deleted and throws a ResourceInUseException exception if the version is be- ing used by another resource. Set this parameter to true to skip this check and remove the version even if it is being used by an- other resource.
+    /// By default, Amazon Lex checks if any other resource, such as an alias or bot network, is using the bot version before it is deleted and throws a ResourceInUseException exception if the version is being used by another resource. Set this parameter to true to skip this check and remove the version even if it is being used by another resource.
     /// </summary>
     [CliFlag("--skip-resource-in-use-check", NegatedName = "--no-skip-resource-in-use-check")]
     public bool? SkipResourceInUseCheck { get; set; }

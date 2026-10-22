@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Grants one or more permissions on a private CA to the Certificate Man- ager (ACM) service principal (acm.amazonaws.com ). These permissions allow ACM to issue and renew ACM certificates that reside in the same Amazon Web Services account as the CA. You can list current permissions with the ListPermissions action and revoke them with the DeletePermission action. About Permissions o If the private CA and the certificates it issues reside in the same account, you can use CreatePermission to grant p...
+/// Grants one or more permissions on a private CA to the Certificate Manager (ACM) service principal (acm.amazonaws.com ). These permissions allow ACM to issue and renew ACM certificates that reside in the same Amazon Web Services account as the CA. You can list current permissions with the ListPermissions action and revoke them with the DeletePermission action. About Permissions • If the private CA and the certificates it issues reside in the same account, you can use CreatePermission to grant per...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsAcmPcaCreatePermissionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Grants one or more permissions on a private CA to the Certificate Man- ager (ACM) service principal (acm.amazonaws.com ). These permissions allow ACM to issue and renew ACM certificates that reside in the same Amazon Web Services account as the CA. You can list current permissions with the ListPermissions action and revoke them with the DeletePermission action. About Permissions o If the private CA and the certificates it issues reside in the same account, you can use CreatePermission to grant p...
+    /// Grants one or more permissions on a private CA to the Certificate Manager (ACM) service principal (acm.amazonaws.com ). These permissions allow ACM to issue and renew ACM certificates that reside in the same Amazon Web Services account as the CA. You can list current permissions with the ListPermissions action and revoke them with the DeletePermission action. About Permissions • If the private CA and the certificates it issues reside in the same account, you can use CreatePermission to grant per...
     /// </summary>
-    /// <param name="CertificateAuthorityArn">The Amazon Resource Name (ARN) of the CA that grants the permis- sions. You can find the ARN by calling the ListCertificateAuthorities action. This must have the following form: `` arn:aws:acm-pca:region :account :certificate-author- ity/12345678-1234-1234-1234-123456789012 `` . System Message: WARNING/2 (&lt;string&gt;:, line 93) Inline literal start-string without end-string. Constraints: o min: 5 o max: 200 o pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
-    /// <param name="Principal">The Amazon Web Services service or identity that receives the per- mission. At this time, the only valid principal is acm.amazonaws.com . Constraints: o min: 0 o max: 128 o pattern: [^*]+</param>
-    /// <param name="Actions">The actions that the specified Amazon Web Services service principal can use. These include IssueCertificate , GetCertificate , and List- Permissions . Constraints: o min: 1 o max: 3 (string) Possible values: o IssueCertificate o GetCertificate o ListPermissions Syntax: "string" "string" ...</param>
+    /// <param name="CertificateAuthorityArn">The Amazon Resource Name (ARN) of the CA that grants the permissions. You can find the ARN by calling the ListCertificateAuthorities action. This must have the following form: `` arn:aws:acm-pca:region :account :certificate-authority/12345678-1234-1234-1234-123456789012 `` . System Message: WARNING/2 (&lt;string&gt;:, line 93) Inline literal start-string without end-string. Constraints: • min: 5 • max: 200 • pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
+    /// <param name="Principal">The Amazon Web Services service or identity that receives the permission. At this time, the only valid principal is acm.amazonaws.com . Constraints: • min: 0 • max: 128 • pattern: [^*]+</param>
+    /// <param name="Actions">The actions that the specified Amazon Web Services service principal can use. These include IssueCertificate , GetCertificate , and ListPermissions . Constraints: • min: 1 • max: 3 (string) Possible values: • IssueCertificate • GetCertificate • ListPermissions Syntax: "string" "string" ...</param>
     public AwsAcmPcaCreatePermissionOptions(
         string CertificateAuthorityArn,
         string Principal,
@@ -75,25 +77,25 @@ public record AwsAcmPcaCreatePermissionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the CA that grants the permis- sions. You can find the ARN by calling the ListCertificateAuthorities action. This must have the following form: `` arn:aws:acm-pca:region :account :certificate-author- ity/12345678-1234-1234-1234-123456789012 `` . System Message: WARNING/2 (&lt;string&gt;:, line 93) Inline literal start-string without end-string. Constraints: o min: 5 o max: 200 o pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*
+    /// The Amazon Resource Name (ARN) of the CA that grants the permissions. You can find the ARN by calling the ListCertificateAuthorities action. This must have the following form: `` arn:aws:acm-pca:region :account :certificate-authority/12345678-1234-1234-1234-123456789012 `` . System Message: WARNING/2 (&lt;string&gt;:, line 93) Inline literal start-string without end-string. Constraints: • min: 5 • max: 200 • pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*
     /// </summary>
     [CliOption("--certificate-authority-arn")]
     public string? CertificateAuthorityArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services service or identity that receives the per- mission. At this time, the only valid principal is acm.amazonaws.com . Constraints: o min: 0 o max: 128 o pattern: [^*]+
+    /// The Amazon Web Services service or identity that receives the permission. At this time, the only valid principal is acm.amazonaws.com . Constraints: • min: 0 • max: 128 • pattern: [^*]+
     /// </summary>
     [CliOption("--principal")]
     public string? Principal { get; private init; }
 
     /// <summary>
-    /// The actions that the specified Amazon Web Services service principal can use. These include IssueCertificate , GetCertificate , and List- Permissions . Constraints: o min: 1 o max: 3 (string) Possible values: o IssueCertificate o GetCertificate o ListPermissions Syntax: "string" "string" ...
+    /// The actions that the specified Amazon Web Services service principal can use. These include IssueCertificate , GetCertificate , and ListPermissions . Constraints: • min: 1 • max: 3 (string) Possible values: • IssueCertificate • GetCertificate • ListPermissions Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--actions", GroupValues = true)]
     public IEnumerable<string>? Actions { get; private init; }
 
     /// <summary>
-    /// The ID of the calling account. Constraints: o min: 12 o max: 12 o pattern: [0-9]+
+    /// The ID of the calling account. Constraints: • min: 12 • max: 12 • pattern: [0-9]+
     /// </summary>
     [CliOption("--source-account")]
     public string? SourceAccount { get; set; }

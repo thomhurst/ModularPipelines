@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEsListDomainNamesOptions : AwsOptions
 {
     /// <summary>
-    /// Optional parameter to filter the output by domain engine type. Ac- ceptable values are 'Elasticsearch' and 'OpenSearch'. Possible values: o OpenSearch o Elasticsearch
+    /// Optional parameter to filter the output by domain engine type. Acceptable values are 'Elasticsearch' and 'OpenSearch'. Possible values: • OpenSearch • Elasticsearch
     /// </summary>
     [CliOption("--engine-type")]
     public AwsEsListDomainNamesEngineType? EngineType { get; set; }

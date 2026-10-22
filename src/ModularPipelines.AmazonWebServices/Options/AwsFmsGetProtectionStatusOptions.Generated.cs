@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// If you created a Shield Advanced policy, returns policy-level attack summary information in the event of a potential DDoS attack. Other pol- icy types are currently unsupported. See also: AWS API Documentation
+/// If you created a Shield Advanced policy, returns policy-level attack summary information in the event of a potential DDoS attack. Other policy types are currently unsupported. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsFmsGetProtectionStatusOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// If you created a Shield Advanced policy, returns policy-level attack summary information in the event of a potential DDoS attack. Other pol- icy types are currently unsupported. See also: AWS API Documentation
+    /// If you created a Shield Advanced policy, returns policy-level attack summary information in the event of a potential DDoS attack. Other policy types are currently unsupported. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyId">The ID of the policy for which you want to get the attack informa- tion. Constraints: o min: 36 o max: 36 o pattern: ^[a-z0-9A-Z-]{36}$</param>
+    /// <param name="PolicyId">The ID of the policy for which you want to get the attack information. Constraints: • min: 36 • max: 36 • pattern: ^[a-z0-9A-Z-]{36}$</param>
     public AwsFmsGetProtectionStatusOptions(
         string PolicyId
     )
@@ -57,38 +59,38 @@ public record AwsFmsGetProtectionStatusOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the policy for which you want to get the attack informa- tion. Constraints: o min: 36 o max: 36 o pattern: ^[a-z0-9A-Z-]{36}$
+    /// The ID of the policy for which you want to get the attack information. Constraints: • min: 36 • max: 36 • pattern: ^[a-z0-9A-Z-]{36}$
     /// </summary>
     [CliOption("--policy-id")]
     public string? PolicyId { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account that is in scope of the policy that you want to get the details for. Constraints: o min: 1 o max: 1024 o pattern: ^[0-9]+$
+    /// The Amazon Web Services account that is in scope of the policy that you want to get the details for. Constraints: • min: 1 • max: 1024 • pattern: ^[0-9]+$
     /// </summary>
     [CliOption("--member-account-id")]
     public string? MemberAccountId { get; set; }
 
     /// <summary>
-    /// The start of the time period to query for the attacks. This is a timestamp type. The request syntax listing indicates a number type because the default used by Firewall Manager is Unix time in sec- onds. However, any valid timestamp format is allowed.
+    /// The start of the time period to query for the attacks. This is a timestamp type. The request syntax listing indicates a number type because the default used by Firewall Manager is Unix time in seconds. However, any valid timestamp format is allowed.
     /// </summary>
     [CliOption("--start-time")]
     public string? StartTime { get; set; }
 
     /// <summary>
-    /// The end of the time period to query for the attacks. This is a time- stamp type. The request syntax listing indicates a number type be- cause the default used by Firewall Manager is Unix time in seconds. However, any valid timestamp format is allowed.
+    /// The end of the time period to query for the attacks. This is a timestamp type. The request syntax listing indicates a number type because the default used by Firewall Manager is Unix time in seconds. However, any valid timestamp format is allowed.
     /// </summary>
     [CliOption("--end-time")]
     public string? EndTime { get; set; }
 
     /// <summary>
-    /// If you specify a value for MaxResults and you have more objects than the number that you specify for MaxResults , Firewall Manager re- turns a NextToken value in the response, which you can use to re- trieve another group of objects. For the second and subsequent Get- ProtectionStatus requests, specify the value of NextToken from the previous response to get information about another batch of objects. Constraints: o min: 1 o max: 4096 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
+    /// If you specify a value for MaxResults and you have more objects than the number that you specify for MaxResults , Firewall Manager returns a NextToken value in the response, which you can use to retrieve another group of objects. For the second and subsequent GetProtectionStatus requests, specify the value of NextToken from the previous response to get information about another batch of objects. Constraints: • min: 1 • max: 4096 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Specifies the number of objects that you want Firewall Manager to return for this request. If you have more objects than the number that you specify for MaxResults , the response includes a NextToken value that you can use to get another batch of objects. Constraints: o min: 1 o max: 100
+    /// Specifies the number of objects that you want Firewall Manager to return for this request. If you have more objects than the number that you specify for MaxResults , the response includes a NextToken value that you can use to get another batch of objects. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

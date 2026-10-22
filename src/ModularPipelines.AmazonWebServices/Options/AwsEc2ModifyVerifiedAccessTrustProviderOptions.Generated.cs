@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the configuration of the specified Amazon Web Services Veri- fied Access trust provider. See also: AWS API Documentation
+/// Modifies the configuration of the specified Amazon Web Services Verified Access trust provider. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +28,7 @@ public record AwsEc2ModifyVerifiedAccessTrustProviderOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the configuration of the specified Amazon Web Services Veri- fied Access trust provider. See also: AWS API Documentation
+    /// Modifies the configuration of the specified Amazon Web Services Verified Access trust provider. See also: AWS API Documentation
     /// </summary>
     /// <param name="VerifiedAccessTrustProviderId">The ID of the Verified Access trust provider.</param>
     public AwsEc2ModifyVerifiedAccessTrustProviderOptions(
@@ -69,7 +71,7 @@ public record AwsEc2ModifyVerifiedAccessTrustProviderOptions : AwsOptions, IVali
     public string? OidcOptions { get; set; }
 
     /// <summary>
-    /// The options for a device-based trust provider. This parameter is re- quired when the provider type is device . PublicSigningKeyUrl -&gt; (string) The URL Amazon Web Services Verified Access will use to verify the authenticity of the device tokens. Shorthand Syntax: PublicSigningKeyUrl=string JSON Syntax: { "PublicSigningKeyUrl": "string" }
+    /// The options for a device-based trust provider. This parameter is required when the provider type is device . PublicSigningKeyUrl -&gt; (string) The URL Amazon Web Services Verified Access will use to verify the authenticity of the device tokens. Shorthand Syntax: PublicSigningKeyUrl=string JSON Syntax: { "PublicSigningKeyUrl": "string" }
     /// </summary>
     [CliOption("--device-options")]
     public string? DeviceOptions { get; set; }
@@ -81,13 +83,13 @@ public record AwsEc2ModifyVerifiedAccessTrustProviderOptions : AwsOptions, IVali
     public string? Description { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive token that you provide to ensure idempo- tency of your modification request. For more information, see Ensuring idempotency .
+    /// A unique, case-sensitive token that you provide to ensure idempotency of your modification request. For more information, see Ensuring idempotency .
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes any tags with the specified keys from the specified resource. You can attach tags to the following resources in Organizations. o Amazon Web Services account o Organization root o Organizational unit (OU) o Policy (any type) You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation
+/// Removes any tags with the specified keys from the specified resource. You can attach tags to the following resources in Organizations. • Amazon Web Services account • Organization root • Organizational unit (OU) • Policy (any type) You can only call this operation from the management account or a member account that is a delegated administrator. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsOrganizationsUntagResourceOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes any tags with the specified keys from the specified resource. You can attach tags to the following resources in Organizations. o Amazon Web Services account o Organization root o Organizational unit (OU) o Policy (any type) You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation
+    /// Removes any tags with the specified keys from the specified resource. You can attach tags to the following resources in Organizations. • Amazon Web Services account • Organization root • Organizational unit (OU) • Policy (any type) You can only call this operation from the management account or a member account that is a delegated administrator. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceId">The ID of the resource to remove a tag from. You can specify any of the following taggable resources. o Amazon Web Services account specify the account ID number. o Organizational unit specify the OU ID that begins with ou- and looks similar to: `` ou-1a2b-34uvwxyz `` System Message: WARNING/2 (&lt;string&gt;:, line 100) Inline literal start-string without end-string. o Root specify the root ID that begins with r- and looks similar to: `` r-1a2b `` System Message: WARNING/2 (&lt;string&gt;:, line 102) Inline literal start-string without end-string. o Policy specify the policy ID that begins with p- andlooks similar to: `` p-12abcdefg3 `` System Message: WARNING/2 (&lt;string&gt;:, line 104) Inline literal start-string without end-string. Constraints: o max: 130 o pattern: ^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})|(^p-[0-9a-zA-Z_]{8,128})|(^rp-[0-9a-zA-Z_]{4,128})|(^rt-[0-9a-zA-Z_]{8,32})$</param>
-    /// <param name="TagKeys">The list of keys for tags to remove from the specified resource. (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceId">The ID of the resource to remove a tag from. You can specify any of the following taggable resources. • Amazon Web Services account specify the account ID number. • Organizational unit specify the OU ID that begins with ou- and looks similar to: `` ou-1a2b-34uvwxyz `` System Message: WARNING/2 (&lt;string&gt;:, line 100) Inline literal start-string without end-string. • Root specify the root ID that begins with r- and looks similar to: `` r-1a2b `` System Message: WARNING/2 (&lt;string&gt;:, line 102) Inline literal start-string without end-string. • Policy specify the policy ID that begins with p- andlooks similar to: `` p-12abcdefg3 `` System Message: WARNING/2 (&lt;string&gt;:, line 104) Inline literal start-string without end-string. Constraints: • max: 130 • pattern: ^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})|(^p-[0-9a-zA-Z_]{8,128})|(^rp-[0-9a-zA-Z_]{4,128})|(^rt-[0-9a-zA-Z_]{8,32})$</param>
+    /// <param name="TagKeys">The list of keys for tags to remove from the specified resource. (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...</param>
     public AwsOrganizationsUntagResourceOptions(
         string ResourceId,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsOrganizationsUntagResourceOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the resource to remove a tag from. You can specify any of the following taggable resources. o Amazon Web Services account specify the account ID number. o Organizational unit specify the OU ID that begins with ou- and looks similar to: `` ou-1a2b-34uvwxyz `` System Message: WARNING/2 (&lt;string&gt;:, line 100) Inline literal start-string without end-string. o Root specify the root ID that begins with r- and looks similar to: `` r-1a2b `` System Message: WARNING/2 (&lt;string&gt;:, line 102) Inline literal start-string without end-string. o Policy specify the policy ID that begins with p- andlooks similar to: `` p-12abcdefg3 `` System Message: WARNING/2 (&lt;string&gt;:, line 104) Inline literal start-string without end-string. Constraints: o max: 130 o pattern: ^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})|(^p-[0-9a-zA-Z_]{8,128})|(^rp-[0-9a-zA-Z_]{4,128})|(^rt-[0-9a-zA-Z_]{8,32})$
+    /// The ID of the resource to remove a tag from. You can specify any of the following taggable resources. • Amazon Web Services account specify the account ID number. • Organizational unit specify the OU ID that begins with ou- and looks similar to: `` ou-1a2b-34uvwxyz `` System Message: WARNING/2 (&lt;string&gt;:, line 100) Inline literal start-string without end-string. • Root specify the root ID that begins with r- and looks similar to: `` r-1a2b `` System Message: WARNING/2 (&lt;string&gt;:, line 102) Inline literal start-string without end-string. • Policy specify the policy ID that begins with p- andlooks similar to: `` p-12abcdefg3 `` System Message: WARNING/2 (&lt;string&gt;:, line 104) Inline literal start-string without end-string. Constraints: • max: 130 • pattern: ^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})|(^p-[0-9a-zA-Z_]{8,128})|(^rp-[0-9a-zA-Z_]{4,128})|(^rt-[0-9a-zA-Z_]{8,32})$
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// The list of keys for tags to remove from the specified resource. (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
+    /// The list of keys for tags to remove from the specified resource. (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

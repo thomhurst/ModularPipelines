@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws wait commands.
+/// aws cloudwatch wait commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsCloudwatchWait
@@ -32,7 +32,7 @@ public class AwsCloudwatchWait
     #region Commands
 
     /// <summary>
-    /// Wait until JMESPath query length(MetricAlarms[]) &gt; 0 returns True when polling with describe-alarms. It will poll every 5 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation alarm-exists is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the ...
+    /// Wait until JMESPath query length(MetricAlarms[]) &gt; 0 returns True when polling with describe-alarms. It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation alarm-exists is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --qu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsCloudwatchWait
     }
 
     /// <summary>
-    /// Wait until JMESPath query length(LogAlarms[]) &gt; 0 returns True when polling with describe-alarms. It will poll every 5 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation log-alarm-exists is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the -...
+    /// Wait until JMESPath query length(LogAlarms[]) &gt; 0 returns True when polling with describe-alarms. It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation log-alarm-exists is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --q...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

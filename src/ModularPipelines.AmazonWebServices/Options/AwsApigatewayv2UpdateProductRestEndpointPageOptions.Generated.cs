@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -73,13 +75,13 @@ public record AwsApigatewayv2UpdateProductRestEndpointPageOptions : AwsOptions, 
     public string? ProductRestEndpointPageId { get; private init; }
 
     /// <summary>
-    /// The display content. None -&gt; (structure) If your product REST endpoint contains no overrides, the none object is returned. Overrides -&gt; (structure) The overrides for endpoint display content. Body -&gt; (string) By default, this is the documentation of your REST API from API Gateway. You can provide custom documentation to override this value. Constraints: o min: 1 o max: 32768 Endpoint -&gt; (string) The URL for your REST API. By default, API Gateway uses the default execute API endpoint. You can provide a custom domain to override this value. Constraints: o min: 1 o max: 1024 OperationName -&gt; (string) The operation name of the product REST endpoint. Constraints: o min: 1 o max: 255 Shorthand Syntax: None={},Overrides={Body=string,Endpoint=string,OperationName=string} JSON Syntax: { "None": { }, "Overrides": { "Body": "string", "Endpoint": "string", "OperationName": "string" } }
+    /// The display content. None -&gt; (structure) If your product REST endpoint contains no overrides, the none object is returned. Overrides -&gt; (structure) The overrides for endpoint display content. Body -&gt; (string) By default, this is the documentation of your REST API from API Gateway. You can provide custom documentation to override this value. Constraints: • min: 1 • max: 32768 Endpoint -&gt; (string) The URL for your REST API. By default, API Gateway uses the default execute API endpoint. You can provide a custom domain to override this value. Constraints: • min: 1 • max: 1024 OperationName -&gt; (string) The operation name of the product REST endpoint. Constraints: • min: 1 • max: 255 Shorthand Syntax: None={},Overrides={Body=string,Endpoint=string,OperationName=string} JSON Syntax: { "None": { }, "Overrides": { "Body": "string", "Endpoint": "string", "OperationName": "string" } }
     /// </summary>
     [CliOption("--display-content")]
     public string? DisplayContent { get; set; }
 
     /// <summary>
-    /// The try it state of a product REST endpoint page. Possible values: o ENABLED o DISABLED
+    /// The try it state of a product REST endpoint page. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--try-it-state")]
     public AwsApigatewayv2UpdateProductRestEndpointPageTryItState? TryItState { get; set; }

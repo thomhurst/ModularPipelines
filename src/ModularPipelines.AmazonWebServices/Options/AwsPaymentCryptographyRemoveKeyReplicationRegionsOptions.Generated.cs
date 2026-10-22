@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes Replication Regions from an existing Amazon Web Services Pay- ment Cryptography key, disabling the key's availability for crypto- graphic operations in the specified Amazon Web Services Regions. When you remove Replication Regions, the key material is securely deleted from those regions and can no longer be used for cryptographic operations there. This operation is irreversible for the specified Ama- zon Web Services Regions. For more information, see Multi-Region key replication . WARNI...
+/// Removes Replication Regions from an existing Amazon Web Services Payment Cryptography key, disabling the key's availability for cryptographic operations in the specified Amazon Web Services Regions. When you remove Replication Regions, the key material is securely deleted from those regions and can no longer be used for cryptographic operations there. This operation is irreversible for the specified Amazon Web Services Regions. For more information, see Multi-Region key replication . WARNING: En...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsPaymentCryptographyRemoveKeyReplicationRegionsOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes Replication Regions from an existing Amazon Web Services Pay- ment Cryptography key, disabling the key's availability for crypto- graphic operations in the specified Amazon Web Services Regions. When you remove Replication Regions, the key material is securely deleted from those regions and can no longer be used for cryptographic operations there. This operation is irreversible for the specified Ama- zon Web Services Regions. For more information, see Multi-Region key replication . WARNI...
+    /// Removes Replication Regions from an existing Amazon Web Services Payment Cryptography key, disabling the key's availability for cryptographic operations in the specified Amazon Web Services Regions. When you remove Replication Regions, the key material is securely deleted from those regions and can no longer be used for cryptographic operations there. This operation is irreversible for the specified Amazon Web Services Regions. For more information, see Multi-Region key replication . WARNING: En...
     /// </summary>
-    /// <param name="KeyIdentifier">The key identifier (ARN or alias) of the key from which to remove replication regions. This key must exist and have replication enabled in the specified regions. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+</param>
-    /// <param name="ReplicationRegions">The list of Amazon Web Services Regions to remove from the key's replication configuration. The key will no longer be available for cryptographic operations in these regions after removal. Ensure no active operations depend on the key in these regions before removal. (string) An Amazon Web Services Region identifier in the standard format (e.g., us-east-1 , eu-west-1 ). Used to specify regions for key replication operations. The re- gion must be a valid Amazon Web Services Region where Amazon Web Services Payment Cryptography is available. Constraints: o pattern: [a-z]{2}-[a-z]{1,16}-[0-9]+ Syntax: "string" "string" ...</param>
+    /// <param name="KeyIdentifier">The key identifier (ARN or alias) of the key from which to remove replication regions. This key must exist and have replication enabled in the specified regions. Constraints: • min: 7 • max: 322 • pattern: arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+</param>
+    /// <param name="ReplicationRegions">The list of Amazon Web Services Regions to remove from the key's replication configuration. The key will no longer be available for cryptographic operations in these regions after removal. Ensure no active operations depend on the key in these regions before removal. (string) An Amazon Web Services Region identifier in the standard format (e.g., us-east-1 , eu-west-1 ). Used to specify regions for key replication operations. The region must be a valid Amazon Web Services Region where Amazon Web Services Payment Cryptography is available. Constraints: • pattern: [a-z]{2}-[a-z]{1,16}-[0-9]+ Syntax: "string" "string" ...</param>
     public AwsPaymentCryptographyRemoveKeyReplicationRegionsOptions(
         string KeyIdentifier,
         IEnumerable<string> ReplicationRegions
@@ -71,13 +73,13 @@ public record AwsPaymentCryptographyRemoveKeyReplicationRegionsOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The key identifier (ARN or alias) of the key from which to remove replication regions. This key must exist and have replication enabled in the specified regions. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+
+    /// The key identifier (ARN or alias) of the key from which to remove replication regions. This key must exist and have replication enabled in the specified regions. Constraints: • min: 7 • max: 322 • pattern: arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+
     /// </summary>
     [CliOption("--key-identifier")]
     public string? KeyIdentifier { get; private init; }
 
     /// <summary>
-    /// The list of Amazon Web Services Regions to remove from the key's replication configuration. The key will no longer be available for cryptographic operations in these regions after removal. Ensure no active operations depend on the key in these regions before removal. (string) An Amazon Web Services Region identifier in the standard format (e.g., us-east-1 , eu-west-1 ). Used to specify regions for key replication operations. The re- gion must be a valid Amazon Web Services Region where Amazon Web Services Payment Cryptography is available. Constraints: o pattern: [a-z]{2}-[a-z]{1,16}-[0-9]+ Syntax: "string" "string" ...
+    /// The list of Amazon Web Services Regions to remove from the key's replication configuration. The key will no longer be available for cryptographic operations in these regions after removal. Ensure no active operations depend on the key in these regions before removal. (string) An Amazon Web Services Region identifier in the standard format (e.g., us-east-1 , eu-west-1 ). Used to specify regions for key replication operations. The region must be a valid Amazon Web Services Region where Amazon Web Services Payment Cryptography is available. Constraints: • pattern: [a-z]{2}-[a-z]{1,16}-[0-9]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--replication-regions", GroupValues = true)]
     public IEnumerable<string>? ReplicationRegions { get; private init; }

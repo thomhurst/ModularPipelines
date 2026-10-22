@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsRedshiftServerlessGetSnapshotOptions : AwsOptions
 {
     /// <summary>
-    /// The owner Amazon Web Services account of a snapshot shared with an- other user.
+    /// The owner Amazon Web Services account of a snapshot shared with another user.
     /// </summary>
     [CliOption("--owner-account")]
     public string? OwnerAccount { get; set; }

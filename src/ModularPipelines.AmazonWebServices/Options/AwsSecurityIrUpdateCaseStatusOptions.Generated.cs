@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the state transitions for a designated cases. Self-managed : the following states are available for self-managed cases. o Submitted Detection and Analysis o Detection and Analysis Containment, Eradication, and Recovery o Detection and Analysis Post-incident Activities o Containment, Eradication, and Recovery Detection and Analysis o Containment, Eradication, and Recovery Post-incident Activities o Post-incident Activities Containment, Eradication, and Recovery o Post-incident Activities ...
+/// Updates the state transitions for a designated cases. Self-managed : the following states are available for self-managed cases. • Submitted Detection and Analysis • Detection and Analysis Containment, Eradication, and Recovery • Detection and Analysis Post-incident Activities • Containment, Eradication, and Recovery Detection and Analysis • Containment, Eradication, and Recovery Post-incident Activities • Post-incident Activities Containment, Eradication, and Recovery • Post-incident Activities ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsSecurityIrUpdateCaseStatusOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the state transitions for a designated cases. Self-managed : the following states are available for self-managed cases. o Submitted Detection and Analysis o Detection and Analysis Containment, Eradication, and Recovery o Detection and Analysis Post-incident Activities o Containment, Eradication, and Recovery Detection and Analysis o Containment, Eradication, and Recovery Post-incident Activities o Post-incident Activities Containment, Eradication, and Recovery o Post-incident Activities ...
+    /// Updates the state transitions for a designated cases. Self-managed : the following states are available for self-managed cases. • Submitted Detection and Analysis • Detection and Analysis Containment, Eradication, and Recovery • Detection and Analysis Post-incident Activities • Containment, Eradication, and Recovery Detection and Analysis • Containment, Eradication, and Recovery Post-incident Activities • Post-incident Activities Containment, Eradication, and Recovery • Post-incident Activities ...
     /// </summary>
-    /// <param name="CaseId">Required element for UpdateCaseStatus to identify the case to up- date. Constraints: o min: 10 o max: 32 o pattern: \d{10,32}.*</param>
-    /// <param name="CaseStatus">Required element for UpdateCaseStatus to identify the status for a case. Options include Submitted | Detection and Analysis | Contain- ment, Eradication and Recovery | Post-incident Activities . Possible values: o Submitted o Detection and Analysis o Containment, Eradication and Recovery o Post-incident Activities</param>
+    /// <param name="CaseId">Required element for UpdateCaseStatus to identify the case to update. Constraints: • min: 10 • max: 32 • pattern: \d{10,32}.*</param>
+    /// <param name="CaseStatus">Required element for UpdateCaseStatus to identify the status for a case. Options include Submitted | Detection and Analysis | Containment, Eradication and Recovery | Post-incident Activities . Possible values: • Submitted • Detection and Analysis • Containment, Eradication and Recovery • Post-incident Activities</param>
     public AwsSecurityIrUpdateCaseStatusOptions(
         string CaseId,
         string CaseStatus
@@ -60,13 +62,13 @@ public record AwsSecurityIrUpdateCaseStatusOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Required element for UpdateCaseStatus to identify the case to up- date. Constraints: o min: 10 o max: 32 o pattern: \d{10,32}.*
+    /// Required element for UpdateCaseStatus to identify the case to update. Constraints: • min: 10 • max: 32 • pattern: \d{10,32}.*
     /// </summary>
     [CliOption("--case-id")]
     public string? CaseId { get; private init; }
 
     /// <summary>
-    /// Required element for UpdateCaseStatus to identify the status for a case. Options include Submitted | Detection and Analysis | Contain- ment, Eradication and Recovery | Post-incident Activities . Possible values: o Submitted o Detection and Analysis o Containment, Eradication and Recovery o Post-incident Activities
+    /// Required element for UpdateCaseStatus to identify the status for a case. Options include Submitted | Detection and Analysis | Containment, Eradication and Recovery | Post-incident Activities . Possible values: • Submitted • Detection and Analysis • Containment, Eradication and Recovery • Post-incident Activities
     /// </summary>
     [CliOption("--case-status")]
     public string? CaseStatus { get; private init; }

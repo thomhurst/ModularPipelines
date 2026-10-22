@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsAiopsUntagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Removes one or more tags from the specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource that you want to re- move the tags from. You can use the``ListInvestigationGroups`` oper- ation to find the ARNs of investigation groups.</param>
-    /// <param name="TagKeys">The list of tag keys to remove from the resource. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]+) Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource that you want to remove the tags from. You can use the``ListInvestigationGroups`` operation to find the ARNs of investigation groups.</param>
+    /// <param name="TagKeys">The list of tag keys to remove from the resource. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]+) Syntax: "string" "string" ...</param>
     public AwsAiopsUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsAiopsUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource that you want to re- move the tags from. You can use the``ListInvestigationGroups`` oper- ation to find the ARNs of investigation groups.
+    /// The Amazon Resource Name (ARN) of the resource that you want to remove the tags from. You can use the``ListInvestigationGroups`` operation to find the ARNs of investigation groups.
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The list of tag keys to remove from the resource. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]+) Syntax: "string" "string" ...
+    /// The list of tag keys to remove from the resource. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]+) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

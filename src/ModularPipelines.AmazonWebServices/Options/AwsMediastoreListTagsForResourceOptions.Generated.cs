@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMediastoreListTagsForResourceOptions : AwsOptions, IValidatable
     /// <summary>
     /// Returns a list of the tags assigned to the specified container. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Resource">The Amazon Resource Name (ARN) for the container. Constraints: o min: 1 o max: 1024 o pattern: arn:aws:mediastore:[a-z]+-[a-z]+-\d:\d{12}:con- tainer/[\w-]{1,255}</param>
+    /// <param name="Resource">The Amazon Resource Name (ARN) for the container. Constraints: • min: 1 • max: 1024 • pattern: arn:aws:mediastore:[a-z]+-[a-z]+-\d:\d{12}:container/[\w-]{1,255}</param>
     public AwsMediastoreListTagsForResourceOptions(
         string Resource
     )
@@ -56,7 +58,7 @@ public record AwsMediastoreListTagsForResourceOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) for the container. Constraints: o min: 1 o max: 1024 o pattern: arn:aws:mediastore:[a-z]+-[a-z]+-\d:\d{12}:con- tainer/[\w-]{1,255}
+    /// The Amazon Resource Name (ARN) for the container. Constraints: • min: 1 • max: 1024 • pattern: arn:aws:mediastore:[a-z]+-[a-z]+-\d:\d{12}:container/[\w-]{1,255}
     /// </summary>
     [CliOption("--resource")]
     public string? Resource { get; private init; }

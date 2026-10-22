@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsBatchTerminateServiceJobOptions : AwsOptions, IValidatableObjec
     /// Terminates a service job in a job queue. See also: AWS API Documentation
     /// </summary>
     /// <param name="JobId">The service job ID of the service job to terminate.</param>
-    /// <param name="Reason">A message to attach to the service job that explains the reason for terminating it. This message is returned by DescribeServiceJob oper- ations on the service job.</param>
+    /// <param name="Reason">A message to attach to the service job that explains the reason for terminating it. This message is returned by DescribeServiceJob operations on the service job.</param>
     public AwsBatchTerminateServiceJobOptions(
         string JobId,
         string Reason
@@ -66,7 +68,7 @@ public record AwsBatchTerminateServiceJobOptions : AwsOptions, IValidatableObjec
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// A message to attach to the service job that explains the reason for terminating it. This message is returned by DescribeServiceJob oper- ations on the service job.
+    /// A message to attach to the service job that explains the reason for terminating it. This message is returned by DescribeServiceJob operations on the service job.
     /// </summary>
     [CliOption("--reason")]
     public string? Reason { get; private init; }

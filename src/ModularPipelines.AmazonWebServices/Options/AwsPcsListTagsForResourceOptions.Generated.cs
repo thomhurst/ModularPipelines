@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsPcsListTagsForResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns a list of all tags on an PCS resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource for which to list tags. Constraints: o min: 1 o max: 1011 o pattern: arn:aws.*:pcs:.*:[0-9]{12}:.*/[a-z0-9_\-]+</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource for which to list tags. Constraints: • min: 1 • max: 1011 • pattern: arn:aws.*:pcs:.*:[0-9]{12}:.*/[a-z0-9_\-]+</param>
     public AwsPcsListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsPcsListTagsForResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource for which to list tags. Constraints: o min: 1 o max: 1011 o pattern: arn:aws.*:pcs:.*:[0-9]{12}:.*/[a-z0-9_\-]+
+    /// The Amazon Resource Name (ARN) of the resource for which to list tags. Constraints: • min: 1 • max: 1011 • pattern: arn:aws.*:pcs:.*:[0-9]{12}:.*/[a-z0-9_\-]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

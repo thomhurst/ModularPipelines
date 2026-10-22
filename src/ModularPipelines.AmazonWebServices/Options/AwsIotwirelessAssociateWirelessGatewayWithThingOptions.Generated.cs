@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotwirelessAssociateWirelessGatewayWithThingOptions : AwsOption
     /// <summary>
     /// Associates a wireless gateway with a thing. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the resource to update. Constraints: o max: 256</param>
+    /// <param name="Id">The ID of the resource to update. Constraints: • max: 256</param>
     /// <param name="ThingArn">The ARN of the thing to associate with the wireless gateway.</param>
     public AwsIotwirelessAssociateWirelessGatewayWithThingOptions(
         string Id,
@@ -60,7 +62,7 @@ public record AwsIotwirelessAssociateWirelessGatewayWithThingOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the resource to update. Constraints: o max: 256
+    /// The ID of the resource to update. Constraints: • max: 256
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

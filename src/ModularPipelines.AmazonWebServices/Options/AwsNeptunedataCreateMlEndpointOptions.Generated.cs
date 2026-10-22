@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new Neptune ML inference endpoint that lets you query one specific model that the model-training process constructed. See Managing inference endpoints using the endpoints command . When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CreateMLEndpoint IAM action in that cluster. See also: AWS API Documentation
+/// Creates a new Neptune ML inference endpoint that lets you query one specific model that the model-training process constructed. See Managing inference endpoints using the endpoints command . When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CreateMLEndpoint IAM action in that cluster. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,37 +28,37 @@ public record AwsNeptunedataCreateMlEndpointOptions : AwsOptions
     public string? Id { get; set; }
 
     /// <summary>
-    /// The job Id of the completed model-training job that has created the model that the inference endpoint will point to. You must supply ei- ther the mlModelTrainingJobId or the mlModelTransformJobId .
+    /// The job Id of the completed model-training job that has created the model that the inference endpoint will point to. You must supply either the mlModelTrainingJobId or the mlModelTransformJobId .
     /// </summary>
     [CliOption("--ml-model-training-job-id")]
     public string? MlModelTrainingJobId { get; set; }
 
     /// <summary>
-    /// The job Id of the completed model-transform job. You must supply ei- ther the mlModelTrainingJobId or the mlModelTransformJobId .
+    /// The job Id of the completed model-transform job. You must supply either the mlModelTrainingJobId or the mlModelTransformJobId .
     /// </summary>
     [CliOption("--ml-model-transform-job-id")]
     public string? MlModelTransformJobId { get; set; }
 
     /// <summary>
-    /// If set to true , update indicates that this is an update request. The default is false . You must supply either the mlModelTrainingJo- bId or the mlModelTransformJobId .
+    /// If set to true , update indicates that this is an update request. The default is false . You must supply either the mlModelTrainingJobId or the mlModelTransformJobId .
     /// </summary>
     [CliFlag("--update", NegatedName = "--no-update")]
     public bool? Update { get; set; }
 
     /// <summary>
-    /// The ARN of an IAM role providing Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parame- ter group or an error will be thrown.
+    /// The ARN of an IAM role providing Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error will be thrown.
     /// </summary>
     [CliOption("--neptune-iam-role-arn")]
     public string? NeptuneIamRoleArn { get; set; }
 
     /// <summary>
-    /// Model type for training. By default the Neptune ML model is automat- ically based on the modelType used in data processing, but you can specify a different model type here. The default is rgcn for hetero- geneous graphs and kge for knowledge graphs. The only valid value for heterogeneous graphs is rgcn . Valid values for knowledge graphs are: kge , transe , distmult , and rotate .
+    /// Model type for training. By default the Neptune ML model is automatically based on the modelType used in data processing, but you can specify a different model type here. The default is rgcn for heterogeneous graphs and kge for knowledge graphs. The only valid value for heterogeneous graphs is rgcn . Valid values for knowledge graphs are: kge , transe , distmult , and rotate .
     /// </summary>
     [CliOption("--model-name")]
     public string? ModelName { get; set; }
 
     /// <summary>
-    /// The type of Neptune ML instance to use for online servicing. The de- fault is ml.m5.xlarge . Choosing the ML instance for an inference endpoint depends on the task type, the graph size, and your budget.
+    /// The type of Neptune ML instance to use for online servicing. The default is ml.m5.xlarge . Choosing the ML instance for an inference endpoint depends on the task type, the graph size, and your budget.
     /// </summary>
     [CliOption("--instance-type")]
     public string? InstanceType { get; set; }
@@ -70,7 +70,7 @@ public record AwsNeptunedataCreateMlEndpointOptions : AwsOptions
     public int? InstanceCount { get; set; }
 
     /// <summary>
-    /// The Amazon Key Management Service (Amazon KMS) key that SageMaker uses to encrypt data on the storage volume attached to the ML com- pute instances that run the training job. The default is None.
+    /// The Amazon Key Management Service (Amazon KMS) key that SageMaker uses to encrypt data on the storage volume attached to the ML compute instances that run the training job. The default is None.
     /// </summary>
     [CliOption("--volume-encryption-kms-key")]
     public string? VolumeEncryptionKmsKey { get; set; }

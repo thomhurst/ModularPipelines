@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Use GetPrincipalTagAttributeMap to list all mappings between Principal- Tags and user attributes. See also: AWS API Documentation
+/// Use GetPrincipalTagAttributeMap to list all mappings between PrincipalTags and user attributes. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsCognitoIdentityGetPrincipalTagAttributeMapOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Use GetPrincipalTagAttributeMap to list all mappings between Principal- Tags and user attributes. See also: AWS API Documentation
+    /// Use GetPrincipalTagAttributeMap to list all mappings between PrincipalTags and user attributes. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IdentityPoolId">You can use this operation to get the ID of the Identity Pool you setup attribute mappings for. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+</param>
-    /// <param name="IdentityProviderName">You can use this operation to get the provider name. Constraints: o min: 1 o max: 128</param>
+    /// <param name="IdentityPoolId">You can use this operation to get the ID of the Identity Pool you setup attribute mappings for. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+</param>
+    /// <param name="IdentityProviderName">You can use this operation to get the provider name. Constraints: • min: 1 • max: 128</param>
     public AwsCognitoIdentityGetPrincipalTagAttributeMapOptions(
         string IdentityPoolId,
         string IdentityProviderName
@@ -60,13 +62,13 @@ public record AwsCognitoIdentityGetPrincipalTagAttributeMapOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// You can use this operation to get the ID of the Identity Pool you setup attribute mappings for. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+
+    /// You can use this operation to get the ID of the Identity Pool you setup attribute mappings for. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+
     /// </summary>
     [CliOption("--identity-pool-id")]
     public string? IdentityPoolId { get; private init; }
 
     /// <summary>
-    /// You can use this operation to get the provider name. Constraints: o min: 1 o max: 128
+    /// You can use this operation to get the provider name. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--identity-provider-name")]
     public string? IdentityProviderName { get; private init; }

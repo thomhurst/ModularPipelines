@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists jobs. Requires permission to access the ListJobs action. See also: AWS API Documentation list-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must extract data from the results of the following query ex- pressions: jobs
+/// Lists jobs. Requires permission to access the ListJobs action. See also: AWS API Documentation list-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: jobs
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,40 +24,37 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotListJobsOptions : AwsOptions
 {
     /// <summary>
-    /// An optional filter that lets you search for jobs that have the spec- ified status. Possible values: o IN_PROGRESS o CANCELED o COMPLETED o DELETION_IN_PROGRESS o SCHEDULED
+    /// An optional filter that lets you search for jobs that have the specified status. Possible values: • IN_PROGRESS • CANCELED • COMPLETED • DELETION_IN_PROGRESS • SCHEDULED
     /// </summary>
     [CliOption("--status")]
     public AwsIotListJobsStatus? Status { get; set; }
 
     /// <summary>
-    /// Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have com- pleted the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a thing when the thing is added to a target group, even after the job was completed by all things originally in the group. NOTE: We recommend that you use continuous jobs instead of snapshot jobs for dynamic thing group targets. By using continuous jobs, devices that join the group receive the job execution even after the job has been created. Possible values: o CONTINUOUS o SNAPSHOT
+    /// Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a thing when the thing is added to a target group, even after the job was completed by all things originally in the group. NOTE: We recommend that you use continuous jobs instead of snapshot jobs for dynamic thing group targets. By using continuous jobs, devices that join the group receive the job execution even after the job has been created. Possible values: • CONTINUOUS • SNAPSHOT
     /// </summary>
     [CliOption("--target-selection")]
     public AwsIotListJobsTargetSelection? TargetSelection { get; set; }
 
     /// <summary>
-    /// A filter that limits the returned jobs to those for the specified group. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// A filter that limits the returned jobs to those for the specified group. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--thing-group-name")]
     public string? ThingGroupName { get; set; }
 
     /// <summary>
-    /// A filter that limits the returned jobs to those for the specified group. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\-]+
+    /// A filter that limits the returned jobs to those for the specified group. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\-]+
     /// </summary>
     [CliOption("--thing-group-id")]
     public string? ThingGroupId { get; set; }
 
     /// <summary>
-    /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format. $aws/things/*THING_NAME* /jobs/*JOB_ID* /notify-namespace-*NAME- SPACE_ID* / NOTE: The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices. Constraints: o pattern: [a-zA-Z0-9_-]+
+    /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format. $aws/things/*THING_NAME* /jobs/*JOB_ID* /notify-namespace-*NAMESPACE_ID* / NOTE: The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices. Constraints: • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--namespace-id")]
     public string? NamespaceId { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -67,15 +64,18 @@ public record AwsIotListJobsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 250
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 250
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -17,7 +18,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new MLModel using the DataSource and the recipe as informa- tion sources. An MLModel is nearly immutable. Users can update only the MLModelName and the ScoreThreshold in an MLModel without creating a new MLModel . CreateMLModel is an asynchronous operation. In response to Cre- ateMLModel , Amazon Machine Learning (Amazon ML) immediately returns and sets the MLModel status to PENDING . After the MLModel has been created and ready is for use, Amazon ML sets the status to COMPLETED . You ...
+/// Creates a new MLModel using the DataSource and the recipe as information sources. An MLModel is nearly immutable. Users can update only the MLModelName and the ScoreThreshold in an MLModel without creating a new MLModel . CreateMLModel is an asynchronous operation. In response to CreateMLModel , Amazon Machine Learning (Amazon ML) immediately returns and sets the MLModel status to PENDING . After the MLModel has been created and ready is for use, Amazon ML sets the status to COMPLETED . You can ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsMachinelearningCreateMlModelOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new MLModel using the DataSource and the recipe as informa- tion sources. An MLModel is nearly immutable. Users can update only the MLModelName and the ScoreThreshold in an MLModel without creating a new MLModel . CreateMLModel is an asynchronous operation. In response to Cre- ateMLModel , Amazon Machine Learning (Amazon ML) immediately returns and sets the MLModel status to PENDING . After the MLModel has been created and ready is for use, Amazon ML sets the status to COMPLETED . You ...
+    /// Creates a new MLModel using the DataSource and the recipe as information sources. An MLModel is nearly immutable. Users can update only the MLModelName and the ScoreThreshold in an MLModel without creating a new MLModel . CreateMLModel is an asynchronous operation. In response to CreateMLModel , Amazon Machine Learning (Amazon ML) immediately returns and sets the MLModel status to PENDING . After the MLModel has been created and ready is for use, Amazon ML sets the status to COMPLETED . You can ...
     /// </summary>
-    /// <param name="MlModelId">A user-supplied ID that uniquely identifies the MLModel . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="MlModelType">The category of supervised learning that this MLModel will address. Choose from the following types: o Choose REGRESSION if the MLModel will be used to predict a numeric value. o Choose BINARY if the MLModel result has two possible values. o Choose MULTICLASS if the MLModel result has a limited number of values. For more information, see the Amazon Machine Learning Developer Guide . Possible values: o REGRESSION o BINARY o MULTICLASS</param>
-    /// <param name="TrainingDataSourceId">The DataSource that points to the training data. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="MlModelId">A user-supplied ID that uniquely identifies the MLModel . Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="MlModelType">The category of supervised learning that this MLModel will address. Choose from the following types: • Choose REGRESSION if the MLModel will be used to predict a numeric value. • Choose BINARY if the MLModel result has two possible values. • Choose MULTICLASS if the MLModel result has a limited number of values. For more information, see the Amazon Machine Learning Developer Guide . Possible values: • REGRESSION • BINARY • MULTICLASS</param>
+    /// <param name="TrainingDataSourceId">The DataSource that points to the training data. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsMachinelearningCreateMlModelOptions(
         string MlModelId,
         AwsMachinelearningCreateMlModelMlModelType MlModelType,
@@ -65,43 +66,43 @@ public record AwsMachinelearningCreateMlModelOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A user-supplied ID that uniquely identifies the MLModel . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// A user-supplied ID that uniquely identifies the MLModel . Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--ml-model-id")]
     public string? MlModelId { get; private init; }
 
     /// <summary>
-    /// The category of supervised learning that this MLModel will address. Choose from the following types: o Choose REGRESSION if the MLModel will be used to predict a numeric value. o Choose BINARY if the MLModel result has two possible values. o Choose MULTICLASS if the MLModel result has a limited number of values. For more information, see the Amazon Machine Learning Developer Guide . Possible values: o REGRESSION o BINARY o MULTICLASS
+    /// The category of supervised learning that this MLModel will address. Choose from the following types: • Choose REGRESSION if the MLModel will be used to predict a numeric value. • Choose BINARY if the MLModel result has two possible values. • Choose MULTICLASS if the MLModel result has a limited number of values. For more information, see the Amazon Machine Learning Developer Guide . Possible values: • REGRESSION • BINARY • MULTICLASS
     /// </summary>
     [CliOption("--ml-model-type")]
     public AwsMachinelearningCreateMlModelMlModelType? MlModelType { get; private init; }
 
     /// <summary>
-    /// The DataSource that points to the training data. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// The DataSource that points to the training data. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--training-data-source-id")]
     public string? TrainingDataSourceId { get; private init; }
 
     /// <summary>
-    /// A user-supplied name or description of the MLModel . Constraints: o max: 1024 o pattern: .*\S.*|^$
+    /// A user-supplied name or description of the MLModel . Constraints: • max: 1024 • pattern: .*\S.*|^$
     /// </summary>
     [CliOption("--ml-model-name")]
     public string? MlModelName { get; set; }
 
     /// <summary>
-    /// A list of the training parameters in the MLModel . The list is im- plemented as a map of key-value pairs. The following is the current set of training parameters: o sgd.maxMLModelSizeInBytes - The maximum allowed size of the model. Depending on the input data, the size of the model might affect its performance. The value is an integer that ranges from 100000 to 2147483648 . The default value is 33554432 . o sgd.maxPasses - The number of times that the training process tra- verses the observations to build the MLModel . The value is an in- teger that ranges from 1 to 10000 . The default value is 10 . o sgd.shuffleType - Whether Amazon ML shuffles the training data. Shuffling the data improves a model's ability to find the optimal solution for a variety of data types. The valid values are auto and none . The default value is none . We strongly recommend that you shuffle your data. o sgd.l1RegularizationAmount - The coefficient regularization L1 norm. It controls overfitting the data by penalizing large coeffi- cients. This tends to drive coefficients to zero, resulting in a sparse feature set. If you use this parameter, start by specifying a small value, such as 1.0E-08 . The value is a double that ranges from 0 to MAX_DOUBLE . The default is to not use L1 normalization. This parameter can't be used when L2 is specified. Use this para- meter sparingly. o sgd.l2RegularizationAmount - The coefficient regularization L2 norm. It controls overfitting the data by penalizing large coeffi- cients. This tends to drive coefficients to small, nonzero values. If you use this parameter, start by specifying a small value, such as 1.0E-08 . The value is a double that ranges from 0 to MAX_DOU- BLE . The default is to not use L2 normalization. This parameter can't be used when L1 is specified. Use this parameter sparingly. key -&gt; (string) String type. value -&gt; (string) String type. Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A list of the training parameters in the MLModel . The list is implemented as a map of key-value pairs. The following is the current set of training parameters: • sgd.maxMLModelSizeInBytes - The maximum allowed size of the model. Depending on the input data, the size of the model might affect its performance. The value is an integer that ranges from 100000 to 2147483648 . The default value is 33554432 . • sgd.maxPasses - The number of times that the training process traverses the observations to build the MLModel . The value is an integer that ranges from 1 to 10000 . The default value is 10 . • sgd.shuffleType - Whether Amazon ML shuffles the training data. Shuffling the data improves a model's ability to find the optimal solution for a variety of data types. The valid values are auto and none . The default value is none . We strongly recommend that you shuffle your data. • sgd.l1RegularizationAmount - The coefficient regularization L1 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to zero, resulting in a sparse feature set. If you use this parameter, start by specifying a small value, such as 1.0E-08 . The value is a double that ranges from 0 to MAX_DOUBLE . The default is to not use L1 normalization. This parameter can't be used when L2 is specified. Use this parameter sparingly. • sgd.l2RegularizationAmount - The coefficient regularization L2 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to small, nonzero values. If you use this parameter, start by specifying a small value, such as 1.0E-08 . The value is a double that ranges from 0 to MAX_DOUBLE . The default is to not use L2 normalization. This parameter can't be used when L1 is specified. Use this parameter sparingly. key -&gt; (string) String type. value -&gt; (string) String type. Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     /// <summary>
-    /// The data recipe for creating the MLModel . You must specify either the recipe or its URI. If you don't specify a recipe or its URI, Amazon ML creates a default. Constraints: o max: 131071
+    /// The data recipe for creating the MLModel . You must specify either the recipe or its URI. If you don't specify a recipe or its URI, Amazon ML creates a default. Constraints: • max: 131071
     /// </summary>
     [CliOption("--recipe")]
     public string? Recipe { get; set; }
 
     /// <summary>
-    /// The Amazon Simple Storage Service (Amazon S3) location and file name that contains the MLModel recipe. You must specify either the recipe or its URI. If you don't specify a recipe or its URI, Amazon ML cre- ates a default. Constraints: o max: 2048 o pattern: s3://([^/]+)(/.*)?
+    /// The Amazon Simple Storage Service (Amazon S3) location and file name that contains the MLModel recipe. You must specify either the recipe or its URI. If you don't specify a recipe or its URI, Amazon ML creates a default. Constraints: • max: 2048 • pattern: s3://([^/]+)(/.*)?
     /// </summary>
     [CliOption("--recipe-uri")]
     public string? RecipeUri { get; set; }

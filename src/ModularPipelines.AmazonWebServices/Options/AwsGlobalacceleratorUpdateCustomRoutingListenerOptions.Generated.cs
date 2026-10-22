@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsGlobalacceleratorUpdateCustomRoutingListenerOptions : AwsOption
     /// <summary>
     /// Update a listener for a custom routing accelerator. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ListenerArn">The Amazon Resource Name (ARN) of the listener to update. Constraints: o max: 255</param>
-    /// <param name="PortRanges">The updated port range to support for connections from clients to your accelerator. If you remove ports that are currently being used by a subnet endpoint, the call fails. Separately, you set port ranges for endpoints. For more information, see About endpoints for custom routing accelerators . Constraints: o min: 1 o max: 10 (structure) A complex type for a range of ports for a listener. FromPort -&gt; (integer) The first port in the range of ports, inclusive. Constraints: o min: 1 o max: 65535 ToPort -&gt; (integer) The last port in the range of ports, inclusive. Constraints: o min: 1 o max: 65535 Shorthand Syntax: FromPort=integer,ToPort=integer ... JSON Syntax: [ { "FromPort": integer, "ToPort": integer } ... ]</param>
+    /// <param name="ListenerArn">The Amazon Resource Name (ARN) of the listener to update. Constraints: • max: 255</param>
+    /// <param name="PortRanges">The updated port range to support for connections from clients to your accelerator. If you remove ports that are currently being used by a subnet endpoint, the call fails. Separately, you set port ranges for endpoints. For more information, see About endpoints for custom routing accelerators . Constraints: • min: 1 • max: 10 (structure) A complex type for a range of ports for a listener. FromPort -&gt; (integer) The first port in the range of ports, inclusive. Constraints: • min: 1 • max: 65535 ToPort -&gt; (integer) The last port in the range of ports, inclusive. Constraints: • min: 1 • max: 65535 Shorthand Syntax: FromPort=integer,ToPort=integer ... JSON Syntax: [ { "FromPort": integer, "ToPort": integer } ... ]</param>
     public AwsGlobalacceleratorUpdateCustomRoutingListenerOptions(
         string ListenerArn,
         IEnumerable<string> PortRanges
@@ -71,13 +73,13 @@ public record AwsGlobalacceleratorUpdateCustomRoutingListenerOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the listener to update. Constraints: o max: 255
+    /// The Amazon Resource Name (ARN) of the listener to update. Constraints: • max: 255
     /// </summary>
     [CliOption("--listener-arn")]
     public string? ListenerArn { get; private init; }
 
     /// <summary>
-    /// The updated port range to support for connections from clients to your accelerator. If you remove ports that are currently being used by a subnet endpoint, the call fails. Separately, you set port ranges for endpoints. For more information, see About endpoints for custom routing accelerators . Constraints: o min: 1 o max: 10 (structure) A complex type for a range of ports for a listener. FromPort -&gt; (integer) The first port in the range of ports, inclusive. Constraints: o min: 1 o max: 65535 ToPort -&gt; (integer) The last port in the range of ports, inclusive. Constraints: o min: 1 o max: 65535 Shorthand Syntax: FromPort=integer,ToPort=integer ... JSON Syntax: [ { "FromPort": integer, "ToPort": integer } ... ]
+    /// The updated port range to support for connections from clients to your accelerator. If you remove ports that are currently being used by a subnet endpoint, the call fails. Separately, you set port ranges for endpoints. For more information, see About endpoints for custom routing accelerators . Constraints: • min: 1 • max: 10 (structure) A complex type for a range of ports for a listener. FromPort -&gt; (integer) The first port in the range of ports, inclusive. Constraints: • min: 1 • max: 65535 ToPort -&gt; (integer) The last port in the range of ports, inclusive. Constraints: • min: 1 • max: 65535 Shorthand Syntax: FromPort=integer,ToPort=integer ... JSON Syntax: [ { "FromPort": integer, "ToPort": integer } ... ]
     /// </summary>
     [CliOption("--port-ranges", GroupValues = true)]
     public IEnumerable<string>? PortRanges { get; private init; }

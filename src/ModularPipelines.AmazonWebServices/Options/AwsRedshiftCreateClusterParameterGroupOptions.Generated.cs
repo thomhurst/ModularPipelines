@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsRedshiftCreateClusterParameterGroupOptions : AwsOptions, IValid
     /// <summary>
     /// Creates an Amazon Redshift parameter group. Creating parameter groups is independent of creating clusters. You can associate a cluster with a parameter group when you create the cluster. You can also associate an existing cluster with a parameter group after the cluster is created by using ModifyCluster . Parameters in the parameter group define specific behavior that applies to the databases you create on the cluster. For more information about parameters and parameter groups, go to Amazon Reds...
     /// </summary>
-    /// <param name="ParameterGroupName">The name of the cluster parameter group. Constraints: o Must be 1 to 255 alphanumeric characters or hyphens o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. o Must be unique withing your Amazon Web Services account. NOTE: This value is stored as a lower-case string. Constraints: o max: 2147483647</param>
-    /// <param name="ParameterGroupFamily">The Amazon Redshift engine version to which the cluster parameter group applies. The cluster engine version determines the set of pa- rameters. To get a list of valid parameter group family names, you can call DescribeClusterParameterGroups . By default, Amazon Redshift returns a list of all the parameter groups that are owned by your Amazon Web Services account, including the default parameter groups for each Amazon Redshift engine version. The parameter group family names as- sociated with the default parameter groups provide you the valid values. For example, a valid family name is "redshift-1.0". Constraints: o max: 2147483647</param>
-    /// <param name="Description">A description of the parameter group. Constraints: o max: 2147483647</param>
+    /// <param name="ParameterGroupName">The name of the cluster parameter group. Constraints: • Must be 1 to 255 alphanumeric characters or hyphens • First character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. • Must be unique withing your Amazon Web Services account. NOTE: This value is stored as a lower-case string. Constraints: • max: 2147483647</param>
+    /// <param name="ParameterGroupFamily">The Amazon Redshift engine version to which the cluster parameter group applies. The cluster engine version determines the set of parameters. To get a list of valid parameter group family names, you can call DescribeClusterParameterGroups . By default, Amazon Redshift returns a list of all the parameter groups that are owned by your Amazon Web Services account, including the default parameter groups for each Amazon Redshift engine version. The parameter group family names associated with the default parameter groups provide you the valid values. For example, a valid family name is "redshift-1.0". Constraints: • max: 2147483647</param>
+    /// <param name="Description">A description of the parameter group. Constraints: • max: 2147483647</param>
     public AwsRedshiftCreateClusterParameterGroupOptions(
         string ParameterGroupName,
         string ParameterGroupFamily,
@@ -64,25 +66,25 @@ public record AwsRedshiftCreateClusterParameterGroupOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the cluster parameter group. Constraints: o Must be 1 to 255 alphanumeric characters or hyphens o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. o Must be unique withing your Amazon Web Services account. NOTE: This value is stored as a lower-case string. Constraints: o max: 2147483647
+    /// The name of the cluster parameter group. Constraints: • Must be 1 to 255 alphanumeric characters or hyphens • First character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. • Must be unique withing your Amazon Web Services account. NOTE: This value is stored as a lower-case string. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--parameter-group-name")]
     public string? ParameterGroupName { get; private init; }
 
     /// <summary>
-    /// The Amazon Redshift engine version to which the cluster parameter group applies. The cluster engine version determines the set of pa- rameters. To get a list of valid parameter group family names, you can call DescribeClusterParameterGroups . By default, Amazon Redshift returns a list of all the parameter groups that are owned by your Amazon Web Services account, including the default parameter groups for each Amazon Redshift engine version. The parameter group family names as- sociated with the default parameter groups provide you the valid values. For example, a valid family name is "redshift-1.0". Constraints: o max: 2147483647
+    /// The Amazon Redshift engine version to which the cluster parameter group applies. The cluster engine version determines the set of parameters. To get a list of valid parameter group family names, you can call DescribeClusterParameterGroups . By default, Amazon Redshift returns a list of all the parameter groups that are owned by your Amazon Web Services account, including the default parameter groups for each Amazon Redshift engine version. The parameter group family names associated with the default parameter groups provide you the valid values. For example, a valid family name is "redshift-1.0". Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--parameter-group-family")]
     public string? ParameterGroupFamily { get; private init; }
 
     /// <summary>
-    /// A description of the parameter group. Constraints: o max: 2147483647
+    /// A description of the parameter group. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; private init; }
 
     /// <summary>
-    /// A list of tag instances. (structure) A tag consisting of a name/value pair for a resource. Key -&gt; (string) The key, or name, for the resource tag. Constraints: o max: 2147483647 Value -&gt; (string) The value for the resource tag. Constraints: o max: 2147483647 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tag instances. (structure) A tag consisting of a name/value pair for a resource. Key -&gt; (string) The key, or name, for the resource tag. Constraints: • max: 2147483647 Value -&gt; (string) The value for the resource tag. Constraints: • max: 2147483647 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

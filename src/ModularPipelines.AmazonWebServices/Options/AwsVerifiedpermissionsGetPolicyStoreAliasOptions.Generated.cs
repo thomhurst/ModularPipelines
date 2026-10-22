@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsVerifiedpermissionsGetPolicyStoreAliasOptions : AwsOptions, IVa
     /// <summary>
     /// Retrieves details about the specified policy store alias. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AliasName">Specifies the name of the policy store alias that you want informa- tion about. NOTE: The alias name must always be prefixed with policy-store-alias/ . Constraints: o min: 0 o max: 150 o pattern: [a-zA-Z0-9-/_]*</param>
+    /// <param name="AliasName">Specifies the name of the policy store alias that you want information about. NOTE: The alias name must always be prefixed with policy-store-alias/ . Constraints: • min: 0 • max: 150 • pattern: [a-zA-Z0-9-/_]*</param>
     public AwsVerifiedpermissionsGetPolicyStoreAliasOptions(
         string AliasName
     )
@@ -56,7 +58,7 @@ public record AwsVerifiedpermissionsGetPolicyStoreAliasOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the name of the policy store alias that you want informa- tion about. NOTE: The alias name must always be prefixed with policy-store-alias/ . Constraints: o min: 0 o max: 150 o pattern: [a-zA-Z0-9-/_]*
+    /// Specifies the name of the policy store alias that you want information about. NOTE: The alias name must always be prefixed with policy-store-alias/ . Constraints: • min: 0 • max: 150 • pattern: [a-zA-Z0-9-/_]*
     /// </summary>
     [CliOption("--alias-name")]
     public string? AliasName { get; private init; }

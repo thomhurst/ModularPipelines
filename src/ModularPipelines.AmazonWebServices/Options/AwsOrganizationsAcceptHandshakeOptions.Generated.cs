@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Accepts a handshake by sending an ACCEPTED response to the sender. You can view accepted handshakes in API responses for 30 days before they are deleted. Only the management account can accept the following handshakes : o Enable all features final confirmation (APPROVE_ALL_FEATURES ) o Billing transfer (TRANSFER_RESPONSIBILITY ) For more information, see Enabling all features and Responding to a billing transfer invitation in the Organizations User Guide . Only a member account can accept the fo...
+/// Accepts a handshake by sending an ACCEPTED response to the sender. You can view accepted handshakes in API responses for 30 days before they are deleted. Only the management account can accept the following handshakes : • Enable all features final confirmation (APPROVE_ALL_FEATURES ) • Billing transfer (TRANSFER_RESPONSIBILITY ) For more information, see Enabling all features and Responding to a billing transfer invitation in the Organizations User Guide . Only a member account can accept the fo...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsOrganizationsAcceptHandshakeOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Accepts a handshake by sending an ACCEPTED response to the sender. You can view accepted handshakes in API responses for 30 days before they are deleted. Only the management account can accept the following handshakes : o Enable all features final confirmation (APPROVE_ALL_FEATURES ) o Billing transfer (TRANSFER_RESPONSIBILITY ) For more information, see Enabling all features and Responding to a billing transfer invitation in the Organizations User Guide . Only a member account can accept the fo...
+    /// Accepts a handshake by sending an ACCEPTED response to the sender. You can view accepted handshakes in API responses for 30 days before they are deleted. Only the management account can accept the following handshakes : • Enable all features final confirmation (APPROVE_ALL_FEATURES ) • Billing transfer (TRANSFER_RESPONSIBILITY ) For more information, see Enabling all features and Responding to a billing transfer invitation in the Organizations User Guide . Only a member account can accept the fo...
     /// </summary>
-    /// <param name="HandshakeId">ID for the handshake that you want to accept. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits. Constraints: o max: 34 o pattern: ^h-[0-9a-z]{8,32}$</param>
+    /// <param name="HandshakeId">ID for the handshake that you want to accept. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits. Constraints: • max: 34 • pattern: ^h-[0-9a-z]{8,32}$</param>
     public AwsOrganizationsAcceptHandshakeOptions(
         string HandshakeId
     )
@@ -56,7 +58,7 @@ public record AwsOrganizationsAcceptHandshakeOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID for the handshake that you want to accept. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits. Constraints: o max: 34 o pattern: ^h-[0-9a-z]{8,32}$
+    /// ID for the handshake that you want to accept. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits. Constraints: • max: 34 • pattern: ^h-[0-9a-z]{8,32}$
     /// </summary>
     [CliOption("--handshake-id")]
     public string? HandshakeId { get; private init; }

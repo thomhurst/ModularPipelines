@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation is not supported for directory buckets. Deletes the cors configuration information set for the bucket. To use this operation, you must have permission to perform the s3:Put- BucketCORS action. The bucket owner has this permission by default and can grant this permission to others. For information about cors , see Enabling Cross-Origin Resource Sharing in the Amazon S3 User Guide . Related Resources o PutBucketCors o RESTOPTIONSobject WARNING: You must URL encode any signed h...
+/// NOTE: This operation is not supported for directory buckets. Deletes the cors configuration information set for the bucket. To use this operation, you must have permission to perform the s3:PutBucketCORS action. The bucket owner has this permission by default and can grant this permission to others. For information about cors , see Enabling Cross-Origin Resource Sharing in the Amazon S3 User Guide . Related Resources • PutBucketCors • RESTOPTIONSobject WARNING: You must URL encode any signed hea...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsS3apiDeleteBucketCorsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation is not supported for directory buckets. Deletes the cors configuration information set for the bucket. To use this operation, you must have permission to perform the s3:Put- BucketCORS action. The bucket owner has this permission by default and can grant this permission to others. For information about cors , see Enabling Cross-Origin Resource Sharing in the Amazon S3 User Guide . Related Resources o PutBucketCors o RESTOPTIONSobject WARNING: You must URL encode any signed h...
+    /// NOTE: This operation is not supported for directory buckets. Deletes the cors configuration information set for the bucket. To use this operation, you must have permission to perform the s3:PutBucketCORS action. The bucket owner has this permission by default and can grant this permission to others. For information about cors , see Enabling Cross-Origin Resource Sharing in the Amazon S3 User Guide . Related Resources • PutBucketCors • RESTOPTIONSobject WARNING: You must URL encode any signed hea...
     /// </summary>
     /// <param name="Bucket">Specifies the bucket whose cors configuration is being deleted.</param>
     public AwsS3apiDeleteBucketCorsOptions(
@@ -62,7 +64,7 @@ public record AwsS3apiDeleteBucketCorsOptions : AwsOptions, IValidatableObject
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }

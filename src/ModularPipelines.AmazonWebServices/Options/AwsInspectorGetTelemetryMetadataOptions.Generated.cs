@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Information about the data that is collected for the specified assess- ment run. See also: AWS API Documentation
+/// Information about the data that is collected for the specified assessment run. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsInspectorGetTelemetryMetadataOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Information about the data that is collected for the specified assess- ment run. See also: AWS API Documentation
+    /// Information about the data that is collected for the specified assessment run. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssessmentRunArn">The ARN that specifies the assessment run that has the telemetry data that you want to obtain. Constraints: o min: 1 o max: 300</param>
+    /// <param name="AssessmentRunArn">The ARN that specifies the assessment run that has the telemetry data that you want to obtain. Constraints: • min: 1 • max: 300</param>
     public AwsInspectorGetTelemetryMetadataOptions(
         string AssessmentRunArn
     )
@@ -56,7 +58,7 @@ public record AwsInspectorGetTelemetryMetadataOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN that specifies the assessment run that has the telemetry data that you want to obtain. Constraints: o min: 1 o max: 300
+    /// The ARN that specifies the assessment run that has the telemetry data that you want to obtain. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--assessment-run-arn")]
     public string? AssessmentRunArn { get; private init; }

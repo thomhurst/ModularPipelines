@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates phone numbers with the specified Amazon Chime SDK Voice Con- nector. See also: AWS API Documentation
+/// Associates phone numbers with the specified Amazon Chime SDK Voice Connector. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsChimeSdkVoiceAssociatePhoneNumbersWithVoiceConnectorOptions : A
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates phone numbers with the specified Amazon Chime SDK Voice Con- nector. See also: AWS API Documentation
+    /// Associates phone numbers with the specified Amazon Chime SDK Voice Connector. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VoiceConnectorId">The Voice Connector ID. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
-    /// <param name="E164PhoneNumbers">List of phone numbers, in E.164 format. (string) Constraints: o pattern: ^\+?[1-9]\d{1,14}$ Syntax: "string" "string" ...</param>
+    /// <param name="VoiceConnectorId">The Voice Connector ID. Constraints: • pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
+    /// <param name="E164PhoneNumbers">List of phone numbers, in E.164 format. (string) Constraints: • pattern: ^\+?[1-9]\d{1,14}$ Syntax: "string" "string" ...</param>
     public AwsChimeSdkVoiceAssociatePhoneNumbersWithVoiceConnectorOptions(
         string VoiceConnectorId,
         IEnumerable<string> E164PhoneNumbers
@@ -71,13 +73,13 @@ public record AwsChimeSdkVoiceAssociatePhoneNumbersWithVoiceConnectorOptions : A
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Voice Connector ID. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
+    /// The Voice Connector ID. Constraints: • pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
     /// </summary>
     [CliOption("--voice-connector-id")]
     public string? VoiceConnectorId { get; private init; }
 
     /// <summary>
-    /// List of phone numbers, in E.164 format. (string) Constraints: o pattern: ^\+?[1-9]\d{1,14}$ Syntax: "string" "string" ...
+    /// List of phone numbers, in E.164 format. (string) Constraints: • pattern: ^\+?[1-9]\d{1,14}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--e164-phone-numbers", GroupValues = true)]
     public IEnumerable<string>? E164PhoneNumbers { get; private init; }

@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Activates the specified user. Only active users can access Amazon Work- Docs. See also: AWS API Documentation
+/// Activates the specified user. Only active users can access Amazon WorkDocs. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsWorkdocsActivateUserOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Activates the specified user. Only active users can access Amazon Work- Docs. See also: AWS API Documentation
+    /// Activates the specified user. Only active users can access Amazon WorkDocs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="UserId">The ID of the user. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+</param>
+    /// <param name="UserId">The ID of the user. Constraints: • min: 1 • max: 256 • pattern: [&amp;\w+-.@]+</param>
     public AwsWorkdocsActivateUserOptions(
         string UserId
     )
@@ -57,13 +59,13 @@ public record AwsWorkdocsActivateUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the user. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+
+    /// The ID of the user. Constraints: • min: 1 • max: 256 • pattern: [&amp;\w+-.@]+
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; private init; }
 
     /// <summary>
-    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: o min: 1 o max: 8199
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: • min: 1 • max: 8199
     /// </summary>
     [SecretValue]
     [CliOption("--authentication-token")]

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsEsCreatePackageOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Create a package for use with Amazon ES domains. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PackageName">Unique identifier for the package. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
-    /// <param name="PackageType">Type of package. Currently supports only TXT-DICTIONARY. Possible values: o TXT-DICTIONARY</param>
-    /// <param name="PackageSource">The customer S3 location PackageSource for importing the package. S3BucketName -&gt; (string) Name of the bucket containing the package. Constraints: o min: 3 o max: 63 S3Key -&gt; (string) Key (file name) of the package. Shorthand Syntax: S3BucketName=string,S3Key=string JSON Syntax: { "S3BucketName": "string", "S3Key": "string" }</param>
+    /// <param name="PackageName">Unique identifier for the package. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="PackageType">Type of package. Currently supports only TXT-DICTIONARY. Possible values: • TXT-DICTIONARY</param>
+    /// <param name="PackageSource">The customer S3 location PackageSource for importing the package. S3BucketName -&gt; (string) Name of the bucket containing the package. Constraints: • min: 3 • max: 63 S3Key -&gt; (string) Key (file name) of the package. Shorthand Syntax: S3BucketName=string,S3Key=string JSON Syntax: { "S3BucketName": "string", "S3Key": "string" }</param>
     public AwsEsCreatePackageOptions(
         string PackageName,
         string PackageType,
@@ -64,25 +66,25 @@ public record AwsEsCreatePackageOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Unique identifier for the package. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// Unique identifier for the package. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--package-name")]
     public string? PackageName { get; private init; }
 
     /// <summary>
-    /// Type of package. Currently supports only TXT-DICTIONARY. Possible values: o TXT-DICTIONARY
+    /// Type of package. Currently supports only TXT-DICTIONARY. Possible values: • TXT-DICTIONARY
     /// </summary>
     [CliOption("--package-type")]
     public string? PackageType { get; private init; }
 
     /// <summary>
-    /// The customer S3 location PackageSource for importing the package. S3BucketName -&gt; (string) Name of the bucket containing the package. Constraints: o min: 3 o max: 63 S3Key -&gt; (string) Key (file name) of the package. Shorthand Syntax: S3BucketName=string,S3Key=string JSON Syntax: { "S3BucketName": "string", "S3Key": "string" }
+    /// The customer S3 location PackageSource for importing the package. S3BucketName -&gt; (string) Name of the bucket containing the package. Constraints: • min: 3 • max: 63 S3Key -&gt; (string) Key (file name) of the package. Shorthand Syntax: S3BucketName=string,S3Key=string JSON Syntax: { "S3BucketName": "string", "S3Key": "string" }
     /// </summary>
     [CliOption("--package-source")]
     public string? PackageSource { get; private init; }
 
     /// <summary>
-    /// Description of the package. Constraints: o max: 1024
+    /// Description of the package. Constraints: • max: 1024
     /// </summary>
     [CliOption("--package-description")]
     public string? PackageDescription { get; set; }

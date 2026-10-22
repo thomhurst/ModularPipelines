@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +29,10 @@ public record AwsAuditManagerGetEvidenceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets information about a specified evidence item. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssessmentId">The unique identifier for the assessment. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
-    /// <param name="ControlSetId">The unique identifier for the control set. Constraints: o min: 1 o max: 300 o pattern: ^[\w\W\s\S]*$</param>
-    /// <param name="EvidenceFolderId">The unique identifier for the folder that the evidence is stored in. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
-    /// <param name="EvidenceId">The unique identifier for the evidence. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="AssessmentId">The unique identifier for the assessment. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="ControlSetId">The unique identifier for the control set. Constraints: • min: 1 • max: 300 • pattern: ^[\w\W\s\S]*$</param>
+    /// <param name="EvidenceFolderId">The unique identifier for the folder that the evidence is stored in. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="EvidenceId">The unique identifier for the evidence. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
     public AwsAuditManagerGetEvidenceOptions(
         string AssessmentId,
         string ControlSetId,
@@ -68,25 +70,25 @@ public record AwsAuditManagerGetEvidenceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the assessment. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The unique identifier for the assessment. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--assessment-id")]
     public string? AssessmentId { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the control set. Constraints: o min: 1 o max: 300 o pattern: ^[\w\W\s\S]*$
+    /// The unique identifier for the control set. Constraints: • min: 1 • max: 300 • pattern: ^[\w\W\s\S]*$
     /// </summary>
     [CliOption("--control-set-id")]
     public string? ControlSetId { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the folder that the evidence is stored in. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The unique identifier for the folder that the evidence is stored in. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--evidence-folder-id")]
     public string? EvidenceFolderId { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the evidence. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The unique identifier for the evidence. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--evidence-id")]
     public string? EvidenceId { get; private init; }

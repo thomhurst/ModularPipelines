@@ -24,9 +24,9 @@ public record AwsMedicalImagingGetImageFrameOptions : AwsOptions
     /// <summary>
     /// Get an image frame (pixel data) for an image set. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DatastoreId">The data store identifier. Constraints: o pattern: [0-9a-z]{32}</param>
-    /// <param name="ImageSetId">The image set identifier. Constraints: o pattern: [0-9a-z]{32}</param>
-    /// <param name="ImageFrameInformation">Information about the image frame (pixel data) identifier. imageFrameId -&gt; (string) [required] The image frame (pixel data) identifier. Constraints: o pattern: [0-9a-z]{32} Shorthand Syntax: imageFrameId=string JSON Syntax: { "imageFrameId": "string" } outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="DatastoreId">The data store identifier. Constraints: • pattern: [0-9a-z]{32}</param>
+    /// <param name="ImageSetId">The image set identifier. Constraints: • pattern: [0-9a-z]{32}</param>
+    /// <param name="ImageFrameInformation">Information about the image frame (pixel data) identifier. imageFrameId -&gt; (string) [required] The image frame (pixel data) identifier. Constraints: • pattern: [0-9a-z]{32} Shorthand Syntax: imageFrameId=string JSON Syntax: { "imageFrameId": "string" } outfile (string) [required] Filename where the content will be saved</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsMedicalImagingGetImageFrameOptions(
         string DatastoreId,
@@ -54,19 +54,19 @@ public record AwsMedicalImagingGetImageFrameOptions : AwsOptions
     }
 
     /// <summary>
-    /// The data store identifier. Constraints: o pattern: [0-9a-z]{32}
+    /// The data store identifier. Constraints: • pattern: [0-9a-z]{32}
     /// </summary>
     [CliOption("--datastore-id")]
     public string DatastoreId { get; private init; }
 
     /// <summary>
-    /// The image set identifier. Constraints: o pattern: [0-9a-z]{32}
+    /// The image set identifier. Constraints: • pattern: [0-9a-z]{32}
     /// </summary>
     [CliOption("--image-set-id")]
     public string ImageSetId { get; private init; }
 
     /// <summary>
-    /// Information about the image frame (pixel data) identifier. imageFrameId -&gt; (string) [required] The image frame (pixel data) identifier. Constraints: o pattern: [0-9a-z]{32} Shorthand Syntax: imageFrameId=string JSON Syntax: { "imageFrameId": "string" } outfile (string) [required] Filename where the content will be saved
+    /// Information about the image frame (pixel data) identifier. imageFrameId -&gt; (string) [required] The image frame (pixel data) identifier. Constraints: • pattern: [0-9a-z]{32} Shorthand Syntax: imageFrameId=string JSON Syntax: { "imageFrameId": "string" } outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--image-frame-information")]
     public string ImageFrameInformation { get; private init; }

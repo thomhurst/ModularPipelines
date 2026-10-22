@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsGameliftCreateVpcPeeringConnectionOptions : AwsOptions, IValida
     /// <summary>
     /// This API works with the following fleet types: EC2 Establishes a VPC peering connection between a virtual private cloud (VPC) in an Amazon Web Services account with the VPC for your Amazon GameLift Servers fleet. VPC peering enables the game servers on your fleet to communicate directly with other Amazon Web Services resources. You can peer with VPCs in any Amazon Web Services account that you have access to, including the account that you use to manage your Amazon GameLift Servers fleets. You c...
     /// </summary>
-    /// <param name="FleetId">A unique identifier for the fleet. You can use either the fleet ID or ARN value. This tells Amazon GameLift Servers which GameLift VPC to peer with. Constraints: o min: 1 o max: 128 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
-    /// <param name="PeerVpcAwsAccountId">A unique identifier for the Amazon Web Services account with the VPC that you want to peer your Amazon GameLift Servers fleet with. You can find your Account ID in the Amazon Web Services Management Con- sole under account settings. Constraints: o min: 1 o max: 1024</param>
-    /// <param name="PeerVpcId">A unique identifier for a VPC with resources to be accessed by your Amazon GameLift Servers fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the VPC Dashboard in the Amazon Web Services Management Console. Learn more about VPC peering in VPC Peering with Amazon GameLift Servers Fleets . Constraints: o min: 1 o max: 1024</param>
+    /// <param name="FleetId">A unique identifier for the fleet. You can use either the fleet ID or ARN value. This tells Amazon GameLift Servers which GameLift VPC to peer with. Constraints: • min: 1 • max: 128 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
+    /// <param name="PeerVpcAwsAccountId">A unique identifier for the Amazon Web Services account with the VPC that you want to peer your Amazon GameLift Servers fleet with. You can find your Account ID in the Amazon Web Services Management Console under account settings. Constraints: • min: 1 • max: 1024</param>
+    /// <param name="PeerVpcId">A unique identifier for a VPC with resources to be accessed by your Amazon GameLift Servers fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the VPC Dashboard in the Amazon Web Services Management Console. Learn more about VPC peering in VPC Peering with Amazon GameLift Servers Fleets . Constraints: • min: 1 • max: 1024</param>
     public AwsGameliftCreateVpcPeeringConnectionOptions(
         string FleetId,
         string PeerVpcAwsAccountId,
@@ -64,19 +66,19 @@ public record AwsGameliftCreateVpcPeeringConnectionOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the fleet. You can use either the fleet ID or ARN value. This tells Amazon GameLift Servers which GameLift VPC to peer with. Constraints: o min: 1 o max: 128 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$
+    /// A unique identifier for the fleet. You can use either the fleet ID or ARN value. This tells Amazon GameLift Servers which GameLift VPC to peer with. Constraints: • min: 1 • max: 128 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the Amazon Web Services account with the VPC that you want to peer your Amazon GameLift Servers fleet with. You can find your Account ID in the Amazon Web Services Management Con- sole under account settings. Constraints: o min: 1 o max: 1024
+    /// A unique identifier for the Amazon Web Services account with the VPC that you want to peer your Amazon GameLift Servers fleet with. You can find your Account ID in the Amazon Web Services Management Console under account settings. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--peer-vpc-aws-account-id")]
     public string? PeerVpcAwsAccountId { get; private init; }
 
     /// <summary>
-    /// A unique identifier for a VPC with resources to be accessed by your Amazon GameLift Servers fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the VPC Dashboard in the Amazon Web Services Management Console. Learn more about VPC peering in VPC Peering with Amazon GameLift Servers Fleets . Constraints: o min: 1 o max: 1024
+    /// A unique identifier for a VPC with resources to be accessed by your Amazon GameLift Servers fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the VPC Dashboard in the Amazon Web Services Management Console. Learn more about VPC peering in VPC Peering with Amazon GameLift Servers Fleets . Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--peer-vpc-id")]
     public string? PeerVpcId { get; private init; }

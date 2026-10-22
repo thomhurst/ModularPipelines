@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -29,8 +30,8 @@ public record AwsForecastqueryQueryWhatIfForecastOptions : AwsOptions, IValidata
     /// <summary>
     /// Retrieves a what-if forecast. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WhatIfForecastArn">The Amazon Resource Name (ARN) of the what-if forecast to query. Constraints: o max: 300 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
-    /// <param name="Filters">The filtering criteria to apply when retrieving the forecast. For example, to get the forecast for client_21 in the electricity usage dataset, specify the following: {"item_id" : "client_21"} To get the full what-if forecast, use the CreateForecastExportJob operation. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o max: 256 o pattern: ^[a-zA-Z0-9\_\-]+$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="WhatIfForecastArn">The Amazon Resource Name (ARN) of the what-if forecast to query. Constraints: • max: 300 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    /// <param name="Filters">The filtering criteria to apply when retrieving the forecast. For example, to get the forecast for client_21 in the electricity usage dataset, specify the following: {"item_id" : "client_21"} To get the full what-if forecast, use the CreateForecastExportJob operation. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • max: 256 • pattern: ^[a-zA-Z0-9\_\-]+$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsForecastqueryQueryWhatIfForecastOptions(
         string WhatIfForecastArn,
         IReadOnlyList<KeyValue> Filters
@@ -73,13 +74,13 @@ public record AwsForecastqueryQueryWhatIfForecastOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the what-if forecast to query. Constraints: o max: 300 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the what-if forecast to query. Constraints: • max: 300 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
     /// </summary>
     [CliOption("--what-if-forecast-arn")]
     public string? WhatIfForecastArn { get; private init; }
 
     /// <summary>
-    /// The filtering criteria to apply when retrieving the forecast. For example, to get the forecast for client_21 in the electricity usage dataset, specify the following: {"item_id" : "client_21"} To get the full what-if forecast, use the CreateForecastExportJob operation. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o max: 256 o pattern: ^[a-zA-Z0-9\_\-]+$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The filtering criteria to apply when retrieving the forecast. For example, to get the forecast for client_21 in the electricity usage dataset, specify the following: {"item_id" : "client_21"} To get the full what-if forecast, use the CreateForecastExportJob operation. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • max: 256 • pattern: ^[a-zA-Z0-9\_\-]+$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--filters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Filters { get; private init; }
@@ -97,7 +98,7 @@ public record AwsForecastqueryQueryWhatIfForecastOptions : AwsOptions, IValidata
     public string? EndDate { get; set; }
 
     /// <summary>
-    /// If the result of the previous request was truncated, the response includes a NextToken . To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours. Constraints: o min: 1 o max: 3000
+    /// If the result of the previous request was truncated, the response includes a NextToken . To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours. Constraints: • min: 1 • max: 3000
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

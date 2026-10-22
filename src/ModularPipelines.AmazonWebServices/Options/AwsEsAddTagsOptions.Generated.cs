@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Attaches tags to an existing Elasticsearch domain. Tags are a set of case-sensitive key value pairs. An Elasticsearch domain may have up to 10 tags. See Tagging Amazon Elasticsearch Service Domains for more in- formation. See also: AWS API Documentation
+/// Attaches tags to an existing Elasticsearch domain. Tags are a set of case-sensitive key value pairs. An Elasticsearch domain may have up to 10 tags. See Tagging Amazon Elasticsearch Service Domains for more information. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsEsAddTagsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Attaches tags to an existing Elasticsearch domain. Tags are a set of case-sensitive key value pairs. An Elasticsearch domain may have up to 10 tags. See Tagging Amazon Elasticsearch Service Domains for more in- formation. See also: AWS API Documentation
+    /// Attaches tags to an existing Elasticsearch domain. Tags are a set of case-sensitive key value pairs. An Elasticsearch domain may have up to 10 tags. See Tagging Amazon Elasticsearch Service Domains for more information. See also: AWS API Documentation
     /// </summary>
     /// <param name="Arn">Specify the ARN for which you want to add the tags.</param>
-    /// <param name="TagList">List of Tag that need to be added for the Elasticsearch domain. (structure) Specifies a key value pair for a resource tag. Key -&gt; (string) [required] Specifies the TagKey , the name of the tag. Tag keys must be unique for the Elasticsearch domain to which they are at- tached. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] Specifies the TagValue , the value assigned to the corre- sponding tag key. Tag values can be null and do not have to be unique in a tag set. For example, you can have a key value pair in a tag set of project : Trinity and cost-center : Trinity Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="TagList">List of Tag that need to be added for the Elasticsearch domain. (structure) Specifies a key value pair for a resource tag. Key -&gt; (string) [required] Specifies the TagKey , the name of the tag. Tag keys must be unique for the Elasticsearch domain to which they are attached. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] Specifies the TagValue , the value assigned to the corresponding tag key. Tag values can be null and do not have to be unique in a tag set. For example, you can have a key value pair in a tag set of project : Trinity and cost-center : Trinity Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsEsAddTagsOptions(
         string Arn,
         IEnumerable<string> TagList
@@ -77,7 +79,7 @@ public record AwsEsAddTagsOptions : AwsOptions, IValidatableObject
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// List of Tag that need to be added for the Elasticsearch domain. (structure) Specifies a key value pair for a resource tag. Key -&gt; (string) [required] Specifies the TagKey , the name of the tag. Tag keys must be unique for the Elasticsearch domain to which they are at- tached. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] Specifies the TagValue , the value assigned to the corre- sponding tag key. Tag values can be null and do not have to be unique in a tag set. For example, you can have a key value pair in a tag set of project : Trinity and cost-center : Trinity Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// List of Tag that need to be added for the Elasticsearch domain. (structure) Specifies a key value pair for a resource tag. Key -&gt; (string) [required] Specifies the TagKey , the name of the tag. Tag keys must be unique for the Elasticsearch domain to which they are attached. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] Specifies the TagValue , the value assigned to the corresponding tag key. Tag values can be null and do not have to be unique in a tag set. For example, you can have a key value pair in a tag set of project : Trinity and cost-center : Trinity Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tag-list", GroupValues = true)]
     public IEnumerable<string>? TagList { get; private init; }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsNetworkFirewallAssociateSubnetsOptions : AwsOptions, IValidatab
     /// <summary>
     /// Associates the specified subnets in the Amazon VPC to the firewall. You can specify one subnet for each of the Availability Zones that the VPC spans. This request creates an Network Firewall firewall endpoint in each of the subnets. To enable the firewall's protections, you must also modify the VPC's route tables for each subnet's Availability Zone, to redirect the traffic that's coming into and going out of the zone through the firewall endpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SubnetMappings">The IDs of the subnets that you want to associate with the firewall. (structure) The ID for a subnet that's used in an association with a fire- wall. This is used in CreateFirewall , AssociateSubnets , and CreateVpcEndpointAssociation . Network Firewall creates an in- stance of the associated firewall in each subnet that you spec- ify, to filter traffic in the subnet's Availability Zone. SubnetId -&gt; (string) [required] The unique identifier for the subnet. IPAddressType -&gt; (string) The subnet's IP address type. You can't change the IP address type after you create the subnet. Possible values: o DUALSTACK o IPV4 o IPV6 Shorthand Syntax: SubnetId=string,IPAddressType=string ... JSON Syntax: [ { "SubnetId": "string", "IPAddressType": "DUALSTACK"|"IPV4"|"IPV6" } ... ]</param>
+    /// <param name="SubnetMappings">The IDs of the subnets that you want to associate with the firewall. (structure) The ID for a subnet that's used in an association with a firewall. This is used in CreateFirewall , AssociateSubnets , and CreateVpcEndpointAssociation . Network Firewall creates an instance of the associated firewall in each subnet that you specify, to filter traffic in the subnet's Availability Zone. SubnetId -&gt; (string) [required] The unique identifier for the subnet. IPAddressType -&gt; (string) The subnet's IP address type. You can't change the IP address type after you create the subnet. Possible values: • DUALSTACK • IPV4 • IPV6 Shorthand Syntax: SubnetId=string,IPAddressType=string ... JSON Syntax: [ { "SubnetId": "string", "IPAddressType": "DUALSTACK"|"IPV4"|"IPV6" } ... ]</param>
     public AwsNetworkFirewallAssociateSubnetsOptions(
         IEnumerable<string> SubnetMappings
     )
@@ -68,26 +70,26 @@ public record AwsNetworkFirewallAssociateSubnetsOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The IDs of the subnets that you want to associate with the firewall. (structure) The ID for a subnet that's used in an association with a fire- wall. This is used in CreateFirewall , AssociateSubnets , and CreateVpcEndpointAssociation . Network Firewall creates an in- stance of the associated firewall in each subnet that you spec- ify, to filter traffic in the subnet's Availability Zone. SubnetId -&gt; (string) [required] The unique identifier for the subnet. IPAddressType -&gt; (string) The subnet's IP address type. You can't change the IP address type after you create the subnet. Possible values: o DUALSTACK o IPV4 o IPV6 Shorthand Syntax: SubnetId=string,IPAddressType=string ... JSON Syntax: [ { "SubnetId": "string", "IPAddressType": "DUALSTACK"|"IPV4"|"IPV6" } ... ]
+    /// The IDs of the subnets that you want to associate with the firewall. (structure) The ID for a subnet that's used in an association with a firewall. This is used in CreateFirewall , AssociateSubnets , and CreateVpcEndpointAssociation . Network Firewall creates an instance of the associated firewall in each subnet that you specify, to filter traffic in the subnet's Availability Zone. SubnetId -&gt; (string) [required] The unique identifier for the subnet. IPAddressType -&gt; (string) The subnet's IP address type. You can't change the IP address type after you create the subnet. Possible values: • DUALSTACK • IPV4 • IPV6 Shorthand Syntax: SubnetId=string,IPAddressType=string ... JSON Syntax: [ { "SubnetId": "string", "IPAddressType": "DUALSTACK"|"IPV4"|"IPV6" } ... ]
     /// </summary>
     [CliOption("--subnet-mappings", GroupValues = true)]
     public IEnumerable<string>? SubnetMappings { get; private init; }
 
     /// <summary>
-    /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the oper- ation again using the new token. Constraints: o min: 1 o max: 1024 o pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$
+    /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token. Constraints: • min: 1 • max: 1024 • pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$
     /// </summary>
     [SecretValue]
     [CliOption("--update-token")]
     public string? UpdateToken { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*
+    /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*
     /// </summary>
     [CliOption("--firewall-arn")]
     public string? FirewallArn { get; set; }
 
     /// <summary>
-    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
+    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--firewall-name")]
     public string? FirewallName { get; set; }

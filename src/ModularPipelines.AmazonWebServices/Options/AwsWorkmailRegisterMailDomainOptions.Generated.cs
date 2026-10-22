@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsWorkmailRegisterMailDomainOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Registers a new domain in WorkMail and SES, and configures it for use by WorkMail. Emails received by SES for this domain are routed to the specified WorkMail organization, and WorkMail has permanent permission to use the specified domain for sending your users' emails. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The WorkMail organization under which you're creating the domain. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
-    /// <param name="DomainName">The name of the mail domain to create in WorkMail and SES. Constraints: o min: 3 o max: 209 o pattern: [a-zA-Z0-9.-]+</param>
+    /// <param name="OrganizationId">The WorkMail organization under which you're creating the domain. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="DomainName">The name of the mail domain to create in WorkMail and SES. Constraints: • min: 3 • max: 209 • pattern: [a-zA-Z0-9.-]+</param>
     public AwsWorkmailRegisterMailDomainOptions(
         string OrganizationId,
         string DomainName
@@ -61,19 +63,19 @@ public record AwsWorkmailRegisterMailDomainOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The WorkMail organization under which you're creating the domain. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The WorkMail organization under which you're creating the domain. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The name of the mail domain to create in WorkMail and SES. Constraints: o min: 3 o max: 209 o pattern: [a-zA-Z0-9.-]+
+    /// The name of the mail domain to create in WorkMail and SES. Constraints: • min: 3 • max: 209 • pattern: [a-zA-Z0-9.-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// Idempotency token used when retrying requests. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7e]+
+    /// Idempotency token used when retrying requests. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7e]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

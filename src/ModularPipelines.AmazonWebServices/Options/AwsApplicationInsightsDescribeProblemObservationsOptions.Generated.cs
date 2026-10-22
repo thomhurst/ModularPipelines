@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsApplicationInsightsDescribeProblemObservationsOptions : AwsOpti
     /// <summary>
     /// Describes the anomalies or errors associated with the problem. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProblemId">The ID of the problem. Constraints: o min: 38 o max: 38 o pattern: p-[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}</param>
+    /// <param name="ProblemId">The ID of the problem. Constraints: • min: 38 • max: 38 • pattern: p-[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}</param>
     public AwsApplicationInsightsDescribeProblemObservationsOptions(
         string ProblemId
     )
@@ -56,13 +58,13 @@ public record AwsApplicationInsightsDescribeProblemObservationsOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the problem. Constraints: o min: 38 o max: 38 o pattern: p-[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
+    /// The ID of the problem. Constraints: • min: 38 • max: 38 • pattern: p-[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
     /// </summary>
     [CliOption("--problem-id")]
     public string? ProblemId { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID for the resource group owner. Constraints: o min: 12 o max: 12 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID for the resource group owner. Constraints: • min: 12 • max: 12 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }

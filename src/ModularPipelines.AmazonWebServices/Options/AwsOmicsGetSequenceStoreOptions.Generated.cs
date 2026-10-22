@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsOmicsGetSequenceStoreOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves metadata for a sequence store using its ID and returns it in JSON format. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The store's ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
+    /// <param name="Id">The store's ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+</param>
     public AwsOmicsGetSequenceStoreOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsOmicsGetSequenceStoreOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The store's ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// The store's ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

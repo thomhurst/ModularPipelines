@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves CIS scan result details. See also: AWS API Documentation get-cis-scan-result-details is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: scanResultDetails
+/// Retrieves CIS scan result details. See also: AWS API Documentation get-cis-scan-result-details is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: scanResultDetails
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +29,11 @@ public record AwsInspector2GetCisScanResultDetailsOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves CIS scan result details. See also: AWS API Documentation get-cis-scan-result-details is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: scanResultDetails
+    /// Retrieves CIS scan result details. See also: AWS API Documentation get-cis-scan-result-details is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: scanResultDetails
     /// </summary>
-    /// <param name="ScanArn">The scan ARN. Constraints: o pattern: arn:aws(-us-gov|-cn)?:inspec- tor2:[-.a-z0-9]{0,20}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/cis-scan/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</param>
-    /// <param name="TargetResourceId">The target resource ID. Constraints: o min: 10 o max: 1024 o pattern: .*(^arn:.*:ecr:.*:\d{12}:reposi- tory\/[a-zA-Z0-9._\/-]+(\/sha256:[a-z0-9]{64})?$)|(^i-([a-z0-9]{8}|[a-z0-9]{17}|\\*)$|(^arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:func- tion:[a-zA-Z0-9-_\.]+(:(\$LAT- EST|[a-zA-Z0-9-_]+))?$)|(^arn:(aws[a-zA-Z-]*)?:inspec- tor2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:codesecurity-integra- tion\/[a-f0-9-]{36}\/project-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$))|(^\/sub- scrip- tions\/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\/re- sourcegroups\/[a-z0-9_\-\.()]+\/providers\/(microsoft\.com- pute\/virtualmachines\/[a-z0-9_\-]+|mi- crosoft\.web\/sites\/[a-z0-9_\-]+|microsoft\.containerreg- istry\/registries\/[a-z0-9_\-]+(\/reposito- ries\/[a-z0-9_\-\/]+\/images?\/sha256:[a-f0-9]{64})?)$).*</param>
-    /// <param name="AccountId">The account ID. Constraints: o min: 12 o max: 12 o pattern: \d{12}</param>
+    /// <param name="ScanArn">The scan ARN. Constraints: • pattern: arn:aws(-us-gov|-cn)?:inspector2:[-.a-z0-9]{0,20}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/cis-scan/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</param>
+    /// <param name="TargetResourceId">The target resource ID. Constraints: • min: 10 • max: 1024 • pattern: .*(^arn:.*:ecr:.*:\d{12}:repository\/[a-zA-Z0-9._\/-]+(\/sha256:[a-z0-9]{64})?$)|(^i-([a-z0-9]{8}|[a-z0-9]{17}|\\*)$|(^arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:function:[a-zA-Z0-9-_\.]+(:(\$LATEST|[a-zA-Z0-9-_]+))?$)|(^arn:(aws[a-zA-Z-]*)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:codesecurity-integration\/[a-f0-9-]{36}\/project-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$))|(^\/subscriptions\/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\/resourcegroups\/[a-z0-9_\-\.()]+\/providers\/(microsoft\.compute\/virtualmachines\/[a-z0-9_\-]+|microsoft\.web\/sites\/[a-z0-9_\-]+|microsoft\.containerregistry\/registries\/[a-z0-9_\-]+(\/repositories\/[a-z0-9_\-\/]+\/images?\/sha256:[a-f0-9]{64})?)$).*</param>
+    /// <param name="AccountId">The account ID. Constraints: • min: 12 • max: 12 • pattern: \d{12}</param>
     public AwsInspector2GetCisScanResultDetailsOptions(
         string ScanArn,
         string TargetResourceId,
@@ -66,46 +68,43 @@ public record AwsInspector2GetCisScanResultDetailsOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The scan ARN. Constraints: o pattern: arn:aws(-us-gov|-cn)?:inspec- tor2:[-.a-z0-9]{0,20}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/cis-scan/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
+    /// The scan ARN. Constraints: • pattern: arn:aws(-us-gov|-cn)?:inspector2:[-.a-z0-9]{0,20}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/cis-scan/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
     /// </summary>
     [CliOption("--scan-arn")]
     public string? ScanArn { get; private init; }
 
     /// <summary>
-    /// The target resource ID. Constraints: o min: 10 o max: 1024 o pattern: .*(^arn:.*:ecr:.*:\d{12}:reposi- tory\/[a-zA-Z0-9._\/-]+(\/sha256:[a-z0-9]{64})?$)|(^i-([a-z0-9]{8}|[a-z0-9]{17}|\\*)$|(^arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:func- tion:[a-zA-Z0-9-_\.]+(:(\$LAT- EST|[a-zA-Z0-9-_]+))?$)|(^arn:(aws[a-zA-Z-]*)?:inspec- tor2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:codesecurity-integra- tion\/[a-f0-9-]{36}\/project-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$))|(^\/sub- scrip- tions\/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\/re- sourcegroups\/[a-z0-9_\-\.()]+\/providers\/(microsoft\.com- pute\/virtualmachines\/[a-z0-9_\-]+|mi- crosoft\.web\/sites\/[a-z0-9_\-]+|microsoft\.containerreg- istry\/registries\/[a-z0-9_\-]+(\/reposito- ries\/[a-z0-9_\-\/]+\/images?\/sha256:[a-f0-9]{64})?)$).*
+    /// The target resource ID. Constraints: • min: 10 • max: 1024 • pattern: .*(^arn:.*:ecr:.*:\d{12}:repository\/[a-zA-Z0-9._\/-]+(\/sha256:[a-z0-9]{64})?$)|(^i-([a-z0-9]{8}|[a-z0-9]{17}|\\*)$|(^arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:function:[a-zA-Z0-9-_\.]+(:(\$LATEST|[a-zA-Z0-9-_]+))?$)|(^arn:(aws[a-zA-Z-]*)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:codesecurity-integration\/[a-f0-9-]{36}\/project-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$))|(^\/subscriptions\/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\/resourcegroups\/[a-z0-9_\-\.()]+\/providers\/(microsoft\.compute\/virtualmachines\/[a-z0-9_\-]+|microsoft\.web\/sites\/[a-z0-9_\-]+|microsoft\.containerregistry\/registries\/[a-z0-9_\-]+(\/repositories\/[a-z0-9_\-\/]+\/images?\/sha256:[a-f0-9]{64})?)$).*
     /// </summary>
     [CliOption("--target-resource-id")]
     public string? TargetResourceId { get; private init; }
 
     /// <summary>
-    /// The account ID. Constraints: o min: 12 o max: 12 o pattern: \d{12}
+    /// The account ID. Constraints: • min: 12 • max: 12 • pattern: \d{12}
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The filter criteria. findingStatusFilters -&gt; (list) The criteria's finding status filters. Constraints: o min: 1 o max: 10 (structure) The CIS finding status filter. comparison -&gt; (string) [required] The comparison value of the CIS finding status filter. Possible values: o EQUALS value -&gt; (string) [required] The value of the CIS finding status filter. Possible values: o PASSED o FAILED o SKIPPED checkIdFilters -&gt; (list) The criteria's check ID filters. Constraints: o min: 1 o max: 10 (structure) The CIS string filter. comparison -&gt; (string) [required] The comparison value of the CIS string filter. Possible values: o EQUALS o PREFIX o NOT_EQUALS value -&gt; (string) [required] The value of the CIS string filter. titleFilters -&gt; (list) The criteria's title filters. Constraints: o min: 1 o max: 10 (structure) The CIS string filter. comparison -&gt; (string) [required] The comparison value of the CIS string filter. Possible values: o EQUALS o PREFIX o NOT_EQUALS value -&gt; (string) [required] The value of the CIS string filter. securityLevelFilters -&gt; (list) The criteria's security level filters. . Security level refers to the Benchmark levels that CIS assigns to a profile. Constraints: o min: 1 o max: 10 (structure) The CIS security level filter. Security level refers to the Benchmark levels that CIS assigns to a profile. comparison -&gt; (string) [required] The CIS security filter comparison value. Possible values: o EQUALS value -&gt; (string) [required] The CIS security filter value. Possible values: o LEVEL_1 o LEVEL_2 findingArnFilters -&gt; (list) The criteria's finding ARN filters. Constraints: o min: 1 o max: 10 (structure) The CIS string filter. comparison -&gt; (string) [required] The comparison value of the CIS string filter. Possible values: o EQUALS o PREFIX o NOT_EQUALS value -&gt; (string) [required] The value of the CIS string filter. Shorthand Syntax: findingStatusFilters=[{comparison=string,value=string},{comparison=string,value=string}],checkIdFilters=[{comparison=string,value=string},{comparison=string,value=string}],titleFilters=[{comparison=string,value=string},{comparison=string,value=string}],securityLevelFilters=[{comparison=string,value=string},{comparison=string,value=string}],findingArnFilters=[{comparison=string,value=string},{comparison=string,value=string}] JSON Syntax: { "findingStatusFilters": [ { "comparison": "EQUALS", "value": "PASSED"|"FAILED"|"SKIPPED" } ... ], "checkIdFilters": [ { "comparison": "EQUALS"|"PREFIX"|"NOT_EQUALS", "value": "string" } ... ], "titleFilters": [ { "comparison": "EQUALS"|"PREFIX"|"NOT_EQUALS", "value": "string" } ... ], "securityLevelFilters": [ { "comparison": "EQUALS", "value": "LEVEL_1"|"LEVEL_2" } ... ], "findingArnFilters": [ { "comparison": "EQUALS"|"PREFIX"|"NOT_EQUALS", "value": "string" } ... ] }
+    /// The filter criteria. findingStatusFilters -&gt; (list) The criteria's finding status filters. Constraints: • min: 1 • max: 10 (structure) The CIS finding status filter. comparison -&gt; (string) [required] The comparison value of the CIS finding status filter. Possible values: • EQUALS value -&gt; (string) [required] The value of the CIS finding status filter. Possible values: • PASSED • FAILED • SKIPPED checkIdFilters -&gt; (list) The criteria's check ID filters. Constraints: • min: 1 • max: 10 (structure) The CIS string filter. comparison -&gt; (string) [required] The comparison value of the CIS string filter. Possible values: • EQUALS • PREFIX • NOT_EQUALS value -&gt; (string) [required] The value of the CIS string filter. titleFilters -&gt; (list) The criteria's title filters. Constraints: • min: 1 • max: 10 (structure) The CIS string filter. comparison -&gt; (string) [required] The comparison value of the CIS string filter. Possible values: • EQUALS • PREFIX • NOT_EQUALS value -&gt; (string) [required] The value of the CIS string filter. securityLevelFilters -&gt; (list) The criteria's security level filters. . Security level refers to the Benchmark levels that CIS assigns to a profile. Constraints: • min: 1 • max: 10 (structure) The CIS security level filter. Security level refers to the Benchmark levels that CIS assigns to a profile. comparison -&gt; (string) [required] The CIS security filter comparison value. Possible values: • EQUALS value -&gt; (string) [required] The CIS security filter value. Possible values: • LEVEL_1 • LEVEL_2 findingArnFilters -&gt; (list) The criteria's finding ARN filters. Constraints: • min: 1 • max: 10 (structure) The CIS string filter. comparison -&gt; (string) [required] The comparison value of the CIS string filter. Possible values: • EQUALS • PREFIX • NOT_EQUALS value -&gt; (string) [required] The value of the CIS string filter. Shorthand Syntax: findingStatusFilters=[{comparison=string,value=string},{comparison=string,value=string}],checkIdFilters=[{comparison=string,value=string},{comparison=string,value=string}],titleFilters=[{comparison=string,value=string},{comparison=string,value=string}],securityLevelFilters=[{comparison=string,value=string},{comparison=string,value=string}],findingArnFilters=[{comparison=string,value=string},{comparison=string,value=string}] JSON Syntax: { "findingStatusFilters": [ { "comparison": "EQUALS", "value": "PASSED"|"FAILED"|"SKIPPED" } ... ], "checkIdFilters": [ { "comparison": "EQUALS"|"PREFIX"|"NOT_EQUALS", "value": "string" } ... ], "titleFilters": [ { "comparison": "EQUALS"|"PREFIX"|"NOT_EQUALS", "value": "string" } ... ], "securityLevelFilters": [ { "comparison": "EQUALS", "value": "LEVEL_1"|"LEVEL_2" } ... ], "findingArnFilters": [ { "comparison": "EQUALS"|"PREFIX"|"NOT_EQUALS", "value": "string" } ... ] }
     /// </summary>
     [CliOption("--filter-criteria")]
     public string? FilterCriteria { get; set; }
 
     /// <summary>
-    /// The sort by order. Possible values: o CHECK_ID o STATUS
+    /// The sort by order. Possible values: • CHECK_ID • STATUS
     /// </summary>
     [CliOption("--sort-by")]
     public AwsInspector2GetCisScanResultDetailsSortBy? SortBy { get; set; }
 
     /// <summary>
-    /// The sort order. Possible values: o ASC o DESC
+    /// The sort order. Possible values: • ASC • DESC
     /// </summary>
     [CliOption("--sort-order")]
     public AwsInspector2GetCisScanResultDetailsSortOrder? SortOrder { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -115,16 +114,19 @@ public record AwsInspector2GetCisScanResultDetailsOptions : AwsOptions, IValidat
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

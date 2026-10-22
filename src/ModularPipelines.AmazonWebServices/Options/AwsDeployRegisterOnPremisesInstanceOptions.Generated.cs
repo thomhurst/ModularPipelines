@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,7 +64,7 @@ public record AwsDeployRegisterOnPremisesInstanceOptions : AwsOptions, IValidata
     public string? InstanceName { get; private init; }
 
     /// <summary>
-    /// The ARN of the IAM session to associate with the on-premises in- stance.
+    /// The ARN of the IAM session to associate with the on-premises instance.
     /// </summary>
     [CliOption("--iam-session-arn")]
     public string? IamSessionArn { get; set; }

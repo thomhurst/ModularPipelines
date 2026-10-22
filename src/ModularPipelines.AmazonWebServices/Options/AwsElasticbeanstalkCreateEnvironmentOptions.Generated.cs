@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsElasticbeanstalkCreateEnvironmentOptions : AwsOptions, IValidat
     /// <summary>
     /// Launches an Elastic Beanstalk environment for the specified application using the specified configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationName">The name of the application that is associated with this environ- ment. Constraints: o min: 1 o max: 100</param>
+    /// <param name="ApplicationName">The name of the application that is associated with this environment. Constraints: • min: 1 • max: 100</param>
     public AwsElasticbeanstalkCreateEnvironmentOptions(
         string ApplicationName
     )
@@ -56,61 +58,61 @@ public record AwsElasticbeanstalkCreateEnvironmentOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the application that is associated with this environ- ment. Constraints: o min: 1 o max: 100
+    /// The name of the application that is associated with this environment. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; private init; }
 
     /// <summary>
-    /// A unique name for the environment. Constraint: Must be from 4 to 40 characters in length. The name can contain only letters, numbers, and hyphens. It can't start or end with a hyphen. This name must be unique within a region in your ac- count. If the specified name already exists in the region, Elastic Beanstalk returns an InvalidParameterValue error. If you don't specify the CNAMEPrefix parameter, the environment name becomes part of the CNAME, and therefore part of the visible URL for your application. Constraints: o min: 4 o max: 40
+    /// A unique name for the environment. Constraint: Must be from 4 to 40 characters in length. The name can contain only letters, numbers, and hyphens. It can't start or end with a hyphen. This name must be unique within a region in your account. If the specified name already exists in the region, Elastic Beanstalk returns an InvalidParameterValue error. If you don't specify the CNAMEPrefix parameter, the environment name becomes part of the CNAME, and therefore part of the visible URL for your application. Constraints: • min: 4 • max: 40
     /// </summary>
     [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }
 
     /// <summary>
-    /// The name of the group to which the target environment belongs. Spec- ify a group name only if the environment's name is specified in an environment manifest and not with the environment name parameter. See Environment Manifest (env.yaml) for details. Constraints: o min: 1 o max: 19
+    /// The name of the group to which the target environment belongs. Specify a group name only if the environment's name is specified in an environment manifest and not with the environment name parameter. See Environment Manifest (env.yaml) for details. Constraints: • min: 1 • max: 19
     /// </summary>
     [CliOption("--group-name")]
     public string? GroupName { get; set; }
 
     /// <summary>
-    /// Your description for this environment. Constraints: o max: 200
+    /// Your description for this environment. Constraints: • max: 200
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// If specified, the environment attempts to use this value as the pre- fix for the CNAME in your Elastic Beanstalk environment URL. If not specified, the CNAME is generated automatically by appending a ran- dom alphanumeric string to the environment name. Constraints: o min: 4 o max: 63
+    /// If specified, the environment attempts to use this value as the prefix for the CNAME in your Elastic Beanstalk environment URL. If not specified, the CNAME is generated automatically by appending a random alphanumeric string to the environment name. Constraints: • min: 4 • max: 63
     /// </summary>
     [CliOption("--cname-prefix")]
     public string? CnamePrefix { get; set; }
 
     /// <summary>
-    /// Specifies the tier to use in creating this environment. The environ- ment tier that you choose determines whether Elastic Beanstalk pro- visions resources on Amazon EC2 instances or on an Amazon EKS clus- ter, and, for Amazon EC2, whether the environment serves HTTP(S) re- quests or processes background tasks from a queue. Name -&gt; (string) The name of this environment tier. Valid values: o For Standard-mode EC2-based web server WebServer o For Standard-mode EC2-based backend application with Amazon SQS Worker o For Cluster-mode Amazon EKS-based applications Cluster Type -&gt; (string) The type of this environment tier. Valid values: o For Web server tier Standard o For Worker tier SQS/HTTP o For Cluster tier EKS Version -&gt; (string) The version of this environment tier. When you don't set a value to it, Elastic Beanstalk uses the latest compatible worker tier version. NOTE: This member is deprecated. Any specific version that you set may become out of date. We recommend leaving it unspecified. Shorthand Syntax: Name=string,Type=string,Version=string JSON Syntax: { "Name": "string", "Type": "string", "Version": "string" }
+    /// Specifies the tier to use in creating this environment. The environment tier that you choose determines whether Elastic Beanstalk provisions resources on Amazon EC2 instances or on an Amazon EKS cluster, and, for Amazon EC2, whether the environment serves HTTP(S) requests or processes background tasks from a queue. Name -&gt; (string) The name of this environment tier. Valid values: • For Standard-mode EC2-based web server WebServer • For Standard-mode EC2-based backend application with Amazon SQS Worker • For Cluster-mode Amazon EKS-based applications Cluster Type -&gt; (string) The type of this environment tier. Valid values: • For Web server tier Standard • For Worker tier SQS/HTTP • For Cluster tier EKS Version -&gt; (string) The version of this environment tier. When you don't set a value to it, Elastic Beanstalk uses the latest compatible worker tier version. NOTE: This member is deprecated. Any specific version that you set may become out of date. We recommend leaving it unspecified. Shorthand Syntax: Name=string,Type=string,Version=string JSON Syntax: { "Name": "string", "Type": "string", "Version": "string" }
     /// </summary>
     [CliOption("--tier")]
     public string? Tier { get; set; }
 
     /// <summary>
-    /// Specifies the tags applied to resources in the environment. (structure) Describes a tag applied to a resource in an environment. Key -&gt; (string) The key of the tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) The value of the tag. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Specifies the tags applied to resources in the environment. (structure) Describes a tag applied to a resource in an environment. Key -&gt; (string) The key of the tag. Constraints: • min: 1 • max: 128 Value -&gt; (string) The value of the tag. Constraints: • min: 1 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The name of the application version to deploy. Default: If not specified, Elastic Beanstalk attempts to deploy the sample application. Constraints: o min: 1 o max: 100
+    /// The name of the application version to deploy. Default: If not specified, Elastic Beanstalk attempts to deploy the sample application. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--version-label")]
     public string? VersionLabel { get; set; }
 
     /// <summary>
-    /// The name of the Elastic Beanstalk configuration template to use with the environment. NOTE: If you specify TemplateName , then don't specify SolutionStack- Name . Constraints: o min: 1 o max: 100
+    /// The name of the Elastic Beanstalk configuration template to use with the environment. NOTE: If you specify TemplateName , then don't specify SolutionStackName . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--template-name")]
     public string? TemplateName { get; set; }
 
     /// <summary>
-    /// The name of an Elastic Beanstalk solution stack (platform version) to use with the environment. If specified, Elastic Beanstalk sets the configuration values to the default values associated with the specified solution stack. For a list of current solution stacks, see Elastic Beanstalk Supported Platforms in the Elastic Beanstalk Plat- forms guide. NOTE: If you specify SolutionStackName , don't specify PlatformArn or TemplateName .
+    /// The name of an Elastic Beanstalk solution stack (platform version) to use with the environment. If specified, Elastic Beanstalk sets the configuration values to the default values associated with the specified solution stack. For a list of current solution stacks, see Elastic Beanstalk Supported Platforms in the Elastic Beanstalk Platforms guide. NOTE: If you specify SolutionStackName , don't specify PlatformArn or TemplateName .
     /// </summary>
     [CliOption("--solution-stack-name")]
     public string? SolutionStackName { get; set; }
@@ -122,19 +124,19 @@ public record AwsElasticbeanstalkCreateEnvironmentOptions : AwsOptions, IValidat
     public string? PlatformArn { get; set; }
 
     /// <summary>
-    /// If specified, Elastic Beanstalk sets the specified configuration op- tions to the requested value in the configuration set for the new environment. These override the values obtained from the solution stack or the configuration template. (structure) A specification identifying an individual configuration option along with its current value. For a list of possible namespaces and option values, see Option Values in the Elastic Beanstalk Developer Guide . ResourceName -&gt; (string) A unique resource name for the option setting. Use it for a timebased scaling configuration option. Constraints: o min: 1 o max: 256 Namespace -&gt; (string) A unique namespace that identifies the option's associated Amazon Web Services resource. OptionName -&gt; (string) The name of the configuration option. Value -&gt; (string) The current value for the configuration option. Shorthand Syntax: ResourceName=string,Namespace=string,OptionName=string,Value=string ... JSON Syntax: [ { "ResourceName": "string", "Namespace": "string", "OptionName": "string", "Value": "string" } ... ]
+    /// If specified, Elastic Beanstalk sets the specified configuration options to the requested value in the configuration set for the new environment. These override the values obtained from the solution stack or the configuration template. (structure) A specification identifying an individual configuration option along with its current value. For a list of possible namespaces and option values, see Option Values in the Elastic Beanstalk Developer Guide . ResourceName -&gt; (string) A unique resource name for the option setting. Use it for a timebased scaling configuration option. Constraints: • min: 1 • max: 256 Namespace -&gt; (string) A unique namespace that identifies the option's associated Amazon Web Services resource. OptionName -&gt; (string) The name of the configuration option. Value -&gt; (string) The current value for the configuration option. Shorthand Syntax: ResourceName=string,Namespace=string,OptionName=string,Value=string ... JSON Syntax: [ { "ResourceName": "string", "Namespace": "string", "OptionName": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--option-settings", GroupValues = true)]
     public IEnumerable<string>? OptionSettings { get; set; }
 
     /// <summary>
-    /// A list of custom user-defined configuration options to remove from the configuration set for this new environment. (structure) A specification identifying an individual configuration option. ResourceName -&gt; (string) A unique resource name for a time-based scaling configuration option. Constraints: o min: 1 o max: 256 Namespace -&gt; (string) A unique namespace identifying the option's associated Amazon Web Services resource. OptionName -&gt; (string) The name of the configuration option. Shorthand Syntax: ResourceName=string,Namespace=string,OptionName=string ... JSON Syntax: [ { "ResourceName": "string", "Namespace": "string", "OptionName": "string" } ... ]
+    /// A list of custom user-defined configuration options to remove from the configuration set for this new environment. (structure) A specification identifying an individual configuration option. ResourceName -&gt; (string) A unique resource name for a time-based scaling configuration option. Constraints: • min: 1 • max: 256 Namespace -&gt; (string) A unique namespace identifying the option's associated Amazon Web Services resource. OptionName -&gt; (string) The name of the configuration option. Shorthand Syntax: ResourceName=string,Namespace=string,OptionName=string ... JSON Syntax: [ { "ResourceName": "string", "Namespace": "string", "OptionName": "string" } ... ]
     /// </summary>
     [CliOption("--options-to-remove", GroupValues = true)]
     public IEnumerable<string>? OptionsToRemove { get; set; }
 
     /// <summary>
-    /// WARNING: The operations role feature of Elastic Beanstalk is in beta re- lease and is subject to change. The Amazon Resource Name (ARN) of an existing IAM role to be used as the environment's operations role. If specified, Elastic Beanstalk uses the operations role for permissions to downstream services dur- ing this call and during subsequent calls acting on this environ- ment. To specify an operations role, you must have the iam:PassRole permission for the role. Constraints: o min: 1 o max: 256
+    /// WARNING: The operations role feature of Elastic Beanstalk is in beta release and is subject to change. The Amazon Resource Name (ARN) of an existing IAM role to be used as the environment's operations role. If specified, Elastic Beanstalk uses the operations role for permissions to downstream services during this call and during subsequent calls acting on this environment. To specify an operations role, you must have the iam:PassRole permission for the role. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--operations-role")]
     public string? OperationsRole { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsRtbfabricDeleteLinkRoutingRuleOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Deletes a routing rule from a link. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GatewayId">The unique identifier of the gateway. Constraints: o min: 8 o max: 32 o pattern: rtb-gw-[a-z0-9-]{1,25}</param>
-    /// <param name="LinkId">The unique identifier of the link. Constraints: o min: 6 o max: 30 o pattern: link-[a-z0-9-]{1,25}</param>
-    /// <param name="RuleId">The unique identifier of the routing rule. Constraints: o min: 6 o max: 30 o pattern: rule-[a-z0-9-]{1,25}</param>
+    /// <param name="GatewayId">The unique identifier of the gateway. Constraints: • min: 8 • max: 32 • pattern: rtb-gw-[a-z0-9-]{1,25}</param>
+    /// <param name="LinkId">The unique identifier of the link. Constraints: • min: 6 • max: 30 • pattern: link-[a-z0-9-]{1,25}</param>
+    /// <param name="RuleId">The unique identifier of the routing rule. Constraints: • min: 6 • max: 30 • pattern: rule-[a-z0-9-]{1,25}</param>
     public AwsRtbfabricDeleteLinkRoutingRuleOptions(
         string GatewayId,
         string LinkId,
@@ -64,19 +66,19 @@ public record AwsRtbfabricDeleteLinkRoutingRuleOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the gateway. Constraints: o min: 8 o max: 32 o pattern: rtb-gw-[a-z0-9-]{1,25}
+    /// The unique identifier of the gateway. Constraints: • min: 8 • max: 32 • pattern: rtb-gw-[a-z0-9-]{1,25}
     /// </summary>
     [CliOption("--gateway-id")]
     public string? GatewayId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the link. Constraints: o min: 6 o max: 30 o pattern: link-[a-z0-9-]{1,25}
+    /// The unique identifier of the link. Constraints: • min: 6 • max: 30 • pattern: link-[a-z0-9-]{1,25}
     /// </summary>
     [CliOption("--link-id")]
     public string? LinkId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the routing rule. Constraints: o min: 6 o max: 30 o pattern: rule-[a-z0-9-]{1,25}
+    /// The unique identifier of the routing rule. Constraints: • min: 6 • max: 30 • pattern: rule-[a-z0-9-]{1,25}
     /// </summary>
     [CliOption("--rule-id")]
     public string? RuleId { get; private init; }

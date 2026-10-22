@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsOmicsGetRunGroupOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets information about a run group and returns its metadata. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The group's ID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+</param>
+    /// <param name="Id">The group's ID. Constraints: • min: 1 • max: 18 • pattern: [0-9]+</param>
     public AwsOmicsGetRunGroupOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsOmicsGetRunGroupOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The group's ID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+
+    /// The group's ID. Constraints: • min: 1 • max: 18 • pattern: [0-9]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

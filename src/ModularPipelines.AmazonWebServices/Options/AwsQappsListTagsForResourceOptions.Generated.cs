@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsQappsListTagsForResourceOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Lists the tags associated with an Amazon Q Apps resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource whose tags should be listed. Constraints: o min: 1 o max: 1011</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource whose tags should be listed. Constraints: • min: 1 • max: 1011</param>
     public AwsQappsListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsQappsListTagsForResourceOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource whose tags should be listed. Constraints: o min: 1 o max: 1011
+    /// The Amazon Resource Name (ARN) of the resource whose tags should be listed. Constraints: • min: 1 • max: 1011
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

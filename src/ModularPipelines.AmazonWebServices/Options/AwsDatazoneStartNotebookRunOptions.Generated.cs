@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -29,9 +30,9 @@ public record AwsDatazoneStartNotebookRunOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Starts a notebook run in Amazon SageMaker Unified Studio. A notebook run represents the execution of an Amazon SageMaker notebook within a project. You can configure compute, network, timeout, and environment settings for the run. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The identifier of the Amazon SageMaker Unified Studio domain in which the notebook run is started. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="OwningProjectIdentifier">The identifier of the project that owns the notebook run. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="NotebookIdentifier">The identifier of the notebook to run. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The identifier of the Amazon SageMaker Unified Studio domain in which the notebook run is started. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="OwningProjectIdentifier">The identifier of the project that owns the notebook run. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="NotebookIdentifier">The identifier of the notebook to run. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneStartNotebookRunOptions(
         string DomainIdentifier,
         string OwningProjectIdentifier,
@@ -66,73 +67,73 @@ public record AwsDatazoneStartNotebookRunOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon SageMaker Unified Studio domain in which the notebook run is started. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which the notebook run is started. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the project that owns the notebook run. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the project that owns the notebook run. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--owning-project-identifier")]
     public string? OwningProjectIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the notebook to run. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the notebook to run. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--notebook-identifier")]
     public string? NotebookIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the schedule associated with the notebook run. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the schedule associated with the notebook run. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--schedule-identifier")]
     public string? ScheduleIdentifier { get; set; }
 
     /// <summary>
-    /// The compute configuration for the notebook run, including instance type and environment version. instanceType -&gt; (string) The instance type for the notebook run compute. Constraints: o pattern: (ml|sc)\.[a-z][0-9]+[a-z]*\.[a-z0-9]+ environmentVersion -&gt; (string) The environment version for the notebook run compute. Shorthand Syntax: instanceType=string,environmentVersion=string JSON Syntax: { "instanceType": "string", "environmentVersion": "string" }
+    /// The compute configuration for the notebook run, including instance type and environment version. instanceType -&gt; (string) The instance type for the notebook run compute. Constraints: • pattern: (ml|sc)\.[a-z][0-9]+[a-z]*\.[a-z0-9]+ environmentVersion -&gt; (string) The environment version for the notebook run compute. Shorthand Syntax: instanceType=string,environmentVersion=string JSON Syntax: { "instanceType": "string", "environmentVersion": "string" }
     /// </summary>
     [CliOption("--compute-configuration")]
     public string? ComputeConfiguration { get; set; }
 
     /// <summary>
-    /// The network configuration for the notebook run, including network access type and optional VPC settings. networkAccessType -&gt; (string) [required] The network access type for the notebook run. Valid values are PUBLIC_INTERNET_ONLY and VPC_ONLY . Possible values: o PUBLIC_INTERNET_ONLY o VPC_ONLY vpcId -&gt; (string) The identifier of the VPC for the notebook run. This is required when the network access type is VPC_ONLY . subnetIds -&gt; (list) The identifiers of the subnets for the notebook run. You can specify up to 10 subnets. Constraints: o min: 0 o max: 10 (string) securityGroupIds -&gt; (list) The identifiers of the security groups for the notebook run. You can specify up to 5 security groups. Constraints: o min: 0 o max: 5 (string) Shorthand Syntax: networkAccessType=string,vpcId=string,subnetIds=string,string,securityGroupIds=string,string JSON Syntax: { "networkAccessType": "PUBLIC_INTERNET_ONLY"|"VPC_ONLY", "vpcId": "string", "subnetIds": ["string", ...], "securityGroupIds": ["string", ...] }
+    /// The network configuration for the notebook run, including network access type and optional VPC settings. networkAccessType -&gt; (string) [required] The network access type for the notebook run. Valid values are PUBLIC_INTERNET_ONLY and VPC_ONLY . Possible values: • PUBLIC_INTERNET_ONLY • VPC_ONLY vpcId -&gt; (string) The identifier of the VPC for the notebook run. This is required when the network access type is VPC_ONLY . subnetIds -&gt; (list) The identifiers of the subnets for the notebook run. You can specify up to 10 subnets. Constraints: • min: 0 • max: 10 (string) securityGroupIds -&gt; (list) The identifiers of the security groups for the notebook run. You can specify up to 5 security groups. Constraints: • min: 0 • max: 5 (string) Shorthand Syntax: networkAccessType=string,vpcId=string,subnetIds=string,string,securityGroupIds=string,string JSON Syntax: { "networkAccessType": "PUBLIC_INTERNET_ONLY"|"VPC_ONLY", "vpcId": "string", "subnetIds": ["string", ...], "securityGroupIds": ["string", ...] }
     /// </summary>
     [CliOption("--network-configuration")]
     public string? NetworkConfiguration { get; set; }
 
     /// <summary>
-    /// The timeout configuration for the notebook run. The default timeout is 720 minutes (12 hours) and the maximum is 1440 minutes (24 hours). runTimeoutInMinutes -&gt; (integer) The timeout for the notebook run, in minutes. The minimum value is 60 minutes (1 hour), the maximum value is 1440 minutes (24 hours), and the default value is 720 minutes (12 hours). Constraints: o min: 60 o max: 1440 Shorthand Syntax: runTimeoutInMinutes=integer JSON Syntax: { "runTimeoutInMinutes": integer }
+    /// The timeout configuration for the notebook run. The default timeout is 720 minutes (12 hours) and the maximum is 1440 minutes (24 hours). runTimeoutInMinutes -&gt; (integer) The timeout for the notebook run, in minutes. The minimum value is 60 minutes (1 hour), the maximum value is 1440 minutes (24 hours), and the default value is 720 minutes (12 hours). Constraints: • min: 60 • max: 1440 Shorthand Syntax: runTimeoutInMinutes=integer JSON Syntax: { "runTimeoutInMinutes": integer }
     /// </summary>
     [CliOption("--timeout-configuration")]
     public string? TimeoutConfiguration { get; set; }
 
     /// <summary>
-    /// The notification configuration for the notebook run. Use this to specify the notebook run states that trigger notifications. notifyOn -&gt; (list) [required] Notebook run states that trigger notifications. Ordering is not significant. Constraints: o min: 0 o max: 7 (string) A notebook run state that triggers a notification in Amazon SageMaker Unified Studio. Possible values: o SUCCEEDED o FAILED o STOPPED o QUEUED o STARTING o RUNNING o STOPPING Shorthand Syntax: notifyOn=string,string JSON Syntax: { "notifyOn": ["SUCCEEDED"|"FAILED"|"STOPPED"|"QUEUED"|"STARTING"|"RUNNING"|"STOPPING", ...] }
+    /// The notification configuration for the notebook run. Use this to specify the notebook run states that trigger notifications. notifyOn -&gt; (list) [required] Notebook run states that trigger notifications. Ordering is not significant. Constraints: • min: 0 • max: 7 (string) A notebook run state that triggers a notification in Amazon SageMaker Unified Studio. Possible values: • SUCCEEDED • FAILED • STOPPED • QUEUED • STARTING • RUNNING • STOPPING Shorthand Syntax: notifyOn=string,string JSON Syntax: { "notifyOn": ["SUCCEEDED"|"FAILED"|"STOPPED"|"QUEUED"|"STARTING"|"RUNNING"|"STOPPING", ...] }
     /// </summary>
     [CliOption("--notification-configuration")]
     public string? NotificationConfiguration { get; set; }
 
     /// <summary>
-    /// The source that triggered the notebook run. type -&gt; (string) The type of the trigger source. Valid values are MANUAL , SCHED- ULED , and WORKFLOW . Possible values: o MANUAL o SCHEDULED o WORKFLOW name -&gt; (string) The name of the trigger source. Shorthand Syntax: type=string,name=string JSON Syntax: { "type": "MANUAL"|"SCHEDULED"|"WORKFLOW", "name": "string" }
+    /// The source that triggered the notebook run. type -&gt; (string) The type of the trigger source. Valid values are MANUAL , SCHEDULED , and WORKFLOW . Possible values: • MANUAL • SCHEDULED • WORKFLOW name -&gt; (string) The name of the trigger source. Shorthand Syntax: type=string,name=string JSON Syntax: { "type": "MANUAL"|"SCHEDULED"|"WORKFLOW", "name": "string" }
     /// </summary>
     [CliOption("--trigger-source")]
     public string? TriggerSource { get; set; }
 
     /// <summary>
-    /// The metadata for the notebook run, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 characters and values up to 1024 characters. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The metadata for the notebook run, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 characters and values up to 1024 characters. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 0 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
-    /// The sensitive parameters for the notebook run, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 characters and values up to 1024 characters. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The sensitive parameters for the notebook run, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 characters and values up to 1024 characters. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 0 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure idempotency of the re- quest. This field is automatically populated if not provided. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

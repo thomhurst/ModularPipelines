@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a directory assessment and all associated data. This operation permanently removes the assessment results, validation reports, and configuration information. You cannot delete system-initiated assessments. You can delete cus- tomer-created assessments even if they are in progress. See also: AWS API Documentation
+/// Deletes a directory assessment and all associated data. This operation permanently removes the assessment results, validation reports, and configuration information. You cannot delete system-initiated assessments. You can delete customer-created assessments even if they are in progress. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsDsDeleteAdAssessmentOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a directory assessment and all associated data. This operation permanently removes the assessment results, validation reports, and configuration information. You cannot delete system-initiated assessments. You can delete cus- tomer-created assessments even if they are in progress. See also: AWS API Documentation
+    /// Deletes a directory assessment and all associated data. This operation permanently removes the assessment results, validation reports, and configuration information. You cannot delete system-initiated assessments. You can delete customer-created assessments even if they are in progress. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssessmentId">The unique identifier of the directory assessment to delete. Constraints: o pattern: ^da-[0-9a-f]{18}$</param>
+    /// <param name="AssessmentId">The unique identifier of the directory assessment to delete. Constraints: • pattern: ^da-[0-9a-f]{18}$</param>
     public AwsDsDeleteAdAssessmentOptions(
         string AssessmentId
     )
@@ -56,7 +58,7 @@ public record AwsDsDeleteAdAssessmentOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the directory assessment to delete. Constraints: o pattern: ^da-[0-9a-f]{18}$
+    /// The unique identifier of the directory assessment to delete. Constraints: • pattern: ^da-[0-9a-f]{18}$
     /// </summary>
     [CliOption("--assessment-id")]
     public string? AssessmentId { get; private init; }

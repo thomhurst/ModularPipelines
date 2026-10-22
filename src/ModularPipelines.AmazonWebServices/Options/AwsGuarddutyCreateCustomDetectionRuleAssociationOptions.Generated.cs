@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables a custom detection rule for your account by creating an associ- ation. You specify the rule and the mode in which it operates. See also: AWS API Documentation
+/// Enables a custom detection rule for your account by creating an association. You specify the rule and the mode in which it operates. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsGuarddutyCreateCustomDetectionRuleAssociationOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enables a custom detection rule for your account by creating an associ- ation. You specify the rule and the mode in which it operates. See also: AWS API Documentation
+    /// Enables a custom detection rule for your account by creating an association. You specify the rule and the mode in which it operates. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RuleId">The unique identifier for the custom detection rule. Constraints: o min: 1 o max: 100 o pattern: [a-z0-9]+(-[a-z0-9]+)*</param>
-    /// <param name="Mode">The rule execution mode. Valid values: LIVE | DRY_RUN . Possible values: o LIVE o DRY_RUN</param>
+    /// <param name="RuleId">The unique identifier for the custom detection rule. Constraints: • min: 1 • max: 100 • pattern: [a-z0-9]+(-[a-z0-9]+)*</param>
+    /// <param name="Mode">The rule execution mode. Valid values: LIVE | DRY_RUN . Possible values: • LIVE • DRY_RUN</param>
     public AwsGuarddutyCreateCustomDetectionRuleAssociationOptions(
         string RuleId,
         string Mode
@@ -62,26 +63,26 @@ public record AwsGuarddutyCreateCustomDetectionRuleAssociationOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the custom detection rule. Constraints: o min: 1 o max: 100 o pattern: [a-z0-9]+(-[a-z0-9]+)*
+    /// The unique identifier for the custom detection rule. Constraints: • min: 1 • max: 100 • pattern: [a-z0-9]+(-[a-z0-9]+)*
     /// </summary>
     [CliOption("--rule-id")]
     public string? RuleId { get; private init; }
 
     /// <summary>
-    /// The rule execution mode. Valid values: LIVE | DRY_RUN . Possible values: o LIVE o DRY_RUN
+    /// The rule execution mode. Valid values: LIVE | DRY_RUN . Possible values: • LIVE • DRY_RUN
     /// </summary>
     [CliOption("--mode")]
     public string? Mode { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. Maximum 64 characters. Constraints: o min: 0 o max: 64
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. Maximum 64 characters. Constraints: • min: 0 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The tags to be added to the new custom detection rule association resource. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to be added to the new custom detection rule association resource. Constraints: • min: 1 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

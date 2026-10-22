@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +31,8 @@ public record AwsAppsyncUpdateDataSourceOptions : AwsOptions, IValidatableObject
     /// Updates a DataSource object. See also: AWS API Documentation
     /// </summary>
     /// <param name="ApiId">The API ID.</param>
-    /// <param name="Name">The new name for the data source. Constraints: o min: 1 o max: 65536 o pattern: [_A-Za-z][_0-9A-Za-z]*</param>
-    /// <param name="Type">The new data source type. Possible values: o AWS_LAMBDA o AMAZON_DYNAMODB o AMAZON_ELASTICSEARCH o NONE o HTTP o RELATIONAL_DATABASE o AMAZON_OPENSEARCH_SERVICE o AMAZON_EVENTBRIDGE o AMAZON_BEDROCK_RUNTIME</param>
+    /// <param name="Name">The new name for the data source. Constraints: • min: 1 • max: 65536 • pattern: [_A-Za-z][_0-9A-Za-z]*</param>
+    /// <param name="Type">The new data source type. Possible values: • AWS_LAMBDA • AMAZON_DYNAMODB • AMAZON_ELASTICSEARCH • NONE • HTTP • RELATIONAL_DATABASE • AMAZON_OPENSEARCH_SERVICE • AMAZON_EVENTBRIDGE • AMAZON_BEDROCK_RUNTIME</param>
     public AwsAppsyncUpdateDataSourceOptions(
         string ApiId,
         string Name,
@@ -70,13 +72,13 @@ public record AwsAppsyncUpdateDataSourceOptions : AwsOptions, IValidatableObject
     public string? ApiId { get; private init; }
 
     /// <summary>
-    /// The new name for the data source. Constraints: o min: 1 o max: 65536 o pattern: [_A-Za-z][_0-9A-Za-z]*
+    /// The new name for the data source. Constraints: • min: 1 • max: 65536 • pattern: [_A-Za-z][_0-9A-Za-z]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The new data source type. Possible values: o AWS_LAMBDA o AMAZON_DYNAMODB o AMAZON_ELASTICSEARCH o NONE o HTTP o RELATIONAL_DATABASE o AMAZON_OPENSEARCH_SERVICE o AMAZON_EVENTBRIDGE o AMAZON_BEDROCK_RUNTIME
+    /// The new data source type. Possible values: • AWS_LAMBDA • AMAZON_DYNAMODB • AMAZON_ELASTICSEARCH • NONE • HTTP • RELATIONAL_DATABASE • AMAZON_OPENSEARCH_SERVICE • AMAZON_EVENTBRIDGE • AMAZON_BEDROCK_RUNTIME
     /// </summary>
     [CliOption("--type")]
     public AwsAppsyncUpdateDataSourceType? Type { get; private init; }
@@ -118,13 +120,13 @@ public record AwsAppsyncUpdateDataSourceOptions : AwsOptions, IValidatableObject
     public string? OpenSearchServiceConfig { get; set; }
 
     /// <summary>
-    /// The new HTTP endpoint configuration. endpoint -&gt; (string) The HTTP URL endpoint. You can specify either the domain name or IP, and port combination, and the URL scheme must be HTTP or HTTPS. If you don't specify the port, AppSync uses the default port 80 for the HTTP endpoint and port 443 for HTTPS endpoints. authorizationConfig -&gt; (structure) The authorization configuration in case the HTTP endpoint re- quires authorization. authorizationType -&gt; (string) [required] The authorization type that the HTTP endpoint requires. o AWS_IAM : The authorization type is Signature Version 4 (SigV4). Possible values: o AWS_IAM awsIamConfig -&gt; (structure) The Identity and Access Management (IAM) settings. signingRegion -&gt; (string) The signing Amazon Web Services Region for IAM authoriza- tion. signingServiceName -&gt; (string) The signing service name for IAM authorization. Shorthand Syntax: endpoint=string,authorizationConfig={authorizationType=string,awsIamConfig={signingRegion=string,signingServiceName=string}} JSON Syntax: { "endpoint": "string", "authorizationConfig": { "authorizationType": "AWS_IAM", "awsIamConfig": { "signingRegion": "string", "signingServiceName": "string" } } }
+    /// The new HTTP endpoint configuration. endpoint -&gt; (string) The HTTP URL endpoint. You can specify either the domain name or IP, and port combination, and the URL scheme must be HTTP or HTTPS. If you don't specify the port, AppSync uses the default port 80 for the HTTP endpoint and port 443 for HTTPS endpoints. authorizationConfig -&gt; (structure) The authorization configuration in case the HTTP endpoint requires authorization. authorizationType -&gt; (string) [required] The authorization type that the HTTP endpoint requires. • AWS_IAM : The authorization type is Signature Version 4 (SigV4). Possible values: • AWS_IAM awsIamConfig -&gt; (structure) The Identity and Access Management (IAM) settings. signingRegion -&gt; (string) The signing Amazon Web Services Region for IAM authorization. signingServiceName -&gt; (string) The signing service name for IAM authorization. Shorthand Syntax: endpoint=string,authorizationConfig={authorizationType=string,awsIamConfig={signingRegion=string,signingServiceName=string}} JSON Syntax: { "endpoint": "string", "authorizationConfig": { "authorizationType": "AWS_IAM", "awsIamConfig": { "signingRegion": "string", "signingServiceName": "string" } } }
     /// </summary>
     [CliOption("--http-config")]
     public string? HttpConfig { get; set; }
 
     /// <summary>
-    /// The new relational database configuration. relationalDatabaseSourceType -&gt; (string) Source type for the relational database. o RDS_HTTP_ENDPOINT : The relational database source type is an Amazon Relational Database Service (Amazon RDS) HTTP endpoint. Possible values: o RDS_HTTP_ENDPOINT rdsHttpEndpointConfig -&gt; (structure) Amazon RDS HTTP endpoint settings. awsRegion -&gt; (string) Amazon Web Services Region for Amazon RDS HTTP endpoint. dbClusterIdentifier -&gt; (string) Amazon RDS cluster Amazon Resource Name (ARN). databaseName -&gt; (string) Logical database name. schema -&gt; (string) Logical schema name. awsSecretStoreArn -&gt; (string) Amazon Web Services secret store Amazon Resource Name (ARN) for database credentials. Shorthand Syntax: relationalDatabaseSourceType=string,rdsHttpEndpointConfig={awsRegion=string,dbClusterIdentifier=string,databaseName=string,schema=string,awsSecretStoreArn=string} JSON Syntax: { "relationalDatabaseSourceType": "RDS_HTTP_ENDPOINT", "rdsHttpEndpointConfig": { "awsRegion": "string", "dbClusterIdentifier": "string", "databaseName": "string", "schema": "string", "awsSecretStoreArn": "string" } }
+    /// The new relational database configuration. relationalDatabaseSourceType -&gt; (string) Source type for the relational database. • RDS_HTTP_ENDPOINT : The relational database source type is an Amazon Relational Database Service (Amazon RDS) HTTP endpoint. Possible values: • RDS_HTTP_ENDPOINT rdsHttpEndpointConfig -&gt; (structure) Amazon RDS HTTP endpoint settings. awsRegion -&gt; (string) Amazon Web Services Region for Amazon RDS HTTP endpoint. dbClusterIdentifier -&gt; (string) Amazon RDS cluster Amazon Resource Name (ARN). databaseName -&gt; (string) Logical database name. schema -&gt; (string) Logical schema name. awsSecretStoreArn -&gt; (string) Amazon Web Services secret store Amazon Resource Name (ARN) for database credentials. Shorthand Syntax: relationalDatabaseSourceType=string,rdsHttpEndpointConfig={awsRegion=string,dbClusterIdentifier=string,databaseName=string,schema=string,awsSecretStoreArn=string} JSON Syntax: { "relationalDatabaseSourceType": "RDS_HTTP_ENDPOINT", "rdsHttpEndpointConfig": { "awsRegion": "string", "dbClusterIdentifier": "string", "databaseName": "string", "schema": "string", "awsSecretStoreArn": "string" } }
     /// </summary>
     [CliOption("--relational-database-config")]
     public string? RelationalDatabaseConfig { get; set; }
@@ -136,7 +138,7 @@ public record AwsAppsyncUpdateDataSourceOptions : AwsOptions, IValidatableObject
     public string? EventBridgeConfig { get; set; }
 
     /// <summary>
-    /// Enables or disables enhanced data source metrics for specified data sources. Note that metricsConfig won't be used unless the data- SourceLevelMetricsBehavior value is set to PER_DATA_SOURCE_METRICS . If the dataSourceLevelMetricsBehavior is set to FULL_RE- QUEST_DATA_SOURCE_METRICS instead, metricsConfig will be ignored. However, you can still set its value. metricsConfig can be ENABLED or DISABLED . Possible values: o ENABLED o DISABLED
+    /// Enables or disables enhanced data source metrics for specified data sources. Note that metricsConfig won't be used unless the dataSourceLevelMetricsBehavior value is set to PER_DATA_SOURCE_METRICS . If the dataSourceLevelMetricsBehavior is set to FULL_REQUEST_DATA_SOURCE_METRICS instead, metricsConfig will be ignored. However, you can still set its value. metricsConfig can be ENABLED or DISABLED . Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--metrics-config")]
     public AwsAppsyncUpdateDataSourceMetricsConfig? MetricsConfig { get; set; }

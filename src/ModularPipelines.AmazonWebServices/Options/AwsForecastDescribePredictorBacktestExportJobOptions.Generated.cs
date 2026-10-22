@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes a predictor backtest export job created using the CreatePre- dictorBacktestExportJob operation. In addition to listing the properties provided by the user in the Cre- atePredictorBacktestExportJob request, this operation lists the follow- ing properties: o CreationTime o LastModificationTime o Status o Message (if an error occurred) See also: AWS API Documentation
+/// Describes a predictor backtest export job created using the CreatePredictorBacktestExportJob operation. In addition to listing the properties provided by the user in the CreatePredictorBacktestExportJob request, this operation lists the following properties: • CreationTime • LastModificationTime • Status • Message (if an error occurred) See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsForecastDescribePredictorBacktestExportJobOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes a predictor backtest export job created using the CreatePre- dictorBacktestExportJob operation. In addition to listing the properties provided by the user in the Cre- atePredictorBacktestExportJob request, this operation lists the follow- ing properties: o CreationTime o LastModificationTime o Status o Message (if an error occurred) See also: AWS API Documentation
+    /// Describes a predictor backtest export job created using the CreatePredictorBacktestExportJob operation. In addition to listing the properties provided by the user in the CreatePredictorBacktestExportJob request, this operation lists the following properties: • CreationTime • LastModificationTime • Status • Message (if an error occurred) See also: AWS API Documentation
     /// </summary>
-    /// <param name="PredictorBacktestExportJobArn">The Amazon Resource Name (ARN) of the predictor backtest export job. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    /// <param name="PredictorBacktestExportJobArn">The Amazon Resource Name (ARN) of the predictor backtest export job. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
     public AwsForecastDescribePredictorBacktestExportJobOptions(
         string PredictorBacktestExportJobArn
     )
@@ -56,7 +58,7 @@ public record AwsForecastDescribePredictorBacktestExportJobOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the predictor backtest export job. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the predictor backtest export job. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
     /// </summary>
     [CliOption("--predictor-backtest-export-job-arn")]
     public string? PredictorBacktestExportJobArn { get; private init; }

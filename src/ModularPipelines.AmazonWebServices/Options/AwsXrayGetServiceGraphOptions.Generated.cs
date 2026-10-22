@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a document that describes services that process incoming re- quests, and downstream services that they call as a result. Root ser- vices process incoming requests and make calls to downstream services. Root services are applications that use the Amazon Web Services X-Ray SDK . Downstream services can be other applications, Amazon Web Ser- vices resources, HTTP web APIs, or SQL databases. See also: AWS API Documentation get-service-graph is a paginated operation. Multiple API calls may ...
+/// Retrieves a document that describes services that process incoming requests, and downstream services that they call as a result. Root services process incoming requests and make calls to downstream services. Root services are applications that use the Amazon Web Services X-Ray SDK . Downstream services can be other applications, Amazon Web Services resources, HTTP web APIs, or SQL databases. See also: AWS API Documentation get-service-graph is a paginated operation. Multiple API calls may be iss...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +28,7 @@ public record AwsXrayGetServiceGraphOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves a document that describes services that process incoming re- quests, and downstream services that they call as a result. Root ser- vices process incoming requests and make calls to downstream services. Root services are applications that use the Amazon Web Services X-Ray SDK . Downstream services can be other applications, Amazon Web Ser- vices resources, HTTP web APIs, or SQL databases. See also: AWS API Documentation get-service-graph is a paginated operation. Multiple API calls may ...
+    /// Retrieves a document that describes services that process incoming requests, and downstream services that they call as a result. Root services process incoming requests and make calls to downstream services. Root services are applications that use the Amazon Web Services X-Ray SDK . Downstream services can be other applications, Amazon Web Services resources, HTTP web APIs, or SQL databases. See also: AWS API Documentation get-service-graph is a paginated operation. Multiple API calls may be iss...
     /// </summary>
     /// <param name="StartTime">The start of the time frame for which to generate a graph.</param>
     /// <param name="EndTime">The end of the timeframe for which to generate a graph.</param>
@@ -73,22 +75,19 @@ public record AwsXrayGetServiceGraphOptions : AwsOptions, IValidatableObject
     public string? EndTime { get; private init; }
 
     /// <summary>
-    /// The name of a group based on which you want to generate a graph. Constraints: o min: 1 o max: 32
+    /// The name of a group based on which you want to generate a graph. Constraints: • min: 1 • max: 32
     /// </summary>
     [CliOption("--group-name")]
     public string? GroupName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of a group based on which you want to generate a graph. Constraints: o min: 1 o max: 400
+    /// The Amazon Resource Name (ARN) of a group based on which you want to generate a graph. Constraints: • min: 1 • max: 400
     /// </summary>
     [CliOption("--group-arn")]
     public string? GroupArn { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -98,10 +97,13 @@ public record AwsXrayGetServiceGraphOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

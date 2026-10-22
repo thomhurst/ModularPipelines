@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Allows you to purchase a reserved cache node offering. Reserved nodes are not eligible for cancellation and are non-refundable. For more in- formation, see Managing Costs with Reserved Nodes . See also: AWS API Documentation
+/// Allows you to purchase a reserved cache node offering. Reserved nodes are not eligible for cancellation and are non-refundable. For more information, see Managing Costs with Reserved Nodes . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsElasticachePurchaseReservedCacheNodesOfferingOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Allows you to purchase a reserved cache node offering. Reserved nodes are not eligible for cancellation and are non-refundable. For more in- formation, see Managing Costs with Reserved Nodes . See also: AWS API Documentation
+    /// Allows you to purchase a reserved cache node offering. Reserved nodes are not eligible for cancellation and are non-refundable. For more information, see Managing Costs with Reserved Nodes . See also: AWS API Documentation
     /// </summary>
     /// <param name="ReservedCacheNodesOfferingId">The ID of the reserved cache node offering to purchase. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706</param>
     public AwsElasticachePurchaseReservedCacheNodesOfferingOptions(
@@ -62,7 +64,7 @@ public record AwsElasticachePurchaseReservedCacheNodesOfferingOptions : AwsOptio
     public string? ReservedCacheNodesOfferingId { get; private init; }
 
     /// <summary>
-    /// A customer-specified identifier to track this reservation. NOTE: The Reserved Cache Node ID is an unique customer-specified iden- tifier to track this reservation. If this parameter is not spec- ified, ElastiCache automatically generates an identifier for the reservation. Example: myreservationID
+    /// A customer-specified identifier to track this reservation. NOTE: The Reserved Cache Node ID is an unique customer-specified identifier to track this reservation. If this parameter is not specified, ElastiCache automatically generates an identifier for the reservation. Example: myreservationID
     /// </summary>
     [CliOption("--reserved-cache-node-id")]
     public string? ReservedCacheNodeId { get; set; }

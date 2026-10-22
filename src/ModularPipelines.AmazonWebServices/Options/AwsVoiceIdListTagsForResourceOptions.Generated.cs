@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsVoiceIdListTagsForResourceOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Lists all tags associated with a specified Voice ID resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Voice ID resource for which you want to list the tags. Constraints: o min: 1 o max: 1011 o pattern: ^arn:aws(-[^:]+)?:voiceid.+:[0-9]{12}:do- main/[a-zA-Z0-9]{22}$</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Voice ID resource for which you want to list the tags. Constraints: • min: 1 • max: 1011 • pattern: ^arn:aws(-[^:]+)?:voiceid.+:[0-9]{12}:domain/[a-zA-Z0-9]{22}$</param>
     public AwsVoiceIdListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsVoiceIdListTagsForResourceOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Voice ID resource for which you want to list the tags. Constraints: o min: 1 o max: 1011 o pattern: ^arn:aws(-[^:]+)?:voiceid.+:[0-9]{12}:do- main/[a-zA-Z0-9]{22}$
+    /// The Amazon Resource Name (ARN) of the Voice ID resource for which you want to list the tags. Constraints: • min: 1 • max: 1011 • pattern: ^arn:aws(-[^:]+)?:voiceid.+:[0-9]{12}:domain/[a-zA-Z0-9]{22}$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsQbusinessUpdatePluginOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates an Amazon Q Business plugin. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The identifier of the application the plugin is attached to. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
-    /// <param name="PluginId">The identifier of the plugin. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="ApplicationId">The identifier of the application the plugin is attached to. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="PluginId">The identifier of the plugin. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
     public AwsQbusinessUpdatePluginOptions(
         string ApplicationId,
         string PluginId
@@ -61,43 +63,43 @@ public record AwsQbusinessUpdatePluginOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the application the plugin is attached to. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The identifier of the application the plugin is attached to. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The identifier of the plugin. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The identifier of the plugin. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--plugin-id")]
     public string? PluginId { get; private init; }
 
     /// <summary>
-    /// The name of the plugin. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// The name of the plugin. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The status of the plugin. Possible values: o ENABLED o DISABLED
+    /// The status of the plugin. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--state")]
     public AwsQbusinessUpdatePluginState? State { get; set; }
 
     /// <summary>
-    /// The source URL used for plugin configuration. Constraints: o min: 1 o max: 2048 o pattern: (https?|ftp|file)://([^\s]*)
+    /// The source URL used for plugin configuration. Constraints: • min: 1 • max: 2048 • pattern: (https?|ftp|file)://([^\s]*)
     /// </summary>
     [CliOption("--server-url")]
     public string? ServerUrl { get; set; }
 
     /// <summary>
-    /// The configuration for a custom plugin. description -&gt; (string) [required] A description for your custom plugin configuration. Constraints: o min: 1 o max: 200 apiSchemaType -&gt; (string) [required] The type of OpenAPI schema to use. Possible values: o OPEN_API_V3 apiSchema -&gt; (tagged union structure) Contains either details about the S3 object containing the Ope- nAPI schema for the action group or the JSON or YAML-formatted payload defining the schema. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: payload, s3. payload -&gt; (string) The JSON or YAML-formatted payload defining the OpenAPI schema for a custom plugin. s3 -&gt; (structure) Contains details about the S3 object containing the OpenAPI schema for a custom plugin. The schema could be in either JSON or YAML format. bucket -&gt; (string) [required] The name of the S3 bucket that contains the file. Constraints: o min: 1 o max: 63 o pattern: [a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9] key -&gt; (string) [required] The name of the file. Constraints: o min: 1 o max: 1024 Shorthand Syntax: description=string,apiSchemaType=string,apiSchema={payload=string,s3={bucket=string,key=string}} JSON Syntax: { "description": "string", "apiSchemaType": "OPEN_API_V3", "apiSchema": { "payload": "string", "s3": { "bucket": "string", "key": "string" } } }
+    /// The configuration for a custom plugin. description -&gt; (string) [required] A description for your custom plugin configuration. Constraints: • min: 1 • max: 200 apiSchemaType -&gt; (string) [required] The type of OpenAPI schema to use. Possible values: • OPEN_API_V3 apiSchema -&gt; (tagged union structure) Contains either details about the S3 object containing the OpenAPI schema for the action group or the JSON or YAML-formatted payload defining the schema. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: payload, s3. payload -&gt; (string) The JSON or YAML-formatted payload defining the OpenAPI schema for a custom plugin. s3 -&gt; (structure) Contains details about the S3 object containing the OpenAPI schema for a custom plugin. The schema could be in either JSON or YAML format. bucket -&gt; (string) [required] The name of the S3 bucket that contains the file. Constraints: • min: 1 • max: 63 • pattern: [a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9] key -&gt; (string) [required] The name of the file. Constraints: • min: 1 • max: 1024 Shorthand Syntax: description=string,apiSchemaType=string,apiSchema={payload=string,s3={bucket=string,key=string}} JSON Syntax: { "description": "string", "apiSchemaType": "OPEN_API_V3", "apiSchema": { "payload": "string", "s3": { "bucket": "string", "key": "string" } } }
     /// </summary>
     [CliOption("--custom-plugin-configuration")]
     public string? CustomPluginConfiguration { get; set; }
 
     /// <summary>
-    /// The authentication configuration the plugin is using. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: basicAuthConfiguration, oAuth2ClientCre- dentialConfiguration, noAuthConfiguration, idcAuthConfiguration. basicAuthConfiguration -&gt; (structure) Information about the basic authentication credentials used to configure a plugin. secretArn -&gt; (string) [required] The ARN of the Secrets Manager secret that stores the basic authentication credentials used for plugin configuration.. Constraints: o min: 0 o max: 1284 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} roleArn -&gt; (string) [required] The ARN of an IAM role used by Amazon Q Business to access the basic authentication credentials stored in a Secrets Man- ager secret. Constraints: o min: 0 o max: 1284 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} oAuth2ClientCredentialConfiguration -&gt; (structure) Information about the OAuth 2.0 authentication credential/token used to configure a plugin. secretArn -&gt; (string) [required] The ARN of the Secrets Manager secret that stores the OAuth 2.0 credentials/token used for plugin configuration. Constraints: o min: 0 o max: 1284 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} roleArn -&gt; (string) [required] The ARN of an IAM role used by Amazon Q Business to access the OAuth 2.0 authentication credentials stored in a Secrets Manager secret. Constraints: o min: 0 o max: 1284 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} authorizationUrl -&gt; (string) The redirect URL required by the OAuth 2.0 protocol for Ama- zon Q Business to authenticate a plugin user through a third party authentication server. Constraints: o min: 1 o max: 2048 o pattern: (https?|ftp|file)://([^\s]*) tokenUrl -&gt; (string) The URL required by the OAuth 2.0 protocol to exchange an end user authorization code for an access token. Constraints: o min: 1 o max: 2048 o pattern: (https?|ftp|file)://([^\s]*) noAuthConfiguration -&gt; (structure) Information about invoking a custom plugin without any authenti- cation. idcAuthConfiguration -&gt; (structure) Information about the IAM Identity Center Application used to configure authentication for a plugin. idcApplicationArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM Identity Center Ap- plication used to configure authentication. Constraints: o min: 10 o max: 1224 o pattern: arn:[a-z0-9-\.]{1,63}:sso::\d{12}:applica- tion/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16} roleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role with permis- sions to perform actions on Amazon Web Services services on your behalf. Constraints: o min: 0 o max: 1284 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} Shorthand Syntax: basicAuthConfiguration={secretArn=string,roleArn=string},oAuth2ClientCredentialConfiguration={secretArn=string,roleArn=string,authorizationUrl=string,tokenUrl=string},noAuthConfiguration={},idcAuthConfiguration={idcApplicationArn=string,roleArn=string} JSON Syntax: { "basicAuthConfiguration": { "secretArn": "string", "roleArn": "string" }, "oAuth2ClientCredentialConfiguration": { "secretArn": "string", "roleArn": "string", "authorizationUrl": "string", "tokenUrl": "string" }, "noAuthConfiguration": { }, "idcAuthConfiguration": { "idcApplicationArn": "string", "roleArn": "string" } }
+    /// The authentication configuration the plugin is using. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: basicAuthConfiguration, oAuth2ClientCredentialConfiguration, noAuthConfiguration, idcAuthConfiguration. basicAuthConfiguration -&gt; (structure) Information about the basic authentication credentials used to configure a plugin. secretArn -&gt; (string) [required] The ARN of the Secrets Manager secret that stores the basic authentication credentials used for plugin configuration.. Constraints: • min: 0 • max: 1284 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} roleArn -&gt; (string) [required] The ARN of an IAM role used by Amazon Q Business to access the basic authentication credentials stored in a Secrets Manager secret. Constraints: • min: 0 • max: 1284 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} oAuth2ClientCredentialConfiguration -&gt; (structure) Information about the OAuth 2.0 authentication credential/token used to configure a plugin. secretArn -&gt; (string) [required] The ARN of the Secrets Manager secret that stores the OAuth 2.0 credentials/token used for plugin configuration. Constraints: • min: 0 • max: 1284 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} roleArn -&gt; (string) [required] The ARN of an IAM role used by Amazon Q Business to access the OAuth 2.0 authentication credentials stored in a Secrets Manager secret. Constraints: • min: 0 • max: 1284 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} authorizationUrl -&gt; (string) The redirect URL required by the OAuth 2.0 protocol for Amazon Q Business to authenticate a plugin user through a third party authentication server. Constraints: • min: 1 • max: 2048 • pattern: (https?|ftp|file)://([^\s]*) tokenUrl -&gt; (string) The URL required by the OAuth 2.0 protocol to exchange an end user authorization code for an access token. Constraints: • min: 1 • max: 2048 • pattern: (https?|ftp|file)://([^\s]*) noAuthConfiguration -&gt; (structure) Information about invoking a custom plugin without any authentication. idcAuthConfiguration -&gt; (structure) Information about the IAM Identity Center Application used to configure authentication for a plugin. idcApplicationArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM Identity Center Application used to configure authentication. Constraints: • min: 10 • max: 1224 • pattern: arn:[a-z0-9-\.]{1,63}:sso::\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16} roleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role with permissions to perform actions on Amazon Web Services services on your behalf. Constraints: • min: 0 • max: 1284 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} Shorthand Syntax: basicAuthConfiguration={secretArn=string,roleArn=string},oAuth2ClientCredentialConfiguration={secretArn=string,roleArn=string,authorizationUrl=string,tokenUrl=string},noAuthConfiguration={},idcAuthConfiguration={idcApplicationArn=string,roleArn=string} JSON Syntax: { "basicAuthConfiguration": { "secretArn": "string", "roleArn": "string" }, "oAuth2ClientCredentialConfiguration": { "secretArn": "string", "roleArn": "string", "authorizationUrl": "string", "tokenUrl": "string" }, "noAuthConfiguration": { }, "idcAuthConfiguration": { "idcApplicationArn": "string", "roleArn": "string" } }
     /// </summary>
     [CliOption("--auth-configuration")]
     public string? AuthConfiguration { get; set; }

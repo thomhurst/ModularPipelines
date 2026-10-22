@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Assigns one or more tags (key-value pairs) to the specified Amazon Lo- cation Service resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with an Amazon Location Service resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the tags already associated with t...
+/// Assigns one or more tags (key-value pairs) to the specified Amazon Location Service resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with an Amazon Location Service resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the tags already associated with the...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsLocationTagResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Assigns one or more tags (key-value pairs) to the specified Amazon Lo- cation Service resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with an Amazon Location Service resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the tags already associated with t...
+    /// Assigns one or more tags (key-value pairs) to the specified Amazon Location Service resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with an Amazon Location Service resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the tags already associated with the...
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource whose tags you want to update. o Format example: arn:aws:geo:region:account-id:resourcetype/Exam- pleResource Constraints: o min: 0 o max: 1600 o pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:([^/].*)?</param>
-    /// <param name="Tags">Applies one or more tags to specific resource. A tag is a key-value pair that helps you manage, identify, search, and filter your re- sources. Format: "key" : "value" Restrictions: o Maximum 50 tags per resource. o Each tag key must be unique and must have exactly one associated value. o Maximum key length: 128 Unicode characters in UTF-8. o Maximum value length: 256 Unicode characters in UTF-8. o Can use alphanumeric characters (AZ, az, 09), and the following characters: + - = . _ : / @ o Cannot use "aws:" as a prefix for a key. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.,:/=+\-@]*) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.,:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource whose tags you want to update. • Format example: arn:aws:geo:region:account-id:resourcetype/ExampleResource Constraints: • min: 0 • max: 1600 • pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:([^/].*)?</param>
+    /// <param name="Tags">Applies one or more tags to specific resource. A tag is a key-value pair that helps you manage, identify, search, and filter your resources. Format: "key" : "value" Restrictions: • Maximum 50 tags per resource. • Each tag key must be unique and must have exactly one associated value. • Maximum key length: 128 Unicode characters in UTF-8. • Maximum value length: 256 Unicode characters in UTF-8. • Can use alphanumeric characters (AZ, az, 09), and the following characters: + - = . _ : / @ • Cannot use "aws:" as a prefix for a key. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.,:/=+\-@]*) value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.,:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsLocationTagResourceOptions(
         string ResourceArn,
         IReadOnlyList<KeyValue> Tags
@@ -72,13 +73,13 @@ public record AwsLocationTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource whose tags you want to update. o Format example: arn:aws:geo:region:account-id:resourcetype/Exam- pleResource Constraints: o min: 0 o max: 1600 o pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:([^/].*)?
+    /// The Amazon Resource Name (ARN) of the resource whose tags you want to update. • Format example: arn:aws:geo:region:account-id:resourcetype/ExampleResource Constraints: • min: 0 • max: 1600 • pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:([^/].*)?
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Applies one or more tags to specific resource. A tag is a key-value pair that helps you manage, identify, search, and filter your re- sources. Format: "key" : "value" Restrictions: o Maximum 50 tags per resource. o Each tag key must be unique and must have exactly one associated value. o Maximum key length: 128 Unicode characters in UTF-8. o Maximum value length: 256 Unicode characters in UTF-8. o Can use alphanumeric characters (AZ, az, 09), and the following characters: + - = . _ : / @ o Cannot use "aws:" as a prefix for a key. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.,:/=+\-@]*) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.,:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Applies one or more tags to specific resource. A tag is a key-value pair that helps you manage, identify, search, and filter your resources. Format: "key" : "value" Restrictions: • Maximum 50 tags per resource. • Each tag key must be unique and must have exactly one associated value. • Maximum key length: 128 Unicode characters in UTF-8. • Maximum value length: 256 Unicode characters in UTF-8. • Can use alphanumeric characters (AZ, az, 09), and the following characters: + - = . _ : / @ • Cannot use "aws:" as a prefix for a key. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.,:/=+\-@]*) value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.,:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; private init; }

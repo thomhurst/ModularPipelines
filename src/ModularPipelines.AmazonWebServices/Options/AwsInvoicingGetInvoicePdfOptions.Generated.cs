@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a URL to download the invoice document and supplemental docu- ments associated with an invoice. The URLs are pre-signed and have ex- piration time. For special cases like Brazil, where Amazon Web Services generated invoice identifiers and government provided identifiers do not match, use the Amazon Web Services generated invoice identifier when making API requests. To grant IAM permission to use this opera- tion, the caller needs the invoicing:GetInvoicePDF policy action. See also: AWS A...
+/// Returns a URL to download the invoice document and supplemental documents associated with an invoice. The URLs are pre-signed and have expiration time. For special cases like Brazil, where Amazon Web Services generated invoice identifiers and government provided identifiers do not match, use the Amazon Web Services generated invoice identifier when making API requests. To grant IAM permission to use this operation, the caller needs the invoicing:GetInvoicePDF policy action. See also: AWS API Doc...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsInvoicingGetInvoicePdfOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a URL to download the invoice document and supplemental docu- ments associated with an invoice. The URLs are pre-signed and have ex- piration time. For special cases like Brazil, where Amazon Web Services generated invoice identifiers and government provided identifiers do not match, use the Amazon Web Services generated invoice identifier when making API requests. To grant IAM permission to use this opera- tion, the caller needs the invoicing:GetInvoicePDF policy action. See also: AWS A...
+    /// Returns a URL to download the invoice document and supplemental documents associated with an invoice. The URLs are pre-signed and have expiration time. For special cases like Brazil, where Amazon Web Services generated invoice identifiers and government provided identifiers do not match, use the Amazon Web Services generated invoice identifier when making API requests. To grant IAM permission to use this operation, the caller needs the invoicing:GetInvoicePDF policy action. See also: AWS API Doc...
     /// </summary>
-    /// <param name="InvoiceId">Your unique invoice ID. Constraints: o min: 0 o max: 1024 o pattern: .*</param>
+    /// <param name="InvoiceId">Your unique invoice ID. Constraints: • min: 0 • max: 1024 • pattern: .*</param>
     public AwsInvoicingGetInvoicePdfOptions(
         string InvoiceId
     )
@@ -56,7 +58,7 @@ public record AwsInvoicingGetInvoicePdfOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Your unique invoice ID. Constraints: o min: 0 o max: 1024 o pattern: .*
+    /// Your unique invoice ID. Constraints: • min: 0 • max: 1024 • pattern: .*
     /// </summary>
     [CliOption("--invoice-id")]
     public string? InvoiceId { get; private init; }

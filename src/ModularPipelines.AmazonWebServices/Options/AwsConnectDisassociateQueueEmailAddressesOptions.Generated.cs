@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the association between a set of email addresses and a queue. After disassociation, agents will no longer be able to select these email addresses as "From" addresses when replying to inbound email con- tacts or initiating outbound email contacts in this queue. Important things to know o Agents will no longer see these email addresses in their "From" ad- dress selection options for this queue. o The email addresses themselves are not deleted from the instance, only their availability for ...
+/// Removes the association between a set of email addresses and a queue. After disassociation, agents will no longer be able to select these email addresses as "From" addresses when replying to inbound email contacts or initiating outbound email contacts in this queue. Important things to know • Agents will no longer see these email addresses in their "From" address selection options for this queue. • The email addresses themselves are not deleted from the instance, only their availability for agen...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsConnectDisassociateQueueEmailAddressesOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the association between a set of email addresses and a queue. After disassociation, agents will no longer be able to select these email addresses as "From" addresses when replying to inbound email con- tacts or initiating outbound email contacts in this queue. Important things to know o Agents will no longer see these email addresses in their "From" ad- dress selection options for this queue. o The email addresses themselves are not deleted from the instance, only their availability for ...
+    /// Removes the association between a set of email addresses and a queue. After disassociation, agents will no longer be able to select these email addresses as "From" addresses when replying to inbound email contacts or initiating outbound email contacts in this queue. Important things to know • Agents will no longer see these email addresses in their "From" address selection options for this queue. • The email addresses themselves are not deleted from the instance, only their availability for agen...
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     /// <param name="QueueId">The identifier for the queue.</param>
-    /// <param name="EmailAddressesId">List of email address identifiers to disassociate from the queue. These are the unique identifiers of email addresses that should no longer be routed to this queue. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 500 Syntax: "string" "string" ...</param>
+    /// <param name="EmailAddressesId">List of email address identifiers to disassociate from the queue. These are the unique identifiers of email addresses that should no longer be routed to this queue. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 500 Syntax: "string" "string" ...</param>
     public AwsConnectDisassociateQueueEmailAddressesOptions(
         string InstanceId,
         string QueueId,
@@ -76,7 +78,7 @@ public record AwsConnectDisassociateQueueEmailAddressesOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
@@ -88,13 +90,13 @@ public record AwsConnectDisassociateQueueEmailAddressesOptions : AwsOptions, IVa
     public string? QueueId { get; private init; }
 
     /// <summary>
-    /// List of email address identifiers to disassociate from the queue. These are the unique identifiers of email addresses that should no longer be routed to this queue. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 500 Syntax: "string" "string" ...
+    /// List of email address identifiers to disassociate from the queue. These are the unique identifiers of email addresses that should no longer be routed to this queue. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 500 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--email-addresses-id", GroupValues = true)]
     public IEnumerable<string>? EmailAddressesId { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

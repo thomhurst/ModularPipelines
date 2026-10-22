@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the stack instance that's associated with the specified Stack- Set, Amazon Web Services account, and Amazon Web Services Region. For a list of stack instances that are associated with a specific StackSet, use ListStackInstances . See also: AWS API Documentation
+/// Returns the stack instance that's associated with the specified StackSet, Amazon Web Services account, and Amazon Web Services Region. For a list of stack instances that are associated with a specific StackSet, use ListStackInstances . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsCloudformationDescribeStackInstanceOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the stack instance that's associated with the specified Stack- Set, Amazon Web Services account, and Amazon Web Services Region. For a list of stack instances that are associated with a specific StackSet, use ListStackInstances . See also: AWS API Documentation
+    /// Returns the stack instance that's associated with the specified StackSet, Amazon Web Services account, and Amazon Web Services Region. For a list of stack instances that are associated with a specific StackSet, use ListStackInstances . See also: AWS API Documentation
     /// </summary>
     /// <param name="StackSetName">The name or the unique stack ID of the StackSet that you want to get stack instance information for.</param>
-    /// <param name="StackInstanceAccount">The ID of an Amazon Web Services account that's associated with this stack instance. Constraints: o pattern: ^[0-9]{12}$</param>
-    /// <param name="StackInstanceRegion">The name of a Region that's associated with this stack instance. Constraints: o pattern: ^[a-zA-Z0-9-]{1,128}$</param>
+    /// <param name="StackInstanceAccount">The ID of an Amazon Web Services account that's associated with this stack instance. Constraints: • pattern: ^[0-9]{12}$</param>
+    /// <param name="StackInstanceRegion">The name of a Region that's associated with this stack instance. Constraints: • pattern: ^[a-zA-Z0-9-]{1,128}$</param>
     public AwsCloudformationDescribeStackInstanceOptions(
         string StackSetName,
         string StackInstanceAccount,
@@ -71,19 +73,19 @@ public record AwsCloudformationDescribeStackInstanceOptions : AwsOptions, IValid
     public string? StackSetName { get; private init; }
 
     /// <summary>
-    /// The ID of an Amazon Web Services account that's associated with this stack instance. Constraints: o pattern: ^[0-9]{12}$
+    /// The ID of an Amazon Web Services account that's associated with this stack instance. Constraints: • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--stack-instance-account")]
     public string? StackInstanceAccount { get; private init; }
 
     /// <summary>
-    /// The name of a Region that's associated with this stack instance. Constraints: o pattern: ^[a-zA-Z0-9-]{1,128}$
+    /// The name of a Region that's associated with this stack instance. Constraints: • pattern: ^[a-zA-Z0-9-]{1,128}$
     /// </summary>
     [CliOption("--stack-instance-region")]
     public string? StackInstanceRegion { get; private init; }
 
     /// <summary>
-    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-man- aged permissions. o If you are signed in to the management account, specify SELF . o If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN . Your Amazon Web Services account must be regis- tered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide . Possible values: o SELF o DELEGATED_ADMIN
+    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-managed permissions. • If you are signed in to the management account, specify SELF . • If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN . Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide . Possible values: • SELF • DELEGATED_ADMIN
     /// </summary>
     [CliOption("--call-as")]
     public AwsCloudformationDescribeStackInstanceCallAs? CallAs { get; set; }

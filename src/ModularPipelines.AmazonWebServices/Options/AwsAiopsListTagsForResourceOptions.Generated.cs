@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAiopsListTagsForResourceOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Displays the tags associated with a CloudWatch investigations resource. Currently, investigation groups support tagging. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the CloudWatch investigations resource that you want to view tags for. You can use the ListInvestigationGroups operation to find the ARNs of investigation groups. The ARN format for an investigation group is `` arn:aws:aiops:Region :account-id :investigation-group:investiga- tion-group-id `` . System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string.</param>
+    /// <param name="ResourceArn">The ARN of the CloudWatch investigations resource that you want to view tags for. You can use the ListInvestigationGroups operation to find the ARNs of investigation groups. The ARN format for an investigation group is `` arn:aws:aiops:Region :account-id :investigation-group:investigation-group-id `` . System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string.</param>
     public AwsAiopsListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsAiopsListTagsForResourceOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the CloudWatch investigations resource that you want to view tags for. You can use the ListInvestigationGroups operation to find the ARNs of investigation groups. The ARN format for an investigation group is `` arn:aws:aiops:Region :account-id :investigation-group:investiga- tion-group-id `` . System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string.
+    /// The ARN of the CloudWatch investigations resource that you want to view tags for. You can use the ListInvestigationGroups operation to find the ARNs of investigation groups. The ARN format for an investigation group is `` arn:aws:aiops:Region :account-id :investigation-group:investigation-group-id `` . System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string.
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

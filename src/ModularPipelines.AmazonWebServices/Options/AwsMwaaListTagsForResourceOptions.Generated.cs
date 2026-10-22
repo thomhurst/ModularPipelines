@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the key-value tag pairs associated to the Amazon Managed Work- flows for Apache Airflow (MWAA) environment. For example, "Environ- ment": "Staging" . See also: AWS API Documentation
+/// Lists the key-value tag pairs associated to the Amazon Managed Workflows for Apache Airflow (MWAA) environment. For example, "Environment": "Staging" . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsMwaaListTagsForResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the key-value tag pairs associated to the Amazon Managed Work- flows for Apache Airflow (MWAA) environment. For example, "Environ- ment": "Staging" . See also: AWS API Documentation
+    /// Lists the key-value tag pairs associated to the Amazon Managed Workflows for Apache Airflow (MWAA) environment. For example, "Environment": "Staging" . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Amazon MWAA environment. For example, arn:aws:airflow:us-east-1:123456789012:environ- ment/MyMWAAEnvironment . Constraints: o min: 1 o max: 1224 o pattern: arn:aws(-[a-z]+)?:airflow:[a-z0-9\-]+:\d{12}:environ- ment/\w+.*</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Amazon MWAA environment. For example, arn:aws:airflow:us-east-1:123456789012:environment/MyMWAAEnvironment . Constraints: • min: 1 • max: 1224 • pattern: arn:aws(-[a-z]+)?:airflow:[a-z0-9\-]+:\d{12}:environment/\w+.*</param>
     public AwsMwaaListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsMwaaListTagsForResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Amazon MWAA environment. For example, arn:aws:airflow:us-east-1:123456789012:environ- ment/MyMWAAEnvironment . Constraints: o min: 1 o max: 1224 o pattern: arn:aws(-[a-z]+)?:airflow:[a-z0-9\-]+:\d{12}:environ- ment/\w+.*
+    /// The Amazon Resource Name (ARN) of the Amazon MWAA environment. For example, arn:aws:airflow:us-east-1:123456789012:environment/MyMWAAEnvironment . Constraints: • min: 1 • max: 1224 • pattern: arn:aws(-[a-z]+)?:airflow:[a-z0-9\-]+:\d{12}:environment/\w+.*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

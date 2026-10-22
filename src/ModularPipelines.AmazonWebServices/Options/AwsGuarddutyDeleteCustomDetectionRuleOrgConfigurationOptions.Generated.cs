@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsGuarddutyDeleteCustomDetectionRuleOrgConfigurationOptions : Aws
     /// <summary>
     /// Deletes the organization-level configuration for a custom detection rule. This operation is available only to the delegated administrator account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RuleId">The unique identifier for the custom detection rule. Constraints: o min: 1 o max: 100 o pattern: [a-z0-9]+(-[a-z0-9]+)*</param>
-    /// <param name="Mode">The execution mode of the organization configuration to delete. Valid values: LIVE | DRY_RUN . Possible values: o LIVE o DRY_RUN</param>
+    /// <param name="RuleId">The unique identifier for the custom detection rule. Constraints: • min: 1 • max: 100 • pattern: [a-z0-9]+(-[a-z0-9]+)*</param>
+    /// <param name="Mode">The execution mode of the organization configuration to delete. Valid values: LIVE | DRY_RUN . Possible values: • LIVE • DRY_RUN</param>
     public AwsGuarddutyDeleteCustomDetectionRuleOrgConfigurationOptions(
         string RuleId,
         string Mode
@@ -60,13 +62,13 @@ public record AwsGuarddutyDeleteCustomDetectionRuleOrgConfigurationOptions : Aws
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the custom detection rule. Constraints: o min: 1 o max: 100 o pattern: [a-z0-9]+(-[a-z0-9]+)*
+    /// The unique identifier for the custom detection rule. Constraints: • min: 1 • max: 100 • pattern: [a-z0-9]+(-[a-z0-9]+)*
     /// </summary>
     [CliOption("--rule-id")]
     public string? RuleId { get; private init; }
 
     /// <summary>
-    /// The execution mode of the organization configuration to delete. Valid values: LIVE | DRY_RUN . Possible values: o LIVE o DRY_RUN
+    /// The execution mode of the organization configuration to delete. Valid values: LIVE | DRY_RUN . Possible values: • LIVE • DRY_RUN
     /// </summary>
     [CliOption("--mode")]
     public string? Mode { get; private init; }

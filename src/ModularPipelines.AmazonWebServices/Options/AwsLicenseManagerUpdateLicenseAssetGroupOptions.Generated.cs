@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +31,8 @@ public record AwsLicenseManagerUpdateLicenseAssetGroupOptions : AwsOptions, IVal
     /// <summary>
     /// Updates a license asset group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssociatedLicenseAssetRulesetArns">ARNs of associated license asset rulesets. (string) Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ Syntax: "string" "string" ...</param>
-    /// <param name="LicenseAssetGroupArn">Amazon Resource Name (ARN) of the license asset group. Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$</param>
+    /// <param name="AssociatedLicenseAssetRulesetArns">ARNs of associated license asset rulesets. (string) Constraints: • max: 2048 • pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ Syntax: "string" "string" ...</param>
+    /// <param name="LicenseAssetGroupArn">Amazon Resource Name (ARN) of the license asset group. Constraints: • max: 2048 • pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$</param>
     /// <param name="ClientToken">Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.</param>
     public AwsLicenseManagerUpdateLicenseAssetGroupOptions(
         IEnumerable<string> AssociatedLicenseAssetRulesetArns,
@@ -77,13 +79,13 @@ public record AwsLicenseManagerUpdateLicenseAssetGroupOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARNs of associated license asset rulesets. (string) Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ Syntax: "string" "string" ...
+    /// ARNs of associated license asset rulesets. (string) Constraints: • max: 2048 • pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--associated-license-asset-ruleset-arns", GroupValues = true)]
     public IEnumerable<string>? AssociatedLicenseAssetRulesetArns { get; private init; }
 
     /// <summary>
-    /// Amazon Resource Name (ARN) of the license asset group. Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$
+    /// Amazon Resource Name (ARN) of the license asset group. Constraints: • max: 2048 • pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$
     /// </summary>
     [CliOption("--license-asset-group-arn")]
     public string? LicenseAssetGroupArn { get; private init; }
@@ -96,13 +98,13 @@ public record AwsLicenseManagerUpdateLicenseAssetGroupOptions : AwsOptions, IVal
     public string? ClientToken { get; private init; }
 
     /// <summary>
-    /// License asset group name. Constraints: o max: 128
+    /// License asset group name. Constraints: • max: 128
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// License asset group description. Constraints: o max: 1024
+    /// License asset group description. Constraints: • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -120,7 +122,7 @@ public record AwsLicenseManagerUpdateLicenseAssetGroupOptions : AwsOptions, IVal
     public IEnumerable<string>? Properties { get; set; }
 
     /// <summary>
-    /// License asset group status. The possible values are ACTIVE | DIS- ABLED . Possible values: o ACTIVE o DISABLED o DELETED
+    /// License asset group status. The possible values are ACTIVE | DISABLED . Possible values: • ACTIVE • DISABLED • DELETED
     /// </summary>
     [CliOption("--status")]
     public AwsLicenseManagerUpdateLicenseAssetGroupStatus? Status { get; set; }

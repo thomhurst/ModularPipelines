@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAppConfigUpdateApplicationOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Updates an application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The application ID. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ApplicationId">The application ID. Constraints: • min: 1 • max: 64</param>
     public AwsAppConfigUpdateApplicationOptions(
         string ApplicationId
     )
@@ -56,19 +58,19 @@ public record AwsAppConfigUpdateApplicationOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The application ID. Constraints: o min: 1 o max: 64
+    /// The application ID. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The name of the application. Constraints: o min: 1 o max: 64
+    /// The name of the application. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A description of the application. Constraints: o min: 0 o max: 1024
+    /// A description of the application. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the association of tags from a DAX resource. You can call Unta- gResource up to 5 times per second, per account. See also: AWS API Documentation
+/// Removes the association of tags from a DAX resource. You can call UntagResource up to 5 times per second, per account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsDaxUntagResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the association of tags from a DAX resource. You can call Unta- gResource up to 5 times per second, per account. See also: AWS API Documentation
+    /// Removes the association of tags from a DAX resource. You can call UntagResource up to 5 times per second, per account. See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceName">The name of the DAX resource from which the tags should be removed.</param>
     /// <param name="TagKeys">A list of tag keys. If the DAX cluster has any tags with these keys, then the tags are removed from the cluster. (string) Syntax: "string" "string" ...</param>

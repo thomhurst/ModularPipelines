@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -30,7 +31,7 @@ public record AwsCodeguruprofilerCreateProfilingGroupOptions : AwsOptions, IVali
     /// <summary>
     /// Creates a profiling group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfilingGroupName">The name of the profiling group to create. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$</param>
+    /// <param name="ProfilingGroupName">The name of the profiling group to create. Constraints: • min: 1 • max: 255 • pattern: ^[\w-]+$</param>
     public AwsCodeguruprofilerCreateProfilingGroupOptions(
         string ProfilingGroupName
     )
@@ -59,7 +60,7 @@ public record AwsCodeguruprofilerCreateProfilingGroupOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the profiling group to create. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$
+    /// The name of the profiling group to create. Constraints: • min: 1 • max: 255 • pattern: ^[\w-]+$
     /// </summary>
     [CliOption("--profiling-group-name")]
     public string? ProfilingGroupName { get; private init; }
@@ -71,14 +72,14 @@ public record AwsCodeguruprofilerCreateProfilingGroupOptions : AwsOptions, IVali
     public string? AgentOrchestrationConfig { get; set; }
 
     /// <summary>
-    /// Amazon CodeGuru Profiler uses this universally unique identifier (UUID) to prevent the accidental creation of duplicate profiling groups if there are failures and retries. Constraints: o min: 1 o max: 64 o pattern: ^[\w-]+$
+    /// Amazon CodeGuru Profiler uses this universally unique identifier (UUID) to prevent the accidental creation of duplicate profiling groups if there are failures and retries. Constraints: • min: 1 • max: 64 • pattern: ^[\w-]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The compute platform of the profiling group. Use AWSLambda if your application runs on AWS Lambda. Use Default if your application runs on a compute platform that is not AWS Lambda, such an Amazon EC2 in- stance, an on-premises server, or a different platform. If not spec- ified, Default is used. Possible values: o Default o AWSLambda
+    /// The compute platform of the profiling group. Use AWSLambda if your application runs on AWS Lambda. Use Default if your application runs on a compute platform that is not AWS Lambda, such an Amazon EC2 instance, an on-premises server, or a different platform. If not specified, Default is used. Possible values: • Default • AWSLambda
     /// </summary>
     [CliOption("--compute-platform")]
     public AwsCodeguruprofilerCreateProfilingGroupComputePlatform? ComputePlatform { get; set; }

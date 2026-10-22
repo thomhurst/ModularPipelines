@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAppflowUnregisterConnectorOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Unregisters the custom connector registered in your account that matches the connector label provided in the request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectorLabel">The label of the connector. The label is unique for each Connector- Registration in your Amazon Web Services account. Constraints: o max: 256 o pattern: [a-zA-Z0-9][\w!@#.-]+</param>
+    /// <param name="ConnectorLabel">The label of the connector. The label is unique for each ConnectorRegistration in your Amazon Web Services account. Constraints: • max: 256 • pattern: [a-zA-Z0-9][\w!@#.-]+</param>
     public AwsAppflowUnregisterConnectorOptions(
         string ConnectorLabel
     )
@@ -56,7 +58,7 @@ public record AwsAppflowUnregisterConnectorOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The label of the connector. The label is unique for each Connector- Registration in your Amazon Web Services account. Constraints: o max: 256 o pattern: [a-zA-Z0-9][\w!@#.-]+
+    /// The label of the connector. The label is unique for each ConnectorRegistration in your Amazon Web Services account. Constraints: • max: 256 • pattern: [a-zA-Z0-9][\w!@#.-]+
     /// </summary>
     [CliOption("--connector-label")]
     public string? ConnectorLabel { get; private init; }

@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a list that describes one or more application fleet associa- tions. Either ApplicationArn or FleetName must be specified. See also: AWS API Documentation
+/// Retrieves a list that describes one or more application fleet associations. Either ApplicationArn or FleetName must be specified. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsAppstreamDescribeApplicationFleetAssociationsOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the fleet. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// The name of the fleet. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
     /// </summary>
     [CliOption("--fleet-name")]
     public string? FleetName { get; set; }
 
     /// <summary>
-    /// The ARN of the application. Constraints: o pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$
+    /// The ARN of the application. Constraints: • pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$
     /// </summary>
     [CliOption("--application-arn")]
     public string? ApplicationArn { get; set; }
@@ -41,7 +41,7 @@ public record AwsAppstreamDescribeApplicationFleetAssociationsOptions : AwsOptio
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The pagination token used to retrieve the next page of results for this operation. Constraints: o min: 1
+    /// The pagination token used to retrieve the next page of results for this operation. Constraints: • min: 1
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

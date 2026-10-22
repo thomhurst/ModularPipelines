@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsRdsCopyOptionGroupOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Copies the specified option group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceOptionGroupIdentifier">The identifier for the source option group. Constraints: o Must specify a valid option group.</param>
-    /// <param name="TargetOptionGroupIdentifier">The identifier for the copied option group. Constraints: o Can't be null, empty, or blank o Must contain from 1 to 255 letters, numbers, or hyphens o First character must be a letter o Can't end with a hyphen or contain two consecutive hyphens Example: my-option-group</param>
+    /// <param name="SourceOptionGroupIdentifier">The identifier for the source option group. Constraints: • Must specify a valid option group.</param>
+    /// <param name="TargetOptionGroupIdentifier">The identifier for the copied option group. Constraints: • Can't be null, empty, or blank • Must contain from 1 to 255 letters, numbers, or hyphens • First character must be a letter • Can't end with a hyphen or contain two consecutive hyphens Example: my-option-group</param>
     /// <param name="TargetOptionGroupDescription">The description for the copied option group.</param>
     public AwsRdsCopyOptionGroupOptions(
         string SourceOptionGroupIdentifier,
@@ -64,13 +66,13 @@ public record AwsRdsCopyOptionGroupOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the source option group. Constraints: o Must specify a valid option group.
+    /// The identifier for the source option group. Constraints: • Must specify a valid option group.
     /// </summary>
     [CliOption("--source-option-group-identifier")]
     public string? SourceOptionGroupIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier for the copied option group. Constraints: o Can't be null, empty, or blank o Must contain from 1 to 255 letters, numbers, or hyphens o First character must be a letter o Can't end with a hyphen or contain two consecutive hyphens Example: my-option-group
+    /// The identifier for the copied option group. Constraints: • Can't be null, empty, or blank • Must contain from 1 to 255 letters, numbers, or hyphens • First character must be a letter • Can't end with a hyphen or contain two consecutive hyphens Example: my-option-group
     /// </summary>
     [CliOption("--target-option-group-identifier")]
     public string? TargetOptionGroupIdentifier { get; private init; }

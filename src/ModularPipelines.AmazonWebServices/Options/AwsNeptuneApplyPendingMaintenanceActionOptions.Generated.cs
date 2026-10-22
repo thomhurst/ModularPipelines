@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -30,7 +32,7 @@ public record AwsNeptuneApplyPendingMaintenanceActionOptions : AwsOptions, IVali
     /// </summary>
     /// <param name="ResourceIdentifier">The Amazon Resource Name (ARN) of the resource that the pending maintenance action applies to. For information about creating an ARN, see Constructing an Amazon Resource Name (ARN) .</param>
     /// <param name="ApplyAction">The pending maintenance action to apply to this resource. Valid values: system-update , db-upgrade</param>
-    /// <param name="OptInType">A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in request of type immediate can't be undone. Valid values: o immediate - Apply the maintenance action immediately. o next-maintenance - Apply the maintenance action during the next maintenance window for the resource. o undo-opt-in - Cancel any existing next-maintenance opt-in re- quests.</param>
+    /// <param name="OptInType">A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in request of type immediate can't be undone. Valid values: • immediate - Apply the maintenance action immediately. • next-maintenance - Apply the maintenance action during the next maintenance window for the resource. • undo-opt-in - Cancel any existing next-maintenance opt-in requests.</param>
     public AwsNeptuneApplyPendingMaintenanceActionOptions(
         string ResourceIdentifier,
         AwsNeptuneApplyPendingMaintenanceActionApplyAction ApplyAction,
@@ -76,7 +78,7 @@ public record AwsNeptuneApplyPendingMaintenanceActionOptions : AwsOptions, IVali
     public AwsNeptuneApplyPendingMaintenanceActionApplyAction? ApplyAction { get; private init; }
 
     /// <summary>
-    /// A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in request of type immediate can't be undone. Valid values: o immediate - Apply the maintenance action immediately. o next-maintenance - Apply the maintenance action during the next maintenance window for the resource. o undo-opt-in - Cancel any existing next-maintenance opt-in re- quests.
+    /// A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in request of type immediate can't be undone. Valid values: • immediate - Apply the maintenance action immediately. • next-maintenance - Apply the maintenance action during the next maintenance window for the resource. • undo-opt-in - Cancel any existing next-maintenance opt-in requests.
     /// </summary>
     [CliOption("--opt-in-type")]
     public string? OptInType { get; private init; }

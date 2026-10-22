@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new dashboard within a space. Use GetOmniDashboard and ListOmniDashboards to retrieve dashboards, Up- dateOmniDashboard to modify one, and DeleteOmniDashboard to remove it. See also: AWS API Documentation
+/// Creates a new dashboard within a space. Use GetOmniDashboard and ListOmniDashboards to retrieve dashboards, UpdateOmniDashboard to modify one, and DeleteOmniDashboard to remove it. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsCloudwatchomniCreateOmniDashboardOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new dashboard within a space. Use GetOmniDashboard and ListOmniDashboards to retrieve dashboards, Up- dateOmniDashboard to modify one, and DeleteOmniDashboard to remove it. See also: AWS API Documentation
+    /// Creates a new dashboard within a space. Use GetOmniDashboard and ListOmniDashboards to retrieve dashboards, UpdateOmniDashboard to modify one, and DeleteOmniDashboard to remove it. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SpaceId">The unique ID of the space to create the dashboard in. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="Name">A name that identifies the dashboard. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.@~()-]+</param>
-    /// <param name="Body">The dashboard definition, as a JSON document. Maximum 1 MiB. Constraints: o min: 1 o max: 1048576</param>
+    /// <param name="SpaceId">The unique ID of the space to create the dashboard in. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="Name">A name that identifies the dashboard. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_.@~()-]+</param>
+    /// <param name="Body">The dashboard definition, as a JSON document. Maximum 1 MiB. Constraints: • min: 1 • max: 1048576</param>
     public AwsCloudwatchomniCreateOmniDashboardOptions(
         string SpaceId,
         string Name,
@@ -66,37 +67,37 @@ public record AwsCloudwatchomniCreateOmniDashboardOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the space to create the dashboard in. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique ID of the space to create the dashboard in. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--space-id")]
     public string? SpaceId { get; private init; }
 
     /// <summary>
-    /// A name that identifies the dashboard. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.@~()-]+
+    /// A name that identifies the dashboard. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_.@~()-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The dashboard definition, as a JSON document. Maximum 1 MiB. Constraints: o min: 1 o max: 1048576
+    /// The dashboard definition, as a JSON document. Maximum 1 MiB. Constraints: • min: 1 • max: 1048576
     /// </summary>
     [CliOption("--body")]
     public string? Body { get; private init; }
 
     /// <summary>
-    /// An optional description of the dashboard. Constraints: o min: 1 o max: 1024
+    /// An optional description of the dashboard. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The tags to associate with the dashboard. Constraints: o min: 0 o max: 50 key -&gt; (string) Tag key. Must be non-empty; AWS-standard maximum length. Con- straining the key (rather than a bare String) rejects empty-key payloads at the edge with a 400 ValidationException instead of faulting downstream as a 500. Constraints: o min: 1 o max: 128 value -&gt; (string) Tag value. AWS-standard maximum length; may be empty. Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to associate with the dashboard. Constraints: • min: 0 • max: 50 key -&gt; (string) Tag key. Must be non-empty; AWS-standard maximum length. Constraining the key (rather than a bare String) rejects empty-key payloads at the edge with a 400 ValidationException instead of faulting downstream as a 500. Constraints: • min: 1 • max: 128 value -&gt; (string) Tag value. AWS-standard maximum length; may be empty. Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Idempotency token for safe retries. Repeated requests with the same token return the original result instead of creating a duplicate. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
+    /// Idempotency token for safe retries. Repeated requests with the same token return the original result instead of creating a duplicate. Constraints: • min: 1 • max: 64 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

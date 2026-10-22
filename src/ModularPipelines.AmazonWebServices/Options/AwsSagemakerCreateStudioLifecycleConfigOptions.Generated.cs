@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +30,9 @@ public record AwsSagemakerCreateStudioLifecycleConfigOptions : AwsOptions, IVali
     /// <summary>
     /// Creates a new Amazon SageMaker AI Studio Lifecycle Configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StudioLifecycleConfigName">The name of the Amazon SageMaker AI Studio Lifecycle Configuration to create. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
-    /// <param name="StudioLifecycleConfigContent">The content of your Amazon SageMaker AI Studio Lifecycle Configura- tion script. This content must be base64 encoded. Constraints: o min: 1 o max: 16384 o pattern: [\S\s]+</param>
-    /// <param name="StudioLifecycleConfigAppType">The App type that the Lifecycle Configuration is attached to. Possible values: o JupyterServer o KernelGateway o CodeEditor o JupyterLab</param>
+    /// <param name="StudioLifecycleConfigName">The name of the Amazon SageMaker AI Studio Lifecycle Configuration to create. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="StudioLifecycleConfigContent">The content of your Amazon SageMaker AI Studio Lifecycle Configuration script. This content must be base64 encoded. Constraints: • min: 1 • max: 16384 • pattern: [\S\s]+</param>
+    /// <param name="StudioLifecycleConfigAppType">The App type that the Lifecycle Configuration is attached to. Possible values: • JupyterServer • KernelGateway • CodeEditor • JupyterLab</param>
     public AwsSagemakerCreateStudioLifecycleConfigOptions(
         string StudioLifecycleConfigName,
         string StudioLifecycleConfigContent,
@@ -64,25 +66,25 @@ public record AwsSagemakerCreateStudioLifecycleConfigOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Amazon SageMaker AI Studio Lifecycle Configuration to create. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the Amazon SageMaker AI Studio Lifecycle Configuration to create. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--studio-lifecycle-config-name")]
     public string? StudioLifecycleConfigName { get; private init; }
 
     /// <summary>
-    /// The content of your Amazon SageMaker AI Studio Lifecycle Configura- tion script. This content must be base64 encoded. Constraints: o min: 1 o max: 16384 o pattern: [\S\s]+
+    /// The content of your Amazon SageMaker AI Studio Lifecycle Configuration script. This content must be base64 encoded. Constraints: • min: 1 • max: 16384 • pattern: [\S\s]+
     /// </summary>
     [CliOption("--studio-lifecycle-config-content")]
     public string? StudioLifecycleConfigContent { get; private init; }
 
     /// <summary>
-    /// The App type that the Lifecycle Configuration is attached to. Possible values: o JupyterServer o KernelGateway o CodeEditor o JupyterLab
+    /// The App type that the Lifecycle Configuration is attached to. Possible values: • JupyterServer • KernelGateway • CodeEditor • JupyterLab
     /// </summary>
     [CliOption("--studio-lifecycle-config-app-type")]
     public AwsSagemakerCreateStudioLifecycleConfigStudioLifecycleConfigAppType? StudioLifecycleConfigAppType { get; private init; }
 
     /// <summary>
-    /// Tags to be associated with the Lifecycle Configuration. Each tag consists of a key and an optional value. Tag keys must be unique per resource. Tags are searchable using the Search API. Constraints: o min: 0 o max: 50 (structure) A tag object that consists of a key and an optional value, used to manage metadata for SageMaker Amazon Web Services resources. You can add tags to notebook instances, training jobs, hyperpa- rameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. For more information on adding tags to SageMaker resources, see AddTags . For more information on adding metadata to your Amazon Web Ser- vices resources with tagging, see Tagging Amazon Web Services resources . For advice on best practices for managing Amazon Web Services resources with tagging, see Tagging Best Practices: Im- plement an Effective Amazon Web Services Resource Tagging Strat- egy . Key -&gt; (string) [required] The tag key. Tag keys must be unique per resource. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Tags to be associated with the Lifecycle Configuration. Each tag consists of a key and an optional value. Tag keys must be unique per resource. Tags are searchable using the Search API. Constraints: • min: 0 • max: 50 (structure) A tag object that consists of a key and an optional value, used to manage metadata for SageMaker Amazon Web Services resources. You can add tags to notebook instances, training jobs, hyperparameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. For more information on adding tags to SageMaker resources, see AddTags . For more information on adding metadata to your Amazon Web Services resources with tagging, see Tagging Amazon Web Services resources . For advice on best practices for managing Amazon Web Services resources with tagging, see Tagging Best Practices: Implement an Effective Amazon Web Services Resource Tagging Strategy . Key -&gt; (string) [required] The tag key. Tag keys must be unique per resource. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

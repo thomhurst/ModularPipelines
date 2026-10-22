@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsLocationBatchDeleteGeofenceOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Deletes a batch of geofences from a geofence collection. NOTE: This operation deletes the resource permanently. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CollectionName">The geofence collection storing the geofences to be deleted. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
-    /// <param name="GeofenceIds">The batch of geofences to be deleted. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 100 o pattern: [-._\p{L}\p{N}]+ Syntax: "string" "string" ...</param>
+    /// <param name="CollectionName">The geofence collection storing the geofences to be deleted. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+</param>
+    /// <param name="GeofenceIds">The batch of geofences to be deleted. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 100 • pattern: [-._\p{L}\p{N}]+ Syntax: "string" "string" ...</param>
     public AwsLocationBatchDeleteGeofenceOptions(
         string CollectionName,
         IEnumerable<string> GeofenceIds
@@ -71,13 +73,13 @@ public record AwsLocationBatchDeleteGeofenceOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The geofence collection storing the geofences to be deleted. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// The geofence collection storing the geofences to be deleted. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+
     /// </summary>
     [CliOption("--collection-name")]
     public string? CollectionName { get; private init; }
 
     /// <summary>
-    /// The batch of geofences to be deleted. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 100 o pattern: [-._\p{L}\p{N}]+ Syntax: "string" "string" ...
+    /// The batch of geofences to be deleted. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 100 • pattern: [-._\p{L}\p{N}]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--geofence-ids", GroupValues = true)]
     public IEnumerable<string>? GeofenceIds { get; private init; }

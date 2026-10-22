@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsIotwirelessSendDataToWirelessDeviceOptions : AwsOptions, IValid
     /// <summary>
     /// Sends a decrypted application data frame to a device. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the wireless device to receive the data. Constraints: o max: 256</param>
-    /// <param name="TransmitMode">The transmit mode to use to send data to the wireless device. Can be: 0 for UM (unacknowledge mode) or 1 for AM (acknowledge mode). Constraints: o min: 0 o max: 1</param>
-    /// <param name="PayloadData">The binary to be sent to the end device, encoded in base64. Constraints: o max: 2048 o pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$</param>
+    /// <param name="Id">The ID of the wireless device to receive the data. Constraints: • max: 256</param>
+    /// <param name="TransmitMode">The transmit mode to use to send data to the wireless device. Can be: 0 for UM (unacknowledge mode) or 1 for AM (acknowledge mode). Constraints: • min: 0 • max: 1</param>
+    /// <param name="PayloadData">The binary to be sent to the end device, encoded in base64. Constraints: • max: 2048 • pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$</param>
     public AwsIotwirelessSendDataToWirelessDeviceOptions(
         string Id,
         int TransmitMode,
@@ -63,25 +65,25 @@ public record AwsIotwirelessSendDataToWirelessDeviceOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the wireless device to receive the data. Constraints: o max: 256
+    /// The ID of the wireless device to receive the data. Constraints: • max: 256
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The transmit mode to use to send data to the wireless device. Can be: 0 for UM (unacknowledge mode) or 1 for AM (acknowledge mode). Constraints: o min: 0 o max: 1
+    /// The transmit mode to use to send data to the wireless device. Can be: 0 for UM (unacknowledge mode) or 1 for AM (acknowledge mode). Constraints: • min: 0 • max: 1
     /// </summary>
     [CliOption("--transmit-mode")]
     public int? TransmitMode { get; private init; }
 
     /// <summary>
-    /// The binary to be sent to the end device, encoded in base64. Constraints: o max: 2048 o pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
+    /// The binary to be sent to the end device, encoded in base64. Constraints: • max: 2048 • pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
     /// </summary>
     [CliOption("--payload-data")]
     public string? PayloadData { get; private init; }
 
     /// <summary>
-    /// Metadata about the message request. LoRaWAN -&gt; (structure) LoRaWAN device info. FPort -&gt; (integer) The Fport value. Constraints: o min: 1 o max: 223 ParticipatingGateways -&gt; (structure) Choose the gateways that you want to use for the downlink data traffic when the wireless device is running in class B or class C mode. DownlinkMode -&gt; (string) [required] Indicates whether to send the downlink message in sequen- tial mode or concurrent mode, or to use only the chosen gateways from the previous uplink message transmission. Possible values: o SEQUENTIAL o CONCURRENT o USING_UPLINK_GATEWAY GatewayList -&gt; (list) [required] The list of gateways that you want to use for sending the downlink data traffic. (structure) Gateway list item object that specifies the frequency and list of gateways for which the downlink message should be sent. GatewayId -&gt; (string) [required] The ID of the wireless gateways that you want to add to the list of gateways when sending downlink messages. Constraints: o max: 256 DownlinkFrequency -&gt; (integer) [required] The frequency to use for the gateways when sending a downlink message to the wireless device. Constraints: o min: 100000000 o max: 1000000000 TransmissionInterval -&gt; (integer) [required] The duration of time for which AWS IoT Core for LoRaWAN will wait before transmitting the payload to the next gateway. Constraints: o min: 1 o max: 604800 Sidewalk -&gt; (structure) The Sidewalk account credentials. Seq -&gt; (integer) The sequence number. Constraints: o min: 0 o max: 16383 MessageType -&gt; (string) Sidewalk device message type. Default value is CUSTOM_COM- MAND_ID_NOTIFY . Possible values: o CUSTOM_COMMAND_ID_NOTIFY o CUSTOM_COMMAND_ID_GET o CUSTOM_COMMAND_ID_SET o CUSTOM_COMMAND_ID_RESP AckModeRetryDurationSecs -&gt; (integer) The duration of time in seconds to retry sending the ACK. Constraints: o min: 0 o max: 604800 JSON Syntax: { "LoRaWAN": { "FPort": integer, "ParticipatingGateways": { "DownlinkMode": "SEQUENTIAL"|"CONCURRENT"|"USING_UPLINK_GATEWAY", "GatewayList": [ { "GatewayId": "string", "DownlinkFrequency": integer } ... ], "TransmissionInterval": integer } }, "Sidewalk": { "Seq": integer, "MessageType": "CUSTOM_COMMAND_ID_NOTIFY"|"CUSTOM_COMMAND_ID_GET"|"CUSTOM_COMMAND_ID_SET"|"CUSTOM_COMMAND_ID_RESP", "AckModeRetryDurationSecs": integer } }
+    /// Metadata about the message request. LoRaWAN -&gt; (structure) LoRaWAN device info. FPort -&gt; (integer) The Fport value. Constraints: • min: 1 • max: 223 ParticipatingGateways -&gt; (structure) Choose the gateways that you want to use for the downlink data traffic when the wireless device is running in class B or class C mode. DownlinkMode -&gt; (string) [required] Indicates whether to send the downlink message in sequential mode or concurrent mode, or to use only the chosen gateways from the previous uplink message transmission. Possible values: • SEQUENTIAL • CONCURRENT • USING_UPLINK_GATEWAY GatewayList -&gt; (list) [required] The list of gateways that you want to use for sending the downlink data traffic. (structure) Gateway list item object that specifies the frequency and list of gateways for which the downlink message should be sent. GatewayId -&gt; (string) [required] The ID of the wireless gateways that you want to add to the list of gateways when sending downlink messages. Constraints: • max: 256 DownlinkFrequency -&gt; (integer) [required] The frequency to use for the gateways when sending a downlink message to the wireless device. Constraints: • min: 100000000 • max: 1000000000 TransmissionInterval -&gt; (integer) [required] The duration of time for which AWS IoT Core for LoRaWAN will wait before transmitting the payload to the next gateway. Constraints: • min: 1 • max: 604800 Sidewalk -&gt; (structure) The Sidewalk account credentials. Seq -&gt; (integer) The sequence number. Constraints: • min: 0 • max: 16383 MessageType -&gt; (string) Sidewalk device message type. Default value is CUSTOM_COMMAND_ID_NOTIFY . Possible values: • CUSTOM_COMMAND_ID_NOTIFY • CUSTOM_COMMAND_ID_GET • CUSTOM_COMMAND_ID_SET • CUSTOM_COMMAND_ID_RESP AckModeRetryDurationSecs -&gt; (integer) The duration of time in seconds to retry sending the ACK. Constraints: • min: 0 • max: 604800 JSON Syntax: { "LoRaWAN": { "FPort": integer, "ParticipatingGateways": { "DownlinkMode": "SEQUENTIAL"|"CONCURRENT"|"USING_UPLINK_GATEWAY", "GatewayList": [ { "GatewayId": "string", "DownlinkFrequency": integer } ... ], "TransmissionInterval": integer } }, "Sidewalk": { "Seq": integer, "MessageType": "CUSTOM_COMMAND_ID_NOTIFY"|"CUSTOM_COMMAND_ID_GET"|"CUSTOM_COMMAND_ID_SET"|"CUSTOM_COMMAND_ID_RESP", "AckModeRetryDurationSecs": integer } }
     /// </summary>
     [CliOption("--wireless-metadata")]
     public string? WirelessMetadata { get; set; }

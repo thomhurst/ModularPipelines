@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disassociates a connection alias from a directory. Disassociating a connection alias disables cross-Region redirection between two directo- ries in different Regions. For more information, see Cross-Region Redi- rection for Amazon WorkSpaces . NOTE: Before performing this operation, call DescribeConnectionAliases to make sure that the current state of the connection alias is CREATED . See also: AWS API Documentation
+/// Disassociates a connection alias from a directory. Disassociating a connection alias disables cross-Region redirection between two directories in different Regions. For more information, see Cross-Region Redirection for Amazon WorkSpaces . NOTE: Before performing this operation, call DescribeConnectionAliases to make sure that the current state of the connection alias is CREATED . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsWorkspacesDisassociateConnectionAliasOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disassociates a connection alias from a directory. Disassociating a connection alias disables cross-Region redirection between two directo- ries in different Regions. For more information, see Cross-Region Redi- rection for Amazon WorkSpaces . NOTE: Before performing this operation, call DescribeConnectionAliases to make sure that the current state of the connection alias is CREATED . See also: AWS API Documentation
+    /// Disassociates a connection alias from a directory. Disassociating a connection alias disables cross-Region redirection between two directories in different Regions. For more information, see Cross-Region Redirection for Amazon WorkSpaces . NOTE: Before performing this operation, call DescribeConnectionAliases to make sure that the current state of the connection alias is CREATED . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AliasId">The identifier of the connection alias to disassociate. Constraints: o min: 13 o max: 68 o pattern: ^wsca-[0-9a-z]{8,63}$</param>
+    /// <param name="AliasId">The identifier of the connection alias to disassociate. Constraints: • min: 13 • max: 68 • pattern: ^wsca-[0-9a-z]{8,63}$</param>
     public AwsWorkspacesDisassociateConnectionAliasOptions(
         string AliasId
     )
@@ -56,7 +58,7 @@ public record AwsWorkspacesDisassociateConnectionAliasOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the connection alias to disassociate. Constraints: o min: 13 o max: 68 o pattern: ^wsca-[0-9a-z]{8,63}$
+    /// The identifier of the connection alias to disassociate. Constraints: • min: 13 • max: 68 • pattern: ^wsca-[0-9a-z]{8,63}$
     /// </summary>
     [CliOption("--alias-id")]
     public string? AliasId { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDevopsAgentUpdatePrivateConnectionCertificateOptions : AwsOptio
     /// <summary>
     /// Updates the certificate associated with a Private Connection. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the Private Connection. Constraints: o min: 3 o max: 30 o pattern: [a-z0-9]([a-z0-9-]*[a-z0-9])?</param>
-    /// <param name="Certificate">The new certificate for the Private Connection. Constraints: o min: 1 o max: 32768</param>
+    /// <param name="Name">The name of the Private Connection. Constraints: • min: 3 • max: 30 • pattern: [a-z0-9]([a-z0-9-]*[a-z0-9])?</param>
+    /// <param name="Certificate">The new certificate for the Private Connection. Constraints: • min: 1 • max: 32768</param>
     public AwsDevopsAgentUpdatePrivateConnectionCertificateOptions(
         string Name,
         string Certificate
@@ -60,13 +62,13 @@ public record AwsDevopsAgentUpdatePrivateConnectionCertificateOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Private Connection. Constraints: o min: 3 o max: 30 o pattern: [a-z0-9]([a-z0-9-]*[a-z0-9])?
+    /// The name of the Private Connection. Constraints: • min: 3 • max: 30 • pattern: [a-z0-9]([a-z0-9-]*[a-z0-9])?
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The new certificate for the Private Connection. Constraints: o min: 1 o max: 32768
+    /// The new certificate for the Private Connection. Constraints: • min: 1 • max: 32768
     /// </summary>
     [CliOption("--certificate")]
     public string? Certificate { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsLightsailAttachStaticIpOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Attaches a static IP address to a specific Amazon Lightsail instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StaticIpName">The name of the static IP. Constraints: o pattern: \w[\w\-]*\w</param>
-    /// <param name="InstanceName">The instance name to which you want to attach the static IP address. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="StaticIpName">The name of the static IP. Constraints: • pattern: \w[\w\-]*\w</param>
+    /// <param name="InstanceName">The instance name to which you want to attach the static IP address. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailAttachStaticIpOptions(
         string StaticIpName,
         string InstanceName
@@ -60,13 +62,13 @@ public record AwsLightsailAttachStaticIpOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the static IP. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the static IP. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--static-ip-name")]
     public string? StaticIpName { get; private init; }
 
     /// <summary>
-    /// The instance name to which you want to attach the static IP address. Constraints: o pattern: \w[\w\-]*\w
+    /// The instance name to which you want to attach the static IP address. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--instance-name")]
     public string? InstanceName { get; private init; }

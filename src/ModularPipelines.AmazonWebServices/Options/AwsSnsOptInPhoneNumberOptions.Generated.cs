@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Use this request to opt in a phone number that is opted out, which en- ables you to resume sending SMS messages to the number. You can opt in a phone number only once every 30 days. See also: AWS API Documentation
+/// Use this request to opt in a phone number that is opted out, which enables you to resume sending SMS messages to the number. You can opt in a phone number only once every 30 days. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsSnsOptInPhoneNumberOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Use this request to opt in a phone number that is opted out, which en- ables you to resume sending SMS messages to the number. You can opt in a phone number only once every 30 days. See also: AWS API Documentation
+    /// Use this request to opt in a phone number that is opted out, which enables you to resume sending SMS messages to the number. You can opt in a phone number only once every 30 days. See also: AWS API Documentation
     /// </summary>
     /// <param name="PhoneNumber">The phone number to opt in. Use E.164 format.</param>
     public AwsSnsOptInPhoneNumberOptions(

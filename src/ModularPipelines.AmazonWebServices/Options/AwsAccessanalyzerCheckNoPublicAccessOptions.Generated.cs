@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Checks whether a resource policy can grant public access to the speci- fied resource type. See also: AWS API Documentation
+/// Checks whether a resource policy can grant public access to the specified resource type. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsAccessanalyzerCheckNoPublicAccessOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Checks whether a resource policy can grant public access to the speci- fied resource type. See also: AWS API Documentation
+    /// Checks whether a resource policy can grant public access to the specified resource type. See also: AWS API Documentation
     /// </summary>
     /// <param name="PolicyDocument">The JSON policy document to evaluate for public access.</param>
-    /// <param name="ResourceType">The type of resource to evaluate for public access. For example, to check for public access to Amazon S3 buckets, you can choose AWS::S3::Bucket for the resource type. For resource types not supported as valid values, IAM Access Ana- lyzer will return an error. Possible values: o AWS::DynamoDB::Table o AWS::DynamoDB::Stream o AWS::EFS::FileSystem o AWS::OpenSearchService::Domain o AWS::Kinesis::Stream o AWS::Kinesis::StreamConsumer o AWS::KMS::Key o AWS::Lambda::Function o AWS::S3::Bucket o AWS::S3::AccessPoint o AWS::S3Express::DirectoryBucket o AWS::S3::Glacier o AWS::S3Outposts::Bucket o AWS::S3Outposts::AccessPoint o AWS::SecretsManager::Secret o AWS::SNS::Topic o AWS::SQS::Queue o AWS::IAM::AssumeRolePolicyDocument o AWS::S3Tables::TableBucket o AWS::ApiGateway::RestApi o AWS::CodeArtifact::Domain o AWS::Backup::BackupVault o AWS::CloudTrail::Dashboard o AWS::CloudTrail::EventDataStore o AWS::S3Tables::Table o AWS::S3Express::AccessPoint</param>
+    /// <param name="ResourceType">The type of resource to evaluate for public access. For example, to check for public access to Amazon S3 buckets, you can choose AWS::S3::Bucket for the resource type. For resource types not supported as valid values, IAM Access Analyzer will return an error. Possible values: • AWS::DynamoDB::Table • AWS::DynamoDB::Stream • AWS::EFS::FileSystem • AWS::OpenSearchService::Domain • AWS::Kinesis::Stream • AWS::Kinesis::StreamConsumer • AWS::KMS::Key • AWS::Lambda::Function • AWS::S3::Bucket • AWS::S3::AccessPoint • AWS::S3Express::DirectoryBucket • AWS::S3::Glacier • AWS::S3Outposts::Bucket • AWS::S3Outposts::AccessPoint • AWS::SecretsManager::Secret • AWS::SNS::Topic • AWS::SQS::Queue • AWS::IAM::AssumeRolePolicyDocument • AWS::S3Tables::TableBucket • AWS::ApiGateway::RestApi • AWS::CodeArtifact::Domain • AWS::Backup::BackupVault • AWS::CloudTrail::Dashboard • AWS::CloudTrail::EventDataStore • AWS::S3Tables::Table • AWS::S3Express::AccessPoint</param>
     public AwsAccessanalyzerCheckNoPublicAccessOptions(
         string PolicyDocument,
         string ResourceType
@@ -66,7 +68,7 @@ public record AwsAccessanalyzerCheckNoPublicAccessOptions : AwsOptions, IValidat
     public string? PolicyDocument { get; private init; }
 
     /// <summary>
-    /// The type of resource to evaluate for public access. For example, to check for public access to Amazon S3 buckets, you can choose AWS::S3::Bucket for the resource type. For resource types not supported as valid values, IAM Access Ana- lyzer will return an error. Possible values: o AWS::DynamoDB::Table o AWS::DynamoDB::Stream o AWS::EFS::FileSystem o AWS::OpenSearchService::Domain o AWS::Kinesis::Stream o AWS::Kinesis::StreamConsumer o AWS::KMS::Key o AWS::Lambda::Function o AWS::S3::Bucket o AWS::S3::AccessPoint o AWS::S3Express::DirectoryBucket o AWS::S3::Glacier o AWS::S3Outposts::Bucket o AWS::S3Outposts::AccessPoint o AWS::SecretsManager::Secret o AWS::SNS::Topic o AWS::SQS::Queue o AWS::IAM::AssumeRolePolicyDocument o AWS::S3Tables::TableBucket o AWS::ApiGateway::RestApi o AWS::CodeArtifact::Domain o AWS::Backup::BackupVault o AWS::CloudTrail::Dashboard o AWS::CloudTrail::EventDataStore o AWS::S3Tables::Table o AWS::S3Express::AccessPoint
+    /// The type of resource to evaluate for public access. For example, to check for public access to Amazon S3 buckets, you can choose AWS::S3::Bucket for the resource type. For resource types not supported as valid values, IAM Access Analyzer will return an error. Possible values: • AWS::DynamoDB::Table • AWS::DynamoDB::Stream • AWS::EFS::FileSystem • AWS::OpenSearchService::Domain • AWS::Kinesis::Stream • AWS::Kinesis::StreamConsumer • AWS::KMS::Key • AWS::Lambda::Function • AWS::S3::Bucket • AWS::S3::AccessPoint • AWS::S3Express::DirectoryBucket • AWS::S3::Glacier • AWS::S3Outposts::Bucket • AWS::S3Outposts::AccessPoint • AWS::SecretsManager::Secret • AWS::SNS::Topic • AWS::SQS::Queue • AWS::IAM::AssumeRolePolicyDocument • AWS::S3Tables::TableBucket • AWS::ApiGateway::RestApi • AWS::CodeArtifact::Domain • AWS::Backup::BackupVault • AWS::CloudTrail::Dashboard • AWS::CloudTrail::EventDataStore • AWS::S3Tables::Table • AWS::S3Express::AccessPoint
     /// </summary>
     [CliOption("--resource-type")]
     public string? ResourceType { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts the assessment run specified by the ARN of the assessment tem- plate. For this API to function properly, you must not exceed the limit of running up to 500 concurrent agents per AWS account. See also: AWS API Documentation
+/// Starts the assessment run specified by the ARN of the assessment template. For this API to function properly, you must not exceed the limit of running up to 500 concurrent agents per AWS account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsInspectorStartAssessmentRunOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts the assessment run specified by the ARN of the assessment tem- plate. For this API to function properly, you must not exceed the limit of running up to 500 concurrent agents per AWS account. See also: AWS API Documentation
+    /// Starts the assessment run specified by the ARN of the assessment template. For this API to function properly, you must not exceed the limit of running up to 500 concurrent agents per AWS account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssessmentTemplateArn">The ARN of the assessment template of the assessment run that you want to start. Constraints: o min: 1 o max: 300</param>
+    /// <param name="AssessmentTemplateArn">The ARN of the assessment template of the assessment run that you want to start. Constraints: • min: 1 • max: 300</param>
     public AwsInspectorStartAssessmentRunOptions(
         string AssessmentTemplateArn
     )
@@ -56,13 +58,13 @@ public record AwsInspectorStartAssessmentRunOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the assessment template of the assessment run that you want to start. Constraints: o min: 1 o max: 300
+    /// The ARN of the assessment template of the assessment run that you want to start. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--assessment-template-arn")]
     public string? AssessmentTemplateArn { get; private init; }
 
     /// <summary>
-    /// You can specify the name for the assessment run. The name must be unique for the assessment template whose ARN is used to start the assessment run. Constraints: o min: 1 o max: 140
+    /// You can specify the name for the assessment run. The name must be unique for the assessment template whose ARN is used to start the assessment run. Constraints: • min: 1 • max: 140
     /// </summary>
     [CliOption("--assessment-run-name")]
     public string? AssessmentRunName { get; set; }

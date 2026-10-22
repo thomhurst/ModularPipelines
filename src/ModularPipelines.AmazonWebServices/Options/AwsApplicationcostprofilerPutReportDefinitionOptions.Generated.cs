@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates the report definition for a report in Application Cost Pro- filer. See also: AWS API Documentation
+/// Creates the report definition for a report in Application Cost Profiler. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,13 +28,13 @@ public record AwsApplicationcostprofilerPutReportDefinitionOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates the report definition for a report in Application Cost Pro- filer. See also: AWS API Documentation
+    /// Creates the report definition for a report in Application Cost Profiler. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ReportId">Required. ID of the report. You can choose any valid string matching the pattern for the ID. Constraints: o min: 1 o max: 255 o pattern: ^[0-9A-Za-z\.\-_]+$</param>
-    /// <param name="ReportDescription">Required. Description of the report. Constraints: o min: 1 o max: 1024 o pattern: .*\S.*</param>
-    /// <param name="ReportFrequency">Required. The cadence to generate the report. Possible values: o MONTHLY o DAILY o ALL</param>
-    /// <param name="Format">Required. The format to use for the generated report. Possible values: o CSV o PARQUET</param>
-    /// <param name="DestinationS3Location">Required. Amazon Simple Storage Service (Amazon S3) location where Application Cost Profiler uploads the report. bucket -&gt; (string) [required] Name of the S3 bucket. Constraints: o min: 3 o max: 63 o pattern: (?=^.{3,63}$)(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$) prefix -&gt; (string) [required] Prefix for the location to write to. Constraints: o min: 1 o max: 512 o pattern: .*\S.* Shorthand Syntax: bucket=string,prefix=string JSON Syntax: { "bucket": "string", "prefix": "string" }</param>
+    /// <param name="ReportId">Required. ID of the report. You can choose any valid string matching the pattern for the ID. Constraints: • min: 1 • max: 255 • pattern: ^[0-9A-Za-z\.\-_]+$</param>
+    /// <param name="ReportDescription">Required. Description of the report. Constraints: • min: 1 • max: 1024 • pattern: .*\S.*</param>
+    /// <param name="ReportFrequency">Required. The cadence to generate the report. Possible values: • MONTHLY • DAILY • ALL</param>
+    /// <param name="Format">Required. The format to use for the generated report. Possible values: • CSV • PARQUET</param>
+    /// <param name="DestinationS3Location">Required. Amazon Simple Storage Service (Amazon S3) location where Application Cost Profiler uploads the report. bucket -&gt; (string) [required] Name of the S3 bucket. Constraints: • min: 3 • max: 63 • pattern: (?=^.{3,63}$)(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$) prefix -&gt; (string) [required] Prefix for the location to write to. Constraints: • min: 1 • max: 512 • pattern: .*\S.* Shorthand Syntax: bucket=string,prefix=string JSON Syntax: { "bucket": "string", "prefix": "string" }</param>
     public AwsApplicationcostprofilerPutReportDefinitionOptions(
         string ReportId,
         string ReportDescription,
@@ -71,31 +73,31 @@ public record AwsApplicationcostprofilerPutReportDefinitionOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Required. ID of the report. You can choose any valid string matching the pattern for the ID. Constraints: o min: 1 o max: 255 o pattern: ^[0-9A-Za-z\.\-_]+$
+    /// Required. ID of the report. You can choose any valid string matching the pattern for the ID. Constraints: • min: 1 • max: 255 • pattern: ^[0-9A-Za-z\.\-_]+$
     /// </summary>
     [CliOption("--report-id")]
     public string? ReportId { get; private init; }
 
     /// <summary>
-    /// Required. Description of the report. Constraints: o min: 1 o max: 1024 o pattern: .*\S.*
+    /// Required. Description of the report. Constraints: • min: 1 • max: 1024 • pattern: .*\S.*
     /// </summary>
     [CliOption("--report-description")]
     public string? ReportDescription { get; private init; }
 
     /// <summary>
-    /// Required. The cadence to generate the report. Possible values: o MONTHLY o DAILY o ALL
+    /// Required. The cadence to generate the report. Possible values: • MONTHLY • DAILY • ALL
     /// </summary>
     [CliOption("--report-frequency")]
     public AwsApplicationcostprofilerPutReportDefinitionReportFrequency? ReportFrequency { get; private init; }
 
     /// <summary>
-    /// Required. The format to use for the generated report. Possible values: o CSV o PARQUET
+    /// Required. The format to use for the generated report. Possible values: • CSV • PARQUET
     /// </summary>
     [CliOption("--format")]
     public AwsApplicationcostprofilerPutReportDefinitionFormat? Format { get; private init; }
 
     /// <summary>
-    /// Required. Amazon Simple Storage Service (Amazon S3) location where Application Cost Profiler uploads the report. bucket -&gt; (string) [required] Name of the S3 bucket. Constraints: o min: 3 o max: 63 o pattern: (?=^.{3,63}$)(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$) prefix -&gt; (string) [required] Prefix for the location to write to. Constraints: o min: 1 o max: 512 o pattern: .*\S.* Shorthand Syntax: bucket=string,prefix=string JSON Syntax: { "bucket": "string", "prefix": "string" }
+    /// Required. Amazon Simple Storage Service (Amazon S3) location where Application Cost Profiler uploads the report. bucket -&gt; (string) [required] Name of the S3 bucket. Constraints: • min: 3 • max: 63 • pattern: (?=^.{3,63}$)(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$) prefix -&gt; (string) [required] Prefix for the location to write to. Constraints: • min: 1 • max: 512 • pattern: .*\S.* Shorthand Syntax: bucket=string,prefix=string JSON Syntax: { "bucket": "string", "prefix": "string" }
     /// </summary>
     [CliOption("--destination-s3-location")]
     public string? DestinationS3Location { get; private init; }

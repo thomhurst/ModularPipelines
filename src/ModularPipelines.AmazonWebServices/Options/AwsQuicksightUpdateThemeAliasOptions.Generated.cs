@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,15 +29,15 @@ public record AwsQuicksightUpdateThemeAliasOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Updates an alias of a theme. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the theme alias that you're updating. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="ThemeId">The ID for the theme. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
-    /// <param name="AliasName">The name of the theme alias that you want to update. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+|(\$LATEST)|(\$PUBLISHED)</param>
-    /// <param name="ThemeVersionNumber">The version number of the theme that the alias should reference. Constraints: o min: 1</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the theme alias that you're updating. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="ThemeId">The ID for the theme. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+</param>
+    /// <param name="AliasName">The name of the theme alias that you want to update. Constraints: • min: 1 • max: 2048 • pattern: [\w\-]+|(\$LATEST)|(\$PUBLISHED)</param>
+    /// <param name="ThemeVersionNumber">The version number of the theme that the alias should reference. Constraints: • min: 1</param>
     public AwsQuicksightUpdateThemeAliasOptions(
         string AwsAccountId,
         string ThemeId,
         string AliasName,
-        int ThemeVersionNumber
+        long ThemeVersionNumber
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
@@ -67,28 +69,28 @@ public record AwsQuicksightUpdateThemeAliasOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the theme alias that you're updating. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the theme alias that you're updating. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID for the theme. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// The ID for the theme. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--theme-id")]
     public string? ThemeId { get; private init; }
 
     /// <summary>
-    /// The name of the theme alias that you want to update. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+|(\$LATEST)|(\$PUBLISHED)
+    /// The name of the theme alias that you want to update. Constraints: • min: 1 • max: 2048 • pattern: [\w\-]+|(\$LATEST)|(\$PUBLISHED)
     /// </summary>
     [CliOption("--alias-name")]
     public string? AliasName { get; private init; }
 
     /// <summary>
-    /// The version number of the theme that the alias should reference. Constraints: o min: 1
+    /// The version number of the theme that the alias should reference. Constraints: • min: 1
     /// </summary>
     [CliOption("--theme-version-number")]
-    public int? ThemeVersionNumber { get; private init; }
+    public long? ThemeVersionNumber { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

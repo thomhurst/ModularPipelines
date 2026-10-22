@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsWorkspacesAssociateConnectionAliasOptions : AwsOptions, IValida
     /// <summary>
     /// Associates the specified connection alias with the specified directory to enable cross-Region redirection. For more information, see Cross-Region Redirection for Amazon WorkSpaces . NOTE: Before performing this operation, call DescribeConnectionAliases to make sure that the current state of the connection alias is CREATED . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AliasId">The identifier of the connection alias. Constraints: o min: 13 o max: 68 o pattern: ^wsca-[0-9a-z]{8,63}$</param>
-    /// <param name="ResourceId">The identifier of the directory to associate the connection alias with. Constraints: o min: 1</param>
+    /// <param name="AliasId">The identifier of the connection alias. Constraints: • min: 13 • max: 68 • pattern: ^wsca-[0-9a-z]{8,63}$</param>
+    /// <param name="ResourceId">The identifier of the directory to associate the connection alias with. Constraints: • min: 1</param>
     public AwsWorkspacesAssociateConnectionAliasOptions(
         string AliasId,
         string ResourceId
@@ -60,13 +62,13 @@ public record AwsWorkspacesAssociateConnectionAliasOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the connection alias. Constraints: o min: 13 o max: 68 o pattern: ^wsca-[0-9a-z]{8,63}$
+    /// The identifier of the connection alias. Constraints: • min: 13 • max: 68 • pattern: ^wsca-[0-9a-z]{8,63}$
     /// </summary>
     [CliOption("--alias-id")]
     public string? AliasId { get; private init; }
 
     /// <summary>
-    /// The identifier of the directory to associate the connection alias with. Constraints: o min: 1
+    /// The identifier of the directory to associate the connection alias with. Constraints: • min: 1
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }

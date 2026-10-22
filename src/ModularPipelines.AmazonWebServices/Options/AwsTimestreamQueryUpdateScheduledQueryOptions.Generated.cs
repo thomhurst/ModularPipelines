@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsTimestreamQueryUpdateScheduledQueryOptions : AwsOptions, IValid
     /// <summary>
     /// Update a scheduled query. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ScheduledQueryArn">ARN of the scheuled query. Constraints: o min: 1 o max: 2048</param>
-    /// <param name="State">State of the scheduled query. Possible values: o ENABLED o DISABLED</param>
+    /// <param name="ScheduledQueryArn">ARN of the scheuled query. Constraints: • min: 1 • max: 2048</param>
+    /// <param name="State">State of the scheduled query. Possible values: • ENABLED • DISABLED</param>
     public AwsTimestreamQueryUpdateScheduledQueryOptions(
         string ScheduledQueryArn,
         AwsTimestreamQueryUpdateScheduledQueryState State
@@ -60,13 +62,13 @@ public record AwsTimestreamQueryUpdateScheduledQueryOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of the scheuled query. Constraints: o min: 1 o max: 2048
+    /// ARN of the scheuled query. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--scheduled-query-arn")]
     public string? ScheduledQueryArn { get; private init; }
 
     /// <summary>
-    /// State of the scheduled query. Possible values: o ENABLED o DISABLED
+    /// State of the scheduled query. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--state")]
     public AwsTimestreamQueryUpdateScheduledQueryState? State { get; private init; }

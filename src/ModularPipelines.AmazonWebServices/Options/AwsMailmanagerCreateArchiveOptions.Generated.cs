@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsMailmanagerCreateArchiveOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Creates a new email archive resource for storing and retaining emails. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ArchiveName">A unique name for the new archive. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*[a-zA-Z0-9]</param>
+    /// <param name="ArchiveName">A unique name for the new archive. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*[a-zA-Z0-9]</param>
     public AwsMailmanagerCreateArchiveOptions(
         string ArchiveName
     )
@@ -57,32 +59,32 @@ public record AwsMailmanagerCreateArchiveOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique name for the new archive. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*[a-zA-Z0-9]
+    /// A unique name for the new archive. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*[a-zA-Z0-9]
     /// </summary>
     [CliOption("--archive-name")]
     public string? ArchiveName { get; private init; }
 
     /// <summary>
-    /// A unique token Amazon SES uses to recognize retries of this request. Constraints: o min: 1 o max: 128
+    /// A unique token Amazon SES uses to recognize retries of this request. Constraints: • min: 1 • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The period for retaining emails in the archive before automatic deletion. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: RetentionPeriod. RetentionPeriod -&gt; (string) The enum value sets the period for retaining emails in an archive. Possible values: o THREE_MONTHS o SIX_MONTHS o NINE_MONTHS o ONE_YEAR o EIGHTEEN_MONTHS o TWO_YEARS o THIRTY_MONTHS o THREE_YEARS o FOUR_YEARS o FIVE_YEARS o SIX_YEARS o SEVEN_YEARS o EIGHT_YEARS o NINE_YEARS o TEN_YEARS o PERMANENT Shorthand Syntax: RetentionPeriod=string JSON Syntax: { "RetentionPeriod": "THREE_MONTHS"|"SIX_MONTHS"|"NINE_MONTHS"|"ONE_YEAR"|"EIGHTEEN_MONTHS"|"TWO_YEARS"|"THIRTY_MONTHS"|"THREE_YEARS"|"FOUR_YEARS"|"FIVE_YEARS"|"SIX_YEARS"|"SEVEN_YEARS"|"EIGHT_YEARS"|"NINE_YEARS"|"TEN_YEARS"|"PERMANENT" }
+    /// The period for retaining emails in the archive before automatic deletion. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: RetentionPeriod. RetentionPeriod -&gt; (string) The enum value sets the period for retaining emails in an archive. Possible values: • THREE_MONTHS • SIX_MONTHS • NINE_MONTHS • ONE_YEAR • EIGHTEEN_MONTHS • TWO_YEARS • THIRTY_MONTHS • THREE_YEARS • FOUR_YEARS • FIVE_YEARS • SIX_YEARS • SEVEN_YEARS • EIGHT_YEARS • NINE_YEARS • TEN_YEARS • PERMANENT Shorthand Syntax: RetentionPeriod=string JSON Syntax: { "RetentionPeriod": "THREE_MONTHS"|"SIX_MONTHS"|"NINE_MONTHS"|"ONE_YEAR"|"EIGHTEEN_MONTHS"|"TWO_YEARS"|"THIRTY_MONTHS"|"THREE_YEARS"|"FOUR_YEARS"|"FIVE_YEARS"|"SIX_YEARS"|"SEVEN_YEARS"|"EIGHT_YEARS"|"NINE_YEARS"|"TEN_YEARS"|"PERMANENT" }
     /// </summary>
     [CliOption("--retention")]
     public string? Retention { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the KMS key for encrypting emails in the archive. Constraints: o pattern: arn:aws(|-cn|-us-gov|-eusc):kms:[a-z0-9-]{1,20}:[0-9]{12}:(key|alias)/.+
+    /// The Amazon Resource Name (ARN) of the KMS key for encrypting emails in the archive. Constraints: • pattern: arn:aws(|-cn|-us-gov|-eusc):kms:[a-z0-9-]{1,20}:[0-9]{12}:(key|alias)/.+
     /// </summary>
     [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for the re- source. For example, { "tags": {"key1":"value1", "key2":"value2"} }. Constraints: o min: 0 o max: 200 (structure) A key-value pair (the value is optional), that you can define and assign to Amazon Web Services resources. Key -&gt; (string) [required] The key of the key-value tag. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9/_\+=\.:@\-]+ Value -&gt; (string) [required] The value of the key-value tag. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9/_\+=\.:@\-]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags used to organize, track, or control access for the resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }. Constraints: • min: 0 • max: 200 (structure) A key-value pair (the value is optional), that you can define and assign to Amazon Web Services resources. Key -&gt; (string) [required] The key of the key-value tag. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9/_\+=\.:@\-]+ Value -&gt; (string) [required] The value of the key-value tag. Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9/_\+=\.:@\-]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

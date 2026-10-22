@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsPinpointPutEventStreamOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a new event stream for an application or updates the settings of an existing event stream for an application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.</param>
-    /// <param name="WriteEventStream">Specifies the Amazon Resource Name (ARN) of an event stream to pub- lish events to and the AWS Identity and Access Management (IAM) role to use when publishing those events. DestinationStreamArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Amazon Kinesis data stream or Amazon Kinesis Data Firehose delivery stream that you want to publish event data to. For a Kinesis data stream, the ARN format is: arn:aws:kine- sis:region:account-id:stream/stream_name For a Kinesis Data Firehose delivery stream, the ARN format is: arn:aws:firehose:region:account-id:deliverystream/stream_name RoleArn -&gt; (string) [required] The AWS Identity and Access Management (IAM) role that autho- rizes Amazon Pinpoint to publish event data to the stream in your AWS account. Shorthand Syntax: DestinationStreamArn=string,RoleArn=string JSON Syntax: { "DestinationStreamArn": "string", "RoleArn": "string" }</param>
+    /// <param name="ApplicationId">The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.</param>
+    /// <param name="WriteEventStream">Specifies the Amazon Resource Name (ARN) of an event stream to publish events to and the AWS Identity and Access Management (IAM) role to use when publishing those events. DestinationStreamArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Amazon Kinesis data stream or Amazon Kinesis Data Firehose delivery stream that you want to publish event data to. For a Kinesis data stream, the ARN format is: arn:aws:kinesis:region:account-id:stream/stream_name For a Kinesis Data Firehose delivery stream, the ARN format is: arn:aws:firehose:region:account-id:deliverystream/stream_name RoleArn -&gt; (string) [required] The AWS Identity and Access Management (IAM) role that authorizes Amazon Pinpoint to publish event data to the stream in your AWS account. Shorthand Syntax: DestinationStreamArn=string,RoleArn=string JSON Syntax: { "DestinationStreamArn": "string", "RoleArn": "string" }</param>
     public AwsPinpointPutEventStreamOptions(
         string ApplicationId,
         string WriteEventStream
@@ -60,13 +62,13 @@ public record AwsPinpointPutEventStreamOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.
+    /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// Specifies the Amazon Resource Name (ARN) of an event stream to pub- lish events to and the AWS Identity and Access Management (IAM) role to use when publishing those events. DestinationStreamArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Amazon Kinesis data stream or Amazon Kinesis Data Firehose delivery stream that you want to publish event data to. For a Kinesis data stream, the ARN format is: arn:aws:kine- sis:region:account-id:stream/stream_name For a Kinesis Data Firehose delivery stream, the ARN format is: arn:aws:firehose:region:account-id:deliverystream/stream_name RoleArn -&gt; (string) [required] The AWS Identity and Access Management (IAM) role that autho- rizes Amazon Pinpoint to publish event data to the stream in your AWS account. Shorthand Syntax: DestinationStreamArn=string,RoleArn=string JSON Syntax: { "DestinationStreamArn": "string", "RoleArn": "string" }
+    /// Specifies the Amazon Resource Name (ARN) of an event stream to publish events to and the AWS Identity and Access Management (IAM) role to use when publishing those events. DestinationStreamArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Amazon Kinesis data stream or Amazon Kinesis Data Firehose delivery stream that you want to publish event data to. For a Kinesis data stream, the ARN format is: arn:aws:kinesis:region:account-id:stream/stream_name For a Kinesis Data Firehose delivery stream, the ARN format is: arn:aws:firehose:region:account-id:deliverystream/stream_name RoleArn -&gt; (string) [required] The AWS Identity and Access Management (IAM) role that authorizes Amazon Pinpoint to publish event data to the stream in your AWS account. Shorthand Syntax: DestinationStreamArn=string,RoleArn=string JSON Syntax: { "DestinationStreamArn": "string", "RoleArn": "string" }
     /// </summary>
     [CliOption("--write-event-stream")]
     public string? WriteEventStream { get; private init; }

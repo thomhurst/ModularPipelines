@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCleanroomsGetConfiguredAudienceModelAssociationOptions : AwsOpt
     /// <summary>
     /// Returns information about a configured audience model association. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfiguredAudienceModelAssociationIdentifier">A unique identifier for the configured audience model association that you want to retrieve. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="MembershipIdentifier">A unique identifier for the membership that contains the configured audience model association that you want to retrieve. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="ConfiguredAudienceModelAssociationIdentifier">A unique identifier for the configured audience model association that you want to retrieve. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="MembershipIdentifier">A unique identifier for the membership that contains the configured audience model association that you want to retrieve. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     public AwsCleanroomsGetConfiguredAudienceModelAssociationOptions(
         string ConfiguredAudienceModelAssociationIdentifier,
         string MembershipIdentifier
@@ -60,13 +62,13 @@ public record AwsCleanroomsGetConfiguredAudienceModelAssociationOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the configured audience model association that you want to retrieve. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// A unique identifier for the configured audience model association that you want to retrieve. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--configured-audience-model-association-identifier")]
     public string? ConfiguredAudienceModelAssociationIdentifier { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the membership that contains the configured audience model association that you want to retrieve. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// A unique identifier for the membership that contains the configured audience model association that you want to retrieve. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--membership-identifier")]
     public string? MembershipIdentifier { get; private init; }

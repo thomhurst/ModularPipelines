@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Redacts the specified message from the specified Amazon Chime conversa- tion. See also: AWS API Documentation
+/// Redacts the specified message from the specified Amazon Chime conversation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsChimeRedactConversationMessageOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Redacts the specified message from the specified Amazon Chime conversa- tion. See also: AWS API Documentation
+    /// Redacts the specified message from the specified Amazon Chime conversation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Chime account ID. Constraints: o pattern: .*\S.*</param>
-    /// <param name="ConversationId">The conversation ID. Constraints: o pattern: .*\S.*</param>
-    /// <param name="MessageId">The message ID. Constraints: o pattern: .*\S.*</param>
+    /// <param name="AccountId">The Amazon Chime account ID. Constraints: • pattern: .*\S.*</param>
+    /// <param name="ConversationId">The conversation ID. Constraints: • pattern: .*\S.*</param>
+    /// <param name="MessageId">The message ID. Constraints: • pattern: .*\S.*</param>
     public AwsChimeRedactConversationMessageOptions(
         string AccountId,
         string ConversationId,
@@ -64,19 +66,19 @@ public record AwsChimeRedactConversationMessageOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Chime account ID. Constraints: o pattern: .*\S.*
+    /// The Amazon Chime account ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The conversation ID. Constraints: o pattern: .*\S.*
+    /// The conversation ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--conversation-id")]
     public string? ConversationId { get; private init; }
 
     /// <summary>
-    /// The message ID. Constraints: o pattern: .*\S.*
+    /// The message ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--message-id")]
     public string? MessageId { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an automatic snapshot of an instance or disk. For more informa- tion, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+/// Deletes an automatic snapshot of an instance or disk. For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsLightsailDeleteAutoSnapshotOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an automatic snapshot of an instance or disk. For more informa- tion, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+    /// Deletes an automatic snapshot of an instance or disk. For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceName">The name of the source instance or disk from which to delete the au- tomatic snapshot. Constraints: o pattern: \w[\w\-]*\w</param>
-    /// <param name="Date">The date of the automatic snapshot to delete in YYYY-MM-DD format. Use the get auto snapshots operation to get the available automatic snapshots for a resource. Constraints: o pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}$</param>
+    /// <param name="ResourceName">The name of the source instance or disk from which to delete the automatic snapshot. Constraints: • pattern: \w[\w\-]*\w</param>
+    /// <param name="Date">The date of the automatic snapshot to delete in YYYY-MM-DD format. Use the get auto snapshots operation to get the available automatic snapshots for a resource. Constraints: • pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}$</param>
     public AwsLightsailDeleteAutoSnapshotOptions(
         string ResourceName,
         string Date
@@ -60,13 +62,13 @@ public record AwsLightsailDeleteAutoSnapshotOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the source instance or disk from which to delete the au- tomatic snapshot. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the source instance or disk from which to delete the automatic snapshot. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--resource-name")]
     public string? ResourceName { get; private init; }
 
     /// <summary>
-    /// The date of the automatic snapshot to delete in YYYY-MM-DD format. Use the get auto snapshots operation to get the available automatic snapshots for a resource. Constraints: o pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}$
+    /// The date of the automatic snapshot to delete in YYYY-MM-DD format. Use the get auto snapshots operation to get the available automatic snapshots for a resource. Constraints: • pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}$
     /// </summary>
     [CliOption("--date")]
     public string? Date { get; private init; }

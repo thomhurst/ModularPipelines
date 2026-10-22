@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates a resource policy with a knowledge base. A resource policy allows other AWS accounts to access the knowledge base. For more infor- mation, see Cross-account access for knowledge bases . See also: AWS API Documentation
+/// Associates a resource policy with a knowledge base. A resource policy allows other AWS accounts to access the knowledge base. For more information, see Cross-account access for knowledge bases . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsBedrockAgentPutResourcePolicyOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates a resource policy with a knowledge base. A resource policy allows other AWS accounts to access the knowledge base. For more infor- mation, see Cross-account access for knowledge bases . See also: AWS API Documentation
+    /// Associates a resource policy with a knowledge base. A resource policy allows other AWS accounts to access the knowledge base. For more information, see Cross-account access for knowledge bases . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the knowledge base to attach the resource policy to. Constraints: o min: 20 o max: 1011 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:knowl- edge-base/[0-9a-zA-Z]+</param>
-    /// <param name="Policy">The JSON-formatted resource policy to associate with the knowledge base. Constraints: o min: 1 o max: 20480 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the knowledge base to attach the resource policy to. Constraints: • min: 20 • max: 1011 • pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:knowledge-base/[0-9a-zA-Z]+</param>
+    /// <param name="Policy">The JSON-formatted resource policy to associate with the knowledge base. Constraints: • min: 1 • max: 20480 • pattern: [\u0009\u000A\u000D\u0020-\u00FF]+</param>
     public AwsBedrockAgentPutResourcePolicyOptions(
         string ResourceArn,
         string Policy
@@ -60,19 +62,19 @@ public record AwsBedrockAgentPutResourcePolicyOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the knowledge base to attach the resource policy to. Constraints: o min: 20 o max: 1011 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:knowl- edge-base/[0-9a-zA-Z]+
+    /// The Amazon Resource Name (ARN) of the knowledge base to attach the resource policy to. Constraints: • min: 20 • max: 1011 • pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:knowledge-base/[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The JSON-formatted resource policy to associate with the knowledge base. Constraints: o min: 1 o max: 20480 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+
+    /// The JSON-formatted resource policy to associate with the knowledge base. Constraints: • min: 1 • max: 20480 • pattern: [\u0009\u000A\u000D\u0020-\u00FF]+
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; private init; }
 
     /// <summary>
-    /// The expected revision identifier of the resource policy. Use this to prevent conflicts when multiple users update the same policy concur- rently. Specify the revisionId from the most recent GetResourcePol- icy or PutResourcePolicy response. Constraints: o min: 1 o max: 255
+    /// The expected revision identifier of the resource policy. Use this to prevent conflicts when multiple users update the same policy concurrently. Specify the revisionId from the most recent GetResourcePolicy or PutResourcePolicy response. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--expected-revision-id")]
     public string? ExpectedRevisionId { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMailmanagerGetAddressListOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Fetch attributes of an address list. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AddressListId">The identifier of an existing address list resource to be retrieved. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="AddressListId">The identifier of an existing address list resource to be retrieved. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-]+</param>
     public AwsMailmanagerGetAddressListOptions(
         string AddressListId
     )
@@ -56,7 +58,7 @@ public record AwsMailmanagerGetAddressListOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of an existing address list resource to be retrieved. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-]+
+    /// The identifier of an existing address list resource to be retrieved. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--address-list-id")]
     public string? AddressListId { get; private init; }

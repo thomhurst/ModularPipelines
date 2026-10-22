@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotDescribeAuditFindingOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets information about a single audit finding. Properties include the reason for noncompliance, the severity of the issue, and the start time when the audit that returned the finding. Requires permission to access the DescribeAuditFinding action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FindingId">A unique identifier for a single audit finding. You can use this identifier to apply mitigation actions to the finding. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="FindingId">A unique identifier for a single audit finding. You can use this identifier to apply mitigation actions to the finding. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsIotDescribeAuditFindingOptions(
         string FindingId
     )
@@ -56,7 +58,7 @@ public record AwsIotDescribeAuditFindingOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for a single audit finding. You can use this identifier to apply mitigation actions to the finding. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+
+    /// A unique identifier for a single audit finding. You can use this identifier to apply mitigation actions to the finding. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--finding-id")]
     public string? FindingId { get; private init; }

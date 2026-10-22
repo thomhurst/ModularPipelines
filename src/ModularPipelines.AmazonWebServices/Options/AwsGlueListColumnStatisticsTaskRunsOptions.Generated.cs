@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsGlueListColumnStatisticsTaskRunsOptions : AwsOptions
 {
     /// <summary>
-    /// The maximum size of the response. Constraints: o min: 1 o max: 1000
+    /// The maximum size of the response. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

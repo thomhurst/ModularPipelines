@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -73,13 +75,13 @@ public record AwsEc2GetReservedInstancesExchangeQuoteOptions : AwsOptions, IVali
     public IEnumerable<string>? ReservedInstanceIds { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// The configuration of the target Convertible Reserved Instance to ex- change for your current Convertible Reserved Instances. (structure) Details about the target configuration. InstanceCount -&gt; (integer) The number of instances the Convertible Reserved Instance of- fering can be applied to. This parameter is reserved and can- not be specified in a request OfferingId -&gt; (string) [required] The Convertible Reserved Instance offering ID. Shorthand Syntax: InstanceCount=integer,OfferingId=string ... JSON Syntax: [ { "InstanceCount": integer, "OfferingId": "string" } ... ]
+    /// The configuration of the target Convertible Reserved Instance to exchange for your current Convertible Reserved Instances. (structure) Details about the target configuration. InstanceCount -&gt; (integer) The number of instances the Convertible Reserved Instance offering can be applied to. This parameter is reserved and cannot be specified in a request OfferingId -&gt; (string) [required] The Convertible Reserved Instance offering ID. Shorthand Syntax: InstanceCount=integer,OfferingId=string ... JSON Syntax: [ { "InstanceCount": integer, "OfferingId": "string" } ... ]
     /// </summary>
     [CliOption("--target-configurations", GroupValues = true)]
     public IEnumerable<string>? TargetConfigurations { get; set; }

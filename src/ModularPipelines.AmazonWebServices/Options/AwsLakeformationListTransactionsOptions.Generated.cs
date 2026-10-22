@@ -24,25 +24,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLakeformationListTransactionsOptions : AwsOptions
 {
     /// <summary>
-    /// The catalog for which to list transactions. Defaults to the account ID of the caller. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The catalog for which to list transactions. Defaults to the account ID of the caller. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
     /// <summary>
-    /// A filter indicating the status of transactions to return. Options are ALL | COMPLETED | COMMITTED | ABORTED | ACTIVE. The default is ALL . Possible values: o ALL o COMPLETED o ACTIVE o COMMITTED o ABORTED
+    /// A filter indicating the status of transactions to return. Options are ALL | COMPLETED | COMMITTED | ABORTED | ACTIVE. The default is ALL . Possible values: • ALL • COMPLETED • ACTIVE • COMMITTED • ABORTED
     /// </summary>
     [CliOption("--status-filter")]
     public AwsLakeformationListTransactionsStatusFilter? StatusFilter { get; set; }
 
     /// <summary>
-    /// The maximum number of transactions to return in a single call. Constraints: o min: 1 o max: 1000
+    /// The maximum number of transactions to return in a single call. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// A continuation token if this is not the first call to retrieve transactions. Constraints: o max: 4096
+    /// A continuation token if this is not the first call to retrieve transactions. Constraints: • max: 4096
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

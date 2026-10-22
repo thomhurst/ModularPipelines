@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an organization-level configuration that enables a custom de- tection rule across your organization. This operation is available only to the delegated administrator account. See also: AWS API Documentation
+/// Creates an organization-level configuration that enables a custom detection rule across your organization. This operation is available only to the delegated administrator account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsGuarddutyCreateCustomDetectionRuleOrgConfigurationOptions : Aws
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an organization-level configuration that enables a custom de- tection rule across your organization. This operation is available only to the delegated administrator account. See also: AWS API Documentation
+    /// Creates an organization-level configuration that enables a custom detection rule across your organization. This operation is available only to the delegated administrator account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RuleId">The unique identifier for the custom detection rule. Constraints: o min: 1 o max: 100 o pattern: [a-z0-9]+(-[a-z0-9]+)*</param>
-    /// <param name="Mode">The execution mode of the organization configuration. Valid values: LIVE | DRY_RUN . Possible values: o LIVE o DRY_RUN</param>
+    /// <param name="RuleId">The unique identifier for the custom detection rule. Constraints: • min: 1 • max: 100 • pattern: [a-z0-9]+(-[a-z0-9]+)*</param>
+    /// <param name="Mode">The execution mode of the organization configuration. Valid values: LIVE | DRY_RUN . Possible values: • LIVE • DRY_RUN</param>
     public AwsGuarddutyCreateCustomDetectionRuleOrgConfigurationOptions(
         string RuleId,
         string Mode
@@ -61,31 +63,31 @@ public record AwsGuarddutyCreateCustomDetectionRuleOrgConfigurationOptions : Aws
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the custom detection rule. Constraints: o min: 1 o max: 100 o pattern: [a-z0-9]+(-[a-z0-9]+)*
+    /// The unique identifier for the custom detection rule. Constraints: • min: 1 • max: 100 • pattern: [a-z0-9]+(-[a-z0-9]+)*
     /// </summary>
     [CliOption("--rule-id")]
     public string? RuleId { get; private init; }
 
     /// <summary>
-    /// The execution mode of the organization configuration. Valid values: LIVE | DRY_RUN . Possible values: o LIVE o DRY_RUN
+    /// The execution mode of the organization configuration. Valid values: LIVE | DRY_RUN . Possible values: • LIVE • DRY_RUN
     /// </summary>
     [CliOption("--mode")]
     public string? Mode { get; private init; }
 
     /// <summary>
-    /// The account IDs to include in the organization configuration. Mutu- ally exclusive with ExcludeAccountIds . Constraints: o min: 0 o max: 50000 (string) Constraints: o min: 12 o max: 12 Syntax: "string" "string" ...
+    /// The account IDs to include in the organization configuration. Mutually exclusive with ExcludeAccountIds . Constraints: • min: 0 • max: 50000 (string) Constraints: • min: 12 • max: 12 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--include-account-ids", GroupValues = true)]
     public IEnumerable<string>? IncludeAccountIds { get; set; }
 
     /// <summary>
-    /// The account IDs to exclude from the organization configuration. Mu- tually exclusive with IncludeAccountIds . Constraints: o min: 0 o max: 50000 (string) Constraints: o min: 12 o max: 12 Syntax: "string" "string" ...
+    /// The account IDs to exclude from the organization configuration. Mutually exclusive with IncludeAccountIds . Constraints: • min: 0 • max: 50000 (string) Constraints: • min: 12 • max: 12 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--exclude-account-ids", GroupValues = true)]
     public IEnumerable<string>? ExcludeAccountIds { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. Constraints: o min: 0 o max: 64
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. Constraints: • min: 0 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

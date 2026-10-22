@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an Network Firewall Firewall and accompanying FirewallStatus for a VPC. The firewall defines the configuration settings for an Network Firewall firewall. The settings that you can define at creation include the firewall policy, the subnets in your VPC to use for the firewall end- points, and any tags that are attached to the firewall Amazon Web Ser- vices resource. After you create a firewall, you can provide additional settings, like the logging configuration. To update the settings for...
+/// Creates an Network Firewall Firewall and accompanying FirewallStatus for a VPC. The firewall defines the configuration settings for an Network Firewall firewall. The settings that you can define at creation include the firewall policy, the subnets in your VPC to use for the firewall endpoints, and any tags that are attached to the firewall Amazon Web Services resource. After you create a firewall, you can provide additional settings, like the logging configuration. To update the settings for a f...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsNetworkFirewallCreateFirewallOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an Network Firewall Firewall and accompanying FirewallStatus for a VPC. The firewall defines the configuration settings for an Network Firewall firewall. The settings that you can define at creation include the firewall policy, the subnets in your VPC to use for the firewall end- points, and any tags that are attached to the firewall Amazon Web Ser- vices resource. After you create a firewall, you can provide additional settings, like the logging configuration. To update the settings for...
+    /// Creates an Network Firewall Firewall and accompanying FirewallStatus for a VPC. The firewall defines the configuration settings for an Network Firewall firewall. The settings that you can define at creation include the firewall policy, the subnets in your VPC to use for the firewall endpoints, and any tags that are attached to the firewall Amazon Web Services resource. After you create a firewall, you can provide additional settings, like the logging configuration. To update the settings for a f...
     /// </summary>
-    /// <param name="FirewallName">The descriptive name of the firewall. You can't change the name of a firewall after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$</param>
-    /// <param name="FirewallPolicyArn">The Amazon Resource Name (ARN) of the FirewallPolicy that you want to use for the firewall. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*</param>
+    /// <param name="FirewallName">The descriptive name of the firewall. You can't change the name of a firewall after you create it. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$</param>
+    /// <param name="FirewallPolicyArn">The Amazon Resource Name (ARN) of the FirewallPolicy that you want to use for the firewall. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*</param>
     public AwsNetworkFirewallCreateFirewallOptions(
         string FirewallName,
         string FirewallPolicyArn
@@ -60,25 +62,25 @@ public record AwsNetworkFirewallCreateFirewallOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
+    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--firewall-name")]
     public string? FirewallName { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the FirewallPolicy that you want to use for the firewall. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*
+    /// The Amazon Resource Name (ARN) of the FirewallPolicy that you want to use for the firewall. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*
     /// </summary>
     [CliOption("--firewall-policy-arn")]
     public string? FirewallPolicyArn { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the VPC where Network Firewall should cre- ate the firewall. You can't change this setting after you create the firewall. Constraints: o min: 1 o max: 128 o pattern: ^vpc-[0-9a-f]+$
+    /// The unique identifier of the VPC where Network Firewall should create the firewall. You can't change this setting after you create the firewall. Constraints: • min: 1 • max: 128 • pattern: ^vpc-[0-9a-f]+$
     /// </summary>
     [CliOption("--vpc-id")]
     public string? VpcId { get; set; }
 
     /// <summary>
-    /// The public subnets to use for your Network Firewall firewalls. Each subnet must belong to a different Availability Zone in the VPC. Net- work Firewall creates a firewall endpoint in each subnet. (structure) The ID for a subnet that's used in an association with a fire- wall. This is used in CreateFirewall , AssociateSubnets , and CreateVpcEndpointAssociation . Network Firewall creates an in- stance of the associated firewall in each subnet that you spec- ify, to filter traffic in the subnet's Availability Zone. SubnetId -&gt; (string) [required] The unique identifier for the subnet. IPAddressType -&gt; (string) The subnet's IP address type. You can't change the IP address type after you create the subnet. Possible values: o DUALSTACK o IPV4 o IPV6 Shorthand Syntax: SubnetId=string,IPAddressType=string ... JSON Syntax: [ { "SubnetId": "string", "IPAddressType": "DUALSTACK"|"IPV4"|"IPV6" } ... ]
+    /// The public subnets to use for your Network Firewall firewalls. Each subnet must belong to a different Availability Zone in the VPC. Network Firewall creates a firewall endpoint in each subnet. (structure) The ID for a subnet that's used in an association with a firewall. This is used in CreateFirewall , AssociateSubnets , and CreateVpcEndpointAssociation . Network Firewall creates an instance of the associated firewall in each subnet that you specify, to filter traffic in the subnet's Availability Zone. SubnetId -&gt; (string) [required] The unique identifier for the subnet. IPAddressType -&gt; (string) The subnet's IP address type. You can't change the IP address type after you create the subnet. Possible values: • DUALSTACK • IPV4 • IPV6 Shorthand Syntax: SubnetId=string,IPAddressType=string ... JSON Syntax: [ { "SubnetId": "string", "IPAddressType": "DUALSTACK"|"IPV4"|"IPV6" } ... ]
     /// </summary>
     [CliOption("--subnet-mappings", GroupValues = true)]
     public IEnumerable<string>? SubnetMappings { get; set; }
@@ -90,79 +92,79 @@ public record AwsNetworkFirewallCreateFirewallOptions : AwsOptions, IValidatable
     public bool? DeleteProtection { get; set; }
 
     /// <summary>
-    /// A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a fire- wall that is in use. When you create a firewall, the operation ini- tializes this setting to TRUE .
+    /// A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE .
     /// </summary>
     [CliFlag("--subnet-change-protection", NegatedName = "--no-subnet-change-protection")]
     public bool? SubnetChangeProtection { get; set; }
 
     /// <summary>
-    /// tection (boolean) A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to pro- tect against accidentally modifying the firewall policy for a fire- wall that is in use. When you create a firewall, the operation ini- tializes this setting to TRUE .
+    /// A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to protect against accidentally modifying the firewall policy for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE .
     /// </summary>
     [CliFlag("--firewall-policy-change-protection", NegatedName = "--no-firewall-policy-change-protection")]
     public bool? FirewallPolicyChangeProtection { get; set; }
 
     /// <summary>
-    /// A description of the firewall. Constraints: o max: 512 o pattern: ^.*$
+    /// A description of the firewall. Constraints: • max: 512 • pattern: ^.*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The key:value pairs to associate with the resource. Constraints: o min: 1 o max: 200 (structure) A key:value pair associated with an Amazon Web Services re- source. The key:value pair can be anything you define. Typi- cally, the tag key represents a category (such as "environment") and the tag value represents a specific value within that cate- gory (such as "test," "development," or "production"). You can add up to 50 tags to each Amazon Web Services resource. Key -&gt; (string) [required] The part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive. Constraints: o min: 1 o max: 128 o pattern: ^.*$ Value -&gt; (string) [required] The part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a cate- gory, such as "companyA" or "companyB." Tag values are case-sensitive. Constraints: o min: 0 o max: 256 o pattern: ^.*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The key:value pairs to associate with the resource. Constraints: • min: 1 • max: 200 (structure) A key:value pair associated with an Amazon Web Services resource. The key:value pair can be anything you define. Typically, the tag key represents a category (such as "environment") and the tag value represents a specific value within that category (such as "test," "development," or "production"). You can add up to 50 tags to each Amazon Web Services resource. Key -&gt; (string) [required] The part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive. Constraints: • min: 1 • max: 128 • pattern: ^.*$ Value -&gt; (string) [required] The part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensitive. Constraints: • min: 0 • max: 256 • pattern: ^.*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// A complex type that contains settings for encryption of your fire- wall resources. KeyId -&gt; (string) The ID of the Amazon Web Services Key Management Service (KMS) customer managed key. You can use any of the key identifiers that KMS supports, unless you're using a key that's managed by another account. If you're using a key managed by another ac- count, then specify the key ARN. For more information, see Key ID in the Amazon Web Services KMS Developer Guide . Constraints: o min: 1 o max: 2048 o pattern: .*\S.* Type -&gt; (string) [required] The type of Amazon Web Services KMS key to use for encryption of your Network Firewall resources. Possible values: o CUSTOMER_KMS o AWS_OWNED_KMS_KEY Shorthand Syntax: KeyId=string,Type=string JSON Syntax: { "KeyId": "string", "Type": "CUSTOMER_KMS"|"AWS_OWNED_KMS_KEY" }
+    /// A complex type that contains settings for encryption of your firewall resources. KeyId -&gt; (string) The ID of the Amazon Web Services Key Management Service (KMS) customer managed key. You can use any of the key identifiers that KMS supports, unless you're using a key that's managed by another account. If you're using a key managed by another account, then specify the key ARN. For more information, see Key ID in the Amazon Web Services KMS Developer Guide . Constraints: • min: 1 • max: 2048 • pattern: .*\S.* Type -&gt; (string) [required] The type of Amazon Web Services KMS key to use for encryption of your Network Firewall resources. Possible values: • CUSTOMER_KMS • AWS_OWNED_KMS_KEY Shorthand Syntax: KeyId=string,Type=string JSON Syntax: { "KeyId": "string", "Type": "CUSTOMER_KMS"|"AWS_OWNED_KMS_KEY" }
     /// </summary>
     [CliOption("--encryption-configuration")]
     public string? EncryptionConfiguration { get; set; }
 
     /// <summary>
-    /// An optional setting indicating the specific traffic analysis types to enable on the firewall. (string) Possible values: o TLS_SNI o HTTP_HOST Syntax: "string" "string" ...
+    /// An optional setting indicating the specific traffic analysis types to enable on the firewall. (string) Possible values: • TLS_SNI • HTTP_HOST Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--enabled-analysis-types", GroupValues = true)]
     public IEnumerable<string>? EnabledAnalysisTypes { get; set; }
 
     /// <summary>
-    /// Required when creating a transit gateway-attached firewall. The unique identifier of the transit gateway to attach to this firewall. You can provide either a transit gateway from your account or one that has been shared with you through Resource Access Manager. WARNING: After creating the firewall, you cannot change the transit gate- way association. To use a different transit gateway, you must create a new firewall. For information about creating firewalls, see CreateFirewall . For specific guidance about transit gateway-attached firewalls, see Considerations for transit gateway-attached firewalls in the Network Firewall Developer Guide . Constraints: o min: 1 o max: 128 o pattern: ^tgw-[0-9a-z]+$
+    /// Required when creating a transit gateway-attached firewall. The unique identifier of the transit gateway to attach to this firewall. You can provide either a transit gateway from your account or one that has been shared with you through Resource Access Manager. WARNING: After creating the firewall, you cannot change the transit gateway association. To use a different transit gateway, you must create a new firewall. For information about creating firewalls, see CreateFirewall . For specific guidance about transit gateway-attached firewalls, see Considerations for transit gateway-attached firewalls in the Network Firewall Developer Guide . Constraints: • min: 1 • max: 128 • pattern: ^tgw-[0-9a-z]+$
     /// </summary>
     [CliOption("--transit-gateway-id")]
     public string? TransitGatewayId { get; set; }
 
     /// <summary>
-    /// Required. The Availability Zones where you want to create firewall endpoints for a transit gateway-attached firewall. You must specify at least one Availability Zone. Consider enabling the firewall in every Availability Zone where you have workloads to maintain Avail- ability Zone isolation. You can modify Availability Zones later using AssociateAvailabili- tyZones or DisassociateAvailabilityZones , but this may briefly disrupt traffic. The AvailabilityZoneChangeProtection setting con- trols whether you can make these modifications. (structure) Defines the mapping between an Availability Zone and a firewall endpoint for a transit gateway-attached firewall. Each mapping represents where the firewall can process traffic. You use these mappings when calling CreateFirewall , AssociateAvailability- Zones , and DisassociateAvailabilityZones . To retrieve the current Availability Zone mappings for a fire- wall, use DescribeFirewall . AvailabilityZone -&gt; (string) [required] The ID of the Availability Zone where the firewall endpoint is located. For example, us-east-2a . The Availability Zone must be in the same Region as the transit gateway. Constraints: o min: 1 o max: 128 o pattern: \S+ Shorthand Syntax: AvailabilityZone=string ... JSON Syntax: [ { "AvailabilityZone": "string" } ... ]
+    /// Required. The Availability Zones where you want to create firewall endpoints for a transit gateway-attached firewall. You must specify at least one Availability Zone. Consider enabling the firewall in every Availability Zone where you have workloads to maintain Availability Zone isolation. You can modify Availability Zones later using AssociateAvailabilityZones or DisassociateAvailabilityZones , but this may briefly disrupt traffic. The AvailabilityZoneChangeProtection setting controls whether you can make these modifications. (structure) Defines the mapping between an Availability Zone and a firewall endpoint for a transit gateway-attached firewall. Each mapping represents where the firewall can process traffic. You use these mappings when calling CreateFirewall , AssociateAvailabilityZones , and DisassociateAvailabilityZones . To retrieve the current Availability Zone mappings for a firewall, use DescribeFirewall . AvailabilityZone -&gt; (string) [required] The ID of the Availability Zone where the firewall endpoint is located. For example, us-east-2a . The Availability Zone must be in the same Region as the transit gateway. Constraints: • min: 1 • max: 128 • pattern: \S+ Shorthand Syntax: AvailabilityZone=string ... JSON Syntax: [ { "AvailabilityZone": "string" } ... ]
     /// </summary>
     [CliOption("--availability-zone-mappings", GroupValues = true)]
     public IEnumerable<string>? AvailabilityZoneMappings { get; set; }
 
     /// <summary>
-    /// ity-zone-change-protection (boolean) Optional. A setting indicating whether the firewall is protected against changes to its Availability Zone configuration. When set to TRUE , you cannot add or remove Availability Zones without first disabling this protection using UpdateAvailabilityZoneChangeProtec- tion . Default value: FALSE
+    /// Optional. A setting indicating whether the firewall is protected against changes to its Availability Zone configuration. When set to TRUE , you cannot add or remove Availability Zones without first disabling this protection using UpdateAvailabilityZoneChangeProtection . Default value: FALSE
     /// </summary>
     [CliFlag("--availability-zone-change-protection", NegatedName = "--no-availability-zone-change-protection")]
     public bool? AvailabilityZoneChangeProtection { get; set; }
 
     /// <summary>
-    /// The NAT gateways that the firewall uses to proxy traffic when NoSourcePreservation is TRUE . Network Firewall attaches the fire- wall to each NAT gateway that you specify, so that egress traffic is proxied through the NAT gateway. (structure) A NAT gateway that a proxy mode firewall uses to proxy traffic. This is used in CreateFirewall when NoSourcePreservation is TRUE . NatGatewayId -&gt; (string) [required] A unique identifier for the NAT gateway to use with proxy re- sources. Constraints: o min: 1 Shorthand Syntax: NatGatewayId=string ... JSON Syntax: [ { "NatGatewayId": "string" } ... ]
+    /// The NAT gateways that the firewall uses to proxy traffic when NoSourcePreservation is TRUE . Network Firewall attaches the firewall to each NAT gateway that you specify, so that egress traffic is proxied through the NAT gateway. (structure) A NAT gateway that a proxy mode firewall uses to proxy traffic. This is used in CreateFirewall when NoSourcePreservation is TRUE . NatGatewayId -&gt; (string) [required] A unique identifier for the NAT gateway to use with proxy resources. Constraints: • min: 1 Shorthand Syntax: NatGatewayId=string ... JSON Syntax: [ { "NatGatewayId": "string" } ... ]
     /// </summary>
     [CliOption("--nat-gateway-mappings", GroupValues = true)]
     public IEnumerable<string>? NatGatewayMappings { get; set; }
 
     /// <summary>
-    /// The listener configuration for a proxy mode firewall, used when NoSourcePreservation is TRUE . This specifies the ports and proto- cols on which the firewall's proxy listens for traffic. ListenerProperties -&gt; (list) [required] Listener properties for HTTP and HTTPS traffic. (structure) Open port for taking HTTP or HTTPS traffic. Port -&gt; (integer) Port for processing traffic. Type -&gt; (string) Selection of HTTP or HTTPS traffic. Possible values: o HTTP o HTTPS Shorthand Syntax: ListenerProperties=[{Port=integer,Type=string},{Port=integer,Type=string}] JSON Syntax: { "ListenerProperties": [ { "Port": integer, "Type": "HTTP"|"HTTPS" } ... ] }
+    /// The listener configuration for a proxy mode firewall, used when NoSourcePreservation is TRUE . This specifies the ports and protocols on which the firewall's proxy listens for traffic. ListenerProperties -&gt; (list) [required] Listener properties for HTTP and HTTPS traffic. (structure) Open port for taking HTTP or HTTPS traffic. Port -&gt; (integer) Port for processing traffic. Type -&gt; (string) Selection of HTTP or HTTPS traffic. Possible values: • HTTP • HTTPS Shorthand Syntax: ListenerProperties=[{Port=integer,Type=string},{Port=integer,Type=string}] JSON Syntax: { "ListenerProperties": [ { "Port": integer, "Type": "HTTP"|"HTTPS" } ... ] }
     /// </summary>
     [CliOption("--proxy-settings")]
     public string? ProxySettings { get; set; }
 
     /// <summary>
-    /// Optional. Indicates whether the firewall operates in proxy mode, in which the source IP address of the traffic is not preserved. When set to TRUE , the firewall proxies traffic through a NAT gateway and the traffic reaching the destination uses the NAT gateway's IP ad- dress as the source. When you set this to TRUE , you must specify NatGatewayMappings and VpcEndpoint instead of a top-level VpcId and SubnetMappings . You can't change this setting after you create the firewall. Default value: FALSE
+    /// Optional. Indicates whether the firewall operates in proxy mode, in which the source IP address of the traffic is not preserved. When set to TRUE , the firewall proxies traffic through a NAT gateway and the traffic reaching the destination uses the NAT gateway's IP address as the source. When you set this to TRUE , you must specify NatGatewayMappings and VpcEndpoint instead of a top-level VpcId and SubnetMappings . You can't change this setting after you create the firewall. Default value: FALSE
     /// </summary>
     [CliFlag("--no-source-preservation", NegatedName = "--no-no-source-preservation")]
     public bool? NoSourcePreservation { get; set; }
 
     /// <summary>
-    /// The VPC and subnets for the firewall endpoint, used when NoSourceP- reservation is TRUE . Network Firewall creates the firewall endpoint in the subnets that you specify here. For proxy mode firewalls, provide the firewall's VPC and endpoint subnets through this parameter instead of the top-level VpcId and SubnetMappings . VpcId -&gt; (string) [required] The unique identifier of the VPC where Network Firewall creates the proxy mode firewall endpoint. Constraints: o min: 1 o max: 128 o pattern: ^vpc-[0-9a-f]+$ SubnetMappings -&gt; (list) [required] The subnets in which Network Firewall creates the firewall end- point for a proxy mode firewall. Each subnet must belong to a different Availability Zone in the VPC. (structure) The ID for a subnet that's used in an association with a firewall. This is used in CreateFirewall , AssociateSubnets , and CreateVpcEndpointAssociation . Network Firewall cre- ates an instance of the associated firewall in each subnet that you specify, to filter traffic in the subnet's Avail- ability Zone. SubnetId -&gt; (string) [required] The unique identifier for the subnet. IPAddressType -&gt; (string) The subnet's IP address type. You can't change the IP ad- dress type after you create the subnet. Possible values: o DUALSTACK o IPV4 o IPV6 Shorthand Syntax: VpcId=string,SubnetMappings=[{SubnetId=string,IPAddressType=string},{SubnetId=string,IPAddressType=string}] JSON Syntax: { "VpcId": "string", "SubnetMappings": [ { "SubnetId": "string", "IPAddressType": "DUALSTACK"|"IPV4"|"IPV6" } ... ] }
+    /// The VPC and subnets for the firewall endpoint, used when NoSourcePreservation is TRUE . Network Firewall creates the firewall endpoint in the subnets that you specify here. For proxy mode firewalls, provide the firewall's VPC and endpoint subnets through this parameter instead of the top-level VpcId and SubnetMappings . VpcId -&gt; (string) [required] The unique identifier of the VPC where Network Firewall creates the proxy mode firewall endpoint. Constraints: • min: 1 • max: 128 • pattern: ^vpc-[0-9a-f]+$ SubnetMappings -&gt; (list) [required] The subnets in which Network Firewall creates the firewall endpoint for a proxy mode firewall. Each subnet must belong to a different Availability Zone in the VPC. (structure) The ID for a subnet that's used in an association with a firewall. This is used in CreateFirewall , AssociateSubnets , and CreateVpcEndpointAssociation . Network Firewall creates an instance of the associated firewall in each subnet that you specify, to filter traffic in the subnet's Availability Zone. SubnetId -&gt; (string) [required] The unique identifier for the subnet. IPAddressType -&gt; (string) The subnet's IP address type. You can't change the IP address type after you create the subnet. Possible values: • DUALSTACK • IPV4 • IPV6 Shorthand Syntax: VpcId=string,SubnetMappings=[{SubnetId=string,IPAddressType=string},{SubnetId=string,IPAddressType=string}] JSON Syntax: { "VpcId": "string", "SubnetMappings": [ { "SubnetId": "string", "IPAddressType": "DUALSTACK"|"IPV4"|"IPV6" } ... ] }
     /// </summary>
     [CliOption("--vpc-endpoint")]
     public string? VpcEndpoint { get; set; }

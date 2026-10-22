@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves information about multiple router inputs in AWS Elemental Me- diaConnect. See also: AWS API Documentation
+/// Retrieves information about multiple router inputs in AWS Elemental MediaConnect. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsMediaconnectBatchGetRouterInputOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves information about multiple router inputs in AWS Elemental Me- diaConnect. See also: AWS API Documentation
+    /// Retrieves information about multiple router inputs in AWS Elemental MediaConnect. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arns">The Amazon Resource Names (ARNs) of the router inputs you want to retrieve information about. Constraints: o min: 1 o max: 20 (string) Constraints: o pattern: arn:(aws[a-zA-Z-]*):mediacon- nect:[a-z0-9-]+:[0-9]{12}:routerInput:[a-z0-9]{12} Syntax: "string" "string" ...</param>
+    /// <param name="Arns">The Amazon Resource Names (ARNs) of the router inputs you want to retrieve information about. Constraints: • min: 1 • max: 20 (string) Constraints: • pattern: arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:routerInput:[a-z0-9]{12} Syntax: "string" "string" ...</param>
     public AwsMediaconnectBatchGetRouterInputOptions(
         IEnumerable<string> Arns
     )
@@ -67,7 +69,7 @@ public record AwsMediaconnectBatchGetRouterInputOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Names (ARNs) of the router inputs you want to retrieve information about. Constraints: o min: 1 o max: 20 (string) Constraints: o pattern: arn:(aws[a-zA-Z-]*):mediacon- nect:[a-z0-9-]+:[0-9]{12}:routerInput:[a-z0-9]{12} Syntax: "string" "string" ...
+    /// The Amazon Resource Names (ARNs) of the router inputs you want to retrieve information about. Constraints: • min: 1 • max: 20 (string) Constraints: • pattern: arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:routerInput:[a-z0-9]{12} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--arns", GroupValues = true)]
     public IEnumerable<string>? Arns { get; private init; }

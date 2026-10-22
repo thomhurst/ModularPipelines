@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsOpensearchUpdateVpcEndpointOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Modifies an Amazon OpenSearch Service-managed interface VPC endpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VpcEndpointId">The unique identifier of the endpoint. Constraints: o min: 5 o max: 256 o pattern: ^aos-[a-zA-Z0-9]*$</param>
+    /// <param name="VpcEndpointId">The unique identifier of the endpoint. Constraints: • min: 5 • max: 256 • pattern: ^aos-[a-zA-Z0-9]*$</param>
     /// <param name="VpcOptions">The security groups and/or subnets to add, remove, or modify. SubnetIds -&gt; (list) A list of subnet IDs associated with the VPC endpoints for the domain. If your domain uses multiple Availability Zones, you need to provide two subnet IDs, one per zone. Otherwise, provide only one. (string) SecurityGroupIds -&gt; (list) The list of security group IDs associated with the VPC endpoints for the domain. If you do not provide a security group ID, OpenSearch Service uses the default security group for the VPC. (string) EgressEnabled -&gt; (boolean) Controls whether egress traffic from the domain is routed through the customer VPC. When true , outbound traffic flows through the VPC. When false , outbound traffic goes through the public internet. Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string,EgressEnabled=boolean JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...], "EgressEnabled": true|false }</param>
     public AwsOpensearchUpdateVpcEndpointOptions(
         string VpcEndpointId,
@@ -60,7 +62,7 @@ public record AwsOpensearchUpdateVpcEndpointOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the endpoint. Constraints: o min: 5 o max: 256 o pattern: ^aos-[a-zA-Z0-9]*$
+    /// The unique identifier of the endpoint. Constraints: • min: 5 • max: 256 • pattern: ^aos-[a-zA-Z0-9]*$
     /// </summary>
     [CliOption("--vpc-endpoint-id")]
     public string? VpcEndpointId { get; private init; }

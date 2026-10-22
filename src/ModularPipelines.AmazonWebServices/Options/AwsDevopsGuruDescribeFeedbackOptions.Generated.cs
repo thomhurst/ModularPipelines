@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDevopsGuruDescribeFeedbackOptions : AwsOptions
 {
     /// <summary>
-    /// The ID of the insight for which the feedback was provided. Constraints: o min: 1 o max: 100 o pattern: ^[\w-]*$
+    /// The ID of the insight for which the feedback was provided. Constraints: • min: 1 • max: 100 • pattern: ^[\w-]*$
     /// </summary>
     [CliOption("--insight-id")]
     public string? InsightId { get; set; }

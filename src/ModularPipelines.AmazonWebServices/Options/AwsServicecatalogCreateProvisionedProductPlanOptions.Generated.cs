@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a plan. A plan includes the list of resources to be created (when provisioning a new product) or modified (when updating a provisioned product) when the plan is executed. You can create one plan for each provisioned product. To create a plan for an existing provisioned product, the product status must be AVAIL- ABLE or TAINTED. To view the resource changes in the change set, use DescribeProvi- sionedProductPlan . To create or modify the provisioned product, use ExecuteProvisionedProductP...
+/// Creates a plan. A plan includes the list of resources to be created (when provisioning a new product) or modified (when updating a provisioned product) when the plan is executed. You can create one plan for each provisioned product. To create a plan for an existing provisioned product, the product status must be AVAILABLE or TAINTED. To view the resource changes in the change set, use DescribeProvisionedProductPlan . To create or modify the provisioned product, use ExecuteProvisionedProductPlan ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,13 +28,13 @@ public record AwsServicecatalogCreateProvisionedProductPlanOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a plan. A plan includes the list of resources to be created (when provisioning a new product) or modified (when updating a provisioned product) when the plan is executed. You can create one plan for each provisioned product. To create a plan for an existing provisioned product, the product status must be AVAIL- ABLE or TAINTED. To view the resource changes in the change set, use DescribeProvi- sionedProductPlan . To create or modify the provisioned product, use ExecuteProvisionedProductP...
+    /// Creates a plan. A plan includes the list of resources to be created (when provisioning a new product) or modified (when updating a provisioned product) when the plan is executed. You can create one plan for each provisioned product. To create a plan for an existing provisioned product, the product status must be AVAILABLE or TAINTED. To view the resource changes in the change set, use DescribeProvisionedProductPlan . To create or modify the provisioned product, use ExecuteProvisionedProductPlan ...
     /// </summary>
     /// <param name="PlanName">The name of the plan.</param>
-    /// <param name="PlanType">The plan type. Possible values: o CLOUDFORMATION</param>
-    /// <param name="ProductId">The product identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
-    /// <param name="ProvisionedProductName">A user-friendly name for the provisioned product. This value must be unique for the Amazon Web Services account and cannot be updated af- ter the product is provisioned. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9._-]*</param>
-    /// <param name="ProvisioningArtifactId">The identifier of the provisioning artifact. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="PlanType">The plan type. Possible values: • CLOUDFORMATION</param>
+    /// <param name="ProductId">The product identifier. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="ProvisionedProductName">A user-friendly name for the provisioned product. This value must be unique for the Amazon Web Services account and cannot be updated after the product is provisioned. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][a-zA-Z0-9._-]*</param>
+    /// <param name="ProvisioningArtifactId">The identifier of the provisioning artifact. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*</param>
     public AwsServicecatalogCreateProvisionedProductPlanOptions(
         string PlanName,
         string PlanType,
@@ -79,62 +81,62 @@ public record AwsServicecatalogCreateProvisionedProductPlanOptions : AwsOptions,
     public string? PlanName { get; private init; }
 
     /// <summary>
-    /// The plan type. Possible values: o CLOUDFORMATION
+    /// The plan type. Possible values: • CLOUDFORMATION
     /// </summary>
     [CliOption("--plan-type")]
     public string? PlanType { get; private init; }
 
     /// <summary>
-    /// The product identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The product identifier. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--product-id")]
     public string? ProductId { get; private init; }
 
     /// <summary>
-    /// A user-friendly name for the provisioned product. This value must be unique for the Amazon Web Services account and cannot be updated af- ter the product is provisioned. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9._-]*
+    /// A user-friendly name for the provisioned product. This value must be unique for the Amazon Web Services account and cannot be updated after the product is provisioned. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][a-zA-Z0-9._-]*
     /// </summary>
     [CliOption("--provisioned-product-name")]
     public string? ProvisionedProductName { get; private init; }
 
     /// <summary>
-    /// The identifier of the provisioning artifact. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The identifier of the provisioning artifact. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--provisioning-artifact-id")]
     public string? ProvisioningArtifactId { get; private init; }
 
     /// <summary>
-    /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
+    /// The language code. • jp - Japanese • zh - Chinese Constraints: • max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
     /// <summary>
-    /// Passed to CloudFormation. The SNS topic ARNs to which to publish stack-related events. Constraints: o max: 5 (string) Constraints: o min: 1 o max: 1224 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} Syntax: "string" "string" ...
+    /// Passed to CloudFormation. The SNS topic ARNs to which to publish stack-related events. Constraints: • max: 5 (string) Constraints: • min: 1 • max: 1224 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--notification-arns", GroupValues = true)]
     public IEnumerable<string>? NotificationArns { get; set; }
 
     /// <summary>
-    /// The path identifier of the product. This value is optional if the product has a default path, and required if the product has more than one path. To list the paths for a product, use ListLaunchPaths . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The path identifier of the product. This value is optional if the product has a default path, and required if the product has more than one path. To list the paths for a product, use ListLaunchPaths . Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--path-id")]
     public string? PathId { get; set; }
 
     /// <summary>
-    /// Parameters specified by the administrator that are required for pro- visioning the product. (structure) The parameter key-value pair used to update a provisioned prod- uct. Key -&gt; (string) The parameter key. Constraints: o min: 1 o max: 1000 Value -&gt; (string) The parameter value. Constraints: o max: 4096 UsePreviousValue -&gt; (boolean) If set to true, Value is ignored and the previous parameter value is kept. Shorthand Syntax: Key=string,Value=string,UsePreviousValue=boolean ... JSON Syntax: [ { "Key": "string", "Value": "string", "UsePreviousValue": true|false } ... ]
+    /// Parameters specified by the administrator that are required for provisioning the product. (structure) The parameter key-value pair used to update a provisioned product. Key -&gt; (string) The parameter key. Constraints: • min: 1 • max: 1000 Value -&gt; (string) The parameter value. Constraints: • max: 4096 UsePreviousValue -&gt; (boolean) If set to true, Value is ignored and the previous parameter value is kept. Shorthand Syntax: Key=string,Value=string,UsePreviousValue=boolean ... JSON Syntax: [ { "Key": "string", "Value": "string", "UsePreviousValue": true|false } ... ]
     /// </summary>
     [CliOption("--provisioning-parameters", GroupValues = true)]
     public IEnumerable<string>? ProvisioningParameters { get; set; }
 
     /// <summary>
-    /// A unique identifier that you provide to ensure idempotency. If mul- tiple requests differ only by the idempotency token, the same re- sponse is returned for each repeated request. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [SecretValue]
     [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
 
     /// <summary>
-    /// One or more tags. If the plan is for an existing provisioned product, the product must have a RESOURCE_UPDATE constraint with TagUpdatesOnProvisionedProd- uct set to ALLOWED to allow tag updates. Constraints: o max: 50 (structure) Information about a tag. A tag is a key-value pair. Tags are propagated to the resources created when provisioning a product. Key -&gt; (string) [required] The tag key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value for this key. Constraints: o min: 1 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// One or more tags. If the plan is for an existing provisioned product, the product must have a RESOURCE_UPDATE constraint with TagUpdatesOnProvisionedProduct set to ALLOWED to allow tag updates. Constraints: • max: 50 (structure) Information about a tag. A tag is a key-value pair. Tags are propagated to the resources created when provisioning a product. Key -&gt; (string) [required] The tag key. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value for this key. Constraints: • min: 1 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

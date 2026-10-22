@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Rolls back a service software update for a domain to the previous ver- sion. For more information, see Service software updates in Amazon OpenSearch Service . See also: AWS API Documentation
+/// Rolls back a service software update for a domain to the previous version. For more information, see Service software updates in Amazon OpenSearch Service . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsOpensearchRollbackServiceSoftwareUpdateOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Rolls back a service software update for a domain to the previous ver- sion. For more information, see Service software updates in Amazon OpenSearch Service . See also: AWS API Documentation
+    /// Rolls back a service software update for a domain to the previous version. For more information, see Service software updates in Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The name of the domain to roll back the service software update on. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="DomainName">The name of the domain to roll back the service software update on. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
     public AwsOpensearchRollbackServiceSoftwareUpdateOptions(
         string DomainName
     )
@@ -56,7 +58,7 @@ public record AwsOpensearchRollbackServiceSoftwareUpdateOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain to roll back the service software update on. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// The name of the domain to roll back the service software update on. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }

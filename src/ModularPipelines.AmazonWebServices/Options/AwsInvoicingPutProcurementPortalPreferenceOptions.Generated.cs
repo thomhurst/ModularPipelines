@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// o This feature API is subject to changing at any time. For more in- formation, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Updates an existing procurement portal preference configuration. This operation can modify settings for e-invoice delivery and purchase order retrieval. See also: AWS API Documentation
+/// • This feature API is subject to changing at any time. For more information, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Updates an existing procurement portal preference configuration. This operation can modify settings for e-invoice delivery and purchase order retrieval. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +28,12 @@ public record AwsInvoicingPutProcurementPortalPreferenceOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// o This feature API is subject to changing at any time. For more in- formation, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Updates an existing procurement portal preference configuration. This operation can modify settings for e-invoice delivery and purchase order retrieval. See also: AWS API Documentation
+    /// • This feature API is subject to changing at any time. For more information, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Updates an existing procurement portal preference configuration. This operation can modify settings for e-invoice delivery and purchase order retrieval. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProcurementPortalPreferenceArn">The Amazon Resource Name (ARN) of the procurement portal preference to update. Constraints: o min: 1 o max: 256 o pattern: arn:aws:invoicing::[0-9]{12}:procurement-portal-prefer- ence/[-a-zA-Z0-9]+</param>
+    /// <param name="ProcurementPortalPreferenceArn">The Amazon Resource Name (ARN) of the procurement portal preference to update. Constraints: • min: 1 • max: 256 • pattern: arn:aws:invoicing::[0-9]{12}:procurement-portal-preference/[-a-zA-Z0-9]+</param>
     /// <param name="EinvoiceDeliveryEnabled">Updated flag indicating whether e-invoice delivery is enabled for this procurement portal preference.</param>
-    /// <param name="PurchaseOrderRetrievalEnabled">abled (boolean) [required] Updated flag indicating whether purchase order retrieval is enabled for this procurement portal preference.</param>
-    /// <param name="Contacts">Updated list of contact information for portal administrators and technical contacts. Constraints: o min: 1 o max: 1 (structure) Represents contact information for a person or role associated with the procurement portal preference. Name -&gt; (string) The name of the contact person or role. Constraints: o min: 0 o max: 1024 o pattern: [\s\S]* Email -&gt; (string) The email address of the contact person or role. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,} Shorthand Syntax: Name=string,Email=string ... JSON Syntax: [ { "Name": "string", "Email": "string" } ... ]</param>
+    /// <param name="PurchaseOrderRetrievalEnabled">Updated flag indicating whether purchase order retrieval is enabled for this procurement portal preference.</param>
+    /// <param name="Contacts">Updated list of contact information for portal administrators and technical contacts. Constraints: • min: 1 • max: 1 (structure) Represents contact information for a person or role associated with the procurement portal preference. Name -&gt; (string) The name of the contact person or role. Constraints: • min: 0 • max: 1024 • pattern: [\s\S]* Email -&gt; (string) The email address of the contact person or role. Constraints: • min: 1 • max: 1024 • pattern: [a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,} Shorthand Syntax: Name=string,Email=string ... JSON Syntax: [ { "Name": "string", "Email": "string" } ... ]</param>
     public AwsInvoicingPutProcurementPortalPreferenceOptions(
         string ProcurementPortalPreferenceArn,
         bool EinvoiceDeliveryEnabled,
@@ -78,7 +80,7 @@ public record AwsInvoicingPutProcurementPortalPreferenceOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the procurement portal preference to update. Constraints: o min: 1 o max: 256 o pattern: arn:aws:invoicing::[0-9]{12}:procurement-portal-prefer- ence/[-a-zA-Z0-9]+
+    /// The Amazon Resource Name (ARN) of the procurement portal preference to update. Constraints: • min: 1 • max: 256 • pattern: arn:aws:invoicing::[0-9]{12}:procurement-portal-preference/[-a-zA-Z0-9]+
     /// </summary>
     [CliOption("--procurement-portal-preference-arn")]
     public string? ProcurementPortalPreferenceArn { get; private init; }
@@ -90,50 +92,62 @@ public record AwsInvoicingPutProcurementPortalPreferenceOptions : AwsOptions, IV
     public bool? EinvoiceDeliveryEnabled { get; private init; }
 
     /// <summary>
-    /// abled (boolean) [required] Updated flag indicating whether purchase order retrieval is enabled for this procurement portal preference.
+    /// Updated flag indicating whether purchase order retrieval is enabled for this procurement portal preference.
     /// </summary>
     [CliFlag("--purchase-order-retrieval-enabled", NegatedName = "--no-purchase-order-retrieval-enabled")]
     public bool? PurchaseOrderRetrievalEnabled { get; private init; }
 
     /// <summary>
-    /// Updated list of contact information for portal administrators and technical contacts. Constraints: o min: 1 o max: 1 (structure) Represents contact information for a person or role associated with the procurement portal preference. Name -&gt; (string) The name of the contact person or role. Constraints: o min: 0 o max: 1024 o pattern: [\s\S]* Email -&gt; (string) The email address of the contact person or role. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,} Shorthand Syntax: Name=string,Email=string ... JSON Syntax: [ { "Name": "string", "Email": "string" } ... ]
+    /// Updated list of contact information for portal administrators and technical contacts. Constraints: • min: 1 • max: 1 (structure) Represents contact information for a person or role associated with the procurement portal preference. Name -&gt; (string) The name of the contact person or role. Constraints: • min: 0 • max: 1024 • pattern: [\s\S]* Email -&gt; (string) The email address of the contact person or role. Constraints: • min: 1 • max: 1024 • pattern: [a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,} Shorthand Syntax: Name=string,Email=string ... JSON Syntax: [ { "Name": "string", "Email": "string" } ... ]
     /// </summary>
     [CliOption("--contacts", GroupValues = true)]
     public IEnumerable<string>? Contacts { get; private init; }
 
     /// <summary>
-    /// Specifies criteria for selecting which invoices should be processed using a particular procurement portal preference. InvoiceUnitArns -&gt; (list) The Amazon Resource Name (ARN) of invoice unit identifiers to which this preference applies. Constraints: o min: 0 o max: 500 (string) Constraints: o min: 1 o max: 256 o pattern: arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+ SellerOfRecords -&gt; (list) The list of seller of record IDs to which this preference ap- plies. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 0 o max: 1024 o pattern: \S+ Shorthand Syntax: InvoiceUnitArns=string,string,SellerOfRecords=string,string JSON Syntax: { "InvoiceUnitArns": ["string", ...], "SellerOfRecords": ["string", ...] }
+    /// Specifies criteria for selecting which invoices should be processed using a particular procurement portal preference. InvoiceUnitArns -&gt; (list) The Amazon Resource Name (ARN) of invoice unit identifiers to which this preference applies. Constraints: • min: 0 • max: 500 (string) Constraints: • min: 1 • max: 256 • pattern: arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+ SellerOfRecords -&gt; (list) The list of seller of record IDs to which this preference applies. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 0 • max: 1024 • pattern: \S+ Shorthand Syntax: InvoiceUnitArns=string,string,SellerOfRecords=string,string JSON Syntax: { "InvoiceUnitArns": ["string", ...], "SellerOfRecords": ["string", ...] }
     /// </summary>
     [CliOption("--selector")]
     public string? Selector { get; set; }
 
     /// <summary>
-    /// The updated shared secret or authentication credential for the pro- curement portal. This value must be encrypted at rest. Constraints: o min: 0 o max: 1024 o pattern: \S+
+    /// The updated shared secret or authentication credential for the procurement portal. This value must be encrypted at rest. Constraints: • min: 0 • max: 1024 • pattern: \S+
     /// </summary>
     [SecretValue]
     [CliOption("--procurement-portal-shared-secret")]
     public string? ProcurementPortalSharedSecret { get; set; }
 
     /// <summary>
-    /// The updated endpoint URL where e-invoices will be delivered to the procurement portal. Must be a valid HTTPS URL. Constraints: o min: 0 o max: 1024 o pattern: \S+
+    /// The updated endpoint URL where e-invoices will be delivered to the procurement portal. Must be a valid HTTPS URL. Constraints: • min: 0 • max: 1024 • pattern: \S+
     /// </summary>
     [CliOption("--procurement-portal-instance-endpoint")]
     public string? ProcurementPortalInstanceEndpoint { get; set; }
 
     /// <summary>
-    /// Updated configuration settings for the test environment of the pro- curement portal. BuyerDomain -&gt; (string) [required] The domain identifier to use for the buyer in the test environ- ment. Possible values: o NetworkID BuyerIdentifier -&gt; (string) [required] The unique identifier to use for the buyer in the test environ- ment. Constraints: o min: 0 o max: 1024 o pattern: \S+ SupplierDomain -&gt; (string) [required] The domain identifier to use for the supplier in the test envi- ronment. Possible values: o NetworkID SupplierIdentifier -&gt; (string) [required] The unique identifier to use for the supplier in the test envi- ronment. Constraints: o min: 0 o max: 1024 o pattern: \S+ ProcurementPortalSharedSecret -&gt; (string) The shared secret or authentication credential to use for secure communication in the test environment. Constraints: o min: 0 o max: 1024 o pattern: \S+ ProcurementPortalInstanceEndpoint -&gt; (string) The endpoint URL where e-invoices will be delivered in the test environment. Constraints: o min: 0 o max: 1024 o pattern: \S+ Shorthand Syntax: BuyerDomain=string,BuyerIdentifier=string,SupplierDomain=string,SupplierIdentifier=string,ProcurementPortalSharedSecret=string,ProcurementPortalInstanceEndpoint=string JSON Syntax: { "BuyerDomain": "NetworkID", "BuyerIdentifier": "string", "SupplierDomain": "NetworkID", "SupplierIdentifier": "string", "ProcurementPortalSharedSecret": "string", "ProcurementPortalInstanceEndpoint": "string" }
+    /// Updated configuration settings for the test environment of the procurement portal. BuyerDomain -&gt; (string) [required] The domain identifier to use for the buyer in the test environment. Possible values: • NetworkID BuyerIdentifier -&gt; (string) [required] The unique identifier to use for the buyer in the test environment. Constraints: • min: 0 • max: 1024 • pattern: \S+ SupplierDomain -&gt; (string) [required] The domain identifier to use for the supplier in the test environment. Possible values: • NetworkID SupplierIdentifier -&gt; (string) [required] The unique identifier to use for the supplier in the test environment. Constraints: • min: 0 • max: 1024 • pattern: \S+ ProcurementPortalSharedSecret -&gt; (string) The shared secret or authentication credential to use for secure communication in the test environment. Constraints: • min: 0 • max: 1024 • pattern: \S+ ProcurementPortalInstanceEndpoint -&gt; (string) The endpoint URL where e-invoices will be delivered in the test environment. Constraints: • min: 0 • max: 1024 • pattern: \S+ Shorthand Syntax: BuyerDomain=string,BuyerIdentifier=string,SupplierDomain=string,SupplierIdentifier=string,ProcurementPortalSharedSecret=string,ProcurementPortalInstanceEndpoint=string JSON Syntax: { "BuyerDomain": "NetworkID", "BuyerIdentifier": "string", "SupplierDomain": "NetworkID", "SupplierIdentifier": "string", "ProcurementPortalSharedSecret": "string", "ProcurementPortalInstanceEndpoint": "string" }
     /// </summary>
     [CliOption("--test-env-preference")]
     public string? TestEnvPreference { get; set; }
 
     /// <summary>
-    /// Updated e-invoice delivery configuration including document types, attachment types, and customization settings for the portal. EinvoiceDeliveryDocumentTypes -&gt; (list) [required] The types of e-invoice documents to be delivered. Constraints: o min: 0 o max: 10 (string) Possible values: o AWS_CLOUD_INVOICE o AWS_CLOUD_CREDIT_MEMO o AWS_MARKETPLACE_INVOICE o AWS_MARKETPLACE_CREDIT_MEMO o AWS_REQUEST_FOR_PAYMENT EinvoiceDeliveryAttachmentTypes -&gt; (list) The types of attachments to include with the e-invoice delivery. (string) Possible values: o INVOICE_PDF o RFP_PDF Protocol -&gt; (string) [required] The communication protocol to use for e-invoice delivery. Possible values: o CXML PurchaseOrderDataSources -&gt; (list) [required] The sources of purchase order data to use for e-invoice genera- tion and delivery. (structure) Specifies the source configuration for retrieving purchase order data. EinvoiceDeliveryDocumentType -&gt; (string) The type of e-invoice document that requires purchase or- der data. Possible values: o AWS_CLOUD_INVOICE o AWS_CLOUD_CREDIT_MEMO o AWS_MARKETPLACE_INVOICE o AWS_MARKETPLACE_CREDIT_MEMO o AWS_REQUEST_FOR_PAYMENT PurchaseOrderDataSourceType -&gt; (string) The type of source for purchase order data. Possible values: o ASSOCIATED_PURCHASE_ORDER_REQUIRED o PURCHASE_ORDER_NOT_REQUIRED ConnectionTestingMethod -&gt; (string) [required] The method to use for testing the connection to the procurement portal. Possible values: o PROD_ENV_DOLLAR_TEST o TEST_ENV_REPLAY_TEST EinvoiceDeliveryActivationDate -&gt; (timestamp) [required] The date when e-invoice delivery should be activated for this preference. Shorthand Syntax: EinvoiceDeliveryDocumentTypes=string,string,EinvoiceDeliveryAttachmentTypes=string,string,Protocol=string,PurchaseOrderDataSources=[{EinvoiceDeliveryDocumentType=string,PurchaseOrderDataSourceType=string},{EinvoiceDeliveryDocumentType=string,PurchaseOrderDataSourceType=string}],ConnectionTestingMethod=string,EinvoiceDeliveryActivationDate=timestamp JSON Syntax: { "EinvoiceDeliveryDocumentTypes": ["AWS_CLOUD_INVOICE"|"AWS_CLOUD_CREDIT_MEMO"|"AWS_MARKETPLACE_INVOICE"|"AWS_MARKETPLACE_CREDIT_MEMO"|"AWS_REQUEST_FOR_PAYMENT", ...], "EinvoiceDeliveryAttachmentTypes": ["INVOICE_PDF"|"RFP_PDF", ...], "Protocol": "CXML", "PurchaseOrderDataSources": [ { "EinvoiceDeliveryDocumentType": "AWS_CLOUD_INVOICE"|"AWS_CLOUD_CREDIT_MEMO"|"AWS_MARKETPLACE_INVOICE"|"AWS_MARKETPLACE_CREDIT_MEMO"|"AWS_REQUEST_FOR_PAYMENT", "PurchaseOrderDataSourceType": "ASSOCIATED_PURCHASE_ORDER_REQUIRED"|"PURCHASE_ORDER_NOT_REQUIRED" } ... ], "ConnectionTestingMethod": "PROD_ENV_DOLLAR_TEST"|"TEST_ENV_REPLAY_TEST", "EinvoiceDeliveryActivationDate": timestamp }
+    /// Updated e-invoice delivery configuration including document types, attachment types, and customization settings for the portal. EinvoiceDeliveryDocumentTypes -&gt; (list) [required] The types of e-invoice documents to be delivered. Constraints: • min: 0 • max: 10 (string) Possible values: • AWS_CLOUD_INVOICE • AWS_CLOUD_CREDIT_MEMO • AWS_MARKETPLACE_INVOICE • AWS_MARKETPLACE_CREDIT_MEMO • AWS_REQUEST_FOR_PAYMENT EinvoiceDeliveryAttachmentTypes -&gt; (list) The types of attachments to include with the e-invoice delivery. (string) Possible values: • INVOICE_PDF • RFP_PDF Protocol -&gt; (string) [required] The communication protocol to use for e-invoice delivery. Possible values: • CXML PurchaseOrderDataSources -&gt; (list) [required] The sources of purchase order data to use for e-invoice generation and delivery. (structure) Specifies the source configuration for retrieving purchase order data. EinvoiceDeliveryDocumentType -&gt; (string) The type of e-invoice document that requires purchase order data. Possible values: • AWS_CLOUD_INVOICE • AWS_CLOUD_CREDIT_MEMO • AWS_MARKETPLACE_INVOICE • AWS_MARKETPLACE_CREDIT_MEMO • AWS_REQUEST_FOR_PAYMENT PurchaseOrderDataSourceType -&gt; (string) The type of source for purchase order data. Possible values: • ASSOCIATED_PURCHASE_ORDER_REQUIRED • PURCHASE_ORDER_NOT_REQUIRED ConnectionTestingMethod -&gt; (string) [required] The method to use for testing the connection to the procurement portal. Possible values: • PROD_ENV_DOLLAR_TEST • TEST_ENV_REPLAY_TEST EinvoiceDeliveryActivationDate -&gt; (timestamp) [required] The date when e-invoice delivery should be activated for this preference. Shorthand Syntax: EinvoiceDeliveryDocumentTypes=string,string,EinvoiceDeliveryAttachmentTypes=string,string,Protocol=string,PurchaseOrderDataSources=[{EinvoiceDeliveryDocumentType=string,PurchaseOrderDataSourceType=string},{EinvoiceDeliveryDocumentType=string,PurchaseOrderDataSourceType=string}],ConnectionTestingMethod=string,EinvoiceDeliveryActivationDate=timestamp JSON Syntax: { "EinvoiceDeliveryDocumentTypes": ["AWS_CLOUD_INVOICE"|"AWS_CLOUD_CREDIT_MEMO"|"AWS_MARKETPLACE_INVOICE"|"AWS_MARKETPLACE_CREDIT_MEMO"|"AWS_REQUEST_FOR_PAYMENT", ...], "EinvoiceDeliveryAttachmentTypes": ["INVOICE_PDF"|"RFP_PDF", ...], "Protocol": "CXML", "PurchaseOrderDataSources": [ { "EinvoiceDeliveryDocumentType": "AWS_CLOUD_INVOICE"|"AWS_CLOUD_CREDIT_MEMO"|"AWS_MARKETPLACE_INVOICE"|"AWS_MARKETPLACE_CREDIT_MEMO"|"AWS_REQUEST_FOR_PAYMENT", "PurchaseOrderDataSourceType": "ASSOCIATED_PURCHASE_ORDER_REQUIRED"|"PURCHASE_ORDER_NOT_REQUIRED" } ... ], "ConnectionTestingMethod": "PROD_ENV_DOLLAR_TEST"|"TEST_ENV_REPLAY_TEST", "EinvoiceDeliveryActivationDate": timestamp }
     /// </summary>
     [CliOption("--einvoice-delivery-preference")]
     public string? EinvoiceDeliveryPreference { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure idem- potency of the request. Constraints: o min: 0 o max: 1024 o pattern: \S+
+    /// Whether Marketplace PunchOut is enabled for this connection. Defaults to false if not provided.
+    /// </summary>
+    [CliFlag("--marketplace-punch-out-enabled", NegatedName = "--no-marketplace-punch-out-enabled")]
+    public bool? MarketplacePunchOutEnabled { get; set; }
+
+    /// <summary>
+    /// Configuration for Marketplace PunchOut. Required when MarketplacePunchOutEnabled is true. ApprovalRequestRedirectUrl -&gt; (string) The URL that buyers are redirected to for approval requests in the procurement portal. This is only supported for Coupa. When provided together with the procurement portal instance endpoint, its host must match the host of that endpoint. Constraints: • min: 0 • max: 1024 • pattern: \S+ Shorthand Syntax: ApprovalRequestRedirectUrl=string JSON Syntax: { "ApprovalRequestRedirectUrl": "string" }
+    /// </summary>
+    [CliOption("--marketplace-punch-out-preference")]
+    public string? MarketplacePunchOutPreference { get; set; }
+
+    /// <summary>
+    /// A unique, case-sensitive identifier that you provide to ensure idempotency of the request. Constraints: • min: 0 • max: 1024 • pattern: \S+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

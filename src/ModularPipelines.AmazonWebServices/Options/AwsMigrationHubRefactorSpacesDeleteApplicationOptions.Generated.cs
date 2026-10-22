@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an Amazon Web Services Migration Hub Refactor Spaces applica- tion. Before you can delete an application, you must first delete any services or routes within the application. See also: AWS API Documentation
+/// Deletes an Amazon Web Services Migration Hub Refactor Spaces application. Before you can delete an application, you must first delete any services or routes within the application. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsMigrationHubRefactorSpacesDeleteApplicationOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an Amazon Web Services Migration Hub Refactor Spaces applica- tion. Before you can delete an application, you must first delete any services or routes within the application. See also: AWS API Documentation
+    /// Deletes an Amazon Web Services Migration Hub Refactor Spaces application. Before you can delete an application, you must first delete any services or routes within the application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationIdentifier">The ID of the application. Constraints: o min: 14 o max: 14 o pattern: ^app-[0-9A-Za-z]{10}$</param>
-    /// <param name="EnvironmentIdentifier">The ID of the environment. Constraints: o min: 14 o max: 14 o pattern: ^env-[0-9A-Za-z]{10}$</param>
+    /// <param name="ApplicationIdentifier">The ID of the application. Constraints: • min: 14 • max: 14 • pattern: ^app-[0-9A-Za-z]{10}$</param>
+    /// <param name="EnvironmentIdentifier">The ID of the environment. Constraints: • min: 14 • max: 14 • pattern: ^env-[0-9A-Za-z]{10}$</param>
     public AwsMigrationHubRefactorSpacesDeleteApplicationOptions(
         string ApplicationIdentifier,
         string EnvironmentIdentifier
@@ -60,13 +62,13 @@ public record AwsMigrationHubRefactorSpacesDeleteApplicationOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the application. Constraints: o min: 14 o max: 14 o pattern: ^app-[0-9A-Za-z]{10}$
+    /// The ID of the application. Constraints: • min: 14 • max: 14 • pattern: ^app-[0-9A-Za-z]{10}$
     /// </summary>
     [CliOption("--application-identifier")]
     public string? ApplicationIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the environment. Constraints: o min: 14 o max: 14 o pattern: ^env-[0-9A-Za-z]{10}$
+    /// The ID of the environment. Constraints: • min: 14 • max: 14 • pattern: ^env-[0-9A-Za-z]{10}$
     /// </summary>
     [CliOption("--environment-identifier")]
     public string? EnvironmentIdentifier { get; private init; }

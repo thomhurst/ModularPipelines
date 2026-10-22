@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,8 +29,8 @@ public record AwsBcmPricingCalculatorTagResourceOptions : AwsOptions, IValidatab
     /// <summary>
     /// Adds one or more tags to a specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the resource to add tags to. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:bcm-pricing-calcula- tor:[-a-z0-9]*:[0-9]{12}:[-a-z0-9/:_]+</param>
-    /// <param name="Tags">The tags to add to the resource. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [\w\s:+=@/-]+ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [\w\s:+=@/-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the resource to add tags to. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:bcm-pricing-calculator:[-a-z0-9]*:[0-9]{12}:[-a-z0-9/:_]+</param>
+    /// <param name="Tags">The tags to add to the resource. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [\w\s:+=@/-]+ value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: [\w\s:+=@/-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsBcmPricingCalculatorTagResourceOptions(
         string Arn,
         IReadOnlyList<KeyValue> Tags
@@ -72,13 +73,13 @@ public record AwsBcmPricingCalculatorTagResourceOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource to add tags to. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:bcm-pricing-calcula- tor:[-a-z0-9]*:[0-9]{12}:[-a-z0-9/:_]+
+    /// The Amazon Resource Name (ARN) of the resource to add tags to. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:bcm-pricing-calculator:[-a-z0-9]*:[0-9]{12}:[-a-z0-9/:_]+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The tags to add to the resource. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [\w\s:+=@/-]+ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [\w\s:+=@/-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to add to the resource. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [\w\s:+=@/-]+ value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: [\w\s:+=@/-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; private init; }

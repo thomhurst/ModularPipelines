@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates a created artifact of an AWS cloud resource, the target re- ceiving the migration, with the migration task performed by a migration tool. This API has the following traits: o Migration tools can call the AssociateCreatedArtifact operation to indicate which AWS artifact is associated with a migration task. o The created artifact name must be provided in ARN (Amazon Resource Name) format which will contain information about type and region; for example: arn:aws:ec2:us-east-1:48821628898...
+/// Associates a created artifact of an AWS cloud resource, the target receiving the migration, with the migration task performed by a migration tool. This API has the following traits: • Migration tools can call the AssociateCreatedArtifact operation to indicate which AWS artifact is associated with a migration task. • The created artifact name must be provided in ARN (Amazon Resource Name) format which will contain information about type and region; for example: arn:aws:ec2:us-east-1:488216288981:...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsMghAssociateCreatedArtifactOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates a created artifact of an AWS cloud resource, the target re- ceiving the migration, with the migration task performed by a migration tool. This API has the following traits: o Migration tools can call the AssociateCreatedArtifact operation to indicate which AWS artifact is associated with a migration task. o The created artifact name must be provided in ARN (Amazon Resource Name) format which will contain information about type and region; for example: arn:aws:ec2:us-east-1:48821628898...
+    /// Associates a created artifact of an AWS cloud resource, the target receiving the migration, with the migration task performed by a migration tool. This API has the following traits: • Migration tools can call the AssociateCreatedArtifact operation to indicate which AWS artifact is associated with a migration task. • The created artifact name must be provided in ARN (Amazon Resource Name) format which will contain information about type and region; for example: arn:aws:ec2:us-east-1:488216288981:...
     /// </summary>
-    /// <param name="ProgressUpdateStream">The name of the ProgressUpdateStream. Constraints: o min: 1 o max: 50 o pattern: [^/:|\000-\037]+</param>
-    /// <param name="MigrationTaskName">Unique identifier that references the migration task. Do not store personal data in this field. Constraints: o min: 1 o max: 256 o pattern: [^:|]+</param>
-    /// <param name="CreatedArtifact">An ARN of the AWS resource related to the migration (e.g., AMI, EC2 instance, RDS instance, etc.) Name -&gt; (string) [required] An ARN that uniquely identifies the result of a migration task. Constraints: o min: 1 o max: 1600 o pattern: arn:[a-z-]+:[a-z0-9-]+:(?:[a-z0-9-]+|):(?:[0-9]{12}|):.* Description -&gt; (string) A description that can be free-form text to record additional detail about the artifact for clarity or for later reference. Constraints: o min: 0 o max: 500 o pattern: ^.{0,500}$ Shorthand Syntax: Name=string,Description=string JSON Syntax: { "Name": "string", "Description": "string" }</param>
+    /// <param name="ProgressUpdateStream">The name of the ProgressUpdateStream. Constraints: • min: 1 • max: 50 • pattern: [^/:|\000-\037]+</param>
+    /// <param name="MigrationTaskName">Unique identifier that references the migration task. Do not store personal data in this field. Constraints: • min: 1 • max: 256 • pattern: [^:|]+</param>
+    /// <param name="CreatedArtifact">An ARN of the AWS resource related to the migration (e.g., AMI, EC2 instance, RDS instance, etc.) Name -&gt; (string) [required] An ARN that uniquely identifies the result of a migration task. Constraints: • min: 1 • max: 1600 • pattern: arn:[a-z-]+:[a-z0-9-]+:(?:[a-z0-9-]+|):(?:[0-9]{12}|):.* Description -&gt; (string) A description that can be free-form text to record additional detail about the artifact for clarity or for later reference. Constraints: • min: 0 • max: 500 • pattern: ^.{0,500}$ Shorthand Syntax: Name=string,Description=string JSON Syntax: { "Name": "string", "Description": "string" }</param>
     public AwsMghAssociateCreatedArtifactOptions(
         string ProgressUpdateStream,
         string MigrationTaskName,
@@ -64,19 +66,19 @@ public record AwsMghAssociateCreatedArtifactOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the ProgressUpdateStream. Constraints: o min: 1 o max: 50 o pattern: [^/:|\000-\037]+
+    /// The name of the ProgressUpdateStream. Constraints: • min: 1 • max: 50 • pattern: [^/:|\000-\037]+
     /// </summary>
     [CliOption("--progress-update-stream")]
     public string? ProgressUpdateStream { get; private init; }
 
     /// <summary>
-    /// Unique identifier that references the migration task. Do not store personal data in this field. Constraints: o min: 1 o max: 256 o pattern: [^:|]+
+    /// Unique identifier that references the migration task. Do not store personal data in this field. Constraints: • min: 1 • max: 256 • pattern: [^:|]+
     /// </summary>
     [CliOption("--migration-task-name")]
     public string? MigrationTaskName { get; private init; }
 
     /// <summary>
-    /// An ARN of the AWS resource related to the migration (e.g., AMI, EC2 instance, RDS instance, etc.) Name -&gt; (string) [required] An ARN that uniquely identifies the result of a migration task. Constraints: o min: 1 o max: 1600 o pattern: arn:[a-z-]+:[a-z0-9-]+:(?:[a-z0-9-]+|):(?:[0-9]{12}|):.* Description -&gt; (string) A description that can be free-form text to record additional detail about the artifact for clarity or for later reference. Constraints: o min: 0 o max: 500 o pattern: ^.{0,500}$ Shorthand Syntax: Name=string,Description=string JSON Syntax: { "Name": "string", "Description": "string" }
+    /// An ARN of the AWS resource related to the migration (e.g., AMI, EC2 instance, RDS instance, etc.) Name -&gt; (string) [required] An ARN that uniquely identifies the result of a migration task. Constraints: • min: 1 • max: 1600 • pattern: arn:[a-z-]+:[a-z0-9-]+:(?:[a-z0-9-]+|):(?:[0-9]{12}|):.* Description -&gt; (string) A description that can be free-form text to record additional detail about the artifact for clarity or for later reference. Constraints: • min: 0 • max: 500 • pattern: ^.{0,500}$ Shorthand Syntax: Name=string,Description=string JSON Syntax: { "Name": "string", "Description": "string" }
     /// </summary>
     [CliOption("--created-artifact")]
     public string? CreatedArtifact { get; private init; }

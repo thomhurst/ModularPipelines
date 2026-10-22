@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsWorkmailCreateAliasOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Adds an alias to the set of a given member (user or group) of WorkMail. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The organization under which the member (user or group) exists. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
-    /// <param name="EntityId">The member (user or group) to which this alias is added. Constraints: o min: 12 o max: 256</param>
-    /// <param name="Alias">The alias to add to the member set. Constraints: o min: 1 o max: 254 o pattern: [a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\.[a-zA-Z-]{2,}</param>
+    /// <param name="OrganizationId">The organization under which the member (user or group) exists. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="EntityId">The member (user or group) to which this alias is added. Constraints: • min: 12 • max: 256</param>
+    /// <param name="Alias">The alias to add to the member set. Constraints: • min: 1 • max: 254 • pattern: [a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\.[a-zA-Z-]{2,}</param>
     public AwsWorkmailCreateAliasOptions(
         string OrganizationId,
         string EntityId,
@@ -64,19 +66,19 @@ public record AwsWorkmailCreateAliasOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The organization under which the member (user or group) exists. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The organization under which the member (user or group) exists. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The member (user or group) to which this alias is added. Constraints: o min: 12 o max: 256
+    /// The member (user or group) to which this alias is added. Constraints: • min: 12 • max: 256
     /// </summary>
     [CliOption("--entity-id")]
     public string? EntityId { get; private init; }
 
     /// <summary>
-    /// The alias to add to the member set. Constraints: o min: 1 o max: 254 o pattern: [a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\.[a-zA-Z-]{2,}
+    /// The alias to add to the member set. Constraints: • min: 1 • max: 254 • pattern: [a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\.[a-zA-Z-]{2,}
     /// </summary>
     [CliOption("--alias")]
     public string? Alias { get; private init; }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,8 +29,8 @@ public record AwsOmicsCreateConfigurationOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Create a new configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">User-friendly name for the configuration. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9][A-Za-z0-9\-\._]*</param>
-    /// <param name="RunConfigurations">Required run-specific configurations. vpcConfig -&gt; (structure) VPC configuration for workflow runs. securityGroupIds -&gt; (list) List of security group IDs. Maximum of 5 security groups al- lowed. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 4 o max: 128 o pattern: sg-[0-9a-f]+ subnetIds -&gt; (list) List of subnet IDs. Maximum of 16 subnets allowed. Constraints: o min: 0 o max: 16 (string) Constraints: o min: 8 o max: 128 o pattern: subnet-[0-9a-f]+ Shorthand Syntax: vpcConfig={securityGroupIds=[string,string],subnetIds=[string,string]} JSON Syntax: { "vpcConfig": { "securityGroupIds": ["string", ...], "subnetIds": ["string", ...] } }</param>
+    /// <param name="Name">User-friendly name for the configuration. Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9][A-Za-z0-9\-\._]*</param>
+    /// <param name="RunConfigurations">Required run-specific configurations. vpcConfig -&gt; (structure) VPC configuration for workflow runs. securityGroupIds -&gt; (list) List of security group IDs. Maximum of 5 security groups allowed. Constraints: • min: 0 • max: 5 (string) Constraints: • min: 4 • max: 128 • pattern: sg-[0-9a-f]+ subnetIds -&gt; (list) List of subnet IDs. Maximum of 16 subnets allowed. Constraints: • min: 0 • max: 16 (string) Constraints: • min: 8 • max: 128 • pattern: subnet-[0-9a-f]+ vpcOwnerAccountId -&gt; (string) The Amazon Web Services account ID of the cross-account VPC owner for RAM-shared VPC configurations. Constraints: • min: 12 • max: 12 • pattern: [0-9]+ Shorthand Syntax: vpcConfig={securityGroupIds=[string,string],subnetIds=[string,string],vpcOwnerAccountId=string} JSON Syntax: { "vpcConfig": { "securityGroupIds": ["string", ...], "subnetIds": ["string", ...], "vpcOwnerAccountId": "string" } }</param>
     public AwsOmicsCreateConfigurationOptions(
         string Name,
         string RunConfigurations
@@ -61,31 +62,31 @@ public record AwsOmicsCreateConfigurationOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// User-friendly name for the configuration. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9][A-Za-z0-9\-\._]*
+    /// User-friendly name for the configuration. Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9][A-Za-z0-9\-\._]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Required run-specific configurations. vpcConfig -&gt; (structure) VPC configuration for workflow runs. securityGroupIds -&gt; (list) List of security group IDs. Maximum of 5 security groups al- lowed. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 4 o max: 128 o pattern: sg-[0-9a-f]+ subnetIds -&gt; (list) List of subnet IDs. Maximum of 16 subnets allowed. Constraints: o min: 0 o max: 16 (string) Constraints: o min: 8 o max: 128 o pattern: subnet-[0-9a-f]+ Shorthand Syntax: vpcConfig={securityGroupIds=[string,string],subnetIds=[string,string]} JSON Syntax: { "vpcConfig": { "securityGroupIds": ["string", ...], "subnetIds": ["string", ...] } }
+    /// Required run-specific configurations. vpcConfig -&gt; (structure) VPC configuration for workflow runs. securityGroupIds -&gt; (list) List of security group IDs. Maximum of 5 security groups allowed. Constraints: • min: 0 • max: 5 (string) Constraints: • min: 4 • max: 128 • pattern: sg-[0-9a-f]+ subnetIds -&gt; (list) List of subnet IDs. Maximum of 16 subnets allowed. Constraints: • min: 0 • max: 16 (string) Constraints: • min: 8 • max: 128 • pattern: subnet-[0-9a-f]+ vpcOwnerAccountId -&gt; (string) The Amazon Web Services account ID of the cross-account VPC owner for RAM-shared VPC configurations. Constraints: • min: 12 • max: 12 • pattern: [0-9]+ Shorthand Syntax: vpcConfig={securityGroupIds=[string,string],subnetIds=[string,string],vpcOwnerAccountId=string} JSON Syntax: { "vpcConfig": { "securityGroupIds": ["string", ...], "subnetIds": ["string", ...], "vpcOwnerAccountId": "string" } }
     /// </summary>
     [CliOption("--run-configurations")]
     public string? RunConfigurations { get; private init; }
 
     /// <summary>
-    /// Optional description for the configuration. Constraints: o min: 1 o max: 256 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// Optional description for the configuration. Constraints: • min: 1 • max: 256 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Optional tags for the configuration. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Optional tags for the configuration. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Optional request idempotency token. If not specified, a universally unique identifier (UUID) will be automatically generated for the re- quest. Constraints: o min: 1 o max: 128 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// Optional request idempotency token. If not specified, a universally unique identifier (UUID) will be automatically generated for the request. Constraints: • min: 1 • max: 128 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [CliOption("--request-id")]
     public string? RequestId { get; set; }

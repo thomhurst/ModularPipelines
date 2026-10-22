@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsDsqlDeleteClusterOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a cluster in Amazon Aurora DSQL. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The ID of the cluster to delete. Constraints: o pattern: [a-z0-9]{26}</param>
+    /// <param name="Identifier">The ID of the cluster to delete. Constraints: • pattern: [a-z0-9]{26}</param>
     public AwsDsqlDeleteClusterOptions(
         string Identifier
     )
@@ -57,13 +59,13 @@ public record AwsDsqlDeleteClusterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the cluster to delete. Constraints: o pattern: [a-z0-9]{26}
+    /// The ID of the cluster to delete. Constraints: • pattern: [a-z0-9]{26}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original re- quest completes successfully. The subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK au- tomatically generates one. Constraints: o min: 1 o max: 128 o pattern: [!-~]+
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully. The subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK automatically generates one. Constraints: • min: 1 • max: 128 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsEc2AssociateTransitGatewayPolicyTableOptions : AwsOptions, IVal
     /// Associates the specified transit gateway attachment with a transit gateway policy table. See also: AWS API Documentation
     /// </summary>
     /// <param name="TransitGatewayPolicyTableId">The ID of the transit gateway policy table to associate with the transit gateway attachment.</param>
-    /// <param name="TransitGatewayAttachmentId">The ID of the transit gateway attachment to associate with the pol- icy table.</param>
+    /// <param name="TransitGatewayAttachmentId">The ID of the transit gateway attachment to associate with the policy table.</param>
     public AwsEc2AssociateTransitGatewayPolicyTableOptions(
         string TransitGatewayPolicyTableId,
         string TransitGatewayAttachmentId
@@ -66,13 +68,13 @@ public record AwsEc2AssociateTransitGatewayPolicyTableOptions : AwsOptions, IVal
     public string? TransitGatewayPolicyTableId { get; private init; }
 
     /// <summary>
-    /// The ID of the transit gateway attachment to associate with the pol- icy table.
+    /// The ID of the transit gateway attachment to associate with the policy table.
     /// </summary>
     [CliOption("--transit-gateway-attachment-id")]
     public string? TransitGatewayAttachmentId { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

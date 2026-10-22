@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsPinpointSmsVoiceV2PutRegistrationFieldValueOptions : AwsOptions
     /// <summary>
     /// Creates or updates a field value for a registration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RegistrationId">The unique identifier for the registration. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
-    /// <param name="FieldPath">The path to the registration form field. You can use DescribeRegis- trationFieldDefinitions for a list of FieldPaths . Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9_\.]+</param>
+    /// <param name="RegistrationId">The unique identifier for the registration. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="FieldPath">The path to the registration form field. You can use DescribeRegistrationFieldDefinitions for a list of FieldPaths . Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9_\.]+</param>
     public AwsPinpointSmsVoiceV2PutRegistrationFieldValueOptions(
         string RegistrationId,
         string FieldPath
@@ -60,31 +62,31 @@ public record AwsPinpointSmsVoiceV2PutRegistrationFieldValueOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the registration. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The unique identifier for the registration. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--registration-id")]
     public string? RegistrationId { get; private init; }
 
     /// <summary>
-    /// The path to the registration form field. You can use DescribeRegis- trationFieldDefinitions for a list of FieldPaths . Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9_\.]+
+    /// The path to the registration form field. You can use DescribeRegistrationFieldDefinitions for a list of FieldPaths . Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9_\.]+
     /// </summary>
     [CliOption("--field-path")]
     public string? FieldPath { get; private init; }
 
     /// <summary>
-    /// An array of values for the form field. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 256 Syntax: "string" "string" ...
+    /// An array of values for the form field. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 1 • max: 256 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--select-choices", GroupValues = true)]
     public IEnumerable<string>? SelectChoices { get; set; }
 
     /// <summary>
-    /// The text data for a free form field. Constraints: o min: 1 o max: 2048
+    /// The text data for a free form field. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--text-value")]
     public string? TextValue { get; set; }
 
     /// <summary>
-    /// The unique identifier for the registration attachment. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The unique identifier for the registration attachment. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--registration-attachment-id")]
     public string? RegistrationAttachmentId { get; set; }

@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists an environment's upcoming and in-progress managed actions. This action only returns information about environments that the call- ing principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environ- ments. When the user calls this action, the response will only include the one environment that the user has permission to access instead of all three environments. If the user doesnt have access to any of the environments an...
+/// Lists an environment's upcoming and in-progress managed actions. This action only returns information about environments that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environments. When the user calls this action, the response will only include the one environment that the user has permission to access instead of all three environments. If the user doesnt have access to any of the environments an emp...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -35,7 +35,7 @@ public record AwsElasticbeanstalkDescribeEnvironmentManagedActionsOptions : AwsO
     public string? EnvironmentId { get; set; }
 
     /// <summary>
-    /// To show only actions with a particular status, specify a status. Possible values: o Scheduled o Pending o Running o Unknown
+    /// To show only actions with a particular status, specify a status. Possible values: • Scheduled • Pending • Running • Unknown
     /// </summary>
     [CliOption("--status")]
     public AwsElasticbeanstalkDescribeEnvironmentManagedActionsStatus? Status { get; set; }

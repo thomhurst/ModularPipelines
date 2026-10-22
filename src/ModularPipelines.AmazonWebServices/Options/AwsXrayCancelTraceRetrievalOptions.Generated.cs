@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Cancels an ongoing trace retrieval job initiated by StartTraceRetrieval using the provided RetrievalToken . A successful cancellation will re- turn an HTTP 200 response. See also: AWS API Documentation
+/// Cancels an ongoing trace retrieval job initiated by StartTraceRetrieval using the provided RetrievalToken . A successful cancellation will return an HTTP 200 response. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsXrayCancelTraceRetrievalOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Cancels an ongoing trace retrieval job initiated by StartTraceRetrieval using the provided RetrievalToken . A successful cancellation will re- turn an HTTP 200 response. See also: AWS API Documentation
+    /// Cancels an ongoing trace retrieval job initiated by StartTraceRetrieval using the provided RetrievalToken . A successful cancellation will return an HTTP 200 response. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RetrievalToken">Retrieval token. Constraints: o min: 0 o max: 1020</param>
+    /// <param name="RetrievalToken">Retrieval token. Constraints: • min: 0 • max: 1020</param>
     public AwsXrayCancelTraceRetrievalOptions(
         string RetrievalToken
     )
@@ -57,7 +59,7 @@ public record AwsXrayCancelTraceRetrievalOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Retrieval token. Constraints: o min: 0 o max: 1020
+    /// Retrieval token. Constraints: • min: 0 • max: 1020
     /// </summary>
     [SecretValue]
     [CliOption("--retrieval-token")]

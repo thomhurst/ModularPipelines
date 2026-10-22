@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes one or more service revisions. A service revision is a version of the service that includes the values for the Amazon ECS resources (for example, task definition) and the en- vironment resources (for example, load balancers, subnets, and security groups). For more information, see Amazon ECS service revisions . You can't describe a service revision that was created before October 25, 2024. See also: AWS API Documentation
+/// Describes one or more service revisions. A service revision is a version of the service that includes the values for the Amazon ECS resources (for example, task definition) and the environment resources (for example, load balancers, subnets, and security groups). For more information, see Amazon ECS service revisions . You can't describe a service revision that was created before October 25, 2024. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsEcsDescribeServiceRevisionsOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes one or more service revisions. A service revision is a version of the service that includes the values for the Amazon ECS resources (for example, task definition) and the en- vironment resources (for example, load balancers, subnets, and security groups). For more information, see Amazon ECS service revisions . You can't describe a service revision that was created before October 25, 2024. See also: AWS API Documentation
+    /// Describes one or more service revisions. A service revision is a version of the service that includes the values for the Amazon ECS resources (for example, task definition) and the environment resources (for example, load balancers, subnets, and security groups). For more information, see Amazon ECS service revisions . You can't describe a service revision that was created before October 25, 2024. See also: AWS API Documentation
     /// </summary>
     /// <param name="ServiceRevisionArns">The ARN of the service revision. You can specify a maximum of 20 ARNs. You can call ListServiceDeployments to get the ARNs. (string) Syntax: "string" "string" ...</param>
     public AwsEcsDescribeServiceRevisionsOptions(

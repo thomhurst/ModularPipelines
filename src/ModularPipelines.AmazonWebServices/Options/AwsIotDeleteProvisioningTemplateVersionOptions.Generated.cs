@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a provisioning template version. Requires permission to access the DeleteProvisioningTemplateVersion ac- tion. See also: AWS API Documentation
+/// Deletes a provisioning template version. Requires permission to access the DeleteProvisioningTemplateVersion action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsIotDeleteProvisioningTemplateVersionOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a provisioning template version. Requires permission to access the DeleteProvisioningTemplateVersion ac- tion. See also: AWS API Documentation
+    /// Deletes a provisioning template version. Requires permission to access the DeleteProvisioningTemplateVersion action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TemplateName">The name of the provisioning template version to delete. Constraints: o min: 1 o max: 36 o pattern: ^[0-9A-Za-z_-]+$</param>
+    /// <param name="TemplateName">The name of the provisioning template version to delete. Constraints: • min: 1 • max: 36 • pattern: ^[0-9A-Za-z_-]+$</param>
     /// <param name="VersionId">The provisioning template version ID to delete.</param>
     public AwsIotDeleteProvisioningTemplateVersionOptions(
         string TemplateName,
@@ -59,7 +61,7 @@ public record AwsIotDeleteProvisioningTemplateVersionOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the provisioning template version to delete. Constraints: o min: 1 o max: 36 o pattern: ^[0-9A-Za-z_-]+$
+    /// The name of the provisioning template version to delete. Constraints: • min: 1 • max: 36 • pattern: ^[0-9A-Za-z_-]+$
     /// </summary>
     [CliOption("--template-name")]
     public string? TemplateName { get; private init; }

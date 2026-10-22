@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the Organizations account that is associated with Firewall Man- ager as the Firewall Manager default administrator. See also: AWS API Documentation
+/// Returns the Organizations account that is associated with Firewall Manager as the Firewall Manager default administrator. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

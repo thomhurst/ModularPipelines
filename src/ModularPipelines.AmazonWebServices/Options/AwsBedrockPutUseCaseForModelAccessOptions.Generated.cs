@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBedrockPutUseCaseForModelAccessOptions : AwsOptions, IValidatab
     /// <summary>
     /// Put usecase for model access. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FormData">Put customer profile Request. Constraints: o min: 10 o max: 16384</param>
+    /// <param name="FormData">Put customer profile Request. Constraints: • min: 10 • max: 16384</param>
     public AwsBedrockPutUseCaseForModelAccessOptions(
         string FormData
     )
@@ -56,7 +58,7 @@ public record AwsBedrockPutUseCaseForModelAccessOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Put customer profile Request. Constraints: o min: 10 o max: 16384
+    /// Put customer profile Request. Constraints: • min: 10 • max: 16384
     /// </summary>
     [CliOption("--form-data")]
     public string? FormData { get; private init; }

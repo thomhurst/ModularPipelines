@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Refreshes the Trusted Advisor check that you specify using the check ID. You can get the check IDs by calling the DescribeTrustedAdvisor- Checks operation. Some checks are refreshed automatically. If you call the Re- freshTrustedAdvisorCheck operation to refresh them, you might see the InvalidParameterValue error. The response contains a TrustedAdvisorCheckRefreshStatus object. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web S...
+/// Refreshes the Trusted Advisor check that you specify using the check ID. You can get the check IDs by calling the DescribeTrustedAdvisorChecks operation. Some checks are refreshed automatically. If you call the RefreshTrustedAdvisorCheck operation to refresh them, you might see the InvalidParameterValue error. The response contains a TrustedAdvisorCheckRefreshStatus object. NOTE: • You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Servi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSupportRefreshTrustedAdvisorCheckOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Refreshes the Trusted Advisor check that you specify using the check ID. You can get the check IDs by calling the DescribeTrustedAdvisor- Checks operation. Some checks are refreshed automatically. If you call the Re- freshTrustedAdvisorCheck operation to refresh them, you might see the InvalidParameterValue error. The response contains a TrustedAdvisorCheckRefreshStatus object. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web S...
+    /// Refreshes the Trusted Advisor check that you specify using the check ID. You can get the check IDs by calling the DescribeTrustedAdvisorChecks operation. Some checks are refreshed automatically. If you call the RefreshTrustedAdvisorCheck operation to refresh them, you might see the InvalidParameterValue error. The response contains a TrustedAdvisorCheckRefreshStatus object. NOTE: • You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Servi...
     /// </summary>
-    /// <param name="CheckId">The unique identifier for the Trusted Advisor check to refresh. NOTE: Specifying the check ID of a check that is automatically re- freshed causes an InvalidParameterValue error.</param>
+    /// <param name="CheckId">The unique identifier for the Trusted Advisor check to refresh. NOTE: Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error.</param>
     public AwsSupportRefreshTrustedAdvisorCheckOptions(
         string CheckId
     )
@@ -56,7 +58,7 @@ public record AwsSupportRefreshTrustedAdvisorCheckOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the Trusted Advisor check to refresh. NOTE: Specifying the check ID of a check that is automatically re- freshed causes an InvalidParameterValue error.
+    /// The unique identifier for the Trusted Advisor check to refresh. NOTE: Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error.
     /// </summary>
     [CliOption("--check-id")]
     public string? CheckId { get; private init; }

@@ -30,13 +30,13 @@ public record AwsChimeSdkVoiceListPhoneNumbersOptions : AwsOptions
     public string? Status { get; set; }
 
     /// <summary>
-    /// The phone number product types. Possible values: o VoiceConnector o SipMediaApplicationDialIn
+    /// The phone number product types. Possible values: • VoiceConnector • SipMediaApplicationDialIn
     /// </summary>
     [CliOption("--product-type")]
     public AwsChimeSdkVoiceListPhoneNumbersProductType? ProductType { get; set; }
 
     /// <summary>
-    /// The filter to limit the number of results. Possible values: o VoiceConnectorId o VoiceConnectorGroupId o SipRuleId
+    /// The filter to limit the number of results. Possible values: • VoiceConnectorId • VoiceConnectorGroupId • SipRuleId
     /// </summary>
     [CliOption("--filter-name")]
     public AwsChimeSdkVoiceListPhoneNumbersFilterName? FilterName { get; set; }
@@ -48,7 +48,7 @@ public record AwsChimeSdkVoiceListPhoneNumbersOptions : AwsOptions
     public string? FilterValue { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return in a single call. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to return in a single call. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,10 +30,10 @@ public record AwsWorkdocsCreateNotificationSubscriptionOptions : AwsOptions, IVa
     /// <summary>
     /// Configure Amazon WorkDocs to use Amazon SNS notifications. The endpoint receives a confirmation message, and must confirm the subscription. For more information, see Setting up notifications for an IAM user or role in the Amazon WorkDocs Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The ID of the organization. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+</param>
-    /// <param name="Protocol">The protocol to use. The supported value is https, which delivers JSON-encoded messages using HTTPS POST. Possible values: o HTTPS o SQS</param>
-    /// <param name="SubscriptionType">The notification type. Possible values: o ALL</param>
-    /// <param name="NotificationEndpoint">The endpoint to receive the notifications. If the protocol is HTTPS, the endpoint is a URL that begins with https . Constraints: o min: 1 o max: 256</param>
+    /// <param name="OrganizationId">The ID of the organization. Constraints: • min: 1 • max: 256 • pattern: [&amp;\w+-.@]+</param>
+    /// <param name="Protocol">The protocol to use. The supported value is https, which delivers JSON-encoded messages using HTTPS POST. Possible values: • HTTPS • SQS</param>
+    /// <param name="SubscriptionType">The notification type. Possible values: • ALL</param>
+    /// <param name="NotificationEndpoint">The endpoint to receive the notifications. If the protocol is HTTPS, the endpoint is a URL that begins with https . Constraints: • min: 1 • max: 256</param>
     public AwsWorkdocsCreateNotificationSubscriptionOptions(
         string OrganizationId,
         AwsWorkdocsCreateNotificationSubscriptionProtocol Protocol,
@@ -68,25 +70,25 @@ public record AwsWorkdocsCreateNotificationSubscriptionOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the organization. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+
+    /// The ID of the organization. Constraints: • min: 1 • max: 256 • pattern: [&amp;\w+-.@]+
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The protocol to use. The supported value is https, which delivers JSON-encoded messages using HTTPS POST. Possible values: o HTTPS o SQS
+    /// The protocol to use. The supported value is https, which delivers JSON-encoded messages using HTTPS POST. Possible values: • HTTPS • SQS
     /// </summary>
     [CliOption("--protocol")]
     public AwsWorkdocsCreateNotificationSubscriptionProtocol? Protocol { get; private init; }
 
     /// <summary>
-    /// The notification type. Possible values: o ALL
+    /// The notification type. Possible values: • ALL
     /// </summary>
     [CliOption("--subscription-type")]
     public string? SubscriptionType { get; private init; }
 
     /// <summary>
-    /// The endpoint to receive the notifications. If the protocol is HTTPS, the endpoint is a URL that begins with https . Constraints: o min: 1 o max: 256
+    /// The endpoint to receive the notifications. If the protocol is HTTPS, the endpoint is a URL that begins with https . Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--notification-endpoint")]
     public string? NotificationEndpoint { get; private init; }

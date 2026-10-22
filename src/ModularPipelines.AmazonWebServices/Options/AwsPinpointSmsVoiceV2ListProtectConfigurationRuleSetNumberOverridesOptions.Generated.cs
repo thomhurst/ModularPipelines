@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieve all of the protect configuration rule set number overrides that match the filters. See also: AWS API Documentation list-protect-configuration-rule-set-number-overrides is a paginated op- eration. Multiple API calls may be issued in order to retrieve the en- tire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the...
+/// Retrieve all of the protect configuration rule set number overrides that match the filters. See also: AWS API Documentation list-protect-configuration-rule-set-number-overrides is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follo...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsPinpointSmsVoiceV2ListProtectConfigurationRuleSetNumberOverride
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieve all of the protect configuration rule set number overrides that match the filters. See also: AWS API Documentation list-protect-configuration-rule-set-number-overrides is a paginated op- eration. Multiple API calls may be issued in order to retrieve the en- tire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the...
+    /// Retrieve all of the protect configuration rule set number overrides that match the filters. See also: AWS API Documentation list-protect-configuration-rule-set-number-overrides is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follo...
     /// </summary>
-    /// <param name="ProtectConfigurationId">The unique identifier for the protect configuration. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="ProtectConfigurationId">The unique identifier for the protect configuration. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+</param>
     public AwsPinpointSmsVoiceV2ListProtectConfigurationRuleSetNumberOverridesOptions(
         string ProtectConfigurationId
     )
@@ -57,22 +59,19 @@ public record AwsPinpointSmsVoiceV2ListProtectConfigurationRuleSetNumberOverride
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the protect configuration. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The unique identifier for the protect configuration. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--protect-configuration-id")]
     public string? ProtectConfigurationId { get; private init; }
 
     /// <summary>
-    /// An array of ProtectConfigurationRuleSetNumberOverrideFilterItem ob- jects to filter the results. Constraints: o min: 0 o max: 100 (structure) The information for a protect configuration rule set number override that meets a specified criteria. Name -&gt; (string) [required] The name of the attribute to filter on. Possible values: o iso-country-code o destination-phone-number-begins-with o action o expires-before o expires-after o created-before o created-after Values -&gt; (list) [required] An array values to filter for. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 128 o pattern: [/\.:A-Za-z0-9+_-]+ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "iso-country-code"|"destination-phone-number-begins-with"|"action"|"expires-before"|"expires-after"|"created-before"|"created-after", "Values": ["string", ...] } ... ]
+    /// An array of ProtectConfigurationRuleSetNumberOverrideFilterItem objects to filter the results. Constraints: • min: 0 • max: 100 (structure) The information for a protect configuration rule set number override that meets a specified criteria. Name -&gt; (string) [required] The name of the attribute to filter on. Possible values: • iso-country-code • destination-phone-number-begins-with • action • expires-before • expires-after • created-before • created-after Values -&gt; (list) [required] An array values to filter for. Constraints: • min: 1 • max: 20 (string) Constraints: • min: 1 • max: 128 • pattern: [/\.:A-Za-z0-9+_-]+ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "iso-country-code"|"destination-phone-number-begins-with"|"action"|"expires-before"|"expires-after"|"created-before"|"created-after", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -82,16 +81,19 @@ public record AwsPinpointSmsVoiceV2ListProtectConfigurationRuleSetNumberOverride
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

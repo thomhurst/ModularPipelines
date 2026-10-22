@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,13 +64,13 @@ public record AwsSecurityagentUpdateApplicationOptions : AwsOptions, IValidatabl
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The updated Amazon Resource Name (ARN) of the IAM role for the ap- plication.
+    /// The updated Amazon Resource Name (ARN) of the IAM role for the application.
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
     /// <summary>
-    /// The updated identifier of the default AWS KMS key for the applica- tion.
+    /// The updated identifier of the default AWS KMS key for the application.
     /// </summary>
     [CliOption("--default-kms-key-id")]
     public string? DefaultKmsKeyId { get; set; }

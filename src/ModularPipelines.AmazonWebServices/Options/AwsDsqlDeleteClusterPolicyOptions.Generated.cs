@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the resource-based policy attached to a cluster. This removes all access permissions defined by the policy, reverting to default ac- cess controls. See also: AWS API Documentation
+/// Deletes the resource-based policy attached to a cluster. This removes all access permissions defined by the policy, reverting to default access controls. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsDsqlDeleteClusterPolicyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the resource-based policy attached to a cluster. This removes all access permissions defined by the policy, reverting to default ac- cess controls. See also: AWS API Documentation
+    /// Deletes the resource-based policy attached to a cluster. This removes all access permissions defined by the policy, reverting to default access controls. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The ID of the cluster. Constraints: o pattern: [a-z0-9]{26}</param>
+    /// <param name="Identifier">The ID of the cluster. Constraints: • pattern: [a-z0-9]{26}</param>
     public AwsDsqlDeleteClusterPolicyOptions(
         string Identifier
     )
@@ -57,7 +59,7 @@ public record AwsDsqlDeleteClusterPolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the cluster. Constraints: o pattern: [a-z0-9]{26}
+    /// The ID of the cluster. Constraints: • pattern: [a-z0-9]{26}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
@@ -69,7 +71,7 @@ public record AwsDsqlDeleteClusterPolicyOptions : AwsOptions, IValidatableObject
     public string? ExpectedPolicyVersion { get; set; }
 
     /// <summary>
-    /// Idempotency token so a request is only processed once. Constraints: o min: 1 o max: 128 o pattern: [!-~]+
+    /// Idempotency token so a request is only processed once. Constraints: • min: 1 • max: 128 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

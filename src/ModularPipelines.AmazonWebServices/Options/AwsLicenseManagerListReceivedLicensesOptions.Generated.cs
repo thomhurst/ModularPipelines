@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLicenseManagerListReceivedLicensesOptions : AwsOptions
 {
     /// <summary>
-    /// Amazon Resource Names (ARNs) of the licenses. (string) Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ Syntax: "string" "string" ...
+    /// Amazon Resource Names (ARNs) of the licenses. (string) Constraints: • max: 2048 • pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--license-arns", GroupValues = true)]
     public IEnumerable<string>? LicenseArns { get; set; }
 
     /// <summary>
-    /// Filters to scope the results. The following filters are supported: o ProductSKU o Status o Fingerprint o IssuerName o Beneficiary (structure) A filter name and value pair that is used to return more spe- cific results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, at- tributes, or IDs. Name -&gt; (string) Name of the filter. Filter names are case-sensitive. Values -&gt; (list) The value of the filter, which is case-sensitive. You can only specify one value for the filter. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// Filters to scope the results. The following filters are supported: • ProductSKU • Status • Fingerprint • IssuerName • Beneficiary (structure) A filter name and value pair that is used to return more specific results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. Name -&gt; (string) Name of the filter. Filter names are case-sensitive. Values -&gt; (list) The value of the filter, which is case-sensitive. You can only specify one value for the filter. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
@@ -42,7 +42,7 @@ public record AwsLicenseManagerListReceivedLicensesOptions : AwsOptions
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Maximum number of results to return in a single call. Constraints: o min: 1 o max: 100
+    /// Maximum number of results to return in a single call. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

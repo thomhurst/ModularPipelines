@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The ListReviewPolicyResultsForHIT operation retrieves the computed re- sults and the actions taken in the course of executing your Review Policies for a given HIT. For information about how to specify Review Policies when you call CreateHIT, see Review Policies. The ListReview- PolicyResultsForHIT operation can return results for both Assign- ment-level and HIT-level review results. See also: AWS API Documentation
+/// The ListReviewPolicyResultsForHIT operation retrieves the computed results and the actions taken in the course of executing your Review Policies for a given HIT. For information about how to specify Review Policies when you call CreateHIT, see Review Policies. The ListReviewPolicyResultsForHIT operation can return results for both Assignment-level and HIT-level review results. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsMturkListReviewPolicyResultsForHitOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The ListReviewPolicyResultsForHIT operation retrieves the computed re- sults and the actions taken in the course of executing your Review Policies for a given HIT. For information about how to specify Review Policies when you call CreateHIT, see Review Policies. The ListReview- PolicyResultsForHIT operation can return results for both Assign- ment-level and HIT-level review results. See also: AWS API Documentation
+    /// The ListReviewPolicyResultsForHIT operation retrieves the computed results and the actions taken in the course of executing your Review Policies for a given HIT. For information about how to specify Review Policies when you call CreateHIT, see Review Policies. The ListReviewPolicyResultsForHIT operation can return results for both Assignment-level and HIT-level review results. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HitId">The unique identifier of the HIT to retrieve review results for. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$</param>
+    /// <param name="HitId">The unique identifier of the HIT to retrieve review results for. Constraints: • min: 1 • max: 64 • pattern: ^[A-Z0-9]+$</param>
     public AwsMturkListReviewPolicyResultsForHitOptions(
         string HitId
     )
@@ -57,13 +59,13 @@ public record AwsMturkListReviewPolicyResultsForHitOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the HIT to retrieve review results for. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$
+    /// The unique identifier of the HIT to retrieve review results for. Constraints: • min: 1 • max: 64 • pattern: ^[A-Z0-9]+$
     /// </summary>
     [CliOption("--hit-id")]
     public string? HitId { get; private init; }
 
     /// <summary>
-    /// The Policy Level(s) to retrieve review results for - HIT or Assign- ment. If omitted, the default behavior is to retrieve all data for both policy levels. For a list of all the described policies, see Review Policies. (string) Possible values: o Assignment o HIT Syntax: "string" "string" ...
+    /// The Policy Level(s) to retrieve review results for - HIT or Assignment. If omitted, the default behavior is to retrieve all data for both policy levels. For a list of all the described policies, see Review Policies. (string) Possible values: • Assignment • HIT Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--policy-levels", GroupValues = true)]
     public IEnumerable<string>? PolicyLevels { get; set; }
@@ -75,20 +77,20 @@ public record AwsMturkListReviewPolicyResultsForHitOptions : AwsOptions, IValida
     public bool? RetrieveActions { get; set; }
 
     /// <summary>
-    /// Specify if the operation should retrieve a list of the results com- puted by the Review Policies.
+    /// Specify if the operation should retrieve a list of the results computed by the Review Policies.
     /// </summary>
     [CliFlag("--retrieve-results", NegatedName = "--no-retrieve-results")]
     public bool? RetrieveResults { get; set; }
 
     /// <summary>
-    /// Pagination token Constraints: o min: 1 o max: 255
+    /// Pagination token Constraints: • min: 1 • max: 255
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Limit the number of results returned. Constraints: o min: 1 o max: 100
+    /// Limit the number of results returned. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

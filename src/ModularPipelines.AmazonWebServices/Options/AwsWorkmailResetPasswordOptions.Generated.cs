@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +30,9 @@ public record AwsWorkmailResetPasswordOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Allows the administrator to reset the password for a user. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The identifier of the organization that contains the user for which the password is reset. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
-    /// <param name="UserId">The identifier of the user for whom the password is reset. Constraints: o min: 12 o max: 256</param>
-    /// <param name="Password">The new password for the user. Constraints: o max: 256 o pattern: [\u0020-\u00FF]+</param>
+    /// <param name="OrganizationId">The identifier of the organization that contains the user for which the password is reset. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="UserId">The identifier of the user for whom the password is reset. Constraints: • min: 12 • max: 256</param>
+    /// <param name="Password">The new password for the user. Constraints: • max: 256 • pattern: [\u0020-\u00FF]+</param>
     public AwsWorkmailResetPasswordOptions(
         string OrganizationId,
         string UserId,
@@ -65,19 +67,19 @@ public record AwsWorkmailResetPasswordOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the organization that contains the user for which the password is reset. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The identifier of the organization that contains the user for which the password is reset. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The identifier of the user for whom the password is reset. Constraints: o min: 12 o max: 256
+    /// The identifier of the user for whom the password is reset. Constraints: • min: 12 • max: 256
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; private init; }
 
     /// <summary>
-    /// The new password for the user. Constraints: o max: 256 o pattern: [\u0020-\u00FF]+
+    /// The new password for the user. Constraints: • max: 256 • pattern: [\u0020-\u00FF]+
     /// </summary>
     [SecretValue]
     [CliOption("--password")]

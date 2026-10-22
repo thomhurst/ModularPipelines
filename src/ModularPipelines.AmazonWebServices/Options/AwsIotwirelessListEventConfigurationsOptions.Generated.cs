@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// List event configurations where at least one event topic has been en- abled. See also: AWS API Documentation
+/// List event configurations where at least one event topic has been enabled. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsIotwirelessListEventConfigurationsOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// List event configurations where at least one event topic has been en- abled. See also: AWS API Documentation
+    /// List event configurations where at least one event topic has been enabled. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceType">Resource type to filter event configurations. Possible values: o SidewalkAccount o WirelessDevice o WirelessGateway</param>
+    /// <param name="ResourceType">Resource type to filter event configurations. Possible values: • SidewalkAccount • WirelessDevice • WirelessGateway</param>
     public AwsIotwirelessListEventConfigurationsOptions(
         AwsIotwirelessListEventConfigurationsResourceType ResourceType
     )
@@ -57,19 +59,19 @@ public record AwsIotwirelessListEventConfigurationsOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Resource type to filter event configurations. Possible values: o SidewalkAccount o WirelessDevice o WirelessGateway
+    /// Resource type to filter event configurations. Possible values: • SidewalkAccount • WirelessDevice • WirelessGateway
     /// </summary>
     [CliOption("--resource-type")]
     public AwsIotwirelessListEventConfigurationsResourceType? ResourceType { get; private init; }
 
     /// <summary>
-    /// The maximum number of results to return in this operation. Constraints: o min: 0 o max: 250
+    /// The maximum number of results to return in this operation. Constraints: • min: 0 • max: 250
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// To retrieve the next set of results, the nextToken value from a pre- vious response; otherwise null to receive the first set of results. Constraints: o max: 4096
+    /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results. Constraints: • max: 4096
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

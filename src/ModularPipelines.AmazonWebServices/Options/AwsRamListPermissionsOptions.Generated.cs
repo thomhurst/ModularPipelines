@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a list of available RAM permissions that you can use for the supported resource types. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation
+/// Retrieves a list of available RAM permissions that you can use for the supported resource types. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,26 +24,26 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsRamListPermissionsOptions : AwsOptions
 {
     /// <summary>
-    /// Specifies that you want to list only those permissions that apply to the specified resource type. This parameter is not case sensitive. For example, to list only permissions that apply to Amazon EC2 sub- nets, specify ec2:subnet . You can use the ListResourceTypes opera- tion to get the specific string required.
+    /// Specifies that you want to list only those permissions that apply to the specified resource type. This parameter is not case sensitive. For example, to list only permissions that apply to Amazon EC2 subnets, specify ec2:subnet . You can use the ListResourceTypes operation to get the specific string required.
     /// </summary>
     [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
     /// <summary>
-    /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this pa- rameter to the value provided by the previous call's NextToken re- sponse to request the next page of results.
+    /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it de- faults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the op- eration to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. Constraints: o min: 1 o max: 500
+    /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Specifies that you want to list only permissions of this type: o AWS returns only Amazon Web Services managed permissions. o LOCAL returns only customer managed permissions o ALL returns both Amazon Web Services managed permissions and cus- tomer managed permissions. If you don't specify this parameter, the default is All . Possible values: o ALL o AWS_MANAGED o CUSTOMER_MANAGED
+    /// Specifies that you want to list only permissions of this type: • AWS returns only Amazon Web Services managed permissions. • LOCAL returns only customer managed permissions • ALL returns both Amazon Web Services managed permissions and customer managed permissions. If you don't specify this parameter, the default is All . Possible values: • ALL • AWS_MANAGED • CUSTOMER_MANAGED
     /// </summary>
     [CliOption("--permission-type")]
     public AwsRamListPermissionsPermissionType? PermissionType { get; set; }

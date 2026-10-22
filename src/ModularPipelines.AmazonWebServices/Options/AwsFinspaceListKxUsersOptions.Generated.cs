@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsFinspaceListKxUsersOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Lists all the users in a kdb environment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EnvironmentId">A unique identifier for the kdb environment. Constraints: o min: 1 o max: 26 o pattern: ^[a-zA-Z0-9]{1,26}$</param>
+    /// <param name="EnvironmentId">A unique identifier for the kdb environment. Constraints: • min: 1 • max: 26 • pattern: ^[a-zA-Z0-9]{1,26}$</param>
     public AwsFinspaceListKxUsersOptions(
         string EnvironmentId
     )
@@ -57,20 +59,20 @@ public record AwsFinspaceListKxUsersOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the kdb environment. Constraints: o min: 1 o max: 26 o pattern: ^[a-zA-Z0-9]{1,26}$
+    /// A unique identifier for the kdb environment. Constraints: • min: 1 • max: 26 • pattern: ^[a-zA-Z0-9]{1,26}$
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
 
     /// <summary>
-    /// A token that indicates where a results page should begin. Constraints: o min: 1 o max: 1000 o pattern: .*
+    /// A token that indicates where a results page should begin. Constraints: • min: 1 • max: 1000 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return in this request. Constraints: o min: 0 o max: 100
+    /// The maximum number of results to return in this request. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

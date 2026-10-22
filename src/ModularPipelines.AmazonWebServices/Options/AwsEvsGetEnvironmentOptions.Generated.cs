@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsEvsGetEnvironmentOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns a description of the specified environment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EnvironmentId">A unique ID for the environment. Constraints: o pattern: (env-[a-zA-Z0-9]{10})</param>
+    /// <param name="EnvironmentId">A unique ID for the environment. Constraints: • pattern: (env-[a-zA-Z0-9]{10})</param>
     public AwsEvsGetEnvironmentOptions(
         string EnvironmentId
     )
@@ -56,7 +58,7 @@ public record AwsEvsGetEnvironmentOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique ID for the environment. Constraints: o pattern: (env-[a-zA-Z0-9]{10})
+    /// A unique ID for the environment. Constraints: • pattern: (env-[a-zA-Z0-9]{10})
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }

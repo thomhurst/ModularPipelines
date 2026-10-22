@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDatazoneUpdateEnvironmentProfileOptions : AwsOptions, IValidata
     /// <summary>
     /// Updates the specified environment profile in Amazon DataZone. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain in which an environment profile is to be updated. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Identifier">The identifier of the environment profile that is to be updated. Constraints: o pattern: [a-zA-Z0-9_-]{0,36}</param>
+    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain in which an environment profile is to be updated. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The identifier of the environment profile that is to be updated. Constraints: • pattern: [a-zA-Z0-9_-]{0,36}</param>
     public AwsDatazoneUpdateEnvironmentProfileOptions(
         string DomainIdentifier,
         string Identifier
@@ -60,43 +62,43 @@ public record AwsDatazoneUpdateEnvironmentProfileOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon DataZone domain in which an environment profile is to be updated. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The identifier of the Amazon DataZone domain in which an environment profile is to be updated. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the environment profile that is to be updated. Constraints: o pattern: [a-zA-Z0-9_-]{0,36}
+    /// The identifier of the environment profile that is to be updated. Constraints: • pattern: [a-zA-Z0-9_-]{0,36}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The name to be updated as part of the UpdateEnvironmentProfile ac- tion. Constraints: o min: 1 o max: 64 o pattern: [\w -]+
+    /// The name to be updated as part of the UpdateEnvironmentProfile action. Constraints: • min: 1 • max: 64 • pattern: [\w -]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The description to be updated as part of the UpdateEnvironmentPro- file action.
+    /// The description to be updated as part of the UpdateEnvironmentProfile action.
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The user parameters to be updated as part of the UpdateEnvironment- Profile action. (structure) The parameter details of an evironment profile. name -&gt; (string) The name of an environment profile parameter. value -&gt; (string) The value of an environment profile parameter. Shorthand Syntax: name=string,value=string ... JSON Syntax: [ { "name": "string", "value": "string" } ... ]
+    /// The user parameters to be updated as part of the UpdateEnvironmentProfile action. (structure) The parameter details of an evironment profile. name -&gt; (string) The name of an environment profile parameter. value -&gt; (string) The value of an environment profile parameter. Shorthand Syntax: name=string,value=string ... JSON Syntax: [ { "name": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--user-parameters", GroupValues = true)]
     public IEnumerable<string>? UserParameters { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services account in which a specified environment profile is to be udpated. Constraints: o pattern: \d{12}
+    /// The Amazon Web Services account in which a specified environment profile is to be udpated. Constraints: • pattern: \d{12}
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services Region in which a specified environment pro- file is to be updated. Constraints: o pattern: [a-z]{2}-[a-z]{4,10}-\d
+    /// The Amazon Web Services Region in which a specified environment profile is to be updated. Constraints: • pattern: [a-z]{2}-[a-z]{4,10}-\d
     /// </summary>
     [CliOption("--aws-account-region")]
     public string? AwsAccountRegion { get; set; }

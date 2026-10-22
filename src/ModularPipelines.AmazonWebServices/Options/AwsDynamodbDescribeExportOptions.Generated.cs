@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDynamodbDescribeExportOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Describes an existing table export. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExportArn">The Amazon Resource Name (ARN) associated with the export. Constraints: o min: 37 o max: 1024</param>
+    /// <param name="ExportArn">The Amazon Resource Name (ARN) associated with the export. Constraints: • min: 37 • max: 1024</param>
     public AwsDynamodbDescribeExportOptions(
         string ExportArn
     )
@@ -56,7 +58,7 @@ public record AwsDynamodbDescribeExportOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) associated with the export. Constraints: o min: 37 o max: 1024
+    /// The Amazon Resource Name (ARN) associated with the export. Constraints: • min: 37 • max: 1024
     /// </summary>
     [CliOption("--export-arn")]
     public string? ExportArn { get; private init; }

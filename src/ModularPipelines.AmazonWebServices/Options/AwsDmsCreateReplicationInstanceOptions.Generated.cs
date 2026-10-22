@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates the replication instance using the specified parameters. DMS requires that your account have certain roles with appropriate per- missions before you can create a replication instance. For information on the required roles, see Creating the IAM Roles to Use With the CLI and DMS API . For information on the required permissions, see IAM Per- missions Needed to Use DMS . NOTE: If you don't specify a version when creating a replication instance, DMS will create the instance using the default...
+/// Creates the replication instance using the specified parameters. DMS requires that your account have certain roles with appropriate permissions before you can create a replication instance. For information on the required roles, see Creating the IAM Roles to Use With the CLI and DMS API . For information on the required permissions, see IAM Permissions Needed to Use DMS . NOTE: If you don't specify a version when creating a replication instance, DMS will create the instance using the default eng...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsDmsCreateReplicationInstanceOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates the replication instance using the specified parameters. DMS requires that your account have certain roles with appropriate per- missions before you can create a replication instance. For information on the required roles, see Creating the IAM Roles to Use With the CLI and DMS API . For information on the required permissions, see IAM Per- missions Needed to Use DMS . NOTE: If you don't specify a version when creating a replication instance, DMS will create the instance using the default...
+    /// Creates the replication instance using the specified parameters. DMS requires that your account have certain roles with appropriate permissions before you can create a replication instance. For information on the required roles, see Creating the IAM Roles to Use With the CLI and DMS API . For information on the required permissions, see IAM Permissions Needed to Use DMS . NOTE: If you don't specify a version when creating a replication instance, DMS will create the instance using the default eng...
     /// </summary>
-    /// <param name="ReplicationInstanceIdentifier">The replication instance identifier. This parameter is stored as a lowercase string. Constraints: o Must contain 1-63 alphanumeric characters or hyphens. o First character must be a letter. o Can't end with a hyphen or contain two consecutive hyphens. Example: myrepinstance</param>
-    /// <param name="ReplicationInstanceClass">The compute and memory capacity of the replication instance as de- fined for the specified replication instance class. For example to specify the instance class dms.c4.large, set this parameter to "dms.c4.large" . For more information on the settings and capacities for the avail- able replication instance classes, see `Choosing the right DMS replication instance &lt;https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.Types.html &gt;`__ ; and, Selecting the best size for a replication instance . Constraints: o max: 30</param>
+    /// <param name="ReplicationInstanceIdentifier">The replication instance identifier. This parameter is stored as a lowercase string. Constraints: • Must contain 1-63 alphanumeric characters or hyphens. • First character must be a letter. • Can't end with a hyphen or contain two consecutive hyphens. Example: myrepinstance</param>
+    /// <param name="ReplicationInstanceClass">The compute and memory capacity of the replication instance as defined for the specified replication instance class. For example to specify the instance class dms.c4.large, set this parameter to "dms.c4.large" . For more information on the settings and capacities for the available replication instance classes, see `Choosing the right DMS replication instance &lt;https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.Types.html &gt;`__ ; and, Selecting the best size for a replication instance . Constraints: • max: 30</param>
     public AwsDmsCreateReplicationInstanceOptions(
         string ReplicationInstanceIdentifier,
         string ReplicationInstanceClass
@@ -60,13 +62,13 @@ public record AwsDmsCreateReplicationInstanceOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The replication instance identifier. This parameter is stored as a lowercase string. Constraints: o Must contain 1-63 alphanumeric characters or hyphens. o First character must be a letter. o Can't end with a hyphen or contain two consecutive hyphens. Example: myrepinstance
+    /// The replication instance identifier. This parameter is stored as a lowercase string. Constraints: • Must contain 1-63 alphanumeric characters or hyphens. • First character must be a letter. • Can't end with a hyphen or contain two consecutive hyphens. Example: myrepinstance
     /// </summary>
     [CliOption("--replication-instance-identifier")]
     public string? ReplicationInstanceIdentifier { get; private init; }
 
     /// <summary>
-    /// The compute and memory capacity of the replication instance as de- fined for the specified replication instance class. For example to specify the instance class dms.c4.large, set this parameter to "dms.c4.large" . For more information on the settings and capacities for the avail- able replication instance classes, see `Choosing the right DMS replication instance &lt;https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.Types.html &gt;`__ ; and, Selecting the best size for a replication instance . Constraints: o max: 30
+    /// The compute and memory capacity of the replication instance as defined for the specified replication instance class. For example to specify the instance class dms.c4.large, set this parameter to "dms.c4.large" . For more information on the settings and capacities for the available replication instance classes, see `Choosing the right DMS replication instance &lt;https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.Types.html &gt;`__ ; and, Selecting the best size for a replication instance . Constraints: • max: 30
     /// </summary>
     [CliOption("--replication-instance-class")]
     public string? ReplicationInstanceClass { get; private init; }
@@ -78,13 +80,13 @@ public record AwsDmsCreateReplicationInstanceOptions : AwsOptions, IValidatableO
     public int? AllocatedStorage { get; set; }
 
     /// <summary>
-    /// Specifies the VPC security group to be used with the replication in- stance. The VPC security group must work with the VPC containing the replication instance. (string) Syntax: "string" "string" ...
+    /// Specifies the VPC security group to be used with the replication instance. The VPC security group must work with the VPC containing the replication instance. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
     /// <summary>
-    /// The Availability Zone where the replication instance will be cre- ated. The default value is a random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region, for example: us-east-1d .
+    /// The Availability Zone where the replication instance will be created. The default value is a random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region, for example: us-east-1d .
     /// </summary>
     [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; set; }
@@ -102,31 +104,31 @@ public record AwsDmsCreateReplicationInstanceOptions : AwsOptions, IValidatableO
     public string? PreferredMaintenanceWindow { get; set; }
 
     /// <summary>
-    /// Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parame- ter is set to true .
+    /// Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true .
     /// </summary>
     [CliFlag("--multi-az", NegatedName = "--no-multi-az")]
     public bool? MultiAz { get; set; }
 
     /// <summary>
-    /// The engine version number of the replication instance. If an engine version number is not specified when a replication in- stance is created, the default is the latest engine version avail- able.
+    /// The engine version number of the replication instance. If an engine version number is not specified when a replication instance is created, the default is the latest engine version available.
     /// </summary>
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
     /// <summary>
-    /// A value that indicates whether minor engine upgrades are applied au- tomatically to the replication instance during the maintenance win- dow. This parameter defaults to true . Default: true
+    /// A value that indicates whether minor engine upgrades are applied automatically to the replication instance during the maintenance window. This parameter defaults to true . Default: true
     /// </summary>
     [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
 
     /// <summary>
-    /// One or more tags to be assigned to the replication instance. (structure) A user-defined key-value pair that describes metadata added to an DMS resource and that is used by operations such as the fol- lowing: o AddTagsToResource o ListTagsForResource o RemoveTagsFromResource Key -&gt; (string) A key is the required name of the tag. The string value can be 1-128 Unicode characters in length and can't be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be 1-256 Unicode characters in length and can't be pre- fixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). ResourceArn -&gt; (string) The Amazon Resource Name (ARN) string that uniquely identi- fies the resource for which the tag is created. Shorthand Syntax: Key=string,Value=string,ResourceArn=string ... JSON Syntax: [ { "Key": "string", "Value": "string", "ResourceArn": "string" } ... ]
+    /// One or more tags to be assigned to the replication instance. (structure) A user-defined key-value pair that describes metadata added to an DMS resource and that is used by operations such as the following: • AddTagsToResource • ListTagsForResource • RemoveTagsFromResource Key -&gt; (string) A key is the required name of the tag. The string value can be 1-128 Unicode characters in length and can't be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be 1-256 Unicode characters in length and can't be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). ResourceArn -&gt; (string) The Amazon Resource Name (ARN) string that uniquely identifies the resource for which the tag is created. Shorthand Syntax: Key=string,Value=string,ResourceArn=string ... JSON Syntax: [ { "Key": "string", "Value": "string", "ResourceArn": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// An KMS key identifier that is used to encrypt the data on the repli- cation instance. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
+    /// An KMS key identifier that is used to encrypt the data on the replication instance. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
@@ -138,19 +140,19 @@ public record AwsDmsCreateReplicationInstanceOptions : AwsOptions, IValidatableO
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
-    /// A list of custom DNS name servers supported for the replication in- stance to access your on-premise source or target database. This list overrides the default name servers supported by the replication instance. You can specify a comma-separated list of internet ad- dresses for up to four on-premise DNS name servers. For example: "1.1.1.1,2.2.2.2,3.3.3.3,4.4.4.4"
+    /// A list of custom DNS name servers supported for the replication instance to access your on-premise source or target database. This list overrides the default name servers supported by the replication instance. You can specify a comma-separated list of internet addresses for up to four on-premise DNS name servers. For example: "1.1.1.1,2.2.2.2,3.3.3.3,4.4.4.4"
     /// </summary>
     [CliOption("--dns-name-servers")]
     public string? DnsNameServers { get; set; }
 
     /// <summary>
-    /// A friendly name for the resource identifier at the end of the End- pointArn response parameter that is returned in the created Endpoint object. The value for this parameter can have up to 31 characters. It can contain only ASCII letters, digits, and hyphen ('-'). Also, it can't end with a hyphen or contain two consecutive hyphens, and can only begin with a letter, such as Example-App-ARN1 . For exam- ple, this value might result in the EndpointArn value arn:aws:dms:eu-west-1:012345678901:rep:Example-App-ARN1 . If you don't specify a ResourceIdentifier value, DMS generates a default identifier value for the end of EndpointArn .
+    /// A friendly name for the resource identifier at the end of the EndpointArn response parameter that is returned in the created Endpoint object. The value for this parameter can have up to 31 characters. It can contain only ASCII letters, digits, and hyphen ('-'). Also, it can't end with a hyphen or contain two consecutive hyphens, and can only begin with a letter, such as Example-App-ARN1 . For example, this value might result in the EndpointArn value arn:aws:dms:eu-west-1:012345678901:rep:Example-App-ARN1 . If you don't specify a ResourceIdentifier value, DMS generates a default identifier value for the end of EndpointArn .
     /// </summary>
     [CliOption("--resource-identifier")]
     public string? ResourceIdentifier { get; set; }
 
     /// <summary>
-    /// The type of IP address protocol used by a replication instance, such as IPv4 only or Dual-stack that supports both IPv4 and IPv6 address- ing. IPv6 only is not yet supported.
+    /// The type of IP address protocol used by a replication instance, such as IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing. IPv6 only is not yet supported.
     /// </summary>
     [CliOption("--network-type")]
     public string? NetworkType { get; set; }

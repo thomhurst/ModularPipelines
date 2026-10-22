@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sets the default encryption configuration for the Amazon Web Services account. For more information, see Key management in the AWS IoT Site- Wise User Guide. See also: AWS API Documentation
+/// Sets the default encryption configuration for the Amazon Web Services account. For more information, see Key management in the AWS IoT SiteWise User Guide. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsIotManagedIntegrationsPutDefaultEncryptionConfigurationOptions 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sets the default encryption configuration for the Amazon Web Services account. For more information, see Key management in the AWS IoT Site- Wise User Guide. See also: AWS API Documentation
+    /// Sets the default encryption configuration for the Amazon Web Services account. For more information, see Key management in the AWS IoT SiteWise User Guide. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EncryptionType">The type of encryption used for the encryption configuration. Possible values: o MANAGED_INTEGRATIONS_DEFAULT_ENCRYPTION o CUSTOMER_KEY_ENCRYPTION</param>
+    /// <param name="EncryptionType">The type of encryption used for the encryption configuration. Possible values: • MANAGED_INTEGRATIONS_DEFAULT_ENCRYPTION • CUSTOMER_KEY_ENCRYPTION</param>
     public AwsIotManagedIntegrationsPutDefaultEncryptionConfigurationOptions(
         AwsIotManagedIntegrationsPutDefaultEncryptionConfigurationEncryptionType EncryptionType
     )
@@ -56,13 +58,13 @@ public record AwsIotManagedIntegrationsPutDefaultEncryptionConfigurationOptions 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of encryption used for the encryption configuration. Possible values: o MANAGED_INTEGRATIONS_DEFAULT_ENCRYPTION o CUSTOMER_KEY_ENCRYPTION
+    /// The type of encryption used for the encryption configuration. Possible values: • MANAGED_INTEGRATIONS_DEFAULT_ENCRYPTION • CUSTOMER_KEY_ENCRYPTION
     /// </summary>
     [CliOption("--encryption-type")]
     public AwsIotManagedIntegrationsPutDefaultEncryptionConfigurationEncryptionType? EncryptionType { get; private init; }
 
     /// <summary>
-    /// The Key Amazon Resource Name (ARN) of the AWS KMS key used for KMS encryption if you use KMS_BASED_ENCRYPTION . Constraints: o min: 1 o max: 200 o pattern: arn:aws:kms:[0-9a-zA-Z-]+:[0-9]+:key/[0-9a-zA-Z-]+
+    /// The Key Amazon Resource Name (ARN) of the AWS KMS key used for KMS encryption if you use KMS_BASED_ENCRYPTION . Constraints: • min: 1 • max: 200 • pattern: arn:aws:kms:[0-9a-zA-Z-]+:[0-9]+:key/[0-9a-zA-Z-]+
     /// </summary>
     [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }

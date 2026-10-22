@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsRedshiftModifyAquaConfigurationOptions : AwsOptions, IValidatab
     /// <summary>
     /// This operation is retired. Calling this operation does not change AQUA configuration. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator). See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterIdentifier">The identifier of the cluster to be modified. Constraints: o max: 2147483647</param>
+    /// <param name="ClusterIdentifier">The identifier of the cluster to be modified. Constraints: • max: 2147483647</param>
     public AwsRedshiftModifyAquaConfigurationOptions(
         string ClusterIdentifier
     )
@@ -57,13 +59,13 @@ public record AwsRedshiftModifyAquaConfigurationOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the cluster to be modified. Constraints: o max: 2147483647
+    /// The identifier of the cluster to be modified. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// This parameter is retired. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator). Possible values: o enabled o disabled o auto
+    /// This parameter is retired. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator). Possible values: • enabled • disabled • auto
     /// </summary>
     [CliOption("--aqua-configuration-status")]
     public AwsRedshiftModifyAquaConfigurationAquaConfigurationStatus? AquaConfigurationStatus { get; set; }

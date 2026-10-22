@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -24,19 +25,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDrsCreateLaunchConfigurationTemplateOptions : AwsOptions
 {
     /// <summary>
-    /// Request to associate tags during creation of a Launch Configuration Template. key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Request to associate tags during creation of a Launch Configuration Template. key -&gt; (string) Constraints: • min: 0 • max: 256 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Launch disposition. Possible values: o STOPPED o STARTED
+    /// Launch disposition. Possible values: • STOPPED • STARTED
     /// </summary>
     [CliOption("--launch-disposition")]
     public AwsDrsCreateLaunchConfigurationTemplateLaunchDisposition? LaunchDisposition { get; set; }
 
     /// <summary>
-    /// Target instance type right-sizing method. Possible values: o NONE o BASIC o IN_AWS
+    /// Target instance type right-sizing method. Possible values: • NONE • BASIC • IN_AWS
     /// </summary>
     [CliOption("--target-instance-type-right-sizing-method")]
     public AwsDrsCreateLaunchConfigurationTemplateTargetInstanceTypeRightSizingMethod? TargetInstanceTypeRightSizingMethod { get; set; }
@@ -60,7 +61,7 @@ public record AwsDrsCreateLaunchConfigurationTemplateOptions : AwsOptions
     public string? Licensing { get; set; }
 
     /// <summary>
-    /// S3 bucket ARN to export Source Network templates. Constraints: o min: 20 o max: 2048 o pattern: arn:.{16,2044}
+    /// S3 bucket ARN to export Source Network templates. Constraints: • min: 20 • max: 2048 • pattern: arn:.{16,2044}
     /// </summary>
     [CliOption("--export-bucket-arn")]
     public string? ExportBucketArn { get; set; }
@@ -78,7 +79,7 @@ public record AwsDrsCreateLaunchConfigurationTemplateOptions : AwsOptions
     public bool? LaunchIntoSourceInstance { get; set; }
 
     /// <summary>
-    /// Recovery mode. Possible values: o FAST o OPTIMAL
+    /// Recovery mode. Possible values: • FAST • OPTIMAL
     /// </summary>
     [CliOption("--recovery-mode")]
     public AwsDrsCreateLaunchConfigurationTemplateRecoveryMode? RecoveryMode { get; set; }

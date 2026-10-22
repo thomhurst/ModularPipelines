@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsTranscribeDeleteTranscriptionJobOptions : AwsOptions, IValidata
     /// <summary>
     /// Deletes a transcription job. To use this operation, specify the name of the job you want to delete using TranscriptionJobName . Job names are case sensitive. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TranscriptionJobName">The name of the transcription job you want to delete. Job names are case sensitive. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+</param>
+    /// <param name="TranscriptionJobName">The name of the transcription job you want to delete. Job names are case sensitive. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z._-]+</param>
     public AwsTranscribeDeleteTranscriptionJobOptions(
         string TranscriptionJobName
     )
@@ -56,7 +58,7 @@ public record AwsTranscribeDeleteTranscriptionJobOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the transcription job you want to delete. Job names are case sensitive. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+
+    /// The name of the transcription job you want to delete. Job names are case sensitive. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z._-]+
     /// </summary>
     [CliOption("--transcription-job-name")]
     public string? TranscriptionJobName { get; private init; }

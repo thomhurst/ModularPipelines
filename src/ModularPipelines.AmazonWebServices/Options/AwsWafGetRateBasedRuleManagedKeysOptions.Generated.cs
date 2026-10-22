@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of IP addresses currently being blocked by the Rate- BasedRule that is specified by the RuleId . The maximum number of man- aged keys that will be blocked is 10,000. If more than 10,00...
+/// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of IP addresses currently being blocked by the RateBasedRule that is specified by the RuleId . The maximum number of managed keys that will be blocked is 10,000. If more than 10,000 ad...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsWafGetRateBasedRuleManagedKeysOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of IP addresses currently being blocked by the Rate- BasedRule that is specified by the RuleId . The maximum number of man- aged keys that will be blocked is 10,000. If more than 10,00...
+    /// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of IP addresses currently being blocked by the RateBasedRule that is specified by the RuleId . The maximum number of managed keys that will be blocked is 10,000. If more than 10,000 ad...
     /// </summary>
-    /// <param name="RuleId">The RuleId of the RateBasedRule for which you want to get a list of ManagedKeys . RuleId is returned by CreateRateBasedRule and by ListRateBasedRules . Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    /// <param name="RuleId">The RuleId of the RateBasedRule for which you want to get a list of ManagedKeys . RuleId is returned by CreateRateBasedRule and by ListRateBasedRules . Constraints: • min: 1 • max: 128 • pattern: .*\S.*</param>
     public AwsWafGetRateBasedRuleManagedKeysOptions(
         string RuleId
     )
@@ -57,16 +59,13 @@ public record AwsWafGetRateBasedRuleManagedKeysOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The RuleId of the RateBasedRule for which you want to get a list of ManagedKeys . RuleId is returned by CreateRateBasedRule and by ListRateBasedRules . Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// The RuleId of the RateBasedRule for which you want to get a list of ManagedKeys . RuleId is returned by CreateRateBasedRule and by ListRateBasedRules . Constraints: • min: 1 • max: 128 • pattern: .*\S.*
     /// </summary>
     [CliOption("--rule-id")]
     public string? RuleId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -76,10 +75,13 @@ public record AwsWafGetRateBasedRuleManagedKeysOptions : AwsOptions, IValidatabl
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

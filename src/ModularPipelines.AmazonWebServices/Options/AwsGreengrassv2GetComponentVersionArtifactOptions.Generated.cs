@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the pre-signed URL to download a public or a Lambda component ar- tifact. Core devices call this operation to identify the URL that they can use to download an artifact to install. See also: AWS API Documentation
+/// Gets the pre-signed URL to download a public or a Lambda component artifact. Core devices call this operation to identify the URL that they can use to download an artifact to install. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsGreengrassv2GetComponentVersionArtifactOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets the pre-signed URL to download a public or a Lambda component ar- tifact. Core devices call this operation to identify the URL that they can use to download an artifact to install. See also: AWS API Documentation
+    /// Gets the pre-signed URL to download a public or a Lambda component artifact. Core devices call this operation to identify the URL that they can use to download an artifact to install. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The ARN of the component version. Specify the ARN of a public or a Lambda component version. Constraints: o pattern: arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):compo- nents:[^:]+:versions:[^:]+</param>
-    /// <param name="ArtifactName">The name of the artifact. You can use the GetComponent operation to download the component recipe, which includes the URI of the artifact. The artifact name is the section of the URI after the scheme. For example, in the arti- fact URI greengrass:SomeArtifact.zip , the artifact name is SomeArtifact.zip . Constraints: o min: 1</param>
+    /// <param name="Arn">The ARN of the component version. Specify the ARN of a public or a Lambda component version. Constraints: • pattern: arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):components:[^:]+:versions:[^:]+</param>
+    /// <param name="ArtifactName">The name of the artifact. You can use the GetComponent operation to download the component recipe, which includes the URI of the artifact. The artifact name is the section of the URI after the scheme. For example, in the artifact URI greengrass:SomeArtifact.zip , the artifact name is SomeArtifact.zip . Constraints: • min: 1</param>
     public AwsGreengrassv2GetComponentVersionArtifactOptions(
         string Arn,
         string ArtifactName
@@ -61,25 +63,25 @@ public record AwsGreengrassv2GetComponentVersionArtifactOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the component version. Specify the ARN of a public or a Lambda component version. Constraints: o pattern: arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):compo- nents:[^:]+:versions:[^:]+
+    /// The ARN of the component version. Specify the ARN of a public or a Lambda component version. Constraints: • pattern: arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):components:[^:]+:versions:[^:]+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The name of the artifact. You can use the GetComponent operation to download the component recipe, which includes the URI of the artifact. The artifact name is the section of the URI after the scheme. For example, in the arti- fact URI greengrass:SomeArtifact.zip , the artifact name is SomeArtifact.zip . Constraints: o min: 1
+    /// The name of the artifact. You can use the GetComponent operation to download the component recipe, which includes the URI of the artifact. The artifact name is the section of the URI after the scheme. For example, in the artifact URI greengrass:SomeArtifact.zip , the artifact name is SomeArtifact.zip . Constraints: • min: 1
     /// </summary>
     [CliOption("--artifact-name")]
     public string? ArtifactName { get; private init; }
 
     /// <summary>
-    /// Specifies the endpoint to use when getting Amazon S3 pre-signed URLs. All Amazon Web Services Regions except US East (N. Virginia) use RE- GIONAL in all cases. In the US East (N. Virginia) Region the default is GLOBAL , but you can change it to REGIONAL with this parameter. Possible values: o REGIONAL o GLOBAL
+    /// Specifies the endpoint to use when getting Amazon S3 pre-signed URLs. All Amazon Web Services Regions except US East (N. Virginia) use REGIONAL in all cases. In the US East (N. Virginia) Region the default is GLOBAL , but you can change it to REGIONAL with this parameter. Possible values: • REGIONAL • GLOBAL
     /// </summary>
     [CliOption("--s3-endpoint-type")]
     public AwsGreengrassv2GetComponentVersionArtifactS3EndpointType? S3EndpointType { get; set; }
 
     /// <summary>
-    /// Determines if the Amazon S3 URL returned is a FIPS pre-signed URL endpoint. Specify fips if you want the returned Amazon S3 pre-signed URL to point to an Amazon S3 FIPS endpoint. If you don't specify a value, the default is standard . Possible values: o fips o standard
+    /// Determines if the Amazon S3 URL returned is a FIPS pre-signed URL endpoint. Specify fips if you want the returned Amazon S3 pre-signed URL to point to an Amazon S3 FIPS endpoint. If you don't specify a value, the default is standard . Possible values: • fips • standard
     /// </summary>
     [CliOption("--iot-endpoint-type")]
     public AwsGreengrassv2GetComponentVersionArtifactIotEndpointType? IotEndpointType { get; set; }

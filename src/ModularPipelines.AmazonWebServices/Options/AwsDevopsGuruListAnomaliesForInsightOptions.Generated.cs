@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of the anomalies that belong to an insight that you specify using its ID. See also: AWS API Documentation list-anomalies-for-insight is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Rea...
+/// Returns a list of the anomalies that belong to an insight that you specify using its ID. See also: AWS API Documentation list-anomalies-for-insight is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: React...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsDevopsGuruListAnomaliesForInsightOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a list of the anomalies that belong to an insight that you specify using its ID. See also: AWS API Documentation list-anomalies-for-insight is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Rea...
+    /// Returns a list of the anomalies that belong to an insight that you specify using its ID. See also: AWS API Documentation list-anomalies-for-insight is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: React...
     /// </summary>
-    /// <param name="InsightId">The ID of the insight. The returned anomalies belong to this in- sight. Constraints: o min: 1 o max: 100 o pattern: ^[\w-]*$</param>
+    /// <param name="InsightId">The ID of the insight. The returned anomalies belong to this insight. Constraints: • min: 1 • max: 100 • pattern: ^[\w-]*$</param>
     public AwsDevopsGuruListAnomaliesForInsightOptions(
         string InsightId
     )
@@ -57,7 +59,7 @@ public record AwsDevopsGuruListAnomaliesForInsightOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the insight. The returned anomalies belong to this in- sight. Constraints: o min: 1 o max: 100 o pattern: ^[\w-]*$
+    /// The ID of the insight. The returned anomalies belong to this insight. Constraints: • min: 1 • max: 100 • pattern: ^[\w-]*$
     /// </summary>
     [CliOption("--insight-id")]
     public string? InsightId { get; private init; }
@@ -69,22 +71,19 @@ public record AwsDevopsGuruListAnomaliesForInsightOptions : AwsOptions, IValidat
     public string? StartTimeRange { get; set; }
 
     /// <summary>
-    /// The ID of the Amazon Web Services account. Constraints: o min: 12 o max: 12 o pattern: ^\d{12}$
+    /// The ID of the Amazon Web Services account. Constraints: • min: 12 • max: 12 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
     /// <summary>
-    /// Specifies one or more service names that are used to list anomalies. ServiceCollection -&gt; (structure) A collection of the names of Amazon Web Services services. ServiceNames -&gt; (list) An array of strings that each specifies the name of an Amazon Web Services service. (string) Possible values: o API_GATEWAY o APPLICATION_ELB o AUTO_SCALING_GROUP o CLOUD_FRONT o DYNAMO_DB o EC2 o ECS o EKS o ELASTIC_BEANSTALK o ELASTI_CACHE o ELB o ES o KINESIS o LAMBDA o NAT_GATEWAY o NETWORK_ELB o RDS o REDSHIFT o ROUTE_53 o S3 o SAGE_MAKER o SNS o SQS o STEP_FUNCTIONS o SWF Shorthand Syntax: ServiceCollection={ServiceNames=[string,string]} JSON Syntax: { "ServiceCollection": { "ServiceNames": ["API_GATEWAY"|"APPLICATION_ELB"|"AUTO_SCALING_GROUP"|"CLOUD_FRONT"|"DYNAMO_DB"|"EC2"|"ECS"|"EKS"|"ELASTIC_BEANSTALK"|"ELASTI_CACHE"|"ELB"|"ES"|"KINESIS"|"LAMBDA"|"NAT_GATEWAY"|"NETWORK_ELB"|"RDS"|"REDSHIFT"|"ROUTE_53"|"S3"|"SAGE_MAKER"|"SNS"|"SQS"|"STEP_FUNCTIONS"|"SWF", ...] } }
+    /// Specifies one or more service names that are used to list anomalies. ServiceCollection -&gt; (structure) A collection of the names of Amazon Web Services services. ServiceNames -&gt; (list) An array of strings that each specifies the name of an Amazon Web Services service. (string) Possible values: • API_GATEWAY • APPLICATION_ELB • AUTO_SCALING_GROUP • CLOUD_FRONT • DYNAMO_DB • EC2 • ECS • EKS • ELASTIC_BEANSTALK • ELASTI_CACHE • ELB • ES • KINESIS • LAMBDA • NAT_GATEWAY • NETWORK_ELB • RDS • REDSHIFT • ROUTE_53 • S3 • SAGE_MAKER • SNS • SQS • STEP_FUNCTIONS • SWF Shorthand Syntax: ServiceCollection={ServiceNames=[string,string]} JSON Syntax: { "ServiceCollection": { "ServiceNames": ["API_GATEWAY"|"APPLICATION_ELB"|"AUTO_SCALING_GROUP"|"CLOUD_FRONT"|"DYNAMO_DB"|"EC2"|"ECS"|"EKS"|"ELASTIC_BEANSTALK"|"ELASTI_CACHE"|"ELB"|"ES"|"KINESIS"|"LAMBDA"|"NAT_GATEWAY"|"NETWORK_ELB"|"RDS"|"REDSHIFT"|"ROUTE_53"|"S3"|"SAGE_MAKER"|"SNS"|"SQS"|"STEP_FUNCTIONS"|"SWF", ...] } }
     /// </summary>
     [CliOption("--filters")]
     public string? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -94,16 +93,19 @@ public record AwsDevopsGuruListAnomaliesForInsightOptions : AwsOptions, IValidat
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 500
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

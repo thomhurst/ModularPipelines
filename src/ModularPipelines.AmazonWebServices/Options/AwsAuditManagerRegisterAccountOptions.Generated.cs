@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsAuditManagerRegisterAccountOptions : AwsOptions
 {
     /// <summary>
-    /// The KMS key details. Constraints: o min: 7 o max: 2048 o pattern: ^arn:.*:kms:.*|DEFAULT
+    /// The KMS key details. Constraints: • min: 7 • max: 2048 • pattern: ^arn:.*:kms:.*|DEFAULT
     /// </summary>
     [CliOption("--kms-key")]
     public string? KmsKey { get; set; }
 
     /// <summary>
-    /// The delegated administrator account for Audit Manager. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The delegated administrator account for Audit Manager. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--delegated-admin-account")]
     public string? DelegatedAdminAccount { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Allows the user to set the SourceServer.LifeCycle.state property for specific Source Server IDs to one of the following: READY_FOR_TEST or READY_FOR_CUTOVER. This command only works if the Source Server is al- ready launchable (dataReplicationInfo.lagDuration is not null.) See also: AWS API Documentation
+/// Allows the user to set the SourceServer.LifeCycle.state property for specific Source Server IDs to one of the following: READY_FOR_TEST or READY_FOR_CUTOVER. This command only works if the Source Server is already launchable (dataReplicationInfo.lagDuration is not null.) See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsMgnChangeServerLifeCycleStateOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Allows the user to set the SourceServer.LifeCycle.state property for specific Source Server IDs to one of the following: READY_FOR_TEST or READY_FOR_CUTOVER. This command only works if the Source Server is al- ready launchable (dataReplicationInfo.lagDuration is not null.) See also: AWS API Documentation
+    /// Allows the user to set the SourceServer.LifeCycle.state property for specific Source Server IDs to one of the following: READY_FOR_TEST or READY_FOR_CUTOVER. This command only works if the Source Server is already launchable (dataReplicationInfo.lagDuration is not null.) See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceServerId">The request to change the source server migration lifecycle state by source server ID. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}</param>
-    /// <param name="LifeCycle">The request to change the source server migration lifecycle state. state -&gt; (string) [required] The request to change the source server migration lifecycle state. Possible values: o READY_FOR_TEST o READY_FOR_CUTOVER o CUTOVER Shorthand Syntax: state=string JSON Syntax: { "state": "READY_FOR_TEST"|"READY_FOR_CUTOVER"|"CUTOVER" }</param>
+    /// <param name="SourceServerId">The request to change the source server migration lifecycle state by source server ID. Constraints: • min: 19 • max: 19 • pattern: s-[0-9a-zA-Z]{17}</param>
+    /// <param name="LifeCycle">The request to change the source server migration lifecycle state. state -&gt; (string) [required] The request to change the source server migration lifecycle state. Possible values: • READY_FOR_TEST • READY_FOR_CUTOVER • CUTOVER Shorthand Syntax: state=string JSON Syntax: { "state": "READY_FOR_TEST"|"READY_FOR_CUTOVER"|"CUTOVER" }</param>
     public AwsMgnChangeServerLifeCycleStateOptions(
         string SourceServerId,
         string LifeCycle
@@ -60,19 +62,19 @@ public record AwsMgnChangeServerLifeCycleStateOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The request to change the source server migration lifecycle state by source server ID. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}
+    /// The request to change the source server migration lifecycle state by source server ID. Constraints: • min: 19 • max: 19 • pattern: s-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--source-server-id")]
     public string? SourceServerId { get; private init; }
 
     /// <summary>
-    /// The request to change the source server migration lifecycle state. state -&gt; (string) [required] The request to change the source server migration lifecycle state. Possible values: o READY_FOR_TEST o READY_FOR_CUTOVER o CUTOVER Shorthand Syntax: state=string JSON Syntax: { "state": "READY_FOR_TEST"|"READY_FOR_CUTOVER"|"CUTOVER" }
+    /// The request to change the source server migration lifecycle state. state -&gt; (string) [required] The request to change the source server migration lifecycle state. Possible values: • READY_FOR_TEST • READY_FOR_CUTOVER • CUTOVER Shorthand Syntax: state=string JSON Syntax: { "state": "READY_FOR_TEST"|"READY_FOR_CUTOVER"|"CUTOVER" }
     /// </summary>
     [CliOption("--life-cycle")]
     public string? LifeCycle { get; private init; }
 
     /// <summary>
-    /// The request to change the source server migration account ID. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.*
+    /// The request to change the source server migration account ID. Constraints: • min: 12 • max: 12 • pattern: .*[0-9]{12,}.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }

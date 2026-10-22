@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Validates a specified template. CloudFormation first checks if the tem- plate is valid JSON. If it isn't, CloudFormation checks if the template is valid YAML. If both these checks fail, CloudFormation returns a tem- plate validation error. See also: AWS API Documentation
+/// Validates a specified template. CloudFormation first checks if the template is valid JSON. If it isn't, CloudFormation checks if the template is valid YAML. If both these checks fail, CloudFormation returns a template validation error. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudformationValidateTemplateOptions : AwsOptions
 {
     /// <summary>
-    /// Structure that contains the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must pass TemplateURL or TemplateBody . If both are passed, only TemplateBody is used. Constraints: o min: 1
+    /// Structure that contains the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must pass TemplateURL or TemplateBody . If both are passed, only TemplateBody is used. Constraints: • min: 1
     /// </summary>
     [CliOption("--template-body")]
     public string? TemplateBody { get; set; }
 
     /// <summary>
-    /// The URL of a file that contains the template body. The URL must point to a template (max size: 1 MB) that is located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https:// . Conditional: You must pass TemplateURL or TemplateBody . If both are passed, only TemplateBody is used. Constraints: o min: 1 o max: 5120
+    /// The URL of a file that contains the template body. The URL must point to a template (max size: 1 MB) that is located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https:// . Conditional: You must pass TemplateURL or TemplateBody . If both are passed, only TemplateBody is used. Constraints: • min: 1 • max: 5120
     /// </summary>
     [CliOption("--template-url")]
     public string? TemplateUrl { get; set; }

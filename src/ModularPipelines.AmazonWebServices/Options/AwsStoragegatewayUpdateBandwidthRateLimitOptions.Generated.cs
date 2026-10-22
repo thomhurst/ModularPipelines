@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsStoragegatewayUpdateBandwidthRateLimitOptions : AwsOptions, IVa
     /// <summary>
     /// Updates the bandwidth rate limits of a gateway. You can update both the upload and download bandwidth rate limit or specify only one of the two. If you don't set a bandwidth rate limit, the existing rate limit remains. This operation is supported only for the stored volume, cached volume, and tape gateway types. To update bandwidth rate limits for S3 file gateways, use UpdateBandwidthRateLimitSchedule . By default, a gateway's bandwidth rate limits are not set. If you don't set any limit, the ga...
     /// </summary>
-    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500</param>
+    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: • min: 50 • max: 500</param>
     public AwsStoragegatewayUpdateBandwidthRateLimitOptions(
         string GatewayArn
     )
@@ -56,22 +58,22 @@ public record AwsStoragegatewayUpdateBandwidthRateLimitOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500
+    /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: • min: 50 • max: 500
     /// </summary>
     [CliOption("--gateway-arn")]
     public string? GatewayArn { get; private init; }
 
     /// <summary>
-    /// The average upload bandwidth rate limit in bits per second. Constraints: o min: 51200
+    /// The average upload bandwidth rate limit in bits per second. Constraints: • min: 51200
     /// </summary>
     [CliOption("--average-upload-rate-limit-in-bits-per-sec")]
-    public int? AverageUploadRateLimitInBitsPerSec { get; set; }
+    public long? AverageUploadRateLimitInBitsPerSec { get; set; }
 
     /// <summary>
-    /// The average download bandwidth rate limit in bits per second. Constraints: o min: 102400
+    /// The average download bandwidth rate limit in bits per second. Constraints: • min: 102400
     /// </summary>
     [CliOption("--average-download-rate-limit-in-bits-per-sec")]
-    public int? AverageDownloadRateLimitInBitsPerSec { get; set; }
+    public long? AverageDownloadRateLimitInBitsPerSec { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

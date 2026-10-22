@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsGluePutResourcePolicyOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Sets the Data Catalog resource policy for access control. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyInJson">Contains the policy document to set, in JSON format. Constraints: o min: 2</param>
+    /// <param name="PolicyInJson">Contains the policy document to set, in JSON format. Constraints: • min: 2</param>
     public AwsGluePutResourcePolicyOptions(
         string PolicyInJson
     )
@@ -57,31 +59,31 @@ public record AwsGluePutResourcePolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Contains the policy document to set, in JSON format. Constraints: o min: 2
+    /// Contains the policy document to set, in JSON format. Constraints: • min: 2
     /// </summary>
     [CliOption("--policy-in-json")]
     public string? PolicyInJson { get; private init; }
 
     /// <summary>
-    /// Do not use. For internal use only. Constraints: o min: 1 o max: 10240 o pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.*
+    /// Do not use. For internal use only. Constraints: • min: 1 • max: 10240 • pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }
 
     /// <summary>
-    /// The hash value returned when the previous policy was set using Pu- tResourcePolicy . Its purpose is to prevent concurrent modifications of a policy. Do not use this parameter if no previous policy has been set. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The hash value returned when the previous policy was set using PutResourcePolicy . Its purpose is to prevent concurrent modifications of a policy. Do not use this parameter if no previous policy has been set. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--policy-hash-condition")]
     public string? PolicyHashCondition { get; set; }
 
     /// <summary>
-    /// A value of MUST_EXIST is used to update a policy. A value of NOT_EX- IST is used to create a new policy. If a value of NONE or a null value is used, the call does not depend on the existence of a pol- icy. Possible values: o MUST_EXIST o NOT_EXIST o NONE
+    /// A value of MUST_EXIST is used to update a policy. A value of NOT_EXIST is used to create a new policy. If a value of NONE or a null value is used, the call does not depend on the existence of a policy. Possible values: • MUST_EXIST • NOT_EXIST • NONE
     /// </summary>
     [CliOption("--policy-exists-condition")]
     public AwsGluePutResourcePolicyPolicyExistsCondition? PolicyExistsCondition { get; set; }
 
     /// <summary>
-    /// If 'TRUE' , indicates that you are using both methods to grant cross-account access to Data Catalog resources: o By directly updating the resource policy with PutResourePolicy o By using the Grant permissions command on the Amazon Web Services Management Console. Must be set to 'TRUE' if you have already used the Management Con- sole to grant cross-account access, otherwise the call fails. De- fault is 'FALSE'. Possible values: o TRUE o FALSE
+    /// If 'TRUE' , indicates that you are using both methods to grant cross-account access to Data Catalog resources: • By directly updating the resource policy with PutResourePolicy • By using the Grant permissions command on the Amazon Web Services Management Console. Must be set to 'TRUE' if you have already used the Management Console to grant cross-account access, otherwise the call fails. Default is 'FALSE'. Possible values: • TRUE • FALSE
     /// </summary>
     [CliOption("--enable-hybrid")]
     public AwsGluePutResourcePolicyEnableHybrid? EnableHybrid { get; set; }

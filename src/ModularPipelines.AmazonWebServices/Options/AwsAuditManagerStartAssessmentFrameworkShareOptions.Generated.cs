@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsAuditManagerStartAssessmentFrameworkShareOptions : AwsOptions, 
     /// <summary>
     /// Creates a share request for a custom framework in Audit Manager. The share request specifies a recipient and notifies them that a custom framework is available. Recipients have 120 days to accept or decline the request. If no action is taken, the share request expires. When you create a share request, Audit Manager stores a snapshot of your custom framework in the US East (N. Virginia) Amazon Web Services Region. Audit Manager also stores a backup of the same snapshot in the US West (Oregon) Ama...
     /// </summary>
-    /// <param name="FrameworkId">The unique identifier for the custom framework to be shared. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
-    /// <param name="DestinationAccount">The Amazon Web Services account of the recipient. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="DestinationRegion">The Amazon Web Services Region of the recipient. Constraints: o pattern: ^[a-z]{2}-[a-z]+-[0-9]{1}$</param>
+    /// <param name="FrameworkId">The unique identifier for the custom framework to be shared. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="DestinationAccount">The Amazon Web Services account of the recipient. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="DestinationRegion">The Amazon Web Services Region of the recipient. Constraints: • pattern: ^[a-z]{2}-[a-z]+-[0-9]{1}$</param>
     public AwsAuditManagerStartAssessmentFrameworkShareOptions(
         string FrameworkId,
         string DestinationAccount,
@@ -64,25 +66,25 @@ public record AwsAuditManagerStartAssessmentFrameworkShareOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the custom framework to be shared. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The unique identifier for the custom framework to be shared. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--framework-id")]
     public string? FrameworkId { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account of the recipient. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The Amazon Web Services account of the recipient. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--destination-account")]
     public string? DestinationAccount { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services Region of the recipient. Constraints: o pattern: ^[a-z]{2}-[a-z]+-[0-9]{1}$
+    /// The Amazon Web Services Region of the recipient. Constraints: • pattern: ^[a-z]{2}-[a-z]+-[0-9]{1}$
     /// </summary>
     [CliOption("--destination-region")]
     public string? DestinationRegion { get; private init; }
 
     /// <summary>
-    /// An optional comment from the sender about the share request. Constraints: o max: 500 o pattern: ^[\w\W\s\S]*$
+    /// An optional comment from the sender about the share request. Constraints: • max: 500 • pattern: ^[\w\W\s\S]*$
     /// </summary>
     [CliOption("--comment")]
     public string? Comment { get; set; }

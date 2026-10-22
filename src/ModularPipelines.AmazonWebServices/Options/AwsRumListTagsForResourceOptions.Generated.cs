@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRumListTagsForResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Displays the tags associated with a CloudWatch RUM resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource that you want to see the tags of. Constraints: o pattern: .*arn:[^:]*:[^:]*:[^:]*:[^:]*:.*</param>
+    /// <param name="ResourceArn">The ARN of the resource that you want to see the tags of. Constraints: • pattern: .*arn:[^:]*:[^:]*:[^:]*:[^:]*:.*</param>
     public AwsRumListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsRumListTagsForResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource that you want to see the tags of. Constraints: o pattern: .*arn:[^:]*:[^:]*:[^:]*:[^:]*:.*
+    /// The ARN of the resource that you want to see the tags of. Constraints: • pattern: .*arn:[^:]*:[^:]*:[^:]*:[^:]*:.*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

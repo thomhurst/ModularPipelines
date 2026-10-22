@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsElasticbeanstalkDeleteApplicationOptions : AwsOptions, IValidat
     /// <summary>
     /// Deletes the specified application along with all associated versions and configurations. The application versions will not be deleted from your Amazon S3 bucket. NOTE: You cannot delete an application that has a running environment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationName">The name of the application to delete. Constraints: o min: 1 o max: 100</param>
+    /// <param name="ApplicationName">The name of the application to delete. Constraints: • min: 1 • max: 100</param>
     public AwsElasticbeanstalkDeleteApplicationOptions(
         string ApplicationName
     )
@@ -56,7 +58,7 @@ public record AwsElasticbeanstalkDeleteApplicationOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the application to delete. Constraints: o min: 1 o max: 100
+    /// The name of the application to delete. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; private init; }

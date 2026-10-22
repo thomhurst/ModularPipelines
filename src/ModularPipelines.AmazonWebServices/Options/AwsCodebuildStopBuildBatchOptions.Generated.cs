@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCodebuildStopBuildBatchOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Stops a running batch build. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The identifier of the batch build to stop. Constraints: o min: 1</param>
+    /// <param name="Id">The identifier of the batch build to stop. Constraints: • min: 1</param>
     public AwsCodebuildStopBuildBatchOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsCodebuildStopBuildBatchOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the batch build to stop. Constraints: o min: 1
+    /// The identifier of the batch build to stop. Constraints: • min: 1
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

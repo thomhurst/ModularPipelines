@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: We recommend using Organizations instead of Security Hub CSPM invi- tations to manage your member accounts. For information, see Managing Security Hub CSPM administrator and member accounts with Organizations in the Security Hub CSPM User Guide . Accepts the invitation to be a member account and be monitored by the Security Hub CSPM administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the memb...
+/// NOTE: We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts. For information, see Managing Security Hub CSPM administrator and member accounts with Organizations in the Security Hub CSPM User Guide . Accepts the invitation to be a member account and be monitored by the Security Hub CSPM administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the member...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsSecurityhubAcceptAdministratorInvitationOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: We recommend using Organizations instead of Security Hub CSPM invi- tations to manage your member accounts. For information, see Managing Security Hub CSPM administrator and member accounts with Organizations in the Security Hub CSPM User Guide . Accepts the invitation to be a member account and be monitored by the Security Hub CSPM administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the memb...
+    /// NOTE: We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts. For information, see Managing Security Hub CSPM administrator and member accounts with Organizations in the Security Hub CSPM User Guide . Accepts the invitation to be a member account and be monitored by the Security Hub CSPM administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the member...
     /// </summary>
-    /// <param name="AdministratorId">The account ID of the Security Hub CSPM administrator account that sent the invitation. Constraints: o pattern: .*\S.*</param>
-    /// <param name="InvitationId">The identifier of the invitation sent from the Security Hub CSPM ad- ministrator account. Constraints: o pattern: .*\S.*</param>
+    /// <param name="AdministratorId">The account ID of the Security Hub CSPM administrator account that sent the invitation. Constraints: • pattern: .*\S.*</param>
+    /// <param name="InvitationId">The identifier of the invitation sent from the Security Hub CSPM administrator account. Constraints: • pattern: .*\S.*</param>
     public AwsSecurityhubAcceptAdministratorInvitationOptions(
         string AdministratorId,
         string InvitationId
@@ -60,13 +62,13 @@ public record AwsSecurityhubAcceptAdministratorInvitationOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The account ID of the Security Hub CSPM administrator account that sent the invitation. Constraints: o pattern: .*\S.*
+    /// The account ID of the Security Hub CSPM administrator account that sent the invitation. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--administrator-id")]
     public string? AdministratorId { get; private init; }
 
     /// <summary>
-    /// The identifier of the invitation sent from the Security Hub CSPM ad- ministrator account. Constraints: o pattern: .*\S.*
+    /// The identifier of the invitation sent from the Security Hub CSPM administrator account. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--invitation-id")]
     public string? InvitationId { get; private init; }

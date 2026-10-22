@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -68,7 +70,7 @@ public record AwsDirectconnectCreateDirectConnectGatewayAssociationOptions : Aws
     public string? GatewayId { get; set; }
 
     /// <summary>
-    /// The Amazon VPC prefixes to advertise to the Direct Connect gateway This parameter is required when you create an association to a tran- sit gateway. For information about how to set the prefixes, see Allowed Prefixes in the Direct Connect User Guide . (structure) Information about a route filter prefix that a customer can ad- vertise through Border Gateway Protocol (BGP) over a public vir- tual interface. cidr -&gt; (string) The CIDR block for the advertised route. Separate multiple routes using commas. An IPv6 CIDR must use /64 or shorter. Shorthand Syntax: cidr=string ... JSON Syntax: [ { "cidr": "string" } ... ]
+    /// The Amazon VPC prefixes to advertise to the Direct Connect gateway This parameter is required when you create an association to a transit gateway. For information about how to set the prefixes, see Allowed Prefixes in the Direct Connect User Guide . (structure) Information about a route filter prefix that a customer can advertise through Border Gateway Protocol (BGP) over a public virtual interface. cidr -&gt; (string) The CIDR block for the advertised route. Separate multiple routes using commas. An IPv6 CIDR must use /64 or shorter. Shorthand Syntax: cidr=string ... JSON Syntax: [ { "cidr": "string" } ... ]
     /// </summary>
     [CliOption("--add-allowed-prefixes-to-direct-connect-gateway", GroupValues = true)]
     public IEnumerable<string>? AddAllowedPrefixesToDirectConnectGateway { get; set; }

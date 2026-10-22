@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudtrailListChannelsOptions : AwsOptions
 {
     /// <summary>
-    /// The maximum number of CloudTrail channels to display on a single page. Constraints: o min: 1 o max: 1000
+    /// The maximum number of CloudTrail channels to display on a single page. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The token to use to get the next page of results after a previous API call. This token must be passed in with the same parameters that were specified in the original call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters. Constraints: o min: 4 o max: 1000 o pattern: .*
+    /// The token to use to get the next page of results after a previous API call. This token must be passed in with the same parameters that were specified in the original call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters. Constraints: • min: 4 • max: 1000 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

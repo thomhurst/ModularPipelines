@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSagemakerGetLineageGroupPolicyOptions : AwsOptions, IValidatabl
     /// <summary>
     /// The resource policy for the lineage group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LineageGroupName">The name or Amazon Resource Name (ARN) of the lineage group. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:lin- eage-group\/)?([a-zA-Z0-9](-*[a-zA-Z0-9]){0,119})</param>
+    /// <param name="LineageGroupName">The name or Amazon Resource Name (ARN) of the lineage group. Constraints: • min: 1 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:lineage-group\/)?([a-zA-Z0-9](-*[a-zA-Z0-9]){0,119})</param>
     public AwsSagemakerGetLineageGroupPolicyOptions(
         string LineageGroupName
     )
@@ -56,7 +58,7 @@ public record AwsSagemakerGetLineageGroupPolicyOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of the lineage group. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:lin- eage-group\/)?([a-zA-Z0-9](-*[a-zA-Z0-9]){0,119})
+    /// The name or Amazon Resource Name (ARN) of the lineage group. Constraints: • min: 1 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:lineage-group\/)?([a-zA-Z0-9](-*[a-zA-Z0-9]){0,119})
     /// </summary>
     [CliOption("--lineage-group-name")]
     public string? LineageGroupName { get; private init; }

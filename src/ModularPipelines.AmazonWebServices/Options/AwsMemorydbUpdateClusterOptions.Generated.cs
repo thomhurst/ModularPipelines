@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -75,7 +77,7 @@ public record AwsMemorydbUpdateClusterOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>
-    /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are: o sun o mon o tue o wed o thu o fri o sat Example: sun:23:00-mon:01:30
+    /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are: • sun • mon • tue • wed • thu • fri • sat Example: sun:23:00-mon:01:30
     /// </summary>
     [CliOption("--maintenance-window")]
     public string? MaintenanceWindow { get; set; }
@@ -105,7 +107,7 @@ public record AwsMemorydbUpdateClusterOptions : AwsOptions, IValidatableObject
     public string? SnapshotWindow { get; set; }
 
     /// <summary>
-    /// The number of days for which MemoryDB retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRe- tentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.
+    /// The number of days for which MemoryDB retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.
     /// </summary>
     [CliOption("--snapshot-retention-limit")]
     public int? SnapshotRetentionLimit { get; set; }
@@ -123,7 +125,7 @@ public record AwsMemorydbUpdateClusterOptions : AwsOptions, IValidatableObject
     public string? Engine { get; set; }
 
     /// <summary>
-    /// The upgraded version of the engine to be run on the nodes. You can upgrade to a newer engine version, but you cannot downgrade to an earlier engine version. If you want to use an earlier engine ver- sion, you must delete the existing cluster and create it anew with the earlier engine version.
+    /// The upgraded version of the engine to be run on the nodes. You can upgrade to a newer engine version, but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster and create it anew with the earlier engine version.
     /// </summary>
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
@@ -141,13 +143,13 @@ public record AwsMemorydbUpdateClusterOptions : AwsOptions, IValidatableObject
     public string? ShardConfiguration { get; set; }
 
     /// <summary>
-    /// The Access Control List that is associated with the cluster. Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]*
+    /// The Access Control List that is associated with the cluster. Constraints: • min: 1 • pattern: [a-zA-Z][a-zA-Z0-9\-]*
     /// </summary>
     [CliOption("--acl-name")]
     public string? AclName { get; set; }
 
     /// <summary>
-    /// The mechanism for discovering IP addresses for the cluster discovery protocol. Valid values are 'ipv4' or 'ipv6'. When set to 'ipv4', cluster discovery functions such as cluster slots, cluster shards, and cluster nodes will return IPv4 addresses for cluster nodes. When set to 'ipv6', the cluster discovery functions return IPv6 addresses for cluster nodes. The value must be compatible with the NetworkType parameter. If not specified, the default is 'ipv4'. Possible values: o ipv4 o ipv6
+    /// The mechanism for discovering IP addresses for the cluster discovery protocol. Valid values are 'ipv4' or 'ipv6'. When set to 'ipv4', cluster discovery functions such as cluster slots, cluster shards, and cluster nodes will return IPv4 addresses for cluster nodes. When set to 'ipv6', the cluster discovery functions return IPv6 addresses for cluster nodes. The value must be compatible with the NetworkType parameter. If not specified, the default is 'ipv4'. Possible values: • ipv4 • ipv6
     /// </summary>
     [CliOption("--ip-discovery")]
     public AwsMemorydbUpdateClusterIpDiscovery? IpDiscovery { get; set; }

@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a specific step in an in-progress plan execution. This opera- tion allows you to modify the step's comment or action. See also: AWS API Documentation
+/// Updates a specific step in an in-progress plan execution. This operation allows you to modify the step's comment or action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,13 +28,13 @@ public record AwsArcRegionSwitchUpdatePlanExecutionStepOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a specific step in an in-progress plan execution. This opera- tion allows you to modify the step's comment or action. See also: AWS API Documentation
+    /// Updates a specific step in an in-progress plan execution. This operation allows you to modify the step's comment or action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PlanArn">The Amazon Resource Name (ARN) of the plan containing the execution step to update. Constraints: o pattern: arn:aws[a-zA-Z-]*:arc-re- gion-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})</param>
+    /// <param name="PlanArn">The Amazon Resource Name (ARN) of the plan containing the execution step to update. Constraints: • pattern: arn:aws[a-zA-Z-]*:arc-region-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})</param>
     /// <param name="ExecutionId">The unique identifier of the plan execution containing the step to update.</param>
-    /// <param name="Comment">An optional comment about the plan execution. Constraints: o min: 0 o max: 1024</param>
+    /// <param name="Comment">An optional comment about the plan execution. Constraints: • min: 0 • max: 1024</param>
     /// <param name="StepName">The name of the execution step to update.</param>
-    /// <param name="ActionToTake">The updated action to take for the step. This can be used to skip or retry a step. Possible values: o switchToUngraceful o skip</param>
+    /// <param name="ActionToTake">The updated action to take for the step. This can be used to skip or retry a step. Possible values: • switchToUngraceful • skip</param>
     public AwsArcRegionSwitchUpdatePlanExecutionStepOptions(
         string PlanArn,
         string ExecutionId,
@@ -72,7 +74,7 @@ public record AwsArcRegionSwitchUpdatePlanExecutionStepOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the plan containing the execution step to update. Constraints: o pattern: arn:aws[a-zA-Z-]*:arc-re- gion-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})
+    /// The Amazon Resource Name (ARN) of the plan containing the execution step to update. Constraints: • pattern: arn:aws[a-zA-Z-]*:arc-region-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})
     /// </summary>
     [CliOption("--plan-arn")]
     public string? PlanArn { get; private init; }
@@ -84,7 +86,7 @@ public record AwsArcRegionSwitchUpdatePlanExecutionStepOptions : AwsOptions, IVa
     public string? ExecutionId { get; private init; }
 
     /// <summary>
-    /// An optional comment about the plan execution. Constraints: o min: 0 o max: 1024
+    /// An optional comment about the plan execution. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--comment")]
     public string? Comment { get; private init; }
@@ -96,7 +98,7 @@ public record AwsArcRegionSwitchUpdatePlanExecutionStepOptions : AwsOptions, IVa
     public string? StepName { get; private init; }
 
     /// <summary>
-    /// The updated action to take for the step. This can be used to skip or retry a step. Possible values: o switchToUngraceful o skip
+    /// The updated action to take for the step. This can be used to skip or retry a step. Possible values: • switchToUngraceful • skip
     /// </summary>
     [CliOption("--action-to-take")]
     public AwsArcRegionSwitchUpdatePlanExecutionStepActionToTake? ActionToTake { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides a description of the retraining scheduler, including informa- tion such as the model name and retraining parameters. See also: AWS API Documentation
+/// Provides a description of the retraining scheduler, including information such as the model name and retraining parameters. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLookoutequipmentDescribeRetrainingSchedulerOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides a description of the retraining scheduler, including informa- tion such as the model name and retraining parameters. See also: AWS API Documentation
+    /// Provides a description of the retraining scheduler, including information such as the model name and retraining parameters. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ModelName">The name of the model that the retraining scheduler is attached to. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    /// <param name="ModelName">The name of the model that the retraining scheduler is attached to. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
     public AwsLookoutequipmentDescribeRetrainingSchedulerOptions(
         string ModelName
     )
@@ -56,7 +58,7 @@ public record AwsLookoutequipmentDescribeRetrainingSchedulerOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the model that the retraining scheduler is attached to. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// The name of the model that the retraining scheduler is attached to. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$
     /// </summary>
     [CliOption("--model-name")]
     public string? ModelName { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a resource policy that you created in a PutResourcePolicy re- quest. See also: AWS API Documentation
+/// Deletes a resource policy that you created in a PutResourcePolicy request. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsNetworkFirewallDeleteResourcePolicyOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a resource policy that you created in a PutResourcePolicy re- quest. See also: AWS API Documentation
+    /// Deletes a resource policy that you created in a PutResourcePolicy request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the rule group or firewall policy whose resource policy you want to delete. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the rule group or firewall policy whose resource policy you want to delete. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*</param>
     public AwsNetworkFirewallDeleteResourcePolicyOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsNetworkFirewallDeleteResourcePolicyOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the rule group or firewall policy whose resource policy you want to delete. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*
+    /// The Amazon Resource Name (ARN) of the rule group or firewall policy whose resource policy you want to delete. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

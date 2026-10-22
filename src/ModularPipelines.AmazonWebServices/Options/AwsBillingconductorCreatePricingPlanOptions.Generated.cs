@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -29,7 +30,7 @@ public record AwsBillingconductorCreatePricingPlanOptions : AwsOptions, IValidat
     /// <summary>
     /// Creates a pricing plan that is used for computing Amazon Web Services charges for billing groups. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the pricing plan. The names must be unique to each pric- ing plan. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_\+=\.\-@]+</param>
+    /// <param name="Name">The name of the pricing plan. The names must be unique to each pricing plan. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_\+=\.\-@]+</param>
     public AwsBillingconductorCreatePricingPlanOptions(
         string Name
     )
@@ -58,32 +59,32 @@ public record AwsBillingconductorCreatePricingPlanOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the pricing plan. The names must be unique to each pric- ing plan. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_\+=\.\-@]+
+    /// The name of the pricing plan. The names must be unique to each pricing plan. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_\+=\.\-@]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you specify to ensure idem- potency of the request. Idempotency ensures that an API request com- pletes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries com- plete successfully without performing any further actions. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+
+    /// A unique, case-sensitive identifier that you specify to ensure idempotency of the request. Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries complete successfully without performing any further actions. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The description of the pricing plan. Constraints: o min: 0 o max: 1024
+    /// The description of the pricing plan. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A list of Amazon Resource Names (ARNs) that define the pricing plan parameters. Constraints: o min: 0 o max: 30 (string) Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:pricin- grule/)?[a-zA-Z0-9]{10} Syntax: "string" "string" ...
+    /// A list of Amazon Resource Names (ARNs) that define the pricing plan parameters. Constraints: • min: 0 • max: 30 (string) Constraints: • pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:pricingrule/)?[a-zA-Z0-9]{10} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--pricing-rule-arns", GroupValues = true)]
     public IEnumerable<string>? PricingRuleArns { get; set; }
 
     /// <summary>
-    /// A map that contains tag keys and tag values that are attached to a pricing plan. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map that contains tag keys and tag values that are attached to a pricing plan. Constraints: • min: 1 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

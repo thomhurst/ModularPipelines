@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -30,8 +31,8 @@ public record AwsIotCreateAuthorizerOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates an authorizer. Requires permission to access the CreateAuthorizer action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AuthorizerName">The authorizer name. Constraints: o min: 1 o max: 128 o pattern: [\w=,@-]+</param>
-    /// <param name="AuthorizerFunctionArn">The ARN of the authorizer's Lambda function. Constraints: o max: 2048 o pattern: [\s\S]*</param>
+    /// <param name="AuthorizerName">The authorizer name. Constraints: • min: 1 • max: 128 • pattern: [\w=,@-]+</param>
+    /// <param name="AuthorizerFunctionArn">The ARN of the authorizer's Lambda function. Constraints: • max: 2048 • pattern: [\s\S]*</param>
     public AwsIotCreateAuthorizerOptions(
         string AuthorizerName,
         string AuthorizerFunctionArn
@@ -63,50 +64,50 @@ public record AwsIotCreateAuthorizerOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The authorizer name. Constraints: o min: 1 o max: 128 o pattern: [\w=,@-]+
+    /// The authorizer name. Constraints: • min: 1 • max: 128 • pattern: [\w=,@-]+
     /// </summary>
     [CliOption("--authorizer-name")]
     public string? AuthorizerName { get; private init; }
 
     /// <summary>
-    /// The ARN of the authorizer's Lambda function. Constraints: o max: 2048 o pattern: [\s\S]*
+    /// The ARN of the authorizer's Lambda function. Constraints: • max: 2048 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--authorizer-function-arn")]
     public string? AuthorizerFunctionArn { get; private init; }
 
     /// <summary>
-    /// The name of the token key used to extract the token from the HTTP headers. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+
+    /// The name of the token key used to extract the token from the HTTP headers. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--token-key-name")]
     public string? TokenKeyName { get; set; }
 
     /// <summary>
-    /// The public keys used to verify the digital signature returned by your custom authentication service. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+ value -&gt; (string) Constraints: o max: 5120 o pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The public keys used to verify the digital signature returned by your custom authentication service. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+ value -&gt; (string) Constraints: • max: 5120 • pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [SecretValue]
     [CliOption("--token-signing-public-keys", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? TokenSigningPublicKeys { get; set; }
 
     /// <summary>
-    /// The status of the create authorizer request. Possible values: o ACTIVE o INACTIVE
+    /// The status of the create authorizer request. Possible values: • ACTIVE • INACTIVE
     /// </summary>
     [CliOption("--status")]
     public AwsIotCreateAuthorizerStatus? Status { get; set; }
 
     /// <summary>
-    /// Metadata which can be used to manage the custom authorizer. NOTE: For URI Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use format: &amp;&amp;tags "key1=value1&amp;key2=value2..." For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..." (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Metadata which can be used to manage the custom authorizer. NOTE: For URI Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use format: &amp;&amp;tags "key1=value1&amp;key2=value2..." For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..." (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The tag's value. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Specifies whether IoT validates the token signature in an authoriza- tion request.
+    /// Specifies whether IoT validates the token signature in an authorization request.
     /// </summary>
     [CliFlag("--signing-disabled", NegatedName = "--no-signing-disabled")]
     public bool? SigningDisabled { get; set; }
 
     /// <summary>
-    /// When true , the result from the authorizers Lambda function is cached for clients that use persistent HTTP connections. The results are cached for the time specified by the Lambda function in refre- shAfterInSeconds . This value does not affect authorization of clients that use MQTT connections. The default value is false .
+    /// When true , the result from the authorizers Lambda function is cached for clients that use persistent HTTP connections. The results are cached for the time specified by the Lambda function in refreshAfterInSeconds . This value does not affect authorization of clients that use MQTT connections. The default value is false .
     /// </summary>
     [CliFlag("--enable-caching-for-http", NegatedName = "--no-enable-caching-for-http")]
     public bool? EnableCachingForHttp { get; set; }

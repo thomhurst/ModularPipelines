@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of AI recommendation jobs in your account. You can fil- ter the results by name, status, and creation time, and sort the re- sults. The response is paginated. See also: AWS API Documentation list-ai-recommendation-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --q...
+/// Returns a list of AI recommendation jobs in your account. You can filter the results by name, status, and creation time, and sort the results. The response is paginated. See also: AWS API Documentation list-ai-recommendation-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query arg...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,13 +24,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSagemakerListAiRecommendationJobsOptions : AwsOptions
 {
     /// <summary>
-    /// A string in the job name. This filter returns only jobs whose name contains the specified string. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9\-]+
+    /// A string in the job name. This filter returns only jobs whose name contains the specified string. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9\-]+
     /// </summary>
     [CliOption("--name-contains")]
     public string? NameContains { get; set; }
 
     /// <summary>
-    /// A filter that returns only recommendation jobs with the specified status. Possible values: o InProgress o Completed o Failed o Stopping o Stopped
+    /// A filter that returns only recommendation jobs with the specified status. Possible values: • InProgress • Completed • Failed • Stopping • Stopped
     /// </summary>
     [CliOption("--status-equals")]
     public AwsSagemakerListAiRecommendationJobsStatusEquals? StatusEquals { get; set; }
@@ -48,22 +48,19 @@ public record AwsSagemakerListAiRecommendationJobsOptions : AwsOptions
     public string? CreationTimeBefore { get; set; }
 
     /// <summary>
-    /// The field to sort results by. The default is CreationTime . Possible values: o Name o CreationTime o Status
+    /// The field to sort results by. The default is CreationTime . Possible values: • Name • CreationTime • Status
     /// </summary>
     [CliOption("--sort-by")]
     public AwsSagemakerListAiRecommendationJobsSortBy? SortBy { get; set; }
 
     /// <summary>
-    /// The sort order for results. The default is Descending . Possible values: o Ascending o Descending
+    /// The sort order for results. The default is Descending . Possible values: • Ascending • Descending
     /// </summary>
     [CliOption("--sort-order")]
     public AwsSagemakerListAiRecommendationJobsSortOrder? SortOrder { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -73,15 +70,18 @@ public record AwsSagemakerListAiRecommendationJobsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsWorkmailDeleteResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The identifier associated with the organization from which the re- source is deleted. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
-    /// <param name="ResourceId">The identifier of the resource to be deleted. The identifier can accept ResourceId , or Resourcename . The follow- ing identity formats are available: o Resource ID: r-0123456789a0123456789b0123456789 o Resource name: resource Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+</param>
+    /// <param name="OrganizationId">The identifier associated with the organization from which the resource is deleted. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="ResourceId">The identifier of the resource to be deleted. The identifier can accept ResourceId , or Resourcename . The following identity formats are available: • Resource ID: r-0123456789a0123456789b0123456789 • Resource name: resource Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+</param>
     public AwsWorkmailDeleteResourceOptions(
         string OrganizationId,
         string ResourceId
@@ -60,13 +62,13 @@ public record AwsWorkmailDeleteResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier associated with the organization from which the re- source is deleted. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The identifier associated with the organization from which the resource is deleted. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The identifier of the resource to be deleted. The identifier can accept ResourceId , or Resourcename . The follow- ing identity formats are available: o Resource ID: r-0123456789a0123456789b0123456789 o Resource name: resource Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+
+    /// The identifier of the resource to be deleted. The identifier can accept ResourceId , or Resourcename . The following identity formats are available: • Resource ID: r-0123456789a0123456789b0123456789 • Resource name: resource Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }

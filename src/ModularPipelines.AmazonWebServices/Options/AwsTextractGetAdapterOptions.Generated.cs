@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets configuration information for an adapter specified by an AdapterId, returning information on AdapterName, Description, Creation- Time, AutoUpdate status, and FeatureTypes. See also: AWS API Documentation
+/// Gets configuration information for an adapter specified by an AdapterId, returning information on AdapterName, Description, CreationTime, AutoUpdate status, and FeatureTypes. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsTextractGetAdapterOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets configuration information for an adapter specified by an AdapterId, returning information on AdapterName, Description, Creation- Time, AutoUpdate status, and FeatureTypes. See also: AWS API Documentation
+    /// Gets configuration information for an adapter specified by an AdapterId, returning information on AdapterName, Description, CreationTime, AutoUpdate status, and FeatureTypes. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AdapterId">A string containing a unique ID for the adapter. Constraints: o min: 12 o max: 1011</param>
+    /// <param name="AdapterId">A string containing a unique ID for the adapter. Constraints: • min: 12 • max: 1011</param>
     public AwsTextractGetAdapterOptions(
         string AdapterId
     )
@@ -56,7 +58,7 @@ public record AwsTextractGetAdapterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A string containing a unique ID for the adapter. Constraints: o min: 12 o max: 1011
+    /// A string containing a unique ID for the adapter. Constraints: • min: 12 • max: 1011
     /// </summary>
     [CliOption("--adapter-id")]
     public string? AdapterId { get; private init; }

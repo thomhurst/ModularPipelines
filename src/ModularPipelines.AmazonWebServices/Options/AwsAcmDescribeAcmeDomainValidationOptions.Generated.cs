@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns detailed metadata about the specified domain validation, in- cluding its status, domain scope, and DNS resource records required for validation. See also: AWS API Documentation
+/// Returns detailed metadata about the specified domain validation, including its status, domain scope, and DNS resource records required for validation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsAcmDescribeAcmeDomainValidationOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns detailed metadata about the specified domain validation, in- cluding its status, domain scope, and DNS resource records required for validation. See also: AWS API Documentation
+    /// Returns detailed metadata about the specified domain validation, including its status, domain scope, and DNS resource records required for validation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AcmeDomainValidationArn">The Amazon Resource Name (ARN) of the ACME domain validation. Constraints: o min: 1 o max: 200 o pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-end- point/[a-zA-Z0-9-]+/acme-domain-validation/[a-zA-Z0-9-]+</param>
+    /// <param name="AcmeDomainValidationArn">The Amazon Resource Name (ARN) of the ACME domain validation. Constraints: • min: 1 • max: 200 • pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+/acme-domain-validation/[a-zA-Z0-9-]+</param>
     public AwsAcmDescribeAcmeDomainValidationOptions(
         string AcmeDomainValidationArn
     )
@@ -56,7 +58,7 @@ public record AwsAcmDescribeAcmeDomainValidationOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the ACME domain validation. Constraints: o min: 1 o max: 200 o pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-end- point/[a-zA-Z0-9-]+/acme-domain-validation/[a-zA-Z0-9-]+
+    /// The Amazon Resource Name (ARN) of the ACME domain validation. Constraints: • min: 1 • max: 200 • pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+/acme-domain-validation/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--acme-domain-validation-arn")]
     public string? AcmeDomainValidationArn { get; private init; }

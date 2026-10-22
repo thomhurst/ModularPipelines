@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves all of the fields and values of a single log event. All fields are retrieved, even if the original query that produced the lo- gRecordPointer retrieved only a subset of fields. Fields are returned as field name/field value pairs. The full unparsed log event is returned within @message . See also: AWS API Documentation
+/// Retrieves all of the fields and values of a single log event. All fields are retrieved, even if the original query that produced the logRecordPointer retrieved only a subset of fields. Fields are returned as field name/field value pairs. The full unparsed log event is returned within @message . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLogsGetLogRecordOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves all of the fields and values of a single log event. All fields are retrieved, even if the original query that produced the lo- gRecordPointer retrieved only a subset of fields. Fields are returned as field name/field value pairs. The full unparsed log event is returned within @message . See also: AWS API Documentation
+    /// Retrieves all of the fields and values of a single log event. All fields are retrieved, even if the original query that produced the logRecordPointer retrieved only a subset of fields. Fields are returned as field name/field value pairs. The full unparsed log event is returned within @message . See also: AWS API Documentation
     /// </summary>
-    /// <param name="LogRecordPointer">The pointer corresponding to the log event record you want to re- trieve. You get this from the response of a GetQueryResults opera- tion. In that response, the value of the @ptr field for a log event is the value to use as logRecordPointer to retrieve that complete log event record.</param>
+    /// <param name="LogRecordPointer">The pointer corresponding to the log event record you want to retrieve. You get this from the response of a GetQueryResults operation. In that response, the value of the @ptr field for a log event is the value to use as logRecordPointer to retrieve that complete log event record.</param>
     public AwsLogsGetLogRecordOptions(
         string LogRecordPointer
     )
@@ -56,7 +58,7 @@ public record AwsLogsGetLogRecordOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The pointer corresponding to the log event record you want to re- trieve. You get this from the response of a GetQueryResults opera- tion. In that response, the value of the @ptr field for a log event is the value to use as logRecordPointer to retrieve that complete log event record.
+    /// The pointer corresponding to the log event record you want to retrieve. You get this from the response of a GetQueryResults operation. In that response, the value of the @ptr field for a log event is the value to use as logRecordPointer to retrieve that complete log event record.
     /// </summary>
     [CliOption("--log-record-pointer")]
     public string? LogRecordPointer { get; private init; }

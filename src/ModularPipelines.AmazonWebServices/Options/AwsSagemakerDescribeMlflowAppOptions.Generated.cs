@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSagemakerDescribeMlflowAppOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Returns information about an MLflow App. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The ARN of the MLflow App for which to get information. Constraints: o min: 1 o max: 128 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:mlflow-app/.*</param>
+    /// <param name="Arn">The ARN of the MLflow App for which to get information. Constraints: • min: 1 • max: 128 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:mlflow-app/.*</param>
     public AwsSagemakerDescribeMlflowAppOptions(
         string Arn
     )
@@ -56,7 +58,7 @@ public record AwsSagemakerDescribeMlflowAppOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the MLflow App for which to get information. Constraints: o min: 1 o max: 128 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:mlflow-app/.*
+    /// The ARN of the MLflow App for which to get information. Constraints: • min: 1 • max: 128 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:mlflow-app/.*
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }

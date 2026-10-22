@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes pending authorization requests for a specified aggregator ac- count in a specified region. See also: AWS API Documentation
+/// Deletes pending authorization requests for a specified aggregator account in a specified region. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsConfigserviceDeletePendingAggregationRequestOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes pending authorization requests for a specified aggregator ac- count in a specified region. See also: AWS API Documentation
+    /// Deletes pending authorization requests for a specified aggregator account in a specified region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RequesterAccountId">The 12-digit account ID of the account requesting to aggregate data. Constraints: o pattern: \d{12}</param>
-    /// <param name="RequesterAwsRegion">The region requesting to aggregate data. Constraints: o min: 1 o max: 64</param>
+    /// <param name="RequesterAccountId">The 12-digit account ID of the account requesting to aggregate data. Constraints: • pattern: \d{12}</param>
+    /// <param name="RequesterAwsRegion">The region requesting to aggregate data. Constraints: • min: 1 • max: 64</param>
     public AwsConfigserviceDeletePendingAggregationRequestOptions(
         string RequesterAccountId,
         string RequesterAwsRegion
@@ -60,13 +62,13 @@ public record AwsConfigserviceDeletePendingAggregationRequestOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The 12-digit account ID of the account requesting to aggregate data. Constraints: o pattern: \d{12}
+    /// The 12-digit account ID of the account requesting to aggregate data. Constraints: • pattern: \d{12}
     /// </summary>
     [CliOption("--requester-account-id")]
     public string? RequesterAccountId { get; private init; }
 
     /// <summary>
-    /// The region requesting to aggregate data. Constraints: o min: 1 o max: 64
+    /// The region requesting to aggregate data. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--requester-aws-region")]
     public string? RequesterAwsRegion { get; private init; }

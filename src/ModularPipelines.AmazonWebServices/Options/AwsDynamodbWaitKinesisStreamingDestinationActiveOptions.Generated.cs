@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Wait until JMESPath query KinesisDataStreamDestinations[].Destination- Status returns ACTIVE for any element when polling with describe-kine- sis-streaming-destination. It will poll every 20 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 30 failed checks. See also: AWS API Documentation
+/// Wait until JMESPath query KinesisDataStreamDestinations[].DestinationStatus returns ACTIVE for any element when polling with describe-kinesis-streaming-destination. It will poll every 20 seconds until a successful state has been reached. This will exit with a return code of 255 after 30 failed checks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsDynamodbWaitKinesisStreamingDestinationActiveOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Wait until JMESPath query KinesisDataStreamDestinations[].Destination- Status returns ACTIVE for any element when polling with describe-kine- sis-streaming-destination. It will poll every 20 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 30 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query KinesisDataStreamDestinations[].DestinationStatus returns ACTIVE for any element when polling with describe-kinesis-streaming-destination. It will poll every 20 seconds until a successful state has been reached. This will exit with a return code of 255 after 30 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TableName">The name of the table being described. You can also provide the Ama- zon Resource Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="TableName">The name of the table being described. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: • min: 1 • max: 1024</param>
     public AwsDynamodbWaitKinesisStreamingDestinationActiveOptions(
         string TableName
     )
@@ -56,7 +58,7 @@ public record AwsDynamodbWaitKinesisStreamingDestinationActiveOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the table being described. You can also provide the Ama- zon Resource Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024
+    /// The name of the table being described. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--table-name")]
     public string? TableName { get; private init; }

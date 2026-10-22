@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a key-signing key (KSK). Before you can delete a KSK, you must deactivate it. The KSK must be deactivated before you can delete it re- gardless of whether the hosted zone is enabled for DNSSEC signing. You can use DeactivateKeySigningKey to deactivate the key before you delete it. Use GetDNSSEC to verify that the KSK is in an INACTIVE status. See also: AWS API Documentation
+/// Deletes a key-signing key (KSK). Before you can delete a KSK, you must deactivate it. The KSK must be deactivated before you can delete it regardless of whether the hosted zone is enabled for DNSSEC signing. You can use DeactivateKeySigningKey to deactivate the key before you delete it. Use GetDNSSEC to verify that the KSK is in an INACTIVE status. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsRoute53DeleteKeySigningKeyOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a key-signing key (KSK). Before you can delete a KSK, you must deactivate it. The KSK must be deactivated before you can delete it re- gardless of whether the hosted zone is enabled for DNSSEC signing. You can use DeactivateKeySigningKey to deactivate the key before you delete it. Use GetDNSSEC to verify that the KSK is in an INACTIVE status. See also: AWS API Documentation
+    /// Deletes a key-signing key (KSK). Before you can delete a KSK, you must deactivate it. The KSK must be deactivated before you can delete it regardless of whether the hosted zone is enabled for DNSSEC signing. You can use DeactivateKeySigningKey to deactivate the key before you delete it. Use GetDNSSEC to verify that the KSK is in an INACTIVE status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HostedZoneId">A unique string used to identify a hosted zone. Constraints: o max: 32</param>
-    /// <param name="Name">A string used to identify a key-signing key (KSK). Constraints: o min: 3 o max: 128</param>
+    /// <param name="HostedZoneId">A unique string used to identify a hosted zone. Constraints: • max: 32</param>
+    /// <param name="Name">A string used to identify a key-signing key (KSK). Constraints: • min: 3 • max: 128</param>
     public AwsRoute53DeleteKeySigningKeyOptions(
         string HostedZoneId,
         string Name
@@ -60,13 +62,13 @@ public record AwsRoute53DeleteKeySigningKeyOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique string used to identify a hosted zone. Constraints: o max: 32
+    /// A unique string used to identify a hosted zone. Constraints: • max: 32
     /// </summary>
     [CliOption("--hosted-zone-id")]
     public string? HostedZoneId { get; private init; }
 
     /// <summary>
-    /// A string used to identify a key-signing key (KSK). Constraints: o min: 3 o max: 128
+    /// A string used to identify a key-signing key (KSK). Constraints: • min: 3 • max: 128
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

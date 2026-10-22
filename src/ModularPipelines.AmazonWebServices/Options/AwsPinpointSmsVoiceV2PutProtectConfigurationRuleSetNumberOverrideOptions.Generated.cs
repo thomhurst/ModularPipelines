@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,9 +31,9 @@ public record AwsPinpointSmsVoiceV2PutProtectConfigurationRuleSetNumberOverrideO
     /// <summary>
     /// Create or update a phone number rule override and associate it with a protect configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProtectConfigurationId">The unique identifier for the protect configuration. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
-    /// <param name="DestinationPhoneNumber">The destination phone number in E.164 format. Constraints: o min: 1 o max: 20 o pattern: \+?[1-9][0-9]{1,18}</param>
-    /// <param name="Action">The action for the rule to either block or allow messages to the destination phone number. Possible values: o ALLOW o BLOCK</param>
+    /// <param name="ProtectConfigurationId">The unique identifier for the protect configuration. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="DestinationPhoneNumber">The destination phone number in E.164 format. Constraints: • min: 1 • max: 20 • pattern: \+?[1-9][0-9]{1,18}</param>
+    /// <param name="Action">The action for the rule to either block or allow messages to the destination phone number. Possible values: • ALLOW • BLOCK</param>
     public AwsPinpointSmsVoiceV2PutProtectConfigurationRuleSetNumberOverrideOptions(
         string ProtectConfigurationId,
         string DestinationPhoneNumber,
@@ -65,25 +67,25 @@ public record AwsPinpointSmsVoiceV2PutProtectConfigurationRuleSetNumberOverrideO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the protect configuration. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The unique identifier for the protect configuration. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--protect-configuration-id")]
     public string? ProtectConfigurationId { get; private init; }
 
     /// <summary>
-    /// The destination phone number in E.164 format. Constraints: o min: 1 o max: 20 o pattern: \+?[1-9][0-9]{1,18}
+    /// The destination phone number in E.164 format. Constraints: • min: 1 • max: 20 • pattern: \+?[1-9][0-9]{1,18}
     /// </summary>
     [CliOption("--destination-phone-number")]
     public string? DestinationPhoneNumber { get; private init; }
 
     /// <summary>
-    /// The action for the rule to either block or allow messages to the destination phone number. Possible values: o ALLOW o BLOCK
+    /// The action for the rule to either block or allow messages to the destination phone number. Possible values: • ALLOW • BLOCK
     /// </summary>
     [CliOption("--action")]
     public AwsPinpointSmsVoiceV2PutProtectConfigurationRuleSetNumberOverrideAction? Action { get; private init; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempo- tency. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency. Constraints: • min: 1 • max: 64 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

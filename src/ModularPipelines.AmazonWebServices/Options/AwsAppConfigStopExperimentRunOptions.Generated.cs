@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Stops a running experiment. Stopping an experiment run ends audience exposure and returns users to the currently deployed feature flag con- figuration. See also: AWS API Documentation
+/// Stops a running experiment. Stopping an experiment run ends audience exposure and returns users to the currently deployed feature flag configuration. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsAppConfigStopExperimentRunOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Stops a running experiment. Stopping an experiment run ends audience exposure and returns users to the currently deployed feature flag con- figuration. See also: AWS API Documentation
+    /// Stops a running experiment. Stopping an experiment run ends audience exposure and returns users to the currently deployed feature flag configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationIdentifier">The application ID or name. Constraints: o min: 1 o max: 2048</param>
-    /// <param name="ExperimentDefinitionIdentifier">The experiment definition ID or name. Constraints: o min: 1 o max: 2048</param>
-    /// <param name="Run">The run number to stop. Constraints: o min: 1</param>
+    /// <param name="ApplicationIdentifier">The application ID or name. Constraints: • min: 1 • max: 2048</param>
+    /// <param name="ExperimentDefinitionIdentifier">The experiment definition ID or name. Constraints: • min: 1 • max: 2048</param>
+    /// <param name="Run">The run number to stop. Constraints: • min: 1</param>
     public AwsAppConfigStopExperimentRunOptions(
         string ApplicationIdentifier,
         string ExperimentDefinitionIdentifier,
@@ -63,31 +65,31 @@ public record AwsAppConfigStopExperimentRunOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The application ID or name. Constraints: o min: 1 o max: 2048
+    /// The application ID or name. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--application-identifier")]
     public string? ApplicationIdentifier { get; private init; }
 
     /// <summary>
-    /// The experiment definition ID or name. Constraints: o min: 1 o max: 2048
+    /// The experiment definition ID or name. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--experiment-definition-identifier")]
     public string? ExperimentDefinitionIdentifier { get; private init; }
 
     /// <summary>
-    /// The run number to stop. Constraints: o min: 1
+    /// The run number to stop. Constraints: • min: 1
     /// </summary>
     [CliOption("--run")]
     public int? Run { get; private init; }
 
     /// <summary>
-    /// The result of the experiment run, including an executive summary and reasons for or against launching. ExecutiveSummary -&gt; (string) A summary of the experiment outcome and key findings. Constraints: o min: 0 o max: 1024 ReasonsToLaunch -&gt; (string) Evidence in favor of launching the winning treatment. Constraints: o min: 0 o max: 1024 ReasonsNotToLaunch -&gt; (string) Evidence against launching the treatment. Constraints: o min: 0 o max: 1024 Shorthand Syntax: ExecutiveSummary=string,ReasonsToLaunch=string,ReasonsNotToLaunch=string JSON Syntax: { "ExecutiveSummary": "string", "ReasonsToLaunch": "string", "ReasonsNotToLaunch": "string" }
+    /// The result of the experiment run, including an executive summary and reasons for or against launching. ExecutiveSummary -&gt; (string) A summary of the experiment outcome and key findings. Constraints: • min: 0 • max: 1024 ReasonsToLaunch -&gt; (string) Evidence in favor of launching the winning treatment. Constraints: • min: 0 • max: 1024 ReasonsNotToLaunch -&gt; (string) Evidence against launching the treatment. Constraints: • min: 0 • max: 1024 Shorthand Syntax: ExecutiveSummary=string,ReasonsToLaunch=string,ReasonsNotToLaunch=string JSON Syntax: { "ExecutiveSummary": "string", "ReasonsToLaunch": "string", "ReasonsNotToLaunch": "string" }
     /// </summary>
     [CliOption("--result")]
     public string? Result { get; set; }
 
     /// <summary>
-    /// The deployment parameters for the stop operation. DynamicExtensionParameters -&gt; (map) A map of extension parameters for the deployment. Constraints: o min: 1 o max: 10 key -&gt; (string) Constraints: o pattern: ^([^#\n]{1,96})#([^\/#\n]{1,64})$ value -&gt; (string) Constraints: o min: 1 o max: 2048 Tags -&gt; (map) The tags to assign to the deployment. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: DynamicExtensionParameters={KeyName1=string,KeyName2=string},Tags={KeyName1=string,KeyName2=string} JSON Syntax: { "DynamicExtensionParameters": {"string": "string" ...}, "Tags": {"string": "string" ...} }
+    /// The deployment parameters for the stop operation. DynamicExtensionParameters -&gt; (map) A map of extension parameters for the deployment. Constraints: • min: 1 • max: 10 key -&gt; (string) Constraints: • pattern: ^([^#\n]{1,96})#([^\/#\n]{1,64})$ value -&gt; (string) Constraints: • min: 1 • max: 2048 Tags -&gt; (map) The tags to assign to the deployment. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: DynamicExtensionParameters={KeyName1=string,KeyName2=string},Tags={KeyName1=string,KeyName2=string} JSON Syntax: { "DynamicExtensionParameters": {"string": "string" ...}, "Tags": {"string": "string" ...} }
     /// </summary>
     [CliOption("--deployment-parameters")]
     public string? DeploymentParameters { get; set; }

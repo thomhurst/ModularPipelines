@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCloudwatchStartMetricStreamsOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Starts the streaming of metrics for one or more of your metric streams. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Names">The array of the names of metric streams to start streaming. This is an "all or nothing" operation. If you do not have permission to access all of the metric streams that you list here, then none of the streams that you list in the operation will start streaming. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...</param>
+    /// <param name="Names">The array of the names of metric streams to start streaming. This is an "all or nothing" operation. If you do not have permission to access all of the metric streams that you list here, then none of the streams that you list in the operation will start streaming. (string) Constraints: • min: 1 • max: 255 Syntax: "string" "string" ...</param>
     public AwsCloudwatchStartMetricStreamsOptions(
         IEnumerable<string> Names
     )
@@ -67,7 +69,7 @@ public record AwsCloudwatchStartMetricStreamsOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The array of the names of metric streams to start streaming. This is an "all or nothing" operation. If you do not have permission to access all of the metric streams that you list here, then none of the streams that you list in the operation will start streaming. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...
+    /// The array of the names of metric streams to start streaming. This is an "all or nothing" operation. If you do not have permission to access all of the metric streams that you list here, then none of the streams that you list in the operation will start streaming. (string) Constraints: • min: 1 • max: 255 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; private init; }

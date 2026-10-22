@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsMigrationhuborchestratorUntagResourceOptions : AwsOptions, IVal
     /// <summary>
     /// Deletes the tags for a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource from which you want to remove tags. Constraints: o pattern: arn:aws:migrationhub-orchestrator:[a-z0-9-]+:[0-9]+:(tem- plate|workflow)/[.]*</param>
-    /// <param name="TagKeys">One or more tag keys. Specify only the tag keys, not the tag values. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource from which you want to remove tags. Constraints: • pattern: arn:aws:migrationhub-orchestrator:[a-z0-9-]+:[0-9]+:(template|workflow)/[.]*</param>
+    /// <param name="TagKeys">One or more tag keys. Specify only the tag keys, not the tag values. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[a-zA-Z+-=._:/]+ Syntax: "string" "string" ...</param>
     public AwsMigrationhuborchestratorUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsMigrationhuborchestratorUntagResourceOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource from which you want to remove tags. Constraints: o pattern: arn:aws:migrationhub-orchestrator:[a-z0-9-]+:[0-9]+:(tem- plate|workflow)/[.]*
+    /// The Amazon Resource Name (ARN) of the resource from which you want to remove tags. Constraints: • pattern: arn:aws:migrationhub-orchestrator:[a-z0-9-]+:[0-9]+:(template|workflow)/[.]*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// One or more tag keys. Specify only the tag keys, not the tag values. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ Syntax: "string" "string" ...
+    /// One or more tag keys. Specify only the tag keys, not the tag values. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[a-zA-Z+-=._:/]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

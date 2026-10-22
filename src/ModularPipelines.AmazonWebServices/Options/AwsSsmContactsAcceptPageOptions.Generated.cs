@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Used to acknowledge an engagement to a contact channel during an inci- dent. See also: AWS API Documentation
+/// Used to acknowledge an engagement to a contact channel during an incident. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +29,11 @@ public record AwsSsmContactsAcceptPageOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Used to acknowledge an engagement to a contact channel during an inci- dent. See also: AWS API Documentation
+    /// Used to acknowledge an engagement to a contact channel during an incident. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PageId">The Amazon Resource Name (ARN) of the engagement to a contact chan- nel. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*</param>
-    /// <param name="AcceptType">The type indicates if the page was DELIVERED or READ . Possible values: o DELIVERED o READ</param>
-    /// <param name="AcceptCode">A 6-digit code used to acknowledge the page. Constraints: o min: 6 o max: 10 o pattern: ^[0-9]*$</param>
+    /// <param name="PageId">The Amazon Resource Name (ARN) of the engagement to a contact channel. Constraints: • min: 1 • max: 2048 • pattern: arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*</param>
+    /// <param name="AcceptType">The type indicates if the page was DELIVERED or READ . Possible values: • DELIVERED • READ</param>
+    /// <param name="AcceptCode">A 6-digit code used to acknowledge the page. Constraints: • min: 6 • max: 10 • pattern: ^[0-9]*$</param>
     public AwsSsmContactsAcceptPageOptions(
         string PageId,
         AwsSsmContactsAcceptPageAcceptType AcceptType,
@@ -65,38 +67,38 @@ public record AwsSsmContactsAcceptPageOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the engagement to a contact chan- nel. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*
+    /// The Amazon Resource Name (ARN) of the engagement to a contact channel. Constraints: • min: 1 • max: 2048 • pattern: arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*
     /// </summary>
     [CliOption("--page-id")]
     public string? PageId { get; private init; }
 
     /// <summary>
-    /// The type indicates if the page was DELIVERED or READ . Possible values: o DELIVERED o READ
+    /// The type indicates if the page was DELIVERED or READ . Possible values: • DELIVERED • READ
     /// </summary>
     [CliOption("--accept-type")]
     public AwsSsmContactsAcceptPageAcceptType? AcceptType { get; private init; }
 
     /// <summary>
-    /// A 6-digit code used to acknowledge the page. Constraints: o min: 6 o max: 10 o pattern: ^[0-9]*$
+    /// A 6-digit code used to acknowledge the page. Constraints: • min: 6 • max: 10 • pattern: ^[0-9]*$
     /// </summary>
     [SecretValue]
     [CliOption("--accept-code")]
     public string? AcceptCode { get; private init; }
 
     /// <summary>
-    /// The ARN of the contact channel. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*
+    /// The ARN of the contact channel. Constraints: • min: 1 • max: 2048 • pattern: arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*
     /// </summary>
     [CliOption("--contact-channel-id")]
     public string? ContactChannelId { get; set; }
 
     /// <summary>
-    /// Information provided by the user when the user acknowledges the page. Constraints: o min: 1 o max: 2048 o pattern: ^[.\s\S]*$
+    /// Information provided by the user when the user acknowledges the page. Constraints: • min: 1 • max: 2048 • pattern: ^[.\s\S]*$
     /// </summary>
     [CliOption("--note")]
     public string? Note { get; set; }
 
     /// <summary>
-    /// An optional field that Incident Manager uses to ENFORCE AcceptCode validation when acknowledging an page. Acknowledgement can occur by replying to a page, or when entering the AcceptCode in the console. Enforcing AcceptCode validation causes Incident Manager to verify that the code entered by the user matches the code sent by Incident Manager with the page. Incident Manager can also IGNORE AcceptCode validation. Ignoring AcceptCode validation causes Incident Manager to accept any value entered for the AcceptCode . Possible values: o IGNORE o ENFORCE
+    /// An optional field that Incident Manager uses to ENFORCE AcceptCode validation when acknowledging an page. Acknowledgement can occur by replying to a page, or when entering the AcceptCode in the console. Enforcing AcceptCode validation causes Incident Manager to verify that the code entered by the user matches the code sent by Incident Manager with the page. Incident Manager can also IGNORE AcceptCode validation. Ignoring AcceptCode validation causes Incident Manager to accept any value entered for the AcceptCode . Possible values: • IGNORE • ENFORCE
     /// </summary>
     [CliOption("--accept-code-validation")]
     public AwsSsmContactsAcceptPageAcceptCodeValidation? AcceptCodeValidation { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -68,13 +70,13 @@ public record AwsDmsModifyEventSubscriptionOptions : AwsOptions, IValidatableObj
     public string? SnsTopicArn { get; set; }
 
     /// <summary>
-    /// The type of DMS resource that generates the events you want to sub- scribe to. Valid values: replication-instance | replication-task
+    /// The type of DMS resource that generates the events you want to subscribe to. Valid values: replication-instance | replication-task
     /// </summary>
     [CliOption("--source-type")]
     public string? SourceType { get; set; }
 
     /// <summary>
-    /// A list of event categories for a source type that you want to sub- scribe to. Use the DescribeEventCategories action to see a list of event categories. (string) Syntax: "string" "string" ...
+    /// A list of event categories for a source type that you want to subscribe to. Use the DescribeEventCategories action to see a list of event categories. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--event-categories", GroupValues = true)]
     public IEnumerable<string>? EventCategories { get; set; }

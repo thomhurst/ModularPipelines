@@ -32,7 +32,7 @@ public class AwsRam : IAwsRam
     #region Commands
 
     /// <summary>
-    /// Accepts an invitation to a resource share from another Amazon Web Ser- vices account. After you accept the invitation, the resources included in the resource share are available to interact with in the relevant Amazon Web Services Management Consoles and tools. See also: AWS API Documentation
+    /// Accepts an invitation to a resource share from another Amazon Web Services account. After you accept the invitation, the resources included in the resource share are available to interact with in the relevant Amazon Web Services Management Consoles and tools. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsRam : IAwsRam
     }
 
     /// <summary>
-    /// Adds the specified list of principals, resources, and source con- straints to a resource share. Principals that already have access to this resource share immediately receive access to the added resources. Newly added principals immediately receive access to the resources shared in this resource share. See also: AWS API Documentation
+    /// Adds the specified list of principals, resources, and source constraints to a resource share. Principals that already have access to this resource share immediately receive access to the added resources. Newly added principals immediately receive access to the resources shared in this resource share. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsRam : IAwsRam
     }
 
     /// <summary>
-    /// Adds or replaces the RAM permission for a resource type included in a resource share. You can have exactly one permission associated with each resource type in the resource share. You can add a new RAM permis- sion only if there are currently no resources of that resource type currently in the resource share. See also: AWS API Documentation
+    /// Adds or replaces the RAM permission for a resource type included in a resource share. You can have exactly one permission associated with each resource type in the resource share. You can add a new RAM permission only if there are currently no resources of that resource type currently in the resource share. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsRam : IAwsRam
     }
 
     /// <summary>
-    /// Creates a resource share. You can provide a list of the Amazon Resource Names (ARNs) for the resources that you want to share, a list of prin- cipals you want to share the resources with, the permissions to grant those principals, and optionally source constraints to enhance security for service principal sharing. NOTE: Sharing a resource makes it available for use by principals outside of the Amazon Web Services account that created the resource. Shar- ing doesn't change any permissions or quot...
+    /// Creates a resource share. You can provide a list of the Amazon Resource Names (ARNs) for the resources that you want to share, a list of principals you want to share the resources with, the permissions to grant those principals, and optionally source constraints to enhance security for service principal sharing. NOTE: Sharing a resource makes it available for use by principals outside of the Amazon Web Services account that created the resource. Sharing doesn't change any permissions or quotas t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsRam : IAwsRam
     }
 
     /// <summary>
-    /// Deletes the specified customer managed permission in the Amazon Web Services Region in which you call this operation. You can delete a cus- tomer managed permission only if it isn't attached to any resource share. The operation deletes all versions associated with the customer managed permission. See also: AWS API Documentation
+    /// Deletes the specified customer managed permission in the Amazon Web Services Region in which you call this operation. You can delete a customer managed permission only if it isn't attached to any resource share. The operation deletes all versions associated with the customer managed permission. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsRam : IAwsRam
     }
 
     /// <summary>
-    /// Removes a managed permission from a resource share. Permission changes take effect immediately. You can remove a managed permission from a re- source share only if there are currently no resources of the relevant resource type currently attached to the resource share. See also: AWS API Documentation
+    /// Removes a managed permission from a resource share. Permission changes take effect immediately. You can remove a managed permission from a resource share only if there are currently no resources of the relevant resource type currently attached to the resource share. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsRam : IAwsRam
     }
 
     /// <summary>
-    /// Enables resource sharing within your organization in Organizations. This operation creates a service-linked role called AWSServiceRoleFor- ResourceAccessManager that has the IAM managed policy named AWSRe- sourceAccessManagerServiceRolePolicy attached. This role permits RAM to retrieve information about the organization and its structure. This lets you share resources with all of the accounts in the calling ac- count's organization by specifying the organization ID, or all of the accounts in an ...
+    /// Enables resource sharing within your organization in Organizations. This operation creates a service-linked role called AWSServiceRoleForResourceAccessManager that has the IAM managed policy named AWSResourceAccessManagerServiceRolePolicy attached. This role permits RAM to retrieve information about the organization and its structure. This lets you share resources with all of the accounts in the calling account's organization by specifying the organization ID, or all of the accounts in an organi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsRam : IAwsRam
     }
 
     /// <summary>
-    /// Retrieves the resource policies for the specified resources that you own and have shared. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation get-resource-policies is a paginated operation. Multiple API call...
+    /// Retrieves the resource policies for the specified resources that you own and have shared. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation get-resource-policies is a paginated operation. Multiple API calls ma...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsRam : IAwsRam
     }
 
     /// <summary>
-    /// Retrieves the lists of resources and principals that associated for re- source shares that you own. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation get-resource-share-associations is a paginated operatio...
+    /// Retrieves the lists of resources and principals that associated for resource shares that you own. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation get-resource-share-associations is a paginated operation. Mul...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsRam : IAwsRam
     }
 
     /// <summary>
-    /// Retrieves details about invitations that you have received for resource shares. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation get-resource-share-invitations is a paginated operation. Multiple API calls...
+    /// Retrieves details about invitations that you have received for resource shares. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation get-resource-share-invitations is a paginated operation. Multiple API calls may...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsRam : IAwsRam
     }
 
     /// <summary>
-    /// Retrieves details about the resource shares that you own or that are shared with you. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation get-resource-shares is a paginated operation. Multiple API calls may ...
+    /// Retrieves details about the resource shares that you own or that are shared with you. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation get-resource-shares is a paginated operation. Multiple API calls may be i...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsRam : IAwsRam
     }
 
     /// <summary>
-    /// Lists the resources in a resource share that is shared with you but for which the invitation is still PENDING . That means that you haven't ac- cepted or rejected the invitation and the invitation hasn't expired. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when there are no...
+    /// Lists the resources in a resource share that is shared with you but for which the invitation is still PENDING . That means that you haven't accepted or rejected the invitation and the invitation hasn't expired. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsRam : IAwsRam
     }
 
     /// <summary>
-    /// Lists information about the managed permission and its associations to any resource shares that use this managed permission. This lets you see which resource shares use which versions of the specified managed per- mission. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when th...
+    /// Lists information about the managed permission and its associations to any resource shares that use this managed permission. This lets you see which resource shares use which versions of the specified managed permission. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there ar...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,22 +317,7 @@ public class AwsRam : IAwsRam
     }
 
     /// <summary>
-    /// Retrieves a list of available RAM permissions that you can use for the supported resource types. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListPermissionsAsync(
-        AwsRamListPermissionsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRamListPermissionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists the available versions of the specified RAM permission. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation
+    /// Lists the available versions of the specified RAM permission. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +332,22 @@ public class AwsRam : IAwsRam
     }
 
     /// <summary>
-    /// Lists the principals that you are sharing resources with or that are sharing resources with you. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation list-principals is a paginated operation. Multiple API cal...
+    /// Retrieves a list of available RAM permissions that you can use for the supported resource types. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListPermissionsAsync(
+        AwsRamListPermissionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRamListPermissionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the principals that you are sharing resources with or that are sharing resources with you. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation list-principals is a paginated operation. Multiple API calls m...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsRam : IAwsRam
     }
 
     /// <summary>
-    /// Retrieves the current status of the asynchronous tasks performed by RAM when you perform the ReplacePermissionAssociationsWork operation. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation
+    /// Retrieves the current status of the asynchronous tasks performed by RAM when you perform the ReplacePermissionAssociationsWork operation. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsRam : IAwsRam
     }
 
     /// <summary>
-    /// Lists the RAM permissions that are associated with a resource share. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation
+    /// Lists the RAM permissions that are associated with a resource share. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -385,21 +385,6 @@ public class AwsRam : IAwsRam
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListResourceSharePermissionsAsync(
         AwsRamListResourceSharePermissionsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists the resources that you added to a resource share or the resources that are shared with you. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation list-resources is a paginated operation. Multiple API cal...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListResourcesAsync(
-        AwsRamListResourcesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -422,7 +407,22 @@ public class AwsRam : IAwsRam
     }
 
     /// <summary>
-    /// Lists source associations for resource shares. Source associations con- trol which sources can be used with service principals in resource shares. This operation provides visibility into source associations for resource share owners. You can filter the results by resource share Amazon Resource Name (ARN), source ID, source type, or association status. We recommend us- ing pagination to ensure that the operation returns quickly and suc- cessfully. See also: AWS API Documentation list-source-assoc...
+    /// Lists the resources that you added to a resource share or the resources that are shared with you. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation list-resources is a paginated operation. Multiple API calls m...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListResourcesAsync(
+        AwsRamListResourcesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists source associations for resource shares. Source associations control which sources can be used with service principals in resource shares. This operation provides visibility into source associations for resource share owners. You can filter the results by resource share Amazon Resource Name (ARN), source ID, source type, or association status. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-source-association...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsRam : IAwsRam
     }
 
     /// <summary>
-    /// When you attach a resource-based policy to a resource, RAM automati- cally creates a resource share of featureSet =``CREATED_FROM_POLICY`` with a managed permission that has the same IAM permissions as the original resource-based policy. However, this type of managed permis- sion is visible to only the resource share owner, and the associated resource share can't be modified by using RAM. This operation creates a separate, fully manageable customer managed permission that has the same IAM permis...
+    /// When you attach a resource-based policy to a resource, RAM automatically creates a resource share of featureSet =``CREATED_FROM_POLICY`` with a managed permission that has the same IAM permissions as the original resource-based policy. However, this type of managed permission is visible to only the resource share owner, and the associated resource share can't be modified by using RAM. This operation creates a separate, fully manageable customer managed permission that has the same IAM permission...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsRam : IAwsRam
     }
 
     /// <summary>
-    /// When you attach a resource-based policy to a resource, RAM automati- cally creates a resource share of featureSet =``CREATED_FROM_POLICY`` with a managed permission that has the same IAM permissions as the original resource-based policy. However, this type of managed permis- sion is visible to only the resource share owner, and the associated resource share can't be modified by using RAM. This operation promotes the resource share to a STANDARD resource share that is fully manageable in RAM. Whe...
+    /// When you attach a resource-based policy to a resource, RAM automatically creates a resource share of featureSet =``CREATED_FROM_POLICY`` with a managed permission that has the same IAM permissions as the original resource-based policy. However, this type of managed permission is visible to only the resource share owner, and the associated resource share can't be modified by using RAM. This operation promotes the resource share to a STANDARD resource share that is fully manageable in RAM. When yo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsRam : IAwsRam
     }
 
     /// <summary>
-    /// Rejects an invitation to a resource share from another Amazon Web Ser- vices account. See also: AWS API Documentation
+    /// Rejects an invitation to a resource share from another Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsRam : IAwsRam
     }
 
     /// <summary>
-    /// Updates all resource shares that use a managed permission to a differ- ent managed permission. This operation always applies the default ver- sion of the target managed permission. You can optionally specify that the update applies to only resource shares that currently use a speci- fied version. This enables you to update to the latest version, without changing the which managed permission is used. You can use this operation to update all of your resource shares to use the current default versi...
+    /// Updates all resource shares that use a managed permission to a different managed permission. This operation always applies the default version of the target managed permission. You can optionally specify that the update applies to only resource shares that currently use a specified version. This enables you to update to the latest version, without changing the which managed permission is used. You can use this operation to update all of your resource shares to use the current default version of ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsRam : IAwsRam
     }
 
     /// <summary>
-    /// Designates the specified version number as the default version for the specified customer managed permission. New resource shares automati- cally use this new default permission. Existing resource shares con- tinue to use their original permission version, but you can use Repla- cePermissionAssociations to update them. See also: AWS API Documentation
+    /// Designates the specified version number as the default version for the specified customer managed permission. New resource shares automatically use this new default permission. Existing resource shares continue to use their original permission version, but you can use ReplacePermissionAssociations to update them. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsRam : IAwsRam
     }
 
     /// <summary>
-    /// Removes the specified tag key and value pairs from the specified re- source share or managed permission. See also: AWS API Documentation
+    /// Removes the specified tag key and value pairs from the specified resource share or managed permission. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

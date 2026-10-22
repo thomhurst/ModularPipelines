@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns events related to clusters, security groups, snapshots, and pa- rameter groups for the past 14 days. Events specific to a particular cluster, security group, snapshot or parameter group can be obtained by providing the name as a parameter. By default, the past hour of events are returned. See also: AWS API Documentation describe-events is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providin...
+/// Returns events related to clusters, security groups, snapshots, and parameter groups for the past 14 days. Events specific to a particular cluster, security group, snapshot or parameter group can be obtained by providing the name as a parameter. By default, the past hour of events are returned. See also: AWS API Documentation describe-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,13 +24,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsRedshiftDescribeEventsOptions : AwsOptions
 {
     /// <summary>
-    /// The identifier of the event source for which events will be re- turned. If this parameter is not specified, then all sources are in- cluded in the response. Constraints: If SourceIdentifier is supplied, SourceType must also be provided. o Specify a cluster identifier when SourceType is cluster . o Specify a cluster security group name when SourceType is clus- ter-security-group . o Specify a cluster parameter group name when SourceType is clus- ter-parameter-group . o Specify a cluster snapshot identifier when SourceType is clus- ter-snapshot . Constraints: o max: 2147483647
+    /// The identifier of the event source for which events will be returned. If this parameter is not specified, then all sources are included in the response. Constraints: If SourceIdentifier is supplied, SourceType must also be provided. • Specify a cluster identifier when SourceType is cluster . • Specify a cluster security group name when SourceType is cluster-security-group . • Specify a cluster parameter group name when SourceType is cluster-parameter-group . • Specify a cluster snapshot identifier when SourceType is cluster-snapshot . Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--source-identifier")]
     public string? SourceIdentifier { get; set; }
 
     /// <summary>
-    /// The event source to retrieve events for. If no value is specified, all events are returned. Constraints: If SourceType is supplied, SourceIdentifier must also be provided. o Specify cluster when SourceIdentifier is a cluster identifier. o Specify cluster-security-group when SourceIdentifier is a cluster security group name. o Specify cluster-parameter-group when SourceIdentifier is a cluster parameter group name. o Specify cluster-snapshot when SourceIdentifier is a cluster snap- shot identifier. Possible values: o cluster o cluster-parameter-group o cluster-security-group o cluster-snapshot o scheduled-action
+    /// The event source to retrieve events for. If no value is specified, all events are returned. Constraints: If SourceType is supplied, SourceIdentifier must also be provided. • Specify cluster when SourceIdentifier is a cluster identifier. • Specify cluster-security-group when SourceIdentifier is a cluster security group name. • Specify cluster-parameter-group when SourceIdentifier is a cluster parameter group name. • Specify cluster-snapshot when SourceIdentifier is a cluster snapshot identifier. Possible values: • cluster • cluster-parameter-group • cluster-security-group • cluster-snapshot • scheduled-action
     /// </summary>
     [CliOption("--source-type")]
     public AwsRedshiftDescribeEventsSourceType? SourceType { get; set; }
@@ -56,9 +56,6 @@ public record AwsRedshiftDescribeEventsOptions : AwsOptions
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -67,15 +64,18 @@ public record AwsRedshiftDescribeEventsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,10 +31,10 @@ public record AwsSsmContactsCreateContactChannelOptions : AwsOptions, IValidatab
     /// <summary>
     /// A contact channel is the method that Incident Manager uses to engage your contact. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ContactId">The Amazon Resource Name (ARN) of the contact you are adding the contact channel to. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*</param>
-    /// <param name="Name">The name of the contact channel. Constraints: o min: 1 o max: 255 o pattern: ^[\p{L}\p{Z}\p{N}_.\-]*$</param>
-    /// <param name="Type">Incident Manager supports three types of contact channels: o SMS o VOICE o EMAIL Possible values: o SMS o VOICE o EMAIL</param>
-    /// <param name="DeliveryAddress">The details that Incident Manager uses when trying to engage the contact channel. The format is dependent on the type of the contact channel. The following are the expected formats: o SMS - '+' followed by the country code and phone number o VOICE - '+' followed by the country code and phone number o EMAIL - any standard email format SimpleAddress -&gt; (string) The format is dependent on the type of the contact channel. The following are the expected formats: o SMS - '+' followed by the country code and phone number o VOICE - '+' followed by the country code and phone number o EMAIL - any standard email format Constraints: o min: 1 o max: 320 Shorthand Syntax: SimpleAddress=string JSON Syntax: { "SimpleAddress": "string" }</param>
+    /// <param name="ContactId">The Amazon Resource Name (ARN) of the contact you are adding the contact channel to. Constraints: • min: 1 • max: 2048 • pattern: arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*</param>
+    /// <param name="Name">The name of the contact channel. Constraints: • min: 1 • max: 255 • pattern: ^[\p{L}\p{Z}\p{N}_.\-]*$</param>
+    /// <param name="Type">Incident Manager supports three types of contact channels: • SMS • VOICE • EMAIL Possible values: • SMS • VOICE • EMAIL</param>
+    /// <param name="DeliveryAddress">The details that Incident Manager uses when trying to engage the contact channel. The format is dependent on the type of the contact channel. The following are the expected formats: • SMS - '+' followed by the country code and phone number • VOICE - '+' followed by the country code and phone number • EMAIL - any standard email format SimpleAddress -&gt; (string) The format is dependent on the type of the contact channel. The following are the expected formats: • SMS - '+' followed by the country code and phone number • VOICE - '+' followed by the country code and phone number • EMAIL - any standard email format Constraints: • min: 1 • max: 320 Shorthand Syntax: SimpleAddress=string JSON Syntax: { "SimpleAddress": "string" }</param>
     public AwsSsmContactsCreateContactChannelOptions(
         string ContactId,
         string Name,
@@ -69,25 +71,25 @@ public record AwsSsmContactsCreateContactChannelOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the contact you are adding the contact channel to. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*
+    /// The Amazon Resource Name (ARN) of the contact you are adding the contact channel to. Constraints: • min: 1 • max: 2048 • pattern: arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*
     /// </summary>
     [CliOption("--contact-id")]
     public string? ContactId { get; private init; }
 
     /// <summary>
-    /// The name of the contact channel. Constraints: o min: 1 o max: 255 o pattern: ^[\p{L}\p{Z}\p{N}_.\-]*$
+    /// The name of the contact channel. Constraints: • min: 1 • max: 255 • pattern: ^[\p{L}\p{Z}\p{N}_.\-]*$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Incident Manager supports three types of contact channels: o SMS o VOICE o EMAIL Possible values: o SMS o VOICE o EMAIL
+    /// Incident Manager supports three types of contact channels: • SMS • VOICE • EMAIL Possible values: • SMS • VOICE • EMAIL
     /// </summary>
     [CliOption("--type")]
     public AwsSsmContactsCreateContactChannelType? Type { get; private init; }
 
     /// <summary>
-    /// The details that Incident Manager uses when trying to engage the contact channel. The format is dependent on the type of the contact channel. The following are the expected formats: o SMS - '+' followed by the country code and phone number o VOICE - '+' followed by the country code and phone number o EMAIL - any standard email format SimpleAddress -&gt; (string) The format is dependent on the type of the contact channel. The following are the expected formats: o SMS - '+' followed by the country code and phone number o VOICE - '+' followed by the country code and phone number o EMAIL - any standard email format Constraints: o min: 1 o max: 320 Shorthand Syntax: SimpleAddress=string JSON Syntax: { "SimpleAddress": "string" }
+    /// The details that Incident Manager uses when trying to engage the contact channel. The format is dependent on the type of the contact channel. The following are the expected formats: • SMS - '+' followed by the country code and phone number • VOICE - '+' followed by the country code and phone number • EMAIL - any standard email format SimpleAddress -&gt; (string) The format is dependent on the type of the contact channel. The following are the expected formats: • SMS - '+' followed by the country code and phone number • VOICE - '+' followed by the country code and phone number • EMAIL - any standard email format Constraints: • min: 1 • max: 320 Shorthand Syntax: SimpleAddress=string JSON Syntax: { "SimpleAddress": "string" }
     /// </summary>
     [CliOption("--delivery-address")]
     public string? DeliveryAddress { get; private init; }
@@ -99,7 +101,7 @@ public record AwsSsmContactsCreateContactChannelOptions : AwsOptions, IValidatab
     public bool? DeferActivation { get; set; }
 
     /// <summary>
-    /// A token ensuring that the operation is called only once with the specified details. Constraints: o max: 2048 o pattern: ^[\\\/a-zA-Z0-9_+=\-]*$
+    /// A token ensuring that the operation is called only once with the specified details. Constraints: • max: 2048 • pattern: ^[\\\/a-zA-Z0-9_+=\-]*$
     /// </summary>
     [SecretValue]
     [CliOption("--idempotency-token")]

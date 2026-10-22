@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the AccessStatus of Service Trust Enablement for User Notifica- tions and Amazon Web Services Organizations. See also: AWS API Documentation
+/// Returns the AccessStatus of Service Trust Enablement for User Notifications and Amazon Web Services Organizations. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a sequence store and returns a response with no body if the op- eration is successful. You can only delete a sequence store when it does not contain any read sets. Use the BatchDeleteReadSet API operation to ensure that all read sets in the sequence store are deleted. When a sequence store is deleted, all tags associated with the store are also deleted. For more information, see Deleting HealthOmics reference and sequence stores in the Amazon Web Services HealthOmics User Guide . See als...
+/// Deletes a sequence store and returns a response with no body if the operation is successful. You can only delete a sequence store when it does not contain any read sets. Use the BatchDeleteReadSet API operation to ensure that all read sets in the sequence store are deleted. When a sequence store is deleted, all tags associated with the store are also deleted. For more information, see Deleting HealthOmics reference and sequence stores in the Amazon Web Services HealthOmics User Guide . See also:...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsOmicsDeleteSequenceStoreOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a sequence store and returns a response with no body if the op- eration is successful. You can only delete a sequence store when it does not contain any read sets. Use the BatchDeleteReadSet API operation to ensure that all read sets in the sequence store are deleted. When a sequence store is deleted, all tags associated with the store are also deleted. For more information, see Deleting HealthOmics reference and sequence stores in the Amazon Web Services HealthOmics User Guide . See als...
+    /// Deletes a sequence store and returns a response with no body if the operation is successful. You can only delete a sequence store when it does not contain any read sets. Use the BatchDeleteReadSet API operation to ensure that all read sets in the sequence store are deleted. When a sequence store is deleted, all tags associated with the store are also deleted. For more information, see Deleting HealthOmics reference and sequence stores in the Amazon Web Services HealthOmics User Guide . See also:...
     /// </summary>
-    /// <param name="Id">The sequence store's ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
+    /// <param name="Id">The sequence store's ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+</param>
     public AwsOmicsDeleteSequenceStoreOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsOmicsDeleteSequenceStoreOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The sequence store's ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// The sequence store's ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

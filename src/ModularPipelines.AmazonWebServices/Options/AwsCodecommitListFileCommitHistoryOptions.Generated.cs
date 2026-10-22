@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsCodecommitListFileCommitHistoryOptions : AwsOptions, IValidatab
     /// <summary>
     /// Retrieves a list of commits and changes to a specified file. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryName">The name of the repository that contains the file. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
-    /// <param name="FilePath">The full path of the file whose history you want to retrieve, in- cluding the name of the file.</param>
+    /// <param name="RepositoryName">The name of the repository that contains the file. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+</param>
+    /// <param name="FilePath">The full path of the file whose history you want to retrieve, including the name of the file.</param>
     public AwsCodecommitListFileCommitHistoryOptions(
         string RepositoryName,
         string FilePath
@@ -61,25 +63,25 @@ public record AwsCodecommitListFileCommitHistoryOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the repository that contains the file. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// The name of the repository that contains the file. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
 
     /// <summary>
-    /// The full path of the file whose history you want to retrieve, in- cluding the name of the file.
+    /// The full path of the file whose history you want to retrieve, including the name of the file.
     /// </summary>
     [CliOption("--file-path")]
     public string? FilePath { get; private init; }
 
     /// <summary>
-    /// The fully quaified reference that identifies the commit that con- tains the file. For example, you can specify a full commit ID, a tag, a branch name, or a reference such as refs/heads/main . If none is provided, the head commit is used.
+    /// The fully quaified reference that identifies the commit that contains the file. For example, you can specify a full commit ID, a tag, a branch name, or a reference such as refs/heads/main . If none is provided, the head commit is used.
     /// </summary>
     [CliOption("--commit-specifier")]
     public string? CommitSpecifier { get; set; }
 
     /// <summary>
-    /// A non-zero, non-negative integer used to limit the number of re- turned results.
+    /// A non-zero, non-negative integer used to limit the number of returned results.
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

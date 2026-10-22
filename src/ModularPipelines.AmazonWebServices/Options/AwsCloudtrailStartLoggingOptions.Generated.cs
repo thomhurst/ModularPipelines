@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts the recording of Amazon Web Services API calls and log file de- livery for a trail. For a trail that is enabled in all Regions, this operation must be called from the Region in which the trail was cre- ated. This operation cannot be called on the shadow trails (replicated trails in other Regions) of a trail that is enabled in all Regions. See also: AWS API Documentation
+/// Starts the recording of Amazon Web Services API calls and log file delivery for a trail. For a trail that is enabled in all Regions, this operation must be called from the Region in which the trail was created. This operation cannot be called on the shadow trails (replicated trails in other Regions) of a trail that is enabled in all Regions. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsCloudtrailStartLoggingOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts the recording of Amazon Web Services API calls and log file de- livery for a trail. For a trail that is enabled in all Regions, this operation must be called from the Region in which the trail was cre- ated. This operation cannot be called on the shadow trails (replicated trails in other Regions) of a trail that is enabled in all Regions. See also: AWS API Documentation
+    /// Starts the recording of Amazon Web Services API calls and log file delivery for a trail. For a trail that is enabled in all Regions, this operation must be called from the Region in which the trail was created. This operation cannot be called on the shadow trails (replicated trails in other Regions) of a trail that is enabled in all Regions. See also: AWS API Documentation
     /// </summary>
     /// <param name="Name">Specifies the name or the CloudTrail ARN of the trail for which CloudTrail logs Amazon Web Services API calls. The following is the format of a trail ARN. arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</param>
     public AwsCloudtrailStartLoggingOptions(

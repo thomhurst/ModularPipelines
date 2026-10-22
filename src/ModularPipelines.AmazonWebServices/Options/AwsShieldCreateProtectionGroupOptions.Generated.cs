@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +30,9 @@ public record AwsShieldCreateProtectionGroupOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Creates a grouping of protected resources so they can be handled as a collective. This resource grouping improves the accuracy of detection and reduces false positives. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProtectionGroupId">The name of the protection group. You use this to identify the pro- tection group in lists and to manage the protection group, for exam- ple to update, delete, or describe it. Constraints: o min: 1 o max: 36 o pattern: [a-zA-Z0-9\\-]*</param>
-    /// <param name="Aggregation">Defines how Shield combines resource data for the group in order to detect, mitigate, and report events. o Sum - Use the total traffic across the group. This is a good choice for most cases. Examples include Elastic IP addresses for EC2 instances that scale manually or automatically. o Mean - Use the average of the traffic across the group. This is a good choice for resources that share traffic uniformly. Examples include accelerators and load balancers. o Max - Use the highest traffic from each resource. This is useful for resources that don't share traffic and for resources that share that traffic in a non-uniform way. Examples include Amazon CloudFront and origin resources for CloudFront distributions. Possible values: o SUM o MEAN o MAX</param>
-    /// <param name="Pattern">The criteria to use to choose the protected resources for inclusion in the group. You can include all resources that have protections, provide a list of resource Amazon Resource Names (ARNs), or include all resources of a specified resource type. Possible values: o ALL o ARBITRARY o BY_RESOURCE_TYPE</param>
+    /// <param name="ProtectionGroupId">The name of the protection group. You use this to identify the protection group in lists and to manage the protection group, for example to update, delete, or describe it. Constraints: • min: 1 • max: 36 • pattern: [a-zA-Z0-9\\-]*</param>
+    /// <param name="Aggregation">Defines how Shield combines resource data for the group in order to detect, mitigate, and report events. • Sum - Use the total traffic across the group. This is a good choice for most cases. Examples include Elastic IP addresses for EC2 instances that scale manually or automatically. • Mean - Use the average of the traffic across the group. This is a good choice for resources that share traffic uniformly. Examples include accelerators and load balancers. • Max - Use the highest traffic from each resource. This is useful for resources that don't share traffic and for resources that share that traffic in a non-uniform way. Examples include Amazon CloudFront and origin resources for CloudFront distributions. Possible values: • SUM • MEAN • MAX</param>
+    /// <param name="Pattern">The criteria to use to choose the protected resources for inclusion in the group. You can include all resources that have protections, provide a list of resource Amazon Resource Names (ARNs), or include all resources of a specified resource type. Possible values: • ALL • ARBITRARY • BY_RESOURCE_TYPE</param>
     public AwsShieldCreateProtectionGroupOptions(
         string ProtectionGroupId,
         AwsShieldCreateProtectionGroupAggregation Aggregation,
@@ -63,37 +65,37 @@ public record AwsShieldCreateProtectionGroupOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the protection group. You use this to identify the pro- tection group in lists and to manage the protection group, for exam- ple to update, delete, or describe it. Constraints: o min: 1 o max: 36 o pattern: [a-zA-Z0-9\\-]*
+    /// The name of the protection group. You use this to identify the protection group in lists and to manage the protection group, for example to update, delete, or describe it. Constraints: • min: 1 • max: 36 • pattern: [a-zA-Z0-9\\-]*
     /// </summary>
     [CliOption("--protection-group-id")]
     public string? ProtectionGroupId { get; private init; }
 
     /// <summary>
-    /// Defines how Shield combines resource data for the group in order to detect, mitigate, and report events. o Sum - Use the total traffic across the group. This is a good choice for most cases. Examples include Elastic IP addresses for EC2 instances that scale manually or automatically. o Mean - Use the average of the traffic across the group. This is a good choice for resources that share traffic uniformly. Examples include accelerators and load balancers. o Max - Use the highest traffic from each resource. This is useful for resources that don't share traffic and for resources that share that traffic in a non-uniform way. Examples include Amazon CloudFront and origin resources for CloudFront distributions. Possible values: o SUM o MEAN o MAX
+    /// Defines how Shield combines resource data for the group in order to detect, mitigate, and report events. • Sum - Use the total traffic across the group. This is a good choice for most cases. Examples include Elastic IP addresses for EC2 instances that scale manually or automatically. • Mean - Use the average of the traffic across the group. This is a good choice for resources that share traffic uniformly. Examples include accelerators and load balancers. • Max - Use the highest traffic from each resource. This is useful for resources that don't share traffic and for resources that share that traffic in a non-uniform way. Examples include Amazon CloudFront and origin resources for CloudFront distributions. Possible values: • SUM • MEAN • MAX
     /// </summary>
     [CliOption("--aggregation")]
     public AwsShieldCreateProtectionGroupAggregation? Aggregation { get; private init; }
 
     /// <summary>
-    /// The criteria to use to choose the protected resources for inclusion in the group. You can include all resources that have protections, provide a list of resource Amazon Resource Names (ARNs), or include all resources of a specified resource type. Possible values: o ALL o ARBITRARY o BY_RESOURCE_TYPE
+    /// The criteria to use to choose the protected resources for inclusion in the group. You can include all resources that have protections, provide a list of resource Amazon Resource Names (ARNs), or include all resources of a specified resource type. Possible values: • ALL • ARBITRARY • BY_RESOURCE_TYPE
     /// </summary>
     [CliOption("--pattern")]
     public AwsShieldCreateProtectionGroupPattern? Pattern { get; private init; }
 
     /// <summary>
-    /// The resource type to include in the protection group. All protected resources of this type are included in the protection group. Newly protected resources of this type are automatically added to the group. You must set this when you set Pattern to BY_RESOURCE_TYPE and you must not set it for any other Pattern setting. Possible values: o CLOUDFRONT_DISTRIBUTION o ROUTE_53_HOSTED_ZONE o ELASTIC_IP_ALLOCATION o CLASSIC_LOAD_BALANCER o APPLICATION_LOAD_BALANCER o GLOBAL_ACCELERATOR
+    /// The resource type to include in the protection group. All protected resources of this type are included in the protection group. Newly protected resources of this type are automatically added to the group. You must set this when you set Pattern to BY_RESOURCE_TYPE and you must not set it for any other Pattern setting. Possible values: • CLOUDFRONT_DISTRIBUTION • ROUTE_53_HOSTED_ZONE • ELASTIC_IP_ALLOCATION • CLASSIC_LOAD_BALANCER • APPLICATION_LOAD_BALANCER • GLOBAL_ACCELERATOR
     /// </summary>
     [CliOption("--resource-type")]
     public AwsShieldCreateProtectionGroupResourceType? ResourceType { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Names (ARNs) of the resources to include in the protection group. You must set this when you set Pattern to ARBI- TRARY and you must not set it for any other Pattern setting. Constraints: o min: 0 o max: 10000 (string) Constraints: o min: 1 o max: 2048 o pattern: ^arn:aws.* Syntax: "string" "string" ...
+    /// The Amazon Resource Names (ARNs) of the resources to include in the protection group. You must set this when you set Pattern to ARBITRARY and you must not set it for any other Pattern setting. Constraints: • min: 0 • max: 10000 (string) Constraints: • min: 1 • max: 2048 • pattern: ^arn:aws.* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--members", GroupValues = true)]
     public IEnumerable<string>? Members { get; set; }
 
     /// <summary>
-    /// One or more tag key-value pairs for the protection group. Constraints: o min: 0 o max: 200 (structure) A tag associated with an Amazon Web Services resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing or other management. Typi- cally, the tag key represents a category, such as "environment", and the tag value represents a specific value within that cate- gory, such as "test," "development," or "production". Or you might set the tag key to "customer" and the value to the cus- tomer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. Key -&gt; (string) Part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "cus- tomer." Tag keys are case-sensitive. Constraints: o min: 1 o max: 128 Value -&gt; (string) Part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensi- tive. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// One or more tag key-value pairs for the protection group. Constraints: • min: 0 • max: 200 (structure) A tag associated with an Amazon Web Services resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing or other management. Typically, the tag key represents a category, such as "environment", and the tag value represents a specific value within that category, such as "test," "development," or "production". Or you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. Key -&gt; (string) Part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive. Constraints: • min: 1 • max: 128 Value -&gt; (string) Part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensitive. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

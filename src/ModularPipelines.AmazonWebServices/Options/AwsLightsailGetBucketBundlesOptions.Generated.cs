@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLightsailGetBucketBundlesOptions : AwsOptions
 {
     /// <summary>
-    /// A Boolean value that indicates whether to include inactive (unavail- able) bundles in the response of your request.
+    /// A Boolean value that indicates whether to include inactive (unavailable) bundles in the response of your request.
     /// </summary>
     [CliFlag("--include-inactive", NegatedName = "--no-include-inactive")]
     public bool? IncludeInactive { get; set; }

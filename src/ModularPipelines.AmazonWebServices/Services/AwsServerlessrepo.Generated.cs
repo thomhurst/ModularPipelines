@@ -152,7 +152,7 @@ public class AwsServerlessrepo : IAwsServerlessrepo
     }
 
     /// <summary>
-    /// Retrieves the list of applications nested in the containing applica- tion. See also: AWS API Documentation list-application-dependencies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Dependencies
+    /// Retrieves the list of applications nested in the containing application. See also: AWS API Documentation list-application-dependencies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Dependencies
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -160,6 +160,21 @@ public class AwsServerlessrepo : IAwsServerlessrepo
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListApplicationDependenciesAsync(
         AwsServerlessrepoListApplicationDependenciesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists versions for the specified application. See also: AWS API Documentation list-application-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Versions
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListApplicationVersionsAsync(
+        AwsServerlessrepoListApplicationVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -182,21 +197,6 @@ public class AwsServerlessrepo : IAwsServerlessrepo
     }
 
     /// <summary>
-    /// Lists versions for the specified application. See also: AWS API Documentation list-application-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Versions
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListApplicationVersionsAsync(
-        AwsServerlessrepoListApplicationVersionsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Sets the permission policy for an application. For the list of actions supported for this operation, see Application Permissions . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -212,7 +212,7 @@ public class AwsServerlessrepo : IAwsServerlessrepo
     }
 
     /// <summary>
-    /// Unshares an application from an AWS Organization. This operation can be called only from the organization's master ac- count. See also: AWS API Documentation
+    /// Unshares an application from an AWS Organization. This operation can be called only from the organization's master account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

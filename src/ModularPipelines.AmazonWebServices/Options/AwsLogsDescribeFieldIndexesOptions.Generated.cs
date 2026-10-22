@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of field indexes discovered in log data. By default, the response includes the DEFAULT , CUSTOM , and INACTIVE index categories. To return indexes from other categories, use the indexCategories para- meter. For more information about field index policies, see PutIndexPolicy . See also: AWS API Documentation
+/// Returns a list of field indexes discovered in log data. By default, the response includes the DEFAULT , CUSTOM , and INACTIVE index categories. To return indexes from other categories, use the indexCategories parameter. For more information about field index policies, see PutIndexPolicy . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsLogsDescribeFieldIndexesOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a list of field indexes discovered in log data. By default, the response includes the DEFAULT , CUSTOM , and INACTIVE index categories. To return indexes from other categories, use the indexCategories para- meter. For more information about field index policies, see PutIndexPolicy . See also: AWS API Documentation
+    /// Returns a list of field indexes discovered in log data. By default, the response includes the DEFAULT , CUSTOM , and INACTIVE index categories. To return indexes from other categories, use the indexCategories parameter. For more information about field index policies, see PutIndexPolicy . See also: AWS API Documentation
     /// </summary>
-    /// <param name="LogGroupIdentifiers">An array containing the names or ARNs of the log groups that you want to retrieve field indexes for. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]* Syntax: "string" "string" ...</param>
+    /// <param name="LogGroupIdentifiers">An array containing the names or ARNs of the log groups that you want to retrieve field indexes for. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 2048 • pattern: [\w#+=/:,.@-]* Syntax: "string" "string" ...</param>
     public AwsLogsDescribeFieldIndexesOptions(
         IEnumerable<string> LogGroupIdentifiers
     )
@@ -68,19 +70,19 @@ public record AwsLogsDescribeFieldIndexesOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An array containing the names or ARNs of the log groups that you want to retrieve field indexes for. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]* Syntax: "string" "string" ...
+    /// An array containing the names or ARNs of the log groups that you want to retrieve field indexes for. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 2048 • pattern: [\w#+=/:,.@-]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--log-group-identifiers", GroupValues = true)]
     public IEnumerable<string>? LogGroupIdentifiers { get; private init; }
 
     /// <summary>
-    /// The index categories to return. The following values are supported: o DEFAULT : Fields that CloudWatch Logs indexes by default. Examples include @logStream and @data_format . o CUSTOM : Fields that you added manually to the field index policy. CloudWatch Logs always indexes these fields. These fields count toward the quota of 20 fields for each log group. o AUTO : Fields that CloudWatch Logs indexes automatically based on your query patterns and usage. These fields do not count toward the field index quota. CloudWatch Logs might update these fields based on changes in your query patterns. To keep a field indexed permanently, add it to an account-level or log-group level field index policy. o INACTIVE : Fields that CloudWatch Logs indexed before but does not index now. This happens if you remove a field from the field index policy or if CloudWatch Logs automatically selects a different field based on your queries. If you omit this parameter, the response includes the DEFAULT , CUS- TOM , and INACTIVE categories. For more information about automatically indexed fields and using the AUTO category, see Automatically indexed fields . Constraints: o max: 4 (string) Possible values: o DEFAULT o CUSTOM o AUTO o INACTIVE Syntax: "string" "string" ...
+    /// The index categories to return. The following values are supported: • DEFAULT : Fields that CloudWatch Logs indexes by default. Examples include @logStream and @data_format . • CUSTOM : Fields that you added manually to the field index policy. CloudWatch Logs always indexes these fields. These fields count toward the quota of 20 fields for each log group. • AUTO : Fields that CloudWatch Logs indexes automatically based on your query patterns and usage. These fields do not count toward the field index quota. CloudWatch Logs might update these fields based on changes in your query patterns. To keep a field indexed permanently, add it to an account-level or log-group level field index policy. • INACTIVE : Fields that CloudWatch Logs indexed before but does not index now. This happens if you remove a field from the field index policy or if CloudWatch Logs automatically selects a different field based on your queries. If you omit this parameter, the response includes the DEFAULT , CUSTOM , and INACTIVE categories. For more information about automatically indexed fields and using the AUTO category, see Automatically indexed fields . Constraints: • max: 4 (string) Possible values: • DEFAULT • CUSTOM • AUTO • INACTIVE Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--index-categories", GroupValues = true)]
     public IEnumerable<string>? IndexCategories { get; set; }
 
     /// <summary>
-    /// The token for the next set of items to return. The token expires af- ter 24 hours. Constraints: o min: 1
+    /// The token for the next set of items to return. The token expires after 24 hours. Constraints: • min: 1
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

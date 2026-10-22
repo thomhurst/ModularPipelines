@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsKinesisvideoCreateSignalingChannelOptions : AwsOptions, IValida
     /// <summary>
     /// Creates a signaling channel. CreateSignalingChannel is an asynchronous operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ChannelName">A name for the signaling channel that you are creating. It must be unique for each Amazon Web Services account and Amazon Web Services Region. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="ChannelName">A name for the signaling channel that you are creating. It must be unique for each Amazon Web Services account and Amazon Web Services Region. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsKinesisvideoCreateSignalingChannelOptions(
         string ChannelName
     )
@@ -57,25 +59,25 @@ public record AwsKinesisvideoCreateSignalingChannelOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name for the signaling channel that you are creating. It must be unique for each Amazon Web Services account and Amazon Web Services Region. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+
+    /// A name for the signaling channel that you are creating. It must be unique for each Amazon Web Services account and Amazon Web Services Region. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--channel-name")]
     public string? ChannelName { get; private init; }
 
     /// <summary>
-    /// A type of the signaling channel that you are creating. Currently, SINGLE_MASTER is the only supported channel type. Possible values: o SINGLE_MASTER o FULL_MESH
+    /// A type of the signaling channel that you are creating. Currently, SINGLE_MASTER is the only supported channel type. Possible values: • SINGLE_MASTER • FULL_MESH
     /// </summary>
     [CliOption("--channel-type")]
     public AwsKinesisvideoCreateSignalingChannelChannelType? ChannelType { get; set; }
 
     /// <summary>
-    /// A structure containing the configuration for the SINGLE_MASTER chan- nel type. The default configuration for the channel message's time to live is 60 seconds (1 minute). MessageTtlSeconds -&gt; (integer) The period of time (in seconds) a signaling channel retains un- delivered messages before they are discarded. Use to update this value. Constraints: o min: 5 o max: 120 Shorthand Syntax: MessageTtlSeconds=integer JSON Syntax: { "MessageTtlSeconds": integer }
+    /// A structure containing the configuration for the SINGLE_MASTER channel type. The default configuration for the channel message's time to live is 60 seconds (1 minute). MessageTtlSeconds -&gt; (integer) The period of time (in seconds) a signaling channel retains undelivered messages before they are discarded. Use to update this value. Constraints: • min: 5 • max: 120 Shorthand Syntax: MessageTtlSeconds=integer JSON Syntax: { "MessageTtlSeconds": integer }
     /// </summary>
     [CliOption("--single-master-configuration")]
     public string? SingleMasterConfiguration { get; set; }
 
     /// <summary>
-    /// A set of tags (key-value pairs) that you want to associate with this channel. Constraints: o min: 0 o max: 50 (structure) A key and value pair that is associated with the specified sig- naling channel. Key -&gt; (string) [required] The key of the tag that is associated with the specified sig- naling channel. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value of the tag that is associated with the specified signaling channel. Constraints: o min: 0 o max: 256 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A set of tags (key-value pairs) that you want to associate with this channel. Constraints: • min: 0 • max: 50 (structure) A key and value pair that is associated with the specified signaling channel. Key -&gt; (string) [required] The key of the tag that is associated with the specified signaling channel. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value of the tag that is associated with the specified signaling channel. Constraints: • min: 0 • max: 256 • pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

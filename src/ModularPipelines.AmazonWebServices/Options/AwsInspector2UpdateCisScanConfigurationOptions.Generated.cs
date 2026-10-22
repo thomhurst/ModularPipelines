@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsInspector2UpdateCisScanConfigurationOptions : AwsOptions, IVali
     /// <summary>
     /// Updates a CIS scan configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ScanConfigurationArn">The CIS scan configuration ARN. Constraints: o pattern: arn:aws(-us-gov|-cn)?:inspec- tor2:[a-z]{2}(-gov)?-[a-z]+-[0-9]{1}:[0-9]{12}:owner/(o-[a-z0-9]+|[0-9]{12})/cis-con- figuration/[0-9a-fA-F-]+</param>
+    /// <param name="ScanConfigurationArn">The CIS scan configuration ARN. Constraints: • pattern: arn:aws(-us-gov|-cn)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-[0-9]{1}:[0-9]{12}:owner/(o-[a-z0-9]+|[0-9]{12})/cis-configuration/[0-9a-fA-F-]+</param>
     public AwsInspector2UpdateCisScanConfigurationOptions(
         string ScanConfigurationArn
     )
@@ -57,31 +59,31 @@ public record AwsInspector2UpdateCisScanConfigurationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The CIS scan configuration ARN. Constraints: o pattern: arn:aws(-us-gov|-cn)?:inspec- tor2:[a-z]{2}(-gov)?-[a-z]+-[0-9]{1}:[0-9]{12}:owner/(o-[a-z0-9]+|[0-9]{12})/cis-con- figuration/[0-9a-fA-F-]+
+    /// The CIS scan configuration ARN. Constraints: • pattern: arn:aws(-us-gov|-cn)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-[0-9]{1}:[0-9]{12}:owner/(o-[a-z0-9]+|[0-9]{12})/cis-configuration/[0-9a-fA-F-]+
     /// </summary>
     [CliOption("--scan-configuration-arn")]
     public string? ScanConfigurationArn { get; private init; }
 
     /// <summary>
-    /// The scan name for the CIS scan configuration. Constraints: o min: 1 o max: 128
+    /// The scan name for the CIS scan configuration. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--scan-name")]
     public string? ScanName { get; set; }
 
     /// <summary>
-    /// The security level for the CIS scan configuration. Security level refers to the Benchmark levels that CIS assigns to a profile. Possible values: o LEVEL_1 o LEVEL_2
+    /// The security level for the CIS scan configuration. Security level refers to the Benchmark levels that CIS assigns to a profile. Possible values: • LEVEL_1 • LEVEL_2
     /// </summary>
     [CliOption("--security-level")]
     public AwsInspector2UpdateCisScanConfigurationSecurityLevel? SecurityLevel { get; set; }
 
     /// <summary>
-    /// The schedule for the CIS scan configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: oneTime, daily, weekly, monthly. oneTime -&gt; (structure) The schedule's one time. daily -&gt; (structure) The schedule's daily. startTime -&gt; (structure) [required] The schedule start time. timeOfDay -&gt; (string) [required] The time of day in 24-hour format (00:00). Constraints: o pattern: ([0-1]?[0-9]|2[0-3]):[0-5][0-9] timezone -&gt; (string) [required] The timezone. Constraints: o min: 1 o max: 50 weekly -&gt; (structure) The schedule's weekly. startTime -&gt; (structure) [required] The weekly schedule's start time. timeOfDay -&gt; (string) [required] The time of day in 24-hour format (00:00). Constraints: o pattern: ([0-1]?[0-9]|2[0-3]):[0-5][0-9] timezone -&gt; (string) [required] The timezone. Constraints: o min: 1 o max: 50 days -&gt; (list) [required] The weekly schedule's days. Constraints: o min: 1 o max: 7 (string) Possible values: o SUN o MON o TUE o WED o THU o FRI o SAT monthly -&gt; (structure) The schedule's monthly. startTime -&gt; (structure) [required] The monthly schedule's start time. timeOfDay -&gt; (string) [required] The time of day in 24-hour format (00:00). Constraints: o pattern: ([0-1]?[0-9]|2[0-3]):[0-5][0-9] timezone -&gt; (string) [required] The timezone. Constraints: o min: 1 o max: 50 day -&gt; (string) [required] The monthly schedule's day. Possible values: o SUN o MON o TUE o WED o THU o FRI o SAT Shorthand Syntax: oneTime={},daily={startTime={timeOfDay=string,timezone=string}},weekly={startTime={timeOfDay=string,timezone=string},days=[string,string]},monthly={startTime={timeOfDay=string,timezone=string},day=string} JSON Syntax: { "oneTime": { }, "daily": { "startTime": { "timeOfDay": "string", "timezone": "string" } }, "weekly": { "startTime": { "timeOfDay": "string", "timezone": "string" }, "days": ["SUN"|"MON"|"TUE"|"WED"|"THU"|"FRI"|"SAT", ...] }, "monthly": { "startTime": { "timeOfDay": "string", "timezone": "string" }, "day": "SUN"|"MON"|"TUE"|"WED"|"THU"|"FRI"|"SAT" } }
+    /// The schedule for the CIS scan configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: oneTime, daily, weekly, monthly. oneTime -&gt; (structure) The schedule's one time. daily -&gt; (structure) The schedule's daily. startTime -&gt; (structure) [required] The schedule start time. timeOfDay -&gt; (string) [required] The time of day in 24-hour format (00:00). Constraints: • pattern: ([0-1]?[0-9]|2[0-3]):[0-5][0-9] timezone -&gt; (string) [required] The timezone. Constraints: • min: 1 • max: 50 weekly -&gt; (structure) The schedule's weekly. startTime -&gt; (structure) [required] The weekly schedule's start time. timeOfDay -&gt; (string) [required] The time of day in 24-hour format (00:00). Constraints: • pattern: ([0-1]?[0-9]|2[0-3]):[0-5][0-9] timezone -&gt; (string) [required] The timezone. Constraints: • min: 1 • max: 50 days -&gt; (list) [required] The weekly schedule's days. Constraints: • min: 1 • max: 7 (string) Possible values: • SUN • MON • TUE • WED • THU • FRI • SAT monthly -&gt; (structure) The schedule's monthly. startTime -&gt; (structure) [required] The monthly schedule's start time. timeOfDay -&gt; (string) [required] The time of day in 24-hour format (00:00). Constraints: • pattern: ([0-1]?[0-9]|2[0-3]):[0-5][0-9] timezone -&gt; (string) [required] The timezone. Constraints: • min: 1 • max: 50 day -&gt; (string) [required] The monthly schedule's day. Possible values: • SUN • MON • TUE • WED • THU • FRI • SAT Shorthand Syntax: oneTime={},daily={startTime={timeOfDay=string,timezone=string}},weekly={startTime={timeOfDay=string,timezone=string},days=[string,string]},monthly={startTime={timeOfDay=string,timezone=string},day=string} JSON Syntax: { "oneTime": { }, "daily": { "startTime": { "timeOfDay": "string", "timezone": "string" } }, "weekly": { "startTime": { "timeOfDay": "string", "timezone": "string" }, "days": ["SUN"|"MON"|"TUE"|"WED"|"THU"|"FRI"|"SAT", ...] }, "monthly": { "startTime": { "timeOfDay": "string", "timezone": "string" }, "day": "SUN"|"MON"|"TUE"|"WED"|"THU"|"FRI"|"SAT" } }
     /// </summary>
     [CliOption("--schedule")]
     public string? Schedule { get; set; }
 
     /// <summary>
-    /// The targets for the CIS scan configuration. accountIds -&gt; (list) The target account ids. Constraints: o min: 1 o max: 10000 (string) Constraints: o pattern: \d{12}|ALL_ACCOUNTS|SELF targetResourceTags -&gt; (map) The target resource tags. Constraints: o min: 1 o max: 5 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{Z}\p{N}_.:/=\-@]* value -&gt; (list) Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: accountIds=string,string,targetResourceTags={KeyName1=[string,string],KeyName2=[string,string]} JSON Syntax: { "accountIds": ["string", ...], "targetResourceTags": {"string": ["string", ...] ...} }
+    /// The targets for the CIS scan configuration. accountIds -&gt; (list) The target account ids. Constraints: • min: 1 • max: 10000 (string) Constraints: • pattern: \d{12}|ALL_ACCOUNTS|SELF targetResourceTags -&gt; (map) The target resource tags. Constraints: • min: 1 • max: 5 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{Z}\p{N}_.:/=\-@]* value -&gt; (list) Constraints: • min: 1 • max: 5 (string) Constraints: • min: 1 • max: 256 Shorthand Syntax: accountIds=string,string,targetResourceTags={KeyName1=[string,string],KeyName2=[string,string]} JSON Syntax: { "accountIds": ["string", ...], "targetResourceTags": {"string": ["string", ...] ...} }
     /// </summary>
     [CliOption("--targets")]
     public string? Targets { get; set; }

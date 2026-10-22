@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,7 +29,7 @@ public record AwsKafkaconnectCreateWorkerConfigurationOptions : AwsOptions, IVal
     /// <summary>
     /// Creates a worker configuration using the specified properties. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the worker configuration. Constraints: o min: 1 o max: 128</param>
+    /// <param name="Name">The name of the worker configuration. Constraints: • min: 1 • max: 128</param>
     /// <param name="PropertiesFileContent">Base64 encoded contents of connect-distributed.properties file.</param>
     public AwsKafkaconnectCreateWorkerConfigurationOptions(
         string Name,
@@ -61,7 +62,7 @@ public record AwsKafkaconnectCreateWorkerConfigurationOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the worker configuration. Constraints: o min: 1 o max: 128
+    /// The name of the worker configuration. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -73,13 +74,13 @@ public record AwsKafkaconnectCreateWorkerConfigurationOptions : AwsOptions, IVal
     public string? PropertiesFileContent { get; private init; }
 
     /// <summary>
-    /// A summary description of the worker configuration. Constraints: o min: 0 o max: 1024
+    /// A summary description of the worker configuration. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The tags you want to attach to the worker configuration. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags you want to attach to the worker configuration. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

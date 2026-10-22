@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsSnowballCreateReturnShippingLabelOptions : AwsOptions, IValidat
     /// <summary>
     /// Creates a shipping label that will be used to return the Snow device to Amazon Web Services. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">The ID for a job that you want to create the return shipping label for; for example, JID123e4567-e89b-12d3-a456-426655440000 . Constraints: o min: 39 o max: 39 o pattern: (M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="JobId">The ID for a job that you want to create the return shipping label for; for example, JID123e4567-e89b-12d3-a456-426655440000 . Constraints: • min: 39 • max: 39 • pattern: (M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     public AwsSnowballCreateReturnShippingLabelOptions(
         string JobId
     )
@@ -57,13 +59,13 @@ public record AwsSnowballCreateReturnShippingLabelOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID for a job that you want to create the return shipping label for; for example, JID123e4567-e89b-12d3-a456-426655440000 . Constraints: o min: 39 o max: 39 o pattern: (M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The ID for a job that you want to create the return shipping label for; for example, JID123e4567-e89b-12d3-a456-426655440000 . Constraints: • min: 39 • max: 39 • pattern: (M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// The shipping speed for a particular job. This speed doesn't dictate how soon the device is returned to Amazon Web Services. This speed represents how quickly it moves to its destination while in transit. Regional shipping speeds are as follows: Possible values: o SECOND_DAY o NEXT_DAY o EXPRESS o STANDARD
+    /// The shipping speed for a particular job. This speed doesn't dictate how soon the device is returned to Amazon Web Services. This speed represents how quickly it moves to its destination while in transit. Regional shipping speeds are as follows: Possible values: • SECOND_DAY • NEXT_DAY • EXPRESS • STANDARD
     /// </summary>
     [CliOption("--shipping-option")]
     public AwsSnowballCreateReturnShippingLabelShippingOption? ShippingOption { get; set; }

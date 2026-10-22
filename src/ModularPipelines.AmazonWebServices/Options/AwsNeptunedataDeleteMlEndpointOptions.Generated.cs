@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Cancels the creation of a Neptune ML inference endpoint. See Managing inference endpoints using the endpoints command . When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:DeleteMLEndpoint IAM action in that cluster. See also: AWS API Documentation
+/// Cancels the creation of a Neptune ML inference endpoint. See Managing inference endpoints using the endpoints command . When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:DeleteMLEndpoint IAM action in that cluster. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsNeptunedataDeleteMlEndpointOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Cancels the creation of a Neptune ML inference endpoint. See Managing inference endpoints using the endpoints command . When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:DeleteMLEndpoint IAM action in that cluster. See also: AWS API Documentation
+    /// Cancels the creation of a Neptune ML inference endpoint. See Managing inference endpoints using the endpoints command . When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:DeleteMLEndpoint IAM action in that cluster. See also: AWS API Documentation
     /// </summary>
     /// <param name="Id">The unique identifier of the inference endpoint.</param>
     public AwsNeptunedataDeleteMlEndpointOptions(
@@ -62,7 +64,7 @@ public record AwsNeptunedataDeleteMlEndpointOptions : AwsOptions, IValidatableOb
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The ARN of an IAM role providing Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parame- ter group or an error will be thrown.
+    /// The ARN of an IAM role providing Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error will be thrown.
     /// </summary>
     [CliOption("--neptune-iam-role-arn")]
     public string? NeptuneIamRoleArn { get; set; }

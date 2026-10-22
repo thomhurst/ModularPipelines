@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsConnectAssociateLexBotOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Allows the specified Connect Customer instance to access the specified Amazon Lex V1 bot. This API only supports the association of Amazon Lex V1 bots. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="LexBot">The Amazon Lex bot to associate with the instance. Name -&gt; (string) [required] The name of the Amazon Lex bot. Constraints: o max: 50 LexRegion -&gt; (string) [required] The Amazon Web Services Region where the Amazon Lex bot was cre- ated. Constraints: o max: 60 Shorthand Syntax: Name=string,LexRegion=string JSON Syntax: { "Name": "string", "LexRegion": "string" }</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="LexBot">The Amazon Lex bot to associate with the instance. Name -&gt; (string) [required] The name of the Amazon Lex bot. Constraints: • max: 50 LexRegion -&gt; (string) [required] The Amazon Web Services Region where the Amazon Lex bot was created. Constraints: • max: 60 Shorthand Syntax: Name=string,LexRegion=string JSON Syntax: { "Name": "string", "LexRegion": "string" }</param>
     public AwsConnectAssociateLexBotOptions(
         string InstanceId,
         string LexBot
@@ -61,19 +63,19 @@ public record AwsConnectAssociateLexBotOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The Amazon Lex bot to associate with the instance. Name -&gt; (string) [required] The name of the Amazon Lex bot. Constraints: o max: 50 LexRegion -&gt; (string) [required] The Amazon Web Services Region where the Amazon Lex bot was cre- ated. Constraints: o max: 60 Shorthand Syntax: Name=string,LexRegion=string JSON Syntax: { "Name": "string", "LexRegion": "string" }
+    /// The Amazon Lex bot to associate with the instance. Name -&gt; (string) [required] The name of the Amazon Lex bot. Constraints: • max: 50 LexRegion -&gt; (string) [required] The Amazon Web Services Region where the Amazon Lex bot was created. Constraints: • max: 60 Shorthand Syntax: Name=string,LexRegion=string JSON Syntax: { "Name": "string", "LexRegion": "string" }
     /// </summary>
     [CliOption("--lex-bot")]
     public string? LexBot { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

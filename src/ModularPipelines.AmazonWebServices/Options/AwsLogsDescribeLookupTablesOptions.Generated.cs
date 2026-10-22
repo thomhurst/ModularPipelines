@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves metadata about lookup tables in your account. You can option- ally filter the results by table name prefix. Results are sorted by ta- ble name in ascending order. See also: AWS API Documentation
+/// Retrieves metadata about lookup tables in your account. You can optionally filter the results by table name prefix. Results are sorted by table name in ascending order. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,19 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLogsDescribeLookupTablesOptions : AwsOptions
 {
     /// <summary>
-    /// A prefix to filter lookup tables by name. Only tables whose names start with this prefix are returned. If you don't specify a prefix, all tables in the account and Region are returned. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9_]+$
+    /// A prefix to filter lookup tables by name. Only tables whose names start with this prefix are returned. If you don't specify a prefix, all tables in the account and Region are returned. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9_]+$
     /// </summary>
     [CliOption("--lookup-table-name-prefix")]
     public string? LookupTableNamePrefix { get; set; }
 
     /// <summary>
-    /// The maximum number of lookup tables to return in the response. The default value is 50 and the maximum value is 100. Constraints: o max: 100
+    /// The maximum number of lookup tables to return in the response. The default value is 50 and the maximum value is 100. Constraints: • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The token for the next set of items to return. (You received this token from a previous call.) Constraints: o min: 1
+    /// The token for the next set of items to return. (You received this token from a previous call.) Constraints: • min: 1
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

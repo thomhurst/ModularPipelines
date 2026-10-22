@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotDescribeAuditTaskOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets information about a Device Defender audit. Requires permission to access the DescribeAuditTask action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TaskId">The ID of the audit whose information you want to get. Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9\-]+</param>
+    /// <param name="TaskId">The ID of the audit whose information you want to get. Constraints: • min: 1 • max: 40 • pattern: [a-zA-Z0-9\-]+</param>
     public AwsIotDescribeAuditTaskOptions(
         string TaskId
     )
@@ -56,7 +58,7 @@ public record AwsIotDescribeAuditTaskOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the audit whose information you want to get. Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9\-]+
+    /// The ID of the audit whose information you want to get. Constraints: • min: 1 • max: 40 • pattern: [a-zA-Z0-9\-]+
     /// </summary>
     [CliOption("--task-id")]
     public string? TaskId { get; private init; }

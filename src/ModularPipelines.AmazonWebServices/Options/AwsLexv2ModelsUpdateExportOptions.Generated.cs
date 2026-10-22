@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsLexv2ModelsUpdateExportOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the password used to protect an export zip archive. The password is not required. If you don't supply a password, Amazon Lex generates a zip file that is not protected by a password. This is the archive that is available at the pre-signed S3 URL provided by the DescribeExport operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExportId">The unique identifier Amazon Lex assigned to the export. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="ExportId">The unique identifier Amazon Lex assigned to the export. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
     public AwsLexv2ModelsUpdateExportOptions(
         string ExportId
     )
@@ -57,13 +59,13 @@ public record AwsLexv2ModelsUpdateExportOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier Amazon Lex assigned to the export. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier Amazon Lex assigned to the export. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--export-id")]
     public string? ExportId { get; private init; }
 
     /// <summary>
-    /// The new password to use to encrypt the export zip archive. Constraints: o min: 1 o max: 1024
+    /// The new password to use to encrypt the export zip archive. Constraints: • min: 1 • max: 1024
     /// </summary>
     [SecretValue]
     [CliOption("--file-password")]

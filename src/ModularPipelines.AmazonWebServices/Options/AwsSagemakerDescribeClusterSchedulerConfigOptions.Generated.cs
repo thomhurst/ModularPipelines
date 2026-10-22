@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Description of the cluster policy. This policy is used for task priori- tization and fair-share allocation. This helps prioritize critical workloads and distributes idle compute across entities. See also: AWS API Documentation
+/// Description of the cluster policy. This policy is used for task prioritization and fair-share allocation. This helps prioritize critical workloads and distributes idle compute across entities. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSagemakerDescribeClusterSchedulerConfigOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Description of the cluster policy. This policy is used for task priori- tization and fair-share allocation. This helps prioritize critical workloads and distributes idle compute across entities. See also: AWS API Documentation
+    /// Description of the cluster policy. This policy is used for task prioritization and fair-share allocation. This helps prioritize critical workloads and distributes idle compute across entities. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterSchedulerConfigId">ID of the cluster policy. Constraints: o min: 0 o max: 12 o pattern: [a-z0-9]{12}</param>
+    /// <param name="ClusterSchedulerConfigId">ID of the cluster policy. Constraints: • min: 0 • max: 12 • pattern: [a-z0-9]{12}</param>
     public AwsSagemakerDescribeClusterSchedulerConfigOptions(
         string ClusterSchedulerConfigId
     )
@@ -56,7 +58,7 @@ public record AwsSagemakerDescribeClusterSchedulerConfigOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID of the cluster policy. Constraints: o min: 0 o max: 12 o pattern: [a-z0-9]{12}
+    /// ID of the cluster policy. Constraints: • min: 0 • max: 12 • pattern: [a-z0-9]{12}
     /// </summary>
     [CliOption("--cluster-scheduler-config-id")]
     public string? ClusterSchedulerConfigId { get; private init; }

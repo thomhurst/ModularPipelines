@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsLexv2ModelsListTestExecutionResultItemsOptions : AwsOptions, IV
     /// <summary>
     /// Gets a list of test execution result items. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TestExecutionId">The unique identifier of the test execution to list the result items. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="ResultFilterBy">The filter for the list of results from the test set execution. resultTypeFilter -&gt; (string) [required] Specifies which results to filter. See Test result details"&gt;Test results details for details about different types of results. Possible values: o OverallTestResults o ConversationLevelTestResults o IntentClassificationTestResults o SlotResolutionTestResults o UtteranceLevelResults conversationLevelTestResultsFilterBy -&gt; (structure) Contains information about the method for filtering Conversation level test results. endToEndResult -&gt; (string) The selection of matched or mismatched end-to-end status to filter test set results data at the conversation level. Possible values: o Matched o Mismatched o ExecutionError Shorthand Syntax: resultTypeFilter=string,conversationLevelTestResultsFilterBy={endToEndResult=string} JSON Syntax: { "resultTypeFilter": "OverallTestResults"|"ConversationLevelTestResults"|"IntentClassificationTestResults"|"SlotResolutionTestResults"|"UtteranceLevelResults", "conversationLevelTestResultsFilterBy": { "endToEndResult": "Matched"|"Mismatched"|"ExecutionError" } }</param>
+    /// <param name="TestExecutionId">The unique identifier of the test execution to list the result items. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="ResultFilterBy">The filter for the list of results from the test set execution. resultTypeFilter -&gt; (string) [required] Specifies which results to filter. See Test result details"&gt;Test results details for details about different types of results. Possible values: • OverallTestResults • ConversationLevelTestResults • IntentClassificationTestResults • SlotResolutionTestResults • UtteranceLevelResults conversationLevelTestResultsFilterBy -&gt; (structure) Contains information about the method for filtering Conversation level test results. endToEndResult -&gt; (string) The selection of matched or mismatched end-to-end status to filter test set results data at the conversation level. Possible values: • Matched • Mismatched • ExecutionError Shorthand Syntax: resultTypeFilter=string,conversationLevelTestResultsFilterBy={endToEndResult=string} JSON Syntax: { "resultTypeFilter": "OverallTestResults"|"ConversationLevelTestResults"|"IntentClassificationTestResults"|"SlotResolutionTestResults"|"UtteranceLevelResults", "conversationLevelTestResultsFilterBy": { "endToEndResult": "Matched"|"Mismatched"|"ExecutionError" } }</param>
     public AwsLexv2ModelsListTestExecutionResultItemsOptions(
         string TestExecutionId,
         string ResultFilterBy
@@ -61,25 +63,25 @@ public record AwsLexv2ModelsListTestExecutionResultItemsOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the test execution to list the result items. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier of the test execution to list the result items. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--test-execution-id")]
     public string? TestExecutionId { get; private init; }
 
     /// <summary>
-    /// The filter for the list of results from the test set execution. resultTypeFilter -&gt; (string) [required] Specifies which results to filter. See Test result details"&gt;Test results details for details about different types of results. Possible values: o OverallTestResults o ConversationLevelTestResults o IntentClassificationTestResults o SlotResolutionTestResults o UtteranceLevelResults conversationLevelTestResultsFilterBy -&gt; (structure) Contains information about the method for filtering Conversation level test results. endToEndResult -&gt; (string) The selection of matched or mismatched end-to-end status to filter test set results data at the conversation level. Possible values: o Matched o Mismatched o ExecutionError Shorthand Syntax: resultTypeFilter=string,conversationLevelTestResultsFilterBy={endToEndResult=string} JSON Syntax: { "resultTypeFilter": "OverallTestResults"|"ConversationLevelTestResults"|"IntentClassificationTestResults"|"SlotResolutionTestResults"|"UtteranceLevelResults", "conversationLevelTestResultsFilterBy": { "endToEndResult": "Matched"|"Mismatched"|"ExecutionError" } }
+    /// The filter for the list of results from the test set execution. resultTypeFilter -&gt; (string) [required] Specifies which results to filter. See Test result details"&gt;Test results details for details about different types of results. Possible values: • OverallTestResults • ConversationLevelTestResults • IntentClassificationTestResults • SlotResolutionTestResults • UtteranceLevelResults conversationLevelTestResultsFilterBy -&gt; (structure) Contains information about the method for filtering Conversation level test results. endToEndResult -&gt; (string) The selection of matched or mismatched end-to-end status to filter test set results data at the conversation level. Possible values: • Matched • Mismatched • ExecutionError Shorthand Syntax: resultTypeFilter=string,conversationLevelTestResultsFilterBy={endToEndResult=string} JSON Syntax: { "resultTypeFilter": "OverallTestResults"|"ConversationLevelTestResults"|"IntentClassificationTestResults"|"SlotResolutionTestResults"|"UtteranceLevelResults", "conversationLevelTestResultsFilterBy": { "endToEndResult": "Matched"|"Mismatched"|"ExecutionError" } }
     /// </summary>
     [CliOption("--result-filter-by")]
     public string? ResultFilterBy { get; private init; }
 
     /// <summary>
-    /// The maximum number of test execution result items to return in each page. If there are fewer results than the max page size, only the actual number of results are returned. Constraints: o min: 1 o max: 1000
+    /// The maximum number of test execution result items to return in each page. If there are fewer results than the max page size, only the actual number of results are returned. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If the response from the ListTestExecutionResultItems operation con- tains more results than specified in the maxResults parameter, a to- ken is returned in the response. Use that token in the nextToken pa- rameter to return the next page of results.
+    /// If the response from the ListTestExecutionResultItems operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use that token in the nextToken parameter to return the next page of results.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

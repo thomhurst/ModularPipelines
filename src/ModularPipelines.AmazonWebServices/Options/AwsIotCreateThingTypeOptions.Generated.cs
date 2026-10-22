@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotCreateThingTypeOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a new thing type. If this call is made multiple times using the same thing type name and configuration, the call will succeed. If this call is made with the same thing type name but different configuration a ResourceAlreadyExistsException is thrown. Requires permission to access the CreateThingType action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ThingTypeName">The name of the thing type. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+</param>
+    /// <param name="ThingTypeName">The name of the thing type. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+</param>
     public AwsIotCreateThingTypeOptions(
         string ThingTypeName
     )
@@ -56,19 +58,19 @@ public record AwsIotCreateThingTypeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the thing type. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The name of the thing type. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--thing-type-name")]
     public string? ThingTypeName { get; private init; }
 
     /// <summary>
-    /// The ThingTypeProperties for the thing type to create. It contains information about the new thing type including a description, and a list of searchable thing attribute names. thingTypeDescription -&gt; (string) The description of the thing type. Constraints: o max: 2028 o pattern: [\p{Graph}\x20]* searchableAttributes -&gt; (list) A list of searchable thing attribute names. (string) Constraints: o max: 128 o pattern: [a-zA-Z0-9_.,@/:#-]+ mqtt5Configuration -&gt; (structure) The configuration to add user-defined properties to enrich MQTT 5 messages. propagatingAttributes -&gt; (list) An object that represents the propagating thing attributes and the connection attributes. (structure) An object that represents the connection attribute, thing attribute, and the user property key. userPropertyKey -&gt; (string) The key of the user property key-value pair. Constraints: o max: 128 o pattern: [a-zA-Z0-9:$.]+ thingAttribute -&gt; (string) The user-defined thing attribute that is propagating for MQTT 5 message enrichment. Constraints: o max: 128 o pattern: [a-zA-Z0-9_.,@/:#-]+ connectionAttribute -&gt; (string) The attribute associated with the connection between a device and Amazon Web Services IoT Core. Constraints: o max: 128 o pattern: [a-zA-Z0-9:.]+ JSON Syntax: { "thingTypeDescription": "string", "searchableAttributes": ["string", ...], "mqtt5Configuration": { "propagatingAttributes": [ { "userPropertyKey": "string", "thingAttribute": "string", "connectionAttribute": "string" } ... ] } }
+    /// The ThingTypeProperties for the thing type to create. It contains information about the new thing type including a description, and a list of searchable thing attribute names. thingTypeDescription -&gt; (string) The description of the thing type. Constraints: • max: 2028 • pattern: [\p{Graph}\x20]* searchableAttributes -&gt; (list) A list of searchable thing attribute names. (string) Constraints: • max: 128 • pattern: [a-zA-Z0-9_.,@/:#-]+ mqtt5Configuration -&gt; (structure) The configuration to add user-defined properties to enrich MQTT 5 messages. propagatingAttributes -&gt; (list) An object that represents the propagating thing attributes and the connection attributes. (structure) An object that represents the connection attribute, thing attribute, and the user property key. userPropertyKey -&gt; (string) The key of the user property key-value pair. Constraints: • max: 128 • pattern: [a-zA-Z0-9:$.]+ thingAttribute -&gt; (string) The user-defined thing attribute that is propagating for MQTT 5 message enrichment. Constraints: • max: 128 • pattern: [a-zA-Z0-9_.,@/:#-]+ connectionAttribute -&gt; (string) The attribute associated with the connection between a device and Amazon Web Services IoT Core. Constraints: • max: 128 • pattern: [a-zA-Z0-9:.]+ JSON Syntax: { "thingTypeDescription": "string", "searchableAttributes": ["string", ...], "mqtt5Configuration": { "propagatingAttributes": [ { "userPropertyKey": "string", "thingAttribute": "string", "connectionAttribute": "string" } ... ] } }
     /// </summary>
     [CliOption("--thing-type-properties")]
     public string? ThingTypeProperties { get; set; }
 
     /// <summary>
-    /// Metadata which can be used to manage the thing type. (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Metadata which can be used to manage the thing type. (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The tag's value. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

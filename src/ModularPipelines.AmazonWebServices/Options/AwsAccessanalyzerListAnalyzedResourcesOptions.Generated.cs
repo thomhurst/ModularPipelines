@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a list of resources of the specified type that have been ana- lyzed by the specified analyzer. See also: AWS API Documentation list-analyzed-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query exp...
+/// Retrieves a list of resources of the specified type that have been analyzed by the specified analyzer. See also: AWS API Documentation list-analyzed-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query express...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsAccessanalyzerListAnalyzedResourcesOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves a list of resources of the specified type that have been ana- lyzed by the specified analyzer. See also: AWS API Documentation list-analyzed-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query exp...
+    /// Retrieves a list of resources of the specified type that have been analyzed by the specified analyzer. See also: AWS API Documentation list-analyzed-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query express...
     /// </summary>
-    /// <param name="AnalyzerArn">The ARN of the analyzer to retrieve a list of analyzed resources from. Constraints: o pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}</param>
+    /// <param name="AnalyzerArn">The ARN of the analyzer to retrieve a list of analyzed resources from. Constraints: • pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}</param>
     public AwsAccessanalyzerListAnalyzedResourcesOptions(
         string AnalyzerArn
     )
@@ -57,22 +59,19 @@ public record AwsAccessanalyzerListAnalyzedResourcesOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the analyzer to retrieve a list of analyzed resources from. Constraints: o pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}
+    /// The ARN of the analyzer to retrieve a list of analyzed resources from. Constraints: • pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}
     /// </summary>
     [CliOption("--analyzer-arn")]
     public string? AnalyzerArn { get; private init; }
 
     /// <summary>
-    /// The type of resource. Possible values: o AWS::S3::Bucket o AWS::IAM::Role o AWS::SQS::Queue o AWS::Lambda::Function o AWS::Lambda::LayerVersion o AWS::KMS::Key o AWS::SecretsManager::Secret o AWS::EFS::FileSystem o AWS::EC2::Snapshot o AWS::ECR::Repository o AWS::RDS::DBSnapshot o AWS::RDS::DBClusterSnapshot o AWS::SNS::Topic o AWS::S3Express::DirectoryBucket o AWS::DynamoDB::Table o AWS::DynamoDB::Stream o AWS::IAM::User
+    /// The type of resource. Possible values: • AWS::S3::Bucket • AWS::IAM::Role • AWS::SQS::Queue • AWS::Lambda::Function • AWS::Lambda::LayerVersion • AWS::KMS::Key • AWS::SecretsManager::Secret • AWS::EFS::FileSystem • AWS::EC2::Snapshot • AWS::ECR::Repository • AWS::RDS::DBSnapshot • AWS::RDS::DBClusterSnapshot • AWS::SNS::Topic • AWS::S3Express::DirectoryBucket • AWS::DynamoDB::Table • AWS::DynamoDB::Stream • AWS::IAM::User
     /// </summary>
     [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -82,16 +81,19 @@ public record AwsAccessanalyzerListAnalyzedResourcesOptions : AwsOptions, IValid
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

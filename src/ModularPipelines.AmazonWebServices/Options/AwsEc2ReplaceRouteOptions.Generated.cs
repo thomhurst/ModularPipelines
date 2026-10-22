@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -68,7 +70,7 @@ public record AwsEc2ReplaceRouteOptions : AwsOptions, IValidatableObject
     public string? DestinationPrefixListId { get; set; }
 
     /// <summary>
-    /// The ID of a VPC endpoint. Supported for Gateway Load Balancer end- points only.
+    /// The ID of a VPC endpoint. Supported for Gateway Load Balancer endpoints only.
     /// </summary>
     [CliOption("--vpc-endpoint-id")]
     public string? VpcEndpointId { get; set; }
@@ -110,7 +112,7 @@ public record AwsEc2ReplaceRouteOptions : AwsOptions, IValidatableObject
     public string? OdbNetworkArn { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

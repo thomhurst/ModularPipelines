@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +30,9 @@ public record AwsCodepipelinePutThirdPartyJobFailureResultOptions : AwsOptions, 
     /// <summary>
     /// Represents the failure of a third party job as returned to the pipeline by a job worker. Used for partner actions only. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">The ID of the job that failed. This is the same ID returned from PollForThirdPartyJobs . Constraints: o min: 1 o max: 512</param>
-    /// <param name="ClientToken">The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details. Constraints: o min: 1 o max: 256</param>
-    /// <param name="FailureDetails">Represents information about failure details. type -&gt; (string) [required] The type of the failure. Possible values: o JobFailed o ConfigurationError o PermissionError o RevisionOutOfSync o RevisionUnavailable o SystemUnavailable message -&gt; (string) [required] The message about the failure. Constraints: o min: 1 o max: 5000 externalExecutionId -&gt; (string) The external ID of the run of the action that failed. Constraints: o min: 1 o max: 1500 Shorthand Syntax: type=string,message=string,externalExecutionId=string JSON Syntax: { "type": "JobFailed"|"ConfigurationError"|"PermissionError"|"RevisionOutOfSync"|"RevisionUnavailable"|"SystemUnavailable", "message": "string", "externalExecutionId": "string" }</param>
+    /// <param name="JobId">The ID of the job that failed. This is the same ID returned from PollForThirdPartyJobs . Constraints: • min: 1 • max: 512</param>
+    /// <param name="ClientToken">The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details. Constraints: • min: 1 • max: 256</param>
+    /// <param name="FailureDetails">Represents information about failure details. type -&gt; (string) [required] The type of the failure. Possible values: • JobFailed • ConfigurationError • PermissionError • RevisionOutOfSync • RevisionUnavailable • SystemUnavailable message -&gt; (string) [required] The message about the failure. Constraints: • min: 1 • max: 5000 externalExecutionId -&gt; (string) The external ID of the run of the action that failed. Constraints: • min: 1 • max: 1500 Shorthand Syntax: type=string,message=string,externalExecutionId=string JSON Syntax: { "type": "JobFailed"|"ConfigurationError"|"PermissionError"|"RevisionOutOfSync"|"RevisionUnavailable"|"SystemUnavailable", "message": "string", "externalExecutionId": "string" }</param>
     public AwsCodepipelinePutThirdPartyJobFailureResultOptions(
         string JobId,
         string ClientToken,
@@ -65,20 +67,20 @@ public record AwsCodepipelinePutThirdPartyJobFailureResultOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the job that failed. This is the same ID returned from PollForThirdPartyJobs . Constraints: o min: 1 o max: 512
+    /// The ID of the job that failed. This is the same ID returned from PollForThirdPartyJobs . Constraints: • min: 1 • max: 512
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details. Constraints: o min: 1 o max: 256
+    /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details. Constraints: • min: 1 • max: 256
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; private init; }
 
     /// <summary>
-    /// Represents information about failure details. type -&gt; (string) [required] The type of the failure. Possible values: o JobFailed o ConfigurationError o PermissionError o RevisionOutOfSync o RevisionUnavailable o SystemUnavailable message -&gt; (string) [required] The message about the failure. Constraints: o min: 1 o max: 5000 externalExecutionId -&gt; (string) The external ID of the run of the action that failed. Constraints: o min: 1 o max: 1500 Shorthand Syntax: type=string,message=string,externalExecutionId=string JSON Syntax: { "type": "JobFailed"|"ConfigurationError"|"PermissionError"|"RevisionOutOfSync"|"RevisionUnavailable"|"SystemUnavailable", "message": "string", "externalExecutionId": "string" }
+    /// Represents information about failure details. type -&gt; (string) [required] The type of the failure. Possible values: • JobFailed • ConfigurationError • PermissionError • RevisionOutOfSync • RevisionUnavailable • SystemUnavailable message -&gt; (string) [required] The message about the failure. Constraints: • min: 1 • max: 5000 externalExecutionId -&gt; (string) The external ID of the run of the action that failed. Constraints: • min: 1 • max: 1500 Shorthand Syntax: type=string,message=string,externalExecutionId=string JSON Syntax: { "type": "JobFailed"|"ConfigurationError"|"PermissionError"|"RevisionOutOfSync"|"RevisionUnavailable"|"SystemUnavailable", "message": "string", "externalExecutionId": "string" }
     /// </summary>
     [CliOption("--failure-details")]
     public string? FailureDetails { get; private init; }

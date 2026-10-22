@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDsDeleteTrustOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes an existing trust relationship between your Managed Microsoft AD directory and an external domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TrustId">The Trust ID of the trust relationship to be deleted. Constraints: o pattern: ^t-[0-9a-f]{10}$</param>
+    /// <param name="TrustId">The Trust ID of the trust relationship to be deleted. Constraints: • pattern: ^t-[0-9a-f]{10}$</param>
     public AwsDsDeleteTrustOptions(
         string TrustId
     )
@@ -56,13 +58,13 @@ public record AwsDsDeleteTrustOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Trust ID of the trust relationship to be deleted. Constraints: o pattern: ^t-[0-9a-f]{10}$
+    /// The Trust ID of the trust relationship to be deleted. Constraints: • pattern: ^t-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--trust-id")]
     public string? TrustId { get; private init; }
 
     /// <summary>
-    /// ditional-forwarder (boolean) Delete a conditional forwarder as part of a DeleteTrustRequest.
+    /// Delete a conditional forwarder as part of a DeleteTrustRequest.
     /// </summary>
     [CliFlag("--delete-associated-conditional-forwarder", NegatedName = "--no-delete-associated-conditional-forwarder")]
     public bool? DeleteAssociatedConditionalForwarder { get; set; }

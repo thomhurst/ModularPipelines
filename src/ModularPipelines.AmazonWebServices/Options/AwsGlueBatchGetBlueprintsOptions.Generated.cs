@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsGlueBatchGetBlueprintsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves information about a list of blueprints. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Names">A list of blueprint names. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 128 o pattern: [\.\-_A-Za-z0-9]+ Syntax: "string" "string" ...</param>
+    /// <param name="Names">A list of blueprint names. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 1 • max: 128 • pattern: [\.\-_A-Za-z0-9]+ Syntax: "string" "string" ...</param>
     public AwsGlueBatchGetBlueprintsOptions(
         IEnumerable<string> Names
     )
@@ -67,7 +69,7 @@ public record AwsGlueBatchGetBlueprintsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of blueprint names. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 128 o pattern: [\.\-_A-Za-z0-9]+ Syntax: "string" "string" ...
+    /// A list of blueprint names. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 1 • max: 128 • pattern: [\.\-_A-Za-z0-9]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; private init; }

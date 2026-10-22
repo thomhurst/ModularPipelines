@@ -77,7 +77,7 @@ public class AwsAccessanalyzer : IAwsAccessanalyzer
     }
 
     /// <summary>
-    /// Checks whether new access is allowed for an updated policy when com- pared to the existing policy. You can find examples for reference policies and learn how to set up and run a custom policy check for new access in the IAM Access Analyzer custom policy checks samples repository on GitHub. The reference poli- cies in this repository are meant to be passed to the existingPolicy- Document request parameter. See also: AWS API Documentation
+    /// Checks whether new access is allowed for an updated policy when compared to the existing policy. You can find examples for reference policies and learn how to set up and run a custom policy check for new access in the IAM Access Analyzer custom policy checks samples repository on GitHub. The reference policies in this repository are meant to be passed to the existingPolicyDocument request parameter. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsAccessanalyzer : IAwsAccessanalyzer
     }
 
     /// <summary>
-    /// Checks whether a resource policy can grant public access to the speci- fied resource type. See also: AWS API Documentation
+    /// Checks whether a resource policy can grant public access to the specified resource type. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsAccessanalyzer : IAwsAccessanalyzer
     }
 
     /// <summary>
-    /// Creates an access preview that allows you to preview IAM Access Ana- lyzer findings for your resource before deploying resource permissions. See also: AWS API Documentation
+    /// Creates an access preview that allows you to preview IAM Access Analyzer findings for your resource before deploying resource permissions. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsAccessanalyzer : IAwsAccessanalyzer
     }
 
     /// <summary>
-    /// Creates an archive rule for the specified analyzer. Archive rules auto- matically archive new findings that meet the criteria you define when you create the rule. To learn about filter keys that you can use to create an archive rule, see IAM Access Analyzer filter keys in the IAM User Guide . See also: AWS API Documentation
+    /// Creates an archive rule for the specified analyzer. Archive rules automatically archive new findings that meet the criteria you define when you create the rule. To learn about filter keys that you can use to create an archive rule, see IAM Access Analyzer filter keys in the IAM User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsAccessanalyzer : IAwsAccessanalyzer
     }
 
     /// <summary>
-    /// Creates a service-linked analyzer managed by an Amazon Web Services service. This operation can only be invoked by authorized Amazon Web Services services. Direct customer invocation returns AccessDeniedEx- ception . Service-linked analyzers enable Amazon Web Services services to create and manage analyzers on behalf of customers. The lifecycle of these an- alyzers is managed by the calling service. See also: AWS API Documentation
+    /// Creates a service-linked analyzer managed by an Amazon Web Services service. This operation can only be invoked by authorized Amazon Web Services services. Direct customer invocation returns AccessDeniedException . Service-linked analyzers enable Amazon Web Services services to create and manage analyzers on behalf of customers. The lifecycle of these analyzers is managed by the calling service. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsAccessanalyzer : IAwsAccessanalyzer
     }
 
     /// <summary>
-    /// Retrieves information about an access preview for the specified ana- lyzer. See also: AWS API Documentation
+    /// Retrieves information about an access preview for the specified analyzer. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsAccessanalyzer : IAwsAccessanalyzer
     }
 
     /// <summary>
-    /// Retrieves information about the specified finding. GetFinding and GetFindingV2 both use access-analyzer:GetFinding in the Action element of an IAM policy statement. You must have permission to perform the ac- cess-analyzer:GetFinding action. NOTE: GetFinding is supported only for external access analyzers. You must use GetFindingV2 for internal and unused access analyzers. See also: AWS API Documentation
+    /// Retrieves information about the specified finding. GetFinding and GetFindingV2 both use access-analyzer:GetFinding in the Action element of an IAM policy statement. You must have permission to perform the access-analyzer:GetFinding action. NOTE: GetFinding is supported only for external access analyzers. You must use GetFindingV2 for internal and unused access analyzers. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsAccessanalyzer : IAwsAccessanalyzer
     }
 
     /// <summary>
-    /// Retrieves information about a finding recommendation for the specified analyzer. See also: AWS API Documentation get-finding-recommendation is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: recommended...
+    /// Retrieves information about a finding recommendation for the specified analyzer. See also: AWS API Documentation get-finding-recommendation is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: recommendedSt...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,22 +317,7 @@ public class AwsAccessanalyzer : IAwsAccessanalyzer
     }
 
     /// <summary>
-    /// Retrieves a list of aggregated finding statistics for an external ac- cess or unused access analyzer. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetFindingsStatisticsAsync(
-        AwsAccessanalyzerGetFindingsStatisticsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Retrieves information about the specified finding. GetFinding and GetFindingV2 both use access-analyzer:GetFinding in the Action element of an IAM policy statement. You must have permission to perform the ac- cess-analyzer:GetFinding action. See also: AWS API Documentation get-finding-v2 is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text an...
+    /// Retrieves information about the specified finding. GetFinding and GetFindingV2 both use access-analyzer:GetFinding in the Action element of an IAM policy statement. You must have permission to perform the access-analyzer:GetFinding action. See also: AWS API Documentation get-finding-v2 is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -340,6 +325,21 @@ public class AwsAccessanalyzer : IAwsAccessanalyzer
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetFindingV2Async(
         AwsAccessanalyzerGetFindingV2Options options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves a list of aggregated finding statistics for an external access or unused access analyzer. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetFindingsStatisticsAsync(
+        AwsAccessanalyzerGetFindingsStatisticsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -362,7 +362,7 @@ public class AwsAccessanalyzer : IAwsAccessanalyzer
     }
 
     /// <summary>
-    /// Retrieves a list of access preview findings generated by the specified access preview. See also: AWS API Documentation list-access-preview-findings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: f...
+    /// Retrieves a list of access preview findings generated by the specified access preview. See also: AWS API Documentation list-access-preview-findings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: findi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsAccessanalyzer : IAwsAccessanalyzer
     }
 
     /// <summary>
-    /// Retrieves a list of resources of the specified type that have been ana- lyzed by the specified analyzer. See also: AWS API Documentation list-analyzed-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query exp...
+    /// Retrieves a list of resources of the specified type that have been analyzed by the specified analyzer. See also: AWS API Documentation list-analyzed-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query express...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsAccessanalyzer : IAwsAccessanalyzer
     }
 
     /// <summary>
-    /// Retrieves a list of analyzers. See also: AWS API Documentation list-analyzers is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: analyzers
+    /// Retrieves a list of analyzers. See also: AWS API Documentation list-analyzers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: analyzers
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsAccessanalyzer : IAwsAccessanalyzer
     }
 
     /// <summary>
-    /// Retrieves a list of findings generated by the specified analyzer. ListFindings and ListFindingsV2 both use access-analyzer:ListFindings in the Action element of an IAM policy statement. You must have permis- sion to perform the access-analyzer:ListFindings action. To learn about filter keys that you can use to retrieve a list of find- ings, see IAM Access Analyzer filter keys in the IAM User Guide . NOTE: ListFindings is supported only for external access analyzers. You must use ListFindingsV2 f...
+    /// Retrieves a list of findings generated by the specified analyzer. ListFindings and ListFindingsV2 both use access-analyzer:ListFindings in the Action element of an IAM policy statement. You must have permission to perform the access-analyzer:ListFindings action. To learn about filter keys that you can use to retrieve a list of findings, see IAM Access Analyzer filter keys in the IAM User Guide . NOTE: ListFindings is supported only for external access analyzers. You must use ListFindingsV2 for i...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsAccessanalyzer : IAwsAccessanalyzer
     }
 
     /// <summary>
-    /// Retrieves a list of findings generated by the specified analyzer. ListFindings and ListFindingsV2 both use access-analyzer:ListFindings in the Action element of an IAM policy statement. You must have permis- sion to perform the access-analyzer:ListFindings action. To learn about filter keys that you can use to retrieve a list of find- ings, see IAM Access Analyzer filter keys in the IAM User Guide . See also: AWS API Documentation list-findings-v2 is a paginated operation. Multiple API calls may...
+    /// Retrieves a list of findings generated by the specified analyzer. ListFindings and ListFindingsV2 both use access-analyzer:ListFindings in the Action element of an IAM policy statement. You must have permission to perform the access-analyzer:ListFindings action. To learn about filter keys that you can use to retrieve a list of findings, see IAM Access Analyzer filter keys in the IAM User Guide . See also: AWS API Documentation list-findings-v2 is a paginated operation. Multiple API calls may be ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsAccessanalyzer : IAwsAccessanalyzer
     }
 
     /// <summary>
-    /// Lists all of the policy generations requested in the last seven days. See also: AWS API Documentation list-policy-generations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: policyGenerations
+    /// Lists all of the policy generations requested in the last seven days. See also: AWS API Documentation list-policy-generations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: policyGenerations
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -512,7 +512,7 @@ public class AwsAccessanalyzer : IAwsAccessanalyzer
     }
 
     /// <summary>
-    /// Immediately starts a scan of the policies applied to the specified re- source. NOTE: This action is supported only for external access analyzers. See also: AWS API Documentation
+    /// Immediately starts a scan of the policies applied to the specified resource. NOTE: This action is supported only for external access analyzers. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -602,7 +602,7 @@ public class AwsAccessanalyzer : IAwsAccessanalyzer
     }
 
     /// <summary>
-    /// Requests the validation of a policy and returns a list of findings. The findings help you identify issues and provide actionable recommenda- tions to resolve the issue and enable you to author functional policies that meet security best practices. See also: AWS API Documentation validate-policy is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output ...
+    /// Requests the validation of a policy and returns a list of findings. The findings help you identify issues and provide actionable recommendations to resolve the issue and enable you to author functional policies that meet security best practices. See also: AWS API Documentation validate-policy is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

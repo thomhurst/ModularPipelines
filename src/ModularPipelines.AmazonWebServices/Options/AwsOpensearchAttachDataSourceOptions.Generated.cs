@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsOpensearchAttachDataSourceOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Attaches a data source to an OpenSearch application. The data source must be an Amazon OpenSearch Service domain. If both the application and the data source are active, the attachment completes immediately with a status of ATTACHED . Otherwise, the operation returns PENDING and completes the attachment automatically once both become active. If the attachment cannot be completed, its status becomes FAILED . This operation is idempotent: If the data source is already attached or pending, the oper...
     /// </summary>
-    /// <param name="Id">The unique identifier or name of the OpenSearch application to at- tach the data source to. This is the same identifier used with Up- dateApplication , GetApplication , and DeleteApplication . Constraints: o pattern: [a-z0-9]{3,30}</param>
-    /// <param name="DataSourceArn">The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Access Man- agement for more information. Constraints: o min: 20 o max: 2048 o pattern: .*</param>
+    /// <param name="Id">The unique identifier or name of the OpenSearch application to attach the data source to. This is the same identifier used with UpdateApplication , GetApplication , and DeleteApplication . Constraints: • pattern: [a-z0-9]{3,30}</param>
+    /// <param name="DataSourceArn">The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Access Management for more information. Constraints: • min: 20 • max: 2048 • pattern: .*</param>
     public AwsOpensearchAttachDataSourceOptions(
         string Id,
         string DataSourceArn
@@ -61,13 +63,13 @@ public record AwsOpensearchAttachDataSourceOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier or name of the OpenSearch application to at- tach the data source to. This is the same identifier used with Up- dateApplication , GetApplication , and DeleteApplication . Constraints: o pattern: [a-z0-9]{3,30}
+    /// The unique identifier or name of the OpenSearch application to attach the data source to. This is the same identifier used with UpdateApplication , GetApplication , and DeleteApplication . Constraints: • pattern: [a-z0-9]{3,30}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Access Man- agement for more information. Constraints: o min: 20 o max: 2048 o pattern: .*
+    /// The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Access Management for more information. Constraints: • min: 20 • max: 2048 • pattern: .*
     /// </summary>
     [CliOption("--data-source-arn")]
     public string? DataSourceArn { get; private init; }
@@ -79,13 +81,13 @@ public record AwsOpensearchAttachDataSourceOptions : AwsOptions, IValidatableObj
     public string? WorkspaceId { get; set; }
 
     /// <summary>
-    /// Configuration for creating a new workspace during the attachment. If specified, a workspace is created and linked to the data source af- ter the attachment completes. Mutually exclusive with workspaceId . name -&gt; (string) [required] The name of the workspace to create. Must be between 1 and 40 characters and can contain alphanumeric characters, parentheses, brackets, hyphens, underscores, and spaces. workspaceType -&gt; (string) [required] The type of workspace to create, which determines the use-case features enabled for the workspace. Valid values are OBSERVABIL- ITY , SECURITY_ANALYTICS , and SEARCH . Shorthand Syntax: name=string,workspaceType=string JSON Syntax: { "name": "string", "workspaceType": "string" }
+    /// Configuration for creating a new workspace during the attachment. If specified, a workspace is created and linked to the data source after the attachment completes. Mutually exclusive with workspaceId . name -&gt; (string) [required] The name of the workspace to create. Must be between 1 and 40 characters and can contain alphanumeric characters, parentheses, brackets, hyphens, underscores, and spaces. workspaceType -&gt; (string) [required] The type of workspace to create, which determines the use-case features enabled for the workspace. Valid values are OBSERVABILITY , SECURITY_ANALYTICS , and SEARCH . Shorthand Syntax: name=string,workspaceType=string JSON Syntax: { "name": "string", "workspaceType": "string" }
     /// </summary>
     [CliOption("--workspace-configuration")]
     public string? WorkspaceConfiguration { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure idempotency of the re- quest. If you retry a request with the same client token and the same parameters, the retry succeeds without performing any further actions. Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. If you retry a request with the same client token and the same parameters, the retry succeeds without performing any further actions. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

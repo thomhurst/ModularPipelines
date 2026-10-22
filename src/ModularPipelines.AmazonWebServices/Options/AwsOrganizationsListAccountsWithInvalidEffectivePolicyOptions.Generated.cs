@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists all the accounts in an organization that have invalid effective policies. An invalid effective policy is an effective policy that fails validation checks, resulting in the effective policy not being fully enforced on all the intended accounts within an organization. You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation list-accounts-with-invalid-effective-policy is a paginated operation. Multipl...
+/// Lists all the accounts in an organization that have invalid effective policies. An invalid effective policy is an effective policy that fails validation checks, resulting in the effective policy not being fully enforced on all the intended accounts within an organization. You can only call this operation from the management account or a member account that is a delegated administrator. See also: AWS API Documentation list-accounts-with-invalid-effective-policy is a paginated operation. Multiple ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsOrganizationsListAccountsWithInvalidEffectivePolicyOptions : Aw
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists all the accounts in an organization that have invalid effective policies. An invalid effective policy is an effective policy that fails validation checks, resulting in the effective policy not being fully enforced on all the intended accounts within an organization. You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation list-accounts-with-invalid-effective-policy is a paginated operation. Multipl...
+    /// Lists all the accounts in an organization that have invalid effective policies. An invalid effective policy is an effective policy that fails validation checks, resulting in the effective policy not being fully enforced on all the intended accounts within an organization. You can only call this operation from the management account or a member account that is a delegated administrator. See also: AWS API Documentation list-accounts-with-invalid-effective-policy is a paginated operation. Multiple ...
     /// </summary>
-    /// <param name="PolicyType">The type of policy that you want information about. You can specify one of the following values: o DECLARATIVE_POLICY_EC2 o BACKUP_POLICY o TAG_POLICY o CHATBOT_POLICY o AISERVICES_OPT_OUT_POLICY o SECURITYHUB_POLICY o UPGRADE_ROLLOUT_POLICY o INSPECTOR_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_POLICY o GUARDDUTY_POLICY Possible values: o TAG_POLICY o BACKUP_POLICY o AISERVICES_OPT_OUT_POLICY o CHATBOT_POLICY o DECLARATIVE_POLICY_EC2 o SECURITYHUB_POLICY o INSPECTOR_POLICY o UPGRADE_ROLLOUT_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_POLICY o GUARDDUTY_POLICY</param>
+    /// <param name="PolicyType">The type of policy that you want information about. You can specify one of the following values: • DECLARATIVE_POLICY_EC2 • BACKUP_POLICY • TAG_POLICY • CHATBOT_POLICY • AISERVICES_OPT_OUT_POLICY • SECURITYHUB_POLICY • UPGRADE_ROLLOUT_POLICY • INSPECTOR_POLICY • BEDROCK_POLICY • S3_POLICY • NETWORK_SECURITY_DIRECTOR_POLICY • GUARDDUTY_POLICY Possible values: • TAG_POLICY • BACKUP_POLICY • AISERVICES_OPT_OUT_POLICY • CHATBOT_POLICY • DECLARATIVE_POLICY_EC2 • SECURITYHUB_POLICY • INSPECTOR_POLICY • UPGRADE_ROLLOUT_POLICY • BEDROCK_POLICY • S3_POLICY • NETWORK_SECURITY_DIRECTOR_POLICY • GUARDDUTY_POLICY</param>
     public AwsOrganizationsListAccountsWithInvalidEffectivePolicyOptions(
         AwsOrganizationsListAccountsWithInvalidEffectivePolicyPolicyType PolicyType
     )
@@ -57,16 +59,13 @@ public record AwsOrganizationsListAccountsWithInvalidEffectivePolicyOptions : Aw
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of policy that you want information about. You can specify one of the following values: o DECLARATIVE_POLICY_EC2 o BACKUP_POLICY o TAG_POLICY o CHATBOT_POLICY o AISERVICES_OPT_OUT_POLICY o SECURITYHUB_POLICY o UPGRADE_ROLLOUT_POLICY o INSPECTOR_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_POLICY o GUARDDUTY_POLICY Possible values: o TAG_POLICY o BACKUP_POLICY o AISERVICES_OPT_OUT_POLICY o CHATBOT_POLICY o DECLARATIVE_POLICY_EC2 o SECURITYHUB_POLICY o INSPECTOR_POLICY o UPGRADE_ROLLOUT_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_POLICY o GUARDDUTY_POLICY
+    /// The type of policy that you want information about. You can specify one of the following values: • DECLARATIVE_POLICY_EC2 • BACKUP_POLICY • TAG_POLICY • CHATBOT_POLICY • AISERVICES_OPT_OUT_POLICY • SECURITYHUB_POLICY • UPGRADE_ROLLOUT_POLICY • INSPECTOR_POLICY • BEDROCK_POLICY • S3_POLICY • NETWORK_SECURITY_DIRECTOR_POLICY • GUARDDUTY_POLICY Possible values: • TAG_POLICY • BACKUP_POLICY • AISERVICES_OPT_OUT_POLICY • CHATBOT_POLICY • DECLARATIVE_POLICY_EC2 • SECURITYHUB_POLICY • INSPECTOR_POLICY • UPGRADE_ROLLOUT_POLICY • BEDROCK_POLICY • S3_POLICY • NETWORK_SECURITY_DIRECTOR_POLICY • GUARDDUTY_POLICY
     /// </summary>
     [CliOption("--policy-type")]
     public AwsOrganizationsListAccountsWithInvalidEffectivePolicyPolicyType? PolicyType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -76,16 +75,19 @@ public record AwsOrganizationsListAccountsWithInvalidEffectivePolicyOptions : Aw
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 20
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 20
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

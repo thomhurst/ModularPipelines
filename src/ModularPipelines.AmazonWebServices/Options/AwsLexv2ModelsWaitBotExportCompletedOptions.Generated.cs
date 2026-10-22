@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsLexv2ModelsWaitBotExportCompletedOptions : AwsOptions, IValidat
     /// <summary>
     /// Wait until a bot has been exported It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 35 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExportId">The unique identifier of the export to describe. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="ExportId">The unique identifier of the export to describe. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
     public AwsLexv2ModelsWaitBotExportCompletedOptions(
         string ExportId
     )
@@ -56,7 +58,7 @@ public record AwsLexv2ModelsWaitBotExportCompletedOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the export to describe. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier of the export to describe. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--export-id")]
     public string? ExportId { get; private init; }

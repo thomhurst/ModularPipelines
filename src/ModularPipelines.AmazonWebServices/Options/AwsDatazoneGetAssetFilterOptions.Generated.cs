@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets an asset filter. Prerequisites: o Domain (--domain-identifier ), asset (--asset-identifier ), and fil- ter (--identifier ) must all exist. o The asset filter should not have been deleted. o The asset must still exist (since the filter is linked to it). See also: AWS API Documentation
+/// Gets an asset filter. Prerequisites: • Domain (--domain-identifier ), asset (--asset-identifier ), and filter (--identifier ) must all exist. • The asset filter should not have been deleted. • The asset must still exist (since the filter is linked to it). See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsDatazoneGetAssetFilterOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets an asset filter. Prerequisites: o Domain (--domain-identifier ), asset (--asset-identifier ), and fil- ter (--identifier ) must all exist. o The asset filter should not have been deleted. o The asset must still exist (since the filter is linked to it). See also: AWS API Documentation
+    /// Gets an asset filter. Prerequisites: • Domain (--domain-identifier ), asset (--asset-identifier ), and filter (--identifier ) must all exist. • The asset filter should not have been deleted. • The asset must still exist (since the filter is linked to it). See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the domain where you want to get an asset filter. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="AssetIdentifier">The ID of the data asset. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Identifier">The ID of the asset filter. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The ID of the domain where you want to get an asset filter. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="AssetIdentifier">The ID of the data asset. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The ID of the asset filter. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneGetAssetFilterOptions(
         string DomainIdentifier,
         string AssetIdentifier,
@@ -64,19 +66,19 @@ public record AwsDatazoneGetAssetFilterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the domain where you want to get an asset filter. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the domain where you want to get an asset filter. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the data asset. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The ID of the data asset. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--asset-identifier")]
     public string? AssetIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the asset filter. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The ID of the asset filter. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }

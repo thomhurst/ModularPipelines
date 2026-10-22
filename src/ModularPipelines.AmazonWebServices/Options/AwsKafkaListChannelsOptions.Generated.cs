@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -63,13 +65,13 @@ public record AwsKafkaListChannelsOptions : AwsOptions, IValidatableObject
     public string? ClusterArn { get; private init; }
 
     /// <summary>
-    /// Maximum number of channels to return in a single response. Constraints: o min: 1 o max: 100
+    /// Maximum number of channels to return in a single response. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If the response of ListChannels is truncated, it returns a nextToken in the response. This nextToken should be sent in the subsequent re- quest to ListChannels.
+    /// If the response of ListChannels is truncated, it returns a nextToken in the response. This nextToken should be sent in the subsequent request to ListChannels.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

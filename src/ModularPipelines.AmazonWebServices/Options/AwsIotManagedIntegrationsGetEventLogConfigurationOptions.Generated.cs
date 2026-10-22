@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotManagedIntegrationsGetEventLogConfigurationOptions : AwsOpti
     /// <summary>
     /// Get an event log configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The identifier of the event log configuration. Constraints: o min: 1 o max: 200 o pattern: [A-Za-z0-9]+</param>
+    /// <param name="Id">The identifier of the event log configuration. Constraints: • min: 1 • max: 200 • pattern: [A-Za-z0-9]+</param>
     public AwsIotManagedIntegrationsGetEventLogConfigurationOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsIotManagedIntegrationsGetEventLogConfigurationOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the event log configuration. Constraints: o min: 1 o max: 200 o pattern: [A-Za-z0-9]+
+    /// The identifier of the event log configuration. Constraints: • min: 1 • max: 200 • pattern: [A-Za-z0-9]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

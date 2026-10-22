@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new Evaluation of an MLModel . An MLModel is evaluated on a set of observations associated to a DataSource . Like a DataSource for an MLModel , the DataSource for an Evaluation contains values for the Target Variable . The Evaluation compares the predicted result for each observation to the actual outcome and provides a summary so that you know how effective the MLModel functions on the test data. Evaluation generates a relevant performance metric, such as BinaryAUC, Regression- RMSE o...
+/// Creates a new Evaluation of an MLModel . An MLModel is evaluated on a set of observations associated to a DataSource . Like a DataSource for an MLModel , the DataSource for an Evaluation contains values for the Target Variable . The Evaluation compares the predicted result for each observation to the actual outcome and provides a summary so that you know how effective the MLModel functions on the test data. Evaluation generates a relevant performance metric, such as BinaryAUC, RegressionRMSE or ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsMachinelearningCreateEvaluationOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new Evaluation of an MLModel . An MLModel is evaluated on a set of observations associated to a DataSource . Like a DataSource for an MLModel , the DataSource for an Evaluation contains values for the Target Variable . The Evaluation compares the predicted result for each observation to the actual outcome and provides a summary so that you know how effective the MLModel functions on the test data. Evaluation generates a relevant performance metric, such as BinaryAUC, Regression- RMSE o...
+    /// Creates a new Evaluation of an MLModel . An MLModel is evaluated on a set of observations associated to a DataSource . Like a DataSource for an MLModel , the DataSource for an Evaluation contains values for the Target Variable . The Evaluation compares the predicted result for each observation to the actual outcome and provides a summary so that you know how effective the MLModel functions on the test data. Evaluation generates a relevant performance metric, such as BinaryAUC, RegressionRMSE or ...
     /// </summary>
-    /// <param name="EvaluationId">A user-supplied ID that uniquely identifies the Evaluation . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="MlModelId">The ID of the MLModel to evaluate. The schema used in creating the MLModel must match the schema of the DataSource used in the Evaluation . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="EvaluationDataSourceId">The ID of the DataSource for the evaluation. The schema of the Data- Source must match the schema used to create the MLModel . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="EvaluationId">A user-supplied ID that uniquely identifies the Evaluation . Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="MlModelId">The ID of the MLModel to evaluate. The schema used in creating the MLModel must match the schema of the DataSource used in the Evaluation . Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="EvaluationDataSourceId">The ID of the DataSource for the evaluation. The schema of the DataSource must match the schema used to create the MLModel . Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsMachinelearningCreateEvaluationOptions(
         string EvaluationId,
         string MlModelId,
@@ -64,25 +66,25 @@ public record AwsMachinelearningCreateEvaluationOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A user-supplied ID that uniquely identifies the Evaluation . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// A user-supplied ID that uniquely identifies the Evaluation . Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--evaluation-id")]
     public string? EvaluationId { get; private init; }
 
     /// <summary>
-    /// The ID of the MLModel to evaluate. The schema used in creating the MLModel must match the schema of the DataSource used in the Evaluation . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// The ID of the MLModel to evaluate. The schema used in creating the MLModel must match the schema of the DataSource used in the Evaluation . Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--ml-model-id")]
     public string? MlModelId { get; private init; }
 
     /// <summary>
-    /// The ID of the DataSource for the evaluation. The schema of the Data- Source must match the schema used to create the MLModel . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// The ID of the DataSource for the evaluation. The schema of the DataSource must match the schema used to create the MLModel . Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--evaluation-data-source-id")]
     public string? EvaluationDataSourceId { get; private init; }
 
     /// <summary>
-    /// A user-supplied name or description of the Evaluation . Constraints: o max: 1024 o pattern: .*\S.*|^$
+    /// A user-supplied name or description of the Evaluation . Constraints: • max: 1024 • pattern: .*\S.*|^$
     /// </summary>
     [CliOption("--evaluation-name")]
     public string? EvaluationName { get; set; }

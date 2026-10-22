@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSagemakerDescribeReservedCapacityOptions : AwsOptions, IValidat
     /// <summary>
     /// Retrieves details about a reserved capacity. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ReservedCapacityArn">ARN of the reserved capacity to describe. Constraints: o min: 50 o max: 2048 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:re- served-capacity/.*</param>
+    /// <param name="ReservedCapacityArn">ARN of the reserved capacity to describe. Constraints: • min: 50 • max: 2048 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:reserved-capacity/.*</param>
     public AwsSagemakerDescribeReservedCapacityOptions(
         string ReservedCapacityArn
     )
@@ -56,7 +58,7 @@ public record AwsSagemakerDescribeReservedCapacityOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of the reserved capacity to describe. Constraints: o min: 50 o max: 2048 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:re- served-capacity/.*
+    /// ARN of the reserved capacity to describe. Constraints: • min: 50 • max: 2048 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:reserved-capacity/.*
     /// </summary>
     [CliOption("--reserved-capacity-arn")]
     public string? ReservedCapacityArn { get; private init; }

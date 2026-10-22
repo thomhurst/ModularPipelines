@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSnowballUpdateLongTermPricingOptions : AwsOptions, IValidatable
     /// <summary>
     /// Updates the long-term pricing type. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LongTermPricingId">The ID of the long-term pricing type for the device. Constraints: o min: 41 o max: 41 o pattern: LT- PID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="LongTermPricingId">The ID of the long-term pricing type for the device. Constraints: • min: 41 • max: 41 • pattern: LTPID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     public AwsSnowballUpdateLongTermPricingOptions(
         string LongTermPricingId
     )
@@ -56,19 +58,19 @@ public record AwsSnowballUpdateLongTermPricingOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the long-term pricing type for the device. Constraints: o min: 41 o max: 41 o pattern: LT- PID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The ID of the long-term pricing type for the device. Constraints: • min: 41 • max: 41 • pattern: LTPID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--long-term-pricing-id")]
     public string? LongTermPricingId { get; private init; }
 
     /// <summary>
-    /// Specifies that a device that is ordered with long-term pricing should be replaced with a new device. Constraints: o min: 39 o max: 39 o pattern: (M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// Specifies that a device that is ordered with long-term pricing should be replaced with a new device. Constraints: • min: 39 • max: 39 • pattern: (M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--replacement-job")]
     public string? ReplacementJob { get; set; }
 
     /// <summary>
-    /// new (boolean) If set to true , specifies that the current long-term pricing type for the device should be automatically renewed before the long-term pricing contract expires.
+    /// If set to true , specifies that the current long-term pricing type for the device should be automatically renewed before the long-term pricing contract expires.
     /// </summary>
     [CliFlag("--is-long-term-pricing-auto-renew", NegatedName = "--no-is-long-term-pricing-auto-renew")]
     public bool? IsLongTermPricingAutoRenew { get; set; }

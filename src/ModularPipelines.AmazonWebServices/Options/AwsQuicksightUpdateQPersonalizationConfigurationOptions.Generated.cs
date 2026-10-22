@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsQuicksightUpdateQPersonalizationConfigurationOptions : AwsOptio
     /// <summary>
     /// Updates a personalization configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account account that contains the personalization configuration that the user wants to update. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="PersonalizationMode">An option to allow Amazon Quick Sight to customize data stories with user specific metadata, specifically location and job information, in your IAM Identity Center instance. Possible values: o ENABLED o DISABLED</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account account that contains the personalization configuration that the user wants to update. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="PersonalizationMode">An option to allow Amazon Quick Sight to customize data stories with user specific metadata, specifically location and job information, in your IAM Identity Center instance. Possible values: • ENABLED • DISABLED</param>
     public AwsQuicksightUpdateQPersonalizationConfigurationOptions(
         string AwsAccountId,
         AwsQuicksightUpdateQPersonalizationConfigurationPersonalizationMode PersonalizationMode
@@ -60,13 +62,13 @@ public record AwsQuicksightUpdateQPersonalizationConfigurationOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account account that contains the personalization configuration that the user wants to update. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account account that contains the personalization configuration that the user wants to update. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// An option to allow Amazon Quick Sight to customize data stories with user specific metadata, specifically location and job information, in your IAM Identity Center instance. Possible values: o ENABLED o DISABLED
+    /// An option to allow Amazon Quick Sight to customize data stories with user specific metadata, specifically location and job information, in your IAM Identity Center instance. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--personalization-mode")]
     public AwsQuicksightUpdateQPersonalizationConfigurationPersonalizationMode? PersonalizationMode { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the Amazon Web Services Systems Manager document (SSM document) and all managed node associations to the document. Before you delete the document, we recommend that you use DeleteAsso- ciation to disassociate all managed nodes that are associated with the document. See also: AWS API Documentation
+/// Deletes the Amazon Web Services Systems Manager document (SSM document) and all managed node associations to the document. Before you delete the document, we recommend that you use DeleteAssociation to disassociate all managed nodes that are associated with the document. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSsmDeleteDocumentOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the Amazon Web Services Systems Manager document (SSM document) and all managed node associations to the document. Before you delete the document, we recommend that you use DeleteAsso- ciation to disassociate all managed nodes that are associated with the document. See also: AWS API Documentation
+    /// Deletes the Amazon Web Services Systems Manager document (SSM document) and all managed node associations to the document. Before you delete the document, we recommend that you use DeleteAssociation to disassociate all managed nodes that are associated with the document. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the document. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{3,128}$</param>
+    /// <param name="Name">The name of the document. Constraints: • pattern: ^[a-zA-Z0-9_\-.]{3,128}$</param>
     public AwsSsmDeleteDocumentOptions(
         string Name
     )
@@ -56,19 +58,19 @@ public record AwsSsmDeleteDocumentOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the document. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{3,128}$
+    /// The name of the document. Constraints: • pattern: ^[a-zA-Z0-9_\-.]{3,128}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The version of the document that you want to delete. If not pro- vided, all versions of the document are deleted. Constraints: o pattern: ([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)
+    /// The version of the document that you want to delete. If not provided, all versions of the document are deleted. Constraints: • pattern: ([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)
     /// </summary>
     [CliOption("--document-version")]
     public string? DocumentVersion { get; set; }
 
     /// <summary>
-    /// The version name of the document that you want to delete. If not provided, all versions of the document are deleted. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{1,128}$
+    /// The version name of the document that you want to delete. If not provided, all versions of the document are deleted. Constraints: • pattern: ^[a-zA-Z0-9_\-.]{1,128}$
     /// </summary>
     [CliOption("--version-name")]
     public string? VersionName { get; set; }

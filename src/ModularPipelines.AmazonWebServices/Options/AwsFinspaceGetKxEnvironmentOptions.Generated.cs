@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsFinspaceGetKxEnvironmentOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Retrieves all the information for the specified kdb environment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EnvironmentId">A unique identifier for the kdb environment. Constraints: o min: 1 o max: 26 o pattern: ^[a-zA-Z0-9]{1,26}$</param>
+    /// <param name="EnvironmentId">A unique identifier for the kdb environment. Constraints: • min: 1 • max: 26 • pattern: ^[a-zA-Z0-9]{1,26}$</param>
     public AwsFinspaceGetKxEnvironmentOptions(
         string EnvironmentId
     )
@@ -56,7 +58,7 @@ public record AwsFinspaceGetKxEnvironmentOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the kdb environment. Constraints: o min: 1 o max: 26 o pattern: ^[a-zA-Z0-9]{1,26}$
+    /// A unique identifier for the kdb environment. Constraints: • min: 1 • max: 26 • pattern: ^[a-zA-Z0-9]{1,26}$
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }

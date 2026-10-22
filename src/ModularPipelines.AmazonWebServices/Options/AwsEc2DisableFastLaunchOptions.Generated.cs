@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Discontinue Windows fast launch for a Windows AMI, and clean up exist- ing pre-provisioned snapshots. After you disable Windows fast launch, the AMI uses the standard launch process for each new instance. Amazon EC2 must remove all pre-provisioned snapshots before you can enable Windows fast launch again. NOTE: You can only change these settings for Windows AMIs that you own or that have been shared with you. See also: AWS API Documentation
+/// Discontinue Windows fast launch for a Windows AMI, and clean up existing pre-provisioned snapshots. After you disable Windows fast launch, the AMI uses the standard launch process for each new instance. Amazon EC2 must remove all pre-provisioned snapshots before you can enable Windows fast launch again. NOTE: You can only change these settings for Windows AMIs that you own or that have been shared with you. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsEc2DisableFastLaunchOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Discontinue Windows fast launch for a Windows AMI, and clean up exist- ing pre-provisioned snapshots. After you disable Windows fast launch, the AMI uses the standard launch process for each new instance. Amazon EC2 must remove all pre-provisioned snapshots before you can enable Windows fast launch again. NOTE: You can only change these settings for Windows AMIs that you own or that have been shared with you. See also: AWS API Documentation
+    /// Discontinue Windows fast launch for a Windows AMI, and clean up existing pre-provisioned snapshots. After you disable Windows fast launch, the AMI uses the standard launch process for each new instance. Amazon EC2 must remove all pre-provisioned snapshots before you can enable Windows fast launch again. NOTE: You can only change these settings for Windows AMIs that you own or that have been shared with you. See also: AWS API Documentation
     /// </summary>
     /// <param name="ImageId">Specify the ID of the image for which to disable Windows fast launch.</param>
     public AwsEc2DisableFastLaunchOptions(
@@ -62,13 +64,13 @@ public record AwsEc2DisableFastLaunchOptions : AwsOptions, IValidatableObject
     public string? ImageId { get; private init; }
 
     /// <summary>
-    /// Forces the image settings to turn off Windows fast launch for your Windows AMI. This parameter overrides any errors that are encoun- tered while cleaning up resources in your account.
+    /// Forces the image settings to turn off Windows fast launch for your Windows AMI. This parameter overrides any errors that are encountered while cleaning up resources in your account.
     /// </summary>
     [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

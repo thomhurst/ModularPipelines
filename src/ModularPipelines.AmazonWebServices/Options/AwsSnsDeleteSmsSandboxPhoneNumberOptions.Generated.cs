@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an Amazon Web Services account's verified or pending phone num- ber from the SMS sandbox. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox . The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your Amazon Web Services ac- count is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send SMS messages only to verified...
+/// Deletes an Amazon Web Services account's verified or pending phone number from the SMS sandbox. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox . The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your Amazon Web Services account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send SMS messages only to verified des...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSnsDeleteSmsSandboxPhoneNumberOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an Amazon Web Services account's verified or pending phone num- ber from the SMS sandbox. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox . The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your Amazon Web Services ac- count is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send SMS messages only to verified...
+    /// Deletes an Amazon Web Services account's verified or pending phone number from the SMS sandbox. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox . The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your Amazon Web Services account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send SMS messages only to verified des...
     /// </summary>
-    /// <param name="PhoneNumber">The destination phone number to delete. Constraints: o max: 20 o pattern: ^(\+[0-9]{8,}|[0-9]{0,9})$</param>
+    /// <param name="PhoneNumber">The destination phone number to delete. Constraints: • max: 20 • pattern: ^(\+[0-9]{8,}|[0-9]{0,9})$</param>
     public AwsSnsDeleteSmsSandboxPhoneNumberOptions(
         string PhoneNumber
     )
@@ -56,7 +58,7 @@ public record AwsSnsDeleteSmsSandboxPhoneNumberOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The destination phone number to delete. Constraints: o max: 20 o pattern: ^(\+[0-9]{8,}|[0-9]{0,9})$
+    /// The destination phone number to delete. Constraints: • max: 20 • pattern: ^(\+[0-9]{8,}|[0-9]{0,9})$
     /// </summary>
     [CliOption("--phone-number")]
     public string? PhoneNumber { get; private init; }

@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Allows you to confirm that the attachment has been uploaded using the pre-signed URL provided in StartAttachmentUpload API. A conflict excep- tion is thrown when an attachment with that identifier is already being uploaded. For security recommendations, see Connect Customer Chat security best practices . NOTE: ConnectionToken is used for invoking this API instead of Partici- pantToken . The Amazon Connect Participant Service APIs do not use Signature Ver- sion 4 authentication . See also: AWS AP...
+/// Allows you to confirm that the attachment has been uploaded using the pre-signed URL provided in StartAttachmentUpload API. A conflict exception is thrown when an attachment with that identifier is already being uploaded. For security recommendations, see Connect Customer Chat security best practices . NOTE: ConnectionToken is used for invoking this API instead of ParticipantToken . The Amazon Connect Participant Service APIs do not use Signature Version 4 authentication . See also: AWS API Docu...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsConnectparticipantCompleteAttachmentUploadOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Allows you to confirm that the attachment has been uploaded using the pre-signed URL provided in StartAttachmentUpload API. A conflict excep- tion is thrown when an attachment with that identifier is already being uploaded. For security recommendations, see Connect Customer Chat security best practices . NOTE: ConnectionToken is used for invoking this API instead of Partici- pantToken . The Amazon Connect Participant Service APIs do not use Signature Ver- sion 4 authentication . See also: AWS AP...
+    /// Allows you to confirm that the attachment has been uploaded using the pre-signed URL provided in StartAttachmentUpload API. A conflict exception is thrown when an attachment with that identifier is already being uploaded. For security recommendations, see Connect Customer Chat security best practices . NOTE: ConnectionToken is used for invoking this API instead of ParticipantToken . The Amazon Connect Participant Service APIs do not use Signature Version 4 authentication . See also: AWS API Docu...
     /// </summary>
-    /// <param name="AttachmentIds">A list of unique identifiers for the attachments. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 256 Syntax: "string" "string" ...</param>
-    /// <param name="ConnectionToken">The authentication token associated with the participant's connec- tion. Constraints: o min: 1 o max: 1000</param>
+    /// <param name="AttachmentIds">A list of unique identifiers for the attachments. Constraints: • min: 1 • max: 1 (string) Constraints: • min: 1 • max: 256 Syntax: "string" "string" ...</param>
+    /// <param name="ConnectionToken">The authentication token associated with the participant's connection. Constraints: • min: 1 • max: 1000</param>
     public AwsConnectparticipantCompleteAttachmentUploadOptions(
         IEnumerable<string> AttachmentIds,
         string ConnectionToken
@@ -72,20 +74,20 @@ public record AwsConnectparticipantCompleteAttachmentUploadOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of unique identifiers for the attachments. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 256 Syntax: "string" "string" ...
+    /// A list of unique identifiers for the attachments. Constraints: • min: 1 • max: 1 (string) Constraints: • min: 1 • max: 256 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--attachment-ids", GroupValues = true)]
     public IEnumerable<string>? AttachmentIds { get; private init; }
 
     /// <summary>
-    /// The authentication token associated with the participant's connec- tion. Constraints: o min: 1 o max: 1000
+    /// The authentication token associated with the participant's connection. Constraints: • min: 1 • max: 1000
     /// </summary>
     [SecretValue]
     [CliOption("--connection-token")]
     public string? ConnectionToken { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o min: 1 o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • min: 1 • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

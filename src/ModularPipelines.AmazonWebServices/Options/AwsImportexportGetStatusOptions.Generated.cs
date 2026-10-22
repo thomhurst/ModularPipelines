@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This operation returns information about a job, including where the job is in the processing pipeline, the status of the results, and the sig- nature value associated with the job. You can only return information about jobs you own. See also: AWS API Documentation
+/// This operation returns information about a job, including where the job is in the processing pipeline, the status of the results, and the signature value associated with the job. You can only return information about jobs you own. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsImportexportGetStatusOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This operation returns information about a job, including where the job is in the processing pipeline, the status of the results, and the sig- nature value associated with the job. You can only return information about jobs you own. See also: AWS API Documentation
+    /// This operation returns information about a job, including where the job is in the processing pipeline, the status of the results, and the signature value associated with the job. You can only return information about jobs you own. See also: AWS API Documentation
     /// </summary>
     /// <param name="JobId"></param>
     public AwsImportexportGetStatusOptions(

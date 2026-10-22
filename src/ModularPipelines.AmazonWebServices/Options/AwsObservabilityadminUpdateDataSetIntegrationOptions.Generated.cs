@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsObservabilityadminUpdateDataSetIntegrationOptions : AwsOptions,
     /// <summary>
     /// Updates a dataset integration for the caller's account in the current region. This operation is idempotent; if you submit the same update more than once, each call succeeds. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the dataset integration to update. Constraints: o min: 1 o max: 1011 o pattern: arn:aws([a-z0-9\-]+)?:([a-zA-Z0-9\-]+):([a-z0-9\-]+)?:([0-9]{12})?:(.+)</param>
-    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role to associate with the dataset integration. Constraints: o min: 1 o max: 1011 o pattern: arn:aws([a-z0-9\-]+)?:([a-zA-Z0-9\-]+):([a-z0-9\-]+)?:([0-9]{12})?:(.+)</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the dataset integration to update. Constraints: • min: 1 • max: 1011 • pattern: arn:aws([a-z0-9\-]+)?:([a-zA-Z0-9\-]+):([a-z0-9\-]+)?:([0-9]{12})?:(.+)</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role to associate with the dataset integration. Constraints: • min: 1 • max: 1011 • pattern: arn:aws([a-z0-9\-]+)?:([a-zA-Z0-9\-]+):([a-z0-9\-]+)?:([0-9]{12})?:(.+)</param>
     public AwsObservabilityadminUpdateDataSetIntegrationOptions(
         string Arn,
         string RoleArn
@@ -60,13 +62,13 @@ public record AwsObservabilityadminUpdateDataSetIntegrationOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the dataset integration to update. Constraints: o min: 1 o max: 1011 o pattern: arn:aws([a-z0-9\-]+)?:([a-zA-Z0-9\-]+):([a-z0-9\-]+)?:([0-9]{12})?:(.+)
+    /// The Amazon Resource Name (ARN) of the dataset integration to update. Constraints: • min: 1 • max: 1011 • pattern: arn:aws([a-z0-9\-]+)?:([a-zA-Z0-9\-]+):([a-z0-9\-]+)?:([0-9]{12})?:(.+)
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role to associate with the dataset integration. Constraints: o min: 1 o max: 1011 o pattern: arn:aws([a-z0-9\-]+)?:([a-zA-Z0-9\-]+):([a-z0-9\-]+)?:([0-9]{12})?:(.+)
+    /// The Amazon Resource Name (ARN) of the IAM role to associate with the dataset integration. Constraints: • min: 1 • max: 1011 • pattern: arn:aws([a-z0-9\-]+)?:([a-zA-Z0-9\-]+):([a-z0-9\-]+)?:([0-9]{12})?:(.+)
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }

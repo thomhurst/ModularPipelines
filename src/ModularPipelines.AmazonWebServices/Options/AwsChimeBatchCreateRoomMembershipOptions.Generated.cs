@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds up to 50 members to a chat room in an Amazon Chime Enterprise ac- count. Members can be users or bots. The member role designates whether the member is a chat room administrator or a general chat room member. See also: AWS API Documentation
+/// Adds up to 50 members to a chat room in an Amazon Chime Enterprise account. Members can be users or bots. The member role designates whether the member is a chat room administrator or a general chat room member. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsChimeBatchCreateRoomMembershipOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds up to 50 members to a chat room in an Amazon Chime Enterprise ac- count. Members can be users or bots. The member role designates whether the member is a chat room administrator or a general chat room member. See also: AWS API Documentation
+    /// Adds up to 50 members to a chat room in an Amazon Chime Enterprise account. Members can be users or bots. The member role designates whether the member is a chat room administrator or a general chat room member. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Chime account ID. Constraints: o pattern: .*\S.*</param>
-    /// <param name="RoomId">The room ID. Constraints: o pattern: .*\S.*</param>
-    /// <param name="MembershipItemList">The list of membership items. Constraints: o max: 50 (structure) Membership details, such as member ID and member role. MemberId -&gt; (string) The member ID. Constraints: o pattern: .*\S.* Role -&gt; (string) The member role. Possible values: o Administrator o Member Shorthand Syntax: MemberId=string,Role=string ... JSON Syntax: [ { "MemberId": "string", "Role": "Administrator"|"Member" } ... ]</param>
+    /// <param name="AccountId">The Amazon Chime account ID. Constraints: • pattern: .*\S.*</param>
+    /// <param name="RoomId">The room ID. Constraints: • pattern: .*\S.*</param>
+    /// <param name="MembershipItemList">The list of membership items. Constraints: • max: 50 (structure) Membership details, such as member ID and member role. MemberId -&gt; (string) The member ID. Constraints: • pattern: .*\S.* Role -&gt; (string) The member role. Possible values: • Administrator • Member Shorthand Syntax: MemberId=string,Role=string ... JSON Syntax: [ { "MemberId": "string", "Role": "Administrator"|"Member" } ... ]</param>
     public AwsChimeBatchCreateRoomMembershipOptions(
         string AccountId,
         string RoomId,
@@ -75,19 +77,19 @@ public record AwsChimeBatchCreateRoomMembershipOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Chime account ID. Constraints: o pattern: .*\S.*
+    /// The Amazon Chime account ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The room ID. Constraints: o pattern: .*\S.*
+    /// The room ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--room-id")]
     public string? RoomId { get; private init; }
 
     /// <summary>
-    /// The list of membership items. Constraints: o max: 50 (structure) Membership details, such as member ID and member role. MemberId -&gt; (string) The member ID. Constraints: o pattern: .*\S.* Role -&gt; (string) The member role. Possible values: o Administrator o Member Shorthand Syntax: MemberId=string,Role=string ... JSON Syntax: [ { "MemberId": "string", "Role": "Administrator"|"Member" } ... ]
+    /// The list of membership items. Constraints: • max: 50 (structure) Membership details, such as member ID and member role. MemberId -&gt; (string) The member ID. Constraints: • pattern: .*\S.* Role -&gt; (string) The member role. Possible values: • Administrator • Member Shorthand Syntax: MemberId=string,Role=string ... JSON Syntax: [ { "MemberId": "string", "Role": "Administrator"|"Member" } ... ]
     /// </summary>
     [CliOption("--membership-item-list", GroupValues = true)]
     public IEnumerable<string>? MembershipItemList { get; private init; }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,7 +31,7 @@ public record AwsEc2DeleteIpamRoutingPolicyRegistrationOptions : AwsOptions, IVa
     /// Deletes a routing policy registration for a specified CIDR prefix. See also: AWS API Documentation
     /// </summary>
     /// <param name="IpamInternetRegistryAssociationId">The ID of the IPAM internet registry association.</param>
-    /// <param name="Cidr">The IP address prefix in CIDR notation identifying the routing pol- icy registration to delete.</param>
+    /// <param name="Cidr">The IP address prefix in CIDR notation identifying the routing policy registration to delete.</param>
     public AwsEc2DeleteIpamRoutingPolicyRegistrationOptions(
         string IpamInternetRegistryAssociationId,
         string Cidr
@@ -67,13 +69,13 @@ public record AwsEc2DeleteIpamRoutingPolicyRegistrationOptions : AwsOptions, IVa
     public string? IpamInternetRegistryAssociationId { get; private init; }
 
     /// <summary>
-    /// The IP address prefix in CIDR notation identifying the routing pol- icy registration to delete.
+    /// The IP address prefix in CIDR notation identifying the routing policy registration to delete.
     /// </summary>
     [CliOption("--cidr")]
     public string? Cidr { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

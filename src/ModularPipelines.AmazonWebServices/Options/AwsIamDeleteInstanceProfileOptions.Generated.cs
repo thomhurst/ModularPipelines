@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified instance profile. The instance profile must not have an associated role. WARNING: Make sure that you do not have any Amazon EC2 instances running with the instance profile you are about to delete. Deleting a role or in- stance profile that is associated with a running instance will break any applications running on the instance. For more information about instance profiles, see Using instance pro- files in the IAM User Guide . See also: AWS API Documentation
+/// Deletes the specified instance profile. The instance profile must not have an associated role. WARNING: Make sure that you do not have any Amazon EC2 instances running with the instance profile you are about to delete. Deleting a role or instance profile that is associated with a running instance will break any applications running on the instance. For more information about instance profiles, see Using instance profiles in the IAM User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsIamDeleteInstanceProfileOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified instance profile. The instance profile must not have an associated role. WARNING: Make sure that you do not have any Amazon EC2 instances running with the instance profile you are about to delete. Deleting a role or in- stance profile that is associated with a running instance will break any applications running on the instance. For more information about instance profiles, see Using instance pro- files in the IAM User Guide . See also: AWS API Documentation
+    /// Deletes the specified instance profile. The instance profile must not have an associated role. WARNING: Make sure that you do not have any Amazon EC2 instances running with the instance profile you are about to delete. Deleting a role or instance profile that is associated with a running instance will break any applications running on the instance. For more information about instance profiles, see Using instance profiles in the IAM User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceProfileName">The name of the instance profile to delete. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+</param>
+    /// <param name="InstanceProfileName">The name of the instance profile to delete. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+</param>
     public AwsIamDeleteInstanceProfileOptions(
         string InstanceProfileName
     )
@@ -56,7 +58,7 @@ public record AwsIamDeleteInstanceProfileOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the instance profile to delete. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// The name of the instance profile to delete. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--instance-profile-name")]
     public string? InstanceProfileName { get; private init; }

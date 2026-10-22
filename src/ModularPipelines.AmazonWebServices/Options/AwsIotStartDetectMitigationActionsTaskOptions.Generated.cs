@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Starts a Device Defender ML Detect mitigation actions task. Requires permissi...
+/// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. Starts a Device Defender ML Detect mitigation actions task. Requires permission t...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsIotStartDetectMitigationActionsTaskOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Starts a Device Defender ML Detect mitigation actions task. Requires permissi...
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. Starts a Device Defender ML Detect mitigation actions task. Requires permission t...
     /// </summary>
-    /// <param name="TaskId">The unique identifier of the task. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="Target">Specifies the ML Detect findings to which the mitigation actions are applied. violationIds -&gt; (list) The unique identifiers of the violations. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\-]+ securityProfileName -&gt; (string) The name of the security profile. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+ behaviorName -&gt; (string) The name of the behavior. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+ Shorthand Syntax: violationIds=string,string,securityProfileName=string,behaviorName=string JSON Syntax: { "violationIds": ["string", ...], "securityProfileName": "string", "behaviorName": "string" }</param>
-    /// <param name="Actions">The actions to be performed when a device has unexpected behavior. Constraints: o min: 1 o max: 5 (string) Constraints: o max: 128 o pattern: [a-zA-Z0-9_-]+ Syntax: "string" "string" ...</param>
+    /// <param name="TaskId">The unique identifier of the task. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="Target">Specifies the ML Detect findings to which the mitigation actions are applied. violationIds -&gt; (list) The unique identifiers of the violations. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\-]+ securityProfileName -&gt; (string) The name of the security profile. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+ behaviorName -&gt; (string) The name of the behavior. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+ Shorthand Syntax: violationIds=string,string,securityProfileName=string,behaviorName=string JSON Syntax: { "violationIds": ["string", ...], "securityProfileName": "string", "behaviorName": "string" }</param>
+    /// <param name="Actions">The actions to be performed when a device has unexpected behavior. Constraints: • min: 1 • max: 5 (string) Constraints: • max: 128 • pattern: [a-zA-Z0-9_-]+ Syntax: "string" "string" ...</param>
     public AwsIotStartDetectMitigationActionsTaskOptions(
         string TaskId,
         string Target,
@@ -76,25 +78,25 @@ public record AwsIotStartDetectMitigationActionsTaskOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the task. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+
+    /// The unique identifier of the task. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--task-id")]
     public string? TaskId { get; private init; }
 
     /// <summary>
-    /// Specifies the ML Detect findings to which the mitigation actions are applied. violationIds -&gt; (list) The unique identifiers of the violations. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\-]+ securityProfileName -&gt; (string) The name of the security profile. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+ behaviorName -&gt; (string) The name of the behavior. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+ Shorthand Syntax: violationIds=string,string,securityProfileName=string,behaviorName=string JSON Syntax: { "violationIds": ["string", ...], "securityProfileName": "string", "behaviorName": "string" }
+    /// Specifies the ML Detect findings to which the mitigation actions are applied. violationIds -&gt; (list) The unique identifiers of the violations. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\-]+ securityProfileName -&gt; (string) The name of the security profile. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+ behaviorName -&gt; (string) The name of the behavior. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+ Shorthand Syntax: violationIds=string,string,securityProfileName=string,behaviorName=string JSON Syntax: { "violationIds": ["string", ...], "securityProfileName": "string", "behaviorName": "string" }
     /// </summary>
     [CliOption("--target")]
     public string? Target { get; private init; }
 
     /// <summary>
-    /// The actions to be performed when a device has unexpected behavior. Constraints: o min: 1 o max: 5 (string) Constraints: o max: 128 o pattern: [a-zA-Z0-9_-]+ Syntax: "string" "string" ...
+    /// The actions to be performed when a device has unexpected behavior. Constraints: • min: 1 • max: 5 (string) Constraints: • max: 128 • pattern: [a-zA-Z0-9_-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--actions", GroupValues = true)]
     public IEnumerable<string>? Actions { get; private init; }
 
     /// <summary>
-    /// Specifies the time period of which violation events occurred be- tween. startTime -&gt; (timestamp) [required] The start date and time of a time period in which violation events occurred. endTime -&gt; (timestamp) [required] The end date and time of a time period in which violation events occurred. Shorthand Syntax: startTime=timestamp,endTime=timestamp JSON Syntax: { "startTime": timestamp, "endTime": timestamp }
+    /// Specifies the time period of which violation events occurred between. startTime -&gt; (timestamp) [required] The start date and time of a time period in which violation events occurred. endTime -&gt; (timestamp) [required] The end date and time of a time period in which violation events occurred. Shorthand Syntax: startTime=timestamp,endTime=timestamp JSON Syntax: { "startTime": timestamp, "endTime": timestamp }
     /// </summary>
     [CliOption("--violation-event-occurrence-range")]
     public string? ViolationEventOccurrenceRange { get; set; }
@@ -112,7 +114,7 @@ public record AwsIotStartDetectMitigationActionsTaskOptions : AwsOptions, IValid
     public bool? IncludeSuppressedAlerts { get; set; }
 
     /// <summary>
-    /// Each mitigation action task must have a unique client request token. If you try to create a new task with the same token as a task that already exists, an exception occurs. If you omit this value, Amazon Web Services SDKs will automatically generate a unique client re- quest. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
+    /// Each mitigation action task must have a unique client request token. If you try to create a new task with the same token as a task that already exists, an exception occurs. If you omit this value, Amazon Web Services SDKs will automatically generate a unique client request. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]

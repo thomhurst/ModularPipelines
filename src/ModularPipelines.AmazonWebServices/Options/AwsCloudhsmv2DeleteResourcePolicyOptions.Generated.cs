@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an CloudHSM resource policy. Deleting a resource policy will result in the resource being unshared and removed from any RAM resource shares. Deleting the resource policy attached to a backup will not im- pact any clusters created from that backup. Cross-account use: No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account. See also: AWS API Documentation
+/// Deletes an CloudHSM resource policy. Deleting a resource policy will result in the resource being unshared and removed from any RAM resource shares. Deleting the resource policy attached to a backup will not impact any clusters created from that backup. Cross-account use: No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudhsmv2DeleteResourcePolicyOptions : AwsOptions
 {
     /// <summary>
-    /// Amazon Resource Name (ARN) of the resource from which the policy will be removed. Constraints: o pattern: arn:aws(-(us-gov))?:cloudhsm:([a-z]{2}(-(gov|isob|iso))?-(east|west|north|south|cen- tral){1,2}-[0-9]{1}):[0-9]{12}:(backup/backup|cluster/clus- ter|hsm/hsm)-[2-7a-zA-Z]{11,16}
+    /// Amazon Resource Name (ARN) of the resource from which the policy will be removed. Constraints: • pattern: arn:aws(-(us-gov))?:cloudhsm:([a-z]{2}(-(gov|isob|iso))?-(east|west|north|south|central){1,2}-[0-9]{1}):[0-9]{12}:(backup/backup|cluster/cluster|hsm/hsm)-[2-7a-zA-Z]{11,16}
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }

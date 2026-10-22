@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsFreetierUpgradeAccountPlanOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// The account plan type for the Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountPlanType">The target account plan type. This makes it explicit about the change and latest value of the accountPlanType . Possible values: o FREE o PAID</param>
+    /// <param name="AccountPlanType">The target account plan type. This makes it explicit about the change and latest value of the accountPlanType . Possible values: • FREE • PAID</param>
     public AwsFreetierUpgradeAccountPlanOptions(
         AwsFreetierUpgradeAccountPlanAccountPlanType AccountPlanType
     )
@@ -56,7 +58,7 @@ public record AwsFreetierUpgradeAccountPlanOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The target account plan type. This makes it explicit about the change and latest value of the accountPlanType . Possible values: o FREE o PAID
+    /// The target account plan type. This makes it explicit about the change and latest value of the accountPlanType . Possible values: • FREE • PAID
     /// </summary>
     [CliOption("--account-plan-type")]
     public AwsFreetierUpgradeAccountPlanAccountPlanType? AccountPlanType { get; private init; }

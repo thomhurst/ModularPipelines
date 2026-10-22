@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// ReverseGeocode converts geographic coordinates into a human-readable address or place. You can obtain address component, and other re- lated information such as place type, category, street information. The Reverse Geocode API supports filtering to on place type so that you can refine result based on your need. Also, The Reverse Geocode API can also provide additional features such as time zone informa- tion and the inclusion of political views. For more information, see Reverse Geocode in the A...
+/// ReverseGeocode converts geographic coordinates into a human-readable address or place. You can obtain address component, and other related information such as place type, category, street information. The Reverse Geocode API supports filtering to on place type so that you can refine result based on your need. Also, The Reverse Geocode API can also provide additional features such as time zone information and the inclusion of political views. For more information, see Reverse Geocode in the Amazo...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsGeoPlacesReverseGeocodeOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// ReverseGeocode converts geographic coordinates into a human-readable address or place. You can obtain address component, and other re- lated information such as place type, category, street information. The Reverse Geocode API supports filtering to on place type so that you can refine result based on your need. Also, The Reverse Geocode API can also provide additional features such as time zone informa- tion and the inclusion of political views. For more information, see Reverse Geocode in the A...
+    /// ReverseGeocode converts geographic coordinates into a human-readable address or place. You can obtain address component, and other related information such as place type, category, street information. The Reverse Geocode API supports filtering to on place type so that you can refine result based on your need. Also, The Reverse Geocode API can also provide additional features such as time zone information and the inclusion of political views. For more information, see Reverse Geocode in the Amazo...
     /// </summary>
-    /// <param name="QueryPosition">The position in World Geodetic System (WGS 84) format: [longitude, latitude] for which you are querying nearby results for. Results closer to the position will be ranked higher then results further away from the position Constraints: o min: 2 o max: 2 (double) Syntax: double double ...</param>
+    /// <param name="QueryPosition">The position in World Geodetic System (WGS 84) format: [longitude, latitude] for which you are querying nearby results for. Results closer to the position will be ranked higher then results further away from the position Constraints: • min: 2 • max: 2 (double) Syntax: double double ...</param>
     public AwsGeoPlacesReverseGeocodeOptions(
         IEnumerable<string> QueryPosition
     )
@@ -68,67 +70,67 @@ public record AwsGeoPlacesReverseGeocodeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The position in World Geodetic System (WGS 84) format: [longitude, latitude] for which you are querying nearby results for. Results closer to the position will be ranked higher then results further away from the position Constraints: o min: 2 o max: 2 (double) Syntax: double double ...
+    /// The position in World Geodetic System (WGS 84) format: [longitude, latitude] for which you are querying nearby results for. Results closer to the position will be ranked higher then results further away from the position Constraints: • min: 2 • max: 2 (double) Syntax: double double ...
     /// </summary>
     [CliOption("--query-position", GroupValues = true)]
     public IEnumerable<string>? QueryPosition { get; private init; }
 
     /// <summary>
-    /// The maximum distance in meters from the QueryPosition from which a result will be returned. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only up to a maximum value of 100,000. Constraints: o min: 1 o max: 21000000
+    /// The maximum distance in meters from the QueryPosition from which a result will be returned. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only up to a maximum value of 100,000. Constraints: • min: 1 • max: 21000000
     /// </summary>
     [CliOption("--query-radius")]
-    public int? QueryRadius { get; set; }
+    public long? QueryRadius { get; set; }
 
     /// <summary>
-    /// An optional limit for the number of results returned in a single call. Default value: 1 Constraints: o min: 1 o max: 100
+    /// An optional limit for the number of results returned in a single call. Default value: 1 Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result. IncludePlaceTypes -&gt; (list) The included place types. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only Street and PointAddress values. Constraints: o min: 1 o max: 7 (string) Possible values: o Locality o Intersection o Street o PointAddress o InterpolatedAddress o SecondaryAddress o PointOfInterest Shorthand Syntax: IncludePlaceTypes=string,string JSON Syntax: { "IncludePlaceTypes": ["Locality"|"Intersection"|"Street"|"PointAddress"|"InterpolatedAddress"|"SecondaryAddress"|"PointOfInterest", ...] }
+    /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result. IncludePlaceTypes -&gt; (list) The included place types. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only Street and PointAddress values. Constraints: • min: 1 • max: 7 (string) Possible values: • Locality • Intersection • Street • PointAddress • InterpolatedAddress • SecondaryAddress • PointOfInterest Shorthand Syntax: IncludePlaceTypes=string,string JSON Syntax: { "IncludePlaceTypes": ["Locality"|"Intersection"|"Street"|"PointAddress"|"InterpolatedAddress"|"SecondaryAddress"|"PointOfInterest", ...] }
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; set; }
 
     /// <summary>
-    /// A list of optional additional parameters, such as time zone that can be requested for each result. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the TimeZone value. Constraints: o min: 1 o max: 3 (string) Possible values: o TimeZone o Access o Intersections Syntax: "string" "string" ...
+    /// A list of optional additional parameters, such as time zone that can be requested for each result. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the TimeZone value. Constraints: • min: 1 • max: 3 (string) Possible values: • TimeZone • Access • Intersections Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--additional-features", GroupValues = true)]
     public IEnumerable<string>? AdditionalFeatures { get; set; }
 
     /// <summary>
-    /// A list of BCP 47 compliant language codes for the results to be ren- dered in. If there is no data for the result in the requested lan- guage, data will be returned in the default language for the entry. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the following codes: en, id, km, lo, ms, my, pt, th, tl, vi, zh Constraints: o min: 2 o max: 35
+    /// A list of BCP 47 compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the following codes: en, id, km, lo, ms, my, pt, th, tl, vi, zh Constraints: • min: 2 • max: 35
     /// </summary>
     [CliOption("--language")]
     public string? Language { get; set; }
 
     /// <summary>
-    /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country. Not supported in ap-southeast-1 and ap-south- east-5 regions for GrabMaps customers. Constraints: o min: 2 o max: 3 o pattern: ([A-Z]{2}|[A-Z]{3})
+    /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. Constraints: • min: 2 • max: 3 • pattern: ([A-Z]{2}|[A-Z]{3})
     /// </summary>
     [CliOption("--political-view")]
     public string? PoliticalView { get; set; }
 
     /// <summary>
-    /// Indicates if the query results will be persisted in customer infra- structure. Defaults to SingleUse (not stored). NOTE: When storing ReverseGeocode responses, you must set this field to Storage to comply with the terms of service. These requests will be charged at a higher rate. Please review the user agree- ment and service pricing structure to determine the correct set- ting for your use case. Possible values: o SingleUse o Storage
+    /// Indicates if the query results will be persisted in customer infrastructure. Defaults to SingleUse (not stored). NOTE: When storing ReverseGeocode responses, you must set this field to Storage to comply with the terms of service. These requests will be charged at a higher rate. Please review the user agreement and service pricing structure to determine the correct setting for your use case. Possible values: • SingleUse • Storage
     /// </summary>
     [CliOption("--intended-use")]
     public AwsGeoPlacesReverseGeocodeIntendedUse? IntendedUse { get; set; }
 
     /// <summary>
-    /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request. Constraints: o min: 0 o max: 1000
+    /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--key")]
     public string? Key { get; set; }
 
     /// <summary>
-    /// The heading in degrees from true north in a navigation context. The heading is measured as the angle clockwise from the North direction. Example: North is 0 degrees, East is 90 degrees, South is 180 de- grees, and West is 270 degrees. Constraints: o min: 0.0 o max: 360.0
+    /// The heading in degrees from true north in a navigation context. The heading is measured as the angle clockwise from the North direction. Example: North is 0 degrees, East is 90 degrees, South is 180 degrees, and West is 270 degrees. Constraints: • min: 0.0 • max: 360.0
     /// </summary>
     [CliOption("--heading")]
-    public int? Heading { get; set; }
+    public double? Heading { get; set; }
 
     /// <summary>
-    /// Specifies how address names are returned. When set to Administrative , the service returns the official administrative names for address components. Administrative currently applies only to addresses in the United States. Possible values: o Administrative
+    /// Specifies how address names are returned. When set to Administrative , the service returns the official administrative names for address components. Administrative currently applies only to addresses in the United States. Possible values: • Administrative
     /// </summary>
     [CliOption("--address-names-mode")]
     public string? AddressNamesMode { get; set; }

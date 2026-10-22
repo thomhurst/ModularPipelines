@@ -23,20 +23,20 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEventsListEventBusesOptions : AwsOptions
 {
     /// <summary>
-    /// Specifying this limits the results to only those event buses with names that start with the specified prefix. Constraints: o min: 1 o max: 256 o pattern: [/\.\-_A-Za-z0-9]+
+    /// Specifying this limits the results to only those event buses with names that start with the specified prefix. Constraints: • min: 1 • max: 256 • pattern: [/\.\-_A-Za-z0-9]+
     /// </summary>
     [CliOption("--name-prefix")]
     public string? NamePrefix { get; set; }
 
     /// <summary>
-    /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidTo- ken error. Constraints: o min: 1 o max: 2048
+    /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error. Constraints: • min: 1 • max: 2048
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Specifying this limits the number of results returned by this opera- tion. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results. Constraints: o min: 1 o max: 100
+    /// Specifying this limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }

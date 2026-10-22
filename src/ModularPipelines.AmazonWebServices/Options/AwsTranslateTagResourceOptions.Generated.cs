@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsTranslateTagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Associates a specific tag with a resource. A tag is a key-value pair that adds as a metadata to a resource. For more information, see Tagging your resources . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the given Amazon Translate re- source to which you want to associate the tags. Constraints: o min: 1 o max: 512</param>
-    /// <param name="Tags">Tags being associated with a specific Amazon Translate resource. There can be a maximum of 50 tags (both existing and pending) asso- ciated with a specific resource. Constraints: o min: 0 o max: 200 (structure) A key-value pair that adds as a metadata to a resource used by Amazon Translate. Key -&gt; (string) [required] The initial part of a key-value pair that forms a tag associ- ated with a given resource. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The second part of a key-value pair that forms a tag associ- ated with a given resource. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the given Amazon Translate resource to which you want to associate the tags. Constraints: • min: 1 • max: 512</param>
+    /// <param name="Tags">Tags being associated with a specific Amazon Translate resource. There can be a maximum of 50 tags (both existing and pending) associated with a specific resource. Constraints: • min: 0 • max: 200 (structure) A key-value pair that adds as a metadata to a resource used by Amazon Translate. Key -&gt; (string) [required] The initial part of a key-value pair that forms a tag associated with a given resource. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The second part of a key-value pair that forms a tag associated with a given resource. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsTranslateTagResourceOptions(
         string ResourceArn,
         IEnumerable<string> Tags
@@ -71,13 +73,13 @@ public record AwsTranslateTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the given Amazon Translate re- source to which you want to associate the tags. Constraints: o min: 1 o max: 512
+    /// The Amazon Resource Name (ARN) of the given Amazon Translate resource to which you want to associate the tags. Constraints: • min: 1 • max: 512
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Tags being associated with a specific Amazon Translate resource. There can be a maximum of 50 tags (both existing and pending) asso- ciated with a specific resource. Constraints: o min: 0 o max: 200 (structure) A key-value pair that adds as a metadata to a resource used by Amazon Translate. Key -&gt; (string) [required] The initial part of a key-value pair that forms a tag associ- ated with a given resource. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The second part of a key-value pair that forms a tag associ- ated with a given resource. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Tags being associated with a specific Amazon Translate resource. There can be a maximum of 50 tags (both existing and pending) associated with a specific resource. Constraints: • min: 0 • max: 200 (structure) A key-value pair that adds as a metadata to a resource used by Amazon Translate. Key -&gt; (string) [required] The initial part of a key-value pair that forms a tag associated with a given resource. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The second part of a key-value pair that forms a tag associated with a given resource. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }

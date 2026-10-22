@@ -33,7 +33,7 @@ public class AwsInterconnect : IAwsInterconnect
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws interconnect wait sub-commands.
     /// </summary>
     public AwsInterconnectWait Wait => _wait ??= new AwsInterconnectWait(_command);
 
@@ -42,7 +42,7 @@ public class AwsInterconnect : IAwsInterconnect
     #region Commands
 
     /// <summary>
-    /// Accepts a connection proposal which was generated at a supported part- ner's portal. The proposal contains the Environment and bandwidth that were chosen on the partner's portal and cannot be modified. Upon accepting the proposal a connection will be made between the AWS network as accessed via the selected Attach Point and the network pre- viously selected network on the partner's portal. See also: AWS API Documentation
+    /// Accepts a connection proposal which was generated at a supported partner's portal. The proposal contains the Environment and bandwidth that were chosen on the partner's portal and cannot be modified. Upon accepting the proposal a connection will be made between the AWS network as accessed via the selected Attach Point and the network previously selected network on the partner's portal. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -57,7 +57,7 @@ public class AwsInterconnect : IAwsInterconnect
     }
 
     /// <summary>
-    /// Initiates the process to create a Connection across the specified Envi- ronment. The Environment dictates the specified partner and location to which the other end of the connection should attach. You can see a list of the available Environments by calling ListEnvironments The Attach Point specifies where within the AWS Network your connection will logically connect. After a successful call to this method, the resulting Connection will return an Activation Key which will need to be brought to th...
+    /// Initiates the process to create a Connection across the specified Environment. The Environment dictates the specified partner and location to which the other end of the connection should attach. You can see a list of the available Environments by calling ListEnvironments The Attach Point specifies where within the AWS Network your connection will logically connect. After a successful call to this method, the resulting Connection will return an Activation Key which will need to be brought to the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -72,7 +72,7 @@ public class AwsInterconnect : IAwsInterconnect
     }
 
     /// <summary>
-    /// Deletes an existing Connection with the supplied identifier. This operation will also inform the remote partner of your intention to delete your connection. Note, the partner may still require you to delete to fully clean up resources, but the network connectivity pro- vided by the Connection will cease to exist. See also: AWS API Documentation
+    /// Deletes an existing Connection with the supplied identifier. This operation will also inform the remote partner of your intention to delete your connection. Note, the partner may still require you to delete to fully clean up resources, but the network connectivity provided by the Connection will cease to exist. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -147,7 +147,7 @@ public class AwsInterconnect : IAwsInterconnect
     }
 
     /// <summary>
-    /// Lists all connection objects to which the caller has access. Allows for optional filtering by the following properties: o state o environmentId o provider o attach point Only Connection objects matching all filters will be returned. See also: AWS API Documentation list-connections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --que...
+    /// Lists all connection objects to which the caller has access. Allows for optional filtering by the following properties: • state • environmentId • provider • attach point Only Connection objects matching all filters will be returned. See also: AWS API Documentation list-connections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --que...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -177,7 +177,7 @@ public class AwsInterconnect : IAwsInterconnect
     }
 
     /// <summary>
-    /// List all current tags on the specified resource. Currently this sup- ports Connection resources. See also: AWS API Documentation
+    /// List all current tags on the specified resource. Currently this supports Connection resources. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

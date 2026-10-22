@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDatasyncUpdateLocationFsxLustreOptions : AwsOptions, IValidatab
     /// <summary>
     /// Modifies the following configuration parameters of the Amazon FSx for Lustre transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with FSx for Lustre . See also: AWS API Documentation
     /// </summary>
-    /// <param name="LocationArn">Specifies the Amazon Resource Name (ARN) of the FSx for Lustre transfer location that you're updating. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$</param>
+    /// <param name="LocationArn">Specifies the Amazon Resource Name (ARN) of the FSx for Lustre transfer location that you're updating. Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$</param>
     public AwsDatasyncUpdateLocationFsxLustreOptions(
         string LocationArn
     )
@@ -56,13 +58,13 @@ public record AwsDatasyncUpdateLocationFsxLustreOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the Amazon Resource Name (ARN) of the FSx for Lustre transfer location that you're updating. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$
+    /// Specifies the Amazon Resource Name (ARN) of the FSx for Lustre transfer location that you're updating. Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$
     /// </summary>
     [CliOption("--location-arn")]
     public string? LocationArn { get; private init; }
 
     /// <summary>
-    /// Specifies a mount path for your FSx for Lustre file system. The path can include subdirectories. When the location is used as a source, DataSync reads data from the mount path. When the location is used as a destination, DataSync writes data to the mount path. If you don't include this parameter, DataSync uses the file system's root directory (/ ). Constraints: o max: 4096 o pattern: ^[a-zA-Z0-9_\-\+\./\(\)\$\p{Zs}]+$
+    /// Specifies a mount path for your FSx for Lustre file system. The path can include subdirectories. When the location is used as a source, DataSync reads data from the mount path. When the location is used as a destination, DataSync writes data to the mount path. If you don't include this parameter, DataSync uses the file system's root directory (/ ). Constraints: • max: 4096 • pattern: ^[a-zA-Z0-9_\-\+\./\(\)\$\p{Zs}]+$
     /// </summary>
     [CliOption("--subdirectory")]
     public string? Subdirectory { get; set; }

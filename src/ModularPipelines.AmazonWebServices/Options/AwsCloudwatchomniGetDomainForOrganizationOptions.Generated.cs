@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCloudwatchomniGetDomainForOrganizationOptions : AwsOptions, IVa
     /// <summary>
     /// Retrieves the details of an organization domain by ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The ID of the organization domain. Constraints: o pattern: d-[0-9a-z]{1,25}</param>
+    /// <param name="DomainId">The ID of the organization domain. Constraints: • pattern: d-[0-9a-z]{1,25}</param>
     public AwsCloudwatchomniGetDomainForOrganizationOptions(
         string DomainId
     )
@@ -56,7 +58,7 @@ public record AwsCloudwatchomniGetDomainForOrganizationOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the organization domain. Constraints: o pattern: d-[0-9a-z]{1,25}
+    /// The ID of the organization domain. Constraints: • pattern: d-[0-9a-z]{1,25}
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }

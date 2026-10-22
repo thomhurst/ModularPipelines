@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts the process of revoking the viewer session associated with a specified channel ARN and viewer ID. Optionally, you can provide a ver- sion to revoke viewer sessions less than and including that version. For instructions on associating a viewer ID with a viewer session, see Setting Up Private Channels . See also: AWS API Documentation
+/// Starts the process of revoking the viewer session associated with a specified channel ARN and viewer ID. Optionally, you can provide a version to revoke viewer sessions less than and including that version. For instructions on associating a viewer ID with a viewer session, see Setting Up Private Channels . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsIvsStartViewerSessionRevocationOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts the process of revoking the viewer session associated with a specified channel ARN and viewer ID. Optionally, you can provide a ver- sion to revoke viewer sessions less than and including that version. For instructions on associating a viewer ID with a viewer session, see Setting Up Private Channels . See also: AWS API Documentation
+    /// Starts the process of revoking the viewer session associated with a specified channel ARN and viewer ID. Optionally, you can provide a version to revoke viewer sessions less than and including that version. For instructions on associating a viewer ID with a viewer session, see Setting Up Private Channels . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ChannelArn">The ARN of the channel associated with the viewer session to revoke. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+</param>
-    /// <param name="ViewerId">The ID of the viewer associated with the viewer session to revoke. Do not use this field for personally identifying, confidential, or sensitive information. Constraints: o min: 1 o max: 40</param>
+    /// <param name="ChannelArn">The ARN of the channel associated with the viewer session to revoke. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+</param>
+    /// <param name="ViewerId">The ID of the viewer associated with the viewer session to revoke. Do not use this field for personally identifying, confidential, or sensitive information. Constraints: • min: 1 • max: 40</param>
     public AwsIvsStartViewerSessionRevocationOptions(
         string ChannelArn,
         string ViewerId
@@ -60,19 +62,19 @@ public record AwsIvsStartViewerSessionRevocationOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the channel associated with the viewer session to revoke. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+
+    /// The ARN of the channel associated with the viewer session to revoke. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--channel-arn")]
     public string? ChannelArn { get; private init; }
 
     /// <summary>
-    /// The ID of the viewer associated with the viewer session to revoke. Do not use this field for personally identifying, confidential, or sensitive information. Constraints: o min: 1 o max: 40
+    /// The ID of the viewer associated with the viewer session to revoke. Do not use this field for personally identifying, confidential, or sensitive information. Constraints: • min: 1 • max: 40
     /// </summary>
     [CliOption("--viewer-id")]
     public string? ViewerId { get; private init; }
 
     /// <summary>
-    /// An optional filter on which versions of the viewer session to re- voke. All versions less than or equal to the specified version will be revoked. Default: 0. Constraints: o min: 0
+    /// An optional filter on which versions of the viewer session to revoke. All versions less than or equal to the specified version will be revoked. Default: 0. Constraints: • min: 0
     /// </summary>
     [CliOption("--viewer-session-versions-less-than-or-equal-to")]
     public int? ViewerSessionVersionsLessThanOrEqualTo { get; set; }

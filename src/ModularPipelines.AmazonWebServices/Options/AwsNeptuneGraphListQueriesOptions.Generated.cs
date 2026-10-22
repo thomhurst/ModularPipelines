@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsNeptuneGraphListQueriesOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Lists active openCypher queries. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GraphIdentifier">The unique identifier of the Neptune Analytics graph. Constraints: o pattern: g-[a-z0-9]{10}</param>
+    /// <param name="GraphIdentifier">The unique identifier of the Neptune Analytics graph. Constraints: • pattern: g-[a-z0-9]{10}</param>
     /// <param name="MaxResults">The maximum number of results to be fetched by the API.</param>
     public AwsNeptuneGraphListQueriesOptions(
         string GraphIdentifier,
@@ -60,7 +62,7 @@ public record AwsNeptuneGraphListQueriesOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Neptune Analytics graph. Constraints: o pattern: g-[a-z0-9]{10}
+    /// The unique identifier of the Neptune Analytics graph. Constraints: • pattern: g-[a-z0-9]{10}
     /// </summary>
     [CliOption("--graph-identifier")]
     public string? GraphIdentifier { get; private init; }
@@ -72,7 +74,7 @@ public record AwsNeptuneGraphListQueriesOptions : AwsOptions, IValidatableObject
     public int? MaxResults { get; private init; }
 
     /// <summary>
-    /// Filtered list of queries based on state. Possible values: o ALL o RUNNING o WAITING o CANCELLING
+    /// Filtered list of queries based on state. Possible values: • ALL • RUNNING • WAITING • CANCELLING
     /// </summary>
     [CliOption("--state")]
     public AwsNeptuneGraphListQueriesState? State { get; set; }

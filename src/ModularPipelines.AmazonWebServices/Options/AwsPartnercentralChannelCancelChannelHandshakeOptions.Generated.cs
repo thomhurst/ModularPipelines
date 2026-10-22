@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsPartnercentralChannelCancelChannelHandshakeOptions : AwsOptions
     /// <summary>
     /// Cancels a pending channel handshake request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">The catalog identifier for the handshake request. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z]*</param>
-    /// <param name="Identifier">The unique identifier of the channel handshake to cancel. Constraints: o min: 16 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/channel-handshake/)?ch-[a-z0-9]{13}</param>
+    /// <param name="Catalog">The catalog identifier for the handshake request. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z]*</param>
+    /// <param name="Identifier">The unique identifier of the channel handshake to cancel. Constraints: • min: 16 • max: 1011 • pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/channel-handshake/)?ch-[a-z0-9]{13}</param>
     public AwsPartnercentralChannelCancelChannelHandshakeOptions(
         string Catalog,
         string Identifier
@@ -60,13 +62,13 @@ public record AwsPartnercentralChannelCancelChannelHandshakeOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog identifier for the handshake request. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z]*
+    /// The catalog identifier for the handshake request. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z]*
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the channel handshake to cancel. Constraints: o min: 16 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/channel-handshake/)?ch-[a-z0-9]{13}
+    /// The unique identifier of the channel handshake to cancel. Constraints: • min: 16 • max: 1011 • pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/channel-handshake/)?ch-[a-z0-9]{13}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws partnercentralbenefits commands.
+/// aws partnercentral-benefits commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsPartnercentralBenefits : IAwsPartnercentralBenefits
@@ -32,7 +32,7 @@ public class AwsPartnercentralBenefits : IAwsPartnercentralBenefits
     #region Commands
 
     /// <summary>
-    /// Modifies an existing benefit application by applying amendments to spe- cific fields while maintaining revision control. See also: AWS API Documentation
+    /// Modifies an existing benefit application by applying amendments to specific fields while maintaining revision control. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsPartnercentralBenefits : IAwsPartnercentralBenefits
     }
 
     /// <summary>
-    /// Creates a new benefit application for a partner to request access to AWS benefits and programs. See also: AWS API Documentation create-benefit-application uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support document types.
+    /// Creates a new benefit application for a partner to request access to AWS benefits and programs. See also: AWS API Documentation create-benefit-application uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsPartnercentralBenefits : IAwsPartnercentralBenefits
     }
 
     /// <summary>
-    /// Removes the association between an AWS resource and a benefit applica- tion. See also: AWS API Documentation
+    /// Removes the association between an AWS resource and a benefit application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsPartnercentralBenefits : IAwsPartnercentralBenefits
     }
 
     /// <summary>
-    /// Retrieves detailed information about a specific benefit application. See also: AWS API Documentation get-benefit-application uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support document types.
+    /// Retrieves detailed information about a specific benefit application. See also: AWS API Documentation get-benefit-application uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsPartnercentralBenefits : IAwsPartnercentralBenefits
     }
 
     /// <summary>
-    /// Retrieves a paginated list of benefit allocations based on specified filter criteria. See also: AWS API Documentation list-benefit-allocations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: BenefitA...
+    /// Retrieves a paginated list of benefit allocations based on specified filter criteria. See also: AWS API Documentation list-benefit-allocations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: BenefitAll...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsPartnercentralBenefits : IAwsPartnercentralBenefits
     }
 
     /// <summary>
-    /// Retrieves a paginated list of benefit applications based on specified filter criteria. See also: AWS API Documentation list-benefit-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Benefi...
+    /// Retrieves a paginated list of benefit applications based on specified filter criteria. See also: AWS API Documentation list-benefit-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: BenefitA...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsPartnercentralBenefits : IAwsPartnercentralBenefits
     }
 
     /// <summary>
-    /// Retrieves a paginated list of available benefits based on specified filter criteria. See also: AWS API Documentation list-benefits is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: BenefitSummaries
+    /// Retrieves a paginated list of available benefits based on specified filter criteria. See also: AWS API Documentation list-benefits is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: BenefitSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsPartnercentralBenefits : IAwsPartnercentralBenefits
     }
 
     /// <summary>
-    /// Updates an existing benefit application with new information while maintaining revision control. See also: AWS API Documentation update-benefit-application uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support document types.
+    /// Updates an existing benefit application with new information while maintaining revision control. See also: AWS API Documentation update-benefit-application uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

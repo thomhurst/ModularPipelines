@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsForecastDeletePredictorBacktestExportJobOptions : AwsOptions, I
     /// <summary>
     /// Deletes a predictor backtest export job. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PredictorBacktestExportJobArn">The Amazon Resource Name (ARN) of the predictor backtest export job to delete. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    /// <param name="PredictorBacktestExportJobArn">The Amazon Resource Name (ARN) of the predictor backtest export job to delete. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
     public AwsForecastDeletePredictorBacktestExportJobOptions(
         string PredictorBacktestExportJobArn
     )
@@ -56,7 +58,7 @@ public record AwsForecastDeletePredictorBacktestExportJobOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the predictor backtest export job to delete. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the predictor backtest export job to delete. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
     /// </summary>
     [CliOption("--predictor-backtest-export-job-arn")]
     public string? PredictorBacktestExportJobArn { get; private init; }

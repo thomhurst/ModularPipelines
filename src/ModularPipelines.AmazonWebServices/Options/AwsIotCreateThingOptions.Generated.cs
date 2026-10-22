@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a thing record in the registry. If this call is made multiple times using the same thing name and configuration, the call will suc- ceed. If this call is made with the same thing name but different con- figuration a ResourceAlreadyExistsException is thrown. NOTE: This is a control plane operation. See Authorization for information about authorizing control plane actions. Requires permission to access the CreateThing action. See also: AWS API Documentation
+/// Creates a thing record in the registry. If this call is made multiple times using the same thing name and configuration, the call will succeed. If this call is made with the same thing name but different configuration a ResourceAlreadyExistsException is thrown. NOTE: This is a control plane operation. See Authorization for information about authorizing control plane actions. Requires permission to access the CreateThing action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsIotCreateThingOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a thing record in the registry. If this call is made multiple times using the same thing name and configuration, the call will suc- ceed. If this call is made with the same thing name but different con- figuration a ResourceAlreadyExistsException is thrown. NOTE: This is a control plane operation. See Authorization for information about authorizing control plane actions. Requires permission to access the CreateThing action. See also: AWS API Documentation
+    /// Creates a thing record in the registry. If this call is made multiple times using the same thing name and configuration, the call will succeed. If this call is made with the same thing name but different configuration a ResourceAlreadyExistsException is thrown. NOTE: This is a control plane operation. See Authorization for information about authorizing control plane actions. Requires permission to access the CreateThing action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ThingName">The name of the thing to create. You can't change a thing's name after you create it. To change a thing's name, you must create a new thing, give it the new name, and then delete the old thing. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+</param>
+    /// <param name="ThingName">The name of the thing to create. You can't change a thing's name after you create it. To change a thing's name, you must create a new thing, give it the new name, and then delete the old thing. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+</param>
     public AwsIotCreateThingOptions(
         string ThingName
     )
@@ -56,25 +58,25 @@ public record AwsIotCreateThingOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the thing to create. You can't change a thing's name after you create it. To change a thing's name, you must create a new thing, give it the new name, and then delete the old thing. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The name of the thing to create. You can't change a thing's name after you create it. To change a thing's name, you must create a new thing, give it the new name, and then delete the old thing. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--thing-name")]
     public string? ThingName { get; private init; }
 
     /// <summary>
-    /// The name of the thing type associated with the new thing. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The name of the thing type associated with the new thing. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--thing-type-name")]
     public string? ThingTypeName { get; set; }
 
     /// <summary>
-    /// The attribute payload, which consists of up to three name/value pairs in a JSON document. For example: {\"attributes\":{\"string1\":\"string2\"}} attributes -&gt; (map) A JSON string containing up to three key-value pair in JSON for- mat. For example: {\"attributes\":{\"string1\":\"string2\"}} key -&gt; (string) Constraints: o max: 128 o pattern: [a-zA-Z0-9_.,@/:#-]+ value -&gt; (string) Constraints: o max: 800 o pattern: [a-zA-Z0-9_.,@/:#=\[\]-]* merge -&gt; (boolean) Specifies whether the list of attributes provided in the Attrib- utePayload is merged with the attributes stored in the registry, instead of overwriting them. To remove an attribute, call UpdateThing with an empty attribute value. NOTE: The merge attribute is only valid when calling UpdateThing or UpdateThingGroup . Shorthand Syntax: attributes={KeyName1=string,KeyName2=string},merge=boolean JSON Syntax: { "attributes": {"string": "string" ...}, "merge": true|false }
+    /// The attribute payload, which consists of up to three name/value pairs in a JSON document. For example: {\"attributes\":{\"string1\":\"string2\"}} attributes -&gt; (map) A JSON string containing up to three key-value pair in JSON format. For example: {\"attributes\":{\"string1\":\"string2\"}} key -&gt; (string) Constraints: • max: 128 • pattern: [a-zA-Z0-9_.,@/:#-]+ value -&gt; (string) Constraints: • max: 800 • pattern: [a-zA-Z0-9_.,@/:#=\[\]-]* merge -&gt; (boolean) Specifies whether the list of attributes provided in the AttributePayload is merged with the attributes stored in the registry, instead of overwriting them. To remove an attribute, call UpdateThing with an empty attribute value. NOTE: The merge attribute is only valid when calling UpdateThing or UpdateThingGroup . Shorthand Syntax: attributes={KeyName1=string,KeyName2=string},merge=boolean JSON Syntax: { "attributes": {"string": "string" ...}, "merge": true|false }
     /// </summary>
     [CliOption("--attribute-payload")]
     public string? AttributePayload { get; set; }
 
     /// <summary>
-    /// The name of the billing group the thing will be added to. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The name of the billing group the thing will be added to. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--billing-group-name")]
     public string? BillingGroupName { get; set; }

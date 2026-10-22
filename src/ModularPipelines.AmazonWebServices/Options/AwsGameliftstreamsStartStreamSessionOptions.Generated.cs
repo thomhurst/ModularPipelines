@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This action initiates a new stream session and outputs connection in- formation that clients can use to access the stream. A stream session refers to an instance of a stream that Amazon GameLift Streams trans- mits from the server to the end-user. A stream session runs on a com- pute resource that a stream group has allocated. The start stream ses- sion process works as follows: o Prerequisites: o You must have a stream group in ACTIVE status o You must have idle or on-demand capacity in a strea...
+/// This action initiates a new stream session and outputs connection information that clients can use to access the stream. A stream session refers to an instance of a stream that Amazon GameLift Streams transmits from the server to the end-user. A stream session runs on a compute resource that a stream group has allocated. The start stream session process works as follows: • Prerequisites: • You must have a stream group in ACTIVE status • You must have idle or on-demand capacity in a stream group ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,12 +28,12 @@ public record AwsGameliftstreamsStartStreamSessionOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This action initiates a new stream session and outputs connection in- formation that clients can use to access the stream. A stream session refers to an instance of a stream that Amazon GameLift Streams trans- mits from the server to the end-user. A stream session runs on a com- pute resource that a stream group has allocated. The start stream ses- sion process works as follows: o Prerequisites: o You must have a stream group in ACTIVE status o You must have idle or on-demand capacity in a strea...
+    /// This action initiates a new stream session and outputs connection information that clients can use to access the stream. A stream session refers to an instance of a stream that Amazon GameLift Streams transmits from the server to the end-user. A stream session runs on a compute resource that a stream group has allocated. The start stream session process works as follows: • Prerequisites: • You must have a stream group in ACTIVE status • You must have idle or on-demand capacity in a stream group ...
     /// </summary>
-    /// <param name="Identifier">The stream group to run this stream session with. This value is an Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
-    /// <param name="Protocol">The data transport protocol to use for the stream session. Possible values: o WebRTC</param>
-    /// <param name="SignalRequest">A WebRTC ICE offer string to use when initializing a WebRTC connec- tion. Typically, the offer is a very long JSON string. Provide the string as a text value in quotes. Amazon GameLift Streams also supports setting the field to "NO_CLIENT_CONNECTION". This will create a session without needing any browser request or Web SDK integration. The session starts up as usual and waits for a reconnection from a browser, which is accom- plished using CreateStreamSessionConnection . Constraints: o min: 1</param>
-    /// <param name="ApplicationIdentifier">An Amazon Resource Name (ARN) or ID that uniquely identifies the ap- plication resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:application/a-9ZY8X7Wv6 . Example ID: a-9ZY8X7Wv6 . Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
+    /// <param name="Identifier">The stream group to run this stream session with. This value is an Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . Constraints: • min: 1 • max: 128 • pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
+    /// <param name="Protocol">The data transport protocol to use for the stream session. Possible values: • WebRTC</param>
+    /// <param name="SignalRequest">A WebRTC ICE offer string to use when initializing a WebRTC connection. Typically, the offer is a very long JSON string. Provide the string as a text value in quotes. Amazon GameLift Streams also supports setting the field to "NO_CLIENT_CONNECTION". This will create a session without needing any browser request or Web SDK integration. The session starts up as usual and waits for a reconnection from a browser, which is accomplished using CreateStreamSessionConnection . Constraints: • min: 1</param>
+    /// <param name="ApplicationIdentifier">An Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6 . Example ID: a-9ZY8X7Wv6 . Constraints: • min: 1 • max: 128 • pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
     public AwsGameliftstreamsStartStreamSessionOptions(
         string Identifier,
         string Protocol,
@@ -70,74 +71,74 @@ public record AwsGameliftstreamsStartStreamSessionOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The stream group to run this stream session with. This value is an Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
+    /// The stream group to run this stream session with. This value is an Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . Constraints: • min: 1 • max: 128 • pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The data transport protocol to use for the stream session. Possible values: o WebRTC
+    /// The data transport protocol to use for the stream session. Possible values: • WebRTC
     /// </summary>
     [CliOption("--protocol")]
     public string? Protocol { get; private init; }
 
     /// <summary>
-    /// A WebRTC ICE offer string to use when initializing a WebRTC connec- tion. Typically, the offer is a very long JSON string. Provide the string as a text value in quotes. Amazon GameLift Streams also supports setting the field to "NO_CLIENT_CONNECTION". This will create a session without needing any browser request or Web SDK integration. The session starts up as usual and waits for a reconnection from a browser, which is accom- plished using CreateStreamSessionConnection . Constraints: o min: 1
+    /// A WebRTC ICE offer string to use when initializing a WebRTC connection. Typically, the offer is a very long JSON string. Provide the string as a text value in quotes. Amazon GameLift Streams also supports setting the field to "NO_CLIENT_CONNECTION". This will create a session without needing any browser request or Web SDK integration. The session starts up as usual and waits for a reconnection from a browser, which is accomplished using CreateStreamSessionConnection . Constraints: • min: 1
     /// </summary>
     [CliOption("--signal-request")]
     public string? SignalRequest { get; private init; }
 
     /// <summary>
-    /// An Amazon Resource Name (ARN) or ID that uniquely identifies the ap- plication resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:application/a-9ZY8X7Wv6 . Example ID: a-9ZY8X7Wv6 . Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
+    /// An Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6 . Example ID: a-9ZY8X7Wv6 . Constraints: • min: 1 • max: 128 • pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
     /// </summary>
     [CliOption("--application-identifier")]
     public string? ApplicationIdentifier { get; private init; }
 
     /// <summary>
-    /// A unique identifier that represents a client request. The request is idempotent, which ensures that an API request completes only once. When users send a request, Amazon GameLift Streams automatically populates this field. Constraints: o min: 32 o max: 128 o pattern: [\x21-\x7E]+
+    /// A unique identifier that represents a client request. The request is idempotent, which ensures that an API request completes only once. When users send a request, Amazon GameLift Streams automatically populates this field. Constraints: • min: 32 • max: 128 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A human-readable label for the stream session. You can update this value later. Constraints: o min: 1 o max: 80 o pattern: [a-zA-Z0-9-_.!+@/][a-zA-Z0-9-_.!+@/ ]*
+    /// A human-readable label for the stream session. You can update this value later. Constraints: • min: 1 • max: 80 • pattern: [a-zA-Z0-9-_.!+@/][a-zA-Z0-9-_.!+@/ ]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// An opaque, unique identifier for an end-user, defined by the devel- oper. Constraints: o min: 0 o max: 1024 o pattern: [-_a-zA-Z0-9/=+]*
+    /// An opaque, unique identifier for an end-user, defined by the developer. Constraints: • min: 0 • max: 1024 • pattern: [-_a-zA-Z0-9/=+]*
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; set; }
 
     /// <summary>
-    /// A list of locations, in order of priority, where you want Amazon GameLift Streams to start a stream from. For example, us-east-1 . Amazon GameLift Streams selects the location with the next available capacity to start a single stream session in. If this value is empty, Amazon GameLift Streams attempts to start a stream session in the primary location. For a complete list of locations that Amazon GameLift Streams sup- ports, refer to Regions, quotas, and limitations in the Amazon GameLift Streams Developer Guide . Constraints: o min: 1 (string) Constraints: o min: 1 o max: 20 o pattern: [a-zA-Z0-9-]+ Syntax: "string" "string" ...
+    /// A list of locations, in order of priority, where you want Amazon GameLift Streams to start a stream from. For example, us-east-1 . Amazon GameLift Streams selects the location with the next available capacity to start a single stream session in. If this value is empty, Amazon GameLift Streams attempts to start a stream session in the primary location. For a complete list of locations that Amazon GameLift Streams supports, refer to Regions, quotas, and limitations in the Amazon GameLift Streams Developer Guide . Constraints: • min: 1 (string) Constraints: • min: 1 • max: 20 • pattern: [a-zA-Z0-9-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--locations", GroupValues = true)]
     public IEnumerable<string>? Locations { get; set; }
 
     /// <summary>
-    /// Length of time (in seconds) that Amazon GameLift Streams should wait for a client to connect or reconnect to the stream session. Applies to both connection and reconnection scenarios. This time span starts when the stream session reaches ACTIVE state. If no client connects before the timeout, Amazon GameLift Streams terminates the stream session. Default value is 120. Constraints: o min: 1 o max: 3600
+    /// Length of time (in seconds) that Amazon GameLift Streams should wait for a client to connect or reconnect to the stream session. Applies to both connection and reconnection scenarios. This time span starts when the stream session reaches ACTIVE state. If no client connects before the timeout, Amazon GameLift Streams terminates the stream session. Default value is 120. Constraints: • min: 1 • max: 3600
     /// </summary>
     [CliOption("--connection-timeout-seconds")]
     public int? ConnectionTimeoutSeconds { get; set; }
 
     /// <summary>
-    /// The maximum duration of a session. Amazon GameLift Streams will au- tomatically terminate a session after this amount of time has elapsed, regardless of any existing client connections. Default value is 43200 (12 hours). Constraints: o min: 1 o max: 86400
+    /// The maximum duration of a session. Amazon GameLift Streams will automatically terminate a session after this amount of time has elapsed, regardless of any existing client connections. Default value is 43200 (12 hours). Constraints: • min: 1 • max: 86400
     /// </summary>
     [CliOption("--session-length-seconds")]
     public int? SessionLengthSeconds { get; set; }
 
     /// <summary>
-    /// A list of CLI arguments that are sent to the streaming server when a stream session launches. You can use this to configure the applica- tion or stream session details. You can also provide custom argu- ments that Amazon GameLift Streams passes to your game client. AdditionalEnvironmentVariables and AdditionalLaunchArgs have similar purposes. AdditionalEnvironmentVariables passes data us- ing environment variables; while AdditionalLaunchArgs passes data using command-line arguments. Constraints: o min: 0 o max: 100 (string) Syntax: "string" "string" ...
+    /// A list of CLI arguments that are sent to the streaming server when a stream session launches. You can use this to configure the application or stream session details. You can also provide custom arguments that Amazon GameLift Streams passes to your game client. AdditionalEnvironmentVariables and AdditionalLaunchArgs have similar purposes. AdditionalEnvironmentVariables passes data using environment variables; while AdditionalLaunchArgs passes data using command-line arguments. Constraints: • min: 0 • max: 100 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--additional-launch-args", GroupValues = true)]
     public IEnumerable<string>? AdditionalLaunchArgs { get; set; }
 
     /// <summary>
-    /// A set of options that you can use to control the stream session run- time environment, expressed as a set of key-value pairs. You can use this to configure the application or stream session details. You can also provide custom environment variables that Amazon GameLift Streams passes to your game client. NOTE: If you want to debug your application with environment vari- ables, we recommend that you do so in a local environment outside of Amazon GameLift Streams. For more information, re- fer to the Compatibility Guidance in the troubleshooting sec- tion of the Developer Guide. AdditionalEnvironmentVariables and AdditionalLaunchArgs have similar purposes. AdditionalEnvironmentVariables passes data us- ing environment variables; while AdditionalLaunchArgs passes data using command-line arguments. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: [_a-zA-Z][_a-zA-Z0-9]* value -&gt; (string) Constraints: o min: 0 o max: 4096 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A set of options that you can use to control the stream session runtime environment, expressed as a set of key-value pairs. You can use this to configure the application or stream session details. You can also provide custom environment variables that Amazon GameLift Streams passes to your game client. NOTE: If you want to debug your application with environment variables, we recommend that you do so in a local environment outside of Amazon GameLift Streams. For more information, refer to the Compatibility Guidance in the troubleshooting section of the Developer Guide. AdditionalEnvironmentVariables and AdditionalLaunchArgs have similar purposes. AdditionalEnvironmentVariables passes data using environment variables; while AdditionalLaunchArgs passes data using command-line arguments. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 256 • pattern: [_a-zA-Z][_a-zA-Z0-9]* value -&gt; (string) Constraints: • min: 0 • max: 4096 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--additional-environment-variables", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AdditionalEnvironmentVariables { get; set; }
@@ -149,13 +150,13 @@ public record AwsGameliftstreamsStartStreamSessionOptions : AwsOptions, IValidat
     public string? PerformanceStatsConfiguration { get; set; }
 
     /// <summary>
-    /// The ARN of an AWS Identity and Access Management (IAM) role that Amazon GameLift Streams assumes on your behalf during the stream session. The role grants Amazon GameLift Streams permission to ob- tain temporary credentials for your application. The role's trust policy must allow the gameliftstreams.amazonaws.com service princi- pal to assume it. The role name must start with GameLiftStreams- . Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-zA-Z-]*:iam::\d{12}:role/.+
+    /// The ARN of an AWS Identity and Access Management (IAM) role that Amazon GameLift Streams assumes on your behalf during the stream session. The role grants Amazon GameLift Streams permission to obtain temporary credentials for your application. The role's trust policy must allow the gameliftstreams.amazonaws.com service principal to assume it. The role name must start with GameLiftStreams- . Constraints: • min: 20 • max: 2048 • pattern: arn:aws[a-zA-Z-]*:iam::\d{12}:role/.+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
     /// <summary>
-    /// The configuration for the stream session's virtual monitor, includ- ing the resolution settings. If not specified, Amazon GameLift Streams uses the default resolu- tion of 1920 1080. Resolution -&gt; (structure) The resolution to apply to the stream session's virtual monitor. When specified, this value overrides the default resolution of 1920 1080. Width -&gt; (integer) [required] The width of the stream session's virtual monitor, in pixels. The value must be an even number. Constraints: o min: 320 o max: 4096 Height -&gt; (integer) [required] The height of the stream session's virtual monitor, in pix- els. The value must be an even number. Constraints: o min: 320 o max: 4096 Shorthand Syntax: Resolution={Width=integer,Height=integer} JSON Syntax: { "Resolution": { "Width": integer, "Height": integer } }
+    /// The configuration for the stream session's virtual monitor, including the resolution settings. If not specified, Amazon GameLift Streams uses the default resolution of 1920 1080. Resolution -&gt; (structure) The resolution to apply to the stream session's virtual monitor. When specified, this value overrides the default resolution of 1920 1080. Width -&gt; (integer) [required] The width of the stream session's virtual monitor, in pixels. The value must be an even number. Constraints: • min: 320 • max: 4096 Height -&gt; (integer) [required] The height of the stream session's virtual monitor, in pixels. The value must be an even number. Constraints: • min: 320 • max: 4096 Shorthand Syntax: Resolution={Width=integer,Height=integer} JSON Syntax: { "Resolution": { "Width": integer, "Height": integer } }
     /// </summary>
     [CliOption("--display-configuration")]
     public string? DisplayConfiguration { get; set; }

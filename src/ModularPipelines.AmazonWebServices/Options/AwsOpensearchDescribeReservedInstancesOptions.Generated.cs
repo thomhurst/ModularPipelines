@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the Amazon OpenSearch Service instances that you have re- served in a given Region. For more information, see Reserved Instances in Amazon OpenSearch Service . See also: AWS API Documentation
+/// Describes the Amazon OpenSearch Service instances that you have reserved in a given Region. For more information, see Reserved Instances in Amazon OpenSearch Service . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,19 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsOpensearchDescribeReservedInstancesOptions : AwsOptions
 {
     /// <summary>
-    /// The reserved instance identifier filter value. Use this parameter to show only the reservation that matches the specified reserved OpenSearch instance ID. Constraints: o min: 36 o max: 36 o pattern: \p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}
+    /// The reserved instance identifier filter value. Use this parameter to show only the reservation that matches the specified reserved OpenSearch instance ID. Constraints: • min: 36 • max: 36 • pattern: \p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}
     /// </summary>
     [CliOption("--reserved-instance-id")]
     public string? ReservedInstanceId { get; set; }
 
     /// <summary>
-    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. Constraints: o max: 100
+    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. Constraints: • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If your initial DescribeReservedInstances operation returns a next- Token , you can include the returned nextToken in subsequent De- scribeReservedInstances operations, which returns results in the next page.
+    /// If your initial DescribeReservedInstances operation returns a nextToken , you can include the returned nextToken in subsequent DescribeReservedInstances operations, which returns results in the next page.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

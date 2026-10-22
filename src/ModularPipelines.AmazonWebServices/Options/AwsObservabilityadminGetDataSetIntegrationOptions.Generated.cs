@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsObservabilityadminGetDataSetIntegrationOptions : AwsOptions, IV
     /// <summary>
     /// Returns the dataset integration for the caller's account in the current region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the dataset integration to re- trieve. Constraints: o min: 1 o max: 1011 o pattern: arn:aws([a-z0-9\-]+)?:([a-zA-Z0-9\-]+):([a-z0-9\-]+)?:([0-9]{12})?:(.+)</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the dataset integration to retrieve. Constraints: • min: 1 • max: 1011 • pattern: arn:aws([a-z0-9\-]+)?:([a-zA-Z0-9\-]+):([a-z0-9\-]+)?:([0-9]{12})?:(.+)</param>
     public AwsObservabilityadminGetDataSetIntegrationOptions(
         string Arn
     )
@@ -56,7 +58,7 @@ public record AwsObservabilityadminGetDataSetIntegrationOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the dataset integration to re- trieve. Constraints: o min: 1 o max: 1011 o pattern: arn:aws([a-z0-9\-]+)?:([a-zA-Z0-9\-]+):([a-z0-9\-]+)?:([0-9]{12})?:(.+)
+    /// The Amazon Resource Name (ARN) of the dataset integration to retrieve. Constraints: • min: 1 • max: 1011 • pattern: arn:aws([a-z0-9\-]+)?:([a-zA-Z0-9\-]+):([a-z0-9\-]+)?:([0-9]{12})?:(.+)
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }

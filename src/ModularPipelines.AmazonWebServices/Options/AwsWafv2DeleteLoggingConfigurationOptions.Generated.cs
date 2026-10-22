@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsWafv2DeleteLoggingConfigurationOptions : AwsOptions, IValidatab
     /// <summary>
     /// Deletes the LoggingConfiguration from the specified web ACL. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the web ACL from which you want to delete the LoggingConfiguration . Constraints: o min: 20 o max: 2048 o pattern: .*\S.*</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the web ACL from which you want to delete the LoggingConfiguration . Constraints: • min: 20 • max: 2048 • pattern: .*\S.*</param>
     public AwsWafv2DeleteLoggingConfigurationOptions(
         string ResourceArn
     )
@@ -57,19 +59,19 @@ public record AwsWafv2DeleteLoggingConfigurationOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the web ACL from which you want to delete the LoggingConfiguration . Constraints: o min: 20 o max: 2048 o pattern: .*\S.*
+    /// The Amazon Resource Name (ARN) of the web ACL from which you want to delete the LoggingConfiguration . Constraints: • min: 20 • max: 2048 • pattern: .*\S.*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Used to distinguish between various logging options. Currently, there is one option. Default: WAF_LOGS Possible values: o WAF_LOGS
+    /// Used to distinguish between various logging options. Currently, there is one option. Default: WAF_LOGS Possible values: • WAF_LOGS
     /// </summary>
     [CliOption("--log-type")]
     public string? LogType { get; set; }
 
     /// <summary>
-    /// The owner of the logging configuration, which must be set to CUS- TOMER for the configurations that you manage. The log scope SECURITY_LAKE indicates a configuration that is man- aged through Amazon Security Lake. You can use Security Lake to col- lect log and event data from various sources for normalization, analysis, and management. For information, see Collecting data from Amazon Web Services services in the Amazon Security Lake user guide . The log scope CLOUDWATCH_TELEMETRY_RULE_MANAGED indicates a configu- ration that is managed through Amazon CloudWatch Logs for telemetry data collection and analysis. For information, see What is Amazon CloudWatch Logs ? in the Amazon CloudWatch Logs user guide . Default: CUSTOMER Possible values: o CUSTOMER o SECURITY_LAKE o CLOUDWATCH_TELEMETRY_RULE_MANAGED
+    /// The owner of the logging configuration, which must be set to CUSTOMER for the configurations that you manage. The log scope SECURITY_LAKE indicates a configuration that is managed through Amazon Security Lake. You can use Security Lake to collect log and event data from various sources for normalization, analysis, and management. For information, see Collecting data from Amazon Web Services services in the Amazon Security Lake user guide . The log scope CLOUDWATCH_TELEMETRY_RULE_MANAGED indicates a configuration that is managed through Amazon CloudWatch Logs for telemetry data collection and analysis. For information, see What is Amazon CloudWatch Logs ? in the Amazon CloudWatch Logs user guide . Default: CUSTOMER Possible values: • CUSTOMER • SECURITY_LAKE • CLOUDWATCH_TELEMETRY_RULE_MANAGED
     /// </summary>
     [CliOption("--log-scope")]
     public AwsWafv2DeleteLoggingConfigurationLogScope? LogScope { get; set; }

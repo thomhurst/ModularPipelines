@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsWorkmailUpdateResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates data for the resource. To have the latest information, it must be preceded by a DescribeResource call. The dataset in the request should be the one expected when performing another DescribeResource call. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The identifier associated with the organization for which the re- source is updated. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
-    /// <param name="ResourceId">The identifier of the resource to be updated. The identifier can accept ResourceId , Resourcename , or email . The following identity formats are available: o Resource ID: r-0123456789a0123456789b0123456789 o Email address: resource@domain.tld o Resource name: resource Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+</param>
+    /// <param name="OrganizationId">The identifier associated with the organization for which the resource is updated. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="ResourceId">The identifier of the resource to be updated. The identifier can accept ResourceId , Resourcename , or email . The following identity formats are available: • Resource ID: r-0123456789a0123456789b0123456789 • Email address: resource@domain.tld • Resource name: resource Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+</param>
     public AwsWorkmailUpdateResourceOptions(
         string OrganizationId,
         string ResourceId
@@ -61,19 +63,19 @@ public record AwsWorkmailUpdateResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier associated with the organization for which the re- source is updated. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The identifier associated with the organization for which the resource is updated. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The identifier of the resource to be updated. The identifier can accept ResourceId , Resourcename , or email . The following identity formats are available: o Resource ID: r-0123456789a0123456789b0123456789 o Email address: resource@domain.tld o Resource name: resource Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+
+    /// The identifier of the resource to be updated. The identifier can accept ResourceId , Resourcename , or email . The following identity formats are available: • Resource ID: r-0123456789a0123456789b0123456789 • Email address: resource@domain.tld • Resource name: resource Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// The name of the resource to be updated. Constraints: o min: 1 o max: 20 o pattern: [\w\-.]+(@[a-zA-Z0-9.\-]+\.[a-zA-Z0-9-]{2,})?
+    /// The name of the resource to be updated. Constraints: • min: 1 • max: 20 • pattern: [\w\-.]+(@[a-zA-Z0-9.\-]+\.[a-zA-Z0-9-]{2,})?
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
@@ -85,19 +87,19 @@ public record AwsWorkmailUpdateResourceOptions : AwsOptions, IValidatableObject
     public string? BookingOptions { get; set; }
 
     /// <summary>
-    /// Updates the resource description. Constraints: o min: 0 o max: 64
+    /// Updates the resource description. Constraints: • min: 0 • max: 64
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Updates the resource type. Possible values: o ROOM o EQUIPMENT
+    /// Updates the resource type. Possible values: • ROOM • EQUIPMENT
     /// </summary>
     [CliOption("--type")]
     public AwsWorkmailUpdateResourceType? Type { get; set; }
 
     /// <summary>
-    /// dress-list (boolean) If enabled, the resource is hidden from the global address list.
+    /// If enabled, the resource is hidden from the global address list.
     /// </summary>
     [CliFlag("--hidden-from-global-address-list", NegatedName = "--no-hidden-from-global-address-list")]
     public bool? HiddenFromGlobalAddressList { get; set; }

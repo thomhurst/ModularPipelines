@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sends an inference request to the model during a job execution. The re- quest and response bodies are forwarded to and from the model without modification. Each turn (prompt and response) is captured for later use. See also: AWS API Documentation
+/// Sends an inference request to the model during a job execution. The request and response bodies are forwarded to and from the model without modification. Each turn (prompt and response) is captured for later use. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,10 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSagemakerjobruntimeSampleOptions : AwsOptions
 {
     /// <summary>
-    /// Sends an inference request to the model during a job execution. The re- quest and response bodies are forwarded to and from the model without modification. Each turn (prompt and response) is captured for later use. See also: AWS API Documentation
+    /// Sends an inference request to the model during a job execution. The request and response bodies are forwarded to and from the model without modification. Each turn (prompt and response) is captured for later use. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobArn">The job ARN that identifies which model session to route the infer- ence request to. Constraints: o min: 1 o max: 256 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:job/[a-zA-Z0-9_\-]+/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
-    /// <param name="TrajectoryId">The trajectory ID for grouping turns into a single rollout. Each turn (prompt and response) is captured for later use. Constraints: o min: 1 o max: 256</param>
+    /// <param name="JobArn">The job ARN that identifies which model session to route the inference request to. Constraints: • min: 1 • max: 256 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:job/[a-zA-Z0-9_\-]+/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="TrajectoryId">The trajectory ID for grouping turns into a single rollout. Each turn (prompt and response) is captured for later use. Constraints: • min: 1 • max: 256</param>
     /// <param name="Body">The raw inference request body in OpenAI-compatible JSON format. outfile (string) [required] Filename where the content will be saved</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsSagemakerjobruntimeSampleOptions(
@@ -54,13 +54,13 @@ public record AwsSagemakerjobruntimeSampleOptions : AwsOptions
     }
 
     /// <summary>
-    /// The job ARN that identifies which model session to route the infer- ence request to. Constraints: o min: 1 o max: 256 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:job/[a-zA-Z0-9_\-]+/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The job ARN that identifies which model session to route the inference request to. Constraints: • min: 1 • max: 256 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:job/[a-zA-Z0-9_\-]+/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--job-arn")]
     public string JobArn { get; private init; }
 
     /// <summary>
-    /// The trajectory ID for grouping turns into a single rollout. Each turn (prompt and response) is captured for later use. Constraints: o min: 1 o max: 256
+    /// The trajectory ID for grouping turns into a single rollout. Each turn (prompt and response) is captured for later use. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--trajectory-id")]
     public string TrajectoryId { get; private init; }

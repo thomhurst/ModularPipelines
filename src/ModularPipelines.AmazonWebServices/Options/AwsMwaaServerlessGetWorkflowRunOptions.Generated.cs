@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves detailed information about a specific workflow run, including its status, execution details, and task instances. See also: AWS API Documentation get-workflow-run uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+/// Retrieves detailed information about a specific workflow run, including its status, execution details, and task instances. See also: AWS API Documentation get-workflow-run uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsMwaaServerlessGetWorkflowRunOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves detailed information about a specific workflow run, including its status, execution details, and task instances. See also: AWS API Documentation get-workflow-run uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Retrieves detailed information about a specific workflow run, including its status, execution details, and task instances. See also: AWS API Documentation get-workflow-run uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="WorkflowArn">The Amazon Resource Name (ARN) of the workflow that contains the run. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:air- flow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):work- flow/([a-zA-Z0-9][a-zA-Z0-9\.\-_]{0,254}-[a-zA-Z0-9]{10})</param>
-    /// <param name="RunId">The unique identifier of the workflow run to retrieve. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*</param>
+    /// <param name="WorkflowArn">The Amazon Resource Name (ARN) of the workflow that contains the run. Constraints: • min: 1 • max: 2048 • pattern: arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\.\-_]{0,254}-[a-zA-Z0-9]{10})</param>
+    /// <param name="RunId">The unique identifier of the workflow run to retrieve. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*</param>
     public AwsMwaaServerlessGetWorkflowRunOptions(
         string WorkflowArn,
         string RunId
@@ -60,13 +62,13 @@ public record AwsMwaaServerlessGetWorkflowRunOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the workflow that contains the run. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:air- flow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):work- flow/([a-zA-Z0-9][a-zA-Z0-9\.\-_]{0,254}-[a-zA-Z0-9]{10})
+    /// The Amazon Resource Name (ARN) of the workflow that contains the run. Constraints: • min: 1 • max: 2048 • pattern: arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\.\-_]{0,254}-[a-zA-Z0-9]{10})
     /// </summary>
     [CliOption("--workflow-arn")]
     public string? WorkflowArn { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the workflow run to retrieve. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*
+    /// The unique identifier of the workflow run to retrieve. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*
     /// </summary>
     [CliOption("--run-id")]
     public string? RunId { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsOdbGetDbServerOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns information about the specified database server. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CloudExadataInfrastructureId">The unique identifier of the Oracle Exadata infrastructure that con- tains the database server. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
-    /// <param name="DbServerId">The unique identifier of the database server to retrieve information about. Constraints: o min: 6 o max: 64 o pattern: [a-zA-Z0-9_~.-]+</param>
+    /// <param name="CloudExadataInfrastructureId">The unique identifier of the Oracle Exadata infrastructure that contains the database server. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
+    /// <param name="DbServerId">The unique identifier of the database server to retrieve information about. Constraints: • min: 6 • max: 64 • pattern: [a-zA-Z0-9_~.-]+</param>
     public AwsOdbGetDbServerOptions(
         string CloudExadataInfrastructureId,
         string DbServerId
@@ -60,13 +62,13 @@ public record AwsOdbGetDbServerOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Oracle Exadata infrastructure that con- tains the database server. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// The unique identifier of the Oracle Exadata infrastructure that contains the database server. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
     /// </summary>
     [CliOption("--cloud-exadata-infrastructure-id")]
     public string? CloudExadataInfrastructureId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the database server to retrieve information about. Constraints: o min: 6 o max: 64 o pattern: [a-zA-Z0-9_~.-]+
+    /// The unique identifier of the database server to retrieve information about. Constraints: • min: 6 • max: 64 • pattern: [a-zA-Z0-9_~.-]+
     /// </summary>
     [CliOption("--db-server-id")]
     public string? DbServerId { get; private init; }

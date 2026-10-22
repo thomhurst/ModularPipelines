@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,8 +29,8 @@ public record AwsDsqlTagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Tags a resource with a map of key and value pairs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource that you want to tag. Constraints: o min: 1 o max: 1011 o pattern: arn:.+</param>
-    /// <param name="Tags">A map of key and value pairs to use to tag your resource. Constraints: o min: 0 o max: 200 key -&gt; (string) Unique tag key, maximum 128 Unicode characters in UTF-8. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.:/=+\-@ ]* value -&gt; (string) Tag value, maximum 256 Unicode characters in UTF-8. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9_.:/=+\-@ ]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="ResourceArn">The ARN of the resource that you want to tag. Constraints: • min: 1 • max: 1011 • pattern: arn:.+</param>
+    /// <param name="Tags">A map of key and value pairs to use to tag your resource. Constraints: • min: 0 • max: 200 key -&gt; (string) Unique tag key, maximum 128 Unicode characters in UTF-8. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.:/=+\-@ ]* value -&gt; (string) Tag value, maximum 256 Unicode characters in UTF-8. Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9_.:/=+\-@ ]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsDsqlTagResourceOptions(
         string ResourceArn,
         IReadOnlyList<KeyValue> Tags
@@ -72,13 +73,13 @@ public record AwsDsqlTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource that you want to tag. Constraints: o min: 1 o max: 1011 o pattern: arn:.+
+    /// The ARN of the resource that you want to tag. Constraints: • min: 1 • max: 1011 • pattern: arn:.+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A map of key and value pairs to use to tag your resource. Constraints: o min: 0 o max: 200 key -&gt; (string) Unique tag key, maximum 128 Unicode characters in UTF-8. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.:/=+\-@ ]* value -&gt; (string) Tag value, maximum 256 Unicode characters in UTF-8. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9_.:/=+\-@ ]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of key and value pairs to use to tag your resource. Constraints: • min: 0 • max: 200 key -&gt; (string) Unique tag key, maximum 128 Unicode characters in UTF-8. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.:/=+\-@ ]* value -&gt; (string) Tag value, maximum 256 Unicode characters in UTF-8. Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9_.:/=+\-@ ]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; private init; }

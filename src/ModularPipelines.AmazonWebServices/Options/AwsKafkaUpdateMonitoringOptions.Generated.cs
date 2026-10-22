@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the monitoring settings for the cluster. You can use this oper- ation to specify which Apache Kafka metrics you want Amazon MSK to send to Amazon CloudWatch. You can also specify settings for open monitoring with Prometheus. See also: AWS API Documentation
+/// Updates the monitoring settings for the cluster. You can use this operation to specify which Apache Kafka metrics you want Amazon MSK to send to Amazon CloudWatch. You can also specify settings for open monitoring with Prometheus. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +28,7 @@ public record AwsKafkaUpdateMonitoringOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the monitoring settings for the cluster. You can use this oper- ation to specify which Apache Kafka metrics you want Amazon MSK to send to Amazon CloudWatch. You can also specify settings for open monitoring with Prometheus. See also: AWS API Documentation
+    /// Updates the monitoring settings for the cluster. You can use this operation to specify which Apache Kafka metrics you want Amazon MSK to send to Amazon CloudWatch. You can also specify settings for open monitoring with Prometheus. See also: AWS API Documentation
     /// </summary>
     /// <param name="ClusterArn">The Amazon Resource Name (ARN) that uniquely identifies the cluster.</param>
     /// <param name="CurrentVersion">The version of the MSK cluster to update. Cluster versions aren't simple numbers. You can describe an MSK cluster to find its version. When this update operation is successful, it generates a new cluster version.</param>
@@ -73,7 +75,7 @@ public record AwsKafkaUpdateMonitoringOptions : AwsOptions, IValidatableObject
     public string? CurrentVersion { get; private init; }
 
     /// <summary>
-    /// Specifies which Apache Kafka metrics Amazon MSK gathers and sends to Amazon CloudWatch for this cluster. Possible values: o DEFAULT o PER_BROKER o PER_TOPIC_PER_BROKER o PER_TOPIC_PER_PARTITION
+    /// Specifies which Apache Kafka metrics Amazon MSK gathers and sends to Amazon CloudWatch for this cluster. Possible values: • DEFAULT • PER_BROKER • PER_TOPIC_PER_BROKER • PER_TOPIC_PER_PARTITION
     /// </summary>
     [CliOption("--enhanced-monitoring")]
     public AwsKafkaUpdateMonitoringEnhancedMonitoring? EnhancedMonitoring { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Cancels generation of a specified cache report. You can use this opera- tion to manually cancel an IN-PROGRESS report for any reason. This ac- tion changes the report status from IN-PROGRESS to CANCELLED. You can only cancel in-progress reports. If the the report you attempt to can- cel is in FAILED, ERROR, or COMPLETED state, the cancel operation re- turns an error. See also: AWS API Documentation
+/// Cancels generation of a specified cache report. You can use this operation to manually cancel an IN-PROGRESS report for any reason. This action changes the report status from IN-PROGRESS to CANCELLED. You can only cancel in-progress reports. If the the report you attempt to cancel is in FAILED, ERROR, or COMPLETED state, the cancel operation returns an error. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsStoragegatewayCancelCacheReportOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Cancels generation of a specified cache report. You can use this opera- tion to manually cancel an IN-PROGRESS report for any reason. This ac- tion changes the report status from IN-PROGRESS to CANCELLED. You can only cancel in-progress reports. If the the report you attempt to can- cel is in FAILED, ERROR, or COMPLETED state, the cancel operation re- turns an error. See also: AWS API Documentation
+    /// Cancels generation of a specified cache report. You can use this operation to manually cancel an IN-PROGRESS report for any reason. This action changes the report status from IN-PROGRESS to CANCELLED. You can only cancel in-progress reports. If the the report you attempt to cancel is in FAILED, ERROR, or COMPLETED state, the cancel operation returns an error. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CacheReportArn">The Amazon Resource Name (ARN) of the cache report you want to can- cel. Constraints: o min: 50 o max: 500</param>
+    /// <param name="CacheReportArn">The Amazon Resource Name (ARN) of the cache report you want to cancel. Constraints: • min: 50 • max: 500</param>
     public AwsStoragegatewayCancelCacheReportOptions(
         string CacheReportArn
     )
@@ -56,7 +58,7 @@ public record AwsStoragegatewayCancelCacheReportOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the cache report you want to can- cel. Constraints: o min: 50 o max: 500
+    /// The Amazon Resource Name (ARN) of the cache report you want to cancel. Constraints: • min: 50 • max: 500
     /// </summary>
     [CliOption("--cache-report-arn")]
     public string? CacheReportArn { get; private init; }

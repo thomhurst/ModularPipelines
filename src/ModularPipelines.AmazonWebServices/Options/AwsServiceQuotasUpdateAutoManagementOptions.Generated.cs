@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates your Service Quotas Automatic Management configuration, includ- ing notification preferences and excluded quotas. Automatic Management monitors your Service Quotas utilization and notifies you before you run out of your allocated quotas. See also: AWS API Documentation
+/// Updates your Service Quotas Automatic Management configuration, including notification preferences and excluded quotas. Automatic Management monitors your Service Quotas utilization and notifies you before you run out of your allocated quotas. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,19 +25,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsServiceQuotasUpdateAutoManagementOptions : AwsOptions
 {
     /// <summary>
-    /// Information on the opt-in type for your Automatic Management config- uration. There are two modes: Notify only and Notify and Auto-Ad- just. Currently, only NotifyOnly is available. Possible values: o NotifyOnly o NotifyAndAdjust
+    /// Information on the opt-in type for your Automatic Management configuration. There are two modes: Notify only and Notify and Auto-Adjust. Currently, only NotifyOnly is available. Possible values: • NotifyOnly • NotifyAndAdjust
     /// </summary>
     [CliOption("--opt-in-type")]
     public AwsServiceQuotasUpdateAutoManagementOptInType? OptInType { get; set; }
 
     /// <summary>
-    /// The User Notifications Amazon Resource Name (ARN) for Automatic Man- agement notifications you want to update. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:*:.+:[0-9]{12}:.+
+    /// The User Notifications Amazon Resource Name (ARN) for Automatic Management notifications you want to update. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[\w]+)*:*:.+:[0-9]{12}:.+
     /// </summary>
     [CliOption("--notification-arn")]
     public string? NotificationArn { get; set; }
 
     /// <summary>
-    /// List of Amazon Web Services services you want to exclude from Auto- matic Management. You won't be notified of Service Quotas utiliza- tion for Amazon Web Services services added to the Automatic Manage- ment exclusion list. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-_ /]{1,128} value -&gt; (list) (string) Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-_ /]{1,128} Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
+    /// List of Amazon Web Services services you want to exclude from Automatic Management. You won't be notified of Service Quotas utilization for Amazon Web Services services added to the Automatic Management exclusion list. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9-_ /]{1,128} value -&gt; (list) (string) Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9-_ /]{1,128} Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
     [CliOption("--exclusion-list", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ExclusionList { get; set; }

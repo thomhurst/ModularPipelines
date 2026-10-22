@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Creates a channel for CloudTrail to ingest events from a partner or ex- ternal source. After you create a channel, a CloudTrail Lake event data store can log events from the partner or source that you specify. See al...
+/// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Creates a channel for CloudTrail to ingest events from a partner or external source. After you create a channel, a CloudTrail Lake event data store can log events from the partner or source that you specify. See also...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsCloudtrailCreateChannelOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Creates a channel for CloudTrail to ingest events from a partner or ex- ternal source. After you create a channel, a CloudTrail Lake event data store can log events from the partner or source that you specify. See al...
+    /// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Creates a channel for CloudTrail to ingest events from a partner or external source. After you create a channel, a CloudTrail Lake event data store can log events from the partner or source that you specify. See also...
     /// </summary>
-    /// <param name="Name">The name of the channel. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9._\-]+$</param>
-    /// <param name="Source">The name of the partner or external event source. You cannot change this name after you create the channel. A maximum of one channel is allowed per source. A source can be either Custom for all valid non-Amazon Web Services events, or the name of a partner event source. For information about the source names for available partners, see Additional information about integration partners in the CloudTrail User Guide. Constraints: o min: 1 o max: 256 o pattern: .*</param>
-    /// <param name="Destinations">One or more event data stores to which events arriving through a channel will be logged. Constraints: o min: 1 o max: 200 (structure) Contains information about the destination receiving events. Type -&gt; (string) [required] The type of destination for events arriving from a channel. For channels used for a CloudTrail Lake integration, the value is EVENT_DATA_STORE . For service-linked channels, the value is AWS_SERVICE . Possible values: o EVENT_DATA_STORE o AWS_SERVICE Location -&gt; (string) [required] For channels used for a CloudTrail Lake integration, the lo- cation is the ARN of an event data store that receives events from a channel. For service-linked channels, the location is the name of the Amazon Web Services service. Constraints: o min: 3 o max: 1024 o pattern: ^[a-zA-Z0-9._/\-:*]+$ Shorthand Syntax: Type=string,Location=string ... JSON Syntax: [ { "Type": "EVENT_DATA_STORE"|"AWS_SERVICE", "Location": "string" } ... ]</param>
+    /// <param name="Name">The name of the channel. Constraints: • min: 3 • max: 128 • pattern: ^[a-zA-Z0-9._\-]+$</param>
+    /// <param name="Source">The name of the partner or external event source. You cannot change this name after you create the channel. A maximum of one channel is allowed per source. A source can be either Custom for all valid non-Amazon Web Services events, or the name of a partner event source. For information about the source names for available partners, see Additional information about integration partners in the CloudTrail User Guide. Constraints: • min: 1 • max: 256 • pattern: .*</param>
+    /// <param name="Destinations">One or more event data stores to which events arriving through a channel will be logged. Constraints: • min: 1 • max: 200 (structure) Contains information about the destination receiving events. Type -&gt; (string) [required] The type of destination for events arriving from a channel. For channels used for a CloudTrail Lake integration, the value is EVENT_DATA_STORE . For service-linked channels, the value is AWS_SERVICE . Possible values: • EVENT_DATA_STORE • AWS_SERVICE Location -&gt; (string) [required] For channels used for a CloudTrail Lake integration, the location is the ARN of an event data store that receives events from a channel. For service-linked channels, the location is the name of the Amazon Web Services service. Constraints: • min: 3 • max: 1024 • pattern: ^[a-zA-Z0-9._/\-:*]+$ Shorthand Syntax: Type=string,Location=string ... JSON Syntax: [ { "Type": "EVENT_DATA_STORE"|"AWS_SERVICE", "Location": "string" } ... ]</param>
     public AwsCloudtrailCreateChannelOptions(
         string Name,
         string Source,
@@ -75,25 +77,25 @@ public record AwsCloudtrailCreateChannelOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the channel. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9._\-]+$
+    /// The name of the channel. Constraints: • min: 3 • max: 128 • pattern: ^[a-zA-Z0-9._\-]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The name of the partner or external event source. You cannot change this name after you create the channel. A maximum of one channel is allowed per source. A source can be either Custom for all valid non-Amazon Web Services events, or the name of a partner event source. For information about the source names for available partners, see Additional information about integration partners in the CloudTrail User Guide. Constraints: o min: 1 o max: 256 o pattern: .*
+    /// The name of the partner or external event source. You cannot change this name after you create the channel. A maximum of one channel is allowed per source. A source can be either Custom for all valid non-Amazon Web Services events, or the name of a partner event source. For information about the source names for available partners, see Additional information about integration partners in the CloudTrail User Guide. Constraints: • min: 1 • max: 256 • pattern: .*
     /// </summary>
     [CliOption("--source")]
     public string? Source { get; private init; }
 
     /// <summary>
-    /// One or more event data stores to which events arriving through a channel will be logged. Constraints: o min: 1 o max: 200 (structure) Contains information about the destination receiving events. Type -&gt; (string) [required] The type of destination for events arriving from a channel. For channels used for a CloudTrail Lake integration, the value is EVENT_DATA_STORE . For service-linked channels, the value is AWS_SERVICE . Possible values: o EVENT_DATA_STORE o AWS_SERVICE Location -&gt; (string) [required] For channels used for a CloudTrail Lake integration, the lo- cation is the ARN of an event data store that receives events from a channel. For service-linked channels, the location is the name of the Amazon Web Services service. Constraints: o min: 3 o max: 1024 o pattern: ^[a-zA-Z0-9._/\-:*]+$ Shorthand Syntax: Type=string,Location=string ... JSON Syntax: [ { "Type": "EVENT_DATA_STORE"|"AWS_SERVICE", "Location": "string" } ... ]
+    /// One or more event data stores to which events arriving through a channel will be logged. Constraints: • min: 1 • max: 200 (structure) Contains information about the destination receiving events. Type -&gt; (string) [required] The type of destination for events arriving from a channel. For channels used for a CloudTrail Lake integration, the value is EVENT_DATA_STORE . For service-linked channels, the value is AWS_SERVICE . Possible values: • EVENT_DATA_STORE • AWS_SERVICE Location -&gt; (string) [required] For channels used for a CloudTrail Lake integration, the location is the ARN of an event data store that receives events from a channel. For service-linked channels, the location is the name of the Amazon Web Services service. Constraints: • min: 3 • max: 1024 • pattern: ^[a-zA-Z0-9._/\-:*]+$ Shorthand Syntax: Type=string,Location=string ... JSON Syntax: [ { "Type": "EVENT_DATA_STORE"|"AWS_SERVICE", "Location": "string" } ... ]
     /// </summary>
     [CliOption("--destinations", GroupValues = true)]
     public IEnumerable<string>? Destinations { get; private init; }
 
     /// <summary>
-    /// A list of tags. Constraints: o max: 200 (structure) A custom key-value pair associated with a resource such as a CloudTrail trail, event data store, dashboard, or channel. Key -&gt; (string) [required] The key in a key-value pair. The key must be must be no longer than 128 Unicode characters. The key must be unique for the resource to which it applies. Constraints: o min: 1 o max: 128 Value -&gt; (string) The value in a key-value pair of a tag. The value must be no longer than 256 Unicode characters. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tags. Constraints: • max: 200 (structure) A custom key-value pair associated with a resource such as a CloudTrail trail, event data store, dashboard, or channel. Key -&gt; (string) [required] The key in a key-value pair. The key must be must be no longer than 128 Unicode characters. The key must be unique for the resource to which it applies. Constraints: • min: 1 • max: 128 Value -&gt; (string) The value in a key-value pair of a tag. The value must be no longer than 256 Unicode characters. Constraints: • min: 1 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

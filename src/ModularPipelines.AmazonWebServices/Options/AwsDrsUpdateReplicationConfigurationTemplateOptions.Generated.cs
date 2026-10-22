@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -29,7 +30,7 @@ public record AwsDrsUpdateReplicationConfigurationTemplateOptions : AwsOptions, 
     /// <summary>
     /// Updates a ReplicationConfigurationTemplate by ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ReplicationConfigurationTemplateId">The Replication Configuration Template ID. Constraints: o min: 21 o max: 21 o pattern: rct-[0-9a-zA-Z]{17}</param>
+    /// <param name="ReplicationConfigurationTemplateId">The Replication Configuration Template ID. Constraints: • min: 21 • max: 21 • pattern: rct-[0-9a-zA-Z]{17}</param>
     public AwsDrsUpdateReplicationConfigurationTemplateOptions(
         string ReplicationConfigurationTemplateId
     )
@@ -58,73 +59,73 @@ public record AwsDrsUpdateReplicationConfigurationTemplateOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Replication Configuration Template ID. Constraints: o min: 21 o max: 21 o pattern: rct-[0-9a-zA-Z]{17}
+    /// The Replication Configuration Template ID. Constraints: • min: 21 • max: 21 • pattern: rct-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--replication-configuration-template-id")]
     public string? ReplicationConfigurationTemplateId { get; private init; }
 
     /// <summary>
-    /// The Replication Configuration Template ARN. Constraints: o min: 20 o max: 2048 o pattern: arn:.{16,2044}
+    /// The Replication Configuration Template ARN. Constraints: • min: 20 • max: 2048 • pattern: arn:.{16,2044}
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; set; }
 
     /// <summary>
-    /// The subnet to be used by the replication staging area. Constraints: o min: 0 o max: 255 o pattern: subnet-[0-9a-fA-F]{8,}
+    /// The subnet to be used by the replication staging area. Constraints: • min: 0 • max: 255 • pattern: subnet-[0-9a-fA-F]{8,}
     /// </summary>
     [CliOption("--staging-area-subnet-id")]
     public string? StagingAreaSubnetId { get; set; }
 
     /// <summary>
-    /// rity-group (boolean) Whether to associate the default Elastic Disaster Recovery Security group with the Replication Configuration Template.
+    /// Whether to associate the default Elastic Disaster Recovery Security group with the Replication Configuration Template.
     /// </summary>
     [CliFlag("--associate-default-security-group", NegatedName = "--no-associate-default-security-group")]
     public bool? AssociateDefaultSecurityGroup { get; set; }
 
     /// <summary>
-    /// The security group IDs that will be used by the replication server. Constraints: o min: 0 o max: 32 (string) Constraints: o min: 0 o max: 255 o pattern: sg-[0-9a-fA-F]{8,} Syntax: "string" "string" ...
+    /// The security group IDs that will be used by the replication server. Constraints: • min: 0 • max: 32 (string) Constraints: • min: 0 • max: 255 • pattern: sg-[0-9a-fA-F]{8,} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--replication-servers-security-groups-ids", GroupValues = true)]
     public IEnumerable<string>? ReplicationServersSecurityGroupsIds { get; set; }
 
     /// <summary>
-    /// The instance type to be used for the replication server. Constraints: o min: 0 o max: 255
+    /// The instance type to be used for the replication server. Constraints: • min: 0 • max: 255
     /// </summary>
     [CliOption("--replication-server-instance-type")]
     public string? ReplicationServerInstanceType { get; set; }
 
     /// <summary>
-    /// tion-server (boolean) Whether to use a dedicated Replication Server in the replication staging area.
+    /// Whether to use a dedicated Replication Server in the replication staging area.
     /// </summary>
     [CliFlag("--use-dedicated-replication-server", NegatedName = "--no-use-dedicated-replication-server")]
     public bool? UseDedicatedReplicationServer { get; set; }
 
     /// <summary>
-    /// The Staging Disk EBS volume type to be used during replication. Possible values: o GP2 o GP3 o ST1 o AUTO
+    /// The Staging Disk EBS volume type to be used during replication. Possible values: • GP2 • GP3 • ST1 • AUTO
     /// </summary>
     [CliOption("--default-large-staging-disk-type")]
     public AwsDrsUpdateReplicationConfigurationTemplateDefaultLargeStagingDiskType? DefaultLargeStagingDiskType { get; set; }
 
     /// <summary>
-    /// The type of EBS encryption to be used during replication. Possible values: o DEFAULT o CUSTOM o NONE
+    /// The type of EBS encryption to be used during replication. Possible values: • DEFAULT • CUSTOM • NONE
     /// </summary>
     [CliOption("--ebs-encryption")]
     public AwsDrsUpdateReplicationConfigurationTemplateEbsEncryption? EbsEncryption { get; set; }
 
     /// <summary>
-    /// The ARN of the EBS encryption key to be used during replication. Constraints: o min: 20 o max: 2048 o pattern: arn:.{16,2044}
+    /// The ARN of the EBS encryption key to be used during replication. Constraints: • min: 20 • max: 2048 • pattern: arn:.{16,2044}
     /// </summary>
     [CliOption("--ebs-encryption-key-arn")]
     public string? EbsEncryptionKeyArn { get; set; }
 
     /// <summary>
-    /// Configure bandwidth throttling for the outbound data transfer rate of the Source Server in Mbps. Constraints: o min: 0
+    /// Configure bandwidth throttling for the outbound data transfer rate of the Source Server in Mbps. Constraints: • min: 0
     /// </summary>
     [CliOption("--bandwidth-throttling")]
-    public int? BandwidthThrottling { get; set; }
+    public long? BandwidthThrottling { get; set; }
 
     /// <summary>
-    /// The data plane routing mechanism that will be used for replication. Possible values: o PRIVATE_IP o PUBLIC_IP
+    /// The data plane routing mechanism that will be used for replication. Possible values: • PRIVATE_IP • PUBLIC_IP
     /// </summary>
     [CliOption("--data-plane-routing")]
     public AwsDrsUpdateReplicationConfigurationTemplateDataPlaneRouting? DataPlaneRouting { get; set; }
@@ -136,25 +137,25 @@ public record AwsDrsUpdateReplicationConfigurationTemplateOptions : AwsOptions, 
     public bool? CreatePublicIp { get; set; }
 
     /// <summary>
-    /// A set of tags to be associated with all resources created in the replication staging area: EC2 replication server, EBS volumes, EBS snapshots, etc. key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A set of tags to be associated with all resources created in the replication staging area: EC2 replication server, EBS volumes, EBS snapshots, etc. key -&gt; (string) Constraints: • min: 0 • max: 256 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--staging-area-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? StagingAreaTags { get; set; }
 
     /// <summary>
-    /// The Point in time (PIT) policy to manage snapshots taken during replication. Constraints: o min: 3 o max: 3 (structure) A rule in the Point in Time (PIT) policy representing when to take snapshots and how long to retain them for. ruleID -&gt; (long) The ID of the rule. Constraints: o min: 0 units -&gt; (string) [required] The units used to measure the interval and retentionDuration. Possible values: o MINUTE o HOUR o DAY interval -&gt; (integer) [required] How often, in the chosen units, a snapshot should be taken. Constraints: o min: 1 retentionDuration -&gt; (integer) [required] The duration to retain a snapshot for, in the chosen units. Constraints: o min: 1 enabled -&gt; (boolean) Whether this rule is enabled or not. Shorthand Syntax: ruleID=long,units=string,interval=integer,retentionDuration=integer,enabled=boolean ... JSON Syntax: [ { "ruleID": long, "units": "MINUTE"|"HOUR"|"DAY", "interval": integer, "retentionDuration": integer, "enabled": true|false } ... ]
+    /// The Point in time (PIT) policy to manage snapshots taken during replication. Constraints: • min: 3 • max: 3 (structure) A rule in the Point in Time (PIT) policy representing when to take snapshots and how long to retain them for. ruleID -&gt; (long) The ID of the rule. Constraints: • min: 0 units -&gt; (string) [required] The units used to measure the interval and retentionDuration. Possible values: • MINUTE • HOUR • DAY interval -&gt; (integer) [required] How often, in the chosen units, a snapshot should be taken. Constraints: • min: 1 retentionDuration -&gt; (integer) [required] The duration to retain a snapshot for, in the chosen units. Constraints: • min: 1 enabled -&gt; (boolean) Whether this rule is enabled or not. Shorthand Syntax: ruleID=long,units=string,interval=integer,retentionDuration=integer,enabled=boolean ... JSON Syntax: [ { "ruleID": long, "units": "MINUTE"|"HOUR"|"DAY", "interval": integer, "retentionDuration": integer, "enabled": true|false } ... ]
     /// </summary>
     [CliOption("--pit-policy", GroupValues = true)]
     public IEnumerable<string>? PitPolicy { get; set; }
 
     /// <summary>
-    /// Whether to allow the AWS replication agent to automatically repli- cate newly added disks.
+    /// Whether to allow the AWS replication agent to automatically replicate newly added disks.
     /// </summary>
     [CliFlag("--auto-replicate-new-disks", NegatedName = "--no-auto-replicate-new-disks")]
     public bool? AutoReplicateNewDisks { get; set; }
 
     /// <summary>
-    /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6) Possible values: o IPV4 o IPV6
+    /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6) Possible values: • IPV4 • IPV6
     /// </summary>
     [CliOption("--internet-protocol")]
     public AwsDrsUpdateReplicationConfigurationTemplateInternetProtocol? InternetProtocol { get; set; }

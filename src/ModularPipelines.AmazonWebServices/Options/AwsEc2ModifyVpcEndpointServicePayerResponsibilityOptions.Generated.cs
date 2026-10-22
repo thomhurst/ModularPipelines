@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsEc2ModifyVpcEndpointServicePayerResponsibilityOptions : AwsOpti
     /// Modifies the payer responsibility for your VPC endpoint service. See also: AWS API Documentation
     /// </summary>
     /// <param name="ServiceId">The ID of the service.</param>
-    /// <param name="PayerResponsibility">The entity that is responsible for the endpoint costs. The default is the endpoint owner. If you set the payer responsibility to the service owner, you cannot set it back to the endpoint owner. Possible values: o ServiceOwner</param>
+    /// <param name="PayerResponsibility">The entity that is responsible for the endpoint costs. The default is the endpoint owner. If you set the payer responsibility to the service owner, you cannot set it back to the endpoint owner. Possible values: • ServiceOwner</param>
     public AwsEc2ModifyVpcEndpointServicePayerResponsibilityOptions(
         string ServiceId,
         string PayerResponsibility
@@ -66,13 +68,13 @@ public record AwsEc2ModifyVpcEndpointServicePayerResponsibilityOptions : AwsOpti
     public string? ServiceId { get; private init; }
 
     /// <summary>
-    /// The entity that is responsible for the endpoint costs. The default is the endpoint owner. If you set the payer responsibility to the service owner, you cannot set it back to the endpoint owner. Possible values: o ServiceOwner
+    /// The entity that is responsible for the endpoint costs. The default is the endpoint owner. If you set the payer responsibility to the service owner, you cannot set it back to the endpoint owner. Possible values: • ServiceOwner
     /// </summary>
     [CliOption("--payer-responsibility")]
     public string? PayerResponsibility { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

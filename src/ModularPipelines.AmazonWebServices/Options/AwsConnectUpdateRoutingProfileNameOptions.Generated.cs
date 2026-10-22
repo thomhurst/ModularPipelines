@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the name and description of a routing profile. The request ac- cepts the following data in JSON format. At least Name or Description must be provided. See also: AWS API Documentation
+/// Updates the name and description of a routing profile. The request accepts the following data in JSON format. At least Name or Description must be provided. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsConnectUpdateRoutingProfileNameOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the name and description of a routing profile. The request ac- cepts the following data in JSON format. At least Name or Description must be provided. See also: AWS API Documentation
+    /// Updates the name and description of a routing profile. The request accepts the following data in JSON format. At least Name or Description must be provided. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     /// <param name="RoutingProfileId">The identifier of the routing profile.</param>
     public AwsConnectUpdateRoutingProfileNameOptions(
         string InstanceId,
@@ -60,7 +62,7 @@ public record AwsConnectUpdateRoutingProfileNameOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
@@ -72,13 +74,13 @@ public record AwsConnectUpdateRoutingProfileNameOptions : AwsOptions, IValidatab
     public string? RoutingProfileId { get; private init; }
 
     /// <summary>
-    /// The name of the routing profile. Must not be more than 127 charac- ters. Constraints: o min: 1 o max: 127
+    /// The name of the routing profile. Must not be more than 127 characters. Constraints: • min: 1 • max: 127
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The description of the routing profile. Must not be more than 250 characters. Constraints: o min: 1 o max: 250
+    /// The description of the routing profile. Must not be more than 250 characters. Constraints: • min: 1 • max: 250
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

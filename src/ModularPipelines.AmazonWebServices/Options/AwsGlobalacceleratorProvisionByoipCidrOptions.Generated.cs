@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provisions an IP address range to use with your Amazon Web Services re- sources through bring your own IP addresses (BYOIP) and creates a cor- responding address pool. After the address range is provisioned, it is ready to be advertised using AdvertiseByoipCidr . For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide . See also: AWS API Documentation
+/// Provisions an IP address range to use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and creates a corresponding address pool. After the address range is provisioned, it is ready to be advertised using AdvertiseByoipCidr . For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsGlobalacceleratorProvisionByoipCidrOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provisions an IP address range to use with your Amazon Web Services re- sources through bring your own IP addresses (BYOIP) and creates a cor- responding address pool. After the address range is provisioned, it is ready to be advertised using AdvertiseByoipCidr . For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide . See also: AWS API Documentation
+    /// Provisions an IP address range to use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and creates a corresponding address pool. After the address range is provisioned, it is ready to be advertised using AdvertiseByoipCidr . For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Cidr">The public IPv4 address range, in CIDR notation. The most specific IP prefix that you can specify is /24. The address range cannot overlap with another address range that you've brought to this Ama- zon Web Services Region or another Region. For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide. Constraints: o max: 255</param>
-    /// <param name="CidrAuthorizationContext">A signed document that proves that you are authorized to bring the specified IP address range to Amazon using BYOIP. Message -&gt; (string) [required] The plain-text authorization message for the prefix and account. Constraints: o max: 255 Signature -&gt; (string) [required] The signed authorization message for the prefix and account. Constraints: o max: 255 Shorthand Syntax: Message=string,Signature=string JSON Syntax: { "Message": "string", "Signature": "string" }</param>
+    /// <param name="Cidr">The public IPv4 address range, in CIDR notation. The most specific IP prefix that you can specify is /24. The address range cannot overlap with another address range that you've brought to this Amazon Web Services Region or another Region. For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide. Constraints: • max: 255</param>
+    /// <param name="CidrAuthorizationContext">A signed document that proves that you are authorized to bring the specified IP address range to Amazon using BYOIP. Message -&gt; (string) [required] The plain-text authorization message for the prefix and account. Constraints: • max: 255 Signature -&gt; (string) [required] The signed authorization message for the prefix and account. Constraints: • max: 255 Shorthand Syntax: Message=string,Signature=string JSON Syntax: { "Message": "string", "Signature": "string" }</param>
     public AwsGlobalacceleratorProvisionByoipCidrOptions(
         string Cidr,
         string CidrAuthorizationContext
@@ -60,13 +62,13 @@ public record AwsGlobalacceleratorProvisionByoipCidrOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The public IPv4 address range, in CIDR notation. The most specific IP prefix that you can specify is /24. The address range cannot overlap with another address range that you've brought to this Ama- zon Web Services Region or another Region. For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide. Constraints: o max: 255
+    /// The public IPv4 address range, in CIDR notation. The most specific IP prefix that you can specify is /24. The address range cannot overlap with another address range that you've brought to this Amazon Web Services Region or another Region. For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide. Constraints: • max: 255
     /// </summary>
     [CliOption("--cidr")]
     public string? Cidr { get; private init; }
 
     /// <summary>
-    /// A signed document that proves that you are authorized to bring the specified IP address range to Amazon using BYOIP. Message -&gt; (string) [required] The plain-text authorization message for the prefix and account. Constraints: o max: 255 Signature -&gt; (string) [required] The signed authorization message for the prefix and account. Constraints: o max: 255 Shorthand Syntax: Message=string,Signature=string JSON Syntax: { "Message": "string", "Signature": "string" }
+    /// A signed document that proves that you are authorized to bring the specified IP address range to Amazon using BYOIP. Message -&gt; (string) [required] The plain-text authorization message for the prefix and account. Constraints: • max: 255 Signature -&gt; (string) [required] The signed authorization message for the prefix and account. Constraints: • max: 255 Shorthand Syntax: Message=string,Signature=string JSON Syntax: { "Message": "string", "Signature": "string" }
     /// </summary>
     [CliOption("--cidr-authorization-context")]
     public string? CidrAuthorizationContext { get; private init; }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,7 +29,7 @@ public record AwsIvsCreateAdConfigurationOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Creates a new ad configuration to be used for server-side ad insertion. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MediaTailorPlaybackConfigurations">List of integration configurations with MediaTailor resources. The first item in the list is the default playback configuration used for the ad configuration. To select a different configuration per viewing session, see Generate and Sign IVS Playback Tokens . Constraints: o min: 1 o max: 3 (structure) Object specifying a configuration for integration with an AWS Elemental MediaTailor (EMT). playbackConfigurationArn -&gt; (string) ARN of the customer-created EMT PlaybackConfiguration re- source in the same region and account. Constraints: o min: 0 o max: 128 o pattern: arn:aws:mediatailor:[a-z0-9-]+:[0-9]+:playbackCon- figuration/[a-zA-Z0-9-]+ Shorthand Syntax: playbackConfigurationArn=string ... JSON Syntax: [ { "playbackConfigurationArn": "string" } ... ]</param>
+    /// <param name="MediaTailorPlaybackConfigurations">List of integration configurations with MediaTailor resources. The first item in the list is the default playback configuration used for the ad configuration. To select a different configuration per viewing session, see Generate and Sign IVS Playback Tokens . Constraints: • min: 1 • max: 3 (structure) Object specifying a configuration for integration with an AWS Elemental MediaTailor (EMT). playbackConfigurationArn -&gt; (string) ARN of the customer-created EMT PlaybackConfiguration resource in the same region and account. Constraints: • min: 0 • max: 128 • pattern: arn:aws:mediatailor:[a-z0-9-]+:[0-9]+:playbackConfiguration/[a-zA-Z0-9-]+ Shorthand Syntax: playbackConfigurationArn=string ... JSON Syntax: [ { "playbackConfigurationArn": "string" } ... ]</param>
     public AwsIvsCreateAdConfigurationOptions(
         IEnumerable<string> MediaTailorPlaybackConfigurations
     )
@@ -68,25 +69,25 @@ public record AwsIvsCreateAdConfigurationOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// List of integration configurations with MediaTailor resources. The first item in the list is the default playback configuration used for the ad configuration. To select a different configuration per viewing session, see Generate and Sign IVS Playback Tokens . Constraints: o min: 1 o max: 3 (structure) Object specifying a configuration for integration with an AWS Elemental MediaTailor (EMT). playbackConfigurationArn -&gt; (string) ARN of the customer-created EMT PlaybackConfiguration re- source in the same region and account. Constraints: o min: 0 o max: 128 o pattern: arn:aws:mediatailor:[a-z0-9-]+:[0-9]+:playbackCon- figuration/[a-zA-Z0-9-]+ Shorthand Syntax: playbackConfigurationArn=string ... JSON Syntax: [ { "playbackConfigurationArn": "string" } ... ]
+    /// List of integration configurations with MediaTailor resources. The first item in the list is the default playback configuration used for the ad configuration. To select a different configuration per viewing session, see Generate and Sign IVS Playback Tokens . Constraints: • min: 1 • max: 3 (structure) Object specifying a configuration for integration with an AWS Elemental MediaTailor (EMT). playbackConfigurationArn -&gt; (string) ARN of the customer-created EMT PlaybackConfiguration resource in the same region and account. Constraints: • min: 0 • max: 128 • pattern: arn:aws:mediatailor:[a-z0-9-]+:[0-9]+:playbackConfiguration/[a-zA-Z0-9-]+ Shorthand Syntax: playbackConfigurationArn=string ... JSON Syntax: [ { "playbackConfigurationArn": "string" } ... ]
     /// </summary>
     [CliOption("--media-tailor-playback-configurations", GroupValues = true)]
     public IEnumerable<string>? MediaTailorPlaybackConfigurations { get; private init; }
 
     /// <summary>
-    /// Ad configuration name. Defaults to . Constraints: o min: 0 o max: 128 o pattern: [a-zA-Z0-9-_]*
+    /// Ad configuration name. Defaults to . Constraints: • min: 0 • max: 128 • pattern: [a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Configuration for the post-roll ad break to use for this ad configu- ration. Default: disabled (enabled set to false, durationSeconds set to 15). durationSeconds -&gt; (integer) [required] Duration of the post-roll ad break, in seconds. Constraints: o min: 1 o max: 300 enabled -&gt; (boolean) [required] Whether the post-roll ad configuration is enabled. Shorthand Syntax: durationSeconds=integer,enabled=boolean JSON Syntax: { "durationSeconds": integer, "enabled": true|false }
+    /// Configuration for the post-roll ad break to use for this ad configuration. Default: disabled (enabled set to false, durationSeconds set to 15). durationSeconds -&gt; (integer) [required] Duration of the post-roll ad break, in seconds. Constraints: • min: 1 • max: 300 enabled -&gt; (boolean) [required] Whether the post-roll ad configuration is enabled. Shorthand Syntax: durationSeconds=integer,enabled=boolean JSON Syntax: { "durationSeconds": integer, "enabled": true|false }
     /// </summary>
     [CliOption("--post-roll-configuration")]
     public string? PostRollConfiguration { get; set; }
 
     /// <summary>
-    /// Array of 1-50 maps, each of the form string:string (key:value) . See Best practices and strategies in Tagging Amazon Web Services Re- sources and Tag Editor for details, including restrictions that ap- ply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]+) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Array of 1-50 maps, each of the form string:string (key:value) . See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]+) value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

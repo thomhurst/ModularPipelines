@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,12 +29,12 @@ public record AwsQuicksightCreateVpcConnectionOptions : AwsOptions, IValidatable
     /// <summary>
     /// Creates a new VPC connection. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The Amazon Web Services account ID of the account where you want to create a new VPC connection. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="VpcConnectionId">The ID of the VPC connection that you're creating. This ID is a unique identifier for each Amazon Web Services Region in an Amazon Web Services account. Constraints: o min: 1 o max: 1000 o pattern: [\w\-]+</param>
-    /// <param name="Name">The display name for the VPC connection. Constraints: o min: 1 o max: 128</param>
-    /// <param name="SubnetIds">A list of subnet IDs for the VPC connection. Constraints: o min: 2 o max: 15 (string) Constraints: o min: 1 o max: 255 o pattern: ^subnet-[0-9a-z]*$ Syntax: "string" "string" ...</param>
-    /// <param name="SecurityGroupIds">A list of security group IDs for the VPC connection. Constraints: o min: 1 o max: 16 (string) Constraints: o min: 1 o max: 255 o pattern: ^sg-[0-9a-z]*$ Syntax: "string" "string" ...</param>
-    /// <param name="RoleArn">The IAM role to associate with the VPC connection. Constraints: o min: 20 o max: 2048</param>
+    /// <param name="AwsAccountId">The Amazon Web Services account ID of the account where you want to create a new VPC connection. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="VpcConnectionId">The ID of the VPC connection that you're creating. This ID is a unique identifier for each Amazon Web Services Region in an Amazon Web Services account. Constraints: • min: 1 • max: 1000 • pattern: [\w\-]+</param>
+    /// <param name="Name">The display name for the VPC connection. Constraints: • min: 1 • max: 128</param>
+    /// <param name="SubnetIds">A list of subnet IDs for the VPC connection. Constraints: • min: 2 • max: 15 (string) Constraints: • min: 1 • max: 255 • pattern: ^subnet-[0-9a-z]*$ Syntax: "string" "string" ...</param>
+    /// <param name="SecurityGroupIds">A list of security group IDs for the VPC connection. Constraints: • min: 1 • max: 16 (string) Constraints: • min: 1 • max: 255 • pattern: ^sg-[0-9a-z]*$ Syntax: "string" "string" ...</param>
+    /// <param name="RoleArn">The IAM role to associate with the VPC connection. Constraints: • min: 20 • max: 2048</param>
     public AwsQuicksightCreateVpcConnectionOptions(
         string AwsAccountId,
         string VpcConnectionId,
@@ -98,49 +100,49 @@ public record AwsQuicksightCreateVpcConnectionOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID of the account where you want to create a new VPC connection. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The Amazon Web Services account ID of the account where you want to create a new VPC connection. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID of the VPC connection that you're creating. This ID is a unique identifier for each Amazon Web Services Region in an Amazon Web Services account. Constraints: o min: 1 o max: 1000 o pattern: [\w\-]+
+    /// The ID of the VPC connection that you're creating. This ID is a unique identifier for each Amazon Web Services Region in an Amazon Web Services account. Constraints: • min: 1 • max: 1000 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--vpc-connection-id")]
     public string? VpcConnectionId { get; private init; }
 
     /// <summary>
-    /// The display name for the VPC connection. Constraints: o min: 1 o max: 128
+    /// The display name for the VPC connection. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A list of subnet IDs for the VPC connection. Constraints: o min: 2 o max: 15 (string) Constraints: o min: 1 o max: 255 o pattern: ^subnet-[0-9a-z]*$ Syntax: "string" "string" ...
+    /// A list of subnet IDs for the VPC connection. Constraints: • min: 2 • max: 15 (string) Constraints: • min: 1 • max: 255 • pattern: ^subnet-[0-9a-z]*$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; private init; }
 
     /// <summary>
-    /// A list of security group IDs for the VPC connection. Constraints: o min: 1 o max: 16 (string) Constraints: o min: 1 o max: 255 o pattern: ^sg-[0-9a-z]*$ Syntax: "string" "string" ...
+    /// A list of security group IDs for the VPC connection. Constraints: • min: 1 • max: 16 (string) Constraints: • min: 1 • max: 255 • pattern: ^sg-[0-9a-z]*$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; private init; }
 
     /// <summary>
-    /// The IAM role to associate with the VPC connection. Constraints: o min: 20 o max: 2048
+    /// The IAM role to associate with the VPC connection. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// A list of IP addresses of DNS resolver endpoints for the VPC connec- tion. Constraints: o max: 15 (string) Constraints: o min: 7 o max: 15 Syntax: "string" "string" ...
+    /// A list of IP addresses of DNS resolver endpoints for the VPC connection. Constraints: • max: 15 (string) Constraints: • min: 7 • max: 15 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--dns-resolvers", GroupValues = true)]
     public IEnumerable<string>? DnsResolvers { get; set; }
 
     /// <summary>
-    /// A map of the key-value pairs for the resource tag or tags assigned to the VPC connection. Constraints: o min: 1 o max: 200 (structure) The key or keys of the key-value pairs for the resource tag or tags assigned to the resource. Key -&gt; (string) [required] Tag key. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] Tag value. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A map of the key-value pairs for the resource tag or tags assigned to the VPC connection. Constraints: • min: 1 • max: 200 (structure) The key or keys of the key-value pairs for the resource tag or tags assigned to the resource. Key -&gt; (string) [required] Tag key. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] Tag value. Constraints: • min: 1 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

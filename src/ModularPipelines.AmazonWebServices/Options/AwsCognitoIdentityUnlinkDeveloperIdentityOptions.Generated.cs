@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Unlinks a DeveloperUserIdentifier from an existing identity. Unlinked developer users will be considered new identities next time they are seen. If, for a given Cognito identity, you remove all federated iden- tities as well as the developer user identifier, the Cognito identity becomes inaccessible. You must use Amazon Web Services developer credentials to call this op- eration. See also: AWS API Documentation
+/// Unlinks a DeveloperUserIdentifier from an existing identity. Unlinked developer users will be considered new identities next time they are seen. If, for a given Cognito identity, you remove all federated identities as well as the developer user identifier, the Cognito identity becomes inaccessible. You must use Amazon Web Services developer credentials to call this operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +27,12 @@ public record AwsCognitoIdentityUnlinkDeveloperIdentityOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Unlinks a DeveloperUserIdentifier from an existing identity. Unlinked developer users will be considered new identities next time they are seen. If, for a given Cognito identity, you remove all federated iden- tities as well as the developer user identifier, the Cognito identity becomes inaccessible. You must use Amazon Web Services developer credentials to call this op- eration. See also: AWS API Documentation
+    /// Unlinks a DeveloperUserIdentifier from an existing identity. Unlinked developer users will be considered new identities next time they are seen. If, for a given Cognito identity, you remove all federated identities as well as the developer user identifier, the Cognito identity becomes inaccessible. You must use Amazon Web Services developer credentials to call this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IdentityId">A unique identifier in the format REGION:GUID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+</param>
-    /// <param name="IdentityPoolId">An identity pool ID in the format REGION:GUID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+</param>
-    /// <param name="DeveloperProviderName">The "domain" by which Cognito will refer to your users. Constraints: o min: 1 o max: 128 o pattern: [\w._-]+</param>
-    /// <param name="DeveloperUserIdentifier">A unique ID used by your backend authentication process to identify a user. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="IdentityId">A unique identifier in the format REGION:GUID. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+</param>
+    /// <param name="IdentityPoolId">An identity pool ID in the format REGION:GUID. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+</param>
+    /// <param name="DeveloperProviderName">The "domain" by which Cognito will refer to your users. Constraints: • min: 1 • max: 128 • pattern: [\w._-]+</param>
+    /// <param name="DeveloperUserIdentifier">A unique ID used by your backend authentication process to identify a user. Constraints: • min: 1 • max: 1024</param>
     public AwsCognitoIdentityUnlinkDeveloperIdentityOptions(
         string IdentityId,
         string IdentityPoolId,
@@ -68,25 +70,25 @@ public record AwsCognitoIdentityUnlinkDeveloperIdentityOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier in the format REGION:GUID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+
+    /// A unique identifier in the format REGION:GUID. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+
     /// </summary>
     [CliOption("--identity-id")]
     public string? IdentityId { get; private init; }
 
     /// <summary>
-    /// An identity pool ID in the format REGION:GUID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+
+    /// An identity pool ID in the format REGION:GUID. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+
     /// </summary>
     [CliOption("--identity-pool-id")]
     public string? IdentityPoolId { get; private init; }
 
     /// <summary>
-    /// The "domain" by which Cognito will refer to your users. Constraints: o min: 1 o max: 128 o pattern: [\w._-]+
+    /// The "domain" by which Cognito will refer to your users. Constraints: • min: 1 • max: 128 • pattern: [\w._-]+
     /// </summary>
     [CliOption("--developer-provider-name")]
     public string? DeveloperProviderName { get; private init; }
 
     /// <summary>
-    /// A unique ID used by your backend authentication process to identify a user. Constraints: o min: 1 o max: 1024
+    /// A unique ID used by your backend authentication process to identify a user. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--developer-user-identifier")]
     public string? DeveloperUserIdentifier { get; private init; }

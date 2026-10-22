@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of model copy jobs that you have submitted. You can fil- ter the jobs to return based on one or more criteria. For more informa- tion, see Copy models to be used in other regions in the Amazon Bedrock User Guide . See also: AWS API Documentation list-model-copy-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --que...
+/// Returns a list of model copy jobs that you have submitted. You can filter the jobs to return based on one or more criteria. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide . See also: AWS API Documentation list-model-copy-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query a...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -36,46 +36,43 @@ public record AwsBedrockListModelCopyJobsOptions : AwsOptions
     public string? CreationTimeBefore { get; set; }
 
     /// <summary>
-    /// Filters for model copy jobs whose status matches the value that you specify. Possible values: o InProgress o Completed o Failed
+    /// Filters for model copy jobs whose status matches the value that you specify. Possible values: • InProgress • Completed • Failed
     /// </summary>
     [CliOption("--status-equals")]
     public AwsBedrockListModelCopyJobsStatusEquals? StatusEquals { get; set; }
 
     /// <summary>
-    /// Filters for model copy jobs in which the account that the source model belongs to is equal to the value that you specify. Constraints: o pattern: [0-9]{12}
+    /// Filters for model copy jobs in which the account that the source model belongs to is equal to the value that you specify. Constraints: • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--source-account-equals")]
     public string? SourceAccountEquals { get; set; }
 
     /// <summary>
-    /// Filters for model copy jobs in which the Amazon Resource Name (ARN) of the source model to is equal to the value that you specify. Constraints: o min: 20 o max: 1011 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:cus- tom-model/((im- ported)|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}))(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foun- da- tion-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}))
+    /// Filters for model copy jobs in which the Amazon Resource Name (ARN) of the source model to is equal to the value that you specify. Constraints: • min: 20 • max: 1011 • pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/((imported)|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}))(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}))
     /// </summary>
     [CliOption("--source-model-arn-equals")]
     public string? SourceModelArnEquals { get; set; }
 
     /// <summary>
-    /// Filters for model copy jobs in which the name of the copied model contains the string that you specify. Constraints: o min: 1 o max: 63 o pattern: ([0-9a-zA-Z][_-]?){1,63}
+    /// Filters for model copy jobs in which the name of the copied model contains the string that you specify. Constraints: • min: 1 • max: 63 • pattern: ([0-9a-zA-Z][_-]?){1,63}
     /// </summary>
     [CliOption("--target-model-name-contains")]
     public string? TargetModelNameContains { get; set; }
 
     /// <summary>
-    /// The field to sort by in the returned list of model copy jobs. Possible values: o CreationTime
+    /// The field to sort by in the returned list of model copy jobs. Possible values: • CreationTime
     /// </summary>
     [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
     /// <summary>
-    /// Specifies whether to sort the results in ascending or descending or- der. Possible values: o Ascending o Descending
+    /// Specifies whether to sort the results in ascending or descending order. Possible values: • Ascending • Descending
     /// </summary>
     [CliOption("--sort-order")]
     public AwsBedrockListModelCopyJobsSortOrder? SortOrder { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -85,15 +82,18 @@ public record AwsBedrockListModelCopyJobsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

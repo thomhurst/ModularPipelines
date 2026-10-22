@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsBedrockAgentcoreControlGetRegistryRecordOptions : AwsOptions, I
     /// <summary>
     /// Retrieves information about a specific registry record. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RegistryId">The identifier of the registry containing the record. You can spec- ify either the Amazon Resource Name (ARN) or the ID of the registry. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}</param>
-    /// <param name="RecordId">The identifier of the registry record to retrieve. You can specify either the Amazon Resource Name (ARN) or the ID of the record. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:reg- istry/[a-zA-Z0-9]{12,16}/record/)?[a-zA-Z0-9]{12}</param>
+    /// <param name="RegistryId">The identifier of the registry containing the record. You can specify either the Amazon Resource Name (ARN) or the ID of the registry. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(-[^:]+)?:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}</param>
+    /// <param name="RecordId">The identifier of the registry record to retrieve. You can specify either the Amazon Resource Name (ARN) or the ID of the record. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(-[^:]+)?:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:registry/[a-zA-Z0-9]{12,16}/record/)?[a-zA-Z0-9]{12}</param>
     public AwsBedrockAgentcoreControlGetRegistryRecordOptions(
         string RegistryId,
         string RecordId
@@ -60,13 +62,13 @@ public record AwsBedrockAgentcoreControlGetRegistryRecordOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the registry containing the record. You can spec- ify either the Amazon Resource Name (ARN) or the ID of the registry. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}
+    /// The identifier of the registry containing the record. You can specify either the Amazon Resource Name (ARN) or the ID of the registry. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(-[^:]+)?:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; private init; }
 
     /// <summary>
-    /// The identifier of the registry record to retrieve. You can specify either the Amazon Resource Name (ARN) or the ID of the record. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:reg- istry/[a-zA-Z0-9]{12,16}/record/)?[a-zA-Z0-9]{12}
+    /// The identifier of the registry record to retrieve. You can specify either the Amazon Resource Name (ARN) or the ID of the record. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(-[^:]+)?:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:registry/[a-zA-Z0-9]{12,16}/record/)?[a-zA-Z0-9]{12}
     /// </summary>
     [CliOption("--record-id")]
     public string? RecordId { get; private init; }

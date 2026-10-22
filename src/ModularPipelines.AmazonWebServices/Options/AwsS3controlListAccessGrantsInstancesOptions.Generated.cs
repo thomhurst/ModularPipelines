@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of S3 Access Grants instances. An S3 Access Grants in- stance serves as a logical grouping for your individual access grants. You can only have one S3 Access Grants instance per Region per account. Permissions You must have the s3:ListAccessGrantsInstances permission to use this operation. See also: AWS API Documentation
+/// Returns a list of S3 Access Grants instances. An S3 Access Grants instance serves as a logical grouping for your individual access grants. You can only have one S3 Access Grants instance per Region per account. Permissions You must have the s3:ListAccessGrantsInstances permission to use this operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsS3controlListAccessGrantsInstancesOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a list of S3 Access Grants instances. An S3 Access Grants in- stance serves as a logical grouping for your individual access grants. You can only have one S3 Access Grants instance per Region per account. Permissions You must have the s3:ListAccessGrantsInstances permission to use this operation. See also: AWS API Documentation
+    /// Returns a list of S3 Access Grants instances. An S3 Access Grants instance serves as a logical grouping for your individual access grants. You can only have one S3 Access Grants instance per Region per account. Permissions You must have the s3:ListAccessGrantsInstances permission to use this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: o max: 64 o pattern: ^\d{12}$</param>
+    /// <param name="AccountId">The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: • max: 64 • pattern: ^\d{12}$</param>
     public AwsS3controlListAccessGrantsInstancesOptions(
         string AccountId
     )
@@ -57,20 +59,20 @@ public record AwsS3controlListAccessGrantsInstancesOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// A pagination token to request the next page of results. Pass this value into a subsequent List Access Grants Instances request in or- der to retrieve the next page of results.
+    /// A pagination token to request the next page of results. Pass this value into a subsequent List Access Grants Instances request in order to retrieve the next page of results.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of access grants that you would like returned in the List Access Grants response. If the results include the pagina- tion token NextToken , make another call using the NextToken to de- termine if there are more results. Constraints: o min: 0 o max: 1000
+    /// The maximum number of access grants that you would like returned in the List Access Grants response. If the results include the pagination token NextToken , make another call using the NextToken to determine if there are more results. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

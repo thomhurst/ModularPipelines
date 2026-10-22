@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates SageMaker hub content (either a Model or Notebook resource). You can update the metadata that describes the resource. In addition to the required request fields, specify at least one of the following fields to update: o HubContentDescription o HubContentDisplayName o HubContentMarkdown o HubContentSearchKeywords o SupportStatus For more information about hubs, see Private curated hubs for founda- tion model access control in JumpStart . NOTE: If you want to update a ModelReference resour...
+/// Updates SageMaker hub content (either a Model or Notebook resource). You can update the metadata that describes the resource. In addition to the required request fields, specify at least one of the following fields to update: • HubContentDescription • HubContentDisplayName • HubContentMarkdown • HubContentSearchKeywords • SupportStatus For more information about hubs, see Private curated hubs for foundation model access control in JumpStart . NOTE: If you want to update a ModelReference resource...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +28,12 @@ public record AwsSagemakerUpdateHubContentOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates SageMaker hub content (either a Model or Notebook resource). You can update the metadata that describes the resource. In addition to the required request fields, specify at least one of the following fields to update: o HubContentDescription o HubContentDisplayName o HubContentMarkdown o HubContentSearchKeywords o SupportStatus For more information about hubs, see Private curated hubs for founda- tion model access control in JumpStart . NOTE: If you want to update a ModelReference resour...
+    /// Updates SageMaker hub content (either a Model or Notebook resource). You can update the metadata that describes the resource. In addition to the required request fields, specify at least one of the following fields to update: • HubContentDescription • HubContentDisplayName • HubContentMarkdown • HubContentSearchKeywords • SupportStatus For more information about hubs, see Private curated hubs for foundation model access control in JumpStart . NOTE: If you want to update a ModelReference resource...
     /// </summary>
-    /// <param name="HubName">The name of the SageMaker hub that contains the hub content you want to update. You can optionally use the hub ARN instead. Constraints: o pattern: (arn:[a-z0-9-\.]{1,63}:sage- maker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
-    /// <param name="HubContentName">The name of the hub content resource that you want to update. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
-    /// <param name="HubContentType">The content type of the resource that you want to update. Only spec- ify a Model or Notebook resource for this API. To update a ModelRef- erence , use the UpdateHubContentReference API instead. Possible values: o Model o Notebook o ModelReference o DataSet o JsonDoc</param>
-    /// <param name="HubContentVersion">The hub content version that you want to update. For example, if you have two versions of a resource in your hub, you can update the sec- ond version. Constraints: o min: 5 o max: 14 o pattern: \d{1,4}.\d{1,4}.\d{1,4}</param>
+    /// <param name="HubName">The name of the SageMaker hub that contains the hub content you want to update. You can optionally use the hub ARN instead. Constraints: • pattern: (arn:[a-z0-9-\.]{1,63}:sagemaker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="HubContentName">The name of the hub content resource that you want to update. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="HubContentType">The content type of the resource that you want to update. Only specify a Model or Notebook resource for this API. To update a ModelReference , use the UpdateHubContentReference API instead. Possible values: • Model • Notebook • ModelReference • DataSet • JsonDoc</param>
+    /// <param name="HubContentVersion">The hub content version that you want to update. For example, if you have two versions of a resource in your hub, you can update the second version. Constraints: • min: 5 • max: 14 • pattern: \d{1,4}.\d{1,4}.\d{1,4}</param>
     public AwsSagemakerUpdateHubContentOptions(
         string HubName,
         string HubContentName,
@@ -68,55 +70,55 @@ public record AwsSagemakerUpdateHubContentOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the SageMaker hub that contains the hub content you want to update. You can optionally use the hub ARN instead. Constraints: o pattern: (arn:[a-z0-9-\.]{1,63}:sage- maker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the SageMaker hub that contains the hub content you want to update. You can optionally use the hub ARN instead. Constraints: • pattern: (arn:[a-z0-9-\.]{1,63}:sagemaker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--hub-name")]
     public string? HubName { get; private init; }
 
     /// <summary>
-    /// The name of the hub content resource that you want to update. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the hub content resource that you want to update. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--hub-content-name")]
     public string? HubContentName { get; private init; }
 
     /// <summary>
-    /// The content type of the resource that you want to update. Only spec- ify a Model or Notebook resource for this API. To update a ModelRef- erence , use the UpdateHubContentReference API instead. Possible values: o Model o Notebook o ModelReference o DataSet o JsonDoc
+    /// The content type of the resource that you want to update. Only specify a Model or Notebook resource for this API. To update a ModelReference , use the UpdateHubContentReference API instead. Possible values: • Model • Notebook • ModelReference • DataSet • JsonDoc
     /// </summary>
     [CliOption("--hub-content-type")]
     public AwsSagemakerUpdateHubContentHubContentType? HubContentType { get; private init; }
 
     /// <summary>
-    /// The hub content version that you want to update. For example, if you have two versions of a resource in your hub, you can update the sec- ond version. Constraints: o min: 5 o max: 14 o pattern: \d{1,4}.\d{1,4}.\d{1,4}
+    /// The hub content version that you want to update. For example, if you have two versions of a resource in your hub, you can update the second version. Constraints: • min: 5 • max: 14 • pattern: \d{1,4}.\d{1,4}.\d{1,4}
     /// </summary>
     [CliOption("--hub-content-version")]
     public string? HubContentVersion { get; private init; }
 
     /// <summary>
-    /// The display name of the hub content. Constraints: o min: 0 o max: 255 o pattern: .*
+    /// The display name of the hub content. Constraints: • min: 0 • max: 255 • pattern: .*
     /// </summary>
     [CliOption("--hub-content-display-name")]
     public string? HubContentDisplayName { get; set; }
 
     /// <summary>
-    /// The description of the hub content. Constraints: o min: 0 o max: 1023 o pattern: .*
+    /// The description of the hub content. Constraints: • min: 0 • max: 1023 • pattern: .*
     /// </summary>
     [CliOption("--hub-content-description")]
     public string? HubContentDescription { get; set; }
 
     /// <summary>
-    /// A string that provides a description of the hub content. This string can include links, tables, and standard markdown formatting. Constraints: o min: 0 o max: 170391
+    /// A string that provides a description of the hub content. This string can include links, tables, and standard markdown formatting. Constraints: • min: 0 • max: 170391
     /// </summary>
     [CliOption("--hub-content-markdown")]
     public string? HubContentMarkdown { get; set; }
 
     /// <summary>
-    /// The searchable keywords of the hub content. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 0 o max: 255 o pattern: .* Syntax: "string" "string" ...
+    /// The searchable keywords of the hub content. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 0 • max: 255 • pattern: .* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--hub-content-search-keywords", GroupValues = true)]
     public IEnumerable<string>? HubContentSearchKeywords { get; set; }
 
     /// <summary>
-    /// Indicates the current status of the hub content resource. Possible values: o Supported o Deprecated o Restricted
+    /// Indicates the current status of the hub content resource. Possible values: • Supported • Deprecated • Restricted
     /// </summary>
     [CliOption("--support-status")]
     public AwsSagemakerUpdateHubContentSupportStatus? SupportStatus { get; set; }

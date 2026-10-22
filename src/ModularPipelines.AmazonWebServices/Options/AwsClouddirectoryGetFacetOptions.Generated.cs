@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets details of the Facet , such as facet name, attributes, Rule s, or ObjectType . You can call this on all kinds of schema facets -- pub- lished, development, or applied. See also: AWS API Documentation
+/// Gets details of the Facet , such as facet name, attributes, Rule s, or ObjectType . You can call this on all kinds of schema facets -- published, development, or applied. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsClouddirectoryGetFacetOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets details of the Facet , such as facet name, attributes, Rule s, or ObjectType . You can call this on all kinds of schema facets -- pub- lished, development, or applied. See also: AWS API Documentation
+    /// Gets details of the Facet , such as facet name, attributes, Rule s, or ObjectType . You can call this on all kinds of schema facets -- published, development, or applied. See also: AWS API Documentation
     /// </summary>
     /// <param name="SchemaArn">The Amazon Resource Name (ARN) that is associated with the Facet . For more information, see arns .</param>
-    /// <param name="Name">The name of the facet to retrieve. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$</param>
+    /// <param name="Name">The name of the facet to retrieve. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9._-]*$</param>
     public AwsClouddirectoryGetFacetOptions(
         string SchemaArn,
         string Name
@@ -66,7 +68,7 @@ public record AwsClouddirectoryGetFacetOptions : AwsOptions, IValidatableObject
     public string? SchemaArn { get; private init; }
 
     /// <summary>
-    /// The name of the facet to retrieve. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// The name of the facet to retrieve. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

@@ -33,7 +33,7 @@ public class AwsKinesis : IAwsKinesis
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws kinesis wait sub-commands.
     /// </summary>
     public AwsKinesisWait Wait => _wait ??= new AwsKinesisWait(_command);
 
@@ -42,7 +42,7 @@ public class AwsKinesis : IAwsKinesis
     #region Commands
 
     /// <summary>
-    /// Adds or updates tags for the specified Kinesis data stream. You can as- sign up to 50 tags to a data stream. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. If tags have already been assigned to the stream, AddTagsToStream over- writes any existing tags that correspond to the specified tag keys. AddTagsToStream has a limit of five transactions per second pe...
+    /// Adds or updates tags for the specified Kinesis data stream. You can assign up to 50 tags to a data stream. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. If tags have already been assigned to the stream, AddTagsToStream overwrites any existing tags that correspond to the specified tag keys. AddTagsToStream has a limit of five transactions per second per ac...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -57,7 +57,7 @@ public class AwsKinesis : IAwsKinesis
     }
 
     /// <summary>
-    /// Creates a channel that delivers records from a Kinesis data stream to a destination. A channel reads records from the specified stream and writes them to streaming tables on Apache Iceberg (Amazon S3 Tables) or to a general purpose Amazon S3 bucket. You must specify either S3DestinationConfiguration or S3TablesDestina- tionConfiguration , but not both. To use this operation, you must have permission to pass the specified service execution IAM role to Amazon Kinesis Data Streams (the iam:PassRole...
+    /// Creates a channel that delivers records from a Kinesis data stream to a destination. A channel reads records from the specified stream and writes them to streaming tables on Apache Iceberg (Amazon S3 Tables) or to a general purpose Amazon S3 bucket. You must specify either S3DestinationConfiguration or S3TablesDestinationConfiguration , but not both. To use this operation, you must have permission to pass the specified service execution IAM role to Amazon Kinesis Data Streams (the iam:PassRole p...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -102,7 +102,7 @@ public class AwsKinesis : IAwsKinesis
     }
 
     /// <summary>
-    /// Deletes the specified channel. Deleting a channel stops delivery from the source stream to the destination. Data already delivered to the destination is not deleted. A stream cannot be deleted while it has active channels. Use ListChan- nels with a stream filter to find the channels attached to a stream be- fore deleting it. This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitEx- ceededException . See also: AW...
+    /// Deletes the specified channel. Deleting a channel stops delivery from the source stream to the destination. Data already delivered to the destination is not deleted. A stream cannot be deleted while it has active channels. Use ListChannels with a stream filter to find the channels attached to a stream before deleting it. This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitExceededException . See also: AWS API ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -117,7 +117,7 @@ public class AwsKinesis : IAwsKinesis
     }
 
     /// <summary>
-    /// Delete a policy for the specified data stream or consumer. Request pat- terns can be one of the following: o Data stream pattern: arn:aws.*:kinesis:.*:\d{12}:.*stream/\S+ o Consumer pattern: ^(arn):aws.*:kine- sis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/con- sumer\/[a-zA-Z0-9_.-]+:[0-9]+ See also: AWS API Documentation
+    /// Delete a policy for the specified data stream or consumer. Request patterns can be one of the following: • Data stream pattern: arn:aws.*:kinesis:.*:\d{12}:.*stream/\S+ • Consumer pattern: ^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+ See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -147,7 +147,7 @@ public class AwsKinesis : IAwsKinesis
     }
 
     /// <summary>
-    /// To deregister a consumer, provide its ARN. Alternatively, you can pro- vide the ARN of the data stream and the name you gave the consumer when you registered it. You may also provide all three parameters, as long as they don't conflict with each other. If you don't know the name or ARN of the consumer that you want to deregister, you can use the List- StreamConsumers operation to get a list of the descriptions of all the consumers that are currently registered with a given data stream. The descr...
+    /// To deregister a consumer, provide its ARN. Alternatively, you can provide the ARN of the data stream and the name you gave the consumer when you registered it. You may also provide all three parameters, as long as they don't conflict with each other. If you don't know the name or ARN of the consumer that you want to deregister, you can use the ListStreamConsumers operation to get a list of the descriptions of all the consumers that are currently registered with a given data stream. The descripti...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -162,7 +162,7 @@ public class AwsKinesis : IAwsKinesis
     }
 
     /// <summary>
-    /// Describes the account-level settings for Amazon Kinesis Data Streams. This operation returns information about the minimum throughput billing commitments and other account-level configurations. This API has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. TPS over 5 will initiate the LimitExceed- edException . See also: AWS API Documentation
+    /// Describes the account-level settings for Amazon Kinesis Data Streams. This operation returns information about the minimum throughput billing commitments and other account-level configurations. This API has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. TPS over 5 will initiate the LimitExceededException . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -177,7 +177,7 @@ public class AwsKinesis : IAwsKinesis
     }
 
     /// <summary>
-    /// Describes the specified channel, including its configuration and cur- rent status. Use this operation to verify that a channel reached the ACTIVE state after creation, or to diagnose a channel in the FAILED state by reading the ChannelStatusReason . This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitEx- ceededException . See also: AWS API Documentation
+    /// Describes the specified channel, including its configuration and current status. Use this operation to verify that a channel reached the ACTIVE state after creation, or to diagnose a channel in the FAILED state by reading the ChannelStatusReason . This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitExceededException . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -207,7 +207,7 @@ public class AwsKinesis : IAwsKinesis
     }
 
     /// <summary>
-    /// To get the description of a registered consumer, provide the ARN of the consumer. Alternatively, you can provide the ARN of the data stream and the name you gave the consumer when you registered it. You may also provide all three parameters, as long as they don't conflict with each other. If you don't know the name or ARN of the consumer that you want to describe, you can use the ListStreamConsumers operation to get a list of the descriptions of all the consumers that are currently regis- tered ...
+    /// To get the description of a registered consumer, provide the ARN of the consumer. Alternatively, you can provide the ARN of the data stream and the name you gave the consumer when you registered it. You may also provide all three parameters, as long as they don't conflict with each other. If you don't know the name or ARN of the consumer that you want to describe, you can use the ListStreamConsumers operation to get a list of the descriptions of all the consumers that are currently registered wi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -237,7 +237,7 @@ public class AwsKinesis : IAwsKinesis
     }
 
     /// <summary>
-    /// Provides a summarized description of the specified Kinesis data stream without the shard list. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. The information returned includes the stream name, Amazon Resource Name (ARN), status, record retention period, approximate creation time, mon- itoring, encryption details, and open shard count. DescribeStreamSummary...
+    /// Provides a summarized description of the specified Kinesis data stream without the shard list. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. The information returned includes the stream name, Amazon Resource Name (ARN), status, record retention period, approximate creation time, monitoring, encryption details, and open shard count. DescribeStreamSummary h...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -267,7 +267,7 @@ public class AwsKinesis : IAwsKinesis
     }
 
     /// <summary>
-    /// Enables enhanced Kinesis data stream monitoring for shard-level met- rics. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. See also: AWS API Documentation
+    /// Enables enhanced Kinesis data stream monitoring for shard-level metrics. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -282,7 +282,7 @@ public class AwsKinesis : IAwsKinesis
     }
 
     /// <summary>
-    /// Gets data records from a Kinesis data stream's shard. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. Specify a shard iterator using the ShardIterator parameter. The shard iterator specifies the position in the shard from which you want to start reading data records sequentially. If there are no records avail- able in the portion of the shard that the itera...
+    /// Gets data records from a Kinesis data stream's shard. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. Specify a shard iterator using the ShardIterator parameter. The shard iterator specifies the position in the shard from which you want to start reading data records sequentially. If there are no records available in the portion of the shard that the iterato...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -297,7 +297,7 @@ public class AwsKinesis : IAwsKinesis
     }
 
     /// <summary>
-    /// Returns a policy attached to the specified data stream or consumer. Re- quest patterns can be one of the following: o Data stream pattern: arn:aws.*:kinesis:.*:\d{12}:.*stream/\S+ o Consumer pattern: ^(arn):aws.*:kine- sis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/con- sumer\/[a-zA-Z0-9_.-]+:[0-9]+ See also: AWS API Documentation
+    /// Returns a policy attached to the specified data stream or consumer. Request patterns can be one of the following: • Data stream pattern: arn:aws.*:kinesis:.*:\d{12}:.*stream/\S+ • Consumer pattern: ^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+ See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -312,7 +312,7 @@ public class AwsKinesis : IAwsKinesis
     }
 
     /// <summary>
-    /// Gets an Amazon Kinesis shard iterator. A shard iterator expires 5 min- utes after it is returned to the requester. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. A shard iterator specifies the shard position from which to start read- ing data records sequentially. The position is specified using the se- quence number of a data record in a shard. A sequence...
+    /// Gets an Amazon Kinesis shard iterator. A shard iterator expires 5 minutes after it is returned to the requester. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. A shard iterator specifies the shard position from which to start reading data records sequentially. The position is specified using the sequence number of a data record in a shard. A sequence numbe...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -327,7 +327,7 @@ public class AwsKinesis : IAwsKinesis
     }
 
     /// <summary>
-    /// Increases the Kinesis data stream's retention period, which is the length of time data records are accessible after they are added to the stream. The maximum value of a stream's retention period is 8760 hours (365 days). NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. If you choose a longer stream retention period, this operation in- creases the time period...
+    /// Increases the Kinesis data stream's retention period, which is the length of time data records are accessible after they are added to the stream. The maximum value of a stream's retention period is 8760 hours (365 days). NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. If you choose a longer stream retention period, this operation increases the time period d...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -342,7 +342,7 @@ public class AwsKinesis : IAwsKinesis
     }
 
     /// <summary>
-    /// Lists the channels in your account. You can filter the results by source stream. The results are paginated. Use the NextToken value re- turned in the response to retrieve additional results. Use this operation to find channels before deleting a stream, or to au- dit the channels configured in an Amazon Web Services Region. This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitEx- ceededException . See also: AWS ...
+    /// Lists the channels in your account. You can filter the results by source stream. The results are paginated. Use the NextToken value returned in the response to retrieve additional results. Use this operation to find channels before deleting a stream, or to audit the channels configured in an Amazon Web Services Region. This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitExceededException . See also: AWS API Do...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -357,7 +357,7 @@ public class AwsKinesis : IAwsKinesis
     }
 
     /// <summary>
-    /// Lists the shards in a stream and provides information about each shard. This operation has a limit of 1000 transactions per second per data stream. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. This action does not list expired shards. For information about expired shards, see Data Routing, Data Persistence, and Shard State after a Re- shard . WARNING: Th...
+    /// Lists the shards in a stream and provides information about each shard. This operation has a limit of 1000 transactions per second per data stream. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. This action does not list expired shards. For information about expired shards, see Data Routing, Data Persistence, and Shard State after a Reshard . WARNING: This...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -372,7 +372,7 @@ public class AwsKinesis : IAwsKinesis
     }
 
     /// <summary>
-    /// Lists the consumers registered to receive data from a stream using en- hanced fan-out, and provides information about each consumer. This operation has a limit of 5 transactions per second per stream. See also: AWS API Documentation list-stream-consumers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated ...
+    /// Lists the consumers registered to receive data from a stream using enhanced fan-out, and provides information about each consumer. This operation has a limit of 5 transactions per second per stream. See also: AWS API Documentation list-stream-consumers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -402,7 +402,7 @@ public class AwsKinesis : IAwsKinesis
     }
 
     /// <summary>
-    /// List all tags added to the specified Kinesis resource. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources. For more information about tagging Kinesis resources, see Tag your Ama- zon Kinesis Data Streams resources . See also: AWS API Documentation
+    /// List all tags added to the specified Kinesis resource. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources. For more information about tagging Kinesis resources, see Tag your Amazon Kinesis Data Streams resources . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -447,7 +447,7 @@ public class AwsKinesis : IAwsKinesis
     }
 
     /// <summary>
-    /// Writes a single data record into an Amazon Kinesis data stream. Call PutRecord to send data into the stream for real-time ingestion and sub- sequent processing, one record at a time. Each shard can support writes up to 1,000 records per second, up to a maximum data write total of 10 MiB per second. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. You must sp...
+    /// Writes a single data record into an Amazon Kinesis data stream. Call PutRecord to send data into the stream for real-time ingestion and subsequent processing, one record at a time. Each shard can support writes up to 1,000 records per second, up to a maximum data write total of 10 MiB per second. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. You must spec...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -477,7 +477,7 @@ public class AwsKinesis : IAwsKinesis
     }
 
     /// <summary>
-    /// Attaches a resource-based policy to a data stream or registered con- sumer. If you are using an identity other than the root user of the Amazon Web Services account that owns the resource, the calling iden- tity must have the PutResourcePolicy permissions on the specified Kine- sis Data Streams resource and belong to the owner's account in order to use this operation. If you don't have PutResourcePolicy permissions, Amazon Kinesis Data Streams returns a 403 Access Denied error . If you receive a...
+    /// Attaches a resource-based policy to a data stream or registered consumer. If you are using an identity other than the root user of the Amazon Web Services account that owns the resource, the calling identity must have the PutResourcePolicy permissions on the specified Kinesis Data Streams resource and belong to the owner's account in order to use this operation. If you don't have PutResourcePolicy permissions, Amazon Kinesis Data Streams returns a 403 Access Denied error . If you receive a Resou...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -492,7 +492,7 @@ public class AwsKinesis : IAwsKinesis
     }
 
     /// <summary>
-    /// Registers a consumer with a Kinesis data stream. When you use this op- eration, the consumer you register can then call SubscribeToShard to receive data from the stream using enhanced fan-out, at a rate of up to 2 MiB per second for every shard you subscribe to. This rate is unaf- fected by the total number of consumers that read from the same stream. You can add tags to the registered consumer when making a Register- StreamConsumer request by setting the Tags parameter. If you pass the Tags par...
+    /// Registers a consumer with a Kinesis data stream. When you use this operation, the consumer you register can then call SubscribeToShard to receive data from the stream using enhanced fan-out, at a rate of up to 2 MiB per second for every shard you subscribe to. This rate is unaffected by the total number of consumers that read from the same stream. You can add tags to the registered consumer when making a RegisterStreamConsumer request by setting the Tags parameter. If you pass the Tags parameter...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -507,7 +507,7 @@ public class AwsKinesis : IAwsKinesis
     }
 
     /// <summary>
-    /// Removes tags from the specified Kinesis data stream. Removed tags are deleted and cannot be recovered after this operation successfully com- pletes. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. If you specify a tag that does not exist, it is ignored. RemoveTagsFromStream has a limit of five transactions per second per account. See also: AWS API Documenta...
+    /// Removes tags from the specified Kinesis data stream. Removed tags are deleted and cannot be recovered after this operation successfully completes. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. If you specify a tag that does not exist, it is ignored. RemoveTagsFromStream has a limit of five transactions per second per account. See also: AWS API Documentati...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -522,7 +522,7 @@ public class AwsKinesis : IAwsKinesis
     }
 
     /// <summary>
-    /// Splits a shard into two new shards in the Kinesis data stream, to in- crease the stream's capacity to ingest and transport data. SplitShard is called when there is a need to increase the overall capacity of a stream because of an expected increase in the volume of data records being ingested. This API is only supported for the data streams with the provisioned capacity mode. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended th...
+    /// Splits a shard into two new shards in the Kinesis data stream, to increase the stream's capacity to ingest and transport data. SplitShard is called when there is a need to increase the overall capacity of a stream because of an expected increase in the volume of data records being ingested. This API is only supported for the data streams with the provisioned capacity mode. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -582,7 +582,7 @@ public class AwsKinesis : IAwsKinesis
     }
 
     /// <summary>
-    /// Removes tags from the specified Kinesis resource. Removed tags are deleted and can't be recovered after this operation completes success- fully. See also: AWS API Documentation
+    /// Removes tags from the specified Kinesis resource. Removed tags are deleted and can't be recovered after this operation completes successfully. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -597,7 +597,7 @@ public class AwsKinesis : IAwsKinesis
     }
 
     /// <summary>
-    /// Updates the account-level settings for Amazon Kinesis Data Streams. Updating account settings is a synchronous operation. Upon receiving the request, Kinesis Data Streams will return immediately with your ac- counts updated settings. API limits o Certain account configurations have minimum commitment windows. At- tempting to update your settings prior to the end of the minimum com- mitment window might have certain restrictions. o This API has a call limit of 5 transactions per second (TPS) for ...
+    /// Updates the account-level settings for Amazon Kinesis Data Streams. Updating account settings is a synchronous operation. Upon receiving the request, Kinesis Data Streams will return immediately with your accounts updated settings. API limits • Certain account configurations have minimum commitment windows. Attempting to update your settings prior to the end of the minimum commitment window might have certain restrictions. • This API has a call limit of 5 transactions per second (TPS) for each A...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -612,7 +612,7 @@ public class AwsKinesis : IAwsKinesis
     }
 
     /// <summary>
-    /// Updates the data freshness interval or the Amazon CloudWatch Logs con- figuration of an existing channel. You cannot change the destination, source stream, record format, schema, encryption configuration, or ser- vice execution role of an existing channel. To change any other set- ting, delete the channel and create a new one. Updating a channel is an asynchronous operation. Upon receiving the re- quest, Amazon Kinesis Data Streams sets the channel to the UPDATING state and returns immediately. ...
+    /// Updates the data freshness interval or the Amazon CloudWatch Logs configuration of an existing channel. You cannot change the destination, source stream, record format, schema, encryption configuration, or service execution role of an existing channel. To change any other setting, delete the channel and create a new one. Updating a channel is an asynchronous operation. Upon receiving the request, Amazon Kinesis Data Streams sets the channel to the UPDATING state and returns immediately. After th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -642,7 +642,7 @@ public class AwsKinesis : IAwsKinesis
     }
 
     /// <summary>
-    /// Updates the shard count of the specified stream to the specified number of shards. This API is only supported for the data streams with the provisioned capacity mode. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. Updating the shard count is an asynchronous operation. Upon receiving the request, Kinesis Data Streams returns immediately and sets the sta- tu...
+    /// Updates the shard count of the specified stream to the specified number of shards. This API is only supported for the data streams with the provisioned capacity mode. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. Updating the shard count is an asynchronous operation. Upon receiving the request, Kinesis Data Streams returns immediately and sets the status ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -657,7 +657,7 @@ public class AwsKinesis : IAwsKinesis
     }
 
     /// <summary>
-    /// Updates the capacity mode of the data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data stream. If you'd still like to proactively scale your on-demand data streams capacity, you can unlock the warm throughput feature for on-demand data streams by enabling MinimumThroughputBillingCommitment for your ac- count. Once your account has MinimumThroughputBillingCommitment en- abled, you can specify the warm throu...
+    /// Updates the capacity mode of the data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data stream. If you'd still like to proactively scale your on-demand data streams capacity, you can unlock the warm throughput feature for on-demand data streams by enabling MinimumThroughputBillingCommitment for your account. Once your account has MinimumThroughputBillingCommitment enabled, you can specify the warm throughpu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -672,7 +672,7 @@ public class AwsKinesis : IAwsKinesis
     }
 
     /// <summary>
-    /// Updates the record distribution strategy for the specified Amazon Kine- sis Data Streams on-demand data stream. The record distribution strat- egy determines how Amazon Kinesis Data Streams distributes records across the shards in a stream. NOTE: You must specify the stream using the StreamARN parameter. The record distribution strategy is a stream-level setting. You can switch between the following strategies at any time, and the change takes effect immediately without downtime, data loss, or d...
+    /// Updates the record distribution strategy for the specified Amazon Kinesis Data Streams on-demand data stream. The record distribution strategy determines how Amazon Kinesis Data Streams distributes records across the shards in a stream. NOTE: You must specify the stream using the StreamARN parameter. The record distribution strategy is a stream-level setting. You can switch between the following strategies at any time, and the change takes effect immediately without downtime, data loss, or disru...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -687,7 +687,7 @@ public class AwsKinesis : IAwsKinesis
     }
 
     /// <summary>
-    /// Updates the warm throughput configuration for the specified Amazon Ki- nesis Data Streams on-demand data stream. Updates the warm throughput configuration for the specified on-demand data stream. Use this opera- tion to scale your stream to a specified throughput level before antic- ipated traffic spikes, or to release excess capacity after traffic has decreased. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use t...
+    /// Updates the warm throughput configuration for the specified Amazon Kinesis Data Streams on-demand data stream. Updates the warm throughput configuration for the specified on-demand data stream. Use this operation to scale your stream to a specified throughput level before anticipated traffic spikes, or to release excess capacity after traffic has decreased. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the Str...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

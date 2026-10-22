@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an existing calculated attribute definition. When updating the Conditions, note that increasing the date range of a calculated at- tribute will not trigger inclusion of historical data greater than the current date range. See also: AWS API Documentation
+/// Updates an existing calculated attribute definition. When updating the Conditions, note that increasing the date range of a calculated attribute will not trigger inclusion of historical data greater than the current date range. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsCustomerProfilesUpdateCalculatedAttributeDefinitionOptions : Aw
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an existing calculated attribute definition. When updating the Conditions, note that increasing the date range of a calculated at- tribute will not trigger inclusion of historical data greater than the current date range. See also: AWS API Documentation
+    /// Updates an existing calculated attribute definition. When updating the Conditions, note that increasing the date range of a calculated attribute will not trigger inclusion of historical data greater than the current date range. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="CalculatedAttributeName">The unique name of the calculated attribute. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$</param>
+    /// <param name="DomainName">The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="CalculatedAttributeName">The unique name of the calculated attribute. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$</param>
     public AwsCustomerProfilesUpdateCalculatedAttributeDefinitionOptions(
         string DomainName,
         string CalculatedAttributeName
@@ -60,31 +62,31 @@ public record AwsCustomerProfilesUpdateCalculatedAttributeDefinitionOptions : Aw
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The unique name of the calculated attribute. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$
+    /// The unique name of the calculated attribute. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$
     /// </summary>
     [CliOption("--calculated-attribute-name")]
     public string? CalculatedAttributeName { get; private init; }
 
     /// <summary>
-    /// The display name of the calculated attribute. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-\s]*$
+    /// The display name of the calculated attribute. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z_][a-zA-Z_0-9-\s]*$
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The description of the calculated attribute. Constraints: o min: 1 o max: 1000
+    /// The description of the calculated attribute. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The conditions including range, object count, and threshold for the calculated attribute. Range -&gt; (structure) The relative time period over which data is included in the ag- gregation. Value -&gt; (integer) The amount of time of the specified unit. Constraints: o min: 0 o max: 2147483647 Unit -&gt; (string) The unit of time. Possible values: o DAYS ValueRange -&gt; (structure) A structure letting customers specify a relative time window over which over which data is included in the Calculated At- tribute. Use positive numbers to indicate that the endpoint is in the past, and negative numbers to indicate it is in the future. ValueRange overrides Value. Start -&gt; (integer) [required] The start time of when to include objects. Use positive numbers to indicate that the starting point is in the past, and negative numbers to indicate it is in the fu- ture. End -&gt; (integer) [required] The end time of when to include objects. Use positive numbers to indicate that the starting point is in the past, and negative numbers to indicate it is in the fu- ture. TimestampSource -&gt; (string) An expression specifying the field in your JSON object from which the date should be parsed. The expression should follow the structure of "{ObjectTypeName.&lt;Location of timestamp field in JSON pointer format&gt;}". E.g. if your object type is MyType and source JSON is {"generatedAt": {"timestamp": "1737587945945"}}, then TimestampSource should be "{My- Type.generatedAt.timestamp}". Constraints: o min: 1 o max: 255 TimestampFormat -&gt; (string) The format the timestamp field in your JSON object is speci- fied. This value should be one of EPOCHMILLI (for Unix epoch timestamps with second/millisecond level precision) or ISO_8601 (following ISO_8601 format with second/millisecond level precision, with an optional offset of Z or in the for- mat HH:MM or HHMM.). E.g. if your object type is MyType and source JSON is {"generatedAt": {"timestamp": "2001-07-04T12:08:56.235-0700"}}, then TimestampFormat should be "ISO_8601". Constraints: o min: 1 o max: 255 ObjectCount -&gt; (integer) The number of profile objects used for the calculated attribute. Constraints: o min: 1 Threshold -&gt; (structure) The threshold for the calculated attribute. Value -&gt; (string) [required] The value of the threshold. Constraints: o min: 1 o max: 255 Operator -&gt; (string) [required] The operator of the threshold. Possible values: o EQUAL_TO o GREATER_THAN o LESS_THAN o NOT_EQUAL_TO Shorthand Syntax: Range={Value=integer,Unit=string,ValueRange={Start=integer,End=integer},TimestampSource=string,TimestampFormat=string},ObjectCount=integer,Threshold={Value=string,Operator=string} JSON Syntax: { "Range": { "Value": integer, "Unit": "DAYS", "ValueRange": { "Start": integer, "End": integer }, "TimestampSource": "string", "TimestampFormat": "string" }, "ObjectCount": integer, "Threshold": { "Value": "string", "Operator": "EQUAL_TO"|"GREATER_THAN"|"LESS_THAN"|"NOT_EQUAL_TO" } }
+    /// The conditions including range, object count, and threshold for the calculated attribute. Range -&gt; (structure) The relative time period over which data is included in the aggregation. Value -&gt; (integer) The amount of time of the specified unit. Constraints: • min: 0 • max: 2147483647 Unit -&gt; (string) The unit of time. Possible values: • DAYS ValueRange -&gt; (structure) A structure letting customers specify a relative time window over which over which data is included in the Calculated Attribute. Use positive numbers to indicate that the endpoint is in the past, and negative numbers to indicate it is in the future. ValueRange overrides Value. Start -&gt; (integer) [required] The start time of when to include objects. Use positive numbers to indicate that the starting point is in the past, and negative numbers to indicate it is in the future. End -&gt; (integer) [required] The end time of when to include objects. Use positive numbers to indicate that the starting point is in the past, and negative numbers to indicate it is in the future. TimestampSource -&gt; (string) An expression specifying the field in your JSON object from which the date should be parsed. The expression should follow the structure of "{ObjectTypeName.&lt;Location of timestamp field in JSON pointer format&gt;}". E.g. if your object type is MyType and source JSON is {"generatedAt": {"timestamp": "1737587945945"}}, then TimestampSource should be "{MyType.generatedAt.timestamp}". Constraints: • min: 1 • max: 255 TimestampFormat -&gt; (string) The format the timestamp field in your JSON object is specified. This value should be one of EPOCHMILLI (for Unix epoch timestamps with second/millisecond level precision) or ISO_8601 (following ISO_8601 format with second/millisecond level precision, with an optional offset of Z or in the format HH:MM or HHMM.). E.g. if your object type is MyType and source JSON is {"generatedAt": {"timestamp": "2001-07-04T12:08:56.235-0700"}}, then TimestampFormat should be "ISO_8601". Constraints: • min: 1 • max: 255 ObjectCount -&gt; (integer) The number of profile objects used for the calculated attribute. Constraints: • min: 1 Threshold -&gt; (structure) The threshold for the calculated attribute. Value -&gt; (string) [required] The value of the threshold. Constraints: • min: 1 • max: 255 Operator -&gt; (string) [required] The operator of the threshold. Possible values: • EQUAL_TO • GREATER_THAN • LESS_THAN • NOT_EQUAL_TO Shorthand Syntax: Range={Value=integer,Unit=string,ValueRange={Start=integer,End=integer},TimestampSource=string,TimestampFormat=string},ObjectCount=integer,Threshold={Value=string,Operator=string} JSON Syntax: { "Range": { "Value": integer, "Unit": "DAYS", "ValueRange": { "Start": integer, "End": integer }, "TimestampSource": "string", "TimestampFormat": "string" }, "ObjectCount": integer, "Threshold": { "Value": "string", "Operator": "EQUAL_TO"|"GREATER_THAN"|"LESS_THAN"|"NOT_EQUAL_TO" } }
     /// </summary>
     [CliOption("--conditions")]
     public string? Conditions { get; set; }

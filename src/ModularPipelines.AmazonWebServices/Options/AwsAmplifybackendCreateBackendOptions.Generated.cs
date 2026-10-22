@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This operation creates a backend for an Amplify app. Backends are auto- matically created at the time of app creation. See also: AWS API Documentation
+/// This operation creates a backend for an Amplify app. Backends are automatically created at the time of app creation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsAmplifybackendCreateBackendOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This operation creates a backend for an Amplify app. Backends are auto- matically created at the time of app creation. See also: AWS API Documentation
+    /// This operation creates a backend for an Amplify app. Backends are automatically created at the time of app creation. See also: AWS API Documentation
     /// </summary>
     /// <param name="AppId">The app ID.</param>
     /// <param name="AppName">The name of the app.</param>

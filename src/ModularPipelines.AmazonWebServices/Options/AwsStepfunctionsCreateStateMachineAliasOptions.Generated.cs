@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an alias for a state machine that points to one or two versions of the same state machine. You can set your application to call Star- tExecution with an alias and update the version the alias uses without changing the client's code. You can also map an alias to split StartExecution requests between two versions of a state machine. To do this, add a second RoutingConfig ob- ject in the routingConfiguration parameter. You must also specify the percentage of execution run requests each vers...
+/// Creates an alias for a state machine that points to one or two versions of the same state machine. You can set your application to call StartExecution with an alias and update the version the alias uses without changing the client's code. You can also map an alias to split StartExecution requests between two versions of a state machine. To do this, add a second RoutingConfig object in the routingConfiguration parameter. You must also specify the percentage of execution run requests each version ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsStepfunctionsCreateStateMachineAliasOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an alias for a state machine that points to one or two versions of the same state machine. You can set your application to call Star- tExecution with an alias and update the version the alias uses without changing the client's code. You can also map an alias to split StartExecution requests between two versions of a state machine. To do this, add a second RoutingConfig ob- ject in the routingConfiguration parameter. You must also specify the percentage of execution run requests each vers...
+    /// Creates an alias for a state machine that points to one or two versions of the same state machine. You can set your application to call StartExecution with an alias and update the version the alias uses without changing the client's code. You can also map an alias to split StartExecution requests between two versions of a state machine. To do this, add a second RoutingConfig object in the routingConfiguration parameter. You must also specify the percentage of execution run requests each version ...
     /// </summary>
-    /// <param name="Name">The name of the state machine alias. To avoid conflict with version ARNs, don't use an integer in the name of the alias. Constraints: o min: 1 o max: 80 o pattern: ^(?=.*[a-zA-Z_\-\.])[a-zA-Z0-9_\-\.]+$</param>
-    /// <param name="RoutingConfiguration">The routing configuration of a state machine alias. The routing con- figuration shifts execution traffic between two state machine ver- sions. routingConfiguration contains an array of RoutingConfig ob- jects that specify up to two state machine versions. Step Functions then randomly choses which version to run an execution with based on the weight assigned to each RoutingConfig . Constraints: o min: 1 o max: 2 (structure) Contains details about the routing configuration of a state ma- chine alias. In a routing configuration, you define an array of objects that specify up to two state machine versions. You also specify the percentage of traffic to be routed to each version. stateMachineVersionArn -&gt; (string) [required] The Amazon Resource Name (ARN) that identifies one or two state machine versions defined in the routing configuration. If you specify the ARN of a second version, it must belong to the same state machine as the first version. Constraints: o min: 1 o max: 256 weight -&gt; (integer) [required] The percentage of traffic you want to route to a state ma- chine version. The sum of the weights in the routing configu- ration must be equal to 100. Constraints: o min: 0 o max: 100 Shorthand Syntax: stateMachineVersionArn=string,weight=integer ... JSON Syntax: [ { "stateMachineVersionArn": "string", "weight": integer } ... ]</param>
+    /// <param name="Name">The name of the state machine alias. To avoid conflict with version ARNs, don't use an integer in the name of the alias. Constraints: • min: 1 • max: 80 • pattern: ^(?=.*[a-zA-Z_\-\.])[a-zA-Z0-9_\-\.]+$</param>
+    /// <param name="RoutingConfiguration">The routing configuration of a state machine alias. The routing configuration shifts execution traffic between two state machine versions. routingConfiguration contains an array of RoutingConfig objects that specify up to two state machine versions. Step Functions then randomly choses which version to run an execution with based on the weight assigned to each RoutingConfig . Constraints: • min: 1 • max: 2 (structure) Contains details about the routing configuration of a state machine alias. In a routing configuration, you define an array of objects that specify up to two state machine versions. You also specify the percentage of traffic to be routed to each version. stateMachineVersionArn -&gt; (string) [required] The Amazon Resource Name (ARN) that identifies one or two state machine versions defined in the routing configuration. If you specify the ARN of a second version, it must belong to the same state machine as the first version. Constraints: • min: 1 • max: 256 weight -&gt; (integer) [required] The percentage of traffic you want to route to a state machine version. The sum of the weights in the routing configuration must be equal to 100. Constraints: • min: 0 • max: 100 Shorthand Syntax: stateMachineVersionArn=string,weight=integer ... JSON Syntax: [ { "stateMachineVersionArn": "string", "weight": integer } ... ]</param>
     public AwsStepfunctionsCreateStateMachineAliasOptions(
         string Name,
         IEnumerable<string> RoutingConfiguration
@@ -71,19 +73,19 @@ public record AwsStepfunctionsCreateStateMachineAliasOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the state machine alias. To avoid conflict with version ARNs, don't use an integer in the name of the alias. Constraints: o min: 1 o max: 80 o pattern: ^(?=.*[a-zA-Z_\-\.])[a-zA-Z0-9_\-\.]+$
+    /// The name of the state machine alias. To avoid conflict with version ARNs, don't use an integer in the name of the alias. Constraints: • min: 1 • max: 80 • pattern: ^(?=.*[a-zA-Z_\-\.])[a-zA-Z0-9_\-\.]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The routing configuration of a state machine alias. The routing con- figuration shifts execution traffic between two state machine ver- sions. routingConfiguration contains an array of RoutingConfig ob- jects that specify up to two state machine versions. Step Functions then randomly choses which version to run an execution with based on the weight assigned to each RoutingConfig . Constraints: o min: 1 o max: 2 (structure) Contains details about the routing configuration of a state ma- chine alias. In a routing configuration, you define an array of objects that specify up to two state machine versions. You also specify the percentage of traffic to be routed to each version. stateMachineVersionArn -&gt; (string) [required] The Amazon Resource Name (ARN) that identifies one or two state machine versions defined in the routing configuration. If you specify the ARN of a second version, it must belong to the same state machine as the first version. Constraints: o min: 1 o max: 256 weight -&gt; (integer) [required] The percentage of traffic you want to route to a state ma- chine version. The sum of the weights in the routing configu- ration must be equal to 100. Constraints: o min: 0 o max: 100 Shorthand Syntax: stateMachineVersionArn=string,weight=integer ... JSON Syntax: [ { "stateMachineVersionArn": "string", "weight": integer } ... ]
+    /// The routing configuration of a state machine alias. The routing configuration shifts execution traffic between two state machine versions. routingConfiguration contains an array of RoutingConfig objects that specify up to two state machine versions. Step Functions then randomly choses which version to run an execution with based on the weight assigned to each RoutingConfig . Constraints: • min: 1 • max: 2 (structure) Contains details about the routing configuration of a state machine alias. In a routing configuration, you define an array of objects that specify up to two state machine versions. You also specify the percentage of traffic to be routed to each version. stateMachineVersionArn -&gt; (string) [required] The Amazon Resource Name (ARN) that identifies one or two state machine versions defined in the routing configuration. If you specify the ARN of a second version, it must belong to the same state machine as the first version. Constraints: • min: 1 • max: 256 weight -&gt; (integer) [required] The percentage of traffic you want to route to a state machine version. The sum of the weights in the routing configuration must be equal to 100. Constraints: • min: 0 • max: 100 Shorthand Syntax: stateMachineVersionArn=string,weight=integer ... JSON Syntax: [ { "stateMachineVersionArn": "string", "weight": integer } ... ]
     /// </summary>
     [CliOption("--routing-configuration", GroupValues = true)]
     public IEnumerable<string>? RoutingConfiguration { get; private init; }
 
     /// <summary>
-    /// A description for the state machine alias. Constraints: o max: 256
+    /// A description for the state machine alias. Constraints: • max: 256
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

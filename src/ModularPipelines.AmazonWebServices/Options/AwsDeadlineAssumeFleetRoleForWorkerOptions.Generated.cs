@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsDeadlineAssumeFleetRoleForWorkerOptions : AwsOptions, IValidata
     /// <summary>
     /// Get credentials from the fleet role for a worker. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The farm ID for the fleet's farm. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="FleetId">The fleet ID that contains the worker. Constraints: o pattern: fleet-[0-9a-f]{32}</param>
-    /// <param name="WorkerId">The ID of the worker assuming the fleet role. Constraints: o pattern: worker-[0-9a-f]{32}</param>
+    /// <param name="FarmId">The farm ID for the fleet's farm. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="FleetId">The fleet ID that contains the worker. Constraints: • pattern: fleet-[0-9a-f]{32}</param>
+    /// <param name="WorkerId">The ID of the worker assuming the fleet role. Constraints: • pattern: worker-[0-9a-f]{32}</param>
     public AwsDeadlineAssumeFleetRoleForWorkerOptions(
         string FarmId,
         string FleetId,
@@ -64,19 +66,19 @@ public record AwsDeadlineAssumeFleetRoleForWorkerOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID for the fleet's farm. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID for the fleet's farm. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The fleet ID that contains the worker. Constraints: o pattern: fleet-[0-9a-f]{32}
+    /// The fleet ID that contains the worker. Constraints: • pattern: fleet-[0-9a-f]{32}
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }
 
     /// <summary>
-    /// The ID of the worker assuming the fleet role. Constraints: o pattern: worker-[0-9a-f]{32}
+    /// The ID of the worker assuming the fleet role. Constraints: • pattern: worker-[0-9a-f]{32}
     /// </summary>
     [CliOption("--worker-id")]
     public string? WorkerId { get; private init; }

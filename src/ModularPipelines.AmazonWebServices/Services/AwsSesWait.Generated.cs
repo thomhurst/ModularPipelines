@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws wait commands.
+/// aws ses wait commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsSesWait
@@ -32,7 +32,7 @@ public class AwsSesWait
     #region Commands
 
     /// <summary>
-    /// Wait until JMESPath query VerificationAttributes.*.VerificationStatus returns Success for all elements when polling with get-identity-verifi- cation-attributes. It will poll every 3 seconds until a successful state has been reached. This will exit with a return code of 255 after 20 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query VerificationAttributes.*.VerificationStatus returns Success for all elements when polling with get-identity-verification-attributes. It will poll every 3 seconds until a successful state has been reached. This will exit with a return code of 255 after 20 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

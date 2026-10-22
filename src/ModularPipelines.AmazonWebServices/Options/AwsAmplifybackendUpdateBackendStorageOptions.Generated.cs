@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,7 +31,7 @@ public record AwsAmplifybackendUpdateBackendStorageOptions : AwsOptions, IValida
     /// </summary>
     /// <param name="AppId">The app ID.</param>
     /// <param name="BackendEnvironmentName">The name of the backend environment.</param>
-    /// <param name="ResourceConfig">The resource configuration for updating backend storage. Permissions -&gt; (structure) [required] The authorization configuration for the storage S3 bucket. Authenticated -&gt; (list) [required] Lists all authenticated user read, write, and delete permis- sions for your S3 bucket. (string) Possible values: o READ o CREATE_AND_UPDATE o DELETE UnAuthenticated -&gt; (list) Lists all unauthenticated user read, write, and delete per- missions for your S3 bucket. (string) Possible values: o READ o CREATE_AND_UPDATE o DELETE ServiceName -&gt; (string) [required] The name of the storage service. Possible values: o S3 Shorthand Syntax: Permissions={Authenticated=[string,string],UnAuthenticated=[string,string]},ServiceName=string JSON Syntax: { "Permissions": { "Authenticated": ["READ"|"CREATE_AND_UPDATE"|"DELETE", ...], "UnAuthenticated": ["READ"|"CREATE_AND_UPDATE"|"DELETE", ...] }, "ServiceName": "S3" }</param>
+    /// <param name="ResourceConfig">The resource configuration for updating backend storage. Permissions -&gt; (structure) [required] The authorization configuration for the storage S3 bucket. Authenticated -&gt; (list) [required] Lists all authenticated user read, write, and delete permissions for your S3 bucket. (string) Possible values: • READ • CREATE_AND_UPDATE • DELETE UnAuthenticated -&gt; (list) Lists all unauthenticated user read, write, and delete permissions for your S3 bucket. (string) Possible values: • READ • CREATE_AND_UPDATE • DELETE ServiceName -&gt; (string) [required] The name of the storage service. Possible values: • S3 Shorthand Syntax: Permissions={Authenticated=[string,string],UnAuthenticated=[string,string]},ServiceName=string JSON Syntax: { "Permissions": { "Authenticated": ["READ"|"CREATE_AND_UPDATE"|"DELETE", ...], "UnAuthenticated": ["READ"|"CREATE_AND_UPDATE"|"DELETE", ...] }, "ServiceName": "S3" }</param>
     /// <param name="ResourceName">The name of the storage resource.</param>
     public AwsAmplifybackendUpdateBackendStorageOptions(
         string AppId,
@@ -80,7 +82,7 @@ public record AwsAmplifybackendUpdateBackendStorageOptions : AwsOptions, IValida
     public string? BackendEnvironmentName { get; private init; }
 
     /// <summary>
-    /// The resource configuration for updating backend storage. Permissions -&gt; (structure) [required] The authorization configuration for the storage S3 bucket. Authenticated -&gt; (list) [required] Lists all authenticated user read, write, and delete permis- sions for your S3 bucket. (string) Possible values: o READ o CREATE_AND_UPDATE o DELETE UnAuthenticated -&gt; (list) Lists all unauthenticated user read, write, and delete per- missions for your S3 bucket. (string) Possible values: o READ o CREATE_AND_UPDATE o DELETE ServiceName -&gt; (string) [required] The name of the storage service. Possible values: o S3 Shorthand Syntax: Permissions={Authenticated=[string,string],UnAuthenticated=[string,string]},ServiceName=string JSON Syntax: { "Permissions": { "Authenticated": ["READ"|"CREATE_AND_UPDATE"|"DELETE", ...], "UnAuthenticated": ["READ"|"CREATE_AND_UPDATE"|"DELETE", ...] }, "ServiceName": "S3" }
+    /// The resource configuration for updating backend storage. Permissions -&gt; (structure) [required] The authorization configuration for the storage S3 bucket. Authenticated -&gt; (list) [required] Lists all authenticated user read, write, and delete permissions for your S3 bucket. (string) Possible values: • READ • CREATE_AND_UPDATE • DELETE UnAuthenticated -&gt; (list) Lists all unauthenticated user read, write, and delete permissions for your S3 bucket. (string) Possible values: • READ • CREATE_AND_UPDATE • DELETE ServiceName -&gt; (string) [required] The name of the storage service. Possible values: • S3 Shorthand Syntax: Permissions={Authenticated=[string,string],UnAuthenticated=[string,string]},ServiceName=string JSON Syntax: { "Permissions": { "Authenticated": ["READ"|"CREATE_AND_UPDATE"|"DELETE", ...], "UnAuthenticated": ["READ"|"CREATE_AND_UPDATE"|"DELETE", ...] }, "ServiceName": "S3" }
     /// </summary>
     [CliOption("--resource-config")]
     public string? ResourceConfig { get; private init; }

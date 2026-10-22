@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates and updates the retention configuration with details about re- tention period (number of days) that Config stores your historical in- formation. The API creates the RetentionConfiguration object and names the object as default . When you have a RetentionConfiguration object named default , calling the API modifies the default object. NOTE: Currently, Config supports only one retention configuration per re- gion in your account. See also: AWS API Documentation
+/// Creates and updates the retention configuration with details about retention period (number of days) that Config stores your historical information. The API creates the RetentionConfiguration object and names the object as default . When you have a RetentionConfiguration object named default , calling the API modifies the default object. NOTE: Currently, Config supports only one retention configuration per region in your account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsConfigservicePutRetentionConfigurationOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates and updates the retention configuration with details about re- tention period (number of days) that Config stores your historical in- formation. The API creates the RetentionConfiguration object and names the object as default . When you have a RetentionConfiguration object named default , calling the API modifies the default object. NOTE: Currently, Config supports only one retention configuration per re- gion in your account. See also: AWS API Documentation
+    /// Creates and updates the retention configuration with details about retention period (number of days) that Config stores your historical information. The API creates the RetentionConfiguration object and names the object as default . When you have a RetentionConfiguration object named default , calling the API modifies the default object. NOTE: Currently, Config supports only one retention configuration per region in your account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RetentionPeriodInDays">Number of days Config stores your historical information. NOTE: Currently, only applicable to the configuration item history. Constraints: o min: 30 o max: 2557</param>
+    /// <param name="RetentionPeriodInDays">Number of days Config stores your historical information. NOTE: Currently, only applicable to the configuration item history. Constraints: • min: 30 • max: 2557</param>
     public AwsConfigservicePutRetentionConfigurationOptions(
         int RetentionPeriodInDays
     )
@@ -55,7 +57,7 @@ public record AwsConfigservicePutRetentionConfigurationOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Number of days Config stores your historical information. NOTE: Currently, only applicable to the configuration item history. Constraints: o min: 30 o max: 2557
+    /// Number of days Config stores your historical information. NOTE: Currently, only applicable to the configuration item history. Constraints: • min: 30 • max: 2557
     /// </summary>
     [CliOption("--retention-period-in-days")]
     public int? RetentionPeriodInDays { get; private init; }

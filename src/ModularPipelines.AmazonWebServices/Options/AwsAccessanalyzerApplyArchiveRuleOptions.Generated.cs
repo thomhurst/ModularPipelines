@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsAccessanalyzerApplyArchiveRuleOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Retroactively applies the archive rule to existing findings that meet the archive rule criteria. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AnalyzerArn">The Amazon resource name (ARN) of the analyzer. Constraints: o pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}</param>
-    /// <param name="RuleName">The name of the rule to apply. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][A-Za-z0-9_.-]*</param>
+    /// <param name="AnalyzerArn">The Amazon resource name (ARN) of the analyzer. Constraints: • pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}</param>
+    /// <param name="RuleName">The name of the rule to apply. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][A-Za-z0-9_.-]*</param>
     public AwsAccessanalyzerApplyArchiveRuleOptions(
         string AnalyzerArn,
         string RuleName
@@ -61,13 +63,13 @@ public record AwsAccessanalyzerApplyArchiveRuleOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon resource name (ARN) of the analyzer. Constraints: o pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}
+    /// The Amazon resource name (ARN) of the analyzer. Constraints: • pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}
     /// </summary>
     [CliOption("--analyzer-arn")]
     public string? AnalyzerArn { get; private init; }
 
     /// <summary>
-    /// The name of the rule to apply. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][A-Za-z0-9_.-]*
+    /// The name of the rule to apply. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][A-Za-z0-9_.-]*
     /// </summary>
     [CliOption("--rule-name")]
     public string? RuleName { get; private init; }

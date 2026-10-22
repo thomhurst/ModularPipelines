@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws ecrpublic commands.
+/// aws ecr-public commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsEcrPublic : IAwsEcrPublic
@@ -32,7 +32,7 @@ public class AwsEcrPublic : IAwsEcrPublic
     #region Commands
 
     /// <summary>
-    /// Checks the availability of one or more image layers that are within a repository in a public registry. When an image is pushed to a reposi- tory, each image layer is checked to verify if it has been uploaded be- fore. If it has been uploaded, then the image layer is skipped. NOTE: This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. See also: AWS API Docume...
+    /// Checks the availability of one or more image layers that are within a repository in a public registry. When an image is pushed to a repository, each image layer is checked to verify if it has been uploaded before. If it has been uploaded, then the image layer is skipped. NOTE: This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. See also: AWS API Documentat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsEcrPublic : IAwsEcrPublic
     }
 
     /// <summary>
-    /// Deletes a list of specified images that are within a repository in a public registry. Images are specified with either an imageTag or im- ageDigest . You can remove a tag from an image by specifying the image's tag in your request. When you remove the last tag from an image, the image is deleted from your repository. You can completely delete an image (and all of its tags) by specifying the digest of the image in your request. See also: AWS API Documentation
+    /// Deletes a list of specified images that are within a repository in a public registry. Images are specified with either an imageTag or imageDigest . You can remove a tag from an image by specifying the image's tag in your request. When you remove the last tag from an image, the image is deleted from your repository. You can completely delete an image (and all of its tags) by specifying the digest of the image in your request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsEcrPublic : IAwsEcrPublic
     }
 
     /// <summary>
-    /// Informs Amazon ECR that the image layer upload is complete for a speci- fied public registry, repository name, and upload ID. You can option- ally provide a sha256 digest of the image layer for data validation purposes. When an image is pushed, the CompleteLayerUpload API is called once for each new image layer to verify that the upload is complete. NOTE: This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you shoul...
+    /// Informs Amazon ECR that the image layer upload is complete for a specified public registry, repository name, and upload ID. You can optionally provide a sha256 digest of the image layer for data validation purposes. When an image is pushed, the CompleteLayerUpload API is called once for each new image layer to verify that the upload is complete. NOTE: This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should us...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsEcrPublic : IAwsEcrPublic
     }
 
     /// <summary>
-    /// Deletes a repository in a public registry. If the repository contains images, you must either manually delete all images in the repository or use the force option. This option deletes all images on your behalf be- fore deleting the repository. See also: AWS API Documentation
+    /// Deletes a repository in a public registry. If the repository contains images, you must either manually delete all images in the repository or use the force option. This option deletes all images on your behalf before deleting the repository. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,21 +122,6 @@ public class AwsEcrPublic : IAwsEcrPublic
     }
 
     /// <summary>
-    /// Returns metadata that's related to the images in a repository in a pub- lic registry. NOTE: Beginning with Docker version 1.9, the Docker client compresses im- age layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size. Therefore, it might return a larger image size than the image sizes that are returned by DescribeImages . See also: AWS API Documentation describe-images is a paginated operation. Multiple API calls may be is-...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeImagesAsync(
-        AwsEcrPublicDescribeImagesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns the image tag details for a repository in a public registry. See also: AWS API Documentation describe-image-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: imageTagDetails
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -145,6 +130,21 @@ public class AwsEcrPublic : IAwsEcrPublic
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeImageTagsAsync(
         AwsEcrPublicDescribeImageTagsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns metadata that's related to the images in a repository in a public registry. NOTE: Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size. Therefore, it might return a larger image size than the image sizes that are returned by DescribeImages . See also: AWS API Documentation describe-images is a paginated operation. Multiple API calls may be issued ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeImagesAsync(
+        AwsEcrPublicDescribeImagesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -182,7 +182,7 @@ public class AwsEcrPublic : IAwsEcrPublic
     }
 
     /// <summary>
-    /// Retrieves an authorization token. An authorization token represents your IAM authentication credentials. You can use it to access any Ama- zon ECR registry that your IAM principal has access to. The authoriza- tion token is valid for 12 hours. This API requires the ecr-pub- lic:GetAuthorizationToken and sts:GetServiceBearerToken permissions. See also: AWS API Documentation
+    /// Retrieves an authorization token. An authorization token represents your IAM authentication credentials. You can use it to access any Amazon ECR registry that your IAM principal has access to. The authorization token is valid for 12 hours. This API requires the ecr-public:GetAuthorizationToken and sts:GetServiceBearerToken permissions. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsEcrPublic : IAwsEcrPublic
     }
 
     /// <summary>
-    /// To log in to an Amazon ECR public registry Retrieves and displays an authentication token using the GetAuthoriza- tionToken API that you can use to authenticate to an Amazon ECR public registry. You can pass the authorization token to the login command of the container client of your preference, such as the Docker CLI. After you have authenticated to an Amazon ECR public registry with this com- mand, you can use the client to push and pull images from that registry as long as your IAM principal ...
+    /// To log in to an Amazon ECR public registry Retrieves and displays an authentication token using the GetAuthorizationToken API that you can use to authenticate to an Amazon ECR public registry. You can pass the authorization token to the login command of the container client of your preference, such as the Docker CLI. After you have authenticated to an Amazon ECR public registry with this command, you can use the client to push and pull images from that registry as long as your IAM principal has ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsEcrPublic : IAwsEcrPublic
     }
 
     /// <summary>
-    /// Notifies Amazon ECR that you intend to upload an image layer. When an image is pushed, the InitiateLayerUpload API is called once for each image layer that hasn't already been uploaded. Whether an image layer uploads is determined by the BatchCheckLayerAvailability API ac- tion. NOTE: This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. See also: AWS API Do...
+    /// Notifies Amazon ECR that you intend to upload an image layer. When an image is pushed, the InitiateLayerUpload API is called once for each image layer that hasn't already been uploaded. Whether an image layer uploads is determined by the BatchCheckLayerAvailability API action. NOTE: This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. See also: AWS API Docu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsEcrPublic : IAwsEcrPublic
     }
 
     /// <summary>
-    /// Creates or updates the catalog data for a repository in a public reg- istry. See also: AWS API Documentation
+    /// Creates or updates the catalog data for a repository in a public registry. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsEcrPublic : IAwsEcrPublic
     }
 
     /// <summary>
-    /// Applies a repository policy to the specified public repository to con- trol access permissions. For more information, see Amazon ECR Reposi- tory Policies in the Amazon Elastic Container Registry User Guide . See also: AWS API Documentation
+    /// Applies a repository policy to the specified public repository to control access permissions. For more information, see Amazon ECR Repository Policies in the Amazon Elastic Container Registry User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsEcrPublic : IAwsEcrPublic
     }
 
     /// <summary>
-    /// Associates the specified tags to a resource with the specified re- sourceArn . If existing tags on a resource aren't specified in the re- quest parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted. See also: AWS API Documentation
+    /// Associates the specified tags to a resource with the specified resourceArn . If existing tags on a resource aren't specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,10 +30,10 @@ public record AwsLightsailCreateInstancesOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Creates one or more Amazon Lightsail instances. The create instances operation supports tag-based access control via request tags. For more information, see the Lightsail Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceNames">The names to use for your new Lightsail instances. Separate multiple values using quotation marks and commas, for example: ["MyFirstIn- stance","MySecondInstance"] (string) Syntax: "string" "string" ...</param>
-    /// <param name="AvailabilityZone">The Availability Zone in which to create your instance. Use the fol- lowing format: us-east-2a (case sensitive). You can get a list of Availability Zones by using the get regions operation. Be sure to add the include Availability Zones parameter to your request.</param>
-    /// <param name="BlueprintId">The ID for a virtual private server image (app_wordpress_x_x or app_lamp_x_x ). Use the get blueprints operation to return a list of available images (or blueprints ). NOTE: Use active blueprints when creating new instances. Inactive blueprints are listed to support customers with existing in- stances and are not necessarily available to create new in- stances. Blueprints are marked inactive when they become out- dated due to operating system updates or new application re- leases. Constraints: o pattern: .*\S.*</param>
-    /// <param name="BundleId">The bundle of specification information for your virtual private server (or instance ), including the pricing plan (medium_x_x ). Constraints: o pattern: .*\S.*</param>
+    /// <param name="InstanceNames">The names to use for your new Lightsail instances. Separate multiple values using quotation marks and commas, for example: ["MyFirstInstance","MySecondInstance"] (string) Syntax: "string" "string" ...</param>
+    /// <param name="AvailabilityZone">The Availability Zone in which to create your instance. Use the following format: us-east-2a (case sensitive). You can get a list of Availability Zones by using the get regions operation. Be sure to add the include Availability Zones parameter to your request.</param>
+    /// <param name="BlueprintId">The ID for a virtual private server image (app_wordpress_x_x or app_lamp_x_x ). Use the get blueprints operation to return a list of available images (or blueprints ). NOTE: Use active blueprints when creating new instances. Inactive blueprints are listed to support customers with existing instances and are not necessarily available to create new instances. Blueprints are marked inactive when they become outdated due to operating system updates or new application releases. Constraints: • pattern: .*\S.*</param>
+    /// <param name="BundleId">The bundle of specification information for your virtual private server (or instance ), including the pricing plan (medium_x_x ). Constraints: • pattern: .*\S.*</param>
     public AwsLightsailCreateInstancesOptions(
         IEnumerable<string> InstanceNames,
         string AvailabilityZone,
@@ -80,61 +82,61 @@ public record AwsLightsailCreateInstancesOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The names to use for your new Lightsail instances. Separate multiple values using quotation marks and commas, for example: ["MyFirstIn- stance","MySecondInstance"] (string) Syntax: "string" "string" ...
+    /// The names to use for your new Lightsail instances. Separate multiple values using quotation marks and commas, for example: ["MyFirstInstance","MySecondInstance"] (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--instance-names", GroupValues = true)]
     public IEnumerable<string>? InstanceNames { get; private init; }
 
     /// <summary>
-    /// The Availability Zone in which to create your instance. Use the fol- lowing format: us-east-2a (case sensitive). You can get a list of Availability Zones by using the get regions operation. Be sure to add the include Availability Zones parameter to your request.
+    /// The Availability Zone in which to create your instance. Use the following format: us-east-2a (case sensitive). You can get a list of Availability Zones by using the get regions operation. Be sure to add the include Availability Zones parameter to your request.
     /// </summary>
     [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; private init; }
 
     /// <summary>
-    /// The ID for a virtual private server image (app_wordpress_x_x or app_lamp_x_x ). Use the get blueprints operation to return a list of available images (or blueprints ). NOTE: Use active blueprints when creating new instances. Inactive blueprints are listed to support customers with existing in- stances and are not necessarily available to create new in- stances. Blueprints are marked inactive when they become out- dated due to operating system updates or new application re- leases. Constraints: o pattern: .*\S.*
+    /// The ID for a virtual private server image (app_wordpress_x_x or app_lamp_x_x ). Use the get blueprints operation to return a list of available images (or blueprints ). NOTE: Use active blueprints when creating new instances. Inactive blueprints are listed to support customers with existing instances and are not necessarily available to create new instances. Blueprints are marked inactive when they become outdated due to operating system updates or new application releases. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--blueprint-id")]
     public string? BlueprintId { get; private init; }
 
     /// <summary>
-    /// The bundle of specification information for your virtual private server (or instance ), including the pricing plan (medium_x_x ). Constraints: o pattern: .*\S.*
+    /// The bundle of specification information for your virtual private server (or instance ), including the pricing plan (medium_x_x ). Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--bundle-id")]
     public string? BundleId { get; private init; }
 
     /// <summary>
-    /// (Discontinued) The name for your custom image. NOTE: In releases prior to June 12, 2017, this parameter was ignored by the API. It is now discontinued. Constraints: o pattern: \w[\w\-]*\w
+    /// (Discontinued) The name for your custom image. NOTE: In releases prior to June 12, 2017, this parameter was ignored by the API. It is now discontinued. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--custom-image-name")]
     public string? CustomImageName { get; set; }
 
     /// <summary>
-    /// A launch script you can create that configures a server with addi- tional user data. For example, you might want to run apt-get -y up- date . NOTE: Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum , Debian and Ubuntu use apt-get , and FreeBSD uses pkg . For a complete list, see the Amazon Lightsail Developer Guide .
+    /// A launch script you can create that configures a server with additional user data. For example, you might want to run apt-get -y update . NOTE: Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum , Debian and Ubuntu use apt-get , and FreeBSD uses pkg . For a complete list, see the Amazon Lightsail Developer Guide .
     /// </summary>
     [CliOption("--user-data")]
     public string? UserData { get; set; }
 
     /// <summary>
-    /// The name of your key pair. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of your key pair. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--key-pair-name")]
     public string? KeyPairName { get; set; }
 
     /// <summary>
-    /// The tag keys and optional values to add to the resource during cre- ate. Use the TagResource action to tag a resource after it's created. (structure) Describes a tag key and optional value assigned to an Amazon Lightsail resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide . key -&gt; (string) The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, num- bers, spaces in UTF-8, or the following characters: + - = . _ : / @ value -&gt; (string) The value of the tag. Constraints: Tag values accept a maximum of 256 letters, num- bers, spaces in UTF-8, or the following characters: + - = . _ : / @ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created. (structure) Describes a tag key and optional value assigned to an Amazon Lightsail resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide . key -&gt; (string) The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @ value -&gt; (string) The value of the tag. Constraints: Tag values accept a maximum of 256 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// An array of objects representing the add-ons to enable for the new instance. (structure) Describes a request to enable, modify, or disable an add-on for an Amazon Lightsail resource. NOTE: An additional cost may be associated with enabling add-ons. For more information, see the Lightsail pricing page . addOnType -&gt; (string) [required] The add-on type. Possible values: o AutoSnapshot o StopInstanceOnIdle autoSnapshotAddOnRequest -&gt; (structure) An object that represents additional parameters when enabling or modifying the automatic snapshot add-on. snapshotTimeOfDay -&gt; (string) The daily time when an automatic snapshot will be cre- ated. Constraints: o Must be in HH:00 format, and in an hourly increment. o Specified in Coordinated Universal Time (UTC). o The snapshot will be automatically created between the time specified and up to 45 minutes after. Constraints: o pattern: ^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$ stopInstanceOnIdleRequest -&gt; (structure) An object that represents additional parameters when enabling or modifying the StopInstanceOnIdle add-on. WARNING: This object only applies to Lightsail for Research re- sources. threshold -&gt; (string) The value to compare with the duration. duration -&gt; (string) The amount of idle time in minutes after which your vir- tual computer will automatically stop. Shorthand Syntax: addOnType=string,autoSnapshotAddOnRequest={snapshotTimeOfDay=string},stopInstanceOnIdleRequest={threshold=string,duration=string} ... JSON Syntax: [ { "addOnType": "AutoSnapshot"|"StopInstanceOnIdle", "autoSnapshotAddOnRequest": { "snapshotTimeOfDay": "string" }, "stopInstanceOnIdleRequest": { "threshold": "string", "duration": "string" } } ... ]
+    /// An array of objects representing the add-ons to enable for the new instance. (structure) Describes a request to enable, modify, or disable an add-on for an Amazon Lightsail resource. NOTE: An additional cost may be associated with enabling add-ons. For more information, see the Lightsail pricing page . addOnType -&gt; (string) [required] The add-on type. Possible values: • AutoSnapshot • StopInstanceOnIdle autoSnapshotAddOnRequest -&gt; (structure) An object that represents additional parameters when enabling or modifying the automatic snapshot add-on. snapshotTimeOfDay -&gt; (string) The daily time when an automatic snapshot will be created. Constraints: • Must be in HH:00 format, and in an hourly increment. • Specified in Coordinated Universal Time (UTC). • The snapshot will be automatically created between the time specified and up to 45 minutes after. Constraints: • pattern: ^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$ stopInstanceOnIdleRequest -&gt; (structure) An object that represents additional parameters when enabling or modifying the StopInstanceOnIdle add-on. WARNING: This object only applies to Lightsail for Research resources. threshold -&gt; (string) The value to compare with the duration. duration -&gt; (string) The amount of idle time in minutes after which your virtual computer will automatically stop. Shorthand Syntax: addOnType=string,autoSnapshotAddOnRequest={snapshotTimeOfDay=string},stopInstanceOnIdleRequest={threshold=string,duration=string} ... JSON Syntax: [ { "addOnType": "AutoSnapshot"|"StopInstanceOnIdle", "autoSnapshotAddOnRequest": { "snapshotTimeOfDay": "string" }, "stopInstanceOnIdleRequest": { "threshold": "string", "duration": "string" } } ... ]
     /// </summary>
     [CliOption("--add-ons", GroupValues = true)]
     public IEnumerable<string>? AddOns { get; set; }
 
     /// <summary>
-    /// The IP address type for the instance. The possible values are ipv4 for IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6. The default value is dualstack . Possible values: o dualstack o ipv4 o ipv6
+    /// The IP address type for the instance. The possible values are ipv4 for IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6. The default value is dualstack . Possible values: • dualstack • ipv4 • ipv6
     /// </summary>
     [CliOption("--ip-address-type")]
     public AwsLightsailCreateInstancesIpAddressType? IpAddressType { get; set; }

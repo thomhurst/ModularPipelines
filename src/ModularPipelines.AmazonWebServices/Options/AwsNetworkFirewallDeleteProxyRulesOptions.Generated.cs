@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified ProxyRule (s). currently attached to a Prox- yRuleGroup See also: AWS API Documentation
+/// Deletes the specified ProxyRule (s). currently attached to a ProxyRuleGroup See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsNetworkFirewallDeleteProxyRulesOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified ProxyRule (s). currently attached to a Prox- yRuleGroup See also: AWS API Documentation
+    /// Deletes the specified ProxyRule (s). currently attached to a ProxyRuleGroup See also: AWS API Documentation
     /// </summary>
-    /// <param name="Rules">The proxy rule(s) to remove from the existing proxy rule group. (string) Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$ Syntax: "string" "string" ...</param>
+    /// <param name="Rules">The proxy rule(s) to remove from the existing proxy rule group. (string) Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$ Syntax: "string" "string" ...</param>
     public AwsNetworkFirewallDeleteProxyRulesOptions(
         IEnumerable<string> Rules
     )
@@ -67,19 +69,19 @@ public record AwsNetworkFirewallDeleteProxyRulesOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The proxy rule(s) to remove from the existing proxy rule group. (string) Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$ Syntax: "string" "string" ...
+    /// The proxy rule(s) to remove from the existing proxy rule group. (string) Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--rules", GroupValues = true)]
     public IEnumerable<string>? Rules { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*
+    /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*
     /// </summary>
     [CliOption("--proxy-rule-group-arn")]
     public string? ProxyRuleGroupArn { get; set; }
 
     /// <summary>
-    /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
+    /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--proxy-rule-group-name")]
     public string? ProxyRuleGroupName { get; set; }

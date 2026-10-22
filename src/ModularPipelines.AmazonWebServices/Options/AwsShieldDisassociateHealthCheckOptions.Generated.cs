@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes health-based detection from the Shield Advanced protection for a resource. Shield Advanced health-based detection uses the health of your Amazon Web Services resource to improve responsiveness and accu- racy in attack detection and response. You define the health check in Route 53 and then associate or disasso- ciate it with your Shield Advanced protection. For more information, see Shield Advanced Health-Based Detection in the WAF Developer Guide . See also: AWS API Documentation
+/// Removes health-based detection from the Shield Advanced protection for a resource. Shield Advanced health-based detection uses the health of your Amazon Web Services resource to improve responsiveness and accuracy in attack detection and response. You define the health check in Route 53 and then associate or disassociate it with your Shield Advanced protection. For more information, see Shield Advanced Health-Based Detection in the WAF Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsShieldDisassociateHealthCheckOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes health-based detection from the Shield Advanced protection for a resource. Shield Advanced health-based detection uses the health of your Amazon Web Services resource to improve responsiveness and accu- racy in attack detection and response. You define the health check in Route 53 and then associate or disasso- ciate it with your Shield Advanced protection. For more information, see Shield Advanced Health-Based Detection in the WAF Developer Guide . See also: AWS API Documentation
+    /// Removes health-based detection from the Shield Advanced protection for a resource. Shield Advanced health-based detection uses the health of your Amazon Web Services resource to improve responsiveness and accuracy in attack detection and response. You define the health check in Route 53 and then associate or disassociate it with your Shield Advanced protection. For more information, see Shield Advanced Health-Based Detection in the WAF Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProtectionId">The unique identifier (ID) for the Protection object to remove the health check association from. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9\\-]*</param>
-    /// <param name="HealthCheckArn">The Amazon Resource Name (ARN) of the health check that is associ- ated with the protection. Constraints: o min: 1 o max: 2048 o pattern: ^arn:aws:route53:::healthcheck/\S{36}$</param>
+    /// <param name="ProtectionId">The unique identifier (ID) for the Protection object to remove the health check association from. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9\\-]*</param>
+    /// <param name="HealthCheckArn">The Amazon Resource Name (ARN) of the health check that is associated with the protection. Constraints: • min: 1 • max: 2048 • pattern: ^arn:aws:route53:::healthcheck/\S{36}$</param>
     public AwsShieldDisassociateHealthCheckOptions(
         string ProtectionId,
         string HealthCheckArn
@@ -60,13 +62,13 @@ public record AwsShieldDisassociateHealthCheckOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier (ID) for the Protection object to remove the health check association from. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9\\-]*
+    /// The unique identifier (ID) for the Protection object to remove the health check association from. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9\\-]*
     /// </summary>
     [CliOption("--protection-id")]
     public string? ProtectionId { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the health check that is associ- ated with the protection. Constraints: o min: 1 o max: 2048 o pattern: ^arn:aws:route53:::healthcheck/\S{36}$
+    /// The Amazon Resource Name (ARN) of the health check that is associated with the protection. Constraints: • min: 1 • max: 2048 • pattern: ^arn:aws:route53:::healthcheck/\S{36}$
     /// </summary>
     [CliOption("--health-check-arn")]
     public string? HealthCheckArn { get; private init; }

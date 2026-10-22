@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Activates a successor certificate authority (CA) as the signing cer- tificate authority for your cluster, completing a CA rotation. When you activate a successor CA, Amazon EKS promotes it to be the cluster's signer (its signingStatus becomes IN_USE ) and the outgoing CA is retired (NOT_USED ). The outgoing CA remains in the cluster's trust bundle but no longer signs certificates. The successor CA you ac- tivate must already be present on the cluster and fully distributed (its distributionStatus...
+/// Activates a successor certificate authority (CA) as the signing certificate authority for your cluster, completing a CA rotation. When you activate a successor CA, Amazon EKS promotes it to be the cluster's signer (its signingStatus becomes IN_USE ) and the outgoing CA is retired (NOT_USED ). The outgoing CA remains in the cluster's trust bundle but no longer signs certificates. The successor CA you activate must already be present on the cluster and fully distributed (its distributionStatus mus...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsEksActivateCertificateAuthorityOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Activates a successor certificate authority (CA) as the signing cer- tificate authority for your cluster, completing a CA rotation. When you activate a successor CA, Amazon EKS promotes it to be the cluster's signer (its signingStatus becomes IN_USE ) and the outgoing CA is retired (NOT_USED ). The outgoing CA remains in the cluster's trust bundle but no longer signs certificates. The successor CA you ac- tivate must already be present on the cluster and fully distributed (its distributionStatus...
+    /// Activates a successor certificate authority (CA) as the signing certificate authority for your cluster, completing a CA rotation. When you activate a successor CA, Amazon EKS promotes it to be the cluster's signer (its signingStatus becomes IN_USE ) and the outgoing CA is retired (NOT_USED ). The outgoing CA remains in the cluster's trust bundle but no longer signs certificates. The successor CA you activate must already be present on the cluster and fully distributed (its distributionStatus mus...
     /// </summary>
     /// <param name="ClusterName">The name of your cluster.</param>
-    /// <param name="CertificateAuthorityId">The ID of the certificate authority to activate as the cluster's signing certificate authority. This certificate authority must al- ready exist on the cluster and have a distributionStatus of COMPLETE .</param>
+    /// <param name="CertificateAuthorityId">The ID of the certificate authority to activate as the cluster's signing certificate authority. This certificate authority must already exist on the cluster and have a distributionStatus of COMPLETE .</param>
     public AwsEksActivateCertificateAuthorityOptions(
         string ClusterName,
         string CertificateAuthorityId
@@ -67,7 +69,7 @@ public record AwsEksActivateCertificateAuthorityOptions : AwsOptions, IValidatab
     public string? ClusterName { get; private init; }
 
     /// <summary>
-    /// The ID of the certificate authority to activate as the cluster's signing certificate authority. This certificate authority must al- ready exist on the cluster and have a distributionStatus of COMPLETE .
+    /// The ID of the certificate authority to activate as the cluster's signing certificate authority. This certificate authority must already exist on the cluster and have a distributionStatus of COMPLETE .
     /// </summary>
     [CliOption("--certificate-authority-id")]
     public string? CertificateAuthorityId { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the IAM Identity Center application from WorkMail. This action does not affect the authentication settings for any WorkMail organiza- tions. See also: AWS API Documentation
+/// Deletes the IAM Identity Center application from WorkMail. This action does not affect the authentication settings for any WorkMail organizations. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsWorkmailDeleteIdentityCenterApplicationOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the IAM Identity Center application from WorkMail. This action does not affect the authentication settings for any WorkMail organiza- tions. See also: AWS API Documentation
+    /// Deletes the IAM Identity Center application from WorkMail. This action does not affect the authentication settings for any WorkMail organizations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationArn">The Amazon Resource Name (ARN) of the application. Constraints: o min: 10 o max: 1224 o pattern: ^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\d{12}:appli- cation/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$</param>
+    /// <param name="ApplicationArn">The Amazon Resource Name (ARN) of the application. Constraints: • min: 10 • max: 1224 • pattern: ^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$</param>
     public AwsWorkmailDeleteIdentityCenterApplicationOptions(
         string ApplicationArn
     )
@@ -56,7 +58,7 @@ public record AwsWorkmailDeleteIdentityCenterApplicationOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the application. Constraints: o min: 10 o max: 1224 o pattern: ^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\d{12}:appli- cation/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$
+    /// The Amazon Resource Name (ARN) of the application. Constraints: • min: 10 • max: 1224 • pattern: ^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$
     /// </summary>
     [CliOption("--application-arn")]
     public string? ApplicationArn { get; private init; }

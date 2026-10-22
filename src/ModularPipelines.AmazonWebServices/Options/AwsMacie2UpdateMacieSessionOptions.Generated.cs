@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Suspends or re-enables Amazon Macie, or updates the configuration set- tings for a Macie account. See also: AWS API Documentation
+/// Suspends or re-enables Amazon Macie, or updates the configuration settings for a Macie account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsMacie2UpdateMacieSessionOptions : AwsOptions
 {
     /// <summary>
-    /// Specifies how often to publish updates to policy findings for the account. This includes publishing updates to Security Hub and Amazon EventBridge (formerly Amazon CloudWatch Events). Possible values: o FIFTEEN_MINUTES o ONE_HOUR o SIX_HOURS
+    /// Specifies how often to publish updates to policy findings for the account. This includes publishing updates to Security Hub and Amazon EventBridge (formerly Amazon CloudWatch Events). Possible values: • FIFTEEN_MINUTES • ONE_HOUR • SIX_HOURS
     /// </summary>
     [CliOption("--finding-publishing-frequency")]
     public AwsMacie2UpdateMacieSessionFindingPublishingFrequency? FindingPublishingFrequency { get; set; }
 
     /// <summary>
-    /// Specifies a new status for the account. Valid values are: ENABLED, resume all Amazon Macie activities for the account; and, PAUSED, suspend all Macie activities for the account. Possible values: o PAUSED o ENABLED
+    /// Specifies a new status for the account. Valid values are: ENABLED, resume all Amazon Macie activities for the account; and, PAUSED, suspend all Macie activities for the account. Possible values: • PAUSED • ENABLED
     /// </summary>
     [CliOption("--status")]
     public AwsMacie2UpdateMacieSessionStatus? Status { get; set; }

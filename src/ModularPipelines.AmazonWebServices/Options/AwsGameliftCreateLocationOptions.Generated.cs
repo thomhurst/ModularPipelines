@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsGameliftCreateLocationOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// This API works with the following fleet types: Anywhere Creates a custom location for use in an Anywhere fleet. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LocationName">A descriptive name for the custom location. Constraints: o min: 8 o max: 64 o pattern: ^custom-[A-Za-z0-9\-]+$</param>
+    /// <param name="LocationName">A descriptive name for the custom location. Constraints: • min: 8 • max: 64 • pattern: ^custom-[A-Za-z0-9\-]+$</param>
     public AwsGameliftCreateLocationOptions(
         string LocationName
     )
@@ -56,13 +58,13 @@ public record AwsGameliftCreateLocationOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A descriptive name for the custom location. Constraints: o min: 8 o max: 64 o pattern: ^custom-[A-Za-z0-9\-]+$
+    /// A descriptive name for the custom location. Constraints: • min: 8 • max: 64 • pattern: ^custom-[A-Za-z0-9\-]+$
     /// </summary>
     [CliOption("--location-name")]
     public string? LocationName { get; private init; }
 
     /// <summary>
-    /// A list of labels to assign to the new resource. Tags are devel- oper-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management, and cost al- location. For more information, see Tagging Amazon Web Services Re- sources in the Amazon Web Services General Rareference . Constraints: o min: 0 o max: 200 (structure) A label that you can assign to a Amazon GameLift Servers re- source. Learn more Tagging Amazon Web Services Resources in the Amazon Web Ser- vices General Reference Amazon Web Services Tagging Strategies Related actions All APIs by task Key -&gt; (string) [required] The key for a developer-defined key value pair for tagging an Amazon Web Services resource. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value for a developer-defined key value pair for tagging an Amazon Web Services resource. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of labels to assign to the new resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources is useful for resource management, access management, and cost allocation. For more information, see Tagging Amazon Web Services Resources in the Amazon Web Services General Reference . Constraints: • min: 0 • max: 200 (structure) A label that you can assign to a Amazon GameLift Servers resource. Learn more Tagging Amazon Web Services Resources in the Amazon Web Services General Reference Amazon Web Services Tagging Strategies Related actions All APIs by task Key -&gt; (string) [required] The key for a developer-defined key value pair for tagging an Amazon Web Services resource. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The value for a developer-defined key value pair for tagging an Amazon Web Services resource. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

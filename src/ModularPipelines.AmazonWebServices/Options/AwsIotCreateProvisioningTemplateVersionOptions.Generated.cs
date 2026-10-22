@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new version of a provisioning template. Requires permission to access the CreateProvisioningTemplateVersion ac- tion. See also: AWS API Documentation
+/// Creates a new version of a provisioning template. Requires permission to access the CreateProvisioningTemplateVersion action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsIotCreateProvisioningTemplateVersionOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new version of a provisioning template. Requires permission to access the CreateProvisioningTemplateVersion ac- tion. See also: AWS API Documentation
+    /// Creates a new version of a provisioning template. Requires permission to access the CreateProvisioningTemplateVersion action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TemplateName">The name of the provisioning template. Constraints: o min: 1 o max: 36 o pattern: ^[0-9A-Za-z_-]+$</param>
-    /// <param name="TemplateBody">The JSON formatted contents of the provisioning template. Constraints: o min: 0 o max: 10240 o pattern: [\s\S]*</param>
+    /// <param name="TemplateName">The name of the provisioning template. Constraints: • min: 1 • max: 36 • pattern: ^[0-9A-Za-z_-]+$</param>
+    /// <param name="TemplateBody">The JSON formatted contents of the provisioning template. Constraints: • min: 0 • max: 10240 • pattern: [\s\S]*</param>
     public AwsIotCreateProvisioningTemplateVersionOptions(
         string TemplateName,
         string TemplateBody
@@ -60,13 +62,13 @@ public record AwsIotCreateProvisioningTemplateVersionOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the provisioning template. Constraints: o min: 1 o max: 36 o pattern: ^[0-9A-Za-z_-]+$
+    /// The name of the provisioning template. Constraints: • min: 1 • max: 36 • pattern: ^[0-9A-Za-z_-]+$
     /// </summary>
     [CliOption("--template-name")]
     public string? TemplateName { get; private init; }
 
     /// <summary>
-    /// The JSON formatted contents of the provisioning template. Constraints: o min: 0 o max: 10240 o pattern: [\s\S]*
+    /// The JSON formatted contents of the provisioning template. Constraints: • min: 0 • max: 10240 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--template-body")]
     public string? TemplateBody { get; private init; }

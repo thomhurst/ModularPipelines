@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRedshiftRejectDataShareOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// From a datashare consumer account, rejects the specified datashare. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataShareArn">The Amazon Resource Name (ARN) of the datashare to reject. Constraints: o max: 2147483647</param>
+    /// <param name="DataShareArn">The Amazon Resource Name (ARN) of the datashare to reject. Constraints: • max: 2147483647</param>
     public AwsRedshiftRejectDataShareOptions(
         string DataShareArn
     )
@@ -56,7 +58,7 @@ public record AwsRedshiftRejectDataShareOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the datashare to reject. Constraints: o max: 2147483647
+    /// The Amazon Resource Name (ARN) of the datashare to reject. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--data-share-arn")]
     public string? DataShareArn { get; private init; }

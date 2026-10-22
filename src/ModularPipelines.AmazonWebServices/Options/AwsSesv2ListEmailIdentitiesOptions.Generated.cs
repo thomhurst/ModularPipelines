@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of all of the email identities that are associated with your Amazon Web Services account. An identity can be either an email address or a domain. This operation returns identities that are veri- fied as well as those that aren't. This operation returns identities that are associated with Amazon SES and Amazon Pinpoint. See also: AWS API Documentation
+/// Returns a list of all of the email identities that are associated with your Amazon Web Services account. An identity can be either an email address or a domain. This operation returns identities that are verified as well as those that aren't. This operation returns identities that are associated with Amazon SES and Amazon Pinpoint. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,20 +25,20 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSesv2ListEmailIdentitiesOptions : AwsOptions
 {
     /// <summary>
-    /// An object that contains filters to apply when listing email identi- ties. You can filter by identity name, identity type, or verifica- tion status. key -&gt; (string) The filter key to use when listing email identities. This can be one of the following: o IDENTITY_NAME_CONTAINS Filter by a substring of the identity name. o IDENTITY_TYPE Filter by identity type. o VERIFICATION_STATUS Filter by verification status. Possible values: o IDENTITY_NAME_CONTAINS o IDENTITY_TYPE o VERIFICATION_STATUS value -&gt; (string) Constraints: o min: 1 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: IDENTITY_NAME_CONTAINS IDENTITY_TYPE VERIFICATION_STATUS JSON Syntax: {"IDENTITY_NAME_CONTAINS"|"IDENTITY_TYPE"|"VERIFICATION_STATUS": "string" ...}
+    /// An object that contains filters to apply when listing email identities. You can filter by a substring of the identity name, by identity type, or by verification status. key -&gt; (string) The filter key to use when listing email identities. This can be one of the following: • IDENTITY_NAME_CONTAINS Filter by a substring of the identity name. • IDENTITY_TYPE Filter by identity type. • VERIFICATION_STATUS Filter by verification status. Possible values: • IDENTITY_NAME_CONTAINS • IDENTITY_TYPE • VERIFICATION_STATUS value -&gt; (string) Constraints: • min: 1 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: IDENTITY_NAME_CONTAINS IDENTITY_TYPE VERIFICATION_STATUS JSON Syntax: {"IDENTITY_NAME_CONTAINS"|"IDENTITY_TYPE"|"VERIFICATION_STATUS": "string" ...}
     /// </summary>
     [CliOption("--filter", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Filter { get; set; }
 
     /// <summary>
-    /// A token returned from a previous call to ListEmailIdentities to in- dicate the position in the list of identities.
+    /// A token returned from a previous call to ListEmailIdentities to indicate the position in the list of identities.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The number of results to show in a single call to ListEmailIdenti- ties . If the number of results is larger than the number you speci- fied in this parameter, then the response includes a NextToken ele- ment, which you can use to obtain additional results. The value you specify has to be at least 0, and can be no more than 1000.
+    /// The number of results to show in a single call to ListEmailIdentities . If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 0, and can be no more than 1000.
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }

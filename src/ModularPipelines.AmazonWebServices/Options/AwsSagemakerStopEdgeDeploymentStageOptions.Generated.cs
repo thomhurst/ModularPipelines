@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsSagemakerStopEdgeDeploymentStageOptions : AwsOptions, IValidata
     /// <summary>
     /// Stops a stage in an edge deployment plan. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EdgeDeploymentPlanName">The name of the edge deployment plan to stop. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
-    /// <param name="StageName">The name of the stage to stop. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="EdgeDeploymentPlanName">The name of the edge deployment plan to stop. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="StageName">The name of the stage to stop. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
     public AwsSagemakerStopEdgeDeploymentStageOptions(
         string EdgeDeploymentPlanName,
         string StageName
@@ -60,13 +62,13 @@ public record AwsSagemakerStopEdgeDeploymentStageOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the edge deployment plan to stop. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the edge deployment plan to stop. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--edge-deployment-plan-name")]
     public string? EdgeDeploymentPlanName { get; private init; }
 
     /// <summary>
-    /// The name of the stage to stop. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the stage to stop. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--stage-name")]
     public string? StageName { get; private init; }

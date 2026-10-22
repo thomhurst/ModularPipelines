@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Downloads parts of data from a reference genome and returns the refer- ence file in the same format that it was uploaded. For more information, see Creating a HealthOmics reference store in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
+/// Downloads parts of data from a reference genome and returns the reference file in the same format that it was uploaded. For more information, see Creating a HealthOmics reference store in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,11 +22,11 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsOmicsGetReferenceOptions : AwsOptions
 {
     /// <summary>
-    /// Downloads parts of data from a reference genome and returns the refer- ence file in the same format that it was uploaded. For more information, see Creating a HealthOmics reference store in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
+    /// Downloads parts of data from a reference genome and returns the reference file in the same format that it was uploaded. For more information, see Creating a HealthOmics reference store in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The reference's ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
-    /// <param name="ReferenceStoreId">The reference's store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
-    /// <param name="PartNumber">The part number to retrieve. Constraints: o min: 1 o max: 10000</param>
+    /// <param name="Id">The reference's ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+</param>
+    /// <param name="ReferenceStoreId">The reference's store ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+</param>
+    /// <param name="PartNumber">The part number to retrieve. Constraints: • min: 1 • max: 10000</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsOmicsGetReferenceOptions(
         string Id,
@@ -53,31 +53,31 @@ public record AwsOmicsGetReferenceOptions : AwsOptions
     }
 
     /// <summary>
-    /// The reference's ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// The reference's ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+
     /// </summary>
     [CliOption("--id")]
     public string Id { get; private init; }
 
     /// <summary>
-    /// The reference's store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// The reference's store ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+
     /// </summary>
     [CliOption("--reference-store-id")]
     public string ReferenceStoreId { get; private init; }
 
     /// <summary>
-    /// The part number to retrieve. Constraints: o min: 1 o max: 10000
+    /// The part number to retrieve. Constraints: • min: 1 • max: 10000
     /// </summary>
     [CliOption("--part-number")]
     public int PartNumber { get; private init; }
 
     /// <summary>
-    /// The range to retrieve. Constraints: o min: 1 o max: 127 o pattern: [\p{N}||\p{P}]+
+    /// The range to retrieve. Constraints: • min: 1 • max: 127 • pattern: [\p{N}||\p{P}]+
     /// </summary>
     [CliOption("--range")]
     public string? Range { get; set; }
 
     /// <summary>
-    /// The file to retrieve. Possible values: o SOURCE o INDEX outfile (string) [required] Filename where the content will be saved
+    /// The file to retrieve. Possible values: • SOURCE • INDEX outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--file")]
     public string? File { get; set; }

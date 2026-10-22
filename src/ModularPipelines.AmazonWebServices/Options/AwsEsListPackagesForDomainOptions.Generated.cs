@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsEsListPackagesForDomainOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Lists all packages associated with the Amazon ES domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The name of the domain for which you want to list associated pack- ages. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="DomainName">The name of the domain for which you want to list associated packages. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
     public AwsEsListPackagesForDomainOptions(
         string DomainName
     )
@@ -57,13 +59,13 @@ public record AwsEsListPackagesForDomainOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain for which you want to list associated pack- ages. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// The name of the domain for which you want to list associated packages. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// Limits results to a maximum number of packages. Constraints: o max: 100
+    /// Limits results to a maximum number of packages. Constraints: • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

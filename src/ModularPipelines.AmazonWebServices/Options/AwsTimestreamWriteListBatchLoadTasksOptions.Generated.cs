@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides a list of batch load tasks, along with the name, status, when the task is resumable until, and other details. See code sample for de- tails. See also: AWS API Documentation
+/// Provides a list of batch load tasks, along with the name, status, when the task is resumable until, and other details. See code sample for details. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -31,13 +31,13 @@ public record AwsTimestreamWriteListBatchLoadTasksOptions : AwsOptions
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the output. If the total num- ber of items available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextTo- ken value as argument of a subsequent API invocation. Constraints: o min: 1 o max: 100
+    /// The total number of items to return in the output. If the total number of items available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as argument of a subsequent API invocation. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Status of the batch load task. Possible values: o CREATED o IN_PROGRESS o FAILED o SUCCEEDED o PROGRESS_STOPPED o PENDING_RESUME
+    /// Status of the batch load task. Possible values: • CREATED • IN_PROGRESS • FAILED • SUCCEEDED • PROGRESS_STOPPED • PENDING_RESUME
     /// </summary>
     [CliOption("--task-status")]
     public AwsTimestreamWriteListBatchLoadTasksTaskStatus? TaskStatus { get; set; }

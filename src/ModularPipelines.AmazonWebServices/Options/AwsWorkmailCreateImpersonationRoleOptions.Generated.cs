@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,10 +31,10 @@ public record AwsWorkmailCreateImpersonationRoleOptions : AwsOptions, IValidatab
     /// <summary>
     /// Creates an impersonation role for the given WorkMail organization. Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries also complete successfully without performing any further actions. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The WorkMail organization to create the new impersonation role within. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
-    /// <param name="Name">The name of the new impersonation role. Constraints: o min: 1 o max: 64 o pattern: [^\x00-\x1F\x7F\x3C\x3E\x5C]+</param>
-    /// <param name="Type">The impersonation role's type. The available impersonation role types are READ_ONLY or FULL_ACCESS . Possible values: o FULL_ACCESS o READ_ONLY</param>
-    /// <param name="Rules">The list of rules for the impersonation role. Constraints: o min: 0 o max: 10 (structure) The rules for the given impersonation role. ImpersonationRuleId -&gt; (string) [required] The identifier of the rule. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ Name -&gt; (string) The rule name. Constraints: o min: 1 o max: 64 o pattern: [^\x00-\x1F\x7F\x3C\x3E\x5C]+ Description -&gt; (string) The rule description. Constraints: o min: 1 o max: 256 o pattern: [^\x00-\x09\x0B\x0C\x0E-\x1F\x7F\x3C\x3E\x5C]+ Effect -&gt; (string) [required] The effect of the rule when it matches the input. Allowed ef- fect values are ALLOW or DENY . Possible values: o ALLOW o DENY TargetUsers -&gt; (list) A list of user IDs that match the rule. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+ NotTargetUsers -&gt; (list) A list of user IDs that don't match the rule. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+ Shorthand Syntax: ImpersonationRuleId=string,Name=string,Description=string,Effect=string,TargetUsers=string,string,NotTargetUsers=string,string ... JSON Syntax: [ { "ImpersonationRuleId": "string", "Name": "string", "Description": "string", "Effect": "ALLOW"|"DENY", "TargetUsers": ["string", ...], "NotTargetUsers": ["string", ...] } ... ]</param>
+    /// <param name="OrganizationId">The WorkMail organization to create the new impersonation role within. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="Name">The name of the new impersonation role. Constraints: • min: 1 • max: 64 • pattern: [^\x00-\x1F\x7F\x3C\x3E\x5C]+</param>
+    /// <param name="Type">The impersonation role's type. The available impersonation role types are READ_ONLY or FULL_ACCESS . Possible values: • FULL_ACCESS • READ_ONLY</param>
+    /// <param name="Rules">The list of rules for the impersonation role. Constraints: • min: 0 • max: 10 (structure) The rules for the given impersonation role. ImpersonationRuleId -&gt; (string) [required] The identifier of the rule. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+ Name -&gt; (string) The rule name. Constraints: • min: 1 • max: 64 • pattern: [^\x00-\x1F\x7F\x3C\x3E\x5C]+ Description -&gt; (string) The rule description. Constraints: • min: 1 • max: 256 • pattern: [^\x00-\x09\x0B\x0C\x0E-\x1F\x7F\x3C\x3E\x5C]+ Effect -&gt; (string) [required] The effect of the rule when it matches the input. Allowed effect values are ALLOW or DENY . Possible values: • ALLOW • DENY TargetUsers -&gt; (list) A list of user IDs that match the rule. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+ NotTargetUsers -&gt; (list) A list of user IDs that don't match the rule. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+ Shorthand Syntax: ImpersonationRuleId=string,Name=string,Description=string,Effect=string,TargetUsers=string,string,NotTargetUsers=string,string ... JSON Syntax: [ { "ImpersonationRuleId": "string", "Name": "string", "Description": "string", "Effect": "ALLOW"|"DENY", "TargetUsers": ["string", ...], "NotTargetUsers": ["string", ...] } ... ]</param>
     public AwsWorkmailCreateImpersonationRoleOptions(
         string OrganizationId,
         string Name,
@@ -80,38 +82,38 @@ public record AwsWorkmailCreateImpersonationRoleOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The WorkMail organization to create the new impersonation role within. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The WorkMail organization to create the new impersonation role within. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The name of the new impersonation role. Constraints: o min: 1 o max: 64 o pattern: [^\x00-\x1F\x7F\x3C\x3E\x5C]+
+    /// The name of the new impersonation role. Constraints: • min: 1 • max: 64 • pattern: [^\x00-\x1F\x7F\x3C\x3E\x5C]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The impersonation role's type. The available impersonation role types are READ_ONLY or FULL_ACCESS . Possible values: o FULL_ACCESS o READ_ONLY
+    /// The impersonation role's type. The available impersonation role types are READ_ONLY or FULL_ACCESS . Possible values: • FULL_ACCESS • READ_ONLY
     /// </summary>
     [CliOption("--type")]
     public AwsWorkmailCreateImpersonationRoleType? Type { get; private init; }
 
     /// <summary>
-    /// The list of rules for the impersonation role. Constraints: o min: 0 o max: 10 (structure) The rules for the given impersonation role. ImpersonationRuleId -&gt; (string) [required] The identifier of the rule. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ Name -&gt; (string) The rule name. Constraints: o min: 1 o max: 64 o pattern: [^\x00-\x1F\x7F\x3C\x3E\x5C]+ Description -&gt; (string) The rule description. Constraints: o min: 1 o max: 256 o pattern: [^\x00-\x09\x0B\x0C\x0E-\x1F\x7F\x3C\x3E\x5C]+ Effect -&gt; (string) [required] The effect of the rule when it matches the input. Allowed ef- fect values are ALLOW or DENY . Possible values: o ALLOW o DENY TargetUsers -&gt; (list) A list of user IDs that match the rule. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+ NotTargetUsers -&gt; (list) A list of user IDs that don't match the rule. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+ Shorthand Syntax: ImpersonationRuleId=string,Name=string,Description=string,Effect=string,TargetUsers=string,string,NotTargetUsers=string,string ... JSON Syntax: [ { "ImpersonationRuleId": "string", "Name": "string", "Description": "string", "Effect": "ALLOW"|"DENY", "TargetUsers": ["string", ...], "NotTargetUsers": ["string", ...] } ... ]
+    /// The list of rules for the impersonation role. Constraints: • min: 0 • max: 10 (structure) The rules for the given impersonation role. ImpersonationRuleId -&gt; (string) [required] The identifier of the rule. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+ Name -&gt; (string) The rule name. Constraints: • min: 1 • max: 64 • pattern: [^\x00-\x1F\x7F\x3C\x3E\x5C]+ Description -&gt; (string) The rule description. Constraints: • min: 1 • max: 256 • pattern: [^\x00-\x09\x0B\x0C\x0E-\x1F\x7F\x3C\x3E\x5C]+ Effect -&gt; (string) [required] The effect of the rule when it matches the input. Allowed effect values are ALLOW or DENY . Possible values: • ALLOW • DENY TargetUsers -&gt; (list) A list of user IDs that match the rule. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+ NotTargetUsers -&gt; (list) A list of user IDs that don't match the rule. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+ Shorthand Syntax: ImpersonationRuleId=string,Name=string,Description=string,Effect=string,TargetUsers=string,string,NotTargetUsers=string,string ... JSON Syntax: [ { "ImpersonationRuleId": "string", "Name": "string", "Description": "string", "Effect": "ALLOW"|"DENY", "TargetUsers": ["string", ...], "NotTargetUsers": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--rules", GroupValues = true)]
     public IEnumerable<string>? Rules { get; private init; }
 
     /// <summary>
-    /// The idempotency token for the client request. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7e]+
+    /// The idempotency token for the client request. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7e]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The description of the new impersonation role. Constraints: o min: 1 o max: 256 o pattern: [^\x00-\x09\x0B\x0C\x0E-\x1F\x7F\x3C\x3E\x5C]+
+    /// The description of the new impersonation role. Constraints: • min: 1 • max: 256 • pattern: [^\x00-\x09\x0B\x0C\x0E-\x1F\x7F\x3C\x3E\x5C]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

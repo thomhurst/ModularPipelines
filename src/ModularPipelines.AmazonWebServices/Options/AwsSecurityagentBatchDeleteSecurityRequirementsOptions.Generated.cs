@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSecurityagentBatchDeleteSecurityRequirementsOptions : AwsOption
     /// <summary>
     /// Batch deletes security requirements from a customer managed pack. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PackId">The unique identifier of the security requirement pack to remove re- quirements from.</param>
+    /// <param name="PackId">The unique identifier of the security requirement pack to remove requirements from.</param>
     /// <param name="SecurityRequirementNames">The list of security requirement names to delete. (string) Syntax: "string" "string" ...</param>
     public AwsSecurityagentBatchDeleteSecurityRequirementsOptions(
         string PackId,
@@ -71,7 +73,7 @@ public record AwsSecurityagentBatchDeleteSecurityRequirementsOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the security requirement pack to remove re- quirements from.
+    /// The unique identifier of the security requirement pack to remove requirements from.
     /// </summary>
     [CliOption("--pack-id")]
     public string? PackId { get; private init; }

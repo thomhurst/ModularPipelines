@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new cross-cluster search connection from a source Amazon OpenSearch Service domain to a destination domain. For more informa- tion, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
+/// Creates a new cross-cluster search connection from a source Amazon OpenSearch Service domain to a destination domain. For more information, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsOpensearchCreateOutboundConnectionOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new cross-cluster search connection from a source Amazon OpenSearch Service domain to a destination domain. For more informa- tion, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
+    /// Creates a new cross-cluster search connection from a source Amazon OpenSearch Service domain to a destination domain. For more information, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
-    /// <param name="LocalDomainInfo">Name and Region of the source (local) domain. AWSDomainInformation -&gt; (structure) Information about an Amazon OpenSearch Service domain. OwnerId -&gt; (string) The Amazon Web Services account ID of the domain owner. Constraints: o min: 12 o max: 12 o pattern: [0-9]+ DomainName -&gt; (string) [required] Name of the domain. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+ Region -&gt; (string) The Amazon Web Services Region in which the domain is lo- cated. Constraints: o min: 5 o max: 30 o pattern: [a-z][a-z0-9\-]+ Shorthand Syntax: AWSDomainInformation={OwnerId=string,DomainName=string,Region=string} JSON Syntax: { "AWSDomainInformation": { "OwnerId": "string", "DomainName": "string", "Region": "string" } }</param>
-    /// <param name="RemoteDomainInfo">Name and Region of the destination (remote) domain. AWSDomainInformation -&gt; (structure) Information about an Amazon OpenSearch Service domain. OwnerId -&gt; (string) The Amazon Web Services account ID of the domain owner. Constraints: o min: 12 o max: 12 o pattern: [0-9]+ DomainName -&gt; (string) [required] Name of the domain. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+ Region -&gt; (string) The Amazon Web Services Region in which the domain is lo- cated. Constraints: o min: 5 o max: 30 o pattern: [a-z][a-z0-9\-]+ Shorthand Syntax: AWSDomainInformation={OwnerId=string,DomainName=string,Region=string} JSON Syntax: { "AWSDomainInformation": { "OwnerId": "string", "DomainName": "string", "Region": "string" } }</param>
-    /// <param name="ConnectionAlias">Name of the connection. Constraints: o min: 2 o max: 100 o pattern: [a-zA-Z][a-zA-Z0-9\-\_]+</param>
+    /// <param name="LocalDomainInfo">Name and Region of the source (local) domain. AWSDomainInformation -&gt; (structure) Information about an Amazon OpenSearch Service domain. OwnerId -&gt; (string) The Amazon Web Services account ID of the domain owner. Constraints: • min: 12 • max: 12 • pattern: [0-9]+ DomainName -&gt; (string) [required] Name of the domain. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+ Region -&gt; (string) The Amazon Web Services Region in which the domain is located. Constraints: • min: 5 • max: 30 • pattern: [a-z][a-z0-9\-]+ Shorthand Syntax: AWSDomainInformation={OwnerId=string,DomainName=string,Region=string} JSON Syntax: { "AWSDomainInformation": { "OwnerId": "string", "DomainName": "string", "Region": "string" } }</param>
+    /// <param name="RemoteDomainInfo">Name and Region of the destination (remote) domain. AWSDomainInformation -&gt; (structure) Information about an Amazon OpenSearch Service domain. OwnerId -&gt; (string) The Amazon Web Services account ID of the domain owner. Constraints: • min: 12 • max: 12 • pattern: [0-9]+ DomainName -&gt; (string) [required] Name of the domain. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+ Region -&gt; (string) The Amazon Web Services Region in which the domain is located. Constraints: • min: 5 • max: 30 • pattern: [a-z][a-z0-9\-]+ Shorthand Syntax: AWSDomainInformation={OwnerId=string,DomainName=string,Region=string} JSON Syntax: { "AWSDomainInformation": { "OwnerId": "string", "DomainName": "string", "Region": "string" } }</param>
+    /// <param name="ConnectionAlias">Name of the connection. Constraints: • min: 2 • max: 100 • pattern: [a-zA-Z][a-zA-Z0-9\-\_]+</param>
     public AwsOpensearchCreateOutboundConnectionOptions(
         string LocalDomainInfo,
         string RemoteDomainInfo,
@@ -65,31 +67,31 @@ public record AwsOpensearchCreateOutboundConnectionOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name and Region of the source (local) domain. AWSDomainInformation -&gt; (structure) Information about an Amazon OpenSearch Service domain. OwnerId -&gt; (string) The Amazon Web Services account ID of the domain owner. Constraints: o min: 12 o max: 12 o pattern: [0-9]+ DomainName -&gt; (string) [required] Name of the domain. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+ Region -&gt; (string) The Amazon Web Services Region in which the domain is lo- cated. Constraints: o min: 5 o max: 30 o pattern: [a-z][a-z0-9\-]+ Shorthand Syntax: AWSDomainInformation={OwnerId=string,DomainName=string,Region=string} JSON Syntax: { "AWSDomainInformation": { "OwnerId": "string", "DomainName": "string", "Region": "string" } }
+    /// Name and Region of the source (local) domain. AWSDomainInformation -&gt; (structure) Information about an Amazon OpenSearch Service domain. OwnerId -&gt; (string) The Amazon Web Services account ID of the domain owner. Constraints: • min: 12 • max: 12 • pattern: [0-9]+ DomainName -&gt; (string) [required] Name of the domain. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+ Region -&gt; (string) The Amazon Web Services Region in which the domain is located. Constraints: • min: 5 • max: 30 • pattern: [a-z][a-z0-9\-]+ Shorthand Syntax: AWSDomainInformation={OwnerId=string,DomainName=string,Region=string} JSON Syntax: { "AWSDomainInformation": { "OwnerId": "string", "DomainName": "string", "Region": "string" } }
     /// </summary>
     [CliOption("--local-domain-info")]
     public string? LocalDomainInfo { get; private init; }
 
     /// <summary>
-    /// Name and Region of the destination (remote) domain. AWSDomainInformation -&gt; (structure) Information about an Amazon OpenSearch Service domain. OwnerId -&gt; (string) The Amazon Web Services account ID of the domain owner. Constraints: o min: 12 o max: 12 o pattern: [0-9]+ DomainName -&gt; (string) [required] Name of the domain. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+ Region -&gt; (string) The Amazon Web Services Region in which the domain is lo- cated. Constraints: o min: 5 o max: 30 o pattern: [a-z][a-z0-9\-]+ Shorthand Syntax: AWSDomainInformation={OwnerId=string,DomainName=string,Region=string} JSON Syntax: { "AWSDomainInformation": { "OwnerId": "string", "DomainName": "string", "Region": "string" } }
+    /// Name and Region of the destination (remote) domain. AWSDomainInformation -&gt; (structure) Information about an Amazon OpenSearch Service domain. OwnerId -&gt; (string) The Amazon Web Services account ID of the domain owner. Constraints: • min: 12 • max: 12 • pattern: [0-9]+ DomainName -&gt; (string) [required] Name of the domain. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+ Region -&gt; (string) The Amazon Web Services Region in which the domain is located. Constraints: • min: 5 • max: 30 • pattern: [a-z][a-z0-9\-]+ Shorthand Syntax: AWSDomainInformation={OwnerId=string,DomainName=string,Region=string} JSON Syntax: { "AWSDomainInformation": { "OwnerId": "string", "DomainName": "string", "Region": "string" } }
     /// </summary>
     [CliOption("--remote-domain-info")]
     public string? RemoteDomainInfo { get; private init; }
 
     /// <summary>
-    /// Name of the connection. Constraints: o min: 2 o max: 100 o pattern: [a-zA-Z][a-zA-Z0-9\-\_]+
+    /// Name of the connection. Constraints: • min: 2 • max: 100 • pattern: [a-zA-Z][a-zA-Z0-9\-\_]+
     /// </summary>
     [CliOption("--connection-alias")]
     public string? ConnectionAlias { get; private init; }
 
     /// <summary>
-    /// The connection mode. Possible values: o DIRECT o VPC_ENDPOINT
+    /// The connection mode. Possible values: • DIRECT • VPC_ENDPOINT
     /// </summary>
     [CliOption("--connection-mode")]
     public AwsOpensearchCreateOutboundConnectionConnectionMode? ConnectionMode { get; set; }
 
     /// <summary>
-    /// The ConnectionProperties for the outbound connection. Endpoint -&gt; (string) WARNING: The Endpoint attribute cannot be modified. The endpoint of the remote domain. Applicable for VPC_ENDPOINT connection mode. Constraints: o pattern: ^[A-Za-z0-9\-\.]+$ CrossClusterSearch -&gt; (structure) The connection properties for cross cluster search. SkipUnavailable -&gt; (string) The status of the SkipUnavailable setting for the outbound connection. This feature allows you to specify some clusters as optional and ensure that your cross-cluster queries return partial results despite failures on one or more remote clus- ters. Possible values: o ENABLED o DISABLED Shorthand Syntax: Endpoint=string,CrossClusterSearch={SkipUnavailable=string} JSON Syntax: { "Endpoint": "string", "CrossClusterSearch": { "SkipUnavailable": "ENABLED"|"DISABLED" } }
+    /// The ConnectionProperties for the outbound connection. Endpoint -&gt; (string) WARNING: The Endpoint attribute cannot be modified. The endpoint of the remote domain. Applicable for VPC_ENDPOINT connection mode. Constraints: • pattern: ^[A-Za-z0-9\-\.]+$ CrossClusterSearch -&gt; (structure) The connection properties for cross cluster search. SkipUnavailable -&gt; (string) The status of the SkipUnavailable setting for the outbound connection. This feature allows you to specify some clusters as optional and ensure that your cross-cluster queries return partial results despite failures on one or more remote clusters. Possible values: • ENABLED • DISABLED Shorthand Syntax: Endpoint=string,CrossClusterSearch={SkipUnavailable=string} JSON Syntax: { "Endpoint": "string", "CrossClusterSearch": { "SkipUnavailable": "ENABLED"|"DISABLED" } }
     /// </summary>
     [CliOption("--connection-properties")]
     public string? ConnectionProperties { get; set; }

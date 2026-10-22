@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMigrationhuborchestratorGetTemplateOptions : AwsOptions, IValid
     /// <summary>
     /// Get the template you want to use for creating a migration workflow. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the template. Constraints: o min: 1 o max: 100 o pattern: [-a-zA-Z0-9_.+]+[-a-zA-Z0-9_.+ ]*</param>
+    /// <param name="Id">The ID of the template. Constraints: • min: 1 • max: 100 • pattern: [-a-zA-Z0-9_.+]+[-a-zA-Z0-9_.+ ]*</param>
     public AwsMigrationhuborchestratorGetTemplateOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsMigrationhuborchestratorGetTemplateOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the template. Constraints: o min: 1 o max: 100 o pattern: [-a-zA-Z0-9_.+]+[-a-zA-Z0-9_.+ ]*
+    /// The ID of the template. Constraints: • min: 1 • max: 100 • pattern: [-a-zA-Z0-9_.+]+[-a-zA-Z0-9_.+ ]*
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

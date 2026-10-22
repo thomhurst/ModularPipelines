@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an asset in Amazon DataZone catalog. Before creating assets, make sure that the following requirements are met: o --domain-identifier must refer to an existing domain. o --owning-project-identifier must be a valid project within the do- main. o Asset type must be created beforehand using create-asset-type , or be a supported system-defined type. For more information, see create-asset-type . o --type-revision (if used) must match a valid revision of the asset type. o formsInput is require...
+/// Creates an asset in Amazon DataZone catalog. Before creating assets, make sure that the following requirements are met: • --domain-identifier must refer to an existing domain. • --owning-project-identifier must be a valid project within the domain. • Asset type must be created beforehand using create-asset-type , or be a supported system-defined type. For more information, see create-asset-type . • --type-revision (if used) must match a valid revision of the asset type. • formsInput is required ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +28,12 @@ public record AwsDatazoneCreateAssetOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an asset in Amazon DataZone catalog. Before creating assets, make sure that the following requirements are met: o --domain-identifier must refer to an existing domain. o --owning-project-identifier must be a valid project within the do- main. o Asset type must be created beforehand using create-asset-type , or be a supported system-defined type. For more information, see create-asset-type . o --type-revision (if used) must match a valid revision of the asset type. o formsInput is require...
+    /// Creates an asset in Amazon DataZone catalog. Before creating assets, make sure that the following requirements are met: • --domain-identifier must refer to an existing domain. • --owning-project-identifier must be a valid project within the domain. • Asset type must be created beforehand using create-asset-type , or be a supported system-defined type. For more information, see create-asset-type . • --type-revision (if used) must match a valid revision of the asset type. • formsInput is required ...
     /// </summary>
-    /// <param name="Name">Asset name. Constraints: o min: 1 o max: 256</param>
-    /// <param name="DomainIdentifier">Amazon DataZone domain where the asset is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="TypeIdentifier">The unique identifier of this asset's type. Constraints: o min: 1 o max: 513 o pattern: (?!\.)[\w\.]*\w</param>
-    /// <param name="OwningProjectIdentifier">The unique identifier of the project that owns this asset. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Name">Asset name. Constraints: • min: 1 • max: 256</param>
+    /// <param name="DomainIdentifier">Amazon DataZone domain where the asset is created. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="TypeIdentifier">The unique identifier of this asset's type. Constraints: • min: 1 • max: 513 • pattern: (?!\.)[\w\.]*\w</param>
+    /// <param name="OwningProjectIdentifier">The unique identifier of the project that owns this asset. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneCreateAssetOptions(
         string Name,
         string DomainIdentifier,
@@ -69,55 +71,55 @@ public record AwsDatazoneCreateAssetOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Asset name. Constraints: o min: 1 o max: 256
+    /// Asset name. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Amazon DataZone domain where the asset is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// Amazon DataZone domain where the asset is created. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The unique identifier of this asset's type. Constraints: o min: 1 o max: 513 o pattern: (?!\.)[\w\.]*\w
+    /// The unique identifier of this asset's type. Constraints: • min: 1 • max: 513 • pattern: (?!\.)[\w\.]*\w
     /// </summary>
     [CliOption("--type-identifier")]
     public string? TypeIdentifier { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the project that owns this asset. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The unique identifier of the project that owns this asset. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--owning-project-identifier")]
     public string? OwningProjectIdentifier { get; private init; }
 
     /// <summary>
-    /// The external identifier of the asset. If the value for the externalIdentifier parameter is specified, it must be a unique value. Constraints: o min: 1 o max: 600
+    /// The external identifier of the asset. If the value for the externalIdentifier parameter is specified, it must be a unique value. Constraints: • min: 1 • max: 600
     /// </summary>
     [CliOption("--external-identifier")]
     public string? ExternalIdentifier { get; set; }
 
     /// <summary>
-    /// The revision of this asset's type. Constraints: o min: 1 o max: 64
+    /// The revision of this asset's type. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--type-revision")]
     public string? TypeRevision { get; set; }
 
     /// <summary>
-    /// Asset description. Constraints: o min: 0 o max: 2048
+    /// Asset description. Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Glossary terms attached to the asset. Constraints: o min: 1 o max: 20 (string) Constraints: o pattern: [a-zA-Z0-9_-]{1,36} Syntax: "string" "string" ...
+    /// Glossary terms attached to the asset. Constraints: • min: 1 • max: 20 (string) Constraints: • pattern: [a-zA-Z0-9_-]{1,36} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--glossary-terms", GroupValues = true)]
     public IEnumerable<string>? GlossaryTerms { get; set; }
 
     /// <summary>
-    /// Metadata forms attached to the asset. Constraints: o min: 0 o max: 10 (structure) The details of a metadata form. formName -&gt; (string) [required] The name of the metadata form. Constraints: o min: 1 o max: 128 o pattern: (?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w* typeIdentifier -&gt; (string) The ID of the metadata form type. Constraints: o min: 1 o max: 385 o pattern: (?!\.)[\w\.]*\w typeRevision -&gt; (string) The revision of the metadata form type. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ content -&gt; (string) The content of the metadata form. Constraints: o min: 0 o max: 300000 Shorthand Syntax: formName=string,typeIdentifier=string,typeRevision=string,content=string ... JSON Syntax: [ { "formName": "string", "typeIdentifier": "string", "typeRevision": "string", "content": "string" } ... ]
+    /// Metadata forms attached to the asset. Constraints: • min: 0 • max: 10 (structure) The details of a metadata form. formName -&gt; (string) [required] The name of the metadata form. Constraints: • min: 1 • max: 128 • pattern: (?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w* typeIdentifier -&gt; (string) The ID of the metadata form type. Constraints: • min: 1 • max: 385 • pattern: (?!\.)[\w\.]*\w typeRevision -&gt; (string) The revision of the metadata form type. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+ content -&gt; (string) The content of the metadata form. Constraints: • min: 0 • max: 300000 Shorthand Syntax: formName=string,typeIdentifier=string,typeRevision=string,content=string ... JSON Syntax: [ { "formName": "string", "typeIdentifier": "string", "typeRevision": "string", "content": "string" } ... ]
     /// </summary>
     [CliOption("--forms-input", GroupValues = true)]
     public IEnumerable<string>? FormsInput { get; set; }
@@ -129,7 +131,7 @@ public record AwsDatazoneCreateAssetOptions : AwsOptions, IValidatableObject
     public string? PredictionConfiguration { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

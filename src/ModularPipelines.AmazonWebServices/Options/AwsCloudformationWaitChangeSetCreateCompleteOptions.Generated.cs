@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsCloudformationWaitChangeSetCreateCompleteOptions : AwsOptions, 
     /// <summary>
     /// Wait until change set status is CREATE_COMPLETE. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 120 failed checks. See also: AWS API Documentation change-set-create-complete is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response...
     /// </summary>
-    /// <param name="ChangeSetName">The name or Amazon Resource Name (ARN) of the change set that you want to describe. Constraints: o min: 1 o max: 1600 o pattern: [a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*</param>
+    /// <param name="ChangeSetName">The name or Amazon Resource Name (ARN) of the change set that you want to describe. Constraints: • min: 1 • max: 1600 • pattern: [a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*</param>
     public AwsCloudformationWaitChangeSetCreateCompleteOptions(
         string ChangeSetName
     )
@@ -57,28 +59,25 @@ public record AwsCloudformationWaitChangeSetCreateCompleteOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of the change set that you want to describe. Constraints: o min: 1 o max: 1600 o pattern: [a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*
+    /// The name or Amazon Resource Name (ARN) of the change set that you want to describe. Constraints: • min: 1 • max: 1600 • pattern: [a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*
     /// </summary>
     [CliOption("--change-set-name")]
     public string? ChangeSetName { get; private init; }
 
     /// <summary>
-    /// If you specified the name of a change set, specify the stack name or ID (ARN) of the change set you want to describe. Constraints: o min: 1 o pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)
+    /// If you specified the name of a change set, specify the stack name or ID (ARN) of the change set you want to describe. Constraints: • min: 1 • pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)
     /// </summary>
     [CliOption("--stack-name")]
     public string? StackName { get; set; }
 
     /// <summary>
-    /// If true , the returned changes include detailed changes in the prop- erty values.
+    /// If true , the returned changes include detailed changes in the property values.
     /// </summary>
     [CliFlag("--include-property-values", NegatedName = "--no-include-property-values")]
     public bool? IncludePropertyValues { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -88,10 +87,13 @@ public record AwsCloudformationWaitChangeSetCreateCompleteOptions : AwsOptions, 
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

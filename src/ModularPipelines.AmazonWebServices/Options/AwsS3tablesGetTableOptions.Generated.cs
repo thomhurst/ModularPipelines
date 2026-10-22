@@ -22,25 +22,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsS3tablesGetTableOptions : AwsOptions
 {
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the table bucket associated with the table. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})
+    /// The Amazon Resource Name (ARN) of the table bucket associated with the table. Constraints: • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})
     /// </summary>
     [CliOption("--table-bucket-arn")]
     public string? TableBucketArn { get; set; }
 
     /// <summary>
-    /// The name of the namespace the table is associated with. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*
+    /// The name of the namespace the table is associated with. Constraints: • min: 1 • max: 255 • pattern: [0-9a-z_]*
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
     /// <summary>
-    /// The name of the table. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*
+    /// The name of the table. Constraints: • min: 1 • max: 255 • pattern: [0-9a-z_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the table. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}/ta- ble/[a-zA-Z0-9-_]{1,255})
+    /// The Amazon Resource Name (ARN) of the table. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}/table/[a-zA-Z0-9-_]{1,255})
     /// </summary>
     [CliOption("--table-arn")]
     public string? TableArn { get; set; }

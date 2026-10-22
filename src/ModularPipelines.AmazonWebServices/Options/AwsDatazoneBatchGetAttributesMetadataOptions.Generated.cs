@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,10 +30,10 @@ public record AwsDatazoneBatchGetAttributesMetadataOptions : AwsOptions, IValida
     /// <summary>
     /// Gets the attribute metadata. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The domain ID where you want to get the attribute metadata. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="EntityType">The entity type for which you want to get attribute metadata. Possible values: o ASSET o LISTING</param>
-    /// <param name="EntityIdentifier">The entity ID for which you want to get attribute metadata. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="AttributeIdentifiers">The attribute identifier. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 256 Syntax: "string" "string" ...</param>
+    /// <param name="DomainIdentifier">The domain ID where you want to get the attribute metadata. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EntityType">The entity type for which you want to get attribute metadata. Possible values: • ASSET • LISTING</param>
+    /// <param name="EntityIdentifier">The entity ID for which you want to get attribute metadata. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="AttributeIdentifiers">The attribute identifier. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 1 • max: 256 Syntax: "string" "string" ...</param>
     public AwsDatazoneBatchGetAttributesMetadataOptions(
         string DomainIdentifier,
         AwsDatazoneBatchGetAttributesMetadataEntityType EntityType,
@@ -79,31 +81,31 @@ public record AwsDatazoneBatchGetAttributesMetadataOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The domain ID where you want to get the attribute metadata. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The domain ID where you want to get the attribute metadata. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The entity type for which you want to get attribute metadata. Possible values: o ASSET o LISTING
+    /// The entity type for which you want to get attribute metadata. Possible values: • ASSET • LISTING
     /// </summary>
     [CliOption("--entity-type")]
     public AwsDatazoneBatchGetAttributesMetadataEntityType? EntityType { get; private init; }
 
     /// <summary>
-    /// The entity ID for which you want to get attribute metadata. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The entity ID for which you want to get attribute metadata. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--entity-identifier")]
     public string? EntityIdentifier { get; private init; }
 
     /// <summary>
-    /// The attribute identifier. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 256 Syntax: "string" "string" ...
+    /// The attribute identifier. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 1 • max: 256 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--attribute-identifiers", GroupValues = true)]
     public IEnumerable<string>? AttributeIdentifiers { get; private init; }
 
     /// <summary>
-    /// The entity revision for which you want to get attribute metadata. Constraints: o min: 1 o max: 64
+    /// The entity revision for which you want to get attribute metadata. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--entity-revision")]
     public string? EntityRevision { get; set; }

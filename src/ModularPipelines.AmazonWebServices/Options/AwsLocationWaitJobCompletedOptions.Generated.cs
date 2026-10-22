@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsLocationWaitJobCompletedOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Wait until JMESPath query Status returns Completed when polling with get-job. It will poll every 60 seconds until a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">The unique identifier of the job to retrieve. Constraints: o min: 1 o max: 200 o pattern: [-._\w]+</param>
+    /// <param name="JobId">The unique identifier of the job to retrieve. Constraints: • min: 1 • max: 200 • pattern: [-._\w]+</param>
     public AwsLocationWaitJobCompletedOptions(
         string JobId
     )
@@ -56,7 +58,7 @@ public record AwsLocationWaitJobCompletedOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the job to retrieve. Constraints: o min: 1 o max: 200 o pattern: [-._\w]+
+    /// The unique identifier of the job to retrieve. Constraints: • min: 1 • max: 200 • pattern: [-._\w]+
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }

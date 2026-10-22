@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +31,7 @@ public record AwsQuicksightListUsersIndexCapacityOptions : AwsOptions, IValidata
     /// <summary>
     /// Lists per-user index capacity consumption for an account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the index capacity data. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the index capacity data. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
     public AwsQuicksightListUsersIndexCapacityOptions(
         string AwsAccountId
     )
@@ -58,37 +60,37 @@ public record AwsQuicksightListUsersIndexCapacityOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the index capacity data. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the index capacity data. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The namespace to scope the user search to. Required when the user- NameOrEmail filter is present. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// The namespace to scope the user search to. Required when the userNameOrEmail filter is present. Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
     /// <summary>
-    /// Filters to apply. Only one filter is supported per request. The userNameOrEmail and totalCapacityBytes filters are mutually exclu- sive. (tagged union structure) A filter for user index capacity queries. Only one filter type can be specified per request. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: userNameOrEmail, totalCapacity- Bytes. userNameOrEmail -&gt; (structure) Filter users by username or email prefix. prefix -&gt; (string) [required] The prefix to match against username or email (starts-with match). Constraints: o min: 0 o max: 256 totalCapacityBytes -&gt; (structure) Filter users by total capacity range in bytes. minBytes -&gt; (long) The minimum capacity in bytes (inclusive). At least one of minBytes or maxBytes is required. Constraints: o min: 1 maxBytes -&gt; (long) The maximum capacity in bytes (inclusive). At least one of minBytes or maxBytes is required. Constraints: o min: 1 Shorthand Syntax: userNameOrEmail={prefix=string},totalCapacityBytes={minBytes=long,maxBytes=long} ... JSON Syntax: [ { "userNameOrEmail": { "prefix": "string" }, "totalCapacityBytes": { "minBytes": long, "maxBytes": long } } ... ]
+    /// Filters to apply. Only one filter is supported per request. The userNameOrEmail and totalCapacityBytes filters are mutually exclusive. (tagged union structure) A filter for user index capacity queries. Only one filter type can be specified per request. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: userNameOrEmail, totalCapacityBytes. userNameOrEmail -&gt; (structure) Filter users by username or email prefix. prefix -&gt; (string) [required] The prefix to match against username or email (starts-with match). Constraints: • min: 0 • max: 256 totalCapacityBytes -&gt; (structure) Filter users by total capacity range in bytes. minBytes -&gt; (long) The minimum capacity in bytes (inclusive). At least one of minBytes or maxBytes is required. Constraints: • min: 1 maxBytes -&gt; (long) The maximum capacity in bytes (inclusive). At least one of minBytes or maxBytes is required. Constraints: • min: 1 Shorthand Syntax: userNameOrEmail={prefix=string},totalCapacityBytes={minBytes=long,maxBytes=long} ... JSON Syntax: [ { "userNameOrEmail": { "prefix": "string" }, "totalCapacityBytes": { "minBytes": long, "maxBytes": long } } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// The field to sort results by. Possible values: o TOTAL_CAPACITY_BYTES
+    /// The field to sort results by. Possible values: • TOTAL_CAPACITY_BYTES
     /// </summary>
     [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
     /// <summary>
-    /// The sort order for results. Defaults to DESC if not specified. Possible values: o ASC o DESC
+    /// The sort order for results. Defaults to DESC if not specified. Possible values: • ASC • DESC
     /// </summary>
     [CliOption("--sort-order")]
     public AwsQuicksightListUsersIndexCapacitySortOrder? SortOrder { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return per page. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to return per page. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

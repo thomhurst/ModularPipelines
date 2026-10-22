@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsConnectAssociateRoutingProfileQueuesOptions : AwsOptions, IVali
     /// <summary>
     /// Associates a set of queues with a routing profile. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     /// <param name="RoutingProfileId">The identifier of the routing profile.</param>
     public AwsConnectAssociateRoutingProfileQueuesOptions(
         string InstanceId,
@@ -60,7 +62,7 @@ public record AwsConnectAssociateRoutingProfileQueuesOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
@@ -72,13 +74,13 @@ public record AwsConnectAssociateRoutingProfileQueuesOptions : AwsOptions, IVali
     public string? RoutingProfileId { get; private init; }
 
     /// <summary>
-    /// The queues to associate with this routing profile. Constraints: o min: 1 o max: 10 (structure) Contains information about the queue and channel for which pri- ority and delay can be set. QueueReference -&gt; (structure) [required] Contains information about a queue resource. QueueId -&gt; (string) [required] The identifier for the queue. Channel -&gt; (string) [required] The channels agents can handle in the Contact Control Panel (CCP) for this routing profile. Possible values: o VOICE o CHAT o TASK o EMAIL Priority -&gt; (integer) [required] The order in which contacts are to be handled for the queue. For more information, see Queues: priority and delay . Constraints: o min: 1 o max: 99 Delay -&gt; (integer) [required] The delay, in seconds, a contact should be in the queue be- fore they are routed to an available agent. For more informa- tion, see Queues: priority and delay in the Connect Customer Administrator Guide . Constraints: o min: 0 o max: 9999 Shorthand Syntax: QueueReference={QueueId=string,Channel=string},Priority=integer,Delay=integer ... JSON Syntax: [ { "QueueReference": { "QueueId": "string", "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL" }, "Priority": integer, "Delay": integer } ... ]
+    /// The queues to associate with this routing profile. Constraints: • min: 1 • max: 10 (structure) Contains information about the queue and channel for which priority and delay can be set. QueueReference -&gt; (structure) [required] Contains information about a queue resource. QueueId -&gt; (string) [required] The identifier for the queue. Channel -&gt; (string) [required] The channels agents can handle in the Contact Control Panel (CCP) for this routing profile. Possible values: • VOICE • CHAT • TASK • EMAIL Priority -&gt; (integer) [required] The order in which contacts are to be handled for the queue. For more information, see Queues: priority and delay . Constraints: • min: 1 • max: 99 Delay -&gt; (integer) [required] The delay, in seconds, a contact should be in the queue before they are routed to an available agent. For more information, see Queues: priority and delay in the Connect Customer Administrator Guide . Constraints: • min: 0 • max: 9999 Shorthand Syntax: QueueReference={QueueId=string,Channel=string},Priority=integer,Delay=integer ... JSON Syntax: [ { "QueueReference": { "QueueId": "string", "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL" }, "Priority": integer, "Delay": integer } ... ]
     /// </summary>
     [CliOption("--queue-configs", GroupValues = true)]
     public IEnumerable<string>? QueueConfigs { get; set; }
 
     /// <summary>
-    /// The manual assignment queues to associate with this routing profile. NOTE: For voice contacts, manual assignment supports only agent-first callback contacts. Chat, email, and task contacts are fully sup- ported. Constraints: o min: 1 o max: 10 (structure) Contains information about the queue and channel for manual as- signment behaviour can be enabled. QueueReference -&gt; (structure) [required] Contains the channel and queue identifier for a routing pro- file. QueueId -&gt; (string) [required] The identifier for the queue. Channel -&gt; (string) [required] The channels agents can handle in the Contact Control Panel (CCP) for this routing profile. Possible values: o VOICE o CHAT o TASK o EMAIL Shorthand Syntax: QueueReference={QueueId=string,Channel=string} ... JSON Syntax: [ { "QueueReference": { "QueueId": "string", "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL" } } ... ]
+    /// The manual assignment queues to associate with this routing profile. NOTE: For voice contacts, manual assignment supports only agent-first callback contacts. Chat, email, and task contacts are fully supported. Constraints: • min: 1 • max: 10 (structure) Contains information about the queue and channel for manual assignment behaviour can be enabled. QueueReference -&gt; (structure) [required] Contains the channel and queue identifier for a routing profile. QueueId -&gt; (string) [required] The identifier for the queue. Channel -&gt; (string) [required] The channels agents can handle in the Contact Control Panel (CCP) for this routing profile. Possible values: • VOICE • CHAT • TASK • EMAIL Shorthand Syntax: QueueReference={QueueId=string,Channel=string} ... JSON Syntax: [ { "QueueReference": { "QueueId": "string", "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL" } } ... ]
     /// </summary>
     [CliOption("--manual-assignment-queue-configs", GroupValues = true)]
     public IEnumerable<string>? ManualAssignmentQueueConfigs { get; set; }

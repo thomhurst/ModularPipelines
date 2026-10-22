@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -18,7 +19,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sends a message to a particular channel that the member is a part of. NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. Also, STANDARD messages can be up to 4KB in size and contain meta- data. Metadata is arbitrary, and you can use it in a variety of ways, such as containing a link to an attachment. CONTROL messages are limited to 30 bytes and do not contain metadata. See also: AWS AP...
+/// Sends a message to a particular channel that the member is a part of. NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. Also, STANDARD messages can be up to 4KB in size and contain metadata. Metadata is arbitrary, and you can use it in a variety of ways, such as containing a link to an attachment. CONTROL messages are limited to 30 bytes and do not contain metadata. See also: AWS API ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,13 +29,13 @@ public record AwsChimeSdkMessagingSendChannelMessageOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sends a message to a particular channel that the member is a part of. NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. Also, STANDARD messages can be up to 4KB in size and contain meta- data. Metadata is arbitrary, and you can use it in a variety of ways, such as containing a link to an attachment. CONTROL messages are limited to 30 bytes and do not contain metadata. See also: AWS AP...
+    /// Sends a message to a particular channel that the member is a part of. NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. Also, STANDARD messages can be up to 4KB in size and contain metadata. Metadata is arbitrary, and you can use it in a variety of ways, such as containing a link to an attachment. CONTROL messages are limited to 30 bytes and do not contain metadata. See also: AWS API ...
     /// </summary>
-    /// <param name="ChannelArn">The ARN of the channel. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
-    /// <param name="Content">The content of the channel message. Constraints: o min: 1 o pattern: [\s\S]*</param>
-    /// <param name="Type">The type of message, STANDARD or CONTROL . STANDARD messages can be up to 4KB in size and contain metadata. Metadata is arbitrary, and you can use it in a variety of ways, such as containing a link to an attachment. CONTROL messages are limited to 30 bytes and do not contain metadata. Possible values: o STANDARD o CONTROL</param>
-    /// <param name="Persistence">Boolean that controls whether the message is persisted on the back end. Required. Possible values: o PERSISTENT o NON_PERSISTENT</param>
-    /// <param name="ChimeBearer">The ARN of the AppInstanceUser or AppInstanceBot that makes the API call. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="ChannelArn">The ARN of the channel. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="Content">The content of the channel message. Constraints: • min: 1 • pattern: [\s\S]*</param>
+    /// <param name="Type">The type of message, STANDARD or CONTROL . STANDARD messages can be up to 4KB in size and contain metadata. Metadata is arbitrary, and you can use it in a variety of ways, such as containing a link to an attachment. CONTROL messages are limited to 30 bytes and do not contain metadata. Possible values: • STANDARD • CONTROL</param>
+    /// <param name="Persistence">Boolean that controls whether the message is persisted on the back end. Required. Possible values: • PERSISTENT • NON_PERSISTENT</param>
+    /// <param name="ChimeBearer">The ARN of the AppInstanceUser or AppInstanceBot that makes the API call. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
     public AwsChimeSdkMessagingSendChannelMessageOptions(
         string ChannelArn,
         string Content,
@@ -73,74 +74,74 @@ public record AwsChimeSdkMessagingSendChannelMessageOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the channel. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The ARN of the channel. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--channel-arn")]
     public string? ChannelArn { get; private init; }
 
     /// <summary>
-    /// The content of the channel message. Constraints: o min: 1 o pattern: [\s\S]*
+    /// The content of the channel message. Constraints: • min: 1 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--content")]
     public string? Content { get; private init; }
 
     /// <summary>
-    /// The type of message, STANDARD or CONTROL . STANDARD messages can be up to 4KB in size and contain metadata. Metadata is arbitrary, and you can use it in a variety of ways, such as containing a link to an attachment. CONTROL messages are limited to 30 bytes and do not contain metadata. Possible values: o STANDARD o CONTROL
+    /// The type of message, STANDARD or CONTROL . STANDARD messages can be up to 4KB in size and contain metadata. Metadata is arbitrary, and you can use it in a variety of ways, such as containing a link to an attachment. CONTROL messages are limited to 30 bytes and do not contain metadata. Possible values: • STANDARD • CONTROL
     /// </summary>
     [CliOption("--type")]
     public AwsChimeSdkMessagingSendChannelMessageType? Type { get; private init; }
 
     /// <summary>
-    /// Boolean that controls whether the message is persisted on the back end. Required. Possible values: o PERSISTENT o NON_PERSISTENT
+    /// Boolean that controls whether the message is persisted on the back end. Required. Possible values: • PERSISTENT • NON_PERSISTENT
     /// </summary>
     [CliOption("--persistence")]
     public AwsChimeSdkMessagingSendChannelMessagePersistence? Persistence { get; private init; }
 
     /// <summary>
-    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--chime-bearer")]
     public string? ChimeBearer { get; private init; }
 
     /// <summary>
-    /// The optional metadata for each message. Constraints: o min: 0 o max: 1024 o pattern: .*
+    /// The optional metadata for each message. Constraints: • min: 0 • max: 1024 • pattern: .*
     /// </summary>
     [CliOption("--metadata")]
     public string? Metadata { get; set; }
 
     /// <summary>
-    /// The Idempotency token for each client request. Constraints: o min: 2 o max: 64 o pattern: [-_a-zA-Z0-9]*
+    /// The Idempotency token for each client request. Constraints: • min: 2 • max: 64 • pattern: [-_a-zA-Z0-9]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// The push notification configuration of the message. Title -&gt; (string) The title of the push notification. Constraints: o min: 1 o max: 50 o pattern: .* Body -&gt; (string) The body of the push notification. Constraints: o min: 1 o max: 150 o pattern: [\s\S]* Type -&gt; (string) Enum value that indicates the type of the push notification for a message. DEFAULT : Normal mobile push notification. VOIP : VOIP mobile push notification. Possible values: o DEFAULT o VOIP Shorthand Syntax: Title=string,Body=string,Type=string JSON Syntax: { "Title": "string", "Body": "string", "Type": "DEFAULT"|"VOIP" }
+    /// The push notification configuration of the message. Title -&gt; (string) The title of the push notification. Constraints: • min: 1 • max: 50 • pattern: .* Body -&gt; (string) The body of the push notification. Constraints: • min: 1 • max: 150 • pattern: [\s\S]* Type -&gt; (string) Enum value that indicates the type of the push notification for a message. DEFAULT : Normal mobile push notification. VOIP : VOIP mobile push notification. Possible values: • DEFAULT • VOIP Shorthand Syntax: Title=string,Body=string,Type=string JSON Syntax: { "Title": "string", "Body": "string", "Type": "DEFAULT"|"VOIP" }
     /// </summary>
     [CliOption("--push-notification")]
     public string? PushNotification { get; set; }
 
     /// <summary>
-    /// The attributes for the message, used for message filtering along with a FilterRule defined in the PushNotificationPreferences . key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: [\s\S]* value -&gt; (structure) A list of message attribute values. StringValues -&gt; (list) The strings in a message attribute value. (string) Constraints: o min: 1 o max: 512 o pattern: [\s\S]* Shorthand Syntax: KeyName1={StringValues=[string,string]},KeyName2={StringValues=[string,string]} JSON Syntax: {"string": { "StringValues": ["string", ...] } ...}
+    /// The attributes for the message, used for message filtering along with a FilterRule defined in the PushNotificationPreferences . key -&gt; (string) Constraints: • min: 1 • max: 64 • pattern: [\s\S]* value -&gt; (structure) A list of message attribute values. StringValues -&gt; (list) The strings in a message attribute value. (string) Constraints: • min: 1 • max: 512 • pattern: [\s\S]* Shorthand Syntax: KeyName1={StringValues=[string,string]},KeyName2={StringValues=[string,string]} JSON Syntax: {"string": { "StringValues": ["string", ...] } ...}
     /// </summary>
     [CliOption("--message-attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? MessageAttributes { get; set; }
 
     /// <summary>
-    /// The ID of the SubChannel in the request. Constraints: o min: 1 o max: 128 o pattern: [-_a-zA-Z0-9]*
+    /// The ID of the SubChannel in the request. Constraints: • min: 1 • max: 128 • pattern: [-_a-zA-Z0-9]*
     /// </summary>
     [CliOption("--sub-channel-id")]
     public string? SubChannelId { get; set; }
 
     /// <summary>
-    /// The content type of the channel message. Constraints: o min: 0 o max: 45 o pattern: [\s\S]*
+    /// The content type of the channel message. Constraints: • min: 0 • max: 45 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--content-type")]
     public string? ContentType { get; set; }
 
     /// <summary>
-    /// The target of a message. Must be a member of the channel, such as another user, a bot, or the sender. Only the target and the sender can view targeted messages. Only users who can see targeted messages can take actions on them. However, administrators can delete tar- geted messages that they cant see. Constraints: o min: 1 o max: 1 (structure) The target of a message, a sender, a user, or a bot. Only the target and the sender can view targeted messages. Only users who can see targeted messages can take actions on them. However, ad- ministrators can delete targeted messages that they cant see. MemberArn -&gt; (string) The ARN of the target channel member. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} Shorthand Syntax: MemberArn=string ... JSON Syntax: [ { "MemberArn": "string" } ... ]
+    /// The target of a message. Must be a member of the channel, such as another user, a bot, or the sender. Only the target and the sender can view targeted messages. Only users who can see targeted messages can take actions on them. However, administrators can delete targeted messages that they cant see. Constraints: • min: 1 • max: 1 (structure) The target of a message, a sender, a user, or a bot. Only the target and the sender can view targeted messages. Only users who can see targeted messages can take actions on them. However, administrators can delete targeted messages that they cant see. MemberArn -&gt; (string) The ARN of the target channel member. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} Shorthand Syntax: MemberArn=string ... JSON Syntax: [ { "MemberArn": "string" } ... ]
     /// </summary>
     [CliOption("--target", GroupValues = true)]
     public IEnumerable<string>? Target { get; set; }

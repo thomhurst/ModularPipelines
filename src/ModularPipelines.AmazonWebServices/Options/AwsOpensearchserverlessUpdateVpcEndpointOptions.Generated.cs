@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsOpensearchserverlessUpdateVpcEndpointOptions : AwsOptions, IVal
     /// <summary>
     /// Updates an OpenSearch Serverless-managed interface endpoint. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The unique identifier of the interface endpoint to update. Constraints: o min: 1 o max: 255 o pattern: vpce-[0-9a-z]*</param>
+    /// <param name="Id">The unique identifier of the interface endpoint to update. Constraints: • min: 1 • max: 255 • pattern: vpce-[0-9a-z]*</param>
     public AwsOpensearchserverlessUpdateVpcEndpointOptions(
         string Id
     )
@@ -57,37 +59,37 @@ public record AwsOpensearchserverlessUpdateVpcEndpointOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the interface endpoint to update. Constraints: o min: 1 o max: 255 o pattern: vpce-[0-9a-z]*
+    /// The unique identifier of the interface endpoint to update. Constraints: • min: 1 • max: 255 • pattern: vpce-[0-9a-z]*
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The ID of one or more subnets to add to the endpoint. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 32 o pattern: subnet-([0-9a-f]{8}|[0-9a-f]{17}) Syntax: "string" "string" ...
+    /// The ID of one or more subnets to add to the endpoint. Constraints: • min: 1 (string) Constraints: • min: 1 • max: 32 • pattern: subnet-([0-9a-f]{8}|[0-9a-f]{17}) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--add-subnet-ids", GroupValues = true)]
     public IEnumerable<string>? AddSubnetIds { get; set; }
 
     /// <summary>
-    /// The unique identifiers of the subnets to remove from the endpoint. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 32 o pattern: subnet-([0-9a-f]{8}|[0-9a-f]{17}) Syntax: "string" "string" ...
+    /// The unique identifiers of the subnets to remove from the endpoint. Constraints: • min: 1 (string) Constraints: • min: 1 • max: 32 • pattern: subnet-([0-9a-f]{8}|[0-9a-f]{17}) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--remove-subnet-ids", GroupValues = true)]
     public IEnumerable<string>? RemoveSubnetIds { get; set; }
 
     /// <summary>
-    /// The unique identifiers of the security groups to add to the end- point. Security groups define the ports, protocols, and sources for inbound traffic that you are authorizing into your endpoint. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 128 o pattern: [\w+\-]+ Syntax: "string" "string" ...
+    /// The unique identifiers of the security groups to add to the endpoint. Security groups define the ports, protocols, and sources for inbound traffic that you are authorizing into your endpoint. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 1 • max: 128 • pattern: [\w+\-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--add-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? AddSecurityGroupIds { get; set; }
 
     /// <summary>
-    /// The unique identifiers of the security groups to remove from the endpoint. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 128 o pattern: [\w+\-]+ Syntax: "string" "string" ...
+    /// The unique identifiers of the security groups to remove from the endpoint. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 1 • max: 128 • pattern: [\w+\-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--remove-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? RemoveSecurityGroupIds { get; set; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 1 o max: 512
+    /// Unique, case-sensitive identifier to ensure idempotency of the request. Constraints: • min: 1 • max: 512
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

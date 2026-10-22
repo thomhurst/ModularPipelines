@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,10 +31,10 @@ public record AwsDatazoneListPolicyGrantsOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Lists policy grants. See also: AWS API Documentation list-policy-grants is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: grantList
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the domain where you want to list policy grants. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="EntityType">The type of entity for which you want to list policy grants. Possible values: o DOMAIN_UNIT o ENVIRONMENT_BLUEPRINT_CONFIGURATION o ENVIRONMENT_PROFILE o ASSET_TYPE</param>
+    /// <param name="DomainIdentifier">The ID of the domain where you want to list policy grants. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EntityType">The type of entity for which you want to list policy grants. Possible values: • DOMAIN_UNIT • ENVIRONMENT_BLUEPRINT_CONFIGURATION • ENVIRONMENT_PROFILE • ASSET_TYPE</param>
     /// <param name="EntityIdentifier">The ID of the entity for which you want to list policy grants.</param>
-    /// <param name="PolicyType">The type of policy that you want to list. Possible values: o CREATE_DOMAIN_UNIT o OVERRIDE_DOMAIN_UNIT_OWNERS o ADD_TO_PROJECT_MEMBER_POOL o OVERRIDE_PROJECT_OWNERS o CREATE_GLOSSARY o CREATE_FORM_TYPE o CREATE_ASSET_TYPE o CREATE_PROJECT o CREATE_ENVIRONMENT_PROFILE o DELEGATE_CREATE_ENVIRONMENT_PROFILE o CREATE_ENVIRONMENT o CREATE_ENVIRONMENT_FROM_BLUEPRINT o CREATE_PROJECT_FROM_PROJECT_PROFILE o USE_ASSET_TYPE</param>
+    /// <param name="PolicyType">The type of policy that you want to list. Possible values: • CREATE_DOMAIN_UNIT • OVERRIDE_DOMAIN_UNIT_OWNERS • ADD_TO_PROJECT_MEMBER_POOL • OVERRIDE_PROJECT_OWNERS • CREATE_GLOSSARY • CREATE_FORM_TYPE • CREATE_ASSET_TYPE • CREATE_PROJECT • CREATE_ENVIRONMENT_PROFILE • DELEGATE_CREATE_ENVIRONMENT_PROFILE • CREATE_ENVIRONMENT • CREATE_ENVIRONMENT_FROM_BLUEPRINT • CREATE_PROJECT_FROM_PROJECT_PROFILE • USE_ASSET_TYPE</param>
     public AwsDatazoneListPolicyGrantsOptions(
         string DomainIdentifier,
         AwsDatazoneListPolicyGrantsEntityType EntityType,
@@ -68,13 +70,13 @@ public record AwsDatazoneListPolicyGrantsOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the domain where you want to list policy grants. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the domain where you want to list policy grants. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The type of entity for which you want to list policy grants. Possible values: o DOMAIN_UNIT o ENVIRONMENT_BLUEPRINT_CONFIGURATION o ENVIRONMENT_PROFILE o ASSET_TYPE
+    /// The type of entity for which you want to list policy grants. Possible values: • DOMAIN_UNIT • ENVIRONMENT_BLUEPRINT_CONFIGURATION • ENVIRONMENT_PROFILE • ASSET_TYPE
     /// </summary>
     [CliOption("--entity-type")]
     public AwsDatazoneListPolicyGrantsEntityType? EntityType { get; private init; }
@@ -86,16 +88,13 @@ public record AwsDatazoneListPolicyGrantsOptions : AwsOptions, IValidatableObjec
     public string? EntityIdentifier { get; private init; }
 
     /// <summary>
-    /// The type of policy that you want to list. Possible values: o CREATE_DOMAIN_UNIT o OVERRIDE_DOMAIN_UNIT_OWNERS o ADD_TO_PROJECT_MEMBER_POOL o OVERRIDE_PROJECT_OWNERS o CREATE_GLOSSARY o CREATE_FORM_TYPE o CREATE_ASSET_TYPE o CREATE_PROJECT o CREATE_ENVIRONMENT_PROFILE o DELEGATE_CREATE_ENVIRONMENT_PROFILE o CREATE_ENVIRONMENT o CREATE_ENVIRONMENT_FROM_BLUEPRINT o CREATE_PROJECT_FROM_PROJECT_PROFILE o USE_ASSET_TYPE
+    /// The type of policy that you want to list. Possible values: • CREATE_DOMAIN_UNIT • OVERRIDE_DOMAIN_UNIT_OWNERS • ADD_TO_PROJECT_MEMBER_POOL • OVERRIDE_PROJECT_OWNERS • CREATE_GLOSSARY • CREATE_FORM_TYPE • CREATE_ASSET_TYPE • CREATE_PROJECT • CREATE_ENVIRONMENT_PROFILE • DELEGATE_CREATE_ENVIRONMENT_PROFILE • CREATE_ENVIRONMENT • CREATE_ENVIRONMENT_FROM_BLUEPRINT • CREATE_PROJECT_FROM_PROJECT_PROFILE • USE_ASSET_TYPE
     /// </summary>
     [CliOption("--policy-type")]
     public AwsDatazoneListPolicyGrantsPolicyType? PolicyType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -105,16 +104,19 @@ public record AwsDatazoneListPolicyGrantsOptions : AwsOptions, IValidatableObjec
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 25
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 25
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

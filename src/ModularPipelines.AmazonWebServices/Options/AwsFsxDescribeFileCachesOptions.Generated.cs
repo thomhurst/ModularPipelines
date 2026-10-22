@@ -23,19 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsFsxDescribeFileCachesOptions : AwsOptions
 {
     /// <summary>
-    /// IDs of the caches whose descriptions you want to retrieve (String). Constraints: o max: 50 (string) Constraints: o min: 11 o max: 21 o pattern: ^(fc-[0-9a-f]{8,})$ Syntax: "string" "string" ...
+    /// IDs of the caches whose descriptions you want to retrieve (String). Constraints: • max: 50 (string) Constraints: • min: 11 • max: 21 • pattern: ^(fc-[0-9a-f]{8,})$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--file-cache-ids", GroupValues = true)]
     public IEnumerable<string>? FileCacheIds { get; set; }
 
     /// <summary>
-    /// The maximum number of resources to return in the response. This value must be an integer greater than zero. Constraints: o min: 1 o max: 2147483647
+    /// The maximum number of resources to return in the response. This value must be an integer greater than zero. Constraints: • min: 1 • max: 2147483647
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// (Optional) Opaque pagination token returned from a previous opera- tion (String). If present, this token indicates from what point you can continue processing the request, where the previous NextToken value left off. Constraints: o min: 1 o max: 255 o pattern: ^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$
+    /// (Optional) Opaque pagination token returned from a previous operation (String). If present, this token indicates from what point you can continue processing the request, where the previous NextToken value left off. Constraints: • min: 1 • max: 255 • pattern: ^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

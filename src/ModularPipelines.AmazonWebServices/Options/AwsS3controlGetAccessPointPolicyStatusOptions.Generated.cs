@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsS3controlGetAccessPointPolicyStatusOptions : AwsOptions, IValid
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Indicates whether the specified access point currently has a policy that allows public access. For more information about public access through access points, see Managing Data Access with Amazon S3 access points in the Amazon S3 User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The account ID for the account that owns the specified access point. Constraints: o max: 64 o pattern: ^\d{12}$</param>
-    /// <param name="Name">The name of the access point whose policy status you want to re- trieve. Constraints: o min: 3 o max: 255</param>
+    /// <param name="AccountId">The account ID for the account that owns the specified access point. Constraints: • max: 64 • pattern: ^\d{12}$</param>
+    /// <param name="Name">The name of the access point whose policy status you want to retrieve. Constraints: • min: 3 • max: 255</param>
     public AwsS3controlGetAccessPointPolicyStatusOptions(
         string AccountId,
         string Name
@@ -60,13 +62,13 @@ public record AwsS3controlGetAccessPointPolicyStatusOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The account ID for the account that owns the specified access point. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The account ID for the account that owns the specified access point. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The name of the access point whose policy status you want to re- trieve. Constraints: o min: 3 o max: 255
+    /// The name of the access point whose policy status you want to retrieve. Constraints: • min: 3 • max: 255
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

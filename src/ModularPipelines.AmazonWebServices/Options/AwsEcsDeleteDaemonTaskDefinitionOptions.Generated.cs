@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified daemon task definition. After a daemon task defi- nition is deleted, no new daemons can be created using this definition. Existing daemons that reference the deleted daemon task definition con- tinue to run. A daemon task definition must be in an ACTIVE state to be deleted. See also: AWS API Documentation
+/// Deletes the specified daemon task definition. After a daemon task definition is deleted, no new daemons can be created using this definition. Existing daemons that reference the deleted daemon task definition continue to run. A daemon task definition must be in an ACTIVE state to be deleted. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsEcsDeleteDaemonTaskDefinitionOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified daemon task definition. After a daemon task defi- nition is deleted, no new daemons can be created using this definition. Existing daemons that reference the deleted daemon task definition con- tinue to run. A daemon task definition must be in an ACTIVE state to be deleted. See also: AWS API Documentation
+    /// Deletes the specified daemon task definition. After a daemon task definition is deleted, no new daemons can be created using this definition. Existing daemons that reference the deleted daemon task definition continue to run. A daemon task definition must be in an ACTIVE state to be deleted. See also: AWS API Documentation
     /// </summary>
     /// <param name="DaemonTaskDefinition">The family and revision (family:revision ) or full Amazon Resource Name (ARN) of the daemon task definition to delete.</param>
     public AwsEcsDeleteDaemonTaskDefinitionOptions(

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -91,7 +93,7 @@ public record AwsSecurityagentUpdateFindingOptions : AwsOptions, IValidatableObj
     public string? RiskType { get; set; }
 
     /// <summary>
-    /// The updated risk level for the finding. Possible values: o UNKNOWN o INFORMATIONAL o LOW o MEDIUM o HIGH o CRITICAL
+    /// The updated risk level for the finding. Possible values: • UNKNOWN • INFORMATIONAL • LOW • MEDIUM • HIGH • CRITICAL
     /// </summary>
     [CliOption("--risk-level")]
     public AwsSecurityagentUpdateFindingRiskLevel? RiskLevel { get; set; }
@@ -115,7 +117,7 @@ public record AwsSecurityagentUpdateFindingOptions : AwsOptions, IValidatableObj
     public string? Reasoning { get; set; }
 
     /// <summary>
-    /// The updated status for the finding. Possible values: o ACTIVE o RESOLVED o ACCEPTED o FALSE_POSITIVE
+    /// The updated status for the finding. Possible values: • ACTIVE • RESOLVED • ACCEPTED • FALSE_POSITIVE
     /// </summary>
     [CliOption("--status")]
     public AwsSecurityagentUpdateFindingStatus? Status { get; set; }

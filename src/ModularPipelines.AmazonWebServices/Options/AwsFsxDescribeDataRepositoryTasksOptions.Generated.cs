@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the description of specific Amazon FSx for Lustre or Amazon File Cache data repository tasks, if one or more TaskIds values are provided in the request, or if filters are used in the request. You can use filters to narrow the response to include just tasks for specific file systems or caches, or tasks in a specific lifecycle state. Other- wise, it returns all data repository tasks owned by your Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're call...
+/// Returns the description of specific Amazon FSx for Lustre or Amazon File Cache data repository tasks, if one or more TaskIds values are provided in the request, or if filters are used in the request. You can use filters to narrow the response to include just tasks for specific file systems or caches, or tasks in a specific lifecycle state. Otherwise, it returns all data repository tasks owned by your Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're callin...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,25 +23,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsFsxDescribeDataRepositoryTasksOptions : AwsOptions
 {
     /// <summary>
-    /// (Optional) IDs of the tasks whose descriptions you want to retrieve (String). Constraints: o max: 50 (string) Constraints: o min: 12 o max: 128 o pattern: ^(task-[0-9a-f]{17,})$ Syntax: "string" "string" ...
+    /// (Optional) IDs of the tasks whose descriptions you want to retrieve (String). Constraints: • max: 50 (string) Constraints: • min: 12 • max: 128 • pattern: ^(task-[0-9a-f]{17,})$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--task-ids", GroupValues = true)]
     public IEnumerable<string>? TaskIds { get; set; }
 
     /// <summary>
-    /// (Optional) You can use filters to narrow the DescribeDataRepository- Tasks response to include just tasks for specific file systems, or tasks in a specific lifecycle state. Constraints: o max: 3 (structure) (Optional) An array of filter objects you can use to filter the response of data repository tasks you will see in the response. You can filter the tasks returned in the response by one or more file system IDs, task lifecycles, and by task type. A filter ob- ject consists of a filter Name , and one or more Values for the filter. Name -&gt; (string) Name of the task property to use in filtering the tasks re- turned in the response. o Use file-system-id to retrieve data repository tasks for specific file systems. o Use task-lifecycle to retrieve data repository tasks with one or more specific lifecycle states, as follows: CAN- CELED, EXECUTING, FAILED, PENDING, and SUCCEEDED. Possible values: o file-system-id o task-lifecycle o data-repository-association-id o file-cache-id Values -&gt; (list) Use Values to include the specific file system IDs and task lifecycle states for the filters you are using. Constraints: o max: 20 (string) Constraints: o min: 1 o max: 128 o pattern: ^[0-9a-zA-Z\*\.\\/\?\-\_]*$ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "file-system-id"|"task-lifecycle"|"data-repository-association-id"|"file-cache-id", "Values": ["string", ...] } ... ]
+    /// (Optional) You can use filters to narrow the DescribeDataRepositoryTasks response to include just tasks for specific file systems, or tasks in a specific lifecycle state. Constraints: • max: 3 (structure) (Optional) An array of filter objects you can use to filter the response of data repository tasks you will see in the response. You can filter the tasks returned in the response by one or more file system IDs, task lifecycles, and by task type. A filter object consists of a filter Name , and one or more Values for the filter. Name -&gt; (string) Name of the task property to use in filtering the tasks returned in the response. • Use file-system-id to retrieve data repository tasks for specific file systems. • Use task-lifecycle to retrieve data repository tasks with one or more specific lifecycle states, as follows: CANCELED, EXECUTING, FAILED, PENDING, and SUCCEEDED. Possible values: • file-system-id • task-lifecycle • data-repository-association-id • file-cache-id Values -&gt; (list) Use Values to include the specific file system IDs and task lifecycle states for the filters you are using. Constraints: • max: 20 (string) Constraints: • min: 1 • max: 128 • pattern: ^[0-9a-zA-Z\*\.\\/\?\-\_]*$ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "file-system-id"|"task-lifecycle"|"data-repository-association-id"|"file-cache-id", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// The maximum number of resources to return in the response. This value must be an integer greater than zero. Constraints: o min: 1 o max: 2147483647
+    /// The maximum number of resources to return in the response. This value must be an integer greater than zero. Constraints: • min: 1 • max: 2147483647
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// (Optional) Opaque pagination token returned from a previous opera- tion (String). If present, this token indicates from what point you can continue processing the request, where the previous NextToken value left off. Constraints: o min: 1 o max: 255 o pattern: ^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$
+    /// (Optional) Opaque pagination token returned from a previous operation (String). If present, this token indicates from what point you can continue processing the request, where the previous NextToken value left off. Constraints: • min: 1 • max: 255 • pattern: ^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

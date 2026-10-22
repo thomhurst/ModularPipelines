@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates a set of email addresses with a queue to enable agents to select different "From" (system) email addresses when replying to in- bound email contacts or initiating outbound email contacts. This allows agents to handle email contacts across different brands and business units within the same queue. Important things to know o You can associate up to 49 additional email addresses with a single queue, plus 1 default outbound email address, for a total of 50. o The email addresses must alre...
+/// Associates a set of email addresses with a queue to enable agents to select different "From" (system) email addresses when replying to inbound email contacts or initiating outbound email contacts. This allows agents to handle email contacts across different brands and business units within the same queue. Important things to know • You can associate up to 49 additional email addresses with a single queue, plus 1 default outbound email address, for a total of 50. • The email addresses must alread...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsConnectAssociateQueueEmailAddressesOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates a set of email addresses with a queue to enable agents to select different "From" (system) email addresses when replying to in- bound email contacts or initiating outbound email contacts. This allows agents to handle email contacts across different brands and business units within the same queue. Important things to know o You can associate up to 49 additional email addresses with a single queue, plus 1 default outbound email address, for a total of 50. o The email addresses must alre...
+    /// Associates a set of email addresses with a queue to enable agents to select different "From" (system) email addresses when replying to inbound email contacts or initiating outbound email contacts. This allows agents to handle email contacts across different brands and business units within the same queue. Important things to know • You can associate up to 49 additional email addresses with a single queue, plus 1 default outbound email address, for a total of 50. • The email addresses must alread...
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     /// <param name="QueueId">The identifier for the queue.</param>
-    /// <param name="EmailAddressesConfig">Configuration list containing the email addresses to associate with the queue. Each configuration specifies an email address ID that should be linked to this queue for routing purposes. Constraints: o min: 1 o max: 50 (structure) Configuration object that specifies an email address to be asso- ciated with a queue. This configuration contains the identifier of the email address that should be linked to the queue for routing email contacts. EmailAddressId -&gt; (string) [required] The identifier of the email address that should be associated with the queue. This email address must already exist in the Connect Customer instance and will be used to route incoming email contacts to the specified queue. Constraints: o min: 1 o max: 500 Shorthand Syntax: EmailAddressId=string ... JSON Syntax: [ { "EmailAddressId": "string" } ... ]</param>
+    /// <param name="EmailAddressesConfig">Configuration list containing the email addresses to associate with the queue. Each configuration specifies an email address ID that should be linked to this queue for routing purposes. Constraints: • min: 1 • max: 50 (structure) Configuration object that specifies an email address to be associated with a queue. This configuration contains the identifier of the email address that should be linked to the queue for routing email contacts. EmailAddressId -&gt; (string) [required] The identifier of the email address that should be associated with the queue. This email address must already exist in the Connect Customer instance and will be used to route incoming email contacts to the specified queue. Constraints: • min: 1 • max: 500 Shorthand Syntax: EmailAddressId=string ... JSON Syntax: [ { "EmailAddressId": "string" } ... ]</param>
     public AwsConnectAssociateQueueEmailAddressesOptions(
         string InstanceId,
         string QueueId,
@@ -76,7 +78,7 @@ public record AwsConnectAssociateQueueEmailAddressesOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
@@ -88,13 +90,13 @@ public record AwsConnectAssociateQueueEmailAddressesOptions : AwsOptions, IValid
     public string? QueueId { get; private init; }
 
     /// <summary>
-    /// Configuration list containing the email addresses to associate with the queue. Each configuration specifies an email address ID that should be linked to this queue for routing purposes. Constraints: o min: 1 o max: 50 (structure) Configuration object that specifies an email address to be asso- ciated with a queue. This configuration contains the identifier of the email address that should be linked to the queue for routing email contacts. EmailAddressId -&gt; (string) [required] The identifier of the email address that should be associated with the queue. This email address must already exist in the Connect Customer instance and will be used to route incoming email contacts to the specified queue. Constraints: o min: 1 o max: 500 Shorthand Syntax: EmailAddressId=string ... JSON Syntax: [ { "EmailAddressId": "string" } ... ]
+    /// Configuration list containing the email addresses to associate with the queue. Each configuration specifies an email address ID that should be linked to this queue for routing purposes. Constraints: • min: 1 • max: 50 (structure) Configuration object that specifies an email address to be associated with a queue. This configuration contains the identifier of the email address that should be linked to the queue for routing email contacts. EmailAddressId -&gt; (string) [required] The identifier of the email address that should be associated with the queue. This email address must already exist in the Connect Customer instance and will be used to route incoming email contacts to the specified queue. Constraints: • min: 1 • max: 500 Shorthand Syntax: EmailAddressId=string ... JSON Syntax: [ { "EmailAddressId": "string" } ... ]
     /// </summary>
     [CliOption("--email-addresses-config", GroupValues = true)]
     public IEnumerable<string>? EmailAddressesConfig { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

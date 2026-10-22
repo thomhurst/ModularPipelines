@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsLookoutequipmentCreateLabelGroupOptions : AwsOptions, IValidata
     /// <summary>
     /// Creates a group of labels. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LabelGroupName">Names a group of labels. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    /// <param name="LabelGroupName">Names a group of labels. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
     public AwsLookoutequipmentCreateLabelGroupOptions(
         string LabelGroupName
     )
@@ -57,26 +59,26 @@ public record AwsLookoutequipmentCreateLabelGroupOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Names a group of labels. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// Names a group of labels. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$
     /// </summary>
     [CliOption("--label-group-name")]
     public string? LabelGroupName { get; private init; }
 
     /// <summary>
-    /// The acceptable fault codes (indicating the type of anomaly associ- ated with the label) that can be used with this label group. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 100 o pattern: [\P{M}\p{M}]{1,100} Syntax: "string" "string" ...
+    /// The acceptable fault codes (indicating the type of anomaly associated with the label) that can be used with this label group. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 100 • pattern: [\P{M}\p{M}]{1,100} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--fault-codes", GroupValues = true)]
     public IEnumerable<string>? FaultCodes { get; set; }
 
     /// <summary>
-    /// A unique identifier for the request to create a label group. If you do not set the client request token, Lookout for Equipment generates one. Constraints: o min: 1 o max: 256 o pattern: \p{ASCII}{1,256}
+    /// A unique identifier for the request to create a label group. If you do not set the client request token, Lookout for Equipment generates one. Constraints: • min: 1 • max: 256 • pattern: \p{ASCII}{1,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Tags that provide metadata about the label group you are creating. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: o min: 0 o max: 200 (structure) A tag is a key-value pair that can be added to a resource as metadata. Key -&gt; (string) [required] The key for the specified tag. Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Value -&gt; (string) [required] The value for the specified tag. Constraints: o min: 0 o max: 256 o pattern: [\s\w+-=\.:/@]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Tags that provide metadata about the label group you are creating. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: • min: 0 • max: 200 (structure) A tag is a key-value pair that can be added to a resource as metadata. Key -&gt; (string) [required] The key for the specified tag. Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Value -&gt; (string) [required] The value for the specified tag. Constraints: • min: 0 • max: 256 • pattern: [\s\w+-=\.:/@]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

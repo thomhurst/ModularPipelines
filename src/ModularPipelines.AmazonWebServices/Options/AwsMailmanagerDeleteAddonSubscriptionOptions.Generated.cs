@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMailmanagerDeleteAddonSubscriptionOptions : AwsOptions, IValida
     /// <summary>
     /// Deletes an Add On subscription. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AddonSubscriptionId">The Add On subscription ID to delete. Constraints: o min: 4 o max: 67 o pattern: as-[a-zA-Z0-9]{1,64}</param>
+    /// <param name="AddonSubscriptionId">The Add On subscription ID to delete. Constraints: • min: 4 • max: 67 • pattern: as-[a-zA-Z0-9]{1,64}</param>
     public AwsMailmanagerDeleteAddonSubscriptionOptions(
         string AddonSubscriptionId
     )
@@ -56,7 +58,7 @@ public record AwsMailmanagerDeleteAddonSubscriptionOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Add On subscription ID to delete. Constraints: o min: 4 o max: 67 o pattern: as-[a-zA-Z0-9]{1,64}
+    /// The Add On subscription ID to delete. Constraints: • min: 4 • max: 67 • pattern: as-[a-zA-Z0-9]{1,64}
     /// </summary>
     [CliOption("--addon-subscription-id")]
     public string? AddonSubscriptionId { get; private init; }

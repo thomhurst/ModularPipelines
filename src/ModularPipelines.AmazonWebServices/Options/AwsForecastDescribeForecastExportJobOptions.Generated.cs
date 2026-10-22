@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes a forecast export job created using the CreateForecastEx- portJob operation. In addition to listing the properties provided by the user in the Cre- ateForecastExportJob request, this operation lists the following prop- erties: o CreationTime o LastModificationTime o Status o Message - If an error occurred, information about the error. See also: AWS API Documentation
+/// Describes a forecast export job created using the CreateForecastExportJob operation. In addition to listing the properties provided by the user in the CreateForecastExportJob request, this operation lists the following properties: • CreationTime • LastModificationTime • Status • Message - If an error occurred, information about the error. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsForecastDescribeForecastExportJobOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes a forecast export job created using the CreateForecastEx- portJob operation. In addition to listing the properties provided by the user in the Cre- ateForecastExportJob request, this operation lists the following prop- erties: o CreationTime o LastModificationTime o Status o Message - If an error occurred, information about the error. See also: AWS API Documentation
+    /// Describes a forecast export job created using the CreateForecastExportJob operation. In addition to listing the properties provided by the user in the CreateForecastExportJob request, this operation lists the following properties: • CreationTime • LastModificationTime • Status • Message - If an error occurred, information about the error. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ForecastExportJobArn">The Amazon Resource Name (ARN) of the forecast export job. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    /// <param name="ForecastExportJobArn">The Amazon Resource Name (ARN) of the forecast export job. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
     public AwsForecastDescribeForecastExportJobOptions(
         string ForecastExportJobArn
     )
@@ -56,7 +58,7 @@ public record AwsForecastDescribeForecastExportJobOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the forecast export job. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the forecast export job. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
     /// </summary>
     [CliOption("--forecast-export-job-arn")]
     public string? ForecastExportJobArn { get; private init; }

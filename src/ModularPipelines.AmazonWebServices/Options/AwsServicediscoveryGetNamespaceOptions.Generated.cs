@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsServicediscoveryGetNamespaceOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Gets information about a namespace. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID or Amazon Resource Name (ARN) of the namespace that you want to get information about. For namespaces shared with your Amazon Web Services account, specify the namespace ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace shar- ing in the Cloud Map Developer Guide Constraints: o max: 255</param>
+    /// <param name="Id">The ID or Amazon Resource Name (ARN) of the namespace that you want to get information about. For namespaces shared with your Amazon Web Services account, specify the namespace ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide Constraints: • max: 255</param>
     public AwsServicediscoveryGetNamespaceOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsServicediscoveryGetNamespaceOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or Amazon Resource Name (ARN) of the namespace that you want to get information about. For namespaces shared with your Amazon Web Services account, specify the namespace ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace shar- ing in the Cloud Map Developer Guide Constraints: o max: 255
+    /// The ID or Amazon Resource Name (ARN) of the namespace that you want to get information about. For namespaces shared with your Amazon Web Services account, specify the namespace ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide Constraints: • max: 255
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

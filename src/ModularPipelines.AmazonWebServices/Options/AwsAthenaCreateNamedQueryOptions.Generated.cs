@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +30,9 @@ public record AwsAthenaCreateNamedQueryOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a named query in the specified workgroup. Requires that you have access to the workgroup. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The query name. Constraints: o min: 1 o max: 128</param>
-    /// <param name="Database">The database to which the query belongs. Constraints: o min: 1 o max: 255</param>
-    /// <param name="QueryString">The contents of the query with all query statements. Constraints: o min: 1 o max: 262144</param>
+    /// <param name="Name">The query name. Constraints: • min: 1 • max: 128</param>
+    /// <param name="Database">The database to which the query belongs. Constraints: • min: 1 • max: 255</param>
+    /// <param name="QueryString">The contents of the query with all query statements. Constraints: • min: 1 • max: 262144</param>
     public AwsAthenaCreateNamedQueryOptions(
         string Name,
         string Database,
@@ -65,38 +67,38 @@ public record AwsAthenaCreateNamedQueryOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The query name. Constraints: o min: 1 o max: 128
+    /// The query name. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The database to which the query belongs. Constraints: o min: 1 o max: 255
+    /// The database to which the query belongs. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--database")]
     public string? Database { get; private init; }
 
     /// <summary>
-    /// The contents of the query with all query statements. Constraints: o min: 1 o max: 262144
+    /// The contents of the query with all query statements. Constraints: • min: 1 • max: 262144
     /// </summary>
     [CliOption("--query-string")]
     public string? QueryString { get; private init; }
 
     /// <summary>
-    /// The query description. Constraints: o min: 1 o max: 1024
+    /// The query description. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another Create- NamedQuery request is received, the same response is returned and another query is not created. If a parameter has changed, for exam- ple, the QueryString , an error is returned. WARNING: This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Ama- zon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail. Constraints: o min: 32 o max: 128
+    /// A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another CreateNamedQuery request is received, the same response is returned and another query is not created. If a parameter has changed, for example, the QueryString , an error is returned. WARNING: This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail. Constraints: • min: 32 • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// The name of the workgroup in which the named query is being created. Constraints: o pattern: [a-zA-Z0-9._-]{1,128}
+    /// The name of the workgroup in which the named query is being created. Constraints: • pattern: [a-zA-Z0-9._-]{1,128}
     /// </summary>
     [CliOption("--work-group")]
     public string? WorkGroup { get; set; }

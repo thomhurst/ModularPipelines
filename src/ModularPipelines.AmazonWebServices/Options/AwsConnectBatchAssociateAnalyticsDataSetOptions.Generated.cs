@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsConnectBatchAssociateAnalyticsDataSetOptions : AwsOptions, IVal
     /// <summary>
     /// Associates a list of analytics datasets for a given Connect Customer instance to a target account. You can associate multiple datasets in a single call. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="DataSetIds">An array of dataset identifiers to associate. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="DataSetIds">An array of dataset identifiers to associate. (string) Constraints: • min: 1 • max: 255 Syntax: "string" "string" ...</param>
     public AwsConnectBatchAssociateAnalyticsDataSetOptions(
         string InstanceId,
         IEnumerable<string> DataSetIds
@@ -71,19 +73,19 @@ public record AwsConnectBatchAssociateAnalyticsDataSetOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// An array of dataset identifiers to associate. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...
+    /// An array of dataset identifiers to associate. (string) Constraints: • min: 1 • max: 255 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--data-set-ids", GroupValues = true)]
     public IEnumerable<string>? DataSetIds { get; private init; }
 
     /// <summary>
-    /// The identifier of the target account. Use to associate a dataset to a different account than the one containing the Connect Customer in- stance. If not specified, by default this value is the Amazon Web Services account that has the Connect Customer instance.
+    /// The identifier of the target account. Use to associate a dataset to a different account than the one containing the Connect Customer instance. If not specified, by default this value is the Amazon Web Services account that has the Connect Customer instance.
     /// </summary>
     [CliOption("--target-account-id")]
     public string? TargetAccountId { get; set; }

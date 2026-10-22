@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDrsDeleteLaunchConfigurationTemplateOptions : AwsOptions, IVali
     /// <summary>
     /// Deletes a single Launch Configuration Template by ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LaunchConfigurationTemplateId">The ID of the Launch Configuration Template to be deleted. Constraints: o min: 21 o max: 21 o pattern: lct-[0-9a-zA-Z]{17}</param>
+    /// <param name="LaunchConfigurationTemplateId">The ID of the Launch Configuration Template to be deleted. Constraints: • min: 21 • max: 21 • pattern: lct-[0-9a-zA-Z]{17}</param>
     public AwsDrsDeleteLaunchConfigurationTemplateOptions(
         string LaunchConfigurationTemplateId
     )
@@ -56,7 +58,7 @@ public record AwsDrsDeleteLaunchConfigurationTemplateOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Launch Configuration Template to be deleted. Constraints: o min: 21 o max: 21 o pattern: lct-[0-9a-zA-Z]{17}
+    /// The ID of the Launch Configuration Template to be deleted. Constraints: • min: 21 • max: 21 • pattern: lct-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--launch-configuration-template-id")]
     public string? LaunchConfigurationTemplateId { get; private init; }

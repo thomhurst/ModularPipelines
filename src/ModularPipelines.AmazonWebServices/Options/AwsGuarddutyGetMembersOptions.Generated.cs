@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves GuardDuty member accounts (of the current GuardDuty adminis- trator account) specified by the account IDs. See also: AWS API Documentation
+/// Retrieves GuardDuty member accounts (of the current GuardDuty administrator account) specified by the account IDs. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsGuarddutyGetMembersOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves GuardDuty member accounts (of the current GuardDuty adminis- trator account) specified by the account IDs. See also: AWS API Documentation
+    /// Retrieves GuardDuty member accounts (of the current GuardDuty administrator account) specified by the account IDs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DetectorId">The unique ID of the detector of the GuardDuty account whose members you want to retrieve. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
-    /// <param name="AccountIds">A list of account IDs of the GuardDuty member accounts that you want to describe. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 12 o max: 12 Syntax: "string" "string" ...</param>
+    /// <param name="DetectorId">The unique ID of the detector of the GuardDuty account whose members you want to retrieve. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300</param>
+    /// <param name="AccountIds">A list of account IDs of the GuardDuty member accounts that you want to describe. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 12 • max: 12 Syntax: "string" "string" ...</param>
     public AwsGuarddutyGetMembersOptions(
         string DetectorId,
         IEnumerable<string> AccountIds
@@ -71,13 +73,13 @@ public record AwsGuarddutyGetMembersOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the detector of the GuardDuty account whose members you want to retrieve. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// The unique ID of the detector of the GuardDuty account whose members you want to retrieve. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }
 
     /// <summary>
-    /// A list of account IDs of the GuardDuty member accounts that you want to describe. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 12 o max: 12 Syntax: "string" "string" ...
+    /// A list of account IDs of the GuardDuty member accounts that you want to describe. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 12 • max: 12 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; private init; }

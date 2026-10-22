@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,8 +29,8 @@ public record AwsCodeguruSecurityTagResourceOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Use to add one or more tags to an existing scan. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the ScanName object. You can retrieve this ARN by calling CreateScan , ListScans , or GetScan . Constraints: o min: 1 o max: 300 o pattern: arn:aws:codeguru-secu- rity:[\S]+:[\d]{12}:scans\/[a-zA-Z0-9-_$:.]*</param>
-    /// <param name="Tags">An array of key-value pairs used to tag an existing scan. A tag is a custom attribute label with two parts: o A tag key. For example, CostCenter , Environment , or Secret . Tag keys are case sensitive. o An optional tag value field. For example, 111122223333 , Produc- tion , or a team name. Omitting the tag value is the same as using an empty string. Tag values are case sensitive. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="ResourceArn">The ARN of the ScanName object. You can retrieve this ARN by calling CreateScan , ListScans , or GetScan . Constraints: • min: 1 • max: 300 • pattern: arn:aws:codeguru-security:[\S]+:[\d]{12}:scans\/[a-zA-Z0-9-_$:.]*</param>
+    /// <param name="Tags">An array of key-value pairs used to tag an existing scan. A tag is a custom attribute label with two parts: • A tag key. For example, CostCenter , Environment , or Secret . Tag keys are case sensitive. • An optional tag value field. For example, 111122223333 , Production , or a team name. Omitting the tag value is the same as using an empty string. Tag values are case sensitive. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsCodeguruSecurityTagResourceOptions(
         string ResourceArn,
         IReadOnlyList<KeyValue> Tags
@@ -72,13 +73,13 @@ public record AwsCodeguruSecurityTagResourceOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the ScanName object. You can retrieve this ARN by calling CreateScan , ListScans , or GetScan . Constraints: o min: 1 o max: 300 o pattern: arn:aws:codeguru-secu- rity:[\S]+:[\d]{12}:scans\/[a-zA-Z0-9-_$:.]*
+    /// The ARN of the ScanName object. You can retrieve this ARN by calling CreateScan , ListScans , or GetScan . Constraints: • min: 1 • max: 300 • pattern: arn:aws:codeguru-security:[\S]+:[\d]{12}:scans\/[a-zA-Z0-9-_$:.]*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// An array of key-value pairs used to tag an existing scan. A tag is a custom attribute label with two parts: o A tag key. For example, CostCenter , Environment , or Secret . Tag keys are case sensitive. o An optional tag value field. For example, 111122223333 , Produc- tion , or a team name. Omitting the tag value is the same as using an empty string. Tag values are case sensitive. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// An array of key-value pairs used to tag an existing scan. A tag is a custom attribute label with two parts: • A tag key. For example, CostCenter , Environment , or Secret . Tag keys are case sensitive. • An optional tag value field. For example, 111122223333 , Production , or a team name. Omitting the tag value is the same as using an empty string. Tag values are case sensitive. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; private init; }

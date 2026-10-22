@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Immediately initiates rotation of the key material of the specified symmetric encryption KMS key. You can perform on-demand rotation of the key material in customer man- aged KMS keys, regardless of whether or not automatic key rotation is enabled. On-demand rotations do not change existing automatic rotation schedules. For example, consider a KMS key that has automatic key rota- tion enabled with a rotation period of 730 days. If the key is sched- uled to automatically rotate on April 14, 2024,...
+/// Immediately initiates rotation of the key material of the specified symmetric encryption KMS key. You can perform on-demand rotation of the key material in customer managed KMS keys, regardless of whether or not automatic key rotation is enabled. On-demand rotations do not change existing automatic rotation schedules. For example, consider a KMS key that has automatic key rotation enabled with a rotation period of 730 days. If the key is scheduled to automatically rotate on April 14, 2024, and y...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsKmsRotateKeyOnDemandOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Immediately initiates rotation of the key material of the specified symmetric encryption KMS key. You can perform on-demand rotation of the key material in customer man- aged KMS keys, regardless of whether or not automatic key rotation is enabled. On-demand rotations do not change existing automatic rotation schedules. For example, consider a KMS key that has automatic key rota- tion enabled with a rotation period of 730 days. If the key is sched- uled to automatically rotate on April 14, 2024,...
+    /// Immediately initiates rotation of the key material of the specified symmetric encryption KMS key. You can perform on-demand rotation of the key material in customer managed KMS keys, regardless of whether or not automatic key rotation is enabled. On-demand rotations do not change existing automatic rotation schedules. For example, consider a KMS key that has automatic key rotation enabled with a rotation period of 730 days. If the key is scheduled to automatically rotate on April 14, 2024, and y...
     /// </summary>
-    /// <param name="KeyId">Identifies a symmetric encryption KMS key. You cannot perform on-de- mand rotation of asymmetric KMS keys , HMAC KMS keys , multi-Region KMS keys with imported key material , or KMS keys in a custom key store . To perform on-demand rotation of a set of related multi-Region keys , invoke the on-demand rotation on the primary key. Specify the key ID or key ARN of the KMS key. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048</param>
+    /// <param name="KeyId">Identifies a symmetric encryption KMS key. You cannot perform on-demand rotation of asymmetric KMS keys , HMAC KMS keys , multi-Region KMS keys with imported key material , or KMS keys in a custom key store . To perform on-demand rotation of a set of related multi-Region keys , invoke the on-demand rotation on the primary key. Specify the key ID or key ARN of the KMS key. For example: • Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab • Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey . Constraints: • min: 1 • max: 2048</param>
     public AwsKmsRotateKeyOnDemandOptions(
         string KeyId
     )
@@ -56,7 +58,7 @@ public record AwsKmsRotateKeyOnDemandOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifies a symmetric encryption KMS key. You cannot perform on-de- mand rotation of asymmetric KMS keys , HMAC KMS keys , multi-Region KMS keys with imported key material , or KMS keys in a custom key store . To perform on-demand rotation of a set of related multi-Region keys , invoke the on-demand rotation on the primary key. Specify the key ID or key ARN of the KMS key. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048
+    /// Identifies a symmetric encryption KMS key. You cannot perform on-demand rotation of asymmetric KMS keys , HMAC KMS keys , multi-Region KMS keys with imported key material , or KMS keys in a custom key store . To perform on-demand rotation of a set of related multi-Region keys , invoke the on-demand rotation on the primary key. Specify the key ID or key ARN of the KMS key. For example: • Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab • Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey . Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--key-id")]
     public string? KeyId { get; private init; }

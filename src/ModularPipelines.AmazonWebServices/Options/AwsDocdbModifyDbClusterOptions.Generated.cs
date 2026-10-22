@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies a setting for an Amazon DocumentDB cluster. You can change one or more database configuration parameters by specifying these parame- ters and the new values in the request. See also: AWS API Documentation
+/// Modifies a setting for an Amazon DocumentDB cluster. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsDocdbModifyDbClusterOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies a setting for an Amazon DocumentDB cluster. You can change one or more database configuration parameters by specifying these parame- ters and the new values in the request. See also: AWS API Documentation
+    /// Modifies a setting for an Amazon DocumentDB cluster. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbClusterIdentifier">The cluster identifier for the cluster that is being modified. This parameter is not case sensitive. Constraints: o Must match the identifier of an existing DBCluster .</param>
+    /// <param name="DbClusterIdentifier">The cluster identifier for the cluster that is being modified. This parameter is not case sensitive. Constraints: • Must match the identifier of an existing DBCluster .</param>
     public AwsDocdbModifyDbClusterOptions(
         string DbClusterIdentifier
     )
@@ -57,25 +59,25 @@ public record AwsDocdbModifyDbClusterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The cluster identifier for the cluster that is being modified. This parameter is not case sensitive. Constraints: o Must match the identifier of an existing DBCluster .
+    /// The cluster identifier for the cluster that is being modified. This parameter is not case sensitive. Constraints: • Must match the identifier of an existing DBCluster .
     /// </summary>
     [CliOption("--db-cluster-identifier")]
     public string? DbClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The new cluster identifier for the cluster when renaming a cluster. This value is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster2
+    /// The new cluster identifier for the cluster when renaming a cluster. This value is stored as a lowercase string. Constraints: • Must contain from 1 to 63 letters, numbers, or hyphens. • The first character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster2
     /// </summary>
     [CliOption("--new-db-cluster-identifier")]
     public string? NewDbClusterIdentifier { get; set; }
 
     /// <summary>
-    /// A value that specifies whether the changes in this request and any pending changes are asynchronously applied as soon as possible, re- gardless of the PreferredMaintenanceWindow setting for the cluster. If this parameter is set to false , changes to the cluster are ap- plied during the next maintenance window. The ApplyImmediately parameter affects only the NewDBClusterIdenti- fier and MasterUserPassword values. If you set this parameter value to false , the changes to the NewDBClusterIdentifier and MasterUser- Password values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. Default: false
+    /// A value that specifies whether the changes in this request and any pending changes are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the cluster. If this parameter is set to false , changes to the cluster are applied during the next maintenance window. The ApplyImmediately parameter affects only the NewDBClusterIdentifier and MasterUserPassword values. If you set this parameter value to false , the changes to the NewDBClusterIdentifier and MasterUserPassword values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. Default: false
     /// </summary>
     [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; set; }
 
     /// <summary>
-    /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints: o Must be a value from 1 to 35.
+    /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints: • Must be a value from 1 to 35.
     /// </summary>
     [CliOption("--backup-retention-period")]
     public int? BackupRetentionPeriod { get; set; }
@@ -87,7 +89,7 @@ public record AwsDocdbModifyDbClusterOptions : AwsOptions, IValidatableObject
     public string? DbClusterParameterGroupName { get; set; }
 
     /// <summary>
-    /// A list of virtual private cloud (VPC) security groups that the clus- ter will belong to. (string) Syntax: "string" "string" ...
+    /// A list of virtual private cloud (VPC) security groups that the cluster will belong to. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
@@ -106,7 +108,7 @@ public record AwsDocdbModifyDbClusterOptions : AwsOptions, IValidatableObject
     public string? MasterUserPassword { get; set; }
 
     /// <summary>
-    /// The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod para- meter. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region. Constraints: o Must be in the format hh24:mi-hh24:mi . o Must be in Universal Coordinated Time (UTC). o Must not conflict with the preferred maintenance window. o Must be at least 30 minutes.
+    /// The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region. Constraints: • Must be in the format hh24:mi-hh24:mi . • Must be in Universal Coordinated Time (UTC). • Must not conflict with the preferred maintenance window. • Must be at least 30 minutes.
     /// </summary>
     [CliOption("--preferred-backup-window")]
     public string? PreferredBackupWindow { get; set; }
@@ -124,13 +126,13 @@ public record AwsDocdbModifyDbClusterOptions : AwsOptions, IValidatableObject
     public string? CloudwatchLogsExportConfiguration { get; set; }
 
     /// <summary>
-    /// The version number of the database engine to which you want to up- grade. Changing this parameter results in an outage. The change is applied during the next maintenance window unless ApplyImmediately is enabled. To list all of the available engine versions for Amazon DocumentDB use the following command: aws docdb describe-db-engine-versions --engine docdb --query "DBEngineVersions[].EngineVersion"
+    /// The version number of the database engine to which you want to upgrade. Changing this parameter results in an outage. The change is applied during the next maintenance window unless ApplyImmediately is enabled. To list all of the available engine versions for Amazon DocumentDB use the following command: aws docdb describe-db-engine-versions --engine docdb --query "DBEngineVersions[].EngineVersion"
     /// </summary>
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
     /// <summary>
-    /// A value that indicates whether major version upgrades are allowed. Constraints: o You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the cluster's current version. o Since some parameters are version specific, changing them requires executing a new ModifyDBCluster API call after the in-place MVU completes. NOTE: Performing an MVU directly impacts the following parameters: o MasterUserPassword o NewDBClusterIdentifier o VpcSecurityGroupIds o Port
+    /// A value that indicates whether major version upgrades are allowed. Constraints: • You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the cluster's current version. • Since some parameters are version specific, changing them requires executing a new ModifyDBCluster API call after the in-place MVU completes. NOTE: Performing an MVU directly impacts the following parameters: • MasterUserPassword • NewDBClusterIdentifier • VpcSecurityGroupIds • Port
     /// </summary>
     [CliFlag("--allow-major-version-upgrade", NegatedName = "--no-allow-major-version-upgrade")]
     public bool? AllowMajorVersionUpgrade { get; set; }
@@ -148,25 +150,25 @@ public record AwsDocdbModifyDbClusterOptions : AwsOptions, IValidatableObject
     public string? StorageType { get; set; }
 
     /// <summary>
-    /// Contains the scaling configuration of an Amazon DocumentDB Server- less cluster. MinCapacity -&gt; (double) The minimum number of Amazon DocumentDB capacity units (DCUs) for an instance in an Amazon DocumentDB Serverless cluster. You can specify DCU values in half-step increments, such as 8, 8.5, 9, and so on. MaxCapacity -&gt; (double) The maximum number of Amazon DocumentDB capacity units (DCUs) for an instance in an Amazon DocumentDB Serverless cluster. You can specify DCU values in half-step increments, such as 32, 32.5, 33, and so on. Shorthand Syntax: MinCapacity=double,MaxCapacity=double JSON Syntax: { "MinCapacity": double, "MaxCapacity": double }
+    /// Contains the scaling configuration of an Amazon DocumentDB Serverless cluster. MinCapacity -&gt; (double) The minimum number of Amazon DocumentDB capacity units (DCUs) for an instance in an Amazon DocumentDB Serverless cluster. You can specify DCU values in half-step increments, such as 8, 8.5, 9, and so on. MaxCapacity -&gt; (double) The maximum number of Amazon DocumentDB capacity units (DCUs) for an instance in an Amazon DocumentDB Serverless cluster. You can specify DCU values in half-step increments, such as 32, 32.5, 33, and so on. Shorthand Syntax: MinCapacity=double,MaxCapacity=double JSON Syntax: { "MinCapacity": double, "MaxCapacity": double }
     /// </summary>
     [CliOption("--serverless-v2-scaling-configuration")]
     public string? ServerlessV2ScalingConfiguration { get; set; }
 
     /// <summary>
-    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. If the cluster doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn on this management. In this case, you can't specify MasterUserPass- word . If the cluster already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the master user password is not managed with Amazon Web Services Secrets Man- ager, then you must specify MasterUserPassword . In this case, Ama- zon DocumentDB deletes the secret and uses the new password for the master user specified by MasterUserPassword .
+    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. If the cluster doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn on this management. In this case, you can't specify MasterUserPassword . If the cluster already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the master user password is not managed with Amazon Web Services Secrets Manager, then you must specify MasterUserPassword . In this case, Amazon DocumentDB deletes the secret and uses the new password for the master user specified by MasterUserPassword .
     /// </summary>
     [CliFlag("--manage-master-user-password", NegatedName = "--no-manage-master-user-password")]
     public bool? ManageMasterUserPassword { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Se- crets Manager. This setting is valid only if both of the following conditions are met: o The cluster doesn't manage the master user password in Amazon Web Services Secrets Manager. If the cluster already manages the mas- ter user password in Amazon Web Services Secrets Manager, you can't change the KMS key that is used to encrypt the secret. o You are enabling ManageMasterUserPassword to manage the master user password in Amazon Web Services Secrets Manager. If you are turning on ManageMasterUserPassword and don't specify MasterUser- SecretKmsKeyId , then the aws/secretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a dif- ferent Amazon Web Services account, specify the key ARN or alias ARN. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+    /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager. This setting is valid only if both of the following conditions are met: • The cluster doesn't manage the master user password in Amazon Web Services Secrets Manager. If the cluster already manages the master user password in Amazon Web Services Secrets Manager, you can't change the KMS key that is used to encrypt the secret. • You are enabling ManageMasterUserPassword to manage the master user password in Amazon Web Services Secrets Manager. If you are turning on ManageMasterUserPassword and don't specify MasterUserSecretKmsKeyId , then the aws/secretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
     /// </summary>
     [CliOption("--master-user-secret-kms-key-id")]
     public string? MasterUserSecretKmsKeyId { get; set; }
 
     /// <summary>
-    /// Specifies whether to rotate the secret managed by Amazon Web Ser- vices Secrets Manager for the master user password. This setting is valid only if the master user password is managed by Amazon DocumentDB in Amazon Web Services Secrets Manager for the cluster. The secret value contains the updated password. Constraint: You must apply the change immediately when rotating the master user password.
+    /// Specifies whether to rotate the secret managed by Amazon Web Services Secrets Manager for the master user password. This setting is valid only if the master user password is managed by Amazon DocumentDB in Amazon Web Services Secrets Manager for the cluster. The secret value contains the updated password. Constraint: You must apply the change immediately when rotating the master user password.
     /// </summary>
     [CliFlag("--rotate-master-user-password", NegatedName = "--no-rotate-master-user-password")]
     public bool? RotateMasterUserPassword { get; set; }

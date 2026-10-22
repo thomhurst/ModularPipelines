@@ -33,7 +33,7 @@ public class AwsRtbfabric : IAwsRtbfabric
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws rtbfabric wait sub-commands.
     /// </summary>
     public AwsRtbfabricWait Wait => _wait ??= new AwsRtbfabricWait(_command);
 
@@ -42,7 +42,7 @@ public class AwsRtbfabric : IAwsRtbfabric
     #region Commands
 
     /// <summary>
-    /// Accepts a link request between gateways. When a requester gateway requests to link with a responder gateway, the responder can use this operation to accept the link request and estab- lish the connection. See also: AWS API Documentation
+    /// Accepts a link request between gateways. When a requester gateway requests to link with a responder gateway, the responder can use this operation to accept the link request and establish the connection. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -87,7 +87,7 @@ public class AwsRtbfabric : IAwsRtbfabric
     }
 
     /// <summary>
-    /// Creates a new link between gateways. Establishes a connection that allows gateways to communicate and ex- change bid requests and responses. See also: AWS API Documentation
+    /// Creates a new link between gateways. Establishes a connection that allows gateways to communicate and exchange bid requests and responses. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -102,7 +102,7 @@ public class AwsRtbfabric : IAwsRtbfabric
     }
 
     /// <summary>
-    /// Creates a routing rule for a link. Routing rules use priority-based evaluation where lower priority num- bers are evaluated first. Each rule specifies conditions that must all match for the rule to apply. See also: AWS API Documentation
+    /// Creates a routing rule for a link. Routing rules use priority-based evaluation where lower priority numbers are evaluated first. Each rule specifies conditions that must all match for the rule to apply. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -372,7 +372,7 @@ public class AwsRtbfabric : IAwsRtbfabric
     }
 
     /// <summary>
-    /// Lists the certificate associations for a responder gateway. See also: AWS API Documentation list-certificate-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: certificateAssociations
+    /// Lists the certificate associations for a responder gateway. See also: AWS API Documentation list-certificate-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: certificateAssociations
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -387,7 +387,7 @@ public class AwsRtbfabric : IAwsRtbfabric
     }
 
     /// <summary>
-    /// Lists the routing rules for a link. See also: AWS API Documentation list-link-routing-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: rules
+    /// Lists the routing rules for a link. See also: AWS API Documentation list-link-routing-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: rules
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -402,7 +402,7 @@ public class AwsRtbfabric : IAwsRtbfabric
     }
 
     /// <summary>
-    /// Lists links associated with gateways. Returns a list of all links for the specified gateways, including their status and configuration details. See also: AWS API Documentation list-links is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results ...
+    /// Lists links associated with gateways. Returns a list of all links for the specified gateways, including their status and configuration details. See also: AWS API Documentation list-links is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -417,7 +417,7 @@ public class AwsRtbfabric : IAwsRtbfabric
     }
 
     /// <summary>
-    /// Lists requester gateways. See also: AWS API Documentation list-requester-gateways is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: gatewayIds
+    /// Lists requester gateways. See also: AWS API Documentation list-requester-gateways is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: gatewayIds
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -432,7 +432,7 @@ public class AwsRtbfabric : IAwsRtbfabric
     }
 
     /// <summary>
-    /// Lists reponder gateways. See also: AWS API Documentation list-responder-gateways is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: gatewayIds
+    /// Lists reponder gateways. See also: AWS API Documentation list-responder-gateways is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: gatewayIds
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -567,7 +567,7 @@ public class AwsRtbfabric : IAwsRtbfabric
     }
 
     /// <summary>
-    /// Updates the description, Auto Scaling group managed endpoint configura- tion, trust store configuration, and client routing policy of a respon- der gateway. This operation also updates the protocols list in the lis- tener configuration. You cannot change the domainName , port , and protocol values that you set when you create a responder gateway. To change any of them, delete the gateway and create a new one. See also: AWS API Documentation
+    /// Updates the description, Auto Scaling group managed endpoint configuration, trust store configuration, and client routing policy of a responder gateway. This operation also updates the protocols list in the listener configuration. You cannot change the domainName , port , and protocol values that you set when you create a responder gateway. To change any of them, delete the gateway and create a new one. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

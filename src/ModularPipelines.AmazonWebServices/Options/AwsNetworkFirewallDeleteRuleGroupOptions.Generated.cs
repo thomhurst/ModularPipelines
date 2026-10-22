@@ -23,19 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsNetworkFirewallDeleteRuleGroupOptions : AwsOptions
 {
     /// <summary>
-    /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
+    /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--rule-group-name")]
     public string? RuleGroupName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the rule group. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*
+    /// The Amazon Resource Name (ARN) of the rule group. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*
     /// </summary>
     [CliOption("--rule-group-arn")]
     public string? RuleGroupArn { get; set; }
 
     /// <summary>
-    /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains stateless rules. If it is stateful, it contains stateful rules. NOTE: This setting is required for requests that do not include the RuleGroupARN . Possible values: o STATELESS o STATEFUL o STATEFUL_DOMAIN
+    /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains stateless rules. If it is stateful, it contains stateful rules. NOTE: This setting is required for requests that do not include the RuleGroupARN . Possible values: • STATELESS • STATEFUL • STATEFUL_DOMAIN
     /// </summary>
     [CliOption("--type")]
     public AwsNetworkFirewallDeleteRuleGroupType? Type { get; set; }

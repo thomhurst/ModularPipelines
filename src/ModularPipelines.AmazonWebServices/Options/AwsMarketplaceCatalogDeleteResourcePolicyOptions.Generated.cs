@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMarketplaceCatalogDeleteResourcePolicyOptions : AwsOptions, IVa
     /// <summary>
     /// Deletes a resource-based policy on an entity that is identified by its resource ARN. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the entity resource that is asso- ciated with the resource policy. Constraints: o min: 1 o max: 255 o pattern: ^arn:[\w+=/,.@-]+:aws-market- place:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*$</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the entity resource that is associated with the resource policy. Constraints: • min: 1 • max: 255 • pattern: ^arn:[\w+=/,.@-]+:aws-marketplace:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*$</param>
     public AwsMarketplaceCatalogDeleteResourcePolicyOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsMarketplaceCatalogDeleteResourcePolicyOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the entity resource that is asso- ciated with the resource policy. Constraints: o min: 1 o max: 255 o pattern: ^arn:[\w+=/,.@-]+:aws-market- place:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*$
+    /// The Amazon Resource Name (ARN) of the entity resource that is associated with the resource policy. Constraints: • min: 1 • max: 255 • pattern: ^arn:[\w+=/,.@-]+:aws-marketplace:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

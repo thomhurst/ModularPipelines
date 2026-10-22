@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a version of the SageMaker AI image specified by ImageName . The version represents the Amazon ECR container image specified by Ba- seImage . See also: AWS API Documentation
+/// Creates a version of the SageMaker AI image specified by ImageName . The version represents the Amazon ECR container image specified by BaseImage . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +29,10 @@ public record AwsSagemakerCreateImageVersionOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a version of the SageMaker AI image specified by ImageName . The version represents the Amazon ECR container image specified by Ba- seImage . See also: AWS API Documentation
+    /// Creates a version of the SageMaker AI image specified by ImageName . The version represents the Amazon ECR container image specified by BaseImage . See also: AWS API Documentation
     /// </summary>
-    /// <param name="BaseImage">The registry path of the container image to use as the starting point for this version. The path is an Amazon ECR URI in the follow- ing format: &lt;acct-id&gt;.dkr.ecr.&lt;region&gt;.amazonaws.com/&lt;repo-name[:tag] or [@digest]&gt; Constraints: o min: 1 o max: 255 o pattern: .*</param>
-    /// <param name="ImageName">The ImageName of the Image to create a version of. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}</param>
+    /// <param name="BaseImage">The registry path of the container image to use as the starting point for this version. The path is an Amazon ECR URI in the following format: &lt;acct-id&gt;.dkr.ecr.&lt;region&gt;.amazonaws.com/&lt;repo-name[:tag] or [@digest]&gt; Constraints: • min: 1 • max: 255 • pattern: .*</param>
+    /// <param name="ImageName">The ImageName of the Image to create a version of. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}</param>
     public AwsSagemakerCreateImageVersionOptions(
         string BaseImage,
         string ImageName
@@ -62,56 +64,56 @@ public record AwsSagemakerCreateImageVersionOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The registry path of the container image to use as the starting point for this version. The path is an Amazon ECR URI in the follow- ing format: &lt;acct-id&gt;.dkr.ecr.&lt;region&gt;.amazonaws.com/&lt;repo-name[:tag] or [@digest]&gt; Constraints: o min: 1 o max: 255 o pattern: .*
+    /// The registry path of the container image to use as the starting point for this version. The path is an Amazon ECR URI in the following format: &lt;acct-id&gt;.dkr.ecr.&lt;region&gt;.amazonaws.com/&lt;repo-name[:tag] or [@digest]&gt; Constraints: • min: 1 • max: 255 • pattern: .*
     /// </summary>
     [CliOption("--base-image")]
     public string? BaseImage { get; private init; }
 
     /// <summary>
-    /// The ImageName of the Image to create a version of. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}
+    /// The ImageName of the Image to create a version of. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--image-name")]
     public string? ImageName { get; private init; }
 
     /// <summary>
-    /// A unique ID. If not specified, the Amazon Web Services CLI and Ama- zon Web Services SDKs, such as the SDK for Python (Boto3), add a unique value to the call. Constraints: o min: 1 o max: 36 o pattern: [a-zA-Z0-9-]+
+    /// A unique ID. If not specified, the Amazon Web Services CLI and Amazon Web Services SDKs, such as the SDK for Python (Boto3), add a unique value to the call. Constraints: • min: 1 • max: 36 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A list of aliases created with the image version. (string) Constraints: o min: 1 o max: 128 o pattern: (?!^[.-])^([a-zA-Z0-9-_.]+) Syntax: "string" "string" ...
+    /// A list of aliases created with the image version. (string) Constraints: • min: 1 • max: 128 • pattern: (?!^[.-])^([a-zA-Z0-9-_.]+) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--aliases", GroupValues = true)]
     public IEnumerable<string>? Aliases { get; set; }
 
     /// <summary>
-    /// The stability of the image version, specified by the maintainer. o NOT_PROVIDED : The maintainers did not provide a status for image version stability. o STABLE : The image version is stable. o TO_BE_ARCHIVED : The image version is set to be archived. Custom image versions that are set to be archived are automatically archived after three months. o ARCHIVED : The image version is archived. Archived image versions are not searchable and are no longer actively supported. Possible values: o NOT_PROVIDED o STABLE o TO_BE_ARCHIVED o ARCHIVED
+    /// The stability of the image version, specified by the maintainer. • NOT_PROVIDED : The maintainers did not provide a status for image version stability. • STABLE : The image version is stable. • TO_BE_ARCHIVED : The image version is set to be archived. Custom image versions that are set to be archived are automatically archived after three months. • ARCHIVED : The image version is archived. Archived image versions are not searchable and are no longer actively supported. Possible values: • NOT_PROVIDED • STABLE • TO_BE_ARCHIVED • ARCHIVED
     /// </summary>
     [CliOption("--vendor-guidance")]
     public AwsSagemakerCreateImageVersionVendorGuidance? VendorGuidance { get; set; }
 
     /// <summary>
-    /// Indicates SageMaker AI job type compatibility. o TRAINING : The image version is compatible with SageMaker AI training jobs. o INFERENCE : The image version is compatible with SageMaker AI in- ference jobs. o NOTEBOOK_KERNEL : The image version is compatible with SageMaker AI notebook kernels. Possible values: o TRAINING o INFERENCE o NOTEBOOK_KERNEL
+    /// Indicates SageMaker AI job type compatibility. • TRAINING : The image version is compatible with SageMaker AI training jobs. • INFERENCE : The image version is compatible with SageMaker AI inference jobs. • NOTEBOOK_KERNEL : The image version is compatible with SageMaker AI notebook kernels. Possible values: • TRAINING • INFERENCE • NOTEBOOK_KERNEL
     /// </summary>
     [CliOption("--job-type")]
     public AwsSagemakerCreateImageVersionJobType? JobType { get; set; }
 
     /// <summary>
-    /// The machine learning framework vended in the image version. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z]+ ?\d+\.\d+(\.\d+)?
+    /// The machine learning framework vended in the image version. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z]+ ?\d+\.\d+(\.\d+)?
     /// </summary>
     [CliOption("--ml-framework")]
     public string? MlFramework { get; set; }
 
     /// <summary>
-    /// The supported programming language and its version. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z]+ ?\d+\.\d+(\.\d+)?
+    /// The supported programming language and its version. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z]+ ?\d+\.\d+(\.\d+)?
     /// </summary>
     [CliOption("--programming-lang")]
     public string? ProgrammingLang { get; set; }
 
     /// <summary>
-    /// Indicates CPU or GPU compatibility. o CPU : The image version is compatible with CPU. o GPU : The image version is compatible with GPU. Possible values: o CPU o GPU
+    /// Indicates CPU or GPU compatibility. • CPU : The image version is compatible with CPU. • GPU : The image version is compatible with GPU. Possible values: • CPU • GPU
     /// </summary>
     [CliOption("--processor")]
     public AwsSagemakerCreateImageVersionProcessor? Processor { get; set; }
@@ -123,7 +125,7 @@ public record AwsSagemakerCreateImageVersionOptions : AwsOptions, IValidatableOb
     public bool? Horovod { get; set; }
 
     /// <summary>
-    /// The maintainer description of the image version. Constraints: o min: 1 o max: 255 o pattern: .*
+    /// The maintainer description of the image version. Constraints: • min: 1 • max: 255 • pattern: .*
     /// </summary>
     [CliOption("--release-notes")]
     public string? ReleaseNotes { get; set; }

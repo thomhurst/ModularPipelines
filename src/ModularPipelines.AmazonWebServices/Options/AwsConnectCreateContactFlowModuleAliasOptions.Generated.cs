@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,14 +29,14 @@ public record AwsConnectCreateContactFlowModuleAliasOptions : AwsOptions, IValid
     /// <summary>
     /// Creates a named alias that points to a specific version of a contact flow module. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 250 o pattern: ^(arn:(aws|aws-us-gov):con- nect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:in- stance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
-    /// <param name="ContactFlowModuleId">The identifier of the flow module. Constraints: o min: 1 o max: 256</param>
-    /// <param name="ContactFlowModuleVersion">The version of the flow module. Constraints: o min: 1</param>
-    /// <param name="AliasName">The name of the alias. Constraints: o min: 1 o max: 100 o pattern: ^([$0-9a-zA-Z][_-]?)+$</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 250 • pattern: ^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:instance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="ContactFlowModuleId">The identifier of the flow module. Constraints: • min: 1 • max: 256</param>
+    /// <param name="ContactFlowModuleVersion">The version of the flow module. Constraints: • min: 1</param>
+    /// <param name="AliasName">The name of the alias. Constraints: • min: 1 • max: 100 • pattern: ^([$0-9a-zA-Z][_-]?)+$</param>
     public AwsConnectCreateContactFlowModuleAliasOptions(
         string InstanceId,
         string ContactFlowModuleId,
-        int ContactFlowModuleVersion,
+        long ContactFlowModuleVersion,
         string AliasName
     )
     {
@@ -67,25 +69,25 @@ public record AwsConnectCreateContactFlowModuleAliasOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 250 o pattern: ^(arn:(aws|aws-us-gov):con- nect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:in- stance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 250 • pattern: ^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:instance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the flow module. Constraints: o min: 1 o max: 256
+    /// The identifier of the flow module. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--contact-flow-module-id")]
     public string? ContactFlowModuleId { get; private init; }
 
     /// <summary>
-    /// The version of the flow module. Constraints: o min: 1
+    /// The version of the flow module. Constraints: • min: 1
     /// </summary>
     [CliOption("--contact-flow-module-version")]
-    public int? ContactFlowModuleVersion { get; private init; }
+    public long? ContactFlowModuleVersion { get; private init; }
 
     /// <summary>
-    /// The name of the alias. Constraints: o min: 1 o max: 100 o pattern: ^([$0-9a-zA-Z][_-]?)+$
+    /// The name of the alias. Constraints: • min: 1 • max: 100 • pattern: ^([$0-9a-zA-Z][_-]?)+$
     /// </summary>
     [CliOption("--alias-name")]
     public string? AliasName { get; private init; }

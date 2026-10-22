@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +31,7 @@ public record AwsOpensearchserverlessCreateCollectionOptions : AwsOptions, IVali
     /// <summary>
     /// Creates a new OpenSearch Serverless collection. For more information, see Creating and managing Amazon OpenSearch Serverless collections . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">Name of the collection. Constraints: o min: 3 o max: 64 o pattern: [a-z][a-z0-9-]+</param>
+    /// <param name="Name">Name of the collection. Constraints: • min: 3 • max: 64 • pattern: [a-z][a-z0-9-]+</param>
     public AwsOpensearchserverlessCreateCollectionOptions(
         string Name
     )
@@ -58,61 +60,61 @@ public record AwsOpensearchserverlessCreateCollectionOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the collection. Constraints: o min: 3 o max: 64 o pattern: [a-z][a-z0-9-]+
+    /// Name of the collection. Constraints: • min: 3 • max: 64 • pattern: [a-z][a-z0-9-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The type of collection. Possible values: o SEARCH o TIMESERIES o VECTORSEARCH
+    /// The type of collection. Possible values: • SEARCH • TIMESERIES • VECTORSEARCH
     /// </summary>
     [CliOption("--type")]
     public AwsOpensearchserverlessCreateCollectionType? Type { get; set; }
 
     /// <summary>
-    /// Description of the collection. Constraints: o min: 0 o max: 1000
+    /// Description of the collection. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// An arbitrary set of tags (keyvalue pairs) to associate with the OpenSearch Serverless collection. Constraints: o min: 0 o max: 50 (structure) A map of key-value pairs associated to an OpenSearch Serverless resource. key -&gt; (string) [required] The key to use in the tag. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// An arbitrary set of tags (keyvalue pairs) to associate with the OpenSearch Serverless collection. Constraints: • min: 0 • max: 50 (structure) A map of key-value pairs associated to an OpenSearch Serverless resource. key -&gt; (string) [required] The key to use in the tag. Constraints: • min: 1 • max: 128 value -&gt; (string) [required] The value of the tag. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Indicates whether standby replicas should be used for a collection. Possible values: o ENABLED o DISABLED
+    /// Indicates whether standby replicas should be used for a collection. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--standby-replicas")]
     public AwsOpensearchserverlessCreateCollectionStandbyReplicas? StandbyReplicas { get; set; }
 
     /// <summary>
-    /// Configuration options for vector search capabilities in the collec- tion. ServerlessVectorAcceleration -&gt; (string) [required] Specifies whether serverless vector acceleration is enabled for the collection. Possible values: o ENABLED o DISABLED o ALLOWED Shorthand Syntax: ServerlessVectorAcceleration=string JSON Syntax: { "ServerlessVectorAcceleration": "ENABLED"|"DISABLED"|"ALLOWED" }
+    /// Configuration options for vector search capabilities in the collection. ServerlessVectorAcceleration -&gt; (string) [required] Specifies whether serverless vector acceleration is enabled for the collection. Possible values: • ENABLED • DISABLED • ALLOWED Shorthand Syntax: ServerlessVectorAcceleration=string JSON Syntax: { "ServerlessVectorAcceleration": "ENABLED"|"DISABLED"|"ALLOWED" }
     /// </summary>
     [CliOption("--vector-options")]
     public string? VectorOptions { get; set; }
 
     /// <summary>
-    /// The name of the collection group to associate with the collection. Constraints: o min: 3 o max: 32 o pattern: [a-z][a-z0-9-]+
+    /// The name of the collection group to associate with the collection. Constraints: • min: 3 • max: 32 • pattern: [a-z][a-z0-9-]+
     /// </summary>
     [CliOption("--collection-group-name")]
     public string? CollectionGroupName { get; set; }
 
     /// <summary>
-    /// Encryption settings for the collection. aWSOwnedKey -&gt; (boolean) Indicates whether to use an Amazon Web Services-owned key for encryption. kmsKeyArn -&gt; (string) The ARN of the Amazon Web Services Key Management Service key used to encrypt the collection. Constraints: o min: 10 o max: 100 o pattern: arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):kms:[a-z0-9-]+:[0-9]{12}:key/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: aWSOwnedKey=boolean,kmsKeyArn=string JSON Syntax: { "aWSOwnedKey": true|false, "kmsKeyArn": "string" }
+    /// Encryption settings for the collection. aWSOwnedKey -&gt; (boolean) Indicates whether to use an Amazon Web Services-owned key for encryption. kmsKeyArn -&gt; (string) The ARN of the Amazon Web Services Key Management Service key used to encrypt the collection. Constraints: • min: 10 • max: 100 • pattern: arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):kms:[a-z0-9-]+:[0-9]{12}:key/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: aWSOwnedKey=boolean,kmsKeyArn=string JSON Syntax: { "aWSOwnedKey": true|false, "kmsKeyArn": "string" }
     /// </summary>
     [CliOption("--encryption-config")]
     public string? EncryptionConfig { get; set; }
 
     /// <summary>
-    /// Indicates whether to enable deletion protection for the collection. When set to ENABLED , the collection cannot be deleted. Possible values: o ENABLED o DISABLED
+    /// Indicates whether to enable deletion protection for the collection. When set to ENABLED , the collection cannot be deleted. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--deletion-protection")]
     public AwsOpensearchserverlessCreateCollectionDeletionProtection? DeletionProtection { get; set; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 1 o max: 512
+    /// Unique, case-sensitive identifier to ensure idempotency of the request. Constraints: • min: 1 • max: 512
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

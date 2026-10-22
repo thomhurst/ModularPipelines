@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsQuicksightDescribeKnowledgeBasePermissionsOptions : AwsOptions,
     /// <summary>
     /// Describes the resource permissions for a knowledge base. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the knowl- edge base. Constraints: o min: 12 o max: 12 o pattern: [0-9]*</param>
-    /// <param name="KnowledgeBaseId">The unique identifier for the knowledge base. Constraints: o min: 1 o max: 1024 o pattern: [0-9a-zA-Z-_=.+]+</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the knowledge base. Constraints: • min: 12 • max: 12 • pattern: [0-9]*</param>
+    /// <param name="KnowledgeBaseId">The unique identifier for the knowledge base. Constraints: • min: 1 • max: 1024 • pattern: [0-9a-zA-Z-_=.+]+</param>
     public AwsQuicksightDescribeKnowledgeBasePermissionsOptions(
         string AwsAccountId,
         string KnowledgeBaseId
@@ -60,13 +62,13 @@ public record AwsQuicksightDescribeKnowledgeBasePermissionsOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the knowl- edge base. Constraints: o min: 12 o max: 12 o pattern: [0-9]*
+    /// The ID of the Amazon Web Services account that contains the knowledge base. Constraints: • min: 12 • max: 12 • pattern: [0-9]*
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the knowledge base. Constraints: o min: 1 o max: 1024 o pattern: [0-9a-zA-Z-_=.+]+
+    /// The unique identifier for the knowledge base. Constraints: • min: 1 • max: 1024 • pattern: [0-9a-zA-Z-_=.+]+
     /// </summary>
     [CliOption("--knowledge-base-id")]
     public string? KnowledgeBaseId { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the details for the requested template. Other template APIs are: o CreateTemplate o DeleteTemplate o ListTemplates o UpdateTemplate See also: AWS API Documentation
+/// Returns the details for the requested template. Other template APIs are: • CreateTemplate • DeleteTemplate • ListTemplates • UpdateTemplate See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsConnectcasesGetTemplateOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the details for the requested template. Other template APIs are: o CreateTemplate o DeleteTemplate o ListTemplates o UpdateTemplate See also: AWS API Documentation
+    /// Returns the details for the requested template. Other template APIs are: • CreateTemplate • DeleteTemplate • ListTemplates • UpdateTemplate See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500</param>
-    /// <param name="TemplateId">A unique identifier of a template. Constraints: o min: 1 o max: 500</param>
+    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500</param>
+    /// <param name="TemplateId">A unique identifier of a template. Constraints: • min: 1 • max: 500</param>
     public AwsConnectcasesGetTemplateOptions(
         string DomainId,
         string TemplateId
@@ -60,13 +62,13 @@ public record AwsConnectcasesGetTemplateOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500
+    /// The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// A unique identifier of a template. Constraints: o min: 1 o max: 500
+    /// A unique identifier of a template. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--template-id")]
     public string? TemplateId { get; private init; }

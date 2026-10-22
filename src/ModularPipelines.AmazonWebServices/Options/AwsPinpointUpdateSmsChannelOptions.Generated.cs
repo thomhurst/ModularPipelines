@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsPinpointUpdateSmsChannelOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Enables the SMS channel for an application or updates the status and settings of the SMS channel for an application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.</param>
-    /// <param name="SmsChannelRequest">Specifies the status and settings of the SMS channel for an applica- tion. Enabled -&gt; (boolean) Specifies whether to enable the SMS channel for the application. SenderId -&gt; (string) The identity that you want to display on recipients' devices when they receive messages from the SMS channel. ShortCode -&gt; (string) The registered short code that you want to use when you send messages through the SMS channel. Shorthand Syntax: Enabled=boolean,SenderId=string,ShortCode=string JSON Syntax: { "Enabled": true|false, "SenderId": "string", "ShortCode": "string" }</param>
+    /// <param name="ApplicationId">The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.</param>
+    /// <param name="SmsChannelRequest">Specifies the status and settings of the SMS channel for an application. Enabled -&gt; (boolean) Specifies whether to enable the SMS channel for the application. SenderId -&gt; (string) The identity that you want to display on recipients' devices when they receive messages from the SMS channel. ShortCode -&gt; (string) The registered short code that you want to use when you send messages through the SMS channel. Shorthand Syntax: Enabled=boolean,SenderId=string,ShortCode=string JSON Syntax: { "Enabled": true|false, "SenderId": "string", "ShortCode": "string" }</param>
     public AwsPinpointUpdateSmsChannelOptions(
         string ApplicationId,
         string SmsChannelRequest
@@ -60,13 +62,13 @@ public record AwsPinpointUpdateSmsChannelOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.
+    /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// Specifies the status and settings of the SMS channel for an applica- tion. Enabled -&gt; (boolean) Specifies whether to enable the SMS channel for the application. SenderId -&gt; (string) The identity that you want to display on recipients' devices when they receive messages from the SMS channel. ShortCode -&gt; (string) The registered short code that you want to use when you send messages through the SMS channel. Shorthand Syntax: Enabled=boolean,SenderId=string,ShortCode=string JSON Syntax: { "Enabled": true|false, "SenderId": "string", "ShortCode": "string" }
+    /// Specifies the status and settings of the SMS channel for an application. Enabled -&gt; (boolean) Specifies whether to enable the SMS channel for the application. SenderId -&gt; (string) The identity that you want to display on recipients' devices when they receive messages from the SMS channel. ShortCode -&gt; (string) The registered short code that you want to use when you send messages through the SMS channel. Shorthand Syntax: Enabled=boolean,SenderId=string,ShortCode=string JSON Syntax: { "Enabled": true|false, "SenderId": "string", "ShortCode": "string" }
     /// </summary>
     [CliOption("--sms-channel-request")]
     public string? SmsChannelRequest { get; private init; }

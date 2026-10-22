@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -29,17 +30,17 @@ public record AwsMgnCreateReplicationConfigurationTemplateOptions : AwsOptions, 
     /// <summary>
     /// Creates a new ReplicationConfigurationTemplate. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StagingAreaSubnetId">Request to configure the Staging Area subnet ID during Replication Settings template creation. Constraints: o min: 0 o max: 255 o pattern: subnet-[0-9a-fA-F]{8,}</param>
-    /// <param name="AssociateDefaultSecurityGroup">rity-group (boolean) [required] Request to associate the default Application Migration Service Secu- rity group with the Replication Settings template.</param>
-    /// <param name="ReplicationServersSecurityGroupsIds">Request to configure the Replication Server Security group ID during Replication Settings template creation. Constraints: o min: 0 o max: 32 (string) Constraints: o min: 0 o max: 255 o pattern: sg-[0-9a-fA-F]{8,} Syntax: "string" "string" ...</param>
-    /// <param name="ReplicationServerInstanceType">Request to configure the Replication Server instance type during Replication Settings template creation. Constraints: o min: 0 o max: 255</param>
-    /// <param name="UseDedicatedReplicationServer">tion-server (boolean) [required] Request to use Dedicated Replication Servers during Replication Set- tings template creation.</param>
-    /// <param name="DefaultLargeStagingDiskType">Request to configure the default large staging disk EBS volume type during Replication Settings template creation. Possible values: o GP2 o ST1 o GP3</param>
-    /// <param name="EbsEncryption">Request to configure EBS encryption during Replication Settings tem- plate creation. Possible values: o DEFAULT o CUSTOM</param>
-    /// <param name="BandwidthThrottling">Request to configure bandwidth throttling during Replication Set- tings template creation. Constraints: o min: 0 o max: 10000</param>
-    /// <param name="DataPlaneRouting">Request to configure data plane routing during Replication Settings template creation. Possible values: o PRIVATE_IP o PUBLIC_IP</param>
+    /// <param name="StagingAreaSubnetId">Request to configure the Staging Area subnet ID during Replication Settings template creation. Constraints: • min: 0 • max: 255 • pattern: subnet-[0-9a-fA-F]{8,}</param>
+    /// <param name="AssociateDefaultSecurityGroup">Request to associate the default Application Migration Service Security group with the Replication Settings template.</param>
+    /// <param name="ReplicationServersSecurityGroupsIds">Request to configure the Replication Server Security group ID during Replication Settings template creation. Constraints: • min: 0 • max: 32 (string) Constraints: • min: 0 • max: 255 • pattern: sg-[0-9a-fA-F]{8,} Syntax: "string" "string" ...</param>
+    /// <param name="ReplicationServerInstanceType">Request to configure the Replication Server instance type during Replication Settings template creation. Constraints: • min: 0 • max: 255</param>
+    /// <param name="UseDedicatedReplicationServer">Request to use Dedicated Replication Servers during Replication Settings template creation.</param>
+    /// <param name="DefaultLargeStagingDiskType">Request to configure the default large staging disk EBS volume type during Replication Settings template creation. Possible values: • GP2 • ST1 • GP3</param>
+    /// <param name="EbsEncryption">Request to configure EBS encryption during Replication Settings template creation. Possible values: • DEFAULT • CUSTOM</param>
+    /// <param name="BandwidthThrottling">Request to configure bandwidth throttling during Replication Settings template creation. Constraints: • min: 0 • max: 10000</param>
+    /// <param name="DataPlaneRouting">Request to configure data plane routing during Replication Settings template creation. Possible values: • PRIVATE_IP • PUBLIC_IP</param>
     /// <param name="CreatePublicIp">Request to create Public IP during Replication Settings template creation.</param>
-    /// <param name="StagingAreaTags">Request to configure Staging Area tags during Replication Settings template creation. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="StagingAreaTags">Request to configure Staging Area tags during Replication Settings template creation. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 0 • max: 256 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsMgnCreateReplicationConfigurationTemplateOptions(
         string StagingAreaSubnetId,
         bool AssociateDefaultSecurityGroup,
@@ -48,7 +49,7 @@ public record AwsMgnCreateReplicationConfigurationTemplateOptions : AwsOptions, 
         bool UseDedicatedReplicationServer,
         AwsMgnCreateReplicationConfigurationTemplateDefaultLargeStagingDiskType DefaultLargeStagingDiskType,
         AwsMgnCreateReplicationConfigurationTemplateEbsEncryption EbsEncryption,
-        int BandwidthThrottling,
+        long BandwidthThrottling,
         AwsMgnCreateReplicationConfigurationTemplateDataPlaneRouting DataPlaneRouting,
         bool CreatePublicIp,
         IReadOnlyList<KeyValue> StagingAreaTags
@@ -113,55 +114,55 @@ public record AwsMgnCreateReplicationConfigurationTemplateOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Request to configure the Staging Area subnet ID during Replication Settings template creation. Constraints: o min: 0 o max: 255 o pattern: subnet-[0-9a-fA-F]{8,}
+    /// Request to configure the Staging Area subnet ID during Replication Settings template creation. Constraints: • min: 0 • max: 255 • pattern: subnet-[0-9a-fA-F]{8,}
     /// </summary>
     [CliOption("--staging-area-subnet-id")]
     public string? StagingAreaSubnetId { get; private init; }
 
     /// <summary>
-    /// rity-group (boolean) [required] Request to associate the default Application Migration Service Secu- rity group with the Replication Settings template.
+    /// Request to associate the default Application Migration Service Security group with the Replication Settings template.
     /// </summary>
     [CliFlag("--associate-default-security-group", NegatedName = "--no-associate-default-security-group")]
     public bool? AssociateDefaultSecurityGroup { get; private init; }
 
     /// <summary>
-    /// Request to configure the Replication Server Security group ID during Replication Settings template creation. Constraints: o min: 0 o max: 32 (string) Constraints: o min: 0 o max: 255 o pattern: sg-[0-9a-fA-F]{8,} Syntax: "string" "string" ...
+    /// Request to configure the Replication Server Security group ID during Replication Settings template creation. Constraints: • min: 0 • max: 32 (string) Constraints: • min: 0 • max: 255 • pattern: sg-[0-9a-fA-F]{8,} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--replication-servers-security-groups-ids", GroupValues = true)]
     public IEnumerable<string>? ReplicationServersSecurityGroupsIds { get; private init; }
 
     /// <summary>
-    /// Request to configure the Replication Server instance type during Replication Settings template creation. Constraints: o min: 0 o max: 255
+    /// Request to configure the Replication Server instance type during Replication Settings template creation. Constraints: • min: 0 • max: 255
     /// </summary>
     [CliOption("--replication-server-instance-type")]
     public string? ReplicationServerInstanceType { get; private init; }
 
     /// <summary>
-    /// tion-server (boolean) [required] Request to use Dedicated Replication Servers during Replication Set- tings template creation.
+    /// Request to use Dedicated Replication Servers during Replication Settings template creation.
     /// </summary>
     [CliFlag("--use-dedicated-replication-server", NegatedName = "--no-use-dedicated-replication-server")]
     public bool? UseDedicatedReplicationServer { get; private init; }
 
     /// <summary>
-    /// Request to configure the default large staging disk EBS volume type during Replication Settings template creation. Possible values: o GP2 o ST1 o GP3
+    /// Request to configure the default large staging disk EBS volume type during Replication Settings template creation. Possible values: • GP2 • ST1 • GP3
     /// </summary>
     [CliOption("--default-large-staging-disk-type")]
     public AwsMgnCreateReplicationConfigurationTemplateDefaultLargeStagingDiskType? DefaultLargeStagingDiskType { get; private init; }
 
     /// <summary>
-    /// Request to configure EBS encryption during Replication Settings tem- plate creation. Possible values: o DEFAULT o CUSTOM
+    /// Request to configure EBS encryption during Replication Settings template creation. Possible values: • DEFAULT • CUSTOM
     /// </summary>
     [CliOption("--ebs-encryption")]
     public AwsMgnCreateReplicationConfigurationTemplateEbsEncryption? EbsEncryption { get; private init; }
 
     /// <summary>
-    /// Request to configure bandwidth throttling during Replication Set- tings template creation. Constraints: o min: 0 o max: 10000
+    /// Request to configure bandwidth throttling during Replication Settings template creation. Constraints: • min: 0 • max: 10000
     /// </summary>
     [CliOption("--bandwidth-throttling")]
-    public int? BandwidthThrottling { get; private init; }
+    public long? BandwidthThrottling { get; private init; }
 
     /// <summary>
-    /// Request to configure data plane routing during Replication Settings template creation. Possible values: o PRIVATE_IP o PUBLIC_IP
+    /// Request to configure data plane routing during Replication Settings template creation. Possible values: • PRIVATE_IP • PUBLIC_IP
     /// </summary>
     [CliOption("--data-plane-routing")]
     public AwsMgnCreateReplicationConfigurationTemplateDataPlaneRouting? DataPlaneRouting { get; private init; }
@@ -173,13 +174,13 @@ public record AwsMgnCreateReplicationConfigurationTemplateOptions : AwsOptions, 
     public bool? CreatePublicIp { get; private init; }
 
     /// <summary>
-    /// Request to configure Staging Area tags during Replication Settings template creation. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Request to configure Staging Area tags during Replication Settings template creation. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 0 • max: 256 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--staging-area-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? StagingAreaTags { get; private init; }
 
     /// <summary>
-    /// Request to configure an EBS encryption key during Replication Set- tings template creation. Constraints: o min: 20 o max: 2048
+    /// Request to configure an EBS encryption key during Replication Settings template creation. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--ebs-encryption-key-arn")]
     public string? EbsEncryptionKeyArn { get; set; }
@@ -191,13 +192,13 @@ public record AwsMgnCreateReplicationConfigurationTemplateOptions : AwsOptions, 
     public bool? UseFipsEndpoint { get; set; }
 
     /// <summary>
-    /// Request to configure tags during Replication Settings template cre- ation. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Request to configure tags during Replication Settings template creation. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 0 • max: 256 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Request to configure the internet protocol to IPv4 or IPv6. Possible values: o IPV4 o IPV6
+    /// Request to configure the internet protocol to IPv4 or IPv6. Possible values: • IPV4 • IPV6
     /// </summary>
     [CliOption("--internet-protocol")]
     public AwsMgnCreateReplicationConfigurationTemplateInternetProtocol? InternetProtocol { get; set; }
@@ -209,7 +210,7 @@ public record AwsMgnCreateReplicationConfigurationTemplateOptions : AwsOptions, 
     public bool? StoreSnapshotOnLocalZone { get; set; }
 
     /// <summary>
-    /// Request to configure storage during Replication Settings template creation. storageType -&gt; (string) [required] Storage configuration storage type. Possible values: o EBS o FSX_ONTAP fsxOntapConfiguration -&gt; (structure) Storage configuration FSx ONTAP configuration. storageVirtualMachineId -&gt; (string) [required] FSx ONTAP configuration storage virtual machine ID. Constraints: o min: 21 o max: 21 o pattern: (svm-[0-9a-f]{17,}) credentialsSecretArn -&gt; (string) [required] FSx ONTAP configuration credentials secret ARN. Constraints: o min: 20 o max: 256 o pattern: arn:[\w-]+:secretsman- ager:([a-z]{2}-(gov-)?[a-z]+-\d{1})?:(\d{12})?:secret:(.+) Shorthand Syntax: storageType=string,fsxOntapConfiguration={storageVirtualMachineId=string,credentialsSecretArn=string} JSON Syntax: { "storageType": "EBS"|"FSX_ONTAP", "fsxOntapConfiguration": { "storageVirtualMachineId": "string", "credentialsSecretArn": "string" } }
+    /// Request to configure storage during Replication Settings template creation. storageType -&gt; (string) [required] Storage configuration storage type. Possible values: • EBS • FSX_ONTAP fsxOntapConfiguration -&gt; (structure) Storage configuration FSx ONTAP configuration. storageVirtualMachineId -&gt; (string) [required] FSx ONTAP configuration storage virtual machine ID. Constraints: • min: 21 • max: 21 • pattern: (svm-[0-9a-f]{17,}) credentialsSecretArn -&gt; (string) [required] FSx ONTAP configuration credentials secret ARN. Constraints: • min: 20 • max: 256 • pattern: arn:[\w-]+:secretsmanager:([a-z]{2}-(gov-)?[a-z]+-\d{1})?:(\d{12})?:secret:(.+) Shorthand Syntax: storageType=string,fsxOntapConfiguration={storageVirtualMachineId=string,credentialsSecretArn=string} JSON Syntax: { "storageType": "EBS"|"FSX_ONTAP", "fsxOntapConfiguration": { "storageVirtualMachineId": "string", "credentialsSecretArn": "string" } }
     /// </summary>
     [CliOption("--storage-configuration")]
     public string? StorageConfiguration { get; set; }

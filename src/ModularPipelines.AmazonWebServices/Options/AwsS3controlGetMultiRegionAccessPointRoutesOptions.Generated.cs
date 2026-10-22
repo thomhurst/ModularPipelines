@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation is not supported by directory buckets. Returns the routing configuration for a Multi-Region Access Point, in- dicating which Regions are active or passive. To obtain routing control changes and failover requests, use the Amazon S3 failover control infrastructure endpoints in these five Amazon Web Services Regions: o us-east-1 o us-west-2 o ap-southeast-2 o ap-northeast-1 o eu-west-1 See also: AWS API Documentation
+/// NOTE: This operation is not supported by directory buckets. Returns the routing configuration for a Multi-Region Access Point, indicating which Regions are active or passive. To obtain routing control changes and failover requests, use the Amazon S3 failover control infrastructure endpoints in these five Amazon Web Services Regions: • us-east-1 • us-west-2 • ap-southeast-2 • ap-northeast-1 • eu-west-1 See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsS3controlGetMultiRegionAccessPointRoutesOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation is not supported by directory buckets. Returns the routing configuration for a Multi-Region Access Point, in- dicating which Regions are active or passive. To obtain routing control changes and failover requests, use the Amazon S3 failover control infrastructure endpoints in these five Amazon Web Services Regions: o us-east-1 o us-west-2 o ap-southeast-2 o ap-northeast-1 o eu-west-1 See also: AWS API Documentation
+    /// NOTE: This operation is not supported by directory buckets. Returns the routing configuration for a Multi-Region Access Point, indicating which Regions are active or passive. To obtain routing control changes and failover requests, use the Amazon S3 failover control infrastructure endpoints in these five Amazon Web Services Regions: • us-east-1 • us-west-2 • ap-southeast-2 • ap-northeast-1 • eu-west-1 See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID for the owner of the Multi-Region Access Point. Constraints: o max: 64 o pattern: ^\d{12}$</param>
-    /// <param name="Mrap">The Multi-Region Access Point ARN. Constraints: o max: 200 o pattern: ^[a-zA-Z0-9\:.-]{3,200}$</param>
+    /// <param name="AccountId">The Amazon Web Services account ID for the owner of the Multi-Region Access Point. Constraints: • max: 64 • pattern: ^\d{12}$</param>
+    /// <param name="Mrap">The Multi-Region Access Point ARN. Constraints: • max: 200 • pattern: ^[a-zA-Z0-9\:.-]{3,200}$</param>
     public AwsS3controlGetMultiRegionAccessPointRoutesOptions(
         string AccountId,
         string Mrap
@@ -60,13 +62,13 @@ public record AwsS3controlGetMultiRegionAccessPointRoutesOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The Multi-Region Access Point ARN. Constraints: o max: 200 o pattern: ^[a-zA-Z0-9\:.-]{3,200}$
+    /// The Multi-Region Access Point ARN. Constraints: • max: 200 • pattern: ^[a-zA-Z0-9\:.-]{3,200}$
     /// </summary>
     [CliOption("--mrap")]
     public string? Mrap { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsBedrockAgentGetFlowAliasOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Retrieves information about a flow. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FlowIdentifier">The unique identifier of the flow that the alias belongs to. Constraints: o pattern: (arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})</param>
-    /// <param name="AliasIdentifier">The unique identifier of the alias for which to retrieve informa- tion. Constraints: o pattern: (arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(TSTAL- IASID|[0-9a-zA-Z]{10})</param>
+    /// <param name="FlowIdentifier">The unique identifier of the flow that the alias belongs to. Constraints: • pattern: (arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})</param>
+    /// <param name="AliasIdentifier">The unique identifier of the alias for which to retrieve information. Constraints: • pattern: (arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(TSTALIASID|[0-9a-zA-Z]{10})</param>
     public AwsBedrockAgentGetFlowAliasOptions(
         string FlowIdentifier,
         string AliasIdentifier
@@ -60,13 +62,13 @@ public record AwsBedrockAgentGetFlowAliasOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the flow that the alias belongs to. Constraints: o pattern: (arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})
+    /// The unique identifier of the flow that the alias belongs to. Constraints: • pattern: (arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})
     /// </summary>
     [CliOption("--flow-identifier")]
     public string? FlowIdentifier { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the alias for which to retrieve informa- tion. Constraints: o pattern: (arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(TSTAL- IASID|[0-9a-zA-Z]{10})
+    /// The unique identifier of the alias for which to retrieve information. Constraints: • pattern: (arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(TSTALIASID|[0-9a-zA-Z]{10})
     /// </summary>
     [CliOption("--alias-identifier")]
     public string? AliasIdentifier { get; private init; }

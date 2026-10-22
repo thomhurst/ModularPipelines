@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sets the attributes for an endpoint for a device on one of the sup- ported push notification services, such as GCM (Firebase Cloud Messag- ing) and APNS. For more information, see Using Amazon SNS Mobile Push Notifications . See also: AWS API Documentation
+/// Sets the attributes for an endpoint for a device on one of the supported push notification services, such as GCM (Firebase Cloud Messaging) and APNS. For more information, see Using Amazon SNS Mobile Push Notifications . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsSnsSetEndpointAttributesOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sets the attributes for an endpoint for a device on one of the sup- ported push notification services, such as GCM (Firebase Cloud Messag- ing) and APNS. For more information, see Using Amazon SNS Mobile Push Notifications . See also: AWS API Documentation
+    /// Sets the attributes for an endpoint for a device on one of the supported push notification services, such as GCM (Firebase Cloud Messaging) and APNS. For more information, see Using Amazon SNS Mobile Push Notifications . See also: AWS API Documentation
     /// </summary>
     /// <param name="EndpointArn">EndpointArn used for SetEndpointAttributes action.</param>
-    /// <param name="Attributes">A map of the endpoint attributes. Attributes in this map include the following: o CustomUserData arbitrary user data to associate with the end- point. Amazon SNS does not use this data. The data must be in UTF-8 format and less than 2KB. o Enabled flag that enables/disables delivery to the endpoint. Ama- zon SNS will set this to false when a notification service indi- cates to Amazon SNS that the endpoint is invalid. Users can set it back to true, typically after updating Token. o Token device token, also referred to as a registration id, for an app and mobile device. This is returned from the notification ser- vice when an app and mobile device are registered with the notifi- cation service. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="Attributes">A map of the endpoint attributes. Attributes in this map include the following: • CustomUserData arbitrary user data to associate with the endpoint. Amazon SNS does not use this data. The data must be in UTF-8 format and less than 2KB. • Enabled flag that enables/disables delivery to the endpoint. Amazon SNS will set this to false when a notification service indicates to Amazon SNS that the endpoint is invalid. Users can set it back to true, typically after updating Token. • Token device token, also referred to as a registration id, for an app and mobile device. This is returned from the notification service when an app and mobile device are registered with the notification service. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsSnsSetEndpointAttributesOptions(
         string EndpointArn,
         IReadOnlyList<KeyValue> Attributes
@@ -78,7 +79,7 @@ public record AwsSnsSetEndpointAttributesOptions : AwsOptions, IValidatableObjec
     public string? EndpointArn { get; private init; }
 
     /// <summary>
-    /// A map of the endpoint attributes. Attributes in this map include the following: o CustomUserData arbitrary user data to associate with the end- point. Amazon SNS does not use this data. The data must be in UTF-8 format and less than 2KB. o Enabled flag that enables/disables delivery to the endpoint. Ama- zon SNS will set this to false when a notification service indi- cates to Amazon SNS that the endpoint is invalid. Users can set it back to true, typically after updating Token. o Token device token, also referred to as a registration id, for an app and mobile device. This is returned from the notification ser- vice when an app and mobile device are registered with the notifi- cation service. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of the endpoint attributes. Attributes in this map include the following: • CustomUserData arbitrary user data to associate with the endpoint. Amazon SNS does not use this data. The data must be in UTF-8 format and less than 2KB. • Enabled flag that enables/disables delivery to the endpoint. Amazon SNS will set this to false when a notification service indicates to Amazon SNS that the endpoint is invalid. Users can set it back to true, typically after updating Token. • Token device token, also referred to as a registration id, for an app and mobile device. This is returned from the notification service when an app and mobile device are registered with the notification service. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; private init; }

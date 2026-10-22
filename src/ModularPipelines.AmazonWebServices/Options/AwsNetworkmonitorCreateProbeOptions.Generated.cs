@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -29,8 +30,8 @@ public record AwsNetworkmonitorCreateProbeOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Create a probe within a monitor. Once you create a probe, and it begins monitoring your network traffic, you'll incur billing charges for that probe. This action requires the monitorName parameter. Run ListMonitors to get a list of monitor names. Note the name of the monitorName you want to create the probe for. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MonitorName">The name of the monitor to associated with the probe. Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="Probe">Describes the details of an individual probe for a monitor. sourceArn -&gt; (string) [required] The ARN of the subnet. Constraints: o min: 20 o max: 2048 o pattern: arn:.* destination -&gt; (string) [required] The destination IP address. This must be either IPV4 or IPV6 . Constraints: o min: 1 o max: 255 destinationPort -&gt; (integer) The port associated with the destination . This is required only if the protocol is TCP and must be a number between 1 and 65536 . Constraints: o min: 0 o max: 65536 protocol -&gt; (string) [required] The protocol used for the network traffic between the source and destination . This must be either TCP or ICMP . Possible values: o TCP o ICMP packetSize -&gt; (integer) The size of the packets sent between the source and destination. This must be a number between 56 and 8500 . Constraints: o min: 56 o max: 8500 tags -&gt; (map) The list of key-value pairs created and assigned to the monitor. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: sourceArn=string,destination=string,destinationPort=integer,protocol=string,packetSize=integer,tags={KeyName1=string,KeyName2=string} JSON Syntax: { "sourceArn": "string", "destination": "string", "destinationPort": integer, "protocol": "TCP"|"ICMP", "packetSize": integer, "tags": {"string": "string" ...} }</param>
+    /// <param name="MonitorName">The name of the monitor to associated with the probe. Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="Probe">Describes the details of an individual probe for a monitor. sourceArn -&gt; (string) [required] The ARN of the subnet. Constraints: • min: 20 • max: 2048 • pattern: arn:.* destination -&gt; (string) [required] The destination IP address. This must be either IPV4 or IPV6 . Constraints: • min: 1 • max: 255 destinationPort -&gt; (integer) The port associated with the destination . This is required only if the protocol is TCP and must be a number between 1 and 65536 . Constraints: • min: 0 • max: 65536 protocol -&gt; (string) [required] The protocol used for the network traffic between the source and destination . This must be either TCP or ICMP . Possible values: • TCP • ICMP packetSize -&gt; (integer) The size of the packets sent between the source and destination. This must be a number between 56 and 8500 . Constraints: • min: 56 • max: 8500 tags -&gt; (map) The list of key-value pairs created and assigned to the monitor. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: sourceArn=string,destination=string,destinationPort=integer,protocol=string,packetSize=integer,tags={KeyName1=string,KeyName2=string} JSON Syntax: { "sourceArn": "string", "destination": "string", "destinationPort": integer, "protocol": "TCP"|"ICMP", "packetSize": integer, "tags": {"string": "string" ...} }</param>
     public AwsNetworkmonitorCreateProbeOptions(
         string MonitorName,
         string Probe
@@ -62,26 +63,26 @@ public record AwsNetworkmonitorCreateProbeOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the monitor to associated with the probe. Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9_-]+
+    /// The name of the monitor to associated with the probe. Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--monitor-name")]
     public string? MonitorName { get; private init; }
 
     /// <summary>
-    /// Describes the details of an individual probe for a monitor. sourceArn -&gt; (string) [required] The ARN of the subnet. Constraints: o min: 20 o max: 2048 o pattern: arn:.* destination -&gt; (string) [required] The destination IP address. This must be either IPV4 or IPV6 . Constraints: o min: 1 o max: 255 destinationPort -&gt; (integer) The port associated with the destination . This is required only if the protocol is TCP and must be a number between 1 and 65536 . Constraints: o min: 0 o max: 65536 protocol -&gt; (string) [required] The protocol used for the network traffic between the source and destination . This must be either TCP or ICMP . Possible values: o TCP o ICMP packetSize -&gt; (integer) The size of the packets sent between the source and destination. This must be a number between 56 and 8500 . Constraints: o min: 56 o max: 8500 tags -&gt; (map) The list of key-value pairs created and assigned to the monitor. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: sourceArn=string,destination=string,destinationPort=integer,protocol=string,packetSize=integer,tags={KeyName1=string,KeyName2=string} JSON Syntax: { "sourceArn": "string", "destination": "string", "destinationPort": integer, "protocol": "TCP"|"ICMP", "packetSize": integer, "tags": {"string": "string" ...} }
+    /// Describes the details of an individual probe for a monitor. sourceArn -&gt; (string) [required] The ARN of the subnet. Constraints: • min: 20 • max: 2048 • pattern: arn:.* destination -&gt; (string) [required] The destination IP address. This must be either IPV4 or IPV6 . Constraints: • min: 1 • max: 255 destinationPort -&gt; (integer) The port associated with the destination . This is required only if the protocol is TCP and must be a number between 1 and 65536 . Constraints: • min: 0 • max: 65536 protocol -&gt; (string) [required] The protocol used for the network traffic between the source and destination . This must be either TCP or ICMP . Possible values: • TCP • ICMP packetSize -&gt; (integer) The size of the packets sent between the source and destination. This must be a number between 56 and 8500 . Constraints: • min: 56 • max: 8500 tags -&gt; (map) The list of key-value pairs created and assigned to the monitor. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: sourceArn=string,destination=string,destinationPort=integer,protocol=string,packetSize=integer,tags={KeyName1=string,KeyName2=string} JSON Syntax: { "sourceArn": "string", "destination": "string", "destinationPort": integer, "protocol": "TCP"|"ICMP", "packetSize": integer, "tags": {"string": "string" ...} }
     /// </summary>
     [CliOption("--probe")]
     public string? Probe { get; private init; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier to ensure the idempotency of the request. Only returned if a client token was provided in the re- quest.
+    /// Unique, case-sensitive identifier to ensure the idempotency of the request. Only returned if a client token was provided in the request.
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The list of key-value pairs created and assigned to the probe. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The list of key-value pairs created and assigned to the probe. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

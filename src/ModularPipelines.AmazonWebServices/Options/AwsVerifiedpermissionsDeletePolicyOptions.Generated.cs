@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified policy from the policy store. This operation is idempotent; if you specify a policy that doesn't ex- ist, the request response returns a successful HTTP 200 status code. See also: AWS API Documentation
+/// Deletes the specified policy from the policy store. This operation is idempotent; if you specify a policy that doesn't exist, the request response returns a successful HTTP 200 status code. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsVerifiedpermissionsDeletePolicyOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified policy from the policy store. This operation is idempotent; if you specify a policy that doesn't ex- ist, the request response returns a successful HTTP 200 status code. See also: AWS API Documentation
+    /// Deletes the specified policy from the policy store. This operation is idempotent; if you specify a policy that doesn't exist, the request response returns a successful HTTP 200 status code. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyStoreId">Specifies the ID of the policy store that contains the policy that you want to delete. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: o ID: PSEXAMPLEabcdefg111111 o Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*</param>
-    /// <param name="PolicyId">Specifies the ID of the policy that you want to delete. You can use the policy name in place of the policy ID. When using a name, prefix it with name/ . For example: o ID: SPEXAMPLEabcdefg111111 o Name: name/example-policy Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*</param>
+    /// <param name="PolicyStoreId">Specifies the ID of the policy store that contains the policy that you want to delete. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: • ID: PSEXAMPLEabcdefg111111 • Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]*</param>
+    /// <param name="PolicyId">Specifies the ID of the policy that you want to delete. You can use the policy name in place of the policy ID. When using a name, prefix it with name/ . For example: • ID: SPEXAMPLEabcdefg111111 • Name: name/example-policy Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]*</param>
     public AwsVerifiedpermissionsDeletePolicyOptions(
         string PolicyStoreId,
         string PolicyId
@@ -60,13 +62,13 @@ public record AwsVerifiedpermissionsDeletePolicyOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ID of the policy store that contains the policy that you want to delete. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: o ID: PSEXAMPLEabcdefg111111 o Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*
+    /// Specifies the ID of the policy store that contains the policy that you want to delete. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: • ID: PSEXAMPLEabcdefg111111 • Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]*
     /// </summary>
     [CliOption("--policy-store-id")]
     public string? PolicyStoreId { get; private init; }
 
     /// <summary>
-    /// Specifies the ID of the policy that you want to delete. You can use the policy name in place of the policy ID. When using a name, prefix it with name/ . For example: o ID: SPEXAMPLEabcdefg111111 o Name: name/example-policy Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*
+    /// Specifies the ID of the policy that you want to delete. You can use the policy name in place of the policy ID. When using a name, prefix it with name/ . For example: • ID: SPEXAMPLEabcdefg111111 • Name: name/example-policy Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]*
     /// </summary>
     [CliOption("--policy-id")]
     public string? PolicyId { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves data records from a specified shard in an Amazon Keyspaces data stream. This operation returns a collection of data records from the shard, including the primary key columns and information about mod- ifications made to the captured table data. Each record represents a single data modification in the Amazon Keyspaces table and includes metadata about when the change occurred. See also: AWS API Documentation
+/// Retrieves data records from a specified shard in an Amazon Keyspaces data stream. This operation returns a collection of data records from the shard, including the primary key columns and information about modifications made to the captured table data. Each record represents a single data modification in the Amazon Keyspaces table and includes metadata about when the change occurred. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsKeyspacesstreamsGetRecordsOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves data records from a specified shard in an Amazon Keyspaces data stream. This operation returns a collection of data records from the shard, including the primary key columns and information about mod- ifications made to the captured table data. Each record represents a single data modification in the Amazon Keyspaces table and includes metadata about when the change occurred. See also: AWS API Documentation
+    /// Retrieves data records from a specified shard in an Amazon Keyspaces data stream. This operation returns a collection of data records from the shard, including the primary key columns and information about modifications made to the captured table data. Each record represents a single data modification in the Amazon Keyspaces table and includes metadata about when the change occurred. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ShardIterator">The unique identifier of the shard iterator. A shard iterator speci- fies the position in the shard from which you want to start reading data records sequentially. You obtain this value by calling the Get- ShardIterator operation. Each shard iterator is valid for 15 minutes after creation. Constraints: o min: 1 o max: 4096</param>
+    /// <param name="ShardIterator">The unique identifier of the shard iterator. A shard iterator specifies the position in the shard from which you want to start reading data records sequentially. You obtain this value by calling the GetShardIterator operation. Each shard iterator is valid for 15 minutes after creation. Constraints: • min: 1 • max: 4096</param>
     public AwsKeyspacesstreamsGetRecordsOptions(
         string ShardIterator
     )
@@ -56,13 +58,13 @@ public record AwsKeyspacesstreamsGetRecordsOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the shard iterator. A shard iterator speci- fies the position in the shard from which you want to start reading data records sequentially. You obtain this value by calling the Get- ShardIterator operation. Each shard iterator is valid for 15 minutes after creation. Constraints: o min: 1 o max: 4096
+    /// The unique identifier of the shard iterator. A shard iterator specifies the position in the shard from which you want to start reading data records sequentially. You obtain this value by calling the GetShardIterator operation. Each shard iterator is valid for 15 minutes after creation. Constraints: • min: 1 • max: 4096
     /// </summary>
     [CliOption("--shard-iterator")]
     public string? ShardIterator { get; private init; }
 
     /// <summary>
-    /// The maximum number of records to return in a single GetRecords re- quest. The default value is 100. You can specify a limit between 1 and 1000, but the actual number returned might be less than the specified maximum if the size of the data for the returned records exceeds the internal size limit. Constraints: o min: 1 o max: 1000
+    /// The maximum number of records to return in a single GetRecords request. The default value is 100. You can specify a limit between 1 and 1000, but the actual number returned might be less than the specified maximum if the size of the data for the returned records exceeds the internal size limit. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

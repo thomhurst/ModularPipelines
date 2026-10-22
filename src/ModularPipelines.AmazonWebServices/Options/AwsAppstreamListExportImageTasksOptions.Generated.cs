@@ -23,19 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsAppstreamListExportImageTasksOptions : AwsOptions
 {
     /// <summary>
-    /// Optional filters to apply when listing export image tasks. Filters help you narrow down the results based on specific criteria. (structure) A filter for narrowing down the results when listing export im- age tasks. Filters allow you to specify criteria such as task state or creation date. Name -&gt; (string) [required] The name of the filter. Valid filter names depend on the op- eration being performed. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$ Values -&gt; (list) [required] The values for the filter. Multiple values can be specified for a single filter name. (string) Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_:/.-]{0,200}$ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// Optional filters to apply when listing export image tasks. Filters help you narrow down the results based on specific criteria. (structure) A filter for narrowing down the results when listing export image tasks. Filters allow you to specify criteria such as task state or creation date. Name -&gt; (string) [required] The name of the filter. Valid filter names depend on the operation being performed. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$ Values -&gt; (list) [required] The values for the filter. Multiple values can be specified for a single filter name. (string) Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_:/.-]{0,200}$ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// The maximum number of export image tasks to return in a single re- quest. The valid range is 1-500, with a default of 50. Constraints: o min: 0 o max: 500
+    /// The maximum number of export image tasks to return in a single request. The valid range is 1-500, with a default of 50. Constraints: • min: 0 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The pagination token from a previous request. Use this to retrieve the next page of results when there are more tasks than the MaxRe- sults limit. Constraints: o min: 1
+    /// The pagination token from a previous request. Use this to retrieve the next page of results when there are more tasks than the MaxResults limit. Constraints: • min: 1
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

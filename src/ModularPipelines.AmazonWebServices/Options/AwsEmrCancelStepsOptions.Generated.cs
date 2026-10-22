@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsEmrCancelStepsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Cancels a pending step or steps in a running cluster. Available only in Amazon EMR versions 4.8.0 and later, excluding version 5.0.0. A maximum of 256 steps are allowed in each CancelSteps request. CancelSteps is idempotent but asynchronous; it does not guarantee that a step will be canceled, even if the request is successfully submitted. When you use Amazon EMR releases 5.28.0 and later, you can cancel steps that are in a PENDING or RUNNING state. In earlier versions of Amazon EMR, you can only...
     /// </summary>
-    /// <param name="ClusterId">The ClusterID for the specified steps that will be canceled. Use RunJobFlow and ListClusters to get ClusterIDs. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
-    /// <param name="StepIds">The list of StepIDs to cancel. Use ListSteps to get steps and their states for the specified cluster. (string) Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...</param>
+    /// <param name="ClusterId">The ClusterID for the specified steps that will be canceled. Use RunJobFlow and ListClusters to get ClusterIDs. Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="StepIds">The list of StepIDs to cancel. Use ListSteps to get steps and their states for the specified cluster. (string) Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...</param>
     public AwsEmrCancelStepsOptions(
         string ClusterId,
         IEnumerable<string> StepIds
@@ -72,19 +74,19 @@ public record AwsEmrCancelStepsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ClusterID for the specified steps that will be canceled. Use RunJobFlow and ListClusters to get ClusterIDs. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The ClusterID for the specified steps that will be canceled. Use RunJobFlow and ListClusters to get ClusterIDs. Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--cluster-id")]
     public string? ClusterId { get; private init; }
 
     /// <summary>
-    /// The list of StepIDs to cancel. Use ListSteps to get steps and their states for the specified cluster. (string) Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...
+    /// The list of StepIDs to cancel. Use ListSteps to get steps and their states for the specified cluster. (string) Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--step-ids", GroupValues = true)]
     public IEnumerable<string>? StepIds { get; private init; }
 
     /// <summary>
-    /// The option to choose to cancel RUNNING steps. By default, the value is SEND_INTERRUPT . Possible values: o SEND_INTERRUPT o TERMINATE_PROCESS
+    /// The option to choose to cancel RUNNING steps. By default, the value is SEND_INTERRUPT . Possible values: • SEND_INTERRUPT • TERMINATE_PROCESS
     /// </summary>
     [CliOption("--step-cancellation-option")]
     public AwsEmrCancelStepsStepCancellationOption? StepCancellationOption { get; set; }

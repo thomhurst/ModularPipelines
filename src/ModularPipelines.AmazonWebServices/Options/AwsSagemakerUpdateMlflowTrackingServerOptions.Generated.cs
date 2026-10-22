@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsSagemakerUpdateMlflowTrackingServerOptions : AwsOptions, IValid
     /// <summary>
     /// Updates properties of an existing MLflow Tracking Server. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TrackingServerName">The name of the MLflow Tracking Server to update. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}</param>
+    /// <param name="TrackingServerName">The name of the MLflow Tracking Server to update. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}</param>
     public AwsSagemakerUpdateMlflowTrackingServerOptions(
         string TrackingServerName
     )
@@ -57,37 +59,37 @@ public record AwsSagemakerUpdateMlflowTrackingServerOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the MLflow Tracking Server to update. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}
+    /// The name of the MLflow Tracking Server to update. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}
     /// </summary>
     [CliOption("--tracking-server-name")]
     public string? TrackingServerName { get; private init; }
 
     /// <summary>
-    /// The new S3 URI for the general purpose bucket to use as the artifact store for the MLflow Tracking Server. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*)
+    /// The new S3 URI for the general purpose bucket to use as the artifact store for the MLflow Tracking Server. Constraints: • min: 0 • max: 1024 • pattern: (https|s3)://([^/]+)/?(.*)
     /// </summary>
     [CliOption("--artifact-store-uri")]
     public string? ArtifactStoreUri { get; set; }
 
     /// <summary>
-    /// The new size for the MLflow Tracking Server. Possible values: o Small o Medium o Large
+    /// The new size for the MLflow Tracking Server. Possible values: • Small • Medium • Large
     /// </summary>
     [CliOption("--tracking-server-size")]
     public AwsSagemakerUpdateMlflowTrackingServerTrackingServerSize? TrackingServerSize { get; set; }
 
     /// <summary>
-    /// Whether to enable or disable automatic registration of new MLflow models to the SageMaker Model Registry. To enable automatic model registration, set this value to True . To disable automatic model registration, set this value to False . If not specified, Automatic- ModelRegistration defaults to False
+    /// Whether to enable or disable automatic registration of new MLflow models to the SageMaker Model Registry. To enable automatic model registration, set this value to True . To disable automatic model registration, set this value to False . If not specified, AutomaticModelRegistration defaults to False
     /// </summary>
     [CliFlag("--automatic-model-registration", NegatedName = "--no-automatic-model-registration")]
     public bool? AutomaticModelRegistration { get; set; }
 
     /// <summary>
-    /// The new weekly maintenance window start day and time to update. The maintenance window day and time should be in Coordinated Universal Time (UTC) 24-hour standard time. For example: TUE:03:30. Constraints: o min: 0 o max: 9 o pattern: (Mon|Tue|Wed|Thu|Fri|Sat|Sun):([01]\d|2[0-3]):([0-5]\d)
+    /// The new weekly maintenance window start day and time to update. The maintenance window day and time should be in Coordinated Universal Time (UTC) 24-hour standard time. For example: TUE:03:30. Constraints: • min: 0 • max: 9 • pattern: (Mon|Tue|Wed|Thu|Fri|Sat|Sun):([01]\d|2[0-3]):([0-5]\d)
     /// </summary>
     [CliOption("--weekly-maintenance-window-start")]
     public string? WeeklyMaintenanceWindowStart { get; set; }
 
     /// <summary>
-    /// The new expected Amazon Web Services account ID that owns the Amazon S3 bucket for artifact storage. Constraints: o min: 12 o max: 12 o pattern: \d+
+    /// The new expected Amazon Web Services account ID that owns the Amazon S3 bucket for artifact storage. Constraints: • min: 12 • max: 12 • pattern: \d+
     /// </summary>
     [CliOption("--s3-bucket-owner-account-id")]
     public string? S3BucketOwnerAccountId { get; set; }

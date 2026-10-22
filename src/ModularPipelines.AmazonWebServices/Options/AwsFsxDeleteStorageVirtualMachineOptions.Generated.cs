@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsFsxDeleteStorageVirtualMachineOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Deletes an existing Amazon FSx for ONTAP storage virtual machine (SVM). Prior to deleting an SVM, you must delete all non-root volumes in the SVM, otherwise the operation will fail. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StorageVirtualMachineId">The ID of the SVM that you want to delete. Constraints: o min: 21 o max: 21 o pattern: ^(svm-[0-9a-f]{17,})$</param>
+    /// <param name="StorageVirtualMachineId">The ID of the SVM that you want to delete. Constraints: • min: 21 • max: 21 • pattern: ^(svm-[0-9a-f]{17,})$</param>
     public AwsFsxDeleteStorageVirtualMachineOptions(
         string StorageVirtualMachineId
     )
@@ -57,13 +59,13 @@ public record AwsFsxDeleteStorageVirtualMachineOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the SVM that you want to delete. Constraints: o min: 21 o max: 21 o pattern: ^(svm-[0-9a-f]{17,})$
+    /// The ID of the SVM that you want to delete. Constraints: • min: 21 • max: 21 • pattern: ^(svm-[0-9a-f]{17,})$
     /// </summary>
     [CliOption("--storage-virtual-machine-id")]
     public string? StorageVirtualMachineId { get; private init; }
 
     /// <summary>
-    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Ama- zon Web Services SDK. Constraints: o min: 1 o max: 63 o pattern: [A-za-z0-9_.-]{0,63}$
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK. Constraints: • min: 1 • max: 63 • pattern: [A-za-z0-9_.-]{0,63}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]

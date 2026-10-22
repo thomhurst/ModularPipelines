@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the specified attributes of the Direct Connect gateway associa- tion. Add or remove prefixes from the association. See also: AWS API Documentation
+/// Updates the specified attributes of the Direct Connect gateway association. Add or remove prefixes from the association. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,13 +28,13 @@ public record AwsDirectconnectUpdateDirectConnectGatewayAssociationOptions : Aws
     public string? AssociationId { get; set; }
 
     /// <summary>
-    /// The Amazon VPC prefixes to advertise to the Direct Connect gateway. (structure) Information about a route filter prefix that a customer can ad- vertise through Border Gateway Protocol (BGP) over a public vir- tual interface. cidr -&gt; (string) The CIDR block for the advertised route. Separate multiple routes using commas. An IPv6 CIDR must use /64 or shorter. Shorthand Syntax: cidr=string ... JSON Syntax: [ { "cidr": "string" } ... ]
+    /// The Amazon VPC prefixes to advertise to the Direct Connect gateway. (structure) Information about a route filter prefix that a customer can advertise through Border Gateway Protocol (BGP) over a public virtual interface. cidr -&gt; (string) The CIDR block for the advertised route. Separate multiple routes using commas. An IPv6 CIDR must use /64 or shorter. Shorthand Syntax: cidr=string ... JSON Syntax: [ { "cidr": "string" } ... ]
     /// </summary>
     [CliOption("--add-allowed-prefixes-to-direct-connect-gateway", GroupValues = true)]
     public IEnumerable<string>? AddAllowedPrefixesToDirectConnectGateway { get; set; }
 
     /// <summary>
-    /// The Amazon VPC prefixes to no longer advertise to the Direct Connect gateway. (structure) Information about a route filter prefix that a customer can ad- vertise through Border Gateway Protocol (BGP) over a public vir- tual interface. cidr -&gt; (string) The CIDR block for the advertised route. Separate multiple routes using commas. An IPv6 CIDR must use /64 or shorter. Shorthand Syntax: cidr=string ... JSON Syntax: [ { "cidr": "string" } ... ]
+    /// The Amazon VPC prefixes to no longer advertise to the Direct Connect gateway. (structure) Information about a route filter prefix that a customer can advertise through Border Gateway Protocol (BGP) over a public virtual interface. cidr -&gt; (string) The CIDR block for the advertised route. Separate multiple routes using commas. An IPv6 CIDR must use /64 or shorter. Shorthand Syntax: cidr=string ... JSON Syntax: [ { "cidr": "string" } ... ]
     /// </summary>
     [CliOption("--remove-allowed-prefixes-to-direct-connect-gateway", GroupValues = true)]
     public IEnumerable<string>? RemoveAllowedPrefixesToDirectConnectGateway { get; set; }

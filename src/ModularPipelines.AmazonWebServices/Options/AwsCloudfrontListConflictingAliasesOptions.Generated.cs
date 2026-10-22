@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: The ListConflictingAliases API operation only supports standard dis- tributions. To list domain conflicts for both standard distributions and distribution tenants, we recommend that you use the ListDomainConflicts API operation instead. Gets a list of aliases that conflict or overlap with the provided alias, and the associated CloudFront standard distribution and Amazon Web Services accounts for each conflicting alias. An alias is commonly known as a custom domain or vanity domain. It can ...
+/// NOTE: The ListConflictingAliases API operation only supports standard distributions. To list domain conflicts for both standard distributions and distribution tenants, we recommend that you use the ListDomainConflicts API operation instead. Gets a list of aliases that conflict or overlap with the provided alias, and the associated CloudFront standard distribution and Amazon Web Services accounts for each conflicting alias. An alias is commonly known as a custom domain or vanity domain. It can al...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsCloudfrontListConflictingAliasesOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: The ListConflictingAliases API operation only supports standard dis- tributions. To list domain conflicts for both standard distributions and distribution tenants, we recommend that you use the ListDomainConflicts API operation instead. Gets a list of aliases that conflict or overlap with the provided alias, and the associated CloudFront standard distribution and Amazon Web Services accounts for each conflicting alias. An alias is commonly known as a custom domain or vanity domain. It can ...
+    /// NOTE: The ListConflictingAliases API operation only supports standard distributions. To list domain conflicts for both standard distributions and distribution tenants, we recommend that you use the ListDomainConflicts API operation instead. Gets a list of aliases that conflict or overlap with the provided alias, and the associated CloudFront standard distribution and Amazon Web Services accounts for each conflicting alias. An alias is commonly known as a custom domain or vanity domain. It can al...
     /// </summary>
-    /// <param name="DistributionId">The ID of a standard distribution in your account that has an at- tached TLS certificate that includes the provided alias. Constraints: o min: 0 o max: 25</param>
-    /// <param name="Alias">The alias (also called a CNAME) to search for conflicting aliases. Constraints: o min: 0 o max: 253</param>
+    /// <param name="DistributionId">The ID of a standard distribution in your account that has an attached TLS certificate that includes the provided alias. Constraints: • min: 0 • max: 25</param>
+    /// <param name="Alias">The alias (also called a CNAME) to search for conflicting aliases. Constraints: • min: 0 • max: 253</param>
     public AwsCloudfrontListConflictingAliasesOptions(
         string DistributionId,
         string Alias
@@ -60,13 +62,13 @@ public record AwsCloudfrontListConflictingAliasesOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of a standard distribution in your account that has an at- tached TLS certificate that includes the provided alias. Constraints: o min: 0 o max: 25
+    /// The ID of a standard distribution in your account that has an attached TLS certificate that includes the provided alias. Constraints: • min: 0 • max: 25
     /// </summary>
     [CliOption("--distribution-id")]
     public string? DistributionId { get; private init; }
 
     /// <summary>
-    /// The alias (also called a CNAME) to search for conflicting aliases. Constraints: o min: 0 o max: 253
+    /// The alias (also called a CNAME) to search for conflicting aliases. Constraints: • min: 0 • max: 253
     /// </summary>
     [CliOption("--alias")]
     public string? Alias { get; private init; }
@@ -78,7 +80,7 @@ public record AwsCloudfrontListConflictingAliasesOptions : AwsOptions, IValidata
     public string? Marker { get; set; }
 
     /// <summary>
-    /// The maximum number of conflicting aliases that you want in the re- sponse. Constraints: o max: 100
+    /// The maximum number of conflicting aliases that you want in the response. Constraints: • max: 100
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }

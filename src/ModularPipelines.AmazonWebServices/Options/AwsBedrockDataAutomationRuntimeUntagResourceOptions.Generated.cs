@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsBedrockDataAutomationRuntimeUntagResourceOptions : AwsOptions, 
     /// <summary>
     /// Untag an Amazon Bedrock Data Automation resource See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">ARN of a taggable resource Constraints: o min: 20 o max: 1011 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-au- tomation-invocation/[a-zA-Z0-9-_]+</param>
-    /// <param name="TagKeys">List of tag keys Constraints: o min: 0 o max: 200 (string) Defines the context of the tag. Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]* Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">ARN of a taggable resource Constraints: • min: 20 • max: 1011 • pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-automation-invocation/[a-zA-Z0-9-_]+</param>
+    /// <param name="TagKeys">List of tag keys Constraints: • min: 0 • max: 200 (string) Defines the context of the tag. Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]* Syntax: "string" "string" ...</param>
     public AwsBedrockDataAutomationRuntimeUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsBedrockDataAutomationRuntimeUntagResourceOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of a taggable resource Constraints: o min: 20 o max: 1011 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-au- tomation-invocation/[a-zA-Z0-9-_]+
+    /// ARN of a taggable resource Constraints: • min: 20 • max: 1011 • pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-automation-invocation/[a-zA-Z0-9-_]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// List of tag keys Constraints: o min: 0 o max: 200 (string) Defines the context of the tag. Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]* Syntax: "string" "string" ...
+    /// List of tag keys Constraints: • min: 0 • max: 200 (string) Defines the context of the tag. Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

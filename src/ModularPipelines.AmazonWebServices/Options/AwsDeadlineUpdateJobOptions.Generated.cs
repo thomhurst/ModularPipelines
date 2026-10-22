@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,9 +31,9 @@ public record AwsDeadlineUpdateJobOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates a job. When you change the status of the job to ARCHIVED , the job can't be scheduled or archived. WARNING: An archived jobs and its steps and tasks are deleted after 120 days. The job can't be recovered. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The farm ID of the job to update. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="QueueId">The queue ID of the job to update. Constraints: o pattern: queue-[0-9a-f]{32}</param>
-    /// <param name="JobId">The job ID to update. Constraints: o pattern: job-[0-9a-f]{32}</param>
+    /// <param name="FarmId">The farm ID of the job to update. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="QueueId">The queue ID of the job to update. Constraints: • pattern: queue-[0-9a-f]{32}</param>
+    /// <param name="JobId">The job ID to update. Constraints: • pattern: job-[0-9a-f]{32}</param>
     public AwsDeadlineUpdateJobOptions(
         string FarmId,
         string QueueId,
@@ -66,74 +68,74 @@ public record AwsDeadlineUpdateJobOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID of the job to update. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID of the job to update. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The queue ID of the job to update. Constraints: o pattern: queue-[0-9a-f]{32}
+    /// The queue ID of the job to update. Constraints: • pattern: queue-[0-9a-f]{32}
     /// </summary>
     [CliOption("--queue-id")]
     public string? QueueId { get; private init; }
 
     /// <summary>
-    /// The job ID to update. Constraints: o pattern: job-[0-9a-f]{32}
+    /// The job ID to update. Constraints: • pattern: job-[0-9a-f]{32}
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// The unique token which the server uses to recognize retries of the same request. Constraints: o min: 1 o max: 64
+    /// The unique token which the server uses to recognize retries of the same request. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The task status to update the job's tasks to. Possible values: o READY o FAILED o SUCCEEDED o CANCELED o SUSPENDED o PENDING
+    /// The task status to update the job's tasks to. Possible values: • READY • FAILED • SUCCEEDED • CANCELED • SUSPENDED • PENDING
     /// </summary>
     [CliOption("--target-task-run-status")]
     public AwsDeadlineUpdateJobTargetTaskRunStatus? TargetTaskRunStatus { get; set; }
 
     /// <summary>
-    /// The updated job priority. Constraints: o min: 0 o max: 100
+    /// The updated job priority. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--priority")]
     public int? Priority { get; set; }
 
     /// <summary>
-    /// The number of task failures before the job stops running and is marked as FAILED . Constraints: o min: 0 o max: 2147483647
+    /// The number of task failures before the job stops running and is marked as FAILED . Constraints: • min: 0 • max: 2147483647
     /// </summary>
     [CliOption("--max-failed-tasks-count")]
     public int? MaxFailedTasksCount { get; set; }
 
     /// <summary>
-    /// The maximum number of retries for a job. Constraints: o min: 0 o max: 2147483647
+    /// The maximum number of retries for a job. Constraints: • min: 0 • max: 2147483647
     /// </summary>
     [CliOption("--max-retries-per-task")]
     public int? MaxRetriesPerTask { get; set; }
 
     /// <summary>
-    /// The status of a job in its lifecycle. When you change the status of the job to ARCHIVED , the job can't be scheduled or archived. WARNING: An archived jobs and its steps and tasks are deleted after 120 days. The job can't be recovered. Possible values: o ARCHIVED
+    /// The status of a job in its lifecycle. When you change the status of the job to ARCHIVED , the job can't be scheduled or archived. WARNING: An archived jobs and its steps and tasks are deleted after 120 days. The job can't be recovered. Possible values: • ARCHIVED
     /// </summary>
     [CliOption("--lifecycle-status")]
     public string? LifecycleStatus { get; set; }
 
     /// <summary>
-    /// The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be as- signed to process the job, even if the fleets assigned to the job's queue has available workers. You can't set the maxWorkerCount to 0. If you set it to -1, there is no maximum number of workers. If you don't specify the maxWorkerCount , the default is -1. The maximum number of workers that can process tasks in the job. Constraints: o min: -1 o max: 2147483647
+    /// The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers. You can't set the maxWorkerCount to 0. If you set it to -1, there is no maximum number of workers. If you don't specify the maxWorkerCount , the default is -1. The maximum number of workers that can process tasks in the job. Constraints: • min: -1 • max: 2147483647
     /// </summary>
     [CliOption("--max-worker-count")]
     public int? MaxWorkerCount { get; set; }
 
     /// <summary>
-    /// The updated job name. Constraints: o min: 1 o max: 512
+    /// The updated job name. Constraints: • min: 1 • max: 512
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The updated job description. Constraints: o min: 0 o max: 2048
+    /// The updated job description. Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

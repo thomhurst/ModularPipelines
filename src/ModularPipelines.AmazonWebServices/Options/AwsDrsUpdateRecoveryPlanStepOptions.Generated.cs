@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a Recovery Plan step's name or configuration. Step type is im- mutable. See also: AWS API Documentation
+/// Updates a Recovery Plan step's name or configuration. Step type is immutable. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsDrsUpdateRecoveryPlanStepOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a Recovery Plan step's name or configuration. Step type is im- mutable. See also: AWS API Documentation
+    /// Updates a Recovery Plan step's name or configuration. Step type is immutable. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RecoveryPlanStepArn">The ARN of the Recovery Plan step to update. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+</param>
+    /// <param name="RecoveryPlanStepArn">The ARN of the Recovery Plan step to update. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+</param>
     public AwsDrsUpdateRecoveryPlanStepOptions(
         string RecoveryPlanStepArn
     )
@@ -56,19 +58,19 @@ public record AwsDrsUpdateRecoveryPlanStepOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the Recovery Plan step to update. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+
+    /// The ARN of the Recovery Plan step to update. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+
     /// </summary>
     [CliOption("--recovery-plan-step-arn")]
     public string? RecoveryPlanStepArn { get; private init; }
 
     /// <summary>
-    /// The name of a Recovery Plan Step. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9][a-zA-Z0-9 _-]*
+    /// The name of a Recovery Plan Step. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9][a-zA-Z0-9 _-]*
     /// </summary>
     [CliOption("--step-name")]
     public string? StepName { get; set; }
 
     /// <summary>
-    /// Type-specific configuration for a recovery plan step. Exactly one member must be set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: serverStepConfiguration, waitStepConfigu- ration. serverStepConfiguration -&gt; (structure) Configuration for a SERVER type step. servers -&gt; (list) [required] The list of servers to recover in this step. Constraints: o min: 1 o max: 100 (structure) A server associated with a Recovery Plan Step. serverArn -&gt; (string) [required] The ARN of the source server. Constraints: o min: 20 o max: 2048 o pattern: arn:(?:[0-9a-zA-Z_-]+:){3}([0-9]{12,}):source-server/(s-[0-9a-zA-Z]{17}) impactLevel -&gt; (string) Defaults to CRITICAL if not specified. Possible values: o CRITICAL o OPTIONAL waitStepConfiguration -&gt; (structure) Configuration for a WAIT type step. waitDurationMinutes -&gt; (integer) [required] The wait duration in minutes for a Wait type step. Constraints: o min: 1 o max: 120 JSON Syntax: { "serverStepConfiguration": { "servers": [ { "serverArn": "string", "impactLevel": "CRITICAL"|"OPTIONAL" } ... ] }, "waitStepConfiguration": { "waitDurationMinutes": integer } }
+    /// Type-specific configuration for a recovery plan step. Exactly one member must be set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: serverStepConfiguration, waitStepConfiguration. serverStepConfiguration -&gt; (structure) Configuration for a SERVER type step. servers -&gt; (list) [required] The list of servers to recover in this step. Constraints: • min: 1 • max: 100 (structure) A server associated with a Recovery Plan Step. serverArn -&gt; (string) [required] The ARN of the source server. Constraints: • min: 20 • max: 2048 • pattern: arn:(?:[0-9a-zA-Z_-]+:){3}([0-9]{12,}):source-server/(s-[0-9a-zA-Z]{17}) impactLevel -&gt; (string) Defaults to CRITICAL if not specified. Possible values: • CRITICAL • OPTIONAL waitStepConfiguration -&gt; (structure) Configuration for a WAIT type step. waitDurationMinutes -&gt; (integer) [required] The wait duration in minutes for a Wait type step. Constraints: • min: 1 • max: 120 JSON Syntax: { "serverStepConfiguration": { "servers": [ { "serverArn": "string", "impactLevel": "CRITICAL"|"OPTIONAL" } ... ] }, "waitStepConfiguration": { "waitDurationMinutes": integer } }
     /// </summary>
     [CliOption("--configuration")]
     public string? Configuration { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBedrockDataAutomationRuntimeListTagsForResourceOptions : AwsOpt
     /// <summary>
     /// List tags for an Amazon Bedrock Data Automation resource See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">ARN of a taggable resource Constraints: o min: 20 o max: 1011 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-au- tomation-invocation/[a-zA-Z0-9-_]+</param>
+    /// <param name="ResourceArn">ARN of a taggable resource Constraints: • min: 20 • max: 1011 • pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-automation-invocation/[a-zA-Z0-9-_]+</param>
     public AwsBedrockDataAutomationRuntimeListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsBedrockDataAutomationRuntimeListTagsForResourceOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of a taggable resource Constraints: o min: 20 o max: 1011 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-au- tomation-invocation/[a-zA-Z0-9-_]+
+    /// ARN of a taggable resource Constraints: • min: 20 • max: 1011 • pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-automation-invocation/[a-zA-Z0-9-_]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

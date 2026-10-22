@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a paginated list of revenue attributions with optional filters. See also: AWS API Documentation list-revenue-attributions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: RevenueAttributionSum...
+/// Returns a paginated list of revenue attributions with optional filters. See also: AWS API Documentation list-revenue-attributions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RevenueAttributionSumma...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsPartnercentralRevenueMeasurementListRevenueAttributionsOptions 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a paginated list of revenue attributions with optional filters. See also: AWS API Documentation list-revenue-attributions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: RevenueAttributionSum...
+    /// Returns a paginated list of revenue attributions with optional filters. See also: AWS API Documentation list-revenue-attributions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RevenueAttributionSumma...
     /// </summary>
-    /// <param name="Catalog">The catalog to list revenue attributions from. Possible values: o AWS o Sandbox</param>
+    /// <param name="Catalog">The catalog to list revenue attributions from. Possible values: • AWS • Sandbox</param>
     public AwsPartnercentralRevenueMeasurementListRevenueAttributionsOptions(
         AwsPartnercentralRevenueMeasurementListRevenueAttributionsCatalog Catalog
     )
@@ -57,13 +59,13 @@ public record AwsPartnercentralRevenueMeasurementListRevenueAttributionsOptions 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog to list revenue attributions from. Possible values: o AWS o Sandbox
+    /// The catalog to list revenue attributions from. Possible values: • AWS • Sandbox
     /// </summary>
     [CliOption("--catalog")]
     public AwsPartnercentralRevenueMeasurementListRevenueAttributionsCatalog? Catalog { get; private init; }
 
     /// <summary>
-    /// Filter results to only include revenue attributions with the speci- fied identifiers. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 16 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cat- alog/[a-zA-Z]+/revenue-attribu- tion/ra-[a-z0-9]{13}|ra-[a-z0-9]{13}) Syntax: "string" "string" ...
+    /// Filter results to only include revenue attributions with the specified identifiers. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 16 • max: 1011 • pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/revenue-attribution/ra-[a-z0-9]{13}|ra-[a-z0-9]{13}) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--identifiers", GroupValues = true)]
     public IEnumerable<string>? Identifiers { get; set; }
@@ -81,22 +83,19 @@ public record AwsPartnercentralRevenueMeasurementListRevenueAttributionsOptions 
     public string? CreatedBefore { get; set; }
 
     /// <summary>
-    /// The field to sort revenue attributions by. Possible values: o LastModifiedDate
+    /// The field to sort revenue attributions by. Possible values: • LastModifiedDate
     /// </summary>
     [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
     /// <summary>
-    /// The direction to sort results. Possible values: o ASCENDING o DESCENDING
+    /// The direction to sort results. Possible values: • ASCENDING • DESCENDING
     /// </summary>
     [CliOption("--sort-order")]
     public AwsPartnercentralRevenueMeasurementListRevenueAttributionsSortOrder? SortOrder { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -106,16 +105,19 @@ public record AwsPartnercentralRevenueMeasurementListRevenueAttributionsOptions 
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

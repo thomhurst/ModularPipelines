@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDiscoveryStartDataCollectionByAgentIdsOptions : AwsOptions, IVa
     /// <summary>
     /// Instructs the specified agents to start collecting data. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentIds">The IDs of the agents from which to start collecting data. If you send a request to an agent ID that you do not have permission to contact, according to your Amazon Web Services account, the service does not throw an exception. Instead, it returns the error in the Description field. If you send a request to multiple agents and you do not have permission to contact some of those agents, the system does not throw an exception. Instead, the system shows Failed in the Description field. (string) Constraints: o min: 10 o max: 20 o pattern: \S+ Syntax: "string" "string" ...</param>
+    /// <param name="AgentIds">The IDs of the agents from which to start collecting data. If you send a request to an agent ID that you do not have permission to contact, according to your Amazon Web Services account, the service does not throw an exception. Instead, it returns the error in the Description field. If you send a request to multiple agents and you do not have permission to contact some of those agents, the system does not throw an exception. Instead, the system shows Failed in the Description field. (string) Constraints: • min: 10 • max: 20 • pattern: \S+ Syntax: "string" "string" ...</param>
     public AwsDiscoveryStartDataCollectionByAgentIdsOptions(
         IEnumerable<string> AgentIds
     )
@@ -67,7 +69,7 @@ public record AwsDiscoveryStartDataCollectionByAgentIdsOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The IDs of the agents from which to start collecting data. If you send a request to an agent ID that you do not have permission to contact, according to your Amazon Web Services account, the service does not throw an exception. Instead, it returns the error in the Description field. If you send a request to multiple agents and you do not have permission to contact some of those agents, the system does not throw an exception. Instead, the system shows Failed in the Description field. (string) Constraints: o min: 10 o max: 20 o pattern: \S+ Syntax: "string" "string" ...
+    /// The IDs of the agents from which to start collecting data. If you send a request to an agent ID that you do not have permission to contact, according to your Amazon Web Services account, the service does not throw an exception. Instead, it returns the error in the Description field. If you send a request to multiple agents and you do not have permission to contact some of those agents, the system does not throw an exception. Instead, the system shows Failed in the Description field. (string) Constraints: • min: 10 • max: 20 • pattern: \S+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--agent-ids", GroupValues = true)]
     public IEnumerable<string>? AgentIds { get; private init; }

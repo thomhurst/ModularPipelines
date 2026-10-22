@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSnowDeviceManagementDescribeTaskOptions : AwsOptions, IValidata
     /// <summary>
     /// Checks the metadata for a given task on a device. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TaskId">The ID of the task to be described. Constraints: o min: 1 o max: 64</param>
+    /// <param name="TaskId">The ID of the task to be described. Constraints: • min: 1 • max: 64</param>
     public AwsSnowDeviceManagementDescribeTaskOptions(
         string TaskId
     )
@@ -56,7 +58,7 @@ public record AwsSnowDeviceManagementDescribeTaskOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the task to be described. Constraints: o min: 1 o max: 64
+    /// The ID of the task to be described. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--task-id")]
     public string? TaskId { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsRedshiftDisableLoggingOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Stops logging information, such as queries and connection attempts, for the specified Amazon Redshift cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterIdentifier">The identifier of the cluster on which logging is to be stopped. Example: examplecluster Constraints: o max: 2147483647</param>
+    /// <param name="ClusterIdentifier">The identifier of the cluster on which logging is to be stopped. Example: examplecluster Constraints: • max: 2147483647</param>
     public AwsRedshiftDisableLoggingOptions(
         string ClusterIdentifier
     )
@@ -57,19 +59,19 @@ public record AwsRedshiftDisableLoggingOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the cluster on which logging is to be stopped. Example: examplecluster Constraints: o max: 2147483647
+    /// The identifier of the cluster on which logging is to be stopped. Example: examplecluster Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The log destination type. An enum with possible values of s3 , cloudwatch , and s3table . When set to s3table , stops system table publishing. When omitted, the operation disables audit logging. Possible values: o s3 o cloudwatch o s3table
+    /// The log destination type. An enum with possible values of s3 , cloudwatch , and s3table . When set to s3table , stops system table publishing. When omitted, the operation disables audit logging. Possible values: • s3 • cloudwatch • s3table
     /// </summary>
     [CliOption("--log-destination-type")]
     public AwsRedshiftDisableLoggingLogDestinationType? LogDestinationType { get; set; }
 
     /// <summary>
-    /// The collection of log types to stop exporting. When LogDestination- Type is s3table , the values are the names of the system tables to stop publishing. Omitting this parameter or passing all stops pub- lishing all system tables. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// The collection of log types to stop exporting. When LogDestinationType is s3table , the values are the names of the system tables to stop publishing. Omitting this parameter or passing all stops publishing all system tables. (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--log-exports", GroupValues = true)]
     public IEnumerable<string>? LogExports { get; set; }

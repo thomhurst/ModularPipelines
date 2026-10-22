@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Directory Service for Microsoft Active Directory allows you to config- ure trust relationships. For example, you can establish a trust between your Managed Microsoft AD directory, and your existing self-managed Mi- crosoft Active Directory. This would allow you to provide users and groups access to resources in either domain, with a single set of cre- dentials. This action initiates the creation of the Amazon Web Services side of a trust relationship between an Managed Microsoft AD directory and...
+/// Directory Service for Microsoft Active Directory allows you to configure trust relationships. For example, you can establish a trust between your Managed Microsoft AD directory, and your existing self-managed Microsoft Active Directory. This would allow you to provide users and groups access to resources in either domain, with a single set of credentials. This action initiates the creation of the Amazon Web Services side of a trust relationship between an Managed Microsoft AD directory and an ex...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,12 +29,12 @@ public record AwsDsCreateTrustOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Directory Service for Microsoft Active Directory allows you to config- ure trust relationships. For example, you can establish a trust between your Managed Microsoft AD directory, and your existing self-managed Mi- crosoft Active Directory. This would allow you to provide users and groups access to resources in either domain, with a single set of cre- dentials. This action initiates the creation of the Amazon Web Services side of a trust relationship between an Managed Microsoft AD directory and...
+    /// Directory Service for Microsoft Active Directory allows you to configure trust relationships. For example, you can establish a trust between your Managed Microsoft AD directory, and your existing self-managed Microsoft Active Directory. This would allow you to provide users and groups access to resources in either domain, with a single set of credentials. This action initiates the creation of the Amazon Web Services side of a trust relationship between an Managed Microsoft AD directory and an ex...
     /// </summary>
-    /// <param name="DirectoryId">The Directory ID of the Managed Microsoft AD directory for which to establish the trust relationship. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
-    /// <param name="RemoteDomainName">The Fully Qualified Domain Name (FQDN) of the external domain for which to create the trust relationship. Constraints: o max: 1024 o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$</param>
-    /// <param name="TrustPassword">The trust password. The trust password must be the same password that was used when creating the trust relationship on the external domain. Constraints: o min: 1 o max: 128 o pattern: ^(\p{LD}|\p{Punct}| )+$</param>
-    /// <param name="TrustDirection">The direction of the trust relationship. Possible values: o One-Way: Outgoing o One-Way: Incoming o Two-Way</param>
+    /// <param name="DirectoryId">The Directory ID of the Managed Microsoft AD directory for which to establish the trust relationship. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="RemoteDomainName">The Fully Qualified Domain Name (FQDN) of the external domain for which to create the trust relationship. Constraints: • max: 1024 • pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$</param>
+    /// <param name="TrustPassword">The trust password. The trust password must be the same password that was used when creating the trust relationship on the external domain. Constraints: • min: 1 • max: 128 • pattern: ^(\p{LD}|\p{Punct}| )+$</param>
+    /// <param name="TrustDirection">The direction of the trust relationship. Possible values: • One-Way: Outgoing • One-Way: Incoming • Two-Way</param>
     public AwsDsCreateTrustOptions(
         string DirectoryId,
         string RemoteDomainName,
@@ -70,50 +72,50 @@ public record AwsDsCreateTrustOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Directory ID of the Managed Microsoft AD directory for which to establish the trust relationship. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The Directory ID of the Managed Microsoft AD directory for which to establish the trust relationship. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// The Fully Qualified Domain Name (FQDN) of the external domain for which to create the trust relationship. Constraints: o max: 1024 o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$
+    /// The Fully Qualified Domain Name (FQDN) of the external domain for which to create the trust relationship. Constraints: • max: 1024 • pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$
     /// </summary>
     [CliOption("--remote-domain-name")]
     public string? RemoteDomainName { get; private init; }
 
     /// <summary>
-    /// The trust password. The trust password must be the same password that was used when creating the trust relationship on the external domain. Constraints: o min: 1 o max: 128 o pattern: ^(\p{LD}|\p{Punct}| )+$
+    /// The trust password. The trust password must be the same password that was used when creating the trust relationship on the external domain. Constraints: • min: 1 • max: 128 • pattern: ^(\p{LD}|\p{Punct}| )+$
     /// </summary>
     [SecretValue]
     [CliOption("--trust-password")]
     public string? TrustPassword { get; private init; }
 
     /// <summary>
-    /// The direction of the trust relationship. Possible values: o One-Way: Outgoing o One-Way: Incoming o Two-Way
+    /// The direction of the trust relationship. Possible values: • One-Way: Outgoing • One-Way: Incoming • Two-Way
     /// </summary>
     [CliOption("--trust-direction")]
     public string? TrustDirection { get; private init; }
 
     /// <summary>
-    /// The trust relationship type. Forest is the default. Possible values: o Forest o External
+    /// The trust relationship type. Forest is the default. Possible values: • Forest • External
     /// </summary>
     [CliOption("--trust-type")]
     public AwsDsCreateTrustTrustType? TrustType { get; set; }
 
     /// <summary>
-    /// The IP addresses of the remote DNS server associated with RemoteDo- mainName. (string) Constraints: o pattern: ^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$ Syntax: "string" "string" ...
+    /// The IP addresses of the remote DNS server associated with RemoteDomainName. (string) Constraints: • pattern: ^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--conditional-forwarder-ip-addrs", GroupValues = true)]
     public IEnumerable<string>? ConditionalForwarderIpAddrs { get; set; }
 
     /// <summary>
-    /// The IPv6 addresses of the remote DNS server associated with Remote- DomainName. (string) Constraints: o pattern: ^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$ Syntax: "string" "string" ...
+    /// The IPv6 addresses of the remote DNS server associated with RemoteDomainName. (string) Constraints: • pattern: ^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--conditional-forwarder-ipv6-addrs", GroupValues = true)]
     public IEnumerable<string>? ConditionalForwarderIpv6Addrs { get; set; }
 
     /// <summary>
-    /// Optional parameter to enable selective authentication for the trust. Possible values: o Enabled o Disabled
+    /// Optional parameter to enable selective authentication for the trust. Possible values: • Enabled • Disabled
     /// </summary>
     [CliOption("--selective-auth")]
     public AwsDsCreateTrustSelectiveAuth? SelectiveAuth { get; set; }

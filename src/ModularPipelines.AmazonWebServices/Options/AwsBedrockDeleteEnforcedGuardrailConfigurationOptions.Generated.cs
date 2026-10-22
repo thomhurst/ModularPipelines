@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBedrockDeleteEnforcedGuardrailConfigurationOptions : AwsOptions
     /// <summary>
     /// Deletes the account-level enforced guardrail configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfigId">Unique ID for the account enforced configuration. Constraints: o pattern: [a-z0-9]+</param>
+    /// <param name="ConfigId">Unique ID for the account enforced configuration. Constraints: • pattern: [a-z0-9]+</param>
     public AwsBedrockDeleteEnforcedGuardrailConfigurationOptions(
         string ConfigId
     )
@@ -56,7 +58,7 @@ public record AwsBedrockDeleteEnforcedGuardrailConfigurationOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Unique ID for the account enforced configuration. Constraints: o pattern: [a-z0-9]+
+    /// Unique ID for the account enforced configuration. Constraints: • pattern: [a-z0-9]+
     /// </summary>
     [CliOption("--config-id")]
     public string? ConfigId { get; private init; }

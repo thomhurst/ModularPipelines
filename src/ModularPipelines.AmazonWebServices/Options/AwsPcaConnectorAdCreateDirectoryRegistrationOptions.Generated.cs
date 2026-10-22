@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -29,7 +30,7 @@ public record AwsPcaConnectorAdCreateDirectoryRegistrationOptions : AwsOptions, 
     /// <summary>
     /// Creates a directory registration that authorizes communication between Amazon Web Services Private CA and an Active Directory See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The identifier of the Active Directory. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="DirectoryId">The identifier of the Active Directory. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
     public AwsPcaConnectorAdCreateDirectoryRegistrationOptions(
         string DirectoryId
     )
@@ -58,13 +59,13 @@ public record AwsPcaConnectorAdCreateDirectoryRegistrationOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Active Directory. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The identifier of the Active Directory. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// Idempotency token. Constraints: o min: 1 o max: 64 o pattern: ^[!-~]+$
+    /// Idempotency token. Constraints: • min: 1 • max: 64 • pattern: ^[!-~]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

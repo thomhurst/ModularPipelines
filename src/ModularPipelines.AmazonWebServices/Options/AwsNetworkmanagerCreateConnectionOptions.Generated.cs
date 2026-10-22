@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsNetworkmanagerCreateConnectionOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Creates a connection between two devices. The devices can be a physical or virtual appliance that connects to a third-party appliance in a VPC, or a physical appliance that connects to another physical appliance in an on-premises network. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
-    /// <param name="DeviceId">The ID of the first device in the connection. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
-    /// <param name="ConnectedDeviceId">The ID of the second device in the connection. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
+    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*</param>
+    /// <param name="DeviceId">The ID of the first device in the connection. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*</param>
+    /// <param name="ConnectedDeviceId">The ID of the second device in the connection. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*</param>
     public AwsNetworkmanagerCreateConnectionOptions(
         string GlobalNetworkId,
         string DeviceId,
@@ -64,43 +66,43 @@ public record AwsNetworkmanagerCreateConnectionOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// The ID of the global network. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--global-network-id")]
     public string? GlobalNetworkId { get; private init; }
 
     /// <summary>
-    /// The ID of the first device in the connection. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// The ID of the first device in the connection. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--device-id")]
     public string? DeviceId { get; private init; }
 
     /// <summary>
-    /// The ID of the second device in the connection. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// The ID of the second device in the connection. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--connected-device-id")]
     public string? ConnectedDeviceId { get; private init; }
 
     /// <summary>
-    /// The ID of the link for the first device. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// The ID of the link for the first device. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--link-id")]
     public string? LinkId { get; set; }
 
     /// <summary>
-    /// The ID of the link for the second device. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// The ID of the link for the second device. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--connected-link-id")]
     public string? ConnectedLinkId { get; set; }
 
     /// <summary>
-    /// A description of the connection. Length Constraints: Maximum length of 256 characters. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// A description of the connection. Length Constraints: Maximum length of 256 characters. Constraints: • min: 0 • max: 256 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The tags to apply to the resource during creation. (structure) Describes a tag. Key -&gt; (string) The tag key. Constraints: Maximum length of 128 characters. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]* Value -&gt; (string) The tag value. Constraints: Maximum length of 256 characters. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags to apply to the resource during creation. (structure) Describes a tag. Key -&gt; (string) The tag key. Constraints: Maximum length of 128 characters. Constraints: • min: 0 • max: 10000000 • pattern: [\s\S]* Value -&gt; (string) The tag value. Constraints: Maximum length of 256 characters. Constraints: • min: 0 • max: 10000000 • pattern: [\s\S]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

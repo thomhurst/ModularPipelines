@@ -32,7 +32,7 @@ public class AwsOpensearch : IAwsOpensearch
     #region Commands
 
     /// <summary>
-    /// Allows the destination Amazon OpenSearch Service domain owner to accept an inbound cross-cluster search connection request. For more informa- tion, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
+    /// Allows the destination Amazon OpenSearch Service domain owner to accept an inbound cross-cluster search connection request. For more information, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsOpensearch : IAwsOpensearch
     }
 
     /// <summary>
-    /// Cancels a scheduled service software update for an Amazon OpenSearch Service domain. You can only perform this operation before the Automat- edUpdateDate and when the domain's UpdateStatus is PENDING_UPDATE . For more information, see Service software updates in Amazon OpenSearch Service . See also: AWS API Documentation
+    /// Cancels a scheduled service software update for an Amazon OpenSearch Service domain. You can only perform this operation before the AutomatedUpdateDate and when the domain's UpdateStatus is PENDING_UPDATE . For more information, see Service software updates in Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsOpensearch : IAwsOpensearch
     }
 
     /// <summary>
-    /// Creates an OpenSearch index with optional automatic semantic enrichment for specified text fields. Automatic semantic enrichment enables seman- tic search capabilities without requiring machine learning expertise, improving search relevance by up to 20% by understanding search intent and contextual meaning beyond keyword matching. The semantic enrichment process has zero impact on search latency as sparse encodings are stored directly within the index during indexing. For more information, see A...
+    /// Creates an OpenSearch index with optional automatic semantic enrichment for specified text fields. Automatic semantic enrichment enables semantic search capabilities without requiring machine learning expertise, improving search relevance by up to 20% by understanding search intent and contextual meaning beyond keyword matching. The semantic enrichment process has zero impact on search latency as sparse encodings are stored directly within the index during indexing. For more information, see Aut...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsOpensearch : IAwsOpensearch
     }
 
     /// <summary>
-    /// Creates a new cross-cluster search connection from a source Amazon OpenSearch Service domain to a destination domain. For more informa- tion, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
+    /// Creates a new cross-cluster search connection from a source Amazon OpenSearch Service domain to a destination domain. For more information, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsOpensearch : IAwsOpensearch
     }
 
     /// <summary>
-    /// Allows the destination Amazon OpenSearch Service domain owner to delete an existing inbound cross-cluster search connection. For more informa- tion, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
+    /// Allows the destination Amazon OpenSearch Service domain owner to delete an existing inbound cross-cluster search connection. For more information, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsOpensearch : IAwsOpensearch
     }
 
     /// <summary>
-    /// Deletes an OpenSearch index. This operation permanently removes the in- dex and cannot be undone. See also: AWS API Documentation
+    /// Deletes an OpenSearch index. This operation permanently removes the index and cannot be undone. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsOpensearch : IAwsOpensearch
     }
 
     /// <summary>
-    /// Allows the source Amazon OpenSearch Service domain owner to delete an existing outbound cross-cluster search connection. For more informa- tion, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
+    /// Allows the source Amazon OpenSearch Service domain owner to delete an existing outbound cross-cluster search connection. For more information, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsOpensearch : IAwsOpensearch
     }
 
     /// <summary>
-    /// Deregisters a capability from an OpenSearch UI application. This opera- tion removes the capability and its associated configuration. See also: AWS API Documentation
+    /// Deregisters a capability from an OpenSearch UI application. This operation removes the capability and its associated configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsOpensearch : IAwsOpensearch
     }
 
     /// <summary>
-    /// Returns the current status and details of a specific data source at- tachment for an OpenSearch application. Throws a ResourceNotFoundExcep- tion if no attachment record exists for the specified application and data source combination. See also: AWS API Documentation
+    /// Returns the current status and details of a specific data source attachment for an OpenSearch application. Throws a ResourceNotFoundException if no attachment record exists for the specified application and data source combination. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsOpensearch : IAwsOpensearch
     }
 
     /// <summary>
-    /// Returns the list of optimizations that Auto-Tune has made to an Amazon OpenSearch Service domain. For more information, see Auto-Tune for Ama- zon OpenSearch Service . See also: AWS API Documentation
+    /// Returns the list of optimizations that Auto-Tune has made to an Amazon OpenSearch Service domain. For more information, see Auto-Tune for Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsOpensearch : IAwsOpensearch
     }
 
     /// <summary>
-    /// Returns information about domain and node health, the standby Avail- ability Zone, number of nodes per Availability Zone, and shard count per node. See also: AWS API Documentation
+    /// Returns information about domain and node health, the standby Availability Zone, number of nodes per Availability Zone, and shard count per node. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsOpensearch : IAwsOpensearch
     }
 
     /// <summary>
-    /// Returns information about domain and nodes, including data nodes, mas- ter nodes, ultrawarm nodes, Availability Zone(s), standby nodes, node configurations, and node states. See also: AWS API Documentation
+    /// Returns information about domain and nodes, including data nodes, master nodes, ultrawarm nodes, Availability Zone(s), standby nodes, node configurations, and node states. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +557,7 @@ public class AwsOpensearch : IAwsOpensearch
     }
 
     /// <summary>
-    /// Lists all the inbound cross-cluster search connections for a destina- tion (remote) Amazon OpenSearch Service domain. For more information, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
+    /// Lists all the inbound cross-cluster search connections for a destination (remote) Amazon OpenSearch Service domain. For more information, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +617,7 @@ public class AwsOpensearch : IAwsOpensearch
     }
 
     /// <summary>
-    /// Describes all packages available to OpenSearch Service. For more infor- mation, see Custom packages for Amazon OpenSearch Service . See also: AWS API Documentation
+    /// Describes all packages available to OpenSearch Service. For more information, see Custom packages for Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -632,7 +632,7 @@ public class AwsOpensearch : IAwsOpensearch
     }
 
     /// <summary>
-    /// Describes the available Amazon OpenSearch Service Reserved Instance of- ferings for a given Region. For more information, see Reserved In- stances in Amazon OpenSearch Service . See also: AWS API Documentation
+    /// Describes the available Amazon OpenSearch Service Reserved Instance offerings for a given Region. For more information, see Reserved Instances in Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +647,7 @@ public class AwsOpensearch : IAwsOpensearch
     }
 
     /// <summary>
-    /// Describes the Amazon OpenSearch Service instances that you have re- served in a given Region. For more information, see Reserved Instances in Amazon OpenSearch Service . See also: AWS API Documentation
+    /// Describes the Amazon OpenSearch Service instances that you have reserved in a given Region. For more information, see Reserved Instances in Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -692,7 +692,7 @@ public class AwsOpensearch : IAwsOpensearch
     }
 
     /// <summary>
-    /// Removes a package from the specified Amazon OpenSearch Service domain. The package can't be in use with any OpenSearch index for the dissocia- tion to succeed. The package is still available in OpenSearch Service for association later. For more information, see Custom packages for Amazon OpenSearch Service . See also: AWS API Documentation
+    /// Removes a package from the specified Amazon OpenSearch Service domain. The package can't be in use with any OpenSearch index for the dissociation to succeed. The package is still available in OpenSearch Service for association later. For more information, see Custom packages for Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -722,7 +722,7 @@ public class AwsOpensearch : IAwsOpensearch
     }
 
     /// <summary>
-    /// Retrieves the configuration and status of an existing OpenSearch appli- cation. See also: AWS API Documentation
+    /// Retrieves the configuration and status of an existing OpenSearch application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -887,7 +887,7 @@ public class AwsOpensearch : IAwsOpensearch
     }
 
     /// <summary>
-    /// Returns the most recent status of the last upgrade or upgrade eligibil- ity check performed on an Amazon OpenSearch Service domain. See also: AWS API Documentation
+    /// Returns the most recent status of the last upgrade or upgrade eligibility check performed on an Amazon OpenSearch Service domain. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -902,7 +902,7 @@ public class AwsOpensearch : IAwsOpensearch
     }
 
     /// <summary>
-    /// Submits feedback for an existing insight in an Amazon OpenSearch Ser- vice domain. Allows users to provide a thumbs up or thumbs down rating and optional text feedback for a specific insight. See also: AWS API Documentation
+    /// Submits feedback for an existing insight in an Amazon OpenSearch Service domain. Allows users to provide a thumbs up or thumbs down rating and optional text feedback for a specific insight. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -947,7 +947,7 @@ public class AwsOpensearch : IAwsOpensearch
     }
 
     /// <summary>
-    /// Lists direct-query data sources for a specific domain. For more infor- mation, see For more information, see Working with Amazon OpenSearch Service direct queries with Amazon S3 . See also: AWS API Documentation
+    /// Lists direct-query data sources for a specific domain. For more information, see For more information, see Working with Amazon OpenSearch Service direct queries with Amazon S3 . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1082,7 +1082,7 @@ public class AwsOpensearch : IAwsOpensearch
     }
 
     /// <summary>
-    /// Retrieves a list of configuration changes that are scheduled for a do- main. These changes can be service software updates or blue/green Auto-Tune enhancements . See also: AWS API Documentation
+    /// Retrieves a list of configuration changes that are scheduled for a domain. These changes can be service software updates or blue/green Auto-Tune enhancements . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1142,7 +1142,7 @@ public class AwsOpensearch : IAwsOpensearch
     }
 
     /// <summary>
-    /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints associ- ated with a particular domain. See also: AWS API Documentation
+    /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a particular domain. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1187,7 +1187,7 @@ public class AwsOpensearch : IAwsOpensearch
     }
 
     /// <summary>
-    /// Sets the default application to the application with the specified ARN. To remove the default application, use the GetDefaultApplicationSetting operation to get the current default and then call the PutDefaultAppli- cationSetting with the current applications ARN and the setAsDefault parameter set to false . See also: AWS API Documentation
+    /// Sets the default application to the application with the specified ARN. To remove the default application, use the GetDefaultApplicationSetting operation to get the current default and then call the PutDefaultApplicationSetting with the current applications ARN and the setAsDefault parameter set to false . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1202,7 +1202,7 @@ public class AwsOpensearch : IAwsOpensearch
     }
 
     /// <summary>
-    /// Registers a capability for an OpenSearch UI application. Use this oper- ation to enable specific capabilities, such as AI features, for a given application. The capability configuration defines the type and settings of the capability to register. For more information about the AI fea- tures, see Agentic AI for OpenSearch UI . See also: AWS API Documentation
+    /// Registers a capability for an OpenSearch UI application. Use this operation to enable specific capabilities, such as AI features, for a given application. The capability configuration defines the type and settings of the capability to register. For more information about the AI features, see Agentic AI for OpenSearch UI . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1232,7 +1232,7 @@ public class AwsOpensearch : IAwsOpensearch
     }
 
     /// <summary>
-    /// Removes the specified set of tags from an Amazon OpenSearch Service do- main, data source, or application. For more information, see Tagging Amazon OpenSearch Service resources . See also: AWS API Documentation
+    /// Removes the specified set of tags from an Amazon OpenSearch Service domain, data source, or application. For more information, see Tagging Amazon OpenSearch Service resources . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1262,7 +1262,7 @@ public class AwsOpensearch : IAwsOpensearch
     }
 
     /// <summary>
-    /// Rolls back a service software update for a domain to the previous ver- sion. For more information, see Service software updates in Amazon OpenSearch Service . See also: AWS API Documentation
+    /// Rolls back a service software update for a domain to the previous version. For more information, see Service software updates in Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1292,7 +1292,7 @@ public class AwsOpensearch : IAwsOpensearch
     }
 
     /// <summary>
-    /// Initiates a migration job to migrate saved objects from a data source to an Amazon OpenSearch Service application workspace. Saved objects include dashboards, visualizations, index patterns, and searches. You can specify export filters to control the scope of the migration and a conflict resolution strategy for handling existing objects in the tar- get workspace. See also: AWS API Documentation
+    /// Initiates a migration job to migrate saved objects from a data source to an Amazon OpenSearch Service application workspace. Saved objects include dashboards, visualizations, index patterns, and searches. You can specify export filters to control the scope of the migration and a conflict resolution strategy for handling existing objects in the target workspace. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1322,7 +1322,7 @@ public class AwsOpensearch : IAwsOpensearch
     }
 
     /// <summary>
-    /// Updates the configuration and settings of an existing OpenSearch appli- cation. See also: AWS API Documentation
+    /// Updates the configuration and settings of an existing OpenSearch application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1382,7 +1382,7 @@ public class AwsOpensearch : IAwsOpensearch
     }
 
     /// <summary>
-    /// Updates an existing OpenSearch index schema and semantic enrichment configuration. This operation allows modification of field mappings and semantic search settings for text fields. Changes to semantic enrich- ment configuration will apply to newly ingested documents. See also: AWS API Documentation update-index uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested ...
+    /// Updates an existing OpenSearch index schema and semantic enrichment configuration. This operation allows modification of field mappings and semantic search settings for text fields. Changes to semantic enrichment configuration will apply to newly ingested documents. See also: AWS API Documentation update-index uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested pa...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

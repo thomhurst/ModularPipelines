@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Registers the current user's time-based one-time password (TOTP) au- thenticator with a code generated in their authenticator app from a private key that's supplied by your user pool. Marks the user's soft- ware token MFA status as "verified" if successful. The request takes an access token or a session string, but not both. NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to ...
+/// Registers the current user's time-based one-time password (TOTP) authenticator with a code generated in their authenticator app from a private key that's supplied by your user pool. Marks the user's software token MFA status as "verified" if successful. The request takes an access token or a session string, but not both. NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to auth...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsCognitoIdpVerifySoftwareTokenOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Registers the current user's time-based one-time password (TOTP) au- thenticator with a code generated in their authenticator app from a private key that's supplied by your user pool. Marks the user's soft- ware token MFA status as "verified" if successful. The request takes an access token or a session string, but not both. NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to ...
+    /// Registers the current user's time-based one-time password (TOTP) authenticator with a code generated in their authenticator app from a private key that's supplied by your user pool. Marks the user's software token MFA status as "verified" if successful. The request takes an access token or a session string, but not both. NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to auth...
     /// </summary>
-    /// <param name="UserCode">A TOTP that the user generated in their configured authenticator app. Constraints: o min: 6 o max: 6 o pattern: [0-9]+</param>
+    /// <param name="UserCode">A TOTP that the user generated in their configured authenticator app. Constraints: • min: 6 • max: 6 • pattern: [0-9]+</param>
     public AwsCognitoIdpVerifySoftwareTokenOptions(
         string UserCode
     )
@@ -57,26 +59,26 @@ public record AwsCognitoIdpVerifySoftwareTokenOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A TOTP that the user generated in their configured authenticator app. Constraints: o min: 6 o max: 6 o pattern: [0-9]+
+    /// A TOTP that the user generated in their configured authenticator app. Constraints: • min: 6 • max: 6 • pattern: [0-9]+
     /// </summary>
     [CliOption("--user-code")]
     public string? UserCode { get; private init; }
 
     /// <summary>
-    /// A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cog- nito.signin.user.admin . Constraints: o pattern: [A-Za-z0-9-_=.]+
+    /// A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cognito.signin.user.admin . Constraints: • pattern: [A-Za-z0-9-_=.]+
     /// </summary>
     [SecretValue]
     [CliOption("--access-token")]
     public string? AccessToken { get; set; }
 
     /// <summary>
-    /// The session ID from an AssociateSoftwareToken request. Constraints: o min: 20 o max: 2048
+    /// The session ID from an AssociateSoftwareToken request. Constraints: • min: 20 • max: 4096
     /// </summary>
     [CliOption("--session")]
     public string? Session { get; set; }
 
     /// <summary>
-    /// A friendly name for the device that's running the TOTP authentica- tor. Constraints: o min: 0 o max: 131072
+    /// A friendly name for the device that's running the TOTP authenticator. Constraints: • min: 0 • max: 131072
     /// </summary>
     [CliOption("--friendly-device-name")]
     public string? FriendlyDeviceName { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsIotdeviceadvisorGetSuiteRunReportOptions : AwsOptions, IValidat
     /// <summary>
     /// Gets a report download link for a successful Device Advisor qualifying test suite run. Requires permission to access the GetSuiteRunReport action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SuiteDefinitionId">Suite definition ID of the test suite. Constraints: o min: 12 o max: 36</param>
-    /// <param name="SuiteRunId">Suite run ID of the test suite run. Constraints: o min: 12 o max: 36</param>
+    /// <param name="SuiteDefinitionId">Suite definition ID of the test suite. Constraints: • min: 12 • max: 36</param>
+    /// <param name="SuiteRunId">Suite run ID of the test suite run. Constraints: • min: 12 • max: 36</param>
     public AwsIotdeviceadvisorGetSuiteRunReportOptions(
         string SuiteDefinitionId,
         string SuiteRunId
@@ -60,13 +62,13 @@ public record AwsIotdeviceadvisorGetSuiteRunReportOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Suite definition ID of the test suite. Constraints: o min: 12 o max: 36
+    /// Suite definition ID of the test suite. Constraints: • min: 12 • max: 36
     /// </summary>
     [CliOption("--suite-definition-id")]
     public string? SuiteDefinitionId { get; private init; }
 
     /// <summary>
-    /// Suite run ID of the test suite run. Constraints: o min: 12 o max: 36
+    /// Suite run ID of the test suite run. Constraints: • min: 12 • max: 36
     /// </summary>
     [CliOption("--suite-run-id")]
     public string? SuiteRunId { get; private init; }

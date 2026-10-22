@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,13 +64,13 @@ public record AwsElasticacheModifyServerlessCacheOptions : AwsOptions, IValidata
     public string? ServerlessCacheName { get; private init; }
 
     /// <summary>
-    /// User provided description for the serverless cache. Default = NULL, i.e. the existing description is not removed/modified. The descrip- tion has a maximum length of 255 characters.
+    /// User provided description for the serverless cache. Default = NULL, i.e. the existing description is not removed/modified. The description has a maximum length of 255 characters.
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Modify the cache usage limit for the serverless cache. DataStorage -&gt; (structure) The maximum data storage limit in the cache, expressed in Giga- bytes. Maximum -&gt; (integer) The upper limit for data storage the cache is set to use. Minimum -&gt; (integer) The lower limit for data storage the cache is set to use. Unit -&gt; (string) [required] The unit that the storage is measured in, in GB. Possible values: o GB ECPUPerSecond -&gt; (structure) The configuration for the number of ElastiCache Processing Units (ECPU) the cache can consume per second. Maximum -&gt; (integer) The configuration for the maximum number of ECPUs the cache can consume per second. Minimum -&gt; (integer) The configuration for the minimum number of ECPUs the cache should be able consume per second. Shorthand Syntax: DataStorage={Maximum=integer,Minimum=integer,Unit=string},ECPUPerSecond={Maximum=integer,Minimum=integer} JSON Syntax: { "DataStorage": { "Maximum": integer, "Minimum": integer, "Unit": "GB" }, "ECPUPerSecond": { "Maximum": integer, "Minimum": integer } }
+    /// Modify the cache usage limit for the serverless cache. DataStorage -&gt; (structure) The maximum data storage limit in the cache, expressed in Gigabytes. Maximum -&gt; (integer) The upper limit for data storage the cache is set to use. Minimum -&gt; (integer) The lower limit for data storage the cache is set to use. Unit -&gt; (string) [required] The unit that the storage is measured in, in GB. Possible values: • GB ECPUPerSecond -&gt; (structure) The configuration for the number of ElastiCache Processing Units (ECPU) the cache can consume per second. Maximum -&gt; (integer) The configuration for the maximum number of ECPUs the cache can consume per second. Minimum -&gt; (integer) The configuration for the minimum number of ECPUs the cache should be able consume per second. Shorthand Syntax: DataStorage={Maximum=integer,Minimum=integer,Unit=string},ECPUPerSecond={Maximum=integer,Minimum=integer} JSON Syntax: { "DataStorage": { "Maximum": integer, "Minimum": integer, "Unit": "GB" }, "ECPUPerSecond": { "Maximum": integer, "Minimum": integer } }
     /// </summary>
     [CliOption("--cache-usage-limits")]
     public string? CacheUsageLimits { get; set; }
@@ -86,25 +88,25 @@ public record AwsElasticacheModifyServerlessCacheOptions : AwsOptions, IValidata
     public string? UserGroupId { get; set; }
 
     /// <summary>
-    /// The new list of VPC security groups to be associated with the serverless cache. Populating this list means the current VPC secu- rity groups will be removed. This security group is used to autho- rize traffic access for the VPC end-point (private-link). Default = NULL - the existing list of VPC security groups is not removed. (string) Syntax: "string" "string" ...
+    /// The new list of VPC security groups to be associated with the serverless cache. Populating this list means the current VPC security groups will be removed. This security group is used to authorize traffic access for the VPC end-point (private-link). Default = NULL - the existing list of VPC security groups is not removed. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>
-    /// The number of days for which Elasticache retains automatic snapshots before deleting them. Available for Valkey, Redis OSS and Serverless Memcached only. Default = NULL, i.e. the existing snapshot-reten- tion-limit will not be removed or modified. The maximum value al- lowed is 35 days.
+    /// The number of days for which Elasticache retains automatic snapshots before deleting them. Available for Valkey, Redis OSS and Serverless Memcached only. Default = NULL, i.e. the existing snapshot-retention-limit will not be removed or modified. The maximum value allowed is 35 days.
     /// </summary>
     [CliOption("--snapshot-retention-limit")]
     public int? SnapshotRetentionLimit { get; set; }
 
     /// <summary>
-    /// The daily time during which Elasticache begins taking a daily snap- shot of the serverless cache. Available for Valkey, Redis OSS and Serverless Memcached only. The default is NULL, i.e. the existing snapshot time configured for the cluster is not removed.
+    /// The daily time during which Elasticache begins taking a daily snapshot of the serverless cache. Available for Valkey, Redis OSS and Serverless Memcached only. The default is NULL, i.e. the existing snapshot time configured for the cluster is not removed.
     /// </summary>
     [CliOption("--daily-snapshot-time")]
     public string? DailySnapshotTime { get; set; }
 
     /// <summary>
-    /// Modifies the engine listed in a serverless cache request. The op- tions are valkey, memcached or redis.
+    /// Modifies the engine listed in a serverless cache request. The options are valkey, memcached or redis.
     /// </summary>
     [CliOption("--engine")]
     public string? Engine { get; set; }

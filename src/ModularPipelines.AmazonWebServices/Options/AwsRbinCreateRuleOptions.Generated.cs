@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a Recycle Bin retention rule. You can create two types of re- tention rules: o Tag-level retention rules - These retention rules use resource tags to identify the resources to protect. For each retention rule, you specify one or more tag key and value pairs. Resources (of the speci- fied type) that have at least one of these tag key and value pairs are automatically retained in the Recycle Bin upon deletion. Use this type of retention rule to protect specific resources in your account ba...
+/// Creates a Recycle Bin retention rule. You can create two types of retention rules: • Tag-level retention rules - These retention rules use resource tags to identify the resources to protect. For each retention rule, you specify one or more tag key and value pairs. Resources (of the specified type) that have at least one of these tag key and value pairs are automatically retained in the Recycle Bin upon deletion. Use this type of retention rule to protect specific resources in your account based ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsRbinCreateRuleOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a Recycle Bin retention rule. You can create two types of re- tention rules: o Tag-level retention rules - These retention rules use resource tags to identify the resources to protect. For each retention rule, you specify one or more tag key and value pairs. Resources (of the speci- fied type) that have at least one of these tag key and value pairs are automatically retained in the Recycle Bin upon deletion. Use this type of retention rule to protect specific resources in your account ba...
+    /// Creates a Recycle Bin retention rule. You can create two types of retention rules: • Tag-level retention rules - These retention rules use resource tags to identify the resources to protect. For each retention rule, you specify one or more tag key and value pairs. Resources (of the specified type) that have at least one of these tag key and value pairs are automatically retained in the Recycle Bin upon deletion. Use this type of retention rule to protect specific resources in your account based ...
     /// </summary>
-    /// <param name="RetentionPeriod">Information about the retention period for which the retention rule is to retain resources. RetentionPeriodValue -&gt; (integer) [required] The period value for which the retention rule is to retain re- sources, measured in days. The supported retention periods are: o EBS volumes: 1 - 7 days o EBS snapshots and EBS-backed AMIs: 1 - 365 days Constraints: o min: 1 o max: 3650 RetentionPeriodUnit -&gt; (string) [required] The unit of time in which the retention period is measured. Cur- rently, only DAYS is supported. Possible values: o DAYS Shorthand Syntax: RetentionPeriodValue=integer,RetentionPeriodUnit=string JSON Syntax: { "RetentionPeriodValue": integer, "RetentionPeriodUnit": "DAYS" }</param>
-    /// <param name="ResourceType">The resource type to be retained by the retention rule. Currently, only EBS volumes, EBS snapshots, and EBS-backed AMIs are supported. o To retain EBS volumes, specify EBS_VOLUME . o To retain EBS snapshots, specify EBS_SNAPSHOT o To retain EBS-backed AMIs, specify EC2_IMAGE . Possible values: o EBS_SNAPSHOT o EC2_IMAGE o EBS_VOLUME</param>
+    /// <param name="RetentionPeriod">Information about the retention period for which the retention rule is to retain resources. RetentionPeriodValue -&gt; (integer) [required] The period value for which the retention rule is to retain resources, measured in days. The supported retention periods are: • EBS volumes: 1 - 7 days • EBS snapshots and EBS-backed AMIs: 1 - 365 days Constraints: • min: 1 • max: 3650 RetentionPeriodUnit -&gt; (string) [required] The unit of time in which the retention period is measured. Currently, only DAYS is supported. Possible values: • DAYS Shorthand Syntax: RetentionPeriodValue=integer,RetentionPeriodUnit=string JSON Syntax: { "RetentionPeriodValue": integer, "RetentionPeriodUnit": "DAYS" }</param>
+    /// <param name="ResourceType">The resource type to be retained by the retention rule. Currently, only EBS volumes, EBS snapshots, and EBS-backed AMIs are supported. • To retain EBS volumes, specify EBS_VOLUME . • To retain EBS snapshots, specify EBS_SNAPSHOT • To retain EBS-backed AMIs, specify EC2_IMAGE . Possible values: • EBS_SNAPSHOT • EC2_IMAGE • EBS_VOLUME</param>
     public AwsRbinCreateRuleOptions(
         string RetentionPeriod,
         AwsRbinCreateRuleResourceType ResourceType
@@ -60,43 +62,43 @@ public record AwsRbinCreateRuleOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Information about the retention period for which the retention rule is to retain resources. RetentionPeriodValue -&gt; (integer) [required] The period value for which the retention rule is to retain re- sources, measured in days. The supported retention periods are: o EBS volumes: 1 - 7 days o EBS snapshots and EBS-backed AMIs: 1 - 365 days Constraints: o min: 1 o max: 3650 RetentionPeriodUnit -&gt; (string) [required] The unit of time in which the retention period is measured. Cur- rently, only DAYS is supported. Possible values: o DAYS Shorthand Syntax: RetentionPeriodValue=integer,RetentionPeriodUnit=string JSON Syntax: { "RetentionPeriodValue": integer, "RetentionPeriodUnit": "DAYS" }
+    /// Information about the retention period for which the retention rule is to retain resources. RetentionPeriodValue -&gt; (integer) [required] The period value for which the retention rule is to retain resources, measured in days. The supported retention periods are: • EBS volumes: 1 - 7 days • EBS snapshots and EBS-backed AMIs: 1 - 365 days Constraints: • min: 1 • max: 3650 RetentionPeriodUnit -&gt; (string) [required] The unit of time in which the retention period is measured. Currently, only DAYS is supported. Possible values: • DAYS Shorthand Syntax: RetentionPeriodValue=integer,RetentionPeriodUnit=string JSON Syntax: { "RetentionPeriodValue": integer, "RetentionPeriodUnit": "DAYS" }
     /// </summary>
     [CliOption("--retention-period")]
     public string? RetentionPeriod { get; private init; }
 
     /// <summary>
-    /// The resource type to be retained by the retention rule. Currently, only EBS volumes, EBS snapshots, and EBS-backed AMIs are supported. o To retain EBS volumes, specify EBS_VOLUME . o To retain EBS snapshots, specify EBS_SNAPSHOT o To retain EBS-backed AMIs, specify EC2_IMAGE . Possible values: o EBS_SNAPSHOT o EC2_IMAGE o EBS_VOLUME
+    /// The resource type to be retained by the retention rule. Currently, only EBS volumes, EBS snapshots, and EBS-backed AMIs are supported. • To retain EBS volumes, specify EBS_VOLUME . • To retain EBS snapshots, specify EBS_SNAPSHOT • To retain EBS-backed AMIs, specify EC2_IMAGE . Possible values: • EBS_SNAPSHOT • EC2_IMAGE • EBS_VOLUME
     /// </summary>
     [CliOption("--resource-type")]
     public AwsRbinCreateRuleResourceType? ResourceType { get; private init; }
 
     /// <summary>
-    /// The retention rule description. Constraints: o pattern: ^[\S ]{0,255}$
+    /// The retention rule description. Constraints: • pattern: ^[\S ]{0,255}$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Information about the tags to assign to the retention rule. Constraints: o min: 0 o max: 200 (structure) Information about the tags to assign to the retention rule. Key -&gt; (string) [required] The tag key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Information about the tags to assign to the retention rule. Constraints: • min: 0 • max: 200 (structure) Information about the tags to assign to the retention rule. Key -&gt; (string) [required] The tag key. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The tag value. Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// [Tag-level retention rules only] Specifies the resource tags to use to identify resources that are to be retained by a tag-level reten- tion rule. For tag-level retention rules, only deleted resources, of the specified resource type, that have one or more of the specified tag key and value pairs are retained. If a resource is deleted, but it does not have any of the specified tag key and value pairs, it is immediately deleted without being retained by the retention rule. You can add the same tag key and value pair to a maximum or five re- tention rules. To create a Region-level retention rule, omit this parameter. A Re- gion-level retention rule does not have any resource tags specified. It retains all deleted resources of the specified resource type in the Region in which the rule is created, even if the resources are not tagged. Constraints: o min: 0 o max: 50 (structure) [Tag-level retention rules only] Information about the resource tags used to identify resources that are retained by the reten- tion rule. ResourceTagKey -&gt; (string) [required] The tag key. Constraints: o pattern: ^[\S\s]{1,128}$ ResourceTagValue -&gt; (string) The tag value. Constraints: o pattern: ^[\S\s]{0,256}$ Shorthand Syntax: ResourceTagKey=string,ResourceTagValue=string ... JSON Syntax: [ { "ResourceTagKey": "string", "ResourceTagValue": "string" } ... ]
+    /// [Tag-level retention rules only] Specifies the resource tags to use to identify resources that are to be retained by a tag-level retention rule. For tag-level retention rules, only deleted resources, of the specified resource type, that have one or more of the specified tag key and value pairs are retained. If a resource is deleted, but it does not have any of the specified tag key and value pairs, it is immediately deleted without being retained by the retention rule. You can add the same tag key and value pair to a maximum or five retention rules. To create a Region-level retention rule, omit this parameter. A Region-level retention rule does not have any resource tags specified. It retains all deleted resources of the specified resource type in the Region in which the rule is created, even if the resources are not tagged. Constraints: • min: 0 • max: 50 (structure) [Tag-level retention rules only] Information about the resource tags used to identify resources that are retained by the retention rule. ResourceTagKey -&gt; (string) [required] The tag key. Constraints: • pattern: ^[\S\s]{1,128}$ ResourceTagValue -&gt; (string) The tag value. Constraints: • pattern: ^[\S\s]{0,256}$ Shorthand Syntax: ResourceTagKey=string,ResourceTagValue=string ... JSON Syntax: [ { "ResourceTagKey": "string", "ResourceTagValue": "string" } ... ]
     /// </summary>
     [CliOption("--resource-tags", GroupValues = true)]
     public IEnumerable<string>? ResourceTags { get; set; }
 
     /// <summary>
-    /// Information about the retention rule lock configuration. UnlockDelay -&gt; (structure) [required] Information about the retention rule unlock delay. UnlockDelayValue -&gt; (integer) [required] The unlock delay period, measured in the unit specified for UnlockDelayUnit . Constraints: o min: 7 o max: 30 UnlockDelayUnit -&gt; (string) [required] The unit of time in which to measure the unlock delay. Cur- rently, the unlock delay can be measured only in days. Possible values: o DAYS Shorthand Syntax: UnlockDelay={UnlockDelayValue=integer,UnlockDelayUnit=string} JSON Syntax: { "UnlockDelay": { "UnlockDelayValue": integer, "UnlockDelayUnit": "DAYS" } }
+    /// Information about the retention rule lock configuration. UnlockDelay -&gt; (structure) [required] Information about the retention rule unlock delay. UnlockDelayValue -&gt; (integer) [required] The unlock delay period, measured in the unit specified for UnlockDelayUnit . Constraints: • min: 7 • max: 30 UnlockDelayUnit -&gt; (string) [required] The unit of time in which to measure the unlock delay. Currently, the unlock delay can be measured only in days. Possible values: • DAYS Shorthand Syntax: UnlockDelay={UnlockDelayValue=integer,UnlockDelayUnit=string} JSON Syntax: { "UnlockDelay": { "UnlockDelayValue": integer, "UnlockDelayUnit": "DAYS" } }
     /// </summary>
     [CliOption("--lock-configuration")]
     public string? LockConfiguration { get; set; }
 
     /// <summary>
-    /// [Region-level retention rules only] Specifies the exclusion tags to use to identify resources that are to be excluded, or ignored, by a Region-level retention rule. Resources that have any of these tags are not retained by the retention rule upon deletion. You can't specify exclusion tags for tag-level retention rules. Constraints: o min: 0 o max: 5 (structure) [Tag-level retention rules only] Information about the resource tags used to identify resources that are retained by the reten- tion rule. ResourceTagKey -&gt; (string) [required] The tag key. Constraints: o pattern: ^[\S\s]{1,128}$ ResourceTagValue -&gt; (string) The tag value. Constraints: o pattern: ^[\S\s]{0,256}$ Shorthand Syntax: ResourceTagKey=string,ResourceTagValue=string ... JSON Syntax: [ { "ResourceTagKey": "string", "ResourceTagValue": "string" } ... ]
+    /// [Region-level retention rules only] Specifies the exclusion tags to use to identify resources that are to be excluded, or ignored, by a Region-level retention rule. Resources that have any of these tags are not retained by the retention rule upon deletion. You can't specify exclusion tags for tag-level retention rules. Constraints: • min: 0 • max: 5 (structure) [Tag-level retention rules only] Information about the resource tags used to identify resources that are retained by the retention rule. ResourceTagKey -&gt; (string) [required] The tag key. Constraints: • pattern: ^[\S\s]{1,128}$ ResourceTagValue -&gt; (string) The tag value. Constraints: • pattern: ^[\S\s]{0,256}$ Shorthand Syntax: ResourceTagKey=string,ResourceTagValue=string ... JSON Syntax: [ { "ResourceTagKey": "string", "ResourceTagValue": "string" } ... ]
     /// </summary>
     [CliOption("--exclude-resource-tags", GroupValues = true)]
     public IEnumerable<string>? ExcludeResourceTags { get; set; }

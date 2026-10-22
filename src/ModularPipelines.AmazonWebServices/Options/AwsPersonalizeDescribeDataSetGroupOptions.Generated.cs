@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsPersonalizeDescribeDataSetGroupOptions : AwsOptions, IValidatab
     /// <summary>
     /// Describes the given dataset group. For more information on dataset groups, see CreateDatasetGroup . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSetGroupArn">The Amazon Resource Name (ARN) of the dataset group to describe. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="DataSetGroupArn">The Amazon Resource Name (ARN) of the dataset group to describe. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
     public AwsPersonalizeDescribeDataSetGroupOptions(
         string DataSetGroupArn
     )
@@ -56,7 +58,7 @@ public record AwsPersonalizeDescribeDataSetGroupOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the dataset group to describe. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the dataset group to describe. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--dataset-group-arn")]
     public string? DataSetGroupArn { get; private init; }

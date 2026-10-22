@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSecurityagentBatchGetArtifactMetadataOptions : AwsOptions, IVal
     /// <summary>
     /// Retrieves metadata for one or more artifacts in an agent space. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentSpaceId">The unique identifier of the agent space that contains the arti- facts.</param>
+    /// <param name="AgentSpaceId">The unique identifier of the agent space that contains the artifacts.</param>
     /// <param name="ArtifactIds">The list of artifact identifiers to retrieve metadata for. (string) The id of the artifact. Syntax: "string" "string" ...</param>
     public AwsSecurityagentBatchGetArtifactMetadataOptions(
         string AgentSpaceId,
@@ -71,7 +73,7 @@ public record AwsSecurityagentBatchGetArtifactMetadataOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the agent space that contains the arti- facts.
+    /// The unique identifier of the agent space that contains the artifacts.
     /// </summary>
     [CliOption("--agent-space-id")]
     public string? AgentSpaceId { get; private init; }

@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Scans a provided CycloneDX 1.5 SBOM and reports on any vulnerabilities discovered in that SBOM. You can generate compatible SBOMs for your re- sources using the Amazon Inspector SBOM generator . NOTE: The output of this action reports NVD and CVSS scores when NVD and CVSS scores are available. Because the output reports both scores, you might notice a discrepency between them. However, you can triage the severity of either score depending on the vendor of your choos- ing. See also: AWS API Docum...
+/// Scans a provided CycloneDX 1.5 SBOM and reports on any vulnerabilities discovered in that SBOM. You can generate compatible SBOMs for your resources using the Amazon Inspector SBOM generator . NOTE: The output of this action reports NVD and CVSS scores when NVD and CVSS scores are available. Because the output reports both scores, you might notice a discrepency between them. However, you can triage the severity of either score depending on the vendor of your choosing. See also: AWS API Documenta...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsInspectorScanScanSbomOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Scans a provided CycloneDX 1.5 SBOM and reports on any vulnerabilities discovered in that SBOM. You can generate compatible SBOMs for your re- sources using the Amazon Inspector SBOM generator . NOTE: The output of this action reports NVD and CVSS scores when NVD and CVSS scores are available. Because the output reports both scores, you might notice a discrepency between them. However, you can triage the severity of either score depending on the vendor of your choos- ing. See also: AWS API Docum...
+    /// Scans a provided CycloneDX 1.5 SBOM and reports on any vulnerabilities discovered in that SBOM. You can generate compatible SBOMs for your resources using the Amazon Inspector SBOM generator . NOTE: The output of this action reports NVD and CVSS scores when NVD and CVSS scores are available. Because the output reports both scores, you might notice a discrepency between them. However, you can triage the severity of either score depending on the vendor of your choosing. See also: AWS API Documenta...
     /// </summary>
-    /// <param name="Sbom">The JSON file for the SBOM you want to scan. The SBOM must be in Cy- cloneDX 1.5 format. This format limits you to passing 2000 compo- nents before throwing a ValidException error. JSON Syntax: {...}</param>
+    /// <param name="Sbom">The JSON file for the SBOM you want to scan. The SBOM must be in CycloneDX 1.5 format. This format limits you to passing 2000 components before throwing a ValidException error. JSON Syntax: {...}</param>
     public AwsInspectorScanScanSbomOptions(
         string Sbom
     )
@@ -57,13 +59,13 @@ public record AwsInspectorScanScanSbomOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The JSON file for the SBOM you want to scan. The SBOM must be in Cy- cloneDX 1.5 format. This format limits you to passing 2000 compo- nents before throwing a ValidException error. JSON Syntax: {...}
+    /// The JSON file for the SBOM you want to scan. The SBOM must be in CycloneDX 1.5 format. This format limits you to passing 2000 components before throwing a ValidException error. JSON Syntax: {...}
     /// </summary>
     [CliOption("--sbom")]
     public string? Sbom { get; private init; }
 
     /// <summary>
-    /// The output format for the vulnerability report. Possible values: o CYCLONE_DX_1_5 o INSPECTOR o INSPECTOR_ALT
+    /// The output format for the vulnerability report. Possible values: • CYCLONE_DX_1_5 • INSPECTOR • INSPECTOR_ALT
     /// </summary>
     [CliOption("--output-format")]
     public AwsInspectorScanScanSbomOutputFormat? OutputFormat { get; set; }

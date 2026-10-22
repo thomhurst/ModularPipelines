@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the association between a specified Resolver rule and a speci- fied VPC. WARNING: If you disassociate a Resolver rule from a VPC, Resolver stops for- warding DNS queries for the domain name that you specified in the Resolver rule. See also: AWS API Documentation
+/// Removes the association between a specified Resolver rule and a specified VPC. WARNING: If you disassociate a Resolver rule from a VPC, Resolver stops forwarding DNS queries for the domain name that you specified in the Resolver rule. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsRoute53resolverDisassociateResolverRuleOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the association between a specified Resolver rule and a speci- fied VPC. WARNING: If you disassociate a Resolver rule from a VPC, Resolver stops for- warding DNS queries for the domain name that you specified in the Resolver rule. See also: AWS API Documentation
+    /// Removes the association between a specified Resolver rule and a specified VPC. WARNING: If you disassociate a Resolver rule from a VPC, Resolver stops forwarding DNS queries for the domain name that you specified in the Resolver rule. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VpcId">The ID of the VPC that you want to disassociate the Resolver rule from. Constraints: o min: 1 o max: 64</param>
-    /// <param name="ResolverRuleId">The ID of the Resolver rule that you want to disassociate from the specified VPC. Constraints: o min: 1 o max: 64</param>
+    /// <param name="VpcId">The ID of the VPC that you want to disassociate the Resolver rule from. Constraints: • min: 1 • max: 64</param>
+    /// <param name="ResolverRuleId">The ID of the Resolver rule that you want to disassociate from the specified VPC. Constraints: • min: 1 • max: 64</param>
     public AwsRoute53resolverDisassociateResolverRuleOptions(
         string VpcId,
         string ResolverRuleId
@@ -60,13 +62,13 @@ public record AwsRoute53resolverDisassociateResolverRuleOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the VPC that you want to disassociate the Resolver rule from. Constraints: o min: 1 o max: 64
+    /// The ID of the VPC that you want to disassociate the Resolver rule from. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--vpc-id")]
     public string? VpcId { get; private init; }
 
     /// <summary>
-    /// The ID of the Resolver rule that you want to disassociate from the specified VPC. Constraints: o min: 1 o max: 64
+    /// The ID of the Resolver rule that you want to disassociate from the specified VPC. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--resolver-rule-id")]
     public string? ResolverRuleId { get; private init; }

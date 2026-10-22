@@ -33,7 +33,7 @@ public class AwsSimpledbv2 : IAwsSimpledbv2
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws simpledbv2 wait sub-commands.
     /// </summary>
     public AwsSimpledbv2Wait Wait => _wait ??= new AwsSimpledbv2Wait(_command);
 
@@ -57,7 +57,7 @@ public class AwsSimpledbv2 : IAwsSimpledbv2
     }
 
     /// <summary>
-    /// Lists all exports that were created. The results are paginated and can be filtered by domain name. See also: AWS API Documentation list-exports is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: expor...
+    /// Lists all exports that were created. The results are paginated and can be filtered by domain name. See also: AWS API Documentation list-exports is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: exportSum...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

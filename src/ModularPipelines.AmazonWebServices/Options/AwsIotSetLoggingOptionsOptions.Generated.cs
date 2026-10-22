@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotSetLoggingOptionsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Sets the logging options. NOTE: use of this command is not recommended. Use SetV2LoggingOptions instead. Requires permission to access the SetLoggingOptions action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LoggingOptionsPayload">The logging options payload. roleArn -&gt; (string) [required] The ARN of the IAM role that grants access. logLevel -&gt; (string) The log level. Possible values: o DEBUG o INFO o ERROR o WARN o DISABLED Shorthand Syntax: roleArn=string,logLevel=string JSON Syntax: { "roleArn": "string", "logLevel": "DEBUG"|"INFO"|"ERROR"|"WARN"|"DISABLED" }</param>
+    /// <param name="LoggingOptionsPayload">The logging options payload. roleArn -&gt; (string) [required] The ARN of the IAM role that grants access. logLevel -&gt; (string) The log level. Possible values: • DEBUG • INFO • ERROR • WARN • DISABLED Shorthand Syntax: roleArn=string,logLevel=string JSON Syntax: { "roleArn": "string", "logLevel": "DEBUG"|"INFO"|"ERROR"|"WARN"|"DISABLED" }</param>
     public AwsIotSetLoggingOptionsOptions(
         string LoggingOptionsPayload
     )
@@ -56,7 +58,7 @@ public record AwsIotSetLoggingOptionsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The logging options payload. roleArn -&gt; (string) [required] The ARN of the IAM role that grants access. logLevel -&gt; (string) The log level. Possible values: o DEBUG o INFO o ERROR o WARN o DISABLED Shorthand Syntax: roleArn=string,logLevel=string JSON Syntax: { "roleArn": "string", "logLevel": "DEBUG"|"INFO"|"ERROR"|"WARN"|"DISABLED" }
+    /// The logging options payload. roleArn -&gt; (string) [required] The ARN of the IAM role that grants access. logLevel -&gt; (string) The log level. Possible values: • DEBUG • INFO • ERROR • WARN • DISABLED Shorthand Syntax: roleArn=string,logLevel=string JSON Syntax: { "roleArn": "string", "logLevel": "DEBUG"|"INFO"|"ERROR"|"WARN"|"DISABLED" }
     /// </summary>
     [CliOption("--logging-options-payload")]
     public string? LoggingOptionsPayload { get; private init; }

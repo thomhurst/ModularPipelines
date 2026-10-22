@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Publishes a new version of the view identifier. Versions are immutable and monotonically increasing. It returns the highest version if there is no change in content com- pared to that version. An error is displayed if the supplied ViewCon- tentSha256 is different from the ViewContentSha256 of the $LATEST alias. See also: AWS API Documentation
+/// Publishes a new version of the view identifier. Versions are immutable and monotonically increasing. It returns the highest version if there is no change in content compared to that version. An error is displayed if the supplied ViewContentSha256 is different from the ViewContentSha256 of the $LATEST alias. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsConnectCreateViewVersionOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Publishes a new version of the view identifier. Versions are immutable and monotonically increasing. It returns the highest version if there is no change in content com- pared to that version. An error is displayed if the supplied ViewCon- tentSha256 is different from the ViewContentSha256 of the $LATEST alias. See also: AWS API Documentation
+    /// Publishes a new version of the view identifier. Versions are immutable and monotonically increasing. It returns the highest version if there is no change in content compared to that version. An error is displayed if the supplied ViewContentSha256 is different from the ViewContentSha256 of the $LATEST alias. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9\_\-:\/]+$</param>
-    /// <param name="ViewId">The identifier of the view. Both ViewArn and ViewId can be used. Constraints: o min: 1 o max: 500 o pattern: ^[a-zA-Z0-9\_\-:\/$]+$</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9\_\-:\/]+$</param>
+    /// <param name="ViewId">The identifier of the view. Both ViewArn and ViewId can be used. Constraints: • min: 1 • max: 500 • pattern: ^[a-zA-Z0-9\_\-:\/$]+$</param>
     public AwsConnectCreateViewVersionOptions(
         string InstanceId,
         string ViewId
@@ -60,25 +62,25 @@ public record AwsConnectCreateViewVersionOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9\_\-:\/]+$
+    /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9\_\-:\/]+$
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the view. Both ViewArn and ViewId can be used. Constraints: o min: 1 o max: 500 o pattern: ^[a-zA-Z0-9\_\-:\/$]+$
+    /// The identifier of the view. Both ViewArn and ViewId can be used. Constraints: • min: 1 • max: 500 • pattern: ^[a-zA-Z0-9\_\-:\/$]+$
     /// </summary>
     [CliOption("--view-id")]
     public string? ViewId { get; private init; }
 
     /// <summary>
-    /// The description for the version being published. Constraints: o min: 1 o max: 4096 o pattern: ^([\p{L}\p{N}_.:\/=+\-@,()']+[\p{L}\p{Z}\p{N}_.:\/=+\-@,()']*)$
+    /// The description for the version being published. Constraints: • min: 1 • max: 4096 • pattern: ^([\p{L}\p{N}_.:\/=+\-@,()']+[\p{L}\p{Z}\p{N}_.:\/=+\-@,()']*)$
     /// </summary>
     [CliOption("--version-description")]
     public string? VersionDescription { get; set; }
 
     /// <summary>
-    /// Indicates the checksum value of the latest published view content. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9]$
+    /// Indicates the checksum value of the latest published view content. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9]$
     /// </summary>
     [CliOption("--view-content-sha256")]
     public string? ViewContentSha256 { get; set; }

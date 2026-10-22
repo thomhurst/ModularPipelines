@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The DeleteDomain operation deletes a domain. Any items (and their at- tributes) in the domain are deleted as well. The DeleteDomain operation might take 10 or more seconds to complete. See also: AWS API Documentation
+/// The DeleteDomain operation deletes a domain. Any items (and their attributes) in the domain are deleted as well. The DeleteDomain operation might take 10 or more seconds to complete. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsSdbDeleteDomainOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The DeleteDomain operation deletes a domain. Any items (and their at- tributes) in the domain are deleted as well. The DeleteDomain operation might take 10 or more seconds to complete. See also: AWS API Documentation
+    /// The DeleteDomain operation deletes a domain. Any items (and their attributes) in the domain are deleted as well. The DeleteDomain operation might take 10 or more seconds to complete. See also: AWS API Documentation
     /// </summary>
     /// <param name="DomainName"></param>
     public AwsSdbDeleteDomainOptions(

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified profile. A profile is the mechanism used to cre- ate the concept of a private network. See also: AWS API Documentation
+/// Deletes the specified profile. A profile is the mechanism used to create the concept of a private network. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsB2biDeleteProfileOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified profile. A profile is the mechanism used to cre- ate the concept of a private network. See also: AWS API Documentation
+    /// Deletes the specified profile. A profile is the mechanism used to create the concept of a private network. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileId">Specifies the unique, system-generated identifier for the profile. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ProfileId">Specifies the unique, system-generated identifier for the profile. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsB2biDeleteProfileOptions(
         string ProfileId
     )
@@ -56,7 +58,7 @@ public record AwsB2biDeleteProfileOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the unique, system-generated identifier for the profile. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// Specifies the unique, system-generated identifier for the profile. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--profile-id")]
     public string? ProfileId { get; private init; }

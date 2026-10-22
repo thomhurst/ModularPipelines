@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsSesv2PutDedicatedIpInPoolOptions : AwsOptions, IValidatableObje
     /// Move a dedicated IP address to an existing dedicated IP pool. NOTE: The dedicated IP address that you specify must already exist, and must be associated with your Amazon Web Services account. The dedicated IP pool you specify must already exist. You can create a new pool by using the CreateDedicatedIpPool operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="Ip">The IP address that you want to move to the dedicated IP pool. The value you specify has to be a dedicated IP address that's associated with your Amazon Web Services account.</param>
-    /// <param name="DestinationPoolName">The name of the IP pool that you want to add the dedicated IP ad- dress to. You have to specify an IP pool that already exists.</param>
+    /// <param name="DestinationPoolName">The name of the IP pool that you want to add the dedicated IP address to. You have to specify an IP pool that already exists.</param>
     public AwsSesv2PutDedicatedIpInPoolOptions(
         string Ip,
         string DestinationPoolName
@@ -66,7 +68,7 @@ public record AwsSesv2PutDedicatedIpInPoolOptions : AwsOptions, IValidatableObje
     public string? Ip { get; private init; }
 
     /// <summary>
-    /// The name of the IP pool that you want to add the dedicated IP ad- dress to. You have to specify an IP pool that already exists.
+    /// The name of the IP pool that you want to add the dedicated IP address to. You have to specify an IP pool that already exists.
     /// </summary>
     [CliOption("--destination-pool-name")]
     public string? DestinationPoolName { get; private init; }

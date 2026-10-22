@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCodebuildBatchGetFleetsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets information about one or more compute fleets. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Names">The names or ARNs of the compute fleets. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 Syntax: "string" "string" ...</param>
+    /// <param name="Names">The names or ARNs of the compute fleets. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 Syntax: "string" "string" ...</param>
     public AwsCodebuildBatchGetFleetsOptions(
         IEnumerable<string> Names
     )
@@ -67,7 +69,7 @@ public record AwsCodebuildBatchGetFleetsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The names or ARNs of the compute fleets. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 Syntax: "string" "string" ...
+    /// The names or ARNs of the compute fleets. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; private init; }

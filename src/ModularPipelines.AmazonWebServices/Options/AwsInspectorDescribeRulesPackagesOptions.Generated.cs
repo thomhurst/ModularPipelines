@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsInspectorDescribeRulesPackagesOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Describes the rules packages that are specified by the ARNs of the rules packages. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RulesPackageArns">The ARN that specifies the rules package that you want to describe. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...</param>
+    /// <param name="RulesPackageArns">The ARN that specifies the rules package that you want to describe. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 300 Syntax: "string" "string" ...</param>
     public AwsInspectorDescribeRulesPackagesOptions(
         IEnumerable<string> RulesPackageArns
     )
@@ -67,13 +69,13 @@ public record AwsInspectorDescribeRulesPackagesOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN that specifies the rules package that you want to describe. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...
+    /// The ARN that specifies the rules package that you want to describe. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 300 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--rules-package-arns", GroupValues = true)]
     public IEnumerable<string>? RulesPackageArns { get; private init; }
 
     /// <summary>
-    /// The locale that you want to translate a rules package description into. Possible values: o EN_US
+    /// The locale that you want to translate a rules package description into. Possible values: • EN_US
     /// </summary>
     [CliOption("--locale")]
     public string? Locale { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Cancels a bundling operation for an instance store-backed Windows in- stance. NOTE: CancelBundleTask is no longer supported because BundleInstance , the operation it cancels, is no longer supported. See also: AWS API Documentation
+/// Cancels a bundling operation for an instance store-backed Windows instance. NOTE: CancelBundleTask is no longer supported because BundleInstance , the operation it cancels, is no longer supported. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsEc2CancelBundleTaskOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Cancels a bundling operation for an instance store-backed Windows in- stance. NOTE: CancelBundleTask is no longer supported because BundleInstance , the operation it cancels, is no longer supported. See also: AWS API Documentation
+    /// Cancels a bundling operation for an instance store-backed Windows instance. NOTE: CancelBundleTask is no longer supported because BundleInstance , the operation it cancels, is no longer supported. See also: AWS API Documentation
     /// </summary>
     /// <param name="BundleId">The ID of the bundle task.</param>
     public AwsEc2CancelBundleTaskOptions(
@@ -62,7 +64,7 @@ public record AwsEc2CancelBundleTaskOptions : AwsOptions, IValidatableObject
     public string? BundleId { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

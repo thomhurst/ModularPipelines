@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsMghDisassociateSourceResourceOptions : AwsOptions, IValidatable
     /// <summary>
     /// Removes the association between a source resource and a migration task. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProgressUpdateStream">The name of the progress-update stream, which is used for access control as well as a namespace for migration-task names that is im- plicitly linked to your AWS account. The progress-update stream must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account. Constraints: o min: 1 o max: 50 o pattern: [^/:|\000-\037]+</param>
-    /// <param name="MigrationTaskName">A unique identifier that references the migration task. Do not in- clude sensitive data in this field. Constraints: o min: 1 o max: 256 o pattern: [^:|]+</param>
-    /// <param name="SourceResourceName">The name that was specified for the source resource. Constraints: o min: 1 o max: 1600</param>
+    /// <param name="ProgressUpdateStream">The name of the progress-update stream, which is used for access control as well as a namespace for migration-task names that is implicitly linked to your AWS account. The progress-update stream must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account. Constraints: • min: 1 • max: 50 • pattern: [^/:|\000-\037]+</param>
+    /// <param name="MigrationTaskName">A unique identifier that references the migration task. Do not include sensitive data in this field. Constraints: • min: 1 • max: 256 • pattern: [^:|]+</param>
+    /// <param name="SourceResourceName">The name that was specified for the source resource. Constraints: • min: 1 • max: 1600</param>
     public AwsMghDisassociateSourceResourceOptions(
         string ProgressUpdateStream,
         string MigrationTaskName,
@@ -64,19 +66,19 @@ public record AwsMghDisassociateSourceResourceOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the progress-update stream, which is used for access control as well as a namespace for migration-task names that is im- plicitly linked to your AWS account. The progress-update stream must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account. Constraints: o min: 1 o max: 50 o pattern: [^/:|\000-\037]+
+    /// The name of the progress-update stream, which is used for access control as well as a namespace for migration-task names that is implicitly linked to your AWS account. The progress-update stream must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account. Constraints: • min: 1 • max: 50 • pattern: [^/:|\000-\037]+
     /// </summary>
     [CliOption("--progress-update-stream")]
     public string? ProgressUpdateStream { get; private init; }
 
     /// <summary>
-    /// A unique identifier that references the migration task. Do not in- clude sensitive data in this field. Constraints: o min: 1 o max: 256 o pattern: [^:|]+
+    /// A unique identifier that references the migration task. Do not include sensitive data in this field. Constraints: • min: 1 • max: 256 • pattern: [^:|]+
     /// </summary>
     [CliOption("--migration-task-name")]
     public string? MigrationTaskName { get; private init; }
 
     /// <summary>
-    /// The name that was specified for the source resource. Constraints: o min: 1 o max: 1600
+    /// The name that was specified for the source resource. Constraints: • min: 1 • max: 1600
     /// </summary>
     [CliOption("--source-resource-name")]
     public string? SourceResourceName { get; private init; }

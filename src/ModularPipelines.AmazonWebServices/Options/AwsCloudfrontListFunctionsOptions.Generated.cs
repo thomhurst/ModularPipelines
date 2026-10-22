@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets a list of all CloudFront functions in your Amazon Web Services ac- count. You can optionally apply a filter to return only the functions that are in the specified stage, either DEVELOPMENT or LIVE . You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the max- imum that you specify, or the default maximum, the response is pagi- nated. To get the next page of items, send a subsequent request that specifies the Nex...
+/// Gets a list of all CloudFront functions in your Amazon Web Services account. You can optionally apply a filter to return only the functions that are in the specified stage, either DEVELOPMENT or LIVE . You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarke...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -35,7 +35,7 @@ public record AwsCloudfrontListFunctionsOptions : AwsOptions
     public string? MaxItems { get; set; }
 
     /// <summary>
-    /// An optional filter to return only the functions that are in the specified stage, either DEVELOPMENT or LIVE . Possible values: o DEVELOPMENT o LIVE
+    /// An optional filter to return only the functions that are in the specified stage, either DEVELOPMENT or LIVE . Possible values: • DEVELOPMENT • LIVE
     /// </summary>
     [CliOption("--stage")]
     public AwsCloudfrontListFunctionsStage? Stage { get; set; }

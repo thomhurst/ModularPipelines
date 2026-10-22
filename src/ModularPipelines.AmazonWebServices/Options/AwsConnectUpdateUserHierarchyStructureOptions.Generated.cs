@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the user hierarchy structure: add, remove, and rename user hi- erarchy levels. See also: AWS API Documentation
+/// Updates the user hierarchy structure: add, remove, and rename user hierarchy levels. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsConnectUpdateUserHierarchyStructureOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the user hierarchy structure: add, remove, and rename user hi- erarchy levels. See also: AWS API Documentation
+    /// Updates the user hierarchy structure: add, remove, and rename user hierarchy levels. See also: AWS API Documentation
     /// </summary>
     /// <param name="HierarchyStructure">The hierarchy levels to update. LevelOne -&gt; (structure) The update for level one. Name -&gt; (string) [required] The name of the user hierarchy level. Must not be more than 50 characters. LevelTwo -&gt; (structure) The update for level two. Name -&gt; (string) [required] The name of the user hierarchy level. Must not be more than 50 characters. LevelThree -&gt; (structure) The update for level three. Name -&gt; (string) [required] The name of the user hierarchy level. Must not be more than 50 characters. LevelFour -&gt; (structure) The update for level four. Name -&gt; (string) [required] The name of the user hierarchy level. Must not be more than 50 characters. LevelFive -&gt; (structure) The update for level five. Name -&gt; (string) [required] The name of the user hierarchy level. Must not be more than 50 characters. Shorthand Syntax: LevelOne={Name=string},LevelTwo={Name=string},LevelThree={Name=string},LevelFour={Name=string},LevelFive={Name=string} JSON Syntax: { "LevelOne": { "Name": "string" }, "LevelTwo": { "Name": "string" }, "LevelThree": { "Name": "string" }, "LevelFour": { "Name": "string" }, "LevelFive": { "Name": "string" } }</param>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     public AwsConnectUpdateUserHierarchyStructureOptions(
         string HierarchyStructure,
         string InstanceId
@@ -66,7 +68,7 @@ public record AwsConnectUpdateUserHierarchyStructureOptions : AwsOptions, IValid
     public string? HierarchyStructure { get; private init; }
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }

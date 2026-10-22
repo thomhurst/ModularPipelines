@@ -62,7 +62,7 @@ public class AwsPi : IAwsPi
     }
 
     /// <summary>
-    /// For a specific time period, retrieve the top N dimension keys for a metric. NOTE: Each response element returns a maximum of 500 bytes. For larger el- ements, such as SQL statements, only the first 500 bytes are re- turned. See also: AWS API Documentation
+    /// For a specific time period, retrieve the top N dimension keys for a metric. NOTE: Each response element returns a maximum of 500 bytes. For larger elements, such as SQL statements, only the first 500 bytes are returned. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsPi : IAwsPi
     }
 
     /// <summary>
-    /// Get the attributes of the specified dimension group for a DB instance or data source. For example, if you specify a SQL ID, GetDimensionKey- Details retrieves the full text of the dimension db.sql.statement asso- ciated with this ID. This operation is useful because GetResourceMet- rics and DescribeDimensionKeys don't support retrieval of large SQL statement text, lock snapshots, and execution plans. See also: AWS API Documentation
+    /// Get the attributes of the specified dimension group for a DB instance or data source. For example, if you specify a SQL ID, GetDimensionKeyDetails retrieves the full text of the dimension db.sql.statement associated with this ID. This operation is useful because GetResourceMetrics and DescribeDimensionKeys don't support retrieval of large SQL statement text, lock snapshots, and execution plans. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsPi : IAwsPi
     }
 
     /// <summary>
-    /// Retrieves the report including the report ID, status, time details, and the insights with recommendations. The report status can be RUNNING , SUCCEEDED , or FAILED . The insights include the description and recom- mendation fields. See also: AWS API Documentation
+    /// Retrieves the report including the report ID, status, time details, and the insights with recommendations. The report status can be RUNNING , SUCCEEDED , or FAILED . The insights include the description and recommendation fields. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsPi : IAwsPi
     }
 
     /// <summary>
-    /// Retrieve the metadata for different features. For example, the metadata might indicate that a feature is turned on or off on a specific DB in- stance. See also: AWS API Documentation
+    /// Retrieve the metadata for different features. For example, the metadata might indicate that a feature is turned on or off on a specific DB instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsPi : IAwsPi
     }
 
     /// <summary>
-    /// Retrieve Performance Insights metrics for a set of data sources over a time period. You can provide specific dimension groups and dimensions, and provide filtering criteria for each group. You must specify an ag- gregate function for each metric. NOTE: Each response element returns a maximum of 500 bytes. For larger el- ements, such as SQL statements, only the first 500 bytes are re- turned. See also: AWS API Documentation
+    /// Retrieve Performance Insights metrics for a set of data sources over a time period. You can provide specific dimension groups and dimensions, and provide filtering criteria for each group. You must specify an aggregate function for each metric. NOTE: Each response element returns a maximum of 500 bytes. For larger elements, such as SQL statements, only the first 500 bytes are returned. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsPi : IAwsPi
     }
 
     /// <summary>
-    /// Retrieve metrics of the specified types that can be queried for a spec- ified DB instance. See also: AWS API Documentation
+    /// Retrieve metrics of the specified types that can be queried for a specified DB instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsPi : IAwsPi
     }
 
     /// <summary>
-    /// Retrieves recommendations for a performance analysis report. See also: AWS API Documentation list-performance-analysis-report-recommendations is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following query expressions: Recomme...
+    /// Retrieves recommendations for a performance analysis report. See also: AWS API Documentation list-performance-analysis-report-recommendations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Recommendat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsPi : IAwsPi
     }
 
     /// <summary>
-    /// Deletes the metadata tags from the Amazon RDS Performance Insights re- source. See also: AWS API Documentation
+    /// Deletes the metadata tags from the Amazon RDS Performance Insights resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

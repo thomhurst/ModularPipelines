@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Registers a new activity type along with its configuration settings in the specified domain. WARNING: A TypeAlreadyExists fault is returned if the type already exists in the domain. You cannot change any configuration settings of the type after its registration, and it must be registered as a new version. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: o Use a Resource element with the domain name to limit the action to only specified d...
+/// Registers a new activity type along with its configuration settings in the specified domain. WARNING: A TypeAlreadyExists fault is returned if the type already exists in the domain. You cannot change any configuration settings of the type after its registration, and it must be registered as a new version. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: • Use a Resource element with the domain name to limit the action to only specified d...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsSwfRegisterActivityTypeOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Registers a new activity type along with its configuration settings in the specified domain. WARNING: A TypeAlreadyExists fault is returned if the type already exists in the domain. You cannot change any configuration settings of the type after its registration, and it must be registered as a new version. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: o Use a Resource element with the domain name to limit the action to only specified d...
+    /// Registers a new activity type along with its configuration settings in the specified domain. WARNING: A TypeAlreadyExists fault is returned if the type already exists in the domain. You cannot change any configuration settings of the type after its registration, and it must be registered as a new version. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: • Use a Resource element with the domain name to limit the action to only specified d...
     /// </summary>
-    /// <param name="Domain">The name of the domain in which this activity is to be registered. Constraints: o min: 1 o max: 256</param>
-    /// <param name="Name">The name of the activity type within the domain. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . Constraints: o min: 1 o max: 256</param>
-    /// <param name="ActivityVersion">The version of the activity type. NOTE: The activity type consists of the name and version, the combina- tion of which must be unique within the domain. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . Constraints: o min: 1 o max: 64</param>
+    /// <param name="Domain">The name of the domain in which this activity is to be registered. Constraints: • min: 1 • max: 256</param>
+    /// <param name="Name">The name of the activity type within the domain. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . Constraints: • min: 1 • max: 256</param>
+    /// <param name="ActivityVersion">The version of the activity type. NOTE: The activity type consists of the name and version, the combination of which must be unique within the domain. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . Constraints: • min: 1 • max: 64</param>
     public AwsSwfRegisterActivityTypeOptions(
         string Domain,
         string Name,
@@ -64,61 +66,61 @@ public record AwsSwfRegisterActivityTypeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain in which this activity is to be registered. Constraints: o min: 1 o max: 256
+    /// The name of the domain in which this activity is to be registered. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; private init; }
 
     /// <summary>
-    /// The name of the activity type within the domain. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . Constraints: o min: 1 o max: 256
+    /// The name of the activity type within the domain. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The version of the activity type. NOTE: The activity type consists of the name and version, the combina- tion of which must be unique within the domain. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . Constraints: o min: 1 o max: 64
+    /// The version of the activity type. NOTE: The activity type consists of the name and version, the combination of which must be unique within the domain. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--activity-version")]
     public string? ActivityVersion { get; private init; }
 
     /// <summary>
-    /// A textual description of the activity type. Constraints: o max: 1024
+    /// A textual description of the activity type. Constraints: • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// If set, specifies the default maximum duration that a worker can take to process tasks of this activity type. This default can be overridden when scheduling an activity task using the ScheduleActiv- ityTask Decision . The duration is specified in seconds, an integer greater than or equal to 0 . You can use NONE to specify unlimited duration. Constraints: o max: 8
+    /// If set, specifies the default maximum duration that a worker can take to process tasks of this activity type. This default can be overridden when scheduling an activity task using the ScheduleActivityTask Decision . The duration is specified in seconds, an integer greater than or equal to 0 . You can use NONE to specify unlimited duration. Constraints: • max: 8
     /// </summary>
     [CliOption("--default-task-start-to-close-timeout")]
     public string? DefaultTaskStartToCloseTimeout { get; set; }
 
     /// <summary>
-    /// If set, specifies the default maximum time before which a worker processing a task of this type must report progress by calling RecordActivityTaskHeartbeat . If the timeout is exceeded, the activ- ity task is automatically timed out. This default can be overridden when scheduling an activity task using the ScheduleActivityTask Decision . If the activity worker subsequently attempts to record a heartbeat or returns a result, the activity worker receives an Un- knownResource fault. In this case, Amazon SWF no longer considers the activity task to be valid; the activity worker should clean up the activity task. The duration is specified in seconds, an integer greater than or equal to 0 . You can use NONE to specify unlimited duration. Constraints: o max: 8
+    /// If set, specifies the default maximum time before which a worker processing a task of this type must report progress by calling RecordActivityTaskHeartbeat . If the timeout is exceeded, the activity task is automatically timed out. This default can be overridden when scheduling an activity task using the ScheduleActivityTask Decision . If the activity worker subsequently attempts to record a heartbeat or returns a result, the activity worker receives an UnknownResource fault. In this case, Amazon SWF no longer considers the activity task to be valid; the activity worker should clean up the activity task. The duration is specified in seconds, an integer greater than or equal to 0 . You can use NONE to specify unlimited duration. Constraints: • max: 8
     /// </summary>
     [CliOption("--default-task-heartbeat-timeout")]
     public string? DefaultTaskHeartbeatTimeout { get; set; }
 
     /// <summary>
-    /// If set, specifies the default task list to use for scheduling tasks of this activity type. This default task list is used if a task list isn't provided when a task is scheduled through the ScheduleActivi- tyTask Decision . name -&gt; (string) [required] The name of the task list. Constraints: o min: 1 o max: 256 Shorthand Syntax: name=string JSON Syntax: { "name": "string" }
+    /// If set, specifies the default task list to use for scheduling tasks of this activity type. This default task list is used if a task list isn't provided when a task is scheduled through the ScheduleActivityTask Decision . name -&gt; (string) [required] The name of the task list. Constraints: • min: 1 • max: 256 Shorthand Syntax: name=string JSON Syntax: { "name": "string" }
     /// </summary>
     [CliOption("--default-task-list")]
     public string? DefaultTaskList { get; set; }
 
     /// <summary>
-    /// The default task priority to assign to the activity type. If not as- signed, then 0 is used. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the in the *Amazon SWF Developer Guide .* .
+    /// The default task priority to assign to the activity type. If not assigned, then 0 is used. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the in the *Amazon SWF Developer Guide .* .
     /// </summary>
     [CliOption("--default-task-priority")]
     public string? DefaultTaskPriority { get; set; }
 
     /// <summary>
-    /// If set, specifies the default maximum duration that a task of this activity type can wait before being assigned to a worker. This de- fault can be overridden when scheduling an activity task using the ScheduleActivityTask Decision . The duration is specified in seconds, an integer greater than or equal to 0 . You can use NONE to specify unlimited duration. Constraints: o max: 8
+    /// If set, specifies the default maximum duration that a task of this activity type can wait before being assigned to a worker. This default can be overridden when scheduling an activity task using the ScheduleActivityTask Decision . The duration is specified in seconds, an integer greater than or equal to 0 . You can use NONE to specify unlimited duration. Constraints: • max: 8
     /// </summary>
     [CliOption("--default-task-schedule-to-start-timeout")]
     public string? DefaultTaskScheduleToStartTimeout { get; set; }
 
     /// <summary>
-    /// If set, specifies the default maximum duration for a task of this activity type. This default can be overridden when scheduling an ac- tivity task using the ScheduleActivityTask Decision . The duration is specified in seconds, an integer greater than or equal to 0 . You can use NONE to specify unlimited duration. Constraints: o max: 8
+    /// If set, specifies the default maximum duration for a task of this activity type. This default can be overridden when scheduling an activity task using the ScheduleActivityTask Decision . The duration is specified in seconds, an integer greater than or equal to 0 . You can use NONE to specify unlimited duration. Constraints: • max: 8
     /// </summary>
     [CliOption("--default-task-schedule-to-close-timeout")]
     public string? DefaultTaskScheduleToCloseTimeout { get; set; }

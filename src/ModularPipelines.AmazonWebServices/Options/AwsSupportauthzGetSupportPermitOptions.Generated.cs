@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSupportauthzGetSupportPermitOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Retrieves the details of a support permit by its ARN or name. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SupportPermitIdentifier">The ARN or name of the support permit to retrieve. Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9:/-]{1,512}</param>
+    /// <param name="SupportPermitIdentifier">The ARN or name of the support permit to retrieve. Constraints: • min: 1 • max: 512 • pattern: [a-zA-Z0-9:/-]{1,512}</param>
     public AwsSupportauthzGetSupportPermitOptions(
         string SupportPermitIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsSupportauthzGetSupportPermitOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN or name of the support permit to retrieve. Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9:/-]{1,512}
+    /// The ARN or name of the support permit to retrieve. Constraints: • min: 1 • max: 512 • pattern: [a-zA-Z0-9:/-]{1,512}
     /// </summary>
     [CliOption("--support-permit-identifier")]
     public string? SupportPermitIdentifier { get; private init; }

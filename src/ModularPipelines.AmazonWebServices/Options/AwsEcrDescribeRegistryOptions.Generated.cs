@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the settings for a registry. The replication configuration for a repository can be created or updated with the PutReplicationCon- figuration API action. See also: AWS API Documentation
+/// Describes the settings for a registry. The replication configuration for a repository can be created or updated with the PutReplicationConfiguration API action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

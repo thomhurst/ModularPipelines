@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds a source identifier to an existing RDS event notification sub- scription. See also: AWS API Documentation
+/// Adds a source identifier to an existing RDS event notification subscription. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsRdsAddSourceIdentifierToSubscriptionOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds a source identifier to an existing RDS event notification sub- scription. See also: AWS API Documentation
+    /// Adds a source identifier to an existing RDS event notification subscription. See also: AWS API Documentation
     /// </summary>
     /// <param name="SubscriptionName">The name of the RDS event notification subscription you want to add a source identifier to.</param>
-    /// <param name="SourceIdentifier">The identifier of the event source to be added. Constraints: o If the source type is a DB instance, a DBInstanceIdentifier value must be supplied. o If the source type is a DB cluster, a DBClusterIdentifier value must be supplied. o If the source type is a DB parameter group, a DBParameterGroupName value must be supplied. o If the source type is a DB security group, a DBSecurityGroupName value must be supplied. o If the source type is a DB snapshot, a DBSnapshotIdentifier value must be supplied. o If the source type is a DB cluster snapshot, a DBClusterSnapshotI- dentifier value must be supplied. o If the source type is an RDS Proxy, a DBProxyName value must be supplied.</param>
+    /// <param name="SourceIdentifier">The identifier of the event source to be added. Constraints: • If the source type is a DB instance, a DBInstanceIdentifier value must be supplied. • If the source type is a DB cluster, a DBClusterIdentifier value must be supplied. • If the source type is a DB parameter group, a DBParameterGroupName value must be supplied. • If the source type is a DB security group, a DBSecurityGroupName value must be supplied. • If the source type is a DB snapshot, a DBSnapshotIdentifier value must be supplied. • If the source type is a DB cluster snapshot, a DBClusterSnapshotIdentifier value must be supplied. • If the source type is an RDS Proxy, a DBProxyName value must be supplied.</param>
     public AwsRdsAddSourceIdentifierToSubscriptionOptions(
         string SubscriptionName,
         string SourceIdentifier
@@ -66,7 +68,7 @@ public record AwsRdsAddSourceIdentifierToSubscriptionOptions : AwsOptions, IVali
     public string? SubscriptionName { get; private init; }
 
     /// <summary>
-    /// The identifier of the event source to be added. Constraints: o If the source type is a DB instance, a DBInstanceIdentifier value must be supplied. o If the source type is a DB cluster, a DBClusterIdentifier value must be supplied. o If the source type is a DB parameter group, a DBParameterGroupName value must be supplied. o If the source type is a DB security group, a DBSecurityGroupName value must be supplied. o If the source type is a DB snapshot, a DBSnapshotIdentifier value must be supplied. o If the source type is a DB cluster snapshot, a DBClusterSnapshotI- dentifier value must be supplied. o If the source type is an RDS Proxy, a DBProxyName value must be supplied.
+    /// The identifier of the event source to be added. Constraints: • If the source type is a DB instance, a DBInstanceIdentifier value must be supplied. • If the source type is a DB cluster, a DBClusterIdentifier value must be supplied. • If the source type is a DB parameter group, a DBParameterGroupName value must be supplied. • If the source type is a DB security group, a DBSecurityGroupName value must be supplied. • If the source type is a DB snapshot, a DBSnapshotIdentifier value must be supplied. • If the source type is a DB cluster snapshot, a DBClusterSnapshotIdentifier value must be supplied. • If the source type is an RDS Proxy, a DBProxyName value must be supplied.
     /// </summary>
     [CliOption("--source-identifier")]
     public string? SourceIdentifier { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsAthenaUpdatePreparedStatementOptions : AwsOptions, IValidatable
     /// <summary>
     /// Updates a prepared statement. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StatementName">The name of the prepared statement. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_][a-zA-Z0-9_@:]{1,256}</param>
-    /// <param name="WorkGroup">The workgroup for the prepared statement. Constraints: o pattern: [a-zA-Z0-9._-]{1,128}</param>
-    /// <param name="QueryStatement">The query string for the prepared statement. Constraints: o min: 1 o max: 262144</param>
+    /// <param name="StatementName">The name of the prepared statement. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z_][a-zA-Z0-9_@:]{1,256}</param>
+    /// <param name="WorkGroup">The workgroup for the prepared statement. Constraints: • pattern: [a-zA-Z0-9._-]{1,128}</param>
+    /// <param name="QueryStatement">The query string for the prepared statement. Constraints: • min: 1 • max: 262144</param>
     public AwsAthenaUpdatePreparedStatementOptions(
         string StatementName,
         string WorkGroup,
@@ -64,25 +66,25 @@ public record AwsAthenaUpdatePreparedStatementOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the prepared statement. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_][a-zA-Z0-9_@:]{1,256}
+    /// The name of the prepared statement. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z_][a-zA-Z0-9_@:]{1,256}
     /// </summary>
     [CliOption("--statement-name")]
     public string? StatementName { get; private init; }
 
     /// <summary>
-    /// The workgroup for the prepared statement. Constraints: o pattern: [a-zA-Z0-9._-]{1,128}
+    /// The workgroup for the prepared statement. Constraints: • pattern: [a-zA-Z0-9._-]{1,128}
     /// </summary>
     [CliOption("--work-group")]
     public string? WorkGroup { get; private init; }
 
     /// <summary>
-    /// The query string for the prepared statement. Constraints: o min: 1 o max: 262144
+    /// The query string for the prepared statement. Constraints: • min: 1 • max: 262144
     /// </summary>
     [CliOption("--query-statement")]
     public string? QueryStatement { get; private init; }
 
     /// <summary>
-    /// The description of the prepared statement. Constraints: o min: 1 o max: 1024
+    /// The description of the prepared statement. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

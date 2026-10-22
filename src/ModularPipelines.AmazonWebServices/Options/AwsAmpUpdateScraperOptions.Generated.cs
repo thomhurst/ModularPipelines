@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsAmpUpdateScraperOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates an existing scraper. You can't use this function to update the source from which the scraper is collecting metrics. To change the source, delete the scraper and create a new one. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ScraperId">The ID of the scraper to update. Constraints: o min: 1 o max: 64 o pattern: [0-9A-Za-z][-.0-9A-Z_a-z]*</param>
+    /// <param name="ScraperId">The ID of the scraper to update. Constraints: • min: 1 • max: 64 • pattern: [0-9A-Za-z][-.0-9A-Z_a-z]*</param>
     public AwsAmpUpdateScraperOptions(
         string ScraperId
     )
@@ -57,44 +59,44 @@ public record AwsAmpUpdateScraperOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the scraper to update. Constraints: o min: 1 o max: 64 o pattern: [0-9A-Za-z][-.0-9A-Z_a-z]*
+    /// The ID of the scraper to update. Constraints: • min: 1 • max: 64 • pattern: [0-9A-Za-z][-.0-9A-Z_a-z]*
     /// </summary>
     [CliOption("--scraper-id")]
     public string? ScraperId { get; private init; }
 
     /// <summary>
-    /// The new alias of the scraper. Constraints: o min: 1 o max: 100 o pattern: [0-9A-Za-z][-.0-9A-Z_a-z]*
+    /// The new alias of the scraper. Constraints: • min: 1 • max: 100 • pattern: [0-9A-Za-z][-.0-9A-Z_a-z]*
     /// </summary>
     [CliOption("--alias")]
     public string? Alias { get; set; }
 
     /// <summary>
-    /// Contains the base-64 encoded YAML configuration for the scraper. NOTE: For more information about configuring a scraper, see Using an Amazon Web Services managed collector in the Amazon Managed Ser- vice for Prometheus User Guide . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: configurationBlob. configurationBlob -&gt; (blob) The base 64 encoded scrape configuration file. Shorthand Syntax: configurationBlob=blob JSON Syntax: { "configurationBlob": blob }
+    /// Contains the base-64 encoded YAML configuration for the scraper. NOTE: For more information about configuring a scraper, see Using an Amazon Web Services managed collector in the Amazon Managed Service for Prometheus User Guide . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: configurationBlob. configurationBlob -&gt; (blob) The base 64 encoded scrape configuration file. Shorthand Syntax: configurationBlob=blob JSON Syntax: { "configurationBlob": blob }
     /// </summary>
     [CliOption("--scrape-configuration")]
     public string? ScrapeConfiguration { get; set; }
 
     /// <summary>
-    /// The new destination where the scraper sends metrics. Valid destina- tions are Amazon Managed Service for Prometheus workspaces and CloudWatch datasets. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: ampConfiguration, cloudWatchConfigura- tion. ampConfiguration -&gt; (structure) The Amazon Managed Service for Prometheus workspace to send met- rics to. workspaceArn -&gt; (string) [required] ARN of the Amazon Managed Service for Prometheus workspace. Constraints: o pattern: arn:aws[-a-z]*:aps:[-a-z0-9]+:[0-9]{12}:work- space/.+ cloudWatchConfiguration -&gt; (structure) The CloudWatch dataset to send metrics to. datasetArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the CloudWatch dataset. To use the default dataset, specify arn:aws:cloudwatch:&lt;re- gion&gt;:&lt;account-id&gt;:dataset/default . Constraints: o pattern: arn:aws[-a-z]*:cloud- watch:[-a-z0-9]+:[0-9]{12}:dataset\/.+ Shorthand Syntax: ampConfiguration={workspaceArn=string},cloudWatchConfiguration={datasetArn=string} JSON Syntax: { "ampConfiguration": { "workspaceArn": "string" }, "cloudWatchConfiguration": { "datasetArn": "string" } }
+    /// The new destination where the scraper sends metrics. Valid destinations are Amazon Managed Service for Prometheus workspaces and CloudWatch datasets. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: ampConfiguration, cloudWatchConfiguration. ampConfiguration -&gt; (structure) The Amazon Managed Service for Prometheus workspace to send metrics to. workspaceArn -&gt; (string) [required] ARN of the Amazon Managed Service for Prometheus workspace. Constraints: • pattern: arn:aws[-a-z]*:aps:[-a-z0-9]+:[0-9]{12}:workspace/.+ cloudWatchConfiguration -&gt; (structure) The CloudWatch dataset to send metrics to. datasetArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the CloudWatch dataset. To use the default dataset, specify arn:aws:cloudwatch:&lt;region&gt;:&lt;account-id&gt;:dataset/default . Constraints: • pattern: arn:aws[-a-z]*:cloudwatch:[-a-z0-9]+:[0-9]{12}:dataset\/.+ Shorthand Syntax: ampConfiguration={workspaceArn=string},cloudWatchConfiguration={datasetArn=string} JSON Syntax: { "ampConfiguration": { "workspaceArn": "string" }, "cloudWatchConfiguration": { "datasetArn": "string" } }
     /// </summary>
     [CliOption("--destination")]
     public string? Destination { get; set; }
 
     /// <summary>
-    /// Use this structure to enable cross-account access, so that you can use a target account to access Prometheus metrics from source ac- counts. sourceRoleArn -&gt; (string) The Amazon Resource Name (ARN) of the role used in the source account to enable cross-account scraping. For information about the contents of this policy, see Cross-account setup . Constraints: o pattern: arn:aws[-a-z]*:iam::[0-9]{12}:role/.+ targetRoleArn -&gt; (string) The Amazon Resource Name (ARN) of the role used in the target account to enable cross-account scraping. For information about the contents of this policy, see Cross-account setup . Constraints: o pattern: arn:aws[-a-z]*:iam::[0-9]{12}:role/.+ Shorthand Syntax: sourceRoleArn=string,targetRoleArn=string JSON Syntax: { "sourceRoleArn": "string", "targetRoleArn": "string" }
+    /// Use this structure to enable cross-account access, so that you can use a target account to access Prometheus metrics from source accounts. sourceRoleArn -&gt; (string) The Amazon Resource Name (ARN) of the role used in the source account to enable cross-account scraping. For information about the contents of this policy, see Cross-account setup . Constraints: • pattern: arn:aws[-a-z]*:iam::[0-9]{12}:role/.+ targetRoleArn -&gt; (string) The Amazon Resource Name (ARN) of the role used in the target account to enable cross-account scraping. For information about the contents of this policy, see Cross-account setup . Constraints: • pattern: arn:aws[-a-z]*:iam::[0-9]{12}:role/.+ Shorthand Syntax: sourceRoleArn=string,targetRoleArn=string JSON Syntax: { "sourceRoleArn": "string", "targetRoleArn": "string" }
     /// </summary>
     [CliOption("--role-configuration")]
     public string? RoleConfiguration { get; set; }
 
     /// <summary>
-    /// A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
+    /// A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive. Constraints: • min: 1 • max: 64 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The exporter configurations for the scraper. You can configure at most one Amazon OpenSearch Service domain. If you don't specify a value, the existing exporter configuration remains unchanged. Constraints: o min: 0 o max: 1 (tagged union structure) Contains the configuration for an exporter managed by the scraper. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: openSearchConfiguration. openSearchConfiguration -&gt; (structure) The configuration that the scraper uses to export metrics to an Amazon OpenSearch Service domain. domainArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Amazon OpenSearch Service domain. Constraints: o pattern: arn:aws[-a-z]*:es:[-a-z0-9]+:[0-9]{12}:do- main\/.+ Shorthand Syntax: openSearchConfiguration={domainArn=string} ... JSON Syntax: [ { "openSearchConfiguration": { "domainArn": "string" } } ... ]
+    /// The exporter configurations for the scraper. You can configure at most one Amazon OpenSearch Service domain. If you don't specify a value, the existing exporter configuration remains unchanged. Constraints: • min: 0 • max: 1 (tagged union structure) Contains the configuration for an exporter managed by the scraper. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: openSearchConfiguration. openSearchConfiguration -&gt; (structure) The configuration that the scraper uses to export metrics to an Amazon OpenSearch Service domain. domainArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Amazon OpenSearch Service domain. Constraints: • pattern: arn:aws[-a-z]*:es:[-a-z0-9]+:[0-9]{12}:domain\/.+ Shorthand Syntax: openSearchConfiguration={domainArn=string} ... JSON Syntax: [ { "openSearchConfiguration": { "domainArn": "string" } } ... ]
     /// </summary>
     [CliOption("--exporters", GroupValues = true)]
     public IEnumerable<string>? Exporters { get; set; }

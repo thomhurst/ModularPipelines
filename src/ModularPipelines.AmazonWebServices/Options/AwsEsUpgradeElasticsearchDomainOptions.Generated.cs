@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Allows you to either upgrade your domain or perform an Upgrade eligi- bility check to a compatible Elasticsearch version. See also: AWS API Documentation
+/// Allows you to either upgrade your domain or perform an Upgrade eligibility check to a compatible Elasticsearch version. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsEsUpgradeElasticsearchDomainOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Allows you to either upgrade your domain or perform an Upgrade eligi- bility check to a compatible Elasticsearch version. See also: AWS API Documentation
+    /// Allows you to either upgrade your domain or perform an Upgrade eligibility check to a compatible Elasticsearch version. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The name of an Elasticsearch domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following charac- ters: a-z (lowercase), 0-9, and - (hyphen). Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
-    /// <param name="TargetVersion">The version of Elasticsearch that you intend to upgrade the domain to. Constraints: o pattern: ^[0-9]{1}\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\.[0-9]{1,2}$|^OS_[0-9]{1,2}\.[0-9]{1,2}$</param>
+    /// <param name="DomainName">The name of an Elasticsearch domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="TargetVersion">The version of Elasticsearch that you intend to upgrade the domain to. Constraints: • pattern: ^[0-9]{1}\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\.[0-9]{1,2}$|^OS_[0-9]{1,2}\.[0-9]{1,2}$</param>
     public AwsEsUpgradeElasticsearchDomainOptions(
         string DomainName,
         string TargetVersion
@@ -60,19 +62,19 @@ public record AwsEsUpgradeElasticsearchDomainOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of an Elasticsearch domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following charac- ters: a-z (lowercase), 0-9, and - (hyphen). Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// The name of an Elasticsearch domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The version of Elasticsearch that you intend to upgrade the domain to. Constraints: o pattern: ^[0-9]{1}\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\.[0-9]{1,2}$|^OS_[0-9]{1,2}\.[0-9]{1,2}$
+    /// The version of Elasticsearch that you intend to upgrade the domain to. Constraints: • pattern: ^[0-9]{1}\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\.[0-9]{1,2}$|^OS_[0-9]{1,2}\.[0-9]{1,2}$
     /// </summary>
     [CliOption("--target-version")]
     public string? TargetVersion { get; private init; }
 
     /// <summary>
-    /// This flag, when set to True, indicates that an Upgrade Eligibility Check needs to be performed. This will not actually perform the Up- grade.
+    /// This flag, when set to True, indicates that an Upgrade Eligibility Check needs to be performed. This will not actually perform the Upgrade.
     /// </summary>
     [CliFlag("--perform-check-only", NegatedName = "--no-perform-check-only")]
     public bool? PerformCheckOnly { get; set; }

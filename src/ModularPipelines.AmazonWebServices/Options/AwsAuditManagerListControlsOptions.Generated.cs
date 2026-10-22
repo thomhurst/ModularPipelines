@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +31,7 @@ public record AwsAuditManagerListControlsOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Returns a list of controls from Audit Manager. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ControlType">A filter that narrows the list of controls to a specific type. Possible values: o Standard o Custom o Core</param>
+    /// <param name="ControlType">A filter that narrows the list of controls to a specific type. Possible values: • Standard • Custom • Core</param>
     public AwsAuditManagerListControlsOptions(
         AwsAuditManagerListControlsControlType ControlType
     )
@@ -57,26 +59,26 @@ public record AwsAuditManagerListControlsOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A filter that narrows the list of controls to a specific type. Possible values: o Standard o Custom o Core
+    /// A filter that narrows the list of controls to a specific type. Possible values: • Standard • Custom • Core
     /// </summary>
     [CliOption("--control-type")]
     public AwsAuditManagerListControlsControlType? ControlType { get; private init; }
 
     /// <summary>
-    /// The pagination token that's used to fetch the next set of results. Constraints: o min: 1 o max: 1000 o pattern: ^[A-Za-z0-9+\/=]*$
+    /// The pagination token that's used to fetch the next set of results. Constraints: • min: 1 • max: 1000 • pattern: ^[A-Za-z0-9+\/=]*$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results on a page or for an API request call. Constraints: o min: 1 o max: 1000
+    /// The maximum number of results on a page or for an API request call. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// A filter that narrows the list of controls to a specific resource from the Amazon Web Services Control Catalog. To use this parameter, specify the ARN of the Control Catalog re- source. You can specify either a control domain, a control objec- tive, or a common control. For information about how to find the ARNs for these resources, see ` ListDomains https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html`__ , ` ListObjectives https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListObjectives.html`__ , and ` ListCommonControls https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListCommonControls.html`__ . NOTE: You can only filter by one Control Catalog resource at a time. Specifying multiple resource ARNs isnt currently supported. If you want to filter by more than one ARN, we recommend that you run the ListControls operation separately for each ARN. Alternatively, specify UNCATEGORIZED to list controls that aren't mapped to a Control Catalog resource. For example, this operation might return a list of custom controls that don't belong to any con- trol domain or control objective. Constraints: o min: 13 o max: 2048 o pattern: ^arn:.*:controlcatalog:.*|UNCATEGORIZED
+    /// A filter that narrows the list of controls to a specific resource from the Amazon Web Services Control Catalog. To use this parameter, specify the ARN of the Control Catalog resource. You can specify either a control domain, a control objective, or a common control. For information about how to find the ARNs for these resources, see ` ListDomains https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html`__ , ` ListObjectives https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListObjectives.html`__ , and ` ListCommonControls https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListCommonControls.html`__ . NOTE: You can only filter by one Control Catalog resource at a time. Specifying multiple resource ARNs isnt currently supported. If you want to filter by more than one ARN, we recommend that you run the ListControls operation separately for each ARN. Alternatively, specify UNCATEGORIZED to list controls that aren't mapped to a Control Catalog resource. For example, this operation might return a list of custom controls that don't belong to any control domain or control objective. Constraints: • min: 13 • max: 2048 • pattern: ^arn:.*:controlcatalog:.*|UNCATEGORIZED
     /// </summary>
     [CliOption("--control-catalog-id")]
     public string? ControlCatalogId { get; set; }

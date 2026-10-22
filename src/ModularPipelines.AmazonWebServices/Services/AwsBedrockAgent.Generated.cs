@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws bedrockagent commands.
+/// aws bedrock-agent commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsBedrockAgent : IAwsBedrockAgent
@@ -47,7 +47,7 @@ public class AwsBedrockAgent : IAwsBedrockAgent
     }
 
     /// <summary>
-    /// Associates a knowledge base with an agent. If a knowledge base is asso- ciated and its indexState is set to Enabled , the agent queries the knowledge base for information to augment its response to the user. See also: AWS API Documentation
+    /// Associates a knowledge base with an agent. If a knowledge base is associated and its indexState is set to Enabled , the agent queries the knowledge base for information to augment its response to the user. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsBedrockAgent : IAwsBedrockAgent
     }
 
     /// <summary>
-    /// Creates an action group for an agent. An action group represents the actions that an agent can carry out for the customer by defining the APIs that an agent can call and the logic for calling them. To allow your agent to request the user for additional information when trying to complete a task, add an action group with the parentAction- GroupSignature field set to AMAZON.UserInput . To allow your agent to generate, run, and troubleshoot code when trying to complete a task, add an action group w...
+    /// Creates an action group for an agent. An action group represents the actions that an agent can carry out for the customer by defining the APIs that an agent can call and the logic for calling them. To allow your agent to request the user for additional information when trying to complete a task, add an action group with the parentActionGroupSignature field set to AMAZON.UserInput . To allow your agent to generate, run, and troubleshoot code when trying to complete a task, add an action group wit...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsBedrockAgent : IAwsBedrockAgent
     }
 
     /// <summary>
-    /// NOTE: Amazon Bedrock Agents (now Amazon Bedrock Agents Classic) is no longer open to new customers. For capabilities similar to Bedrock Agents Classic, explore Amazon Bedrock AgentCore. Existing customers can continue to use the service as normal. For more information, see Amazon Bedrock Agents Classic availability change . Creates an agent that orchestrates interactions between foundation mod- els, data sources, software applications, user conversations, and APIs to carry out tasks to help cust...
+    /// NOTE: Amazon Bedrock Agents (now Amazon Bedrock Agents Classic) is no longer open to new customers. For capabilities similar to Bedrock Agents Classic, explore Amazon Bedrock AgentCore. Existing customers can continue to use the service as normal. For more information, see Amazon Bedrock Agents Classic availability change . Creates an agent that orchestrates interactions between foundation models, data sources, software applications, user conversations, and APIs to carry out tasks to help custom...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsBedrockAgent : IAwsBedrockAgent
     }
 
     /// <summary>
-    /// Connects a knowledge base to a data source. You specify the configura- tion for the specific data source service in the dataSourceConfigura- tion field. WARNING: You can't change the chunkingConfiguration after you create the data source connector. See also: AWS API Documentation create-data-source uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters t...
+    /// Connects a knowledge base to a data source. You specify the configuration for the specific data source service in the dataSourceConfiguration field. WARNING: You can't change the chunkingConfiguration after you create the data source connector. See also: AWS API Documentation create-data-source uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that ar...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsBedrockAgent : IAwsBedrockAgent
     }
 
     /// <summary>
-    /// Creates a version of the flow that you can deploy. For more informa- tion, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide. See also: AWS API Documentation create-flow-version uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support docu...
+    /// Creates a version of the flow that you can deploy. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide. See also: AWS API Documentation create-flow-version uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsBedrockAgent : IAwsBedrockAgent
     }
 
     /// <summary>
-    /// Creates a knowledge base. A knowledge base contains your data sources so that Large Language Models (LLMs) can use your data. To create a knowledge base, you must first set up your data sources and configure a supported vector store. For more information, see Set up a knowledge base . NOTE: To create a managed knowledge base, provide a managedKnowledgeBaseC- onfiguration during creation. For more information, see Build a man- aged knowledge base . o Provide the name and an optional description ....
+    /// Creates a knowledge base. A knowledge base contains your data sources so that Large Language Models (LLMs) can use your data. To create a knowledge base, you must first set up your data sources and configure a supported vector store. For more information, see Set up a knowledge base . NOTE: To create a managed knowledge base, provide a managedKnowledgeBaseConfiguration during creation. For more information, see Build a managed knowledge base . • Provide the name and an optional description . • P...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsBedrockAgent : IAwsBedrockAgent
     }
 
     /// <summary>
-    /// Creates a static snapshot of your prompt that can be deployed to pro- duction. For more information, see Deploy prompts using Prompt manage- ment by creating versions in the Amazon Bedrock User Guide. See also: AWS API Documentation create-prompt-version uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must b...
+    /// Creates a static snapshot of your prompt that can be deployed to production. For more information, see Deploy prompts using Prompt management by creating versions in the Amazon Bedrock User Guide. See also: AWS API Documentation create-prompt-version uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be prov...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsBedrockAgent : IAwsBedrockAgent
     }
 
     /// <summary>
-    /// Creates a VPC configuration that lets a knowledge base connect to a re- source in your private VPC. This operation is asynchronous: it returns a vpcConfigurationId with status CREATING . Poll GetVpcConfiguration until the status becomes CREATED or CREATE_FAILED . See also: AWS API Documentation
+    /// Creates a VPC configuration that lets a knowledge base connect to a resource in your private VPC. This operation is asynchronous: it returns a vpcConfigurationId with status CREATING . Poll GetVpcConfiguration until the status becomes CREATED or CREATE_FAILED . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsBedrockAgent : IAwsBedrockAgent
     }
 
     /// <summary>
-    /// Deletes a VPC configuration. This operation is asynchronous: it returns status DELETING . Poll GetVpcConfiguration until it returns a Re- sourceNotFoundException , indicating the configuration is deleted. Delete requests are idempotent and safe to retry. See also: AWS API Documentation
+    /// Deletes a VPC configuration. This operation is asynchronous: it returns status DELETING . Poll GetVpcConfiguration until it returns a ResourceNotFoundException , indicating the configuration is deleted. Delete requests are idempotent and safe to retry. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsBedrockAgent : IAwsBedrockAgent
     }
 
     /// <summary>
-    /// Gets details about a version of an agent. See also: AWS API Documentation get-agent-version uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Gets details about a version of an agent. See also: AWS API Documentation get-agent-version uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsBedrockAgent : IAwsBedrockAgent
     }
 
     /// <summary>
-    /// Gets information about a data source. See also: AWS API Documentation get-data-source uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Gets information about a data source. See also: AWS API Documentation get-data-source uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsBedrockAgent : IAwsBedrockAgent
     }
 
     /// <summary>
-    /// Retrieves information about a flow. For more information, see Manage a flow in Amazon Bedrock in the Amazon Bedrock User Guide. See also: AWS API Documentation get-flow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syn- tax does not support document types.
+    /// Retrieves information about a flow. For more information, see Manage a flow in Amazon Bedrock in the Amazon Bedrock User Guide. See also: AWS API Documentation get-flow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsBedrockAgent : IAwsBedrockAgent
     }
 
     /// <summary>
-    /// Retrieves information about a version of a flow. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide. See also: AWS API Documentation get-flow-version uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document ty...
+    /// Retrieves information about a version of a flow. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide. See also: AWS API Documentation get-flow-version uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document type...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -632,7 +632,7 @@ public class AwsBedrockAgent : IAwsBedrockAgent
     }
 
     /// <summary>
-    /// Gets information about a knowledge base. See also: AWS API Documentation get-knowledge-base uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Gets information about a knowledge base. See also: AWS API Documentation get-knowledge-base uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +647,7 @@ public class AwsBedrockAgent : IAwsBedrockAgent
     }
 
     /// <summary>
-    /// Retrieves information about the working draft (DRAFT version) of a prompt or a version of it, depending on whether you include the promptVersion field or not. For more information, see View information about prompts using Prompt management and View information about a ver- sion of your prompt in the Amazon Bedrock User Guide. See also: AWS API Documentation get-prompt uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, ar...
+    /// Retrieves information about the working draft (DRAFT version) of a prompt or a version of it, depending on whether you include the promptVersion field or not. For more information, see View information about prompts using Prompt management and View information about a version of your prompt in the Amazon Bedrock User Guide. See also: AWS API Documentation get-prompt uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arra...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -692,7 +692,7 @@ public class AwsBedrockAgent : IAwsBedrockAgent
     }
 
     /// <summary>
-    /// Ingests documents directly into the knowledge base that is connected to the data source. The dataSourceType specified in the content for each document must match the type of the data source that you specify in the header. For more information, see Ingest changes directly into a knowl- edge base in the Amazon Bedrock User Guide. See also: AWS API Documentation
+    /// Ingests documents directly into the knowledge base that is connected to the data source. The dataSourceType specified in the content for each document must match the type of the data source that you specify in the header. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -707,7 +707,7 @@ public class AwsBedrockAgent : IAwsBedrockAgent
     }
 
     /// <summary>
-    /// Lists the action groups for an agent and information about each one. See also: AWS API Documentation list-agent-action-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: actionGroupSummaries
+    /// Lists the action groups for an agent and information about each one. See also: AWS API Documentation list-agent-action-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: actionGroupSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -737,7 +737,7 @@ public class AwsBedrockAgent : IAwsBedrockAgent
     }
 
     /// <summary>
-    /// Retrieve a list of an agent's collaborators. See also: AWS API Documentation list-agent-collaborators is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: agentCollaboratorSummaries
+    /// Retrieve a list of an agent's collaborators. See also: AWS API Documentation list-agent-collaborators is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: agentCollaboratorSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -752,7 +752,7 @@ public class AwsBedrockAgent : IAwsBedrockAgent
     }
 
     /// <summary>
-    /// Lists knowledge bases associated with an agent and information about each one. See also: AWS API Documentation list-agent-knowledge-bases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: agentKnowledg...
+    /// Lists knowledge bases associated with an agent and information about each one. See also: AWS API Documentation list-agent-knowledge-bases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: agentKnowledgeB...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -764,21 +764,6 @@ public class AwsBedrockAgent : IAwsBedrockAgent
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists the agents belonging to an account and information about each agent. See also: AWS API Documentation list-agents is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: agentSummaries
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListAgentsAsync(
-        AwsBedrockAgentListAgentsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentListAgentsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -794,6 +779,21 @@ public class AwsBedrockAgent : IAwsBedrockAgent
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the agents belonging to an account and information about each agent. See also: AWS API Documentation list-agents is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: agentSummaries
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAgentsAsync(
+        AwsBedrockAgentListAgentsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentListAgentsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -827,21 +827,6 @@ public class AwsBedrockAgent : IAwsBedrockAgent
     }
 
     /// <summary>
-    /// Returns a list of flows and information about each flow. For more in- formation, see Manage a flow in Amazon Bedrock in the Amazon Bedrock User Guide. See also: AWS API Documentation list-flows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the r...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListFlowsAsync(
-        AwsBedrockAgentListFlowsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentListFlowsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns a list of information about each flow. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide. See also: AWS API Documentation list-flow-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -854,6 +839,21 @@ public class AwsBedrockAgent : IAwsBedrockAgent
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a list of flows and information about each flow. For more information, see Manage a flow in Amazon Bedrock in the Amazon Bedrock User Guide. See also: AWS API Documentation list-flows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resul...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListFlowsAsync(
+        AwsBedrockAgentListFlowsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentListFlowsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -872,7 +872,7 @@ public class AwsBedrockAgent : IAwsBedrockAgent
     }
 
     /// <summary>
-    /// Retrieves all the documents contained in a data source that is con- nected to a knowledge base. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide. See also: AWS API Documentation list-knowledge-base-documents is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on...
+    /// Retrieves all the documents contained in a data source that is connected to a knowledge base. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide. See also: AWS API Documentation list-knowledge-base-documents is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pag...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -887,7 +887,7 @@ public class AwsBedrockAgent : IAwsBedrockAgent
     }
 
     /// <summary>
-    /// Lists the knowledge bases in an account. The list also includesinforma- tion about each knowledge base. See also: AWS API Documentation list-knowledge-bases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressio...
+    /// Lists the knowledge bases in an account. The list also includesinformation about each knowledge base. See also: AWS API Documentation list-knowledge-bases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -977,7 +977,7 @@ public class AwsBedrockAgent : IAwsBedrockAgent
     }
 
     /// <summary>
-    /// Associates a resource policy with a knowledge base. A resource policy allows other AWS accounts to access the knowledge base. For more infor- mation, see Cross-account access for knowledge bases . See also: AWS API Documentation
+    /// Associates a resource policy with a knowledge base. A resource policy allows other AWS accounts to access the knowledge base. For more information, see Cross-account access for knowledge bases . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -992,7 +992,7 @@ public class AwsBedrockAgent : IAwsBedrockAgent
     }
 
     /// <summary>
-    /// Begins a data ingestion job. Data sources are ingested into your knowl- edge base so that Large Language Models (LLMs) can use your data. See also: AWS API Documentation
+    /// Begins a data ingestion job. Data sources are ingested into your knowledge base so that Large Language Models (LLMs) can use your data. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1022,7 +1022,7 @@ public class AwsBedrockAgent : IAwsBedrockAgent
     }
 
     /// <summary>
-    /// Associate tags with a resource. For more information, see Tagging re- sources in the Amazon Bedrock User Guide. See also: AWS API Documentation
+    /// Associate tags with a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1127,7 +1127,7 @@ public class AwsBedrockAgent : IAwsBedrockAgent
     }
 
     /// <summary>
-    /// Updates the configurations for a data source connector. WARNING: You can't change the chunkingConfiguration after you create the data source connector. Specify the existing chunkingConfiguration . See also: AWS API Documentation update-data-source uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provi...
+    /// Updates the configurations for a data source connector. WARNING: You can't change the chunkingConfiguration after you create the data source connector. Specify the existing chunkingConfiguration . See also: AWS API Documentation update-data-source uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provide...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1172,7 +1172,7 @@ public class AwsBedrockAgent : IAwsBedrockAgent
     }
 
     /// <summary>
-    /// Updates the configuration of a knowledge base with the fields that you specify. Because all fields will be overwritten, you must include the same values for fields that you want to keep the same. You can change the following fields: o name o description o roleArn You can't change the knowledgeBaseConfiguration or storageConfiguration fields, so you must specify the same configurations as when you created the knowledge base. You can send a GetKnowledgeBase request and copy the same configurations...
+    /// Updates the configuration of a knowledge base with the fields that you specify. Because all fields will be overwritten, you must include the same values for fields that you want to keep the same. You can change the following fields: • name • description • roleArn You can't change the knowledgeBaseConfiguration or storageConfiguration fields, so you must specify the same configurations as when you created the knowledge base. You can send a GetKnowledgeBase request and copy the same configurations...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1202,7 +1202,7 @@ public class AwsBedrockAgent : IAwsBedrockAgent
     }
 
     /// <summary>
-    /// Validates the definition of a flow. See also: AWS API Documentation validate-flow-definition uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support document types.
+    /// Validates the definition of a flow. See also: AWS API Documentation validate-flow-definition uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets information about uploads, given an AWS Device Farm project ARN. See also: AWS API Documentation list-uploads is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: uploads
+/// Gets information about uploads, given an AWS Device Farm project ARN. See also: AWS API Documentation list-uploads is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: uploads
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsDevicefarmListUploadsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets information about uploads, given an AWS Device Farm project ARN. See also: AWS API Documentation list-uploads is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: uploads
+    /// Gets information about uploads, given an AWS Device Farm project ARN. See also: AWS API Documentation list-uploads is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: uploads
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the project for which you want to list uploads. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the project for which you want to list uploads. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+</param>
     public AwsDevicefarmListUploadsOptions(
         string Arn
     )
@@ -57,22 +59,19 @@ public record AwsDevicefarmListUploadsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the project for which you want to list uploads. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// The Amazon Resource Name (ARN) of the project for which you want to list uploads. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The type of upload. Must be one of the following values: o ANDROID_APP o IOS_APP o WEB_APP o EXTERNAL_DATA o APPIUM_JAVA_JUNIT_TEST_PACKAGE o APPIUM_JAVA_TESTNG_TEST_PACKAGE o APPIUM_PYTHON_TEST_PACKAGE o APPIUM_NODE_TEST_PACKAGE o APPIUM_RUBY_TEST_PACKAGE o APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE o APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE o APPIUM_WEB_PYTHON_TEST_PACKAGE o APPIUM_WEB_NODE_TEST_PACKAGE o APPIUM_WEB_RUBY_TEST_PACKAGE o INSTRUMENTATION_TEST_PACKAGE o XCTEST_TEST_PACKAGE o XCTEST_UI_TEST_PACKAGE o APPIUM_JAVA_JUNIT_TEST_SPEC o APPIUM_JAVA_TESTNG_TEST_SPEC o APPIUM_PYTHON_TEST_SPEC o APPIUM_NODE_TEST_SPEC o APPIUM_RUBY_TEST_SPEC o APPIUM_WEB_JAVA_JUNIT_TEST_SPEC o APPIUM_WEB_JAVA_TESTNG_TEST_SPEC o APPIUM_WEB_PYTHON_TEST_SPEC o APPIUM_WEB_NODE_TEST_SPEC o APPIUM_WEB_RUBY_TEST_SPEC o INSTRUMENTATION_TEST_SPEC o XCTEST_UI_TEST_SPEC Possible values: o ANDROID_APP o IOS_APP o WEB_APP o EXTERNAL_DATA o APPIUM_JAVA_JUNIT_TEST_PACKAGE o APPIUM_JAVA_TESTNG_TEST_PACKAGE o APPIUM_PYTHON_TEST_PACKAGE o APPIUM_NODE_TEST_PACKAGE o APPIUM_RUBY_TEST_PACKAGE o APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE o APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE o APPIUM_WEB_PYTHON_TEST_PACKAGE o APPIUM_WEB_NODE_TEST_PACKAGE o APPIUM_WEB_RUBY_TEST_PACKAGE o CALABASH_TEST_PACKAGE o INSTRUMENTATION_TEST_PACKAGE o UIAUTOMATION_TEST_PACKAGE o UIAUTOMATOR_TEST_PACKAGE o XCTEST_TEST_PACKAGE o XCTEST_UI_TEST_PACKAGE o APPIUM_JAVA_JUNIT_TEST_SPEC o APPIUM_JAVA_TESTNG_TEST_SPEC o APPIUM_PYTHON_TEST_SPEC o APPIUM_NODE_TEST_SPEC o APPIUM_RUBY_TEST_SPEC o APPIUM_WEB_JAVA_JUNIT_TEST_SPEC o APPIUM_WEB_JAVA_TESTNG_TEST_SPEC o APPIUM_WEB_PYTHON_TEST_SPEC o APPIUM_WEB_NODE_TEST_SPEC o APPIUM_WEB_RUBY_TEST_SPEC o INSTRUMENTATION_TEST_SPEC o XCTEST_UI_TEST_SPEC
+    /// The type of upload. Must be one of the following values: • ANDROID_APP • IOS_APP • WEB_APP • EXTERNAL_DATA • APPIUM_JAVA_JUNIT_TEST_PACKAGE • APPIUM_JAVA_TESTNG_TEST_PACKAGE • APPIUM_PYTHON_TEST_PACKAGE • APPIUM_NODE_TEST_PACKAGE • APPIUM_RUBY_TEST_PACKAGE • APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE • APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE • APPIUM_WEB_PYTHON_TEST_PACKAGE • APPIUM_WEB_NODE_TEST_PACKAGE • APPIUM_WEB_RUBY_TEST_PACKAGE • INSTRUMENTATION_TEST_PACKAGE • XCTEST_TEST_PACKAGE • XCTEST_UI_TEST_PACKAGE • APPIUM_JAVA_JUNIT_TEST_SPEC • APPIUM_JAVA_TESTNG_TEST_SPEC • APPIUM_PYTHON_TEST_SPEC • APPIUM_NODE_TEST_SPEC • APPIUM_RUBY_TEST_SPEC • APPIUM_WEB_JAVA_JUNIT_TEST_SPEC • APPIUM_WEB_JAVA_TESTNG_TEST_SPEC • APPIUM_WEB_PYTHON_TEST_SPEC • APPIUM_WEB_NODE_TEST_SPEC • APPIUM_WEB_RUBY_TEST_SPEC • INSTRUMENTATION_TEST_SPEC • XCTEST_UI_TEST_SPEC Possible values: • ANDROID_APP • IOS_APP • WEB_APP • EXTERNAL_DATA • APPIUM_JAVA_JUNIT_TEST_PACKAGE • APPIUM_JAVA_TESTNG_TEST_PACKAGE • APPIUM_PYTHON_TEST_PACKAGE • APPIUM_NODE_TEST_PACKAGE • APPIUM_RUBY_TEST_PACKAGE • APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE • APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE • APPIUM_WEB_PYTHON_TEST_PACKAGE • APPIUM_WEB_NODE_TEST_PACKAGE • APPIUM_WEB_RUBY_TEST_PACKAGE • CALABASH_TEST_PACKAGE • INSTRUMENTATION_TEST_PACKAGE • UIAUTOMATION_TEST_PACKAGE • UIAUTOMATOR_TEST_PACKAGE • XCTEST_TEST_PACKAGE • XCTEST_UI_TEST_PACKAGE • APPIUM_JAVA_JUNIT_TEST_SPEC • APPIUM_JAVA_TESTNG_TEST_SPEC • APPIUM_PYTHON_TEST_SPEC • APPIUM_NODE_TEST_SPEC • APPIUM_RUBY_TEST_SPEC • APPIUM_WEB_JAVA_JUNIT_TEST_SPEC • APPIUM_WEB_JAVA_TESTNG_TEST_SPEC • APPIUM_WEB_PYTHON_TEST_SPEC • APPIUM_WEB_NODE_TEST_SPEC • APPIUM_WEB_RUBY_TEST_SPEC • INSTRUMENTATION_TEST_SPEC • XCTEST_UI_TEST_SPEC
     /// </summary>
     [CliOption("--type")]
     public string? Type { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -82,10 +81,13 @@ public record AwsDevicefarmListUploadsOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

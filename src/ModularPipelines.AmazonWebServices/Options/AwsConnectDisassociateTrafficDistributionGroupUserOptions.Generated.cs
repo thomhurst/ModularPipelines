@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsConnectDisassociateTrafficDistributionGroupUserOptions : AwsOpt
     /// <summary>
     /// Disassociates an agent from a traffic distribution group. This API can be called only in the Region where the traffic distribution group is created. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TrafficDistributionGroupId">The identifier of the traffic distribution group. This can be the ID or the ARN of the traffic distribution group. Constraints: o pattern: ^(arn:(aws|aws-us-gov):con- nect:[a-z]{2}-[a-z-]+-[0-9]{1}:[0-9]{1,20}:traffic-distribu- tion-group/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="TrafficDistributionGroupId">The identifier of the traffic distribution group. This can be the ID or the ARN of the traffic distribution group. Constraints: • pattern: ^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z-]+-[0-9]{1}:[0-9]{1,20}:traffic-distribution-group/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
     /// <param name="UserId">The identifier for the user. This can be the ID or the ARN of the user.</param>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     public AwsConnectDisassociateTrafficDistributionGroupUserOptions(
         string TrafficDistributionGroupId,
         string UserId,
@@ -64,7 +66,7 @@ public record AwsConnectDisassociateTrafficDistributionGroupUserOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the traffic distribution group. This can be the ID or the ARN of the traffic distribution group. Constraints: o pattern: ^(arn:(aws|aws-us-gov):con- nect:[a-z]{2}-[a-z-]+-[0-9]{1}:[0-9]{1,20}:traffic-distribu- tion-group/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The identifier of the traffic distribution group. This can be the ID or the ARN of the traffic distribution group. Constraints: • pattern: ^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z-]+-[0-9]{1}:[0-9]{1,20}:traffic-distribution-group/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--traffic-distribution-group-id")]
     public string? TrafficDistributionGroupId { get; private init; }
@@ -76,7 +78,7 @@ public record AwsConnectDisassociateTrafficDistributionGroupUserOptions : AwsOpt
     public string? UserId { get; private init; }
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }

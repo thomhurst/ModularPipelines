@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// o This feature API is subject to changing at any time. For more in- formation, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Retrieves the details of a specific procurement portal preference con- figuration. See also: AWS API Documentation
+/// • This feature API is subject to changing at any time. For more information, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Retrieves the details of a specific procurement portal preference configuration. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsInvoicingGetProcurementPortalPreferenceOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// o This feature API is subject to changing at any time. For more in- formation, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Retrieves the details of a specific procurement portal preference con- figuration. See also: AWS API Documentation
+    /// • This feature API is subject to changing at any time. For more information, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Retrieves the details of a specific procurement portal preference configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProcurementPortalPreferenceArn">The Amazon Resource Name (ARN) of the procurement portal preference to retrieve. Constraints: o min: 1 o max: 256 o pattern: arn:aws:invoicing::[0-9]{12}:procurement-portal-prefer- ence/[-a-zA-Z0-9]+</param>
+    /// <param name="ProcurementPortalPreferenceArn">The Amazon Resource Name (ARN) of the procurement portal preference to retrieve. Constraints: • min: 1 • max: 256 • pattern: arn:aws:invoicing::[0-9]{12}:procurement-portal-preference/[-a-zA-Z0-9]+</param>
     public AwsInvoicingGetProcurementPortalPreferenceOptions(
         string ProcurementPortalPreferenceArn
     )
@@ -56,7 +58,7 @@ public record AwsInvoicingGetProcurementPortalPreferenceOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the procurement portal preference to retrieve. Constraints: o min: 1 o max: 256 o pattern: arn:aws:invoicing::[0-9]{12}:procurement-portal-prefer- ence/[-a-zA-Z0-9]+
+    /// The Amazon Resource Name (ARN) of the procurement portal preference to retrieve. Constraints: • min: 1 • max: 256 • pattern: arn:aws:invoicing::[0-9]{12}:procurement-portal-preference/[-a-zA-Z0-9]+
     /// </summary>
     [CliOption("--procurement-portal-preference-arn")]
     public string? ProcurementPortalPreferenceArn { get; private init; }

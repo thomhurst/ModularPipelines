@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsObservabilityadminValidateTelemetryPipelineConfigurationOptions
     /// <summary>
     /// Validates a pipeline configuration without creating the pipeline. This operation checks the configuration for syntax errors and compatibility issues. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Configuration">The pipeline configuration to validate for syntax and compatibility. Body -&gt; (string) [required] The pipeline configuration body that defines the data processing rules and transformations. Constraints: o min: 1 o max: 24000 Shorthand Syntax: Body=string JSON Syntax: { "Body": "string" }</param>
+    /// <param name="Configuration">The pipeline configuration to validate for syntax and compatibility. Body -&gt; (string) [required] The pipeline configuration body that defines the data processing rules and transformations. Constraints: • min: 1 • max: 24000 Shorthand Syntax: Body=string JSON Syntax: { "Body": "string" }</param>
     public AwsObservabilityadminValidateTelemetryPipelineConfigurationOptions(
         string Configuration
     )
@@ -56,7 +58,7 @@ public record AwsObservabilityadminValidateTelemetryPipelineConfigurationOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The pipeline configuration to validate for syntax and compatibility. Body -&gt; (string) [required] The pipeline configuration body that defines the data processing rules and transformations. Constraints: o min: 1 o max: 24000 Shorthand Syntax: Body=string JSON Syntax: { "Body": "string" }
+    /// The pipeline configuration to validate for syntax and compatibility. Body -&gt; (string) [required] The pipeline configuration body that defines the data processing rules and transformations. Constraints: • min: 1 • max: 24000 Shorthand Syntax: Body=string JSON Syntax: { "Body": "string" }
     /// </summary>
     [CliOption("--configuration")]
     public string? Configuration { get; private init; }

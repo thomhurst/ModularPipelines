@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns drift information for the resources that have been checked for drift in the specified stack. This includes actual and expected config- uration values for resources where CloudFormation detects configuration drift. For a given stack, there will be one StackResourceDrift for each stack resource that has been checked for drift. Resources that haven't yet been checked for drift aren't included. Resources that don't currently support drift detection aren't checked, and so not included. For a ...
+/// Returns drift information for the resources that have been checked for drift in the specified stack. This includes actual and expected configuration values for resources where CloudFormation detects configuration drift. For a given stack, there will be one StackResourceDrift for each stack resource that has been checked for drift. Resources that haven't yet been checked for drift aren't included. Resources that don't currently support drift detection aren't checked, and so not included. For a li...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsCloudformationDescribeStackResourceDriftsOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns drift information for the resources that have been checked for drift in the specified stack. This includes actual and expected config- uration values for resources where CloudFormation detects configuration drift. For a given stack, there will be one StackResourceDrift for each stack resource that has been checked for drift. Resources that haven't yet been checked for drift aren't included. Resources that don't currently support drift detection aren't checked, and so not included. For a ...
+    /// Returns drift information for the resources that have been checked for drift in the specified stack. This includes actual and expected configuration values for resources where CloudFormation detects configuration drift. For a given stack, there will be one StackResourceDrift for each stack resource that has been checked for drift. Resources that haven't yet been checked for drift aren't included. Resources that don't currently support drift detection aren't checked, and so not included. For a li...
     /// </summary>
-    /// <param name="StackName">The name of the stack for which you want drift information. Constraints: o min: 1 o pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)</param>
+    /// <param name="StackName">The name of the stack for which you want drift information. Constraints: • min: 1 • pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)</param>
     public AwsCloudformationDescribeStackResourceDriftsOptions(
         string StackName
     )
@@ -57,26 +59,26 @@ public record AwsCloudformationDescribeStackResourceDriftsOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the stack for which you want drift information. Constraints: o min: 1 o pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)
+    /// The name of the stack for which you want drift information. Constraints: • min: 1 • pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)
     /// </summary>
     [CliOption("--stack-name")]
     public string? StackName { get; private init; }
 
     /// <summary>
-    /// The resource drift status values to use as filters for the resource drift results returned. o DELETED : The resource differs from its expected template configu- ration in that the resource has been deleted. o MODIFIED : One or more resource properties differ from their ex- pected template values. o IN_SYNC : The resource's actual configuration matches its expected template configuration. o NOT_CHECKED : CloudFormation doesn't currently return this value. o UNKNOWN : CloudFormation could not run drift detection for the re- source. Constraints: o min: 1 o max: 4 (string) Possible values: o IN_SYNC o MODIFIED o DELETED o NOT_CHECKED o UNKNOWN o UNSUPPORTED Syntax: "string" "string" ...
+    /// The resource drift status values to use as filters for the resource drift results returned. • DELETED : The resource differs from its expected template configuration in that the resource has been deleted. • MODIFIED : One or more resource properties differ from their expected template values. • IN_SYNC : The resource's actual configuration matches its expected template configuration. • NOT_CHECKED : CloudFormation doesn't currently return this value. • UNKNOWN : CloudFormation could not run drift detection for the resource. Constraints: • min: 1 • max: 4 (string) Possible values: • IN_SYNC • MODIFIED • DELETED • NOT_CHECKED • UNKNOWN • UNSUPPORTED Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--stack-resource-drift-status-filters", GroupValues = true)]
     public IEnumerable<string>? StackResourceDriftStatusFilters { get; set; }
 
     /// <summary>
-    /// The token for the next set of items to return. (You received this token from a previous call.) Constraints: o min: 1 o max: 1024
+    /// The token for the next set of items to return. (You received this token from a previous call.) Constraints: • min: 1 • max: 1024
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken re- quest parameter to get the next set of results. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

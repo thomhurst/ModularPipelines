@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Used to control whether an individual security standard control is en- abled or disabled. Calls to this operation return a RESOURCE_NOT_FOUND_EXCEPTION error when the standard subscription for the control has StandardsControlsUp- datable value NOT_READY_FOR_UPDATES . See also: AWS API Documentation
+/// Used to control whether an individual security standard control is enabled or disabled. Calls to this operation return a RESOURCE_NOT_FOUND_EXCEPTION error when the standard subscription for the control has StandardsControlsUpdatable value NOT_READY_FOR_UPDATES . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsSecurityhubUpdateStandardsControlOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Used to control whether an individual security standard control is en- abled or disabled. Calls to this operation return a RESOURCE_NOT_FOUND_EXCEPTION error when the standard subscription for the control has StandardsControlsUp- datable value NOT_READY_FOR_UPDATES . See also: AWS API Documentation
+    /// Used to control whether an individual security standard control is enabled or disabled. Calls to this operation return a RESOURCE_NOT_FOUND_EXCEPTION error when the standard subscription for the control has StandardsControlsUpdatable value NOT_READY_FOR_UPDATES . See also: AWS API Documentation
     /// </summary>
-    /// <param name="StandardsControlArn">The ARN of the security standard control to enable or disable. Constraints: o pattern: .*\S.*</param>
+    /// <param name="StandardsControlArn">The ARN of the security standard control to enable or disable. Constraints: • pattern: .*\S.*</param>
     public AwsSecurityhubUpdateStandardsControlOptions(
         string StandardsControlArn
     )
@@ -57,19 +59,19 @@ public record AwsSecurityhubUpdateStandardsControlOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the security standard control to enable or disable. Constraints: o pattern: .*\S.*
+    /// The ARN of the security standard control to enable or disable. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--standards-control-arn")]
     public string? StandardsControlArn { get; private init; }
 
     /// <summary>
-    /// The updated status of the security standard control. Possible values: o ENABLED o DISABLED
+    /// The updated status of the security standard control. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--control-status")]
     public AwsSecurityhubUpdateStandardsControlControlStatus? ControlStatus { get; set; }
 
     /// <summary>
-    /// A description of the reason why you are disabling a security stan- dard control. If you are disabling a control, then this is required. Constraints: o pattern: .*\S.*
+    /// A description of the reason why you are disabling a security standard control. If you are disabling a control, then this is required. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--disabled-reason")]
     public string? DisabledReason { get; set; }

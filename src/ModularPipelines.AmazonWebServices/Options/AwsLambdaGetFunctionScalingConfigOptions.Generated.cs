@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsLambdaGetFunctionScalingConfigOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Retrieves the scaling configuration for a Lambda Managed Instances function. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FunctionName">The name or ARN of the Lambda function. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_]+)</param>
-    /// <param name="Qualifier">Specify a version or alias to get the scaling configuration for a published version of the function. Constraints: o min: 1 o max: 128 o pattern: (\$LATEST\.PUBLISHED|[0-9]+)</param>
+    /// <param name="FunctionName">The name or ARN of the Lambda function. Constraints: • min: 1 • max: 140 • pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)</param>
+    /// <param name="Qualifier">Specify a version or alias to get the scaling configuration for a published version of the function. Constraints: • min: 1 • max: 128 • pattern: (\$LATEST\.PUBLISHED|[0-9]+)</param>
     public AwsLambdaGetFunctionScalingConfigOptions(
         string FunctionName,
         string Qualifier
@@ -60,13 +62,13 @@ public record AwsLambdaGetFunctionScalingConfigOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or ARN of the Lambda function. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_]+)
+    /// The name or ARN of the Lambda function. Constraints: • min: 1 • max: 140 • pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)
     /// </summary>
     [CliOption("--function-name")]
     public string? FunctionName { get; private init; }
 
     /// <summary>
-    /// Specify a version or alias to get the scaling configuration for a published version of the function. Constraints: o min: 1 o max: 128 o pattern: (\$LATEST\.PUBLISHED|[0-9]+)
+    /// Specify a version or alias to get the scaling configuration for a published version of the function. Constraints: • min: 1 • max: 128 • pattern: (\$LATEST\.PUBLISHED|[0-9]+)
     /// </summary>
     [CliOption("--qualifier")]
     public string? Qualifier { get; private init; }

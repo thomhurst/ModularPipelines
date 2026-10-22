@@ -13,7 +13,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws cloudtraildata commands.
+/// aws cloudtrail-data commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,13 +22,12 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsCloudtrailData
 {
     /// <summary>
-    /// Ingests your application events into CloudTrail Lake. A required para- meter, auditEvents , accepts the JSON records (also called payload ) of events that you want CloudTrail to ingest. You can add up to 100 of these events (or up to 1 MB) per PutAuditEvents request. See also: AWS API Documentation
+    /// Ingests your application events into CloudTrail Lake. A required parameter, auditEvents , accepts the JSON records (also called payload ) of events that you want CloudTrail to ingest. You can add up to 100 of these events (or up to 1 MB) per PutAuditEvents request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutAuditEventsAsync(AwsCloudtrailDataPutAuditEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutAuditEventsAsync(AwsCloudtrailDataPutAuditEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

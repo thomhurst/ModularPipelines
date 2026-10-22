@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Generates predictions for a group of observations. The observations to process exist in one or more data files referenced by a DataSource . This operation creates a new BatchPrediction , and uses an MLModel and the data files referenced by the DataSource as information sources. CreateBatchPrediction is an asynchronous operation. In response to CreateBatchPrediction , Amazon Machine Learning (Amazon ML) immedi- ately returns and sets the BatchPrediction status to PENDING . After the BatchPredicti...
+/// Generates predictions for a group of observations. The observations to process exist in one or more data files referenced by a DataSource . This operation creates a new BatchPrediction , and uses an MLModel and the data files referenced by the DataSource as information sources. CreateBatchPrediction is an asynchronous operation. In response to CreateBatchPrediction , Amazon Machine Learning (Amazon ML) immediately returns and sets the BatchPrediction status to PENDING . After the BatchPrediction...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +27,12 @@ public record AwsMachinelearningCreateBatchPredictionOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Generates predictions for a group of observations. The observations to process exist in one or more data files referenced by a DataSource . This operation creates a new BatchPrediction , and uses an MLModel and the data files referenced by the DataSource as information sources. CreateBatchPrediction is an asynchronous operation. In response to CreateBatchPrediction , Amazon Machine Learning (Amazon ML) immedi- ately returns and sets the BatchPrediction status to PENDING . After the BatchPredicti...
+    /// Generates predictions for a group of observations. The observations to process exist in one or more data files referenced by a DataSource . This operation creates a new BatchPrediction , and uses an MLModel and the data files referenced by the DataSource as information sources. CreateBatchPrediction is an asynchronous operation. In response to CreateBatchPrediction , Amazon Machine Learning (Amazon ML) immediately returns and sets the BatchPrediction status to PENDING . After the BatchPrediction...
     /// </summary>
-    /// <param name="BatchPredictionId">A user-supplied ID that uniquely identifies the BatchPrediction . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="MlModelId">The ID of the MLModel that will generate predictions for the group of observations. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="BatchPredictionDataSourceId">The ID of the DataSource that points to the group of observations to predict. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="OutputUri">The location of an Amazon Simple Storage Service (Amazon S3) bucket or directory to store the batch prediction results. The following substrings are not allowed in the s3 key portion of the outputURI field: ':', '//', '/./', '/../'. Amazon ML needs permissions to store and retrieve the logs on your behalf. For information about how to set permissions, see the Amazon Machine Learning Developer Guide . Constraints: o max: 2048 o pattern: s3://([^/]+)(/.*)?</param>
+    /// <param name="BatchPredictionId">A user-supplied ID that uniquely identifies the BatchPrediction . Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="MlModelId">The ID of the MLModel that will generate predictions for the group of observations. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="BatchPredictionDataSourceId">The ID of the DataSource that points to the group of observations to predict. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="OutputUri">The location of an Amazon Simple Storage Service (Amazon S3) bucket or directory to store the batch prediction results. The following substrings are not allowed in the s3 key portion of the outputURI field: ':', '//', '/./', '/../'. Amazon ML needs permissions to store and retrieve the logs on your behalf. For information about how to set permissions, see the Amazon Machine Learning Developer Guide . Constraints: • max: 2048 • pattern: s3://([^/]+)(/.*)?</param>
     public AwsMachinelearningCreateBatchPredictionOptions(
         string BatchPredictionId,
         string MlModelId,
@@ -68,31 +70,31 @@ public record AwsMachinelearningCreateBatchPredictionOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A user-supplied ID that uniquely identifies the BatchPrediction . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// A user-supplied ID that uniquely identifies the BatchPrediction . Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--batch-prediction-id")]
     public string? BatchPredictionId { get; private init; }
 
     /// <summary>
-    /// The ID of the MLModel that will generate predictions for the group of observations. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// The ID of the MLModel that will generate predictions for the group of observations. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--ml-model-id")]
     public string? MlModelId { get; private init; }
 
     /// <summary>
-    /// The ID of the DataSource that points to the group of observations to predict. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// The ID of the DataSource that points to the group of observations to predict. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--batch-prediction-data-source-id")]
     public string? BatchPredictionDataSourceId { get; private init; }
 
     /// <summary>
-    /// The location of an Amazon Simple Storage Service (Amazon S3) bucket or directory to store the batch prediction results. The following substrings are not allowed in the s3 key portion of the outputURI field: ':', '//', '/./', '/../'. Amazon ML needs permissions to store and retrieve the logs on your behalf. For information about how to set permissions, see the Amazon Machine Learning Developer Guide . Constraints: o max: 2048 o pattern: s3://([^/]+)(/.*)?
+    /// The location of an Amazon Simple Storage Service (Amazon S3) bucket or directory to store the batch prediction results. The following substrings are not allowed in the s3 key portion of the outputURI field: ':', '//', '/./', '/../'. Amazon ML needs permissions to store and retrieve the logs on your behalf. For information about how to set permissions, see the Amazon Machine Learning Developer Guide . Constraints: • max: 2048 • pattern: s3://([^/]+)(/.*)?
     /// </summary>
     [CliOption("--output-uri")]
     public string? OutputUri { get; private init; }
 
     /// <summary>
-    /// A user-supplied name or description of the BatchPrediction . Batch- PredictionName can only use the UTF-8 character set. Constraints: o max: 1024 o pattern: .*\S.*|^$
+    /// A user-supplied name or description of the BatchPrediction . BatchPredictionName can only use the UTF-8 character set. Constraints: • max: 1024 • pattern: .*\S.*|^$
     /// </summary>
     [CliOption("--batch-prediction-name")]
     public string? BatchPredictionName { get; set; }

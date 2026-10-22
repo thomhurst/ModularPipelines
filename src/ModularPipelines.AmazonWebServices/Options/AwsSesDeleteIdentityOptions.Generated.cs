@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSesDeleteIdentityOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the specified identity (an email address or a domain) from the list of verified identities. You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identity">The identity to be removed from the list of identities for the Ama- zon Web Services account.</param>
+    /// <param name="Identity">The identity to be removed from the list of identities for the Amazon Web Services account.</param>
     public AwsSesDeleteIdentityOptions(
         string Identity
     )
@@ -56,7 +58,7 @@ public record AwsSesDeleteIdentityOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identity to be removed from the list of identities for the Ama- zon Web Services account.
+    /// The identity to be removed from the list of identities for the Amazon Web Services account.
     /// </summary>
     [CliOption("--identity")]
     public string? Identity { get; private init; }

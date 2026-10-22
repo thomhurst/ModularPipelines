@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsSecurityIrBatchGetMemberAccountDetailsOptions : AwsOptions, IVa
     /// <summary>
     /// Provides information on whether the supplied account IDs are associated with a membership. NOTE: AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123 . Not zero-prepending to 12 digits could result in errors. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MembershipId">Required element used in combination with BatchGetMemberAccountDe- tails to identify the membership ID to query. Constraints: o min: 12 o max: 34 o pattern: m-[a-z0-9]{10,32}</param>
-    /// <param name="AccountIds">Optional element to query the membership relationship status to a provided list of account IDs. NOTE: AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123 . Not zero-prepending to 12 digits could result in errors. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} Syntax: "string" "string" ...</param>
+    /// <param name="MembershipId">Required element used in combination with BatchGetMemberAccountDetails to identify the membership ID to query. Constraints: • min: 12 • max: 34 • pattern: m-[a-z0-9]{10,32}</param>
+    /// <param name="AccountIds">Optional element to query the membership relationship status to a provided list of account IDs. NOTE: AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123 . Not zero-prepending to 12 digits could result in errors. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 12 • max: 12 • pattern: [0-9]{12} Syntax: "string" "string" ...</param>
     public AwsSecurityIrBatchGetMemberAccountDetailsOptions(
         string MembershipId,
         IEnumerable<string> AccountIds
@@ -71,13 +73,13 @@ public record AwsSecurityIrBatchGetMemberAccountDetailsOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Required element used in combination with BatchGetMemberAccountDe- tails to identify the membership ID to query. Constraints: o min: 12 o max: 34 o pattern: m-[a-z0-9]{10,32}
+    /// Required element used in combination with BatchGetMemberAccountDetails to identify the membership ID to query. Constraints: • min: 12 • max: 34 • pattern: m-[a-z0-9]{10,32}
     /// </summary>
     [CliOption("--membership-id")]
     public string? MembershipId { get; private init; }
 
     /// <summary>
-    /// Optional element to query the membership relationship status to a provided list of account IDs. NOTE: AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123 . Not zero-prepending to 12 digits could result in errors. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} Syntax: "string" "string" ...
+    /// Optional element to query the membership relationship status to a provided list of account IDs. NOTE: AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123 . Not zero-prepending to 12 digits could result in errors. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 12 • max: 12 • pattern: [0-9]{12} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a custom endpoint and removes it from an Amazon Aurora DB clus- ter. NOTE: This action only applies to Aurora DB clusters. See also: AWS API Documentation
+/// Deletes a custom endpoint and removes it from an Amazon Aurora DB cluster. NOTE: This action only applies to Aurora DB clusters. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsRdsDeleteDbClusterEndpointOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a custom endpoint and removes it from an Amazon Aurora DB clus- ter. NOTE: This action only applies to Aurora DB clusters. See also: AWS API Documentation
+    /// Deletes a custom endpoint and removes it from an Amazon Aurora DB cluster. NOTE: This action only applies to Aurora DB clusters. See also: AWS API Documentation
     /// </summary>
     /// <param name="DbClusterEndpointIdentifier">The identifier associated with the custom endpoint. This parameter is stored as a lowercase string.</param>
     public AwsRdsDeleteDbClusterEndpointOptions(

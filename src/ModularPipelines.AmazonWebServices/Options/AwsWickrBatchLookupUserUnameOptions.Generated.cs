@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Looks up multiple user usernames from their unique username hashes (un- ames). This operation allows you to retrieve the email addresses asso- ciated with a list of username hashes. See also: AWS API Documentation
+/// Looks up multiple user usernames from their unique username hashes (unames). This operation allows you to retrieve the email addresses associated with a list of username hashes. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsWickrBatchLookupUserUnameOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Looks up multiple user usernames from their unique username hashes (un- ames). This operation allows you to retrieve the email addresses asso- ciated with a list of username hashes. See also: AWS API Documentation
+    /// Looks up multiple user usernames from their unique username hashes (unames). This operation allows you to retrieve the email addresses associated with a list of username hashes. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The ID of the Wickr network where the users will be looked up. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
-    /// <param name="Unames">A list of username hashes (unames) to look up. Each uname is a unique identifier for a user's username. Maximum 50 unames per batch request. (string) Constraints: o pattern: [\S\s]* Syntax: "string" "string" ...</param>
+    /// <param name="NetworkId">The ID of the Wickr network where the users will be looked up. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}</param>
+    /// <param name="Unames">A list of username hashes (unames) to look up. Each uname is a unique identifier for a user's username. Maximum 50 unames per batch request. (string) Constraints: • pattern: [\S\s]* Syntax: "string" "string" ...</param>
     public AwsWickrBatchLookupUserUnameOptions(
         string NetworkId,
         IEnumerable<string> Unames
@@ -72,19 +74,19 @@ public record AwsWickrBatchLookupUserUnameOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Wickr network where the users will be looked up. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// The ID of the Wickr network where the users will be looked up. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }
 
     /// <summary>
-    /// A list of username hashes (unames) to look up. Each uname is a unique identifier for a user's username. Maximum 50 unames per batch request. (string) Constraints: o pattern: [\S\s]* Syntax: "string" "string" ...
+    /// A list of username hashes (unames) to look up. Each uname is a unique identifier for a user's username. Maximum 50 unames per batch request. (string) Constraints: • pattern: [\S\s]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--unames", GroupValues = true)]
     public IEnumerable<string>? Unames { get; private init; }
 
     /// <summary>
-    /// A unique identifier for this request to ensure idempotency. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_:]+
+    /// A unique identifier for this request to ensure idempotency. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_:]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

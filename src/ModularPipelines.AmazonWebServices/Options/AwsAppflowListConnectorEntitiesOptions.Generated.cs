@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the list of available connector entities supported by Amazon AppFlow. For example, you can query Salesforce for Account and Opportu- nity entities, or query ServiceNow for the Incident entity. See also: AWS API Documentation
+/// Returns the list of available connector entities supported by Amazon AppFlow. For example, you can query Salesforce for Account and Opportunity entities, or query ServiceNow for the Incident entity. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,37 +23,37 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsAppflowListConnectorEntitiesOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the connector profile. The name is unique for each Con- nectorProfile in the Amazon Web Services account, and is used to query the downstream connector. Constraints: o max: 256 o pattern: [\w/!@#+=.-]+
+    /// The name of the connector profile. The name is unique for each ConnectorProfile in the Amazon Web Services account, and is used to query the downstream connector. Constraints: • max: 256 • pattern: [\w/!@#+=.-]+
     /// </summary>
     [CliOption("--connector-profile-name")]
     public string? ConnectorProfileName { get; set; }
 
     /// <summary>
-    /// The type of connector, such as Salesforce, Amplitude, and so on. Possible values: o Salesforce o Singular o Slack o Redshift o S3 o Marketo o Googleanalytics o Zendesk o Servicenow o Datadog o Trendmicro o Snowflake o Dynatrace o Infornexus o Amplitude o Veeva o EventBridge o LookoutMetrics o Upsolver o Honeycode o CustomerProfiles o SAPOData o CustomConnector o Pardot
+    /// The type of connector, such as Salesforce, Amplitude, and so on. Possible values: • Salesforce • Singular • Slack • Redshift • S3 • Marketo • Googleanalytics • Zendesk • Servicenow • Datadog • Trendmicro • Snowflake • Dynatrace • Infornexus • Amplitude • Veeva • EventBridge • LookoutMetrics • Upsolver • Honeycode • CustomerProfiles • SAPOData • CustomConnector • Pardot
     /// </summary>
     [CliOption("--connector-type")]
     public string? ConnectorType { get; set; }
 
     /// <summary>
-    /// This optional parameter is specific to connector implementation. Some connectors support multiple levels or categories of entities. You can find out the list of roots for such providers by sending a request without the entitiesPath parameter. If the connector sup- ports entities at different roots, this initial request returns the list of roots. Otherwise, this request returns all entities sup- ported by the provider. Constraints: o max: 256 o pattern: [\s\w/!@#+=,.-]*
+    /// This optional parameter is specific to connector implementation. Some connectors support multiple levels or categories of entities. You can find out the list of roots for such providers by sending a request without the entitiesPath parameter. If the connector supports entities at different roots, this initial request returns the list of roots. Otherwise, this request returns all entities supported by the provider. Constraints: • max: 256 • pattern: [\s\w/!@#+=,.-]*
     /// </summary>
     [CliOption("--entities-path")]
     public string? EntitiesPath { get; set; }
 
     /// <summary>
-    /// The version of the API that's used by the connector. Constraints: o max: 256 o pattern: \S+
+    /// The version of the API that's used by the connector. Constraints: • max: 256 • pattern: \S+
     /// </summary>
     [CliOption("--api-version")]
     public string? ApiVersion { get; set; }
 
     /// <summary>
-    /// The maximum number of items that the operation returns in the re- sponse. Constraints: o min: 1 o max: 10000
+    /// The maximum number of items that the operation returns in the response. Constraints: • min: 1 • max: 10000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// A token that was provided by your prior ListConnectorEntities opera- tion if the response was too big for the page size. You specify this token to get the next page of results in paginated response. Constraints: o max: 2048 o pattern: \S+
+    /// A token that was provided by your prior ListConnectorEntities operation if the response was too big for the page size. You specify this token to get the next page of results in paginated response. Constraints: • max: 2048 • pattern: \S+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

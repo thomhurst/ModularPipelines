@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Requests the validation of a policy and returns a list of findings. The findings help you identify issues and provide actionable recommenda- tions to resolve the issue and enable you to author functional policies that meet security best practices. See also: AWS API Documentation validate-policy is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output ...
+/// Requests the validation of a policy and returns a list of findings. The findings help you identify issues and provide actionable recommendations to resolve the issue and enable you to author functional policies that meet security best practices. See also: AWS API Documentation validate-policy is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text a...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +29,10 @@ public record AwsAccessanalyzerValidatePolicyOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Requests the validation of a policy and returns a list of findings. The findings help you identify issues and provide actionable recommenda- tions to resolve the issue and enable you to author functional policies that meet security best practices. See also: AWS API Documentation validate-policy is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output ...
+    /// Requests the validation of a policy and returns a list of findings. The findings help you identify issues and provide actionable recommendations to resolve the issue and enable you to author functional policies that meet security best practices. See also: AWS API Documentation validate-policy is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text a...
     /// </summary>
     /// <param name="PolicyDocument">The JSON policy document to use as the content for the policy.</param>
-    /// <param name="PolicyType">The type of policy to validate. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services re- sources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. You can provide a generic in- put such as identity policy or resource policy or a specific input such as managed policy or Amazon S3 bucket policy. Service control policies (SCPs) are a type of organization policy attached to an Amazon Web Services organization, organizational unit (OU), or an account. Possible values: o IDENTITY_POLICY o RESOURCE_POLICY o SERVICE_CONTROL_POLICY o RESOURCE_CONTROL_POLICY</param>
+    /// <param name="PolicyType">The type of policy to validate. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services resources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. You can provide a generic input such as identity policy or resource policy or a specific input such as managed policy or Amazon S3 bucket policy. Service control policies (SCPs) are a type of organization policy attached to an Amazon Web Services organization, organizational unit (OU), or an account. Possible values: • IDENTITY_POLICY • RESOURCE_POLICY • SERVICE_CONTROL_POLICY • RESOURCE_CONTROL_POLICY</param>
     public AwsAccessanalyzerValidatePolicyOptions(
         string PolicyDocument,
         AwsAccessanalyzerValidatePolicyPolicyType PolicyType
@@ -67,28 +69,25 @@ public record AwsAccessanalyzerValidatePolicyOptions : AwsOptions, IValidatableO
     public string? PolicyDocument { get; private init; }
 
     /// <summary>
-    /// The type of policy to validate. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services re- sources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. You can provide a generic in- put such as identity policy or resource policy or a specific input such as managed policy or Amazon S3 bucket policy. Service control policies (SCPs) are a type of organization policy attached to an Amazon Web Services organization, organizational unit (OU), or an account. Possible values: o IDENTITY_POLICY o RESOURCE_POLICY o SERVICE_CONTROL_POLICY o RESOURCE_CONTROL_POLICY
+    /// The type of policy to validate. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services resources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. You can provide a generic input such as identity policy or resource policy or a specific input such as managed policy or Amazon S3 bucket policy. Service control policies (SCPs) are a type of organization policy attached to an Amazon Web Services organization, organizational unit (OU), or an account. Possible values: • IDENTITY_POLICY • RESOURCE_POLICY • SERVICE_CONTROL_POLICY • RESOURCE_CONTROL_POLICY
     /// </summary>
     [CliOption("--policy-type")]
     public AwsAccessanalyzerValidatePolicyPolicyType? PolicyType { get; private init; }
 
     /// <summary>
-    /// The locale to use for localizing the findings. Possible values: o DE o EN o ES o FR o IT o JA o KO o PT_BR o ZH_CN o ZH_TW
+    /// The locale to use for localizing the findings. Possible values: • DE • EN • ES • FR • IT • JA • KO • PT_BR • ZH_CN • ZH_TW
     /// </summary>
     [CliOption("--locale")]
     public AwsAccessanalyzerValidatePolicyLocale? Locale { get; set; }
 
     /// <summary>
-    /// The type of resource to attach to your resource policy. Specify a value for the policy validation resource type only if the policy type is RESOURCE_POLICY . For example, to validate a resource policy to attach to an Amazon S3 bucket, you can choose AWS::S3::Bucket for the policy validation resource type. For resource types not supported as valid values, IAM Access Ana- lyzer runs policy checks that apply to all resource policies. For example, to validate a resource policy to attach to a KMS key, do not specify a value for the policy validation resource type and IAM Access Analyzer will run policy checks that apply to all resource policies. Possible values: o AWS::S3::Bucket o AWS::S3::AccessPoint o AWS::S3::MultiRegionAccessPoint o AWS::S3ObjectLambda::AccessPoint o AWS::IAM::AssumeRolePolicyDocument o AWS::DynamoDB::Table
+    /// The type of resource to attach to your resource policy. Specify a value for the policy validation resource type only if the policy type is RESOURCE_POLICY . For example, to validate a resource policy to attach to an Amazon S3 bucket, you can choose AWS::S3::Bucket for the policy validation resource type. For resource types not supported as valid values, IAM Access Analyzer runs policy checks that apply to all resource policies. For example, to validate a resource policy to attach to a KMS key, do not specify a value for the policy validation resource type and IAM Access Analyzer will run policy checks that apply to all resource policies. Possible values: • AWS::S3::Bucket • AWS::S3::AccessPoint • AWS::S3::MultiRegionAccessPoint • AWS::S3ObjectLambda::AccessPoint • AWS::IAM::AssumeRolePolicyDocument • AWS::DynamoDB::Table
     /// </summary>
     [CliOption("--validate-policy-resource-type")]
     public string? ValidatePolicyResourceType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -98,16 +97,19 @@ public record AwsAccessanalyzerValidatePolicyOptions : AwsOptions, IValidatableO
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

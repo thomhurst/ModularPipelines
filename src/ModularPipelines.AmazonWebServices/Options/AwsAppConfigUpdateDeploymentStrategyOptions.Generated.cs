@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsAppConfigUpdateDeploymentStrategyOptions : AwsOptions, IValidat
     /// <summary>
     /// Updates a deployment strategy. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DeploymentStrategyId">The deployment strategy ID. Constraints: o pattern: (^[a-z0-9]{4,7}$|^AppConfig\.[A-Za-z0-9]{9,40}$)</param>
+    /// <param name="DeploymentStrategyId">The deployment strategy ID. Constraints: • pattern: (^[a-z0-9]{4,7}$|^AppConfig\.[A-Za-z0-9]{9,40}$)</param>
     public AwsAppConfigUpdateDeploymentStrategyOptions(
         string DeploymentStrategyId
     )
@@ -57,37 +59,37 @@ public record AwsAppConfigUpdateDeploymentStrategyOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The deployment strategy ID. Constraints: o pattern: (^[a-z0-9]{4,7}$|^AppConfig\.[A-Za-z0-9]{9,40}$)
+    /// The deployment strategy ID. Constraints: • pattern: (^[a-z0-9]{4,7}$|^AppConfig\.[A-Za-z0-9]{9,40}$)
     /// </summary>
     [CliOption("--deployment-strategy-id")]
     public string? DeploymentStrategyId { get; private init; }
 
     /// <summary>
-    /// A description of the deployment strategy. Constraints: o min: 0 o max: 1024
+    /// A description of the deployment strategy. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Total amount of time for a deployment to last. Constraints: o min: 0 o max: 1440
+    /// Total amount of time for a deployment to last. Constraints: • min: 0 • max: 1440
     /// </summary>
     [CliOption("--deployment-duration-in-minutes")]
     public int? DeploymentDurationInMinutes { get; set; }
 
     /// <summary>
-    /// The amount of time that AppConfig monitors for alarms before consid- ering the deployment to be complete and no longer eligible for auto- matic rollback. Constraints: o min: 0 o max: 1440
+    /// The amount of time that AppConfig monitors for alarms before considering the deployment to be complete and no longer eligible for automatic rollback. Constraints: • min: 0 • max: 1440
     /// </summary>
     [CliOption("--final-bake-time-in-minutes")]
     public int? FinalBakeTimeInMinutes { get; set; }
 
     /// <summary>
-    /// The percentage of targets to receive a deployed configuration during each interval. Constraints: o min: 1.0 o max: 100.0
+    /// The percentage of targets to receive a deployed configuration during each interval. Constraints: • min: 1.0 • max: 100.0
     /// </summary>
     [CliOption("--growth-factor")]
-    public int? GrowthFactor { get; set; }
+    public double? GrowthFactor { get; set; }
 
     /// <summary>
-    /// The algorithm used to define how percentage grows over time. AppCon- fig supports the following growth types: Linear : For this type, AppConfig processes the deployment by increments of the growth factor evenly distributed over the de- ployment time. For example, a linear deployment that uses a growth factor of 20 initially makes the configuration available to 20 percent of the targets. After 1/5th of the deployment time has passed, the system updates the percentage to 40 percent. This continues until 100% of the targets are set to receive the deployed configuration. Exponential : For this type, AppConfig processes the deployment exponentially using the following formula: G*(2^N) . In this formula, G is the growth factor specified by the user and N is the number of steps until the configuration is deployed to all targets. For example, if you specify a growth factor of 2, then the system rolls out the configuration as follows: 2*(2^0) 2*(2^1) 2*(2^2) Expressed numerically, the deployment rolls out as follows: 2% of the targets, 4% of the targets, 8% of the targets, and continues un- til the configuration has been deployed to all targets. Possible values: o LINEAR o EXPONENTIAL
+    /// The algorithm used to define how percentage grows over time. AppConfig supports the following growth types: Linear : For this type, AppConfig processes the deployment by increments of the growth factor evenly distributed over the deployment time. For example, a linear deployment that uses a growth factor of 20 initially makes the configuration available to 20 percent of the targets. After 1/5th of the deployment time has passed, the system updates the percentage to 40 percent. This continues until 100% of the targets are set to receive the deployed configuration. Exponential : For this type, AppConfig processes the deployment exponentially using the following formula: G*(2^N) . In this formula, G is the growth factor specified by the user and N is the number of steps until the configuration is deployed to all targets. For example, if you specify a growth factor of 2, then the system rolls out the configuration as follows: 2*(2^0) 2*(2^1) 2*(2^2) Expressed numerically, the deployment rolls out as follows: 2% of the targets, 4% of the targets, 8% of the targets, and continues until the configuration has been deployed to all targets. Possible values: • LINEAR • EXPONENTIAL
     /// </summary>
     [CliOption("--growth-type")]
     public AwsAppConfigUpdateDeploymentStrategyGrowthType? GrowthType { get; set; }

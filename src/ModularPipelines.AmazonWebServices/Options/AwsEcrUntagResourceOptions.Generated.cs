@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsEcrUntagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes specified tags from a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource from which to remove tags. Currently, the only supported resource is an Amazon ECR repos- itory.</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource from which to remove tags. Currently, the only supported resource is an Amazon ECR repository.</param>
     /// <param name="TagKeys">The keys of the tags to be removed. (string) Syntax: "string" "string" ...</param>
     public AwsEcrUntagResourceOptions(
         string ResourceArn,
@@ -71,7 +73,7 @@ public record AwsEcrUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource from which to remove tags. Currently, the only supported resource is an Amazon ECR repos- itory.
+    /// The Amazon Resource Name (ARN) of the resource from which to remove tags. Currently, the only supported resource is an Amazon ECR repository.
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

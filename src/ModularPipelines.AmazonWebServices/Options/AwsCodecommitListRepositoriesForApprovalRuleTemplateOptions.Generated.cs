@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists all repositories associated with the specified approval rule tem- plate. See also: AWS API Documentation
+/// Lists all repositories associated with the specified approval rule template. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsCodecommitListRepositoriesForApprovalRuleTemplateOptions : AwsO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists all repositories associated with the specified approval rule tem- plate. See also: AWS API Documentation
+    /// Lists all repositories associated with the specified approval rule template. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApprovalRuleTemplateName">The name of the approval rule template for which you want to list repositories that are associated with that template. Constraints: o min: 1 o max: 100</param>
+    /// <param name="ApprovalRuleTemplateName">The name of the approval rule template for which you want to list repositories that are associated with that template. Constraints: • min: 1 • max: 100</param>
     public AwsCodecommitListRepositoriesForApprovalRuleTemplateOptions(
         string ApprovalRuleTemplateName
     )
@@ -57,7 +59,7 @@ public record AwsCodecommitListRepositoriesForApprovalRuleTemplateOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the approval rule template for which you want to list repositories that are associated with that template. Constraints: o min: 1 o max: 100
+    /// The name of the approval rule template for which you want to list repositories that are associated with that template. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--approval-rule-template-name")]
     public string? ApprovalRuleTemplateName { get; private init; }
@@ -70,7 +72,7 @@ public record AwsCodecommitListRepositoriesForApprovalRuleTemplateOptions : AwsO
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// A non-zero, non-negative integer used to limit the number of re- turned results.
+    /// A non-zero, non-negative integer used to limit the number of returned results.
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

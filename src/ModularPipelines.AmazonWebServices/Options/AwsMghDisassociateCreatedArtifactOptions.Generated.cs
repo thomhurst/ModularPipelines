@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disassociates a created artifact of an AWS resource with a migration task performed by a migration tool that was previously associated. This API has the following traits: o A migration user can call the DisassociateCreatedArtifacts operation to disassociate a created AWS Artifact from a migration task. o The created artifact name must be provided in ARN (Amazon Resource Name) format which will contain information about type and region; for example: arn:aws:ec2:us-east-1:488216288981:image/ami-6d...
+/// Disassociates a created artifact of an AWS resource with a migration task performed by a migration tool that was previously associated. This API has the following traits: • A migration user can call the DisassociateCreatedArtifacts operation to disassociate a created AWS Artifact from a migration task. • The created artifact name must be provided in ARN (Amazon Resource Name) format which will contain information about type and region; for example: arn:aws:ec2:us-east-1:488216288981:image/ami-6d...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsMghDisassociateCreatedArtifactOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disassociates a created artifact of an AWS resource with a migration task performed by a migration tool that was previously associated. This API has the following traits: o A migration user can call the DisassociateCreatedArtifacts operation to disassociate a created AWS Artifact from a migration task. o The created artifact name must be provided in ARN (Amazon Resource Name) format which will contain information about type and region; for example: arn:aws:ec2:us-east-1:488216288981:image/ami-6d...
+    /// Disassociates a created artifact of an AWS resource with a migration task performed by a migration tool that was previously associated. This API has the following traits: • A migration user can call the DisassociateCreatedArtifacts operation to disassociate a created AWS Artifact from a migration task. • The created artifact name must be provided in ARN (Amazon Resource Name) format which will contain information about type and region; for example: arn:aws:ec2:us-east-1:488216288981:image/ami-6d...
     /// </summary>
-    /// <param name="ProgressUpdateStream">The name of the ProgressUpdateStream. Constraints: o min: 1 o max: 50 o pattern: [^/:|\000-\037]+</param>
-    /// <param name="MigrationTaskName">Unique identifier that references the migration task to be disasso- ciated with the artifact. Do not store personal data in this field. Constraints: o min: 1 o max: 256 o pattern: [^:|]+</param>
-    /// <param name="CreatedArtifactName">An ARN of the AWS resource related to the migration (e.g., AMI, EC2 instance, RDS instance, etc.) Constraints: o min: 1 o max: 1600 o pattern: arn:[a-z-]+:[a-z0-9-]+:(?:[a-z0-9-]+|):(?:[0-9]{12}|):.*</param>
+    /// <param name="ProgressUpdateStream">The name of the ProgressUpdateStream. Constraints: • min: 1 • max: 50 • pattern: [^/:|\000-\037]+</param>
+    /// <param name="MigrationTaskName">Unique identifier that references the migration task to be disassociated with the artifact. Do not store personal data in this field. Constraints: • min: 1 • max: 256 • pattern: [^:|]+</param>
+    /// <param name="CreatedArtifactName">An ARN of the AWS resource related to the migration (e.g., AMI, EC2 instance, RDS instance, etc.) Constraints: • min: 1 • max: 1600 • pattern: arn:[a-z-]+:[a-z0-9-]+:(?:[a-z0-9-]+|):(?:[0-9]{12}|):.*</param>
     public AwsMghDisassociateCreatedArtifactOptions(
         string ProgressUpdateStream,
         string MigrationTaskName,
@@ -64,19 +66,19 @@ public record AwsMghDisassociateCreatedArtifactOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the ProgressUpdateStream. Constraints: o min: 1 o max: 50 o pattern: [^/:|\000-\037]+
+    /// The name of the ProgressUpdateStream. Constraints: • min: 1 • max: 50 • pattern: [^/:|\000-\037]+
     /// </summary>
     [CliOption("--progress-update-stream")]
     public string? ProgressUpdateStream { get; private init; }
 
     /// <summary>
-    /// Unique identifier that references the migration task to be disasso- ciated with the artifact. Do not store personal data in this field. Constraints: o min: 1 o max: 256 o pattern: [^:|]+
+    /// Unique identifier that references the migration task to be disassociated with the artifact. Do not store personal data in this field. Constraints: • min: 1 • max: 256 • pattern: [^:|]+
     /// </summary>
     [CliOption("--migration-task-name")]
     public string? MigrationTaskName { get; private init; }
 
     /// <summary>
-    /// An ARN of the AWS resource related to the migration (e.g., AMI, EC2 instance, RDS instance, etc.) Constraints: o min: 1 o max: 1600 o pattern: arn:[a-z-]+:[a-z0-9-]+:(?:[a-z0-9-]+|):(?:[0-9]{12}|):.*
+    /// An ARN of the AWS resource related to the migration (e.g., AMI, EC2 instance, RDS instance, etc.) Constraints: • min: 1 • max: 1600 • pattern: arn:[a-z-]+:[a-z0-9-]+:(?:[a-z0-9-]+|):(?:[0-9]{12}|):.*
     /// </summary>
     [CliOption("--created-artifact-name")]
     public string? CreatedArtifactName { get; private init; }

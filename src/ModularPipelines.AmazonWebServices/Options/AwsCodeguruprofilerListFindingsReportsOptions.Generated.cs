@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +30,9 @@ public record AwsCodeguruprofilerListFindingsReportsOptions : AwsOptions, IValid
     /// <summary>
     /// List the available reports for a given profiling group and time range. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EndTime">The end time of the profile to get analysis data about. You must specify startTime and endTime . This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisec- ond past June 1, 2020 1:15:02 PM UTC.</param>
-    /// <param name="ProfilingGroupName">The name of the profiling group from which to search for analysis data. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$</param>
-    /// <param name="StartTime">The start time of the profile to get analysis data about. You must specify startTime and endTime . This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisec- ond past June 1, 2020 1:15:02 PM UTC.</param>
+    /// <param name="EndTime">The end time of the profile to get analysis data about. You must specify startTime and endTime . This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.</param>
+    /// <param name="ProfilingGroupName">The name of the profiling group from which to search for analysis data. Constraints: • min: 1 • max: 255 • pattern: ^[\w-]+$</param>
+    /// <param name="StartTime">The start time of the profile to get analysis data about. You must specify startTime and endTime . This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.</param>
     public AwsCodeguruprofilerListFindingsReportsOptions(
         string EndTime,
         string ProfilingGroupName,
@@ -65,19 +67,19 @@ public record AwsCodeguruprofilerListFindingsReportsOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The end time of the profile to get analysis data about. You must specify startTime and endTime . This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisec- ond past June 1, 2020 1:15:02 PM UTC.
+    /// The end time of the profile to get analysis data about. You must specify startTime and endTime . This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
     /// </summary>
     [CliOption("--end-time")]
     public string? EndTime { get; private init; }
 
     /// <summary>
-    /// The name of the profiling group from which to search for analysis data. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$
+    /// The name of the profiling group from which to search for analysis data. Constraints: • min: 1 • max: 255 • pattern: ^[\w-]+$
     /// </summary>
     [CliOption("--profiling-group-name")]
     public string? ProfilingGroupName { get; private init; }
 
     /// <summary>
-    /// The start time of the profile to get analysis data about. You must specify startTime and endTime . This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisec- ond past June 1, 2020 1:15:02 PM UTC.
+    /// The start time of the profile to get analysis data about. You must specify startTime and endTime . This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
     /// </summary>
     [CliOption("--start-time")]
     public string? StartTime { get; private init; }
@@ -89,13 +91,13 @@ public record AwsCodeguruprofilerListFindingsReportsOptions : AwsOptions, IValid
     public bool? DailyReportsOnly { get; set; }
 
     /// <summary>
-    /// The maximum number of report results returned by ListFindingsReports in paginated output. When this parameter is used, ListFindingsRe- ports only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial re- quest can be seen by sending another ListFindingsReports request with the returned nextToken value. Constraints: o min: 1 o max: 1000
+    /// The maximum number of report results returned by ListFindingsReports in paginated output. When this parameter is used, ListFindingsReports only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListFindingsReports request with the returned nextToken value. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The nextToken value returned from a previous paginated ListFind- ingsReportsRequest request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. NOTE: This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. Constraints: o min: 1 o max: 64 o pattern: ^[\w-]+$
+    /// The nextToken value returned from a previous paginated ListFindingsReportsRequest request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. NOTE: This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. Constraints: • min: 1 • max: 64 • pattern: ^[\w-]+$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

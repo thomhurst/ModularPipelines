@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsChatbotUpdateCustomActionOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Updates a custom action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CustomActionArn">The fully defined Amazon Resource Name (ARN) of the custom action. Constraints: o min: 1 o max: 1011 o pattern: arn:aws:chat- bot:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:custom-ac- tion/[a-zA-Z0-9_-]{1,64}</param>
-    /// <param name="Definition">The definition of the command to run when invoked as an alias or as an action button. CommandText -&gt; (string) [required] The command string to run which may include variables by prefix- ing with a dollar sign ($). Constraints: o min: 1 o max: 100 o pattern: [\S\s]+ Shorthand Syntax: CommandText=string JSON Syntax: { "CommandText": "string" }</param>
+    /// <param name="CustomActionArn">The fully defined Amazon Resource Name (ARN) of the custom action. Constraints: • min: 1 • max: 1011 • pattern: arn:aws:chatbot:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:custom-action/[a-zA-Z0-9_-]{1,64}</param>
+    /// <param name="Definition">The definition of the command to run when invoked as an alias or as an action button. CommandText -&gt; (string) [required] The command string to run which may include variables by prefixing with a dollar sign ($). Constraints: • min: 1 • max: 100 • pattern: [\S\s]+ Shorthand Syntax: CommandText=string JSON Syntax: { "CommandText": "string" }</param>
     public AwsChatbotUpdateCustomActionOptions(
         string CustomActionArn,
         string Definition
@@ -60,25 +62,25 @@ public record AwsChatbotUpdateCustomActionOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The fully defined Amazon Resource Name (ARN) of the custom action. Constraints: o min: 1 o max: 1011 o pattern: arn:aws:chat- bot:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:custom-ac- tion/[a-zA-Z0-9_-]{1,64}
+    /// The fully defined Amazon Resource Name (ARN) of the custom action. Constraints: • min: 1 • max: 1011 • pattern: arn:aws:chatbot:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:custom-action/[a-zA-Z0-9_-]{1,64}
     /// </summary>
     [CliOption("--custom-action-arn")]
     public string? CustomActionArn { get; private init; }
 
     /// <summary>
-    /// The definition of the command to run when invoked as an alias or as an action button. CommandText -&gt; (string) [required] The command string to run which may include variables by prefix- ing with a dollar sign ($). Constraints: o min: 1 o max: 100 o pattern: [\S\s]+ Shorthand Syntax: CommandText=string JSON Syntax: { "CommandText": "string" }
+    /// The definition of the command to run when invoked as an alias or as an action button. CommandText -&gt; (string) [required] The command string to run which may include variables by prefixing with a dollar sign ($). Constraints: • min: 1 • max: 100 • pattern: [\S\s]+ Shorthand Syntax: CommandText=string JSON Syntax: { "CommandText": "string" }
     /// </summary>
     [CliOption("--definition")]
     public string? Definition { get; private init; }
 
     /// <summary>
-    /// The name used to invoke this action in the chat channel. For exam- ple, @aws run my-alias . Constraints: o min: 1 o max: 30 o pattern: [A-Za-z0-9-_]+
+    /// The name used to invoke this action in the chat channel. For example, @aws run my-alias . Constraints: • min: 1 • max: 30 • pattern: [A-Za-z0-9-_]+
     /// </summary>
     [CliOption("--alias-name")]
     public string? AliasName { get; set; }
 
     /// <summary>
-    /// Defines when this custom action button should be attached to a noti- fication. (structure) Defines when a custom action button should be attached to a no- tification. NotificationType -&gt; (string) The type of notification that the custom action should be at- tached to. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+ ButtonText -&gt; (string) The text of the button that appears on the notification. Constraints: o min: 1 o max: 50 o pattern: [\S\s]+ Criteria -&gt; (list) The criteria for when a button should be shown based on val- ues in the notification. Constraints: o min: 1 o max: 5 (structure) A criteria for when a button should be shown based on values in the notification Operator -&gt; (string) [required] The operation to perform on the named variable. Possible values: o HAS_VALUE o EQUALS VariableName -&gt; (string) [required] The name of the variable to operate on. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9-_]+ Value -&gt; (string) A value that is compared with the actual value of the variable based on the behavior of the operator. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]+ Variables -&gt; (map) The variables to extract from the notification. Constraints: o min: 1 o max: 5 key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9-_]+ value -&gt; (string) Constraints: o min: 0 o max: 1024 o pattern: [\x21-\x7F]+ Shorthand Syntax: NotificationType=string,ButtonText=string,Criteria=[{Operator=string,VariableName=string,Value=string},{Operator=string,VariableName=string,Value=string}],Variables={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "NotificationType": "string", "ButtonText": "string", "Criteria": [ { "Operator": "HAS_VALUE"|"EQUALS", "VariableName": "string", "Value": "string" } ... ], "Variables": {"string": "string" ...} } ... ]
+    /// Defines when this custom action button should be attached to a notification. (structure) Defines when a custom action button should be attached to a notification. NotificationType -&gt; (string) The type of notification that the custom action should be attached to. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+ ButtonText -&gt; (string) The text of the button that appears on the notification. Constraints: • min: 1 • max: 50 • pattern: [\S\s]+ Criteria -&gt; (list) The criteria for when a button should be shown based on values in the notification. Constraints: • min: 1 • max: 5 (structure) A criteria for when a button should be shown based on values in the notification Operator -&gt; (string) [required] The operation to perform on the named variable. Possible values: • HAS_VALUE • EQUALS VariableName -&gt; (string) [required] The name of the variable to operate on. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9-_]+ Value -&gt; (string) A value that is compared with the actual value of the variable based on the behavior of the operator. Constraints: • min: 0 • max: 1024 • pattern: [\S\s]+ Variables -&gt; (map) The variables to extract from the notification. Constraints: • min: 1 • max: 5 key -&gt; (string) Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9-_]+ value -&gt; (string) Constraints: • min: 0 • max: 1024 • pattern: [\x21-\x7F]+ Shorthand Syntax: NotificationType=string,ButtonText=string,Criteria=[{Operator=string,VariableName=string,Value=string},{Operator=string,VariableName=string,Value=string}],Variables={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "NotificationType": "string", "ButtonText": "string", "Criteria": [ { "Operator": "HAS_VALUE"|"EQUALS", "VariableName": "string", "Value": "string" } ... ], "Variables": {"string": "string" ...} } ... ]
     /// </summary>
     [CliOption("--attachments", GroupValues = true)]
     public IEnumerable<string>? Attachments { get; set; }

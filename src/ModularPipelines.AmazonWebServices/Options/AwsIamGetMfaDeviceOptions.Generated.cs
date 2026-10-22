@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIamGetMfaDeviceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves information about an MFA device for a specified user. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SerialNumber">Serial number that uniquely identifies the MFA device. For this API, we only accept FIDO security key ARNs . Constraints: o min: 9 o max: 256 o pattern: [\w+=/:,.@-]+</param>
+    /// <param name="SerialNumber">Serial number that uniquely identifies the MFA device. For this API, we only accept FIDO security key ARNs . Constraints: • min: 9 • max: 256 • pattern: [\w+=/:,.@-]+</param>
     public AwsIamGetMfaDeviceOptions(
         string SerialNumber
     )
@@ -56,13 +58,13 @@ public record AwsIamGetMfaDeviceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Serial number that uniquely identifies the MFA device. For this API, we only accept FIDO security key ARNs . Constraints: o min: 9 o max: 256 o pattern: [\w+=/:,.@-]+
+    /// Serial number that uniquely identifies the MFA device. For this API, we only accept FIDO security key ARNs . Constraints: • min: 9 • max: 256 • pattern: [\w+=/:,.@-]+
     /// </summary>
     [CliOption("--serial-number")]
     public string? SerialNumber { get; private init; }
 
     /// <summary>
-    /// The friendly name identifying the user. Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+
+    /// The friendly name identifying the user. Constraints: • min: 1 • max: 64 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; set; }

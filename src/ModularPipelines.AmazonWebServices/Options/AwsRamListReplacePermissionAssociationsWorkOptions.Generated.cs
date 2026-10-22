@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the current status of the asynchronous tasks performed by RAM when you perform the ReplacePermissionAssociationsWork operation. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation
+/// Retrieves the current status of the asynchronous tasks performed by RAM when you perform the ReplacePermissionAssociationsWork operation. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,26 +24,26 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsRamListReplacePermissionAssociationsWorkOptions : AwsOptions
 {
     /// <summary>
-    /// A list of IDs. These values come from the id field of the repla- cePermissionAssociationsWork structure returned by the ReplacePer- missionAssociations operation. (string) Syntax: "string" "string" ...
+    /// A list of IDs. These values come from the id field of the replacePermissionAssociationsWork structure returned by the ReplacePermissionAssociations operation. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--work-ids", GroupValues = true)]
     public IEnumerable<string>? WorkIds { get; set; }
 
     /// <summary>
-    /// Specifies that you want to see only the details about requests with a status that matches this value. Possible values: o IN_PROGRESS o COMPLETED o FAILED
+    /// Specifies that you want to see only the details about requests with a status that matches this value. Possible values: • IN_PROGRESS • COMPLETED • FAILED
     /// </summary>
     [CliOption("--status")]
     public AwsRamListReplacePermissionAssociationsWorkStatus? Status { get; set; }
 
     /// <summary>
-    /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this pa- rameter to the value provided by the previous call's NextToken re- sponse to request the next page of results.
+    /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it de- faults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the op- eration to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. Constraints: o min: 1 o max: 500
+    /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

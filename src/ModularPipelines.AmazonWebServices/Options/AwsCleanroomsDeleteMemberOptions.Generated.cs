@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the specified member from a collaboration. The removed member is placed in the Removed status and can't interact with the collabora- tion. The removed member's data is inaccessible to active members of the collaboration. See also: AWS API Documentation
+/// Removes the specified member from a collaboration. The removed member is placed in the Removed status and can't interact with the collaboration. The removed member's data is inaccessible to active members of the collaboration. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsCleanroomsDeleteMemberOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the specified member from a collaboration. The removed member is placed in the Removed status and can't interact with the collabora- tion. The removed member's data is inaccessible to active members of the collaboration. See also: AWS API Documentation
+    /// Removes the specified member from a collaboration. The removed member is placed in the Removed status and can't interact with the collaboration. The removed member's data is inaccessible to active members of the collaboration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CollaborationIdentifier">The unique identifier for the associated collaboration. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="AccountId">The account ID of the member to remove. Constraints: o min: 12 o max: 12 o pattern: \d+</param>
+    /// <param name="CollaborationIdentifier">The unique identifier for the associated collaboration. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="AccountId">The account ID of the member to remove. Constraints: • min: 12 • max: 12 • pattern: \d+</param>
     public AwsCleanroomsDeleteMemberOptions(
         string CollaborationIdentifier,
         string AccountId
@@ -60,13 +62,13 @@ public record AwsCleanroomsDeleteMemberOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the associated collaboration. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier for the associated collaboration. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--collaboration-identifier")]
     public string? CollaborationIdentifier { get; private init; }
 
     /// <summary>
-    /// The account ID of the member to remove. Constraints: o min: 12 o max: 12 o pattern: \d+
+    /// The account ID of the member to remove. Constraints: • min: 12 • max: 12 • pattern: \d+
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }

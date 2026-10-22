@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists program management accounts based on specified criteria. See also: AWS API Documentation list-program-management-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+/// Lists program management accounts based on specified criteria. See also: AWS API Documentation list-program-management-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsPartnercentralChannelListProgramManagementAccountsOptions : Aws
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists program management accounts based on specified criteria. See also: AWS API Documentation list-program-management-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Lists program management accounts based on specified criteria. See also: AWS API Documentation list-program-management-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
-    /// <param name="Catalog">The catalog identifier to filter accounts. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z]*</param>
+    /// <param name="Catalog">The catalog identifier to filter accounts. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z]*</param>
     public AwsPartnercentralChannelListProgramManagementAccountsOptions(
         string Catalog
     )
@@ -57,46 +59,43 @@ public record AwsPartnercentralChannelListProgramManagementAccountsOptions : Aws
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog identifier to filter accounts. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z]*
+    /// The catalog identifier to filter accounts. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z]*
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// Filter by display names. (string) Constraints: o min: 1 o max: 30 o pattern: [^\x00-\x1F\x7F]* Syntax: "string" "string" ...
+    /// Filter by display names. (string) Constraints: • min: 1 • max: 30 • pattern: [^\x00-\x1F\x7F]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--display-names", GroupValues = true)]
     public IEnumerable<string>? DisplayNames { get; set; }
 
     /// <summary>
-    /// Filter by program types. (string) Possible values: o SOLUTION_PROVIDER o DISTRIBUTION o DISTRIBUTION_SELLER Syntax: "string" "string" ...
+    /// Filter by program types. (string) Possible values: • SOLUTION_PROVIDER • DISTRIBUTION • DISTRIBUTION_SELLER Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--programs", GroupValues = true)]
     public IEnumerable<string>? Programs { get; set; }
 
     /// <summary>
-    /// Filter by AWS account IDs. (string) Constraints: o min: 12 o max: 12 o pattern: [0-9]* Syntax: "string" "string" ...
+    /// Filter by AWS account IDs. (string) Constraints: • min: 12 • max: 12 • pattern: [0-9]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
 
     /// <summary>
-    /// Filter by program management account statuses. (string) Possible values: o PENDING o ACTIVE o INACTIVE Syntax: "string" "string" ...
+    /// Filter by program management account statuses. (string) Possible values: • PENDING • ACTIVE • INACTIVE Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--statuses", GroupValues = true)]
     public IEnumerable<string>? Statuses { get; set; }
 
     /// <summary>
-    /// Sorting options for the results. sortOrder -&gt; (string) [required] The sort order (ascending or descending). Possible values: o Ascending o Descending sortBy -&gt; (string) [required] The field to sort by. Possible values: o UpdatedAt Shorthand Syntax: sortOrder=string,sortBy=string JSON Syntax: { "sortOrder": "Ascending"|"Descending", "sortBy": "UpdatedAt" }
+    /// Sorting options for the results. sortOrder -&gt; (string) [required] The sort order (ascending or descending). Possible values: • Ascending • Descending sortBy -&gt; (string) [required] The field to sort by. Possible values: • UpdatedAt Shorthand Syntax: sortOrder=string,sortBy=string JSON Syntax: { "sortOrder": "Ascending"|"Descending", "sortBy": "UpdatedAt" }
     /// </summary>
     [CliOption("--sort")]
     public string? Sort { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -106,16 +105,19 @@ public record AwsPartnercentralChannelListProgramManagementAccountsOptions : Aws
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

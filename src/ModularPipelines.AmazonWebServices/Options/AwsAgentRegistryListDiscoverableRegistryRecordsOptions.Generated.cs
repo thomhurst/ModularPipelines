@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the discoverable registry records in a registry. You can option- ally filter and paginate the results. See also: AWS API Documentation list-discoverable-registry-records is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the fo...
+/// Lists the discoverable registry records in a registry. You can optionally filter and paginate the results. See also: AWS API Documentation list-discoverable-registry-records is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followin...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsAgentRegistryListDiscoverableRegistryRecordsOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the discoverable registry records in a registry. You can option- ally filter and paginate the results. See also: AWS API Documentation list-discoverable-registry-records is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the fo...
+    /// Lists the discoverable registry records in a registry. You can optionally filter and paginate the results. See also: AWS API Documentation list-discoverable-registry-records is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followin...
     /// </summary>
-    /// <param name="RegistryId">The identifier of the registry whose discoverable records are listed. You can provide either the full Amazon Resource Name (ARN) or the registry ID. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:agent-reg- istry:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}</param>
+    /// <param name="RegistryId">The identifier of the registry whose discoverable records are listed. You can provide either the full Amazon Resource Name (ARN) or the registry ID. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(-[^:]+)?:agent-registry:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}</param>
     public AwsAgentRegistryListDiscoverableRegistryRecordsOptions(
         string RegistryId
     )
@@ -57,22 +59,19 @@ public record AwsAgentRegistryListDiscoverableRegistryRecordsOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the registry whose discoverable records are listed. You can provide either the full Amazon Resource Name (ARN) or the registry ID. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:agent-reg- istry:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}
+    /// The identifier of the registry whose discoverable records are listed. You can provide either the full Amazon Resource Name (ARN) or the registry ID. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(-[^:]+)?:agent-registry:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; private init; }
 
     /// <summary>
-    /// The filters to apply to the discoverable registry record list. Constraints: o min: 0 o max: 10 (structure) A single filter applied to a ListDiscoverableRegistryRecords re- quest. name -&gt; (string) [required] The attribute to filter on. Possible values: o recordType o descriptorType values -&gt; (list) [required] The values to match for the attribute. Constraints: o min: 1 o max: 10 (string) A single filter value. Constrained by length only; the accepted set of values is filter-specific and validated server-side so enum-style values such as READY or AWS_IAM are accepted. Constraints: o min: 1 o max: 255 Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "recordType"|"descriptorType", "values": ["string", ...] } ... ]
+    /// The filters to apply to the discoverable registry record list. Constraints: • min: 0 • max: 10 (structure) A single filter applied to a ListDiscoverableRegistryRecords request. name -&gt; (string) [required] The attribute to filter on. Possible values: • recordType • descriptorType values -&gt; (list) [required] The values to match for the attribute. Constraints: • min: 1 • max: 10 (string) A single filter value. Constrained by length only; the accepted set of values is filter-specific and validated server-side so enum-style values such as READY or AWS_IAM are accepted. Constraints: • min: 1 • max: 255 Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "recordType"|"descriptorType", "values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -82,16 +81,19 @@ public record AwsAgentRegistryListDiscoverableRegistryRecordsOptions : AwsOption
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

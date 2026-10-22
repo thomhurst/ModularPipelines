@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSagemakerCreatePartnerAppPresignedUrlOptions : AwsOptions, IVal
     /// <summary>
     /// Creates a presigned URL to access an Amazon SageMaker Partner AI App. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The ARN of the SageMaker Partner AI App to create the presigned URL for. Constraints: o min: 1 o max: 128 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:part- ner-app\/app-[A-Z0-9]{12}</param>
+    /// <param name="Arn">The ARN of the SageMaker Partner AI App to create the presigned URL for. Constraints: • min: 1 • max: 128 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:partner-app\/app-[A-Z0-9]{12}</param>
     public AwsSagemakerCreatePartnerAppPresignedUrlOptions(
         string Arn
     )
@@ -56,19 +58,19 @@ public record AwsSagemakerCreatePartnerAppPresignedUrlOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the SageMaker Partner AI App to create the presigned URL for. Constraints: o min: 1 o max: 128 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:part- ner-app\/app-[A-Z0-9]{12}
+    /// The ARN of the SageMaker Partner AI App to create the presigned URL for. Constraints: • min: 1 • max: 128 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:partner-app\/app-[A-Z0-9]{12}
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The time that will pass before the presigned URL expires. Constraints: o min: 5 o max: 300
+    /// The time that will pass before the presigned URL expires. Constraints: • min: 5 • max: 300
     /// </summary>
     [CliOption("--expires-in-seconds")]
     public int? ExpiresInSeconds { get; set; }
 
     /// <summary>
-    /// Indicates how long the Amazon SageMaker Partner AI App session can be accessed for after logging in. Constraints: o min: 1800 o max: 43200
+    /// Indicates how long the Amazon SageMaker Partner AI App session can be accessed for after logging in. Constraints: • min: 1800 • max: 43200
     /// </summary>
     [CliOption("--session-expiration-duration-in-seconds")]
     public int? SessionExpirationDurationInSeconds { get; set; }

@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Analyzes input text for the presence of personally identifiable infor- mation (PII) and returns the labels of identified PII entity types such as name, address, bank account number, or phone number. See also: AWS API Documentation
+/// Analyzes input text for the presence of personally identifiable information (PII) and returns the labels of identified PII entity types such as name, address, bank account number, or phone number. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsComprehendContainsPiiEntitiesOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Analyzes input text for the presence of personally identifiable infor- mation (PII) and returns the labels of identified PII entity types such as name, address, bank account number, or phone number. See also: AWS API Documentation
+    /// Analyzes input text for the presence of personally identifiable information (PII) and returns the labels of identified PII entity types such as name, address, bank account number, or phone number. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Text">A UTF-8 text string. The maximum string size is 100 KB. Constraints: o min: 1</param>
-    /// <param name="LanguageCode">The language of the input documents. Possible values: o en o es o fr o de o it o pt o ar o hi o ja o ko o zh o zh-TW</param>
+    /// <param name="Text">A UTF-8 text string. The maximum string size is 100 KB. Constraints: • min: 1</param>
+    /// <param name="LanguageCode">The language of the input documents. Possible values: • en • es • fr • de • it • pt • ar • hi • ja • ko • zh • zh-TW</param>
     public AwsComprehendContainsPiiEntitiesOptions(
         string Text,
         AwsComprehendContainsPiiEntitiesLanguageCode LanguageCode
@@ -60,13 +62,13 @@ public record AwsComprehendContainsPiiEntitiesOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A UTF-8 text string. The maximum string size is 100 KB. Constraints: o min: 1
+    /// A UTF-8 text string. The maximum string size is 100 KB. Constraints: • min: 1
     /// </summary>
     [CliOption("--text")]
     public string? Text { get; private init; }
 
     /// <summary>
-    /// The language of the input documents. Possible values: o en o es o fr o de o it o pt o ar o hi o ja o ko o zh o zh-TW
+    /// The language of the input documents. Possible values: • en • es • fr • de • it • pt • ar • hi • ja • ko • zh • zh-TW
     /// </summary>
     [CliOption("--language-code")]
     public AwsComprehendContainsPiiEntitiesLanguageCode? LanguageCode { get; private init; }

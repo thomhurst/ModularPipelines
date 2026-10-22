@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsOmicsListTagsForResourceOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Retrieves a list of tags for a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The resource's ARN. Constraints: o min: 1 o max: 150 o pattern: arn:.+</param>
+    /// <param name="ResourceArn">The resource's ARN. Constraints: • min: 1 • max: 150 • pattern: arn:.+</param>
     public AwsOmicsListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsOmicsListTagsForResourceOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The resource's ARN. Constraints: o min: 1 o max: 150 o pattern: arn:.+
+    /// The resource's ARN. Constraints: • min: 1 • max: 150 • pattern: arn:.+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

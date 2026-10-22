@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the settings for a cluster. You can also change node type and the number of nodes to scale up or down the cluster. When resizing a cluster, you must specify both the number of nodes and the node type even if one of the parameters does not change. You can add another security or parameter group, or change the admin user password. Resetting a cluster password or modifying the security groups associated with a cluster do not need a reboot. However, modify- ing a parameter group requires a ...
+/// Modifies the settings for a cluster. You can also change node type and the number of nodes to scale up or down the cluster. When resizing a cluster, you must specify both the number of nodes and the node type even if one of the parameters does not change. You can add another security or parameter group, or change the admin user password. Resetting a cluster password or modifying the security groups associated with a cluster do not need a reboot. However, modifying a parameter group requires a re...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsRedshiftModifyClusterOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the settings for a cluster. You can also change node type and the number of nodes to scale up or down the cluster. When resizing a cluster, you must specify both the number of nodes and the node type even if one of the parameters does not change. You can add another security or parameter group, or change the admin user password. Resetting a cluster password or modifying the security groups associated with a cluster do not need a reboot. However, modify- ing a parameter group requires a ...
+    /// Modifies the settings for a cluster. You can also change node type and the number of nodes to scale up or down the cluster. When resizing a cluster, you must specify both the number of nodes and the node type even if one of the parameters does not change. You can add another security or parameter group, or change the admin user password. Resetting a cluster password or modifying the security groups associated with a cluster do not need a reboot. However, modifying a parameter group requires a re...
     /// </summary>
-    /// <param name="ClusterIdentifier">The unique identifier of the cluster to be modified. Example: examplecluster Constraints: o max: 2147483647</param>
+    /// <param name="ClusterIdentifier">The unique identifier of the cluster to be modified. Example: examplecluster Constraints: • max: 2147483647</param>
     public AwsRedshiftModifyClusterOptions(
         string ClusterIdentifier
     )
@@ -57,50 +59,50 @@ public record AwsRedshiftModifyClusterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the cluster to be modified. Example: examplecluster Constraints: o max: 2147483647
+    /// The unique identifier of the cluster to be modified. Example: examplecluster Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The new cluster type. When you submit your cluster resize request, your existing cluster goes into a read-only mode. After Amazon Redshift provisions a new cluster based on your resize requirements, there will be outage for a period while the old cluster is deleted and your connection is switched to the new cluster. You can use DescribeResize to track the progress of the resize request. Valid Values: multi-node | single-node Constraints: o max: 2147483647
+    /// The new cluster type. When you submit your cluster resize request, your existing cluster goes into a read-only mode. After Amazon Redshift provisions a new cluster based on your resize requirements, there will be outage for a period while the old cluster is deleted and your connection is switched to the new cluster. You can use DescribeResize to track the progress of the resize request. Valid Values: multi-node | single-node Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-type")]
     public string? ClusterType { get; set; }
 
     /// <summary>
-    /// The new node type of the cluster. If you specify a new node type, you must also specify the number of nodes parameter. For more information about resizing clusters, go to Resizing Clus- ters in Amazon Redshift in the Amazon Redshift Cluster Management Guide . Valid Values: dc2.large | dc2.8xlarge | rg.large | rg.xlarge | rg.4xlarge | rg.12xlarge | ra3.large | ra3.xlplus | ra3.4xlarge | ra3.16xlarge Constraints: o max: 2147483647
+    /// The new node type of the cluster. If you specify a new node type, you must also specify the number of nodes parameter. For more information about resizing clusters, go to Resizing Clusters in Amazon Redshift in the Amazon Redshift Cluster Management Guide . Valid Values: dc2.large | dc2.8xlarge | rg.large | rg.xlarge | rg.4xlarge | rg.12xlarge | ra3.large | ra3.xlplus | ra3.4xlarge | ra3.16xlarge Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--node-type")]
     public string? NodeType { get; set; }
 
     /// <summary>
-    /// The new number of nodes of the cluster. If you specify a new number of nodes, you must also specify the node type parameter. For more information about resizing clusters, go to Resizing Clus- ters in Amazon Redshift in the Amazon Redshift Cluster Management Guide . Valid Values: Integer greater than 0 .
+    /// The new number of nodes of the cluster. If you specify a new number of nodes, you must also specify the node type parameter. For more information about resizing clusters, go to Resizing Clusters in Amazon Redshift in the Amazon Redshift Cluster Management Guide . Valid Values: Integer greater than 0 .
     /// </summary>
     [CliOption("--number-of-nodes")]
     public int? NumberOfNodes { get; set; }
 
     /// <summary>
-    /// A list of cluster security groups to be authorized on this cluster. This change is asynchronously applied as soon as possible. Security groups currently associated with the cluster, and not in the list of groups to apply, will be revoked from the cluster. Constraints: o Must be 1 to 255 alphanumeric characters or hyphens o First character must be a letter o Cannot end with a hyphen or contain two consecutive hyphens (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// A list of cluster security groups to be authorized on this cluster. This change is asynchronously applied as soon as possible. Security groups currently associated with the cluster, and not in the list of groups to apply, will be revoked from the cluster. Constraints: • Must be 1 to 255 alphanumeric characters or hyphens • First character must be a letter • Cannot end with a hyphen or contain two consecutive hyphens (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--cluster-security-groups", GroupValues = true)]
     public IEnumerable<string>? ClusterSecurityGroups { get; set; }
 
     /// <summary>
-    /// A list of virtual private cloud (VPC) security groups to be associ- ated with the cluster. This change is asynchronously applied as soon as possible. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// A list of virtual private cloud (VPC) security groups to be associated with the cluster. This change is asynchronously applied as soon as possible. (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
     /// <summary>
-    /// The new password for the cluster admin user. This change is asyn- chronously applied as soon as possible. Between the time of the re- quest and the completion of the request, the MasterUserPassword ele- ment exists in the PendingModifiedValues element of the operation response. You can't use MasterUserPassword if ManageMasterPassword is true . NOTE: Operations never return the password, so this operation provides a way to regain access to the admin user account for a cluster if the password is lost. Default: Uses existing setting. Constraints: o Must be between 8 and 64 characters in length. o Must contain at least one uppercase letter. o Must contain at least one lowercase letter. o Must contain one number. o Can be any printable ASCII character (ASCII code 33-126) except ' (single quote), " (double quote), \ , / , or @ .
+    /// The new password for the cluster admin user. This change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response. You can't use MasterUserPassword if ManageMasterPassword is true . NOTE: Operations never return the password, so this operation provides a way to regain access to the admin user account for a cluster if the password is lost. Default: Uses existing setting. Constraints: • Must be between 8 and 64 characters in length. • Must contain at least one uppercase letter. • Must contain at least one lowercase letter. • Must contain one number. • Can be any printable ASCII character (ASCII code 33-126) except ' (single quote), " (double quote), \ , / , or @ .
     /// </summary>
     [SecretValue]
     [CliOption("--master-user-password")]
     public string? MasterUserPassword { get; set; }
 
     /// <summary>
-    /// The name of the cluster parameter group to apply to this cluster. This change is applied only after the cluster is rebooted. To reboot a cluster use RebootCluster . Default: Uses existing setting. Constraints: The cluster parameter group must be in the same parame- ter group family that matches the cluster version. Constraints: o max: 2147483647
+    /// The name of the cluster parameter group to apply to this cluster. This change is applied only after the cluster is rebooted. To reboot a cluster use RebootCluster . Default: Uses existing setting. Constraints: The cluster parameter group must be in the same parameter group family that matches the cluster version. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-parameter-group-name")]
     public string? ClusterParameterGroupName { get; set; }
@@ -112,19 +114,19 @@ public record AwsRedshiftModifyClusterOptions : AwsOptions, IValidatableObject
     public int? AutomatedSnapshotRetentionPeriod { get; set; }
 
     /// <summary>
-    /// The default for number of days that a newly created manual snapshot is retained. If the value is -1, the manual snapshot is retained in- definitely. This value doesn't retroactively change the retention periods of existing manual snapshots. The value must be either -1 or an integer between 1 and 3,653. The default value is -1.
+    /// The default for number of days that a newly created manual snapshot is retained. If the value is -1, the manual snapshot is retained indefinitely. This value doesn't retroactively change the retention periods of existing manual snapshots. The value must be either -1 or an integer between 1 and 3,653. The default value is -1.
     /// </summary>
     [CliOption("--manual-snapshot-retention-period")]
     public int? ManualSnapshotRetentionPeriod { get; set; }
 
     /// <summary>
-    /// The weekly time range (in UTC) during which system maintenance can occur, if necessary. If system maintenance is necessary during the window, it may result in an outage. This maintenance window change is made immediately. If the new main- tenance window indicates the current time, there must be at least 120 minutes between the current time and end of the window in order to ensure that pending changes are applied. Default: Uses existing setting. Format: ddd:hh24:mi-ddd:hh24:mi, for example wed:07:30-wed:08:00 . Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes. Constraints: o max: 2147483647
+    /// The weekly time range (in UTC) during which system maintenance can occur, if necessary. If system maintenance is necessary during the window, it may result in an outage. This maintenance window change is made immediately. If the new maintenance window indicates the current time, there must be at least 120 minutes between the current time and end of the window in order to ensure that pending changes are applied. Default: Uses existing setting. Format: ddd:hh24:mi-ddd:hh24:mi, for example wed:07:30-wed:08:00 . Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
 
     /// <summary>
-    /// The new version number of the Amazon Redshift engine to upgrade to. For major version upgrades, if a non-default cluster parameter group is currently in use, a new cluster parameter group in the cluster parameter group family for the new version must be specified. The new cluster parameter group can be the default for that cluster pa- rameter group family. For more information about parameters and pa- rameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Management Guide . Example: 1.0 Constraints: o max: 2147483647
+    /// The new version number of the Amazon Redshift engine to upgrade to. For major version upgrades, if a non-default cluster parameter group is currently in use, a new cluster parameter group in the cluster parameter group family for the new version must be specified. The new cluster parameter group can be the default for that cluster parameter group family. For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Management Guide . Example: 1.0 Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-version")]
     public string? ClusterVersion { get; set; }
@@ -136,19 +138,19 @@ public record AwsRedshiftModifyClusterOptions : AwsOptions, IValidatableObject
     public bool? AllowVersionUpgrade { get; set; }
 
     /// <summary>
-    /// Specifies the name of the HSM client certificate the Amazon Redshift cluster uses to retrieve the data encryption keys stored in an HSM. Constraints: o max: 2147483647
+    /// Specifies the name of the HSM client certificate the Amazon Redshift cluster uses to retrieve the data encryption keys stored in an HSM. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--hsm-client-certificate-identifier")]
     public string? HsmClientCertificateIdentifier { get; set; }
 
     /// <summary>
-    /// Specifies the name of the HSM configuration that contains the infor- mation the Amazon Redshift cluster can use to retrieve and store keys in an HSM. Constraints: o max: 2147483647
+    /// Specifies the name of the HSM configuration that contains the information the Amazon Redshift cluster can use to retrieve and store keys in an HSM. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--hsm-configuration-identifier")]
     public string? HsmConfigurationIdentifier { get; set; }
 
     /// <summary>
-    /// The new identifier for the cluster. Constraints: o Must contain from 1 to 63 alphanumeric characters or hyphens. o Alphabetic characters must be lowercase. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. o Must be unique for all clusters within an Amazon Web Services ac- count. Example: examplecluster Constraints: o max: 2147483647
+    /// The new identifier for the cluster. Constraints: • Must contain from 1 to 63 alphanumeric characters or hyphens. • Alphabetic characters must be lowercase. • First character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. • Must be unique for all clusters within an Amazon Web Services account. Example: examplecluster Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--new-cluster-identifier")]
     public string? NewClusterIdentifier { get; set; }
@@ -160,7 +162,7 @@ public record AwsRedshiftModifyClusterOptions : AwsOptions, IValidatableObject
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
-    /// The Elastic IP (EIP) address for the cluster. Constraints: The cluster must be provisioned in EC2-VPC and pub- licly-accessible through an Internet gateway. For more information about provisioning clusters in EC2-VPC, go to Supported Platforms to Launch Your Cluster in the Amazon Redshift Cluster Management Guide. Constraints: o max: 2147483647
+    /// The Elastic IP (EIP) address for the cluster. Constraints: The cluster must be provisioned in EC2-VPC and publicly-accessible through an Internet gateway. For more information about provisioning clusters in EC2-VPC, go to Supported Platforms to Launch Your Cluster in the Amazon Redshift Cluster Management Guide. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--elastic-ip")]
     public string? ElasticIp { get; set; }
@@ -172,55 +174,55 @@ public record AwsRedshiftModifyClusterOptions : AwsOptions, IValidatableObject
     public bool? EnhancedVpcRouting { get; set; }
 
     /// <summary>
-    /// The name for the maintenance track that you want to assign for the cluster. This name change is asynchronous. The new track name stays in the PendingModifiedValues for the cluster until the next mainte- nance window. When the maintenance track changes, the cluster is switched to the latest cluster release available for the maintenance track. At this point, the maintenance track name is applied. Constraints: o max: 2147483647
+    /// The name for the maintenance track that you want to assign for the cluster. This name change is asynchronous. The new track name stays in the PendingModifiedValues for the cluster until the next maintenance window. When the maintenance track changes, the cluster is switched to the latest cluster release available for the maintenance track. At this point, the maintenance track name is applied. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--maintenance-track-name")]
     public string? MaintenanceTrackName { get; set; }
 
     /// <summary>
-    /// Indicates whether the cluster is encrypted. If the value is en- crypted (true) and you provide a value for the KmsKeyId parameter, we encrypt the cluster with the provided KmsKeyId . If you don't provide a KmsKeyId , we encrypt with the default key. If the value is not encrypted (false), then the cluster is de- crypted.
+    /// Indicates whether the cluster is encrypted. If the value is encrypted (true) and you provide a value for the KmsKeyId parameter, we encrypt the cluster with the provided KmsKeyId . If you don't provide a KmsKeyId , we encrypt with the default key. If the value is not encrypted (false), then the cluster is decrypted.
     /// </summary>
     [CliFlag("--encrypted", NegatedName = "--no-encrypted")]
     public bool? Encrypted { get; set; }
 
     /// <summary>
-    /// The Key Management Service (KMS) key ID of the encryption key that you want to use to encrypt data in the cluster. Constraints: o max: 2147483647
+    /// The Key Management Service (KMS) key ID of the encryption key that you want to use to encrypt data in the cluster. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// The option to enable relocation for an Amazon Redshift cluster be- tween Availability Zones after the cluster modification is complete.
+    /// The option to enable relocation for an Amazon Redshift cluster between Availability Zones after the cluster modification is complete.
     /// </summary>
     [CliFlag("--availability-zone-relocation", NegatedName = "--no-availability-zone-relocation")]
     public bool? AvailabilityZoneRelocation { get; set; }
 
     /// <summary>
-    /// The option to initiate relocation for an Amazon Redshift cluster to the target Availability Zone. Constraints: o max: 2147483647
+    /// The option to initiate relocation for an Amazon Redshift cluster to the target Availability Zone. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; set; }
 
     /// <summary>
-    /// The option to change the port of an Amazon Redshift cluster. Valid Values: o For clusters with RG or RA3 nodes - Select a port within the ranges 5431-5455 or 8191-8215 . (If you have an existing cluster with RG or RA3 nodes, it isn't required that you change the port to these ranges.) o For clusters with dc2 nodes - Select a port within the range 1150-65535 .
+    /// The option to change the port of an Amazon Redshift cluster. Valid Values: • For clusters with RG or RA3 nodes - Select a port within the ranges 5431-5455 or 8191-8215 . (If you have an existing cluster with RG or RA3 nodes, it isn't required that you change the port to these ranges.) • For clusters with dc2 nodes - Select a port within the range 1150-65535 .
     /// </summary>
     [CliOption("--port")]
     public int? Port { get; set; }
 
     /// <summary>
-    /// If true , Amazon Redshift uses Secrets Manager to manage this clus- ter's admin credentials. You can't use MasterUserPassword if Manage- MasterPassword is true. If ManageMasterPassword is false or not set, Amazon Redshift uses MasterUserPassword for the admin user account's password.
+    /// If true , Amazon Redshift uses Secrets Manager to manage this cluster's admin credentials. You can't use MasterUserPassword if ManageMasterPassword is true. If ManageMasterPassword is false or not set, Amazon Redshift uses MasterUserPassword for the admin user account's password.
     /// </summary>
     [CliFlag("--manage-master-password", NegatedName = "--no-manage-master-password")]
     public bool? ManageMasterPassword { get; set; }
 
     /// <summary>
-    /// The ID of the Key Management Service (KMS) key used to encrypt and store the cluster's admin credentials secret. You can only use this parameter if ManageMasterPassword is true. Constraints: o max: 2147483647
+    /// The ID of the Key Management Service (KMS) key used to encrypt and store the cluster's admin credentials secret. You can only use this parameter if ManageMasterPassword is true. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--master-password-secret-kms-key-id")]
     public string? MasterPasswordSecretKmsKeyId { get; set; }
 
     /// <summary>
-    /// The IP address types that the cluster supports. Possible values are ipv4 and dualstack . Constraints: o max: 2147483647
+    /// The IP address types that the cluster supports. Possible values are ipv4 and dualstack . Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--ip-address-type")]
     public string? IpAddressType { get; set; }
@@ -232,7 +234,7 @@ public record AwsRedshiftModifyClusterOptions : AwsOptions, IValidatableObject
     public bool? MultiAz { get; set; }
 
     /// <summary>
-    /// tomatic-optimization (boolean) If true , allocates additional compute resources for running auto- matic optimization operations. Default: false
+    /// If true , allocates additional compute resources for running automatic optimization operations. Default: false
     /// </summary>
     [CliFlag("--extra-compute-for-automatic-optimization", NegatedName = "--no-extra-compute-for-automatic-optimization")]
     public bool? ExtraComputeForAutomaticOptimization { get; set; }

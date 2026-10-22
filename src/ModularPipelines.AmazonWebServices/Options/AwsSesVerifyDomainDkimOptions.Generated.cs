@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a set of DKIM tokens for a domain identity. WARNING: When you execute the VerifyDomainDkim operation, the domain that you specify is added to the list of identities that are associated with your account. This is true even if you haven't already associated the domain with your account by using the VerifyDomainIdentity oper- ation. However, you can't send email from the domain until you ei- ther successfully verify it or you successfully set up DKIM for it . You use the tokens that are gen...
+/// Returns a set of DKIM tokens for a domain identity. WARNING: When you execute the VerifyDomainDkim operation, the domain that you specify is added to the list of identities that are associated with your account. This is true even if you haven't already associated the domain with your account by using the VerifyDomainIdentity operation. However, you can't send email from the domain until you either successfully verify it or you successfully set up DKIM for it . You use the tokens that are generat...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsSesVerifyDomainDkimOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a set of DKIM tokens for a domain identity. WARNING: When you execute the VerifyDomainDkim operation, the domain that you specify is added to the list of identities that are associated with your account. This is true even if you haven't already associated the domain with your account by using the VerifyDomainIdentity oper- ation. However, you can't send email from the domain until you ei- ther successfully verify it or you successfully set up DKIM for it . You use the tokens that are gen...
+    /// Returns a set of DKIM tokens for a domain identity. WARNING: When you execute the VerifyDomainDkim operation, the domain that you specify is added to the list of identities that are associated with your account. This is true even if you haven't already associated the domain with your account by using the VerifyDomainIdentity operation. However, you can't send email from the domain until you either successfully verify it or you successfully set up DKIM for it . You use the tokens that are generat...
     /// </summary>
     /// <param name="Domain">The name of the domain to be verified for Easy DKIM signing.</param>
     public AwsSesVerifyDomainDkimOptions(

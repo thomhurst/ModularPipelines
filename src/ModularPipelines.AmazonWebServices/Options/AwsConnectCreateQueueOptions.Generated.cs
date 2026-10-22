@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new queue for the specified Connect Customer instance. WARNING: o If the phone number is claimed to a traffic distribution group that was created in the same Region as the Connect Customer in- stance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId . However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an in- stance in another Amazon Web Services Re...
+/// Creates a new queue for the specified Connect Customer instance. WARNING: • If the phone number is claimed to a traffic distribution group that was created in the same Region as the Connect Customer instance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId . However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an instance in another Amazon Web Services Region...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsConnectCreateQueueOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new queue for the specified Connect Customer instance. WARNING: o If the phone number is claimed to a traffic distribution group that was created in the same Region as the Connect Customer in- stance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId . However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an in- stance in another Amazon Web Services Re...
+    /// Creates a new queue for the specified Connect Customer instance. WARNING: • If the phone number is claimed to a traffic distribution group that was created in the same Region as the Connect Customer instance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId . However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an instance in another Amazon Web Services Region...
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="Name">The name of the queue. Constraints: o min: 1 o max: 127</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="Name">The name of the queue. Constraints: • min: 1 • max: 127</param>
     /// <param name="HoursOfOperationId">The identifier for the hours of operation.</param>
     public AwsConnectCreateQueueOptions(
         string InstanceId,
@@ -65,13 +66,13 @@ public record AwsConnectCreateQueueOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The name of the queue. Constraints: o min: 1 o max: 127
+    /// The name of the queue. Constraints: • min: 1 • max: 127
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -83,43 +84,43 @@ public record AwsConnectCreateQueueOptions : AwsOptions, IValidatableObject
     public string? HoursOfOperationId { get; private init; }
 
     /// <summary>
-    /// The description of the queue. Constraints: o min: 1 o max: 250
+    /// The description of the queue. Constraints: • min: 1 • max: 250
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The outbound caller ID name, number, and outbound whisper flow. OutboundCallerIdName -&gt; (string) The caller ID name. Constraints: o min: 1 o max: 255 OutboundCallerIdNumberId -&gt; (string) The caller ID number. OutboundFlowId -&gt; (string) The outbound whisper flow to be used during an outbound call. Constraints: o max: 500 Shorthand Syntax: OutboundCallerIdName=string,OutboundCallerIdNumberId=string,OutboundFlowId=string JSON Syntax: { "OutboundCallerIdName": "string", "OutboundCallerIdNumberId": "string", "OutboundFlowId": "string" }
+    /// The outbound caller ID name, number, and outbound whisper flow. OutboundCallerIdName -&gt; (string) The caller ID name. Constraints: • min: 1 • max: 255 OutboundCallerIdNumberId -&gt; (string) The caller ID number. OutboundFlowId -&gt; (string) The outbound whisper flow to be used during an outbound call. Constraints: • max: 500 Shorthand Syntax: OutboundCallerIdName=string,OutboundCallerIdNumberId=string,OutboundFlowId=string JSON Syntax: { "OutboundCallerIdName": "string", "OutboundCallerIdNumberId": "string", "OutboundFlowId": "string" }
     /// </summary>
     [CliOption("--outbound-caller-config")]
     public string? OutboundCallerConfig { get; set; }
 
     /// <summary>
-    /// The outbound email address ID for a specified queue. OutboundEmailAddressId -&gt; (string) The identifier of the email address. Constraints: o min: 1 o max: 500 Shorthand Syntax: OutboundEmailAddressId=string JSON Syntax: { "OutboundEmailAddressId": "string" }
+    /// The outbound email address ID for a specified queue. OutboundEmailAddressId -&gt; (string) The identifier of the email address. Constraints: • min: 1 • max: 500 Shorthand Syntax: OutboundEmailAddressId=string JSON Syntax: { "OutboundEmailAddressId": "string" }
     /// </summary>
     [CliOption("--outbound-email-config")]
     public string? OutboundEmailConfig { get; set; }
 
     /// <summary>
-    /// The maximum number of contacts that can be in the queue before it is considered full. Constraints: o min: 0
+    /// The maximum number of contacts that can be in the queue before it is considered full. Constraints: • min: 0
     /// </summary>
     [CliOption("--max-contacts")]
     public int? MaxContacts { get; set; }
 
     /// <summary>
-    /// The quick connects available to agents who are working the queue. Constraints: o min: 1 o max: 50 (string) Syntax: "string" "string" ...
+    /// The quick connects available to agents who are working the queue. Constraints: • min: 1 • max: 50 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--quick-connect-ids", GroupValues = true)]
     public IEnumerable<string>? QuickConnectIds { get; set; }
 
     /// <summary>
-    /// Configuration list containing the email addresses to associate with the queue during creation. Each configuration specifies an email ad- dress ID that agents can select when handling email contacts in this queue. Constraints: o min: 1 o max: 50 (structure) Configuration object that specifies an email address to be asso- ciated with a queue. This configuration contains the identifier of the email address that should be linked to the queue for routing email contacts. EmailAddressId -&gt; (string) [required] The identifier of the email address that should be associated with the queue. This email address must already exist in the Connect Customer instance and will be used to route incoming email contacts to the specified queue. Constraints: o min: 1 o max: 500 Shorthand Syntax: EmailAddressId=string ... JSON Syntax: [ { "EmailAddressId": "string" } ... ]
+    /// Configuration list containing the email addresses to associate with the queue during creation. Each configuration specifies an email address ID that agents can select when handling email contacts in this queue. Constraints: • min: 1 • max: 50 (structure) Configuration object that specifies an email address to be associated with a queue. This configuration contains the identifier of the email address that should be linked to the queue for routing email contacts. EmailAddressId -&gt; (string) [required] The identifier of the email address that should be associated with the queue. This email address must already exist in the Connect Customer instance and will be used to route incoming email contacts to the specified queue. Constraints: • min: 1 • max: 500 Shorthand Syntax: EmailAddressId=string ... JSON Syntax: [ { "EmailAddressId": "string" } ... ]
     /// </summary>
     [CliOption("--email-addresses-config", GroupValues = true)]
     public IEnumerable<string>? EmailAddressesConfig { get; set; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for this re- source. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

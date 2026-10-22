@@ -32,7 +32,7 @@ public class AwsRoute53Profiles : IAwsRoute53Profiles
     #region Commands
 
     /// <summary>
-    /// Associates a Route 53 Profiles profile with a VPC. A VPC can have only one Profile associated with it, but a Profile can be associated with 1000 of VPCs (and you can request a higher quota). For more informa- tion, see https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html#limits-api-entities . See also: AWS API Documentation
+    /// Associates a Route 53 Profiles profile with a VPC. A VPC can have only one Profile associated with it, but a Profile can be associated with 1000 of VPCs (and you can request a higher quota). For more information, see https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html#limits-api-entities . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsRoute53Profiles : IAwsRoute53Profiles
     }
 
     /// <summary>
-    /// Deletes the specified Route 53 Profile. Before you can delete a pro- file, you must first disassociate it from all VPCs. See also: AWS API Documentation
+    /// Deletes the specified Route 53 Profile. Before you can delete a profile, you must first disassociate it from all VPCs. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsRoute53Profiles : IAwsRoute53Profiles
     }
 
     /// <summary>
-    /// Returns information about a specified Route 53 Profile resource associ- ation. See also: AWS API Documentation
+    /// Returns information about a specified Route 53 Profile resource association. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsRoute53Profiles : IAwsRoute53Profiles
     }
 
     /// <summary>
-    /// Lists all the VPCs that the specified Route 53 Profile is associated with. See also: AWS API Documentation list-profile-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ProfileAssociation...
+    /// Lists all the VPCs that the specified Route 53 Profile is associated with. See also: AWS API Documentation list-profile-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ProfileAssociations
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsRoute53Profiles : IAwsRoute53Profiles
     }
 
     /// <summary>
-    /// Lists all the resource associations for the specified Route 53 Profile. See also: AWS API Documentation list-profile-resource-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ProfileRes...
+    /// Lists all the resource associations for the specified Route 53 Profile. See also: AWS API Documentation list-profile-resource-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ProfileResourc...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsRoute53Profiles : IAwsRoute53Profiles
     }
 
     /// <summary>
-    /// Lists all the Route 53 Profiles associated with your Amazon Web Ser- vices account. See also: AWS API Documentation list-profiles is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ProfileSummaries
+    /// Lists all the Route 53 Profiles associated with your Amazon Web Services account. See also: AWS API Documentation list-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ProfileSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

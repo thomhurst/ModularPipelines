@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsComputeOptimizerAutomationRollbackAutomationEventOptions : AwsO
     /// <summary>
     /// Initiates a rollback for a completed automation event. NOTE: Management accounts and delegated administrators can only initiate a rollback for events belonging to associated member accounts. You can associate a member account using AssociateAccounts . See also: AWS API Documentation
     /// </summary>
-    /// <param name="EventId">The ID of the automation event to roll back. Constraints: o pattern: [0-9A-Za-z]{16}</param>
+    /// <param name="EventId">The ID of the automation event to roll back. Constraints: • pattern: [0-9A-Za-z]{16}</param>
     public AwsComputeOptimizerAutomationRollbackAutomationEventOptions(
         string EventId
     )
@@ -57,13 +59,13 @@ public record AwsComputeOptimizerAutomationRollbackAutomationEventOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the automation event to roll back. Constraints: o pattern: [0-9A-Za-z]{16}
+    /// The ID of the automation event to roll back. Constraints: • pattern: [0-9A-Za-z]{16}
     /// </summary>
     [CliOption("--event-id")]
     public string? EventId { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Must be 1-64 characters long and contain only alphanumeric characters, underscores, and hyphens. Constraints: o pattern: [a-zA-Z0-9_-]{1,64}
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Must be 1-64 characters long and contain only alphanumeric characters, underscores, and hyphens. Constraints: • pattern: [a-zA-Z0-9_-]{1,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

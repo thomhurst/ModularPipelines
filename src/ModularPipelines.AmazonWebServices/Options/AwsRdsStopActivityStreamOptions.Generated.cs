@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Stops a database activity stream that was started using the Amazon Web Services console, the start-activity-stream CLI command, or the Star- tActivityStream operation. For more information, see Monitoring Amazon Aurora with Database Activ- ity Streams in the Amazon Aurora User Guide or Monitoring Amazon RDS with Database Activity Streams in the Amazon RDS User Guide . See also: AWS API Documentation
+/// Stops a database activity stream that was started using the Amazon Web Services console, the start-activity-stream CLI command, or the StartActivityStream operation. For more information, see Monitoring Amazon Aurora with Database Activity Streams in the Amazon Aurora User Guide or Monitoring Amazon RDS with Database Activity Streams in the Amazon RDS User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsRdsStopActivityStreamOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Stops a database activity stream that was started using the Amazon Web Services console, the start-activity-stream CLI command, or the Star- tActivityStream operation. For more information, see Monitoring Amazon Aurora with Database Activ- ity Streams in the Amazon Aurora User Guide or Monitoring Amazon RDS with Database Activity Streams in the Amazon RDS User Guide . See also: AWS API Documentation
+    /// Stops a database activity stream that was started using the Amazon Web Services console, the start-activity-stream CLI command, or the StartActivityStream operation. For more information, see Monitoring Amazon Aurora with Database Activity Streams in the Amazon Aurora User Guide or Monitoring Amazon RDS with Database Activity Streams in the Amazon RDS User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the DB cluster for the database activity stream. For example, arn:aws:rds:us-east-1:12345667890:cluster:das-cluster .</param>
     public AwsRdsStopActivityStreamOptions(
@@ -62,7 +64,7 @@ public record AwsRdsStopActivityStreamOptions : AwsOptions, IValidatableObject
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Specifies whether or not the database activity stream is to stop as soon as possible, regardless of the maintenance window for the data- base.
+    /// Specifies whether or not the database activity stream is to stop as soon as possible, regardless of the maintenance window for the database.
     /// </summary>
     [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; set; }

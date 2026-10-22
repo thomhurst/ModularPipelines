@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists all the inbound cross-cluster search connections for a destina- tion domain. See also: AWS API Documentation
+/// Lists all the inbound cross-cluster search connections for a destination domain. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEsDescribeInboundCrossClusterSearchConnectionsOptions : AwsOptions
 {
     /// <summary>
-    /// A list of filters used to match properties for inbound cross-cluster search connection. Available `` Filter`` names for this operation are: o cross-cluster-search-connection-id o source-domain-info.domain-name o source-domain-info.owner-id o source-domain-info.region o destination-domain-info.domain-name (structure) A filter used to limit results when describing inbound or out- bound cross-cluster search connections. Multiple values can be specified per filter. A cross-cluster search connection must match at least one of the specified values for it to be returned from an operation. Name -&gt; (string) Specifies the name of the filter. Constraints: o min: 1 Values -&gt; (list) Contains one or more values for the filter. Constraints: o min: 1 (string) Constraints: o min: 1 Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// A list of filters used to match properties for inbound cross-cluster search connection. Available `` Filter`` names for this operation are: • cross-cluster-search-connection-id • source-domain-info.domain-name • source-domain-info.owner-id • source-domain-info.region • destination-domain-info.domain-name (structure) A filter used to limit results when describing inbound or outbound cross-cluster search connections. Multiple values can be specified per filter. A cross-cluster search connection must match at least one of the specified values for it to be returned from an operation. Name -&gt; (string) Specifies the name of the filter. Constraints: • min: 1 Values -&gt; (list) Contains one or more values for the filter. Constraints: • min: 1 (string) Constraints: • min: 1 Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// Set this value to limit the number of results returned. If not spec- ified, defaults to 100. Constraints: o max: 100
+    /// Set this value to limit the number of results returned. If not specified, defaults to 100. Constraints: • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

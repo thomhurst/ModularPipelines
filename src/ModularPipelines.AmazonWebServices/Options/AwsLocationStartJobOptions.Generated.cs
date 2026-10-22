@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -29,10 +30,10 @@ public record AwsLocationStartJobOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// StartJob starts a new asynchronous bulk processing job. You specify the input data location in Amazon S3, the action to perform, and the output location where results are written. For more information, see Job concepts in the Amazon Location Service Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Action">The action to perform on the input data. Possible values: o ValidateAddress</param>
-    /// <param name="ExecutionRoleArn">The Amazon Resource Name (ARN) of the IAM role that Amazon Location Service assumes during job processing. Amazon Location Service uses this role to access the input and output locations specified for the job. NOTE: The IAM role must be created in the same Amazon Web Services ac- count where you plan to run your job. For more information about configuring IAM roles for Amazon Location jobs, see Configure IAM permissions in the Amazon Location Service Developer Guide .</param>
-    /// <param name="InputOptions">Configuration for input data location and format. NOTE: Input files have a limitation of 10gb per file, and 1gb per Par- quet row-group within the file. Location -&gt; (string) [required] S3 ARN or URI where input files are stored. NOTE: The Amazon S3 bucket must be created in the same Amazon Web Services region where you plan to run your job. Constraints: o min: 0 o max: 300 o pattern: (arn:aws(-[a-z]+)*:[a-z0-9-]+:[a-z0-9-]*:(\d{12})?:[\w/+=,.-]+|s3://[a-z0-9][a-z0-9._-]{2,254}(/[^/]+)*/?) Format -&gt; (string) [required] Input data format. Currently only Parquet is supported. NOTE: Input files have a limitation of 10gb per file, and 1gb per Parquet row-group within the file. Possible values: o Parquet Shorthand Syntax: Location=string,Format=string JSON Syntax: { "Location": "string", "Format": "Parquet" }</param>
-    /// <param name="OutputOptions">Configuration for output data location and format. Format -&gt; (string) [required] Output data format. Currently only "Parquet" is supported. Possible values: o Parquet Location -&gt; (string) [required] S3 ARN or URI where output files will be written. NOTE: The Amazon S3 bucket must exist in the same Amazon Web Ser- vices region where you plan to run your job. Constraints: o min: 0 o max: 300 o pattern: (arn:aws(-[a-z]+)*:[a-z0-9-]+:[a-z0-9-]*:(\d{12})?:[\w/+=,.-]+|s3://[a-z0-9][a-z0-9._-]{2,254}(/[^/]+)*/) Shorthand Syntax: Format=string,Location=string JSON Syntax: { "Format": "Parquet", "Location": "string" }</param>
+    /// <param name="Action">The action to perform on the input data. Possible values: • ValidateAddress</param>
+    /// <param name="ExecutionRoleArn">The Amazon Resource Name (ARN) of the IAM role that Amazon Location Service assumes during job processing. Amazon Location Service uses this role to access the input and output locations specified for the job. NOTE: The IAM role must be created in the same Amazon Web Services account where you plan to run your job. For more information about configuring IAM roles for Amazon Location jobs, see Configure IAM permissions in the Amazon Location Service Developer Guide .</param>
+    /// <param name="InputOptions">Configuration for input data location and format. NOTE: Input files have a limitation of 10gb per file, and 1gb per Parquet row-group within the file. Location -&gt; (string) [required] S3 ARN or URI where input files are stored. NOTE: The Amazon S3 bucket must be created in the same Amazon Web Services region where you plan to run your job. Constraints: • min: 0 • max: 300 • pattern: (arn:aws(-[a-z]+)*:[a-z0-9-]+:[a-z0-9-]*:(\d{12})?:[\w/+=,.-]+|s3://[a-z0-9][a-z0-9._-]{2,254}(/[^/]+)*/?) Format -&gt; (string) [required] Input data format. Currently only Parquet is supported. NOTE: Input files have a limitation of 10gb per file, and 1gb per Parquet row-group within the file. Possible values: • Parquet Shorthand Syntax: Location=string,Format=string JSON Syntax: { "Location": "string", "Format": "Parquet" }</param>
+    /// <param name="OutputOptions">Configuration for output data location and format. Format -&gt; (string) [required] Output data format. Currently only "Parquet" is supported. Possible values: • Parquet Location -&gt; (string) [required] S3 ARN or URI where output files will be written. NOTE: The Amazon S3 bucket must exist in the same Amazon Web Services region where you plan to run your job. Constraints: • min: 0 • max: 300 • pattern: (arn:aws(-[a-z]+)*:[a-z0-9-]+:[a-z0-9-]*:(\d{12})?:[\w/+=,.-]+|s3://[a-z0-9][a-z0-9._-]{2,254}(/[^/]+)*/) Shorthand Syntax: Format=string,Location=string JSON Syntax: { "Format": "Parquet", "Location": "string" }</param>
     public AwsLocationStartJobOptions(
         string Action,
         string ExecutionRoleArn,
@@ -70,50 +71,50 @@ public record AwsLocationStartJobOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The action to perform on the input data. Possible values: o ValidateAddress
+    /// The action to perform on the input data. Possible values: • ValidateAddress
     /// </summary>
     [CliOption("--action")]
     public string? Action { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role that Amazon Location Service assumes during job processing. Amazon Location Service uses this role to access the input and output locations specified for the job. NOTE: The IAM role must be created in the same Amazon Web Services ac- count where you plan to run your job. For more information about configuring IAM roles for Amazon Location jobs, see Configure IAM permissions in the Amazon Location Service Developer Guide .
+    /// The Amazon Resource Name (ARN) of the IAM role that Amazon Location Service assumes during job processing. Amazon Location Service uses this role to access the input and output locations specified for the job. NOTE: The IAM role must be created in the same Amazon Web Services account where you plan to run your job. For more information about configuring IAM roles for Amazon Location jobs, see Configure IAM permissions in the Amazon Location Service Developer Guide .
     /// </summary>
     [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; private init; }
 
     /// <summary>
-    /// Configuration for input data location and format. NOTE: Input files have a limitation of 10gb per file, and 1gb per Par- quet row-group within the file. Location -&gt; (string) [required] S3 ARN or URI where input files are stored. NOTE: The Amazon S3 bucket must be created in the same Amazon Web Services region where you plan to run your job. Constraints: o min: 0 o max: 300 o pattern: (arn:aws(-[a-z]+)*:[a-z0-9-]+:[a-z0-9-]*:(\d{12})?:[\w/+=,.-]+|s3://[a-z0-9][a-z0-9._-]{2,254}(/[^/]+)*/?) Format -&gt; (string) [required] Input data format. Currently only Parquet is supported. NOTE: Input files have a limitation of 10gb per file, and 1gb per Parquet row-group within the file. Possible values: o Parquet Shorthand Syntax: Location=string,Format=string JSON Syntax: { "Location": "string", "Format": "Parquet" }
+    /// Configuration for input data location and format. NOTE: Input files have a limitation of 10gb per file, and 1gb per Parquet row-group within the file. Location -&gt; (string) [required] S3 ARN or URI where input files are stored. NOTE: The Amazon S3 bucket must be created in the same Amazon Web Services region where you plan to run your job. Constraints: • min: 0 • max: 300 • pattern: (arn:aws(-[a-z]+)*:[a-z0-9-]+:[a-z0-9-]*:(\d{12})?:[\w/+=,.-]+|s3://[a-z0-9][a-z0-9._-]{2,254}(/[^/]+)*/?) Format -&gt; (string) [required] Input data format. Currently only Parquet is supported. NOTE: Input files have a limitation of 10gb per file, and 1gb per Parquet row-group within the file. Possible values: • Parquet Shorthand Syntax: Location=string,Format=string JSON Syntax: { "Location": "string", "Format": "Parquet" }
     /// </summary>
     [CliOption("--input-options")]
     public string? InputOptions { get; private init; }
 
     /// <summary>
-    /// Configuration for output data location and format. Format -&gt; (string) [required] Output data format. Currently only "Parquet" is supported. Possible values: o Parquet Location -&gt; (string) [required] S3 ARN or URI where output files will be written. NOTE: The Amazon S3 bucket must exist in the same Amazon Web Ser- vices region where you plan to run your job. Constraints: o min: 0 o max: 300 o pattern: (arn:aws(-[a-z]+)*:[a-z0-9-]+:[a-z0-9-]*:(\d{12})?:[\w/+=,.-]+|s3://[a-z0-9][a-z0-9._-]{2,254}(/[^/]+)*/) Shorthand Syntax: Format=string,Location=string JSON Syntax: { "Format": "Parquet", "Location": "string" }
+    /// Configuration for output data location and format. Format -&gt; (string) [required] Output data format. Currently only "Parquet" is supported. Possible values: • Parquet Location -&gt; (string) [required] S3 ARN or URI where output files will be written. NOTE: The Amazon S3 bucket must exist in the same Amazon Web Services region where you plan to run your job. Constraints: • min: 0 • max: 300 • pattern: (arn:aws(-[a-z]+)*:[a-z0-9-]+:[a-z0-9-]*:(\d{12})?:[\w/+=,.-]+|s3://[a-z0-9][a-z0-9._-]{2,254}(/[^/]+)*/) Shorthand Syntax: Format=string,Location=string JSON Syntax: { "Format": "Parquet", "Location": "string" }
     /// </summary>
     [CliOption("--output-options")]
     public string? OutputOptions { get; private init; }
 
     /// <summary>
-    /// A unique identifier for this request to ensure idempotency. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
+    /// A unique identifier for this request to ensure idempotency. Constraints: • min: 1 • max: 64 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Additional parameters that can be requested for each result. ValidateAddress -&gt; (structure) Options specific to address validation jobs. AdditionalFeatures -&gt; (list) A list of optional additional parameters that can be re- quested for each result. Values: o Position - Return the position coordinates of the address if available. o CountrySpecificAttributes - Return additional information about the address specific to the country of origin. Constraints: o min: 1 o max: 2 (string) Possible values: o Position o CountrySpecificAttributes Shorthand Syntax: ValidateAddress={AdditionalFeatures=[string,string]} JSON Syntax: { "ValidateAddress": { "AdditionalFeatures": ["Position"|"CountrySpecificAttributes", ...] } }
+    /// Additional parameters that can be requested for each result. ValidateAddress -&gt; (structure) Options specific to address validation jobs. AdditionalFeatures -&gt; (list) A list of optional additional parameters that can be requested for each result. Values: • Position - Return the position coordinates of the address if available. • CountrySpecificAttributes - Return additional information about the address specific to the country of origin. Constraints: • min: 1 • max: 2 (string) Possible values: • Position • CountrySpecificAttributes Shorthand Syntax: ValidateAddress={AdditionalFeatures=[string,string]} JSON Syntax: { "ValidateAddress": { "AdditionalFeatures": ["Position"|"CountrySpecificAttributes", ...] } }
     /// </summary>
     [CliOption("--action-options")]
     public string? ActionOptions { get; set; }
 
     /// <summary>
-    /// An optional name for the job resource. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// An optional name for the job resource. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Tags and corresponding values to be associated with the job. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.,:/=+\-@]*) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.,:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags and corresponding values to be associated with the job. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.,:/=+\-@]*) value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.,:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

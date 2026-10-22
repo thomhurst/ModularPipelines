@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDatazoneDeleteEnvironmentActionOptions : AwsOptions, IValidatab
     /// <summary>
     /// Deletes an action for the environment, for example, deletes a console link for an analytics tool that is available in this environment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which an environment action is deleted. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="EnvironmentIdentifier">The ID of the environment where an environment action is deleted. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which an environment action is deleted. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EnvironmentIdentifier">The ID of the environment where an environment action is deleted. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     /// <param name="Identifier">The ID of the environment action that is deleted.</param>
     public AwsDatazoneDeleteEnvironmentActionOptions(
         string DomainIdentifier,
@@ -64,13 +66,13 @@ public record AwsDatazoneDeleteEnvironmentActionOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon DataZone domain in which an environment action is deleted. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the Amazon DataZone domain in which an environment action is deleted. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the environment where an environment action is deleted. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The ID of the environment where an environment action is deleted. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--environment-identifier")]
     public string? EnvironmentIdentifier { get; private init; }

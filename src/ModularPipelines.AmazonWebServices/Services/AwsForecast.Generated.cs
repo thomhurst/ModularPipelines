@@ -32,7 +32,7 @@ public class AwsForecast : IAwsForecast
     #region Commands
 
     /// <summary>
-    /// Creates an Amazon Forecast predictor. Amazon Forecast creates predictors with AutoPredictor, which involves applying the optimal combination of algorithms to each time series in your datasets. You can use CreateAutoPredictor to create new predic- tors or upgrade/retrain existing predictors. Creating new predictors The following parameters are required when creating a new predictor: o PredictorName - A unique name for the predictor. o DatasetGroupArn - The ARN of the dataset group used to train t...
+    /// Creates an Amazon Forecast predictor. Amazon Forecast creates predictors with AutoPredictor, which involves applying the optimal combination of algorithms to each time series in your datasets. You can use CreateAutoPredictor to create new predictors or upgrade/retrain existing predictors. Creating new predictors The following parameters are required when creating a new predictor: • PredictorName - A unique name for the predictor. • DatasetGroupArn - The ARN of the dataset group used to train the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Imports your training data to an Amazon Forecast dataset. You provide the location of your training data in an Amazon Simple Storage Service (Amazon S3) bucket and the Amazon Resource Name (ARN) of the dataset that you want to import the data to. You must specify a DataSource object that includes an Identity and Ac- cess Management (IAM) role that Amazon Forecast can assume to access the data, as Amazon Forecast makes a copy of your data and processes it in an internal Amazon Web Services system...
+    /// Imports your training data to an Amazon Forecast dataset. You provide the location of your training data in an Amazon Simple Storage Service (Amazon S3) bucket and the Amazon Resource Name (ARN) of the dataset that you want to import the data to. You must specify a DataSource object that includes an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the data, as Amazon Forecast makes a copy of your data and processes it in an internal Amazon Web Services system. ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Exports an Explainability resource created by the CreateExplainability operation. Exported files are exported to an Amazon Simple Storage Ser- vice (Amazon S3) bucket. You must specify a DataDestination object that includes an Amazon S3 bucket and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For more informa- tion, see aws-forecast-iam-roles . NOTE: The Status of the export job must be ACTIVE before you can access the export in your...
+    /// Exports an Explainability resource created by the CreateExplainability operation. Exported files are exported to an Amazon Simple Storage Service (Amazon S3) bucket. You must specify a DataDestination object that includes an Amazon S3 bucket and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For more information, see aws-forecast-iam-roles . NOTE: The Status of the export job must be ACTIVE before you can access the export in your Ama...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// NOTE: Explainability is only available for Forecasts and Predictors gener- ated from an AutoPredictor ( CreateAutoPredictor ) Creates an Amazon Forecast Explainability. Explainability helps you better understand how the attributes in your datasets impact forecast. Amazon Forecast uses a metric called Impact scores to quantify the relative impact of each attribute and determine whether they increase or decrease forecast values. To enable Forecast Explainability, your predictor must include at lea...
+    /// NOTE: Explainability is only available for Forecasts and Predictors generated from an AutoPredictor ( CreateAutoPredictor ) Creates an Amazon Forecast Explainability. Explainability helps you better understand how the attributes in your datasets impact forecast. Amazon Forecast uses a metric called Impact scores to quantify the relative impact of each attribute and determine whether they increase or decrease forecast values. To enable Forecast Explainability, your predictor must include at least...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Exports a forecast created by the CreateForecast operation to your Amazon Simple Storage Service (Amazon S3) bucket. The forecast file name will match the following conventions: &lt;ForecastExportJobName&gt;_&lt;ExportTimestamp&gt;_&lt;PartNumber&gt; where the &lt;ExportTimestamp&gt; component is in Java SimpleDateFormat (yyyy-MM-ddTHH-mm-ssZ). You must specify a DataDestination object that includes an Identity and Access Management (IAM) role that Amazon Forecast can assume to ac- cess the Amazon S3 bucket. For more i...
+    /// Exports a forecast created by the CreateForecast operation to your Amazon Simple Storage Service (Amazon S3) bucket. The forecast file name will match the following conventions: &lt;ForecastExportJobName&gt;_&lt;ExportTimestamp&gt;_&lt;PartNumber&gt; where the &lt;ExportTimestamp&gt; component is in Java SimpleDateFormat (yyyy-MM-ddTHH-mm-ssZ). You must specify a DataDestination object that includes an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For more inf...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Creates a forecast for each item in the TARGET_TIME_SERIES dataset that was used to train the predictor. This is known as inference. To re- trieve the forecast for a single item at low latency, use the opera- tion. To export the complete forecast into your Amazon Simple Storage Service (Amazon S3) bucket, use the CreateForecastExportJob operation. The range of the forecast is determined by the ForecastHorizon value, which you specify in the CreatePredictor request. When you query a forecast, you...
+    /// Creates a forecast for each item in the TARGET_TIME_SERIES dataset that was used to train the predictor. This is known as inference. To retrieve the forecast for a single item at low latency, use the operation. To export the complete forecast into your Amazon Simple Storage Service (Amazon S3) bucket, use the CreateForecastExportJob operation. The range of the forecast is determined by the ForecastHorizon value, which you specify in the CreatePredictor request. When you query a forecast, you can...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Exports backtest forecasts and accuracy metrics generated by the Cre- ateAutoPredictor or CreatePredictor operations. Two folders containing CSV or Parquet files are exported to your specified S3 bucket. The export file names will match the following conventions: &lt;ExportJobName&gt;_&lt;ExportTimestamp&gt;_&lt;PartNumber&gt;.csv The &lt;ExportTimestamp&gt; component is in Java SimpleDate format (yyyy-MM-ddTHH-mm-ssZ). You must specify a DataDestination object that includes an Amazon S3 bucket and an Identity and Acce...
+    /// Exports backtest forecasts and accuracy metrics generated by the CreateAutoPredictor or CreatePredictor operations. Two folders containing CSV or Parquet files are exported to your specified S3 bucket. The export file names will match the following conventions: &lt;ExportJobName&gt;_&lt;ExportTimestamp&gt;_&lt;PartNumber&gt;.csv The &lt;ExportTimestamp&gt; component is in Java SimpleDate format (yyyy-MM-ddTHH-mm-ssZ). You must specify a DataDestination object that includes an Amazon S3 bucket and an Identity and Access...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// NOTE: This operation creates a legacy predictor that does not include all the predictor functionalities provided by Amazon Forecast. To create a predictor that is compatible with all aspects of Forecast, use CreateAutoPredictor . Creates an Amazon Forecast predictor. In the request, provide a dataset group and either specify an algorithm or let Amazon Forecast choose an algorithm for you using AutoML. If you specify an algorithm, you also can override algorithm-specific hyperpa- rameters. Amazon...
+    /// NOTE: This operation creates a legacy predictor that does not include all the predictor functionalities provided by Amazon Forecast. To create a predictor that is compatible with all aspects of Forecast, use CreateAutoPredictor . Creates an Amazon Forecast predictor. In the request, provide a dataset group and either specify an algorithm or let Amazon Forecast choose an algorithm for you using AutoML. If you specify an algorithm, you also can override algorithm-specific hyperparameters. Amazon F...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// What-if analysis is a scenario modeling technique where you make a hy- pothetical change to a time series and compare the forecasts generated by these changes against the baseline, unchanged time series. It is im- portant to remember that the purpose of a what-if analysis is to under- stand how a forecast can change given different modifications to the baseline time series. For example, imagine you are a clothing retailer who is considering an end of season sale to clear space for new styles. Af...
+    /// What-if analysis is a scenario modeling technique where you make a hypothetical change to a time series and compare the forecasts generated by these changes against the baseline, unchanged time series. It is important to remember that the purpose of a what-if analysis is to understand how a forecast can change given different modifications to the baseline time series. For example, imagine you are a clothing retailer who is considering an end of season sale to clear space for new styles. After cr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Exports a forecast created by the CreateWhatIfForecast operation to your Amazon Simple Storage Service (Amazon S3) bucket. The forecast file name will match the following conventions: &lt;ForecastExportJobName&gt;_&lt;ExportTimestamp&gt;_&lt;PartNumber&gt; The &lt;ExportTimestamp&gt; component is in Java SimpleDateFormat (yyyy-MM-ddTHH-mm-ssZ). You must specify a DataDestination object that includes an Identity and Access Management (IAM) role that Amazon Forecast can assume to ac- cess the Amazon S3 bucket. For more i...
+    /// Exports a forecast created by the CreateWhatIfForecast operation to your Amazon Simple Storage Service (Amazon S3) bucket. The forecast file name will match the following conventions: &lt;ForecastExportJobName&gt;_&lt;ExportTimestamp&gt;_&lt;PartNumber&gt; The &lt;ExportTimestamp&gt; component is in Java SimpleDateFormat (yyyy-MM-ddTHH-mm-ssZ). You must specify a DataDestination object that includes an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For more inf...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// A what-if forecast is a forecast that is created from a modified ver- sion of the baseline forecast. Each what-if forecast incorporates ei- ther a replacement dataset or a set of transformations to the original dataset. See also: AWS API Documentation
+    /// A what-if forecast is a forecast that is created from a modified version of the baseline forecast. Each what-if forecast incorporates either a replacement dataset or a set of transformations to the original dataset. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Deletes a dataset group created using the CreateDatasetGroup operation. You can only delete dataset groups that have a status of ACTIVE , CRE- ATE_FAILED , or UPDATE_FAILED . To get the status, use the DescribeDatasetGroup operation. This operation deletes only the dataset group, not the datasets in the group. See also: AWS API Documentation
+    /// Deletes a dataset group created using the CreateDatasetGroup operation. You can only delete dataset groups that have a status of ACTIVE , CREATE_FAILED , or UPDATE_FAILED . To get the status, use the DescribeDatasetGroup operation. This operation deletes only the dataset group, not the datasets in the group. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Deletes an Amazon Forecast dataset that was created using the CreateDataset operation. You can only delete datasets that have a sta- tus of ACTIVE or CREATE_FAILED . To get the status use the DescribeDataset operation. NOTE: Forecast does not automatically update any dataset groups that con- tain the deleted dataset. In order to update the dataset group, use the UpdateDatasetGroup operation, omitting the deleted dataset's ARN. See also: AWS API Documentation
+    /// Deletes an Amazon Forecast dataset that was created using the CreateDataset operation. You can only delete datasets that have a status of ACTIVE or CREATE_FAILED . To get the status use the DescribeDataset operation. NOTE: Forecast does not automatically update any dataset groups that contain the deleted dataset. In order to update the dataset group, use the UpdateDatasetGroup operation, omitting the deleted dataset's ARN. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Deletes an Explainability resource. You can delete only predictor that have a status of ACTIVE or CRE- ATE_FAILED . To get the status, use the DescribeExplainability opera- tion. See also: AWS API Documentation
+    /// Deletes an Explainability resource. You can delete only predictor that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribeExplainability operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Deletes a forecast export job created using the CreateForecastEx- portJob operation. You can delete only export jobs that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribeFore- castExportJob operation. See also: AWS API Documentation
+    /// Deletes a forecast export job created using the CreateForecastExportJob operation. You can delete only export jobs that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribeForecastExportJob operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Deletes a forecast created using the CreateForecast operation. You can delete only forecasts that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribeForecast operation. You can't delete a forecast while it is being exported. After a fore- cast is deleted, you can no longer query the forecast. See also: AWS API Documentation
+    /// Deletes a forecast created using the CreateForecast operation. You can delete only forecasts that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribeForecast operation. You can't delete a forecast while it is being exported. After a forecast is deleted, you can no longer query the forecast. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Deletes a predictor created using the DescribePredictor or CreatePre- dictor operations. You can delete only predictor that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribePredictor operation. See also: AWS API Documentation
+    /// Deletes a predictor created using the DescribePredictor or CreatePredictor operations. You can delete only predictor that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribePredictor operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Deletes an entire resource tree. This operation will delete the parent resource and its child resources. Child resources are resources that were created from another resource. For example, when a forecast is generated from a predictor, the fore- cast is the child resource and the predictor is the parent resource. Amazon Forecast resources possess the following parent-child resource hierarchies: o Dataset : dataset import jobs o Dataset Group : predictors, predictor backtest export jobs, fore- ca...
+    /// Deletes an entire resource tree. This operation will delete the parent resource and its child resources. Child resources are resources that were created from another resource. For example, when a forecast is generated from a predictor, the forecast is the child resource and the predictor is the parent resource. Amazon Forecast resources possess the following parent-child resource hierarchies: • Dataset : dataset import jobs • Dataset Group : predictors, predictor backtest export jobs, forecasts,...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Deletes a what-if analysis created using the CreateWhatIfAnalysis op- eration. You can delete only what-if analyses that have a status of AC- TIVE or CREATE_FAILED . To get the status, use the DescribeWhatIf- Analysis operation. You can't delete a what-if analysis while any of its forecasts are be- ing exported. See also: AWS API Documentation
+    /// Deletes a what-if analysis created using the CreateWhatIfAnalysis operation. You can delete only what-if analyses that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribeWhatIfAnalysis operation. You can't delete a what-if analysis while any of its forecasts are being exported. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Deletes a what-if forecast export created using the CreateWhatIfFore- castExport operation. You can delete only what-if forecast exports that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribeWhatIfForecastExport operation. See also: AWS API Documentation
+    /// Deletes a what-if forecast export created using the CreateWhatIfForecastExport operation. You can delete only what-if forecast exports that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribeWhatIfForecastExport operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Deletes a what-if forecast created using the CreateWhatIfForecast op- eration. You can delete only what-if forecasts that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribeWhat- IfForecast operation. You can't delete a what-if forecast while it is being exported. After a what-if forecast is deleted, you can no longer query the what-if analy- sis. See also: AWS API Documentation
+    /// Deletes a what-if forecast created using the CreateWhatIfForecast operation. You can delete only what-if forecasts that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribeWhatIfForecast operation. You can't delete a what-if forecast while it is being exported. After a what-if forecast is deleted, you can no longer query the what-if analysis. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Describes a dataset group created using the CreateDatasetGroup opera- tion. In addition to listing the parameters provided in the CreateDataset- Group request, this operation includes the following properties: o DatasetArns - The datasets belonging to the group. o CreationTime o LastModificationTime o Status See also: AWS API Documentation
+    /// Describes a dataset group created using the CreateDatasetGroup operation. In addition to listing the parameters provided in the CreateDatasetGroup request, this operation includes the following properties: • DatasetArns - The datasets belonging to the group. • CreationTime • LastModificationTime • Status See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Describes a dataset import job created using the CreateDatasetImportJob operation. In addition to listing the parameters provided in the CreateDatasetIm- portJob request, this operation includes the following properties: o CreationTime o LastModificationTime o DataSize o FieldStatistics o Status o Message - If an error occurred, information about the error. See also: AWS API Documentation
+    /// Describes a dataset import job created using the CreateDatasetImportJob operation. In addition to listing the parameters provided in the CreateDatasetImportJob request, this operation includes the following properties: • CreationTime • LastModificationTime • DataSize • FieldStatistics • Status • Message - If an error occurred, information about the error. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Describes an Amazon Forecast dataset created using the CreateDataset operation. In addition to listing the parameters specified in the CreateDataset request, this operation includes the following dataset properties: o CreationTime o LastModificationTime o Status See also: AWS API Documentation
+    /// Describes an Amazon Forecast dataset created using the CreateDataset operation. In addition to listing the parameters specified in the CreateDataset request, this operation includes the following dataset properties: • CreationTime • LastModificationTime • Status See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -512,7 +512,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Describes an Explainability export created using the CreateExplain- abilityExport operation. See also: AWS API Documentation
+    /// Describes an Explainability export created using the CreateExplainabilityExport operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Describes an Explainability resource created using the CreateExplain- ability operation. See also: AWS API Documentation
+    /// Describes an Explainability resource created using the CreateExplainability operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Describes a forecast export job created using the CreateForecastEx- portJob operation. In addition to listing the properties provided by the user in the Cre- ateForecastExportJob request, this operation lists the following prop- erties: o CreationTime o LastModificationTime o Status o Message - If an error occurred, information about the error. See also: AWS API Documentation
+    /// Describes a forecast export job created using the CreateForecastExportJob operation. In addition to listing the properties provided by the user in the CreateForecastExportJob request, this operation lists the following properties: • CreationTime • LastModificationTime • Status • Message - If an error occurred, information about the error. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +557,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Describes a forecast created using the CreateForecast operation. In addition to listing the properties provided in the CreateForecast request, this operation lists the following properties: o DatasetGroupArn - The dataset group that provided the training data. o CreationTime o LastModificationTime o Status o Message - If an error occurred, information about the error. See also: AWS API Documentation
+    /// Describes a forecast created using the CreateForecast operation. In addition to listing the properties provided in the CreateForecast request, this operation lists the following properties: • DatasetGroupArn - The dataset group that provided the training data. • CreationTime • LastModificationTime • Status • Message - If an error occurred, information about the error. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Describes a monitor resource. In addition to listing the properties provided in the CreateMonitor request, this operation lists the fol- lowing properties: o Baseline o CreationTime o LastEvaluationTime o LastEvaluationState o LastModificationTime o Message o Status See also: AWS API Documentation
+    /// Describes a monitor resource. In addition to listing the properties provided in the CreateMonitor request, this operation lists the following properties: • Baseline • CreationTime • LastEvaluationTime • LastEvaluationState • LastModificationTime • Message • Status See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Describes a predictor backtest export job created using the CreatePre- dictorBacktestExportJob operation. In addition to listing the properties provided by the user in the Cre- atePredictorBacktestExportJob request, this operation lists the follow- ing properties: o CreationTime o LastModificationTime o Status o Message (if an error occurred) See also: AWS API Documentation
+    /// Describes a predictor backtest export job created using the CreatePredictorBacktestExportJob operation. In addition to listing the properties provided by the user in the CreatePredictorBacktestExportJob request, this operation lists the following properties: • CreationTime • LastModificationTime • Status • Message (if an error occurred) See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -602,7 +602,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// NOTE: This operation is only valid for legacy predictors created with Cre- atePredictor. If you are not using a legacy predictor, use De- scribeAutoPredictor . Describes a predictor created using the CreatePredictor operation. In addition to listing the properties provided in the CreatePredictor request, this operation lists the following properties: o DatasetImportJobArns - The dataset import jobs used to import train- ing data. o AutoMLAlgorithmArns - If AutoML is performed, the algorithms tha...
+    /// NOTE: This operation is only valid for legacy predictors created with CreatePredictor. If you are not using a legacy predictor, use DescribeAutoPredictor . Describes a predictor created using the CreatePredictor operation. In addition to listing the properties provided in the CreatePredictor request, this operation lists the following properties: • DatasetImportJobArns - The dataset import jobs used to import training data. • AutoMLAlgorithmArns - If AutoML is performed, the algorithms that were...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +617,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Describes the what-if analysis created using the CreateWhatIfAnalysis operation. In addition to listing the properties provided in the CreateWhatIf- Analysis request, this operation lists the following properties: o CreationTime o LastModificationTime o Message - If an error occurred, information about the error. o Status See also: AWS API Documentation
+    /// Describes the what-if analysis created using the CreateWhatIfAnalysis operation. In addition to listing the properties provided in the CreateWhatIfAnalysis request, this operation lists the following properties: • CreationTime • LastModificationTime • Message - If an error occurred, information about the error. • Status See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -632,7 +632,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Describes the what-if forecast export created using the CreateWhat- IfForecastExport operation. In addition to listing the properties provided in the CreateWhatIfFore- castExport request, this operation lists the following properties: o CreationTime o LastModificationTime o Message - If an error occurred, information about the error. o Status See also: AWS API Documentation
+    /// Describes the what-if forecast export created using the CreateWhatIfForecastExport operation. In addition to listing the properties provided in the CreateWhatIfForecastExport request, this operation lists the following properties: • CreationTime • LastModificationTime • Message - If an error occurred, information about the error. • Status See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +647,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Describes the what-if forecast created using the CreateWhatIfForecast operation. In addition to listing the properties provided in the CreateWhatIfFore- cast request, this operation lists the following properties: o CreationTime o LastModificationTime o Message - If an error occurred, information about the error. o Status See also: AWS API Documentation
+    /// Describes the what-if forecast created using the CreateWhatIfForecast operation. In addition to listing the properties provided in the CreateWhatIfForecast request, this operation lists the following properties: • CreationTime • LastModificationTime • Message - If an error occurred, information about the error. • Status See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Provides metrics on the accuracy of the models that were trained by the CreatePredictor operation. Use metrics to see how well the model per- formed and to decide whether to use the predictor to generate a fore- cast. For more information, see Predictor Metrics . This operation generates metrics for each backtest window that was evaluated. The number of backtest windows (NumberOfBacktestWindows ) is specified using the EvaluationParameters object, which is optionally included in the CreatePredic...
+    /// Provides metrics on the accuracy of the models that were trained by the CreatePredictor operation. Use metrics to see how well the model performed and to decide whether to use the predictor to generate a forecast. For more information, see Predictor Metrics . This operation generates metrics for each backtest window that was evaluated. The number of backtest windows (NumberOfBacktestWindows ) is specified using the EvaluationParameters object, which is optionally included in the CreatePredictor ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -677,7 +677,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Returns a list of dataset groups created using the CreateDatasetGroup operation. For each dataset group, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can re- trieve the complete set of properties by using the dataset group ARN with the DescribeDatasetGroup operation. See also: AWS API Documentation list-dataset-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable...
+    /// Returns a list of dataset groups created using the CreateDatasetGroup operation. For each dataset group, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the dataset group ARN with the DescribeDatasetGroup operation. See also: AWS API Documentation list-dataset-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable p...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -707,7 +707,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Returns a list of datasets created using the CreateDataset operation. For each dataset, a summary of its properties, including its Amazon Re- source Name (ARN), is returned. To retrieve the complete set of proper- ties, use the ARN with the DescribeDataset operation. See also: AWS API Documentation list-datasets is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. Wh...
+    /// Returns a list of datasets created using the CreateDataset operation. For each dataset, a summary of its properties, including its Amazon Resource Name (ARN), is returned. To retrieve the complete set of properties, use the ARN with the DescribeDataset operation. See also: AWS API Documentation list-datasets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -722,7 +722,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Returns a list of Explainability resources created using the CreateEx- plainability operation. This operation returns a summary for each Ex- plainability. You can filter the list using an array of Filter ob- jects. To retrieve the complete set of properties for a particular Explain- ability resource, use the ARN with the DescribeExplainability opera- tion. See also: AWS API Documentation list-explainabilities is a paginated operation. Multiple API calls may be issued in order to retrieve the ent...
+    /// Returns a list of Explainability resources created using the CreateExplainability operation. This operation returns a summary for each Explainability. You can filter the list using an array of Filter objects. To retrieve the complete set of properties for a particular Explainability resource, use the ARN with the DescribeExplainability operation. See also: AWS API Documentation list-explainabilities is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data s...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -737,7 +737,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Returns a list of Explainability exports created using the CreateEx- plainabilityExport operation. This operation returns a summary for each Explainability export. You can filter the list using an array of Fil- ter objects. To retrieve the complete set of properties for a particular Explain- ability export, use the ARN with the DescribeExplainability operation. See also: AWS API Documentation list-explainability-exports is a paginated operation. Multiple API calls may be issued in order to retri...
+    /// Returns a list of Explainability exports created using the CreateExplainabilityExport operation. This operation returns a summary for each Explainability export. You can filter the list using an array of Filter objects. To retrieve the complete set of properties for a particular Explainability export, use the ARN with the DescribeExplainability operation. See also: AWS API Documentation list-explainability-exports is a paginated operation. Multiple API calls may be issued in order to retrieve th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -752,7 +752,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Returns a list of forecast export jobs created using the CreateFore- castExportJob operation. For each forecast export job, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). To retrieve the complete set of properties, use the ARN with the DescribeForecastExportJob operation. You can filter the list using an array of Filter objects. See also: AWS API Documentation list-forecast-export-jobs is a paginated operation. Multiple API calls may be issued in or...
+    /// Returns a list of forecast export jobs created using the CreateForecastExportJob operation. For each forecast export job, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). To retrieve the complete set of properties, use the ARN with the DescribeForecastExportJob operation. You can filter the list using an array of Filter objects. See also: AWS API Documentation list-forecast-export-jobs is a paginated operation. Multiple API calls may be issued in orde...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -767,7 +767,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Returns a list of forecasts created using the CreateForecast opera- tion. For each forecast, this operation returns a summary of its prop- erties, including its Amazon Resource Name (ARN). To retrieve the com- plete set of properties, specify the ARN with the DescribeForecast op- eration. You can filter the list using an array of Filter objects. See also: AWS API Documentation list-forecasts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of ...
+    /// Returns a list of forecasts created using the CreateForecast operation. For each forecast, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). To retrieve the complete set of properties, specify the ARN with the DescribeForecast operation. You can filter the list using an array of Filter objects. See also: AWS API Documentation list-forecasts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. Y...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -797,7 +797,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Returns a list of monitors created with the CreateMonitor operation and CreateAutoPredictor operation. For each monitor resource, this op- eration returns of a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve a complete set of properties of a monitor resource by specify the monitor's ARN in the DescribeMonitor operation. See also: AWS API Documentation list-monitors is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire d...
+    /// Returns a list of monitors created with the CreateMonitor operation and CreateAutoPredictor operation. For each monitor resource, this operation returns of a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve a complete set of properties of a monitor resource by specify the monitor's ARN in the DescribeMonitor operation. See also: AWS API Documentation list-monitors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -857,7 +857,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Returns a list of what-if analyses created using the CreateWhatIf- Analysis operation. For each what-if analysis, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the what-if analysis ARN with the DescribeWhatIfAnalysis operation. See also: AWS API Documentation list-what-if-analyses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. Y...
+    /// Returns a list of what-if analyses created using the CreateWhatIfAnalysis operation. For each what-if analysis, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the what-if analysis ARN with the DescribeWhatIfAnalysis operation. See also: AWS API Documentation list-what-if-analyses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -872,7 +872,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Returns a list of what-if forecast exports created using the Create- WhatIfForecastExport operation. For each what-if forecast export, this operation returns a summary of its properties, including its Amazon Re- source Name (ARN). You can retrieve the complete set of properties by using the what-if forecast export ARN with the DescribeWhatIfForecast- Export operation. See also: AWS API Documentation list-what-if-forecast-exports is a paginated operation. Multiple API calls may be issued in order...
+    /// Returns a list of what-if forecast exports created using the CreateWhatIfForecastExport operation. For each what-if forecast export, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the what-if forecast export ARN with the DescribeWhatIfForecastExport operation. See also: AWS API Documentation list-what-if-forecast-exports is a paginated operation. Multiple API calls may be issued in order to re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -887,7 +887,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Returns a list of what-if forecasts created using the CreateWhat- IfForecast operation. For each what-if forecast, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the what-if forecast ARN with the DescribeWhatIfForecast operation. See also: AWS API Documentation list-what-if-forecasts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results....
+    /// Returns a list of what-if forecasts created using the CreateWhatIfForecast operation. For each what-if forecast, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the what-if forecast ARN with the DescribeWhatIfForecast operation. See also: AWS API Documentation list-what-if-forecasts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. Y...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -917,7 +917,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Stops a resource. The resource undergoes the following states: CREATE_STOPPING and CRE- ATE_STOPPED . You cannot resume a resource once it has been stopped. This operation can be applied to the following resources (and their corresponding child resources): o Dataset Import Job o Predictor Job o Forecast Job o Forecast Export Job o Predictor Backtest Export Job o Explainability Job o Explainability Export Job See also: AWS API Documentation
+    /// Stops a resource. The resource undergoes the following states: CREATE_STOPPING and CREATE_STOPPED . You cannot resume a resource once it has been stopped. This operation can be applied to the following resources (and their corresponding child resources): • Dataset Import Job • Predictor Job • Forecast Job • Forecast Export Job • Predictor Backtest Export Job • Explainability Job • Explainability Export Job See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -932,7 +932,7 @@ public class AwsForecast : IAwsForecast
     }
 
     /// <summary>
-    /// Associates the specified tags to a resource with the specified re- sourceArn . If existing tags on a resource are not specified in the re- quest parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted. See also: AWS API Documentation
+    /// Associates the specified tags to a resource with the specified resourceArn . If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

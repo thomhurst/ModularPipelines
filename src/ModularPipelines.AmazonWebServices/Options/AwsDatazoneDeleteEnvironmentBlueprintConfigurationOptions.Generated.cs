@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDatazoneDeleteEnvironmentBlueprintConfigurationOptions : AwsOpt
     /// <summary>
     /// Deletes the blueprint configuration in Amazon DataZone. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which the blueprint configu- ration is deleted. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="EnvironmentBlueprintIdentifier">The ID of the blueprint the configuration of which is deleted. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which the blueprint configuration is deleted. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EnvironmentBlueprintIdentifier">The ID of the blueprint the configuration of which is deleted. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneDeleteEnvironmentBlueprintConfigurationOptions(
         string DomainIdentifier,
         string EnvironmentBlueprintIdentifier
@@ -60,13 +62,13 @@ public record AwsDatazoneDeleteEnvironmentBlueprintConfigurationOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon DataZone domain in which the blueprint configu- ration is deleted. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the Amazon DataZone domain in which the blueprint configuration is deleted. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the blueprint the configuration of which is deleted. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The ID of the blueprint the configuration of which is deleted. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--environment-blueprint-identifier")]
     public string? EnvironmentBlueprintIdentifier { get; private init; }

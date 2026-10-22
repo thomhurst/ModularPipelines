@@ -62,7 +62,7 @@ public class AwsAppintegrations : IAwsAppintegrations
     }
 
     /// <summary>
-    /// Creates and persists a DataIntegration resource. NOTE: You cannot create a DataIntegration association for a DataIntegra- tion that has been previously associated. Use a different DataInte- gration, or recreate the DataIntegration using the CreateDataInte- gration API. See also: AWS API Documentation
+    /// Creates and persists a DataIntegration resource. NOTE: You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the CreateDataIntegration API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsAppintegrations : IAwsAppintegrations
     }
 
     /// <summary>
-    /// Creates an EventIntegration, given a specified name, description, and a reference to an Amazon EventBridge bus in your account and a partner event source that pushes events to that bus. No objects are created in the your account, only metadata that is persisted on the EventIntegra- tion control plane. See also: AWS API Documentation
+    /// Creates an EventIntegration, given a specified name, description, and a reference to an Amazon EventBridge bus in your account and a partner event source that pushes events to that bus. No objects are created in the your account, only metadata that is persisted on the EventIntegration control plane. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsAppintegrations : IAwsAppintegrations
     }
 
     /// <summary>
-    /// Deletes the DataIntegration. Only DataIntegrations that don't have any DataIntegrationAssociations can be deleted. Deleting a DataIntegration also deletes the underlying Amazon AppFlow flow and service linked role. NOTE: You cannot create a DataIntegration association for a DataIntegra- tion that has been previously associated. Use a different DataInte- gration, or recreate the DataIntegration using the CreateDataIntegration API. See also: AWS API Documentation
+    /// Deletes the DataIntegration. Only DataIntegrations that don't have any DataIntegrationAssociations can be deleted. Deleting a DataIntegration also deletes the underlying Amazon AppFlow flow and service linked role. NOTE: You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the CreateDataIntegration API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsAppintegrations : IAwsAppintegrations
     }
 
     /// <summary>
-    /// Deletes the specified existing event integration. If the event integra- tion is associated with clients, the request is rejected. See also: AWS API Documentation
+    /// Deletes the specified existing event integration. If the event integration is associated with clients, the request is rejected. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsAppintegrations : IAwsAppintegrations
     }
 
     /// <summary>
-    /// Returns information about the DataIntegration. NOTE: You cannot create a DataIntegration association for a DataIntegra- tion that has been previously associated. Use a different DataInte- gration, or recreate the DataIntegration using the CreateDataIntegration API. See also: AWS API Documentation
+    /// Returns information about the DataIntegration. NOTE: You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the CreateDataIntegration API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsAppintegrations : IAwsAppintegrations
     }
 
     /// <summary>
-    /// Returns a paginated list of application associations for an applica- tion. See also: AWS API Documentation list-application-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ApplicationA...
+    /// Returns a paginated list of application associations for an application. See also: AWS API Documentation list-application-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ApplicationAssocia...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsAppintegrations : IAwsAppintegrations
     }
 
     /// <summary>
-    /// Returns a paginated list of DataIntegration associations in the ac- count. NOTE: You cannot create a DataIntegration association for a DataIntegra- tion that has been previously associated. Use a different DataInte- gration, or recreate the DataIntegration using the CreateDataIntegration API. See also: AWS API Documentation list-data-integration-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable paginatio...
+    /// Returns a paginated list of DataIntegration associations in the account. NOTE: You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the CreateDataIntegration API. See also: AWS API Documentation list-data-integration-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by pro...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsAppintegrations : IAwsAppintegrations
     }
 
     /// <summary>
-    /// Returns a paginated list of DataIntegrations in the account. NOTE: You cannot create a DataIntegration association for a DataIntegra- tion that has been previously associated. Use a different DataInte- gration, or recreate the DataIntegration using the CreateDataIntegration API. See also: AWS API Documentation list-data-integrations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi...
+    /// Returns a paginated list of DataIntegrations in the account. NOTE: You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the CreateDataIntegration API. See also: AWS API Documentation list-data-integrations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsAppintegrations : IAwsAppintegrations
     }
 
     /// <summary>
-    /// Returns a paginated list of event integration associations in the ac- count. See also: AWS API Documentation list-event-integration-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Even...
+    /// Returns a paginated list of event integration associations in the account. See also: AWS API Documentation list-event-integration-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: EventInteg...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsAppintegrations : IAwsAppintegrations
     }
 
     /// <summary>
-    /// Returns a paginated list of event integrations in the account. See also: AWS API Documentation list-event-integrations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: EventIntegrations
+    /// Returns a paginated list of event integrations in the account. See also: AWS API Documentation list-event-integrations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: EventIntegrations
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsAppintegrations : IAwsAppintegrations
     }
 
     /// <summary>
-    /// Updates the description of a DataIntegration. NOTE: You cannot create a DataIntegration association for a DataIntegra- tion that has been previously associated. Use a different DataInte- gration, or recreate the DataIntegration using the CreateDataIntegration API. See also: AWS API Documentation
+    /// Updates the description of a DataIntegration. NOTE: You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the CreateDataIntegration API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

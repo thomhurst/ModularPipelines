@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a fleet. Before you delete a fleet, all vehicles must be disso- ciated from the fleet. For more information, see Delete a fleet (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+/// Deletes a fleet. Before you delete a fleet, all vehicles must be dissociated from the fleet. For more information, see Delete a fleet (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsIotfleetwiseDeleteFleetOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a fleet. Before you delete a fleet, all vehicles must be disso- ciated from the fleet. For more information, see Delete a fleet (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+    /// Deletes a fleet. Before you delete a fleet, all vehicles must be dissociated from the fleet. For more information, see Delete a fleet (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="FleetId">The ID of the fleet to delete. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9:_-]+</param>
+    /// <param name="FleetId">The ID of the fleet to delete. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9:_-]+</param>
     public AwsIotfleetwiseDeleteFleetOptions(
         string FleetId
     )
@@ -56,7 +58,7 @@ public record AwsIotfleetwiseDeleteFleetOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the fleet to delete. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9:_-]+
+    /// The ID of the fleet to delete. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }

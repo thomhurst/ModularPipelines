@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the current data access role for the given resource regis- tered in Lake Formation. See also: AWS API Documentation
+/// Retrieves the current data access role for the given resource registered in Lake Formation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsLakeformationDescribeResourceOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the current data access role for the given resource regis- tered in Lake Formation. See also: AWS API Documentation
+    /// Retrieves the current data access role for the given resource registered in Lake Formation. See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceArn">The resource ARN.</param>
     public AwsLakeformationDescribeResourceOptions(

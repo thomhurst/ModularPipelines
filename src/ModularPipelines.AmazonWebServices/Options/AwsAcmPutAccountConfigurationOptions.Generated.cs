@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsAcmPutAccountConfigurationOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Adds or modifies account-level configurations in ACM. The supported configuration option is DaysBeforeExpiry . This option specifies the number of days prior to certificate expiration when ACM starts generating EventBridge events. ACM sends one event per day per certificate until the certificate expires. By default, accounts receive events starting 45 days before certificate expiration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IdempotencyToken">Customer-chosen string used to distinguish between calls to PutAc- countConfiguration . Idempotency tokens time out after one hour. If you call PutAccountConfiguration multiple times with the same unex- pired idempotency token, ACM treats it as the same request and re- turns the original result. If you change the idempotency token for each call, ACM treats each call as a new request. Constraints: o min: 1 o max: 32 o pattern: \w+</param>
+    /// <param name="IdempotencyToken">Customer-chosen string used to distinguish between calls to PutAccountConfiguration . Idempotency tokens time out after one hour. If you call PutAccountConfiguration multiple times with the same unexpired idempotency token, ACM treats it as the same request and returns the original result. If you change the idempotency token for each call, ACM treats each call as a new request. Constraints: • min: 1 • max: 32 • pattern: \w+</param>
     public AwsAcmPutAccountConfigurationOptions(
         string IdempotencyToken
     )
@@ -57,14 +59,14 @@ public record AwsAcmPutAccountConfigurationOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Customer-chosen string used to distinguish between calls to PutAc- countConfiguration . Idempotency tokens time out after one hour. If you call PutAccountConfiguration multiple times with the same unex- pired idempotency token, ACM treats it as the same request and re- turns the original result. If you change the idempotency token for each call, ACM treats each call as a new request. Constraints: o min: 1 o max: 32 o pattern: \w+
+    /// Customer-chosen string used to distinguish between calls to PutAccountConfiguration . Idempotency tokens time out after one hour. If you call PutAccountConfiguration multiple times with the same unexpired idempotency token, ACM treats it as the same request and returns the original result. If you change the idempotency token for each call, ACM treats each call as a new request. Constraints: • min: 1 • max: 32 • pattern: \w+
     /// </summary>
     [SecretValue]
     [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; private init; }
 
     /// <summary>
-    /// Specifies expiration events associated with an account. DaysBeforeExpiry -&gt; (integer) Specifies the number of days prior to certificate expiration when ACM starts generating EventBridge events. ACM sends one event per day per certificate until the certificate expires. By default, accounts receive events starting 45 days before cer- tificate expiration. Constraints: o min: 1 Shorthand Syntax: DaysBeforeExpiry=integer JSON Syntax: { "DaysBeforeExpiry": integer }
+    /// Specifies expiration events associated with an account. DaysBeforeExpiry -&gt; (integer) Specifies the number of days prior to certificate expiration when ACM starts generating EventBridge events. ACM sends one event per day per certificate until the certificate expires. By default, accounts receive events starting 45 days before certificate expiration. Constraints: • min: 1 Shorthand Syntax: DaysBeforeExpiry=integer JSON Syntax: { "DaysBeforeExpiry": integer }
     /// </summary>
     [CliOption("--expiry-events")]
     public string? ExpiryEvents { get; set; }

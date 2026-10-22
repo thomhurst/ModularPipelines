@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a previously provisioned DB instance. When you delete a DB in- stance, all automated backups for that instance are deleted and can't be recovered. However, manual DB snapshots of the DB instance aren't deleted. If you request a final DB snapshot, the status of the Amazon RDS DB in- stance is deleting until the DB snapshot is created. This operation can't be canceled or reverted after it begins. To monitor the status of this operation, use DescribeDBInstance . When a DB instance is in a f...
+/// Deletes a previously provisioned DB instance. When you delete a DB instance, all automated backups for that instance are deleted and can't be recovered. However, manual DB snapshots of the DB instance aren't deleted. If you request a final DB snapshot, the status of the Amazon RDS DB instance is deleting until the DB snapshot is created. This operation can't be canceled or reverted after it begins. To monitor the status of this operation, use DescribeDBInstance . When a DB instance is in a failu...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRdsDeleteDbInstanceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a previously provisioned DB instance. When you delete a DB in- stance, all automated backups for that instance are deleted and can't be recovered. However, manual DB snapshots of the DB instance aren't deleted. If you request a final DB snapshot, the status of the Amazon RDS DB in- stance is deleting until the DB snapshot is created. This operation can't be canceled or reverted after it begins. To monitor the status of this operation, use DescribeDBInstance . When a DB instance is in a f...
+    /// Deletes a previously provisioned DB instance. When you delete a DB instance, all automated backups for that instance are deleted and can't be recovered. However, manual DB snapshots of the DB instance aren't deleted. If you request a final DB snapshot, the status of the Amazon RDS DB instance is deleting until the DB snapshot is created. This operation can't be canceled or reverted after it begins. To monitor the status of this operation, use DescribeDBInstance . When a DB instance is in a failu...
     /// </summary>
-    /// <param name="DbInstanceIdentifier">The DB instance identifier for the DB instance to be deleted. This parameter isn't case-sensitive. Constraints: o Must match the name of an existing DB instance.</param>
+    /// <param name="DbInstanceIdentifier">The DB instance identifier for the DB instance to be deleted. This parameter isn't case-sensitive. Constraints: • Must match the name of an existing DB instance.</param>
     public AwsRdsDeleteDbInstanceOptions(
         string DbInstanceIdentifier
     )
@@ -56,25 +58,25 @@ public record AwsRdsDeleteDbInstanceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The DB instance identifier for the DB instance to be deleted. This parameter isn't case-sensitive. Constraints: o Must match the name of an existing DB instance.
+    /// The DB instance identifier for the DB instance to be deleted. This parameter isn't case-sensitive. Constraints: • Must match the name of an existing DB instance.
     /// </summary>
     [CliOption("--db-instance-identifier")]
     public string? DbInstanceIdentifier { get; private init; }
 
     /// <summary>
-    /// Specifies whether to skip the creation of a final DB snapshot before deleting the instance. If you enable this parameter, RDS doesn't create a DB snapshot. If you don't enable this parameter, RDS cre- ates a DB snapshot before the DB instance is deleted. By default, skip isn't enabled, and the DB snapshot is created. NOTE: If you don't enable this parameter, you must specify the Fi- nalDBSnapshotIdentifier parameter. When a DB instance is in a failure state and has a status of failed , incompatible-restore , or incompatible-network , RDS can delete the instance only if you enable this parameter. If you delete a read replica or an RDS Custom instance, you must en- able this setting. This setting is required for RDS Custom.
+    /// Specifies whether to skip the creation of a final DB snapshot before deleting the instance. If you enable this parameter, RDS doesn't create a DB snapshot. If you don't enable this parameter, RDS creates a DB snapshot before the DB instance is deleted. By default, skip isn't enabled, and the DB snapshot is created. NOTE: If you don't enable this parameter, you must specify the FinalDBSnapshotIdentifier parameter. When a DB instance is in a failure state and has a status of failed , incompatible-restore , or incompatible-network , RDS can delete the instance only if you enable this parameter. If you delete a read replica or an RDS Custom instance, you must enable this setting. This setting is required for RDS Custom.
     /// </summary>
     [CliFlag("--skip-final-snapshot", NegatedName = "--no-skip-final-snapshot")]
     public bool? SkipFinalSnapshot { get; set; }
 
     /// <summary>
-    /// The DBSnapshotIdentifier of the new DBSnapshot created when the SkipFinalSnapshot parameter is disabled. NOTE: If you enable this parameter and also enable SkipFinalShapshot, the command results in an error. This setting doesn't apply to RDS Custom. Constraints: o Must be 1 to 255 letters or numbers. o First character must be a letter. o Can't end with a hyphen or contain two consecutive hyphens. o Can't be specified when deleting a read replica.
+    /// The DBSnapshotIdentifier of the new DBSnapshot created when the SkipFinalSnapshot parameter is disabled. NOTE: If you enable this parameter and also enable SkipFinalShapshot, the command results in an error. This setting doesn't apply to RDS Custom. Constraints: • Must be 1 to 255 letters or numbers. • First character must be a letter. • Can't end with a hyphen or contain two consecutive hyphens. • Can't be specified when deleting a read replica.
     /// </summary>
     [CliOption("--final-db-snapshot-identifier")]
     public string? FinalDbSnapshotIdentifier { get; set; }
 
     /// <summary>
-    /// Specifies whether to remove automated backups immediately after the DB instance is deleted. This parameter isn't case-sensitive. The de- fault is to remove automated backups immediately after the DB in- stance is deleted.
+    /// Specifies whether to remove automated backups immediately after the DB instance is deleted. This parameter isn't case-sensitive. The default is to remove automated backups immediately after the DB instance is deleted.
     /// </summary>
     [CliFlag("--delete-automated-backups", NegatedName = "--no-delete-automated-backups")]
     public bool? DeleteAutomatedBackups { get; set; }

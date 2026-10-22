@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -29,9 +30,9 @@ public record AwsManagedblockchainCreateProposalOptions : AwsOptions, IValidatab
     /// <summary>
     /// Creates a proposal for a change to the network that other members of the network can vote on, for example, a proposal to add a new member to the network. Any member can create a proposal. Applies only to Hyperledger Fabric. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The unique identifier of the network for which the proposal is made. Constraints: o min: 1 o max: 32</param>
-    /// <param name="MemberId">The unique identifier of the member that is creating the proposal. This identifier is especially useful for identifying the member mak- ing the proposal when multiple members exist in a single Amazon Web Services account. Constraints: o min: 1 o max: 32</param>
-    /// <param name="Actions">The type of actions proposed, such as inviting a member or removing a member. The types of Actions in a proposal are mutually exclusive. For example, a proposal with Invitations actions cannot also contain Removals actions. Invitations -&gt; (list) The actions to perform for an APPROVED proposal to invite an Amazon Web Services account to create a member and join the net- work. (structure) An action to invite a specific Amazon Web Services account to create a member and join the network. The InviteAction is carried out when a Proposal is APPROVED . Applies only to Hyperledger Fabric. Principal -&gt; (string) [required] The Amazon Web Services account ID to invite. Removals -&gt; (list) The actions to perform for an APPROVED proposal to remove a mem- ber from the network, which deletes the member and all associ- ated member resources from the network. (structure) An action to remove a member from a Managed Blockchain net- work as the result of a removal proposal that is APPROVED . The member and all associated resources are deleted from the network. Applies only to Hyperledger Fabric. MemberId -&gt; (string) [required] The unique identifier of the member to remove. Constraints: o min: 1 o max: 32 Shorthand Syntax: Invitations=[{Principal=string},{Principal=string}],Removals=[{MemberId=string},{MemberId=string}] JSON Syntax: { "Invitations": [ { "Principal": "string" } ... ], "Removals": [ { "MemberId": "string" } ... ] }</param>
+    /// <param name="NetworkId">The unique identifier of the network for which the proposal is made. Constraints: • min: 1 • max: 32</param>
+    /// <param name="MemberId">The unique identifier of the member that is creating the proposal. This identifier is especially useful for identifying the member making the proposal when multiple members exist in a single Amazon Web Services account. Constraints: • min: 1 • max: 32</param>
+    /// <param name="Actions">The type of actions proposed, such as inviting a member or removing a member. The types of Actions in a proposal are mutually exclusive. For example, a proposal with Invitations actions cannot also contain Removals actions. Invitations -&gt; (list) The actions to perform for an APPROVED proposal to invite an Amazon Web Services account to create a member and join the network. (structure) An action to invite a specific Amazon Web Services account to create a member and join the network. The InviteAction is carried out when a Proposal is APPROVED . Applies only to Hyperledger Fabric. Principal -&gt; (string) [required] The Amazon Web Services account ID to invite. Removals -&gt; (list) The actions to perform for an APPROVED proposal to remove a member from the network, which deletes the member and all associated member resources from the network. (structure) An action to remove a member from a Managed Blockchain network as the result of a removal proposal that is APPROVED . The member and all associated resources are deleted from the network. Applies only to Hyperledger Fabric. MemberId -&gt; (string) [required] The unique identifier of the member to remove. Constraints: • min: 1 • max: 32 Shorthand Syntax: Invitations=[{Principal=string},{Principal=string}],Removals=[{MemberId=string},{MemberId=string}] JSON Syntax: { "Invitations": [ { "Principal": "string" } ... ], "Removals": [ { "MemberId": "string" } ... ] }</param>
     public AwsManagedblockchainCreateProposalOptions(
         string NetworkId,
         string MemberId,
@@ -66,38 +67,38 @@ public record AwsManagedblockchainCreateProposalOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the network for which the proposal is made. Constraints: o min: 1 o max: 32
+    /// The unique identifier of the network for which the proposal is made. Constraints: • min: 1 • max: 32
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the member that is creating the proposal. This identifier is especially useful for identifying the member mak- ing the proposal when multiple members exist in a single Amazon Web Services account. Constraints: o min: 1 o max: 32
+    /// The unique identifier of the member that is creating the proposal. This identifier is especially useful for identifying the member making the proposal when multiple members exist in a single Amazon Web Services account. Constraints: • min: 1 • max: 32
     /// </summary>
     [CliOption("--member-id")]
     public string? MemberId { get; private init; }
 
     /// <summary>
-    /// The type of actions proposed, such as inviting a member or removing a member. The types of Actions in a proposal are mutually exclusive. For example, a proposal with Invitations actions cannot also contain Removals actions. Invitations -&gt; (list) The actions to perform for an APPROVED proposal to invite an Amazon Web Services account to create a member and join the net- work. (structure) An action to invite a specific Amazon Web Services account to create a member and join the network. The InviteAction is carried out when a Proposal is APPROVED . Applies only to Hyperledger Fabric. Principal -&gt; (string) [required] The Amazon Web Services account ID to invite. Removals -&gt; (list) The actions to perform for an APPROVED proposal to remove a mem- ber from the network, which deletes the member and all associ- ated member resources from the network. (structure) An action to remove a member from a Managed Blockchain net- work as the result of a removal proposal that is APPROVED . The member and all associated resources are deleted from the network. Applies only to Hyperledger Fabric. MemberId -&gt; (string) [required] The unique identifier of the member to remove. Constraints: o min: 1 o max: 32 Shorthand Syntax: Invitations=[{Principal=string},{Principal=string}],Removals=[{MemberId=string},{MemberId=string}] JSON Syntax: { "Invitations": [ { "Principal": "string" } ... ], "Removals": [ { "MemberId": "string" } ... ] }
+    /// The type of actions proposed, such as inviting a member or removing a member. The types of Actions in a proposal are mutually exclusive. For example, a proposal with Invitations actions cannot also contain Removals actions. Invitations -&gt; (list) The actions to perform for an APPROVED proposal to invite an Amazon Web Services account to create a member and join the network. (structure) An action to invite a specific Amazon Web Services account to create a member and join the network. The InviteAction is carried out when a Proposal is APPROVED . Applies only to Hyperledger Fabric. Principal -&gt; (string) [required] The Amazon Web Services account ID to invite. Removals -&gt; (list) The actions to perform for an APPROVED proposal to remove a member from the network, which deletes the member and all associated member resources from the network. (structure) An action to remove a member from a Managed Blockchain network as the result of a removal proposal that is APPROVED . The member and all associated resources are deleted from the network. Applies only to Hyperledger Fabric. MemberId -&gt; (string) [required] The unique identifier of the member to remove. Constraints: • min: 1 • max: 32 Shorthand Syntax: Invitations=[{Principal=string},{Principal=string}],Removals=[{MemberId=string},{MemberId=string}] JSON Syntax: { "Invitations": [ { "Principal": "string" } ... ], "Removals": [ { "MemberId": "string" } ... ] }
     /// </summary>
     [CliOption("--actions")]
     public string? Actions { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated auto- matically if you use an Amazon Web Services SDK or the CLI. Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an Amazon Web Services SDK or the CLI. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// A description for the proposal that is visible to voting members, for example, "Proposal to add Example Corp. as member." Constraints: o max: 128
+    /// A description for the proposal that is visible to voting members, for example, "Proposal to add Example Corp. as member." Constraints: • max: 128
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Tags to assign to the proposal. Each tag consists of a key and an optional value. You can specify multiple key-value pairs in a single request with an overall maximum of 50 tags allowed per resource. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide , or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide . Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags to assign to the proposal. Each tag consists of a key and an optional value. You can specify multiple key-value pairs in a single request with an overall maximum of 50 tags allowed per resource. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide , or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide . Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

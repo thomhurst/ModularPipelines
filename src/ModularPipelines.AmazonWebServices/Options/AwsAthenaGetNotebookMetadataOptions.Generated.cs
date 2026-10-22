@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAthenaGetNotebookMetadataOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Retrieves notebook metadata for the specified notebook ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NotebookId">The ID of the notebook whose metadata is to be retrieved. Constraints: o min: 1 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="NotebookId">The ID of the notebook whose metadata is to be retrieved. Constraints: • min: 1 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
     public AwsAthenaGetNotebookMetadataOptions(
         string NotebookId
     )
@@ -56,7 +58,7 @@ public record AwsAthenaGetNotebookMetadataOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the notebook whose metadata is to be retrieved. Constraints: o min: 1 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The ID of the notebook whose metadata is to be retrieved. Constraints: • min: 1 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--notebook-id")]
     public string? NotebookId { get; private init; }

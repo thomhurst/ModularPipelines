@@ -33,7 +33,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     #region Sub-command Groups
 
     /// <summary>
-    /// aws generate sub-commands.
+    /// aws servicecatalog generate sub-commands.
     /// </summary>
     public AwsServicecatalogGenerate Generate => _generate ??= new AwsServicecatalogGenerate(_command);
 
@@ -72,7 +72,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Associates the specified principal ARN with the specified portfolio. If you share the portfolio with principal name sharing enabled, the PrincipalARN association is included in the share. The PortfolioID , PrincipalARN , and PrincipalType parameters are re- quired. You can associate a maximum of 10 Principals with a portfolio using PrincipalType as IAM_PATTERN . NOTE: When you associate a principal with portfolio, a potential privilege escalation path may occur when that portfolio is then shared...
+    /// Associates the specified principal ARN with the specified portfolio. If you share the portfolio with principal name sharing enabled, the PrincipalARN association is included in the share. The PortfolioID , PrincipalARN , and PrincipalType parameters are required. You can associate a maximum of 10 Principals with a portfolio using PrincipalType as IAM_PATTERN . NOTE: When you associate a principal with portfolio, a potential privilege escalation path may occur when that portfolio is then shared w...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -117,7 +117,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Associate the specified TagOption with the specified portfolio or prod- uct. See also: AWS API Documentation
+    /// Associate the specified TagOption with the specified portfolio or product. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -147,7 +147,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Disassociates a batch of self-service actions from the specified provi- sioning artifact. See also: AWS API Documentation
+    /// Disassociates a batch of self-service actions from the specified provisioning artifact. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -162,7 +162,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Copies the specified source product to the specified target product or a new product. You can copy a product to the same account or another account. You can copy a product to the same Region or another Region. If you copy a product to another account, you must first share the product in a port- folio using CreatePortfolioShare . This operation is performed asynchronously. To track the progress of the operation, use DescribeCopyProductStatus . See also: AWS API Documentation
+    /// Copies the specified source product to the specified target product or a new product. You can copy a product to the same account or another account. You can copy a product to the same Region or another Region. If you copy a product to another account, you must first share the product in a portfolio using CreatePortfolioShare . This operation is performed asynchronously. To track the progress of the operation, use DescribeCopyProductStatus . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -207,7 +207,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Shares the specified portfolio with the specified account or organiza- tion node. Shares to an organization node can only be created by the management account of an organization or by a delegated administrator. You can share portfolios to an organization, an organizational unit, or a specific account. Note that if a delegated admin is de-registered, they can no longer create portfolio shares. AWSOrganizationsAccess must be enabled in order to create a portfo- lio share to an organization node. Y...
+    /// Shares the specified portfolio with the specified account or organization node. Shares to an organization node can only be created by the management account of an organization or by a delegated administrator. You can share portfolios to an organization, an organizational unit, or a specific account. Note that if a delegated admin is de-registered, they can no longer create portfolio shares. AWSOrganizationsAccess must be enabled in order to create a portfolio share to an organization node. You c...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -222,7 +222,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Creates a product. A delegated admin is authorized to invoke this command. The user or role that performs this operation must have the cloudforma- tion:GetTemplate IAM policy permission. This policy permission is re- quired when using the ImportFromPhysicalId template source in the in- formation data section. See also: AWS API Documentation
+    /// Creates a product. A delegated admin is authorized to invoke this command. The user or role that performs this operation must have the cloudformation:GetTemplate IAM policy permission. This policy permission is required when using the ImportFromPhysicalId template source in the information data section. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -237,7 +237,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Creates a plan. A plan includes the list of resources to be created (when provisioning a new product) or modified (when updating a provisioned product) when the plan is executed. You can create one plan for each provisioned product. To create a plan for an existing provisioned product, the product status must be AVAIL- ABLE or TAINTED. To view the resource changes in the change set, use DescribeProvi- sionedProductPlan . To create or modify the provisioned product, use ExecuteProvisionedProductP...
+    /// Creates a plan. A plan includes the list of resources to be created (when provisioning a new product) or modified (when updating a provisioned product) when the plan is executed. You can create one plan for each provisioned product. To create a plan for an existing provisioned product, the product status must be AVAILABLE or TAINTED. To view the resource changes in the change set, use DescribeProvisionedProductPlan . To create or modify the provisioned product, use ExecuteProvisionedProductPlan ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -252,7 +252,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Creates a provisioning artifact (also known as a version) for the spec- ified product. You cannot create a provisioning artifact for a product that was shared with you. The user or role that performs this operation must have the cloudforma- tion:GetTemplate IAM policy permission. This policy permission is re- quired when using the ImportFromPhysicalId template source in the in- formation data section. See also: AWS API Documentation
+    /// Creates a provisioning artifact (also known as a version) for the specified product. You cannot create a provisioning artifact for a product that was shared with you. The user or role that performs this operation must have the cloudformation:GetTemplate IAM policy permission. This policy permission is required when using the ImportFromPhysicalId template source in the information data section. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -327,7 +327,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Stops sharing the specified portfolio with the specified account or or- ganization node. Shares to an organization node can only be deleted by the management account of an organization or by a delegated administra- tor. Note that if a delegated admin is de-registered, portfolio shares cre- ated from that account are removed. See also: AWS API Documentation
+    /// Stops sharing the specified portfolio with the specified account or organization node. Shares to an organization node can only be deleted by the management account of an organization or by a delegated administrator. Note that if a delegated admin is de-registered, portfolio shares created from that account are removed. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -372,7 +372,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Deletes the specified provisioning artifact (also known as a version) for the specified product. You cannot delete a provisioning artifact associated with a product that was shared with you. You cannot delete the last provisioning arti- fact for a product, because a product must have at least one provision- ing artifact. See also: AWS API Documentation
+    /// Deletes the specified provisioning artifact (also known as a version) for the specified product. You cannot delete a provisioning artifact associated with a product that was shared with you. You cannot delete the last provisioning artifact for a product, because a product must have at least one provisioning artifact. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -462,21 +462,6 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Returns a summary of each of the portfolio shares that were created for the specified portfolio. You can use this API to determine which accounts or organizational nodes this portfolio have been shared, whether the recipient entity has imported the share, and whether TagOptions are included with the share. The PortfolioId and Type parameters are both required. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribePortfolioSharesAsync(
-        AwsServicecatalogDescribePortfolioSharesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Gets the status of the specified portfolio share operation. This API can only be called by the management account in the organization or by a delegated admin. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -485,6 +470,21 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribePortfolioShareStatusAsync(
         AwsServicecatalogDescribePortfolioShareStatusOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a summary of each of the portfolio shares that were created for the specified portfolio. You can use this API to determine which accounts or organizational nodes this portfolio have been shared, whether the recipient entity has imported the share, and whether TagOptions are included with the share. The PortfolioId and Type parameters are both required. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribePortfolioSharesAsync(
+        AwsServicecatalogDescribePortfolioSharesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -507,7 +507,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Gets information about the specified product. NOTE: Running this operation with administrator access results in a fail- ure. DescribeProductAsAdmin should be used instead. See also: AWS API Documentation
+    /// Gets information about the specified product. NOTE: Running this operation with administrator access results in a failure. DescribeProductAsAdmin should be used instead. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -597,7 +597,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Gets information about the specified request operation. Use this operation after calling a request operation (for example, ProvisionProduct , TerminateProvisionedProduct , or UpdateProvi- sionedProduct ). NOTE: If a provisioned product was transferred to a new owner using Up- dateProvisionedProductProperties , the new owner will be able to de- scribe all past records for that product. The previous owner will no longer be able to describe the records, but will be able to use ListRecordHistory to ...
+    /// Gets information about the specified request operation. Use this operation after calling a request operation (for example, ProvisionProduct , TerminateProvisionedProduct , or UpdateProvisionedProduct ). NOTE: If a provisioned product was transferred to a new owner using UpdateProvisionedProductProperties , the new owner will be able to describe all past records for that product. The previous owner will no longer be able to describe the records, but will be able to use ListRecordHistory to see th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -657,7 +657,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Disable portfolio sharing through the Organizations service. This com- mand will not delete your current shares, but prevents you from creat- ing new shares throughout your organization. Current shares are not kept in sync with your organization structure if the structure changes after calling this API. Only the management account in the organization can call this API. You cannot call this API if there are active delegated administrators in the organization. Note that a delegated administrator i...
+    /// Disable portfolio sharing through the Organizations service. This command will not delete your current shares, but prevents you from creating new shares throughout your organization. Current shares are not kept in sync with your organization structure if the structure changes after calling this API. Only the management account in the organization can call this API. You cannot call this API if there are active delegated administrators in the organization. Note that a delegated administrator is no...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -687,7 +687,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Disassociates a previously associated principal ARN from a specified portfolio. The PrincipalType and PrincipalARN must match the AssociatePrincipal- WithPortfolio call request details. For example, to disassociate an as- sociation created with a PrincipalARN of PrincipalType IAM you must use the PrincipalType IAM when calling DisassociatePrincipalFromPortfolio . For portfolios that have been shared with principal name sharing en- abled: after disassociating a principal, share recipient accounts...
+    /// Disassociates a previously associated principal ARN from a specified portfolio. The PrincipalType and PrincipalARN must match the AssociatePrincipalWithPortfolio call request details. For example, to disassociate an association created with a PrincipalARN of PrincipalType IAM you must use the PrincipalType IAM when calling DisassociatePrincipalFromPortfolio . For portfolios that have been shared with principal name sharing enabled: after disassociating a principal, share recipient accounts will ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -747,7 +747,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Enable portfolio sharing feature through Organizations. This API will allow Service Catalog to receive updates on your organization in order to sync your shares with the current structure. This API can only be called by the management account in the organization. When you call this API, Service Catalog calls organizations:En- ableAWSServiceAccess on your behalf so that your shares stay in sync with any changes in your Organizations structure. Note that a delegated administrator is not authorized...
+    /// Enable portfolio sharing feature through Organizations. This API will allow Service Catalog to receive updates on your organization in order to sync your shares with the current structure. This API can only be called by the management account in the organization. When you call this API, Service Catalog calls organizations:EnableAWSServiceAccess on your behalf so that your shares stay in sync with any changes in your Organizations structure. Note that a delegated administrator is not authorized t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -822,7 +822,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Requests the import of a resource as an Service Catalog provisioned product that is associated to an Service Catalog product and provision- ing artifact. Once imported, all supported governance actions are sup- ported on the provisioned product. Resource import only supports CloudFormation stack ARNs. CloudFormation StackSets, and non-root nested stacks, are not supported. The CloudFormation stack must have one of the following statuses to be imported: CREATE_COMPLETE , UPDATE_COMPLETE , UPDATE_...
+    /// Requests the import of a resource as an Service Catalog provisioned product that is associated to an Service Catalog product and provisioning artifact. Once imported, all supported governance actions are supported on the provisioned product. Resource import only supports CloudFormation stack ARNs. CloudFormation StackSets, and non-root nested stacks, are not supported. The CloudFormation stack must have one of the following statuses to be imported: CREATE_COMPLETE , UPDATE_COMPLETE , UPDATE_ROLL...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -837,7 +837,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Lists all imported portfolios for which account-to-account shares were accepted by this account. By specifying the PortfolioShareType , you can list portfolios for which organizational shares were accepted by this account. See also: AWS API Documentation list-accepted-portfolio-shares is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and t...
+    /// Lists all imported portfolios for which account-to-account shares were accepted by this account. By specifying the PortfolioShareType , you can list portfolios for which organizational shares were accepted by this account. See also: AWS API Documentation list-accepted-portfolio-shares is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the -...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -867,7 +867,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Lists the constraints for the specified portfolio and product. See also: AWS API Documentation list-constraints-for-portfolio is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ConstraintDetails
+    /// Lists the constraints for the specified portfolio and product. See also: AWS API Documentation list-constraints-for-portfolio is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ConstraintDetails
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -882,7 +882,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Lists the paths to the specified product. A path describes how the user gets access to a specified product and is necessary when provisioning a product. A path also determines the constraints that are put on a prod- uct. A path is dependent on a specific product, porfolio, and princi- pal. NOTE: When provisioning a product that's been added to a portfolio, you must grant your user, group, or role access to the portfolio. For more information, see Granting users access in the Service Catalog User...
+    /// Lists the paths to the specified product. A path describes how the user gets access to a specified product and is necessary when provisioning a product. A path also determines the constraints that are put on a product. A path is dependent on a specific product, porfolio, and principal. NOTE: When provisioning a product that's been added to a portfolio, you must grant your user, group, or role access to the portfolio. For more information, see Granting users access in the Service Catalog User Gui...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -897,7 +897,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Lists the organization nodes that have access to the specified portfo- lio. This API can only be called by the management account in the orga- nization or by a delegated admin. If a delegated admin is de-registered, they can no longer perform this operation. See also: AWS API Documentation list-organization-portfolio-access is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate ar...
+    /// Lists the organization nodes that have access to the specified portfolio. This API can only be called by the management account in the organization or by a delegated admin. If a delegated admin is de-registered, they can no longer perform this operation. See also: AWS API Documentation list-organization-portfolio-access is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -927,7 +927,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Lists all portfolios that the specified product is associated with. See also: AWS API Documentation list-portfolios-for-product is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PortfolioDetails
+    /// Lists all portfolios that the specified product is associated with. See also: AWS API Documentation list-portfolios-for-product is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PortfolioDetails
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -942,7 +942,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Lists all portfolios in the catalog. See also: AWS API Documentation list-portfolios is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PortfolioDetails
+    /// Lists all portfolios in the catalog. See also: AWS API Documentation list-portfolios is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PortfolioDetails
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -957,7 +957,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Lists all PrincipalARN s and corresponding PrincipalType s associated with the specified portfolio. See also: AWS API Documentation list-principals-for-portfolio is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ...
+    /// Lists all PrincipalARN s and corresponding PrincipalType s associated with the specified portfolio. See also: AWS API Documentation list-principals-for-portfolio is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -972,7 +972,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Lists the plans for the specified provisioned product or all plans to which the user has access. See also: AWS API Documentation list-provisioned-product-plans is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex...
+    /// Lists the plans for the specified provisioned product or all plans to which the user has access. See also: AWS API Documentation list-provisioned-product-plans is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expres...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -987,7 +987,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Lists all provisioning artifacts (also known as versions) for the spec- ified self-service action. See also: AWS API Documentation list-provisioning-artifacts-for-service-action is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the ...
+    /// Lists all provisioning artifacts (also known as versions) for the specified self-service action. See also: AWS API Documentation list-provisioning-artifacts-for-service-action is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1002,7 +1002,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Lists all provisioning artifacts (also known as versions) for the spec- ified product. See also: AWS API Documentation
+    /// Lists all provisioning artifacts (also known as versions) for the specified product. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1032,7 +1032,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Lists the resources associated with the specified TagOption. See also: AWS API Documentation list-resources-for-tag-option is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ResourceDetails
+    /// Lists the resources associated with the specified TagOption. See also: AWS API Documentation list-resources-for-tag-option is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ResourceDetails
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1047,7 +1047,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Returns a paginated list of self-service actions associated with the specified Product ID and Provisioning Artifact ID. See also: AWS API Documentation list-service-actions-for-provisioning-artifact is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data fro...
+    /// Returns a paginated list of self-service actions associated with the specified Product ID and Provisioning Artifact ID. See also: AWS API Documentation list-service-actions-for-provisioning-artifact is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1077,7 +1077,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Returns summary information about stack instances that are associated with the specified CFN_STACKSET type provisioned product. You can fil- ter for stack instances that are associated with a specific Amazon Web Services account name or Region. See also: AWS API Documentation
+    /// Returns summary information about stack instances that are associated with the specified CFN_STACKSET type provisioned product. You can filter for stack instances that are associated with a specific Amazon Web Services account name or Region. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1152,7 +1152,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Provisions the specified product. A provisioned product is a resourced instance of a product. For exam- ple, provisioning a product that's based on an CloudFormation template launches an CloudFormation stack and its underlying resources. You can check the status of this request using DescribeRecord . If the request contains a tag key with an empty list of values, there's a tag conflict for that key. Don't include conflicted keys as tags, or this will cause the error "Parameter validation failed:...
+    /// Provisions the specified product. A provisioned product is a resourced instance of a product. For example, provisioning a product that's based on an CloudFormation template launches an CloudFormation stack and its underlying resources. You can check the status of this request using DescribeRecord . If the request contains a tag key with an empty list of values, there's a tag conflict for that key. Don't include conflicted keys as tags, or this will cause the error "Parameter validation failed: M...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1197,7 +1197,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Gets information about the products for the specified portfolio or all products. See also: AWS API Documentation search-products-as-admin is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ProductViewDe...
+    /// Gets information about the products for the specified portfolio or all products. See also: AWS API Documentation search-products-as-admin is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ProductViewDeta...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1242,7 +1242,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Terminates the specified provisioned product. This operation does not delete any records associated with the provi- sioned product. You can check the status of this request using DescribeRecord . See also: AWS API Documentation
+    /// Terminates the specified provisioned product. This operation does not delete any records associated with the provisioned product. You can check the status of this request using DescribeRecord . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1287,7 +1287,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Updates the specified portfolio share. You can use this API to enable or disable TagOptions sharing or Principal sharing for an existing portfolio share. The portfolio share cannot be updated if the CreatePortfolioShare oper- ation is IN_PROGRESS , as the share is not available to recipient enti- ties. In this case, you must wait for the portfolio share to be com- pleted. You must provide the accountId or organization node in the input, but not both. If the portfolio is shared to both an externa...
+    /// Updates the specified portfolio share. You can use this API to enable or disable TagOptions sharing or Principal sharing for an existing portfolio share. The portfolio share cannot be updated if the CreatePortfolioShare operation is IN_PROGRESS , as the share is not available to recipient entities. In this case, you must wait for the portfolio share to be completed. You must provide the accountId or organization node in the input, but not both. If the portfolio is shared to both an external acco...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1332,7 +1332,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Requests updates to the properties of the specified provisioned prod- uct. See also: AWS API Documentation
+    /// Requests updates to the properties of the specified provisioned product. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

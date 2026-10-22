@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the Amazon Inspector deep inspection custom paths for your or- ganization. You must be an Amazon Inspector delegated administrator to use this API. See also: AWS API Documentation
+/// Updates the Amazon Inspector deep inspection custom paths for your organization. You must be an Amazon Inspector delegated administrator to use this API. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsInspector2UpdateOrgEc2DeepInspectionConfigurationOptions : AwsO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the Amazon Inspector deep inspection custom paths for your or- ganization. You must be an Amazon Inspector delegated administrator to use this API. See also: AWS API Documentation
+    /// Updates the Amazon Inspector deep inspection custom paths for your organization. You must be an Amazon Inspector delegated administrator to use this API. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrgPackagePaths">The Amazon Inspector deep inspection custom paths you are adding for your organization. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 512 o pattern: (?:(?:/(?:\.[-\w]+|[-\w]+(?:[. ][-\w]+)*))+/?|[A-Za-z]:\\(?:[-\w]+(?:[. ][-\w]+)*\\)*[-\w]+(?:[. ][-\w]+)*) Syntax: "string" "string" ...</param>
+    /// <param name="OrgPackagePaths">The Amazon Inspector deep inspection custom paths you are adding for your organization. Constraints: • min: 0 • max: 5 (string) Constraints: • min: 1 • max: 512 • pattern: (?:(?:/(?:\.[-\w]+|[-\w]+(?:[. ][-\w]+)*))+/?|[A-Za-z]:\\(?:[-\w]+(?:[. ][-\w]+)*\\)*[-\w]+(?:[. ][-\w]+)*) Syntax: "string" "string" ...</param>
     public AwsInspector2UpdateOrgEc2DeepInspectionConfigurationOptions(
         IEnumerable<string> OrgPackagePaths
     )
@@ -67,7 +69,7 @@ public record AwsInspector2UpdateOrgEc2DeepInspectionConfigurationOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Inspector deep inspection custom paths you are adding for your organization. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 512 o pattern: (?:(?:/(?:\.[-\w]+|[-\w]+(?:[. ][-\w]+)*))+/?|[A-Za-z]:\\(?:[-\w]+(?:[. ][-\w]+)*\\)*[-\w]+(?:[. ][-\w]+)*) Syntax: "string" "string" ...
+    /// The Amazon Inspector deep inspection custom paths you are adding for your organization. Constraints: • min: 0 • max: 5 (string) Constraints: • min: 1 • max: 512 • pattern: (?:(?:/(?:\.[-\w]+|[-\w]+(?:[. ][-\w]+)*))+/?|[A-Za-z]:\\(?:[-\w]+(?:[. ][-\w]+)*\\)*[-\w]+(?:[. ][-\w]+)*) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--org-package-paths", GroupValues = true)]
     public IEnumerable<string>? OrgPackagePaths { get; private init; }

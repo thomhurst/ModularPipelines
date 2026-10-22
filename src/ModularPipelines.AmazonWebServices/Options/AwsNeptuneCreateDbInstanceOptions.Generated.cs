@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsNeptuneCreateDbInstanceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a new DB instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbInstanceIdentifier">The DB instance identifier. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: mydbinstance</param>
-    /// <param name="DbInstanceClass">The compute and memory capacity of the DB instance, for example, db.m4.large . Not all DB instance classes are available in all Ama- zon Regions.</param>
+    /// <param name="DbInstanceIdentifier">The DB instance identifier. This parameter is stored as a lowercase string. Constraints: • Must contain from 1 to 63 letters, numbers, or hyphens. • First character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. Example: mydbinstance</param>
+    /// <param name="DbInstanceClass">The compute and memory capacity of the DB instance, for example, db.m4.large . Not all DB instance classes are available in all Amazon Regions.</param>
     /// <param name="Engine">The name of the database engine to be used for this instance. Valid Values: neptune</param>
     /// <param name="DbClusterIdentifier">The identifier of the DB cluster that the instance will belong to. For information on creating a DB cluster, see CreateDBCluster . Type: String</param>
     public AwsNeptuneCreateDbInstanceOptions(
@@ -69,13 +71,13 @@ public record AwsNeptuneCreateDbInstanceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: mydbinstance
+    /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints: • Must contain from 1 to 63 letters, numbers, or hyphens. • First character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. Example: mydbinstance
     /// </summary>
     [CliOption("--db-instance-identifier")]
     public string? DbInstanceIdentifier { get; private init; }
 
     /// <summary>
-    /// The compute and memory capacity of the DB instance, for example, db.m4.large . Not all DB instance classes are available in all Ama- zon Regions.
+    /// The compute and memory capacity of the DB instance, for example, db.m4.large . Not all DB instance classes are available in all Amazon Regions.
     /// </summary>
     [CliOption("--db-instance-class")]
     public string? DbInstanceClass { get; private init; }
@@ -124,7 +126,7 @@ public record AwsNeptuneCreateDbInstanceOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? DbSecurityGroups { get; set; }
 
     /// <summary>
-    /// A list of EC2 VPC security groups to associate with this DB in- stance. Not applicable. The associated list of EC2 VPC security groups is managed by the DB cluster. For more information, see CreateDBClus- ter . Default: The default EC2 VPC security group for the DB subnet group's VPC. (string) Syntax: "string" "string" ...
+    /// A list of EC2 VPC security groups to associate with this DB instance. Not applicable. The associated list of EC2 VPC security groups is managed by the DB cluster. For more information, see CreateDBCluster . Default: The default EC2 VPC security group for the DB subnet group's VPC. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
@@ -148,25 +150,25 @@ public record AwsNeptuneCreateDbInstanceOptions : AwsOptions, IValidatableObject
     public string? PreferredMaintenanceWindow { get; set; }
 
     /// <summary>
-    /// The name of the DB parameter group to associate with this DB in- stance. If this argument is omitted, the default DBParameterGroup for the specified engine is used. Constraints: o Must be 1 to 255 letters, numbers, or hyphens. o First character must be a letter o Cannot end with a hyphen or contain two consecutive hyphens
+    /// The name of the DB parameter group to associate with this DB instance. If this argument is omitted, the default DBParameterGroup for the specified engine is used. Constraints: • Must be 1 to 255 letters, numbers, or hyphens. • First character must be a letter • Cannot end with a hyphen or contain two consecutive hyphens
     /// </summary>
     [CliOption("--db-parameter-group-name")]
     public string? DbParameterGroupName { get; set; }
 
     /// <summary>
-    /// The number of days for which automated backups are retained. Not applicable. The retention period for automated backups is man- aged by the DB cluster. For more information, see CreateDBCluster . Default: 1 Constraints: o Must be a value from 0 to 35 o Cannot be set to 0 if the DB instance is a source to Read Replicas
+    /// The number of days for which automated backups are retained. Not applicable. The retention period for automated backups is managed by the DB cluster. For more information, see CreateDBCluster . Default: 1 Constraints: • Must be a value from 0 to 35 • Cannot be set to 0 if the DB instance is a source to Read Replicas
     /// </summary>
     [CliOption("--backup-retention-period")]
     public int? BackupRetentionPeriod { get; set; }
 
     /// <summary>
-    /// The daily time range during which automated backups are created. Not applicable. The daily time range for creating automated backups is managed by the DB cluster. For more information, see CreateDB- Cluster .
+    /// The daily time range during which automated backups are created. Not applicable. The daily time range for creating automated backups is managed by the DB cluster. For more information, see CreateDBCluster .
     /// </summary>
     [CliOption("--preferred-backup-window")]
     public string? PreferredBackupWindow { get; set; }
 
     /// <summary>
-    /// The port number on which the database accepts connections. Not applicable. The port is managed by the DB cluster. For more in- formation, see CreateDBCluster . Default: 8182 Type: Integer
+    /// The port number on which the database accepts connections. Not applicable. The port is managed by the DB cluster. For more information, see CreateDBCluster . Default: 8182 Type: Integer
     /// </summary>
     [CliOption("--port")]
     public int? Port { get; set; }
@@ -190,7 +192,7 @@ public record AwsNeptuneCreateDbInstanceOptions : AwsOptions, IValidatableObject
     public bool? AutoMinorVersionUpgrade { get; set; }
 
     /// <summary>
-    /// License model information for this DB instance. Valid values: license-included | bring-your-own-license | gen- eral-public-license
+    /// License model information for this DB instance. Valid values: license-included | bring-your-own-license | general-public-license
     /// </summary>
     [CliOption("--license-model")]
     public string? LicenseModel { get; set; }
@@ -214,7 +216,7 @@ public record AwsNeptuneCreateDbInstanceOptions : AwsOptions, IValidatableObject
     public string? CharacterSetName { get; set; }
 
     /// <summary>
-    /// Indicates whether the DB instance is publicly accessible. When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private cloud (VPC), its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB instance, the end- point resolves to the private IP address. Access to the DB instance is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address.
+    /// Indicates whether the DB instance is publicly accessible. When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private cloud (VPC), its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB instance, the endpoint resolves to the private IP address. Access to the DB instance is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address.
     /// </summary>
     [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
@@ -251,7 +253,7 @@ public record AwsNeptuneCreateDbInstanceOptions : AwsOptions, IValidatableObject
     public bool? StorageEncrypted { get; set; }
 
     /// <summary>
-    /// The Amazon KMS key identifier for an encrypted DB instance. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB instance with the same Ama- zon account that owns the KMS encryption key used to encrypt the new DB instance, then you can use the KMS key alias instead of the ARN for the KMS encryption key. Not applicable. The KMS key identifier is managed by the DB cluster. For more information, see CreateDBCluster . If the StorageEncrypted parameter is true, and you do not specify a value for the KmsKeyId parameter, then Amazon Neptune will use your default encryption key. Amazon KMS creates the default encryption key for your Amazon account. Your Amazon account has a different de- fault encryption key for each Amazon Region.
+    /// The Amazon KMS key identifier for an encrypted DB instance. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB instance with the same Amazon account that owns the KMS encryption key used to encrypt the new DB instance, then you can use the KMS key alias instead of the ARN for the KMS encryption key. Not applicable. The KMS key identifier is managed by the DB cluster. For more information, see CreateDBCluster . If the StorageEncrypted parameter is true, and you do not specify a value for the KmsKeyId parameter, then Amazon Neptune will use your default encryption key. Amazon KMS creates the default encryption key for your Amazon account. Your Amazon account has a different default encryption key for each Amazon Region.
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
@@ -269,13 +271,13 @@ public record AwsNeptuneCreateDbInstanceOptions : AwsOptions, IValidatableObject
     public bool? CopyTagsToSnapshot { get; set; }
 
     /// <summary>
-    /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance. To disable collecting En- hanced Monitoring metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also set Moni- toringInterval to a value other than 0. Valid Values: 0, 1, 5, 10, 15, 30, 60
+    /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance. To disable collecting Enhanced Monitoring metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also set MonitoringInterval to a value other than 0. Valid Values: 0, 1, 5, 10, 15, 30, 60
     /// </summary>
     [CliOption("--monitoring-interval")]
     public int? MonitoringInterval { get; set; }
 
     /// <summary>
-    /// The ARN for the IAM role that permits Neptune to send enhanced moni- toring metrics to Amazon CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess . If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value.
+    /// The ARN for the IAM role that permits Neptune to send enhanced monitoring metrics to Amazon CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess . If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value.
     /// </summary>
     [CliOption("--monitoring-role-arn")]
     public string? MonitoringRoleArn { get; set; }
@@ -287,7 +289,7 @@ public record AwsNeptuneCreateDbInstanceOptions : AwsOptions, IValidatableObject
     public string? DomainIamRoleName { get; set; }
 
     /// <summary>
-    /// A value that specifies the order in which an Read Replica is pro- moted to the primary instance after a failure of the existing pri- mary instance. Default: 1 Valid Values: 0 - 15
+    /// A value that specifies the order in which an Read Replica is promoted to the primary instance after a failure of the existing primary instance. Default: 1 Valid Values: 0 - 15
     /// </summary>
     [CliOption("--promotion-tier")]
     public int? PromotionTier { get; set; }
@@ -299,7 +301,7 @@ public record AwsNeptuneCreateDbInstanceOptions : AwsOptions, IValidatableObject
     public string? Timezone { get; set; }
 
     /// <summary>
-    /// tication (boolean) Not supported by Neptune (ignored).
+    /// Not supported by Neptune (ignored).
     /// </summary>
     [CliFlag("--enable-iam-database-authentication", NegatedName = "--no-enable-iam-database-authentication")]
     public bool? EnableIamDatabaseAuthentication { get; set; }
@@ -323,7 +325,7 @@ public record AwsNeptuneCreateDbInstanceOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? EnableCloudwatchLogsExports { get; set; }
 
     /// <summary>
-    /// A value that indicates whether the DB instance has deletion protec- tion enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. See Deleting a DB Instance . DB instances in a DB cluster can be deleted even when deletion pro- tection is enabled in their parent DB cluster.
+    /// A value that indicates whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. See Deleting a DB Instance . DB instances in a DB cluster can be deleted even when deletion protection is enabled in their parent DB cluster.
     /// </summary>
     [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }

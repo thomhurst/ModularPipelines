@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCloudfrontDeleteConnectionFunctionOptions : AwsOptions, IValida
     /// <summary>
     /// Deletes a connection function. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The connection function's ID. Constraints: o min: 1 o max: 64</param>
+    /// <param name="Id">The connection function's ID. Constraints: • min: 1 • max: 64</param>
     /// <param name="IfMatch">The current version (ETag value) of the connection function you are deleting.</param>
     public AwsCloudfrontDeleteConnectionFunctionOptions(
         string Id,
@@ -60,7 +62,7 @@ public record AwsCloudfrontDeleteConnectionFunctionOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The connection function's ID. Constraints: o min: 1 o max: 64
+    /// The connection function's ID. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +31,7 @@ public record AwsElbv2SetIpAddressTypeOptions : AwsOptions, IValidatableObject
     /// Sets the type of IP addresses used by the subnets of the specified load balancer. See also: AWS API Documentation
     /// </summary>
     /// <param name="LoadBalancerArn">The Amazon Resource Name (ARN) of the load balancer.</param>
-    /// <param name="IpAddressType">The IP address type. Internal load balancers must use ipv4 . [Application Load Balancers] The possible values are ipv4 (IPv4 ad- dresses), dualstack (IPv4 and IPv6 addresses), and dualstack-with- out-public-ipv4 (public IPv6 addresses and private IPv4 and IPv6 ad- dresses). Application Load Balancer authentication supports IPv4 addresses only when connecting to an Identity Provider (IdP) or Amazon Cognito endpoint. Without a public IPv4 address the load balancer can't com- plete the authentication process, resulting in HTTP 500 errors. [Network Load Balancers and Gateway Load Balancers] The possible values are ipv4 (IPv4 addresses) and dualstack (IPv4 and IPv6 ad- dresses). Possible values: o ipv4 o dualstack o dualstack-without-public-ipv4</param>
+    /// <param name="IpAddressType">The IP address type. Internal load balancers must use ipv4 . [Application Load Balancers] The possible values are ipv4 (IPv4 addresses), dualstack (IPv4 and IPv6 addresses), and dualstack-without-public-ipv4 (public IPv6 addresses and private IPv4 and IPv6 addresses). Application Load Balancer authentication supports IPv4 addresses only when connecting to an Identity Provider (IdP) or Amazon Cognito endpoint. Without a public IPv4 address the load balancer can't complete the authentication process, resulting in HTTP 500 errors. [Network Load Balancers and Gateway Load Balancers] The possible values are ipv4 (IPv4 addresses) and dualstack (IPv4 and IPv6 addresses). Possible values: • ipv4 • dualstack • dualstack-without-public-ipv4</param>
     public AwsElbv2SetIpAddressTypeOptions(
         string LoadBalancerArn,
         AwsElbv2SetIpAddressTypeIpAddressType IpAddressType
@@ -66,7 +68,7 @@ public record AwsElbv2SetIpAddressTypeOptions : AwsOptions, IValidatableObject
     public string? LoadBalancerArn { get; private init; }
 
     /// <summary>
-    /// The IP address type. Internal load balancers must use ipv4 . [Application Load Balancers] The possible values are ipv4 (IPv4 ad- dresses), dualstack (IPv4 and IPv6 addresses), and dualstack-with- out-public-ipv4 (public IPv6 addresses and private IPv4 and IPv6 ad- dresses). Application Load Balancer authentication supports IPv4 addresses only when connecting to an Identity Provider (IdP) or Amazon Cognito endpoint. Without a public IPv4 address the load balancer can't com- plete the authentication process, resulting in HTTP 500 errors. [Network Load Balancers and Gateway Load Balancers] The possible values are ipv4 (IPv4 addresses) and dualstack (IPv4 and IPv6 ad- dresses). Possible values: o ipv4 o dualstack o dualstack-without-public-ipv4
+    /// The IP address type. Internal load balancers must use ipv4 . [Application Load Balancers] The possible values are ipv4 (IPv4 addresses), dualstack (IPv4 and IPv6 addresses), and dualstack-without-public-ipv4 (public IPv6 addresses and private IPv4 and IPv6 addresses). Application Load Balancer authentication supports IPv4 addresses only when connecting to an Identity Provider (IdP) or Amazon Cognito endpoint. Without a public IPv4 address the load balancer can't complete the authentication process, resulting in HTTP 500 errors. [Network Load Balancers and Gateway Load Balancers] The possible values are ipv4 (IPv4 addresses) and dualstack (IPv4 and IPv6 addresses). Possible values: • ipv4 • dualstack • dualstack-without-public-ipv4
     /// </summary>
     [CliOption("--ip-address-type")]
     public AwsElbv2SetIpAddressTypeIpAddressType? IpAddressType { get; private init; }

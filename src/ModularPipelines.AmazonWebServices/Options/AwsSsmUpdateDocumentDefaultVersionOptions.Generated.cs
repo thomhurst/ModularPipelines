@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Set the default version of a document. NOTE: If you change a document version for a State Manager association, Systems Manager immediately runs the association unless you previ- ously specifed the apply-only-at-cron-interval parameter. See also: AWS API Documentation
+/// Set the default version of a document. NOTE: If you change a document version for a State Manager association, Systems Manager immediately runs the association unless you previously specifed the apply-only-at-cron-interval parameter. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsSsmUpdateDocumentDefaultVersionOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Set the default version of a document. NOTE: If you change a document version for a State Manager association, Systems Manager immediately runs the association unless you previ- ously specifed the apply-only-at-cron-interval parameter. See also: AWS API Documentation
+    /// Set the default version of a document. NOTE: If you change a document version for a State Manager association, Systems Manager immediately runs the association unless you previously specifed the apply-only-at-cron-interval parameter. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of a custom document that you want to set as the default version. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{3,128}$</param>
-    /// <param name="DocumentVersion">The version of a custom document that you want to set as the default version. Constraints: o pattern: (^[1-9][0-9]*$)</param>
+    /// <param name="Name">The name of a custom document that you want to set as the default version. Constraints: • pattern: ^[a-zA-Z0-9_\-.]{3,128}$</param>
+    /// <param name="DocumentVersion">The version of a custom document that you want to set as the default version. Constraints: • pattern: (^[1-9][0-9]*$)</param>
     public AwsSsmUpdateDocumentDefaultVersionOptions(
         string Name,
         string DocumentVersion
@@ -60,13 +62,13 @@ public record AwsSsmUpdateDocumentDefaultVersionOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of a custom document that you want to set as the default version. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{3,128}$
+    /// The name of a custom document that you want to set as the default version. Constraints: • pattern: ^[a-zA-Z0-9_\-.]{3,128}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The version of a custom document that you want to set as the default version. Constraints: o pattern: (^[1-9][0-9]*$)
+    /// The version of a custom document that you want to set as the default version. Constraints: • pattern: (^[1-9][0-9]*$)
     /// </summary>
     [CliOption("--document-version")]
     public string? DocumentVersion { get; private init; }

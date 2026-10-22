@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsCloudcontrolGetResourceRequestStatusOptions : AwsOptions, IVali
     /// <summary>
     /// Returns the current status of a resource operation request. For more information, see Tracking the progress of resource operation requests in the Amazon Web Services Cloud Control API User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="RequestToken">A unique token used to track the progress of the resource operation request. Request tokens are included in the ProgressEvent type returned by a resource operation request. Constraints: o min: 1 o max: 128 o pattern: [-A-Za-z0-9+/=]+</param>
+    /// <param name="RequestToken">A unique token used to track the progress of the resource operation request. Request tokens are included in the ProgressEvent type returned by a resource operation request. Constraints: • min: 1 • max: 128 • pattern: [-A-Za-z0-9+/=]+</param>
     public AwsCloudcontrolGetResourceRequestStatusOptions(
         string RequestToken
     )
@@ -57,7 +59,7 @@ public record AwsCloudcontrolGetResourceRequestStatusOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique token used to track the progress of the resource operation request. Request tokens are included in the ProgressEvent type returned by a resource operation request. Constraints: o min: 1 o max: 128 o pattern: [-A-Za-z0-9+/=]+
+    /// A unique token used to track the progress of the resource operation request. Request tokens are included in the ProgressEvent type returned by a resource operation request. Constraints: • min: 1 • max: 128 • pattern: [-A-Za-z0-9+/=]+
     /// </summary>
     [SecretValue]
     [CliOption("--request-token")]

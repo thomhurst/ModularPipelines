@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,9 +29,9 @@ public record AwsNetworkmanagerUpdateNetworkResourceMetadataOptions : AwsOptions
     /// <summary>
     /// Updates the resource metadata for the specified global network. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
-    /// <param name="ResourceArn">The ARN of the resource. Constraints: o min: 0 o max: 1500 o pattern: [\s\S]*</param>
-    /// <param name="Metadata">The resource metadata. key -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [\s\S]* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*</param>
+    /// <param name="ResourceArn">The ARN of the resource. Constraints: • min: 0 • max: 1500 • pattern: [\s\S]*</param>
+    /// <param name="Metadata">The resource metadata. key -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: [\s\S]* value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsNetworkmanagerUpdateNetworkResourceMetadataOptions(
         string GlobalNetworkId,
         string ResourceArn,
@@ -76,19 +77,19 @@ public record AwsNetworkmanagerUpdateNetworkResourceMetadataOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// The ID of the global network. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--global-network-id")]
     public string? GlobalNetworkId { get; private init; }
 
     /// <summary>
-    /// The ARN of the resource. Constraints: o min: 0 o max: 1500 o pattern: [\s\S]*
+    /// The ARN of the resource. Constraints: • min: 0 • max: 1500 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The resource metadata. key -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [\s\S]* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The resource metadata. key -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: [\s\S]* value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Metadata { get; private init; }

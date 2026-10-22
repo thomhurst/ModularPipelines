@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Stores events in Amazon Fraud Detector without generating fraud predic- tions for those events. For example, you can use SendEvent to upload a historical dataset, which you can then later use to train a model. See also: AWS API Documentation
+/// Stores events in Amazon Fraud Detector without generating fraud predictions for those events. For example, you can use SendEvent to upload a historical dataset, which you can then later use to train a model. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,13 +27,13 @@ public record AwsFrauddetectorSendEventOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Stores events in Amazon Fraud Detector without generating fraud predic- tions for those events. For example, you can use SendEvent to upload a historical dataset, which you can then later use to train a model. See also: AWS API Documentation
+    /// Stores events in Amazon Fraud Detector without generating fraud predictions for those events. For example, you can use SendEvent to upload a historical dataset, which you can then later use to train a model. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EventId">The event ID to upload. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
-    /// <param name="EventTypeName">The event type name of the event. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
-    /// <param name="EventTimestamp">The timestamp that defines when the event under evaluation occurred. The timestamp must be specified using ISO 8601 standard in UTC. Constraints: o min: 10 o max: 30</param>
-    /// <param name="EventVariables">Names of the event type's variables you defined in Amazon Fraud De- tector to represent data elements and their corresponding values for the event you are sending for evaluation. Constraints: o min: 1 key -&gt; (string) Constraints: o min: 1 o max: 64 value -&gt; (string) Constraints: o min: 1 o max: 8192 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
-    /// <param name="Entities">An array of entities. (structure) The entity details. entityType -&gt; (string) [required] The entity type. entityId -&gt; (string) [required] The entity ID. If you do not know the entityId , you can pass unknown , which is areserved string literal. Constraints: o min: 1 o max: 256 o pattern: ^[0-9A-Za-z_.@+-]+$ Shorthand Syntax: entityType=string,entityId=string ... JSON Syntax: [ { "entityType": "string", "entityId": "string" } ... ]</param>
+    /// <param name="EventId">The event ID to upload. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="EventTypeName">The event type name of the event. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="EventTimestamp">The timestamp that defines when the event under evaluation occurred. The timestamp must be specified using ISO 8601 standard in UTC. Constraints: • min: 10 • max: 30</param>
+    /// <param name="EventVariables">Names of the event type's variables you defined in Amazon Fraud Detector to represent data elements and their corresponding values for the event you are sending for evaluation. Constraints: • min: 1 key -&gt; (string) Constraints: • min: 1 • max: 64 value -&gt; (string) Constraints: • min: 1 • max: 8192 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="Entities">An array of entities. (structure) The entity details. entityType -&gt; (string) [required] The entity type. entityId -&gt; (string) [required] The entity ID. If you do not know the entityId , you can pass unknown , which is areserved string literal. Constraints: • min: 1 • max: 256 • pattern: ^[0-9A-Za-z_.@+-]+$ Shorthand Syntax: entityType=string,entityId=string ... JSON Syntax: [ { "entityType": "string", "entityId": "string" } ... ]</param>
     public AwsFrauddetectorSendEventOptions(
         string EventId,
         string EventTypeName,
@@ -95,43 +96,43 @@ public record AwsFrauddetectorSendEventOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The event ID to upload. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// The event ID to upload. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$
     /// </summary>
     [CliOption("--event-id")]
     public string? EventId { get; private init; }
 
     /// <summary>
-    /// The event type name of the event. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// The event type name of the event. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$
     /// </summary>
     [CliOption("--event-type-name")]
     public string? EventTypeName { get; private init; }
 
     /// <summary>
-    /// The timestamp that defines when the event under evaluation occurred. The timestamp must be specified using ISO 8601 standard in UTC. Constraints: o min: 10 o max: 30
+    /// The timestamp that defines when the event under evaluation occurred. The timestamp must be specified using ISO 8601 standard in UTC. Constraints: • min: 10 • max: 30
     /// </summary>
     [CliOption("--event-timestamp")]
     public string? EventTimestamp { get; private init; }
 
     /// <summary>
-    /// Names of the event type's variables you defined in Amazon Fraud De- tector to represent data elements and their corresponding values for the event you are sending for evaluation. Constraints: o min: 1 key -&gt; (string) Constraints: o min: 1 o max: 64 value -&gt; (string) Constraints: o min: 1 o max: 8192 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Names of the event type's variables you defined in Amazon Fraud Detector to represent data elements and their corresponding values for the event you are sending for evaluation. Constraints: • min: 1 key -&gt; (string) Constraints: • min: 1 • max: 64 value -&gt; (string) Constraints: • min: 1 • max: 8192 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--event-variables", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? EventVariables { get; private init; }
 
     /// <summary>
-    /// An array of entities. (structure) The entity details. entityType -&gt; (string) [required] The entity type. entityId -&gt; (string) [required] The entity ID. If you do not know the entityId , you can pass unknown , which is areserved string literal. Constraints: o min: 1 o max: 256 o pattern: ^[0-9A-Za-z_.@+-]+$ Shorthand Syntax: entityType=string,entityId=string ... JSON Syntax: [ { "entityType": "string", "entityId": "string" } ... ]
+    /// An array of entities. (structure) The entity details. entityType -&gt; (string) [required] The entity type. entityId -&gt; (string) [required] The entity ID. If you do not know the entityId , you can pass unknown , which is areserved string literal. Constraints: • min: 1 • max: 256 • pattern: ^[0-9A-Za-z_.@+-]+$ Shorthand Syntax: entityType=string,entityId=string ... JSON Syntax: [ { "entityType": "string", "entityId": "string" } ... ]
     /// </summary>
     [CliOption("--entities", GroupValues = true)]
     public IEnumerable<string>? Entities { get; private init; }
 
     /// <summary>
-    /// The label to associate with the event. Required if specifying label- Timestamp . Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// The label to associate with the event. Required if specifying labelTimestamp . Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$
     /// </summary>
     [CliOption("--assigned-label")]
     public string? AssignedLabel { get; set; }
 
     /// <summary>
-    /// The timestamp associated with the label. Required if specifying as- signedLabel . Constraints: o min: 10 o max: 30
+    /// The timestamp associated with the label. Required if specifying assignedLabel . Constraints: • min: 10 • max: 30
     /// </summary>
     [CliOption("--label-timestamp")]
     public string? LabelTimestamp { get; set; }

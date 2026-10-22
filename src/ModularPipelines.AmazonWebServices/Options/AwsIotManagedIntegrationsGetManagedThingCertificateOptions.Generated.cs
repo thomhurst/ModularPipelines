@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotManagedIntegrationsGetManagedThingCertificateOptions : AwsOp
     /// <summary>
     /// Retrieves the certificate PEM for a managed IoT thing. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The identifier of the managed thing. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9:_-]*</param>
+    /// <param name="Identifier">The identifier of the managed thing. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9:_-]*</param>
     public AwsIotManagedIntegrationsGetManagedThingCertificateOptions(
         string Identifier
     )
@@ -56,7 +58,7 @@ public record AwsIotManagedIntegrationsGetManagedThingCertificateOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the managed thing. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9:_-]*
+    /// The identifier of the managed thing. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9:_-]*
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }

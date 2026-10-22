@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsGlobalacceleratorDescribeAcceleratorOptions : AwsOptions, IVali
     /// <summary>
     /// Describe an accelerator. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AcceleratorArn">The Amazon Resource Name (ARN) of the accelerator to describe. Constraints: o max: 255</param>
+    /// <param name="AcceleratorArn">The Amazon Resource Name (ARN) of the accelerator to describe. Constraints: • max: 255</param>
     public AwsGlobalacceleratorDescribeAcceleratorOptions(
         string AcceleratorArn
     )
@@ -56,7 +58,7 @@ public record AwsGlobalacceleratorDescribeAcceleratorOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the accelerator to describe. Constraints: o max: 255
+    /// The Amazon Resource Name (ARN) of the accelerator to describe. Constraints: • max: 255
     /// </summary>
     [CliOption("--accelerator-arn")]
     public string? AcceleratorArn { get; private init; }

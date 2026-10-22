@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSecurityagentBatchCreateSecurityRequirementsOptions : AwsOption
     /// <summary>
     /// Batch creates security requirements in a customer managed pack. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PackId">The unique identifier of the security requirement pack to add re- quirements to.</param>
+    /// <param name="PackId">The unique identifier of the security requirement pack to add requirements to.</param>
     /// <param name="SecurityRequirements">The list of security requirements to create. (structure) Contains the details for a security requirement to create within a pack. name -&gt; (string) [required] The name of the security requirement. description -&gt; (string) [required] A description of the security requirement. domain -&gt; (string) [required] The security domain the requirement belongs to. evaluation -&gt; (string) [required] The evaluation criteria used to assess compliance with this requirement. remediation -&gt; (string) The recommended remediation steps when the requirement is not met. Shorthand Syntax: name=string,description=string,domain=string,evaluation=string,remediation=string ... JSON Syntax: [ { "name": "string", "description": "string", "domain": "string", "evaluation": "string", "remediation": "string" } ... ]</param>
     public AwsSecurityagentBatchCreateSecurityRequirementsOptions(
         string PackId,
@@ -71,7 +73,7 @@ public record AwsSecurityagentBatchCreateSecurityRequirementsOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the security requirement pack to add re- quirements to.
+    /// The unique identifier of the security requirement pack to add requirements to.
     /// </summary>
     [CliOption("--pack-id")]
     public string? PackId { get; private init; }

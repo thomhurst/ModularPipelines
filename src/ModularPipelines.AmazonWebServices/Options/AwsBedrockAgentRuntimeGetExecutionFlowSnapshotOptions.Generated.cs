@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the flow definition snapshot used for a flow execution. The snapshot represents the flow metadata and definition as it existed at the time the execution was started. Note that even if the flow is edited after an execution starts, the snapshot connected to the execu- tion remains unchanged. NOTE: Flow executions is in preview release for Amazon Bedrock and is sub- ject to change. See also: AWS API Documentation
+/// Retrieves the flow definition snapshot used for a flow execution. The snapshot represents the flow metadata and definition as it existed at the time the execution was started. Note that even if the flow is edited after an execution starts, the snapshot connected to the execution remains unchanged. NOTE: Flow executions is in preview release for Amazon Bedrock and is subject to change. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsBedrockAgentRuntimeGetExecutionFlowSnapshotOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the flow definition snapshot used for a flow execution. The snapshot represents the flow metadata and definition as it existed at the time the execution was started. Note that even if the flow is edited after an execution starts, the snapshot connected to the execu- tion remains unchanged. NOTE: Flow executions is in preview release for Amazon Bedrock and is sub- ject to change. See also: AWS API Documentation
+    /// Retrieves the flow definition snapshot used for a flow execution. The snapshot represents the flow metadata and definition as it existed at the time the execution was started. Note that even if the flow is edited after an execution starts, the snapshot connected to the execution remains unchanged. NOTE: Flow executions is in preview release for Amazon Bedrock and is subject to change. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExecutionIdentifier">The unique identifier of the flow execution. Constraints: o min: 0 o max: 2048 o pattern: ^[a-zA-Z0-9-]{1,36}$|^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10}/ex- ecution/[a-zA-Z0-9-]{1,36})$</param>
-    /// <param name="FlowAliasIdentifier">The unique identifier of the flow alias used for the flow execution. Constraints: o min: 0 o max: 2048 o pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(\bT- STALIASID\b|[0-9a-zA-Z]+)$</param>
-    /// <param name="FlowIdentifier">The unique identifier of the flow. Constraints: o min: 0 o max: 2048 o pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$</param>
+    /// <param name="ExecutionIdentifier">The unique identifier of the flow execution. Constraints: • min: 0 • max: 2048 • pattern: ^[a-zA-Z0-9-]{1,36}$|^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10}/execution/[a-zA-Z0-9-]{1,36})$</param>
+    /// <param name="FlowAliasIdentifier">The unique identifier of the flow alias used for the flow execution. Constraints: • min: 0 • max: 2048 • pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(\bTSTALIASID\b|[0-9a-zA-Z]+)$</param>
+    /// <param name="FlowIdentifier">The unique identifier of the flow. Constraints: • min: 0 • max: 2048 • pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$</param>
     public AwsBedrockAgentRuntimeGetExecutionFlowSnapshotOptions(
         string ExecutionIdentifier,
         string FlowAliasIdentifier,
@@ -64,19 +66,19 @@ public record AwsBedrockAgentRuntimeGetExecutionFlowSnapshotOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the flow execution. Constraints: o min: 0 o max: 2048 o pattern: ^[a-zA-Z0-9-]{1,36}$|^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10}/ex- ecution/[a-zA-Z0-9-]{1,36})$
+    /// The unique identifier of the flow execution. Constraints: • min: 0 • max: 2048 • pattern: ^[a-zA-Z0-9-]{1,36}$|^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10}/execution/[a-zA-Z0-9-]{1,36})$
     /// </summary>
     [CliOption("--execution-identifier")]
     public string? ExecutionIdentifier { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the flow alias used for the flow execution. Constraints: o min: 0 o max: 2048 o pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(\bT- STALIASID\b|[0-9a-zA-Z]+)$
+    /// The unique identifier of the flow alias used for the flow execution. Constraints: • min: 0 • max: 2048 • pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(\bTSTALIASID\b|[0-9a-zA-Z]+)$
     /// </summary>
     [CliOption("--flow-alias-identifier")]
     public string? FlowAliasIdentifier { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the flow. Constraints: o min: 0 o max: 2048 o pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$
+    /// The unique identifier of the flow. Constraints: • min: 0 • max: 2048 • pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$
     /// </summary>
     [CliOption("--flow-identifier")]
     public string? FlowIdentifier { get; private init; }

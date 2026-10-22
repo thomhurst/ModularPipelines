@@ -22,19 +22,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsKinesisvideoUpdateNotificationConfigurationOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the stream from which to update the notification config- uration. You must specify either the StreamName or the StreamARN . Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the stream from which to update the notification configuration. You must specify either the StreamName or the StreamARN . Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Kinesis video stream from where you want to update the notification configuration. You must specify either the StreamName or the StreamARN . Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
+    /// The Amazon Resource Name (ARN) of the Kinesis video stream from where you want to update the notification configuration. You must specify either the StreamName or the StreamARN . Constraints: • min: 1 • max: 1024 • pattern: arn:[a-z\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
     /// </summary>
     [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
 
     /// <summary>
-    /// The structure containing the information required for notifications. If the structure is null, the configuration will be deleted from the stream. Status -&gt; (string) [required] Indicates if a notification configuration is enabled or dis- abled. Possible values: o ENABLED o DISABLED DestinationConfig -&gt; (structure) [required] The destination information required to deliver a notification to a customer. Uri -&gt; (string) [required] The Uniform Resource Identifier (URI) that identifies where the images will be delivered. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_0-9]+:(//)?([^/]+)/?([^*]*)$ Shorthand Syntax: Status=string,DestinationConfig={Uri=string} JSON Syntax: { "Status": "ENABLED"|"DISABLED", "DestinationConfig": { "Uri": "string" } }
+    /// The structure containing the information required for notifications. If the structure is null, the configuration will be deleted from the stream. Status -&gt; (string) [required] Indicates if a notification configuration is enabled or disabled. Possible values: • ENABLED • DISABLED DestinationConfig -&gt; (structure) [required] The destination information required to deliver a notification to a customer. Uri -&gt; (string) [required] The Uniform Resource Identifier (URI) that identifies where the images will be delivered. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z_0-9]+:(//)?([^/]+)/?([^*]*)$ Shorthand Syntax: Status=string,DestinationConfig={Uri=string} JSON Syntax: { "Status": "ENABLED"|"DISABLED", "DestinationConfig": { "Uri": "string" } }
     /// </summary>
     [CliOption("--notification-configuration")]
     public string? NotificationConfiguration { get; set; }

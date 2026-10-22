@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCodecommitGetApprovalRuleTemplateOptions : AwsOptions, IValidat
     /// <summary>
     /// Returns information about a specified approval rule template. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApprovalRuleTemplateName">The name of the approval rule template for which you want to get in- formation. Constraints: o min: 1 o max: 100</param>
+    /// <param name="ApprovalRuleTemplateName">The name of the approval rule template for which you want to get information. Constraints: • min: 1 • max: 100</param>
     public AwsCodecommitGetApprovalRuleTemplateOptions(
         string ApprovalRuleTemplateName
     )
@@ -56,7 +58,7 @@ public record AwsCodecommitGetApprovalRuleTemplateOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the approval rule template for which you want to get in- formation. Constraints: o min: 1 o max: 100
+    /// The name of the approval rule template for which you want to get information. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--approval-rule-template-name")]
     public string? ApprovalRuleTemplateName { get; private init; }

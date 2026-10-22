@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +31,8 @@ public record AwsDeadlineUpdateStorageProfileOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Updates a storage profile. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The farm ID to update. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="StorageProfileId">The storage profile ID to update. Constraints: o pattern: sp-[0-9a-f]{32}</param>
+    /// <param name="FarmId">The farm ID to update. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="StorageProfileId">The storage profile ID to update. Constraints: • pattern: sp-[0-9a-f]{32}</param>
     public AwsDeadlineUpdateStorageProfileOptions(
         string FarmId,
         string StorageProfileId
@@ -62,44 +64,44 @@ public record AwsDeadlineUpdateStorageProfileOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID to update. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID to update. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The storage profile ID to update. Constraints: o pattern: sp-[0-9a-f]{32}
+    /// The storage profile ID to update. Constraints: • pattern: sp-[0-9a-f]{32}
     /// </summary>
     [CliOption("--storage-profile-id")]
     public string? StorageProfileId { get; private init; }
 
     /// <summary>
-    /// The unique token which the server uses to recognize retries of the same request. Constraints: o min: 1 o max: 64
+    /// The unique token which the server uses to recognize retries of the same request. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The display name of the storage profile to update. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: o min: 1 o max: 100
+    /// The display name of the storage profile to update. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The OS system to update. Possible values: o WINDOWS o LINUX o MACOS
+    /// The OS system to update. Possible values: • WINDOWS • LINUX • MACOS
     /// </summary>
     [CliOption("--os-family")]
     public AwsDeadlineUpdateStorageProfileOsFamily? OsFamily { get; set; }
 
     /// <summary>
-    /// The file system location names to add. Constraints: o min: 0 o max: 20 (structure) The details of the file system location for the resource. name -&gt; (string) [required] The location name. Constraints: o min: 1 o max: 64 o pattern: [0-9A-Za-z ]* path -&gt; (string) [required] The file path. Constraints: o min: 0 o max: 1024 type -&gt; (string) [required] The type of file. Possible values: o SHARED o LOCAL Shorthand Syntax: name=string,path=string,type=string ... JSON Syntax: [ { "name": "string", "path": "string", "type": "SHARED"|"LOCAL" } ... ]
+    /// The file system location names to add. Constraints: • min: 0 • max: 20 (structure) The details of the file system location for the resource. name -&gt; (string) [required] The location name. Constraints: • min: 1 • max: 64 • pattern: [0-9A-Za-z ]* path -&gt; (string) [required] The file path. Constraints: • min: 0 • max: 1024 type -&gt; (string) [required] The type of file. Possible values: • SHARED • LOCAL Shorthand Syntax: name=string,path=string,type=string ... JSON Syntax: [ { "name": "string", "path": "string", "type": "SHARED"|"LOCAL" } ... ]
     /// </summary>
     [CliOption("--file-system-locations-to-add", GroupValues = true)]
     public IEnumerable<string>? FileSystemLocationsToAdd { get; set; }
 
     /// <summary>
-    /// The file system location names to remove. Constraints: o min: 0 o max: 20 (structure) The details of the file system location for the resource. name -&gt; (string) [required] The location name. Constraints: o min: 1 o max: 64 o pattern: [0-9A-Za-z ]* path -&gt; (string) [required] The file path. Constraints: o min: 0 o max: 1024 type -&gt; (string) [required] The type of file. Possible values: o SHARED o LOCAL Shorthand Syntax: name=string,path=string,type=string ... JSON Syntax: [ { "name": "string", "path": "string", "type": "SHARED"|"LOCAL" } ... ]
+    /// The file system location names to remove. Constraints: • min: 0 • max: 20 (structure) The details of the file system location for the resource. name -&gt; (string) [required] The location name. Constraints: • min: 1 • max: 64 • pattern: [0-9A-Za-z ]* path -&gt; (string) [required] The file path. Constraints: • min: 0 • max: 1024 type -&gt; (string) [required] The type of file. Possible values: • SHARED • LOCAL Shorthand Syntax: name=string,path=string,type=string ... JSON Syntax: [ { "name": "string", "path": "string", "type": "SHARED"|"LOCAL" } ... ]
     /// </summary>
     [CliOption("--file-system-locations-to-remove", GroupValues = true)]
     public IEnumerable<string>? FileSystemLocationsToRemove { get; set; }

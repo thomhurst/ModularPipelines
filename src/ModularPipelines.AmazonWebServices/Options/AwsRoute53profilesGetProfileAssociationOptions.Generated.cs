@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRoute53profilesGetProfileAssociationOptions : AwsOptions, IVali
     /// <summary>
     /// Retrieves a Route 53 Profile association for a VPC. A VPC can have only one Profile association, but a Profile can be associated with up to 5000 VPCs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileAssociationId">The identifier of the association you want to get information about. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ProfileAssociationId">The identifier of the association you want to get information about. Constraints: • min: 1 • max: 64</param>
     public AwsRoute53profilesGetProfileAssociationOptions(
         string ProfileAssociationId
     )
@@ -56,7 +58,7 @@ public record AwsRoute53profilesGetProfileAssociationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the association you want to get information about. Constraints: o min: 1 o max: 64
+    /// The identifier of the association you want to get information about. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--profile-association-id")]
     public string? ProfileAssociationId { get; private init; }

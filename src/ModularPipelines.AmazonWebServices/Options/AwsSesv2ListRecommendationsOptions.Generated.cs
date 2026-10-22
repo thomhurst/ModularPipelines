@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -24,20 +25,20 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSesv2ListRecommendationsOptions : AwsOptions
 {
     /// <summary>
-    /// Filters applied when retrieving recommendations. Can eiter be an in- dividual filter, or combinations of STATUS and IMPACT or STATUS and TYPE Constraints: o min: 1 o max: 2 key -&gt; (string) The ListRecommendations filter type. This can be one of the fol- lowing: o TYPE The recommendation type, with values like DKIM , SPF , DMARC , BIMI , or COMPLAINT . o IMPACT The recommendation impact, with values like HIGH or LOW . o STATUS The recommendation status, with values like OPEN or FIXED . o RESOURCE_ARN The resource affected by the recommendation, with values like arn:aws:ses:us-east-1:123456789012:iden- tity/example.com . Possible values: o TYPE o IMPACT o STATUS o RESOURCE_ARN value -&gt; (string) Constraints: o min: 1 o max: 512 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: TYPE IMPACT STATUS RESOURCE_ARN JSON Syntax: {"TYPE"|"IMPACT"|"STATUS"|"RESOURCE_ARN": "string" ...}
+    /// Filters applied when retrieving recommendations. Can eiter be an individual filter, or combinations of STATUS and IMPACT or STATUS and TYPE Constraints: • min: 1 • max: 2 key -&gt; (string) The ListRecommendations filter type. This can be one of the following: • TYPE The recommendation type, with values like DKIM , SPF , DMARC , BIMI , or COMPLAINT . • IMPACT The recommendation impact, with values like HIGH or LOW . • STATUS The recommendation status, with values like OPEN or FIXED . • RESOURCE_ARN The resource affected by the recommendation, with values like arn:aws:ses:us-east-1:123456789012:identity/example.com . Possible values: • TYPE • IMPACT • STATUS • RESOURCE_ARN value -&gt; (string) Constraints: • min: 1 • max: 512 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: TYPE IMPACT STATUS RESOURCE_ARN JSON Syntax: {"TYPE"|"IMPACT"|"STATUS"|"RESOURCE_ARN": "string" ...}
     /// </summary>
     [CliOption("--filter", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Filter { get; set; }
 
     /// <summary>
-    /// A token returned from a previous call to ListRecommendations to in- dicate the position in the list of recommendations.
+    /// A token returned from a previous call to ListRecommendations to indicate the position in the list of recommendations.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The number of results to show in a single call to ListRecommenda- tions . If the number of results is larger than the number you spec- ified in this parameter, then the response includes a NextToken ele- ment, which you can use to obtain additional results. The value you specify has to be at least 1, and can be no more than 100.
+    /// The number of results to show in a single call to ListRecommendations . If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 1, and can be no more than 100.
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }

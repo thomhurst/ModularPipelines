@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves details for the specified phone number ID, such as associa- tions, capabilities, and product type. See also: AWS API Documentation
+/// Retrieves details for the specified phone number ID, such as associations, capabilities, and product type. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsChimeGetPhoneNumberOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves details for the specified phone number ID, such as associa- tions, capabilities, and product type. See also: AWS API Documentation
+    /// Retrieves details for the specified phone number ID, such as associations, capabilities, and product type. See also: AWS API Documentation
     /// </summary>
     /// <param name="PhoneNumberId">The phone number ID.</param>
     public AwsChimeGetPhoneNumberOptions(

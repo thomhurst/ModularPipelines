@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsElementalinferenceDisassociateFeedOptions : AwsOptions, IValida
     /// <summary>
     /// Releases the resource (the source media) that is associated with this feed. The outputs in the feed become DISABLED. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the feed where you want to release the resource. Constraints: o pattern: [a-z0-9]{19}</param>
+    /// <param name="Id">The ID of the feed where you want to release the resource. Constraints: • pattern: [a-z0-9]{19}</param>
     public AwsElementalinferenceDisassociateFeedOptions(
         string Id
     )
@@ -56,19 +58,19 @@ public record AwsElementalinferenceDisassociateFeedOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the feed where you want to release the resource. Constraints: o pattern: [a-z0-9]{19}
+    /// The ID of the feed where you want to release the resource. Constraints: • pattern: [a-z0-9]{19}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The name of the resource currently associated with the feed. Constraints: o min: 1 o max: 2048 o pattern: [\w \-\.',@:;/]*
+    /// The name of the resource currently associated with the feed. Constraints: • min: 1 • max: 2048 • pattern: [\w \-\.',@:;/]*
     /// </summary>
     [CliOption("--associated-resource-name")]
     public string? AssociatedResourceName { get; set; }
 
     /// <summary>
-    /// Set to true if you want to do a dry run of the disassociate action. Elemental Inference will validate that the real request would suc- ceed without actually making any changes. A dry run catches errors such as missing IAM permissions. If the dry run fails, the action returns a 4xx error code.
+    /// Set to true if you want to do a dry run of the disassociate action. Elemental Inference will validate that the real request would succeed without actually making any changes. A dry run catches errors such as missing IAM permissions. If the dry run fails, the action returns a 4xx error code.
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

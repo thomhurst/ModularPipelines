@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsTimestreamInfluxdbGetDbClusterOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Retrieves information about a Timestream for InfluxDB cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbClusterId">Service-generated unique identifier of the DB cluster to retrieve. Constraints: o min: 3 o max: 64 o pattern: [a-zA-Z0-9]+</param>
+    /// <param name="DbClusterId">Service-generated unique identifier of the DB cluster to retrieve. Constraints: • min: 3 • max: 64 • pattern: [a-zA-Z0-9]+</param>
     public AwsTimestreamInfluxdbGetDbClusterOptions(
         string DbClusterId
     )
@@ -56,7 +58,7 @@ public record AwsTimestreamInfluxdbGetDbClusterOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Service-generated unique identifier of the DB cluster to retrieve. Constraints: o min: 3 o max: 64 o pattern: [a-zA-Z0-9]+
+    /// Service-generated unique identifier of the DB cluster to retrieve. Constraints: • min: 3 • max: 64 • pattern: [a-zA-Z0-9]+
     /// </summary>
     [CliOption("--db-cluster-id")]
     public string? DbClusterId { get; private init; }

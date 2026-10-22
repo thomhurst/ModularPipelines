@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Stops an asynchronous batch translation job that is in progress. If the job's state is IN_PROGRESS , the job will be marked for termina- tion and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state. Otherwise, the job is put into the STOPPED state. Asynchronous batch translation jobs are started with the StartText- TranslationJob operation. You can use the DescribeTextTranslationJob or ListTextTranslationJobs operations to get a ba...
+/// Stops an asynchronous batch translation job that is in progress. If the job's state is IN_PROGRESS , the job will be marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state. Otherwise, the job is put into the STOPPED state. Asynchronous batch translation jobs are started with the StartTextTranslationJob operation. You can use the DescribeTextTranslationJob or ListTextTranslationJobs operations to get a batch ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsTranslateStopTextTranslationJobOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Stops an asynchronous batch translation job that is in progress. If the job's state is IN_PROGRESS , the job will be marked for termina- tion and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state. Otherwise, the job is put into the STOPPED state. Asynchronous batch translation jobs are started with the StartText- TranslationJob operation. You can use the DescribeTextTranslationJob or ListTextTranslationJobs operations to get a ba...
+    /// Stops an asynchronous batch translation job that is in progress. If the job's state is IN_PROGRESS , the job will be marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state. Otherwise, the job is put into the STOPPED state. Asynchronous batch translation jobs are started with the StartTextTranslationJob operation. You can use the DescribeTextTranslationJob or ListTextTranslationJobs operations to get a batch ...
     /// </summary>
-    /// <param name="JobId">The job ID of the job to be stopped. Constraints: o min: 1 o max: 32 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$</param>
+    /// <param name="JobId">The job ID of the job to be stopped. Constraints: • min: 1 • max: 32 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$</param>
     public AwsTranslateStopTextTranslationJobOptions(
         string JobId
     )
@@ -56,7 +58,7 @@ public record AwsTranslateStopTextTranslationJobOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The job ID of the job to be stopped. Constraints: o min: 1 o max: 32 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$
+    /// The job ID of the job to be stopped. Constraints: • min: 1 • max: 32 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCodestarConnectionsListTagsForResourceOptions : AwsOptions, IVa
     /// <summary>
     /// Gets the set of key-value pairs (metadata) that are used to manage the resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource for which you want to get information about tags, if any. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource for which you want to get information about tags, if any. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+</param>
     public AwsCodestarConnectionsListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsCodestarConnectionsListTagsForResourceOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource for which you want to get information about tags, if any. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+
+    /// The Amazon Resource Name (ARN) of the resource for which you want to get information about tags, if any. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

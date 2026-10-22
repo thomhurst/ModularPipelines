@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified certificate. A certificate cannot be deleted if it has a policy or IoT thing at- tached to it or if its status is set to ACTIVE. To delete a certifi- cate, first use the DetachPolicy action to detach all policies. Next, use the UpdateCertificate action to set the certificate to the INAC- TIVE status. Requires permission to access the DeleteCertificate action. See also: AWS API Documentation
+/// Deletes the specified certificate. A certificate cannot be deleted if it has a policy or IoT thing attached to it or if its status is set to ACTIVE. To delete a certificate, first use the DetachPolicy action to detach all policies. Next, use the UpdateCertificate action to set the certificate to the INACTIVE status. Requires permission to access the DeleteCertificate action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsIotDeleteCertificateOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified certificate. A certificate cannot be deleted if it has a policy or IoT thing at- tached to it or if its status is set to ACTIVE. To delete a certifi- cate, first use the DetachPolicy action to detach all policies. Next, use the UpdateCertificate action to set the certificate to the INAC- TIVE status. Requires permission to access the DeleteCertificate action. See also: AWS API Documentation
+    /// Deletes the specified certificate. A certificate cannot be deleted if it has a policy or IoT thing attached to it or if its status is set to ACTIVE. To delete a certificate, first use the DetachPolicy action to detach all policies. Next, use the UpdateCertificate action to set the certificate to the INACTIVE status. Requires permission to access the DeleteCertificate action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CertificateId">The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.) Constraints: o min: 64 o max: 64 o pattern: (0x)?[a-fA-F0-9]+</param>
+    /// <param name="CertificateId">The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.) Constraints: • min: 64 • max: 64 • pattern: (0x)?[a-fA-F0-9]+</param>
     public AwsIotDeleteCertificateOptions(
         string CertificateId
     )
@@ -56,7 +58,7 @@ public record AwsIotDeleteCertificateOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.) Constraints: o min: 64 o max: 64 o pattern: (0x)?[a-fA-F0-9]+
+    /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.) Constraints: • min: 64 • max: 64 • pattern: (0x)?[a-fA-F0-9]+
     /// </summary>
     [CliOption("--certificate-id")]
     public string? CertificateId { get; private init; }

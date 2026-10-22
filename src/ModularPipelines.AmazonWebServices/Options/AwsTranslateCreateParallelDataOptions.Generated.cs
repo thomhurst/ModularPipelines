@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a parallel data resource in Amazon Translate by importing an input file from Amazon S3. Parallel data files contain examples that show how you want segments of text to be translated. By adding parallel data, you can influence the style, tone, and word choice in your trans- lation output. See also: AWS API Documentation
+/// Creates a parallel data resource in Amazon Translate by importing an input file from Amazon S3. Parallel data files contain examples that show how you want segments of text to be translated. By adding parallel data, you can influence the style, tone, and word choice in your translation output. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsTranslateCreateParallelDataOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a parallel data resource in Amazon Translate by importing an input file from Amazon S3. Parallel data files contain examples that show how you want segments of text to be translated. By adding parallel data, you can influence the style, tone, and word choice in your trans- lation output. See also: AWS API Documentation
+    /// Creates a parallel data resource in Amazon Translate by importing an input file from Amazon S3. Parallel data files contain examples that show how you want segments of text to be translated. By adding parallel data, you can influence the style, tone, and word choice in your translation output. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">A custom name for the parallel data resource in Amazon Translate. You must assign a name that is unique in the account and region. Constraints: o min: 1 o max: 256 o pattern: ^([A-Za-z0-9-]_?)+$</param>
-    /// <param name="ParallelDataConfig">Specifies the format and S3 location of the parallel data input file. S3Uri -&gt; (string) The URI of the Amazon S3 folder that contains the parallel data input file. The folder must be in the same Region as the API endpoint you are calling. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Format -&gt; (string) The format of the parallel data input file. Possible values: o TSV o CSV o TMX Shorthand Syntax: S3Uri=string,Format=string JSON Syntax: { "S3Uri": "string", "Format": "TSV"|"CSV"|"TMX" }</param>
+    /// <param name="Name">A custom name for the parallel data resource in Amazon Translate. You must assign a name that is unique in the account and region. Constraints: • min: 1 • max: 256 • pattern: ^([A-Za-z0-9-]_?)+$</param>
+    /// <param name="ParallelDataConfig">Specifies the format and S3 location of the parallel data input file. S3Uri -&gt; (string) The URI of the Amazon S3 folder that contains the parallel data input file. The folder must be in the same Region as the API endpoint you are calling. Constraints: • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Format -&gt; (string) The format of the parallel data input file. Possible values: • TSV • CSV • TMX Shorthand Syntax: S3Uri=string,Format=string JSON Syntax: { "S3Uri": "string", "Format": "TSV"|"CSV"|"TMX" }</param>
     public AwsTranslateCreateParallelDataOptions(
         string Name,
         string ParallelDataConfig
@@ -61,38 +63,38 @@ public record AwsTranslateCreateParallelDataOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A custom name for the parallel data resource in Amazon Translate. You must assign a name that is unique in the account and region. Constraints: o min: 1 o max: 256 o pattern: ^([A-Za-z0-9-]_?)+$
+    /// A custom name for the parallel data resource in Amazon Translate. You must assign a name that is unique in the account and region. Constraints: • min: 1 • max: 256 • pattern: ^([A-Za-z0-9-]_?)+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Specifies the format and S3 location of the parallel data input file. S3Uri -&gt; (string) The URI of the Amazon S3 folder that contains the parallel data input file. The folder must be in the same Region as the API endpoint you are calling. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Format -&gt; (string) The format of the parallel data input file. Possible values: o TSV o CSV o TMX Shorthand Syntax: S3Uri=string,Format=string JSON Syntax: { "S3Uri": "string", "Format": "TSV"|"CSV"|"TMX" }
+    /// Specifies the format and S3 location of the parallel data input file. S3Uri -&gt; (string) The URI of the Amazon S3 folder that contains the parallel data input file. The folder must be in the same Region as the API endpoint you are calling. Constraints: • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Format -&gt; (string) The format of the parallel data input file. Possible values: • TSV • CSV • TMX Shorthand Syntax: S3Uri=string,Format=string JSON Syntax: { "S3Uri": "string", "Format": "TSV"|"CSV"|"TMX" }
     /// </summary>
     [CliOption("--parallel-data-config")]
     public string? ParallelDataConfig { get; private init; }
 
     /// <summary>
-    /// A custom description for the parallel data resource in Amazon Trans- late. Constraints: o max: 256 o pattern: [\P{M}\p{M}]{0,256}
+    /// A custom description for the parallel data resource in Amazon Translate. Constraints: • max: 256 • pattern: [\P{M}\p{M}]{0,256}
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The encryption key used to encrypt this object. Type -&gt; (string) [required] The type of encryption key used by Amazon Translate to encrypt this object. Possible values: o KMS Id -&gt; (string) [required] The Amazon Resource Name (ARN) of the encryption key being used to encrypt this object. Constraints: o min: 1 o max: 400 o pattern: (arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:kms:)?([a-z]{2}-[a-z]+(-[a-z]+)?-\d:)?(\d{12}:)?(((key/)?[a-zA-Z0-9-_]+)|(alias/[a-zA-Z0-9:/_-]+)) Shorthand Syntax: Type=string,Id=string JSON Syntax: { "Type": "KMS", "Id": "string" }
+    /// The encryption key used to encrypt this object. Type -&gt; (string) [required] The type of encryption key used by Amazon Translate to encrypt this object. Possible values: • KMS Id -&gt; (string) [required] The Amazon Resource Name (ARN) of the encryption key being used to encrypt this object. Constraints: • min: 1 • max: 400 • pattern: (arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:kms:)?([a-z]{2}-[a-z]+(-[a-z]+)?-\d:)?(\d{12}:)?(((key/)?[a-zA-Z0-9-_]+)|(alias/[a-zA-Z0-9:/_-]+)) Shorthand Syntax: Type=string,Id=string JSON Syntax: { "Type": "KMS", "Id": "string" }
     /// </summary>
     [CliOption("--encryption-key")]
     public string? EncryptionKey { get; set; }
 
     /// <summary>
-    /// A unique identifier for the request. This token is automatically generated when you use Amazon Translate through an AWS SDK. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-]+$
+    /// A unique identifier for the request. This token is automatically generated when you use Amazon Translate through an AWS SDK. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Tags to be associated with this resource. A tag is a key-value pair that adds metadata to a resource. Each tag key for the resource must be unique. For more information, see Tagging your resources . Constraints: o min: 0 o max: 200 (structure) A key-value pair that adds as a metadata to a resource used by Amazon Translate. Key -&gt; (string) [required] The initial part of a key-value pair that forms a tag associ- ated with a given resource. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The second part of a key-value pair that forms a tag associ- ated with a given resource. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Tags to be associated with this resource. A tag is a key-value pair that adds metadata to a resource. Each tag key for the resource must be unique. For more information, see Tagging your resources . Constraints: • min: 0 • max: 200 (structure) A key-value pair that adds as a metadata to a resource used by Amazon Translate. Key -&gt; (string) [required] The initial part of a key-value pair that forms a tag associated with a given resource. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The second part of a key-value pair that forms a tag associated with a given resource. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

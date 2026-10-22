@@ -23,19 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCodeguruprofilerListProfilingGroupsOptions : AwsOptions
 {
     /// <summary>
-    /// A Boolean value indicating whether to include a description. If true , then a list of ` ProfilingGroupDescription https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html`__ objects that contain detailed information about profiling groups is returned. If false , then a list of profiling group names is re- turned.
+    /// A Boolean value indicating whether to include a description. If true , then a list of ` ProfilingGroupDescription https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html`__ objects that contain detailed information about profiling groups is returned. If false , then a list of profiling group names is returned.
     /// </summary>
     [CliFlag("--include-description", NegatedName = "--no-include-description")]
     public bool? IncludeDescription { get; set; }
 
     /// <summary>
-    /// The maximum number of profiling groups results returned by ListPro- filingGroups in paginated output. When this parameter is used, List- ProfilingGroups only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListProfiling- Groups request with the returned nextToken value. Constraints: o min: 1 o max: 1000
+    /// The maximum number of profiling groups results returned by ListProfilingGroups in paginated output. When this parameter is used, ListProfilingGroups only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListProfilingGroups request with the returned nextToken value. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The nextToken value returned from a previous paginated ListProfil- ingGroups request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. NOTE: This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. Constraints: o min: 1 o max: 64 o pattern: ^[\w-]+$
+    /// The nextToken value returned from a previous paginated ListProfilingGroups request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. NOTE: This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. Constraints: • min: 1 • max: 64 • pattern: ^[\w-]+$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

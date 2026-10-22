@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Records a WorkflowExecutionTerminated event and forces closure of the workflow execution identified by the given domain, runId, and work- flowId. The child policy, registered with the workflow type or speci- fied when starting this execution, is applied to any open child work- flow executions of this workflow execution. WARNING: If the identified workflow execution was in progress, it is termi- nated immediately. NOTE: If a runId isn't specified, then the WorkflowExecutionTerminated event is rec...
+/// Records a WorkflowExecutionTerminated event and forces closure of the workflow execution identified by the given domain, runId, and workflowId. The child policy, registered with the workflow type or specified when starting this execution, is applied to any open child workflow executions of this workflow execution. WARNING: If the identified workflow execution was in progress, it is terminated immediately. NOTE: If a runId isn't specified, then the WorkflowExecutionTerminated event is recorded in...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsSwfTerminateWorkflowExecutionOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Records a WorkflowExecutionTerminated event and forces closure of the workflow execution identified by the given domain, runId, and work- flowId. The child policy, registered with the workflow type or speci- fied when starting this execution, is applied to any open child work- flow executions of this workflow execution. WARNING: If the identified workflow execution was in progress, it is termi- nated immediately. NOTE: If a runId isn't specified, then the WorkflowExecutionTerminated event is rec...
+    /// Records a WorkflowExecutionTerminated event and forces closure of the workflow execution identified by the given domain, runId, and workflowId. The child policy, registered with the workflow type or specified when starting this execution, is applied to any open child workflow executions of this workflow execution. WARNING: If the identified workflow execution was in progress, it is terminated immediately. NOTE: If a runId isn't specified, then the WorkflowExecutionTerminated event is recorded in...
     /// </summary>
-    /// <param name="Domain">The domain of the workflow execution to terminate. Constraints: o min: 1 o max: 256</param>
-    /// <param name="WorkflowId">The workflowId of the workflow execution to terminate. Constraints: o min: 1 o max: 256</param>
+    /// <param name="Domain">The domain of the workflow execution to terminate. Constraints: • min: 1 • max: 256</param>
+    /// <param name="WorkflowId">The workflowId of the workflow execution to terminate. Constraints: • min: 1 • max: 256</param>
     public AwsSwfTerminateWorkflowExecutionOptions(
         string Domain,
         string WorkflowId
@@ -61,37 +63,37 @@ public record AwsSwfTerminateWorkflowExecutionOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The domain of the workflow execution to terminate. Constraints: o min: 1 o max: 256
+    /// The domain of the workflow execution to terminate. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; private init; }
 
     /// <summary>
-    /// The workflowId of the workflow execution to terminate. Constraints: o min: 1 o max: 256
+    /// The workflowId of the workflow execution to terminate. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--workflow-id")]
     public string? WorkflowId { get; private init; }
 
     /// <summary>
-    /// The runId of the workflow execution to terminate. Constraints: o max: 64
+    /// The runId of the workflow execution to terminate. Constraints: • max: 64
     /// </summary>
     [CliOption("--run-id")]
     public string? RunId { get; set; }
 
     /// <summary>
-    /// A descriptive reason for terminating the workflow execution. Constraints: o max: 256
+    /// A descriptive reason for terminating the workflow execution. Constraints: • max: 256
     /// </summary>
     [CliOption("--reason")]
     public string? Reason { get; set; }
 
     /// <summary>
-    /// Details for terminating the workflow execution. Constraints: o max: 32768
+    /// Details for terminating the workflow execution. Constraints: • max: 32768
     /// </summary>
     [CliOption("--details")]
     public string? Details { get; set; }
 
     /// <summary>
-    /// If set, specifies the policy to use for the child workflow execu- tions of the workflow execution being terminated. This policy over- rides the child policy specified for the workflow execution at reg- istration time or when starting the execution. The supported child policies are: o TERMINATE The child executions are terminated. o REQUEST_CANCEL A request to cancel is attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event. o ABANDON No action is taken. The child executions continue to run. NOTE: A child policy for this workflow execution must be specified ei- ther as a default for the workflow type or through this parame- ter. If neither this parameter is set nor a default child policy was specified at registration time then a fault is returned. Possible values: o TERMINATE o REQUEST_CANCEL o ABANDON
+    /// If set, specifies the policy to use for the child workflow executions of the workflow execution being terminated. This policy overrides the child policy specified for the workflow execution at registration time or when starting the execution. The supported child policies are: • TERMINATE The child executions are terminated. • REQUEST_CANCEL A request to cancel is attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event. • ABANDON No action is taken. The child executions continue to run. NOTE: A child policy for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default child policy was specified at registration time then a fault is returned. Possible values: • TERMINATE • REQUEST_CANCEL • ABANDON
     /// </summary>
     [CliOption("--child-policy")]
     public AwsSwfTerminateWorkflowExecutionChildPolicy? ChildPolicy { get; set; }

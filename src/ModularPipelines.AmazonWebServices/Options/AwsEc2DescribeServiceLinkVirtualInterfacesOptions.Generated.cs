@@ -29,13 +29,13 @@ public record AwsEc2DescribeServiceLinkVirtualInterfacesOptions : AwsOptions
     public IEnumerable<string>? ServiceLinkVirtualInterfaceIds { get; set; }
 
     /// <summary>
-    /// The filters to use for narrowing down the request. The following filters are supported: o outpost-lag-id - The ID of the Outpost LAG. o outpost-arn - The Outpost ARN. o owner-id - The ID of the Amazon Web Services account that owns the service link virtual interface. o state - The state of the Outpost LAG. o vlan - The ID of the address pool. o service-link-virtual-interface-id - The ID of the service link virtual interface. o local-gateway-virtual-interface-id - The ID of the local gateway virtual interface. (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// The filters to use for narrowing down the request. The following filters are supported: • outpost-lag-id - The ID of the Outpost LAG. • outpost-arn - The Outpost ARN. • owner-id - The ID of the Amazon Web Services account that owns the service link virtual interface. • state - The state of the Outpost LAG. • vlan - The ID of the address pool. • service-link-virtual-interface-id - The ID of the service link virtual interface. • local-gateway-virtual-interface-id - The ID of the local gateway virtual interface. (structure) A filter name and value pair that is used to return a more specific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return with a single call. To re- trieve the remaining results, make another call with the returned nextToken value. Constraints: o min: 5 o max: 1000
+    /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. Constraints: • min: 5 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -48,7 +48,7 @@ public record AwsEc2DescribeServiceLinkVirtualInterfacesOptions : AwsOptions
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

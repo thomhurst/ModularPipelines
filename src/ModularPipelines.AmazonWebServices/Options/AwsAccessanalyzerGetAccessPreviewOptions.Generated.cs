@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves information about an access preview for the specified ana- lyzer. See also: AWS API Documentation
+/// Retrieves information about an access preview for the specified analyzer. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsAccessanalyzerGetAccessPreviewOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves information about an access preview for the specified ana- lyzer. See also: AWS API Documentation
+    /// Retrieves information about an access preview for the specified analyzer. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccessPreviewId">The unique ID for the access preview. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="AnalyzerArn">The ARN of the analyzer used to generate the access preview. Constraints: o pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}</param>
+    /// <param name="AccessPreviewId">The unique ID for the access preview. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="AnalyzerArn">The ARN of the analyzer used to generate the access preview. Constraints: • pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}</param>
     public AwsAccessanalyzerGetAccessPreviewOptions(
         string AccessPreviewId,
         string AnalyzerArn
@@ -60,13 +62,13 @@ public record AwsAccessanalyzerGetAccessPreviewOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID for the access preview. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The unique ID for the access preview. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--access-preview-id")]
     public string? AccessPreviewId { get; private init; }
 
     /// <summary>
-    /// The ARN of the analyzer used to generate the access preview. Constraints: o pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}
+    /// The ARN of the analyzer used to generate the access preview. Constraints: • pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}
     /// </summary>
     [CliOption("--analyzer-arn")]
     public string? AnalyzerArn { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBedrockGetImportedModelOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets properties associated with a customized model you imported. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ModelIdentifier">Name or Amazon Resource Name (ARN) of the imported model. Constraints: o min: 1 o max: 1011 o pattern: (arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:im- ported-model/[a-z0-9]{12})|(([0-9a-zA-Z][_-]?)+)</param>
+    /// <param name="ModelIdentifier">Name or Amazon Resource Name (ARN) of the imported model. Constraints: • min: 1 • max: 1011 • pattern: (arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:imported-model/[a-z0-9]{12})|(([0-9a-zA-Z][_-]?)+)</param>
     public AwsBedrockGetImportedModelOptions(
         string ModelIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsBedrockGetImportedModelOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name or Amazon Resource Name (ARN) of the imported model. Constraints: o min: 1 o max: 1011 o pattern: (arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:im- ported-model/[a-z0-9]{12})|(([0-9a-zA-Z][_-]?)+)
+    /// Name or Amazon Resource Name (ARN) of the imported model. Constraints: • min: 1 • max: 1011 • pattern: (arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:imported-model/[a-z0-9]{12})|(([0-9a-zA-Z][_-]?)+)
     /// </summary>
     [CliOption("--model-identifier")]
     public string? ModelIdentifier { get; private init; }

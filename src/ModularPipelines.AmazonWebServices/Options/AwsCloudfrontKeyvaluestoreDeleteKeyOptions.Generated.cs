@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCloudfrontKeyvaluestoreDeleteKeyOptions : AwsOptions, IValidata
     /// <summary>
     /// Deletes the key value pair specified by the key. See also: AWS API Documentation
     /// </summary>
-    /// <param name="KvsArn">The Amazon Resource Name (ARN) of the Key Value Store. Constraints: o min: 1 o max: 2048</param>
-    /// <param name="Key">The key to delete. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="KvsArn">The Amazon Resource Name (ARN) of the Key Value Store. Constraints: • min: 1 • max: 2048</param>
+    /// <param name="Key">The key to delete. Constraints: • min: 1 • max: 1024</param>
     /// <param name="IfMatch">The current version (ETag) of the Key Value Store that you are deleting keys from, which you can get using DescribeKeyValueStore.</param>
     public AwsCloudfrontKeyvaluestoreDeleteKeyOptions(
         string KvsArn,
@@ -64,13 +66,13 @@ public record AwsCloudfrontKeyvaluestoreDeleteKeyOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Key Value Store. Constraints: o min: 1 o max: 2048
+    /// The Amazon Resource Name (ARN) of the Key Value Store. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--kvs-arn")]
     public string? KvsArn { get; private init; }
 
     /// <summary>
-    /// The key to delete. Constraints: o min: 1 o max: 1024
+    /// The key to delete. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--key")]
     public string? Key { get; private init; }

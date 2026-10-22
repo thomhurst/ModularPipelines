@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsConnectcampaignsv2UntagResourceOptions : AwsOptions, IValidatab
     /// <summary>
     /// Untag a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)?</param>
-    /// <param name="TagKeys">List of tag keys. Constraints: o min: 0 o max: 50 (string) The key of tag. Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ Syntax: "string" "string" ...</param>
+    /// <param name="Arn">Amazon Resource Names(ARN) Constraints: • min: 20 • max: 500 • pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)?</param>
+    /// <param name="TagKeys">List of tag keys. Constraints: • min: 0 • max: 50 (string) The key of tag. Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[a-zA-Z+-=._:/]+ Syntax: "string" "string" ...</param>
     public AwsConnectcampaignsv2UntagResourceOptions(
         string Arn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsConnectcampaignsv2UntagResourceOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)?
+    /// Amazon Resource Names(ARN) Constraints: • min: 20 • max: 500 • pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)?
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// List of tag keys. Constraints: o min: 0 o max: 50 (string) The key of tag. Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ Syntax: "string" "string" ...
+    /// List of tag keys. Constraints: • min: 0 • max: 50 (string) The key of tag. Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[a-zA-Z+-=._:/]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

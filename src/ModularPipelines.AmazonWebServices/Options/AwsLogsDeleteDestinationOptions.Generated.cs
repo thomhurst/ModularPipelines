@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified destination, and eventually disables all the sub- scription filters that publish to it. This operation does not delete the physical resource encapsulated by the destination. See also: AWS API Documentation
+/// Deletes the specified destination, and eventually disables all the subscription filters that publish to it. This operation does not delete the physical resource encapsulated by the destination. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLogsDeleteDestinationOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified destination, and eventually disables all the sub- scription filters that publish to it. This operation does not delete the physical resource encapsulated by the destination. See also: AWS API Documentation
+    /// Deletes the specified destination, and eventually disables all the subscription filters that publish to it. This operation does not delete the physical resource encapsulated by the destination. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DestinationName">The name of the destination. Constraints: o min: 1 o max: 512 o pattern: [^:*]*</param>
+    /// <param name="DestinationName">The name of the destination. Constraints: • min: 1 • max: 512 • pattern: [^:*]*</param>
     public AwsLogsDeleteDestinationOptions(
         string DestinationName
     )
@@ -56,7 +58,7 @@ public record AwsLogsDeleteDestinationOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the destination. Constraints: o min: 1 o max: 512 o pattern: [^:*]*
+    /// The name of the destination. Constraints: • min: 1 • max: 512 • pattern: [^:*]*
     /// </summary>
     [CliOption("--destination-name")]
     public string? DestinationName { get; private init; }

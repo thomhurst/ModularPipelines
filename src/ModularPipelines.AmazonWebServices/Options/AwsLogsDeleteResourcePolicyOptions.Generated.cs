@@ -28,13 +28,13 @@ public record AwsLogsDeleteResourcePolicyOptions : AwsOptions
     public string? PolicyName { get; set; }
 
     /// <summary>
-    /// The ARN of the CloudWatch Logs resource for which the resource pol- icy needs to be deleted
+    /// The ARN of the CloudWatch Logs resource for which the resource policy needs to be deleted
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }
 
     /// <summary>
-    /// The expected revision ID of the resource policy. Required when deleting a resource-scoped policy to prevent concurrent modifica- tions. Constraints: o min: 1
+    /// The expected revision ID of the resource policy. Required when deleting a resource-scoped policy to prevent concurrent modifications. Constraints: • min: 1
     /// </summary>
     [CliOption("--expected-revision-id")]
     public string? ExpectedRevisionId { get; set; }

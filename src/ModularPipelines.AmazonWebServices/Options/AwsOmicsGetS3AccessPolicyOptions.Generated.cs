@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsOmicsGetS3AccessPolicyOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves details about an access policy on a given store. See also: AWS API Documentation
     /// </summary>
-    /// <param name="S3AccessPointArn">The S3 access point ARN that has the access policy. Constraints: o min: 1 o max: 1024 o pattern: arn:[^:]*:s3:[^:]*:[^:]*:accesspoint/.*</param>
+    /// <param name="S3AccessPointArn">The S3 access point ARN that has the access policy. Constraints: • min: 1 • max: 1024 • pattern: arn:[^:]*:s3:[^:]*:[^:]*:accesspoint/.*</param>
     public AwsOmicsGetS3AccessPolicyOptions(
         string S3AccessPointArn
     )
@@ -56,7 +58,7 @@ public record AwsOmicsGetS3AccessPolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The S3 access point ARN that has the access policy. Constraints: o min: 1 o max: 1024 o pattern: arn:[^:]*:s3:[^:]*:[^:]*:accesspoint/.*
+    /// The S3 access point ARN that has the access policy. Constraints: • min: 1 • max: 1024 • pattern: arn:[^:]*:s3:[^:]*:[^:]*:accesspoint/.*
     /// </summary>
     [CliOption("--s3-access-point-arn")]
     public string? S3AccessPointArn { get; private init; }

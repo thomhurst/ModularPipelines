@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsAmplifyuibuilderUntagResourceOptions : AwsOptions, IValidatable
     /// Untags a resource with a specified Amazon Resource Name (ARN). See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceArn">The Amazon Resource Name (ARN) to use to untag a resource.</param>
-    /// <param name="TagKeys">The tag keys to use to untag a resource. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ Syntax: "string" "string" ...</param>
+    /// <param name="TagKeys">The tag keys to use to untag a resource. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[a-zA-Z+-=._:/]+ Syntax: "string" "string" ...</param>
     public AwsAmplifyuibuilderUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -77,7 +79,7 @@ public record AwsAmplifyuibuilderUntagResourceOptions : AwsOptions, IValidatable
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The tag keys to use to untag a resource. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ Syntax: "string" "string" ...
+    /// The tag keys to use to untag a resource. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[a-zA-Z+-=._:/]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

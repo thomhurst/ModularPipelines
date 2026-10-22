@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotManagedIntegrationsUpdateAccountAssociationOptions : AwsOpti
     /// <summary>
     /// Updates the properties of an existing account association. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountAssociationId">The unique identifier of the account association to update. Constraints: o min: 1 o max: 64 o pattern: [0-9a-zA-Z]+</param>
+    /// <param name="AccountAssociationId">The unique identifier of the account association to update. Constraints: • min: 1 • max: 64 • pattern: [0-9a-zA-Z]+</param>
     public AwsIotManagedIntegrationsUpdateAccountAssociationOptions(
         string AccountAssociationId
     )
@@ -56,19 +58,19 @@ public record AwsIotManagedIntegrationsUpdateAccountAssociationOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the account association to update. Constraints: o min: 1 o max: 64 o pattern: [0-9a-zA-Z]+
+    /// The unique identifier of the account association to update. Constraints: • min: 1 • max: 64 • pattern: [0-9a-zA-Z]+
     /// </summary>
     [CliOption("--account-association-id")]
     public string? AccountAssociationId { get; private init; }
 
     /// <summary>
-    /// The new name to assign to the account association. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-_ ]+
+    /// The new name to assign to the account association. Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9-_ ]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The new description to assign to the account association. Constraints: o min: 1 o max: 4096 o pattern: [A-Za-z0-9-_ ]+
+    /// The new description to assign to the account association. Constraints: • min: 1 • max: 4096 • pattern: [A-Za-z0-9-_ ]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

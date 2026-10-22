@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Given the ID of a managed login branding style, returns detailed infor- mation about the style. See also: AWS API Documentation describe-managed-login-branding uses document type values. Document types follow the JSON data model where valid values are: strings, num- bers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+/// Given the ID of a managed login branding style, returns detailed information about the style. See also: AWS API Documentation describe-managed-login-branding uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsCognitoIdpDescribeManagedLoginBrandingOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Given the ID of a managed login branding style, returns detailed infor- mation about the style. See also: AWS API Documentation describe-managed-login-branding uses document type values. Document types follow the JSON data model where valid values are: strings, num- bers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Given the ID of a managed login branding style, returns detailed information about the style. See also: AWS API Documentation describe-managed-login-branding uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="UserPoolId">The ID of the user pool that contains the managed login branding style that you want to get information about. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
-    /// <param name="ManagedLoginBrandingId">The ID of the managed login branding style that you want to get more information about. Constraints: o pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[4][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$</param>
+    /// <param name="UserPoolId">The ID of the user pool that contains the managed login branding style that you want to get information about. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="ManagedLoginBrandingId">The ID of the managed login branding style that you want to get more information about. Constraints: • pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[4][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$</param>
     public AwsCognitoIdpDescribeManagedLoginBrandingOptions(
         string UserPoolId,
         string ManagedLoginBrandingId
@@ -60,19 +62,19 @@ public record AwsCognitoIdpDescribeManagedLoginBrandingOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the user pool that contains the managed login branding style that you want to get information about. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// The ID of the user pool that contains the managed login branding style that you want to get information about. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--user-pool-id")]
     public string? UserPoolId { get; private init; }
 
     /// <summary>
-    /// The ID of the managed login branding style that you want to get more information about. Constraints: o pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[4][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$
+    /// The ID of the managed login branding style that you want to get more information about. Constraints: • pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[4][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$
     /// </summary>
     [CliOption("--managed-login-branding-id")]
     public string? ManagedLoginBrandingId { get; private init; }
 
     /// <summary>
-    /// When true , returns values for branding options that are unchanged from Amazon Cognito defaults. When false or when you omit this para- meter, returns only values that you customized in your branding style.
+    /// When true , returns values for branding options that are unchanged from Amazon Cognito defaults. When false or when you omit this parameter, returns only values that you customized in your branding style.
     /// </summary>
     [CliFlag("--return-merged-resources", NegatedName = "--no-return-merged-resources")]
     public bool? ReturnMergedResources { get; set; }

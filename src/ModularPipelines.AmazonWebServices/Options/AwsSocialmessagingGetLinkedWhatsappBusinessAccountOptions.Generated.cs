@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSocialmessagingGetLinkedWhatsappBusinessAccountOptions : AwsOpt
     /// <summary>
     /// Get the details of your linked WhatsApp Business Account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The unique identifier, from Amazon Web Services, of the linked What- sApp Business Account. WABA identifiers are formatted as waba-01234567890123456789012345678901 . Use ListLinkedWhatsAppBusinessAccounts to list all WABAs and their de- tails. Constraints: o min: 1 o max: 115 o pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*</param>
+    /// <param name="Id">The unique identifier, from Amazon Web Services, of the linked WhatsApp Business Account. WABA identifiers are formatted as waba-01234567890123456789012345678901 . Use ListLinkedWhatsAppBusinessAccounts to list all WABAs and their details. Constraints: • min: 1 • max: 115 • pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*</param>
     public AwsSocialmessagingGetLinkedWhatsappBusinessAccountOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsSocialmessagingGetLinkedWhatsappBusinessAccountOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier, from Amazon Web Services, of the linked What- sApp Business Account. WABA identifiers are formatted as waba-01234567890123456789012345678901 . Use ListLinkedWhatsAppBusinessAccounts to list all WABAs and their de- tails. Constraints: o min: 1 o max: 115 o pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*
+    /// The unique identifier, from Amazon Web Services, of the linked WhatsApp Business Account. WABA identifiers are formatted as waba-01234567890123456789012345678901 . Use ListLinkedWhatsAppBusinessAccounts to list all WABAs and their details. Constraints: • min: 1 • max: 115 • pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

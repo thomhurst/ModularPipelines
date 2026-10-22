@@ -30,7 +30,7 @@ public record AwsCloudwatchListMetricStreamsOptions : AwsOptions
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return in one operation. Constraints: o min: 1 o max: 500
+    /// The maximum number of results to return in one operation. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

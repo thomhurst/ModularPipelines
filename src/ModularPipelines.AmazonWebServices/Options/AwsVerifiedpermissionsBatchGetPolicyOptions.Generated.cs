@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsVerifiedpermissionsBatchGetPolicyOptions : AwsOptions, IValidat
     /// <summary>
     /// Retrieves information about a group (batch) of policies. NOTE: The BatchGetPolicy operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission verifiedpermissions:GetPolicy in their IAM policies. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Requests">An array of up to 100 policies you want information about. Constraints: o min: 1 o max: 100 (structure) Information about a policy that you include in a BatchGetPolicy API request. policyStoreId -&gt; (string) [required] The identifier of the policy store where the policy you want information about is stored. Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]* policyId -&gt; (string) [required] The identifier of the policy you want information about. You can use the policy name in place of the policy ID. When using a name, prefix it with name/ . For example: o ID: SPEXAMPLEabcdefg111111 o Name: name/example-policy Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]* Shorthand Syntax: policyStoreId=string,policyId=string ... JSON Syntax: [ { "policyStoreId": "string", "policyId": "string" } ... ]</param>
+    /// <param name="Requests">An array of up to 100 policies you want information about. Constraints: • min: 1 • max: 100 (structure) Information about a policy that you include in a BatchGetPolicy API request. policyStoreId -&gt; (string) [required] The identifier of the policy store where the policy you want information about is stored. Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]* policyId -&gt; (string) [required] The identifier of the policy you want information about. You can use the policy name in place of the policy ID. When using a name, prefix it with name/ . For example: • ID: SPEXAMPLEabcdefg111111 • Name: name/example-policy Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]* Shorthand Syntax: policyStoreId=string,policyId=string ... JSON Syntax: [ { "policyStoreId": "string", "policyId": "string" } ... ]</param>
     public AwsVerifiedpermissionsBatchGetPolicyOptions(
         IEnumerable<string> Requests
     )
@@ -67,7 +69,7 @@ public record AwsVerifiedpermissionsBatchGetPolicyOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An array of up to 100 policies you want information about. Constraints: o min: 1 o max: 100 (structure) Information about a policy that you include in a BatchGetPolicy API request. policyStoreId -&gt; (string) [required] The identifier of the policy store where the policy you want information about is stored. Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]* policyId -&gt; (string) [required] The identifier of the policy you want information about. You can use the policy name in place of the policy ID. When using a name, prefix it with name/ . For example: o ID: SPEXAMPLEabcdefg111111 o Name: name/example-policy Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]* Shorthand Syntax: policyStoreId=string,policyId=string ... JSON Syntax: [ { "policyStoreId": "string", "policyId": "string" } ... ]
+    /// An array of up to 100 policies you want information about. Constraints: • min: 1 • max: 100 (structure) Information about a policy that you include in a BatchGetPolicy API request. policyStoreId -&gt; (string) [required] The identifier of the policy store where the policy you want information about is stored. Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]* policyId -&gt; (string) [required] The identifier of the policy you want information about. You can use the policy name in place of the policy ID. When using a name, prefix it with name/ . For example: • ID: SPEXAMPLEabcdefg111111 • Name: name/example-policy Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]* Shorthand Syntax: policyStoreId=string,policyId=string ... JSON Syntax: [ { "policyStoreId": "string", "policyId": "string" } ... ]
     /// </summary>
     [CliOption("--requests", GroupValues = true)]
     public IEnumerable<string>? Requests { get; private init; }

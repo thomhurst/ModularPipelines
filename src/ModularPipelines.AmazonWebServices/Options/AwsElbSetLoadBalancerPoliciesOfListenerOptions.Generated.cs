@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Replaces the current set of policies for the specified load balancer port with the specified set of policies. To enable back-end server authentication, use SetLoadBalancerPolicies- ForBackendServer . For more information about setting policies, see Update the SSL Negoti- ation Configuration , Duration-Based Session Stickiness , and Application-Controlled Session Stickiness in the Classic Load Balancers Guide . See also: AWS API Documentation
+/// Replaces the current set of policies for the specified load balancer port with the specified set of policies. To enable back-end server authentication, use SetLoadBalancerPoliciesForBackendServer . For more information about setting policies, see Update the SSL Negotiation Configuration , Duration-Based Session Stickiness , and Application-Controlled Session Stickiness in the Classic Load Balancers Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsElbSetLoadBalancerPoliciesOfListenerOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Replaces the current set of policies for the specified load balancer port with the specified set of policies. To enable back-end server authentication, use SetLoadBalancerPolicies- ForBackendServer . For more information about setting policies, see Update the SSL Negoti- ation Configuration , Duration-Based Session Stickiness , and Application-Controlled Session Stickiness in the Classic Load Balancers Guide . See also: AWS API Documentation
+    /// Replaces the current set of policies for the specified load balancer port with the specified set of policies. To enable back-end server authentication, use SetLoadBalancerPoliciesForBackendServer . For more information about setting policies, see Update the SSL Negotiation Configuration , Duration-Based Session Stickiness , and Application-Controlled Session Stickiness in the Classic Load Balancers Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="LoadBalancerName">The name of the load balancer.</param>
     /// <param name="LoadBalancerPort">The external port of the load balancer.</param>
-    /// <param name="PolicyNames">The names of the policies. This list must include all policies to be enabled. If you omit a policy that is currently enabled, it is dis- abled. If the list is empty, all current policies are disabled. (string) Syntax: "string" "string" ...</param>
+    /// <param name="PolicyNames">The names of the policies. This list must include all policies to be enabled. If you omit a policy that is currently enabled, it is disabled. If the list is empty, all current policies are disabled. (string) Syntax: "string" "string" ...</param>
     public AwsElbSetLoadBalancerPoliciesOfListenerOptions(
         string LoadBalancerName,
         int LoadBalancerPort,
@@ -86,7 +88,7 @@ public record AwsElbSetLoadBalancerPoliciesOfListenerOptions : AwsOptions, IVali
     public int? LoadBalancerPort { get; private init; }
 
     /// <summary>
-    /// The names of the policies. This list must include all policies to be enabled. If you omit a policy that is currently enabled, it is dis- abled. If the list is empty, all current policies are disabled. (string) Syntax: "string" "string" ...
+    /// The names of the policies. This list must include all policies to be enabled. If you omit a policy that is currently enabled, it is disabled. If the list is empty, all current policies are disabled. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--policy-names", GroupValues = true)]
     public IEnumerable<string>? PolicyNames { get; private init; }

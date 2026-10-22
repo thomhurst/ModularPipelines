@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,9 +31,9 @@ public record AwsServicecatalogAppregistryGetAssociatedResourceOptions : AwsOpti
     /// <summary>
     /// Gets the resource associated with the application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Application">The name, ID, or ARN of the application. Constraints: o min: 1 o max: 256 o pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecata- log:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[-.\w]+)</param>
-    /// <param name="ResourceType">The type of resource associated with the application. Possible values: o CFN_STACK o RESOURCE_TAG_VALUE</param>
-    /// <param name="Resource">The name or ID of the resource associated with the application. Constraints: o min: 1 o max: 256 o pattern: \S+</param>
+    /// <param name="Application">The name, ID, or ARN of the application. Constraints: • min: 1 • max: 256 • pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[-.\w]+)</param>
+    /// <param name="ResourceType">The type of resource associated with the application. Possible values: • CFN_STACK • RESOURCE_TAG_VALUE</param>
+    /// <param name="Resource">The name or ID of the resource associated with the application. Constraints: • min: 1 • max: 256 • pattern: \S+</param>
     public AwsServicecatalogAppregistryGetAssociatedResourceOptions(
         string Application,
         AwsServicecatalogAppregistryGetAssociatedResourceResourceType ResourceType,
@@ -65,38 +67,38 @@ public record AwsServicecatalogAppregistryGetAssociatedResourceOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name, ID, or ARN of the application. Constraints: o min: 1 o max: 256 o pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecata- log:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[-.\w]+)
+    /// The name, ID, or ARN of the application. Constraints: • min: 1 • max: 256 • pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[-.\w]+)
     /// </summary>
     [CliOption("--application")]
     public string? Application { get; private init; }
 
     /// <summary>
-    /// The type of resource associated with the application. Possible values: o CFN_STACK o RESOURCE_TAG_VALUE
+    /// The type of resource associated with the application. Possible values: • CFN_STACK • RESOURCE_TAG_VALUE
     /// </summary>
     [CliOption("--resource-type")]
     public AwsServicecatalogAppregistryGetAssociatedResourceResourceType? ResourceType { get; private init; }
 
     /// <summary>
-    /// The name or ID of the resource associated with the application. Constraints: o min: 1 o max: 256 o pattern: \S+
+    /// The name or ID of the resource associated with the application. Constraints: • min: 1 • max: 256 • pattern: \S+
     /// </summary>
     [CliOption("--resource")]
     public string? Resource { get; private init; }
 
     /// <summary>
-    /// A unique pagination token for each page of results. Make the call again with the returned token to retrieve the next page of results. Constraints: o min: 1 o max: 2024 o pattern: [A-Za-z0-9+/=]+
+    /// A unique pagination token for each page of results. Make the call again with the returned token to retrieve the next page of results. Constraints: • min: 1 • max: 2024 • pattern: [A-Za-z0-9+/=]+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// States whether an application tag is applied, not applied, in the process of being applied, or skipped. Constraints: o min: 1 o max: 4 (string) Possible values: o SUCCESS o FAILED o IN_PROGRESS o SKIPPED Syntax: "string" "string" ...
+    /// States whether an application tag is applied, not applied, in the process of being applied, or skipped. Constraints: • min: 1 • max: 4 (string) Possible values: • SUCCESS • FAILED • IN_PROGRESS • SKIPPED Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resource-tag-status", GroupValues = true)]
     public IEnumerable<string>? ResourceTagStatus { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return. If the parameter is omit- ted, it defaults to 25. The value is optional. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to return. If the parameter is omitted, it defaults to 25. The value is optional. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

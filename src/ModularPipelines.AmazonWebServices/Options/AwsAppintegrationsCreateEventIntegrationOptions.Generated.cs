@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an EventIntegration, given a specified name, description, and a reference to an Amazon EventBridge bus in your account and a partner event source that pushes events to that bus. No objects are created in the your account, only metadata that is persisted on the EventIntegra- tion control plane. See also: AWS API Documentation
+/// Creates an EventIntegration, given a specified name, description, and a reference to an Amazon EventBridge bus in your account and a partner event source that pushes events to that bus. No objects are created in the your account, only metadata that is persisted on the EventIntegration control plane. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsAppintegrationsCreateEventIntegrationOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an EventIntegration, given a specified name, description, and a reference to an Amazon EventBridge bus in your account and a partner event source that pushes events to that bus. No objects are created in the your account, only metadata that is persisted on the EventIntegra- tion control plane. See also: AWS API Documentation
+    /// Creates an EventIntegration, given a specified name, description, and a reference to an Amazon EventBridge bus in your account and a partner event source that pushes events to that bus. No objects are created in the your account, only metadata that is persisted on the EventIntegration control plane. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the event integration. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\/\._\-]+$</param>
-    /// <param name="EventFilter">The event filter. Source -&gt; (string) [required] The source of the events. Constraints: o min: 1 o max: 256 o pattern: ^(aws\.(part- ner\/.*|cases|cases\-test))|Pipe\s.[a-zA-Z0-9\/\._\-]+$|app\-in- tegrations\.webhooks\/[a-zA-Z0-9\-_.\/]+$ Shorthand Syntax: Source=string JSON Syntax: { "Source": "string" }</param>
-    /// <param name="EventBridgeBus">The EventBridge bus. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\/\._\-]+$</param>
+    /// <param name="Name">The name of the event integration. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z0-9\/\._\-]+$</param>
+    /// <param name="EventFilter">The event filter. Source -&gt; (string) [required] The source of the events. Constraints: • min: 1 • max: 256 • pattern: ^(aws\.(partner\/.*|cases|cases\-test))|Pipe\s.[a-zA-Z0-9\/\._\-]+$|app\-integrations\.webhooks\/[a-zA-Z0-9\-_.\/]+$ Shorthand Syntax: Source=string JSON Syntax: { "Source": "string" }</param>
+    /// <param name="EventBridgeBus">The EventBridge bus. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z0-9\/\._\-]+$</param>
     public AwsAppintegrationsCreateEventIntegrationOptions(
         string Name,
         string EventFilter,
@@ -66,38 +67,38 @@ public record AwsAppintegrationsCreateEventIntegrationOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the event integration. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\/\._\-]+$
+    /// The name of the event integration. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z0-9\/\._\-]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The event filter. Source -&gt; (string) [required] The source of the events. Constraints: o min: 1 o max: 256 o pattern: ^(aws\.(part- ner\/.*|cases|cases\-test))|Pipe\s.[a-zA-Z0-9\/\._\-]+$|app\-in- tegrations\.webhooks\/[a-zA-Z0-9\-_.\/]+$ Shorthand Syntax: Source=string JSON Syntax: { "Source": "string" }
+    /// The event filter. Source -&gt; (string) [required] The source of the events. Constraints: • min: 1 • max: 256 • pattern: ^(aws\.(partner\/.*|cases|cases\-test))|Pipe\s.[a-zA-Z0-9\/\._\-]+$|app\-integrations\.webhooks\/[a-zA-Z0-9\-_.\/]+$ Shorthand Syntax: Source=string JSON Syntax: { "Source": "string" }
     /// </summary>
     [CliOption("--event-filter")]
     public string? EventFilter { get; private init; }
 
     /// <summary>
-    /// The EventBridge bus. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\/\._\-]+$
+    /// The EventBridge bus. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z0-9\/\._\-]+$
     /// </summary>
     [CliOption("--event-bridge-bus")]
     public string? EventBridgeBus { get; private init; }
 
     /// <summary>
-    /// The description of the event integration. Constraints: o min: 0 o max: 1000 o pattern: .*
+    /// The description of the event integration. Constraints: • min: 0 • max: 1000 • pattern: .*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o min: 1 o max: 2048 o pattern: .*
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • min: 1 • max: 2048 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for this re- source. For example, { "tags": {"key1":"value1", "key2":"value2"} }. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }. Constraints: • min: 1 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

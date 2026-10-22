@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,10 +30,10 @@ public record AwsAppfabricCreateIngestionDestinationOptions : AwsOptions, IValid
     /// <summary>
     /// Creates an ingestion destination, which specifies how an application's ingested data is processed by Amazon Web Services AppFabric and where it's delivered. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppBundleIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="IngestionIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="ProcessingConfiguration">Contains information about how ingested data is processed. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: auditLog. auditLog -&gt; (structure) Contains information about an audit log processing configura- tion. schema -&gt; (string) [required] The event schema in which the audit logs need to be format- ted. Possible values: o ocsf o raw format -&gt; (string) [required] The format in which the audit logs need to be formatted. Possible values: o json o parquet Shorthand Syntax: auditLog={schema=string,format=string} JSON Syntax: { "auditLog": { "schema": "ocsf"|"raw", "format": "json"|"parquet" } }</param>
-    /// <param name="DestinationConfiguration">Contains information about the destination of ingested data. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: auditLog. auditLog -&gt; (structure) Contains information about an audit log destination configura- tion. destination -&gt; (tagged union structure) [required] Contains information about an audit log destination. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: s3Bucket, firehoseStream. s3Bucket -&gt; (structure) Contains information about an Amazon S3 bucket. bucketName -&gt; (string) [required] The name of the Amazon S3 bucket. Constraints: o min: 3 o max: 63 prefix -&gt; (string) The object key to use. Constraints: o min: 1 o max: 120 firehoseStream -&gt; (structure) Contains information about an Amazon Kinesis Data Fire- hose delivery stream. streamName -&gt; (string) [required] The name of the Amazon Kinesis Data Firehose delivery stream. Constraints: o min: 3 o max: 64 JSON Syntax: { "auditLog": { "destination": { "s3Bucket": { "bucketName": "string", "prefix": "string" }, "firehoseStream": { "streamName": "string" } } } }</param>
+    /// <param name="AppBundleIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: • min: 1 • max: 1011 • pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="IngestionIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion to use for the request. Constraints: • min: 1 • max: 1011 • pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="ProcessingConfiguration">Contains information about how ingested data is processed. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: auditLog. auditLog -&gt; (structure) Contains information about an audit log processing configuration. schema -&gt; (string) [required] The event schema in which the audit logs need to be formatted. Possible values: • ocsf • raw format -&gt; (string) [required] The format in which the audit logs need to be formatted. Possible values: • json • parquet Shorthand Syntax: auditLog={schema=string,format=string} JSON Syntax: { "auditLog": { "schema": "ocsf"|"raw", "format": "json"|"parquet" } }</param>
+    /// <param name="DestinationConfiguration">Contains information about the destination of ingested data. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: auditLog. auditLog -&gt; (structure) Contains information about an audit log destination configuration. destination -&gt; (tagged union structure) [required] Contains information about an audit log destination. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3Bucket, firehoseStream. s3Bucket -&gt; (structure) Contains information about an Amazon S3 bucket. bucketName -&gt; (string) [required] The name of the Amazon S3 bucket. Constraints: • min: 3 • max: 63 prefix -&gt; (string) The object key to use. Constraints: • min: 1 • max: 120 firehoseStream -&gt; (structure) Contains information about an Amazon Kinesis Data Firehose delivery stream. streamName -&gt; (string) [required] The name of the Amazon Kinesis Data Firehose delivery stream. Constraints: • min: 3 • max: 64 JSON Syntax: { "auditLog": { "destination": { "s3Bucket": { "bucketName": "string", "prefix": "string" }, "firehoseStream": { "streamName": "string" } } } }</param>
     public AwsAppfabricCreateIngestionDestinationOptions(
         string AppBundleIdentifier,
         string IngestionIdentifier,
@@ -69,38 +71,38 @@ public record AwsAppfabricCreateIngestionDestinationOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: • min: 1 • max: 1011 • pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--app-bundle-identifier")]
     public string? AppBundleIdentifier { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion to use for the request. Constraints: • min: 1 • max: 1011 • pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--ingestion-identifier")]
     public string? IngestionIdentifier { get; private init; }
 
     /// <summary>
-    /// Contains information about how ingested data is processed. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: auditLog. auditLog -&gt; (structure) Contains information about an audit log processing configura- tion. schema -&gt; (string) [required] The event schema in which the audit logs need to be format- ted. Possible values: o ocsf o raw format -&gt; (string) [required] The format in which the audit logs need to be formatted. Possible values: o json o parquet Shorthand Syntax: auditLog={schema=string,format=string} JSON Syntax: { "auditLog": { "schema": "ocsf"|"raw", "format": "json"|"parquet" } }
+    /// Contains information about how ingested data is processed. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: auditLog. auditLog -&gt; (structure) Contains information about an audit log processing configuration. schema -&gt; (string) [required] The event schema in which the audit logs need to be formatted. Possible values: • ocsf • raw format -&gt; (string) [required] The format in which the audit logs need to be formatted. Possible values: • json • parquet Shorthand Syntax: auditLog={schema=string,format=string} JSON Syntax: { "auditLog": { "schema": "ocsf"|"raw", "format": "json"|"parquet" } }
     /// </summary>
     [CliOption("--processing-configuration")]
     public string? ProcessingConfiguration { get; private init; }
 
     /// <summary>
-    /// Contains information about the destination of ingested data. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: auditLog. auditLog -&gt; (structure) Contains information about an audit log destination configura- tion. destination -&gt; (tagged union structure) [required] Contains information about an audit log destination. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: s3Bucket, firehoseStream. s3Bucket -&gt; (structure) Contains information about an Amazon S3 bucket. bucketName -&gt; (string) [required] The name of the Amazon S3 bucket. Constraints: o min: 3 o max: 63 prefix -&gt; (string) The object key to use. Constraints: o min: 1 o max: 120 firehoseStream -&gt; (structure) Contains information about an Amazon Kinesis Data Fire- hose delivery stream. streamName -&gt; (string) [required] The name of the Amazon Kinesis Data Firehose delivery stream. Constraints: o min: 3 o max: 64 JSON Syntax: { "auditLog": { "destination": { "s3Bucket": { "bucketName": "string", "prefix": "string" }, "firehoseStream": { "streamName": "string" } } } }
+    /// Contains information about the destination of ingested data. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: auditLog. auditLog -&gt; (structure) Contains information about an audit log destination configuration. destination -&gt; (tagged union structure) [required] Contains information about an audit log destination. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3Bucket, firehoseStream. s3Bucket -&gt; (structure) Contains information about an Amazon S3 bucket. bucketName -&gt; (string) [required] The name of the Amazon S3 bucket. Constraints: • min: 3 • max: 63 prefix -&gt; (string) The object key to use. Constraints: • min: 1 • max: 120 firehoseStream -&gt; (structure) Contains information about an Amazon Kinesis Data Firehose delivery stream. streamName -&gt; (string) [required] The name of the Amazon Kinesis Data Firehose delivery stream. Constraints: • min: 3 • max: 64 JSON Syntax: { "auditLog": { "destination": { "s3Bucket": { "bucketName": "string", "prefix": "string" }, "firehoseStream": { "streamName": "string" } } } }
     /// </summary>
     [CliOption("--destination-configuration")]
     public string? DestinationConfiguration { get; private init; }
 
     /// <summary>
-    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with different parameters, the retry fails with an IdempotentParameterMismatch error. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A map of the key-value pairs of the tag or tags to assign to the re- source. Constraints: o min: 0 o max: 50 (structure) The key or keys of the key-value pairs for the tag or tags as- signed to a resource. key -&gt; (string) [required] Tag key. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] Tag value. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// A map of the key-value pairs of the tag or tags to assign to the resource. Constraints: • min: 0 • max: 50 (structure) The key or keys of the key-value pairs for the tag or tags assigned to a resource. key -&gt; (string) [required] Tag key. Constraints: • min: 1 • max: 128 value -&gt; (string) [required] Tag value. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

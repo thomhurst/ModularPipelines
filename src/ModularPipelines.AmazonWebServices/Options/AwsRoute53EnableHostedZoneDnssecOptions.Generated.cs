@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRoute53EnableHostedZoneDnssecOptions : AwsOptions, IValidatable
     /// <summary>
     /// Enables DNSSEC signing in a specific hosted zone. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HostedZoneId">A unique string used to identify a hosted zone. Constraints: o max: 32</param>
+    /// <param name="HostedZoneId">A unique string used to identify a hosted zone. Constraints: • max: 32</param>
     public AwsRoute53EnableHostedZoneDnssecOptions(
         string HostedZoneId
     )
@@ -56,7 +58,7 @@ public record AwsRoute53EnableHostedZoneDnssecOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique string used to identify a hosted zone. Constraints: o max: 32
+    /// A unique string used to identify a hosted zone. Constraints: • max: 32
     /// </summary>
     [CliOption("--hosted-zone-id")]
     public string? HostedZoneId { get; private init; }

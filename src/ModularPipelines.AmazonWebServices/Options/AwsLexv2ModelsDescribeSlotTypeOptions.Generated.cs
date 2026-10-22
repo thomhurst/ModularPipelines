@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +29,10 @@ public record AwsLexv2ModelsDescribeSlotTypeOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Gets metadata information about a slot type. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SlotTypeId">The identifier of the slot type. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="BotId">The identifier of the bot associated with the slot type. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="BotVersion">The version of the bot associated with the slot type. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$</param>
-    /// <param name="LocaleId">The identifier of the language and locale of the slot type to de- scribe. The string must match one of the supported locales. For more information, see Supported languages .</param>
+    /// <param name="SlotTypeId">The identifier of the slot type. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotId">The identifier of the bot associated with the slot type. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotVersion">The version of the bot associated with the slot type. Constraints: • min: 1 • max: 5 • pattern: ^(DRAFT|[0-9]+)$</param>
+    /// <param name="LocaleId">The identifier of the language and locale of the slot type to describe. The string must match one of the supported locales. For more information, see Supported languages .</param>
     public AwsLexv2ModelsDescribeSlotTypeOptions(
         string SlotTypeId,
         string BotId,
@@ -68,25 +70,25 @@ public record AwsLexv2ModelsDescribeSlotTypeOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the slot type. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The identifier of the slot type. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--slot-type-id")]
     public string? SlotTypeId { get; private init; }
 
     /// <summary>
-    /// The identifier of the bot associated with the slot type. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The identifier of the bot associated with the slot type. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
 
     /// <summary>
-    /// The version of the bot associated with the slot type. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$
+    /// The version of the bot associated with the slot type. Constraints: • min: 1 • max: 5 • pattern: ^(DRAFT|[0-9]+)$
     /// </summary>
     [CliOption("--bot-version")]
     public string? BotVersion { get; private init; }
 
     /// <summary>
-    /// The identifier of the language and locale of the slot type to de- scribe. The string must match one of the supported locales. For more information, see Supported languages .
+    /// The identifier of the language and locale of the slot type to describe. The string must match one of the supported locales. For more information, see Supported languages .
     /// </summary>
     [CliOption("--locale-id")]
     public string? LocaleId { get; private init; }

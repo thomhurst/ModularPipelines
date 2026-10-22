@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deregisters a connected cluster to remove it from the Amazon EKS con- trol plane. A connected cluster is a Kubernetes cluster that you've connected to your control plane using the Amazon EKS Connector . See also: AWS API Documentation
+/// Deregisters a connected cluster to remove it from the Amazon EKS control plane. A connected cluster is a Kubernetes cluster that you've connected to your control plane using the Amazon EKS Connector . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsEksDeregisterClusterOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deregisters a connected cluster to remove it from the Amazon EKS con- trol plane. A connected cluster is a Kubernetes cluster that you've connected to your control plane using the Amazon EKS Connector . See also: AWS API Documentation
+    /// Deregisters a connected cluster to remove it from the Amazon EKS control plane. A connected cluster is a Kubernetes cluster that you've connected to your control plane using the Amazon EKS Connector . See also: AWS API Documentation
     /// </summary>
     /// <param name="Name">The name of the connected cluster to deregister.</param>
     public AwsEksDeregisterClusterOptions(

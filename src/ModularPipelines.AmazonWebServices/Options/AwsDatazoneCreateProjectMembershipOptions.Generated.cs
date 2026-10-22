@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,10 +30,10 @@ public record AwsDatazoneCreateProjectMembershipOptions : AwsOptions, IValidatab
     /// <summary>
     /// Creates a project membership in Amazon DataZone. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which project membership is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="ProjectIdentifier">The ID of the project for which this project membership was created. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which project membership is created. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="ProjectIdentifier">The ID of the project for which this project membership was created. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     /// <param name="Member">The project member whose project membership was created. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: userIdentifier, groupIdentifier. userIdentifier -&gt; (string) The user ID of a project member. groupIdentifier -&gt; (string) The ID of the group of a project member. Shorthand Syntax: userIdentifier=string,groupIdentifier=string JSON Syntax: { "userIdentifier": "string", "groupIdentifier": "string" }</param>
-    /// <param name="Designation">The designation of the project membership. Possible values: o PROJECT_OWNER o PROJECT_CONTRIBUTOR o PROJECT_CATALOG_VIEWER o PROJECT_CATALOG_CONSUMER o PROJECT_CATALOG_STEWARD</param>
+    /// <param name="Designation">The designation of the project membership. Possible values: • PROJECT_OWNER • PROJECT_CONTRIBUTOR • PROJECT_CATALOG_VIEWER • PROJECT_CATALOG_CONSUMER • PROJECT_CATALOG_STEWARD</param>
     public AwsDatazoneCreateProjectMembershipOptions(
         string DomainIdentifier,
         string ProjectIdentifier,
@@ -68,13 +70,13 @@ public record AwsDatazoneCreateProjectMembershipOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon DataZone domain in which project membership is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the Amazon DataZone domain in which project membership is created. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the project for which this project membership was created. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The ID of the project for which this project membership was created. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--project-identifier")]
     public string? ProjectIdentifier { get; private init; }
@@ -86,7 +88,7 @@ public record AwsDatazoneCreateProjectMembershipOptions : AwsOptions, IValidatab
     public string? Member { get; private init; }
 
     /// <summary>
-    /// The designation of the project membership. Possible values: o PROJECT_OWNER o PROJECT_CONTRIBUTOR o PROJECT_CATALOG_VIEWER o PROJECT_CATALOG_CONSUMER o PROJECT_CATALOG_STEWARD
+    /// The designation of the project membership. Possible values: • PROJECT_OWNER • PROJECT_CONTRIBUTOR • PROJECT_CATALOG_VIEWER • PROJECT_CATALOG_CONSUMER • PROJECT_CATALOG_STEWARD
     /// </summary>
     [CliOption("--designation")]
     public AwsDatazoneCreateProjectMembershipDesignation? Designation { get; private init; }

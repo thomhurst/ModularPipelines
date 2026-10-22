@@ -22,25 +22,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsAuditManagerUpdateSettingsOptions : AwsOptions
 {
     /// <summary>
-    /// The Amazon Simple Notification Service (Amazon SNS) topic that Audit Manager sends notifications to. Constraints: o min: 4 o max: 2048 o pattern: ^arn:.*:sns:.*|NONE
+    /// The Amazon Simple Notification Service (Amazon SNS) topic that Audit Manager sends notifications to. Constraints: • min: 4 • max: 2048 • pattern: ^arn:.*:sns:.*|NONE
     /// </summary>
     [CliOption("--sns-topic")]
     public string? SnsTopic { get; set; }
 
     /// <summary>
-    /// The default S3 destination bucket for storing assessment reports. destinationType -&gt; (string) The destination type, such as Amazon S3. Possible values: o S3 destination -&gt; (string) The destination bucket where Audit Manager stores assessment re- ports. Constraints: o min: 1 o max: 1024 o pattern: ^(S|s)3:\/\/[a-zA-Z0-9\-\.\(\)\'\*\_\!\=\+\@\:\s\,\?\/]+$ Shorthand Syntax: destinationType=string,destination=string JSON Syntax: { "destinationType": "S3", "destination": "string" }
+    /// The default S3 destination bucket for storing assessment reports. destinationType -&gt; (string) The destination type, such as Amazon S3. Possible values: • S3 destination -&gt; (string) The destination bucket where Audit Manager stores assessment reports. Constraints: • min: 1 • max: 1024 • pattern: ^(S|s)3:\/\/[a-zA-Z0-9\-\.\(\)\'\*\_\!\=\+\@\:\s\,\?\/]+$ Shorthand Syntax: destinationType=string,destination=string JSON Syntax: { "destinationType": "S3", "destination": "string" }
     /// </summary>
     [CliOption("--default-assessment-reports-destination")]
     public string? DefaultAssessmentReportsDestination { get; set; }
 
     /// <summary>
-    /// A list of the default audit owners. (structure) The wrapper that contains the Audit Manager role information of the current user. This includes the role type and IAM Amazon Re- source Name (ARN). roleType -&gt; (string) [required] The type of customer persona. NOTE: In CreateAssessment , roleType can only be PROCESS_OWNER . In UpdateSettings , roleType can only be PROCESS_OWNER . In BatchCreateDelegationByAssessment , roleType can only be RESOURCE_OWNER . Possible values: o PROCESS_OWNER o RESOURCE_OWNER roleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role. Constraints: o min: 20 o max: 2048 o pattern: ^arn:.*:iam:.* Shorthand Syntax: roleType=string,roleArn=string ... JSON Syntax: [ { "roleType": "PROCESS_OWNER"|"RESOURCE_OWNER", "roleArn": "string" } ... ]
+    /// A list of the default audit owners. (structure) The wrapper that contains the Audit Manager role information of the current user. This includes the role type and IAM Amazon Resource Name (ARN). roleType -&gt; (string) [required] The type of customer persona. NOTE: In CreateAssessment , roleType can only be PROCESS_OWNER . In UpdateSettings , roleType can only be PROCESS_OWNER . In BatchCreateDelegationByAssessment , roleType can only be RESOURCE_OWNER . Possible values: • PROCESS_OWNER • RESOURCE_OWNER roleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role. Constraints: • min: 20 • max: 2048 • pattern: ^arn:.*:iam:.* Shorthand Syntax: roleType=string,roleArn=string ... JSON Syntax: [ { "roleType": "PROCESS_OWNER"|"RESOURCE_OWNER", "roleArn": "string" } ... ]
     /// </summary>
     [CliOption("--default-process-owners", GroupValues = true)]
     public IEnumerable<string>? DefaultProcessOwners { get; set; }
 
     /// <summary>
-    /// The KMS key details. Constraints: o min: 7 o max: 2048 o pattern: ^arn:.*:kms:.*|DEFAULT
+    /// The KMS key details. Constraints: • min: 7 • max: 2048 • pattern: ^arn:.*:kms:.*|DEFAULT
     /// </summary>
     [CliOption("--kms-key")]
     public string? KmsKey { get; set; }
@@ -52,13 +52,13 @@ public record AwsAuditManagerUpdateSettingsOptions : AwsOptions
     public bool? EvidenceFinderEnabled { get; set; }
 
     /// <summary>
-    /// The deregistration policy for your Audit Manager data. You can use this attribute to determine how your data is handled when you dereg- ister Audit Manager. deleteResources -&gt; (string) Specifies which Audit Manager data will be deleted when you deregister Audit Manager. o If you set the value to ALL , all of your data is deleted within seven days of deregistration. o If you set the value to DEFAULT , none of your data is deleted at the time of deregistration. However, keep in mind that the Audit Manager data retention policy still applies. As a re- sult, any evidence data will be deleted two years after its creation date. Your other Audit Manager resources will con- tinue to exist indefinitely. Possible values: o ALL o DEFAULT Shorthand Syntax: deleteResources=string JSON Syntax: { "deleteResources": "ALL"|"DEFAULT" }
+    /// The deregistration policy for your Audit Manager data. You can use this attribute to determine how your data is handled when you deregister Audit Manager. deleteResources -&gt; (string) Specifies which Audit Manager data will be deleted when you deregister Audit Manager. • If you set the value to ALL , all of your data is deleted within seven days of deregistration. • If you set the value to DEFAULT , none of your data is deleted at the time of deregistration. However, keep in mind that the Audit Manager data retention policy still applies. As a result, any evidence data will be deleted two years after its creation date. Your other Audit Manager resources will continue to exist indefinitely. Possible values: • ALL • DEFAULT Shorthand Syntax: deleteResources=string JSON Syntax: { "deleteResources": "ALL"|"DEFAULT" }
     /// </summary>
     [CliOption("--deregistration-policy")]
     public string? DeregistrationPolicy { get; set; }
 
     /// <summary>
-    /// The default S3 destination bucket for storing evidence finder ex- ports. destinationType -&gt; (string) The destination type, such as Amazon S3. Possible values: o S3 destination -&gt; (string) The destination bucket where Audit Manager stores exported files. Constraints: o min: 1 o max: 1024 o pattern: ^(S|s)3:\/\/[a-zA-Z0-9\-\.\(\)\'\*\_\!\=\+\@\:\s\,\?\/]+$ Shorthand Syntax: destinationType=string,destination=string JSON Syntax: { "destinationType": "S3", "destination": "string" }
+    /// The default S3 destination bucket for storing evidence finder exports. destinationType -&gt; (string) The destination type, such as Amazon S3. Possible values: • S3 destination -&gt; (string) The destination bucket where Audit Manager stores exported files. Constraints: • min: 1 • max: 1024 • pattern: ^(S|s)3:\/\/[a-zA-Z0-9\-\.\(\)\'\*\_\!\=\+\@\:\s\,\?\/]+$ Shorthand Syntax: destinationType=string,destination=string JSON Syntax: { "destinationType": "S3", "destination": "string" }
     /// </summary>
     [CliOption("--default-export-destination")]
     public string? DefaultExportDestination { get; set; }

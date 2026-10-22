@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// List a filterable set of Checks. This API provides global recommenda- tions, eliminating the need to call the API in each AWS Region. See also: AWS API Documentation list-checks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the fo...
+/// List a filterable set of Checks. This API provides global recommendations, eliminating the need to call the API in each AWS Region. See also: AWS API Documentation list-checks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,34 +24,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsTrustedadvisorListChecksOptions : AwsOptions
 {
     /// <summary>
-    /// The pillar of the check Possible values: o cost_optimizing o performance o security o service_limits o fault_tolerance o operational_excellence
+    /// The pillar of the check Possible values: • cost_optimizing • performance • security • service_limits • fault_tolerance • operational_excellence
     /// </summary>
     [CliOption("--pillar")]
     public AwsTrustedadvisorListChecksPillar? Pillar { get; set; }
 
     /// <summary>
-    /// The aws service associated with the check Constraints: o min: 2 o max: 30
+    /// The aws service associated with the check Constraints: • min: 2 • max: 30
     /// </summary>
     [CliOption("--aws-service")]
     public string? AwsService { get; set; }
 
     /// <summary>
-    /// The source of the check Possible values: o aws_config o compute_optimizer o cost_explorer o lse o manual o pse o rds o resilience o resilience_hub o security_hub o stir o ta_check o well_architected o cost_optimization_hub
+    /// The source of the check Possible values: • aws_config • compute_optimizer • cost_explorer • lse • manual • pse • rds • resilience • resilience_hub • security_hub • stir • ta_check • well_architected • cost_optimization_hub
     /// </summary>
     [CliOption("--source")]
     public AwsTrustedadvisorListChecksSource? Source { get; set; }
 
     /// <summary>
-    /// The ISO 639-1 code for the language that you want your checks to ap- pear in. Possible values: o en o ja o zh o fr o de o ko o zh_TW o it o es o pt_BR o id
+    /// The ISO 639-1 code for the language that you want your checks to appear in. Possible values: • en • ja • zh • fr • de • ko • zh_TW • it • es • pt_BR • id
     /// </summary>
     [CliOption("--language")]
     public AwsTrustedadvisorListChecksLanguage? Language { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -61,15 +58,18 @@ public record AwsTrustedadvisorListChecksOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 200
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 200
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

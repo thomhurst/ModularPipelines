@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws agenttoolkit commands.
+/// aws agent-toolkit commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsAgentToolkit : IAwsAgentToolkit
@@ -32,7 +32,7 @@ public class AwsAgentToolkit : IAwsAgentToolkit
     #region Commands
 
     /// <summary>
-    /// Download and install an AWS skill to detected AI coding agents. By de- fault the latest version is installed globally to all detected agents. Use --agent to target a specific tool, or --skill-version to pin a spe- cific version.
+    /// Download and install an AWS skill to detected AI coding agents. By default the latest version is installed globally to all detected agents. Use --agent to target a specific tool, or --skill-version to pin a specific version.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsAgentToolkit : IAwsAgentToolkit
     }
 
     /// <summary>
-    /// Check installed AWS skills for available updates. Lists the version currently on disk alongside the latest version available. Only skills with an update available are listed, pass --all to list every installed skill. Nothing is downloaded or modified, run aws agent-toolkit up- date-skill to apply an update. By default it checks skills for all de- tected agents, use --agent to check only a specific tool.
+    /// Check installed AWS skills for available updates. Lists the version currently on disk alongside the latest version available. Only skills with an update available are listed, pass --all to list every installed skill. Nothing is downloaded or modified, run aws agent-toolkit update-skill to apply an update. By default it checks skills for all detected agents, use --agent to check only a specific tool.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsAgentToolkit : IAwsAgentToolkit
     }
 
     /// <summary>
-    /// List AWS skills that were previously installed by the aws agent-toolkit commands. Shows the skill name, agent, and file path for each installa- tion. By default it lists skills from all detected agents, use --agent to filter results to a specific tool.
+    /// List AWS skills that were previously installed by the aws agent-toolkit commands. Shows the skill name, agent, and file path for each installation. By default it lists skills from all detected agents, use --agent to filter results to a specific tool.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsAgentToolkit : IAwsAgentToolkit
     }
 
     /// <summary>
-    /// Remove a previously installed AWS skill from detected agents. By de- fault the skill is removed from all detected agents, use --agent to re- move from a specific tool only.
+    /// Remove a previously installed AWS skill from detected agents. By default the skill is removed from all detected agents, use --agent to remove from a specific tool only.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsAgentToolkit : IAwsAgentToolkit
     }
 
     /// <summary>
-    /// Searches the remote catalog for skills matching a query. See also: AWS API Documentation search-skills is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: skills
+    /// Searches the remote catalog for skills matching a query. See also: AWS API Documentation search-skills is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: skills
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an application inference profile. For more information, see Increase throughput and resilience with cross-region inference in Ama- zon Bedrock . in the Amazon Bedrock User Guide. See also: AWS API Documentation
+/// Deletes an application inference profile. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock . in the Amazon Bedrock User Guide. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsBedrockDeleteInferenceProfileOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an application inference profile. For more information, see Increase throughput and resilience with cross-region inference in Ama- zon Bedrock . in the Amazon Bedrock User Guide. See also: AWS API Documentation
+    /// Deletes an application inference profile. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock . in the Amazon Bedrock User Guide. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InferenceProfileIdentifier">The Amazon Resource Name (ARN) or ID of the application inference profile to delete. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{0,20}):(|[0-9]{12}):(in- ference-profile|application-inference-profile)/)?[a-zA-Z0-9-:.]+</param>
+    /// <param name="InferenceProfileIdentifier">The Amazon Resource Name (ARN) or ID of the application inference profile to delete. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{0,20}):(|[0-9]{12}):(inference-profile|application-inference-profile)/)?[a-zA-Z0-9-:.]+</param>
     public AwsBedrockDeleteInferenceProfileOptions(
         string InferenceProfileIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsBedrockDeleteInferenceProfileOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) or ID of the application inference profile to delete. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{0,20}):(|[0-9]{12}):(in- ference-profile|application-inference-profile)/)?[a-zA-Z0-9-:.]+
+    /// The Amazon Resource Name (ARN) or ID of the application inference profile to delete. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{0,20}):(|[0-9]{12}):(inference-profile|application-inference-profile)/)?[a-zA-Z0-9-:.]+
     /// </summary>
     [CliOption("--inference-profile-identifier")]
     public string? InferenceProfileIdentifier { get; private init; }

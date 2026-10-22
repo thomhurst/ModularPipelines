@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -72,10 +74,10 @@ public record AwsElbCreateLbCookieStickinessPolicyOptions : AwsOptions, IValidat
     public string? PolicyName { get; private init; }
 
     /// <summary>
-    /// The time period, in seconds, after which the cookie should be con- sidered stale. If you do not specify this parameter, the default value is 0, which indicates that the sticky session should last for the duration of the browser session.
+    /// The time period, in seconds, after which the cookie should be considered stale. If you do not specify this parameter, the default value is 0, which indicates that the sticky session should last for the duration of the browser session.
     /// </summary>
     [CliOption("--cookie-expiration-period")]
-    public int? CookieExpirationPeriod { get; set; }
+    public long? CookieExpirationPeriod { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

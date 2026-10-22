@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation is not supported by directory buckets. Put or replace tags on an existing Amazon S3 Storage Lens configura- tion. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens in the Amazon S3 User Guide . NOTE: To use this action, you must have permission to perform the s3:Put- StorageLensConfigurationTagging action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide...
+/// NOTE: This operation is not supported by directory buckets. Put or replace tags on an existing Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens in the Amazon S3 User Guide . NOTE: To use this action, you must have permission to perform the s3:PutStorageLensConfigurationTagging action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide . S...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsS3controlPutStorageLensConfigurationTaggingOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation is not supported by directory buckets. Put or replace tags on an existing Amazon S3 Storage Lens configura- tion. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens in the Amazon S3 User Guide . NOTE: To use this action, you must have permission to perform the s3:Put- StorageLensConfigurationTagging action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide...
+    /// NOTE: This operation is not supported by directory buckets. Put or replace tags on an existing Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens in the Amazon S3 User Guide . NOTE: To use this action, you must have permission to perform the s3:PutStorageLensConfigurationTagging action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide . S...
     /// </summary>
-    /// <param name="ConfigId">The ID of the S3 Storage Lens configuration. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\-\_\.]+</param>
-    /// <param name="AccountId">The account ID of the requester. Constraints: o max: 64 o pattern: ^\d{12}$</param>
-    /// <param name="Tags">The tag set of the S3 Storage Lens configuration. NOTE: You can set up to a maximum of 50 tags. (structure) Key -&gt; (string) [required] Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="ConfigId">The ID of the S3 Storage Lens configuration. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9\-\_\.]+</param>
+    /// <param name="AccountId">The account ID of the requester. Constraints: • max: 64 • pattern: ^\d{12}$</param>
+    /// <param name="Tags">The tag set of the S3 Storage Lens configuration. NOTE: You can set up to a maximum of 50 tags. (structure) Key -&gt; (string) [required] Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsS3controlPutStorageLensConfigurationTaggingOptions(
         string ConfigId,
         string AccountId,
@@ -75,19 +77,19 @@ public record AwsS3controlPutStorageLensConfigurationTaggingOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the S3 Storage Lens configuration. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\-\_\.]+
+    /// The ID of the S3 Storage Lens configuration. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9\-\_\.]+
     /// </summary>
     [CliOption("--config-id")]
     public string? ConfigId { get; private init; }
 
     /// <summary>
-    /// The account ID of the requester. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The account ID of the requester. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The tag set of the S3 Storage Lens configuration. NOTE: You can set up to a maximum of 50 tags. (structure) Key -&gt; (string) [required] Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tag set of the S3 Storage Lens configuration. NOTE: You can set up to a maximum of 50 tags. (structure) Key -&gt; (string) [required] Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }

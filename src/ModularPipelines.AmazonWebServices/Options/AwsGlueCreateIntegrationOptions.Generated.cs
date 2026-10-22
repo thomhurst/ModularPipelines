@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a Zero-ETL integration in the caller's account between two re- sources with Amazon Resource Names (ARNs): the SourceArn and TargetArn . See also: AWS API Documentation
+/// Creates a Zero-ETL integration in the caller's account between two resources with Amazon Resource Names (ARNs): the SourceArn and TargetArn . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsGlueCreateIntegrationOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a Zero-ETL integration in the caller's account between two re- sources with Amazon Resource Names (ARNs): the SourceArn and TargetArn . See also: AWS API Documentation
+    /// Creates a Zero-ETL integration in the caller's account between two resources with Amazon Resource Names (ARNs): the SourceArn and TargetArn . See also: AWS API Documentation
     /// </summary>
-    /// <param name="IntegrationName">A unique name for an integration in Glue. Constraints: o min: 1 o max: 128</param>
-    /// <param name="SourceArn">The ARN of the source resource for the integration. Constraints: o min: 1 o max: 512</param>
-    /// <param name="TargetArn">The ARN of the target resource for the integration. Constraints: o min: 1 o max: 512</param>
+    /// <param name="IntegrationName">A unique name for an integration in Glue. Constraints: • min: 1 • max: 128</param>
+    /// <param name="SourceArn">The ARN of the source resource for the integration. Constraints: • min: 1 • max: 512</param>
+    /// <param name="TargetArn">The ARN of the target resource for the integration. Constraints: • min: 1 • max: 512</param>
     public AwsGlueCreateIntegrationOptions(
         string IntegrationName,
         string SourceArn,
@@ -65,55 +66,55 @@ public record AwsGlueCreateIntegrationOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique name for an integration in Glue. Constraints: o min: 1 o max: 128
+    /// A unique name for an integration in Glue. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--integration-name")]
     public string? IntegrationName { get; private init; }
 
     /// <summary>
-    /// The ARN of the source resource for the integration. Constraints: o min: 1 o max: 512
+    /// The ARN of the source resource for the integration. Constraints: • min: 1 • max: 512
     /// </summary>
     [CliOption("--source-arn")]
     public string? SourceArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the target resource for the integration. Constraints: o min: 1 o max: 512
+    /// The ARN of the target resource for the integration. Constraints: • min: 1 • max: 512
     /// </summary>
     [CliOption("--target-arn")]
     public string? TargetArn { get; private init; }
 
     /// <summary>
-    /// A description of the integration. Constraints: o max: 1000 o pattern: [\S\s]*
+    /// A description of the integration. Constraints: • max: 1000 • pattern: [\S\s]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Selects source tables for the integration using Maxwell filter syn- tax. Constraints: o min: 1 o max: 2048
+    /// Selects source tables for the integration using Maxwell filter syntax. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--data-filter")]
     public string? DataFilter { get; set; }
 
     /// <summary>
-    /// The ARN of a KMS key used for encrypting the channel. Constraints: o min: 1 o max: 2048
+    /// The ARN of a KMS key used for encrypting the channel. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// An optional set of non-secret keyvalue pairs that contains addi- tional contextual information for encryption. This can only be pro- vided if KMSKeyId is provided. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// An optional set of non-secret keyvalue pairs that contains additional contextual information for encryption. This can only be provided if KMSKeyId is provided. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--additional-encryption-context", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AdditionalEncryptionContext { get; set; }
 
     /// <summary>
-    /// Metadata assigned to the resource consisting of a list of key-value pairs. (structure) The Tag object represents a label that you can assign to an Ama- zon Web Services resource. Each tag consists of a key and an op- tional value, both of which you define. For more information about tags, and controlling access to re- sources in Glue, see Amazon Web Services Tags in Glue and Specifying Glue Resource ARNs in the developer guide. key -&gt; (string) The tag key. The key is required when you create a tag on an object. The key is case-sensitive, and must not contain the prefix aws. Constraints: o min: 1 o max: 128 value -&gt; (string) The tag value. The value is optional when you create a tag on an object. The value is case-sensitive, and must not contain the prefix aws. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// Metadata assigned to the resource consisting of a list of key-value pairs. (structure) The Tag object represents a label that you can assign to an Amazon Web Services resource. Each tag consists of a key and an optional value, both of which you define. For more information about tags, and controlling access to resources in Glue, see Amazon Web Services Tags in Glue and Specifying Glue Resource ARNs in the developer guide. key -&gt; (string) The tag key. The key is required when you create a tag on an object. The key is case-sensitive, and must not contain the prefix aws. Constraints: • min: 1 • max: 128 value -&gt; (string) The tag value. The value is optional when you create a tag on an object. The value is case-sensitive, and must not contain the prefix aws. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The configuration settings. RefreshInterval -&gt; (string) Specifies the frequency at which CDC (Change Data Capture) pulls or incremental loads should occur. This parameter provides flex- ibility to align the refresh rate with your specific data update patterns, system load considerations, and performance optimiza- tion goals. Time increment can be set from 15 minutes to 8640 minutes (six days). Constraints: o min: 1 o max: 128 SourceProperties -&gt; (map) A collection of key-value pairs that specify additional proper- ties for the integration source. These properties provide con- figuration options that can be used to customize the behavior of the ODB source during data integration operations. key -&gt; (string) value -&gt; (string) ContinuousSync -&gt; (boolean) Enables continuous synchronization for on-demand data extrac- tions from SaaS applications to Amazon Web Services data ser- vices like Amazon Redshift and Amazon S3. Shorthand Syntax: RefreshInterval=string,SourceProperties={KeyName1=string,KeyName2=string},ContinuousSync=boolean JSON Syntax: { "RefreshInterval": "string", "SourceProperties": {"string": "string" ...}, "ContinuousSync": true|false }
+    /// The configuration settings. RefreshInterval -&gt; (string) Specifies the frequency at which CDC (Change Data Capture) pulls or incremental loads should occur. This parameter provides flexibility to align the refresh rate with your specific data update patterns, system load considerations, and performance optimization goals. Time increment can be set from 15 minutes to 8640 minutes (six days). Constraints: • min: 1 • max: 128 SourceProperties -&gt; (map) A collection of key-value pairs that specify additional properties for the integration source. These properties provide configuration options that can be used to customize the behavior of the ODB source during data integration operations. key -&gt; (string) value -&gt; (string) ContinuousSync -&gt; (boolean) Enables continuous synchronization for on-demand data extractions from SaaS applications to Amazon Web Services data services like Amazon Redshift and Amazon S3. TargetNamespace -&gt; (string) An optional custom namespace for the integration's target. Supply this parameter only when the target is an Amazon S3 Tables table bucket; it is not accepted for other target types. The integration replicates data into the namespace you specify, reusing it if it already exists. If you omit this parameter, the target namespace defaults to zetl_ followed by the integration ID, with hyphens converted to underscores. The value is immutable after the integration is created; ModifyIntegration rejects changes to it. It must be a valid Amazon S3 Tables namespace name: 1 to 255 characters using lowercase letters, numbers, and underscores, with no leading or trailing underscore and no reserved aws prefix. Constraints: • min: 1 • max: 255 • pattern: [a-z0-9]([a-z0-9_]*[a-z0-9])? Shorthand Syntax: RefreshInterval=string,SourceProperties={KeyName1=string,KeyName2=string},ContinuousSync=boolean,TargetNamespace=string JSON Syntax: { "RefreshInterval": "string", "SourceProperties": {"string": "string" ...}, "ContinuousSync": true|false, "TargetNamespace": "string" }
     /// </summary>
     [CliOption("--integration-config")]
     public string? IntegrationConfig { get; set; }

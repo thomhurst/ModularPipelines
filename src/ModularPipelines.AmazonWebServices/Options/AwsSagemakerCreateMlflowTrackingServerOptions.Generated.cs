@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +30,9 @@ public record AwsSagemakerCreateMlflowTrackingServerOptions : AwsOptions, IValid
     /// <summary>
     /// Creates an MLflow Tracking Server using a general purpose Amazon S3 bucket as the artifact store. For more information, see Create an MLflow Tracking Server . See also: AWS API Documentation
     /// </summary>
-    /// <param name="TrackingServerName">A unique string identifying the tracking server name. This string is part of the tracking server ARN. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}</param>
-    /// <param name="ArtifactStoreUri">The S3 URI for a general purpose bucket to use as the MLflow Track- ing Server artifact store. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*)</param>
-    /// <param name="RoleArn">The Amazon Resource Name (ARN) for an IAM role in your account that the MLflow Tracking Server uses to access the artifact store in Ama- zon S3. The role should have AmazonS3FullAccess permissions. For more information on IAM permissions for tracking server creation, see Set up IAM permissions for MLflow . Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
+    /// <param name="TrackingServerName">A unique string identifying the tracking server name. This string is part of the tracking server ARN. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}</param>
+    /// <param name="ArtifactStoreUri">The S3 URI for a general purpose bucket to use as the MLflow Tracking Server artifact store. Constraints: • min: 0 • max: 1024 • pattern: (https|s3)://([^/]+)/?(.*)</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) for an IAM role in your account that the MLflow Tracking Server uses to access the artifact store in Amazon S3. The role should have AmazonS3FullAccess permissions. For more information on IAM permissions for tracking server creation, see Set up IAM permissions for MLflow . Constraints: • min: 20 • max: 2048 • pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
     public AwsSagemakerCreateMlflowTrackingServerOptions(
         string TrackingServerName,
         string ArtifactStoreUri,
@@ -65,55 +67,55 @@ public record AwsSagemakerCreateMlflowTrackingServerOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique string identifying the tracking server name. This string is part of the tracking server ARN. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}
+    /// A unique string identifying the tracking server name. This string is part of the tracking server ARN. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}
     /// </summary>
     [CliOption("--tracking-server-name")]
     public string? TrackingServerName { get; private init; }
 
     /// <summary>
-    /// The S3 URI for a general purpose bucket to use as the MLflow Track- ing Server artifact store. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*)
+    /// The S3 URI for a general purpose bucket to use as the MLflow Tracking Server artifact store. Constraints: • min: 0 • max: 1024 • pattern: (https|s3)://([^/]+)/?(.*)
     /// </summary>
     [CliOption("--artifact-store-uri")]
     public string? ArtifactStoreUri { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) for an IAM role in your account that the MLflow Tracking Server uses to access the artifact store in Ama- zon S3. The role should have AmazonS3FullAccess permissions. For more information on IAM permissions for tracking server creation, see Set up IAM permissions for MLflow . Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// The Amazon Resource Name (ARN) for an IAM role in your account that the MLflow Tracking Server uses to access the artifact store in Amazon S3. The role should have AmazonS3FullAccess permissions. For more information on IAM permissions for tracking server creation, see Set up IAM permissions for MLflow . Constraints: • min: 20 • max: 2048 • pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// The size of the tracking server you want to create. You can choose between "Small" , "Medium" , and "Large" . The default MLflow Track- ing Server configuration size is "Small" . You can choose a size de- pending on the projected use of the tracking server such as the vol- ume of data logged, number of users, and frequency of use. We recommend using a small tracking server for teams of up to 25 users, a medium tracking server for teams of up to 50 users, and a large tracking server for teams of up to 100 users. Possible values: o Small o Medium o Large
+    /// The size of the tracking server you want to create. You can choose between "Small" , "Medium" , and "Large" . The default MLflow Tracking Server configuration size is "Small" . You can choose a size depending on the projected use of the tracking server such as the volume of data logged, number of users, and frequency of use. We recommend using a small tracking server for teams of up to 25 users, a medium tracking server for teams of up to 50 users, and a large tracking server for teams of up to 100 users. Possible values: • Small • Medium • Large
     /// </summary>
     [CliOption("--tracking-server-size")]
     public AwsSagemakerCreateMlflowTrackingServerTrackingServerSize? TrackingServerSize { get; set; }
 
     /// <summary>
-    /// The version of MLflow that the tracking server uses. To see which MLflow versions are available to use, see How it works . Constraints: o min: 0 o max: 16 o pattern: [0-9]*.[0-9]*.[0-9]*
+    /// The version of MLflow that the tracking server uses. To see which MLflow versions are available to use, see How it works . Constraints: • min: 0 • max: 16 • pattern: [0-9]*.[0-9]*.[0-9]*
     /// </summary>
     [CliOption("--mlflow-version")]
     public string? MlflowVersion { get; set; }
 
     /// <summary>
-    /// Whether to enable or disable automatic registration of new MLflow models to the SageMaker Model Registry. To enable automatic model registration, set this value to True . To disable automatic model registration, set this value to False . If not specified, Automatic- ModelRegistration defaults to False .
+    /// Whether to enable or disable automatic registration of new MLflow models to the SageMaker Model Registry. To enable automatic model registration, set this value to True . To disable automatic model registration, set this value to False . If not specified, AutomaticModelRegistration defaults to False .
     /// </summary>
     [CliFlag("--automatic-model-registration", NegatedName = "--no-automatic-model-registration")]
     public bool? AutomaticModelRegistration { get; set; }
 
     /// <summary>
-    /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time that weekly maintenance updates are scheduled. For example: TUE:03:30. Constraints: o min: 0 o max: 9 o pattern: (Mon|Tue|Wed|Thu|Fri|Sat|Sun):([01]\d|2[0-3]):([0-5]\d)
+    /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time that weekly maintenance updates are scheduled. For example: TUE:03:30. Constraints: • min: 0 • max: 9 • pattern: (Mon|Tue|Wed|Thu|Fri|Sat|Sun):([01]\d|2[0-3]):([0-5]\d)
     /// </summary>
     [CliOption("--weekly-maintenance-window-start")]
     public string? WeeklyMaintenanceWindowStart { get; set; }
 
     /// <summary>
-    /// Tags consisting of key-value pairs used to manage metadata for the tracking server. Constraints: o min: 0 o max: 50 (structure) A tag object that consists of a key and an optional value, used to manage metadata for SageMaker Amazon Web Services resources. You can add tags to notebook instances, training jobs, hyperpa- rameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. For more information on adding tags to SageMaker resources, see AddTags . For more information on adding metadata to your Amazon Web Ser- vices resources with tagging, see Tagging Amazon Web Services resources . For advice on best practices for managing Amazon Web Services resources with tagging, see Tagging Best Practices: Im- plement an Effective Amazon Web Services Resource Tagging Strat- egy . Key -&gt; (string) [required] The tag key. Tag keys must be unique per resource. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Tags consisting of key-value pairs used to manage metadata for the tracking server. Constraints: • min: 0 • max: 50 (structure) A tag object that consists of a key and an optional value, used to manage metadata for SageMaker Amazon Web Services resources. You can add tags to notebook instances, training jobs, hyperparameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. For more information on adding tags to SageMaker resources, see AddTags . For more information on adding metadata to your Amazon Web Services resources with tagging, see Tagging Amazon Web Services resources . For advice on best practices for managing Amazon Web Services resources with tagging, see Tagging Best Practices: Implement an Effective Amazon Web Services Resource Tagging Strategy . Key -&gt; (string) [required] The tag key. Tag keys must be unique per resource. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Expected Amazon Web Services account ID that owns the Amazon S3 bucket for artifact storage. Defaults to caller's account ID if not provided. Constraints: o min: 12 o max: 12 o pattern: \d+
+    /// Expected Amazon Web Services account ID that owns the Amazon S3 bucket for artifact storage. Defaults to caller's account ID if not provided. Constraints: • min: 12 • max: 12 • pattern: \d+
     /// </summary>
     [CliOption("--s3-bucket-owner-account-id")]
     public string? S3BucketOwnerAccountId { get; set; }

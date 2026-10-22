@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsConnecthealthGetPatientInsightsJobOptions : AwsOptions, IValida
     /// <summary>
     /// Get details of a started patient insights job. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">Constraints: o min: 20 o max: 25 o pattern: (hai-|dom-)[a-z0-9]+</param>
-    /// <param name="JobId">Constraints: o min: 1 o max: 36</param>
+    /// <param name="DomainId">Constraints: • min: 20 • max: 25 • pattern: (hai-|dom-)[a-z0-9]+</param>
+    /// <param name="JobId">Constraints: • min: 1 • max: 36</param>
     public AwsConnecthealthGetPatientInsightsJobOptions(
         string DomainId,
         string JobId
@@ -60,13 +62,13 @@ public record AwsConnecthealthGetPatientInsightsJobOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Constraints: o min: 20 o max: 25 o pattern: (hai-|dom-)[a-z0-9]+
+    /// Constraints: • min: 20 • max: 25 • pattern: (hai-|dom-)[a-z0-9]+
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// Constraints: o min: 1 o max: 36
+    /// Constraints: • min: 1 • max: 36
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }

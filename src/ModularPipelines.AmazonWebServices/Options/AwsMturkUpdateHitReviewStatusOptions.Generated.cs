@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The UpdateHITReviewStatus operation updates the status of a HIT. If the status is Reviewable, this operation can update the status to Review- ing, or it can revert a Reviewing HIT back to the Reviewable status. See also: AWS API Documentation
+/// The UpdateHITReviewStatus operation updates the status of a HIT. If the status is Reviewable, this operation can update the status to Reviewing, or it can revert a Reviewing HIT back to the Reviewable status. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsMturkUpdateHitReviewStatusOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The UpdateHITReviewStatus operation updates the status of a HIT. If the status is Reviewable, this operation can update the status to Review- ing, or it can revert a Reviewing HIT back to the Reviewable status. See also: AWS API Documentation
+    /// The UpdateHITReviewStatus operation updates the status of a HIT. If the status is Reviewable, this operation can update the status to Reviewing, or it can revert a Reviewing HIT back to the Reviewable status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HitId">The ID of the HIT to update. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$</param>
+    /// <param name="HitId">The ID of the HIT to update. Constraints: • min: 1 • max: 64 • pattern: ^[A-Z0-9]+$</param>
     public AwsMturkUpdateHitReviewStatusOptions(
         string HitId
     )
@@ -56,13 +58,13 @@ public record AwsMturkUpdateHitReviewStatusOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the HIT to update. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$
+    /// The ID of the HIT to update. Constraints: • min: 1 • max: 64 • pattern: ^[A-Z0-9]+$
     /// </summary>
     [CliOption("--hit-id")]
     public string? HitId { get; private init; }
 
     /// <summary>
-    /// Specifies how to update the HIT status. Default is False . o Setting this to false will only transition a HIT from Reviewable to Reviewing o Setting this to true will only transition a HIT from Reviewing to Reviewable
+    /// Specifies how to update the HIT status. Default is False . • Setting this to false will only transition a HIT from Reviewable to Reviewing • Setting this to true will only transition a HIT from Reviewing to Reviewable
     /// </summary>
     [CliFlag("--revert", NegatedName = "--no-revert")]
     public bool? Revert { get; set; }

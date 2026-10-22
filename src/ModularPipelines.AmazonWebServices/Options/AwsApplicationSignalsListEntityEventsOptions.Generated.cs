@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of change events for a specific entity, such as deploy- ments, configuration changes, or other state-changing activities. This operation helps track the history of changes that may have affected service performance. See also: AWS API Documentation list-entity-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --que...
+/// Returns a list of change events for a specific entity, such as deployments, configuration changes, or other state-changing activities. This operation helps track the history of changes that may have affected service performance. See also: AWS API Documentation list-entity-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsApplicationSignalsListEntityEventsOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a list of change events for a specific entity, such as deploy- ments, configuration changes, or other state-changing activities. This operation helps track the history of changes that may have affected service performance. See also: AWS API Documentation list-entity-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --que...
+    /// Returns a list of change events for a specific entity, such as deployments, configuration changes, or other state-changing activities. This operation helps track the history of changes that may have affected service performance. See also: AWS API Documentation list-entity-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query...
     /// </summary>
-    /// <param name="Entity">The entity for which to retrieve change events. This specifies the service, resource, or other entity whose event history you want to examine. This is a string-to-string map. It can include the following fields. o Type designates the type of object this is. o ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Re- source . o Name specifies the name of the object. This is used only if the value of the Type field is Service , RemoteService , or AWS::Ser- vice . o Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource . o Environment specifies the location where this object is hosted, or what it belongs to. o AwsAccountId specifies the account where this object is in. Below is an example of a service. { "Type": "Service", "Name": "visits-service", "Environment": "petclinic-test" } Below is an example of a resource. { "Type": "AWS::Resource", "ResourceType": "AWS::DynamoDB::Ta- ble", "Identifier": "Customers" } Constraints: o min: 1 o max: 4 key -&gt; (string) Constraints: o pattern: [a-zA-Z]{1,50} value -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: [ -~]*[!-~]+[ -~]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
-    /// <param name="StartTime">The start of the time period to retrieve change events for. When used in a raw HTTP Query API, it is formatted as epoch time in sec- onds. For example: 1698778057</param>
+    /// <param name="Entity">The entity for which to retrieve change events. This specifies the service, resource, or other entity whose event history you want to examine. This is a string-to-string map. It can include the following fields. • Type designates the type of object this is. • ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource . • Name specifies the name of the object. This is used only if the value of the Type field is Service , RemoteService , or AWS::Service . • Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource . • Environment specifies the location where this object is hosted, or what it belongs to. • AwsAccountId specifies the account where this object is in. Below is an example of a service. { "Type": "Service", "Name": "visits-service", "Environment": "petclinic-test" } Below is an example of a resource. { "Type": "AWS::Resource", "ResourceType": "AWS::DynamoDB::Table", "Identifier": "Customers" } Constraints: • min: 1 • max: 4 key -&gt; (string) Constraints: • pattern: [a-zA-Z]{1,50} value -&gt; (string) Constraints: • min: 1 • max: 1024 • pattern: [ -~]*[!-~]+[ -~]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="StartTime">The start of the time period to retrieve change events for. When used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example: 1698778057</param>
     /// <param name="EndTime">The end of the time period to retrieve change events for. When used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example: 1698778057</param>
     public AwsApplicationSignalsListEntityEventsOptions(
         IReadOnlyList<KeyValue> Entity,
@@ -77,13 +78,13 @@ public record AwsApplicationSignalsListEntityEventsOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The entity for which to retrieve change events. This specifies the service, resource, or other entity whose event history you want to examine. This is a string-to-string map. It can include the following fields. o Type designates the type of object this is. o ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Re- source . o Name specifies the name of the object. This is used only if the value of the Type field is Service , RemoteService , or AWS::Ser- vice . o Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource . o Environment specifies the location where this object is hosted, or what it belongs to. o AwsAccountId specifies the account where this object is in. Below is an example of a service. { "Type": "Service", "Name": "visits-service", "Environment": "petclinic-test" } Below is an example of a resource. { "Type": "AWS::Resource", "ResourceType": "AWS::DynamoDB::Ta- ble", "Identifier": "Customers" } Constraints: o min: 1 o max: 4 key -&gt; (string) Constraints: o pattern: [a-zA-Z]{1,50} value -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: [ -~]*[!-~]+[ -~]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The entity for which to retrieve change events. This specifies the service, resource, or other entity whose event history you want to examine. This is a string-to-string map. It can include the following fields. • Type designates the type of object this is. • ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource . • Name specifies the name of the object. This is used only if the value of the Type field is Service , RemoteService , or AWS::Service . • Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource . • Environment specifies the location where this object is hosted, or what it belongs to. • AwsAccountId specifies the account where this object is in. Below is an example of a service. { "Type": "Service", "Name": "visits-service", "Environment": "petclinic-test" } Below is an example of a resource. { "Type": "AWS::Resource", "ResourceType": "AWS::DynamoDB::Table", "Identifier": "Customers" } Constraints: • min: 1 • max: 4 key -&gt; (string) Constraints: • pattern: [a-zA-Z]{1,50} value -&gt; (string) Constraints: • min: 1 • max: 1024 • pattern: [ -~]*[!-~]+[ -~]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--entity", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Entity { get; private init; }
 
     /// <summary>
-    /// The start of the time period to retrieve change events for. When used in a raw HTTP Query API, it is formatted as epoch time in sec- onds. For example: 1698778057
+    /// The start of the time period to retrieve change events for. When used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example: 1698778057
     /// </summary>
     [CliOption("--start-time")]
     public string? StartTime { get; private init; }
@@ -97,9 +98,6 @@ public record AwsApplicationSignalsListEntityEventsOptions : AwsOptions, IValida
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -108,16 +106,19 @@ public record AwsApplicationSignalsListEntityEventsOptions : AwsOptions, IValida
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 250
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 250
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

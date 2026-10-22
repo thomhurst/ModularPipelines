@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new Subscription within a Domain for billing and user manage- ment. See also: AWS API Documentation
+/// Creates a new Subscription within a Domain for billing and user management. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsConnecthealthCreateSubscriptionOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new Subscription within a Domain for billing and user manage- ment. See also: AWS API Documentation
+    /// Creates a new Subscription within a Domain for billing and user management. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The unique identifier of the parent Domain. Constraints: o min: 20 o max: 25 o pattern: (hai-|dom-)[a-z0-9]+</param>
+    /// <param name="DomainId">The unique identifier of the parent Domain. Constraints: • min: 20 • max: 25 • pattern: (hai-|dom-)[a-z0-9]+</param>
     public AwsConnecthealthCreateSubscriptionOptions(
         string DomainId
     )
@@ -56,7 +58,7 @@ public record AwsConnecthealthCreateSubscriptionOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the parent Domain. Constraints: o min: 20 o max: 25 o pattern: (hai-|dom-)[a-z0-9]+
+    /// The unique identifier of the parent Domain. Constraints: • min: 20 • max: 25 • pattern: (hai-|dom-)[a-z0-9]+
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }

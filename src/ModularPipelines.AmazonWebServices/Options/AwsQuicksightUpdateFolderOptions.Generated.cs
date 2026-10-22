@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsQuicksightUpdateFolderOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the name of a folder. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that contains the folder to update. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="FolderId">The ID of the folder. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+</param>
-    /// <param name="Name">The name of the folder. Constraints: o min: 1 o max: 200</param>
+    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that contains the folder to update. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="FolderId">The ID of the folder. Constraints: • min: 1 • max: 2048 • pattern: [\w\-]+</param>
+    /// <param name="Name">The name of the folder. Constraints: • min: 1 • max: 200</param>
     public AwsQuicksightUpdateFolderOptions(
         string AwsAccountId,
         string FolderId,
@@ -64,19 +66,19 @@ public record AwsQuicksightUpdateFolderOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID for the Amazon Web Services account that contains the folder to update. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID for the Amazon Web Services account that contains the folder to update. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID of the folder. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+
+    /// The ID of the folder. Constraints: • min: 1 • max: 2048 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--folder-id")]
     public string? FolderId { get; private init; }
 
     /// <summary>
-    /// The name of the folder. Constraints: o min: 1 o max: 200
+    /// The name of the folder. Constraints: • min: 1 • max: 200
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a certificate provider. Requires permission to access the DeleteCertificateProvider action. If you delete the certificate provider resource, the behavior of Cre- ateCertificateFromCsr will resume, and IoT will create certificates signed by IoT from a certificate signing request (CSR). See also: AWS API Documentation
+/// Deletes a certificate provider. Requires permission to access the DeleteCertificateProvider action. If you delete the certificate provider resource, the behavior of CreateCertificateFromCsr will resume, and IoT will create certificates signed by IoT from a certificate signing request (CSR). See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsIotDeleteCertificateProviderOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a certificate provider. Requires permission to access the DeleteCertificateProvider action. If you delete the certificate provider resource, the behavior of Cre- ateCertificateFromCsr will resume, and IoT will create certificates signed by IoT from a certificate signing request (CSR). See also: AWS API Documentation
+    /// Deletes a certificate provider. Requires permission to access the DeleteCertificateProvider action. If you delete the certificate provider resource, the behavior of CreateCertificateFromCsr will resume, and IoT will create certificates signed by IoT from a certificate signing request (CSR). See also: AWS API Documentation
     /// </summary>
-    /// <param name="CertificateProviderName">The name of the certificate provider. Constraints: o min: 1 o max: 128 o pattern: [\w=,@-]+</param>
+    /// <param name="CertificateProviderName">The name of the certificate provider. Constraints: • min: 1 • max: 128 • pattern: [\w=,@-]+</param>
     public AwsIotDeleteCertificateProviderOptions(
         string CertificateProviderName
     )
@@ -56,7 +58,7 @@ public record AwsIotDeleteCertificateProviderOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the certificate provider. Constraints: o min: 1 o max: 128 o pattern: [\w=,@-]+
+    /// The name of the certificate provider. Constraints: • min: 1 • max: 128 • pattern: [\w=,@-]+
     /// </summary>
     [CliOption("--certificate-provider-name")]
     public string? CertificateProviderName { get; private init; }

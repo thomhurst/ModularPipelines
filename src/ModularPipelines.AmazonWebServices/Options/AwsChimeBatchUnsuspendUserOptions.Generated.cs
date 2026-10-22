@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the suspension from up to 50 previously suspended users for the specified Amazon Chime EnterpriseLWA account. Only users on Enter- priseLWA accounts can be unsuspended using this action. For more infor- mation about different account types, see Managing Your Amazon Chime Accounts in the account types, in the Amazon Chime Administration Guide . Previously suspended users who are unsuspended using this action are returned to Registered status. Users who are not previously suspended are ign...
+/// Removes the suspension from up to 50 previously suspended users for the specified Amazon Chime EnterpriseLWA account. Only users on EnterpriseLWA accounts can be unsuspended using this action. For more information about different account types, see Managing Your Amazon Chime Accounts in the account types, in the Amazon Chime Administration Guide . Previously suspended users who are unsuspended using this action are returned to Registered status. Users who are not previously suspended are ignored...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsChimeBatchUnsuspendUserOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the suspension from up to 50 previously suspended users for the specified Amazon Chime EnterpriseLWA account. Only users on Enter- priseLWA accounts can be unsuspended using this action. For more infor- mation about different account types, see Managing Your Amazon Chime Accounts in the account types, in the Amazon Chime Administration Guide . Previously suspended users who are unsuspended using this action are returned to Registered status. Users who are not previously suspended are ign...
+    /// Removes the suspension from up to 50 previously suspended users for the specified Amazon Chime EnterpriseLWA account. Only users on EnterpriseLWA accounts can be unsuspended using this action. For more information about different account types, see Managing Your Amazon Chime Accounts in the account types, in the Amazon Chime Administration Guide . Previously suspended users who are unsuspended using this action are returned to Registered status. Users who are not previously suspended are ignored...
     /// </summary>
-    /// <param name="AccountId">The Amazon Chime account ID. Constraints: o pattern: .*\S.*</param>
-    /// <param name="UserIdList">The request containing the user IDs to unsuspend. Constraints: o max: 50 (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...</param>
+    /// <param name="AccountId">The Amazon Chime account ID. Constraints: • pattern: .*\S.*</param>
+    /// <param name="UserIdList">The request containing the user IDs to unsuspend. Constraints: • max: 50 (string) Constraints: • pattern: .*\S.* Syntax: "string" "string" ...</param>
     public AwsChimeBatchUnsuspendUserOptions(
         string AccountId,
         IEnumerable<string> UserIdList
@@ -71,13 +73,13 @@ public record AwsChimeBatchUnsuspendUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Chime account ID. Constraints: o pattern: .*\S.*
+    /// The Amazon Chime account ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The request containing the user IDs to unsuspend. Constraints: o max: 50 (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...
+    /// The request containing the user IDs to unsuspend. Constraints: • max: 50 (string) Constraints: • pattern: .*\S.* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--user-id-list", GroupValues = true)]
     public IEnumerable<string>? UserIdList { get; private init; }

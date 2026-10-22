@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Designates the Amazon Security Lake delegated administrator account for the organization. This API can only be called by the organization man- agement account. The organization management account cannot be the del- egated administrator account. See also: AWS API Documentation
+/// Designates the Amazon Security Lake delegated administrator account for the organization. This API can only be called by the organization management account. The organization management account cannot be the delegated administrator account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSecuritylakeRegisterDataLakeDelegatedAdministratorOptions : Aws
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Designates the Amazon Security Lake delegated administrator account for the organization. This API can only be called by the organization man- agement account. The organization management account cannot be the del- egated administrator account. See also: AWS API Documentation
+    /// Designates the Amazon Security Lake delegated administrator account for the organization. This API can only be called by the organization management account. The organization management account cannot be the delegated administrator account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID of the Security Lake delegated administrator. Constraints: o pattern: ^[\\\w\-_:/.@=+]*$</param>
+    /// <param name="AccountId">The Amazon Web Services account ID of the Security Lake delegated administrator. Constraints: • pattern: ^[\\\w\-_:/.@=+]*$</param>
     public AwsSecuritylakeRegisterDataLakeDelegatedAdministratorOptions(
         string AccountId
     )
@@ -56,7 +58,7 @@ public record AwsSecuritylakeRegisterDataLakeDelegatedAdministratorOptions : Aws
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID of the Security Lake delegated administrator. Constraints: o pattern: ^[\\\w\-_:/.@=+]*$
+    /// The Amazon Web Services account ID of the Security Lake delegated administrator. Constraints: • pattern: ^[\\\w\-_:/.@=+]*$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }

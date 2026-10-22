@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the number of open workflow executions within the given domain that meet the specified filtering criteria. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: o Use a Resource element with the domain name to limit the action to only specified domains. o Use an Action element to allow or deny permission t...
+/// Returns the number of open workflow executions within the given domain that meet the specified filtering criteria. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: • Use a Resource element with the domain name to limit the action to only specified domains. • Use an Action element to allow or deny permission t...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSwfCountOpenWorkflowExecutionsOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the number of open workflow executions within the given domain that meet the specified filtering criteria. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: o Use a Resource element with the domain name to limit the action to only specified domains. o Use an Action element to allow or deny permission t...
+    /// Returns the number of open workflow executions within the given domain that meet the specified filtering criteria. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: • Use a Resource element with the domain name to limit the action to only specified domains. • Use an Action element to allow or deny permission t...
     /// </summary>
-    /// <param name="Domain">The name of the domain containing the workflow executions to count. Constraints: o min: 1 o max: 256</param>
+    /// <param name="Domain">The name of the domain containing the workflow executions to count. Constraints: • min: 1 • max: 256</param>
     /// <param name="StartTimeFilter">Specifies the start time criteria that workflow executions must meet in order to be counted. oldestDate -&gt; (timestamp) [required] Specifies the oldest start or close date and time to return. latestDate -&gt; (timestamp) Specifies the latest start or close date and time to return. Shorthand Syntax: oldestDate=timestamp,latestDate=timestamp JSON Syntax: { "oldestDate": timestamp, "latestDate": timestamp }</param>
     public AwsSwfCountOpenWorkflowExecutionsOptions(
         string Domain,
@@ -60,7 +62,7 @@ public record AwsSwfCountOpenWorkflowExecutionsOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain containing the workflow executions to count. Constraints: o min: 1 o max: 256
+    /// The name of the domain containing the workflow executions to count. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; private init; }
@@ -72,19 +74,19 @@ public record AwsSwfCountOpenWorkflowExecutionsOptions : AwsOptions, IValidatabl
     public string? StartTimeFilter { get; private init; }
 
     /// <summary>
-    /// Specifies the type of the workflow executions to be counted. NOTE: executionFilter , typeFilter and tagFilter are mutually exclu- sive. You can specify at most one of these in a request. name -&gt; (string) [required] Name of the workflow type. Constraints: o min: 1 o max: 256 version -&gt; (string) Version of the workflow type. Constraints: o max: 64 Shorthand Syntax: name=string,version=string JSON Syntax: { "name": "string", "version": "string" }
+    /// Specifies the type of the workflow executions to be counted. NOTE: executionFilter , typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. name -&gt; (string) [required] Name of the workflow type. Constraints: • min: 1 • max: 256 version -&gt; (string) Version of the workflow type. Constraints: • max: 64 Shorthand Syntax: name=string,version=string JSON Syntax: { "name": "string", "version": "string" }
     /// </summary>
     [CliOption("--type-filter")]
     public string? TypeFilter { get; set; }
 
     /// <summary>
-    /// If specified, only executions that have a tag that matches the fil- ter are counted. NOTE: executionFilter , typeFilter and tagFilter are mutually exclu- sive. You can specify at most one of these in a request. tag -&gt; (string) [required] Specifies the tag that must be associated with the execution for it to meet the filter criteria. Tags may only contain unicode letters, digits, whitespace, or these symbols: _ . : / = + - @ . Constraints: o min: 0 o max: 256 Shorthand Syntax: tag=string JSON Syntax: { "tag": "string" }
+    /// If specified, only executions that have a tag that matches the filter are counted. NOTE: executionFilter , typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. tag -&gt; (string) [required] Specifies the tag that must be associated with the execution for it to meet the filter criteria. Tags may only contain unicode letters, digits, whitespace, or these symbols: _ . : / = + - @ . Constraints: • min: 0 • max: 256 Shorthand Syntax: tag=string JSON Syntax: { "tag": "string" }
     /// </summary>
     [CliOption("--tag-filter")]
     public string? TagFilter { get; set; }
 
     /// <summary>
-    /// If specified, only workflow executions matching the WorkflowId in the filter are counted. NOTE: executionFilter , typeFilter and tagFilter are mutually exclu- sive. You can specify at most one of these in a request. workflowId -&gt; (string) [required] The workflowId to pass of match the criteria of this filter. Constraints: o min: 1 o max: 256 Shorthand Syntax: workflowId=string JSON Syntax: { "workflowId": "string" }
+    /// If specified, only workflow executions matching the WorkflowId in the filter are counted. NOTE: executionFilter , typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. workflowId -&gt; (string) [required] The workflowId to pass of match the criteria of this filter. Constraints: • min: 1 • max: 256 Shorthand Syntax: workflowId=string JSON Syntax: { "workflowId": "string" }
     /// </summary>
     [CliOption("--execution-filter")]
     public string? ExecutionFilter { get; set; }

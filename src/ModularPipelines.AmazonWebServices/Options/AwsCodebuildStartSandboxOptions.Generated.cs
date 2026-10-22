@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCodebuildStartSandboxOptions : AwsOptions
 {
     /// <summary>
-    /// The CodeBuild project name. Constraints: o min: 1
+    /// The CodeBuild project name. Constraints: • min: 1
     /// </summary>
     [CliOption("--project-name")]
     public string? ProjectName { get; set; }

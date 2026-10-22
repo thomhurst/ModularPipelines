@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about a specific cluster including shipping infor- mation, cluster status, and other important metadata. See also: AWS API Documentation
+/// Returns information about a specific cluster including shipping information, cluster status, and other important metadata. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSnowballDescribeClusterOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns information about a specific cluster including shipping infor- mation, cluster status, and other important metadata. See also: AWS API Documentation
+    /// Returns information about a specific cluster including shipping information, cluster status, and other important metadata. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterId">The automatically generated ID for a cluster. Constraints: o min: 39 o max: 39 o pattern: CID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="ClusterId">The automatically generated ID for a cluster. Constraints: • min: 39 • max: 39 • pattern: CID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     public AwsSnowballDescribeClusterOptions(
         string ClusterId
     )
@@ -56,7 +58,7 @@ public record AwsSnowballDescribeClusterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The automatically generated ID for a cluster. Constraints: o min: 39 o max: 39 o pattern: CID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The automatically generated ID for a cluster. Constraints: • min: 39 • max: 39 • pattern: CID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--cluster-id")]
     public string? ClusterId { get; private init; }

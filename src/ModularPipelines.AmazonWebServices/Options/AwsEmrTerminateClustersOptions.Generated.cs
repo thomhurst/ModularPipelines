@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Shuts down one or more clusters, each specified by cluster ID. Use this command only on clusters that do not have termination protection en- abled. Clusters with termination protection enabled are not terminated. When a cluster is shut down, any step not yet completed is canceled and the Amazon EC2 instances in the cluster are terminated. Any log files not already saved are uploaded to Amazon S3 if a --log-uri was speci- fied when the cluster was created. The maximum number of clusters al- lowed...
+/// Shuts down one or more clusters, each specified by cluster ID. Use this command only on clusters that do not have termination protection enabled. Clusters with termination protection enabled are not terminated. When a cluster is shut down, any step not yet completed is canceled and the Amazon EC2 instances in the cluster are terminated. Any log files not already saved are uploaded to Amazon S3 if a --log-uri was specified when the cluster was created. The maximum number of clusters allowed in th...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEmrTerminateClustersOptions : AwsOptions
 {
     /// <summary>
-    /// Shuts down one or more clusters, each specified by cluster ID. Use this command only on clusters that do not have termination protection en- abled. Clusters with termination protection enabled are not terminated. When a cluster is shut down, any step not yet completed is canceled and the Amazon EC2 instances in the cluster are terminated. Any log files not already saved are uploaded to Amazon S3 if a --log-uri was speci- fied when the cluster was created. The maximum number of clusters al- lowed...
+    /// Shuts down one or more clusters, each specified by cluster ID. Use this command only on clusters that do not have termination protection enabled. Clusters with termination protection enabled are not terminated. When a cluster is shut down, any step not yet completed is canceled and the Amazon EC2 instances in the cluster are terminated. Any log files not already saved are uploaded to Amazon S3 if a --log-uri was specified when the cluster was created. The maximum number of clusters allowed in th...
     /// </summary>
     /// <param name="ClusterIds">A list of clusters to terminate. (string) Syntax: "string" "string" ...</param>
     public AwsEmrTerminateClustersOptions(

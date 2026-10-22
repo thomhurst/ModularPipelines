@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -29,7 +30,7 @@ public record AwsWorkspacesThinClientTagResourceOptions : AwsOptions, IValidatab
     /// Assigns one or more tags (key-value pairs) to the specified resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource that you want to tag.</param>
-    /// <param name="Tags">A map of the key-value pairs of the tag or tags to assign to the re- source. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="Tags">A map of the key-value pairs of the tag or tags to assign to the resource. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsWorkspacesThinClientTagResourceOptions(
         string ResourceArn,
         IReadOnlyList<KeyValue> Tags
@@ -78,7 +79,7 @@ public record AwsWorkspacesThinClientTagResourceOptions : AwsOptions, IValidatab
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A map of the key-value pairs of the tag or tags to assign to the re- source. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of the key-value pairs of the tag or tags to assign to the resource. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; private init; }

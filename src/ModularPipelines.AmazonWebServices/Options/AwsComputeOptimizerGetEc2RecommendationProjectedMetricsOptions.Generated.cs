@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the projected utilization metrics of Amazon EC2 instance recom- mendations. NOTE: The Cpu and Memory metrics are the only projected utilization met- rics returned when you run this action. Additionally, the Memory metric is returned only for resources that have the unified Cloud- Watch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent . See also: AWS API Documentation
+/// Returns the projected utilization metrics of Amazon EC2 instance recommendations. NOTE: The Cpu and Memory metrics are the only projected utilization metrics returned when you run this action. Additionally, the Memory metric is returned only for resources that have the unified CloudWatch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsComputeOptimizerGetEc2RecommendationProjectedMetricsOptions : A
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the projected utilization metrics of Amazon EC2 instance recom- mendations. NOTE: The Cpu and Memory metrics are the only projected utilization met- rics returned when you run this action. Additionally, the Memory metric is returned only for resources that have the unified Cloud- Watch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent . See also: AWS API Documentation
+    /// Returns the projected utilization metrics of Amazon EC2 instance recommendations. NOTE: The Cpu and Memory metrics are the only projected utilization metrics returned when you run this action. Additionally, the Memory metric is returned only for resources that have the unified CloudWatch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent . See also: AWS API Documentation
     /// </summary>
     /// <param name="InstanceArn">The Amazon Resource Name (ARN) of the instances for which to return recommendation projected metrics.</param>
-    /// <param name="Stat">The statistic of the projected metrics. Possible values: o Maximum o Average</param>
+    /// <param name="Stat">The statistic of the projected metrics. Possible values: • Maximum • Average</param>
     /// <param name="Period">The granularity, in seconds, of the projected metrics data points.</param>
     /// <param name="StartTime">The timestamp of the first projected metrics data point to return.</param>
     /// <param name="EndTime">The timestamp of the last projected metrics data point to return.</param>
@@ -77,7 +79,7 @@ public record AwsComputeOptimizerGetEc2RecommendationProjectedMetricsOptions : A
     public string? InstanceArn { get; private init; }
 
     /// <summary>
-    /// The statistic of the projected metrics. Possible values: o Maximum o Average
+    /// The statistic of the projected metrics. Possible values: • Maximum • Average
     /// </summary>
     [CliOption("--stat")]
     public AwsComputeOptimizerGetEc2RecommendationProjectedMetricsStat? Stat { get; private init; }
@@ -101,7 +103,7 @@ public record AwsComputeOptimizerGetEc2RecommendationProjectedMetricsOptions : A
     public string? EndTime { get; private init; }
 
     /// <summary>
-    /// An object to specify the preferences for the Amazon EC2 recommenda- tion projected metrics to return in the response. cpuVendorArchitectures -&gt; (list) Specifies the CPU vendor and architecture for Amazon EC2 in- stance and Auto Scaling group recommendations. For example, when you specify AWS_ARM64 with: o A GetEC2InstanceRecommendations or GetAutoScalingGroupRecom- mendations request, Compute Optimizer returns recommendations that consist of Graviton instance types only. o A GetEC2RecommendationProjectedMetrics request, Compute Opti- mizer returns projected utilization metrics for Graviton in- stance type recommendations only. o A ExportEC2InstanceRecommendations or ExportAutoScaling- GroupRecommendations request, Compute Optimizer exports recom- mendations that consist of Graviton instance types only. (string) Possible values: o AWS_ARM64 o CURRENT Shorthand Syntax: cpuVendorArchitectures=string,string JSON Syntax: { "cpuVendorArchitectures": ["AWS_ARM64"|"CURRENT", ...] }
+    /// An object to specify the preferences for the Amazon EC2 recommendation projected metrics to return in the response. cpuVendorArchitectures -&gt; (list) Specifies the CPU vendor and architecture for Amazon EC2 instance and Auto Scaling group recommendations. For example, when you specify AWS_ARM64 with: • A GetEC2InstanceRecommendations or GetAutoScalingGroupRecommendations request, Compute Optimizer returns recommendations that consist of Graviton instance types only. • A GetEC2RecommendationProjectedMetrics request, Compute Optimizer returns projected utilization metrics for Graviton instance type recommendations only. • A ExportEC2InstanceRecommendations or ExportAutoScalingGroupRecommendations request, Compute Optimizer exports recommendations that consist of Graviton instance types only. (string) Possible values: • AWS_ARM64 • CURRENT Shorthand Syntax: cpuVendorArchitectures=string,string JSON Syntax: { "cpuVendorArchitectures": ["AWS_ARM64"|"CURRENT", ...] }
     /// </summary>
     [CliOption("--recommendation-preferences")]
     public string? RecommendationPreferences { get; set; }

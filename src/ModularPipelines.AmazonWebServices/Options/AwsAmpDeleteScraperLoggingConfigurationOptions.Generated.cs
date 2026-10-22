@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsAmpDeleteScraperLoggingConfigurationOptions : AwsOptions, IVali
     /// <summary>
     /// Deletes the logging configuration for a Amazon Managed Service for Prometheus scraper. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ScraperId">The ID of the scraper whose logging configuration will be deleted. Constraints: o min: 1 o max: 64 o pattern: [0-9A-Za-z][-.0-9A-Z_a-z]*</param>
+    /// <param name="ScraperId">The ID of the scraper whose logging configuration will be deleted. Constraints: • min: 1 • max: 64 • pattern: [0-9A-Za-z][-.0-9A-Z_a-z]*</param>
     public AwsAmpDeleteScraperLoggingConfigurationOptions(
         string ScraperId
     )
@@ -57,13 +59,13 @@ public record AwsAmpDeleteScraperLoggingConfigurationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the scraper whose logging configuration will be deleted. Constraints: o min: 1 o max: 64 o pattern: [0-9A-Za-z][-.0-9A-Z_a-z]*
+    /// The ID of the scraper whose logging configuration will be deleted. Constraints: • min: 1 • max: 64 • pattern: [0-9A-Za-z][-.0-9A-Z_a-z]*
     /// </summary>
     [CliOption("--scraper-id")]
     public string? ScraperId { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the request is processed exactly once. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
+    /// A unique, case-sensitive identifier that you provide to ensure the request is processed exactly once. Constraints: • min: 1 • max: 64 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

@@ -62,7 +62,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Enables a custom detection rule for your account by creating an associ- ation. You specify the rule and the mode in which it operates. See also: AWS API Documentation
+    /// Enables a custom detection rule for your account by creating an association. You specify the rule and the mode in which it operates. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Creates an organization-level configuration that enables a custom de- tection rule across your organization. This operation is available only to the delegated administrator account. See also: AWS API Documentation
+    /// Creates an organization-level configuration that enables a custom detection rule across your organization. This operation is available only to the delegated administrator account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Creates a single GuardDuty detector. A detector is a resource that rep- resents the GuardDuty service. To start using GuardDuty, you must cre- ate a detector in each Region where you enable the service. You can have only one detector per account per Region. All data sources are en- abled in a new detector by default. o When you don't specify any features , with an exception to RUN- TIME_MONITORING , all the optional features are enabled by default. o When you specify some of the features , any f...
+    /// Creates a single GuardDuty detector. A detector is a resource that represents the GuardDuty service. To start using GuardDuty, you must create a detector in each Region where you enable the service. You can have only one detector per account per Region. All data sources are enabled in a new detector by default. • When you don't specify any features , with an exception to RUNTIME_MONITORING , all the optional features are enabled by default. • When you specify some of the features , any feature t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Creates a filter using the specified finding criteria. The maximum num- ber of saved filters per Amazon Web Services account per Region is 100. For more information, see Quotas for GuardDuty . See also: AWS API Documentation
+    /// Creates a filter using the specified finding criteria. The maximum number of saved filters per Amazon Web Services account per Region is 100. For more information, see Quotas for GuardDuty . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Creates a new IPSet, which is called a trusted IP list in the console user interface. An IPSet is a list of IP addresses that are trusted for secure communication with Amazon Web Services infrastructure and appli- cations. GuardDuty doesn't generate findings for IP addresses that are included in IPSets. Only users from the administrator account can use this operation. See also: AWS API Documentation
+    /// Creates a new IPSet, which is called a trusted IP list in the console user interface. An IPSet is a list of IP addresses that are trusted for secure communication with Amazon Web Services infrastructure and applications. GuardDuty doesn't generate findings for IP addresses that are included in IPSets. Only users from the administrator account can use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Creates a new Malware Protection plan for the protected resource. When you create a Malware Protection plan, the Amazon Web Services ser- vice terms for GuardDuty Malware Protection apply. For more informa- tion, see Amazon Web Services service terms for GuardDuty Malware Pro- tection . See also: AWS API Documentation
+    /// Creates a new Malware Protection plan for the protected resource. When you create a Malware Protection plan, the Amazon Web Services service terms for GuardDuty Malware Protection apply. For more information, see Amazon Web Services service terms for GuardDuty Malware Protection . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Creates member accounts of the current Amazon Web Services account by specifying a list of Amazon Web Services account IDs. This step is a prerequisite for managing the associated member accounts either by in- vitation or through an organization. As a delegated administrator, using CreateMembers will enable GuardDuty in the added member accounts, with the exception of the organization delegated administrator account. A delegated administrator must enable GuardDuty prior to being added as a membe...
+    /// Creates member accounts of the current Amazon Web Services account by specifying a list of Amazon Web Services account IDs. This step is a prerequisite for managing the associated member accounts either by invitation or through an organization. As a delegated administrator, using CreateMembers will enable GuardDuty in the added member accounts, with the exception of the organization delegated administrator account. A delegated administrator must enable GuardDuty prior to being added as a member....
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Creates a publishing destination where you can export your GuardDuty findings. Before you start exporting the findings, the destination re- source must exist. See also: AWS API Documentation
+    /// Creates a publishing destination where you can export your GuardDuty findings. Before you start exporting the findings, the destination resource must exist. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Generates sample findings of types specified by the list of finding types. If 'NULL' is specified for findingTypes , the API generates sam- ple findings of all supported finding types. See also: AWS API Documentation
+    /// Generates sample findings of types specified by the list of finding types. If 'NULL' is specified for findingTypes , the API generates sample findings of all supported finding types. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Creates a new threat entity set. In a threat entity set, you can pro- vide known malicious threat entities for your Amazon Web Services envi- ronment. GuardDuty generates findings based on the entries in the threat entity sets. Only users of the administrator account can manage entity sets, which automatically apply to member accounts. See also: AWS API Documentation
+    /// Creates a new threat entity set. In a threat entity set, you can provide known malicious threat entities for your Amazon Web Services environment. GuardDuty generates findings based on the entries in the threat entity sets. Only users of the administrator account can manage entity sets, which automatically apply to member accounts. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Creates a new ThreatIntelSet. ThreatIntelSets consist of known mali- cious IP addresses. GuardDuty generates findings based on ThreatIn- telSets. Only users of the administrator account can use this opera- tion. See also: AWS API Documentation
+    /// Creates a new ThreatIntelSet. ThreatIntelSets consist of known malicious IP addresses. GuardDuty generates findings based on ThreatIntelSets. Only users of the administrator account can use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Creates a new trusted entity set. In the trusted entity set, you can provide IP addresses and domains that you believe are secure for commu- nication in your Amazon Web Services environment. GuardDuty will not generate findings for the entries that are specified in a trusted en- tity set. At any given time, you can have only one trusted entity set. Only users of the administrator account can manage the entity sets, which automatically apply to member accounts. See also: AWS API Documentation
+    /// Creates a new trusted entity set. In the trusted entity set, you can provide IP addresses and domains that you believe are secure for communication in your Amazon Web Services environment. GuardDuty will not generate findings for the entries that are specified in a trusted entity set. At any given time, you can have only one trusted entity set. Only users of the administrator account can manage the entity sets, which automatically apply to member accounts. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Disables a custom detection rule by deleting its association. This op- eration is idempotent. See also: AWS API Documentation
+    /// Disables a custom detection rule by deleting its association. This operation is idempotent. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Deletes the Malware Protection plan ID associated with the Malware Pro- tection plan resource. Use this API only when you no longer want to protect the resource associated with this Malware Protection plan ID. See also: AWS API Documentation
+    /// Deletes the Malware Protection plan ID associated with the Malware Protection plan resource. Use this API only when you no longer want to protect the resource associated with this Malware Protection plan ID. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Deletes GuardDuty member accounts (to the current GuardDuty administra- tor account) specified by the account IDs. With autoEnableOrganizationMembers configuration for your organization set to ALL , you'll receive an error if you attempt to disable Guard- Duty for a member account in your organization. See also: AWS API Documentation
+    /// Deletes GuardDuty member accounts (to the current GuardDuty administrator account) specified by the account IDs. With autoEnableOrganizationMembers configuration for your organization set to ALL , you'll receive an error if you attempt to disable GuardDuty for a member account in your organization. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Returns a list of malware scans. Each member account can view the mal- ware scans for their own accounts. An administrator can view the mal- ware scans for all the member accounts. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see Regions and endpoints . See also: AWS API Documentation describe-malware-scans is a paginated operation. Multiple API calls may b...
+    /// Returns a list of malware scans. Each member account can view the malware scans for their own accounts. An administrator can view the malware scans for all the member accounts. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see Regions and endpoints . See also: AWS API Documentation describe-malware-scans is a paginated operation. Multiple API calls may be is...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Returns information about the account selected as the delegated admin- istrator for GuardDuty. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see Regions and endpoints . See also: AWS API Documentation
+    /// Returns information about the account selected as the delegated administrator for GuardDuty. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see Regions and endpoints . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Removes the existing GuardDuty delegated administrator of the organiza- tion. Only the organization's management account can run this API oper- ation. See also: AWS API Documentation
+    /// Removes the existing GuardDuty delegated administrator of the organization. Only the organization's management account can run this API operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -512,7 +512,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Disassociates the current GuardDuty member account from its administra- tor account. When you disassociate an invited member from a GuardDuty delegated ad- ministrator, the member account details obtained from the CreateMembers API, including the associated email addresses, are retained. This is done so that the delegated administrator can invoke the InviteMembers API without the need to invoke the CreateMembers API again. To remove the details associated with a member account, the delegated adm...
+    /// Disassociates the current GuardDuty member account from its administrator account. When you disassociate an invited member from a GuardDuty delegated administrator, the member account details obtained from the CreateMembers API, including the associated email addresses, are retained. This is done so that the delegated administrator can invoke the InviteMembers API without the need to invoke the CreateMembers API again. To remove the details associated with a member account, the delegated adminis...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Disassociates GuardDuty member accounts (from the current administrator account) specified by the account IDs. When you disassociate an invited member from a GuardDuty delegated ad- ministrator, the member account details obtained from the CreateMembers API, including the associated email addresses, are retained. This is done so that the delegated administrator can invoke the InviteMembers API without the need to invoke the CreateMembers API again. To remove the details associated with a member ...
+    /// Disassociates GuardDuty member accounts (from the current administrator account) specified by the account IDs. When you disassociate an invited member from a GuardDuty delegated administrator, the member account details obtained from the CreateMembers API, including the associated email addresses, are retained. This is done so that the delegated administrator can invoke the InviteMembers API without the need to invoke the CreateMembers API again. To remove the details associated with a member ac...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Designates an Amazon Web Services account within the organization as your GuardDuty delegated administrator. Only the organization's manage- ment account can run this API operation. See also: AWS API Documentation
+    /// Designates an Amazon Web Services account within the organization as your GuardDuty delegated administrator. Only the organization's management account can run this API operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +557,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Provides the details of the GuardDuty administrator account associated with the current GuardDuty member account. Based on the type of account that runs this API, the following list shows how the API behavior varies: o When the GuardDuty administrator account runs this API, it will re- turn success (HTTP 200 ) but no content. o When a member account runs this API, it will return the details of the GuardDuty administrator account that is associated with this calling member account. o When an indi...
+    /// Provides the details of the GuardDuty administrator account associated with the current GuardDuty member account. Based on the type of account that runs this API, the following list shows how the API behavior varies: • When the GuardDuty administrator account runs this API, it will return success (HTTP 200 ) but no content. • When a member account runs this API, it will return the details of the GuardDuty administrator account that is associated with this calling member account. • When an indivi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Retrieves aggregated statistics for your account. If you are a Guard- Duty administrator, you can retrieve the statistics for all the re- sources associated with the active member accounts in your organization who have enabled Runtime Monitoring and have the GuardDuty security agent running on their resources. See also: AWS API Documentation
+    /// Retrieves aggregated statistics for your account. If you are a GuardDuty administrator, you can retrieve the statistics for all the resources associated with the active member accounts in your organization who have enabled Runtime Monitoring and have the GuardDuty security agent running on their resources. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -692,7 +692,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// This API is currently available as a preview. This feature is available in the following Amazon Web Services Regions: US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Paris), Europe (Stockholm), and Asia Pacific (Tokyo). Retrieves the results and status of a specific GuardDuty investigation. An administrator account can retrieve any investigation within the or- ganization. Member accounts can only retrieve i...
+    /// This API is currently available as a preview. This feature is available in the following Amazon Web Services Regions: US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Paris), Europe (Stockholm), and Asia Pacific (Tokyo). Retrieves the results and status of a specific GuardDuty investigation. An administrator account can retrieve any investigation within the organization. Member accounts can only retrieve inv...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -707,7 +707,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Returns the count of all GuardDuty membership invitations that were sent to the current member account except the currently accepted invi- tation. See also: AWS API Documentation
+    /// Returns the count of all GuardDuty membership invitations that were sent to the current member account except the currently accepted invitation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -782,7 +782,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Describes which data sources are enabled for the member account's de- tector. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see Regions and endpoints . See also: AWS API Documentation
+    /// Describes which data sources are enabled for the member account's detector. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see Regions and endpoints . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -797,7 +797,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Retrieves GuardDuty member accounts (of the current GuardDuty adminis- trator account) specified by the account IDs. See also: AWS API Documentation
+    /// Retrieves GuardDuty member accounts (of the current GuardDuty administrator account) specified by the account IDs. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -812,7 +812,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Retrieves how many active member accounts have each feature enabled within GuardDuty. Only a delegated GuardDuty administrator of an orga- nization can run this API. When you create a new organization, it might take up to 24 hours to generate the statistics for the entire organization. See also: AWS API Documentation
+    /// Retrieves how many active member accounts have each feature enabled within GuardDuty. Only a delegated GuardDuty administrator of an organization can run this API. When you create a new organization, it might take up to 24 hours to generate the statistics for the entire organization. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -842,7 +842,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Retrieves the threat entity set associated with the specified threatEn- titySetId . See also: AWS API Documentation
+    /// Retrieves the threat entity set associated with the specified threatEntitySetId . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -872,7 +872,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Retrieves the trusted entity set associated with the specified truste- dEntitySetId . See also: AWS API Documentation
+    /// Retrieves the trusted entity set associated with the specified trustedEntitySetId . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -902,7 +902,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Invites Amazon Web Services accounts to become members of an organiza- tion administered by the Amazon Web Services account that invokes this API. If you are using Amazon Web Services Organizations to manage your GuardDuty environment, this step is not needed. For more information, see Managing accounts with organizations . To invite Amazon Web Services accounts, the first step is to ensure that GuardDuty has been enabled in the potential member accounts. You can now invoke this API to add accou...
+    /// Invites Amazon Web Services accounts to become members of an organization administered by the Amazon Web Services account that invokes this API. If you are using Amazon Web Services Organizations to manage your GuardDuty environment, this step is not needed. For more information, see Managing accounts with organizations . To invite Amazon Web Services accounts, the first step is to ensure that GuardDuty has been enabled in the potential member accounts. You can now invoke this API to add account...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -917,7 +917,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Lists coverage details for your GuardDuty account. If you're a Guard- Duty administrator, you can retrieve all resources associated with the active member accounts in your organization. Make sure the accounts have Runtime Monitoring enabled and GuardDuty agent running on their resources. See also: AWS API Documentation list-coverage is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-...
+    /// Lists coverage details for your GuardDuty account. If you're a GuardDuty administrator, you can retrieve all resources associated with the active member accounts in your organization. Make sure the accounts have Runtime Monitoring enabled and GuardDuty agent running on their resources. See also: AWS API Documentation list-coverage is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagina...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -932,7 +932,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Returns all custom detection rule associations for your account. You can filter by rule ID and mode. See also: AWS API Documentation list-custom-detection-rule-associations is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the follo...
+    /// Returns all custom detection rule associations for your account. You can filter by rule ID and mode. See also: AWS API Documentation list-custom-detection-rule-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -947,7 +947,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Returns all organization-level configurations for custom detection rules. You can filter the results by status. See also: AWS API Documentation list-custom-detection-rule-org-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- s...
+    /// Returns all organization-level configurations for custom detection rules. You can filter the results by status. See also: AWS API Documentation list-custom-detection-rule-org-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -962,7 +962,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Returns all available custom detection rules in GuardDuty. You can fil- ter the results by data source, severity, tactic, technique, and ser- vice. See also: AWS API Documentation list-custom-detection-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract...
+    /// Returns all available custom detection rules in GuardDuty. You can filter the results by data source, severity, tactic, technique, and service. See also: AWS API Documentation list-custom-detection-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data fr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -977,7 +977,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Lists detectorIds of all the existing Amazon GuardDuty detector re- sources. See also: AWS API Documentation list-detectors is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DetectorIds
+    /// Lists detectorIds of all the existing Amazon GuardDuty detector resources. See also: AWS API Documentation list-detectors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DetectorIds
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -992,7 +992,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Returns a paginated list of the current filters. See also: AWS API Documentation list-filters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: FilterNames
+    /// Returns a paginated list of the current filters. See also: AWS API Documentation list-filters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: FilterNames
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1007,7 +1007,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Lists GuardDuty findings for the specified detector ID. There might be regional differences because some flags might not be available in all the Regions where GuardDuty is currently supported. For more information, see Regions and endpoints . See also: AWS API Documentation list-findings is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text an...
+    /// Lists GuardDuty findings for the specified detector ID. There might be regional differences because some flags might not be available in all the Regions where GuardDuty is currently supported. For more information, see Regions and endpoints . See also: AWS API Documentation list-findings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1022,7 +1022,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// This API is currently available as a preview. This feature is available in the following Amazon Web Services Regions: US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Paris), Europe (Stockholm), and Asia Pacific (Tokyo). Returns a list of investigations associated with the specified Guard- Duty detector. An administrator account sees all investigations across the organiza- tion. Member accounts see only the ...
+    /// This API is currently available as a preview. This feature is available in the following Amazon Web Services Regions: US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Paris), Europe (Stockholm), and Asia Pacific (Tokyo). Returns a list of investigations associated with the specified GuardDuty detector. An administrator account sees all investigations across the organization. Member accounts see only the inve...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1037,7 +1037,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Lists all GuardDuty membership invitations that were sent to the cur- rent Amazon Web Services account. See also: AWS API Documentation list-invitations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ...
+    /// Lists all GuardDuty membership invitations that were sent to the current Amazon Web Services account. See also: AWS API Documentation list-invitations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: In...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1052,7 +1052,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Lists the IPSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the IPSets returned are the IPSets from the associated administrator account. See also: AWS API Documentation list-ip-sets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response,...
+    /// Lists the IPSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the IPSets returned are the IPSets from the associated administrator account. See also: AWS API Documentation list-ip-sets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1067,7 +1067,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Lists the Malware Protection plan IDs associated with the protected re- sources in your Amazon Web Services account. See also: AWS API Documentation
+    /// Lists the Malware Protection plan IDs associated with the protected resources in your Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1082,7 +1082,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Returns a list of malware scans. Each member account can view the mal- ware scans for their own accounts. An administrator can view the mal- ware scans for all of its members' accounts. See also: AWS API Documentation list-malware-scans is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --qu...
+    /// Returns a list of malware scans. Each member account can view the malware scans for their own accounts. An administrator can view the malware scans for all of its members' accounts. See also: AWS API Documentation list-malware-scans is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1097,7 +1097,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Lists details about all member accounts for the current GuardDuty ad- ministrator account. See also: AWS API Documentation list-members is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Members
+    /// Lists details about all member accounts for the current GuardDuty administrator account. See also: AWS API Documentation list-members is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Members
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1112,7 +1112,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Lists the accounts designated as GuardDuty delegated administrators. Only the organization's management account can run this API operation. See also: AWS API Documentation list-organization-admin-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract da...
+    /// Lists the accounts designated as GuardDuty delegated administrators. Only the organization's management account can run this API operation. See also: AWS API Documentation list-organization-admin-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data f...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1142,7 +1142,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Lists tags for a resource. Tagging is currently supported for detec- tors, finding filters, IP sets, threat intel sets, and publishing des- tination, with a limit of 50 tags per resource. When invoked, this op- eration returns all assigned tags for a given resource. See also: AWS API Documentation
+    /// Lists tags for a resource. Tagging is currently supported for detectors, finding filters, IP sets, threat intel sets, and publishing destination, with a limit of 50 tags per resource. When invoked, this operation returns all assigned tags for a given resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1157,7 +1157,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Lists the threat entity sets associated with the specified GuardDuty detector ID. If you use this operation from a member account, the threat entity sets that are returned as a response, belong to the ad- ministrator account. See also: AWS API Documentation list-threat-entity-sets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --que...
+    /// Lists the threat entity sets associated with the specified GuardDuty detector ID. If you use this operation from a member account, the threat entity sets that are returned as a response, belong to the administrator account. See also: AWS API Documentation list-threat-entity-sets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1172,7 +1172,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Lists the ThreatIntelSets of the GuardDuty service specified by the de- tector ID. If you use this operation from a member account, the Threat- IntelSets associated with the administrator account are returned. See also: AWS API Documentation list-threat-intel-sets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a ...
+    /// Lists the ThreatIntelSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the ThreatIntelSets associated with the administrator account are returned. See also: AWS API Documentation list-threat-intel-sets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1187,7 +1187,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Lists the trusted entity sets associated with the specified GuardDuty detector ID. If you use this operation from a member account, the trusted entity sets that are returned as a response, belong to the ad- ministrator account. See also: AWS API Documentation list-trusted-entity-sets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --...
+    /// Lists the trusted entity sets associated with the specified GuardDuty detector ID. If you use this operation from a member account, the trusted entity sets that are returned as a response, belong to the administrator account. See also: AWS API Documentation list-trusted-entity-sets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --qu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1202,7 +1202,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Initiates a malware scan for a specific S3 object. This API allows you to perform on-demand malware scanning of individual objects in S3 buck- ets that have Malware Protection for S3 enabled. When you use this API, the Amazon Web Services service terms for Guard- Duty Malware Protection apply. For more information, see Amazon Web Services service terms for GuardDuty Malware Protection . See also: AWS API Documentation
+    /// Initiates a malware scan for a specific S3 object. This API allows you to perform on-demand malware scanning of individual objects in S3 buckets that have Malware Protection for S3 enabled. When you use this API, the Amazon Web Services service terms for GuardDuty Malware Protection apply. For more information, see Amazon Web Services service terms for GuardDuty Malware Protection . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1217,7 +1217,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Initiates the malware scan. Invoking this API will automatically create the Service-linked role in the corresponding account if the resourceArn belongs to an EC2 instance. When the malware scan starts, you can use the associated scan ID to track the status of the scan. For more information, see ListMalwareScans and GetMalwareScan . When you use this API, the Amazon Web Services service terms for Guard- Duty Malware Protection apply. For more information, see Amazon Web Services service terms for...
+    /// Initiates the malware scan. Invoking this API will automatically create the Service-linked role in the corresponding account if the resourceArn belongs to an EC2 instance. When the malware scan starts, you can use the associated scan ID to track the status of the scan. For more information, see ListMalwareScans and GetMalwareScan . When you use this API, the Amazon Web Services service terms for GuardDuty Malware Protection apply. For more information, see Amazon Web Services service terms for G...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1232,7 +1232,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Turns on GuardDuty monitoring of the specified member accounts. Use this operation to restart monitoring of accounts that you stopped moni- toring with the StopMonitoringMembers operation. See also: AWS API Documentation
+    /// Turns on GuardDuty monitoring of the specified member accounts. Use this operation to restart monitoring of accounts that you stopped monitoring with the StopMonitoringMembers operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1247,7 +1247,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Stops GuardDuty monitoring for the specified member accounts. Use the StartMonitoringMembers operation to restart monitoring for those ac- counts. With autoEnableOrganizationMembers configuration for your organization set to ALL , you'll receive an error if you attempt to stop monitoring the member accounts in your organization. See also: AWS API Documentation
+    /// Stops GuardDuty monitoring for the specified member accounts. Use the StartMonitoringMembers operation to restart monitoring for those accounts. With autoEnableOrganizationMembers configuration for your organization set to ALL , you'll receive an error if you attempt to stop monitoring the member accounts in your organization. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1337,7 +1337,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Updates the GuardDuty detector specified by the detector ID. Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING ) and Runtime Monitoring (RUNTIME_MONITORING ) will cause an error. You can add only one of these two features because Runtime Monitoring already includes the threat detection for Amazon EKS resources. For more infor- mation, see Runtime Monitoring . There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions w...
+    /// Updates the GuardDuty detector specified by the detector ID. Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING ) and Runtime Monitoring (RUNTIME_MONITORING ) will cause an error. You can add only one of these two features because Runtime Monitoring already includes the threat detection for Amazon EKS resources. For more information, see Runtime Monitoring . There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions whe...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1427,7 +1427,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Contains information on member accounts to be updated. Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING ) and Runtime Monitoring (RUNTIME_MONITORING ) will cause an error. You can add only one of these two features because Runtime Monitoring already includes the threat detection for Amazon EKS resources. For more infor- mation, see Runtime Monitoring . There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where G...
+    /// Contains information on member accounts to be updated. Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING ) and Runtime Monitoring (RUNTIME_MONITORING ) will cause an error. You can add only one of these two features because Runtime Monitoring already includes the threat detection for Amazon EKS resources. For more information, see Runtime Monitoring . There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where Gua...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1442,7 +1442,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Configures the delegated administrator account with the provided val- ues. You must provide a value for either autoEnableOrganizationMembers or autoEnable , but not both. Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING ) and Runtime Monitoring (RUNTIME_MONITORING ) will cause an error. You can add only one of these two features because Runtime Monitoring already includes the threat detection for Amazon EKS resources. For more infor- mation, see Runtime Monitoring . There might be ...
+    /// Configures the delegated administrator account with the provided values. You must provide a value for either autoEnableOrganizationMembers or autoEnable , but not both. Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING ) and Runtime Monitoring (RUNTIME_MONITORING ) will cause an error. You can add only one of these two features because Runtime Monitoring already includes the threat detection for Amazon EKS resources. For more information, see Runtime Monitoring . There might be regi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1472,7 +1472,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Updates the threat entity set associated with the specified threatEnti- tySetId . See also: AWS API Documentation
+    /// Updates the threat entity set associated with the specified threatEntitySetId . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1502,7 +1502,7 @@ public class AwsGuardduty : IAwsGuardduty
     }
 
     /// <summary>
-    /// Updates the trusted entity set associated with the specified trustedEn- titySetId . See also: AWS API Documentation
+    /// Updates the trusted entity set associated with the specified trustedEntitySetId . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

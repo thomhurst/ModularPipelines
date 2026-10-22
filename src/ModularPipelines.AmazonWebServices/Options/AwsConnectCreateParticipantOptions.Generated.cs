@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds a new participant into an on-going chat contact or webRTC call. For more information, see Customize chat flow experiences by integrat- ing custom participants or Enable multi-user web, in-app, and video calling . See also: AWS API Documentation
+/// Adds a new participant into an on-going chat contact or webRTC call. For more information, see Customize chat flow experiences by integrating custom participants or Enable multi-user web, in-app, and video calling . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsConnectCreateParticipantOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds a new participant into an on-going chat contact or webRTC call. For more information, see Customize chat flow experiences by integrat- ing custom participants or Enable multi-user web, in-app, and video calling . See also: AWS API Documentation
+    /// Adds a new participant into an on-going chat contact or webRTC call. For more information, see Customize chat flow experiences by integrating custom participants or Enable multi-user web, in-app, and video calling . See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="ContactId">The identifier of the contact in this instance of Connect Customer. Supports contacts in the CHAT channel and VOICE (WebRTC) channels. For WebRTC calls, this should be the initial contact ID that was generated when the contact was first created (from the StartWebRTC- Contact API) in the VOICE channel Constraints: o min: 1 o max: 256</param>
-    /// <param name="ParticipantDetails">Information identifying the participant. WARNING: The only valid value for ParticipantRole is CUSTOM_BOT for chat contact and CUSTOMER for voice contact. ParticipantRole -&gt; (string) The role of the participant being added. Possible values: o AGENT o CUSTOMER o SYSTEM o CUSTOM_BOT o SUPERVISOR DisplayName -&gt; (string) The display name of the participant. Constraints: o min: 1 o max: 256 ParticipantCapabilities -&gt; (structure) The configuration for the allowed video and screen sharing capa- bilities for participants present over the call. For more infor- mation, see Set up in-app, web, video calling, and screen shar- ing capabilities in the Connect Customer Administrator Guide . Video -&gt; (string) The configuration having the video and screen sharing capa- bilities for participants over the call. Possible values: o SEND ScreenShare -&gt; (string) The screen sharing capability that is enabled for the partic- ipant. SEND indicates the participant can share their screen. Possible values: o SEND Shorthand Syntax: ParticipantRole=string,DisplayName=string,ParticipantCapabilities={Video=string,ScreenShare=string} JSON Syntax: { "ParticipantRole": "AGENT"|"CUSTOMER"|"SYSTEM"|"CUSTOM_BOT"|"SUPERVISOR", "DisplayName": "string", "ParticipantCapabilities": { "Video": "SEND", "ScreenShare": "SEND" } }</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="ContactId">The identifier of the contact in this instance of Connect Customer. Supports contacts in the CHAT channel and VOICE (WebRTC) channels. For WebRTC calls, this should be the initial contact ID that was generated when the contact was first created (from the StartWebRTCContact API) in the VOICE channel Constraints: • min: 1 • max: 256</param>
+    /// <param name="ParticipantDetails">Information identifying the participant. WARNING: The only valid value for ParticipantRole is CUSTOM_BOT for chat contact and CUSTOMER for voice contact. ParticipantRole -&gt; (string) The role of the participant being added. Possible values: • AGENT • CUSTOMER • SYSTEM • CUSTOM_BOT • SUPERVISOR DisplayName -&gt; (string) The display name of the participant. Constraints: • min: 1 • max: 256 ParticipantCapabilities -&gt; (structure) The configuration for the allowed video and screen sharing capabilities for participants present over the call. For more information, see Set up in-app, web, video calling, and screen sharing capabilities in the Connect Customer Administrator Guide . Video -&gt; (string) The configuration having the video and screen sharing capabilities for participants over the call. Possible values: • SEND ScreenShare -&gt; (string) The screen sharing capability that is enabled for the participant. SEND indicates the participant can share their screen. Possible values: • SEND Shorthand Syntax: ParticipantRole=string,DisplayName=string,ParticipantCapabilities={Video=string,ScreenShare=string} JSON Syntax: { "ParticipantRole": "AGENT"|"CUSTOMER"|"SYSTEM"|"CUSTOM_BOT"|"SUPERVISOR", "DisplayName": "string", "ParticipantCapabilities": { "Video": "SEND", "ScreenShare": "SEND" } }</param>
     public AwsConnectCreateParticipantOptions(
         string InstanceId,
         string ContactId,
@@ -65,25 +67,25 @@ public record AwsConnectCreateParticipantOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the contact in this instance of Connect Customer. Supports contacts in the CHAT channel and VOICE (WebRTC) channels. For WebRTC calls, this should be the initial contact ID that was generated when the contact was first created (from the StartWebRTC- Contact API) in the VOICE channel Constraints: o min: 1 o max: 256
+    /// The identifier of the contact in this instance of Connect Customer. Supports contacts in the CHAT channel and VOICE (WebRTC) channels. For WebRTC calls, this should be the initial contact ID that was generated when the contact was first created (from the StartWebRTCContact API) in the VOICE channel Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--contact-id")]
     public string? ContactId { get; private init; }
 
     /// <summary>
-    /// Information identifying the participant. WARNING: The only valid value for ParticipantRole is CUSTOM_BOT for chat contact and CUSTOMER for voice contact. ParticipantRole -&gt; (string) The role of the participant being added. Possible values: o AGENT o CUSTOMER o SYSTEM o CUSTOM_BOT o SUPERVISOR DisplayName -&gt; (string) The display name of the participant. Constraints: o min: 1 o max: 256 ParticipantCapabilities -&gt; (structure) The configuration for the allowed video and screen sharing capa- bilities for participants present over the call. For more infor- mation, see Set up in-app, web, video calling, and screen shar- ing capabilities in the Connect Customer Administrator Guide . Video -&gt; (string) The configuration having the video and screen sharing capa- bilities for participants over the call. Possible values: o SEND ScreenShare -&gt; (string) The screen sharing capability that is enabled for the partic- ipant. SEND indicates the participant can share their screen. Possible values: o SEND Shorthand Syntax: ParticipantRole=string,DisplayName=string,ParticipantCapabilities={Video=string,ScreenShare=string} JSON Syntax: { "ParticipantRole": "AGENT"|"CUSTOMER"|"SYSTEM"|"CUSTOM_BOT"|"SUPERVISOR", "DisplayName": "string", "ParticipantCapabilities": { "Video": "SEND", "ScreenShare": "SEND" } }
+    /// Information identifying the participant. WARNING: The only valid value for ParticipantRole is CUSTOM_BOT for chat contact and CUSTOMER for voice contact. ParticipantRole -&gt; (string) The role of the participant being added. Possible values: • AGENT • CUSTOMER • SYSTEM • CUSTOM_BOT • SUPERVISOR DisplayName -&gt; (string) The display name of the participant. Constraints: • min: 1 • max: 256 ParticipantCapabilities -&gt; (structure) The configuration for the allowed video and screen sharing capabilities for participants present over the call. For more information, see Set up in-app, web, video calling, and screen sharing capabilities in the Connect Customer Administrator Guide . Video -&gt; (string) The configuration having the video and screen sharing capabilities for participants over the call. Possible values: • SEND ScreenShare -&gt; (string) The screen sharing capability that is enabled for the participant. SEND indicates the participant can share their screen. Possible values: • SEND Shorthand Syntax: ParticipantRole=string,DisplayName=string,ParticipantCapabilities={Video=string,ScreenShare=string} JSON Syntax: { "ParticipantRole": "AGENT"|"CUSTOMER"|"SYSTEM"|"CUSTOM_BOT"|"SUPERVISOR", "DisplayName": "string", "ParticipantCapabilities": { "Video": "SEND", "ScreenShare": "SEND" } }
     /// </summary>
     [CliOption("--participant-details")]
     public string? ParticipantDetails { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDeadlineWaitLicenseEndpointDeletedOptions : AwsOptions, IValida
     /// <summary>
     /// Wait until a LicenseEndpoint is Deleted. Use this after invoking DeleteLicenseEndpoint. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 234 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LicenseEndpointId">The license endpoint ID. Constraints: o pattern: le-[0-9a-f]{32}</param>
+    /// <param name="LicenseEndpointId">The license endpoint ID. Constraints: • pattern: le-[0-9a-f]{32}</param>
     public AwsDeadlineWaitLicenseEndpointDeletedOptions(
         string LicenseEndpointId
     )
@@ -56,7 +58,7 @@ public record AwsDeadlineWaitLicenseEndpointDeletedOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The license endpoint ID. Constraints: o pattern: le-[0-9a-f]{32}
+    /// The license endpoint ID. Constraints: • pattern: le-[0-9a-f]{32}
     /// </summary>
     [CliOption("--license-endpoint-id")]
     public string? LicenseEndpointId { get; private init; }

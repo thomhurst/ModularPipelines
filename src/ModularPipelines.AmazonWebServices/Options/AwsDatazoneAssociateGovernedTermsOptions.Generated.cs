@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +29,10 @@ public record AwsDatazoneAssociateGovernedTermsOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Associates governed terms with an asset. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the domain where governed terms are to be associated with an asset. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="EntityIdentifier">The ID of the asset with which you want to associate a governed term. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="EntityType">The type of the asset with which you want to associate a governed term. Possible values: o ASSET</param>
-    /// <param name="GovernedGlossaryTerms">The glossary terms in a restricted glossary. Constraints: o min: 1 o max: 5 (string) Constraints: o pattern: [a-zA-Z0-9_-]{1,36} Syntax: "string" "string" ...</param>
+    /// <param name="DomainIdentifier">The ID of the domain where governed terms are to be associated with an asset. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EntityIdentifier">The ID of the asset with which you want to associate a governed term. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EntityType">The type of the asset with which you want to associate a governed term. Possible values: • ASSET</param>
+    /// <param name="GovernedGlossaryTerms">The glossary terms in a restricted glossary. Constraints: • min: 1 • max: 5 (string) Constraints: • pattern: [a-zA-Z0-9_-]{1,36} Syntax: "string" "string" ...</param>
     public AwsDatazoneAssociateGovernedTermsOptions(
         string DomainIdentifier,
         string EntityIdentifier,
@@ -79,25 +81,25 @@ public record AwsDatazoneAssociateGovernedTermsOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the domain where governed terms are to be associated with an asset. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the domain where governed terms are to be associated with an asset. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the asset with which you want to associate a governed term. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The ID of the asset with which you want to associate a governed term. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--entity-identifier")]
     public string? EntityIdentifier { get; private init; }
 
     /// <summary>
-    /// The type of the asset with which you want to associate a governed term. Possible values: o ASSET
+    /// The type of the asset with which you want to associate a governed term. Possible values: • ASSET
     /// </summary>
     [CliOption("--entity-type")]
     public string? EntityType { get; private init; }
 
     /// <summary>
-    /// The glossary terms in a restricted glossary. Constraints: o min: 1 o max: 5 (string) Constraints: o pattern: [a-zA-Z0-9_-]{1,36} Syntax: "string" "string" ...
+    /// The glossary terms in a restricted glossary. Constraints: • min: 1 • max: 5 (string) Constraints: • pattern: [a-zA-Z0-9_-]{1,36} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--governed-glossary-terms", GroupValues = true)]
     public IEnumerable<string>? GovernedGlossaryTerms { get; private init; }

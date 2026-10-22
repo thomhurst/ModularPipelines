@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides a detailed description of a specified version of the applica- tion. To see a list of all the versions of an application, invoke the ListApplicationVersions operation. NOTE: This operation is supported only for Managed Service for Apache Flink. See also: AWS API Documentation
+/// Provides a detailed description of a specified version of the application. To see a list of all the versions of an application, invoke the ListApplicationVersions operation. NOTE: This operation is supported only for Managed Service for Apache Flink. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,13 +27,13 @@ public record AwsKinesisanalyticsv2DescribeApplicationVersionOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides a detailed description of a specified version of the applica- tion. To see a list of all the versions of an application, invoke the ListApplicationVersions operation. NOTE: This operation is supported only for Managed Service for Apache Flink. See also: AWS API Documentation
+    /// Provides a detailed description of a specified version of the application. To see a list of all the versions of an application, invoke the ListApplicationVersions operation. NOTE: This operation is supported only for Managed Service for Apache Flink. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationName">The name of the application for which you want to get the version description. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="ApplicationVersionId">The ID of the application version for which you want to get the de- scription. Constraints: o min: 1 o max: 999999999</param>
+    /// <param name="ApplicationName">The name of the application for which you want to get the version description. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="ApplicationVersionId">The ID of the application version for which you want to get the description. Constraints: • min: 1 • max: 999999999</param>
     public AwsKinesisanalyticsv2DescribeApplicationVersionOptions(
         string ApplicationName,
-        int ApplicationVersionId
+        long ApplicationVersionId
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
@@ -59,16 +61,16 @@ public record AwsKinesisanalyticsv2DescribeApplicationVersionOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the application for which you want to get the version description. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the application for which you want to get the version description. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; private init; }
 
     /// <summary>
-    /// The ID of the application version for which you want to get the de- scription. Constraints: o min: 1 o max: 999999999
+    /// The ID of the application version for which you want to get the description. Constraints: • min: 1 • max: 999999999
     /// </summary>
     [CliOption("--application-version-id")]
-    public int? ApplicationVersionId { get; private init; }
+    public long? ApplicationVersionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

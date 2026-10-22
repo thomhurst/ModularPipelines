@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsRtbfabricGetCertificateAssociationOptions : AwsOptions, IValida
     /// <summary>
     /// Retrieves the details of a certificate association with a responder gateway. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GatewayId">The unique identifier of the gateway. Constraints: o min: 8 o max: 32 o pattern: rtb-gw-[a-z0-9-]{1,25}</param>
-    /// <param name="AcmCertificateArn">The Amazon Resource Name (ARN) of the ACM certificate. Constraints: o min: 75 o max: 256 o pattern: arn:(aws|aws-cn|aws-us-gov):acm:[a-z0-9-]+:[0-9]{12}:cer- tifi- cate/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="GatewayId">The unique identifier of the gateway. Constraints: • min: 8 • max: 32 • pattern: rtb-gw-[a-z0-9-]{1,25}</param>
+    /// <param name="AcmCertificateArn">The Amazon Resource Name (ARN) of the ACM certificate. Constraints: • min: 75 • max: 256 • pattern: arn:(aws|aws-cn|aws-us-gov):acm:[a-z0-9-]+:[0-9]{12}:certificate/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     public AwsRtbfabricGetCertificateAssociationOptions(
         string GatewayId,
         string AcmCertificateArn
@@ -60,13 +62,13 @@ public record AwsRtbfabricGetCertificateAssociationOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the gateway. Constraints: o min: 8 o max: 32 o pattern: rtb-gw-[a-z0-9-]{1,25}
+    /// The unique identifier of the gateway. Constraints: • min: 8 • max: 32 • pattern: rtb-gw-[a-z0-9-]{1,25}
     /// </summary>
     [CliOption("--gateway-id")]
     public string? GatewayId { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the ACM certificate. Constraints: o min: 75 o max: 256 o pattern: arn:(aws|aws-cn|aws-us-gov):acm:[a-z0-9-]+:[0-9]{12}:cer- tifi- cate/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The Amazon Resource Name (ARN) of the ACM certificate. Constraints: • min: 75 • max: 256 • pattern: arn:(aws|aws-cn|aws-us-gov):acm:[a-z0-9-]+:[0-9]{12}:certificate/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--acm-certificate-arn")]
     public string? AcmCertificateArn { get; private init; }

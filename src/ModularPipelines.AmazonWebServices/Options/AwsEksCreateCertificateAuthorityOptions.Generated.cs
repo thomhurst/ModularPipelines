@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Appends a successor certificate authority (CA) to your cluster, begin- ning the CA rotation process. A cluster certificate authority is the root of trust for your cluster's control plane. It signs the certificates that secure communication be- tween the Kubernetes API server and its clients, and its public cer- tificate is distributed to your cluster's trust bundle so that worker nodes and clients can verify the API server's identity. Each cluster can have at most two certificate authorities at ...
+/// Appends a successor certificate authority (CA) to your cluster, beginning the CA rotation process. A cluster certificate authority is the root of trust for your cluster's control plane. It signs the certificates that secure communication between the Kubernetes API server and its clients, and its public certificate is distributed to your cluster's trust bundle so that worker nodes and clients can verify the API server's identity. Each cluster can have at most two certificate authorities at a time...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +28,7 @@ public record AwsEksCreateCertificateAuthorityOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Appends a successor certificate authority (CA) to your cluster, begin- ning the CA rotation process. A cluster certificate authority is the root of trust for your cluster's control plane. It signs the certificates that secure communication be- tween the Kubernetes API server and its clients, and its public cer- tificate is distributed to your cluster's trust bundle so that worker nodes and clients can verify the API server's identity. Each cluster can have at most two certificate authorities at ...
+    /// Appends a successor certificate authority (CA) to your cluster, beginning the CA rotation process. A cluster certificate authority is the root of trust for your cluster's control plane. It signs the certificates that secure communication between the Kubernetes API server and its clients, and its public certificate is distributed to your cluster's trust bundle so that worker nodes and clients can verify the API server's identity. Each cluster can have at most two certificate authorities at a time...
     /// </summary>
     /// <param name="ClusterName">The name of your cluster.</param>
     public AwsEksCreateCertificateAuthorityOptions(

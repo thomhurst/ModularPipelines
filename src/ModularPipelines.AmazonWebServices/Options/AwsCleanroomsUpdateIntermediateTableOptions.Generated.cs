@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCleanroomsUpdateIntermediateTableOptions : AwsOptions, IValidat
     /// <summary>
     /// Updates an intermediate table. You can update the description, KMS key ARN, and column types of existing columns. Only the intermediate table owner can call this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IntermediateTableIdentifier">The unique identifier of the intermediate table to update. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="MembershipIdentifier">The unique identifier of the membership that contains the intermedi- ate table. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="IntermediateTableIdentifier">The unique identifier of the intermediate table to update. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="MembershipIdentifier">The unique identifier of the membership that contains the intermediate table. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     public AwsCleanroomsUpdateIntermediateTableOptions(
         string IntermediateTableIdentifier,
         string MembershipIdentifier
@@ -60,31 +62,31 @@ public record AwsCleanroomsUpdateIntermediateTableOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the intermediate table to update. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier of the intermediate table to update. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--intermediate-table-identifier")]
     public string? IntermediateTableIdentifier { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the membership that contains the intermedi- ate table. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier of the membership that contains the intermediate table. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--membership-identifier")]
     public string? MembershipIdentifier { get; private init; }
 
     /// <summary>
-    /// A new description for the intermediate table. Constraints: o min: 0 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
+    /// A new description for the intermediate table. Constraints: • min: 0 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the customer-managed KMS key to use for encrypting future population data. Constraints: o min: 20 o max: 2048 o pattern: arn:aws:kms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:key/[a-zA-Z0-9-]+
+    /// The Amazon Resource Name (ARN) of the customer-managed KMS key to use for encrypting future population data. Constraints: • min: 20 • max: 2048 • pattern: arn:aws:kms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:key/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }
 
     /// <summary>
-    /// The list of columns with updated type definitions. Only the type of existing columns can be updated. (structure) Contains the name and type of a column in an intermediate table. name -&gt; (string) [required] The name of the column. Constraints: o min: 0 o max: 128 o pattern: [a-z0-9_](([a-z0-9_ ]+-)*([a-z0-9_ ]+))? type -&gt; (string) [required] The data type of the column. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]* Shorthand Syntax: name=string,type=string ... JSON Syntax: [ { "name": "string", "type": "string" } ... ]
+    /// The list of columns with updated type definitions. Only the type of existing columns can be updated. (structure) Contains the name and type of a column in an intermediate table. name -&gt; (string) [required] The name of the column. Constraints: • min: 0 • max: 128 • pattern: [a-z0-9_](([a-z0-9_ ]+-)*([a-z0-9_ ]+))? type -&gt; (string) [required] The data type of the column. Constraints: • min: 1 • max: 1024 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]* Shorthand Syntax: name=string,type=string ... JSON Syntax: [ { "name": "string", "type": "string" } ... ]
     /// </summary>
     [CliOption("--columns", GroupValues = true)]
     public IEnumerable<string>? Columns { get; set; }

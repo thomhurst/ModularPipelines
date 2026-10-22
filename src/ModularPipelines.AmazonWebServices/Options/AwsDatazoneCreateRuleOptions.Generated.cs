@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain con- sistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a...
+/// Creates a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a d...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,14 +29,14 @@ public record AwsDatazoneCreateRuleOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain con- sistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a...
+    /// Creates a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a d...
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the domain where the rule is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Name">The name of the rule. Constraints: o min: 1 o max: 256 o pattern: [\w -]+</param>
-    /// <param name="Target">The target of the rule. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: domainUnitTarget. domainUnitTarget -&gt; (structure) The ID of the domain unit. domainUnitId -&gt; (string) [required] The ID of the domain unit. Constraints: o min: 1 o max: 256 o pattern: [a-z0-9_\-]+ includeChildDomainUnits -&gt; (boolean) Specifies whether to apply a rule to the child domain units. Shorthand Syntax: domainUnitTarget={domainUnitId=string,includeChildDomainUnits=boolean} JSON Syntax: { "domainUnitTarget": { "domainUnitId": "string", "includeChildDomainUnits": true|false } }</param>
-    /// <param name="Action">The action of the rule. Possible values: o CREATE_LISTING_CHANGE_SET o CREATE_SUBSCRIPTION_REQUEST</param>
-    /// <param name="Scope">The scope of the rule. assetType -&gt; (structure) The asset type included in the rule scope. selectionMode -&gt; (string) [required] The selection mode for the rule. Possible values: o ALL o SPECIFIC specificAssetTypes -&gt; (list) The specific asset types that are included in the rule. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 513 o pattern: (?!\.)[\w\.]*\w dataProduct -&gt; (boolean) The data product included in the rule scope. project -&gt; (structure) The project included in the rule scope. selectionMode -&gt; (string) [required] The selection mode of the rule. Possible values: o ALL o SPECIFIC specificProjects -&gt; (list) The specific projects in which the rule is created. Constraints: o min: 1 (string) Constraints: o pattern: [a-zA-Z0-9_-]{1,36} Shorthand Syntax: assetType={selectionMode=string,specificAssetTypes=[string,string]},dataProduct=boolean,project={selectionMode=string,specificProjects=[string,string]} JSON Syntax: { "assetType": { "selectionMode": "ALL"|"SPECIFIC", "specificAssetTypes": ["string", ...] }, "dataProduct": true|false, "project": { "selectionMode": "ALL"|"SPECIFIC", "specificProjects": ["string", ...] } }</param>
-    /// <param name="Detail">The detail of the rule. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: metadataFormEnforcementDetail, glossary- TermEnforcementDetail. metadataFormEnforcementDetail -&gt; (structure) The enforcement detail of the metadata form. requiredMetadataForms -&gt; (list) The required metadata forms. Constraints: o min: 1 o max: 5 (structure) The reference of a metadata form. typeIdentifier -&gt; (string) [required] The type ID of the metadata form reference. Constraints: o min: 1 o max: 385 o pattern: (?!\.)[\w\.]*\w typeRevision -&gt; (string) [required] The type revision of the metadata form reference. Constraints: o min: 1 o max: 64 glossaryTermEnforcementDetail -&gt; (structure) The enforcement details of a glossary term that's part of the metadata rule. requiredGlossaryTermIds -&gt; (list) The ID of the required glossary term. Constraints: o min: 1 o max: 5 (string) Constraints: o pattern: [a-zA-Z0-9_-]{1,36} JSON Syntax: { "metadataFormEnforcementDetail": { "requiredMetadataForms": [ { "typeIdentifier": "string", "typeRevision": "string" } ... ] }, "glossaryTermEnforcementDetail": { "requiredGlossaryTermIds": ["string", ...] } }</param>
+    /// <param name="DomainIdentifier">The ID of the domain where the rule is created. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Name">The name of the rule. Constraints: • min: 1 • max: 256 • pattern: [\w -]+</param>
+    /// <param name="Target">The target of the rule. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: domainUnitTarget. domainUnitTarget -&gt; (structure) The ID of the domain unit. domainUnitId -&gt; (string) [required] The ID of the domain unit. Constraints: • min: 1 • max: 256 • pattern: [a-z0-9_\-]+ includeChildDomainUnits -&gt; (boolean) Specifies whether to apply a rule to the child domain units. Shorthand Syntax: domainUnitTarget={domainUnitId=string,includeChildDomainUnits=boolean} JSON Syntax: { "domainUnitTarget": { "domainUnitId": "string", "includeChildDomainUnits": true|false } }</param>
+    /// <param name="Action">The action of the rule. Possible values: • CREATE_LISTING_CHANGE_SET • CREATE_SUBSCRIPTION_REQUEST</param>
+    /// <param name="Scope">The scope of the rule. assetType -&gt; (structure) The asset type included in the rule scope. selectionMode -&gt; (string) [required] The selection mode for the rule. Possible values: • ALL • SPECIFIC specificAssetTypes -&gt; (list) The specific asset types that are included in the rule. Constraints: • min: 1 (string) Constraints: • min: 1 • max: 513 • pattern: (?!\.)[\w\.]*\w dataProduct -&gt; (boolean) The data product included in the rule scope. project -&gt; (structure) The project included in the rule scope. selectionMode -&gt; (string) [required] The selection mode of the rule. Possible values: • ALL • SPECIFIC specificProjects -&gt; (list) The specific projects in which the rule is created. Constraints: • min: 1 (string) Constraints: • pattern: [a-zA-Z0-9_-]{1,36} Shorthand Syntax: assetType={selectionMode=string,specificAssetTypes=[string,string]},dataProduct=boolean,project={selectionMode=string,specificProjects=[string,string]} JSON Syntax: { "assetType": { "selectionMode": "ALL"|"SPECIFIC", "specificAssetTypes": ["string", ...] }, "dataProduct": true|false, "project": { "selectionMode": "ALL"|"SPECIFIC", "specificProjects": ["string", ...] } }</param>
+    /// <param name="Detail">The detail of the rule. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: metadataFormEnforcementDetail, glossaryTermEnforcementDetail. metadataFormEnforcementDetail -&gt; (structure) The enforcement detail of the metadata form. requiredMetadataForms -&gt; (list) The required metadata forms. Constraints: • min: 1 • max: 5 (structure) The reference of a metadata form. typeIdentifier -&gt; (string) [required] The type ID of the metadata form reference. Constraints: • min: 1 • max: 385 • pattern: (?!\.)[\w\.]*\w typeRevision -&gt; (string) [required] The type revision of the metadata form reference. Constraints: • min: 1 • max: 64 glossaryTermEnforcementDetail -&gt; (structure) The enforcement details of a glossary term that's part of the metadata rule. requiredGlossaryTermIds -&gt; (list) The ID of the required glossary term. Constraints: • min: 1 • max: 5 (string) Constraints: • pattern: [a-zA-Z0-9_-]{1,36} JSON Syntax: { "metadataFormEnforcementDetail": { "requiredMetadataForms": [ { "typeIdentifier": "string", "typeRevision": "string" } ... ] }, "glossaryTermEnforcementDetail": { "requiredGlossaryTermIds": ["string", ...] } }</param>
     public AwsDatazoneCreateRuleOptions(
         string DomainIdentifier,
         string Name,
@@ -77,49 +79,49 @@ public record AwsDatazoneCreateRuleOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the domain where the rule is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the domain where the rule is created. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The name of the rule. Constraints: o min: 1 o max: 256 o pattern: [\w -]+
+    /// The name of the rule. Constraints: • min: 1 • max: 256 • pattern: [\w -]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The target of the rule. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: domainUnitTarget. domainUnitTarget -&gt; (structure) The ID of the domain unit. domainUnitId -&gt; (string) [required] The ID of the domain unit. Constraints: o min: 1 o max: 256 o pattern: [a-z0-9_\-]+ includeChildDomainUnits -&gt; (boolean) Specifies whether to apply a rule to the child domain units. Shorthand Syntax: domainUnitTarget={domainUnitId=string,includeChildDomainUnits=boolean} JSON Syntax: { "domainUnitTarget": { "domainUnitId": "string", "includeChildDomainUnits": true|false } }
+    /// The target of the rule. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: domainUnitTarget. domainUnitTarget -&gt; (structure) The ID of the domain unit. domainUnitId -&gt; (string) [required] The ID of the domain unit. Constraints: • min: 1 • max: 256 • pattern: [a-z0-9_\-]+ includeChildDomainUnits -&gt; (boolean) Specifies whether to apply a rule to the child domain units. Shorthand Syntax: domainUnitTarget={domainUnitId=string,includeChildDomainUnits=boolean} JSON Syntax: { "domainUnitTarget": { "domainUnitId": "string", "includeChildDomainUnits": true|false } }
     /// </summary>
     [CliOption("--target")]
     public string? Target { get; private init; }
 
     /// <summary>
-    /// The action of the rule. Possible values: o CREATE_LISTING_CHANGE_SET o CREATE_SUBSCRIPTION_REQUEST
+    /// The action of the rule. Possible values: • CREATE_LISTING_CHANGE_SET • CREATE_SUBSCRIPTION_REQUEST
     /// </summary>
     [CliOption("--action")]
     public AwsDatazoneCreateRuleAction? Action { get; private init; }
 
     /// <summary>
-    /// The scope of the rule. assetType -&gt; (structure) The asset type included in the rule scope. selectionMode -&gt; (string) [required] The selection mode for the rule. Possible values: o ALL o SPECIFIC specificAssetTypes -&gt; (list) The specific asset types that are included in the rule. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 513 o pattern: (?!\.)[\w\.]*\w dataProduct -&gt; (boolean) The data product included in the rule scope. project -&gt; (structure) The project included in the rule scope. selectionMode -&gt; (string) [required] The selection mode of the rule. Possible values: o ALL o SPECIFIC specificProjects -&gt; (list) The specific projects in which the rule is created. Constraints: o min: 1 (string) Constraints: o pattern: [a-zA-Z0-9_-]{1,36} Shorthand Syntax: assetType={selectionMode=string,specificAssetTypes=[string,string]},dataProduct=boolean,project={selectionMode=string,specificProjects=[string,string]} JSON Syntax: { "assetType": { "selectionMode": "ALL"|"SPECIFIC", "specificAssetTypes": ["string", ...] }, "dataProduct": true|false, "project": { "selectionMode": "ALL"|"SPECIFIC", "specificProjects": ["string", ...] } }
+    /// The scope of the rule. assetType -&gt; (structure) The asset type included in the rule scope. selectionMode -&gt; (string) [required] The selection mode for the rule. Possible values: • ALL • SPECIFIC specificAssetTypes -&gt; (list) The specific asset types that are included in the rule. Constraints: • min: 1 (string) Constraints: • min: 1 • max: 513 • pattern: (?!\.)[\w\.]*\w dataProduct -&gt; (boolean) The data product included in the rule scope. project -&gt; (structure) The project included in the rule scope. selectionMode -&gt; (string) [required] The selection mode of the rule. Possible values: • ALL • SPECIFIC specificProjects -&gt; (list) The specific projects in which the rule is created. Constraints: • min: 1 (string) Constraints: • pattern: [a-zA-Z0-9_-]{1,36} Shorthand Syntax: assetType={selectionMode=string,specificAssetTypes=[string,string]},dataProduct=boolean,project={selectionMode=string,specificProjects=[string,string]} JSON Syntax: { "assetType": { "selectionMode": "ALL"|"SPECIFIC", "specificAssetTypes": ["string", ...] }, "dataProduct": true|false, "project": { "selectionMode": "ALL"|"SPECIFIC", "specificProjects": ["string", ...] } }
     /// </summary>
     [CliOption("--scope")]
     public string? Scope { get; private init; }
 
     /// <summary>
-    /// The detail of the rule. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: metadataFormEnforcementDetail, glossary- TermEnforcementDetail. metadataFormEnforcementDetail -&gt; (structure) The enforcement detail of the metadata form. requiredMetadataForms -&gt; (list) The required metadata forms. Constraints: o min: 1 o max: 5 (structure) The reference of a metadata form. typeIdentifier -&gt; (string) [required] The type ID of the metadata form reference. Constraints: o min: 1 o max: 385 o pattern: (?!\.)[\w\.]*\w typeRevision -&gt; (string) [required] The type revision of the metadata form reference. Constraints: o min: 1 o max: 64 glossaryTermEnforcementDetail -&gt; (structure) The enforcement details of a glossary term that's part of the metadata rule. requiredGlossaryTermIds -&gt; (list) The ID of the required glossary term. Constraints: o min: 1 o max: 5 (string) Constraints: o pattern: [a-zA-Z0-9_-]{1,36} JSON Syntax: { "metadataFormEnforcementDetail": { "requiredMetadataForms": [ { "typeIdentifier": "string", "typeRevision": "string" } ... ] }, "glossaryTermEnforcementDetail": { "requiredGlossaryTermIds": ["string", ...] } }
+    /// The detail of the rule. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: metadataFormEnforcementDetail, glossaryTermEnforcementDetail. metadataFormEnforcementDetail -&gt; (structure) The enforcement detail of the metadata form. requiredMetadataForms -&gt; (list) The required metadata forms. Constraints: • min: 1 • max: 5 (structure) The reference of a metadata form. typeIdentifier -&gt; (string) [required] The type ID of the metadata form reference. Constraints: • min: 1 • max: 385 • pattern: (?!\.)[\w\.]*\w typeRevision -&gt; (string) [required] The type revision of the metadata form reference. Constraints: • min: 1 • max: 64 glossaryTermEnforcementDetail -&gt; (structure) The enforcement details of a glossary term that's part of the metadata rule. requiredGlossaryTermIds -&gt; (list) The ID of the required glossary term. Constraints: • min: 1 • max: 5 (string) Constraints: • pattern: [a-zA-Z0-9_-]{1,36} JSON Syntax: { "metadataFormEnforcementDetail": { "requiredMetadataForms": [ { "typeIdentifier": "string", "typeRevision": "string" } ... ] }, "glossaryTermEnforcementDetail": { "requiredGlossaryTermIds": ["string", ...] } }
     /// </summary>
     [CliOption("--detail")]
     public string? Detail { get; private init; }
 
     /// <summary>
-    /// The description of the rule. Constraints: o min: 0 o max: 2048
+    /// The description of the rule. Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

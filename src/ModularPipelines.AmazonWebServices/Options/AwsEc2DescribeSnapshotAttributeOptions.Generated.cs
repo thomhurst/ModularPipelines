@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsEc2DescribeSnapshotAttributeOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Describes the specified attribute of the specified snapshot. You can specify only one attribute at a time. For more information about EBS snapshots, see Amazon EBS snapshots in the Amazon EBS User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Attribute">The snapshot attribute you would like to view. Possible values: o productCodes o createVolumePermission</param>
+    /// <param name="Attribute">The snapshot attribute you would like to view. Possible values: • productCodes • createVolumePermission</param>
     /// <param name="SnapshotId">The ID of the EBS snapshot.</param>
     public AwsEc2DescribeSnapshotAttributeOptions(
         AwsEc2DescribeSnapshotAttributeAttribute Attribute,
@@ -60,7 +62,7 @@ public record AwsEc2DescribeSnapshotAttributeOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The snapshot attribute you would like to view. Possible values: o productCodes o createVolumePermission
+    /// The snapshot attribute you would like to view. Possible values: • productCodes • createVolumePermission
     /// </summary>
     [CliOption("--attribute")]
     public AwsEc2DescribeSnapshotAttributeAttribute? Attribute { get; private init; }
@@ -72,7 +74,7 @@ public record AwsEc2DescribeSnapshotAttributeOptions : AwsOptions, IValidatableO
     public string? SnapshotId { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

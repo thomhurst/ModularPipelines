@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the association between the specified Direct Connect gateway and virtual private gateway. We recommend that you specify the associationID to delete the associa- tion. Alternatively, if you own virtual gateway and a Direct Connect gateway association, you can specify the virtualGatewayId and direct- ConnectGatewayId to delete an association. See also: AWS API Documentation
+/// Deletes the association between the specified Direct Connect gateway and virtual private gateway. We recommend that you specify the associationID to delete the association. Alternatively, if you own virtual gateway and a Direct Connect gateway association, you can specify the virtualGatewayId and directConnectGatewayId to delete an association. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

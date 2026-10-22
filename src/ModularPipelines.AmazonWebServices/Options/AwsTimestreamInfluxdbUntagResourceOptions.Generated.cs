@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsTimestreamInfluxdbUntagResourceOptions : AwsOptions, IValidatab
     /// <summary>
     /// Removes the tag from the specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the tagged resource. Constraints: o min: 1 o max: 1011 o pattern: arn:aws[a-z\-]*:timestream\-in- fluxdb:[a-z0-9\-]+:[0-9]{12}:(db\-instance|db\-cluster|db\-parame- ter\-group|db\-backup)/[a-zA-Z0-9]{3,64}</param>
-    /// <param name="TagKeys">The keys used to identify the tags. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the tagged resource. Constraints: • min: 1 • max: 1011 • pattern: arn:aws[a-z\-]*:timestream\-influxdb:[a-z0-9\-]+:[0-9]{12}:(db\-instance|db\-cluster|db\-parameter\-group|db\-backup)/[a-zA-Z0-9]{3,64}</param>
+    /// <param name="TagKeys">The keys used to identify the tags. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
     public AwsTimestreamInfluxdbUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsTimestreamInfluxdbUntagResourceOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the tagged resource. Constraints: o min: 1 o max: 1011 o pattern: arn:aws[a-z\-]*:timestream\-in- fluxdb:[a-z0-9\-]+:[0-9]{12}:(db\-instance|db\-cluster|db\-parame- ter\-group|db\-backup)/[a-zA-Z0-9]{3,64}
+    /// The Amazon Resource Name (ARN) of the tagged resource. Constraints: • min: 1 • max: 1011 • pattern: arn:aws[a-z\-]*:timestream\-influxdb:[a-z0-9\-]+:[0-9]{12}:(db\-instance|db\-cluster|db\-parameter\-group|db\-backup)/[a-zA-Z0-9]{3,64}
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The keys used to identify the tags. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// The keys used to identify the tags. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws emrserverless commands.
+/// aws emr-serverless commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsEmrServerless : IAwsEmrServerless
@@ -62,7 +62,7 @@ public class AwsEmrServerless : IAwsEmrServerless
     }
 
     /// <summary>
-    /// Deletes an application. An application has to be in a stopped or cre- ated state in order to be deleted. See also: AWS API Documentation
+    /// Deletes an application. An application has to be in a stopped or created state in order to be deleted. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsEmrServerless : IAwsEmrServerless
     }
 
     /// <summary>
-    /// Creates and returns a URL that you can use to access the application UIs for a job run. For jobs in a running state, the application UI is a live user inter- face such as the Spark or Tez web UI. For completed jobs, the applica- tion UI is a persistent application user interface such as the Spark History Server or persistent Tez UI. NOTE: The URL is valid for one hour after you generate it. To access the application UI after that hour elapses, you must invoke the API again to generate a new URL....
+    /// Creates and returns a URL that you can use to access the application UIs for a job run. For jobs in a running state, the application UI is a live user interface such as the Spark or Tez web UI. For completed jobs, the application UI is a persistent application user interface such as the Spark History Server or persistent Tez UI. NOTE: The URL is valid for one hour after you generate it. To access the application UI after that hour elapses, you must invoke the API again to generate a new URL. See...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsEmrServerless : IAwsEmrServerless
     }
 
     /// <summary>
-    /// Returns a URL that you can use to access the application UIs for a specified resource, such as a session. For resources in a running state, the application UI is a live user in- terface such as the Spark web UI. For terminated resources, the appli- cation UI is a persistent application user interface such as the Spark History Server. NOTE: The URL is valid for one hour after you generate it. To access the application UI after that hour elapses, you must invoke the API again to generate a new URL...
+    /// Returns a URL that you can use to access the application UIs for a specified resource, such as a session. For resources in a running state, the application UI is a live user interface such as the Spark web UI. For terminated resources, the application UI is a persistent application user interface such as the Spark History Server. NOTE: The URL is valid for one hour after you generate it. To access the application UI after that hour elapses, you must invoke the API again to generate a new URL. Se...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsEmrServerless : IAwsEmrServerless
     }
 
     /// <summary>
-    /// Returns the session endpoint URL and a time-limited authentication to- ken for the specified session. Use the endpoint and token to connect a client to the session. Call this operation again when the authentica- tion token expires to obtain a new token. See also: AWS API Documentation
+    /// Returns the session endpoint URL and a time-limited authentication token for the specified session. Use the endpoint and token to connect a client to the session. Call this operation again when the authentication token expires to obtain a new token. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsEmrServerless : IAwsEmrServerless
     }
 
     /// <summary>
-    /// Lists job runs based on a set of parameters. See also: AWS API Documentation list-job-runs is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: jobRuns
+    /// Lists job runs based on a set of parameters. See also: AWS API Documentation list-job-runs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: jobRuns
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsEmrServerless : IAwsEmrServerless
     }
 
     /// <summary>
-    /// Lists sessions for the specified application. You can filter sessions by state and creation time. See also: AWS API Documentation list-sessions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: sessi...
+    /// Lists sessions for the specified application. You can filter sessions by state and creation time. See also: AWS API Documentation list-sessions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: sessions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsEmrServerless : IAwsEmrServerless
     }
 
     /// <summary>
-    /// Starts a specified application and initializes initial capacity if con- figured. See also: AWS API Documentation
+    /// Starts a specified application and initializes initial capacity if configured. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsEmrServerless : IAwsEmrServerless
     }
 
     /// <summary>
-    /// Creates and starts a new session on the specified application. The ap- plication must be in the STARTED state or have AutoStart enabled, and have interactive sessions enabled. This operation is supported for EMR release 7.13.0 and later. See also: AWS API Documentation
+    /// Creates and starts a new session on the specified application. The application must be in the STARTED state or have AutoStart enabled, and have interactive sessions enabled. This operation is supported for EMR release 7.13.0 and later. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsEmrServerless : IAwsEmrServerless
     }
 
     /// <summary>
-    /// Stops a specified application and releases initial capacity if config- ured. All scheduled and running jobs must be completed or cancelled be- fore stopping an application. See also: AWS API Documentation
+    /// Stops a specified application and releases initial capacity if configured. All scheduled and running jobs must be completed or cancelled before stopping an application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsEmrServerless : IAwsEmrServerless
     }
 
     /// <summary>
-    /// Assigns tags to resources. A tag is a label that you assign to an Ama- zon Web Services resource. Each tag consists of a key and an optional value, both of which you define. Tags enable you to categorize your Amazon Web Services resources by attributes such as purpose, owner, or environment. When you have many resources of the same type, you can quickly identify a specific resource based on the tags you've assigned to it. See also: AWS API Documentation
+    /// Assigns tags to resources. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value, both of which you define. Tags enable you to categorize your Amazon Web Services resources by attributes such as purpose, owner, or environment. When you have many resources of the same type, you can quickly identify a specific resource based on the tags you've assigned to it. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsEmrServerless : IAwsEmrServerless
     }
 
     /// <summary>
-    /// Terminates the specified session. After you terminate a session, it en- ters the TERMINATING state and then the TERMINATED state. You can still access the Spark History Server for a terminated session through the GetResourceDashboard operation. See also: AWS API Documentation
+    /// Terminates the specified session. After you terminate a session, it enters the TERMINATING state and then the TERMINATED state. You can still access the Spark History Server for a terminated session through the GetResourceDashboard operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

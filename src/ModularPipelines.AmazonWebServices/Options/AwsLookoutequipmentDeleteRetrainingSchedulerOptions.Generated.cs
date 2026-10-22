@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsLookoutequipmentDeleteRetrainingSchedulerOptions : AwsOptions, 
     /// <summary>
     /// Deletes a retraining scheduler from a model. The retraining scheduler must be in the STOPPED status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ModelName">The name of the model whose retraining scheduler you want to delete. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    /// <param name="ModelName">The name of the model whose retraining scheduler you want to delete. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
     public AwsLookoutequipmentDeleteRetrainingSchedulerOptions(
         string ModelName
     )
@@ -56,7 +58,7 @@ public record AwsLookoutequipmentDeleteRetrainingSchedulerOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the model whose retraining scheduler you want to delete. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// The name of the model whose retraining scheduler you want to delete. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$
     /// </summary>
     [CliOption("--model-name")]
     public string? ModelName { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the resource groups that are specified by the ARNs of the re- source groups. See also: AWS API Documentation
+/// Describes the resource groups that are specified by the ARNs of the resource groups. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsInspectorDescribeResourceGroupsOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes the resource groups that are specified by the ARNs of the re- source groups. See also: AWS API Documentation
+    /// Describes the resource groups that are specified by the ARNs of the resource groups. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceGroupArns">The ARN that specifies the resource group that you want to describe. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...</param>
+    /// <param name="ResourceGroupArns">The ARN that specifies the resource group that you want to describe. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 300 Syntax: "string" "string" ...</param>
     public AwsInspectorDescribeResourceGroupsOptions(
         IEnumerable<string> ResourceGroupArns
     )
@@ -67,7 +69,7 @@ public record AwsInspectorDescribeResourceGroupsOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN that specifies the resource group that you want to describe. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...
+    /// The ARN that specifies the resource group that you want to describe. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 300 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resource-group-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceGroupArns { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Permanently deletes the specified canary. If the canary's ProvisionedResourceCleanup field is set to AUTOMATIC or you specify DeleteLambda in this operation as true , CloudWatch Syn- thetics also deletes the Lambda functions and layers that are used by the canary. Other resources used and created by the canary are not automatically deleted. After you delete a canary, you should also delete the follow- ing: o The CloudWatch alarms created for this canary. These alarms have a name of `` Synthetics...
+/// Permanently deletes the specified canary. If the canary's ProvisionedResourceCleanup field is set to AUTOMATIC or you specify DeleteLambda in this operation as true , CloudWatch Synthetics also deletes the Lambda functions and layers that are used by the canary. Other resources used and created by the canary are not automatically deleted. After you delete a canary, you should also delete the following: • The CloudWatch alarms created for this canary. These alarms have a name of `` Synthetics-Ala...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSyntheticsDeleteCanaryOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Permanently deletes the specified canary. If the canary's ProvisionedResourceCleanup field is set to AUTOMATIC or you specify DeleteLambda in this operation as true , CloudWatch Syn- thetics also deletes the Lambda functions and layers that are used by the canary. Other resources used and created by the canary are not automatically deleted. After you delete a canary, you should also delete the follow- ing: o The CloudWatch alarms created for this canary. These alarms have a name of `` Synthetics...
+    /// Permanently deletes the specified canary. If the canary's ProvisionedResourceCleanup field is set to AUTOMATIC or you specify DeleteLambda in this operation as true , CloudWatch Synthetics also deletes the Lambda functions and layers that are used by the canary. Other resources used and created by the canary are not automatically deleted. After you delete a canary, you should also delete the following: • The CloudWatch alarms created for this canary. These alarms have a name of `` Synthetics-Ala...
     /// </summary>
-    /// <param name="Name">The name of the canary that you want to delete. To find the names of your canaries, use DescribeCanaries . Constraints: o min: 1 o max: 255 o pattern: ^[0-9a-z_\-]+$</param>
+    /// <param name="Name">The name of the canary that you want to delete. To find the names of your canaries, use DescribeCanaries . Constraints: • min: 1 • max: 255 • pattern: ^[0-9a-z_\-]+$</param>
     public AwsSyntheticsDeleteCanaryOptions(
         string Name
     )
@@ -56,7 +58,7 @@ public record AwsSyntheticsDeleteCanaryOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the canary that you want to delete. To find the names of your canaries, use DescribeCanaries . Constraints: o min: 1 o max: 255 o pattern: ^[0-9a-z_\-]+$
+    /// The name of the canary that you want to delete. To find the names of your canaries, use DescribeCanaries . Constraints: • min: 1 • max: 255 • pattern: ^[0-9a-z_\-]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

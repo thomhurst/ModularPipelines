@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,7 +31,7 @@ public record AwsKafkaUpdateBrokerCountOptions : AwsOptions, IValidatableObject
     /// </summary>
     /// <param name="ClusterArn">The Amazon Resource Name (ARN) that uniquely identifies the cluster.</param>
     /// <param name="CurrentVersion">The version of cluster to update from. A successful operation will then generate a new version.</param>
-    /// <param name="TargetNumberOfBrokerNodes">The number of broker nodes that you want the cluster to have after this operation completes successfully. Constraints: o min: 1 o max: 15</param>
+    /// <param name="TargetNumberOfBrokerNodes">The number of broker nodes that you want the cluster to have after this operation completes successfully. Constraints: • min: 1 • max: 15</param>
     public AwsKafkaUpdateBrokerCountOptions(
         string ClusterArn,
         string CurrentVersion,
@@ -75,7 +77,7 @@ public record AwsKafkaUpdateBrokerCountOptions : AwsOptions, IValidatableObject
     public string? CurrentVersion { get; private init; }
 
     /// <summary>
-    /// The number of broker nodes that you want the cluster to have after this operation completes successfully. Constraints: o min: 1 o max: 15
+    /// The number of broker nodes that you want the cluster to have after this operation completes successfully. Constraints: • min: 1 • max: 15
     /// </summary>
     [CliOption("--target-number-of-broker-nodes")]
     public int? TargetNumberOfBrokerNodes { get; private init; }

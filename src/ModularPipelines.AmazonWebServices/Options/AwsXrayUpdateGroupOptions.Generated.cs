@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsXrayUpdateGroupOptions : AwsOptions
 {
     /// <summary>
-    /// The case-sensitive name of the group. Constraints: o min: 1 o max: 32
+    /// The case-sensitive name of the group. Constraints: • min: 1 • max: 32
     /// </summary>
     [CliOption("--group-name")]
     public string? GroupName { get; set; }
 
     /// <summary>
-    /// The ARN that was generated upon creation. Constraints: o min: 1 o max: 400
+    /// The ARN that was generated upon creation. Constraints: • min: 1 • max: 400
     /// </summary>
     [CliOption("--group-arn")]
     public string? GroupArn { get; set; }
@@ -40,7 +40,7 @@ public record AwsXrayUpdateGroupOptions : AwsOptions
     public string? FilterExpression { get; set; }
 
     /// <summary>
-    /// The structure containing configurations related to insights. o The InsightsEnabled boolean can be set to true to enable insights for the group or false to disable insights for the group. o The NotificationsEnabled boolean can be set to true to enable in- sights notifications for the group. Notifications can only be en- abled on a group with InsightsEnabled set to true. InsightsEnabled -&gt; (boolean) Set the InsightsEnabled value to true to enable insights or false to disable insights. NotificationsEnabled -&gt; (boolean) Set the NotificationsEnabled value to true to enable insights notifications. Notifications can only be enabled on a group with InsightsEnabled set to true. Shorthand Syntax: InsightsEnabled=boolean,NotificationsEnabled=boolean JSON Syntax: { "InsightsEnabled": true|false, "NotificationsEnabled": true|false }
+    /// The structure containing configurations related to insights. • The InsightsEnabled boolean can be set to true to enable insights for the group or false to disable insights for the group. • The NotificationsEnabled boolean can be set to true to enable insights notifications for the group. Notifications can only be enabled on a group with InsightsEnabled set to true. InsightsEnabled -&gt; (boolean) Set the InsightsEnabled value to true to enable insights or false to disable insights. NotificationsEnabled -&gt; (boolean) Set the NotificationsEnabled value to true to enable insights notifications. Notifications can only be enabled on a group with InsightsEnabled set to true. Shorthand Syntax: InsightsEnabled=boolean,NotificationsEnabled=boolean JSON Syntax: { "InsightsEnabled": true|false, "NotificationsEnabled": true|false }
     /// </summary>
     [CliOption("--insights-configuration")]
     public string? InsightsConfiguration { get; set; }

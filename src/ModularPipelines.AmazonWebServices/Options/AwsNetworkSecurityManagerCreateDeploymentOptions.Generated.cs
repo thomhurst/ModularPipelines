@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a deployment. A deployment applies one or more policies to the accounts and resources selected by a scope. Use isPublished to create the deployment in published (ACTIVE ) or draft (DRAFT ) state. The re- sponse includes coverage information and any warnings about the deploy- ment. See also: AWS API Documentation
+/// Creates a deployment. A deployment applies one or more policies to the accounts and resources selected by a scope. Use isPublished to create the deployment in published (ACTIVE ) or draft (DRAFT ) state. The response includes coverage information and any warnings about the deployment. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,12 +28,12 @@ public record AwsNetworkSecurityManagerCreateDeploymentOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a deployment. A deployment applies one or more policies to the accounts and resources selected by a scope. Use isPublished to create the deployment in published (ACTIVE ) or draft (DRAFT ) state. The re- sponse includes coverage information and any warnings about the deploy- ment. See also: AWS API Documentation
+    /// Creates a deployment. A deployment applies one or more policies to the accounts and resources selected by a scope. Use isPublished to create the deployment in published (ACTIVE ) or draft (DRAFT ) state. The response includes coverage information and any warnings about the deployment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DeploymentName">The name of the deployment. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9 _.:/=+\-@]*</param>
-    /// <param name="DeploymentConfiguration">The configuration settings for the deployment. enableCrossAccountVisibility -&gt; (boolean) [required] Specifies whether aggregate synchronization status details for the resources covered by this deployment are visible across ac- counts. Default: false . Shorthand Syntax: enableCrossAccountVisibility=boolean JSON Syntax: { "enableCrossAccountVisibility": true|false }</param>
-    /// <param name="AssociatedPolicyList">The policies associated with the deployment. Constraints: o min: 1 o max: 2 (structure) A reference to a policy in a create or update request. policyIdentifier -&gt; (string) [required] The identifier of the policy. This is the policy's Amazon Re- source Name (ARN), optionally version-qualified to pin a spe- cific published version. Constraints: o min: 1 o max: 1010 Shorthand Syntax: policyIdentifier=string ... JSON Syntax: [ { "policyIdentifier": "string" } ... ]</param>
-    /// <param name="AssociatedScopeList">The scope associated with the deployment. A deployment has exactly one scope. Constraints: o min: 1 o max: 1 (structure) A reference to a scope in a create or update request. scopeIdentifier -&gt; (string) [required] The identifier of the scope. This is the scope's Amazon Re- source Name (ARN). Constraints: o min: 1 o max: 1010 Shorthand Syntax: scopeIdentifier=string ... JSON Syntax: [ { "scopeIdentifier": "string" } ... ]</param>
+    /// <param name="DeploymentName">The name of the deployment. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][a-zA-Z0-9 _.:/=+\-@]*</param>
+    /// <param name="DeploymentConfiguration">The configuration settings for the deployment. enableCrossAccountVisibility -&gt; (boolean) [required] Specifies whether aggregate synchronization status details for the resources covered by this deployment are visible across accounts. Default: false . Shorthand Syntax: enableCrossAccountVisibility=boolean JSON Syntax: { "enableCrossAccountVisibility": true|false }</param>
+    /// <param name="AssociatedPolicyList">The policies associated with the deployment. Constraints: • min: 1 • max: 2 (structure) A reference to a policy in a create or update request. policyIdentifier -&gt; (string) [required] The identifier of the policy. This is the policy's Amazon Resource Name (ARN), optionally version-qualified to pin a specific published version. Constraints: • min: 1 • max: 1010 Shorthand Syntax: policyIdentifier=string ... JSON Syntax: [ { "policyIdentifier": "string" } ... ]</param>
+    /// <param name="AssociatedScopeList">The scope associated with the deployment. A deployment has exactly one scope. Constraints: • min: 1 • max: 1 (structure) A reference to a scope in a create or update request. scopeIdentifier -&gt; (string) [required] The identifier of the scope. This is the scope's Amazon Resource Name (ARN). Constraints: • min: 1 • max: 1010 Shorthand Syntax: scopeIdentifier=string ... JSON Syntax: [ { "scopeIdentifier": "string" } ... ]</param>
     public AwsNetworkSecurityManagerCreateDeploymentOptions(
         string DeploymentName,
         string DeploymentConfiguration,
@@ -92,38 +93,38 @@ public record AwsNetworkSecurityManagerCreateDeploymentOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the deployment. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9 _.:/=+\-@]*
+    /// The name of the deployment. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][a-zA-Z0-9 _.:/=+\-@]*
     /// </summary>
     [CliOption("--deployment-name")]
     public string? DeploymentName { get; private init; }
 
     /// <summary>
-    /// The configuration settings for the deployment. enableCrossAccountVisibility -&gt; (boolean) [required] Specifies whether aggregate synchronization status details for the resources covered by this deployment are visible across ac- counts. Default: false . Shorthand Syntax: enableCrossAccountVisibility=boolean JSON Syntax: { "enableCrossAccountVisibility": true|false }
+    /// The configuration settings for the deployment. enableCrossAccountVisibility -&gt; (boolean) [required] Specifies whether aggregate synchronization status details for the resources covered by this deployment are visible across accounts. Default: false . Shorthand Syntax: enableCrossAccountVisibility=boolean JSON Syntax: { "enableCrossAccountVisibility": true|false }
     /// </summary>
     [CliOption("--deployment-configuration")]
     public string? DeploymentConfiguration { get; private init; }
 
     /// <summary>
-    /// The policies associated with the deployment. Constraints: o min: 1 o max: 2 (structure) A reference to a policy in a create or update request. policyIdentifier -&gt; (string) [required] The identifier of the policy. This is the policy's Amazon Re- source Name (ARN), optionally version-qualified to pin a spe- cific published version. Constraints: o min: 1 o max: 1010 Shorthand Syntax: policyIdentifier=string ... JSON Syntax: [ { "policyIdentifier": "string" } ... ]
+    /// The policies associated with the deployment. Constraints: • min: 1 • max: 2 (structure) A reference to a policy in a create or update request. policyIdentifier -&gt; (string) [required] The identifier of the policy. This is the policy's Amazon Resource Name (ARN), optionally version-qualified to pin a specific published version. Constraints: • min: 1 • max: 1010 Shorthand Syntax: policyIdentifier=string ... JSON Syntax: [ { "policyIdentifier": "string" } ... ]
     /// </summary>
     [CliOption("--associated-policy-list", GroupValues = true)]
     public IEnumerable<string>? AssociatedPolicyList { get; private init; }
 
     /// <summary>
-    /// The scope associated with the deployment. A deployment has exactly one scope. Constraints: o min: 1 o max: 1 (structure) A reference to a scope in a create or update request. scopeIdentifier -&gt; (string) [required] The identifier of the scope. This is the scope's Amazon Re- source Name (ARN). Constraints: o min: 1 o max: 1010 Shorthand Syntax: scopeIdentifier=string ... JSON Syntax: [ { "scopeIdentifier": "string" } ... ]
+    /// The scope associated with the deployment. A deployment has exactly one scope. Constraints: • min: 1 • max: 1 (structure) A reference to a scope in a create or update request. scopeIdentifier -&gt; (string) [required] The identifier of the scope. This is the scope's Amazon Resource Name (ARN). Constraints: • min: 1 • max: 1010 Shorthand Syntax: scopeIdentifier=string ... JSON Syntax: [ { "scopeIdentifier": "string" } ... ]
     /// </summary>
     [CliOption("--associated-scope-list", GroupValues = true)]
     public IEnumerable<string>? AssociatedScopeList { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive token that you provide to ensure that the operation completes no more than one time. If you retry a request with the same client token and the same parameters, the service re- turns the result of the original successful request. Constraints: o min: 1 o max: 64 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive token that you provide to ensure that the operation completes no more than one time. If you retry a request with the same client token and the same parameters, the service returns the result of the original successful request. Constraints: • min: 1 • max: 64 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A description of the deployment. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9 _.:/=+\-@]*
+    /// A description of the deployment. Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9 _.:/=+\-@]*
     /// </summary>
     [CliOption("--deployment-description")]
     public string? DeploymentDescription { get; set; }
@@ -135,7 +136,7 @@ public record AwsNetworkSecurityManagerCreateDeploymentOptions : AwsOptions, IVa
     public bool? IsPublished { get; set; }
 
     /// <summary>
-    /// The tags to add to the resource when it is created. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to add to the resource when it is created. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws paymentcryptography commands.
+/// aws payment-cryptography commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsPaymentCryptography : IAwsPaymentCryptography
@@ -32,7 +32,7 @@ public class AwsPaymentCryptography : IAwsPaymentCryptography
     #region Commands
 
     /// <summary>
-    /// Adds replication Amazon Web Services Regions to an existing Amazon Web Services Payment Cryptography key, enabling the key to be used for cryptographic operations in additional Amazon Web Services Regions. Multi-Region key replication allow you to use the same key material across multiple Amazon Web Services Regions, providing lower latency for applications distributed across regions. When you add Replica- tion Regions, Amazon Web Services Payment Cryptography securely replicates the key materia...
+    /// Adds replication Amazon Web Services Regions to an existing Amazon Web Services Payment Cryptography key, enabling the key to be used for cryptographic operations in additional Amazon Web Services Regions. Multi-Region key replication allow you to use the same key material across multiple Amazon Web Services Regions, providing lower latency for applications distributed across regions. When you add Replication Regions, Amazon Web Services Payment Cryptography securely replicates the key material ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsPaymentCryptography : IAwsPaymentCryptography
     }
 
     /// <summary>
-    /// Associates a Multi-Party Approval (MPA) team with a protected opera- tion. For more information, see Multi-Party Approval in the Amazon Web Services Payment Cryptography User Guide. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o DisassociateMpaTeam o GetMpaTeamAssociation See also: AWS API Documentation
+    /// Associates a Multi-Party Approval (MPA) team with a protected operation. For more information, see Multi-Party Approval in the Amazon Web Services Payment Cryptography User Guide. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: • DisassociateMpaTeam • GetMpaTeamAssociation See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsPaymentCryptography : IAwsPaymentCryptography
     }
 
     /// <summary>
-    /// Creates an alias , or a friendly name, for an Amazon Web Services Pay- ment Cryptography key. You can use an alias to identify a key in the console and when you call cryptographic operations such as EncryptData or DecryptData . You can associate the alias with any key in the same Amazon Web Ser- vices Region. Each alias is associated with only one key at a time, but a key can have multiple aliases. You can't create an alias without a key. The alias must be unique in the account and Amazon Web Se...
+    /// Creates an alias , or a friendly name, for an Amazon Web Services Payment Cryptography key. You can use an alias to identify a key in the console and when you call cryptographic operations such as EncryptData or DecryptData . You can associate the alias with any key in the same Amazon Web Services Region. Each alias is associated with only one key at a time, but a key can have multiple aliases. You can't create an alias without a key. The alias must be unique in the account and Amazon Web Servic...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsPaymentCryptography : IAwsPaymentCryptography
     }
 
     /// <summary>
-    /// Creates an Amazon Web Services Payment Cryptography key, a logical rep- resentation of a cryptographic key, that is unique in your account and Amazon Web Services Region. You use keys for cryptographic functions such as encryption and decryption. In addition to the key material used in cryptographic operations, an Amazon Web Services Payment Cryptography key includes metadata such as the key ARN, key usage, key origin, creation date, description, and key state. When you create a key, you specify...
+    /// Creates an Amazon Web Services Payment Cryptography key, a logical representation of a cryptographic key, that is unique in your account and Amazon Web Services Region. You use keys for cryptographic functions such as encryption and decryption. In addition to the key material used in cryptographic operations, an Amazon Web Services Payment Cryptography key includes metadata such as the key ARN, key usage, key origin, creation date, description, and key state. When you create a key, you specify b...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsPaymentCryptography : IAwsPaymentCryptography
     }
 
     /// <summary>
-    /// Deletes the alias, but doesn't affect the underlying key. Each key can have multiple aliases. To get the aliases of all keys, use the UpdateAlias operation. To change the alias of a key, first use DeleteAlias to delete the current alias and then use CreateAlias to create a new alias. To associate an existing alias with a different key, call UpdateAlias . Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o CreateAlias o GetAlias o L...
+    /// Deletes the alias, but doesn't affect the underlying key. Each key can have multiple aliases. To get the aliases of all keys, use the UpdateAlias operation. To change the alias of a key, first use DeleteAlias to delete the current alias and then use CreateAlias to create a new alias. To associate an existing alias with a different key, call UpdateAlias . Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: • CreateAlias • GetAlias • L...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsPaymentCryptography : IAwsPaymentCryptography
     }
 
     /// <summary>
-    /// Deletes the key material and metadata associated with Amazon Web Ser- vices Payment Cryptography key. Key deletion is irreversible. After a key is deleted, you can't perform cryptographic operations using the key. For example, you can't decrypt data that was encrypted by a deleted Amazon Web Services Payment Cryp- tography key, and the data may become unrecoverable. Because key dele- tion is destructive, Amazon Web Services Payment Cryptography has a safety mechanism to prevent accidental deleti...
+    /// Deletes the key material and metadata associated with Amazon Web Services Payment Cryptography key. Key deletion is irreversible. After a key is deleted, you can't perform cryptographic operations using the key. For example, you can't decrypt data that was encrypted by a deleted Amazon Web Services Payment Cryptography key, and the data may become unrecoverable. Because key deletion is destructive, Amazon Web Services Payment Cryptography has a safety mechanism to prevent accidental deletion of ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsPaymentCryptography : IAwsPaymentCryptography
     }
 
     /// <summary>
-    /// Removes the resource-based policy attached to an Amazon Web Services Payment Cryptography key. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o PutResourcePolicy o GetResourcePolicy See also: AWS API Documentation
+    /// Removes the resource-based policy attached to an Amazon Web Services Payment Cryptography key. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: • PutResourcePolicy • GetResourcePolicy See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsPaymentCryptography : IAwsPaymentCryptography
     }
 
     /// <summary>
-    /// Removes the association between a Multi-Party Approval (MPA) team and a protected operation. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o AssociateMpaTeam o GetMpaTeamAssociation See also: AWS API Documentation
+    /// Removes the association between a Multi-Party Approval (MPA) team and a protected operation. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: • AssociateMpaTeam • GetMpaTeamAssociation See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsPaymentCryptography : IAwsPaymentCryptography
     }
 
     /// <summary>
-    /// Enables Multi-Region key replication settings for your Amazon Web Ser- vices account, causing new keys to be automatically replicated to the specified Amazon Web Services Regions when created. When Multi-Region key replication are enabled, any new keys created in your account will automatically be replicated to these regions unless you explicitly override this behavior during key creation. This simpli- fies key management for applications that operate across multiple re- gions. Existing keys are...
+    /// Enables Multi-Region key replication settings for your Amazon Web Services account, causing new keys to be automatically replicated to the specified Amazon Web Services Regions when created. When Multi-Region key replication are enabled, any new keys created in your account will automatically be replicated to these regions unless you explicitly override this behavior during key creation. This simplifies key management for applications that operate across multiple regions. Existing keys are not a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsPaymentCryptography : IAwsPaymentCryptography
     }
 
     /// <summary>
-    /// Exports a key from Amazon Web Services Payment Cryptography. Amazon Web Services Payment Cryptography simplifies key exchange by re- placing the existing paper-based approach with a modern electronic ap- proach. With ExportKey you can export symmetric keys using either sym- metric and asymmetric key exchange mechanisms. Using this operation, you can share your Amazon Web Services Payment Cryptography generated keys with other service partners to perform cryptographic operations outside of Amazon...
+    /// Exports a key from Amazon Web Services Payment Cryptography. Amazon Web Services Payment Cryptography simplifies key exchange by replacing the existing paper-based approach with a modern electronic approach. With ExportKey you can export symmetric keys using either symmetric and asymmetric key exchange mechanisms. Using this operation, you can share your Amazon Web Services Payment Cryptography generated keys with other service partners to perform cryptographic operations outside of Amazon Web S...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsPaymentCryptography : IAwsPaymentCryptography
     }
 
     /// <summary>
-    /// Gets the Amazon Web Services Payment Cryptography key associated with the alias. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o CreateAlias o DeleteAlias o ListAliases o UpdateAlias See also: AWS API Documentation
+    /// Gets the Amazon Web Services Payment Cryptography key associated with the alias. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: • CreateAlias • DeleteAlias • ListAliases • UpdateAlias See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsPaymentCryptography : IAwsPaymentCryptography
     }
 
     /// <summary>
-    /// Retrieves the list of Amazon Web Services Regions where Multi-Region key replication is currently enabled for your Amazon Web Services ac- count. This operation returns the current Multi-Region key replication config- uration. New keys created in your account will be automatically repli- cated to these regions unless explicitly overridden during key cre- ation. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o EnableDefaultKeyRep...
+    /// Retrieves the list of Amazon Web Services Regions where Multi-Region key replication is currently enabled for your Amazon Web Services account. This operation returns the current Multi-Region key replication configuration. New keys created in your account will be automatically replicated to these regions unless explicitly overridden during key creation. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: • EnableDefaultKeyReplication...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsPaymentCryptography : IAwsPaymentCryptography
     }
 
     /// <summary>
-    /// Gets the key metadata for an Amazon Web Services Payment Cryptography key, including the immutable and mutable attributes specified when the key was created. Returns key metadata including attributes, state, and timestamps, but does not return the actual cryptographic key material. Cross-account use: This operation supports cross-account use when the key has a resource-based policy that grants access. For more in- formation, see Resource-based policies . Related operations: o CreateKey o DeleteK...
+    /// Gets the key metadata for an Amazon Web Services Payment Cryptography key, including the immutable and mutable attributes specified when the key was created. Returns key metadata including attributes, state, and timestamps, but does not return the actual cryptographic key material. Cross-account use: This operation supports cross-account use when the key has a resource-based policy that grants access. For more information, see Resource-based policies . Related operations: • CreateKey • DeleteKey...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsPaymentCryptography : IAwsPaymentCryptography
     }
 
     /// <summary>
-    /// Returns the Multi-Party Approval (MPA) team association for a protected operation. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o AssociateMpaTeam o DisassociateMpaTeam See also: AWS API Documentation
+    /// Returns the Multi-Party Approval (MPA) team association for a protected operation. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: • AssociateMpaTeam • DisassociateMpaTeam See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsPaymentCryptography : IAwsPaymentCryptography
     }
 
     /// <summary>
-    /// Gets the import token and the wrapping key certificate in PEM format (base64 encoded) to initiate a TR-34 WrappedKeyBlock or a RSA WrappedK- eyCryptogram import into Amazon Web Services Payment Cryptography. The wrapping key certificate wraps the key under import. The import to- ken and wrapping key certificate must be in place and operational be- fore calling ImportKey . The import token expires in 30 days. You can use the same import token to import multiple keys into your service ac- count. T...
+    /// Gets the import token and the wrapping key certificate in PEM format (base64 encoded) to initiate a TR-34 WrappedKeyBlock or a RSA WrappedKeyCryptogram import into Amazon Web Services Payment Cryptography. The wrapping key certificate wraps the key under import. The import token and wrapping key certificate must be in place and operational before calling ImportKey . The import token expires in 30 days. You can use the same import token to import multiple keys into your service account. To return...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsPaymentCryptography : IAwsPaymentCryptography
     }
 
     /// <summary>
-    /// Gets the public key certificate of the asymmetric key pair that exists within Amazon Web Services Payment Cryptography. Unlike the private key of an asymmetric key, which never leaves Amazon Web Services Payment Cryptography unencrypted, callers with GetPublicK- eyCertificate permission can download the public key certificate of the asymmetric key. You can share the public key certificate to allow oth- ers to encrypt messages and verify signatures outside of Amazon Web Services Payment Cryptogra...
+    /// Gets the public key certificate of the asymmetric key pair that exists within Amazon Web Services Payment Cryptography. Unlike the private key of an asymmetric key, which never leaves Amazon Web Services Payment Cryptography unencrypted, callers with GetPublicKeyCertificate permission can download the public key certificate of the asymmetric key. You can share the public key certificate to allow others to encrypt messages and verify signatures outside of Amazon Web Services Payment Cryptography ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsPaymentCryptography : IAwsPaymentCryptography
     }
 
     /// <summary>
-    /// Returns the resource-based policy attached to an Amazon Web Services Payment Cryptography key. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o PutResourcePolicy o DeleteResourcePolicy See also: AWS API Documentation
+    /// Returns the resource-based policy attached to an Amazon Web Services Payment Cryptography key. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: • PutResourcePolicy • DeleteResourcePolicy See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsPaymentCryptography : IAwsPaymentCryptography
     }
 
     /// <summary>
-    /// Imports symmetric keys and public key certificates in PEM format (base64 encoded) into Amazon Web Services Payment Cryptography. Amazon Web Services Payment Cryptography simplifies key exchange by re- placing the existing paper-based approach with a modern electronic ap- proach. With ImportKey you can import symmetric keys using either sym- metric and asymmetric key exchange mechanisms. For symmetric key exchange, Amazon Web Services Payment Cryptography uses the ANSI X9 TR-31 norm in accordance...
+    /// Imports symmetric keys and public key certificates in PEM format (base64 encoded) into Amazon Web Services Payment Cryptography. Amazon Web Services Payment Cryptography simplifies key exchange by replacing the existing paper-based approach with a modern electronic approach. With ImportKey you can import symmetric keys using either symmetric and asymmetric key exchange mechanisms. For symmetric key exchange, Amazon Web Services Payment Cryptography uses the ANSI X9 TR-31 norm in accordance with ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsPaymentCryptography : IAwsPaymentCryptography
     }
 
     /// <summary>
-    /// Lists the aliases for all keys in the caller's Amazon Web Services ac- count and Amazon Web Services Region. You can filter the aliases by ke- yARN . For more information, see Using aliases in the Amazon Web Ser- vices Payment Cryptography User Guide . This is a paginated operation, which means that each response might contain only a subset of all the aliases. When the response contains only a subset of aliases, it includes a NextToken value. Use this value in a subsequent ListAliases request to...
+    /// Lists the aliases for all keys in the caller's Amazon Web Services account and Amazon Web Services Region. You can filter the aliases by keyARN . For more information, see Using aliases in the Amazon Web Services Payment Cryptography User Guide . This is a paginated operation, which means that each response might contain only a subset of all the aliases. When the response contains only a subset of aliases, it includes a NextToken value. Use this value in a subsequent ListAliases request to get m...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsPaymentCryptography : IAwsPaymentCryptography
     }
 
     /// <summary>
-    /// Lists the keys in the caller's Amazon Web Services account and Amazon Web Services Region. You can filter the list of keys. This is a paginated operation, which means that each response might contain only a subset of all the keys. When the response contains only a subset of keys, it includes a NextToken value. Use this value in a subsequent ListKeys request to get more keys. When you receive a re- sponse with no NextToken (or an empty or null value), that means there are no more keys to get. Cro...
+    /// Lists the keys in the caller's Amazon Web Services account and Amazon Web Services Region. You can filter the list of keys. This is a paginated operation, which means that each response might contain only a subset of all the keys. When the response contains only a subset of keys, it includes a NextToken value. Use this value in a subsequent ListKeys request to get more keys. When you receive a response with no NextToken (or an empty or null value), that means there are no more keys to get. Cross...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsPaymentCryptography : IAwsPaymentCryptography
     }
 
     /// <summary>
-    /// Lists the tags for an Amazon Web Services resource. This is a paginated operation, which means that each response might contain only a subset of all the tags. When the response contains only a subset of tags, it includes a NextToken value. Use this value in a subsequent ListTagsForResource request to get more tags. When you re- ceive a response with no NextToken (or an empty or null value), that means there are no more tags to get. Cross-account use: This operation supports cross-account use whe...
+    /// Lists the tags for an Amazon Web Services resource. This is a paginated operation, which means that each response might contain only a subset of all the tags. When the response contains only a subset of tags, it includes a NextToken value. Use this value in a subsequent ListTagsForResource request to get more tags. When you receive a response with no NextToken (or an empty or null value), that means there are no more tags to get. Cross-account use: This operation supports cross-account use when ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsPaymentCryptography : IAwsPaymentCryptography
     }
 
     /// <summary>
-    /// Attaches or replaces a resource-based policy on an Amazon Web Services Payment Cryptography key. A resource-based policy can grant cross-ac- count access to your key. If the policy would grant public access, the request fails with a Pub- licPolicyException . To remove a resource-based policy from a key, use DeleteResourcePolicy . Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o GetResourcePolicy o DeleteResourcePolicy See also: ...
+    /// Attaches or replaces a resource-based policy on an Amazon Web Services Payment Cryptography key. A resource-based policy can grant cross-account access to your key. If the policy would grant public access, the request fails with a PublicPolicyException . To remove a resource-based policy from a key, use DeleteResourcePolicy . Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: • GetResourcePolicy • DeleteResourcePolicy See also: AWS ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsPaymentCryptography : IAwsPaymentCryptography
     }
 
     /// <summary>
-    /// Removes Replication Regions from an existing Amazon Web Services Pay- ment Cryptography key, disabling the key's availability for crypto- graphic operations in the specified Amazon Web Services Regions. When you remove Replication Regions, the key material is securely deleted from those regions and can no longer be used for cryptographic operations there. This operation is irreversible for the specified Ama- zon Web Services Regions. For more information, see Multi-Region key replication . WARNI...
+    /// Removes Replication Regions from an existing Amazon Web Services Payment Cryptography key, disabling the key's availability for cryptographic operations in the specified Amazon Web Services Regions. When you remove Replication Regions, the key material is securely deleted from those regions and can no longer be used for cryptographic operations there. This operation is irreversible for the specified Amazon Web Services Regions. For more information, see Multi-Region key replication . WARNING: En...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsPaymentCryptography : IAwsPaymentCryptography
     }
 
     /// <summary>
-    /// Cancels a scheduled key deletion during the waiting period. Use this operation to restore a Key that is scheduled for deletion. During the waiting period, the KeyState is DELETE_PENDING and delete- PendingTimestamp contains the date and time after which the Key will be deleted. After Key is restored, the KeyState is CREATE_COMPLETE , and the value for deletePendingTimestamp is removed. Cross-account use: This operation supports cross-account use when the key has a resource-based policy that gran...
+    /// Cancels a scheduled key deletion during the waiting period. Use this operation to restore a Key that is scheduled for deletion. During the waiting period, the KeyState is DELETE_PENDING and deletePendingTimestamp contains the date and time after which the Key will be deleted. After Key is restored, the KeyState is CREATE_COMPLETE , and the value for deletePendingTimestamp is removed. Cross-account use: This operation supports cross-account use when the key has a resource-based policy that grants...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsPaymentCryptography : IAwsPaymentCryptography
     }
 
     /// <summary>
-    /// Enables an Amazon Web Services Payment Cryptography key, which makes it active for cryptographic operations within Amazon Web Services Payment Cryptography Cross-account use: This operation supports cross-account use when the key has a resource-based policy that grants access. For more in- formation, see Resource-based policies . Related operations: o StopKeyUsage See also: AWS API Documentation
+    /// Enables an Amazon Web Services Payment Cryptography key, which makes it active for cryptographic operations within Amazon Web Services Payment Cryptography Cross-account use: This operation supports cross-account use when the key has a resource-based policy that grants access. For more information, see Resource-based policies . Related operations: • StopKeyUsage See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsPaymentCryptography : IAwsPaymentCryptography
     }
 
     /// <summary>
-    /// Disables an Amazon Web Services Payment Cryptography key, which makes it inactive within Amazon Web Services Payment Cryptography. You can use this operation instead of DeleteKey to deactivate a key. You can enable the key in the future by calling StartKeyUsage . Cross-account use: This operation supports cross-account use when the key has a resource-based policy that grants access. For more in- formation, see Resource-based policies . Related operations: o DeleteKey o StartKeyUsage See also: AW...
+    /// Disables an Amazon Web Services Payment Cryptography key, which makes it inactive within Amazon Web Services Payment Cryptography. You can use this operation instead of DeleteKey to deactivate a key. You can enable the key in the future by calling StartKeyUsage . Cross-account use: This operation supports cross-account use when the key has a resource-based policy that grants access. For more information, see Resource-based policies . Related operations: • DeleteKey • StartKeyUsage See also: AWS ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsPaymentCryptography : IAwsPaymentCryptography
     }
 
     /// <summary>
-    /// Adds or edits tags on an Amazon Web Services Payment Cryptography key. NOTE: Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key. Each tag consists of a tag key and a tag value, both of which are case-sensitive strings. The tag value can be an empty (null) string. To add a tag, specify a new tag key and a tag value. To edit a tag, spec- ify an existing tag key and a new tag value. You can also add tags to an Amazon Web Services Payment Cry...
+    /// Adds or edits tags on an Amazon Web Services Payment Cryptography key. NOTE: Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key. Each tag consists of a tag key and a tag value, both of which are case-sensitive strings. The tag value can be an empty (null) string. To add a tag, specify a new tag key and a tag value. To edit a tag, specify an existing tag key and a new tag value. You can also add tags to an Amazon Web Services Payment Crypt...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsPaymentCryptography : IAwsPaymentCryptography
     }
 
     /// <summary>
-    /// Deletes a tag from an Amazon Web Services Payment Cryptography key. NOTE: Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key. Cross-account use: This operation supports cross-account use when the key has a resource-based policy that grants access. For more in- formation, see Resource-based policies . Related operations: o ListTagsForResource o TagResource See also: AWS API Documentation
+    /// Deletes a tag from an Amazon Web Services Payment Cryptography key. NOTE: Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key. Cross-account use: This operation supports cross-account use when the key has a resource-based policy that grants access. For more information, see Resource-based policies . Related operations: • ListTagsForResource • TagResource See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsPaymentCryptography : IAwsPaymentCryptography
     }
 
     /// <summary>
-    /// Associates an existing Amazon Web Services Payment Cryptography alias with a different key. Each alias is associated with only one Amazon Web Services Payment Cryptography key at a time, although a key can have multiple aliases. The alias and the Amazon Web Services Payment Cryp- tography key must be in the same Amazon Web Services account and Amazon Web Services Region Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o CreateAlia...
+    /// Associates an existing Amazon Web Services Payment Cryptography alias with a different key. Each alias is associated with only one Amazon Web Services Payment Cryptography key at a time, although a key can have multiple aliases. The alias and the Amazon Web Services Payment Cryptography key must be in the same Amazon Web Services account and Amazon Web Services Region Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: • CreateAlias ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

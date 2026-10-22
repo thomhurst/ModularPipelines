@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves information about a time series (data stream). To identify a time series, do one of the following: o If the time series isn't associated with an asset property, specify the alias of the time series. o If the time series is associated with an asset property, specify one of the following: o The alias of the time series. o The assetId and propertyId that identifies the asset property. See also: AWS API Documentation
+/// Retrieves information about a time series (data stream). To identify a time series, do one of the following: • If the time series isn't associated with an asset property, specify the alias of the time series. • If the time series is associated with an asset property, specify one of the following: • The alias of the time series. • The assetId and propertyId that identifies the asset property. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,25 +22,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotsitewiseDescribeTimeSeriesOptions : AwsOptions
 {
     /// <summary>
-    /// The alias that identifies the time series. Constraints: o min: 1 o pattern: [^\u0000-\u001F\u007F]+
+    /// The alias that identifies the time series. Constraints: • min: 1 • pattern: [^\u0000-\u001F\u007F]+
     /// </summary>
     [CliOption("--alias")]
     public string? Alias { get; set; }
 
     /// <summary>
-    /// The ID of the asset in which the asset property was created. This can be either the actual ID in UUID format, or else externalId: fol- lowed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide . Constraints: o min: 13 o max: 139 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^ex- ternalId:[a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+
+    /// The ID of the asset in which the asset property was created. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide . Constraints: • min: 13 • max: 139 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+
     /// </summary>
     [CliOption("--asset-id")]
     public string? AssetId { get; set; }
 
     /// <summary>
-    /// The ID of the asset property. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide . Constraints: o min: 13 o max: 139 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^ex- ternalId:[a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+
+    /// The ID of the asset property. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide . Constraints: • min: 13 • max: 139 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+
     /// </summary>
     [CliOption("--property-id")]
     public string? PropertyId { get; set; }
 
     /// <summary>
-    /// The name of the workspace. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The name of the workspace. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsLexv2ModelsListBotResourceGenerationsOptions : AwsOptions, IVal
     /// <summary>
     /// Lists the generation requests made for a bot locale. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BotId">The unique identifier of the bot whose generation requests you want to view. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="BotVersion">The version of the bot whose generation requests you want to view. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$</param>
+    /// <param name="BotId">The unique identifier of the bot whose generation requests you want to view. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotVersion">The version of the bot whose generation requests you want to view. Constraints: • min: 1 • max: 5 • pattern: ^(DRAFT|[0-9]+)$</param>
     /// <param name="LocaleId">The locale of the bot whose generation requests you want to view.</param>
     public AwsLexv2ModelsListBotResourceGenerationsOptions(
         string BotId,
@@ -65,13 +67,13 @@ public record AwsLexv2ModelsListBotResourceGenerationsOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the bot whose generation requests you want to view. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier of the bot whose generation requests you want to view. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
 
     /// <summary>
-    /// The version of the bot whose generation requests you want to view. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$
+    /// The version of the bot whose generation requests you want to view. Constraints: • min: 1 • max: 5 • pattern: ^(DRAFT|[0-9]+)$
     /// </summary>
     [CliOption("--bot-version")]
     public string? BotVersion { get; private init; }
@@ -83,13 +85,13 @@ public record AwsLexv2ModelsListBotResourceGenerationsOptions : AwsOptions, IVal
     public string? LocaleId { get; private init; }
 
     /// <summary>
-    /// An object containing information about the attribute and the method by which to sort the results attribute -&gt; (string) [required] The attribute by which to sort the generation request informa- tion. You can sort by the following attributes. o creationStartTime The time at which the generation request was created. o lastUpdatedTime The time at which the generation request was last updated. Possible values: o creationStartTime o lastUpdatedTime order -&gt; (string) [required] The order by which to sort the generation request information. Possible values: o Ascending o Descending Shorthand Syntax: attribute=string,order=string JSON Syntax: { "attribute": "creationStartTime"|"lastUpdatedTime", "order": "Ascending"|"Descending" }
+    /// An object containing information about the attribute and the method by which to sort the results attribute -&gt; (string) [required] The attribute by which to sort the generation request information. You can sort by the following attributes. • creationStartTime The time at which the generation request was created. • lastUpdatedTime The time at which the generation request was last updated. Possible values: • creationStartTime • lastUpdatedTime order -&gt; (string) [required] The order by which to sort the generation request information. Possible values: • Ascending • Descending Shorthand Syntax: attribute=string,order=string JSON Syntax: { "attribute": "creationStartTime"|"lastUpdatedTime", "order": "Ascending"|"Descending" }
     /// </summary>
     [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return in the response. Constraints: o min: 1 o max: 1000
+    /// The maximum number of results to return in the response. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

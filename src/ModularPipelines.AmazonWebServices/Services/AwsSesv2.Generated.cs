@@ -32,7 +32,7 @@ public class AwsSesv2 : IAwsSesv2
     #region Commands
 
     /// <summary>
-    /// Associates an S/MIME certificate with an email identity. After the cer- tificate is active, Amazon SES API v2 can add an S/MIME signature to messages that you send from the associated address when signing is en- abled on the configuration set used to send the message. The certificate is an X.509 certificate that you manage in Certificate Manager (ACM). You identify it by its Amazon Resource Name (ARN). o If the email identity is a domain, you must specify a FromAddress that belongs to that domai...
+    /// Associates an S/MIME certificate with an email identity. After the certificate is active, Amazon SES API v2 can add an S/MIME signature to messages that you send from the associated address when signing is enabled on the configuration set used to send the message. The certificate is an X.509 certificate that you manage in Certificate Manager (ACM). You identify it by its Amazon Resource Name (ARN). • If the email identity is a domain, you must specify a FromAddress that belongs to that domain or...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Retrieves batches of metric data collected based on your sending activ- ity. You can execute this operation no more than 16 times per second, and with at most 160 queries from the batches per second (cumulative). See also: AWS API Documentation
+    /// Retrieves batches of metric data collected based on your sending activity. You can execute this operation no more than 16 times per second, and with at most 160 queries from the batches per second (cumulative). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Create a new predictive inbox placement test. Predictive inbox place- ment tests can help you predict how your messages will be handled by various email providers around the world. When you perform a predictive inbox placement test, you provide a sample message that contains the content that you plan to send to your customers. Amazon SES then sends that message to special email addresses spread across several major email providers. After about 24 hours, the test is complete, and you can use the ...
+    /// Create a new predictive inbox placement test. Predictive inbox placement tests can help you predict how your messages will be handled by various email providers around the world. When you perform a predictive inbox placement test, you provide a sample message that contains the content that you plan to send to your customers. Amazon SES then sends that message to special email addresses spread across several major email providers. After about 24 hours, the test is complete, and you can use the Ge...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Starts the process of verifying an email identity. An identity is an email address or domain that you use when you send email. Before you can use an identity to send email, you first have to verify it. By ver- ifying an identity, you demonstrate that you're the owner of the iden- tity, and that you've given Amazon SES API v2 permission to send email from the identity. When you verify an email address, Amazon SES sends an email to the ad- dress. Your email address is verified as soon as you follo...
+    /// Starts the process of verifying an email identity. An identity is an email address or domain that you use when you send email. Before you can use an identity to send email, you first have to verify it. By verifying an identity, you demonstrate that you're the owner of the identity, and that you've given Amazon SES API v2 permission to send email from the identity. When you verify an email address, Amazon SES sends an email to the address. Your email address is verified as soon as you follow the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Creates the specified sending authorization policy for the given iden- tity (an email address or a domain). NOTE: This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: ...
+    /// Creates the specified sending authorization policy for the given identity (an email address or a domain). NOTE: This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AW...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Creates an email template. Email templates enable you to send personal- ized email to one or more destinations in a single API operation. For more information, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// Creates an email template. Email templates enable you to send personalized email to one or more destinations in a single API operation. For more information, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Creates an export job for a data source and destination. You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// Creates an export job for a data source and destination. Export jobs run asynchronously. This operation returns a JobId . Call GetExportJob with that ID until JobStatus is COMPLETED , FAILED , or CANCELLED . When the status is COMPLETED , download the export file from the pre-signed URL in ExportDestination.S3Url . When the status is FAILED , see FailureInfo . To store a copy in your own bucket, upload the downloaded file to your bucket. Do not include S3Url in the request. You can execute this ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Creates a multi-region endpoint (global-endpoint). The primary region is going to be the AWS-Region where the operation is executed. The secondary region has to be provided in request's parame- ters. From the data flow standpoint there is no difference between pri- mary and secondary regions - sending traffic is divided between the two. The primary region is the region where the resource has been cre- ated and where it can be managed. See also: AWS API Documentation
+    /// Creates a multi-region endpoint (global-endpoint). The primary region is going to be the AWS-Region where the operation is executed. The secondary region has to be provided in request's parameters. From the data flow standpoint there is no difference between primary and secondary regions - sending traffic is divided between the two. The primary region is the region where the resource has been created and where it can be managed. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Create a tenant. Tenants are logical containers that group related SES resources to- gether. Each tenant can have its own set of resources like email identities, configuration sets, and templates, along with reputation metrics and sending status. This helps isolate and manage email sending for different customers or business units within your Amazon SES API v2 account. You can optionally specify SuppressionAttributes to configure ten- ant-level suppression at creation time. When tenant-level sup...
+    /// Create a tenant. Tenants are logical containers that group related SES resources together. Each tenant can have its own set of resources like email identities, configuration sets, and templates, along with reputation metrics and sending status. This helps isolate and manage email sending for different customers or business units within your Amazon SES API v2 account. You can optionally specify SuppressionAttributes to configure tenant-level suppression at creation time. When tenant-level suppres...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Associate a resource with a tenant. Resources can be email identities, configuration sets, or email tem- plates. When you associate a resource with a tenant, you can use that resource when sending emails on behalf of that tenant. A single resource can be associated with multiple tenants, allowing for resource sharing across different tenants while maintaining isolation in email sending operations. See also: AWS API Documentation
+    /// Associate a resource with a tenant. Resources can be email identities, configuration sets, or email templates. When you associate a resource with a tenant, you can use that resource when sending emails on behalf of that tenant. A single resource can be associated with multiple tenants, allowing for resource sharing across different tenants while maintaining isolation in email sending operations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Delete an event destination. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send in- formation about these events to. For example, you can send event data to Amazon EventBridge and associate a rule to send the event to the specified target. See also: AWS API Documentation
+    /// Delete an event destination. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon EventBridge and associate a rule to send the event to the specified target. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Delete an existing configuration set. Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by in- cluding a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email. See also: AWS API Documentation
+    /// Delete an existing configuration set. Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Deletes the specified sending authorization policy for the given iden- tity (an email address or a domain). This API returns successfully even if a policy with the specified name does not exist. NOTE: This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES De...
+    /// Deletes the specified sending authorization policy for the given identity (an email address or a domain). This API returns successfully even if a policy with the specified name does not exist. NOTE: This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Deve...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Removes an email address from the suppression list for your account or for a specific tenant. To target a tenant's suppression list, specify the TenantName parameter. If you omit TenantName , the address is re- moved from the account-level suppression list. See also: AWS API Documentation
+    /// Removes an email address from the suppression list for your account or for a specific tenant. To target a tenant's suppression list, specify the TenantName parameter. If you omit TenantName , the address is removed from the account-level suppression list. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Removes the association between an S/MIME certificate and an email identity. After the association is removed, Amazon SES API v2 stops adding an S/MIME signature to messages sent from that address. If the email identity is a domain, specify the FromAddress whose cer- tificate association you want to remove. This operation is idempotent. If the specified email identity exists but there's no matching certificate association, the operation succeeds without making any changes. Amazon SES API v2 retu...
+    /// Removes the association between an S/MIME certificate and an email identity. After the association is removed, Amazon SES API v2 stops adding an S/MIME signature to messages sent from that address. If the email identity is a domain, specify the FromAddress whose certificate association you want to remove. This operation is idempotent. If the specified email identity exists but there's no matching certificate association, the operation succeeds without making any changes. Amazon SES API v2 return...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Retrieve a list of the blacklists that your dedicated IP addresses ap- pear on. See also: AWS API Documentation
+    /// Retrieve a list of the blacklists that your dedicated IP addresses appear on. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Retrieve a list of event destinations that are associated with a con- figuration set. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send in- formation about these events to. For example, you can send event data to Amazon EventBridge and associate a rule to send the event to the specified target. See also: AWS API Documentation
+    /// Retrieve a list of event destinations that are associated with a configuration set. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon EventBridge and associate a rule to send the event to the specified target. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +557,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Get information about an existing configuration set, including the ded- icated IP pool that it's associated with, whether or not it's enabled for sending email, and more. Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by in- cluding a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email. See als...
+    /// Get information about an existing configuration set, including the dedicated IP pool that it's associated with, whether or not it's enabled for sending email, and more. Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email. See also: A...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Retrieve information about the status of the Deliverability dashboard for your account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email. You also gain the ability to per- form predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscrip- tion charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services serv...
+    /// Retrieve information about the status of the Deliverability dashboard for your account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -722,7 +722,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Provides validation insights about a specific email address, including syntax validation, DNS record checks, mailbox existence, and other de- liverability factors. See also: AWS API Documentation
+    /// Provides validation insights about a specific email address, including syntax validation, DNS record checks, mailbox existence, and other deliverability factors. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -737,7 +737,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Provides information about a specific identity, including the iden- tity's verification status, sending authorization policies, its DKIM authentication status, and its custom Mail-From settings. See also: AWS API Documentation
+    /// Provides information about a specific identity, including the identity's verification status, sending authorization policies, its DKIM authentication status, and its custom Mail-From settings. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -782,7 +782,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Provides information about an export job. See also: AWS API Documentation
+    /// Provides information about an export job. When the job status is COMPLETED , the response includes a pre-signed URL in ExportDestination.S3Url that you use to download the export file. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -812,7 +812,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Provides information about a specific message, including the from ad- dress, the subject, the recipient address, email tags, as well as events associated with the message. You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// Provides information about a specific message, including the from address, the subject, the recipient address, email tags, as well as events associated with the message. You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -842,7 +842,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Retrieve information about a specific reputation entity, including its reputation management policy, customer-managed status, Amazon Web Ser- vices Amazon SES-managed status, and aggregate sending status. Reputation entities represent resources in your Amazon SES account that have reputation tracking and management capabilities. The repu- tation impact reflects the highest impact reputation finding for the entity. Reputation findings can be retrieved using the ListRecommen- dations operation. Se...
+    /// Retrieve information about a specific reputation entity, including its reputation management policy, customer-managed status, Amazon Web Services Amazon SES-managed status, and aggregate sending status. Reputation entities represent resources in your Amazon SES account that have reputation tracking and management capabilities. The reputation impact reflects the highest impact reputation finding for the entity. Reputation findings can be retrieved using the ListRecommendations operation. See also...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -857,7 +857,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Retrieves information about a specific email address that's on the sup- pression list for your account or for a specific tenant. To target a tenant's suppression list, specify the TenantName parameter. If you omit TenantName , the operation targets the account-level suppression list. See also: AWS API Documentation
+    /// Retrieves information about a specific email address that's on the suppression list for your account or for a specific tenant. To target a tenant's suppression list, specify the TenantName parameter. If you omit TenantName , the operation targets the account-level suppression list. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -872,7 +872,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Get information about a specific tenant, including the tenant's name, ID, ARN, creation timestamp, tags, sending status, and suppression at- tributes. See also: AWS API Documentation
+    /// Get information about a specific tenant, including the tenant's name, ID, ARN, creation timestamp, tags, sending status, and suppression attributes. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -887,7 +887,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// List all of the configuration sets associated with your account in the current region. Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by in- cluding a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email. See also: AWS API Documentation
+    /// List all of the configuration sets associated with your account in the current region. Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -902,7 +902,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Lists all of the contact lists available. If your output includes a "NextToken" field with a string value, this indicates there may be additional contacts on the filtered list - re- gardless of the number of contacts returned. See also: AWS API Documentation
+    /// Lists all of the contact lists available. If your output includes a "NextToken" field with a string value, this indicates there may be additional contacts on the filtered list - regardless of the number of contacts returned. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -947,7 +947,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// List all of the dedicated IP pools that exist in your Amazon Web Ser- vices account in the current Region. See also: AWS API Documentation
+    /// List all of the dedicated IP pools that exist in your Amazon Web Services account in the current Region. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -962,7 +962,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Show a list of the predictive inbox placement tests that you've per- formed, regardless of their statuses. For predictive inbox placement tests that are complete, you can use the GetDeliverabilityTestReport operation to view the results. See also: AWS API Documentation
+    /// Show a list of the predictive inbox placement tests that you've performed, regardless of their statuses. For predictive inbox placement tests that are complete, you can use the GetDeliverabilityTestReport operation to view the results. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -977,7 +977,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is avail- able for a domain only if you enabled the Deliverability dashboard for the domain. See also: AWS API Documentation
+    /// Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard for the domain. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -992,7 +992,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Returns a list of all of the email identities that are associated with your Amazon Web Services account. An identity can be either an email address or a domain. This operation returns identities that are veri- fied as well as those that aren't. This operation returns identities that are associated with Amazon SES and Amazon Pinpoint. See also: AWS API Documentation
+    /// Returns a list of all of the email identities that are associated with your Amazon Web Services account. An identity can be either an email address or a domain. This operation returns identities that are verified as well as those that aren't. This operation returns identities that are associated with Amazon SES and Amazon Pinpoint. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1067,7 +1067,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// List the multi-region endpoints (global-endpoints). Only multi-region endpoints (global-endpoints) whose primary region is the AWS-Region where operation is executed will be listed. See also: AWS API Documentation list-multi-region-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response,...
+    /// List the multi-region endpoints (global-endpoints). Only multi-region endpoints (global-endpoints) whose primary region is the AWS-Region where operation is executed will be listed. See also: AWS API Documentation list-multi-region-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1097,7 +1097,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// List reputation entities in your Amazon SES account in the current Ama- zon Web Services Region. You can filter the results by entity type, reputation impact, sending status, or entity reference prefix. Reputation entities represent resources in your account that have reputation tracking and management capabilities. Use this operation to get an overview of all entities and their current reputation sta- tus. See also: AWS API Documentation list-reputation-entities is a paginated operation. Multip...
+    /// List reputation entities in your Amazon SES account in the current Amazon Web Services Region. You can filter the results by entity type, reputation impact, sending status, or entity reference prefix. Reputation entities represent resources in your account that have reputation tracking and management capabilities. Use this operation to get an overview of all entities and their current reputation status. See also: AWS API Documentation list-reputation-entities is a paginated operation. Multiple A...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1112,7 +1112,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// List all tenants associated with a specific resource. This operation returns a list of tenants that are associated with the specified resource. This is useful for understanding which tenants are currently using a particular resource such as an email identity, con- figuration set, or email template. See also: AWS API Documentation list-resource-tenants is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by prov...
+    /// List all tenants associated with a specific resource. This operation returns a list of tenants that are associated with the specified resource. This is useful for understanding which tenants are currently using a particular resource such as an email identity, configuration set, or email template. See also: AWS API Documentation list-resource-tenants is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by provid...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1127,7 +1127,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Retrieves a list of email addresses that are on the suppression list for your account or for a specific tenant. To target a tenant's sup- pression list, specify the TenantName parameter. If you omit TenantName , the operation targets the account-level suppression list. See also: AWS API Documentation
+    /// Retrieves a list of email addresses that are on the suppression list for your account or for a specific tenant. To target a tenant's suppression list, specify the TenantName parameter. If you omit TenantName , the operation targets the account-level suppression list. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1157,7 +1157,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// List all resources associated with a specific tenant. This operation returns a list of resources (email identities, configu- ration sets, or email templates) that are associated with the specified tenant. You can optionally filter the results by resource type. See also: AWS API Documentation list-tenant-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When ...
+    /// List all resources associated with a specific tenant. This operation returns a list of resources (email identities, configuration sets, or email templates) that are associated with the specified tenant. You can optionally filter the results by resource type. See also: AWS API Documentation list-tenant-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When us...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1172,7 +1172,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// List all tenants associated with your account in the current Amazon Web Services Region. This operation returns basic information about each tenant, such as tenant name, ID, ARN, and creation timestamp. See also: AWS API Documentation list-tenants is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated respo...
+    /// List all tenants associated with your account in the current Amazon Web Services Region. This operation returns basic information about each tenant, such as tenant name, ID, ARN, and creation timestamp. See also: AWS API Documentation list-tenants is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated respons...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1187,7 +1187,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Enable or disable the automatic warm-up feature for dedicated IP ad- dresses. See also: AWS API Documentation
+    /// Enable or disable the automatic warm-up feature for dedicated IP addresses. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1292,7 +1292,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools to create groups of dedicated IP addresses for send- ing specific types of email. See also: AWS API Documentation
+    /// Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools to create groups of dedicated IP addresses for sending specific types of email. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1307,7 +1307,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Enable or disable collection of reputation metrics for emails that you send using a particular configuration set in a specific Amazon Web Ser- vices Region. See also: AWS API Documentation
+    /// Enable or disable collection of reputation metrics for emails that you send using a particular configuration set in a specific Amazon Web Services Region. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1322,7 +1322,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Enable or disable email sending for messages that use a particular con- figuration set in a specific Amazon Web Services Region. See also: AWS API Documentation
+    /// Enable or disable email sending for messages that use a particular configuration set in a specific Amazon Web Services Region. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1427,7 +1427,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Enable or disable the Deliverability dashboard. When you enable the De- liverability dashboard, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscrip- tion charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the fea...
+    /// Enable or disable the Deliverability dashboard. When you enable the Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the feature...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1472,7 +1472,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Used to configure or change the DKIM authentication settings for an email domain identity. You can use this operation to do any of the fol- lowing: o Update the signing attributes for an identity that uses Bring Your Own DKIM (BYODKIM). o Update the key length that should be used for Easy DKIM. o Change from using no DKIM authentication to using Easy DKIM. o Change from using no DKIM authentication to using BYODKIM. o Change from using Easy DKIM to using BYODKIM. o Change from using BYODKIM to u...
+    /// Used to configure or change the DKIM authentication settings for an email domain identity. You can use this operation to do any of the following: • Update the signing attributes for an identity that uses Bring Your Own DKIM (BYODKIM). • Update the key length that should be used for Easy DKIM. • Change from using no DKIM authentication to using Easy DKIM. • Change from using no DKIM authentication to using BYODKIM. • Change from using Easy DKIM to using BYODKIM. • Change from using BYODKIM to usi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1532,7 +1532,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Configure the suppression list preferences for a tenant. Use this oper- ation to enable or disable tenant-level suppression, or to change the suppressed reasons for a tenant. When you set the suppression scope to TENANT , Amazon SES maintains a separate suppression list for the tenant. When you set the scope to AC- COUNT , the tenant uses the account-level suppression list. See also: AWS API Documentation
+    /// Configure the suppression list preferences for a tenant. Use this operation to enable or disable tenant-level suppression, or to change the suppressed reasons for a tenant. When you set the suppression scope to TENANT , Amazon SES maintains a separate suppression list for the tenant. When you set the scope to ACCOUNT , the tenant uses the account-level suppression list. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1562,7 +1562,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Adds an email address to the list of identities for your Amazon SES ac- count in the current Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a customized verification email is sent to the specified address. To use this operation, you must first create a custom verification email template. For more information about creating and using custom verification email templates, see Using custom verification email tem- plates in the Amazon SES Developer Guid...
+    /// Adds an email address to the list of identities for your Amazon SES account in the current Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a customized verification email is sent to the specified address. To use this operation, you must first create a custom verification email template. For more information about creating and using custom verification email templates, see Using custom verification email templates in the Amazon SES Developer Guide . ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1577,7 +1577,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Sends an email message. You can use the Amazon SES API v2 to send the following types of messages: o Simple A standard email message. When you create this type of mes- sage, you specify the sender, the recipient, and the message body, and Amazon SES assembles the message for you. o Raw A raw, MIME-formatted email message. When you send this type of email, you have to specify all of the message headers, as well as the message body. You can use this message type to send messages that contain attac...
+    /// Sends an email message. You can use the Amazon SES API v2 to send the following types of messages: • Simple A standard email message. When you create this type of message, you specify the sender, the recipient, and the message body, and Amazon SES assembles the message for you. • Raw A raw, MIME-formatted email message. When you send this type of email, you have to specify all of the message headers, as well as the message body. You can use this message type to send messages that contain attachm...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1637,7 +1637,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Update the configuration of an event destination for a configuration set. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send in- formation about these events to. For example, you can send event data to Amazon EventBridge and associate a rule to send the event to the specified target. See also: AWS API Documentation
+    /// Update the configuration of an event destination for a configuration set. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon EventBridge and associate a rule to send the event to the specified target. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1652,7 +1652,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Updates an existing configuration set. This operation performs a partial update. Only the attributes that you include in the request are updated; any omitted attribute is left un- changed. See also: AWS API Documentation
+    /// Updates an existing configuration set. This operation performs a partial update. Only the attributes that you include in the request are updated; any omitted attribute is left unchanged. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1667,7 +1667,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Updates contact list metadata. This operation does a complete replace- ment. See also: AWS API Documentation
+    /// Updates contact list metadata. This operation does a complete replacement. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1682,7 +1682,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Updates a contact's preferences for a list. NOTE: You must specify all existing topic preferences in the TopicPrefer- ences object, not just the ones that need updating; otherwise, all your existing preferences will be removed. See also: AWS API Documentation
+    /// Updates a contact's preferences for a list. NOTE: You must specify all existing topic preferences in the TopicPreferences object, not just the ones that need updating; otherwise, all your existing preferences will be removed. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1712,7 +1712,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Updates the specified sending authorization policy for the given iden- tity (an email address or a domain). This API returns successfully even if a policy with the specified name does not exist. NOTE: This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES De...
+    /// Updates the specified sending authorization policy for the given identity (an email address or a domain). This API returns successfully even if a policy with the specified name does not exist. NOTE: This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Deve...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1727,7 +1727,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Updates an email template. Email templates enable you to send personal- ized email to one or more destinations in a single API operation. For more information, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// Updates an email template. Email templates enable you to send personalized email to one or more destinations in a single API operation. For more information, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1742,7 +1742,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Update the customer-managed sending status for a reputation entity. This allows you to enable, disable, or reinstate sending for the en- tity. The customer-managed status works in conjunction with the Amazon Web Services Amazon SES-managed status to determine the overall sending ca- pability. When you update the customer-managed status, the Amazon Web Services Amazon SES-managed status remains unchanged. If Amazon Web Services Amazon SES has disabled the entity, it will not be allowed to send re...
+    /// Update the customer-managed sending status for a reputation entity. This allows you to enable, disable, or reinstate sending for the entity. The customer-managed status works in conjunction with the Amazon Web Services Amazon SES-managed status to determine the overall sending capability. When you update the customer-managed status, the Amazon Web Services Amazon SES-managed status remains unchanged. If Amazon Web Services Amazon SES has disabled the entity, it will not be allowed to send regard...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1757,7 +1757,7 @@ public class AwsSesv2 : IAwsSesv2
     }
 
     /// <summary>
-    /// Update the reputation management policy for a reputation entity. The policy determines how the entity responds to reputation findings, such as automatically pausing sending when certain thresholds are exceeded. Reputation management policies are Amazon Web Services Amazon SES-man- aged (predefined policies). You can select from none, standard, and strict policies. See also: AWS API Documentation
+    /// Update the reputation management policy for a reputation entity. The policy determines how the entity responds to reputation findings, such as automatically pausing sending when certain thresholds are exceeded. Reputation management policies are Amazon Web Services Amazon SES-managed (predefined policies). You can select from none, standard, and strict policies. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

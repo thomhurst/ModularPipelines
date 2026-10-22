@@ -22,31 +22,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsServicecatalogDescribeProvisioningArtifactOptions : AwsOptions
 {
     /// <summary>
-    /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
+    /// The language code. • jp - Japanese • zh - Chinese Constraints: • max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
     /// <summary>
-    /// The identifier of the provisioning artifact. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The identifier of the provisioning artifact. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--provisioning-artifact-id")]
     public string? ProvisioningArtifactId { get; set; }
 
     /// <summary>
-    /// The product identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The product identifier. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--product-id")]
     public string? ProductId { get; set; }
 
     /// <summary>
-    /// The provisioning artifact name. Constraints: o max: 8192
+    /// The provisioning artifact name. Constraints: • max: 8192
     /// </summary>
     [CliOption("--provisioning-artifact-name")]
     public string? ProvisioningArtifactName { get; set; }
 
     /// <summary>
-    /// The product name. Constraints: o max: 8191
+    /// The product name. Constraints: • max: 8191
     /// </summary>
     [CliOption("--product-name")]
     public string? ProductName { get; set; }
@@ -58,7 +58,7 @@ public record AwsServicecatalogDescribeProvisioningArtifactOptions : AwsOptions
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// ing-artifact-parameters (boolean) Indicates if the API call response does or does not include addi- tional details about the provisioning parameters.
+    /// Indicates if the API call response does or does not include additional details about the provisioning parameters.
     /// </summary>
     [CliFlag("--include-provisioning-artifact-parameters", NegatedName = "--no-include-provisioning-artifact-parameters")]
     public bool? IncludeProvisioningArtifactParameters { get; set; }

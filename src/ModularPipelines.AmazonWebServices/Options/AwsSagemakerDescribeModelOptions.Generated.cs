@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSagemakerDescribeModelOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Describes a model that you created using the CreateModel API. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ModelName">The name of the model. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9]([\-a-zA-Z0-9]*[a-zA-Z0-9])?</param>
+    /// <param name="ModelName">The name of the model. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9]([\-a-zA-Z0-9]*[a-zA-Z0-9])?</param>
     public AwsSagemakerDescribeModelOptions(
         string ModelName
     )
@@ -56,7 +58,7 @@ public record AwsSagemakerDescribeModelOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the model. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9]([\-a-zA-Z0-9]*[a-zA-Z0-9])?
+    /// The name of the model. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9]([\-a-zA-Z0-9]*[a-zA-Z0-9])?
     /// </summary>
     [CliOption("--model-name")]
     public string? ModelName { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAppConfigGetExtensionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns information about an AppConfig extension. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExtensionIdentifier">The name, the ID, or the Amazon Resource Name (ARN) of the exten- sion. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="ExtensionIdentifier">The name, the ID, or the Amazon Resource Name (ARN) of the extension. Constraints: • min: 1 • max: 2048</param>
     public AwsAppConfigGetExtensionOptions(
         string ExtensionIdentifier
     )
@@ -56,13 +58,13 @@ public record AwsAppConfigGetExtensionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name, the ID, or the Amazon Resource Name (ARN) of the exten- sion. Constraints: o min: 1 o max: 2048
+    /// The name, the ID, or the Amazon Resource Name (ARN) of the extension. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--extension-identifier")]
     public string? ExtensionIdentifier { get; private init; }
 
     /// <summary>
-    /// The extension version number. If no version number was defined, App- Config uses the highest version.
+    /// The extension version number. If no version number was defined, AppConfig uses the highest version.
     /// </summary>
     [CliOption("--version-number")]
     public int? VersionNumber { get; set; }

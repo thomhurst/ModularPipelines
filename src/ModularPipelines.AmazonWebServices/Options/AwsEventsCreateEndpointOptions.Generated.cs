@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a global endpoint. Global endpoints improve your application's availability by making it regional-fault tolerant. To do this, you de- fine a primary and secondary Region with event buses in each Region. You also create a Amazon Route 53 health check that will tell Event- Bridge to route events to the secondary Region when an "unhealthy" state is encountered and events will be routed back to the primary Re- gion when the health check reports a "healthy" state. See also: AWS API Documentat...
+/// Creates a global endpoint. Global endpoints improve your application's availability by making it regional-fault tolerant. To do this, you define a primary and secondary Region with event buses in each Region. You also create a Amazon Route 53 health check that will tell EventBridge to route events to the secondary Region when an "unhealthy" state is encountered and events will be routed back to the primary Region when the health check reports a "healthy" state. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsEventsCreateEndpointOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a global endpoint. Global endpoints improve your application's availability by making it regional-fault tolerant. To do this, you de- fine a primary and secondary Region with event buses in each Region. You also create a Amazon Route 53 health check that will tell Event- Bridge to route events to the secondary Region when an "unhealthy" state is encountered and events will be routed back to the primary Re- gion when the health check reports a "healthy" state. See also: AWS API Documentat...
+    /// Creates a global endpoint. Global endpoints improve your application's availability by making it regional-fault tolerant. To do this, you define a primary and secondary Region with event buses in each Region. You also create a Amazon Route 53 health check that will tell EventBridge to route events to the secondary Region when an "unhealthy" state is encountered and events will be routed back to the primary Region when the health check reports a "healthy" state. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the global endpoint. For example, "Name":"us-east-2-cus- tom_bus_A-endpoint" . Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+</param>
-    /// <param name="RoutingConfig">Configure the routing policy, including the health check and sec- ondary Region.. FailoverConfig -&gt; (structure) [required] The failover configuration for an endpoint. This includes what triggers failover and what happens when it's triggered. Primary -&gt; (structure) [required] The main Region of the endpoint. HealthCheck -&gt; (string) [required] The ARN of the health check used by the endpoint to de- termine whether failover is triggered. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws([a-z]|\-)*:route53:::healthcheck/[\-a-z0-9]+$ Secondary -&gt; (structure) [required] The Region that events are routed to when failover is trig- gered or event replication is enabled. Route -&gt; (string) [required] Defines the secondary Region. Constraints: o min: 9 o max: 20 o pattern: ^[\-a-z0-9]+$ Shorthand Syntax: FailoverConfig={Primary={HealthCheck=string},Secondary={Route=string}} JSON Syntax: { "FailoverConfig": { "Primary": { "HealthCheck": "string" }, "Secondary": { "Route": "string" } } }</param>
-    /// <param name="EventBuses">Define the event buses used. WARNING: The names of the event buses must be identical in each Region. Constraints: o min: 2 o max: 2 (structure) The event buses the endpoint is associated with. EventBusArn -&gt; (string) [required] The ARN of the event bus the endpoint is associated with. Constraints: o min: 1 o max: 512 o pattern: ^arn:aws[a-z-]*:events:[a-z]+-[a-z-]+-\d+:\d{12}:event-bus/[\w.-]+$ Shorthand Syntax: EventBusArn=string ... JSON Syntax: [ { "EventBusArn": "string" } ... ]</param>
+    /// <param name="Name">The name of the global endpoint. For example, "Name":"us-east-2-custom_bus_A-endpoint" . Constraints: • min: 1 • max: 64 • pattern: [\.\-_A-Za-z0-9]+</param>
+    /// <param name="RoutingConfig">Configure the routing policy, including the health check and secondary Region.. FailoverConfig -&gt; (structure) [required] The failover configuration for an endpoint. This includes what triggers failover and what happens when it's triggered. Primary -&gt; (structure) [required] The main Region of the endpoint. HealthCheck -&gt; (string) [required] The ARN of the health check used by the endpoint to determine whether failover is triggered. Constraints: • min: 1 • max: 1600 • pattern: ^arn:aws([a-z]|\-)*:route53:::healthcheck/[\-a-z0-9]+$ Secondary -&gt; (structure) [required] The Region that events are routed to when failover is triggered or event replication is enabled. Route -&gt; (string) [required] Defines the secondary Region. Constraints: • min: 9 • max: 20 • pattern: ^[\-a-z0-9]+$ Shorthand Syntax: FailoverConfig={Primary={HealthCheck=string},Secondary={Route=string}} JSON Syntax: { "FailoverConfig": { "Primary": { "HealthCheck": "string" }, "Secondary": { "Route": "string" } } }</param>
+    /// <param name="EventBuses">Define the event buses used. WARNING: The names of the event buses must be identical in each Region. Constraints: • min: 2 • max: 2 (structure) The event buses the endpoint is associated with. EventBusArn -&gt; (string) [required] The ARN of the event bus the endpoint is associated with. Constraints: • min: 1 • max: 512 • pattern: ^arn:aws[a-z-]*:events:[a-z]+-[a-z-]+-\d+:\d{12}:event-bus/[\w.-]+$ Shorthand Syntax: EventBusArn=string ... JSON Syntax: [ { "EventBusArn": "string" } ... ]</param>
     public AwsEventsCreateEndpointOptions(
         string Name,
         string RoutingConfig,
@@ -75,37 +77,37 @@ public record AwsEventsCreateEndpointOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the global endpoint. For example, "Name":"us-east-2-cus- tom_bus_A-endpoint" . Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+
+    /// The name of the global endpoint. For example, "Name":"us-east-2-custom_bus_A-endpoint" . Constraints: • min: 1 • max: 64 • pattern: [\.\-_A-Za-z0-9]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Configure the routing policy, including the health check and sec- ondary Region.. FailoverConfig -&gt; (structure) [required] The failover configuration for an endpoint. This includes what triggers failover and what happens when it's triggered. Primary -&gt; (structure) [required] The main Region of the endpoint. HealthCheck -&gt; (string) [required] The ARN of the health check used by the endpoint to de- termine whether failover is triggered. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws([a-z]|\-)*:route53:::healthcheck/[\-a-z0-9]+$ Secondary -&gt; (structure) [required] The Region that events are routed to when failover is trig- gered or event replication is enabled. Route -&gt; (string) [required] Defines the secondary Region. Constraints: o min: 9 o max: 20 o pattern: ^[\-a-z0-9]+$ Shorthand Syntax: FailoverConfig={Primary={HealthCheck=string},Secondary={Route=string}} JSON Syntax: { "FailoverConfig": { "Primary": { "HealthCheck": "string" }, "Secondary": { "Route": "string" } } }
+    /// Configure the routing policy, including the health check and secondary Region.. FailoverConfig -&gt; (structure) [required] The failover configuration for an endpoint. This includes what triggers failover and what happens when it's triggered. Primary -&gt; (structure) [required] The main Region of the endpoint. HealthCheck -&gt; (string) [required] The ARN of the health check used by the endpoint to determine whether failover is triggered. Constraints: • min: 1 • max: 1600 • pattern: ^arn:aws([a-z]|\-)*:route53:::healthcheck/[\-a-z0-9]+$ Secondary -&gt; (structure) [required] The Region that events are routed to when failover is triggered or event replication is enabled. Route -&gt; (string) [required] Defines the secondary Region. Constraints: • min: 9 • max: 20 • pattern: ^[\-a-z0-9]+$ Shorthand Syntax: FailoverConfig={Primary={HealthCheck=string},Secondary={Route=string}} JSON Syntax: { "FailoverConfig": { "Primary": { "HealthCheck": "string" }, "Secondary": { "Route": "string" } } }
     /// </summary>
     [CliOption("--routing-config")]
     public string? RoutingConfig { get; private init; }
 
     /// <summary>
-    /// Define the event buses used. WARNING: The names of the event buses must be identical in each Region. Constraints: o min: 2 o max: 2 (structure) The event buses the endpoint is associated with. EventBusArn -&gt; (string) [required] The ARN of the event bus the endpoint is associated with. Constraints: o min: 1 o max: 512 o pattern: ^arn:aws[a-z-]*:events:[a-z]+-[a-z-]+-\d+:\d{12}:event-bus/[\w.-]+$ Shorthand Syntax: EventBusArn=string ... JSON Syntax: [ { "EventBusArn": "string" } ... ]
+    /// Define the event buses used. WARNING: The names of the event buses must be identical in each Region. Constraints: • min: 2 • max: 2 (structure) The event buses the endpoint is associated with. EventBusArn -&gt; (string) [required] The ARN of the event bus the endpoint is associated with. Constraints: • min: 1 • max: 512 • pattern: ^arn:aws[a-z-]*:events:[a-z]+-[a-z-]+-\d+:\d{12}:event-bus/[\w.-]+$ Shorthand Syntax: EventBusArn=string ... JSON Syntax: [ { "EventBusArn": "string" } ... ]
     /// </summary>
     [CliOption("--event-buses", GroupValues = true)]
     public IEnumerable<string>? EventBuses { get; private init; }
 
     /// <summary>
-    /// A description of the global endpoint. Constraints: o max: 512 o pattern: .*
+    /// A description of the global endpoint. Constraints: • max: 512 • pattern: .*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Enable or disable event replication. The default state is ENABLED which means you must supply a RoleArn . If you don't have a RoleArn or you don't want event replication enabled, set the state to DIS- ABLED . State -&gt; (string) The state of event replication. Possible values: o ENABLED o DISABLED Shorthand Syntax: State=string JSON Syntax: { "State": "ENABLED"|"DISABLED" }
+    /// Enable or disable event replication. The default state is ENABLED which means you must supply a RoleArn . If you don't have a RoleArn or you don't want event replication enabled, set the state to DISABLED . State -&gt; (string) The state of event replication. Possible values: • ENABLED • DISABLED Shorthand Syntax: State=string JSON Syntax: { "State": "ENABLED"|"DISABLED" }
     /// </summary>
     [CliOption("--replication-config")]
     public string? ReplicationConfig { get; set; }
 
     /// <summary>
-    /// The ARN of the role used for replication. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws[a-z-]*:iam::\d{12}:role\/[\w+=,.@/-]+$
+    /// The ARN of the role used for replication. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws[a-z-]*:iam::\d{12}:role\/[\w+=,.@/-]+$
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }

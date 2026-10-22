@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsLambdaGetLayerVersionByArnOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Returns information about a version of an Lambda layer , with a link to download the layer archive that's valid for 10 minutes. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The ARN of the layer version. Constraints: o min: 1 o max: 2048 o pattern: ((arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+)|(arn:[a-zA-Z0-9-]+:lambda:::awslayer:[a-zA-Z0-9-_]+))</param>
+    /// <param name="Arn">The ARN of the layer version. Constraints: • min: 1 • max: 2048 • pattern: ((arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+)|(arn:[a-zA-Z0-9-]+:lambda:::awslayer:[a-zA-Z0-9-_]+))</param>
     public AwsLambdaGetLayerVersionByArnOptions(
         string Arn
     )
@@ -56,7 +58,7 @@ public record AwsLambdaGetLayerVersionByArnOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the layer version. Constraints: o min: 1 o max: 2048 o pattern: ((arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+)|(arn:[a-zA-Z0-9-]+:lambda:::awslayer:[a-zA-Z0-9-_]+))
+    /// The ARN of the layer version. Constraints: • min: 1 • max: 2048 • pattern: ((arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+)|(arn:[a-zA-Z0-9-]+:lambda:::awslayer:[a-zA-Z0-9-_]+))
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }

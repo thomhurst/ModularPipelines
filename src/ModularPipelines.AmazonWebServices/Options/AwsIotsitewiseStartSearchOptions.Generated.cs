@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts an asynchronous search over the data in a workspace. The search runs in the background; the response returns immediately with a searchId and an initial status of QUEUED . Use DescribeSearch to poll for completion and GetSearchResults to retrieve the results once the search reaches SUCCEEDED . The request is idempotent on clientToken : repeating a call with the same token returns the original search in- stead of starting a new one. See also: AWS API Documentation
+/// Starts an asynchronous search over the data in a workspace. The search runs in the background; the response returns immediately with a searchId and an initial status of QUEUED . Use DescribeSearch to poll for completion and GetSearchResults to retrieve the results once the search reaches SUCCEEDED . The request is idempotent on clientToken : repeating a call with the same token returns the original search instead of starting a new one. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +29,10 @@ public record AwsIotsitewiseStartSearchOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts an asynchronous search over the data in a workspace. The search runs in the background; the response returns immediately with a searchId and an initial status of QUEUED . Use DescribeSearch to poll for completion and GetSearchResults to retrieve the results once the search reaches SUCCEEDED . The request is idempotent on clientToken : repeating a call with the same token returns the original search in- stead of starting a new one. See also: AWS API Documentation
+    /// Starts an asynchronous search over the data in a workspace. The search runs in the background; the response returns immediately with a searchId and an initial status of QUEUED . Use DescribeSearch to poll for completion and GetSearchResults to retrieve the results once the search reaches SUCCEEDED . The request is idempotent on clientToken : repeating a call with the same token returns the original search instead of starting a new one. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceName">The name of the workspace whose data is searched. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="QueryStatement">The natural-language query describing the data to search for. Constraints: o min: 1 o max: 5000</param>
+    /// <param name="WorkspaceName">The name of the workspace whose data is searched. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="QueryStatement">The natural-language query describing the data to search for. Constraints: • min: 1 • max: 5000</param>
     public AwsIotsitewiseStartSearchOptions(
         string WorkspaceName,
         string QueryStatement
@@ -62,38 +64,38 @@ public record AwsIotsitewiseStartSearchOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workspace whose data is searched. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The name of the workspace whose data is searched. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--workspace-name")]
     public string? WorkspaceName { get; private init; }
 
     /// <summary>
-    /// The natural-language query describing the data to search for. Constraints: o min: 1 o max: 5000
+    /// The natural-language query describing the data to search for. Constraints: • min: 1 • max: 5000
     /// </summary>
     [CliOption("--query-statement")]
     public string? QueryStatement { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier you provide to ensure the re- quest is idempotent. Repeating a StartSearch call with the same clientToken returns the original search rather than starting a new one. If omitted, the SDK autogenerates one. Constraints: o min: 36 o max: 64 o pattern: \S{36,64}
+    /// A unique, case-sensitive identifier you provide to ensure the request is idempotent. Repeating a StartSearch call with the same clientToken returns the original search rather than starting a new one. If omitted, the SDK autogenerates one. Constraints: • min: 36 • max: 64 • pattern: \S{36,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The search strategy to use. Defaults to QUICK when omitted. Possible values: o DEEP o QUICK
+    /// The search strategy to use. Defaults to QUICK when omitted. Possible values: • DEEP • QUICK
     /// </summary>
     [CliOption("--search-type")]
     public AwsIotsitewiseStartSearchSearchType? SearchType { get; set; }
 
     /// <summary>
-    /// Optional filters that restrict the search to a subset of the work- space's data. timeSeriesIds -&gt; (list) Restricts the search to these time series. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 36 o max: 73 datasetIds -&gt; (list) Restricts the search to these datasets. Constraints: o min: 1 o max: 100 (string) Unique identifier for a dataset (UUID format) Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ timeIntervals -&gt; (list) Restricts the search to these time intervals. Constraints: o min: 1 o max: 100 (structure) Contains a time interval with a start time and an end time. Use a time interval to restrict an operation, such as a search, to a specific time range. startTime -&gt; (structure) [required] The start of the time interval. timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch for- mat. Fractional nanosecond data is provided by off- setInNanos . Constraints: o min: 1 o max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: o min: 0 o max: 999999999 endTime -&gt; (structure) [required] The end of the time interval. timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch for- mat. Fractional nanosecond data is provided by off- setInNanos . Constraints: o min: 1 o max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: o min: 0 o max: 999999999 JSON Syntax: { "timeSeriesIds": ["string", ...], "datasetIds": ["string", ...], "timeIntervals": [ { "startTime": { "timeInSeconds": long, "offsetInNanos": integer }, "endTime": { "timeInSeconds": long, "offsetInNanos": integer } } ... ] }
+    /// Optional filters that restrict the search to a subset of the workspace's data. timeSeriesIds -&gt; (list) Restricts the search to these time series. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 36 • max: 73 datasetIds -&gt; (list) Restricts the search to these datasets. Constraints: • min: 1 • max: 100 (string) Unique identifier for a dataset (UUID format) Constraints: • min: 36 • max: 36 • pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ timeIntervals -&gt; (list) Restricts the search to these time intervals. Constraints: • min: 1 • max: 100 (structure) Contains a time interval with a start time and an end time. Use a time interval to restrict an operation, such as a search, to a specific time range. startTime -&gt; (structure) [required] The start of the time interval. timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Fractional nanosecond data is provided by offsetInNanos . Constraints: • min: 1 • max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: • min: 0 • max: 999999999 endTime -&gt; (structure) [required] The end of the time interval. timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Fractional nanosecond data is provided by offsetInNanos . Constraints: • min: 1 • max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: • min: 0 • max: 999999999 JSON Syntax: { "timeSeriesIds": ["string", ...], "datasetIds": ["string", ...], "timeIntervals": [ { "startTime": { "timeInSeconds": long, "offsetInNanos": integer }, "endTime": { "timeInSeconds": long, "offsetInNanos": integer } } ... ] }
     /// </summary>
     [CliOption("--search-filters")]
     public string? SearchFilters { get; set; }
 
     /// <summary>
-    /// An optional caller-supplied identifier used to group related searches together. Constraints: o min: 2 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// An optional caller-supplied identifier used to group related searches together. Constraints: • min: 2 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--group-id")]
     public string? GroupId { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Checks the status of a remote task running on one or more target de- vices. See also: AWS API Documentation
+/// Checks the status of a remote task running on one or more target devices. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsSnowDeviceManagementDescribeExecutionOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Checks the status of a remote task running on one or more target de- vices. See also: AWS API Documentation
+    /// Checks the status of a remote task running on one or more target devices. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ManagedDeviceId">The ID of the managed device. Constraints: o min: 1 o max: 64</param>
-    /// <param name="TaskId">The ID of the task that the action is describing. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ManagedDeviceId">The ID of the managed device. Constraints: • min: 1 • max: 64</param>
+    /// <param name="TaskId">The ID of the task that the action is describing. Constraints: • min: 1 • max: 64</param>
     public AwsSnowDeviceManagementDescribeExecutionOptions(
         string ManagedDeviceId,
         string TaskId
@@ -60,13 +62,13 @@ public record AwsSnowDeviceManagementDescribeExecutionOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the managed device. Constraints: o min: 1 o max: 64
+    /// The ID of the managed device. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--managed-device-id")]
     public string? ManagedDeviceId { get; private init; }
 
     /// <summary>
-    /// The ID of the task that the action is describing. Constraints: o min: 1 o max: 64
+    /// The ID of the task that the action is describing. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--task-id")]
     public string? TaskId { get; private init; }

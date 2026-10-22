@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsOdbGetCloudVmClusterOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns information about the specified VM cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CloudVmClusterId">The unique identifier of the VM cluster. Constraints: o min: 6 o max: 64 o pattern: [a-zA-Z0-9_~.-]+</param>
+    /// <param name="CloudVmClusterId">The unique identifier of the VM cluster. Constraints: • min: 6 • max: 64 • pattern: [a-zA-Z0-9_~.-]+</param>
     public AwsOdbGetCloudVmClusterOptions(
         string CloudVmClusterId
     )
@@ -56,7 +58,7 @@ public record AwsOdbGetCloudVmClusterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the VM cluster. Constraints: o min: 6 o max: 64 o pattern: [a-zA-Z0-9_~.-]+
+    /// The unique identifier of the VM cluster. Constraints: • min: 6 • max: 64 • pattern: [a-zA-Z0-9_~.-]+
     /// </summary>
     [CliOption("--cloud-vm-cluster-id")]
     public string? CloudVmClusterId { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsConfigserviceDeleteConfigurationAggregatorOptions : AwsOptions,
     /// <summary>
     /// Deletes the specified configuration aggregator and the aggregated data associated with the aggregator. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfigurationAggregatorName">The name of the configuration aggregator. Constraints: o min: 1 o max: 256 o pattern: [\w\-]+</param>
+    /// <param name="ConfigurationAggregatorName">The name of the configuration aggregator. Constraints: • min: 1 • max: 256 • pattern: [\w\-]+</param>
     public AwsConfigserviceDeleteConfigurationAggregatorOptions(
         string ConfigurationAggregatorName
     )
@@ -56,7 +58,7 @@ public record AwsConfigserviceDeleteConfigurationAggregatorOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the configuration aggregator. Constraints: o min: 1 o max: 256 o pattern: [\w\-]+
+    /// The name of the configuration aggregator. Constraints: • min: 1 • max: 256 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--configuration-aggregator-name")]
     public string? ConfigurationAggregatorName { get; private init; }

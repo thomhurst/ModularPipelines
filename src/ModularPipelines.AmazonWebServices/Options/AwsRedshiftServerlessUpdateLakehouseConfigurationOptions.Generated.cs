@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsRedshiftServerlessUpdateLakehouseConfigurationOptions : AwsOpti
     /// <summary>
     /// Modifies the lakehouse configuration for a namespace. This operation allows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NamespaceName">The name of the namespace whose lakehouse configuration you want to modify. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$</param>
+    /// <param name="NamespaceName">The name of the namespace whose lakehouse configuration you want to modify. Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$</param>
     public AwsRedshiftServerlessUpdateLakehouseConfigurationOptions(
         string NamespaceName
     )
@@ -57,37 +59,37 @@ public record AwsRedshiftServerlessUpdateLakehouseConfigurationOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the namespace whose lakehouse configuration you want to modify. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$
+    /// The name of the namespace whose lakehouse configuration you want to modify. Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$
     /// </summary>
     [CliOption("--namespace-name")]
     public string? NamespaceName { get; private init; }
 
     /// <summary>
-    /// The name of the Glue Data Catalog that will be associated with the namespace enabled with Amazon Redshift federated permissions. Pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$ Constraints: o min: 1 o max: 64 o pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$
+    /// The name of the Glue Data Catalog that will be associated with the namespace enabled with Amazon Redshift federated permissions. Pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$ Constraints: • min: 1 • max: 64 • pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$
     /// </summary>
     [CliOption("--catalog-name")]
     public string? CatalogName { get; set; }
 
     /// <summary>
-    /// A boolean value that, if true , validates the request without actu- ally updating the lakehouse configuration. Use this to check for er- rors before making changes.
+    /// A boolean value that, if true , validates the request without actually updating the lakehouse configuration. Use this to check for errors before making changes.
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM Identity Center applica- tion used for enabling Amazon Web Services IAM Identity Center trusted identity propagation on a namespace enabled with Amazon Red- shift federated permissions.
+    /// The Amazon Resource Name (ARN) of the IAM Identity Center application used for enabling Amazon Web Services IAM Identity Center trusted identity propagation on a namespace enabled with Amazon Redshift federated permissions.
     /// </summary>
     [CliOption("--lakehouse-idc-application-arn")]
     public string? LakehouseIdcApplicationArn { get; set; }
 
     /// <summary>
-    /// Modifies the Amazon Web Services IAM Identity Center trusted iden- tity propagation on a namespace enabled with Amazon Redshift feder- ated permissions. Valid values are Associate or Disassociate . Possible values: o Associate o Disassociate
+    /// Modifies the Amazon Web Services IAM Identity Center trusted identity propagation on a namespace enabled with Amazon Redshift federated permissions. Valid values are Associate or Disassociate . Possible values: • Associate • Disassociate
     /// </summary>
     [CliOption("--lakehouse-idc-registration")]
     public AwsRedshiftServerlessUpdateLakehouseConfigurationLakehouseIdcRegistration? LakehouseIdcRegistration { get; set; }
 
     /// <summary>
-    /// Specifies whether to register or deregister the namespace with Ama- zon Redshift federated permissions. Valid values are Register or Deregister . Possible values: o Register o Deregister
+    /// Specifies whether to register or deregister the namespace with Amazon Redshift federated permissions. Valid values are Register or Deregister . Possible values: • Register • Deregister
     /// </summary>
     [CliOption("--lakehouse-registration")]
     public AwsRedshiftServerlessUpdateLakehouseConfigurationLakehouseRegistration? LakehouseRegistration { get; set; }

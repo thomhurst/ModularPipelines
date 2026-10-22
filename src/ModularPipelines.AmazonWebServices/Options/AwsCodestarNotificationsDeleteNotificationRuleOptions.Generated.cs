@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCodestarNotificationsDeleteNotificationRuleOptions : AwsOptions
     /// <summary>
     /// Deletes a notification rule for a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the notification rule you want to delete. Constraints: o pattern: ^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:no- tificationrule\/(.*\S)?$</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the notification rule you want to delete. Constraints: • pattern: ^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:notificationrule\/(.*\S)?$</param>
     public AwsCodestarNotificationsDeleteNotificationRuleOptions(
         string Arn
     )
@@ -56,7 +58,7 @@ public record AwsCodestarNotificationsDeleteNotificationRuleOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the notification rule you want to delete. Constraints: o pattern: ^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:no- tificationrule\/(.*\S)?$
+    /// The Amazon Resource Name (ARN) of the notification rule you want to delete. Constraints: • pattern: ^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:notificationrule\/(.*\S)?$
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }

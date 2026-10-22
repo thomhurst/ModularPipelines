@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -73,7 +74,7 @@ public record AwsDocdbElasticRestoreClusterFromSnapshotOptions : AwsOptions, IVa
     public string? SnapshotArn { get; private init; }
 
     /// <summary>
-    /// The KMS key identifier to use to encrypt the new Amazon DocumentDB elastic clusters cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a cluster using the same Amazon account that owns this KMS encryption key, you can use the KMS key alias instead of the ARN as the KMS encryption key. If an encryption key is not specified here, Amazon DocumentDB uses the default encryption key that KMS creates for your account. Your account has a different default encryption key for each Amazon Re- gion.
+    /// The KMS key identifier to use to encrypt the new Amazon DocumentDB elastic clusters cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a cluster using the same Amazon account that owns this KMS encryption key, you can use the KMS key alias instead of the ARN as the KMS encryption key. If an encryption key is not specified here, Amazon DocumentDB uses the default encryption key that KMS creates for your account. Your account has a different default encryption key for each Amazon Region.
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
@@ -85,7 +86,7 @@ public record AwsDocdbElasticRestoreClusterFromSnapshotOptions : AwsOptions, IVa
     public int? ShardCapacity { get; set; }
 
     /// <summary>
-    /// The number of replica instances applying to all shards in the elas- tic cluster. A shardInstanceCount value of 1 means there is one writer instance, and any additional instances are replicas that can be used for reads and to improve availability.
+    /// The number of replica instances applying to all shards in the elastic cluster. A shardInstanceCount value of 1 means there is one writer instance, and any additional instances are replicas that can be used for reads and to improve availability.
     /// </summary>
     [CliOption("--shard-instance-count")]
     public int? ShardInstanceCount { get; set; }
@@ -97,7 +98,7 @@ public record AwsDocdbElasticRestoreClusterFromSnapshotOptions : AwsOptions, IVa
     public IEnumerable<string>? SubnetIds { get; set; }
 
     /// <summary>
-    /// A list of the tag names to be assigned to the restored elastic clus- ter, in the form of an array of key-value pairs in which the key is the tag name and the value is the key value. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A list of the tag names to be assigned to the restored elastic cluster, in the form of an array of key-value pairs in which the key is the tag name and the value is the key value. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

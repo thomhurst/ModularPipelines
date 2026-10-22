@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a custom connector that you've previously registered. This op- eration updates the connector with one of the following: o The latest version of the AWS Lambda function that's assigned to the connector o A new AWS Lambda function that you specify See also: AWS API Documentation
+/// Updates a custom connector that you've previously registered. This operation updates the connector with one of the following: • The latest version of the AWS Lambda function that's assigned to the connector • A new AWS Lambda function that you specify See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsAppflowUpdateConnectorRegistrationOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a custom connector that you've previously registered. This op- eration updates the connector with one of the following: o The latest version of the AWS Lambda function that's assigned to the connector o A new AWS Lambda function that you specify See also: AWS API Documentation
+    /// Updates a custom connector that you've previously registered. This operation updates the connector with one of the following: • The latest version of the AWS Lambda function that's assigned to the connector • A new AWS Lambda function that you specify See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectorLabel">The name of the connector. The name is unique for each connector registration in your AWS account. Constraints: o max: 256 o pattern: [a-zA-Z0-9][\w!@#.-]+</param>
+    /// <param name="ConnectorLabel">The name of the connector. The name is unique for each connector registration in your AWS account. Constraints: • max: 256 • pattern: [a-zA-Z0-9][\w!@#.-]+</param>
     public AwsAppflowUpdateConnectorRegistrationOptions(
         string ConnectorLabel
     )
@@ -57,25 +59,25 @@ public record AwsAppflowUpdateConnectorRegistrationOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the connector. The name is unique for each connector registration in your AWS account. Constraints: o max: 256 o pattern: [a-zA-Z0-9][\w!@#.-]+
+    /// The name of the connector. The name is unique for each connector registration in your AWS account. Constraints: • max: 256 • pattern: [a-zA-Z0-9][\w!@#.-]+
     /// </summary>
     [CliOption("--connector-label")]
     public string? ConnectorLabel { get; private init; }
 
     /// <summary>
-    /// A description about the update that you're applying to the connec- tor. Constraints: o max: 1024 o pattern: [\s\w/!@#+=.-]*
+    /// A description about the update that you're applying to the connector. Constraints: • max: 1024 • pattern: [\s\w/!@#+=.-]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Contains information about the configuration of the connector being registered. lambda -&gt; (structure) Contains information about the configuration of the lambda which is being registered as the connector. lambdaArn -&gt; (string) [required] Lambda ARN of the connector being registered. Constraints: o max: 512 o pattern: arn:aws:.*:.*:[0-9]+:.* Shorthand Syntax: lambda={lambdaArn=string} JSON Syntax: { "lambda": { "lambdaArn": "string" } }
+    /// Contains information about the configuration of the connector being registered. lambda -&gt; (structure) Contains information about the configuration of the lambda which is being registered as the connector. lambdaArn -&gt; (string) [required] Lambda ARN of the connector being registered. Constraints: • max: 512 • pattern: arn:aws:.*:.*:[0-9]+:.* Shorthand Syntax: lambda={lambdaArn=string} JSON Syntax: { "lambda": { "lambdaArn": "string" } }
     /// </summary>
     [CliOption("--connector-provisioning-config")]
     public string? ConnectorProvisioningConfig { get; set; }
 
     /// <summary>
-    /// The clientToken parameter is an idempotency token. It ensures that your UpdateConnectorRegistration request completes only once. You choose the value to pass. For example, if you don't receive a re- sponse from your request, you can safely retry the request with the same clientToken parameter value. If you omit a clientToken value, the Amazon Web Services SDK that you are using inserts a value for you. This way, the SDK can safely retry requests multiple times after a network error. You must pro- vide your own value for other use cases. If you specify input parameters that differ from your first request, an error occurs. If you use a different value for clientToken , Ama- zon AppFlow considers it a new call to UpdateConnectorRegistration . The token is active for 8 hours. Constraints: o min: 1 o max: 256 o pattern: [ -~]+
+    /// The clientToken parameter is an idempotency token. It ensures that your UpdateConnectorRegistration request completes only once. You choose the value to pass. For example, if you don't receive a response from your request, you can safely retry the request with the same clientToken parameter value. If you omit a clientToken value, the Amazon Web Services SDK that you are using inserts a value for you. This way, the SDK can safely retry requests multiple times after a network error. You must provide your own value for other use cases. If you specify input parameters that differ from your first request, an error occurs. If you use a different value for clientToken , Amazon AppFlow considers it a new call to UpdateConnectorRegistration . The token is active for 8 hours. Constraints: • min: 1 • max: 256 • pattern: [ -~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

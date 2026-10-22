@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists delegation requests based on the specified criteria. If a delegation request has no owner, even if it is assigned to a spe- cific account, it will not be part of the ListDelegationRequests output for that account. For more details, see Managing Permissions for Delegation Requests . See also: AWS API Documentation
+/// Lists delegation requests based on the specified criteria. If a delegation request has no owner, even if it is assigned to a specific account, it will not be part of the ListDelegationRequests output for that account. For more details, see Managing Permissions for Delegation Requests . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,19 +22,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIamListDelegationRequestsOptions : AwsOptions
 {
     /// <summary>
-    /// The owner ID to filter delegation requests by. Constraints: o min: 20 o max: 2048 o pattern: ^[a-zA-Z0-9:/+=,.@_-]+$
+    /// The owner ID to filter delegation requests by. Constraints: • min: 20 • max: 2048 • pattern: ^[a-zA-Z0-9:/+=,.@_-]+$
     /// </summary>
     [CliOption("--owner-id")]
     public string? OwnerId { get; set; }
 
     /// <summary>
-    /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start. Constraints: o min: 1 o max: 320 o pattern: [\u0020-\u00FF]+
+    /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start. Constraints: • min: 1 • max: 320 • pattern: [\u0020-\u00FF]+
     /// </summary>
     [CliOption("--marker")]
     public string? Marker { get; set; }
 
     /// <summary>
-    /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true . If you do not include this parameter, the number of items defaults to 100. Note that IAM may return fewer results, even when there are more results available. In that case, the IsTruncated response ele- ment returns true , and Marker contains a value to include in the subsequent call that tells the service where to continue from. Constraints: o min: 1 o max: 1000
+    /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true . If you do not include this parameter, the number of items defaults to 100. Note that IAM may return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true , and Marker contains a value to include in the subsequent call that tells the service where to continue from. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }

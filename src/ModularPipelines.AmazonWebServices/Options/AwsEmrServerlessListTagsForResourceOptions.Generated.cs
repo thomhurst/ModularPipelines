@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsEmrServerlessListTagsForResourceOptions : AwsOptions, IValidata
     /// <summary>
     /// Lists the tags assigned to the resources. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) that identifies the resource to list the tags for. Currently, the supported resources are Amazon EMR Serverless applications and job runs. Constraints: o min: 60 o max: 1024 o pattern: arn:(aws[a-zA-Z0-9-]*):emr-serverless:.+:(\d{12}):\/ap- plications\/[0-9a-zA-Z]+(\/jobruns\/[0-9a-zA-Z]+)?</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) that identifies the resource to list the tags for. Currently, the supported resources are Amazon EMR Serverless applications and job runs. Constraints: • min: 60 • max: 1024 • pattern: arn:(aws[a-zA-Z0-9-]*):emr-serverless:.+:(\d{12}):\/applications\/[0-9a-zA-Z]+(\/jobruns\/[0-9a-zA-Z]+|\/sessions\/[0-9a-zA-Z]+)?</param>
     public AwsEmrServerlessListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsEmrServerlessListTagsForResourceOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that identifies the resource to list the tags for. Currently, the supported resources are Amazon EMR Serverless applications and job runs. Constraints: o min: 60 o max: 1024 o pattern: arn:(aws[a-zA-Z0-9-]*):emr-serverless:.+:(\d{12}):\/ap- plications\/[0-9a-zA-Z]+(\/jobruns\/[0-9a-zA-Z]+)?
+    /// The Amazon Resource Name (ARN) that identifies the resource to list the tags for. Currently, the supported resources are Amazon EMR Serverless applications and job runs. Constraints: • min: 60 • max: 1024 • pattern: arn:(aws[a-zA-Z0-9-]*):emr-serverless:.+:(\d{12}):\/applications\/[0-9a-zA-Z]+(\/jobruns\/[0-9a-zA-Z]+|\/sessions\/[0-9a-zA-Z]+)?
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

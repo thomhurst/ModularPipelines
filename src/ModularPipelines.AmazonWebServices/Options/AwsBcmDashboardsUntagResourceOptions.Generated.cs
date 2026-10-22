@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsBcmDashboardsUntagResourceOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Removes specified tags from a dashboard resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The unique identifier for the resource. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:(dash- board|scheduled-report)/(\*|[-a-z0-9]+)</param>
-    /// <param name="ResourceTagKeys">The keys of the tags to remove from the dashboard resource. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: [\S\s]* Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The unique identifier for the resource. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:(dashboard|scheduled-report)/(\*|[-a-z0-9]+)</param>
+    /// <param name="ResourceTagKeys">The keys of the tags to remove from the dashboard resource. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 • pattern: [\S\s]* Syntax: "string" "string" ...</param>
     public AwsBcmDashboardsUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> ResourceTagKeys
@@ -71,13 +73,13 @@ public record AwsBcmDashboardsUntagResourceOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the resource. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:(dash- board|scheduled-report)/(\*|[-a-z0-9]+)
+    /// The unique identifier for the resource. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:(dashboard|scheduled-report)/(\*|[-a-z0-9]+)
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The keys of the tags to remove from the dashboard resource. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: [\S\s]* Syntax: "string" "string" ...
+    /// The keys of the tags to remove from the dashboard resource. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 • pattern: [\S\s]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resource-tag-keys", GroupValues = true)]
     public IEnumerable<string>? ResourceTagKeys { get; private init; }

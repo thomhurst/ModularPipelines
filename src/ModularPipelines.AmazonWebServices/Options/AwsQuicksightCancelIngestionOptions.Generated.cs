@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsQuicksightCancelIngestionOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Cancels an ongoing ingestion of data into SPICE. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The Amazon Web Services account ID. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="AwsAccountId">The Amazon Web Services account ID. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
     /// <param name="DataSetId">The ID of the dataset used in the ingestion.</param>
-    /// <param name="IngestionId">An ID for the ingestion. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-_]+$</param>
+    /// <param name="IngestionId">An ID for the ingestion. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-_]+$</param>
     public AwsQuicksightCancelIngestionOptions(
         string AwsAccountId,
         string DataSetId,
@@ -64,7 +66,7 @@ public record AwsQuicksightCancelIngestionOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The Amazon Web Services account ID. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
@@ -76,7 +78,7 @@ public record AwsQuicksightCancelIngestionOptions : AwsOptions, IValidatableObje
     public string? DataSetId { get; private init; }
 
     /// <summary>
-    /// An ID for the ingestion. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-_]+$
+    /// An ID for the ingestion. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [CliOption("--ingestion-id")]
     public string? IngestionId { get; private init; }

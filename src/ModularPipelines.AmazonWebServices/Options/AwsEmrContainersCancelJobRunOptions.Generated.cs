@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsEmrContainersCancelJobRunOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Cancels a job run. A job run is a unit of work, such as a Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the job run to cancel. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
-    /// <param name="VirtualClusterId">The ID of the virtual cluster for which the job run will be can- celed. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
+    /// <param name="Id">The ID of the job run to cancel. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+</param>
+    /// <param name="VirtualClusterId">The ID of the virtual cluster for which the job run will be canceled. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+</param>
     public AwsEmrContainersCancelJobRunOptions(
         string Id,
         string VirtualClusterId
@@ -60,13 +62,13 @@ public record AwsEmrContainersCancelJobRunOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the job run to cancel. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// The ID of the job run to cancel. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The ID of the virtual cluster for which the job run will be can- celed. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// The ID of the virtual cluster for which the job run will be canceled. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+
     /// </summary>
     [CliOption("--virtual-cluster-id")]
     public string? VirtualClusterId { get; private init; }

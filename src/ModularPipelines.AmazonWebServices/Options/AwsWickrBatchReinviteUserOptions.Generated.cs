@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Resends invitation codes to multiple users who have pending invitations in a Wickr network. This operation is useful when users haven't ac- cepted their initial invitations or when invitations have expired. See also: AWS API Documentation
+/// Resends invitation codes to multiple users who have pending invitations in a Wickr network. This operation is useful when users haven't accepted their initial invitations or when invitations have expired. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsWickrBatchReinviteUserOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Resends invitation codes to multiple users who have pending invitations in a Wickr network. This operation is useful when users haven't ac- cepted their initial invitations or when invitations have expired. See also: AWS API Documentation
+    /// Resends invitation codes to multiple users who have pending invitations in a Wickr network. This operation is useful when users haven't accepted their initial invitations or when invitations have expired. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The ID of the Wickr network where users will be reinvited. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
-    /// <param name="UserIds">A list of user IDs identifying the users to be reinvited to the net- work. Maximum 50 users per batch request. (string) Constraints: o min: 1 o max: 10 o pattern: [0-9]+ Syntax: "string" "string" ...</param>
+    /// <param name="NetworkId">The ID of the Wickr network where users will be reinvited. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}</param>
+    /// <param name="UserIds">A list of user IDs identifying the users to be reinvited to the network. Maximum 50 users per batch request. (string) Constraints: • min: 1 • max: 10 • pattern: [0-9]+ Syntax: "string" "string" ...</param>
     public AwsWickrBatchReinviteUserOptions(
         string NetworkId,
         IEnumerable<string> UserIds
@@ -72,19 +74,19 @@ public record AwsWickrBatchReinviteUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Wickr network where users will be reinvited. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// The ID of the Wickr network where users will be reinvited. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }
 
     /// <summary>
-    /// A list of user IDs identifying the users to be reinvited to the net- work. Maximum 50 users per batch request. (string) Constraints: o min: 1 o max: 10 o pattern: [0-9]+ Syntax: "string" "string" ...
+    /// A list of user IDs identifying the users to be reinvited to the network. Maximum 50 users per batch request. (string) Constraints: • min: 1 • max: 10 • pattern: [0-9]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--user-ids", GroupValues = true)]
     public IEnumerable<string>? UserIds { get; private init; }
 
     /// <summary>
-    /// A unique identifier for this request to ensure idempotency. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_:]+
+    /// A unique identifier for this request to ensure idempotency. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_:]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

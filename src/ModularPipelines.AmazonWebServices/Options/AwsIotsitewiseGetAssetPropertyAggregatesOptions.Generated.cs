@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets aggregated values for an asset property. For more information, see Querying aggregates in the IoT SiteWise User Guide . To identify an asset property, you must specify one of the following: o The assetId and propertyId of an asset property. o A propertyAlias , which is a data stream alias (for example, /com- pany/windfarm/3/turbine/7/temperature ). To define an asset prop- erty's alias, see UpdateAssetProperty . See also: AWS API Documentation get-asset-property-aggregates is a paginated op...
+/// Gets aggregated values for an asset property. For more information, see Querying aggregates in the IoT SiteWise User Guide . To identify an asset property, you must specify one of the following: • The assetId and propertyId of an asset property. • A propertyAlias , which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature ). To define an asset property's alias, see UpdateAssetProperty . See also: AWS API Documentation get-asset-property-aggregates is a paginated operat...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +29,10 @@ public record AwsIotsitewiseGetAssetPropertyAggregatesOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets aggregated values for an asset property. For more information, see Querying aggregates in the IoT SiteWise User Guide . To identify an asset property, you must specify one of the following: o The assetId and propertyId of an asset property. o A propertyAlias , which is a data stream alias (for example, /com- pany/windfarm/3/turbine/7/temperature ). To define an asset prop- erty's alias, see UpdateAssetProperty . See also: AWS API Documentation get-asset-property-aggregates is a paginated op...
+    /// Gets aggregated values for an asset property. For more information, see Querying aggregates in the IoT SiteWise User Guide . To identify an asset property, you must specify one of the following: • The assetId and propertyId of an asset property. • A propertyAlias , which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature ). To define an asset property's alias, see UpdateAssetProperty . See also: AWS API Documentation get-asset-property-aggregates is a paginated operat...
     /// </summary>
-    /// <param name="AggregateTypes">The data aggregating function. Constraints: o min: 1 (string) Possible values: o AVERAGE o COUNT o MAXIMUM o MINIMUM o SUM o STANDARD_DEVIATION Syntax: "string" "string" ...</param>
-    /// <param name="Resolution">The time interval over which to aggregate data. Constraints: o min: 2 o max: 3 o pattern: 1m|15m|1h|1d</param>
+    /// <param name="AggregateTypes">The data aggregating function. Constraints: • min: 1 (string) Possible values: • AVERAGE • COUNT • MAXIMUM • MINIMUM • SUM • STANDARD_DEVIATION Syntax: "string" "string" ...</param>
+    /// <param name="Resolution">The time interval over which to aggregate data. Constraints: • min: 2 • max: 3 • pattern: 1m|15m|1h|1d</param>
     /// <param name="StartDate">The exclusive start of the range from which to query historical data, expressed in seconds in Unix epoch time.</param>
     /// <param name="EndDate">The inclusive end of the range from which to query historical data, expressed in seconds in Unix epoch time.</param>
     public AwsIotsitewiseGetAssetPropertyAggregatesOptions(
@@ -81,13 +83,13 @@ public record AwsIotsitewiseGetAssetPropertyAggregatesOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The data aggregating function. Constraints: o min: 1 (string) Possible values: o AVERAGE o COUNT o MAXIMUM o MINIMUM o SUM o STANDARD_DEVIATION Syntax: "string" "string" ...
+    /// The data aggregating function. Constraints: • min: 1 (string) Possible values: • AVERAGE • COUNT • MAXIMUM • MINIMUM • SUM • STANDARD_DEVIATION Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--aggregate-types", GroupValues = true)]
     public IEnumerable<string>? AggregateTypes { get; private init; }
 
     /// <summary>
-    /// The time interval over which to aggregate data. Constraints: o min: 2 o max: 3 o pattern: 1m|15m|1h|1d
+    /// The time interval over which to aggregate data. Constraints: • min: 2 • max: 3 • pattern: 1m|15m|1h|1d
     /// </summary>
     [CliOption("--resolution")]
     public string? Resolution { get; private init; }
@@ -105,40 +107,37 @@ public record AwsIotsitewiseGetAssetPropertyAggregatesOptions : AwsOptions, IVal
     public string? EndDate { get; private init; }
 
     /// <summary>
-    /// The ID of the asset, in UUID format. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+    /// The ID of the asset, in UUID format. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--asset-id")]
     public string? AssetId { get; set; }
 
     /// <summary>
-    /// The ID of the asset property, in UUID format. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+    /// The ID of the asset property, in UUID format. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--property-id")]
     public string? PropertyId { get; set; }
 
     /// <summary>
-    /// The alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temper- ature ). For more information, see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide . Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+
+    /// The alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature ). For more information, see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide . Constraints: • min: 1 • max: 2048 • pattern: [^\u0000-\u001F\u007F]+
     /// </summary>
     [CliOption("--property-alias")]
     public string? PropertyAlias { get; set; }
 
     /// <summary>
-    /// The quality by which to filter asset data. Constraints: o min: 1 o max: 1 (string) Possible values: o GOOD o BAD o UNCERTAIN Syntax: "string" "string" ...
+    /// The quality by which to filter asset data. Constraints: • min: 1 • max: 1 (string) Possible values: • GOOD • BAD • UNCERTAIN Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--qualities", GroupValues = true)]
     public IEnumerable<string>? Qualities { get; set; }
 
     /// <summary>
-    /// The chronological sorting order of the requested information. Default: ASCENDING Possible values: o ASCENDING o DESCENDING
+    /// The chronological sorting order of the requested information. Default: ASCENDING Possible values: • ASCENDING • DESCENDING
     /// </summary>
     [CliOption("--time-ordering")]
     public AwsIotsitewiseGetAssetPropertyAggregatesTimeOrdering? TimeOrdering { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -148,16 +147,19 @@ public record AwsIotsitewiseGetAssetPropertyAggregatesOptions : AwsOptions, IVal
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

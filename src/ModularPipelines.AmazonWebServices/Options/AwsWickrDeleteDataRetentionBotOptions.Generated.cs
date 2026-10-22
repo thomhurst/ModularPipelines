@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the data retention bot from a Wickr network. This operation permanently removes the bot and all its associated data from the data- base. See also: AWS API Documentation
+/// Deletes the data retention bot from a Wickr network. This operation permanently removes the bot and all its associated data from the database. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsWickrDeleteDataRetentionBotOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the data retention bot from a Wickr network. This operation permanently removes the bot and all its associated data from the data- base. See also: AWS API Documentation
+    /// Deletes the data retention bot from a Wickr network. This operation permanently removes the bot and all its associated data from the database. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The ID of the Wickr network from which the data retention bot will be deleted. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
+    /// <param name="NetworkId">The ID of the Wickr network from which the data retention bot will be deleted. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}</param>
     public AwsWickrDeleteDataRetentionBotOptions(
         string NetworkId
     )
@@ -56,7 +58,7 @@ public record AwsWickrDeleteDataRetentionBotOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Wickr network from which the data retention bot will be deleted. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// The ID of the Wickr network from which the data retention bot will be deleted. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsTranslateListTagsForResourceOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Lists all tags associated with a given Amazon Translate resource. For more information, see Tagging your resources . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the given Amazon Translate re- source you are querying. Constraints: o min: 1 o max: 512</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the given Amazon Translate resource you are querying. Constraints: • min: 1 • max: 512</param>
     public AwsTranslateListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsTranslateListTagsForResourceOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the given Amazon Translate re- source you are querying. Constraints: o min: 1 o max: 512
+    /// The Amazon Resource Name (ARN) of the given Amazon Translate resource you are querying. Constraints: • min: 1 • max: 512
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

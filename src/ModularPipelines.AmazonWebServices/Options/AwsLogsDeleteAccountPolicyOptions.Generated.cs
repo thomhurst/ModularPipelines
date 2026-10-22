@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a CloudWatch Logs account policy. This stops the account-wide policy from applying to log groups or data sources in the account. If you delete a data protection policy or subscription filter policy, any log-group level policies of those types remain in effect. This opera- tion supports deletion of data source-based field index policies, in- cluding facet configurations, in addition to log group-based policies. To use this operation, you must be signed on with the correct permis- sions de...
+/// Deletes a CloudWatch Logs account policy. This stops the account-wide policy from applying to log groups or data sources in the account. If you delete a data protection policy or subscription filter policy, any log-group level policies of those types remain in effect. This operation supports deletion of data source-based field index policies, including facet configurations, in addition to log group-based policies. To use this operation, you must be signed on with the correct permissions dependin...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsLogsDeleteAccountPolicyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a CloudWatch Logs account policy. This stops the account-wide policy from applying to log groups or data sources in the account. If you delete a data protection policy or subscription filter policy, any log-group level policies of those types remain in effect. This opera- tion supports deletion of data source-based field index policies, in- cluding facet configurations, in addition to log group-based policies. To use this operation, you must be signed on with the correct permis- sions de...
+    /// Deletes a CloudWatch Logs account policy. This stops the account-wide policy from applying to log groups or data sources in the account. If you delete a data protection policy or subscription filter policy, any log-group level policies of those types remain in effect. This operation supports deletion of data source-based field index policies, including facet configurations, in addition to log group-based policies. To use this operation, you must be signed on with the correct permissions dependin...
     /// </summary>
     /// <param name="PolicyName">The name of the policy to delete.</param>
-    /// <param name="PolicyType">The type of policy to delete. Possible values: o DATA_PROTECTION_POLICY o SUBSCRIPTION_FILTER_POLICY o FIELD_INDEX_POLICY o TRANSFORMER_POLICY o METRIC_EXTRACTION_POLICY</param>
+    /// <param name="PolicyType">The type of policy to delete. Possible values: • DATA_PROTECTION_POLICY • SUBSCRIPTION_FILTER_POLICY • FIELD_INDEX_POLICY • TRANSFORMER_POLICY • METRIC_EXTRACTION_POLICY</param>
     public AwsLogsDeleteAccountPolicyOptions(
         string PolicyName,
         AwsLogsDeleteAccountPolicyPolicyType PolicyType
@@ -66,7 +68,7 @@ public record AwsLogsDeleteAccountPolicyOptions : AwsOptions, IValidatableObject
     public string? PolicyName { get; private init; }
 
     /// <summary>
-    /// The type of policy to delete. Possible values: o DATA_PROTECTION_POLICY o SUBSCRIPTION_FILTER_POLICY o FIELD_INDEX_POLICY o TRANSFORMER_POLICY o METRIC_EXTRACTION_POLICY
+    /// The type of policy to delete. Possible values: • DATA_PROTECTION_POLICY • SUBSCRIPTION_FILTER_POLICY • FIELD_INDEX_POLICY • TRANSFORMER_POLICY • METRIC_EXTRACTION_POLICY
     /// </summary>
     [CliOption("--policy-type")]
     public AwsLogsDeleteAccountPolicyPolicyType? PolicyType { get; private init; }

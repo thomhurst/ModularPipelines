@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a token for the workspace service account. This will disable the key associated with the token. If any automation is currently using the key, it will no longer be authenticated or au- thorized to perform actions with the Grafana HTTP APIs. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above. See also: AWS API Documentation
+/// Deletes a token for the workspace service account. This will disable the key associated with the token. If any automation is currently using the key, it will no longer be authenticated or authorized to perform actions with the Grafana HTTP APIs. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsGrafanaDeleteWorkspaceServiceAccountTokenOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a token for the workspace service account. This will disable the key associated with the token. If any automation is currently using the key, it will no longer be authenticated or au- thorized to perform actions with the Grafana HTTP APIs. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above. See also: AWS API Documentation
+    /// Deletes a token for the workspace service account. This will disable the key associated with the token. If any automation is currently using the key, it will no longer be authenticated or authorized to perform actions with the Grafana HTTP APIs. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above. See also: AWS API Documentation
     /// </summary>
     /// <param name="TokenId">The ID of the token to delete.</param>
     /// <param name="ServiceAccountId">The ID of the service account from which to delete the token.</param>
-    /// <param name="WorkspaceId">The ID of the workspace from which to delete the token. Constraints: o pattern: g-[0-9a-f]{10}</param>
+    /// <param name="WorkspaceId">The ID of the workspace from which to delete the token. Constraints: • pattern: g-[0-9a-f]{10}</param>
     public AwsGrafanaDeleteWorkspaceServiceAccountTokenOptions(
         string TokenId,
         string ServiceAccountId,
@@ -78,7 +80,7 @@ public record AwsGrafanaDeleteWorkspaceServiceAccountTokenOptions : AwsOptions, 
     public string? ServiceAccountId { get; private init; }
 
     /// <summary>
-    /// The ID of the workspace from which to delete the token. Constraints: o pattern: g-[0-9a-f]{10}
+    /// The ID of the workspace from which to delete the token. Constraints: • pattern: g-[0-9a-f]{10}
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }

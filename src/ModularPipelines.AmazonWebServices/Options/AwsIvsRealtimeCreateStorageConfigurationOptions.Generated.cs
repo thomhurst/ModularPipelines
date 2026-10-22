@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new storage configuration, used to enable recording to Amazon S3. When a StorageConfiguration is created, IVS will modify the S3 bucketPolicy of the provided bucket. This will ensure that IVS has suf- ficient permissions to write content to the provided bucket. See also: AWS API Documentation
+/// Creates a new storage configuration, used to enable recording to Amazon S3. When a StorageConfiguration is created, IVS will modify the S3 bucketPolicy of the provided bucket. This will ensure that IVS has sufficient permissions to write content to the provided bucket. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsIvsRealtimeCreateStorageConfigurationOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new storage configuration, used to enable recording to Amazon S3. When a StorageConfiguration is created, IVS will modify the S3 bucketPolicy of the provided bucket. This will ensure that IVS has suf- ficient permissions to write content to the provided bucket. See also: AWS API Documentation
+    /// Creates a new storage configuration, used to enable recording to Amazon S3. When a StorageConfiguration is created, IVS will modify the S3 bucketPolicy of the provided bucket. This will ensure that IVS has sufficient permissions to write content to the provided bucket. See also: AWS API Documentation
     /// </summary>
-    /// <param name="S3">A complex type that contains a storage configuration for where recorded video will be stored. bucketName -&gt; (string) [required] Location (S3 bucket name) where recorded videos will be stored. Note that the StorageConfiguration and S3 bucket must be in the same region as the Composition. Constraints: o min: 3 o max: 63 o pattern: [a-z0-9-.]+ Shorthand Syntax: bucketName=string JSON Syntax: { "bucketName": "string" }</param>
+    /// <param name="S3">A complex type that contains a storage configuration for where recorded video will be stored. bucketName -&gt; (string) [required] Location (S3 bucket name) where recorded videos will be stored. Note that the StorageConfiguration and S3 bucket must be in the same region as the Composition. Constraints: • min: 3 • max: 63 • pattern: [a-z0-9-.]+ Shorthand Syntax: bucketName=string JSON Syntax: { "bucketName": "string" }</param>
     public AwsIvsRealtimeCreateStorageConfigurationOptions(
         string S3
     )
@@ -57,19 +58,19 @@ public record AwsIvsRealtimeCreateStorageConfigurationOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A complex type that contains a storage configuration for where recorded video will be stored. bucketName -&gt; (string) [required] Location (S3 bucket name) where recorded videos will be stored. Note that the StorageConfiguration and S3 bucket must be in the same region as the Composition. Constraints: o min: 3 o max: 63 o pattern: [a-z0-9-.]+ Shorthand Syntax: bucketName=string JSON Syntax: { "bucketName": "string" }
+    /// A complex type that contains a storage configuration for where recorded video will be stored. bucketName -&gt; (string) [required] Location (S3 bucket name) where recorded videos will be stored. Note that the StorageConfiguration and S3 bucket must be in the same region as the Composition. Constraints: • min: 3 • max: 63 • pattern: [a-z0-9-.]+ Shorthand Syntax: bucketName=string JSON Syntax: { "bucketName": "string" }
     /// </summary>
     [CliOption("--s3")]
     public string? S3 { get; private init; }
 
     /// <summary>
-    /// Storage configuration name. The value does not need to be unique. Constraints: o min: 0 o max: 128 o pattern: [a-zA-Z0-9-_]*
+    /// Storage configuration name. The value does not need to be unique. Constraints: • min: 0 • max: 128 • pattern: [a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Tags attached to the resource. Array of maps, each of the form string:string (key:value) . See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restric- tions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags attached to the resource. Array of maps, each of the form string:string (key:value) . See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

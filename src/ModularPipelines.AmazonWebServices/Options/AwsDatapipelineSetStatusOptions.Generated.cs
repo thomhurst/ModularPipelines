@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Requests that the status of the specified physical or logical pipeline objects be updated in the specified pipeline. This update might not oc- cur immediately, but is eventually consistent. The status that can be set depends on the type of object (for example, DataNode or Activity). You cannot perform this operation on FINISHED pipelines and attempting to do so returns InvalidRequestException . See also: AWS API Documentation
+/// Requests that the status of the specified physical or logical pipeline objects be updated in the specified pipeline. This update might not occur immediately, but is eventually consistent. The status that can be set depends on the type of object (for example, DataNode or Activity). You cannot perform this operation on FINISHED pipelines and attempting to do so returns InvalidRequestException . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsDatapipelineSetStatusOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Requests that the status of the specified physical or logical pipeline objects be updated in the specified pipeline. This update might not oc- cur immediately, but is eventually consistent. The status that can be set depends on the type of object (for example, DataNode or Activity). You cannot perform this operation on FINISHED pipelines and attempting to do so returns InvalidRequestException . See also: AWS API Documentation
+    /// Requests that the status of the specified physical or logical pipeline objects be updated in the specified pipeline. This update might not occur immediately, but is eventually consistent. The status that can be set depends on the type of object (for example, DataNode or Activity). You cannot perform this operation on FINISHED pipelines and attempting to do so returns InvalidRequestException . See also: AWS API Documentation
     /// </summary>
-    /// <param name="PipelineId">The ID of the pipeline that contains the objects. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
-    /// <param name="ObjectIds">The IDs of the objects. The corresponding objects can be either physical or components, but not a mix of both types. (string) Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...</param>
-    /// <param name="Status">The status to be set on all the objects specified in objectIds . For components, use PAUSE or RESUME . For instances, use TRY_CANCEL , RERUN , or MARK_FINISHED . Constraints: o min: 0 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="PipelineId">The ID of the pipeline that contains the objects. Constraints: • min: 1 • max: 1024 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="ObjectIds">The IDs of the objects. The corresponding objects can be either physical or components, but not a mix of both types. (string) Constraints: • min: 1 • max: 1024 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...</param>
+    /// <param name="Status">The status to be set on all the objects specified in objectIds . For components, use PAUSE or RESUME . For instances, use TRY_CANCEL , RERUN , or MARK_FINISHED . Constraints: • min: 0 • max: 1024 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
     public AwsDatapipelineSetStatusOptions(
         string PipelineId,
         IEnumerable<string> ObjectIds,
@@ -75,19 +77,19 @@ public record AwsDatapipelineSetStatusOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the pipeline that contains the objects. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The ID of the pipeline that contains the objects. Constraints: • min: 1 • max: 1024 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--pipeline-id")]
     public string? PipelineId { get; private init; }
 
     /// <summary>
-    /// The IDs of the objects. The corresponding objects can be either physical or components, but not a mix of both types. (string) Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...
+    /// The IDs of the objects. The corresponding objects can be either physical or components, but not a mix of both types. (string) Constraints: • min: 1 • max: 1024 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--object-ids", GroupValues = true)]
     public IEnumerable<string>? ObjectIds { get; private init; }
 
     /// <summary>
-    /// The status to be set on all the objects specified in objectIds . For components, use PAUSE or RESUME . For instances, use TRY_CANCEL , RERUN , or MARK_FINISHED . Constraints: o min: 0 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The status to be set on all the objects specified in objectIds . For components, use PAUSE or RESUME . For instances, use TRY_CANCEL , RERUN , or MARK_FINISHED . Constraints: • min: 0 • max: 1024 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--status")]
     public string? Status { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +30,9 @@ public record AwsQuicksightDescribeRoleCustomPermissionOptions : AwsOptions, IVa
     /// <summary>
     /// Describes all custom permissions that are mapped to a role. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Role">The name of the role whose permissions you want described. Possible values: o ADMIN o AUTHOR o READER o ADMIN_PRO o AUTHOR_PRO o READER_PRO</param>
-    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon Quick Sight account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="Namespace">The namespace that contains the role. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$</param>
+    /// <param name="Role">The name of the role whose permissions you want described. Possible values: • ADMIN • AUTHOR • READER • ADMIN_PRO • AUTHOR_PRO • READER_PRO</param>
+    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon Quick Sight account. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="Namespace">The namespace that contains the role. Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$</param>
     public AwsQuicksightDescribeRoleCustomPermissionOptions(
         AwsQuicksightDescribeRoleCustomPermissionRole Role,
         string AwsAccountId,
@@ -64,19 +66,19 @@ public record AwsQuicksightDescribeRoleCustomPermissionOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the role whose permissions you want described. Possible values: o ADMIN o AUTHOR o READER o ADMIN_PRO o AUTHOR_PRO o READER_PRO
+    /// The name of the role whose permissions you want described. Possible values: • ADMIN • AUTHOR • READER • ADMIN_PRO • AUTHOR_PRO • READER_PRO
     /// </summary>
     [CliOption("--role")]
     public AwsQuicksightDescribeRoleCustomPermissionRole? Role { get; private init; }
 
     /// <summary>
-    /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon Quick Sight account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon Quick Sight account. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The namespace that contains the role. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// The namespace that contains the role. Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; private init; }

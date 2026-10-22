@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsNetworkFirewallDeleteProxyOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Deletes the specified Proxy . Detaches a Proxy configuration from a NAT Gateway. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NatGatewayId">The NAT Gateway the proxy is attached to. Constraints: o min: 1</param>
+    /// <param name="NatGatewayId">The NAT Gateway the proxy is attached to. Constraints: • min: 1</param>
     public AwsNetworkFirewallDeleteProxyOptions(
         string NatGatewayId
     )
@@ -56,19 +58,19 @@ public record AwsNetworkFirewallDeleteProxyOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The NAT Gateway the proxy is attached to. Constraints: o min: 1
+    /// The NAT Gateway the proxy is attached to. Constraints: • min: 1
     /// </summary>
     [CliOption("--nat-gateway-id")]
     public string? NatGatewayId { get; private init; }
 
     /// <summary>
-    /// The descriptive name of the proxy. You can't change the name of a proxy after you create it. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
+    /// The descriptive name of the proxy. You can't change the name of a proxy after you create it. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--proxy-name")]
     public string? ProxyName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of a proxy. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*
+    /// The Amazon Resource Name (ARN) of a proxy. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*
     /// </summary>
     [CliOption("--proxy-arn")]
     public string? ProxyArn { get; set; }

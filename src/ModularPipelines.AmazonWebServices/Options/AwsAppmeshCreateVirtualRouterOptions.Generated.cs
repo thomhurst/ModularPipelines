@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a virtual router within a service mesh. Specify a listener for any inbound traffic that your virtual router re- ceives. Create a virtual router for each protocol and port that you need to route. Virtual routers handle traffic for one or more virtual services within your mesh. After you create your virtual router, create and associate routes for your virtual router that direct incoming re- quests to different virtual nodes. For more information about virtual routers, see Virtual routers ....
+/// Creates a virtual router within a service mesh. Specify a listener for any inbound traffic that your virtual router receives. Create a virtual router for each protocol and port that you need to route. Virtual routers handle traffic for one or more virtual services within your mesh. After you create your virtual router, create and associate routes for your virtual router that direct incoming requests to different virtual nodes. For more information about virtual routers, see Virtual routers . See...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsAppmeshCreateVirtualRouterOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a virtual router within a service mesh. Specify a listener for any inbound traffic that your virtual router re- ceives. Create a virtual router for each protocol and port that you need to route. Virtual routers handle traffic for one or more virtual services within your mesh. After you create your virtual router, create and associate routes for your virtual router that direct incoming re- quests to different virtual nodes. For more information about virtual routers, see Virtual routers ....
+    /// Creates a virtual router within a service mesh. Specify a listener for any inbound traffic that your virtual router receives. Create a virtual router for each protocol and port that you need to route. Virtual routers handle traffic for one or more virtual services within your mesh. After you create your virtual router, create and associate routes for your virtual router that direct incoming requests to different virtual nodes. For more information about virtual routers, see Virtual routers . See...
     /// </summary>
-    /// <param name="MeshName">The name of the service mesh to create the virtual router in. Constraints: o min: 1 o max: 255</param>
-    /// <param name="Spec">The virtual router specification to apply. listeners -&gt; (list) The listeners that the virtual router is expected to receive in- bound traffic from. You can specify one listener. (structure) An object that represents a virtual router listener. portMapping -&gt; (structure) [required] An object that represents a port mapping. port -&gt; (integer) [required] The port used for the port mapping. Constraints: o min: 1 o max: 65535 protocol -&gt; (string) [required] The protocol used for the port mapping. Specify one protocol. Possible values: o http o tcp o http2 o grpc JSON Syntax: { "listeners": [ { "portMapping": { "port": integer, "protocol": "http"|"tcp"|"http2"|"grpc" } } ... ] }</param>
-    /// <param name="VirtualRouterName">The name to use for the virtual router. Constraints: o min: 1 o max: 255</param>
+    /// <param name="MeshName">The name of the service mesh to create the virtual router in. Constraints: • min: 1 • max: 255</param>
+    /// <param name="Spec">The virtual router specification to apply. listeners -&gt; (list) The listeners that the virtual router is expected to receive inbound traffic from. You can specify one listener. (structure) An object that represents a virtual router listener. portMapping -&gt; (structure) [required] An object that represents a port mapping. port -&gt; (integer) [required] The port used for the port mapping. Constraints: • min: 1 • max: 65535 protocol -&gt; (string) [required] The protocol used for the port mapping. Specify one protocol. Possible values: • http • tcp • http2 • grpc JSON Syntax: { "listeners": [ { "portMapping": { "port": integer, "protocol": "http"|"tcp"|"http2"|"grpc" } } ... ] }</param>
+    /// <param name="VirtualRouterName">The name to use for the virtual router. Constraints: • min: 1 • max: 255</param>
     public AwsAppmeshCreateVirtualRouterOptions(
         string MeshName,
         string Spec,
@@ -65,19 +67,19 @@ public record AwsAppmeshCreateVirtualRouterOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the service mesh to create the virtual router in. Constraints: o min: 1 o max: 255
+    /// The name of the service mesh to create the virtual router in. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--mesh-name")]
     public string? MeshName { get; private init; }
 
     /// <summary>
-    /// The virtual router specification to apply. listeners -&gt; (list) The listeners that the virtual router is expected to receive in- bound traffic from. You can specify one listener. (structure) An object that represents a virtual router listener. portMapping -&gt; (structure) [required] An object that represents a port mapping. port -&gt; (integer) [required] The port used for the port mapping. Constraints: o min: 1 o max: 65535 protocol -&gt; (string) [required] The protocol used for the port mapping. Specify one protocol. Possible values: o http o tcp o http2 o grpc JSON Syntax: { "listeners": [ { "portMapping": { "port": integer, "protocol": "http"|"tcp"|"http2"|"grpc" } } ... ] }
+    /// The virtual router specification to apply. listeners -&gt; (list) The listeners that the virtual router is expected to receive inbound traffic from. You can specify one listener. (structure) An object that represents a virtual router listener. portMapping -&gt; (structure) [required] An object that represents a port mapping. port -&gt; (integer) [required] The port used for the port mapping. Constraints: • min: 1 • max: 65535 protocol -&gt; (string) [required] The protocol used for the port mapping. Specify one protocol. Possible values: • http • tcp • http2 • grpc JSON Syntax: { "listeners": [ { "portMapping": { "port": integer, "protocol": "http"|"tcp"|"http2"|"grpc" } } ... ] }
     /// </summary>
     [CliOption("--spec")]
     public string? Spec { get; private init; }
 
     /// <summary>
-    /// The name to use for the virtual router. Constraints: o min: 1 o max: 255
+    /// The name to use for the virtual router. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--virtual-router-name")]
     public string? VirtualRouterName { get; private init; }
@@ -90,13 +92,13 @@ public record AwsAppmeshCreateVirtualRouterOptions : AwsOptions, IValidatableObj
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then the account that you specify must share the mesh with your account before you can create the re- source in the service mesh. For more information about mesh sharing, see Working with shared meshes . Constraints: o min: 12 o max: 12
+    /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then the account that you specify must share the mesh with your account before you can create the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes . Constraints: • min: 12 • max: 12
     /// </summary>
     [CliOption("--mesh-owner")]
     public string? MeshOwner { get; set; }
 
     /// <summary>
-    /// Optional metadata that you can apply to the virtual router to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. Constraints: o min: 0 o max: 50 (structure) Optional metadata that you apply to a resource to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. key -&gt; (string) [required] One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// Optional metadata that you can apply to the virtual router to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. Constraints: • min: 0 • max: 50 (structure) Optional metadata that you apply to a resource to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. key -&gt; (string) [required] One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: • min: 1 • max: 128 value -&gt; (string) [required] The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

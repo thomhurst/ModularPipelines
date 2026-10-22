@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Detaches an Aurora secondary cluster from an Aurora global database cluster. The cluster becomes a standalone cluster with read-write capa- bility instead of being read-only and receiving data from a primary cluster in a different Region. NOTE: This operation only applies to Aurora DB clusters. See also: AWS API Documentation
+/// Detaches an Aurora secondary cluster from an Aurora global database cluster. The cluster becomes a standalone cluster with read-write capability instead of being read-only and receiving data from a primary cluster in a different Region. NOTE: This operation only applies to Aurora DB clusters. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsRdsRemoveFromGlobalClusterOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Detaches an Aurora secondary cluster from an Aurora global database cluster. The cluster becomes a standalone cluster with read-write capa- bility instead of being read-only and receiving data from a primary cluster in a different Region. NOTE: This operation only applies to Aurora DB clusters. See also: AWS API Documentation
+    /// Detaches an Aurora secondary cluster from an Aurora global database cluster. The cluster becomes a standalone cluster with read-write capability instead of being read-only and receiving data from a primary cluster in a different Region. NOTE: This operation only applies to Aurora DB clusters. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GlobalClusterIdentifier">The cluster identifier to detach from the Aurora global database cluster. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
-    /// <param name="DbClusterIdentifier">The Amazon Resource Name (ARN) identifying the cluster that was de- tached from the Aurora global database cluster.</param>
+    /// <param name="GlobalClusterIdentifier">The cluster identifier to detach from the Aurora global database cluster. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
+    /// <param name="DbClusterIdentifier">The Amazon Resource Name (ARN) identifying the cluster that was detached from the Aurora global database cluster.</param>
     public AwsRdsRemoveFromGlobalClusterOptions(
         string GlobalClusterIdentifier,
         string DbClusterIdentifier
@@ -60,13 +62,13 @@ public record AwsRdsRemoveFromGlobalClusterOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The cluster identifier to detach from the Aurora global database cluster. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// The cluster identifier to detach from the Aurora global database cluster. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*
     /// </summary>
     [CliOption("--global-cluster-identifier")]
     public string? GlobalClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) identifying the cluster that was de- tached from the Aurora global database cluster.
+    /// The Amazon Resource Name (ARN) identifying the cluster that was detached from the Aurora global database cluster.
     /// </summary>
     [CliOption("--db-cluster-identifier")]
     public string? DbClusterIdentifier { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsLambdaMicrovmsCreateMicrovmAuthTokenOptions : AwsOptions, IVali
     /// <summary>
     /// Creates an authentication token for accessing a running MicroVM. The token grants access to the specified ports on the MicroVM endpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MicrovmIdentifier">The ID of the MicroVM to create an authentication token for. Constraints: o min: 1 o max: 256</param>
-    /// <param name="ExpirationInMinutes">The duration in minutes before the authentication token expires. Maximum: 60 minutes. Constraints: o min: 1</param>
-    /// <param name="AllowedPorts">The list of port specifications that the authentication token grants access to on the MicroVM. Constraints: o min: 1 (tagged union structure) Specifies which ports are accessible on a MicroVM. Only one of the port specification options can be set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: port, range, allPorts. port -&gt; (integer) A single port number. Constraints: o min: 1 o max: 65535 range -&gt; (structure) A range of ports. startPort -&gt; (integer) [required] The starting port number of the range. Constraints: o min: 1 o max: 65535 endPort -&gt; (integer) [required] The ending port number of the range. Constraints: o min: 1 o max: 65535 allPorts -&gt; (structure) Indicates that all ports are accessible. Shorthand Syntax: port=integer,range={startPort=integer,endPort=integer},allPorts={} ... JSON Syntax: [ { "port": integer, "range": { "startPort": integer, "endPort": integer }, "allPorts": { } } ... ]</param>
+    /// <param name="MicrovmIdentifier">The ID of the MicroVM to create an authentication token for. Constraints: • min: 1 • max: 256</param>
+    /// <param name="ExpirationInMinutes">The duration in minutes before the authentication token expires. Maximum: 60 minutes. Constraints: • min: 1</param>
+    /// <param name="AllowedPorts">The list of port specifications that the authentication token grants access to on the MicroVM. Constraints: • min: 1 (tagged union structure) Specifies which ports are accessible on a MicroVM. Only one of the port specification options can be set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: port, range, allPorts. port -&gt; (integer) A single port number. Constraints: • min: 1 • max: 65535 range -&gt; (structure) A range of ports. startPort -&gt; (integer) [required] The starting port number of the range. Constraints: • min: 1 • max: 65535 endPort -&gt; (integer) [required] The ending port number of the range. Constraints: • min: 1 • max: 65535 allPorts -&gt; (structure) Indicates that all ports are accessible. Shorthand Syntax: port=integer,range={startPort=integer,endPort=integer},allPorts={} ... JSON Syntax: [ { "port": integer, "range": { "startPort": integer, "endPort": integer }, "allPorts": { } } ... ]</param>
     public AwsLambdaMicrovmsCreateMicrovmAuthTokenOptions(
         string MicrovmIdentifier,
         int ExpirationInMinutes,
@@ -74,19 +76,19 @@ public record AwsLambdaMicrovmsCreateMicrovmAuthTokenOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the MicroVM to create an authentication token for. Constraints: o min: 1 o max: 256
+    /// The ID of the MicroVM to create an authentication token for. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--microvm-identifier")]
     public string? MicrovmIdentifier { get; private init; }
 
     /// <summary>
-    /// The duration in minutes before the authentication token expires. Maximum: 60 minutes. Constraints: o min: 1
+    /// The duration in minutes before the authentication token expires. Maximum: 60 minutes. Constraints: • min: 1
     /// </summary>
     [CliOption("--expiration-in-minutes")]
     public int? ExpirationInMinutes { get; private init; }
 
     /// <summary>
-    /// The list of port specifications that the authentication token grants access to on the MicroVM. Constraints: o min: 1 (tagged union structure) Specifies which ports are accessible on a MicroVM. Only one of the port specification options can be set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: port, range, allPorts. port -&gt; (integer) A single port number. Constraints: o min: 1 o max: 65535 range -&gt; (structure) A range of ports. startPort -&gt; (integer) [required] The starting port number of the range. Constraints: o min: 1 o max: 65535 endPort -&gt; (integer) [required] The ending port number of the range. Constraints: o min: 1 o max: 65535 allPorts -&gt; (structure) Indicates that all ports are accessible. Shorthand Syntax: port=integer,range={startPort=integer,endPort=integer},allPorts={} ... JSON Syntax: [ { "port": integer, "range": { "startPort": integer, "endPort": integer }, "allPorts": { } } ... ]
+    /// The list of port specifications that the authentication token grants access to on the MicroVM. Constraints: • min: 1 (tagged union structure) Specifies which ports are accessible on a MicroVM. Only one of the port specification options can be set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: port, range, allPorts. port -&gt; (integer) A single port number. Constraints: • min: 1 • max: 65535 range -&gt; (structure) A range of ports. startPort -&gt; (integer) [required] The starting port number of the range. Constraints: • min: 1 • max: 65535 endPort -&gt; (integer) [required] The ending port number of the range. Constraints: • min: 1 • max: 65535 allPorts -&gt; (structure) Indicates that all ports are accessible. Shorthand Syntax: port=integer,range={startPort=integer,endPort=integer},allPorts={} ... JSON Syntax: [ { "port": integer, "range": { "startPort": integer, "endPort": integer }, "allPorts": { } } ... ]
     /// </summary>
     [CliOption("--allowed-ports", GroupValues = true)]
     public IEnumerable<string>? AllowedPorts { get; private init; }

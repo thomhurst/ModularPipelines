@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Wait until a code review is complete. It will poll every 10 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
+/// Wait until a code review is complete. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsCodeguruReviewerWaitCodeReviewCompletedOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Wait until a code review is complete. It will poll every 10 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
+    /// Wait until a code review is complete. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CodeReviewArn">The Amazon Resource Name (ARN) of the CodeReview object. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws[^:\s]*:codeguru-re- viewer:[^:\s]+:[\d]{12}:[a-z-]+:[\w-]+$</param>
+    /// <param name="CodeReviewArn">The Amazon Resource Name (ARN) of the CodeReview object. Constraints: • min: 1 • max: 1600 • pattern: ^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:[a-z-]+:[\w-]+$</param>
     public AwsCodeguruReviewerWaitCodeReviewCompletedOptions(
         string CodeReviewArn
     )
@@ -56,7 +58,7 @@ public record AwsCodeguruReviewerWaitCodeReviewCompletedOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the CodeReview object. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws[^:\s]*:codeguru-re- viewer:[^:\s]+:[\d]{12}:[a-z-]+:[\w-]+$
+    /// The Amazon Resource Name (ARN) of the CodeReview object. Constraints: • min: 1 • max: 1600 • pattern: ^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:[a-z-]+:[\w-]+$
     /// </summary>
     [CliOption("--code-review-arn")]
     public string? CodeReviewArn { get; private init; }

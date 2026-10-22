@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets a deployment. Deployments define the components that run on Green- grass core devices. See also: AWS API Documentation
+/// Gets a deployment. Deployments define the components that run on Greengrass core devices. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsGreengrassv2GetDeploymentOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets a deployment. Deployments define the components that run on Green- grass core devices. See also: AWS API Documentation
+    /// Gets a deployment. Deployments define the components that run on Greengrass core devices. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DeploymentId">The ID of the deployment. Constraints: o min: 1</param>
+    /// <param name="DeploymentId">The ID of the deployment. Constraints: • min: 1</param>
     public AwsGreengrassv2GetDeploymentOptions(
         string DeploymentId
     )
@@ -56,7 +58,7 @@ public record AwsGreengrassv2GetDeploymentOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the deployment. Constraints: o min: 1
+    /// The ID of the deployment. Constraints: • min: 1
     /// </summary>
     [CliOption("--deployment-id")]
     public string? DeploymentId { get; private init; }

@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds tags to a Greengrass resource. Valid resources are 'Group', 'Con- nectorDefinition', 'CoreDefinition', 'DeviceDefinition', 'FunctionDefi- nition', 'LoggerDefinition', 'SubscriptionDefinition', 'ResourceDefini- tion', and 'BulkDeployment'. See also: AWS API Documentation
+/// Adds tags to a Greengrass resource. Valid resources are 'Group', 'ConnectorDefinition', 'CoreDefinition', 'DeviceDefinition', 'FunctionDefinition', 'LoggerDefinition', 'SubscriptionDefinition', 'ResourceDefinition', and 'BulkDeployment'. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +27,7 @@ public record AwsGreengrassTagResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds tags to a Greengrass resource. Valid resources are 'Group', 'Con- nectorDefinition', 'CoreDefinition', 'DeviceDefinition', 'FunctionDefi- nition', 'LoggerDefinition', 'SubscriptionDefinition', 'ResourceDefini- tion', and 'BulkDeployment'. See also: AWS API Documentation
+    /// Adds tags to a Greengrass resource. Valid resources are 'Group', 'ConnectorDefinition', 'CoreDefinition', 'DeviceDefinition', 'FunctionDefinition', 'LoggerDefinition', 'SubscriptionDefinition', 'ResourceDefinition', and 'BulkDeployment'. See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceArn"></param>
     public AwsGreengrassTagResourceOptions(

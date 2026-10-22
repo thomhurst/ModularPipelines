@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsDevicefarmCreateRemoteAccessSessionOptions : AwsOptions, IValid
     /// <summary>
     /// Specifies and starts a remote access session. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProjectArn">The Amazon Resource Name (ARN) of the project for which you want to create a remote access session. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+</param>
-    /// <param name="DeviceArn">The ARN of the device for which you want to create a remote access session. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+</param>
+    /// <param name="ProjectArn">The Amazon Resource Name (ARN) of the project for which you want to create a remote access session. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+</param>
+    /// <param name="DeviceArn">The ARN of the device for which you want to create a remote access session. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+</param>
     public AwsDevicefarmCreateRemoteAccessSessionOptions(
         string ProjectArn,
         string DeviceArn
@@ -61,43 +63,43 @@ public record AwsDevicefarmCreateRemoteAccessSessionOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the project for which you want to create a remote access session. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// The Amazon Resource Name (ARN) of the project for which you want to create a remote access session. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+
     /// </summary>
     [CliOption("--project-arn")]
     public string? ProjectArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the device for which you want to create a remote access session. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// The ARN of the device for which you want to create a remote access session. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+
     /// </summary>
     [CliOption("--device-arn")]
     public string? DeviceArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the app to create the remote ac- cess session. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// The Amazon Resource Name (ARN) of the app to create the remote access session. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+
     /// </summary>
     [CliOption("--app-arn")]
     public string? AppArn { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the device instance for which you want to create a remote access session. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// The Amazon Resource Name (ARN) of the device instance for which you want to create a remote access session. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+
     /// </summary>
     [CliOption("--instance-arn")]
     public string? InstanceArn { get; set; }
 
     /// <summary>
-    /// The name of the remote access session to create. Constraints: o min: 0 o max: 256
+    /// The name of the remote access session to create. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The configuration information for the remote access session request. auxiliaryApps -&gt; (list) A list of upload ARNs for app packages to be installed onto your device. (Maximum 3) Constraints: o min: 0 o max: 3 (string) Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+ billingMethod -&gt; (string) The billing method for the remote access session. Possible values: o METERED o UNMETERED vpceConfigurationArns -&gt; (list) An array of ARNs included in the VPC endpoint configuration. (string) Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+ deviceProxy -&gt; (structure) The device proxy to be configured on the device for the remote access session. host -&gt; (string) [required] Hostname or IPv4 address of the proxy. Constraints: o min: 1 o max: 255 o pattern: ^([a-zA-Z0-9])([a-zA-Z0-9-.]+)([a-zA-Z0-9])$ port -&gt; (integer) [required] The port number on which the http/s proxy is listening. Constraints: o min: 1 o max: 65535 parameters -&gt; (map) The name-value string pairs that specify additional settings for the remote access session. o appium:version : The major version of the Appium server to use for the session (for example, 2 or 3). The service may reject the selected version if it is not available for the selected device. Constraints: o min: 1 o max: 3 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_]+ value -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.]+ Shorthand Syntax: auxiliaryApps=string,string,billingMethod=string,vpceConfigurationArns=string,string,deviceProxy={host=string,port=integer},parameters={KeyName1=string,KeyName2=string} JSON Syntax: { "auxiliaryApps": ["string", ...], "billingMethod": "METERED"|"UNMETERED", "vpceConfigurationArns": ["string", ...], "deviceProxy": { "host": "string", "port": integer }, "parameters": {"string": "string" ...} }
+    /// The configuration information for the remote access session request. auxiliaryApps -&gt; (list) A list of upload ARNs for app packages to be installed onto your device. (Maximum 3) Constraints: • min: 0 • max: 3 (string) Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+ billingMethod -&gt; (string) The billing method for the remote access session. Possible values: • METERED • UNMETERED vpceConfigurationArns -&gt; (list) An array of ARNs included in the VPC endpoint configuration. (string) Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+ deviceProxy -&gt; (structure) The device proxy to be configured on the device for the remote access session. host -&gt; (string) [required] Hostname or IPv4 address of the proxy. Constraints: • min: 1 • max: 255 • pattern: ^([a-zA-Z0-9])([a-zA-Z0-9-.]+)([a-zA-Z0-9])$ port -&gt; (integer) [required] The port number on which the http/s proxy is listening. Constraints: • min: 1 • max: 65535 parameters -&gt; (map) The name-value string pairs that specify additional settings for the remote access session. • appium:version : The major version of the Appium server to use for the session (for example, 2 or 3). The service may reject the selected version if it is not available for the selected device. Constraints: • min: 1 • max: 3 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_]+ value -&gt; (string) Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.]+ Shorthand Syntax: auxiliaryApps=string,string,billingMethod=string,vpceConfigurationArns=string,string,deviceProxy={host=string,port=integer},parameters={KeyName1=string,KeyName2=string} JSON Syntax: { "auxiliaryApps": ["string", ...], "billingMethod": "METERED"|"UNMETERED", "vpceConfigurationArns": ["string", ...], "deviceProxy": { "host": "string", "port": integer }, "parameters": {"string": "string" ...} }
     /// </summary>
     [CliOption("--configuration")]
     public string? Configuration { get; set; }
 
     /// <summary>
-    /// The interaction mode of the remote access session. Changing the in- teractive mode of remote access sessions is no longer available. Possible values: o INTERACTIVE o NO_VIDEO o VIDEO_ONLY Constraints: o min: 0 o max: 64
+    /// The interaction mode of the remote access session. Changing the interactive mode of remote access sessions is no longer available. Possible values: • INTERACTIVE • NO_VIDEO • VIDEO_ONLY Constraints: • min: 0 • max: 64
     /// </summary>
     [CliOption("--interaction-mode")]
     public AwsDevicefarmCreateRemoteAccessSessionInteractionMode? InteractionMode { get; set; }

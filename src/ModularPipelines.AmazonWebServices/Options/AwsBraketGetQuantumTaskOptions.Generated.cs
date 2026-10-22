@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBraketGetQuantumTaskOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves the specified quantum task. See also: AWS API Documentation
     /// </summary>
-    /// <param name="QuantumTaskArn">The ARN of the quantum task to retrieve. Constraints: o min: 0 o max: 256</param>
+    /// <param name="QuantumTaskArn">The ARN of the quantum task to retrieve. Constraints: • min: 0 • max: 256</param>
     public AwsBraketGetQuantumTaskOptions(
         string QuantumTaskArn
     )
@@ -56,13 +58,13 @@ public record AwsBraketGetQuantumTaskOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the quantum task to retrieve. Constraints: o min: 0 o max: 256
+    /// The ARN of the quantum task to retrieve. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--quantum-task-arn")]
     public string? QuantumTaskArn { get; private init; }
 
     /// <summary>
-    /// A list of attributes to return additional information for. Only the QueueInfo additional attribute name is currently supported. (string) Possible values: o QueueInfo Syntax: "string" "string" ...
+    /// A list of attributes to return additional information for. Only the QueueInfo additional attribute name is currently supported. (string) Possible values: • QueueInfo Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--additional-attribute-names", GroupValues = true)]
     public IEnumerable<string>? AdditionalAttributeNames { get; set; }

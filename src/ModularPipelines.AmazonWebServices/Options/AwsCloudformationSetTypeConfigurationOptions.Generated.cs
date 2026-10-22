@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Specifies the configuration data for a CloudFormation extension, such as a resource or Hook, in the given account and Region. For more information, see Edit configuration data for extensions in your account in the CloudFormation User Guide . To view the current configuration data for an extension, refer to the ConfigurationSchema element of DescribeType . WARNING: It's strongly recommended that you use dynamic references to re- strict sensitive configuration definitions, such as third-party cre-...
+/// Specifies the configuration data for a CloudFormation extension, such as a resource or Hook, in the given account and Region. For more information, see Edit configuration data for extensions in your account in the CloudFormation User Guide . To view the current configuration data for an extension, refer to the ConfigurationSchema element of DescribeType . WARNING: It's strongly recommended that you use dynamic references to restrict sensitive configuration definitions, such as third-party creden...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsCloudformationSetTypeConfigurationOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Specifies the configuration data for a CloudFormation extension, such as a resource or Hook, in the given account and Region. For more information, see Edit configuration data for extensions in your account in the CloudFormation User Guide . To view the current configuration data for an extension, refer to the ConfigurationSchema element of DescribeType . WARNING: It's strongly recommended that you use dynamic references to re- strict sensitive configuration definitions, such as third-party cre-...
+    /// Specifies the configuration data for a CloudFormation extension, such as a resource or Hook, in the given account and Region. For more information, see Edit configuration data for extensions in your account in the CloudFormation User Guide . To view the current configuration data for an extension, refer to the ConfigurationSchema element of DescribeType . WARNING: It's strongly recommended that you use dynamic references to restrict sensitive configuration definitions, such as third-party creden...
     /// </summary>
-    /// <param name="Configuration">The configuration data for the extension in this account and Region. The configuration data must be formatted as JSON and validate against the extension's schema returned in the Schema response ele- ment of DescribeType . Constraints: o min: 1 o max: 204800 o pattern: [\s\S]+</param>
+    /// <param name="Configuration">The configuration data for the extension in this account and Region. The configuration data must be formatted as JSON and validate against the extension's schema returned in the Schema response element of DescribeType . Constraints: • min: 1 • max: 204800 • pattern: [\s\S]+</param>
     public AwsCloudformationSetTypeConfigurationOptions(
         string Configuration
     )
@@ -57,31 +59,31 @@ public record AwsCloudformationSetTypeConfigurationOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The configuration data for the extension in this account and Region. The configuration data must be formatted as JSON and validate against the extension's schema returned in the Schema response ele- ment of DescribeType . Constraints: o min: 1 o max: 204800 o pattern: [\s\S]+
+    /// The configuration data for the extension in this account and Region. The configuration data must be formatted as JSON and validate against the extension's schema returned in the Schema response element of DescribeType . Constraints: • min: 1 • max: 204800 • pattern: [\s\S]+
     /// </summary>
     [CliOption("--configuration")]
     public string? Configuration { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) for the extension in this account and Region. For public extensions, this will be the ARN assigned when you call the ActivateType API operation in this account and Region. For pri- vate extensions, this will be the ARN assigned when you call the RegisterType API operation in this account and Region. Do not include the extension versions suffix at the end of the ARN. You can set the configuration for an extension, but not for a spe- cific extension version. Constraints: o max: 1024 o pattern: arn:aws[A-Za-z0-9-]{0,64}:cloudforma- tion:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/.+
+    /// The Amazon Resource Name (ARN) for the extension in this account and Region. For public extensions, this will be the ARN assigned when you call the ActivateType API operation in this account and Region. For private extensions, this will be the ARN assigned when you call the RegisterType API operation in this account and Region. Do not include the extension versions suffix at the end of the ARN. You can set the configuration for an extension, but not for a specific extension version. Constraints: • max: 1024 • pattern: arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/.+
     /// </summary>
     [CliOption("--type-arn")]
     public string? TypeArn { get; set; }
 
     /// <summary>
-    /// An alias by which to refer to this extension configuration data. Conditional: Specifying a configuration alias is required when set- ting a configuration for a resource type extension. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9]{1,256}$
+    /// An alias by which to refer to this extension configuration data. Conditional: Specifying a configuration alias is required when setting a configuration for a resource type extension. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9]{1,256}$
     /// </summary>
     [CliOption("--configuration-alias")]
     public string? ConfigurationAlias { get; set; }
 
     /// <summary>
-    /// The name of the extension. Conditional: You must specify ConfigurationArn , or Type and Type- Name . Constraints: o min: 10 o max: 204 o pattern: [A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MOD- ULE){0,1}
+    /// The name of the extension. Conditional: You must specify ConfigurationArn , or Type and TypeName . Constraints: • min: 10 • max: 204 • pattern: [A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}
     /// </summary>
     [CliOption("--type-name")]
     public string? TypeName { get; set; }
 
     /// <summary>
-    /// The type of extension. Conditional: You must specify ConfigurationArn , or Type and Type- Name . Possible values: o RESOURCE o MODULE o HOOK
+    /// The type of extension. Conditional: You must specify ConfigurationArn , or Type and TypeName . Possible values: • RESOURCE • MODULE • HOOK
     /// </summary>
     [CliOption("--type")]
     public AwsCloudformationSetTypeConfigurationType? Type { get; set; }

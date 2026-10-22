@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsOsisUpdatePipelineOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates an OpenSearch Ingestion pipeline. For more information, see Updating Amazon OpenSearch Ingestion pipelines . See also: AWS API Documentation
     /// </summary>
-    /// <param name="PipelineName">The name of the pipeline to update. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="PipelineName">The name of the pipeline to update. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
     public AwsOsisUpdatePipelineOptions(
         string PipelineName
     )
@@ -56,31 +58,31 @@ public record AwsOsisUpdatePipelineOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the pipeline to update. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// The name of the pipeline to update. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--pipeline-name")]
     public string? PipelineName { get; private init; }
 
     /// <summary>
-    /// The minimum pipeline capacity, in Ingestion Compute Units (ICUs). Constraints: o min: 1
+    /// The minimum pipeline capacity, in Ingestion Compute Units (ICUs). Constraints: • min: 1
     /// </summary>
     [CliOption("--min-units")]
     public int? MinUnits { get; set; }
 
     /// <summary>
-    /// The maximum pipeline capacity, in Ingestion Compute Units (ICUs) Constraints: o min: 1
+    /// The maximum pipeline capacity, in Ingestion Compute Units (ICUs) Constraints: • min: 1
     /// </summary>
     [CliOption("--max-units")]
     public int? MaxUnits { get; set; }
 
     /// <summary>
-    /// The pipeline configuration in YAML format. The command accepts the pipeline configuration as a string or within a .yaml file. If you provide the configuration as a string, each new line must be escaped with \n . Constraints: o min: 1 o max: 100000
+    /// The pipeline configuration in YAML format. The command accepts the pipeline configuration as a string or within a .yaml file. If you provide the configuration as a string, each new line must be escaped with \n . Constraints: • min: 1 • max: 100000
     /// </summary>
     [CliOption("--pipeline-configuration-body")]
     public string? PipelineConfigurationBody { get; set; }
 
     /// <summary>
-    /// Key-value pairs to configure log publishing. IsLoggingEnabled -&gt; (boolean) Whether logs should be published. CloudWatchLogDestination -&gt; (structure) The destination for OpenSearch Ingestion logs sent to Amazon CloudWatch Logs. This parameter is required if IsLoggingEnabled is set to true . LogGroup -&gt; (string) [required] The name of the CloudWatch Logs group to send pipeline logs to. You can specify an existing log group or create a new one. For example, /aws/vendedlogs/OpenSearchService/pipelines . Constraints: o min: 1 o max: 512 o pattern: \/aws\/vendedlogs\/[\.\-_/#A-Za-z0-9]+ Shorthand Syntax: IsLoggingEnabled=boolean,CloudWatchLogDestination={LogGroup=string} JSON Syntax: { "IsLoggingEnabled": true|false, "CloudWatchLogDestination": { "LogGroup": "string" } }
+    /// Key-value pairs to configure log publishing. IsLoggingEnabled -&gt; (boolean) Whether logs should be published. CloudWatchLogDestination -&gt; (structure) The destination for OpenSearch Ingestion logs sent to Amazon CloudWatch Logs. This parameter is required if IsLoggingEnabled is set to true . LogGroup -&gt; (string) [required] The name of the CloudWatch Logs group to send pipeline logs to. You can specify an existing log group or create a new one. For example, /aws/vendedlogs/OpenSearchService/pipelines . Constraints: • min: 1 • max: 512 • pattern: \/aws\/vendedlogs\/[\.\-_/#A-Za-z0-9]+ Shorthand Syntax: IsLoggingEnabled=boolean,CloudWatchLogDestination={LogGroup=string} JSON Syntax: { "IsLoggingEnabled": true|false, "CloudWatchLogDestination": { "LogGroup": "string" } }
     /// </summary>
     [CliOption("--log-publishing-options")]
     public string? LogPublishingOptions { get; set; }
@@ -92,13 +94,13 @@ public record AwsOsisUpdatePipelineOptions : AwsOptions, IValidatableObject
     public string? BufferOptions { get; set; }
 
     /// <summary>
-    /// Key-value pairs to configure encryption for data that is written to a persistent buffer. KmsKeyArn -&gt; (string) [required] The ARN of the KMS key used to encrypt buffer data. By default, data is encrypted using an Amazon Web Services owned key. Constraints: o min: 7 o max: 2048 Shorthand Syntax: KmsKeyArn=string JSON Syntax: { "KmsKeyArn": "string" }
+    /// Key-value pairs to configure encryption for data that is written to a persistent buffer. KmsKeyArn -&gt; (string) [required] The ARN of the KMS key used to encrypt buffer data. By default, data is encrypted using an Amazon Web Services owned key. Constraints: • min: 7 • max: 2048 Shorthand Syntax: KmsKeyArn=string JSON Syntax: { "KmsKeyArn": "string" }
     /// </summary>
     [CliOption("--encryption-at-rest-options")]
     public string? EncryptionAtRestOptions { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role that grants the pipeline permission to access Amazon Web Services resources. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b|aws\-iso\-e|aws\-iso\-f):iam::[0-9]+:role\/.*$
+    /// The Amazon Resource Name (ARN) of the IAM role that grants the pipeline permission to access Amazon Web Services resources. Constraints: • min: 20 • max: 2048 • pattern: ^arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b|aws\-iso\-e|aws\-iso\-f):iam::[0-9]+:role\/.*$
     /// </summary>
     [CliOption("--pipeline-role-arn")]
     public string? PipelineRoleArn { get; set; }

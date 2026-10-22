@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSagemakerDescribeEndpointConfigOptions : AwsOptions, IValidatab
     /// <summary>
     /// Returns the description of an endpoint configuration created using the CreateEndpointConfig API. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EndpointConfigName">The name of the endpoint configuration. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="EndpointConfigName">The name of the endpoint configuration. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
     public AwsSagemakerDescribeEndpointConfigOptions(
         string EndpointConfigName
     )
@@ -56,7 +58,7 @@ public record AwsSagemakerDescribeEndpointConfigOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the endpoint configuration. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the endpoint configuration. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--endpoint-config-name")]
     public string? EndpointConfigName { get; private init; }

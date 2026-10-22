@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides information about a specific identity, including the iden- tity's verification status, sending authorization policies, its DKIM authentication status, and its custom Mail-From settings. See also: AWS API Documentation
+/// Provides information about a specific identity, including the identity's verification status, sending authorization policies, its DKIM authentication status, and its custom Mail-From settings. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSesv2GetEmailIdentityOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides information about a specific identity, including the iden- tity's verification status, sending authorization policies, its DKIM authentication status, and its custom Mail-From settings. See also: AWS API Documentation
+    /// Provides information about a specific identity, including the identity's verification status, sending authorization policies, its DKIM authentication status, and its custom Mail-From settings. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EmailIdentity">The email identity. Constraints: o min: 1</param>
+    /// <param name="EmailIdentity">The email identity. Constraints: • min: 1</param>
     public AwsSesv2GetEmailIdentityOptions(
         string EmailIdentity
     )
@@ -56,7 +58,7 @@ public record AwsSesv2GetEmailIdentityOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The email identity. Constraints: o min: 1
+    /// The email identity. Constraints: • min: 1
     /// </summary>
     [CliOption("--email-identity")]
     public string? EmailIdentity { get; private init; }

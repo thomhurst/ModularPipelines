@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsObservabilityadminTestTelemetryPipelineOptions : AwsOptions, IV
     /// <summary>
     /// Tests a pipeline configuration with sample records to validate data processing before deployment. This operation helps ensure your pipeline configuration works as expected. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Records">The sample records to process through the pipeline configuration for testing purposes. (structure) Represents a test record structure used for pipeline testing op- erations to validate data processing. Data -&gt; (string) The data content of the test record used for pipeline valida- tion. Type -&gt; (string) The type of the test record, indicating the format or cate- gory of the data. Possible values: o STRING o JSON Shorthand Syntax: Data=string,Type=string ... JSON Syntax: [ { "Data": "string", "Type": "STRING"|"JSON" } ... ]</param>
-    /// <param name="Configuration">The pipeline configuration to test with the provided sample records. Body -&gt; (string) [required] The pipeline configuration body that defines the data processing rules and transformations. Constraints: o min: 1 o max: 24000 Shorthand Syntax: Body=string JSON Syntax: { "Body": "string" }</param>
+    /// <param name="Records">The sample records to process through the pipeline configuration for testing purposes. (structure) Represents a test record structure used for pipeline testing operations to validate data processing. Data -&gt; (string) The data content of the test record used for pipeline validation. Type -&gt; (string) The type of the test record, indicating the format or category of the data. Possible values: • STRING • JSON Shorthand Syntax: Data=string,Type=string ... JSON Syntax: [ { "Data": "string", "Type": "STRING"|"JSON" } ... ]</param>
+    /// <param name="Configuration">The pipeline configuration to test with the provided sample records. Body -&gt; (string) [required] The pipeline configuration body that defines the data processing rules and transformations. Constraints: • min: 1 • max: 24000 Shorthand Syntax: Body=string JSON Syntax: { "Body": "string" }</param>
     public AwsObservabilityadminTestTelemetryPipelineOptions(
         IEnumerable<string> Records,
         string Configuration
@@ -72,19 +74,19 @@ public record AwsObservabilityadminTestTelemetryPipelineOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The sample records to process through the pipeline configuration for testing purposes. (structure) Represents a test record structure used for pipeline testing op- erations to validate data processing. Data -&gt; (string) The data content of the test record used for pipeline valida- tion. Type -&gt; (string) The type of the test record, indicating the format or cate- gory of the data. Possible values: o STRING o JSON Shorthand Syntax: Data=string,Type=string ... JSON Syntax: [ { "Data": "string", "Type": "STRING"|"JSON" } ... ]
+    /// The sample records to process through the pipeline configuration for testing purposes. (structure) Represents a test record structure used for pipeline testing operations to validate data processing. Data -&gt; (string) The data content of the test record used for pipeline validation. Type -&gt; (string) The type of the test record, indicating the format or category of the data. Possible values: • STRING • JSON Shorthand Syntax: Data=string,Type=string ... JSON Syntax: [ { "Data": "string", "Type": "STRING"|"JSON" } ... ]
     /// </summary>
     [CliOption("--records", GroupValues = true)]
     public IEnumerable<string>? Records { get; private init; }
 
     /// <summary>
-    /// The pipeline configuration to test with the provided sample records. Body -&gt; (string) [required] The pipeline configuration body that defines the data processing rules and transformations. Constraints: o min: 1 o max: 24000 Shorthand Syntax: Body=string JSON Syntax: { "Body": "string" }
+    /// The pipeline configuration to test with the provided sample records. Body -&gt; (string) [required] The pipeline configuration body that defines the data processing rules and transformations. Constraints: • min: 1 • max: 24000 Shorthand Syntax: Body=string JSON Syntax: { "Body": "string" }
     /// </summary>
     [CliOption("--configuration")]
     public string? Configuration { get; private init; }
 
     /// <summary>
-    /// The type of telemetry signal to test. If not specified, defaults to log processing. Possible values: o LOG o METRIC
+    /// The type of telemetry signal to test. If not specified, defaults to log processing. Possible values: • LOG • METRIC
     /// </summary>
     [CliOption("--signal-type")]
     public AwsObservabilityadminTestTelemetryPipelineSignalType? SignalType { get; set; }

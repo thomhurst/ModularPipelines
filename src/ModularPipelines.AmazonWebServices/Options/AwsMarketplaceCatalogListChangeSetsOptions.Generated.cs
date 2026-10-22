@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the list of change sets owned by the account being used to make the call. You can filter this list by providing any combination of en- tityId , ChangeSetName , and status. If you provide more than one fil- ter, the API operation applies a logical AND between the filters. You can describe a change during the 60-day request history retention period for API calls. See also: AWS API Documentation list-change-sets is a paginated operation. Multiple API calls may be issued in order to retrieve...
+/// Returns the list of change sets owned by the account being used to make the call. You can filter this list by providing any combination of entityId , ChangeSetName , and status. If you provide more than one filter, the API operation applies a logical AND between the filters. You can describe a change during the 60-day request history retention period for API calls. See also: AWS API Documentation list-change-sets is a paginated operation. Multiple API calls may be issued in order to retrieve the...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsMarketplaceCatalogListChangeSetsOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the list of change sets owned by the account being used to make the call. You can filter this list by providing any combination of en- tityId , ChangeSetName , and status. If you provide more than one fil- ter, the API operation applies a logical AND between the filters. You can describe a change during the 60-day request history retention period for API calls. See also: AWS API Documentation list-change-sets is a paginated operation. Multiple API calls may be issued in order to retrieve...
+    /// Returns the list of change sets owned by the account being used to make the call. You can filter this list by providing any combination of entityId , ChangeSetName , and status. If you provide more than one filter, the API operation applies a logical AND between the filters. You can describe a change during the 60-day request history retention period for API calls. See also: AWS API Documentation list-change-sets is a paginated operation. Multiple API calls may be issued in order to retrieve the...
     /// </summary>
-    /// <param name="Catalog">The catalog related to the request. Fixed value: AWSMarketplace Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z]+$</param>
+    /// <param name="Catalog">The catalog related to the request. Fixed value: AWSMarketplace Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z]+$</param>
     public AwsMarketplaceCatalogListChangeSetsOptions(
         string Catalog
     )
@@ -57,28 +59,25 @@ public record AwsMarketplaceCatalogListChangeSetsOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog related to the request. Fixed value: AWSMarketplace Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z]+$
+    /// The catalog related to the request. Fixed value: AWSMarketplace Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z]+$
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// An array of filter objects. Constraints: o min: 1 o max: 8 (structure) A filter object, used to optionally filter results from calls to the ListEntities and ListChangeSets actions. Name -&gt; (string) For ListEntities , the supported value for this is an Enti- tyId . For ListChangeSets , the supported values are as follows: Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z]+$ ValueList -&gt; (list) ListEntities - This is a list of unique EntityId s. ListChangeSets - The supported filter names and associ- ated ValueList s is as follows: o ChangeSetName - The supported ValueList is a list of non-unique ChangeSetName s. These are defined when you call the StartChangeSet action. o Status - The supported ValueList is a list of statuses for all change set requests. o EntityId - The supported ValueList is a list of unique En- tityId s. o BeforeStartTime - The supported ValueList is a list of all change sets that started before the filter value. o AfterStartTime - The supported ValueList is a list of all change sets that started after the filter value. o BeforeEndTime - The supported ValueList is a list of all change sets that ended before the filter value. o AfterEndTime - The supported ValueList is a list of all change sets that ended after the filter value. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 255 o pattern: ^(.)+$ Shorthand Syntax: Name=string,ValueList=string,string ... JSON Syntax: [ { "Name": "string", "ValueList": ["string", ...] } ... ]
+    /// An array of filter objects. Constraints: • min: 1 • max: 8 (structure) A filter object, used to optionally filter results from calls to the ListEntities and ListChangeSets actions. Name -&gt; (string) For ListEntities , the supported value for this is an EntityId . For ListChangeSets , the supported values are as follows: Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z]+$ ValueList -&gt; (list) ListEntities - This is a list of unique EntityId s. ListChangeSets - The supported filter names and associated ValueList s is as follows: • ChangeSetName - The supported ValueList is a list of non-unique ChangeSetName s. These are defined when you call the StartChangeSet action. • Status - The supported ValueList is a list of statuses for all change set requests. • EntityId - The supported ValueList is a list of unique EntityId s. • BeforeStartTime - The supported ValueList is a list of all change sets that started before the filter value. • AfterStartTime - The supported ValueList is a list of all change sets that started after the filter value. • BeforeEndTime - The supported ValueList is a list of all change sets that ended before the filter value. • AfterEndTime - The supported ValueList is a list of all change sets that ended after the filter value. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 255 • pattern: ^(.)+$ Shorthand Syntax: Name=string,ValueList=string,string ... JSON Syntax: [ { "Name": "string", "ValueList": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filter-list", GroupValues = true)]
     public IEnumerable<string>? FilterList { get; set; }
 
     /// <summary>
-    /// An object that contains two attributes, SortBy and SortOrder . SortBy -&gt; (string) For ListEntities , supported attributes include LastModifiedDate (default) and EntityId . In addition to LastModifiedDate and En- tityId , each EntityType might support additional fields. For ListChangeSets , supported attributes include StartTime and EndTime . Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z]+$ SortOrder -&gt; (string) The sorting order. Can be ASCENDING or DESCENDING . The default value is DESCENDING . Possible values: o ASCENDING o DESCENDING Shorthand Syntax: SortBy=string,SortOrder=string JSON Syntax: { "SortBy": "string", "SortOrder": "ASCENDING"|"DESCENDING" }
+    /// An object that contains two attributes, SortBy and SortOrder . SortBy -&gt; (string) For ListEntities , supported attributes include LastModifiedDate (default) and EntityId . In addition to LastModifiedDate and EntityId , each EntityType might support additional fields. For ListChangeSets , supported attributes include StartTime and EndTime . Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z]+$ SortOrder -&gt; (string) The sorting order. Can be ASCENDING or DESCENDING . The default value is DESCENDING . Possible values: • ASCENDING • DESCENDING Shorthand Syntax: SortBy=string,SortOrder=string JSON Syntax: { "SortBy": "string", "SortOrder": "ASCENDING"|"DESCENDING" }
     /// </summary>
     [CliOption("--sort")]
     public string? Sort { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -88,16 +87,19 @@ public record AwsMarketplaceCatalogListChangeSetsOptions : AwsOptions, IValidata
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 20
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 20
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

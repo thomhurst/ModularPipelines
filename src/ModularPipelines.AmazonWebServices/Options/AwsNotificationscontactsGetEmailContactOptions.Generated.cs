@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsNotificationscontactsGetEmailContactOptions : AwsOptions, IVali
     /// <summary>
     /// Returns an email contact. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the email contact to get. Constraints: o pattern: arn:aws:notifications-contacts::[0-9]{12}:emailcon- tact/[a-z0-9]{27}</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the email contact to get. Constraints: • pattern: arn:aws:notifications-contacts::[0-9]{12}:emailcontact/[a-z0-9]{27}</param>
     public AwsNotificationscontactsGetEmailContactOptions(
         string Arn
     )
@@ -56,7 +58,7 @@ public record AwsNotificationscontactsGetEmailContactOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the email contact to get. Constraints: o pattern: arn:aws:notifications-contacts::[0-9]{12}:emailcon- tact/[a-z0-9]{27}
+    /// The Amazon Resource Name (ARN) of the email contact to get. Constraints: • pattern: arn:aws:notifications-contacts::[0-9]{12}:emailcontact/[a-z0-9]{27}
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }

@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sets the attribute-based access control (ABAC) property of the general purpose bucket. You must have s3:PutBucketABAC permission to perform this action. When you enable ABAC, you can use tags for access control on your buckets. Additionally, when ABAC is enabled, you must use the TagResource and UntagResource actions to manage tags on your buckets. You can nolonger use the PutBucketTagging and DeleteBucketTagging ac- tions to tag your bucket. For more information, see Enabling ABAC in general pu...
+/// Sets the attribute-based access control (ABAC) property of the general purpose bucket. You must have s3:PutBucketABAC permission to perform this action. When you enable ABAC, you can use tags for access control on your buckets. Additionally, when ABAC is enabled, you must use the TagResource and UntagResource actions to manage tags on your buckets. You can nolonger use the PutBucketTagging and DeleteBucketTagging actions to tag your bucket. For more information, see Enabling ABAC in general purp...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsS3apiPutBucketAbacOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sets the attribute-based access control (ABAC) property of the general purpose bucket. You must have s3:PutBucketABAC permission to perform this action. When you enable ABAC, you can use tags for access control on your buckets. Additionally, when ABAC is enabled, you must use the TagResource and UntagResource actions to manage tags on your buckets. You can nolonger use the PutBucketTagging and DeleteBucketTagging ac- tions to tag your bucket. For more information, see Enabling ABAC in general pu...
+    /// Sets the attribute-based access control (ABAC) property of the general purpose bucket. You must have s3:PutBucketABAC permission to perform this action. When you enable ABAC, you can use tags for access control on your buckets. Additionally, when ABAC is enabled, you must use the TagResource and UntagResource actions to manage tags on your buckets. You can nolonger use the PutBucketTagging and DeleteBucketTagging actions to tag your bucket. For more information, see Enabling ABAC in general purp...
     /// </summary>
     /// <param name="Bucket">The name of the general purpose bucket.</param>
-    /// <param name="AbacStatus">The ABAC status of the general purpose bucket. When ABAC is enabled for the general purpose bucket, you can use tags to manage access to the general purpose buckets as well as for cost tracking purposes. When ABAC is disabled for the general purpose buckets, you can only use tags for cost tracking purposes. For more information, see Using tags with S3 general purpose buckets . Status -&gt; (string) The ABAC status of the general purpose bucket. Possible values: o Enabled o Disabled Shorthand Syntax: Status=string JSON Syntax: { "Status": "Enabled"|"Disabled" }</param>
+    /// <param name="AbacStatus">The ABAC status of the general purpose bucket. When ABAC is enabled for the general purpose bucket, you can use tags to manage access to the general purpose buckets as well as for cost tracking purposes. When ABAC is disabled for the general purpose buckets, you can only use tags for cost tracking purposes. For more information, see Using tags with S3 general purpose buckets . Status -&gt; (string) The ABAC status of the general purpose bucket. Possible values: • Enabled • Disabled Shorthand Syntax: Status=string JSON Syntax: { "Status": "Enabled"|"Disabled" }</param>
     public AwsS3apiPutBucketAbacOptions(
         string Bucket,
         string AbacStatus
@@ -67,19 +69,19 @@ public record AwsS3apiPutBucketAbacOptions : AwsOptions, IValidatableObject
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// The ABAC status of the general purpose bucket. When ABAC is enabled for the general purpose bucket, you can use tags to manage access to the general purpose buckets as well as for cost tracking purposes. When ABAC is disabled for the general purpose buckets, you can only use tags for cost tracking purposes. For more information, see Using tags with S3 general purpose buckets . Status -&gt; (string) The ABAC status of the general purpose bucket. Possible values: o Enabled o Disabled Shorthand Syntax: Status=string JSON Syntax: { "Status": "Enabled"|"Disabled" }
+    /// The ABAC status of the general purpose bucket. When ABAC is enabled for the general purpose bucket, you can use tags to manage access to the general purpose buckets as well as for cost tracking purposes. When ABAC is disabled for the general purpose buckets, you can only use tags for cost tracking purposes. For more information, see Using tags with S3 general purpose buckets . Status -&gt; (string) The ABAC status of the general purpose bucket. Possible values: • Enabled • Disabled Shorthand Syntax: Status=string JSON Syntax: { "Status": "Enabled"|"Disabled" }
     /// </summary>
     [CliOption("--abac-status")]
     public string? AbacStatus { get; private init; }
 
     /// <summary>
-    /// The MD5 hash of the PutBucketAbac request body. For requests made using the Amazon Web Services Command Line Inter- face (CLI) or Amazon Web Services SDKs, this field is calculated au- tomatically.
+    /// The MD5 hash of the PutBucketAbac request body. For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
     /// </summary>
     [CliOption("--content-md5")]
     public string? ContentMd5 { get; set; }
 
     /// <summary>
-    /// Indicates the algorithm that you want Amazon S3 to use to create the checksum. For more information, see Checking object integrity in the Amazon S3 User Guide . Possible values: o CRC32 o CRC32C o SHA1 o SHA256 o CRC64NVME o SHA512 o MD5 o XXHASH64 o XXHASH3 o XXHASH128
+    /// Indicates the algorithm that you want Amazon S3 to use to create the checksum. For more information, see Checking object integrity in the Amazon S3 User Guide . Possible values: • CRC32 • CRC32C • SHA1 • SHA256 • CRC64NVME • SHA512 • MD5 • XXHASH64 • XXHASH3 • XXHASH128
     /// </summary>
     [CliOption("--checksum-algorithm")]
     public AwsS3apiPutBucketAbacChecksumAlgorithm? ChecksumAlgorithm { get; set; }

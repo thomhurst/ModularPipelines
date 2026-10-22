@@ -24,7 +24,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSesv2ListImportJobsOptions : AwsOptions
 {
     /// <summary>
-    /// The destination of the import job, which can be used to list import jobs that have a certain ImportDestinationType . Possible values: o SUPPRESSION_LIST o CONTACT_LIST
+    /// The destination of the import job, which can be used to list import jobs that have a certain ImportDestinationType . Possible values: • SUPPRESSION_LIST • CONTACT_LIST
     /// </summary>
     [CliOption("--import-destination-type")]
     public AwsSesv2ListImportJobsImportDestinationType? ImportDestinationType { get; set; }

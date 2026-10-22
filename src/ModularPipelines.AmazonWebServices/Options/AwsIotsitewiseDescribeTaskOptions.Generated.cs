@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsIotsitewiseDescribeTaskOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves detailed information about a specific task in a workspace. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceName">The name of the workspace. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="TaskName">The name of the task. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="WorkspaceName">The name of the workspace. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="TaskName">The name of the task. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsIotsitewiseDescribeTaskOptions(
         string WorkspaceName,
         string TaskName
@@ -60,19 +62,19 @@ public record AwsIotsitewiseDescribeTaskOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workspace. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The name of the workspace. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--workspace-name")]
     public string? WorkspaceName { get; private init; }
 
     /// <summary>
-    /// The name of the task. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// The name of the task. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--task-name")]
     public string? TaskName { get; private init; }
 
     /// <summary>
-    /// The version number of the task to retrieve. If not specified, re- turns the latest version. Constraints: o min: 1 o max: 10 o pattern: ^(0|([1-9]{1}\d*))$
+    /// The version number of the task to retrieve. If not specified, returns the latest version. Constraints: • min: 1 • max: 10 • pattern: ^(0|([1-9]{1}\d*))$
     /// </summary>
     [CliOption("--task-version")]
     public string? TaskVersion { get; set; }

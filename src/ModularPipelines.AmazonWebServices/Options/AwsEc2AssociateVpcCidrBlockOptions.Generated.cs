@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -68,7 +70,7 @@ public record AwsEc2AssociateVpcCidrBlockOptions : AwsOptions, IValidatableObjec
     public string? CidrBlock { get; set; }
 
     /// <summary>
-    /// The name of the location from which we advertise the IPV6 CIDR block. Use this parameter to limit the CIDR block to this location. You must set AmazonProvidedIpv6CidrBlock to true to use this parame- ter. You can have one IPv6 CIDR block association per network border group.
+    /// The name of the location from which we advertise the IPV6 CIDR block. Use this parameter to limit the CIDR block to this location. You must set AmazonProvidedIpv6CidrBlock to true to use this parameter. You can have one IPv6 CIDR block association per network border group.
     /// </summary>
     [CliOption("--ipv6-cidr-block-network-border-group")]
     public string? Ipv6CidrBlockNetworkBorderGroup { get; set; }
@@ -80,7 +82,7 @@ public record AwsEc2AssociateVpcCidrBlockOptions : AwsOptions, IValidatableObjec
     public string? Ipv6Pool { get; set; }
 
     /// <summary>
-    /// An IPv6 CIDR block from the IPv6 address pool. You must also specify Ipv6Pool in the request. To let Amazon choose the IPv6 CIDR block for you, omit this parame- ter.
+    /// An IPv6 CIDR block from the IPv6 address pool. You must also specify Ipv6Pool in the request. To let Amazon choose the IPv6 CIDR block for you, omit this parameter.
     /// </summary>
     [CliOption("--ipv6-cidr-block")]
     public string? Ipv6CidrBlock { get; set; }
@@ -110,7 +112,7 @@ public record AwsEc2AssociateVpcCidrBlockOptions : AwsOptions, IValidatableObjec
     public int? Ipv6NetmaskLength { get; set; }
 
     /// <summary>
-    /// vided-ipv6-cidr-block (boolean) Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC. You cannot specify the range of IPv6 addresses or the size of the CIDR block.
+    /// Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC. You cannot specify the range of IPv6 addresses or the size of the CIDR block.
     /// </summary>
     [CliFlag("--amazon-provided-ipv6-cidr-block", NegatedName = "--no-amazon-provided-ipv6-cidr-block")]
     public bool? AmazonProvidedIpv6CidrBlock { get; set; }

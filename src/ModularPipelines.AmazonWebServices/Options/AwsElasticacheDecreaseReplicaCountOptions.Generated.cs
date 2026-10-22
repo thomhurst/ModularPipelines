@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsElasticacheDecreaseReplicaCountOptions : AwsOptions, IValidatab
     /// Dynamically decreases the number of replicas in a Valkey or Redis OSS (cluster mode disabled) replication group or the number of replica nodes in one or more node groups (shards) of a Valkey or Redis OSS (cluster mode enabled) replication group. This operation is performed with no cluster down time. See also: AWS API Documentation
     /// </summary>
     /// <param name="ReplicationGroupId">The id of the replication group from which you want to remove replica nodes.</param>
-    /// <param name="ApplyImmediately">If True , the number of replica nodes is decreased immediately. Ap- plyImmediately=False is not currently supported.</param>
+    /// <param name="ApplyImmediately">If True , the number of replica nodes is decreased immediately. ApplyImmediately=False is not currently supported.</param>
     public AwsElasticacheDecreaseReplicaCountOptions(
         string ReplicationGroupId,
         bool ApplyImmediately
@@ -65,19 +67,19 @@ public record AwsElasticacheDecreaseReplicaCountOptions : AwsOptions, IValidatab
     public string? ReplicationGroupId { get; private init; }
 
     /// <summary>
-    /// If True , the number of replica nodes is decreased immediately. Ap- plyImmediately=False is not currently supported.
+    /// If True , the number of replica nodes is decreased immediately. ApplyImmediately=False is not currently supported.
     /// </summary>
     [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; private init; }
 
     /// <summary>
-    /// The number of read replica nodes you want at the completion of this operation. For Valkey or Redis OSS (cluster mode disabled) replica- tion groups, this is the number of replica nodes in the replication group. For Valkey or Redis OSS (cluster mode enabled) replication groups, this is the number of replica nodes in each of the replica- tion group's node groups. The minimum number of replicas in a shard or replication group is: o Valkey or Redis OSS (cluster mode disabled) o If Multi-AZ is enabled: 1 o If Multi-AZ is not enabled: 0 o Valkey or Redis OSS (cluster mode enabled): 0 (though you will not be able to failover to a replica if your primary node fails)
+    /// The number of read replica nodes you want at the completion of this operation. For Valkey or Redis OSS (cluster mode disabled) replication groups, this is the number of replica nodes in the replication group. For Valkey or Redis OSS (cluster mode enabled) replication groups, this is the number of replica nodes in each of the replication group's node groups. The minimum number of replicas in a shard or replication group is: • Valkey or Redis OSS (cluster mode disabled) • If Multi-AZ is enabled: 1 • If Multi-AZ is not enabled: 0 • Valkey or Redis OSS (cluster mode enabled): 0 (though you will not be able to failover to a replica if your primary node fails)
     /// </summary>
     [CliOption("--new-replica-count")]
     public int? NewReplicaCount { get; set; }
 
     /// <summary>
-    /// A list of ConfigureShard objects that can be used to configure each shard in a Valkey or Redis OSS replication group. The ConfigureShard has three members: NewReplicaCount , NodeGroupId , and Preferre- dAvailabilityZones . (structure) Node group (shard) configuration options when adding or removing replicas. Each node group (shard) configuration has the follow- ing members: NodeGroupId, NewReplicaCount, and PreferredAvail- abilityZones. NodeGroupId -&gt; (string) [required] The 4-digit id for the node group you are configuring. For Valkey or Redis OSS (cluster mode disabled) replication groups, the node group id is always 0001. To find a Valkey or Redis OSS (cluster mode enabled)'s node group's (shard's) id, see Finding a Shard's Id . Constraints: o min: 1 o max: 4 o pattern: \d+ NewReplicaCount -&gt; (integer) [required] The number of replicas you want in this node group at the end of this operation. The maximum value for NewReplicaCount is 5. The minimum value depends upon the type of Valkey or Redis OSS replication group you are working with. The minimum number of replicas in a shard or replication group is: o Valkey or Redis OSS (cluster mode disabled) o If Multi-AZ: 1 o If Multi-AZ: 0 o Valkey or Redis OSS (cluster mode enabled): 0 (though you will not be able to failover to a replica if your primary node fails) PreferredAvailabilityZones -&gt; (list) A list of PreferredAvailabilityZone strings that specify which availability zones the replication group's nodes are to be in. The nummber of PreferredAvailabilityZone values must equal the value of NewReplicaCount plus 1 to account for the primary node. If this member of ReplicaConfiguration is omit- ted, ElastiCache selects the availability zone for each of the replicas. (string) PreferredOutpostArns -&gt; (list) The outpost ARNs in which the cache cluster is created. (string) Shorthand Syntax: NodeGroupId=string,NewReplicaCount=integer,PreferredAvailabilityZones=string,string,PreferredOutpostArns=string,string ... JSON Syntax: [ { "NodeGroupId": "string", "NewReplicaCount": integer, "PreferredAvailabilityZones": ["string", ...], "PreferredOutpostArns": ["string", ...] } ... ]
+    /// A list of ConfigureShard objects that can be used to configure each shard in a Valkey or Redis OSS replication group. The ConfigureShard has three members: NewReplicaCount , NodeGroupId , and PreferredAvailabilityZones . (structure) Node group (shard) configuration options when adding or removing replicas. Each node group (shard) configuration has the following members: NodeGroupId, NewReplicaCount, and PreferredAvailabilityZones. NodeGroupId -&gt; (string) [required] The 4-digit id for the node group you are configuring. For Valkey or Redis OSS (cluster mode disabled) replication groups, the node group id is always 0001. To find a Valkey or Redis OSS (cluster mode enabled)'s node group's (shard's) id, see Finding a Shard's Id . Constraints: • min: 1 • max: 4 • pattern: \d+ NewReplicaCount -&gt; (integer) [required] The number of replicas you want in this node group at the end of this operation. The maximum value for NewReplicaCount is 5. The minimum value depends upon the type of Valkey or Redis OSS replication group you are working with. The minimum number of replicas in a shard or replication group is: • Valkey or Redis OSS (cluster mode disabled) • If Multi-AZ: 1 • If Multi-AZ: 0 • Valkey or Redis OSS (cluster mode enabled): 0 (though you will not be able to failover to a replica if your primary node fails) PreferredAvailabilityZones -&gt; (list) A list of PreferredAvailabilityZone strings that specify which availability zones the replication group's nodes are to be in. The nummber of PreferredAvailabilityZone values must equal the value of NewReplicaCount plus 1 to account for the primary node. If this member of ReplicaConfiguration is omitted, ElastiCache selects the availability zone for each of the replicas. (string) PreferredOutpostArns -&gt; (list) The outpost ARNs in which the cache cluster is created. (string) Shorthand Syntax: NodeGroupId=string,NewReplicaCount=integer,PreferredAvailabilityZones=string,string,PreferredOutpostArns=string,string ... JSON Syntax: [ { "NodeGroupId": "string", "NewReplicaCount": integer, "PreferredAvailabilityZones": ["string", ...], "PreferredOutpostArns": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--replica-configuration", GroupValues = true)]
     public IEnumerable<string>? ReplicaConfiguration { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an existing view's definition and/or description. Only the fields you provide are changed. Managed views cannot be up- dated. See also: AWS API Documentation
+/// Updates an existing view's definition and/or description. Only the fields you provide are changed. Managed views cannot be updated. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsCloudwatchomniUpdateViewOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an existing view's definition and/or description. Only the fields you provide are changed. Managed views cannot be up- dated. See also: AWS API Documentation
+    /// Updates an existing view's definition and/or description. Only the fields you provide are changed. Managed views cannot be updated. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the view to update. Constraints: o min: 6 o max: 256 o pattern: view\.[a-z0-9][a-z0-9_-]{0,250}</param>
+    /// <param name="Name">The name of the view to update. Constraints: • min: 6 • max: 256 • pattern: view\.[a-z0-9][a-z0-9_-]{0,250}</param>
     public AwsCloudwatchomniUpdateViewOptions(
         string Name
     )
@@ -56,19 +58,19 @@ public record AwsCloudwatchomniUpdateViewOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the view to update. Constraints: o min: 6 o max: 256 o pattern: view\.[a-z0-9][a-z0-9_-]{0,250}
+    /// The name of the view to update. Constraints: • min: 6 • max: 256 • pattern: view\.[a-z0-9][a-z0-9_-]{0,250}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The new SQL query that defines the view. Omit to leave unchanged. Constraints: o min: 1 o max: 10000
+    /// The new SQL query that defines the view. Omit to leave unchanged. Constraints: • min: 1 • max: 10000
     /// </summary>
     [CliOption("--definition")]
     public string? Definition { get; set; }
 
     /// <summary>
-    /// The new description of the view. Omit to leave unchanged. Constraints: o min: 0 o max: 1024
+    /// The new description of the view. Omit to leave unchanged. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

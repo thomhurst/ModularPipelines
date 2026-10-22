@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2 Updates Realtime script metadata and content. To update script metadata, specify the script ID and provide updated name and/or version values. To update script content, provide an updated zip file by pointing to either a local file or an Amazon S3 bucket location. You can use either method regardless of how the original script was uploaded. Use the Ver- sion parameter to track updates to the script. If the call is successful, the updated metadat...
+/// This API works with the following fleet types: EC2 Updates Realtime script metadata and content. To update script metadata, specify the script ID and provide updated name and/or version values. To update script content, provide an updated zip file by pointing to either a local file or an Amazon S3 bucket location. You can use either method regardless of how the original script was uploaded. Use the Version parameter to track updates to the script. If the call is successful, the updated metadata ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsGameliftUpdateScriptOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 Updates Realtime script metadata and content. To update script metadata, specify the script ID and provide updated name and/or version values. To update script content, provide an updated zip file by pointing to either a local file or an Amazon S3 bucket location. You can use either method regardless of how the original script was uploaded. Use the Ver- sion parameter to track updates to the script. If the call is successful, the updated metadat...
+    /// This API works with the following fleet types: EC2 Updates Realtime script metadata and content. To update script metadata, specify the script ID and provide updated name and/or version values. To update script content, provide an updated zip file by pointing to either a local file or an Amazon S3 bucket location. You can use either method regardless of how the original script was uploaded. Use the Version parameter to track updates to the script. If the call is successful, the updated metadata ...
     /// </summary>
-    /// <param name="ScriptId">A unique identifier for the Realtime script to update. You can use either the script ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^(script-\S+|arn:.*:script\/script-\S+)$</param>
+    /// <param name="ScriptId">A unique identifier for the Realtime script to update. You can use either the script ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^(script-\S+|arn:.*:script\/script-\S+)$</param>
     public AwsGameliftUpdateScriptOptions(
         string ScriptId
     )
@@ -56,31 +58,31 @@ public record AwsGameliftUpdateScriptOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the Realtime script to update. You can use either the script ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^(script-\S+|arn:.*:script\/script-\S+)$
+    /// A unique identifier for the Realtime script to update. You can use either the script ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^(script-\S+|arn:.*:script\/script-\S+)$
     /// </summary>
     [CliOption("--script-id")]
     public string? ScriptId { get; private init; }
 
     /// <summary>
-    /// A descriptive label that is associated with a script. Script names do not need to be unique. Constraints: o min: 1 o max: 1024
+    /// A descriptive label that is associated with a script. Script names do not need to be unique. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The location of the Amazon S3 bucket where a zipped file containing your Realtime scripts is stored. The storage location must specify the Amazon S3 bucket name, the zip file name (the "key"), and a role ARN that allows Amazon GameLift Servers to access the Amazon S3 storage location. The S3 bucket must be in the same Region where you want to create a new script. By default, Amazon GameLift Servers up- loads the latest version of the zip file; if you have S3 object ver- sioning turned on, you can use the ObjectVersion parameter to spec- ify an earlier version. Bucket -&gt; (string) An Amazon S3 bucket identifier. Thename of the S3 bucket. NOTE: Amazon GameLift Servers doesn't support uploading from Amazon S3 buckets with names that contain a dot (.). Constraints: o min: 1 Key -&gt; (string) The name of the zip file that contains the build files or script files. Constraints: o min: 1 RoleArn -&gt; (string) The Amazon Resource Name (ARN ) for an IAM role that allows Ama- zon GameLift Servers to access the S3 bucket. Constraints: o min: 1 ObjectVersion -&gt; (string) The version of the file, if object versioning is turned on for the bucket. Amazon GameLift Servers uses this information when retrieving files from an S3 bucket that you own. Use this para- meter to specify a specific version of the file. If not set, the latest version of the file is retrieved. Constraints: o min: 1 Shorthand Syntax: Bucket=string,Key=string,RoleArn=string,ObjectVersion=string JSON Syntax: { "Bucket": "string", "Key": "string", "RoleArn": "string", "ObjectVersion": "string" }
+    /// The location of the Amazon S3 bucket where a zipped file containing your Realtime scripts is stored. The storage location must specify the Amazon S3 bucket name, the zip file name (the "key"), and a role ARN that allows Amazon GameLift Servers to access the Amazon S3 storage location. The S3 bucket must be in the same Region where you want to create a new script. By default, Amazon GameLift Servers uploads the latest version of the zip file; if you have S3 object versioning turned on, you can use the ObjectVersion parameter to specify an earlier version. Bucket -&gt; (string) An Amazon S3 bucket identifier. The name of the S3 bucket. NOTE: Amazon GameLift Servers doesn't support uploading from Amazon S3 buckets with names that contain a dot (.). Constraints: • min: 1 Key -&gt; (string) The name of the zip file that contains the build files or script files. Constraints: • min: 1 RoleArn -&gt; (string) The Amazon Resource Name (ARN ) for an IAM role that allows Amazon GameLift Servers to access the S3 bucket. Constraints: • min: 1 ObjectVersion -&gt; (string) The version of the file, if object versioning is turned on for the bucket. Amazon GameLift Servers uses this information when retrieving files from an S3 bucket that you own. Use this parameter to specify a specific version of the file. If not set, the latest version of the file is retrieved. Constraints: • min: 1 Shorthand Syntax: Bucket=string,Key=string,RoleArn=string,ObjectVersion=string JSON Syntax: { "Bucket": "string", "Key": "string", "RoleArn": "string", "ObjectVersion": "string" }
     /// </summary>
     [CliOption("--storage-location")]
     public string? StorageLocation { get; set; }
 
     /// <summary>
-    /// A data object containing your Realtime scripts and dependencies as a zip file. The zip file can have one or multiple files. Maximum size of a zip file is 5 MB. When using the Amazon Web Services CLI tool to create a script, this parameter is set to the zip file name. It must be prepended with the string "fileb://" to indicate that the file data is a binary object. For example: --zip-file fileb://myRealtimeScript.zip . Constraints: o max: 5000000
+    /// A data object containing your Realtime scripts and dependencies as a zip file. The zip file can have one or multiple files. Maximum size of a zip file is 5 MB. When using the Amazon Web Services CLI tool to create a script, this parameter is set to the zip file name. It must be prepended with the string "fileb://" to indicate that the file data is a binary object. For example: --zip-file fileb://myRealtimeScript.zip . Constraints: • max: 5000000
     /// </summary>
     [CliOption("--zip-file")]
     public string? ZipFile { get; set; }
 
     /// <summary>
-    /// Version information that is associated with a build or script. Ver- sion strings do not need to be unique. Constraints: o min: 1 o max: 1024
+    /// Version information that is associated with a build or script. Version strings do not need to be unique. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--script-version")]
     public string? ScriptVersion { get; set; }

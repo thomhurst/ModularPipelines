@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Send the data payload for the event with real-time data for analysis or monitoring. The real-time data events are stored in an Amazon Web Ser- vices service before being processed and stored in data lake. See also: AWS API Documentation
+/// Send the data payload for the event with real-time data for analysis or monitoring. The real-time data events are stored in an Amazon Web Services service before being processed and stored in data lake. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,12 +29,12 @@ public record AwsSupplychainSendDataIntegrationEventOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Send the data payload for the event with real-time data for analysis or monitoring. The real-time data events are stored in an Amazon Web Ser- vices service before being processed and stored in data lake. See also: AWS API Documentation
+    /// Send the data payload for the event with real-time data for analysis or monitoring. The real-time data events are stored in an Amazon Web Services service before being processed and stored in data lake. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The AWS Supply Chain instance identifier. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="EventType">The data event type. o scn.data.dataset - Send data directly to any specified dataset. o scn.data.supplyplan - Send data to supply_plan dataset. o scn.data.shipmentstoporder - Send data to shipment_stop_order dataset. o scn.data.shipmentstop - Send data to shipment_stop dataset. o scn.data.shipment - Send data to shipment dataset. o scn.data.reservation - Send data to reservation dataset. o scn.data.processproduct - Send data to process_product dataset. o scn.data.processoperation - Send data to process_operation dataset. o scn.data.processheader - Send data to process_header dataset. o scn.data.forecast - Send data to forecast dataset. o scn.data.inventorylevel - Send data to inv_level dataset. o scn.data.inboundorder - Send data to inbound_order dataset. o scn.data.inboundorderline - Send data to inbound_order_line dataset. o scn.data.inboundorderlineschedule - Send data to inbound_order_line_schedule dataset. o scn.data.outboundorderline - Send data to outbound_order_line dataset. o scn.data.outboundshipment - Send data to outbound_shipment dataset. Possible values: o scn.data.forecast o scn.data.inventorylevel o scn.data.inboundorder o scn.data.inboundorderline o scn.data.inboundorderlineschedule o scn.data.outboundorderline o scn.data.outboundshipment o scn.data.processheader o scn.data.processoperation o scn.data.processproduct o scn.data.reservation o scn.data.shipment o scn.data.shipmentstop o scn.data.shipmentstoporder o scn.data.supplyplan o scn.data.dataset</param>
-    /// <param name="Data">The data payload of the event, should follow the data schema of the target dataset, or see Data entities supported in AWS Supply Chain . To send single data record, use JsonObject format; to send multiple data records, use JsonArray format. Note that for AWS Supply Chain dataset under asc namespace, it has a connection_id internal field that is not allowed to be provided by client directly, they will be auto populated. Constraints: o min: 1 o max: 1048576</param>
-    /// <param name="EventGroupId">Event identifier (for example, orderId for InboundOrder) used for data sharding or partitioning. Noted under one eventGroupId of same eventType and instanceId, events are processed sequentially in the order they are received by the server. Constraints: o min: 1 o max: 255</param>
+    /// <param name="InstanceId">The AWS Supply Chain instance identifier. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="EventType">The data event type. • scn.data.dataset - Send data directly to any specified dataset. • scn.data.supplyplan - Send data to supply_plan dataset. • scn.data.shipmentstoporder - Send data to shipment_stop_order dataset. • scn.data.shipmentstop - Send data to shipment_stop dataset. • scn.data.shipment - Send data to shipment dataset. • scn.data.reservation - Send data to reservation dataset. • scn.data.processproduct - Send data to process_product dataset. • scn.data.processoperation - Send data to process_operation dataset. • scn.data.processheader - Send data to process_header dataset. • scn.data.forecast - Send data to forecast dataset. • scn.data.inventorylevel - Send data to inv_level dataset. • scn.data.inboundorder - Send data to inbound_order dataset. • scn.data.inboundorderline - Send data to inbound_order_line dataset. • scn.data.inboundorderlineschedule - Send data to inbound_order_line_schedule dataset. • scn.data.outboundorderline - Send data to outbound_order_line dataset. • scn.data.outboundshipment - Send data to outbound_shipment dataset. Possible values: • scn.data.forecast • scn.data.inventorylevel • scn.data.inboundorder • scn.data.inboundorderline • scn.data.inboundorderlineschedule • scn.data.outboundorderline • scn.data.outboundshipment • scn.data.processheader • scn.data.processoperation • scn.data.processproduct • scn.data.reservation • scn.data.shipment • scn.data.shipmentstop • scn.data.shipmentstoporder • scn.data.supplyplan • scn.data.dataset</param>
+    /// <param name="Data">The data payload of the event, should follow the data schema of the target dataset, or see Data entities supported in AWS Supply Chain . To send single data record, use JsonObject format; to send multiple data records, use JsonArray format. Note that for AWS Supply Chain dataset under asc namespace, it has a connection_id internal field that is not allowed to be provided by client directly, they will be auto populated. Constraints: • min: 1 • max: 1048576</param>
+    /// <param name="EventGroupId">Event identifier (for example, orderId for InboundOrder) used for data sharding or partitioning. Noted under one eventGroupId of same eventType and instanceId, events are processed sequentially in the order they are received by the server. Constraints: • min: 1 • max: 255</param>
     public AwsSupplychainSendDataIntegrationEventOptions(
         string InstanceId,
         AwsSupplychainSendDataIntegrationEventEventType EventType,
@@ -69,25 +71,25 @@ public record AwsSupplychainSendDataIntegrationEventOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The AWS Supply Chain instance identifier. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The AWS Supply Chain instance identifier. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The data event type. o scn.data.dataset - Send data directly to any specified dataset. o scn.data.supplyplan - Send data to supply_plan dataset. o scn.data.shipmentstoporder - Send data to shipment_stop_order dataset. o scn.data.shipmentstop - Send data to shipment_stop dataset. o scn.data.shipment - Send data to shipment dataset. o scn.data.reservation - Send data to reservation dataset. o scn.data.processproduct - Send data to process_product dataset. o scn.data.processoperation - Send data to process_operation dataset. o scn.data.processheader - Send data to process_header dataset. o scn.data.forecast - Send data to forecast dataset. o scn.data.inventorylevel - Send data to inv_level dataset. o scn.data.inboundorder - Send data to inbound_order dataset. o scn.data.inboundorderline - Send data to inbound_order_line dataset. o scn.data.inboundorderlineschedule - Send data to inbound_order_line_schedule dataset. o scn.data.outboundorderline - Send data to outbound_order_line dataset. o scn.data.outboundshipment - Send data to outbound_shipment dataset. Possible values: o scn.data.forecast o scn.data.inventorylevel o scn.data.inboundorder o scn.data.inboundorderline o scn.data.inboundorderlineschedule o scn.data.outboundorderline o scn.data.outboundshipment o scn.data.processheader o scn.data.processoperation o scn.data.processproduct o scn.data.reservation o scn.data.shipment o scn.data.shipmentstop o scn.data.shipmentstoporder o scn.data.supplyplan o scn.data.dataset
+    /// The data event type. • scn.data.dataset - Send data directly to any specified dataset. • scn.data.supplyplan - Send data to supply_plan dataset. • scn.data.shipmentstoporder - Send data to shipment_stop_order dataset. • scn.data.shipmentstop - Send data to shipment_stop dataset. • scn.data.shipment - Send data to shipment dataset. • scn.data.reservation - Send data to reservation dataset. • scn.data.processproduct - Send data to process_product dataset. • scn.data.processoperation - Send data to process_operation dataset. • scn.data.processheader - Send data to process_header dataset. • scn.data.forecast - Send data to forecast dataset. • scn.data.inventorylevel - Send data to inv_level dataset. • scn.data.inboundorder - Send data to inbound_order dataset. • scn.data.inboundorderline - Send data to inbound_order_line dataset. • scn.data.inboundorderlineschedule - Send data to inbound_order_line_schedule dataset. • scn.data.outboundorderline - Send data to outbound_order_line dataset. • scn.data.outboundshipment - Send data to outbound_shipment dataset. Possible values: • scn.data.forecast • scn.data.inventorylevel • scn.data.inboundorder • scn.data.inboundorderline • scn.data.inboundorderlineschedule • scn.data.outboundorderline • scn.data.outboundshipment • scn.data.processheader • scn.data.processoperation • scn.data.processproduct • scn.data.reservation • scn.data.shipment • scn.data.shipmentstop • scn.data.shipmentstoporder • scn.data.supplyplan • scn.data.dataset
     /// </summary>
     [CliOption("--event-type")]
     public AwsSupplychainSendDataIntegrationEventEventType? EventType { get; private init; }
 
     /// <summary>
-    /// The data payload of the event, should follow the data schema of the target dataset, or see Data entities supported in AWS Supply Chain . To send single data record, use JsonObject format; to send multiple data records, use JsonArray format. Note that for AWS Supply Chain dataset under asc namespace, it has a connection_id internal field that is not allowed to be provided by client directly, they will be auto populated. Constraints: o min: 1 o max: 1048576
+    /// The data payload of the event, should follow the data schema of the target dataset, or see Data entities supported in AWS Supply Chain . To send single data record, use JsonObject format; to send multiple data records, use JsonArray format. Note that for AWS Supply Chain dataset under asc namespace, it has a connection_id internal field that is not allowed to be provided by client directly, they will be auto populated. Constraints: • min: 1 • max: 1048576
     /// </summary>
     [CliOption("--data")]
     public string? Data { get; private init; }
 
     /// <summary>
-    /// Event identifier (for example, orderId for InboundOrder) used for data sharding or partitioning. Noted under one eventGroupId of same eventType and instanceId, events are processed sequentially in the order they are received by the server. Constraints: o min: 1 o max: 255
+    /// Event identifier (for example, orderId for InboundOrder) used for data sharding or partitioning. Noted under one eventGroupId of same eventType and instanceId, events are processed sequentially in the order they are received by the server. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--event-group-id")]
     public string? EventGroupId { get; private init; }
@@ -99,14 +101,14 @@ public record AwsSupplychainSendDataIntegrationEventOptions : AwsOptions, IValid
     public string? EventTimestamp { get; set; }
 
     /// <summary>
-    /// The idempotent client token. The token is active for 8 hours, and within its lifetime, it ensures the request completes only once upon retry with same client token. If omitted, the AWS SDK generates a unique value so that AWS SDK can safely retry the request upon net- work errors. Constraints: o min: 33 o max: 126
+    /// The idempotent client token. The token is active for 8 hours, and within its lifetime, it ensures the request completes only once upon retry with same client token. If omitted, the AWS SDK generates a unique value so that AWS SDK can safely retry the request upon network errors. Constraints: • min: 33 • max: 126
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The target dataset configuration for scn.data.dataset event type. datasetIdentifier -&gt; (string) [required] The datalake dataset ARN identifier. Constraints: o min: 20 o max: 1011 o pattern: arn:aws:scn:([a-z0-9-]+):([0-9]+):in- stance/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})/name- spaces/[^/]+/datasets/[^/]+ operationType -&gt; (string) [required] The target dataset load operation type. Possible values: o APPEND o UPSERT o DELETE Shorthand Syntax: datasetIdentifier=string,operationType=string JSON Syntax: { "datasetIdentifier": "string", "operationType": "APPEND"|"UPSERT"|"DELETE" }
+    /// The target dataset configuration for scn.data.dataset event type. datasetIdentifier -&gt; (string) [required] The datalake dataset ARN identifier. Constraints: • min: 20 • max: 1011 • pattern: arn:aws:scn:([a-z0-9-]+):([0-9]+):instance/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})/namespaces/[^/]+/datasets/[^/]+ operationType -&gt; (string) [required] The target dataset load operation type. Possible values: • APPEND • UPSERT • DELETE Shorthand Syntax: datasetIdentifier=string,operationType=string JSON Syntax: { "datasetIdentifier": "string", "operationType": "APPEND"|"UPSERT"|"DELETE" }
     /// </summary>
     [CliOption("--dataset-target")]
     public string? DataSetTarget { get; set; }

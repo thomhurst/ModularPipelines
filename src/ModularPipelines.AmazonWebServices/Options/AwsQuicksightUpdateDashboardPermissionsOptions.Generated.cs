@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsQuicksightUpdateDashboardPermissionsOptions : AwsOptions, IVali
     /// <summary>
     /// Updates read and write permissions on a dashboard. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the dash- board whose permissions you're updating. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="DashboardId">The ID for the dashboard. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the dashboard whose permissions you're updating. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="DashboardId">The ID for the dashboard. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+</param>
     public AwsQuicksightUpdateDashboardPermissionsOptions(
         string AwsAccountId,
         string DashboardId
@@ -60,37 +62,37 @@ public record AwsQuicksightUpdateDashboardPermissionsOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the dash- board whose permissions you're updating. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the dashboard whose permissions you're updating. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID for the dashboard. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// The ID for the dashboard. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--dashboard-id")]
     public string? DashboardId { get; private init; }
 
     /// <summary>
-    /// The permissions that you want to grant on this resource. Constraints: o max: 100 (structure) Permission for the resource. Principal -&gt; (string) [required] The Amazon Resource Name (ARN) of the principal. This can be one of the following: o The ARN of an Quick Sight user or group associated with a data source or dataset. (This is common.) o The ARN of an Quick Sight user, group, or namespace associ- ated with an analysis, dashboard, template, or theme. Name- space sharing is not supported for action connectors. (This is common.) o The ARN of an Amazon Web Services account root: This is an IAM ARN rather than a Quick Sight ARN. Use this option only to share resources (templates) across Amazon Web Services accounts. Account root sharing is not supported for action connectors. (This is less common.) Constraints: o min: 1 o max: 256 Actions -&gt; (list) [required] The IAM action to grant or revoke permissions on. Constraints: o min: 1 o max: 20 (string) Shorthand Syntax: Principal=string,Actions=string,string ... JSON Syntax: [ { "Principal": "string", "Actions": ["string", ...] } ... ]
+    /// The permissions that you want to grant on this resource. Constraints: • max: 100 (structure) Permission for the resource. Principal -&gt; (string) [required] The Amazon Resource Name (ARN) of the principal. This can be one of the following: • The ARN of an Quick Sight user or group associated with a data source or dataset. (This is common.) • The ARN of an Quick Sight user, group, or namespace associated with an analysis, dashboard, template, or theme. Namespace sharing is not supported for action connectors. (This is common.) • The ARN of an Amazon Web Services account root: This is an IAM ARN rather than a Quick Sight ARN. Use this option only to share resources (templates) across Amazon Web Services accounts. Account root sharing is not supported for action connectors. (This is less common.) Constraints: • min: 1 • max: 256 Actions -&gt; (list) [required] The IAM action to grant or revoke permissions on. Constraints: • min: 1 • max: 20 (string) Shorthand Syntax: Principal=string,Actions=string,string ... JSON Syntax: [ { "Principal": "string", "Actions": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--grant-permissions", GroupValues = true)]
     public IEnumerable<string>? GrantPermissions { get; set; }
 
     /// <summary>
-    /// The permissions that you want to revoke from this resource. Constraints: o max: 100 (structure) Permission for the resource. Principal -&gt; (string) [required] The Amazon Resource Name (ARN) of the principal. This can be one of the following: o The ARN of an Quick Sight user or group associated with a data source or dataset. (This is common.) o The ARN of an Quick Sight user, group, or namespace associ- ated with an analysis, dashboard, template, or theme. Name- space sharing is not supported for action connectors. (This is common.) o The ARN of an Amazon Web Services account root: This is an IAM ARN rather than a Quick Sight ARN. Use this option only to share resources (templates) across Amazon Web Services accounts. Account root sharing is not supported for action connectors. (This is less common.) Constraints: o min: 1 o max: 256 Actions -&gt; (list) [required] The IAM action to grant or revoke permissions on. Constraints: o min: 1 o max: 20 (string) Shorthand Syntax: Principal=string,Actions=string,string ... JSON Syntax: [ { "Principal": "string", "Actions": ["string", ...] } ... ]
+    /// The permissions that you want to revoke from this resource. Constraints: • max: 100 (structure) Permission for the resource. Principal -&gt; (string) [required] The Amazon Resource Name (ARN) of the principal. This can be one of the following: • The ARN of an Quick Sight user or group associated with a data source or dataset. (This is common.) • The ARN of an Quick Sight user, group, or namespace associated with an analysis, dashboard, template, or theme. Namespace sharing is not supported for action connectors. (This is common.) • The ARN of an Amazon Web Services account root: This is an IAM ARN rather than a Quick Sight ARN. Use this option only to share resources (templates) across Amazon Web Services accounts. Account root sharing is not supported for action connectors. (This is less common.) Constraints: • min: 1 • max: 256 Actions -&gt; (list) [required] The IAM action to grant or revoke permissions on. Constraints: • min: 1 • max: 20 (string) Shorthand Syntax: Principal=string,Actions=string,string ... JSON Syntax: [ { "Principal": "string", "Actions": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--revoke-permissions", GroupValues = true)]
     public IEnumerable<string>? RevokePermissions { get; set; }
 
     /// <summary>
-    /// Grants link permissions to all users in a defined namespace. Constraints: o max: 100 (structure) Permission for the resource. Principal -&gt; (string) [required] The Amazon Resource Name (ARN) of the principal. This can be one of the following: o The ARN of an Quick Sight user or group associated with a data source or dataset. (This is common.) o The ARN of an Quick Sight user, group, or namespace associ- ated with an analysis, dashboard, template, or theme. Name- space sharing is not supported for action connectors. (This is common.) o The ARN of an Amazon Web Services account root: This is an IAM ARN rather than a Quick Sight ARN. Use this option only to share resources (templates) across Amazon Web Services accounts. Account root sharing is not supported for action connectors. (This is less common.) Constraints: o min: 1 o max: 256 Actions -&gt; (list) [required] The IAM action to grant or revoke permissions on. Constraints: o min: 1 o max: 20 (string) Shorthand Syntax: Principal=string,Actions=string,string ... JSON Syntax: [ { "Principal": "string", "Actions": ["string", ...] } ... ]
+    /// Grants link permissions to all users in a defined namespace. Constraints: • max: 100 (structure) Permission for the resource. Principal -&gt; (string) [required] The Amazon Resource Name (ARN) of the principal. This can be one of the following: • The ARN of an Quick Sight user or group associated with a data source or dataset. (This is common.) • The ARN of an Quick Sight user, group, or namespace associated with an analysis, dashboard, template, or theme. Namespace sharing is not supported for action connectors. (This is common.) • The ARN of an Amazon Web Services account root: This is an IAM ARN rather than a Quick Sight ARN. Use this option only to share resources (templates) across Amazon Web Services accounts. Account root sharing is not supported for action connectors. (This is less common.) Constraints: • min: 1 • max: 256 Actions -&gt; (list) [required] The IAM action to grant or revoke permissions on. Constraints: • min: 1 • max: 20 (string) Shorthand Syntax: Principal=string,Actions=string,string ... JSON Syntax: [ { "Principal": "string", "Actions": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--grant-link-permissions", GroupValues = true)]
     public IEnumerable<string>? GrantLinkPermissions { get; set; }
 
     /// <summary>
-    /// Revokes link permissions from all users in a defined namespace. Constraints: o max: 100 (structure) Permission for the resource. Principal -&gt; (string) [required] The Amazon Resource Name (ARN) of the principal. This can be one of the following: o The ARN of an Quick Sight user or group associated with a data source or dataset. (This is common.) o The ARN of an Quick Sight user, group, or namespace associ- ated with an analysis, dashboard, template, or theme. Name- space sharing is not supported for action connectors. (This is common.) o The ARN of an Amazon Web Services account root: This is an IAM ARN rather than a Quick Sight ARN. Use this option only to share resources (templates) across Amazon Web Services accounts. Account root sharing is not supported for action connectors. (This is less common.) Constraints: o min: 1 o max: 256 Actions -&gt; (list) [required] The IAM action to grant or revoke permissions on. Constraints: o min: 1 o max: 20 (string) Shorthand Syntax: Principal=string,Actions=string,string ... JSON Syntax: [ { "Principal": "string", "Actions": ["string", ...] } ... ]
+    /// Revokes link permissions from all users in a defined namespace. Constraints: • max: 100 (structure) Permission for the resource. Principal -&gt; (string) [required] The Amazon Resource Name (ARN) of the principal. This can be one of the following: • The ARN of an Quick Sight user or group associated with a data source or dataset. (This is common.) • The ARN of an Quick Sight user, group, or namespace associated with an analysis, dashboard, template, or theme. Namespace sharing is not supported for action connectors. (This is common.) • The ARN of an Amazon Web Services account root: This is an IAM ARN rather than a Quick Sight ARN. Use this option only to share resources (templates) across Amazon Web Services accounts. Account root sharing is not supported for action connectors. (This is less common.) Constraints: • min: 1 • max: 256 Actions -&gt; (list) [required] The IAM action to grant or revoke permissions on. Constraints: • min: 1 • max: 20 (string) Shorthand Syntax: Principal=string,Actions=string,string ... JSON Syntax: [ { "Principal": "string", "Actions": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--revoke-link-permissions", GroupValues = true)]
     public IEnumerable<string>? RevokeLinkPermissions { get; set; }

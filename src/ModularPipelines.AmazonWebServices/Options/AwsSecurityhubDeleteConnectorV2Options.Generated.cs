@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSecurityhubDeleteConnectorV2Options : AwsOptions, IValidatableO
     /// <summary>
     /// Grants permission to delete a connectorV2. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectorId">The UUID of the connectorV2 to identify connectorV2 resource. Constraints: o pattern: .*\S.*</param>
+    /// <param name="ConnectorId">The UUID of the connectorV2 to identify connectorV2 resource. Constraints: • pattern: .*\S.*</param>
     public AwsSecurityhubDeleteConnectorV2Options(
         string ConnectorId
     )
@@ -56,7 +58,7 @@ public record AwsSecurityhubDeleteConnectorV2Options : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The UUID of the connectorV2 to identify connectorV2 resource. Constraints: o pattern: .*\S.*
+    /// The UUID of the connectorV2 to identify connectorV2 resource. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--connector-id")]
     public string? ConnectorId { get; private init; }

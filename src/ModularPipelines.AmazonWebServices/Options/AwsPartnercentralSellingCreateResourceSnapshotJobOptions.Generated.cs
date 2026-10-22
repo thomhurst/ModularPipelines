@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Use this action to create a job to generate a snapshot of the specified resource within an engagement. It initiates an asynchronous process to create a resource snapshot. The job creates a new snapshot only if the resource state has changed, adhering to the same access control and im- mutability rules as direct snapshot creation. See also: AWS API Documentation
+/// Use this action to create a job to generate a snapshot of the specified resource within an engagement. It initiates an asynchronous process to create a resource snapshot. The job creates a new snapshot only if the resource state has changed, adhering to the same access control and immutability rules as direct snapshot creation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,13 +28,13 @@ public record AwsPartnercentralSellingCreateResourceSnapshotJobOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Use this action to create a job to generate a snapshot of the specified resource within an engagement. It initiates an asynchronous process to create a resource snapshot. The job creates a new snapshot only if the resource state has changed, adhering to the same access control and im- mutability rules as direct snapshot creation. See also: AWS API Documentation
+    /// Use this action to create a job to generate a snapshot of the specified resource within an engagement. It initiates an asynchronous process to create a resource snapshot. The job creates a new snapshot only if the resource state has changed, adhering to the same access control and immutability rules as direct snapshot creation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">Specifies the catalog in which to create the snapshot job. Valid values are AWS and Sandbox . Constraints: o pattern: [a-zA-Z]+</param>
-    /// <param name="EngagementIdentifier">Specifies the identifier of the engagement associated with the re- source to be snapshotted. Constraints: o pattern: eng-[0-9a-z]{14}</param>
-    /// <param name="ResourceType">The type of resource for which the snapshot job is being created. Must be one of the supported resource types i.e. Opportunity Possible values: o Opportunity</param>
-    /// <param name="ResourceIdentifier">Specifies the identifier of the specific resource to be snapshotted. The format depends on the ResourceType . Constraints: o pattern: O[0-9]{1,19}</param>
-    /// <param name="ResourceSnapshotTemplateIdentifier">Specifies the name of the template that defines the schema for the snapshot. Constraints: o pattern: [a-zA-Z0-9]{3,80}</param>
+    /// <param name="Catalog">Specifies the catalog in which to create the snapshot job. Valid values are AWS and Sandbox . Constraints: • pattern: [a-zA-Z]+</param>
+    /// <param name="EngagementIdentifier">Specifies the identifier of the engagement associated with the resource to be snapshotted. Constraints: • pattern: eng-[0-9a-z]{14}</param>
+    /// <param name="ResourceType">The type of resource for which the snapshot job is being created. Must be one of the supported resource types i.e. Opportunity Possible values: • Opportunity</param>
+    /// <param name="ResourceIdentifier">Specifies the identifier of the specific resource to be snapshotted. The format depends on the ResourceType . Constraints: • pattern: O[0-9]{1,19}</param>
+    /// <param name="ResourceSnapshotTemplateIdentifier">Specifies the name of the template that defines the schema for the snapshot. Constraints: • pattern: [a-zA-Z0-9]{3,80}</param>
     public AwsPartnercentralSellingCreateResourceSnapshotJobOptions(
         string Catalog,
         string EngagementIdentifier,
@@ -73,44 +75,44 @@ public record AwsPartnercentralSellingCreateResourceSnapshotJobOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the catalog in which to create the snapshot job. Valid values are AWS and Sandbox . Constraints: o pattern: [a-zA-Z]+
+    /// Specifies the catalog in which to create the snapshot job. Valid values are AWS and Sandbox . Constraints: • pattern: [a-zA-Z]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// Specifies the identifier of the engagement associated with the re- source to be snapshotted. Constraints: o pattern: eng-[0-9a-z]{14}
+    /// Specifies the identifier of the engagement associated with the resource to be snapshotted. Constraints: • pattern: eng-[0-9a-z]{14}
     /// </summary>
     [CliOption("--engagement-identifier")]
     public string? EngagementIdentifier { get; private init; }
 
     /// <summary>
-    /// The type of resource for which the snapshot job is being created. Must be one of the supported resource types i.e. Opportunity Possible values: o Opportunity
+    /// The type of resource for which the snapshot job is being created. Must be one of the supported resource types i.e. Opportunity Possible values: • Opportunity
     /// </summary>
     [CliOption("--resource-type")]
     public string? ResourceType { get; private init; }
 
     /// <summary>
-    /// Specifies the identifier of the specific resource to be snapshotted. The format depends on the ResourceType . Constraints: o pattern: O[0-9]{1,19}
+    /// Specifies the identifier of the specific resource to be snapshotted. The format depends on the ResourceType . Constraints: • pattern: O[0-9]{1,19}
     /// </summary>
     [CliOption("--resource-identifier")]
     public string? ResourceIdentifier { get; private init; }
 
     /// <summary>
-    /// Specifies the name of the template that defines the schema for the snapshot. Constraints: o pattern: [a-zA-Z0-9]{3,80}
+    /// Specifies the name of the template that defines the schema for the snapshot. Constraints: • pattern: [a-zA-Z0-9]{3,80}
     /// </summary>
     [CliOption("--resource-snapshot-template-identifier")]
     public string? ResourceSnapshotTemplateIdentifier { get; private init; }
 
     /// <summary>
-    /// A client-generated UUID used for idempotency check. The token helps prevent duplicate job creations. Constraints: o pattern: .{1,255}
+    /// A client-generated UUID used for idempotency check. The token helps prevent duplicate job creations. Constraints: • pattern: .{1,255}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A map of the key-value pairs of the tag or tags to assign. Constraints: o min: 1 o max: 200 (structure) The key-value pair assigned to a specified resource. Key -&gt; (string) [required] The key in the tag. Constraints: o pattern: (?=.{1,128}$)([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value in the tag. Constraints: o pattern: (?=.{0,256}$)([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A map of the key-value pairs of the tag or tags to assign. Constraints: • min: 1 • max: 200 (structure) The key-value pair assigned to a specified resource. Key -&gt; (string) [required] The key in the tag. Constraints: • pattern: (?=.{1,128}$)([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value in the tag. Constraints: • pattern: (?=.{0,256}$)([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

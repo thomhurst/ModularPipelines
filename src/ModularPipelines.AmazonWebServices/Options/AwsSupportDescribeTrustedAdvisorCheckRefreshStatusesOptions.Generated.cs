@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the refresh status of the Trusted Advisor checks that have the specified check IDs. You can get the check IDs by calling the Descri- beTrustedAdvisorChecks operation. Some checks are refreshed automatically, and you can't return their re- fresh statuses by using the DescribeTrustedAdvisorCheckRefreshStatuses operation. If you call this operation for these checks, you might see an InvalidParameterValue error. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Servi...
+/// Returns the refresh status of the Trusted Advisor checks that have the specified check IDs. You can get the check IDs by calling the DescribeTrustedAdvisorChecks operation. Some checks are refreshed automatically, and you can't return their refresh statuses by using the DescribeTrustedAdvisorCheckRefreshStatuses operation. If you call this operation for these checks, you might see an InvalidParameterValue error. NOTE: • You must have an Amazon Web Services Business Support+, Amazon Web Services ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSupportDescribeTrustedAdvisorCheckRefreshStatusesOptions : AwsO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the refresh status of the Trusted Advisor checks that have the specified check IDs. You can get the check IDs by calling the Descri- beTrustedAdvisorChecks operation. Some checks are refreshed automatically, and you can't return their re- fresh statuses by using the DescribeTrustedAdvisorCheckRefreshStatuses operation. If you call this operation for these checks, you might see an InvalidParameterValue error. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Servi...
+    /// Returns the refresh status of the Trusted Advisor checks that have the specified check IDs. You can get the check IDs by calling the DescribeTrustedAdvisorChecks operation. Some checks are refreshed automatically, and you can't return their refresh statuses by using the DescribeTrustedAdvisorCheckRefreshStatuses operation. If you call this operation for these checks, you might see an InvalidParameterValue error. NOTE: • You must have an Amazon Web Services Business Support+, Amazon Web Services ...
     /// </summary>
-    /// <param name="CheckIds">The IDs of the Trusted Advisor checks to get the status. NOTE: If you specify the check ID of a check that is automatically re- freshed, you might see an InvalidParameterValue error. (string) Syntax: "string" "string" ...</param>
+    /// <param name="CheckIds">The IDs of the Trusted Advisor checks to get the status. NOTE: If you specify the check ID of a check that is automatically refreshed, you might see an InvalidParameterValue error. (string) Syntax: "string" "string" ...</param>
     public AwsSupportDescribeTrustedAdvisorCheckRefreshStatusesOptions(
         IEnumerable<string> CheckIds
     )
@@ -67,7 +69,7 @@ public record AwsSupportDescribeTrustedAdvisorCheckRefreshStatusesOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The IDs of the Trusted Advisor checks to get the status. NOTE: If you specify the check ID of a check that is automatically re- freshed, you might see an InvalidParameterValue error. (string) Syntax: "string" "string" ...
+    /// The IDs of the Trusted Advisor checks to get the status. NOTE: If you specify the check ID of a check that is automatically refreshed, you might see an InvalidParameterValue error. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--check-ids", GroupValues = true)]
     public IEnumerable<string>? CheckIds { get; private init; }

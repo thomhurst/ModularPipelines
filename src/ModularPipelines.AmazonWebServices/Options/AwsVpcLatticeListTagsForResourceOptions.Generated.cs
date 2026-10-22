@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsVpcLatticeListTagsForResourceOptions : AwsOptions, IValidatable
     /// <summary>
     /// Lists the tags for the specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource. Constraints: o min: 0 o max: 1224 o pattern: arn:[a-z0-9][-.a-z0-9]{0,62}:vpc-lat- tice:([a-z0-9][-.a-z0-9]{0,62})?:\d{12}?:[^/].{0,1023}</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource. Constraints: • min: 0 • max: 1224 • pattern: arn:[a-z0-9][-.a-z0-9]{0,62}:vpc-lattice:([a-z0-9][-.a-z0-9]{0,62})?:\d{12}?:[^/].{0,1023}</param>
     public AwsVpcLatticeListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsVpcLatticeListTagsForResourceOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource. Constraints: o min: 0 o max: 1224 o pattern: arn:[a-z0-9][-.a-z0-9]{0,62}:vpc-lat- tice:([a-z0-9][-.a-z0-9]{0,62})?:\d{12}?:[^/].{0,1023}
+    /// The Amazon Resource Name (ARN) of the resource. Constraints: • min: 0 • max: 1224 • pattern: arn:[a-z0-9][-.a-z0-9]{0,62}:vpc-lattice:([a-z0-9][-.a-z0-9]{0,62})?:\d{12}?:[^/].{0,1023}
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

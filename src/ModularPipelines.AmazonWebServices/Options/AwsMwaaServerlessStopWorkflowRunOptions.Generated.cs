@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Stops a running workflow execution. This operation terminates all run- ning tasks and prevents new tasks from starting. Amazon Managed Work- flows for Apache Airflow Serverless gracefully shuts down the workflow execution by stopping task scheduling and terminating active ECS worker containers. The operation transitions the workflow run to a STOPPING state and then to STOPPED once all cleanup is complete. In-flight tasks may complete or be terminated depending on their current execution state. S...
+/// Stops a running workflow execution. This operation terminates all running tasks and prevents new tasks from starting. Amazon Managed Workflows for Apache Airflow Serverless gracefully shuts down the workflow execution by stopping task scheduling and terminating active ECS worker containers. The operation transitions the workflow run to a STOPPING state and then to STOPPED once all cleanup is complete. In-flight tasks may complete or be terminated depending on their current execution state. See a...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsMwaaServerlessStopWorkflowRunOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Stops a running workflow execution. This operation terminates all run- ning tasks and prevents new tasks from starting. Amazon Managed Work- flows for Apache Airflow Serverless gracefully shuts down the workflow execution by stopping task scheduling and terminating active ECS worker containers. The operation transitions the workflow run to a STOPPING state and then to STOPPED once all cleanup is complete. In-flight tasks may complete or be terminated depending on their current execution state. S...
+    /// Stops a running workflow execution. This operation terminates all running tasks and prevents new tasks from starting. Amazon Managed Workflows for Apache Airflow Serverless gracefully shuts down the workflow execution by stopping task scheduling and terminating active ECS worker containers. The operation transitions the workflow run to a STOPPING state and then to STOPPED once all cleanup is complete. In-flight tasks may complete or be terminated depending on their current execution state. See a...
     /// </summary>
-    /// <param name="WorkflowArn">The Amazon Resource Name (ARN) of the workflow that contains the run you want to stop. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:air- flow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):work- flow/([a-zA-Z0-9][a-zA-Z0-9\.\-_]{0,254}-[a-zA-Z0-9]{10})</param>
-    /// <param name="RunId">The unique identifier of the workflow run to stop. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*</param>
+    /// <param name="WorkflowArn">The Amazon Resource Name (ARN) of the workflow that contains the run you want to stop. Constraints: • min: 1 • max: 2048 • pattern: arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\.\-_]{0,254}-[a-zA-Z0-9]{10})</param>
+    /// <param name="RunId">The unique identifier of the workflow run to stop. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*</param>
     public AwsMwaaServerlessStopWorkflowRunOptions(
         string WorkflowArn,
         string RunId
@@ -60,13 +62,13 @@ public record AwsMwaaServerlessStopWorkflowRunOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the workflow that contains the run you want to stop. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:air- flow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):work- flow/([a-zA-Z0-9][a-zA-Z0-9\.\-_]{0,254}-[a-zA-Z0-9]{10})
+    /// The Amazon Resource Name (ARN) of the workflow that contains the run you want to stop. Constraints: • min: 1 • max: 2048 • pattern: arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\.\-_]{0,254}-[a-zA-Z0-9]{10})
     /// </summary>
     [CliOption("--workflow-arn")]
     public string? WorkflowArn { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the workflow run to stop. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*
+    /// The unique identifier of the workflow run to stop. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*
     /// </summary>
     [CliOption("--run-id")]
     public string? RunId { get; private init; }

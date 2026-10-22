@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Stores a resource policy for the ARN of a Project or ReportGroup ob- ject. See also: AWS API Documentation
+/// Stores a resource policy for the ARN of a Project or ReportGroup object. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsCodebuildPutResourcePolicyOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Stores a resource policy for the ARN of a Project or ReportGroup ob- ject. See also: AWS API Documentation
+    /// Stores a resource policy for the ARN of a Project or ReportGroup object. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Policy">A JSON-formatted resource policy. For more information, see Sharing a Project and Sharing a Report Group in the CodeBuild User Guide . Constraints: o min: 1</param>
-    /// <param name="ResourceArn">The ARN of the Project or ReportGroup resource you want to associate with a resource policy. Constraints: o min: 1</param>
+    /// <param name="Policy">A JSON-formatted resource policy. For more information, see Sharing a Project and Sharing a Report Group in the CodeBuild User Guide . Constraints: • min: 1</param>
+    /// <param name="ResourceArn">The ARN of the Project or ReportGroup resource you want to associate with a resource policy. Constraints: • min: 1</param>
     public AwsCodebuildPutResourcePolicyOptions(
         string Policy,
         string ResourceArn
@@ -60,13 +62,13 @@ public record AwsCodebuildPutResourcePolicyOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A JSON-formatted resource policy. For more information, see Sharing a Project and Sharing a Report Group in the CodeBuild User Guide . Constraints: o min: 1
+    /// A JSON-formatted resource policy. For more information, see Sharing a Project and Sharing a Report Group in the CodeBuild User Guide . Constraints: • min: 1
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; private init; }
 
     /// <summary>
-    /// The ARN of the Project or ReportGroup resource you want to associate with a resource policy. Constraints: o min: 1
+    /// The ARN of the Project or ReportGroup resource you want to associate with a resource policy. Constraints: • min: 1
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

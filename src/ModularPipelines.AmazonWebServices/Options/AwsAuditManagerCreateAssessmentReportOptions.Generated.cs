@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsAuditManagerCreateAssessmentReportOptions : AwsOptions, IValida
     /// <summary>
     /// Creates an assessment report for the specified assessment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the new assessment report. Constraints: o min: 1 o max: 300 o pattern: ^[a-zA-Z0-9-_\.]+$</param>
-    /// <param name="AssessmentId">The identifier for the assessment. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="Name">The name of the new assessment report. Constraints: • min: 1 • max: 300 • pattern: ^[a-zA-Z0-9-_\.]+$</param>
+    /// <param name="AssessmentId">The identifier for the assessment. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
     public AwsAuditManagerCreateAssessmentReportOptions(
         string Name,
         string AssessmentId
@@ -60,25 +62,25 @@ public record AwsAuditManagerCreateAssessmentReportOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the new assessment report. Constraints: o min: 1 o max: 300 o pattern: ^[a-zA-Z0-9-_\.]+$
+    /// The name of the new assessment report. Constraints: • min: 1 • max: 300 • pattern: ^[a-zA-Z0-9-_\.]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The identifier for the assessment. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The identifier for the assessment. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--assessment-id")]
     public string? AssessmentId { get; private init; }
 
     /// <summary>
-    /// The description of the assessment report. Constraints: o max: 1000 o pattern: ^[\w\W\s\S]*$
+    /// The description of the assessment report. Constraints: • max: 1000 • pattern: ^[\w\W\s\S]*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A SQL statement that represents an evidence finder query. Provide this parameter when you want to generate an assessment re- port from the results of an evidence finder search query. When you use this parameter, Audit Manager generates a one-time report using only the evidence from the query output. This report does not in- clude any assessment evidence that was manually added to a report using the console , or associated with a report using the API . To use this parameter, the enablementStatus of evidence finder must be ENABLED . For examples and help resolving queryStatement validation excep- tions, see Troubleshooting evidence finder issues in the Audit Man- ager User Guide. Constraints: o min: 1 o max: 10000 o pattern: (?s).*
+    /// A SQL statement that represents an evidence finder query. Provide this parameter when you want to generate an assessment report from the results of an evidence finder search query. When you use this parameter, Audit Manager generates a one-time report using only the evidence from the query output. This report does not include any assessment evidence that was manually added to a report using the console , or associated with a report using the API . To use this parameter, the enablementStatus of evidence finder must be ENABLED . For examples and help resolving queryStatement validation exceptions, see Troubleshooting evidence finder issues in the Audit Manager User Guide. Constraints: • min: 1 • max: 10000 • pattern: (?s).*
     /// </summary>
     [CliOption("--query-statement")]
     public string? QueryStatement { get; set; }

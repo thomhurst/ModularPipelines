@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -17,7 +18,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an anomaly detector that regularly scans one or more log groups and look for patterns and anomalies in the logs. An anomaly detector can help surface issues by automatically discover- ing anomalies in your log event traffic. An anomaly detector uses ma- chine learning algorithms to scan log events and find patterns . A pat- tern is a shared text structure that recurs among your log fields. Pat- terns provide a useful tool for analyzing large sets of logs because a large number of log eve...
+/// Creates an anomaly detector that regularly scans one or more log groups and look for patterns and anomalies in the logs. An anomaly detector can help surface issues by automatically discovering anomalies in your log event traffic. An anomaly detector uses machine learning algorithms to scan log events and find patterns . A pattern is a shared text structure that recurs among your log fields. Patterns provide a useful tool for analyzing large sets of logs because a large number of log events can ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsLogsCreateLogAnomalyDetectorOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an anomaly detector that regularly scans one or more log groups and look for patterns and anomalies in the logs. An anomaly detector can help surface issues by automatically discover- ing anomalies in your log event traffic. An anomaly detector uses ma- chine learning algorithms to scan log events and find patterns . A pat- tern is a shared text structure that recurs among your log fields. Pat- terns provide a useful tool for analyzing large sets of logs because a large number of log eve...
+    /// Creates an anomaly detector that regularly scans one or more log groups and look for patterns and anomalies in the logs. An anomaly detector can help surface issues by automatically discovering anomalies in your log event traffic. An anomaly detector uses machine learning algorithms to scan log events and find patterns . A pattern is a shared text structure that recurs among your log fields. Patterns provide a useful tool for analyzing large sets of logs because a large number of log events can ...
     /// </summary>
-    /// <param name="LogGroupArnList">An array containing the ARN of the log group that this anomaly de- tector will watch. You can specify only one log group ARN. (string) Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]* Syntax: "string" "string" ...</param>
+    /// <param name="LogGroupArnList">An array containing the ARN of the log group that this anomaly detector will watch. You can specify only one log group ARN. (string) Constraints: • min: 1 • max: 2048 • pattern: [\w#+=/:,.@-]* Syntax: "string" "string" ...</param>
     public AwsLogsCreateLogAnomalyDetectorOptions(
         IEnumerable<string> LogGroupArnList
     )
@@ -69,43 +70,43 @@ public record AwsLogsCreateLogAnomalyDetectorOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An array containing the ARN of the log group that this anomaly de- tector will watch. You can specify only one log group ARN. (string) Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]* Syntax: "string" "string" ...
+    /// An array containing the ARN of the log group that this anomaly detector will watch. You can specify only one log group ARN. (string) Constraints: • min: 1 • max: 2048 • pattern: [\w#+=/:,.@-]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--log-group-arn-list", GroupValues = true)]
     public IEnumerable<string>? LogGroupArnList { get; private init; }
 
     /// <summary>
-    /// A name for this anomaly detector. Constraints: o min: 1
+    /// A name for this anomaly detector. Constraints: • min: 1
     /// </summary>
     [CliOption("--detector-name")]
     public string? DetectorName { get; set; }
 
     /// <summary>
-    /// Specifies how often the anomaly detector is to run and look for anomalies. Set this value according to the frequency that the log group receives new logs. For example, if the log group receives new log events every 10 minutes, then 15 minutes might be a good setting for evaluationFrequency . Possible values: o ONE_MIN o FIVE_MIN o TEN_MIN o FIFTEEN_MIN o THIRTY_MIN o ONE_HOUR
+    /// Specifies how often the anomaly detector is to run and look for anomalies. Set this value according to the frequency that the log group receives new logs. For example, if the log group receives new log events every 10 minutes, then 15 minutes might be a good setting for evaluationFrequency . Possible values: • ONE_MIN • FIVE_MIN • TEN_MIN • FIFTEEN_MIN • THIRTY_MIN • ONE_HOUR
     /// </summary>
     [CliOption("--evaluation-frequency")]
     public AwsLogsCreateLogAnomalyDetectorEvaluationFrequency? EvaluationFrequency { get; set; }
 
     /// <summary>
-    /// You can use this parameter to limit the anomaly detection model to examine only log events that match the pattern you specify here. For more information, see Filter and Pattern Syntax . Constraints: o min: 0 o max: 1024
+    /// You can use this parameter to limit the anomaly detection model to examine only log events that match the pattern you specify here. For more information, see Filter and Pattern Syntax . Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--filter-pattern")]
     public string? FilterPattern { get; set; }
 
     /// <summary>
-    /// Optionally assigns a KMS key to secure this anomaly detector and its findings. If a key is assigned, the anomalies found and the model used by this detector are encrypted at rest with the key. If a key is assigned to an anomaly detector, a user must have permissions for both this key and for the anomaly detector to retrieve information about the anomalies that it finds. Make sure the value provided is a valid KMS key ARN. For more infor- mation about using a KMS key and to see the required IAM policy, see Use a KMS key with an anomaly detector . Constraints: o max: 256 o pattern: ^arn:aws[a-z\-]*:kms:[-a-z0-9]*:[0-9]*:key/[-a-z0-9]*$
+    /// Optionally assigns a KMS key to secure this anomaly detector and its findings. If a key is assigned, the anomalies found and the model used by this detector are encrypted at rest with the key. If a key is assigned to an anomaly detector, a user must have permissions for both this key and for the anomaly detector to retrieve information about the anomalies that it finds. Make sure the value provided is a valid KMS key ARN. For more information about using a KMS key and to see the required IAM policy, see Use a KMS key with an anomaly detector . Constraints: • max: 256 • pattern: ^arn:aws[a-z\-]*:kms:[-a-z0-9]*:[0-9]*:key/[-a-z0-9]*$
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// The number of days to have visibility on an anomaly. After this time period has elapsed for an anomaly, it will be automatically base- lined and the anomaly detector will treat new occurrences of a simi- lar anomaly as normal. Therefore, if you do not correct the cause of an anomaly during the time period specified in anomalyVisibilityTime , it will be considered normal going forward and will not be de- tected as an anomaly. Constraints: o min: 7 o max: 90
+    /// The number of days to have visibility on an anomaly. After this time period has elapsed for an anomaly, it will be automatically baselined and the anomaly detector will treat new occurrences of a similar anomaly as normal. Therefore, if you do not correct the cause of an anomaly during the time period specified in anomalyVisibilityTime , it will be considered normal going forward and will not be detected as an anomaly. Constraints: • min: 7 • max: 90
     /// </summary>
     [CliOption("--anomaly-visibility-time")]
-    public int? AnomalyVisibilityTime { get; set; }
+    public long? AnomalyVisibilityTime { get; set; }
 
     /// <summary>
-    /// An optional list of key-value pairs to associate with the resource. For more information about tagging, see Tagging Amazon Web Services resources Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ value -&gt; (string) Constraints: o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// An optional list of key-value pairs to associate with the resource. For more information about tagging, see Tagging Amazon Web Services resources Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ value -&gt; (string) Constraints: • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

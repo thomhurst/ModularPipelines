@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsDevopsAgentUpdateAssetOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates an asset in the specified agent space See also: AWS API Documentation update-asset uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="AgentSpaceId">The unique identifier for the agent space containing the asset Constraints: o min: 1 o max: 2048</param>
-    /// <param name="AssetId">The unique identifier of the asset to update Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="AgentSpaceId">The unique identifier for the agent space containing the asset Constraints: • min: 1 • max: 2048</param>
+    /// <param name="AssetId">The unique identifier of the asset to update Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsDevopsAgentUpdateAssetOptions(
         string AgentSpaceId,
         string AssetId
@@ -61,13 +63,13 @@ public record AwsDevopsAgentUpdateAssetOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the agent space containing the asset Constraints: o min: 1 o max: 2048
+    /// The unique identifier for the agent space containing the asset Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--agent-space-id")]
     public string? AgentSpaceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the asset to update Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The unique identifier of the asset to update Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--asset-id")]
     public string? AssetId { get; private init; }
@@ -79,13 +81,13 @@ public record AwsDevopsAgentUpdateAssetOptions : AwsOptions, IValidatableObject
     public string? Metadata { get; set; }
 
     /// <summary>
-    /// Optional content update. A single file adds or replaces one file; a zip replaces all files; a sourceUrl re-syncs from the original source. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: file, zip, sourceUrl. file -&gt; (structure) A single file with path and content path -&gt; (string) [required] The path of the file within the asset Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9_./ ()-]+ body -&gt; (tagged union structure) [required] The file content NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: bytes, text. bytes -&gt; (blob) Binary file content Constraints: o min: 0 o max: 6291456 text -&gt; (string) Text file content Constraints: o min: 0 o max: 6291456 metadata -&gt; (document) Optional metadata for this file zip -&gt; (structure) A zip file containing multiple files zipFile -&gt; (blob) [required] The zip file bytes Constraints: o min: 0 o max: 6291456 sourceUrl -&gt; (structure) A source URL to import asset content from url -&gt; (string) [required] The source URL to import asset content from. Constraints: o min: 1 o max: 2048 o pattern: https://.* Shorthand Syntax: file={path=string,body={bytes=blob,text=string}},zip={zipFile=blob},sourceUrl={url=string} JSON Syntax: { "file": { "path": "string", "body": { "bytes": blob, "text": "string" }, "metadata": {...} }, "zip": { "zipFile": blob }, "sourceUrl": { "url": "string" } }
+    /// Optional content update. A single file adds or replaces one file; a zip replaces all files; a sourceUrl re-syncs from the original source. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: file, zip, sourceUrl. file -&gt; (structure) A single file with path and content path -&gt; (string) [required] The path of the file within the asset Constraints: • min: 1 • max: 512 • pattern: [a-zA-Z0-9_./ ()-]+ body -&gt; (tagged union structure) [required] The file content NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: bytes, text. bytes -&gt; (blob) Binary file content Constraints: • min: 0 • max: 6291456 text -&gt; (string) Text file content Constraints: • min: 0 • max: 6291456 metadata -&gt; (document) Optional metadata for this file zip -&gt; (structure) A zip file containing multiple files zipFile -&gt; (blob) [required] The zip file bytes Constraints: • min: 0 • max: 6291456 sourceUrl -&gt; (structure) A source URL to import asset content from url -&gt; (string) [required] The source URL to import asset content from. Constraints: • min: 1 • max: 2048 • pattern: https://.* Shorthand Syntax: file={path=string,body={bytes=blob,text=string}},zip={zipFile=blob},sourceUrl={url=string} JSON Syntax: { "file": { "path": "string", "body": { "bytes": blob, "text": "string" }, "metadata": {...} }, "zip": { "zipFile": blob }, "sourceUrl": { "url": "string" } }
     /// </summary>
     [CliOption("--content")]
     public string? Content { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier used for idempotent asset update Constraints: o min: 1 o max: 128
+    /// A unique, case-sensitive identifier used for idempotent asset update Constraints: • min: 1 • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

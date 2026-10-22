@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -63,19 +65,19 @@ public record AwsEcsListDaemonDeploymentsOptions : AwsOptions, IValidatableObjec
     public string? DaemonArn { get; private init; }
 
     /// <summary>
-    /// An optional filter to narrow the ListDaemonDeployments results by deployment status. If you don't specify a status, all deployments are returned. (string) Possible values: o PENDING o SUCCESSFUL o STOPPED o STOP_REQUESTED o IN_PROGRESS o ROLLBACK_IN_PROGRESS o ROLLBACK_SUCCESSFUL o ROLLBACK_FAILED Syntax: "string" "string" ...
+    /// An optional filter to narrow the ListDaemonDeployments results by deployment status. If you don't specify a status, all deployments are returned. (string) Possible values: • PENDING • SUCCESSFUL • STOPPED • STOP_REQUESTED • IN_PROGRESS • ROLLBACK_IN_PROGRESS • ROLLBACK_SUCCESSFUL • ROLLBACK_FAILED Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--status", GroupValues = true)]
     public IEnumerable<string>? Status { get; set; }
 
     /// <summary>
-    /// An optional filter to narrow the ListDaemonDeployments results by creation time. If you don't specify a time range, all deployments are returned. before -&gt; (timestamp) Include service deployments in the result that were created be- fore this time. The format is yyyy-MM-dd HH:mm:ss.SSSSSS. after -&gt; (timestamp) Include service deployments in the result that were created af- ter this time. The format is yyyy-MM-dd HH:mm:ss.SSSSSS. Shorthand Syntax: before=timestamp,after=timestamp JSON Syntax: { "before": timestamp, "after": timestamp }
+    /// An optional filter to narrow the ListDaemonDeployments results by creation time. If you don't specify a time range, all deployments are returned. before -&gt; (timestamp) Include service deployments in the result that were created before this time. The format is yyyy-MM-dd HH:mm:ss.SSSSSS. after -&gt; (timestamp) Include service deployments in the result that were created after this time. The format is yyyy-MM-dd HH:mm:ss.SSSSSS. Shorthand Syntax: before=timestamp,after=timestamp JSON Syntax: { "before": timestamp, "after": timestamp }
     /// </summary>
     [CliOption("--created-at")]
     public string? CreatedAt { get; set; }
 
     /// <summary>
-    /// The maximum number of daemon deployment results that ListDaemonDe- ployments returned in paginated output. When this parameter is used, ListDaemonDeployments only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListDaemonDe- ployments request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListDaemon- Deployments returns up to 20 results and a nextToken value if ap- plicable.
+    /// The maximum number of daemon deployment results that ListDaemonDeployments returned in paginated output. When this parameter is used, ListDaemonDeployments only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListDaemonDeployments request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListDaemonDeployments returns up to 20 results and a nextToken value if applicable.
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

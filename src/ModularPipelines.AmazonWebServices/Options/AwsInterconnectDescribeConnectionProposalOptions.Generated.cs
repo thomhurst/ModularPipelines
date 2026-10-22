@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsInterconnectDescribeConnectionProposalOptions : AwsOptions, IVa
     /// <summary>
     /// Describes the details of a connection proposal generated at a partner's portal. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ActivationKey">An Activation Key that was generated on a supported partner's por- tal. This key captures the desired parameters from the initial cre- ation request. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="ActivationKey">An Activation Key that was generated on a supported partner's portal. This key captures the desired parameters from the initial creation request. Constraints: • min: 1 • max: 2048</param>
     public AwsInterconnectDescribeConnectionProposalOptions(
         string ActivationKey
     )
@@ -56,7 +58,7 @@ public record AwsInterconnectDescribeConnectionProposalOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An Activation Key that was generated on a supported partner's por- tal. This key captures the desired parameters from the initial cre- ation request. Constraints: o min: 1 o max: 2048
+    /// An Activation Key that was generated on a supported partner's portal. This key captures the desired parameters from the initial creation request. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--activation-key")]
     public string? ActivationKey { get; private init; }

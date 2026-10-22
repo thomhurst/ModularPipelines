@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsOsisValidatePipelineOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Checks whether an OpenSearch Ingestion pipeline configuration is valid prior to creation. For more information, see Creating Amazon OpenSearch Ingestion pipelines . See also: AWS API Documentation
     /// </summary>
-    /// <param name="PipelineConfigurationBody">The pipeline configuration in YAML format. The command accepts the pipeline configuration as a string or within a .yaml file. If you provide the configuration as a string, each new line must be escaped with \n . Constraints: o min: 1 o max: 100000</param>
+    /// <param name="PipelineConfigurationBody">The pipeline configuration in YAML format. The command accepts the pipeline configuration as a string or within a .yaml file. If you provide the configuration as a string, each new line must be escaped with \n . Constraints: • min: 1 • max: 100000</param>
     public AwsOsisValidatePipelineOptions(
         string PipelineConfigurationBody
     )
@@ -56,7 +58,7 @@ public record AwsOsisValidatePipelineOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The pipeline configuration in YAML format. The command accepts the pipeline configuration as a string or within a .yaml file. If you provide the configuration as a string, each new line must be escaped with \n . Constraints: o min: 1 o max: 100000
+    /// The pipeline configuration in YAML format. The command accepts the pipeline configuration as a string or within a .yaml file. If you provide the configuration as a string, each new line must be escaped with \n . Constraints: • min: 1 • max: 100000
     /// </summary>
     [CliOption("--pipeline-configuration-body")]
     public string? PipelineConfigurationBody { get; private init; }

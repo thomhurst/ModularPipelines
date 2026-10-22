@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsFmsGetPolicyOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns information about the specified Firewall Manager policy. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyId">The ID of the Firewall Manager policy that you want the details for. Constraints: o min: 36 o max: 36 o pattern: ^[a-z0-9A-Z-]{36}$</param>
+    /// <param name="PolicyId">The ID of the Firewall Manager policy that you want the details for. Constraints: • min: 36 • max: 36 • pattern: ^[a-z0-9A-Z-]{36}$</param>
     public AwsFmsGetPolicyOptions(
         string PolicyId
     )
@@ -56,7 +58,7 @@ public record AwsFmsGetPolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Firewall Manager policy that you want the details for. Constraints: o min: 36 o max: 36 o pattern: ^[a-z0-9A-Z-]{36}$
+    /// The ID of the Firewall Manager policy that you want the details for. Constraints: • min: 36 • max: 36 • pattern: ^[a-z0-9A-Z-]{36}$
     /// </summary>
     [CliOption("--policy-id")]
     public string? PolicyId { get; private init; }

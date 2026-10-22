@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets all labels or a specific label if name is provided. This is a pag- inated API. If you provide a null maxResults , this action retrieves a maximum of 50 records per page. If you provide a maxResults , the value must be between 10 and 50. To get the next page results, provide the pagination token from the GetGetLabelsResponse as part of your request. A null pagination token fetches the records from the beginning. See also: AWS API Documentation
+/// Gets all labels or a specific label if name is provided. This is a paginated API. If you provide a null maxResults , this action retrieves a maximum of 50 records per page. If you provide a maxResults , the value must be between 10 and 50. To get the next page results, provide the pagination token from the GetGetLabelsResponse as part of your request. A null pagination token fetches the records from the beginning. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsFrauddetectorGetLabelsOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the label or labels to get. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// The name of the label or labels to get. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
@@ -36,7 +36,7 @@ public record AwsFrauddetectorGetLabelsOptions : AwsOptions
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of objects to return for the request. Constraints: o min: 10 o max: 50
+    /// The maximum number of objects to return for the request. Constraints: • min: 10 • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

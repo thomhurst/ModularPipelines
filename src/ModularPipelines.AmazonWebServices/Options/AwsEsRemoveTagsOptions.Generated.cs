@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the specified set of tags from the specified Elasticsearch do- main. See also: AWS API Documentation
+/// Removes the specified set of tags from the specified Elasticsearch domain. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsEsRemoveTagsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the specified set of tags from the specified Elasticsearch do- main. See also: AWS API Documentation
+    /// Removes the specified set of tags from the specified Elasticsearch domain. See also: AWS API Documentation
     /// </summary>
     /// <param name="Arn">Specifies the ARN for the Elasticsearch domain from which you want to delete the specified tags.</param>
-    /// <param name="TagKeys">Specifies the TagKey list which you want to remove from the Elastic- search domain. (string) Syntax: "string" "string" ...</param>
+    /// <param name="TagKeys">Specifies the TagKey list which you want to remove from the Elasticsearch domain. (string) Syntax: "string" "string" ...</param>
     public AwsEsRemoveTagsOptions(
         string Arn,
         IEnumerable<string> TagKeys
@@ -77,7 +79,7 @@ public record AwsEsRemoveTagsOptions : AwsOptions, IValidatableObject
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// Specifies the TagKey list which you want to remove from the Elastic- search domain. (string) Syntax: "string" "string" ...
+    /// Specifies the TagKey list which you want to remove from the Elasticsearch domain. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

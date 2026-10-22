@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a bucket policy for a vector bucket. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Re- source Name (ARN). Permissions You must have the s3vectors:PutVectorBucketPolicy permission to use this operation. See also: AWS API Documentation
+/// Creates a bucket policy for a vector bucket. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:PutVectorBucketPolicy permission to use this operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsS3vectorsPutVectorBucketPolicyOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a bucket policy for a vector bucket. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Re- source Name (ARN). Permissions You must have the s3vectors:PutVectorBucketPolicy permission to use this operation. See also: AWS API Documentation
+    /// Creates a bucket policy for a vector bucket. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:PutVectorBucketPolicy permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="Policy">The JSON that defines the policy. For more information about bucket policies for S3 Vectors, see Managing vector bucket policies in the Amazon S3 User Guide .</param>
     public AwsS3vectorsPutVectorBucketPolicyOptions(
@@ -62,13 +64,13 @@ public record AwsS3vectorsPutVectorBucketPolicyOptions : AwsOptions, IValidatabl
     public string? Policy { get; private init; }
 
     /// <summary>
-    /// The name of the vector bucket. Constraints: o min: 3 o max: 63
+    /// The name of the vector bucket. Constraints: • min: 3 • max: 63
     /// </summary>
     [CliOption("--vector-bucket-name")]
     public string? VectorBucketName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the vector bucket. Constraints: o pattern: arn:aws[-a-z0-9]*:s3vec- tors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]
+    /// The Amazon Resource Name (ARN) of the vector bucket. Constraints: • pattern: arn:aws[-a-z0-9]*:s3vectors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]
     /// </summary>
     [CliOption("--vector-bucket-arn")]
     public string? VectorBucketArn { get; set; }

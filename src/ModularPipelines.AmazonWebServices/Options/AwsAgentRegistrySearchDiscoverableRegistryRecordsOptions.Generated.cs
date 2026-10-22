@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Searches the discoverable registry records in a registry using a nat- ural language query. Returns metadata for the matching records ordered by relevance. See also: AWS API Documentation search-discoverable-registry-records uses document type values. Docu- ment types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, op- tions and nested parameters that are labeled with the type document must be provided as JSON. Shorthand...
+/// Searches the discoverable registry records in a registry using a natural language query. Returns metadata for the matching records ordered by relevance. See also: AWS API Documentation search-discoverable-registry-records uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand synta...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsAgentRegistrySearchDiscoverableRegistryRecordsOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Searches the discoverable registry records in a registry using a nat- ural language query. Returns metadata for the matching records ordered by relevance. See also: AWS API Documentation search-discoverable-registry-records uses document type values. Docu- ment types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, op- tions and nested parameters that are labeled with the type document must be provided as JSON. Shorthand...
+    /// Searches the discoverable registry records in a registry using a natural language query. Returns metadata for the matching records ordered by relevance. See also: AWS API Documentation search-discoverable-registry-records uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand synta...
     /// </summary>
-    /// <param name="SearchQuery">The natural language query to search for matching registry records. Constraints: o min: 0 o max: 256</param>
-    /// <param name="RegistryIds">The registry identifiers to search within. Currently, you must spec- ify exactly one registry identifier. You can provide either the full Amazon Web Services Resource Name (ARN) or the registry ID. Constraints: o min: 1 o max: 1 (string) Registry identifier that accepts either ARN or ID format Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:agent-reg- istry:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16} Syntax: "string" "string" ...</param>
+    /// <param name="SearchQuery">The natural language query to search for matching registry records. Constraints: • min: 0 • max: 256</param>
+    /// <param name="RegistryIds">The registry identifiers to search within. Currently, you must specify exactly one registry identifier. You can provide either the full Amazon Web Services Resource Name (ARN) or the registry ID. Constraints: • min: 1 • max: 1 (string) Registry identifier that accepts either ARN or ID format Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(-[^:]+)?:agent-registry:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16} Syntax: "string" "string" ...</param>
     public AwsAgentRegistrySearchDiscoverableRegistryRecordsOptions(
         string SearchQuery,
         IEnumerable<string> RegistryIds
@@ -71,25 +73,25 @@ public record AwsAgentRegistrySearchDiscoverableRegistryRecordsOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The natural language query to search for matching registry records. Constraints: o min: 0 o max: 256
+    /// The natural language query to search for matching registry records. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--search-query")]
     public string? SearchQuery { get; private init; }
 
     /// <summary>
-    /// The registry identifiers to search within. Currently, you must spec- ify exactly one registry identifier. You can provide either the full Amazon Web Services Resource Name (ARN) or the registry ID. Constraints: o min: 1 o max: 1 (string) Registry identifier that accepts either ARN or ID format Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:agent-reg- istry:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16} Syntax: "string" "string" ...
+    /// The registry identifiers to search within. Currently, you must specify exactly one registry identifier. You can provide either the full Amazon Web Services Resource Name (ARN) or the registry ID. Constraints: • min: 1 • max: 1 (string) Registry identifier that accepts either ARN or ID format Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(-[^:]+)?:agent-registry:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--registry-ids", GroupValues = true)]
     public IEnumerable<string>? RegistryIds { get; private init; }
 
     /// <summary>
-    /// The maximum number of results to return. Valid values are 1 through 20. The default value is 10. Constraints: o min: 1 o max: 20
+    /// The maximum number of results to return. Valid values are 1 through 20. The default value is 10. Constraints: • min: 1 • max: 20
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// An optional structured JSON metadata filter that narrows the search results. Supports the field-level operators $eq , $ne , and $in , and the logical operators $and and $or on filterable fields. Specifies additional filtering on custom metadata fields using the customMetadata.{key} prefix. For example, to filter by a custom metadata field: {"customMetadata.environment": {"$eq": "produc- tion"}} . For a Boolean field, you can also use a native JSON boolean value, for example: {"customMetadata.requiresApproval": {"$eq": true}} . JSON Syntax: {...}
+    /// An optional structured JSON metadata filter that narrows the search results. Supports the field-level operators $eq , $ne , and $in , and the logical operators $and and $or on filterable fields. Specifies additional filtering on custom metadata fields using the customMetadata.{key} prefix. For example, to filter by a custom metadata field: {"customMetadata.environment": {"$eq": "production"}} . For a Boolean field, you can also use a native JSON boolean value, for example: {"customMetadata.requiresApproval": {"$eq": true}} . JSON Syntax: {...}
     /// </summary>
     [CliOption("--filters")]
     public string? Filters { get; set; }

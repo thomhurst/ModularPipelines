@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds or removes permission settings for the specified snapshot. You may add or remove specified Amazon Web Services account IDs from a snap- shot's list of create volume permissions, but you cannot do both in a single operation. If you need to both add and remove account IDs for a snapshot, you must use multiple operations. You can make up to 500 mod- ifications to a snapshot in a single operation. Encrypted snapshots and snapshots with Amazon Web Services Marketplace product codes cannot be mad...
+/// Adds or removes permission settings for the specified snapshot. You may add or remove specified Amazon Web Services account IDs from a snapshot's list of create volume permissions, but you cannot do both in a single operation. If you need to both add and remove account IDs for a snapshot, you must use multiple operations. You can make up to 500 modifications to a snapshot in a single operation. Encrypted snapshots and snapshots with Amazon Web Services Marketplace product codes cannot be made pu...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +28,7 @@ public record AwsEc2ModifySnapshotAttributeOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds or removes permission settings for the specified snapshot. You may add or remove specified Amazon Web Services account IDs from a snap- shot's list of create volume permissions, but you cannot do both in a single operation. If you need to both add and remove account IDs for a snapshot, you must use multiple operations. You can make up to 500 mod- ifications to a snapshot in a single operation. Encrypted snapshots and snapshots with Amazon Web Services Marketplace product codes cannot be mad...
+    /// Adds or removes permission settings for the specified snapshot. You may add or remove specified Amazon Web Services account IDs from a snapshot's list of create volume permissions, but you cannot do both in a single operation. If you need to both add and remove account IDs for a snapshot, you must use multiple operations. You can make up to 500 modifications to a snapshot in a single operation. Encrypted snapshots and snapshots with Amazon Web Services Marketplace product codes cannot be made pu...
     /// </summary>
     /// <param name="SnapshotId">The ID of the snapshot.</param>
     public AwsEc2ModifySnapshotAttributeOptions(
@@ -63,13 +65,13 @@ public record AwsEc2ModifySnapshotAttributeOptions : AwsOptions, IValidatableObj
     public string? SnapshotId { get; private init; }
 
     /// <summary>
-    /// The snapshot attribute to modify. Only volume creation permissions can be modified. Possible values: o productCodes o createVolumePermission
+    /// The snapshot attribute to modify. Only volume creation permissions can be modified. Possible values: • productCodes • createVolumePermission
     /// </summary>
     [CliOption("--attribute")]
     public AwsEc2ModifySnapshotAttributeAttribute? Attribute { get; set; }
 
     /// <summary>
-    /// A JSON representation of the snapshot attribute modification. Add -&gt; (list) Adds the specified Amazon Web Services account ID or group to the list. (structure) Describes the user or group to be added or removed from the list of create volume permissions for a volume. UserId -&gt; (string) The ID of the Amazon Web Services account to be added or removed. Group -&gt; (string) The group to be added or removed. The possible value is all . Possible values: o all Remove -&gt; (list) Removes the specified Amazon Web Services account ID or group from the list. (structure) Describes the user or group to be added or removed from the list of create volume permissions for a volume. UserId -&gt; (string) The ID of the Amazon Web Services account to be added or removed. Group -&gt; (string) The group to be added or removed. The possible value is all . Possible values: o all Shorthand Syntax: Add=[{UserId=string,Group=string},{UserId=string,Group=string}],Remove=[{UserId=string,Group=string},{UserId=string,Group=string}] JSON Syntax: { "Add": [ { "UserId": "string", "Group": "all" } ... ], "Remove": [ { "UserId": "string", "Group": "all" } ... ] }
+    /// A JSON representation of the snapshot attribute modification. Add -&gt; (list) Adds the specified Amazon Web Services account ID or group to the list. (structure) Describes the user or group to be added or removed from the list of create volume permissions for a volume. UserId -&gt; (string) The ID of the Amazon Web Services account to be added or removed. Group -&gt; (string) The group to be added or removed. The possible value is all . Possible values: • all Remove -&gt; (list) Removes the specified Amazon Web Services account ID or group from the list. (structure) Describes the user or group to be added or removed from the list of create volume permissions for a volume. UserId -&gt; (string) The ID of the Amazon Web Services account to be added or removed. Group -&gt; (string) The group to be added or removed. The possible value is all . Possible values: • all Shorthand Syntax: Add=[{UserId=string,Group=string},{UserId=string,Group=string}],Remove=[{UserId=string,Group=string},{UserId=string,Group=string}] JSON Syntax: { "Add": [ { "UserId": "string", "Group": "all" } ... ], "Remove": [ { "UserId": "string", "Group": "all" } ... ] }
     /// </summary>
     [CliOption("--create-volume-permission")]
     public string? CreateVolumePermission { get; set; }
@@ -81,7 +83,7 @@ public record AwsEc2ModifySnapshotAttributeOptions : AwsOptions, IValidatableObj
     public IEnumerable<string>? GroupNames { get; set; }
 
     /// <summary>
-    /// The type of operation to perform to the attribute. Possible values: o add o remove
+    /// The type of operation to perform to the attribute. Possible values: • add • remove
     /// </summary>
     [CliOption("--operation-type")]
     public AwsEc2ModifySnapshotAttributeOperationType? OperationType { get; set; }
@@ -93,7 +95,7 @@ public record AwsEc2ModifySnapshotAttributeOptions : AwsOptions, IValidatableObj
     public IEnumerable<string>? UserIds { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

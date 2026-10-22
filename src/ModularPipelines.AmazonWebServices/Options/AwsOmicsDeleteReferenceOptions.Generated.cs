@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a reference genome and returns a response with no body if the operation is successful. The read set associated with the reference genome must first be deleted before deleting the reference genome. Af- ter the reference genome is deleted, you can delete the reference store using the DeleteReferenceStore API operation. For more information, see Deleting HealthOmics reference and sequence stores in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
+/// Deletes a reference genome and returns a response with no body if the operation is successful. The read set associated with the reference genome must first be deleted before deleting the reference genome. After the reference genome is deleted, you can delete the reference store using the DeleteReferenceStore API operation. For more information, see Deleting HealthOmics reference and sequence stores in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsOmicsDeleteReferenceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a reference genome and returns a response with no body if the operation is successful. The read set associated with the reference genome must first be deleted before deleting the reference genome. Af- ter the reference genome is deleted, you can delete the reference store using the DeleteReferenceStore API operation. For more information, see Deleting HealthOmics reference and sequence stores in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
+    /// Deletes a reference genome and returns a response with no body if the operation is successful. The read set associated with the reference genome must first be deleted before deleting the reference genome. After the reference genome is deleted, you can delete the reference store using the DeleteReferenceStore API operation. For more information, see Deleting HealthOmics reference and sequence stores in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The reference's ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
-    /// <param name="ReferenceStoreId">The reference's store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
+    /// <param name="Id">The reference's ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+</param>
+    /// <param name="ReferenceStoreId">The reference's store ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+</param>
     public AwsOmicsDeleteReferenceOptions(
         string Id,
         string ReferenceStoreId
@@ -60,13 +62,13 @@ public record AwsOmicsDeleteReferenceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The reference's ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// The reference's ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The reference's store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// The reference's store ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+
     /// </summary>
     [CliOption("--reference-store-id")]
     public string? ReferenceStoreId { get; private init; }

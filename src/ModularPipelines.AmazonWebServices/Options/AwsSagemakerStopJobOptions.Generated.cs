@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Stops a running job. When you call StopJob , Amazon SageMaker sets the job status to Stopping . After the job stops, the status changes to Stopped . Partial results may be available in the output location if the job was in progress. To delete a stopped job, call DeleteJob . The following operations are related to StopJob : o CreateJob o DescribeJob o DeleteJob See also: AWS API Documentation
+/// Stops a running job. When you call StopJob , Amazon SageMaker sets the job status to Stopping . After the job stops, the status changes to Stopped . Partial results may be available in the output location if the job was in progress. To delete a stopped job, call DeleteJob . The following operations are related to StopJob : • CreateJob • DescribeJob • DeleteJob See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsSagemakerStopJobOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Stops a running job. When you call StopJob , Amazon SageMaker sets the job status to Stopping . After the job stops, the status changes to Stopped . Partial results may be available in the output location if the job was in progress. To delete a stopped job, call DeleteJob . The following operations are related to StopJob : o CreateJob o DescribeJob o DeleteJob See also: AWS API Documentation
+    /// Stops a running job. When you call StopJob , Amazon SageMaker sets the job status to Stopping . After the job stops, the status changes to Stopped . Partial results may be available in the output location if the job was in progress. To delete a stopped job, call DeleteJob . The following operations are related to StopJob : • CreateJob • DescribeJob • DeleteJob See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobName">The name of the job to stop. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
-    /// <param name="JobCategory">The category of the job to stop. Possible values: o AgentRFT o AgentRFTEvaluation</param>
+    /// <param name="JobName">The name of the job to stop. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="JobCategory">The category of the job to stop. Possible values: • AgentRFT • AgentRFTEvaluation</param>
     public AwsSagemakerStopJobOptions(
         string JobName,
         AwsSagemakerStopJobJobCategory JobCategory
@@ -60,13 +62,13 @@ public record AwsSagemakerStopJobOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the job to stop. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the job to stop. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--job-name")]
     public string? JobName { get; private init; }
 
     /// <summary>
-    /// The category of the job to stop. Possible values: o AgentRFT o AgentRFTEvaluation
+    /// The category of the job to stop. Possible values: • AgentRFT • AgentRFTEvaluation
     /// </summary>
     [CliOption("--job-category")]
     public AwsSagemakerStopJobJobCategory? JobCategory { get; private init; }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describe Amazon Inspector configuration settings for an Amazon Web Ser- vices organization. See also: AWS API Documentation
+/// Describe Amazon Inspector configuration settings for an Amazon Web Services organization. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

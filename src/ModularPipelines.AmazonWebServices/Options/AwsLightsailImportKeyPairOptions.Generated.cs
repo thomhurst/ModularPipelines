@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsLightsailImportKeyPairOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Imports a public SSH key from a specific key pair. See also: AWS API Documentation
     /// </summary>
-    /// <param name="KeyPairName">The name of the key pair for which you want to import the public key. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="KeyPairName">The name of the key pair for which you want to import the public key. Constraints: • pattern: \w[\w\-]*\w</param>
     /// <param name="PublicKeyBase64">A base64-encoded public key of the ssh-rsa type.</param>
     public AwsLightsailImportKeyPairOptions(
         string KeyPairName,
@@ -60,7 +62,7 @@ public record AwsLightsailImportKeyPairOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the key pair for which you want to import the public key. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the key pair for which you want to import the public key. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--key-pair-name")]
     public string? KeyPairName { get; private init; }

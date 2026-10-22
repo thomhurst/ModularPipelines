@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates a form type in Glue Data Catalog. A form type de- fines the schema for structured metadata that can be attached to as- sets. See also: AWS API Documentation
+/// Creates or updates a form type in Glue Data Catalog. A form type defines the schema for structured metadata that can be attached to assets. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsGluePutFormTypeOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates or updates a form type in Glue Data Catalog. A form type de- fines the schema for structured metadata that can be attached to as- sets. See also: AWS API Documentation
+    /// Creates or updates a form type in Glue Data Catalog. A form type defines the schema for structured metadata that can be attached to assets. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the form type. Must start with an uppercase letter. Constraints: o min: 1 o max: 128 o pattern: ^[A-Z]\w*$</param>
-    /// <param name="Schema">The Smithy IDL schema definition for the form type. Constraints: o min: 1 o max: 100000</param>
+    /// <param name="Name">The name of the form type. Must start with an uppercase letter. Constraints: • min: 1 • max: 128 • pattern: ^[A-Z]\w*$</param>
+    /// <param name="Schema">The Smithy IDL schema definition for the form type. Constraints: • min: 1 • max: 100000</param>
     public AwsGluePutFormTypeOptions(
         string Name,
         string Schema
@@ -61,19 +63,19 @@ public record AwsGluePutFormTypeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the form type. Must start with an uppercase letter. Constraints: o min: 1 o max: 128 o pattern: ^[A-Z]\w*$
+    /// The name of the form type. Must start with an uppercase letter. Constraints: • min: 1 • max: 128 • pattern: ^[A-Z]\w*$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The Smithy IDL schema definition for the form type. Constraints: o min: 1 o max: 100000
+    /// The Smithy IDL schema definition for the form type. Constraints: • min: 1 • max: 100000
     /// </summary>
     [CliOption("--schema")]
     public string? Schema { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

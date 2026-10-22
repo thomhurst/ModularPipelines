@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new instance profile. For information about instance pro- files, see Using roles for applications on Amazon EC2 in the IAM User Guide , and Instance profiles in the Amazon EC2 User Guide . For information about the number of instance profiles you can create, see IAM object quotas in the IAM User Guide . See also: AWS API Documentation
+/// Creates a new instance profile. For information about instance profiles, see Using roles for applications on Amazon EC2 in the IAM User Guide , and Instance profiles in the Amazon EC2 User Guide . For information about the number of instance profiles you can create, see IAM object quotas in the IAM User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsIamCreateInstanceProfileOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new instance profile. For information about instance pro- files, see Using roles for applications on Amazon EC2 in the IAM User Guide , and Instance profiles in the Amazon EC2 User Guide . For information about the number of instance profiles you can create, see IAM object quotas in the IAM User Guide . See also: AWS API Documentation
+    /// Creates a new instance profile. For information about instance profiles, see Using roles for applications on Amazon EC2 in the IAM User Guide , and Instance profiles in the Amazon EC2 User Guide . For information about the number of instance profiles you can create, see IAM object quotas in the IAM User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceProfileName">The name of the instance profile to create. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+</param>
+    /// <param name="InstanceProfileName">The name of the instance profile to create. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+</param>
     public AwsIamCreateInstanceProfileOptions(
         string InstanceProfileName
     )
@@ -56,19 +58,19 @@ public record AwsIamCreateInstanceProfileOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the instance profile to create. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// The name of the instance profile to create. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--instance-profile-name")]
     public string? InstanceProfileName { get; private init; }
 
     /// <summary>
-    /// The path to the instance profile. For more information about paths, see IAM Identifiers in the IAM User Guide . This parameter is optional. If it is not included, it defaults to a slash (/). This parameter allows (through its regex pattern ) a string of char- acters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021 ) through the DEL character (\u007F ), including most punctuation characters, digits, and upper and lowercased letters. Constraints: o min: 1 o max: 512 o pattern: (\u002F)|(\u002F[\u0021-\u007E]+\u002F)
+    /// The path to the instance profile. For more information about paths, see IAM Identifiers in the IAM User Guide . This parameter is optional. If it is not included, it defaults to a slash (/). This parameter allows (through its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021 ) through the DEL character (\u007F ), including most punctuation characters, digits, and upper and lowercased letters. Constraints: • min: 1 • max: 512 • pattern: (\u002F)|(\u002F[\u0021-\u007E]+\u002F)
     /// </summary>
     [CliOption("--path")]
     public string? Path { get; set; }
 
     /// <summary>
-    /// A list of tags that you want to attach to the newly created IAM in- stance profile. Each tag consists of a key name and an associated value. For more information about tagging, see Tagging IAM resources in the IAM User Guide . NOTE: If any one of the tags is invalid or if you exceed the allowed maximum number of tags, then the entire request fails and the resource is not created. Constraints: o max: 50 (structure) A structure that represents user-provided metadata that can be associated with an IAM resource. For more information about tag- ging, see Tagging IAM resources in the IAM User Guide . Key -&gt; (string) [required] The key name that can be used to look up or retrieve the as- sociated value. For example, Department or Cost Center are common choices. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]+ Value -&gt; (string) [required] The value associated with this tag. For example, tags with a key name of Department could have values such as Human Re- sources , Accounting , and Support . Tags with a key name of Cost Center might have values that consist of the number as- sociated with the different cost centers in your company. Typically, many resources have tags with the same key name but with different values. Constraints: o min: 0 o max: 256 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tags that you want to attach to the newly created IAM instance profile. Each tag consists of a key name and an associated value. For more information about tagging, see Tagging IAM resources in the IAM User Guide . NOTE: If any one of the tags is invalid or if you exceed the allowed maximum number of tags, then the entire request fails and the resource is not created. Constraints: • max: 50 (structure) A structure that represents user-provided metadata that can be associated with an IAM resource. For more information about tagging, see Tagging IAM resources in the IAM User Guide . Key -&gt; (string) [required] The key name that can be used to look up or retrieve the associated value. For example, Department or Cost Center are common choices. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]+ Value -&gt; (string) [required] The value associated with this tag. For example, tags with a key name of Department could have values such as Human Resources , Accounting , and Support . Tags with a key name of Cost Center might have values that consist of the number associated with the different cost centers in your company. Typically, many resources have tags with the same key name but with different values. Constraints: • min: 0 • max: 256 • pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

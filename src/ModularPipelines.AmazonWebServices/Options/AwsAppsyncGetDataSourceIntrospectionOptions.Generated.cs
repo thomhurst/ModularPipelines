@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -69,14 +71,14 @@ public record AwsAppsyncGetDataSourceIntrospectionOptions : AwsOptions, IValidat
     public bool? IncludeModelsSdl { get; set; }
 
     /// <summary>
-    /// Determines the number of types to be returned in a single response before paginating. This value is typically taken from nextToken value from the previous response. Constraints: o min: 1 o max: 65536 o pattern: [\S]+
+    /// Determines the number of types to be returned in a single response before paginating. This value is typically taken from nextToken value from the previous response. Constraints: • min: 1 • max: 65536 • pattern: [\S]+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of introspected types that will be returned in a single response. Constraints: o min: 0 o max: 25
+    /// The maximum number of introspected types that will be returned in a single response. Constraints: • min: 0 • max: 25
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

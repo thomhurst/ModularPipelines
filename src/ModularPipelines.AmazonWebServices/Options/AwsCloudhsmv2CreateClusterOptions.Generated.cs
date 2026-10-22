@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsCloudhsmv2CreateClusterOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a new CloudHSM cluster. Cross-account use: Yes. To perform this operation with an CloudHSM backup in a different AWS account, specify the full backup ARN in the value of the SourceBackupId parameter. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HsmType">The type of HSM to use in the cluster. The allowed values are hsm1.medium and hsm2m.medium . Constraints: o max: 32 o pattern: ((p|)hsm[0-9][a-z.]*\.[a-zA-Z]+)</param>
-    /// <param name="SubnetIds">The identifiers (IDs) of the subnets where you are creating the cluster. You must specify at least one subnet. If you specify multi- ple subnets, they must meet the following criteria: o All subnets must be in the same virtual private cloud (VPC). o You can specify only one subnet per Availability Zone. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: subnet-[0-9a-fA-F]{8,17} Syntax: "string" "string" ...</param>
+    /// <param name="HsmType">The type of HSM to use in the cluster. The allowed values are hsm1.medium and hsm2m.medium . Constraints: • max: 32 • pattern: ((p|)hsm[0-9][a-z.]*\.[a-zA-Z]+)</param>
+    /// <param name="SubnetIds">The identifiers (IDs) of the subnets where you are creating the cluster. You must specify at least one subnet. If you specify multiple subnets, they must meet the following criteria: • All subnets must be in the same virtual private cloud (VPC). • You can specify only one subnet per Availability Zone. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: subnet-[0-9a-fA-F]{8,17} Syntax: "string" "string" ...</param>
     public AwsCloudhsmv2CreateClusterOptions(
         string HsmType,
         IEnumerable<string> SubnetIds
@@ -72,43 +74,43 @@ public record AwsCloudhsmv2CreateClusterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of HSM to use in the cluster. The allowed values are hsm1.medium and hsm2m.medium . Constraints: o max: 32 o pattern: ((p|)hsm[0-9][a-z.]*\.[a-zA-Z]+)
+    /// The type of HSM to use in the cluster. The allowed values are hsm1.medium and hsm2m.medium . Constraints: • max: 32 • pattern: ((p|)hsm[0-9][a-z.]*\.[a-zA-Z]+)
     /// </summary>
     [CliOption("--hsm-type")]
     public string? HsmType { get; private init; }
 
     /// <summary>
-    /// The identifiers (IDs) of the subnets where you are creating the cluster. You must specify at least one subnet. If you specify multi- ple subnets, they must meet the following criteria: o All subnets must be in the same virtual private cloud (VPC). o You can specify only one subnet per Availability Zone. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: subnet-[0-9a-fA-F]{8,17} Syntax: "string" "string" ...
+    /// The identifiers (IDs) of the subnets where you are creating the cluster. You must specify at least one subnet. If you specify multiple subnets, they must meet the following criteria: • All subnets must be in the same virtual private cloud (VPC). • You can specify only one subnet per Availability Zone. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: subnet-[0-9a-fA-F]{8,17} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; private init; }
 
     /// <summary>
-    /// A policy that defines how the service retains backups. Type -&gt; (string) The type of backup retention policy. For the DAYS type, the value is the number of days to retain backups. Possible values: o DAYS Value -&gt; (string) Use a value between 7 - 379. Constraints: o min: 1 o max: 3 o pattern: [0-9]+ Shorthand Syntax: Type=string,Value=string JSON Syntax: { "Type": "DAYS", "Value": "string" }
+    /// A policy that defines how the service retains backups. Type -&gt; (string) The type of backup retention policy. For the DAYS type, the value is the number of days to retain backups. Possible values: • DAYS Value -&gt; (string) Use a value between 7 - 379. Constraints: • min: 1 • max: 3 • pattern: [0-9]+ Shorthand Syntax: Type=string,Value=string JSON Syntax: { "Type": "DAYS", "Value": "string" }
     /// </summary>
     [CliOption("--backup-retention-policy")]
     public string? BackupRetentionPolicy { get; set; }
 
     /// <summary>
-    /// The identifier (ID) or the Amazon Resource Name (ARN) of the cluster backup to restore. Use this value to restore the cluster from a backup instead of creating a new cluster. To find the backup ID or ARN, use DescribeBackups . If using a backup in another account, the full ARN must be supplied. Constraints: o pattern: ^(arn:aws(-(us-gov))?:cloudhsm:([a-z]{2}(-(gov|isob|iso))?-(east|west|north|south|cen- tral){1,2}-[0-9]{1}):[0-9]{12}:backup/)?backup-[2-7a-zA-Z]{11,16}
+    /// The identifier (ID) or the Amazon Resource Name (ARN) of the cluster backup to restore. Use this value to restore the cluster from a backup instead of creating a new cluster. To find the backup ID or ARN, use DescribeBackups . If using a backup in another account, the full ARN must be supplied. Constraints: • pattern: ^(arn:aws(-(us-gov))?:cloudhsm:([a-z]{2}(-(gov|isob|iso))?-(east|west|north|south|central){1,2}-[0-9]{1}):[0-9]{12}:backup/)?backup-[2-7a-zA-Z]{11,16}
     /// </summary>
     [CliOption("--source-backup-id")]
     public string? SourceBackupId { get; set; }
 
     /// <summary>
-    /// The NetworkType to create a cluster with. The allowed values are IPV4 and DUALSTACK . Possible values: o IPV4 o DUALSTACK
+    /// The NetworkType to create a cluster with. The allowed values are IPV4 and DUALSTACK . Possible values: • IPV4 • DUALSTACK
     /// </summary>
     [CliOption("--network-type")]
     public AwsCloudhsmv2CreateClusterNetworkType? NetworkType { get; set; }
 
     /// <summary>
-    /// Tags to apply to the CloudHSM cluster during creation. Constraints: o min: 1 o max: 50 (structure) Contains a tag. A tag is a key-value pair. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Tags to apply to the CloudHSM cluster during creation. Constraints: • min: 1 • max: 50 (structure) Contains a tag. A tag is a key-value pair. Key -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value of the tag. Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tag-list", GroupValues = true)]
     public IEnumerable<string>? TagList { get; set; }
 
     /// <summary>
-    /// The mode to use in the cluster. The allowed values are FIPS and NON_FIPS . Possible values: o FIPS o NON_FIPS
+    /// The mode to use in the cluster. The allowed values are FIPS and NON_FIPS . Possible values: • FIPS • NON_FIPS
     /// </summary>
     [CliOption("--mode")]
     public AwsCloudhsmv2CreateClusterMode? Mode { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deploys conformance packs across member accounts in an Amazon Web Ser- vices Organization. For information on how many organization confor- mance packs and how many Config rules you can have per account, see ` Service Limits https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html`__ in the Config Developer Guide . Only a management account and a delegated administrator can call this API. When calling this API with a delegated administrator, you must en- sure Organizations List...
+/// Deploys conformance packs across member accounts in an Amazon Web Services Organization. For information on how many organization conformance packs and how many Config rules you can have per account, see ` Service Limits https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html`__ in the Config Developer Guide . Only a management account and a delegated administrator can call this API. When calling this API with a delegated administrator, you must ensure Organizations ListDelega...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsConfigservicePutOrganizationConformancePackOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deploys conformance packs across member accounts in an Amazon Web Ser- vices Organization. For information on how many organization confor- mance packs and how many Config rules you can have per account, see ` Service Limits https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html`__ in the Config Developer Guide . Only a management account and a delegated administrator can call this API. When calling this API with a delegated administrator, you must en- sure Organizations List...
+    /// Deploys conformance packs across member accounts in an Amazon Web Services Organization. For information on how many organization conformance packs and how many Config rules you can have per account, see ` Service Limits https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html`__ in the Config Developer Guide . Only a management account and a delegated administrator can call this API. When calling this API with a delegated administrator, you must ensure Organizations ListDelega...
     /// </summary>
-    /// <param name="OrganizationConformancePackName">Name of the organization conformance pack you want to create. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][-a-zA-Z0-9]*</param>
+    /// <param name="OrganizationConformancePackName">Name of the organization conformance pack you want to create. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z][-a-zA-Z0-9]*</param>
     public AwsConfigservicePutOrganizationConformancePackOptions(
         string OrganizationConformancePackName
     )
@@ -56,49 +58,49 @@ public record AwsConfigservicePutOrganizationConformancePackOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the organization conformance pack you want to create. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][-a-zA-Z0-9]*
+    /// Name of the organization conformance pack you want to create. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z][-a-zA-Z0-9]*
     /// </summary>
     [CliOption("--organization-conformance-pack-name")]
     public string? OrganizationConformancePackName { get; private init; }
 
     /// <summary>
-    /// Location of file containing the template body. The uri must point to the conformance pack template (max size: 300 KB). NOTE: You must have access to read Amazon S3 bucket. In addition, in order to ensure a successful deployment, the template object must not be in an archived storage class if this parameter is passed. Constraints: o min: 1 o max: 1024 o pattern: s3://.*
+    /// Location of file containing the template body. The uri must point to the conformance pack template (max size: 300 KB). NOTE: You must have access to read Amazon S3 bucket. In addition, in order to ensure a successful deployment, the template object must not be in an archived storage class if this parameter is passed. Constraints: • min: 1 • max: 1024 • pattern: s3://.*
     /// </summary>
     [CliOption("--template-s3-uri")]
     public string? TemplateS3Uri { get; set; }
 
     /// <summary>
-    /// A string that contains the full conformance pack template body. Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Constraints: o min: 1 o max: 51200
+    /// A string that contains the full conformance pack template body. Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Constraints: • min: 1 • max: 51200
     /// </summary>
     [CliOption("--template-body")]
     public string? TemplateBody { get; set; }
 
     /// <summary>
-    /// The name of the Amazon S3 bucket where Config stores conformance pack templates. NOTE: This field is optional. If used, it must be prefixed with awsconfigconforms . Constraints: o min: 0 o max: 63
+    /// The name of the Amazon S3 bucket where Config stores conformance pack templates. NOTE: This field is optional. If used, it must be prefixed with awsconfigconforms . Constraints: • min: 0 • max: 63
     /// </summary>
     [CliOption("--delivery-s3-bucket")]
     public string? DeliveryS3Bucket { get; set; }
 
     /// <summary>
-    /// The prefix for the Amazon S3 bucket. NOTE: This field is optional. Constraints: o min: 0 o max: 1024
+    /// The prefix for the Amazon S3 bucket. NOTE: This field is optional. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--delivery-s3-key-prefix")]
     public string? DeliveryS3KeyPrefix { get; set; }
 
     /// <summary>
-    /// A list of ConformancePackInputParameter objects. Constraints: o min: 0 o max: 60 (structure) Input parameters in the form of key-value pairs for the confor- mance pack, both of which you define. Keys can have a maximum character length of 255 characters, and values can have a maxi- mum length of 4096 characters. ParameterName -&gt; (string) [required] One part of a key-value pair. Constraints: o min: 0 o max: 255 ParameterValue -&gt; (string) [required] Another part of the key-value pair. Constraints: o min: 0 o max: 4096 Shorthand Syntax: ParameterName=string,ParameterValue=string ... JSON Syntax: [ { "ParameterName": "string", "ParameterValue": "string" } ... ]
+    /// A list of ConformancePackInputParameter objects. Constraints: • min: 0 • max: 60 (structure) Input parameters in the form of key-value pairs for the conformance pack, both of which you define. Keys can have a maximum character length of 255 characters, and values can have a maximum length of 4096 characters. ParameterName -&gt; (string) [required] One part of a key-value pair. Constraints: • min: 0 • max: 255 ParameterValue -&gt; (string) [required] Another part of the key-value pair. Constraints: • min: 0 • max: 4096 Shorthand Syntax: ParameterName=string,ParameterValue=string ... JSON Syntax: [ { "ParameterName": "string", "ParameterValue": "string" } ... ]
     /// </summary>
     [CliOption("--conformance-pack-input-parameters", GroupValues = true)]
     public IEnumerable<string>? ConformancePackInputParameters { get; set; }
 
     /// <summary>
-    /// A list of Amazon Web Services accounts to be excluded from an orga- nization conformance pack while deploying a conformance pack. Constraints: o min: 0 o max: 1000 (string) Constraints: o pattern: \d{12} Syntax: "string" "string" ...
+    /// A list of Amazon Web Services accounts to be excluded from an organization conformance pack while deploying a conformance pack. Constraints: • min: 0 • max: 1000 (string) Constraints: • pattern: \d{12} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--excluded-accounts", GroupValues = true)]
     public IEnumerable<string>? ExcludedAccounts { get; set; }
 
     /// <summary>
-    /// The tags for the organization conformance pack. Each tag consists of a key and an optional value, both of which you define. Constraints: o min: 0 o max: 50 (structure) The tags for the resource. The metadata that you apply to a re- source to help you categorize and organize them. Each tag con- sists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. Key -&gt; (string) One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 Value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags for the organization conformance pack. Each tag consists of a key and an optional value, both of which you define. Constraints: • min: 0 • max: 50 (structure) The tags for the resource. The metadata that you apply to a resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. Key -&gt; (string) One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: • min: 1 • max: 128 Value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

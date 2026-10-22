@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsSyntheticsListAssociatedGroupsOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Returns a list of the groups that the specified canary is associated with. The canary that you specify must be in the current Region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the canary that you want to view groups for. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws[a-zA-Z-]*)?:synthet- ics:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\d{1}:\d{12}:ca- nary:[0-9a-z_\-]{1,255}</param>
+    /// <param name="ResourceArn">The ARN of the canary that you want to view groups for. Constraints: • min: 1 • max: 2048 • pattern: arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\d{1}:\d{12}:canary:[0-9a-z_\-]{1,255}</param>
     public AwsSyntheticsListAssociatedGroupsOptions(
         string ResourceArn
     )
@@ -57,20 +59,20 @@ public record AwsSyntheticsListAssociatedGroupsOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the canary that you want to view groups for. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws[a-zA-Z-]*)?:synthet- ics:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\d{1}:\d{12}:ca- nary:[0-9a-z_\-]{1,255}
+    /// The ARN of the canary that you want to view groups for. Constraints: • min: 1 • max: 2048 • pattern: arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\d{1}:\d{12}:canary:[0-9a-z_\-]{1,255}
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A token that indicates that there is more data available. You can use this token in a subsequent operation to retrieve the next set of results. Constraints: o min: 1 o max: 512 o pattern: ^.+$
+    /// A token that indicates that there is more data available. You can use this token in a subsequent operation to retrieve the next set of results. Constraints: • min: 1 • max: 512 • pattern: ^.+$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Specify this parameter to limit how many groups are returned each time you use the ListAssociatedGroups operation. If you omit this parameter, the default of 20 is used. Constraints: o min: 1 o max: 20
+    /// Specify this parameter to limit how many groups are returned each time you use the ListAssociatedGroups operation. If you omit this parameter, the default of 20 is used. Constraints: • min: 1 • max: 20
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

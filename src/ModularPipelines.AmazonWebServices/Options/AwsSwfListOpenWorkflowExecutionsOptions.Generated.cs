@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of open workflow executions in the specified domain that meet the filtering criteria. The results may be split into multiple pages. To retrieve subsequent pages, make the call again using the nextPageToken returned by the initial call. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: o Use a Re...
+/// Returns a list of open workflow executions in the specified domain that meet the filtering criteria. The results may be split into multiple pages. To retrieve subsequent pages, make the call again using the nextPageToken returned by the initial call. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: • Use a Re...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsSwfListOpenWorkflowExecutionsOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a list of open workflow executions in the specified domain that meet the filtering criteria. The results may be split into multiple pages. To retrieve subsequent pages, make the call again using the nextPageToken returned by the initial call. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: o Use a Re...
+    /// Returns a list of open workflow executions in the specified domain that meet the filtering criteria. The results may be split into multiple pages. To retrieve subsequent pages, make the call again using the nextPageToken returned by the initial call. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: • Use a Re...
     /// </summary>
-    /// <param name="Domain">The name of the domain that contains the workflow executions to list. Constraints: o min: 1 o max: 256</param>
+    /// <param name="Domain">The name of the domain that contains the workflow executions to list. Constraints: • min: 1 • max: 256</param>
     /// <param name="StartTimeFilter">Workflow executions are included in the returned results based on whether their start times are within the range specified by this filter. oldestDate -&gt; (timestamp) [required] Specifies the oldest start or close date and time to return. latestDate -&gt; (timestamp) Specifies the latest start or close date and time to return. Shorthand Syntax: oldestDate=timestamp,latestDate=timestamp JSON Syntax: { "oldestDate": timestamp, "latestDate": timestamp }</param>
     public AwsSwfListOpenWorkflowExecutionsOptions(
         string Domain,
@@ -61,7 +63,7 @@ public record AwsSwfListOpenWorkflowExecutionsOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain that contains the workflow executions to list. Constraints: o min: 1 o max: 256
+    /// The name of the domain that contains the workflow executions to list. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; private init; }
@@ -73,13 +75,13 @@ public record AwsSwfListOpenWorkflowExecutionsOptions : AwsOptions, IValidatable
     public string? StartTimeFilter { get; private init; }
 
     /// <summary>
-    /// If specified, only executions of the type specified in the filter are returned. NOTE: executionFilter , typeFilter and tagFilter are mutually exclu- sive. You can specify at most one of these in a request. name -&gt; (string) [required] Name of the workflow type. Constraints: o min: 1 o max: 256 version -&gt; (string) Version of the workflow type. Constraints: o max: 64 Shorthand Syntax: name=string,version=string JSON Syntax: { "name": "string", "version": "string" }
+    /// If specified, only executions of the type specified in the filter are returned. NOTE: executionFilter , typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. name -&gt; (string) [required] Name of the workflow type. Constraints: • min: 1 • max: 256 version -&gt; (string) Version of the workflow type. Constraints: • max: 64 Shorthand Syntax: name=string,version=string JSON Syntax: { "name": "string", "version": "string" }
     /// </summary>
     [CliOption("--type-filter")]
     public string? TypeFilter { get; set; }
 
     /// <summary>
-    /// If specified, only executions that have the matching tag are listed. NOTE: executionFilter , typeFilter and tagFilter are mutually exclu- sive. You can specify at most one of these in a request. tag -&gt; (string) [required] Specifies the tag that must be associated with the execution for it to meet the filter criteria. Tags may only contain unicode letters, digits, whitespace, or these symbols: _ . : / = + - @ . Constraints: o min: 0 o max: 256 Shorthand Syntax: tag=string JSON Syntax: { "tag": "string" }
+    /// If specified, only executions that have the matching tag are listed. NOTE: executionFilter , typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. tag -&gt; (string) [required] Specifies the tag that must be associated with the execution for it to meet the filter criteria. Tags may only contain unicode letters, digits, whitespace, or these symbols: _ . : / = + - @ . Constraints: • min: 0 • max: 256 Shorthand Syntax: tag=string JSON Syntax: { "tag": "string" }
     /// </summary>
     [CliOption("--tag-filter")]
     public string? TagFilter { get; set; }
@@ -91,16 +93,13 @@ public record AwsSwfListOpenWorkflowExecutionsOptions : AwsOptions, IValidatable
     public bool? ReverseOrder { get; set; }
 
     /// <summary>
-    /// If specified, only workflow executions matching the workflow ID specified in the filter are returned. NOTE: executionFilter , typeFilter and tagFilter are mutually exclu- sive. You can specify at most one of these in a request. workflowId -&gt; (string) [required] The workflowId to pass of match the criteria of this filter. Constraints: o min: 1 o max: 256 Shorthand Syntax: workflowId=string JSON Syntax: { "workflowId": "string" }
+    /// If specified, only workflow executions matching the workflow ID specified in the filter are returned. NOTE: executionFilter , typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. workflowId -&gt; (string) [required] The workflowId to pass of match the criteria of this filter. Constraints: • min: 1 • max: 256 Shorthand Syntax: workflowId=string JSON Syntax: { "workflowId": "string" }
     /// </summary>
     [CliOption("--execution-filter")]
     public string? ExecutionFilter { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -110,16 +109,19 @@ public record AwsSwfListOpenWorkflowExecutionsOptions : AwsOptions, IValidatable
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 0 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

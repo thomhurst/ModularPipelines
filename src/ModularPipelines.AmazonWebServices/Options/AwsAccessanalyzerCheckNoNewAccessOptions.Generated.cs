@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Checks whether new access is allowed for an updated policy when com- pared to the existing policy. You can find examples for reference policies and learn how to set up and run a custom policy check for new access in the IAM Access Analyzer custom policy checks samples repository on GitHub. The reference poli- cies in this repository are meant to be passed to the existingPolicy- Document request parameter. See also: AWS API Documentation
+/// Checks whether new access is allowed for an updated policy when compared to the existing policy. You can find examples for reference policies and learn how to set up and run a custom policy check for new access in the IAM Access Analyzer custom policy checks samples repository on GitHub. The reference policies in this repository are meant to be passed to the existingPolicyDocument request parameter. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsAccessanalyzerCheckNoNewAccessOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Checks whether new access is allowed for an updated policy when com- pared to the existing policy. You can find examples for reference policies and learn how to set up and run a custom policy check for new access in the IAM Access Analyzer custom policy checks samples repository on GitHub. The reference poli- cies in this repository are meant to be passed to the existingPolicy- Document request parameter. See also: AWS API Documentation
+    /// Checks whether new access is allowed for an updated policy when compared to the existing policy. You can find examples for reference policies and learn how to set up and run a custom policy check for new access in the IAM Access Analyzer custom policy checks samples repository on GitHub. The reference policies in this repository are meant to be passed to the existingPolicyDocument request parameter. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NewPolicyDocument">The JSON policy document to use as the content for the updated pol- icy.</param>
-    /// <param name="ExistingPolicyDocument">The JSON policy document to use as the content for the existing pol- icy.</param>
-    /// <param name="PolicyType">The type of policy to compare. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services re- sources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. You can provide a generic in- put such as identity policy or resource policy or a specific input such as managed policy or Amazon S3 bucket policy. Possible values: o IDENTITY_POLICY o RESOURCE_POLICY</param>
+    /// <param name="NewPolicyDocument">The JSON policy document to use as the content for the updated policy.</param>
+    /// <param name="ExistingPolicyDocument">The JSON policy document to use as the content for the existing policy.</param>
+    /// <param name="PolicyType">The type of policy to compare. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services resources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. You can provide a generic input such as identity policy or resource policy or a specific input such as managed policy or Amazon S3 bucket policy. Possible values: • IDENTITY_POLICY • RESOURCE_POLICY</param>
     public AwsAccessanalyzerCheckNoNewAccessOptions(
         string NewPolicyDocument,
         string ExistingPolicyDocument,
@@ -64,19 +66,19 @@ public record AwsAccessanalyzerCheckNoNewAccessOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The JSON policy document to use as the content for the updated pol- icy.
+    /// The JSON policy document to use as the content for the updated policy.
     /// </summary>
     [CliOption("--new-policy-document")]
     public string? NewPolicyDocument { get; private init; }
 
     /// <summary>
-    /// The JSON policy document to use as the content for the existing pol- icy.
+    /// The JSON policy document to use as the content for the existing policy.
     /// </summary>
     [CliOption("--existing-policy-document")]
     public string? ExistingPolicyDocument { get; private init; }
 
     /// <summary>
-    /// The type of policy to compare. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services re- sources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. You can provide a generic in- put such as identity policy or resource policy or a specific input such as managed policy or Amazon S3 bucket policy. Possible values: o IDENTITY_POLICY o RESOURCE_POLICY
+    /// The type of policy to compare. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services resources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. You can provide a generic input such as identity policy or resource policy or a specific input such as managed policy or Amazon S3 bucket policy. Possible values: • IDENTITY_POLICY • RESOURCE_POLICY
     /// </summary>
     [CliOption("--policy-type")]
     public AwsAccessanalyzerCheckNoNewAccessPolicyType? PolicyType { get; private init; }

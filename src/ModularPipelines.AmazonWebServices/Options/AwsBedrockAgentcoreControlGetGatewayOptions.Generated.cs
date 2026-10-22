@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBedrockAgentcoreControlGetGatewayOptions : AwsOptions, IValidat
     /// <summary>
     /// Retrieves information about a specific Gateway. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GatewayIdentifier">The identifier of the gateway to retrieve. Constraints: o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}</param>
+    /// <param name="GatewayIdentifier">The identifier of the gateway to retrieve. Constraints: • pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}</param>
     public AwsBedrockAgentcoreControlGetGatewayOptions(
         string GatewayIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsBedrockAgentcoreControlGetGatewayOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the gateway to retrieve. Constraints: o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
+    /// The identifier of the gateway to retrieve. Constraints: • pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
     /// </summary>
     [CliOption("--gateway-identifier")]
     public string? GatewayIdentifier { get; private init; }

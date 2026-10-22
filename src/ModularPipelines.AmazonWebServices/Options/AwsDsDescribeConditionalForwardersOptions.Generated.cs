@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDsDescribeConditionalForwardersOptions : AwsOptions, IValidatab
     /// <summary>
     /// Obtains information about the conditional forwarders for this account. If no input parameters are provided for RemoteDomainNames, this request describes all conditional forwarders for the specified directory ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The directory ID for which to get the list of associated conditional forwarders. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="DirectoryId">The directory ID for which to get the list of associated conditional forwarders. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
     public AwsDsDescribeConditionalForwardersOptions(
         string DirectoryId
     )
@@ -56,13 +58,13 @@ public record AwsDsDescribeConditionalForwardersOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The directory ID for which to get the list of associated conditional forwarders. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The directory ID for which to get the list of associated conditional forwarders. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// The fully qualified domain names (FQDN) of the remote domains for which to get the list of associated conditional forwarders. If this member is null, all conditional forwarders are returned. (string) Constraints: o max: 1024 o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$ Syntax: "string" "string" ...
+    /// The fully qualified domain names (FQDN) of the remote domains for which to get the list of associated conditional forwarders. If this member is null, all conditional forwarders are returned. (string) Constraints: • max: 1024 • pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--remote-domain-names", GroupValues = true)]
     public IEnumerable<string>? RemoteDomainNames { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -74,7 +76,7 @@ public record AwsNeptuneModifyDbClusterEndpointOptions : AwsOptions, IValidatabl
     public IEnumerable<string>? StaticMembers { get; set; }
 
     /// <summary>
-    /// List of DB instance identifiers that aren't part of the custom end- point group. All other eligible instances are reachable through the custom endpoint. Only relevant if the list of static members is empty. (string) Syntax: "string" "string" ...
+    /// List of DB instance identifiers that aren't part of the custom endpoint group. All other eligible instances are reachable through the custom endpoint. Only relevant if the list of static members is empty. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--excluded-members", GroupValues = true)]
     public IEnumerable<string>? ExcludedMembers { get; set; }

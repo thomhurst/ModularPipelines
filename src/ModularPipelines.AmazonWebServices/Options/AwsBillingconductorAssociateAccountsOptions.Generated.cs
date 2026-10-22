@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Connects an array of account IDs in a consolidated billing family to a predefined billing group. The account IDs must be a part of the consol- idated billing family during the current month, and not already associ- ated with another billing group. The maximum number of accounts that can be associated in one call is 30. See also: AWS API Documentation
+/// Connects an array of account IDs in a consolidated billing family to a predefined billing group. The account IDs must be a part of the consolidated billing family during the current month, and not already associated with another billing group. The maximum number of accounts that can be associated in one call is 30. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsBillingconductorAssociateAccountsOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Connects an array of account IDs in a consolidated billing family to a predefined billing group. The account IDs must be a part of the consol- idated billing family during the current month, and not already associ- ated with another billing group. The maximum number of accounts that can be associated in one call is 30. See also: AWS API Documentation
+    /// Connects an array of account IDs in a consolidated billing family to a predefined billing group. The account IDs must be a part of the consolidated billing family during the current month, and not already associated with another billing group. The maximum number of accounts that can be associated in one call is 30. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the billing group that associates the array of account IDs. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:billing- group/)?[a-zA-Z0-9]{10,12}</param>
-    /// <param name="AccountIds">The associating array of account IDs. Constraints: o min: 0 o max: 30 (string) Constraints: o pattern: [0-9]{12} Syntax: "string" "string" ...</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the billing group that associates the array of account IDs. Constraints: • pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:billinggroup/)?[a-zA-Z0-9]{10,12}</param>
+    /// <param name="AccountIds">The associating array of account IDs. Constraints: • min: 0 • max: 30 (string) Constraints: • pattern: [0-9]{12} Syntax: "string" "string" ...</param>
     public AwsBillingconductorAssociateAccountsOptions(
         string Arn,
         IEnumerable<string> AccountIds
@@ -71,13 +73,13 @@ public record AwsBillingconductorAssociateAccountsOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the billing group that associates the array of account IDs. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:billing- group/)?[a-zA-Z0-9]{10,12}
+    /// The Amazon Resource Name (ARN) of the billing group that associates the array of account IDs. Constraints: • pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:billinggroup/)?[a-zA-Z0-9]{10,12}
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The associating array of account IDs. Constraints: o min: 0 o max: 30 (string) Constraints: o pattern: [0-9]{12} Syntax: "string" "string" ...
+    /// The associating array of account IDs. Constraints: • min: 0 • max: 30 (string) Constraints: • pattern: [0-9]{12} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds or updates tags for a specified AWS Partner Central Account re- source. See also: AWS API Documentation
+/// Adds or updates tags for a specified AWS Partner Central Account resource. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsPartnercentralAccountTagResourceOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds or updates tags for a specified AWS Partner Central Account re- source. See also: AWS API Documentation
+    /// Adds or updates tags for a specified AWS Partner Central Account resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to tag. Constraints: o min: 1 o max: 200 o pattern: arn:[a-z-]+:partner- central:[a-z0-9-]+:[0-9]{12}:[A-Za-z0-9._:/-]+</param>
-    /// <param name="Tags">A list of tags to add or update for the specified resource. Constraints: o min: 0 o max: 200 (structure) A key-value pair used to associate metadata with AWS Partner Central Account resources. Key -&gt; (string) [required] The key name of the tag. Tag keys are case-sensitive. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value associated with the tag key. Tag values are case-sensitive. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to tag. Constraints: • min: 1 • max: 200 • pattern: arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:[A-Za-z0-9._:/-]+</param>
+    /// <param name="Tags">A list of tags to add or update for the specified resource. Constraints: • min: 0 • max: 200 (structure) A key-value pair used to associate metadata with AWS Partner Central Account resources. Key -&gt; (string) [required] The key name of the tag. Tag keys are case-sensitive. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The value associated with the tag key. Tag values are case-sensitive. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsPartnercentralAccountTagResourceOptions(
         string ResourceArn,
         IEnumerable<string> Tags
@@ -71,13 +73,13 @@ public record AwsPartnercentralAccountTagResourceOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource to tag. Constraints: o min: 1 o max: 200 o pattern: arn:[a-z-]+:partner- central:[a-z0-9-]+:[0-9]{12}:[A-Za-z0-9._:/-]+
+    /// The Amazon Resource Name (ARN) of the resource to tag. Constraints: • min: 1 • max: 200 • pattern: arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:[A-Za-z0-9._:/-]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A list of tags to add or update for the specified resource. Constraints: o min: 0 o max: 200 (structure) A key-value pair used to associate metadata with AWS Partner Central Account resources. Key -&gt; (string) [required] The key name of the tag. Tag keys are case-sensitive. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value associated with the tag key. Tag values are case-sensitive. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tags to add or update for the specified resource. Constraints: • min: 0 • max: 200 (structure) A key-value pair used to associate metadata with AWS Partner Central Account resources. Key -&gt; (string) [required] The key name of the tag. Tag keys are case-sensitive. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The value associated with the tag key. Tag values are case-sensitive. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }

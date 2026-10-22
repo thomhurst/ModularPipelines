@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotManagedIntegrationsListTagsForResourceOptions : AwsOptions, 
     /// <summary>
     /// Lists the tags for a specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource for which to list tags. Constraints: o min: 1 o max: 200 o pattern: arn:aws:iotmanagedintegrations:[0-9a-zA-Z-]+:[0-9]+:(man- aged-thing|provisioning-profile|ota-task|credential-locker|ac- count-association)/[0-9a-zA-Z]+</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource for which to list tags. Constraints: • min: 1 • max: 200 • pattern: arn:aws:iotmanagedintegrations:[0-9a-zA-Z-]+:[0-9]+:(managed-thing|provisioning-profile|ota-task|credential-locker|account-association)/[0-9a-zA-Z]+</param>
     public AwsIotManagedIntegrationsListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsIotManagedIntegrationsListTagsForResourceOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource for which to list tags. Constraints: o min: 1 o max: 200 o pattern: arn:aws:iotmanagedintegrations:[0-9a-zA-Z-]+:[0-9]+:(man- aged-thing|provisioning-profile|ota-task|credential-locker|ac- count-association)/[0-9a-zA-Z]+
+    /// The Amazon Resource Name (ARN) of the resource for which to list tags. Constraints: • min: 1 • max: 200 • pattern: arn:aws:iotmanagedintegrations:[0-9a-zA-Z-]+:[0-9]+:(managed-thing|provisioning-profile|ota-task|credential-locker|account-association)/[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

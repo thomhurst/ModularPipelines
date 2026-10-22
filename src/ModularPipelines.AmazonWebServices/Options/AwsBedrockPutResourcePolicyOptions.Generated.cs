@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsBedrockPutResourcePolicyOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Adds a resource policy for a Bedrock resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the Bedrock resource to which this resource policy ap- plies. Constraints: o min: 1 o max: 255</param>
-    /// <param name="ResourcePolicy">The JSON string representing the Bedrock resource policy. Constraints: o min: 1 o max: 20480 o pattern: [ -]+</param>
+    /// <param name="ResourceArn">The ARN of the Bedrock resource to which this resource policy applies. Constraints: • min: 1 • max: 255</param>
+    /// <param name="ResourcePolicy">The JSON string representing the Bedrock resource policy. Constraints: • min: 1 • max: 20480 • pattern: [ -]+</param>
     public AwsBedrockPutResourcePolicyOptions(
         string ResourceArn,
         string ResourcePolicy
@@ -60,13 +62,13 @@ public record AwsBedrockPutResourcePolicyOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the Bedrock resource to which this resource policy ap- plies. Constraints: o min: 1 o max: 255
+    /// The ARN of the Bedrock resource to which this resource policy applies. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The JSON string representing the Bedrock resource policy. Constraints: o min: 1 o max: 20480 o pattern: [ -]+
+    /// The JSON string representing the Bedrock resource policy. Constraints: • min: 1 • max: 20480 • pattern: [ -]+
     /// </summary>
     [CliOption("--resource-policy")]
     public string? ResourcePolicy { get; private init; }

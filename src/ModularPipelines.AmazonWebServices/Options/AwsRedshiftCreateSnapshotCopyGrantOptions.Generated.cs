@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRedshiftCreateSnapshotCopyGrantOptions : AwsOptions, IValidatab
     /// <summary>
     /// Creates a snapshot copy grant that permits Amazon Redshift to use an encrypted symmetric key from Key Management Service (KMS) to encrypt copied snapshots in a destination region. For more information about managing snapshot copy grants, go to Amazon Redshift Database Encryption in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="SnapshotCopyGrantName">The name of the snapshot copy grant. This name must be unique in the region for the Amazon Web Services account. Constraints: o Must contain from 1 to 63 alphanumeric characters or hyphens. o Alphabetic characters must be lowercase. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. o Must be unique for all clusters within an Amazon Web Services ac- count. Constraints: o max: 2147483647</param>
+    /// <param name="SnapshotCopyGrantName">The name of the snapshot copy grant. This name must be unique in the region for the Amazon Web Services account. Constraints: • Must contain from 1 to 63 alphanumeric characters or hyphens. • Alphabetic characters must be lowercase. • First character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. • Must be unique for all clusters within an Amazon Web Services account. Constraints: • max: 2147483647</param>
     public AwsRedshiftCreateSnapshotCopyGrantOptions(
         string SnapshotCopyGrantName
     )
@@ -56,19 +58,19 @@ public record AwsRedshiftCreateSnapshotCopyGrantOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the snapshot copy grant. This name must be unique in the region for the Amazon Web Services account. Constraints: o Must contain from 1 to 63 alphanumeric characters or hyphens. o Alphabetic characters must be lowercase. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. o Must be unique for all clusters within an Amazon Web Services ac- count. Constraints: o max: 2147483647
+    /// The name of the snapshot copy grant. This name must be unique in the region for the Amazon Web Services account. Constraints: • Must contain from 1 to 63 alphanumeric characters or hyphens. • Alphabetic characters must be lowercase. • First character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. • Must be unique for all clusters within an Amazon Web Services account. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--snapshot-copy-grant-name")]
     public string? SnapshotCopyGrantName { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the encrypted symmetric key to which to grant Amazon Redshift permission. If no key is specified, the de- fault key is used. Constraints: o max: 2147483647
+    /// The unique identifier of the encrypted symmetric key to which to grant Amazon Redshift permission. If no key is specified, the default key is used. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// A list of tag instances. (structure) A tag consisting of a name/value pair for a resource. Key -&gt; (string) The key, or name, for the resource tag. Constraints: o max: 2147483647 Value -&gt; (string) The value for the resource tag. Constraints: o max: 2147483647 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tag instances. (structure) A tag consisting of a name/value pair for a resource. Key -&gt; (string) The key, or name, for the resource tag. Constraints: • max: 2147483647 Value -&gt; (string) The value for the resource tag. Constraints: • max: 2147483647 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

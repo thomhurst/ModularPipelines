@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Casts a vote for a specified ProposalId on behalf of a member. The mem- ber to vote as, specified by VoterMemberId , must be in the same Amazon Web Services account as the principal that calls the action. Applies only to Hyperledger Fabric. See also: AWS API Documentation
+/// Casts a vote for a specified ProposalId on behalf of a member. The member to vote as, specified by VoterMemberId , must be in the same Amazon Web Services account as the principal that calls the action. Applies only to Hyperledger Fabric. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +28,12 @@ public record AwsManagedblockchainVoteOnProposalOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Casts a vote for a specified ProposalId on behalf of a member. The mem- ber to vote as, specified by VoterMemberId , must be in the same Amazon Web Services account as the principal that calls the action. Applies only to Hyperledger Fabric. See also: AWS API Documentation
+    /// Casts a vote for a specified ProposalId on behalf of a member. The member to vote as, specified by VoterMemberId , must be in the same Amazon Web Services account as the principal that calls the action. Applies only to Hyperledger Fabric. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The unique identifier of the network. Constraints: o min: 1 o max: 32</param>
-    /// <param name="ProposalId">The unique identifier of the proposal. Constraints: o min: 1 o max: 32</param>
-    /// <param name="VoterMemberId">The unique identifier of the member casting the vote. Constraints: o min: 1 o max: 32</param>
-    /// <param name="Vote">The value of the vote. Possible values: o YES o NO</param>
+    /// <param name="NetworkId">The unique identifier of the network. Constraints: • min: 1 • max: 32</param>
+    /// <param name="ProposalId">The unique identifier of the proposal. Constraints: • min: 1 • max: 32</param>
+    /// <param name="VoterMemberId">The unique identifier of the member casting the vote. Constraints: • min: 1 • max: 32</param>
+    /// <param name="Vote">The value of the vote. Possible values: • YES • NO</param>
     public AwsManagedblockchainVoteOnProposalOptions(
         string NetworkId,
         string ProposalId,
@@ -68,25 +70,25 @@ public record AwsManagedblockchainVoteOnProposalOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the network. Constraints: o min: 1 o max: 32
+    /// The unique identifier of the network. Constraints: • min: 1 • max: 32
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the proposal. Constraints: o min: 1 o max: 32
+    /// The unique identifier of the proposal. Constraints: • min: 1 • max: 32
     /// </summary>
     [CliOption("--proposal-id")]
     public string? ProposalId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the member casting the vote. Constraints: o min: 1 o max: 32
+    /// The unique identifier of the member casting the vote. Constraints: • min: 1 • max: 32
     /// </summary>
     [CliOption("--voter-member-id")]
     public string? VoterMemberId { get; private init; }
 
     /// <summary>
-    /// The value of the vote. Possible values: o YES o NO
+    /// The value of the vote. Possible values: • YES • NO
     /// </summary>
     [CliOption("--vote")]
     public AwsManagedblockchainVoteOnProposalVote? Vote { get; private init; }

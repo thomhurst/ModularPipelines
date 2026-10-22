@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a version of a component from IoT Greengrass. NOTE: This operation deletes the component's recipe and artifacts. As a result, deployments that refer to this component version will fail. If you have deployments that use this component version, you can re- move the component from the deployment or update the deployment to use a valid version. See also: AWS API Documentation
+/// Deletes a version of a component from IoT Greengrass. NOTE: This operation deletes the component's recipe and artifacts. As a result, deployments that refer to this component version will fail. If you have deployments that use this component version, you can remove the component from the deployment or update the deployment to use a valid version. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsGreengrassv2DeleteComponentOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a version of a component from IoT Greengrass. NOTE: This operation deletes the component's recipe and artifacts. As a result, deployments that refer to this component version will fail. If you have deployments that use this component version, you can re- move the component from the deployment or update the deployment to use a valid version. See also: AWS API Documentation
+    /// Deletes a version of a component from IoT Greengrass. NOTE: This operation deletes the component's recipe and artifacts. As a result, deployments that refer to this component version will fail. If you have deployments that use this component version, you can remove the component from the deployment or update the deployment to use a valid version. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The ARN of the component version. Constraints: o pattern: arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):compo- nents:[^:]+:versions:[^:]+</param>
+    /// <param name="Arn">The ARN of the component version. Constraints: • pattern: arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):components:[^:]+:versions:[^:]+</param>
     public AwsGreengrassv2DeleteComponentOptions(
         string Arn
     )
@@ -56,7 +58,7 @@ public record AwsGreengrassv2DeleteComponentOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the component version. Constraints: o pattern: arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):compo- nents:[^:]+:versions:[^:]+
+    /// The ARN of the component version. Constraints: • pattern: arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):components:[^:]+:versions:[^:]+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }

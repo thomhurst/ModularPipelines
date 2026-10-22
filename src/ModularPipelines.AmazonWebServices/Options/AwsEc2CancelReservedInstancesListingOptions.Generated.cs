@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Cancels the specified Reserved Instance listing in the Reserved In- stance Marketplace. For more information, see Sell in the Reserved Instance Marketplace in the Amazon EC2 User Guide . See also: AWS API Documentation
+/// Cancels the specified Reserved Instance listing in the Reserved Instance Marketplace. For more information, see Sell in the Reserved Instance Marketplace in the Amazon EC2 User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsEc2CancelReservedInstancesListingOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Cancels the specified Reserved Instance listing in the Reserved In- stance Marketplace. For more information, see Sell in the Reserved Instance Marketplace in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// Cancels the specified Reserved Instance listing in the Reserved Instance Marketplace. For more information, see Sell in the Reserved Instance Marketplace in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="ReservedInstancesListingId">The ID of the Reserved Instance listing.</param>
     public AwsEc2CancelReservedInstancesListingOptions(

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes specified tags from a specified Amazon Connect Voice ID re- source. See also: AWS API Documentation
+/// Removes specified tags from a specified Amazon Connect Voice ID resource. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsVoiceIdUntagResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes specified tags from a specified Amazon Connect Voice ID re- source. See also: AWS API Documentation
+    /// Removes specified tags from a specified Amazon Connect Voice ID resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Voice ID resource you want to remove tags from. Constraints: o min: 1 o max: 1011 o pattern: ^arn:aws(-[^:]+)?:voiceid.+:[0-9]{12}:do- main/[a-zA-Z0-9]{22}$</param>
-    /// <param name="TagKeys">The list of tag keys you want to remove from the specified resource. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Voice ID resource you want to remove tags from. Constraints: • min: 1 • max: 1011 • pattern: ^arn:aws(-[^:]+)?:voiceid.+:[0-9]{12}:domain/[a-zA-Z0-9]{22}$</param>
+    /// <param name="TagKeys">The list of tag keys you want to remove from the specified resource. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...</param>
     public AwsVoiceIdUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsVoiceIdUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Voice ID resource you want to remove tags from. Constraints: o min: 1 o max: 1011 o pattern: ^arn:aws(-[^:]+)?:voiceid.+:[0-9]{12}:do- main/[a-zA-Z0-9]{22}$
+    /// The Amazon Resource Name (ARN) of the Voice ID resource you want to remove tags from. Constraints: • min: 1 • max: 1011 • pattern: ^arn:aws(-[^:]+)?:voiceid.+:[0-9]{12}:domain/[a-zA-Z0-9]{22}$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The list of tag keys you want to remove from the specified resource. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
+    /// The list of tag keys you want to remove from the specified resource. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

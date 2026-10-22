@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsStoragegatewaySetSmbGuestPasswordOptions : AwsOptions, IValidat
     /// <summary>
     /// Sets the password for the guest user smbguest . The smbguest user is the user when the authentication method for the file share is set to GuestAccess . This operation only supported for S3 File Gateways See also: AWS API Documentation
     /// </summary>
-    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the S3 File Gateway the SMB file share is associated with. Constraints: o min: 50 o max: 500</param>
-    /// <param name="Password">The password that you want to set for your SMB server. Constraints: o min: 6 o max: 512 o pattern: ^[ -~]+$</param>
+    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the S3 File Gateway the SMB file share is associated with. Constraints: • min: 50 • max: 500</param>
+    /// <param name="Password">The password that you want to set for your SMB server. Constraints: • min: 6 • max: 512 • pattern: ^[ -~]+$</param>
     public AwsStoragegatewaySetSmbGuestPasswordOptions(
         string GatewayArn,
         string Password
@@ -61,13 +63,13 @@ public record AwsStoragegatewaySetSmbGuestPasswordOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the S3 File Gateway the SMB file share is associated with. Constraints: o min: 50 o max: 500
+    /// The Amazon Resource Name (ARN) of the S3 File Gateway the SMB file share is associated with. Constraints: • min: 50 • max: 500
     /// </summary>
     [CliOption("--gateway-arn")]
     public string? GatewayArn { get; private init; }
 
     /// <summary>
-    /// The password that you want to set for your SMB server. Constraints: o min: 6 o max: 512 o pattern: ^[ -~]+$
+    /// The password that you want to set for your SMB server. Constraints: • min: 6 • max: 512 • pattern: ^[ -~]+$
     /// </summary>
     [SecretValue]
     [CliOption("--password")]

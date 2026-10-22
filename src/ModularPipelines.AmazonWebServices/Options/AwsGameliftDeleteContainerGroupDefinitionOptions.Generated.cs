@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: Container Request options: Deletes a container group definition. o Delete an entire container group definition, including all versions. Specify the container group definition name, or use an ARN value without the version number. o Delete a particular version. Specify the container group definition name and a version number, or use an ARN value that includes the ver- sion number. o Keep the newest versions and delete all older versions. Specify the c...
+/// This API works with the following fleet types: Container Request options: Deletes a container group definition. • Delete an entire container group definition, including all versions. Specify the container group definition name, or use an ARN value without the version number. • Delete a particular version. Specify the container group definition name and a version number, or use an ARN value that includes the version number. • Keep the newest versions and delete all older versions. Specify the con...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsGameliftDeleteContainerGroupDefinitionOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: Container Request options: Deletes a container group definition. o Delete an entire container group definition, including all versions. Specify the container group definition name, or use an ARN value without the version number. o Delete a particular version. Specify the container group definition name and a version number, or use an ARN value that includes the ver- sion number. o Keep the newest versions and delete all older versions. Specify the c...
+    /// This API works with the following fleet types: Container Request options: Deletes a container group definition. • Delete an entire container group definition, including all versions. Specify the container group definition name, or use an ARN value without the version number. • Delete a particular version. Specify the container group definition name and a version number, or use an ARN value that includes the version number. • Keep the newest versions and delete all older versions. Specify the con...
     /// </summary>
-    /// <param name="Name">The unique identifier for the container group definition to delete. You can use either the Name or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9\-]+$|^arn:.*:containergroupdefini- tion\/[a-zA-Z0-9\-]+(:[0-9]+)?$</param>
+    /// <param name="Name">The unique identifier for the container group definition to delete. You can use either the Name or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^[a-zA-Z0-9\-]+$|^arn:.*:containergroupdefinition\/[a-zA-Z0-9\-]+(:[0-9]+)?$</param>
     public AwsGameliftDeleteContainerGroupDefinitionOptions(
         string Name
     )
@@ -56,19 +58,19 @@ public record AwsGameliftDeleteContainerGroupDefinitionOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the container group definition to delete. You can use either the Name or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9\-]+$|^arn:.*:containergroupdefini- tion\/[a-zA-Z0-9\-]+(:[0-9]+)?$
+    /// The unique identifier for the container group definition to delete. You can use either the Name or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^[a-zA-Z0-9\-]+$|^arn:.*:containergroupdefinition\/[a-zA-Z0-9\-]+(:[0-9]+)?$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The specific version to delete. Constraints: o min: 1
+    /// The specific version to delete. Constraints: • min: 1
     /// </summary>
     [CliOption("--version-number")]
     public int? VersionNumber { get; set; }
 
     /// <summary>
-    /// The number of most recent versions to keep while deleting all older versions. Constraints: o min: 0
+    /// The number of most recent versions to keep while deleting all older versions. Constraints: • min: 0
     /// </summary>
     [CliOption("--version-count-to-retain")]
     public int? VersionCountToRetain { get; set; }

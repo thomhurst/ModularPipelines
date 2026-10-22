@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsLogsTestMetricFilterOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Tests the filter pattern of a metric filter against a sample of log event messages. You can use this operation to validate the correctness of a metric filter pattern. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FilterPattern">A symbolic description of how CloudWatch Logs should interpret the data in each log event. For example, a log event can contain time- stamps, IP addresses, strings, and so on. You use the filter pattern to specify what to look for in the log event message. Constraints: o min: 0 o max: 1024</param>
-    /// <param name="LogEventMessages">The log event messages to test. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 Syntax: "string" "string" ...</param>
+    /// <param name="FilterPattern">A symbolic description of how CloudWatch Logs should interpret the data in each log event. For example, a log event can contain timestamps, IP addresses, strings, and so on. You use the filter pattern to specify what to look for in the log event message. Constraints: • min: 0 • max: 1024</param>
+    /// <param name="LogEventMessages">The log event messages to test. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 Syntax: "string" "string" ...</param>
     public AwsLogsTestMetricFilterOptions(
         string FilterPattern,
         IEnumerable<string> LogEventMessages
@@ -71,13 +73,13 @@ public record AwsLogsTestMetricFilterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A symbolic description of how CloudWatch Logs should interpret the data in each log event. For example, a log event can contain time- stamps, IP addresses, strings, and so on. You use the filter pattern to specify what to look for in the log event message. Constraints: o min: 0 o max: 1024
+    /// A symbolic description of how CloudWatch Logs should interpret the data in each log event. For example, a log event can contain timestamps, IP addresses, strings, and so on. You use the filter pattern to specify what to look for in the log event message. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--filter-pattern")]
     public string? FilterPattern { get; private init; }
 
     /// <summary>
-    /// The log event messages to test. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 Syntax: "string" "string" ...
+    /// The log event messages to test. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--log-event-messages", GroupValues = true)]
     public IEnumerable<string>? LogEventMessages { get; private init; }

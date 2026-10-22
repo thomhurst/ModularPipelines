@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +31,7 @@ public record AwsWorkspacesThinClientDeregisterDeviceOptions : AwsOptions, IVali
     /// <summary>
     /// Deregisters a thin client device. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the device to deregister. Constraints: o pattern: [a-zA-Z0-9]{24}</param>
+    /// <param name="Id">The ID of the device to deregister. Constraints: • pattern: [a-zA-Z0-9]{24}</param>
     public AwsWorkspacesThinClientDeregisterDeviceOptions(
         string Id
     )
@@ -58,19 +60,19 @@ public record AwsWorkspacesThinClientDeregisterDeviceOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the device to deregister. Constraints: o pattern: [a-zA-Z0-9]{24}
+    /// The ID of the device to deregister. Constraints: • pattern: [a-zA-Z0-9]{24}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The desired new status for the device. Possible values: o DEREGISTERED o ARCHIVED
+    /// The desired new status for the device. Possible values: • DEREGISTERED • ARCHIVED
     /// </summary>
     [CliOption("--target-device-status")]
     public AwsWorkspacesThinClientDeregisterDeviceTargetDeviceStatus? TargetDeviceStatus { get; set; }
 
     /// <summary>
-    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error. Constraints: o min: 1 o max: 512
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with different parameters, the retry fails with an IdempotentParameterMismatch error. Constraints: • min: 1 • max: 512
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

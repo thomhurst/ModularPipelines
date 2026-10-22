@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Add or updates the evaluations for process checks. This API checks if the rule is a process check when the name of the Config rule is pro- vided. See also: AWS API Documentation
+/// Add or updates the evaluations for process checks. This API checks if the rule is a process check when the name of the Config rule is provided. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsConfigservicePutExternalEvaluationOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Add or updates the evaluations for process checks. This API checks if the rule is a process check when the name of the Config rule is pro- vided. See also: AWS API Documentation
+    /// Add or updates the evaluations for process checks. This API checks if the rule is a process check when the name of the Config rule is provided. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfigRuleName">The name of the Config rule. Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
-    /// <param name="ExternalEvaluation">An ExternalEvaluation object that provides details about compliance. ComplianceResourceType -&gt; (string) [required] The evaluated compliance resource type. Config accepts AWS::::Account resource type. Constraints: o min: 1 o max: 256 ComplianceResourceId -&gt; (string) [required] The evaluated compliance resource ID. Config accepts only Amazon Web Services account ID. Constraints: o min: 1 o max: 768 ComplianceType -&gt; (string) [required] The compliance of the Amazon Web Services resource. The valid values are COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE . Possible values: o COMPLIANT o NON_COMPLIANT o NOT_APPLICABLE o INSUFFICIENT_DATA Annotation -&gt; (string) Supplementary information about the reason of compliance. For example, this task was completed on a specific date. Constraints: o min: 1 o max: 256 OrderingTimestamp -&gt; (timestamp) [required] The time when the compliance was recorded. Shorthand Syntax: ComplianceResourceType=string,ComplianceResourceId=string,ComplianceType=string,Annotation=string,OrderingTimestamp=timestamp JSON Syntax: { "ComplianceResourceType": "string", "ComplianceResourceId": "string", "ComplianceType": "COMPLIANT"|"NON_COMPLIANT"|"NOT_APPLICABLE"|"INSUFFICIENT_DATA", "Annotation": "string", "OrderingTimestamp": timestamp }</param>
+    /// <param name="ConfigRuleName">The name of the Config rule. Constraints: • min: 1 • max: 128 • pattern: .*\S.*</param>
+    /// <param name="ExternalEvaluation">An ExternalEvaluation object that provides details about compliance. ComplianceResourceType -&gt; (string) [required] The evaluated compliance resource type. Config accepts AWS::::Account resource type. Constraints: • min: 1 • max: 256 ComplianceResourceId -&gt; (string) [required] The evaluated compliance resource ID. Config accepts only Amazon Web Services account ID. Constraints: • min: 1 • max: 768 ComplianceType -&gt; (string) [required] The compliance of the Amazon Web Services resource. The valid values are COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE . Possible values: • COMPLIANT • NON_COMPLIANT • NOT_APPLICABLE • INSUFFICIENT_DATA Annotation -&gt; (string) Supplementary information about the reason of compliance. For example, this task was completed on a specific date. Constraints: • min: 1 • max: 256 OrderingTimestamp -&gt; (timestamp) [required] The time when the compliance was recorded. Shorthand Syntax: ComplianceResourceType=string,ComplianceResourceId=string,ComplianceType=string,Annotation=string,OrderingTimestamp=timestamp JSON Syntax: { "ComplianceResourceType": "string", "ComplianceResourceId": "string", "ComplianceType": "COMPLIANT"|"NON_COMPLIANT"|"NOT_APPLICABLE"|"INSUFFICIENT_DATA", "Annotation": "string", "OrderingTimestamp": timestamp }</param>
     public AwsConfigservicePutExternalEvaluationOptions(
         string ConfigRuleName,
         string ExternalEvaluation
@@ -60,13 +62,13 @@ public record AwsConfigservicePutExternalEvaluationOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Config rule. Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// The name of the Config rule. Constraints: • min: 1 • max: 128 • pattern: .*\S.*
     /// </summary>
     [CliOption("--config-rule-name")]
     public string? ConfigRuleName { get; private init; }
 
     /// <summary>
-    /// An ExternalEvaluation object that provides details about compliance. ComplianceResourceType -&gt; (string) [required] The evaluated compliance resource type. Config accepts AWS::::Account resource type. Constraints: o min: 1 o max: 256 ComplianceResourceId -&gt; (string) [required] The evaluated compliance resource ID. Config accepts only Amazon Web Services account ID. Constraints: o min: 1 o max: 768 ComplianceType -&gt; (string) [required] The compliance of the Amazon Web Services resource. The valid values are COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE . Possible values: o COMPLIANT o NON_COMPLIANT o NOT_APPLICABLE o INSUFFICIENT_DATA Annotation -&gt; (string) Supplementary information about the reason of compliance. For example, this task was completed on a specific date. Constraints: o min: 1 o max: 256 OrderingTimestamp -&gt; (timestamp) [required] The time when the compliance was recorded. Shorthand Syntax: ComplianceResourceType=string,ComplianceResourceId=string,ComplianceType=string,Annotation=string,OrderingTimestamp=timestamp JSON Syntax: { "ComplianceResourceType": "string", "ComplianceResourceId": "string", "ComplianceType": "COMPLIANT"|"NON_COMPLIANT"|"NOT_APPLICABLE"|"INSUFFICIENT_DATA", "Annotation": "string", "OrderingTimestamp": timestamp }
+    /// An ExternalEvaluation object that provides details about compliance. ComplianceResourceType -&gt; (string) [required] The evaluated compliance resource type. Config accepts AWS::::Account resource type. Constraints: • min: 1 • max: 256 ComplianceResourceId -&gt; (string) [required] The evaluated compliance resource ID. Config accepts only Amazon Web Services account ID. Constraints: • min: 1 • max: 768 ComplianceType -&gt; (string) [required] The compliance of the Amazon Web Services resource. The valid values are COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE . Possible values: • COMPLIANT • NON_COMPLIANT • NOT_APPLICABLE • INSUFFICIENT_DATA Annotation -&gt; (string) Supplementary information about the reason of compliance. For example, this task was completed on a specific date. Constraints: • min: 1 • max: 256 OrderingTimestamp -&gt; (timestamp) [required] The time when the compliance was recorded. Shorthand Syntax: ComplianceResourceType=string,ComplianceResourceId=string,ComplianceType=string,Annotation=string,OrderingTimestamp=timestamp JSON Syntax: { "ComplianceResourceType": "string", "ComplianceResourceId": "string", "ComplianceType": "COMPLIANT"|"NON_COMPLIANT"|"NOT_APPLICABLE"|"INSUFFICIENT_DATA", "Annotation": "string", "OrderingTimestamp": timestamp }
     /// </summary>
     [CliOption("--external-evaluation")]
     public string? ExternalEvaluation { get; private init; }

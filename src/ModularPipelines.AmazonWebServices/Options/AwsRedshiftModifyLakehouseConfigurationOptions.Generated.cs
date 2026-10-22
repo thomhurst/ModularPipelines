@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the lakehouse configuration for a cluster. This operation al- lows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation. See also: AWS API Documentation
+/// Modifies the lakehouse configuration for a cluster. This operation allows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsRedshiftModifyLakehouseConfigurationOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the lakehouse configuration for a cluster. This operation al- lows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation. See also: AWS API Documentation
+    /// Modifies the lakehouse configuration for a cluster. This operation allows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterIdentifier">The unique identifier of the cluster whose lakehouse configuration you want to modify. Constraints: o max: 2147483647</param>
+    /// <param name="ClusterIdentifier">The unique identifier of the cluster whose lakehouse configuration you want to modify. Constraints: • max: 2147483647</param>
     public AwsRedshiftModifyLakehouseConfigurationOptions(
         string ClusterIdentifier
     )
@@ -57,37 +59,37 @@ public record AwsRedshiftModifyLakehouseConfigurationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the cluster whose lakehouse configuration you want to modify. Constraints: o max: 2147483647
+    /// The unique identifier of the cluster whose lakehouse configuration you want to modify. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// Specifies whether to register or deregister the cluster with Amazon Redshift federated permissions. Valid values are Register or Dereg- ister . Possible values: o Register o Deregister
+    /// Specifies whether to register or deregister the cluster with Amazon Redshift federated permissions. Valid values are Register or Deregister . Possible values: • Register • Deregister
     /// </summary>
     [CliOption("--lakehouse-registration")]
     public AwsRedshiftModifyLakehouseConfigurationLakehouseRegistration? LakehouseRegistration { get; set; }
 
     /// <summary>
-    /// The name of the Glue data catalog that will be associated with the cluster enabled with Amazon Redshift federated permissions. Constraints: o Must contain at least one lowercase letter. o Can only contain lowercase letters (a-z), numbers (0-9), under- scores (_), and hyphens (-). Pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$ Example: my-catalog_01 Constraints: o min: 1 o max: 64 o pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$
+    /// The name of the Glue data catalog that will be associated with the cluster enabled with Amazon Redshift federated permissions. Constraints: • Must contain at least one lowercase letter. • Can only contain lowercase letters (a-z), numbers (0-9), underscores (_), and hyphens (-). Pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$ Example: my-catalog_01 Constraints: • min: 1 • max: 64 • pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$
     /// </summary>
     [CliOption("--catalog-name")]
     public string? CatalogName { get; set; }
 
     /// <summary>
-    /// Modifies the Amazon Web Services IAM Identity Center trusted iden- tity propagation on a cluster enabled with Amazon Redshift federated permissions. Valid values are Associate or Disassociate . Possible values: o Associate o Disassociate
+    /// Modifies the Amazon Web Services IAM Identity Center trusted identity propagation on a cluster enabled with Amazon Redshift federated permissions. Valid values are Associate or Disassociate . Possible values: • Associate • Disassociate
     /// </summary>
     [CliOption("--lakehouse-idc-registration")]
     public AwsRedshiftModifyLakehouseConfigurationLakehouseIdcRegistration? LakehouseIdcRegistration { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM Identity Center applica- tion used for enabling Amazon Web Services IAM Identity Center trusted identity propagation on a cluster enabled with Amazon Red- shift federated permissions. Constraints: o max: 2147483647
+    /// The Amazon Resource Name (ARN) of the IAM Identity Center application used for enabling Amazon Web Services IAM Identity Center trusted identity propagation on a cluster enabled with Amazon Redshift federated permissions. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--lakehouse-idc-application-arn")]
     public string? LakehouseIdcApplicationArn { get; set; }
 
     /// <summary>
-    /// A boolean value that, if true , validates the request without actu- ally modifying the lakehouse configuration. Use this to check for errors before making changes.
+    /// A boolean value that, if true , validates the request without actually modifying the lakehouse configuration. Use this to check for errors before making changes.
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

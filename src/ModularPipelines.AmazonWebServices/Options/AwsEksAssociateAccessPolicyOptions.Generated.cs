@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates an access policy and its scope to an access entry. For more information about associating access policies, see Associating and dis- associating access policies to and from access entries in the Amazon EKS User Guide . See also: AWS API Documentation
+/// Associates an access policy and its scope to an access entry. For more information about associating access policies, see Associating and disassociating access policies to and from access entries in the Amazon EKS User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +27,12 @@ public record AwsEksAssociateAccessPolicyOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates an access policy and its scope to an access entry. For more information about associating access policies, see Associating and dis- associating access policies to and from access entries in the Amazon EKS User Guide . See also: AWS API Documentation
+    /// Associates an access policy and its scope to an access entry. For more information about associating access policies, see Associating and disassociating access policies to and from access entries in the Amazon EKS User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="ClusterName">The name of your cluster.</param>
-    /// <param name="PrincipalArn">The Amazon Resource Name (ARN) of the IAM user or role for the Ac- cessEntry that you're associating the access policy to.</param>
+    /// <param name="PrincipalArn">The Amazon Resource Name (ARN) of the IAM user or role for the AccessEntry that you're associating the access policy to.</param>
     /// <param name="PolicyArn">The ARN of the AccessPolicy that you're associating. For a list of ARNs, use ListAccessPolicies .</param>
-    /// <param name="AccessScope">The scope for the AccessPolicy . You can scope access policies to an entire cluster or to specific Kubernetes namespaces. type -&gt; (string) The scope type of an access policy. Possible values: o cluster o namespace namespaces -&gt; (list) A Kubernetes namespace that an access policy is scoped to. A value is required if you specified namespace for Type . (string) Shorthand Syntax: type=string,namespaces=string,string JSON Syntax: { "type": "cluster"|"namespace", "namespaces": ["string", ...] }</param>
+    /// <param name="AccessScope">The scope for the AccessPolicy . You can scope access policies to an entire cluster or to specific Kubernetes namespaces. type -&gt; (string) The scope type of an access policy. Possible values: • cluster • namespace namespaces -&gt; (list) A Kubernetes namespace that an access policy is scoped to. A value is required if you specified namespace for Type . (string) Shorthand Syntax: type=string,namespaces=string,string JSON Syntax: { "type": "cluster"|"namespace", "namespaces": ["string", ...] }</param>
     public AwsEksAssociateAccessPolicyOptions(
         string ClusterName,
         string PrincipalArn,
@@ -74,7 +76,7 @@ public record AwsEksAssociateAccessPolicyOptions : AwsOptions, IValidatableObjec
     public string? ClusterName { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM user or role for the Ac- cessEntry that you're associating the access policy to.
+    /// The Amazon Resource Name (ARN) of the IAM user or role for the AccessEntry that you're associating the access policy to.
     /// </summary>
     [CliOption("--principal-arn")]
     public string? PrincipalArn { get; private init; }
@@ -86,7 +88,7 @@ public record AwsEksAssociateAccessPolicyOptions : AwsOptions, IValidatableObjec
     public string? PolicyArn { get; private init; }
 
     /// <summary>
-    /// The scope for the AccessPolicy . You can scope access policies to an entire cluster or to specific Kubernetes namespaces. type -&gt; (string) The scope type of an access policy. Possible values: o cluster o namespace namespaces -&gt; (list) A Kubernetes namespace that an access policy is scoped to. A value is required if you specified namespace for Type . (string) Shorthand Syntax: type=string,namespaces=string,string JSON Syntax: { "type": "cluster"|"namespace", "namespaces": ["string", ...] }
+    /// The scope for the AccessPolicy . You can scope access policies to an entire cluster or to specific Kubernetes namespaces. type -&gt; (string) The scope type of an access policy. Possible values: • cluster • namespace namespaces -&gt; (list) A Kubernetes namespace that an access policy is scoped to. A value is required if you specified namespace for Type . (string) Shorthand Syntax: type=string,namespaces=string,string JSON Syntax: { "type": "cluster"|"namespace", "namespaces": ["string", ...] }
     /// </summary>
     [CliOption("--access-scope")]
     public string? AccessScope { get; private init; }

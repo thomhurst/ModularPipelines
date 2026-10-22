@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This returns the onboarding status of the telemetry configuration fea- ture for the organization. It can only be called by a Management Ac- count of an Amazon Web Services Organization or an assigned Delegated Admin Account of Amazon CloudWatch telemetry config. See also: AWS API Documentation
+/// This returns the onboarding status of the telemetry configuration feature for the organization. It can only be called by a Management Account of an Amazon Web Services Organization or an assigned Delegated Admin Account of Amazon CloudWatch telemetry config. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

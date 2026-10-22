@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsFinspaceUntagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Removes metadata tags from a FinSpace resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">A FinSpace resource from which you want to remove a tag or tags. The value for this parameter is an Amazon Resource Name (ARN). Constraints: o min: 20 o max: 2048 o pattern: ^arn:aws:finspace:[A-Za-z0-9_/.-]{0,63}:\d+:(environ- ment|kxEnvironment)/[0-9A-Za-z_-]{1,128}(/(kxCluster|kxUser|kxVol- ume|kxScalingGroup)/[a-zA-Z0-9_-]{1,255}|/(kxData- base/[a-zA-Z0-9_-]{1,255}(/kxDataview/[a-zA-Z0-9_-]{1,255})?))?$</param>
-    /// <param name="TagKeys">The tag keys (names) of one or more tags to be removed. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">A FinSpace resource from which you want to remove a tag or tags. The value for this parameter is an Amazon Resource Name (ARN). Constraints: • min: 20 • max: 2048 • pattern: ^arn:aws:finspace:[A-Za-z0-9_/.-]{0,63}:\d+:(environment|kxEnvironment)/[0-9A-Za-z_-]{1,128}(/(kxCluster|kxUser|kxVolume|kxScalingGroup)/[a-zA-Z0-9_-]{1,255}|/(kxDatabase/[a-zA-Z0-9_-]{1,255}(/kxDataview/[a-zA-Z0-9_-]{1,255})?))?$</param>
+    /// <param name="TagKeys">The tag keys (names) of one or more tags to be removed. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...</param>
     public AwsFinspaceUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsFinspaceUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A FinSpace resource from which you want to remove a tag or tags. The value for this parameter is an Amazon Resource Name (ARN). Constraints: o min: 20 o max: 2048 o pattern: ^arn:aws:finspace:[A-Za-z0-9_/.-]{0,63}:\d+:(environ- ment|kxEnvironment)/[0-9A-Za-z_-]{1,128}(/(kxCluster|kxUser|kxVol- ume|kxScalingGroup)/[a-zA-Z0-9_-]{1,255}|/(kxData- base/[a-zA-Z0-9_-]{1,255}(/kxDataview/[a-zA-Z0-9_-]{1,255})?))?$
+    /// A FinSpace resource from which you want to remove a tag or tags. The value for this parameter is an Amazon Resource Name (ARN). Constraints: • min: 20 • max: 2048 • pattern: ^arn:aws:finspace:[A-Za-z0-9_/.-]{0,63}:\d+:(environment|kxEnvironment)/[0-9A-Za-z_-]{1,128}(/(kxCluster|kxUser|kxVolume|kxScalingGroup)/[a-zA-Z0-9_-]{1,255}|/(kxDatabase/[a-zA-Z0-9_-]{1,255}(/kxDataview/[a-zA-Z0-9_-]{1,255})?))?$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The tag keys (names) of one or more tags to be removed. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...
+    /// The tag keys (names) of one or more tags to be removed. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsWickrGetBotsCountOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves the count of bots in a Wickr network, categorized by their status (pending, active, and total). See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The ID of the Wickr network for which to retrieve bot counts. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
+    /// <param name="NetworkId">The ID of the Wickr network for which to retrieve bot counts. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}</param>
     public AwsWickrGetBotsCountOptions(
         string NetworkId
     )
@@ -56,7 +58,7 @@ public record AwsWickrGetBotsCountOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Wickr network for which to retrieve bot counts. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// The ID of the Wickr network for which to retrieve bot counts. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -29,7 +30,7 @@ public record AwsIvsRealtimeCreateIngestConfigurationOptions : AwsOptions, IVali
     /// <summary>
     /// Creates a new IngestConfiguration resource, used to specify the ingest protocol for a stage. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IngestProtocol">Type of ingest protocol that the user employs to broadcast. If this is set to RTMP , insecureIngest must be set to true . Possible values: o RTMP o RTMPS</param>
+    /// <param name="IngestProtocol">Type of ingest protocol that the user employs to broadcast. If this is set to RTMP , insecureIngest must be set to true . Possible values: • RTMP • RTMPS</param>
     public AwsIvsRealtimeCreateIngestConfigurationOptions(
         AwsIvsRealtimeCreateIngestConfigurationIngestProtocol IngestProtocol
     )
@@ -57,31 +58,31 @@ public record AwsIvsRealtimeCreateIngestConfigurationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Type of ingest protocol that the user employs to broadcast. If this is set to RTMP , insecureIngest must be set to true . Possible values: o RTMP o RTMPS
+    /// Type of ingest protocol that the user employs to broadcast. If this is set to RTMP , insecureIngest must be set to true . Possible values: • RTMP • RTMPS
     /// </summary>
     [CliOption("--ingest-protocol")]
     public AwsIvsRealtimeCreateIngestConfigurationIngestProtocol? IngestProtocol { get; private init; }
 
     /// <summary>
-    /// Optional name that can be specified for the IngestConfiguration be- ing created. Constraints: o min: 0 o max: 128 o pattern: [a-zA-Z0-9-_]*
+    /// Optional name that can be specified for the IngestConfiguration being created. Constraints: • min: 0 • max: 128 • pattern: [a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// ARN of the stage with which the IngestConfiguration is associated. Constraints: o min: 0 o max: 128 o pattern: ^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+$
+    /// ARN of the stage with which the IngestConfiguration is associated. Constraints: • min: 0 • max: 128 • pattern: ^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--stage-arn")]
     public string? StageArn { get; set; }
 
     /// <summary>
-    /// Customer-assigned name to help identify the participant using the IngestConfiguration; this can be used to link a participant to a user in the customers own systems. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive in- formation. Constraints: o min: 0 o max: 128
+    /// Customer-assigned name to help identify the participant using the IngestConfiguration; this can be used to link a participant to a user in the customers own systems. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information. Constraints: • min: 0 • max: 128
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; set; }
 
     /// <summary>
-    /// Application-provided attributes to store in the IngestConfiguration and attach to a stage. Map keys and values can contain UTF-8 encoded text. The maximum length of this field is 1 KB total. This field is exposed to all stage participants and should not be used for person- ally identifying, confidential, or sensitive information. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Application-provided attributes to store in the IngestConfiguration and attach to a stage. Map keys and values can contain UTF-8 encoded text. The maximum length of this field is 1 KB total. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
@@ -93,13 +94,13 @@ public record AwsIvsRealtimeCreateIngestConfigurationOptions : AwsOptions, IVali
     public bool? InsecureIngest { get; set; }
 
     /// <summary>
-    /// Indicates whether redundant ingest is enabled for the ingest config- uration. Default: false .
+    /// Indicates whether redundant ingest is enabled for the ingest configuration. Default: false .
     /// </summary>
     [CliFlag("--redundant-ingest", NegatedName = "--no-redundant-ingest")]
     public bool? RedundantIngest { get; set; }
 
     /// <summary>
-    /// Tags attached to the resource. Array of maps, each of the form string:string (key:value) . See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restric- tions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags attached to the resource. Array of maps, each of the form string:string (key:value) . See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

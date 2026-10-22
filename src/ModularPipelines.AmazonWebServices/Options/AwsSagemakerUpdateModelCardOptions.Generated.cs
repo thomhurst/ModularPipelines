@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsSagemakerUpdateModelCardOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Update an Amazon SageMaker Model Card. WARNING: You cannot update both model card content and model card status in a single call. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ModelCardName">The name or Amazon Resource Name (ARN) of the model card to update. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:model-card/.*)?([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})</param>
+    /// <param name="ModelCardName">The name or Amazon Resource Name (ARN) of the model card to update. Constraints: • min: 1 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:model-card/.*)?([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})</param>
     public AwsSagemakerUpdateModelCardOptions(
         string ModelCardName
     )
@@ -57,19 +59,19 @@ public record AwsSagemakerUpdateModelCardOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of the model card to update. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:model-card/.*)?([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})
+    /// The name or Amazon Resource Name (ARN) of the model card to update. Constraints: • min: 1 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:model-card/.*)?([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})
     /// </summary>
     [CliOption("--model-card-name")]
     public string? ModelCardName { get; private init; }
 
     /// <summary>
-    /// The updated model card content. Content must be in model card JSON schema and provided as a string. When updating model card content, be sure to include the full con- tent and not just updated content. Constraints: o min: 0 o max: 100000 o pattern: .*
+    /// The updated model card content. Content must be in model card JSON schema and provided as a string. When updating model card content, be sure to include the full content and not just updated content. Constraints: • min: 0 • max: 100000 • pattern: .*
     /// </summary>
     [CliOption("--content")]
     public string? Content { get; set; }
 
     /// <summary>
-    /// The approval status of the model card within your organization. Dif- ferent organizations might have different criteria for model card review and approval. o Draft : The model card is a work in progress. o PendingReview : The model card is pending review. o Approved : The model card is approved. o Archived : The model card is archived. No more updates should be made to the model card, but it can still be exported. Possible values: o Draft o PendingReview o Approved o Archived
+    /// The approval status of the model card within your organization. Different organizations might have different criteria for model card review and approval. • Draft : The model card is a work in progress. • PendingReview : The model card is pending review. • Approved : The model card is approved. • Archived : The model card is archived. No more updates should be made to the model card, but it can still be exported. Possible values: • Draft • PendingReview • Approved • Archived
     /// </summary>
     [CliOption("--model-card-status")]
     public AwsSagemakerUpdateModelCardModelCardStatus? ModelCardStatus { get; set; }

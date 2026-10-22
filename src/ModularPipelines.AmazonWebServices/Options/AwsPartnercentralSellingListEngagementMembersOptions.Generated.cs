@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the details of member partners in an Engagement. This opera- tion can only be invoked by members of the Engagement. The ListEngage- mentMembers operation allows you to fetch information about the members of a specific Engagement. This action is restricted to members of the Engagement being queried. See also: AWS API Documentation list-engagement-members is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagina...
+/// Retrieves the details of member partners in an Engagement. This operation can only be invoked by members of the Engagement. The ListEngagementMembers operation allows you to fetch information about the members of a specific Engagement. This action is restricted to members of the Engagement being queried. See also: AWS API Documentation list-engagement-members is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsPartnercentralSellingListEngagementMembersOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the details of member partners in an Engagement. This opera- tion can only be invoked by members of the Engagement. The ListEngage- mentMembers operation allows you to fetch information about the members of a specific Engagement. This action is restricted to members of the Engagement being queried. See also: AWS API Documentation list-engagement-members is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagina...
+    /// Retrieves the details of member partners in an Engagement. This operation can only be invoked by members of the Engagement. The ListEngagementMembers operation allows you to fetch information about the members of a specific Engagement. This action is restricted to members of the Engagement being queried. See also: AWS API Documentation list-engagement-members is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination...
     /// </summary>
-    /// <param name="Catalog">The catalog related to the request. Constraints: o pattern: [a-zA-Z]+</param>
-    /// <param name="Identifier">Identifier of the Engagement record to retrieve members from. Constraints: o pattern: (arn:.*|eng-[0-9a-z]{14})</param>
+    /// <param name="Catalog">The catalog related to the request. Constraints: • pattern: [a-zA-Z]+</param>
+    /// <param name="Identifier">Identifier of the Engagement record to retrieve members from. Constraints: • pattern: (arn:.*|eng-[0-9a-z]{14})</param>
     public AwsPartnercentralSellingListEngagementMembersOptions(
         string Catalog,
         string Identifier
@@ -61,22 +63,19 @@ public record AwsPartnercentralSellingListEngagementMembersOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog related to the request. Constraints: o pattern: [a-zA-Z]+
+    /// The catalog related to the request. Constraints: • pattern: [a-zA-Z]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// Identifier of the Engagement record to retrieve members from. Constraints: o pattern: (arn:.*|eng-[0-9a-z]{14})
+    /// Identifier of the Engagement record to retrieve members from. Constraints: • pattern: (arn:.*|eng-[0-9a-z]{14})
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -86,16 +85,19 @@ public record AwsPartnercentralSellingListEngagementMembersOptions : AwsOptions,
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 10
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 10
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

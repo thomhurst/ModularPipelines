@@ -23,32 +23,32 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsWorkdocsGetResourcesOptions : AwsOptions
 {
     /// <summary>
-    /// The Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: o min: 1 o max: 8199
+    /// The Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: • min: 1 • max: 8199
     /// </summary>
     [SecretValue]
     [CliOption("--authentication-token")]
     public string? AuthenticationToken { get; set; }
 
     /// <summary>
-    /// The user ID for the resource collection. This is a required field for accessing the API operation using IAM credentials. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+
+    /// The user ID for the resource collection. This is a required field for accessing the API operation using IAM credentials. Constraints: • min: 1 • max: 256 • pattern: [&amp;\w+-.@]+
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; set; }
 
     /// <summary>
-    /// The collection type. Possible values: o SHARED_WITH_ME
+    /// The collection type. Possible values: • SHARED_WITH_ME
     /// </summary>
     [CliOption("--collection-type")]
     public string? CollectionType { get; set; }
 
     /// <summary>
-    /// The maximum number of resources to return. Constraints: o min: 1 o max: 999
+    /// The maximum number of resources to return. Constraints: • min: 1 • max: 999
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }
 
     /// <summary>
-    /// The marker for the next set of results. This marker was received from a previous call. Constraints: o min: 1 o max: 2048
+    /// The marker for the next set of results. This marker was received from a previous call. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--marker")]
     public string? Marker { get; set; }

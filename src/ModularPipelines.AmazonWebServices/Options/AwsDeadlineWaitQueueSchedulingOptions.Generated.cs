@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDeadlineWaitQueueSchedulingOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Wait until JMESPath query status returns SCHEDULING when polling with get-queue. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 70 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The farm ID of the farm in the queue. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="QueueId">The queue ID for the queue to retrieve. Constraints: o pattern: queue-[0-9a-f]{32}</param>
+    /// <param name="FarmId">The farm ID of the farm in the queue. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="QueueId">The queue ID for the queue to retrieve. Constraints: • pattern: queue-[0-9a-f]{32}</param>
     public AwsDeadlineWaitQueueSchedulingOptions(
         string FarmId,
         string QueueId
@@ -60,13 +62,13 @@ public record AwsDeadlineWaitQueueSchedulingOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID of the farm in the queue. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID of the farm in the queue. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The queue ID for the queue to retrieve. Constraints: o pattern: queue-[0-9a-f]{32}
+    /// The queue ID for the queue to retrieve. Constraints: • pattern: queue-[0-9a-f]{32}
     /// </summary>
     [CliOption("--queue-id")]
     public string? QueueId { get; private init; }

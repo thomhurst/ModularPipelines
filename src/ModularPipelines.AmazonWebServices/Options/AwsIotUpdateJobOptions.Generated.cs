@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotUpdateJobOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates supported fields of the specified job. Requires permission to access the UpdateJob action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">The ID of the job to be updated. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="JobId">The ID of the job to be updated. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsIotUpdateJobOptions(
         string JobId
     )
@@ -56,49 +58,49 @@ public record AwsIotUpdateJobOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the job to be updated. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// The ID of the job to be updated. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// A short text description of the job. Constraints: o max: 2028 o pattern: [^\p{C}]+
+    /// A short text description of the job. Constraints: • max: 2028 • pattern: [^\p{C}]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Configuration information for pre-signed S3 URLs. roleArn -&gt; (string) The ARN of an IAM role that grants permission to download files from the S3 bucket where the job data/updates are stored. The role must also grant permission for IoT to download the files. WARNING: For information about addressing the confused deputy problem, see cross-service confused deputy prevention in the Amazon Web Services IoT Core developer guide . Constraints: o min: 20 o max: 2048 expiresInSec -&gt; (long) How long (in seconds) pre-signed URLs are valid. Valid values are 60 - 3600, the default value is 3600 seconds. Pre-signed URLs are generated when Jobs receives an MQTT request for the job document. Constraints: o min: 60 o max: 3600 Shorthand Syntax: roleArn=string,expiresInSec=long JSON Syntax: { "roleArn": "string", "expiresInSec": long }
+    /// Configuration information for pre-signed S3 URLs. roleArn -&gt; (string) The ARN of an IAM role that grants permission to download files from the S3 bucket where the job data/updates are stored. The role must also grant permission for IoT to download the files. WARNING: For information about addressing the confused deputy problem, see cross-service confused deputy prevention in the Amazon Web Services IoT Core developer guide . Constraints: • min: 20 • max: 2048 expiresInSec -&gt; (long) How long (in seconds) pre-signed URLs are valid. Valid values are 60 - 3600, the default value is 3600 seconds. Pre-signed URLs are generated when Jobs receives an MQTT request for the job document. Constraints: • min: 60 • max: 3600 Shorthand Syntax: roleArn=string,expiresInSec=long JSON Syntax: { "roleArn": "string", "expiresInSec": long }
     /// </summary>
     [CliOption("--presigned-url-config")]
     public string? PresignedUrlConfig { get; set; }
 
     /// <summary>
-    /// Allows you to create a staged rollout of the job. maximumPerMinute -&gt; (integer) The maximum number of things that will be notified of a pending job, per minute. This parameter allows you to create a staged rollout. Constraints: o min: 1 exponentialRate -&gt; (structure) The rate of increase for a job rollout. This parameter allows you to define an exponential rate for a job rollout. baseRatePerMinute -&gt; (integer) [required] The minimum number of things that will be notified of a pend- ing job, per minute at the start of job rollout. This parame- ter allows you to define the initial rate of rollout. Constraints: o min: 1 o max: 1000 incrementFactor -&gt; (double) [required] The exponential factor to increase the rate of rollout for a job. Amazon Web Services IoT Core supports up to one digit after the decimal (for example, 1.5, but not 1.55). Constraints: o min: 1.1 o max: 5 rateIncreaseCriteria -&gt; (structure) [required] The criteria to initiate the increase in rate of rollout for a job. numberOfNotifiedThings -&gt; (integer) The threshold for number of notified things that will initiate the increase in rate of rollout. Constraints: o min: 1 numberOfSucceededThings -&gt; (integer) The threshold for number of succeeded things that will initiate the increase in rate of rollout. Constraints: o min: 1 Shorthand Syntax: maximumPerMinute=integer,exponentialRate={baseRatePerMinute=integer,incrementFactor=double,rateIncreaseCriteria={numberOfNotifiedThings=integer,numberOfSucceededThings=integer}} JSON Syntax: { "maximumPerMinute": integer, "exponentialRate": { "baseRatePerMinute": integer, "incrementFactor": double, "rateIncreaseCriteria": { "numberOfNotifiedThings": integer, "numberOfSucceededThings": integer } } }
+    /// Allows you to create a staged rollout of the job. maximumPerMinute -&gt; (integer) The maximum number of things that will be notified of a pending job, per minute. This parameter allows you to create a staged rollout. Constraints: • min: 1 exponentialRate -&gt; (structure) The rate of increase for a job rollout. This parameter allows you to define an exponential rate for a job rollout. baseRatePerMinute -&gt; (integer) [required] The minimum number of things that will be notified of a pending job, per minute at the start of job rollout. This parameter allows you to define the initial rate of rollout. Constraints: • min: 1 • max: 1000 incrementFactor -&gt; (double) [required] The exponential factor to increase the rate of rollout for a job. Amazon Web Services IoT Core supports up to one digit after the decimal (for example, 1.5, but not 1.55). Constraints: • min: 1.1 • max: 5 rateIncreaseCriteria -&gt; (structure) [required] The criteria to initiate the increase in rate of rollout for a job. numberOfNotifiedThings -&gt; (integer) The threshold for number of notified things that will initiate the increase in rate of rollout. Constraints: • min: 1 numberOfSucceededThings -&gt; (integer) The threshold for number of succeeded things that will initiate the increase in rate of rollout. Constraints: • min: 1 Shorthand Syntax: maximumPerMinute=integer,exponentialRate={baseRatePerMinute=integer,incrementFactor=double,rateIncreaseCriteria={numberOfNotifiedThings=integer,numberOfSucceededThings=integer}} JSON Syntax: { "maximumPerMinute": integer, "exponentialRate": { "baseRatePerMinute": integer, "incrementFactor": double, "rateIncreaseCriteria": { "numberOfNotifiedThings": integer, "numberOfSucceededThings": integer } } }
     /// </summary>
     [CliOption("--job-executions-rollout-config")]
     public string? JobExecutionsRolloutConfig { get; set; }
 
     /// <summary>
-    /// Allows you to create criteria to abort a job. criteriaList -&gt; (list) [required] The list of criteria that determine when and how to abort the job. Constraints: o min: 1 (structure) The criteria that determine when and how a job abort takes place. failureType -&gt; (string) [required] The type of job execution failures that can initiate a job abort. Possible values: o FAILED o REJECTED o TIMED_OUT o ALL action -&gt; (string) [required] The type of job action to take to initiate the job abort. Possible values: o CANCEL thresholdPercentage -&gt; (double) [required] The minimum percentage of job execution failures that must occur to initiate the job abort. Amazon Web Services IoT Core supports up to two digits after the decimal (for example, 10.9 and 10.99, but not 10.999). Constraints: o max: 100 minNumberOfExecutedThings -&gt; (integer) [required] The minimum number of things which must receive job exe- cution notifications before the job can be aborted. Constraints: o min: 1 Shorthand Syntax: criteriaList=[{failureType=string,action=string,thresholdPercentage=double,minNumberOfExecutedThings=integer},{failureType=string,action=string,thresholdPercentage=double,minNumberOfExecutedThings=integer}] JSON Syntax: { "criteriaList": [ { "failureType": "FAILED"|"REJECTED"|"TIMED_OUT"|"ALL", "action": "CANCEL", "thresholdPercentage": double, "minNumberOfExecutedThings": integer } ... ] }
+    /// Allows you to create criteria to abort a job. criteriaList -&gt; (list) [required] The list of criteria that determine when and how to abort the job. Constraints: • min: 1 (structure) The criteria that determine when and how a job abort takes place. failureType -&gt; (string) [required] The type of job execution failures that can initiate a job abort. Possible values: • FAILED • REJECTED • TIMED_OUT • ALL action -&gt; (string) [required] The type of job action to take to initiate the job abort. Possible values: • CANCEL thresholdPercentage -&gt; (double) [required] The minimum percentage of job execution failures that must occur to initiate the job abort. Amazon Web Services IoT Core supports up to two digits after the decimal (for example, 10.9 and 10.99, but not 10.999). Constraints: • max: 100 minNumberOfExecutedThings -&gt; (integer) [required] The minimum number of things which must receive job execution notifications before the job can be aborted. Constraints: • min: 1 Shorthand Syntax: criteriaList=[{failureType=string,action=string,thresholdPercentage=double,minNumberOfExecutedThings=integer},{failureType=string,action=string,thresholdPercentage=double,minNumberOfExecutedThings=integer}] JSON Syntax: { "criteriaList": [ { "failureType": "FAILED"|"REJECTED"|"TIMED_OUT"|"ALL", "action": "CANCEL", "thresholdPercentage": double, "minNumberOfExecutedThings": integer } ... ] }
     /// </summary>
     [CliOption("--abort-config")]
     public string? AbortConfig { get; set; }
 
     /// <summary>
-    /// Specifies the amount of time each device has to finish its execution of the job. The timer is started when the job execution status is set to IN_PROGRESS . If the job execution status is not set to an- other terminal state before the time expires, it will be automati- cally set to TIMED_OUT . inProgressTimeoutInMinutes -&gt; (long) Specifies the amount of time, in minutes, this device has to finish execution of this job. The timeout interval can be any- where between 1 minute and 7 days (1 to 10080 minutes). The in progress timer can't be updated and will apply to all job execu- tions for the job. Whenever a job execution remains in the IN_PROGRESS status for longer than this interval, the job execu- tion will fail and switch to the terminal TIMED_OUT status. Shorthand Syntax: inProgressTimeoutInMinutes=long JSON Syntax: { "inProgressTimeoutInMinutes": long }
+    /// Specifies the amount of time each device has to finish its execution of the job. The timer is started when the job execution status is set to IN_PROGRESS . If the job execution status is not set to another terminal state before the time expires, it will be automatically set to TIMED_OUT . inProgressTimeoutInMinutes -&gt; (long) Specifies the amount of time, in minutes, this device has to finish execution of this job. The timeout interval can be anywhere between 1 minute and 7 days (1 to 10080 minutes). The in progress timer can't be updated and will apply to all job executions for the job. Whenever a job execution remains in the IN_PROGRESS status for longer than this interval, the job execution will fail and switch to the terminal TIMED_OUT status. Shorthand Syntax: inProgressTimeoutInMinutes=long JSON Syntax: { "inProgressTimeoutInMinutes": long }
     /// </summary>
     [CliOption("--timeout-config")]
     public string? TimeoutConfig { get; set; }
 
     /// <summary>
-    /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format. $aws/things/*THING_NAME* /jobs/*JOB_ID* /notify-namespace-*NAME- SPACE_ID* / NOTE: The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices. Constraints: o pattern: [a-zA-Z0-9_-]+
+    /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format. $aws/things/*THING_NAME* /jobs/*JOB_ID* /notify-namespace-*NAMESPACE_ID* / NOTE: The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices. Constraints: • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--namespace-id")]
     public string? NamespaceId { get; set; }
 
     /// <summary>
-    /// Allows you to create the criteria to retry a job. criteriaList -&gt; (list) [required] The list of criteria that determines how many retries are al- lowed for each failure type for a job. Constraints: o min: 1 o max: 2 (structure) The criteria that determines how many retries are allowed for each failure type for a job. failureType -&gt; (string) [required] The type of job execution failures that can initiate a job retry. Possible values: o FAILED o TIMED_OUT o ALL numberOfRetries -&gt; (integer) [required] The number of retries allowed for a failure type for the job. Constraints: o min: 0 o max: 10 Shorthand Syntax: criteriaList=[{failureType=string,numberOfRetries=integer},{failureType=string,numberOfRetries=integer}] JSON Syntax: { "criteriaList": [ { "failureType": "FAILED"|"TIMED_OUT"|"ALL", "numberOfRetries": integer } ... ] }
+    /// Allows you to create the criteria to retry a job. criteriaList -&gt; (list) [required] The list of criteria that determines how many retries are allowed for each failure type for a job. Constraints: • min: 1 • max: 2 (structure) The criteria that determines how many retries are allowed for each failure type for a job. failureType -&gt; (string) [required] The type of job execution failures that can initiate a job retry. Possible values: • FAILED • TIMED_OUT • ALL numberOfRetries -&gt; (integer) [required] The number of retries allowed for a failure type for the job. Constraints: • min: 0 • max: 10 Shorthand Syntax: criteriaList=[{failureType=string,numberOfRetries=integer},{failureType=string,numberOfRetries=integer}] JSON Syntax: { "criteriaList": [ { "failureType": "FAILED"|"TIMED_OUT"|"ALL", "numberOfRetries": integer } ... ] }
     /// </summary>
     [CliOption("--job-executions-retry-config")]
     public string? JobExecutionsRetryConfig { get; set; }

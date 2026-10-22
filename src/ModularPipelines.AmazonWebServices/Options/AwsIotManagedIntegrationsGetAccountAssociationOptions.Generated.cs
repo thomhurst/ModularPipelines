@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotManagedIntegrationsGetAccountAssociationOptions : AwsOptions
     /// <summary>
     /// Get an account association for an Amazon Web Services account linked to a customer-managed destination. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountAssociationId">The unique identifier of the account association to retrieve. Constraints: o min: 1 o max: 64 o pattern: [0-9a-zA-Z]+</param>
+    /// <param name="AccountAssociationId">The unique identifier of the account association to retrieve. Constraints: • min: 1 • max: 64 • pattern: [0-9a-zA-Z]+</param>
     public AwsIotManagedIntegrationsGetAccountAssociationOptions(
         string AccountAssociationId
     )
@@ -56,7 +58,7 @@ public record AwsIotManagedIntegrationsGetAccountAssociationOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the account association to retrieve. Constraints: o min: 1 o max: 64 o pattern: [0-9a-zA-Z]+
+    /// The unique identifier of the account association to retrieve. Constraints: • min: 1 • max: 64 • pattern: [0-9a-zA-Z]+
     /// </summary>
     [CliOption("--account-association-id")]
     public string? AccountAssociationId { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsQbusinessCreateAnonymousWebExperienceUrlOptions : AwsOptions, I
     /// <summary>
     /// Creates a unique URL for anonymous Amazon Q Business web experience. This URL can only be used once and must be used within 5 minutes after it's generated. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The identifier of the Amazon Q Business application environment at- tached to the web experience. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
-    /// <param name="WebExperienceId">The identifier of the web experience. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="ApplicationId">The identifier of the Amazon Q Business application environment attached to the web experience. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="WebExperienceId">The identifier of the web experience. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
     public AwsQbusinessCreateAnonymousWebExperienceUrlOptions(
         string ApplicationId,
         string WebExperienceId
@@ -60,19 +62,19 @@ public record AwsQbusinessCreateAnonymousWebExperienceUrlOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Q Business application environment at- tached to the web experience. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The identifier of the Amazon Q Business application environment attached to the web experience. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The identifier of the web experience. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// The identifier of the web experience. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--web-experience-id")]
     public string? WebExperienceId { get; private init; }
 
     /// <summary>
-    /// The duration of the session associated with the unique URL for the web experience. Constraints: o min: 15 o max: 60
+    /// The duration of the session associated with the unique URL for the web experience. Constraints: • min: 15 • max: 60
     /// </summary>
     [CliOption("--session-duration-in-minutes")]
     public int? SessionDurationInMinutes { get; set; }

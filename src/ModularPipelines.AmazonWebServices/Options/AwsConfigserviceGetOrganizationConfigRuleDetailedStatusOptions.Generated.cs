@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns detailed status for each member account within an organization for a given organization Config rule. See also: AWS API Documentation get-organization-config-rule-detailed-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults...
+/// Returns detailed status for each member account within an organization for a given organization Config rule. See also: AWS API Documentation get-organization-config-rule-detailed-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsConfigserviceGetOrganizationConfigRuleDetailedStatusOptions : A
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns detailed status for each member account within an organization for a given organization Config rule. See also: AWS API Documentation get-organization-config-rule-detailed-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults...
+    /// Returns detailed status for each member account within an organization for a given organization Config rule. See also: AWS API Documentation get-organization-config-rule-detailed-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of ...
     /// </summary>
-    /// <param name="OrganizationConfigRuleName">The name of your organization Config rule for which you want status details for member accounts. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+</param>
+    /// <param name="OrganizationConfigRuleName">The name of your organization Config rule for which you want status details for member accounts. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9-_]+</param>
     public AwsConfigserviceGetOrganizationConfigRuleDetailedStatusOptions(
         string OrganizationConfigRuleName
     )
@@ -57,22 +59,19 @@ public record AwsConfigserviceGetOrganizationConfigRuleDetailedStatusOptions : A
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of your organization Config rule for which you want status details for member accounts. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+
+    /// The name of your organization Config rule for which you want status details for member accounts. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9-_]+
     /// </summary>
     [CliOption("--organization-config-rule-name")]
     public string? OrganizationConfigRuleName { get; private init; }
 
     /// <summary>
-    /// A StatusDetailFilters object. AccountId -&gt; (string) The 12-digit account ID of the member account within an organi- zation. Constraints: o pattern: \d{12} MemberAccountRuleStatus -&gt; (string) Indicates deployment status for Config rule in the member ac- count. When management account calls PutOrganizationConfigRule action for the first time, Config rule status is created in the member account. When management account calls PutOrganization- ConfigRule action for the second time, Config rule status is up- dated in the member account. Config rule status is deleted when the management account deletes OrganizationConfigRule and dis- ables service access for config-multiaccountsetup.amazonaws.com . Config sets the state of the rule to: o CREATE_SUCCESSFUL when Config rule has been created in the member account. o CREATE_IN_PROGRESS when Config rule is being created in the member account. o CREATE_FAILED when Config rule creation has failed in the mem- ber account. o DELETE_FAILED when Config rule deletion has failed in the mem- ber account. o DELETE_IN_PROGRESS when Config rule is being deleted in the member account. o DELETE_SUCCESSFUL when Config rule has been deleted in the member account. o UPDATE_SUCCESSFUL when Config rule has been updated in the member account. o UPDATE_IN_PROGRESS when Config rule is being updated in the member account. o UPDATE_FAILED when Config rule deletion has failed in the mem- ber account. Possible values: o CREATE_SUCCESSFUL o CREATE_IN_PROGRESS o CREATE_FAILED o DELETE_SUCCESSFUL o DELETE_FAILED o DELETE_IN_PROGRESS o UPDATE_SUCCESSFUL o UPDATE_IN_PROGRESS o UPDATE_FAILED Shorthand Syntax: AccountId=string,MemberAccountRuleStatus=string JSON Syntax: { "AccountId": "string", "MemberAccountRuleStatus": "CREATE_SUCCESSFUL"|"CREATE_IN_PROGRESS"|"CREATE_FAILED"|"DELETE_SUCCESSFUL"|"DELETE_FAILED"|"DELETE_IN_PROGRESS"|"UPDATE_SUCCESSFUL"|"UPDATE_IN_PROGRESS"|"UPDATE_FAILED" }
+    /// A StatusDetailFilters object. AccountId -&gt; (string) The 12-digit account ID of the member account within an organization. Constraints: • pattern: \d{12} MemberAccountRuleStatus -&gt; (string) Indicates deployment status for Config rule in the member account. When management account calls PutOrganizationConfigRule action for the first time, Config rule status is created in the member account. When management account calls PutOrganizationConfigRule action for the second time, Config rule status is updated in the member account. Config rule status is deleted when the management account deletes OrganizationConfigRule and disables service access for config-multiaccountsetup.amazonaws.com . Config sets the state of the rule to: • CREATE_SUCCESSFUL when Config rule has been created in the member account. • CREATE_IN_PROGRESS when Config rule is being created in the member account. • CREATE_FAILED when Config rule creation has failed in the member account. • DELETE_FAILED when Config rule deletion has failed in the member account. • DELETE_IN_PROGRESS when Config rule is being deleted in the member account. • DELETE_SUCCESSFUL when Config rule has been deleted in the member account. • UPDATE_SUCCESSFUL when Config rule has been updated in the member account. • UPDATE_IN_PROGRESS when Config rule is being updated in the member account. • UPDATE_FAILED when Config rule deletion has failed in the member account. Possible values: • CREATE_SUCCESSFUL • CREATE_IN_PROGRESS • CREATE_FAILED • DELETE_SUCCESSFUL • DELETE_FAILED • DELETE_IN_PROGRESS • UPDATE_SUCCESSFUL • UPDATE_IN_PROGRESS • UPDATE_FAILED Shorthand Syntax: AccountId=string,MemberAccountRuleStatus=string JSON Syntax: { "AccountId": "string", "MemberAccountRuleStatus": "CREATE_SUCCESSFUL"|"CREATE_IN_PROGRESS"|"CREATE_FAILED"|"DELETE_SUCCESSFUL"|"DELETE_FAILED"|"DELETE_IN_PROGRESS"|"UPDATE_SUCCESSFUL"|"UPDATE_IN_PROGRESS"|"UPDATE_FAILED" }
     /// </summary>
     [CliOption("--filters")]
     public string? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -82,16 +81,19 @@ public record AwsConfigserviceGetOrganizationConfigRuleDetailedStatusOptions : A
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 0 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

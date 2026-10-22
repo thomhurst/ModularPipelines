@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a monitor probe. This action requires both the monitorName and probeId parameters. Run ListMonitors to get a list of monitor names. Run GetMonitor to get a list of probes and probe IDs. You can update the following para create a monitor with probes using this command. For each probe, you define the following: o state The state of the probe. o destination The target destination IP address for the probe. o destinationPort Required only if the protocol is TCP . o protocol The communication ...
+/// Updates a monitor probe. This action requires both the monitorName and probeId parameters. Run ListMonitors to get a list of monitor names. Run GetMonitor to get a list of probes and probe IDs. You can update the following para create a monitor with probes using this command. For each probe, you define the following: • state The state of the probe. • destination The target destination IP address for the probe. • destinationPort Required only if the protocol is TCP . • protocol The communication ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsNetworkmonitorUpdateProbeOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a monitor probe. This action requires both the monitorName and probeId parameters. Run ListMonitors to get a list of monitor names. Run GetMonitor to get a list of probes and probe IDs. You can update the following para create a monitor with probes using this command. For each probe, you define the following: o state The state of the probe. o destination The target destination IP address for the probe. o destinationPort Required only if the protocol is TCP . o protocol The communication ...
+    /// Updates a monitor probe. This action requires both the monitorName and probeId parameters. Run ListMonitors to get a list of monitor names. Run GetMonitor to get a list of probes and probe IDs. You can update the following para create a monitor with probes using this command. For each probe, you define the following: • state The state of the probe. • destination The target destination IP address for the probe. • destinationPort Required only if the protocol is TCP . • protocol The communication ...
     /// </summary>
-    /// <param name="MonitorName">The name of the monitor that the probe was updated for. Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="ProbeId">The ID of the probe to update. Constraints: o pattern: probe-[a-z0-9A-Z-]{21,64}</param>
+    /// <param name="MonitorName">The name of the monitor that the probe was updated for. Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ProbeId">The ID of the probe to update. Constraints: • pattern: probe-[a-z0-9A-Z-]{21,64}</param>
     public AwsNetworkmonitorUpdateProbeOptions(
         string MonitorName,
         string ProbeId
@@ -61,43 +63,43 @@ public record AwsNetworkmonitorUpdateProbeOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the monitor that the probe was updated for. Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9_-]+
+    /// The name of the monitor that the probe was updated for. Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--monitor-name")]
     public string? MonitorName { get; private init; }
 
     /// <summary>
-    /// The ID of the probe to update. Constraints: o pattern: probe-[a-z0-9A-Z-]{21,64}
+    /// The ID of the probe to update. Constraints: • pattern: probe-[a-z0-9A-Z-]{21,64}
     /// </summary>
     [CliOption("--probe-id")]
     public string? ProbeId { get; private init; }
 
     /// <summary>
-    /// The state of the probe update. Possible values: o PENDING o ACTIVE o INACTIVE o ERROR o DELETING o DELETED
+    /// The state of the probe update. Possible values: • PENDING • ACTIVE • INACTIVE • ERROR • DELETING • DELETED
     /// </summary>
     [CliOption("--state")]
     public AwsNetworkmonitorUpdateProbeState? State { get; set; }
 
     /// <summary>
-    /// The updated IP address for the probe destination. This must be ei- ther an IPv4 or IPv6 address. Constraints: o min: 1 o max: 255
+    /// The updated IP address for the probe destination. This must be either an IPv4 or IPv6 address. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--destination")]
     public string? Destination { get; set; }
 
     /// <summary>
-    /// The updated port for the probe destination. This is required only if the protocol is TCP and must be a number between 1 and 65536 . Constraints: o min: 0 o max: 65536
+    /// The updated port for the probe destination. This is required only if the protocol is TCP and must be a number between 1 and 65536 . Constraints: • min: 0 • max: 65536
     /// </summary>
     [CliOption("--destination-port")]
     public int? DestinationPort { get; set; }
 
     /// <summary>
-    /// The updated network protocol for the destination. This can be either TCP or ICMP . If the protocol is TCP , then port is also required. Possible values: o TCP o ICMP
+    /// The updated network protocol for the destination. This can be either TCP or ICMP . If the protocol is TCP , then port is also required. Possible values: • TCP • ICMP
     /// </summary>
     [CliOption("--protocol")]
     public AwsNetworkmonitorUpdateProbeProtocol? Protocol { get; set; }
 
     /// <summary>
-    /// he updated packets size for network traffic between the source and destination. This must be a number between 56 and 8500 . Constraints: o min: 56 o max: 8500
+    /// he updated packets size for network traffic between the source and destination. This must be a number between 56 and 8500 . Constraints: • min: 56 • max: 8500
     /// </summary>
     [CliOption("--packet-size")]
     public int? PacketSize { get; set; }

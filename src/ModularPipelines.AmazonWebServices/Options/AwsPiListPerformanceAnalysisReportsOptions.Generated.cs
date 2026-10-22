@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +31,8 @@ public record AwsPiListPerformanceAnalysisReportsOptions : AwsOptions, IValidata
     /// <summary>
     /// Lists all the analysis reports created for the DB instance. The reports are sorted based on the start time of each report. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceType">The Amazon Web Services service for which Performance Insights re- turns metrics. Valid value is RDS . Possible values: o RDS o DOCDB</param>
-    /// <param name="Identifier">An immutable identifier for a data source that is unique for an Ama- zon Web Services Region. Performance Insights gathers metrics from this data source. In the console, the identifier is shown as Resour- ceID . When you call DescribeDBInstances , the identifier is re- turned as DbiResourceId . To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X . Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-]+$</param>
+    /// <param name="ServiceType">The Amazon Web Services service for which Performance Insights returns metrics. Valid value is RDS . Possible values: • RDS • DOCDB</param>
+    /// <param name="Identifier">An immutable identifier for a data source that is unique for an Amazon Web Services Region. Performance Insights gathers metrics from this data source. In the console, the identifier is shown as ResourceID . When you call DescribeDBInstances , the identifier is returned as DbiResourceId . To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X . Constraints: • min: 0 • max: 256 • pattern: ^[a-zA-Z0-9-]+$</param>
     public AwsPiListPerformanceAnalysisReportsOptions(
         AwsPiListPerformanceAnalysisReportsServiceType ServiceType,
         string Identifier
@@ -61,32 +63,32 @@ public record AwsPiListPerformanceAnalysisReportsOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services service for which Performance Insights re- turns metrics. Valid value is RDS . Possible values: o RDS o DOCDB
+    /// The Amazon Web Services service for which Performance Insights returns metrics. Valid value is RDS . Possible values: • RDS • DOCDB
     /// </summary>
     [CliOption("--service-type")]
     public AwsPiListPerformanceAnalysisReportsServiceType? ServiceType { get; private init; }
 
     /// <summary>
-    /// An immutable identifier for a data source that is unique for an Ama- zon Web Services Region. Performance Insights gathers metrics from this data source. In the console, the identifier is shown as Resour- ceID . When you call DescribeDBInstances , the identifier is re- turned as DbiResourceId . To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X . Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-]+$
+    /// An immutable identifier for a data source that is unique for an Amazon Web Services Region. Performance Insights gathers metrics from this data source. In the console, the identifier is shown as ResourceID . When you call DescribeDBInstances , the identifier is returned as DbiResourceId . To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X . Constraints: • min: 0 • max: 256 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxResults . Constraints: o min: 1 o max: 8192 o pattern: ^[a-zA-Z0-9_=-]+$
+    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxResults . Constraints: • min: 1 • max: 8192 • pattern: ^[a-zA-Z0-9_=-]+$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of items to return in the response. If more items exist than the specified MaxResults value, a pagination token is in- cluded in the response so that the remaining results can be re- trieved. Constraints: o min: 0 o max: 25
+    /// The maximum number of items to return in the response. If more items exist than the specified MaxResults value, a pagination token is included in the response so that the remaining results can be retrieved. Constraints: • min: 0 • max: 25
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Specifies whether or not to include the list of tags in the re- sponse.
+    /// Specifies whether or not to include the list of tags in the response.
     /// </summary>
     [CliFlag("--list-tags", NegatedName = "--no-list-tags")]
     public bool? ListTags { get; set; }

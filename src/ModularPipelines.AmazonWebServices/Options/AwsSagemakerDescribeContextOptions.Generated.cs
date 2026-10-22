@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSagemakerDescribeContextOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Describes a context. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ContextName">The name of the context to describe. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:con- text\/)?([a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,119})</param>
+    /// <param name="ContextName">The name of the context to describe. Constraints: • min: 1 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:context\/)?([a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,119})</param>
     public AwsSagemakerDescribeContextOptions(
         string ContextName
     )
@@ -56,7 +58,7 @@ public record AwsSagemakerDescribeContextOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the context to describe. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:con- text\/)?([a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,119})
+    /// The name of the context to describe. Constraints: • min: 1 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:context\/)?([a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,119})
     /// </summary>
     [CliOption("--context-name")]
     public string? ContextName { get; private init; }

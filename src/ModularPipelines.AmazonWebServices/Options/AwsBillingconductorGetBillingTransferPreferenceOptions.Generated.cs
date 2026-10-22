@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBillingconductorGetBillingTransferPreferenceOptions : AwsOption
     /// <summary>
     /// Retrieves the auto billing group creation preference for a billing transfer. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResponsibilityTransferArn">The Amazon Resource Name (ARN) of the billing transfer whose prefer- ence you want to retrieve. Constraints: o pattern: arn:[a-z0-9][a-z0-9-.]{0,62}:organizations::\d{12}:trans- fer/o-[a-z0-9]{10,32}/(billing)/(inbound|out- bound)/rt-[0-9a-z]{8,32}</param>
+    /// <param name="ResponsibilityTransferArn">The Amazon Resource Name (ARN) of the billing transfer whose preference you want to retrieve. Constraints: • pattern: arn:[a-z0-9][a-z0-9-.]{0,62}:organizations::\d{12}:transfer/o-[a-z0-9]{10,32}/(billing)/(inbound|outbound)/rt-[0-9a-z]{8,32}</param>
     public AwsBillingconductorGetBillingTransferPreferenceOptions(
         string ResponsibilityTransferArn
     )
@@ -56,7 +58,7 @@ public record AwsBillingconductorGetBillingTransferPreferenceOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the billing transfer whose prefer- ence you want to retrieve. Constraints: o pattern: arn:[a-z0-9][a-z0-9-.]{0,62}:organizations::\d{12}:trans- fer/o-[a-z0-9]{10,32}/(billing)/(inbound|out- bound)/rt-[0-9a-z]{8,32}
+    /// The Amazon Resource Name (ARN) of the billing transfer whose preference you want to retrieve. Constraints: • pattern: arn:[a-z0-9][a-z0-9-.]{0,62}:organizations::\d{12}:transfer/o-[a-z0-9]{10,32}/(billing)/(inbound|outbound)/rt-[0-9a-z]{8,32}
     /// </summary>
     [CliOption("--responsibility-transfer-arn")]
     public string? ResponsibilityTransferArn { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsPinpointSmsVoiceV2CreateRegistrationAssociationOptions : AwsOpt
     /// <summary>
     /// Associate the registration with an origination identity such as a phone number or sender ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RegistrationId">The unique identifier for the registration. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
-    /// <param name="ResourceId">The unique identifier for the origination identity. For example this could be a PhoneNumberId or SenderId . Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="RegistrationId">The unique identifier for the registration. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="ResourceId">The unique identifier for the origination identity. For example this could be a PhoneNumberId or SenderId . Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+</param>
     public AwsPinpointSmsVoiceV2CreateRegistrationAssociationOptions(
         string RegistrationId,
         string ResourceId
@@ -60,13 +62,13 @@ public record AwsPinpointSmsVoiceV2CreateRegistrationAssociationOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the registration. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The unique identifier for the registration. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--registration-id")]
     public string? RegistrationId { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the origination identity. For example this could be a PhoneNumberId or SenderId . Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The unique identifier for the origination identity. For example this could be a PhoneNumberId or SenderId . Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }

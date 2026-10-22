@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -63,7 +65,7 @@ public record AwsCloudfrontDescribeConnectionFunctionOptions : AwsOptions, IVali
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The connection function's stage. Possible values: o DEVELOPMENT o LIVE
+    /// The connection function's stage. Possible values: • DEVELOPMENT • LIVE
     /// </summary>
     [CliOption("--stage")]
     public AwsCloudfrontDescribeConnectionFunctionStage? Stage { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an association between an approval rule template and a speci- fied repository. Then, the next time a pull request is created in the repository where the destination reference (if specified) matches the destination reference (branch) for the pull request, an approval rule that matches the template conditions is automatically created for that pull request. If no destination references are specified in the tem- plate, an approval rule that matches the template contents is created for all pu...
+/// Creates an association between an approval rule template and a specified repository. Then, the next time a pull request is created in the repository where the destination reference (if specified) matches the destination reference (branch) for the pull request, an approval rule that matches the template conditions is automatically created for that pull request. If no destination references are specified in the template, an approval rule that matches the template contents is created for all pull r...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsCodecommitAssociateApprovalRuleTemplateWithRepositoryOptions : 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an association between an approval rule template and a speci- fied repository. Then, the next time a pull request is created in the repository where the destination reference (if specified) matches the destination reference (branch) for the pull request, an approval rule that matches the template conditions is automatically created for that pull request. If no destination references are specified in the tem- plate, an approval rule that matches the template contents is created for all pu...
+    /// Creates an association between an approval rule template and a specified repository. Then, the next time a pull request is created in the repository where the destination reference (if specified) matches the destination reference (branch) for the pull request, an approval rule that matches the template conditions is automatically created for that pull request. If no destination references are specified in the template, an approval rule that matches the template contents is created for all pull r...
     /// </summary>
-    /// <param name="ApprovalRuleTemplateName">The name for the approval rule template. Constraints: o min: 1 o max: 100</param>
-    /// <param name="RepositoryName">The name of the repository that you want to associate with the tem- plate. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
+    /// <param name="ApprovalRuleTemplateName">The name for the approval rule template. Constraints: • min: 1 • max: 100</param>
+    /// <param name="RepositoryName">The name of the repository that you want to associate with the template. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+</param>
     public AwsCodecommitAssociateApprovalRuleTemplateWithRepositoryOptions(
         string ApprovalRuleTemplateName,
         string RepositoryName
@@ -60,13 +62,13 @@ public record AwsCodecommitAssociateApprovalRuleTemplateWithRepositoryOptions : 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name for the approval rule template. Constraints: o min: 1 o max: 100
+    /// The name for the approval rule template. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--approval-rule-template-name")]
     public string? ApprovalRuleTemplateName { get; private init; }
 
     /// <summary>
-    /// The name of the repository that you want to associate with the tem- plate. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// The name of the repository that you want to associate with the template. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }

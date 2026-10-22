@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the replication configuration for a specific table. After dele- tion, new updates to this table will no longer be replicated to desti- nation tables, though existing replicated copies will remain in desti- nation buckets. Permissions You must have the s3tables:DeleteTableReplication permission to use this operation. See also: AWS API Documentation
+/// Deletes the replication configuration for a specific table. After deletion, new updates to this table will no longer be replicated to destination tables, though existing replicated copies will remain in destination buckets. Permissions You must have the s3tables:DeleteTableReplication permission to use this operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsS3tablesDeleteTableReplicationOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the replication configuration for a specific table. After dele- tion, new updates to this table will no longer be replicated to desti- nation tables, though existing replicated copies will remain in desti- nation buckets. Permissions You must have the s3tables:DeleteTableReplication permission to use this operation. See also: AWS API Documentation
+    /// Deletes the replication configuration for a specific table. After deletion, new updates to this table will no longer be replicated to destination tables, though existing replicated copies will remain in destination buckets. Permissions You must have the s3tables:DeleteTableReplication permission to use this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TableArn">The Amazon Resource Name (ARN) of the table. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}/ta- ble/[a-zA-Z0-9-_]{1,255})</param>
-    /// <param name="VersionToken">A version token from a previous GetTableReplication call. Use this token to ensure you're deleting the expected version of the configu- ration.</param>
+    /// <param name="TableArn">The Amazon Resource Name (ARN) of the table. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}/table/[a-zA-Z0-9-_]{1,255})</param>
+    /// <param name="VersionToken">A version token from a previous GetTableReplication call. Use this token to ensure you're deleting the expected version of the configuration.</param>
     public AwsS3tablesDeleteTableReplicationOptions(
         string TableArn,
         string VersionToken
@@ -61,13 +63,13 @@ public record AwsS3tablesDeleteTableReplicationOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the table. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}/ta- ble/[a-zA-Z0-9-_]{1,255})
+    /// The Amazon Resource Name (ARN) of the table. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}/table/[a-zA-Z0-9-_]{1,255})
     /// </summary>
     [CliOption("--table-arn")]
     public string? TableArn { get; private init; }
 
     /// <summary>
-    /// A version token from a previous GetTableReplication call. Use this token to ensure you're deleting the expected version of the configu- ration.
+    /// A version token from a previous GetTableReplication call. Use this token to ensure you're deleting the expected version of the configuration.
     /// </summary>
     [SecretValue]
     [CliOption("--version-token")]

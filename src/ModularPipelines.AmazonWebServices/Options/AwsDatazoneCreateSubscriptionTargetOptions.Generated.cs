@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,14 +31,14 @@ public record AwsDatazoneCreateSubscriptionTargetOptions : AwsOptions, IValidata
     /// <summary>
     /// Creates a subscription target in Amazon DataZone. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which subscription target is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="EnvironmentIdentifier">The ID of the environment in which subscription target is created. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Name">The name of the subscription target. Constraints: o min: 1 o max: 256</param>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which subscription target is created. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EnvironmentIdentifier">The ID of the environment in which subscription target is created. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Name">The name of the subscription target. Constraints: • min: 1 • max: 256</param>
     /// <param name="Type">The type of the subscription target.</param>
-    /// <param name="SubscriptionTargetConfig">The configuration of the subscription target. (structure) The details of the subscription target configuration. formName -&gt; (string) [required] The form name included in the subscription target configura- tion. Constraints: o min: 1 o max: 128 o pattern: (?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w* content -&gt; (string) [required] The content of the subscription target configuration. Shorthand Syntax: formName=string,content=string ... JSON Syntax: [ { "formName": "string", "content": "string" } ... ]</param>
-    /// <param name="AuthorizedPrincipals">The authorized principals of the subscription target. Constraints: o min: 1 o max: 20 (string) Constraints: o pattern: [a-zA-Z0-9:/._-]* Syntax: "string" "string" ...</param>
-    /// <param name="ManageAccessRole">The manage access role that is used to create the subscription tar- get. Constraints: o pattern: arn:aws(|-cn|-us-gov):iam::\d{12}:(role|role/ser- vice-role)/[\w+=,.@-]*</param>
-    /// <param name="ApplicableAssetTypes">The asset types that can be included in the subscription target. (string) Constraints: o min: 1 o max: 256 o pattern: [^\.]*.* Syntax: "string" "string" ...</param>
+    /// <param name="SubscriptionTargetConfig">The configuration of the subscription target. (structure) The details of the subscription target configuration. formName -&gt; (string) [required] The form name included in the subscription target configuration. Constraints: • min: 1 • max: 128 • pattern: (?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w* content -&gt; (string) [required] The content of the subscription target configuration. Shorthand Syntax: formName=string,content=string ... JSON Syntax: [ { "formName": "string", "content": "string" } ... ]</param>
+    /// <param name="AuthorizedPrincipals">The authorized principals of the subscription target. Constraints: • min: 1 • max: 20 (string) Constraints: • pattern: [a-zA-Z0-9:/._-]* Syntax: "string" "string" ...</param>
+    /// <param name="ManageAccessRole">The manage access role that is used to create the subscription target. Constraints: • pattern: arn:aws(|-cn|-us-gov):iam::\d{12}:(role|role/service-role)/[\w+=,.@-]*</param>
+    /// <param name="ApplicableAssetTypes">The asset types that can be included in the subscription target. (string) Constraints: • min: 1 • max: 256 • pattern: [^\.]*.* Syntax: "string" "string" ...</param>
     public AwsDatazoneCreateSubscriptionTargetOptions(
         string DomainIdentifier,
         string EnvironmentIdentifier,
@@ -119,19 +121,19 @@ public record AwsDatazoneCreateSubscriptionTargetOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon DataZone domain in which subscription target is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the Amazon DataZone domain in which subscription target is created. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the environment in which subscription target is created. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The ID of the environment in which subscription target is created. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--environment-identifier")]
     public string? EnvironmentIdentifier { get; private init; }
 
     /// <summary>
-    /// The name of the subscription target. Constraints: o min: 1 o max: 256
+    /// The name of the subscription target. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -143,25 +145,25 @@ public record AwsDatazoneCreateSubscriptionTargetOptions : AwsOptions, IValidata
     public string? Type { get; private init; }
 
     /// <summary>
-    /// The configuration of the subscription target. (structure) The details of the subscription target configuration. formName -&gt; (string) [required] The form name included in the subscription target configura- tion. Constraints: o min: 1 o max: 128 o pattern: (?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w* content -&gt; (string) [required] The content of the subscription target configuration. Shorthand Syntax: formName=string,content=string ... JSON Syntax: [ { "formName": "string", "content": "string" } ... ]
+    /// The configuration of the subscription target. (structure) The details of the subscription target configuration. formName -&gt; (string) [required] The form name included in the subscription target configuration. Constraints: • min: 1 • max: 128 • pattern: (?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w* content -&gt; (string) [required] The content of the subscription target configuration. Shorthand Syntax: formName=string,content=string ... JSON Syntax: [ { "formName": "string", "content": "string" } ... ]
     /// </summary>
     [CliOption("--subscription-target-config", GroupValues = true)]
     public IEnumerable<string>? SubscriptionTargetConfig { get; private init; }
 
     /// <summary>
-    /// The authorized principals of the subscription target. Constraints: o min: 1 o max: 20 (string) Constraints: o pattern: [a-zA-Z0-9:/._-]* Syntax: "string" "string" ...
+    /// The authorized principals of the subscription target. Constraints: • min: 1 • max: 20 (string) Constraints: • pattern: [a-zA-Z0-9:/._-]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--authorized-principals", GroupValues = true)]
     public IEnumerable<string>? AuthorizedPrincipals { get; private init; }
 
     /// <summary>
-    /// The manage access role that is used to create the subscription tar- get. Constraints: o pattern: arn:aws(|-cn|-us-gov):iam::\d{12}:(role|role/ser- vice-role)/[\w+=,.@-]*
+    /// The manage access role that is used to create the subscription target. Constraints: • pattern: arn:aws(|-cn|-us-gov):iam::\d{12}:(role|role/service-role)/[\w+=,.@-]*
     /// </summary>
     [CliOption("--manage-access-role")]
     public string? ManageAccessRole { get; private init; }
 
     /// <summary>
-    /// The asset types that can be included in the subscription target. (string) Constraints: o min: 1 o max: 256 o pattern: [^\.]*.* Syntax: "string" "string" ...
+    /// The asset types that can be included in the subscription target. (string) Constraints: • min: 1 • max: 256 • pattern: [^\.]*.* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--applicable-asset-types", GroupValues = true)]
     public IEnumerable<string>? ApplicableAssetTypes { get; private init; }
@@ -180,7 +182,7 @@ public record AwsDatazoneCreateSubscriptionTargetOptions : AwsOptions, IValidata
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Determines the subscription grant creation mode for this target, defining if grants are auto-created upon subscription approval or managed manually. Possible values: o AUTOMATIC o MANUAL
+    /// Determines the subscription grant creation mode for this target, defining if grants are auto-created upon subscription approval or managed manually. Possible values: • AUTOMATIC • MANUAL
     /// </summary>
     [CliOption("--subscription-grant-creation-mode")]
     public AwsDatazoneCreateSubscriptionTargetSubscriptionGrantCreationMode? SubscriptionGrantCreationMode { get; set; }

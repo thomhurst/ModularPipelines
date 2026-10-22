@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSocialmessagingGetWhatsappBusinessPublicKeyOptions : AwsOptions
     /// <summary>
     /// Retrieves the business public key for a phone number and its signature status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OriginationPhoneNumberId">The unique identifier of the phone number whose business public key to retrieve. Constraints: o min: 1 o max: 115 o pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-num- ber-id/[0-9a-zA-Z]+$).*</param>
+    /// <param name="OriginationPhoneNumberId">The unique identifier of the phone number whose business public key to retrieve. Constraints: • min: 1 • max: 115 • pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-number-id/[0-9a-zA-Z]+$).*</param>
     public AwsSocialmessagingGetWhatsappBusinessPublicKeyOptions(
         string OriginationPhoneNumberId
     )
@@ -56,7 +58,7 @@ public record AwsSocialmessagingGetWhatsappBusinessPublicKeyOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the phone number whose business public key to retrieve. Constraints: o min: 1 o max: 115 o pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-num- ber-id/[0-9a-zA-Z]+$).*
+    /// The unique identifier of the phone number whose business public key to retrieve. Constraints: • min: 1 • max: 115 • pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-number-id/[0-9a-zA-Z]+$).*
     /// </summary>
     [CliOption("--origination-phone-number-id")]
     public string? OriginationPhoneNumberId { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets information about a specific invalidation for a distribution ten- ant. See also: AWS API Documentation
+/// Gets information about a specific invalidation for a distribution tenant. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsCloudfrontGetInvalidationForDistributionTenantOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets information about a specific invalidation for a distribution ten- ant. See also: AWS API Documentation
+    /// Gets information about a specific invalidation for a distribution tenant. See also: AWS API Documentation
     /// </summary>
     /// <param name="DistributionTenantId">The ID of the distribution tenant.</param>
     /// <param name="Id">The ID of the invalidation to retrieve.</param>

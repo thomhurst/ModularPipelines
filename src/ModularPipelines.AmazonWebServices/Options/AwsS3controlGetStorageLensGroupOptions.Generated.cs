@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsS3controlGetStorageLensGroupOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Retrieves the Storage Lens group configuration details. To use this operation, you must have the permission to perform the s3:GetStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups . For information about Storage Lens groups errors, see List of Amazon S3 Storage Lens error codes . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the Storage Lens group that you're trying to retrieve the configuration details for. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\-\_]+</param>
-    /// <param name="AccountId">The Amazon Web Services account ID associated with the Storage Lens group that you're trying to retrieve the details for. Constraints: o max: 64 o pattern: ^\d{12}$</param>
+    /// <param name="Name">The name of the Storage Lens group that you're trying to retrieve the configuration details for. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9\-\_]+</param>
+    /// <param name="AccountId">The Amazon Web Services account ID associated with the Storage Lens group that you're trying to retrieve the details for. Constraints: • max: 64 • pattern: ^\d{12}$</param>
     public AwsS3controlGetStorageLensGroupOptions(
         string Name,
         string AccountId
@@ -60,13 +62,13 @@ public record AwsS3controlGetStorageLensGroupOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Storage Lens group that you're trying to retrieve the configuration details for. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\-\_]+
+    /// The name of the Storage Lens group that you're trying to retrieve the configuration details for. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9\-\_]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID associated with the Storage Lens group that you're trying to retrieve the details for. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID associated with the Storage Lens group that you're trying to retrieve the details for. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }

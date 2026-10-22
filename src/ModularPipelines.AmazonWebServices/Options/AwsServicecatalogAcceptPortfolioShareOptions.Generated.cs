@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsServicecatalogAcceptPortfolioShareOptions : AwsOptions, IValida
     /// <summary>
     /// Accepts an offer to share the specified portfolio. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PortfolioId">The portfolio identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="PortfolioId">The portfolio identifier. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*</param>
     public AwsServicecatalogAcceptPortfolioShareOptions(
         string PortfolioId
     )
@@ -57,19 +59,19 @@ public record AwsServicecatalogAcceptPortfolioShareOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The portfolio identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The portfolio identifier. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--portfolio-id")]
     public string? PortfolioId { get; private init; }
 
     /// <summary>
-    /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
+    /// The language code. • jp - Japanese • zh - Chinese Constraints: • max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
     /// <summary>
-    /// The type of shared portfolios to accept. The default is to accept imported portfolios. o AWS_ORGANIZATIONS - Accept portfolios shared by the management ac- count of your organization. o IMPORTED - Accept imported portfolios. o AWS_SERVICECATALOG - Not supported. (Throws ResourceNotFoundExcep- tion.) For example, aws servicecatalog accept-portfolio-share --portfo- lio-id "port-2qwzkwxt3y5fk" --portfolio-share-type AWS_ORGANIZATIONS Possible values: o IMPORTED o AWS_SERVICECATALOG o AWS_ORGANIZATIONS
+    /// The type of shared portfolios to accept. The default is to accept imported portfolios. • AWS_ORGANIZATIONS - Accept portfolios shared by the management account of your organization. • IMPORTED - Accept imported portfolios. • AWS_SERVICECATALOG - Not supported. (Throws ResourceNotFoundException.) For example, aws servicecatalog accept-portfolio-share --portfolio-id "port-2qwzkwxt3y5fk" --portfolio-share-type AWS_ORGANIZATIONS Possible values: • IMPORTED • AWS_SERVICECATALOG • AWS_ORGANIZATIONS
     /// </summary>
     [CliOption("--portfolio-share-type")]
     public AwsServicecatalogAcceptPortfolioSharePortfolioShareType? PortfolioShareType { get; set; }

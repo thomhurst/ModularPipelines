@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -63,7 +64,7 @@ public record AwsApigatewayCreateDeploymentOptions : AwsOptions, IValidatableObj
     public string? RestApiId { get; private init; }
 
     /// <summary>
-    /// The name of the Stage resource for the Deployment resource to cre- ate.
+    /// The name of the Stage resource for the Deployment resource to create.
     /// </summary>
     [CliOption("--stage-name")]
     public string? StageName { get; set; }
@@ -81,25 +82,25 @@ public record AwsApigatewayCreateDeploymentOptions : AwsOptions, IValidatableObj
     public string? Description { get; set; }
 
     /// <summary>
-    /// Enables a cache cluster for the Stage resource specified in the in- put.
+    /// Enables a cache cluster for the Stage resource specified in the input.
     /// </summary>
     [CliFlag("--cache-cluster-enabled", NegatedName = "--no-cache-cluster-enabled")]
     public bool? CacheClusterEnabled { get; set; }
 
     /// <summary>
-    /// The stage's cache capacity in GB. For more information about choos- ing a cache size, see Enabling API caching to enhance responsiveness . Possible values: o 0.5 o 1.6 o 6.1 o 13.5 o 28.4 o 58.2 o 118 o 237
+    /// The stage's cache capacity in GB. For more information about choosing a cache size, see Enabling API caching to enhance responsiveness . Possible values: • 0.5 • 1.6 • 6.1 • 13.5 • 28.4 • 58.2 • 118 • 237
     /// </summary>
     [CliOption("--cache-cluster-size")]
     public string? CacheClusterSize { get; set; }
 
     /// <summary>
-    /// A map that defines the stage variables for the Stage resource that is associated with the new deployment. Variable names can have al- phanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+ . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map that defines the stage variables for the Stage resource that is associated with the new deployment. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+ . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--variables", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Variables { get; set; }
 
     /// <summary>
-    /// The input configuration for the canary deployment when the deploy- ment is a canary release deployment. percentTraffic -&gt; (double) The percentage (0.0-100.0) of traffic routed to the canary de- ployment. stageVariableOverrides -&gt; (map) A stage variable overrides used for the canary release deploy- ment. They can override existing stage variables or add new stage variables for the canary release deployment. These stage variables are represented as a string-to-string map between stage variable names and their values. key -&gt; (string) value -&gt; (string) useStageCache -&gt; (boolean) A Boolean flag to indicate whether the canary release deployment uses the stage cache or not. Shorthand Syntax: percentTraffic=double,stageVariableOverrides={KeyName1=string,KeyName2=string},useStageCache=boolean JSON Syntax: { "percentTraffic": double, "stageVariableOverrides": {"string": "string" ...}, "useStageCache": true|false }
+    /// The input configuration for the canary deployment when the deployment is a canary release deployment. percentTraffic -&gt; (double) The percentage (0.0-100.0) of traffic routed to the canary deployment. stageVariableOverrides -&gt; (map) A stage variable overrides used for the canary release deployment. They can override existing stage variables or add new stage variables for the canary release deployment. These stage variables are represented as a string-to-string map between stage variable names and their values. key -&gt; (string) value -&gt; (string) useStageCache -&gt; (boolean) A Boolean flag to indicate whether the canary release deployment uses the stage cache or not. Shorthand Syntax: percentTraffic=double,stageVariableOverrides={KeyName1=string,KeyName2=string},useStageCache=boolean JSON Syntax: { "percentTraffic": double, "stageVariableOverrides": {"string": "string" ...}, "useStageCache": true|false }
     /// </summary>
     [CliOption("--canary-settings")]
     public string? CanarySettings { get; set; }

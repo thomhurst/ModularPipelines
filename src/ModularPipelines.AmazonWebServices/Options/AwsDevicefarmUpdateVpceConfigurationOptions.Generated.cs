@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates information about an Amazon Virtual Private Cloud (VPC) end- point configuration. See also: AWS API Documentation
+/// Updates information about an Amazon Virtual Private Cloud (VPC) endpoint configuration. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsDevicefarmUpdateVpceConfigurationOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates information about an Amazon Virtual Private Cloud (VPC) end- point configuration. See also: AWS API Documentation
+    /// Updates information about an Amazon Virtual Private Cloud (VPC) endpoint configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the VPC endpoint configuration you want to update. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the VPC endpoint configuration you want to update. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+</param>
     public AwsDevicefarmUpdateVpceConfigurationOptions(
         string Arn
     )
@@ -56,31 +58,31 @@ public record AwsDevicefarmUpdateVpceConfigurationOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want to update. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want to update. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The friendly name you give to your VPC endpoint configuration to manage your configurations more easily. Constraints: o min: 0 o max: 1024
+    /// The friendly name you give to your VPC endpoint configuration to manage your configurations more easily. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--vpce-configuration-name")]
     public string? VpceConfigurationName { get; set; }
 
     /// <summary>
-    /// The name of the VPC endpoint service running in your AWS account that you want Device Farm to test. Constraints: o min: 0 o max: 2048
+    /// The name of the VPC endpoint service running in your AWS account that you want Device Farm to test. Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--vpce-service-name")]
     public string? VpceServiceName { get; set; }
 
     /// <summary>
-    /// The DNS (domain) name used to connect to your private service in your VPC. The DNS name must not already be in use on the internet. Constraints: o min: 0 o max: 2048
+    /// The DNS (domain) name used to connect to your private service in your VPC. The DNS name must not already be in use on the internet. Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--service-dns-name")]
     public string? ServiceDnsName { get; set; }
 
     /// <summary>
-    /// An optional description that provides details about your VPC end- point configuration. Constraints: o min: 0 o max: 2048
+    /// An optional description that provides details about your VPC endpoint configuration. Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--vpce-configuration-description")]
     public string? VpceConfigurationDescription { get; set; }

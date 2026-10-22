@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a zero-ETL integration or S3 event integration with Amazon Red- shift. See also: AWS API Documentation
+/// Deletes a zero-ETL integration or S3 event integration with Amazon Redshift. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRedshiftDeleteIntegrationOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a zero-ETL integration or S3 event integration with Amazon Red- shift. See also: AWS API Documentation
+    /// Deletes a zero-ETL integration or S3 event integration with Amazon Redshift. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IntegrationArn">The unique identifier of the integration to delete. Constraints: o min: 1 o max: 255 o pattern: ^arn:aws[a-z\-]*:redshift:[a-z0-9\-]*:[0-9]*:integra- tion:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
+    /// <param name="IntegrationArn">The unique identifier of the integration to delete. Constraints: • min: 1 • max: 255 • pattern: ^arn:aws[a-z\-]*:redshift:[a-z0-9\-]*:[0-9]*:integration:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
     public AwsRedshiftDeleteIntegrationOptions(
         string IntegrationArn
     )
@@ -56,7 +58,7 @@ public record AwsRedshiftDeleteIntegrationOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the integration to delete. Constraints: o min: 1 o max: 255 o pattern: ^arn:aws[a-z\-]*:redshift:[a-z0-9\-]*:[0-9]*:integra- tion:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+    /// The unique identifier of the integration to delete. Constraints: • min: 1 • max: 255 • pattern: ^arn:aws[a-z\-]*:redshift:[a-z0-9\-]*:[0-9]*:integration:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--integration-arn")]
     public string? IntegrationArn { get; private init; }

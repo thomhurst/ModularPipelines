@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsElementalinferenceDeleteDictionaryOptions : AwsOptions, IValida
     /// <summary>
     /// Deletes the specified dictionary. You cannot delete a dictionary that is referenced by a feed. You must first remove the dictionary reference from the feed's subtitling configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the dictionary to delete. Constraints: o min: 1 o max: 19 o pattern: [a-zA-Z0-9]+</param>
+    /// <param name="Id">The ID of the dictionary to delete. Constraints: • min: 1 • max: 19 • pattern: [a-zA-Z0-9]+</param>
     public AwsElementalinferenceDeleteDictionaryOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsElementalinferenceDeleteDictionaryOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the dictionary to delete. Constraints: o min: 1 o max: 19 o pattern: [a-zA-Z0-9]+
+    /// The ID of the dictionary to delete. Constraints: • min: 1 • max: 19 • pattern: [a-zA-Z0-9]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

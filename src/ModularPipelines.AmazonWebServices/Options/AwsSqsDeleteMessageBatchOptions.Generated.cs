@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes up to ten messages from the specified queue. This is a batch version of `` DeleteMessage .`` The result of the action on each mes- sage is reported individually in the response. WARNING: Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200 . See also: AWS API Documentation
+/// Deletes up to ten messages from the specified queue. This is a batch version of `` DeleteMessage .`` The result of the action on each message is reported individually in the response. WARNING: Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200 . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsSqsDeleteMessageBatchOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes up to ten messages from the specified queue. This is a batch version of `` DeleteMessage .`` The result of the action on each mes- sage is reported individually in the response. WARNING: Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200 . See also: AWS API Documentation
+    /// Deletes up to ten messages from the specified queue. This is a batch version of `` DeleteMessage .`` The result of the action on each message is reported individually in the response. WARNING: Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200 . See also: AWS API Documentation
     /// </summary>
     /// <param name="QueueUrl">The URL of the Amazon SQS queue from which messages are deleted. Queue URLs and names are case-sensitive.</param>
-    /// <param name="Entries">Lists the receipt handles for the messages to be deleted. (structure) Encloses a receipt handle and an identifier for it. Id -&gt; (string) [required] The identifier for this particular receipt handle. This is used to communicate the result. NOTE: The Id s of a batch request need to be unique within a request. This identifier can have up to 80 characters. The follow- ing characters are accepted: alphanumeric characters, hy- phens(-), and underscores (_). ReceiptHandle -&gt; (string) [required] A receipt handle. Shorthand Syntax: Id=string,ReceiptHandle=string ... JSON Syntax: [ { "Id": "string", "ReceiptHandle": "string" } ... ]</param>
+    /// <param name="Entries">Lists the receipt handles for the messages to be deleted. (structure) Encloses a receipt handle and an identifier for it. Id -&gt; (string) [required] The identifier for this particular receipt handle. This is used to communicate the result. NOTE: The Id s of a batch request need to be unique within a request. This identifier can have up to 80 characters. The following characters are accepted: alphanumeric characters, hyphens(-), and underscores (_). ReceiptHandle -&gt; (string) [required] A receipt handle. Shorthand Syntax: Id=string,ReceiptHandle=string ... JSON Syntax: [ { "Id": "string", "ReceiptHandle": "string" } ... ]</param>
     public AwsSqsDeleteMessageBatchOptions(
         string QueueUrl,
         IEnumerable<string> Entries
@@ -77,7 +79,7 @@ public record AwsSqsDeleteMessageBatchOptions : AwsOptions, IValidatableObject
     public string? QueueUrl { get; private init; }
 
     /// <summary>
-    /// Lists the receipt handles for the messages to be deleted. (structure) Encloses a receipt handle and an identifier for it. Id -&gt; (string) [required] The identifier for this particular receipt handle. This is used to communicate the result. NOTE: The Id s of a batch request need to be unique within a request. This identifier can have up to 80 characters. The follow- ing characters are accepted: alphanumeric characters, hy- phens(-), and underscores (_). ReceiptHandle -&gt; (string) [required] A receipt handle. Shorthand Syntax: Id=string,ReceiptHandle=string ... JSON Syntax: [ { "Id": "string", "ReceiptHandle": "string" } ... ]
+    /// Lists the receipt handles for the messages to be deleted. (structure) Encloses a receipt handle and an identifier for it. Id -&gt; (string) [required] The identifier for this particular receipt handle. This is used to communicate the result. NOTE: The Id s of a batch request need to be unique within a request. This identifier can have up to 80 characters. The following characters are accepted: alphanumeric characters, hyphens(-), and underscores (_). ReceiptHandle -&gt; (string) [required] A receipt handle. Shorthand Syntax: Id=string,ReceiptHandle=string ... JSON Syntax: [ { "Id": "string", "ReceiptHandle": "string" } ... ]
     /// </summary>
     [CliOption("--entries", GroupValues = true)]
     public IEnumerable<string>? Entries { get; private init; }

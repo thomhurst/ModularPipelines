@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -29,7 +30,7 @@ public record AwsLocationCreateTrackerOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a tracker resource in your Amazon Web Services account, which lets you retrieve current and historical location of devices. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TrackerName">The name for the tracker resource. Requirements: o Contain only alphanumeric characters (A-Z, a-z, 0-9) , hyphens (-), periods (.), and underscores (_). o Must be a unique tracker resource name. o No spaces allowed. For example, ExampleTracker . Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    /// <param name="TrackerName">The name for the tracker resource. Requirements: • Contain only alphanumeric characters (A-Z, a-z, 0-9) , hyphens (-), periods (.), and underscores (_). • Must be a unique tracker resource name. • No spaces allowed. For example, ExampleTracker . Constraints: • min: 1 • max: 100 • pattern: [-._\w]+</param>
     public AwsLocationCreateTrackerOptions(
         string TrackerName
     )
@@ -58,19 +59,19 @@ public record AwsLocationCreateTrackerOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name for the tracker resource. Requirements: o Contain only alphanumeric characters (A-Z, a-z, 0-9) , hyphens (-), periods (.), and underscores (_). o Must be a unique tracker resource name. o No spaces allowed. For example, ExampleTracker . Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// The name for the tracker resource. Requirements: • Contain only alphanumeric characters (A-Z, a-z, 0-9) , hyphens (-), periods (.), and underscores (_). • Must be a unique tracker resource name. • No spaces allowed. For example, ExampleTracker . Constraints: • min: 1 • max: 100 • pattern: [-._\w]+
     /// </summary>
     [CliOption("--tracker-name")]
     public string? TrackerName { get; private init; }
 
     /// <summary>
-    /// No longer used. If included, the only allowed value is RequestBase- dUsage . Possible values: o RequestBasedUsage o MobileAssetTracking o MobileAssetManagement
+    /// No longer used. If included, the only allowed value is RequestBasedUsage . Possible values: • RequestBasedUsage • MobileAssetTracking • MobileAssetManagement
     /// </summary>
     [CliOption("--pricing-plan")]
     public AwsLocationCreateTrackerPricingPlan? PricingPlan { get; set; }
 
     /// <summary>
-    /// A key identifier for an Amazon Web Services KMS customer managed key . Enter a key ID, key ARN, alias name, or alias ARN. Constraints: o min: 1 o max: 2048
+    /// A key identifier for an Amazon Web Services KMS customer managed key . Enter a key ID, key ARN, alias name, or alias ARN. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
@@ -82,19 +83,19 @@ public record AwsLocationCreateTrackerOptions : AwsOptions, IValidatableObject
     public string? PricingPlanDataSource { get; set; }
 
     /// <summary>
-    /// An optional description for the tracker resource. Constraints: o min: 0 o max: 1000
+    /// An optional description for the tracker resource. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Applies one or more tags to the tracker resource. A tag is a key-value pair helps manage, identify, search, and filter your re- sources by labelling them. Format: "key" : "value" Restrictions: o Maximum 50 tags per resource o Each resource tag must be unique with a maximum of one value. o Maximum key length: 128 Unicode characters in UTF-8 o Maximum value length: 256 Unicode characters in UTF-8 o Can use alphanumeric characters (AZ, az, 09), and the following characters: + - = . _ : / @. o Cannot use "aws:" as a prefix for a key. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.,:/=+\-@]*) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.,:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Applies one or more tags to the tracker resource. A tag is a key-value pair helps manage, identify, search, and filter your resources by labelling them. Format: "key" : "value" Restrictions: • Maximum 50 tags per resource • Each resource tag must be unique with a maximum of one value. • Maximum key length: 128 Unicode characters in UTF-8 • Maximum value length: 256 Unicode characters in UTF-8 • Can use alphanumeric characters (AZ, az, 09), and the following characters: + - = . _ : / @. • Cannot use "aws:" as a prefix for a key. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.,:/=+\-@]*) value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.,:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Specifies the position filtering for the tracker resource. Valid values: o TimeBased - Location updates are evaluated against linked geofence collections, but not every location update is stored. If your up- date frequency is more often than 30 seconds, only one update per 30 seconds is stored for each unique device ID. o DistanceBased - If the device has moved less than 30 m (98.4 ft), location updates are ignored. Location updates within this area are neither evaluated against linked geofence collections, nor stored. This helps control costs by reducing the number of ge- ofence evaluations and historical device positions to paginate through. Distance-based filtering can also reduce the effects of GPS noise when displaying device trajectories on a map. o AccuracyBased - If the device has moved less than the measured ac- curacy, location updates are ignored. For example, if two consecu- tive updates from a device have a horizontal accuracy of 5 m and 10 m, the second update is ignored if the device has moved less than 15 m. Ignored location updates are neither evaluated against linked geofence collections, nor stored. This can reduce the ef- fects of GPS noise when displaying device trajectories on a map, and can help control your costs by reducing the number of geofence evaluations. This field is optional. If not specified, the default value is Time- Based . Possible values: o TimeBased o DistanceBased o AccuracyBased
+    /// Specifies the position filtering for the tracker resource. Valid values: • TimeBased - Location updates are evaluated against linked geofence collections, but not every location update is stored. If your update frequency is more often than 30 seconds, only one update per 30 seconds is stored for each unique device ID. • DistanceBased - If the device has moved less than 30 m (98.4 ft), location updates are ignored. Location updates within this area are neither evaluated against linked geofence collections, nor stored. This helps control costs by reducing the number of geofence evaluations and historical device positions to paginate through. Distance-based filtering can also reduce the effects of GPS noise when displaying device trajectories on a map. • AccuracyBased - If the device has moved less than the measured accuracy, location updates are ignored. For example, if two consecutive updates from a device have a horizontal accuracy of 5 m and 10 m, the second update is ignored if the device has moved less than 15 m. Ignored location updates are neither evaluated against linked geofence collections, nor stored. This can reduce the effects of GPS noise when displaying device trajectories on a map, and can help control your costs by reducing the number of geofence evaluations. This field is optional. If not specified, the default value is TimeBased . Possible values: • TimeBased • DistanceBased • AccuracyBased
     /// </summary>
     [CliOption("--position-filtering")]
     public string? PositionFiltering { get; set; }
@@ -106,7 +107,7 @@ public record AwsLocationCreateTrackerOptions : AwsOptions, IValidatableObject
     public bool? EventBridgeEnabled { get; set; }
 
     /// <summary>
-    /// tial-queries (boolean) Enables GeospatialQueries for a tracker that uses a Amazon Web Ser- vices KMS customer managed key . This parameter is only used if you are using a KMS customer managed key. NOTE: If you wish to encrypt your data using your own KMS customer managed key, then the Bounding Polygon Queries feature will be disabled by default. This is because by using this feature, a representation of your device positions will not be encrypted using the your KMS managed key. The exact device position, how- ever; is still encrypted using your managed key. You can choose to opt-in to the Bounding Polygon Quseries fea- ture. This is done by setting the KmsKeyEnableGeospatialQueries parameter to true when creating or updating a Tracker.
+    /// Enables GeospatialQueries for a tracker that uses a Amazon Web Services KMS customer managed key . This parameter is only used if you are using a KMS customer managed key. NOTE: If you wish to encrypt your data using your own KMS customer managed key, then the Bounding Polygon Queries feature will be disabled by default. This is because by using this feature, a representation of your device positions will not be encrypted using the your KMS managed key. The exact device position, however; is still encrypted using your managed key. You can choose to opt-in to the Bounding Polygon Quseries feature. This is done by setting the KmsKeyEnableGeospatialQueries parameter to true when creating or updating a Tracker.
     /// </summary>
     [CliFlag("--kms-key-enable-geospatial-queries", NegatedName = "--no-kms-key-enable-geospatial-queries")]
     public bool? KmsKeyEnableGeospatialQueries { get; set; }

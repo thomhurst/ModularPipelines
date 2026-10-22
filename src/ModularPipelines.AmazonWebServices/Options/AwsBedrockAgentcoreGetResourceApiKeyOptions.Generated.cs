@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsBedrockAgentcoreGetResourceApiKeyOptions : AwsOptions, IValidat
     /// <summary>
     /// Retrieves the API key associated with an API key credential provider. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkloadIdentityToken">The identity token of the workload from which you want to retrieve the API key. Constraints: o min: 1 o max: 131072</param>
-    /// <param name="ResourceCredentialProviderName">The credential provider name for the resource from which you are re- trieving the API key. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\-_]+</param>
+    /// <param name="WorkloadIdentityToken">The identity token of the workload from which you want to retrieve the API key. Constraints: • min: 1 • max: 131072</param>
+    /// <param name="ResourceCredentialProviderName">The credential provider name for the resource from which you are retrieving the API key. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\-_]+</param>
     public AwsBedrockAgentcoreGetResourceApiKeyOptions(
         string WorkloadIdentityToken,
         string ResourceCredentialProviderName
@@ -61,14 +63,14 @@ public record AwsBedrockAgentcoreGetResourceApiKeyOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identity token of the workload from which you want to retrieve the API key. Constraints: o min: 1 o max: 131072
+    /// The identity token of the workload from which you want to retrieve the API key. Constraints: • min: 1 • max: 131072
     /// </summary>
     [SecretValue]
     [CliOption("--workload-identity-token")]
     public string? WorkloadIdentityToken { get; private init; }
 
     /// <summary>
-    /// The credential provider name for the resource from which you are re- trieving the API key. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\-_]+
+    /// The credential provider name for the resource from which you are retrieving the API key. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\-_]+
     /// </summary>
     [CliOption("--resource-credential-provider-name")]
     public string? ResourceCredentialProviderName { get; private init; }

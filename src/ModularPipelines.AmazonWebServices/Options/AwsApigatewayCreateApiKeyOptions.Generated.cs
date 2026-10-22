@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -42,7 +43,7 @@ public record AwsApigatewayCreateApiKeyOptions : AwsOptions
     public bool? Enabled { get; set; }
 
     /// <summary>
-    /// Specifies whether (true ) or not (false ) the key identifier is dis- tinct from the created API key value. This parameter is deprecated and should not be used.
+    /// Specifies whether (true ) or not (false ) the key identifier is distinct from the created API key value. This parameter is deprecated and should not be used.
     /// </summary>
     [CliFlag("--generate-distinct-id", NegatedName = "--no-generate-distinct-id")]
     public bool? GenerateDistinctId { get; set; }
@@ -61,7 +62,7 @@ public record AwsApigatewayCreateApiKeyOptions : AwsOptions
     public IEnumerable<string>? StageKeys { get; set; }
 
     /// <summary>
-    /// An Amazon Web Services Marketplace customer identifier, when inte- grating with the Amazon Web Services SaaS Marketplace.
+    /// An Amazon Web Services Marketplace customer identifier, when integrating with the Amazon Web Services SaaS Marketplace.
     /// </summary>
     [CliOption("--customer-id")]
     public string? CustomerId { get; set; }

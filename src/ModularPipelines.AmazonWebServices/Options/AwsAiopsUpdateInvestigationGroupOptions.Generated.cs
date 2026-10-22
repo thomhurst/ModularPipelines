@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,7 +29,7 @@ public record AwsAiopsUpdateInvestigationGroupOptions : AwsOptions, IValidatable
     /// <summary>
     /// Updates the configuration of the specified investigation group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">Specify either the name or the ARN of the investigation group that you want to modify. Constraints: o pattern: (?:[\-_A-Za-z0-9]{1,512}|arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):aiops:[a-zA-Z0-9-]*:[0-9]{12}:in- vestigation-group\/[A-Za-z0-9]{16})</param>
+    /// <param name="Identifier">Specify either the name or the ARN of the investigation group that you want to modify. Constraints: • pattern: (?:[\-_A-Za-z0-9]{1,512}|arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):aiops:[a-zA-Z0-9-]*:[0-9]{12}:investigation-group\/[A-Za-z0-9]{16})</param>
     public AwsAiopsUpdateInvestigationGroupOptions(
         string Identifier
     )
@@ -57,43 +58,43 @@ public record AwsAiopsUpdateInvestigationGroupOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specify either the name or the ARN of the investigation group that you want to modify. Constraints: o pattern: (?:[\-_A-Za-z0-9]{1,512}|arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):aiops:[a-zA-Z0-9-]*:[0-9]{12}:in- vestigation-group\/[A-Za-z0-9]{16})
+    /// Specify either the name or the ARN of the investigation group that you want to modify. Constraints: • pattern: (?:[\-_A-Za-z0-9]{1,512}|arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):aiops:[a-zA-Z0-9-]*:[0-9]{12}:investigation-group\/[A-Za-z0-9]{16})
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// Specify this field if you want to change the IAM role that Cloud- Watch investigations will use when it gathers investigation data. To do so, specify the ARN of the new role. The permissions in this role determine which of your resources that CloudWatch investigations will have access to during investigations. For more information, see How to control what data CloudWatch inves- tigations has access to during investigations . Constraints: o min: 20 o max: 2048 o pattern: arn:.*
+    /// Specify this field if you want to change the IAM role that CloudWatch investigations will use when it gathers investigation data. To do so, specify the ARN of the new role. The permissions in this role determine which of your resources that CloudWatch investigations will have access to during investigations. For more information, see How to control what data CloudWatch investigations has access to during investigations . Constraints: • min: 20 • max: 2048 • pattern: arn:.*
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
     /// <summary>
-    /// Use this structure if you want to use a customer managed KMS key to encrypt your investigation data. If you omit this parameter, Cloud- Watch investigations will use an Amazon Web Services key to encrypt the data. For more information, see Encryption of investigation data . type -&gt; (string) Displays whether investigation data is encrypted by a customer managed key or an Amazon Web Services owned key. Possible values: o AWS_OWNED_KEY o CUSTOMER_MANAGED_KMS_KEY kmsKeyId -&gt; (string) If the investigation group uses a customer managed key for en- cryption, this field displays the ID of that key. Constraints: o min: 1 o max: 256 o pattern: arn:.* Shorthand Syntax: type=string,kmsKeyId=string JSON Syntax: { "type": "AWS_OWNED_KEY"|"CUSTOMER_MANAGED_KMS_KEY", "kmsKeyId": "string" }
+    /// Use this structure if you want to use a customer managed KMS key to encrypt your investigation data. If you omit this parameter, CloudWatch investigations will use an Amazon Web Services key to encrypt the data. For more information, see Encryption of investigation data . type -&gt; (string) Displays whether investigation data is encrypted by a customer managed key or an Amazon Web Services owned key. Possible values: • AWS_OWNED_KEY • CUSTOMER_MANAGED_KMS_KEY kmsKeyId -&gt; (string) If the investigation group uses a customer managed key for encryption, this field displays the ID of that key. Constraints: • min: 1 • max: 256 • pattern: arn:.* Shorthand Syntax: type=string,kmsKeyId=string JSON Syntax: { "type": "AWS_OWNED_KEY"|"CUSTOMER_MANAGED_KMS_KEY", "kmsKeyId": "string" }
     /// </summary>
     [CliOption("--encryption-configuration")]
     public string? EncryptionConfiguration { get; set; }
 
     /// <summary>
-    /// Enter the existing custom tag keys for custom applications in your system. Resource tags help CloudWatch investigations narrow the search space when it is unable to discover definite relationships between resources. For example, to discover that an Amazon ECS ser- vice depends on an Amazon RDS database, CloudWatch investigations can discover this relationship using data sources such as X-Ray and CloudWatch Application Signals. However, if you haven't deployed these features, CloudWatch investigations will attempt to identify possible relationships. Tag boundaries can be used to narrow the re- sources that will be discovered by CloudWatch investigations in these cases. You don't need to enter tags created by myApplications or CloudFor- mation, because CloudWatch investigations can automatically detect those tags. (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]+) Syntax: "string" "string" ...
+    /// Enter the existing custom tag keys for custom applications in your system. Resource tags help CloudWatch investigations narrow the search space when it is unable to discover definite relationships between resources. For example, to discover that an Amazon ECS service depends on an Amazon RDS database, CloudWatch investigations can discover this relationship using data sources such as X-Ray and CloudWatch Application Signals. However, if you haven't deployed these features, CloudWatch investigations will attempt to identify possible relationships. Tag boundaries can be used to narrow the resources that will be discovered by CloudWatch investigations in these cases. You don't need to enter tags created by myApplications or CloudFormation, because CloudWatch investigations can automatically detect those tags. (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]+) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-key-boundaries", GroupValues = true)]
     public IEnumerable<string>? TagKeyBoundaries { get; set; }
 
     /// <summary>
-    /// Use this structure to integrate CloudWatch investigations with chat applications. This structure is a string array. For the first string, specify the ARN of an Amazon SNS topic. For the array of strings, specify the ARNs of one or more chat applications configu- rations that you want to associate with that topic. For more infor- mation about these configuration ARNs, see Getting started with Ama- zon Q in chat applications and Resource type defined by Amazon Web Services Chatbot . key -&gt; (string) Constraints: o min: 20 o max: 2048 o pattern: arn:.* value -&gt; (list) Constraints: o min: 1 o max: 5 (string) Constraints: o min: 20 o max: 2048 o pattern: arn:.* Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
+    /// Use this structure to integrate CloudWatch investigations with chat applications. This structure is a string array. For the first string, specify the ARN of an Amazon SNS topic. For the array of strings, specify the ARNs of one or more chat applications configurations that you want to associate with that topic. For more information about these configuration ARNs, see Getting started with Amazon Q in chat applications and Resource type defined by Amazon Web Services Chatbot . key -&gt; (string) Constraints: • min: 20 • max: 2048 • pattern: arn:.* value -&gt; (list) Constraints: • min: 1 • max: 5 (string) Constraints: • min: 20 • max: 2048 • pattern: arn:.* Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
     [CliOption("--chatbot-notification-channel", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ChatbotNotificationChannel { get; set; }
 
     /// <summary>
-    /// tory-enabled (boolean) Specify true to enable CloudWatch investigations to have access to change events that are recorded by CloudTrail. The default is true .
+    /// Specify true to enable CloudWatch investigations to have access to change events that are recorded by CloudTrail. The default is true .
     /// </summary>
     [CliFlag("--is-cloud-trail-event-history-enabled", NegatedName = "--no-is-cloud-trail-event-history-enabled")]
     public bool? IsCloudTrailEventHistoryEnabled { get; set; }
 
     /// <summary>
-    /// Used to configure cross-account access for an investigation group. It allows the investigation group to access resources in other ac- counts. Constraints: o min: 0 o max: 25 (structure) This structure contains information about the cross-account con- figuration in the account. sourceRoleArn -&gt; (string) The ARN of an existing role which will be used to do investi- gations on your behalf. Constraints: o min: 20 o max: 2048 o pattern: arn:.* Shorthand Syntax: sourceRoleArn=string ... JSON Syntax: [ { "sourceRoleArn": "string" } ... ]
+    /// Used to configure cross-account access for an investigation group. It allows the investigation group to access resources in other accounts. Constraints: • min: 0 • max: 25 (structure) This structure contains information about the cross-account configuration in the account. sourceRoleArn -&gt; (string) The ARN of an existing role which will be used to do investigations on your behalf. Constraints: • min: 20 • max: 2048 • pattern: arn:.* Shorthand Syntax: sourceRoleArn=string ... JSON Syntax: [ { "sourceRoleArn": "string" } ... ]
     /// </summary>
     [CliOption("--cross-account-configurations", GroupValues = true)]
     public IEnumerable<string>? CrossAccountConfigurations { get; set; }

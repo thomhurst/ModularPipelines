@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides information about the specified Medical Scribe job. To view the status of the specified medical transcription job, check the MedicalScribeJobStatus field. If the status is COMPLETED , the job is finished. You can find the results at the location specified in Med- icalScribeOutput . If the status is FAILED , FailureReason provides de- tails on why your Medical Scribe job failed. To get a list of your Medical Scribe jobs, use the operation. See also: AWS API Documentation
+/// Provides information about the specified Medical Scribe job. To view the status of the specified medical transcription job, check the MedicalScribeJobStatus field. If the status is COMPLETED , the job is finished. You can find the results at the location specified in MedicalScribeOutput . If the status is FAILED , FailureReason provides details on why your Medical Scribe job failed. To get a list of your Medical Scribe jobs, use the operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsTranscribeGetMedicalScribeJobOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides information about the specified Medical Scribe job. To view the status of the specified medical transcription job, check the MedicalScribeJobStatus field. If the status is COMPLETED , the job is finished. You can find the results at the location specified in Med- icalScribeOutput . If the status is FAILED , FailureReason provides de- tails on why your Medical Scribe job failed. To get a list of your Medical Scribe jobs, use the operation. See also: AWS API Documentation
+    /// Provides information about the specified Medical Scribe job. To view the status of the specified medical transcription job, check the MedicalScribeJobStatus field. If the status is COMPLETED , the job is finished. You can find the results at the location specified in MedicalScribeOutput . If the status is FAILED , FailureReason provides details on why your Medical Scribe job failed. To get a list of your Medical Scribe jobs, use the operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MedicalScribeJobName">The name of the Medical Scribe job you want information about. Job names are case sensitive. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+</param>
+    /// <param name="MedicalScribeJobName">The name of the Medical Scribe job you want information about. Job names are case sensitive. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z._-]+</param>
     public AwsTranscribeGetMedicalScribeJobOptions(
         string MedicalScribeJobName
     )
@@ -56,7 +58,7 @@ public record AwsTranscribeGetMedicalScribeJobOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Medical Scribe job you want information about. Job names are case sensitive. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+
+    /// The name of the Medical Scribe job you want information about. Job names are case sensitive. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z._-]+
     /// </summary>
     [CliOption("--medical-scribe-job-name")]
     public string? MedicalScribeJobName { get; private init; }

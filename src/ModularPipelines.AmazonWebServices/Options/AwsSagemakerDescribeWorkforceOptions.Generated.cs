@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists private workforce information, including workforce name, Amazon Resource Name (ARN), and, if applicable, allowed IP address ranges (- CIDRs ). Allowable IP address ranges are the IP addresses that workers can use to access tasks. WARNING: This operation applies only to private workforces. See also: AWS API Documentation
+/// Lists private workforce information, including workforce name, Amazon Resource Name (ARN), and, if applicable, allowed IP address ranges (CIDRs ). Allowable IP address ranges are the IP addresses that workers can use to access tasks. WARNING: This operation applies only to private workforces. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSagemakerDescribeWorkforceOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists private workforce information, including workforce name, Amazon Resource Name (ARN), and, if applicable, allowed IP address ranges (- CIDRs ). Allowable IP address ranges are the IP addresses that workers can use to access tasks. WARNING: This operation applies only to private workforces. See also: AWS API Documentation
+    /// Lists private workforce information, including workforce name, Amazon Resource Name (ARN), and, if applicable, allowed IP address ranges (CIDRs ). Allowable IP address ranges are the IP addresses that workers can use to access tasks. WARNING: This operation applies only to private workforces. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkforceName">The name of the private workforce whose access you want to restrict. WorkforceName is automatically set to default when a workforce is created and cannot be modified. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9]([a-zA-Z0-9\-]){0,62}</param>
+    /// <param name="WorkforceName">The name of the private workforce whose access you want to restrict. WorkforceName is automatically set to default when a workforce is created and cannot be modified. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9]([a-zA-Z0-9\-]){0,62}</param>
     public AwsSagemakerDescribeWorkforceOptions(
         string WorkforceName
     )
@@ -56,7 +58,7 @@ public record AwsSagemakerDescribeWorkforceOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the private workforce whose access you want to restrict. WorkforceName is automatically set to default when a workforce is created and cannot be modified. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9]([a-zA-Z0-9\-]){0,62}
+    /// The name of the private workforce whose access you want to restrict. WorkforceName is automatically set to default when a workforce is created and cannot be modified. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9]([a-zA-Z0-9\-]){0,62}
     /// </summary>
     [CliOption("--workforce-name")]
     public string? WorkforceName { get; private init; }

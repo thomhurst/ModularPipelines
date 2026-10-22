@@ -24,32 +24,32 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLookoutequipmentListModelsOptions : AwsOptions
 {
     /// <summary>
-    /// An opaque pagination token indicating where to continue the listing of machine learning models. Constraints: o max: 8192 o pattern: \p{ASCII}{0,8192}
+    /// An opaque pagination token indicating where to continue the listing of machine learning models. Constraints: • max: 8192 • pattern: \p{ASCII}{0,8192}
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Specifies the maximum number of machine learning models to list. Constraints: o min: 1 o max: 500
+    /// Specifies the maximum number of machine learning models to list. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The status of the machine learning model. Possible values: o IN_PROGRESS o SUCCESS o FAILED o IMPORT_IN_PROGRESS
+    /// The status of the machine learning model. Possible values: • IN_PROGRESS • SUCCESS • FAILED • IMPORT_IN_PROGRESS
     /// </summary>
     [CliOption("--status")]
     public AwsLookoutequipmentListModelsStatus? Status { get; set; }
 
     /// <summary>
-    /// The beginning of the name of the machine learning models being listed. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// The beginning of the name of the machine learning models being listed. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$
     /// </summary>
     [CliOption("--model-name-begins-with")]
     public string? ModelNameBeginsWith { get; set; }
 
     /// <summary>
-    /// The beginning of the name of the dataset of the machine learning models to be listed. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// The beginning of the name of the dataset of the machine learning models to be listed. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$
     /// </summary>
     [CliOption("--dataset-name-begins-with")]
     public string? DataSetNameBeginsWith { get; set; }

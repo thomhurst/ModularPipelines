@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsDatazoneCreateGroupProfileOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Creates a group profile in Amazon DataZone. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain in which the group pro- file is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain in which the group profile is created. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneCreateGroupProfileOptions(
         string DomainIdentifier
     )
@@ -57,19 +59,19 @@ public record AwsDatazoneCreateGroupProfileOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon DataZone domain in which the group pro- file is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The identifier of the Amazon DataZone domain in which the group profile is created. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the group for which the group profile is created. Constraints: o pattern: .*(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|[\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+).*
+    /// The identifier of the group for which the group profile is created. Constraints: • pattern: .*(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|[\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+).*
     /// </summary>
     [CliOption("--group-identifier")]
     public string? GroupIdentifier { get; set; }
 
     /// <summary>
-    /// The ARN of the IAM role that will be associated with the group pro- file. This role defines the permissions that group members will as- sume when accessing Amazon DataZone resources.
+    /// The ARN of the IAM role that will be associated with the group profile. This role defines the permissions that group members will assume when accessing Amazon DataZone resources.
     /// </summary>
     [CliOption("--role-principal-arn")]
     public string? RolePrincipalArn { get; set; }

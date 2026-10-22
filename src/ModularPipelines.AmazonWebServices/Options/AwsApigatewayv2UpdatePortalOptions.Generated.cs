@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,37 +64,37 @@ public record AwsApigatewayv2UpdatePortalOptions : AwsOptions, IValidatableObjec
     public string? PortalId { get; private init; }
 
     /// <summary>
-    /// The authorization of the portal. CognitoConfig -&gt; (structure) The Amazon Cognito configuration. AppClientId -&gt; (string) [required] The app client ID. Constraints: o min: 1 o max: 256 UserPoolArn -&gt; (string) [required] The user pool ARN. Constraints: o min: 20 o max: 2048 UserPoolDomain -&gt; (string) [required] The user pool domain. Constraints: o min: 20 o max: 2048 None -&gt; (structure) Provide no authorization for your portal. This makes your portal publicly accesible on the web. Shorthand Syntax: CognitoConfig={AppClientId=string,UserPoolArn=string,UserPoolDomain=string},None={} JSON Syntax: { "CognitoConfig": { "AppClientId": "string", "UserPoolArn": "string", "UserPoolDomain": "string" }, "None": { } }
+    /// The authorization of the portal. CognitoConfig -&gt; (structure) The Amazon Cognito configuration. AppClientId -&gt; (string) [required] The app client ID. Constraints: • min: 1 • max: 256 UserPoolArn -&gt; (string) [required] The user pool ARN. Constraints: • min: 20 • max: 2048 UserPoolDomain -&gt; (string) [required] The user pool domain. Constraints: • min: 20 • max: 2048 None -&gt; (structure) Provide no authorization for your portal. This makes your portal publicly accesible on the web. Shorthand Syntax: CognitoConfig={AppClientId=string,UserPoolArn=string,UserPoolDomain=string},None={} JSON Syntax: { "CognitoConfig": { "AppClientId": "string", "UserPoolArn": "string", "UserPoolDomain": "string" }, "None": { } }
     /// </summary>
     [CliOption("--authorization")]
     public string? Authorization { get; set; }
 
     /// <summary>
-    /// Represents an endpoint configuration. AcmManaged -&gt; (structure) Represents a domain name and certificate for a portal. CertificateArn -&gt; (string) [required] The certificate ARN. Constraints: o min: 10 o max: 2048 DomainName -&gt; (string) [required] The domain name. Constraints: o min: 3 o max: 256 None -&gt; (structure) Use the default portal domain name that is generated and managed by API Gateway. Shorthand Syntax: AcmManaged={CertificateArn=string,DomainName=string},None={} JSON Syntax: { "AcmManaged": { "CertificateArn": "string", "DomainName": "string" }, "None": { } }
+    /// Represents an endpoint configuration. AcmManaged -&gt; (structure) Represents a domain name and certificate for a portal. CertificateArn -&gt; (string) [required] The certificate ARN. Constraints: • min: 10 • max: 2048 DomainName -&gt; (string) [required] The domain name. Constraints: • min: 3 • max: 256 None -&gt; (structure) Use the default portal domain name that is generated and managed by API Gateway. Shorthand Syntax: AcmManaged={CertificateArn=string,DomainName=string},None={} JSON Syntax: { "AcmManaged": { "CertificateArn": "string", "DomainName": "string" }, "None": { } }
     /// </summary>
     [CliOption("--endpoint-configuration")]
     public string? EndpointConfiguration { get; set; }
 
     /// <summary>
-    /// The ARNs of the portal products included in the portal. (string) Constraints: o min: 20 o max: 2048 Syntax: "string" "string" ...
+    /// The ARNs of the portal products included in the portal. (string) Constraints: • min: 20 • max: 2048 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--included-portal-product-arns", GroupValues = true)]
     public IEnumerable<string>? IncludedPortalProductArns { get; set; }
 
     /// <summary>
-    /// The logo URI. Constraints: o min: 0 o max: 1092
+    /// The logo URI. Constraints: • min: 0 • max: 1092
     /// </summary>
     [CliOption("--logo-uri")]
     public string? LogoUri { get; set; }
 
     /// <summary>
-    /// Contains the content that is visible to portal consumers including the themes, display names, and description. Description -&gt; (string) A description of the portal. Constraints: o min: 0 o max: 1024 DisplayName -&gt; (string) [required] The display name for the portal. Constraints: o min: 3 o max: 255 Theme -&gt; (structure) [required] The theme for the portal. CustomColors -&gt; (structure) [required] Defines custom color values. AccentColor -&gt; (string) [required] Represents the accent color. Constraints: o min: 1 o max: 16 BackgroundColor -&gt; (string) [required] Represents the background color. Constraints: o min: 1 o max: 16 ErrorValidationColor -&gt; (string) [required] The errorValidationColor. Constraints: o min: 1 o max: 16 HeaderColor -&gt; (string) [required] Represents the header color. Constraints: o min: 1 o max: 16 NavigationColor -&gt; (string) [required] Represents the navigation color. Constraints: o min: 1 o max: 16 TextColor -&gt; (string) [required] Represents the text color. Constraints: o min: 1 o max: 16 LogoLastUploaded -&gt; (timestamp) The timestamp when the logo was last uploaded. Shorthand Syntax: Description=string,DisplayName=string,Theme={CustomColors={AccentColor=string,BackgroundColor=string,ErrorValidationColor=string,HeaderColor=string,NavigationColor=string,TextColor=string},LogoLastUploaded=timestamp} JSON Syntax: { "Description": "string", "DisplayName": "string", "Theme": { "CustomColors": { "AccentColor": "string", "BackgroundColor": "string", "ErrorValidationColor": "string", "HeaderColor": "string", "NavigationColor": "string", "TextColor": "string" }, "LogoLastUploaded": timestamp } }
+    /// Contains the content that is visible to portal consumers including the themes, display names, and description. Description -&gt; (string) A description of the portal. Constraints: • min: 0 • max: 1024 DisplayName -&gt; (string) [required] The display name for the portal. Constraints: • min: 3 • max: 255 Theme -&gt; (structure) [required] The theme for the portal. CustomColors -&gt; (structure) [required] Defines custom color values. AccentColor -&gt; (string) [required] Represents the accent color. Constraints: • min: 1 • max: 16 BackgroundColor -&gt; (string) [required] Represents the background color. Constraints: • min: 1 • max: 16 ErrorValidationColor -&gt; (string) [required] The errorValidationColor. Constraints: • min: 1 • max: 16 HeaderColor -&gt; (string) [required] Represents the header color. Constraints: • min: 1 • max: 16 NavigationColor -&gt; (string) [required] Represents the navigation color. Constraints: • min: 1 • max: 16 TextColor -&gt; (string) [required] Represents the text color. Constraints: • min: 1 • max: 16 LogoLastUploaded -&gt; (timestamp) The timestamp when the logo was last uploaded. Shorthand Syntax: Description=string,DisplayName=string,Theme={CustomColors={AccentColor=string,BackgroundColor=string,ErrorValidationColor=string,HeaderColor=string,NavigationColor=string,TextColor=string},LogoLastUploaded=timestamp} JSON Syntax: { "Description": "string", "DisplayName": "string", "Theme": { "CustomColors": { "AccentColor": "string", "BackgroundColor": "string", "ErrorValidationColor": "string", "HeaderColor": "string", "NavigationColor": "string", "TextColor": "string" }, "LogoLastUploaded": timestamp } }
     /// </summary>
     [CliOption("--portal-content")]
     public string? PortalContent { get; set; }
 
     /// <summary>
-    /// The CloudWatch RUM app monitor name. Constraints: o min: 0 o max: 255
+    /// The CloudWatch RUM app monitor name. Constraints: • min: 0 • max: 255
     /// </summary>
     [CliOption("--rum-app-monitor-name")]
     public string? RumAppMonitorName { get; set; }

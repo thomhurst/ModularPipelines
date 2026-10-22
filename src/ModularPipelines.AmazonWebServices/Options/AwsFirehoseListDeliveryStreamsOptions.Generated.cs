@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists your Firehose streams in alphabetical order of their names. The number of Firehose streams might be too large to return using a single call to ListDeliveryStreams . You can limit the number of Fire- hose streams returned, using the Limit parameter. To determine whether there are more delivery streams to list, check the value of HasMoreDe- liveryStreams in the output. If there are more Firehose streams to list, you can request them by calling this operation again and setting the ExclusiveSt...
+/// Lists your Firehose streams in alphabetical order of their names. The number of Firehose streams might be too large to return using a single call to ListDeliveryStreams . You can limit the number of Firehose streams returned, using the Limit parameter. To determine whether there are more delivery streams to list, check the value of HasMoreDeliveryStreams in the output. If there are more Firehose streams to list, you can request them by calling this operation again and setting the ExclusiveStartD...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,19 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsFirehoseListDeliveryStreamsOptions : AwsOptions
 {
     /// <summary>
-    /// The maximum number of Firehose streams to list. The default value is 10. Constraints: o min: 1 o max: 10000
+    /// The maximum number of Firehose streams to list. The default value is 10. Constraints: • min: 1 • max: 10000
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }
 
     /// <summary>
-    /// The Firehose stream type. This can be one of the following values: o DirectPut : Provider applications access the Firehose stream di- rectly. o KinesisStreamAsSource : The Firehose stream uses a Kinesis data stream as a source. This parameter is optional. If this parameter is omitted, Firehose streams of all types are returned. Possible values: o DirectPut o KinesisStreamAsSource o MSKAsSource o DatabaseAsSource
+    /// The Firehose stream type. This can be one of the following values: • DirectPut : Provider applications access the Firehose stream directly. • KinesisStreamAsSource : The Firehose stream uses a Kinesis data stream as a source. This parameter is optional. If this parameter is omitted, Firehose streams of all types are returned. Possible values: • DirectPut • KinesisStreamAsSource • MSKAsSource • DatabaseAsSource
     /// </summary>
     [CliOption("--delivery-stream-type")]
     public AwsFirehoseListDeliveryStreamsDeliveryStreamType? DeliveryStreamType { get; set; }
 
     /// <summary>
-    /// The list of Firehose streams returned by this call to ListDeliveryS- treams will start with the Firehose stream whose name comes alpha- betically immediately after the name you specify in ExclusiveStart- DeliveryStreamName . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// The list of Firehose streams returned by this call to ListDeliveryStreams will start with the Firehose stream whose name comes alphabetically immediately after the name you specify in ExclusiveStartDeliveryStreamName . Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--exclusive-start-delivery-stream-name")]
     public string? ExclusiveStartDeliveryStreamName { get; set; }

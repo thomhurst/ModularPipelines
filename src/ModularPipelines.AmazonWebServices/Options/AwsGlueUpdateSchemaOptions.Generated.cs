@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the description, compatibility setting, or version checkpoint for a schema set. For updating the compatibility setting, the call will not validate com- patibility for the entire set of schema versions with the new compati- bility setting. If the value for Compatibility is provided, the Ver- sionNumber (a checkpoint) is also required. The API will validate the checkpoint version number for consistency. If the value for the VersionNumber (checkpoint) is provided, Compati- bility is optiona...
+/// Updates the description, compatibility setting, or version checkpoint for a schema set. For updating the compatibility setting, the call will not validate compatibility for the entire set of schema versions with the new compatibility setting. If the value for Compatibility is provided, the VersionNumber (a checkpoint) is also required. The API will validate the checkpoint version number for consistency. If the value for the VersionNumber (checkpoint) is provided, Compatibility is optional and th...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsGlueUpdateSchemaOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the description, compatibility setting, or version checkpoint for a schema set. For updating the compatibility setting, the call will not validate com- patibility for the entire set of schema versions with the new compati- bility setting. If the value for Compatibility is provided, the Ver- sionNumber (a checkpoint) is also required. The API will validate the checkpoint version number for consistency. If the value for the VersionNumber (checkpoint) is provided, Compati- bility is optiona...
+    /// Updates the description, compatibility setting, or version checkpoint for a schema set. For updating the compatibility setting, the call will not validate compatibility for the entire set of schema versions with the new compatibility setting. If the value for Compatibility is provided, the VersionNumber (a checkpoint) is also required. The API will validate the checkpoint version number for consistency. If the value for the VersionNumber (checkpoint) is provided, Compatibility is optional and th...
     /// </summary>
-    /// <param name="SchemaId">This is a wrapper structure to contain schema identity fields. The structure contains: o SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. o SchemaId$SchemaName: The name of the schema. One of SchemaArn or SchemaName has to be provided. SchemaArn -&gt; (string) The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: o min: 1 o max: 10240 o pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* SchemaName -&gt; (string) The name of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ RegistryName -&gt; (string) The name of the schema registry that contains the schema. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ Shorthand Syntax: SchemaArn=string,SchemaName=string,RegistryName=string JSON Syntax: { "SchemaArn": "string", "SchemaName": "string", "RegistryName": "string" }</param>
+    /// <param name="SchemaId">This is a wrapper structure to contain schema identity fields. The structure contains: • SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. • SchemaId$SchemaName: The name of the schema. One of SchemaArn or SchemaName has to be provided. SchemaArn -&gt; (string) The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: • min: 1 • max: 10240 • pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* SchemaName -&gt; (string) The name of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-_$#.]+ RegistryName -&gt; (string) The name of the schema registry that contains the schema. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-_$#.]+ Shorthand Syntax: SchemaArn=string,SchemaName=string,RegistryName=string JSON Syntax: { "SchemaArn": "string", "SchemaName": "string", "RegistryName": "string" }</param>
     public AwsGlueUpdateSchemaOptions(
         string SchemaId
     )
@@ -57,25 +59,25 @@ public record AwsGlueUpdateSchemaOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// This is a wrapper structure to contain schema identity fields. The structure contains: o SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. o SchemaId$SchemaName: The name of the schema. One of SchemaArn or SchemaName has to be provided. SchemaArn -&gt; (string) The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: o min: 1 o max: 10240 o pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* SchemaName -&gt; (string) The name of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ RegistryName -&gt; (string) The name of the schema registry that contains the schema. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ Shorthand Syntax: SchemaArn=string,SchemaName=string,RegistryName=string JSON Syntax: { "SchemaArn": "string", "SchemaName": "string", "RegistryName": "string" }
+    /// This is a wrapper structure to contain schema identity fields. The structure contains: • SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. • SchemaId$SchemaName: The name of the schema. One of SchemaArn or SchemaName has to be provided. SchemaArn -&gt; (string) The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: • min: 1 • max: 10240 • pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* SchemaName -&gt; (string) The name of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-_$#.]+ RegistryName -&gt; (string) The name of the schema registry that contains the schema. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-_$#.]+ Shorthand Syntax: SchemaArn=string,SchemaName=string,RegistryName=string JSON Syntax: { "SchemaArn": "string", "SchemaName": "string", "RegistryName": "string" }
     /// </summary>
     [CliOption("--schema-id")]
     public string? SchemaId { get; private init; }
 
     /// <summary>
-    /// Version number required for check pointing. One of VersionNumber or Compatibility has to be provided. LatestVersion -&gt; (boolean) The latest version available for the schema. VersionNumber -&gt; (long) The version number of the schema. Constraints: o min: 1 o max: 100000 Shorthand Syntax: LatestVersion=boolean,VersionNumber=long JSON Syntax: { "LatestVersion": true|false, "VersionNumber": long }
+    /// Version number required for check pointing. One of VersionNumber or Compatibility has to be provided. LatestVersion -&gt; (boolean) The latest version available for the schema. VersionNumber -&gt; (long) The version number of the schema. Constraints: • min: 1 • max: 100000 Shorthand Syntax: LatestVersion=boolean,VersionNumber=long JSON Syntax: { "LatestVersion": true|false, "VersionNumber": long }
     /// </summary>
     [CliOption("--schema-version-number")]
     public string? SchemaVersionNumber { get; set; }
 
     /// <summary>
-    /// The new compatibility setting for the schema. Possible values: o NONE o DISABLED o BACKWARD o BACKWARD_ALL o FORWARD o FORWARD_ALL o FULL o FULL_ALL
+    /// The new compatibility setting for the schema. Possible values: • NONE • DISABLED • BACKWARD • BACKWARD_ALL • FORWARD • FORWARD_ALL • FULL • FULL_ALL
     /// </summary>
     [CliOption("--compatibility")]
     public AwsGlueUpdateSchemaCompatibility? Compatibility { get; set; }
 
     /// <summary>
-    /// The new description for the schema. Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The new description for the schema. Constraints: • min: 0 • max: 2048 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

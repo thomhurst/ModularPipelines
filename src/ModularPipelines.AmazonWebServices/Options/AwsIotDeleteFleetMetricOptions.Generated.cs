@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotDeleteFleetMetricOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the specified fleet metric. Returns successfully with no error if the deletion is successful or you specify a fleet metric that doesn't exist. Requires permission to access the DeleteFleetMetric action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MetricName">The name of the fleet metric to delete. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_\-\.]+</param>
+    /// <param name="MetricName">The name of the fleet metric to delete. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_\-\.]+</param>
     public AwsIotDeleteFleetMetricOptions(
         string MetricName
     )
@@ -56,7 +58,7 @@ public record AwsIotDeleteFleetMetricOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the fleet metric to delete. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_\-\.]+
+    /// The name of the fleet metric to delete. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_\-\.]+
     /// </summary>
     [CliOption("--metric-name")]
     public string? MetricName { get; private init; }
@@ -65,7 +67,7 @@ public record AwsIotDeleteFleetMetricOptions : AwsOptions, IValidatableObject
     /// The expected version of the fleet metric to delete.
     /// </summary>
     [CliOption("--expected-version")]
-    public int? ExpectedVersion { get; set; }
+    public long? ExpectedVersion { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

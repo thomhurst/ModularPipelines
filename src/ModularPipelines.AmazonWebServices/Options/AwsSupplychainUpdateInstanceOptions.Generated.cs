@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables you to programmatically update an Amazon Web Services Supply Chain instance description by providing all the relevant information such as account ID, instance ID and so on without using the AWS con- sole. See also: AWS API Documentation
+/// Enables you to programmatically update an Amazon Web Services Supply Chain instance description by providing all the relevant information such as account ID, instance ID and so on without using the AWS console. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSupplychainUpdateInstanceOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enables you to programmatically update an Amazon Web Services Supply Chain instance description by providing all the relevant information such as account ID, instance ID and so on without using the AWS con- sole. See also: AWS API Documentation
+    /// Enables you to programmatically update an Amazon Web Services Supply Chain instance description by providing all the relevant information such as account ID, instance ID and so on without using the AWS console. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The AWS Supply Chain instance identifier. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="InstanceId">The AWS Supply Chain instance identifier. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
     public AwsSupplychainUpdateInstanceOptions(
         string InstanceId
     )
@@ -56,19 +58,19 @@ public record AwsSupplychainUpdateInstanceOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The AWS Supply Chain instance identifier. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The AWS Supply Chain instance identifier. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The AWS Supply Chain instance name. Constraints: o min: 0 o max: 63 o pattern: (?![ _'%-])[a-zA-Z0-9 _'%-]{0,62}[a-zA-Z0-9]
+    /// The AWS Supply Chain instance name. Constraints: • min: 0 • max: 63 • pattern: (?![ _'%-])[a-zA-Z0-9 _'%-]{0,62}[a-zA-Z0-9]
     /// </summary>
     [CliOption("--instance-name")]
     public string? InstanceName { get; set; }
 
     /// <summary>
-    /// The AWS Supply Chain instance description. Constraints: o min: 0 o max: 501 o pattern: ([a-zA-Z0-9., _'%-]){0,500}
+    /// The AWS Supply Chain instance description. Constraints: • min: 0 • max: 501 • pattern: ([a-zA-Z0-9., _'%-]){0,500}
     /// </summary>
     [CliOption("--instance-description")]
     public string? InstanceDescription { get; set; }

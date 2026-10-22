@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsApprunnerListVpcConnectorsOptions : AwsOptions
 {
     /// <summary>
-    /// The maximum number of results to include in each response (result page). It's used for a paginated request. If you don't specify MaxResults , the request retrieves all avail- able results in a single response. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to include in each response (result page). It's used for a paginated request. If you don't specify MaxResults , the request retrieves all available results in a single response. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// A token from a previous result page. It's used for a paginated re- quest. The request retrieves the next result page. All other parame- ter values must be identical to the ones that are specified in the initial request. If you don't specify NextToken , the request retrieves the first re- sult page. Constraints: o min: 1 o max: 1024 o pattern: .*
+    /// A token from a previous result page. It's used for a paginated request. The request retrieves the next result page. All other parameter values must be identical to the ones that are specified in the initial request. If you don't specify NextToken , the request retrieves the first result page. Constraints: • min: 1 • max: 1024 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

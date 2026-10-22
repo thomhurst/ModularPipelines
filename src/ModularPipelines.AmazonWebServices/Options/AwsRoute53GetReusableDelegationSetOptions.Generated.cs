@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves information about a specified reusable delegation set, in- cluding the four name servers that are assigned to the delegation set. See also: AWS API Documentation
+/// Retrieves information about a specified reusable delegation set, including the four name servers that are assigned to the delegation set. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRoute53GetReusableDelegationSetOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves information about a specified reusable delegation set, in- cluding the four name servers that are assigned to the delegation set. See also: AWS API Documentation
+    /// Retrieves information about a specified reusable delegation set, including the four name servers that are assigned to the delegation set. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the reusable delegation set that you want to get a list of name servers for. Constraints: o max: 32</param>
+    /// <param name="Id">The ID of the reusable delegation set that you want to get a list of name servers for. Constraints: • max: 32</param>
     public AwsRoute53GetReusableDelegationSetOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsRoute53GetReusableDelegationSetOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the reusable delegation set that you want to get a list of name servers for. Constraints: o max: 32
+    /// The ID of the reusable delegation set that you want to get a list of name servers for. Constraints: • max: 32
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

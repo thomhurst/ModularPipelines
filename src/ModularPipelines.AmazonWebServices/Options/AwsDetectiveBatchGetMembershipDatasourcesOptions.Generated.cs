@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDetectiveBatchGetMembershipDatasourcesOptions : AwsOptions, IVa
     /// <summary>
     /// Gets information on the data source package history for an account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GraphArns">The ARN of the behavior graph. Constraints: o min: 1 o max: 50 (string) Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$ Syntax: "string" "string" ...</param>
+    /// <param name="GraphArns">The ARN of the behavior graph. Constraints: • min: 1 • max: 50 (string) Constraints: • pattern: ^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$ Syntax: "string" "string" ...</param>
     public AwsDetectiveBatchGetMembershipDatasourcesOptions(
         IEnumerable<string> GraphArns
     )
@@ -67,7 +69,7 @@ public record AwsDetectiveBatchGetMembershipDatasourcesOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the behavior graph. Constraints: o min: 1 o max: 50 (string) Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$ Syntax: "string" "string" ...
+    /// The ARN of the behavior graph. Constraints: • min: 1 • max: 50 (string) Constraints: • pattern: ^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--graph-arns", GroupValues = true)]
     public IEnumerable<string>? GraphArns { get; private init; }

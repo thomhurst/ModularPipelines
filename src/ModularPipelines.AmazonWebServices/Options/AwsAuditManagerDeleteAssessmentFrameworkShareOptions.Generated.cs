@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsAuditManagerDeleteAssessmentFrameworkShareOptions : AwsOptions,
     /// <summary>
     /// Deletes a share request for a custom framework in Audit Manager. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RequestId">The unique identifier for the share request to be deleted. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
-    /// <param name="RequestType">Specifies whether the share request is a sent request or a received request. Possible values: o SENT o RECEIVED</param>
+    /// <param name="RequestId">The unique identifier for the share request to be deleted. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="RequestType">Specifies whether the share request is a sent request or a received request. Possible values: • SENT • RECEIVED</param>
     public AwsAuditManagerDeleteAssessmentFrameworkShareOptions(
         string RequestId,
         AwsAuditManagerDeleteAssessmentFrameworkShareRequestType RequestType
@@ -60,13 +62,13 @@ public record AwsAuditManagerDeleteAssessmentFrameworkShareOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the share request to be deleted. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The unique identifier for the share request to be deleted. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--request-id")]
     public string? RequestId { get; private init; }
 
     /// <summary>
-    /// Specifies whether the share request is a sent request or a received request. Possible values: o SENT o RECEIVED
+    /// Specifies whether the share request is a sent request or a received request. Possible values: • SENT • RECEIVED
     /// </summary>
     [CliOption("--request-type")]
     public AwsAuditManagerDeleteAssessmentFrameworkShareRequestType? RequestType { get; private init; }

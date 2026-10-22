@@ -33,7 +33,7 @@ public class AwsSes : IAwsSes
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws ses wait sub-commands.
     /// </summary>
     public AwsSesWait Wait => _wait ??= new AwsSesWait(_command);
 
@@ -42,7 +42,7 @@ public class AwsSes : IAwsSes
     #region Commands
 
     /// <summary>
-    /// Creates a receipt rule set by cloning an existing one. All receipt rules and configurations are copied to the new receipt rule set and are completely independent of the source rule set. For information about setting up rule sets, see the Amazon SES Devel- oper Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// Creates a receipt rule set by cloning an existing one. All receipt rules and configurations are copied to the new receipt rule set and are completely independent of the source rule set. For information about setting up rule sets, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -57,7 +57,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Creates a configuration set event destination. NOTE: When you create or update an event destination, you must provide one, and only one, destination. The destination can be CloudWatch, Amazon Kinesis Firehose, or Amazon Simple Notification Service (Ama- zon SNS). An event destination is the Amazon Web Services service to which Amazon SES publishes the email sending events associated with a configuration set. For information about using configuration sets, see the Amazon SES Developer Guide . You...
+    /// Creates a configuration set event destination. NOTE: When you create or update an event destination, you must provide one, and only one, destination. The destination can be CloudWatch, Amazon Kinesis Firehose, or Amazon Simple Notification Service (Amazon SNS). An event destination is the Amazon Web Services service to which Amazon SES publishes the email sending events associated with a configuration set. For information about using configuration sets, see the Amazon SES Developer Guide . You c...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -72,7 +72,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Creates a configuration set. Configuration sets enable you to publish email sending events. For in- formation about using configuration sets, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// Creates a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -87,7 +87,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Creates an association between a configuration set and a custom domain for open and click event tracking. By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a sub- domain of your own to handle these events. For information about using custom domains, see the Amazon SES Developer Guide . See also: AWS API Documentation
+    /// Creates an association between a configuration set and a custom domain for open and click event tracking. By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a subdomain of your own to handle these events. For information about using custom domains, see the Amazon SES Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -132,7 +132,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Creates a receipt rule. For information about setting up receipt rules, see the Amazon SES De- veloper Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// Creates a receipt rule. For information about setting up receipt rules, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -162,7 +162,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Creates an email template. Email templates enable you to send personal- ized email to one or more destinations in a single operation. For more information, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// Creates an email template. Email templates enable you to send personalized email to one or more destinations in a single operation. For more information, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -177,7 +177,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Deletes a configuration set event destination. Configuration set event destinations are associated with configuration sets, which enable you to publish email sending events. For information about using configura- tion sets, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// Deletes a configuration set event destination. Configuration set event destinations are associated with configuration sets, which enable you to publish email sending events. For information about using configuration sets, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -207,7 +207,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Deletes an association between a configuration set and a custom domain for open and click event tracking. By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a sub- domain of your own to handle these events. For information about using custom domains, see the Amazon SES Developer Guide . NOTE: Deleting this kind of association results in emails sent using the specified configuration set to capture open and click eve...
+    /// Deletes an association between a configuration set and a custom domain for open and click event tracking. By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a subdomain of your own to handle these events. For information about using custom domains, see the Amazon SES Developer Guide . NOTE: Deleting this kind of association results in emails sent using the specified configuration set to capture open and click event...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -252,7 +252,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Deletes the specified sending authorization policy for the given iden- tity (an email address or a domain). This operation returns success- fully even if a policy with the specified name does not exist. NOTE: This operation is for the identity owner only. If you have not veri- fied the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon ...
+    /// Deletes the specified sending authorization policy for the given identity (an email address or a domain). This operation returns successfully even if a policy with the specified name does not exist. NOTE: This operation is for the identity owner only. If you have not verified the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES De...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -282,7 +282,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Deletes the specified receipt rule. For information about managing receipt rules, see the Amazon SES Devel- oper Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// Deletes the specified receipt rule. For information about managing receipt rules, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -357,7 +357,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Returns the details of the specified receipt rule. For information about setting up receipt rules, see the Amazon SES De- veloper Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// Returns the details of the specified receipt rule. For information about setting up receipt rules, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -387,7 +387,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Returns the email sending status of the Amazon SES account for the cur- rent Region. You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// Returns the email sending status of the Amazon SES account for the current Region. You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -417,7 +417,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Returns the current status of Easy DKIM signing for an entity. For do- main name identities, this operation also returns the DKIM tokens that are required for Easy DKIM signing, and whether Amazon SES has success- fully verified that these tokens have been published. This operation takes a list of identities as input and returns the fol- lowing information for each: o Whether Easy DKIM signing is enabled or disabled. o A set of DKIM tokens that represent the identity. If the identity is an email...
+    /// Returns the current status of Easy DKIM signing for an entity. For domain name identities, this operation also returns the DKIM tokens that are required for Easy DKIM signing, and whether Amazon SES has successfully verified that these tokens have been published. This operation takes a list of identities as input and returns the following information for each: • Whether Easy DKIM signing is enabled or disabled. • A set of DKIM tokens that represent the identity. If the identity is an email addre...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -462,7 +462,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Returns the requested sending authorization policies for the given identity (an email address or a domain). The policies are returned as a map of policy names to policy contents. You can retrieve a maximum of 20 policies at a time. NOTE: This operation is for the identity owner only. If you have not veri- fied the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending a...
+    /// Returns the requested sending authorization policies for the given identity (an email address or a domain). The policies are returned as a map of policy names to policy contents. You can retrieve a maximum of 20 policies at a time. NOTE: This operation is for the identity owner only. If you have not verified the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending aut...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -537,7 +537,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Provides a list of the configuration sets associated with your Amazon SES account in the current Amazon Web Services Region. For information about using configuration sets, see Monitoring Your Amazon SES Sending Activity in the Amazon SES Developer Guide. You can execute this operation no more than once per second. This oper- ation returns up to 1,000 configuration sets each time it is run. If your Amazon SES account has more than 1,000 configuration sets, this operation also returns NextToken ....
+    /// Provides a list of the configuration sets associated with your Amazon SES account in the current Amazon Web Services Region. For information about using configuration sets, see Monitoring Your Amazon SES Sending Activity in the Amazon SES Developer Guide. You can execute this operation no more than once per second. This operation returns up to 1,000 configuration sets each time it is run. If your Amazon SES account has more than 1,000 configuration sets, this operation also returns NextToken . Y...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -552,7 +552,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Lists the existing custom verification email templates for your account in the current Amazon Web Services Region. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation list-custom-verification-email-templates is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of ...
+    /// Lists the existing custom verification email templates for your account in the current Amazon Web Services Region. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation list-custom-verification-email-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -582,7 +582,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Returns a list of sending authorization policies that are attached to the given identity (an email address or a domain). This operation re- turns only a list. To get the actual policy content, use GetIdentity- Policies . NOTE: This operation is for the identity owner only. If you have not veri- fied the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorizatio...
+    /// Returns a list of sending authorization policies that are attached to the given identity (an email address or a domain). This operation returns only a list. To get the actual policy content, use GetIdentityPolicies . NOTE: This operation is for the identity owner only. If you have not verified the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -612,7 +612,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Lists the receipt rule sets that exist under your Amazon Web Services account in the current Amazon Web Services Region. If there are addi- tional receipt rule sets to be retrieved, you receive a NextToken that you can provide to the next call to ListReceiptRuleSets to retrieve the additional entries. For information about managing receipt rule sets, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation list-receipt-rule...
+    /// Lists the receipt rule sets that exist under your Amazon Web Services account in the current Amazon Web Services Region. If there are additional receipt rule sets to be retrieved, you receive a NextToken that you can provide to the next call to ListReceiptRuleSets to retrieve the additional entries. For information about managing receipt rule sets, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation list-receipt-rule-s...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -627,7 +627,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Lists the email templates present in your Amazon SES account in the current Amazon Web Services Region. You can execute this operation no more than once per second. See also: AWS API Documentation list-templates is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must ext...
+    /// Lists the email templates present in your Amazon SES account in the current Amazon Web Services Region. You can execute this operation no more than once per second. See also: AWS API Documentation list-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -657,7 +657,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Adds or updates a sending authorization policy for the specified iden- tity (an email address or a domain). NOTE: This operation is for the identity owner only. If you have not veri- fied the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AW...
+    /// Adds or updates a sending authorization policy for the specified identity (an email address or a domain). NOTE: This operation is for the identity owner only. If you have not verified the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS AP...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -672,7 +672,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Reorders the receipt rules within a receipt rule set. NOTE: All of the rules in the rule set must be represented in this re- quest. That is, it is error if the reorder request doesn't explic- itly position all of the rules. For information about managing receipt rule sets, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// Reorders the receipt rules within a receipt rule set. NOTE: All of the rules in the rule set must be represented in this request. That is, it is error if the reorder request doesn't explicitly position all of the rules. For information about managing receipt rule sets, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -687,7 +687,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Generates and sends a bounce message to the sender of an email you re- ceived through Amazon SES. You can only use this operation on an email up to 24 hours after you receive it. NOTE: You cannot use this operation to send generic bounces for mail that was not received by Amazon SES. For information about receiving email through Amazon SES, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// Generates and sends a bounce message to the sender of an email you received through Amazon SES. You can only use this operation on an email up to 24 hours after you receive it. NOTE: You cannot use this operation to send generic bounces for mail that was not received by Amazon SES. For information about receiving email through Amazon SES, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -702,7 +702,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Composes an email message to multiple destinations. The message body is created using an email template. To send email using this operation, your call must meet the following requirements: o The call must refer to an existing email template. You can create email templates using CreateTemplate . o The message must be sent from a verified email address or domain. o If your account is still in the Amazon SES sandbox, you may send only to verified addresses or domains, or to email addresses associat...
+    /// Composes an email message to multiple destinations. The message body is created using an email template. To send email using this operation, your call must meet the following requirements: • The call must refer to an existing email template. You can create email templates using CreateTemplate . • The message must be sent from a verified email address or domain. • If your account is still in the Amazon SES sandbox, you may send only to verified addresses or domains, or to email addresses associat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -717,7 +717,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Adds an email address to the list of identities for your Amazon SES ac- count in the current Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a customized verification email is sent to the specified address. To use this operation, you must first create a custom verification email template. For more information about creating and using custom verification email templates, see Using Custom Verification Email Tem- plates in the Amazon SES Developer Guid...
+    /// Adds an email address to the list of identities for your Amazon SES account in the current Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a customized verification email is sent to the specified address. To use this operation, you must first create a custom verification email template. For more information about creating and using custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide . ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -732,7 +732,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Composes an email message and immediately queues it for sending. To send email using this operation, your message must meet the following requirements: o The message must be sent from a verified email address or domain. If you attempt to send email using a non-verified address or domain, the operation results in an "Email address not verified" error. o If your account is still in the Amazon SES sandbox, you may only send to verified addresses or domains, or to email addresses associated with the...
+    /// Composes an email message and immediately queues it for sending. To send email using this operation, your message must meet the following requirements: • The message must be sent from a verified email address or domain. If you attempt to send email using a non-verified address or domain, the operation results in an "Email address not verified" error. • If your account is still in the Amazon SES sandbox, you may only send to verified addresses or domains, or to email addresses associated with the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -747,7 +747,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Composes an email message and immediately queues it for sending. This operation is more flexible than the SendEmail operation. When you use the SendRawEmail operation, you can specify the headers of the mes- sage as well as its content. This flexibility is useful, for example, when you need to send a multipart MIME email (such a message that con- tains both a text and an HTML version). You can also use this operation to send messages that include attachments. The SendRawEmail operation has the f...
+    /// Composes an email message and immediately queues it for sending. This operation is more flexible than the SendEmail operation. When you use the SendRawEmail operation, you can specify the headers of the message as well as its content. This flexibility is useful, for example, when you need to send a multipart MIME email (such a message that contains both a text and an HTML version). You can also use this operation to send messages that include attachments. The SendRawEmail operation has the follo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -762,7 +762,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Composes an email message using an email template and immediately queues it for sending. To send email using this operation, your call must meet the following requirements: o The call must refer to an existing email template. You can create email templates using the CreateTemplate operation. o The message must be sent from a verified email address or domain. o If your account is still in the Amazon SES sandbox, you may only send to verified addresses or domains, or to email addresses associated ...
+    /// Composes an email message using an email template and immediately queues it for sending. To send email using this operation, your call must meet the following requirements: • The call must refer to an existing email template. You can create email templates using the CreateTemplate operation. • The message must be sent from a verified email address or domain. • If your account is still in the Amazon SES sandbox, you may only send to verified addresses or domains, or to email addresses associated ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -792,7 +792,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Enables or disables Easy DKIM signing of email sent from an identity. If Easy DKIM signing is enabled for a domain, then Amazon SES uses DKIM to sign all email that it sends from addresses on that domain. If Easy DKIM signing is enabled for an email address, then Amazon SES uses DKIM to sign all email it sends from that address. NOTE: For email addresses (for example, user@example.com ), you can only enable DKIM signing if the corresponding domain (in this case, exam- ple.com ) has been set up t...
+    /// Enables or disables Easy DKIM signing of email sent from an identity. If Easy DKIM signing is enabled for a domain, then Amazon SES uses DKIM to sign all email that it sends from addresses on that domain. If Easy DKIM signing is enabled for an email address, then Amazon SES uses DKIM to sign all email it sends from that address. NOTE: For email addresses (for example, user@example.com ), you can only enable DKIM signing if the corresponding domain (in this case, example.com ) has been set up to ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -807,7 +807,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Given an identity (an email address or a domain), enables or disables whether Amazon SES forwards bounce and complaint notifications as email. Feedback forwarding can only be disabled when Amazon Simple No- tification Service (Amazon SNS) topics are specified for both bounces and complaints. NOTE: Feedback forwarding does not apply to delivery notifications. Deliv- ery notifications are only available through Amazon SNS. You can execute this operation no more than once per second. For more infor...
+    /// Given an identity (an email address or a domain), enables or disables whether Amazon SES forwards bounce and complaint notifications as email. Feedback forwarding can only be disabled when Amazon Simple Notification Service (Amazon SNS) topics are specified for both bounces and complaints. NOTE: Feedback forwarding does not apply to delivery notifications. Delivery notifications are only available through Amazon SNS. You can execute this operation no more than once per second. For more informati...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -822,7 +822,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Given an identity (an email address or a domain), sets whether Amazon SES includes the original email headers in the Amazon Simple Notifica- tion Service (Amazon SNS) notifications of a specified type. You can execute this operation no more than once per second. For more information about using notifications with Amazon SES, see the Amazon SES Developer Guide . See also: AWS API Documentation
+    /// Given an identity (an email address or a domain), sets whether Amazon SES includes the original email headers in the Amazon Simple Notification Service (Amazon SNS) notifications of a specified type. You can execute this operation no more than once per second. For more information about using notifications with Amazon SES, see the Amazon SES Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -867,7 +867,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Sets the position of the specified receipt rule in the receipt rule set. For information about managing receipt rules, see the Amazon SES Devel- oper Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// Sets the position of the specified receipt rule in the receipt rule set. For information about managing receipt rules, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -912,7 +912,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Updates the event destination of a configuration set. Event destina- tions are associated with configuration sets, which enable you to pub- lish email sending events to Amazon CloudWatch, Amazon Kinesis Fire- hose, or Amazon Simple Notification Service (Amazon SNS). For informa- tion about using configuration sets, see Monitoring Your Amazon SES Sending Activity in the Amazon SES Developer Guide. NOTE: When you create or update an event destination, you must provide one, and only one, destinatio...
+    /// Updates the event destination of a configuration set. Event destinations are associated with configuration sets, which enable you to publish email sending events to Amazon CloudWatch, Amazon Kinesis Firehose, or Amazon Simple Notification Service (Amazon SNS). For information about using configuration sets, see Monitoring Your Amazon SES Sending Activity in the Amazon SES Developer Guide. NOTE: When you create or update an event destination, you must provide one, and only one, destination. The d...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -927,7 +927,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Enables or disables the publishing of reputation metrics for emails sent using a specific configuration set in a given Amazon Web Services Region. Reputation metrics include bounce and complaint rates. These metrics are published to Amazon CloudWatch. By using CloudWatch, you can create alarms when bounce or complaint rates exceed certain thresh- olds. You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// Enables or disables the publishing of reputation metrics for emails sent using a specific configuration set in a given Amazon Web Services Region. Reputation metrics include bounce and complaint rates. These metrics are published to Amazon CloudWatch. By using CloudWatch, you can create alarms when bounce or complaint rates exceed certain thresholds. You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -942,7 +942,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Enables or disables email sending for messages sent using a specific configuration set in a given Amazon Web Services Region. You can use this operation in conjunction with Amazon CloudWatch alarms to tem- porarily pause email sending for a configuration set when the reputa- tion metrics for that configuration set (such as your bounce on com- plaint rate) exceed certain thresholds. You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// Enables or disables email sending for messages sent using a specific configuration set in a given Amazon Web Services Region. You can use this operation in conjunction with Amazon CloudWatch alarms to temporarily pause email sending for a configuration set when the reputation metrics for that configuration set (such as your bounce on complaint rate) exceed certain thresholds. You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -957,7 +957,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Modifies an association between a configuration set and a custom domain for open and click event tracking. By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a sub- domain of your own to handle these events. For information about using custom domains, see the Amazon SES Developer Guide . See also: AWS API Documentation
+    /// Modifies an association between a configuration set and a custom domain for open and click event tracking. By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a subdomain of your own to handle these events. For information about using custom domains, see the Amazon SES Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -987,7 +987,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Updates a receipt rule. For information about managing receipt rules, see the Amazon SES Devel- oper Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// Updates a receipt rule. For information about managing receipt rules, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1002,7 +1002,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Updates an email template. Email templates enable you to send personal- ized email to one or more destinations in a single operation. For more information, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// Updates an email template. Email templates enable you to send personalized email to one or more destinations in a single operation. For more information, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1017,7 +1017,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Returns a set of DKIM tokens for a domain identity. WARNING: When you execute the VerifyDomainDkim operation, the domain that you specify is added to the list of identities that are associated with your account. This is true even if you haven't already associated the domain with your account by using the VerifyDomainIdentity oper- ation. However, you can't send email from the domain until you ei- ther successfully verify it or you successfully set up DKIM for it . You use the tokens that are gen...
+    /// Returns a set of DKIM tokens for a domain identity. WARNING: When you execute the VerifyDomainDkim operation, the domain that you specify is added to the list of identities that are associated with your account. This is true even if you haven't already associated the domain with your account by using the VerifyDomainIdentity operation. However, you can't send email from the domain until you either successfully verify it or you successfully set up DKIM for it . You use the tokens that are generat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1047,7 +1047,7 @@ public class AwsSes : IAwsSes
     }
 
     /// <summary>
-    /// Adds an email address to the list of identities for your Amazon SES ac- count in the current Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a verification email is sent to the specified address. You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// Adds an email address to the list of identities for your Amazon SES account in the current Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a verification email is sent to the specified address. You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

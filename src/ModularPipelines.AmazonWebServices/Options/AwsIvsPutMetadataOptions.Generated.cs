@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Inserts metadata into the active stream of the specified channel. At most 5 requests per second per channel are allowed, each with a maximum 1 KB payload. (If 5 TPS is not sufficient for your needs, we recommend batching your data into a single PutMetadata call.) At most 155 re- quests per second per account are allowed. Also see Embedding Metadata within a Video Stream in the Amazon IVS User Guide . See also: AWS API Documentation
+/// Inserts metadata into the active stream of the specified channel. At most 5 requests per second per channel are allowed, each with a maximum 1 KB payload. (If 5 TPS is not sufficient for your needs, we recommend batching your data into a single PutMetadata call.) At most 155 requests per second per account are allowed. Also see Embedding Metadata within a Video Stream in the Amazon IVS User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsIvsPutMetadataOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Inserts metadata into the active stream of the specified channel. At most 5 requests per second per channel are allowed, each with a maximum 1 KB payload. (If 5 TPS is not sufficient for your needs, we recommend batching your data into a single PutMetadata call.) At most 155 re- quests per second per account are allowed. Also see Embedding Metadata within a Video Stream in the Amazon IVS User Guide . See also: AWS API Documentation
+    /// Inserts metadata into the active stream of the specified channel. At most 5 requests per second per channel are allowed, each with a maximum 1 KB payload. (If 5 TPS is not sufficient for your needs, we recommend batching your data into a single PutMetadata call.) At most 155 requests per second per account are allowed. Also see Embedding Metadata within a Video Stream in the Amazon IVS User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ChannelArn">ARN of the channel into which metadata is inserted. This channel must have an active stream. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+</param>
-    /// <param name="Metadata">Metadata to insert into the stream. Maximum: 1 KB per request. Constraints: o min: 1</param>
+    /// <param name="ChannelArn">ARN of the channel into which metadata is inserted. This channel must have an active stream. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+</param>
+    /// <param name="Metadata">Metadata to insert into the stream. Maximum: 1 KB per request. Constraints: • min: 1</param>
     public AwsIvsPutMetadataOptions(
         string ChannelArn,
         string Metadata
@@ -60,13 +62,13 @@ public record AwsIvsPutMetadataOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of the channel into which metadata is inserted. This channel must have an active stream. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+
+    /// ARN of the channel into which metadata is inserted. This channel must have an active stream. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--channel-arn")]
     public string? ChannelArn { get; private init; }
 
     /// <summary>
-    /// Metadata to insert into the stream. Maximum: 1 KB per request. Constraints: o min: 1
+    /// Metadata to insert into the stream. Maximum: 1 KB per request. Constraints: • min: 1
     /// </summary>
     [CliOption("--metadata")]
     public string? Metadata { get; private init; }

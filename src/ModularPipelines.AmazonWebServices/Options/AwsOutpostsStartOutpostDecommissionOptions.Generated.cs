@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsOutpostsStartOutpostDecommissionOptions : AwsOptions, IValidata
     /// <summary>
     /// Starts the decommission process to return the Outposts racks or servers. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OutpostIdentifier">The ID or ARN of the Outpost that you want to decommission. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$</param>
+    /// <param name="OutpostIdentifier">The ID or ARN of the Outpost that you want to decommission. Constraints: • min: 1 • max: 180 • pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/)?op-[a-f0-9]{17}$</param>
     public AwsOutpostsStartOutpostDecommissionOptions(
         string OutpostIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsOutpostsStartOutpostDecommissionOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or ARN of the Outpost that you want to decommission. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$
+    /// The ID or ARN of the Outpost that you want to decommission. Constraints: • min: 1 • max: 180 • pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/)?op-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--outpost-identifier")]
     public string? OutpostIdentifier { get; private init; }

@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets information about the traffic policy instances that you created by using a specify traffic policy version. NOTE: After you submit a CreateTrafficPolicyInstance or an UpdateTraf- ficPolicyInstance request, there's a brief delay while Amazon Route 53 creates the resource record sets that are specified in the traf- fic policy definition. For more information, see the State response element. Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic policy instances,...
+/// Gets information about the traffic policy instances that you created by using a specify traffic policy version. NOTE: After you submit a CreateTrafficPolicyInstance or an UpdateTrafficPolicyInstance request, there's a brief delay while Amazon Route 53 creates the resource record sets that are specified in the traffic policy definition. For more information, see the State response element. Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic policy instances, you...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsRoute53ListTrafficPolicyInstancesByPolicyOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets information about the traffic policy instances that you created by using a specify traffic policy version. NOTE: After you submit a CreateTrafficPolicyInstance or an UpdateTraf- ficPolicyInstance request, there's a brief delay while Amazon Route 53 creates the resource record sets that are specified in the traf- fic policy definition. For more information, see the State response element. Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic policy instances,...
+    /// Gets information about the traffic policy instances that you created by using a specify traffic policy version. NOTE: After you submit a CreateTrafficPolicyInstance or an UpdateTrafficPolicyInstance request, there's a brief delay while Amazon Route 53 creates the resource record sets that are specified in the traffic policy definition. For more information, see the State response element. Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic policy instances, you...
     /// </summary>
-    /// <param name="TrafficPolicyId">The ID of the traffic policy for which you want to list traffic pol- icy instances. Constraints: o min: 1 o max: 36</param>
-    /// <param name="TrafficPolicyVersion">The version of the traffic policy for which you want to list traffic policy instances. The version must be associated with the traffic policy that is specified by TrafficPolicyId . Constraints: o min: 1 o max: 1000</param>
+    /// <param name="TrafficPolicyId">The ID of the traffic policy for which you want to list traffic policy instances. Constraints: • min: 1 • max: 36</param>
+    /// <param name="TrafficPolicyVersion">The version of the traffic policy for which you want to list traffic policy instances. The version must be associated with the traffic policy that is specified by TrafficPolicyId . Constraints: • min: 1 • max: 1000</param>
     public AwsRoute53ListTrafficPolicyInstancesByPolicyOptions(
         string TrafficPolicyId,
         int TrafficPolicyVersion
@@ -60,37 +62,37 @@ public record AwsRoute53ListTrafficPolicyInstancesByPolicyOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the traffic policy for which you want to list traffic pol- icy instances. Constraints: o min: 1 o max: 36
+    /// The ID of the traffic policy for which you want to list traffic policy instances. Constraints: • min: 1 • max: 36
     /// </summary>
     [CliOption("--traffic-policy-id")]
     public string? TrafficPolicyId { get; private init; }
 
     /// <summary>
-    /// The version of the traffic policy for which you want to list traffic policy instances. The version must be associated with the traffic policy that is specified by TrafficPolicyId . Constraints: o min: 1 o max: 1000
+    /// The version of the traffic policy for which you want to list traffic policy instances. The version must be associated with the traffic policy that is specified by TrafficPolicyId . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--traffic-policy-version")]
     public int? TrafficPolicyVersion { get; private init; }
 
     /// <summary>
-    /// If the value of IsTruncated in the previous response was true , you have more traffic policy instances. To get more traffic policy in- stances, submit another ListTrafficPolicyInstancesByPolicy request. For the value of hostedzoneid , specify the value of HostedZoneId- Marker from the previous response, which is the hosted zone ID of the first traffic policy instance that Amazon Route 53 will return if you submit another request. If the value of IsTruncated in the previous response was false , there are no more traffic policy instances to get. Constraints: o max: 32
+    /// If the value of IsTruncated in the previous response was true , you have more traffic policy instances. To get more traffic policy instances, submit another ListTrafficPolicyInstancesByPolicy request. For the value of hostedzoneid , specify the value of HostedZoneIdMarker from the previous response, which is the hosted zone ID of the first traffic policy instance that Amazon Route 53 will return if you submit another request. If the value of IsTruncated in the previous response was false , there are no more traffic policy instances to get. Constraints: • max: 32
     /// </summary>
     [CliOption("--hosted-zone-id-marker")]
     public string? HostedZoneIdMarker { get; set; }
 
     /// <summary>
-    /// If the value of IsTruncated in the previous response was true , you have more traffic policy instances. To get more traffic policy in- stances, submit another ListTrafficPolicyInstancesByPolicy request. For the value of trafficpolicyinstancename , specify the value of TrafficPolicyInstanceNameMarker from the previous response, which is the name of the first traffic policy instance that Amazon Route 53 will return if you submit another request. If the value of IsTruncated in the previous response was false , there are no more traffic policy instances to get. Constraints: o max: 1024
+    /// If the value of IsTruncated in the previous response was true , you have more traffic policy instances. To get more traffic policy instances, submit another ListTrafficPolicyInstancesByPolicy request. For the value of trafficpolicyinstancename , specify the value of TrafficPolicyInstanceNameMarker from the previous response, which is the name of the first traffic policy instance that Amazon Route 53 will return if you submit another request. If the value of IsTruncated in the previous response was false , there are no more traffic policy instances to get. Constraints: • max: 1024
     /// </summary>
     [CliOption("--traffic-policy-instance-name-marker")]
     public string? TrafficPolicyInstanceNameMarker { get; set; }
 
     /// <summary>
-    /// If the value of IsTruncated in the previous response was true , you have more traffic policy instances. To get more traffic policy in- stances, submit another ListTrafficPolicyInstancesByPolicy request. For the value of trafficpolicyinstancetype , specify the value of TrafficPolicyInstanceTypeMarker from the previous response, which is the name of the first traffic policy instance that Amazon Route 53 will return if you submit another request. If the value of IsTruncated in the previous response was false , there are no more traffic policy instances to get. Possible values: o SOA o A o TXT o NS o CNAME o MX o NAPTR o PTR o SRV o SPF o AAAA o CAA o DS o TLSA o SSHFP o SVCB o HTTPS
+    /// If the value of IsTruncated in the previous response was true , you have more traffic policy instances. To get more traffic policy instances, submit another ListTrafficPolicyInstancesByPolicy request. For the value of trafficpolicyinstancetype , specify the value of TrafficPolicyInstanceTypeMarker from the previous response, which is the name of the first traffic policy instance that Amazon Route 53 will return if you submit another request. If the value of IsTruncated in the previous response was false , there are no more traffic policy instances to get. Possible values: • SOA • A • TXT • NS • CNAME • MX • NAPTR • PTR • SRV • SPF • AAAA • CAA • DS • TLSA • SSHFP • SVCB • HTTPS
     /// </summary>
     [CliOption("--traffic-policy-instance-type-marker")]
     public AwsRoute53ListTrafficPolicyInstancesByPolicyTrafficPolicyInstanceTypeMarker? TrafficPolicyInstanceTypeMarker { get; set; }
 
     /// <summary>
-    /// The maximum number of traffic policy instances to be included in the response body for this request. If you have more than MaxItems traf- fic policy instances, the value of the IsTruncated element in the response is true , and the values of HostedZoneIdMarker , Traf- ficPolicyInstanceNameMarker , and TrafficPolicyInstanceTypeMarker represent the first traffic policy instance that Amazon Route 53 will return if you submit another request.
+    /// The maximum number of traffic policy instances to be included in the response body for this request. If you have more than MaxItems traffic policy instances, the value of the IsTruncated element in the response is true , and the values of HostedZoneIdMarker , TrafficPolicyInstanceNameMarker , and TrafficPolicyInstanceTypeMarker represent the first traffic policy instance that Amazon Route 53 will return if you submit another request.
     /// </summary>
     [CliOption("--max-items")]
     public string? MaxItems { get; set; }

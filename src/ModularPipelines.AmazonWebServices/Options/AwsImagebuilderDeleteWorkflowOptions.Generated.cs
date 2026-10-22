@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsImagebuilderDeleteWorkflowOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Deletes a specific workflow resource. You can't delete a workflow build version while an image pipeline references it. The request fails with ResourceDependencyException . See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkflowBuildVersionArn">The Amazon Resource Name (ARN) of the workflow resource to delete. Constraints: o max: 1024 o pattern: ^arn:aws(?:-[a-z]+)*:image- builder:[a-z]{2,}(?:-[a-z]+)+-[0-9]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):work- flow/(build|test|distribu- tion)/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$</param>
+    /// <param name="WorkflowBuildVersionArn">The Amazon Resource Name (ARN) of the workflow resource to delete. Constraints: • max: 1024 • pattern: ^arn:aws(?:-[a-z]+)*:imagebuilder:[a-z]{2,}(?:-[a-z]+)+-[0-9]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):workflow/(build|test|distribution)/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$</param>
     public AwsImagebuilderDeleteWorkflowOptions(
         string WorkflowBuildVersionArn
     )
@@ -56,7 +58,7 @@ public record AwsImagebuilderDeleteWorkflowOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the workflow resource to delete. Constraints: o max: 1024 o pattern: ^arn:aws(?:-[a-z]+)*:image- builder:[a-z]{2,}(?:-[a-z]+)+-[0-9]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):work- flow/(build|test|distribu- tion)/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$
+    /// The Amazon Resource Name (ARN) of the workflow resource to delete. Constraints: • max: 1024 • pattern: ^arn:aws(?:-[a-z]+)*:imagebuilder:[a-z]{2,}(?:-[a-z]+)+-[0-9]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):workflow/(build|test|distribution)/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$
     /// </summary>
     [CliOption("--workflow-build-version-arn")]
     public string? WorkflowBuildVersionArn { get; private init; }

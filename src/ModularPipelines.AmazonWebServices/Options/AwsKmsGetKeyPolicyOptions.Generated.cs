@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsKmsGetKeyPolicyOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets a key policy attached to the specified KMS key. Cross-account use : No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions : kms:GetKeyPolicy (key policy) Related operations : PutKeyPolicy Eventual consistency : The KMS API follows an eventual consistency model. For more information, see KMS eventual consistency . See also: AWS API Documentation
     /// </summary>
-    /// <param name="KeyId">Gets the key policy for the specified KMS key. Specify the key ID or key ARN of the KMS key. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048</param>
+    /// <param name="KeyId">Gets the key policy for the specified KMS key. Specify the key ID or key ARN of the KMS key. For example: • Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab • Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey . Constraints: • min: 1 • max: 2048</param>
     public AwsKmsGetKeyPolicyOptions(
         string KeyId
     )
@@ -56,13 +58,13 @@ public record AwsKmsGetKeyPolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Gets the key policy for the specified KMS key. Specify the key ID or key ARN of the KMS key. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048
+    /// Gets the key policy for the specified KMS key. Specify the key ID or key ARN of the KMS key. For example: • Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab • Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey . Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--key-id")]
     public string? KeyId { get; private init; }
 
     /// <summary>
-    /// Specifies the name of the key policy. If no policy name is speci- fied, the default value is default . The only valid name is default . To get the names of key policies, use ListKeyPolicies . Constraints: o min: 1 o max: 128 o pattern: [\w]+
+    /// Specifies the name of the key policy. If no policy name is specified, the default value is default . The only valid name is default . To get the names of key policies, use ListKeyPolicies . Constraints: • min: 1 • max: 128 • pattern: [\w]+
     /// </summary>
     [CliOption("--policy-name")]
     public string? PolicyName { get; set; }

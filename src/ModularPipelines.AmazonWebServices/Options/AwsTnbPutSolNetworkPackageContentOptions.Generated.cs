@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsTnbPutSolNetworkPackageContentOptions : AwsOptions, IValidatabl
     /// Uploads the contents of a network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on. See also: AWS API Documentation
     /// </summary>
     /// <param name="File">Network package file.</param>
-    /// <param name="NsdInfoId">Network service descriptor info ID. Constraints: o pattern: ^np-[a-f0-9]{17}$</param>
+    /// <param name="NsdInfoId">Network service descriptor info ID. Constraints: • pattern: ^np-[a-f0-9]{17}$</param>
     public AwsTnbPutSolNetworkPackageContentOptions(
         string File,
         string NsdInfoId
@@ -66,13 +68,13 @@ public record AwsTnbPutSolNetworkPackageContentOptions : AwsOptions, IValidatabl
     public string? File { get; private init; }
 
     /// <summary>
-    /// Network service descriptor info ID. Constraints: o pattern: ^np-[a-f0-9]{17}$
+    /// Network service descriptor info ID. Constraints: • pattern: ^np-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--nsd-info-id")]
     public string? NsdInfoId { get; private init; }
 
     /// <summary>
-    /// Network package content type. Possible values: o application/zip
+    /// Network package content type. Possible values: • application/zip
     /// </summary>
     [CliOption("--content-type")]
     public string? ContentType { get; set; }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -29,8 +30,8 @@ public record AwsPinpointSmsVoiceV2SendVoiceMessageOptions : AwsOptions, IValida
     /// <summary>
     /// Allows you to send a request that sends a voice message. This operation uses Amazon Polly to convert a text script into a voice message. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DestinationPhoneNumber">The destination phone number in E.164 format. Constraints: o min: 1 o max: 20 o pattern: \+?[1-9][0-9]{1,18}</param>
-    /// <param name="OriginationIdentity">The origination identity to use for the voice call. This can be the PhoneNumber, PhoneNumberId, PhoneNumberArn, PoolId, or PoolArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/\+-]+</param>
+    /// <param name="DestinationPhoneNumber">The destination phone number in E.164 format. Constraints: • min: 1 • max: 20 • pattern: \+?[1-9][0-9]{1,18}</param>
+    /// <param name="OriginationIdentity">The origination identity to use for the voice call. This can be the PhoneNumber, PhoneNumberId, PhoneNumberArn, PoolId, or PoolArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/\+-]+</param>
     public AwsPinpointSmsVoiceV2SendVoiceMessageOptions(
         string DestinationPhoneNumber,
         string OriginationIdentity
@@ -62,55 +63,55 @@ public record AwsPinpointSmsVoiceV2SendVoiceMessageOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The destination phone number in E.164 format. Constraints: o min: 1 o max: 20 o pattern: \+?[1-9][0-9]{1,18}
+    /// The destination phone number in E.164 format. Constraints: • min: 1 • max: 20 • pattern: \+?[1-9][0-9]{1,18}
     /// </summary>
     [CliOption("--destination-phone-number")]
     public string? DestinationPhoneNumber { get; private init; }
 
     /// <summary>
-    /// The origination identity to use for the voice call. This can be the PhoneNumber, PhoneNumberId, PhoneNumberArn, PoolId, or PoolArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/\+-]+
+    /// The origination identity to use for the voice call. This can be the PhoneNumber, PhoneNumberId, PhoneNumberArn, PoolId, or PoolArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/\+-]+
     /// </summary>
     [CliOption("--origination-identity")]
     public string? OriginationIdentity { get; private init; }
 
     /// <summary>
-    /// The text to convert to a voice message. Constraints: o min: 1 o max: 6000 o pattern: (?!\s*$)[\s\S]+
+    /// The text to convert to a voice message. Constraints: • min: 1 • max: 6000 • pattern: (?!\s*$)[\s\S]+
     /// </summary>
     [CliOption("--message-body")]
     public string? MessageBody { get; set; }
 
     /// <summary>
-    /// Specifies if the MessageBody field contains text or speech synthesis markup language (SSML) . o TEXT: This is the default value. When used the maximum character limit is 3000. o SSML: When used the maximum character limit is 6000 including SSML tagging. Possible values: o TEXT o SSML
+    /// Specifies if the MessageBody field contains text or speech synthesis markup language (SSML) . • TEXT: This is the default value. When used the maximum character limit is 3000. • SSML: When used the maximum character limit is 6000 including SSML tagging. Possible values: • TEXT • SSML
     /// </summary>
     [CliOption("--message-body-text-type")]
     public AwsPinpointSmsVoiceV2SendVoiceMessageMessageBodyTextType? MessageBodyTextType { get; set; }
 
     /// <summary>
-    /// The voice for the Amazon Polly service to use. By default this is set to "MATTHEW". Possible values: o AMY o ASTRID o BIANCA o BRIAN o CAMILA o CARLA o CARMEN o CELINE o CHANTAL o CONCHITA o CRISTIANO o DORA o EMMA o ENRIQUE o EWA o FILIZ o GERAINT o GIORGIO o GWYNETH o HANS o INES o IVY o JACEK o JAN o JOANNA o JOEY o JUSTIN o KARL o KENDRA o KIMBERLY o LEA o LIV o LOTTE o LUCIA o LUPE o MADS o MAJA o MARLENE o MATHIEU o MATTHEW o MAXIM o MIA o MIGUEL o MIZUKI o NAJA o NICOLE o PENELOPE o RAVEENA o RICARDO o RUBEN o RUSSELL o SALLI o SEOYEON o TAKUMI o TATYANA o VICKI o VITORIA o ZEINA o ZHIYU
+    /// The voice for the Amazon Polly service to use. By default this is set to "MATTHEW". Possible values: • AMY • ASTRID • BIANCA • BRIAN • CAMILA • CARLA • CARMEN • CELINE • CHANTAL • CONCHITA • CRISTIANO • DORA • EMMA • ENRIQUE • EWA • FILIZ • GERAINT • GIORGIO • GWYNETH • HANS • INES • IVY • JACEK • JAN • JOANNA • JOEY • JUSTIN • KARL • KENDRA • KIMBERLY • LEA • LIV • LOTTE • LUCIA • LUPE • MADS • MAJA • MARLENE • MATHIEU • MATTHEW • MAXIM • MIA • MIGUEL • MIZUKI • NAJA • NICOLE • PENELOPE • RAVEENA • RICARDO • RUBEN • RUSSELL • SALLI • SEOYEON • TAKUMI • TATYANA • VICKI • VITORIA • ZEINA • ZHIYU
     /// </summary>
     [CliOption("--voice-id")]
     public string? VoiceId { get; set; }
 
     /// <summary>
-    /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--configuration-set-name")]
     public string? ConfigurationSetName { get; set; }
 
     /// <summary>
-    /// The maximum amount to spend per voice message, in US dollars. Constraints: o min: 2 o max: 8 o pattern: [0-9]{0,2}\.[0-9]{1,5}
+    /// The maximum amount to spend per voice message, in US dollars. Constraints: • min: 2 • max: 8 • pattern: [0-9]{0,2}\.[0-9]{1,5}
     /// </summary>
     [CliOption("--max-price-per-minute")]
     public string? MaxPricePerMinute { get; set; }
 
     /// <summary>
-    /// How long the voice message is valid for. By default this is 72 hours. Constraints: o min: 5 o max: 259200
+    /// How long the voice message is valid for. By default this is 72 hours. Constraints: • min: 5 • max: 259200
     /// </summary>
     [CliOption("--time-to-live")]
     public int? TimeToLive { get; set; }
 
     /// <summary>
-    /// You can specify custom data in this field. If you do, that data is logged to the event destination. Constraints: o min: 0 o max: 5 key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: \S+ value -&gt; (string) Constraints: o min: 1 o max: 800 o pattern: (?!\s)^[\s\S]+(?&lt;!\s) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// You can specify custom data in this field. If you do, that data is logged to the event destination. Constraints: • min: 0 • max: 5 key -&gt; (string) Constraints: • min: 1 • max: 100 • pattern: \S+ value -&gt; (string) Constraints: • min: 1 • max: 800 • pattern: (?!\s)^[\s\S]+(?&lt;!\s) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--context", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Context { get; set; }
@@ -122,7 +123,7 @@ public record AwsPinpointSmsVoiceV2SendVoiceMessageOptions : AwsOptions, IValida
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// The unique identifier for the protect configuration. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The unique identifier for the protect configuration. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--protect-configuration-id")]
     public string? ProtectConfigurationId { get; set; }

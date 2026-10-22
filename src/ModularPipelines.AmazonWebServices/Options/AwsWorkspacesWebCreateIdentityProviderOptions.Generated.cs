@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -30,10 +31,10 @@ public record AwsWorkspacesWebCreateIdentityProviderOptions : AwsOptions, IValid
     /// <summary>
     /// Creates an identity provider resource that is then associated with a web portal. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PortalArn">The ARN of the web portal. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36})+</param>
-    /// <param name="IdentityProviderName">The identity provider name. Constraints: o min: 1 o max: 32 o pattern: [^_][\p{L}\p{M}\p{S}\p{N}\p{P}][^_]+</param>
-    /// <param name="IdentityProviderType">The identity provider type. Possible values: o SAML o Facebook o Google o LoginWithAmazon o SignInWithApple o OIDC</param>
-    /// <param name="IdentityProviderDetails">The identity provider details. The following list describes the provider detail keys for each identity provider type. o For Google and Login with Amazon: o client_id o client_secret o authorize_scopes o For Facebook: o client_id o client_secret o authorize_scopes o api_version o For Sign in with Apple: o client_id o team_id o key_id o private_key o authorize_scopes o For OIDC providers: o client_id o client_secret o attributes_request_method o oidc_issuer o authorize_scopes o authorize_url if not available from discovery URL specified by ``oidc_issuer`` key o token_url if not available from discovery URL specified by ``oidc_issuer`` key o attributes_url if not available from discovery URL specified by ``oidc_issuer`` key o jwks_uri if not available from discovery URL specified by ``oidc_issuer`` key o For SAML providers: o MetadataFile OR MetadataURL o IDPSignout (boolean) optional o IDPInit (boolean) optional o RequestSigningAlgorithm (string) optional - Only accepts rsa-sha256 o EncryptedResponses (boolean) optional key -&gt; (string) Constraints: o min: 0 o max: 131072 o pattern: [\s\S]* value -&gt; (string) Constraints: o min: 0 o max: 131072 o pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="PortalArn">The ARN of the web portal. Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36})+</param>
+    /// <param name="IdentityProviderName">The identity provider name. Constraints: • min: 1 • max: 32 • pattern: [^_][\p{L}\p{M}\p{S}\p{N}\p{P}][^_]+</param>
+    /// <param name="IdentityProviderType">The identity provider type. Possible values: • SAML • Facebook • Google • LoginWithAmazon • SignInWithApple • OIDC</param>
+    /// <param name="IdentityProviderDetails">The identity provider details. The following list describes the provider detail keys for each identity provider type. • For Google and Login with Amazon: • client_id • client_secret • authorize_scopes • For Facebook: • client_id • client_secret • authorize_scopes • api_version • For Sign in with Apple: • client_id • team_id • key_id • private_key • authorize_scopes • For OIDC providers: • client_id • client_secret • attributes_request_method • oidc_issuer • authorize_scopes • authorize_url if not available from discovery URL specified by ``oidc_issuer`` key • token_url if not available from discovery URL specified by ``oidc_issuer`` key • attributes_url if not available from discovery URL specified by ``oidc_issuer`` key • jwks_uri if not available from discovery URL specified by ``oidc_issuer`` key • For SAML providers: • MetadataFile OR MetadataURL • IDPSignout (boolean) optional • IDPInit (boolean) optional • RequestSigningAlgorithm (string) optional - Only accepts rsa-sha256 • EncryptedResponses (boolean) optional key -&gt; (string) Constraints: • min: 0 • max: 131072 • pattern: [\s\S]* value -&gt; (string) Constraints: • min: 0 • max: 131072 • pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsWorkspacesWebCreateIdentityProviderOptions(
         string PortalArn,
         string IdentityProviderName,
@@ -81,38 +82,38 @@ public record AwsWorkspacesWebCreateIdentityProviderOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the web portal. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36})+
+    /// The ARN of the web portal. Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36})+
     /// </summary>
     [CliOption("--portal-arn")]
     public string? PortalArn { get; private init; }
 
     /// <summary>
-    /// The identity provider name. Constraints: o min: 1 o max: 32 o pattern: [^_][\p{L}\p{M}\p{S}\p{N}\p{P}][^_]+
+    /// The identity provider name. Constraints: • min: 1 • max: 32 • pattern: [^_][\p{L}\p{M}\p{S}\p{N}\p{P}][^_]+
     /// </summary>
     [CliOption("--identity-provider-name")]
     public string? IdentityProviderName { get; private init; }
 
     /// <summary>
-    /// The identity provider type. Possible values: o SAML o Facebook o Google o LoginWithAmazon o SignInWithApple o OIDC
+    /// The identity provider type. Possible values: • SAML • Facebook • Google • LoginWithAmazon • SignInWithApple • OIDC
     /// </summary>
     [CliOption("--identity-provider-type")]
     public AwsWorkspacesWebCreateIdentityProviderIdentityProviderType? IdentityProviderType { get; private init; }
 
     /// <summary>
-    /// The identity provider details. The following list describes the provider detail keys for each identity provider type. o For Google and Login with Amazon: o client_id o client_secret o authorize_scopes o For Facebook: o client_id o client_secret o authorize_scopes o api_version o For Sign in with Apple: o client_id o team_id o key_id o private_key o authorize_scopes o For OIDC providers: o client_id o client_secret o attributes_request_method o oidc_issuer o authorize_scopes o authorize_url if not available from discovery URL specified by ``oidc_issuer`` key o token_url if not available from discovery URL specified by ``oidc_issuer`` key o attributes_url if not available from discovery URL specified by ``oidc_issuer`` key o jwks_uri if not available from discovery URL specified by ``oidc_issuer`` key o For SAML providers: o MetadataFile OR MetadataURL o IDPSignout (boolean) optional o IDPInit (boolean) optional o RequestSigningAlgorithm (string) optional - Only accepts rsa-sha256 o EncryptedResponses (boolean) optional key -&gt; (string) Constraints: o min: 0 o max: 131072 o pattern: [\s\S]* value -&gt; (string) Constraints: o min: 0 o max: 131072 o pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The identity provider details. The following list describes the provider detail keys for each identity provider type. • For Google and Login with Amazon: • client_id • client_secret • authorize_scopes • For Facebook: • client_id • client_secret • authorize_scopes • api_version • For Sign in with Apple: • client_id • team_id • key_id • private_key • authorize_scopes • For OIDC providers: • client_id • client_secret • attributes_request_method • oidc_issuer • authorize_scopes • authorize_url if not available from discovery URL specified by ``oidc_issuer`` key • token_url if not available from discovery URL specified by ``oidc_issuer`` key • attributes_url if not available from discovery URL specified by ``oidc_issuer`` key • jwks_uri if not available from discovery URL specified by ``oidc_issuer`` key • For SAML providers: • MetadataFile OR MetadataURL • IDPSignout (boolean) optional • IDPInit (boolean) optional • RequestSigningAlgorithm (string) optional - Only accepts rsa-sha256 • EncryptedResponses (boolean) optional key -&gt; (string) Constraints: • min: 0 • max: 131072 • pattern: [\s\S]* value -&gt; (string) Constraints: • min: 0 • max: 131072 • pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--identity-provider-details", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? IdentityProviderDetails { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original re- quest completes successfully, subsequent retries with the same client token returns the result from the original successful re- quest. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK. Constraints: o min: 1 o max: 512
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK. Constraints: • min: 1 • max: 512
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The tags to add to the identity provider resource. A tag is a key-value pair. Constraints: o min: 0 o max: 200 (structure) The tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value of the tag Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags to add to the identity provider resource. A tag is a key-value pair. Constraints: • min: 0 • max: 200 (structure) The tag. Key -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value of the tag Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

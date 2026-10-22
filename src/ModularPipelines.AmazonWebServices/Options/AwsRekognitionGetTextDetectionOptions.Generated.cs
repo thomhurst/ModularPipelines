@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the text detection results of a Amazon Rekognition Video analysis started by StartTextDetection . Text detection with Amazon Rekognition Video is an asynchronous opera- tion. You start text detection by calling StartTextDetection which re- turns a job identifier (JobId ) When the text detection operation fin- ishes, Amazon Rekognition publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartTextDetection . To get the results of the...
+/// Gets the text detection results of a Amazon Rekognition Video analysis started by StartTextDetection . Text detection with Amazon Rekognition Video is an asynchronous operation. You start text detection by calling StartTextDetection which returns a job identifier (JobId ) When the text detection operation finishes, Amazon Rekognition publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartTextDetection . To get the results of the text ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsRekognitionGetTextDetectionOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets the text detection results of a Amazon Rekognition Video analysis started by StartTextDetection . Text detection with Amazon Rekognition Video is an asynchronous opera- tion. You start text detection by calling StartTextDetection which re- turns a job identifier (JobId ) When the text detection operation fin- ishes, Amazon Rekognition publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartTextDetection . To get the results of the...
+    /// Gets the text detection results of a Amazon Rekognition Video analysis started by StartTextDetection . Text detection with Amazon Rekognition Video is an asynchronous operation. You start text detection by calling StartTextDetection which returns a job identifier (JobId ) When the text detection operation finishes, Amazon Rekognition publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartTextDetection . To get the results of the text ...
     /// </summary>
-    /// <param name="JobId">Job identifier for the text detection operation for which you want results returned. You get the job identifer from an initial call to StartTextDetection . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$</param>
+    /// <param name="JobId">Job identifier for the text detection operation for which you want results returned. You get the job identifer from an initial call to StartTextDetection . Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$</param>
     public AwsRekognitionGetTextDetectionOptions(
         string JobId
     )
@@ -57,19 +59,19 @@ public record AwsRekognitionGetTextDetectionOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Job identifier for the text detection operation for which you want results returned. You get the job identifer from an initial call to StartTextDetection . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
+    /// Job identifier for the text detection operation for which you want results returned. You get the job identifer from an initial call to StartTextDetection . Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// Maximum number of results to return per paginated call. The largest value you can specify is 1000. Constraints: o min: 1
+    /// Maximum number of results to return per paginated call. The largest value you can specify is 1000. Constraints: • min: 1
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If the previous response was incomplete (because there are more la- bels to retrieve), Amazon Rekognition Video returns a pagination to- ken in the response. You can use this pagination token to retrieve the next set of text. Constraints: o max: 255
+    /// If the previous response was incomplete (because there are more labels to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of text. Constraints: • max: 255
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

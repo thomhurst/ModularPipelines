@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -23,19 +24,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIvsRealtimeCreateEncoderConfigurationOptions : AwsOptions
 {
     /// <summary>
-    /// Optional name to identify the resource. Constraints: o min: 0 o max: 128 o pattern: [a-zA-Z0-9-_]*
+    /// Optional name to identify the resource. Constraints: • min: 0 • max: 128 • pattern: [a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Video configuration. Default: video resolution 1280x720, bitrate 2500 kbps, 30 fps. width -&gt; (integer) Video-resolution width. This must be an even number. Note that the maximum value is determined by width times height , such that the maximum total pixels is 2073600 (1920x1080 or 1080x1920). Default: 1280. Constraints: o min: 2 o max: 1920 height -&gt; (integer) Video-resolution height. This must be an even number. Note that the maximum value is determined by width times height , such that the maximum total pixels is 2073600 (1920x1080 or 1080x1920). Default: 720. Constraints: o min: 2 o max: 1920 framerate -&gt; (float) Video frame rate, in fps. Default: 30. Constraints: o min: 1 o max: 60 bitrate -&gt; (integer) Bitrate for generated output, in bps. Default: 2500000. Constraints: o min: 1 o max: 8500000 Shorthand Syntax: width=integer,height=integer,framerate=float,bitrate=integer JSON Syntax: { "width": integer, "height": integer, "framerate": float, "bitrate": integer }
+    /// Video configuration. Default: video resolution 1280x720, bitrate 2500 kbps, 30 fps. width -&gt; (integer) Video-resolution width. This must be an even number. Note that the maximum value is determined by width times height , such that the maximum total pixels is 2073600 (1920x1080 or 1080x1920). Default: 1280. Constraints: • min: 2 • max: 1920 height -&gt; (integer) Video-resolution height. This must be an even number. Note that the maximum value is determined by width times height , such that the maximum total pixels is 2073600 (1920x1080 or 1080x1920). Default: 720. Constraints: • min: 2 • max: 1920 framerate -&gt; (float) Video frame rate, in fps. Default: 30. Constraints: • min: 1 • max: 60 bitrate -&gt; (integer) Bitrate for generated output, in bps. Default: 2500000. Constraints: • min: 1 • max: 8500000 Shorthand Syntax: width=integer,height=integer,framerate=float,bitrate=integer JSON Syntax: { "width": integer, "height": integer, "framerate": float, "bitrate": integer }
     /// </summary>
     [CliOption("--video")]
     public string? Video { get; set; }
 
     /// <summary>
-    /// Tags attached to the resource. Array of maps, each of the form string:string (key:value) . See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restric- tions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags attached to the resource. Array of maps, each of the form string:string (key:value) . See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

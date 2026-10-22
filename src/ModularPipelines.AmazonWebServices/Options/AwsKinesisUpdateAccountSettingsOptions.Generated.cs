@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the account-level settings for Amazon Kinesis Data Streams. Updating account settings is a synchronous operation. Upon receiving the request, Kinesis Data Streams will return immediately with your ac- counts updated settings. API limits o Certain account configurations have minimum commitment windows. At- tempting to update your settings prior to the end of the minimum com- mitment window might have certain restrictions. o This API has a call limit of 5 transactions per second (TPS) for ...
+/// Updates the account-level settings for Amazon Kinesis Data Streams. Updating account settings is a synchronous operation. Upon receiving the request, Kinesis Data Streams will return immediately with your accounts updated settings. API limits • Certain account configurations have minimum commitment windows. Attempting to update your settings prior to the end of the minimum commitment window might have certain restrictions. • This API has a call limit of 5 transactions per second (TPS) for each A...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsKinesisUpdateAccountSettingsOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the account-level settings for Amazon Kinesis Data Streams. Updating account settings is a synchronous operation. Upon receiving the request, Kinesis Data Streams will return immediately with your ac- counts updated settings. API limits o Certain account configurations have minimum commitment windows. At- tempting to update your settings prior to the end of the minimum com- mitment window might have certain restrictions. o This API has a call limit of 5 transactions per second (TPS) for ...
+    /// Updates the account-level settings for Amazon Kinesis Data Streams. Updating account settings is a synchronous operation. Upon receiving the request, Kinesis Data Streams will return immediately with your accounts updated settings. API limits • Certain account configurations have minimum commitment windows. Attempting to update your settings prior to the end of the minimum commitment window might have certain restrictions. • This API has a call limit of 5 transactions per second (TPS) for each A...
     /// </summary>
-    /// <param name="MinimumThroughputBillingCommitment">Specifies the minimum throughput billing commitment configuration for your account. Status -&gt; (string) [required] The desired status of the minimum throughput billing commitment. Possible values: o ENABLED o DISABLED Shorthand Syntax: Status=string JSON Syntax: { "Status": "ENABLED"|"DISABLED" }</param>
+    /// <param name="MinimumThroughputBillingCommitment">Specifies the minimum throughput billing commitment configuration for your account. Status -&gt; (string) [required] The desired status of the minimum throughput billing commitment. Possible values: • ENABLED • DISABLED Shorthand Syntax: Status=string JSON Syntax: { "Status": "ENABLED"|"DISABLED" }</param>
     public AwsKinesisUpdateAccountSettingsOptions(
         string MinimumThroughputBillingCommitment
     )
@@ -56,7 +58,7 @@ public record AwsKinesisUpdateAccountSettingsOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the minimum throughput billing commitment configuration for your account. Status -&gt; (string) [required] The desired status of the minimum throughput billing commitment. Possible values: o ENABLED o DISABLED Shorthand Syntax: Status=string JSON Syntax: { "Status": "ENABLED"|"DISABLED" }
+    /// Specifies the minimum throughput billing commitment configuration for your account. Status -&gt; (string) [required] The desired status of the minimum throughput billing commitment. Possible values: • ENABLED • DISABLED Shorthand Syntax: Status=string JSON Syntax: { "Status": "ENABLED"|"DISABLED" }
     /// </summary>
     [CliOption("--minimum-throughput-billing-commitment")]
     public string? MinimumThroughputBillingCommitment { get; private init; }

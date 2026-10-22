@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsServicediscoveryUpdatePrivateDnsNamespaceOptions : AwsOptions, 
     /// <summary>
     /// Updates a private DNS namespace. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID or Amazon Resource Name (ARN) of the namespace that you want to update. Constraints: o max: 255</param>
-    /// <param name="Namespace">Updated properties for the private DNS namespace. Description -&gt; (string) An updated description for the private DNS namespace. Constraints: o max: 1024 Properties -&gt; (structure) Properties to be updated in the private DNS namespace. DnsProperties -&gt; (structure) [required] Updated DNS properties for the private DNS namespace. SOA -&gt; (structure) [required] Updated fields for the Start of Authority (SOA) record for the hosted zone for the private DNS namespace. TTL -&gt; (long) [required] The updated time to live (TTL) for purposes of nega- tive caching. Constraints: o min: 0 o max: 2147483647 JSON Syntax: { "Description": "string", "Properties": { "DnsProperties": { "SOA": { "TTL": long } } } }</param>
+    /// <param name="Id">The ID or Amazon Resource Name (ARN) of the namespace that you want to update. Constraints: • max: 255</param>
+    /// <param name="Namespace">Updated properties for the private DNS namespace. Description -&gt; (string) An updated description for the private DNS namespace. Constraints: • max: 1024 Properties -&gt; (structure) Properties to be updated in the private DNS namespace. DnsProperties -&gt; (structure) [required] Updated DNS properties for the private DNS namespace. SOA -&gt; (structure) [required] Updated fields for the Start of Authority (SOA) record for the hosted zone for the private DNS namespace. TTL -&gt; (long) [required] The updated time to live (TTL) for purposes of negative caching. Constraints: • min: 0 • max: 2147483647 JSON Syntax: { "Description": "string", "Properties": { "DnsProperties": { "SOA": { "TTL": long } } } }</param>
     public AwsServicediscoveryUpdatePrivateDnsNamespaceOptions(
         string Id,
         string Namespace
@@ -60,19 +62,19 @@ public record AwsServicediscoveryUpdatePrivateDnsNamespaceOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or Amazon Resource Name (ARN) of the namespace that you want to update. Constraints: o max: 255
+    /// The ID or Amazon Resource Name (ARN) of the namespace that you want to update. Constraints: • max: 255
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// Updated properties for the private DNS namespace. Description -&gt; (string) An updated description for the private DNS namespace. Constraints: o max: 1024 Properties -&gt; (structure) Properties to be updated in the private DNS namespace. DnsProperties -&gt; (structure) [required] Updated DNS properties for the private DNS namespace. SOA -&gt; (structure) [required] Updated fields for the Start of Authority (SOA) record for the hosted zone for the private DNS namespace. TTL -&gt; (long) [required] The updated time to live (TTL) for purposes of nega- tive caching. Constraints: o min: 0 o max: 2147483647 JSON Syntax: { "Description": "string", "Properties": { "DnsProperties": { "SOA": { "TTL": long } } } }
+    /// Updated properties for the private DNS namespace. Description -&gt; (string) An updated description for the private DNS namespace. Constraints: • max: 1024 Properties -&gt; (structure) Properties to be updated in the private DNS namespace. DnsProperties -&gt; (structure) [required] Updated DNS properties for the private DNS namespace. SOA -&gt; (structure) [required] Updated fields for the Start of Authority (SOA) record for the hosted zone for the private DNS namespace. TTL -&gt; (long) [required] The updated time to live (TTL) for purposes of negative caching. Constraints: • min: 0 • max: 2147483647 JSON Syntax: { "Description": "string", "Properties": { "DnsProperties": { "SOA": { "TTL": long } } } }
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; private init; }
 
     /// <summary>
-    /// A unique string that identifies the request and that allows failed UpdatePrivateDnsNamespace requests to be retried without the risk of running the operation twice. UpdaterRequestId can be any unique string (for example, a date/timestamp). Constraints: o max: 64
+    /// A unique string that identifies the request and that allows failed UpdatePrivateDnsNamespace requests to be retried without the risk of running the operation twice. UpdaterRequestId can be any unique string (for example, a date/timestamp). Constraints: • max: 64
     /// </summary>
     [CliOption("--updater-request-id")]
     public string? UpdaterRequestId { get; set; }

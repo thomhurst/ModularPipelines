@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotDeleteScheduledAuditOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a scheduled audit. Requires permission to access the DeleteScheduledAudit action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ScheduledAuditName">The name of the scheduled audit you want to delete. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ScheduledAuditName">The name of the scheduled audit you want to delete. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsIotDeleteScheduledAuditOptions(
         string ScheduledAuditName
     )
@@ -56,7 +58,7 @@ public record AwsIotDeleteScheduledAuditOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the scheduled audit you want to delete. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+
+    /// The name of the scheduled audit you want to delete. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--scheduled-audit-name")]
     public string? ScheduledAuditName { get; private init; }

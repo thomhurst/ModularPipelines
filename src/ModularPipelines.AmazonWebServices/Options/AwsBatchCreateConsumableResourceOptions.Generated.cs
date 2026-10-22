@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -66,16 +67,16 @@ public record AwsBatchCreateConsumableResourceOptions : AwsOptions, IValidatable
     /// The total amount of the consumable resource that is available. Must be non-negative.
     /// </summary>
     [CliOption("--total-quantity")]
-    public int? TotalQuantity { get; set; }
+    public long? TotalQuantity { get; set; }
 
     /// <summary>
-    /// Indicates whether the resource is available to be re-used after a job completes. Can be one of: o REPLENISHABLE (default) o NON_REPLENISHABLE
+    /// Indicates whether the resource is available to be re-used after a job completes. Can be one of: • REPLENISHABLE (default) • NON_REPLENISHABLE
     /// </summary>
     [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
     /// <summary>
-    /// The tags that you apply to the consumable resource to help you cate- gorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging your Batch re- sources . Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags that you apply to the consumable resource to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging your Batch resources . Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists all inference events that have been found for the specified in- ference scheduler. See also: AWS API Documentation
+/// Lists all inference events that have been found for the specified inference scheduler. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsLookoutequipmentListInferenceEventsOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists all inference events that have been found for the specified in- ference scheduler. See also: AWS API Documentation
+    /// Lists all inference events that have been found for the specified inference scheduler. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InferenceSchedulerName">The name of the inference scheduler for the inference events listed. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    /// <param name="InferenceSchedulerName">The name of the inference scheduler for the inference events listed. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
     /// <param name="IntervalStartTime">Lookout for Equipment will return all the inference events with an end time equal to or greater than the start time given.</param>
     /// <param name="IntervalEndTime">Returns all the inference events with an end start time equal to or greater than less than the end time given.</param>
     public AwsLookoutequipmentListInferenceEventsOptions(
@@ -65,7 +67,7 @@ public record AwsLookoutequipmentListInferenceEventsOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the inference scheduler for the inference events listed. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// The name of the inference scheduler for the inference events listed. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$
     /// </summary>
     [CliOption("--inference-scheduler-name")]
     public string? InferenceSchedulerName { get; private init; }
@@ -83,14 +85,14 @@ public record AwsLookoutequipmentListInferenceEventsOptions : AwsOptions, IValid
     public string? IntervalEndTime { get; private init; }
 
     /// <summary>
-    /// An opaque pagination token indicating where to continue the listing of inference events. Constraints: o max: 8192 o pattern: \p{ASCII}{0,8192}
+    /// An opaque pagination token indicating where to continue the listing of inference events. Constraints: • max: 8192 • pattern: \p{ASCII}{0,8192}
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Specifies the maximum number of inference events to list. Constraints: o min: 1 o max: 500
+    /// Specifies the maximum number of inference events to list. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

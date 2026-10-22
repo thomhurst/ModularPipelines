@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsQuicksightUpdateSpaceResourcesOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Adds or removes resources from an Amazon QuickSight space. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the space. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="SpaceId">The ID of the space that you want to update resources for. Constraints: o min: 1 o max: 256 o pattern: [0-9a-zA-Z-_=.+]+</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the space. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="SpaceId">The ID of the space that you want to update resources for. Constraints: • min: 1 • max: 256 • pattern: [0-9a-zA-Z-_=.+]+</param>
     public AwsQuicksightUpdateSpaceResourcesOptions(
         string AwsAccountId,
         string SpaceId
@@ -60,25 +62,25 @@ public record AwsQuicksightUpdateSpaceResourcesOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the space. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the space. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID of the space that you want to update resources for. Constraints: o min: 1 o max: 256 o pattern: [0-9a-zA-Z-_=.+]+
+    /// The ID of the space that you want to update resources for. Constraints: • min: 1 • max: 256 • pattern: [0-9a-zA-Z-_=.+]+
     /// </summary>
     [CliOption("--space-id")]
     public string? SpaceId { get; private init; }
 
     /// <summary>
-    /// A list of resources to add to the space. (structure) An operation to perform on a resource in a space. ResourceType -&gt; (string) [required] The type of the resource. Possible values: o TOPIC o DASHBOARD o KNOWLEDGE_BASE o ACTION_CONNECTOR o DATA_SET ResourceDetails -&gt; (tagged union structure) [required] The details of the resource. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: resourceArn. resourceArn -&gt; (string) The ARN of the QuickSight resource. Shorthand Syntax: ResourceType=string,ResourceDetails={resourceArn=string} ... JSON Syntax: [ { "ResourceType": "TOPIC"|"DASHBOARD"|"KNOWLEDGE_BASE"|"ACTION_CONNECTOR"|"DATA_SET", "ResourceDetails": { "resourceArn": "string" } } ... ]
+    /// A list of resources to add to the space. (structure) An operation to perform on a resource in a space. ResourceType -&gt; (string) [required] The type of the resource. Possible values: • TOPIC • DASHBOARD • KNOWLEDGE_BASE • ACTION_CONNECTOR • DATA_SET ResourceDetails -&gt; (tagged union structure) [required] The details of the resource. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: resourceArn. resourceArn -&gt; (string) The ARN of the QuickSight resource. Shorthand Syntax: ResourceType=string,ResourceDetails={resourceArn=string} ... JSON Syntax: [ { "ResourceType": "TOPIC"|"DASHBOARD"|"KNOWLEDGE_BASE"|"ACTION_CONNECTOR"|"DATA_SET", "ResourceDetails": { "resourceArn": "string" } } ... ]
     /// </summary>
     [CliOption("--add-resources", GroupValues = true)]
     public IEnumerable<string>? AddResources { get; set; }
 
     /// <summary>
-    /// A list of resources to remove from the space. (structure) An operation to perform on a resource in a space. ResourceType -&gt; (string) [required] The type of the resource. Possible values: o TOPIC o DASHBOARD o KNOWLEDGE_BASE o ACTION_CONNECTOR o DATA_SET ResourceDetails -&gt; (tagged union structure) [required] The details of the resource. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: resourceArn. resourceArn -&gt; (string) The ARN of the QuickSight resource. Shorthand Syntax: ResourceType=string,ResourceDetails={resourceArn=string} ... JSON Syntax: [ { "ResourceType": "TOPIC"|"DASHBOARD"|"KNOWLEDGE_BASE"|"ACTION_CONNECTOR"|"DATA_SET", "ResourceDetails": { "resourceArn": "string" } } ... ]
+    /// A list of resources to remove from the space. (structure) An operation to perform on a resource in a space. ResourceType -&gt; (string) [required] The type of the resource. Possible values: • TOPIC • DASHBOARD • KNOWLEDGE_BASE • ACTION_CONNECTOR • DATA_SET ResourceDetails -&gt; (tagged union structure) [required] The details of the resource. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: resourceArn. resourceArn -&gt; (string) The ARN of the QuickSight resource. Shorthand Syntax: ResourceType=string,ResourceDetails={resourceArn=string} ... JSON Syntax: [ { "ResourceType": "TOPIC"|"DASHBOARD"|"KNOWLEDGE_BASE"|"ACTION_CONNECTOR"|"DATA_SET", "ResourceDetails": { "resourceArn": "string" } } ... ]
     /// </summary>
     [CliOption("--remove-resources", GroupValues = true)]
     public IEnumerable<string>? RemoveResources { get; set; }

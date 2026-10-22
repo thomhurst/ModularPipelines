@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a tracker resource from your Amazon Web Services account. NOTE: This operation deletes the resource permanently. If the tracker re- source is in use, you may encounter an error. Make sure that the target resource isn't a dependency for your applications. See also: AWS API Documentation
+/// Deletes a tracker resource from your Amazon Web Services account. NOTE: This operation deletes the resource permanently. If the tracker resource is in use, you may encounter an error. Make sure that the target resource isn't a dependency for your applications. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLocationDeleteTrackerOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a tracker resource from your Amazon Web Services account. NOTE: This operation deletes the resource permanently. If the tracker re- source is in use, you may encounter an error. Make sure that the target resource isn't a dependency for your applications. See also: AWS API Documentation
+    /// Deletes a tracker resource from your Amazon Web Services account. NOTE: This operation deletes the resource permanently. If the tracker resource is in use, you may encounter an error. Make sure that the target resource isn't a dependency for your applications. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TrackerName">The name of the tracker resource to be deleted. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    /// <param name="TrackerName">The name of the tracker resource to be deleted. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+</param>
     public AwsLocationDeleteTrackerOptions(
         string TrackerName
     )
@@ -56,7 +58,7 @@ public record AwsLocationDeleteTrackerOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the tracker resource to be deleted. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// The name of the tracker resource to be deleted. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+
     /// </summary>
     [CliOption("--tracker-name")]
     public string? TrackerName { get; private init; }

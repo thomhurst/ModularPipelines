@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsRdsModifyTenantDatabaseOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Modifies an existing tenant database in a DB instance. You can change the tenant database name or the master user password. This operation is supported only for RDS for Oracle CDB instances using the multi-tenant configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbInstanceIdentifier">The identifier of the DB instance that contains the tenant database that you are modifying. This parameter isn't case-sensitive. Constraints: o Must match the identifier of an existing DB instance.</param>
-    /// <param name="TenantDbName">The user-supplied name of the tenant database that you want to mod- ify. This parameter isnt case-sensitive. Constraints: o Must match the identifier of an existing tenant database.</param>
+    /// <param name="DbInstanceIdentifier">The identifier of the DB instance that contains the tenant database that you are modifying. This parameter isn't case-sensitive. Constraints: • Must match the identifier of an existing DB instance.</param>
+    /// <param name="TenantDbName">The user-supplied name of the tenant database that you want to modify. This parameter isnt case-sensitive. Constraints: • Must match the identifier of an existing tenant database.</param>
     public AwsRdsModifyTenantDatabaseOptions(
         string DbInstanceIdentifier,
         string TenantDbName
@@ -61,44 +63,44 @@ public record AwsRdsModifyTenantDatabaseOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the DB instance that contains the tenant database that you are modifying. This parameter isn't case-sensitive. Constraints: o Must match the identifier of an existing DB instance.
+    /// The identifier of the DB instance that contains the tenant database that you are modifying. This parameter isn't case-sensitive. Constraints: • Must match the identifier of an existing DB instance.
     /// </summary>
     [CliOption("--db-instance-identifier")]
     public string? DbInstanceIdentifier { get; private init; }
 
     /// <summary>
-    /// The user-supplied name of the tenant database that you want to mod- ify. This parameter isnt case-sensitive. Constraints: o Must match the identifier of an existing tenant database.
+    /// The user-supplied name of the tenant database that you want to modify. This parameter isnt case-sensitive. Constraints: • Must match the identifier of an existing tenant database.
     /// </summary>
     [CliOption("--tenant-db-name")]
     public string? TenantDbName { get; private init; }
 
     /// <summary>
-    /// The new password for the master user of the specified tenant data- base in your DB instance. NOTE: Amazon RDS operations never return the password, so this action provides a way to regain access to a tenant database user if the password is lost. This includes restoring privileges that might have been accidentally revoked. Constraints: o Can include any printable ASCII character except / , " (double quote), @ , &amp; (ampersand), and ' (single quote). Length constraints: o Must contain between 8 and 30 characters.
+    /// The new password for the master user of the specified tenant database in your DB instance. NOTE: Amazon RDS operations never return the password, so this action provides a way to regain access to a tenant database user if the password is lost. This includes restoring privileges that might have been accidentally revoked. Constraints: • Can include any printable ASCII character except / , " (double quote), @ , &amp; (ampersand), and ' (single quote). Length constraints: • Must contain between 8 and 30 characters.
     /// </summary>
     [SecretValue]
     [CliOption("--master-user-password")]
     public string? MasterUserPassword { get; set; }
 
     /// <summary>
-    /// The new name of the tenant database when renaming a tenant database. This parameter isnt case-sensitive. Constraints: o Can't be the string null or any other reserved word. o Can't be longer than 8 characters.
+    /// The new name of the tenant database when renaming a tenant database. This parameter isnt case-sensitive. Constraints: • Can't be the string null or any other reserved word. • Can't be longer than 8 characters.
     /// </summary>
     [CliOption("--new-tenant-db-name")]
     public string? NewTenantDbName { get; set; }
 
     /// <summary>
-    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. If the tenant database doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn on this manage- ment. In this case, you can't specify MasterUserPassword . If the tenant database already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the master user password is not managed with Amazon Web Services Secrets Man- ager, then you must specify MasterUserPassword . In this case, Ama- zon RDS deletes the secret and uses the new password for the master user specified by MasterUserPassword . For more information, see Password management with Amazon Web Ser- vices Secrets Manager in the Amazon RDS User Guide. Constraints: o Can't manage the master user password with Amazon Web Services Se- crets Manager if MasterUserPassword is specified.
+    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. If the tenant database doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn on this management. In this case, you can't specify MasterUserPassword . If the tenant database already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the master user password is not managed with Amazon Web Services Secrets Manager, then you must specify MasterUserPassword . In this case, Amazon RDS deletes the secret and uses the new password for the master user specified by MasterUserPassword . For more information, see Password management with Amazon Web Services Secrets Manager in the Amazon RDS User Guide. Constraints: • Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword is specified.
     /// </summary>
     [CliFlag("--manage-master-user-password", NegatedName = "--no-manage-master-user-password")]
     public bool? ManageMasterUserPassword { get; set; }
 
     /// <summary>
-    /// Specifies whether to rotate the secret managed by Amazon Web Ser- vices Secrets Manager for the master user password. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB instance. The secret value contains the updated password. For more information, see Password management with Amazon Web Ser- vices Secrets Manager in the Amazon RDS User Guide. Constraints: o You must apply the change immediately when rotating the master user password.
+    /// Specifies whether to rotate the secret managed by Amazon Web Services Secrets Manager for the master user password. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB instance. The secret value contains the updated password. For more information, see Password management with Amazon Web Services Secrets Manager in the Amazon RDS User Guide. Constraints: • You must apply the change immediately when rotating the master user password.
     /// </summary>
     [CliFlag("--rotate-master-user-password", NegatedName = "--no-rotate-master-user-password")]
     public bool? RotateMasterUserPassword { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Se- crets Manager. This setting is valid only if both of the following conditions are met: o The tenant database doesn't manage the master user password in Amazon Web Services Secrets Manager. If the tenant database al- ready manages the master user password in Amazon Web Services Se- crets Manager, you can't change the KMS key used to encrypt the secret. o You're turning on ManageMasterUserPassword to manage the master user password in Amazon Web Services Secrets Manager. If you're turning on ManageMasterUserPassword and don't specify MasterUser- SecretKmsKeyId , then the aws/secretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a self-managed KMS key. The Amazon Web Services KMS key identifier is any of the following: o Key ARN o Key ID o Alias ARN o Alias name for the KMS key To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. A default KMS key exists for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+    /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager. This setting is valid only if both of the following conditions are met: • The tenant database doesn't manage the master user password in Amazon Web Services Secrets Manager. If the tenant database already manages the master user password in Amazon Web Services Secrets Manager, you can't change the KMS key used to encrypt the secret. • You're turning on ManageMasterUserPassword to manage the master user password in Amazon Web Services Secrets Manager. If you're turning on ManageMasterUserPassword and don't specify MasterUserSecretKmsKeyId , then the aws/secretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a self-managed KMS key. The Amazon Web Services KMS key identifier is any of the following: • Key ARN • Key ID • Alias ARN • Alias name for the KMS key To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. A default KMS key exists for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
     /// </summary>
     [CliOption("--master-user-secret-kms-key-id")]
     public string? MasterUserSecretKmsKeyId { get; set; }

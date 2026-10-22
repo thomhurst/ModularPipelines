@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsObservabilityadminListTagsForResourceOptions : AwsOptions, IVal
     /// <summary>
     /// Lists all tags attached to the specified resource. Supports telemetry rule resources and telemetry pipeline resources. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the telemetry rule resource whose tags you want to list. Constraints: o min: 1 o max: 1011 o pattern: arn:aws([a-z0-9\-]+)?:([a-zA-Z0-9\-]+):([a-z0-9\-]+)?:([0-9]{12})?:(.+)</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the telemetry rule resource whose tags you want to list. Constraints: • min: 1 • max: 1011 • pattern: arn:aws([a-z0-9\-]+)?:([a-zA-Z0-9\-]+):([a-z0-9\-]+)?:([0-9]{12})?:(.+)</param>
     public AwsObservabilityadminListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsObservabilityadminListTagsForResourceOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the telemetry rule resource whose tags you want to list. Constraints: o min: 1 o max: 1011 o pattern: arn:aws([a-z0-9\-]+)?:([a-zA-Z0-9\-]+):([a-z0-9\-]+)?:([0-9]{12})?:(.+)
+    /// The Amazon Resource Name (ARN) of the telemetry rule resource whose tags you want to list. Constraints: • min: 1 • max: 1011 • pattern: arn:aws([a-z0-9\-]+)?:([a-zA-Z0-9\-]+):([a-z0-9\-]+)?:([0-9]{12})?:(.+)
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

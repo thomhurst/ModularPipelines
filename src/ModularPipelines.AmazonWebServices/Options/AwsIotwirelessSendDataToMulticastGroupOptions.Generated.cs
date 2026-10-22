@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsIotwirelessSendDataToMulticastGroupOptions : AwsOptions, IValid
     /// <summary>
     /// Sends the specified data to a multicast group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the multicast group. Constraints: o max: 256</param>
-    /// <param name="PayloadData">The binary to be sent to the end device, encoded in base64. Constraints: o max: 2048 o pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$</param>
-    /// <param name="WirelessMetadata">Wireless metadata that is to be sent to multicast group. LoRaWAN -&gt; (structure) The metadata information of the LoRaWAN multicast group. FPort -&gt; (integer) The Fport value. Constraints: o min: 1 o max: 223 Shorthand Syntax: LoRaWAN={FPort=integer} JSON Syntax: { "LoRaWAN": { "FPort": integer } }</param>
+    /// <param name="Id">The ID of the multicast group. Constraints: • max: 256</param>
+    /// <param name="PayloadData">The binary to be sent to the end device, encoded in base64. Constraints: • max: 2048 • pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$</param>
+    /// <param name="WirelessMetadata">Wireless metadata that is to be sent to multicast group. LoRaWAN -&gt; (structure) The metadata information of the LoRaWAN multicast group. FPort -&gt; (integer) The Fport value. Constraints: • min: 1 • max: 223 Shorthand Syntax: LoRaWAN={FPort=integer} JSON Syntax: { "LoRaWAN": { "FPort": integer } }</param>
     public AwsIotwirelessSendDataToMulticastGroupOptions(
         string Id,
         string PayloadData,
@@ -64,19 +66,19 @@ public record AwsIotwirelessSendDataToMulticastGroupOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the multicast group. Constraints: o max: 256
+    /// The ID of the multicast group. Constraints: • max: 256
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The binary to be sent to the end device, encoded in base64. Constraints: o max: 2048 o pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
+    /// The binary to be sent to the end device, encoded in base64. Constraints: • max: 2048 • pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
     /// </summary>
     [CliOption("--payload-data")]
     public string? PayloadData { get; private init; }
 
     /// <summary>
-    /// Wireless metadata that is to be sent to multicast group. LoRaWAN -&gt; (structure) The metadata information of the LoRaWAN multicast group. FPort -&gt; (integer) The Fport value. Constraints: o min: 1 o max: 223 Shorthand Syntax: LoRaWAN={FPort=integer} JSON Syntax: { "LoRaWAN": { "FPort": integer } }
+    /// Wireless metadata that is to be sent to multicast group. LoRaWAN -&gt; (structure) The metadata information of the LoRaWAN multicast group. FPort -&gt; (integer) The Fport value. Constraints: • min: 1 • max: 223 Shorthand Syntax: LoRaWAN={FPort=integer} JSON Syntax: { "LoRaWAN": { "FPort": integer } }
     /// </summary>
     [CliOption("--wireless-metadata")]
     public string? WirelessMetadata { get; private init; }

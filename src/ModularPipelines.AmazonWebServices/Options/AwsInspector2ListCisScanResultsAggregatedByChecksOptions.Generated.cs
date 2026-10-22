@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists scan results aggregated by checks. See also: AWS API Documentation list-cis-scan-results-aggregated-by-checks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: checkAggregations
+/// Lists scan results aggregated by checks. See also: AWS API Documentation list-cis-scan-results-aggregated-by-checks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: checkAggregations
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsInspector2ListCisScanResultsAggregatedByChecksOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists scan results aggregated by checks. See also: AWS API Documentation list-cis-scan-results-aggregated-by-checks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: checkAggregations
+    /// Lists scan results aggregated by checks. See also: AWS API Documentation list-cis-scan-results-aggregated-by-checks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: checkAggregations
     /// </summary>
-    /// <param name="ScanArn">The scan ARN. Constraints: o pattern: arn:aws(-us-gov|-cn)?:inspec- tor2:[-.a-z0-9]{0,20}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/cis-scan/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</param>
+    /// <param name="ScanArn">The scan ARN. Constraints: • pattern: arn:aws(-us-gov|-cn)?:inspector2:[-.a-z0-9]{0,20}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/cis-scan/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</param>
     public AwsInspector2ListCisScanResultsAggregatedByChecksOptions(
         string ScanArn
     )
@@ -58,34 +60,31 @@ public record AwsInspector2ListCisScanResultsAggregatedByChecksOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The scan ARN. Constraints: o pattern: arn:aws(-us-gov|-cn)?:inspec- tor2:[-.a-z0-9]{0,20}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/cis-scan/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
+    /// The scan ARN. Constraints: • pattern: arn:aws(-us-gov|-cn)?:inspector2:[-.a-z0-9]{0,20}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/cis-scan/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
     /// </summary>
     [CliOption("--scan-arn")]
     public string? ScanArn { get; private init; }
 
     /// <summary>
-    /// The filter criteria. accountIdFilters -&gt; (list) The criteria's account ID filters. Constraints: o min: 1 o max: 1 (structure) The CIS string filter. comparison -&gt; (string) [required] The comparison value of the CIS string filter. Possible values: o EQUALS o PREFIX o NOT_EQUALS value -&gt; (string) [required] The value of the CIS string filter. checkIdFilters -&gt; (list) The criteria's check ID filters. Constraints: o min: 1 o max: 10 (structure) The CIS string filter. comparison -&gt; (string) [required] The comparison value of the CIS string filter. Possible values: o EQUALS o PREFIX o NOT_EQUALS value -&gt; (string) [required] The value of the CIS string filter. titleFilters -&gt; (list) The criteria's title filters. Constraints: o min: 1 o max: 10 (structure) The CIS string filter. comparison -&gt; (string) [required] The comparison value of the CIS string filter. Possible values: o EQUALS o PREFIX o NOT_EQUALS value -&gt; (string) [required] The value of the CIS string filter. platformFilters -&gt; (list) The criteria's platform filters. Constraints: o min: 1 o max: 10 (structure) The CIS string filter. comparison -&gt; (string) [required] The comparison value of the CIS string filter. Possible values: o EQUALS o PREFIX o NOT_EQUALS value -&gt; (string) [required] The value of the CIS string filter. failedResourcesFilters -&gt; (list) The criteria's failed resources filters. Constraints: o min: 1 o max: 10 (structure) The CIS number filter. upperInclusive -&gt; (integer) The CIS number filter's upper inclusive. lowerInclusive -&gt; (integer) The CIS number filter's lower inclusive. securityLevelFilters -&gt; (list) The criteria's security level filters. Constraints: o min: 1 o max: 10 (structure) The CIS security level filter. Security level refers to the Benchmark levels that CIS assigns to a profile. comparison -&gt; (string) [required] The CIS security filter comparison value. Possible values: o EQUALS value -&gt; (string) [required] The CIS security filter value. Possible values: o LEVEL_1 o LEVEL_2 Shorthand Syntax: accountIdFilters=[{comparison=string,value=string},{comparison=string,value=string}],checkIdFilters=[{comparison=string,value=string},{comparison=string,value=string}],titleFilters=[{comparison=string,value=string},{comparison=string,value=string}],platformFilters=[{comparison=string,value=string},{comparison=string,value=string}],failedResourcesFilters=[{upperInclusive=integer,lowerInclusive=integer},{upperInclusive=integer,lowerInclusive=integer}],securityLevelFilters=[{comparison=string,value=string},{comparison=string,value=string}] JSON Syntax: { "accountIdFilters": [ { "comparison": "EQUALS"|"PREFIX"|"NOT_EQUALS", "value": "string" } ... ], "checkIdFilters": [ { "comparison": "EQUALS"|"PREFIX"|"NOT_EQUALS", "value": "string" } ... ], "titleFilters": [ { "comparison": "EQUALS"|"PREFIX"|"NOT_EQUALS", "value": "string" } ... ], "platformFilters": [ { "comparison": "EQUALS"|"PREFIX"|"NOT_EQUALS", "value": "string" } ... ], "failedResourcesFilters": [ { "upperInclusive": integer, "lowerInclusive": integer } ... ], "securityLevelFilters": [ { "comparison": "EQUALS", "value": "LEVEL_1"|"LEVEL_2" } ... ] }
+    /// The filter criteria. accountIdFilters -&gt; (list) The criteria's account ID filters. Constraints: • min: 1 • max: 1 (structure) The CIS string filter. comparison -&gt; (string) [required] The comparison value of the CIS string filter. Possible values: • EQUALS • PREFIX • NOT_EQUALS value -&gt; (string) [required] The value of the CIS string filter. checkIdFilters -&gt; (list) The criteria's check ID filters. Constraints: • min: 1 • max: 10 (structure) The CIS string filter. comparison -&gt; (string) [required] The comparison value of the CIS string filter. Possible values: • EQUALS • PREFIX • NOT_EQUALS value -&gt; (string) [required] The value of the CIS string filter. titleFilters -&gt; (list) The criteria's title filters. Constraints: • min: 1 • max: 10 (structure) The CIS string filter. comparison -&gt; (string) [required] The comparison value of the CIS string filter. Possible values: • EQUALS • PREFIX • NOT_EQUALS value -&gt; (string) [required] The value of the CIS string filter. platformFilters -&gt; (list) The criteria's platform filters. Constraints: • min: 1 • max: 10 (structure) The CIS string filter. comparison -&gt; (string) [required] The comparison value of the CIS string filter. Possible values: • EQUALS • PREFIX • NOT_EQUALS value -&gt; (string) [required] The value of the CIS string filter. failedResourcesFilters -&gt; (list) The criteria's failed resources filters. Constraints: • min: 1 • max: 10 (structure) The CIS number filter. upperInclusive -&gt; (integer) The CIS number filter's upper inclusive. lowerInclusive -&gt; (integer) The CIS number filter's lower inclusive. securityLevelFilters -&gt; (list) The criteria's security level filters. Constraints: • min: 1 • max: 10 (structure) The CIS security level filter. Security level refers to the Benchmark levels that CIS assigns to a profile. comparison -&gt; (string) [required] The CIS security filter comparison value. Possible values: • EQUALS value -&gt; (string) [required] The CIS security filter value. Possible values: • LEVEL_1 • LEVEL_2 Shorthand Syntax: accountIdFilters=[{comparison=string,value=string},{comparison=string,value=string}],checkIdFilters=[{comparison=string,value=string},{comparison=string,value=string}],titleFilters=[{comparison=string,value=string},{comparison=string,value=string}],platformFilters=[{comparison=string,value=string},{comparison=string,value=string}],failedResourcesFilters=[{upperInclusive=integer,lowerInclusive=integer},{upperInclusive=integer,lowerInclusive=integer}],securityLevelFilters=[{comparison=string,value=string},{comparison=string,value=string}] JSON Syntax: { "accountIdFilters": [ { "comparison": "EQUALS"|"PREFIX"|"NOT_EQUALS", "value": "string" } ... ], "checkIdFilters": [ { "comparison": "EQUALS"|"PREFIX"|"NOT_EQUALS", "value": "string" } ... ], "titleFilters": [ { "comparison": "EQUALS"|"PREFIX"|"NOT_EQUALS", "value": "string" } ... ], "platformFilters": [ { "comparison": "EQUALS"|"PREFIX"|"NOT_EQUALS", "value": "string" } ... ], "failedResourcesFilters": [ { "upperInclusive": integer, "lowerInclusive": integer } ... ], "securityLevelFilters": [ { "comparison": "EQUALS", "value": "LEVEL_1"|"LEVEL_2" } ... ] }
     /// </summary>
     [CliOption("--filter-criteria")]
     public string? FilterCriteria { get; set; }
 
     /// <summary>
-    /// The sort by order. Possible values: o CHECK_ID o TITLE o PLATFORM o FAILED_COUNTS o SECURITY_LEVEL
+    /// The sort by order. Possible values: • CHECK_ID • TITLE • PLATFORM • FAILED_COUNTS • SECURITY_LEVEL
     /// </summary>
     [CliOption("--sort-by")]
     public AwsInspector2ListCisScanResultsAggregatedByChecksSortBy? SortBy { get; set; }
 
     /// <summary>
-    /// The sort order. Possible values: o ASC o DESC
+    /// The sort order. Possible values: • ASC • DESC
     /// </summary>
     [CliOption("--sort-order")]
     public AwsInspector2ListCisScanResultsAggregatedByChecksSortOrder? SortOrder { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -95,16 +94,19 @@ public record AwsInspector2ListCisScanResultsAggregatedByChecksOptions : AwsOpti
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

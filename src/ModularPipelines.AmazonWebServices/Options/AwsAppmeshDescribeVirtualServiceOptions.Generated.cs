@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAppmeshDescribeVirtualServiceOptions : AwsOptions, IValidatable
     /// <summary>
     /// Describes an existing virtual service. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MeshName">The name of the service mesh that the virtual service resides in. Constraints: o min: 1 o max: 255</param>
+    /// <param name="MeshName">The name of the service mesh that the virtual service resides in. Constraints: • min: 1 • max: 255</param>
     /// <param name="VirtualServiceName">The name of the virtual service to describe.</param>
     public AwsAppmeshDescribeVirtualServiceOptions(
         string MeshName,
@@ -60,7 +62,7 @@ public record AwsAppmeshDescribeVirtualServiceOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the service mesh that the virtual service resides in. Constraints: o min: 1 o max: 255
+    /// The name of the service mesh that the virtual service resides in. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--mesh-name")]
     public string? MeshName { get; private init; }
@@ -72,7 +74,7 @@ public record AwsAppmeshDescribeVirtualServiceOptions : AwsOptions, IValidatable
     public string? VirtualServiceName { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes . Constraints: o min: 12 o max: 12
+    /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes . Constraints: • min: 12 • max: 12
     /// </summary>
     [CliOption("--mesh-owner")]
     public string? MeshOwner { get; set; }

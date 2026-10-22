@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBudgetsListTagsForResourceOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Lists tags associated with a budget or budget action resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The unique identifier for the resource. Constraints: o min: 1 o max: 1011</param>
+    /// <param name="ResourceArn">The unique identifier for the resource. Constraints: • min: 1 • max: 1011</param>
     public AwsBudgetsListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsBudgetsListTagsForResourceOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the resource. Constraints: o min: 1 o max: 1011
+    /// The unique identifier for the resource. Constraints: • min: 1 • max: 1011
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

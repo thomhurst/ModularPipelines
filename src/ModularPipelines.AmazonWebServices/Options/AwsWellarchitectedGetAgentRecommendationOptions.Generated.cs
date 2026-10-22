@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves detailed information about a specific optimization recommen- dation, including its impact analysis, content, and implementation guidance. See also: AWS API Documentation
+/// Retrieves detailed information about a specific optimization recommendation, including its impact analysis, content, and implementation guidance. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsWellarchitectedGetAgentRecommendationOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves detailed information about a specific optimization recommen- dation, including its impact analysis, content, and implementation guidance. See also: AWS API Documentation
+    /// Retrieves detailed information about a specific optimization recommendation, including its impact analysis, content, and implementation guidance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RecommendationArn">The Amazon Resource Name (ARN) of the recommendation to retrieve. Constraints: o min: 0 o max: 2048 o pattern: arn:aws([a-z0-9-]+)?:wellarchi- tected:[a-z0-9-]{6,64}:\d{12}:agent-recommenda- tion/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="RecommendationArn">The Amazon Resource Name (ARN) of the recommendation to retrieve. Constraints: • min: 0 • max: 2048 • pattern: arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\d{12}:agent-recommendation/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     public AwsWellarchitectedGetAgentRecommendationOptions(
         string RecommendationArn
     )
@@ -57,13 +59,13 @@ public record AwsWellarchitectedGetAgentRecommendationOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the recommendation to retrieve. Constraints: o min: 0 o max: 2048 o pattern: arn:aws([a-z0-9-]+)?:wellarchi- tected:[a-z0-9-]{6,64}:\d{12}:agent-recommenda- tion/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The Amazon Resource Name (ARN) of the recommendation to retrieve. Constraints: • min: 0 • max: 2048 • pattern: arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\d{12}:agent-recommendation/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--recommendation-arn")]
     public string? RecommendationArn { get; private init; }
 
     /// <summary>
-    /// Optional filter on remediation type. Possible values: o AUTO_REMEDIATION o CONSOLE o CLI o SDK o IAC o MCP
+    /// Optional filter on remediation type. Possible values: • AUTO_REMEDIATION • CONSOLE • CLI • SDK • IAC • MCP
     /// </summary>
     [CliOption("--remediation-type")]
     public AwsWellarchitectedGetAgentRecommendationRemediationType? RemediationType { get; set; }

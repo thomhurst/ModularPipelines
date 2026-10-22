@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsAppsyncDeleteTypeOptions : AwsOptions, IValidatableObject
     /// Deletes a Type object. See also: AWS API Documentation
     /// </summary>
     /// <param name="ApiId">The API ID.</param>
-    /// <param name="TypeName">The type name. Constraints: o min: 1 o max: 65536 o pattern: [_A-Za-z][_0-9A-Za-z]*</param>
+    /// <param name="TypeName">The type name. Constraints: • min: 1 • max: 65536 • pattern: [_A-Za-z][_0-9A-Za-z]*</param>
     public AwsAppsyncDeleteTypeOptions(
         string ApiId,
         string TypeName
@@ -66,7 +68,7 @@ public record AwsAppsyncDeleteTypeOptions : AwsOptions, IValidatableObject
     public string? ApiId { get; private init; }
 
     /// <summary>
-    /// The type name. Constraints: o min: 1 o max: 65536 o pattern: [_A-Za-z][_0-9A-Za-z]*
+    /// The type name. Constraints: • min: 1 • max: 65536 • pattern: [_A-Za-z][_0-9A-Za-z]*
     /// </summary>
     [CliOption("--type-name")]
     public string? TypeName { get; private init; }

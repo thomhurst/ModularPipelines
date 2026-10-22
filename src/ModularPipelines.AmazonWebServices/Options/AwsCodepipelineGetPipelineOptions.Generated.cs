@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCodepipelineGetPipelineOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns the metadata, structure, stages, and actions of a pipeline. Can be used to return the entire structure of a pipeline in JSON format, which can then be modified and used to update the pipeline structure with UpdatePipeline . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the pipeline for which you want to get information. Pipeline names must be unique in an Amazon Web Services account. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+</param>
+    /// <param name="Name">The name of the pipeline for which you want to get information. Pipeline names must be unique in an Amazon Web Services account. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+</param>
     public AwsCodepipelineGetPipelineOptions(
         string Name
     )
@@ -56,13 +58,13 @@ public record AwsCodepipelineGetPipelineOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the pipeline for which you want to get information. Pipeline names must be unique in an Amazon Web Services account. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+
+    /// The name of the pipeline for which you want to get information. Pipeline names must be unique in an Amazon Web Services account. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The version number of the pipeline. If you do not specify a version, defaults to the current version. Constraints: o min: 1
+    /// The version number of the pipeline. If you do not specify a version, defaults to the current version. Constraints: • min: 1
     /// </summary>
     [CliOption("--pipeline-version")]
     public int? PipelineVersion { get; set; }

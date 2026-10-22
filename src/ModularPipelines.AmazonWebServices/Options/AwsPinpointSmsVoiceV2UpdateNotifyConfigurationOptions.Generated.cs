@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsPinpointSmsVoiceV2UpdateNotifyConfigurationOptions : AwsOptions
     /// <summary>
     /// Updates an existing notify configuration. You can update the default template, pool association, enabled channels, enabled countries, and deletion protection settings. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NotifyConfigurationId">The identifier of the notify configuration to update. The NotifyCon- figurationId can be found using the DescribeNotifyConfigurations operation. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="NotifyConfigurationId">The identifier of the notify configuration to update. The NotifyConfigurationId can be found using the DescribeNotifyConfigurations operation. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+</param>
     public AwsPinpointSmsVoiceV2UpdateNotifyConfigurationOptions(
         string NotifyConfigurationId
     )
@@ -56,31 +58,31 @@ public record AwsPinpointSmsVoiceV2UpdateNotifyConfigurationOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the notify configuration to update. The NotifyCon- figurationId can be found using the DescribeNotifyConfigurations operation. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The identifier of the notify configuration to update. The NotifyConfigurationId can be found using the DescribeNotifyConfigurations operation. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--notify-configuration-id")]
     public string? NotifyConfigurationId { get; private init; }
 
     /// <summary>
-    /// The default template identifier to associate with the notify config- uration. If specified, this template is used when sending messages without an explicit template identifier. Pass the special value UN- SET_DEFAULT_TEMPLATE to clear the current default template from the notify configuration. Constraints: o min: 0 o max: 256 o pattern: ([A-Za-z0-9_-]*|UNSET_DEFAULT_TEMPLATE)
+    /// The default template identifier to associate with the notify configuration. If specified, this template is used when sending messages without an explicit template identifier. Pass the special value UNSET_DEFAULT_TEMPLATE to clear the current default template from the notify configuration. Constraints: • min: 0 • max: 256 • pattern: ([A-Za-z0-9_-]*|UNSET_DEFAULT_TEMPLATE)
     /// </summary>
     [CliOption("--default-template-id")]
     public string? DefaultTemplateId { get; set; }
 
     /// <summary>
-    /// The pool identifier or Amazon Resource Name (ARN) to associate with the notify configuration. Pass the special value UNSET_DE- FAULT_POOL_FOR_NOTIFY to clear the current default pool from the no- tify configuration. Constraints: o min: 1 o max: 256 o pattern: ([A-Za-z0-9_:/-]+|UNSET_DEFAULT_POOL_FOR_NOTIFY)
+    /// The pool identifier or Amazon Resource Name (ARN) to associate with the notify configuration. Pass the special value UNSET_DEFAULT_POOL_FOR_NOTIFY to clear the current default pool from the notify configuration. Constraints: • min: 1 • max: 256 • pattern: ([A-Za-z0-9_:/-]+|UNSET_DEFAULT_POOL_FOR_NOTIFY)
     /// </summary>
     [CliOption("--pool-id")]
     public string? PoolId { get; set; }
 
     /// <summary>
-    /// An array of two-character ISO country codes, in ISO 3166-1 alpha-2 format, that are enabled for the notify configuration. Constraints: o min: 0 o max: 300 (string) Constraints: o min: 2 o max: 2 o pattern: [A-Z]{2} Syntax: "string" "string" ...
+    /// An array of two-character ISO country codes, in ISO 3166-1 alpha-2 format, that are enabled for the notify configuration. Constraints: • min: 0 • max: 300 (string) Constraints: • min: 2 • max: 2 • pattern: [A-Z]{2} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--enabled-countries", GroupValues = true)]
     public IEnumerable<string>? EnabledCountries { get; set; }
 
     /// <summary>
-    /// An array of channels to enable for the notify configuration. Sup- ported values include SMS and VOICE . Constraints: o min: 1 o max: 4 (string) Possible values: o SMS o VOICE o MMS o RCS Syntax: "string" "string" ...
+    /// An array of channels to enable for the notify configuration. Supported values include SMS and VOICE . Constraints: • min: 1 • max: 4 (string) Possible values: • SMS • VOICE • MMS • RCS Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--enabled-channels", GroupValues = true)]
     public IEnumerable<string>? EnabledChannels { get; set; }

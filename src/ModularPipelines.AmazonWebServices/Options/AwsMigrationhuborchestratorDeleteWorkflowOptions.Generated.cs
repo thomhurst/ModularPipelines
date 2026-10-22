@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Delete a migration workflow. You must pause a running workflow in Mi- gration Hub Orchestrator console to delete it. See also: AWS API Documentation
+/// Delete a migration workflow. You must pause a running workflow in Migration Hub Orchestrator console to delete it. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsMigrationhuborchestratorDeleteWorkflowOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Delete a migration workflow. You must pause a running workflow in Mi- gration Hub Orchestrator console to delete it. See also: AWS API Documentation
+    /// Delete a migration workflow. You must pause a running workflow in Migration Hub Orchestrator console to delete it. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the migration workflow you want to delete. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="Id">The ID of the migration workflow you want to delete. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+</param>
     public AwsMigrationhuborchestratorDeleteWorkflowOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsMigrationhuborchestratorDeleteWorkflowOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the migration workflow you want to delete. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+
+    /// The ID of the migration workflow you want to delete. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

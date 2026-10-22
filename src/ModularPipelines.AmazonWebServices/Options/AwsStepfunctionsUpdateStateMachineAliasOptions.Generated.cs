@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the configuration of an existing state machine alias by modify- ing its description or routingConfiguration . You must specify at least one of the description or routingConfigura- tion parameters to update a state machine alias. NOTE: UpdateStateMachineAlias is an idempotent API. Step Functions bases the idempotency check on the stateMachineAliasArn , description , and routingConfiguration parameters. Requests with the same parame- ters return an idempotent response. NOTE: This operation...
+/// Updates the configuration of an existing state machine alias by modifying its description or routingConfiguration . You must specify at least one of the description or routingConfiguration parameters to update a state machine alias. NOTE: UpdateStateMachineAlias is an idempotent API. Step Functions bases the idempotency check on the stateMachineAliasArn , description , and routingConfiguration parameters. Requests with the same parameters return an idempotent response. NOTE: This operation is ev...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsStepfunctionsUpdateStateMachineAliasOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the configuration of an existing state machine alias by modify- ing its description or routingConfiguration . You must specify at least one of the description or routingConfigura- tion parameters to update a state machine alias. NOTE: UpdateStateMachineAlias is an idempotent API. Step Functions bases the idempotency check on the stateMachineAliasArn , description , and routingConfiguration parameters. Requests with the same parame- ters return an idempotent response. NOTE: This operation...
+    /// Updates the configuration of an existing state machine alias by modifying its description or routingConfiguration . You must specify at least one of the description or routingConfiguration parameters to update a state machine alias. NOTE: UpdateStateMachineAlias is an idempotent API. Step Functions bases the idempotency check on the stateMachineAliasArn , description , and routingConfiguration parameters. Requests with the same parameters return an idempotent response. NOTE: This operation is ev...
     /// </summary>
-    /// <param name="StateMachineAliasArn">The Amazon Resource Name (ARN) of the state machine alias. Constraints: o min: 1 o max: 256</param>
+    /// <param name="StateMachineAliasArn">The Amazon Resource Name (ARN) of the state machine alias. Constraints: • min: 1 • max: 256</param>
     public AwsStepfunctionsUpdateStateMachineAliasOptions(
         string StateMachineAliasArn
     )
@@ -56,19 +58,19 @@ public record AwsStepfunctionsUpdateStateMachineAliasOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the state machine alias. Constraints: o min: 1 o max: 256
+    /// The Amazon Resource Name (ARN) of the state machine alias. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--state-machine-alias-arn")]
     public string? StateMachineAliasArn { get; private init; }
 
     /// <summary>
-    /// A description of the state machine alias. Constraints: o max: 256
+    /// A description of the state machine alias. Constraints: • max: 256
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The routing configuration of the state machine alias. An array of RoutingConfig objects that specifies up to two state ma- chine versions that the alias starts executions for. Constraints: o min: 1 o max: 2 (structure) Contains details about the routing configuration of a state ma- chine alias. In a routing configuration, you define an array of objects that specify up to two state machine versions. You also specify the percentage of traffic to be routed to each version. stateMachineVersionArn -&gt; (string) [required] The Amazon Resource Name (ARN) that identifies one or two state machine versions defined in the routing configuration. If you specify the ARN of a second version, it must belong to the same state machine as the first version. Constraints: o min: 1 o max: 256 weight -&gt; (integer) [required] The percentage of traffic you want to route to a state ma- chine version. The sum of the weights in the routing configu- ration must be equal to 100. Constraints: o min: 0 o max: 100 Shorthand Syntax: stateMachineVersionArn=string,weight=integer ... JSON Syntax: [ { "stateMachineVersionArn": "string", "weight": integer } ... ]
+    /// The routing configuration of the state machine alias. An array of RoutingConfig objects that specifies up to two state machine versions that the alias starts executions for. Constraints: • min: 1 • max: 2 (structure) Contains details about the routing configuration of a state machine alias. In a routing configuration, you define an array of objects that specify up to two state machine versions. You also specify the percentage of traffic to be routed to each version. stateMachineVersionArn -&gt; (string) [required] The Amazon Resource Name (ARN) that identifies one or two state machine versions defined in the routing configuration. If you specify the ARN of a second version, it must belong to the same state machine as the first version. Constraints: • min: 1 • max: 256 weight -&gt; (integer) [required] The percentage of traffic you want to route to a state machine version. The sum of the weights in the routing configuration must be equal to 100. Constraints: • min: 0 • max: 100 Shorthand Syntax: stateMachineVersionArn=string,weight=integer ... JSON Syntax: [ { "stateMachineVersionArn": "string", "weight": integer } ... ]
     /// </summary>
     [CliOption("--routing-configuration", GroupValues = true)]
     public IEnumerable<string>? RoutingConfiguration { get; set; }

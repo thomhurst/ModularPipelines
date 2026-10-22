@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disassociates the specified Amazon Web Services Systems Manager docu- ment (SSM document) from the specified managed node. If you created the association by using the Targets parameter, then you must delete the association by using the association ID. When you disassociate a document from a managed node, it doesn't change the configuration of the node. To change the configuration state of a managed node after you disassociate a document, you must create a new document with the desired configurat...
+/// Disassociates the specified Amazon Web Services Systems Manager document (SSM document) from the specified managed node. If you created the association by using the Targets parameter, then you must delete the association by using the association ID. When you disassociate a document from a managed node, it doesn't change the configuration of the node. To change the configuration state of a managed node after you disassociate a document, you must create a new document with the desired configuratio...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,19 +22,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSsmDeleteAssociationOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the SSM document. Constraints: o pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$
+    /// The name of the SSM document. Constraints: • pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The managed node ID. NOTE: InstanceId has been deprecated. To specify a managed node ID for an association, use the Targets parameter. Requests that include the parameter InstanceID with Systems Manager documents (SSM documents) that use schema version 2.0 or later will fail. In addition, if you use the parameter InstanceId , you can't use the parameters AssociationName , DocumentVersion , MaxErrors , MaxConcurrency , OutputLocation , or ScheduleExpression . To use these parameters, you must use the Targets parameter. Constraints: o pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)
+    /// The managed node ID. NOTE: InstanceId has been deprecated. To specify a managed node ID for an association, use the Targets parameter. Requests that include the parameter InstanceID with Systems Manager documents (SSM documents) that use schema version 2.0 or later will fail. In addition, if you use the parameter InstanceId , you can't use the parameters AssociationName , DocumentVersion , MaxErrors , MaxConcurrency , OutputLocation , or ScheduleExpression . To use these parameters, you must use the Targets parameter. Constraints: • pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
 
     /// <summary>
-    /// The association ID that you want to delete. Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
+    /// The association ID that you want to delete. Constraints: • pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
     /// </summary>
     [CliOption("--association-id")]
     public string? AssociationId { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new Neptune ML data processing job for processing the graph data exported from Neptune for training. See The ``dataprocessing` com- mand &lt;- https://docs.aws.amazon.com/neptune/latest/userguide/machine-learn- ing-api-dataprocessing.html&gt;`__ . When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelDataProcessingJob IAM action in that cluster. See al...
+/// Creates a new Neptune ML data processing job for processing the graph data exported from Neptune for training. See The ``dataprocessing` command &lt;https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-dataprocessing.html&gt;`__ . When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelDataProcessingJob IAM action in that cluster. See also: AWS ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsNeptunedataStartMlDataProcessingJobOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new Neptune ML data processing job for processing the graph data exported from Neptune for training. See The ``dataprocessing` com- mand &lt;- https://docs.aws.amazon.com/neptune/latest/userguide/machine-learn- ing-api-dataprocessing.html&gt;`__ . When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelDataProcessingJob IAM action in that cluster. See al...
+    /// Creates a new Neptune ML data processing job for processing the graph data exported from Neptune for training. See The ``dataprocessing` command &lt;https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-dataprocessing.html&gt;`__ . When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelDataProcessingJob IAM action in that cluster. See also: AWS ...
     /// </summary>
-    /// <param name="InputDataS3Location">The URI of the Amazon S3 location where you want SageMaker to down- load the data needed to run the data processing job.</param>
+    /// <param name="InputDataS3Location">The URI of the Amazon S3 location where you want SageMaker to download the data needed to run the data processing job.</param>
     /// <param name="ProcessedDataS3Location">The URI of the Amazon S3 location where you want SageMaker to save the results of a data processing job.</param>
     public AwsNeptunedataStartMlDataProcessingJobOptions(
         string InputDataS3Location,
@@ -60,7 +62,7 @@ public record AwsNeptunedataStartMlDataProcessingJobOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The URI of the Amazon S3 location where you want SageMaker to down- load the data needed to run the data processing job.
+    /// The URI of the Amazon S3 location where you want SageMaker to download the data needed to run the data processing job.
     /// </summary>
     [CliOption("--input-data-s3-location")]
     public string? InputDataS3Location { get; private init; }
@@ -78,7 +80,7 @@ public record AwsNeptunedataStartMlDataProcessingJobOptions : AwsOptions, IValid
     public string? Id { get; set; }
 
     /// <summary>
-    /// The job ID of a completed data processing job run on an earlier ver- sion of the data.
+    /// The job ID of a completed data processing job run on an earlier version of the data.
     /// </summary>
     [CliOption("--previous-data-processing-job-id")]
     public string? PreviousDataProcessingJobId { get; set; }
@@ -90,7 +92,7 @@ public record AwsNeptunedataStartMlDataProcessingJobOptions : AwsOptions, IValid
     public string? SagemakerIamRoleArn { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of an IAM role that SageMaker can as- sume to perform tasks on your behalf. This must be listed in your DB cluster parameter group or an error will occur.
+    /// The Amazon Resource Name (ARN) of an IAM role that SageMaker can assume to perform tasks on your behalf. This must be listed in your DB cluster parameter group or an error will occur.
     /// </summary>
     [CliOption("--neptune-iam-role-arn")]
     public string? NeptuneIamRoleArn { get; set; }
@@ -114,13 +116,13 @@ public record AwsNeptunedataStartMlDataProcessingJobOptions : AwsOptions, IValid
     public int? ProcessingTimeOutInSeconds { get; set; }
 
     /// <summary>
-    /// One of the two model types that Neptune ML currently supports: het- erogeneous graph models (heterogeneous ), and knowledge graph (kge ). The default is none. If not specified, Neptune ML chooses the model type automatically based on the data.
+    /// One of the two model types that Neptune ML currently supports: heterogeneous graph models (heterogeneous ), and knowledge graph (kge ). The default is none. If not specified, Neptune ML chooses the model type automatically based on the data.
     /// </summary>
     [CliOption("--model-type")]
     public string? ModelType { get; set; }
 
     /// <summary>
-    /// A data specification file that describes how to load the exported graph data for training. The file is automatically generated by the Neptune export toolkit. The default is training-data-configura- tion.json .
+    /// A data specification file that describes how to load the exported graph data for training. The file is automatically generated by the Neptune export toolkit. The default is training-data-configuration.json .
     /// </summary>
     [CliOption("--config-file-name")]
     public string? ConfigFileName { get; set; }
@@ -138,7 +140,7 @@ public record AwsNeptunedataStartMlDataProcessingJobOptions : AwsOptions, IValid
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>
-    /// The Amazon Key Management Service (Amazon KMS) key that SageMaker uses to encrypt data on the storage volume attached to the ML com- pute instances that run the training job. The default is None.
+    /// The Amazon Key Management Service (Amazon KMS) key that SageMaker uses to encrypt data on the storage volume attached to the ML compute instances that run the training job. The default is None.
     /// </summary>
     [CliOption("--volume-encryption-kms-key")]
     public string? VolumeEncryptionKmsKey { get; set; }

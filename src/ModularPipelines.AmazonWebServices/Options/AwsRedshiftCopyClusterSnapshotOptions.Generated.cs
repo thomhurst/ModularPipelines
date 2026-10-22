@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Copies the specified automated cluster snapshot to a new manual cluster snapshot. The source must be an automated snapshot and it must be in the available state. When you delete a cluster, Amazon Redshift deletes any automated snap- shots of the cluster. Also, when the retention period of the snapshot expires, Amazon Redshift automatically deletes it. If you want to keep an automated snapshot for a longer period, you can make a manual copy of the snapshot. Manual snapshots are retained until you...
+/// Copies the specified automated cluster snapshot to a new manual cluster snapshot. The source must be an automated snapshot and it must be in the available state. When you delete a cluster, Amazon Redshift deletes any automated snapshots of the cluster. Also, when the retention period of the snapshot expires, Amazon Redshift automatically deletes it. If you want to keep an automated snapshot for a longer period, you can make a manual copy of the snapshot. Manual snapshots are retained until you d...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsRedshiftCopyClusterSnapshotOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Copies the specified automated cluster snapshot to a new manual cluster snapshot. The source must be an automated snapshot and it must be in the available state. When you delete a cluster, Amazon Redshift deletes any automated snap- shots of the cluster. Also, when the retention period of the snapshot expires, Amazon Redshift automatically deletes it. If you want to keep an automated snapshot for a longer period, you can make a manual copy of the snapshot. Manual snapshots are retained until you...
+    /// Copies the specified automated cluster snapshot to a new manual cluster snapshot. The source must be an automated snapshot and it must be in the available state. When you delete a cluster, Amazon Redshift deletes any automated snapshots of the cluster. Also, when the retention period of the snapshot expires, Amazon Redshift automatically deletes it. If you want to keep an automated snapshot for a longer period, you can make a manual copy of the snapshot. Manual snapshots are retained until you d...
     /// </summary>
-    /// <param name="SourceSnapshotIdentifier">The identifier for the source snapshot. Constraints: o Must be the identifier for a valid automated snapshot whose state is available . Constraints: o max: 2147483647</param>
-    /// <param name="TargetSnapshotIdentifier">The identifier given to the new manual snapshot. Constraints: o Cannot be null, empty, or blank. o Must contain from 1 to 255 alphanumeric characters or hyphens. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. o Must be unique for the Amazon Web Services account that is making the request. Constraints: o max: 2147483647</param>
+    /// <param name="SourceSnapshotIdentifier">The identifier for the source snapshot. Constraints: • Must be the identifier for a valid automated snapshot whose state is available . Constraints: • max: 2147483647</param>
+    /// <param name="TargetSnapshotIdentifier">The identifier given to the new manual snapshot. Constraints: • Cannot be null, empty, or blank. • Must contain from 1 to 255 alphanumeric characters or hyphens. • First character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. • Must be unique for the Amazon Web Services account that is making the request. Constraints: • max: 2147483647</param>
     public AwsRedshiftCopyClusterSnapshotOptions(
         string SourceSnapshotIdentifier,
         string TargetSnapshotIdentifier
@@ -60,19 +62,19 @@ public record AwsRedshiftCopyClusterSnapshotOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the source snapshot. Constraints: o Must be the identifier for a valid automated snapshot whose state is available . Constraints: o max: 2147483647
+    /// The identifier for the source snapshot. Constraints: • Must be the identifier for a valid automated snapshot whose state is available . Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--source-snapshot-identifier")]
     public string? SourceSnapshotIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier given to the new manual snapshot. Constraints: o Cannot be null, empty, or blank. o Must contain from 1 to 255 alphanumeric characters or hyphens. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. o Must be unique for the Amazon Web Services account that is making the request. Constraints: o max: 2147483647
+    /// The identifier given to the new manual snapshot. Constraints: • Cannot be null, empty, or blank. • Must contain from 1 to 255 alphanumeric characters or hyphens. • First character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. • Must be unique for the Amazon Web Services account that is making the request. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--target-snapshot-identifier")]
     public string? TargetSnapshotIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the cluster the source snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints: o Must be the identifier for a valid cluster. Constraints: o max: 2147483647
+    /// The identifier of the cluster the source snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints: • Must be the identifier for a valid cluster. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--source-snapshot-cluster-identifier")]
     public string? SourceSnapshotClusterIdentifier { get; set; }

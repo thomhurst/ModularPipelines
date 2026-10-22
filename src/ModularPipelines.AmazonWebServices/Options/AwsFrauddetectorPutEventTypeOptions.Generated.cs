@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates an event type. An event is a business activity that is evaluated for fraud risk. With Amazon Fraud Detector, you generate fraud predictions for events. An event type defines the structure for an event sent to Amazon Fraud Detector. This includes the variables sent as part of the event, the entity performing the event (such as a customer), and the labels that classify the event. Example event types include online payment transactions, account registrations, and authen- tication...
+/// Creates or updates an event type. An event is a business activity that is evaluated for fraud risk. With Amazon Fraud Detector, you generate fraud predictions for events. An event type defines the structure for an event sent to Amazon Fraud Detector. This includes the variables sent as part of the event, the entity performing the event (such as a customer), and the labels that classify the event. Example event types include online payment transactions, account registrations, and authentications....
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsFrauddetectorPutEventTypeOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates or updates an event type. An event is a business activity that is evaluated for fraud risk. With Amazon Fraud Detector, you generate fraud predictions for events. An event type defines the structure for an event sent to Amazon Fraud Detector. This includes the variables sent as part of the event, the entity performing the event (such as a customer), and the labels that classify the event. Example event types include online payment transactions, account registrations, and authen- tication...
+    /// Creates or updates an event type. An event is a business activity that is evaluated for fraud risk. With Amazon Fraud Detector, you generate fraud predictions for events. An event type defines the structure for an event sent to Amazon Fraud Detector. This includes the variables sent as part of the event, the entity performing the event (such as a customer), and the labels that classify the event. Example event types include online payment transactions, account registrations, and authentications....
     /// </summary>
-    /// <param name="Name">The name. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
-    /// <param name="EventVariables">The event type variables. Constraints: o min: 1 (string) Syntax: "string" "string" ...</param>
-    /// <param name="EntityTypes">The entity type for the event type. Example entity types: customer, merchant, account. Constraints: o min: 1 (string) Syntax: "string" "string" ...</param>
+    /// <param name="Name">The name. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="EventVariables">The event type variables. Constraints: • min: 1 (string) Syntax: "string" "string" ...</param>
+    /// <param name="EntityTypes">The entity type for the event type. Example entity types: customer, merchant, account. Constraints: • min: 1 (string) Syntax: "string" "string" ...</param>
     public AwsFrauddetectorPutEventTypeOptions(
         string Name,
         IEnumerable<string> EventVariables,
@@ -87,25 +89,25 @@ public record AwsFrauddetectorPutEventTypeOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// The name. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The event type variables. Constraints: o min: 1 (string) Syntax: "string" "string" ...
+    /// The event type variables. Constraints: • min: 1 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--event-variables", GroupValues = true)]
     public IEnumerable<string>? EventVariables { get; private init; }
 
     /// <summary>
-    /// The entity type for the event type. Example entity types: customer, merchant, account. Constraints: o min: 1 (string) Syntax: "string" "string" ...
+    /// The entity type for the event type. Example entity types: customer, merchant, account. Constraints: • min: 1 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--entity-types", GroupValues = true)]
     public IEnumerable<string>? EntityTypes { get; private init; }
 
     /// <summary>
-    /// The description of the event type. Constraints: o min: 1 o max: 128
+    /// The description of the event type. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -117,13 +119,13 @@ public record AwsFrauddetectorPutEventTypeOptions : AwsOptions, IValidatableObje
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
-    /// Specifies if ingestion is enabled or disabled. Possible values: o ENABLED o DISABLED
+    /// Specifies if ingestion is enabled or disabled. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--event-ingestion")]
     public AwsFrauddetectorPutEventTypeEventIngestion? EventIngestion { get; set; }
 
     /// <summary>
-    /// A collection of key and value pairs. Constraints: o min: 0 o max: 200 (structure) A key and value pair. key -&gt; (string) [required] A tag key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] A value assigned to a tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// A collection of key and value pairs. Constraints: • min: 0 • max: 200 (structure) A key and value pair. key -&gt; (string) [required] A tag key. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] A value assigned to a tag key. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

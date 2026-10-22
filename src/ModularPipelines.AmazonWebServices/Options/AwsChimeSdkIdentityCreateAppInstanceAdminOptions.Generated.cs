@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Promotes an AppInstanceUser or AppInstanceBot to an AppInstanceAdmin . The promoted entity can perform the following actions. o ChannelModerator actions across all channels in the AppInstance . o DeleteChannelMessage actions. Only an AppInstanceUser and AppInstanceBot can be promoted to an AppIn- stanceAdmin role. See also: AWS API Documentation
+/// Promotes an AppInstanceUser or AppInstanceBot to an AppInstanceAdmin . The promoted entity can perform the following actions. • ChannelModerator actions across all channels in the AppInstance . • DeleteChannelMessage actions. Only an AppInstanceUser and AppInstanceBot can be promoted to an AppInstanceAdmin role. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsChimeSdkIdentityCreateAppInstanceAdminOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Promotes an AppInstanceUser or AppInstanceBot to an AppInstanceAdmin . The promoted entity can perform the following actions. o ChannelModerator actions across all channels in the AppInstance . o DeleteChannelMessage actions. Only an AppInstanceUser and AppInstanceBot can be promoted to an AppIn- stanceAdmin role. See also: AWS API Documentation
+    /// Promotes an AppInstanceUser or AppInstanceBot to an AppInstanceAdmin . The promoted entity can perform the following actions. • ChannelModerator actions across all channels in the AppInstance . • DeleteChannelMessage actions. Only an AppInstanceUser and AppInstanceBot can be promoted to an AppInstanceAdmin role. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppInstanceAdminArn">The ARN of the administrator of the current AppInstance . Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
-    /// <param name="AppInstanceArn">The ARN of the AppInstance . Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="AppInstanceAdminArn">The ARN of the administrator of the current AppInstance . Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="AppInstanceArn">The ARN of the AppInstance . Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
     public AwsChimeSdkIdentityCreateAppInstanceAdminOptions(
         string AppInstanceAdminArn,
         string AppInstanceArn
@@ -60,13 +62,13 @@ public record AwsChimeSdkIdentityCreateAppInstanceAdminOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the administrator of the current AppInstance . Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The ARN of the administrator of the current AppInstance . Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--app-instance-admin-arn")]
     public string? AppInstanceAdminArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the AppInstance . Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The ARN of the AppInstance . Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--app-instance-arn")]
     public string? AppInstanceArn { get; private init; }

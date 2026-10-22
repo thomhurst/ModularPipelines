@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -29,10 +30,10 @@ public record AwsSchemasCreateSchemaOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a schema definition. NOTE: Inactive schemas will be deleted after two years. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Content">The source of the schema definition. Constraints: o min: 1 o max: 100000</param>
+    /// <param name="Content">The source of the schema definition. Constraints: • min: 1 • max: 100000</param>
     /// <param name="RegistryName">The name of the registry.</param>
     /// <param name="SchemaName">The name of the schema.</param>
-    /// <param name="Type">The type of schema. Possible values: o OpenApi3 o JSONSchemaDraft4</param>
+    /// <param name="Type">The type of schema. Possible values: • OpenApi3 • JSONSchemaDraft4</param>
     public AwsSchemasCreateSchemaOptions(
         string Content,
         string RegistryName,
@@ -69,7 +70,7 @@ public record AwsSchemasCreateSchemaOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The source of the schema definition. Constraints: o min: 1 o max: 100000
+    /// The source of the schema definition. Constraints: • min: 1 • max: 100000
     /// </summary>
     [CliOption("--content")]
     public string? Content { get; private init; }
@@ -87,13 +88,13 @@ public record AwsSchemasCreateSchemaOptions : AwsOptions, IValidatableObject
     public string? SchemaName { get; private init; }
 
     /// <summary>
-    /// The type of schema. Possible values: o OpenApi3 o JSONSchemaDraft4
+    /// The type of schema. Possible values: • OpenApi3 • JSONSchemaDraft4
     /// </summary>
     [CliOption("--type")]
     public AwsSchemasCreateSchemaType? Type { get; private init; }
 
     /// <summary>
-    /// A description of the schema. Constraints: o min: 0 o max: 256
+    /// A description of the schema. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns existing resource operation requests. This includes requests of all status types. For more information, see Listing active resource op- eration requests in the Amazon Web Services Cloud Control API User Guide . NOTE: Resource operation requests expire after 7 days. See also: AWS API Documentation list-resource-requests is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate a...
+/// Returns existing resource operation requests. This includes requests of all status types. For more information, see Listing active resource operation requests in the Amazon Web Services Cloud Control API User Guide . NOTE: Resource operation requests expire after 7 days. See also: AWS API Documentation list-resource-requests is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate arg...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,16 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudcontrolListResourceRequestsOptions : AwsOptions
 {
     /// <summary>
-    /// The filter criteria to apply to the requests returned. Operations -&gt; (list) The operation types to include in the filter. (string) Possible values: o CREATE o DELETE o UPDATE OperationStatuses -&gt; (list) The operation statuses to include in the filter. o PENDING : The operation has been requested, but not yet initi- ated. o IN_PROGRESS : The operation is in progress. o SUCCESS : The operation completed. o FAILED : The operation failed. o CANCEL_IN_PROGRESS : The operation is in the process of being canceled. o CANCEL_COMPLETE : The operation has been canceled. (string) Possible values: o PENDING o IN_PROGRESS o SUCCESS o FAILED o CANCEL_IN_PROGRESS o CANCEL_COMPLETE Shorthand Syntax: Operations=string,string,OperationStatuses=string,string JSON Syntax: { "Operations": ["CREATE"|"DELETE"|"UPDATE", ...], "OperationStatuses": ["PENDING"|"IN_PROGRESS"|"SUCCESS"|"FAILED"|"CANCEL_IN_PROGRESS"|"CANCEL_COMPLETE", ...] }
+    /// The filter criteria to apply to the requests returned. Operations -&gt; (list) The operation types to include in the filter. (string) Possible values: • CREATE • DELETE • UPDATE OperationStatuses -&gt; (list) The operation statuses to include in the filter. • PENDING : The operation has been requested, but not yet initiated. • IN_PROGRESS : The operation is in progress. • SUCCESS : The operation completed. • FAILED : The operation failed. • CANCEL_IN_PROGRESS : The operation is in the process of being canceled. • CANCEL_COMPLETE : The operation has been canceled. (string) Possible values: • PENDING • IN_PROGRESS • SUCCESS • FAILED • CANCEL_IN_PROGRESS • CANCEL_COMPLETE Shorthand Syntax: Operations=string,string,OperationStatuses=string,string JSON Syntax: { "Operations": ["CREATE"|"DELETE"|"UPDATE", ...], "OperationStatuses": ["PENDING"|"IN_PROGRESS"|"SUCCESS"|"FAILED"|"CANCEL_IN_PROGRESS"|"CANCEL_COMPLETE", ...] }
     /// </summary>
     [CliOption("--resource-request-status-filter")]
     public string? ResourceRequestStatusFilter { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -42,15 +39,18 @@ public record AwsCloudcontrolListResourceRequestsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

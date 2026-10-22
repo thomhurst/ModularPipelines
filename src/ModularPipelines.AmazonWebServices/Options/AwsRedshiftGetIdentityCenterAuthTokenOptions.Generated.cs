@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Generates an encrypted authentication token that propagates the caller's Amazon Web Services IAM Identity Center identity to Amazon Redshift clusters. This API extracts the Amazon Web Services IAM Iden- tity Center identity from enhanced credentials and creates a secure to- ken that Amazon Redshift drivers can use for authentication. The token is encrypted using Key Management Service (KMS) and can only be decrypted by the specified Amazon Redshift clusters. The token con- tains the caller's Ama...
+/// Generates an encrypted authentication token that propagates the caller's Amazon Web Services IAM Identity Center identity to Amazon Redshift clusters. This API extracts the Amazon Web Services IAM Identity Center identity from enhanced credentials and creates a secure token that Amazon Redshift drivers can use for authentication. The token is encrypted using Key Management Service (KMS) and can only be decrypted by the specified Amazon Redshift clusters. The token contains the caller's Amazon We...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRedshiftGetIdentityCenterAuthTokenOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Generates an encrypted authentication token that propagates the caller's Amazon Web Services IAM Identity Center identity to Amazon Redshift clusters. This API extracts the Amazon Web Services IAM Iden- tity Center identity from enhanced credentials and creates a secure to- ken that Amazon Redshift drivers can use for authentication. The token is encrypted using Key Management Service (KMS) and can only be decrypted by the specified Amazon Redshift clusters. The token con- tains the caller's Ama...
+    /// Generates an encrypted authentication token that propagates the caller's Amazon Web Services IAM Identity Center identity to Amazon Redshift clusters. This API extracts the Amazon Web Services IAM Identity Center identity from enhanced credentials and creates a secure token that Amazon Redshift drivers can use for authentication. The token is encrypted using Key Management Service (KMS) and can only be decrypted by the specified Amazon Redshift clusters. The token contains the caller's Amazon We...
     /// </summary>
-    /// <param name="ClusterIds">A list of cluster identifiers that the generated token can be used with. The token will be scoped to only allow authentication to the specified clusters. Constraints: o ClusterIds must contain at least 1 cluster identifier. o ClusterIds can hold a maximum of 20 cluster identifiers. o Cluster identifiers must be 1 to 63 characters in length. o The characters accepted for cluster identifiers are the following: o Alphanumeric characters o Hyphens o Cluster identifiers must start with a letter. o Cluster identifiers can't end with a hyphen or contain two consec- utive hyphens. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...</param>
+    /// <param name="ClusterIds">A list of cluster identifiers that the generated token can be used with. The token will be scoped to only allow authentication to the specified clusters. Constraints: • ClusterIds must contain at least 1 cluster identifier. • ClusterIds can hold a maximum of 20 cluster identifiers. • Cluster identifiers must be 1 to 63 characters in length. • The characters accepted for cluster identifiers are the following: • Alphanumeric characters • Hyphens • Cluster identifiers must start with a letter. • Cluster identifiers can't end with a hyphen or contain two consecutive hyphens. (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...</param>
     public AwsRedshiftGetIdentityCenterAuthTokenOptions(
         IEnumerable<string> ClusterIds
     )
@@ -67,7 +69,7 @@ public record AwsRedshiftGetIdentityCenterAuthTokenOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of cluster identifiers that the generated token can be used with. The token will be scoped to only allow authentication to the specified clusters. Constraints: o ClusterIds must contain at least 1 cluster identifier. o ClusterIds can hold a maximum of 20 cluster identifiers. o Cluster identifiers must be 1 to 63 characters in length. o The characters accepted for cluster identifiers are the following: o Alphanumeric characters o Hyphens o Cluster identifiers must start with a letter. o Cluster identifiers can't end with a hyphen or contain two consec- utive hyphens. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// A list of cluster identifiers that the generated token can be used with. The token will be scoped to only allow authentication to the specified clusters. Constraints: • ClusterIds must contain at least 1 cluster identifier. • ClusterIds can hold a maximum of 20 cluster identifiers. • Cluster identifiers must be 1 to 63 characters in length. • The characters accepted for cluster identifiers are the following: • Alphanumeric characters • Hyphens • Cluster identifiers must start with a letter. • Cluster identifiers can't end with a hyphen or contain two consecutive hyphens. (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--cluster-ids", GroupValues = true)]
     public IEnumerable<string>? ClusterIds { get; private init; }

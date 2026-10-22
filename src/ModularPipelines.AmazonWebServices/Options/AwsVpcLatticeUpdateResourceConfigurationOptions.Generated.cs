@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsVpcLatticeUpdateResourceConfigurationOptions : AwsOptions, IVal
     /// <summary>
     /// Updates the specified resource configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceConfigurationIdentifier">The ID of the resource configuration. Constraints: o min: 20 o max: 2048 o pattern: ((rcfg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:resourceconfigura- tion/rcfg-[0-9a-z]{17}))</param>
+    /// <param name="ResourceConfigurationIdentifier">The ID of the resource configuration. Constraints: • min: 20 • max: 2048 • pattern: ((rcfg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:resourceconfiguration/rcfg-[0-9a-z]{17}))</param>
     public AwsVpcLatticeUpdateResourceConfigurationOptions(
         string ResourceConfigurationIdentifier
     )
@@ -56,25 +58,25 @@ public record AwsVpcLatticeUpdateResourceConfigurationOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the resource configuration. Constraints: o min: 20 o max: 2048 o pattern: ((rcfg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:resourceconfigura- tion/rcfg-[0-9a-z]{17}))
+    /// The ID of the resource configuration. Constraints: • min: 20 • max: 2048 • pattern: ((rcfg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:resourceconfiguration/rcfg-[0-9a-z]{17}))
     /// </summary>
     [CliOption("--resource-configuration-identifier")]
     public string? ResourceConfigurationIdentifier { get; private init; }
 
     /// <summary>
-    /// Identifies the resource configuration in one of the following ways: o Amazon Resource Name (ARN) - Supported resource-types that are provisioned by Amazon Web Services services, such as RDS data- bases, can be identified by their ARN. o Domain name - Any domain name that is publicly resolvable. o IP address - For IPv4 and IPv6, only IP addresses in the VPC are supported. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: dnsResource, ipResource, arnResource, cidrResource. dnsResource -&gt; (structure) The DNS name of the resource. domainName -&gt; (string) The domain name of the resource. Constraints: o min: 3 o max: 255 ipAddressType -&gt; (string) The type of IP address. Dualstack is currently not supported. Possible values: o IPV4 o IPV6 o DUALSTACK ipResource -&gt; (structure) The IP resource. ipAddress -&gt; (string) The IP address of the IP resource. Constraints: o min: 4 o max: 39 arnResource -&gt; (structure) The Amazon Resource Name (ARN) of the resource. arn -&gt; (string) The Amazon Resource Name (ARN) of the resource. Constraints: o min: 20 o max: 2048 o pattern: arn:[a-z0-9][-.a-z0-9]{0,62}:[a-z0-9][-.a-z0-9]{0,62}:([a-z0-9][-.a-z0-9]{0,62})?:\d{12}?:[^/].{0,1023} cidrResource -&gt; (structure) The network segment for a resource configuration of type CIDR, specified as one or more CIDR ranges (cidrRanges ). Resources whose IP addresses fall within these ranges are reachable through a Tunnel VPC endpoint. cidrRanges -&gt; (list) The CIDR ranges of the network segment, for example, 10.0.0.0/16 . Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 50 Shorthand Syntax: dnsResource={domainName=string,ipAddressType=string},ipResource={ipAddress=string},arnResource={arn=string},cidrResource={cidrRanges=[string,string]} JSON Syntax: { "dnsResource": { "domainName": "string", "ipAddressType": "IPV4"|"IPV6"|"DUALSTACK" }, "ipResource": { "ipAddress": "string" }, "arnResource": { "arn": "string" }, "cidrResource": { "cidrRanges": ["string", ...] } }
+    /// Identifies the resource configuration in one of the following ways: • Amazon Resource Name (ARN) - Supported resource-types that are provisioned by Amazon Web Services services, such as RDS databases, can be identified by their ARN. • Domain name - Any domain name that is publicly resolvable. • IP address - For IPv4 and IPv6, only IP addresses in the VPC are supported. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: dnsResource, ipResource, arnResource, cidrResource. dnsResource -&gt; (structure) The DNS name of the resource. domainName -&gt; (string) The domain name of the resource. Constraints: • min: 3 • max: 255 ipAddressType -&gt; (string) The type of IP address. Dualstack is currently not supported. Possible values: • IPV4 • IPV6 • DUALSTACK ipResource -&gt; (structure) The IP resource. ipAddress -&gt; (string) The IP address of the IP resource. Constraints: • min: 4 • max: 39 arnResource -&gt; (structure) The Amazon Resource Name (ARN) of the resource. arn -&gt; (string) The Amazon Resource Name (ARN) of the resource. Constraints: • min: 20 • max: 2048 • pattern: arn:[a-z0-9][-.a-z0-9]{0,62}:[a-z0-9][-.a-z0-9]{0,62}:([a-z0-9][-.a-z0-9]{0,62})?:\d{12}?:[^/].{0,1023} cidrResource -&gt; (structure) The network segment for a resource configuration of type CIDR, specified as one or more CIDR ranges (cidrRanges ). Resources whose IP addresses fall within these ranges are reachable through a Tunnel VPC endpoint. cidrRanges -&gt; (list) The CIDR ranges of the network segment, for example, 10.0.0.0/16 . Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 50 Shorthand Syntax: dnsResource={domainName=string,ipAddressType=string},ipResource={ipAddress=string},arnResource={arn=string},cidrResource={cidrRanges=[string,string]} JSON Syntax: { "dnsResource": { "domainName": "string", "ipAddressType": "IPV4"|"IPV6"|"DUALSTACK" }, "ipResource": { "ipAddress": "string" }, "arnResource": { "arn": "string" }, "cidrResource": { "cidrRanges": ["string", ...] } }
     /// </summary>
     [CliOption("--resource-configuration-definition")]
     public string? ResourceConfigurationDefinition { get; set; }
 
     /// <summary>
-    /// tion-to-shareable-service-network (boolean) Indicates whether to add the resource configuration to service net- works that are shared with other accounts.
+    /// Indicates whether to add the resource configuration to service networks that are shared with other accounts.
     /// </summary>
     [CliFlag("--allow-association-to-shareable-service-network", NegatedName = "--no-allow-association-to-shareable-service-network")]
     public bool? AllowAssociationToShareableServiceNetwork { get; set; }
 
     /// <summary>
-    /// The TCP port ranges that a consumer can use to access a resource configuration. You can separate port ranges with a comma. Example: 1-65535 or 1,2,22-30 (string) Constraints: o min: 1 o max: 11 o pattern: ((\d{1,5}\-\d{1,5})|(\d+)) Syntax: "string" "string" ...
+    /// The TCP port ranges that a consumer can use to access a resource configuration. You can separate port ranges with a comma. Example: 1-65535 or 1,2,22-30 (string) Constraints: • min: 1 • max: 11 • pattern: ((\d{1,5}\-\d{1,5})|(\d+)) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--port-ranges", GroupValues = true)]
     public IEnumerable<string>? PortRanges { get; set; }

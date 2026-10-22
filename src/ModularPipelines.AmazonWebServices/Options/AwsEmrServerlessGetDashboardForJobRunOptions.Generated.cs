@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates and returns a URL that you can use to access the application UIs for a job run. For jobs in a running state, the application UI is a live user inter- face such as the Spark or Tez web UI. For completed jobs, the applica- tion UI is a persistent application user interface such as the Spark History Server or persistent Tez UI. NOTE: The URL is valid for one hour after you generate it. To access the application UI after that hour elapses, you must invoke the API again to generate a new URL....
+/// Creates and returns a URL that you can use to access the application UIs for a job run. For jobs in a running state, the application UI is a live user interface such as the Spark or Tez web UI. For completed jobs, the application UI is a persistent application user interface such as the Spark History Server or persistent Tez UI. NOTE: The URL is valid for one hour after you generate it. To access the application UI after that hour elapses, you must invoke the API again to generate a new URL. See...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsEmrServerlessGetDashboardForJobRunOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates and returns a URL that you can use to access the application UIs for a job run. For jobs in a running state, the application UI is a live user inter- face such as the Spark or Tez web UI. For completed jobs, the applica- tion UI is a persistent application user interface such as the Spark History Server or persistent Tez UI. NOTE: The URL is valid for one hour after you generate it. To access the application UI after that hour elapses, you must invoke the API again to generate a new URL....
+    /// Creates and returns a URL that you can use to access the application UIs for a job run. For jobs in a running state, the application UI is a live user interface such as the Spark or Tez web UI. For completed jobs, the application UI is a persistent application user interface such as the Spark History Server or persistent Tez UI. NOTE: The URL is valid for one hour after you generate it. To access the application UI after that hour elapses, you must invoke the API again to generate a new URL. See...
     /// </summary>
-    /// <param name="ApplicationId">The ID of the application. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
-    /// <param name="JobRunId">The ID of the job run. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
+    /// <param name="ApplicationId">The ID of the application. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+</param>
+    /// <param name="JobRunId">The ID of the job run. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+</param>
     public AwsEmrServerlessGetDashboardForJobRunOptions(
         string ApplicationId,
         string JobRunId
@@ -60,19 +62,19 @@ public record AwsEmrServerlessGetDashboardForJobRunOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the application. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// The ID of the application. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The ID of the job run. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// The ID of the job run. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+
     /// </summary>
     [CliOption("--job-run-id")]
     public string? JobRunId { get; private init; }
 
     /// <summary>
-    /// An optimal parameter that indicates the amount of attempts for the job. If not specified, this value defaults to the attempt of the latest job. Constraints: o min: 1
+    /// An optimal parameter that indicates the amount of attempts for the job. If not specified, this value defaults to the attempt of the latest job. Constraints: • min: 1
     /// </summary>
     [CliOption("--attempt")]
     public int? Attempt { get; set; }

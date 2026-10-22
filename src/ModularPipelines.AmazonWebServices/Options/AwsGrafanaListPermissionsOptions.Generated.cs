@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +31,7 @@ public record AwsGrafanaListPermissionsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Lists the users and groups who have the Grafana Admin and Editor roles in this workspace. If you use this operation without specifying userId or groupId , the operation returns the roles of all users and groups. If you specify a userId or a groupId , only the roles for that user or group are returned. If you do this, you can specify only one userId or one groupId . See also: AWS API Documentation list-permissions is a paginated operation. Multiple API calls may be issued in order to retrieve the...
     /// </summary>
-    /// <param name="WorkspaceId">The ID of the workspace to list permissions for. This parameter is required. Constraints: o pattern: g-[0-9a-f]{10}</param>
+    /// <param name="WorkspaceId">The ID of the workspace to list permissions for. This parameter is required. Constraints: • pattern: g-[0-9a-f]{10}</param>
     public AwsGrafanaListPermissionsOptions(
         string WorkspaceId
     )
@@ -58,34 +60,31 @@ public record AwsGrafanaListPermissionsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the workspace to list permissions for. This parameter is required. Constraints: o pattern: g-[0-9a-f]{10}
+    /// The ID of the workspace to list permissions for. This parameter is required. Constraints: • pattern: g-[0-9a-f]{10}
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
 
     /// <summary>
-    /// (Optional) If you specify SSO_USER , then only the permissions of IAM Identity Center users are returned. If you specify SSO_GROUP , only the permissions of IAM Identity Center groups are returned. Possible values: o SSO_USER o SSO_GROUP
+    /// (Optional) If you specify SSO_USER , then only the permissions of IAM Identity Center users are returned. If you specify SSO_GROUP , only the permissions of IAM Identity Center groups are returned. Possible values: • SSO_USER • SSO_GROUP
     /// </summary>
     [CliOption("--user-type")]
     public AwsGrafanaListPermissionsUserType? UserType { get; set; }
 
     /// <summary>
-    /// (Optional) Limits the results to only the user that matches this ID. Constraints: o min: 1 o max: 47
+    /// (Optional) Limits the results to only the user that matches this ID. Constraints: • min: 1 • max: 47
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; set; }
 
     /// <summary>
-    /// (Optional) Limits the results to only the group that matches this ID. Constraints: o min: 1 o max: 47
+    /// (Optional) Limits the results to only the group that matches this ID. Constraints: • min: 1 • max: 47
     /// </summary>
     [CliOption("--group-id")]
     public string? GroupId { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -95,16 +94,19 @@ public record AwsGrafanaListPermissionsOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

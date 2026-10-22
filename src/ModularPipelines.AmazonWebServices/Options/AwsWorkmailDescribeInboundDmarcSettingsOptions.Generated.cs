@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsWorkmailDescribeInboundDmarcSettingsOptions : AwsOptions, IVali
     /// <summary>
     /// Lists the settings in a DMARC policy for a specified organization. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">Lists the ID of the given organization. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="OrganizationId">Lists the ID of the given organization. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
     public AwsWorkmailDescribeInboundDmarcSettingsOptions(
         string OrganizationId
     )
@@ -56,7 +58,7 @@ public record AwsWorkmailDescribeInboundDmarcSettingsOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Lists the ID of the given organization. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// Lists the ID of the given organization. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }

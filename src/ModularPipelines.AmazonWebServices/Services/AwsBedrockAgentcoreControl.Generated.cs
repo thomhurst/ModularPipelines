@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws bedrockagentcorecontrol commands.
+/// aws bedrock-agentcore-control commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
@@ -33,7 +33,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws bedrock-agentcore-control wait sub-commands.
     /// </summary>
     public AwsBedrockAgentcoreControlWait Wait => _wait ??= new AwsBedrockAgentcoreControlWait(_command);
 
@@ -42,7 +42,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     #region Commands
 
     /// <summary>
-    /// Adds examples to the dataset's DRAFT. All examples are validated against the dataset's schema type before any writes occur. If any exam- ple fails validation, the entire batch is rejected (all-or-nothing se- mantics). See also: AWS API Documentation add-dataset-examples uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type...
+    /// Adds examples to the dataset's DRAFT. All examples are validated against the dataset's schema type before any writes occur. If any example fails validation, the entire batch is rejected (all-or-nothing semantics). See also: AWS API Documentation add-dataset-examples uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type docum...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -132,7 +132,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Creates a browser profile in Amazon Bedrock AgentCore. A browser pro- file stores persistent browser data such as cookies, local storage, session storage, and browsing history that can be saved from browser sessions and reused in subsequent sessions. See also: AWS API Documentation
+    /// Creates a browser profile in Amazon Bedrock AgentCore. A browser profile stores persistent browser data such as cookies, local storage, session storage, and browsing history that can be saved from browser sessions and reused in subsequent sessions. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -147,7 +147,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Creates a capacity provider. A capacity provider defines the Amazon EC2 infrastructure for AgentCore Runtime, including the operating system, allowed instance types, networking, and storage. It also specifies the IAM permissions that AgentCore uses to manage those instances. The capacity provider name must be unique within your account. After you create the capacity provider, it enters a CREATING state and tran- sitions to READY when it is available for use. See also: AWS API Documentation
+    /// Creates a capacity provider. A capacity provider defines the Amazon EC2 infrastructure for AgentCore Runtime, including the operating system, allowed instance types, networking, and storage. It also specifies the IAM permissions that AgentCore uses to manage those instances. The capacity provider name must be unique within your account. After you create the capacity provider, it enters a CREATING state and transitions to READY when it is available for use. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -177,7 +177,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Creates a new configuration bundle resource. A configuration bundle stores versioned component configurations for agent evaluation work- flows. See also: AWS API Documentation create-configuration-bundle uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not suppo...
+    /// Creates a new configuration bundle resource. A configuration bundle stores versioned component configurations for agent evaluation workflows. See also: AWS API Documentation create-configuration-bundle uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support d...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -207,7 +207,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Creates a new dataset resource asynchronously. Returns immediately with status CREATING. Poll GetDataset until status transitions to ACTIVE or CREATE_FAILED. See also: AWS API Documentation create-dataset uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not supp...
+    /// Creates a new dataset resource asynchronously. Returns immediately with status CREATING. Poll GetDataset until status transitions to ACTIVE or CREATE_FAILED. See also: AWS API Documentation create-dataset uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not suppor...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -222,7 +222,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Publishes the current DRAFT as a new numbered version. The DRAFT is preserved and remains editable after publishing. Returns immediately with status UPDATING. Poll GetDataset until status transitions to AC- TIVE or UPDATE_FAILED. See also: AWS API Documentation
+    /// Publishes the current DRAFT as a new numbered version. The DRAFT is preserved and remains editable after publishing. Returns immediately with status UPDATING. Poll GetDataset until status transitions to ACTIVE or UPDATE_FAILED. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -237,7 +237,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Creates a custom evaluator for agent quality assessment. Custom evalua- tors can use either LLM-as-a-Judge configurations with user-defined prompts, rating scales, and model settings, or code-based configura- tions with customer-managed Lambda functions to evaluate agent perfor- mance at tool call, trace, or session levels. See also: AWS API Documentation create-evaluator uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null...
+    /// Creates a custom evaluator for agent quality assessment. Custom evaluators can use either LLM-as-a-Judge configurations with user-defined prompts, rating scales, and model settings, or code-based configurations with customer-managed Lambda functions to evaluate agent performance at tool call, trace, or session levels. See also: AWS API Documentation create-evaluator uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arra...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -252,7 +252,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Creates a gateway for Amazon Bedrock Agent. A gateway serves as an in- tegration point between your agent and external services. If you specify CUSTOM_JWT as the authorizerType , you must provide an authorizerConfiguration . See also: AWS API Documentation
+    /// Creates a gateway for Amazon Bedrock Agent. A gateway serves as an integration point between your agent and external services. If you specify CUSTOM_JWT as the authorizerType , you must provide an authorizerConfiguration . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -282,7 +282,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Creates a rule for a gateway. Rules define conditions and actions that control how requests are routed and processed through the gateway, in- cluding principal-based access control and path-based routing. See also: AWS API Documentation
+    /// Creates a rule for a gateway. Rules define conditions and actions that control how requests are routed and processed through the gateway, including principal-based access control and path-based routing. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -297,7 +297,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Creates a target for a gateway. A target defines an endpoint that the gateway can connect to. See also: AWS API Documentation create-gateway-target uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Creates a target for a gateway. A target defines an endpoint that the gateway can connect to. See also: AWS API Documentation create-gateway-target uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -327,7 +327,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Operation to create a harness. See also: AWS API Documentation create-harness uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Operation to create a harness. See also: AWS API Documentation create-harness uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -372,7 +372,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Creates an online evaluation configuration for continuous monitoring of agent performance. Online evaluation automatically samples live traffic from CloudWatch logs at specified rates and applies evaluators to as- sess agent quality in production. See also: AWS API Documentation
+    /// Creates an online evaluation configuration for continuous monitoring of agent performance. Online evaluation automatically samples live traffic from CloudWatch logs at specified rates and applies evaluators to assess agent quality in production. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -387,7 +387,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Creates a new payment connector for a payment manager. A payment con- nector integrates with a supported payment provider to enable payment processing capabilities. See also: AWS API Documentation
+    /// Creates a new payment connector for a payment manager. A payment connector integrates with a supported payment provider to enable payment processing capabilities. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -432,7 +432,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Creates a new policy engine within the AgentCore Policy system. A pol- icy engine is a collection of policies that evaluates and authorizes agent tool calls. When associated with Gateways (each Gateway can be associated with at most one policy engine, but multiple Gateways can be associated with the same engine), the policy engine intercepts all agent requests and determines whether to allow or deny each action based on the defined policies. This is an asynchronous operation. Use the GetPolicyEn...
+    /// Creates a new policy engine within the AgentCore Policy system. A policy engine is a collection of policies that evaluates and authorizes agent tool calls. When associated with Gateways (each Gateway can be associated with at most one policy engine, but multiple Gateways can be associated with the same engine), the policy engine intercepts all agent requests and determines whether to allow or deny each action based on the defined policies. This is an asynchronous operation. Use the GetPolicyEngi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -447,7 +447,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Creates a policy within the AgentCore Policy system. Policies provide real-time, deterministic control over agentic interactions with Agent- Core Gateway. Using Cedar or Dogwood, you can define fine-grained poli- cies that specify which interactions with Gateway tools are permitted based on input parameters and OAuth claims, ensuring agents operate within defined boundaries and business rules. The policy is validated during creation against the Cedar schema generated from the Gateway's tools' in...
+    /// Creates a policy within the AgentCore Policy system. Policies provide real-time, deterministic control over agentic interactions with AgentCore Gateway. Using Cedar or Dogwood, you can define fine-grained policies that specify which interactions with Gateway tools are permitted based on input parameters and OAuth claims, ensuring agents operate within defined boundaries and business rules. The policy is validated during creation against the Cedar schema generated from the Gateway's tools' input ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -642,7 +642,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Deletes specific examples by ID from DRAFT. All example IDs are vali- dated before any deletes occur. If any ID does not exist in DRAFT, the entire batch is rejected (all-or-nothing semantics). See also: AWS API Documentation
+    /// Deletes specific examples by ID from DRAFT. All example IDs are validated before any deletes occur. If any ID does not exist in DRAFT, the entire batch is rejected (all-or-nothing semantics). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -672,7 +672,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Deletes a custom evaluator. Builtin evaluators cannot be deleted. The evaluator must not be referenced by any active online evaluation con- figurations. See also: AWS API Documentation
+    /// Deletes a custom evaluator. Builtin evaluators cannot be deleted. The evaluator must not be referenced by any active online evaluation configurations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -732,7 +732,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Deletes a gateway target. You cannot delete a target that is in a pending authorization state (CREATE_PENDING_AUTH , UPDATE_PENDING_AUTH , or SYNCHRONIZE_PEND- ING_AUTH ). Wait for the authorization to complete or fail before deleting the target. See also: AWS API Documentation
+    /// Deletes a gateway target. You cannot delete a target that is in a pending authorization state (CREATE_PENDING_AUTH , UPDATE_PENDING_AUTH , or SYNCHRONIZE_PENDING_AUTH ). Wait for the authorization to complete or fail before deleting the target. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -762,7 +762,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Operation to delete a Harness. See also: AWS API Documentation delete-harness uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Operation to delete a Harness. See also: AWS API Documentation delete-harness uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -807,7 +807,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Deletes an online evaluation configuration and stops any ongoing evalu- ation processes associated with it. See also: AWS API Documentation
+    /// Deletes an online evaluation configuration and stops any ongoing evaluation processes associated with it. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -837,7 +837,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Deletes a payment credential provider and its associated stored creden- tials. See also: AWS API Documentation
+    /// Deletes a payment credential provider and its associated stored credentials. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -867,7 +867,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Deletes an existing policy engine from the AgentCore Policy system. The policy engine must not have any associated policies before deletion. Once deleted, the policy engine and all its configurations become un- available for policy management and evaluation. This is an asynchronous operation. Use the GetPolicyEngine operation to poll the status field to track completion. See also: AWS API Documentation
+    /// Deletes an existing policy engine from the AgentCore Policy system. The policy engine must not have any associated policies before deletion. Once deleted, the policy engine and all its configurations become unavailable for policy management and evaluation. This is an asynchronous operation. Use the GetPolicyEngine operation to poll the status field to track completion. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -882,7 +882,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Deletes an existing policy from the AgentCore Policy system. Once deleted, the policy can no longer be used for agent behavior control and all references to it become invalid. This is an asynchronous opera- tion. Use the GetPolicy operation to poll the status field to track completion. See also: AWS API Documentation
+    /// Deletes an existing policy from the AgentCore Policy system. Once deleted, the policy can no longer be used for agent behavior control and all references to it become invalid. This is an asynchronous operation. Use the GetPolicy operation to poll the status field to track completion. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -897,7 +897,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Deletes a registry. The registry must contain zero records before it can be deleted. This operation initiates the deletion process asynchro- nously. See also: AWS API Documentation
+    /// Deletes a registry. The registry must contain zero records before it can be deleted. This operation initiates the deletion process asynchronously. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1062,7 +1062,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Gets the latest version of a configuration bundle. By default, returns the latest version on the mainline branch. Use GetConfigura- tionBundleVersion to retrieve a specific historical version. See also: AWS API Documentation get-configuration-bundle uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro...
+    /// Gets the latest version of a configuration bundle. By default, returns the latest version on the mainline branch. Use GetConfigurationBundleVersion to retrieve a specific historical version. See also: AWS API Documentation get-configuration-bundle uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provide...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1077,7 +1077,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Gets a specific version of a configuration bundle by its version iden- tifier. See also: AWS API Documentation get-configuration-bundle-version uses document type values. Document types follow the JSON data model where valid values are: strings, num- bers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Gets a specific version of a configuration bundle by its version identifier. See also: AWS API Documentation get-configuration-bundle-version uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1122,7 +1122,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Retrieves detailed information about an evaluator, including its con- figuration, status, and metadata. Works with both built-in and custom evaluators. See also: AWS API Documentation get-evaluator uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support docum...
+    /// Retrieves detailed information about an evaluator, including its configuration, status, and metadata. Works with both built-in and custom evaluators. See also: AWS API Documentation get-evaluator uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support documen...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1182,7 +1182,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Retrieves information about a specific gateway target. See also: AWS API Documentation get-gateway-target uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Retrieves information about a specific gateway target. See also: AWS API Documentation get-gateway-target uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1257,7 +1257,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Retrieves detailed information about an online evaluation configura- tion, including its rules, data sources, evaluators, and execution sta- tus. See also: AWS API Documentation
+    /// Retrieves detailed information about an online evaluation configuration, including its rules, data sources, evaluators, and execution status. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1317,7 +1317,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Retrieves detailed information about a specific policy engine within the AgentCore Policy system. This operation returns the complete policy engine configuration, metadata, and current status, allowing adminis- trators to review and manage policy engine settings. See also: AWS API Documentation
+    /// Retrieves detailed information about a specific policy engine within the AgentCore Policy system. This operation returns the complete policy engine configuration, metadata, and current status, allowing administrators to review and manage policy engine settings. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1347,7 +1347,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Retrieves information about a policy generation request within the AgentCore Policy system. Policy generation converts natural language descriptions into Dogwood policy statements using AI-powered transla- tion, enabling non-technical users to create policies. See also: AWS API Documentation
+    /// Retrieves information about a policy generation request within the AgentCore Policy system. Policy generation converts natural language descriptions into Dogwood policy statements using AI-powered translation, enabling non-technical users to create policies. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1362,7 +1362,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Retrieves a metadata-only summary of a specific policy generation re- quest without decrypting customer content. This lightweight read opera- tion returns resource identifiers, status, timestamps, and findings, but does not include status reasons. Because this operation does not require access to the customer's KMS key, it is suitable for resource discovery, inventory, and integration scenarios where only metadata is needed. See also: AWS API Documentation
+    /// Retrieves a metadata-only summary of a specific policy generation request without decrypting customer content. This lightweight read operation returns resource identifiers, status, timestamps, and findings, but does not include status reasons. Because this operation does not require access to the customer's KMS key, it is suitable for resource discovery, inventory, and integration scenarios where only metadata is needed. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1377,7 +1377,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Retrieves detailed information about a specific policy within the AgentCore Policy system. This operation returns the complete policy de- finition, metadata, and current status, allowing administrators to re- view and manage policy configurations. See also: AWS API Documentation
+    /// Retrieves detailed information about a specific policy within the AgentCore Policy system. This operation returns the complete policy definition, metadata, and current status, allowing administrators to review and manage policy configurations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1392,7 +1392,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Retrieves a metadata-only summary of a specific policy without decrypt- ing customer content. This lightweight read operation returns resource identifiers, status, and timestamps, but does not include the policy definition, description, or status reasons. Because this operation does not require access to the customer's KMS key, it is suitable for re- source discovery, inventory, and integration scenarios where only meta- data is needed. See also: AWS API Documentation
+    /// Retrieves a metadata-only summary of a specific policy without decrypting customer content. This lightweight read operation returns resource identifiers, status, and timestamps, but does not include the policy definition, description, or status reasons. Because this operation does not require access to the customer's KMS key, it is suitable for resource discovery, inventory, and integration scenarios where only metadata is needed. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1482,7 +1482,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Lists all endpoints for a specific Amazon Secure Agent. See also: AWS API Documentation list-agent-runtime-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: runtimeEndpoints
+    /// Lists all endpoints for a specific Amazon Secure Agent. See also: AWS API Documentation list-agent-runtime-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: runtimeEndpoints
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1490,6 +1490,36 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAgentRuntimeEndpointsAsync(
         AwsBedrockAgentcoreControlListAgentRuntimeEndpointsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the agent runtime versions that are associated with a capacity provider. Use this operation to identify the runtimes you must disassociate before you can delete the capacity provider. Results are paginated; use the nextToken parameter to retrieve additional results. See also: AWS API Documentation list-agent-runtime-versions-by-capacity-provider is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by prov...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAgentRuntimeVersionsByCapacityProviderAsync(
+        AwsBedrockAgentcoreControlListAgentRuntimeVersionsByCapacityProviderOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists all versions of a specific Amazon Secure Agent. See also: AWS API Documentation list-agent-runtime-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: agentRuntimes
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAgentRuntimeVersionsAsync(
+        AwsBedrockAgentcoreControlListAgentRuntimeVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1512,37 +1542,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Lists the agent runtime versions that are associated with a capacity provider. Use this operation to identify the runtimes you must disasso- ciate before you can delete the capacity provider. Results are pagi- nated; use the nextToken parameter to retrieve additional results. See also: AWS API Documentation list-agent-runtime-versions-by-capacity-provider is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination b...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListAgentRuntimeVersionsByCapacityProviderAsync(
-        AwsBedrockAgentcoreControlListAgentRuntimeVersionsByCapacityProviderOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists all versions of a specific Amazon Secure Agent. See also: AWS API Documentation list-agent-runtime-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: agentRuntimes
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListAgentRuntimeVersionsAsync(
-        AwsBedrockAgentcoreControlListAgentRuntimeVersionsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists all API key credential providers in your account. See also: AWS API Documentation list-api-key-credential-providers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: credentialProviders
+    /// Lists all API key credential providers in your account. See also: AWS API Documentation list-api-key-credential-providers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: credentialProviders
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1572,7 +1572,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Lists all custom browsers in your account. See also: AWS API Documentation list-browsers is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: browserSummaries
+    /// Lists all custom browsers in your account. See also: AWS API Documentation list-browsers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: browserSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1587,7 +1587,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Lists the capacity providers in your account and returns summary infor- mation for each one. To retrieve the full configuration for a specific capacity provider, use GetCapacityProvider . Results are paginated; use the nextToken parameter to retrieve additional results. See also: AWS API Documentation list-capacity-providers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate arg...
+    /// Lists the capacity providers in your account and returns summary information for each one. To retrieve the full configuration for a specific capacity provider, use GetCapacityProvider . Results are paginated; use the nextToken parameter to retrieve additional results. See also: AWS API Documentation list-capacity-providers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argum...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1617,22 +1617,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Lists all configuration bundles in the account. See also: AWS API Documentation list-configuration-bundles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: bundles
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListConfigurationBundlesAsync(
-        AwsBedrockAgentcoreControlListConfigurationBundlesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListConfigurationBundlesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists all versions of a configuration bundle, with optional filtering by branch name or creation source. See also: AWS API Documentation list-configuration-bundle-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow...
+    /// Lists all versions of a configuration bundle, with optional filtering by branch name or creation source. See also: AWS API Documentation list-configuration-bundle-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1644,6 +1629,21 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists all configuration bundles in the account. See also: AWS API Documentation list-configuration-bundles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: bundles
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListConfigurationBundlesAsync(
+        AwsBedrockAgentcoreControlListConfigurationBundlesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListConfigurationBundlesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1662,7 +1662,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Returns paginated examples from the dataset. The server embeds the re- solved version in the pagination token. Once pagination begins, all subsequent pages are pinned to that version regardless of concurrent mutations. See also: AWS API Documentation list-dataset-examples uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the ty...
+    /// Returns paginated examples from the dataset. The server embeds the resolved version in the pagination token. Once pagination begins, all subsequent pages are pinned to that version regardless of concurrent mutations. See also: AWS API Documentation list-dataset-examples uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type d...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1677,22 +1677,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Lists all datasets in the caller's account, paginated. See also: AWS API Documentation list-datasets is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: datasets
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListDatasetsAsync(
-        AwsBedrockAgentcoreControlListDatasetsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListDatasetsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists all published versions of a dataset, sorted by version number de- scending (newest first). Does not include the DRAFT working copy. See also: AWS API Documentation list-dataset-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resul...
+    /// Lists all published versions of a dataset, sorted by version number descending (newest first). Does not include the DRAFT working copy. See also: AWS API Documentation list-dataset-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1707,7 +1692,22 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Lists all available evaluators, including both builtin evaluators pro- vided by the service and custom evaluators created by the user. See also: AWS API Documentation list-evaluators is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of...
+    /// Lists all datasets in the caller's account, paginated. See also: AWS API Documentation list-datasets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: datasets
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListDatasetsAsync(
+        AwsBedrockAgentcoreControlListDatasetsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListDatasetsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists all available evaluators, including both builtin evaluators provided by the service and custom evaluators created by the user. See also: AWS API Documentation list-evaluators is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the f...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1752,21 +1752,6 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Lists all gateways in the account. See also: AWS API Documentation list-gateways is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListGatewaysAsync(
-        AwsBedrockAgentcoreControlListGatewaysOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListGatewaysOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists all targets for a specific gateway. See also: AWS API Documentation list-gateway-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1779,6 +1764,21 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists all gateways in the account. See also: AWS API Documentation list-gateways is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListGatewaysAsync(
+        AwsBedrockAgentcoreControlListGatewaysOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListGatewaysOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1797,21 +1797,6 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Operation to list harnesses. See also: AWS API Documentation list-harnesses is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: harnesses
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListHarnessesAsync(
-        AwsBedrockAgentcoreControlListHarnessesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListHarnessesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Operation to list the versions of a Harness. See also: AWS API Documentation list-harness-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: harnessVersions
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1827,7 +1812,22 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Lists the available Amazon Bedrock AgentCore Memory resources in the current Amazon Web Services Region. See also: AWS API Documentation list-memories is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions...
+    /// Operation to list harnesses. See also: AWS API Documentation list-harnesses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: harnesses
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListHarnessesAsync(
+        AwsBedrockAgentcoreControlListHarnessesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListHarnessesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the available Amazon Bedrock AgentCore Memory resources in the current Amazon Web Services Region. See also: AWS API Documentation list-memories is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: me...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1842,7 +1842,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Lists all OAuth2 credential providers in your account. See also: AWS API Documentation list-oauth2-credential-providers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: credentialProviders
+    /// Lists all OAuth2 credential providers in your account. See also: AWS API Documentation list-oauth2-credential-providers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: credentialProviders
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1857,7 +1857,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Lists all online evaluation configurations in the account, providing summary information about each configuration's status and settings. See also: AWS API Documentation list-online-evaluation-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data fr...
+    /// Lists all online evaluation configurations in the account, providing summary information about each configuration's status and settings. See also: AWS API Documentation list-online-evaluation-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1872,7 +1872,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Lists all payment connectors for a specified payment manager. See also: AWS API Documentation list-payment-connectors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: paymentConnectors
+    /// Lists all payment connectors for a specified payment manager. See also: AWS API Documentation list-payment-connectors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: paymentConnectors
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1887,7 +1887,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Lists all payment credential providers in the account. See also: AWS API Documentation list-payment-credential-providers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: credentialProviders
+    /// Lists all payment credential providers in the account. See also: AWS API Documentation list-payment-credential-providers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: credentialProviders
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1917,7 +1917,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Retrieves a list of policies within the AgentCore Policy engine. This operation supports pagination and filtering to help administrators man- age and discover policies across policy engines. Results can be fil- tered by policy engine or resource associations. See also: AWS API Documentation list-policies is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using...
+    /// Retrieves a list of policies within the AgentCore Policy engine. This operation supports pagination and filtering to help administrators manage and discover policies across policy engines. Results can be filtered by policy engine or resource associations. See also: AWS API Documentation list-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --outpu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1929,21 +1929,6 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Retrieves a list of policy engines within the AgentCore Policy system. This operation supports pagination to help administrators discover and manage policy engines across their account. Each policy engine serves as a container for related policies. See also: AWS API Documentation list-policy-engines is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListPolicyEnginesAsync(
-        AwsBedrockAgentcoreControlListPolicyEnginesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListPolicyEnginesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1962,7 +1947,22 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Retrieves a list of generated policy assets from a policy generation request within the AgentCore Policy system. This operation returns the actual Dogwood policies and related artifacts produced by the AI-pow- ered policy generation process, allowing users to review and select from multiple generated policy options. See also: AWS API Documentation list-policy-generation-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You ca...
+    /// Retrieves a list of policy engines within the AgentCore Policy system. This operation supports pagination to help administrators discover and manage policy engines across their account. Each policy engine serves as a container for related policies. See also: AWS API Documentation list-policy-engines is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListPolicyEnginesAsync(
+        AwsBedrockAgentcoreControlListPolicyEnginesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListPolicyEnginesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves a list of generated policy assets from a policy generation request within the AgentCore Policy system. This operation returns the actual Dogwood policies and related artifacts produced by the AI-powered policy generation process, allowing users to review and select from multiple generated policy options. See also: AWS API Documentation list-policy-generation-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can di...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1970,6 +1970,21 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListPolicyGenerationAssetsAsync(
         AwsBedrockAgentcoreControlListPolicyGenerationAssetsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves a paginated list of metadata-only policy generation summaries within a policy engine without decrypting customer content. This lightweight read operation returns resource identifiers, status, timestamps, and findings for each policy generation, but does not include status reasons. Because this operation does not require access to the customer's KMS key, it is suitable for resource discovery, inventory, and integration scenarios where only metadata is needed. See also: AWS API Documenta...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListPolicyGenerationSummariesAsync(
+        AwsBedrockAgentcoreControlListPolicyGenerationSummariesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1992,21 +2007,6 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Retrieves a paginated list of metadata-only policy generation summaries within a policy engine without decrypting customer content. This light- weight read operation returns resource identifiers, status, timestamps, and findings for each policy generation, but does not include status reasons. Because this operation does not require access to the cus- tomer's KMS key, it is suitable for resource discovery, inventory, and integration scenarios where only metadata is needed. See also: AWS API Docum...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListPolicyGenerationSummariesAsync(
-        AwsBedrockAgentcoreControlListPolicyGenerationSummariesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Retrieves a paginated list of metadata-only policy summaries within a policy engine without decrypting customer content. This lightweight read operation returns resource identifiers, status, and timestamps for each policy, but does not include policy definitions, descriptions, or status reasons. Because this operation does not require access to the customer's KMS key, it is suitable for resource discovery, inventory, and integration scenarios where only metadata is needed. See also: AWS API Docu...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -2022,7 +2022,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Lists all registries in the account. You can optionally filter results by status using the status parameter, or by authorizer type using the authorizerType parameter. See also: AWS API Documentation list-registries is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must ...
+    /// Lists all registries in the account. You can optionally filter results by status using the status parameter, or by authorizer type using the authorizerType parameter. See also: AWS API Documentation list-registries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2037,7 +2037,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Lists registry records within a registry. You can optionally filter re- sults using the name , status , and descriptorType parameters. When multiple filters are specified, they are combined using AND logic. See also: AWS API Documentation list-registry-records is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi...
+    /// Lists registry records within a registry. You can optionally filter results using the name , status , and descriptorType parameters. When multiple filters are specified, they are combined using AND logic. See also: AWS API Documentation list-registry-records is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagina...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2067,7 +2067,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Lists all workload identities in your account. See also: AWS API Documentation list-workload-identities is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: workloadIdentities
+    /// Lists all workload identities in your account. See also: AWS API Documentation list-workload-identities is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: workloadIdentities
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2097,7 +2097,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Replaces the service-managed credentials of a payment connector with newly issued credentials. Use this operation only for payment connectors with a provisionMode of QUICK_CREATE . For payment connectors with a provisionMode of MANUAL , call UpdatePaymentCredentialProvider instead after rotating credentials with the payment provider directly. The rotation finishes before the response is returned, and only one ro- tation runs at a time for a given payment connector. When it succeeds, the new cred...
+    /// Replaces the service-managed credentials of a payment connector with newly issued credentials. Use this operation only for payment connectors with a provisionMode of QUICK_CREATE . For payment connectors with a provisionMode of MANUAL , call UpdatePaymentCredentialProvider instead after rotating credentials with the payment provider directly. The rotation finishes before the response is returned, and only one rotation runs at a time for a given payment connector. When it succeeds, the new creden...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2127,7 +2127,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Initiates the AI-powered generation of Dogwood policies from natural language descriptions within the AgentCore Policy system. This feature enables both technical and non-technical users to create policies by describing their authorization requirements in plain English, which is then automatically translated into formal Dogwood policy statements. The generation process analyzes the natural language input along with the Gateway's tool context to produce validated policy options. Gener- ated polic...
+    /// Initiates the AI-powered generation of Dogwood policies from natural language descriptions within the AgentCore Policy system. This feature enables both technical and non-technical users to create policies by describing their authorization requirements in plain English, which is then automatically translated into formal Dogwood policy statements. The generation process analyzes the natural language input along with the Gateway's tool context to produce validated policy options. Generated policy ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2157,7 +2157,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Synchronizes the gateway targets by fetching the latest tool defini- tions from the target endpoints. You cannot synchronize a target that is in a pending authorization state (CREATE_PENDING_AUTH , UPDATE_PENDING_AUTH , or SYNCHRONIZE_PEND- ING_AUTH ). Wait for the authorization to complete or fail before syn- chronizing. You cannot synchronize a target that has a static tool schema (mcp- ToolSchema ) configured. Remove the static schema through an Update- GatewayTarget call to enable dynamic to...
+    /// Synchronizes the gateway targets by fetching the latest tool definitions from the target endpoints. You cannot synchronize a target that is in a pending authorization state (CREATE_PENDING_AUTH , UPDATE_PENDING_AUTH , or SYNCHRONIZE_PENDING_AUTH ). Wait for the authorization to complete or fail before synchronizing. You cannot synchronize a target that has a static tool schema (mcpToolSchema ) configured. Remove the static schema through an UpdateGatewayTarget call to enable dynamic tool synchro...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2172,7 +2172,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Associates the specified tags to a resource with the specified re- sourceArn. If existing tags on a resource are not specified in the re- quest parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted. NOTE: This feature is currently available only for AgentCore Runtime, Browser, Browser Profile, Code Interpreter tool, and Gateway. See also: AWS API Documentation
+    /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted. NOTE: This feature is currently available only for AgentCore Runtime, Browser, Browser Profile, Code Interpreter tool, and Gateway. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2262,7 +2262,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Updates a configuration bundle by creating a new version with the spec- ified changes. Each update creates a new version in the version his- tory. See also: AWS API Documentation update-configuration-bundle uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not su...
+    /// Updates a configuration bundle by creating a new version with the specified changes. Each update creates a new version in the version history. See also: AWS API Documentation update-configuration-bundle uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2292,7 +2292,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Updates multiple existing examples in-place on DRAFT. All examples are validated against the dataset's schema type before any writes occur. If any example fails validation, the entire batch is rejected (all-or-nothing semantics). See also: AWS API Documentation update-dataset-examples uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labele...
+    /// Updates multiple existing examples in-place on DRAFT. All examples are validated against the dataset's schema type before any writes occur. If any example fails validation, the entire batch is rejected (all-or-nothing semantics). See also: AWS API Documentation update-dataset-examples uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2307,7 +2307,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Updates a dataset's metadata. Synchronous operation. Only provided fields are updated; omitted fields remain unchanged. To modify dataset content, use AddDatasetExamples , UpdateDatasetExamples , or Delete- DatasetExamples . See also: AWS API Documentation
+    /// Updates a dataset's metadata. Synchronous operation. Only provided fields are updated; omitted fields remain unchanged. To modify dataset content, use AddDatasetExamples , UpdateDatasetExamples , or DeleteDatasetExamples . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2322,7 +2322,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Updates a custom evaluator's configuration, description, or evaluation level. Built-in evaluators cannot be updated. The evaluator must not be locked for modification. See also: AWS API Documentation update-evaluator uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax d...
+    /// Updates a custom evaluator's configuration, description, or evaluation level. Built-in evaluators cannot be updated. The evaluator must not be locked for modification. See also: AWS API Documentation update-evaluator uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax doe...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2352,7 +2352,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Updates the entries of a gateway rate limit. The dimension keys are im- mutable after creation. See also: AWS API Documentation
+    /// Updates the entries of a gateway rate limit. The dimension keys are immutable after creation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2382,7 +2382,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Updates an existing gateway target. You cannot update a target that is in a pending authorization state (CREATE_PENDING_AUTH , UPDATE_PENDING_AUTH , or SYNCHRONIZE_PEND- ING_AUTH ). Wait for the authorization to complete or fail before up- dating the target. See also: AWS API Documentation update-gateway-target uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested p...
+    /// Updates an existing gateway target. You cannot update a target that is in a pending authorization state (CREATE_PENDING_AUTH , UPDATE_PENDING_AUTH , or SYNCHRONIZE_PENDING_AUTH ). Wait for the authorization to complete or fail before updating the target. See also: AWS API Documentation update-gateway-target uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested param...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2412,7 +2412,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Operation to update a harness. See also: AWS API Documentation update-harness uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Operation to update a harness. See also: AWS API Documentation update-harness uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2457,7 +2457,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Updates an online evaluation configuration's settings, including rules, data sources, evaluators, and execution status. Changes take effect im- mediately for ongoing evaluations. See also: AWS API Documentation
+    /// Updates an online evaluation configuration's settings, including rules, data sources, evaluators, and execution status. Changes take effect immediately for ongoing evaluations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2472,7 +2472,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Updates an existing payment connector. This operation uses PATCH seman- tics, so you only need to specify the fields you want to change. See also: AWS API Documentation
+    /// Updates an existing payment connector. This operation uses PATCH semantics, so you only need to specify the fields you want to change. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2502,7 +2502,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Updates an existing payment manager. This operation uses PATCH seman- tics, so you only need to specify the fields you want to change. See also: AWS API Documentation
+    /// Updates an existing payment manager. This operation uses PATCH semantics, so you only need to specify the fields you want to change. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2517,7 +2517,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Updates an existing policy engine within the AgentCore Policy system. This operation allows modification of the policy engine description while maintaining its identity. This is an asynchronous operation. Use the GetPolicyEngine operation to poll the status field to track comple- tion. See also: AWS API Documentation
+    /// Updates an existing policy engine within the AgentCore Policy system. This operation allows modification of the policy engine description while maintaining its identity. This is an asynchronous operation. Use the GetPolicyEngine operation to poll the status field to track completion. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2532,7 +2532,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Updates an existing policy within the AgentCore Policy system. This op- eration allows modification of the policy description and definition while maintaining the policy's identity. The updated policy is vali- dated against the Cedar schema before being applied. This is an asyn- chronous operation. Use the GetPolicy operation to poll the status field to track completion. If the updated policy is a temporal policy, the policy engine invali- dates all active temporal sessions. If the update adds o...
+    /// Updates an existing policy within the AgentCore Policy system. This operation allows modification of the policy description and definition while maintaining the policy's identity. The updated policy is validated against the Cedar schema before being applied. This is an asynchronous operation. Use the GetPolicy operation to poll the status field to track completion. If the updated policy is a temporal policy, the policy engine invalidates all active temporal sessions. If the update adds or remove...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2562,7 +2562,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Updates an existing registry record. This operation uses PATCH seman- tics, so you only need to specify the fields you want to change. The update is processed asynchronously and returns HTTP 202 Accepted. See also: AWS API Documentation
+    /// Updates an existing registry record. This operation uses PATCH semantics, so you only need to specify the fields you want to change. The update is processed asynchronously and returns HTTP 202 Accepted. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

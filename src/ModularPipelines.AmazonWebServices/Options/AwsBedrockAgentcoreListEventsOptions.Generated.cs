@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists events in an AgentCore Memory resource based on specified crite- ria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListEvents permission. See also: AWS API Documentation list-events uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are...
+/// Lists events in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListEvents permission. See also: AWS API Documentation list-events uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are l...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsBedrockAgentcoreListEventsOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists events in an AgentCore Memory resource based on specified crite- ria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListEvents permission. See also: AWS API Documentation list-events uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are...
+    /// Lists events in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListEvents permission. See also: AWS API Documentation list-events uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are l...
     /// </summary>
-    /// <param name="MemoryId">The identifier of the AgentCore Memory resource for which to list events. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
-    /// <param name="SessionId">The identifier of the session for which to list events. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_]*</param>
-    /// <param name="ActorId">The identifier of the actor for which to list events. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*</param>
+    /// <param name="MemoryId">The identifier of the AgentCore Memory resource for which to list events. Constraints: • min: 12 • pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:memory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
+    /// <param name="SessionId">The identifier of the session for which to list events. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9][a-zA-Z0-9-_]*</param>
+    /// <param name="ActorId">The identifier of the actor for which to list events. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*</param>
     public AwsBedrockAgentcoreListEventsOptions(
         string MemoryId,
         string SessionId,
@@ -65,19 +67,19 @@ public record AwsBedrockAgentcoreListEventsOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the AgentCore Memory resource for which to list events. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
+    /// The identifier of the AgentCore Memory resource for which to list events. Constraints: • min: 12 • pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:memory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--memory-id")]
     public string? MemoryId { get; private init; }
 
     /// <summary>
-    /// The identifier of the session for which to list events. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_]*
+    /// The identifier of the session for which to list events. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9][a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }
 
     /// <summary>
-    /// The identifier of the actor for which to list events. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*
+    /// The identifier of the actor for which to list events. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*
     /// </summary>
     [CliOption("--actor-id")]
     public string? ActorId { get; private init; }
@@ -89,16 +91,13 @@ public record AwsBedrockAgentcoreListEventsOptions : AwsOptions, IValidatableObj
     public bool? IncludePayloads { get; set; }
 
     /// <summary>
-    /// Filter criteria to apply when listing events. branch -&gt; (structure) The branch filter criteria to apply when listing events. name -&gt; (string) [required] The name of the branch to filter by. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_]* includeParentBranches -&gt; (boolean) Specifies whether to include parent branches in the results. Set to true to include parent branches, or false to exclude them. eventMetadata -&gt; (list) Event metadata filter criteria to apply when retrieving events. Constraints: o min: 1 o max: 5 (structure) Filter expression for retrieving events based on metadata as- sociated with an event. left -&gt; (tagged union structure) [required] Left operand of the event metadata filter expression. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: metadataKey. metadataKey -&gt; (string) Key associated with the metadata in an event. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* operator -&gt; (string) [required] Operator applied to the event metadata filter expression. Possible values: o EQUALS_TO o EXISTS o NOT_EXISTS right -&gt; (tagged union structure) Right operand of the event metadata filter expression. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: metadataValue. metadataValue -&gt; (tagged union structure) Value associated with the key in eventMetadata . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: stringValue. stringValue -&gt; (string) Value associated with the eventMetadata key. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* JSON Syntax: { "branch": { "name": "string", "includeParentBranches": true|false }, "eventMetadata": [ { "left": { "metadataKey": "string" }, "operator": "EQUALS_TO"|"EXISTS"|"NOT_EXISTS", "right": { "metadataValue": { "stringValue": "string" } } } ... ] }
+    /// Filter criteria to apply when listing events. branch -&gt; (structure) The branch filter criteria to apply when listing events. name -&gt; (string) [required] The name of the branch to filter by. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9][a-zA-Z0-9-_]* includeParentBranches -&gt; (boolean) Specifies whether to include parent branches in the results. Set to true to include parent branches, or false to exclude them. eventMetadata -&gt; (list) Event metadata filter criteria to apply when retrieving events. Constraints: • min: 1 • max: 5 (structure) Filter expression for retrieving events based on metadata associated with an event. left -&gt; (tagged union structure) [required] Left operand of the event metadata filter expression. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: metadataKey. metadataKey -&gt; (string) Key associated with the metadata in an event. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\s._:/=+@-]* operator -&gt; (string) [required] Operator applied to the event metadata filter expression. Possible values: • EQUALS_TO • EXISTS • NOT_EXISTS right -&gt; (tagged union structure) Right operand of the event metadata filter expression. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: metadataValue. metadataValue -&gt; (tagged union structure) Value associated with the key in eventMetadata . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: stringValue. stringValue -&gt; (string) Value associated with the eventMetadata key. Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9\s._:/=+@-]* JSON Syntax: { "branch": { "name": "string", "includeParentBranches": true|false }, "eventMetadata": [ { "left": { "metadataKey": "string" }, "operator": "EQUALS_TO"|"EXISTS"|"NOT_EXISTS", "right": { "metadataValue": { "stringValue": "string" } } } ... ] }
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -108,16 +107,19 @@ public record AwsBedrockAgentcoreListEventsOptions : AwsOptions, IValidatableObj
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

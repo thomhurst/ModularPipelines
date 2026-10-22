@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Replaces the service-managed credentials of a payment connector with newly issued credentials. Use this operation only for payment connectors with a provisionMode of QUICK_CREATE . For payment connectors with a provisionMode of MANUAL , call UpdatePaymentCredentialProvider instead after rotating credentials with the payment provider directly. The rotation finishes before the response is returned, and only one ro- tation runs at a time for a given payment connector. When it succeeds, the new cred...
+/// Replaces the service-managed credentials of a payment connector with newly issued credentials. Use this operation only for payment connectors with a provisionMode of QUICK_CREATE . For payment connectors with a provisionMode of MANUAL , call UpdatePaymentCredentialProvider instead after rotating credentials with the payment provider directly. The rotation finishes before the response is returned, and only one rotation runs at a time for a given payment connector. When it succeeds, the new creden...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsBedrockAgentcoreControlRotatePaymentConnectorCredentialsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Replaces the service-managed credentials of a payment connector with newly issued credentials. Use this operation only for payment connectors with a provisionMode of QUICK_CREATE . For payment connectors with a provisionMode of MANUAL , call UpdatePaymentCredentialProvider instead after rotating credentials with the payment provider directly. The rotation finishes before the response is returned, and only one ro- tation runs at a time for a given payment connector. When it succeeds, the new cred...
+    /// Replaces the service-managed credentials of a payment connector with newly issued credentials. Use this operation only for payment connectors with a provisionMode of QUICK_CREATE . For payment connectors with a provisionMode of MANUAL , call UpdatePaymentCredentialProvider instead after rotating credentials with the payment provider directly. The rotation finishes before the response is returned, and only one rotation runs at a time for a given payment connector. When it succeeds, the new creden...
     /// </summary>
-    /// <param name="PaymentManagerId">The unique identifier of the parent payment manager. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}</param>
-    /// <param name="PaymentConnectorId">The unique identifier of the payment connector whose credentials you want to rotate. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z_][-]?){1,100}-[0-9a-z]{10}</param>
-    /// <param name="CredentialsToRotate">The credentials to rotate. Specify the member that matches the pay- ment connector's type . Each credential that you select is rotated independently. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: coinbaseCDP. coinbaseCDP -&gt; (structure) The credentials to rotate for a Coinbase CDP payment connector. secrets -&gt; (list) [required] The secrets to rotate. Specify at least one value. Each se- cret that you specify is rotated independently. o API_KEY - The API key that the payment connector uses to call Coinbase CDP. Rotate it as routine maintenance, or if you suspect that it is compromised. o WALLET_SECRET - The wallet secret that signs transactions. Rotate it only if it is lost or compromised. Coinbase CDP allows one wallet secret per project, so it is replaced in place and signing can be briefly interrupted. Constraints: o min: 1 (string) Possible values: o API_KEY o WALLET_SECRET Shorthand Syntax: coinbaseCDP={secrets=[string,string]} JSON Syntax: { "coinbaseCDP": { "secrets": ["API_KEY"|"WALLET_SECRET", ...] } }</param>
+    /// <param name="PaymentManagerId">The unique identifier of the parent payment manager. Constraints: • min: 12 • max: 211 • pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}</param>
+    /// <param name="PaymentConnectorId">The unique identifier of the payment connector whose credentials you want to rotate. Constraints: • min: 12 • max: 211 • pattern: ([0-9a-z_][-]?){1,100}-[0-9a-z]{10}</param>
+    /// <param name="CredentialsToRotate">The credentials to rotate. Specify the member that matches the payment connector's type . Each credential that you select is rotated independently. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: coinbaseCDP. coinbaseCDP -&gt; (structure) The credentials to rotate for a Coinbase CDP payment connector. secrets -&gt; (list) [required] The secrets to rotate. Specify at least one value. Each secret that you specify is rotated independently. • API_KEY - The API key that the payment connector uses to call Coinbase CDP. Rotate it as routine maintenance, or if you suspect that it is compromised. • WALLET_SECRET - The wallet secret that signs transactions. Rotate it only if it is lost or compromised. Coinbase CDP allows one wallet secret per project, so it is replaced in place and signing can be briefly interrupted. Constraints: • min: 1 (string) Possible values: • API_KEY • WALLET_SECRET Shorthand Syntax: coinbaseCDP={secrets=[string,string]} JSON Syntax: { "coinbaseCDP": { "secrets": ["API_KEY"|"WALLET_SECRET", ...] } }</param>
     public AwsBedrockAgentcoreControlRotatePaymentConnectorCredentialsOptions(
         string PaymentManagerId,
         string PaymentConnectorId,
@@ -65,26 +67,26 @@ public record AwsBedrockAgentcoreControlRotatePaymentConnectorCredentialsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the parent payment manager. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
+    /// The unique identifier of the parent payment manager. Constraints: • min: 12 • max: 211 • pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
     /// </summary>
     [CliOption("--payment-manager-id")]
     public string? PaymentManagerId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the payment connector whose credentials you want to rotate. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z_][-]?){1,100}-[0-9a-z]{10}
+    /// The unique identifier of the payment connector whose credentials you want to rotate. Constraints: • min: 12 • max: 211 • pattern: ([0-9a-z_][-]?){1,100}-[0-9a-z]{10}
     /// </summary>
     [CliOption("--payment-connector-id")]
     public string? PaymentConnectorId { get; private init; }
 
     /// <summary>
-    /// The credentials to rotate. Specify the member that matches the pay- ment connector's type . Each credential that you select is rotated independently. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: coinbaseCDP. coinbaseCDP -&gt; (structure) The credentials to rotate for a Coinbase CDP payment connector. secrets -&gt; (list) [required] The secrets to rotate. Specify at least one value. Each se- cret that you specify is rotated independently. o API_KEY - The API key that the payment connector uses to call Coinbase CDP. Rotate it as routine maintenance, or if you suspect that it is compromised. o WALLET_SECRET - The wallet secret that signs transactions. Rotate it only if it is lost or compromised. Coinbase CDP allows one wallet secret per project, so it is replaced in place and signing can be briefly interrupted. Constraints: o min: 1 (string) Possible values: o API_KEY o WALLET_SECRET Shorthand Syntax: coinbaseCDP={secrets=[string,string]} JSON Syntax: { "coinbaseCDP": { "secrets": ["API_KEY"|"WALLET_SECRET", ...] } }
+    /// The credentials to rotate. Specify the member that matches the payment connector's type . Each credential that you select is rotated independently. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: coinbaseCDP. coinbaseCDP -&gt; (structure) The credentials to rotate for a Coinbase CDP payment connector. secrets -&gt; (list) [required] The secrets to rotate. Specify at least one value. Each secret that you specify is rotated independently. • API_KEY - The API key that the payment connector uses to call Coinbase CDP. Rotate it as routine maintenance, or if you suspect that it is compromised. • WALLET_SECRET - The wallet secret that signs transactions. Rotate it only if it is lost or compromised. Coinbase CDP allows one wallet secret per project, so it is replaced in place and signing can be briefly interrupted. Constraints: • min: 1 (string) Possible values: • API_KEY • WALLET_SECRET Shorthand Syntax: coinbaseCDP={secrets=[string,string]} JSON Syntax: { "coinbaseCDP": { "secrets": ["API_KEY"|"WALLET_SECRET", ...] } }
     /// </summary>
     [SecretValue]
     [CliOption("--credentials-to-rotate")]
     public string? CredentialsToRotate { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previ- ous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCloud9DeleteEnvironmentMembershipOptions : AwsOptions, IValidat
     /// <summary>
     /// Deletes an environment member from a development environment. WARNING: Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. Learn more" See also: AWS API Documentation
     /// </summary>
-    /// <param name="EnvironmentId">The ID of the environment to delete the environment member from. Constraints: o pattern: ^[a-zA-Z0-9]{8,32}$</param>
-    /// <param name="UserArn">The Amazon Resource Name (ARN) of the environment member to delete from the environment. Constraints: o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):(iam|sts)::\d+:(root|(user\/[\w+=/:,.@-]{1,64}|fed- erated-user\/[\w+=/:,.@-]{2,32}|as- sumed-role\/[\w+=:,.@-]{1,64}\/[\w+=,.@-]{1,64}))$</param>
+    /// <param name="EnvironmentId">The ID of the environment to delete the environment member from. Constraints: • pattern: ^[a-zA-Z0-9]{8,32}$</param>
+    /// <param name="UserArn">The Amazon Resource Name (ARN) of the environment member to delete from the environment. Constraints: • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):(iam|sts)::\d+:(root|(user\/[\w+=/:,.@-]{1,64}|federated-user\/[\w+=/:,.@-]{2,32}|assumed-role\/[\w+=:,.@-]{1,64}\/[\w+=,.@-]{1,64}))$</param>
     public AwsCloud9DeleteEnvironmentMembershipOptions(
         string EnvironmentId,
         string UserArn
@@ -60,13 +62,13 @@ public record AwsCloud9DeleteEnvironmentMembershipOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the environment to delete the environment member from. Constraints: o pattern: ^[a-zA-Z0-9]{8,32}$
+    /// The ID of the environment to delete the environment member from. Constraints: • pattern: ^[a-zA-Z0-9]{8,32}$
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the environment member to delete from the environment. Constraints: o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):(iam|sts)::\d+:(root|(user\/[\w+=/:,.@-]{1,64}|fed- erated-user\/[\w+=/:,.@-]{2,32}|as- sumed-role\/[\w+=:,.@-]{1,64}\/[\w+=,.@-]{1,64}))$
+    /// The Amazon Resource Name (ARN) of the environment member to delete from the environment. Constraints: • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):(iam|sts)::\d+:(root|(user\/[\w+=/:,.@-]{1,64}|federated-user\/[\w+=/:,.@-]{2,32}|assumed-role\/[\w+=:,.@-]{1,64}\/[\w+=,.@-]{1,64}))$
     /// </summary>
     [CliOption("--user-arn")]
     public string? UserArn { get; private init; }

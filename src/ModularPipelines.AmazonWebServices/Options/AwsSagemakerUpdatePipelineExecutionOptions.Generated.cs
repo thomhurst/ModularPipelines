@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSagemakerUpdatePipelineExecutionOptions : AwsOptions, IValidata
     /// <summary>
     /// Updates a pipeline execution. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PipelineExecutionArn">The Amazon Resource Name (ARN) of the pipeline execution. Constraints: o min: 0 o max: 2048 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:pipeline\/.*\/execution\/.*</param>
+    /// <param name="PipelineExecutionArn">The Amazon Resource Name (ARN) of the pipeline execution. Constraints: • min: 0 • max: 2048 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:pipeline\/.*\/execution\/.*</param>
     public AwsSagemakerUpdatePipelineExecutionOptions(
         string PipelineExecutionArn
     )
@@ -56,25 +58,25 @@ public record AwsSagemakerUpdatePipelineExecutionOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the pipeline execution. Constraints: o min: 0 o max: 2048 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:pipeline\/.*\/execution\/.*
+    /// The Amazon Resource Name (ARN) of the pipeline execution. Constraints: • min: 0 • max: 2048 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:pipeline\/.*\/execution\/.*
     /// </summary>
     [CliOption("--pipeline-execution-arn")]
     public string? PipelineExecutionArn { get; private init; }
 
     /// <summary>
-    /// The description of the pipeline execution. Constraints: o min: 0 o max: 3072 o pattern: .*
+    /// The description of the pipeline execution. Constraints: • min: 0 • max: 3072 • pattern: .*
     /// </summary>
     [CliOption("--pipeline-execution-description")]
     public string? PipelineExecutionDescription { get; set; }
 
     /// <summary>
-    /// The display name of the pipeline execution. Constraints: o min: 1 o max: 82 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,81}
+    /// The display name of the pipeline execution. Constraints: • min: 1 • max: 82 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,81}
     /// </summary>
     [CliOption("--pipeline-execution-display-name")]
     public string? PipelineExecutionDisplayName { get; set; }
 
     /// <summary>
-    /// This configuration, if specified, overrides the parallelism configu- ration of the parent pipeline for this specific run. MaxParallelExecutionSteps -&gt; (integer) [required] The max number of steps that can be executed in parallel. Constraints: o min: 1 Shorthand Syntax: MaxParallelExecutionSteps=integer JSON Syntax: { "MaxParallelExecutionSteps": integer }
+    /// This configuration, if specified, overrides the parallelism configuration of the parent pipeline for this specific run. MaxParallelExecutionSteps -&gt; (integer) [required] The max number of steps that can be executed in parallel. Constraints: • min: 1 Shorthand Syntax: MaxParallelExecutionSteps=integer JSON Syntax: { "MaxParallelExecutionSteps": integer }
     /// </summary>
     [CliOption("--parallelism-configuration")]
     public string? ParallelismConfiguration { get; set; }

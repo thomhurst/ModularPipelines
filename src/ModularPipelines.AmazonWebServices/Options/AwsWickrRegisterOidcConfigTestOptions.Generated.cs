@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsWickrRegisterOidcConfigTestOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Tests an OpenID Connect (OIDC) configuration for a Wickr network by validating the connection to the identity provider and retrieving its supported capabilities. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The ID of the Wickr network for which the OIDC configuration will be tested. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
-    /// <param name="Issuer">The issuer URL of the OIDC provider to test. Constraints: o pattern: [\S\s]*</param>
-    /// <param name="Scopes">The OAuth scopes to test with the OIDC provider. Constraints: o pattern: [\S\s]*</param>
+    /// <param name="NetworkId">The ID of the Wickr network for which the OIDC configuration will be tested. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}</param>
+    /// <param name="Issuer">The issuer URL of the OIDC provider to test. Constraints: • pattern: [\S\s]*</param>
+    /// <param name="Scopes">The OAuth scopes to test with the OIDC provider. Constraints: • pattern: [\S\s]*</param>
     public AwsWickrRegisterOidcConfigTestOptions(
         string NetworkId,
         string Issuer,
@@ -64,31 +66,31 @@ public record AwsWickrRegisterOidcConfigTestOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Wickr network for which the OIDC configuration will be tested. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// The ID of the Wickr network for which the OIDC configuration will be tested. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }
 
     /// <summary>
-    /// The issuer URL of the OIDC provider to test. Constraints: o pattern: [\S\s]*
+    /// The issuer URL of the OIDC provider to test. Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--issuer")]
     public string? Issuer { get; private init; }
 
     /// <summary>
-    /// The OAuth scopes to test with the OIDC provider. Constraints: o pattern: [\S\s]*
+    /// The OAuth scopes to test with the OIDC provider. Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--scopes")]
     public string? Scopes { get; private init; }
 
     /// <summary>
-    /// Additional authentication parameters to include in the test (op- tional). Constraints: o pattern: [\S\s]*
+    /// Additional authentication parameters to include in the test (optional). Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--extra-auth-params")]
     public string? ExtraAuthParams { get; set; }
 
     /// <summary>
-    /// The CA certificate for secure communication with the OIDC provider (optional). Constraints: o pattern: [\S\s]*
+    /// The CA certificate for secure communication with the OIDC provider (optional). Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--certificate")]
     public string? Certificate { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsConnectDeleteHoursOfOperationOverrideOptions : AwsOptions, IVal
     /// <summary>
     /// Deletes an hours of operation override in an Connect Customer hours of operation resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. Constraints: • min: 1 • max: 100</param>
     /// <param name="HoursOfOperationId">The identifier for the hours of operation.</param>
-    /// <param name="HoursOfOperationOverrideId">The identifier for the hours of operation override. Constraints: o min: 1 o max: 36</param>
+    /// <param name="HoursOfOperationOverrideId">The identifier for the hours of operation override. Constraints: • min: 1 • max: 36</param>
     public AwsConnectDeleteHoursOfOperationOverrideOptions(
         string InstanceId,
         string HoursOfOperationId,
@@ -64,7 +66,7 @@ public record AwsConnectDeleteHoursOfOperationOverrideOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
@@ -76,7 +78,7 @@ public record AwsConnectDeleteHoursOfOperationOverrideOptions : AwsOptions, IVal
     public string? HoursOfOperationId { get; private init; }
 
     /// <summary>
-    /// The identifier for the hours of operation override. Constraints: o min: 1 o max: 36
+    /// The identifier for the hours of operation override. Constraints: • min: 1 • max: 36
     /// </summary>
     [CliOption("--hours-of-operation-override-id")]
     public string? HoursOfOperationOverrideId { get; private init; }

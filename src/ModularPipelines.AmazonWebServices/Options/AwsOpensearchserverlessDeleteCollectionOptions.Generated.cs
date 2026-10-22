@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsOpensearchserverlessDeleteCollectionOptions : AwsOptions, IVali
     /// <summary>
     /// Deletes an OpenSearch Serverless collection. For more information, see Creating and managing Amazon OpenSearch Serverless collections . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The unique identifier of the collection. For example, 1iu5usc406kd . The ID is part of the collection endpoint. You can also retrieve it using the ListCollections API. Constraints: o min: 3 o max: 40 o pattern: [a-z0-9]{3,40}</param>
+    /// <param name="Id">The unique identifier of the collection. For example, 1iu5usc406kd . The ID is part of the collection endpoint. You can also retrieve it using the ListCollections API. Constraints: • min: 3 • max: 40 • pattern: [a-z0-9]{3,40}</param>
     public AwsOpensearchserverlessDeleteCollectionOptions(
         string Id
     )
@@ -57,13 +59,13 @@ public record AwsOpensearchserverlessDeleteCollectionOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the collection. For example, 1iu5usc406kd . The ID is part of the collection endpoint. You can also retrieve it using the ListCollections API. Constraints: o min: 3 o max: 40 o pattern: [a-z0-9]{3,40}
+    /// The unique identifier of the collection. For example, 1iu5usc406kd . The ID is part of the collection endpoint. You can also retrieve it using the ListCollections API. Constraints: • min: 3 • max: 40 • pattern: [a-z0-9]{3,40}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 1 o max: 512
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. Constraints: • min: 1 • max: 512
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

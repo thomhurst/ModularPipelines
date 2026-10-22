@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsIvschatDisconnectUserOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Disconnects all connections using a specified user ID from a room. This replicates the DisconnectUser WebSocket operation in the Amazon IVS Chat Messaging API. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RoomIdentifier">Identifier of the room from which the user's clients should be dis- connected. Currently this must be an ARN. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivschat:[a-z0-9-]+:[0-9]+:room/[a-zA-Z0-9-]+</param>
-    /// <param name="UserId">ID of the user (connection) to disconnect from the room. Constraints: o min: 1 o max: 128</param>
+    /// <param name="RoomIdentifier">Identifier of the room from which the user's clients should be disconnected. Currently this must be an ARN. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivschat:[a-z0-9-]+:[0-9]+:room/[a-zA-Z0-9-]+</param>
+    /// <param name="UserId">ID of the user (connection) to disconnect from the room. Constraints: • min: 1 • max: 128</param>
     public AwsIvschatDisconnectUserOptions(
         string RoomIdentifier,
         string UserId
@@ -60,19 +62,19 @@ public record AwsIvschatDisconnectUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifier of the room from which the user's clients should be dis- connected. Currently this must be an ARN. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivschat:[a-z0-9-]+:[0-9]+:room/[a-zA-Z0-9-]+
+    /// Identifier of the room from which the user's clients should be disconnected. Currently this must be an ARN. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivschat:[a-z0-9-]+:[0-9]+:room/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--room-identifier")]
     public string? RoomIdentifier { get; private init; }
 
     /// <summary>
-    /// ID of the user (connection) to disconnect from the room. Constraints: o min: 1 o max: 128
+    /// ID of the user (connection) to disconnect from the room. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; private init; }
 
     /// <summary>
-    /// Reason for disconnecting the user. Constraints: o min: 1 o max: 256
+    /// Reason for disconnecting the user. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--reason")]
     public string? Reason { get; set; }

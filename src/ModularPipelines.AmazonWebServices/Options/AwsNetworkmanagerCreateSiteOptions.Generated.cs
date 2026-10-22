@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsNetworkmanagerCreateSiteOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Creates a new site in a global network. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
+    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*</param>
     public AwsNetworkmanagerCreateSiteOptions(
         string GlobalNetworkId
     )
@@ -56,25 +58,25 @@ public record AwsNetworkmanagerCreateSiteOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// The ID of the global network. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--global-network-id")]
     public string? GlobalNetworkId { get; private init; }
 
     /// <summary>
-    /// A description of your site. Constraints: Maximum length of 256 characters. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// A description of your site. Constraints: Maximum length of 256 characters. Constraints: • min: 0 • max: 256 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The site location. This information is used for visualization in the Network Manager console. If you specify the address, the latitude and longitude are automatically calculated. o Address : The physical address of the site. o Latitude : The latitude of the site. o Longitude : The longitude of the site. Address -&gt; (string) The physical address. Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Latitude -&gt; (string) The latitude. Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Longitude -&gt; (string) The longitude. Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Shorthand Syntax: Address=string,Latitude=string,Longitude=string JSON Syntax: { "Address": "string", "Latitude": "string", "Longitude": "string" }
+    /// The site location. This information is used for visualization in the Network Manager console. If you specify the address, the latitude and longitude are automatically calculated. • Address : The physical address of the site. • Latitude : The latitude of the site. • Longitude : The longitude of the site. Address -&gt; (string) The physical address. Constraints: • min: 0 • max: 256 • pattern: [\s\S]* Latitude -&gt; (string) The latitude. Constraints: • min: 0 • max: 256 • pattern: [\s\S]* Longitude -&gt; (string) The longitude. Constraints: • min: 0 • max: 256 • pattern: [\s\S]* Shorthand Syntax: Address=string,Latitude=string,Longitude=string JSON Syntax: { "Address": "string", "Latitude": "string", "Longitude": "string" }
     /// </summary>
     [CliOption("--location")]
     public string? Location { get; set; }
 
     /// <summary>
-    /// The tags to apply to the resource during creation. (structure) Describes a tag. Key -&gt; (string) The tag key. Constraints: Maximum length of 128 characters. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]* Value -&gt; (string) The tag value. Constraints: Maximum length of 256 characters. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags to apply to the resource during creation. (structure) Describes a tag. Key -&gt; (string) The tag key. Constraints: Maximum length of 128 characters. Constraints: • min: 0 • max: 10000000 • pattern: [\s\S]* Value -&gt; (string) The tag value. Constraints: Maximum length of 256 characters. Constraints: • min: 0 • max: 10000000 • pattern: [\s\S]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

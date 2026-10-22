@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSesv2PutEmailIdentityFeedbackAttributesOptions : AwsOptions, IV
     /// <summary>
     /// Used to enable or disable feedback forwarding for an identity. This setting determines what happens when an identity is used to send an email that results in a bounce or complaint event. If the value is true , you receive email notifications when bounce or complaint events occur. These notifications are sent to the address that you specified in the Return-Path header of the original email. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanis...
     /// </summary>
-    /// <param name="EmailIdentity">The email identity. Constraints: o min: 1</param>
+    /// <param name="EmailIdentity">The email identity. Constraints: • min: 1</param>
     public AwsSesv2PutEmailIdentityFeedbackAttributesOptions(
         string EmailIdentity
     )
@@ -56,13 +58,13 @@ public record AwsSesv2PutEmailIdentityFeedbackAttributesOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The email identity. Constraints: o min: 1
+    /// The email identity. Constraints: • min: 1
     /// </summary>
     [CliOption("--email-identity")]
     public string? EmailIdentity { get; private init; }
 
     /// <summary>
-    /// Sets the feedback forwarding configuration for the identity. If the value is true , you receive email notifications when bounce or complaint events occur. These notifications are sent to the ad- dress that you specified in the Return-Path header of the original email. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or com- plaint notifications (for example, by setting up an event destina- tion), you receive an email notification when these events occur (even if this setting is disabled).
+    /// Sets the feedback forwarding configuration for the identity. If the value is true , you receive email notifications when bounce or complaint events occur. These notifications are sent to the address that you specified in the Return-Path header of the original email. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or complaint notifications (for example, by setting up an event destination), you receive an email notification when these events occur (even if this setting is disabled).
     /// </summary>
     [CliFlag("--email-forwarding-enabled", NegatedName = "--no-email-forwarding-enabled")]
     public bool? EmailForwardingEnabled { get; set; }

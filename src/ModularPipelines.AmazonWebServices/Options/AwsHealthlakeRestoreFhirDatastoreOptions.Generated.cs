@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsHealthlakeRestoreFhirDatastoreOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Restore a backup-enabled data store to a point in time. Creates a new data store from the backup. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceDatastoreId">The identifier of the source data store to restore from. Constraints: o min: 1 o max: 32 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)</param>
+    /// <param name="SourceDatastoreId">The identifier of the source data store to restore from. Constraints: • min: 1 • max: 32 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)</param>
     /// <param name="RestoreConfiguration">The restore configuration specifying the type and parameters for the restore. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: ContinuousBackupRestoreConfiguration. ContinuousBackupRestoreConfiguration -&gt; (structure) Configuration for restoring from continuous backup to a specific point in time. RestorePointTime -&gt; (timestamp) The point in time to restore the data store to, specified as a UTC timestamp. Shorthand Syntax: ContinuousBackupRestoreConfiguration={RestorePointTime=timestamp} JSON Syntax: { "ContinuousBackupRestoreConfiguration": { "RestorePointTime": timestamp } }</param>
     public AwsHealthlakeRestoreFhirDatastoreOptions(
         string SourceDatastoreId,
@@ -61,7 +63,7 @@ public record AwsHealthlakeRestoreFhirDatastoreOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the source data store to restore from. Constraints: o min: 1 o max: 32 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)
+    /// The identifier of the source data store to restore from. Constraints: • min: 1 • max: 32 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)
     /// </summary>
     [CliOption("--source-datastore-id")]
     public string? SourceDatastoreId { get; private init; }
@@ -73,50 +75,50 @@ public record AwsHealthlakeRestoreFhirDatastoreOptions : AwsOptions, IValidatabl
     public string? RestoreConfiguration { get; private init; }
 
     /// <summary>
-    /// The name for the restored data store. Constraints: o min: 1 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)
+    /// The name for the restored data store. Constraints: • min: 1 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)
     /// </summary>
     [CliOption("--datastore-name")]
     public string? DatastoreName { get; set; }
 
     /// <summary>
-    /// The server-side encryption key configuration for the restored data store. KmsEncryptionConfig -&gt; (structure) [required] The Key Management Service (KMS) encryption configuration used to provide details for data encryption. CmkType -&gt; (string) [required] The type of customer-managed-key (CMK) used for encryption. Possible values: o CUSTOMER_MANAGED_KMS_KEY o AWS_OWNED_KMS_KEY KmsKeyId -&gt; (string) The Key Management Service (KMS) encryption key id/alias used to encrypt the data store contents at rest. Constraints: o min: 1 o max: 400 o pattern: (arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:kms:)?([a-z]{2}-[a-z]+(-[a-z]+)?-\d:)?(\d{12}:)?(((key/)?[a-zA-Z0-9-_]+)|(alias/[a-zA-Z0-9:/_-]+)) Shorthand Syntax: KmsEncryptionConfig={CmkType=string,KmsKeyId=string} JSON Syntax: { "KmsEncryptionConfig": { "CmkType": "CUSTOMER_MANAGED_KMS_KEY"|"AWS_OWNED_KMS_KEY", "KmsKeyId": "string" } }
+    /// The server-side encryption key configuration for the restored data store. KmsEncryptionConfig -&gt; (structure) [required] The Key Management Service (KMS) encryption configuration used to provide details for data encryption. CmkType -&gt; (string) [required] The type of customer-managed-key (CMK) used for encryption. Possible values: • CUSTOMER_MANAGED_KMS_KEY • AWS_OWNED_KMS_KEY KmsKeyId -&gt; (string) The Key Management Service (KMS) encryption key id/alias used to encrypt the data store contents at rest. Constraints: • min: 1 • max: 400 • pattern: (arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:kms:)?([a-z]{2}-[a-z]+(-[a-z]+)?-\d:)?(\d{12}:)?(((key/)?[a-zA-Z0-9-_]+)|(alias/[a-zA-Z0-9:/_-]+)) Shorthand Syntax: KmsEncryptionConfig={CmkType=string,KmsKeyId=string} JSON Syntax: { "KmsEncryptionConfig": { "CmkType": "CUSTOMER_MANAGED_KMS_KEY"|"AWS_OWNED_KMS_KEY", "KmsKeyId": "string" } }
     /// </summary>
     [CliOption("--sse-configuration")]
     public string? SseConfiguration { get; set; }
 
     /// <summary>
-    /// An optional user-provided token to ensure API idempotency of the re- store. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+
+    /// An optional user-provided token to ensure API idempotency of the restore. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The resource tags applied to the restored data store. Constraints: o min: 0 o max: 200 (structure) A label consisting of a user-defined key and value. The form for tags is {"Key", "Value"} Key -&gt; (string) [required] The key portion of a tag. Tag keys are case sensitive. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value portion of a tag. Tag values are case-sensitive. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The resource tags applied to the restored data store. Constraints: • min: 0 • max: 200 (structure) A label consisting of a user-defined key and value. The form for tags is {"Key", "Value"} Key -&gt; (string) [required] The key portion of a tag. Tag keys are case sensitive. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value portion of a tag. Tag values are case-sensitive. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The identity provider configuration for the restored data store. AuthorizationStrategy -&gt; (string) [required] The authorization strategy selected when the HealthLake data store is created. NOTE: HealthLake provides support for both SMART on FHIR V1 and V2 as described below. o SMART_ON_FHIR_V1 Support for only SMART on FHIR V1, which includes read (read/search) and write (create/up- date/delete) permissions. o SMART_ON_FHIR Support for both SMART on FHIR V1 and V2, which includes create , read , update , delete , and search permissions. o Amazon Web Services_AUTH The default HealthLake authoriza- tion strategy; not affiliated with SMART on FHIR. Possible values: o SMART_ON_FHIR_V1 o SMART_ON_FHIR o AWS_AUTH FineGrainedAuthorizationEnabled -&gt; (boolean) The parameter to enable SMART on FHIR fine-grained authorization for the data store. Metadata -&gt; (string) The JSON metadata elements to use in your identity provider con- figuration. Required elements are listed based on the launch specification of the SMART application. For more information on all possible elements, see Metadata in SMART's App Launch speci- fication. authorization_endpoint : The URL to the OAuth2 authorization endpoint. grant_types_supported : An array of grant types that are sup- ported at the token endpoint. You must provide at least one grant type option. Valid options are authorization_code and client_credentials . token_endpoint : The URL to the OAuth2 token endpoint. capabilities : An array of strings of the SMART capabilities that the authorization server supports. code_challenge_methods_supported : An array of strings of supported PKCE code challenge methods. You must include the S256 method in the array of PKCE code challenge methods. IdpLambdaArn -&gt; (string) The Amazon Resource Name (ARN) of the Lambda function to use to decode the access token created by the authorization server. Constraints: o min: 49 o max: 256 o pattern: arn:aws:lambda:[a-z]{2}-[a-z]+-\d{1}:\d{12}:func- tion:[a-zA-Z0-9\-_\.]+(:(\$LATEST|[a-zA-Z0-9\-_]+))? Shorthand Syntax: AuthorizationStrategy=string,FineGrainedAuthorizationEnabled=boolean,Metadata=string,IdpLambdaArn=string JSON Syntax: { "AuthorizationStrategy": "SMART_ON_FHIR_V1"|"SMART_ON_FHIR"|"AWS_AUTH", "FineGrainedAuthorizationEnabled": true|false, "Metadata": "string", "IdpLambdaArn": "string" }
+    /// The identity provider configuration for the restored data store. AuthorizationStrategy -&gt; (string) [required] The authorization strategy selected when the HealthLake data store is created. NOTE: HealthLake provides support for both SMART on FHIR V1 and V2 as described below. • SMART_ON_FHIR_V1 Support for only SMART on FHIR V1, which includes read (read/search) and write (create/update/delete) permissions. • SMART_ON_FHIR Support for both SMART on FHIR V1 and V2, which includes create , read , update , delete , and search permissions. • Amazon Web Services_AUTH The default HealthLake authorization strategy; not affiliated with SMART on FHIR. Possible values: • SMART_ON_FHIR_V1 • SMART_ON_FHIR • AWS_AUTH FineGrainedAuthorizationEnabled -&gt; (boolean) The parameter to enable SMART on FHIR fine-grained authorization for the data store. Metadata -&gt; (string) The JSON metadata elements to use in your identity provider configuration. Required elements are listed based on the launch specification of the SMART application. For more information on all possible elements, see Metadata in SMART's App Launch specification. authorization_endpoint : The URL to the OAuth2 authorization endpoint. grant_types_supported : An array of grant types that are supported at the token endpoint. You must provide at least one grant type option. Valid options are authorization_code and client_credentials . token_endpoint : The URL to the OAuth2 token endpoint. capabilities : An array of strings of the SMART capabilities that the authorization server supports. code_challenge_methods_supported : An array of strings of supported PKCE code challenge methods. You must include the S256 method in the array of PKCE code challenge methods. IdpLambdaArn -&gt; (string) The Amazon Resource Name (ARN) of the Lambda function to use to decode the access token created by the authorization server. Constraints: • min: 49 • max: 256 • pattern: arn:aws:lambda:[a-z]{2}-[a-z]+-\d{1}:\d{12}:function:[a-zA-Z0-9\-_\.]+(:(\$LATEST|[a-zA-Z0-9\-_]+))? Shorthand Syntax: AuthorizationStrategy=string,FineGrainedAuthorizationEnabled=boolean,Metadata=string,IdpLambdaArn=string JSON Syntax: { "AuthorizationStrategy": "SMART_ON_FHIR_V1"|"SMART_ON_FHIR"|"AWS_AUTH", "FineGrainedAuthorizationEnabled": true|false, "Metadata": "string", "IdpLambdaArn": "string" }
     /// </summary>
     [CliOption("--identity-provider-configuration")]
     public string? IdentityProviderConfiguration { get; set; }
 
     /// <summary>
-    /// The analytics configuration for the restored data store. Status -&gt; (string) The status of the analytics configuration. Possible values: o ENABLED o ENABLING o DISABLED o DISABLING o PAUSING o PAUSED Shorthand Syntax: Status=string JSON Syntax: { "Status": "ENABLED"|"ENABLING"|"DISABLED"|"DISABLING"|"PAUSING"|"PAUSED" }
+    /// The analytics configuration for the restored data store. Status -&gt; (string) The status of the analytics configuration. Possible values: • ENABLED • ENABLING • DISABLED • DISABLING • PAUSING • PAUSED Shorthand Syntax: Status=string JSON Syntax: { "Status": "ENABLED"|"ENABLING"|"DISABLED"|"DISABLING"|"PAUSING"|"PAUSED" }
     /// </summary>
     [CliOption("--analytics-configuration")]
     public string? AnalyticsConfiguration { get; set; }
 
     /// <summary>
-    /// The NLP configuration for the restored data store. Status -&gt; (string) The status of the NLP configuration. Possible values: o ENABLED o ENABLING o DISABLED o DISABLING Shorthand Syntax: Status=string JSON Syntax: { "Status": "ENABLED"|"ENABLING"|"DISABLED"|"DISABLING" }
+    /// The NLP configuration for the restored data store. Status -&gt; (string) The status of the NLP configuration. Possible values: • ENABLED • ENABLING • DISABLED • DISABLING Shorthand Syntax: Status=string JSON Syntax: { "Status": "ENABLED"|"ENABLING"|"DISABLED"|"DISABLING" }
     /// </summary>
     [CliOption("--nlp-configuration")]
     public string? NlpConfiguration { get; set; }
 
     /// <summary>
-    /// The profile configuration for the restored data store. DefaultProfiles -&gt; (list) The list of default profiles for the data store. (string) A general-purpose string value. Constraints: o min: 0 o max: 10000 o pattern: [\P{M}\p{M}]{0,10000} Shorthand Syntax: DefaultProfiles=string,string JSON Syntax: { "DefaultProfiles": ["string", ...] }
+    /// The profile configuration for the restored data store. DefaultProfiles -&gt; (list) The list of default profiles for the data store. (string) A general-purpose string value. Constraints: • min: 0 • max: 10000 • pattern: [\P{M}\p{M}]{0,10000} Shorthand Syntax: DefaultProfiles=string,string JSON Syntax: { "DefaultProfiles": ["string", ...] }
     /// </summary>
     [CliOption("--profile-configuration")]
     public string? ProfileConfiguration { get; set; }

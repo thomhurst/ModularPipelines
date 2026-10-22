@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDrsRetryRecoveryPlanExecutionStepOptions : AwsOptions, IValidat
     /// <summary>
     /// Retries a failed SERVER type execution step. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RecoveryPlanExecutionStepArn">The ARN of the execution step to retry. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+</param>
+    /// <param name="RecoveryPlanExecutionStepArn">The ARN of the execution step to retry. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+</param>
     public AwsDrsRetryRecoveryPlanExecutionStepOptions(
         string RecoveryPlanExecutionStepArn
     )
@@ -56,7 +58,7 @@ public record AwsDrsRetryRecoveryPlanExecutionStepOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the execution step to retry. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+
+    /// The ARN of the execution step to retry. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+
     /// </summary>
     [CliOption("--recovery-plan-execution-step-arn")]
     public string? RecoveryPlanExecutionStepArn { get; private init; }

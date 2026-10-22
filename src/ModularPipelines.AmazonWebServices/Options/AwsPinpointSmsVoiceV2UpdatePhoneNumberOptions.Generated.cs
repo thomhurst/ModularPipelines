@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsPinpointSmsVoiceV2UpdatePhoneNumberOptions : AwsOptions, IValid
     /// <summary>
     /// Updates the configuration of an existing origination phone number. You can update the opt-out list, enable or disable two-way messaging, change the TwoWayChannelArn, enable or disable self-managed opt-outs, and enable or disable deletion protection. If the origination phone number is associated with a pool, an error is returned. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PhoneNumberId">The unique identifier of the phone number. Valid values for this field can be either the PhoneNumberId or PhoneNumberArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="PhoneNumberId">The unique identifier of the phone number. Valid values for this field can be either the PhoneNumberId or PhoneNumberArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+</param>
     public AwsPinpointSmsVoiceV2UpdatePhoneNumberOptions(
         string PhoneNumberId
     )
@@ -56,7 +58,7 @@ public record AwsPinpointSmsVoiceV2UpdatePhoneNumberOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the phone number. Valid values for this field can be either the PhoneNumberId or PhoneNumberArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The unique identifier of the phone number. Valid values for this field can be either the PhoneNumberId or PhoneNumberArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--phone-number-id")]
     public string? PhoneNumberId { get; private init; }
@@ -68,25 +70,25 @@ public record AwsPinpointSmsVoiceV2UpdatePhoneNumberOptions : AwsOptions, IValid
     public bool? TwoWayEnabled { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the two way channel. Constraints: o min: 20 o max: 2048 o pattern: \S+
+    /// The Amazon Resource Name (ARN) of the two way channel. Constraints: • min: 20 • max: 2048 • pattern: \S+
     /// </summary>
     [CliOption("--two-way-channel-arn")]
     public string? TwoWayChannelArn { get; set; }
 
     /// <summary>
-    /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages. Constraints: o min: 20 o max: 2048 o pattern: arn:\S+
+    /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages. Constraints: • min: 20 • max: 2048 • pattern: arn:\S+
     /// </summary>
     [CliOption("--two-way-channel-role")]
     public string? TwoWayChannelRole { get; set; }
 
     /// <summary>
-    /// By default this is set to false. When set to false and an end recip- ient sends a message that begins with HELP or STOP to one of your dedicated numbers, End User Messaging SMS automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+    /// By default this is set to false. When set to false and an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, End User Messaging SMS automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
     /// </summary>
     [CliFlag("--self-managed-opt-outs-enabled", NegatedName = "--no-self-managed-opt-outs-enabled")]
     public bool? SelfManagedOptOutsEnabled { get; set; }
 
     /// <summary>
-    /// The OptOutList to add the phone number to. You can use either the opt out list name or the opt out list ARN. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The OptOutList to add the phone number to. You can use either the opt out list name or the opt out list ARN. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--opt-out-list-name")]
     public string? OptOutListName { get; set; }

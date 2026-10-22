@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMacie2UpdateResourceProfileDetectionsOptions : AwsOptions, IVal
     /// <summary>
     /// Updates the sensitivity scoring settings for an S3 bucket. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the S3 bucket that the request ap- plies to.</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the S3 bucket that the request applies to.</param>
     public AwsMacie2UpdateResourceProfileDetectionsOptions(
         string ResourceArn
     )
@@ -56,13 +58,13 @@ public record AwsMacie2UpdateResourceProfileDetectionsOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the S3 bucket that the request ap- plies to.
+    /// The Amazon Resource Name (ARN) of the S3 bucket that the request applies to.
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// An array of objects, one for each custom data identifier or managed data identifier that detected a type of sensitive data to exclude from the bucket's score. To include all sensitive data types in the score, don't specify any values for this array. (structure) Specifies a custom data identifier or managed data identifier that detected a type of sensitive data to exclude from an S3 bucket's sensitivity score. id -&gt; (string) The unique identifier for the custom data identifier or man- aged data identifier that detected the type of sensitive data to exclude from the score. type -&gt; (string) The type of data identifier that detected the sensitive data. Possible values are: CUSTOM, for a custom data identifier; and, MANAGED, for a managed data identifier. Possible values: o CUSTOM o MANAGED Shorthand Syntax: id=string,type=string ... JSON Syntax: [ { "id": "string", "type": "CUSTOM"|"MANAGED" } ... ]
+    /// An array of objects, one for each custom data identifier or managed data identifier that detected a type of sensitive data to exclude from the bucket's score. To include all sensitive data types in the score, don't specify any values for this array. (structure) Specifies a custom data identifier or managed data identifier that detected a type of sensitive data to exclude from an S3 bucket's sensitivity score. id -&gt; (string) The unique identifier for the custom data identifier or managed data identifier that detected the type of sensitive data to exclude from the score. type -&gt; (string) The type of data identifier that detected the sensitive data. Possible values are: CUSTOM, for a custom data identifier; and, MANAGED, for a managed data identifier. Possible values: • CUSTOM • MANAGED Shorthand Syntax: id=string,type=string ... JSON Syntax: [ { "id": "string", "type": "CUSTOM"|"MANAGED" } ... ]
     /// </summary>
     [CliOption("--suppress-data-identifiers", GroupValues = true)]
     public IEnumerable<string>? SuppressDataIdentifiers { get; set; }

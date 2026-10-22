@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,15 +29,15 @@ public record AwsQuicksightUpdateTemplateAliasOptions : AwsOptions, IValidatable
     /// <summary>
     /// Updates the template alias of a template. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the template alias that you're updating. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="TemplateId">The ID for the template. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
-    /// <param name="AliasName">The alias of the template that you want to update. If you name a specific alias, you update the version that the alias points to. You can specify the latest version of the template by providing the key- word $LATEST in the AliasName parameter. The keyword $PUBLISHED doesn't apply to templates. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+|(\$LATEST)|(\$PUBLISHED)</param>
-    /// <param name="TemplateVersionNumber">The version number of the template. Constraints: o min: 1</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the template alias that you're updating. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="TemplateId">The ID for the template. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+</param>
+    /// <param name="AliasName">The alias of the template that you want to update. If you name a specific alias, you update the version that the alias points to. You can specify the latest version of the template by providing the keyword $LATEST in the AliasName parameter. The keyword $PUBLISHED doesn't apply to templates. Constraints: • min: 1 • max: 2048 • pattern: [\w\-]+|(\$LATEST)|(\$PUBLISHED)</param>
+    /// <param name="TemplateVersionNumber">The version number of the template. Constraints: • min: 1</param>
     public AwsQuicksightUpdateTemplateAliasOptions(
         string AwsAccountId,
         string TemplateId,
         string AliasName,
-        int TemplateVersionNumber
+        long TemplateVersionNumber
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
@@ -67,28 +69,28 @@ public record AwsQuicksightUpdateTemplateAliasOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the template alias that you're updating. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the template alias that you're updating. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID for the template. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// The ID for the template. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--template-id")]
     public string? TemplateId { get; private init; }
 
     /// <summary>
-    /// The alias of the template that you want to update. If you name a specific alias, you update the version that the alias points to. You can specify the latest version of the template by providing the key- word $LATEST in the AliasName parameter. The keyword $PUBLISHED doesn't apply to templates. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+|(\$LATEST)|(\$PUBLISHED)
+    /// The alias of the template that you want to update. If you name a specific alias, you update the version that the alias points to. You can specify the latest version of the template by providing the keyword $LATEST in the AliasName parameter. The keyword $PUBLISHED doesn't apply to templates. Constraints: • min: 1 • max: 2048 • pattern: [\w\-]+|(\$LATEST)|(\$PUBLISHED)
     /// </summary>
     [CliOption("--alias-name")]
     public string? AliasName { get; private init; }
 
     /// <summary>
-    /// The version number of the template. Constraints: o min: 1
+    /// The version number of the template. Constraints: • min: 1
     /// </summary>
     [CliOption("--template-version-number")]
-    public int? TemplateVersionNumber { get; private init; }
+    public long? TemplateVersionNumber { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

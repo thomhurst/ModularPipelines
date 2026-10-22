@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsServicediscoveryCreateHttpNamespaceOptions : AwsOptions, IValid
     /// <summary>
     /// Creates an HTTP namespace. Service instances registered using an HTTP namespace can be discovered using a DiscoverInstances request but can't be discovered using DNS. For the current quota on the number of namespaces that you can create using the same Amazon Web Services account, see Cloud Map quotas in the Cloud Map Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name that you want to assign to this namespace. Constraints: o max: 1024 o pattern: ^(?!arn:)[!-~]{1,1024}$</param>
+    /// <param name="Name">The name that you want to assign to this namespace. Constraints: • max: 1024 • pattern: ^(?!arn:)[!-~]{1,1024}$</param>
     public AwsServicediscoveryCreateHttpNamespaceOptions(
         string Name
     )
@@ -56,25 +58,25 @@ public record AwsServicediscoveryCreateHttpNamespaceOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name that you want to assign to this namespace. Constraints: o max: 1024 o pattern: ^(?!arn:)[!-~]{1,1024}$
+    /// The name that you want to assign to this namespace. Constraints: • max: 1024 • pattern: ^(?!arn:)[!-~]{1,1024}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A unique string that identifies the request and that allows failed CreateHttpNamespace requests to be retried without the risk of run- ning the operation twice. CreatorRequestId can be any unique string (for example, a date/time stamp). Constraints: o max: 64
+    /// A unique string that identifies the request and that allows failed CreateHttpNamespace requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string (for example, a date/time stamp). Constraints: • max: 64
     /// </summary>
     [CliOption("--creator-request-id")]
     public string? CreatorRequestId { get; set; }
 
     /// <summary>
-    /// A description for the namespace. Constraints: o max: 1024
+    /// A description for the namespace. Constraints: • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The tags to add to the namespace. Each tag consists of a key and an optional value that you define. Tags keys can be up to 128 charac- ters in length, and tag values can be up to 256 characters in length. Constraints: o min: 0 o max: 200 (structure) A custom key-value pair that's associated with a resource. Key -&gt; (string) [required] The key identifier, or name, of the tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The string value that's associated with the key of the tag. You can set the value of a tag to an empty string, but you can't set the value of a tag to null. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags to add to the namespace. Each tag consists of a key and an optional value that you define. Tags keys can be up to 128 characters in length, and tag values can be up to 256 characters in length. Constraints: • min: 0 • max: 200 (structure) A custom key-value pair that's associated with a resource. Key -&gt; (string) [required] The key identifier, or name, of the tag. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The string value that's associated with the key of the tag. You can set the value of a tag to an empty string, but you can't set the value of a tag to null. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

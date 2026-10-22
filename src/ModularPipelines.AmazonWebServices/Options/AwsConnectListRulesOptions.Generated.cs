@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// List all rules for the specified Connect Customer instance. See also: AWS API Documentation list-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: RuleSummaryList
+/// List all rules for the specified Connect Customer instance. See also: AWS API Documentation list-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RuleSummaryList
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsConnectListRulesOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// List all rules for the specified Connect Customer instance. See also: AWS API Documentation list-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: RuleSummaryList
+    /// List all rules for the specified Connect Customer instance. See also: AWS API Documentation list-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RuleSummaryList
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     public AwsConnectListRulesOptions(
         string InstanceId
     )
@@ -58,28 +60,25 @@ public record AwsConnectListRulesOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The publish status of the rule. Possible values: o DRAFT o PUBLISHED
+    /// The publish status of the rule. Possible values: • DRAFT • PUBLISHED
     /// </summary>
     [CliOption("--publish-status")]
     public AwsConnectListRulesPublishStatus? PublishStatus { get; set; }
 
     /// <summary>
-    /// The name of the event source. Possible values: o OnPostCallAnalysisAvailable o OnRealTimeCallAnalysisAvailable o OnRealTimeChatAnalysisAvailable o OnPostChatAnalysisAvailable o OnAfterCallWorkAvailable o OnAfterChatWorkAvailable o OnEmailAnalysisAvailable o OnZendeskTicketCreate o OnZendeskTicketStatusUpdate o OnSalesforceCaseCreate o OnContactEvaluationSubmit o OnMetricDataUpdate o OnCaseCreate o OnCaseUpdate o OnSlaBreach o OnAlertUpdate o OnSchedulePublish o OnScheduleUpdate o OnScheduleTimeOffRequestActivity
+    /// The name of the event source. Possible values: • OnPostCallAnalysisAvailable • OnRealTimeCallAnalysisAvailable • OnRealTimeChatAnalysisAvailable • OnPostChatAnalysisAvailable • OnAfterCallWorkAvailable • OnAfterChatWorkAvailable • OnEmailAnalysisAvailable • OnZendeskTicketCreate • OnZendeskTicketStatusUpdate • OnSalesforceCaseCreate • OnContactEvaluationSubmit • OnMetricDataUpdate • OnCaseCreate • OnCaseUpdate • OnSlaBreach • OnAlertUpdate • OnSchedulePublish • OnScheduleUpdate • OnScheduleTimeOffRequestActivity
     /// </summary>
     [CliOption("--event-source-name")]
     public AwsConnectListRulesEventSourceName? EventSourceName { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -89,16 +88,19 @@ public record AwsConnectListRulesOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 200
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 200
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

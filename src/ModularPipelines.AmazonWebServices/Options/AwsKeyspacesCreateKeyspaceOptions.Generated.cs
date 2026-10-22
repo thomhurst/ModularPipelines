@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The CreateKeyspace operation adds a new keyspace to your account. In an Amazon Web Services account, keyspace names must be unique within each Region. CreateKeyspace is an asynchronous operation. You can monitor the creation status of the new keyspace by using the GetKeyspace opera- tion. For more information, see Create a keyspace in the Amazon Keyspaces De- veloper Guide . See also: AWS API Documentation
+/// The CreateKeyspace operation adds a new keyspace to your account. In an Amazon Web Services account, keyspace names must be unique within each Region. CreateKeyspace is an asynchronous operation. You can monitor the creation status of the new keyspace by using the GetKeyspace operation. For more information, see Create a keyspace in the Amazon Keyspaces Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsKeyspacesCreateKeyspaceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The CreateKeyspace operation adds a new keyspace to your account. In an Amazon Web Services account, keyspace names must be unique within each Region. CreateKeyspace is an asynchronous operation. You can monitor the creation status of the new keyspace by using the GetKeyspace opera- tion. For more information, see Create a keyspace in the Amazon Keyspaces De- veloper Guide . See also: AWS API Documentation
+    /// The CreateKeyspace operation adds a new keyspace to your account. In an Amazon Web Services account, keyspace names must be unique within each Region. CreateKeyspace is an asynchronous operation. You can monitor the creation status of the new keyspace by using the GetKeyspace operation. For more information, see Create a keyspace in the Amazon Keyspaces Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="KeyspaceName">The name of the keyspace to be created. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
+    /// <param name="KeyspaceName">The name of the keyspace to be created. Constraints: • min: 1 • max: 48 • pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
     public AwsKeyspacesCreateKeyspaceOptions(
         string KeyspaceName
     )
@@ -56,19 +58,19 @@ public record AwsKeyspacesCreateKeyspaceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the keyspace to be created. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
+    /// The name of the keyspace to be created. Constraints: • min: 1 • max: 48 • pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
     /// </summary>
     [CliOption("--keyspace-name")]
     public string? KeyspaceName { get; private init; }
 
     /// <summary>
-    /// A list of key-value pair tags to be attached to the keyspace. For more information, see Adding tags and labels to Amazon Keyspaces resources in the Amazon Keyspaces Developer Guide . Constraints: o min: 1 o max: 60 (structure) Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a single Amazon Keyspaces resource. Amazon Web Services-assigned tag names and values are automati- cally assigned the aws: prefix, which the user cannot assign. Amazon Web Services-assigned tag names do not count towards the tag limit of 50. User-assigned tag names have the prefix user: in the Cost Allocation Report. You cannot backdate the applica- tion of a tag. For more information, see Adding tags and labels to Amazon Key- spaces resources in the Amazon Keyspaces Developer Guide . key -&gt; (string) [required] The key of the tag. Tag keys are case sensitive. Each Amazon Keyspaces resource can only have up to one tag with the same key. If you try to add an existing tag (same key), the exist- ing tag value will be updated to the new value. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The value of the tag. Tag values are case-sensitive and can be null. Constraints: o min: 1 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// A list of key-value pair tags to be attached to the keyspace. For more information, see Adding tags and labels to Amazon Keyspaces resources in the Amazon Keyspaces Developer Guide . Constraints: • min: 1 • max: 60 (structure) Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a single Amazon Keyspaces resource. Amazon Web Services-assigned tag names and values are automatically assigned the aws: prefix, which the user cannot assign. Amazon Web Services-assigned tag names do not count towards the tag limit of 50. User-assigned tag names have the prefix user: in the Cost Allocation Report. You cannot backdate the application of a tag. For more information, see Adding tags and labels to Amazon Keyspaces resources in the Amazon Keyspaces Developer Guide . key -&gt; (string) [required] The key of the tag. Tag keys are case sensitive. Each Amazon Keyspaces resource can only have up to one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value. Constraints: • min: 1 • max: 128 value -&gt; (string) [required] The value of the tag. Tag values are case-sensitive and can be null. Constraints: • min: 1 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The replication specification of the keyspace includes: o replicationStrategy - the required value is SINGLE_REGION or MULTI_REGION . o regionList - if the replicationStrategy is MULTI_REGION , the re- gionList requires the current Region and at least one additional Amazon Web Services Region where the keyspace is going to be replicated in. replicationStrategy -&gt; (string) [required] The replicationStrategy of a keyspace, the required value is SINGLE_REGION or MULTI_REGION . Possible values: o SINGLE_REGION o MULTI_REGION Constraints: o min: 1 o max: 20 regionList -&gt; (list) The regionList contains the Amazon Web Services Regions where the keyspace is replicated in. Constraints: o min: 2 (string) Constraints: o min: 2 o max: 25 Shorthand Syntax: replicationStrategy=string,regionList=string,string JSON Syntax: { "replicationStrategy": "SINGLE_REGION"|"MULTI_REGION", "regionList": ["string", ...] }
+    /// The replication specification of the keyspace includes: • replicationStrategy - the required value is SINGLE_REGION or MULTI_REGION . • regionList - if the replicationStrategy is MULTI_REGION , the regionList requires the current Region and at least one additional Amazon Web Services Region where the keyspace is going to be replicated in. replicationStrategy -&gt; (string) [required] The replicationStrategy of a keyspace, the required value is SINGLE_REGION or MULTI_REGION . Possible values: • SINGLE_REGION • MULTI_REGION Constraints: • min: 1 • max: 20 regionList -&gt; (list) The regionList contains the Amazon Web Services Regions where the keyspace is replicated in. Constraints: • min: 2 (string) Constraints: • min: 2 • max: 25 Shorthand Syntax: replicationStrategy=string,regionList=string,string JSON Syntax: { "replicationStrategy": "SINGLE_REGION"|"MULTI_REGION", "regionList": ["string", ...] }
     /// </summary>
     [CliOption("--replication-specification")]
     public string? ReplicationSpecification { get; set; }

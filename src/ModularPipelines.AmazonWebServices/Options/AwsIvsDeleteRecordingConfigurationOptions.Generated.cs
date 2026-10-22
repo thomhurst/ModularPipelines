@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIvsDeleteRecordingConfigurationOptions : AwsOptions, IValidatab
     /// <summary>
     /// Deletes the recording configuration for the specified ARN. If you try to delete a recording configuration that is associated with a channel, you will get an error (409 ConflictException). To avoid this, for all channels that reference the recording configuration, first use UpdateChannel to set the recordingConfigurationArn field to an empty string, then use DeleteRecordingConfiguration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">ARN of the recording configuration to be deleted. Constraints: o min: 0 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:recording-configura- tion/[a-zA-Z0-9-]+</param>
+    /// <param name="Arn">ARN of the recording configuration to be deleted. Constraints: • min: 0 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:recording-configuration/[a-zA-Z0-9-]+</param>
     public AwsIvsDeleteRecordingConfigurationOptions(
         string Arn
     )
@@ -56,7 +58,7 @@ public record AwsIvsDeleteRecordingConfigurationOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of the recording configuration to be deleted. Constraints: o min: 0 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:recording-configura- tion/[a-zA-Z0-9-]+
+    /// ARN of the recording configuration to be deleted. Constraints: • min: 0 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:recording-configuration/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }

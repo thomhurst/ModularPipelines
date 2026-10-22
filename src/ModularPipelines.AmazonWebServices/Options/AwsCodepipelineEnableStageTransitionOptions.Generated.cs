@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +30,9 @@ public record AwsCodepipelineEnableStageTransitionOptions : AwsOptions, IValidat
     /// <summary>
     /// Enables artifacts in a pipeline to transition to a stage in a pipeline. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PipelineName">The name of the pipeline in which you want to enable the flow of ar- tifacts from one stage to another. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+</param>
-    /// <param name="StageName">The name of the stage where you want to enable the transition of ar- tifacts, either into the stage (inbound) or from that stage to the next stage (outbound). Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+</param>
-    /// <param name="TransitionType">Specifies whether artifacts are allowed to enter the stage and be processed by the actions in that stage (inbound) or whether already processed artifacts are allowed to transition to the next stage (outbound). Possible values: o Inbound o Outbound</param>
+    /// <param name="PipelineName">The name of the pipeline in which you want to enable the flow of artifacts from one stage to another. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+</param>
+    /// <param name="StageName">The name of the stage where you want to enable the transition of artifacts, either into the stage (inbound) or from that stage to the next stage (outbound). Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+</param>
+    /// <param name="TransitionType">Specifies whether artifacts are allowed to enter the stage and be processed by the actions in that stage (inbound) or whether already processed artifacts are allowed to transition to the next stage (outbound). Possible values: • Inbound • Outbound</param>
     public AwsCodepipelineEnableStageTransitionOptions(
         string PipelineName,
         string StageName,
@@ -64,19 +66,19 @@ public record AwsCodepipelineEnableStageTransitionOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the pipeline in which you want to enable the flow of ar- tifacts from one stage to another. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+
+    /// The name of the pipeline in which you want to enable the flow of artifacts from one stage to another. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+
     /// </summary>
     [CliOption("--pipeline-name")]
     public string? PipelineName { get; private init; }
 
     /// <summary>
-    /// The name of the stage where you want to enable the transition of ar- tifacts, either into the stage (inbound) or from that stage to the next stage (outbound). Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+
+    /// The name of the stage where you want to enable the transition of artifacts, either into the stage (inbound) or from that stage to the next stage (outbound). Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+
     /// </summary>
     [CliOption("--stage-name")]
     public string? StageName { get; private init; }
 
     /// <summary>
-    /// Specifies whether artifacts are allowed to enter the stage and be processed by the actions in that stage (inbound) or whether already processed artifacts are allowed to transition to the next stage (outbound). Possible values: o Inbound o Outbound
+    /// Specifies whether artifacts are allowed to enter the stage and be processed by the actions in that stage (inbound) or whether already processed artifacts are allowed to transition to the next stage (outbound). Possible values: • Inbound • Outbound
     /// </summary>
     [CliOption("--transition-type")]
     public AwsCodepipelineEnableStageTransitionTransitionType? TransitionType { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsLookoutequipmentUpdateRetrainingSchedulerOptions : AwsOptions, 
     /// <summary>
     /// Updates a retraining scheduler. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ModelName">The name of the model whose retraining scheduler you want to update. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    /// <param name="ModelName">The name of the model whose retraining scheduler you want to update. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
     public AwsLookoutequipmentUpdateRetrainingSchedulerOptions(
         string ModelName
     )
@@ -57,7 +59,7 @@ public record AwsLookoutequipmentUpdateRetrainingSchedulerOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the model whose retraining scheduler you want to update. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// The name of the model whose retraining scheduler you want to update. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$
     /// </summary>
     [CliOption("--model-name")]
     public string? ModelName { get; private init; }
@@ -69,19 +71,19 @@ public record AwsLookoutequipmentUpdateRetrainingSchedulerOptions : AwsOptions, 
     public string? RetrainingStartDate { get; set; }
 
     /// <summary>
-    /// This parameter uses the ISO 8601 standard to set the frequency at which you want retraining to occur in terms of Years, Months, and/or Days (note: other parameters like Time are not currently supported). The minimum value is 30 days (P30D) and the maximum value is 1 year (P1Y). For example, the following values are valid: o P3M15D Every 3 months and 15 days o P2M Every 2 months o P150D Every 150 days Constraints: o min: 1 o max: 10 o pattern: ^P(\dY)?(\d{1,2}M)?(\d{1,3}D)?$
+    /// This parameter uses the ISO 8601 standard to set the frequency at which you want retraining to occur in terms of Years, Months, and/or Days (note: other parameters like Time are not currently supported). The minimum value is 30 days (P30D) and the maximum value is 1 year (P1Y). For example, the following values are valid: • P3M15D Every 3 months and 15 days • P2M Every 2 months • P150D Every 150 days Constraints: • min: 1 • max: 10 • pattern: ^P(\dY)?(\d{1,2}M)?(\d{1,3}D)?$
     /// </summary>
     [CliOption("--retraining-frequency")]
     public string? RetrainingFrequency { get; set; }
 
     /// <summary>
-    /// The number of past days of data that will be used for retraining. Constraints: o pattern: ^P180D$|^P360D$|^P540D$|^P720D$
+    /// The number of past days of data that will be used for retraining. Constraints: • pattern: ^P180D$|^P360D$|^P540D$|^P720D$
     /// </summary>
     [CliOption("--lookback-window")]
     public string? LookbackWindow { get; set; }
 
     /// <summary>
-    /// Indicates how the service will use new models. In MANAGED mode, new models will automatically be used for inference if they have better performance than the current model. In MANUAL mode, the new models will not be used until they are manually activated . Possible values: o MANAGED o MANUAL
+    /// Indicates how the service will use new models. In MANAGED mode, new models will automatically be used for inference if they have better performance than the current model. In MANUAL mode, the new models will not be used until they are manually activated . Possible values: • MANAGED • MANUAL
     /// </summary>
     [CliOption("--promote-mode")]
     public AwsLookoutequipmentUpdateRetrainingSchedulerPromoteMode? PromoteMode { get; set; }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about the service-specific credentials associated with the specified IAM user. If none exists, the operation returns an empty list. The service-specific credentials returned by this operation are used only for authenticating the IAM user to a specific service. For more information about using service-specific credentials to au- thenticate to an Amazon Web Services service, refer to the following docs: o For service-specific credentials with CodeCommit, refer to IAM cre- denti...
+/// Returns information about the service-specific credentials associated with the specified IAM user. If none exists, the operation returns an empty list. The service-specific credentials returned by this operation are used only for authenticating the IAM user to a specific service. For more information about using service-specific credentials to authenticate to an Amazon Web Services service, refer to the following docs: • For service-specific credentials with CodeCommit, refer to IAM credentials ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,31 +22,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIamListServiceSpecificCredentialsOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the user whose service-specific credentials you want in- formation about. If this value is not specified, then the operation assumes the user whose credentials are used to call the operation. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+
+    /// The name of the user whose service-specific credentials you want information about. If this value is not specified, then the operation assumes the user whose credentials are used to call the operation. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 1 • max: 64 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; set; }
 
     /// <summary>
-    /// Filters the returned results to only those for the specified Amazon Web Services service. If not specified, then Amazon Web Services re- turns service-specific credentials for all services.
+    /// Filters the returned results to only those for the specified Amazon Web Services service. If not specified, then Amazon Web Services returns service-specific credentials for all services.
     /// </summary>
     [CliOption("--service-name")]
     public string? ServiceName { get; set; }
 
     /// <summary>
-    /// A flag indicating whether to list service specific credentials for all users. This parameter cannot be specified together with User- Name. When true, returns all credentials associated with the speci- fied service.
+    /// A flag indicating whether to list service specific credentials for all users. This parameter cannot be specified together with UserName. When true, returns all credentials associated with the specified service.
     /// </summary>
     [CliFlag("--all-users", NegatedName = "--no-all-users")]
     public bool? AllUsers { get; set; }
 
     /// <summary>
-    /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker from the response that you received to indicate where the next call should start. Constraints: o min: 1 o max: 320 o pattern: [\u0020-\u00FF]+
+    /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker from the response that you received to indicate where the next call should start. Constraints: • min: 1 • max: 320 • pattern: [\u0020-\u00FF]+
     /// </summary>
     [CliOption("--marker")]
     public string? Marker { get; set; }
 
     /// <summary>
-    /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. Constraints: o min: 1 o max: 1000
+    /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }

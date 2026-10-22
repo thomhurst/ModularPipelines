@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsEcrGetAccountSettingOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves the account setting value for the specified setting name. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the account setting, such as BASIC_SCAN_TYPE_VERSION , REGISTRY_POLICY_SCOPE , or BLOB_MOUNTING . Constraints: o min: 1 o max: 64</param>
+    /// <param name="Name">The name of the account setting, such as BASIC_SCAN_TYPE_VERSION , REGISTRY_POLICY_SCOPE , or BLOB_MOUNTING . Constraints: • min: 1 • max: 64</param>
     public AwsEcrGetAccountSettingOptions(
         string Name
     )
@@ -56,7 +58,7 @@ public record AwsEcrGetAccountSettingOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the account setting, such as BASIC_SCAN_TYPE_VERSION , REGISTRY_POLICY_SCOPE , or BLOB_MOUNTING . Constraints: o min: 1 o max: 64
+    /// The name of the account setting, such as BASIC_SCAN_TYPE_VERSION , REGISTRY_POLICY_SCOPE , or BLOB_MOUNTING . Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

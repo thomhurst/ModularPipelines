@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables an opt-in feature for the calling account in the current Amazon Web Services Region. The service must be enabled before you can enable a feature. The operation is idempotent. If the feature is already en- abled, no changes are made. You cannot enable a feature that is managed by an organization policy. See also: AWS API Documentation
+/// Enables an opt-in feature for the calling account in the current Amazon Web Services Region. The service must be enabled before you can enable a feature. The operation is idempotent. If the feature is already enabled, no changes are made. You cannot enable a feature that is managed by an organization policy. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSecurityhubEnableSecurityHubFeatureV2Options : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enables an opt-in feature for the calling account in the current Amazon Web Services Region. The service must be enabled before you can enable a feature. The operation is idempotent. If the feature is already en- abled, no changes are made. You cannot enable a feature that is managed by an organization policy. See also: AWS API Documentation
+    /// Enables an opt-in feature for the calling account in the current Amazon Web Services Region. The service must be enabled before you can enable a feature. The operation is idempotent. If the feature is already enabled, no changes are made. You cannot enable a feature that is managed by an organization policy. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FeatureName">The name of the feature to enable. Possible values: o NETWORK_SCANNING</param>
+    /// <param name="FeatureName">The name of the feature to enable. Possible values: • NETWORK_SCANNING</param>
     public AwsSecurityhubEnableSecurityHubFeatureV2Options(
         string FeatureName
     )
@@ -56,7 +58,7 @@ public record AwsSecurityhubEnableSecurityHubFeatureV2Options : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the feature to enable. Possible values: o NETWORK_SCANNING
+    /// The name of the feature to enable. Possible values: • NETWORK_SCANNING
     /// </summary>
     [CliOption("--feature-name")]
     public string? FeatureName { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the certificate associated with a private connection. Certifi- cates can be added or replaced but not removed. See also: AWS API Documentation
+/// Updates the certificate associated with a private connection. Certificates can be added or replaced but not removed. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsSecurityagentUpdatePrivateConnectionCertificateOptions : AwsOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the certificate associated with a private connection. Certifi- cates can be added or replaced but not removed. See also: AWS API Documentation
+    /// Updates the certificate associated with a private connection. Certificates can be added or replaced but not removed. See also: AWS API Documentation
     /// </summary>
     /// <param name="PrivateConnectionName">The name of the private connection to update.</param>
     /// <param name="Certificate">The PEM-encoded certificate chain for the private connection.</param>

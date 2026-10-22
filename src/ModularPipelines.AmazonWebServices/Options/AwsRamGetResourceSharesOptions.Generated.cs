@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves details about the resource shares that you own or that are shared with you. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation get-resource-shares is a paginated operation. Multiple API calls may ...
+/// Retrieves details about the resource shares that you own or that are shared with you. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation get-resource-shares is a paginated operation. Multiple API calls may be i...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsRamGetResourceSharesOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves details about the resource shares that you own or that are shared with you. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation get-resource-shares is a paginated operation. Multiple API calls may ...
+    /// Retrieves details about the resource shares that you own or that are shared with you. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation get-resource-shares is a paginated operation. Multiple API calls may be i...
     /// </summary>
-    /// <param name="ResourceOwner">Specifies that you want to retrieve details of only those resource shares that match the following: o ** SELF ** resource shares that your account shares with other ac- counts System Message: WARNING/2 (&lt;string&gt;:, line 145) Inline strong start-string without end-string. o ** OTHER-ACCOUNTS ** resource shares that other accounts share with your account System Message: WARNING/2 (&lt;string&gt;:, line 147) Inline strong start-string without end-string. Possible values: o SELF o OTHER-ACCOUNTS</param>
+    /// <param name="ResourceOwner">Specifies that you want to retrieve details of only those resource shares that match the following: o ** SELF ** resource shares that your account shares with other accounts System Message: WARNING/2 (&lt;string&gt;:, line 145) Inline strong start-string without end-string. o ** OTHER-ACCOUNTS ** resource shares that other accounts share with your account System Message: WARNING/2 (&lt;string&gt;:, line 147) Inline strong start-string without end-string. Possible values: • SELF • OTHER-ACCOUNTS</param>
     public AwsRamGetResourceSharesOptions(
         AwsRamGetResourceSharesResourceOwner ResourceOwner
     )
@@ -57,7 +59,7 @@ public record AwsRamGetResourceSharesOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies that you want to retrieve details of only those resource shares that match the following: o ** SELF ** resource shares that your account shares with other ac- counts System Message: WARNING/2 (&lt;string&gt;:, line 145) Inline strong start-string without end-string. o ** OTHER-ACCOUNTS ** resource shares that other accounts share with your account System Message: WARNING/2 (&lt;string&gt;:, line 147) Inline strong start-string without end-string. Possible values: o SELF o OTHER-ACCOUNTS
+    /// Specifies that you want to retrieve details of only those resource shares that match the following: o ** SELF ** resource shares that your account shares with other accounts System Message: WARNING/2 (&lt;string&gt;:, line 145) Inline strong start-string without end-string. o ** OTHER-ACCOUNTS ** resource shares that other accounts share with your account System Message: WARNING/2 (&lt;string&gt;:, line 147) Inline strong start-string without end-string. Possible values: • SELF • OTHER-ACCOUNTS
     /// </summary>
     [CliOption("--resource-owner")]
     public AwsRamGetResourceSharesResourceOwner? ResourceOwner { get; private init; }
@@ -69,7 +71,7 @@ public record AwsRamGetResourceSharesOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? ResourceShareArns { get; set; }
 
     /// <summary>
-    /// Specifies that you want to retrieve details of only those resource shares that have this status. Possible values: o PENDING o ACTIVE o FAILED o DELETING o DELETED
+    /// Specifies that you want to retrieve details of only those resource shares that have this status. Possible values: • PENDING • ACTIVE • FAILED • DELETING • DELETED
     /// </summary>
     [CliOption("--resource-share-status")]
     public AwsRamGetResourceSharesResourceShareStatus? ResourceShareStatus { get; set; }
@@ -81,7 +83,7 @@ public record AwsRamGetResourceSharesOptions : AwsOptions, IValidatableObject
     public string? Name { get; set; }
 
     /// <summary>
-    /// Specifies that you want to retrieve details of only those resource shares that match the specified tag keys and values. (structure) A tag key and optional list of possible values that you can use to filter results for tagged resources. NOTE: Multiple tag filters are evaluated as an OR condition. tagKey -&gt; (string) The tag key. This must have a valid string value and can't be empty. tagValues -&gt; (list) A list of zero or more tag values. If no values are provided, then the filter matches any tag with the specified key, re- gardless of its value. (string) Shorthand Syntax: tagKey=string,tagValues=string,string ... JSON Syntax: [ { "tagKey": "string", "tagValues": ["string", ...] } ... ]
+    /// Specifies that you want to retrieve details of only those resource shares that match the specified tag keys and values. (structure) A tag key and optional list of possible values that you can use to filter results for tagged resources. NOTE: Multiple tag filters are evaluated as an OR condition. tagKey -&gt; (string) The tag key. This must have a valid string value and can't be empty. tagValues -&gt; (list) A list of zero or more tag values. If no values are provided, then the filter matches any tag with the specified key, regardless of its value. (string) Shorthand Syntax: tagKey=string,tagValues=string,string ... JSON Syntax: [ { "tagKey": "string", "tagValues": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--tag-filters", GroupValues = true)]
     public IEnumerable<string>? TagFilters { get; set; }
@@ -101,9 +103,6 @@ public record AwsRamGetResourceSharesOptions : AwsOptions, IValidatableObject
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -112,16 +111,19 @@ public record AwsRamGetResourceSharesOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 500
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

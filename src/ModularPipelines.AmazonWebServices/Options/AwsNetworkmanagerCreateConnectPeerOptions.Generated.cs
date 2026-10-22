@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a core network Connect peer for a specified core network con- nect attachment between a core network and an appliance. The peer ad- dress and transit gateway address must be the same IP address family (IPv4 or IPv6). See also: AWS API Documentation
+/// Creates a core network Connect peer for a specified core network connect attachment between a core network and an appliance. The peer address and transit gateway address must be the same IP address family (IPv4 or IPv6). See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsNetworkmanagerCreateConnectPeerOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a core network Connect peer for a specified core network con- nect attachment between a core network and an appliance. The peer ad- dress and transit gateway address must be the same IP address family (IPv4 or IPv6). See also: AWS API Documentation
+    /// Creates a core network Connect peer for a specified core network connect attachment between a core network and an appliance. The peer address and transit gateway address must be the same IP address family (IPv4 or IPv6). See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectAttachmentId">The ID of the connection attachment. Constraints: o min: 0 o max: 50 o pattern: ^attachment-([0-9a-f]{8,17})$</param>
-    /// <param name="PeerAddress">The Connect peer address. Constraints: o min: 1 o max: 50 o pattern: [\s\S]*</param>
+    /// <param name="ConnectAttachmentId">The ID of the connection attachment. Constraints: • min: 0 • max: 50 • pattern: ^attachment-([0-9a-f]{8,17})$</param>
+    /// <param name="PeerAddress">The Connect peer address. Constraints: • min: 1 • max: 50 • pattern: [\s\S]*</param>
     public AwsNetworkmanagerCreateConnectPeerOptions(
         string ConnectAttachmentId,
         string PeerAddress
@@ -61,50 +63,50 @@ public record AwsNetworkmanagerCreateConnectPeerOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the connection attachment. Constraints: o min: 0 o max: 50 o pattern: ^attachment-([0-9a-f]{8,17})$
+    /// The ID of the connection attachment. Constraints: • min: 0 • max: 50 • pattern: ^attachment-([0-9a-f]{8,17})$
     /// </summary>
     [CliOption("--connect-attachment-id")]
     public string? ConnectAttachmentId { get; private init; }
 
     /// <summary>
-    /// The Connect peer address. Constraints: o min: 1 o max: 50 o pattern: [\s\S]*
+    /// The Connect peer address. Constraints: • min: 1 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--peer-address")]
     public string? PeerAddress { get; private init; }
 
     /// <summary>
-    /// A Connect peer core network address. This only applies only when the protocol is GRE . Constraints: o min: 1 o max: 50 o pattern: [\s\S]*
+    /// A Connect peer core network address. This only applies only when the protocol is GRE . Constraints: • min: 1 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--core-network-address")]
     public string? CoreNetworkAddress { get; set; }
 
     /// <summary>
-    /// The Connect peer BGP options. This only applies only when the proto- col is GRE . PeerAsn -&gt; (long) The Peer ASN of the BGP. Shorthand Syntax: PeerAsn=long JSON Syntax: { "PeerAsn": long }
+    /// The Connect peer BGP options. This only applies only when the protocol is GRE . PeerAsn -&gt; (long) The Peer ASN of the BGP. Shorthand Syntax: PeerAsn=long JSON Syntax: { "PeerAsn": long }
     /// </summary>
     [CliOption("--bgp-options")]
     public string? BgpOptions { get; set; }
 
     /// <summary>
-    /// The inside IP addresses used for BGP peering. (string) Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Syntax: "string" "string" ...
+    /// The inside IP addresses used for BGP peering. (string) Constraints: • min: 0 • max: 256 • pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--inside-cidr-blocks", GroupValues = true)]
     public IEnumerable<string>? InsideCidrBlocks { get; set; }
 
     /// <summary>
-    /// The tags associated with the peer request. (structure) Describes a tag. Key -&gt; (string) The tag key. Constraints: Maximum length of 128 characters. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]* Value -&gt; (string) The tag value. Constraints: Maximum length of 256 characters. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags associated with the peer request. (structure) Describes a tag. Key -&gt; (string) The tag key. Constraints: Maximum length of 128 characters. Constraints: • min: 0 • max: 10000000 • pattern: [\s\S]* Value -&gt; (string) The tag value. Constraints: Maximum length of 256 characters. Constraints: • min: 0 • max: 10000000 • pattern: [\s\S]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The client token associated with the request. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// The client token associated with the request. Constraints: • min: 0 • max: 256 • pattern: [\s\S]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The subnet ARN for the Connect peer. This only applies only when the protocol is NO_ENCAP. Constraints: o min: 0 o max: 500 o pattern: ^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:subnet\/sub- net-[0-9a-f]{8,17}$|^$
+    /// The subnet ARN for the Connect peer. This only applies only when the protocol is NO_ENCAP. Constraints: • min: 0 • max: 500 • pattern: ^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:subnet\/subnet-[0-9a-f]{8,17}$|^$
     /// </summary>
     [CliOption("--subnet-arn")]
     public string? SubnetArn { get; set; }

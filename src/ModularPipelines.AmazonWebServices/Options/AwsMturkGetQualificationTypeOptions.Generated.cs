@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The GetQualificationType operation retrieves information about a Quali- fication type using its ID. See also: AWS API Documentation
+/// The GetQualificationType operation retrieves information about a Qualification type using its ID. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsMturkGetQualificationTypeOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The GetQualificationType operation retrieves information about a Quali- fication type using its ID. See also: AWS API Documentation
+    /// The GetQualificationType operation retrieves information about a Qualification type using its ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="QualificationTypeId">The ID of the QualificationType. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$</param>
+    /// <param name="QualificationTypeId">The ID of the QualificationType. Constraints: • min: 1 • max: 64 • pattern: ^[A-Z0-9]+$</param>
     public AwsMturkGetQualificationTypeOptions(
         string QualificationTypeId
     )
@@ -56,7 +58,7 @@ public record AwsMturkGetQualificationTypeOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the QualificationType. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$
+    /// The ID of the QualificationType. Constraints: • min: 1 • max: 64 • pattern: ^[A-Z0-9]+$
     /// </summary>
     [CliOption("--qualification-type-id")]
     public string? QualificationTypeId { get; private init; }

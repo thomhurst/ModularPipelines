@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsServicecatalogAppregistryUpdateAttributeGroupOptions : AwsOptio
     /// <summary>
     /// Updates an existing attribute group with new details. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AttributeGroup">The name, ID, or ARN of the attribute group that holds the attrib- utes to describe the application. Constraints: o min: 1 o max: 512 o pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecata- log:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/attribute-groups/[-.\w]+)</param>
+    /// <param name="AttributeGroup">The name, ID, or ARN of the attribute group that holds the attributes to describe the application. Constraints: • min: 1 • max: 512 • pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/attribute-groups/[-.\w]+)</param>
     public AwsServicecatalogAppregistryUpdateAttributeGroupOptions(
         string AttributeGroup
     )
@@ -56,25 +58,25 @@ public record AwsServicecatalogAppregistryUpdateAttributeGroupOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name, ID, or ARN of the attribute group that holds the attrib- utes to describe the application. Constraints: o min: 1 o max: 512 o pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecata- log:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/attribute-groups/[-.\w]+)
+    /// The name, ID, or ARN of the attribute group that holds the attributes to describe the application. Constraints: • min: 1 • max: 512 • pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/attribute-groups/[-.\w]+)
     /// </summary>
     [CliOption("--attribute-group")]
     public string? AttributeGroup { get; private init; }
 
     /// <summary>
-    /// Deprecated: The new name of the attribute group. The name must be unique in the region in which you are updating the attribute group. Please do not use this field as we have stopped supporting name up- dates. Constraints: o min: 1 o max: 256 o pattern: [-.\w]+
+    /// Deprecated: The new name of the attribute group. The name must be unique in the region in which you are updating the attribute group. Please do not use this field as we have stopped supporting name updates. Constraints: • min: 1 • max: 256 • pattern: [-.\w]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The description of the attribute group that the user provides. Constraints: o max: 1024
+    /// The description of the attribute group that the user provides. Constraints: • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A JSON string in the form of nested key-value pairs that represent the attributes in the group and describes an application and its components. Constraints: o min: 1 o max: 8000 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+
+    /// A JSON string in the form of nested key-value pairs that represent the attributes in the group and describes an application and its components. Constraints: • min: 1 • max: 8000 • pattern: [\u0009\u000A\u000D\u0020-\u00FF]+
     /// </summary>
     [CliOption("--attributes")]
     public string? Attributes { get; set; }

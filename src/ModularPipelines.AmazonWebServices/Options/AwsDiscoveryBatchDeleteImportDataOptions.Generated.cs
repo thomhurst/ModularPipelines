@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes one or more import tasks, each identified by their import ID. Each import task has a number of records that can identify servers or applications. Amazon Web Services Application Discovery Service has built-in matching logic that will identify when discovered servers match existing entries that you've previously discovered, the information for the already-ex- isting discovered server is updated. When you delete an import task that contains records that were used to match, the information ...
+/// Deletes one or more import tasks, each identified by their import ID. Each import task has a number of records that can identify servers or applications. Amazon Web Services Application Discovery Service has built-in matching logic that will identify when discovered servers match existing entries that you've previously discovered, the information for the already-existing discovered server is updated. When you delete an import task that contains records that were used to match, the information in...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsDiscoveryBatchDeleteImportDataOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes one or more import tasks, each identified by their import ID. Each import task has a number of records that can identify servers or applications. Amazon Web Services Application Discovery Service has built-in matching logic that will identify when discovered servers match existing entries that you've previously discovered, the information for the already-ex- isting discovered server is updated. When you delete an import task that contains records that were used to match, the information ...
+    /// Deletes one or more import tasks, each identified by their import ID. Each import task has a number of records that can identify servers or applications. Amazon Web Services Application Discovery Service has built-in matching logic that will identify when discovered servers match existing entries that you've previously discovered, the information for the already-existing discovered server is updated. When you delete an import task that contains records that were used to match, the information in...
     /// </summary>
-    /// <param name="ImportTaskIds">The IDs for the import tasks that you want to delete. Constraints: o min: 1 o max: 10 (string) Constraints: o max: 200 o pattern: ^import-task-[a-fA-F0-9]{32}$ Syntax: "string" "string" ...</param>
+    /// <param name="ImportTaskIds">The IDs for the import tasks that you want to delete. Constraints: • min: 1 • max: 10 (string) Constraints: • max: 200 • pattern: ^import-task-[a-fA-F0-9]{32}$ Syntax: "string" "string" ...</param>
     public AwsDiscoveryBatchDeleteImportDataOptions(
         IEnumerable<string> ImportTaskIds
     )
@@ -67,13 +69,13 @@ public record AwsDiscoveryBatchDeleteImportDataOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The IDs for the import tasks that you want to delete. Constraints: o min: 1 o max: 10 (string) Constraints: o max: 200 o pattern: ^import-task-[a-fA-F0-9]{32}$ Syntax: "string" "string" ...
+    /// The IDs for the import tasks that you want to delete. Constraints: • min: 1 • max: 10 (string) Constraints: • max: 200 • pattern: ^import-task-[a-fA-F0-9]{32}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--import-task-ids", GroupValues = true)]
     public IEnumerable<string>? ImportTaskIds { get; private init; }
 
     /// <summary>
-    /// Set to true to remove the deleted import task from DescribeImport- Tasks .
+    /// Set to true to remove the deleted import task from DescribeImportTasks .
     /// </summary>
     [CliFlag("--delete-history", NegatedName = "--no-delete-history")]
     public bool? DeleteHistory { get; set; }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,7 +29,7 @@ public record AwsIotRegisterThingOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Provisions a thing in the device registry. RegisterThing calls other IoT control plane APIs. These calls might exceed your account level IoT Throttling Limits and cause throttle errors. Please contact Amazon Web Services Customer Support to raise your throttling limits if necessary. Requires permission to access the RegisterThing action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TemplateBody">The provisioning template. See Provisioning Devices That Have Device Certificates for more information. Constraints: o min: 0 o max: 10240 o pattern: [\s\S]*</param>
+    /// <param name="TemplateBody">The provisioning template. See Provisioning Devices That Have Device Certificates for more information. Constraints: • min: 0 • max: 10240 • pattern: [\s\S]*</param>
     public AwsIotRegisterThingOptions(
         string TemplateBody
     )
@@ -57,13 +58,13 @@ public record AwsIotRegisterThingOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The provisioning template. See Provisioning Devices That Have Device Certificates for more information. Constraints: o min: 0 o max: 10240 o pattern: [\s\S]*
+    /// The provisioning template. See Provisioning Devices That Have Device Certificates for more information. Constraints: • min: 0 • max: 10240 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--template-body")]
     public string? TemplateBody { get; private init; }
 
     /// <summary>
-    /// The parameters for provisioning a thing. See Provisioning Templates for more information. key -&gt; (string) Constraints: o min: 0 o max: 2048 o pattern: [\s\S]* value -&gt; (string) Constraints: o min: 0 o max: 4096 o pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The parameters for provisioning a thing. See Provisioning Templates for more information. key -&gt; (string) Constraints: • min: 0 • max: 2048 • pattern: [\s\S]* value -&gt; (string) Constraints: • min: 0 • max: 4096 • pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }

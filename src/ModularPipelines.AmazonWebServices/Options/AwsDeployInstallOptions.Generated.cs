@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Configures and installs the AWS CodeDeploy Agent on the on-premises in- stance.
+/// Configures and installs the AWS CodeDeploy Agent on the on-premises instance.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDeployInstallOptions : AwsOptions
 {
     /// <summary>
-    /// Configures and installs the AWS CodeDeploy Agent on the on-premises in- stance.
+    /// Configures and installs the AWS CodeDeploy Agent on the on-premises instance.
     /// </summary>
     /// <param name="ConfigFile"></param>
     public AwsDeployInstallOptions(

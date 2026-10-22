@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Given an identity (an email address or a domain), enables or disables whether Amazon SES forwards bounce and complaint notifications as email. Feedback forwarding can only be disabled when Amazon Simple No- tification Service (Amazon SNS) topics are specified for both bounces and complaints. NOTE: Feedback forwarding does not apply to delivery notifications. Deliv- ery notifications are only available through Amazon SNS. You can execute this operation no more than once per second. For more infor...
+/// Given an identity (an email address or a domain), enables or disables whether Amazon SES forwards bounce and complaint notifications as email. Feedback forwarding can only be disabled when Amazon Simple Notification Service (Amazon SNS) topics are specified for both bounces and complaints. NOTE: Feedback forwarding does not apply to delivery notifications. Delivery notifications are only available through Amazon SNS. You can execute this operation no more than once per second. For more informati...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsSesSetIdentityFeedbackForwardingEnabledOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Given an identity (an email address or a domain), enables or disables whether Amazon SES forwards bounce and complaint notifications as email. Feedback forwarding can only be disabled when Amazon Simple No- tification Service (Amazon SNS) topics are specified for both bounces and complaints. NOTE: Feedback forwarding does not apply to delivery notifications. Deliv- ery notifications are only available through Amazon SNS. You can execute this operation no more than once per second. For more infor...
+    /// Given an identity (an email address or a domain), enables or disables whether Amazon SES forwards bounce and complaint notifications as email. Feedback forwarding can only be disabled when Amazon Simple Notification Service (Amazon SNS) topics are specified for both bounces and complaints. NOTE: Feedback forwarding does not apply to delivery notifications. Delivery notifications are only available through Amazon SNS. You can execute this operation no more than once per second. For more informati...
     /// </summary>
-    /// <param name="Identity">The identity for which to set bounce and complaint notification for- warding. Examples: user@example.com , example.com .</param>
-    /// <param name="ForwardingEnabled">Sets whether Amazon SES forwards bounce and complaint notifications as email. true specifies that Amazon SES forwards bounce and com- plaint notifications as email, in addition to any Amazon SNS topic publishing otherwise specified. false specifies that Amazon SES pub- lishes bounce and complaint notifications only through Amazon SNS. This value can only be set to false when Amazon SNS topics are set for both Bounce and Complaint notification types.</param>
+    /// <param name="Identity">The identity for which to set bounce and complaint notification forwarding. Examples: user@example.com , example.com .</param>
+    /// <param name="ForwardingEnabled">Sets whether Amazon SES forwards bounce and complaint notifications as email. true specifies that Amazon SES forwards bounce and complaint notifications as email, in addition to any Amazon SNS topic publishing otherwise specified. false specifies that Amazon SES publishes bounce and complaint notifications only through Amazon SNS. This value can only be set to false when Amazon SNS topics are set for both Bounce and Complaint notification types.</param>
     public AwsSesSetIdentityFeedbackForwardingEnabledOptions(
         string Identity,
         bool ForwardingEnabled
@@ -59,13 +61,13 @@ public record AwsSesSetIdentityFeedbackForwardingEnabledOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identity for which to set bounce and complaint notification for- warding. Examples: user@example.com , example.com .
+    /// The identity for which to set bounce and complaint notification forwarding. Examples: user@example.com , example.com .
     /// </summary>
     [CliOption("--identity")]
     public string? Identity { get; private init; }
 
     /// <summary>
-    /// Sets whether Amazon SES forwards bounce and complaint notifications as email. true specifies that Amazon SES forwards bounce and com- plaint notifications as email, in addition to any Amazon SNS topic publishing otherwise specified. false specifies that Amazon SES pub- lishes bounce and complaint notifications only through Amazon SNS. This value can only be set to false when Amazon SNS topics are set for both Bounce and Complaint notification types.
+    /// Sets whether Amazon SES forwards bounce and complaint notifications as email. true specifies that Amazon SES forwards bounce and complaint notifications as email, in addition to any Amazon SNS topic publishing otherwise specified. false specifies that Amazon SES publishes bounce and complaint notifications only through Amazon SNS. This value can only be set to false when Amazon SNS topics are set for both Bounce and Complaint notification types.
     /// </summary>
     [CliFlag("--forwarding-enabled", NegatedName = "--no-forwarding-enabled")]
     public bool? ForwardingEnabled { get; private init; }

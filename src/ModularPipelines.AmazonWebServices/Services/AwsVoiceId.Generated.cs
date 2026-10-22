@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws voiceid commands.
+/// aws voice-id commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsVoiceId : IAwsVoiceId
@@ -32,7 +32,7 @@ public class AwsVoiceId : IAwsVoiceId
     #region Commands
 
     /// <summary>
-    /// Associates the fraudsters with the watchlist specified in the same do- main. See also: AWS API Documentation
+    /// Associates the fraudsters with the watchlist specified in the same domain. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsVoiceId : IAwsVoiceId
     }
 
     /// <summary>
-    /// Deletes the specified fraudster from Voice ID. This action disassoci- ates the fraudster from any watchlists it is a part of. See also: AWS API Documentation
+    /// Deletes the specified fraudster from Voice ID. This action disassociates the fraudster from any watchlists it is a part of. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsVoiceId : IAwsVoiceId
     }
 
     /// <summary>
-    /// Deletes the specified watchlist from Voice ID. This API throws an ex- ception when there are fraudsters in the watchlist that you are trying to delete. You must delete the fraudsters, and then delete the watch- list. Every domain has a default watchlist which cannot be deleted. See also: AWS API Documentation
+    /// Deletes the specified watchlist from Voice ID. This API throws an exception when there are fraudsters in the watchlist that you are trying to delete. You must delete the fraudsters, and then delete the watchlist. Every domain has a default watchlist which cannot be deleted. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsVoiceId : IAwsVoiceId
     }
 
     /// <summary>
-    /// Disassociates the fraudsters from the watchlist specified. Voice ID al- ways expects a fraudster to be a part of at least one watchlist. If you try to disassociate a fraudster from its only watchlist, a Valida- tionException is thrown. See also: AWS API Documentation
+    /// Disassociates the fraudsters from the watchlist specified. Voice ID always expects a fraudster to be a part of at least one watchlist. If you try to disassociate a fraudster from its only watchlist, a ValidationException is thrown. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsVoiceId : IAwsVoiceId
     }
 
     /// <summary>
-    /// Lists all the domains in the Amazon Web Services account. See also: AWS API Documentation list-domains is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: DomainSummaries
+    /// Lists all the domains in the Amazon Web Services account. See also: AWS API Documentation list-domains is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DomainSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsVoiceId : IAwsVoiceId
     }
 
     /// <summary>
-    /// Lists all the fraudster registration jobs in the domain with the given JobStatus . If JobStatus is not provided, this lists all fraudster reg- istration jobs in the given domain. See also: AWS API Documentation list-fraudster-registration-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated respons...
+    /// Lists all the fraudster registration jobs in the domain with the given JobStatus . If JobStatus is not provided, this lists all fraudster registration jobs in the given domain. See also: AWS API Documentation list-fraudster-registration-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsVoiceId : IAwsVoiceId
     }
 
     /// <summary>
-    /// Lists all fraudsters in a specified watchlist or domain. See also: AWS API Documentation list-fraudsters is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: FraudsterSummaries
+    /// Lists all fraudsters in a specified watchlist or domain. See also: AWS API Documentation list-fraudsters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: FraudsterSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsVoiceId : IAwsVoiceId
     }
 
     /// <summary>
-    /// Lists all the speaker enrollment jobs in the domain with the specified JobStatus . If JobStatus is not provided, this lists all jobs with all possible speaker enrollment job statuses. See also: AWS API Documentation list-speaker-enrollment-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated respon...
+    /// Lists all the speaker enrollment jobs in the domain with the specified JobStatus . If JobStatus is not provided, this lists all jobs with all possible speaker enrollment job statuses. See also: AWS API Documentation list-speaker-enrollment-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsVoiceId : IAwsVoiceId
     }
 
     /// <summary>
-    /// Lists all speakers in a specified domain. See also: AWS API Documentation list-speakers is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SpeakerSummaries
+    /// Lists all speakers in a specified domain. See also: AWS API Documentation list-speakers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SpeakerSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsVoiceId : IAwsVoiceId
     }
 
     /// <summary>
-    /// Lists all watchlists in a specified domain. See also: AWS API Documentation list-watchlists is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: WatchlistSummaries
+    /// Lists all watchlists in a specified domain. See also: AWS API Documentation list-watchlists is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: WatchlistSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsVoiceId : IAwsVoiceId
     }
 
     /// <summary>
-    /// Opts out a speaker from Voice ID. A speaker can be opted out regardless of whether or not they already exist in Voice ID. If they don't yet ex- ist, a new speaker is created in an opted out state. If they already exist, their existing status is overridden and they are opted out. En- rollment and evaluation authentication requests are rejected for opted out speakers, and opted out speakers have no voice embeddings stored in Voice ID. See also: AWS API Documentation
+    /// Opts out a speaker from Voice ID. A speaker can be opted out regardless of whether or not they already exist in Voice ID. If they don't yet exist, a new speaker is created in an opted out state. If they already exist, their existing status is overridden and they are opted out. Enrollment and evaluation authentication requests are rejected for opted out speakers, and opted out speakers have no voice embeddings stored in Voice ID. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsVoiceId : IAwsVoiceId
     }
 
     /// <summary>
-    /// Removes specified tags from a specified Amazon Connect Voice ID re- source. See also: AWS API Documentation
+    /// Removes specified tags from a specified Amazon Connect Voice ID resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsVoiceId : IAwsVoiceId
     }
 
     /// <summary>
-    /// Updates the specified domain. This API has clobber behavior, and clears and replaces all attributes. If an optional field, such as 'Descrip- tion' is not provided, it is removed from the domain. See also: AWS API Documentation
+    /// Updates the specified domain. This API has clobber behavior, and clears and replaces all attributes. If an optional field, such as 'Description' is not provided, it is removed from the domain. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

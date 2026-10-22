@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Get the state for a routing control. A routing control is a simple on/off switch that you can use to route traffic to cells. When a rout- ing control state is set to ON, traffic flows to a cell. When the state is set to OFF, traffic does not flow. Before you can create a routing control, you must first create a clus- ter, and then host the control in a control panel on the cluster. For more information, see Create routing control structures in the Amazon Route 53 Application Recovery Controller ...
+/// Get the state for a routing control. A routing control is a simple on/off switch that you can use to route traffic to cells. When a routing control state is set to ON, traffic flows to a cell. When the state is set to OFF, traffic does not flow. Before you can create a routing control, you must first create a cluster, and then host the control in a control panel on the cluster. For more information, see Create routing control structures in the Amazon Route 53 Application Recovery Controller Deve...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRoute53RecoveryClusterGetRoutingControlStateOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Get the state for a routing control. A routing control is a simple on/off switch that you can use to route traffic to cells. When a rout- ing control state is set to ON, traffic flows to a cell. When the state is set to OFF, traffic does not flow. Before you can create a routing control, you must first create a clus- ter, and then host the control in a control panel on the cluster. For more information, see Create routing control structures in the Amazon Route 53 Application Recovery Controller ...
+    /// Get the state for a routing control. A routing control is a simple on/off switch that you can use to route traffic to cells. When a routing control state is set to ON, traffic flows to a cell. When the state is set to OFF, traffic does not flow. Before you can create a routing control, you must first create a cluster, and then host the control in a control panel on the cluster. For more information, see Create routing control structures in the Amazon Route 53 Application Recovery Controller Deve...
     /// </summary>
-    /// <param name="RoutingControlArn">The Amazon Resource Name (ARN) for the routing control that you want to get the state for. Constraints: o min: 1 o max: 255 o pattern: ^[A-Za-z0-9:.\/_-]*$</param>
+    /// <param name="RoutingControlArn">The Amazon Resource Name (ARN) for the routing control that you want to get the state for. Constraints: • min: 1 • max: 255 • pattern: ^[A-Za-z0-9:.\/_-]*$</param>
     public AwsRoute53RecoveryClusterGetRoutingControlStateOptions(
         string RoutingControlArn
     )
@@ -56,7 +58,7 @@ public record AwsRoute53RecoveryClusterGetRoutingControlStateOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) for the routing control that you want to get the state for. Constraints: o min: 1 o max: 255 o pattern: ^[A-Za-z0-9:.\/_-]*$
+    /// The Amazon Resource Name (ARN) for the routing control that you want to get the state for. Constraints: • min: 1 • max: 255 • pattern: ^[A-Za-z0-9:.\/_-]*$
     /// </summary>
     [CliOption("--routing-control-arn")]
     public string? RoutingControlArn { get; private init; }

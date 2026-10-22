@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of resource metadata for a given list of job names. Af- ter calling the ListJobs operation, you can call this operation to ac- cess the data to which you have been granted permissions. This opera- tion supports all IAM permissions, including permission conditions that uses tags. See also: AWS API Documentation
+/// Returns a list of resource metadata for a given list of job names. After calling the ListJobs operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsGlueBatchGetJobsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a list of resource metadata for a given list of job names. Af- ter calling the ListJobs operation, you can call this operation to ac- cess the data to which you have been granted permissions. This opera- tion supports all IAM permissions, including permission conditions that uses tags. See also: AWS API Documentation
+    /// Returns a list of resource metadata for a given list of job names. After calling the ListJobs operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobNames">A list of job names, which might be the names returned from the ListJobs operation. (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Syntax: "string" "string" ...</param>
+    /// <param name="JobNames">A list of job names, which might be the names returned from the ListJobs operation. (string) Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Syntax: "string" "string" ...</param>
     public AwsGlueBatchGetJobsOptions(
         IEnumerable<string> JobNames
     )
@@ -67,7 +69,7 @@ public record AwsGlueBatchGetJobsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of job names, which might be the names returned from the ListJobs operation. (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Syntax: "string" "string" ...
+    /// A list of job names, which might be the names returned from the ListJobs operation. (string) Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--job-names", GroupValues = true)]
     public IEnumerable<string>? JobNames { get; private init; }

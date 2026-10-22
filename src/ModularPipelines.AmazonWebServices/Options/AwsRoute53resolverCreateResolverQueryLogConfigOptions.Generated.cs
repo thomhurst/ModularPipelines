@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a Resolver query logging configuration, which defines where you want Resolver to save DNS query logs that originate in your VPCs. Re- solver can log queries only for VPCs that are in the same Region as the query logging configuration. To specify which VPCs you want to log queries for, you use AssociateRe- solverQueryLogConfig . For more information, see AssociateResolverQueryLogConfig . You can optionally use Resource Access Manager (RAM) to share a query logging configuration with other...
+/// Creates a Resolver query logging configuration, which defines where you want Resolver to save DNS query logs that originate in your VPCs. Resolver can log queries only for VPCs that are in the same Region as the query logging configuration. To specify which VPCs you want to log queries for, you use AssociateResolverQueryLogConfig . For more information, see AssociateResolverQueryLogConfig . You can optionally use Resource Access Manager (RAM) to share a query logging configuration with other Ama...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsRoute53resolverCreateResolverQueryLogConfigOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a Resolver query logging configuration, which defines where you want Resolver to save DNS query logs that originate in your VPCs. Re- solver can log queries only for VPCs that are in the same Region as the query logging configuration. To specify which VPCs you want to log queries for, you use AssociateRe- solverQueryLogConfig . For more information, see AssociateResolverQueryLogConfig . You can optionally use Resource Access Manager (RAM) to share a query logging configuration with other...
+    /// Creates a Resolver query logging configuration, which defines where you want Resolver to save DNS query logs that originate in your VPCs. Resolver can log queries only for VPCs that are in the same Region as the query logging configuration. To specify which VPCs you want to log queries for, you use AssociateResolverQueryLogConfig . For more information, see AssociateResolverQueryLogConfig . You can optionally use Resource Access Manager (RAM) to share a query logging configuration with other Ama...
     /// </summary>
-    /// <param name="Name">The name that you want to give the query logging configuration. Constraints: o min: 1 o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)</param>
-    /// <param name="DestinationArn">The ARN of the resource that you want Resolver to send query logs. You can send query logs to an S3 bucket, a CloudWatch Logs log group, or a Kinesis Data Firehose delivery stream. Examples of valid values include the following: o S3 bucket : arn:aws:s3:::amzn-s3-demo-bucket You can option- ally append a file prefix to the end of the ARN. arn:aws:s3:::amzn-s3-demo-bucket/development/ o CloudWatch Logs log group : arn:aws:logs:us-west-1:123456789012:log-group:/mystack-test- group-12ABC1AB12A1:* o Kinesis Data Firehose delivery stream : arn:aws:kine- sis:us-east-2:0123456789:stream/my_stream_name Constraints: o min: 1 o max: 600</param>
+    /// <param name="Name">The name that you want to give the query logging configuration. Constraints: • min: 1 • max: 64 • pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)</param>
+    /// <param name="DestinationArn">The ARN of the resource that you want Resolver to send query logs. You can send query logs to an S3 bucket, a CloudWatch Logs log group, or a Kinesis Data Firehose delivery stream. Examples of valid values include the following: • S3 bucket : arn:aws:s3:::amzn-s3-demo-bucket You can optionally append a file prefix to the end of the ARN. arn:aws:s3:::amzn-s3-demo-bucket/development/ • CloudWatch Logs log group : arn:aws:logs:us-west-1:123456789012:log-group:/mystack-testgroup-12ABC1AB12A1:* • Kinesis Data Firehose delivery stream : arn:aws:kinesis:us-east-2:0123456789:stream/my_stream_name Constraints: • min: 1 • max: 600</param>
     public AwsRoute53resolverCreateResolverQueryLogConfigOptions(
         string Name,
         string DestinationArn
@@ -60,25 +62,25 @@ public record AwsRoute53resolverCreateResolverQueryLogConfigOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name that you want to give the query logging configuration. Constraints: o min: 1 o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)
+    /// The name that you want to give the query logging configuration. Constraints: • min: 1 • max: 64 • pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The ARN of the resource that you want Resolver to send query logs. You can send query logs to an S3 bucket, a CloudWatch Logs log group, or a Kinesis Data Firehose delivery stream. Examples of valid values include the following: o S3 bucket : arn:aws:s3:::amzn-s3-demo-bucket You can option- ally append a file prefix to the end of the ARN. arn:aws:s3:::amzn-s3-demo-bucket/development/ o CloudWatch Logs log group : arn:aws:logs:us-west-1:123456789012:log-group:/mystack-test- group-12ABC1AB12A1:* o Kinesis Data Firehose delivery stream : arn:aws:kine- sis:us-east-2:0123456789:stream/my_stream_name Constraints: o min: 1 o max: 600
+    /// The ARN of the resource that you want Resolver to send query logs. You can send query logs to an S3 bucket, a CloudWatch Logs log group, or a Kinesis Data Firehose delivery stream. Examples of valid values include the following: • S3 bucket : arn:aws:s3:::amzn-s3-demo-bucket You can optionally append a file prefix to the end of the ARN. arn:aws:s3:::amzn-s3-demo-bucket/development/ • CloudWatch Logs log group : arn:aws:logs:us-west-1:123456789012:log-group:/mystack-testgroup-12ABC1AB12A1:* • Kinesis Data Firehose delivery stream : arn:aws:kinesis:us-east-2:0123456789:stream/my_stream_name Constraints: • min: 1 • max: 600
     /// </summary>
     [CliOption("--destination-arn")]
     public string? DestinationArn { get; private init; }
 
     /// <summary>
-    /// A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. Constraints: o min: 1 o max: 255
+    /// A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--creator-request-id")]
     public string? CreatorRequestId { get; set; }
 
     /// <summary>
-    /// A list of the tag keys and values that you want to associate with the query logging configuration. Constraints: o max: 200 (structure) One tag that you want to add to the specified resource. A tag consists of a Key (a name for the tag) and a Value . Key -&gt; (string) [required] The name for the tag. For example, if you want to associate Resolver resources with the account IDs of your customers for billing purposes, the value of Key might be account-id . Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value for the tag. For example, if Key is account-id , then Value might be the ID of the customer account that you're creating the resource for. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of the tag keys and values that you want to associate with the query logging configuration. Constraints: • max: 200 (structure) One tag that you want to add to the specified resource. A tag consists of a Key (a name for the tag) and a Value . Key -&gt; (string) [required] The name for the tag. For example, if you want to associate Resolver resources with the account IDs of your customers for billing purposes, the value of Key might be account-id . Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The value for the tag. For example, if Key is account-id , then Value might be the ID of the customer account that you're creating the resource for. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

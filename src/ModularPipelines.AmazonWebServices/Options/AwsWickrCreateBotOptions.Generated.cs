@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new bot in a specified Wickr network. Bots are automated ac- counts that can send and receive messages, enabling integration with external systems and automation of tasks. See also: AWS API Documentation
+/// Creates a new bot in a specified Wickr network. Bots are automated accounts that can send and receive messages, enabling integration with external systems and automation of tasks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +27,12 @@ public record AwsWickrCreateBotOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new bot in a specified Wickr network. Bots are automated ac- counts that can send and receive messages, enabling integration with external systems and automation of tasks. See also: AWS API Documentation
+    /// Creates a new bot in a specified Wickr network. Bots are automated accounts that can send and receive messages, enabling integration with external systems and automation of tasks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The ID of the Wickr network where the bot will be created. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
-    /// <param name="Username">The username for the bot. This must be unique within the network and follow the network's naming conventions. Constraints: o pattern: [\S\s]*</param>
-    /// <param name="GroupId">The ID of the security group to which the bot will be assigned. Constraints: o pattern: [\S\s]*</param>
-    /// <param name="Challenge">The password for the bot account. Constraints: o pattern: [\S\s]*</param>
+    /// <param name="NetworkId">The ID of the Wickr network where the bot will be created. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}</param>
+    /// <param name="Username">The username for the bot. This must be unique within the network and follow the network's naming conventions. Constraints: • pattern: [\S\s]*</param>
+    /// <param name="GroupId">The ID of the security group to which the bot will be assigned. Constraints: • pattern: [\S\s]*</param>
+    /// <param name="Challenge">The password for the bot account. Constraints: • pattern: [\S\s]*</param>
     public AwsWickrCreateBotOptions(
         string NetworkId,
         string Username,
@@ -68,31 +70,31 @@ public record AwsWickrCreateBotOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Wickr network where the bot will be created. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// The ID of the Wickr network where the bot will be created. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }
 
     /// <summary>
-    /// The username for the bot. This must be unique within the network and follow the network's naming conventions. Constraints: o pattern: [\S\s]*
+    /// The username for the bot. This must be unique within the network and follow the network's naming conventions. Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--username")]
     public string? Username { get; private init; }
 
     /// <summary>
-    /// The ID of the security group to which the bot will be assigned. Constraints: o pattern: [\S\s]*
+    /// The ID of the security group to which the bot will be assigned. Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--group-id")]
     public string? GroupId { get; private init; }
 
     /// <summary>
-    /// The password for the bot account. Constraints: o pattern: [\S\s]*
+    /// The password for the bot account. Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--challenge")]
     public string? Challenge { get; private init; }
 
     /// <summary>
-    /// The display name for the bot that will be visible to users in the network. Constraints: o pattern: [\S\s]*
+    /// The display name for the bot that will be visible to users in the network. Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }

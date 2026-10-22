@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -63,7 +65,7 @@ public record AwsIotDataPublishOptions : AwsOptions, IValidatableObject
     public string? Topic { get; private init; }
 
     /// <summary>
-    /// The Quality of Service (QoS) level. The default QoS level is 0. Constraints: o min: 0 o max: 1
+    /// The Quality of Service (QoS) level. The default QoS level is 0. Constraints: • min: 0 • max: 1
     /// </summary>
     [CliOption("--qos")]
     public int? Qos { get; set; }
@@ -75,7 +77,7 @@ public record AwsIotDataPublishOptions : AwsOptions, IValidatableObject
     public bool? Retain { get; set; }
 
     /// <summary>
-    /// The message body. MQTT accepts text, binary, and empty (null) mes- sage payloads. Publishing an empty (null) payload with retain = true deletes the retained message identified by topic from Amazon Web Services IoT Core.
+    /// The message body. MQTT accepts text, binary, and empty (null) message payloads. Publishing an empty (null) payload with retain = true deletes the retained message identified by topic from Amazon Web Services IoT Core.
     /// </summary>
     [CliOption("--payload")]
     public string? Payload { get; set; }
@@ -87,7 +89,7 @@ public record AwsIotDataPublishOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? UserProperties { get; set; }
 
     /// <summary>
-    /// An Enum string value that indicates whether the payload is formatted as UTF-8. payloadFormatIndicator is an HTTP header value in the API. Possible values: o UNSPECIFIED_BYTES o UTF8_DATA
+    /// An Enum string value that indicates whether the payload is formatted as UTF-8. payloadFormatIndicator is an HTTP header value in the API. Possible values: • UNSPECIFIED_BYTES • UTF8_DATA
     /// </summary>
     [CliOption("--payload-format-indicator")]
     public AwsIotDataPublishPayloadFormatIndicator? PayloadFormatIndicator { get; set; }
@@ -111,10 +113,10 @@ public record AwsIotDataPublishOptions : AwsOptions, IValidatableObject
     public string? CorrelationData { get; set; }
 
     /// <summary>
-    /// A user-defined integer value that represents the message expiry in- terval in seconds. If absent, the message doesn't expire. For more information about the limits of messageExpiry , see Amazon Web Ser- vices IoT Core message broker and protocol limits and quotas from the Amazon Web Services Reference Guide.
+    /// A user-defined integer value that represents the message expiry interval in seconds. If absent, the message doesn't expire. For more information about the limits of messageExpiry , see Amazon Web Services IoT Core message broker and protocol limits and quotas from the Amazon Web Services Reference Guide.
     /// </summary>
     [CliOption("--message-expiry")]
-    public int? MessageExpiry { get; set; }
+    public long? MessageExpiry { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

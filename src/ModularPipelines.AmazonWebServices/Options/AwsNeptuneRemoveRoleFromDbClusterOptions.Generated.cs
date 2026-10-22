@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsNeptuneRemoveRoleFromDbClusterOptions : AwsOptions, IValidatabl
     /// Disassociates an Identity and Access Management (IAM) role from a DB cluster. See also: AWS API Documentation
     /// </summary>
     /// <param name="DbClusterIdentifier">The name of the DB cluster to disassociate the IAM role from.</param>
-    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role to disassociate from the DB cluster, for example arn:aws:iam::123456789012:role/Nep- tuneAccessRole .</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role to disassociate from the DB cluster, for example arn:aws:iam::123456789012:role/NeptuneAccessRole .</param>
     public AwsNeptuneRemoveRoleFromDbClusterOptions(
         string DbClusterIdentifier,
         string RoleArn
@@ -66,7 +68,7 @@ public record AwsNeptuneRemoveRoleFromDbClusterOptions : AwsOptions, IValidatabl
     public string? DbClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role to disassociate from the DB cluster, for example arn:aws:iam::123456789012:role/Nep- tuneAccessRole .
+    /// The Amazon Resource Name (ARN) of the IAM role to disassociate from the DB cluster, for example arn:aws:iam::123456789012:role/NeptuneAccessRole .
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }

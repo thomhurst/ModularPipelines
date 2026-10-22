@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a vehicle model (model manifest) that specifies signals (at- tributes, branches, sensors, and actuators). For more information, see Vehicle models in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+/// Creates a vehicle model (model manifest) that specifies signals (attributes, branches, sensors, and actuators). For more information, see Vehicle models in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsIotfleetwiseCreateModelManifestOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a vehicle model (model manifest) that specifies signals (at- tributes, branches, sensors, and actuators). For more information, see Vehicle models in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+    /// Creates a vehicle model (model manifest) that specifies signals (attributes, branches, sensors, and actuators). For more information, see Vehicle models in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the vehicle model to create. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+</param>
-    /// <param name="Nodes">A list of nodes, which are a general abstraction of signals. Constraints: o min: 0 o max: 500 (string) Syntax: "string" "string" ...</param>
+    /// <param name="Name">The name of the vehicle model to create. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z\d\-_:]+</param>
+    /// <param name="Nodes">A list of nodes, which are a general abstraction of signals. Constraints: • min: 0 • max: 500 (string) Syntax: "string" "string" ...</param>
     /// <param name="SignalCatalogArn">The Amazon Resource Name (ARN) of a signal catalog.</param>
     public AwsIotfleetwiseCreateModelManifestOptions(
         string Name,
@@ -75,13 +77,13 @@ public record AwsIotfleetwiseCreateModelManifestOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the vehicle model to create. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+
+    /// The name of the vehicle model to create. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z\d\-_:]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A list of nodes, which are a general abstraction of signals. Constraints: o min: 0 o max: 500 (string) Syntax: "string" "string" ...
+    /// A list of nodes, which are a general abstraction of signals. Constraints: • min: 0 • max: 500 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--nodes", GroupValues = true)]
     public IEnumerable<string>? Nodes { get; private init; }
@@ -93,13 +95,13 @@ public record AwsIotfleetwiseCreateModelManifestOptions : AwsOptions, IValidatab
     public string? SignalCatalogArn { get; private init; }
 
     /// <summary>
-    /// A brief description of the vehicle model. Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+
+    /// A brief description of the vehicle model. Constraints: • min: 1 • max: 2048 • pattern: [^\u0000-\u001F\u007F]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Metadata that can be used to manage the vehicle model. Constraints: o min: 0 o max: 50 (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Metadata that can be used to manage the vehicle model. Constraints: • min: 0 • max: 50 (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The tag's value. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

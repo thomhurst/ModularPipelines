@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves Organizations-related information about the specified ac- count. You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation
+/// Retrieves Organizations-related information about the specified account. You can only call this operation from the management account or a member account that is a delegated administrator. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsOrganizationsDescribeAccountOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves Organizations-related information about the specified ac- count. You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation
+    /// Retrieves Organizations-related information about the specified account. You can only call this operation from the management account or a member account that is a delegated administrator. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The unique identifier (ID) of the Amazon Web Services account that you want information about. You can get the ID from the ListAc- counts or ListAccountsForParent operations. The regex pattern for an account ID string requires exactly 12 dig- its. Constraints: o max: 12 o pattern: ^\d{12}$</param>
+    /// <param name="AccountId">The unique identifier (ID) of the Amazon Web Services account that you want information about. You can get the ID from the ListAccounts or ListAccountsForParent operations. The regex pattern for an account ID string requires exactly 12 digits. Constraints: • max: 12 • pattern: ^\d{12}$</param>
     public AwsOrganizationsDescribeAccountOptions(
         string AccountId
     )
@@ -56,7 +58,7 @@ public record AwsOrganizationsDescribeAccountOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier (ID) of the Amazon Web Services account that you want information about. You can get the ID from the ListAc- counts or ListAccountsForParent operations. The regex pattern for an account ID string requires exactly 12 dig- its. Constraints: o max: 12 o pattern: ^\d{12}$
+    /// The unique identifier (ID) of the Amazon Web Services account that you want information about. You can get the ID from the ListAccounts or ListAccountsForParent operations. The regex pattern for an account ID string requires exactly 12 digits. Constraints: • max: 12 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }

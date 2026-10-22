@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsAppstreamCreateUserOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a new user in the user pool. See also: AWS API Documentation
     /// </summary>
-    /// <param name="UserName">The email address of the user. NOTE: Users' email addresses are case-sensitive. During login, if they specify an email address that doesn't use the same capitaliza- tion as the email address specified when their user pool account was created, a "user does not exist" error message displays. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+</param>
-    /// <param name="AuthenticationType">The authentication type for the user. You must specify USERPOOL. Possible values: o API o SAML o USERPOOL o AWS_AD</param>
+    /// <param name="UserName">The email address of the user. NOTE: Users' email addresses are case-sensitive. During login, if they specify an email address that doesn't use the same capitalization as the email address specified when their user pool account was created, a "user does not exist" error message displays. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+</param>
+    /// <param name="AuthenticationType">The authentication type for the user. You must specify USERPOOL. Possible values: • API • SAML • USERPOOL • AWS_AD</param>
     public AwsAppstreamCreateUserOptions(
         string UserName,
         AwsAppstreamCreateUserAuthenticationType AuthenticationType
@@ -60,31 +62,31 @@ public record AwsAppstreamCreateUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The email address of the user. NOTE: Users' email addresses are case-sensitive. During login, if they specify an email address that doesn't use the same capitaliza- tion as the email address specified when their user pool account was created, a "user does not exist" error message displays. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+
+    /// The email address of the user. NOTE: Users' email addresses are case-sensitive. During login, if they specify an email address that doesn't use the same capitalization as the email address specified when their user pool account was created, a "user does not exist" error message displays. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; private init; }
 
     /// <summary>
-    /// The authentication type for the user. You must specify USERPOOL. Possible values: o API o SAML o USERPOOL o AWS_AD
+    /// The authentication type for the user. You must specify USERPOOL. Possible values: • API • SAML • USERPOOL • AWS_AD
     /// </summary>
     [CliOption("--authentication-type")]
     public AwsAppstreamCreateUserAuthenticationType? AuthenticationType { get; private init; }
 
     /// <summary>
-    /// The action to take for the welcome email that is sent to a user af- ter the user is created in the user pool. If you specify SUPPRESS, no email is sent. If you specify RESEND, do not specify the first name or last name of the user. If the value is null, the email is sent. NOTE: The temporary password in the welcome email is valid for only 7 days. If users dont set their passwords within 7 days, you must send them a new welcome email. Possible values: o SUPPRESS o RESEND
+    /// The action to take for the welcome email that is sent to a user after the user is created in the user pool. If you specify SUPPRESS, no email is sent. If you specify RESEND, do not specify the first name or last name of the user. If the value is null, the email is sent. NOTE: The temporary password in the welcome email is valid for only 7 days. If users dont set their passwords within 7 days, you must send them a new welcome email. Possible values: • SUPPRESS • RESEND
     /// </summary>
     [CliOption("--message-action")]
     public AwsAppstreamCreateUserMessageAction? MessageAction { get; set; }
 
     /// <summary>
-    /// The first name, or given name, of the user. Constraints: o max: 2048 o pattern: ^[A-Za-z0-9_\-\s]+$
+    /// The first name, or given name, of the user. Constraints: • max: 2048 • pattern: ^[A-Za-z0-9_\-\s]+$
     /// </summary>
     [CliOption("--first-name")]
     public string? FirstName { get; set; }
 
     /// <summary>
-    /// The last name, or surname, of the user. Constraints: o max: 2048 o pattern: ^[A-Za-z0-9_\-\s]+$
+    /// The last name, or surname, of the user. Constraints: • max: 2048 • pattern: ^[A-Za-z0-9_\-\s]+$
     /// </summary>
     [CliOption("--last-name")]
     public string? LastName { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsTransferStartRemoteDeleteOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Deletes a file or directory on the remote SFTP server. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectorId">The unique identifier for the connector. Constraints: o min: 19 o max: 19 o pattern: c-([0-9a-f]{17})</param>
-    /// <param name="DeletePath">The absolute path of the file or directory to delete. You can only specify one path per call to this operation. Constraints: o min: 1 o max: 1024 o pattern: (.)+</param>
+    /// <param name="ConnectorId">The unique identifier for the connector. Constraints: • min: 19 • max: 19 • pattern: c-([0-9a-f]{17})</param>
+    /// <param name="DeletePath">The absolute path of the file or directory to delete. You can only specify one path per call to this operation. Constraints: • min: 1 • max: 1024 • pattern: (.)+</param>
     public AwsTransferStartRemoteDeleteOptions(
         string ConnectorId,
         string DeletePath
@@ -60,13 +62,13 @@ public record AwsTransferStartRemoteDeleteOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the connector. Constraints: o min: 19 o max: 19 o pattern: c-([0-9a-f]{17})
+    /// The unique identifier for the connector. Constraints: • min: 19 • max: 19 • pattern: c-([0-9a-f]{17})
     /// </summary>
     [CliOption("--connector-id")]
     public string? ConnectorId { get; private init; }
 
     /// <summary>
-    /// The absolute path of the file or directory to delete. You can only specify one path per call to this operation. Constraints: o min: 1 o max: 1024 o pattern: (.)+
+    /// The absolute path of the file or directory to delete. You can only specify one path per call to this operation. Constraints: • min: 1 • max: 1024 • pattern: (.)+
     /// </summary>
     [CliOption("--delete-path")]
     public string? DeletePath { get; private init; }

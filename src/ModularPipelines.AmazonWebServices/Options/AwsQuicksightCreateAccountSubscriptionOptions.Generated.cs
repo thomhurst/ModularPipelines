@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an Amazon Quick Sight account, or subscribes to Amazon Quick Sight Q. The Amazon Web Services Region for the account is derived from what is configured in the CLI or SDK. Before you use this operation, make sure that you can connect to an ex- isting Amazon Web Services account. If you don't have an Amazon Web Services account, see Sign up for Amazon Web Services in the Amazon Quick Sight User Guide . The person who signs up for Amazon Quick Sight needs to have the correct Identity and Ac...
+/// Creates an Amazon Quick Sight account, or subscribes to Amazon Quick Sight Q. The Amazon Web Services Region for the account is derived from what is configured in the CLI or SDK. Before you use this operation, make sure that you can connect to an existing Amazon Web Services account. If you don't have an Amazon Web Services account, see Sign up for Amazon Web Services in the Amazon Quick Sight User Guide . The person who signs up for Amazon Quick Sight needs to have the correct Identity and Acce...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsQuicksightCreateAccountSubscriptionOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an Amazon Quick Sight account, or subscribes to Amazon Quick Sight Q. The Amazon Web Services Region for the account is derived from what is configured in the CLI or SDK. Before you use this operation, make sure that you can connect to an ex- isting Amazon Web Services account. If you don't have an Amazon Web Services account, see Sign up for Amazon Web Services in the Amazon Quick Sight User Guide . The person who signs up for Amazon Quick Sight needs to have the correct Identity and Ac...
+    /// Creates an Amazon Quick Sight account, or subscribes to Amazon Quick Sight Q. The Amazon Web Services Region for the account is derived from what is configured in the CLI or SDK. Before you use this operation, make sure that you can connect to an existing Amazon Web Services account. If you don't have an Amazon Web Services account, see Sign up for Amazon Web Services in the Amazon Quick Sight User Guide . The person who signs up for Amazon Quick Sight needs to have the correct Identity and Acce...
     /// </summary>
-    /// <param name="AuthenticationMethod">The method that you want to use to authenticate your Quick Sight ac- count. If you choose ACTIVE_DIRECTORY , provide an ActiveDirectoryName and an AdminGroup associated with your Active Directory. If you choose IAM_IDENTITY_CENTER , provide an AdminGroup associated with your IAM Identity Center account. Possible values: o IAM_AND_QUICKSIGHT o IAM_ONLY o ACTIVE_DIRECTORY o IAM_IDENTITY_CENTER</param>
-    /// <param name="AwsAccountId">The Amazon Web Services account ID of the account that you're using to create your Quick Sight account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="AccountName">The name of your Amazon Quick Sight account. This name is unique over all of Amazon Web Services, and it appears only when users sign in. You can't change AccountName value after the Amazon Quick Sight account is created. Constraints: o min: 1 o max: 62 o pattern: ^(?!D-|d-)([\da-zA-Z]+)([-]*[\da-zA-Z])*</param>
+    /// <param name="AuthenticationMethod">The method that you want to use to authenticate your Quick Sight account. If you choose ACTIVE_DIRECTORY , provide an ActiveDirectoryName and an AdminGroup associated with your Active Directory. If you choose IAM_IDENTITY_CENTER , provide an AdminGroup associated with your IAM Identity Center account. Possible values: • IAM_AND_QUICKSIGHT • IAM_ONLY • ACTIVE_DIRECTORY • IAM_IDENTITY_CENTER</param>
+    /// <param name="AwsAccountId">The Amazon Web Services account ID of the account that you're using to create your Quick Sight account. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="AccountName">The name of your Amazon Quick Sight account. This name is unique over all of Amazon Web Services, and it appears only when users sign in. You can't change AccountName value after the Amazon Quick Sight account is created. Constraints: • min: 1 • max: 62 • pattern: ^(?!D-|d-)([\da-zA-Z]+)([-]*[\da-zA-Z])*</param>
     /// <param name="NotificationEmail">The email address that you want Quick Sight to send notifications to regarding your Quick Sight account or Quick Sight subscription.</param>
     public AwsQuicksightCreateAccountSubscriptionOptions(
         AwsQuicksightCreateAccountSubscriptionAuthenticationMethod AuthenticationMethod,
@@ -68,19 +70,19 @@ public record AwsQuicksightCreateAccountSubscriptionOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The method that you want to use to authenticate your Quick Sight ac- count. If you choose ACTIVE_DIRECTORY , provide an ActiveDirectoryName and an AdminGroup associated with your Active Directory. If you choose IAM_IDENTITY_CENTER , provide an AdminGroup associated with your IAM Identity Center account. Possible values: o IAM_AND_QUICKSIGHT o IAM_ONLY o ACTIVE_DIRECTORY o IAM_IDENTITY_CENTER
+    /// The method that you want to use to authenticate your Quick Sight account. If you choose ACTIVE_DIRECTORY , provide an ActiveDirectoryName and an AdminGroup associated with your Active Directory. If you choose IAM_IDENTITY_CENTER , provide an AdminGroup associated with your IAM Identity Center account. Possible values: • IAM_AND_QUICKSIGHT • IAM_ONLY • ACTIVE_DIRECTORY • IAM_IDENTITY_CENTER
     /// </summary>
     [CliOption("--authentication-method")]
     public AwsQuicksightCreateAccountSubscriptionAuthenticationMethod? AuthenticationMethod { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID of the account that you're using to create your Quick Sight account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The Amazon Web Services account ID of the account that you're using to create your Quick Sight account. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The name of your Amazon Quick Sight account. This name is unique over all of Amazon Web Services, and it appears only when users sign in. You can't change AccountName value after the Amazon Quick Sight account is created. Constraints: o min: 1 o max: 62 o pattern: ^(?!D-|d-)([\da-zA-Z]+)([-]*[\da-zA-Z])*
+    /// The name of your Amazon Quick Sight account. This name is unique over all of Amazon Web Services, and it appears only when users sign in. You can't change AccountName value after the Amazon Quick Sight account is created. Constraints: • min: 1 • max: 62 • pattern: ^(?!D-|d-)([\da-zA-Z]+)([-]*[\da-zA-Z])*
     /// </summary>
     [CliOption("--account-name")]
     public string? AccountName { get; private init; }
@@ -92,19 +94,19 @@ public record AwsQuicksightCreateAccountSubscriptionOptions : AwsOptions, IValid
     public string? NotificationEmail { get; private init; }
 
     /// <summary>
-    /// The edition of Amazon Quick Sight that you want your account to have. Currently, you can choose from ENTERPRISE or ENTERPRISE_AND_Q . If you choose ENTERPRISE_AND_Q , the following parameters are re- quired: o FirstName o LastName o EmailAddress o ContactNumber Possible values: o STANDARD o ENTERPRISE o ENTERPRISE_AND_Q
+    /// The edition of Amazon Quick Sight that you want your account to have. Currently, you can choose from ENTERPRISE or ENTERPRISE_AND_Q . If you choose ENTERPRISE_AND_Q , the following parameters are required: • FirstName • LastName • EmailAddress • ContactNumber Possible values: • STANDARD • ENTERPRISE • ENTERPRISE_AND_Q
     /// </summary>
     [CliOption("--edition")]
     public AwsQuicksightCreateAccountSubscriptionEdition? Edition { get; set; }
 
     /// <summary>
-    /// The name of your Active Directory. This field is required if AC- TIVE_DIRECTORY is the selected authentication method of the new Quick Sight account.
+    /// The name of your Active Directory. This field is required if ACTIVE_DIRECTORY is the selected authentication method of the new Quick Sight account.
     /// </summary>
     [CliOption("--active-directory-name")]
     public string? ActiveDirectoryName { get; set; }
 
     /// <summary>
-    /// The realm of the Active Directory that is associated with your Quick Sight account. This field is required if ACTIVE_DIRECTORY is the se- lected authentication method of the new Quick Sight account.
+    /// The realm of the Active Directory that is associated with your Quick Sight account. This field is required if ACTIVE_DIRECTORY is the selected authentication method of the new Quick Sight account.
     /// </summary>
     [CliOption("--realm")]
     public string? Realm { get; set; }
@@ -116,61 +118,61 @@ public record AwsQuicksightCreateAccountSubscriptionOptions : AwsOptions, IValid
     public string? DirectoryId { get; set; }
 
     /// <summary>
-    /// The admin group associated with your Active Directory or IAM Iden- tity Center account. Either this field or the AdminProGroup field is required if ACTIVE_DIRECTORY or IAM_IDENTITY_CENTER is the selected authentication method of the new Quick Sight account. For more information about using IAM Identity Center in Amazon Quick Sight, see Using IAM Identity Center with Amazon Quick Sight Enter- prise Edition in the Amazon Quick Sight User Guide. For more infor- mation about using Active Directory in Amazon Quick Sight, see Using Active Directory with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. (string) Syntax: "string" "string" ...
+    /// The admin group associated with your Active Directory or IAM Identity Center account. Either this field or the AdminProGroup field is required if ACTIVE_DIRECTORY or IAM_IDENTITY_CENTER is the selected authentication method of the new Quick Sight account. For more information about using IAM Identity Center in Amazon Quick Sight, see Using IAM Identity Center with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. For more information about using Active Directory in Amazon Quick Sight, see Using Active Directory with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--admin-group", GroupValues = true)]
     public IEnumerable<string>? AdminGroup { get; set; }
 
     /// <summary>
-    /// The author group associated with your Active Directory or IAM Iden- tity Center account. For more information about using IAM Identity Center in Amazon Quick Sight, see Using IAM Identity Center with Amazon Quick Sight Enter- prise Edition in the Amazon Quick Sight User Guide. For more infor- mation about using Active Directory in Amazon Quick Sight, see Using Active Directory with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. (string) Syntax: "string" "string" ...
+    /// The author group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon Quick Sight, see Using IAM Identity Center with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. For more information about using Active Directory in Amazon Quick Sight, see Using Active Directory with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--author-group", GroupValues = true)]
     public IEnumerable<string>? AuthorGroup { get; set; }
 
     /// <summary>
-    /// The reader group associated with your Active Directory or IAM Iden- tity Center account. For more information about using IAM Identity Center in Amazon Quick Sight, see Using IAM Identity Center with Amazon Quick Sight Enter- prise Edition in the Amazon Quick Sight User Guide. For more infor- mation about using Active Directory in Amazon Quick Sight, see Using Active Directory with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. (string) Syntax: "string" "string" ...
+    /// The reader group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon Quick Sight, see Using IAM Identity Center with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. For more information about using Active Directory in Amazon Quick Sight, see Using Active Directory with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--reader-group", GroupValues = true)]
     public IEnumerable<string>? ReaderGroup { get; set; }
 
     /// <summary>
-    /// The admin pro group associated with your Active Directory or IAM Identity Center account. Either this field or the AdminGroup field is required if ACTIVE_DIRECTORY or IAM_IDENTITY_CENTER is the se- lected authentication method of the new Quick Sight account. For more information about using IAM Identity Center in Amazon Quick Sight, see Using IAM Identity Center with Amazon Quick Sight Enter- prise Edition in the Amazon Quick Sight User Guide. For more infor- mation about using Active Directory in Amazon Quick Sight, see Using Active Directory with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. (string) Syntax: "string" "string" ...
+    /// The admin pro group associated with your Active Directory or IAM Identity Center account. Either this field or the AdminGroup field is required if ACTIVE_DIRECTORY or IAM_IDENTITY_CENTER is the selected authentication method of the new Quick Sight account. For more information about using IAM Identity Center in Amazon Quick Sight, see Using IAM Identity Center with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. For more information about using Active Directory in Amazon Quick Sight, see Using Active Directory with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--admin-pro-group", GroupValues = true)]
     public IEnumerable<string>? AdminProGroup { get; set; }
 
     /// <summary>
-    /// The author pro group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon Quick Sight, see Using IAM Identity Center with Amazon Quick Sight Enter- prise Edition in the Amazon Quick Sight User Guide. For more infor- mation about using Active Directory in Amazon Quick Sight, see Using Active Directory with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. (string) Syntax: "string" "string" ...
+    /// The author pro group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon Quick Sight, see Using IAM Identity Center with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. For more information about using Active Directory in Amazon Quick Sight, see Using Active Directory with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--author-pro-group", GroupValues = true)]
     public IEnumerable<string>? AuthorProGroup { get; set; }
 
     /// <summary>
-    /// The reader pro group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon Quick Sight, see Using IAM Identity Center with Amazon Quick Sight Enter- prise Edition in the Amazon Quick Sight User Guide. For more infor- mation about using Active Directory in Amazon Quick Sight, see Using Active Directory with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. (string) Syntax: "string" "string" ...
+    /// The reader pro group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon Quick Sight, see Using IAM Identity Center with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. For more information about using Active Directory in Amazon Quick Sight, see Using Active Directory with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--reader-pro-group", GroupValues = true)]
     public IEnumerable<string>? ReaderProGroup { get; set; }
 
     /// <summary>
-    /// The first name of the author of the Amazon Quick Sight account to use for future communications. This field is required if ENTERP- PRISE_AND_Q is the selected edition of the new Amazon Quick Sight account.
+    /// The first name of the author of the Amazon Quick Sight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon Quick Sight account.
     /// </summary>
     [CliOption("--first-name")]
     public string? FirstName { get; set; }
 
     /// <summary>
-    /// The last name of the author of the Amazon Quick Sight account to use for future communications. This field is required if ENTERP- PRISE_AND_Q is the selected edition of the new Amazon Quick Sight account.
+    /// The last name of the author of the Amazon Quick Sight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon Quick Sight account.
     /// </summary>
     [CliOption("--last-name")]
     public string? LastName { get; set; }
 
     /// <summary>
-    /// The email address of the author of the Amazon Quick Sight account to use for future communications. This field is required if ENTERP- PRISE_AND_Q is the selected edition of the new Amazon Quick Sight account.
+    /// The email address of the author of the Amazon Quick Sight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon Quick Sight account.
     /// </summary>
     [CliOption("--email-address")]
     public string? EmailAddress { get; set; }
 
     /// <summary>
-    /// A 10-digit phone number for the author of the Amazon Quick Sight ac- count to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon Quick Sight account.
+    /// A 10-digit phone number for the author of the Amazon Quick Sight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon Quick Sight account.
     /// </summary>
     [CliOption("--contact-number")]
     public string? ContactNumber { get; set; }

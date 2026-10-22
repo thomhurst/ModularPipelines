@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns all active instrumentation configurations for a service and en- vironment. SDKs use this operation to sync configurations and apply client-side filters locally. Include the previous SyncedAt value to perform incremental syncs. When no changes are detected, the response sets Changed to false and omits configuration details. See also: AWS API Documentation list-instrumentation-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set...
+/// Returns all active instrumentation configurations for a service and environment. SDKs use this operation to sync configurations and apply client-side filters locally. Include the previous SyncedAt value to perform incremental syncs. When no changes are detected, the response sets Changed to false and omits configuration details. See also: AWS API Documentation list-instrumentation-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set o...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +29,11 @@ public record AwsApplicationSignalsListInstrumentationConfigurationsOptions : Aw
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns all active instrumentation configurations for a service and en- vironment. SDKs use this operation to sync configurations and apply client-side filters locally. Include the previous SyncedAt value to perform incremental syncs. When no changes are detected, the response sets Changed to false and omits configuration details. See also: AWS API Documentation list-instrumentation-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set...
+    /// Returns all active instrumentation configurations for a service and environment. SDKs use this operation to sync configurations and apply client-side filters locally. Include the previous SyncedAt value to perform incremental syncs. When no changes are detected, the response sets Changed to false and omits configuration details. See also: AWS API Documentation list-instrumentation-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set o...
     /// </summary>
-    /// <param name="Service">The name of the service to retrieve instrumentation configurations for. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9:/+=,.@_-]+</param>
-    /// <param name="Environment">The environment that the service is running in. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9:/+=,.@_-]+</param>
-    /// <param name="InstrumentationType">Type of instrumentation configuration (BREAKPOINT or PROBE). Re- quired to determine which backing store to query. Possible values: o BREAKPOINT o PROBE</param>
+    /// <param name="Service">The name of the service to retrieve instrumentation configurations for. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z0-9:/+=,.@_-]+</param>
+    /// <param name="Environment">The environment that the service is running in. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z0-9:/+=,.@_-]+</param>
+    /// <param name="InstrumentationType">Type of instrumentation configuration (BREAKPOINT or PROBE). Required to determine which backing store to query. Possible values: • BREAKPOINT • PROBE</param>
     public AwsApplicationSignalsListInstrumentationConfigurationsOptions(
         string Service,
         string Environment,
@@ -65,34 +67,31 @@ public record AwsApplicationSignalsListInstrumentationConfigurationsOptions : Aw
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the service to retrieve instrumentation configurations for. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9:/+=,.@_-]+
+    /// The name of the service to retrieve instrumentation configurations for. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z0-9:/+=,.@_-]+
     /// </summary>
     [CliOption("--service")]
     public string? Service { get; private init; }
 
     /// <summary>
-    /// The environment that the service is running in. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9:/+=,.@_-]+
+    /// The environment that the service is running in. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z0-9:/+=,.@_-]+
     /// </summary>
     [CliOption("--environment")]
     public string? Environment { get; private init; }
 
     /// <summary>
-    /// Type of instrumentation configuration (BREAKPOINT or PROBE). Re- quired to determine which backing store to query. Possible values: o BREAKPOINT o PROBE
+    /// Type of instrumentation configuration (BREAKPOINT or PROBE). Required to determine which backing store to query. Possible values: • BREAKPOINT • PROBE
     /// </summary>
     [CliOption("--instrumentation-type")]
     public AwsApplicationSignalsListInstrumentationConfigurationsInstrumentationType? InstrumentationType { get; private init; }
 
     /// <summary>
-    /// The timestamp from the last successful sync. When provided, the re- sponse returns Changed as false if nothing is new since this time, or returns the latest configurations when changes exist.
+    /// The timestamp from the last successful sync. When provided, the response returns Changed as false if nothing is new since this time, or returns the latest configurations when changes exist.
     /// </summary>
     [CliOption("--synced-at")]
     public string? SyncedAt { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -102,16 +101,19 @@ public record AwsApplicationSignalsListInstrumentationConfigurationsOptions : Aw
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

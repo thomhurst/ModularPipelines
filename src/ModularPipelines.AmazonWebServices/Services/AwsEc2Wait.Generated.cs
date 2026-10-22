@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws wait commands.
+/// aws ec2 wait commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsEc2Wait
@@ -137,7 +137,7 @@ public class AwsEc2Wait
     }
 
     /// <summary>
-    /// Wait until JMESPath query Images[].State returns available for all ele- ments when polling with describe-images. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation image-available is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --outp...
+    /// Wait until JMESPath query Images[].State returns available for all elements when polling with describe-images. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation image-available is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output tex...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsEc2Wait
     }
 
     /// <summary>
-    /// Wait until JMESPath query length(Images[]) &gt; 0 returns True when polling with describe-images. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation image-exists is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query...
+    /// Wait until JMESPath query length(Images[]) &gt; 0 returns True when polling with describe-images. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation image-exists is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsEc2Wait
     }
 
     /// <summary>
-    /// Wait until JMESPath query ImageUsageReports[].State returns available for all elements when polling with describe-image-usage-reports. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation image-usage-report-available is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-pag...
+    /// Wait until JMESPath query ImageUsageReports[].State returns available for all elements when polling with describe-image-usage-reports. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation image-usage-report-available is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagin...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsEc2Wait
     }
 
     /// <summary>
-    /// Wait until JMESPath query length(Reservations[]) &gt; 0 returns True when polling with describe-instances. It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation instance-exists is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text an...
+    /// Wait until JMESPath query length(Reservations[]) &gt; 0 returns True when polling with describe-instances. It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation instance-exists is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsEc2Wait
     }
 
     /// <summary>
-    /// Wait until JMESPath query InstanceStatuses[].InstanceStatus.Status re- turns ok for all elements when polling with describe-instance-status. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation instance-status-ok is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ...
+    /// Wait until JMESPath query InstanceStatuses[].InstanceStatus.Status returns ok for all elements when polling with describe-instance-status. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation instance-status-ok is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsEc2Wait
     }
 
     /// <summary>
-    /// Wait until JMESPath query length(KeyPairs[].KeyName) &gt; 0 returns True when polling with describe-key-pairs. It will poll every 5 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 6 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query length(KeyPairs[].KeyName) &gt; 0 returns True when polling with describe-key-pairs. It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 6 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsEc2Wait
     }
 
     /// <summary>
-    /// Wait until JMESPath query NetworkInterfaces[].Status returns available for all elements when polling with describe-network-interfaces. It will poll every 20 seconds until a successful state has been reached. This will exit with a return code of 255 after 10 failed checks. See also: AWS API Documentation network-interface-available is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-pagi...
+    /// Wait until JMESPath query NetworkInterfaces[].Status returns available for all elements when polling with describe-network-interfaces. It will poll every 20 seconds until a successful state has been reached. This will exit with a return code of 255 after 10 failed checks. See also: AWS API Documentation network-interface-available is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagina...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsEc2Wait
     }
 
     /// <summary>
-    /// Wait until JMESPath query SecondaryNetworks[].State returns create-com- plete for all elements when polling with describe-secondary-networks. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 30 failed checks. See also: AWS API Documentation secondary-network-create-complete is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing ...
+    /// Wait until JMESPath query SecondaryNetworks[].State returns create-complete for all elements when polling with describe-secondary-networks. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 30 failed checks. See also: AWS API Documentation secondary-network-create-complete is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsEc2Wait
     }
 
     /// <summary>
-    /// Wait until JMESPath query SecondaryNetworks[].State returns delete-com- plete for all elements when polling with describe-secondary-networks. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 30 failed checks. See also: AWS API Documentation secondary-network-delete-complete is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing ...
+    /// Wait until JMESPath query SecondaryNetworks[].State returns delete-complete for all elements when polling with describe-secondary-networks. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 30 failed checks. See also: AWS API Documentation secondary-network-delete-complete is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsEc2Wait
     }
 
     /// <summary>
-    /// Wait until JMESPath query SecondarySubnets[].State returns create-com- plete for all elements when polling with describe-secondary-subnets. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 30 failed checks. See also: AWS API Documentation secondary-subnet-create-complete is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the...
+    /// Wait until JMESPath query SecondarySubnets[].State returns create-complete for all elements when polling with describe-secondary-subnets. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 30 failed checks. See also: AWS API Documentation secondary-subnet-create-complete is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --n...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsEc2Wait
     }
 
     /// <summary>
-    /// Wait until JMESPath query SecondarySubnets[].State returns delete-com- plete for all elements when polling with describe-secondary-subnets. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 30 failed checks. See also: AWS API Documentation secondary-subnet-delete-complete is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the...
+    /// Wait until JMESPath query SecondarySubnets[].State returns delete-complete for all elements when polling with describe-secondary-subnets. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 30 failed checks. See also: AWS API Documentation secondary-subnet-delete-complete is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --n...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsEc2Wait
     }
 
     /// <summary>
-    /// Wait until JMESPath query SecurityGroupVpcAssociations[].State returns associated for all elements when polling with describe-secu- rity-group-vpc-associations. It will poll every 10 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 7 failed checks. See also: AWS API Documentation security-group-vpc-association-associated is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disabl...
+    /// Wait until JMESPath query SecurityGroupVpcAssociations[].State returns associated for all elements when polling with describe-security-group-vpc-associations. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 7 failed checks. See also: AWS API Documentation security-group-vpc-association-associated is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pa...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsEc2Wait
     }
 
     /// <summary>
-    /// Wait until JMESPath query SecurityGroupVpcAssociations[].State returns disassociated for all elements when polling with describe-secu- rity-group-vpc-associations. It will poll every 10 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 7 failed checks. See also: AWS API Documentation security-group-vpc-association-disassociated is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can ...
+    /// Wait until JMESPath query SecurityGroupVpcAssociations[].State returns disassociated for all elements when polling with describe-security-group-vpc-associations. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 7 failed checks. See also: AWS API Documentation security-group-vpc-association-disassociated is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disa...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsEc2Wait
     }
 
     /// <summary>
-    /// Wait until JMESPath query ImportSnapshotTasks[].SnapshotTaskDetail.Sta- tus returns completed for all elements when polling with describe-im- port-snapshot-tasks. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation snapshot-imported is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providi...
+    /// Wait until JMESPath query ImportSnapshotTasks[].SnapshotTaskDetail.Status returns completed for all elements when polling with describe-import-snapshot-tasks. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation snapshot-imported is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsEc2Wait
     }
 
     /// <summary>
-    /// Wait until JMESPath query SpotInstanceRequests[].Status.Code returns fulfilled for all elements when polling with describe-spot-instance-re- quests. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation spot-instance-request-fulfilled is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by provi...
+    /// Wait until JMESPath query SpotInstanceRequests[].Status.Code returns fulfilled for all elements when polling with describe-spot-instance-requests. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation spot-instance-request-fulfilled is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsEc2Wait
     }
 
     /// <summary>
-    /// Wait until JMESPath query StoreImageTaskResults[].StoreTaskState re- turns Completed for all elements when polling with describe-store-im- age-tasks. It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation store-image-task-complete is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the...
+    /// Wait until JMESPath query StoreImageTaskResults[].StoreTaskState returns Completed for all elements when polling with describe-store-image-tasks. It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation store-image-task-complete is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --n...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -512,7 +512,7 @@ public class AwsEc2Wait
     }
 
     /// <summary>
-    /// Wait until JMESPath query Subnets[].State returns available for all el- ements when polling with describe-subnets. It will poll every 15 sec- onds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation subnet-available is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out...
+    /// Wait until JMESPath query Subnets[].State returns available for all elements when polling with describe-subnets. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation subnet-available is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsEc2Wait
     }
 
     /// <summary>
-    /// Wait until JMESPath query InstanceStatuses[].SystemStatus.Status re- turns ok for all elements when polling with describe-instance-status. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation system-status-ok is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argu...
+    /// Wait until JMESPath query InstanceStatuses[].SystemStatus.Status returns ok for all elements when polling with describe-instance-status. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation system-status-ok is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argume...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsEc2Wait
     }
 
     /// <summary>
-    /// Wait until JMESPath query Volumes[].State returns available for all el- ements when polling with describe-volumes. It will poll every 15 sec- onds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation volume-available is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out...
+    /// Wait until JMESPath query Volumes[].State returns available for all elements when polling with describe-volumes. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation volume-available is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +557,7 @@ public class AwsEc2Wait
     }
 
     /// <summary>
-    /// Wait until JMESPath query Volumes[].State returns deleted for all ele- ments when polling with describe-volumes. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation volume-deleted is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --outpu...
+    /// Wait until JMESPath query Volumes[].State returns deleted for all elements when polling with describe-volumes. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation volume-deleted is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsEc2Wait
     }
 
     /// <summary>
-    /// Wait until JMESPath query Volumes[].State returns in-use for all ele- ments when polling with describe-volumes. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation volume-in-use is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output ...
+    /// Wait until JMESPath query Volumes[].State returns in-use for all elements when polling with describe-volumes. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation volume-in-use is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsEc2Wait
     }
 
     /// <summary>
-    /// Wait until JMESPath query Vpcs[].State returns available for all ele- ments when polling with describe-vpcs. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation vpc-available is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output tex...
+    /// Wait until JMESPath query Vpcs[].State returns available for all elements when polling with describe-vpcs. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation vpc-available is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -602,7 +602,7 @@ public class AwsEc2Wait
     }
 
     /// <summary>
-    /// Wait until 200 response is received when polling with describe-vpcs. It will poll every 1 seconds until a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation vpc-exists is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated respo...
+    /// Wait until 200 response is received when polling with describe-vpcs. It will poll every 1 seconds until a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation vpc-exists is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated respons...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +617,7 @@ public class AwsEc2Wait
     }
 
     /// <summary>
-    /// Wait until JMESPath query VpcPeeringConnections[].Status.Code returns deleted for all elements when polling with describe-vpc-peering-connec- tions. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation vpc-peering-connection-deleted is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by provid...
+    /// Wait until JMESPath query VpcPeeringConnections[].Status.Code returns deleted for all elements when polling with describe-vpc-peering-connections. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation vpc-peering-connection-deleted is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -632,7 +632,7 @@ public class AwsEc2Wait
     }
 
     /// <summary>
-    /// Wait until 200 response is received when polling with de- scribe-vpc-peering-connections. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation vpc-peering-connection-exists is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text a...
+    /// Wait until 200 response is received when polling with describe-vpc-peering-connections. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation vpc-peering-connection-exists is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

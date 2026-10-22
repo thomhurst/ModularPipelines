@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsQuicksightDescribeNamespaceOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Describes the current namespace. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that contains the Quick Sight namespace that you want to describe. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="Namespace">The namespace that you want to describe. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$</param>
+    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that contains the Quick Sight namespace that you want to describe. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="Namespace">The namespace that you want to describe. Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$</param>
     public AwsQuicksightDescribeNamespaceOptions(
         string AwsAccountId,
         string Namespace
@@ -60,13 +62,13 @@ public record AwsQuicksightDescribeNamespaceOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID for the Amazon Web Services account that contains the Quick Sight namespace that you want to describe. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID for the Amazon Web Services account that contains the Quick Sight namespace that you want to describe. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The namespace that you want to describe. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// The namespace that you want to describe. Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a specific application from the specific runtime environment where it was previously deployed. You cannot delete a runtime environ- ment using DeleteEnvironment if any application has ever been deployed to it. This API removes the association of the application with the runtime environment so you can delete the environment smoothly. See also: AWS API Documentation
+/// Deletes a specific application from the specific runtime environment where it was previously deployed. You cannot delete a runtime environment using DeleteEnvironment if any application has ever been deployed to it. This API removes the association of the application with the runtime environment so you can delete the environment smoothly. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsM2DeleteApplicationFromEnvironmentOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a specific application from the specific runtime environment where it was previously deployed. You cannot delete a runtime environ- ment using DeleteEnvironment if any application has ever been deployed to it. This API removes the association of the application with the runtime environment so you can delete the environment smoothly. See also: AWS API Documentation
+    /// Deletes a specific application from the specific runtime environment where it was previously deployed. You cannot delete a runtime environment using DeleteEnvironment if any application has ever been deployed to it. This API removes the association of the application with the runtime environment so you can delete the environment smoothly. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The unique identifier of the application you want to delete. Constraints: o pattern: ^\S{1,80}$</param>
-    /// <param name="EnvironmentId">The unique identifier of the runtime environment where the applica- tion was previously deployed. Constraints: o pattern: ^\S{1,80}$</param>
+    /// <param name="ApplicationId">The unique identifier of the application you want to delete. Constraints: • pattern: ^\S{1,80}$</param>
+    /// <param name="EnvironmentId">The unique identifier of the runtime environment where the application was previously deployed. Constraints: • pattern: ^\S{1,80}$</param>
     public AwsM2DeleteApplicationFromEnvironmentOptions(
         string ApplicationId,
         string EnvironmentId
@@ -60,13 +62,13 @@ public record AwsM2DeleteApplicationFromEnvironmentOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the application you want to delete. Constraints: o pattern: ^\S{1,80}$
+    /// The unique identifier of the application you want to delete. Constraints: • pattern: ^\S{1,80}$
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the runtime environment where the applica- tion was previously deployed. Constraints: o pattern: ^\S{1,80}$
+    /// The unique identifier of the runtime environment where the application was previously deployed. Constraints: • pattern: ^\S{1,80}$
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }

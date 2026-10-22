@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAcmDeleteAcmeExternalAccountBindingOptions : AwsOptions, IValid
     /// <summary>
     /// Deletes an external account binding. Previously fetched credentials for this binding will no longer be usable for account registration. A deleted binding cannot be recovered. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AcmeExternalAccountBindingArn">The Amazon Resource Name (ARN) of the ACME external account binding to delete. Constraints: o min: 1 o max: 200 o pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-end- point/[a-zA-Z0-9-]+/acme-external-account-binding/[a-zA-Z0-9-]+</param>
+    /// <param name="AcmeExternalAccountBindingArn">The Amazon Resource Name (ARN) of the ACME external account binding to delete. Constraints: • min: 1 • max: 200 • pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+/acme-external-account-binding/[a-zA-Z0-9-]+</param>
     public AwsAcmDeleteAcmeExternalAccountBindingOptions(
         string AcmeExternalAccountBindingArn
     )
@@ -56,7 +58,7 @@ public record AwsAcmDeleteAcmeExternalAccountBindingOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the ACME external account binding to delete. Constraints: o min: 1 o max: 200 o pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-end- point/[a-zA-Z0-9-]+/acme-external-account-binding/[a-zA-Z0-9-]+
+    /// The Amazon Resource Name (ARN) of the ACME external account binding to delete. Constraints: • min: 1 • max: 200 • pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+/acme-external-account-binding/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--acme-external-account-binding-arn")]
     public string? AcmeExternalAccountBindingArn { get; private init; }

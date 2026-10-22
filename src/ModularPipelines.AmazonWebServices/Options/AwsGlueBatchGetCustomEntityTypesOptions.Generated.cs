@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsGlueBatchGetCustomEntityTypesOptions : AwsOptions, IValidatable
     /// <summary>
     /// Retrieves the details for the custom patterns specified by a list of names. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Names">A list of names of the custom patterns that you want to retrieve. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Syntax: "string" "string" ...</param>
+    /// <param name="Names">A list of names of the custom patterns that you want to retrieve. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Syntax: "string" "string" ...</param>
     public AwsGlueBatchGetCustomEntityTypesOptions(
         IEnumerable<string> Names
     )
@@ -67,7 +69,7 @@ public record AwsGlueBatchGetCustomEntityTypesOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of names of the custom patterns that you want to retrieve. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Syntax: "string" "string" ...
+    /// A list of names of the custom patterns that you want to retrieve. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; private init; }

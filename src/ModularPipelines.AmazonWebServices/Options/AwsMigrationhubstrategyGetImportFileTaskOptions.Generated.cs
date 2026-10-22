@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMigrationhubstrategyGetImportFileTaskOptions : AwsOptions, IVal
     /// <summary>
     /// Retrieves the details about a specific import task. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the import file task. This ID is returned in the response of StartImportFileTask . Constraints: o min: 0 o max: 1024 o pattern: .*\S.*</param>
+    /// <param name="Id">The ID of the import file task. This ID is returned in the response of StartImportFileTask . Constraints: • min: 0 • max: 1024 • pattern: .*\S.*</param>
     public AwsMigrationhubstrategyGetImportFileTaskOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsMigrationhubstrategyGetImportFileTaskOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the import file task. This ID is returned in the response of StartImportFileTask . Constraints: o min: 0 o max: 1024 o pattern: .*\S.*
+    /// The ID of the import file task. This ID is returned in the response of StartImportFileTask . Constraints: • min: 0 • max: 1024 • pattern: .*\S.*
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

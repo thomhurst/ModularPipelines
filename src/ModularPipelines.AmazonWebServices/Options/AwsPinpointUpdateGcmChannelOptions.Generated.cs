@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsPinpointUpdateGcmChannelOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Enables the GCM channel for an application or updates the status and settings of the GCM channel for an application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.</param>
-    /// <param name="GcmChannelRequest">Specifies the status and settings of the GCM channel for an applica- tion. This channel enables Amazon Pinpoint to send push notifica- tions through the Firebase Cloud Messaging (FCM), formerly Google Cloud Messaging (GCM), service. ApiKey -&gt; (string) The Web API Key, also referred to as an API_KEY or server key , that you received from Google to communicate with Google ser- vices. DefaultAuthenticationMethod -&gt; (string) The default authentication method used for GCM. Values are ei- ther "TOKEN" or "KEY". Defaults to "KEY". Enabled -&gt; (boolean) Specifies whether to enable the GCM channel for the application. ServiceJson -&gt; (string) The contents of the JSON file provided by Google during regis- tration in order to generate an access token for authentication. For more information see Migrate from legacy FCM APIs to HTTP v1 . Shorthand Syntax: ApiKey=string,DefaultAuthenticationMethod=string,Enabled=boolean,ServiceJson=string JSON Syntax: { "ApiKey": "string", "DefaultAuthenticationMethod": "string", "Enabled": true|false, "ServiceJson": "string" }</param>
+    /// <param name="ApplicationId">The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.</param>
+    /// <param name="GcmChannelRequest">Specifies the status and settings of the GCM channel for an application. This channel enables Amazon Pinpoint to send push notifications through the Firebase Cloud Messaging (FCM), formerly Google Cloud Messaging (GCM), service. ApiKey -&gt; (string) The Web API Key, also referred to as an API_KEY or server key , that you received from Google to communicate with Google services. DefaultAuthenticationMethod -&gt; (string) The default authentication method used for GCM. Values are either "TOKEN" or "KEY". Defaults to "KEY". Enabled -&gt; (boolean) Specifies whether to enable the GCM channel for the application. ServiceJson -&gt; (string) The contents of the JSON file provided by Google during registration in order to generate an access token for authentication. For more information see Migrate from legacy FCM APIs to HTTP v1 . Shorthand Syntax: ApiKey=string,DefaultAuthenticationMethod=string,Enabled=boolean,ServiceJson=string JSON Syntax: { "ApiKey": "string", "DefaultAuthenticationMethod": "string", "Enabled": true|false, "ServiceJson": "string" }</param>
     public AwsPinpointUpdateGcmChannelOptions(
         string ApplicationId,
         string GcmChannelRequest
@@ -60,13 +62,13 @@ public record AwsPinpointUpdateGcmChannelOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.
+    /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// Specifies the status and settings of the GCM channel for an applica- tion. This channel enables Amazon Pinpoint to send push notifica- tions through the Firebase Cloud Messaging (FCM), formerly Google Cloud Messaging (GCM), service. ApiKey -&gt; (string) The Web API Key, also referred to as an API_KEY or server key , that you received from Google to communicate with Google ser- vices. DefaultAuthenticationMethod -&gt; (string) The default authentication method used for GCM. Values are ei- ther "TOKEN" or "KEY". Defaults to "KEY". Enabled -&gt; (boolean) Specifies whether to enable the GCM channel for the application. ServiceJson -&gt; (string) The contents of the JSON file provided by Google during regis- tration in order to generate an access token for authentication. For more information see Migrate from legacy FCM APIs to HTTP v1 . Shorthand Syntax: ApiKey=string,DefaultAuthenticationMethod=string,Enabled=boolean,ServiceJson=string JSON Syntax: { "ApiKey": "string", "DefaultAuthenticationMethod": "string", "Enabled": true|false, "ServiceJson": "string" }
+    /// Specifies the status and settings of the GCM channel for an application. This channel enables Amazon Pinpoint to send push notifications through the Firebase Cloud Messaging (FCM), formerly Google Cloud Messaging (GCM), service. ApiKey -&gt; (string) The Web API Key, also referred to as an API_KEY or server key , that you received from Google to communicate with Google services. DefaultAuthenticationMethod -&gt; (string) The default authentication method used for GCM. Values are either "TOKEN" or "KEY". Defaults to "KEY". Enabled -&gt; (boolean) Specifies whether to enable the GCM channel for the application. ServiceJson -&gt; (string) The contents of the JSON file provided by Google during registration in order to generate an access token for authentication. For more information see Migrate from legacy FCM APIs to HTTP v1 . Shorthand Syntax: ApiKey=string,DefaultAuthenticationMethod=string,Enabled=boolean,ServiceJson=string JSON Syntax: { "ApiKey": "string", "DefaultAuthenticationMethod": "string", "Enabled": true|false, "ServiceJson": "string" }
     /// </summary>
     [CliOption("--gcm-channel-request")]
     public string? GcmChannelRequest { get; private init; }

@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Change the configuration of the network performance options for an ex- isting instance. See also: AWS API Documentation
+/// Change the configuration of the network performance options for an existing instance. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsEc2ModifyInstanceNetworkPerformanceOptionsOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Change the configuration of the network performance options for an ex- isting instance. See also: AWS API Documentation
+    /// Change the configuration of the network performance options for an existing instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="InstanceId">The ID of the instance to update.</param>
-    /// <param name="BandwidthWeighting">Specify the bandwidth weighting option to boost the associated type of baseline bandwidth, as follows: default This option uses the standard bandwidth configuration for your in- stance type. vpc-1 This option boosts your networking baseline bandwidth and reduces your EBS baseline bandwidth. ebs-1 This option boosts your EBS baseline bandwidth and reduces your net- working baseline bandwidth. Possible values: o default o vpc-1 o ebs-1</param>
+    /// <param name="BandwidthWeighting">Specify the bandwidth weighting option to boost the associated type of baseline bandwidth, as follows: default This option uses the standard bandwidth configuration for your instance type. vpc-1 This option boosts your networking baseline bandwidth and reduces your EBS baseline bandwidth. ebs-1 This option boosts your EBS baseline bandwidth and reduces your networking baseline bandwidth. Possible values: • default • vpc-1 • ebs-1</param>
     public AwsEc2ModifyInstanceNetworkPerformanceOptionsOptions(
         string InstanceId,
         AwsEc2ModifyInstanceNetworkPerformanceOptionsBandwidthWeighting BandwidthWeighting
@@ -66,13 +68,13 @@ public record AwsEc2ModifyInstanceNetworkPerformanceOptionsOptions : AwsOptions,
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// Specify the bandwidth weighting option to boost the associated type of baseline bandwidth, as follows: default This option uses the standard bandwidth configuration for your in- stance type. vpc-1 This option boosts your networking baseline bandwidth and reduces your EBS baseline bandwidth. ebs-1 This option boosts your EBS baseline bandwidth and reduces your net- working baseline bandwidth. Possible values: o default o vpc-1 o ebs-1
+    /// Specify the bandwidth weighting option to boost the associated type of baseline bandwidth, as follows: default This option uses the standard bandwidth configuration for your instance type. vpc-1 This option boosts your networking baseline bandwidth and reduces your EBS baseline bandwidth. ebs-1 This option boosts your EBS baseline bandwidth and reduces your networking baseline bandwidth. Possible values: • default • vpc-1 • ebs-1
     /// </summary>
     [CliOption("--bandwidth-weighting")]
     public AwsEc2ModifyInstanceNetworkPerformanceOptionsBandwidthWeighting? BandwidthWeighting { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

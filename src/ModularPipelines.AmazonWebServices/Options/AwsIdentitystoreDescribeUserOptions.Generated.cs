@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the user metadata and attributes from the UserId in an iden- tity store. NOTE: If you have access to a member account, you can use this API opera- tion from the member account. For more information, see Limiting ac- cess to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation describe-user uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and o...
+/// Retrieves the user metadata and attributes from the UserId in an identity store. NOTE: If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation describe-user uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsIdentitystoreDescribeUserOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the user metadata and attributes from the UserId in an iden- tity store. NOTE: If you have access to a member account, you can use this API opera- tion from the member account. For more information, see Limiting ac- cess to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation describe-user uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and o...
+    /// Retrieves the user metadata and attributes from the UserId in an identity store. NOTE: If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation describe-user uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects...
     /// </summary>
-    /// <param name="IdentityStoreId">The globally unique identifier for the identity store, such as d-1234567890 . In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890 . Constraints: o min: 1 o max: 93 o pattern: (arn:aws[a-z-]*:identitystore::\d{12}:identitys- tore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
-    /// <param name="UserId">The identifier for a user in the identity store. You can specify the user by ID or by Amazon Resource Name (ARN). For example, user ID a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 or user ARN arn:aws:identitystore:::user/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 . Constraints: o min: 1 o max: 100 o pattern: (arn:aws[a-z-]*:identitystore:::(user|group|member- ship)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}</param>
+    /// <param name="IdentityStoreId">The globally unique identifier for the identity store, such as d-1234567890 . In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890 . Constraints: • min: 1 • max: 93 • pattern: (arn:aws[a-z-]*:identitystore::\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
+    /// <param name="UserId">The identifier for a user in the identity store. You can specify the user by ID or by Amazon Resource Name (ARN). For example, user ID a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 or user ARN arn:aws:identitystore:::user/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 . Constraints: • min: 1 • max: 100 • pattern: (arn:aws[a-z-]*:identitystore:::(user|group|membership)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}</param>
     public AwsIdentitystoreDescribeUserOptions(
         string IdentityStoreId,
         string UserId
@@ -60,19 +62,19 @@ public record AwsIdentitystoreDescribeUserOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The globally unique identifier for the identity store, such as d-1234567890 . In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890 . Constraints: o min: 1 o max: 93 o pattern: (arn:aws[a-z-]*:identitystore::\d{12}:identitys- tore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
+    /// The globally unique identifier for the identity store, such as d-1234567890 . In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890 . Constraints: • min: 1 • max: 93 • pattern: (arn:aws[a-z-]*:identitystore::\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
     /// </summary>
     [CliOption("--identity-store-id")]
     public string? IdentityStoreId { get; private init; }
 
     /// <summary>
-    /// The identifier for a user in the identity store. You can specify the user by ID or by Amazon Resource Name (ARN). For example, user ID a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 or user ARN arn:aws:identitystore:::user/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 . Constraints: o min: 1 o max: 100 o pattern: (arn:aws[a-z-]*:identitystore:::(user|group|member- ship)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}
+    /// The identifier for a user in the identity store. You can specify the user by ID or by Amazon Resource Name (ARN). For example, user ID a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 or user ARN arn:aws:identitystore:::user/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 . Constraints: • min: 1 • max: 100 • pattern: (arn:aws[a-z-]*:identitystore:::(user|group|membership)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; private init; }
 
     /// <summary>
-    /// A collection of extension names indicating what extensions the ser- vice should retrieve alongside other user attributes. aws:identitys- tore:enterprise is the only supported extension name. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 50 o pattern: aws:identitystore:[a-z]{1,20} Syntax: "string" "string" ...
+    /// A collection of extension names indicating what extensions the service should retrieve alongside other user attributes. aws:identitystore:enterprise is the only supported extension name. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 50 • pattern: aws:identitystore:[a-z]{1,20} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--extensions", GroupValues = true)]
     public IEnumerable<string>? Extensions { get; set; }

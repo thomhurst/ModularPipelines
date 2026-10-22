@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,10 +31,10 @@ public record AwsPinpointSmsVoiceV2RequestPhoneNumberOptions : AwsOptions, IVali
     /// <summary>
     /// Request an origination phone number for use in your account. For more information on phone number request see Request a phone number in the End User Messaging SMS User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="IsoCountryCode">The two-character code, in ISO 3166-1 alpha-2 format, for the coun- try or region. Constraints: o min: 2 o max: 2 o pattern: [A-Z]{2}</param>
-    /// <param name="MessageType">The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive. Possible values: o TRANSACTIONAL o PROMOTIONAL</param>
-    /// <param name="NumberCapabilities">Indicates if the phone number will be used for text messages, voice messages, or both. Constraints: o min: 1 o max: 4 (string) Possible values: o SMS o VOICE o MMS o RCS Syntax: "string" "string" ...</param>
-    /// <param name="NumberType">The type of phone number to request. When you request a SIMULATOR phone number, you must set MessageType as TRANSACTIONAL . Possible values: o LONG_CODE o TOLL_FREE o TEN_DLC o SIMULATOR</param>
+    /// <param name="IsoCountryCode">The two-character code, in ISO 3166-1 alpha-2 format, for the country or region. Constraints: • min: 2 • max: 2 • pattern: [A-Z]{2}</param>
+    /// <param name="MessageType">The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive. Possible values: • TRANSACTIONAL • PROMOTIONAL</param>
+    /// <param name="NumberCapabilities">Indicates if the phone number will be used for text messages, voice messages, or both. Constraints: • min: 1 • max: 4 (string) Possible values: • SMS • VOICE • MMS • RCS Syntax: "string" "string" ...</param>
+    /// <param name="NumberType">The type of phone number to request. When you request a SIMULATOR phone number, you must set MessageType as TRANSACTIONAL . Possible values: • LONG_CODE • TOLL_FREE • TEN_DLC • SIMULATOR</param>
     public AwsPinpointSmsVoiceV2RequestPhoneNumberOptions(
         string IsoCountryCode,
         AwsPinpointSmsVoiceV2RequestPhoneNumberMessageType MessageType,
@@ -79,49 +81,49 @@ public record AwsPinpointSmsVoiceV2RequestPhoneNumberOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The two-character code, in ISO 3166-1 alpha-2 format, for the coun- try or region. Constraints: o min: 2 o max: 2 o pattern: [A-Z]{2}
+    /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region. Constraints: • min: 2 • max: 2 • pattern: [A-Z]{2}
     /// </summary>
     [CliOption("--iso-country-code")]
     public string? IsoCountryCode { get; private init; }
 
     /// <summary>
-    /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive. Possible values: o TRANSACTIONAL o PROMOTIONAL
+    /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive. Possible values: • TRANSACTIONAL • PROMOTIONAL
     /// </summary>
     [CliOption("--message-type")]
     public AwsPinpointSmsVoiceV2RequestPhoneNumberMessageType? MessageType { get; private init; }
 
     /// <summary>
-    /// Indicates if the phone number will be used for text messages, voice messages, or both. Constraints: o min: 1 o max: 4 (string) Possible values: o SMS o VOICE o MMS o RCS Syntax: "string" "string" ...
+    /// Indicates if the phone number will be used for text messages, voice messages, or both. Constraints: • min: 1 • max: 4 (string) Possible values: • SMS • VOICE • MMS • RCS Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--number-capabilities", GroupValues = true)]
     public IEnumerable<string>? NumberCapabilities { get; private init; }
 
     /// <summary>
-    /// The type of phone number to request. When you request a SIMULATOR phone number, you must set MessageType as TRANSACTIONAL . Possible values: o LONG_CODE o TOLL_FREE o TEN_DLC o SIMULATOR
+    /// The type of phone number to request. When you request a SIMULATOR phone number, you must set MessageType as TRANSACTIONAL . Possible values: • LONG_CODE • TOLL_FREE • TEN_DLC • SIMULATOR
     /// </summary>
     [CliOption("--number-type")]
     public AwsPinpointSmsVoiceV2RequestPhoneNumberNumberType? NumberType { get; private init; }
 
     /// <summary>
-    /// The name of the OptOutList to associate with the phone number. You can use the OptOutListName or OptOutListArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The name of the OptOutList to associate with the phone number. You can use the OptOutListName or OptOutListArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--opt-out-list-name")]
     public string? OptOutListName { get; set; }
 
     /// <summary>
-    /// The pool to associated with the phone number. You can use the PoolId or PoolArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 0 o max: 256 o pattern: [A-Za-z0-9_:/-]*
+    /// The pool to associated with the phone number. You can use the PoolId or PoolArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: • min: 0 • max: 256 • pattern: [A-Za-z0-9_:/-]*
     /// </summary>
     [CliOption("--pool-id")]
     public string? PoolId { get; set; }
 
     /// <summary>
-    /// Use this field to attach your phone number for an external registra- tion process. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// Use this field to attach your phone number for an external registration process. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--registration-id")]
     public string? RegistrationId { get; set; }
 
     /// <summary>
-    /// An optional selection preference used to request a specific phone number, such as a number that starts with, ends with, or contains a particular digit pattern. You can specify at most one preference. Number preferences apply only to TEN_DLC requests in the US . Constraints: o min: 1 o max: 1 (structure) A single number preference specifies a pattern type and filter value. PreferenceType -&gt; (list) [required] The type of match to apply to the filter values. o StartsWith : Returns numbers that begin with the filter value. o EndsWith : Returns numbers that end with the filter value. o Contains : Returns numbers that contain the filter value. o ExactMatch : Returns the number that exactly matches the filter value. Constraints: o min: 1 o max: 1 (string) The type of pattern matching to apply. Possible values: o StartsWith o EndsWith o Contains o ExactMatch Filter -&gt; (list) [required] The digit pattern values to match against available phone numbers, using the specified preference type. Constraints: o min: 1 o max: 10 (string) A filter value either a pattern (e.g., "+1510") or full E.164 number. Constraints: o min: 2 o max: 16 o pattern: \+?[0-9]{1,15} Shorthand Syntax: PreferenceType=string,string,Filter=string,string ... JSON Syntax: [ { "PreferenceType": ["StartsWith"|"EndsWith"|"Contains"|"ExactMatch", ...], "Filter": ["string", ...] } ... ]
+    /// An optional selection preference used to request a specific phone number, such as a number that starts with, ends with, or contains a particular digit pattern. You can specify at most one preference. Number preferences apply only to TEN_DLC requests in the US . Constraints: • min: 1 • max: 1 (structure) A single number preference that specifies how to match available phone numbers. Each preference pairs a match type with one or more filter values. PreferenceType -&gt; (list) [required] The type of match to apply to the filter values. • StartsWith : Returns numbers that begin with the filter value. • EndsWith : Returns numbers that end with the filter value. • Contains : Returns numbers that contain the filter value. • ExactMatch : Returns the number that exactly matches the filter value. Constraints: • min: 1 • max: 1 (string) The type of pattern matching to apply. Possible values: • StartsWith • EndsWith • Contains • ExactMatch Filter -&gt; (list) [required] The digit pattern values to match against available phone numbers, using the specified preference type. Constraints: • min: 1 • max: 10 (string) A filter value either a pattern (e.g., "+1510") or full E.164 number. Constraints: • min: 2 • max: 16 • pattern: \+?[0-9]{1,15} Shorthand Syntax: PreferenceType=string,string,Filter=string,string ... JSON Syntax: [ { "PreferenceType": ["StartsWith"|"EndsWith"|"Contains"|"ExactMatch", ...], "Filter": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--number-preference", GroupValues = true)]
     public IEnumerable<string>? NumberPreference { get; set; }
@@ -139,13 +141,13 @@ public record AwsPinpointSmsVoiceV2RequestPhoneNumberOptions : AwsOptions, IVali
     public bool? DeletionProtectionEnabled { get; set; }
 
     /// <summary>
-    /// An array of tags (key and value pairs) to associate with the re- quested phone number. Constraints: o min: 0 o max: 200 (structure) The list of tags to be added to the specified topic. Key -&gt; (string) [required] The key identifier, or name, of the tag. Constraints: o min: 1 o max: 128 o pattern: .+ Value -&gt; (string) [required] The string value associated with the key of the tag. Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// An array of tags (key and value pairs) to associate with the requested phone number. Constraints: • min: 0 • max: 200 (structure) The list of tags to be added to the specified topic. Key -&gt; (string) [required] The key identifier, or name, of the tag. Constraints: • min: 1 • max: 128 • pattern: .+ Value -&gt; (string) [required] The string value associated with the key of the tag. Constraints: • min: 0 • max: 256 • pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempo- tency. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency. Constraints: • min: 1 • max: 64 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

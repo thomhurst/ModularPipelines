@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsMediaconnectUpdateGatewayInstanceOptions : AwsOptions, IValidat
     /// <summary>
     /// Updates an existing gateway instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GatewayInstanceArn">The Amazon Resource Name (ARN) of the gateway instance that you want to update. Constraints: o pattern: arn:.+:mediaconnect.+:gateway:.+:instance:.+</param>
+    /// <param name="GatewayInstanceArn">The Amazon Resource Name (ARN) of the gateway instance that you want to update. Constraints: • pattern: arn:.+:mediaconnect.+:gateway:.+:instance:.+</param>
     public AwsMediaconnectUpdateGatewayInstanceOptions(
         string GatewayInstanceArn
     )
@@ -57,13 +59,13 @@ public record AwsMediaconnectUpdateGatewayInstanceOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the gateway instance that you want to update. Constraints: o pattern: arn:.+:mediaconnect.+:gateway:.+:instance:.+
+    /// The Amazon Resource Name (ARN) of the gateway instance that you want to update. Constraints: • pattern: arn:.+:mediaconnect.+:gateway:.+:instance:.+
     /// </summary>
     [CliOption("--gateway-instance-arn")]
     public string? GatewayInstanceArn { get; private init; }
 
     /// <summary>
-    /// The state of the instance. ACTIVE or INACTIVE . Possible values: o AVAILABLE o LOCKED
+    /// The state of the instance. ACTIVE or INACTIVE . Possible values: • AVAILABLE • LOCKED
     /// </summary>
     [CliOption("--bridge-placement")]
     public AwsMediaconnectUpdateGatewayInstanceBridgePlacement? BridgePlacement { get; set; }

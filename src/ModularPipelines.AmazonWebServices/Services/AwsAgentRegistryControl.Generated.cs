@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws agentregistrycontrol commands.
+/// aws agent-registry-control commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsAgentRegistryControl : IAwsAgentRegistryControl
@@ -33,7 +33,7 @@ public class AwsAgentRegistryControl : IAwsAgentRegistryControl
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws agent-registry-control wait sub-commands.
     /// </summary>
     public AwsAgentRegistryControlWait Wait => _wait ??= new AwsAgentRegistryControlWait(_command);
 
@@ -57,7 +57,7 @@ public class AwsAgentRegistryControl : IAwsAgentRegistryControl
     }
 
     /// <summary>
-    /// Creates a registry record within a registry. A registry record de- scribes a discoverable resource, such as an MCP server, an agent, an agent skill, or a custom resource. Creation is asynchronous: the record is returned with the CREATING status while it is processed. See also: AWS API Documentation create-registry-record uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options an...
+    /// Creates a registry record within a registry. A registry record describes a discoverable resource, such as an MCP server, an agent, an agent skill, or a custom resource. Creation is asynchronous: the record is returned with the CREATING status while it is processed. See also: AWS API Documentation create-registry-record uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -117,7 +117,7 @@ public class AwsAgentRegistryControl : IAwsAgentRegistryControl
     }
 
     /// <summary>
-    /// Retrieves the details of a registry record See also: AWS API Documentation get-registry-record uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Retrieves the details of a registry record See also: AWS API Documentation get-registry-record uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -132,7 +132,7 @@ public class AwsAgentRegistryControl : IAwsAgentRegistryControl
     }
 
     /// <summary>
-    /// Lists the registries in the caller's account and Region, with optional filtering by status and discovery authorizer type See also: AWS API Documentation list-registries is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following...
+    /// Lists the registries in the caller's account and Region, with optional filtering by status and discovery authorizer type See also: AWS API Documentation list-registries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following que...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -162,7 +162,7 @@ public class AwsAgentRegistryControl : IAwsAgentRegistryControl
     }
 
     /// <summary>
-    /// Lists the tags associated with the specified Amazon Web Services Agent Registry resource. Returns the current tag key-value pairs on the re- source. See also: AWS API Documentation
+    /// Lists the tags associated with the specified Amazon Web Services Agent Registry resource. Returns the current tag key-value pairs on the resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -177,7 +177,7 @@ public class AwsAgentRegistryControl : IAwsAgentRegistryControl
     }
 
     /// <summary>
-    /// Submits a DRAFT registry record for approval, moving it into the reg- istry's approval workflow. Depending on the registry's approval config- uration, the record is either auto-approved or set to PENDING_APPROVAL for a curator to approve or reject. See also: AWS API Documentation
+    /// Submits a DRAFT registry record for approval, moving it into the registry's approval workflow. Depending on the registry's approval configuration, the record is either auto-approved or set to PENDING_APPROVAL for a curator to approve or reject. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -192,7 +192,7 @@ public class AwsAgentRegistryControl : IAwsAgentRegistryControl
     }
 
     /// <summary>
-    /// Adds or overwrites one or more tags for the specified Amazon Web Ser- vices Agent Registry resource. Tags are key-value pairs that you can use to categorize and manage Amazon Web Services resources. If a tag with the same key already exists on the resource, the service replaces its value with the value you specify. See also: AWS API Documentation
+    /// Adds or overwrites one or more tags for the specified Amazon Web Services Agent Registry resource. Tags are key-value pairs that you can use to categorize and manage Amazon Web Services resources. If a tag with the same key already exists on the resource, the service replaces its value with the value you specify. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -237,7 +237,7 @@ public class AwsAgentRegistryControl : IAwsAgentRegistryControl
     }
 
     /// <summary>
-    /// Updates a registry record. The update is asynchronous: the record is returned with the UPDATING status while it is processed. Fields that use update wrappers follow PATCH semantics: omit the field to leave it unchanged. See also: AWS API Documentation update-registry-record uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the ...
+    /// Updates a registry record. The update is asynchronous: the record is returned with the UPDATING status while it is processed. Fields that use update wrappers follow PATCH semantics: omit the field to leave it unchanged. See also: AWS API Documentation update-registry-record uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the ty...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -252,7 +252,7 @@ public class AwsAgentRegistryControl : IAwsAgentRegistryControl
     }
 
     /// <summary>
-    /// Updates the status of a registry record as part of the registry's cura- tion workflow, for example to approve or reject a record that is pend- ing approval, or to deprecate an approved record so that it is no longer discoverable See also: AWS API Documentation
+    /// Updates the status of a registry record as part of the registry's curation workflow, for example to approve or reject a record that is pending approval, or to deprecate an approved record so that it is no longer discoverable See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

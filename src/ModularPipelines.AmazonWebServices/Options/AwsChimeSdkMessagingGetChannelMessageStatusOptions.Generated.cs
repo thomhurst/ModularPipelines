@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets message status for a specified messageId . Use this API to deter- mine the intermediate status of messages going through channel flow processing. The API provides an alternative to retrieving message sta- tus if the event was not received because a client wasn't connected to a websocket. Messages can have any one of these statuses. SENT Message processed successfully PENDING Ongoing processing FAILED Processing failed DENIED Message denied by the processor NOTE: o This API does not return s...
+/// Gets message status for a specified messageId . Use this API to determine the intermediate status of messages going through channel flow processing. The API provides an alternative to retrieving message status if the event was not received because a client wasn't connected to a websocket. Messages can have any one of these statuses. SENT Message processed successfully PENDING Ongoing processing FAILED Processing failed DENIED Message denied by the processor NOTE: • This API does not return statu...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsChimeSdkMessagingGetChannelMessageStatusOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets message status for a specified messageId . Use this API to deter- mine the intermediate status of messages going through channel flow processing. The API provides an alternative to retrieving message sta- tus if the event was not received because a client wasn't connected to a websocket. Messages can have any one of these statuses. SENT Message processed successfully PENDING Ongoing processing FAILED Processing failed DENIED Message denied by the processor NOTE: o This API does not return s...
+    /// Gets message status for a specified messageId . Use this API to determine the intermediate status of messages going through channel flow processing. The API provides an alternative to retrieving message status if the event was not received because a client wasn't connected to a websocket. Messages can have any one of these statuses. SENT Message processed successfully PENDING Ongoing processing FAILED Processing failed DENIED Message denied by the processor NOTE: • This API does not return statu...
     /// </summary>
-    /// <param name="ChannelArn">The ARN of the channel Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
-    /// <param name="MessageId">The ID of the message. Constraints: o min: 1 o max: 128 o pattern: [-_a-zA-Z0-9]*</param>
-    /// <param name="ChimeBearer">The AppInstanceUserArn of the user making the API call. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="ChannelArn">The ARN of the channel Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="MessageId">The ID of the message. Constraints: • min: 1 • max: 128 • pattern: [-_a-zA-Z0-9]*</param>
+    /// <param name="ChimeBearer">The AppInstanceUserArn of the user making the API call. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
     public AwsChimeSdkMessagingGetChannelMessageStatusOptions(
         string ChannelArn,
         string MessageId,
@@ -64,25 +66,25 @@ public record AwsChimeSdkMessagingGetChannelMessageStatusOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the channel Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The ARN of the channel Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--channel-arn")]
     public string? ChannelArn { get; private init; }
 
     /// <summary>
-    /// The ID of the message. Constraints: o min: 1 o max: 128 o pattern: [-_a-zA-Z0-9]*
+    /// The ID of the message. Constraints: • min: 1 • max: 128 • pattern: [-_a-zA-Z0-9]*
     /// </summary>
     [CliOption("--message-id")]
     public string? MessageId { get; private init; }
 
     /// <summary>
-    /// The AppInstanceUserArn of the user making the API call. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The AppInstanceUserArn of the user making the API call. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--chime-bearer")]
     public string? ChimeBearer { get; private init; }
 
     /// <summary>
-    /// The ID of the SubChannel in the request. NOTE: Only required when getting message status in a SubChannel that the user belongs to. Constraints: o min: 1 o max: 128 o pattern: [-_a-zA-Z0-9]*
+    /// The ID of the SubChannel in the request. NOTE: Only required when getting message status in a SubChannel that the user belongs to. Constraints: • min: 1 • max: 128 • pattern: [-_a-zA-Z0-9]*
     /// </summary>
     [CliOption("--sub-channel-id")]
     public string? SubChannelId { get; set; }

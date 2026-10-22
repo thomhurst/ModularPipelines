@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsDsUpdateTrustOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the trust that has been set up between your Managed Microsoft AD directory and an self-managed Active Directory. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TrustId">Identifier of the trust relationship. Constraints: o pattern: ^t-[0-9a-f]{10}$</param>
+    /// <param name="TrustId">Identifier of the trust relationship. Constraints: • pattern: ^t-[0-9a-f]{10}$</param>
     public AwsDsUpdateTrustOptions(
         string TrustId
     )
@@ -57,13 +59,13 @@ public record AwsDsUpdateTrustOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifier of the trust relationship. Constraints: o pattern: ^t-[0-9a-f]{10}$
+    /// Identifier of the trust relationship. Constraints: • pattern: ^t-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--trust-id")]
     public string? TrustId { get; private init; }
 
     /// <summary>
-    /// Updates selective authentication for the trust. Possible values: o Enabled o Disabled
+    /// Updates selective authentication for the trust. Possible values: • Enabled • Disabled
     /// </summary>
     [CliOption("--selective-auth")]
     public AwsDsUpdateTrustSelectiveAuth? SelectiveAuth { get; set; }

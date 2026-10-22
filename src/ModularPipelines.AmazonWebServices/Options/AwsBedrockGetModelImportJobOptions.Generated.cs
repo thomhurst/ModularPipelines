@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBedrockGetModelImportJobOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Retrieves the properties associated with import model job, including the status of the job. For more information, see Import a customized model in the Amazon Bedrock User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobIdentifier">The identifier of the import job. Constraints: o min: 0 o max: 1011 o pattern: (arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:model-im- port-job/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9\+\-\.])*)</param>
+    /// <param name="JobIdentifier">The identifier of the import job. Constraints: • min: 0 • max: 1011 • pattern: (arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:model-import-job/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9\+\-\.])*)</param>
     public AwsBedrockGetModelImportJobOptions(
         string JobIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsBedrockGetModelImportJobOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the import job. Constraints: o min: 0 o max: 1011 o pattern: (arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:model-im- port-job/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9\+\-\.])*)
+    /// The identifier of the import job. Constraints: • min: 0 • max: 1011 • pattern: (arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:model-import-job/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9\+\-\.])*)
     /// </summary>
     [CliOption("--job-identifier")]
     public string? JobIdentifier { get; private init; }

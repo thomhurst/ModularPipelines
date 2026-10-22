@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +31,8 @@ public record AwsOpensearchserverlessCreateCollectionGroupOptions : AwsOptions, 
     /// <summary>
     /// Creates a collection group within OpenSearch Serverless. Collection groups let you manage OpenSearch Compute Units (OCUs) at a group level, with multiple collections sharing the group's capacity limits. For more information, see Managing collection groups . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the collection group. Constraints: o min: 3 o max: 32 o pattern: [a-z][a-z0-9-]+</param>
-    /// <param name="StandbyReplicas">Indicates whether standby replicas should be used for a collection group. Possible values: o ENABLED o DISABLED</param>
+    /// <param name="Name">The name of the collection group. Constraints: • min: 3 • max: 32 • pattern: [a-z][a-z0-9-]+</param>
+    /// <param name="StandbyReplicas">Indicates whether standby replicas should be used for a collection group. Possible values: • ENABLED • DISABLED</param>
     public AwsOpensearchserverlessCreateCollectionGroupOptions(
         string Name,
         AwsOpensearchserverlessCreateCollectionGroupStandbyReplicas StandbyReplicas
@@ -61,43 +63,43 @@ public record AwsOpensearchserverlessCreateCollectionGroupOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the collection group. Constraints: o min: 3 o max: 32 o pattern: [a-z][a-z0-9-]+
+    /// The name of the collection group. Constraints: • min: 3 • max: 32 • pattern: [a-z][a-z0-9-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Indicates whether standby replicas should be used for a collection group. Possible values: o ENABLED o DISABLED
+    /// Indicates whether standby replicas should be used for a collection group. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--standby-replicas")]
     public AwsOpensearchserverlessCreateCollectionGroupStandbyReplicas? StandbyReplicas { get; private init; }
 
     /// <summary>
-    /// A description of the collection group. Constraints: o min: 0 o max: 1000
+    /// A description of the collection group. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// An arbitrary set of tags (keyvalue pairs) to associate with the OpenSearch Serverless collection group. Constraints: o min: 0 o max: 50 (structure) A map of key-value pairs associated to an OpenSearch Serverless resource. key -&gt; (string) [required] The key to use in the tag. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// An arbitrary set of tags (keyvalue pairs) to associate with the OpenSearch Serverless collection group. Constraints: • min: 0 • max: 50 (structure) A map of key-value pairs associated to an OpenSearch Serverless resource. key -&gt; (string) [required] The key to use in the tag. Constraints: • min: 1 • max: 128 value -&gt; (string) [required] The value of the tag. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The capacity limits for the collection group, in OpenSearch Compute Units (OCUs). These limits control the maximum and minimum capacity for collections within the group. maxIndexingCapacityInOCU -&gt; (float) The maximum indexing capacity for collections in the group. Constraints: o min: 1 maxSearchCapacityInOCU -&gt; (float) The maximum search capacity for collections in the group. Constraints: o min: 1 minIndexingCapacityInOCU -&gt; (float) The minimum indexing capacity for collections in the group. Constraints: o min: 0 minSearchCapacityInOCU -&gt; (float) The minimum search capacity for collections in the group. Constraints: o min: 0 Shorthand Syntax: maxIndexingCapacityInOCU=float,maxSearchCapacityInOCU=float,minIndexingCapacityInOCU=float,minSearchCapacityInOCU=float JSON Syntax: { "maxIndexingCapacityInOCU": float, "maxSearchCapacityInOCU": float, "minIndexingCapacityInOCU": float, "minSearchCapacityInOCU": float }
+    /// The capacity limits for the collection group, in OpenSearch Compute Units (OCUs). These limits control the maximum and minimum capacity for collections within the group. maxIndexingCapacityInOCU -&gt; (float) The maximum indexing capacity for collections in the group. Constraints: • min: 1 maxSearchCapacityInOCU -&gt; (float) The maximum search capacity for collections in the group. Constraints: • min: 1 minIndexingCapacityInOCU -&gt; (float) The minimum indexing capacity for collections in the group. Constraints: • min: 0 minSearchCapacityInOCU -&gt; (float) The minimum search capacity for collections in the group. Constraints: • min: 0 Shorthand Syntax: maxIndexingCapacityInOCU=float,maxSearchCapacityInOCU=float,minIndexingCapacityInOCU=float,minSearchCapacityInOCU=float JSON Syntax: { "maxIndexingCapacityInOCU": float, "maxSearchCapacityInOCU": float, "minIndexingCapacityInOCU": float, "minSearchCapacityInOCU": float }
     /// </summary>
     [CliOption("--capacity-limits")]
     public string? CapacityLimits { get; set; }
 
     /// <summary>
-    /// The generation of Amazon OpenSearch Serverless for the collection group. Valid values are CLASSIC and NEXTGEN . Possible values: o CLASSIC o NEXTGEN
+    /// The generation of Amazon OpenSearch Serverless for the collection group. Valid values are CLASSIC and NEXTGEN . Possible values: • CLASSIC • NEXTGEN
     /// </summary>
     [CliOption("--generation")]
     public AwsOpensearchserverlessCreateCollectionGroupGeneration? Generation { get; set; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 1 o max: 512
+    /// Unique, case-sensitive identifier to ensure idempotency of the request. Constraints: • min: 1 • max: 512
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

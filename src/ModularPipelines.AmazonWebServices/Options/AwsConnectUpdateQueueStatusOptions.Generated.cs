@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +30,9 @@ public record AwsConnectUpdateQueueStatusOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Updates the status of the queue. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     /// <param name="QueueId">The identifier for the queue.</param>
-    /// <param name="Status">The status of the queue. Possible values: o ENABLED o DISABLED</param>
+    /// <param name="Status">The status of the queue. Possible values: • ENABLED • DISABLED</param>
     public AwsConnectUpdateQueueStatusOptions(
         string InstanceId,
         string QueueId,
@@ -64,7 +66,7 @@ public record AwsConnectUpdateQueueStatusOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
@@ -76,7 +78,7 @@ public record AwsConnectUpdateQueueStatusOptions : AwsOptions, IValidatableObjec
     public string? QueueId { get; private init; }
 
     /// <summary>
-    /// The status of the queue. Possible values: o ENABLED o DISABLED
+    /// The status of the queue. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--status")]
     public AwsConnectUpdateQueueStatusStatus? Status { get; private init; }

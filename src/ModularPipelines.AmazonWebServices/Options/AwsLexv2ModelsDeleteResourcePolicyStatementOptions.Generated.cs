@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsLexv2ModelsDeleteResourcePolicyStatementOptions : AwsOptions, I
     /// <summary>
     /// Deletes a policy statement from a resource policy. If you delete the last statement from a policy, the policy is deleted. If you specify a statement ID that doesn't exist in the policy, or if the bot or bot alias doesn't have a policy attached, Amazon Lex returns an exception. You need to add the DeleteResourcePolicy or UpdateResourcePolicy action to the bot role in order to call the API. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the bot or bot alias that the re- source policy is attached to. Constraints: o min: 1 o max: 1011</param>
-    /// <param name="StatementId">The name of the statement (SID) to delete from the policy. Constraints: o min: 1 o max: 100 o pattern: ^([0-9a-zA-Z][_-]?){1,100}$</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the bot or bot alias that the resource policy is attached to. Constraints: • min: 1 • max: 1011</param>
+    /// <param name="StatementId">The name of the statement (SID) to delete from the policy. Constraints: • min: 1 • max: 100 • pattern: ^([0-9a-zA-Z][_-]?){1,100}$</param>
     public AwsLexv2ModelsDeleteResourcePolicyStatementOptions(
         string ResourceArn,
         string StatementId
@@ -60,19 +62,19 @@ public record AwsLexv2ModelsDeleteResourcePolicyStatementOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the bot or bot alias that the re- source policy is attached to. Constraints: o min: 1 o max: 1011
+    /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource policy is attached to. Constraints: • min: 1 • max: 1011
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The name of the statement (SID) to delete from the policy. Constraints: o min: 1 o max: 100 o pattern: ^([0-9a-zA-Z][_-]?){1,100}$
+    /// The name of the statement (SID) to delete from the policy. Constraints: • min: 1 • max: 100 • pattern: ^([0-9a-zA-Z][_-]?){1,100}$
     /// </summary>
     [CliOption("--statement-id")]
     public string? StatementId { get; private init; }
 
     /// <summary>
-    /// The identifier of the revision of the policy to delete the statement from. If this revision ID doesn't match the current revision ID, Amazon Lex throws an exception. If you don't specify a revision, Amazon Lex removes the current con- tents of the statement. Constraints: o min: 1 o max: 5 o pattern: ^[0-9]+$
+    /// The identifier of the revision of the policy to delete the statement from. If this revision ID doesn't match the current revision ID, Amazon Lex throws an exception. If you don't specify a revision, Amazon Lex removes the current contents of the statement. Constraints: • min: 1 • max: 5 • pattern: ^[0-9]+$
     /// </summary>
     [CliOption("--expected-revision-id")]
     public string? ExpectedRevisionId { get; set; }

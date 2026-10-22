@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Remove a role from multiple users or groups in a private re:Post chan- nel. See also: AWS API Documentation
+/// Remove a role from multiple users or groups in a private re:Post channel. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +28,12 @@ public record AwsRepostspaceBatchRemoveChannelRoleFromAccessorsOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Remove a role from multiple users or groups in a private re:Post chan- nel. See also: AWS API Documentation
+    /// Remove a role from multiple users or groups in a private re:Post channel. See also: AWS API Documentation
     /// </summary>
     /// <param name="SpaceId">The unique ID of the private re:Post.</param>
-    /// <param name="ChannelId">The unique ID of the private re:Post channel. Constraints: o min: 24 o max: 24</param>
-    /// <param name="AccessorIds">The users or groups identifiers to remove the role from. Constraints: o min: 0 o max: 1000 (string) Syntax: "string" "string" ...</param>
-    /// <param name="ChannelRole">The channel role to remove from the users or groups. Possible values: o ASKER o EXPERT o MODERATOR o SUPPORTREQUESTOR</param>
+    /// <param name="ChannelId">The unique ID of the private re:Post channel. Constraints: • min: 24 • max: 24</param>
+    /// <param name="AccessorIds">The users or groups identifiers to remove the role from. Constraints: • min: 0 • max: 1000 (string) Syntax: "string" "string" ...</param>
+    /// <param name="ChannelRole">The channel role to remove from the users or groups. Possible values: • ASKER • EXPERT • MODERATOR • SUPPORTREQUESTOR</param>
     public AwsRepostspaceBatchRemoveChannelRoleFromAccessorsOptions(
         string SpaceId,
         string ChannelId,
@@ -85,19 +87,19 @@ public record AwsRepostspaceBatchRemoveChannelRoleFromAccessorsOptions : AwsOpti
     public string? SpaceId { get; private init; }
 
     /// <summary>
-    /// The unique ID of the private re:Post channel. Constraints: o min: 24 o max: 24
+    /// The unique ID of the private re:Post channel. Constraints: • min: 24 • max: 24
     /// </summary>
     [CliOption("--channel-id")]
     public string? ChannelId { get; private init; }
 
     /// <summary>
-    /// The users or groups identifiers to remove the role from. Constraints: o min: 0 o max: 1000 (string) Syntax: "string" "string" ...
+    /// The users or groups identifiers to remove the role from. Constraints: • min: 0 • max: 1000 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--accessor-ids", GroupValues = true)]
     public IEnumerable<string>? AccessorIds { get; private init; }
 
     /// <summary>
-    /// The channel role to remove from the users or groups. Possible values: o ASKER o EXPERT o MODERATOR o SUPPORTREQUESTOR
+    /// The channel role to remove from the users or groups. Possible values: • ASKER • EXPERT • MODERATOR • SUPPORTREQUESTOR
     /// </summary>
     [CliOption("--channel-role")]
     public AwsRepostspaceBatchRemoveChannelRoleFromAccessorsChannelRole? ChannelRole { get; private init; }

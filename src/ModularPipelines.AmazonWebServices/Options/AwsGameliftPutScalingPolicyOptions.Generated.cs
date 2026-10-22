@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Container Creates or updates a scaling policy for a fleet. Scaling policies are used to automatically scale a fleet's hosting capacity to meet player demand. An active scaling policy instructs Amazon GameLift Servers to track a fleet metric and automatically change the fleet's capacity when a certain threshold is reached. There are two types of scaling poli- cies: target-based and rule-based. Use a target-based policy to quickly and efficiently...
+/// This API works with the following fleet types: EC2, Container Creates or updates a scaling policy for a fleet. Scaling policies are used to automatically scale a fleet's hosting capacity to meet player demand. An active scaling policy instructs Amazon GameLift Servers to track a fleet metric and automatically change the fleet's capacity when a certain threshold is reached. There are two types of scaling policies: target-based and rule-based. Use a target-based policy to quickly and efficiently m...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsGameliftPutScalingPolicyOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Container Creates or updates a scaling policy for a fleet. Scaling policies are used to automatically scale a fleet's hosting capacity to meet player demand. An active scaling policy instructs Amazon GameLift Servers to track a fleet metric and automatically change the fleet's capacity when a certain threshold is reached. There are two types of scaling poli- cies: target-based and rule-based. Use a target-based policy to quickly and efficiently...
+    /// This API works with the following fleet types: EC2, Container Creates or updates a scaling policy for a fleet. Scaling policies are used to automatically scale a fleet's hosting capacity to meet player demand. An active scaling policy instructs Amazon GameLift Servers to track a fleet metric and automatically change the fleet's capacity when a certain threshold is reached. There are two types of scaling policies: target-based and rule-based. Use a target-based policy to quickly and efficiently m...
     /// </summary>
-    /// <param name="Name">A descriptive label that is associated with a fleet's scaling pol- icy. Policy names do not need to be unique. A fleet can have only one scaling policy with the same name. Constraints: o min: 1 o max: 1024</param>
-    /// <param name="FleetId">A unique identifier for the fleet to apply this policy to. You can use either the fleet ID or ARN value. The fleet cannot be in any of the following statuses: ERROR or DELETING. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
-    /// <param name="MetricName">Name of the Amazon GameLift Servers-defined metric that is used to trigger a scaling adjustment. For detailed descriptions of fleet metrics, see Monitor Amazon GameLift Servers with Amazon CloudWatch . o ActivatingGameSessions -- Game sessions in the process of being created. o ActiveGameSessions -- Game sessions that are currently running. o ActiveInstances -- Fleet instances that are currently running at least one game session. o AvailableGameSessions -- Additional game sessions that fleet could host simultaneously, given current capacity. o AvailablePlayerSessions -- Empty player slots in currently active game sessions. This includes game sessions that are not currently accepting players. Reserved player slots are not included. o CurrentPlayerSessions -- Player slots in active game sessions that are being used by a player or are reserved for a player. o IdleInstances -- Active instances that are currently hosting zero game sessions. o PercentAvailableGameSessions -- Unused percentage of the total number of game sessions that a fleet could host simultaneously, given current capacity. Use this metric for a target-based scaling policy. o PercentIdleInstances -- Percentage of the total number of active instances that are hosting zero game sessions. o QueueDepth -- Pending game session placement requests, in any queue, where the current fleet is the top-priority destination. o WaitTime -- Current wait time for pending game session placement requests, in any queue, where the current fleet is the top-prior- ity destination. Possible values: o ActivatingGameSessions o ActiveGameSessions o ActiveInstances o AvailableGameSessions o AvailablePlayerSessions o CurrentPlayerSessions o IdleInstances o PercentAvailableGameSessions o PercentIdleInstances o QueueDepth o WaitTime o ConcurrentActivatableGameSessions</param>
+    /// <param name="Name">A descriptive label that is associated with a fleet's scaling policy. Policy names do not need to be unique. A fleet can have only one scaling policy with the same name. Constraints: • min: 1 • max: 1024</param>
+    /// <param name="FleetId">A unique identifier for the fleet to apply this policy to. You can use either the fleet ID or ARN value. The fleet cannot be in any of the following statuses: ERROR or DELETING. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
+    /// <param name="MetricName">Name of the Amazon GameLift Servers-defined metric that is used to trigger a scaling adjustment. For detailed descriptions of fleet metrics, see Monitor Amazon GameLift Servers with Amazon CloudWatch . • ActivatingGameSessions -- Game sessions in the process of being created. • ActiveGameSessions -- Game sessions that are currently running. • ActiveInstances -- Fleet instances that are currently running at least one game session. • AvailableGameSessions -- Additional game sessions that a fleet could host simultaneously, given current capacity. • AvailablePlayerSessions -- Empty player slots in currently active game sessions. This includes game sessions that are not currently accepting players. Reserved player slots are not included. • CurrentPlayerSessions -- Player slots in active game sessions that are being used by a player or are reserved for a player. • IdleInstances -- Active instances that are currently hosting zero game sessions. • PercentAvailableGameSessions -- Unused percentage of the total number of game sessions that a fleet could host simultaneously, given current capacity. Use this metric for a target-based scaling policy. • PercentIdleInstances -- Percentage of the total number of active instances that are hosting zero game sessions. • QueueDepth -- Pending game session placement requests, in any queue, where the current fleet is the top-priority destination. • WaitTime -- Current wait time for pending game session placement requests, in any queue, where the current fleet is the top-priority destination. Possible values: • ActivatingGameSessions • ActiveGameSessions • ActiveInstances • AvailableGameSessions • AvailablePlayerSessions • CurrentPlayerSessions • IdleInstances • PercentAvailableGameSessions • PercentIdleInstances • QueueDepth • WaitTime • ConcurrentActivatableGameSessions</param>
     public AwsGameliftPutScalingPolicyOptions(
         string Name,
         string FleetId,
@@ -64,19 +66,19 @@ public record AwsGameliftPutScalingPolicyOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A descriptive label that is associated with a fleet's scaling pol- icy. Policy names do not need to be unique. A fleet can have only one scaling policy with the same name. Constraints: o min: 1 o max: 1024
+    /// A descriptive label that is associated with a fleet's scaling policy. Policy names do not need to be unique. A fleet can have only one scaling policy with the same name. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the fleet to apply this policy to. You can use either the fleet ID or ARN value. The fleet cannot be in any of the following statuses: ERROR or DELETING. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
+    /// A unique identifier for the fleet to apply this policy to. You can use either the fleet ID or ARN value. The fleet cannot be in any of the following statuses: ERROR or DELETING. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }
 
     /// <summary>
-    /// Name of the Amazon GameLift Servers-defined metric that is used to trigger a scaling adjustment. For detailed descriptions of fleet metrics, see Monitor Amazon GameLift Servers with Amazon CloudWatch . o ActivatingGameSessions -- Game sessions in the process of being created. o ActiveGameSessions -- Game sessions that are currently running. o ActiveInstances -- Fleet instances that are currently running at least one game session. o AvailableGameSessions -- Additional game sessions that fleet could host simultaneously, given current capacity. o AvailablePlayerSessions -- Empty player slots in currently active game sessions. This includes game sessions that are not currently accepting players. Reserved player slots are not included. o CurrentPlayerSessions -- Player slots in active game sessions that are being used by a player or are reserved for a player. o IdleInstances -- Active instances that are currently hosting zero game sessions. o PercentAvailableGameSessions -- Unused percentage of the total number of game sessions that a fleet could host simultaneously, given current capacity. Use this metric for a target-based scaling policy. o PercentIdleInstances -- Percentage of the total number of active instances that are hosting zero game sessions. o QueueDepth -- Pending game session placement requests, in any queue, where the current fleet is the top-priority destination. o WaitTime -- Current wait time for pending game session placement requests, in any queue, where the current fleet is the top-prior- ity destination. Possible values: o ActivatingGameSessions o ActiveGameSessions o ActiveInstances o AvailableGameSessions o AvailablePlayerSessions o CurrentPlayerSessions o IdleInstances o PercentAvailableGameSessions o PercentIdleInstances o QueueDepth o WaitTime o ConcurrentActivatableGameSessions
+    /// Name of the Amazon GameLift Servers-defined metric that is used to trigger a scaling adjustment. For detailed descriptions of fleet metrics, see Monitor Amazon GameLift Servers with Amazon CloudWatch . • ActivatingGameSessions -- Game sessions in the process of being created. • ActiveGameSessions -- Game sessions that are currently running. • ActiveInstances -- Fleet instances that are currently running at least one game session. • AvailableGameSessions -- Additional game sessions that a fleet could host simultaneously, given current capacity. • AvailablePlayerSessions -- Empty player slots in currently active game sessions. This includes game sessions that are not currently accepting players. Reserved player slots are not included. • CurrentPlayerSessions -- Player slots in active game sessions that are being used by a player or are reserved for a player. • IdleInstances -- Active instances that are currently hosting zero game sessions. • PercentAvailableGameSessions -- Unused percentage of the total number of game sessions that a fleet could host simultaneously, given current capacity. Use this metric for a target-based scaling policy. • PercentIdleInstances -- Percentage of the total number of active instances that are hosting zero game sessions. • QueueDepth -- Pending game session placement requests, in any queue, where the current fleet is the top-priority destination. • WaitTime -- Current wait time for pending game session placement requests, in any queue, where the current fleet is the top-priority destination. Possible values: • ActivatingGameSessions • ActiveGameSessions • ActiveInstances • AvailableGameSessions • AvailablePlayerSessions • CurrentPlayerSessions • IdleInstances • PercentAvailableGameSessions • PercentIdleInstances • QueueDepth • WaitTime • ConcurrentActivatableGameSessions
     /// </summary>
     [CliOption("--metric-name")]
     public AwsGameliftPutScalingPolicyMetricName? MetricName { get; private init; }
@@ -88,7 +90,7 @@ public record AwsGameliftPutScalingPolicyOptions : AwsOptions, IValidatableObjec
     public int? ScalingAdjustment { get; set; }
 
     /// <summary>
-    /// The type of adjustment to make to a fleet's instance count: o ChangeInCapacity -- add (or subtract) the scaling adjustment value from the current instance count. Positive values scale up while negative values scale down. o ExactCapacity -- set the instance count to the scaling adjustment value. o PercentChangeInCapacity -- increase or reduce the current instance count by the scaling adjustment, read as a percentage. Positive values scale up while negative values scale down; for example, a value of "-10" scales the fleet down by 10%. Possible values: o ChangeInCapacity o ExactCapacity o PercentChangeInCapacity
+    /// The type of adjustment to make to a fleet's instance count: • ChangeInCapacity -- add (or subtract) the scaling adjustment value from the current instance count. Positive values scale up while negative values scale down. • ExactCapacity -- set the instance count to the scaling adjustment value. • PercentChangeInCapacity -- increase or reduce the current instance count by the scaling adjustment, read as a percentage. Positive values scale up while negative values scale down; for example, a value of "-10" scales the fleet down by 10%. Possible values: • ChangeInCapacity • ExactCapacity • PercentChangeInCapacity
     /// </summary>
     [CliOption("--scaling-adjustment-type")]
     public AwsGameliftPutScalingPolicyScalingAdjustmentType? ScalingAdjustmentType { get; set; }
@@ -97,28 +99,28 @@ public record AwsGameliftPutScalingPolicyOptions : AwsOptions, IValidatableObjec
     /// Metric value used to trigger a scaling event.
     /// </summary>
     [CliOption("--threshold")]
-    public int? Threshold { get; set; }
+    public double? Threshold { get; set; }
 
     /// <summary>
-    /// Comparison operator to use when measuring the metric against the threshold value. Possible values: o GreaterThanOrEqualToThreshold o GreaterThanThreshold o LessThanThreshold o LessThanOrEqualToThreshold
+    /// Comparison operator to use when measuring the metric against the threshold value. Possible values: • GreaterThanOrEqualToThreshold • GreaterThanThreshold • LessThanThreshold • LessThanOrEqualToThreshold
     /// </summary>
     [CliOption("--comparison-operator")]
     public AwsGameliftPutScalingPolicyComparisonOperator? ComparisonOperator { get; set; }
 
     /// <summary>
-    /// Length of time (in minutes) the metric must be at or beyond the threshold before a scaling event is triggered. Constraints: o min: 1
+    /// Length of time (in minutes) the metric must be at or beyond the threshold before a scaling event is triggered. Constraints: • min: 1
     /// </summary>
     [CliOption("--evaluation-periods")]
     public int? EvaluationPeriods { get; set; }
 
     /// <summary>
-    /// The type of scaling policy to create. For a target-based policy, set the parameter MetricName to 'PercentAvailableGameSessions' and spec- ify a TargetConfiguration . For a rule-based policy set the follow- ing parameters: MetricName , ComparisonOperator , Threshold , Evalu- ationPeriods , ScalingAdjustmentType , and ScalingAdjustment . Possible values: o RuleBased o TargetBased
+    /// The type of scaling policy to create. For a target-based policy, set the parameter MetricName to 'PercentAvailableGameSessions' and specify a TargetConfiguration . For a rule-based policy set the following parameters: MetricName , ComparisonOperator , Threshold , EvaluationPeriods , ScalingAdjustmentType , and ScalingAdjustment . Possible values: • RuleBased • TargetBased
     /// </summary>
     [CliOption("--policy-type")]
     public AwsGameliftPutScalingPolicyPolicyType? PolicyType { get; set; }
 
     /// <summary>
-    /// An object that contains settings for a target-based scaling policy. TargetValue -&gt; (double) [required] Desired value to use with a target-based scaling policy. The value must be relevant for whatever metric the scaling policy is using. For example, in a policy using the metric PercentAvail- ableGameSessions, the target value should be the preferred size of the fleet's buffer (the percent of capacity that should be idle and ready for new game sessions). Shorthand Syntax: TargetValue=double JSON Syntax: { "TargetValue": double }
+    /// An object that contains settings for a target-based scaling policy. TargetValue -&gt; (double) [required] Desired value to use with a target-based scaling policy. The value must be relevant for whatever metric the scaling policy is using. For example, in a policy using the metric PercentAvailableGameSessions, the target value should be the preferred size of the fleet's buffer (the percent of capacity that should be idle and ready for new game sessions). Shorthand Syntax: TargetValue=double JSON Syntax: { "TargetValue": double }
     /// </summary>
     [CliOption("--target-configuration")]
     public string? TargetConfiguration { get; set; }

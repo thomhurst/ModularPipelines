@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMailmanagerGetRelayOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Fetch the relay resource and it's attributes. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RelayId">A unique relay identifier. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="RelayId">A unique relay identifier. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+</param>
     public AwsMailmanagerGetRelayOptions(
         string RelayId
     )
@@ -56,7 +58,7 @@ public record AwsMailmanagerGetRelayOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique relay identifier. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+
+    /// A unique relay identifier. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--relay-id")]
     public string? RelayId { get; private init; }

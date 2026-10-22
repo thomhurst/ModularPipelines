@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Allows the destination Amazon OpenSearch Service domain owner to delete an existing inbound cross-cluster search connection. For more informa- tion, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
+/// Allows the destination Amazon OpenSearch Service domain owner to delete an existing inbound cross-cluster search connection. For more information, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsOpensearchDeleteInboundConnectionOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Allows the destination Amazon OpenSearch Service domain owner to delete an existing inbound cross-cluster search connection. For more informa- tion, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
+    /// Allows the destination Amazon OpenSearch Service domain owner to delete an existing inbound cross-cluster search connection. For more information, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectionId">The ID of the inbound connection to permanently delete. Constraints: o min: 10 o max: 256 o pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="ConnectionId">The ID of the inbound connection to permanently delete. Constraints: • min: 10 • max: 256 • pattern: [a-z][a-z0-9\-]+</param>
     public AwsOpensearchDeleteInboundConnectionOptions(
         string ConnectionId
     )
@@ -56,7 +58,7 @@ public record AwsOpensearchDeleteInboundConnectionOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the inbound connection to permanently delete. Constraints: o min: 10 o max: 256 o pattern: [a-z][a-z0-9\-]+
+    /// The ID of the inbound connection to permanently delete. Constraints: • min: 10 • max: 256 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--connection-id")]
     public string? ConnectionId { get; private init; }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -30,9 +31,9 @@ public record AwsSsmSapRegisterApplicationOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Register an SAP application with AWS Systems Manager for SAP. You must meet the following requirements before registering. The SAP application you want to register with AWS Systems Manager for SAP is running on Amazon EC2. AWS Systems Manager Agent must be setup on an Amazon EC2 instance along with the required IAM permissions. Amazon EC2 instance(s) must have access to the secrets created in AWS Secrets Manager to manage SAP applications and components. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The ID of the application. Constraints: o min: 1 o max: 60 o pattern: [\w\d\.-]+</param>
-    /// <param name="ApplicationType">The type of the application. Possible values: o HANA o SAP_ABAP</param>
-    /// <param name="Instances">The Amazon EC2 instances on which your SAP application is running. Constraints: o min: 1 o max: 1 (string) Constraints: o pattern: i-[\w\d]{8}$|^i-[\w\d]{17} Syntax: "string" "string" ...</param>
+    /// <param name="ApplicationId">The ID of the application. Constraints: • min: 1 • max: 60 • pattern: [\w\d\.-]+</param>
+    /// <param name="ApplicationType">The type of the application. Possible values: • HANA • SAP_ABAP</param>
+    /// <param name="Instances">The Amazon EC2 instances on which your SAP application is running. Constraints: • min: 1 • max: 1 (string) Constraints: • pattern: i-[\w\d]{8}$|^i-[\w\d]{17} Syntax: "string" "string" ...</param>
     public AwsSsmSapRegisterApplicationOptions(
         string ApplicationId,
         AwsSsmSapRegisterApplicationApplicationType ApplicationType,
@@ -77,56 +78,56 @@ public record AwsSsmSapRegisterApplicationOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the application. Constraints: o min: 1 o max: 60 o pattern: [\w\d\.-]+
+    /// The ID of the application. Constraints: • min: 1 • max: 60 • pattern: [\w\d\.-]+
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The type of the application. Possible values: o HANA o SAP_ABAP
+    /// The type of the application. Possible values: • HANA • SAP_ABAP
     /// </summary>
     [CliOption("--application-type")]
     public AwsSsmSapRegisterApplicationApplicationType? ApplicationType { get; private init; }
 
     /// <summary>
-    /// The Amazon EC2 instances on which your SAP application is running. Constraints: o min: 1 o max: 1 (string) Constraints: o pattern: i-[\w\d]{8}$|^i-[\w\d]{17} Syntax: "string" "string" ...
+    /// The Amazon EC2 instances on which your SAP application is running. Constraints: • min: 1 • max: 1 (string) Constraints: • pattern: i-[\w\d]{8}$|^i-[\w\d]{17} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--instances", GroupValues = true)]
     public IEnumerable<string>? Instances { get; private init; }
 
     /// <summary>
-    /// The SAP instance number of the application. Constraints: o pattern: [0-9]{2}
+    /// The SAP instance number of the application. Constraints: • pattern: [0-9]{2}
     /// </summary>
     [CliOption("--sap-instance-number")]
     public string? SapInstanceNumber { get; set; }
 
     /// <summary>
-    /// The System ID of the application. Constraints: o pattern: [A-Z][A-Z0-9]{2}
+    /// The System ID of the application. Constraints: • pattern: [A-Z][A-Z0-9]{2}
     /// </summary>
     [CliOption("--sid")]
     public string? Sid { get; set; }
 
     /// <summary>
-    /// The tags to be attached to the SAP application. key -&gt; (string) Constraints: o pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to be attached to the SAP application. key -&gt; (string) Constraints: • pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: • min: 1 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The credentials of the SAP application. Constraints: o min: 0 o max: 20 (structure) The credentials of your SAP application. DatabaseName -&gt; (string) [required] The name of the SAP HANA database. Constraints: o min: 1 o max: 100 CredentialType -&gt; (string) [required] The type of the application credentials. Possible values: o ADMIN SecretId -&gt; (string) [required] The secret ID created in AWS Secrets Manager to store the credentials of the SAP application. Constraints: o min: 1 o max: 100 Shorthand Syntax: DatabaseName=string,CredentialType=string,SecretId=string ... JSON Syntax: [ { "DatabaseName": "string", "CredentialType": "ADMIN", "SecretId": "string" } ... ]
+    /// The credentials of the SAP application. Constraints: • min: 0 • max: 20 (structure) The credentials of your SAP application. DatabaseName -&gt; (string) [required] The name of the SAP HANA database. Constraints: • min: 1 • max: 100 CredentialType -&gt; (string) [required] The type of the application credentials. Possible values: • ADMIN SecretId -&gt; (string) [required] The secret ID created in AWS Secrets Manager to store the credentials of the SAP application. Constraints: • min: 1 • max: 100 Shorthand Syntax: DatabaseName=string,CredentialType=string,SecretId=string ... JSON Syntax: [ { "DatabaseName": "string", "CredentialType": "ADMIN", "SecretId": "string" } ... ]
     /// </summary>
     [SecretValue]
     [CliOption("--credentials", GroupValues = true)]
     public IEnumerable<string>? Credentials { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name of the SAP HANA database. Constraints: o pattern: arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\/.+
+    /// The Amazon Resource Name of the SAP HANA database. Constraints: • pattern: arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\/.+
     /// </summary>
     [CliOption("--database-arn")]
     public string? DatabaseArn { get; set; }
 
     /// <summary>
-    /// This is an optional parameter for component details to which the SAP ABAP application is attached, such as Web Dispatcher. This is an array of ApplicationComponent objects. You may input 0 to 5 items. Constraints: o min: 0 o max: 5 (structure) This is information about the component of your SAP application, such as Web Dispatcher. ComponentType -&gt; (string) [required] This string is the type of the component. Accepted value is WD . Possible values: o HANA o HANA_NODE o ABAP o ASCS o DIALOG o WEBDISP o WD o ERS Sid -&gt; (string) [required] This string is the SAP System ID of the component. Accepted values are alphanumeric. Constraints: o pattern: [A-Z][A-Z0-9]{2} Ec2InstanceId -&gt; (string) [required] This is the Amazon EC2 instance on which your SAP component is running. Accepted values are alphanumeric. Constraints: o pattern: i-[\w\d]{8}$|^i-[\w\d]{17} Shorthand Syntax: ComponentType=string,Sid=string,Ec2InstanceId=string ... JSON Syntax: [ { "ComponentType": "HANA"|"HANA_NODE"|"ABAP"|"ASCS"|"DIALOG"|"WEBDISP"|"WD"|"ERS", "Sid": "string", "Ec2InstanceId": "string" } ... ]
+    /// This is an optional parameter for component details to which the SAP ABAP application is attached, such as Web Dispatcher. This is an array of ApplicationComponent objects. You may input 0 to 5 items. Constraints: • min: 0 • max: 5 (structure) This is information about the component of your SAP application, such as Web Dispatcher. ComponentType -&gt; (string) [required] This string is the type of the component. Accepted value is WD . Possible values: • HANA • HANA_NODE • ABAP • ASCS • DIALOG • WEBDISP • WD • ERS Sid -&gt; (string) [required] This string is the SAP System ID of the component. Accepted values are alphanumeric. Constraints: • pattern: [A-Z][A-Z0-9]{2} Ec2InstanceId -&gt; (string) [required] This is the Amazon EC2 instance on which your SAP component is running. Accepted values are alphanumeric. Constraints: • pattern: i-[\w\d]{8}$|^i-[\w\d]{17} Shorthand Syntax: ComponentType=string,Sid=string,Ec2InstanceId=string ... JSON Syntax: [ { "ComponentType": "HANA"|"HANA_NODE"|"ABAP"|"ASCS"|"DIALOG"|"WEBDISP"|"WD"|"ERS", "Sid": "string", "Ec2InstanceId": "string" } ... ]
     /// </summary>
     [CliOption("--components-info", GroupValues = true)]
     public IEnumerable<string>? ComponentsInfo { get; set; }

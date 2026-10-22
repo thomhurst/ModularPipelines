@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsLakeformationCreateLfTagOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Creates an LF-tag with the specified name and values. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TagKey">The key-name for the LF-tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@%]*)$</param>
-    /// <param name="TagValues">A list of possible values an attribute can take. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:\*\/=+\-@%]*)$ Syntax: "string" "string" ...</param>
+    /// <param name="TagKey">The key-name for the LF-tag. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@%]*)$</param>
+    /// <param name="TagValues">A list of possible values an attribute can take. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:\*\/=+\-@%]*)$ Syntax: "string" "string" ...</param>
     public AwsLakeformationCreateLfTagOptions(
         string TagKey,
         IEnumerable<string> TagValues
@@ -71,19 +73,19 @@ public record AwsLakeformationCreateLfTagOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The key-name for the LF-tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@%]*)$
+    /// The key-name for the LF-tag. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@%]*)$
     /// </summary>
     [CliOption("--tag-key")]
     public string? TagKey { get; private init; }
 
     /// <summary>
-    /// A list of possible values an attribute can take. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:\*\/=+\-@%]*)$ Syntax: "string" "string" ...
+    /// A list of possible values an attribute can take. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:\*\/=+\-@%]*)$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-values", GroupValues = true)]
     public IEnumerable<string>? TagValues { get; private init; }
 
     /// <summary>
-    /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }

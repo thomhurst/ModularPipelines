@@ -23,22 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsHealthDescribeEventTypesOptions : AwsOptions
 {
     /// <summary>
-    /// Values to narrow the results returned. eventTypeCodes -&gt; (list) A list of event type codes. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 3 o max: 100 o pattern: [a-zA-Z0-9\_\-]{3,100} services -&gt; (list) The Amazon Web Services services associated with the event. For example, EC2 , RDS . Constraints: o min: 1 o max: 10 (string) Constraints: o min: 2 o max: 30 o pattern: [^:/]{2,30} eventTypeCategories -&gt; (list) A list of event type category codes. Possible values are issue , accountNotification , or scheduledChange . Currently, the inves- tigation value isn't supported at this time. Constraints: o min: 1 o max: 10 (string) Possible values: o issue o accountNotification o scheduledChange o investigation Constraints: o min: 3 o max: 255 actionabilities -&gt; (list) A list of actionability values to filter event types. Possible values are ACTION_REQUIRED , ACTION_MAY_BE_REQUIRED and INFORMA- TIONAL . Constraints: o min: 1 o max: 3 (string) Possible values: o ACTION_REQUIRED o ACTION_MAY_BE_REQUIRED o INFORMATIONAL personas -&gt; (list) A list of persona classifications to filter event types. Possi- ble values are OPERATIONS , SECURITY , and BILLING . Constraints: o min: 1 o max: 3 (string) Possible values: o OPERATIONS o SECURITY o BILLING Shorthand Syntax: eventTypeCodes=string,string,services=string,string,eventTypeCategories=string,string,actionabilities=string,string,personas=string,string JSON Syntax: { "eventTypeCodes": ["string", ...], "services": ["string", ...], "eventTypeCategories": ["issue"|"accountNotification"|"scheduledChange"|"investigation", ...], "actionabilities": ["ACTION_REQUIRED"|"ACTION_MAY_BE_REQUIRED"|"INFORMATIONAL", ...], "personas": ["OPERATIONS"|"SECURITY"|"BILLING", ...] }
+    /// Values to narrow the results returned. eventTypeCodes -&gt; (list) A list of event type codes. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 3 • max: 100 • pattern: [a-zA-Z0-9\_\-]{3,100} services -&gt; (list) The Amazon Web Services services associated with the event. For example, EC2 , RDS . Constraints: • min: 1 • max: 10 (string) Constraints: • min: 2 • max: 30 • pattern: [^:/]{2,30} eventTypeCategories -&gt; (list) A list of event type category codes. Possible values are issue , accountNotification , or scheduledChange . Currently, the investigation value isn't supported at this time. Constraints: • min: 1 • max: 10 (string) Possible values: • issue • accountNotification • scheduledChange • investigation Constraints: • min: 3 • max: 255 actionabilities -&gt; (list) A list of actionability values to filter event types. Possible values are ACTION_REQUIRED , ACTION_MAY_BE_REQUIRED and INFORMATIONAL . Constraints: • min: 1 • max: 3 (string) Possible values: • ACTION_REQUIRED • ACTION_MAY_BE_REQUIRED • INFORMATIONAL personas -&gt; (list) A list of persona classifications to filter event types. Possible values are OPERATIONS , SECURITY , and BILLING . Constraints: • min: 1 • max: 3 (string) Possible values: • OPERATIONS • SECURITY • BILLING Shorthand Syntax: eventTypeCodes=string,string,services=string,string,eventTypeCategories=string,string,actionabilities=string,string,personas=string,string JSON Syntax: { "eventTypeCodes": ["string", ...], "services": ["string", ...], "eventTypeCategories": ["issue"|"accountNotification"|"scheduledChange"|"investigation", ...], "actionabilities": ["ACTION_REQUIRED"|"ACTION_MAY_BE_REQUIRED"|"INFORMATIONAL", ...], "personas": ["OPERATIONS"|"SECURITY"|"BILLING", ...] }
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; set; }
 
     /// <summary>
-    /// The locale (language) to return information in. English (en) is the default and the only supported value at this time. Constraints: o min: 2 o max: 256 o pattern: .{2,256}
+    /// The locale (language) to return information in. English (en) is the default and the only supported value at this time. Constraints: • min: 2 • max: 256 • pattern: .{2,256}
     /// </summary>
     [CliOption("--locale")]
     public string? Locale { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -48,15 +45,18 @@ public record AwsHealthDescribeEventTypesOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 10 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 10 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

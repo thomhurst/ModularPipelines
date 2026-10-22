@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSecurityhubDescribeHubOptions : AwsOptions
 {
     /// <summary>
-    /// The ARN of the Hub resource to retrieve. Constraints: o pattern: .*\S.*
+    /// The ARN of the Hub resource to retrieve. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--hub-arn")]
     public string? HubArn { get; set; }

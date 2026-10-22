@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Given a user pool ID and domain identifier, deletes a user pool domain. After you delete a user pool domain, your managed login pages and au- thorization server are no longer available. See also: AWS API Documentation
+/// Given a user pool ID and domain identifier, deletes a user pool domain. After you delete a user pool domain, your managed login pages and authorization server are no longer available. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsCognitoIdpDeleteUserPoolDomainOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Given a user pool ID and domain identifier, deletes a user pool domain. After you delete a user pool domain, your managed login pages and au- thorization server are no longer available. See also: AWS API Documentation
+    /// Given a user pool ID and domain identifier, deletes a user pool domain. After you delete a user pool domain, your managed login pages and authorization server are no longer available. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Domain">The domain that you want to delete. For custom domains, this is the fully-qualified domain name like auth.example.com . For Amazon Cog- nito prefix domains, this is the prefix alone, like myprefix . Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9](?:[a-z0-9\-]{0,61}[a-z0-9])?$</param>
-    /// <param name="UserPoolId">The ID of the user pool where you want to delete the domain. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="Domain">The domain that you want to delete. For custom domains, this is the fully-qualified domain name like auth.example.com . For Amazon Cognito prefix domains, this is the prefix alone, like myprefix . Constraints: • min: 1 • max: 63 • pattern: ^[a-z0-9](?:[a-z0-9\-]{0,61}[a-z0-9])?$</param>
+    /// <param name="UserPoolId">The ID of the user pool where you want to delete the domain. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+</param>
     public AwsCognitoIdpDeleteUserPoolDomainOptions(
         string Domain,
         string UserPoolId
@@ -60,13 +62,13 @@ public record AwsCognitoIdpDeleteUserPoolDomainOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The domain that you want to delete. For custom domains, this is the fully-qualified domain name like auth.example.com . For Amazon Cog- nito prefix domains, this is the prefix alone, like myprefix . Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9](?:[a-z0-9\-]{0,61}[a-z0-9])?$
+    /// The domain that you want to delete. For custom domains, this is the fully-qualified domain name like auth.example.com . For Amazon Cognito prefix domains, this is the prefix alone, like myprefix . Constraints: • min: 1 • max: 63 • pattern: ^[a-z0-9](?:[a-z0-9\-]{0,61}[a-z0-9])?$
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; private init; }
 
     /// <summary>
-    /// The ID of the user pool where you want to delete the domain. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// The ID of the user pool where you want to delete the domain. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--user-pool-id")]
     public string? UserPoolId { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIottwinmakerGetMetadataTransferJobOptions : AwsOptions, IValida
     /// <summary>
     /// Gets a nmetadata transfer job. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MetadataTransferJobId">The metadata transfer job Id. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+</param>
+    /// <param name="MetadataTransferJobId">The metadata transfer job Id. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+</param>
     public AwsIottwinmakerGetMetadataTransferJobOptions(
         string MetadataTransferJobId
     )
@@ -56,7 +58,7 @@ public record AwsIottwinmakerGetMetadataTransferJobOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The metadata transfer job Id. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
+    /// The metadata transfer job Id. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
     /// </summary>
     [CliOption("--metadata-transfer-job-id")]
     public string? MetadataTransferJobId { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a specified DB cluster parameter group. The DB cluster parame- ter group to be deleted can't be associated with any DB clusters. See also: AWS API Documentation
+/// Deletes a specified DB cluster parameter group. The DB cluster parameter group to be deleted can't be associated with any DB clusters. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsNeptuneDeleteDbClusterParameterGroupOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a specified DB cluster parameter group. The DB cluster parame- ter group to be deleted can't be associated with any DB clusters. See also: AWS API Documentation
+    /// Deletes a specified DB cluster parameter group. The DB cluster parameter group to be deleted can't be associated with any DB clusters. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbClusterParameterGroupName">The name of the DB cluster parameter group. Constraints: o Must be the name of an existing DB cluster parameter group. o You can't delete a default DB cluster parameter group. o Cannot be associated with any DB clusters.</param>
+    /// <param name="DbClusterParameterGroupName">The name of the DB cluster parameter group. Constraints: • Must be the name of an existing DB cluster parameter group. • You can't delete a default DB cluster parameter group. • Cannot be associated with any DB clusters.</param>
     public AwsNeptuneDeleteDbClusterParameterGroupOptions(
         string DbClusterParameterGroupName
     )
@@ -56,7 +58,7 @@ public record AwsNeptuneDeleteDbClusterParameterGroupOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the DB cluster parameter group. Constraints: o Must be the name of an existing DB cluster parameter group. o You can't delete a default DB cluster parameter group. o Cannot be associated with any DB clusters.
+    /// The name of the DB cluster parameter group. Constraints: • Must be the name of an existing DB cluster parameter group. • You can't delete a default DB cluster parameter group. • Cannot be associated with any DB clusters.
     /// </summary>
     [CliOption("--db-cluster-parameter-group-name")]
     public string? DbClusterParameterGroupName { get; private init; }

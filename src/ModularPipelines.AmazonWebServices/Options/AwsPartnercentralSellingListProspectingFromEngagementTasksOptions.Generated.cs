@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists all prospecting tasks initiated by the caller's account. Supports optional filters by task identifier, task name, or start time range. Results can be sorted using configurable options. The response is pagi- nated. Use the NextToken value from each response to retrieve subse- quent pages. See also: AWS API Documentation list-prospecting-from-engagement-tasks is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi...
+/// Lists all prospecting tasks initiated by the caller's account. Supports optional filters by task identifier, task name, or start time range. Results can be sorted using configurable options. The response is paginated. Use the NextToken value from each response to retrieve subsequent pages. See also: AWS API Documentation list-prospecting-from-engagement-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsPartnercentralSellingListProspectingFromEngagementTasksOptions 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists all prospecting tasks initiated by the caller's account. Supports optional filters by task identifier, task name, or start time range. Results can be sorted using configurable options. The response is pagi- nated. Use the NextToken value from each response to retrieve subse- quent pages. See also: AWS API Documentation list-prospecting-from-engagement-tasks is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi...
+    /// Lists all prospecting tasks initiated by the caller's account. Supports optional filters by task identifier, task name, or start time range. Results can be sorted using configurable options. The response is paginated. Use the NextToken value from each response to retrieve subsequent pages. See also: AWS API Documentation list-prospecting-from-engagement-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination...
     /// </summary>
-    /// <param name="Catalog">Specifies the catalog to list tasks from. Specify AWS for production environments and Sandbox for testing and development purposes. Constraints: o pattern: [a-zA-Z]+</param>
+    /// <param name="Catalog">Specifies the catalog to list tasks from. Specify AWS for production environments and Sandbox for testing and development purposes. Constraints: • pattern: [a-zA-Z]+</param>
     public AwsPartnercentralSellingListProspectingFromEngagementTasksOptions(
         string Catalog
     )
@@ -57,19 +59,19 @@ public record AwsPartnercentralSellingListProspectingFromEngagementTasksOptions 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the catalog to list tasks from. Specify AWS for production environments and Sandbox for testing and development purposes. Constraints: o pattern: [a-zA-Z]+
+    /// Specifies the catalog to list tasks from. Specify AWS for production environments and Sandbox for testing and development purposes. Constraints: • pattern: [a-zA-Z]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// Filters the results to include only the tasks with the specified identifiers. Provide up to 10 task IDs to narrow the list to spe- cific tasks. If omitted, tasks are not filtered by identifier. Constraints: o min: 0 o max: 10 (string) Constraints: o pattern: task-[0-9a-z]{14} Syntax: "string" "string" ...
+    /// Filters the results to include only the tasks with the specified identifiers. Provide up to 10 task IDs to narrow the list to specific tasks. If omitted, tasks are not filtered by identifier. Constraints: • min: 0 • max: 10 (string) Constraints: • pattern: task-[0-9a-z]{14} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--task-identifier", GroupValues = true)]
     public IEnumerable<string>? TaskIdentifier { get; set; }
 
     /// <summary>
-    /// Filters the results to include only tasks with the specified names. Provide up to 10 task names to narrow the list. If omitted, tasks are not filtered by name. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// Filters the results to include only tasks with the specified names. Provide up to 10 task names to narrow the list. If omitted, tasks are not filtered by name. Constraints: • min: 0 • max: 10 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--task-name", GroupValues = true)]
     public IEnumerable<string>? TaskName { get; set; }
@@ -81,22 +83,19 @@ public record AwsPartnercentralSellingListProspectingFromEngagementTasksOptions 
     public string? StartAfter { get; set; }
 
     /// <summary>
-    /// Filters tasks to include only those that started before the speci- fied timestamp. Use this with StartAfter to define a start-time range for your query. The format follows ISO 8601 date-time nota- tion.
+    /// Filters tasks to include only those that started before the specified timestamp. Use this with StartAfter to define a start-time range for your query. The format follows ISO 8601 date-time notation.
     /// </summary>
     [CliOption("--start-before")]
     public string? StartBefore { get; set; }
 
     /// <summary>
-    /// Specifies the field and order used to sort the returned tasks. If omitted, tasks are returned in the default sort order. SortOrder -&gt; (string) [required] The direction in which to sort the results. Use ASCENDING to re- turn the smallest or earliest values first, or DESCENDING to re- turn the largest or most recent values first. Possible values: o ASCENDING o DESCENDING SortBy -&gt; (string) [required] The field by which to sort the returned tasks. Valid values: StartTime (task creation timestamp), TaskName (alphabetically by task name), and FailedEngagementCount (number of failed engage- ments). Possible values: o StartTime o TaskName o FailedEngagementCount Shorthand Syntax: SortOrder=string,SortBy=string JSON Syntax: { "SortOrder": "ASCENDING"|"DESCENDING", "SortBy": "StartTime"|"TaskName"|"FailedEngagementCount" }
+    /// Specifies the field and order used to sort the returned tasks. If omitted, tasks are returned in the default sort order. SortOrder -&gt; (string) [required] The direction in which to sort the results. Use ASCENDING to return the smallest or earliest values first, or DESCENDING to return the largest or most recent values first. Possible values: • ASCENDING • DESCENDING SortBy -&gt; (string) [required] The field by which to sort the returned tasks. Valid values: StartTime (task creation timestamp), TaskName (alphabetically by task name), and FailedEngagementCount (number of failed engagements). Possible values: • StartTime • TaskName • FailedEngagementCount Shorthand Syntax: SortOrder=string,SortBy=string JSON Syntax: { "SortOrder": "ASCENDING"|"DESCENDING", "SortBy": "StartTime"|"TaskName"|"FailedEngagementCount" }
     /// </summary>
     [CliOption("--sort")]
     public string? Sort { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -106,16 +105,19 @@ public record AwsPartnercentralSellingListProspectingFromEngagementTasksOptions 
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,12 +29,12 @@ public record AwsQuicksightUpdateVpcConnectionOptions : AwsOptions, IValidatable
     /// <summary>
     /// Updates a VPC connection. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The Amazon Web Services account ID of the account that contains the VPC connection that you want to update. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="VpcConnectionId">The ID of the VPC connection that you're updating. This ID is a unique identifier for each Amazon Web Services Region in an Amazon Web Services account. Constraints: o min: 1 o max: 1000</param>
-    /// <param name="Name">The display name for the VPC connection. Constraints: o min: 1 o max: 128</param>
-    /// <param name="SubnetIds">A list of subnet IDs for the VPC connection. Constraints: o min: 2 o max: 15 (string) Constraints: o min: 1 o max: 255 o pattern: ^subnet-[0-9a-z]*$ Syntax: "string" "string" ...</param>
-    /// <param name="SecurityGroupIds">A list of security group IDs for the VPC connection. Constraints: o min: 1 o max: 16 (string) Constraints: o min: 1 o max: 255 o pattern: ^sg-[0-9a-z]*$ Syntax: "string" "string" ...</param>
-    /// <param name="RoleArn">An IAM role associated with the VPC connection. Constraints: o min: 20 o max: 2048</param>
+    /// <param name="AwsAccountId">The Amazon Web Services account ID of the account that contains the VPC connection that you want to update. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="VpcConnectionId">The ID of the VPC connection that you're updating. This ID is a unique identifier for each Amazon Web Services Region in an Amazon Web Services account. Constraints: • min: 1 • max: 1000</param>
+    /// <param name="Name">The display name for the VPC connection. Constraints: • min: 1 • max: 128</param>
+    /// <param name="SubnetIds">A list of subnet IDs for the VPC connection. Constraints: • min: 2 • max: 15 (string) Constraints: • min: 1 • max: 255 • pattern: ^subnet-[0-9a-z]*$ Syntax: "string" "string" ...</param>
+    /// <param name="SecurityGroupIds">A list of security group IDs for the VPC connection. Constraints: • min: 1 • max: 16 (string) Constraints: • min: 1 • max: 255 • pattern: ^sg-[0-9a-z]*$ Syntax: "string" "string" ...</param>
+    /// <param name="RoleArn">An IAM role associated with the VPC connection. Constraints: • min: 20 • max: 2048</param>
     public AwsQuicksightUpdateVpcConnectionOptions(
         string AwsAccountId,
         string VpcConnectionId,
@@ -98,43 +100,43 @@ public record AwsQuicksightUpdateVpcConnectionOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID of the account that contains the VPC connection that you want to update. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The Amazon Web Services account ID of the account that contains the VPC connection that you want to update. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID of the VPC connection that you're updating. This ID is a unique identifier for each Amazon Web Services Region in an Amazon Web Services account. Constraints: o min: 1 o max: 1000
+    /// The ID of the VPC connection that you're updating. This ID is a unique identifier for each Amazon Web Services Region in an Amazon Web Services account. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--vpc-connection-id")]
     public string? VpcConnectionId { get; private init; }
 
     /// <summary>
-    /// The display name for the VPC connection. Constraints: o min: 1 o max: 128
+    /// The display name for the VPC connection. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A list of subnet IDs for the VPC connection. Constraints: o min: 2 o max: 15 (string) Constraints: o min: 1 o max: 255 o pattern: ^subnet-[0-9a-z]*$ Syntax: "string" "string" ...
+    /// A list of subnet IDs for the VPC connection. Constraints: • min: 2 • max: 15 (string) Constraints: • min: 1 • max: 255 • pattern: ^subnet-[0-9a-z]*$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; private init; }
 
     /// <summary>
-    /// A list of security group IDs for the VPC connection. Constraints: o min: 1 o max: 16 (string) Constraints: o min: 1 o max: 255 o pattern: ^sg-[0-9a-z]*$ Syntax: "string" "string" ...
+    /// A list of security group IDs for the VPC connection. Constraints: • min: 1 • max: 16 (string) Constraints: • min: 1 • max: 255 • pattern: ^sg-[0-9a-z]*$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; private init; }
 
     /// <summary>
-    /// An IAM role associated with the VPC connection. Constraints: o min: 20 o max: 2048
+    /// An IAM role associated with the VPC connection. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// A list of IP addresses of DNS resolver endpoints for the VPC connec- tion. Constraints: o max: 15 (string) Constraints: o min: 7 o max: 15 Syntax: "string" "string" ...
+    /// A list of IP addresses of DNS resolver endpoints for the VPC connection. Constraints: • max: 15 (string) Constraints: • min: 7 • max: 15 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--dns-resolvers", GroupValues = true)]
     public IEnumerable<string>? DnsResolvers { get; set; }

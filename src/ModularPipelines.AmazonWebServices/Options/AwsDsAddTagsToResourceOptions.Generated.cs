@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDsAddTagsToResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Adds or overwrites one or more tags for the specified directory. Each directory can have a maximum of 50 tags. Each tag consists of a key and optional value. Tag keys must be unique to each resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceId">Identifier (ID) for the directory to which to add the tag. Constraints: o pattern: ^[d]-[0-9a-f]{10}$</param>
-    /// <param name="Tags">The tags to be assigned to the directory. (structure) Metadata assigned to a directory consisting of a key-value pair. Key -&gt; (string) [required] Required name of the tag. The string value can be Unicode characters and cannot be prefixed with "aws:". The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-', ':', '@'(Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The optional value of the tag. The string value can be Uni- code characters. The string can contain only the set of Uni- code letters, digits, white-space, '_', '.', '/', '=', '+', '-', ':', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="ResourceId">Identifier (ID) for the directory to which to add the tag. Constraints: • pattern: ^[d]-[0-9a-f]{10}$</param>
+    /// <param name="Tags">The tags to be assigned to the directory. (structure) Metadata assigned to a directory consisting of a key-value pair. Key -&gt; (string) [required] Required name of the tag. The string value can be Unicode characters and cannot be prefixed with "aws:". The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-', ':', '@'(Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The optional value of the tag. The string value can be Unicode characters. The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-', ':', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsDsAddTagsToResourceOptions(
         string ResourceId,
         IEnumerable<string> Tags
@@ -71,13 +73,13 @@ public record AwsDsAddTagsToResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifier (ID) for the directory to which to add the tag. Constraints: o pattern: ^[d]-[0-9a-f]{10}$
+    /// Identifier (ID) for the directory to which to add the tag. Constraints: • pattern: ^[d]-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// The tags to be assigned to the directory. (structure) Metadata assigned to a directory consisting of a key-value pair. Key -&gt; (string) [required] Required name of the tag. The string value can be Unicode characters and cannot be prefixed with "aws:". The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-', ':', '@'(Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The optional value of the tag. The string value can be Uni- code characters. The string can contain only the set of Uni- code letters, digits, white-space, '_', '.', '/', '=', '+', '-', ':', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags to be assigned to the directory. (structure) Metadata assigned to a directory consisting of a key-value pair. Key -&gt; (string) [required] Required name of the tag. The string value can be Unicode characters and cannot be prefixed with "aws:". The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-', ':', '@'(Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The optional value of the tag. The string value can be Unicode characters. The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-', ':', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }

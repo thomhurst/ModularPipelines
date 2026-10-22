@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a transfer. A transfer is the arrangement between two manage- ment accounts where one account designates the other with specified re- sponsibilities for their organization. You can update the name assigned to a transfer. See also: AWS API Documentation
+/// Updates a transfer. A transfer is the arrangement between two management accounts where one account designates the other with specified responsibilities for their organization. You can update the name assigned to a transfer. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsOrganizationsUpdateResponsibilityTransferOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a transfer. A transfer is the arrangement between two manage- ment accounts where one account designates the other with specified re- sponsibilities for their organization. You can update the name assigned to a transfer. See also: AWS API Documentation
+    /// Updates a transfer. A transfer is the arrangement between two management accounts where one account designates the other with specified responsibilities for their organization. You can update the name assigned to a transfer. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">ID for the transfer. Constraints: o pattern: ^rt-[0-9a-z]{8,32}$</param>
-    /// <param name="Name">New name you want to assign to the transfer. Constraints: o min: 1 o max: 128 o pattern: ^[ -~]+$</param>
+    /// <param name="Id">ID for the transfer. Constraints: • pattern: ^rt-[0-9a-z]{8,32}$</param>
+    /// <param name="Name">New name you want to assign to the transfer. Constraints: • min: 1 • max: 128 • pattern: ^[ -~]+$</param>
     public AwsOrganizationsUpdateResponsibilityTransferOptions(
         string Id,
         string Name
@@ -60,13 +62,13 @@ public record AwsOrganizationsUpdateResponsibilityTransferOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID for the transfer. Constraints: o pattern: ^rt-[0-9a-z]{8,32}$
+    /// ID for the transfer. Constraints: • pattern: ^rt-[0-9a-z]{8,32}$
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// New name you want to assign to the transfer. Constraints: o min: 1 o max: 128 o pattern: ^[ -~]+$
+    /// New name you want to assign to the transfer. Constraints: • min: 1 • max: 128 • pattern: ^[ -~]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

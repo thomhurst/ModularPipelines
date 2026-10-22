@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: This API permanently deletes the specified Quick Sight brand. When you delete a brand: o The brand and all its associated branding elements are permanently removed o Any applications or dashboards using this brand will revert to de- fault styling o This action cannot be undone through the API Before proceeding: Verify that the brand is no longer needed and consider the impact on any applications currently using this brand. Deletes an Quick Sight brand. See also: AWS API Documentation
+/// WARNING: This API permanently deletes the specified Quick Sight brand. When you delete a brand: • The brand and all its associated branding elements are permanently removed • Any applications or dashboards using this brand will revert to default styling • This action cannot be undone through the API Before proceeding: Verify that the brand is no longer needed and consider the impact on any applications currently using this brand. Deletes an Quick Sight brand. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsQuicksightDeleteBrandOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// WARNING: This API permanently deletes the specified Quick Sight brand. When you delete a brand: o The brand and all its associated branding elements are permanently removed o Any applications or dashboards using this brand will revert to de- fault styling o This action cannot be undone through the API Before proceeding: Verify that the brand is no longer needed and consider the impact on any applications currently using this brand. Deletes an Quick Sight brand. See also: AWS API Documentation
+    /// WARNING: This API permanently deletes the specified Quick Sight brand. When you delete a brand: • The brand and all its associated branding elements are permanently removed • Any applications or dashboards using this brand will revert to default styling • This action cannot be undone through the API Before proceeding: Verify that the brand is no longer needed and consider the impact on any applications currently using this brand. Deletes an Quick Sight brand. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that owns the brand. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="BrandId">The ID of the Quick brand. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that owns the brand. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="BrandId">The ID of the Quick brand. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+</param>
     public AwsQuicksightDeleteBrandOptions(
         string AwsAccountId,
         string BrandId
@@ -60,13 +62,13 @@ public record AwsQuicksightDeleteBrandOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that owns the brand. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that owns the brand. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID of the Quick brand. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// The ID of the Quick brand. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--brand-id")]
     public string? BrandId { get; private init; }

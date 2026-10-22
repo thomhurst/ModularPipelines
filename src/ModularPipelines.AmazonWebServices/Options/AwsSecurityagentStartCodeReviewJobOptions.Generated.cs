@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -72,7 +74,7 @@ public record AwsSecurityagentStartCodeReviewJobOptions : AwsOptions, IValidatab
     public string? CodeReviewId { get; private init; }
 
     /// <summary>
-    /// Source of the diff for a differential scan. When present, the job analyzes only the changed lines instead of performing a full scan. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3Uri. s3Uri -&gt; (string) S3 URI pointing to a unified diff file. The file must be in standard unified diff format and stored in an S3 bucket con- nected to your Agent Space. Shorthand Syntax: s3Uri=string JSON Syntax: { "s3Uri": "string" }
+    /// Source of the diff for a differential scan. When present, the job analyzes only the changed lines instead of performing a full scan. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3Uri. s3Uri -&gt; (string) S3 URI pointing to a unified diff file. The file must be in standard unified diff format and stored in an S3 bucket connected to your Agent Space. Shorthand Syntax: s3Uri=string JSON Syntax: { "s3Uri": "string" }
     /// </summary>
     [CliOption("--diff-source")]
     public string? DiffSource { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsWellarchitectedUpdateWorkloadOptions : AwsOptions, IValidatable
     /// <summary>
     /// Update an existing workload. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkloadId">The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}</param>
+    /// <param name="WorkloadId">The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: • min: 32 • max: 32 • pattern: [0-9a-f]{32}</param>
     public AwsWellarchitectedUpdateWorkloadOptions(
         string WorkloadId
     )
@@ -57,109 +59,109 @@ public record AwsWellarchitectedUpdateWorkloadOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}
+    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: • min: 32 • max: 32 • pattern: [0-9a-f]{32}
     /// </summary>
     [CliOption("--workload-id")]
     public string? WorkloadId { get; private init; }
 
     /// <summary>
-    /// The name of the workload. The name must be unique within an account within an Amazon Web Ser- vices Region. Spaces and capitalization are ignored when checking for uniqueness. Constraints: o min: 3 o max: 100
+    /// The name of the workload. The name must be unique within an account within an Amazon Web Services Region. Spaces and capitalization are ignored when checking for uniqueness. Constraints: • min: 3 • max: 100
     /// </summary>
     [CliOption("--workload-name")]
     public string? WorkloadName { get; set; }
 
     /// <summary>
-    /// The description for the workload. Constraints: o min: 3 o max: 250
+    /// The description for the workload. Constraints: • min: 3 • max: 250
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The environment for the workload. Possible values: o PRODUCTION o PREPRODUCTION
+    /// The environment for the workload. Possible values: • PRODUCTION • PREPRODUCTION
     /// </summary>
     [CliOption("--environment")]
     public AwsWellarchitectedUpdateWorkloadEnvironment? Environment { get; set; }
 
     /// <summary>
-    /// The list of Amazon Web Services account IDs associated with the workload. Constraints: o min: 0 o max: 100 (string) An Amazon Web Services account ID. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} Syntax: "string" "string" ...
+    /// The list of Amazon Web Services account IDs associated with the workload. Constraints: • min: 0 • max: 100 (string) An Amazon Web Services account ID. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
 
     /// <summary>
-    /// The list of Amazon Web Services Regions associated with the work- load, for example, us-east-2 , or ca-central-1 . Constraints: o min: 0 o max: 50 (string) An Amazon Web Services Region, for example, us-west-2 or ap-northeast-1 . Constraints: o min: 0 o max: 100 Syntax: "string" "string" ...
+    /// The list of Amazon Web Services Regions associated with the workload, for example, us-east-2 , or ca-central-1 . Constraints: • min: 0 • max: 50 (string) An Amazon Web Services Region, for example, us-west-2 or ap-northeast-1 . Constraints: • min: 0 • max: 100 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--aws-regions", GroupValues = true)]
     public IEnumerable<string>? AwsRegions { get; set; }
 
     /// <summary>
-    /// The list of non-Amazon Web Services Regions associated with the workload. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 3 o max: 25 Syntax: "string" "string" ...
+    /// The list of non-Amazon Web Services Regions associated with the workload. Constraints: • min: 0 • max: 5 (string) Constraints: • min: 3 • max: 25 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--non-aws-regions", GroupValues = true)]
     public IEnumerable<string>? NonAwsRegions { get; set; }
 
     /// <summary>
-    /// The priorities of the pillars, which are used to order items in the improvement plan. Each pillar is represented by its PillarReview- Summary$PillarId . (string) The ID used to identify a pillar, for example, security . A pillar is identified by its PillarReviewSummary$PillarId . Constraints: o min: 1 o max: 64 Syntax: "string" "string" ...
+    /// The priorities of the pillars, which are used to order items in the improvement plan. Each pillar is represented by its PillarReviewSummary$PillarId . (string) The ID used to identify a pillar, for example, security . A pillar is identified by its PillarReviewSummary$PillarId . Constraints: • min: 1 • max: 64 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--pillar-priorities", GroupValues = true)]
     public IEnumerable<string>? PillarPriorities { get; set; }
 
     /// <summary>
-    /// The URL of the architectural design for the workload. Constraints: o min: 0 o max: 2048 o pattern: (|(https?|ftp):\/\/[^\s/$.?#].[^\s]*)
+    /// The URL of the architectural design for the workload. Constraints: • min: 0 • max: 2048 • pattern: (|(https?|ftp):\/\/[^\s/$.?#].[^\s]*)
     /// </summary>
     [CliOption("--architectural-design")]
     public string? ArchitecturalDesign { get; set; }
 
     /// <summary>
-    /// The review owner of the workload. The name, email address, or iden- tifier for the primary group or individual that owns the workload review process. Constraints: o min: 3 o max: 255
+    /// The review owner of the workload. The name, email address, or identifier for the primary group or individual that owns the workload review process. Constraints: • min: 3 • max: 255
     /// </summary>
     [CliOption("--review-owner")]
     public string? ReviewOwner { get; set; }
 
     /// <summary>
-    /// knowledged (boolean) Flag indicating whether the workload owner has acknowledged that the Review owner field is required. If a Review owner is not added to the workload within 60 days of ac- knowledgement, access to the workload is restricted until an owner is added.
+    /// Flag indicating whether the workload owner has acknowledged that the Review owner field is required. If a Review owner is not added to the workload within 60 days of acknowledgement, access to the workload is restricted until an owner is added.
     /// </summary>
     [CliFlag("--is-review-owner-update-acknowledged", NegatedName = "--no-is-review-owner-update-acknowledged")]
     public bool? IsReviewOwnerUpdateAcknowledged { get; set; }
 
     /// <summary>
-    /// The industry type for the workload. If specified, must be one of the following: o Agriculture o Automobile o Defense o Design and Engineering o Digital Advertising o Education o Environmental Protection o Financial Services o Gaming o General Public Services o Healthcare o Hospitality o InfoTech o Justice and Public Safety o Life Sciences o Manufacturing o Media &amp; Entertainment o Mining &amp; Resources o Oil &amp; Gas o Power &amp; Utilities o Professional Services o Real Estate &amp; Construction o Retail &amp; Wholesale o Social Protection o Telecommunications o Travel, Transportation &amp; Logistics o Other Constraints: o min: 0 o max: 100
+    /// The industry type for the workload. If specified, must be one of the following: • Agriculture • Automobile • Defense • Design and Engineering • Digital Advertising • Education • Environmental Protection • Financial Services • Gaming • General Public Services • Healthcare • Hospitality • InfoTech • Justice and Public Safety • Life Sciences • Manufacturing • Media &amp; Entertainment • Mining &amp; Resources • Oil &amp; Gas • Power &amp; Utilities • Professional Services • Real Estate &amp; Construction • Retail &amp; Wholesale • Social Protection • Telecommunications • Travel, Transportation &amp; Logistics • Other Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--industry-type")]
     public string? IndustryType { get; set; }
 
     /// <summary>
-    /// The industry for the workload. Constraints: o min: 0 o max: 100
+    /// The industry for the workload. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--industry")]
     public string? Industry { get; set; }
 
     /// <summary>
-    /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied. Constraints: o min: 0 o max: 2084
+    /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied. Constraints: • min: 0 • max: 2084
     /// </summary>
     [CliOption("--notes")]
     public string? Notes { get; set; }
 
     /// <summary>
-    /// The improvement status for a workload. Possible values: o NOT_APPLICABLE o NOT_STARTED o IN_PROGRESS o COMPLETE o RISK_ACKNOWLEDGED
+    /// The improvement status for a workload. Possible values: • NOT_APPLICABLE • NOT_STARTED • IN_PROGRESS • COMPLETE • RISK_ACKNOWLEDGED
     /// </summary>
     [CliOption("--improvement-status")]
     public AwsWellarchitectedUpdateWorkloadImprovementStatus? ImprovementStatus { get; set; }
 
     /// <summary>
-    /// Well-Architected discovery configuration settings to associate to the workload. TrustedAdvisorIntegrationStatus -&gt; (string) Discovery integration status in respect to Trusted Advisor for the workload. Possible values: o ENABLED o DISABLED WorkloadResourceDefinition -&gt; (list) The mode to use for identifying resources associated with the workload. You can specify WORKLOAD_METADATA , APP_REGISTRY , or both. (string) Possible values: o WORKLOAD_METADATA o APP_REGISTRY Shorthand Syntax: TrustedAdvisorIntegrationStatus=string,WorkloadResourceDefinition=string,string JSON Syntax: { "TrustedAdvisorIntegrationStatus": "ENABLED"|"DISABLED", "WorkloadResourceDefinition": ["WORKLOAD_METADATA"|"APP_REGISTRY", ...] }
+    /// Well-Architected discovery configuration settings to associate to the workload. TrustedAdvisorIntegrationStatus -&gt; (string) Discovery integration status in respect to Trusted Advisor for the workload. Possible values: • ENABLED • DISABLED WorkloadResourceDefinition -&gt; (list) The mode to use for identifying resources associated with the workload. You can specify WORKLOAD_METADATA , APP_REGISTRY , or both. (string) Possible values: • WORKLOAD_METADATA • APP_REGISTRY Shorthand Syntax: TrustedAdvisorIntegrationStatus=string,WorkloadResourceDefinition=string,string JSON Syntax: { "TrustedAdvisorIntegrationStatus": "ENABLED"|"DISABLED", "WorkloadResourceDefinition": ["WORKLOAD_METADATA"|"APP_REGISTRY", ...] }
     /// </summary>
     [CliOption("--discovery-config")]
     public string? DiscoveryConfig { get; set; }
 
     /// <summary>
-    /// List of AppRegistry application ARNs to associate to the workload. Constraints: o min: 0 o max: 1 (string) Constraints: o min: 0 o max: 2084 o pattern: arn:aws[-a-z]*:servicecata- log:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[a-z0-9]+ Syntax: "string" "string" ...
+    /// List of AppRegistry application ARNs to associate to the workload. Constraints: • min: 0 • max: 1 (string) Constraints: • min: 0 • max: 2084 • pattern: arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[a-z0-9]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--applications", GroupValues = true)]
     public IEnumerable<string>? Applications { get; set; }
 
     /// <summary>
-    /// Configuration of the Jira integration. IssueManagementStatus -&gt; (string) Workload-level: Jira issue management status. Possible values: o ENABLED o DISABLED o INHERIT IssueManagementType -&gt; (string) Workload-level: Jira issue management type. Possible values: o AUTO o MANUAL JiraProjectKey -&gt; (string) Workload-level: Jira project key to sync workloads to. Constraints: o min: 1 o max: 100 o pattern: [A-Z][A-Z0-9_]* Shorthand Syntax: IssueManagementStatus=string,IssueManagementType=string,JiraProjectKey=string JSON Syntax: { "IssueManagementStatus": "ENABLED"|"DISABLED"|"INHERIT", "IssueManagementType": "AUTO"|"MANUAL", "JiraProjectKey": "string" }
+    /// Configuration of the Jira integration. IssueManagementStatus -&gt; (string) Workload-level: Jira issue management status. Possible values: • ENABLED • DISABLED • INHERIT IssueManagementType -&gt; (string) Workload-level: Jira issue management type. Possible values: • AUTO • MANUAL JiraProjectKey -&gt; (string) Workload-level: Jira project key to sync workloads to. Constraints: • min: 1 • max: 100 • pattern: [A-Z][A-Z0-9_]* Shorthand Syntax: IssueManagementStatus=string,IssueManagementType=string,JiraProjectKey=string JSON Syntax: { "IssueManagementStatus": "ENABLED"|"DISABLED"|"INHERIT", "IssueManagementType": "AUTO"|"MANUAL", "JiraProjectKey": "string" }
     /// </summary>
     [CliOption("--jira-configuration")]
     public string? JiraConfiguration { get; set; }

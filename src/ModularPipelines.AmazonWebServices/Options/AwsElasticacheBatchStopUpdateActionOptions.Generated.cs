@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,13 +64,13 @@ public record AwsElasticacheBatchStopUpdateActionOptions : AwsOptions, IValidata
     public string? ServiceUpdateName { get; private init; }
 
     /// <summary>
-    /// The replication group IDs Constraints: o max: 20 (string) Syntax: "string" "string" ...
+    /// The replication group IDs Constraints: • max: 20 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--replication-group-ids", GroupValues = true)]
     public IEnumerable<string>? ReplicationGroupIds { get; set; }
 
     /// <summary>
-    /// The cache cluster IDs Constraints: o max: 20 (string) Syntax: "string" "string" ...
+    /// The cache cluster IDs Constraints: • max: 20 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--cache-cluster-ids", GroupValues = true)]
     public IEnumerable<string>? CacheClusterIds { get; set; }

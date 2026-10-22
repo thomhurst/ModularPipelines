@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -85,7 +87,7 @@ public record AwsSecurityagentCreateThreatOptions : AwsOptions, IValidatableObje
     public string? Statement { get; set; }
 
     /// <summary>
-    /// The severity level of the threat. Possible values: o CRITICAL o HIGH o MEDIUM o LOW o INFO
+    /// The severity level of the threat. Possible values: • CRITICAL • HIGH • MEDIUM • LOW • INFO
     /// </summary>
     [CliOption("--severity")]
     public AwsSecurityagentCreateThreatSeverity? Severity { get; set; }
@@ -97,7 +99,7 @@ public record AwsSecurityagentCreateThreatOptions : AwsOptions, IValidatableObje
     public string? Comments { get; set; }
 
     /// <summary>
-    /// The STRIDE categories applicable to this threat. (string) STRIDE threat classification category. Possible values: o SPOOFING o TAMPERING o REPUDIATION o INFORMATION_DISCLOSURE o DENIAL_OF_SERVICE o ELEVATION_OF_PRIVILEGE Syntax: "string" "string" ...
+    /// The STRIDE categories applicable to this threat. (string) STRIDE threat classification category. Possible values: • SPOOFING • TAMPERING • REPUDIATION • INFORMATION_DISCLOSURE • DENIAL_OF_SERVICE • ELEVATION_OF_PRIVILEGE Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--stride", GroupValues = true)]
     public IEnumerable<string>? Stride { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotDescribeMitigationActionOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Gets information about a mitigation action. Requires permission to access the DescribeMitigationAction action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ActionName">The friendly name that uniquely identifies the mitigation action. Constraints: o max: 128 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ActionName">The friendly name that uniquely identifies the mitigation action. Constraints: • max: 128 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsIotDescribeMitigationActionOptions(
         string ActionName
     )
@@ -56,7 +58,7 @@ public record AwsIotDescribeMitigationActionOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The friendly name that uniquely identifies the mitigation action. Constraints: o max: 128 o pattern: [a-zA-Z0-9_-]+
+    /// The friendly name that uniquely identifies the mitigation action. Constraints: • max: 128 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--action-name")]
     public string? ActionName { get; private init; }

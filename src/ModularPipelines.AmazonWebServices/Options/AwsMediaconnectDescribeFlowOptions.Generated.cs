@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMediaconnectDescribeFlowOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Displays the details of a flow. The response includes the flow Amazon Resource Name (ARN), name, and Availability Zone, as well as details about the source, outputs, and entitlements. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FlowArn">The ARN of the flow that you want to describe. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+</param>
+    /// <param name="FlowArn">The ARN of the flow that you want to describe. Constraints: • pattern: arn:.+:mediaconnect.+:flow:.+</param>
     public AwsMediaconnectDescribeFlowOptions(
         string FlowArn
     )
@@ -56,7 +58,7 @@ public record AwsMediaconnectDescribeFlowOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the flow that you want to describe. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+
+    /// The ARN of the flow that you want to describe. Constraints: • pattern: arn:.+:mediaconnect.+:flow:.+
     /// </summary>
     [CliOption("--flow-arn")]
     public string? FlowArn { get; private init; }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws ssmincidents commands.
+/// aws ssm-incidents commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsSsmIncidents : IAwsSsmIncidents
@@ -33,7 +33,7 @@ public class AwsSsmIncidents : IAwsSsmIncidents
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws ssm-incidents wait sub-commands.
     /// </summary>
     public AwsSsmIncidentsWait Wait => _wait ??= new AwsSsmIncidentsWait(_command);
 
@@ -42,7 +42,7 @@ public class AwsSsmIncidents : IAwsSsmIncidents
     #region Commands
 
     /// <summary>
-    /// Retrieves details about all specified findings for an incident, includ- ing descriptive details about each finding. A finding represents a re- cent application environment change made by an CodeDeploy deployment or an CloudFormation stack creation or update that can be investigated as a potential cause of the incident. See also: AWS API Documentation
+    /// Retrieves details about all specified findings for an incident, including descriptive details about each finding. A finding represents a recent application environment change made by an CodeDeploy deployment or an CloudFormation stack creation or update that can be investigated as a potential cause of the incident. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -57,7 +57,7 @@ public class AwsSsmIncidents : IAwsSsmIncidents
     }
 
     /// <summary>
-    /// A replication set replicates and encrypts your data to the provided Re- gions with the provided KMS key. See also: AWS API Documentation
+    /// A replication set replicates and encrypts your data to the provided Regions with the provided KMS key. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -72,7 +72,7 @@ public class AwsSsmIncidents : IAwsSsmIncidents
     }
 
     /// <summary>
-    /// Creates a response plan that automates the initial response to inci- dents. A response plan engages contacts, starts chat channel collabora- tion, and initiates runbooks at the beginning of an incident. See also: AWS API Documentation
+    /// Creates a response plan that automates the initial response to incidents. A response plan engages contacts, starts chat channel collaboration, and initiates runbooks at the beginning of an incident. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -87,7 +87,7 @@ public class AwsSsmIncidents : IAwsSsmIncidents
     }
 
     /// <summary>
-    /// Creates a custom timeline event on the incident details page of an in- cident record. Incident Manager automatically creates timeline events that mark key moments during an incident. You can create custom time- line events to mark important events that Incident Manager can detect automatically. See also: AWS API Documentation
+    /// Creates a custom timeline event on the incident details page of an incident record. Incident Manager automatically creates timeline events that mark key moments during an incident. You can create custom timeline events to mark important events that Incident Manager can detect automatically. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -147,7 +147,7 @@ public class AwsSsmIncidents : IAwsSsmIncidents
     }
 
     /// <summary>
-    /// Deletes the specified response plan. Deleting a response plan stops all linked CloudWatch alarms and EventBridge events from creating an inci- dent with this response plan. See also: AWS API Documentation
+    /// Deletes the specified response plan. Deleting a response plan stops all linked CloudWatch alarms and EventBridge events from creating an incident with this response plan. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -252,7 +252,7 @@ public class AwsSsmIncidents : IAwsSsmIncidents
     }
 
     /// <summary>
-    /// Retrieves a list of the IDs of findings, plus their last modified times, that have been identified for a specified incident. A finding represents a recent application environment change made by an CloudFor- mation stack creation or update or an CodeDeploy deployment that can be investigated as a potential cause of the incident. See also: AWS API Documentation list-incident-findings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You...
+    /// Retrieves a list of the IDs of findings, plus their last modified times, that have been identified for a specified incident. A finding represents a recent application environment change made by an CloudFormation stack creation or update or an CodeDeploy deployment that can be investigated as a potential cause of the incident. See also: AWS API Documentation list-incident-findings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You c...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -267,7 +267,7 @@ public class AwsSsmIncidents : IAwsSsmIncidents
     }
 
     /// <summary>
-    /// Lists all incident records in your account. Use this command to re- trieve the Amazon Resource Name (ARN) of the incident record you want to update. See also: AWS API Documentation list-incident-records is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data fro...
+    /// Lists all incident records in your account. Use this command to retrieve the Amazon Resource Name (ARN) of the incident record you want to update. See also: AWS API Documentation list-incident-records is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -327,7 +327,7 @@ public class AwsSsmIncidents : IAwsSsmIncidents
     }
 
     /// <summary>
-    /// Lists the tags that are attached to the specified response plan or in- cident. See also: AWS API Documentation
+    /// Lists the tags that are attached to the specified response plan or incident. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -417,7 +417,7 @@ public class AwsSsmIncidents : IAwsSsmIncidents
     }
 
     /// <summary>
-    /// Update deletion protection to either allow or deny deletion of the fi- nal Region in a replication set. See also: AWS API Documentation
+    /// Update deletion protection to either allow or deny deletion of the final Region in a replication set. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -432,7 +432,7 @@ public class AwsSsmIncidents : IAwsSsmIncidents
     }
 
     /// <summary>
-    /// Update the details of an incident record. You can use this operation to update an incident record from the defined chat channel. For more in- formation about using actions in chat channels, see Interacting through chat . See also: AWS API Documentation
+    /// Update the details of an incident record. You can use this operation to update an incident record from the defined chat channel. For more information about using actions in chat channels, see Interacting through chat . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

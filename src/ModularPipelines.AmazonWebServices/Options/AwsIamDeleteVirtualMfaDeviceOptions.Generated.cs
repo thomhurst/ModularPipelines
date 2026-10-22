@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIamDeleteVirtualMfaDeviceOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Deletes a virtual MFA device. NOTE: You must deactivate a user's virtual MFA device before you can delete it. For information about deactivating MFA devices, see DeactivateMFADevice . See also: AWS API Documentation
     /// </summary>
-    /// <param name="SerialNumber">The serial number that uniquely identifies the MFA device. For vir- tual MFA devices, the serial number is the same as the ARN. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: =,.@:/- Constraints: o min: 9 o max: 256 o pattern: [\w+=/:,.@-]+</param>
+    /// <param name="SerialNumber">The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the same as the ARN. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@:/- Constraints: • min: 9 • max: 256 • pattern: [\w+=/:,.@-]+</param>
     public AwsIamDeleteVirtualMfaDeviceOptions(
         string SerialNumber
     )
@@ -56,7 +58,7 @@ public record AwsIamDeleteVirtualMfaDeviceOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The serial number that uniquely identifies the MFA device. For vir- tual MFA devices, the serial number is the same as the ARN. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: =,.@:/- Constraints: o min: 9 o max: 256 o pattern: [\w+=/:,.@-]+
+    /// The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the same as the ARN. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@:/- Constraints: • min: 9 • max: 256 • pattern: [\w+=/:,.@-]+
     /// </summary>
     [CliOption("--serial-number")]
     public string? SerialNumber { get; private init; }

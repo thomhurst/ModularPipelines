@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes a source identifier from an existing event notification sub- scription. See also: AWS API Documentation
+/// Removes a source identifier from an existing event notification subscription. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsNeptuneRemoveSourceIdentifierFromSubscriptionOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes a source identifier from an existing event notification sub- scription. See also: AWS API Documentation
+    /// Removes a source identifier from an existing event notification subscription. See also: AWS API Documentation
     /// </summary>
     /// <param name="SubscriptionName">The name of the event notification subscription you want to remove a source identifier from.</param>
-    /// <param name="SourceIdentifier">The source identifier to be removed from the subscription, such as the DB instance identifier for a DB instance or the name of a secu- rity group.</param>
+    /// <param name="SourceIdentifier">The source identifier to be removed from the subscription, such as the DB instance identifier for a DB instance or the name of a security group.</param>
     public AwsNeptuneRemoveSourceIdentifierFromSubscriptionOptions(
         string SubscriptionName,
         string SourceIdentifier
@@ -66,7 +68,7 @@ public record AwsNeptuneRemoveSourceIdentifierFromSubscriptionOptions : AwsOptio
     public string? SubscriptionName { get; private init; }
 
     /// <summary>
-    /// The source identifier to be removed from the subscription, such as the DB instance identifier for a DB instance or the name of a secu- rity group.
+    /// The source identifier to be removed from the subscription, such as the DB instance identifier for a DB instance or the name of a security group.
     /// </summary>
     [CliOption("--source-identifier")]
     public string? SourceIdentifier { get; private init; }

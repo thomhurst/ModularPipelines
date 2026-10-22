@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a receipt rule set by cloning an existing one. All receipt rules and configurations are copied to the new receipt rule set and are completely independent of the source rule set. For information about setting up rule sets, see the Amazon SES Devel- oper Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+/// Creates a receipt rule set by cloning an existing one. All receipt rules and configurations are copied to the new receipt rule set and are completely independent of the source rule set. For information about setting up rule sets, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSesCloneReceiptRuleSetOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a receipt rule set by cloning an existing one. All receipt rules and configurations are copied to the new receipt rule set and are completely independent of the source rule set. For information about setting up rule sets, see the Amazon SES Devel- oper Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// Creates a receipt rule set by cloning an existing one. All receipt rules and configurations are copied to the new receipt rule set and are completely independent of the source rule set. For information about setting up rule sets, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RuleSetName">The name of the rule set to create. The name must meet the following requirements: o Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-). o Start and end with a letter or number. o Contain 64 characters or fewer.</param>
+    /// <param name="RuleSetName">The name of the rule set to create. The name must meet the following requirements: • Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-). • Start and end with a letter or number. • Contain 64 characters or fewer.</param>
     /// <param name="OriginalRuleSetName">The name of the rule set to clone.</param>
     public AwsSesCloneReceiptRuleSetOptions(
         string RuleSetName,
@@ -60,7 +62,7 @@ public record AwsSesCloneReceiptRuleSetOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the rule set to create. The name must meet the following requirements: o Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-). o Start and end with a letter or number. o Contain 64 characters or fewer.
+    /// The name of the rule set to create. The name must meet the following requirements: • Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-). • Start and end with a letter or number. • Contain 64 characters or fewer.
     /// </summary>
     [CliOption("--rule-set-name")]
     public string? RuleSetName { get; private init; }

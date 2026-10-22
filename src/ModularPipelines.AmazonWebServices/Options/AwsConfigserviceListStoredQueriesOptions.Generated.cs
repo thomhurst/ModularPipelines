@@ -30,7 +30,7 @@ public record AwsConfigserviceListStoredQueriesOptions : AwsOptions
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to be returned with a single call. Constraints: o min: 0 o max: 100
+    /// The maximum number of results to be returned with a single call. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Links a resource (for example, a custom action) to a channel configura- tion. See also: AWS API Documentation
+/// Links a resource (for example, a custom action) to a channel configuration. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsChatbotAssociateToConfigurationOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Links a resource (for example, a custom action) to a channel configura- tion. See also: AWS API Documentation
+    /// Links a resource (for example, a custom action) to a channel configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Resource">The resource Amazon Resource Name (ARN) to link. Constraints: o min: 1 o max: 1011 o pattern: arn:aws:chat- bot:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:custom-ac- tion/[a-zA-Z0-9_-]{1,64}</param>
-    /// <param name="ChatConfiguration">The channel configuration to associate with the resource. Constraints: o min: 19 o max: 1169 o pattern: arn:aws:(wheatley|chat- bot):[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}</param>
+    /// <param name="Resource">The resource Amazon Resource Name (ARN) to link. Constraints: • min: 1 • max: 1011 • pattern: arn:aws:chatbot:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:custom-action/[a-zA-Z0-9_-]{1,64}</param>
+    /// <param name="ChatConfiguration">The channel configuration to associate with the resource. Constraints: • min: 19 • max: 1169 • pattern: arn:aws:(wheatley|chatbot):[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}</param>
     public AwsChatbotAssociateToConfigurationOptions(
         string Resource,
         string ChatConfiguration
@@ -60,13 +62,13 @@ public record AwsChatbotAssociateToConfigurationOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The resource Amazon Resource Name (ARN) to link. Constraints: o min: 1 o max: 1011 o pattern: arn:aws:chat- bot:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:custom-ac- tion/[a-zA-Z0-9_-]{1,64}
+    /// The resource Amazon Resource Name (ARN) to link. Constraints: • min: 1 • max: 1011 • pattern: arn:aws:chatbot:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:custom-action/[a-zA-Z0-9_-]{1,64}
     /// </summary>
     [CliOption("--resource")]
     public string? Resource { get; private init; }
 
     /// <summary>
-    /// The channel configuration to associate with the resource. Constraints: o min: 19 o max: 1169 o pattern: arn:aws:(wheatley|chat- bot):[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}
+    /// The channel configuration to associate with the resource. Constraints: • min: 19 • max: 1169 • pattern: arn:aws:(wheatley|chatbot):[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}
     /// </summary>
     [CliOption("--chat-configuration")]
     public string? ChatConfiguration { get; private init; }

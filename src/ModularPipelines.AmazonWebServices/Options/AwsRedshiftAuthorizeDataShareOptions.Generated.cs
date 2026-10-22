@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// From a data producer account, authorizes the sharing of a datashare with one or more consumer accounts or managing entities. To authorize a datashare for a data consumer, the producer account must have the cor- rect access permissions. See also: AWS API Documentation
+/// From a data producer account, authorizes the sharing of a datashare with one or more consumer accounts or managing entities. To authorize a datashare for a data consumer, the producer account must have the correct access permissions. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsRedshiftAuthorizeDataShareOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// From a data producer account, authorizes the sharing of a datashare with one or more consumer accounts or managing entities. To authorize a datashare for a data consumer, the producer account must have the cor- rect access permissions. See also: AWS API Documentation
+    /// From a data producer account, authorizes the sharing of a datashare with one or more consumer accounts or managing entities. To authorize a datashare for a data consumer, the producer account must have the correct access permissions. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataShareArn">The Amazon Resource Name (ARN) of the datashare namespace that pro- ducers are to authorize sharing for. Constraints: o max: 2147483647</param>
-    /// <param name="ConsumerIdentifier">The identifier of the data consumer that is authorized to access the datashare. This identifier is an Amazon Web Services account ID or a keyword, such as ADX. Constraints: o max: 2147483647</param>
+    /// <param name="DataShareArn">The Amazon Resource Name (ARN) of the datashare namespace that producers are to authorize sharing for. Constraints: • max: 2147483647</param>
+    /// <param name="ConsumerIdentifier">The identifier of the data consumer that is authorized to access the datashare. This identifier is an Amazon Web Services account ID or a keyword, such as ADX. Constraints: • max: 2147483647</param>
     public AwsRedshiftAuthorizeDataShareOptions(
         string DataShareArn,
         string ConsumerIdentifier
@@ -60,13 +62,13 @@ public record AwsRedshiftAuthorizeDataShareOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the datashare namespace that pro- ducers are to authorize sharing for. Constraints: o max: 2147483647
+    /// The Amazon Resource Name (ARN) of the datashare namespace that producers are to authorize sharing for. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--data-share-arn")]
     public string? DataShareArn { get; private init; }
 
     /// <summary>
-    /// The identifier of the data consumer that is authorized to access the datashare. This identifier is an Amazon Web Services account ID or a keyword, such as ADX. Constraints: o max: 2147483647
+    /// The identifier of the data consumer that is authorized to access the datashare. This identifier is an Amazon Web Services account ID or a keyword, such as ADX. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--consumer-identifier")]
     public string? ConsumerIdentifier { get; private init; }

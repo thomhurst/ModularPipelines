@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -33,7 +35,7 @@ public record AwsRdsCreateDbShardGroupOptions : AwsOptions, IValidatableObject
     public AwsRdsCreateDbShardGroupOptions(
         string DbShardGroupIdentifier,
         string DbClusterIdentifier,
-        int MaxAcu
+        double MaxAcu
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(DbShardGroupIdentifier);
@@ -78,10 +80,10 @@ public record AwsRdsCreateDbShardGroupOptions : AwsOptions, IValidatableObject
     /// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
     /// </summary>
     [CliOption("--max-acu")]
-    public int? MaxAcu { get; private init; }
+    public double? MaxAcu { get; private init; }
 
     /// <summary>
-    /// Specifies whether to create standby standby DB data access shard for the DB shard group. Valid values are the following: o 0 - Creates a DB shard group without a standby DB data access shard. This is the default value. o 1 - Creates a DB shard group with a standby DB data access shard in a different Availability Zone (AZ). o 2 - Creates a DB shard group with two standby DB data access shard in two different AZs.
+    /// Specifies whether to create standby standby DB data access shard for the DB shard group. Valid values are the following: • 0 - Creates a DB shard group without a standby DB data access shard. This is the default value. • 1 - Creates a DB shard group with a standby DB data access shard in a different Availability Zone (AZ). • 2 - Creates a DB shard group with two standby DB data access shard in two different AZs.
     /// </summary>
     [CliOption("--compute-redundancy")]
     public int? ComputeRedundancy { get; set; }
@@ -90,10 +92,10 @@ public record AwsRdsCreateDbShardGroupOptions : AwsOptions, IValidatableObject
     /// The minimum capacity of the DB shard group in Aurora capacity units (ACUs).
     /// </summary>
     [CliOption("--min-acu")]
-    public int? MinAcu { get; set; }
+    public double? MinAcu { get; set; }
 
     /// <summary>
-    /// Specifies whether the DB shard group is publicly accessible. When the DB shard group is publicly accessible, its Domain Name Sys- tem (DNS) endpoint resolves to the private IP address from within the DB shard group's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB shard group's VPC. Access to the DB shard group is ultimately controlled by the security group it uses. That public access is not permitted if the security group assigned to the DB shard group doesn't permit it. When the DB shard group isn't publicly accessible, it is an internal DB shard group with a DNS name that resolves to a private IP ad- dress. Default: The default behavior varies depending on whether DBSubnet- GroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies: o If the default VPC in the target Region doesnt have an internet gateway attached to it, the DB shard group is private. o If the default VPC in the target Region has an internet gateway attached to it, the DB shard group is public. If DBSubnetGroupName is specified, and PubliclyAccessible isn't specified, the following applies: o If the subnets are part of a VPC that doesnt have an internet gateway attached to it, the DB shard group is private. o If the subnets are part of a VPC that has an internet gateway at- tached to it, the DB shard group is public.
+    /// Specifies whether the DB shard group is publicly accessible. When the DB shard group is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB shard group's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB shard group's VPC. Access to the DB shard group is ultimately controlled by the security group it uses. That public access is not permitted if the security group assigned to the DB shard group doesn't permit it. When the DB shard group isn't publicly accessible, it is an internal DB shard group with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether DBSubnetGroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies: • If the default VPC in the target Region doesnt have an internet gateway attached to it, the DB shard group is private. • If the default VPC in the target Region has an internet gateway attached to it, the DB shard group is public. If DBSubnetGroupName is specified, and PubliclyAccessible isn't specified, the following applies: • If the subnets are part of a VPC that doesnt have an internet gateway attached to it, the DB shard group is private. • If the subnets are part of a VPC that has an internet gateway attached to it, the DB shard group is public.
     /// </summary>
     [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }

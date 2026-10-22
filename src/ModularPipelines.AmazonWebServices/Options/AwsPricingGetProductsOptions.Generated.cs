@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of all products that match the filter criteria. See also: AWS API Documentation get-products is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: PriceList
+/// Returns a list of all products that match the filter criteria. See also: AWS API Documentation get-products is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PriceList
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +28,7 @@ public record AwsPricingGetProductsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a list of all products that match the filter criteria. See also: AWS API Documentation get-products is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: PriceList
+    /// Returns a list of all products that match the filter criteria. See also: AWS API Documentation get-products is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PriceList
     /// </summary>
     /// <param name="ServiceCode">The code for the service whose products you want to retrieve.</param>
     public AwsPricingGetProductsOptions(
@@ -63,22 +65,19 @@ public record AwsPricingGetProductsOptions : AwsOptions, IValidatableObject
     public string? ServiceCode { get; private init; }
 
     /// <summary>
-    /// The list of filters that limit the returned products. only products that match all filters are returned. Constraints: o min: 0 o max: 50 (structure) The constraints that you want all returned products to match. Type -&gt; (string) [required] The type of filter that you want to use. Valid values are: o TERM_MATCH : Returns only products that match both the given filter field and the given value. o EQUALS : Returns products that have a field value exactly matching the provided value. o CONTAINS : Returns products where the field value contains the provided value as a substring. o ANY_OF : Returns products where the field value is any of the provided values. o NONE_OF : Returns products where the field value is not any of the provided values. Possible values: o TERM_MATCH o EQUALS o CONTAINS o ANY_OF o NONE_OF Field -&gt; (string) [required] The product metadata field that you want to filter on. You can filter by just the service code to see all products for a specific service, filter by just the attribute name to see a specific attribute for multiple services, or use both a ser- vice code and an attribute name to retrieve only products that match both fields. Valid values include: ServiceCode , and all attribute names For example, you can filter by the AmazonEC2 service code and the volumeType attribute name to get the prices for only Ama- zon EC2 volumes. Constraints: o min: 1 o max: 1024 Value -&gt; (string) [required] The service code or attribute value that you want to filter by. If you're filtering by service code this is the actual service code, such as AmazonEC2 . If you're filtering by at- tribute name, this is the attribute value that you want the returned products to match, such as a Provisioned IOPS vol- ume. Constraints: o min: 1 o max: 1024 Shorthand Syntax: Type=string,Field=string,Value=string ... JSON Syntax: [ { "Type": "TERM_MATCH"|"EQUALS"|"CONTAINS"|"ANY_OF"|"NONE_OF", "Field": "string", "Value": "string" } ... ]
+    /// The list of filters that limit the returned products. only products that match all filters are returned. Constraints: • min: 0 • max: 50 (structure) The constraints that you want all returned products to match. Type -&gt; (string) [required] The type of filter that you want to use. Valid values are: • TERM_MATCH : Returns only products that match both the given filter field and the given value. • EQUALS : Returns products that have a field value exactly matching the provided value. • CONTAINS : Returns products where the field value contains the provided value as a substring. • ANY_OF : Returns products where the field value is any of the provided values. • NONE_OF : Returns products where the field value is not any of the provided values. Possible values: • TERM_MATCH • EQUALS • CONTAINS • ANY_OF • NONE_OF Field -&gt; (string) [required] The product metadata field that you want to filter on. You can filter by just the service code to see all products for a specific service, filter by just the attribute name to see a specific attribute for multiple services, or use both a service code and an attribute name to retrieve only products that match both fields. Valid values include: ServiceCode , and all attribute names For example, you can filter by the AmazonEC2 service code and the volumeType attribute name to get the prices for only Amazon EC2 volumes. Constraints: • min: 1 • max: 1024 Value -&gt; (string) [required] The service code or attribute value that you want to filter by. If you're filtering by service code this is the actual service code, such as AmazonEC2 . If you're filtering by attribute name, this is the attribute value that you want the returned products to match, such as a Provisioned IOPS volume. Constraints: • min: 1 • max: 1024 Shorthand Syntax: Type=string,Field=string,Value=string ... JSON Syntax: [ { "Type": "TERM_MATCH"|"EQUALS"|"CONTAINS"|"ANY_OF"|"NONE_OF", "Field": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// The format version that you want the response to be in. Valid values are: aws_v1 Constraints: o min: 1 o max: 32
+    /// The format version that you want the response to be in. Valid values are: aws_v1 Constraints: • min: 1 • max: 32
     /// </summary>
     [CliOption("--format-version")]
     public string? FormatVersion { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -88,16 +87,19 @@ public record AwsPricingGetProductsOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

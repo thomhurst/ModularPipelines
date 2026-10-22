@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified change set. Deleting change sets ensures that no one executes the wrong change set. If the call successfully completes, CloudFormation successfully deleted the change set. If IncludeNestedStacks specifies True during the creation of the nested change set, then DeleteChangeSet will delete all change sets that be- long to the stacks hierarchy and will also delete all change sets for nested stacks with the status of REVIEW_IN_PROGRESS . See also: AWS API Documentation
+/// Deletes the specified change set. Deleting change sets ensures that no one executes the wrong change set. If the call successfully completes, CloudFormation successfully deleted the change set. If IncludeNestedStacks specifies True during the creation of the nested change set, then DeleteChangeSet will delete all change sets that belong to the stacks hierarchy and will also delete all change sets for nested stacks with the status of REVIEW_IN_PROGRESS . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsCloudformationDeleteChangeSetOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified change set. Deleting change sets ensures that no one executes the wrong change set. If the call successfully completes, CloudFormation successfully deleted the change set. If IncludeNestedStacks specifies True during the creation of the nested change set, then DeleteChangeSet will delete all change sets that be- long to the stacks hierarchy and will also delete all change sets for nested stacks with the status of REVIEW_IN_PROGRESS . See also: AWS API Documentation
+    /// Deletes the specified change set. Deleting change sets ensures that no one executes the wrong change set. If the call successfully completes, CloudFormation successfully deleted the change set. If IncludeNestedStacks specifies True during the creation of the nested change set, then DeleteChangeSet will delete all change sets that belong to the stacks hierarchy and will also delete all change sets for nested stacks with the status of REVIEW_IN_PROGRESS . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ChangeSetName">The name or Amazon Resource Name (ARN) of the change set that you want to delete. Constraints: o min: 1 o max: 1600 o pattern: [a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*</param>
+    /// <param name="ChangeSetName">The name or Amazon Resource Name (ARN) of the change set that you want to delete. Constraints: • min: 1 • max: 1600 • pattern: [a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*</param>
     public AwsCloudformationDeleteChangeSetOptions(
         string ChangeSetName
     )
@@ -56,13 +58,13 @@ public record AwsCloudformationDeleteChangeSetOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of the change set that you want to delete. Constraints: o min: 1 o max: 1600 o pattern: [a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*
+    /// The name or Amazon Resource Name (ARN) of the change set that you want to delete. Constraints: • min: 1 • max: 1600 • pattern: [a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*
     /// </summary>
     [CliOption("--change-set-name")]
     public string? ChangeSetName { get; private init; }
 
     /// <summary>
-    /// If you specified the name of a change set to delete, specify the stack name or Amazon Resource Name (ARN) that's associated with it. Constraints: o min: 1 o pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)
+    /// If you specified the name of a change set to delete, specify the stack name or Amazon Resource Name (ARN) that's associated with it. Constraints: • min: 1 • pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)
     /// </summary>
     [CliOption("--stack-name")]
     public string? StackName { get; set; }

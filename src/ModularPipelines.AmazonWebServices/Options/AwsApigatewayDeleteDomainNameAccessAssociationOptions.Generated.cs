@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the DomainNameAccessAssociation resource. Only the AWS account that created the DomainNameAccessAssociation re- source can delete it. To stop an access association source in another AWS account from accessing your private custom domain name, use the Re- jectDomainNameAccessAssociation operation. See also: AWS API Documentation
+/// Deletes the DomainNameAccessAssociation resource. Only the AWS account that created the DomainNameAccessAssociation resource can delete it. To stop an access association source in another AWS account from accessing your private custom domain name, use the RejectDomainNameAccessAssociation operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsApigatewayDeleteDomainNameAccessAssociationOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the DomainNameAccessAssociation resource. Only the AWS account that created the DomainNameAccessAssociation re- source can delete it. To stop an access association source in another AWS account from accessing your private custom domain name, use the Re- jectDomainNameAccessAssociation operation. See also: AWS API Documentation
+    /// Deletes the DomainNameAccessAssociation resource. Only the AWS account that created the DomainNameAccessAssociation resource can delete it. To stop an access association source in another AWS account from accessing your private custom domain name, use the RejectDomainNameAccessAssociation operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="DomainNameAccessAssociationArn">The ARN of the domain name access association resource.</param>
     public AwsApigatewayDeleteDomainNameAccessAssociationOptions(

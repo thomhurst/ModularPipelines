@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsWorkspacesModifyStreamingPropertiesOptions : AwsOptions, IValid
     /// <summary>
     /// Modifies the specified streaming properties. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceId">The identifier of the resource. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)</param>
+    /// <param name="ResourceId">The identifier of the resource. Constraints: • min: 10 • max: 65 • pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)</param>
     public AwsWorkspacesModifyStreamingPropertiesOptions(
         string ResourceId
     )
@@ -56,13 +58,13 @@ public record AwsWorkspacesModifyStreamingPropertiesOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the resource. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)
+    /// The identifier of the resource. Constraints: • min: 10 • max: 65 • pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// The streaming properties to configure. StreamingExperiencePreferredProtocol -&gt; (string) Indicates the type of preferred protocol for the streaming expe- rience. Possible values: o TCP o UDP UserSettings -&gt; (list) Indicates the permission settings asscoiated with the user. Constraints: o min: 1 (structure) Information about the user's permission settings. Action -&gt; (string) [required] Indicates the type of action. Possible values: o CLIPBOARD_COPY_FROM_LOCAL_DEVICE o CLIPBOARD_COPY_TO_LOCAL_DEVICE o PRINTING_TO_LOCAL_DEVICE o SMART_CARD Permission -&gt; (string) [required] Indicates if the setting is enabled or disabled. Possible values: o ENABLED o DISABLED MaximumLength -&gt; (integer) Indicates the maximum character length for the specified user setting. Constraints: o min: 0 StorageConnectors -&gt; (list) Indicates the storage connector used Constraints: o min: 1 (structure) Describes the storage connector. ConnectorType -&gt; (string) [required] The type of connector used to save user files. Possible values: o HOME_FOLDER Status -&gt; (string) [required] Indicates if the storage connetor is enabled or disabled. Possible values: o ENABLED o DISABLED GlobalAccelerator -&gt; (structure) Indicates the Global Accelerator properties. Mode -&gt; (string) [required] Indicates if Global Accelerator for directory is enabled or disabled. Possible values: o ENABLED_AUTO o DISABLED PreferredProtocol -&gt; (string) Indicates the preferred protocol for Global Accelerator. Possible values: o TCP o NONE Shorthand Syntax: StreamingExperiencePreferredProtocol=string,UserSettings=[{Action=string,Permission=string,MaximumLength=integer},{Action=string,Permission=string,MaximumLength=integer}],StorageConnectors=[{ConnectorType=string,Status=string},{ConnectorType=string,Status=string}],GlobalAccelerator={Mode=string,PreferredProtocol=string} JSON Syntax: { "StreamingExperiencePreferredProtocol": "TCP"|"UDP", "UserSettings": [ { "Action": "CLIPBOARD_COPY_FROM_LOCAL_DEVICE"|"CLIPBOARD_COPY_TO_LOCAL_DEVICE"|"PRINTING_TO_LOCAL_DEVICE"|"SMART_CARD", "Permission": "ENABLED"|"DISABLED", "MaximumLength": integer } ... ], "StorageConnectors": [ { "ConnectorType": "HOME_FOLDER", "Status": "ENABLED"|"DISABLED" } ... ], "GlobalAccelerator": { "Mode": "ENABLED_AUTO"|"DISABLED", "PreferredProtocol": "TCP"|"NONE" } }
+    /// The streaming properties to configure. StreamingExperiencePreferredProtocol -&gt; (string) Indicates the type of preferred protocol for the streaming experience. Possible values: • TCP • UDP UserSettings -&gt; (list) Indicates the permission settings asscoiated with the user. Constraints: • min: 1 (structure) Information about the user's permission settings. Action -&gt; (string) [required] Indicates the type of action. Possible values: • CLIPBOARD_COPY_FROM_LOCAL_DEVICE • CLIPBOARD_COPY_TO_LOCAL_DEVICE • PRINTING_TO_LOCAL_DEVICE • SMART_CARD Permission -&gt; (string) [required] Indicates if the setting is enabled or disabled. Possible values: • ENABLED • DISABLED MaximumLength -&gt; (integer) Indicates the maximum character length for the specified user setting. Constraints: • min: 0 StorageConnectors -&gt; (list) Indicates the storage connector used Constraints: • min: 1 (structure) Describes the storage connector. ConnectorType -&gt; (string) [required] The type of connector used to save user files. Possible values: • HOME_FOLDER Status -&gt; (string) [required] Indicates if the storage connetor is enabled or disabled. Possible values: • ENABLED • DISABLED GlobalAccelerator -&gt; (structure) Indicates the Global Accelerator properties. Mode -&gt; (string) [required] Indicates if Global Accelerator for directory is enabled or disabled. Possible values: • ENABLED_AUTO • DISABLED PreferredProtocol -&gt; (string) Indicates the preferred protocol for Global Accelerator. Possible values: • TCP • NONE Shorthand Syntax: StreamingExperiencePreferredProtocol=string,UserSettings=[{Action=string,Permission=string,MaximumLength=integer},{Action=string,Permission=string,MaximumLength=integer}],StorageConnectors=[{ConnectorType=string,Status=string},{ConnectorType=string,Status=string}],GlobalAccelerator={Mode=string,PreferredProtocol=string} JSON Syntax: { "StreamingExperiencePreferredProtocol": "TCP"|"UDP", "UserSettings": [ { "Action": "CLIPBOARD_COPY_FROM_LOCAL_DEVICE"|"CLIPBOARD_COPY_TO_LOCAL_DEVICE"|"PRINTING_TO_LOCAL_DEVICE"|"SMART_CARD", "Permission": "ENABLED"|"DISABLED", "MaximumLength": integer } ... ], "StorageConnectors": [ { "ConnectorType": "HOME_FOLDER", "Status": "ENABLED"|"DISABLED" } ... ], "GlobalAccelerator": { "Mode": "ENABLED_AUTO"|"DISABLED", "PreferredProtocol": "TCP"|"NONE" } }
     /// </summary>
     [CliOption("--streaming-properties")]
     public string? StreamingProperties { get; set; }

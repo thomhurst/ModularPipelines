@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// After you deploy a model into production using Amazon SageMaker AI hosting services, your client applications use this API to get infer- ences from the model hosted at the specified endpoint. For an overview of Amazon SageMaker AI, see How It Works . Amazon SageMaker AI strips all POST headers except those supported by the API. Amazon SageMaker AI might add additional headers. You should not rely on the behavior of headers outside those enumerated in the re- quest syntax. Calls to InvokeEndpoint...
+/// After you deploy a model into production using Amazon SageMaker AI hosting services, your client applications use this API to get inferences from the model hosted at the specified endpoint. For an overview of Amazon SageMaker AI, see How It Works . Amazon SageMaker AI strips all POST headers except those supported by the API. Amazon SageMaker AI might add additional headers. You should not rely on the behavior of headers outside those enumerated in the request syntax. Calls to InvokeEndpoint are...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,10 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSagemakerRuntimeInvokeEndpointOptions : AwsOptions
 {
     /// <summary>
-    /// After you deploy a model into production using Amazon SageMaker AI hosting services, your client applications use this API to get infer- ences from the model hosted at the specified endpoint. For an overview of Amazon SageMaker AI, see How It Works . Amazon SageMaker AI strips all POST headers except those supported by the API. Amazon SageMaker AI might add additional headers. You should not rely on the behavior of headers outside those enumerated in the re- quest syntax. Calls to InvokeEndpoint...
+    /// After you deploy a model into production using Amazon SageMaker AI hosting services, your client applications use this API to get inferences from the model hosted at the specified endpoint. For an overview of Amazon SageMaker AI, see How It Works . Amazon SageMaker AI strips all POST headers except those supported by the API. Amazon SageMaker AI might add additional headers. You should not rely on the behavior of headers outside those enumerated in the request syntax. Calls to InvokeEndpoint are...
     /// </summary>
-    /// <param name="EndpointName">The name of the endpoint that you specified when you created the endpoint using the CreateEndpoint API. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*</param>
-    /// <param name="Body">Provides input data, in the format specified in the ContentType re- quest header. Amazon SageMaker AI passes all of the data in the body to the model. For information about the format of the request body, see Common Data Formats-Inference . Constraints: o max: 6291456</param>
+    /// <param name="EndpointName">The name of the endpoint that you specified when you created the endpoint using the CreateEndpoint API. Constraints: • max: 63 • pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*</param>
+    /// <param name="Body">Provides input data, in the format specified in the ContentType request header. Amazon SageMaker AI passes all of the data in the body to the model. For information about the format of the request body, see Common Data Formats-Inference . Constraints: • max: 6291456</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsSagemakerRuntimeInvokeEndpointOptions(
         string EndpointName,
@@ -49,79 +49,79 @@ public record AwsSagemakerRuntimeInvokeEndpointOptions : AwsOptions
     }
 
     /// <summary>
-    /// The name of the endpoint that you specified when you created the endpoint using the CreateEndpoint API. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*
+    /// The name of the endpoint that you specified when you created the endpoint using the CreateEndpoint API. Constraints: • max: 63 • pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*
     /// </summary>
     [CliOption("--endpoint-name")]
     public string EndpointName { get; private init; }
 
     /// <summary>
-    /// Provides input data, in the format specified in the ContentType re- quest header. Amazon SageMaker AI passes all of the data in the body to the model. For information about the format of the request body, see Common Data Formats-Inference . Constraints: o max: 6291456
+    /// Provides input data, in the format specified in the ContentType request header. Amazon SageMaker AI passes all of the data in the body to the model. For information about the format of the request body, see Common Data Formats-Inference . Constraints: • max: 6291456
     /// </summary>
     [CliOption("--body")]
     public string Body { get; private init; }
 
     /// <summary>
-    /// The MIME type of the input data in the request body. Constraints: o max: 1024 o pattern: \p{ASCII}*
+    /// The MIME type of the input data in the request body. Constraints: • max: 1024 • pattern: \p{ASCII}*
     /// </summary>
     [CliOption("--content-type")]
     public string? ContentType { get; set; }
 
     /// <summary>
-    /// The desired MIME type of the inference response from the model con- tainer. Constraints: o max: 1024 o pattern: \p{ASCII}*
+    /// The desired MIME type of the inference response from the model container. Constraints: • max: 1024 • pattern: \p{ASCII}*
     /// </summary>
     [CliOption("--accept")]
     public string? Accept { get; set; }
 
     /// <summary>
-    /// Provides additional information about a request for an inference submitted to a model hosted at an Amazon SageMaker AI endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to provide an ID that you can use to track a request or to provide other metadata that a service endpoint was programmed to process. The value must consist of no more than 1024 visible US-ASCII characters as specified in Section 3.3.6. Field Value Components of the Hypertext Transfer Protocol (HTTP/1.1). The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function. This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker AI Python SDK. Constraints: o max: 1024 o pattern: \p{ASCII}*
+    /// Provides additional information about a request for an inference submitted to a model hosted at an Amazon SageMaker AI endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to provide an ID that you can use to track a request or to provide other metadata that a service endpoint was programmed to process. The value must consist of no more than 1024 visible US-ASCII characters as specified in Section 3.3.6. Field Value Components of the Hypertext Transfer Protocol (HTTP/1.1). The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function. This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker AI Python SDK. Constraints: • max: 1024 • pattern: \p{ASCII}*
     /// </summary>
     [CliOption("--custom-attributes")]
     public string? CustomAttributes { get; set; }
 
     /// <summary>
-    /// The model to request for inference when invoking a multi-model end- point. Constraints: o min: 1 o max: 1024 o pattern: \A\S[\p{Print}]*\z
+    /// The model to request for inference when invoking a multi-model endpoint. Constraints: • min: 1 • max: 1024 • pattern: \A\S[\p{Print}]*\z
     /// </summary>
     [CliOption("--target-model")]
     public string? TargetModel { get; set; }
 
     /// <summary>
-    /// Specify the production variant to send the inference request to when invoking an endpoint that is running two or more variants. Note that this parameter overrides the default behavior for the endpoint, which is to distribute the invocation traffic based on the variant weights. For information about how to use variant targeting to perform a/b testing, see Test models in production Constraints: o max: 63 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*
+    /// Specify the production variant to send the inference request to when invoking an endpoint that is running two or more variants. Note that this parameter overrides the default behavior for the endpoint, which is to distribute the invocation traffic based on the variant weights. For information about how to use variant targeting to perform a/b testing, see Test models in production Constraints: • max: 63 • pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*
     /// </summary>
     [CliOption("--target-variant")]
     public string? TargetVariant { get; set; }
 
     /// <summary>
-    /// If the endpoint hosts multiple containers and is configured to use direct invocation, this parameter specifies the host name of the container to invoke. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*
+    /// If the endpoint hosts multiple containers and is configured to use direct invocation, this parameter specifies the host name of the container to invoke. Constraints: • max: 63 • pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*
     /// </summary>
     [CliOption("--target-container-hostname")]
     public string? TargetContainerHostname { get; set; }
 
     /// <summary>
-    /// If you provide a value, it is added to the captured data when you enable data capture on the endpoint. For information about data cap- ture, see Capture Data . Constraints: o min: 1 o max: 64 o pattern: \A\S[\p{Print}]*\z
+    /// If you provide a value, it is added to the captured data when you enable data capture on the endpoint. For information about data capture, see Capture Data . Constraints: • min: 1 • max: 64 • pattern: \A\S[\p{Print}]*\z
     /// </summary>
     [CliOption("--inference-id")]
     public string? InferenceId { get; set; }
 
     /// <summary>
-    /// An optional JMESPath expression used to override the EnableExplana- tions parameter of the ClarifyExplainerConfig API. See the EnableExplanations section in the developer guide for more informa- tion. Constraints: o min: 1 o max: 64 o pattern: .*
+    /// An optional JMESPath expression used to override the EnableExplanations parameter of the ClarifyExplainerConfig API. See the EnableExplanations section in the developer guide for more information. Constraints: • min: 1 • max: 64 • pattern: .*
     /// </summary>
     [CliOption("--enable-explanations")]
     public string? EnableExplanations { get; set; }
 
     /// <summary>
-    /// If the endpoint hosts one or more inference components, this parame- ter specifies the name of inference component to invoke. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9]([\-a-zA-Z0-9]*[a-zA-Z0-9])?$
+    /// If the endpoint hosts one or more inference components, this parameter specifies the name of inference component to invoke. Constraints: • max: 63 • pattern: ^[a-zA-Z0-9]([\-a-zA-Z0-9]*[a-zA-Z0-9])?$
     /// </summary>
     [CliOption("--inference-component-name")]
     public string? InferenceComponentName { get; set; }
 
     /// <summary>
-    /// Creates a stateful session or identifies an existing one. You can do one of the following: o Create a stateful session by specifying the value NEW_SESSION . o Send your request to an existing stateful session by specifying the ID of that session. With a stateful session, you can send multiple requests to a state- ful model. When you create a session with a stateful model, the model must create the session ID and set the expiration time. The model must also provide that information in the response to your re- quest. You can get the ID and timestamp from the NewSessionId re- sponse parameter. For any subsequent request where you specify that session ID, SageMaker AI routes the request to the same instance that supports the session. Constraints: o max: 256 o pattern: ^(NEW_SESSION)$|^[a-zA-Z0-9](-*[a-zA-Z0-9])*$
+    /// Creates a stateful session or identifies an existing one. You can do one of the following: • Create a stateful session by specifying the value NEW_SESSION . • Send your request to an existing stateful session by specifying the ID of that session. With a stateful session, you can send multiple requests to a stateful model. When you create a session with a stateful model, the model must create the session ID and set the expiration time. The model must also provide that information in the response to your request. You can get the ID and timestamp from the NewSessionId response parameter. For any subsequent request where you specify that session ID, SageMaker AI routes the request to the same instance that supports the session. Constraints: • max: 256 • pattern: ^(NEW_SESSION)$|^[a-zA-Z0-9](-*[a-zA-Z0-9])*$
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; set; }
 
     /// <summary>
-    /// An optional, stable identifier that serves as a routing hint for prefix-aware routing. The service routes requests with the same pre- fix and the same identifier to the same instance. If requests from different applications might have the same prompt prefix, set a dif- ferent identifier for each application to differentiate their rout- ing decisions. Applies only to endpoints configured with a RoutingStrategy of PRE- FIX_AWARE . Constraints: o min: 1 o max: 64 o pattern: \A\S[\p{Print}]*\z outfile (string) [required] Filename where the content will be saved
+    /// An optional, stable identifier that serves as a routing hint for prefix-aware routing. The service routes requests with the same prefix and the same identifier to the same instance. If requests from different applications might have the same prompt prefix, set a different identifier for each application to differentiate their routing decisions. Applies only to endpoints configured with a RoutingStrategy of PREFIX_AWARE . Constraints: • min: 1 • max: 64 • pattern: \A\S[\p{Print}]*\z outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--prefix-aware-id")]
     public string? PrefixAwareId { get; set; }

@@ -24,34 +24,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsNetworkmanagerListAttachmentsOptions : AwsOptions
 {
     /// <summary>
-    /// The ID of a core network. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$
+    /// The ID of a core network. Constraints: • min: 0 • max: 50 • pattern: ^core-network-([0-9a-f]{8,17})$
     /// </summary>
     [CliOption("--core-network-id")]
     public string? CoreNetworkId { get; set; }
 
     /// <summary>
-    /// The type of attachment. Possible values: o CONNECT o SITE_TO_SITE_VPN o VPC o DIRECT_CONNECT_GATEWAY o TRANSIT_GATEWAY_ROUTE_TABLE
+    /// The type of attachment. Possible values: • CONNECT • SITE_TO_SITE_VPN • VPC • DIRECT_CONNECT_GATEWAY • TRANSIT_GATEWAY_ROUTE_TABLE
     /// </summary>
     [CliOption("--attachment-type")]
     public AwsNetworkmanagerListAttachmentsAttachmentType? AttachmentType { get; set; }
 
     /// <summary>
-    /// The Region where the edge is located. Constraints: o min: 1 o max: 63 o pattern: [\s\S]*
+    /// The Region where the edge is located. Constraints: • min: 1 • max: 63 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--edge-location")]
     public string? EdgeLocation { get; set; }
 
     /// <summary>
-    /// The state of the attachment. Possible values: o REJECTED o PENDING_ATTACHMENT_ACCEPTANCE o CREATING o FAILED o AVAILABLE o UPDATING o PENDING_NETWORK_UPDATE o PENDING_TAG_ACCEPTANCE o DELETING
+    /// The state of the attachment. Possible values: • REJECTED • PENDING_ATTACHMENT_ACCEPTANCE • CREATING • FAILED • AVAILABLE • UPDATING • PENDING_NETWORK_UPDATE • PENDING_TAG_ACCEPTANCE • DELETING
     /// </summary>
     [CliOption("--state")]
     public AwsNetworkmanagerListAttachmentsState? State { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -61,15 +58,18 @@ public record AwsNetworkmanagerListAttachmentsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 500
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the current status and details of a specific data source at- tachment for an OpenSearch application. Throws a ResourceNotFoundExcep- tion if no attachment record exists for the specified application and data source combination. See also: AWS API Documentation
+/// Returns the current status and details of a specific data source attachment for an OpenSearch application. Throws a ResourceNotFoundException if no attachment record exists for the specified application and data source combination. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsOpensearchDescribeDataSourceAttachmentOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the current status and details of a specific data source at- tachment for an OpenSearch application. Throws a ResourceNotFoundExcep- tion if no attachment record exists for the specified application and data source combination. See also: AWS API Documentation
+    /// Returns the current status and details of a specific data source attachment for an OpenSearch application. Throws a ResourceNotFoundException if no attachment record exists for the specified application and data source combination. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The unique identifier or name of the OpenSearch application. Constraints: o pattern: [a-z0-9]{3,30}</param>
-    /// <param name="DataSourceArn">The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Access Man- agement for more information. Constraints: o min: 20 o max: 2048 o pattern: .*</param>
+    /// <param name="Id">The unique identifier or name of the OpenSearch application. Constraints: • pattern: [a-z0-9]{3,30}</param>
+    /// <param name="DataSourceArn">The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Access Management for more information. Constraints: • min: 20 • max: 2048 • pattern: .*</param>
     public AwsOpensearchDescribeDataSourceAttachmentOptions(
         string Id,
         string DataSourceArn
@@ -60,13 +62,13 @@ public record AwsOpensearchDescribeDataSourceAttachmentOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier or name of the OpenSearch application. Constraints: o pattern: [a-z0-9]{3,30}
+    /// The unique identifier or name of the OpenSearch application. Constraints: • pattern: [a-z0-9]{3,30}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Access Man- agement for more information. Constraints: o min: 20 o max: 2048 o pattern: .*
+    /// The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Access Management for more information. Constraints: • min: 20 • max: 2048 • pattern: .*
     /// </summary>
     [CliOption("--data-source-arn")]
     public string? DataSourceArn { get; private init; }

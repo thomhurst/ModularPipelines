@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Grants permission to complete the authorization based on input parame- ters. See also: AWS API Documentation
+/// Grants permission to complete the authorization based on input parameters. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsSecurityhubRegisterConnectorV2Options : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Grants permission to complete the authorization based on input parame- ters. See also: AWS API Documentation
+    /// Grants permission to complete the authorization based on input parameters. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AuthCode">The authCode retrieved from authUrl to complete the OAuth 2.0 autho- rization code flow. Constraints: o pattern: .*\S.*</param>
-    /// <param name="AuthState">The authState retrieved from authUrl to complete the OAuth 2.0 au- thorization code flow. Constraints: o pattern: .*\S.*</param>
+    /// <param name="AuthCode">The authCode retrieved from authUrl to complete the OAuth 2.0 authorization code flow. Constraints: • pattern: .*\S.*</param>
+    /// <param name="AuthState">The authState retrieved from authUrl to complete the OAuth 2.0 authorization code flow. Constraints: • pattern: .*\S.*</param>
     public AwsSecurityhubRegisterConnectorV2Options(
         string AuthCode,
         string AuthState
@@ -60,13 +62,13 @@ public record AwsSecurityhubRegisterConnectorV2Options : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The authCode retrieved from authUrl to complete the OAuth 2.0 autho- rization code flow. Constraints: o pattern: .*\S.*
+    /// The authCode retrieved from authUrl to complete the OAuth 2.0 authorization code flow. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--auth-code")]
     public string? AuthCode { get; private init; }
 
     /// <summary>
-    /// The authState retrieved from authUrl to complete the OAuth 2.0 au- thorization code flow. Constraints: o pattern: .*\S.*
+    /// The authState retrieved from authUrl to complete the OAuth 2.0 authorization code flow. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--auth-state")]
     public string? AuthState { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsSsmGetDocumentOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets the contents of the specified Amazon Web Services Systems Manager document (SSM document). See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the SSM document. Constraints: o pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$</param>
+    /// <param name="Name">The name of the SSM document. Constraints: • pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$</param>
     public AwsSsmGetDocumentOptions(
         string Name
     )
@@ -57,25 +59,25 @@ public record AwsSsmGetDocumentOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the SSM document. Constraints: o pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$
+    /// The name of the SSM document. Constraints: • pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// An optional field specifying the version of the artifact associated with the document. For example, 12.6. This value is unique across all versions of a document and can't be changed. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{1,128}$
+    /// An optional field specifying the version of the artifact associated with the document. For example, 12.6. This value is unique across all versions of a document and can't be changed. Constraints: • pattern: ^[a-zA-Z0-9_\-.]{1,128}$
     /// </summary>
     [CliOption("--version-name")]
     public string? VersionName { get; set; }
 
     /// <summary>
-    /// The document version for which you want information. Constraints: o pattern: ([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)
+    /// The document version for which you want information. Constraints: • pattern: ([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)
     /// </summary>
     [CliOption("--document-version")]
     public string? DocumentVersion { get; set; }
 
     /// <summary>
-    /// Returns the document in the specified format. The document format can be either JSON or YAML. JSON is the default format. Possible values: o YAML o JSON o TEXT
+    /// Returns the document in the specified format. The document format can be either JSON or YAML. JSON is the default format. Possible values: • YAML • JSON • TEXT
     /// </summary>
     [CliOption("--document-format")]
     public AwsSsmGetDocumentDocumentFormat? DocumentFormat { get; set; }

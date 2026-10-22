@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Stops a multipart read set upload into a sequence store and returns a response with no body if the operation is successful. To confirm that a multipart read set upload has been stopped, use the ListMultipartRead- SetUploads API operation to view all active multipart read set uploads. See also: AWS API Documentation
+/// Stops a multipart read set upload into a sequence store and returns a response with no body if the operation is successful. To confirm that a multipart read set upload has been stopped, use the ListMultipartReadSetUploads API operation to view all active multipart read set uploads. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsOmicsAbortMultipartReadSetUploadOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Stops a multipart read set upload into a sequence store and returns a response with no body if the operation is successful. To confirm that a multipart read set upload has been stopped, use the ListMultipartRead- SetUploads API operation to view all active multipart read set uploads. See also: AWS API Documentation
+    /// Stops a multipart read set upload into a sequence store and returns a response with no body if the operation is successful. To confirm that a multipart read set upload has been stopped, use the ListMultipartReadSetUploads API operation to view all active multipart read set uploads. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SequenceStoreId">The sequence store ID for the store involved in the multipart up- load. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
-    /// <param name="UploadId">The ID for the multipart upload. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
+    /// <param name="SequenceStoreId">The sequence store ID for the store involved in the multipart upload. Constraints: • min: 10 • max: 36 • pattern: [0-9]+</param>
+    /// <param name="UploadId">The ID for the multipart upload. Constraints: • min: 10 • max: 36 • pattern: [0-9]+</param>
     public AwsOmicsAbortMultipartReadSetUploadOptions(
         string SequenceStoreId,
         string UploadId
@@ -60,13 +62,13 @@ public record AwsOmicsAbortMultipartReadSetUploadOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The sequence store ID for the store involved in the multipart up- load. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// The sequence store ID for the store involved in the multipart upload. Constraints: • min: 10 • max: 36 • pattern: [0-9]+
     /// </summary>
     [CliOption("--sequence-store-id")]
     public string? SequenceStoreId { get; private init; }
 
     /// <summary>
-    /// The ID for the multipart upload. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// The ID for the multipart upload. Constraints: • min: 10 • max: 36 • pattern: [0-9]+
     /// </summary>
     [CliOption("--upload-id")]
     public string? UploadId { get; private init; }

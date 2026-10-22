@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides details about how an DataSync transfer location for an Amazon FSx for OpenZFS file system is configured. NOTE: Response elements related to SMB aren't supported with the Describe- LocationFsxOpenZfs operation. See also: AWS API Documentation
+/// Provides details about how an DataSync transfer location for an Amazon FSx for OpenZFS file system is configured. NOTE: Response elements related to SMB aren't supported with the DescribeLocationFsxOpenZfs operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsDatasyncDescribeLocationFsxOpenZfsOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides details about how an DataSync transfer location for an Amazon FSx for OpenZFS file system is configured. NOTE: Response elements related to SMB aren't supported with the Describe- LocationFsxOpenZfs operation. See also: AWS API Documentation
+    /// Provides details about how an DataSync transfer location for an Amazon FSx for OpenZFS file system is configured. NOTE: Response elements related to SMB aren't supported with the DescribeLocationFsxOpenZfs operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LocationArn">The Amazon Resource Name (ARN) of the FSx for OpenZFS location to describe. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$</param>
+    /// <param name="LocationArn">The Amazon Resource Name (ARN) of the FSx for OpenZFS location to describe. Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$</param>
     public AwsDatasyncDescribeLocationFsxOpenZfsOptions(
         string LocationArn
     )
@@ -56,7 +58,7 @@ public record AwsDatasyncDescribeLocationFsxOpenZfsOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the FSx for OpenZFS location to describe. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$
+    /// The Amazon Resource Name (ARN) of the FSx for OpenZFS location to describe. Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$
     /// </summary>
     [CliOption("--location-arn")]
     public string? LocationArn { get; private init; }

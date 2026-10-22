@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSagemakerDeleteClusterSchedulerConfigOptions : AwsOptions, IVal
     /// <summary>
     /// Deletes the cluster policy of the cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterSchedulerConfigId">ID of the cluster policy. Constraints: o min: 0 o max: 12 o pattern: [a-z0-9]{12}</param>
+    /// <param name="ClusterSchedulerConfigId">ID of the cluster policy. Constraints: • min: 0 • max: 12 • pattern: [a-z0-9]{12}</param>
     public AwsSagemakerDeleteClusterSchedulerConfigOptions(
         string ClusterSchedulerConfigId
     )
@@ -56,7 +58,7 @@ public record AwsSagemakerDeleteClusterSchedulerConfigOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID of the cluster policy. Constraints: o min: 0 o max: 12 o pattern: [a-z0-9]{12}
+    /// ID of the cluster policy. Constraints: • min: 0 • max: 12 • pattern: [a-z0-9]{12}
     /// </summary>
     [CliOption("--cluster-scheduler-config-id")]
     public string? ClusterSchedulerConfigId { get; private init; }

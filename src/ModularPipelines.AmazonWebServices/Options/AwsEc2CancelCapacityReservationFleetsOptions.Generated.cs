@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Cancels one or more Capacity Reservation Fleets. When you cancel a Ca- pacity Reservation Fleet, the following happens: o The Capacity Reservation Fleet's status changes to cancelled . o The individual Capacity Reservations in the Fleet are cancelled. In- stances running in the Capacity Reservations at the time of can- celling the Fleet continue to run in shared capacity. o The Fleet stops creating new Capacity Reservations. See also: AWS API Documentation
+/// Cancels one or more Capacity Reservation Fleets. When you cancel a Capacity Reservation Fleet, the following happens: • The Capacity Reservation Fleet's status changes to cancelled . • The individual Capacity Reservations in the Fleet are cancelled. Instances running in the Capacity Reservations at the time of cancelling the Fleet continue to run in shared capacity. • The Fleet stops creating new Capacity Reservations. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsEc2CancelCapacityReservationFleetsOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Cancels one or more Capacity Reservation Fleets. When you cancel a Ca- pacity Reservation Fleet, the following happens: o The Capacity Reservation Fleet's status changes to cancelled . o The individual Capacity Reservations in the Fleet are cancelled. In- stances running in the Capacity Reservations at the time of can- celling the Fleet continue to run in shared capacity. o The Fleet stops creating new Capacity Reservations. See also: AWS API Documentation
+    /// Cancels one or more Capacity Reservation Fleets. When you cancel a Capacity Reservation Fleet, the following happens: • The Capacity Reservation Fleet's status changes to cancelled . • The individual Capacity Reservations in the Fleet are cancelled. Instances running in the Capacity Reservations at the time of cancelling the Fleet continue to run in shared capacity. • The Fleet stops creating new Capacity Reservations. See also: AWS API Documentation
     /// </summary>
     /// <param name="CapacityReservationFleetIds">The IDs of the Capacity Reservation Fleets to cancel. (string) Syntax: "string" "string" ...</param>
     public AwsEc2CancelCapacityReservationFleetsOptions(
@@ -73,7 +75,7 @@ public record AwsEc2CancelCapacityReservationFleetsOptions : AwsOptions, IValida
     public IEnumerable<string>? CapacityReservationFleetIds { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

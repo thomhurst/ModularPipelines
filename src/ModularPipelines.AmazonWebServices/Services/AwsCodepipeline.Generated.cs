@@ -62,7 +62,7 @@ public class AwsCodepipeline : IAwsCodepipeline
     }
 
     /// <summary>
-    /// Creates a new custom action that can be used in all pipelines associ- ated with the Amazon Web Services account. Only used for custom ac- tions. See also: AWS API Documentation
+    /// Creates a new custom action that can be used in all pipelines associated with the Amazon Web Services account. Only used for custom actions. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsCodepipeline : IAwsCodepipeline
     }
 
     /// <summary>
-    /// Creates a pipeline. NOTE: In the pipeline structure, you must include either artifactStore or artifactStores in your pipeline, but you cannot use both. If you create a cross-region action in your pipeline, you must use arti- factStores . See also: AWS API Documentation
+    /// Creates a pipeline. NOTE: In the pipeline structure, you must include either artifactStore or artifactStores in your pipeline, but you cannot use both. If you create a cross-region action in your pipeline, you must use artifactStores . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsCodepipeline : IAwsCodepipeline
     }
 
     /// <summary>
-    /// Deletes a previously created webhook by name. Deleting the webhook stops CodePipeline from starting a pipeline every time an external event occurs. The API returns successfully when trying to delete a web- hook that is already deleted. If a deleted webhook is re-created by calling PutWebhook with the same name, it will have a different URL. See also: AWS API Documentation
+    /// Deletes a previously created webhook by name. Deleting the webhook stops CodePipeline from starting a pipeline every time an external event occurs. The API returns successfully when trying to delete a webhook that is already deleted. If a deleted webhook is re-created by calling PutWebhook with the same name, it will have a different URL. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsCodepipeline : IAwsCodepipeline
     }
 
     /// <summary>
-    /// Removes the connection between the webhook that was created by Code- Pipeline and the external tool with events to be detected. Currently supported only for webhooks that target an action type of GitHub. See also: AWS API Documentation
+    /// Removes the connection between the webhook that was created by CodePipeline and the external tool with events to be detected. Currently supported only for webhooks that target an action type of GitHub. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsCodepipeline : IAwsCodepipeline
     }
 
     /// <summary>
-    /// Returns information about a job. Used for custom actions only. WARNING: When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output arti- facts. This API also returns any secret values defined for the ac- tion. See also: AWS API Documentation
+    /// Returns information about a job. Used for custom actions only. WARNING: When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts. This API also returns any secret values defined for the action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsCodepipeline : IAwsCodepipeline
     }
 
     /// <summary>
-    /// Returns information about the state of a pipeline, including the stages and actions. NOTE: Values returned in the revisionId and revisionUrl fields indicate the source revision information, such as the commit ID, for the cur- rent state. See also: AWS API Documentation
+    /// Returns information about the state of a pipeline, including the stages and actions. NOTE: Values returned in the revisionId and revisionUrl fields indicate the source revision information, such as the commit ID, for the current state. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsCodepipeline : IAwsCodepipeline
     }
 
     /// <summary>
-    /// Requests the details of a job for a third party action. Used for part- ner actions only. WARNING: When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output arti- facts. This API also returns any secret values defined for the ac- tion. See also: AWS API Documentation
+    /// Requests the details of a job for a third party action. Used for partner actions only. WARNING: When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts. This API also returns any secret values defined for the action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsCodepipeline : IAwsCodepipeline
     }
 
     /// <summary>
-    /// Lists the targets for the deploy action. See also: AWS API Documentation list-deploy-action-execution-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: targets
+    /// Lists the targets for the deploy action. See also: AWS API Documentation list-deploy-action-execution-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: targets
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsCodepipeline : IAwsCodepipeline
     }
 
     /// <summary>
-    /// Gets a summary of all of the pipelines associated with your account. See also: AWS API Documentation list-pipelines is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: pipelines
+    /// Gets a summary of all of the pipelines associated with your account. See also: AWS API Documentation list-pipelines is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: pipelines
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsCodepipeline : IAwsCodepipeline
     }
 
     /// <summary>
-    /// Lists the rules for the condition. For more information about condi- tions, see Stage conditions and How do stage conditions work? .For more information about rules, see the CodePipeline rule reference . See also: AWS API Documentation
+    /// Lists the rules for the condition. For more information about conditions, see Stage conditions and How do stage conditions work? .For more information about rules, see the CodePipeline rule reference . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsCodepipeline : IAwsCodepipeline
     }
 
     /// <summary>
-    /// Gets a listing of all the webhooks in this Amazon Web Services Region for this account. The output lists all webhooks and includes the web- hook URL and ARN and the configuration for each webhook. NOTE: If a secret token was provided, it will be redacted in the response. See also: AWS API Documentation list-webhooks is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument...
+    /// Gets a listing of all the webhooks in this Amazon Web Services Region for this account. The output lists all webhooks and includes the webhook URL and ARN and the configuration for each webhook. NOTE: If a secret token was provided, it will be redacted in the response. See also: AWS API Documentation list-webhooks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsCodepipeline : IAwsCodepipeline
     }
 
     /// <summary>
-    /// Used to override a stage condition. For more information about condi- tions, see Stage conditions and How do stage conditions work? . See also: AWS API Documentation
+    /// Used to override a stage condition. For more information about conditions, see Stage conditions and How do stage conditions work? . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsCodepipeline : IAwsCodepipeline
     }
 
     /// <summary>
-    /// Returns information about any jobs for CodePipeline to act on. PollFor- Jobs is valid only for action types with "Custom" in the owner field. If the action type contains AWS or ThirdParty in the owner field, the PollForJobs action returns an error. WARNING: When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output arti- facts. This API also returns any secret ...
+    /// Returns information about any jobs for CodePipeline to act on. PollForJobs is valid only for action types with "Custom" in the owner field. If the action type contains AWS or ThirdParty in the owner field, the PollForJobs action returns an error. WARNING: When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts. This API also returns any secret valu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsCodepipeline : IAwsCodepipeline
     }
 
     /// <summary>
-    /// Determines whether there are any third party jobs for a job worker to act on. Used for partner actions only. WARNING: When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output arti- facts. See also: AWS API Documentation
+    /// Determines whether there are any third party jobs for a job worker to act on. Used for partner actions only. WARNING: When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsCodepipeline : IAwsCodepipeline
     }
 
     /// <summary>
-    /// Defines a webhook and returns a unique webhook URL generated by Code- Pipeline. This URL can be supplied to third party source hosting providers to call every time there's a code change. When CodePipeline receives a POST request on this URL, the pipeline defined in the web- hook is started as long as the POST request satisfied the authentica- tion and filtering requirements supplied when defining the webhook. RegisterWebhookWithThirdParty and DeregisterWebhookWithThirdParty APIs can be used to a...
+    /// Defines a webhook and returns a unique webhook URL generated by CodePipeline. This URL can be supplied to third party source hosting providers to call every time there's a code change. When CodePipeline receives a POST request on this URL, the pipeline defined in the webhook is started as long as the POST request satisfied the authentication and filtering requirements supplied when defining the webhook. RegisterWebhookWithThirdParty and DeregisterWebhookWithThirdParty APIs can be used to automat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsCodepipeline : IAwsCodepipeline
     }
 
     /// <summary>
-    /// You can retry a stage that has failed without having to run a pipeline again from the beginning. You do this by either retrying the failed ac- tions in a stage or by retrying all actions in the stage starting from the first action in the stage. When you retry the failed actions in a stage, all actions that are still in progress continue working, and failed actions are triggered again. When you retry a failed stage from the first action in the stage, the stage cannot have any actions in progress....
+    /// You can retry a stage that has failed without having to run a pipeline again from the beginning. You do this by either retrying the failed actions in a stage or by retrying all actions in the stage starting from the first action in the stage. When you retry the failed actions in a stage, all actions that are still in progress continue working, and failed actions are triggered again. When you retry a failed stage from the first action in the stage, the stage cannot have any actions in progress. B...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +617,7 @@ public class AwsCodepipeline : IAwsCodepipeline
     }
 
     /// <summary>
-    /// Stops the specified pipeline execution. You choose to either stop the pipeline execution by completing in-progress actions without starting subsequent actions, or by abandoning in-progress actions. While com- pleting or abandoning in-progress actions, the pipeline execution is in a Stopping state. After all in-progress actions are completed or aban- doned, the pipeline execution is in a Stopped state. See also: AWS API Documentation
+    /// Stops the specified pipeline execution. You choose to either stop the pipeline execution by completing in-progress actions without starting subsequent actions, or by abandoning in-progress actions. While completing or abandoning in-progress actions, the pipeline execution is in a Stopping state. After all in-progress actions are completed or abandoned, the pipeline execution is in a Stopped state. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsCodepipeline : IAwsCodepipeline
     }
 
     /// <summary>
-    /// Updates an action type that was created with any supported integration model, where the action type is to be used by customers of the action type provider. Use a JSON file with the action definition and UpdateAc- tionType to provide the full structure. See also: AWS API Documentation
+    /// Updates an action type that was created with any supported integration model, where the action type is to be used by customers of the action type provider. Use a JSON file with the action definition and UpdateActionType to provide the full structure. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -677,7 +677,7 @@ public class AwsCodepipeline : IAwsCodepipeline
     }
 
     /// <summary>
-    /// Updates a specified pipeline with edits or changes to its structure. Use a JSON file with the pipeline structure and UpdatePipeline to pro- vide the full structure of the pipeline. Updating the pipeline in- creases the version number of the pipeline by 1. See also: AWS API Documentation
+    /// Updates a specified pipeline with edits or changes to its structure. Use a JSON file with the pipeline structure and UpdatePipeline to provide the full structure of the pipeline. Updating the pipeline increases the version number of the pipeline by 1. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

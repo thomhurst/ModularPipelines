@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -64,13 +66,13 @@ public record AwsEc2ProvisionIpamPoolCidrOptions : AwsOptions, IValidatableObjec
     public string? IpamPoolId { get; private init; }
 
     /// <summary>
-    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// The CIDR you want to assign to the IPAM pool. Either "NetmaskLength" or "Cidr" is required. This value will be null if you specify "Net- maskLength" and will be filled in during the provisioning process.
+    /// The CIDR you want to assign to the IPAM pool. Either "NetmaskLength" or "Cidr" is required. This value will be null if you specify "NetmaskLength" and will be filled in during the provisioning process.
     /// </summary>
     [CliOption("--cidr")]
     public string? Cidr { get; set; }
@@ -82,20 +84,20 @@ public record AwsEc2ProvisionIpamPoolCidrOptions : AwsOptions, IValidatableObjec
     public string? CidrAuthorizationContext { get; set; }
 
     /// <summary>
-    /// The netmask length of the CIDR you'd like to provision to a pool. Can be used for provisioning Amazon-provided IPv6 CIDRs to top-level pools and for provisioning CIDRs to pools with source pools. Cannot be used to provision BYOIP CIDRs to top-level pools. Either "Net- maskLength" or "Cidr" is required.
+    /// The netmask length of the CIDR you'd like to provision to a pool. Can be used for provisioning Amazon-provided IPv6 CIDRs to top-level pools and for provisioning CIDRs to pools with source pools. Cannot be used to provision BYOIP CIDRs to top-level pools. Either "NetmaskLength" or "Cidr" is required.
     /// </summary>
     [CliOption("--netmask-length")]
     public int? NetmaskLength { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring idem- potency .
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring idempotency .
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The method for verifying control of a public IP address range. De- faults to remarks-x509 if not specified. This option only applies to IPv4 and IPv6 pools in the public scope. Possible values: o remarks-x509 o dns-token
+    /// The method for verifying control of a public IP address range. Defaults to remarks-x509 if not specified. This option only applies to IPv4 and IPv6 pools in the public scope. Possible values: • remarks-x509 • dns-token
     /// </summary>
     [CliOption("--verification-method")]
     public AwsEc2ProvisionIpamPoolCidrVerificationMethod? VerificationMethod { get; set; }

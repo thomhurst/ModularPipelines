@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBedrockAgentcoreControlDeleteDataSetOptions : AwsOptions, IVali
     /// <summary>
     /// Deletes a dataset version or an entire dataset asynchronously. If datasetVersion is absent, deletes all versions and the dataset record itself. If provided, deletes only that specific version. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSetId">The unique identifier of the dataset to delete. Constraints: o pattern: [a-zA-Z0-9_-]{1,110}</param>
+    /// <param name="DataSetId">The unique identifier of the dataset to delete. Constraints: • pattern: [a-zA-Z0-9_-]{1,110}</param>
     public AwsBedrockAgentcoreControlDeleteDataSetOptions(
         string DataSetId
     )
@@ -56,13 +58,13 @@ public record AwsBedrockAgentcoreControlDeleteDataSetOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the dataset to delete. Constraints: o pattern: [a-zA-Z0-9_-]{1,110}
+    /// The unique identifier of the dataset to delete. Constraints: • pattern: [a-zA-Z0-9_-]{1,110}
     /// </summary>
     [CliOption("--dataset-id")]
     public string? DataSetId { get; private init; }
 
     /// <summary>
-    /// Optional version to delete. If absent, deletes the entire dataset. If provided, deletes only that specific version. Constraints: o pattern: (DRAFT|[0-9]+)
+    /// Optional version to delete. If absent, deletes the entire dataset. If provided, deletes only that specific version. Constraints: • pattern: (DRAFT|[0-9]+)
     /// </summary>
     [CliOption("--dataset-version")]
     public string? DataSetVersion { get; set; }

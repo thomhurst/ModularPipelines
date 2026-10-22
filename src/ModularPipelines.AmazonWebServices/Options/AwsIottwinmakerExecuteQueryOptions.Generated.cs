@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsIottwinmakerExecuteQueryOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Run queries to access information from your knowledge graph of entities within individual workspaces. NOTE: The ExecuteQuery action only works with Amazon Web Services Java SDK2 . ExecuteQuery will not work with any Amazon Web Services Java SDK version &lt; 2.x. See also: AWS API Documentation execute-query uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested paramete...
     /// </summary>
-    /// <param name="WorkspaceId">The ID of the workspace. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+</param>
-    /// <param name="QueryStatement">The query statement. Constraints: o min: 1 o max: 1000 o pattern: [\s\S]+</param>
+    /// <param name="WorkspaceId">The ID of the workspace. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+</param>
+    /// <param name="QueryStatement">The query statement. Constraints: • min: 1 • max: 1000 • pattern: [\s\S]+</param>
     public AwsIottwinmakerExecuteQueryOptions(
         string WorkspaceId,
         string QueryStatement
@@ -61,25 +63,25 @@ public record AwsIottwinmakerExecuteQueryOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the workspace. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
+    /// The ID of the workspace. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
 
     /// <summary>
-    /// The query statement. Constraints: o min: 1 o max: 1000 o pattern: [\s\S]+
+    /// The query statement. Constraints: • min: 1 • max: 1000 • pattern: [\s\S]+
     /// </summary>
     [CliOption("--query-statement")]
     public string? QueryStatement { get; private init; }
 
     /// <summary>
-    /// The maximum number of results to return at one time. The default is 50. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to return at one time. The default is 50. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The string that specifies the next page of results. Constraints: o min: 0 o max: 17880 o pattern: .*
+    /// The string that specifies the next page of results. Constraints: • min: 0 • max: 17880 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

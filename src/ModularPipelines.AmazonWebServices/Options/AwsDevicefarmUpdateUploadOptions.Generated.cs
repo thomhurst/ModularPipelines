@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDevicefarmUpdateUploadOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates an uploaded test spec. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the uploaded test spec. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the uploaded test spec. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+</param>
     public AwsDevicefarmUpdateUploadOptions(
         string Arn
     )
@@ -56,25 +58,25 @@ public record AwsDevicefarmUpdateUploadOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the uploaded test spec. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// The Amazon Resource Name (ARN) of the uploaded test spec. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The upload's test spec file name. The name must not contain any for- ward slashes (/). The test spec file name must end with the .yaml or .yml file extension. Constraints: o min: 0 o max: 256
+    /// The upload's test spec file name. The name must not contain any forward slashes (/). The test spec file name must end with the .yaml or .yml file extension. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The upload's content type (for example, application/x-yaml ). Constraints: o min: 0 o max: 64
+    /// The upload's content type (for example, application/x-yaml ). Constraints: • min: 0 • max: 64
     /// </summary>
     [CliOption("--content-type")]
     public string? ContentType { get; set; }
 
     /// <summary>
-    /// Set to true if the YAML file has changed and must be updated. Other- wise, set to false.
+    /// Set to true if the YAML file has changed and must be updated. Otherwise, set to false.
     /// </summary>
     [CliFlag("--edit-content", NegatedName = "--no-edit-content")]
     public bool? EditContent { get; set; }

@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides a summary of recommended actions based on specified filters. NOTE: Management accounts and delegated administrators can retrieve recom- mended actions that include associated member accounts. You can as- sociate a member account using AssociateAccounts . See also: AWS API Documentation list-recommended-action-summaries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginat...
+/// Provides a summary of recommended actions based on specified filters. NOTE: Management accounts and delegated administrators can retrieve recommended actions that include associated member accounts. You can associate a member account using AssociateAccounts . See also: AWS API Documentation list-recommended-action-summaries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argu...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,16 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsComputeOptimizerAutomationListRecommendedActionSummariesOptions : AwsOptions
 {
     /// <summary>
-    /// A list of filters to apply when retrieving recommended action sum- maries. Filters can be based on resource type, action type, account ID, and other criteria. (structure) A filter used to narrow down recommended action results based on specific criteria. name -&gt; (string) [required] The name of the filter field to apply. Possible values: o ResourceType o RecommendedActionType o ResourceId o LookBackPeriodInDays o CurrentResourceDetailsEbsVolumeType o ResourceTagsKey o ResourceTagsValue o AccountId o RestartNeeded values -&gt; (list) [required] List of filter values to match against the specified filter name. Used to narrow down recommended actions based on spe- cific criteria. (string) Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9\-_\.\*\?\s]+ Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "ResourceType"|"RecommendedActionType"|"ResourceId"|"LookBackPeriodInDays"|"CurrentResourceDetailsEbsVolumeType"|"ResourceTagsKey"|"ResourceTagsValue"|"AccountId"|"RestartNeeded", "values": ["string", ...] } ... ]
+    /// A list of filters to apply when retrieving recommended action summaries. Filters can be based on resource type, action type, account ID, and other criteria. (structure) A filter used to narrow down recommended action results based on specific criteria. name -&gt; (string) [required] The name of the filter field to apply. Possible values: • ResourceType • RecommendedActionType • ResourceId • LookBackPeriodInDays • CurrentResourceDetailsEbsVolumeType • ResourceTagsKey • ResourceTagsValue • AccountId • RestartNeeded values -&gt; (list) [required] List of filter values to match against the specified filter name. Used to narrow down recommended actions based on specific criteria. (string) Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9\-_\.\*\?\s]+ Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "ResourceType"|"RecommendedActionType"|"ResourceId"|"LookBackPeriodInDays"|"CurrentResourceDetailsEbsVolumeType"|"ResourceTagsKey"|"ResourceTagsValue"|"AccountId"|"RestartNeeded", "values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -42,15 +39,18 @@ public record AwsComputeOptimizerAutomationListRecommendedActionSummariesOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

@@ -28,98 +28,88 @@ public interface IAwsIotfleetwise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateVehicleFleetAsync(AwsIotfleetwiseAssociateVehicleFleetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateVehicleFleetAsync(AwsIotfleetwiseAssociateVehicleFleetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a group, or batch, of vehicles. NOTE: You must specify a decoder manifest and a vehicle model (model mani- fest) for each vehicle. For more information, see Create multiple vehicles (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+    /// Creates a group, or batch, of vehicles. NOTE: You must specify a decoder manifest and a vehicle model (model manifest) for each vehicle. For more information, see Create multiple vehicles (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchCreateVehicleAsync(AwsIotfleetwiseBatchCreateVehicleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchCreateVehicleAsync(AwsIotfleetwiseBatchCreateVehicleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates a group, or batch, of vehicles. NOTE: You must specify a decoder manifest and a vehicle model (model mani- fest) for each vehicle. For more information, see Update multiple vehicles (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+    /// Updates a group, or batch, of vehicles. NOTE: You must specify a decoder manifest and a vehicle model (model manifest) for each vehicle. For more information, see Update multiple vehicles (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchUpdateVehicleAsync(AwsIotfleetwiseBatchUpdateVehicleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchUpdateVehicleAsync(AwsIotfleetwiseBatchUpdateVehicleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates an orchestration of data collection rules. The Amazon Web Ser- vices IoT FleetWise Edge Agent software running in vehicles uses cam- paigns to decide how to collect and transfer data to the cloud. You create campaigns in the cloud. After you or your team approve cam- paigns, Amazon Web Services IoT FleetWise automatically deploys them to vehicles. For more information, see Collect and transfer data with campaigns in the Amazon Web Services IoT FleetWise Developer Guide . WARNING: Access ...
+    /// Creates an orchestration of data collection rules. The Amazon Web Services IoT FleetWise Edge Agent software running in vehicles uses campaigns to decide how to collect and transfer data to the cloud. You create campaigns in the cloud. After you or your team approve campaigns, Amazon Web Services IoT FleetWise automatically deploys them to vehicles. For more information, see Collect and transfer data with campaigns in the Amazon Web Services IoT FleetWise Developer Guide . WARNING: Access to cer...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCampaignAsync(AwsIotfleetwiseCreateCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCampaignAsync(AwsIotfleetwiseCreateCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates the decoder manifest associated with a model manifest. To cre- ate a decoder manifest, the following must be true: o Every signal decoder has a unique name. o Each signal decoder is associated with a network interface. o Each network interface has a unique ID. o The signal decoders are specified in the model manifest. See also: AWS API Documentation
+    /// Creates the decoder manifest associated with a model manifest. To create a decoder manifest, the following must be true: • Every signal decoder has a unique name. • Each signal decoder is associated with a network interface. • Each network interface has a unique ID. • The signal decoders are specified in the model manifest. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDecoderManifestAsync(AwsIotfleetwiseCreateDecoderManifestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDecoderManifestAsync(AwsIotfleetwiseCreateDecoderManifestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a fleet that represents a group of vehicles. NOTE: You must create both a signal catalog and vehicles before you can create a fleet. For more information, see Fleets in the Amazon Web Services IoT Fleet- Wise Developer Guide . See also: AWS API Documentation
+    /// Creates a fleet that represents a group of vehicles. NOTE: You must create both a signal catalog and vehicles before you can create a fleet. For more information, see Fleets in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateFleetAsync(AwsIotfleetwiseCreateFleetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateFleetAsync(AwsIotfleetwiseCreateFleetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a vehicle model (model manifest) that specifies signals (at- tributes, branches, sensors, and actuators). For more information, see Vehicle models in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+    /// Creates a vehicle model (model manifest) that specifies signals (attributes, branches, sensors, and actuators). For more information, see Vehicle models in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateModelManifestAsync(AwsIotfleetwiseCreateModelManifestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateModelManifestAsync(AwsIotfleetwiseCreateModelManifestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a collection of standardized signals that can be reused to cre- ate vehicle models. See also: AWS API Documentation
+    /// Creates a collection of standardized signals that can be reused to create vehicle models. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSignalCatalogAsync(AwsIotfleetwiseCreateSignalCatalogOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSignalCatalogAsync(AwsIotfleetwiseCreateSignalCatalogOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a state template. State templates contain state properties, which are signals that belong to a signal catalog that is synchronized between the Amazon Web Services IoT FleetWise Edge and the Amazon Web Services Cloud. WARNING: Access to certain Amazon Web Services IoT FleetWise features is cur- rently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+    /// Creates a state template. State templates contain state properties, which are signals that belong to a signal catalog that is synchronized between the Amazon Web Services IoT FleetWise Edge and the Amazon Web Services Cloud. WARNING: Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateStateTemplateAsync(AwsIotfleetwiseCreateStateTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateStateTemplateAsync(AwsIotfleetwiseCreateStateTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a vehicle, which is an instance of a vehicle model (model mani- fest). Vehicles created from the same vehicle model consist of the same signals inherited from the vehicle model. NOTE: If you have an existing Amazon Web Services IoT thing, you can use Amazon Web Services IoT FleetWise to create a vehicle and collect data from your thing. For more information, see Create a vehicle (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+    /// Creates a vehicle, which is an instance of a vehicle model (model manifest). Vehicles created from the same vehicle model consist of the same signals inherited from the vehicle model. NOTE: If you have an existing Amazon Web Services IoT thing, you can use Amazon Web Services IoT FleetWise to create a vehicle and collect data from your thing. For more information, see Create a vehicle (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateVehicleAsync(AwsIotfleetwiseCreateVehicleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateVehicleAsync(AwsIotfleetwiseCreateVehicleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a data collection campaign. Deleting a campaign suspends all data collection and removes it from any vehicles. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsIotfleetwise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCampaignAsync(AwsIotfleetwiseDeleteCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCampaignAsync(AwsIotfleetwiseDeleteCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a decoder manifest. You can't delete a decoder manifest if it has vehicles associated with it. See also: AWS API Documentation
@@ -138,18 +127,16 @@ public interface IAwsIotfleetwise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDecoderManifestAsync(AwsIotfleetwiseDeleteDecoderManifestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDecoderManifestAsync(AwsIotfleetwiseDeleteDecoderManifestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a fleet. Before you delete a fleet, all vehicles must be disso- ciated from the fleet. For more information, see Delete a fleet (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+    /// Deletes a fleet. Before you delete a fleet, all vehicles must be dissociated from the fleet. For more information, see Delete a fleet (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFleetAsync(AwsIotfleetwiseDeleteFleetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteFleetAsync(AwsIotfleetwiseDeleteFleetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a vehicle model (model manifest). See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsIotfleetwise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteModelManifestAsync(AwsIotfleetwiseDeleteModelManifestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteModelManifestAsync(AwsIotfleetwiseDeleteModelManifestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a signal catalog. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsIotfleetwise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSignalCatalogAsync(AwsIotfleetwiseDeleteSignalCatalogOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSignalCatalogAsync(AwsIotfleetwiseDeleteSignalCatalogOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a state template. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsIotfleetwise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteStateTemplateAsync(AwsIotfleetwiseDeleteStateTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteStateTemplateAsync(AwsIotfleetwiseDeleteStateTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a vehicle and removes it from any campaigns. See also: AWS API Documentation
@@ -188,28 +172,25 @@ public interface IAwsIotfleetwise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVehicleAsync(AwsIotfleetwiseDeleteVehicleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVehicleAsync(AwsIotfleetwiseDeleteVehicleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Removes, or disassociates, a vehicle from a fleet. Disassociating a ve- hicle from a fleet doesn't delete the vehicle. See also: AWS API Documentation
+    /// Removes, or disassociates, a vehicle from a fleet. Disassociating a vehicle from a fleet doesn't delete the vehicle. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateVehicleFleetAsync(AwsIotfleetwiseDisassociateVehicleFleetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateVehicleFleetAsync(AwsIotfleetwiseDisassociateVehicleFleetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves information about a campaign. WARNING: Access to certain Amazon Web Services IoT FleetWise features is cur- rently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+    /// Retrieves information about a campaign. WARNING: Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCampaignAsync(AwsIotfleetwiseGetCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCampaignAsync(AwsIotfleetwiseGetCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a created decoder manifest. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsIotfleetwise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDecoderManifestAsync(AwsIotfleetwiseGetDecoderManifestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDecoderManifestAsync(AwsIotfleetwiseGetDecoderManifestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the encryption configuration for resources and data in Amazon Web Services IoT FleetWise. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsIotfleetwise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEncryptionConfigurationAsync(AwsIotfleetwiseGetEncryptionConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEncryptionConfigurationAsync(AwsIotfleetwiseGetEncryptionConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a fleet. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsIotfleetwise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFleetAsync(AwsIotfleetwiseGetFleetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetFleetAsync(AwsIotfleetwiseGetFleetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the logging options. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsIotfleetwise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetLoggingOptionsAsync(AwsIotfleetwiseGetLoggingOptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetLoggingOptionsAsync(AwsIotfleetwiseGetLoggingOptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a vehicle model (model manifest). See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsIotfleetwise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetModelManifestAsync(AwsIotfleetwiseGetModelManifestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetModelManifestAsync(AwsIotfleetwiseGetModelManifestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the status of registering your Amazon Web Services account, IAM, and Amazon Timestream resources so that Amazon Web Services IoT FleetWise can transfer your vehicle data to the Amazon Web Services Cloud. For more information, including step-by-step procedures, see Setting up Amazon Web Services IoT FleetWise . NOTE: This API operation doesn't require input parameters. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsIotfleetwise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRegisterAccountStatusAsync(AwsIotfleetwiseGetRegisterAccountStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRegisterAccountStatusAsync(AwsIotfleetwiseGetRegisterAccountStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a signal catalog. See also: AWS API Documentation
@@ -278,18 +253,16 @@ public interface IAwsIotfleetwise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSignalCatalogAsync(AwsIotfleetwiseGetSignalCatalogOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSignalCatalogAsync(AwsIotfleetwiseGetSignalCatalogOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves information about a state template. WARNING: Access to certain Amazon Web Services IoT FleetWise features is cur- rently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+    /// Retrieves information about a state template. WARNING: Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetStateTemplateAsync(AwsIotfleetwiseGetStateTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetStateTemplateAsync(AwsIotfleetwiseGetStateTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a vehicle. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsIotfleetwise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVehicleAsync(AwsIotfleetwiseGetVehicleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVehicleAsync(AwsIotfleetwiseGetVehicleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the status of campaigns, decoder manifests, or state templates associated with a vehicle. See also: AWS API Documentation get-vehicle-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following que...
@@ -308,8 +280,7 @@ public interface IAwsIotfleetwise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVehicleStatusAsync(AwsIotfleetwiseGetVehicleStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVehicleStatusAsync(AwsIotfleetwiseGetVehicleStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a decoder manifest using your existing CAN DBC file from your local device. The CAN signal name must be unique and not repeated across CAN message definitions in a .dbc file. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsIotfleetwise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ImportDecoderManifestAsync(AwsIotfleetwiseImportDecoderManifestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ImportDecoderManifestAsync(AwsIotfleetwiseImportDecoderManifestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a signal catalog using your existing VSS formatted content from your local device. See also: AWS API Documentation
@@ -328,38 +298,34 @@ public interface IAwsIotfleetwise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ImportSignalCatalogAsync(AwsIotfleetwiseImportSignalCatalogOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ImportSignalCatalogAsync(AwsIotfleetwiseImportSignalCatalogOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists information about created campaigns. NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-campaigns is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data...
+    /// Lists information about created campaigns. NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-campaigns is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data fro...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCampaignsAsync(AwsIotfleetwiseListCampaignsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCampaignsAsync(AwsIotfleetwiseListCampaignsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists the network interfaces specified in a decoder manifest. NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-decoder-manifest-network-interfaces is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated res...
+    /// Lists the network interfaces specified in a decoder manifest. NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-decoder-manifest-network-interfaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated respons...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDecoderManifestNetworkInterfacesAsync(AwsIotfleetwiseListDecoderManifestNetworkInterfacesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDecoderManifestNetworkInterfacesAsync(AwsIotfleetwiseListDecoderManifestNetworkInterfacesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// A list of information about signal decoders specified in a decoder man- ifest. NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-decoder-manifest-signals is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginat...
+    /// A list of information about signal decoders specified in a decoder manifest. NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-decoder-manifest-signals is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated res...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDecoderManifestSignalsAsync(AwsIotfleetwiseListDecoderManifestSignalsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDecoderManifestSignalsAsync(AwsIotfleetwiseListDecoderManifestSignalsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists decoder manifests. NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-decoder-manifests is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resu...
@@ -368,8 +334,7 @@ public interface IAwsIotfleetwise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDecoderManifestsAsync(AwsIotfleetwiseListDecoderManifestsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDecoderManifestsAsync(AwsIotfleetwiseListDecoderManifestsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of IDs for all fleets that the vehicle is associated with. NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-fleets-for-vehicle is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, ...
@@ -378,28 +343,25 @@ public interface IAwsIotfleetwise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFleetsForVehicleAsync(AwsIotfleetwiseListFleetsForVehicleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFleetsForVehicleAsync(AwsIotfleetwiseListFleetsForVehicleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves information for each created fleet in an Amazon Web Services account. NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-fleets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --...
+    /// Retrieves information for each created fleet in an Amazon Web Services account. NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-fleets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --qu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFleetsAsync(AwsIotfleetwiseListFleetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFleetsAsync(AwsIotfleetwiseListFleetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists information about nodes specified in a vehicle model (model mani- fest). NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-model-manifest-nodes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated respo...
+    /// Lists information about nodes specified in a vehicle model (model manifest). NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-model-manifest-nodes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated respons...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListModelManifestNodesAsync(AwsIotfleetwiseListModelManifestNodesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListModelManifestNodesAsync(AwsIotfleetwiseListModelManifestNodesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of vehicle models (model manifests). NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-model-manifests is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must...
@@ -408,8 +370,7 @@ public interface IAwsIotfleetwise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListModelManifestsAsync(AwsIotfleetwiseListModelManifestsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListModelManifestsAsync(AwsIotfleetwiseListModelManifestsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists of information about the signals (nodes) specified in a signal catalog. NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-signal-catalog-nodes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated respon...
@@ -418,28 +379,25 @@ public interface IAwsIotfleetwise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSignalCatalogNodesAsync(AwsIotfleetwiseListSignalCatalogNodesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSignalCatalogNodesAsync(AwsIotfleetwiseListSignalCatalogNodesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists all the created signal catalogs in an Amazon Web Services ac- count. You can use to list information about each signal (node) specified in a signal catalog. NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-signal-catalogs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate a...
+    /// Lists all the created signal catalogs in an Amazon Web Services account. You can use to list information about each signal (node) specified in a signal catalog. NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-signal-catalogs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate arg...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSignalCatalogsAsync(AwsIotfleetwiseListSignalCatalogsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSignalCatalogsAsync(AwsIotfleetwiseListSignalCatalogsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists information about created state templates. WARNING: Access to certain Amazon Web Services IoT FleetWise features is cur- rently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation list-state-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate...
+    /// Lists information about created state templates. WARNING: Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation list-state-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListStateTemplatesAsync(AwsIotfleetwiseListStateTemplatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListStateTemplatesAsync(AwsIotfleetwiseListStateTemplatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the tags (metadata) you have assigned to the resource. See also: AWS API Documentation
@@ -448,8 +406,7 @@ public interface IAwsIotfleetwise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsIotfleetwiseListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsIotfleetwiseListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of summaries of all vehicles associated with a fleet. NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-vehicles-in-fleet is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --...
@@ -458,28 +415,25 @@ public interface IAwsIotfleetwise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListVehiclesInFleetAsync(AwsIotfleetwiseListVehiclesInFleetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListVehiclesInFleetAsync(AwsIotfleetwiseListVehiclesInFleetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves a list of summaries of created vehicles. NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-vehicles is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extra...
+    /// Retrieves a list of summaries of created vehicles. NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-vehicles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract d...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListVehiclesAsync(AwsIotfleetwiseListVehiclesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListVehiclesAsync(AwsIotfleetwiseListVehiclesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates or updates the encryption configuration. Amazon Web Services IoT FleetWise can encrypt your data and resources using an Amazon Web Services managed key. Or, you can use a KMS key that you own and man- age. For more information, see Data encryption in the Amazon Web Ser- vices IoT FleetWise Developer Guide . See also: AWS API Documentation
+    /// Creates or updates the encryption configuration. Amazon Web Services IoT FleetWise can encrypt your data and resources using an Amazon Web Services managed key. Or, you can use a KMS key that you own and manage. For more information, see Data encryption in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutEncryptionConfigurationAsync(AwsIotfleetwisePutEncryptionConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutEncryptionConfigurationAsync(AwsIotfleetwisePutEncryptionConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates or updates the logging option. See also: AWS API Documentation
@@ -488,18 +442,16 @@ public interface IAwsIotfleetwise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutLoggingOptionsAsync(AwsIotfleetwisePutLoggingOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutLoggingOptionsAsync(AwsIotfleetwisePutLoggingOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// WARNING: This API operation contains deprecated parameters. Register your ac- count again without the Timestream resources parameter so that Ama- zon Web Services IoT FleetWise can remove the Timestream metadata stored. You should then pass the data destination into the CreateCampaign API operation. You must delete any existing campaigns that include an empty data destination before you register your account again. For more infor- mation, see the DeleteCampaign API operation. If you want to dele...
+    /// WARNING: This API operation contains deprecated parameters. Register your account again without the Timestream resources parameter so that Amazon Web Services IoT FleetWise can remove the Timestream metadata stored. You should then pass the data destination into the CreateCampaign API operation. You must delete any existing campaigns that include an empty data destination before you register your account again. For more information, see the DeleteCampaign API operation. If you want to delete the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterAccountAsync(AwsIotfleetwiseRegisterAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterAccountAsync(AwsIotfleetwiseRegisterAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds to or modifies the tags of the given resource. Tags are metadata which can be used to manage a resource. See also: AWS API Documentation
@@ -508,8 +460,7 @@ public interface IAwsIotfleetwise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsIotfleetwiseTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsIotfleetwiseTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the given tags (metadata) from the resource. See also: AWS API Documentation
@@ -518,8 +469,7 @@ public interface IAwsIotfleetwise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsIotfleetwiseUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsIotfleetwiseUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a campaign. See also: AWS API Documentation
@@ -528,8 +478,7 @@ public interface IAwsIotfleetwise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateCampaignAsync(AwsIotfleetwiseUpdateCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateCampaignAsync(AwsIotfleetwiseUpdateCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a decoder manifest. A decoder manifest can only be updated when the status is DRAFT . Only ACTIVE decoder manifests can be associated with vehicles. See also: AWS API Documentation
@@ -538,8 +487,7 @@ public interface IAwsIotfleetwise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDecoderManifestAsync(AwsIotfleetwiseUpdateDecoderManifestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDecoderManifestAsync(AwsIotfleetwiseUpdateDecoderManifestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the description of an existing fleet. See also: AWS API Documentation
@@ -548,18 +496,16 @@ public interface IAwsIotfleetwise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFleetAsync(AwsIotfleetwiseUpdateFleetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateFleetAsync(AwsIotfleetwiseUpdateFleetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates a vehicle model (model manifest). If created vehicles are asso- ciated with a vehicle model, it can't be updated. See also: AWS API Documentation
+    /// Updates a vehicle model (model manifest). If created vehicles are associated with a vehicle model, it can't be updated. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateModelManifestAsync(AwsIotfleetwiseUpdateModelManifestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateModelManifestAsync(AwsIotfleetwiseUpdateModelManifestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a signal catalog. See also: AWS API Documentation
@@ -568,27 +514,24 @@ public interface IAwsIotfleetwise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSignalCatalogAsync(AwsIotfleetwiseUpdateSignalCatalogOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSignalCatalogAsync(AwsIotfleetwiseUpdateSignalCatalogOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates a state template. WARNING: Access to certain Amazon Web Services IoT FleetWise features is cur- rently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+    /// Updates a state template. WARNING: Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateStateTemplateAsync(AwsIotfleetwiseUpdateStateTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateStateTemplateAsync(AwsIotfleetwiseUpdateStateTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates a vehicle. WARNING: Access to certain Amazon Web Services IoT FleetWise features is cur- rently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+    /// Updates a vehicle. WARNING: Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateVehicleAsync(AwsIotfleetwiseUpdateVehicleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateVehicleAsync(AwsIotfleetwiseUpdateVehicleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

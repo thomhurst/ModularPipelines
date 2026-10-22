@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsQuicksightDescribeDefaultQBusinessApplicationOptions : AwsOptio
     /// <summary>
     /// Describes a Amazon Q Business application that is linked to an Quick Sight account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Quick Sight account that is linked to the Amazon Q Business application that you want described. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="AwsAccountId">The ID of the Quick Sight account that is linked to the Amazon Q Business application that you want described. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
     public AwsQuicksightDescribeDefaultQBusinessApplicationOptions(
         string AwsAccountId
     )
@@ -56,13 +58,13 @@ public record AwsQuicksightDescribeDefaultQBusinessApplicationOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Quick Sight account that is linked to the Amazon Q Business application that you want described. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Quick Sight account that is linked to the Amazon Q Business application that you want described. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The Quick Sight namespace that contains the linked Amazon Q Business application. If this field is left blank, the default namespace is used. Currently, the default namespace is the only valid value for this parameter. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// The Quick Sight namespace that contains the linked Amazon Q Business application. If this field is left blank, the default namespace is used. Currently, the default namespace is the only valid value for this parameter. Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; set; }

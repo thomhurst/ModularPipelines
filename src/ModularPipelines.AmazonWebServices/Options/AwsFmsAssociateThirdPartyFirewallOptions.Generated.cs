@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sets the Firewall Manager policy administrator as a tenant administra- tor of a third-party firewall service. A tenant is an instance of the third-party firewall service that's associated with your Amazon Web Services customer account. See also: AWS API Documentation
+/// Sets the Firewall Manager policy administrator as a tenant administrator of a third-party firewall service. A tenant is an instance of the third-party firewall service that's associated with your Amazon Web Services customer account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsFmsAssociateThirdPartyFirewallOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sets the Firewall Manager policy administrator as a tenant administra- tor of a third-party firewall service. A tenant is an instance of the third-party firewall service that's associated with your Amazon Web Services customer account. See also: AWS API Documentation
+    /// Sets the Firewall Manager policy administrator as a tenant administrator of a third-party firewall service. A tenant is an instance of the third-party firewall service that's associated with your Amazon Web Services customer account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ThirdPartyFirewall">The name of the third-party firewall vendor. Possible values: o PALO_ALTO_NETWORKS_CLOUD_NGFW o FORTIGATE_CLOUD_NATIVE_FIREWALL</param>
+    /// <param name="ThirdPartyFirewall">The name of the third-party firewall vendor. Possible values: • PALO_ALTO_NETWORKS_CLOUD_NGFW • FORTIGATE_CLOUD_NATIVE_FIREWALL</param>
     public AwsFmsAssociateThirdPartyFirewallOptions(
         AwsFmsAssociateThirdPartyFirewallThirdPartyFirewall ThirdPartyFirewall
     )
@@ -56,7 +58,7 @@ public record AwsFmsAssociateThirdPartyFirewallOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the third-party firewall vendor. Possible values: o PALO_ALTO_NETWORKS_CLOUD_NGFW o FORTIGATE_CLOUD_NATIVE_FIREWALL
+    /// The name of the third-party firewall vendor. Possible values: • PALO_ALTO_NETWORKS_CLOUD_NGFW • FORTIGATE_CLOUD_NATIVE_FIREWALL
     /// </summary>
     [CliOption("--third-party-firewall")]
     public AwsFmsAssociateThirdPartyFirewallThirdPartyFirewall? ThirdPartyFirewall { get; private init; }

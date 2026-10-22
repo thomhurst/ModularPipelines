@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Takes a list of configurationId as input and starts an asynchronous deletion task to remove the configurationItems. Returns a unique dele- tion task identifier. See also: AWS API Documentation
+/// Takes a list of configurationId as input and starts an asynchronous deletion task to remove the configurationItems. Returns a unique deletion task identifier. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsDiscoveryStartBatchDeleteConfigurationTaskOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Takes a list of configurationId as input and starts an asynchronous deletion task to remove the configurationItems. Returns a unique dele- tion task identifier. See also: AWS API Documentation
+    /// Takes a list of configurationId as input and starts an asynchronous deletion task to remove the configurationItems. Returns a unique deletion task identifier. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfigurationType">The type of configuration item to delete. Supported types are: SERVER. Possible values: o SERVER</param>
-    /// <param name="ConfigurationIds">The list of configuration IDs that will be deleted by the task. (string) Constraints: o max: 200 o pattern: \S* Syntax: "string" "string" ...</param>
+    /// <param name="ConfigurationType">The type of configuration item to delete. Supported types are: SERVER. Possible values: • SERVER</param>
+    /// <param name="ConfigurationIds">The list of configuration IDs that will be deleted by the task. (string) Constraints: • max: 200 • pattern: \S* Syntax: "string" "string" ...</param>
     public AwsDiscoveryStartBatchDeleteConfigurationTaskOptions(
         string ConfigurationType,
         IEnumerable<string> ConfigurationIds
@@ -71,13 +73,13 @@ public record AwsDiscoveryStartBatchDeleteConfigurationTaskOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of configuration item to delete. Supported types are: SERVER. Possible values: o SERVER
+    /// The type of configuration item to delete. Supported types are: SERVER. Possible values: • SERVER
     /// </summary>
     [CliOption("--configuration-type")]
     public string? ConfigurationType { get; private init; }
 
     /// <summary>
-    /// The list of configuration IDs that will be deleted by the task. (string) Constraints: o max: 200 o pattern: \S* Syntax: "string" "string" ...
+    /// The list of configuration IDs that will be deleted by the task. (string) Constraints: • max: 200 • pattern: \S* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--configuration-ids", GroupValues = true)]
     public IEnumerable<string>? ConfigurationIds { get; private init; }

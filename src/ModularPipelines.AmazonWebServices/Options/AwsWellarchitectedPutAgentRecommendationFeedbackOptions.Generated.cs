@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Submits user feedback on a recommendation to help improve future opti- mization suggestions and track implementation outcomes. See also: AWS API Documentation
+/// Submits user feedback on a recommendation to help improve future optimization suggestions and track implementation outcomes. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsWellarchitectedPutAgentRecommendationFeedbackOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Submits user feedback on a recommendation to help improve future opti- mization suggestions and track implementation outcomes. See also: AWS API Documentation
+    /// Submits user feedback on a recommendation to help improve future optimization suggestions and track implementation outcomes. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RecommendationArn">The Amazon Resource Name (ARN) of the recommendation to provide feedback for. Constraints: o min: 0 o max: 2048 o pattern: arn:aws([a-z0-9-]+)?:wellarchi- tected:[a-z0-9-]{6,64}:\d{12}:agent-recommenda- tion/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="Type">The type of feedback being provided. Possible values: o USEFUL o NOT_USEFUL</param>
+    /// <param name="RecommendationArn">The Amazon Resource Name (ARN) of the recommendation to provide feedback for. Constraints: • min: 0 • max: 2048 • pattern: arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\d{12}:agent-recommendation/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="Type">The type of feedback being provided. Possible values: • USEFUL • NOT_USEFUL</param>
     public AwsWellarchitectedPutAgentRecommendationFeedbackOptions(
         string RecommendationArn,
         AwsWellarchitectedPutAgentRecommendationFeedbackType Type
@@ -60,25 +62,25 @@ public record AwsWellarchitectedPutAgentRecommendationFeedbackOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the recommendation to provide feedback for. Constraints: o min: 0 o max: 2048 o pattern: arn:aws([a-z0-9-]+)?:wellarchi- tected:[a-z0-9-]{6,64}:\d{12}:agent-recommenda- tion/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The Amazon Resource Name (ARN) of the recommendation to provide feedback for. Constraints: • min: 0 • max: 2048 • pattern: arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\d{12}:agent-recommendation/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--recommendation-arn")]
     public string? RecommendationArn { get; private init; }
 
     /// <summary>
-    /// The type of feedback being provided. Possible values: o USEFUL o NOT_USEFUL
+    /// The type of feedback being provided. Possible values: • USEFUL • NOT_USEFUL
     /// </summary>
     [CliOption("--type")]
     public AwsWellarchitectedPutAgentRecommendationFeedbackType? Type { get; private init; }
 
     /// <summary>
-    /// Optional category classifying the nature of the feedback. Possible values: o OTHER o RECOMMENDATION_NOT_RELEVANT o RESOURCE_NOT_IMPORTANT o RESOURCE_TYPE_NOT_IMPORTANT o RECOMMENDATION_INCORRECT
+    /// Optional category classifying the nature of the feedback. Possible values: • OTHER • RECOMMENDATION_NOT_RELEVANT • RESOURCE_NOT_IMPORTANT • RESOURCE_TYPE_NOT_IMPORTANT • RECOMMENDATION_INCORRECT
     /// </summary>
     [CliOption("--feedback-category")]
     public AwsWellarchitectedPutAgentRecommendationFeedbackFeedbackCategory? FeedbackCategory { get; set; }
 
     /// <summary>
-    /// Optional comments providing additional context about the feedback. Constraints: o min: 1 o max: 4096 o pattern: [\P{C}]+
+    /// Optional comments providing additional context about the feedback. Constraints: • min: 1 • max: 4096 • pattern: [\P{C}]+
     /// </summary>
     [CliOption("--comments")]
     public string? Comments { get; set; }

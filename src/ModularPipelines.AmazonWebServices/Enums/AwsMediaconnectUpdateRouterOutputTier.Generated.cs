@@ -22,6 +22,12 @@ public enum AwsMediaconnectUpdateRouterOutputTier
     [EnumValue("OUTPUT_20")]
     Output20,
 
+    [EnumValue("OUTPUT_250")]
+    Output250,
+
     [EnumValue("OUTPUT_50")]
-    Output50
+    Output50,
+
+    [EnumValue("OUTPUT_500")]
+    Output500
 }

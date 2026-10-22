@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Set the event log configuration for the account, resource type, or spe- cific resource. See also: AWS API Documentation
+/// Set the event log configuration for the account, resource type, or specific resource. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +29,10 @@ public record AwsIotManagedIntegrationsCreateEventLogConfigurationOptions : AwsO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Set the event log configuration for the account, resource type, or spe- cific resource. See also: AWS API Documentation
+    /// Set the event log configuration for the account, resource type, or specific resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceType">The type of resource for the event log configuration. Constraints: o pattern: [*]$|^(managed-thing|credential-locker|provisioning-pro- file|ota-task|account-association)</param>
-    /// <param name="EventLogLevel">The logging level for the event log configuration. Possible values: o DEBUG o ERROR o INFO o WARN</param>
+    /// <param name="ResourceType">The type of resource for the event log configuration. Constraints: • pattern: [*]$|^(managed-thing|credential-locker|provisioning-profile|ota-task|account-association)</param>
+    /// <param name="EventLogLevel">The logging level for the event log configuration. Possible values: • DEBUG • ERROR • INFO • WARN</param>
     public AwsIotManagedIntegrationsCreateEventLogConfigurationOptions(
         string ResourceType,
         AwsIotManagedIntegrationsCreateEventLogConfigurationEventLogLevel EventLogLevel
@@ -61,25 +63,25 @@ public record AwsIotManagedIntegrationsCreateEventLogConfigurationOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of resource for the event log configuration. Constraints: o pattern: [*]$|^(managed-thing|credential-locker|provisioning-pro- file|ota-task|account-association)
+    /// The type of resource for the event log configuration. Constraints: • pattern: [*]$|^(managed-thing|credential-locker|provisioning-profile|ota-task|account-association)
     /// </summary>
     [CliOption("--resource-type")]
     public string? ResourceType { get; private init; }
 
     /// <summary>
-    /// The logging level for the event log configuration. Possible values: o DEBUG o ERROR o INFO o WARN
+    /// The logging level for the event log configuration. Possible values: • DEBUG • ERROR • INFO • WARN
     /// </summary>
     [CliOption("--event-log-level")]
     public AwsIotManagedIntegrationsCreateEventLogConfigurationEventLogLevel? EventLogLevel { get; private init; }
 
     /// <summary>
-    /// The identifier of the resource for the event log configuration. Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9+*]*
+    /// The identifier of the resource for the event log configuration. Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9+*]*
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; set; }
 
     /// <summary>
-    /// An idempotency token. If you retry a request that completed success- fully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9=_-]+
+    /// An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9=_-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

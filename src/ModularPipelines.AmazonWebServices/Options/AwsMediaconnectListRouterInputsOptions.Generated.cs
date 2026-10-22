@@ -23,16 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsMediaconnectListRouterInputsOptions : AwsOptions
 {
     /// <summary>
-    /// The filters to apply when retrieving the list of router inputs. (tagged union structure) A filter that can be used to retrieve a list of router inputs. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: NameContains, RegionNames, Net- workInterfaceArns, RoutingScopes, InputTypes. NameContains -&gt; (list) The names of the router inputs to include in the filter. (string) RegionNames -&gt; (list) The AWS Regions of the router inputs to include in the fil- ter. (string) NetworkInterfaceArns -&gt; (list) The Amazon Resource Names (ARNs) of the network interfaces associated with the router inputs to include in the filter. (string) Constraints: o pattern: arn:(aws[a-zA-Z-]*):mediacon- nect:[a-z0-9-]+:[0-9]{12}:routerNetworkInter- face:[a-z0-9]{12} RoutingScopes -&gt; (list) Filter criteria to list router inputs based on their routing scope (REGIONAL or GLOBAL). (string) Possible values: o REGIONAL o GLOBAL InputTypes -&gt; (list) The types of router inputs to include in the filter. (string) Possible values: o STANDARD o FAILOVER o MERGE o MEDIACONNECT_FLOW o MEDIALIVE_CHANNEL Shorthand Syntax: NameContains=string,string,RegionNames=string,string,NetworkInterfaceArns=string,string,RoutingScopes=string,string,InputTypes=string,string ... JSON Syntax: [ { "NameContains": ["string", ...], "RegionNames": ["string", ...], "NetworkInterfaceArns": ["string", ...], "RoutingScopes": ["REGIONAL"|"GLOBAL", ...], "InputTypes": ["STANDARD"|"FAILOVER"|"MERGE"|"MEDIACONNECT_FLOW"|"MEDIALIVE_CHANNEL", ...] } ... ]
+    /// The filters to apply when retrieving the list of router inputs. (tagged union structure) A filter that can be used to retrieve a list of router inputs. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: NameContains, RegionNames, NetworkInterfaceArns, RoutingScopes, InputTypes. NameContains -&gt; (list) The names of the router inputs to include in the filter. (string) RegionNames -&gt; (list) The AWS Regions of the router inputs to include in the filter. (string) NetworkInterfaceArns -&gt; (list) The Amazon Resource Names (ARNs) of the network interfaces associated with the router inputs to include in the filter. (string) Constraints: • pattern: arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:routerNetworkInterface:[a-z0-9]{12} RoutingScopes -&gt; (list) Filter criteria to list router inputs based on their routing scope (REGIONAL or GLOBAL). (string) Possible values: • REGIONAL • GLOBAL InputTypes -&gt; (list) The types of router inputs to include in the filter. (string) Possible values: • STANDARD • FAILOVER • MERGE • MEDIACONNECT_FLOW • MEDIALIVE_CHANNEL Shorthand Syntax: NameContains=string,string,RegionNames=string,string,NetworkInterfaceArns=string,string,RoutingScopes=string,string,InputTypes=string,string ... JSON Syntax: [ { "NameContains": ["string", ...], "RegionNames": ["string", ...], "NetworkInterfaceArns": ["string", ...], "RoutingScopes": ["REGIONAL"|"GLOBAL", ...], "InputTypes": ["STANDARD"|"FAILOVER"|"MERGE"|"MEDIACONNECT_FLOW"|"MEDIALIVE_CHANNEL", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -42,15 +39,18 @@ public record AwsMediaconnectListRouterInputsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

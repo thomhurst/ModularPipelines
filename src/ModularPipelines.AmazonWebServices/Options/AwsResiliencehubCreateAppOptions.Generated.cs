@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -18,7 +19,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an Resilience Hub application. An Resilience Hub application is a collection of Amazon Web Services resources structured to prevent and recover Amazon Web Services application disruptions. To describe a Re- silience Hub application, you provide an application name, resources from one or more CloudFormation stacks, Resource Groups, Terraform state files, AppRegistry applications, and an appropriate resiliency policy. In addition, you can also add resources that are located on Amazon Elast...
+/// Creates an Resilience Hub application. An Resilience Hub application is a collection of Amazon Web Services resources structured to prevent and recover Amazon Web Services application disruptions. To describe a Resilience Hub application, you provide an application name, resources from one or more CloudFormation stacks, Resource Groups, Terraform state files, AppRegistry applications, and an appropriate resiliency policy. In addition, you can also add resources that are located on Amazon Elastic...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,9 +29,9 @@ public record AwsResiliencehubCreateAppOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an Resilience Hub application. An Resilience Hub application is a collection of Amazon Web Services resources structured to prevent and recover Amazon Web Services application disruptions. To describe a Re- silience Hub application, you provide an application name, resources from one or more CloudFormation stacks, Resource Groups, Terraform state files, AppRegistry applications, and an appropriate resiliency policy. In addition, you can also add resources that are located on Amazon Elast...
+    /// Creates an Resilience Hub application. An Resilience Hub application is a collection of Amazon Web Services resources structured to prevent and recover Amazon Web Services application disruptions. To describe a Resilience Hub application, you provide an application name, resources from one or more CloudFormation stacks, Resource Groups, Terraform state files, AppRegistry applications, and an appropriate resiliency policy. In addition, you can also add resources that are located on Amazon Elastic...
     /// </summary>
-    /// <param name="Name">Name of the application. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$</param>
+    /// <param name="Name">Name of the application. Constraints: • pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$</param>
     public AwsResiliencehubCreateAppOptions(
         string Name
     )
@@ -59,56 +60,56 @@ public record AwsResiliencehubCreateAppOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the application. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$
+    /// Name of the application. Constraints: • pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Assessment execution schedule with 'Daily' or 'Disabled' values. Possible values: o Disabled o Daily
+    /// Assessment execution schedule with 'Daily' or 'Disabled' values. Possible values: • Disabled • Daily
     /// </summary>
     [CliOption("--assessment-schedule")]
     public AwsResiliencehubCreateAppAssessmentSchedule? AssessmentSchedule { get; set; }
 
     /// <summary>
-    /// Amazon Resource Name (ARN) of Resource Groups group that is inte- grated with an AppRegistry application. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
+    /// Amazon Resource Name (ARN) of Resource Groups group that is integrated with an AppRegistry application. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
     /// </summary>
     [CliOption("--aws-application-arn")]
     public string? AwsApplicationArn { get; set; }
 
     /// <summary>
-    /// Used for an idempotency token. A client token is a unique, case-sen- sitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests. Constraints: o min: 1 o max: 63 o pattern: ^[A-Za-z0-9_.-]{0,63}$
+    /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests. Constraints: • min: 1 • max: 63 • pattern: ^[A-Za-z0-9_.-]{0,63}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The optional description for an app. Constraints: o min: 0 o max: 500
+    /// The optional description for an app. Constraints: • min: 0 • max: 500
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The list of events you would like to subscribe and get notification for. Currently, Resilience Hub supports only Drift detected and Scheduled assessment failure events notification. Constraints: o min: 0 o max: 10 (structure) Indicates an event you would like to subscribe and get notifica- tion for. Currently, Resilience Hub supports notifications only for Drift detected and Scheduled assessment failure events. eventType -&gt; (string) [required] The type of event you would like to subscribe and get notifi- cation for. Currently, Resilience Hub supports notifications only for Drift detected (DriftDetected ) and Scheduled as- sessment failure (ScheduledAssessmentFailure ) events. Possible values: o ScheduledAssessmentFailure o DriftDetected name -&gt; (string) [required] Unique name to identify an event subscription. Constraints: o min: 1 o max: 255 snsTopicArn -&gt; (string) Amazon Resource Name (ARN) of the Amazon Simple Notification Service topic. The format for this ARN is: arn:parti- tion:sns:region:account:topic-name . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$ Shorthand Syntax: eventType=string,name=string,snsTopicArn=string ... JSON Syntax: [ { "eventType": "ScheduledAssessmentFailure"|"DriftDetected", "name": "string", "snsTopicArn": "string" } ... ]
+    /// The list of events you would like to subscribe and get notification for. Currently, Resilience Hub supports only Drift detected and Scheduled assessment failure events notification. Constraints: • min: 0 • max: 10 (structure) Indicates an event you would like to subscribe and get notification for. Currently, Resilience Hub supports notifications only for Drift detected and Scheduled assessment failure events. eventType -&gt; (string) [required] The type of event you would like to subscribe and get notification for. Currently, Resilience Hub supports notifications only for Drift detected (DriftDetected ) and Scheduled assessment failure (ScheduledAssessmentFailure ) events. Possible values: • ScheduledAssessmentFailure • DriftDetected name -&gt; (string) [required] Unique name to identify an event subscription. Constraints: • min: 1 • max: 255 snsTopicArn -&gt; (string) Amazon Resource Name (ARN) of the Amazon Simple Notification Service topic. The format for this ARN is: arn:partition:sns:region:account:topic-name . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$ Shorthand Syntax: eventType=string,name=string,snsTopicArn=string ... JSON Syntax: [ { "eventType": "ScheduledAssessmentFailure"|"DriftDetected", "name": "string", "snsTopicArn": "string" } ... ]
     /// </summary>
     [CliOption("--event-subscriptions", GroupValues = true)]
     public IEnumerable<string>? EventSubscriptions { get; set; }
 
     /// <summary>
-    /// Defines the roles and credentials that Resilience Hub would use while creating the application, importing its resources, and running an assessment. crossAccountRoleArns -&gt; (list) Defines a list of role Amazon Resource Names (ARNs) to be used in other accounts. These ARNs are used for querying purposes while importing resources and assessing your application. NOTE: o These ARNs are required only when your resources are in other accounts and you have different role name in these accounts. Else, the invoker role name will be used in the other accounts. o These roles must have a trust policy with iam:AssumeRole permission to the invoker role in the primary account. Constraints: o min: 0 o max: 10 (string) Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):iam::[0-9]{12}:role/(([^/][!-~]+/){1,511})?[A-Za-z0-9_+=,.@-]{1,64}$ invokerRoleName -&gt; (string) Existing Amazon Web Services IAM role name in the primary Amazon Web Services account that will be assumed by Resilience Hub Ser- vice Principle to obtain a read-only access to your application resources while running an assessment. If your IAM role includes a path, you must include the path in the invokerRoleName parameter. For example, if your IAM role's ARN is arn:aws:iam:123456789012:role/my-path/role-name , you should pass my-path/role-name . NOTE: o You must have iam:passRole permission for this role while creating or updating the application. o Currently, invokerRoleName accepts only [A-Za-z0-9_+=,.@-] characters. Constraints: o pattern: ^([^/]([!-~]+/){1,511})?[A-Za-z0-9_+=,.@-]{1,64}$ type -&gt; (string) [required] Defines how Resilience Hub scans your resources. It can scan for the resources by using a pre-existing role in your Amazon Web Services account, or by using the credentials of the current IAM user. Possible values: o LegacyIAMUser o RoleBased Shorthand Syntax: crossAccountRoleArns=string,string,invokerRoleName=string,type=string JSON Syntax: { "crossAccountRoleArns": ["string", ...], "invokerRoleName": "string", "type": "LegacyIAMUser"|"RoleBased" }
+    /// Defines the roles and credentials that Resilience Hub would use while creating the application, importing its resources, and running an assessment. crossAccountRoleArns -&gt; (list) Defines a list of role Amazon Resource Names (ARNs) to be used in other accounts. These ARNs are used for querying purposes while importing resources and assessing your application. NOTE: • These ARNs are required only when your resources are in other accounts and you have different role name in these accounts. Else, the invoker role name will be used in the other accounts. • These roles must have a trust policy with iam:AssumeRole permission to the invoker role in the primary account. Constraints: • min: 0 • max: 10 (string) Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):iam::[0-9]{12}:role/(([^/][!-~]+/){1,511})?[A-Za-z0-9_+=,.@-]{1,64}$ invokerRoleName -&gt; (string) Existing Amazon Web Services IAM role name in the primary Amazon Web Services account that will be assumed by Resilience Hub Service Principle to obtain a read-only access to your application resources while running an assessment. If your IAM role includes a path, you must include the path in the invokerRoleName parameter. For example, if your IAM role's ARN is arn:aws:iam:123456789012:role/my-path/role-name , you should pass my-path/role-name . NOTE: • You must have iam:passRole permission for this role while creating or updating the application. • Currently, invokerRoleName accepts only [A-Za-z0-9_+=,.@-] characters. Constraints: • pattern: ^([^/]([!-~]+/){1,511})?[A-Za-z0-9_+=,.@-]{1,64}$ type -&gt; (string) [required] Defines how Resilience Hub scans your resources. It can scan for the resources by using a pre-existing role in your Amazon Web Services account, or by using the credentials of the current IAM user. Possible values: • LegacyIAMUser • RoleBased Shorthand Syntax: crossAccountRoleArns=string,string,invokerRoleName=string,type=string JSON Syntax: { "crossAccountRoleArns": ["string", ...], "invokerRoleName": "string", "type": "LegacyIAMUser"|"RoleBased" }
     /// </summary>
     [CliOption("--permission-model")]
     public string? PermissionModel { get; set; }
 
     /// <summary>
-    /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition :resiliencehub:region :account :re- siliency-policy/policy-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Ref- erence guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
+    /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition :resiliencehub:region :account :resiliency-policy/policy-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
     /// </summary>
     [CliOption("--policy-arn")]
     public string? PolicyArn { get; set; }
 
     /// <summary>
-    /// Tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key/value pair. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^[^\x00-\x1f\x22]+$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^[^\x00-\x1f\x22]*$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key/value pair. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^[^\x00-\x1f\x22]+$ value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ^[^\x00-\x1f\x22]*$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

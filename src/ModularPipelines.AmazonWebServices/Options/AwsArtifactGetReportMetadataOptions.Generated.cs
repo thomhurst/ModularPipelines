@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsArtifactGetReportMetadataOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Get the metadata for a single report. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ReportId">Unique resource ID for the report resource. Constraints: o pattern: report-[a-zA-Z0-9]{16}</param>
+    /// <param name="ReportId">Unique resource ID for the report resource. Constraints: • pattern: report-[a-zA-Z0-9]{16}</param>
     public AwsArtifactGetReportMetadataOptions(
         string ReportId
     )
@@ -56,16 +58,16 @@ public record AwsArtifactGetReportMetadataOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Unique resource ID for the report resource. Constraints: o pattern: report-[a-zA-Z0-9]{16}
+    /// Unique resource ID for the report resource. Constraints: • pattern: report-[a-zA-Z0-9]{16}
     /// </summary>
     [CliOption("--report-id")]
     public string? ReportId { get; private init; }
 
     /// <summary>
-    /// Version for the report resource. Constraints: o min: 1
+    /// Version for the report resource. Constraints: • min: 1
     /// </summary>
     [CliOption("--report-version")]
-    public int? ReportVersion { get; set; }
+    public long? ReportVersion { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

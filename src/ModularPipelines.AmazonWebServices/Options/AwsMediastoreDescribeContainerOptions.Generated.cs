@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the properties of the requested container. This request is commonly used to retrieve the endpoint of a container. An endpoint is a value assigned by the service when a new container is created. A con- tainer's endpoint does not change after it has been assigned. The De- scribeContainer request returns a single Container object based on Con- tainerName . To return all Container objects that are associated with a specified AWS account, use ListContainers . See also: AWS API Documentation
+/// Retrieves the properties of the requested container. This request is commonly used to retrieve the endpoint of a container. An endpoint is a value assigned by the service when a new container is created. A container's endpoint does not change after it has been assigned. The DescribeContainer request returns a single Container object based on ContainerName . To return all Container objects that are associated with a specified AWS account, use ListContainers . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsMediastoreDescribeContainerOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the container to query. Constraints: o min: 1 o max: 255 o pattern: [\w-]+
+    /// The name of the container to query. Constraints: • min: 1 • max: 255 • pattern: [\w-]+
     /// </summary>
     [CliOption("--container-name")]
     public string? ContainerName { get; set; }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a default subnet with a size /20 IPv4 CIDR block in the speci- fied Availability Zone in your default VPC. You can have only one de- fault subnet per Availability Zone. For more information, see Create a default subnet in the Amazon VPC User Guide . See also: AWS API Documentation
+/// Creates a default subnet with a size /20 IPv4 CIDR block in the specified Availability Zone in your default VPC. You can have only one default subnet per Availability Zone. For more information, see Create a default subnet in the Amazon VPC User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,13 +28,13 @@ public record AwsEc2CreateDefaultSubnetOptions : AwsOptions
     public string? AvailabilityZone { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// Indicates whether to create an IPv6 only subnet. If you already have a default subnet for this Availability Zone, you must delete it be- fore you can create an IPv6 only subnet.
+    /// Indicates whether to create an IPv6 only subnet. If you already have a default subnet for this Availability Zone, you must delete it before you can create an IPv6 only subnet.
     /// </summary>
     [CliFlag("--ipv6-native", NegatedName = "--no-ipv6-native")]
     public bool? Ipv6Native { get; set; }

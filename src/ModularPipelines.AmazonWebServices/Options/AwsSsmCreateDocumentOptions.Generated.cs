@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a Amazon Web Services Systems Manager (SSM document). An SSM document defines the actions that Systems Manager performs on your man- aged nodes. For more information about SSM documents, including infor- mation about supported schemas, features, and syntax, see Amazon Web Services Systems Manager Documents in the Amazon Web Services Systems Manager User Guide . See also: AWS API Documentation
+/// Creates a Amazon Web Services Systems Manager (SSM document). An SSM document defines the actions that Systems Manager performs on your managed nodes. For more information about SSM documents, including information about supported schemas, features, and syntax, see Amazon Web Services Systems Manager Documents in the Amazon Web Services Systems Manager User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsSsmCreateDocumentOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a Amazon Web Services Systems Manager (SSM document). An SSM document defines the actions that Systems Manager performs on your man- aged nodes. For more information about SSM documents, including infor- mation about supported schemas, features, and syntax, see Amazon Web Services Systems Manager Documents in the Amazon Web Services Systems Manager User Guide . See also: AWS API Documentation
+    /// Creates a Amazon Web Services Systems Manager (SSM document). An SSM document defines the actions that Systems Manager performs on your managed nodes. For more information about SSM documents, including information about supported schemas, features, and syntax, see Amazon Web Services Systems Manager Documents in the Amazon Web Services Systems Manager User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Content">The content for the new SSM document in JSON or YAML format. The content of the document must not exceed 64KB. This quota also in- cludes the content specified for input parameters at runtime. We recommend storing the contents for your new document in an external JSON or YAML file and referencing the file in a command. For examples, see the following topics in the Amazon Web Services Systems Manager User Guide . o Create an SSM document (console) o Create an SSM document (command line) o Create an SSM document (API) Constraints: o min: 1</param>
-    /// <param name="Name">A name for the SSM document. WARNING: You can't use the following strings as document name prefixes. These are reserved by Amazon Web Services for use as document name prefixes: o aws o amazon o amzn o AWSEC2 o AWSConfigRemediation o AWSSupport Constraints: o pattern: ^[a-zA-Z0-9_\-.]{3,128}$</param>
+    /// <param name="Content">The content for the new SSM document in JSON or YAML format. The content of the document must not exceed 64KB. This quota also includes the content specified for input parameters at runtime. We recommend storing the contents for your new document in an external JSON or YAML file and referencing the file in a command. For examples, see the following topics in the Amazon Web Services Systems Manager User Guide . • Create an SSM document (console) • Create an SSM document (command line) • Create an SSM document (API) Constraints: • min: 1</param>
+    /// <param name="Name">A name for the SSM document. WARNING: You can't use the following strings as document name prefixes. These are reserved by Amazon Web Services for use as document name prefixes: • aws • amazon • amzn • AWSEC2 • AWSConfigRemediation • AWSSupport Constraints: • pattern: ^[a-zA-Z0-9_\-.]{3,128}$</param>
     public AwsSsmCreateDocumentOptions(
         string Content,
         string Name
@@ -61,61 +63,61 @@ public record AwsSsmCreateDocumentOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The content for the new SSM document in JSON or YAML format. The content of the document must not exceed 64KB. This quota also in- cludes the content specified for input parameters at runtime. We recommend storing the contents for your new document in an external JSON or YAML file and referencing the file in a command. For examples, see the following topics in the Amazon Web Services Systems Manager User Guide . o Create an SSM document (console) o Create an SSM document (command line) o Create an SSM document (API) Constraints: o min: 1
+    /// The content for the new SSM document in JSON or YAML format. The content of the document must not exceed 64KB. This quota also includes the content specified for input parameters at runtime. We recommend storing the contents for your new document in an external JSON or YAML file and referencing the file in a command. For examples, see the following topics in the Amazon Web Services Systems Manager User Guide . • Create an SSM document (console) • Create an SSM document (command line) • Create an SSM document (API) Constraints: • min: 1
     /// </summary>
     [CliOption("--content")]
     public string? Content { get; private init; }
 
     /// <summary>
-    /// A name for the SSM document. WARNING: You can't use the following strings as document name prefixes. These are reserved by Amazon Web Services for use as document name prefixes: o aws o amazon o amzn o AWSEC2 o AWSConfigRemediation o AWSSupport Constraints: o pattern: ^[a-zA-Z0-9_\-.]{3,128}$
+    /// A name for the SSM document. WARNING: You can't use the following strings as document name prefixes. These are reserved by Amazon Web Services for use as document name prefixes: • aws • amazon • amzn • AWSEC2 • AWSConfigRemediation • AWSSupport Constraints: • pattern: ^[a-zA-Z0-9_\-.]{3,128}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A list of SSM documents required by a document. This parameter is used exclusively by AppConfig. When a user creates an AppConfig con- figuration in an SSM document, the user must also specify a required document for validation purposes. In this case, an ApplicationCon- figuration document requires an ApplicationConfigurationSchema docu- ment for validation purposes. For more information, see What is App- Config? in the AppConfig User Guide . Constraints: o min: 1 (structure) An SSM document required by the current document. Name -&gt; (string) [required] The name of the required SSM document. The name can be an Amazon Resource Name (ARN). Constraints: o pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$ Version -&gt; (string) The document version required by the current document. Constraints: o pattern: ([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$) RequireType -&gt; (string) The document type of the required SSM document. Constraints: o max: 128 o pattern: ^[a-zA-Z0-9_\-.]{1,128}$ VersionName -&gt; (string) An optional field specifying the version of the artifact as- sociated with the document. For example, 12.6. This value is unique across all versions of a document, and can't be changed. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{1,128}$ Shorthand Syntax: Name=string,Version=string,RequireType=string,VersionName=string ... JSON Syntax: [ { "Name": "string", "Version": "string", "RequireType": "string", "VersionName": "string" } ... ]
+    /// A list of SSM documents required by a document. This parameter is used exclusively by AppConfig. When a user creates an AppConfig configuration in an SSM document, the user must also specify a required document for validation purposes. In this case, an ApplicationConfiguration document requires an ApplicationConfigurationSchema document for validation purposes. For more information, see What is AppConfig? in the AppConfig User Guide . Constraints: • min: 1 (structure) An SSM document required by the current document. Name -&gt; (string) [required] The name of the required SSM document. The name can be an Amazon Resource Name (ARN). Constraints: • pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$ Version -&gt; (string) The document version required by the current document. Constraints: • pattern: ([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$) RequireType -&gt; (string) The document type of the required SSM document. Constraints: • max: 128 • pattern: ^[a-zA-Z0-9_\-.]{1,128}$ VersionName -&gt; (string) An optional field specifying the version of the artifact associated with the document. For example, 12.6. This value is unique across all versions of a document, and can't be changed. Constraints: • pattern: ^[a-zA-Z0-9_\-.]{1,128}$ Shorthand Syntax: Name=string,Version=string,RequireType=string,VersionName=string ... JSON Syntax: [ { "Name": "string", "Version": "string", "RequireType": "string", "VersionName": "string" } ... ]
     /// </summary>
     [CliOption("--requires", GroupValues = true)]
     public IEnumerable<string>? Requires { get; set; }
 
     /// <summary>
-    /// A list of key-value pairs that describe attachments to a version of a document. Constraints: o min: 0 o max: 20 (structure) Identifying information about a document attachment, including the file name and a key-value pair that identifies the location of an attachment to a document. Key -&gt; (string) The key of a key-value pair that identifies the location of an attachment to a document. Possible values: o SourceUrl o S3FileUrl o AttachmentReference Values -&gt; (list) The value of a key-value pair that identifies the location of an attachment to a document. The format for Value depends on the type of key you specify. o For the key SourceUrl , the value is an S3 bucket location. For example: "Values": [ "s3://amzn-s3-demo-bucket/my-pre- fix" ] o For the key S3FileUrl , the value is a file in an S3 bucket. For example: "Values": [ "s3://amzn-s3-demo-bucket/my-prefix/my-file.py" ] o For the key AttachmentReference , the value is constructed from the name of another SSM document in your account, a version number of that document, and a file attached to that document version that you want to reuse. For example: "Values": [ "MyOtherDocument/3/my-other-file.py" ] How- ever, if the SSM document is shared with you from another account, the full SSM document ARN must be specified in- stead of the document name only. For example: "Values": [ "arn:aws:ssm:us-east-2:111122223333:document/OtherAccount- Document/3/their-file.py" ] Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 1024 Name -&gt; (string) The name of the document attachment file. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{3,128}$ Shorthand Syntax: Key=string,Values=string,string,Name=string ... JSON Syntax: [ { "Key": "SourceUrl"|"S3FileUrl"|"AttachmentReference", "Values": ["string", ...], "Name": "string" } ... ]
+    /// A list of key-value pairs that describe attachments to a version of a document. Constraints: • min: 0 • max: 20 (structure) Identifying information about a document attachment, including the file name and a key-value pair that identifies the location of an attachment to a document. Key -&gt; (string) The key of a key-value pair that identifies the location of an attachment to a document. Possible values: • SourceUrl • S3FileUrl • AttachmentReference Values -&gt; (list) The value of a key-value pair that identifies the location of an attachment to a document. The format for Value depends on the type of key you specify. • For the key SourceUrl , the value is an S3 bucket location. For example: "Values": [ "s3://amzn-s3-demo-bucket/my-prefix" ] • For the key S3FileUrl , the value is a file in an S3 bucket. For example: "Values": [ "s3://amzn-s3-demo-bucket/my-prefix/my-file.py" ] • For the key AttachmentReference , the value is constructed from the name of another SSM document in your account, a version number of that document, and a file attached to that document version that you want to reuse. For example: "Values": [ "MyOtherDocument/3/my-other-file.py" ] However, if the SSM document is shared with you from another account, the full SSM document ARN must be specified instead of the document name only. For example: "Values": [ "arn:aws:ssm:us-east-2:111122223333:document/OtherAccountDocument/3/their-file.py" ] Constraints: • min: 1 • max: 1 (string) Constraints: • min: 1 • max: 1024 Name -&gt; (string) The name of the document attachment file. Constraints: • pattern: ^[a-zA-Z0-9_\-.]{3,128}$ Shorthand Syntax: Key=string,Values=string,string,Name=string ... JSON Syntax: [ { "Key": "SourceUrl"|"S3FileUrl"|"AttachmentReference", "Values": ["string", ...], "Name": "string" } ... ]
     /// </summary>
     [CliOption("--attachments", GroupValues = true)]
     public IEnumerable<string>? Attachments { get; set; }
 
     /// <summary>
-    /// An optional field where you can specify a friendly name for the SSM document. This value can differ for each version of the document. You can update this value at a later time using the UpdateDocument operation. Constraints: o max: 1024 o pattern: ^[\w\.\-\:\/ ]*$
+    /// An optional field where you can specify a friendly name for the SSM document. This value can differ for each version of the document. You can update this value at a later time using the UpdateDocument operation. Constraints: • max: 1024 • pattern: ^[\w\.\-\:\/ ]*$
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// An optional field specifying the version of the artifact you are creating with the document. For example, Release12.1 . This value is unique across all versions of a document, and can't be changed. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{1,128}$
+    /// An optional field specifying the version of the artifact you are creating with the document. For example, Release12.1 . This value is unique across all versions of a document, and can't be changed. Constraints: • pattern: ^[a-zA-Z0-9_\-.]{1,128}$
     /// </summary>
     [CliOption("--version-name")]
     public string? VersionName { get; set; }
 
     /// <summary>
-    /// The type of document to create. NOTE: The DeploymentStrategy document type is an internal-use-only document type reserved for AppConfig. Possible values: o Command o Policy o Automation o Session o Package o ApplicationConfiguration o ApplicationConfigurationSchema o DeploymentStrategy o ChangeCalendar o Automation.ChangeTemplate o ProblemAnalysis o ProblemAnalysisTemplate o CloudFormation o ConformancePackTemplate o QuickSetup o ManualApprovalPolicy o AutoApprovalPolicy
+    /// The type of document to create. NOTE: The DeploymentStrategy document type is an internal-use-only document type reserved for AppConfig. Possible values: • Command • Policy • Automation • Session • Package • ApplicationConfiguration • ApplicationConfigurationSchema • DeploymentStrategy • ChangeCalendar • Automation.ChangeTemplate • ProblemAnalysis • ProblemAnalysisTemplate • CloudFormation • ConformancePackTemplate • QuickSetup • ManualApprovalPolicy • AutoApprovalPolicy
     /// </summary>
     [CliOption("--document-type")]
     public AwsSsmCreateDocumentDocumentType? DocumentType { get; set; }
 
     /// <summary>
-    /// Specify the document format for the request. The document format can be JSON, YAML, or TEXT. JSON is the default format. Possible values: o YAML o JSON o TEXT
+    /// Specify the document format for the request. The document format can be JSON, YAML, or TEXT. JSON is the default format. Possible values: • YAML • JSON • TEXT
     /// </summary>
     [CliOption("--document-format")]
     public AwsSsmCreateDocumentDocumentFormat? DocumentFormat { get; set; }
 
     /// <summary>
-    /// Specify a target type to define the kinds of resources the document can run on. For example, to run a document on EC2 instances, specify the following value: /AWS::EC2::Instance . If you specify a value of '/' the document can run on all types of resources. If you don't specify a value, the document can't run on any resources. For a list of valid resource types, see Amazon Web Services resource and prop- erty types reference in the CloudFormation User Guide . Constraints: o max: 200 o pattern: ^\/[\w\.\-\:\/]*$
+    /// Specify a target type to define the kinds of resources the document can run on. For example, to run a document on EC2 instances, specify the following value: /AWS::EC2::Instance . If you specify a value of '/' the document can run on all types of resources. If you don't specify a value, the document can't run on any resources. For a list of valid resource types, see Amazon Web Services resource and property types reference in the CloudFormation User Guide . Constraints: • max: 200 • pattern: ^\/[\w\.\-\:\/]*$
     /// </summary>
     [CliOption("--target-type")]
     public string? TargetType { get; set; }
 
     /// <summary>
-    /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag an SSM document to identify the types of targets or the environment where it will run. In this case, you could specify the following key-value pairs: o Key=OS,Value=Windows o Key=Environment,Value=Production NOTE: To add tags to an existing SSM document, use the AddTagsToRe- source operation. Constraints: o max: 1000 (structure) Metadata that you assign to your Amazon Web Services resources. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. In Amazon Web Services Systems Manager, you can apply tags to Systems Manager documents (SSM documents), managed nodes, maintenance windows, parameters, patch baselines, OpsItems, and OpsMetadata. Key -&gt; (string) [required] The name of the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag an SSM document to identify the types of targets or the environment where it will run. In this case, you could specify the following key-value pairs: • Key=OS,Value=Windows • Key=Environment,Value=Production NOTE: To add tags to an existing SSM document, use the AddTagsToResource operation. Constraints: • max: 1000 (structure) Metadata that you assign to your Amazon Web Services resources. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. In Amazon Web Services Systems Manager, you can apply tags to Systems Manager documents (SSM documents), managed nodes, maintenance windows, parameters, patch baselines, OpsItems, and OpsMetadata. Key -&gt; (string) [required] The name of the tag. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value of the tag. Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

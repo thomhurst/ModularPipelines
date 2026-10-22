@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes Challenge-Handshake Authentication Protocol (CHAP) credentials for a specified iSCSI target and initiator pair. This operation is sup- ported in volume and tape gateway types. See also: AWS API Documentation
+/// Deletes Challenge-Handshake Authentication Protocol (CHAP) credentials for a specified iSCSI target and initiator pair. This operation is supported in volume and tape gateway types. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsStoragegatewayDeleteChapCredentialsOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes Challenge-Handshake Authentication Protocol (CHAP) credentials for a specified iSCSI target and initiator pair. This operation is sup- ported in volume and tape gateway types. See also: AWS API Documentation
+    /// Deletes Challenge-Handshake Authentication Protocol (CHAP) credentials for a specified iSCSI target and initiator pair. This operation is supported in volume and tape gateway types. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TargetArn">The Amazon Resource Name (ARN) of the iSCSI volume target. Use the DescribeStorediSCSIVolumes operation to return to retrieve the Tar- getARN for specified VolumeARN. Constraints: o min: 50 o max: 800</param>
-    /// <param name="InitiatorName">The iSCSI initiator that connects to the target. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z:.-]+</param>
+    /// <param name="TargetArn">The Amazon Resource Name (ARN) of the iSCSI volume target. Use the DescribeStorediSCSIVolumes operation to return to retrieve the TargetARN for specified VolumeARN. Constraints: • min: 50 • max: 800</param>
+    /// <param name="InitiatorName">The iSCSI initiator that connects to the target. Constraints: • min: 1 • max: 255 • pattern: [0-9a-z:.-]+</param>
     public AwsStoragegatewayDeleteChapCredentialsOptions(
         string TargetArn,
         string InitiatorName
@@ -60,13 +62,13 @@ public record AwsStoragegatewayDeleteChapCredentialsOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the DescribeStorediSCSIVolumes operation to return to retrieve the Tar- getARN for specified VolumeARN. Constraints: o min: 50 o max: 800
+    /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the DescribeStorediSCSIVolumes operation to return to retrieve the TargetARN for specified VolumeARN. Constraints: • min: 50 • max: 800
     /// </summary>
     [CliOption("--target-arn")]
     public string? TargetArn { get; private init; }
 
     /// <summary>
-    /// The iSCSI initiator that connects to the target. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z:.-]+
+    /// The iSCSI initiator that connects to the target. Constraints: • min: 1 • max: 255 • pattern: [0-9a-z:.-]+
     /// </summary>
     [CliOption("--initiator-name")]
     public string? InitiatorName { get; private init; }

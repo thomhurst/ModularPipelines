@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates some of the parameters for an existing agreement. Provide the AgreementId and the ServerId for the agreement that you want to update, along with the new values for the parameters to update. NOTE: Specify either BaseDirectory or CustomDirectories , but not both. Specifying both causes the command to fail. If you update an agreement from using base directory to custom di- rectories, the base directory is no longer used. Similarly, if you change from custom directories to a base directory, ...
+/// Updates some of the parameters for an existing agreement. Provide the AgreementId and the ServerId for the agreement that you want to update, along with the new values for the parameters to update. NOTE: Specify either BaseDirectory or CustomDirectories , but not both. Specifying both causes the command to fail. If you update an agreement from using base directory to custom directories, the base directory is no longer used. Similarly, if you change from custom directories to a base directory, th...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsTransferUpdateAgreementOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates some of the parameters for an existing agreement. Provide the AgreementId and the ServerId for the agreement that you want to update, along with the new values for the parameters to update. NOTE: Specify either BaseDirectory or CustomDirectories , but not both. Specifying both causes the command to fail. If you update an agreement from using base directory to custom di- rectories, the base directory is no longer used. Similarly, if you change from custom directories to a base directory, ...
+    /// Updates some of the parameters for an existing agreement. Provide the AgreementId and the ServerId for the agreement that you want to update, along with the new values for the parameters to update. NOTE: Specify either BaseDirectory or CustomDirectories , but not both. Specifying both causes the command to fail. If you update an agreement from using base directory to custom directories, the base directory is no longer used. Similarly, if you change from custom directories to a base directory, th...
     /// </summary>
-    /// <param name="AgreementId">A unique identifier for the agreement. This identifier is returned when you create an agreement. Constraints: o min: 19 o max: 19 o pattern: a-([0-9a-f]{17})</param>
-    /// <param name="ServerId">A system-assigned unique identifier for a server instance. This is the specific server that the agreement uses. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})</param>
+    /// <param name="AgreementId">A unique identifier for the agreement. This identifier is returned when you create an agreement. Constraints: • min: 19 • max: 19 • pattern: a-([0-9a-f]{17})</param>
+    /// <param name="ServerId">A system-assigned unique identifier for a server instance. This is the specific server that the agreement uses. Constraints: • min: 19 • max: 19 • pattern: s-([0-9a-f]{17})</param>
     public AwsTransferUpdateAgreementOptions(
         string AgreementId,
         string ServerId
@@ -61,67 +63,67 @@ public record AwsTransferUpdateAgreementOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the agreement. This identifier is returned when you create an agreement. Constraints: o min: 19 o max: 19 o pattern: a-([0-9a-f]{17})
+    /// A unique identifier for the agreement. This identifier is returned when you create an agreement. Constraints: • min: 19 • max: 19 • pattern: a-([0-9a-f]{17})
     /// </summary>
     [CliOption("--agreement-id")]
     public string? AgreementId { get; private init; }
 
     /// <summary>
-    /// A system-assigned unique identifier for a server instance. This is the specific server that the agreement uses. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})
+    /// A system-assigned unique identifier for a server instance. This is the specific server that the agreement uses. Constraints: • min: 19 • max: 19 • pattern: s-([0-9a-f]{17})
     /// </summary>
     [CliOption("--server-id")]
     public string? ServerId { get; private init; }
 
     /// <summary>
-    /// To replace the existing description, provide a short description for the agreement. Constraints: o min: 1 o max: 200 o pattern: [\u0021-\u007E]+
+    /// To replace the existing description, provide a short description for the agreement. Constraints: • min: 1 • max: 200 • pattern: [\u0021-\u007E]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// You can update the status for the agreement, either activating an inactive agreement or the reverse. Possible values: o ACTIVE o INACTIVE
+    /// You can update the status for the agreement, either activating an inactive agreement or the reverse. Possible values: • ACTIVE • INACTIVE
     /// </summary>
     [CliOption("--status")]
     public AwsTransferUpdateAgreementStatus? Status { get; set; }
 
     /// <summary>
-    /// A unique identifier for the AS2 local profile. To change the local profile identifier, provide a new value here. Constraints: o min: 19 o max: 19 o pattern: p-([0-9a-f]{17})
+    /// A unique identifier for the AS2 local profile. To change the local profile identifier, provide a new value here. Constraints: • min: 19 • max: 19 • pattern: p-([0-9a-f]{17})
     /// </summary>
     [CliOption("--local-profile-id")]
     public string? LocalProfileId { get; set; }
 
     /// <summary>
-    /// A unique identifier for the partner profile. To change the partner profile identifier, provide a new value here. Constraints: o min: 19 o max: 19 o pattern: p-([0-9a-f]{17})
+    /// A unique identifier for the partner profile. To change the partner profile identifier, provide a new value here. Constraints: • min: 19 • max: 19 • pattern: p-([0-9a-f]{17})
     /// </summary>
     [CliOption("--partner-profile-id")]
     public string? PartnerProfileId { get; set; }
 
     /// <summary>
-    /// To change the landing directory (folder) for files that are trans- ferred, provide the bucket folder that you want to use; for example, `` /amzn-s3-demo-bucket /home /mydirectory `` . System Message: WARNING/2 (&lt;string&gt;:, line 225) Inline literal start-string without end-string. Constraints: o min: 0 o max: 1024 o pattern: (|/.*)
+    /// To change the landing directory (folder) for files that are transferred, provide the bucket folder that you want to use; for example, `` /amzn-s3-demo-bucket /home /mydirectory `` . System Message: WARNING/2 (&lt;string&gt;:, line 225) Inline literal start-string without end-string. Constraints: • min: 0 • max: 1024 • pattern: (|/.*)
     /// </summary>
     [CliOption("--base-directory")]
     public string? BaseDirectory { get; set; }
 
     /// <summary>
-    /// Connectors are used to send files using either the AS2 or SFTP pro- tocol. For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use. For AS2 connectors With AS2, you can send files by calling StartFileTransfer and speci- fying the file paths in the request parameter, SendFilePaths . We use the files parent directory (for example, for --send-file-paths /bucket/dir/file.txt , parent directory is /bucket/dir/ ) to tem- porarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file contain- ing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer . If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Man- ager, then the role also needs the kms:Decrypt permission for that key. For SFTP connectors Make sure that the access role provides read and write access to the parent directory of the file location that's used in the StartFile- Transfer request. Additionally, make sure that the role provides se- cretsmanager:GetSecretValue permission to Secrets Manager. Constraints: o min: 20 o max: 2048 o pattern: arn:.*role/\S+
+    /// Connectors are used to send files using either the AS2 or SFTP protocol. For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use. For AS2 connectors With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths . We use the files parent directory (for example, for --send-file-paths /bucket/dir/file.txt , parent directory is /bucket/dir/ ) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer . If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also needs the kms:Decrypt permission for that key. For SFTP connectors Make sure that the access role provides read and write access to the parent directory of the file location that's used in the StartFileTransfer request. Additionally, make sure that the role provides secretsmanager:GetSecretValue permission to Secrets Manager. Constraints: • min: 20 • max: 2048 • pattern: arn:.*role/\S+
     /// </summary>
     [CliOption("--access-role")]
     public string? AccessRole { get; set; }
 
     /// <summary>
-    /// Determines whether or not Transfer Family appends a unique string of characters to the end of the AS2 message payload filename when sav- ing it. o ENABLED : the filename provided by your trading parter is pre- served when the file is saved. o DISABLED (default value): when Transfer Family saves the file, the filename is adjusted, as described in File names and locations . Possible values: o ENABLED o DISABLED
+    /// Determines whether or not Transfer Family appends a unique string of characters to the end of the AS2 message payload filename when saving it. • ENABLED : the filename provided by your trading parter is preserved when the file is saved. • DISABLED (default value): when Transfer Family saves the file, the filename is adjusted, as described in File names and locations . Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--preserve-filename")]
     public AwsTransferUpdateAgreementPreserveFilename? PreserveFilename { get; set; }
 
     /// <summary>
-    /// Determines whether or not unsigned messages from your trading part- ners will be accepted. o ENABLED : Transfer Family rejects unsigned messages from your trading partner. o DISABLED (default value): Transfer Family accepts unsigned mes- sages from your trading partner. Possible values: o ENABLED o DISABLED
+    /// Determines whether or not unsigned messages from your trading partners will be accepted. • ENABLED : Transfer Family rejects unsigned messages from your trading partner. • DISABLED (default value): Transfer Family accepts unsigned messages from your trading partner. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--enforce-message-signing")]
     public AwsTransferUpdateAgreementEnforceMessageSigning? EnforceMessageSigning { get; set; }
 
     /// <summary>
-    /// A CustomDirectoriesType structure. This structure specifies custom directories for storing various AS2 message files. You can specify directories for the following types of files. o Failed files o MDN files o Payload files o Status files o Temporary files FailedFilesDirectory -&gt; (string) [required] Specifies a location to store failed AS2 message files. Constraints: o min: 0 o max: 1024 o pattern: (|/.*) MdnFilesDirectory -&gt; (string) [required] Specifies a location to store MDN files. Constraints: o min: 0 o max: 1024 o pattern: (|/.*) PayloadFilesDirectory -&gt; (string) [required] Specifies a location to store the payload for AS2 message files. Constraints: o min: 0 o max: 1024 o pattern: (|/.*) StatusFilesDirectory -&gt; (string) [required] Specifies a location to store AS2 status messages. Constraints: o min: 0 o max: 1024 o pattern: (|/.*) TemporaryFilesDirectory -&gt; (string) [required] Specifies a location to store temporary AS2 message files. Constraints: o min: 0 o max: 1024 o pattern: (|/.*) Shorthand Syntax: FailedFilesDirectory=string,MdnFilesDirectory=string,PayloadFilesDirectory=string,StatusFilesDirectory=string,TemporaryFilesDirectory=string JSON Syntax: { "FailedFilesDirectory": "string", "MdnFilesDirectory": "string", "PayloadFilesDirectory": "string", "StatusFilesDirectory": "string", "TemporaryFilesDirectory": "string" }
+    /// A CustomDirectoriesType structure. This structure specifies custom directories for storing various AS2 message files. You can specify directories for the following types of files. • Failed files • MDN files • Payload files • Status files • Temporary files FailedFilesDirectory -&gt; (string) [required] Specifies a location to store failed AS2 message files. Constraints: • min: 0 • max: 1024 • pattern: (|/.*) MdnFilesDirectory -&gt; (string) [required] Specifies a location to store MDN files. Constraints: • min: 0 • max: 1024 • pattern: (|/.*) PayloadFilesDirectory -&gt; (string) [required] Specifies a location to store the payload for AS2 message files. Constraints: • min: 0 • max: 1024 • pattern: (|/.*) StatusFilesDirectory -&gt; (string) [required] Specifies a location to store AS2 status messages. Constraints: • min: 0 • max: 1024 • pattern: (|/.*) TemporaryFilesDirectory -&gt; (string) [required] Specifies a location to store temporary AS2 message files. Constraints: • min: 0 • max: 1024 • pattern: (|/.*) Shorthand Syntax: FailedFilesDirectory=string,MdnFilesDirectory=string,PayloadFilesDirectory=string,StatusFilesDirectory=string,TemporaryFilesDirectory=string JSON Syntax: { "FailedFilesDirectory": "string", "MdnFilesDirectory": "string", "PayloadFilesDirectory": "string", "StatusFilesDirectory": "string", "TemporaryFilesDirectory": "string" }
     /// </summary>
     [CliOption("--custom-directories")]
     public string? CustomDirectories { get; set; }

@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists your Device Defender audit listings. Requires permission to access the ListAuditSuppressions action. See also: AWS API Documentation list-audit-suppressions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query e...
+/// Lists your Device Defender audit listings. Requires permission to access the ListAuditSuppressions action. See also: AWS API Documentation list-audit-suppressions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query exp...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,28 +23,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotListAuditSuppressionsOptions : AwsOptions
 {
     /// <summary>
-    /// An audit check name. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, in- cluding those that are enabled or use UpdateAccountAuditConfigura- tion to select which checks are enabled.)
+    /// An audit check name. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAuditConfiguration to select which checks are enabled.)
     /// </summary>
     [CliOption("--check-name")]
     public string? CheckName { get; set; }
 
     /// <summary>
-    /// Information that identifies the noncompliant resource. deviceCertificateId -&gt; (string) The ID of the certificate attached to the resource. Constraints: o min: 64 o max: 64 o pattern: (0x)?[a-fA-F0-9]+ caCertificateId -&gt; (string) The ID of the CA certificate used to authorize the certificate. Constraints: o min: 64 o max: 64 o pattern: (0x)?[a-fA-F0-9]+ cognitoIdentityPoolId -&gt; (string) The ID of the Amazon Cognito identity pool. clientId -&gt; (string) The client ID. policyVersionIdentifier -&gt; (structure) The version of the policy associated with the resource. policyName -&gt; (string) The name of the policy. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+ policyVersionId -&gt; (string) The ID of the version of the policy associated with the re- source. Constraints: o pattern: [0-9]+ account -&gt; (string) The account with which the resource is associated. Constraints: o min: 12 o max: 12 o pattern: [0-9]+ iamRoleArn -&gt; (string) The ARN of the IAM role that has overly permissive actions. Constraints: o min: 20 o max: 2048 roleAliasArn -&gt; (string) The ARN of the role alias that has overly permissive actions. Constraints: o min: 1 o max: 2048 issuerCertificateIdentifier -&gt; (structure) The issuer certificate identifier. issuerCertificateSubject -&gt; (string) The subject of the issuer certificate. Constraints: o max: 1000 o pattern: [\p{Graph}\x20]* issuerId -&gt; (string) The issuer ID. Constraints: o max: 64 o pattern: (0x)?[a-fA-F0-9]+ issuerCertificateSerialNumber -&gt; (string) The issuer certificate serial number. Constraints: o max: 20 o pattern: [a-fA-F0-9:]+ deviceCertificateArn -&gt; (string) The ARN of the identified device certificate. Shorthand Syntax: deviceCertificateId=string,caCertificateId=string,cognitoIdentityPoolId=string,clientId=string,policyVersionIdentifier={policyName=string,policyVersionId=string},account=string,iamRoleArn=string,roleAliasArn=string,issuerCertificateIdentifier={issuerCertificateSubject=string,issuerId=string,issuerCertificateSerialNumber=string},deviceCertificateArn=string JSON Syntax: { "deviceCertificateId": "string", "caCertificateId": "string", "cognitoIdentityPoolId": "string", "clientId": "string", "policyVersionIdentifier": { "policyName": "string", "policyVersionId": "string" }, "account": "string", "iamRoleArn": "string", "roleAliasArn": "string", "issuerCertificateIdentifier": { "issuerCertificateSubject": "string", "issuerId": "string", "issuerCertificateSerialNumber": "string" }, "deviceCertificateArn": "string" }
+    /// Information that identifies the noncompliant resource. deviceCertificateId -&gt; (string) The ID of the certificate attached to the resource. Constraints: • min: 64 • max: 64 • pattern: (0x)?[a-fA-F0-9]+ caCertificateId -&gt; (string) The ID of the CA certificate used to authorize the certificate. Constraints: • min: 64 • max: 64 • pattern: (0x)?[a-fA-F0-9]+ cognitoIdentityPoolId -&gt; (string) The ID of the Amazon Cognito identity pool. clientId -&gt; (string) The client ID. policyVersionIdentifier -&gt; (structure) The version of the policy associated with the resource. policyName -&gt; (string) The name of the policy. Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+ policyVersionId -&gt; (string) The ID of the version of the policy associated with the resource. Constraints: • pattern: [0-9]+ account -&gt; (string) The account with which the resource is associated. Constraints: • min: 12 • max: 12 • pattern: [0-9]+ iamRoleArn -&gt; (string) The ARN of the IAM role that has overly permissive actions. Constraints: • min: 20 • max: 2048 roleAliasArn -&gt; (string) The ARN of the role alias that has overly permissive actions. Constraints: • min: 1 • max: 2048 issuerCertificateIdentifier -&gt; (structure) The issuer certificate identifier. issuerCertificateSubject -&gt; (string) The subject of the issuer certificate. Constraints: • max: 1000 • pattern: [\p{Graph}\x20]* issuerId -&gt; (string) The issuer ID. Constraints: • max: 64 • pattern: (0x)?[a-fA-F0-9]+ issuerCertificateSerialNumber -&gt; (string) The issuer certificate serial number. Constraints: • max: 20 • pattern: [a-fA-F0-9:]+ deviceCertificateArn -&gt; (string) The ARN of the identified device certificate. Shorthand Syntax: deviceCertificateId=string,caCertificateId=string,cognitoIdentityPoolId=string,clientId=string,policyVersionIdentifier={policyName=string,policyVersionId=string},account=string,iamRoleArn=string,roleAliasArn=string,issuerCertificateIdentifier={issuerCertificateSubject=string,issuerId=string,issuerCertificateSerialNumber=string},deviceCertificateArn=string JSON Syntax: { "deviceCertificateId": "string", "caCertificateId": "string", "cognitoIdentityPoolId": "string", "clientId": "string", "policyVersionIdentifier": { "policyName": "string", "policyVersionId": "string" }, "account": "string", "iamRoleArn": "string", "roleAliasArn": "string", "issuerCertificateIdentifier": { "issuerCertificateSubject": "string", "issuerId": "string", "issuerCertificateSerialNumber": "string" }, "deviceCertificateArn": "string" }
     /// </summary>
     [CliOption("--resource-identifier")]
     public string? ResourceIdentifier { get; set; }
 
     /// <summary>
-    /// Determines whether suppressions are listed in ascending order by ex- piration date or not. If parameter isn't provided, ascendin- gOrder=true .
+    /// Determines whether suppressions are listed in ascending order by expiration date or not. If parameter isn't provided, ascendingOrder=true .
     /// </summary>
     [CliFlag("--ascending-order", NegatedName = "--no-ascending-order")]
     public bool? AscendingOrder { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -54,15 +51,18 @@ public record AwsIotListAuditSuppressionsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 250
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 250
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

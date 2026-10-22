@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,10 +31,10 @@ public record AwsPartnercentralRevenueMeasurementStartRevenueAttributionAllocati
     /// <summary>
     /// Submits a batch of up to 250 allocation changes (CREATE and/or UPDATE) for asynchronous processing. Returns a TaskId for tracking. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">The catalog context for this operation. Possible values: o AWS o Sandbox</param>
-    /// <param name="RevenueAttributionIdentifier">The revenue attribution identifier. Constraints: o min: 16 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/revenue-attribution/ra-[a-z0-9]{13}|ra-[a-z0-9]{13})</param>
-    /// <param name="RevenueAttributionRevision">Current revision of the revenue attribution for optimistic locking. Constraints: o min: 1 o max: 19 o pattern: [1-9][0-9]*</param>
-    /// <param name="RevenueShareAllocations">The list of allocation changes to process in this batch. Constraints: o min: 1 o max: 250 (structure) A single allocation change within a batch request. Action -&gt; (string) [required] The operation type: CREATE or UPDATE. Possible values: o CREATE o UPDATE RevenueAttributionAllocationId -&gt; (string) The allocation to update. Required when Action is UPDATE. Constraints: o min: 19 o max: 19 o pattern: alloc-[a-z0-9]{13} EntityType -&gt; (string) [required] The type of the associated deal entity. Possible values: o OFFER o OPPORTUNITY EntityIdentifier -&gt; (string) [required] The unique identifier of the associated deal entity. Constraints: o min: 1 o max: 255 o pattern: [\w\-:/.]+ CustomerAwsAccountId -&gt; (string) [required] The customer AWS account ID for this associated deal entity. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} RevenueSharePercent -&gt; (string) [required] Revenue share percentage. Constraints: o min: 1 o max: 6 o pattern: \d{1,3}(\.\d{1,2})? EffectiveFrom -&gt; (string) [required] The effective start date for this allocation. Constraints: o min: 10 o max: 10 o pattern: \d{4}-\d{2}-\d{2} EffectiveUntil -&gt; (string) [required] The effective end date for this allocation. Constraints: o min: 10 o max: 10 o pattern: \d{4}-\d{2}-\d{2} Status -&gt; (string) Allocation status. Defaults to ACTIVE on CREATE. Possible values: o ACTIVE o INACTIVE Shorthand Syntax: Action=string,RevenueAttributionAllocationId=string,EntityType=string,EntityIdentifier=string,CustomerAwsAccountId=string,RevenueSharePercent=string,EffectiveFrom=string,EffectiveUntil=string,Status=string ... JSON Syntax: [ { "Action": "CREATE"|"UPDATE", "RevenueAttributionAllocationId": "string", "EntityType": "OFFER"|"OPPORTUNITY", "EntityIdentifier": "string", "CustomerAwsAccountId": "string", "RevenueSharePercent": "string", "EffectiveFrom": "string", "EffectiveUntil": "string", "Status": "ACTIVE"|"INACTIVE" } ... ]</param>
+    /// <param name="Catalog">The catalog context for this operation. Possible values: • AWS • Sandbox</param>
+    /// <param name="RevenueAttributionIdentifier">The revenue attribution identifier. Constraints: • min: 16 • max: 1011 • pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/revenue-attribution/ra-[a-z0-9]{13}|ra-[a-z0-9]{13})</param>
+    /// <param name="RevenueAttributionRevision">Current revision of the revenue attribution for optimistic locking. Constraints: • min: 1 • max: 19 • pattern: [1-9][0-9]*</param>
+    /// <param name="RevenueShareAllocations">The list of allocation changes to process in this batch. Constraints: • min: 1 • max: 250 (structure) A single allocation change within a batch request. Action -&gt; (string) [required] The operation type: CREATE or UPDATE. Possible values: • CREATE • UPDATE RevenueAttributionAllocationId -&gt; (string) The allocation to update. Required when Action is UPDATE. Constraints: • min: 19 • max: 19 • pattern: alloc-[a-z0-9]{13} EntityType -&gt; (string) [required] The type of the associated deal entity. Possible values: • OFFER • OPPORTUNITY EntityIdentifier -&gt; (string) [required] The unique identifier of the associated deal entity. Constraints: • min: 1 • max: 255 • pattern: [\w\-:/.]+ CustomerAwsAccountId -&gt; (string) [required] The customer AWS account ID for this associated deal entity. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12} RevenueSharePercent -&gt; (string) [required] Revenue share percentage. Constraints: • min: 1 • max: 6 • pattern: \d{1,3}(\.\d{1,2})? EffectiveFrom -&gt; (string) [required] The effective start date for this allocation. Constraints: • min: 10 • max: 10 • pattern: \d{4}-\d{2}-\d{2} EffectiveUntil -&gt; (string) [required] The effective end date for this allocation. Constraints: • min: 10 • max: 10 • pattern: \d{4}-\d{2}-\d{2} Status -&gt; (string) Allocation status. Defaults to ACTIVE on CREATE. Possible values: • ACTIVE • INACTIVE Shorthand Syntax: Action=string,RevenueAttributionAllocationId=string,EntityType=string,EntityIdentifier=string,CustomerAwsAccountId=string,RevenueSharePercent=string,EffectiveFrom=string,EffectiveUntil=string,Status=string ... JSON Syntax: [ { "Action": "CREATE"|"UPDATE", "RevenueAttributionAllocationId": "string", "EntityType": "OFFER"|"OPPORTUNITY", "EntityIdentifier": "string", "CustomerAwsAccountId": "string", "RevenueSharePercent": "string", "EffectiveFrom": "string", "EffectiveUntil": "string", "Status": "ACTIVE"|"INACTIVE" } ... ]</param>
     public AwsPartnercentralRevenueMeasurementStartRevenueAttributionAllocationsTaskOptions(
         AwsPartnercentralRevenueMeasurementStartRevenueAttributionAllocationsTaskCatalog Catalog,
         string RevenueAttributionIdentifier,
@@ -80,38 +82,38 @@ public record AwsPartnercentralRevenueMeasurementStartRevenueAttributionAllocati
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog context for this operation. Possible values: o AWS o Sandbox
+    /// The catalog context for this operation. Possible values: • AWS • Sandbox
     /// </summary>
     [CliOption("--catalog")]
     public AwsPartnercentralRevenueMeasurementStartRevenueAttributionAllocationsTaskCatalog? Catalog { get; private init; }
 
     /// <summary>
-    /// The revenue attribution identifier. Constraints: o min: 16 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/revenue-attribution/ra-[a-z0-9]{13}|ra-[a-z0-9]{13})
+    /// The revenue attribution identifier. Constraints: • min: 16 • max: 1011 • pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/revenue-attribution/ra-[a-z0-9]{13}|ra-[a-z0-9]{13})
     /// </summary>
     [CliOption("--revenue-attribution-identifier")]
     public string? RevenueAttributionIdentifier { get; private init; }
 
     /// <summary>
-    /// Current revision of the revenue attribution for optimistic locking. Constraints: o min: 1 o max: 19 o pattern: [1-9][0-9]*
+    /// Current revision of the revenue attribution for optimistic locking. Constraints: • min: 1 • max: 19 • pattern: [1-9][0-9]*
     /// </summary>
     [CliOption("--revenue-attribution-revision")]
     public string? RevenueAttributionRevision { get; private init; }
 
     /// <summary>
-    /// The list of allocation changes to process in this batch. Constraints: o min: 1 o max: 250 (structure) A single allocation change within a batch request. Action -&gt; (string) [required] The operation type: CREATE or UPDATE. Possible values: o CREATE o UPDATE RevenueAttributionAllocationId -&gt; (string) The allocation to update. Required when Action is UPDATE. Constraints: o min: 19 o max: 19 o pattern: alloc-[a-z0-9]{13} EntityType -&gt; (string) [required] The type of the associated deal entity. Possible values: o OFFER o OPPORTUNITY EntityIdentifier -&gt; (string) [required] The unique identifier of the associated deal entity. Constraints: o min: 1 o max: 255 o pattern: [\w\-:/.]+ CustomerAwsAccountId -&gt; (string) [required] The customer AWS account ID for this associated deal entity. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} RevenueSharePercent -&gt; (string) [required] Revenue share percentage. Constraints: o min: 1 o max: 6 o pattern: \d{1,3}(\.\d{1,2})? EffectiveFrom -&gt; (string) [required] The effective start date for this allocation. Constraints: o min: 10 o max: 10 o pattern: \d{4}-\d{2}-\d{2} EffectiveUntil -&gt; (string) [required] The effective end date for this allocation. Constraints: o min: 10 o max: 10 o pattern: \d{4}-\d{2}-\d{2} Status -&gt; (string) Allocation status. Defaults to ACTIVE on CREATE. Possible values: o ACTIVE o INACTIVE Shorthand Syntax: Action=string,RevenueAttributionAllocationId=string,EntityType=string,EntityIdentifier=string,CustomerAwsAccountId=string,RevenueSharePercent=string,EffectiveFrom=string,EffectiveUntil=string,Status=string ... JSON Syntax: [ { "Action": "CREATE"|"UPDATE", "RevenueAttributionAllocationId": "string", "EntityType": "OFFER"|"OPPORTUNITY", "EntityIdentifier": "string", "CustomerAwsAccountId": "string", "RevenueSharePercent": "string", "EffectiveFrom": "string", "EffectiveUntil": "string", "Status": "ACTIVE"|"INACTIVE" } ... ]
+    /// The list of allocation changes to process in this batch. Constraints: • min: 1 • max: 250 (structure) A single allocation change within a batch request. Action -&gt; (string) [required] The operation type: CREATE or UPDATE. Possible values: • CREATE • UPDATE RevenueAttributionAllocationId -&gt; (string) The allocation to update. Required when Action is UPDATE. Constraints: • min: 19 • max: 19 • pattern: alloc-[a-z0-9]{13} EntityType -&gt; (string) [required] The type of the associated deal entity. Possible values: • OFFER • OPPORTUNITY EntityIdentifier -&gt; (string) [required] The unique identifier of the associated deal entity. Constraints: • min: 1 • max: 255 • pattern: [\w\-:/.]+ CustomerAwsAccountId -&gt; (string) [required] The customer AWS account ID for this associated deal entity. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12} RevenueSharePercent -&gt; (string) [required] Revenue share percentage. Constraints: • min: 1 • max: 6 • pattern: \d{1,3}(\.\d{1,2})? EffectiveFrom -&gt; (string) [required] The effective start date for this allocation. Constraints: • min: 10 • max: 10 • pattern: \d{4}-\d{2}-\d{2} EffectiveUntil -&gt; (string) [required] The effective end date for this allocation. Constraints: • min: 10 • max: 10 • pattern: \d{4}-\d{2}-\d{2} Status -&gt; (string) Allocation status. Defaults to ACTIVE on CREATE. Possible values: • ACTIVE • INACTIVE Shorthand Syntax: Action=string,RevenueAttributionAllocationId=string,EntityType=string,EntityIdentifier=string,CustomerAwsAccountId=string,RevenueSharePercent=string,EffectiveFrom=string,EffectiveUntil=string,Status=string ... JSON Syntax: [ { "Action": "CREATE"|"UPDATE", "RevenueAttributionAllocationId": "string", "EntityType": "OFFER"|"OPPORTUNITY", "EntityIdentifier": "string", "CustomerAwsAccountId": "string", "RevenueSharePercent": "string", "EffectiveFrom": "string", "EffectiveUntil": "string", "Status": "ACTIVE"|"INACTIVE" } ... ]
     /// </summary>
     [CliOption("--revenue-share-allocations", GroupValues = true)]
     public IEnumerable<string>? RevenueShareAllocations { get; private init; }
 
     /// <summary>
-    /// Idempotency token for deduplication and retry. Constraints: o min: 1 o max: 64 o pattern: [!-~]{1,64}
+    /// Idempotency token for deduplication and retry. Constraints: • min: 1 • max: 64 • pattern: [!-~]{1,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Human-readable description of the batch. Constraints: o min: 0 o max: 1024 o pattern: [\x20-\x7E]*
+    /// Human-readable description of the batch. Constraints: • min: 0 • max: 1024 • pattern: [\x20-\x7E]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

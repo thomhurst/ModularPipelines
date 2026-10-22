@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the results of the Security Hub CSPM insight specified by the in- sight ARN. See also: AWS API Documentation
+/// Lists the results of the Security Hub CSPM insight specified by the insight ARN. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSecurityhubGetInsightResultsOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the results of the Security Hub CSPM insight specified by the in- sight ARN. See also: AWS API Documentation
+    /// Lists the results of the Security Hub CSPM insight specified by the insight ARN. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InsightArn">The ARN of the insight for which to return results. Constraints: o pattern: .*\S.*</param>
+    /// <param name="InsightArn">The ARN of the insight for which to return results. Constraints: • pattern: .*\S.*</param>
     public AwsSecurityhubGetInsightResultsOptions(
         string InsightArn
     )
@@ -56,7 +58,7 @@ public record AwsSecurityhubGetInsightResultsOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the insight for which to return results. Constraints: o pattern: .*\S.*
+    /// The ARN of the insight for which to return results. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--insight-arn")]
     public string? InsightArn { get; private init; }

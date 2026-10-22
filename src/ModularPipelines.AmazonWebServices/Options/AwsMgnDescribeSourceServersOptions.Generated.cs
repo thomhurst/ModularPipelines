@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves all SourceServers or multiple SourceServers by ID. See also: AWS API Documentation describe-source-servers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
+/// Retrieves all SourceServers or multiple SourceServers by ID. See also: AWS API Documentation describe-source-servers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,22 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsMgnDescribeSourceServersOptions : AwsOptions
 {
     /// <summary>
-    /// Request to filter Source Servers list. sourceServerIDs -&gt; (list) Request to filter Source Servers list by Source Server ID. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17} isArchived -&gt; (boolean) Request to filter Source Servers list by archived. replicationTypes -&gt; (list) Request to filter Source Servers list by replication type. Constraints: o min: 0 o max: 2 (string) Possible values: o AGENT_BASED o SNAPSHOT_SHIPPING lifeCycleStates -&gt; (list) Request to filter Source Servers list by life cycle states. Constraints: o min: 0 o max: 10 (string) Possible values: o STOPPED o NOT_READY o READY_FOR_TEST o TESTING o READY_FOR_CUTOVER o CUTTING_OVER o CUTOVER o DISCONNECTED o DISCOVERED o PENDING_INSTALLATION applicationIDs -&gt; (list) Request to filter Source Servers list by application IDs. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 21 o max: 21 o pattern: app-[0-9a-zA-Z]{17} Shorthand Syntax: sourceServerIDs=string,string,isArchived=boolean,replicationTypes=string,string,lifeCycleStates=string,string,applicationIDs=string,string JSON Syntax: { "sourceServerIDs": ["string", ...], "isArchived": true|false, "replicationTypes": ["AGENT_BASED"|"SNAPSHOT_SHIPPING", ...], "lifeCycleStates": ["STOPPED"|"NOT_READY"|"READY_FOR_TEST"|"TESTING"|"READY_FOR_CUTOVER"|"CUTTING_OVER"|"CUTOVER"|"DISCONNECTED"|"DISCOVERED"|"PENDING_INSTALLATION", ...], "applicationIDs": ["string", ...] }
+    /// Request to filter Source Servers list. sourceServerIDs -&gt; (list) Request to filter Source Servers list by Source Server ID. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 19 • max: 19 • pattern: s-[0-9a-zA-Z]{17} isArchived -&gt; (boolean) Request to filter Source Servers list by archived. replicationTypes -&gt; (list) Request to filter Source Servers list by replication type. Constraints: • min: 0 • max: 2 (string) Possible values: • AGENT_BASED • SNAPSHOT_SHIPPING lifeCycleStates -&gt; (list) Request to filter Source Servers list by life cycle states. Constraints: • min: 0 • max: 10 (string) Possible values: • STOPPED • NOT_READY • READY_FOR_TEST • TESTING • READY_FOR_CUTOVER • CUTTING_OVER • CUTOVER • DISCONNECTED • DISCOVERED • PENDING_INSTALLATION applicationIDs -&gt; (list) Request to filter Source Servers list by application IDs. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 21 • max: 21 • pattern: app-[0-9a-zA-Z]{17} Shorthand Syntax: sourceServerIDs=string,string,isArchived=boolean,replicationTypes=string,string,lifeCycleStates=string,string,applicationIDs=string,string JSON Syntax: { "sourceServerIDs": ["string", ...], "isArchived": true|false, "replicationTypes": ["AGENT_BASED"|"SNAPSHOT_SHIPPING", ...], "lifeCycleStates": ["STOPPED"|"NOT_READY"|"READY_FOR_TEST"|"TESTING"|"READY_FOR_CUTOVER"|"CUTTING_OVER"|"CUTOVER"|"DISCONNECTED"|"DISCOVERED"|"PENDING_INSTALLATION", ...], "applicationIDs": ["string", ...] }
     /// </summary>
     [CliOption("--filters")]
     public string? Filters { get; set; }
 
     /// <summary>
-    /// Request to filter Source Servers list by Account ID. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.*
+    /// Request to filter Source Servers list by Account ID. Constraints: • min: 12 • max: 12 • pattern: .*[0-9]{12,}.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -48,15 +45,18 @@ public record AwsMgnDescribeSourceServersOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

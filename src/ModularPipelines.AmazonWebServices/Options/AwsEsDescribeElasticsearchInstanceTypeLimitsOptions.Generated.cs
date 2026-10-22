@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describe Elasticsearch Limits for a given InstanceType and Elastic- searchVersion. When modifying existing Domain, specify the `` Domain- Name `` to know what Limits are supported for modifying. See also: AWS API Documentation
+/// Describe Elasticsearch Limits for a given InstanceType and ElasticsearchVersion. When modifying existing Domain, specify the `` DomainName `` to know what Limits are supported for modifying. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsEsDescribeElasticsearchInstanceTypeLimitsOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describe Elasticsearch Limits for a given InstanceType and Elastic- searchVersion. When modifying existing Domain, specify the `` Domain- Name `` to know what Limits are supported for modifying. See also: AWS API Documentation
+    /// Describe Elasticsearch Limits for a given InstanceType and ElasticsearchVersion. When modifying existing Domain, specify the `` DomainName `` to know what Limits are supported for modifying. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceType">The instance type for an Elasticsearch cluster for which Elastic- search `` Limits `` are needed. Possible values: o m3.medium.elasticsearch o m3.large.elasticsearch o m3.xlarge.elasticsearch o m3.2xlarge.elasticsearch o m4.large.elasticsearch o m4.xlarge.elasticsearch o m4.2xlarge.elasticsearch o m4.4xlarge.elasticsearch o m4.10xlarge.elasticsearch o m5.large.elasticsearch o m5.xlarge.elasticsearch o m5.2xlarge.elasticsearch o m5.4xlarge.elasticsearch o m5.12xlarge.elasticsearch o r5.large.elasticsearch o r5.xlarge.elasticsearch o r5.2xlarge.elasticsearch o r5.4xlarge.elasticsearch o r5.12xlarge.elasticsearch o c5.large.elasticsearch o c5.xlarge.elasticsearch o c5.2xlarge.elasticsearch o c5.4xlarge.elasticsearch o c5.9xlarge.elasticsearch o c5.18xlarge.elasticsearch o ultrawarm1.medium.elasticsearch o ultrawarm1.large.elasticsearch o t2.micro.elasticsearch o t2.small.elasticsearch o t2.medium.elasticsearch o r3.large.elasticsearch o r3.xlarge.elasticsearch o r3.2xlarge.elasticsearch o r3.4xlarge.elasticsearch o r3.8xlarge.elasticsearch o i2.xlarge.elasticsearch o i2.2xlarge.elasticsearch o d2.xlarge.elasticsearch o d2.2xlarge.elasticsearch o d2.4xlarge.elasticsearch o d2.8xlarge.elasticsearch o c4.large.elasticsearch o c4.xlarge.elasticsearch o c4.2xlarge.elasticsearch o c4.4xlarge.elasticsearch o c4.8xlarge.elasticsearch o r4.large.elasticsearch o r4.xlarge.elasticsearch o r4.2xlarge.elasticsearch o r4.4xlarge.elasticsearch o r4.8xlarge.elasticsearch o r4.16xlarge.elasticsearch o i3.large.elasticsearch o i3.xlarge.elasticsearch o i3.2xlarge.elasticsearch o i3.4xlarge.elasticsearch o i3.8xlarge.elasticsearch o i3.16xlarge.elasticsearch</param>
-    /// <param name="ElasticsearchVersion">Version of Elasticsearch for which `` Limits `` are needed. Constraints: o pattern: ^[0-9]{1}\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\.[0-9]{1,2}$|^OS_[0-9]{1,2}\.[0-9]{1,2}$</param>
+    /// <param name="InstanceType">The instance type for an Elasticsearch cluster for which Elasticsearch `` Limits `` are needed. Possible values: • m3.medium.elasticsearch • m3.large.elasticsearch • m3.xlarge.elasticsearch • m3.2xlarge.elasticsearch • m4.large.elasticsearch • m4.xlarge.elasticsearch • m4.2xlarge.elasticsearch • m4.4xlarge.elasticsearch • m4.10xlarge.elasticsearch • m5.large.elasticsearch • m5.xlarge.elasticsearch • m5.2xlarge.elasticsearch • m5.4xlarge.elasticsearch • m5.12xlarge.elasticsearch • r5.large.elasticsearch • r5.xlarge.elasticsearch • r5.2xlarge.elasticsearch • r5.4xlarge.elasticsearch • r5.12xlarge.elasticsearch • c5.large.elasticsearch • c5.xlarge.elasticsearch • c5.2xlarge.elasticsearch • c5.4xlarge.elasticsearch • c5.9xlarge.elasticsearch • c5.18xlarge.elasticsearch • ultrawarm1.medium.elasticsearch • ultrawarm1.large.elasticsearch • t2.micro.elasticsearch • t2.small.elasticsearch • t2.medium.elasticsearch • r3.large.elasticsearch • r3.xlarge.elasticsearch • r3.2xlarge.elasticsearch • r3.4xlarge.elasticsearch • r3.8xlarge.elasticsearch • i2.xlarge.elasticsearch • i2.2xlarge.elasticsearch • d2.xlarge.elasticsearch • d2.2xlarge.elasticsearch • d2.4xlarge.elasticsearch • d2.8xlarge.elasticsearch • c4.large.elasticsearch • c4.xlarge.elasticsearch • c4.2xlarge.elasticsearch • c4.4xlarge.elasticsearch • c4.8xlarge.elasticsearch • r4.large.elasticsearch • r4.xlarge.elasticsearch • r4.2xlarge.elasticsearch • r4.4xlarge.elasticsearch • r4.8xlarge.elasticsearch • r4.16xlarge.elasticsearch • i3.large.elasticsearch • i3.xlarge.elasticsearch • i3.2xlarge.elasticsearch • i3.4xlarge.elasticsearch • i3.8xlarge.elasticsearch • i3.16xlarge.elasticsearch</param>
+    /// <param name="ElasticsearchVersion">Version of Elasticsearch for which `` Limits `` are needed. Constraints: • pattern: ^[0-9]{1}\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\.[0-9]{1,2}$|^OS_[0-9]{1,2}\.[0-9]{1,2}$</param>
     public AwsEsDescribeElasticsearchInstanceTypeLimitsOptions(
         string InstanceType,
         string ElasticsearchVersion
@@ -60,19 +62,19 @@ public record AwsEsDescribeElasticsearchInstanceTypeLimitsOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The instance type for an Elasticsearch cluster for which Elastic- search `` Limits `` are needed. Possible values: o m3.medium.elasticsearch o m3.large.elasticsearch o m3.xlarge.elasticsearch o m3.2xlarge.elasticsearch o m4.large.elasticsearch o m4.xlarge.elasticsearch o m4.2xlarge.elasticsearch o m4.4xlarge.elasticsearch o m4.10xlarge.elasticsearch o m5.large.elasticsearch o m5.xlarge.elasticsearch o m5.2xlarge.elasticsearch o m5.4xlarge.elasticsearch o m5.12xlarge.elasticsearch o r5.large.elasticsearch o r5.xlarge.elasticsearch o r5.2xlarge.elasticsearch o r5.4xlarge.elasticsearch o r5.12xlarge.elasticsearch o c5.large.elasticsearch o c5.xlarge.elasticsearch o c5.2xlarge.elasticsearch o c5.4xlarge.elasticsearch o c5.9xlarge.elasticsearch o c5.18xlarge.elasticsearch o ultrawarm1.medium.elasticsearch o ultrawarm1.large.elasticsearch o t2.micro.elasticsearch o t2.small.elasticsearch o t2.medium.elasticsearch o r3.large.elasticsearch o r3.xlarge.elasticsearch o r3.2xlarge.elasticsearch o r3.4xlarge.elasticsearch o r3.8xlarge.elasticsearch o i2.xlarge.elasticsearch o i2.2xlarge.elasticsearch o d2.xlarge.elasticsearch o d2.2xlarge.elasticsearch o d2.4xlarge.elasticsearch o d2.8xlarge.elasticsearch o c4.large.elasticsearch o c4.xlarge.elasticsearch o c4.2xlarge.elasticsearch o c4.4xlarge.elasticsearch o c4.8xlarge.elasticsearch o r4.large.elasticsearch o r4.xlarge.elasticsearch o r4.2xlarge.elasticsearch o r4.4xlarge.elasticsearch o r4.8xlarge.elasticsearch o r4.16xlarge.elasticsearch o i3.large.elasticsearch o i3.xlarge.elasticsearch o i3.2xlarge.elasticsearch o i3.4xlarge.elasticsearch o i3.8xlarge.elasticsearch o i3.16xlarge.elasticsearch
+    /// The instance type for an Elasticsearch cluster for which Elasticsearch `` Limits `` are needed. Possible values: • m3.medium.elasticsearch • m3.large.elasticsearch • m3.xlarge.elasticsearch • m3.2xlarge.elasticsearch • m4.large.elasticsearch • m4.xlarge.elasticsearch • m4.2xlarge.elasticsearch • m4.4xlarge.elasticsearch • m4.10xlarge.elasticsearch • m5.large.elasticsearch • m5.xlarge.elasticsearch • m5.2xlarge.elasticsearch • m5.4xlarge.elasticsearch • m5.12xlarge.elasticsearch • r5.large.elasticsearch • r5.xlarge.elasticsearch • r5.2xlarge.elasticsearch • r5.4xlarge.elasticsearch • r5.12xlarge.elasticsearch • c5.large.elasticsearch • c5.xlarge.elasticsearch • c5.2xlarge.elasticsearch • c5.4xlarge.elasticsearch • c5.9xlarge.elasticsearch • c5.18xlarge.elasticsearch • ultrawarm1.medium.elasticsearch • ultrawarm1.large.elasticsearch • t2.micro.elasticsearch • t2.small.elasticsearch • t2.medium.elasticsearch • r3.large.elasticsearch • r3.xlarge.elasticsearch • r3.2xlarge.elasticsearch • r3.4xlarge.elasticsearch • r3.8xlarge.elasticsearch • i2.xlarge.elasticsearch • i2.2xlarge.elasticsearch • d2.xlarge.elasticsearch • d2.2xlarge.elasticsearch • d2.4xlarge.elasticsearch • d2.8xlarge.elasticsearch • c4.large.elasticsearch • c4.xlarge.elasticsearch • c4.2xlarge.elasticsearch • c4.4xlarge.elasticsearch • c4.8xlarge.elasticsearch • r4.large.elasticsearch • r4.xlarge.elasticsearch • r4.2xlarge.elasticsearch • r4.4xlarge.elasticsearch • r4.8xlarge.elasticsearch • r4.16xlarge.elasticsearch • i3.large.elasticsearch • i3.xlarge.elasticsearch • i3.2xlarge.elasticsearch • i3.4xlarge.elasticsearch • i3.8xlarge.elasticsearch • i3.16xlarge.elasticsearch
     /// </summary>
     [CliOption("--instance-type")]
     public string? InstanceType { get; private init; }
 
     /// <summary>
-    /// Version of Elasticsearch for which `` Limits `` are needed. Constraints: o pattern: ^[0-9]{1}\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\.[0-9]{1,2}$|^OS_[0-9]{1,2}\.[0-9]{1,2}$
+    /// Version of Elasticsearch for which `` Limits `` are needed. Constraints: • pattern: ^[0-9]{1}\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\.[0-9]{1,2}$|^OS_[0-9]{1,2}\.[0-9]{1,2}$
     /// </summary>
     [CliOption("--elasticsearch-version")]
     public string? ElasticsearchVersion { get; private init; }
 
     /// <summary>
-    /// DomainName represents the name of the Domain that we are trying to modify. This should be present only if we are querying for Elastic- search `` Limits `` for existing domain. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// DomainName represents the name of the Domain that we are trying to modify. This should be present only if we are querying for Elasticsearch `` Limits `` for existing domain. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; set; }

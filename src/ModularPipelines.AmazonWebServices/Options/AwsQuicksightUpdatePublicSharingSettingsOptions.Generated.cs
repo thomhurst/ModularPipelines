@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: This API controls public sharing settings for your entire Quick Sight account, affecting data security and access. When you enable public sharing: o Dashboards can be shared publicly o This setting affects your entire Amazon Web Services account and all Quick Sight users Before proceeding: Ensure you understand the security implica- tions and have proper IAM permissions configured. Use the UpdatePublicSharingSettings operation to turn on or turn off the public sharing settings of an Ama...
+/// WARNING: This API controls public sharing settings for your entire Quick Sight account, affecting data security and access. When you enable public sharing: • Dashboards can be shared publicly • This setting affects your entire Amazon Web Services account and all Quick Sight users Before proceeding: Ensure you understand the security implications and have proper IAM permissions configured. Use the UpdatePublicSharingSettings operation to turn on or turn off the public sharing settings of an Amazo...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsQuicksightUpdatePublicSharingSettingsOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// WARNING: This API controls public sharing settings for your entire Quick Sight account, affecting data security and access. When you enable public sharing: o Dashboards can be shared publicly o This setting affects your entire Amazon Web Services account and all Quick Sight users Before proceeding: Ensure you understand the security implica- tions and have proper IAM permissions configured. Use the UpdatePublicSharingSettings operation to turn on or turn off the public sharing settings of an Ama...
+    /// WARNING: This API controls public sharing settings for your entire Quick Sight account, affecting data security and access. When you enable public sharing: • Dashboards can be shared publicly • This setting affects your entire Amazon Web Services account and all Quick Sight users Before proceeding: Ensure you understand the security implications and have proper IAM permissions configured. Use the UpdatePublicSharingSettings operation to turn on or turn off the public sharing settings of an Amazo...
     /// </summary>
-    /// <param name="AwsAccountId">The Amazon Web Services account ID associated with your Amazon Quick Sight subscription. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="AwsAccountId">The Amazon Web Services account ID associated with your Amazon Quick Sight subscription. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
     public AwsQuicksightUpdatePublicSharingSettingsOptions(
         string AwsAccountId
     )
@@ -56,7 +58,7 @@ public record AwsQuicksightUpdatePublicSharingSettingsOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID associated with your Amazon Quick Sight subscription. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The Amazon Web Services account ID associated with your Amazon Quick Sight subscription. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }

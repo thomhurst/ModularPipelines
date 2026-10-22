@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsMemorydbCreateUserOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a MemoryDB user. For more information, see Authenticating users with Access Contol Lists (ACLs) . See also: AWS API Documentation
     /// </summary>
-    /// <param name="UserName">The name of the user. This value must be unique as it also serves as the user identifier. Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]*</param>
-    /// <param name="AuthenticationMode">Denotes the user's authentication properties, such as whether it re- quires a password to authenticate. Type -&gt; (string) Indicates whether the user requires a password to authenticate. All newly-created users require a password. Possible values: o password o iam Passwords -&gt; (list) The password(s) used for authentication Constraints: o min: 1 (string) Shorthand Syntax: Type=string,Passwords=string,string JSON Syntax: { "Type": "password"|"iam", "Passwords": ["string", ...] }</param>
-    /// <param name="AccessString">Access permissions string used for this user. Constraints: o pattern: .*\S.*</param>
+    /// <param name="UserName">The name of the user. This value must be unique as it also serves as the user identifier. Constraints: • min: 1 • pattern: [a-zA-Z][a-zA-Z0-9\-]*</param>
+    /// <param name="AuthenticationMode">Denotes the user's authentication properties, such as whether it requires a password to authenticate. Type -&gt; (string) Indicates whether the user requires a password to authenticate. All newly-created users require a password. Possible values: • password • iam Passwords -&gt; (list) The password(s) used for authentication Constraints: • min: 1 (string) Shorthand Syntax: Type=string,Passwords=string,string JSON Syntax: { "Type": "password"|"iam", "Passwords": ["string", ...] }</param>
+    /// <param name="AccessString">Access permissions string used for this user. Constraints: • pattern: .*\S.*</param>
     public AwsMemorydbCreateUserOptions(
         string UserName,
         string AuthenticationMode,
@@ -64,25 +66,25 @@ public record AwsMemorydbCreateUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the user. This value must be unique as it also serves as the user identifier. Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]*
+    /// The name of the user. This value must be unique as it also serves as the user identifier. Constraints: • min: 1 • pattern: [a-zA-Z][a-zA-Z0-9\-]*
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; private init; }
 
     /// <summary>
-    /// Denotes the user's authentication properties, such as whether it re- quires a password to authenticate. Type -&gt; (string) Indicates whether the user requires a password to authenticate. All newly-created users require a password. Possible values: o password o iam Passwords -&gt; (list) The password(s) used for authentication Constraints: o min: 1 (string) Shorthand Syntax: Type=string,Passwords=string,string JSON Syntax: { "Type": "password"|"iam", "Passwords": ["string", ...] }
+    /// Denotes the user's authentication properties, such as whether it requires a password to authenticate. Type -&gt; (string) Indicates whether the user requires a password to authenticate. All newly-created users require a password. Possible values: • password • iam Passwords -&gt; (list) The password(s) used for authentication Constraints: • min: 1 (string) Shorthand Syntax: Type=string,Passwords=string,string JSON Syntax: { "Type": "password"|"iam", "Passwords": ["string", ...] }
     /// </summary>
     [CliOption("--authentication-mode")]
     public string? AuthenticationMode { get; private init; }
 
     /// <summary>
-    /// Access permissions string used for this user. Constraints: o pattern: .*\S.*
+    /// Access permissions string used for this user. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--access-string")]
     public string? AccessString { get; private init; }
 
     /// <summary>
-    /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted. Constraints: o max: 200 (structure) A tag that can be added to an MemoryDB resource. Tags are com- posed of a Key/Value pair. You can use tags to categorize and track all your MemoryDB resources. When you add or remove tags on clusters, those actions will be replicated to all nodes in the cluster. A tag with a null Value is permitted. For more in- formation, see Tagging your MemoryDB resources Key -&gt; (string) The key for the tag. May not be null. Value -&gt; (string) The tag's value. May be null. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted. Constraints: • max: 200 (structure) A tag that can be added to an MemoryDB resource. Tags are composed of a Key/Value pair. You can use tags to categorize and track all your MemoryDB resources. When you add or remove tags on clusters, those actions will be replicated to all nodes in the cluster. A tag with a null Value is permitted. For more information, see Tagging your MemoryDB resources Key -&gt; (string) The key for the tag. May not be null. Value -&gt; (string) The tag's value. May be null. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

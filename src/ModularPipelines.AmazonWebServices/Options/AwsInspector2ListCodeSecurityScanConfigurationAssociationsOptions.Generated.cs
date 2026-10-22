@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsInspector2ListCodeSecurityScanConfigurationAssociationsOptions 
     /// <summary>
     /// Lists the associations between code repositories and Amazon Inspector code security scan configurations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ScanConfigurationArn">The Amazon Resource Name (ARN) of the scan configuration to list as- sociations for. Constraints: o pattern: arn:(aws[a-zA-Z-]*)?:inspec- tor2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/codese- curity-configuration/[a-f0-9-]{36}</param>
+    /// <param name="ScanConfigurationArn">The Amazon Resource Name (ARN) of the scan configuration to list associations for. Constraints: • pattern: arn:(aws[a-zA-Z-]*)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/codesecurity-configuration/[a-f0-9-]{36}</param>
     public AwsInspector2ListCodeSecurityScanConfigurationAssociationsOptions(
         string ScanConfigurationArn
     )
@@ -57,20 +59,20 @@ public record AwsInspector2ListCodeSecurityScanConfigurationAssociationsOptions 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the scan configuration to list as- sociations for. Constraints: o pattern: arn:(aws[a-zA-Z-]*)?:inspec- tor2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/codese- curity-configuration/[a-f0-9-]{36}
+    /// The Amazon Resource Name (ARN) of the scan configuration to list associations for. Constraints: • pattern: arn:(aws[a-zA-Z-]*)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/codesecurity-configuration/[a-f0-9-]{36}
     /// </summary>
     [CliOption("--scan-configuration-arn")]
     public string? ScanConfigurationArn { get; private init; }
 
     /// <summary>
-    /// A token to use for paginating results that are returned in the re- sponse. Set the value of this parameter to null for the first re- quest to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page. Constraints: o min: 0 o max: 1000000
+    /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page. Constraints: • min: 0 • max: 1000000
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return in the response. If your re- quest would return more than the maximum the response will return a nextToken value, use this value when you call the action again to get the remaining results. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to return in the response. If your request would return more than the maximum the response will return a nextToken value, use this value when you call the action again to get the remaining results. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

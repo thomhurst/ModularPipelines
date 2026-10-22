@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsLogsGetDataProtectionPolicyOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Returns information about a log group data protection policy. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LogGroupIdentifier">The name or ARN of the log group that contains the data protection policy that you want to see. Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]*</param>
+    /// <param name="LogGroupIdentifier">The name or ARN of the log group that contains the data protection policy that you want to see. Constraints: • min: 1 • max: 2048 • pattern: [\w#+=/:,.@-]*</param>
     public AwsLogsGetDataProtectionPolicyOptions(
         string LogGroupIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsLogsGetDataProtectionPolicyOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or ARN of the log group that contains the data protection policy that you want to see. Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]*
+    /// The name or ARN of the log group that contains the data protection policy that you want to see. Constraints: • min: 1 • max: 2048 • pattern: [\w#+=/:,.@-]*
     /// </summary>
     [CliOption("--log-group-identifier")]
     public string? LogGroupIdentifier { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,10 +30,10 @@ public record AwsCodecommitPutFileOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Adds or updates a file in a branch in an CodeCommit repository, and generates a commit for the addition in the specified branch. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryName">The name of the repository where you want to add or update the file. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
-    /// <param name="BranchName">The name of the branch where you want to add or update the file. If this is an empty repository, this branch is created. Constraints: o min: 1 o max: 256</param>
-    /// <param name="FileContent">The content of the file, in binary object format. Constraints: o max: 6291456</param>
-    /// <param name="FilePath">The name of the file you want to add or update, including the rela- tive path to the file in the repository. NOTE: If the path does not currently exist in the repository, the path is created as part of adding the file.</param>
+    /// <param name="RepositoryName">The name of the repository where you want to add or update the file. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+</param>
+    /// <param name="BranchName">The name of the branch where you want to add or update the file. If this is an empty repository, this branch is created. Constraints: • min: 1 • max: 256</param>
+    /// <param name="FileContent">The content of the file, in binary object format. Constraints: • max: 6291456</param>
+    /// <param name="FilePath">The name of the file you want to add or update, including the relative path to the file in the repository. NOTE: If the path does not currently exist in the repository, the path is created as part of adding the file.</param>
     public AwsCodecommitPutFileOptions(
         string RepositoryName,
         string BranchName,
@@ -69,31 +71,31 @@ public record AwsCodecommitPutFileOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the repository where you want to add or update the file. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// The name of the repository where you want to add or update the file. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
 
     /// <summary>
-    /// The name of the branch where you want to add or update the file. If this is an empty repository, this branch is created. Constraints: o min: 1 o max: 256
+    /// The name of the branch where you want to add or update the file. If this is an empty repository, this branch is created. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--branch-name")]
     public string? BranchName { get; private init; }
 
     /// <summary>
-    /// The content of the file, in binary object format. Constraints: o max: 6291456
+    /// The content of the file, in binary object format. Constraints: • max: 6291456
     /// </summary>
     [CliOption("--file-content")]
     public string? FileContent { get; private init; }
 
     /// <summary>
-    /// The name of the file you want to add or update, including the rela- tive path to the file in the repository. NOTE: If the path does not currently exist in the repository, the path is created as part of adding the file.
+    /// The name of the file you want to add or update, including the relative path to the file in the repository. NOTE: If the path does not currently exist in the repository, the path is created as part of adding the file.
     /// </summary>
     [CliOption("--file-path")]
     public string? FilePath { get; private init; }
 
     /// <summary>
-    /// The file mode permissions of the blob. Valid file mode permissions are listed here. Possible values: o EXECUTABLE o NORMAL o SYMLINK
+    /// The file mode permissions of the blob. Valid file mode permissions are listed here. Possible values: • EXECUTABLE • NORMAL • SYMLINK
     /// </summary>
     [CliOption("--file-mode")]
     public AwsCodecommitPutFileFileMode? FileMode { get; set; }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes role associations of given IAM role with EMR service accounts such that it will be removed from Amazon EMR on EKS with the given namespace from the given EKS cluster. Note: The command would dissociate EMR service accounts with provided IAM role from EKS pod identity: o "emr-containers-sa-%(FRAMEWORK)s-%(COMPONENT)s-%(AWS_AC- COUNT_ID)s-%(BASE36_ENCODED_ROLE_NAME)s" Here: &lt;FRAMEWORK&gt; = EMR on EKS framework such as spark, flink, livy &lt;COMPONENT&gt; = Task component for the framework. Such as...
+/// Deletes role associations of given IAM role with EMR service accounts such that it will be removed from Amazon EMR on EKS with the given namespace from the given EKS cluster. Note: The command would dissociate EMR service accounts with provided IAM role from EKS pod identity: • "emr-containers-sa-%(FRAMEWORK)s-%(COMPONENT)s-%(AWS_ACCOUNT_ID)s-%(BASE36_ENCODED_ROLE_NAME)s" Here: &lt;FRAMEWORK&gt; = EMR on EKS framework such as spark, flink, livy &lt;COMPONENT&gt; = Task component for the framework. Such as c...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEmrContainersDeleteRoleAssociationsOptions : AwsOptions
 {
     /// <summary>
-    /// Deletes role associations of given IAM role with EMR service accounts such that it will be removed from Amazon EMR on EKS with the given namespace from the given EKS cluster. Note: The command would dissociate EMR service accounts with provided IAM role from EKS pod identity: o "emr-containers-sa-%(FRAMEWORK)s-%(COMPONENT)s-%(AWS_AC- COUNT_ID)s-%(BASE36_ENCODED_ROLE_NAME)s" Here: &lt;FRAMEWORK&gt; = EMR on EKS framework such as spark, flink, livy &lt;COMPONENT&gt; = Task component for the framework. Such as...
+    /// Deletes role associations of given IAM role with EMR service accounts such that it will be removed from Amazon EMR on EKS with the given namespace from the given EKS cluster. Note: The command would dissociate EMR service accounts with provided IAM role from EKS pod identity: • "emr-containers-sa-%(FRAMEWORK)s-%(COMPONENT)s-%(AWS_ACCOUNT_ID)s-%(BASE36_ENCODED_ROLE_NAME)s" Here: &lt;FRAMEWORK&gt; = EMR on EKS framework such as spark, flink, livy &lt;COMPONENT&gt; = Task component for the framework. Such as c...
     /// </summary>
     /// <param name="ClusterName"></param>
     /// <param name="Namespace"></param>

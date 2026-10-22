@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the available types of lifecycle hooks. The following hook types are supported: o autoscaling:EC2_INSTANCE_LAUNCHING o autoscaling:EC2_INSTANCE_TERMINATING See also: AWS API Documentation
+/// Describes the available types of lifecycle hooks. The following hook types are supported: • autoscaling:EC2_INSTANCE_LAUNCHING • autoscaling:EC2_INSTANCE_TERMINATING See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

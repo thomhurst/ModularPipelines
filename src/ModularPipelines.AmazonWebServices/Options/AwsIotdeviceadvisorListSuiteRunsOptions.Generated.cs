@@ -23,25 +23,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotdeviceadvisorListSuiteRunsOptions : AwsOptions
 {
     /// <summary>
-    /// Lists the test suite runs of the specified test suite based on suite definition ID. Constraints: o min: 12 o max: 36
+    /// Lists the test suite runs of the specified test suite based on suite definition ID. Constraints: • min: 12 • max: 36
     /// </summary>
     [CliOption("--suite-definition-id")]
     public string? SuiteDefinitionId { get; set; }
 
     /// <summary>
-    /// Must be passed along with suiteDefinitionId . Lists the test suite runs of the specified test suite based on suite definition version. Constraints: o min: 2 o max: 255
+    /// Must be passed along with suiteDefinitionId . Lists the test suite runs of the specified test suite based on suite definition version. Constraints: • min: 2 • max: 255
     /// </summary>
     [CliOption("--suite-definition-version")]
     public string? SuiteDefinitionVersion { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return at once. Constraints: o min: 1 o max: 50
+    /// The maximum number of results to return at once. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// A token to retrieve the next set of results. Constraints: o max: 2000
+    /// A token to retrieve the next set of results. Constraints: • max: 2000
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a cached volume on a specified cached volume gateway. This op- eration is only supported in the cached volume gateway type. NOTE: Cache storage must be allocated to the gateway before you can create a cached volume. Use the AddCache operation to add cache storage to a gateway. In the request, you must specify the gateway, size of the volume in bytes, the iSCSI target name, an IP address on which to expose the tar- get, and a unique client token. In response, the gateway creates the volum...
+/// Creates a cached volume on a specified cached volume gateway. This operation is only supported in the cached volume gateway type. NOTE: Cache storage must be allocated to the gateway before you can create a cached volume. Use the AddCache operation to add cache storage to a gateway. In the request, you must specify the gateway, size of the volume in bytes, the iSCSI target name, an IP address on which to expose the target, and a unique client token. In response, the gateway creates the volume an...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,16 +29,16 @@ public record AwsStoragegatewayCreateCachedIscsiVolumeOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a cached volume on a specified cached volume gateway. This op- eration is only supported in the cached volume gateway type. NOTE: Cache storage must be allocated to the gateway before you can create a cached volume. Use the AddCache operation to add cache storage to a gateway. In the request, you must specify the gateway, size of the volume in bytes, the iSCSI target name, an IP address on which to expose the tar- get, and a unique client token. In response, the gateway creates the volum...
+    /// Creates a cached volume on a specified cached volume gateway. This operation is only supported in the cached volume gateway type. NOTE: Cache storage must be allocated to the gateway before you can create a cached volume. Use the AddCache operation to add cache storage to a gateway. In the request, you must specify the gateway, size of the volume in bytes, the iSCSI target name, an IP address on which to expose the target, and a unique client token. In response, the gateway creates the volume an...
     /// </summary>
-    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500</param>
+    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: • min: 50 • max: 500</param>
     /// <param name="VolumeSizeInBytes">The size of the volume in bytes.</param>
-    /// <param name="TargetName">The name of the iSCSI target used by an initiator to connect to a volume and used as a suffix for the target ARN. For example, speci- fying TargetName as myvolume results in the target ARN of arn:aws:storagegateway:us-east-2:111122223333:gate- way/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume . The target name must be unique across all volumes on a gateway. If you don't specify a value, Storage Gateway uses the value that was previously used for this volume as the new target name. Constraints: o min: 1 o max: 200 o pattern: ^[-\.;a-z0-9]+$</param>
-    /// <param name="NetworkInterfaceId">The network interface of the gateway on which to expose the iSCSI target. Accepts IPv4 and IPv6 addresses. Use DescribeGatewayInfor- mation to get a list of the network interfaces available on a gate- way. Valid Values: A valid IP address.</param>
-    /// <param name="ClientToken">A unique identifier that you use to retry a request. If you retry a request, use the same ClientToken you specified in the initial re- quest. Constraints: o min: 5 o max: 100</param>
+    /// <param name="TargetName">The name of the iSCSI target used by an initiator to connect to a volume and used as a suffix for the target ARN. For example, specifying TargetName as myvolume results in the target ARN of arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume . The target name must be unique across all volumes on a gateway. If you don't specify a value, Storage Gateway uses the value that was previously used for this volume as the new target name. Constraints: • min: 1 • max: 200 • pattern: ^[-\.;a-z0-9]+$</param>
+    /// <param name="NetworkInterfaceId">The network interface of the gateway on which to expose the iSCSI target. Accepts IPv4 and IPv6 addresses. Use DescribeGatewayInformation to get a list of the network interfaces available on a gateway. Valid Values: A valid IP address.</param>
+    /// <param name="ClientToken">A unique identifier that you use to retry a request. If you retry a request, use the same ClientToken you specified in the initial request. Constraints: • min: 5 • max: 100</param>
     public AwsStoragegatewayCreateCachedIscsiVolumeOptions(
         string GatewayArn,
-        int VolumeSizeInBytes,
+        long VolumeSizeInBytes,
         string TargetName,
         AwsStoragegatewayCreateCachedIscsiVolumeNetworkInterfaceId NetworkInterfaceId,
         string ClientToken
@@ -72,7 +74,7 @@ public record AwsStoragegatewayCreateCachedIscsiVolumeOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500
+    /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: • min: 50 • max: 500
     /// </summary>
     [CliOption("--gateway-arn")]
     public string? GatewayArn { get; private init; }
@@ -81,35 +83,35 @@ public record AwsStoragegatewayCreateCachedIscsiVolumeOptions : AwsOptions, IVal
     /// The size of the volume in bytes.
     /// </summary>
     [CliOption("--volume-size-in-bytes")]
-    public int? VolumeSizeInBytes { get; private init; }
+    public long? VolumeSizeInBytes { get; private init; }
 
     /// <summary>
-    /// The name of the iSCSI target used by an initiator to connect to a volume and used as a suffix for the target ARN. For example, speci- fying TargetName as myvolume results in the target ARN of arn:aws:storagegateway:us-east-2:111122223333:gate- way/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume . The target name must be unique across all volumes on a gateway. If you don't specify a value, Storage Gateway uses the value that was previously used for this volume as the new target name. Constraints: o min: 1 o max: 200 o pattern: ^[-\.;a-z0-9]+$
+    /// The name of the iSCSI target used by an initiator to connect to a volume and used as a suffix for the target ARN. For example, specifying TargetName as myvolume results in the target ARN of arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume . The target name must be unique across all volumes on a gateway. If you don't specify a value, Storage Gateway uses the value that was previously used for this volume as the new target name. Constraints: • min: 1 • max: 200 • pattern: ^[-\.;a-z0-9]+$
     /// </summary>
     [CliOption("--target-name")]
     public string? TargetName { get; private init; }
 
     /// <summary>
-    /// The network interface of the gateway on which to expose the iSCSI target. Accepts IPv4 and IPv6 addresses. Use DescribeGatewayInfor- mation to get a list of the network interfaces available on a gate- way. Valid Values: A valid IP address.
+    /// The network interface of the gateway on which to expose the iSCSI target. Accepts IPv4 and IPv6 addresses. Use DescribeGatewayInformation to get a list of the network interfaces available on a gateway. Valid Values: A valid IP address.
     /// </summary>
     [CliOption("--network-interface-id")]
     public AwsStoragegatewayCreateCachedIscsiVolumeNetworkInterfaceId? NetworkInterfaceId { get; private init; }
 
     /// <summary>
-    /// A unique identifier that you use to retry a request. If you retry a request, use the same ClientToken you specified in the initial re- quest. Constraints: o min: 5 o max: 100
+    /// A unique identifier that you use to retry a request. If you retry a request, use the same ClientToken you specified in the initial request. Constraints: • min: 5 • max: 100
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; private init; }
 
     /// <summary>
-    /// The snapshot ID (e.g. "snap-1122aabb") of the snapshot to restore as the new cached volume. Specify this field if you want to create the iSCSI storage volume from a snapshot; otherwise, do not include this field. To list snapshots for your account use DescribeSnapshots in the Amazon Elastic Compute Cloud API Reference . Constraints: o pattern: \Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\z
+    /// The snapshot ID (e.g. "snap-1122aabb") of the snapshot to restore as the new cached volume. Specify this field if you want to create the iSCSI storage volume from a snapshot; otherwise, do not include this field. To list snapshots for your account use DescribeSnapshots in the Amazon Elastic Compute Cloud API Reference . Constraints: • pattern: \Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\z
     /// </summary>
     [CliOption("--snapshot-id")]
     public string? SnapshotId { get; set; }
 
     /// <summary>
-    /// The ARN for an existing volume. Specifying this ARN makes the new volume into an exact copy of the specified existing volume's latest recovery point. The VolumeSizeInBytes value for this new volume must be equal to or larger than the size of the existing volume, in bytes. Constraints: o min: 50 o max: 500 o pattern: arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storage- gateway:[a-z\-0-9]+:[0-9]+:gateway\/(.+)\/volume\/vol-(\S+)
+    /// The ARN for an existing volume. Specifying this ARN makes the new volume into an exact copy of the specified existing volume's latest recovery point. The VolumeSizeInBytes value for this new volume must be equal to or larger than the size of the existing volume, in bytes. Constraints: • min: 50 • max: 500 • pattern: arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegateway:[a-z\-0-9]+:[0-9]+:gateway\/(.+)\/volume\/vol-(\S+)
     /// </summary>
     [CliOption("--source-volume-arn")]
     public string? SourceVolumeArn { get; set; }
@@ -121,13 +123,13 @@ public record AwsStoragegatewayCreateCachedIscsiVolumeOptions : AwsOptions, IVal
     public bool? KmsEncrypted { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true . Optional. Constraints: o min: 7 o max: 2048 o pattern: (^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\S+)$)|(^alias/(\S+)$)
+    /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true . Optional. Constraints: • min: 7 • max: 2048 • pattern: (^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\S+)$)|(^alias/(\S+)$)
     /// </summary>
     [CliOption("--kms-key")]
     public string? KmsKey { get; set; }
 
     /// <summary>
-    /// A list of up to 50 tags that you can assign to a cached volume. Each tag is a key-value pair. NOTE: Valid characters for key and value are letters, spaces, and num- bers that you can represent in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256 characters. (structure) A key-value pair that helps you manage, filter, and search for your resource. Allowed characters: letters, white space, and numbers, representable in UTF-8, and the following characters: + - = . _ : /. Key -&gt; (string) [required] Tag key. The key can't start with aws:. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag key. Constraints: o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of up to 50 tags that you can assign to a cached volume. Each tag is a key-value pair. NOTE: Valid characters for key and value are letters, spaces, and numbers that you can represent in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256 characters. (structure) A key-value pair that helps you manage, filter, and search for your resource. Allowed characters: letters, white space, and numbers, representable in UTF-8, and the following characters: + - = . _ : /. Key -&gt; (string) [required] Tag key. The key can't start with aws:. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag key. Constraints: • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

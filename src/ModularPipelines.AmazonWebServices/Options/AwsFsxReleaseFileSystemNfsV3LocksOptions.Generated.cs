@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Releases the file system lock from an Amazon FSx for OpenZFS file sys- tem. See also: AWS API Documentation
+/// Releases the file system lock from an Amazon FSx for OpenZFS file system. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsFsxReleaseFileSystemNfsV3LocksOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Releases the file system lock from an Amazon FSx for OpenZFS file sys- tem. See also: AWS API Documentation
+    /// Releases the file system lock from an Amazon FSx for OpenZFS file system. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FileSystemId">The globally unique ID of the file system, assigned by Amazon FSx. Constraints: o min: 11 o max: 21 o pattern: ^(fs-[0-9a-f]{8,})$</param>
+    /// <param name="FileSystemId">The globally unique ID of the file system, assigned by Amazon FSx. Constraints: • min: 11 • max: 21 • pattern: ^(fs-[0-9a-f]{8,})$</param>
     public AwsFsxReleaseFileSystemNfsV3LocksOptions(
         string FileSystemId
     )
@@ -57,13 +59,13 @@ public record AwsFsxReleaseFileSystemNfsV3LocksOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The globally unique ID of the file system, assigned by Amazon FSx. Constraints: o min: 11 o max: 21 o pattern: ^(fs-[0-9a-f]{8,})$
+    /// The globally unique ID of the file system, assigned by Amazon FSx. Constraints: • min: 11 • max: 21 • pattern: ^(fs-[0-9a-f]{8,})$
     /// </summary>
     [CliOption("--file-system-id")]
     public string? FileSystemId { get; private init; }
 
     /// <summary>
-    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Ama- zon Web Services SDK. Constraints: o min: 1 o max: 63 o pattern: [A-za-z0-9_.-]{0,63}$
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK. Constraints: • min: 1 • max: 63 • pattern: [A-za-z0-9_.-]{0,63}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]

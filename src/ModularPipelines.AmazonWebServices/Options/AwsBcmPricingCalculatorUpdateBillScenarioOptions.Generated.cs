@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsBcmPricingCalculatorUpdateBillScenarioOptions : AwsOptions, IVa
     /// <summary>
     /// Updates an existing bill scenario. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The unique identifier of the bill scenario to update. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="Identifier">The unique identifier of the bill scenario to update. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
     public AwsBcmPricingCalculatorUpdateBillScenarioOptions(
         string Identifier
     )
@@ -57,13 +59,13 @@ public record AwsBcmPricingCalculatorUpdateBillScenarioOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the bill scenario to update. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The unique identifier of the bill scenario to update. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The new name for the bill scenario. Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-]+
+    /// The new name for the bill scenario. Constraints: • min: 0 • max: 64 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
@@ -75,13 +77,13 @@ public record AwsBcmPricingCalculatorUpdateBillScenarioOptions : AwsOptions, IVa
     public string? ExpiresAt { get; set; }
 
     /// <summary>
-    /// The setting for the reserved instance and savings plan group sharing used in this estimate. Possible values: o OPEN o PRIORITIZED o RESTRICTED
+    /// The setting for the reserved instance and savings plan group sharing used in this estimate. Possible values: • OPEN • PRIORITIZED • RESTRICTED
     /// </summary>
     [CliOption("--group-sharing-preference")]
     public AwsBcmPricingCalculatorUpdateBillScenarioGroupSharingPreference? GroupSharingPreference { get; set; }
 
     /// <summary>
-    /// The arn of the cost category used in the reserved and prioritized group sharing. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:ce::[0-9]{12}:costcate- gory/[a-f0-9-]{36}
+    /// The arn of the cost category used in the reserved and prioritized group sharing. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:ce::[0-9]{12}:costcategory/[a-f0-9-]{36}
     /// </summary>
     [CliOption("--cost-category-group-sharing-preference-arn")]
     public string? CostCategoryGroupSharingPreferenceArn { get; set; }

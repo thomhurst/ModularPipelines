@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDrsDeleteLaunchActionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a resource launch action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceId">Launch configuration template Id or Source Server Id Constraints: o pattern: (s-[0-9a-zA-Z]{17}$|lct-[0-9a-zA-Z]{17})</param>
-    /// <param name="ActionId">Launch action Id. Constraints: o min: 1 o max: 64 o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</param>
+    /// <param name="ResourceId">Launch configuration template Id or Source Server Id Constraints: • pattern: (s-[0-9a-zA-Z]{17}$|lct-[0-9a-zA-Z]{17})</param>
+    /// <param name="ActionId">Launch action Id. Constraints: • min: 1 • max: 64 • pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</param>
     public AwsDrsDeleteLaunchActionOptions(
         string ResourceId,
         string ActionId
@@ -60,13 +62,13 @@ public record AwsDrsDeleteLaunchActionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Launch configuration template Id or Source Server Id Constraints: o pattern: (s-[0-9a-zA-Z]{17}$|lct-[0-9a-zA-Z]{17})
+    /// Launch configuration template Id or Source Server Id Constraints: • pattern: (s-[0-9a-zA-Z]{17}$|lct-[0-9a-zA-Z]{17})
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// Launch action Id. Constraints: o min: 1 o max: 64 o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
+    /// Launch action Id. Constraints: • min: 1 • max: 64 • pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
     /// </summary>
     [CliOption("--action-id")]
     public string? ActionId { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDynamodbDisableKinesisStreamingDestinationOptions : AwsOptions,
     /// <summary>
     /// Stops replication from the DynamoDB table to the Kinesis data stream. This is done without deleting either of the resources. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TableName">The name of the DynamoDB table. You can also provide the Amazon Re- source Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024</param>
-    /// <param name="StreamArn">The ARN for a Kinesis data stream. Constraints: o min: 37 o max: 1024</param>
+    /// <param name="TableName">The name of the DynamoDB table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: • min: 1 • max: 1024</param>
+    /// <param name="StreamArn">The ARN for a Kinesis data stream. Constraints: • min: 37 • max: 1024</param>
     public AwsDynamodbDisableKinesisStreamingDestinationOptions(
         string TableName,
         string StreamArn
@@ -60,19 +62,19 @@ public record AwsDynamodbDisableKinesisStreamingDestinationOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the DynamoDB table. You can also provide the Amazon Re- source Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024
+    /// The name of the DynamoDB table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--table-name")]
     public string? TableName { get; private init; }
 
     /// <summary>
-    /// The ARN for a Kinesis data stream. Constraints: o min: 37 o max: 1024
+    /// The ARN for a Kinesis data stream. Constraints: • min: 37 • max: 1024
     /// </summary>
     [CliOption("--stream-arn")]
     public string? StreamArn { get; private init; }
 
     /// <summary>
-    /// The source for the Kinesis streaming information that is being en- abled. ApproximateCreationDateTimePrecision -&gt; (string) Toggle for the precision of Kinesis data stream timestamp. The values are either MILLISECOND or MICROSECOND . Possible values: o MILLISECOND o MICROSECOND Shorthand Syntax: ApproximateCreationDateTimePrecision=string JSON Syntax: { "ApproximateCreationDateTimePrecision": "MILLISECOND"|"MICROSECOND" }
+    /// The source for the Kinesis streaming information that is being enabled. ApproximateCreationDateTimePrecision -&gt; (string) Toggle for the precision of Kinesis data stream timestamp. The values are either MILLISECOND or MICROSECOND . Possible values: • MILLISECOND • MICROSECOND Shorthand Syntax: ApproximateCreationDateTimePrecision=string JSON Syntax: { "ApproximateCreationDateTimePrecision": "MILLISECOND"|"MICROSECOND" }
     /// </summary>
     [CliOption("--enable-kinesis-streaming-configuration")]
     public string? EnableKinesisStreamingConfiguration { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified lifecycle policy and halts the automated opera- tions that the policy specified. For more information about deleting a policy, see Delete lifecycle policies . See also: AWS API Documentation
+/// Deletes the specified lifecycle policy and halts the automated operations that the policy specified. For more information about deleting a policy, see Delete lifecycle policies . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsDlmDeleteLifecyclePolicyOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified lifecycle policy and halts the automated opera- tions that the policy specified. For more information about deleting a policy, see Delete lifecycle policies . See also: AWS API Documentation
+    /// Deletes the specified lifecycle policy and halts the automated operations that the policy specified. For more information about deleting a policy, see Delete lifecycle policies . See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyId">The identifier of the lifecycle policy. Constraints: o min: 0 o max: 64 o pattern: policy-[a-f0-9]+</param>
+    /// <param name="PolicyId">The identifier of the lifecycle policy. Constraints: • min: 0 • max: 64 • pattern: policy-[a-f0-9]+</param>
     public AwsDlmDeleteLifecyclePolicyOptions(
         string PolicyId
     )
@@ -56,7 +58,7 @@ public record AwsDlmDeleteLifecyclePolicyOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the lifecycle policy. Constraints: o min: 0 o max: 64 o pattern: policy-[a-f0-9]+
+    /// The identifier of the lifecycle policy. Constraints: • min: 0 • max: 64 • pattern: policy-[a-f0-9]+
     /// </summary>
     [CliOption("--policy-id")]
     public string? PolicyId { get; private init; }

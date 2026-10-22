@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsBedrockDataAutomationCreateDataAutomationLibraryOptions : AwsOp
     /// <summary>
     /// Creates an Amazon Bedrock Data Automation Library See also: AWS API Documentation
     /// </summary>
-    /// <param name="LibraryName">Name of the DataAutomationLibrary Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_]+</param>
+    /// <param name="LibraryName">Name of the DataAutomationLibrary Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9-_]+</param>
     public AwsBedrockDataAutomationCreateDataAutomationLibraryOptions(
         string LibraryName
     )
@@ -57,32 +59,32 @@ public record AwsBedrockDataAutomationCreateDataAutomationLibraryOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the DataAutomationLibrary Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_]+
+    /// Name of the DataAutomationLibrary Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9-_]+
     /// </summary>
     [CliOption("--library-name")]
     public string? LibraryName { get; private init; }
 
     /// <summary>
-    /// Description of the DataAutomationLibrary Constraints: o min: 0 o max: 300 o pattern: [a-zA-Z0-9\s!"\#\$%'&amp;\(\)\*\+\,\-\./:;=\?@\[\\\]\^_`\{\|\}~-----]*
+    /// Description of the DataAutomationLibrary Constraints: • min: 0 • max: 300 • pattern: [a-zA-Z0-9\s!"\#\$%'&amp;\(\)\*\+\,\-\./:;=\?@\[\\\]\^_`\{\|\}~&gt;&lt;-- -----]*
     /// </summary>
     [CliOption("--library-description")]
     public string? LibraryDescription { get; set; }
 
     /// <summary>
-    /// Client specified token used for idempotency checks Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// Client specified token used for idempotency checks Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// KMS Encryption Configuration kmsKeyId -&gt; (string) [required] KMS Key Identifier Constraints: o min: 1 o max: 2048 o pattern: [A-Za-z0-9][A-Za-z0-9:_/+=,@.-]+ kmsEncryptionContext -&gt; (map) KMS Encryption Context Constraints: o min: 1 key -&gt; (string) Encryption context key. Constraints: o min: 1 o max: 2000 o pattern: .*\S.* value -&gt; (string) Encryption context value. Constraints: o min: 1 o max: 2000 o pattern: .*\S.* Shorthand Syntax: kmsKeyId=string,kmsEncryptionContext={KeyName1=string,KeyName2=string} JSON Syntax: { "kmsKeyId": "string", "kmsEncryptionContext": {"string": "string" ...} }
+    /// KMS Encryption Configuration kmsKeyId -&gt; (string) [required] KMS Key Identifier Constraints: • min: 1 • max: 2048 • pattern: [A-Za-z0-9][A-Za-z0-9:_/+=,@.-]+ kmsEncryptionContext -&gt; (map) KMS Encryption Context Constraints: • min: 1 key -&gt; (string) Encryption context key. Constraints: • min: 1 • max: 2000 • pattern: .*\S.* value -&gt; (string) Encryption context value. Constraints: • min: 1 • max: 2000 • pattern: .*\S.* Shorthand Syntax: kmsKeyId=string,kmsEncryptionContext={KeyName1=string,KeyName2=string} JSON Syntax: { "kmsKeyId": "string", "kmsEncryptionContext": {"string": "string" ...} }
     /// </summary>
     [CliOption("--encryption-configuration")]
     public string? EncryptionConfiguration { get; set; }
 
     /// <summary>
-    /// List of tags Constraints: o min: 0 o max: 200 (structure) Key value pair of a tag key -&gt; (string) [required] Defines the context of the tag. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] Defines the value within the context. e.g. &lt;key=reason, value=training&gt;. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// List of tags Constraints: • min: 0 • max: 200 (structure) Key value pair of a tag key -&gt; (string) [required] Defines the context of the tag. Constraints: • min: 1 • max: 128 value -&gt; (string) [required] Defines the value within the context. e.g. &lt;key=reason, value=training&gt;. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

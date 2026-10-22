@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified tags associated with an ML object. After this op- eration is complete, you can't recover deleted tags. If you specify a tag that doesn't exist, Amazon ML ignores it. See also: AWS API Documentation
+/// Deletes the specified tags associated with an ML object. After this operation is complete, you can't recover deleted tags. If you specify a tag that doesn't exist, Amazon ML ignores it. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsMachinelearningDeleteTagsOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified tags associated with an ML object. After this op- eration is complete, you can't recover deleted tags. If you specify a tag that doesn't exist, Amazon ML ignores it. See also: AWS API Documentation
+    /// Deletes the specified tags associated with an ML object. After this operation is complete, you can't recover deleted tags. If you specify a tag that doesn't exist, Amazon ML ignores it. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TagKeys">One or more tags to delete. Constraints: o max: 100 (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...</param>
-    /// <param name="ResourceId">The ID of the tagged ML object. For example, exampleModelId . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="ResourceType">The type of the tagged ML object. Possible values: o BatchPrediction o DataSource o Evaluation o MLModel</param>
+    /// <param name="TagKeys">One or more tags to delete. Constraints: • max: 100 (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceId">The ID of the tagged ML object. For example, exampleModelId . Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="ResourceType">The type of the tagged ML object. Possible values: • BatchPrediction • DataSource • Evaluation • MLModel</param>
     public AwsMachinelearningDeleteTagsOptions(
         IEnumerable<string> TagKeys,
         string ResourceId,
@@ -75,19 +77,19 @@ public record AwsMachinelearningDeleteTagsOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// One or more tags to delete. Constraints: o max: 100 (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
+    /// One or more tags to delete. Constraints: • max: 100 (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
 
     /// <summary>
-    /// The ID of the tagged ML object. For example, exampleModelId . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// The ID of the tagged ML object. For example, exampleModelId . Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// The type of the tagged ML object. Possible values: o BatchPrediction o DataSource o Evaluation o MLModel
+    /// The type of the tagged ML object. Possible values: • BatchPrediction • DataSource • Evaluation • MLModel
     /// </summary>
     [CliOption("--resource-type")]
     public AwsMachinelearningDeleteTagsResourceType? ResourceType { get; private init; }

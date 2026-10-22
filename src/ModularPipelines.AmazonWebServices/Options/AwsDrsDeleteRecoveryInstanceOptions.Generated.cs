@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a single Recovery Instance by ID. This deletes the Recovery In- stance resource from Elastic Disaster Recovery. The Recovery Instance must be disconnected first in order to delete it. See also: AWS API Documentation
+/// Deletes a single Recovery Instance by ID. This deletes the Recovery Instance resource from Elastic Disaster Recovery. The Recovery Instance must be disconnected first in order to delete it. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsDrsDeleteRecoveryInstanceOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a single Recovery Instance by ID. This deletes the Recovery In- stance resource from Elastic Disaster Recovery. The Recovery Instance must be disconnected first in order to delete it. See also: AWS API Documentation
+    /// Deletes a single Recovery Instance by ID. This deletes the Recovery Instance resource from Elastic Disaster Recovery. The Recovery Instance must be disconnected first in order to delete it. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RecoveryInstanceId">The ID of the Recovery Instance to be deleted. Constraints: o min: 10 o max: 19 o pattern: i-[0-9a-fA-F]{8,}</param>
+    /// <param name="RecoveryInstanceId">The ID of the Recovery Instance to be deleted. Constraints: • min: 10 • max: 19 • pattern: i-[0-9a-fA-F]{8,}</param>
     public AwsDrsDeleteRecoveryInstanceOptions(
         string RecoveryInstanceId
     )
@@ -56,7 +58,7 @@ public record AwsDrsDeleteRecoveryInstanceOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Recovery Instance to be deleted. Constraints: o min: 10 o max: 19 o pattern: i-[0-9a-fA-F]{8,}
+    /// The ID of the Recovery Instance to be deleted. Constraints: • min: 10 • max: 19 • pattern: i-[0-9a-fA-F]{8,}
     /// </summary>
     [CliOption("--recovery-instance-id")]
     public string? RecoveryInstanceId { get; private init; }

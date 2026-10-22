@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsSecurityagentBatchDeleteCodeReviewsOptions : AwsOptions, IValid
     /// Deletes one or more code reviews from an agent space. See also: AWS API Documentation
     /// </summary>
     /// <param name="CodeReviewIds">The list of code review identifiers to delete. (string) Syntax: "string" "string" ...</param>
-    /// <param name="AgentSpaceId">The unique identifier of the agent space that contains the code re- views to delete.</param>
+    /// <param name="AgentSpaceId">The unique identifier of the agent space that contains the code reviews to delete.</param>
     public AwsSecurityagentBatchDeleteCodeReviewsOptions(
         IEnumerable<string> CodeReviewIds,
         string AgentSpaceId
@@ -77,7 +79,7 @@ public record AwsSecurityagentBatchDeleteCodeReviewsOptions : AwsOptions, IValid
     public IEnumerable<string>? CodeReviewIds { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the agent space that contains the code re- views to delete.
+    /// The unique identifier of the agent space that contains the code reviews to delete.
     /// </summary>
     [CliOption("--agent-space-id")]
     public string? AgentSpaceId { get; private init; }

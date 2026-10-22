@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSecurityIrListTagsForResourceOptions : AwsOptions, IValidatable
     /// <summary>
     /// Returns currently configured tags on a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">Required element for ListTagsForResource to provide the ARN to iden- tify a specific resource. Constraints: o min: 12 o max: 1010 o pattern: arn:aws:security-ir:\w+?-\w+?-\d+:[0-9]{12}:(member- ship/m-[a-z0-9]{10,32}|case/[0-9]{10})</param>
+    /// <param name="ResourceArn">Required element for ListTagsForResource to provide the ARN to identify a specific resource. Constraints: • min: 12 • max: 1010 • pattern: arn:aws:security-ir:\w+?-\w+?-\d+:[0-9]{12}:(membership/m-[a-z0-9]{10,32}|case/[0-9]{10})</param>
     public AwsSecurityIrListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsSecurityIrListTagsForResourceOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Required element for ListTagsForResource to provide the ARN to iden- tify a specific resource. Constraints: o min: 12 o max: 1010 o pattern: arn:aws:security-ir:\w+?-\w+?-\d+:[0-9]{12}:(member- ship/m-[a-z0-9]{10,32}|case/[0-9]{10})
+    /// Required element for ListTagsForResource to provide the ARN to identify a specific resource. Constraints: • min: 12 • max: 1010 • pattern: arn:aws:security-ir:\w+?-\w+?-\d+:[0-9]{12}:(membership/m-[a-z0-9]{10,32}|case/[0-9]{10})
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

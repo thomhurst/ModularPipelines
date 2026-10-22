@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsGrafanaUpdatePermissionsOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Updates which users in a workspace have the Grafana Admin or Editor roles. See also: AWS API Documentation
     /// </summary>
-    /// <param name="UpdateInstructionBatch">An array of structures that contain the permission updates to make. Constraints: o min: 0 o max: 20 (structure) Contains the instructions for one Grafana role permission update in a UpdatePermissions operation. action -&gt; (string) [required] Specifies whether this update is to add or revoke role per- missions. Possible values: o ADD o REVOKE role -&gt; (string) [required] The role to add or revoke for the user or the group specified in users . Possible values: o ADMIN o EDITOR o VIEWER users -&gt; (list) [required] A structure that specifies the user or group to add or revoke the role for. (structure) A structure that specifies one user or group in the work- space. id -&gt; (string) [required] The ID of the user or group. Pattern: ^([0-9a-fA-F]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$ Constraints: o min: 1 o max: 47 type -&gt; (string) [required] Specifies whether this is a single user or a group. Possible values: o SSO_USER o SSO_GROUP Shorthand Syntax: action=string,role=string,users=[{id=string,type=string},{id=string,type=string}] ... JSON Syntax: [ { "action": "ADD"|"REVOKE", "role": "ADMIN"|"EDITOR"|"VIEWER", "users": [ { "id": "string", "type": "SSO_USER"|"SSO_GROUP" } ... ] } ... ]</param>
-    /// <param name="WorkspaceId">The ID of the workspace to update. Constraints: o pattern: g-[0-9a-f]{10}</param>
+    /// <param name="UpdateInstructionBatch">An array of structures that contain the permission updates to make. Constraints: • min: 0 • max: 20 (structure) Contains the instructions for one Grafana role permission update in a UpdatePermissions operation. action -&gt; (string) [required] Specifies whether this update is to add or revoke role permissions. Possible values: • ADD • REVOKE role -&gt; (string) [required] The role to add or revoke for the user or the group specified in users . Possible values: • ADMIN • EDITOR • VIEWER users -&gt; (list) [required] A structure that specifies the user or group to add or revoke the role for. (structure) A structure that specifies one user or group in the workspace. id -&gt; (string) [required] The ID of the user or group. Pattern: ^([0-9a-fA-F]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$ Constraints: • min: 1 • max: 47 type -&gt; (string) [required] Specifies whether this is a single user or a group. Possible values: • SSO_USER • SSO_GROUP Shorthand Syntax: action=string,role=string,users=[{id=string,type=string},{id=string,type=string}] ... JSON Syntax: [ { "action": "ADD"|"REVOKE", "role": "ADMIN"|"EDITOR"|"VIEWER", "users": [ { "id": "string", "type": "SSO_USER"|"SSO_GROUP" } ... ] } ... ]</param>
+    /// <param name="WorkspaceId">The ID of the workspace to update. Constraints: • pattern: g-[0-9a-f]{10}</param>
     public AwsGrafanaUpdatePermissionsOptions(
         IEnumerable<string> UpdateInstructionBatch,
         string WorkspaceId
@@ -71,13 +73,13 @@ public record AwsGrafanaUpdatePermissionsOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An array of structures that contain the permission updates to make. Constraints: o min: 0 o max: 20 (structure) Contains the instructions for one Grafana role permission update in a UpdatePermissions operation. action -&gt; (string) [required] Specifies whether this update is to add or revoke role per- missions. Possible values: o ADD o REVOKE role -&gt; (string) [required] The role to add or revoke for the user or the group specified in users . Possible values: o ADMIN o EDITOR o VIEWER users -&gt; (list) [required] A structure that specifies the user or group to add or revoke the role for. (structure) A structure that specifies one user or group in the work- space. id -&gt; (string) [required] The ID of the user or group. Pattern: ^([0-9a-fA-F]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$ Constraints: o min: 1 o max: 47 type -&gt; (string) [required] Specifies whether this is a single user or a group. Possible values: o SSO_USER o SSO_GROUP Shorthand Syntax: action=string,role=string,users=[{id=string,type=string},{id=string,type=string}] ... JSON Syntax: [ { "action": "ADD"|"REVOKE", "role": "ADMIN"|"EDITOR"|"VIEWER", "users": [ { "id": "string", "type": "SSO_USER"|"SSO_GROUP" } ... ] } ... ]
+    /// An array of structures that contain the permission updates to make. Constraints: • min: 0 • max: 20 (structure) Contains the instructions for one Grafana role permission update in a UpdatePermissions operation. action -&gt; (string) [required] Specifies whether this update is to add or revoke role permissions. Possible values: • ADD • REVOKE role -&gt; (string) [required] The role to add or revoke for the user or the group specified in users . Possible values: • ADMIN • EDITOR • VIEWER users -&gt; (list) [required] A structure that specifies the user or group to add or revoke the role for. (structure) A structure that specifies one user or group in the workspace. id -&gt; (string) [required] The ID of the user or group. Pattern: ^([0-9a-fA-F]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$ Constraints: • min: 1 • max: 47 type -&gt; (string) [required] Specifies whether this is a single user or a group. Possible values: • SSO_USER • SSO_GROUP Shorthand Syntax: action=string,role=string,users=[{id=string,type=string},{id=string,type=string}] ... JSON Syntax: [ { "action": "ADD"|"REVOKE", "role": "ADMIN"|"EDITOR"|"VIEWER", "users": [ { "id": "string", "type": "SSO_USER"|"SSO_GROUP" } ... ] } ... ]
     /// </summary>
     [CliOption("--update-instruction-batch", GroupValues = true)]
     public IEnumerable<string>? UpdateInstructionBatch { get; private init; }
 
     /// <summary>
-    /// The ID of the workspace to update. Constraints: o pattern: g-[0-9a-f]{10}
+    /// The ID of the workspace to update. Constraints: • pattern: g-[0-9a-f]{10}
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }

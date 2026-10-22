@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +31,8 @@ public record AwsAppsyncUpdateTypeOptions : AwsOptions, IValidatableObject
     /// Updates a Type object. See also: AWS API Documentation
     /// </summary>
     /// <param name="ApiId">The API ID.</param>
-    /// <param name="TypeName">The new type name. Constraints: o min: 1 o max: 65536 o pattern: [_A-Za-z][_0-9A-Za-z]*</param>
-    /// <param name="Format">The new type format: SDL or JSON. Possible values: o SDL o JSON</param>
+    /// <param name="TypeName">The new type name. Constraints: • min: 1 • max: 65536 • pattern: [_A-Za-z][_0-9A-Za-z]*</param>
+    /// <param name="Format">The new type format: SDL or JSON. Possible values: • SDL • JSON</param>
     public AwsAppsyncUpdateTypeOptions(
         string ApiId,
         string TypeName,
@@ -70,13 +72,13 @@ public record AwsAppsyncUpdateTypeOptions : AwsOptions, IValidatableObject
     public string? ApiId { get; private init; }
 
     /// <summary>
-    /// The new type name. Constraints: o min: 1 o max: 65536 o pattern: [_A-Za-z][_0-9A-Za-z]*
+    /// The new type name. Constraints: • min: 1 • max: 65536 • pattern: [_A-Za-z][_0-9A-Za-z]*
     /// </summary>
     [CliOption("--type-name")]
     public string? TypeName { get; private init; }
 
     /// <summary>
-    /// The new type format: SDL or JSON. Possible values: o SDL o JSON
+    /// The new type format: SDL or JSON. Possible values: • SDL • JSON
     /// </summary>
     [CliOption("--format")]
     public AwsAppsyncUpdateTypeFormat? Format { get; private init; }

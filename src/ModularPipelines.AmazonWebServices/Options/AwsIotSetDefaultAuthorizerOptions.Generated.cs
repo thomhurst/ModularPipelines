@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sets the default authorizer. This will be used if a websocket connec- tion is made without specifying an authorizer. Requires permission to access the SetDefaultAuthorizer action. See also: AWS API Documentation
+/// Sets the default authorizer. This will be used if a websocket connection is made without specifying an authorizer. Requires permission to access the SetDefaultAuthorizer action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsIotSetDefaultAuthorizerOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sets the default authorizer. This will be used if a websocket connec- tion is made without specifying an authorizer. Requires permission to access the SetDefaultAuthorizer action. See also: AWS API Documentation
+    /// Sets the default authorizer. This will be used if a websocket connection is made without specifying an authorizer. Requires permission to access the SetDefaultAuthorizer action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AuthorizerName">The authorizer name. Constraints: o min: 1 o max: 128 o pattern: [\w=,@-]+</param>
+    /// <param name="AuthorizerName">The authorizer name. Constraints: • min: 1 • max: 128 • pattern: [\w=,@-]+</param>
     public AwsIotSetDefaultAuthorizerOptions(
         string AuthorizerName
     )
@@ -56,7 +58,7 @@ public record AwsIotSetDefaultAuthorizerOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The authorizer name. Constraints: o min: 1 o max: 128 o pattern: [\w=,@-]+
+    /// The authorizer name. Constraints: • min: 1 • max: 128 • pattern: [\w=,@-]+
     /// </summary>
     [CliOption("--authorizer-name")]
     public string? AuthorizerName { get; private init; }

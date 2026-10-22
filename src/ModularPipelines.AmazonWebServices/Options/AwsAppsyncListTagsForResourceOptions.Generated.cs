@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAppsyncListTagsForResourceOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Lists the tags for a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The GraphqlApi Amazon Resource Name (ARN). Constraints: o min: 70 o max: 75 o pattern: ^arn:aws:app- sync:[A-Za-z0-9_/.-]{0,63}:\d{12}:apis/[0-9A-Za-z_-]{26}$</param>
+    /// <param name="ResourceArn">The GraphqlApi Amazon Resource Name (ARN). Constraints: • min: 70 • max: 75 • pattern: ^arn:aws:appsync:[A-Za-z0-9_/.-]{0,63}:\d{12}:apis/[0-9A-Za-z_-]{26}$</param>
     public AwsAppsyncListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsAppsyncListTagsForResourceOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The GraphqlApi Amazon Resource Name (ARN). Constraints: o min: 70 o max: 75 o pattern: ^arn:aws:app- sync:[A-Za-z0-9_/.-]{0,63}:\d{12}:apis/[0-9A-Za-z_-]{26}$
+    /// The GraphqlApi Amazon Resource Name (ARN). Constraints: • min: 70 • max: 75 • pattern: ^arn:aws:appsync:[A-Za-z0-9_/.-]{0,63}:\d{12}:apis/[0-9A-Za-z_-]{26}$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

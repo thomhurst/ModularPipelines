@@ -23,19 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDynamodbListImportsOptions : AwsOptions
 {
     /// <summary>
-    /// The Amazon Resource Name (ARN) associated with the table that was imported to. Constraints: o min: 1 o max: 1024
+    /// The Amazon Resource Name (ARN) associated with the table that was imported to. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--table-arn")]
     public string? TableArn { get; set; }
 
     /// <summary>
-    /// The number of ImportSummary objects returned in a single page. Constraints: o min: 1 o max: 25
+    /// The number of ImportSummary objects returned in a single page. Constraints: • min: 1 • max: 25
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// An optional string that, if supplied, must be copied from the output of a previous call to ListImports . When provided in this manner, the API fetches the next page of results. Constraints: o min: 112 o max: 1024 o pattern: ([0-9a-f]{16})+
+    /// An optional string that, if supplied, must be copied from the output of a previous call to ListImports . When provided in this manner, the API fetches the next page of results. Constraints: • min: 112 • max: 1024 • pattern: ([0-9a-f]{16})+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

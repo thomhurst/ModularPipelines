@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCloudhsmv2ModifyBackupAttributesOptions : AwsOptions, IValidata
     /// <summary>
     /// Modifies attributes for CloudHSM backup. Cross-account use: No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BackupId">The identifier (ID) of the backup to modify. To find the ID of a backup, use the DescribeBackups operation. Constraints: o pattern: backup-[2-7a-zA-Z]{11,16}</param>
-    /// <param name="NeverExpires">Specifies whether the service should exempt a backup from the reten- tion policy for the cluster. True exempts a backup from the reten- tion policy. False means the service applies the backup retention policy defined at the cluster.</param>
+    /// <param name="BackupId">The identifier (ID) of the backup to modify. To find the ID of a backup, use the DescribeBackups operation. Constraints: • pattern: backup-[2-7a-zA-Z]{11,16}</param>
+    /// <param name="NeverExpires">Specifies whether the service should exempt a backup from the retention policy for the cluster. True exempts a backup from the retention policy. False means the service applies the backup retention policy defined at the cluster.</param>
     public AwsCloudhsmv2ModifyBackupAttributesOptions(
         string BackupId,
         bool NeverExpires
@@ -59,13 +61,13 @@ public record AwsCloudhsmv2ModifyBackupAttributesOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier (ID) of the backup to modify. To find the ID of a backup, use the DescribeBackups operation. Constraints: o pattern: backup-[2-7a-zA-Z]{11,16}
+    /// The identifier (ID) of the backup to modify. To find the ID of a backup, use the DescribeBackups operation. Constraints: • pattern: backup-[2-7a-zA-Z]{11,16}
     /// </summary>
     [CliOption("--backup-id")]
     public string? BackupId { get; private init; }
 
     /// <summary>
-    /// Specifies whether the service should exempt a backup from the reten- tion policy for the cluster. True exempts a backup from the reten- tion policy. False means the service applies the backup retention policy defined at the cluster.
+    /// Specifies whether the service should exempt a backup from the retention policy for the cluster. True exempts a backup from the retention policy. False means the service applies the backup retention policy defined at the cluster.
     /// </summary>
     [CliFlag("--never-expires", NegatedName = "--no-never-expires")]
     public bool? NeverExpires { get; private init; }

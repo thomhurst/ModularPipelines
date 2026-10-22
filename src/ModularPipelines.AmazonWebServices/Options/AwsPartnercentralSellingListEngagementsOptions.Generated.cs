@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsPartnercentralSellingListEngagementsOptions : AwsOptions, IVali
     /// <summary>
     /// This action allows users to retrieve a list of Engagement records from Partner Central. This action can be used to manage and track various engagements across different stages of the partner selling process. See also: AWS API Documentation list-engagements is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginate...
     /// </summary>
-    /// <param name="Catalog">Specifies the catalog related to the request. Constraints: o pattern: [a-zA-Z]+</param>
+    /// <param name="Catalog">Specifies the catalog related to the request. Constraints: • pattern: [a-zA-Z]+</param>
     public AwsPartnercentralSellingListEngagementsOptions(
         string Catalog
     )
@@ -57,52 +59,49 @@ public record AwsPartnercentralSellingListEngagementsOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the catalog related to the request. Constraints: o pattern: [a-zA-Z]+
+    /// Specifies the catalog related to the request. Constraints: • pattern: [a-zA-Z]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// A list of AWS account IDs. When specified, the response includes en- gagements created by these accounts. This filter is useful for find- ing engagements created by specific team members. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: ([0-9]{12}|\w{1,12}) Syntax: "string" "string" ...
+    /// A list of AWS account IDs. When specified, the response includes engagements created by these accounts. This filter is useful for finding engagements created by specific team members. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: ([0-9]{12}|\w{1,12}) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--created-by", GroupValues = true)]
     public IEnumerable<string>? CreatedBy { get; set; }
 
     /// <summary>
-    /// An array of strings representing AWS Account IDs. Use this to ex- clude engagements created by specific users. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: ([0-9]{12}|\w{1,12}) Syntax: "string" "string" ...
+    /// An array of strings representing AWS Account IDs. Use this to exclude engagements created by specific users. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: ([0-9]{12}|\w{1,12}) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--exclude-created-by", GroupValues = true)]
     public IEnumerable<string>? ExcludeCreatedBy { get; set; }
 
     /// <summary>
-    /// Filters engagements to include only those containing the specified context types, such as "CustomerProject" or "Lead". Use this to find engagements that have specific types of contextual information asso- ciated with them. Constraints: o min: 0 o max: 5 (string) Possible values: o CustomerProject o Lead o ProspectingResult Syntax: "string" "string" ...
+    /// Filters engagements to include only those containing the specified context types, such as "CustomerProject" or "Lead". Use this to find engagements that have specific types of contextual information associated with them. Constraints: • min: 0 • max: 5 (string) Possible values: • CustomerProject • Lead • ProspectingResult Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--context-types", GroupValues = true)]
     public IEnumerable<string>? ContextTypes { get; set; }
 
     /// <summary>
-    /// Filters engagements to exclude those containing the specified con- text types. Use this to find engagements that do not have certain types of contextual information, helping to narrow results based on context exclusion criteria. Constraints: o min: 0 o max: 5 (string) Possible values: o CustomerProject o Lead o ProspectingResult Syntax: "string" "string" ...
+    /// Filters engagements to exclude those containing the specified context types. Use this to find engagements that do not have certain types of contextual information, helping to narrow results based on context exclusion criteria. Constraints: • min: 0 • max: 5 (string) Possible values: • CustomerProject • Lead • ProspectingResult Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--exclude-context-types", GroupValues = true)]
     public IEnumerable<string>? ExcludeContextTypes { get; set; }
 
     /// <summary>
-    /// Specifies the sorting parameters for listing Engagements. SortOrder -&gt; (string) [required] The order in which to sort the results. Possible values: o ASCENDING o DESCENDING SortBy -&gt; (string) [required] The field by which to sort the results. Possible values: o CreatedDate Shorthand Syntax: SortOrder=string,SortBy=string JSON Syntax: { "SortOrder": "ASCENDING"|"DESCENDING", "SortBy": "CreatedDate" }
+    /// Specifies the sorting parameters for listing Engagements. SortOrder -&gt; (string) [required] The order in which to sort the results. Possible values: • ASCENDING • DESCENDING SortBy -&gt; (string) [required] The field by which to sort the results. Possible values: • CreatedDate Shorthand Syntax: SortOrder=string,SortBy=string JSON Syntax: { "SortOrder": "ASCENDING"|"DESCENDING", "SortBy": "CreatedDate" }
     /// </summary>
     [CliOption("--sort")]
     public string? Sort { get; set; }
 
     /// <summary>
-    /// An array of strings representing engagement identifiers to retrieve. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: (arn:.*|eng-[0-9a-z]{14}) Syntax: "string" "string" ...
+    /// An array of strings representing engagement identifiers to retrieve. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: (arn:.*|eng-[0-9a-z]{14}) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--engagement-identifier", GroupValues = true)]
     public IEnumerable<string>? EngagementIdentifier { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -112,16 +111,19 @@ public record AwsPartnercentralSellingListEngagementsOptions : AwsOptions, IVali
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

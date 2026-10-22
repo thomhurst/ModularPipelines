@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsShieldDisassociateDrtLogBucketOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Removes the Shield Response Team's (SRT) access to the specified Amazon S3 bucket containing the logs that you shared previously. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LogBucket">The Amazon S3 bucket that contains the logs that you want to share. Constraints: o min: 3 o max: 63 o pattern: ^([a-z]|(\d(?!\d{0,2}\.\d{1,3}\.\d{1,3}\.\d{1,3})))([a-z\d]|(\.(?!(\.|-)))|(-(?!\.))){1,61}[a-z\d]$</param>
+    /// <param name="LogBucket">The Amazon S3 bucket that contains the logs that you want to share. Constraints: • min: 3 • max: 63 • pattern: ^([a-z]|(\d(?!\d{0,2}\.\d{1,3}\.\d{1,3}\.\d{1,3})))([a-z\d]|(\.(?!(\.|-)))|(-(?!\.))){1,61}[a-z\d]$</param>
     public AwsShieldDisassociateDrtLogBucketOptions(
         string LogBucket
     )
@@ -56,7 +58,7 @@ public record AwsShieldDisassociateDrtLogBucketOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon S3 bucket that contains the logs that you want to share. Constraints: o min: 3 o max: 63 o pattern: ^([a-z]|(\d(?!\d{0,2}\.\d{1,3}\.\d{1,3}\.\d{1,3})))([a-z\d]|(\.(?!(\.|-)))|(-(?!\.))){1,61}[a-z\d]$
+    /// The Amazon S3 bucket that contains the logs that you want to share. Constraints: • min: 3 • max: 63 • pattern: ^([a-z]|(\d(?!\d{0,2}\.\d{1,3}\.\d{1,3}\.\d{1,3})))([a-z\d]|(\.(?!(\.|-)))|(-(?!\.))){1,61}[a-z\d]$
     /// </summary>
     [CliOption("--log-bucket")]
     public string? LogBucket { get; private init; }

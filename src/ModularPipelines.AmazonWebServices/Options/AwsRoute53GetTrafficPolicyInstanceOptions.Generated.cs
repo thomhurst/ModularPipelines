@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets information about a specified traffic policy instance. NOTE: Use GetTrafficPolicyInstance with the id of new traffic policy in- stance to confirm that the CreateTrafficPolicyInstance or an Update- TrafficPolicyInstance request completed successfully. For more in- formation, see the State response element. NOTE: In the Route 53 console, traffic policy instances are known as pol- icy records. See also: AWS API Documentation
+/// Gets information about a specified traffic policy instance. NOTE: Use GetTrafficPolicyInstance with the id of new traffic policy instance to confirm that the CreateTrafficPolicyInstance or an UpdateTrafficPolicyInstance request completed successfully. For more information, see the State response element. NOTE: In the Route 53 console, traffic policy instances are known as policy records. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRoute53GetTrafficPolicyInstanceOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets information about a specified traffic policy instance. NOTE: Use GetTrafficPolicyInstance with the id of new traffic policy in- stance to confirm that the CreateTrafficPolicyInstance or an Update- TrafficPolicyInstance request completed successfully. For more in- formation, see the State response element. NOTE: In the Route 53 console, traffic policy instances are known as pol- icy records. See also: AWS API Documentation
+    /// Gets information about a specified traffic policy instance. NOTE: Use GetTrafficPolicyInstance with the id of new traffic policy instance to confirm that the CreateTrafficPolicyInstance or an UpdateTrafficPolicyInstance request completed successfully. For more information, see the State response element. NOTE: In the Route 53 console, traffic policy instances are known as policy records. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the traffic policy instance that you want to get informa- tion about. Constraints: o min: 1 o max: 36</param>
+    /// <param name="Id">The ID of the traffic policy instance that you want to get information about. Constraints: • min: 1 • max: 36</param>
     public AwsRoute53GetTrafficPolicyInstanceOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsRoute53GetTrafficPolicyInstanceOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the traffic policy instance that you want to get informa- tion about. Constraints: o min: 1 o max: 36
+    /// The ID of the traffic policy instance that you want to get information about. Constraints: • min: 1 • max: 36
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

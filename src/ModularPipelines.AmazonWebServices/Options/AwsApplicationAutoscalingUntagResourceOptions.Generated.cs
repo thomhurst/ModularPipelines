@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsApplicationAutoscalingUntagResourceOptions : AwsOptions, IValid
     /// <summary>
     /// Deletes tags from an Application Auto Scaling scalable target. To delete a tag, specify the tag key and the Application Auto Scaling scalable target. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">Identifies the Application Auto Scaling scalable target from which to remove tags. For example: arn:aws:application-autoscal- ing:us-east-1:123456789012:scalable-tar- get/1234abcd56ab78cd901ef1234567890ab123 To get the ARN for a scalable target, use DescribeScalableTargets . Constraints: o min: 1 o max: 1011 o pattern: ^arn:.+:application-autoscaling:.+:[0-9]+:scalable-tar- get\/[a-zA-Z0-9-]+$</param>
-    /// <param name="TagKeys">One or more tag keys. Specify only the tag keys, not the tag values. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">Identifies the Application Auto Scaling scalable target from which to remove tags. For example: arn:aws:application-autoscaling:us-east-1:123456789012:scalable-target/1234abcd56ab78cd901ef1234567890ab123 To get the ARN for a scalable target, use DescribeScalableTargets . Constraints: • min: 1 • max: 1011 • pattern: ^arn:.+:application-autoscaling:.+:[0-9]+:scalable-target\/[a-zA-Z0-9-]+$</param>
+    /// <param name="TagKeys">One or more tag keys. Specify only the tag keys, not the tag values. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
     public AwsApplicationAutoscalingUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsApplicationAutoscalingUntagResourceOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifies the Application Auto Scaling scalable target from which to remove tags. For example: arn:aws:application-autoscal- ing:us-east-1:123456789012:scalable-tar- get/1234abcd56ab78cd901ef1234567890ab123 To get the ARN for a scalable target, use DescribeScalableTargets . Constraints: o min: 1 o max: 1011 o pattern: ^arn:.+:application-autoscaling:.+:[0-9]+:scalable-tar- get\/[a-zA-Z0-9-]+$
+    /// Identifies the Application Auto Scaling scalable target from which to remove tags. For example: arn:aws:application-autoscaling:us-east-1:123456789012:scalable-target/1234abcd56ab78cd901ef1234567890ab123 To get the ARN for a scalable target, use DescribeScalableTargets . Constraints: • min: 1 • max: 1011 • pattern: ^arn:.+:application-autoscaling:.+:[0-9]+:scalable-target\/[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// One or more tag keys. Specify only the tag keys, not the tag values. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// One or more tag keys. Specify only the tag keys, not the tag values. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsQuicksightCreateFolderOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates an empty shared folder. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID for the Amazon Web Services account where you want to create the folder. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="FolderId">The ID of the folder. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+</param>
+    /// <param name="AwsAccountId">The ID for the Amazon Web Services account where you want to create the folder. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="FolderId">The ID of the folder. Constraints: • min: 1 • max: 2048 • pattern: [\w\-]+</param>
     public AwsQuicksightCreateFolderOptions(
         string AwsAccountId,
         string FolderId
@@ -61,25 +63,25 @@ public record AwsQuicksightCreateFolderOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID for the Amazon Web Services account where you want to create the folder. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID for the Amazon Web Services account where you want to create the folder. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID of the folder. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+
+    /// The ID of the folder. Constraints: • min: 1 • max: 2048 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--folder-id")]
     public string? FolderId { get; private init; }
 
     /// <summary>
-    /// The name of the folder. Constraints: o min: 1 o max: 200
+    /// The name of the folder. Constraints: • min: 1 • max: 200
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The type of folder. By default, folderType is SHARED . Possible values: o SHARED o RESTRICTED
+    /// The type of folder. By default, folderType is SHARED . Possible values: • SHARED • RESTRICTED
     /// </summary>
     [CliOption("--folder-type")]
     public AwsQuicksightCreateFolderFolderType? FolderType { get; set; }
@@ -91,19 +93,19 @@ public record AwsQuicksightCreateFolderOptions : AwsOptions, IValidatableObject
     public string? ParentFolderArn { get; set; }
 
     /// <summary>
-    /// A structure that describes the principals and the resource-level permissions of a folder. To specify no permissions, omit Permissions . Constraints: o min: 1 o max: 64 (structure) Permission for the resource. Principal -&gt; (string) [required] The Amazon Resource Name (ARN) of the principal. This can be one of the following: o The ARN of an Quick Sight user or group associated with a data source or dataset. (This is common.) o The ARN of an Quick Sight user, group, or namespace associ- ated with an analysis, dashboard, template, or theme. Name- space sharing is not supported for action connectors. (This is common.) o The ARN of an Amazon Web Services account root: This is an IAM ARN rather than a Quick Sight ARN. Use this option only to share resources (templates) across Amazon Web Services accounts. Account root sharing is not supported for action connectors. (This is less common.) Constraints: o min: 1 o max: 256 Actions -&gt; (list) [required] The IAM action to grant or revoke permissions on. Constraints: o min: 1 o max: 20 (string) Shorthand Syntax: Principal=string,Actions=string,string ... JSON Syntax: [ { "Principal": "string", "Actions": ["string", ...] } ... ]
+    /// A structure that describes the principals and the resource-level permissions of a folder. To specify no permissions, omit Permissions . Constraints: • min: 1 • max: 64 (structure) Permission for the resource. Principal -&gt; (string) [required] The Amazon Resource Name (ARN) of the principal. This can be one of the following: • The ARN of an Quick Sight user or group associated with a data source or dataset. (This is common.) • The ARN of an Quick Sight user, group, or namespace associated with an analysis, dashboard, template, or theme. Namespace sharing is not supported for action connectors. (This is common.) • The ARN of an Amazon Web Services account root: This is an IAM ARN rather than a Quick Sight ARN. Use this option only to share resources (templates) across Amazon Web Services accounts. Account root sharing is not supported for action connectors. (This is less common.) Constraints: • min: 1 • max: 256 Actions -&gt; (list) [required] The IAM action to grant or revoke permissions on. Constraints: • min: 1 • max: 20 (string) Shorthand Syntax: Principal=string,Actions=string,string ... JSON Syntax: [ { "Principal": "string", "Actions": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--permissions", GroupValues = true)]
     public IEnumerable<string>? Permissions { get; set; }
 
     /// <summary>
-    /// Tags for the folder. Constraints: o min: 1 o max: 200 (structure) The key or keys of the key-value pairs for the resource tag or tags assigned to the resource. Key -&gt; (string) [required] Tag key. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] Tag value. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Tags for the folder. Constraints: • min: 1 • max: 200 (structure) The key or keys of the key-value pairs for the resource tag or tags assigned to the resource. Key -&gt; (string) [required] Tag key. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] Tag value. Constraints: • min: 1 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// An optional parameter that determines the sharing scope of the folder. The default value for this parameter is ACCOUNT . Possible values: o ACCOUNT o NAMESPACE
+    /// An optional parameter that determines the sharing scope of the folder. The default value for this parameter is ACCOUNT . Possible values: • ACCOUNT • NAMESPACE
     /// </summary>
     [CliOption("--sharing-model")]
     public AwsQuicksightCreateFolderSharingModel? SharingModel { get; set; }

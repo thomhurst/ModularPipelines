@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsSagemakerUpdateMlflowAppOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Updates an MLflow App. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The ARN of the MLflow App to update. Constraints: o min: 1 o max: 128 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:mlflow-app/.*</param>
+    /// <param name="Arn">The ARN of the MLflow App to update. Constraints: • min: 1 • max: 128 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:mlflow-app/.*</param>
     public AwsSagemakerUpdateMlflowAppOptions(
         string Arn
     )
@@ -57,43 +59,43 @@ public record AwsSagemakerUpdateMlflowAppOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the MLflow App to update. Constraints: o min: 1 o max: 128 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:mlflow-app/.*
+    /// The ARN of the MLflow App to update. Constraints: • min: 1 • max: 128 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:mlflow-app/.*
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The name of the MLflow App to update. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}
+    /// The name of the MLflow App to update. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The new S3 URI for the general purpose bucket to use as the artifact store for the MLflow App. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*)
+    /// The new S3 URI for the general purpose bucket to use as the artifact store for the MLflow App. Constraints: • min: 0 • max: 1024 • pattern: (https|s3)://([^/]+)/?(.*)
     /// </summary>
     [CliOption("--artifact-store-uri")]
     public string? ArtifactStoreUri { get; set; }
 
     /// <summary>
-    /// Whether to enable or disable automatic registration of new MLflow models to the SageMaker Model Registry. To enable automatic model registration, set this value to AutoModelRegistrationEnabled . To disable automatic model registration, set this value to AutoModel- RegistrationDisabled . If not specified, AutomaticModelRegistration defaults to AutoModelRegistrationEnabled Possible values: o AutoModelRegistrationEnabled o AutoModelRegistrationDisabled
+    /// Whether to enable or disable automatic registration of new MLflow models to the SageMaker Model Registry. To enable automatic model registration, set this value to AutoModelRegistrationEnabled . To disable automatic model registration, set this value to AutoModelRegistrationDisabled . If not specified, AutomaticModelRegistration defaults to AutoModelRegistrationEnabled Possible values: • AutoModelRegistrationEnabled • AutoModelRegistrationDisabled
     /// </summary>
     [CliOption("--model-registration-mode")]
     public AwsSagemakerUpdateMlflowAppModelRegistrationMode? ModelRegistrationMode { get; set; }
 
     /// <summary>
-    /// The new weekly maintenance window start day and time to update. The maintenance window day and time should be in Coordinated Universal Time (UTC) 24-hour standard time. For example: TUE:03:30. Constraints: o min: 0 o max: 9 o pattern: (Mon|Tue|Wed|Thu|Fri|Sat|Sun):([01]\d|2[0-3]):([0-5]\d)
+    /// The new weekly maintenance window start day and time to update. The maintenance window day and time should be in Coordinated Universal Time (UTC) 24-hour standard time. For example: TUE:03:30. Constraints: • min: 0 • max: 9 • pattern: (Mon|Tue|Wed|Thu|Fri|Sat|Sun):([01]\d|2[0-3]):([0-5]\d)
     /// </summary>
     [CliOption("--weekly-maintenance-window-start")]
     public string? WeeklyMaintenanceWindowStart { get; set; }
 
     /// <summary>
-    /// List of SageMaker Domain IDs for which this MLflow App is the de- fault. (string) Constraints: o min: 0 o max: 63 o pattern: d-(-*[a-z0-9]){1,61} Syntax: "string" "string" ...
+    /// List of SageMaker Domain IDs for which this MLflow App is the default. (string) Constraints: • min: 0 • max: 63 • pattern: d-(-*[a-z0-9]){1,61} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--default-domain-id-list", GroupValues = true)]
     public IEnumerable<string>? DefaultDomainIdList { get; set; }
 
     /// <summary>
-    /// Indicates whether this this MLflow App is the default for the ac- count. Possible values: o ENABLED o DISABLED
+    /// Indicates whether this this MLflow App is the default for the account. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--account-default-status")]
     public AwsSagemakerUpdateMlflowAppAccountDefaultStatus? AccountDefaultStatus { get; set; }

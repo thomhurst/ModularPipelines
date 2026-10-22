@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the searches in a workspace, most recently started first. Results can be narrowed with optional filters (status, search type, group, and started-at time range) and are paginated: when nextToken is present, pass it on a subsequent call to retrieve the next page. See also: AWS API Documentation list-searches is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. Wh...
+/// Lists the searches in a workspace, most recently started first. Results can be narrowed with optional filters (status, search type, group, and started-at time range) and are paginated: when nextToken is present, pass it on a subsequent call to retrieve the next page. See also: AWS API Documentation list-searches is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When u...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsIotsitewiseListSearchesOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the searches in a workspace, most recently started first. Results can be narrowed with optional filters (status, search type, group, and started-at time range) and are paginated: when nextToken is present, pass it on a subsequent call to retrieve the next page. See also: AWS API Documentation list-searches is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. Wh...
+    /// Lists the searches in a workspace, most recently started first. Results can be narrowed with optional filters (status, search type, group, and started-at time range) and are paginated: when nextToken is present, pass it on a subsequent call to retrieve the next page. See also: AWS API Documentation list-searches is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When u...
     /// </summary>
-    /// <param name="WorkspaceName">The name of the workspace whose searches are listed. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="WorkspaceName">The name of the workspace whose searches are listed. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
     public AwsIotsitewiseListSearchesOptions(
         string WorkspaceName
     )
@@ -57,22 +59,19 @@ public record AwsIotsitewiseListSearchesOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workspace whose searches are listed. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The name of the workspace whose searches are listed. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--workspace-name")]
     public string? WorkspaceName { get; private init; }
 
     /// <summary>
-    /// Optional filters that restrict which searches are returned. statusFilter -&gt; (list) Returns only searches whose status is one of the listed values. Constraints: o min: 1 o max: 4 (string) The lifecycle status of a search. Possible values: o QUEUED o RUNNING o SUCCEEDED o FAILED startedAfter -&gt; (timestamp) Returns only searches started at or after this time. startedBefore -&gt; (timestamp) Returns only searches started at or before this time. groupIdFilter -&gt; (list) Returns only searches whose groupId is one of the listed values. Constraints: o min: 1 o max: 100 (string) A caller-supplied identifier used to group related searches together. Constraints: o min: 2 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]* searchTypeFilter -&gt; (list) Returns only searches whose searchType is one of the listed val- ues. Constraints: o min: 1 o max: 2 (string) The search strategy, which trades off latency against recall. DEEP runs the full semantic and structured search for the highest-quality matches; QUICK returns faster, lower-recall results. When searchType is omitted on a request, the search defaults to QUICK . Possible values: o DEEP o QUICK Shorthand Syntax: statusFilter=string,string,startedAfter=timestamp,startedBefore=timestamp,groupIdFilter=string,string,searchTypeFilter=string,string JSON Syntax: { "statusFilter": ["QUEUED"|"RUNNING"|"SUCCEEDED"|"FAILED", ...], "startedAfter": timestamp, "startedBefore": timestamp, "groupIdFilter": ["string", ...], "searchTypeFilter": ["DEEP"|"QUICK", ...] }
+    /// Optional filters that restrict which searches are returned. statusFilter -&gt; (list) Returns only searches whose status is one of the listed values. Constraints: • min: 1 • max: 4 (string) The lifecycle status of a search. Possible values: • QUEUED • RUNNING • SUCCEEDED • FAILED startedAfter -&gt; (timestamp) Returns only searches started at or after this time. startedBefore -&gt; (timestamp) Returns only searches started at or before this time. groupIdFilter -&gt; (list) Returns only searches whose groupId is one of the listed values. Constraints: • min: 1 • max: 100 (string) A caller-supplied identifier used to group related searches together. Constraints: • min: 2 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]* searchTypeFilter -&gt; (list) Returns only searches whose searchType is one of the listed values. Constraints: • min: 1 • max: 2 (string) The search strategy, which trades off latency against recall. DEEP runs the full semantic and structured search for the highest-quality matches; QUICK returns faster, lower-recall results. When searchType is omitted on a request, the search defaults to QUICK . Possible values: • DEEP • QUICK Shorthand Syntax: statusFilter=string,string,startedAfter=timestamp,startedBefore=timestamp,groupIdFilter=string,string,searchTypeFilter=string,string JSON Syntax: { "statusFilter": ["QUEUED"|"RUNNING"|"SUCCEEDED"|"FAILED", ...], "startedAfter": timestamp, "startedBefore": timestamp, "groupIdFilter": ["string", ...], "searchTypeFilter": ["DEEP"|"QUICK", ...] }
     /// </summary>
     [CliOption("--list-searches-filters")]
     public string? ListSearchesFilters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -82,16 +81,19 @@ public record AwsIotsitewiseListSearchesOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

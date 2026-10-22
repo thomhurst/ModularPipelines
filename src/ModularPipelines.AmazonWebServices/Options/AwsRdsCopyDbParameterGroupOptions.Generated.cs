@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsRdsCopyDbParameterGroupOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Copies the specified DB parameter group. NOTE: You can't copy a default DB parameter group. Instead, create a new custom DB parameter group, which copies the default parameters and values for the specified DB parameter group family. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceDbParameterGroupIdentifier">The identifier or ARN for the source DB parameter group. For infor- mation about creating an ARN, see Constructing an ARN for Amazon RDS in the Amazon RDS User Guide . Constraints: o Must specify a valid DB parameter group.</param>
-    /// <param name="TargetDbParameterGroupIdentifier">The identifier for the copied DB parameter group. Constraints: o Can't be null, empty, or blank o Must contain from 1 to 255 letters, numbers, or hyphens o First character must be a letter o Can't end with a hyphen or contain two consecutive hyphens Example: my-db-parameter-group</param>
+    /// <param name="SourceDbParameterGroupIdentifier">The identifier or ARN for the source DB parameter group. For information about creating an ARN, see Constructing an ARN for Amazon RDS in the Amazon RDS User Guide . Constraints: • Must specify a valid DB parameter group.</param>
+    /// <param name="TargetDbParameterGroupIdentifier">The identifier for the copied DB parameter group. Constraints: • Can't be null, empty, or blank • Must contain from 1 to 255 letters, numbers, or hyphens • First character must be a letter • Can't end with a hyphen or contain two consecutive hyphens Example: my-db-parameter-group</param>
     /// <param name="TargetDbParameterGroupDescription">A description for the copied DB parameter group.</param>
     public AwsRdsCopyDbParameterGroupOptions(
         string SourceDbParameterGroupIdentifier,
@@ -64,13 +66,13 @@ public record AwsRdsCopyDbParameterGroupOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier or ARN for the source DB parameter group. For infor- mation about creating an ARN, see Constructing an ARN for Amazon RDS in the Amazon RDS User Guide . Constraints: o Must specify a valid DB parameter group.
+    /// The identifier or ARN for the source DB parameter group. For information about creating an ARN, see Constructing an ARN for Amazon RDS in the Amazon RDS User Guide . Constraints: • Must specify a valid DB parameter group.
     /// </summary>
     [CliOption("--source-db-parameter-group-identifier")]
     public string? SourceDbParameterGroupIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier for the copied DB parameter group. Constraints: o Can't be null, empty, or blank o Must contain from 1 to 255 letters, numbers, or hyphens o First character must be a letter o Can't end with a hyphen or contain two consecutive hyphens Example: my-db-parameter-group
+    /// The identifier for the copied DB parameter group. Constraints: • Can't be null, empty, or blank • Must contain from 1 to 255 letters, numbers, or hyphens • First character must be a letter • Can't end with a hyphen or contain two consecutive hyphens Example: my-db-parameter-group
     /// </summary>
     [CliOption("--target-db-parameter-group-identifier")]
     public string? TargetDbParameterGroupIdentifier { get; private init; }

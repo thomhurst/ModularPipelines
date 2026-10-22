@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The UpdateQualificationType operation modifies the attributes of an ex- isting Qualification type, which is represented by a QualificationType data structure. Only the owner of a Qualification type can modify its attributes. Most attributes of a Qualification type can be changed after the type has been created. However, the Name and Keywords fields cannot be modi- fied. The RetryDelayInSeconds parameter can be modified or added to change the delay or to enable retries, but RetryDelayInSeconds ca...
+/// The UpdateQualificationType operation modifies the attributes of an existing Qualification type, which is represented by a QualificationType data structure. Only the owner of a Qualification type can modify its attributes. Most attributes of a Qualification type can be changed after the type has been created. However, the Name and Keywords fields cannot be modified. The RetryDelayInSeconds parameter can be modified or added to change the delay or to enable retries, but RetryDelayInSeconds cannot...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsMturkUpdateQualificationTypeOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The UpdateQualificationType operation modifies the attributes of an ex- isting Qualification type, which is represented by a QualificationType data structure. Only the owner of a Qualification type can modify its attributes. Most attributes of a Qualification type can be changed after the type has been created. However, the Name and Keywords fields cannot be modi- fied. The RetryDelayInSeconds parameter can be modified or added to change the delay or to enable retries, but RetryDelayInSeconds ca...
+    /// The UpdateQualificationType operation modifies the attributes of an existing Qualification type, which is represented by a QualificationType data structure. Only the owner of a Qualification type can modify its attributes. Most attributes of a Qualification type can be changed after the type has been created. However, the Name and Keywords fields cannot be modified. The RetryDelayInSeconds parameter can be modified or added to change the delay or to enable retries, but RetryDelayInSeconds cannot...
     /// </summary>
-    /// <param name="QualificationTypeId">The ID of the Qualification type to update. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$</param>
+    /// <param name="QualificationTypeId">The ID of the Qualification type to update. Constraints: • min: 1 • max: 64 • pattern: ^[A-Z0-9]+$</param>
     public AwsMturkUpdateQualificationTypeOptions(
         string QualificationTypeId
     )
@@ -57,7 +59,7 @@ public record AwsMturkUpdateQualificationTypeOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Qualification type to update. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$
+    /// The ID of the Qualification type to update. Constraints: • min: 1 • max: 64 • pattern: ^[A-Z0-9]+$
     /// </summary>
     [CliOption("--qualification-type-id")]
     public string? QualificationTypeId { get; private init; }
@@ -69,19 +71,19 @@ public record AwsMturkUpdateQualificationTypeOptions : AwsOptions, IValidatableO
     public string? Description { get; set; }
 
     /// <summary>
-    /// The new status of the Qualification type - Active | Inactive Possible values: o Active o Inactive
+    /// The new status of the Qualification type - Active | Inactive Possible values: • Active • Inactive
     /// </summary>
     [CliOption("--qualification-type-status")]
     public AwsMturkUpdateQualificationTypeQualificationTypeStatus? QualificationTypeStatus { get; set; }
 
     /// <summary>
-    /// The questions for the Qualification test a Worker must answer cor- rectly to obtain a Qualification of this type. If this parameter is specified, TestDurationInSeconds must also be specified. Constraints: Must not be longer than 65535 bytes. Must be a Ques- tionForm data structure. This parameter cannot be specified if Auto- Granted is true. Constraints: None. If not specified, the Worker may request the Qualification without answering any questions.
+    /// The questions for the Qualification test a Worker must answer correctly to obtain a Qualification of this type. If this parameter is specified, TestDurationInSeconds must also be specified. Constraints: Must not be longer than 65535 bytes. Must be a QuestionForm data structure. This parameter cannot be specified if AutoGranted is true. Constraints: None. If not specified, the Worker may request the Qualification without answering any questions.
     /// </summary>
     [CliOption("--test")]
     public string? Test { get; set; }
 
     /// <summary>
-    /// The answers to the Qualification test specified in the Test parame- ter, in the form of an AnswerKey data structure.
+    /// The answers to the Qualification test specified in the Test parameter, in the form of an AnswerKey data structure.
     /// </summary>
     [CliOption("--answer-key")]
     public string? AnswerKey { get; set; }
@@ -90,22 +92,22 @@ public record AwsMturkUpdateQualificationTypeOptions : AwsOptions, IValidatableO
     /// The number of seconds the Worker has to complete the Qualification test, starting from the time the Worker requests the Qualification.
     /// </summary>
     [CliOption("--test-duration-in-seconds")]
-    public int? TestDurationInSeconds { get; set; }
+    public long? TestDurationInSeconds { get; set; }
 
     /// <summary>
-    /// The amount of time, in seconds, that Workers must wait after re- questing a Qualification of the specified Qualification type before they can retry the Qualification request. It is not possible to dis- able retries for a Qualification type after it has been created with retries enabled. If you want to disable retries, you must dispose of the existing retry-enabled Qualification type using DisposeQualifi- cationType and then create a new Qualification type with retries disabled using CreateQualificationType.
+    /// The amount of time, in seconds, that Workers must wait after requesting a Qualification of the specified Qualification type before they can retry the Qualification request. It is not possible to disable retries for a Qualification type after it has been created with retries enabled. If you want to disable retries, you must dispose of the existing retry-enabled Qualification type using DisposeQualificationType and then create a new Qualification type with retries disabled using CreateQualificationType.
     /// </summary>
     [CliOption("--retry-delay-in-seconds")]
-    public int? RetryDelayInSeconds { get; set; }
+    public long? RetryDelayInSeconds { get; set; }
 
     /// <summary>
-    /// Specifies whether requests for the Qualification type are granted immediately, without prompting the Worker with a Qualification test. Constraints: If the Test parameter is specified, this parameter can- not be true.
+    /// Specifies whether requests for the Qualification type are granted immediately, without prompting the Worker with a Qualification test. Constraints: If the Test parameter is specified, this parameter cannot be true.
     /// </summary>
     [CliFlag("--auto-granted", NegatedName = "--no-auto-granted")]
     public bool? AutoGranted { get; set; }
 
     /// <summary>
-    /// The Qualification value to use for automatically granted Qualifica- tions. This parameter is used only if the AutoGranted parameter is true.
+    /// The Qualification value to use for automatically granted Qualifications. This parameter is used only if the AutoGranted parameter is true.
     /// </summary>
     [CliOption("--auto-granted-value")]
     public int? AutoGrantedValue { get; set; }

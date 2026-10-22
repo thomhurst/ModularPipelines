@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsCloudformationListStackResourcesOptions : AwsOptions, IValidata
     /// <summary>
     /// Returns descriptions of all resources of the specified stack. For deleted stacks, ListStackResources returns resource information for up to 90 days after the stack has been deleted. See also: AWS API Documentation list-stack-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --quer...
     /// </summary>
-    /// <param name="StackName">The name or the unique stack ID that is associated with the stack, which aren't always interchangeable: o Running stacks: You can specify either the stack's name or its unique stack ID. o Deleted stacks: You must specify the unique stack ID.</param>
+    /// <param name="StackName">The name or the unique stack ID that is associated with the stack, which aren't always interchangeable: • Running stacks: You can specify either the stack's name or its unique stack ID. • Deleted stacks: You must specify the unique stack ID.</param>
     public AwsCloudformationListStackResourcesOptions(
         string StackName
     )
@@ -57,16 +59,13 @@ public record AwsCloudformationListStackResourcesOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or the unique stack ID that is associated with the stack, which aren't always interchangeable: o Running stacks: You can specify either the stack's name or its unique stack ID. o Deleted stacks: You must specify the unique stack ID.
+    /// The name or the unique stack ID that is associated with the stack, which aren't always interchangeable: • Running stacks: You can specify either the stack's name or its unique stack ID. • Deleted stacks: You must specify the unique stack ID.
     /// </summary>
     [CliOption("--stack-name")]
     public string? StackName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -76,10 +75,13 @@ public record AwsCloudformationListStackResourcesOptions : AwsOptions, IValidata
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

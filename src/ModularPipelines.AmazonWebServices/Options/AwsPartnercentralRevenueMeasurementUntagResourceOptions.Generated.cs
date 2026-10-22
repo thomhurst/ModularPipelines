@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsPartnercentralRevenueMeasurementUntagResourceOptions : AwsOptio
     /// <summary>
     /// Removes one or more tags from the specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to remove tags from. Constraints: o min: 1 o max: 1011 o pattern: arn:aws:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/(revenue-attribution/[a-zA-Z0-9-]+|marketplace-rev- enue-share/prod-[a-z0-9]{13})</param>
-    /// <param name="TagKeys">The tag keys to remove from the resource. (string) Constraints: o min: 1 o max: 128 o pattern: [^\x00-\x1F\x7F]+ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to remove tags from. Constraints: • min: 1 • max: 1011 • pattern: arn:aws:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/(revenue-attribution/[a-zA-Z0-9-]+|marketplace-revenue-share/prod-[a-z0-9]{13})</param>
+    /// <param name="TagKeys">The tag keys to remove from the resource. (string) Constraints: • min: 1 • max: 128 • pattern: [^\x00-\x1F\x7F]+ Syntax: "string" "string" ...</param>
     public AwsPartnercentralRevenueMeasurementUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsPartnercentralRevenueMeasurementUntagResourceOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource to remove tags from. Constraints: o min: 1 o max: 1011 o pattern: arn:aws:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/(revenue-attribution/[a-zA-Z0-9-]+|marketplace-rev- enue-share/prod-[a-z0-9]{13})
+    /// The Amazon Resource Name (ARN) of the resource to remove tags from. Constraints: • min: 1 • max: 1011 • pattern: arn:aws:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/(revenue-attribution/[a-zA-Z0-9-]+|marketplace-revenue-share/prod-[a-z0-9]{13})
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The tag keys to remove from the resource. (string) Constraints: o min: 1 o max: 128 o pattern: [^\x00-\x1F\x7F]+ Syntax: "string" "string" ...
+    /// The tag keys to remove from the resource. (string) Constraints: • min: 1 • max: 128 • pattern: [^\x00-\x1F\x7F]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

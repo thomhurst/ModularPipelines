@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Replicates the secret to a new Regions. See Multi-Region secrets . Secrets Manager generates a CloudTrail log entry when you call this ac- tion. Do not include sensitive information in request parameters be- cause it might be logged. For more information, see Logging Secrets Manager events with CloudTrail . Required permissions: secretsmanager:ReplicateSecretToRegions . If the primary secret is encrypted with a KMS key other than aws/se- cretsmanager , you also need kms:Decrypt permission to the...
+/// Replicates the secret to a new Regions. See Multi-Region secrets . Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail . Required permissions: secretsmanager:ReplicateSecretToRegions . If the primary secret is encrypted with a KMS key other than aws/secretsmanager , you also need kms:Decrypt permission to the key. ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsSecretsmanagerReplicateSecretToRegionsOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Replicates the secret to a new Regions. See Multi-Region secrets . Secrets Manager generates a CloudTrail log entry when you call this ac- tion. Do not include sensitive information in request parameters be- cause it might be logged. For more information, see Logging Secrets Manager events with CloudTrail . Required permissions: secretsmanager:ReplicateSecretToRegions . If the primary secret is encrypted with a KMS key other than aws/se- cretsmanager , you also need kms:Decrypt permission to the...
+    /// Replicates the secret to a new Regions. See Multi-Region secrets . Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail . Required permissions: secretsmanager:ReplicateSecretToRegions . If the primary secret is encrypted with a KMS key other than aws/secretsmanager , you also need kms:Decrypt permission to the key. ...
     /// </summary>
-    /// <param name="SecretId">The ARN or name of the secret to replicate. Constraints: o min: 1 o max: 2048</param>
-    /// <param name="AddReplicaRegions">A list of Regions in which to replicate the secret. Constraints: o min: 1 (structure) A custom type that specifies a Region and the KmsKeyId for a replica secret. Region -&gt; (string) A Region code. For a list of Region codes, see Name and code of Regions . Constraints: o min: 1 o max: 128 o pattern: ^([a-z]+-)+\d+$ KmsKeyId -&gt; (string) The ARN, key ID, or alias of the KMS key to encrypt the se- cret. If you don't include this field, Secrets Manager uses aws/secretsmanager . Constraints: o min: 0 o max: 2048 Shorthand Syntax: Region=string,KmsKeyId=string ... JSON Syntax: [ { "Region": "string", "KmsKeyId": "string" } ... ]</param>
+    /// <param name="SecretId">The ARN or name of the secret to replicate. Constraints: • min: 1 • max: 2048</param>
+    /// <param name="AddReplicaRegions">A list of Regions in which to replicate the secret. Constraints: • min: 1 (structure) A custom type that specifies a Region and the KmsKeyId for a replica secret. Region -&gt; (string) A Region code. For a list of Region codes, see Name and code of Regions . Constraints: • min: 1 • max: 128 • pattern: ^([a-z]+-)+\d+$ KmsKeyId -&gt; (string) The ARN, key ID, or alias of the KMS key to encrypt the secret. If you don't include this field, Secrets Manager uses aws/secretsmanager . Constraints: • min: 0 • max: 2048 Shorthand Syntax: Region=string,KmsKeyId=string ... JSON Syntax: [ { "Region": "string", "KmsKeyId": "string" } ... ]</param>
     public AwsSecretsmanagerReplicateSecretToRegionsOptions(
         string SecretId,
         IEnumerable<string> AddReplicaRegions
@@ -72,14 +74,14 @@ public record AwsSecretsmanagerReplicateSecretToRegionsOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN or name of the secret to replicate. Constraints: o min: 1 o max: 2048
+    /// The ARN or name of the secret to replicate. Constraints: • min: 1 • max: 2048
     /// </summary>
     [SecretValue]
     [CliOption("--secret-id")]
     public string? SecretId { get; private init; }
 
     /// <summary>
-    /// A list of Regions in which to replicate the secret. Constraints: o min: 1 (structure) A custom type that specifies a Region and the KmsKeyId for a replica secret. Region -&gt; (string) A Region code. For a list of Region codes, see Name and code of Regions . Constraints: o min: 1 o max: 128 o pattern: ^([a-z]+-)+\d+$ KmsKeyId -&gt; (string) The ARN, key ID, or alias of the KMS key to encrypt the se- cret. If you don't include this field, Secrets Manager uses aws/secretsmanager . Constraints: o min: 0 o max: 2048 Shorthand Syntax: Region=string,KmsKeyId=string ... JSON Syntax: [ { "Region": "string", "KmsKeyId": "string" } ... ]
+    /// A list of Regions in which to replicate the secret. Constraints: • min: 1 (structure) A custom type that specifies a Region and the KmsKeyId for a replica secret. Region -&gt; (string) A Region code. For a list of Region codes, see Name and code of Regions . Constraints: • min: 1 • max: 128 • pattern: ^([a-z]+-)+\d+$ KmsKeyId -&gt; (string) The ARN, key ID, or alias of the KMS key to encrypt the secret. If you don't include this field, Secrets Manager uses aws/secretsmanager . Constraints: • min: 0 • max: 2048 Shorthand Syntax: Region=string,KmsKeyId=string ... JSON Syntax: [ { "Region": "string", "KmsKeyId": "string" } ... ]
     /// </summary>
     [CliOption("--add-replica-regions", GroupValues = true)]
     public IEnumerable<string>? AddReplicaRegions { get; private init; }

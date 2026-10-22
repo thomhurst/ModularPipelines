@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the artifacts associated with a specified subject image. NOTE: The IAM principal invoking this operation must have the ecr:BatchGe- tImage permission. See also: AWS API Documentation
+/// Lists the artifacts associated with a specified subject image. NOTE: The IAM principal invoking this operation must have the ecr:BatchGetImage permission. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsEcrListImageReferrersOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the artifacts associated with a specified subject image. NOTE: The IAM principal invoking this operation must have the ecr:BatchGe- tImage permission. See also: AWS API Documentation
+    /// Lists the artifacts associated with a specified subject image. NOTE: The IAM principal invoking this operation must have the ecr:BatchGetImage permission. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryName">The name of the repository that contains the subject image. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*</param>
+    /// <param name="RepositoryName">The name of the repository that contains the subject image. Constraints: • min: 2 • max: 256 • pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*</param>
     /// <param name="SubjectId">An object containing the image digest of the subject image for which to retrieve associated artifacts. imageDigest -&gt; (string) [required] The digest of the image. Shorthand Syntax: imageDigest=string JSON Syntax: { "imageDigest": "string" }</param>
     public AwsEcrListImageReferrersOptions(
         string RepositoryName,
@@ -61,7 +63,7 @@ public record AwsEcrListImageReferrersOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the repository that contains the subject image. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*
+    /// The name of the repository that contains the subject image. Constraints: • min: 2 • max: 256 • pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
@@ -73,26 +75,26 @@ public record AwsEcrListImageReferrersOptions : AwsOptions, IValidatableObject
     public string? SubjectId { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID associated with the registry that contains the repository in which to list image referrers. If you do not specify a registry, the default registry is assumed. Constraints: o pattern: [0-9]{12}
+    /// The Amazon Web Services account ID associated with the registry that contains the repository in which to list image referrers. If you do not specify a registry, the default registry is assumed. Constraints: • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
 
     /// <summary>
-    /// The filter key and value with which to filter your ListImageRefer- rers results. If no filter is specified, only artifacts with ACTIVE status are returned. artifactTypes -&gt; (list) The artifact types with which to filter your ListImageReferrers results. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 255 artifactStatus -&gt; (string) The artifact status with which to filter your ListImageRefer- rers results. Valid values are ACTIVE , ARCHIVED , ACTIVATING , or ANY . If not specified, only artifacts with ACTIVE status are returned. Possible values: o ACTIVE o ARCHIVED o ACTIVATING o ANY Shorthand Syntax: artifactTypes=string,string,artifactStatus=string JSON Syntax: { "artifactTypes": ["string", ...], "artifactStatus": "ACTIVE"|"ARCHIVED"|"ACTIVATING"|"ANY" }
+    /// The filter key and value with which to filter your ListImageReferrers results. If no filter is specified, only artifacts with ACTIVE status are returned. artifactTypes -&gt; (list) The artifact types with which to filter your ListImageReferrers results. Constraints: • min: 0 • max: 5 (string) Constraints: • min: 1 • max: 255 artifactStatus -&gt; (string) The artifact status with which to filter your ListImageReferrers results. Valid values are ACTIVE , ARCHIVED , ACTIVATING , or ANY . If not specified, only artifacts with ACTIVE status are returned. Possible values: • ACTIVE • ARCHIVED • ACTIVATING • ANY Shorthand Syntax: artifactTypes=string,string,artifactStatus=string JSON Syntax: { "artifactTypes": ["string", ...], "artifactStatus": "ACTIVE"|"ARCHIVED"|"ACTIVATING"|"ANY" }
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; set; }
 
     /// <summary>
-    /// The nextToken value returned from a previous paginated ListImageRe- ferrers request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. NOTE: This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+    /// The nextToken value returned from a previous paginated ListImageReferrers request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. NOTE: This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of image referrer results returned by ListIm- ageReferrers in paginated output. When this parameter is used, Lis- tImageReferrers only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListImageRefer- rers request with the returned nextToken value. This value can be between 1 and 50. If this parameter is not used, then ListImageRe- ferrers returns up to 20 results and a nextToken value, if applica- ble. Constraints: o min: 1 o max: 50
+    /// The maximum number of image referrer results returned by ListImageReferrers in paginated output. When this parameter is used, ListImageReferrers only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListImageReferrers request with the returned nextToken value. This value can be between 1 and 50. If this parameter is not used, then ListImageReferrers returns up to 20 results and a nextToken value, if applicable. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The host to be deleted. Before you delete a host, all connections asso- ciated to the host must be deleted. NOTE: A host cannot be deleted if it is in the VPC_CONFIG_INITIALIZING or VPC_CONFIG_DELETING state. See also: AWS API Documentation
+/// The host to be deleted. Before you delete a host, all connections associated to the host must be deleted. NOTE: A host cannot be deleted if it is in the VPC_CONFIG_INITIALIZING or VPC_CONFIG_DELETING state. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsCodeconnectionsDeleteHostOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The host to be deleted. Before you delete a host, all connections asso- ciated to the host must be deleted. NOTE: A host cannot be deleted if it is in the VPC_CONFIG_INITIALIZING or VPC_CONFIG_DELETING state. See also: AWS API Documentation
+    /// The host to be deleted. Before you delete a host, all connections associated to the host must be deleted. NOTE: A host cannot be deleted if it is in the VPC_CONFIG_INITIALIZING or VPC_CONFIG_DELETING state. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HostArn">The Amazon Resource Name (ARN) of the host to be deleted. Constraints: o min: 0 o max: 256 o pattern: arn:aws(-[\w]+)*:(codestar-connections|codeconnec- tions):.+:[0-9]{12}:host\/.+</param>
+    /// <param name="HostArn">The Amazon Resource Name (ARN) of the host to be deleted. Constraints: • min: 0 • max: 256 • pattern: arn:aws(-[\w]+)*:(codestar-connections|codeconnections):.+:[0-9]{12}:host\/.+</param>
     public AwsCodeconnectionsDeleteHostOptions(
         string HostArn
     )
@@ -56,7 +58,7 @@ public record AwsCodeconnectionsDeleteHostOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the host to be deleted. Constraints: o min: 0 o max: 256 o pattern: arn:aws(-[\w]+)*:(codestar-connections|codeconnec- tions):.+:[0-9]{12}:host\/.+
+    /// The Amazon Resource Name (ARN) of the host to be deleted. Constraints: • min: 0 • max: 256 • pattern: arn:aws(-[\w]+)*:(codestar-connections|codeconnections):.+:[0-9]{12}:host\/.+
     /// </summary>
     [CliOption("--host-arn")]
     public string? HostArn { get; private init; }

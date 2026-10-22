@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds an attribute and values to, or removes an attribute and values from, a manual DB cluster snapshot. To share a manual DB cluster snapshot with other Amazon accounts, spec- ify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the Amazon accounts that are authorized to restore the manual DB cluster snapshot. Use the value all to make the manual DB cluster snapshot public, which means that it can be copied or restored by all Amazon accounts. Do not add the ...
+/// Adds an attribute and values to, or removes an attribute and values from, a manual DB cluster snapshot. To share a manual DB cluster snapshot with other Amazon accounts, specify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the Amazon accounts that are authorized to restore the manual DB cluster snapshot. Use the value all to make the manual DB cluster snapshot public, which means that it can be copied or restored by all Amazon accounts. Do not add the al...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsNeptuneModifyDbClusterSnapshotAttributeOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds an attribute and values to, or removes an attribute and values from, a manual DB cluster snapshot. To share a manual DB cluster snapshot with other Amazon accounts, spec- ify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the Amazon accounts that are authorized to restore the manual DB cluster snapshot. Use the value all to make the manual DB cluster snapshot public, which means that it can be copied or restored by all Amazon accounts. Do not add the ...
+    /// Adds an attribute and values to, or removes an attribute and values from, a manual DB cluster snapshot. To share a manual DB cluster snapshot with other Amazon accounts, specify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the Amazon accounts that are authorized to restore the manual DB cluster snapshot. Use the value all to make the manual DB cluster snapshot public, which means that it can be copied or restored by all Amazon accounts. Do not add the al...
     /// </summary>
     /// <param name="DbClusterSnapshotIdentifier">The identifier for the DB cluster snapshot to modify the attributes for.</param>
     /// <param name="AttributeName">The name of the DB cluster snapshot attribute to modify. To manage authorization for other Amazon accounts to copy or restore a manual DB cluster snapshot, set this value to restore .</param>
@@ -72,13 +74,13 @@ public record AwsNeptuneModifyDbClusterSnapshotAttributeOptions : AwsOptions, IV
     public string? AttributeName { get; private init; }
 
     /// <summary>
-    /// A list of DB cluster snapshot attributes to add to the attribute specified by AttributeName . To authorize other Amazon accounts to copy or restore a manual DB cluster snapshot, set this list to include one or more Amazon ac- count IDs, or all to make the manual DB cluster snapshot restorable by any Amazon account. Do not add the all value for any manual DB cluster snapshots that contain private information that you don't want available to all Amazon accounts. (string) Syntax: "string" "string" ...
+    /// A list of DB cluster snapshot attributes to add to the attribute specified by AttributeName . To authorize other Amazon accounts to copy or restore a manual DB cluster snapshot, set this list to include one or more Amazon account IDs, or all to make the manual DB cluster snapshot restorable by any Amazon account. Do not add the all value for any manual DB cluster snapshots that contain private information that you don't want available to all Amazon accounts. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--values-to-add", GroupValues = true)]
     public IEnumerable<string>? ValuesToAdd { get; set; }
 
     /// <summary>
-    /// A list of DB cluster snapshot attributes to remove from the at- tribute specified by AttributeName . To remove authorization for other Amazon accounts to copy or restore a manual DB cluster snapshot, set this list to include one or more Amazon account identifiers, or all to remove authorization for any Amazon account to copy or restore the DB cluster snapshot. If you specify all , an Amazon account whose account ID is explicitly added to the restore attribute can still copy or restore a manual DB clus- ter snapshot. (string) Syntax: "string" "string" ...
+    /// A list of DB cluster snapshot attributes to remove from the attribute specified by AttributeName . To remove authorization for other Amazon accounts to copy or restore a manual DB cluster snapshot, set this list to include one or more Amazon account identifiers, or all to remove authorization for any Amazon account to copy or restore the DB cluster snapshot. If you specify all , an Amazon account whose account ID is explicitly added to the restore attribute can still copy or restore a manual DB cluster snapshot. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--values-to-remove", GroupValues = true)]
     public IEnumerable<string>? ValuesToRemove { get; set; }

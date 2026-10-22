@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRdsSwitchoverBlueGreenDeploymentOptions : AwsOptions, IValidata
     /// <summary>
     /// Switches over a blue/green deployment. Before you switch over, production traffic is routed to the databases in the blue environment. After you switch over, production traffic is routed to the databases in the green environment. For more information, see Using Amazon RDS Blue/Green Deployments for database updates in the Amazon RDS User Guide and Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="BlueGreenDeploymentIdentifier">The resource ID of the blue/green deployment. Constraints: o Must match an existing blue/green deployment resource ID. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
+    /// <param name="BlueGreenDeploymentIdentifier">The resource ID of the blue/green deployment. Constraints: • Must match an existing blue/green deployment resource ID. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
     public AwsRdsSwitchoverBlueGreenDeploymentOptions(
         string BlueGreenDeploymentIdentifier
     )
@@ -56,13 +58,13 @@ public record AwsRdsSwitchoverBlueGreenDeploymentOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The resource ID of the blue/green deployment. Constraints: o Must match an existing blue/green deployment resource ID. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// The resource ID of the blue/green deployment. Constraints: • Must match an existing blue/green deployment resource ID. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*
     /// </summary>
     [CliOption("--blue-green-deployment-identifier")]
     public string? BlueGreenDeploymentIdentifier { get; private init; }
 
     /// <summary>
-    /// The amount of time, in seconds, for the switchover to complete. Default: 300 If the switchover takes longer than the specified duration, then any changes are rolled back, and no changes are made to the environ- ments. Constraints: o min: 30
+    /// The amount of time, in seconds, for the switchover to complete. Default: 300 If the switchover takes longer than the specified duration, then any changes are rolled back, and no changes are made to the environments. Constraints: • min: 30
     /// </summary>
     [CliOption("--switchover-timeout")]
     public int? SwitchoverTimeout { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDatazoneDeleteProjectMembershipOptions : AwsOptions, IValidatab
     /// <summary>
     /// Deletes project membership in Amazon DataZone. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain where project membership is deleted. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="ProjectIdentifier">The ID of the Amazon DataZone project the membership to which is deleted. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain where project membership is deleted. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="ProjectIdentifier">The ID of the Amazon DataZone project the membership to which is deleted. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     /// <param name="Member">The project member whose project membership is deleted. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: userIdentifier, groupIdentifier. userIdentifier -&gt; (string) The user ID of a project member. groupIdentifier -&gt; (string) The ID of the group of a project member. Shorthand Syntax: userIdentifier=string,groupIdentifier=string JSON Syntax: { "userIdentifier": "string", "groupIdentifier": "string" }</param>
     public AwsDatazoneDeleteProjectMembershipOptions(
         string DomainIdentifier,
@@ -64,13 +66,13 @@ public record AwsDatazoneDeleteProjectMembershipOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon DataZone domain where project membership is deleted. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the Amazon DataZone domain where project membership is deleted. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the Amazon DataZone project the membership to which is deleted. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The ID of the Amazon DataZone project the membership to which is deleted. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--project-identifier")]
     public string? ProjectIdentifier { get; private init; }

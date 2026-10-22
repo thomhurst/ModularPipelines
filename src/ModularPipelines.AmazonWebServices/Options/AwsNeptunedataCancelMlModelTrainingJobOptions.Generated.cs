@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Cancels a Neptune ML model training job. See Model training using the ``modeltraining` command &lt;- https://docs.aws.amazon.com/neptune/latest/userguide/machine-learn- ing-api-modeltraining.html&gt;`__ . When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelMLModelTrainingJob IAM action in that cluster. See also: AWS API Documentation
+/// Cancels a Neptune ML model training job. See Model training using the ``modeltraining` command &lt;https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-modeltraining.html&gt;`__ . When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelMLModelTrainingJob IAM action in that cluster. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsNeptunedataCancelMlModelTrainingJobOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Cancels a Neptune ML model training job. See Model training using the ``modeltraining` command &lt;- https://docs.aws.amazon.com/neptune/latest/userguide/machine-learn- ing-api-modeltraining.html&gt;`__ . When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelMLModelTrainingJob IAM action in that cluster. See also: AWS API Documentation
+    /// Cancels a Neptune ML model training job. See Model training using the ``modeltraining` command &lt;https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-modeltraining.html&gt;`__ . When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelMLModelTrainingJob IAM action in that cluster. See also: AWS API Documentation
     /// </summary>
     /// <param name="Id">The unique identifier of the model-training job to be canceled.</param>
     public AwsNeptunedataCancelMlModelTrainingJobOptions(
@@ -62,7 +64,7 @@ public record AwsNeptunedataCancelMlModelTrainingJobOptions : AwsOptions, IValid
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The ARN of an IAM role that provides Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parame- ter group or an error will occur.
+    /// The ARN of an IAM role that provides Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error will occur.
     /// </summary>
     [CliOption("--neptune-iam-role-arn")]
     public string? NeptuneIamRoleArn { get; set; }

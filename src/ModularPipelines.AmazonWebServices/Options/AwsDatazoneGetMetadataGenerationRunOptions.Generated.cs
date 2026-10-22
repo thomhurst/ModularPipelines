@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets a metadata generation run in Amazon DataZone. Prerequisites: o Valid domain and run identifier. o The metadata generation run must exist. o User must have read access to the metadata run. See also: AWS API Documentation
+/// Gets a metadata generation run in Amazon DataZone. Prerequisites: • Valid domain and run identifier. • The metadata generation run must exist. • User must have read access to the metadata run. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsDatazoneGetMetadataGenerationRunOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets a metadata generation run in Amazon DataZone. Prerequisites: o Valid domain and run identifier. o The metadata generation run must exist. o User must have read access to the metadata run. See also: AWS API Documentation
+    /// Gets a metadata generation run in Amazon DataZone. Prerequisites: • Valid domain and run identifier. • The metadata generation run must exist. • User must have read access to the metadata run. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain the metadata generation run of which you want to get. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Identifier">The identifier of the metadata generation run. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain the metadata generation run of which you want to get. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The identifier of the metadata generation run. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneGetMetadataGenerationRunOptions(
         string DomainIdentifier,
         string Identifier
@@ -61,19 +63,19 @@ public record AwsDatazoneGetMetadataGenerationRunOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon DataZone domain the metadata generation run of which you want to get. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the Amazon DataZone domain the metadata generation run of which you want to get. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the metadata generation run. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the metadata generation run. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The type of the metadata generation run. Possible values: o BUSINESS_DESCRIPTIONS o BUSINESS_NAMES o BUSINESS_GLOSSARY_ASSOCIATIONS
+    /// The type of the metadata generation run. Possible values: • BUSINESS_DESCRIPTIONS • BUSINESS_NAMES • BUSINESS_GLOSSARY_ASSOCIATIONS
     /// </summary>
     [CliOption("--type")]
     public AwsDatazoneGetMetadataGenerationRunType? Type { get; set; }

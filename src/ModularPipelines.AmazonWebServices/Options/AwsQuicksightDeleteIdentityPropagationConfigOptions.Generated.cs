@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsQuicksightDeleteIdentityPropagationConfigOptions : AwsOptions, 
     /// <summary>
     /// Deletes all access scopes and authorized targets that are associated with a service from the Quick Sight IAM Identity Center application. This operation is only supported for Quick Sight accounts that use IAM Identity Center. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that you want to delete an identity propagation configuration from. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="Service">The name of the Amazon Web Services service that you want to delete the associated access scopes and authorized targets from. Possible values: o REDSHIFT o QBUSINESS o ATHENA o GLUE_DATA_CATALOG</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that you want to delete an identity propagation configuration from. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="Service">The name of the Amazon Web Services service that you want to delete the associated access scopes and authorized targets from. Possible values: • REDSHIFT • QBUSINESS • ATHENA • GLUE_DATA_CATALOG</param>
     public AwsQuicksightDeleteIdentityPropagationConfigOptions(
         string AwsAccountId,
         AwsQuicksightDeleteIdentityPropagationConfigService Service
@@ -60,13 +62,13 @@ public record AwsQuicksightDeleteIdentityPropagationConfigOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that you want to delete an identity propagation configuration from. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that you want to delete an identity propagation configuration from. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The name of the Amazon Web Services service that you want to delete the associated access scopes and authorized targets from. Possible values: o REDSHIFT o QBUSINESS o ATHENA o GLUE_DATA_CATALOG
+    /// The name of the Amazon Web Services service that you want to delete the associated access scopes and authorized targets from. Possible values: • REDSHIFT • QBUSINESS • ATHENA • GLUE_DATA_CATALOG
     /// </summary>
     [CliOption("--service")]
     public AwsQuicksightDeleteIdentityPropagationConfigService? Service { get; private init; }

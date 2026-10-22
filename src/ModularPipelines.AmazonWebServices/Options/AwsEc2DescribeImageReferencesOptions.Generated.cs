@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsEc2DescribeImageReferencesOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Describes your Amazon Web Services resources that are referencing the specified images. For more information, see Identify your resources referencing specified AMIs in the Amazon EC2 User Guide . See also: AWS API Documentation describe-image-references is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated r...
     /// </summary>
-    /// <param name="ImageIds">The IDs of the images to check for resource references. Constraints: o min: 1 o max: 10 (string) Syntax: "string" "string" ...</param>
+    /// <param name="ImageIds">The IDs of the images to check for resource references. Constraints: • min: 1 • max: 10 (string) Syntax: "string" "string" ...</param>
     public AwsEc2DescribeImageReferencesOptions(
         IEnumerable<string> ImageIds
     )
@@ -68,34 +70,31 @@ public record AwsEc2DescribeImageReferencesOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The IDs of the images to check for resource references. Constraints: o min: 1 o max: 10 (string) Syntax: "string" "string" ...
+    /// The IDs of the images to check for resource references. Constraints: • min: 1 • max: 10 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--image-ids", GroupValues = true)]
     public IEnumerable<string>? ImageIds { get; private init; }
 
     /// <summary>
-    /// Specifies whether to check all supported Amazon Web Services re- source types for image references. When specified, default values are applied for ResourceTypeOptions . For the default values, see How AMI reference checks work in the Amazon EC2 User Guide . If you also specify ResourceTypes with ResourceTypeOptions , your specified values override the default values. Supported resource types: ec2:Instance | ec2:LaunchTemplate | ssm:Parameter | imagebuilder:ImageRecipe | imagebuilder:Contain- erRecipe Either IncludeAllResourceTypes or ResourceTypes must be specified.
+    /// Specifies whether to check all supported Amazon Web Services resource types for image references. When specified, default values are applied for ResourceTypeOptions . For the default values, see How AMI reference checks work in the Amazon EC2 User Guide . If you also specify ResourceTypes with ResourceTypeOptions , your specified values override the default values. Supported resource types: ec2:Instance | ec2:LaunchTemplate | ssm:Parameter | imagebuilder:ImageRecipe | imagebuilder:ContainerRecipe Either IncludeAllResourceTypes or ResourceTypes must be specified.
     /// </summary>
     [CliFlag("--include-all-resource-types", NegatedName = "--no-include-all-resource-types")]
     public bool? IncludeAllResourceTypes { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services resource types to check for image refer- ences. Either IncludeAllResourceTypes or ResourceTypes must be specified. (structure) A resource type to check for image references. Associated op- tions can also be specified if the resource type is an EC2 in- stance or launch template. ResourceType -&gt; (string) The resource type. Possible values: o ec2:Instance o ec2:LaunchTemplate o ssm:Parameter o imagebuilder:ImageRecipe o imagebuilder:ContainerRecipe ResourceTypeOptions -&gt; (list) The options that affect the scope of the response. Valid only when ResourceType is ec2:Instance or ec2:LaunchTemplate . (structure) The options that affect the scope of the response. OptionName -&gt; (string) The name of the option. o For ec2:Instance : Specify state-name - The current state of the EC2 instance. o For ec2:LaunchTemplate : Specify version-depth - The number of launch template versions to check, start- ing from the most recent version. Possible values: o state-name o version-depth OptionValues -&gt; (list) A value for the specified option. o For state-name : o Valid values: pending | running | shutting-down | terminated | stopping | stopped o Default: All states o For version-depth : o Valid values: Integers between 1 and 10000 o Default: 10 (string) JSON Syntax: [ { "ResourceType": "ec2:Instance"|"ec2:LaunchTemplate"|"ssm:Parameter"|"imagebuilder:ImageRecipe"|"imagebuilder:ContainerRecipe", "ResourceTypeOptions": [ { "OptionName": "state-name"|"version-depth", "OptionValues": ["string", ...] } ... ] } ... ]
+    /// The Amazon Web Services resource types to check for image references. Either IncludeAllResourceTypes or ResourceTypes must be specified. (structure) A resource type to check for image references. Associated options can also be specified if the resource type is an EC2 instance or launch template. ResourceType -&gt; (string) The resource type. Possible values: • ec2:Instance • ec2:LaunchTemplate • ssm:Parameter • imagebuilder:ImageRecipe • imagebuilder:ContainerRecipe ResourceTypeOptions -&gt; (list) The options that affect the scope of the response. Valid only when ResourceType is ec2:Instance or ec2:LaunchTemplate . (structure) The options that affect the scope of the response. OptionName -&gt; (string) The name of the option. • For ec2:Instance : Specify state-name - The current state of the EC2 instance. • For ec2:LaunchTemplate : Specify version-depth - The number of launch template versions to check, starting from the most recent version. Possible values: • state-name • version-depth OptionValues -&gt; (list) A value for the specified option. • For state-name : • Valid values: pending | running | shutting-down | terminated | stopping | stopped • Default: All states • For version-depth : • Valid values: Integers between 1 and 10000 • Default: 10 (string) JSON Syntax: [ { "ResourceType": "ec2:Instance"|"ec2:LaunchTemplate"|"ssm:Parameter"|"imagebuilder:ImageRecipe"|"imagebuilder:ContainerRecipe", "ResourceTypeOptions": [ { "OptionName": "state-name"|"version-depth", "OptionValues": ["string", ...] } ... ] } ... ]
     /// </summary>
     [CliOption("--resource-types", GroupValues = true)]
     public IEnumerable<string>? ResourceTypes { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -105,16 +104,19 @@ public record AwsEc2DescribeImageReferencesOptions : AwsOptions, IValidatableObj
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 5
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 5
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

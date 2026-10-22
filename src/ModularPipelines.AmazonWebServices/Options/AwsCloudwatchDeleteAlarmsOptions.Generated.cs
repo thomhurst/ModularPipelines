@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCloudwatchDeleteAlarmsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the specified alarms. You can delete up to 100 alarms in one operation. However, this total can include no more than one composite alarm. For example, you could delete 99 metric alarms and one composite alarms with one operation, but you can't delete two composite alarms with one operation. Log alarms cannot be batch deleted. If you specify any incorrect alarm names, the alarms you specify with correct names are still deleted. Other syntax errors might result in no alarms being deleted. ...
     /// </summary>
-    /// <param name="AlarmNames">The alarms to be deleted. Do not enclose the alarm names in quote marks. Constraints: o max: 100 (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...</param>
+    /// <param name="AlarmNames">The alarms to be deleted. Do not enclose the alarm names in quote marks. Constraints: • max: 100 (string) Constraints: • min: 1 • max: 255 Syntax: "string" "string" ...</param>
     public AwsCloudwatchDeleteAlarmsOptions(
         IEnumerable<string> AlarmNames
     )
@@ -67,7 +69,7 @@ public record AwsCloudwatchDeleteAlarmsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The alarms to be deleted. Do not enclose the alarm names in quote marks. Constraints: o max: 100 (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...
+    /// The alarms to be deleted. Do not enclose the alarm names in quote marks. Constraints: • max: 100 (string) Constraints: • min: 1 • max: 255 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--alarm-names", GroupValues = true)]
     public IEnumerable<string>? AlarmNames { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRoute53GetHealthCheckOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets information about a specified health check. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HealthCheckId">The identifier that Amazon Route 53 assigned to the health check when you created it. When you add or update a resource record set, you use this value to specify which health check to use. The value can be up to 64 characters long. Constraints: o max: 64</param>
+    /// <param name="HealthCheckId">The identifier that Amazon Route 53 assigned to the health check when you created it. When you add or update a resource record set, you use this value to specify which health check to use. The value can be up to 64 characters long. Constraints: • max: 64</param>
     public AwsRoute53GetHealthCheckOptions(
         string HealthCheckId
     )
@@ -56,7 +58,7 @@ public record AwsRoute53GetHealthCheckOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier that Amazon Route 53 assigned to the health check when you created it. When you add or update a resource record set, you use this value to specify which health check to use. The value can be up to 64 characters long. Constraints: o max: 64
+    /// The identifier that Amazon Route 53 assigned to the health check when you created it. When you add or update a resource record set, you use this value to specify which health check to use. The value can be up to 64 characters long. Constraints: • max: 64
     /// </summary>
     [CliOption("--health-check-id")]
     public string? HealthCheckId { get; private init; }

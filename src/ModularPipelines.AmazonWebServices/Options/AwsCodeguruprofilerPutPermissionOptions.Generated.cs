@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds permissions to a profiling group's resource-based policy that are provided using an action group. If a profiling group doesn't have a re- source-based policy, one is created for it using the permissions in the action group and the roles and users in the principals parameter. &lt;p&gt; The one supported action group that can be added is &lt;code&gt;agent- Permission&lt;/code&gt; which grants &lt;code&gt;ConfigureAgent&lt;/code&gt; and &lt;code&gt;PostAgent&lt;/code&gt; permissions. For more information, see &lt;a href="https://docs.aws...
+/// Adds permissions to a profiling group's resource-based policy that are provided using an action group. If a profiling group doesn't have a resource-based policy, one is created for it using the permissions in the action group and the roles and users in the principals parameter. &lt;p&gt; The one supported action group that can be added is &lt;code&gt;agentPermission&lt;/code&gt; which grants &lt;code&gt;ConfigureAgent&lt;/code&gt; and &lt;code&gt;PostAgent&lt;/code&gt; permissions. For more information, see &lt;a href="https://docs.aws.ama...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsCodeguruprofilerPutPermissionOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds permissions to a profiling group's resource-based policy that are provided using an action group. If a profiling group doesn't have a re- source-based policy, one is created for it using the permissions in the action group and the roles and users in the principals parameter. &lt;p&gt; The one supported action group that can be added is &lt;code&gt;agent- Permission&lt;/code&gt; which grants &lt;code&gt;ConfigureAgent&lt;/code&gt; and &lt;code&gt;PostAgent&lt;/code&gt; permissions. For more information, see &lt;a href="https://docs.aws...
+    /// Adds permissions to a profiling group's resource-based policy that are provided using an action group. If a profiling group doesn't have a resource-based policy, one is created for it using the permissions in the action group and the roles and users in the principals parameter. &lt;p&gt; The one supported action group that can be added is &lt;code&gt;agentPermission&lt;/code&gt; which grants &lt;code&gt;ConfigureAgent&lt;/code&gt; and &lt;code&gt;PostAgent&lt;/code&gt; permissions. For more information, see &lt;a href="https://docs.aws.ama...
     /// </summary>
-    /// <param name="ActionGroup">Specifies an action group that contains permissions to add to a pro- filing group resource. One action group is supported, agentPermis- sions , which grants permission to perform actions required by the profiling agent, ConfigureAgent and PostAgentProfile permissions. Possible values: o agentPermissions</param>
-    /// <param name="Principals">A list ARNs for the roles and users you want to grant access to the profiling group. Wildcards are not are supported in the ARNs. Constraints: o min: 1 o max: 50 (string) Syntax: "string" "string" ...</param>
-    /// <param name="ProfilingGroupName">The name of the profiling group to grant access to. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$</param>
+    /// <param name="ActionGroup">Specifies an action group that contains permissions to add to a profiling group resource. One action group is supported, agentPermissions , which grants permission to perform actions required by the profiling agent, ConfigureAgent and PostAgentProfile permissions. Possible values: • agentPermissions</param>
+    /// <param name="Principals">A list ARNs for the roles and users you want to grant access to the profiling group. Wildcards are not are supported in the ARNs. Constraints: • min: 1 • max: 50 (string) Syntax: "string" "string" ...</param>
+    /// <param name="ProfilingGroupName">The name of the profiling group to grant access to. Constraints: • min: 1 • max: 255 • pattern: ^[\w-]+$</param>
     public AwsCodeguruprofilerPutPermissionOptions(
         string ActionGroup,
         IEnumerable<string> Principals,
@@ -75,25 +77,25 @@ public record AwsCodeguruprofilerPutPermissionOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies an action group that contains permissions to add to a pro- filing group resource. One action group is supported, agentPermis- sions , which grants permission to perform actions required by the profiling agent, ConfigureAgent and PostAgentProfile permissions. Possible values: o agentPermissions
+    /// Specifies an action group that contains permissions to add to a profiling group resource. One action group is supported, agentPermissions , which grants permission to perform actions required by the profiling agent, ConfigureAgent and PostAgentProfile permissions. Possible values: • agentPermissions
     /// </summary>
     [CliOption("--action-group")]
     public string? ActionGroup { get; private init; }
 
     /// <summary>
-    /// A list ARNs for the roles and users you want to grant access to the profiling group. Wildcards are not are supported in the ARNs. Constraints: o min: 1 o max: 50 (string) Syntax: "string" "string" ...
+    /// A list ARNs for the roles and users you want to grant access to the profiling group. Wildcards are not are supported in the ARNs. Constraints: • min: 1 • max: 50 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--principals", GroupValues = true)]
     public IEnumerable<string>? Principals { get; private init; }
 
     /// <summary>
-    /// The name of the profiling group to grant access to. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$
+    /// The name of the profiling group to grant access to. Constraints: • min: 1 • max: 255 • pattern: ^[\w-]+$
     /// </summary>
     [CliOption("--profiling-group-name")]
     public string? ProfilingGroupName { get; private init; }
 
     /// <summary>
-    /// A universally unique identifier (UUID) for the revision of the pol- icy you are adding to the profiling group. Do not specify this when you add permissions to a profiling group for the first time. If a policy already exists on the profiling group, you must specify the revisionId . Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// A universally unique identifier (UUID) for the revision of the policy you are adding to the profiling group. Do not specify this when you add permissions to a profiling group for the first time. If a policy already exists on the profiling group, you must specify the revisionId . Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--revision-id")]
     public string? RevisionId { get; set; }

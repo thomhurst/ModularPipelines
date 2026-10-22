@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsTransferDescribeSecurityPolicyOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Describes the security policy that is attached to your server or SFTP connector. The response contains a description of the security policy's properties. For more information about security policies, see Working with security policies for servers or Working with security policies for SFTP connectors . See also: AWS API Documentation
     /// </summary>
-    /// <param name="SecurityPolicyName">Specify the text name of the security policy for which you want the details. Constraints: o min: 0 o max: 100 o pattern: Transfer[A-Za-z0-9]*SecurityPolicy-[A-Za-z0-9-]+</param>
+    /// <param name="SecurityPolicyName">Specify the text name of the security policy for which you want the details. Constraints: • min: 0 • max: 100 • pattern: Transfer[A-Za-z0-9]*SecurityPolicy-[A-Za-z0-9-]+</param>
     public AwsTransferDescribeSecurityPolicyOptions(
         string SecurityPolicyName
     )
@@ -56,7 +58,7 @@ public record AwsTransferDescribeSecurityPolicyOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specify the text name of the security policy for which you want the details. Constraints: o min: 0 o max: 100 o pattern: Transfer[A-Za-z0-9]*SecurityPolicy-[A-Za-z0-9-]+
+    /// Specify the text name of the security policy for which you want the details. Constraints: • min: 0 • max: 100 • pattern: Transfer[A-Za-z0-9]*SecurityPolicy-[A-Za-z0-9-]+
     /// </summary>
     [CliOption("--security-policy-name")]
     public string? SecurityPolicyName { get; private init; }

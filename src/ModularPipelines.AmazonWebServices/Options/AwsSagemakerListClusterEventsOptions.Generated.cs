@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +31,7 @@ public record AwsSagemakerListClusterEventsOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Retrieves a list of event summaries for a specified HyperPod cluster. The operation supports filtering, sorting, and pagination of results. This functionality is only supported when the NodeProvisioningMode is set to Continuous . See also: AWS API Documentation list-cluster-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --que...
     /// </summary>
-    /// <param name="ClusterName">The name or Amazon Resource Name (ARN) of the HyperPod cluster for which to list events. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})</param>
+    /// <param name="ClusterName">The name or Amazon Resource Name (ARN) of the HyperPod cluster for which to list events. Constraints: • min: 0 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:cluster/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})</param>
     public AwsSagemakerListClusterEventsOptions(
         string ClusterName
     )
@@ -58,19 +60,19 @@ public record AwsSagemakerListClusterEventsOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of the HyperPod cluster for which to list events. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})
+    /// The name or Amazon Resource Name (ARN) of the HyperPod cluster for which to list events. Constraints: • min: 0 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:cluster/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})
     /// </summary>
     [CliOption("--cluster-name")]
     public string? ClusterName { get; private init; }
 
     /// <summary>
-    /// The name of the instance group to filter events. If specified, only events related to this instance group are returned. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9])*
+    /// The name of the instance group to filter events. If specified, only events related to this instance group are returned. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9])*
     /// </summary>
     [CliOption("--instance-group-name")]
     public string? InstanceGroupName { get; set; }
 
     /// <summary>
-    /// The EC2 instance ID to filter events. If specified, only events re- lated to this instance are returned. Constraints: o min: 1 o max: 256 o pattern: i-[a-f0-9]{8}(?:[a-f0-9]{9})?
+    /// The EC2 instance ID to filter events. If specified, only events related to this instance are returned. Constraints: • min: 1 • max: 256 • pattern: i-[a-f0-9]{8}(?:[a-f0-9]{9})?
     /// </summary>
     [CliOption("--node-id")]
     public string? NodeId { get; set; }
@@ -82,34 +84,31 @@ public record AwsSagemakerListClusterEventsOptions : AwsOptions, IValidatableObj
     public string? EventTimeAfter { get; set; }
 
     /// <summary>
-    /// The end of the time range for filtering events. Only events that oc- curred before this time are included in the results.
+    /// The end of the time range for filtering events. Only events that occurred before this time are included in the results.
     /// </summary>
     [CliOption("--event-time-before")]
     public string? EventTimeBefore { get; set; }
 
     /// <summary>
-    /// The field to use for sorting the event list. Currently, the only supported value is EventTime . Possible values: o EventTime
+    /// The field to use for sorting the event list. Currently, the only supported value is EventTime . Possible values: • EventTime
     /// </summary>
     [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
     /// <summary>
-    /// The order in which to sort the results. Valid values are Ascending or Descending (the default is Descending ). Possible values: o Ascending o Descending
+    /// The order in which to sort the results. Valid values are Ascending or Descending (the default is Descending ). Possible values: • Ascending • Descending
     /// </summary>
     [CliOption("--sort-order")]
     public AwsSagemakerListClusterEventsSortOrder? SortOrder { get; set; }
 
     /// <summary>
-    /// The type of resource for which to filter events. Valid values are Cluster , InstanceGroup , or Instance . Possible values: o Cluster o InstanceGroup o Instance
+    /// The type of resource for which to filter events. Valid values are Cluster , InstanceGroup , or Instance . Possible values: • Cluster • InstanceGroup • Instance
     /// </summary>
     [CliOption("--resource-type")]
     public AwsSagemakerListClusterEventsResourceType? ResourceType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -119,16 +118,19 @@ public record AwsSagemakerListClusterEventsOptions : AwsOptions, IValidatableObj
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

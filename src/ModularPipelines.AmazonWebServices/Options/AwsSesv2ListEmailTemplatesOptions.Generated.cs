@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSesv2ListEmailTemplatesOptions : AwsOptions
 {
     /// <summary>
-    /// A token returned from a previous call to ListEmailTemplates to indi- cate the position in the list of email templates.
+    /// A token returned from a previous call to ListEmailTemplates to indicate the position in the list of email templates.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

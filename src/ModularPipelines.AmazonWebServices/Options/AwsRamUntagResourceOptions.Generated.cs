@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the specified tag key and value pairs from the specified re- source share or managed permission. See also: AWS API Documentation
+/// Removes the specified tag key and value pairs from the specified resource share or managed permission. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsRamUntagResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the specified tag key and value pairs from the specified re- source share or managed permission. See also: AWS API Documentation
+    /// Removes the specified tag key and value pairs from the specified resource share or managed permission. See also: AWS API Documentation
     /// </summary>
     /// <param name="TagKeys">Specifies a list of one or more tag keys that you want to remove. (string) Syntax: "string" "string" ...</param>
     public AwsRamUntagResourceOptions(
@@ -73,13 +75,13 @@ public record AwsRamUntagResourceOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? TagKeys { get; private init; }
 
     /// <summary>
-    /// Specifies the Amazon Resource Name (ARN) of the resource share that you want to remove tags from. The tags are removed from the resource share, not the resources in the resource share. You must specify ei- ther resourceShareArn , or resourceArn , but not both.
+    /// Specifies the Amazon Resource Name (ARN) of the resource share that you want to remove tags from. The tags are removed from the resource share, not the resources in the resource share. You must specify either resourceShareArn , or resourceArn , but not both.
     /// </summary>
     [CliOption("--resource-share-arn")]
     public string? ResourceShareArn { get; set; }
 
     /// <summary>
-    /// Specifies the Amazon Resource Name (ARN) of the managed permission that you want to remove tags from. You must specify either re- sourceArn , or resourceShareArn , but not both.
+    /// Specifies the Amazon Resource Name (ARN) of the managed permission that you want to remove tags from. You must specify either resourceArn , or resourceShareArn , but not both.
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }

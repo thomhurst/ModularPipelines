@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRoute53GetHostedZoneOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets information about a specified hosted zone including the four name servers assigned to the hosted zone. returns the VPCs associated with the specified hosted zone and does not reflect the VPC associations by Route 53 Profiles. To get the associations to a Profile, call the ListProfileAssociations API. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the hosted zone that you want to get information about. Constraints: o max: 32</param>
+    /// <param name="Id">The ID of the hosted zone that you want to get information about. Constraints: • max: 32</param>
     public AwsRoute53GetHostedZoneOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsRoute53GetHostedZoneOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the hosted zone that you want to get information about. Constraints: o max: 32
+    /// The ID of the hosted zone that you want to get information about. Constraints: • max: 32
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

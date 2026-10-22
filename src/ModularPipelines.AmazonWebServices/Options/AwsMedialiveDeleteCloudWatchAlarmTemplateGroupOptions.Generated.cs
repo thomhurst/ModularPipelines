@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a cloudwatch alarm template group. You must detach this group from all signal maps and ensure its existing templates are moved to an- other group or deleted. See also: AWS API Documentation
+/// Deletes a cloudwatch alarm template group. You must detach this group from all signal maps and ensure its existing templates are moved to another group or deleted. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsMedialiveDeleteCloudWatchAlarmTemplateGroupOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a cloudwatch alarm template group. You must detach this group from all signal maps and ensure its existing templates are moved to an- other group or deleted. See also: AWS API Documentation
+    /// Deletes a cloudwatch alarm template group. You must detach this group from all signal maps and ensure its existing templates are moved to another group or deleted. See also: AWS API Documentation
     /// </summary>
     /// <param name="Identifier"></param>
     public AwsMedialiveDeleteCloudWatchAlarmTemplateGroupOptions(

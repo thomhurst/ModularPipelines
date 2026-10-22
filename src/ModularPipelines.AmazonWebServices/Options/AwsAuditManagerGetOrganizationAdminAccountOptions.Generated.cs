@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the name of the delegated Amazon Web Services administrator ac- count for a specified organization. See also: AWS API Documentation
+/// Gets the name of the delegated Amazon Web Services administrator account for a specified organization. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

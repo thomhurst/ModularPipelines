@@ -24,7 +24,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSagemakerListResourceCatalogsOptions : AwsOptions
 {
     /// <summary>
-    /// A string that partially matches one or more ResourceCatalog s names. Filters ResourceCatalog by name. Constraints: o min: 1 o max: 64
+    /// A string that partially matches one or more ResourceCatalog s names. Filters ResourceCatalog by name. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--name-contains")]
     public string? NameContains { get; set; }
@@ -42,22 +42,19 @@ public record AwsSagemakerListResourceCatalogsOptions : AwsOptions
     public string? CreationTimeBefore { get; set; }
 
     /// <summary>
-    /// The order in which the resource catalogs are listed. Possible values: o Ascending o Descending
+    /// The order in which the resource catalogs are listed. Possible values: • Ascending • Descending
     /// </summary>
     [CliOption("--sort-order")]
     public AwsSagemakerListResourceCatalogsSortOrder? SortOrder { get; set; }
 
     /// <summary>
-    /// The value on which the resource catalog list is sorted. Possible values: o CreationTime
+    /// The value on which the resource catalog list is sorted. Possible values: • CreationTime
     /// </summary>
     [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -67,15 +64,18 @@ public record AwsSagemakerListResourceCatalogsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

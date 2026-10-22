@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCodeartifactCreateRepositoryOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Creates a repository. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Domain">The name of the domain that contains the created repository. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
-    /// <param name="Repository">The name of the repository to create. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}</param>
+    /// <param name="Domain">The name of the domain that contains the created repository. Constraints: • min: 2 • max: 50 • pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
+    /// <param name="Repository">The name of the repository to create. Constraints: • min: 2 • max: 100 • pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}</param>
     public AwsCodeartifactCreateRepositoryOptions(
         string Domain,
         string Repository
@@ -60,37 +62,37 @@ public record AwsCodeartifactCreateRepositoryOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain that contains the created repository. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
+    /// The name of the domain that contains the created repository. Constraints: • min: 2 • max: 50 • pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; private init; }
 
     /// <summary>
-    /// The name of the repository to create. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}
+    /// The name of the repository to create. Constraints: • min: 2 • max: 100 • pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}
     /// </summary>
     [CliOption("--repository")]
     public string? Repository { get; private init; }
 
     /// <summary>
-    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
+    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--domain-owner")]
     public string? DomainOwner { get; set; }
 
     /// <summary>
-    /// A description of the created repository. Constraints: o max: 1000 o pattern: \P{C}*
+    /// A description of the created repository. Constraints: • max: 1000 • pattern: \P{C}*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A list of upstream repositories to associate with the repository. The order of the upstream repositories in the list determines their priority order when CodeArtifact looks for a requested package ver- sion. For more information, see Working with upstream repositories . (structure) Information about an upstream repository. A list of Upstream- Repository objects is an input parameter to CreateRepository and UpdateRepository . repositoryName -&gt; (string) [required] The name of an upstream repository. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99} Shorthand Syntax: repositoryName=string ... JSON Syntax: [ { "repositoryName": "string" } ... ]
+    /// A list of upstream repositories to associate with the repository. The order of the upstream repositories in the list determines their priority order when CodeArtifact looks for a requested package version. For more information, see Working with upstream repositories . (structure) Information about an upstream repository. A list of UpstreamRepository objects is an input parameter to CreateRepository and UpdateRepository . repositoryName -&gt; (string) [required] The name of an upstream repository. Constraints: • min: 2 • max: 100 • pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99} Shorthand Syntax: repositoryName=string ... JSON Syntax: [ { "repositoryName": "string" } ... ]
     /// </summary>
     [CliOption("--upstreams", GroupValues = true)]
     public IEnumerable<string>? Upstreams { get; set; }
 
     /// <summary>
-    /// One or more tag key-value pairs for the repository. Constraints: o min: 0 o max: 200 (structure) A tag is a key-value pair that can be used to manage, search for, or filter resources in CodeArtifact. key -&gt; (string) [required] The tag key. Constraints: o min: 1 o max: 128 o pattern: \P{C}+ value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: \P{C}* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// One or more tag key-value pairs for the repository. Constraints: • min: 0 • max: 200 (structure) A tag is a key-value pair that can be used to manage, search for, or filter resources in CodeArtifact. key -&gt; (string) [required] The tag key. Constraints: • min: 1 • max: 128 • pattern: \P{C}+ value -&gt; (string) [required] The tag value. Constraints: • min: 0 • max: 256 • pattern: \P{C}* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

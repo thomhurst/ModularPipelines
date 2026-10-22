@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about a specified Route 53 Profile resource associ- ation. See also: AWS API Documentation
+/// Returns information about a specified Route 53 Profile resource association. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRoute53profilesGetProfileResourceAssociationOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns information about a specified Route 53 Profile resource associ- ation. See also: AWS API Documentation
+    /// Returns information about a specified Route 53 Profile resource association. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileResourceAssociationId">The ID of the profile resource association that you want to get in- formation about. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ProfileResourceAssociationId">The ID of the profile resource association that you want to get information about. Constraints: • min: 1 • max: 64</param>
     public AwsRoute53profilesGetProfileResourceAssociationOptions(
         string ProfileResourceAssociationId
     )
@@ -56,7 +58,7 @@ public record AwsRoute53profilesGetProfileResourceAssociationOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the profile resource association that you want to get in- formation about. Constraints: o min: 1 o max: 64
+    /// The ID of the profile resource association that you want to get information about. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--profile-resource-association-id")]
     public string? ProfileResourceAssociationId { get; private init; }

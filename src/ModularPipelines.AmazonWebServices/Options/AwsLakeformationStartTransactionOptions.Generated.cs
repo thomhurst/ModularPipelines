@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLakeformationStartTransactionOptions : AwsOptions
 {
     /// <summary>
-    /// Indicates whether this transaction should be read only or read and write. Writes made using a read-only transaction ID will be re- jected. Read-only transactions do not need to be committed. Possible values: o READ_AND_WRITE o READ_ONLY
+    /// Indicates whether this transaction should be read only or read and write. Writes made using a read-only transaction ID will be rejected. Read-only transactions do not need to be committed. Possible values: • READ_AND_WRITE • READ_ONLY
     /// </summary>
     [CliOption("--transaction-type")]
     public AwsLakeformationStartTransactionTransactionType? TransactionType { get; set; }

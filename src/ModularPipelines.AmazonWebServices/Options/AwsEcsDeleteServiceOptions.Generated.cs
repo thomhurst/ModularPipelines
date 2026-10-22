@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a specified service within a cluster. You can delete a service if you have no running tasks in it and the desired task count is zero. If the service is actively maintaining tasks, you can't delete it, and you must update the service to a desired task count of zero. For more information, see UpdateService . NOTE: When you delete a service, if there are still running tasks that re- quire cleanup, the service status moves from ACTIVE to DRAINING , and the service is no longer visible in the...
+/// Deletes a specified service within a cluster. You can delete a service if you have no running tasks in it and the desired task count is zero. If the service is actively maintaining tasks, you can't delete it, and you must update the service to a desired task count of zero. For more information, see UpdateService . NOTE: When you delete a service, if there are still running tasks that require cleanup, the service status moves from ACTIVE to DRAINING , and the service is no longer visible in the c...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsEcsDeleteServiceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a specified service within a cluster. You can delete a service if you have no running tasks in it and the desired task count is zero. If the service is actively maintaining tasks, you can't delete it, and you must update the service to a desired task count of zero. For more information, see UpdateService . NOTE: When you delete a service, if there are still running tasks that re- quire cleanup, the service status moves from ACTIVE to DRAINING , and the service is no longer visible in the...
+    /// Deletes a specified service within a cluster. You can delete a service if you have no running tasks in it and the desired task count is zero. If the service is actively maintaining tasks, you can't delete it, and you must update the service to a desired task count of zero. For more information, see UpdateService . NOTE: When you delete a service, if there are still running tasks that require cleanup, the service status moves from ACTIVE to DRAINING , and the service is no longer visible in the c...
     /// </summary>
     /// <param name="Service">The name of the service to delete.</param>
     public AwsEcsDeleteServiceOptions(

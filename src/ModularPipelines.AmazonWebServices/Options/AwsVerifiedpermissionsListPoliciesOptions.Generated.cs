@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a paginated list of all policies stored in the specified policy store. See also: AWS API Documentation list-policies is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: policies
+/// Returns a paginated list of all policies stored in the specified policy store. See also: AWS API Documentation list-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: policies
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsVerifiedpermissionsListPoliciesOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a paginated list of all policies stored in the specified policy store. See also: AWS API Documentation list-policies is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: policies
+    /// Returns a paginated list of all policies stored in the specified policy store. See also: AWS API Documentation list-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: policies
     /// </summary>
-    /// <param name="PolicyStoreId">Specifies the ID of the policy store you want to list policies from. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: o ID: PSEXAMPLEabcdefg111111 o Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*</param>
+    /// <param name="PolicyStoreId">Specifies the ID of the policy store you want to list policies from. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: • ID: PSEXAMPLEabcdefg111111 • Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]*</param>
     public AwsVerifiedpermissionsListPoliciesOptions(
         string PolicyStoreId
     )
@@ -57,22 +59,19 @@ public record AwsVerifiedpermissionsListPoliciesOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ID of the policy store you want to list policies from. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: o ID: PSEXAMPLEabcdefg111111 o Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*
+    /// Specifies the ID of the policy store you want to list policies from. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: • ID: PSEXAMPLEabcdefg111111 • Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]*
     /// </summary>
     [CliOption("--policy-store-id")]
     public string? PolicyStoreId { get; private init; }
 
     /// <summary>
-    /// Specifies a filter that limits the response to only policies that match the specified criteria. For example, you list only the poli- cies that reference a specified principal. principal -&gt; (tagged union structure) Filters the output to only policies that reference the specified principal. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: unspecified, identifier. unspecified -&gt; (boolean) Used to indicate that a principal or resource is not speci- fied. This can be used to search for policies that are not associated with a specific principal or resource. identifier -&gt; (structure) The identifier of the entity. It can consist of either an En- tityType and EntityId, a principal, or a resource. entityType -&gt; (string) [required] The type of an entity. Example: "entityType":"*typeName* " Constraints: o min: 1 o max: 200 o pattern: .* entityId -&gt; (string) [required] The identifier of an entity. "entityId":"*identifier* " Constraints: o min: 1 o max: 612 o pattern: .* resource -&gt; (tagged union structure) Filters the output to only policies that reference the specified resource. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: unspecified, identifier. unspecified -&gt; (boolean) Used to indicate that a principal or resource is not speci- fied. This can be used to search for policies that are not associated with a specific principal or resource. identifier -&gt; (structure) The identifier of the entity. It can consist of either an En- tityType and EntityId, a principal, or a resource. entityType -&gt; (string) [required] The type of an entity. Example: "entityType":"*typeName* " Constraints: o min: 1 o max: 200 o pattern: .* entityId -&gt; (string) [required] The identifier of an entity. "entityId":"*identifier* " Constraints: o min: 1 o max: 612 o pattern: .* policyType -&gt; (string) Filters the output to only policies of the specified type. Possible values: o STATIC o TEMPLATE_LINKED policyTemplateId -&gt; (string) Filters the output to only template-linked policies that were instantiated from the specified policy template. Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]* Shorthand Syntax: principal={unspecified=boolean,identifier={entityType=string,entityId=string}},resource={unspecified=boolean,identifier={entityType=string,entityId=string}},policyType=string,policyTemplateId=string JSON Syntax: { "principal": { "unspecified": true|false, "identifier": { "entityType": "string", "entityId": "string" } }, "resource": { "unspecified": true|false, "identifier": { "entityType": "string", "entityId": "string" } }, "policyType": "STATIC"|"TEMPLATE_LINKED", "policyTemplateId": "string" }
+    /// Specifies a filter that limits the response to only policies that match the specified criteria. For example, you list only the policies that reference a specified principal. principal -&gt; (tagged union structure) Filters the output to only policies that reference the specified principal. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: unspecified, identifier. unspecified -&gt; (boolean) Used to indicate that a principal or resource is not specified. This can be used to search for policies that are not associated with a specific principal or resource. identifier -&gt; (structure) The identifier of the entity. It can consist of either an EntityType and EntityId, a principal, or a resource. entityType -&gt; (string) [required] The type of an entity. Example: "entityType":"*typeName* " Constraints: • min: 1 • max: 200 • pattern: .* entityId -&gt; (string) [required] The identifier of an entity. "entityId":"*identifier* " Constraints: • min: 1 • max: 612 • pattern: .* resource -&gt; (tagged union structure) Filters the output to only policies that reference the specified resource. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: unspecified, identifier. unspecified -&gt; (boolean) Used to indicate that a principal or resource is not specified. This can be used to search for policies that are not associated with a specific principal or resource. identifier -&gt; (structure) The identifier of the entity. It can consist of either an EntityType and EntityId, a principal, or a resource. entityType -&gt; (string) [required] The type of an entity. Example: "entityType":"*typeName* " Constraints: • min: 1 • max: 200 • pattern: .* entityId -&gt; (string) [required] The identifier of an entity. "entityId":"*identifier* " Constraints: • min: 1 • max: 612 • pattern: .* policyType -&gt; (string) Filters the output to only policies of the specified type. Possible values: • STATIC • TEMPLATE_LINKED policyTemplateId -&gt; (string) Filters the output to only template-linked policies that were instantiated from the specified policy template. Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]* Shorthand Syntax: principal={unspecified=boolean,identifier={entityType=string,entityId=string}},resource={unspecified=boolean,identifier={entityType=string,entityId=string}},policyType=string,policyTemplateId=string JSON Syntax: { "principal": { "unspecified": true|false, "identifier": { "entityType": "string", "entityId": "string" } }, "resource": { "unspecified": true|false, "identifier": { "entityType": "string", "entityId": "string" } }, "policyType": "STATIC"|"TEMPLATE_LINKED", "policyTemplateId": "string" }
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -82,16 +81,19 @@ public record AwsVerifiedpermissionsListPoliciesOptions : AwsOptions, IValidatab
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

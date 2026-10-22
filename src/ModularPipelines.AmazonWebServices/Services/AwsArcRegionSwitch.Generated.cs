@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws arcregionswitch commands.
+/// aws arc-region-switch commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsArcRegionSwitch : IAwsArcRegionSwitch
@@ -33,7 +33,7 @@ public class AwsArcRegionSwitch : IAwsArcRegionSwitch
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws arc-region-switch wait sub-commands.
     /// </summary>
     public AwsArcRegionSwitchWait Wait => _wait ??= new AwsArcRegionSwitchWait(_command);
 
@@ -42,7 +42,7 @@ public class AwsArcRegionSwitch : IAwsArcRegionSwitch
     #region Commands
 
     /// <summary>
-    /// Approves a step in a plan execution that requires manual approval. When you create a plan, you can include approval steps that require manual intervention before the execution can proceed. This operation allows you to provide that approval. You must specify the plan ARN, execution ID, step name, and approval status. You can also provide an optional comment explaining the ap- proval decision. See also: AWS API Documentation
+    /// Approves a step in a plan execution that requires manual approval. When you create a plan, you can include approval steps that require manual intervention before the execution can proceed. This operation allows you to provide that approval. You must specify the plan ARN, execution ID, step name, and approval status. You can also provide an optional comment explaining the approval decision. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -57,7 +57,7 @@ public class AwsArcRegionSwitch : IAwsArcRegionSwitch
     }
 
     /// <summary>
-    /// Cancels an in-progress plan execution. This operation stops the execu- tion of the plan and prevents any further steps from being processed. You must specify the plan ARN and execution ID. You can also provide an optional comment explaining why the execution was canceled. See also: AWS API Documentation
+    /// Cancels an in-progress plan execution. This operation stops the execution of the plan and prevents any further steps from being processed. You must specify the plan ARN and execution ID. You can also provide an optional comment explaining why the execution was canceled. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -72,7 +72,7 @@ public class AwsArcRegionSwitch : IAwsArcRegionSwitch
     }
 
     /// <summary>
-    /// Creates a new Region switch plan. A plan defines the steps required to shift traffic from one Amazon Web Services Region to another. You must specify a name for the plan, the primary Region, and at least one additional Region. You can also provide a description, execution role, recovery time objective, associated alarms, triggers, and work- flows that define the steps to execute during a Region switch. See also: AWS API Documentation
+    /// Creates a new Region switch plan. A plan defines the steps required to shift traffic from one Amazon Web Services Region to another. You must specify a name for the plan, the primary Region, and at least one additional Region. You can also provide a description, execution role, recovery time objective, associated alarms, triggers, and workflows that define the steps to execute during a Region switch. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -132,7 +132,7 @@ public class AwsArcRegionSwitch : IAwsArcRegionSwitch
     }
 
     /// <summary>
-    /// Retrieves information about a Region switch plan in a specific Amazon Web Services Region. This operation is useful for getting Region-spe- cific information about a plan. See also: AWS API Documentation
+    /// Retrieves information about a Region switch plan in a specific Amazon Web Services Region. This operation is useful for getting Region-specific information about a plan. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -207,7 +207,7 @@ public class AwsArcRegionSwitch : IAwsArcRegionSwitch
     }
 
     /// <summary>
-    /// Lists all Region switch plans in your Amazon Web Services account. See also: AWS API Documentation list-plans is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: plans
+    /// Lists all Region switch plans in your Amazon Web Services account. See also: AWS API Documentation list-plans is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: plans
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -222,7 +222,7 @@ public class AwsArcRegionSwitch : IAwsArcRegionSwitch
     }
 
     /// <summary>
-    /// List the Amazon Route 53 health checks in a specific Amazon Web Ser- vices Region. See also: AWS API Documentation list-route53-health-checks-in-region is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expression...
+    /// List the Amazon Route 53 health checks in a specific Amazon Web Services Region. See also: AWS API Documentation list-route53-health-checks-in-region is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: hea...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -237,7 +237,7 @@ public class AwsArcRegionSwitch : IAwsArcRegionSwitch
     }
 
     /// <summary>
-    /// List the Amazon Route 53 health checks. See also: AWS API Documentation list-route53-health-checks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: healthChecks
+    /// List the Amazon Route 53 health checks. See also: AWS API Documentation list-route53-health-checks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: healthChecks
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -252,7 +252,7 @@ public class AwsArcRegionSwitch : IAwsArcRegionSwitch
     }
 
     /// <summary>
-    /// Lists the service quota warnings for the plans that you can access. Re- gion switch creates a warning when the applied quota value in one Re- gion of a plan is lower than the value required for the matching re- source in another Region or account in the plan. Returns the warnings for the plans that you own and for plans that are shared with your account through AWS Resource Access Manager (AWS RAM). To return warnings for specific plans, provide a list of plan Amazon Resource Names (ARNs). Regio...
+    /// Lists the service quota warnings for the plans that you can access. Region switch creates a warning when the applied quota value in one Region of a plan is lower than the value required for the matching resource in another Region or account in the plan. Returns the warnings for the plans that you own and for plans that are shared with your account through Resource Access Manager (RAM). To return warnings for specific plans, provide a list of plan Amazon Resource Names (ARNs). Region switch ignor...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -297,7 +297,7 @@ public class AwsArcRegionSwitch : IAwsArcRegionSwitch
     }
 
     /// <summary>
-    /// Adds or updates tags for a Region switch resource. You can assign meta- data to your resources in the form of tags, which are key-value pairs. See also: AWS API Documentation
+    /// Adds or updates tags for a Region switch resource. You can assign metadata to your resources in the form of tags, which are key-value pairs. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -342,7 +342,7 @@ public class AwsArcRegionSwitch : IAwsArcRegionSwitch
     }
 
     /// <summary>
-    /// Updates a specific step in an in-progress plan execution. This opera- tion allows you to modify the step's comment or action. See also: AWS API Documentation
+    /// Updates a specific step in an in-progress plan execution. This operation allows you to modify the step's comment or action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -357,7 +357,7 @@ public class AwsArcRegionSwitch : IAwsArcRegionSwitch
     }
 
     /// <summary>
-    /// Updates an existing Region switch plan. You can modify the plan's de- scription, workflows, execution role, recovery time objective, associ- ated alarms, and triggers. See also: AWS API Documentation
+    /// Updates an existing Region switch plan. You can modify the plan's description, workflows, execution role, recovery time objective, associated alarms, and triggers. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

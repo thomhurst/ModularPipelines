@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides a list of steps for the cluster in reverse order unless you specify stepIds with the request or filter by StepStates . You can specify a maximum of 10 stepIDs . The CLI automatically paginates re- sults to return a list greater than 50 steps. To return more than 50 steps using the CLI, specify a Marker , which is a pagination token that indicates the next set of steps to retrieve. See also: AWS API Documentation list-steps is a paginated operation. Multiple API calls may be issued in or...
+/// Provides a list of steps for the cluster in reverse order unless you specify stepIds with the request or filter by StepStates . You can specify a maximum of 10 stepIDs . The CLI automatically paginates results to return a list greater than 50 steps. To return more than 50 steps using the CLI, specify a Marker , which is a pagination token that indicates the next set of steps to retrieve. See also: AWS API Documentation list-steps is a paginated operation. Multiple API calls may be issued in orde...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsEmrListStepsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides a list of steps for the cluster in reverse order unless you specify stepIds with the request or filter by StepStates . You can specify a maximum of 10 stepIDs . The CLI automatically paginates re- sults to return a list greater than 50 steps. To return more than 50 steps using the CLI, specify a Marker , which is a pagination token that indicates the next set of steps to retrieve. See also: AWS API Documentation list-steps is a paginated operation. Multiple API calls may be issued in or...
+    /// Provides a list of steps for the cluster in reverse order unless you specify stepIds with the request or filter by StepStates . You can specify a maximum of 10 stepIDs . The CLI automatically paginates results to return a list greater than 50 steps. To return more than 50 steps using the CLI, specify a Marker , which is a pagination token that indicates the next set of steps to retrieve. See also: AWS API Documentation list-steps is a paginated operation. Multiple API calls may be issued in orde...
     /// </summary>
-    /// <param name="ClusterId">The identifier of the cluster for which to list the steps. Constraints: o max: 256</param>
+    /// <param name="ClusterId">The identifier of the cluster for which to list the steps. Constraints: • max: 256</param>
     public AwsEmrListStepsOptions(
         string ClusterId
     )
@@ -57,28 +59,25 @@ public record AwsEmrListStepsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the cluster for which to list the steps. Constraints: o max: 256
+    /// The identifier of the cluster for which to list the steps. Constraints: • max: 256
     /// </summary>
     [CliOption("--cluster-id")]
     public string? ClusterId { get; private init; }
 
     /// <summary>
-    /// The filter to limit the step list based on certain states. (string) Possible values: o PENDING o CANCEL_PENDING o RUNNING o COMPLETED o CANCELLED o FAILED o INTERRUPTED Syntax: "string" "string" ...
+    /// The filter to limit the step list based on certain states. (string) Possible values: • PENDING • CANCEL_PENDING • RUNNING • COMPLETED • CANCELLED • FAILED • INTERRUPTED Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--step-states", GroupValues = true)]
     public IEnumerable<string>? StepStates { get; set; }
 
     /// <summary>
-    /// The filter to limit the step list based on the identifier of the steps. You can specify a maximum of ten Step IDs. The character con- straint applies to the overall length of the array. (string) Constraints: o min: 0 o max: 10280 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...
+    /// The filter to limit the step list based on the identifier of the steps. You can specify a maximum of ten Step IDs. The character constraint applies to the overall length of the array. (string) Constraints: • min: 0 • max: 10280 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--step-ids", GroupValues = true)]
     public IEnumerable<string>? StepIds { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -88,10 +87,13 @@ public record AwsEmrListStepsOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsServicecatalogAppregistryUpdateApplicationOptions : AwsOptions,
     /// <summary>
     /// Updates an existing application with new attributes. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Application">The name, ID, or ARN of the application that will be updated. Constraints: o min: 1 o max: 256 o pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecata- log:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[-.\w]+)</param>
+    /// <param name="Application">The name, ID, or ARN of the application that will be updated. Constraints: • min: 1 • max: 256 • pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[-.\w]+)</param>
     public AwsServicecatalogAppregistryUpdateApplicationOptions(
         string Application
     )
@@ -56,19 +58,19 @@ public record AwsServicecatalogAppregistryUpdateApplicationOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name, ID, or ARN of the application that will be updated. Constraints: o min: 1 o max: 256 o pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecata- log:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[-.\w]+)
+    /// The name, ID, or ARN of the application that will be updated. Constraints: • min: 1 • max: 256 • pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[-.\w]+)
     /// </summary>
     [CliOption("--application")]
     public string? Application { get; private init; }
 
     /// <summary>
-    /// Deprecated: The new name of the application. The name must be unique in the region in which you are updating the application. Please do not use this field as we have stopped supporting name updates. Constraints: o min: 1 o max: 256 o pattern: [-.\w]+
+    /// Deprecated: The new name of the application. The name must be unique in the region in which you are updating the application. Please do not use this field as we have stopped supporting name updates. Constraints: • min: 1 • max: 256 • pattern: [-.\w]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The new description of the application. Constraints: o max: 1024
+    /// The new description of the application. Constraints: • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

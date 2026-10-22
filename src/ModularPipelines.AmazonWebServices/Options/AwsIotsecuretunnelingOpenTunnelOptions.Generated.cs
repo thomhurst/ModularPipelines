@@ -22,25 +22,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotsecuretunnelingOpenTunnelOptions : AwsOptions
 {
     /// <summary>
-    /// A short text description of the tunnel. Constraints: o pattern: [^\p{C}]{1,2048}
+    /// A short text description of the tunnel. Constraints: • pattern: [^\p{C}]{1,2048}
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A collection of tag metadata. Constraints: o min: 1 o max: 200 (structure) An arbitary key/value pair used to add searchable metadata to secure tunnel resources. key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// A collection of tag metadata. Constraints: • min: 1 • max: 200 (structure) An arbitary key/value pair used to add searchable metadata to secure tunnel resources. key -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] The value of the tag. Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The destination configuration for the OpenTunnel request. thingName -&gt; (string) The name of the IoT thing to which you want to connect. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+ services -&gt; (list) [required] A list of service names that identify the target application. The IoT client running on the destination device reads this value and uses it to look up a port or an IP address and a port. The IoT client instantiates the local proxy, which uses this in- formation to connect to the destination application. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+ Shorthand Syntax: thingName=string,services=string,string JSON Syntax: { "thingName": "string", "services": ["string", ...] }
+    /// The destination configuration for the OpenTunnel request. thingName -&gt; (string) The name of the IoT thing to which you want to connect. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+ services -&gt; (list) [required] A list of service names that identify the target application. The IoT client running on the destination device reads this value and uses it to look up a port or an IP address and a port. The IoT client instantiates the local proxy, which uses this information to connect to the destination application. Constraints: • min: 1 (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+ Shorthand Syntax: thingName=string,services=string,string JSON Syntax: { "thingName": "string", "services": ["string", ...] }
     /// </summary>
     [CliOption("--destination-config")]
     public string? DestinationConfig { get; set; }
 
     /// <summary>
-    /// Timeout configuration for a tunnel. maxLifetimeTimeoutMinutes -&gt; (integer) The maximum amount of time (in minutes) a tunnel can remain open. If not specified, maxLifetimeTimeoutMinutes defaults to 720 minutes. Valid values are from 1 minute to 12 hours (720 minutes) Constraints: o min: 1 o max: 720 Shorthand Syntax: maxLifetimeTimeoutMinutes=integer JSON Syntax: { "maxLifetimeTimeoutMinutes": integer }
+    /// Timeout configuration for a tunnel. maxLifetimeTimeoutMinutes -&gt; (integer) The maximum amount of time (in minutes) a tunnel can remain open. If not specified, maxLifetimeTimeoutMinutes defaults to 720 minutes. Valid values are from 1 minute to 12 hours (720 minutes) Constraints: • min: 1 • max: 720 Shorthand Syntax: maxLifetimeTimeoutMinutes=integer JSON Syntax: { "maxLifetimeTimeoutMinutes": integer }
     /// </summary>
     [CliOption("--timeout-config")]
     public string? TimeoutConfig { get; set; }

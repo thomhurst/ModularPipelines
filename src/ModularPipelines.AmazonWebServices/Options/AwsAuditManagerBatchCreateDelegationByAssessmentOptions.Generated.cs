@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsAuditManagerBatchCreateDelegationByAssessmentOptions : AwsOptio
     /// <summary>
     /// Creates a batch of delegations for an assessment in Audit Manager. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CreateDelegationRequests">The API request to batch create delegations in Audit Manager. Constraints: o min: 1 o max: 50 (structure) A collection of attributes that's used to create a delegation for an assessment in Audit Manager. comment -&gt; (string) A comment that's related to the delegation request. Constraints: o max: 350 o pattern: ^[\w\W\s\S]*$ controlSetId -&gt; (string) The unique identifier for the control set. Constraints: o min: 1 o max: 300 o pattern: ^[\w\W\s\S]*$ roleArn -&gt; (string) The Amazon Resource Name (ARN) of the IAM role. Constraints: o min: 20 o max: 2048 o pattern: ^arn:.*:iam:.* roleType -&gt; (string) The type of customer persona. NOTE: In CreateAssessment , roleType can only be PROCESS_OWNER . In UpdateSettings , roleType can only be PROCESS_OWNER . In BatchCreateDelegationByAssessment , roleType can only be RESOURCE_OWNER . Possible values: o PROCESS_OWNER o RESOURCE_OWNER Shorthand Syntax: comment=string,controlSetId=string,roleArn=string,roleType=string ... JSON Syntax: [ { "comment": "string", "controlSetId": "string", "roleArn": "string", "roleType": "PROCESS_OWNER"|"RESOURCE_OWNER" } ... ]</param>
-    /// <param name="AssessmentId">The identifier for the assessment. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="CreateDelegationRequests">The API request to batch create delegations in Audit Manager. Constraints: • min: 1 • max: 50 (structure) A collection of attributes that's used to create a delegation for an assessment in Audit Manager. comment -&gt; (string) A comment that's related to the delegation request. Constraints: • max: 350 • pattern: ^[\w\W\s\S]*$ controlSetId -&gt; (string) The unique identifier for the control set. Constraints: • min: 1 • max: 300 • pattern: ^[\w\W\s\S]*$ roleArn -&gt; (string) The Amazon Resource Name (ARN) of the IAM role. Constraints: • min: 20 • max: 2048 • pattern: ^arn:.*:iam:.* roleType -&gt; (string) The type of customer persona. NOTE: In CreateAssessment , roleType can only be PROCESS_OWNER . In UpdateSettings , roleType can only be PROCESS_OWNER . In BatchCreateDelegationByAssessment , roleType can only be RESOURCE_OWNER . Possible values: • PROCESS_OWNER • RESOURCE_OWNER Shorthand Syntax: comment=string,controlSetId=string,roleArn=string,roleType=string ... JSON Syntax: [ { "comment": "string", "controlSetId": "string", "roleArn": "string", "roleType": "PROCESS_OWNER"|"RESOURCE_OWNER" } ... ]</param>
+    /// <param name="AssessmentId">The identifier for the assessment. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
     public AwsAuditManagerBatchCreateDelegationByAssessmentOptions(
         IEnumerable<string> CreateDelegationRequests,
         string AssessmentId
@@ -71,13 +73,13 @@ public record AwsAuditManagerBatchCreateDelegationByAssessmentOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The API request to batch create delegations in Audit Manager. Constraints: o min: 1 o max: 50 (structure) A collection of attributes that's used to create a delegation for an assessment in Audit Manager. comment -&gt; (string) A comment that's related to the delegation request. Constraints: o max: 350 o pattern: ^[\w\W\s\S]*$ controlSetId -&gt; (string) The unique identifier for the control set. Constraints: o min: 1 o max: 300 o pattern: ^[\w\W\s\S]*$ roleArn -&gt; (string) The Amazon Resource Name (ARN) of the IAM role. Constraints: o min: 20 o max: 2048 o pattern: ^arn:.*:iam:.* roleType -&gt; (string) The type of customer persona. NOTE: In CreateAssessment , roleType can only be PROCESS_OWNER . In UpdateSettings , roleType can only be PROCESS_OWNER . In BatchCreateDelegationByAssessment , roleType can only be RESOURCE_OWNER . Possible values: o PROCESS_OWNER o RESOURCE_OWNER Shorthand Syntax: comment=string,controlSetId=string,roleArn=string,roleType=string ... JSON Syntax: [ { "comment": "string", "controlSetId": "string", "roleArn": "string", "roleType": "PROCESS_OWNER"|"RESOURCE_OWNER" } ... ]
+    /// The API request to batch create delegations in Audit Manager. Constraints: • min: 1 • max: 50 (structure) A collection of attributes that's used to create a delegation for an assessment in Audit Manager. comment -&gt; (string) A comment that's related to the delegation request. Constraints: • max: 350 • pattern: ^[\w\W\s\S]*$ controlSetId -&gt; (string) The unique identifier for the control set. Constraints: • min: 1 • max: 300 • pattern: ^[\w\W\s\S]*$ roleArn -&gt; (string) The Amazon Resource Name (ARN) of the IAM role. Constraints: • min: 20 • max: 2048 • pattern: ^arn:.*:iam:.* roleType -&gt; (string) The type of customer persona. NOTE: In CreateAssessment , roleType can only be PROCESS_OWNER . In UpdateSettings , roleType can only be PROCESS_OWNER . In BatchCreateDelegationByAssessment , roleType can only be RESOURCE_OWNER . Possible values: • PROCESS_OWNER • RESOURCE_OWNER Shorthand Syntax: comment=string,controlSetId=string,roleArn=string,roleType=string ... JSON Syntax: [ { "comment": "string", "controlSetId": "string", "roleArn": "string", "roleType": "PROCESS_OWNER"|"RESOURCE_OWNER" } ... ]
     /// </summary>
     [CliOption("--create-delegation-requests", GroupValues = true)]
     public IEnumerable<string>? CreateDelegationRequests { get; private init; }
 
     /// <summary>
-    /// The identifier for the assessment. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The identifier for the assessment. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--assessment-id")]
     public string? AssessmentId { get; private init; }

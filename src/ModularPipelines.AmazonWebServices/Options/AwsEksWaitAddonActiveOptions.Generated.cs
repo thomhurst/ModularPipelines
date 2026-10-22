@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsEksWaitAddonActiveOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Wait until JMESPath query addon.status returns ACTIVE when polling with describe-addon. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterName">The name of your cluster. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]*</param>
-    /// <param name="AddonName">The name of the add-on. The name must match one of the names re- turned by ` ListAddons https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html`__ .</param>
+    /// <param name="ClusterName">The name of your cluster. Constraints: • min: 1 • max: 100 • pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]*</param>
+    /// <param name="AddonName">The name of the add-on. The name must match one of the names returned by ` ListAddons https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html`__ .</param>
     public AwsEksWaitAddonActiveOptions(
         string ClusterName,
         string AddonName
@@ -60,13 +62,13 @@ public record AwsEksWaitAddonActiveOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of your cluster. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]*
+    /// The name of your cluster. Constraints: • min: 1 • max: 100 • pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]*
     /// </summary>
     [CliOption("--cluster-name")]
     public string? ClusterName { get; private init; }
 
     /// <summary>
-    /// The name of the add-on. The name must match one of the names re- turned by ` ListAddons https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html`__ .
+    /// The name of the add-on. The name must match one of the names returned by ` ListAddons https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html`__ .
     /// </summary>
     [CliOption("--addon-name")]
     public string? AddonName { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRoute53resolverGetFirewallRuleGroupPolicyOptions : AwsOptions, 
     /// <summary>
     /// Returns the Identity and Access Management (Amazon Web Services IAM) policy for sharing the specified rule group. You can use the policy to share the rule group using Resource Access Manager (RAM). See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The ARN (Amazon Resource Name) for the rule group. Constraints: o min: 1 o max: 255</param>
+    /// <param name="Arn">The ARN (Amazon Resource Name) for the rule group. Constraints: • min: 1 • max: 255</param>
     public AwsRoute53resolverGetFirewallRuleGroupPolicyOptions(
         string Arn
     )
@@ -56,7 +58,7 @@ public record AwsRoute53resolverGetFirewallRuleGroupPolicyOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN (Amazon Resource Name) for the rule group. Constraints: o min: 1 o max: 255
+    /// The ARN (Amazon Resource Name) for the rule group. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }

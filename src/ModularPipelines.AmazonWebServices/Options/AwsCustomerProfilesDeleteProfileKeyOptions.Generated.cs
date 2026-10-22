@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +29,10 @@ public record AwsCustomerProfilesDeleteProfileKeyOptions : AwsOptions, IValidata
     /// <summary>
     /// Removes a searchable key from a customer profile. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileId">The unique identifier of a customer profile. Constraints: o pattern: [a-f0-9]{32}</param>
-    /// <param name="KeyName">A searchable identifier of a customer profile. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="Values">A list of key values. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...</param>
-    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="ProfileId">The unique identifier of a customer profile. Constraints: • pattern: [a-f0-9]{32}</param>
+    /// <param name="KeyName">A searchable identifier of a customer profile. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="Values">A list of key values. (string) Constraints: • min: 1 • max: 255 Syntax: "string" "string" ...</param>
+    /// <param name="DomainName">The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
     public AwsCustomerProfilesDeleteProfileKeyOptions(
         string ProfileId,
         string KeyName,
@@ -79,25 +81,25 @@ public record AwsCustomerProfilesDeleteProfileKeyOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of a customer profile. Constraints: o pattern: [a-f0-9]{32}
+    /// The unique identifier of a customer profile. Constraints: • pattern: [a-f0-9]{32}
     /// </summary>
     [CliOption("--profile-id")]
     public string? ProfileId { get; private init; }
 
     /// <summary>
-    /// A searchable identifier of a customer profile. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// A searchable identifier of a customer profile. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--key-name")]
     public string? KeyName { get; private init; }
 
     /// <summary>
-    /// A list of key values. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...
+    /// A list of key values. (string) Constraints: • min: 1 • max: 255 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--values", GroupValues = true)]
     public IEnumerable<string>? Values { get; private init; }
 
     /// <summary>
-    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }

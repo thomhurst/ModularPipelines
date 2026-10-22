@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsConnectDescribeInstanceAttributeOptions : AwsOptions, IValidata
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Describes the specified instance attribute. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="AttributeType">The type of attribute. Possible values: o INBOUND_CALLS o OUTBOUND_CALLS o CONTACTFLOW_LOGS o CONTACT_LENS o AUTO_RESOLVE_BEST_VOICES o USE_CUSTOM_TTS_VOICES o EARLY_MEDIA o MULTI_PARTY_CONFERENCE o AUTO_MUTE_AGENT_ON_HOLD o HIGH_VOLUME_OUTBOUND o ENHANCED_CONTACT_MONITORING o ENHANCED_CHAT_MONITORING o MULTI_PARTY_CHAT_CONFERENCE o MESSAGE_STREAMING</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="AttributeType">The type of attribute. Possible values: • INBOUND_CALLS • OUTBOUND_CALLS • CONTACTFLOW_LOGS • CONTACT_LENS • AUTO_RESOLVE_BEST_VOICES • USE_CUSTOM_TTS_VOICES • EARLY_MEDIA • MULTI_PARTY_CONFERENCE • AUTO_MUTE_AGENT_ON_HOLD • HIGH_VOLUME_OUTBOUND • ENHANCED_CONTACT_MONITORING • ENHANCED_CHAT_MONITORING • MULTI_PARTY_CHAT_CONFERENCE • MESSAGE_STREAMING</param>
     public AwsConnectDescribeInstanceAttributeOptions(
         string InstanceId,
         AwsConnectDescribeInstanceAttributeAttributeType AttributeType
@@ -60,13 +62,13 @@ public record AwsConnectDescribeInstanceAttributeOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The type of attribute. Possible values: o INBOUND_CALLS o OUTBOUND_CALLS o CONTACTFLOW_LOGS o CONTACT_LENS o AUTO_RESOLVE_BEST_VOICES o USE_CUSTOM_TTS_VOICES o EARLY_MEDIA o MULTI_PARTY_CONFERENCE o AUTO_MUTE_AGENT_ON_HOLD o HIGH_VOLUME_OUTBOUND o ENHANCED_CONTACT_MONITORING o ENHANCED_CHAT_MONITORING o MULTI_PARTY_CHAT_CONFERENCE o MESSAGE_STREAMING
+    /// The type of attribute. Possible values: • INBOUND_CALLS • OUTBOUND_CALLS • CONTACTFLOW_LOGS • CONTACT_LENS • AUTO_RESOLVE_BEST_VOICES • USE_CUSTOM_TTS_VOICES • EARLY_MEDIA • MULTI_PARTY_CONFERENCE • AUTO_MUTE_AGENT_ON_HOLD • HIGH_VOLUME_OUTBOUND • ENHANCED_CONTACT_MONITORING • ENHANCED_CHAT_MONITORING • MULTI_PARTY_CHAT_CONFERENCE • MESSAGE_STREAMING
     /// </summary>
     [CliOption("--attribute-type")]
     public AwsConnectDescribeInstanceAttributeAttributeType? AttributeType { get; private init; }

@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates a VPC with a service network. When you associate a VPC with the service network, it enables all the resources within that VPC to be clients and communicate with other services in the service network. For more information, see Manage VPC associations in the Amazon VPC Lattice User Guide . You can't use this operation if there is a disassociation in progress. If the association fails, retry by deleting the association and recre- ating it. As a result of this operation, the association g...
+/// Associates a VPC with a service network. When you associate a VPC with the service network, it enables all the resources within that VPC to be clients and communicate with other services in the service network. For more information, see Manage VPC associations in the Amazon VPC Lattice User Guide . You can't use this operation if there is a disassociation in progress. If the association fails, retry by deleting the association and recreating it. As a result of this operation, the association get...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsVpcLatticeCreateServiceNetworkVpcAssociationOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates a VPC with a service network. When you associate a VPC with the service network, it enables all the resources within that VPC to be clients and communicate with other services in the service network. For more information, see Manage VPC associations in the Amazon VPC Lattice User Guide . You can't use this operation if there is a disassociation in progress. If the association fails, retry by deleting the association and recre- ating it. As a result of this operation, the association g...
+    /// Associates a VPC with a service network. When you associate a VPC with the service network, it enables all the resources within that VPC to be clients and communicate with other services in the service network. For more information, see Manage VPC associations in the Amazon VPC Lattice User Guide . You can't use this operation if there is a disassociation in progress. If the association fails, retry by deleting the association and recreating it. As a result of this operation, the association get...
     /// </summary>
-    /// <param name="ServiceNetworkIdentifier">The ID or ARN of the service network. You must use an ARN if the re- sources are in different accounts. Constraints: o min: 3 o max: 2048</param>
-    /// <param name="VpcIdentifier">The ID of the VPC. Constraints: o min: 5 o max: 50 o pattern: vpc-(([0-9a-z]{8})|([0-9a-z]{17}))</param>
+    /// <param name="ServiceNetworkIdentifier">The ID or ARN of the service network. You must use an ARN if the resources are in different accounts. Constraints: • min: 3 • max: 2048</param>
+    /// <param name="VpcIdentifier">The ID of the VPC. Constraints: • min: 5 • max: 50 • pattern: vpc-(([0-9a-z]{8})|([0-9a-z]{17}))</param>
     public AwsVpcLatticeCreateServiceNetworkVpcAssociationOptions(
         string ServiceNetworkIdentifier,
         string VpcIdentifier
@@ -62,19 +63,19 @@ public record AwsVpcLatticeCreateServiceNetworkVpcAssociationOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or ARN of the service network. You must use an ARN if the re- sources are in different accounts. Constraints: o min: 3 o max: 2048
+    /// The ID or ARN of the service network. You must use an ARN if the resources are in different accounts. Constraints: • min: 3 • max: 2048
     /// </summary>
     [CliOption("--service-network-identifier")]
     public string? ServiceNetworkIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the VPC. Constraints: o min: 5 o max: 50 o pattern: vpc-(([0-9a-z]{8})|([0-9a-z]{17}))
+    /// The ID of the VPC. Constraints: • min: 5 • max: 50 • pattern: vpc-(([0-9a-z]{8})|([0-9a-z]{17}))
     /// </summary>
     [CliOption("--vpc-identifier")]
     public string? VpcIdentifier { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails. Constraints: o min: 1 o max: 64 o pattern: .*[!-~]+.*
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails. Constraints: • min: 1 • max: 64 • pattern: .*[!-~]+.*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -87,19 +88,19 @@ public record AwsVpcLatticeCreateServiceNetworkVpcAssociationOptions : AwsOption
     public bool? PrivateDnsEnabled { get; set; }
 
     /// <summary>
-    /// The IDs of the security groups. Security groups aren't added by de- fault. You can add a security group to apply network level controls to control which resources in a VPC are allowed to access the ser- vice network and its services. For more information, see Control traffic to resources using security groups in the Amazon VPC User Guide . Constraints: o min: 0 o max: 5 (string) Constraints: o min: 5 o max: 200 o pattern: sg-(([0-9a-z]{8})|([0-9a-z]{17})) Syntax: "string" "string" ...
+    /// The IDs of the security groups. Security groups aren't added by default. You can add a security group to apply network level controls to control which resources in a VPC are allowed to access the service network and its services. For more information, see Control traffic to resources using security groups in the Amazon VPC User Guide . Constraints: • min: 0 • max: 5 (string) Constraints: • min: 5 • max: 200 • pattern: sg-(([0-9a-z]{8})|([0-9a-z]{17})) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>
-    /// The tags for the association. Constraints: o min: 0 o max: 200 key -&gt; (string) The key of the tag. Constraints: Tag keys are case-sensitive and accept a maximum of 128 Unicode characters. Valid characters are Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @ May not begin with aws: . Constraints: o min: 1 o max: 128 value -&gt; (string) The value of the tag. Constraints: Tag values are case-sensitive and accept a maximum of 256 Unicode characters. Valid characters are Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @ Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags for the association. Constraints: • min: 0 • max: 200 key -&gt; (string) The key of the tag. Constraints: Tag keys are case-sensitive and accept a maximum of 128 Unicode characters. Valid characters are Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @ May not begin with aws: . Constraints: • min: 1 • max: 128 value -&gt; (string) The value of the tag. Constraints: Tag values are case-sensitive and accept a maximum of 256 Unicode characters. Valid characters are Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @ Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// DNS options for the service network VPC association. privateDnsPreference -&gt; (string) The preference for which private domains have a private hosted zone created for and associated with the specified VPC. Only supported when private DNS is enabled and when the VPC endpoint type is ServiceNetwork or Resource. o ALL_DOMAINS - VPC Lattice provisions private hosted zones for all custom domain names. o VERIFIED_DOMAINS_ONLY - VPC Lattice provisions a private hosted zone only if custom domain name has been verified by the provider. o VERIFIED_DOMAINS_AND_SPECIFIED_DOMAINS - VPC Lattice provi- sions private hosted zones for all verified custom domain names and other domain names that the resource consumer speci- fies. The resource consumer specifies the domain names in the privateDnsSpecifiedDomains parameter. o SPECIFIED_DOMAINS_ONLY - VPC Lattice provisions a private hosted zone for domain names specified by the resource con- sumer. The resource consumer specifies the domain names in the privateDnsSpecifiedDomains parameter. Possible values: o VERIFIED_DOMAINS_ONLY o ALL_DOMAINS o VERIFIED_DOMAINS_AND_SPECIFIED_DOMAINS o SPECIFIED_DOMAINS_ONLY privateDnsSpecifiedDomains -&gt; (list) Indicates which of the private domains to create private hosted zones for and associate with the specified VPC. Only supported when private DNS is enabled and the private DNS preference is VERIFIED_DOMAINS_AND_SPECIFIED_DOMAINS or SPECIFIED_DOMAINS_ONLY . Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 255 Shorthand Syntax: privateDnsPreference=string,privateDnsSpecifiedDomains=string,string JSON Syntax: { "privateDnsPreference": "VERIFIED_DOMAINS_ONLY"|"ALL_DOMAINS"|"VERIFIED_DOMAINS_AND_SPECIFIED_DOMAINS"|"SPECIFIED_DOMAINS_ONLY", "privateDnsSpecifiedDomains": ["string", ...] }
+    /// DNS options for the service network VPC association. privateDnsPreference -&gt; (string) The preference for which private domains have a private hosted zone created for and associated with the specified VPC. Only supported when private DNS is enabled and when the VPC endpoint type is ServiceNetwork or Resource. • ALL_DOMAINS - VPC Lattice provisions private hosted zones for all custom domain names. • VERIFIED_DOMAINS_ONLY - VPC Lattice provisions a private hosted zone only if custom domain name has been verified by the provider. • VERIFIED_DOMAINS_AND_SPECIFIED_DOMAINS - VPC Lattice provisions private hosted zones for all verified custom domain names and other domain names that the resource consumer specifies. The resource consumer specifies the domain names in the privateDnsSpecifiedDomains parameter. • SPECIFIED_DOMAINS_ONLY - VPC Lattice provisions a private hosted zone for domain names specified by the resource consumer. The resource consumer specifies the domain names in the privateDnsSpecifiedDomains parameter. Possible values: • VERIFIED_DOMAINS_ONLY • ALL_DOMAINS • VERIFIED_DOMAINS_AND_SPECIFIED_DOMAINS • SPECIFIED_DOMAINS_ONLY privateDnsSpecifiedDomains -&gt; (list) Indicates which of the private domains to create private hosted zones for and associate with the specified VPC. Only supported when private DNS is enabled and the private DNS preference is VERIFIED_DOMAINS_AND_SPECIFIED_DOMAINS or SPECIFIED_DOMAINS_ONLY . Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 255 Shorthand Syntax: privateDnsPreference=string,privateDnsSpecifiedDomains=string,string JSON Syntax: { "privateDnsPreference": "VERIFIED_DOMAINS_ONLY"|"ALL_DOMAINS"|"VERIFIED_DOMAINS_AND_SPECIFIED_DOMAINS"|"SPECIFIED_DOMAINS_ONLY", "privateDnsSpecifiedDomains": ["string", ...] }
     /// </summary>
     [CliOption("--dns-options")]
     public string? DnsOptions { get; set; }

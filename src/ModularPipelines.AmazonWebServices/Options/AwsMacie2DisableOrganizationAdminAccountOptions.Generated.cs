@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMacie2DisableOrganizationAdminAccountOptions : AwsOptions, IVal
     /// <summary>
     /// Disables an account as the delegated Amazon Macie administrator account for an organization in Organizations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AdminAccountId">The Amazon Web Services account ID of the delegated Amazon Macie ad- ministrator account.</param>
+    /// <param name="AdminAccountId">The Amazon Web Services account ID of the delegated Amazon Macie administrator account.</param>
     public AwsMacie2DisableOrganizationAdminAccountOptions(
         string AdminAccountId
     )
@@ -56,7 +58,7 @@ public record AwsMacie2DisableOrganizationAdminAccountOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID of the delegated Amazon Macie ad- ministrator account.
+    /// The Amazon Web Services account ID of the delegated Amazon Macie administrator account.
     /// </summary>
     [CliOption("--admin-account-id")]
     public string? AdminAccountId { get; private init; }

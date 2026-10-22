@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the history of the specified workflow execution. The results may be split into multiple pages. To retrieve subsequent pages, make the call again using the nextPageToken returned by the initial call. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: o Use a Resource element with the domain name to limit...
+/// Returns the history of the specified workflow execution. The results may be split into multiple pages. To retrieve subsequent pages, make the call again using the nextPageToken returned by the initial call. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: • Use a Resource element with the domain name to limit...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsSwfGetWorkflowExecutionHistoryOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the history of the specified workflow execution. The results may be split into multiple pages. To retrieve subsequent pages, make the call again using the nextPageToken returned by the initial call. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: o Use a Resource element with the domain name to limit...
+    /// Returns the history of the specified workflow execution. The results may be split into multiple pages. To retrieve subsequent pages, make the call again using the nextPageToken returned by the initial call. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: • Use a Resource element with the domain name to limit...
     /// </summary>
-    /// <param name="Domain">The name of the domain containing the workflow execution. Constraints: o min: 1 o max: 256</param>
-    /// <param name="Execution">Specifies the workflow execution for which to return the history. workflowId -&gt; (string) [required] The user defined identifier associated with the workflow execu- tion. Constraints: o min: 1 o max: 256 runId -&gt; (string) [required] A system-generated unique identifier for the workflow execution. Constraints: o min: 1 o max: 64 Shorthand Syntax: workflowId=string,runId=string JSON Syntax: { "workflowId": "string", "runId": "string" }</param>
+    /// <param name="Domain">The name of the domain containing the workflow execution. Constraints: • min: 1 • max: 256</param>
+    /// <param name="Execution">Specifies the workflow execution for which to return the history. workflowId -&gt; (string) [required] The user defined identifier associated with the workflow execution. Constraints: • min: 1 • max: 256 runId -&gt; (string) [required] A system-generated unique identifier for the workflow execution. Constraints: • min: 1 • max: 64 Shorthand Syntax: workflowId=string,runId=string JSON Syntax: { "workflowId": "string", "runId": "string" }</param>
     public AwsSwfGetWorkflowExecutionHistoryOptions(
         string Domain,
         string Execution
@@ -61,13 +63,13 @@ public record AwsSwfGetWorkflowExecutionHistoryOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain containing the workflow execution. Constraints: o min: 1 o max: 256
+    /// The name of the domain containing the workflow execution. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; private init; }
 
     /// <summary>
-    /// Specifies the workflow execution for which to return the history. workflowId -&gt; (string) [required] The user defined identifier associated with the workflow execu- tion. Constraints: o min: 1 o max: 256 runId -&gt; (string) [required] A system-generated unique identifier for the workflow execution. Constraints: o min: 1 o max: 64 Shorthand Syntax: workflowId=string,runId=string JSON Syntax: { "workflowId": "string", "runId": "string" }
+    /// Specifies the workflow execution for which to return the history. workflowId -&gt; (string) [required] The user defined identifier associated with the workflow execution. Constraints: • min: 1 • max: 256 runId -&gt; (string) [required] A system-generated unique identifier for the workflow execution. Constraints: • min: 1 • max: 64 Shorthand Syntax: workflowId=string,runId=string JSON Syntax: { "workflowId": "string", "runId": "string" }
     /// </summary>
     [CliOption("--execution")]
     public string? Execution { get; private init; }
@@ -81,9 +83,6 @@ public record AwsSwfGetWorkflowExecutionHistoryOptions : AwsOptions, IValidatabl
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -92,16 +91,19 @@ public record AwsSwfGetWorkflowExecutionHistoryOptions : AwsOptions, IValidatabl
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 0 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

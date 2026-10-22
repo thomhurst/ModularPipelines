@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates replica-specific settings for a user pool replica. You can mod- ify the status to activate or deactivate the replica. This request can be made in both primary and secondary regions of the user pool. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web ...
+/// Updates replica-specific settings for a user pool replica. You can modify the status to activate or deactivate the replica. This request can be made in both primary and secondary regions of the user pool. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more • Signing Amazon Web Serv...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsCognitoIdpUpdateUserPoolReplicaOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates replica-specific settings for a user pool replica. You can mod- ify the status to activate or deactivate the replica. This request can be made in both primary and secondary regions of the user pool. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web ...
+    /// Updates replica-specific settings for a user pool replica. You can modify the status to activate or deactivate the replica. This request can be made in both primary and secondary regions of the user pool. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more • Signing Amazon Web Serv...
     /// </summary>
-    /// <param name="UserPoolId">The ID of the user pool that contains the replica to update. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
-    /// <param name="RegionName">The Amazon Web Services Region of the replica to update. Constraints: o min: 5 o max: 32</param>
-    /// <param name="Status">The status to set for the replica. Valid values are ACTIVE and INAC- TIVE. Possible values: o ACTIVE o INACTIVE</param>
+    /// <param name="UserPoolId">The ID of the user pool that contains the replica to update. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="RegionName">The Amazon Web Services Region of the replica to update. Constraints: • min: 5 • max: 32</param>
+    /// <param name="Status">The status to set for the replica. Valid values are ACTIVE and INACTIVE. Possible values: • ACTIVE • INACTIVE</param>
     public AwsCognitoIdpUpdateUserPoolReplicaOptions(
         string UserPoolId,
         string RegionName,
@@ -64,19 +66,19 @@ public record AwsCognitoIdpUpdateUserPoolReplicaOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the user pool that contains the replica to update. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// The ID of the user pool that contains the replica to update. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--user-pool-id")]
     public string? UserPoolId { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services Region of the replica to update. Constraints: o min: 5 o max: 32
+    /// The Amazon Web Services Region of the replica to update. Constraints: • min: 5 • max: 32
     /// </summary>
     [CliOption("--region-name")]
     public string? RegionName { get; private init; }
 
     /// <summary>
-    /// The status to set for the replica. Valid values are ACTIVE and INAC- TIVE. Possible values: o ACTIVE o INACTIVE
+    /// The status to set for the replica. Valid values are ACTIVE and INACTIVE. Possible values: • ACTIVE • INACTIVE
     /// </summary>
     [CliOption("--status")]
     public AwsCognitoIdpUpdateUserPoolReplicaStatus? Status { get; private init; }

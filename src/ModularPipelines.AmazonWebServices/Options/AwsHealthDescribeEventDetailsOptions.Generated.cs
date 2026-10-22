@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns detailed information about one or more specified events. Infor- mation includes standard event data (Amazon Web Services Region, ser- vice, and so on, as returned by DescribeEvents ), a detailed event de- scription, and possible additional metadata that depends upon the na- ture of the event. Affected entities are not included. To retrieve the entities, use the DescribeAffectedEntities operation. If a specified event can't be retrieved, an error message is returned for that event. NOTE: ...
+/// Returns detailed information about one or more specified events. Information includes standard event data (Amazon Web Services Region, service, and so on, as returned by DescribeEvents ), a detailed event description, and possible additional metadata that depends upon the nature of the event. Affected entities are not included. To retrieve the entities, use the DescribeAffectedEntities operation. If a specified event can't be retrieved, an error message is returned for that event. NOTE: This ope...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsHealthDescribeEventDetailsOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns detailed information about one or more specified events. Infor- mation includes standard event data (Amazon Web Services Region, ser- vice, and so on, as returned by DescribeEvents ), a detailed event de- scription, and possible additional metadata that depends upon the na- ture of the event. Affected entities are not included. To retrieve the entities, use the DescribeAffectedEntities operation. If a specified event can't be retrieved, an error message is returned for that event. NOTE: ...
+    /// Returns detailed information about one or more specified events. Information includes standard event data (Amazon Web Services Region, service, and so on, as returned by DescribeEvents ), a detailed event description, and possible additional metadata that depends upon the nature of the event. Affected entities are not included. To retrieve the entities, use the DescribeAffectedEntities operation. If a specified event can't be retrieved, an error message is returned for that event. NOTE: This ope...
     /// </summary>
-    /// <param name="EventArns">A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHED- ULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOL- UME/AWS_EBS_LOST_VOLUME_CHI789_JKL101" Constraints: o min: 1 o max: 10 (string) Constraints: o max: 1600 o pattern: arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\w-]+){3} Syntax: "string" "string" ...</param>
+    /// <param name="EventArns">A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101" Constraints: • min: 1 • max: 10 (string) Constraints: • max: 1600 • pattern: arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\w-]+){3} Syntax: "string" "string" ...</param>
     public AwsHealthDescribeEventDetailsOptions(
         IEnumerable<string> EventArns
     )
@@ -67,13 +69,13 @@ public record AwsHealthDescribeEventDetailsOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHED- ULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOL- UME/AWS_EBS_LOST_VOLUME_CHI789_JKL101" Constraints: o min: 1 o max: 10 (string) Constraints: o max: 1600 o pattern: arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\w-]+){3} Syntax: "string" "string" ...
+    /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101" Constraints: • min: 1 • max: 10 (string) Constraints: • max: 1600 • pattern: arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\w-]+){3} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--event-arns", GroupValues = true)]
     public IEnumerable<string>? EventArns { get; private init; }
 
     /// <summary>
-    /// The locale (language) to return information in. English (en) is the default and the only supported value at this time. Constraints: o min: 2 o max: 256 o pattern: .{2,256}
+    /// The locale (language) to return information in. English (en) is the default and the only supported value at this time. Constraints: • min: 2 • max: 256 • pattern: .{2,256}
     /// </summary>
     [CliOption("--locale")]
     public string? Locale { get; set; }

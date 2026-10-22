@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsIotManagedIntegrationsCreateCloudConnectorOptions : AwsOptions,
     /// <summary>
     /// Creates a C2C (cloud-to-cloud) connector. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The display name of the C2C connector. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-_ ]+</param>
-    /// <param name="EndpointConfig">The configuration details for the cloud connector endpoint, includ- ing connection parameters and authentication requirements. lambda -&gt; (structure) The Lambda function configuration for the endpoint, used when the endpoint communicates through an AWS Lambda function. arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Lambda function used as an endpoint. Constraints: o pattern: (arn:aws:lambda:[0-9a-zA-Z-]+:[0-9]+:func- tion:)?([a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))?) Shorthand Syntax: lambda={arn=string} JSON Syntax: { "lambda": { "arn": "string" } }</param>
+    /// <param name="Name">The display name of the C2C connector. Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9-_ ]+</param>
+    /// <param name="EndpointConfig">The configuration details for the cloud connector endpoint, including connection parameters and authentication requirements. lambda -&gt; (structure) The Lambda function configuration for the endpoint, used when the endpoint communicates through an AWS Lambda function. arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Lambda function used as an endpoint. Constraints: • pattern: (arn:aws:lambda:[0-9a-zA-Z-]+:[0-9]+:function:)?([a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))?) Shorthand Syntax: lambda={arn=string} JSON Syntax: { "lambda": { "arn": "string" } }</param>
     public AwsIotManagedIntegrationsCreateCloudConnectorOptions(
         string Name,
         string EndpointConfig
@@ -61,31 +63,31 @@ public record AwsIotManagedIntegrationsCreateCloudConnectorOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The display name of the C2C connector. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-_ ]+
+    /// The display name of the C2C connector. Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9-_ ]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The configuration details for the cloud connector endpoint, includ- ing connection parameters and authentication requirements. lambda -&gt; (structure) The Lambda function configuration for the endpoint, used when the endpoint communicates through an AWS Lambda function. arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Lambda function used as an endpoint. Constraints: o pattern: (arn:aws:lambda:[0-9a-zA-Z-]+:[0-9]+:func- tion:)?([a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))?) Shorthand Syntax: lambda={arn=string} JSON Syntax: { "lambda": { "arn": "string" } }
+    /// The configuration details for the cloud connector endpoint, including connection parameters and authentication requirements. lambda -&gt; (structure) The Lambda function configuration for the endpoint, used when the endpoint communicates through an AWS Lambda function. arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Lambda function used as an endpoint. Constraints: • pattern: (arn:aws:lambda:[0-9a-zA-Z-]+:[0-9]+:function:)?([a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))?) Shorthand Syntax: lambda={arn=string} JSON Syntax: { "lambda": { "arn": "string" } }
     /// </summary>
     [CliOption("--endpoint-config")]
     public string? EndpointConfig { get; private init; }
 
     /// <summary>
-    /// A description of the C2C connector. Constraints: o min: 1 o max: 256 o pattern: [0-9A-Za-z_\- ]+
+    /// A description of the C2C connector. Constraints: • min: 1 • max: 256 • pattern: [0-9A-Za-z_\- ]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The type of endpoint used for the cloud connector, which defines how the connector communicates with external services. Possible values: o LAMBDA
+    /// The type of endpoint used for the cloud connector, which defines how the connector communicates with external services. Possible values: • LAMBDA
     /// </summary>
     [CliOption("--endpoint-type")]
     public string? EndpointType { get; set; }
 
     /// <summary>
-    /// An idempotency token. If you retry a request that completed success- fully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9=_-]+
+    /// An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9=_-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

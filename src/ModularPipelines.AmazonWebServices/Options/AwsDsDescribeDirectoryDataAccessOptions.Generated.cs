@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Obtains status of directory data access enablement through the Direc- tory Service Data API for the specified directory. See also: AWS API Documentation
+/// Obtains status of directory data access enablement through the Directory Service Data API for the specified directory. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsDsDescribeDirectoryDataAccessOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Obtains status of directory data access enablement through the Direc- tory Service Data API for the specified directory. See also: AWS API Documentation
+    /// Obtains status of directory data access enablement through the Directory Service Data API for the specified directory. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The directory identifier. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="DirectoryId">The directory identifier. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
     public AwsDsDescribeDirectoryDataAccessOptions(
         string DirectoryId
     )
@@ -56,7 +58,7 @@ public record AwsDsDescribeDirectoryDataAccessOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The directory identifier. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The directory identifier. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }

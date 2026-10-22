@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsBcmDataExportsListTagsForResourceOptions : AwsOptions, IValidat
     /// <summary>
     /// List tags associated with an existing data export. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The unique identifier for the resource. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:(bcm-data-ex- ports):[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+</param>
+    /// <param name="ResourceArn">The unique identifier for the resource. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:(bcm-data-exports):[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+</param>
     public AwsBcmDataExportsListTagsForResourceOptions(
         string ResourceArn
     )
@@ -57,19 +59,19 @@ public record AwsBcmDataExportsListTagsForResourceOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the resource. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:(bcm-data-ex- ports):[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+
+    /// The unique identifier for the resource. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:(bcm-data-exports):[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The maximum number of objects that are returned for the request. Constraints: o min: 1 o max: 300
+    /// The maximum number of objects that are returned for the request. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The token to retrieve the next set of results. Constraints: o min: 0 o max: 8192 o pattern: [\S\s]*
+    /// The token to retrieve the next set of results. Constraints: • min: 0 • max: 8192 • pattern: [\S\s]*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

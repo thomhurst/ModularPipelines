@@ -32,7 +32,7 @@ public class AwsRbin : IAwsRbin
     #region Commands
 
     /// <summary>
-    /// Creates a Recycle Bin retention rule. You can create two types of re- tention rules: o Tag-level retention rules - These retention rules use resource tags to identify the resources to protect. For each retention rule, you specify one or more tag key and value pairs. Resources (of the speci- fied type) that have at least one of these tag key and value pairs are automatically retained in the Recycle Bin upon deletion. Use this type of retention rule to protect specific resources in your account ba...
+    /// Creates a Recycle Bin retention rule. You can create two types of retention rules: • Tag-level retention rules - These retention rules use resource tags to identify the resources to protect. For each retention rule, you specify one or more tag key and value pairs. Resources (of the specified type) that have at least one of these tag key and value pairs are automatically retained in the Recycle Bin upon deletion. Use this type of retention rule to protect specific resources in your account based ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsRbin : IAwsRbin
     }
 
     /// <summary>
-    /// Lists the Recycle Bin retention rules in the Region. See also: AWS API Documentation list-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Rules
+    /// Lists the Recycle Bin retention rules in the Region. See also: AWS API Documentation list-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Rules
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsRbin : IAwsRbin
     }
 
     /// <summary>
-    /// Updates an existing Recycle Bin retention rule. You can update a reten- tion rule's description, resource tags, and retention period at any time after creation. You can't update a retention rule's resource type after creation. For more information, see Update Recycle Bin retention rules in the Amazon Elastic Compute Cloud User Guide . See also: AWS API Documentation
+    /// Updates an existing Recycle Bin retention rule. You can update a retention rule's description, resource tags, and retention period at any time after creation. You can't update a retention rule's resource type after creation. For more information, see Update Recycle Bin retention rules in the Amazon Elastic Compute Cloud User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

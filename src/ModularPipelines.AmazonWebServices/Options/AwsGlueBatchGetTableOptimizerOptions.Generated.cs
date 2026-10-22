@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsGlueBatchGetTableOptimizerOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Returns the configuration for the specified table optimizers. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Entries">A list of BatchGetTableOptimizerEntry objects specifying the table optimizers to retrieve. (structure) Represents a table optimizer to retrieve in the BatchGetTableOp- timizer operation. catalogId -&gt; (string) The Catalog ID of the table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* databaseName -&gt; (string) The name of the database in the catalog in which the table resides. Constraints: o min: 1 tableName -&gt; (string) The name of the table. Constraints: o min: 1 type -&gt; (string) The type of table optimizer. Possible values: o compaction o retention o orphan_file_deletion Shorthand Syntax: catalogId=string,databaseName=string,tableName=string,type=string ... JSON Syntax: [ { "catalogId": "string", "databaseName": "string", "tableName": "string", "type": "compaction"|"retention"|"orphan_file_deletion" } ... ]</param>
+    /// <param name="Entries">A list of BatchGetTableOptimizerEntry objects specifying the table optimizers to retrieve. (structure) Represents a table optimizer to retrieve in the BatchGetTableOptimizer operation. catalogId -&gt; (string) The Catalog ID of the table. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* databaseName -&gt; (string) The name of the database in the catalog in which the table resides. Constraints: • min: 1 tableName -&gt; (string) The name of the table. Constraints: • min: 1 type -&gt; (string) The type of table optimizer. Possible values: • compaction • retention • orphan_file_deletion Shorthand Syntax: catalogId=string,databaseName=string,tableName=string,type=string ... JSON Syntax: [ { "catalogId": "string", "databaseName": "string", "tableName": "string", "type": "compaction"|"retention"|"orphan_file_deletion" } ... ]</param>
     public AwsGlueBatchGetTableOptimizerOptions(
         IEnumerable<string> Entries
     )
@@ -67,7 +69,7 @@ public record AwsGlueBatchGetTableOptimizerOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of BatchGetTableOptimizerEntry objects specifying the table optimizers to retrieve. (structure) Represents a table optimizer to retrieve in the BatchGetTableOp- timizer operation. catalogId -&gt; (string) The Catalog ID of the table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* databaseName -&gt; (string) The name of the database in the catalog in which the table resides. Constraints: o min: 1 tableName -&gt; (string) The name of the table. Constraints: o min: 1 type -&gt; (string) The type of table optimizer. Possible values: o compaction o retention o orphan_file_deletion Shorthand Syntax: catalogId=string,databaseName=string,tableName=string,type=string ... JSON Syntax: [ { "catalogId": "string", "databaseName": "string", "tableName": "string", "type": "compaction"|"retention"|"orphan_file_deletion" } ... ]
+    /// A list of BatchGetTableOptimizerEntry objects specifying the table optimizers to retrieve. (structure) Represents a table optimizer to retrieve in the BatchGetTableOptimizer operation. catalogId -&gt; (string) The Catalog ID of the table. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* databaseName -&gt; (string) The name of the database in the catalog in which the table resides. Constraints: • min: 1 tableName -&gt; (string) The name of the table. Constraints: • min: 1 type -&gt; (string) The type of table optimizer. Possible values: • compaction • retention • orphan_file_deletion Shorthand Syntax: catalogId=string,databaseName=string,tableName=string,type=string ... JSON Syntax: [ { "catalogId": "string", "databaseName": "string", "tableName": "string", "type": "compaction"|"retention"|"orphan_file_deletion" } ... ]
     /// </summary>
     [CliOption("--entries", GroupValues = true)]
     public IEnumerable<string>? Entries { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsHealthlakeListTagsForResourceOptions : AwsOptions, IValidatable
     /// <summary>
     /// Returns a list of all existing tags associated with a data store. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the data store to which tags are being added. Constraints: o min: 1 o max: 1011 o pattern: arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:health- lake:[a-z0-9-]+:\d{12}:(datastore\/fhir\/.{32}|dataTransformation- Profile\/[a-f0-9]{32})</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the data store to which tags are being added. Constraints: • min: 1 • max: 1011 • pattern: arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:healthlake:[a-z0-9-]+:\d{12}:(datastore\/fhir\/.{32}|dataTransformationProfile\/[a-f0-9]{32})</param>
     public AwsHealthlakeListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsHealthlakeListTagsForResourceOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the data store to which tags are being added. Constraints: o min: 1 o max: 1011 o pattern: arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:health- lake:[a-z0-9-]+:\d{12}:(datastore\/fhir\/.{32}|dataTransformation- Profile\/[a-f0-9]{32})
+    /// The Amazon Resource Name (ARN) of the data store to which tags are being added. Constraints: • min: 1 • max: 1011 • pattern: arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:healthlake:[a-z0-9-]+:\d{12}:(datastore\/fhir\/.{32}|dataTransformationProfile\/[a-f0-9]{32})
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

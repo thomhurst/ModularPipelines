@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsElementalinferenceDeleteFeedPolicyOptions : AwsOptions, IValida
     /// <summary>
     /// Deletes the resource-based policy attached to the specified feed. After you delete the policy, the operation revokes the cross-account access that the policy granted. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the feed whose policy you want to delete. Constraints: o pattern: [a-z0-9]{19}</param>
+    /// <param name="Id">The ID of the feed whose policy you want to delete. Constraints: • pattern: [a-z0-9]{19}</param>
     public AwsElementalinferenceDeleteFeedPolicyOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsElementalinferenceDeleteFeedPolicyOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the feed whose policy you want to delete. Constraints: o pattern: [a-z0-9]{19}
+    /// The ID of the feed whose policy you want to delete. Constraints: • pattern: [a-z0-9]{19}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

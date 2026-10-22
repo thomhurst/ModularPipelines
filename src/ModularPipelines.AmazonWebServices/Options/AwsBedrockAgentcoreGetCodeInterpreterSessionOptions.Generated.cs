@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves detailed information about a specific code interpreter ses- sion in Amazon Bedrock AgentCore. This operation returns the session's configuration, current status, and metadata. To get a code interpreter session, you must specify both the code in- terpreter identifier and the session ID. The response includes informa- tion about the session's timeout settings and current status. The following operations are related to GetCodeInterpreterSession : o StartCodeInterpreterSession o ListCodeIn...
+/// Retrieves detailed information about a specific code interpreter session in Amazon Bedrock AgentCore. This operation returns the session's configuration, current status, and metadata. To get a code interpreter session, you must specify both the code interpreter identifier and the session ID. The response includes information about the session's timeout settings and current status. The following operations are related to GetCodeInterpreterSession : • StartCodeInterpreterSession • ListCodeInterpre...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsBedrockAgentcoreGetCodeInterpreterSessionOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves detailed information about a specific code interpreter ses- sion in Amazon Bedrock AgentCore. This operation returns the session's configuration, current status, and metadata. To get a code interpreter session, you must specify both the code in- terpreter identifier and the session ID. The response includes informa- tion about the session's timeout settings and current status. The following operations are related to GetCodeInterpreterSession : o StartCodeInterpreterSession o ListCodeIn...
+    /// Retrieves detailed information about a specific code interpreter session in Amazon Bedrock AgentCore. This operation returns the session's configuration, current status, and metadata. To get a code interpreter session, you must specify both the code interpreter identifier and the session ID. The response includes information about the session's timeout settings and current status. The following operations are related to GetCodeInterpreterSession : • StartCodeInterpreterSession • ListCodeInterpre...
     /// </summary>
     /// <param name="CodeInterpreterIdentifier">The unique identifier of the code interpreter associated with the session.</param>
-    /// <param name="SessionId">The unique identifier of the code interpreter session to retrieve. Constraints: o pattern: [0-9a-zA-Z]{1,40}</param>
+    /// <param name="SessionId">The unique identifier of the code interpreter session to retrieve. Constraints: • pattern: [0-9a-zA-Z]{1,40}</param>
     public AwsBedrockAgentcoreGetCodeInterpreterSessionOptions(
         string CodeInterpreterIdentifier,
         string SessionId
@@ -66,7 +68,7 @@ public record AwsBedrockAgentcoreGetCodeInterpreterSessionOptions : AwsOptions, 
     public string? CodeInterpreterIdentifier { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the code interpreter session to retrieve. Constraints: o pattern: [0-9a-zA-Z]{1,40}
+    /// The unique identifier of the code interpreter session to retrieve. Constraints: • pattern: [0-9a-zA-Z]{1,40}
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }

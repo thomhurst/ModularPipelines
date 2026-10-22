@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsFsxRestoreVolumeFromSnapshotOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Returns an Amazon FSx for OpenZFS volume to the state saved by the specified snapshot. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VolumeId">The ID of the volume that you are restoring. Constraints: o min: 23 o max: 23 o pattern: ^(fsvol-[0-9a-f]{17,})$</param>
-    /// <param name="SnapshotId">The ID of the source snapshot. Specifies the snapshot that you are restoring from. Constraints: o min: 11 o max: 28 o pattern: ^((fs)?volsnap-[0-9a-f]{8,})$</param>
+    /// <param name="VolumeId">The ID of the volume that you are restoring. Constraints: • min: 23 • max: 23 • pattern: ^(fsvol-[0-9a-f]{17,})$</param>
+    /// <param name="SnapshotId">The ID of the source snapshot. Specifies the snapshot that you are restoring from. Constraints: • min: 11 • max: 28 • pattern: ^((fs)?volsnap-[0-9a-f]{8,})$</param>
     public AwsFsxRestoreVolumeFromSnapshotOptions(
         string VolumeId,
         string SnapshotId
@@ -61,26 +63,26 @@ public record AwsFsxRestoreVolumeFromSnapshotOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the volume that you are restoring. Constraints: o min: 23 o max: 23 o pattern: ^(fsvol-[0-9a-f]{17,})$
+    /// The ID of the volume that you are restoring. Constraints: • min: 23 • max: 23 • pattern: ^(fsvol-[0-9a-f]{17,})$
     /// </summary>
     [CliOption("--volume-id")]
     public string? VolumeId { get; private init; }
 
     /// <summary>
-    /// The ID of the source snapshot. Specifies the snapshot that you are restoring from. Constraints: o min: 11 o max: 28 o pattern: ^((fs)?volsnap-[0-9a-f]{8,})$
+    /// The ID of the source snapshot. Specifies the snapshot that you are restoring from. Constraints: • min: 11 • max: 28 • pattern: ^((fs)?volsnap-[0-9a-f]{8,})$
     /// </summary>
     [CliOption("--snapshot-id")]
     public string? SnapshotId { get; private init; }
 
     /// <summary>
-    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Ama- zon Web Services SDK. Constraints: o min: 1 o max: 63 o pattern: [A-za-z0-9_.-]{0,63}$
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK. Constraints: • min: 1 • max: 63 • pattern: [A-za-z0-9_.-]{0,63}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// The settings used when restoring the specified volume from snapshot. o DELETE_INTERMEDIATE_SNAPSHOTS - Deletes snapshots between the cur- rent state and the specified snapshot. If there are intermediate snapshots and this option isn't used, RestoreVolumeFromSnapshot fails. o DELETE_CLONED_VOLUMES - Deletes any dependent clone volumes cre- ated from intermediate snapshots. If there are any dependent clone volumes and this option isn't used, RestoreVolumeFromSnapshot fails. Constraints: o max: 2 (string) Possible values: o DELETE_INTERMEDIATE_SNAPSHOTS o DELETE_CLONED_VOLUMES Syntax: "string" "string" ...
+    /// The settings used when restoring the specified volume from snapshot. • DELETE_INTERMEDIATE_SNAPSHOTS - Deletes snapshots between the current state and the specified snapshot. If there are intermediate snapshots and this option isn't used, RestoreVolumeFromSnapshot fails. • DELETE_CLONED_VOLUMES - Deletes any dependent clone volumes created from intermediate snapshots. If there are any dependent clone volumes and this option isn't used, RestoreVolumeFromSnapshot fails. Constraints: • max: 2 (string) Possible values: • DELETE_INTERMEDIATE_SNAPSHOTS • DELETE_CLONED_VOLUMES Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--options", GroupValues = true)]
     public IEnumerable<string>? Options { get; set; }

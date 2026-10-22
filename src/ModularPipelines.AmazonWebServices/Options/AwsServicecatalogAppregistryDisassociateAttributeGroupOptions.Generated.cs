@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disassociates an attribute group from an application to remove the ex- tra attributes contained in the attribute group from the application's metadata. This operation reverts AssociateAttributeGroup . See also: AWS API Documentation
+/// Disassociates an attribute group from an application to remove the extra attributes contained in the attribute group from the application's metadata. This operation reverts AssociateAttributeGroup . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsServicecatalogAppregistryDisassociateAttributeGroupOptions : Aw
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disassociates an attribute group from an application to remove the ex- tra attributes contained in the attribute group from the application's metadata. This operation reverts AssociateAttributeGroup . See also: AWS API Documentation
+    /// Disassociates an attribute group from an application to remove the extra attributes contained in the attribute group from the application's metadata. This operation reverts AssociateAttributeGroup . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Application">The name, ID, or ARN of the application. Constraints: o min: 1 o max: 256 o pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecata- log:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[-.\w]+)</param>
-    /// <param name="AttributeGroup">The name, ID, or ARN of the attribute group that holds the attrib- utes to describe the application. Constraints: o min: 1 o max: 512 o pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecata- log:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/attribute-groups/[-.\w]+)</param>
+    /// <param name="Application">The name, ID, or ARN of the application. Constraints: • min: 1 • max: 256 • pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[-.\w]+)</param>
+    /// <param name="AttributeGroup">The name, ID, or ARN of the attribute group that holds the attributes to describe the application. Constraints: • min: 1 • max: 512 • pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/attribute-groups/[-.\w]+)</param>
     public AwsServicecatalogAppregistryDisassociateAttributeGroupOptions(
         string Application,
         string AttributeGroup
@@ -60,13 +62,13 @@ public record AwsServicecatalogAppregistryDisassociateAttributeGroupOptions : Aw
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name, ID, or ARN of the application. Constraints: o min: 1 o max: 256 o pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecata- log:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[-.\w]+)
+    /// The name, ID, or ARN of the application. Constraints: • min: 1 • max: 256 • pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[-.\w]+)
     /// </summary>
     [CliOption("--application")]
     public string? Application { get; private init; }
 
     /// <summary>
-    /// The name, ID, or ARN of the attribute group that holds the attrib- utes to describe the application. Constraints: o min: 1 o max: 512 o pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecata- log:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/attribute-groups/[-.\w]+)
+    /// The name, ID, or ARN of the attribute group that holds the attributes to describe the application. Constraints: • min: 1 • max: 512 • pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/attribute-groups/[-.\w]+)
     /// </summary>
     [CliOption("--attribute-group")]
     public string? AttributeGroup { get; private init; }

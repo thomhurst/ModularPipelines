@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a detector version. The detector version attributes that you can update include models, external model endpoints, rules, rule execu- tion mode, and description. You can only update a DRAFT detector ver- sion. See also: AWS API Documentation
+/// Updates a detector version. The detector version attributes that you can update include models, external model endpoints, rules, rule execution mode, and description. You can only update a DRAFT detector version. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +28,12 @@ public record AwsFrauddetectorUpdateDetectorVersionOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a detector version. The detector version attributes that you can update include models, external model endpoints, rules, rule execu- tion mode, and description. You can only update a DRAFT detector ver- sion. See also: AWS API Documentation
+    /// Updates a detector version. The detector version attributes that you can update include models, external model endpoints, rules, rule execution mode, and description. You can only update a DRAFT detector version. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DetectorId">The parent detector ID for the detector version you want to update. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
-    /// <param name="DetectorVersionId">The detector version ID. Constraints: o min: 1 o max: 5 o pattern: ^([1-9][0-9]*)$</param>
-    /// <param name="ExternalModelEndpoints">The Amazon SageMaker model endpoints to include in the detector ver- sion. (string) Syntax: "string" "string" ...</param>
-    /// <param name="Rules">The rules to include in the detector version. (structure) A rule. detectorId -&gt; (string) [required] The detector for which the rule is associated. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$ ruleId -&gt; (string) [required] The rule ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$ ruleVersion -&gt; (string) [required] The rule version. Constraints: o min: 1 o max: 5 o pattern: ^([1-9][0-9]*)$ Shorthand Syntax: detectorId=string,ruleId=string,ruleVersion=string ... JSON Syntax: [ { "detectorId": "string", "ruleId": "string", "ruleVersion": "string" } ... ]</param>
+    /// <param name="DetectorId">The parent detector ID for the detector version you want to update. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="DetectorVersionId">The detector version ID. Constraints: • min: 1 • max: 5 • pattern: ^([1-9][0-9]*)$</param>
+    /// <param name="ExternalModelEndpoints">The Amazon SageMaker model endpoints to include in the detector version. (string) Syntax: "string" "string" ...</param>
+    /// <param name="Rules">The rules to include in the detector version. (structure) A rule. detectorId -&gt; (string) [required] The detector for which the rule is associated. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$ ruleId -&gt; (string) [required] The rule ID. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$ ruleVersion -&gt; (string) [required] The rule version. Constraints: • min: 1 • max: 5 • pattern: ^([1-9][0-9]*)$ Shorthand Syntax: detectorId=string,ruleId=string,ruleVersion=string ... JSON Syntax: [ { "detectorId": "string", "ruleId": "string", "ruleVersion": "string" } ... ]</param>
     public AwsFrauddetectorUpdateDetectorVersionOptions(
         string DetectorId,
         string DetectorVersionId,
@@ -91,43 +93,43 @@ public record AwsFrauddetectorUpdateDetectorVersionOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The parent detector ID for the detector version you want to update. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// The parent detector ID for the detector version you want to update. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }
 
     /// <summary>
-    /// The detector version ID. Constraints: o min: 1 o max: 5 o pattern: ^([1-9][0-9]*)$
+    /// The detector version ID. Constraints: • min: 1 • max: 5 • pattern: ^([1-9][0-9]*)$
     /// </summary>
     [CliOption("--detector-version-id")]
     public string? DetectorVersionId { get; private init; }
 
     /// <summary>
-    /// The Amazon SageMaker model endpoints to include in the detector ver- sion. (string) Syntax: "string" "string" ...
+    /// The Amazon SageMaker model endpoints to include in the detector version. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--external-model-endpoints", GroupValues = true)]
     public IEnumerable<string>? ExternalModelEndpoints { get; private init; }
 
     /// <summary>
-    /// The rules to include in the detector version. (structure) A rule. detectorId -&gt; (string) [required] The detector for which the rule is associated. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$ ruleId -&gt; (string) [required] The rule ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$ ruleVersion -&gt; (string) [required] The rule version. Constraints: o min: 1 o max: 5 o pattern: ^([1-9][0-9]*)$ Shorthand Syntax: detectorId=string,ruleId=string,ruleVersion=string ... JSON Syntax: [ { "detectorId": "string", "ruleId": "string", "ruleVersion": "string" } ... ]
+    /// The rules to include in the detector version. (structure) A rule. detectorId -&gt; (string) [required] The detector for which the rule is associated. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$ ruleId -&gt; (string) [required] The rule ID. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$ ruleVersion -&gt; (string) [required] The rule version. Constraints: • min: 1 • max: 5 • pattern: ^([1-9][0-9]*)$ Shorthand Syntax: detectorId=string,ruleId=string,ruleVersion=string ... JSON Syntax: [ { "detectorId": "string", "ruleId": "string", "ruleVersion": "string" } ... ]
     /// </summary>
     [CliOption("--rules", GroupValues = true)]
     public IEnumerable<string>? Rules { get; private init; }
 
     /// <summary>
-    /// The detector version description. Constraints: o min: 1 o max: 128
+    /// The detector version description. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The model versions to include in the detector version. (structure) The model version. modelId -&gt; (string) [required] The model ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_]+$ modelType -&gt; (string) [required] The model type. Possible values: o ONLINE_FRAUD_INSIGHTS o TRANSACTION_FRAUD_INSIGHTS o ACCOUNT_TAKEOVER_INSIGHTS modelVersionNumber -&gt; (string) [required] The model version number. Constraints: o min: 3 o max: 7 o pattern: ^[1-9][0-9]{0,3}\.[0-9]{1,2}$ arn -&gt; (string) The model version ARN. Constraints: o min: 1 o max: 256 o pattern: ^arn\:aws[a-z-]{0,15}\:frauddetec- tor\:[a-z0-9-]{3,20}\:[0-9]{12}\:[^\s]{2,128}$ Shorthand Syntax: modelId=string,modelType=string,modelVersionNumber=string,arn=string ... JSON Syntax: [ { "modelId": "string", "modelType": "ONLINE_FRAUD_INSIGHTS"|"TRANSACTION_FRAUD_INSIGHTS"|"ACCOUNT_TAKEOVER_INSIGHTS", "modelVersionNumber": "string", "arn": "string" } ... ]
+    /// The model versions to include in the detector version. (structure) The model version. modelId -&gt; (string) [required] The model ID. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_]+$ modelType -&gt; (string) [required] The model type. Possible values: • ONLINE_FRAUD_INSIGHTS • TRANSACTION_FRAUD_INSIGHTS • ACCOUNT_TAKEOVER_INSIGHTS modelVersionNumber -&gt; (string) [required] The model version number. Constraints: • min: 3 • max: 7 • pattern: ^[1-9][0-9]{0,3}\.[0-9]{1,2}$ arn -&gt; (string) The model version ARN. Constraints: • min: 1 • max: 256 • pattern: ^arn\:aws[a-z-]{0,15}\:frauddetector\:[a-z0-9-]{3,20}\:[0-9]{12}\:[^\s]{2,128}$ Shorthand Syntax: modelId=string,modelType=string,modelVersionNumber=string,arn=string ... JSON Syntax: [ { "modelId": "string", "modelType": "ONLINE_FRAUD_INSIGHTS"|"TRANSACTION_FRAUD_INSIGHTS"|"ACCOUNT_TAKEOVER_INSIGHTS", "modelVersionNumber": "string", "arn": "string" } ... ]
     /// </summary>
     [CliOption("--model-versions", GroupValues = true)]
     public IEnumerable<string>? ModelVersions { get; set; }
 
     /// <summary>
-    /// The rule execution mode to add to the detector. If you specify FIRST_MATCHED , Amazon Fraud Detector evaluates rules sequentially, first to last, stopping at the first matched rule. Amazon Fraud dectector then provides the outcomes for that single rule. If you specifiy ALL_MATCHED , Amazon Fraud Detector evaluates all rules and returns the outcomes for all matched rules. You can define and edit the rule mode at the detector version level, when it is in draft status. The default behavior is FIRST_MATCHED . Possible values: o ALL_MATCHED o FIRST_MATCHED
+    /// The rule execution mode to add to the detector. If you specify FIRST_MATCHED , Amazon Fraud Detector evaluates rules sequentially, first to last, stopping at the first matched rule. Amazon Fraud dectector then provides the outcomes for that single rule. If you specifiy ALL_MATCHED , Amazon Fraud Detector evaluates all rules and returns the outcomes for all matched rules. You can define and edit the rule mode at the detector version level, when it is in draft status. The default behavior is FIRST_MATCHED . Possible values: • ALL_MATCHED • FIRST_MATCHED
     /// </summary>
     [CliOption("--rule-execution-mode")]
     public AwsFrauddetectorUpdateDetectorVersionRuleExecutionMode? RuleExecutionMode { get; set; }

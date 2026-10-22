@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a Function object. A function is a reusable entity. You can use multiple functions to com- pose the resolver logic. See also: AWS API Documentation
+/// Creates a Function object. A function is a reusable entity. You can use multiple functions to compose the resolver logic. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsAppsyncCreateFunctionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a Function object. A function is a reusable entity. You can use multiple functions to com- pose the resolver logic. See also: AWS API Documentation
+    /// Creates a Function object. A function is a reusable entity. You can use multiple functions to compose the resolver logic. See also: AWS API Documentation
     /// </summary>
     /// <param name="ApiId">The GraphQL API ID.</param>
-    /// <param name="Name">The Function name. The function name does not have to be unique. Constraints: o min: 1 o max: 65536 o pattern: [_A-Za-z][_0-9A-Za-z]*</param>
-    /// <param name="DataSourceName">The Function DataSource name. Constraints: o min: 1 o max: 65536 o pattern: [_A-Za-z][_0-9A-Za-z]*</param>
+    /// <param name="Name">The Function name. The function name does not have to be unique. Constraints: • min: 1 • max: 65536 • pattern: [_A-Za-z][_0-9A-Za-z]*</param>
+    /// <param name="DataSourceName">The Function DataSource name. Constraints: • min: 1 • max: 65536 • pattern: [_A-Za-z][_0-9A-Za-z]*</param>
     public AwsAppsyncCreateFunctionOptions(
         string ApiId,
         string Name,
@@ -70,13 +72,13 @@ public record AwsAppsyncCreateFunctionOptions : AwsOptions, IValidatableObject
     public string? ApiId { get; private init; }
 
     /// <summary>
-    /// The Function name. The function name does not have to be unique. Constraints: o min: 1 o max: 65536 o pattern: [_A-Za-z][_0-9A-Za-z]*
+    /// The Function name. The function name does not have to be unique. Constraints: • min: 1 • max: 65536 • pattern: [_A-Za-z][_0-9A-Za-z]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The Function DataSource name. Constraints: o min: 1 o max: 65536 o pattern: [_A-Za-z][_0-9A-Za-z]*
+    /// The Function DataSource name. Constraints: • min: 1 • max: 65536 • pattern: [_A-Za-z][_0-9A-Za-z]*
     /// </summary>
     [CliOption("--data-source-name")]
     public string? DataSourceName { get; private init; }
@@ -88,43 +90,43 @@ public record AwsAppsyncCreateFunctionOptions : AwsOptions, IValidatableObject
     public string? Description { get; set; }
 
     /// <summary>
-    /// The Function request mapping template. Functions support only the 2018-05-29 version of the request mapping template. Constraints: o min: 1 o max: 65536 o pattern: ^.*$
+    /// The Function request mapping template. Functions support only the 2018-05-29 version of the request mapping template. Constraints: • min: 1 • max: 65536 • pattern: ^.*$
     /// </summary>
     [CliOption("--request-mapping-template")]
     public string? RequestMappingTemplate { get; set; }
 
     /// <summary>
-    /// The Function response mapping template. Constraints: o min: 1 o max: 65536 o pattern: ^.*$
+    /// The Function response mapping template. Constraints: • min: 1 • max: 65536 • pattern: ^.*$
     /// </summary>
     [CliOption("--response-mapping-template")]
     public string? ResponseMappingTemplate { get; set; }
 
     /// <summary>
-    /// The version of the request mapping template. Currently, the sup- ported value is 2018-05-29. Note that when using VTL and mapping templates, the functionVersion is required.
+    /// The version of the request mapping template. Currently, the supported value is 2018-05-29. Note that when using VTL and mapping templates, the functionVersion is required.
     /// </summary>
     [CliOption("--function-version")]
     public string? FunctionVersion { get; set; }
 
     /// <summary>
-    /// Describes a Sync configuration for a resolver. Specifies which Conflict Detection strategy and Resolution strategy to use when the resolver is invoked. conflictHandler -&gt; (string) The Conflict Resolution strategy to perform in the event of a conflict. o OPTIMISTIC_CONCURRENCY : Resolve conflicts by rejecting muta- tions when versions don't match the latest version at the server. o AUTOMERGE : Resolve conflicts with the Automerge conflict res- olution strategy. o LAMBDA : Resolve conflicts with an Lambda function supplied in the LambdaConflictHandlerConfig . Possible values: o OPTIMISTIC_CONCURRENCY o LAMBDA o AUTOMERGE o NONE conflictDetection -&gt; (string) The Conflict Detection strategy to use. o VERSION : Detect conflicts based on object versions for this resolver. o NONE : Do not detect conflicts when invoking this resolver. Possible values: o VERSION o NONE lambdaConflictHandlerConfig -&gt; (structure) The LambdaConflictHandlerConfig when configuring LAMBDA as the Conflict Handler. lambdaConflictHandlerArn -&gt; (string) The Amazon Resource Name (ARN) for the Lambda function to use as the Conflict Handler. Shorthand Syntax: conflictHandler=string,conflictDetection=string,lambdaConflictHandlerConfig={lambdaConflictHandlerArn=string} JSON Syntax: { "conflictHandler": "OPTIMISTIC_CONCURRENCY"|"LAMBDA"|"AUTOMERGE"|"NONE", "conflictDetection": "VERSION"|"NONE", "lambdaConflictHandlerConfig": { "lambdaConflictHandlerArn": "string" } }
+    /// Describes a Sync configuration for a resolver. Specifies which Conflict Detection strategy and Resolution strategy to use when the resolver is invoked. conflictHandler -&gt; (string) The Conflict Resolution strategy to perform in the event of a conflict. • OPTIMISTIC_CONCURRENCY : Resolve conflicts by rejecting mutations when versions don't match the latest version at the server. • AUTOMERGE : Resolve conflicts with the Automerge conflict resolution strategy. • LAMBDA : Resolve conflicts with an Lambda function supplied in the LambdaConflictHandlerConfig . Possible values: • OPTIMISTIC_CONCURRENCY • LAMBDA • AUTOMERGE • NONE conflictDetection -&gt; (string) The Conflict Detection strategy to use. • VERSION : Detect conflicts based on object versions for this resolver. • NONE : Do not detect conflicts when invoking this resolver. Possible values: • VERSION • NONE lambdaConflictHandlerConfig -&gt; (structure) The LambdaConflictHandlerConfig when configuring LAMBDA as the Conflict Handler. lambdaConflictHandlerArn -&gt; (string) The Amazon Resource Name (ARN) for the Lambda function to use as the Conflict Handler. Shorthand Syntax: conflictHandler=string,conflictDetection=string,lambdaConflictHandlerConfig={lambdaConflictHandlerArn=string} JSON Syntax: { "conflictHandler": "OPTIMISTIC_CONCURRENCY"|"LAMBDA"|"AUTOMERGE"|"NONE", "conflictDetection": "VERSION"|"NONE", "lambdaConflictHandlerConfig": { "lambdaConflictHandlerArn": "string" } }
     /// </summary>
     [CliOption("--sync-config")]
     public string? SyncConfig { get; set; }
 
     /// <summary>
-    /// The maximum batching size for a resolver. Constraints: o min: 0 o max: 2000
+    /// The maximum batching size for a resolver. Constraints: • min: 0 • max: 2000
     /// </summary>
     [CliOption("--max-batch-size")]
     public int? MaxBatchSize { get; set; }
 
     /// <summary>
-    /// Describes a runtime used by an Amazon Web Services AppSync pipeline resolver or Amazon Web Services AppSync function. Specifies the name and version of the runtime to use. Note that if a runtime is speci- fied, code must also be specified. name -&gt; (string) [required] The name of the runtime to use. Currently, the only allowed value is APPSYNC_JS . Possible values: o APPSYNC_JS runtimeVersion -&gt; (string) [required] The version of the runtime to use. Currently, the only allowed version is 1.0.0 . Shorthand Syntax: name=string,runtimeVersion=string JSON Syntax: { "name": "APPSYNC_JS", "runtimeVersion": "string" }
+    /// Describes a runtime used by an Amazon Web Services AppSync pipeline resolver or Amazon Web Services AppSync function. Specifies the name and version of the runtime to use. Note that if a runtime is specified, code must also be specified. name -&gt; (string) [required] The name of the runtime to use. Currently, the only allowed value is APPSYNC_JS . Possible values: • APPSYNC_JS runtimeVersion -&gt; (string) [required] The version of the runtime to use. Currently, the only allowed version is 1.0.0 . Shorthand Syntax: name=string,runtimeVersion=string JSON Syntax: { "name": "APPSYNC_JS", "runtimeVersion": "string" }
     /// </summary>
     [CliOption("--runtime")]
     public string? Runtime { get; set; }
 
     /// <summary>
-    /// The function code that contains the request and response functions. When code is used, the runtime is required. The runtime value must be APPSYNC_JS . Constraints: o min: 1 o max: 32768
+    /// The function code that contains the request and response functions. When code is used, the runtime is required. The runtime value must be APPSYNC_JS . Constraints: • min: 1 • max: 32768
     /// </summary>
     [CliOption("--code")]
     public string? Code { get; set; }

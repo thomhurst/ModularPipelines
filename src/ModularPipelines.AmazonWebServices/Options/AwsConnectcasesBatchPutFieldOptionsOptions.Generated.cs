@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsConnectcasesBatchPutFieldOptionsOptions : AwsOptions, IValidata
     /// <summary>
     /// Creates and updates a set of field options for a single select field in a Cases domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500</param>
-    /// <param name="FieldId">The unique identifier of a field. Constraints: o min: 1 o max: 500</param>
-    /// <param name="Options">A list of FieldOption objects. Constraints: o min: 0 o max: 50 (structure) Object for field Options information. name -&gt; (string) [required] FieldOptionName has max length 100 and disallows trailing spaces. Constraints: o min: 1 o max: 100 o pattern: .*[\S] value -&gt; (string) [required] FieldOptionValue has max length 100 and must be alphanu- meric with hyphens and underscores. Constraints: o min: 1 o max: 100 o pattern: .*[\S] active -&gt; (boolean) [required] Describes whether the FieldOption is active (displayed) or inactive. Shorthand Syntax: name=string,value=string,active=boolean ... JSON Syntax: [ { "name": "string", "value": "string", "active": true|false } ... ]</param>
+    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500</param>
+    /// <param name="FieldId">The unique identifier of a field. Constraints: • min: 1 • max: 500</param>
+    /// <param name="Options">A list of FieldOption objects. Constraints: • min: 0 • max: 50 (structure) Object for field Options information. name -&gt; (string) [required] FieldOptionName has max length 100 and disallows trailing spaces. Constraints: • min: 1 • max: 100 • pattern: .*[\S] value -&gt; (string) [required] FieldOptionValue has max length 100 and must be alphanumeric with hyphens and underscores. Constraints: • min: 1 • max: 100 • pattern: .*[\S] active -&gt; (boolean) [required] Describes whether the FieldOption is active (displayed) or inactive. Shorthand Syntax: name=string,value=string,active=boolean ... JSON Syntax: [ { "name": "string", "value": "string", "active": true|false } ... ]</param>
     public AwsConnectcasesBatchPutFieldOptionsOptions(
         string DomainId,
         string FieldId,
@@ -75,19 +77,19 @@ public record AwsConnectcasesBatchPutFieldOptionsOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500
+    /// The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of a field. Constraints: o min: 1 o max: 500
+    /// The unique identifier of a field. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--field-id")]
     public string? FieldId { get; private init; }
 
     /// <summary>
-    /// A list of FieldOption objects. Constraints: o min: 0 o max: 50 (structure) Object for field Options information. name -&gt; (string) [required] FieldOptionName has max length 100 and disallows trailing spaces. Constraints: o min: 1 o max: 100 o pattern: .*[\S] value -&gt; (string) [required] FieldOptionValue has max length 100 and must be alphanu- meric with hyphens and underscores. Constraints: o min: 1 o max: 100 o pattern: .*[\S] active -&gt; (boolean) [required] Describes whether the FieldOption is active (displayed) or inactive. Shorthand Syntax: name=string,value=string,active=boolean ... JSON Syntax: [ { "name": "string", "value": "string", "active": true|false } ... ]
+    /// A list of FieldOption objects. Constraints: • min: 0 • max: 50 (structure) Object for field Options information. name -&gt; (string) [required] FieldOptionName has max length 100 and disallows trailing spaces. Constraints: • min: 1 • max: 100 • pattern: .*[\S] value -&gt; (string) [required] FieldOptionValue has max length 100 and must be alphanumeric with hyphens and underscores. Constraints: • min: 1 • max: 100 • pattern: .*[\S] active -&gt; (boolean) [required] Describes whether the FieldOption is active (displayed) or inactive. Shorthand Syntax: name=string,value=string,active=boolean ... JSON Syntax: [ { "name": "string", "value": "string", "active": true|false } ... ]
     /// </summary>
     [CliOption("--options", GroupValues = true)]
     public IEnumerable<string>? Options { get; private init; }

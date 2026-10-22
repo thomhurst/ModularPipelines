@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsTransferUpdateWebAppCustomizationOptions : AwsOptions, IValidat
     /// <summary>
     /// Assigns new customization properties to a web app. You can modify the icon file, logo file, and title. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WebAppId">Provide the identifier of the web app that you are updating. Constraints: o min: 24 o max: 24 o pattern: webapp-[0-9a-f]{17}</param>
+    /// <param name="WebAppId">Provide the identifier of the web app that you are updating. Constraints: • min: 24 • max: 24 • pattern: webapp-[0-9a-f]{17}</param>
     public AwsTransferUpdateWebAppCustomizationOptions(
         string WebAppId
     )
@@ -56,25 +58,25 @@ public record AwsTransferUpdateWebAppCustomizationOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Provide the identifier of the web app that you are updating. Constraints: o min: 24 o max: 24 o pattern: webapp-[0-9a-f]{17}
+    /// Provide the identifier of the web app that you are updating. Constraints: • min: 24 • max: 24 • pattern: webapp-[0-9a-f]{17}
     /// </summary>
     [CliOption("--web-app-id")]
     public string? WebAppId { get; private init; }
 
     /// <summary>
-    /// Provide an updated title. Constraints: o min: 0 o max: 100
+    /// Provide an updated title. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--title")]
     public string? Title { get; set; }
 
     /// <summary>
-    /// Specify logo file data string (in base64 encoding). Constraints: o min: 1 o max: 51200
+    /// Specify logo file data string (in base64 encoding). Constraints: • min: 1 • max: 51200
     /// </summary>
     [CliOption("--logo-file")]
     public string? LogoFile { get; set; }
 
     /// <summary>
-    /// Specify an icon file data string (in base64 encoding). Constraints: o min: 1 o max: 20960
+    /// Specify an icon file data string (in base64 encoding). Constraints: • min: 1 • max: 20960
     /// </summary>
     [CliOption("--favicon-file")]
     public string? FaviconFile { get; set; }

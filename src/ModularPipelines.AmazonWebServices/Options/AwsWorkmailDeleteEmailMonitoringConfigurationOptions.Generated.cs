@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the email monitoring configuration for a specified organiza- tion. See also: AWS API Documentation
+/// Deletes the email monitoring configuration for a specified organization. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsWorkmailDeleteEmailMonitoringConfigurationOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the email monitoring configuration for a specified organiza- tion. See also: AWS API Documentation
+    /// Deletes the email monitoring configuration for a specified organization. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The ID of the organization from which the email monitoring configu- ration is deleted. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="OrganizationId">The ID of the organization from which the email monitoring configuration is deleted. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
     public AwsWorkmailDeleteEmailMonitoringConfigurationOptions(
         string OrganizationId
     )
@@ -56,7 +58,7 @@ public record AwsWorkmailDeleteEmailMonitoringConfigurationOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the organization from which the email monitoring configu- ration is deleted. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The ID of the organization from which the email monitoring configuration is deleted. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }

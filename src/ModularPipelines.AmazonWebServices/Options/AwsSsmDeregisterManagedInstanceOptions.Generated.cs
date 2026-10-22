@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSsmDeregisterManagedInstanceOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Removes the server or virtual machine from the list of registered servers. If you want to reregister an on-premises server, edge device, or VM, you must use a different Activation Code and Activation ID than used to register the machine previously. The Activation Code and Activation ID must not have already been used on the maximum number of activations specified when they were created. For more information, see Deregistering managed nodes in a hybrid and multicloud environment in the Amazon Web...
     /// </summary>
-    /// <param name="InstanceId">The ID assigned to the managed node when you registered it using the activation process. Constraints: o min: 20 o max: 124 o pattern: (^mi-[0-9a-f]{17}$)|(^eks_c:[0-9A-Za-z][A-Za-z0-9\-_]{0,99}_\w{17}$)</param>
+    /// <param name="InstanceId">The ID assigned to the managed node when you registered it using the activation process. Constraints: • min: 20 • max: 124 • pattern: (^mi-[0-9a-f]{17}$)|(^eks_c:[0-9A-Za-z][A-Za-z0-9\-_]{0,99}_\w{17}$)</param>
     public AwsSsmDeregisterManagedInstanceOptions(
         string InstanceId
     )
@@ -56,7 +58,7 @@ public record AwsSsmDeregisterManagedInstanceOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID assigned to the managed node when you registered it using the activation process. Constraints: o min: 20 o max: 124 o pattern: (^mi-[0-9a-f]{17}$)|(^eks_c:[0-9A-Za-z][A-Za-z0-9\-_]{0,99}_\w{17}$)
+    /// The ID assigned to the managed node when you registered it using the activation process. Constraints: • min: 20 • max: 124 • pattern: (^mi-[0-9a-f]{17}$)|(^eks_c:[0-9A-Za-z][A-Za-z0-9\-_]{0,99}_\w{17}$)
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }

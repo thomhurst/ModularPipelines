@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsCodepipelineListPipelineExecutionsOptions : AwsOptions, IValida
     /// <summary>
     /// Gets a summary of the most recent executions for a pipeline. NOTE: When applying the filter for pipeline executions that have succeeded in the stage, the operation returns all executions in the current pipeline version beginning on February 1, 2024. See also: AWS API Documentation list-pipeline-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --...
     /// </summary>
-    /// <param name="PipelineName">The name of the pipeline for which you want to get execution summary information. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+</param>
+    /// <param name="PipelineName">The name of the pipeline for which you want to get execution summary information. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+</param>
     public AwsCodepipelineListPipelineExecutionsOptions(
         string PipelineName
     )
@@ -57,22 +59,19 @@ public record AwsCodepipelineListPipelineExecutionsOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the pipeline for which you want to get execution summary information. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+
+    /// The name of the pipeline for which you want to get execution summary information. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+
     /// </summary>
     [CliOption("--pipeline-name")]
     public string? PipelineName { get; private init; }
 
     /// <summary>
-    /// The pipeline execution to filter on. succeededInStage -&gt; (structure) Filter for pipeline executions where the stage was successful in the current pipeline version. stageName -&gt; (string) The name of the stage for filtering for pipeline executions where the stage was successful in the current pipeline ver- sion. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+ Shorthand Syntax: succeededInStage={stageName=string} JSON Syntax: { "succeededInStage": { "stageName": "string" } }
+    /// The pipeline execution to filter on. succeededInStage -&gt; (structure) Filter for pipeline executions where the stage was successful in the current pipeline version. stageName -&gt; (string) The name of the stage for filtering for pipeline executions where the stage was successful in the current pipeline version. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+ Shorthand Syntax: succeededInStage={stageName=string} JSON Syntax: { "succeededInStage": { "stageName": "string" } }
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -82,16 +81,19 @@ public record AwsCodepipelineListPipelineExecutionsOptions : AwsOptions, IValida
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

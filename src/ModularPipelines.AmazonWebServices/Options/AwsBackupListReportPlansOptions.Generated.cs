@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsBackupListReportPlansOptions : AwsOptions
 {
     /// <summary>
-    /// The number of desired results from 1 to 1000. Optional. If unspeci- fied, the query will return 1 MB of data. Constraints: o min: 1 o max: 1000
+    /// The number of desired results from 1 to 1000. Optional. If unspecified, the query will return 1 MB of data. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// An identifier that was returned from the previous call to this oper- ation, which can be used to return the next set of items in the list.
+    /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

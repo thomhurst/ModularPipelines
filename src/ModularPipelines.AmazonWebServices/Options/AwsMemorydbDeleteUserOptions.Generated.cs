@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a user. The user will be removed from all ACLs and in turn re- moved from all clusters. See also: AWS API Documentation
+/// Deletes a user. The user will be removed from all ACLs and in turn removed from all clusters. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsMemorydbDeleteUserOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a user. The user will be removed from all ACLs and in turn re- moved from all clusters. See also: AWS API Documentation
+    /// Deletes a user. The user will be removed from all ACLs and in turn removed from all clusters. See also: AWS API Documentation
     /// </summary>
-    /// <param name="UserName">The name of the user to delete Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]*</param>
+    /// <param name="UserName">The name of the user to delete Constraints: • min: 1 • pattern: [a-zA-Z][a-zA-Z0-9\-]*</param>
     public AwsMemorydbDeleteUserOptions(
         string UserName
     )
@@ -56,7 +58,7 @@ public record AwsMemorydbDeleteUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the user to delete Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]*
+    /// The name of the user to delete Constraints: • min: 1 • pattern: [a-zA-Z][a-zA-Z0-9\-]*
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; private init; }

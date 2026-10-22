@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Registers and saves an OpenID Connect (OIDC) configuration for a Wickr network, enabling Single Sign-On (SSO) authentication through an iden- tity provider. See also: AWS API Documentation
+/// Registers and saves an OpenID Connect (OIDC) configuration for a Wickr network, enabling Single Sign-On (SSO) authentication through an identity provider. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +28,12 @@ public record AwsWickrRegisterOidcConfigOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Registers and saves an OpenID Connect (OIDC) configuration for a Wickr network, enabling Single Sign-On (SSO) authentication through an iden- tity provider. See also: AWS API Documentation
+    /// Registers and saves an OpenID Connect (OIDC) configuration for a Wickr network, enabling Single Sign-On (SSO) authentication through an identity provider. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The ID of the Wickr network for which OIDC will be configured. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
-    /// <param name="CompanyId">Custom identifier your end users will use to sign in with SSO. Constraints: o pattern: [\S\s]*</param>
-    /// <param name="Issuer">The issuer URL of the OIDC provider (e.g., '- https://login.example.com'). Constraints: o pattern: [\S\s]*</param>
-    /// <param name="Scopes">The OAuth scopes to request from the OIDC provider (e.g., 'openid profile email'). Constraints: o pattern: [\S\s]*</param>
+    /// <param name="NetworkId">The ID of the Wickr network for which OIDC will be configured. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}</param>
+    /// <param name="CompanyId">Custom identifier your end users will use to sign in with SSO. Constraints: • pattern: [\S\s]*</param>
+    /// <param name="Issuer">The issuer URL of the OIDC provider (e.g., 'https://login.example.com'). Constraints: • pattern: [\S\s]*</param>
+    /// <param name="Scopes">The OAuth scopes to request from the OIDC provider (e.g., 'openid profile email'). Constraints: • pattern: [\S\s]*</param>
     public AwsWickrRegisterOidcConfigOptions(
         string NetworkId,
         string CompanyId,
@@ -69,43 +71,43 @@ public record AwsWickrRegisterOidcConfigOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Wickr network for which OIDC will be configured. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// The ID of the Wickr network for which OIDC will be configured. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }
 
     /// <summary>
-    /// Custom identifier your end users will use to sign in with SSO. Constraints: o pattern: [\S\s]*
+    /// Custom identifier your end users will use to sign in with SSO. Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--company-id")]
     public string? CompanyId { get; private init; }
 
     /// <summary>
-    /// The issuer URL of the OIDC provider (e.g., '- https://login.example.com'). Constraints: o pattern: [\S\s]*
+    /// The issuer URL of the OIDC provider (e.g., 'https://login.example.com'). Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--issuer")]
     public string? Issuer { get; private init; }
 
     /// <summary>
-    /// The OAuth scopes to request from the OIDC provider (e.g., 'openid profile email'). Constraints: o pattern: [\S\s]*
+    /// The OAuth scopes to request from the OIDC provider (e.g., 'openid profile email'). Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--scopes")]
     public string? Scopes { get; private init; }
 
     /// <summary>
-    /// A custom field mapping to extract the username from the OIDC token (optional). NOTE: The customUsername is only required if you use something other than email as the username field. Constraints: o pattern: [\S\s]*
+    /// A custom field mapping to extract the username from the OIDC token (optional). NOTE: The customUsername is only required if you use something other than email as the username field. Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--custom-username")]
     public string? CustomUsername { get; set; }
 
     /// <summary>
-    /// Additional authentication parameters to include in the OIDC flow (optional). Constraints: o pattern: [\S\s]*
+    /// Additional authentication parameters to include in the OIDC flow (optional). Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--extra-auth-params")]
     public string? ExtraAuthParams { get; set; }
 
     /// <summary>
-    /// The client secret for authenticating with the OIDC provider (op- tional). Constraints: o pattern: [\S\s]*
+    /// The client secret for authenticating with the OIDC provider (optional). Constraints: • pattern: [\S\s]*
     /// </summary>
     [SecretValue]
     [CliOption("--secret")]
@@ -118,7 +120,7 @@ public record AwsWickrRegisterOidcConfigOptions : AwsOptions, IValidatableObject
     public int? SsoTokenBufferMinutes { get; set; }
 
     /// <summary>
-    /// Unique identifier provided by your identity provider to authenticate the access request. Also referred to as clientID. Constraints: o pattern: [\S\s]*
+    /// Unique identifier provided by your identity provider to authenticate the access request. Also referred to as clientID. Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; set; }

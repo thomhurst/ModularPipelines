@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes a dataset import job created using the CreateDatasetImportJob operation. In addition to listing the parameters provided in the CreateDatasetIm- portJob request, this operation includes the following properties: o CreationTime o LastModificationTime o DataSize o FieldStatistics o Status o Message - If an error occurred, information about the error. See also: AWS API Documentation
+/// Describes a dataset import job created using the CreateDatasetImportJob operation. In addition to listing the parameters provided in the CreateDatasetImportJob request, this operation includes the following properties: • CreationTime • LastModificationTime • DataSize • FieldStatistics • Status • Message - If an error occurred, information about the error. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsForecastDescribeDataSetImportJobOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes a dataset import job created using the CreateDatasetImportJob operation. In addition to listing the parameters provided in the CreateDatasetIm- portJob request, this operation includes the following properties: o CreationTime o LastModificationTime o DataSize o FieldStatistics o Status o Message - If an error occurred, information about the error. See also: AWS API Documentation
+    /// Describes a dataset import job created using the CreateDatasetImportJob operation. In addition to listing the parameters provided in the CreateDatasetImportJob request, this operation includes the following properties: • CreationTime • LastModificationTime • DataSize • FieldStatistics • Status • Message - If an error occurred, information about the error. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSetImportJobArn">The Amazon Resource Name (ARN) of the dataset import job. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    /// <param name="DataSetImportJobArn">The Amazon Resource Name (ARN) of the dataset import job. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
     public AwsForecastDescribeDataSetImportJobOptions(
         string DataSetImportJobArn
     )
@@ -56,7 +58,7 @@ public record AwsForecastDescribeDataSetImportJobOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the dataset import job. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the dataset import job. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
     /// </summary>
     [CliOption("--dataset-import-job-arn")]
     public string? DataSetImportJobArn { get; private init; }

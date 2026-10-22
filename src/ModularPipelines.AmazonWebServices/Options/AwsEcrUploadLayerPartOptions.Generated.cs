@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,16 +29,16 @@ public record AwsEcrUploadLayerPartOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Uploads an image layer part to Amazon ECR. When an image is pushed, each new image layer is uploaded in parts. The maximum size of each image layer part can be 20971520 bytes (or about 20MB). The UploadLayerPart API is called once per each new image layer part. NOTE: This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryName">The name of the repository to which you are uploading layer parts. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*</param>
-    /// <param name="UploadId">The upload ID from a previous InitiateLayerUpload operation to as- sociate with the layer part upload. Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</param>
-    /// <param name="PartFirstByte">The position of the first byte of the layer part witin the overall image layer. Constraints: o min: 0</param>
-    /// <param name="PartLastByte">The position of the last byte of the layer part within the overall image layer. Constraints: o min: 0</param>
-    /// <param name="LayerPartBlob">The base64-encoded layer part payload. Constraints: o min: 0 o max: 20971520</param>
+    /// <param name="RepositoryName">The name of the repository to which you are uploading layer parts. Constraints: • min: 2 • max: 256 • pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*</param>
+    /// <param name="UploadId">The upload ID from a previous InitiateLayerUpload operation to associate with the layer part upload. Constraints: • pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</param>
+    /// <param name="PartFirstByte">The position of the first byte of the layer part witin the overall image layer. Constraints: • min: 0</param>
+    /// <param name="PartLastByte">The position of the last byte of the layer part within the overall image layer. Constraints: • min: 0</param>
+    /// <param name="LayerPartBlob">The base64-encoded layer part payload. Constraints: • min: 0 • max: 20971520</param>
     public AwsEcrUploadLayerPartOptions(
         string RepositoryName,
         string UploadId,
-        int PartFirstByte,
-        int PartLastByte,
+        long PartFirstByte,
+        long PartLastByte,
         string LayerPartBlob
     )
     {
@@ -70,37 +72,37 @@ public record AwsEcrUploadLayerPartOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the repository to which you are uploading layer parts. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*
+    /// The name of the repository to which you are uploading layer parts. Constraints: • min: 2 • max: 256 • pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
 
     /// <summary>
-    /// The upload ID from a previous InitiateLayerUpload operation to as- sociate with the layer part upload. Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
+    /// The upload ID from a previous InitiateLayerUpload operation to associate with the layer part upload. Constraints: • pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
     /// </summary>
     [CliOption("--upload-id")]
     public string? UploadId { get; private init; }
 
     /// <summary>
-    /// The position of the first byte of the layer part witin the overall image layer. Constraints: o min: 0
+    /// The position of the first byte of the layer part witin the overall image layer. Constraints: • min: 0
     /// </summary>
     [CliOption("--part-first-byte")]
-    public int? PartFirstByte { get; private init; }
+    public long? PartFirstByte { get; private init; }
 
     /// <summary>
-    /// The position of the last byte of the layer part within the overall image layer. Constraints: o min: 0
+    /// The position of the last byte of the layer part within the overall image layer. Constraints: • min: 0
     /// </summary>
     [CliOption("--part-last-byte")]
-    public int? PartLastByte { get; private init; }
+    public long? PartLastByte { get; private init; }
 
     /// <summary>
-    /// The base64-encoded layer part payload. Constraints: o min: 0 o max: 20971520
+    /// The base64-encoded layer part payload. Constraints: • min: 0 • max: 20971520
     /// </summary>
     [CliOption("--layer-part-blob")]
     public string? LayerPartBlob { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID associated with the registry to which you are uploading layer parts. If you do not specify a reg- istry, the default registry is assumed. Constraints: o pattern: [0-9]{12}
+    /// The Amazon Web Services account ID associated with the registry to which you are uploading layer parts. If you do not specify a registry, the default registry is assumed. Constraints: • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; set; }

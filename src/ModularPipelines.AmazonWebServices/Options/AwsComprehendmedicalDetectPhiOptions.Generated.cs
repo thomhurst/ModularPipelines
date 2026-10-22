@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Inspects the clinical text for protected health information (PHI) enti- ties and returns the entity category, location, and confidence score for each entity. Amazon Comprehend Medical only detects entities in English language texts. See also: AWS API Documentation
+/// Inspects the clinical text for protected health information (PHI) entities and returns the entity category, location, and confidence score for each entity. Amazon Comprehend Medical only detects entities in English language texts. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsComprehendmedicalDetectPhiOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Inspects the clinical text for protected health information (PHI) enti- ties and returns the entity category, location, and confidence score for each entity. Amazon Comprehend Medical only detects entities in English language texts. See also: AWS API Documentation
+    /// Inspects the clinical text for protected health information (PHI) entities and returns the entity category, location, and confidence score for each entity. Amazon Comprehend Medical only detects entities in English language texts. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Text">A UTF-8 text string containing the clinical content being examined for PHI entities. Constraints: o min: 1 o max: 20000</param>
+    /// <param name="Text">A UTF-8 text string containing the clinical content being examined for PHI entities. Constraints: • min: 1 • max: 20000</param>
     public AwsComprehendmedicalDetectPhiOptions(
         string Text
     )
@@ -56,7 +58,7 @@ public record AwsComprehendmedicalDetectPhiOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A UTF-8 text string containing the clinical content being examined for PHI entities. Constraints: o min: 1 o max: 20000
+    /// A UTF-8 text string containing the clinical content being examined for PHI entities. Constraints: • min: 1 • max: 20000
     /// </summary>
     [CliOption("--text")]
     public string? Text { get; private init; }

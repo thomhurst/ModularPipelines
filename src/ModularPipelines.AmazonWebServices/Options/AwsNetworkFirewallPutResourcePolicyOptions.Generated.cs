@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates an IAM policy for your rule group, firewall policy, or firewall. Use this to share these resources between accounts. This operation works in conjunction with the Amazon Web Services Resource Access Manager (RAM) service to manage resource sharing for Network Firewall. For information about using sharing with Network Firewall resources, see Sharing Network Firewall resources in the Network Firewall Devel- oper Guide . Use this operation to create or update a resource policy for...
+/// Creates or updates an IAM policy for your rule group, firewall policy, or firewall. Use this to share these resources between accounts. This operation works in conjunction with the Amazon Web Services Resource Access Manager (RAM) service to manage resource sharing for Network Firewall. For information about using sharing with Network Firewall resources, see Sharing Network Firewall resources in the Network Firewall Developer Guide . Use this operation to create or update a resource policy for y...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsNetworkFirewallPutResourcePolicyOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates or updates an IAM policy for your rule group, firewall policy, or firewall. Use this to share these resources between accounts. This operation works in conjunction with the Amazon Web Services Resource Access Manager (RAM) service to manage resource sharing for Network Firewall. For information about using sharing with Network Firewall resources, see Sharing Network Firewall resources in the Network Firewall Devel- oper Guide . Use this operation to create or update a resource policy for...
+    /// Creates or updates an IAM policy for your rule group, firewall policy, or firewall. Use this to share these resources between accounts. This operation works in conjunction with the Amazon Web Services Resource Access Manager (RAM) service to manage resource sharing for Network Firewall. For information about using sharing with Network Firewall resources, see Sharing Network Firewall resources in the Network Firewall Developer Guide . Use this operation to create or update a resource policy for y...
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the account that you want to share your Network Firewall resources with. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*</param>
-    /// <param name="Policy">The IAM policy statement that lists the accounts that you want to share your Network Firewall resources with and the operations that you want the accounts to be able to perform. For a rule group resource, you can specify the following operations in the Actions section of the statement: o network-firewall:CreateFirewallPolicy o network-firewall:UpdateFirewallPolicy o network-firewall:ListRuleGroups For a firewall policy resource, you can specify the following opera- tions in the Actions section of the statement: o network-firewall:AssociateFirewallPolicy o network-firewall:ListFirewallPolicies For a firewall resource, you can specify the following operations in the Actions section of the statement: o network-firewall:CreateVpcEndpointAssociation o network-firewall:DescribeFirewallMetadata o network-firewall:ListFirewalls In the Resource section of the statement, you specify the ARNs for the Network Firewall resources that you want to share with the ac- count that you specified in Arn . Constraints: o min: 1 o max: 395000 o pattern: .*\S.*</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the account that you want to share your Network Firewall resources with. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*</param>
+    /// <param name="Policy">The IAM policy statement that lists the accounts that you want to share your Network Firewall resources with and the operations that you want the accounts to be able to perform. For a rule group resource, you can specify the following operations in the Actions section of the statement: • network-firewall:CreateFirewallPolicy • network-firewall:UpdateFirewallPolicy • network-firewall:ListRuleGroups For a firewall policy resource, you can specify the following operations in the Actions section of the statement: • network-firewall:AssociateFirewallPolicy • network-firewall:ListFirewallPolicies For a firewall resource, you can specify the following operations in the Actions section of the statement: • network-firewall:CreateVpcEndpointAssociation • network-firewall:DescribeFirewallMetadata • network-firewall:ListFirewalls In the Resource section of the statement, you specify the ARNs for the Network Firewall resources that you want to share with the account that you specified in Arn . Constraints: • min: 1 • max: 395000 • pattern: .*\S.*</param>
     public AwsNetworkFirewallPutResourcePolicyOptions(
         string ResourceArn,
         string Policy
@@ -60,13 +62,13 @@ public record AwsNetworkFirewallPutResourcePolicyOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the account that you want to share your Network Firewall resources with. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*
+    /// The Amazon Resource Name (ARN) of the account that you want to share your Network Firewall resources with. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The IAM policy statement that lists the accounts that you want to share your Network Firewall resources with and the operations that you want the accounts to be able to perform. For a rule group resource, you can specify the following operations in the Actions section of the statement: o network-firewall:CreateFirewallPolicy o network-firewall:UpdateFirewallPolicy o network-firewall:ListRuleGroups For a firewall policy resource, you can specify the following opera- tions in the Actions section of the statement: o network-firewall:AssociateFirewallPolicy o network-firewall:ListFirewallPolicies For a firewall resource, you can specify the following operations in the Actions section of the statement: o network-firewall:CreateVpcEndpointAssociation o network-firewall:DescribeFirewallMetadata o network-firewall:ListFirewalls In the Resource section of the statement, you specify the ARNs for the Network Firewall resources that you want to share with the ac- count that you specified in Arn . Constraints: o min: 1 o max: 395000 o pattern: .*\S.*
+    /// The IAM policy statement that lists the accounts that you want to share your Network Firewall resources with and the operations that you want the accounts to be able to perform. For a rule group resource, you can specify the following operations in the Actions section of the statement: • network-firewall:CreateFirewallPolicy • network-firewall:UpdateFirewallPolicy • network-firewall:ListRuleGroups For a firewall policy resource, you can specify the following operations in the Actions section of the statement: • network-firewall:AssociateFirewallPolicy • network-firewall:ListFirewallPolicies For a firewall resource, you can specify the following operations in the Actions section of the statement: • network-firewall:CreateVpcEndpointAssociation • network-firewall:DescribeFirewallMetadata • network-firewall:ListFirewalls In the Resource section of the statement, you specify the ARNs for the Network Firewall resources that you want to share with the account that you specified in Arn . Constraints: • min: 1 • max: 395000 • pattern: .*\S.*
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; private init; }

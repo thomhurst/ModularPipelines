@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a version of a SageMaker AI image. The container image the ver- sion represents isn't deleted. See also: AWS API Documentation
+/// Deletes a version of a SageMaker AI image. The container image the version represents isn't deleted. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSagemakerDeleteImageVersionOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a version of a SageMaker AI image. The container image the ver- sion represents isn't deleted. See also: AWS API Documentation
+    /// Deletes a version of a SageMaker AI image. The container image the version represents isn't deleted. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ImageName">The name of the image to delete. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}</param>
+    /// <param name="ImageName">The name of the image to delete. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}</param>
     public AwsSagemakerDeleteImageVersionOptions(
         string ImageName
     )
@@ -56,19 +58,19 @@ public record AwsSagemakerDeleteImageVersionOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the image to delete. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}
+    /// The name of the image to delete. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--image-name")]
     public string? ImageName { get; private init; }
 
     /// <summary>
-    /// The alias of the image to delete. Constraints: o min: 1 o max: 128 o pattern: (?!^[.-])^([a-zA-Z0-9-_.]+)
+    /// The alias of the image to delete. Constraints: • min: 1 • max: 128 • pattern: (?!^[.-])^([a-zA-Z0-9-_.]+)
     /// </summary>
     [CliOption("--alias")]
     public string? Alias { get; set; }
 
     /// <summary>
-    /// The version to delete. Constraints: o min: 0
+    /// The version to delete. Constraints: • min: 0
     /// </summary>
     [CliOption("--version-number")]
     public int? VersionNumber { get; set; }

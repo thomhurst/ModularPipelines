@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsChimeSdkMediaPipelinesUntagResourceOptions : AwsOptions, IValid
     /// <summary>
     /// Removes any tags from a media pipeline. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the pipeline that you want to untag. Constraints: o min: 1 o max: 1011 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$</param>
-    /// <param name="TagKeys">The key/value pairs in the tag that you want to remove. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The ARN of the pipeline that you want to untag. Constraints: • min: 1 • max: 1011 • pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$</param>
+    /// <param name="TagKeys">The key/value pairs in the tag that you want to remove. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
     public AwsChimeSdkMediaPipelinesUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsChimeSdkMediaPipelinesUntagResourceOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the pipeline that you want to untag. Constraints: o min: 1 o max: 1011 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$
+    /// The ARN of the pipeline that you want to untag. Constraints: • min: 1 • max: 1011 • pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The key/value pairs in the tag that you want to remove. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// The key/value pairs in the tag that you want to remove. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves detailed information about a specific durable execution , in- cluding its current status, input payload, result or error information, and execution metadata such as start time and usage statistics. See also: AWS API Documentation
+/// Retrieves detailed information about a specific durable execution , including its current status, input payload, result or error information, and execution metadata such as start time and usage statistics. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLambdaGetDurableExecutionOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves detailed information about a specific durable execution , in- cluding its current status, input payload, result or error information, and execution metadata such as start time and usage statistics. See also: AWS API Documentation
+    /// Retrieves detailed information about a specific durable execution , including its current status, input payload, result or error information, and execution metadata such as start time and usage statistics. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DurableExecutionArn">The Amazon Resource Name (ARN) of the durable execution. Constraints: o min: 1 o max: 1024 o pattern: arn:([a-zA-Z0-9-]+):lambda:([a-zA-Z0-9-]+):(\d{12}):func- tion:([a-zA-Z0-9_-]+):(\$LATEST(?:\.PUB- LISHED)?|[0-9]+)/durable-execu- tion/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)</param>
+    /// <param name="DurableExecutionArn">The Amazon Resource Name (ARN) of the durable execution. Constraints: • min: 1 • max: 1024 • pattern: arn:([a-zA-Z0-9-]+):lambda:([a-zA-Z0-9-]+):(\d{12}):function:([a-zA-Z0-9_-]+):(\$LATEST(?:\.PUBLISHED)?|[0-9]+)/durable-execution/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)</param>
     public AwsLambdaGetDurableExecutionOptions(
         string DurableExecutionArn
     )
@@ -56,13 +58,13 @@ public record AwsLambdaGetDurableExecutionOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the durable execution. Constraints: o min: 1 o max: 1024 o pattern: arn:([a-zA-Z0-9-]+):lambda:([a-zA-Z0-9-]+):(\d{12}):func- tion:([a-zA-Z0-9_-]+):(\$LATEST(?:\.PUB- LISHED)?|[0-9]+)/durable-execu- tion/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)
+    /// The Amazon Resource Name (ARN) of the durable execution. Constraints: • min: 1 • max: 1024 • pattern: arn:([a-zA-Z0-9-]+):lambda:([a-zA-Z0-9-]+):(\d{12}):function:([a-zA-Z0-9_-]+):(\$LATEST(?:\.PUBLISHED)?|[0-9]+)/durable-execution/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)
     /// </summary>
     [CliOption("--durable-execution-arn")]
     public string? DurableExecutionArn { get; private init; }
 
     /// <summary>
-    /// Specifies whether to include execution data such as input payload, result, and error information in the response. Set to false for a more compact response that includes only execution metadata. The de- fault value is set to true .
+    /// Specifies whether to include execution data such as input payload, result, and error information in the response. Set to false for a more compact response that includes only execution metadata. The default value is set to true .
     /// </summary>
     [CliFlag("--include-execution-data", NegatedName = "--no-include-execution-data")]
     public bool? IncludeExecutionData { get; set; }

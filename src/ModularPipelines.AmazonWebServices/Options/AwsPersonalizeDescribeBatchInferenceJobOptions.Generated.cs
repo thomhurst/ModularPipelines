@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the properties of a batch inference job including name, Amazon Re- source Name (ARN), status, input and output configurations, and the ARN of the solution version used to generate the recommendations. See also: AWS API Documentation
+/// Gets the properties of a batch inference job including name, Amazon Resource Name (ARN), status, input and output configurations, and the ARN of the solution version used to generate the recommendations. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsPersonalizeDescribeBatchInferenceJobOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets the properties of a batch inference job including name, Amazon Re- source Name (ARN), status, input and output configurations, and the ARN of the solution version used to generate the recommendations. See also: AWS API Documentation
+    /// Gets the properties of a batch inference job including name, Amazon Resource Name (ARN), status, input and output configurations, and the ARN of the solution version used to generate the recommendations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BatchInferenceJobArn">The ARN of the batch inference job to describe. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="BatchInferenceJobArn">The ARN of the batch inference job to describe. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
     public AwsPersonalizeDescribeBatchInferenceJobOptions(
         string BatchInferenceJobArn
     )
@@ -56,7 +58,7 @@ public record AwsPersonalizeDescribeBatchInferenceJobOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the batch inference job to describe. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The ARN of the batch inference job to describe. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--batch-inference-job-arn")]
     public string? BatchInferenceJobArn { get; private init; }

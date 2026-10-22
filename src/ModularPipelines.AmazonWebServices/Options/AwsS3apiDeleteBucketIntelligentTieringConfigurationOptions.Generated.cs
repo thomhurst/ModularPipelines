@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation is not supported for directory buckets. Deletes the S3 Intelligent-Tiering configuration from the specified bucket. The S3 Intelligent-Tiering storage class is designed to optimize stor- age costs by automatically moving data to the most cost-effective stor- age access tier, without performance impact or operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in three low la- tency and high throughput access tiers. To get the lowest storage cost on data ...
+/// NOTE: This operation is not supported for directory buckets. Deletes the S3 Intelligent-Tiering configuration from the specified bucket. The S3 Intelligent-Tiering storage class is designed to optimize storage costs by automatically moving data to the most cost-effective storage access tier, without performance impact or operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in three low latency and high throughput access tiers. To get the lowest storage cost on data that c...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsS3apiDeleteBucketIntelligentTieringConfigurationOptions : AwsOp
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation is not supported for directory buckets. Deletes the S3 Intelligent-Tiering configuration from the specified bucket. The S3 Intelligent-Tiering storage class is designed to optimize stor- age costs by automatically moving data to the most cost-effective stor- age access tier, without performance impact or operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in three low la- tency and high throughput access tiers. To get the lowest storage cost on data ...
+    /// NOTE: This operation is not supported for directory buckets. Deletes the S3 Intelligent-Tiering configuration from the specified bucket. The S3 Intelligent-Tiering storage class is designed to optimize storage costs by automatically moving data to the most cost-effective storage access tier, without performance impact or operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in three low latency and high throughput access tiers. To get the lowest storage cost on data that c...
     /// </summary>
     /// <param name="Bucket">The name of the Amazon S3 bucket whose configuration you want to modify or retrieve.</param>
     /// <param name="Id">The ID used to identify the S3 Intelligent-Tiering configuration.</param>
@@ -72,7 +74,7 @@ public record AwsS3apiDeleteBucketIntelligentTieringConfigurationOptions : AwsOp
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }

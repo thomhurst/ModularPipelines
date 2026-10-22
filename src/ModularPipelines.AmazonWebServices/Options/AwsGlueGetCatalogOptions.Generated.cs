@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsGlueGetCatalogOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// The name of the Catalog to retrieve. This should be all lowercase. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CatalogId">The ID of the parent catalog in which the catalog resides. If none is provided, the Amazon Web Services Account Number is used by de- fault. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="CatalogId">The ID of the parent catalog in which the catalog resides. If none is provided, the Amazon Web Services Account Number is used by default. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
     public AwsGlueGetCatalogOptions(
         string CatalogId
     )
@@ -56,7 +58,7 @@ public record AwsGlueGetCatalogOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the parent catalog in which the catalog resides. If none is provided, the Amazon Web Services Account Number is used by de- fault. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The ID of the parent catalog in which the catalog resides. If none is provided, the Amazon Web Services Account Number is used by default. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; private init; }

@@ -23,14 +23,14 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSesv2ListCustomVerificationEmailTemplatesOptions : AwsOptions
 {
     /// <summary>
-    /// A token returned from a previous call to ListCustomVerificationE- mailTemplates to indicate the position in the list of custom verifi- cation email templates.
+    /// A token returned from a previous call to ListCustomVerificationEmailTemplates to indicate the position in the list of custom verification email templates.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The number of results to show in a single call to ListCustomVerifi- cationEmailTemplates . If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 1, and can be no more than 50.
+    /// The number of results to show in a single call to ListCustomVerificationEmailTemplates . If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 1, and can be no more than 50.
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }

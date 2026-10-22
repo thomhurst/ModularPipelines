@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,7 +29,7 @@ public record AwsConnecthealthCreateDomainOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Creates a new Domain for managing HealthAgent resources. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name for the new Domain. Constraints: o min: 1 o max: 64</param>
+    /// <param name="Name">The name for the new Domain. Constraints: • min: 1 • max: 64</param>
     public AwsConnecthealthCreateDomainOptions(
         string Name
     )
@@ -57,25 +58,25 @@ public record AwsConnecthealthCreateDomainOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name for the new Domain. Constraints: o min: 1 o max: 64
+    /// The name for the new Domain. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The ARN of the KMS key to use for encrypting data in this Domain. Constraints: o pattern: arn:aws:kms:[a-z0-9-]+:[0-9]{12}:key/[a-f0-9-]+
+    /// The ARN of the KMS key to use for encrypting data in this Domain. Constraints: • pattern: arn:aws:kms:[a-z0-9-]+:[0-9]{12}:key/[a-f0-9-]+
     /// </summary>
     [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }
 
     /// <summary>
-    /// Configuration for the Domain web application. Optional, but if pro- vided all fields are required. ehrRole -&gt; (string) [required] ARN of the IAM role used for EHR operations. Constraints: o min: 1 o max: 2048 o pattern: arn:aws:iam::[0-9]{12}:role/.+ idcInstanceId -&gt; (string) [required] The Identity Center instance ID to use for creating the applica- tion. Constraints: o min: 1 o max: 256 idcRegion -&gt; (string) [required] The AWS region where Identity Center is configured. Constraints: o min: 1 o max: 64 Shorthand Syntax: ehrRole=string,idcInstanceId=string,idcRegion=string JSON Syntax: { "ehrRole": "string", "idcInstanceId": "string", "idcRegion": "string" }
+    /// Configuration for the Domain web application. Optional, but if provided all fields are required. ehrRole -&gt; (string) [required] ARN of the IAM role used for EHR operations. Constraints: • min: 1 • max: 2048 • pattern: arn:aws:iam::[0-9]{12}:role/.+ idcInstanceId -&gt; (string) [required] The Identity Center instance ID to use for creating the application. Constraints: • min: 1 • max: 256 idcRegion -&gt; (string) [required] The AWS region where Identity Center is configured. Constraints: • min: 1 • max: 64 Shorthand Syntax: ehrRole=string,idcInstanceId=string,idcRegion=string JSON Syntax: { "ehrRole": "string", "idcInstanceId": "string", "idcRegion": "string" }
     /// </summary>
     [CliOption("--web-app-setup-configuration")]
     public string? WebAppSetupConfiguration { get; set; }
 
     /// <summary>
-    /// Tags to associate with the Domain. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags to associate with the Domain. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

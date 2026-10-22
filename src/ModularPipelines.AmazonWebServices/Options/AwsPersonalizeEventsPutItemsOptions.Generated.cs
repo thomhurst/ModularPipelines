@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsPersonalizeEventsPutItemsOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Adds one or more items to an Items dataset. For more information see Importing items individually . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSetArn">The Amazon Resource Name (ARN) of the Items dataset you are adding the item or items to. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
-    /// <param name="Items">A list of item data. Constraints: o min: 1 o max: 10 (structure) Represents item metadata added to an Items dataset using the PutItems API. For more information see Importing items individu- ally . itemId -&gt; (string) [required] The ID associated with the item. Constraints: o min: 1 o max: 256 properties -&gt; (string) A string map of item-specific metadata. Each element in the map consists of a key-value pair. For example, {"numberOfRat- ings": "12"} . The keys use camel case names that match the fields in the schema for the Items dataset. In the previous example, the numberOfRatings matches the 'NUMBER_OF_RATINGS' field defined in the Items schema. For categorical string data, to include multiple categories for a single item, separate each category with a pipe separator (| ). For example, \"Horror|Action\" . Constraints: o min: 1 o max: 32000 Shorthand Syntax: itemId=string,properties=string ... JSON Syntax: [ { "itemId": "string", "properties": "string" } ... ]</param>
+    /// <param name="DataSetArn">The Amazon Resource Name (ARN) of the Items dataset you are adding the item or items to. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="Items">A list of item data. Constraints: • min: 1 • max: 10 (structure) Represents item metadata added to an Items dataset using the PutItems API. For more information see Importing items individually . itemId -&gt; (string) [required] The ID associated with the item. Constraints: • min: 1 • max: 256 properties -&gt; (string) A string map of item-specific metadata. Each element in the map consists of a key-value pair. For example, {"numberOfRatings": "12"} . The keys use camel case names that match the fields in the schema for the Items dataset. In the previous example, the numberOfRatings matches the 'NUMBER_OF_RATINGS' field defined in the Items schema. For categorical string data, to include multiple categories for a single item, separate each category with a pipe separator (| ). For example, \"Horror|Action\" . Constraints: • min: 1 • max: 32000 Shorthand Syntax: itemId=string,properties=string ... JSON Syntax: [ { "itemId": "string", "properties": "string" } ... ]</param>
     public AwsPersonalizeEventsPutItemsOptions(
         string DataSetArn,
         IEnumerable<string> Items
@@ -71,13 +73,13 @@ public record AwsPersonalizeEventsPutItemsOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Items dataset you are adding the item or items to. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the Items dataset you are adding the item or items to. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--dataset-arn")]
     public string? DataSetArn { get; private init; }
 
     /// <summary>
-    /// A list of item data. Constraints: o min: 1 o max: 10 (structure) Represents item metadata added to an Items dataset using the PutItems API. For more information see Importing items individu- ally . itemId -&gt; (string) [required] The ID associated with the item. Constraints: o min: 1 o max: 256 properties -&gt; (string) A string map of item-specific metadata. Each element in the map consists of a key-value pair. For example, {"numberOfRat- ings": "12"} . The keys use camel case names that match the fields in the schema for the Items dataset. In the previous example, the numberOfRatings matches the 'NUMBER_OF_RATINGS' field defined in the Items schema. For categorical string data, to include multiple categories for a single item, separate each category with a pipe separator (| ). For example, \"Horror|Action\" . Constraints: o min: 1 o max: 32000 Shorthand Syntax: itemId=string,properties=string ... JSON Syntax: [ { "itemId": "string", "properties": "string" } ... ]
+    /// A list of item data. Constraints: • min: 1 • max: 10 (structure) Represents item metadata added to an Items dataset using the PutItems API. For more information see Importing items individually . itemId -&gt; (string) [required] The ID associated with the item. Constraints: • min: 1 • max: 256 properties -&gt; (string) A string map of item-specific metadata. Each element in the map consists of a key-value pair. For example, {"numberOfRatings": "12"} . The keys use camel case names that match the fields in the schema for the Items dataset. In the previous example, the numberOfRatings matches the 'NUMBER_OF_RATINGS' field defined in the Items schema. For categorical string data, to include multiple categories for a single item, separate each category with a pipe separator (| ). For example, \"Horror|Action\" . Constraints: • min: 1 • max: 32000 Shorthand Syntax: itemId=string,properties=string ... JSON Syntax: [ { "itemId": "string", "properties": "string" } ... ]
     /// </summary>
     [CliOption("--items", GroupValues = true)]
     public IEnumerable<string>? Items { get; private init; }

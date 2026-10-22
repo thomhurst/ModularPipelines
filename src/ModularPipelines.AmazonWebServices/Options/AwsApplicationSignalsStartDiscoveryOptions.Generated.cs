@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables this Amazon Web Services account to be able to use CloudWatch Application Signals by creating the AWSServiceRoleForCloudWatchApplica- tionSignals service-linked role. This service- linked role has the fol- lowing permissions: o xray:GetServiceGraph o logs:StartQuery o logs:GetQueryResults o cloudwatch:GetMetricData o cloudwatch:ListMetrics o tag:GetResources o autoscaling:DescribeAutoScalingGroups A service-linked CloudTrail event channel is created to process Cloud- Trail events and ret...
+/// Enables this Amazon Web Services account to be able to use CloudWatch Application Signals by creating the AWSServiceRoleForCloudWatchApplicationSignals service-linked role. This service- linked role has the following permissions: • xray:GetServiceGraph • logs:StartQuery • logs:GetQueryResults • cloudwatch:GetMetricData • cloudwatch:ListMetrics • tag:GetResources • autoscaling:DescribeAutoScalingGroups A service-linked CloudTrail event channel is created to process CloudTrail events and return ch...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

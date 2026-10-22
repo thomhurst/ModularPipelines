@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +30,9 @@ public record AwsRepostspaceSendInvitesOptions : AwsOptions, IValidatableObject
     /// Sends an invitation email to selected users and groups. See also: AWS API Documentation
     /// </summary>
     /// <param name="SpaceId">The ID of the private re:Post.</param>
-    /// <param name="AccessorIds">The array of identifiers for the users and groups. Constraints: o min: 0 o max: 1000 (string) Syntax: "string" "string" ...</param>
-    /// <param name="Title">The title of the invite. Constraints: o min: 1 o max: 200</param>
-    /// <param name="Body">The body of the invite. Constraints: o min: 1 o max: 600</param>
+    /// <param name="AccessorIds">The array of identifiers for the users and groups. Constraints: • min: 0 • max: 1000 (string) Syntax: "string" "string" ...</param>
+    /// <param name="Title">The title of the invite. Constraints: • min: 1 • max: 200</param>
+    /// <param name="Body">The body of the invite. Constraints: • min: 1 • max: 600</param>
     public AwsRepostspaceSendInvitesOptions(
         string SpaceId,
         IEnumerable<string> AccessorIds,
@@ -85,19 +87,19 @@ public record AwsRepostspaceSendInvitesOptions : AwsOptions, IValidatableObject
     public string? SpaceId { get; private init; }
 
     /// <summary>
-    /// The array of identifiers for the users and groups. Constraints: o min: 0 o max: 1000 (string) Syntax: "string" "string" ...
+    /// The array of identifiers for the users and groups. Constraints: • min: 0 • max: 1000 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--accessor-ids", GroupValues = true)]
     public IEnumerable<string>? AccessorIds { get; private init; }
 
     /// <summary>
-    /// The title of the invite. Constraints: o min: 1 o max: 200
+    /// The title of the invite. Constraints: • min: 1 • max: 200
     /// </summary>
     [CliOption("--title")]
     public string? Title { get; private init; }
 
     /// <summary>
-    /// The body of the invite. Constraints: o min: 1 o max: 600
+    /// The body of the invite. Constraints: • min: 1 • max: 600
     /// </summary>
     [CliOption("--body")]
     public string? Body { get; private init; }

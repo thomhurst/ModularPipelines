@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the resource-based policy attached to an Amazon Web Services Payment Cryptography key. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o PutResourcePolicy o DeleteResourcePolicy See also: AWS API Documentation
+/// Returns the resource-based policy attached to an Amazon Web Services Payment Cryptography key. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: • PutResourcePolicy • DeleteResourcePolicy See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsPaymentCryptographyGetResourcePolicyOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the resource-based policy attached to an Amazon Web Services Payment Cryptography key. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o PutResourcePolicy o DeleteResourcePolicy See also: AWS API Documentation
+    /// Returns the resource-based policy attached to an Amazon Web Services Payment Cryptography key. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: • PutResourcePolicy • DeleteResourcePolicy See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The KeyARN of the key whose resource-based policy you want to re- trieve. Constraints: o min: 70 o max: 150 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:key/[0-9a-zA-Z]{16,64}</param>
+    /// <param name="ResourceArn">The KeyARN of the key whose resource-based policy you want to retrieve. Constraints: • min: 70 • max: 150 • pattern: arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:key/[0-9a-zA-Z]{16,64}</param>
     public AwsPaymentCryptographyGetResourcePolicyOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsPaymentCryptographyGetResourcePolicyOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The KeyARN of the key whose resource-based policy you want to re- trieve. Constraints: o min: 70 o max: 150 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:key/[0-9a-zA-Z]{16,64}
+    /// The KeyARN of the key whose resource-based policy you want to retrieve. Constraints: • min: 70 • max: 150 • pattern: arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:key/[0-9a-zA-Z]{16,64}
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

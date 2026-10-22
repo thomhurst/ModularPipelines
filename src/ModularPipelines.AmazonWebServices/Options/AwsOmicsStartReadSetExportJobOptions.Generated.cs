@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,10 +30,10 @@ public record AwsOmicsStartReadSetExportJobOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Starts a read set export job. When the export job is finished, the read set is exported to an Amazon S3 bucket which can be retrieved using the GetReadSetExportJob API operation. To monitor the status of the export job, use the ListReadSetExportJobs API operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SequenceStoreId">The read set's sequence store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
-    /// <param name="Destination">A location for exported files in Amazon S3. Constraints: o pattern: s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/?((.{1,1024})/)?</param>
-    /// <param name="RoleArn">A service role for the job. Constraints: o min: 20 o max: 2048 o pattern: arn:.*</param>
-    /// <param name="Sources">The job's source files. Constraints: o min: 1 o max: 100 (structure) A read set. readSetId -&gt; (string) [required] The set's ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+ Shorthand Syntax: readSetId=string ... JSON Syntax: [ { "readSetId": "string" } ... ]</param>
+    /// <param name="SequenceStoreId">The read set's sequence store ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+</param>
+    /// <param name="Destination">A location for exported files in Amazon S3. Constraints: • pattern: s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/?((.{1,1024})/)?</param>
+    /// <param name="RoleArn">A service role for the job. Constraints: • min: 20 • max: 2048 • pattern: arn:.*</param>
+    /// <param name="Sources">The job's source files. Constraints: • min: 1 • max: 100 (structure) A read set. readSetId -&gt; (string) [required] The set's ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+ Shorthand Syntax: readSetId=string ... JSON Syntax: [ { "readSetId": "string" } ... ]</param>
     public AwsOmicsStartReadSetExportJobOptions(
         string SequenceStoreId,
         string Destination,
@@ -80,31 +82,31 @@ public record AwsOmicsStartReadSetExportJobOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The read set's sequence store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// The read set's sequence store ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+
     /// </summary>
     [CliOption("--sequence-store-id")]
     public string? SequenceStoreId { get; private init; }
 
     /// <summary>
-    /// A location for exported files in Amazon S3. Constraints: o pattern: s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/?((.{1,1024})/)?
+    /// A location for exported files in Amazon S3. Constraints: • pattern: s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/?((.{1,1024})/)?
     /// </summary>
     [CliOption("--destination")]
     public string? Destination { get; private init; }
 
     /// <summary>
-    /// A service role for the job. Constraints: o min: 20 o max: 2048 o pattern: arn:.*
+    /// A service role for the job. Constraints: • min: 20 • max: 2048 • pattern: arn:.*
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// The job's source files. Constraints: o min: 1 o max: 100 (structure) A read set. readSetId -&gt; (string) [required] The set's ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+ Shorthand Syntax: readSetId=string ... JSON Syntax: [ { "readSetId": "string" } ... ]
+    /// The job's source files. Constraints: • min: 1 • max: 100 (structure) A read set. readSetId -&gt; (string) [required] The set's ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+ Shorthand Syntax: readSetId=string ... JSON Syntax: [ { "readSetId": "string" } ... ]
     /// </summary>
     [CliOption("--sources", GroupValues = true)]
     public IEnumerable<string>? Sources { get; private init; }
 
     /// <summary>
-    /// To ensure that jobs don't run multiple times, specify a unique token for each job. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// To ensure that jobs don't run multiple times, specify a unique token for each job. Constraints: • min: 1 • max: 127 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a Contributor Insights rule. Rules evaluate log events in a CloudWatch Logs log group, enabling you to find contributor data for the log events in that log group. For more information, see Using Con- tributor Insights to Analyze High-Cardinality Data . If you create a rule, delete it, and then re-create it with the same name, historical data from the first time the rule was created might not be available. See also: AWS API Documentation
+/// Creates a Contributor Insights rule. Rules evaluate log events in a CloudWatch Logs log group, enabling you to find contributor data for the log events in that log group. For more information, see Using Contributor Insights to Analyze High-Cardinality Data . If you create a rule, delete it, and then re-create it with the same name, historical data from the first time the rule was created might not be available. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsCloudwatchPutInsightRuleOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a Contributor Insights rule. Rules evaluate log events in a CloudWatch Logs log group, enabling you to find contributor data for the log events in that log group. For more information, see Using Con- tributor Insights to Analyze High-Cardinality Data . If you create a rule, delete it, and then re-create it with the same name, historical data from the first time the rule was created might not be available. See also: AWS API Documentation
+    /// Creates a Contributor Insights rule. Rules evaluate log events in a CloudWatch Logs log group, enabling you to find contributor data for the log events in that log group. For more information, see Using Contributor Insights to Analyze High-Cardinality Data . If you create a rule, delete it, and then re-create it with the same name, historical data from the first time the rule was created might not be available. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RuleName">A unique name for the rule. Constraints: o min: 1 o max: 128 o pattern: [\x20-\x7E]+</param>
-    /// <param name="RuleDefinition">The definition of the rule, as a JSON object. For details on the valid syntax, see Contributor Insights Rule Syntax . Constraints: o min: 1 o max: 8192 o pattern: [\x00-\x7F]+</param>
+    /// <param name="RuleName">A unique name for the rule. Constraints: • min: 1 • max: 128 • pattern: [\x20-\x7E]+</param>
+    /// <param name="RuleDefinition">The definition of the rule, as a JSON object. For details on the valid syntax, see Contributor Insights Rule Syntax . Constraints: • min: 1 • max: 8192 • pattern: [\x00-\x7F]+</param>
     public AwsCloudwatchPutInsightRuleOptions(
         string RuleName,
         string RuleDefinition
@@ -60,31 +62,31 @@ public record AwsCloudwatchPutInsightRuleOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique name for the rule. Constraints: o min: 1 o max: 128 o pattern: [\x20-\x7E]+
+    /// A unique name for the rule. Constraints: • min: 1 • max: 128 • pattern: [\x20-\x7E]+
     /// </summary>
     [CliOption("--rule-name")]
     public string? RuleName { get; private init; }
 
     /// <summary>
-    /// The definition of the rule, as a JSON object. For details on the valid syntax, see Contributor Insights Rule Syntax . Constraints: o min: 1 o max: 8192 o pattern: [\x00-\x7F]+
+    /// The definition of the rule, as a JSON object. For details on the valid syntax, see Contributor Insights Rule Syntax . Constraints: • min: 1 • max: 8192 • pattern: [\x00-\x7F]+
     /// </summary>
     [CliOption("--rule-definition")]
     public string? RuleDefinition { get; private init; }
 
     /// <summary>
-    /// The state of the rule. Valid values are ENABLED and DISABLED. Constraints: o min: 1 o max: 32 o pattern: [\x20-\x7E]+
+    /// The state of the rule. Valid values are ENABLED and DISABLED. Constraints: • min: 1 • max: 32 • pattern: [\x20-\x7E]+
     /// </summary>
     [CliOption("--rule-state")]
     public string? RuleState { get; set; }
 
     /// <summary>
-    /// A list of key-value pairs to associate with the Contributor Insights rule. You can associate as many as 50 tags with a rule. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permis- sion to access or change only the resources that have certain tag values. To be able to associate tags with a rule, you must have the cloud- watch:TagResource permission in addition to the cloudwatch:PutIn- sightRule permission. If you are using this operation to update an existing Contributor Insights rule, any tags you specify in this parameter are ignored. To change the tags of an existing rule, use TagResource . (structure) A key-value pair associated with a CloudWatch resource. Key -&gt; (string) [required] A string that you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value for the specified tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of key-value pairs to associate with the Contributor Insights rule. You can associate as many as 50 tags with a rule. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only the resources that have certain tag values. To be able to associate tags with a rule, you must have the cloudwatch:TagResource permission in addition to the cloudwatch:PutInsightRule permission. If you are using this operation to update an existing Contributor Insights rule, any tags you specify in this parameter are ignored. To change the tags of an existing rule, use TagResource . (structure) A key-value pair associated with a CloudWatch resource. Key -&gt; (string) [required] A string that you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The value for the specified tag key. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Specify true to have this rule evaluate log events after they have been transformed by Log transformation . If you specify true , then the log events in log groups that have transformers will be evalu- ated by Contributor Insights after being transformed. Log groups that don't have transformers will still have their original log events evaluated by Contributor Insights. The default is false NOTE: If a log group has a transformer, and transformation fails for some log events, those log events won't be evaluated by Contrib- utor Insights. For information about investigating log transfor- mation failures, see Transformation metrics and errors .
+    /// Specify true to have this rule evaluate log events after they have been transformed by Log transformation . If you specify true , then the log events in log groups that have transformers will be evaluated by Contributor Insights after being transformed. Log groups that don't have transformers will still have their original log events evaluated by Contributor Insights. The default is false NOTE: If a log group has a transformer, and transformation fails for some log events, those log events won't be evaluated by Contributor Insights. For information about investigating log transformation failures, see Transformation metrics and errors .
     /// </summary>
     [CliFlag("--apply-on-transformed-logs", NegatedName = "--no-apply-on-transformed-logs")]
     public bool? ApplyOnTransformedLogs { get; set; }

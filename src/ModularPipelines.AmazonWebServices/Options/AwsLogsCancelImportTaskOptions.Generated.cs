@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Cancels an active import task and stops importing data from the Cloud- Trail Lake Event Data Store. See also: AWS API Documentation
+/// Cancels an active import task and stops importing data from the CloudTrail Lake Event Data Store. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLogsCancelImportTaskOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Cancels an active import task and stops importing data from the Cloud- Trail Lake Event Data Store. See also: AWS API Documentation
+    /// Cancels an active import task and stops importing data from the CloudTrail Lake Event Data Store. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ImportId">The ID of the import task to cancel. Constraints: o min: 1 o max: 256 o pattern: [\-a-zA-Z0-9]+</param>
+    /// <param name="ImportId">The ID of the import task to cancel. Constraints: • min: 1 • max: 256 • pattern: [\-a-zA-Z0-9]+</param>
     public AwsLogsCancelImportTaskOptions(
         string ImportId
     )
@@ -56,7 +58,7 @@ public record AwsLogsCancelImportTaskOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the import task to cancel. Constraints: o min: 1 o max: 256 o pattern: [\-a-zA-Z0-9]+
+    /// The ID of the import task to cancel. Constraints: • min: 1 • max: 256 • pattern: [\-a-zA-Z0-9]+
     /// </summary>
     [CliOption("--import-id")]
     public string? ImportId { get; private init; }

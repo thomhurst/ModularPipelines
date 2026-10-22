@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsNetworkFirewallDescribeProxyRuleOptions : AwsOptions, IValidata
     /// <summary>
     /// Returns the data objects for the specified proxy configuration for the specified proxy rule group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProxyRuleName">The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$</param>
+    /// <param name="ProxyRuleName">The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$</param>
     public AwsNetworkFirewallDescribeProxyRuleOptions(
         string ProxyRuleName
     )
@@ -56,19 +58,19 @@ public record AwsNetworkFirewallDescribeProxyRuleOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
+    /// The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--proxy-rule-name")]
     public string? ProxyRuleName { get; private init; }
 
     /// <summary>
-    /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
+    /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--proxy-rule-group-name")]
     public string? ProxyRuleGroupName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*
+    /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*
     /// </summary>
     [CliOption("--proxy-rule-group-arn")]
     public string? ProxyRuleGroupArn { get; set; }

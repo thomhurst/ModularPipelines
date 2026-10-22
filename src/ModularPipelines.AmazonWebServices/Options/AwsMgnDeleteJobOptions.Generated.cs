@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMgnDeleteJobOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a single Job by ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">Request to delete Job from service by Job ID. Constraints: o min: 24 o max: 24 o pattern: mgnjob-[0-9a-zA-Z]{17}</param>
+    /// <param name="JobId">Request to delete Job from service by Job ID. Constraints: • min: 24 • max: 24 • pattern: mgnjob-[0-9a-zA-Z]{17}</param>
     public AwsMgnDeleteJobOptions(
         string JobId
     )
@@ -56,13 +58,13 @@ public record AwsMgnDeleteJobOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Request to delete Job from service by Job ID. Constraints: o min: 24 o max: 24 o pattern: mgnjob-[0-9a-zA-Z]{17}
+    /// Request to delete Job from service by Job ID. Constraints: • min: 24 • max: 24 • pattern: mgnjob-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// Request to delete Job from service by Account ID. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.*
+    /// Request to delete Job from service by Account ID. Constraints: • min: 12 • max: 12 • pattern: .*[0-9]{12,}.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }

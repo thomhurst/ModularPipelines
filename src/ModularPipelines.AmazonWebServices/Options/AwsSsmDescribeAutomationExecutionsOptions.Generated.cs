@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides details about all active and terminated Automation executions. See also: AWS API Documentation describe-automation-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AutomationExec...
+/// Provides details about all active and terminated Automation executions. See also: AWS API Documentation describe-automation-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AutomationExecutio...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,16 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSsmDescribeAutomationExecutionsOptions : AwsOptions
 {
     /// <summary>
-    /// Filters used to limit the scope of executions that are requested. Constraints: o min: 1 o max: 10 (structure) A filter used to match specific automation executions. This is used to limit the scope of Automation execution information re- turned. Key -&gt; (string) [required] One or more keys to limit the results. Possible values: o DocumentNamePrefix o ExecutionStatus o ExecutionId o ParentExecutionId o CurrentAction o StartTimeBefore o StartTimeAfter o AutomationType o TagKey o TargetResourceGroup o AutomationSubtype o OpsItemId Values -&gt; (list) [required] The values used to limit the execution information associated with the filter's key. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 150 Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "DocumentNamePrefix"|"ExecutionStatus"|"ExecutionId"|"ParentExecutionId"|"CurrentAction"|"StartTimeBefore"|"StartTimeAfter"|"AutomationType"|"TagKey"|"TargetResourceGroup"|"AutomationSubtype"|"OpsItemId", "Values": ["string", ...] } ... ]
+    /// Filters used to limit the scope of executions that are requested. Constraints: • min: 1 • max: 10 (structure) A filter used to match specific automation executions. This is used to limit the scope of Automation execution information returned. Key -&gt; (string) [required] One or more keys to limit the results. Possible values: • DocumentNamePrefix • ExecutionStatus • ExecutionId • ParentExecutionId • CurrentAction • StartTimeBefore • StartTimeAfter • AutomationType • TagKey • TargetResourceGroup • AutomationSubtype • OpsItemId Values -&gt; (list) [required] The values used to limit the execution information associated with the filter's key. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 150 Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "DocumentNamePrefix"|"ExecutionStatus"|"ExecutionId"|"ParentExecutionId"|"CurrentAction"|"StartTimeBefore"|"StartTimeAfter"|"AutomationType"|"TagKey"|"TargetResourceGroup"|"AutomationSubtype"|"OpsItemId", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -42,15 +39,18 @@ public record AwsSsmDescribeAutomationExecutionsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 50
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

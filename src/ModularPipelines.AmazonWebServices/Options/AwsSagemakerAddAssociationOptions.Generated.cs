@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsSagemakerAddAssociationOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates an association between the source and the destination. A source can be associated with multiple destinations, and a destination can be associated with multiple sources. An association is a lineage tracking entity. For more information, see Amazon SageMaker ML Lineage Tracking . See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceArn">The ARN of the source. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(experi- ment|experiment-trial-component|artifact|action|context)/.*</param>
-    /// <param name="DestinationArn">The Amazon Resource Name (ARN) of the destination. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(experi- ment|experiment-trial-component|artifact|action|context)/.*</param>
+    /// <param name="SourceArn">The ARN of the source. Constraints: • min: 0 • max: 256 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(experiment|experiment-trial-component|artifact|action|context)/.*</param>
+    /// <param name="DestinationArn">The Amazon Resource Name (ARN) of the destination. Constraints: • min: 0 • max: 256 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(experiment|experiment-trial-component|artifact|action|context)/.*</param>
     public AwsSagemakerAddAssociationOptions(
         string SourceArn,
         string DestinationArn
@@ -61,19 +63,19 @@ public record AwsSagemakerAddAssociationOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the source. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(experi- ment|experiment-trial-component|artifact|action|context)/.*
+    /// The ARN of the source. Constraints: • min: 0 • max: 256 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(experiment|experiment-trial-component|artifact|action|context)/.*
     /// </summary>
     [CliOption("--source-arn")]
     public string? SourceArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the destination. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(experi- ment|experiment-trial-component|artifact|action|context)/.*
+    /// The Amazon Resource Name (ARN) of the destination. Constraints: • min: 0 • max: 256 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(experiment|experiment-trial-component|artifact|action|context)/.*
     /// </summary>
     [CliOption("--destination-arn")]
     public string? DestinationArn { get; private init; }
 
     /// <summary>
-    /// The type of association. The following are suggested uses for each type. Amazon SageMaker places no restrictions on their use. o ContributedTo - The source contributed to the destination or had a part in enabling the destination. For example, the training data contributed to the training job. o AssociatedWith - The source is connected to the destination. For example, an approval workflow is associated with a model deploy- ment. o DerivedFrom - The destination is a modification of the source. For example, a digest output of a channel input for a processing job is derived from the original inputs. o Produced - The source generated the destination. For example, a training job produced a model artifact. Possible values: o ContributedTo o AssociatedWith o DerivedFrom o Produced o SameAs
+    /// The type of association. The following are suggested uses for each type. Amazon SageMaker places no restrictions on their use. • ContributedTo - The source contributed to the destination or had a part in enabling the destination. For example, the training data contributed to the training job. • AssociatedWith - The source is connected to the destination. For example, an approval workflow is associated with a model deployment. • DerivedFrom - The destination is a modification of the source. For example, a digest output of a channel input for a processing job is derived from the original inputs. • Produced - The source generated the destination. For example, a training job produced a model artifact. Possible values: • ContributedTo • AssociatedWith • DerivedFrom • Produced • SameAs
     /// </summary>
     [CliOption("--association-type")]
     public AwsSagemakerAddAssociationAssociationType? AssociationType { get; set; }

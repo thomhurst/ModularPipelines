@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves one or more matchmaking tickets. Use this operation to re- trieve ticket information, including--after a successful match is made--connection information for the resulting new game session. To request matchmaking tickets, provide a list of up to 10 ticket IDs. If the request is successful, a ticket object is returned for each re- quested ID that currently exists. This operation is not designed to be continually c...
+/// This API works with the following fleet types: EC2, Anywhere, Container Retrieves one or more matchmaking tickets. Use this operation to retrieve ticket information, including--after a successful match is made--connection information for the resulting new game session. To request matchmaking tickets, provide a list of up to 10 ticket IDs. If the request is successful, a ticket object is returned for each requested ID that currently exists. This operation is not designed to be continually called ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsGameliftDescribeMatchmakingOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves one or more matchmaking tickets. Use this operation to re- trieve ticket information, including--after a successful match is made--connection information for the resulting new game session. To request matchmaking tickets, provide a list of up to 10 ticket IDs. If the request is successful, a ticket object is returned for each re- quested ID that currently exists. This operation is not designed to be continually c...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Retrieves one or more matchmaking tickets. Use this operation to retrieve ticket information, including--after a successful match is made--connection information for the resulting new game session. To request matchmaking tickets, provide a list of up to 10 ticket IDs. If the request is successful, a ticket object is returned for each requested ID that currently exists. This operation is not designed to be continually called ...
     /// </summary>
-    /// <param name="TicketIds">A unique identifier for a matchmaking ticket. You can include up to 10 ID values. (string) Constraints: o max: 128 o pattern: ^[a-zA-Z0-9-\.]*$ Syntax: "string" "string" ...</param>
+    /// <param name="TicketIds">A unique identifier for a matchmaking ticket. You can include up to 10 ID values. (string) Constraints: • max: 128 • pattern: ^[a-zA-Z0-9-\.]*$ Syntax: "string" "string" ...</param>
     public AwsGameliftDescribeMatchmakingOptions(
         IEnumerable<string> TicketIds
     )
@@ -67,7 +69,7 @@ public record AwsGameliftDescribeMatchmakingOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for a matchmaking ticket. You can include up to 10 ID values. (string) Constraints: o max: 128 o pattern: ^[a-zA-Z0-9-\.]*$ Syntax: "string" "string" ...
+    /// A unique identifier for a matchmaking ticket. You can include up to 10 ID values. (string) Constraints: • max: 128 • pattern: ^[a-zA-Z0-9-\.]*$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--ticket-ids", GroupValues = true)]
     public IEnumerable<string>? TicketIds { get; private init; }

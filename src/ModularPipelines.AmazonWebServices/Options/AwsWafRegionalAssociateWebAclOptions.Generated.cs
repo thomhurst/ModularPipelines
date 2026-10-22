@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This is AWS WAF Classic Regional documentation. For more informa- tion, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Associates a web ACL with a resource, either an application load bal- ancer or Amazon API Gateway stage. See also: AWS API Documentation
+/// NOTE: This is AWS WAF Classic Regional documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Associates a web ACL with a resource, either an application load balancer or Amazon API Gateway stage. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsWafRegionalAssociateWebAclOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This is AWS WAF Classic Regional documentation. For more informa- tion, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Associates a web ACL with a resource, either an application load bal- ancer or Amazon API Gateway stage. See also: AWS API Documentation
+    /// NOTE: This is AWS WAF Classic Regional documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Associates a web ACL with a resource, either an application load balancer or Amazon API Gateway stage. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WebAclId">A unique identifier (ID) for the web ACL. Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
-    /// <param name="ResourceArn">The ARN (Amazon Resource Name) of the resource to be protected, ei- ther an application load balancer or Amazon API Gateway stage. The ARN should be in one of the following formats: o For an Application Load Balancer: `` arn:aws:elasticloadbalancing:region :account-id :loadbal- ancer/app/load-balancer-name /load-balancer-id `` System Message: WARNING/2 (&lt;string&gt;:, line 114) Inline literal start-string without end-string. o For an Amazon API Gateway stage: `` arn:aws:apigateway:region ::/restapis/api-id /stages/stage-name `` System Message: WARNING/2 (&lt;string&gt;:, line 116) Inline literal start-string without end-string. Constraints: o min: 1 o max: 1224 o pattern: .*\S.*</param>
+    /// <param name="WebAclId">A unique identifier (ID) for the web ACL. Constraints: • min: 1 • max: 128 • pattern: .*\S.*</param>
+    /// <param name="ResourceArn">The ARN (Amazon Resource Name) of the resource to be protected, either an application load balancer or Amazon API Gateway stage. The ARN should be in one of the following formats: • For an Application Load Balancer: `` arn:aws:elasticloadbalancing:region :account-id :loadbalancer/app/load-balancer-name /load-balancer-id `` System Message: WARNING/2 (&lt;string&gt;:, line 114) Inline literal start-string without end-string. • For an Amazon API Gateway stage: `` arn:aws:apigateway:region ::/restapis/api-id /stages/stage-name `` System Message: WARNING/2 (&lt;string&gt;:, line 116) Inline literal start-string without end-string. Constraints: • min: 1 • max: 1224 • pattern: .*\S.*</param>
     public AwsWafRegionalAssociateWebAclOptions(
         string WebAclId,
         string ResourceArn
@@ -60,13 +62,13 @@ public record AwsWafRegionalAssociateWebAclOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier (ID) for the web ACL. Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// A unique identifier (ID) for the web ACL. Constraints: • min: 1 • max: 128 • pattern: .*\S.*
     /// </summary>
     [CliOption("--web-acl-id")]
     public string? WebAclId { get; private init; }
 
     /// <summary>
-    /// The ARN (Amazon Resource Name) of the resource to be protected, ei- ther an application load balancer or Amazon API Gateway stage. The ARN should be in one of the following formats: o For an Application Load Balancer: `` arn:aws:elasticloadbalancing:region :account-id :loadbal- ancer/app/load-balancer-name /load-balancer-id `` System Message: WARNING/2 (&lt;string&gt;:, line 114) Inline literal start-string without end-string. o For an Amazon API Gateway stage: `` arn:aws:apigateway:region ::/restapis/api-id /stages/stage-name `` System Message: WARNING/2 (&lt;string&gt;:, line 116) Inline literal start-string without end-string. Constraints: o min: 1 o max: 1224 o pattern: .*\S.*
+    /// The ARN (Amazon Resource Name) of the resource to be protected, either an application load balancer or Amazon API Gateway stage. The ARN should be in one of the following formats: • For an Application Load Balancer: `` arn:aws:elasticloadbalancing:region :account-id :loadbalancer/app/load-balancer-name /load-balancer-id `` System Message: WARNING/2 (&lt;string&gt;:, line 114) Inline literal start-string without end-string. • For an Amazon API Gateway stage: `` arn:aws:apigateway:region ::/restapis/api-id /stages/stage-name `` System Message: WARNING/2 (&lt;string&gt;:, line 116) Inline literal start-string without end-string. Constraints: • min: 1 • max: 1224 • pattern: .*\S.*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

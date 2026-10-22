@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsWorkspacesThinClientUpdateSoftwareSetOptions : AwsOptions, IVal
     /// <summary>
     /// Updates a software set. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the software set to update. Constraints: o pattern: [0-9]{1,9}</param>
-    /// <param name="ValidationStatus">An option to define if the software set has been validated. Possible values: o VALIDATED o NOT_VALIDATED</param>
+    /// <param name="Id">The ID of the software set to update. Constraints: • pattern: [0-9]{1,9}</param>
+    /// <param name="ValidationStatus">An option to define if the software set has been validated. Possible values: • VALIDATED • NOT_VALIDATED</param>
     public AwsWorkspacesThinClientUpdateSoftwareSetOptions(
         string Id,
         AwsWorkspacesThinClientUpdateSoftwareSetValidationStatus ValidationStatus
@@ -60,13 +62,13 @@ public record AwsWorkspacesThinClientUpdateSoftwareSetOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the software set to update. Constraints: o pattern: [0-9]{1,9}
+    /// The ID of the software set to update. Constraints: • pattern: [0-9]{1,9}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// An option to define if the software set has been validated. Possible values: o VALIDATED o NOT_VALIDATED
+    /// An option to define if the software set has been validated. Possible values: • VALIDATED • NOT_VALIDATED
     /// </summary>
     [CliOption("--validation-status")]
     public AwsWorkspacesThinClientUpdateSoftwareSetValidationStatus? ValidationStatus { get; private init; }

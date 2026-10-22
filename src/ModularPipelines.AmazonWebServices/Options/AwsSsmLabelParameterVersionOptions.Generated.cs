@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// A parameter label is a user-defined alias to help you manage different versions of a parameter. When you modify a parameter, Amazon Web Ser- vices Systems Manager automatically saves a new version and increments the version number by one. A label can help you remember the purpose of a parameter when there are multiple versions. Parameter labels have the following requirements and restrictions. o A version of a parameter can have a maximum of 10 labels. o You can't attach the same label to differ...
+/// A parameter label is a user-defined alias to help you manage different versions of a parameter. When you modify a parameter, Amazon Web Services Systems Manager automatically saves a new version and increments the version number by one. A label can help you remember the purpose of a parameter when there are multiple versions. Parameter labels have the following requirements and restrictions. • A version of a parameter can have a maximum of 10 labels. • You can't attach the same label to differen...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsSsmLabelParameterVersionOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// A parameter label is a user-defined alias to help you manage different versions of a parameter. When you modify a parameter, Amazon Web Ser- vices Systems Manager automatically saves a new version and increments the version number by one. A label can help you remember the purpose of a parameter when there are multiple versions. Parameter labels have the following requirements and restrictions. o A version of a parameter can have a maximum of 10 labels. o You can't attach the same label to differ...
+    /// A parameter label is a user-defined alias to help you manage different versions of a parameter. When you modify a parameter, Amazon Web Services Systems Manager automatically saves a new version and increments the version number by one. A label can help you remember the purpose of a parameter when there are multiple versions. Parameter labels have the following requirements and restrictions. • A version of a parameter can have a maximum of 10 labels. • You can't attach the same label to differen...
     /// </summary>
-    /// <param name="Name">The parameter name on which you want to attach one or more labels. NOTE: You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself. Constraints: o min: 1 o max: 2048</param>
-    /// <param name="Labels">One or more labels to attach to the specified parameter version. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 100 Syntax: "string" "string" ...</param>
+    /// <param name="Name">The parameter name on which you want to attach one or more labels. NOTE: You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself. Constraints: • min: 1 • max: 2048</param>
+    /// <param name="Labels">One or more labels to attach to the specified parameter version. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 100 Syntax: "string" "string" ...</param>
     public AwsSsmLabelParameterVersionOptions(
         string Name,
         IEnumerable<string> Labels
@@ -71,13 +73,13 @@ public record AwsSsmLabelParameterVersionOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The parameter name on which you want to attach one or more labels. NOTE: You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself. Constraints: o min: 1 o max: 2048
+    /// The parameter name on which you want to attach one or more labels. NOTE: You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// One or more labels to attach to the specified parameter version. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 100 Syntax: "string" "string" ...
+    /// One or more labels to attach to the specified parameter version. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 100 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--labels", GroupValues = true)]
     public IEnumerable<string>? Labels { get; private init; }
@@ -86,7 +88,7 @@ public record AwsSsmLabelParameterVersionOptions : AwsOptions, IValidatableObjec
     /// The specific version of the parameter on which you want to attach one or more labels. If no version is specified, the system attaches the label to the latest version.
     /// </summary>
     [CliOption("--parameter-version")]
-    public int? ParameterVersion { get; set; }
+    public long? ParameterVersion { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

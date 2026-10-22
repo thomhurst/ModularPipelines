@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,7 +31,7 @@ public record AwsMqUpdateUserOptions : AwsOptions, IValidatableObject
     /// Updates the information for an ActiveMQ user. See also: AWS API Documentation
     /// </summary>
     /// <param name="BrokerId">The unique ID that Amazon MQ generates for the broker.</param>
-    /// <param name="Username">The username of the ActiveMQ user. This value can contain only al- phanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.</param>
+    /// <param name="Username">The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.</param>
     public AwsMqUpdateUserOptions(
         string BrokerId,
         string Username
@@ -67,7 +69,7 @@ public record AwsMqUpdateUserOptions : AwsOptions, IValidatableObject
     public string? BrokerId { get; private init; }
 
     /// <summary>
-    /// The username of the ActiveMQ user. This value can contain only al- phanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
+    /// The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
     /// </summary>
     [CliOption("--username")]
     public string? Username { get; private init; }
@@ -79,13 +81,13 @@ public record AwsMqUpdateUserOptions : AwsOptions, IValidatableObject
     public bool? ConsoleAccess { get; set; }
 
     /// <summary>
-    /// The list of groups (20 maximum) to which the ActiveMQ user belongs. This value can contain only alphanumeric characters, dashes, peri- ods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long. (string) Syntax: "string" "string" ...
+    /// The list of groups (20 maximum) to which the ActiveMQ user belongs. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--groups", GroupValues = true)]
     public IEnumerable<string>? Groups { get; set; }
 
     /// <summary>
-    /// The password of the user. This value must be at least 12 characters long, must contain at least 4 unique characters, and must not con- tain commas, colons, or equal signs (,:=).
+    /// The password of the user. This value must be at least 12 characters long, must contain at least 4 unique characters, and must not contain commas, colons, or equal signs (,:=).
     /// </summary>
     [SecretValue]
     [CliOption("--password")]

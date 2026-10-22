@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsComputeOptimizerGetEcsServiceRecommendationProjectedMetricsOpti
     /// <summary>
     /// Returns the projected metrics of Amazon ECS service recommendations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceArn">The ARN that identifies the Amazon ECS service. The following is the format of the ARN: arn:aws:ecs:region:aws_account_id:service/cluster-name/ser- vice-name</param>
-    /// <param name="Stat">The statistic of the projected metrics. Possible values: o Maximum o Average</param>
+    /// <param name="ServiceArn">The ARN that identifies the Amazon ECS service. The following is the format of the ARN: arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name</param>
+    /// <param name="Stat">The statistic of the projected metrics. Possible values: • Maximum • Average</param>
     /// <param name="Period">The granularity, in seconds, of the projected metrics data points.</param>
     /// <param name="StartTime">The timestamp of the first projected metrics data point to return.</param>
     /// <param name="EndTime">The timestamp of the last projected metrics data point to return.</param>
@@ -71,13 +73,13 @@ public record AwsComputeOptimizerGetEcsServiceRecommendationProjectedMetricsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN that identifies the Amazon ECS service. The following is the format of the ARN: arn:aws:ecs:region:aws_account_id:service/cluster-name/ser- vice-name
+    /// The ARN that identifies the Amazon ECS service. The following is the format of the ARN: arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name
     /// </summary>
     [CliOption("--service-arn")]
     public string? ServiceArn { get; private init; }
 
     /// <summary>
-    /// The statistic of the projected metrics. Possible values: o Maximum o Average
+    /// The statistic of the projected metrics. Possible values: • Maximum • Average
     /// </summary>
     [CliOption("--stat")]
     public AwsComputeOptimizerGetEcsServiceRecommendationProjectedMetricsStat? Stat { get; private init; }

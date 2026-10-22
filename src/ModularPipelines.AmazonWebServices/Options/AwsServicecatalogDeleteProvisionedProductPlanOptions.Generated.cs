@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsServicecatalogDeleteProvisionedProductPlanOptions : AwsOptions,
     /// <summary>
     /// Deletes the specified plan. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PlanId">The plan identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="PlanId">The plan identifier. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*</param>
     public AwsServicecatalogDeleteProvisionedProductPlanOptions(
         string PlanId
     )
@@ -56,19 +58,19 @@ public record AwsServicecatalogDeleteProvisionedProductPlanOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The plan identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The plan identifier. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--plan-id")]
     public string? PlanId { get; private init; }
 
     /// <summary>
-    /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
+    /// The language code. • jp - Japanese • zh - Chinese Constraints: • max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
     /// <summary>
-    /// If set to true, Service Catalog stops managing the specified provi- sioned product even if it cannot delete the underlying resources.
+    /// If set to true, Service Catalog stops managing the specified provisioned product even if it cannot delete the underlying resources.
     /// </summary>
     [CliFlag("--ignore-errors", NegatedName = "--no-ignore-errors")]
     public bool? IgnoreErrors { get; set; }

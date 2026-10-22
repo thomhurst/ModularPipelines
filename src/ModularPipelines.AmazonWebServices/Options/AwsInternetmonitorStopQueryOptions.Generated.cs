@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsInternetmonitorStopQueryOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Stop a query that is progress for a specific monitor. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MonitorName">The name of the monitor. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="QueryId">The ID of the query that you want to stop. A QueryId is an inter- nally-generated identifier for a specific query.</param>
+    /// <param name="MonitorName">The name of the monitor. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="QueryId">The ID of the query that you want to stop. A QueryId is an internally-generated identifier for a specific query.</param>
     public AwsInternetmonitorStopQueryOptions(
         string MonitorName,
         string QueryId
@@ -60,13 +62,13 @@ public record AwsInternetmonitorStopQueryOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the monitor. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the monitor. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--monitor-name")]
     public string? MonitorName { get; private init; }
 
     /// <summary>
-    /// The ID of the query that you want to stop. A QueryId is an inter- nally-generated identifier for a specific query.
+    /// The ID of the query that you want to stop. A QueryId is an internally-generated identifier for a specific query.
     /// </summary>
     [CliOption("--query-id")]
     public string? QueryId { get; private init; }

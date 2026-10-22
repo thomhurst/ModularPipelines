@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the raw content of an in-transit email message, in MIME format. This example describes how to update in-transit email message. For more information and examples for using this API, see Updating message con- tent with AWS Lambda . NOTE: Updates to an in-transit message only appear when you call Pu- tRawMessageContent from an AWS Lambda function configured with a synchronous Run Lambda rule. If you call PutRawMessageContent on a delivered or sent message, the message remains unchanged, eve...
+/// Updates the raw content of an in-transit email message, in MIME format. This example describes how to update in-transit email message. For more information and examples for using this API, see Updating message content with AWS Lambda . NOTE: Updates to an in-transit message only appear when you call PutRawMessageContent from an AWS Lambda function configured with a synchronous Run Lambda rule. If you call PutRawMessageContent on a delivered or sent message, the message remains unchanged, even th...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsWorkmailmessageflowPutRawMessageContentOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the raw content of an in-transit email message, in MIME format. This example describes how to update in-transit email message. For more information and examples for using this API, see Updating message con- tent with AWS Lambda . NOTE: Updates to an in-transit message only appear when you call Pu- tRawMessageContent from an AWS Lambda function configured with a synchronous Run Lambda rule. If you call PutRawMessageContent on a delivered or sent message, the message remains unchanged, eve...
+    /// Updates the raw content of an in-transit email message, in MIME format. This example describes how to update in-transit email message. For more information and examples for using this API, see Updating message content with AWS Lambda . NOTE: Updates to an in-transit message only appear when you call PutRawMessageContent from an AWS Lambda function configured with a synchronous Run Lambda rule. If you call PutRawMessageContent on a delivered or sent message, the message remains unchanged, even th...
     /// </summary>
-    /// <param name="MessageId">The identifier of the email message being updated. Constraints: o min: 1 o max: 120 o pattern: [a-z0-9\-]*</param>
-    /// <param name="Content">Describes the raw message content of the updated email message. s3Reference -&gt; (structure) [required] The S3 reference of an email message. bucket -&gt; (string) [required] The S3 bucket name. Constraints: o min: 3 o max: 63 o pattern: ^[a-z0-9][a-z0-9\-]* key -&gt; (string) [required] The S3 key object name. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9\-/]* objectVersion -&gt; (string) If you enable versioning for the bucket, you can specify the object version. Constraints: o min: 1 o max: 1024 o pattern: .+ Shorthand Syntax: s3Reference={bucket=string,key=string,objectVersion=string} JSON Syntax: { "s3Reference": { "bucket": "string", "key": "string", "objectVersion": "string" } }</param>
+    /// <param name="MessageId">The identifier of the email message being updated. Constraints: • min: 1 • max: 120 • pattern: [a-z0-9\-]*</param>
+    /// <param name="Content">Describes the raw message content of the updated email message. s3Reference -&gt; (structure) [required] The S3 reference of an email message. bucket -&gt; (string) [required] The S3 bucket name. Constraints: • min: 3 • max: 63 • pattern: ^[a-z0-9][a-z0-9\-]* key -&gt; (string) [required] The S3 key object name. Constraints: • min: 1 • max: 1024 • pattern: [a-zA-Z0-9\-/]* objectVersion -&gt; (string) If you enable versioning for the bucket, you can specify the object version. Constraints: • min: 1 • max: 1024 • pattern: .+ Shorthand Syntax: s3Reference={bucket=string,key=string,objectVersion=string} JSON Syntax: { "s3Reference": { "bucket": "string", "key": "string", "objectVersion": "string" } }</param>
     public AwsWorkmailmessageflowPutRawMessageContentOptions(
         string MessageId,
         string Content
@@ -60,13 +62,13 @@ public record AwsWorkmailmessageflowPutRawMessageContentOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the email message being updated. Constraints: o min: 1 o max: 120 o pattern: [a-z0-9\-]*
+    /// The identifier of the email message being updated. Constraints: • min: 1 • max: 120 • pattern: [a-z0-9\-]*
     /// </summary>
     [CliOption("--message-id")]
     public string? MessageId { get; private init; }
 
     /// <summary>
-    /// Describes the raw message content of the updated email message. s3Reference -&gt; (structure) [required] The S3 reference of an email message. bucket -&gt; (string) [required] The S3 bucket name. Constraints: o min: 3 o max: 63 o pattern: ^[a-z0-9][a-z0-9\-]* key -&gt; (string) [required] The S3 key object name. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9\-/]* objectVersion -&gt; (string) If you enable versioning for the bucket, you can specify the object version. Constraints: o min: 1 o max: 1024 o pattern: .+ Shorthand Syntax: s3Reference={bucket=string,key=string,objectVersion=string} JSON Syntax: { "s3Reference": { "bucket": "string", "key": "string", "objectVersion": "string" } }
+    /// Describes the raw message content of the updated email message. s3Reference -&gt; (structure) [required] The S3 reference of an email message. bucket -&gt; (string) [required] The S3 bucket name. Constraints: • min: 3 • max: 63 • pattern: ^[a-z0-9][a-z0-9\-]* key -&gt; (string) [required] The S3 key object name. Constraints: • min: 1 • max: 1024 • pattern: [a-zA-Z0-9\-/]* objectVersion -&gt; (string) If you enable versioning for the bucket, you can specify the object version. Constraints: • min: 1 • max: 1024 • pattern: .+ Shorthand Syntax: s3Reference={bucket=string,key=string,objectVersion=string} JSON Syntax: { "s3Reference": { "bucket": "string", "key": "string", "objectVersion": "string" } }
     /// </summary>
     [CliOption("--content")]
     public string? Content { get; private init; }

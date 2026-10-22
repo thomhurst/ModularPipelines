@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +31,8 @@ public record AwsNetworkFirewallUpdateProxyRuleOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Updates the properties of the specified proxy rule. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProxyRuleName">The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$</param>
-    /// <param name="UpdateToken">A token used for optimistic locking. Network Firewall returns a to- ken to your requests that access the proxy rule. The token marks the state of the proxy rule resource at the time of the request. To make changes to the proxy rule, you provide the token in your re- quest. Network Firewall uses the token to ensure that the proxy rule hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, re- trieve the proxy rule again to get a current copy of it with a cur- rent token. Reapply your changes as needed, then try the operation again using the new token. Constraints: o min: 1 o max: 1024 o pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$</param>
+    /// <param name="ProxyRuleName">The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$</param>
+    /// <param name="UpdateToken">A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule. The token marks the state of the proxy rule resource at the time of the request. To make changes to the proxy rule, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the proxy rule again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token. Constraints: • min: 1 • max: 1024 • pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$</param>
     public AwsNetworkFirewallUpdateProxyRuleOptions(
         string ProxyRuleName,
         string UpdateToken
@@ -62,44 +64,44 @@ public record AwsNetworkFirewallUpdateProxyRuleOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
+    /// The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--proxy-rule-name")]
     public string? ProxyRuleName { get; private init; }
 
     /// <summary>
-    /// A token used for optimistic locking. Network Firewall returns a to- ken to your requests that access the proxy rule. The token marks the state of the proxy rule resource at the time of the request. To make changes to the proxy rule, you provide the token in your re- quest. Network Firewall uses the token to ensure that the proxy rule hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, re- trieve the proxy rule again to get a current copy of it with a cur- rent token. Reapply your changes as needed, then try the operation again using the new token. Constraints: o min: 1 o max: 1024 o pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule. The token marks the state of the proxy rule resource at the time of the request. To make changes to the proxy rule, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the proxy rule again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token. Constraints: • min: 1 • max: 1024 • pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$
     /// </summary>
     [SecretValue]
     [CliOption("--update-token")]
     public string? UpdateToken { get; private init; }
 
     /// <summary>
-    /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
+    /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--proxy-rule-group-name")]
     public string? ProxyRuleGroupName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*
+    /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*
     /// </summary>
     [CliOption("--proxy-rule-group-arn")]
     public string? ProxyRuleGroupArn { get; set; }
 
     /// <summary>
-    /// A description of the proxy rule. Constraints: o max: 512 o pattern: ^.*$
+    /// A description of the proxy rule. Constraints: • max: 512 • pattern: ^.*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Depending on the match action, the proxy either stops the evaluation (if the action is terminal - allow or deny), or continues it (if the action is alert) until it matches a rule with a terminal action. Possible values: o ALLOW o DENY o ALERT
+    /// Depending on the match action, the proxy either stops the evaluation (if the action is terminal - allow or deny), or continues it (if the action is alert) until it matches a rule with a terminal action. Possible values: • ALLOW • DENY • ALERT
     /// </summary>
     [CliOption("--action")]
     public AwsNetworkFirewallUpdateProxyRuleAction? Action { get; set; }
 
     /// <summary>
-    /// Proxy rule conditions to add. Match criteria that specify what traf- fic attributes to examine. Conditions include operators (StringE- quals, StringLike) and values to match against. (structure) Match criteria that specify what traffic attributes to examine. ConditionOperator -&gt; (string) Defines how to perform a match. ConditionKey -&gt; (string) Defines what is to be matched. ConditionValues -&gt; (list) Specifes the exact value that needs to be matched against. (string) Shorthand Syntax: ConditionOperator=string,ConditionKey=string,ConditionValues=string,string ... JSON Syntax: [ { "ConditionOperator": "string", "ConditionKey": "string", "ConditionValues": ["string", ...] } ... ]
+    /// Proxy rule conditions to add. Match criteria that specify what traffic attributes to examine. Conditions include operators (StringEquals, StringLike) and values to match against. (structure) Match criteria that specify what traffic attributes to examine. ConditionOperator -&gt; (string) Defines how to perform a match. ConditionKey -&gt; (string) Defines what is to be matched. ConditionValues -&gt; (list) Specifes the exact value that needs to be matched against. (string) Shorthand Syntax: ConditionOperator=string,ConditionKey=string,ConditionValues=string,string ... JSON Syntax: [ { "ConditionOperator": "string", "ConditionKey": "string", "ConditionValues": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--add-conditions", GroupValues = true)]
     public IEnumerable<string>? AddConditions { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +31,7 @@ public record AwsEcsUpdateContainerInstancesStateOptions : AwsOptions, IValidata
     /// Modifies the status of an Amazon ECS container instance. Once a container instance has reached an ACTIVE state, you can change the status of a container instance to DRAINING to manually remove an instance from a cluster, for example to perform system updates, update the Docker daemon, or scale down the cluster size. WARNING: A container instance can't be changed to DRAINING until it has reached an ACTIVE status. If the instance is in any other status, an error will be received. When you set a co...
     /// </summary>
     /// <param name="ContainerInstances">A list of up to 10 container instance IDs or full ARN entries. (string) Syntax: "string" "string" ...</param>
-    /// <param name="Status">The container instance state to update the container instance with. The only valid values for this action are ACTIVE and DRAINING . A container instance can only be updated to DRAINING status once it has reached an ACTIVE state. If a container instance is in REGISTER- ING , DEREGISTERING , or REGISTRATION_FAILED state you can describe the container instance but can't update the container instance state. Possible values: o ACTIVE o DRAINING o REGISTERING o DEREGISTERING o REGISTRATION_FAILED</param>
+    /// <param name="Status">The container instance state to update the container instance with. The only valid values for this action are ACTIVE and DRAINING . A container instance can only be updated to DRAINING status once it has reached an ACTIVE state. If a container instance is in REGISTERING , DEREGISTERING , or REGISTRATION_FAILED state you can describe the container instance but can't update the container instance state. Possible values: • ACTIVE • DRAINING • REGISTERING • DEREGISTERING • REGISTRATION_FAILED</param>
     public AwsEcsUpdateContainerInstancesStateOptions(
         IEnumerable<string> ContainerInstances,
         AwsEcsUpdateContainerInstancesStateStatus Status
@@ -77,7 +79,7 @@ public record AwsEcsUpdateContainerInstancesStateOptions : AwsOptions, IValidata
     public IEnumerable<string>? ContainerInstances { get; private init; }
 
     /// <summary>
-    /// The container instance state to update the container instance with. The only valid values for this action are ACTIVE and DRAINING . A container instance can only be updated to DRAINING status once it has reached an ACTIVE state. If a container instance is in REGISTER- ING , DEREGISTERING , or REGISTRATION_FAILED state you can describe the container instance but can't update the container instance state. Possible values: o ACTIVE o DRAINING o REGISTERING o DEREGISTERING o REGISTRATION_FAILED
+    /// The container instance state to update the container instance with. The only valid values for this action are ACTIVE and DRAINING . A container instance can only be updated to DRAINING status once it has reached an ACTIVE state. If a container instance is in REGISTERING , DEREGISTERING , or REGISTRATION_FAILED state you can describe the container instance but can't update the container instance state. Possible values: • ACTIVE • DRAINING • REGISTERING • DEREGISTERING • REGISTRATION_FAILED
     /// </summary>
     [CliOption("--status")]
     public AwsEcsUpdateContainerInstancesStateStatus? Status { get; private init; }

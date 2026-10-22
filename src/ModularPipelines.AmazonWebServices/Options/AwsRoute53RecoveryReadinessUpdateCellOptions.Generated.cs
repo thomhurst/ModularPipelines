@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsRoute53RecoveryReadinessUpdateCellOptions : AwsOptions, IValida
     /// Updates a cell to replace the list of nested cells with a new list of nested cells. See also: AWS API Documentation
     /// </summary>
     /// <param name="CellName">The name of the cell.</param>
-    /// <param name="Cells">A list of cell Amazon Resource Names (ARNs), which completely re- places the previous list. (string) Syntax: "string" "string" ...</param>
+    /// <param name="Cells">A list of cell Amazon Resource Names (ARNs), which completely replaces the previous list. (string) Syntax: "string" "string" ...</param>
     public AwsRoute53RecoveryReadinessUpdateCellOptions(
         string CellName,
         IEnumerable<string> Cells
@@ -77,7 +79,7 @@ public record AwsRoute53RecoveryReadinessUpdateCellOptions : AwsOptions, IValida
     public string? CellName { get; private init; }
 
     /// <summary>
-    /// A list of cell Amazon Resource Names (ARNs), which completely re- places the previous list. (string) Syntax: "string" "string" ...
+    /// A list of cell Amazon Resource Names (ARNs), which completely replaces the previous list. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--cells", GroupValues = true)]
     public IEnumerable<string>? Cells { get; private init; }

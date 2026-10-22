@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsFinspaceUpdateKxEnvironmentOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Updates information for the given kdb environment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EnvironmentId">A unique identifier for the kdb environment. Constraints: o min: 1 o max: 26 o pattern: ^[a-zA-Z0-9]{1,26}$</param>
+    /// <param name="EnvironmentId">A unique identifier for the kdb environment. Constraints: • min: 1 • max: 26 • pattern: ^[a-zA-Z0-9]{1,26}$</param>
     public AwsFinspaceUpdateKxEnvironmentOptions(
         string EnvironmentId
     )
@@ -57,25 +59,25 @@ public record AwsFinspaceUpdateKxEnvironmentOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the kdb environment. Constraints: o min: 1 o max: 26 o pattern: ^[a-zA-Z0-9]{1,26}$
+    /// A unique identifier for the kdb environment. Constraints: • min: 1 • max: 26 • pattern: ^[a-zA-Z0-9]{1,26}$
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
 
     /// <summary>
-    /// The name of the kdb environment. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
+    /// The name of the kdb environment. Constraints: • min: 3 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A description of the kdb environment. Constraints: o min: 1 o max: 1000 o pattern: ^[a-zA-Z0-9. ]{1,1000}$
+    /// A description of the kdb environment. Constraints: • min: 1 • max: 1000 • pattern: ^[a-zA-Z0-9. ]{1,1000}$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A token that ensures idempotency. This token expires in 10 minutes. Constraints: o min: 1 o max: 36 o pattern: .*\S.*
+    /// A token that ensures idempotency. This token expires in 10 minutes. Constraints: • min: 1 • max: 36 • pattern: .*\S.*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

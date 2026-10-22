@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -30,8 +31,8 @@ public record AwsDatazoneUpdateNotebookOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates a notebook in Amazon SageMaker Unified Studio. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The identifier of the Amazon SageMaker Unified Studio domain in which the notebook exists. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Identifier">The identifier of the notebook to update. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The identifier of the Amazon SageMaker Unified Studio domain in which the notebook exists. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The identifier of the notebook to update. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneUpdateNotebookOptions(
         string DomainIdentifier,
         string Identifier
@@ -63,67 +64,67 @@ public record AwsDatazoneUpdateNotebookOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon SageMaker Unified Studio domain in which the notebook exists. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which the notebook exists. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the notebook to update. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the notebook to update. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The updated description of the notebook. Constraints: o min: 0 o max: 2048
+    /// The updated description of the notebook. Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The updated status of the notebook. Possible values: o ACTIVE o ARCHIVED o SYNC_IN_PROGRESS o SYNC_FAILED
+    /// The updated status of the notebook. Possible values: • ACTIVE • ARCHIVED • SYNC_IN_PROGRESS • SYNC_FAILED
     /// </summary>
     [CliOption("--status")]
     public AwsDatazoneUpdateNotebookStatus? Status { get; set; }
 
     /// <summary>
-    /// The updated name of the notebook. Constraints: o min: 1 o max: 256
+    /// The updated name of the notebook. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The updated ordered list of cells in the notebook. Constraints: o min: 0 o max: 200 (structure) The information about a cell in a notebook run in Amazon Sage- Maker Unified Studio. Shorthand Syntax: ... JSON Syntax: [ { } ... ]
+    /// The updated ordered list of cells in the notebook. Constraints: • min: 0 • max: 200 (structure) The information about a cell in a notebook run in Amazon SageMaker Unified Studio. Shorthand Syntax: ... JSON Syntax: [ { } ... ]
     /// </summary>
     [CliOption("--cell-order", GroupValues = true)]
     public IEnumerable<string>? CellOrder { get; set; }
 
     /// <summary>
-    /// The updated type of the notebook. Possible values: o DATA o SQL
+    /// The updated type of the notebook. Possible values: • DATA • SQL
     /// </summary>
     [CliOption("--type")]
     public AwsDatazoneUpdateNotebookType? Type { get; set; }
 
     /// <summary>
-    /// The updated metadata for the notebook, specified as key-value pairs. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The updated metadata for the notebook, specified as key-value pairs. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 0 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
-    /// The updated sensitive parameters for the notebook, specified as key-value pairs. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The updated sensitive parameters for the notebook, specified as key-value pairs. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 0 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     /// <summary>
-    /// The updated environment configuration for the notebook. imageVersion -&gt; (string) The image version for the notebook run environment. packageConfig -&gt; (structure) The package configuration for the notebook run environment. packageManager -&gt; (string) [required] The package manager for the notebook run environment. The de- fault value is UV . Possible values: o UV packageSpecification -&gt; (string) The package specification content for the notebook run envi- ronment. The maximum length is 10240 characters. Constraints: o min: 0 o max: 10240 Shorthand Syntax: imageVersion=string,packageConfig={packageManager=string,packageSpecification=string} JSON Syntax: { "imageVersion": "string", "packageConfig": { "packageManager": "UV", "packageSpecification": "string" } }
+    /// The updated environment configuration for the notebook. imageVersion -&gt; (string) The image version for the notebook run environment. packageConfig -&gt; (structure) The package configuration for the notebook run environment. packageManager -&gt; (string) [required] The package manager for the notebook run environment. The default value is UV . Possible values: • UV packageSpecification -&gt; (string) The package specification content for the notebook run environment. The maximum length is 10240 characters. Constraints: • min: 0 • max: 10240 Shorthand Syntax: imageVersion=string,packageConfig={packageManager=string,packageSpecification=string} JSON Syntax: { "imageVersion": "string", "packageConfig": { "packageManager": "UV", "packageSpecification": "string" } }
     /// </summary>
     [CliOption("--environment-configuration")]
     public string? EnvironmentConfiguration { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure idempotency of the re- quest. This field is automatically populated if not provided. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

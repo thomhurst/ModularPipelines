@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDeadlineDeleteLicenseEndpointOptions : AwsOptions, IValidatable
     /// <summary>
     /// Deletes a license endpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LicenseEndpointId">The license endpoint ID of the license endpoint to delete. Constraints: o pattern: le-[0-9a-f]{32}</param>
+    /// <param name="LicenseEndpointId">The license endpoint ID of the license endpoint to delete. Constraints: • pattern: le-[0-9a-f]{32}</param>
     public AwsDeadlineDeleteLicenseEndpointOptions(
         string LicenseEndpointId
     )
@@ -56,7 +58,7 @@ public record AwsDeadlineDeleteLicenseEndpointOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The license endpoint ID of the license endpoint to delete. Constraints: o pattern: le-[0-9a-f]{32}
+    /// The license endpoint ID of the license endpoint to delete. Constraints: • pattern: le-[0-9a-f]{32}
     /// </summary>
     [CliOption("--license-endpoint-id")]
     public string? LicenseEndpointId { get; private init; }

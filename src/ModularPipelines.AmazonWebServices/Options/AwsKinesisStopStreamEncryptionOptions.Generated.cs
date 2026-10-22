@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsKinesisStopStreamEncryptionOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Disables server-side encryption for a specified stream. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. Stopping encryption is an asynchronous operation. Upon receiving the request, Kinesis Data Streams returns immediately and sets the status of the stream to UPDATING . After the update is complete, Kinesis Data Streams sets the status of the stream back to...
     /// </summary>
-    /// <param name="EncryptionType">The encryption type. The only valid value is KMS . Possible values: o NONE o KMS</param>
-    /// <param name="KeyId">The GUID for the customer-managed Amazon Web Services KMS key to use for encryption. This value can be a globally unique identifier, a fully specified Amazon Resource Name (ARN) to either an alias or a key, or an alias name prefixed by "alias/".You can also use a master key owned by Kinesis Data Streams by specifying the alias aws/kine- sis . o Key ARN example: arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012 o Alias ARN example: arn:aws:kms:us-east-1:123456789012:alias/MyAliasName o Globally unique key ID example: 12345678-1234-1234-1234-123456789012 o Alias name example: alias/MyAliasName o Master key owned by Kinesis Data Streams: alias/aws/kinesis Constraints: o min: 1 o max: 2048</param>
+    /// <param name="EncryptionType">The encryption type. The only valid value is KMS . Possible values: • NONE • KMS</param>
+    /// <param name="KeyId">The GUID for the customer-managed Amazon Web Services KMS key to use for encryption. This value can be a globally unique identifier, a fully specified Amazon Resource Name (ARN) to either an alias or a key, or an alias name prefixed by "alias/".You can also use a master key owned by Kinesis Data Streams by specifying the alias aws/kinesis . • Key ARN example: arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012 • Alias ARN example: arn:aws:kms:us-east-1:123456789012:alias/MyAliasName • Globally unique key ID example: 12345678-1234-1234-1234-123456789012 • Alias name example: alias/MyAliasName • Master key owned by Kinesis Data Streams: alias/aws/kinesis Constraints: • min: 1 • max: 2048</param>
     public AwsKinesisStopStreamEncryptionOptions(
         AwsKinesisStopStreamEncryptionEncryptionType EncryptionType,
         string KeyId
@@ -60,31 +62,31 @@ public record AwsKinesisStopStreamEncryptionOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The encryption type. The only valid value is KMS . Possible values: o NONE o KMS
+    /// The encryption type. The only valid value is KMS . Possible values: • NONE • KMS
     /// </summary>
     [CliOption("--encryption-type")]
     public AwsKinesisStopStreamEncryptionEncryptionType? EncryptionType { get; private init; }
 
     /// <summary>
-    /// The GUID for the customer-managed Amazon Web Services KMS key to use for encryption. This value can be a globally unique identifier, a fully specified Amazon Resource Name (ARN) to either an alias or a key, or an alias name prefixed by "alias/".You can also use a master key owned by Kinesis Data Streams by specifying the alias aws/kine- sis . o Key ARN example: arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012 o Alias ARN example: arn:aws:kms:us-east-1:123456789012:alias/MyAliasName o Globally unique key ID example: 12345678-1234-1234-1234-123456789012 o Alias name example: alias/MyAliasName o Master key owned by Kinesis Data Streams: alias/aws/kinesis Constraints: o min: 1 o max: 2048
+    /// The GUID for the customer-managed Amazon Web Services KMS key to use for encryption. This value can be a globally unique identifier, a fully specified Amazon Resource Name (ARN) to either an alias or a key, or an alias name prefixed by "alias/".You can also use a master key owned by Kinesis Data Streams by specifying the alias aws/kinesis . • Key ARN example: arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012 • Alias ARN example: arn:aws:kms:us-east-1:123456789012:alias/MyAliasName • Globally unique key ID example: 12345678-1234-1234-1234-123456789012 • Alias name example: alias/MyAliasName • Master key owned by Kinesis Data Streams: alias/aws/kinesis Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--key-id")]
     public string? KeyId { get; private init; }
 
     /// <summary>
-    /// The name of the stream on which to stop encrypting records. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the stream on which to stop encrypting records. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
     /// <summary>
-    /// The ARN of the stream. Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+
+    /// The ARN of the stream. Constraints: • min: 1 • max: 2048 • pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+
     /// </summary>
     [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
 
     /// <summary>
-    /// Not Implemented. Reserved for future use. Constraints: o min: 1 o max: 24 o pattern: [a-z0-9]{20}-[a-z0-9]{3}
+    /// Not Implemented. Reserved for future use. Constraints: • min: 1 • max: 24 • pattern: [a-z0-9]{20}-[a-z0-9]{3}
     /// </summary>
     [CliOption("--stream-id")]
     public string? StreamId { get; set; }

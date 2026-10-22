@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a configured audience model association within a collabora- tion. See also: AWS API Documentation
+/// Retrieves a configured audience model association within a collaboration. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsCleanroomsGetCollaborationConfiguredAudienceModelAssociationOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves a configured audience model association within a collabora- tion. See also: AWS API Documentation
+    /// Retrieves a configured audience model association within a collaboration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CollaborationIdentifier">A unique identifier for the collaboration that the configured audi- ence model association belongs to. Accepts a collaboration ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="ConfiguredAudienceModelAssociationIdentifier">A unique identifier for the configured audience model association that you want to retrieve. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="CollaborationIdentifier">A unique identifier for the collaboration that the configured audience model association belongs to. Accepts a collaboration ID. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="ConfiguredAudienceModelAssociationIdentifier">A unique identifier for the configured audience model association that you want to retrieve. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     public AwsCleanroomsGetCollaborationConfiguredAudienceModelAssociationOptions(
         string CollaborationIdentifier,
         string ConfiguredAudienceModelAssociationIdentifier
@@ -60,13 +62,13 @@ public record AwsCleanroomsGetCollaborationConfiguredAudienceModelAssociationOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the collaboration that the configured audi- ence model association belongs to. Accepts a collaboration ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// A unique identifier for the collaboration that the configured audience model association belongs to. Accepts a collaboration ID. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--collaboration-identifier")]
     public string? CollaborationIdentifier { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the configured audience model association that you want to retrieve. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// A unique identifier for the configured audience model association that you want to retrieve. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--configured-audience-model-association-identifier")]
     public string? ConfiguredAudienceModelAssociationIdentifier { get; private init; }

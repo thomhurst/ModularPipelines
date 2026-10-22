@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAppflowDeleteConnectorProfileOptions : AwsOptions, IValidatable
     /// <summary>
     /// Enables you to delete an existing connector profile. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectorProfileName">The name of the connector profile. The name is unique for each Con- nectorProfile in your account. Constraints: o max: 256 o pattern: [\w/!@#+=.-]+</param>
+    /// <param name="ConnectorProfileName">The name of the connector profile. The name is unique for each ConnectorProfile in your account. Constraints: • max: 256 • pattern: [\w/!@#+=.-]+</param>
     public AwsAppflowDeleteConnectorProfileOptions(
         string ConnectorProfileName
     )
@@ -56,7 +58,7 @@ public record AwsAppflowDeleteConnectorProfileOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the connector profile. The name is unique for each Con- nectorProfile in your account. Constraints: o max: 256 o pattern: [\w/!@#+=.-]+
+    /// The name of the connector profile. The name is unique for each ConnectorProfile in your account. Constraints: • max: 256 • pattern: [\w/!@#+=.-]+
     /// </summary>
     [CliOption("--connector-profile-name")]
     public string? ConnectorProfileName { get; private init; }

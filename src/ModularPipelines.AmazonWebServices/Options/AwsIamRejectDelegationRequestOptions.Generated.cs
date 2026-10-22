@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Rejects a delegation request, denying the requested temporary access. Once a request is rejected, it cannot be accepted or updated later. Re- jected requests expire after 7 days. When rejecting a request, an optional explanation can be added using the Notes request parameter. For more details, see Managing Permissions for Delegation Requests . See also: AWS API Documentation
+/// Rejects a delegation request, denying the requested temporary access. Once a request is rejected, it cannot be accepted or updated later. Rejected requests expire after 7 days. When rejecting a request, an optional explanation can be added using the Notes request parameter. For more details, see Managing Permissions for Delegation Requests . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsIamRejectDelegationRequestOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Rejects a delegation request, denying the requested temporary access. Once a request is rejected, it cannot be accepted or updated later. Re- jected requests expire after 7 days. When rejecting a request, an optional explanation can be added using the Notes request parameter. For more details, see Managing Permissions for Delegation Requests . See also: AWS API Documentation
+    /// Rejects a delegation request, denying the requested temporary access. Once a request is rejected, it cannot be accepted or updated later. Rejected requests expire after 7 days. When rejecting a request, an optional explanation can be added using the Notes request parameter. For more details, see Managing Permissions for Delegation Requests . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DelegationRequestId">The unique identifier of the delegation request to reject. Constraints: o min: 16 o max: 128 o pattern: [\w-]+</param>
+    /// <param name="DelegationRequestId">The unique identifier of the delegation request to reject. Constraints: • min: 16 • max: 128 • pattern: [\w-]+</param>
     public AwsIamRejectDelegationRequestOptions(
         string DelegationRequestId
     )
@@ -56,13 +58,13 @@ public record AwsIamRejectDelegationRequestOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the delegation request to reject. Constraints: o min: 16 o max: 128 o pattern: [\w-]+
+    /// The unique identifier of the delegation request to reject. Constraints: • min: 16 • max: 128 • pattern: [\w-]+
     /// </summary>
     [CliOption("--delegation-request-id")]
     public string? DelegationRequestId { get; private init; }
 
     /// <summary>
-    /// Optional notes explaining the reason for rejecting the delegation request. Constraints: o max: 500 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]*
+    /// Optional notes explaining the reason for rejecting the delegation request. Constraints: • max: 500 • pattern: [\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]*
     /// </summary>
     [CliOption("--notes")]
     public string? Notes { get; set; }

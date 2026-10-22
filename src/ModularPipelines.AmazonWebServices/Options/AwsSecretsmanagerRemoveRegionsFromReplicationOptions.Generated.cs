@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// For a secret that is replicated to other Regions, deletes the secret replicas from the Regions you specify. Secrets Manager generates a CloudTrail log entry when you call this ac- tion. Do not include sensitive information in request parameters be- cause it might be logged. For more information, see Logging Secrets Manager events with CloudTrail . Required permissions: secretsmanager:RemoveRegionsFromReplication . For more information, see IAM policy actions for Secrets Manager and Authenticatio...
+/// For a secret that is replicated to other Regions, deletes the secret replicas from the Regions you specify. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail . Required permissions: secretsmanager:RemoveRegionsFromReplication . For more information, see IAM policy actions for Secrets Manager and Authentication an...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsSecretsmanagerRemoveRegionsFromReplicationOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// For a secret that is replicated to other Regions, deletes the secret replicas from the Regions you specify. Secrets Manager generates a CloudTrail log entry when you call this ac- tion. Do not include sensitive information in request parameters be- cause it might be logged. For more information, see Logging Secrets Manager events with CloudTrail . Required permissions: secretsmanager:RemoveRegionsFromReplication . For more information, see IAM policy actions for Secrets Manager and Authenticatio...
+    /// For a secret that is replicated to other Regions, deletes the secret replicas from the Regions you specify. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail . Required permissions: secretsmanager:RemoveRegionsFromReplication . For more information, see IAM policy actions for Secrets Manager and Authentication an...
     /// </summary>
-    /// <param name="SecretId">The ARN or name of the secret. Constraints: o min: 1 o max: 2048</param>
-    /// <param name="RemoveReplicaRegions">The Regions of the replicas to remove. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 128 o pattern: ^([a-z]+-)+\d+$ Syntax: "string" "string" ...</param>
+    /// <param name="SecretId">The ARN or name of the secret. Constraints: • min: 1 • max: 2048</param>
+    /// <param name="RemoveReplicaRegions">The Regions of the replicas to remove. Constraints: • min: 1 (string) Constraints: • min: 1 • max: 128 • pattern: ^([a-z]+-)+\d+$ Syntax: "string" "string" ...</param>
     public AwsSecretsmanagerRemoveRegionsFromReplicationOptions(
         string SecretId,
         IEnumerable<string> RemoveReplicaRegions
@@ -72,14 +74,14 @@ public record AwsSecretsmanagerRemoveRegionsFromReplicationOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN or name of the secret. Constraints: o min: 1 o max: 2048
+    /// The ARN or name of the secret. Constraints: • min: 1 • max: 2048
     /// </summary>
     [SecretValue]
     [CliOption("--secret-id")]
     public string? SecretId { get; private init; }
 
     /// <summary>
-    /// The Regions of the replicas to remove. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 128 o pattern: ^([a-z]+-)+\d+$ Syntax: "string" "string" ...
+    /// The Regions of the replicas to remove. Constraints: • min: 1 (string) Constraints: • min: 1 • max: 128 • pattern: ^([a-z]+-)+\d+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--remove-replica-regions", GroupValues = true)]
     public IEnumerable<string>? RemoveReplicaRegions { get; private init; }

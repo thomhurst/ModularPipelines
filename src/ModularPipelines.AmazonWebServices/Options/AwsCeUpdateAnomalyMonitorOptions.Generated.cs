@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCeUpdateAnomalyMonitorOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates an existing cost anomaly monitor. The changes made are applied going forward, and doesn't change anomalies detected in the past. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MonitorArn">Cost anomaly monitor Amazon Resource Names (ARNs). Constraints: o min: 0 o max: 1024 o pattern: [\S\s]*</param>
+    /// <param name="MonitorArn">Cost anomaly monitor Amazon Resource Names (ARNs). Constraints: • min: 0 • max: 1024 • pattern: [\S\s]*</param>
     public AwsCeUpdateAnomalyMonitorOptions(
         string MonitorArn
     )
@@ -56,13 +58,13 @@ public record AwsCeUpdateAnomalyMonitorOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Cost anomaly monitor Amazon Resource Names (ARNs). Constraints: o min: 0 o max: 1024 o pattern: [\S\s]*
+    /// Cost anomaly monitor Amazon Resource Names (ARNs). Constraints: • min: 0 • max: 1024 • pattern: [\S\s]*
     /// </summary>
     [CliOption("--monitor-arn")]
     public string? MonitorArn { get; private init; }
 
     /// <summary>
-    /// The new name for the cost anomaly monitor. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]*
+    /// The new name for the cost anomaly monitor. Constraints: • min: 0 • max: 1024 • pattern: [\S\s]*
     /// </summary>
     [CliOption("--monitor-name")]
     public string? MonitorName { get; set; }

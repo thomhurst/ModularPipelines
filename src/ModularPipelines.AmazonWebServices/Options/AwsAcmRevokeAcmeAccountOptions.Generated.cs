@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Revokes an ACME account, preventing it from requesting or revoking cer- tificates. This operation is irreversible. See also: AWS API Documentation
+/// Revokes an ACME account, preventing it from requesting or revoking certificates. This operation is irreversible. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsAcmRevokeAcmeAccountOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Revokes an ACME account, preventing it from requesting or revoking cer- tificates. This operation is irreversible. See also: AWS API Documentation
+    /// Revokes an ACME account, preventing it from requesting or revoking certificates. This operation is irreversible. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AcmeEndpointArn">The Amazon Resource Name (ARN) of the ACME endpoint. Constraints: o min: 1 o max: 200 o pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-end- point/[a-zA-Z0-9-]+</param>
+    /// <param name="AcmeEndpointArn">The Amazon Resource Name (ARN) of the ACME endpoint. Constraints: • min: 1 • max: 200 • pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+</param>
     /// <param name="AccountUrl">The URL of the ACME account to revoke.</param>
     public AwsAcmRevokeAcmeAccountOptions(
         string AcmeEndpointArn,
@@ -60,7 +62,7 @@ public record AwsAcmRevokeAcmeAccountOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the ACME endpoint. Constraints: o min: 1 o max: 200 o pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-end- point/[a-zA-Z0-9-]+
+    /// The Amazon Resource Name (ARN) of the ACME endpoint. Constraints: • min: 1 • max: 200 • pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--acme-endpoint-arn")]
     public string? AcmeEndpointArn { get; private init; }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsInspector2StartCodeSecurityScanOptions : AwsOptions, IValidatab
     /// <summary>
     /// Initiates a code security scan on a specified repository. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Resource">The resource identifier for the code repository to scan. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: projectId. projectId -&gt; (string) The unique identifier of the project in the code repository. Constraints: o pattern: project-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: projectId=string JSON Syntax: { "projectId": "string" }</param>
+    /// <param name="Resource">The resource identifier for the code repository to scan. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: projectId. projectId -&gt; (string) The unique identifier of the project in the code repository. Constraints: • pattern: project-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: projectId=string JSON Syntax: { "projectId": "string" }</param>
     public AwsInspector2StartCodeSecurityScanOptions(
         string Resource
     )
@@ -57,13 +59,13 @@ public record AwsInspector2StartCodeSecurityScanOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The resource identifier for the code repository to scan. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: projectId. projectId -&gt; (string) The unique identifier of the project in the code repository. Constraints: o pattern: project-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: projectId=string JSON Syntax: { "projectId": "string" }
+    /// The resource identifier for the code repository to scan. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: projectId. projectId -&gt; (string) The unique identifier of the project in the code repository. Constraints: • pattern: project-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: projectId=string JSON Syntax: { "projectId": "string" }
     /// </summary>
     [CliOption("--resource")]
     public string? Resource { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: [\S]+
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 64 • pattern: [\S]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +31,8 @@ public record AwsArtifactPutComplianceInquiryFeedbackOptions : AwsOptions, IVali
     /// <summary>
     /// Submits feedback on a compliance inquiry response. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ComplianceInquiryId">The unique identifier for the compliance inquiry. Constraints: o pattern: compliance-inquiry-[a-zA-Z0-9]{16}</param>
-    /// <param name="Rating">The rating for the feedback. Valid values are THUMBS_UP and THUMBS_DOWN. Possible values: o THUMBS_UP o THUMBS_DOWN</param>
+    /// <param name="ComplianceInquiryId">The unique identifier for the compliance inquiry. Constraints: • pattern: compliance-inquiry-[a-zA-Z0-9]{16}</param>
+    /// <param name="Rating">The rating for the feedback. Valid values are THUMBS_UP and THUMBS_DOWN. Possible values: • THUMBS_UP • THUMBS_DOWN</param>
     public AwsArtifactPutComplianceInquiryFeedbackOptions(
         string ComplianceInquiryId,
         AwsArtifactPutComplianceInquiryFeedbackRating Rating
@@ -61,13 +63,13 @@ public record AwsArtifactPutComplianceInquiryFeedbackOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the compliance inquiry. Constraints: o pattern: compliance-inquiry-[a-zA-Z0-9]{16}
+    /// The unique identifier for the compliance inquiry. Constraints: • pattern: compliance-inquiry-[a-zA-Z0-9]{16}
     /// </summary>
     [CliOption("--compliance-inquiry-id")]
     public string? ComplianceInquiryId { get; private init; }
 
     /// <summary>
-    /// The rating for the feedback. Valid values are THUMBS_UP and THUMBS_DOWN. Possible values: o THUMBS_UP o THUMBS_DOWN
+    /// The rating for the feedback. Valid values are THUMBS_UP and THUMBS_DOWN. Possible values: • THUMBS_UP • THUMBS_DOWN
     /// </summary>
     [CliOption("--rating")]
     public AwsArtifactPutComplianceInquiryFeedbackRating? Rating { get; private init; }
@@ -79,25 +81,25 @@ public record AwsArtifactPutComplianceInquiryFeedbackOptions : AwsOptions, IVali
     public int? QueryIdentifier { get; set; }
 
     /// <summary>
-    /// The response revision ID. Use this value to prevent submitting feed- back on a stale response.
+    /// The response revision ID. Use this value to prevent submitting feedback on a stale response.
     /// </summary>
     [CliOption("--response-revision-id")]
     public int? ResponseRevisionId { get; set; }
 
     /// <summary>
-    /// The reason codes that describe why you rated the response. Valid values are OTHER, PARTIAL_RESPONSE, and IRRELEVANT_RESPONSE. (string) Possible values: o OTHER o PARTIAL_RESPONSE o IRRELEVANT_RESPONSE Syntax: "string" "string" ...
+    /// The reason codes that describe why you rated the response. Valid values are OTHER, PARTIAL_RESPONSE, and IRRELEVANT_RESPONSE. (string) Possible values: • OTHER • PARTIAL_RESPONSE • IRRELEVANT_RESPONSE Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--reason-codes", GroupValues = true)]
     public IEnumerable<string>? ReasonCodes { get; set; }
 
     /// <summary>
-    /// An optional comment for the feedback. Constraints: o min: 1 o max: 1000 o pattern: [a-zA-Z0-9\s.,;:!?'\-()/@#&amp;+=]+
+    /// An optional comment for the feedback. Constraints: • min: 1 • max: 1000 • pattern: [a-zA-Z0-9\s.,;:!?'\-()/@#&amp;+=]+
     /// </summary>
     [CliOption("--comment")]
     public string? Comment { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an er- ror. Constraints: o min: 1 o max: 128 o pattern: [\w\-]+
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an error. Constraints: • min: 1 • max: 128 • pattern: [\w\-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an app authorization within an app bundle, which allows AppFab- ric to connect to an application. See also: AWS API Documentation
+/// Creates an app authorization within an app bundle, which allows AppFabric to connect to an application. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,13 +29,13 @@ public record AwsAppfabricCreateAppAuthorizationOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an app authorization within an app bundle, which allows AppFab- ric to connect to an application. See also: AWS API Documentation
+    /// Creates an app authorization within an app bundle, which allows AppFabric to connect to an application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppBundleIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="App">The name of the application. Valid values are: o SLACK o ASANA o JIRA o M365 o M365AUDITLOGS o ZOOM o ZENDESK o OKTA o GOOGLE o DROPBOX o SMARTSHEET o CISCO Constraints: o min: 1 o max: 255</param>
-    /// <param name="Credential">Contains credentials for the application, such as an API key or OAuth2 client ID and secret. Specify credentials that match the authorization type for your re- quest. For example, if the authorization type for your request is OAuth2 (oauth2 ), then you should provide only the OAuth2 creden- tials. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: oauth2Credential, apiKeyCredential. oauth2Credential -&gt; (structure) Contains OAuth2 client credential information. clientId -&gt; (string) [required] The client ID of the client application. Constraints: o min: 1 o max: 2048 clientSecret -&gt; (string) [required] The client secret of the client application. Constraints: o min: 1 o max: 2048 apiKeyCredential -&gt; (structure) Contains API key credential information. apiKey -&gt; (string) [required] An API key for an application. Constraints: o min: 1 o max: 2048 Shorthand Syntax: oauth2Credential={clientId=string,clientSecret=string},apiKeyCredential={apiKey=string} JSON Syntax: { "oauth2Credential": { "clientId": "string", "clientSecret": "string" }, "apiKeyCredential": { "apiKey": "string" } }</param>
-    /// <param name="Tenant">Contains information about an application tenant, such as the appli- cation display name and identifier. tenantIdentifier -&gt; (string) [required] The ID of the application tenant. Constraints: o min: 1 o max: 1024 tenantDisplayName -&gt; (string) [required] The display name of the tenant. Constraints: o min: 1 o max: 2048 Shorthand Syntax: tenantIdentifier=string,tenantDisplayName=string JSON Syntax: { "tenantIdentifier": "string", "tenantDisplayName": "string" }</param>
-    /// <param name="AuthType">The authorization type for the app authorization. Possible values: o oauth2 o apiKey</param>
+    /// <param name="AppBundleIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: • min: 1 • max: 1011 • pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="App">The name of the application. Valid values are: • SLACK • ASANA • JIRA • M365 • M365AUDITLOGS • ZOOM • ZENDESK • OKTA • GOOGLE • DROPBOX • SMARTSHEET • CISCO Constraints: • min: 1 • max: 255</param>
+    /// <param name="Credential">Contains credentials for the application, such as an API key or OAuth2 client ID and secret. Specify credentials that match the authorization type for your request. For example, if the authorization type for your request is OAuth2 (oauth2 ), then you should provide only the OAuth2 credentials. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: oauth2Credential, apiKeyCredential. oauth2Credential -&gt; (structure) Contains OAuth2 client credential information. clientId -&gt; (string) [required] The client ID of the client application. Constraints: • min: 1 • max: 2048 clientSecret -&gt; (string) [required] The client secret of the client application. Constraints: • min: 1 • max: 2048 apiKeyCredential -&gt; (structure) Contains API key credential information. apiKey -&gt; (string) [required] An API key for an application. Constraints: • min: 1 • max: 2048 Shorthand Syntax: oauth2Credential={clientId=string,clientSecret=string},apiKeyCredential={apiKey=string} JSON Syntax: { "oauth2Credential": { "clientId": "string", "clientSecret": "string" }, "apiKeyCredential": { "apiKey": "string" } }</param>
+    /// <param name="Tenant">Contains information about an application tenant, such as the application display name and identifier. tenantIdentifier -&gt; (string) [required] The ID of the application tenant. Constraints: • min: 1 • max: 1024 tenantDisplayName -&gt; (string) [required] The display name of the tenant. Constraints: • min: 1 • max: 2048 Shorthand Syntax: tenantIdentifier=string,tenantDisplayName=string JSON Syntax: { "tenantIdentifier": "string", "tenantDisplayName": "string" }</param>
+    /// <param name="AuthType">The authorization type for the app authorization. Possible values: • oauth2 • apiKey</param>
     public AwsAppfabricCreateAppAuthorizationOptions(
         string AppBundleIdentifier,
         string App,
@@ -73,45 +75,45 @@ public record AwsAppfabricCreateAppAuthorizationOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: • min: 1 • max: 1011 • pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--app-bundle-identifier")]
     public string? AppBundleIdentifier { get; private init; }
 
     /// <summary>
-    /// The name of the application. Valid values are: o SLACK o ASANA o JIRA o M365 o M365AUDITLOGS o ZOOM o ZENDESK o OKTA o GOOGLE o DROPBOX o SMARTSHEET o CISCO Constraints: o min: 1 o max: 255
+    /// The name of the application. Valid values are: • SLACK • ASANA • JIRA • M365 • M365AUDITLOGS • ZOOM • ZENDESK • OKTA • GOOGLE • DROPBOX • SMARTSHEET • CISCO Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--app")]
     public string? App { get; private init; }
 
     /// <summary>
-    /// Contains credentials for the application, such as an API key or OAuth2 client ID and secret. Specify credentials that match the authorization type for your re- quest. For example, if the authorization type for your request is OAuth2 (oauth2 ), then you should provide only the OAuth2 creden- tials. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: oauth2Credential, apiKeyCredential. oauth2Credential -&gt; (structure) Contains OAuth2 client credential information. clientId -&gt; (string) [required] The client ID of the client application. Constraints: o min: 1 o max: 2048 clientSecret -&gt; (string) [required] The client secret of the client application. Constraints: o min: 1 o max: 2048 apiKeyCredential -&gt; (structure) Contains API key credential information. apiKey -&gt; (string) [required] An API key for an application. Constraints: o min: 1 o max: 2048 Shorthand Syntax: oauth2Credential={clientId=string,clientSecret=string},apiKeyCredential={apiKey=string} JSON Syntax: { "oauth2Credential": { "clientId": "string", "clientSecret": "string" }, "apiKeyCredential": { "apiKey": "string" } }
+    /// Contains credentials for the application, such as an API key or OAuth2 client ID and secret. Specify credentials that match the authorization type for your request. For example, if the authorization type for your request is OAuth2 (oauth2 ), then you should provide only the OAuth2 credentials. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: oauth2Credential, apiKeyCredential. oauth2Credential -&gt; (structure) Contains OAuth2 client credential information. clientId -&gt; (string) [required] The client ID of the client application. Constraints: • min: 1 • max: 2048 clientSecret -&gt; (string) [required] The client secret of the client application. Constraints: • min: 1 • max: 2048 apiKeyCredential -&gt; (structure) Contains API key credential information. apiKey -&gt; (string) [required] An API key for an application. Constraints: • min: 1 • max: 2048 Shorthand Syntax: oauth2Credential={clientId=string,clientSecret=string},apiKeyCredential={apiKey=string} JSON Syntax: { "oauth2Credential": { "clientId": "string", "clientSecret": "string" }, "apiKeyCredential": { "apiKey": "string" } }
     /// </summary>
     [SecretValue]
     [CliOption("--credential")]
     public string? Credential { get; private init; }
 
     /// <summary>
-    /// Contains information about an application tenant, such as the appli- cation display name and identifier. tenantIdentifier -&gt; (string) [required] The ID of the application tenant. Constraints: o min: 1 o max: 1024 tenantDisplayName -&gt; (string) [required] The display name of the tenant. Constraints: o min: 1 o max: 2048 Shorthand Syntax: tenantIdentifier=string,tenantDisplayName=string JSON Syntax: { "tenantIdentifier": "string", "tenantDisplayName": "string" }
+    /// Contains information about an application tenant, such as the application display name and identifier. tenantIdentifier -&gt; (string) [required] The ID of the application tenant. Constraints: • min: 1 • max: 1024 tenantDisplayName -&gt; (string) [required] The display name of the tenant. Constraints: • min: 1 • max: 2048 Shorthand Syntax: tenantIdentifier=string,tenantDisplayName=string JSON Syntax: { "tenantIdentifier": "string", "tenantDisplayName": "string" }
     /// </summary>
     [CliOption("--tenant")]
     public string? Tenant { get; private init; }
 
     /// <summary>
-    /// The authorization type for the app authorization. Possible values: o oauth2 o apiKey
+    /// The authorization type for the app authorization. Possible values: • oauth2 • apiKey
     /// </summary>
     [CliOption("--auth-type")]
     public AwsAppfabricCreateAppAuthorizationAuthType? AuthType { get; private init; }
 
     /// <summary>
-    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with different parameters, the retry fails with an IdempotentParameterMismatch error. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A map of the key-value pairs of the tag or tags to assign to the re- source. Constraints: o min: 0 o max: 50 (structure) The key or keys of the key-value pairs for the tag or tags as- signed to a resource. key -&gt; (string) [required] Tag key. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] Tag value. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// A map of the key-value pairs of the tag or tags to assign to the resource. Constraints: • min: 0 • max: 50 (structure) The key or keys of the key-value pairs for the tag or tags assigned to a resource. key -&gt; (string) [required] Tag key. Constraints: • min: 1 • max: 128 value -&gt; (string) [required] Tag value. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

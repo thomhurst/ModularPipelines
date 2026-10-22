@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Searches for any Q topic that exists in an Quick account. See also: AWS API Documentation search-topics is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TopicSummaryList
+/// Searches for any Q topic that exists in an Quick account. See also: AWS API Documentation search-topics is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TopicSummaryList
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsQuicksightSearchTopicsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Searches for any Q topic that exists in an Quick account. See also: AWS API Documentation search-topics is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TopicSummaryList
+    /// Searches for any Q topic that exists in an Quick account. See also: AWS API Documentation search-topics is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TopicSummaryList
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the topic that you want to find. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="Filters">The filters that you want to use to search for the topic. Constraints: o min: 1 o max: 1 (structure) The filter that is used to search for a topic. Operator -&gt; (string) [required] The operator like equals or like. Possible values: o StringEquals o StringLike Name -&gt; (string) [required] The name of the topic search filter. Possible values: o QUICKSIGHT_USER o QUICKSIGHT_VIEWER_OR_OWNER o DIRECT_QUICKSIGHT_VIEWER_OR_OWNER o QUICKSIGHT_OWNER o DIRECT_QUICKSIGHT_OWNER o DIRECT_QUICKSIGHT_SOLE_OWNER o TOPIC_NAME Value -&gt; (string) [required] The value of the topic search filter. Shorthand Syntax: Operator=string,Name=string,Value=string ... JSON Syntax: [ { "Operator": "StringEquals"|"StringLike", "Name": "QUICKSIGHT_USER"|"QUICKSIGHT_VIEWER_OR_OWNER"|"DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"|"QUICKSIGHT_OWNER"|"DIRECT_QUICKSIGHT_OWNER"|"DIRECT_QUICKSIGHT_SOLE_OWNER"|"TOPIC_NAME", "Value": "string" } ... ]</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the topic that you want to find. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="Filters">The filters that you want to use to search for the topic. Constraints: • min: 1 • max: 1 (structure) The filter that is used to search for a topic. Operator -&gt; (string) [required] The operator like equals or like. Possible values: • StringEquals • StringLike Name -&gt; (string) [required] The name of the topic search filter. Possible values: • QUICKSIGHT_USER • QUICKSIGHT_VIEWER_OR_OWNER • DIRECT_QUICKSIGHT_VIEWER_OR_OWNER • QUICKSIGHT_OWNER • DIRECT_QUICKSIGHT_OWNER • DIRECT_QUICKSIGHT_SOLE_OWNER • TOPIC_NAME Value -&gt; (string) [required] The value of the topic search filter. Shorthand Syntax: Operator=string,Name=string,Value=string ... JSON Syntax: [ { "Operator": "StringEquals"|"StringLike", "Name": "QUICKSIGHT_USER"|"QUICKSIGHT_VIEWER_OR_OWNER"|"DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"|"QUICKSIGHT_OWNER"|"DIRECT_QUICKSIGHT_OWNER"|"DIRECT_QUICKSIGHT_SOLE_OWNER"|"TOPIC_NAME", "Value": "string" } ... ]</param>
     public AwsQuicksightSearchTopicsOptions(
         string AwsAccountId,
         IEnumerable<string> Filters
@@ -72,22 +74,19 @@ public record AwsQuicksightSearchTopicsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the topic that you want to find. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the topic that you want to find. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The filters that you want to use to search for the topic. Constraints: o min: 1 o max: 1 (structure) The filter that is used to search for a topic. Operator -&gt; (string) [required] The operator like equals or like. Possible values: o StringEquals o StringLike Name -&gt; (string) [required] The name of the topic search filter. Possible values: o QUICKSIGHT_USER o QUICKSIGHT_VIEWER_OR_OWNER o DIRECT_QUICKSIGHT_VIEWER_OR_OWNER o QUICKSIGHT_OWNER o DIRECT_QUICKSIGHT_OWNER o DIRECT_QUICKSIGHT_SOLE_OWNER o TOPIC_NAME Value -&gt; (string) [required] The value of the topic search filter. Shorthand Syntax: Operator=string,Name=string,Value=string ... JSON Syntax: [ { "Operator": "StringEquals"|"StringLike", "Name": "QUICKSIGHT_USER"|"QUICKSIGHT_VIEWER_OR_OWNER"|"DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"|"QUICKSIGHT_OWNER"|"DIRECT_QUICKSIGHT_OWNER"|"DIRECT_QUICKSIGHT_SOLE_OWNER"|"TOPIC_NAME", "Value": "string" } ... ]
+    /// The filters that you want to use to search for the topic. Constraints: • min: 1 • max: 1 (structure) The filter that is used to search for a topic. Operator -&gt; (string) [required] The operator like equals or like. Possible values: • StringEquals • StringLike Name -&gt; (string) [required] The name of the topic search filter. Possible values: • QUICKSIGHT_USER • QUICKSIGHT_VIEWER_OR_OWNER • DIRECT_QUICKSIGHT_VIEWER_OR_OWNER • QUICKSIGHT_OWNER • DIRECT_QUICKSIGHT_OWNER • DIRECT_QUICKSIGHT_SOLE_OWNER • TOPIC_NAME Value -&gt; (string) [required] The value of the topic search filter. Shorthand Syntax: Operator=string,Name=string,Value=string ... JSON Syntax: [ { "Operator": "StringEquals"|"StringLike", "Name": "QUICKSIGHT_USER"|"QUICKSIGHT_VIEWER_OR_OWNER"|"DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"|"QUICKSIGHT_OWNER"|"DIRECT_QUICKSIGHT_OWNER"|"DIRECT_QUICKSIGHT_SOLE_OWNER"|"TOPIC_NAME", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -97,16 +96,19 @@ public record AwsQuicksightSearchTopicsOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

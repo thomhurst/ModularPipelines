@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Verifies a destination phone number with a one-time password (OTP) for the calling Amazon Web Services account. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox . The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your Amazon Web Services ac- count is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send SMS messages on...
+/// Verifies a destination phone number with a one-time password (OTP) for the calling Amazon Web Services account. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox . The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your Amazon Web Services account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send SMS messages only...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsSnsVerifySmsSandboxPhoneNumberOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Verifies a destination phone number with a one-time password (OTP) for the calling Amazon Web Services account. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox . The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your Amazon Web Services ac- count is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send SMS messages on...
+    /// Verifies a destination phone number with a one-time password (OTP) for the calling Amazon Web Services account. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox . The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your Amazon Web Services account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send SMS messages only...
     /// </summary>
-    /// <param name="PhoneNumber">The destination phone number to verify. Constraints: o max: 20 o pattern: ^(\+[0-9]{8,}|[0-9]{0,9})$</param>
-    /// <param name="OneTimePassword">The OTP sent to the destination number from the CreateSMSSandBoxPho- neNumber call. Constraints: o min: 5 o max: 8 o pattern: ^[0-9]+$</param>
+    /// <param name="PhoneNumber">The destination phone number to verify. Constraints: • max: 20 • pattern: ^(\+[0-9]{8,}|[0-9]{0,9})$</param>
+    /// <param name="OneTimePassword">The OTP sent to the destination number from the CreateSMSSandBoxPhoneNumber call. Constraints: • min: 5 • max: 8 • pattern: ^[0-9]+$</param>
     public AwsSnsVerifySmsSandboxPhoneNumberOptions(
         string PhoneNumber,
         string OneTimePassword
@@ -61,13 +63,13 @@ public record AwsSnsVerifySmsSandboxPhoneNumberOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The destination phone number to verify. Constraints: o max: 20 o pattern: ^(\+[0-9]{8,}|[0-9]{0,9})$
+    /// The destination phone number to verify. Constraints: • max: 20 • pattern: ^(\+[0-9]{8,}|[0-9]{0,9})$
     /// </summary>
     [CliOption("--phone-number")]
     public string? PhoneNumber { get; private init; }
 
     /// <summary>
-    /// The OTP sent to the destination number from the CreateSMSSandBoxPho- neNumber call. Constraints: o min: 5 o max: 8 o pattern: ^[0-9]+$
+    /// The OTP sent to the destination number from the CreateSMSSandBoxPhoneNumber call. Constraints: • min: 5 • max: 8 • pattern: ^[0-9]+$
     /// </summary>
     [SecretValue]
     [CliOption("--one-time-password")]

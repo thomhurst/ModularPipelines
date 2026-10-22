@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an Quick application with a token exchange grant. This opera- tion only supports Quick applications that are registered with IAM Identity Center. See also: AWS API Documentation
+/// Updates an Quick application with a token exchange grant. This operation only supports Quick applications that are registered with IAM Identity Center. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsQuicksightUpdateApplicationWithTokenExchangeGrantOptions : AwsO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an Quick application with a token exchange grant. This opera- tion only supports Quick applications that are registered with IAM Identity Center. See also: AWS API Documentation
+    /// Updates an Quick application with a token exchange grant. This operation only supports Quick applications that are registered with IAM Identity Center. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account to be updated with a token exchange grant. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="Namespace">The namespace of the Quick application. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account to be updated with a token exchange grant. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="Namespace">The namespace of the Quick application. Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$</param>
     public AwsQuicksightUpdateApplicationWithTokenExchangeGrantOptions(
         string AwsAccountId,
         string Namespace
@@ -60,13 +62,13 @@ public record AwsQuicksightUpdateApplicationWithTokenExchangeGrantOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account to be updated with a token exchange grant. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account to be updated with a token exchange grant. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The namespace of the Quick application. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// The namespace of the Quick application. Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; private init; }

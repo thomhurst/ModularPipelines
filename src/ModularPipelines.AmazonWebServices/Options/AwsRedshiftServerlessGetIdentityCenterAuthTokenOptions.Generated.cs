@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns an Identity Center authentication token for accessing Amazon Redshift Serverless workgroups. The token provides secure access to data within the specified work- groups using Identity Center identity propagation. The token expires after a specified duration and must be refreshed for continued access. The Identity and Access Management (IAM) user or role that runs GetI- dentityCenterAuthToken must have appropriate permissions to access the specified workgroups and Identity Center integrati...
+/// Returns an Identity Center authentication token for accessing Amazon Redshift Serverless workgroups. The token provides secure access to data within the specified workgroups using Identity Center identity propagation. The token expires after a specified duration and must be refreshed for continued access. The Identity and Access Management (IAM) user or role that runs GetIdentityCenterAuthToken must have appropriate permissions to access the specified workgroups and Identity Center integration m...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRedshiftServerlessGetIdentityCenterAuthTokenOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns an Identity Center authentication token for accessing Amazon Redshift Serverless workgroups. The token provides secure access to data within the specified work- groups using Identity Center identity propagation. The token expires after a specified duration and must be refreshed for continued access. The Identity and Access Management (IAM) user or role that runs GetI- dentityCenterAuthToken must have appropriate permissions to access the specified workgroups and Identity Center integrati...
+    /// Returns an Identity Center authentication token for accessing Amazon Redshift Serverless workgroups. The token provides secure access to data within the specified workgroups using Identity Center identity propagation. The token expires after a specified duration and must be refreshed for continued access. The Identity and Access Management (IAM) user or role that runs GetIdentityCenterAuthToken must have appropriate permissions to access the specified workgroups and Identity Center integration m...
     /// </summary>
-    /// <param name="WorkgroupNames">A list of workgroup names for which to generate the Identity Center authentication token. Constraints: o Must contain between 1 and 20 workgroup names. o Each workgroup name must be a valid Amazon Redshift Serverless workgroup identifier. o All specified workgroups must have Identity Center integration en- abled. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$ Syntax: "string" "string" ...</param>
+    /// <param name="WorkgroupNames">A list of workgroup names for which to generate the Identity Center authentication token. Constraints: • Must contain between 1 and 20 workgroup names. • Each workgroup name must be a valid Amazon Redshift Serverless workgroup identifier. • All specified workgroups must have Identity Center integration enabled. Constraints: • min: 1 • max: 20 (string) Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$ Syntax: "string" "string" ...</param>
     public AwsRedshiftServerlessGetIdentityCenterAuthTokenOptions(
         IEnumerable<string> WorkgroupNames
     )
@@ -67,7 +69,7 @@ public record AwsRedshiftServerlessGetIdentityCenterAuthTokenOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of workgroup names for which to generate the Identity Center authentication token. Constraints: o Must contain between 1 and 20 workgroup names. o Each workgroup name must be a valid Amazon Redshift Serverless workgroup identifier. o All specified workgroups must have Identity Center integration en- abled. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$ Syntax: "string" "string" ...
+    /// A list of workgroup names for which to generate the Identity Center authentication token. Constraints: • Must contain between 1 and 20 workgroup names. • Each workgroup name must be a valid Amazon Redshift Serverless workgroup identifier. • All specified workgroups must have Identity Center integration enabled. Constraints: • min: 1 • max: 20 (string) Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--workgroup-names", GroupValues = true)]
     public IEnumerable<string>? WorkgroupNames { get; private init; }

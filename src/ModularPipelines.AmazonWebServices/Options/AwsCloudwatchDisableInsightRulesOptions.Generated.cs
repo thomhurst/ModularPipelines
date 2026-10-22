@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disables the specified Contributor Insights rules. When rules are dis- abled, they do not analyze log groups and do not incur costs. See also: AWS API Documentation
+/// Disables the specified Contributor Insights rules. When rules are disabled, they do not analyze log groups and do not incur costs. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsCloudwatchDisableInsightRulesOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disables the specified Contributor Insights rules. When rules are dis- abled, they do not analyze log groups and do not incur costs. See also: AWS API Documentation
+    /// Disables the specified Contributor Insights rules. When rules are disabled, they do not analyze log groups and do not incur costs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RuleNames">An array of the rule names to disable. If you need to find out the names of your rules, use DescribeInsightRules . (string) Constraints: o min: 1 o max: 128 o pattern: [\x20-\x7E]+ Syntax: "string" "string" ...</param>
+    /// <param name="RuleNames">An array of the rule names to disable. If you need to find out the names of your rules, use DescribeInsightRules . (string) Constraints: • min: 1 • max: 128 • pattern: [\x20-\x7E]+ Syntax: "string" "string" ...</param>
     public AwsCloudwatchDisableInsightRulesOptions(
         IEnumerable<string> RuleNames
     )
@@ -67,7 +69,7 @@ public record AwsCloudwatchDisableInsightRulesOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An array of the rule names to disable. If you need to find out the names of your rules, use DescribeInsightRules . (string) Constraints: o min: 1 o max: 128 o pattern: [\x20-\x7E]+ Syntax: "string" "string" ...
+    /// An array of the rule names to disable. If you need to find out the names of your rules, use DescribeInsightRules . (string) Constraints: • min: 1 • max: 128 • pattern: [\x20-\x7E]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--rule-names", GroupValues = true)]
     public IEnumerable<string>? RuleNames { get; private init; }

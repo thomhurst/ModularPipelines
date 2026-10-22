@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds replication Amazon Web Services Regions to an existing Amazon Web Services Payment Cryptography key, enabling the key to be used for cryptographic operations in additional Amazon Web Services Regions. Multi-Region key replication allow you to use the same key material across multiple Amazon Web Services Regions, providing lower latency for applications distributed across regions. When you add Replica- tion Regions, Amazon Web Services Payment Cryptography securely replicates the key materia...
+/// Adds replication Amazon Web Services Regions to an existing Amazon Web Services Payment Cryptography key, enabling the key to be used for cryptographic operations in additional Amazon Web Services Regions. Multi-Region key replication allow you to use the same key material across multiple Amazon Web Services Regions, providing lower latency for applications distributed across regions. When you add Replication Regions, Amazon Web Services Payment Cryptography securely replicates the key material ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsPaymentCryptographyAddKeyReplicationRegionsOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds replication Amazon Web Services Regions to an existing Amazon Web Services Payment Cryptography key, enabling the key to be used for cryptographic operations in additional Amazon Web Services Regions. Multi-Region key replication allow you to use the same key material across multiple Amazon Web Services Regions, providing lower latency for applications distributed across regions. When you add Replica- tion Regions, Amazon Web Services Payment Cryptography securely replicates the key materia...
+    /// Adds replication Amazon Web Services Regions to an existing Amazon Web Services Payment Cryptography key, enabling the key to be used for cryptographic operations in additional Amazon Web Services Regions. Multi-Region key replication allow you to use the same key material across multiple Amazon Web Services Regions, providing lower latency for applications distributed across regions. When you add Replication Regions, Amazon Web Services Payment Cryptography securely replicates the key material ...
     /// </summary>
-    /// <param name="KeyIdentifier">The key identifier (ARN or alias) of the key for which to add repli- cation regions. This key must exist and be in a valid state for replication opera- tions. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+</param>
-    /// <param name="ReplicationRegions">The list of Amazon Web Services Regions to add to the key's replica- tion configuration. Each region must be a valid Amazon Web Services Region where Amazon Web Services Payment Cryptography is available. The key will be replicated to these regions, allowing cryptographic operations to be performed closer to your applications. (string) An Amazon Web Services Region identifier in the standard format (e.g., us-east-1 , eu-west-1 ). Used to specify regions for key replication operations. The re- gion must be a valid Amazon Web Services Region where Amazon Web Services Payment Cryptography is available. Constraints: o pattern: [a-z]{2}-[a-z]{1,16}-[0-9]+ Syntax: "string" "string" ...</param>
+    /// <param name="KeyIdentifier">The key identifier (ARN or alias) of the key for which to add replication regions. This key must exist and be in a valid state for replication operations. Constraints: • min: 7 • max: 322 • pattern: arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+</param>
+    /// <param name="ReplicationRegions">The list of Amazon Web Services Regions to add to the key's replication configuration. Each region must be a valid Amazon Web Services Region where Amazon Web Services Payment Cryptography is available. The key will be replicated to these regions, allowing cryptographic operations to be performed closer to your applications. (string) An Amazon Web Services Region identifier in the standard format (e.g., us-east-1 , eu-west-1 ). Used to specify regions for key replication operations. The region must be a valid Amazon Web Services Region where Amazon Web Services Payment Cryptography is available. Constraints: • pattern: [a-z]{2}-[a-z]{1,16}-[0-9]+ Syntax: "string" "string" ...</param>
     public AwsPaymentCryptographyAddKeyReplicationRegionsOptions(
         string KeyIdentifier,
         IEnumerable<string> ReplicationRegions
@@ -71,13 +73,13 @@ public record AwsPaymentCryptographyAddKeyReplicationRegionsOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The key identifier (ARN or alias) of the key for which to add repli- cation regions. This key must exist and be in a valid state for replication opera- tions. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+
+    /// The key identifier (ARN or alias) of the key for which to add replication regions. This key must exist and be in a valid state for replication operations. Constraints: • min: 7 • max: 322 • pattern: arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+
     /// </summary>
     [CliOption("--key-identifier")]
     public string? KeyIdentifier { get; private init; }
 
     /// <summary>
-    /// The list of Amazon Web Services Regions to add to the key's replica- tion configuration. Each region must be a valid Amazon Web Services Region where Amazon Web Services Payment Cryptography is available. The key will be replicated to these regions, allowing cryptographic operations to be performed closer to your applications. (string) An Amazon Web Services Region identifier in the standard format (e.g., us-east-1 , eu-west-1 ). Used to specify regions for key replication operations. The re- gion must be a valid Amazon Web Services Region where Amazon Web Services Payment Cryptography is available. Constraints: o pattern: [a-z]{2}-[a-z]{1,16}-[0-9]+ Syntax: "string" "string" ...
+    /// The list of Amazon Web Services Regions to add to the key's replication configuration. Each region must be a valid Amazon Web Services Region where Amazon Web Services Payment Cryptography is available. The key will be replicated to these regions, allowing cryptographic operations to be performed closer to your applications. (string) An Amazon Web Services Region identifier in the standard format (e.g., us-east-1 , eu-west-1 ). Used to specify regions for key replication operations. The region must be a valid Amazon Web Services Region where Amazon Web Services Payment Cryptography is available. Constraints: • pattern: [a-z]{2}-[a-z]{1,16}-[0-9]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--replication-regions", GroupValues = true)]
     public IEnumerable<string>? ReplicationRegions { get; private init; }

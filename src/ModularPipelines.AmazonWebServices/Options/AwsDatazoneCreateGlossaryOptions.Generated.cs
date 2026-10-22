@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an Amazon DataZone business glossary. Specifies that this is a create glossary policy. A glossary serves as the central repository for business terminology and definitions within an organization. It helps establish and maintain a common language across different departments and teams, reducing mis- communication and ensuring consistent interpretation of business con- cepts. Glossaries can include hierarchical relationships between terms, cross-references, and links to actual data assets,...
+/// Creates an Amazon DataZone business glossary. Specifies that this is a create glossary policy. A glossary serves as the central repository for business terminology and definitions within an organization. It helps establish and maintain a common language across different departments and teams, reducing miscommunication and ensuring consistent interpretation of business concepts. Glossaries can include hierarchical relationships between terms, cross-references, and links to actual data assets, mak...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +29,11 @@ public record AwsDatazoneCreateGlossaryOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an Amazon DataZone business glossary. Specifies that this is a create glossary policy. A glossary serves as the central repository for business terminology and definitions within an organization. It helps establish and maintain a common language across different departments and teams, reducing mis- communication and ensuring consistent interpretation of business con- cepts. Glossaries can include hierarchical relationships between terms, cross-references, and links to actual data assets,...
+    /// Creates an Amazon DataZone business glossary. Specifies that this is a create glossary policy. A glossary serves as the central repository for business terminology and definitions within an organization. It helps establish and maintain a common language across different departments and teams, reducing miscommunication and ensuring consistent interpretation of business concepts. Glossaries can include hierarchical relationships between terms, cross-references, and links to actual data assets, mak...
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which this business glossary is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Name">The name of this business glossary. Constraints: o min: 1 o max: 256</param>
-    /// <param name="OwningProjectIdentifier">The ID of the project that currently owns business glossary. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which this business glossary is created. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Name">The name of this business glossary. Constraints: • min: 1 • max: 256</param>
+    /// <param name="OwningProjectIdentifier">The ID of the project that currently owns business glossary. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneCreateGlossaryOptions(
         string DomainIdentifier,
         string Name,
@@ -66,43 +68,43 @@ public record AwsDatazoneCreateGlossaryOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon DataZone domain in which this business glossary is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the Amazon DataZone domain in which this business glossary is created. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The name of this business glossary. Constraints: o min: 1 o max: 256
+    /// The name of this business glossary. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The ID of the project that currently owns business glossary. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The ID of the project that currently owns business glossary. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--owning-project-identifier")]
     public string? OwningProjectIdentifier { get; private init; }
 
     /// <summary>
-    /// The description of this business glossary. Constraints: o min: 0 o max: 4096
+    /// The description of this business glossary. Constraints: • min: 0 • max: 4096
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The status of this business glossary. Possible values: o DISABLED o ENABLED
+    /// The status of this business glossary. Possible values: • DISABLED • ENABLED
     /// </summary>
     [CliOption("--status")]
     public AwsDatazoneCreateGlossaryStatus? Status { get; set; }
 
     /// <summary>
-    /// The usage restriction of the restricted glossary. Constraints: o min: 1 o max: 1 (string) Possible values: o ASSET_GOVERNED_TERMS Syntax: "string" "string" ...
+    /// The usage restriction of the restricted glossary. Constraints: • min: 1 • max: 1 (string) Possible values: • ASSET_GOVERNED_TERMS Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--usage-restrictions", GroupValues = true)]
     public IEnumerable<string>? UsageRestrictions { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

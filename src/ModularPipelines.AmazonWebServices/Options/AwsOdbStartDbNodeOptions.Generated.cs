@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsOdbStartDbNodeOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Starts the specified DB node in a VM cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbNodeId">The unique identifier of the DB node to start. Constraints: o min: 6 o max: 64 o pattern: [a-zA-Z0-9_~.-]+</param>
+    /// <param name="DbNodeId">The unique identifier of the DB node to start. Constraints: • min: 6 • max: 64 • pattern: [a-zA-Z0-9_~.-]+</param>
     public AwsOdbStartDbNodeOptions(
         string DbNodeId
     )
@@ -56,19 +58,19 @@ public record AwsOdbStartDbNodeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the DB node to start. Constraints: o min: 6 o max: 64 o pattern: [a-zA-Z0-9_~.-]+
+    /// The unique identifier of the DB node to start. Constraints: • min: 6 • max: 64 • pattern: [a-zA-Z0-9_~.-]+
     /// </summary>
     [CliOption("--db-node-id")]
     public string? DbNodeId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the VM cluster that contains the DB node to start. You must specify either this parameter or exadbVmClusterId . Constraints: o min: 6 o max: 64 o pattern: [a-zA-Z0-9_~.-]+
+    /// The unique identifier of the VM cluster that contains the DB node to start. You must specify either this parameter or exadbVmClusterId . Constraints: • min: 6 • max: 64 • pattern: [a-zA-Z0-9_~.-]+
     /// </summary>
     [CliOption("--cloud-vm-cluster-id")]
     public string? CloudVmClusterId { get; set; }
 
     /// <summary>
-    /// The unique identifier of the Exascale VM cluster that contains the DB node to start. You must specify either this parameter or cloudVm- ClusterId . Constraints: o min: 6 o max: 64 o pattern: [a-zA-Z0-9_~.-]+
+    /// The unique identifier of the Exascale VM cluster that contains the DB node to start. You must specify either this parameter or cloudVmClusterId . Constraints: • min: 6 • max: 64 • pattern: [a-zA-Z0-9_~.-]+
     /// </summary>
     [CliOption("--exadb-vm-cluster-id")]
     public string? ExadbVmClusterId { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCloudfrontCreatePublicKeyOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Uploads a public key to CloudFront that you can use with signed URLs and signed cookies , or with field-level encryption . See also: AWS API Documentation
     /// </summary>
-    /// <param name="PublicKeyConfig">A CloudFront public key configuration. CallerReference -&gt; (string) [required] A string included in the request to help make sure that the re- quest can't be replayed. Name -&gt; (string) [required] A name to help identify the public key. EncodedKey -&gt; (string) [required] The public key that you can use with signed URLs and signed cookies , or with field-level encryption . Comment -&gt; (string) A comment to describe the public key. The comment cannot be longer than 128 characters. Shorthand Syntax: CallerReference=string,Name=string,EncodedKey=string,Comment=string JSON Syntax: { "CallerReference": "string", "Name": "string", "EncodedKey": "string", "Comment": "string" }</param>
+    /// <param name="PublicKeyConfig">A CloudFront public key configuration. CallerReference -&gt; (string) [required] A string included in the request to help make sure that the request can't be replayed. Name -&gt; (string) [required] A name to help identify the public key. EncodedKey -&gt; (string) [required] The public key that you can use with signed URLs and signed cookies , or with field-level encryption . Comment -&gt; (string) A comment to describe the public key. The comment cannot be longer than 128 characters. Shorthand Syntax: CallerReference=string,Name=string,EncodedKey=string,Comment=string JSON Syntax: { "CallerReference": "string", "Name": "string", "EncodedKey": "string", "Comment": "string" }</param>
     public AwsCloudfrontCreatePublicKeyOptions(
         string PublicKeyConfig
     )
@@ -56,7 +58,7 @@ public record AwsCloudfrontCreatePublicKeyOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A CloudFront public key configuration. CallerReference -&gt; (string) [required] A string included in the request to help make sure that the re- quest can't be replayed. Name -&gt; (string) [required] A name to help identify the public key. EncodedKey -&gt; (string) [required] The public key that you can use with signed URLs and signed cookies , or with field-level encryption . Comment -&gt; (string) A comment to describe the public key. The comment cannot be longer than 128 characters. Shorthand Syntax: CallerReference=string,Name=string,EncodedKey=string,Comment=string JSON Syntax: { "CallerReference": "string", "Name": "string", "EncodedKey": "string", "Comment": "string" }
+    /// A CloudFront public key configuration. CallerReference -&gt; (string) [required] A string included in the request to help make sure that the request can't be replayed. Name -&gt; (string) [required] A name to help identify the public key. EncodedKey -&gt; (string) [required] The public key that you can use with signed URLs and signed cookies , or with field-level encryption . Comment -&gt; (string) A comment to describe the public key. The comment cannot be longer than 128 characters. Shorthand Syntax: CallerReference=string,Name=string,EncodedKey=string,Comment=string JSON Syntax: { "CallerReference": "string", "Name": "string", "EncodedKey": "string", "Comment": "string" }
     /// </summary>
     [CliOption("--public-key-config")]
     public string? PublicKeyConfig { get; private init; }

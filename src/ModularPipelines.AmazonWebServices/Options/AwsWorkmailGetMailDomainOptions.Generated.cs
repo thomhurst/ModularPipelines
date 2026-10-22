@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsWorkmailGetMailDomainOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets details for a mail domain, including domain records required to configure your domain with recommended security. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The WorkMail organization for which the domain is retrieved. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
-    /// <param name="DomainName">The domain from which you want to retrieve details. Constraints: o min: 3 o max: 209 o pattern: [a-zA-Z0-9.-]+</param>
+    /// <param name="OrganizationId">The WorkMail organization for which the domain is retrieved. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="DomainName">The domain from which you want to retrieve details. Constraints: • min: 3 • max: 209 • pattern: [a-zA-Z0-9.-]+</param>
     public AwsWorkmailGetMailDomainOptions(
         string OrganizationId,
         string DomainName
@@ -60,13 +62,13 @@ public record AwsWorkmailGetMailDomainOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The WorkMail organization for which the domain is retrieved. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The WorkMail organization for which the domain is retrieved. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The domain from which you want to retrieve details. Constraints: o min: 3 o max: 209 o pattern: [a-zA-Z0-9.-]+
+    /// The domain from which you want to retrieve details. Constraints: • min: 3 • max: 209 • pattern: [a-zA-Z0-9.-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }

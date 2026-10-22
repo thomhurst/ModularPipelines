@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Stops the failback process for a specified Recovery Instance. This changes the Failback State of the Recovery Instance back to FAIL- BACK_NOT_STARTED. See also: AWS API Documentation
+/// Stops the failback process for a specified Recovery Instance. This changes the Failback State of the Recovery Instance back to FAILBACK_NOT_STARTED. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsDrsStopFailbackOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Stops the failback process for a specified Recovery Instance. This changes the Failback State of the Recovery Instance back to FAIL- BACK_NOT_STARTED. See also: AWS API Documentation
+    /// Stops the failback process for a specified Recovery Instance. This changes the Failback State of the Recovery Instance back to FAILBACK_NOT_STARTED. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RecoveryInstanceId">The ID of the Recovery Instance we want to stop failback for. Constraints: o min: 10 o max: 19 o pattern: i-[0-9a-fA-F]{8,}</param>
+    /// <param name="RecoveryInstanceId">The ID of the Recovery Instance we want to stop failback for. Constraints: • min: 10 • max: 19 • pattern: i-[0-9a-fA-F]{8,}</param>
     public AwsDrsStopFailbackOptions(
         string RecoveryInstanceId
     )
@@ -56,7 +58,7 @@ public record AwsDrsStopFailbackOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Recovery Instance we want to stop failback for. Constraints: o min: 10 o max: 19 o pattern: i-[0-9a-fA-F]{8,}
+    /// The ID of the Recovery Instance we want to stop failback for. Constraints: • min: 10 • max: 19 • pattern: i-[0-9a-fA-F]{8,}
     /// </summary>
     [CliOption("--recovery-instance-id")]
     public string? RecoveryInstanceId { get; private init; }

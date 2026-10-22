@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsCustomerProfilesGetSegmentMembershipOptions : AwsOptions, IVali
     /// <summary>
     /// Determines if the given profiles are within a segment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="SegmentDefinitionName">The Id of the wanted segment. Needs to be a valid, and existing seg- ment Id. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="ProfileIds">The list of profile IDs to query for. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: [a-f0-9]{32} Syntax: "string" "string" ...</param>
+    /// <param name="DomainName">The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="SegmentDefinitionName">The Id of the wanted segment. Needs to be a valid, and existing segment Id. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="ProfileIds">The list of profile IDs to query for. Constraints: • min: 1 • max: 100 (string) Constraints: • pattern: [a-f0-9]{32} Syntax: "string" "string" ...</param>
     public AwsCustomerProfilesGetSegmentMembershipOptions(
         string DomainName,
         string SegmentDefinitionName,
@@ -75,19 +77,19 @@ public record AwsCustomerProfilesGetSegmentMembershipOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The Id of the wanted segment. Needs to be a valid, and existing seg- ment Id. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The Id of the wanted segment. Needs to be a valid, and existing segment Id. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--segment-definition-name")]
     public string? SegmentDefinitionName { get; private init; }
 
     /// <summary>
-    /// The list of profile IDs to query for. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: [a-f0-9]{32} Syntax: "string" "string" ...
+    /// The list of profile IDs to query for. Constraints: • min: 1 • max: 100 (string) Constraints: • pattern: [a-f0-9]{32} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--profile-ids", GroupValues = true)]
     public IEnumerable<string>? ProfileIds { get; private init; }

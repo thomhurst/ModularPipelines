@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a paginated list of instance profiles for your account in the current region. Required permissions: dms:ListInstanceProfiles . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . See also: AWS API Documentation
+/// Returns a paginated list of instance profiles for your account in the current region. Required permissions: dms:ListInstanceProfiles . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,19 +22,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDmsDescribeInstanceProfilesOptions : AwsOptions
 {
     /// <summary>
-    /// The filters to apply to the instance profiles. The following filter names are supported: o instance-profile-identifier The instance profile name or ARN. (structure) Identifies the name and value of a filter object. This filter is used to limit the number and type of DMS objects that are re- turned for a particular Describe* call or similar operation. Filters are used as an optional parameter for certain API opera- tions. Name -&gt; (string) [required] The name of the filter as specified for a Describe* or simi- lar operation. Values -&gt; (list) [required] The filter value, which can specify one or more values used to narrow the returned results. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// The filters to apply to the instance profiles. The following filter names are supported: • instance-profile-identifier The instance profile name or ARN. (structure) Identifies the name and value of a filter object. This filter is used to limit the number and type of DMS objects that are returned for a particular Describe* call or similar operation. Filters are used as an optional parameter for certain API operations. Name -&gt; (string) [required] The name of the filter as specified for a Describe* or similar operation. Values -&gt; (list) [required] The filter value, which can specify one or more values used to narrow the returned results. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the re- maining results.
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
     /// </summary>
     [CliOption("--max-records")]
     public int? MaxRecords { get; set; }
 
     /// <summary>
-    /// Specifies the unique pagination token that makes it possible to dis- play the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the re- turned token and keeping all other arguments unchanged.
+    /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     /// </summary>
     [CliOption("--marker")]
     public string? Marker { get; set; }

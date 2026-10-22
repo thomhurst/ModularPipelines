@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,10 +29,10 @@ public record AwsGroundstationReserveContactOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Reserves a contact using specified parameters. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MissionProfileArn">ARN of a mission profile. Constraints: o min: 89 o max: 138 o pattern: arn:aws:groundstation:[-a-z0-9]{1,50}:[0-9]{12}:mis- sion-pro- file/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="MissionProfileArn">ARN of a mission profile. Constraints: • min: 89 • max: 138 • pattern: arn:aws:groundstation:[-a-z0-9]{1,50}:[0-9]{12}:mission-profile/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
     /// <param name="StartTime">Start time of a contact in UTC.</param>
     /// <param name="EndTime">End time of a contact in UTC.</param>
-    /// <param name="GroundStation">Name of a ground station. Constraints: o min: 4 o max: 97 o pattern: [ a-zA-Z0-9-._:=]{4,97}</param>
+    /// <param name="GroundStation">Name of a ground station. Constraints: • min: 4 • max: 97 • pattern: [ a-zA-Z0-9-._:=]{4,97}</param>
     public AwsGroundstationReserveContactOptions(
         string MissionProfileArn,
         string StartTime,
@@ -69,7 +70,7 @@ public record AwsGroundstationReserveContactOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of a mission profile. Constraints: o min: 89 o max: 138 o pattern: arn:aws:groundstation:[-a-z0-9]{1,50}:[0-9]{12}:mis- sion-pro- file/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// ARN of a mission profile. Constraints: • min: 89 • max: 138 • pattern: arn:aws:groundstation:[-a-z0-9]{1,50}:[0-9]{12}:mission-profile/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--mission-profile-arn")]
     public string? MissionProfileArn { get; private init; }
@@ -87,13 +88,13 @@ public record AwsGroundstationReserveContactOptions : AwsOptions, IValidatableOb
     public string? EndTime { get; private init; }
 
     /// <summary>
-    /// Name of a ground station. Constraints: o min: 4 o max: 97 o pattern: [ a-zA-Z0-9-._:=]{4,97}
+    /// Name of a ground station. Constraints: • min: 4 • max: 97 • pattern: [ a-zA-Z0-9-._:=]{4,97}
     /// </summary>
     [CliOption("--ground-station")]
     public string? GroundStation { get; private init; }
 
     /// <summary>
-    /// ARN of a satellite Constraints: o min: 82 o max: 132 o pattern: arn:aws:groundstation:([-a-z0-9]{1,50})?:[0-9]{12}:satel- lite/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// ARN of a satellite Constraints: • min: 82 • max: 132 • pattern: arn:aws:groundstation:([-a-z0-9]{1,50})?:[0-9]{12}:satellite/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--satellite-arn")]
     public string? SatelliteArn { get; set; }
@@ -105,7 +106,7 @@ public record AwsGroundstationReserveContactOptions : AwsOptions, IValidatableOb
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Tracking configuration overrides for the contact. programTrackSettings -&gt; (tagged union structure) Program track settings to override for antenna tracking during the contact. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: azEl, oem, tle. azEl -&gt; (structure) Program track settings for AzElEphemeris . ephemerisId -&gt; (string) [required] Unique identifier of the azimuth elevation ephemeris. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} oem -&gt; (structure) Program track settings for OEMEphemeris . ephemerisId -&gt; (string) [required] Unique identifier of the OEM ephemeris. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} tle -&gt; (structure) Program track settings for TLEEphemeris . ephemerisId -&gt; (string) [required] Unique identifier of the TLE ephemeris. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: programTrackSettings={azEl={ephemerisId=string},oem={ephemerisId=string},tle={ephemerisId=string}} JSON Syntax: { "programTrackSettings": { "azEl": { "ephemerisId": "string" }, "oem": { "ephemerisId": "string" }, "tle": { "ephemerisId": "string" } } }
+    /// Tracking configuration overrides for the contact. programTrackSettings -&gt; (tagged union structure) Program track settings to override for antenna tracking during the contact. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: azEl, oem, tle. azEl -&gt; (structure) Program track settings for AzElEphemeris . ephemerisId -&gt; (string) [required] Unique identifier of the azimuth elevation ephemeris. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} oem -&gt; (structure) Program track settings for OEMEphemeris . ephemerisId -&gt; (string) [required] Unique identifier of the OEM ephemeris. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} tle -&gt; (structure) Program track settings for TLEEphemeris . ephemerisId -&gt; (string) [required] Unique identifier of the TLE ephemeris. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: programTrackSettings={azEl={ephemerisId=string},oem={ephemerisId=string},tle={ephemerisId=string}} JSON Syntax: { "programTrackSettings": { "azEl": { "ephemerisId": "string" }, "oem": { "ephemerisId": "string" }, "tle": { "ephemerisId": "string" } } }
     /// </summary>
     [CliOption("--tracking-overrides")]
     public string? TrackingOverrides { get; set; }

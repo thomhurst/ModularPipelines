@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates a queued contact with an agent. Use cases Following are common uses cases for this API: o Programmatically assign queued contacts to available users. o Leverage the IAM context key connect:PreferredUserArn to restrict contact association to specific preferred user. Important things to know o Use this API with chat, email, task, and voice contacts. For voice callbacks, this API does not support customer-first mode. o This API can be used to offer a contact to an agent even if the agent...
+/// Associates a queued contact with an agent. Use cases Following are common uses cases for this API: • Programmatically assign queued contacts to available users. • Leverage the IAM context key connect:PreferredUserArn to restrict contact association to specific preferred user. Important things to know • Use this API with chat, email, task, and voice contacts. For voice callbacks, this API does not support customer-first mode. • This API can be used to offer a contact to an agent even if the agent...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsConnectAssociateContactWithUserOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates a queued contact with an agent. Use cases Following are common uses cases for this API: o Programmatically assign queued contacts to available users. o Leverage the IAM context key connect:PreferredUserArn to restrict contact association to specific preferred user. Important things to know o Use this API with chat, email, task, and voice contacts. For voice callbacks, this API does not support customer-first mode. o This API can be used to offer a contact to an agent even if the agent...
+    /// Associates a queued contact with an agent. Use cases Following are common uses cases for this API: • Programmatically assign queued contacts to available users. • Leverage the IAM context key connect:PreferredUserArn to restrict contact association to specific preferred user. Important things to know • Use this API with chat, email, task, and voice contacts. For voice callbacks, this API does not support customer-first mode. • This API can be used to offer a contact to an agent even if the agent...
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="ContactId">The identifier of the contact in this instance of Connect Customer. Constraints: o min: 1 o max: 256</param>
-    /// <param name="UserId">The identifier for the user. This can be the ID or the ARN of the user. Constraints: o min: 1 o max: 256</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="ContactId">The identifier of the contact in this instance of Connect Customer. Constraints: • min: 1 • max: 256</param>
+    /// <param name="UserId">The identifier for the user. This can be the ID or the ARN of the user. Constraints: • min: 1 • max: 256</param>
     public AwsConnectAssociateContactWithUserOptions(
         string InstanceId,
         string ContactId,
@@ -64,19 +66,19 @@ public record AwsConnectAssociateContactWithUserOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the contact in this instance of Connect Customer. Constraints: o min: 1 o max: 256
+    /// The identifier of the contact in this instance of Connect Customer. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--contact-id")]
     public string? ContactId { get; private init; }
 
     /// <summary>
-    /// The identifier for the user. This can be the ID or the ARN of the user. Constraints: o min: 1 o max: 256
+    /// The identifier for the user. This can be the ID or the ARN of the user. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; private init; }

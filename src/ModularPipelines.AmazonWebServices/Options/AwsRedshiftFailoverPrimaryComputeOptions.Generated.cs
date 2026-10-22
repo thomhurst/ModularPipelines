@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRedshiftFailoverPrimaryComputeOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Fails over the primary compute unit of the specified Multi-AZ cluster to another Availability Zone. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterIdentifier">The unique identifier of the cluster for which the primary compute unit will be failed over to another Availability Zone. Constraints: o max: 2147483647</param>
+    /// <param name="ClusterIdentifier">The unique identifier of the cluster for which the primary compute unit will be failed over to another Availability Zone. Constraints: • max: 2147483647</param>
     public AwsRedshiftFailoverPrimaryComputeOptions(
         string ClusterIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsRedshiftFailoverPrimaryComputeOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the cluster for which the primary compute unit will be failed over to another Availability Zone. Constraints: o max: 2147483647
+    /// The unique identifier of the cluster for which the primary compute unit will be failed over to another Availability Zone. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }

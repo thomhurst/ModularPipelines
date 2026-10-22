@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRoute53resolverGetResolverRuleOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Gets information about a specified Resolver rule, such as the domain name that the rule forwards DNS queries for and the ID of the outbound Resolver endpoint that the rule is associated with. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResolverRuleId">The ID of the Resolver rule that you want to get information about. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ResolverRuleId">The ID of the Resolver rule that you want to get information about. Constraints: • min: 1 • max: 64</param>
     public AwsRoute53resolverGetResolverRuleOptions(
         string ResolverRuleId
     )
@@ -56,7 +58,7 @@ public record AwsRoute53resolverGetResolverRuleOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Resolver rule that you want to get information about. Constraints: o min: 1 o max: 64
+    /// The ID of the Resolver rule that you want to get information about. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--resolver-rule-id")]
     public string? ResolverRuleId { get; private init; }

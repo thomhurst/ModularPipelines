@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the communication time config for a campaign. This API is idem- potent. See also: AWS API Documentation
+/// Deletes the communication time config for a campaign. This API is idempotent. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsConnectcampaignsv2DeleteCampaignCommunicationTimeOptions : AwsO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the communication time config for a campaign. This API is idem- potent. See also: AWS API Documentation
+    /// Deletes the communication time config for a campaign. This API is idempotent. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">Identifier representing a Campaign Constraints: o min: 1 o max: 256 o pattern: [-:/a-zA-Z0-9]+</param>
-    /// <param name="Config">The type of campaign communication time config Possible values: o TELEPHONY o SMS o EMAIL o WHATSAPP</param>
+    /// <param name="Id">Identifier representing a Campaign Constraints: • min: 1 • max: 256 • pattern: [-:/a-zA-Z0-9]+</param>
+    /// <param name="Config">The type of campaign communication time config Possible values: • TELEPHONY • SMS • EMAIL • WHATSAPP</param>
     public AwsConnectcampaignsv2DeleteCampaignCommunicationTimeOptions(
         string Id,
         AwsConnectcampaignsv2DeleteCampaignCommunicationTimeConfig Config
@@ -60,13 +62,13 @@ public record AwsConnectcampaignsv2DeleteCampaignCommunicationTimeOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifier representing a Campaign Constraints: o min: 1 o max: 256 o pattern: [-:/a-zA-Z0-9]+
+    /// Identifier representing a Campaign Constraints: • min: 1 • max: 256 • pattern: [-:/a-zA-Z0-9]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The type of campaign communication time config Possible values: o TELEPHONY o SMS o EMAIL o WHATSAPP
+    /// The type of campaign communication time config Possible values: • TELEPHONY • SMS • EMAIL • WHATSAPP
     /// </summary>
     [CliOption("--config")]
     public AwsConnectcampaignsv2DeleteCampaignCommunicationTimeConfig? Config { get; private init; }

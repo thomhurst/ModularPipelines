@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsConfigserviceGetStoredQueryOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Returns the details of a specific stored query. See also: AWS API Documentation
     /// </summary>
-    /// <param name="QueryName">The name of the query. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$</param>
+    /// <param name="QueryName">The name of the query. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$</param>
     public AwsConfigserviceGetStoredQueryOptions(
         string QueryName
     )
@@ -56,7 +58,7 @@ public record AwsConfigserviceGetStoredQueryOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the query. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
+    /// The name of the query. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [CliOption("--query-name")]
     public string? QueryName { get; private init; }

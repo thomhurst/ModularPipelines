@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsConnectUpdateContactFlowNameOptions : AwsOptions, IValidatableO
     /// <summary>
     /// The name of the flow. You can also create and update flows using the Connect Customer Flow language . See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="ContactFlowId">The identifier of the flow. Constraints: o max: 500</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="ContactFlowId">The identifier of the flow. Constraints: • max: 500</param>
     public AwsConnectUpdateContactFlowNameOptions(
         string InstanceId,
         string ContactFlowId
@@ -60,19 +62,19 @@ public record AwsConnectUpdateContactFlowNameOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the flow. Constraints: o max: 500
+    /// The identifier of the flow. Constraints: • max: 500
     /// </summary>
     [CliOption("--contact-flow-id")]
     public string? ContactFlowId { get; private init; }
 
     /// <summary>
-    /// The name of the flow. Constraints: o min: 1
+    /// The name of the flow. Constraints: • min: 1
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }

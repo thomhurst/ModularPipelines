@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsWorkmailListImpersonationRolesOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Lists all the impersonation roles for the given WorkMail organization. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The WorkMail organization to which the listed impersonation roles belong. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="OrganizationId">The WorkMail organization to which the listed impersonation roles belong. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
     public AwsWorkmailListImpersonationRolesOptions(
         string OrganizationId
     )
@@ -57,20 +59,20 @@ public record AwsWorkmailListImpersonationRolesOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The WorkMail organization to which the listed impersonation roles belong. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The WorkMail organization to which the listed impersonation roles belong. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The token used to retrieve the next page of results. The first call doesn't require a token. Constraints: o min: 1 o max: 1024 o pattern: [\S\s]*|[a-zA-Z0-9/+=]{1,1024}
+    /// The token used to retrieve the next page of results. The first call doesn't require a token. Constraints: • min: 1 • max: 1024 • pattern: [\S\s]*|[a-zA-Z0-9/+=]{1,1024}
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results returned in a single call. Constraints: o min: 1 o max: 100
+    /// The maximum number of results returned in a single call. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

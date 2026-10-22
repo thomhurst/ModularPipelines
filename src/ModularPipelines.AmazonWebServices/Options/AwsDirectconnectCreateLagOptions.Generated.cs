@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a link aggregation group (LAG) with the specified number of bundled physical dedicated connections between the customer network and a specific Direct Connect location. A LAG is a logical interface that uses the Link Aggregation Control Protocol (LACP) to aggregate multiple interfaces, enabling you to treat them as a single interface. All connections in a LAG must use the same bandwidth (either 1Gbps, 10Gbps, 100Gbps, or 400Gbps) and must terminate at the same Direct Con- nect endpoint. Y...
+/// Creates a link aggregation group (LAG) with the specified number of bundled physical dedicated connections between the customer network and a specific Direct Connect location. A LAG is a logical interface that uses the Link Aggregation Control Protocol (LACP) to aggregate multiple interfaces, enabling you to treat them as a single interface. All connections in a LAG must use the same bandwidth (either 1Gbps, 10Gbps, 100Gbps, or 400Gbps) and must terminate at the same Direct Connect endpoint. You...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsDirectconnectCreateLagOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a link aggregation group (LAG) with the specified number of bundled physical dedicated connections between the customer network and a specific Direct Connect location. A LAG is a logical interface that uses the Link Aggregation Control Protocol (LACP) to aggregate multiple interfaces, enabling you to treat them as a single interface. All connections in a LAG must use the same bandwidth (either 1Gbps, 10Gbps, 100Gbps, or 400Gbps) and must terminate at the same Direct Con- nect endpoint. Y...
+    /// Creates a link aggregation group (LAG) with the specified number of bundled physical dedicated connections between the customer network and a specific Direct Connect location. A LAG is a logical interface that uses the Link Aggregation Control Protocol (LACP) to aggregate multiple interfaces, enabling you to treat them as a single interface. All connections in a LAG must use the same bandwidth (either 1Gbps, 10Gbps, 100Gbps, or 400Gbps) and must terminate at the same Direct Connect endpoint. You...
     /// </summary>
     /// <param name="NumberOfConnections">The number of physical dedicated connections initially provisioned and bundled by the LAG. You can have a maximum of four connections when the port speed is 1Gbps or 10Gbps, or two when the port speed is 100Gbps or 400Gbps.</param>
     /// <param name="Location">The location for the LAG.</param>
-    /// <param name="ConnectionsBandwidth">The bandwidth of the individual physical dedicated connections bun- dled by the LAG. The possible values are 1Gbps,10Gbps, 100Gbps, and 400Gbps.</param>
+    /// <param name="ConnectionsBandwidth">The bandwidth of the individual physical dedicated connections bundled by the LAG. The possible values are 1Gbps,10Gbps, 100Gbps, and 400Gbps.</param>
     /// <param name="LagName">The name of the LAG.</param>
     public AwsDirectconnectCreateLagOptions(
         int NumberOfConnections,
@@ -80,7 +82,7 @@ public record AwsDirectconnectCreateLagOptions : AwsOptions, IValidatableObject
     public string? Location { get; private init; }
 
     /// <summary>
-    /// The bandwidth of the individual physical dedicated connections bun- dled by the LAG. The possible values are 1Gbps,10Gbps, 100Gbps, and 400Gbps.
+    /// The bandwidth of the individual physical dedicated connections bundled by the LAG. The possible values are 1Gbps,10Gbps, 100Gbps, and 400Gbps.
     /// </summary>
     [CliOption("--connections-bandwidth")]
     public string? ConnectionsBandwidth { get; private init; }
@@ -98,13 +100,13 @@ public record AwsDirectconnectCreateLagOptions : AwsOptions, IValidatableObject
     public string? ConnectionId { get; set; }
 
     /// <summary>
-    /// The tags to associate with the LAG. Constraints: o min: 1 (structure) Information about a tag. key -&gt; (string) [required] The key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) The value. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// The tags to associate with the LAG. Constraints: • min: 1 (structure) Information about a tag. key -&gt; (string) [required] The key. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) The value. Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The tags to associate with the automtically created LAGs. Constraints: o min: 1 (structure) Information about a tag. key -&gt; (string) [required] The key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) The value. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// The tags to associate with the automtically created LAGs. Constraints: • min: 1 (structure) Information about a tag. key -&gt; (string) [required] The key. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) The value. Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--child-connection-tags", GroupValues = true)]
     public IEnumerable<string>? ChildConnectionTags { get; set; }
@@ -116,13 +118,13 @@ public record AwsDirectconnectCreateLagOptions : AwsOptions, IValidatableObject
     public string? ProviderName { get; set; }
 
     /// <summary>
-    /// Indicates whether the connection will support MAC Security (MACsec). NOTE: All connections in the LAG must be capable of supporting MAC Se- curity (MACsec). For information about MAC Security (MACsec) prerequisties, see MACsec prerequisties in the Direct Connect User Guide .
+    /// Indicates whether the connection will support MAC Security (MACsec). NOTE: All connections in the LAG must be capable of supporting MAC Security (MACsec). For information about MAC Security (MACsec) prerequisties, see MACsec prerequisties in the Direct Connect User Guide .
     /// </summary>
     [CliFlag("--request-mac-sec", NegatedName = "--no-request-mac-sec")]
     public bool? RequestMacSec { get; set; }
 
     /// <summary>
-    /// The billing mode for the LAG. Possible values: o PayAsYouGo o FlatRateTier1 o FlatRateTier2 o FlatRateTier3 o FlatRateTier4 o FlatRateTier5
+    /// The billing mode for the LAG. Possible values: • PayAsYouGo • FlatRateTier1 • FlatRateTier2 • FlatRateTier3 • FlatRateTier4 • FlatRateTier5
     /// </summary>
     [CliOption("--billing-mode")]
     public AwsDirectconnectCreateLagBillingMode? BillingMode { get; set; }

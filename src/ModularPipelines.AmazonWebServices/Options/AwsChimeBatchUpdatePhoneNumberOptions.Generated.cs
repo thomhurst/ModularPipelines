@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates phone number product types or calling names. You can update one attribute at a time for each UpdatePhoneNumberRequestItem . For exam- ple, you can update the product type or the calling name. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type. Updates to outbound calling names can take up to 72 hours to complete. Pending updates to outbound calling nam...
+/// Updates phone number product types or calling names. You can update one attribute at a time for each UpdatePhoneNumberRequestItem . For example, you can update the product type or the calling name. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type. Updates to outbound calling names can take up to 72 hours to complete. Pending updates to outbound calling names...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsChimeBatchUpdatePhoneNumberOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates phone number product types or calling names. You can update one attribute at a time for each UpdatePhoneNumberRequestItem . For exam- ple, you can update the product type or the calling name. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type. Updates to outbound calling names can take up to 72 hours to complete. Pending updates to outbound calling nam...
+    /// Updates phone number product types or calling names. You can update one attribute at a time for each UpdatePhoneNumberRequestItem . For example, you can update the product type or the calling name. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type. Updates to outbound calling names can take up to 72 hours to complete. Pending updates to outbound calling names...
     /// </summary>
-    /// <param name="UpdatePhoneNumberRequestItems">The request containing the phone number IDs and product types or calling names to update. (structure) The phone number ID, product type, or calling name fields to up- date, used with the BatchUpdatePhoneNumber and UpdatePhoneNum- ber actions. PhoneNumberId -&gt; (string) [required] The phone number ID to update. Constraints: o pattern: .*\S.* ProductType -&gt; (string) The product type to update. Possible values: o BusinessCalling o VoiceConnector o SipMediaApplicationDialIn CallingName -&gt; (string) The outbound calling name to update. Constraints: o pattern: ^$|^[a-zA-Z0-9 ]{2,15}$ Shorthand Syntax: PhoneNumberId=string,ProductType=string,CallingName=string ... JSON Syntax: [ { "PhoneNumberId": "string", "ProductType": "BusinessCalling"|"VoiceConnector"|"SipMediaApplicationDialIn", "CallingName": "string" } ... ]</param>
+    /// <param name="UpdatePhoneNumberRequestItems">The request containing the phone number IDs and product types or calling names to update. (structure) The phone number ID, product type, or calling name fields to update, used with the BatchUpdatePhoneNumber and UpdatePhoneNumber actions. PhoneNumberId -&gt; (string) [required] The phone number ID to update. Constraints: • pattern: .*\S.* ProductType -&gt; (string) The product type to update. Possible values: • BusinessCalling • VoiceConnector • SipMediaApplicationDialIn CallingName -&gt; (string) The outbound calling name to update. Constraints: • pattern: ^$|^[a-zA-Z0-9 ]{2,15}$ Shorthand Syntax: PhoneNumberId=string,ProductType=string,CallingName=string ... JSON Syntax: [ { "PhoneNumberId": "string", "ProductType": "BusinessCalling"|"VoiceConnector"|"SipMediaApplicationDialIn", "CallingName": "string" } ... ]</param>
     public AwsChimeBatchUpdatePhoneNumberOptions(
         IEnumerable<string> UpdatePhoneNumberRequestItems
     )
@@ -67,7 +69,7 @@ public record AwsChimeBatchUpdatePhoneNumberOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The request containing the phone number IDs and product types or calling names to update. (structure) The phone number ID, product type, or calling name fields to up- date, used with the BatchUpdatePhoneNumber and UpdatePhoneNum- ber actions. PhoneNumberId -&gt; (string) [required] The phone number ID to update. Constraints: o pattern: .*\S.* ProductType -&gt; (string) The product type to update. Possible values: o BusinessCalling o VoiceConnector o SipMediaApplicationDialIn CallingName -&gt; (string) The outbound calling name to update. Constraints: o pattern: ^$|^[a-zA-Z0-9 ]{2,15}$ Shorthand Syntax: PhoneNumberId=string,ProductType=string,CallingName=string ... JSON Syntax: [ { "PhoneNumberId": "string", "ProductType": "BusinessCalling"|"VoiceConnector"|"SipMediaApplicationDialIn", "CallingName": "string" } ... ]
+    /// The request containing the phone number IDs and product types or calling names to update. (structure) The phone number ID, product type, or calling name fields to update, used with the BatchUpdatePhoneNumber and UpdatePhoneNumber actions. PhoneNumberId -&gt; (string) [required] The phone number ID to update. Constraints: • pattern: .*\S.* ProductType -&gt; (string) The product type to update. Possible values: • BusinessCalling • VoiceConnector • SipMediaApplicationDialIn CallingName -&gt; (string) The outbound calling name to update. Constraints: • pattern: ^$|^[a-zA-Z0-9 ]{2,15}$ Shorthand Syntax: PhoneNumberId=string,ProductType=string,CallingName=string ... JSON Syntax: [ { "PhoneNumberId": "string", "ProductType": "BusinessCalling"|"VoiceConnector"|"SipMediaApplicationDialIn", "CallingName": "string" } ... ]
     /// </summary>
     [CliOption("--update-phone-number-request-items", GroupValues = true)]
     public IEnumerable<string>? UpdatePhoneNumberRequestItems { get; private init; }

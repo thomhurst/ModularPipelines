@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the connectivity information for the core. Any devices that be- long to the group which has this core will receive this information in order to find the location of the core and connect to it. See also: AWS API Documentation
+/// Updates the connectivity information for the core. Any devices that belong to the group which has this core will receive this information in order to find the location of the core and connect to it. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsGreengrassUpdateConnectivityInfoOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the connectivity information for the core. Any devices that be- long to the group which has this core will receive this information in order to find the location of the core and connect to it. See also: AWS API Documentation
+    /// Updates the connectivity information for the core. Any devices that belong to the group which has this core will receive this information in order to find the location of the core and connect to it. See also: AWS API Documentation
     /// </summary>
     /// <param name="ThingName"></param>
     public AwsGreengrassUpdateConnectivityInfoOptions(

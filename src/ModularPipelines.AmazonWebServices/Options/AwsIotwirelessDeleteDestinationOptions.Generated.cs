@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotwirelessDeleteDestinationOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Deletes a destination. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the resource to delete. Constraints: o max: 128 o pattern: [a-zA-Z0-9-_]+</param>
+    /// <param name="Name">The name of the resource to delete. Constraints: • max: 128 • pattern: [a-zA-Z0-9-_]+</param>
     public AwsIotwirelessDeleteDestinationOptions(
         string Name
     )
@@ -56,7 +58,7 @@ public record AwsIotwirelessDeleteDestinationOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the resource to delete. Constraints: o max: 128 o pattern: [a-zA-Z0-9-_]+
+    /// The name of the resource to delete. Constraints: • max: 128 • pattern: [a-zA-Z0-9-_]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

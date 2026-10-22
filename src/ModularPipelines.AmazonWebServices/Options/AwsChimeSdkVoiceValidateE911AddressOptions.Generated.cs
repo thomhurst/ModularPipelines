@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Validates an address to be used for 911 calls made with Amazon Chime SDK Voice Connectors. You can use validated addresses in a Presence In- formation Data Format Location Object file that you include in SIP re- quests. That helps ensure that addresses are routed to the appropriate Public Safety Answering Point. See also: AWS API Documentation
+/// Validates an address to be used for 911 calls made with Amazon Chime SDK Voice Connectors. You can use validated addresses in a Presence Information Data Format Location Object file that you include in SIP requests. That helps ensure that addresses are routed to the appropriate Public Safety Answering Point. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,15 +27,15 @@ public record AwsChimeSdkVoiceValidateE911AddressOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Validates an address to be used for 911 calls made with Amazon Chime SDK Voice Connectors. You can use validated addresses in a Presence In- formation Data Format Location Object file that you include in SIP re- quests. That helps ensure that addresses are routed to the appropriate Public Safety Answering Point. See also: AWS API Documentation
+    /// Validates an address to be used for 911 calls made with Amazon Chime SDK Voice Connectors. You can use validated addresses in a Presence Information Data Format Location Object file that you include in SIP requests. That helps ensure that addresses are routed to the appropriate Public Safety Answering Point. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The AWS account ID. Constraints: o pattern: .*\S.*</param>
-    /// <param name="StreetNumber">The address street number, such as 200 or 2121 . Constraints: o pattern: .*\S.*</param>
-    /// <param name="StreetInfo">The address street information, such as 8th Avenue . Constraints: o pattern: .*\S.*</param>
-    /// <param name="City">The address city, such as Portland . Constraints: o pattern: .*\S.*</param>
-    /// <param name="State">The address state, such as ME . Constraints: o pattern: .*\S.*</param>
-    /// <param name="Country">The country in the address being validated as two-letter country code in ISO 3166-1 alpha-2 format, such as US . For more informa- tion, see ISO 3166-1 alpha-2 in Wikipedia. Constraints: o pattern: .*\S.*</param>
-    /// <param name="PostalCode">The dress postal code, such 04352 . Constraints: o pattern: .*\S.*</param>
+    /// <param name="AwsAccountId">The AWS account ID. Constraints: • pattern: .*\S.*</param>
+    /// <param name="StreetNumber">The address street number, such as 200 or 2121 . Constraints: • pattern: .*\S.*</param>
+    /// <param name="StreetInfo">The address street information, such as 8th Avenue . Constraints: • pattern: .*\S.*</param>
+    /// <param name="City">The address city, such as Portland . Constraints: • pattern: .*\S.*</param>
+    /// <param name="State">The address state, such as ME . Constraints: • pattern: .*\S.*</param>
+    /// <param name="Country">The country in the address being validated as two-letter country code in ISO 3166-1 alpha-2 format, such as US . For more information, see ISO 3166-1 alpha-2 in Wikipedia. Constraints: • pattern: .*\S.*</param>
+    /// <param name="PostalCode">The dress postal code, such 04352 . Constraints: • pattern: .*\S.*</param>
     public AwsChimeSdkVoiceValidateE911AddressOptions(
         string AwsAccountId,
         string StreetNumber,
@@ -80,43 +82,43 @@ public record AwsChimeSdkVoiceValidateE911AddressOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The AWS account ID. Constraints: o pattern: .*\S.*
+    /// The AWS account ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The address street number, such as 200 or 2121 . Constraints: o pattern: .*\S.*
+    /// The address street number, such as 200 or 2121 . Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--street-number")]
     public string? StreetNumber { get; private init; }
 
     /// <summary>
-    /// The address street information, such as 8th Avenue . Constraints: o pattern: .*\S.*
+    /// The address street information, such as 8th Avenue . Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--street-info")]
     public string? StreetInfo { get; private init; }
 
     /// <summary>
-    /// The address city, such as Portland . Constraints: o pattern: .*\S.*
+    /// The address city, such as Portland . Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--city")]
     public string? City { get; private init; }
 
     /// <summary>
-    /// The address state, such as ME . Constraints: o pattern: .*\S.*
+    /// The address state, such as ME . Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--state")]
     public string? State { get; private init; }
 
     /// <summary>
-    /// The country in the address being validated as two-letter country code in ISO 3166-1 alpha-2 format, such as US . For more informa- tion, see ISO 3166-1 alpha-2 in Wikipedia. Constraints: o pattern: .*\S.*
+    /// The country in the address being validated as two-letter country code in ISO 3166-1 alpha-2 format, such as US . For more information, see ISO 3166-1 alpha-2 in Wikipedia. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--country")]
     public string? Country { get; private init; }
 
     /// <summary>
-    /// The dress postal code, such 04352 . Constraints: o pattern: .*\S.*
+    /// The dress postal code, such 04352 . Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--postal-code")]
     public string? PostalCode { get; private init; }

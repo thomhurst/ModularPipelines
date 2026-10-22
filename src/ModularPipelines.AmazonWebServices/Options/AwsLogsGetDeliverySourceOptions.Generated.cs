@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsLogsGetDeliverySourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves complete information about one delivery source. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the delivery source that you want to retrieve. Constraints: o min: 1 o max: 60 o pattern: [\w-]*</param>
+    /// <param name="Name">The name of the delivery source that you want to retrieve. Constraints: • min: 1 • max: 60 • pattern: [\w-]*</param>
     public AwsLogsGetDeliverySourceOptions(
         string Name
     )
@@ -56,7 +58,7 @@ public record AwsLogsGetDeliverySourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the delivery source that you want to retrieve. Constraints: o min: 1 o max: 60 o pattern: [\w-]*
+    /// The name of the delivery source that you want to retrieve. Constraints: • min: 1 • max: 60 • pattern: [\w-]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

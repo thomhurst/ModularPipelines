@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the specified attribute of the specified instance. You can specify only one attribute at a time. Note: Using this action to change the security groups associated with an elastic network interface (ENI) attached to an instance can result in an error if the instance has more than one ENI. To change the security groups associated with an ENI attached to an instance that has multiple ENIs, we recommend that you use the ModifyNet- workInterfaceAttribute action. To modify some attributes, the...
+/// Modifies the specified attribute of the specified instance. You can specify only one attribute at a time. Note: Using this action to change the security groups associated with an elastic network interface (ENI) attached to an instance can result in an error if the instance has more than one ENI. To change the security groups associated with an ENI attached to an instance that has multiple ENIs, we recommend that you use the ModifyNetworkInterfaceAttribute action. To modify some attributes, the i...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +28,7 @@ public record AwsEc2ModifyInstanceAttributeOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the specified attribute of the specified instance. You can specify only one attribute at a time. Note: Using this action to change the security groups associated with an elastic network interface (ENI) attached to an instance can result in an error if the instance has more than one ENI. To change the security groups associated with an ENI attached to an instance that has multiple ENIs, we recommend that you use the ModifyNet- workInterfaceAttribute action. To modify some attributes, the...
+    /// Modifies the specified attribute of the specified instance. You can specify only one attribute at a time. Note: Using this action to change the security groups associated with an elastic network interface (ENI) attached to an instance can result in an error if the instance has more than one ENI. To change the security groups associated with an ENI attached to an instance that has multiple ENIs, we recommend that you use the ModifyNetworkInterfaceAttribute action. To modify some attributes, the i...
     /// </summary>
     /// <param name="InstanceId">The ID of the instance.</param>
     public AwsEc2ModifyInstanceAttributeOptions(
@@ -63,13 +65,13 @@ public record AwsEc2ModifyInstanceAttributeOptions : AwsOptions, IValidatableObj
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// Enable or disable source/destination checks, which ensure that the instance is either the source or the destination of any traffic that it receives. If the value is true , source/destination checks are enabled; otherwise, they are disabled. The default value is true . You must disable source/destination checks if the instance runs ser- vices such as network address translation, routing, or firewalls. Value -&gt; (boolean) The attribute value. The valid values are true or false .
+    /// Enable or disable source/destination checks, which ensure that the instance is either the source or the destination of any traffic that it receives. If the value is true , source/destination checks are enabled; otherwise, they are disabled. The default value is true . You must disable source/destination checks if the instance runs services such as network address translation, routing, or firewalls. Value -&gt; (boolean) The attribute value. The valid values are true or false .
     /// </summary>
     [CliFlag("--source-dest-check", NegatedName = "--no-source-dest-check")]
     public bool? SourceDestCheck { get; set; }
 
     /// <summary>
-    /// Enables or disables the instance for Amazon Web Services Nitro En- claves. For more information, see the Amazon Web Services Nitro En- claves User Guide . Enabled -&gt; (boolean) To enable the instance for Amazon Web Services Nitro Enclaves, set this parameter to true . Shorthand Syntax: Enabled=boolean JSON Syntax: { "Enabled": true|false }
+    /// Enables or disables the instance for Amazon Web Services Nitro Enclaves. For more information, see the Amazon Web Services Nitro Enclaves User Guide . Enabled -&gt; (boolean) To enable the instance for Amazon Web Services Nitro Enclaves, set this parameter to true . Shorthand Syntax: Enabled=boolean JSON Syntax: { "Enabled": true|false }
     /// </summary>
     [CliOption("--enclave-options")]
     public string? EnclaveOptions { get; set; }
@@ -81,55 +83,55 @@ public record AwsEc2ModifyInstanceAttributeOptions : AwsOptions, IValidatableObj
     public bool? DisableApiStop { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// The name of the attribute to modify. NOTE: When changing the instance type: If the original instance type is configured for configurable bandwidth, and the desired in- stance type doesn't support configurable bandwidth, first set the existing bandwidth configuration to default using the Modi- fyInstanceNetworkPerformanceOptions operation. WARNING: You can modify the following attributes only: disableApiTermina- tion | instanceType | kernel | ramdisk | instanceInitiatedShut- downBehavior | blockDeviceMapping | userData | sourceDestCheck | groupSet | ebsOptimized | sriovNetSupport | enaSupport | nvme- Support | disableApiStop | enclaveOptions Possible values: o instanceType o kernel o ramdisk o userData o disableApiTermination o instanceInitiatedShutdownBehavior o rootDeviceName o blockDeviceMapping o productCodes o sourceDestCheck o groupSet o ebsOptimized o sriovNetSupport o enaSupport o enclaveOptions o disableApiStop
+    /// The name of the attribute to modify. NOTE: When changing the instance type: If the original instance type is configured for configurable bandwidth, and the desired instance type doesn't support configurable bandwidth, first set the existing bandwidth configuration to default using the ModifyInstanceNetworkPerformanceOptions operation. WARNING: You can modify the following attributes only: disableApiTermination | instanceType | kernel | ramdisk | instanceInitiatedShutdownBehavior | blockDeviceMapping | userData | sourceDestCheck | groupSet | ebsOptimized | sriovNetSupport | enaSupport | nvmeSupport | disableApiStop | enclaveOptions Possible values: • instanceType • kernel • ramdisk • userData • disableApiTermination • instanceInitiatedShutdownBehavior • rootDeviceName • blockDeviceMapping • productCodes • sourceDestCheck • groupSet • ebsOptimized • sriovNetSupport • enaSupport • enclaveOptions • disableApiStop
     /// </summary>
     [CliOption("--attribute")]
     public AwsEc2ModifyInstanceAttributeAttribute? Attribute { get; set; }
 
     /// <summary>
-    /// A new value for the attribute. Use only with the kernel , ramdisk , userData , disableApiTermination , or instanceInitiatedShutdownBe- havior attribute.
+    /// A new value for the attribute. Use only with the kernel , ramdisk , userData , disableApiTermination , or instanceInitiatedShutdownBehavior attribute.
     /// </summary>
     [CliOption("--value")]
     public string? Value { get; set; }
 
     /// <summary>
-    /// Modifies the DeleteOnTermination attribute for volumes that are cur- rently attached. The volume must be owned by the caller. If no value is specified for DeleteOnTermination , the default is true and the volume is deleted when the instance is terminated. You can't modify the DeleteOnTermination attribute for volumes that are attached to Amazon Web Services-managed resources. To add instance store volumes to an Amazon EBS-backed instance, you must add them when you launch the instance. For more information, see Update the block device mapping when launching an instance in the Amazon EC2 User Guide . (structure) Describes a block device mapping entry. DeviceName -&gt; (string) The device name. For available device names, see Device names for volumes . Ebs -&gt; (structure) Parameters used to automatically set up EBS volumes when the instance is launched. VolumeId -&gt; (string) The ID of the EBS volume. DeleteOnTermination -&gt; (boolean) Indicates whether the volume is deleted on instance ter- mination. VirtualName -&gt; (string) The virtual device name. NoDevice -&gt; (string) Suppresses the specified device included in the block device mapping. Shorthand Syntax: DeviceName=string,Ebs={VolumeId=string,DeleteOnTermination=boolean},VirtualName=string,NoDevice=string ... JSON Syntax: [ { "DeviceName": "string", "Ebs": { "VolumeId": "string", "DeleteOnTermination": true|false }, "VirtualName": "string", "NoDevice": "string" } ... ]
+    /// Modifies the DeleteOnTermination attribute for volumes that are currently attached. The volume must be owned by the caller. If no value is specified for DeleteOnTermination , the default is true and the volume is deleted when the instance is terminated. You can't modify the DeleteOnTermination attribute for volumes that are attached to Amazon Web Services-managed resources. To add instance store volumes to an Amazon EBS-backed instance, you must add them when you launch the instance. For more information, see Update the block device mapping when launching an instance in the Amazon EC2 User Guide . (structure) Describes a block device mapping entry. DeviceName -&gt; (string) The device name. For available device names, see Device names for volumes . Ebs -&gt; (structure) Parameters used to automatically set up EBS volumes when the instance is launched. VolumeId -&gt; (string) The ID of the EBS volume. DeleteOnTermination -&gt; (boolean) Indicates whether the volume is deleted on instance termination. VirtualName -&gt; (string) The virtual device name. NoDevice -&gt; (string) Suppresses the specified device included in the block device mapping. Shorthand Syntax: DeviceName=string,Ebs={VolumeId=string,DeleteOnTermination=boolean},VirtualName=string,NoDevice=string ... JSON Syntax: [ { "DeviceName": "string", "Ebs": { "VolumeId": "string", "DeleteOnTermination": true|false }, "VirtualName": "string", "NoDevice": "string" } ... ]
     /// </summary>
     [CliOption("--block-device-mappings", GroupValues = true)]
     public IEnumerable<string>? BlockDeviceMappings { get; set; }
 
     /// <summary>
-    /// Enable or disable termination protection for the instance. If the value is true , you can't terminate the instance using the Amazon EC2 console, command line interface, or API. You can't enable termi- nation protection for Spot Instances. Value -&gt; (boolean) The attribute value. The valid values are true or false .
+    /// Enable or disable termination protection for the instance. If the value is true , you can't terminate the instance using the Amazon EC2 console, command line interface, or API. You can't enable termination protection for Spot Instances. Value -&gt; (boolean) The attribute value. The valid values are true or false .
     /// </summary>
     [CliFlag("--disable-api-termination", NegatedName = "--no-disable-api-termination")]
     public bool? DisableApiTermination { get; set; }
 
     /// <summary>
-    /// Changes the instance type to the specified value. For more informa- tion, see Instance types in the Amazon EC2 User Guide . If the in- stance type is not valid, the error returned is InvalidInstanceAt- tributeValue . Value -&gt; (string) The attribute value. The value is case-sensitive.
+    /// Changes the instance type to the specified value. For more information, see Instance types in the Amazon EC2 User Guide . If the instance type is not valid, the error returned is InvalidInstanceAttributeValue . Value -&gt; (string) The attribute value. The value is case-sensitive.
     /// </summary>
     [CliOption("--instance-type")]
     public string? InstanceType { get; set; }
 
     /// <summary>
-    /// Changes the instance's kernel to the specified value. We recommend that you use PV-GRUB instead of kernels and RAM disks. For more in- formation, see PV-GRUB . Value -&gt; (string) The attribute value. The value is case-sensitive.
+    /// Changes the instance's kernel to the specified value. We recommend that you use PV-GRUB instead of kernels and RAM disks. For more information, see PV-GRUB . Value -&gt; (string) The attribute value. The value is case-sensitive.
     /// </summary>
     [CliOption("--kernel")]
     public string? Kernel { get; set; }
 
     /// <summary>
-    /// Changes the instance's RAM disk to the specified value. We recommend that you use PV-GRUB instead of kernels and RAM disks. For more in- formation, see PV-GRUB . Value -&gt; (string) The attribute value. The value is case-sensitive.
+    /// Changes the instance's RAM disk to the specified value. We recommend that you use PV-GRUB instead of kernels and RAM disks. For more information, see PV-GRUB . Value -&gt; (string) The attribute value. The value is case-sensitive.
     /// </summary>
     [CliOption("--ramdisk")]
     public string? Ramdisk { get; set; }
 
     /// <summary>
-    /// Changes the instance's user data to the specified value. User data must be base64-encoded. Depending on the tool or SDK that you're us- ing, the base64-encoding might be performed for you. For more infor- mation, see Work with instance user data . Value -&gt; (blob) The attribute value. Shorthand Syntax: Value=blob JSON Syntax: { "Value": blob }
+    /// Changes the instance's user data to the specified value. User data must be base64-encoded. Depending on the tool or SDK that you're using, the base64-encoding might be performed for you. For more information, see Work with instance user data . Value -&gt; (blob) The attribute value. Shorthand Syntax: Value=blob JSON Syntax: { "Value": blob }
     /// </summary>
     [CliOption("--user-data")]
     public string? UserData { get; set; }
@@ -141,25 +143,25 @@ public record AwsEc2ModifyInstanceAttributeOptions : AwsOptions, IValidatableObj
     public string? InstanceInitiatedShutdownBehavior { get; set; }
 
     /// <summary>
-    /// Replaces the security groups of the instance with the specified se- curity groups. You must specify the ID of at least one security group, even if it's just the default security group for the VPC. (string) Syntax: "string" "string" ...
+    /// Replaces the security groups of the instance with the specified security groups. You must specify the ID of at least one security group, even if it's just the default security group for the VPC. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--groups", GroupValues = true)]
     public IEnumerable<string>? Groups { get; set; }
 
     /// <summary>
-    /// Specifies whether the instance is optimized for Amazon EBS I/O. This optimization provides dedicated throughput to Amazon EBS and an op- timized configuration stack to provide optimal EBS I/O performance. This optimization isn't available with all instance types. Addi- tional usage charges apply when using an EBS Optimized instance. Value -&gt; (boolean) The attribute value. The valid values are true or false .
+    /// Specifies whether the instance is optimized for Amazon EBS I/O. This optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal EBS I/O performance. This optimization isn't available with all instance types. Additional usage charges apply when using an EBS Optimized instance. Value -&gt; (boolean) The attribute value. The valid values are true or false .
     /// </summary>
     [CliFlag("--ebs-optimized", NegatedName = "--no-ebs-optimized")]
     public bool? EbsOptimized { get; set; }
 
     /// <summary>
-    /// Set to simple to enable enhanced networking with the Intel 82599 Virtual Function interface for the instance. There is no way to disable enhanced networking with the Intel 82599 Virtual Function interface at this time. This option is supported only for HVM instances. Specifying this op- tion with a PV instance can make it unreachable. Value -&gt; (string) The attribute value. The value is case-sensitive.
+    /// Set to simple to enable enhanced networking with the Intel 82599 Virtual Function interface for the instance. There is no way to disable enhanced networking with the Intel 82599 Virtual Function interface at this time. This option is supported only for HVM instances. Specifying this option with a PV instance can make it unreachable. Value -&gt; (string) The attribute value. The value is case-sensitive.
     /// </summary>
     [CliOption("--sriov-net-support")]
     public string? SriovNetSupport { get; set; }
 
     /// <summary>
-    /// Set to true to enable enhanced networking with ENA for the instance. This option is supported only for HVM instances. Specifying this op- tion with a PV instance can make it unreachable. Value -&gt; (boolean) The attribute value. The valid values are true or false .
+    /// Set to true to enable enhanced networking with ENA for the instance. This option is supported only for HVM instances. Specifying this option with a PV instance can make it unreachable. Value -&gt; (boolean) The attribute value. The valid values are true or false .
     /// </summary>
     [CliFlag("--ena-support", NegatedName = "--no-ena-support")]
     public bool? EnaSupport { get; set; }

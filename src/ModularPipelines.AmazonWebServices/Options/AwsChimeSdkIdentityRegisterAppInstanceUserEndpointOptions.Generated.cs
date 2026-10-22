@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Registers an endpoint under an Amazon Chime AppInstanceUser . The end- point receives messages for a user. For push notifications, the end- point is a mobile device used to receive mobile push notifications for a user. See also: AWS API Documentation
+/// Registers an endpoint under an Amazon Chime AppInstanceUser . The endpoint receives messages for a user. For push notifications, the endpoint is a mobile device used to receive mobile push notifications for a user. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,12 +29,12 @@ public record AwsChimeSdkIdentityRegisterAppInstanceUserEndpointOptions : AwsOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Registers an endpoint under an Amazon Chime AppInstanceUser . The end- point receives messages for a user. For push notifications, the end- point is a mobile device used to receive mobile push notifications for a user. See also: AWS API Documentation
+    /// Registers an endpoint under an Amazon Chime AppInstanceUser . The endpoint receives messages for a user. For push notifications, the endpoint is a mobile device used to receive mobile push notifications for a user. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppInstanceUserArn">The ARN of the AppInstanceUser . Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
-    /// <param name="Type">The type of the AppInstanceUserEndpoint . Supported types: o APNS : The mobile notification service for an Apple device. o APNS_SANDBOX : The sandbox environment of the mobile notification service for an Apple device. o GCM : The mobile notification service for an Android device. Populate the ResourceArn value of each type as PinpointAppArn . Possible values: o APNS o APNS_SANDBOX o GCM</param>
-    /// <param name="ResourceArn">The ARN of the resource to which the endpoint belongs. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
-    /// <param name="EndpointAttributes">The attributes of an Endpoint . DeviceToken -&gt; (string) [required] The device token for the GCM, APNS, and APNS_SANDBOX endpoint types. Constraints: o min: 1 o max: 1600 o pattern: .* VoipDeviceToken -&gt; (string) The VOIP device token for the APNS and APNS_SANDBOX endpoint types. Constraints: o min: 1 o max: 1600 o pattern: .* Shorthand Syntax: DeviceToken=string,VoipDeviceToken=string JSON Syntax: { "DeviceToken": "string", "VoipDeviceToken": "string" }</param>
+    /// <param name="AppInstanceUserArn">The ARN of the AppInstanceUser . Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="Type">The type of the AppInstanceUserEndpoint . Supported types: • APNS : The mobile notification service for an Apple device. • APNS_SANDBOX : The sandbox environment of the mobile notification service for an Apple device. • GCM : The mobile notification service for an Android device. Populate the ResourceArn value of each type as PinpointAppArn . Possible values: • APNS • APNS_SANDBOX • GCM</param>
+    /// <param name="ResourceArn">The ARN of the resource to which the endpoint belongs. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="EndpointAttributes">The attributes of an Endpoint . DeviceToken -&gt; (string) [required] The device token for the GCM, APNS, and APNS_SANDBOX endpoint types. Constraints: • min: 1 • max: 1600 • pattern: .* VoipDeviceToken -&gt; (string) The VOIP device token for the APNS and APNS_SANDBOX endpoint types. Constraints: • min: 1 • max: 1600 • pattern: .* Shorthand Syntax: DeviceToken=string,VoipDeviceToken=string JSON Syntax: { "DeviceToken": "string", "VoipDeviceToken": "string" }</param>
     public AwsChimeSdkIdentityRegisterAppInstanceUserEndpointOptions(
         string AppInstanceUserArn,
         AwsChimeSdkIdentityRegisterAppInstanceUserEndpointType Type,
@@ -69,44 +71,44 @@ public record AwsChimeSdkIdentityRegisterAppInstanceUserEndpointOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the AppInstanceUser . Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The ARN of the AppInstanceUser . Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--app-instance-user-arn")]
     public string? AppInstanceUserArn { get; private init; }
 
     /// <summary>
-    /// The type of the AppInstanceUserEndpoint . Supported types: o APNS : The mobile notification service for an Apple device. o APNS_SANDBOX : The sandbox environment of the mobile notification service for an Apple device. o GCM : The mobile notification service for an Android device. Populate the ResourceArn value of each type as PinpointAppArn . Possible values: o APNS o APNS_SANDBOX o GCM
+    /// The type of the AppInstanceUserEndpoint . Supported types: • APNS : The mobile notification service for an Apple device. • APNS_SANDBOX : The sandbox environment of the mobile notification service for an Apple device. • GCM : The mobile notification service for an Android device. Populate the ResourceArn value of each type as PinpointAppArn . Possible values: • APNS • APNS_SANDBOX • GCM
     /// </summary>
     [CliOption("--type")]
     public AwsChimeSdkIdentityRegisterAppInstanceUserEndpointType? Type { get; private init; }
 
     /// <summary>
-    /// The ARN of the resource to which the endpoint belongs. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The ARN of the resource to which the endpoint belongs. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The attributes of an Endpoint . DeviceToken -&gt; (string) [required] The device token for the GCM, APNS, and APNS_SANDBOX endpoint types. Constraints: o min: 1 o max: 1600 o pattern: .* VoipDeviceToken -&gt; (string) The VOIP device token for the APNS and APNS_SANDBOX endpoint types. Constraints: o min: 1 o max: 1600 o pattern: .* Shorthand Syntax: DeviceToken=string,VoipDeviceToken=string JSON Syntax: { "DeviceToken": "string", "VoipDeviceToken": "string" }
+    /// The attributes of an Endpoint . DeviceToken -&gt; (string) [required] The device token for the GCM, APNS, and APNS_SANDBOX endpoint types. Constraints: • min: 1 • max: 1600 • pattern: .* VoipDeviceToken -&gt; (string) The VOIP device token for the APNS and APNS_SANDBOX endpoint types. Constraints: • min: 1 • max: 1600 • pattern: .* Shorthand Syntax: DeviceToken=string,VoipDeviceToken=string JSON Syntax: { "DeviceToken": "string", "VoipDeviceToken": "string" }
     /// </summary>
     [CliOption("--endpoint-attributes")]
     public string? EndpointAttributes { get; private init; }
 
     /// <summary>
-    /// The name of the AppInstanceUserEndpoint . Constraints: o min: 0 o max: 1600 o pattern: .*
+    /// The name of the AppInstanceUserEndpoint . Constraints: • min: 0 • max: 1600 • pattern: .*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The unique ID assigned to the request. Use different tokens to reg- ister other endpoints. Constraints: o min: 2 o max: 64 o pattern: [-_a-zA-Z0-9]*
+    /// The unique ID assigned to the request. Use different tokens to register other endpoints. Constraints: • min: 2 • max: 64 • pattern: [-_a-zA-Z0-9]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// Boolean that controls whether the AppInstanceUserEndpoint is opted in to receive messages. ALL indicates the endpoint receives all mes- sages. NONE indicates the endpoint receives no messages. Possible values: o ALL o NONE
+    /// Boolean that controls whether the AppInstanceUserEndpoint is opted in to receive messages. ALL indicates the endpoint receives all messages. NONE indicates the endpoint receives no messages. Possible values: • ALL • NONE
     /// </summary>
     [CliOption("--allow-messages")]
     public AwsChimeSdkIdentityRegisterAppInstanceUserEndpointAllowMessages? AllowMessages { get; set; }

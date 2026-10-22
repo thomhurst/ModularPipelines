@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a list of aggregated finding statistics for an external ac- cess or unused access analyzer. See also: AWS API Documentation
+/// Retrieves a list of aggregated finding statistics for an external access or unused access analyzer. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsAccessanalyzerGetFindingsStatisticsOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves a list of aggregated finding statistics for an external ac- cess or unused access analyzer. See also: AWS API Documentation
+    /// Retrieves a list of aggregated finding statistics for an external access or unused access analyzer. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AnalyzerArn">The ARN of the analyzer used to generate the statistics. Constraints: o pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}</param>
+    /// <param name="AnalyzerArn">The ARN of the analyzer used to generate the statistics. Constraints: • pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}</param>
     public AwsAccessanalyzerGetFindingsStatisticsOptions(
         string AnalyzerArn
     )
@@ -56,7 +58,7 @@ public record AwsAccessanalyzerGetFindingsStatisticsOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the analyzer used to generate the statistics. Constraints: o pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}
+    /// The ARN of the analyzer used to generate the statistics. Constraints: • pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}
     /// </summary>
     [CliOption("--analyzer-arn")]
     public string? AnalyzerArn { get; private init; }

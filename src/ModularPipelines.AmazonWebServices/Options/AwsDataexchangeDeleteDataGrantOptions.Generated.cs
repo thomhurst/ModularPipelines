@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDataexchangeDeleteDataGrantOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// This operation deletes a data grant. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataGrantId">The ID of the data grant to delete. Constraints: o pattern: [a-zA-Z0-9]{30,40}$|^arn:aws:dataex- change:[\-a-z0-9]*:(\d{12}):data-grants\/[a-zA-Z0-9]{30,40}</param>
+    /// <param name="DataGrantId">The ID of the data grant to delete. Constraints: • pattern: [a-zA-Z0-9]{30,40}$|^arn:aws:dataexchange:[\-a-z0-9]*:(\d{12}):data-grants\/[a-zA-Z0-9]{30,40}</param>
     public AwsDataexchangeDeleteDataGrantOptions(
         string DataGrantId
     )
@@ -56,7 +58,7 @@ public record AwsDataexchangeDeleteDataGrantOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the data grant to delete. Constraints: o pattern: [a-zA-Z0-9]{30,40}$|^arn:aws:dataex- change:[\-a-z0-9]*:(\d{12}):data-grants\/[a-zA-Z0-9]{30,40}
+    /// The ID of the data grant to delete. Constraints: • pattern: [a-zA-Z0-9]{30,40}$|^arn:aws:dataexchange:[\-a-z0-9]*:(\d{12}):data-grants\/[a-zA-Z0-9]{30,40}
     /// </summary>
     [CliOption("--data-grant-id")]
     public string? DataGrantId { get; private init; }

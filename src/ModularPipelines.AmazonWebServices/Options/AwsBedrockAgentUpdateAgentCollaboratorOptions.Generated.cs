@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,12 +30,12 @@ public record AwsBedrockAgentUpdateAgentCollaboratorOptions : AwsOptions, IValid
     /// <summary>
     /// Updates an agent's collaborator. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentId">The agent's ID. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
-    /// <param name="AgentVersion">The agent's version. Constraints: o min: 5 o max: 5 o pattern: DRAFT</param>
-    /// <param name="CollaboratorId">The collaborator's ID. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
-    /// <param name="AgentDescriptor">An agent descriptor for the agent collaborator. aliasArn -&gt; (string) The agent's alias ARN. Constraints: o min: 0 o max: 2048 o pattern: arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:agent-alias/[0-9a-zA-Z]{10}/[0-9a-zA-Z]{10} Shorthand Syntax: aliasArn=string JSON Syntax: { "aliasArn": "string" }</param>
-    /// <param name="CollaboratorName">The collaborator's name. Constraints: o pattern: ([0-9a-zA-Z][_-]?){1,100}</param>
-    /// <param name="CollaborationInstruction">Instruction for the collaborator. Constraints: o min: 1 o max: 4000</param>
+    /// <param name="AgentId">The agent's ID. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="AgentVersion">The agent's version. Constraints: • min: 5 • max: 5 • pattern: DRAFT</param>
+    /// <param name="CollaboratorId">The collaborator's ID. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="AgentDescriptor">An agent descriptor for the agent collaborator. aliasArn -&gt; (string) The agent's alias ARN. Constraints: • min: 0 • max: 2048 • pattern: arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:agent-alias/[0-9a-zA-Z]{10}/[0-9a-zA-Z]{10} Shorthand Syntax: aliasArn=string JSON Syntax: { "aliasArn": "string" }</param>
+    /// <param name="CollaboratorName">The collaborator's name. Constraints: • pattern: ([0-9a-zA-Z][_-]?){1,100}</param>
+    /// <param name="CollaborationInstruction">Instruction for the collaborator. Constraints: • min: 1 • max: 4000</param>
     public AwsBedrockAgentUpdateAgentCollaboratorOptions(
         string AgentId,
         string AgentVersion,
@@ -77,43 +79,43 @@ public record AwsBedrockAgentUpdateAgentCollaboratorOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The agent's ID. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The agent's ID. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--agent-id")]
     public string? AgentId { get; private init; }
 
     /// <summary>
-    /// The agent's version. Constraints: o min: 5 o max: 5 o pattern: DRAFT
+    /// The agent's version. Constraints: • min: 5 • max: 5 • pattern: DRAFT
     /// </summary>
     [CliOption("--agent-version")]
     public string? AgentVersion { get; private init; }
 
     /// <summary>
-    /// The collaborator's ID. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The collaborator's ID. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--collaborator-id")]
     public string? CollaboratorId { get; private init; }
 
     /// <summary>
-    /// An agent descriptor for the agent collaborator. aliasArn -&gt; (string) The agent's alias ARN. Constraints: o min: 0 o max: 2048 o pattern: arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:agent-alias/[0-9a-zA-Z]{10}/[0-9a-zA-Z]{10} Shorthand Syntax: aliasArn=string JSON Syntax: { "aliasArn": "string" }
+    /// An agent descriptor for the agent collaborator. aliasArn -&gt; (string) The agent's alias ARN. Constraints: • min: 0 • max: 2048 • pattern: arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:agent-alias/[0-9a-zA-Z]{10}/[0-9a-zA-Z]{10} Shorthand Syntax: aliasArn=string JSON Syntax: { "aliasArn": "string" }
     /// </summary>
     [CliOption("--agent-descriptor")]
     public string? AgentDescriptor { get; private init; }
 
     /// <summary>
-    /// The collaborator's name. Constraints: o pattern: ([0-9a-zA-Z][_-]?){1,100}
+    /// The collaborator's name. Constraints: • pattern: ([0-9a-zA-Z][_-]?){1,100}
     /// </summary>
     [CliOption("--collaborator-name")]
     public string? CollaboratorName { get; private init; }
 
     /// <summary>
-    /// Instruction for the collaborator. Constraints: o min: 1 o max: 4000
+    /// Instruction for the collaborator. Constraints: • min: 1 • max: 4000
     /// </summary>
     [CliOption("--collaboration-instruction")]
     public string? CollaborationInstruction { get; private init; }
 
     /// <summary>
-    /// A relay conversation history for the collaborator. Possible values: o TO_COLLABORATOR o DISABLED
+    /// A relay conversation history for the collaborator. Possible values: • TO_COLLABORATOR • DISABLED
     /// </summary>
     [CliOption("--relay-conversation-history")]
     public AwsBedrockAgentUpdateAgentCollaboratorRelayConversationHistory? RelayConversationHistory { get; set; }

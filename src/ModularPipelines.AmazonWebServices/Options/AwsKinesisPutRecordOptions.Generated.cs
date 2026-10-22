@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Writes a single data record into an Amazon Kinesis data stream. Call PutRecord to send data into the stream for real-time ingestion and sub- sequent processing, one record at a time. Each shard can support writes up to 1,000 records per second, up to a maximum data write total of 10 MiB per second. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. You must sp...
+/// Writes a single data record into an Amazon Kinesis data stream. Call PutRecord to send data into the stream for real-time ingestion and subsequent processing, one record at a time. Each shard can support writes up to 1,000 records per second, up to a maximum data write total of 10 MiB per second. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. You must spec...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsKinesisPutRecordOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Writes a single data record into an Amazon Kinesis data stream. Call PutRecord to send data into the stream for real-time ingestion and sub- sequent processing, one record at a time. Each shard can support writes up to 1,000 records per second, up to a maximum data write total of 10 MiB per second. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. You must sp...
+    /// Writes a single data record into an Amazon Kinesis data stream. Call PutRecord to send data into the stream for real-time ingestion and subsequent processing, one record at a time. Each shard can support writes up to 1,000 records per second, up to a maximum data write total of 10 MiB per second. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. You must spec...
     /// </summary>
-    /// <param name="Data">The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (10 MiB). Constraints: o min: 0 o max: 10485760</param>
+    /// <param name="Data">The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (10 MiB). Constraints: • min: 0 • max: 10485760</param>
     public AwsKinesisPutRecordOptions(
         string Data
     )
@@ -56,49 +58,49 @@ public record AwsKinesisPutRecordOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (10 MiB). Constraints: o min: 0 o max: 10485760
+    /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (10 MiB). Constraints: • min: 0 • max: 10485760
     /// </summary>
     [CliOption("--data")]
     public string? Data { get; private init; }
 
     /// <summary>
-    /// The name of the stream to put the data record into. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the stream to put the data record into. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
     /// <summary>
-    /// Determines which shard in the stream the data record is assigned to. Partition keys are Unicode strings with a maximum length limit of 256 characters for each key. Amazon Kinesis Data Streams uses the partition key as input to a hash function that maps the partition key and associated data to a specific shard. Specifically, an MD5 hash function is used to map partition keys to 128-bit integer val- ues and to map associated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream. If the stream uses the USER_PARTITION_KEY record distribution strat- egy (the default), a partition key is required. If the stream uses the AUTO record distribution strategy, the partition key is optional and any value you provide is ignored, along with any ExplicitHashKey you provide. In that case, Amazon Kinesis Data Streams distributes the record across shards using service-managed algorithms. For more information, see UpdateStreamRecordDistributionStrategy . Constraints: o min: 1 o max: 256
+    /// Determines which shard in the stream the data record is assigned to. Partition keys are Unicode strings with a maximum length limit of 256 characters for each key. Amazon Kinesis Data Streams uses the partition key as input to a hash function that maps the partition key and associated data to a specific shard. Specifically, an MD5 hash function is used to map partition keys to 128-bit integer values and to map associated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream. If the stream uses the USER_PARTITION_KEY record distribution strategy (the default), a partition key is required. If the stream uses the AUTO record distribution strategy, the partition key is optional and any value you provide is ignored, along with any ExplicitHashKey you provide. In that case, Amazon Kinesis Data Streams distributes the record across shards using service-managed algorithms. For more information, see UpdateStreamRecordDistributionStrategy . Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--partition-key")]
     public string? PartitionKey { get; set; }
 
     /// <summary>
-    /// The hash value used to explicitly determine the shard the data record is assigned to by overriding the partition key hash. Constraints: o pattern: ^(0|([1-9]\d{0,38}))$
+    /// The hash value used to explicitly determine the shard the data record is assigned to by overriding the partition key hash. Constraints: • pattern: ^(0|([1-9]\d{0,38}))$
     /// </summary>
     [CliOption("--explicit-hash-key")]
     public string? ExplicitHashKey { get; set; }
 
     /// <summary>
-    /// Guarantees strictly increasing sequence numbers, for puts from the same client and to the same partition key. Usage: set the Sequen- ceNumberForOrdering of record n to the sequence number of record n-1 (as returned in the result when putting record n-1 ). If this para- meter is not set, records are coarsely ordered based on arrival time. Constraints: o pattern: ^(0|([1-9]\d{0,128}))$
+    /// Guarantees strictly increasing sequence numbers, for puts from the same client and to the same partition key. Usage: set the SequenceNumberForOrdering of record n to the sequence number of record n-1 (as returned in the result when putting record n-1 ). If this parameter is not set, records are coarsely ordered based on arrival time. Constraints: • pattern: ^(0|([1-9]\d{0,128}))$
     /// </summary>
     [CliOption("--sequence-number-for-ordering")]
     public string? SequenceNumberForOrdering { get; set; }
 
     /// <summary>
-    /// The ARN of the stream. Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+
+    /// The ARN of the stream. Constraints: • min: 1 • max: 2048 • pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+
     /// </summary>
     [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
 
     /// <summary>
-    /// Not Implemented. Reserved for future use. Constraints: o min: 1 o max: 24 o pattern: [a-z0-9]{20}-[a-z0-9]{3}
+    /// Not Implemented. Reserved for future use. Constraints: • min: 1 • max: 24 • pattern: [a-z0-9]{20}-[a-z0-9]{3}
     /// </summary>
     [CliOption("--stream-id")]
     public string? StreamId { get; set; }
 
     /// <summary>
-    /// Checks if your request will succeed. DryRun is an optional parame- ter.
+    /// Checks if your request will succeed. DryRun is an optional parameter.
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

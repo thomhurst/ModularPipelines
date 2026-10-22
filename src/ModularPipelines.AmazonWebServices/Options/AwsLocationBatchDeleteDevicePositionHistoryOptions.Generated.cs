@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the position history of one or more devices from a tracker re- source. See also: AWS API Documentation
+/// Deletes the position history of one or more devices from a tracker resource. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsLocationBatchDeleteDevicePositionHistoryOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the position history of one or more devices from a tracker re- source. See also: AWS API Documentation
+    /// Deletes the position history of one or more devices from a tracker resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TrackerName">The name of the tracker resource to delete the device position his- tory from. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
-    /// <param name="DeviceIds">Devices whose position history you want to delete. o For example, for two devices: DeviceIds : [DeviceId1,DeviceId2] Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 100 o pattern: [-._\p{L}\p{N}]+ Syntax: "string" "string" ...</param>
+    /// <param name="TrackerName">The name of the tracker resource to delete the device position history from. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+</param>
+    /// <param name="DeviceIds">Devices whose position history you want to delete. • For example, for two devices: DeviceIds : [DeviceId1,DeviceId2] Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 100 • pattern: [-._\p{L}\p{N}]+ Syntax: "string" "string" ...</param>
     public AwsLocationBatchDeleteDevicePositionHistoryOptions(
         string TrackerName,
         IEnumerable<string> DeviceIds
@@ -71,13 +73,13 @@ public record AwsLocationBatchDeleteDevicePositionHistoryOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the tracker resource to delete the device position his- tory from. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// The name of the tracker resource to delete the device position history from. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+
     /// </summary>
     [CliOption("--tracker-name")]
     public string? TrackerName { get; private init; }
 
     /// <summary>
-    /// Devices whose position history you want to delete. o For example, for two devices: DeviceIds : [DeviceId1,DeviceId2] Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 100 o pattern: [-._\p{L}\p{N}]+ Syntax: "string" "string" ...
+    /// Devices whose position history you want to delete. • For example, for two devices: DeviceIds : [DeviceId1,DeviceId2] Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 100 • pattern: [-._\p{L}\p{N}]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--device-ids", GroupValues = true)]
     public IEnumerable<string>? DeviceIds { get; private init; }

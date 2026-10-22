@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the resource types, the number of each resource type, and the total number of resources that Config is recording in this region for your Amazon Web Services account. Example o Config is recording three resource types in the US East (Ohio) Region for your account: 25 EC2 instances, 20 IAM users, and 15 S3 buckets. o You make a call to the GetDiscoveredResourceCounts action and specify that you want all resource types. o Config returns the following: o The resource types (EC2 instances, IA...
+/// Returns the resource types, the number of each resource type, and the total number of resources that Config is recording in this region for your Amazon Web Services account. Example • Config is recording three resource types in the US East (Ohio) Region for your account: 25 EC2 instances, 20 IAM users, and 15 S3 buckets. • You make a call to the GetDiscoveredResourceCounts action and specify that you want all resource types. • Config returns the following: • The resource types (EC2 instances, IA...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsConfigserviceGetDiscoveredResourceCountsOptions : AwsOptions
 {
     /// <summary>
-    /// The comma-separated list that specifies the resource types that you want Config to return (for example, "AWS::EC2::Instance" , "AWS::IAM::User" ). If a value for resourceTypes is not specified, Config returns all resource types that Config is recording in the region for your ac- count. NOTE: If the configuration recorder is turned off, Config returns an empty list of ResourceCount objects. If the configuration recorder is not recording a specific resource type (for example, S3 buckets), that resource type is not returned in the list of ResourceCount objects. Constraints: o min: 0 o max: 20 (string) Constraints: o min: 1 o max: 256 Syntax: "string" "string" ...
+    /// The comma-separated list that specifies the resource types that you want Config to return (for example, "AWS::EC2::Instance" , "AWS::IAM::User" ). If a value for resourceTypes is not specified, Config returns all resource types that Config is recording in the region for your account. NOTE: If the configuration recorder is turned off, Config returns an empty list of ResourceCount objects. If the configuration recorder is not recording a specific resource type (for example, S3 buckets), that resource type is not returned in the list of ResourceCount objects. Constraints: • min: 0 • max: 20 (string) Constraints: • min: 1 • max: 256 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resource-types", GroupValues = true)]
     public IEnumerable<string>? ResourceTypes { get; set; }
 
     /// <summary>
-    /// The maximum number of ResourceCount objects returned on each page. The default is 100. You cannot specify a number greater than 100. If you specify 0, Config uses the default. Constraints: o min: 0 o max: 100
+    /// The maximum number of ResourceCount objects returned on each page. The default is 100. You cannot specify a number greater than 100. If you specify 0, Config uses the default. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }

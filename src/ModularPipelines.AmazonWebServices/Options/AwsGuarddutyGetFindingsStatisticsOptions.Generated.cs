@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsGuarddutyGetFindingsStatisticsOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Lists GuardDuty findings statistics for the specified detector ID. You must provide either findingStatisticTypes or groupBy parameter, and not both. You can use the maxResults and orderBy parameters only when using groupBy . There might be regional differences because some flags might not be available in all the Regions where GuardDuty is currently supported. For more information, see Regions and endpoints . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DetectorId">The ID of the detector whose findings statistics you want to re- trieve. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
+    /// <param name="DetectorId">The ID of the detector whose findings statistics you want to retrieve. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300</param>
     public AwsGuarddutyGetFindingsStatisticsOptions(
         string DetectorId
     )
@@ -57,37 +59,37 @@ public record AwsGuarddutyGetFindingsStatisticsOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the detector whose findings statistics you want to re- trieve. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// The ID of the detector whose findings statistics you want to retrieve. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }
 
     /// <summary>
-    /// The types of finding statistics to retrieve. Constraints: o min: 0 o max: 10 (string) Possible values: o COUNT_BY_SEVERITY Syntax: "string" "string" ...
+    /// The types of finding statistics to retrieve. Constraints: • min: 0 • max: 10 (string) Possible values: • COUNT_BY_SEVERITY Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--finding-statistic-types", GroupValues = true)]
     public IEnumerable<string>? FindingStatisticTypes { get; set; }
 
     /// <summary>
-    /// Represents the criteria that is used for querying findings. Criterion -&gt; (map) Represents a map of finding properties that match specified con- ditions and values when querying findings. key -&gt; (string) value -&gt; (structure) Contains information about the condition. Eq -&gt; (list) Represents the equal condition to be applied to a single field when querying for findings. Max values: 50 (string) Neq -&gt; (list) Represents the not equal condition to be applied to a single field when querying for findings. Max values: 50 (string) Gt -&gt; (integer) Represents a greater than condition to be applied to a single field when querying for findings. Gte -&gt; (integer) Represents a greater than or equal condition to be ap- plied to a single field when querying for findings. Lt -&gt; (integer) Represents a less than condition to be applied to a sin- gle field when querying for findings. Lte -&gt; (integer) Represents a less than or equal condition to be applied to a single field when querying for findings. Equals -&gt; (list) Represents an equal condition to be applied to a single field when querying for findings. Max values: 50 (string) NotEquals -&gt; (list) Represents a not equal condition to be applied to a sin- gle field when querying for findings. Max values: 50 (string) GreaterThan -&gt; (long) Represents a greater than condition to be applied to a single field when querying for findings. GreaterThanOrEqual -&gt; (long) Represents a greater than or equal condition to be ap- plied to a single field when querying for findings. LessThan -&gt; (long) Represents a less than condition to be applied to a sin- gle field when querying for findings. LessThanOrEqual -&gt; (long) Represents a less than or equal condition to be applied to a single field when querying for findings. Matches -&gt; (list) Represents the match condition to be applied to a single field when querying for findings. NOTE: The matches condition is available only for cre- ate-filter and update-filter APIs. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 512 NotMatches -&gt; (list) Represents the not match condition to be applied to a single field when querying for findings. NOTE: The not-matches condition is available only for cre- ate-filter and update-filter APIs. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 512 JSON Syntax: { "Criterion": {"string": { "Eq": ["string", ...], "Neq": ["string", ...], "Gt": integer, "Gte": integer, "Lt": integer, "Lte": integer, "Equals": ["string", ...], "NotEquals": ["string", ...], "GreaterThan": long, "GreaterThanOrEqual": long, "LessThan": long, "LessThanOrEqual": long, "Matches": ["string", ...], "NotMatches": ["string", ...] } ...} }
+    /// Represents the criteria that is used for querying findings. Criterion -&gt; (map) Represents a map of finding properties that match specified conditions and values when querying findings. key -&gt; (string) value -&gt; (structure) Contains information about the condition. Eq -&gt; (list) Represents the equal condition to be applied to a single field when querying for findings. Max values: 50 (string) Neq -&gt; (list) Represents the not equal condition to be applied to a single field when querying for findings. Max values: 50 (string) Gt -&gt; (integer) Represents a greater than condition to be applied to a single field when querying for findings. Gte -&gt; (integer) Represents a greater than or equal condition to be applied to a single field when querying for findings. Lt -&gt; (integer) Represents a less than condition to be applied to a single field when querying for findings. Lte -&gt; (integer) Represents a less than or equal condition to be applied to a single field when querying for findings. Equals -&gt; (list) Represents an equal condition to be applied to a single field when querying for findings. Max values: 50 (string) NotEquals -&gt; (list) Represents a not equal condition to be applied to a single field when querying for findings. Max values: 50 (string) GreaterThan -&gt; (long) Represents a greater than condition to be applied to a single field when querying for findings. GreaterThanOrEqual -&gt; (long) Represents a greater than or equal condition to be applied to a single field when querying for findings. LessThan -&gt; (long) Represents a less than condition to be applied to a single field when querying for findings. LessThanOrEqual -&gt; (long) Represents a less than or equal condition to be applied to a single field when querying for findings. Matches -&gt; (list) Represents the match condition to be applied to a single field when querying for findings. NOTE: The matches condition is available only for create-filter and update-filter APIs. Constraints: • min: 0 • max: 5 (string) Constraints: • min: 1 • max: 512 NotMatches -&gt; (list) Represents the not match condition to be applied to a single field when querying for findings. NOTE: The not-matches condition is available only for create-filter and update-filter APIs. Constraints: • min: 0 • max: 5 (string) Constraints: • min: 1 • max: 512 JSON Syntax: { "Criterion": {"string": { "Eq": ["string", ...], "Neq": ["string", ...], "Gt": integer, "Gte": integer, "Lt": integer, "Lte": integer, "Equals": ["string", ...], "NotEquals": ["string", ...], "GreaterThan": long, "GreaterThanOrEqual": long, "LessThan": long, "LessThanOrEqual": long, "Matches": ["string", ...], "NotMatches": ["string", ...] } ...} }
     /// </summary>
     [CliOption("--finding-criteria")]
     public string? FindingCriteria { get; set; }
 
     /// <summary>
-    /// Displays the findings statistics grouped by one of the listed valid values. Possible values: o ACCOUNT o DATE o FINDING_TYPE o RESOURCE o SEVERITY
+    /// Displays the findings statistics grouped by one of the listed valid values. Possible values: • ACCOUNT • DATE • FINDING_TYPE • RESOURCE • SEVERITY
     /// </summary>
     [CliOption("--group-by")]
     public AwsGuarddutyGetFindingsStatisticsGroupBy? GroupBy { get; set; }
 
     /// <summary>
-    /// Displays the sorted findings in the requested order. The default value of orderBy is DESC . You can use this parameter only with the groupBy parameter. Possible values: o ASC o DESC
+    /// Displays the sorted findings in the requested order. The default value of orderBy is DESC . You can use this parameter only with the groupBy parameter. Possible values: • ASC • DESC
     /// </summary>
     [CliOption("--order-by")]
     public AwsGuarddutyGetFindingsStatisticsOrderBy? OrderBy { get; set; }
 
     /// <summary>
-    /// The maximum number of results to be returned in the response. The default value is 25. You can use this parameter only with the groupBy parameter. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to be returned in the response. The default value is 25. You can use this parameter only with the groupBy parameter. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDsDeregisterEventTopicOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Removes the specified directory as a publisher to the specified Amazon SNS topic. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The Directory ID to remove as a publisher. This directory will no longer send messages to the specified Amazon SNS topic. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
-    /// <param name="TopicName">The name of the Amazon SNS topic from which to remove the directory as a publisher. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="DirectoryId">The Directory ID to remove as a publisher. This directory will no longer send messages to the specified Amazon SNS topic. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="TopicName">The name of the Amazon SNS topic from which to remove the directory as a publisher. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsDsDeregisterEventTopicOptions(
         string DirectoryId,
         string TopicName
@@ -60,13 +62,13 @@ public record AwsDsDeregisterEventTopicOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Directory ID to remove as a publisher. This directory will no longer send messages to the specified Amazon SNS topic. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The Directory ID to remove as a publisher. This directory will no longer send messages to the specified Amazon SNS topic. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// The name of the Amazon SNS topic from which to remove the directory as a publisher. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// The name of the Amazon SNS topic from which to remove the directory as a publisher. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--topic-name")]
     public string? TopicName { get; private init; }

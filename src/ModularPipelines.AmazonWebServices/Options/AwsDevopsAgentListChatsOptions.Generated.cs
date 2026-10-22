@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsDevopsAgentListChatsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves a paginated list of the user's recent chat executions See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentSpaceId">The unique identifier for the agent space to list chats from. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="AgentSpaceId">The unique identifier for the agent space to list chats from. Constraints: • min: 1 • max: 2048</param>
     public AwsDevopsAgentListChatsOptions(
         string AgentSpaceId
     )
@@ -57,19 +59,19 @@ public record AwsDevopsAgentListChatsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the agent space to list chats from. Constraints: o min: 1 o max: 2048
+    /// The unique identifier for the agent space to list chats from. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--agent-space-id")]
     public string? AgentSpaceId { get; private init; }
 
     /// <summary>
-    /// The user identifier to list chats for. This field is deprecated and will be ignored the service resolves user identity from the authen- ticated session. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The user identifier to list chats for. This field is deprecated and will be ignored the service resolves user identity from the authenticated session. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; set; }
 
     /// <summary>
-    /// Maximum number of results to return Constraints: o min: 1 o max: 20
+    /// Maximum number of results to return Constraints: • min: 1 • max: 20
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

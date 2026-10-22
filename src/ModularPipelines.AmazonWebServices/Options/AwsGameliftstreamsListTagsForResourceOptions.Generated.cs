@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsGameliftstreamsListTagsForResourceOptions : AwsOptions, IValida
     /// <summary>
     /// Retrieves all tags assigned to a Amazon GameLift Streams resource. To list tags for a resource, specify the ARN value for the resource. Learn more Tagging Amazon Web Services Resources in the Amazon Web Services General Reference Amazon Web Services Tagging Strategies See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) that you want to retrieve tags for. To get an Amazon GameLift Streams resource ARN, call a List or Get operation for the resource. Constraints: o min: 1 o max: 128 o pattern: arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) that you want to retrieve tags for. To get an Amazon GameLift Streams resource ARN, call a List or Get operation for the resource. Constraints: • min: 1 • max: 128 • pattern: arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)</param>
     public AwsGameliftstreamsListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsGameliftstreamsListTagsForResourceOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that you want to retrieve tags for. To get an Amazon GameLift Streams resource ARN, call a List or Get operation for the resource. Constraints: o min: 1 o max: 128 o pattern: arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)
+    /// The Amazon Resource Name (ARN) that you want to retrieve tags for. To get an Amazon GameLift Streams resource ARN, call a List or Get operation for the resource. Constraints: • min: 1 • max: 128 • pattern: arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCloudhsmv2ModifyClusterOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Modifies CloudHSM cluster. Cross-account use: No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterId">The identifier (ID) of the cluster that you want to modify. To find the cluster ID, use DescribeClusters . Constraints: o pattern: cluster-[2-7a-zA-Z]{11,16}</param>
+    /// <param name="ClusterId">The identifier (ID) of the cluster that you want to modify. To find the cluster ID, use DescribeClusters . Constraints: • pattern: cluster-[2-7a-zA-Z]{11,16}</param>
     public AwsCloudhsmv2ModifyClusterOptions(
         string ClusterId
     )
@@ -56,19 +58,19 @@ public record AwsCloudhsmv2ModifyClusterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier (ID) of the cluster that you want to modify. To find the cluster ID, use DescribeClusters . Constraints: o pattern: cluster-[2-7a-zA-Z]{11,16}
+    /// The identifier (ID) of the cluster that you want to modify. To find the cluster ID, use DescribeClusters . Constraints: • pattern: cluster-[2-7a-zA-Z]{11,16}
     /// </summary>
     [CliOption("--cluster-id")]
     public string? ClusterId { get; private init; }
 
     /// <summary>
-    /// The desired HSM type of the cluster. Constraints: o max: 32 o pattern: ((p|)hsm[0-9][a-z.]*\.[a-zA-Z]+)
+    /// The desired HSM type of the cluster. Constraints: • max: 32 • pattern: ((p|)hsm[0-9][a-z.]*\.[a-zA-Z]+)
     /// </summary>
     [CliOption("--hsm-type")]
     public string? HsmType { get; set; }
 
     /// <summary>
-    /// A policy that defines how the service retains backups. Type -&gt; (string) The type of backup retention policy. For the DAYS type, the value is the number of days to retain backups. Possible values: o DAYS Value -&gt; (string) Use a value between 7 - 379. Constraints: o min: 1 o max: 3 o pattern: [0-9]+ Shorthand Syntax: Type=string,Value=string JSON Syntax: { "Type": "DAYS", "Value": "string" }
+    /// A policy that defines how the service retains backups. Type -&gt; (string) The type of backup retention policy. For the DAYS type, the value is the number of days to retain backups. Possible values: • DAYS Value -&gt; (string) Use a value between 7 - 379. Constraints: • min: 1 • max: 3 • pattern: [0-9]+ Shorthand Syntax: Type=string,Value=string JSON Syntax: { "Type": "DAYS", "Value": "string" }
     /// </summary>
     [CliOption("--backup-retention-policy")]
     public string? BackupRetentionPolicy { get; set; }

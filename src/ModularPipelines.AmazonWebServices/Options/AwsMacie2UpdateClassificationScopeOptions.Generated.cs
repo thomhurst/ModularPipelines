@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,7 +64,7 @@ public record AwsMacie2UpdateClassificationScopeOptions : AwsOptions, IValidatab
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The S3 buckets to add or remove from the exclusion list defined by the classification scope. excludes -&gt; (structure) [required] The names of the S3 buckets to add or remove from the list. bucketNames -&gt; (list) [required] Depending on the value specified for the update operation (ClassificationScopeUpdateOperation), an array of strings that: lists the names of buckets to add or remove from the list, or specifies a new set of bucket names that overwrites all existing names in the list. Each string must be the full name of an existing S3 bucket. Values are case sensitive. (string) The name of an S3 bucket. Constraints: o pattern: ^[A-Za-z0-9.\-_]{3,255}$ operation -&gt; (string) [required] Specifies how to apply the changes to the exclusion list. Valid values are: o ADD - Append the specified bucket names to the current list. o REMOVE - Remove the specified bucket names from the current list. o REPLACE - Overwrite the current list with the specified list of bucket names. If you specify this value, Amazon Ma- cie removes all existing names from the list and adds all the specified names to the list. Possible values: o ADD o REPLACE o REMOVE Shorthand Syntax: excludes={bucketNames=[string,string],operation=string} JSON Syntax: { "excludes": { "bucketNames": ["string", ...], "operation": "ADD"|"REPLACE"|"REMOVE" } }
+    /// The S3 buckets to add or remove from the exclusion list defined by the classification scope. excludes -&gt; (structure) [required] The names of the S3 buckets to add or remove from the list. bucketNames -&gt; (list) [required] Depending on the value specified for the update operation (ClassificationScopeUpdateOperation), an array of strings that: lists the names of buckets to add or remove from the list, or specifies a new set of bucket names that overwrites all existing names in the list. Each string must be the full name of an existing S3 bucket. Values are case sensitive. (string) The name of an S3 bucket. Constraints: • pattern: ^[A-Za-z0-9.\-_]{3,255}$ operation -&gt; (string) [required] Specifies how to apply the changes to the exclusion list. Valid values are: • ADD - Append the specified bucket names to the current list. • REMOVE - Remove the specified bucket names from the current list. • REPLACE - Overwrite the current list with the specified list of bucket names. If you specify this value, Amazon Macie removes all existing names from the list and adds all the specified names to the list. Possible values: • ADD • REPLACE • REMOVE Shorthand Syntax: excludes={bucketNames=[string,string],operation=string} JSON Syntax: { "excludes": { "bucketNames": ["string", ...], "operation": "ADD"|"REPLACE"|"REMOVE" } }
     /// </summary>
     [CliOption("--s3")]
     public string? S3 { get; set; }

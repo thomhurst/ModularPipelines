@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: Deleting your Quick Sight account subscription has permanent, irre- versible consequences across all Amazon Web Services regions: o Global deletion Running this operation from any single region will delete your Quick Sight account and all data in every Amazon Web Services region where you have Quick Sight resources. o Complete data loss All dashboards, analyses, datasets, data sources, and custom visuals will be permanently deleted across all regions. o Embedded content failure All embe...
+/// WARNING: Deleting your Quick Sight account subscription has permanent, irreversible consequences across all Amazon Web Services regions: • Global deletion Running this operation from any single region will delete your Quick Sight account and all data in every Amazon Web Services region where you have Quick Sight resources. • Complete data loss All dashboards, analyses, datasets, data sources, and custom visuals will be permanently deleted across all regions. • Embedded content failure All embedd...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsQuicksightDeleteAccountSubscriptionOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// WARNING: Deleting your Quick Sight account subscription has permanent, irre- versible consequences across all Amazon Web Services regions: o Global deletion Running this operation from any single region will delete your Quick Sight account and all data in every Amazon Web Services region where you have Quick Sight resources. o Complete data loss All dashboards, analyses, datasets, data sources, and custom visuals will be permanently deleted across all regions. o Embedded content failure All embe...
+    /// WARNING: Deleting your Quick Sight account subscription has permanent, irreversible consequences across all Amazon Web Services regions: • Global deletion Running this operation from any single region will delete your Quick Sight account and all data in every Amazon Web Services region where you have Quick Sight resources. • Complete data loss All dashboards, analyses, datasets, data sources, and custom visuals will be permanently deleted across all regions. • Embedded content failure All embedd...
     /// </summary>
-    /// <param name="AwsAccountId">The Amazon Web Services account ID of the account that you want to delete. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="AwsAccountId">The Amazon Web Services account ID of the account that you want to delete. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
     public AwsQuicksightDeleteAccountSubscriptionOptions(
         string AwsAccountId
     )
@@ -56,7 +58,7 @@ public record AwsQuicksightDeleteAccountSubscriptionOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID of the account that you want to delete. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The Amazon Web Services account ID of the account that you want to delete. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }

@@ -30,13 +30,13 @@ public record AwsApplicationSignalsListGroupingAttributeDefinitionsOptions : Aws
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services account ID to retrieve grouping attribute definitions for. Use this when accessing grouping configurations from a different account in cross-account monitoring scenarios. Constraints: o pattern: [0-9]{12}
+    /// The Amazon Web Services account ID to retrieve grouping attribute definitions for. Use this when accessing grouping configurations from a different account in cross-account monitoring scenarios. Constraints: • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; set; }
 
     /// <summary>
-    /// If you are using this operation in a monitoring account, specify true to include grouping attributes from source accounts in the re- turned data.
+    /// If you are using this operation in a monitoring account, specify true to include grouping attributes from source accounts in the returned data.
     /// </summary>
     [CliFlag("--include-linked-accounts", NegatedName = "--no-include-linked-accounts")]
     public bool? IncludeLinkedAccounts { get; set; }

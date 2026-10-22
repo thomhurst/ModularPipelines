@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsChimeSdkMessagingGetMessagingSessionEndpointOptions : AwsOptions
 {
     /// <summary>
-    /// The type of network for the messaging session endpoint. Either IPv4 only or dual-stack (IPv4 and IPv6). Possible values: o IPV4_ONLY o DUAL_STACK
+    /// The type of network for the messaging session endpoint. Either IPv4 only or dual-stack (IPv4 and IPv6). Possible values: • IPV4_ONLY • DUAL_STACK
     /// </summary>
     [CliOption("--network-type")]
     public AwsChimeSdkMessagingGetMessagingSessionEndpointNetworkType? NetworkType { get; set; }

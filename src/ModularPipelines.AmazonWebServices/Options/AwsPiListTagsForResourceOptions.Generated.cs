@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsPiListTagsForResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves all the metadata tags associated with Amazon RDS Performance Insights resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceType">List the tags for the Amazon Web Services service for which Perfor- mance Insights returns metrics. Valid value is RDS . Possible values: o RDS o DOCDB</param>
-    /// <param name="ResourceArn">Lists all the tags for the Amazon RDS Performance Insights resource. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see Constructing an RDS Amazon Resource Name (ARN) . Constraints: o min: 1 o max: 1011 o pattern: ^arn:.*:pi:.*$</param>
+    /// <param name="ServiceType">List the tags for the Amazon Web Services service for which Performance Insights returns metrics. Valid value is RDS . Possible values: • RDS • DOCDB</param>
+    /// <param name="ResourceArn">Lists all the tags for the Amazon RDS Performance Insights resource. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see Constructing an RDS Amazon Resource Name (ARN) . Constraints: • min: 1 • max: 1011 • pattern: ^arn:.*:pi:.*$</param>
     public AwsPiListTagsForResourceOptions(
         AwsPiListTagsForResourceServiceType ServiceType,
         string ResourceArn
@@ -60,13 +62,13 @@ public record AwsPiListTagsForResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// List the tags for the Amazon Web Services service for which Perfor- mance Insights returns metrics. Valid value is RDS . Possible values: o RDS o DOCDB
+    /// List the tags for the Amazon Web Services service for which Performance Insights returns metrics. Valid value is RDS . Possible values: • RDS • DOCDB
     /// </summary>
     [CliOption("--service-type")]
     public AwsPiListTagsForResourceServiceType? ServiceType { get; private init; }
 
     /// <summary>
-    /// Lists all the tags for the Amazon RDS Performance Insights resource. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see Constructing an RDS Amazon Resource Name (ARN) . Constraints: o min: 1 o max: 1011 o pattern: ^arn:.*:pi:.*$
+    /// Lists all the tags for the Amazon RDS Performance Insights resource. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see Constructing an RDS Amazon Resource Name (ARN) . Constraints: • min: 1 • max: 1011 • pattern: ^arn:.*:pi:.*$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

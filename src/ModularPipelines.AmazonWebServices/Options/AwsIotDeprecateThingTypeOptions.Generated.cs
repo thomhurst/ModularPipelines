@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deprecates a thing type. You can not associate new things with depre- cated thing type. Requires permission to access the DeprecateThingType action. See also: AWS API Documentation
+/// Deprecates a thing type. You can not associate new things with deprecated thing type. Requires permission to access the DeprecateThingType action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsIotDeprecateThingTypeOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deprecates a thing type. You can not associate new things with depre- cated thing type. Requires permission to access the DeprecateThingType action. See also: AWS API Documentation
+    /// Deprecates a thing type. You can not associate new things with deprecated thing type. Requires permission to access the DeprecateThingType action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ThingTypeName">The name of the thing type to deprecate. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+</param>
+    /// <param name="ThingTypeName">The name of the thing type to deprecate. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+</param>
     public AwsIotDeprecateThingTypeOptions(
         string ThingTypeName
     )
@@ -56,7 +58,7 @@ public record AwsIotDeprecateThingTypeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the thing type to deprecate. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The name of the thing type to deprecate. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--thing-type-name")]
     public string? ThingTypeName { get; private init; }

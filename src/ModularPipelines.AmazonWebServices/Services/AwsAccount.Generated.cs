@@ -32,7 +32,7 @@ public class AwsAccount : IAwsAccount
     #region Commands
 
     /// <summary>
-    /// Accepts the request that originated from StartPrimaryEmailUpdate to update the primary email address (also known as the root user email ad- dress) for the specified account. See also: AWS API Documentation
+    /// Accepts the request that originated from StartPrimaryEmailUpdate to update the primary email address (also known as the root user email address) for the specified account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsAccount : IAwsAccount
     }
 
     /// <summary>
-    /// Deletes the specified alternate contact from an Amazon Web Services ac- count. For complete details about how to use the alternate contact operations, see Update the alternate contacts for your Amazon Web Services account . NOTE: Before you can update the alternate contact information for an Ama- zon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Manage- ment and Organizations. For more information, see Enable trusted ...
+    /// Deletes the specified alternate contact from an Amazon Web Services account. For complete details about how to use the alternate contact operations, see Update the alternate contacts for your Amazon Web Services account . NOTE: Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see Enable trusted access...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsAccount : IAwsAccount
     }
 
     /// <summary>
-    /// Disables (opts-out) a particular Region for an account. NOTE: The act of disabling a Region will remove all IAM access to any re- sources that reside in that Region. See also: AWS API Documentation
+    /// Disables (opts-out) a particular Region for an account. NOTE: The act of disabling a Region will remove all IAM access to any resources that reside in that Region. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsAccount : IAwsAccount
     }
 
     /// <summary>
-    /// Retrieves information about the specified account including its account name, account ID, account creation date and time, and account state. To use this API, an IAM user or role must have the account:GetAccountIn- formation IAM permission. See also: AWS API Documentation
+    /// Retrieves information about the specified account including its account name, account ID, account creation date and time, and account state. To use this API, an IAM user or role must have the account:GetAccountInformation IAM permission. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsAccount : IAwsAccount
     }
 
     /// <summary>
-    /// Retrieves the specified alternate contact attached to an Amazon Web Services account. For complete details about how to use the alternate contact operations, see Update the alternate contacts for your Amazon Web Services account . NOTE: Before you can update the alternate contact information for an Ama- zon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Manage- ment and Organizations. For more information, see Enable t...
+    /// Retrieves the specified alternate contact attached to an Amazon Web Services account. For complete details about how to use the alternate contact operations, see Update the alternate contacts for your Amazon Web Services account . NOTE: Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see Enable trust...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsAccount : IAwsAccount
     }
 
     /// <summary>
-    /// Retrieves the primary contact information of an Amazon Web Services ac- count. For complete details about how to use the primary contact operations, see Update the primary contact for your Amazon Web Services account . See also: AWS API Documentation
+    /// Retrieves the primary contact information of an Amazon Web Services account. For complete details about how to use the primary contact operations, see Update the primary contact for your Amazon Web Services account . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsAccount : IAwsAccount
     }
 
     /// <summary>
-    /// Retrieves information about the GovCloud account linked to the speci- fied standard account (if it exists) including the GovCloud account ID and state. To use this API, an IAM user or role must have the ac- count:GetGovCloudAccountInformation IAM permission. See also: AWS API Documentation
+    /// Retrieves information about the GovCloud account linked to the specified standard account (if it exists) including the GovCloud account ID and state. To use this API, an IAM user or role must have the account:GetGovCloudAccountInformation IAM permission. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsAccount : IAwsAccount
     }
 
     /// <summary>
-    /// Retrieves the status of the most recent primary email update for the specified account. For complete details about how to update the primary email address, see Update the primary email address for your AWS ac- count . See also: AWS API Documentation
+    /// Retrieves the status of the most recent primary email update for the specified account. For complete details about how to update the primary email address, see Update the primary email address for your AWS account . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsAccount : IAwsAccount
     }
 
     /// <summary>
-    /// Lists all the Regions for a given account and their respective opt-in statuses. Optionally, this list can be filtered by the region-opt-sta- tus-contains parameter. See also: AWS API Documentation list-regions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract...
+    /// Lists all the Regions for a given account and their respective opt-in statuses. Optionally, this list can be filtered by the region-opt-status-contains parameter. See also: AWS API Documentation list-regions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract dat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsAccount : IAwsAccount
     }
 
     /// <summary>
-    /// Modifies the specified alternate contact attached to an Amazon Web Ser- vices account. For complete details about how to use the alternate contact operations, see Update the alternate contacts for your Amazon Web Services account . NOTE: Before you can update the alternate contact information for an Ama- zon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Manage- ment and Organizations. For more information, see Enable ...
+    /// Modifies the specified alternate contact attached to an Amazon Web Services account. For complete details about how to use the alternate contact operations, see Update the alternate contacts for your Amazon Web Services account . NOTE: Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see Enable truste...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsAccount : IAwsAccount
     }
 
     /// <summary>
-    /// Updates the primary contact information of an Amazon Web Services ac- count. For complete details about how to use the primary contact operations, see Update the primary contact for your Amazon Web Services account . See also: AWS API Documentation
+    /// Updates the primary contact information of an Amazon Web Services account. For complete details about how to use the primary contact operations, see Update the primary contact for your Amazon Web Services account . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsAccount : IAwsAccount
     }
 
     /// <summary>
-    /// Starts the process to update the primary email address for the speci- fied account. See also: AWS API Documentation
+    /// Starts the process to update the primary email address for the specified account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsAccount : IAwsAccount
     }
 
     /// <summary>
-    /// Verifies the phone number in the primary contact information of an Ama- zon Web Services account by submitting the one-time passcode that SendPhoneNumberVerification sent to that phone number. For complete details about how to use the primary contact operations, see Update the primary contact for your Amazon Web Services account . See also: AWS API Documentation
+    /// Verifies the phone number in the primary contact information of an Amazon Web Services account by submitting the one-time passcode that SendPhoneNumberVerification sent to that phone number. For complete details about how to use the primary contact operations, see Update the primary contact for your Amazon Web Services account . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

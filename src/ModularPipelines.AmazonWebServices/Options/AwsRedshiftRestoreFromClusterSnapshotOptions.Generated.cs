@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new cluster from a snapshot. By default, Amazon Redshift cre- ates the resulting cluster with the same configuration as the original cluster from which the snapshot was created, except that the new clus- ter is created with the default cluster security and parameter groups. After Amazon Redshift creates the cluster, you can use the ModifyClus- ter API to associate a different security group and different parameter group with the restored cluster. If you are using a DS node type, you ca...
+/// Creates a new cluster from a snapshot. By default, Amazon Redshift creates the resulting cluster with the same configuration as the original cluster from which the snapshot was created, except that the new cluster is created with the default cluster security and parameter groups. After Amazon Redshift creates the cluster, you can use the ModifyCluster API to associate a different security group and different parameter group with the restored cluster. If you are using a DS node type, you can also...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsRedshiftRestoreFromClusterSnapshotOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new cluster from a snapshot. By default, Amazon Redshift cre- ates the resulting cluster with the same configuration as the original cluster from which the snapshot was created, except that the new clus- ter is created with the default cluster security and parameter groups. After Amazon Redshift creates the cluster, you can use the ModifyClus- ter API to associate a different security group and different parameter group with the restored cluster. If you are using a DS node type, you ca...
+    /// Creates a new cluster from a snapshot. By default, Amazon Redshift creates the resulting cluster with the same configuration as the original cluster from which the snapshot was created, except that the new cluster is created with the default cluster security and parameter groups. After Amazon Redshift creates the cluster, you can use the ModifyCluster API to associate a different security group and different parameter group with the restored cluster. If you are using a DS node type, you can also...
     /// </summary>
-    /// <param name="ClusterIdentifier">The identifier of the cluster that will be created from restoring the snapshot. Constraints: o Must contain from 1 to 63 alphanumeric characters or hyphens. o Alphabetic characters must be lowercase. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. o Must be unique for all clusters within an Amazon Web Services ac- count. Constraints: o max: 2147483647</param>
+    /// <param name="ClusterIdentifier">The identifier of the cluster that will be created from restoring the snapshot. Constraints: • Must contain from 1 to 63 alphanumeric characters or hyphens. • Alphabetic characters must be lowercase. • First character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. • Must be unique for all clusters within an Amazon Web Services account. Constraints: • max: 2147483647</param>
     public AwsRedshiftRestoreFromClusterSnapshotOptions(
         string ClusterIdentifier
     )
@@ -57,25 +59,25 @@ public record AwsRedshiftRestoreFromClusterSnapshotOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the cluster that will be created from restoring the snapshot. Constraints: o Must contain from 1 to 63 alphanumeric characters or hyphens. o Alphabetic characters must be lowercase. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. o Must be unique for all clusters within an Amazon Web Services ac- count. Constraints: o max: 2147483647
+    /// The identifier of the cluster that will be created from restoring the snapshot. Constraints: • Must contain from 1 to 63 alphanumeric characters or hyphens. • Alphabetic characters must be lowercase. • First character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. • Must be unique for all clusters within an Amazon Web Services account. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The name of the snapshot from which to create the new cluster. This parameter isn't case sensitive. You must specify this parameter or snapshotArn , but not both. Example: my-snapshot-id Constraints: o max: 2147483647
+    /// The name of the snapshot from which to create the new cluster. This parameter isn't case sensitive. You must specify this parameter or snapshotArn , but not both. Example: my-snapshot-id Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--snapshot-identifier")]
     public string? SnapshotIdentifier { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the snapshot associated with the message to restore from a cluster. You must specify this parameter or snapshotIdentifier , but not both. Constraints: o max: 2147483647
+    /// The Amazon Resource Name (ARN) of the snapshot associated with the message to restore from a cluster. You must specify this parameter or snapshotIdentifier , but not both. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--snapshot-arn")]
     public string? SnapshotArn { get; set; }
 
     /// <summary>
-    /// The name of the cluster the source snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints: o max: 2147483647
+    /// The name of the cluster the source snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--snapshot-cluster-identifier")]
     public string? SnapshotClusterIdentifier { get; set; }
@@ -87,19 +89,19 @@ public record AwsRedshiftRestoreFromClusterSnapshotOptions : AwsOptions, IValida
     public int? Port { get; set; }
 
     /// <summary>
-    /// The Amazon EC2 Availability Zone in which to restore the cluster. Default: A random, system-chosen Availability Zone. Example: us-east-2a Constraints: o max: 2147483647
+    /// The Amazon EC2 Availability Zone in which to restore the cluster. Default: A random, system-chosen Availability Zone. Example: us-east-2a Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; set; }
 
     /// <summary>
-    /// If true , major version upgrades can be applied during the mainte- nance window to the Amazon Redshift engine that is running on the cluster. Default: true
+    /// If true , major version upgrades can be applied during the maintenance window to the Amazon Redshift engine that is running on the cluster. Default: true
     /// </summary>
     [CliFlag("--allow-version-upgrade", NegatedName = "--no-allow-version-upgrade")]
     public bool? AllowVersionUpgrade { get; set; }
 
     /// <summary>
-    /// The name of the subnet group where you want to cluster restored. A snapshot of cluster in VPC can be restored only in VPC. Therefore, you must provide subnet group name where you want the cluster re- stored. Constraints: o max: 2147483647
+    /// The name of the subnet group where you want to cluster restored. A snapshot of cluster in VPC can be restored only in VPC. Therefore, you must provide subnet group name where you want the cluster restored. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-subnet-group-name")]
     public string? ClusterSubnetGroupName { get; set; }
@@ -111,49 +113,49 @@ public record AwsRedshiftRestoreFromClusterSnapshotOptions : AwsOptions, IValida
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services account used to create or copy the snapshot. Required if you are restoring a snapshot you do not own, optional if you own the snapshot. Constraints: o max: 2147483647
+    /// The Amazon Web Services account used to create or copy the snapshot. Required if you are restoring a snapshot you do not own, optional if you own the snapshot. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--owner-account")]
     public string? OwnerAccount { get; set; }
 
     /// <summary>
-    /// Specifies the name of the HSM client certificate the Amazon Redshift cluster uses to retrieve the data encryption keys stored in an HSM. Constraints: o max: 2147483647
+    /// Specifies the name of the HSM client certificate the Amazon Redshift cluster uses to retrieve the data encryption keys stored in an HSM. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--hsm-client-certificate-identifier")]
     public string? HsmClientCertificateIdentifier { get; set; }
 
     /// <summary>
-    /// Specifies the name of the HSM configuration that contains the infor- mation the Amazon Redshift cluster can use to retrieve and store keys in an HSM. Constraints: o max: 2147483647
+    /// Specifies the name of the HSM configuration that contains the information the Amazon Redshift cluster can use to retrieve and store keys in an HSM. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--hsm-configuration-identifier")]
     public string? HsmConfigurationIdentifier { get; set; }
 
     /// <summary>
-    /// The Elastic IP (EIP) address for the cluster. Don't specify the Elastic IP address for a publicly accessible cluster with availabil- ity zone relocation turned on. Constraints: o max: 2147483647
+    /// The Elastic IP (EIP) address for the cluster. Don't specify the Elastic IP address for a publicly accessible cluster with availability zone relocation turned on. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--elastic-ip")]
     public string? ElasticIp { get; set; }
 
     /// <summary>
-    /// The name of the parameter group to be associated with this cluster. Default: The default Amazon Redshift cluster parameter group. For information about the default parameter group, go to Working with Amazon Redshift Parameter Groups . Constraints: o Must be 1 to 255 alphanumeric characters or hyphens. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Constraints: o max: 2147483647
+    /// The name of the parameter group to be associated with this cluster. Default: The default Amazon Redshift cluster parameter group. For information about the default parameter group, go to Working with Amazon Redshift Parameter Groups . Constraints: • Must be 1 to 255 alphanumeric characters or hyphens. • First character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-parameter-group-name")]
     public string? ClusterParameterGroupName { get; set; }
 
     /// <summary>
-    /// A list of security groups to be associated with this cluster. Default: The default cluster security group for Amazon Redshift. Cluster security groups only apply to clusters outside of VPCs. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// A list of security groups to be associated with this cluster. Default: The default cluster security group for Amazon Redshift. Cluster security groups only apply to clusters outside of VPCs. (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--cluster-security-groups", GroupValues = true)]
     public IEnumerable<string>? ClusterSecurityGroups { get; set; }
 
     /// <summary>
-    /// A list of Virtual Private Cloud (VPC) security groups to be associ- ated with the cluster. Default: The default VPC security group is associated with the clus- ter. VPC security groups only apply to clusters in VPCs. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// A list of Virtual Private Cloud (VPC) security groups to be associated with the cluster. Default: The default VPC security group is associated with the cluster. VPC security groups only apply to clusters in VPCs. (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
     /// <summary>
-    /// The weekly time range (in UTC) during which automated cluster main- tenance can occur. Format: ddd:hh24:mi-ddd:hh24:mi Default: The value selected for the cluster from which the snapshot was taken. For more information about the time blocks for each re- gion, see Maintenance Windows in Amazon Redshift Cluster Management Guide. Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Minimum 30-minute window. Constraints: o max: 2147483647
+    /// The weekly time range (in UTC) during which automated cluster maintenance can occur. Format: ddd:hh24:mi-ddd:hh24:mi Default: The value selected for the cluster from which the snapshot was taken. For more information about the time blocks for each region, see Maintenance Windows in Amazon Redshift Cluster Management Guide. Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Minimum 30-minute window. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
@@ -171,13 +173,13 @@ public record AwsRedshiftRestoreFromClusterSnapshotOptions : AwsOptions, IValida
     public int? ManualSnapshotRetentionPeriod { get; set; }
 
     /// <summary>
-    /// The Key Management Service (KMS) key ID of the encryption key that encrypts data in the cluster restored from a shared snapshot. You can also provide the key ID when you restore from an unencrypted snapshot to an encrypted cluster in the same account. Additionally, you can specify a new KMS key ID when you restore from an encrypted snapshot in the same account in order to change it. In that case, the restored cluster is encrypted with the new KMS key ID. Constraints: o max: 2147483647
+    /// The Key Management Service (KMS) key ID of the encryption key that encrypts data in the cluster restored from a shared snapshot. You can also provide the key ID when you restore from an unencrypted snapshot to an encrypted cluster in the same account. Additionally, you can specify a new KMS key ID when you restore from an encrypted snapshot in the same account in order to change it. In that case, the restored cluster is encrypted with the new KMS key ID. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// The node type that the restored cluster will be provisioned with. If you have a DC instance type, you must restore into that same in- stance type and size. In other words, you can only restore a dc2.large node type into another dc2 type. For more information about node types, see About Clusters and Nodes in the Amazon Red- shift Cluster Management Guide . Constraints: o max: 2147483647
+    /// The node type that the restored cluster will be provisioned with. If you have a DC instance type, you must restore into that same instance type and size. In other words, you can only restore a dc2.large node type into another dc2 type. For more information about node types, see About Clusters and Nodes in the Amazon Redshift Cluster Management Guide . Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--node-type")]
     public string? NodeType { get; set; }
@@ -189,61 +191,61 @@ public record AwsRedshiftRestoreFromClusterSnapshotOptions : AwsOptions, IValida
     public bool? EnhancedVpcRouting { get; set; }
 
     /// <summary>
-    /// Reserved. Constraints: o max: 2147483647
+    /// Reserved. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--additional-info")]
     public string? AdditionalInfo { get; set; }
 
     /// <summary>
-    /// A list of Identity and Access Management (IAM) roles that can be used by the cluster to access other Amazon Web Services services. You must supply the IAM roles in their Amazon Resource Name (ARN) format. The maximum number of IAM roles that you can associate is subject to a quota. For more information, go to Quotas and limits in the Amazon Redshift Cluster Management Guide . (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// A list of Identity and Access Management (IAM) roles that can be used by the cluster to access other Amazon Web Services services. You must supply the IAM roles in their Amazon Resource Name (ARN) format. The maximum number of IAM roles that you can associate is subject to a quota. For more information, go to Quotas and limits in the Amazon Redshift Cluster Management Guide . (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--iam-roles", GroupValues = true)]
     public IEnumerable<string>? IamRoles { get; set; }
 
     /// <summary>
-    /// The name of the maintenance track for the restored cluster. When you take a snapshot, the snapshot inherits the MaintenanceTrack value from the cluster. The snapshot might be on a different track than the cluster that was the source for the snapshot. For example, sup- pose that you take a snapshot of a cluster that is on the current track and then change the cluster to be on the trailing track. In this case, the snapshot and the source cluster are on different tracks. Constraints: o max: 2147483647
+    /// The name of the maintenance track for the restored cluster. When you take a snapshot, the snapshot inherits the MaintenanceTrack value from the cluster. The snapshot might be on a different track than the cluster that was the source for the snapshot. For example, suppose that you take a snapshot of a cluster that is on the current track and then change the cluster to be on the trailing track. In this case, the snapshot and the source cluster are on different tracks. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--maintenance-track-name")]
     public string? MaintenanceTrackName { get; set; }
 
     /// <summary>
-    /// A unique identifier for the snapshot schedule. Constraints: o max: 2147483647
+    /// A unique identifier for the snapshot schedule. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--snapshot-schedule-identifier")]
     public string? SnapshotScheduleIdentifier { get; set; }
 
     /// <summary>
-    /// The number of nodes specified when provisioning the restored clus- ter.
+    /// The number of nodes specified when provisioning the restored cluster.
     /// </summary>
     [CliOption("--number-of-nodes")]
     public int? NumberOfNodes { get; set; }
 
     /// <summary>
-    /// The option to enable relocation for an Amazon Redshift cluster be- tween Availability Zones after the cluster is restored.
+    /// The option to enable relocation for an Amazon Redshift cluster between Availability Zones after the cluster is restored.
     /// </summary>
     [CliFlag("--availability-zone-relocation", NegatedName = "--no-availability-zone-relocation")]
     public bool? AvailabilityZoneRelocation { get; set; }
 
     /// <summary>
-    /// This parameter is retired. It does not set the AQUA configuration status. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator). Possible values: o enabled o disabled o auto
+    /// This parameter is retired. It does not set the AQUA configuration status. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator). Possible values: • enabled • disabled • auto
     /// </summary>
     [CliOption("--aqua-configuration-status")]
     public AwsRedshiftRestoreFromClusterSnapshotAquaConfigurationStatus? AquaConfigurationStatus { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) for the IAM role that was set as de- fault for the cluster when the cluster was last modified while it was restored from a snapshot. Constraints: o max: 2147483647
+    /// The Amazon Resource Name (ARN) for the IAM role that was set as default for the cluster when the cluster was last modified while it was restored from a snapshot. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--default-iam-role-arn")]
     public string? DefaultIamRoleArn { get; set; }
 
     /// <summary>
-    /// The identifier of the target reserved node offering. Constraints: o max: 2147483647
+    /// The identifier of the target reserved node offering. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--reserved-node-id")]
     public string? ReservedNodeId { get; set; }
 
     /// <summary>
-    /// The identifier of the target reserved node offering. Constraints: o max: 2147483647
+    /// The identifier of the target reserved node offering. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--target-reserved-node-offering-id")]
     public string? TargetReservedNodeOfferingId { get; set; }
@@ -255,19 +257,19 @@ public record AwsRedshiftRestoreFromClusterSnapshotOptions : AwsOptions, IValida
     public bool? Encrypted { get; set; }
 
     /// <summary>
-    /// If true , Amazon Redshift uses Secrets Manager to manage the re- stored cluster's admin credentials. If ManageMasterPassword is false or not set, Amazon Redshift uses the admin credentials the cluster had at the time the snapshot was taken.
+    /// If true , Amazon Redshift uses Secrets Manager to manage the restored cluster's admin credentials. If ManageMasterPassword is false or not set, Amazon Redshift uses the admin credentials the cluster had at the time the snapshot was taken.
     /// </summary>
     [CliFlag("--manage-master-password", NegatedName = "--no-manage-master-password")]
     public bool? ManageMasterPassword { get; set; }
 
     /// <summary>
-    /// The ID of the Key Management Service (KMS) key used to encrypt and store the cluster's admin credentials secret. You can only use this parameter if ManageMasterPassword is true. Constraints: o max: 2147483647
+    /// The ID of the Key Management Service (KMS) key used to encrypt and store the cluster's admin credentials secret. You can only use this parameter if ManageMasterPassword is true. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--master-password-secret-kms-key-id")]
     public string? MasterPasswordSecretKmsKeyId { get; set; }
 
     /// <summary>
-    /// The IP address type for the cluster. Possible values are ipv4 and dualstack . Constraints: o max: 2147483647
+    /// The IP address type for the cluster. Possible values are ipv4 and dualstack . Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--ip-address-type")]
     public string? IpAddressType { get; set; }
@@ -279,13 +281,13 @@ public record AwsRedshiftRestoreFromClusterSnapshotOptions : AwsOptions, IValida
     public bool? MultiAz { get; set; }
 
     /// <summary>
-    /// The name of the Glue Data Catalog that will be associated with the cluster enabled with Amazon Redshift federated permissions. Constraints: o Must contain at least one lowercase letter. o Can only contain lowercase letters (a-z), numbers (0-9), under- scores (_), and hyphens (-). Pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$ Example: my-catalog_01 Constraints: o min: 1 o max: 64 o pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$
+    /// The name of the Glue Data Catalog that will be associated with the cluster enabled with Amazon Redshift federated permissions. Constraints: • Must contain at least one lowercase letter. • Can only contain lowercase letters (a-z), numbers (0-9), underscores (_), and hyphens (-). Pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$ Example: my-catalog_01 Constraints: • min: 1 • max: 64 • pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$
     /// </summary>
     [CliOption("--catalog-name")]
     public string? CatalogName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM Identity Center applica- tion used for enabling Amazon Web Services IAM Identity Center trusted identity propagation on a cluster enabled with Amazon Red- shift federated permissions. Constraints: o max: 2147483647
+    /// The Amazon Resource Name (ARN) of the IAM Identity Center application used for enabling Amazon Web Services IAM Identity Center trusted identity propagation on a cluster enabled with Amazon Redshift federated permissions. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--redshift-idc-application-arn")]
     public string? RedshiftIdcApplicationArn { get; set; }

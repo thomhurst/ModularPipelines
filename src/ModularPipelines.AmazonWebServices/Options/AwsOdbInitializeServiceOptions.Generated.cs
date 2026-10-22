@@ -29,7 +29,7 @@ public record AwsOdbInitializeServiceOptions : AwsOptions
     public bool? OciIdentityDomain { get; set; }
 
     /// <summary>
-    /// Specifies whether to enable or disable the OCI service-account role for Amazon Web Services Secrets Manager integration with Autonomous Database. Possible values: o ENABLED o DISABLED
+    /// Specifies whether to enable or disable the OCI service-account role for Amazon Web Services Secrets Manager integration with Autonomous Database. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--autonomous-database-oci-aws-secrets-manager-integration")]
     public AwsOdbInitializeServiceAutonomousDatabaseOciAwsSecretsManagerIntegration? AutonomousDatabaseOciAwsSecretsManagerIntegration { get; set; }

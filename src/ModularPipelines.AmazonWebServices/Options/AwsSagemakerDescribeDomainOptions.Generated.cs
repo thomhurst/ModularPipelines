@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSagemakerDescribeDomainOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// The description of the domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The domain ID. Constraints: o min: 0 o max: 63 o pattern: d-(-*[a-z0-9]){1,61}</param>
+    /// <param name="DomainId">The domain ID. Constraints: • min: 0 • max: 63 • pattern: d-(-*[a-z0-9]){1,61}</param>
     public AwsSagemakerDescribeDomainOptions(
         string DomainId
     )
@@ -56,7 +58,7 @@ public record AwsSagemakerDescribeDomainOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The domain ID. Constraints: o min: 0 o max: 63 o pattern: d-(-*[a-z0-9]){1,61}
+    /// The domain ID. Constraints: • min: 0 • max: 63 • pattern: d-(-*[a-z0-9]){1,61}
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }

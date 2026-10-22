@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsInterconnectUntagResourceOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Removes tags from the specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The ARN of the resource from which the specified tags should be re- moved. Constraints: o min: 59 o max: 150 o pattern: arn:aws[a-z-]*:interconnect:[^:]+:[0-9]{12}:connec- tion/(mcc|lmcc)-[a-z0-9]{8}</param>
-    /// <param name="TagKeys">The list of tag keys that should be removed from the resource. (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="Arn">The ARN of the resource from which the specified tags should be removed. Constraints: • min: 59 • max: 150 • pattern: arn:aws[a-z-]*:interconnect:[^:]+:[0-9]{12}:connection/(mcc|lmcc)-[a-z0-9]{8}</param>
+    /// <param name="TagKeys">The list of tag keys that should be removed from the resource. (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
     public AwsInterconnectUntagResourceOptions(
         string Arn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsInterconnectUntagResourceOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource from which the specified tags should be re- moved. Constraints: o min: 59 o max: 150 o pattern: arn:aws[a-z-]*:interconnect:[^:]+:[0-9]{12}:connec- tion/(mcc|lmcc)-[a-z0-9]{8}
+    /// The ARN of the resource from which the specified tags should be removed. Constraints: • min: 59 • max: 150 • pattern: arn:aws[a-z-]*:interconnect:[^:]+:[0-9]{12}:connection/(mcc|lmcc)-[a-z0-9]{8}
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The list of tag keys that should be removed from the resource. (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// The list of tag keys that should be removed from the resource. (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

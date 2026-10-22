@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Update an event destination in a configuration set. An event destina- tion is a location that you publish information about your voice calls to. For example, you can log an event to an Amazon CloudWatch destina- tion when a call fails. See also: AWS API Documentation
+/// Update an event destination in a configuration set. An event destination is a location that you publish information about your voice calls to. For example, you can log an event to an Amazon CloudWatch destination when a call fails. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsPinpointSmsVoiceUpdateConfigurationSetEventDestinationOptions :
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Update an event destination in a configuration set. An event destina- tion is a location that you publish information about your voice calls to. For example, you can log an event to an Amazon CloudWatch destina- tion when a call fails. See also: AWS API Documentation
+    /// Update an event destination in a configuration set. An event destination is a location that you publish information about your voice calls to. For example, you can log an event to an Amazon CloudWatch destination when a call fails. See also: AWS API Documentation
     /// </summary>
     /// <param name="ConfigurationSetName"></param>
     /// <param name="EventDestinationName"></param>

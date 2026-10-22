@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws ssooidc commands.
+/// aws sso-oidc commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsSsoOidc : IAwsSsoOidc
@@ -32,7 +32,7 @@ public class AwsSsoOidc : IAwsSsoOidc
     #region Commands
 
     /// <summary>
-    /// Creates and returns access and refresh tokens for clients that are au- thenticated using client secrets. The access token can be used to fetch short-lived credentials for the assigned AWS accounts or to access ap- plication APIs using bearer authentication. See also: AWS API Documentation
+    /// Creates and returns access and refresh tokens for clients that are authenticated using client secrets. The access token can be used to fetch short-lived credentials for the assigned AWS accounts or to access application APIs using bearer authentication. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsSsoOidc : IAwsSsoOidc
     }
 
     /// <summary>
-    /// Creates and returns access and refresh tokens for authorized client ap- plications that are authenticated using any IAM entity, such as a ser- vice role or user. These tokens might contain defined scopes that spec- ify permissions such as read:profile or write:data . Through downscop- ing, you can use the scopes parameter to request tokens with reduced permissions compared to the original client application's permissions or, if applicable, the refresh token's scopes. The access token can be used...
+    /// Creates and returns access and refresh tokens for authorized client applications that are authenticated using any IAM entity, such as a service role or user. These tokens might contain defined scopes that specify permissions such as read:profile or write:data . Through downscoping, you can use the scopes parameter to request tokens with reduced permissions compared to the original client application's permissions or, if applicable, the refresh token's scopes. The access token can be used to fetc...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

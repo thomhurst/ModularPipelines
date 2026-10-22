@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsQuicksightDeleteIamPolicyAssignmentOptions : AwsOptions, IValid
     /// <summary>
     /// Deletes an existing IAM policy assignment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The Amazon Web Services account ID where you want to delete the IAM policy assignment. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="AssignmentName">The name of the assignment. Constraints: o min: 1 o pattern: (?=^.{2,256}$)(?!.*\s)[0-9a-zA-Z-_.:=+@]*$</param>
-    /// <param name="Namespace">The namespace that contains the assignment. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$</param>
+    /// <param name="AwsAccountId">The Amazon Web Services account ID where you want to delete the IAM policy assignment. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="AssignmentName">The name of the assignment. Constraints: • min: 1 • pattern: (?=^.{2,256}$)(?!.*\s)[0-9a-zA-Z-_.:=+@]*$</param>
+    /// <param name="Namespace">The namespace that contains the assignment. Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$</param>
     public AwsQuicksightDeleteIamPolicyAssignmentOptions(
         string AwsAccountId,
         string AssignmentName,
@@ -64,19 +66,19 @@ public record AwsQuicksightDeleteIamPolicyAssignmentOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID where you want to delete the IAM policy assignment. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The Amazon Web Services account ID where you want to delete the IAM policy assignment. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The name of the assignment. Constraints: o min: 1 o pattern: (?=^.{2,256}$)(?!.*\s)[0-9a-zA-Z-_.:=+@]*$
+    /// The name of the assignment. Constraints: • min: 1 • pattern: (?=^.{2,256}$)(?!.*\s)[0-9a-zA-Z-_.:=+@]*$
     /// </summary>
     [CliOption("--assignment-name")]
     public string? AssignmentName { get; private init; }
 
     /// <summary>
-    /// The namespace that contains the assignment. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// The namespace that contains the assignment. Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; private init; }

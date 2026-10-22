@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides an endpoint for the specified signaling channel to send and receive messages. This API uses the SingleMasterChannelEndpointConfigu- ration input parameter, which consists of the Protocols and Role prop- erties. Protocols is used to determine the communication mechanism. For ex- ample, if you specify WSS as the protocol, this API produces a se- cure websocket endpoint. If you specify HTTPS as the protocol, this API generates an HTTPS endpoint. If you specify WEBRTC as the proto- col, but...
+/// Provides an endpoint for the specified signaling channel to send and receive messages. This API uses the SingleMasterChannelEndpointConfiguration input parameter, which consists of the Protocols and Role properties. Protocols is used to determine the communication mechanism. For example, if you specify WSS as the protocol, this API produces a secure websocket endpoint. If you specify HTTPS as the protocol, this API generates an HTTPS endpoint. If you specify WEBRTC as the protocol, but the signa...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsKinesisvideoGetSignalingChannelEndpointOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides an endpoint for the specified signaling channel to send and receive messages. This API uses the SingleMasterChannelEndpointConfigu- ration input parameter, which consists of the Protocols and Role prop- erties. Protocols is used to determine the communication mechanism. For ex- ample, if you specify WSS as the protocol, this API produces a se- cure websocket endpoint. If you specify HTTPS as the protocol, this API generates an HTTPS endpoint. If you specify WEBRTC as the proto- col, but...
+    /// Provides an endpoint for the specified signaling channel to send and receive messages. This API uses the SingleMasterChannelEndpointConfiguration input parameter, which consists of the Protocols and Role properties. Protocols is used to determine the communication mechanism. For example, if you specify WSS as the protocol, this API produces a secure websocket endpoint. If you specify HTTPS as the protocol, this API generates an HTTPS endpoint. If you specify WEBRTC as the protocol, but the signa...
     /// </summary>
-    /// <param name="ChannelArn">The Amazon Resource Name (ARN) of the signalling channel for which you want to get an endpoint. Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+</param>
+    /// <param name="ChannelArn">The Amazon Resource Name (ARN) of the signalling channel for which you want to get an endpoint. Constraints: • min: 1 • max: 1024 • pattern: arn:[a-z\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+</param>
     public AwsKinesisvideoGetSignalingChannelEndpointOptions(
         string ChannelArn
     )
@@ -56,13 +58,13 @@ public record AwsKinesisvideoGetSignalingChannelEndpointOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the signalling channel for which you want to get an endpoint. Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
+    /// The Amazon Resource Name (ARN) of the signalling channel for which you want to get an endpoint. Constraints: • min: 1 • max: 1024 • pattern: arn:[a-z\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
     /// </summary>
     [CliOption("--channel-arn")]
     public string? ChannelArn { get; private init; }
 
     /// <summary>
-    /// A structure containing the endpoint configuration for the SIN- GLE_MASTER channel type. Protocols -&gt; (list) This property is used to determine the nature of communication over this SINGLE_MASTER signaling channel. If WSS is specified, this API returns a websocket endpoint. If HTTPS is specified, this API returns an HTTPS endpoint. Constraints: o min: 1 o max: 5 (string) Possible values: o WSS o HTTPS o WEBRTC Role -&gt; (string) This property is used to determine messaging permissions in this SINGLE_MASTER signaling channel. If MASTER is specified, this API returns an endpoint that a client can use to receive offers from and send answers to any of the viewers on this signaling channel. If VIEWER is specified, this API returns an endpoint that a client can use only to send offers to another MASTER client on this signaling channel. Possible values: o MASTER o VIEWER Shorthand Syntax: Protocols=string,string,Role=string JSON Syntax: { "Protocols": ["WSS"|"HTTPS"|"WEBRTC", ...], "Role": "MASTER"|"VIEWER" }
+    /// A structure containing the endpoint configuration for the SINGLE_MASTER channel type. Protocols -&gt; (list) This property is used to determine the nature of communication over this SINGLE_MASTER signaling channel. If WSS is specified, this API returns a websocket endpoint. If HTTPS is specified, this API returns an HTTPS endpoint. Constraints: • min: 1 • max: 5 (string) Possible values: • WSS • HTTPS • WEBRTC Role -&gt; (string) This property is used to determine messaging permissions in this SINGLE_MASTER signaling channel. If MASTER is specified, this API returns an endpoint that a client can use to receive offers from and send answers to any of the viewers on this signaling channel. If VIEWER is specified, this API returns an endpoint that a client can use only to send offers to another MASTER client on this signaling channel. Possible values: • MASTER • VIEWER Shorthand Syntax: Protocols=string,string,Role=string JSON Syntax: { "Protocols": ["WSS"|"HTTPS"|"WEBRTC", ...], "Role": "MASTER"|"VIEWER" }
     /// </summary>
     [CliOption("--single-master-channel-endpoint-configuration")]
     public string? SingleMasterChannelEndpointConfiguration { get; set; }

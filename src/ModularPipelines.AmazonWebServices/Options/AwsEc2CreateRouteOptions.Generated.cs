@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a route in a route table within a VPC. You must specify either a destination CIDR block or a prefix list ID. You must also specify exactly one of the resources from the parameter list. When determining how to route traffic, we use the route with the most specific match. For example, traffic is destined for the IPv4 address 192.0.2.3 , and the route table includes the following two IPv4 routes: o 192.0.2.0/24 (goes to some target A) o 192.0.2.0/28 (goes to some target B) Both routes apply...
+/// Creates a route in a route table within a VPC. You must specify either a destination CIDR block or a prefix list ID. You must also specify exactly one of the resources from the parameter list. When determining how to route traffic, we use the route with the most specific match. For example, traffic is destined for the IPv4 address 192.0.2.3 , and the route table includes the following two IPv4 routes: • 192.0.2.0/24 (goes to some target A) • 192.0.2.0/28 (goes to some target B) Both routes apply...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsEc2CreateRouteOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a route in a route table within a VPC. You must specify either a destination CIDR block or a prefix list ID. You must also specify exactly one of the resources from the parameter list. When determining how to route traffic, we use the route with the most specific match. For example, traffic is destined for the IPv4 address 192.0.2.3 , and the route table includes the following two IPv4 routes: o 192.0.2.0/24 (goes to some target A) o 192.0.2.0/28 (goes to some target B) Both routes apply...
+    /// Creates a route in a route table within a VPC. You must specify either a destination CIDR block or a prefix list ID. You must also specify exactly one of the resources from the parameter list. When determining how to route traffic, we use the route with the most specific match. For example, traffic is destined for the IPv4 address 192.0.2.3 , and the route table includes the following two IPv4 routes: • 192.0.2.0/24 (goes to some target A) • 192.0.2.0/28 (goes to some target B) Both routes apply...
     /// </summary>
     /// <param name="RouteTableId">The ID of the route table for the route.</param>
     public AwsEc2CreateRouteOptions(
@@ -68,7 +70,7 @@ public record AwsEc2CreateRouteOptions : AwsOptions, IValidatableObject
     public string? DestinationPrefixListId { get; set; }
 
     /// <summary>
-    /// The ID of a VPC endpoint. Supported for Gateway Load Balancer end- points only.
+    /// The ID of a VPC endpoint. Supported for Gateway Load Balancer endpoints only.
     /// </summary>
     [CliOption("--vpc-endpoint-id")]
     public string? VpcEndpointId { get; set; }
@@ -104,13 +106,13 @@ public record AwsEc2CreateRouteOptions : AwsOptions, IValidatableObject
     public string? OdbNetworkArn { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// The IPv4 CIDR address block used for the destination match. Routing decisions are based on the most specific match. We modify the speci- fied CIDR block to its canonical form; for example, if you specify 100.68.0.18/18 , we modify it to 100.68.0.0/18 .
+    /// The IPv4 CIDR address block used for the destination match. Routing decisions are based on the most specific match. We modify the specified CIDR block to its canonical form; for example, if you specify 100.68.0.18/18 , we modify it to 100.68.0.0/18 .
     /// </summary>
     [CliOption("--destination-cidr-block")]
     public string? DestinationCidrBlock { get; set; }
@@ -122,7 +124,7 @@ public record AwsEc2CreateRouteOptions : AwsOptions, IValidatableObject
     public string? GatewayId { get; set; }
 
     /// <summary>
-    /// The IPv6 CIDR block used for the destination match. Routing deci- sions are based on the most specific match.
+    /// The IPv6 CIDR block used for the destination match. Routing decisions are based on the most specific match.
     /// </summary>
     [CliOption("--destination-ipv6-cidr-block")]
     public string? DestinationIpv6CidrBlock { get; set; }
@@ -134,7 +136,7 @@ public record AwsEc2CreateRouteOptions : AwsOptions, IValidatableObject
     public string? EgressOnlyInternetGatewayId { get; set; }
 
     /// <summary>
-    /// The ID of a NAT instance in your VPC. The operation fails if you specify an instance ID unless exactly one network interface is at- tached.
+    /// The ID of a NAT instance in your VPC. The operation fails if you specify an instance ID unless exactly one network interface is attached.
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; set; }

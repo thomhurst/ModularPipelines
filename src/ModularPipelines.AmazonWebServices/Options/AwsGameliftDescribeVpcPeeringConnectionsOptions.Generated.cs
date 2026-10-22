@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsGameliftDescribeVpcPeeringConnectionsOptions : AwsOptions
 {
     /// <summary>
-    /// A unique identifier for the fleet. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 128 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$
+    /// A unique identifier for the fleet. You can use either the fleet ID or ARN value. Constraints: • min: 1 • max: 128 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; set; }

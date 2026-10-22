@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the description, Auto Scaling group managed endpoint configura- tion, trust store configuration, and client routing policy of a respon- der gateway. This operation also updates the protocols list in the lis- tener configuration. You cannot change the domainName , port , and protocol values that you set when you create a responder gateway. To change any of them, delete the gateway and create a new one. See also: AWS API Documentation
+/// Updates the description, Auto Scaling group managed endpoint configuration, trust store configuration, and client routing policy of a responder gateway. This operation also updates the protocols list in the listener configuration. You cannot change the domainName , port , and protocol values that you set when you create a responder gateway. To change any of them, delete the gateway and create a new one. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +29,11 @@ public record AwsRtbfabricUpdateResponderGatewayOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the description, Auto Scaling group managed endpoint configura- tion, trust store configuration, and client routing policy of a respon- der gateway. This operation also updates the protocols list in the lis- tener configuration. You cannot change the domainName , port , and protocol values that you set when you create a responder gateway. To change any of them, delete the gateway and create a new one. See also: AWS API Documentation
+    /// Updates the description, Auto Scaling group managed endpoint configuration, trust store configuration, and client routing policy of a responder gateway. This operation also updates the protocols list in the listener configuration. You cannot change the domainName , port , and protocol values that you set when you create a responder gateway. To change any of them, delete the gateway and create a new one. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Port">Networking port to use. This operation does not change the port of an existing gateway. To use a different port, delete the gateway and create a new one. Constraints: o min: 1 o max: 65535</param>
-    /// <param name="Protocol">Networking protocol to use. This operation does not change the pro- tocol of an existing gateway. To use a different protocol, delete the gateway and create a new one. Possible values: o HTTP o HTTPS</param>
-    /// <param name="GatewayId">The unique identifier of the gateway. Constraints: o min: 8 o max: 32 o pattern: rtb-gw-[a-z0-9-]{1,25}</param>
+    /// <param name="Port">Networking port to use. This operation does not change the port of an existing gateway. To use a different port, delete the gateway and create a new one. Constraints: • min: 1 • max: 65535</param>
+    /// <param name="Protocol">Networking protocol to use. This operation does not change the protocol of an existing gateway. To use a different protocol, delete the gateway and create a new one. Possible values: • HTTP • HTTPS</param>
+    /// <param name="GatewayId">The unique identifier of the gateway. Constraints: • min: 8 • max: 32 • pattern: rtb-gw-[a-z0-9-]{1,25}</param>
     public AwsRtbfabricUpdateResponderGatewayOptions(
         int Port,
         AwsRtbfabricUpdateResponderGatewayProtocol Protocol,
@@ -64,62 +66,62 @@ public record AwsRtbfabricUpdateResponderGatewayOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Networking port to use. This operation does not change the port of an existing gateway. To use a different port, delete the gateway and create a new one. Constraints: o min: 1 o max: 65535
+    /// Networking port to use. This operation does not change the port of an existing gateway. To use a different port, delete the gateway and create a new one. Constraints: • min: 1 • max: 65535
     /// </summary>
     [CliOption("--port")]
     public int? Port { get; private init; }
 
     /// <summary>
-    /// Networking protocol to use. This operation does not change the pro- tocol of an existing gateway. To use a different protocol, delete the gateway and create a new one. Possible values: o HTTP o HTTPS
+    /// Networking protocol to use. This operation does not change the protocol of an existing gateway. To use a different protocol, delete the gateway and create a new one. Possible values: • HTTP • HTTPS
     /// </summary>
     [CliOption("--protocol")]
     public AwsRtbfabricUpdateResponderGatewayProtocol? Protocol { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the gateway. Constraints: o min: 8 o max: 32 o pattern: rtb-gw-[a-z0-9-]{1,25}
+    /// The unique identifier of the gateway. Constraints: • min: 8 • max: 32 • pattern: rtb-gw-[a-z0-9-]{1,25}
     /// </summary>
     [CliOption("--gateway-id")]
     public string? GatewayId { get; private init; }
 
     /// <summary>
-    /// Domain name for the responder gateway. This operation does not change the domain name of an existing gateway. To use a different domain name, delete the gateway and create a new one. Constraints: o min: 1 o max: 255 o pattern: (?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)(?:\.(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?))+
+    /// Domain name for the responder gateway. This operation does not change the domain name of an existing gateway. To use a different domain name, delete the gateway and create a new one. Constraints: • min: 1 • max: 255 • pattern: (?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)(?:\.(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?))+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; set; }
 
     /// <summary>
-    /// The listener configuration for the responder gateway. protocols -&gt; (list) [required] The protocol for connections from clients to the gateway Constraints: o min: 1 o max: 2 (string) Possible values: o HTTP o HTTPS Shorthand Syntax: protocols=string,string JSON Syntax: { "protocols": ["HTTP"|"HTTPS", ...] }
+    /// The listener configuration for the responder gateway. protocols -&gt; (list) [required] The protocol for connections from clients to the gateway Constraints: • min: 1 • max: 2 (string) Possible values: • HTTP • HTTPS Shorthand Syntax: protocols=string,string JSON Syntax: { "protocols": ["HTTP"|"HTTPS", ...] }
     /// </summary>
     [CliOption("--listener-config")]
     public string? ListenerConfig { get; set; }
 
     /// <summary>
-    /// The configuration of the trust store. certificateAuthorityCertificates -&gt; (list) [required] The certificate authority certificate. Constraints: o min: 0 o max: 2 (string) Constraints: o min: 1 o max: 2097152 Shorthand Syntax: certificateAuthorityCertificates=string,string JSON Syntax: { "certificateAuthorityCertificates": ["string", ...] }
+    /// The configuration of the trust store. certificateAuthorityCertificates -&gt; (list) [required] The certificate authority certificate. Constraints: • min: 0 • max: 2 (string) Constraints: • min: 1 • max: 2097152 Shorthand Syntax: certificateAuthorityCertificates=string,string JSON Syntax: { "certificateAuthorityCertificates": ["string", ...] }
     /// </summary>
     [CliOption("--trust-store-configuration")]
     public string? TrustStoreConfiguration { get; set; }
 
     /// <summary>
-    /// The configuration for the managed endpoint. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: autoScalingGroups, eksEndpoints. autoScalingGroups -&gt; (structure) Describes the configuration of an auto scaling group. autoScalingGroupNames -&gt; (list) [required] The names of the auto scaling group. (string) Constraints: o min: 1 o max: 255 roleArn -&gt; (string) [required] The role ARN of the auto scaling group. Constraints: o pattern: arn:aws:iam::[0-9]{12}:role/.{1,2048} healthCheckConfig -&gt; (structure) The health check configuration for the Auto Scaling group managed endpoint. port -&gt; (integer) [required] The port to use for health check probes. Valid range is 80 to 65535. Constraints: o min: 80 o max: 65535 path -&gt; (string) [required] The destination path for the health check request. Must start with / . Constraints: o min: 1 o max: 128 o pattern: /.* protocol -&gt; (string) The protocol to use for health check probes. Possible values: o HTTP o HTTPS timeoutMs -&gt; (integer) The timeout for each health check probe, in milliseconds. Valid range is 100 to 5000. Constraints: o min: 100 o max: 5000 intervalSeconds -&gt; (integer) The interval between health check probes, in seconds. Valid range is 5 to 60. Constraints: o min: 5 o max: 60 statusCodeMatcher -&gt; (string) The expected HTTP status code or status code pattern from healthy instances. Supports a single code (for example, 200 ), a range (for example, 200-299 ), or a comma-sepa- rated list (for example, 200,204 ). Constraints: o min: 1 o max: 64 healthyThresholdCount -&gt; (integer) The number of consecutive successful health checks re- quired before an instance is considered healthy. Valid range is 2 to 10. Constraints: o min: 2 o max: 10 unhealthyThresholdCount -&gt; (integer) The number of consecutive failed health checks required before an instance is considered unhealthy. Valid range is 2 to 10. Constraints: o min: 2 o max: 10 eksEndpoints -&gt; (structure) Describes the configuration of an Amazon Elastic Kubernetes Ser- vice endpoint. endpointsResourceName -&gt; (string) [required] The name of the endpoint resource. Constraints: o min: 2 o max: 63 o pattern: [A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9] endpointsResourceNamespace -&gt; (string) [required] The namespace of the endpoint resource. Constraints: o min: 2 o max: 63 o pattern: [A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9] clusterApiServerEndpointUri -&gt; (string) [required] The URI of the cluster API server endpoint. Constraints: o min: 0 o max: 255 o pattern: (https|http)://(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)(?:\.(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?))+ clusterApiServerCaCertificateChain -&gt; (string) [required] The CA certificate chain of the cluster API server. Constraints: o min: 1 o max: 2097152 clusterName -&gt; (string) [required] The name of the cluster. Constraints: o min: 2 o max: 63 o pattern: [A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9] roleArn -&gt; (string) [required] The role ARN for the cluster. Constraints: o pattern: arn:aws:iam::[0-9]{12}:role/.{1,2048} Shorthand Syntax: autoScalingGroups={autoScalingGroupNames=[string,string],roleArn=string,healthCheckConfig={port=integer,path=string,protocol=string,timeoutMs=integer,intervalSeconds=integer,statusCodeMatcher=string,healthyThresholdCount=integer,unhealthyThresholdCount=integer}},eksEndpoints={endpointsResourceName=string,endpointsResourceNamespace=string,clusterApiServerEndpointUri=string,clusterApiServerCaCertificateChain=string,clusterName=string,roleArn=string} JSON Syntax: { "autoScalingGroups": { "autoScalingGroupNames": ["string", ...], "roleArn": "string", "healthCheckConfig": { "port": integer, "path": "string", "protocol": "HTTP"|"HTTPS", "timeoutMs": integer, "intervalSeconds": integer, "statusCodeMatcher": "string", "healthyThresholdCount": integer, "unhealthyThresholdCount": integer } }, "eksEndpoints": { "endpointsResourceName": "string", "endpointsResourceNamespace": "string", "clusterApiServerEndpointUri": "string", "clusterApiServerCaCertificateChain": "string", "clusterName": "string", "roleArn": "string" } }
+    /// The configuration for the managed endpoint. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: autoScalingGroups, eksEndpoints. autoScalingGroups -&gt; (structure) Describes the configuration of an auto scaling group. autoScalingGroupNames -&gt; (list) [required] The names of the auto scaling group. (string) Constraints: • min: 1 • max: 255 roleArn -&gt; (string) [required] The role ARN of the auto scaling group. Constraints: • pattern: arn:aws:iam::[0-9]{12}:role/.{1,2048} healthCheckConfig -&gt; (structure) The health check configuration for the Auto Scaling group managed endpoint. port -&gt; (integer) [required] The port to use for health check probes. Valid range is 80 to 65535. Constraints: • min: 80 • max: 65535 path -&gt; (string) [required] The destination path for the health check request. Must start with / . Constraints: • min: 1 • max: 128 • pattern: /.* protocol -&gt; (string) The protocol to use for health check probes. Possible values: • HTTP • HTTPS timeoutMs -&gt; (integer) The timeout for each health check probe, in milliseconds. Valid range is 100 to 5000. Constraints: • min: 100 • max: 5000 intervalSeconds -&gt; (integer) The interval between health check probes, in seconds. Valid range is 5 to 60. Constraints: • min: 5 • max: 60 statusCodeMatcher -&gt; (string) The expected HTTP status code or status code pattern from healthy instances. Supports a single code (for example, 200 ), a range (for example, 200-299 ), or a comma-separated list (for example, 200,204 ). Constraints: • min: 1 • max: 64 healthyThresholdCount -&gt; (integer) The number of consecutive successful health checks required before an instance is considered healthy. Valid range is 2 to 10. Constraints: • min: 2 • max: 10 unhealthyThresholdCount -&gt; (integer) The number of consecutive failed health checks required before an instance is considered unhealthy. Valid range is 2 to 10. Constraints: • min: 2 • max: 10 eksEndpoints -&gt; (structure) Describes the configuration of an Amazon Elastic Kubernetes Service endpoint. endpointsResourceName -&gt; (string) [required] The name of the endpoint resource. Constraints: • min: 2 • max: 63 • pattern: [A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9] endpointsResourceNamespace -&gt; (string) [required] The namespace of the endpoint resource. Constraints: • min: 2 • max: 63 • pattern: [A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9] clusterApiServerEndpointUri -&gt; (string) [required] The URI of the cluster API server endpoint. Constraints: • min: 0 • max: 255 • pattern: (https|http)://(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)(?:\.(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?))+ clusterApiServerCaCertificateChain -&gt; (string) [required] The CA certificate chain of the cluster API server. Constraints: • min: 1 • max: 2097152 clusterName -&gt; (string) [required] The name of the cluster. Constraints: • min: 2 • max: 63 • pattern: [A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9] roleArn -&gt; (string) [required] The role ARN for the cluster. Constraints: • pattern: arn:aws:iam::[0-9]{12}:role/.{1,2048} Shorthand Syntax: autoScalingGroups={autoScalingGroupNames=[string,string],roleArn=string,healthCheckConfig={port=integer,path=string,protocol=string,timeoutMs=integer,intervalSeconds=integer,statusCodeMatcher=string,healthyThresholdCount=integer,unhealthyThresholdCount=integer}},eksEndpoints={endpointsResourceName=string,endpointsResourceNamespace=string,clusterApiServerEndpointUri=string,clusterApiServerCaCertificateChain=string,clusterName=string,roleArn=string} JSON Syntax: { "autoScalingGroups": { "autoScalingGroupNames": ["string", ...], "roleArn": "string", "healthCheckConfig": { "port": integer, "path": "string", "protocol": "HTTP"|"HTTPS", "timeoutMs": integer, "intervalSeconds": integer, "statusCodeMatcher": "string", "healthyThresholdCount": integer, "unhealthyThresholdCount": integer } }, "eksEndpoints": { "endpointsResourceName": "string", "endpointsResourceNamespace": "string", "clusterApiServerEndpointUri": "string", "clusterApiServerCaCertificateChain": "string", "clusterName": "string", "roleArn": "string" } }
     /// </summary>
     [CliOption("--managed-endpoint-configuration")]
     public string? ManagedEndpointConfiguration { get; set; }
 
     /// <summary>
-    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error.
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken , but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// An optional description for the responder gateway. Constraints: o pattern: [A-Za-z0-9 ]+
+    /// An optional description for the responder gateway. Constraints: • pattern: [A-Za-z0-9 ]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The client routing policy of the gateway. This policy controls which Availability Zones RTB Fabric uses to reach the gateway for the re- quester gateways that send traffic to it. Valid values are the fol- lowing: o AVAILABILITY_ZONE_AFFINITY : RTB Fabric routes each requester's traffic to gateway capacity in the requester's own Availability Zone when the gateway has capacity available there. Otherwise, RTB Fabric routes the traffic to gateway capacity in the other Avail- ability Zones of the gateway. o ANY_AVAILABILITY_ZONE : RTB Fabric routes each requester's traffic to gateway capacity in every Availability Zone that the subnets of the gateway span. The Availability Zone that the requester is in does not change this. If you don't specify a value, the gateway keeps its current client routing policy. Changing the policy sets the gateway status to PEND- ING_UPDATE until the change is complete. RTB Fabric does not support partial Availability Zone affinity, so PARTIAL_AVAILABIL- ITY_ZONE_AFFINITY is not a valid value. For more information, see Configuring Availability Zone affinity in the Amazon Web Services RTB Fabric User Guide . Possible values: o AVAILABILITY_ZONE_AFFINITY o ANY_AVAILABILITY_ZONE
+    /// The client routing policy of the gateway. This policy controls which Availability Zones RTB Fabric uses to reach the gateway for the requester gateways that send traffic to it. Valid values are the following: • AVAILABILITY_ZONE_AFFINITY : RTB Fabric routes each requester's traffic to gateway capacity in the requester's own Availability Zone when the gateway has capacity available there. Otherwise, RTB Fabric routes the traffic to gateway capacity in the other Availability Zones of the gateway. • ANY_AVAILABILITY_ZONE : RTB Fabric routes each requester's traffic to gateway capacity in every Availability Zone that the subnets of the gateway span. The Availability Zone that the requester is in does not change this. If you don't specify a value, the gateway keeps its current client routing policy. Changing the policy sets the gateway status to PENDING_UPDATE until the change is complete. RTB Fabric does not support partial Availability Zone affinity, so PARTIAL_AVAILABILITY_ZONE_AFFINITY is not a valid value. For more information, see Configuring Availability Zone affinity in the Amazon Web Services RTB Fabric User Guide . Possible values: • AVAILABILITY_ZONE_AFFINITY • ANY_AVAILABILITY_ZONE
     /// </summary>
     [CliOption("--client-routing-policy")]
     public AwsRtbfabricUpdateResponderGatewayClientRoutingPolicy? ClientRoutingPolicy { get; set; }

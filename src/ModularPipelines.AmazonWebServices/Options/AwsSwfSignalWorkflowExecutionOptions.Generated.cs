@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Records a WorkflowExecutionSignaled event in the workflow execution history and creates a decision task for the workflow execution identi- fied by the given domain, workflowId and runId. The event is recorded with the specified user defined signalName and input (if provided). NOTE: If a runId isn't specified, then the WorkflowExecutionSignaled event is recorded in the history of the current open workflow with the matching workflowId in the domain. NOTE: If the specified workflow execution isn't ...
+/// Records a WorkflowExecutionSignaled event in the workflow execution history and creates a decision task for the workflow execution identified by the given domain, workflowId and runId. The event is recorded with the specified user defined signalName and input (if provided). NOTE: If a runId isn't specified, then the WorkflowExecutionSignaled event is recorded in the history of the current open workflow with the matching workflowId in the domain. NOTE: If the specified workflow execution isn't op...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsSwfSignalWorkflowExecutionOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Records a WorkflowExecutionSignaled event in the workflow execution history and creates a decision task for the workflow execution identi- fied by the given domain, workflowId and runId. The event is recorded with the specified user defined signalName and input (if provided). NOTE: If a runId isn't specified, then the WorkflowExecutionSignaled event is recorded in the history of the current open workflow with the matching workflowId in the domain. NOTE: If the specified workflow execution isn't ...
+    /// Records a WorkflowExecutionSignaled event in the workflow execution history and creates a decision task for the workflow execution identified by the given domain, workflowId and runId. The event is recorded with the specified user defined signalName and input (if provided). NOTE: If a runId isn't specified, then the WorkflowExecutionSignaled event is recorded in the history of the current open workflow with the matching workflowId in the domain. NOTE: If the specified workflow execution isn't op...
     /// </summary>
-    /// <param name="Domain">The name of the domain containing the workflow execution to signal. Constraints: o min: 1 o max: 256</param>
-    /// <param name="WorkflowId">The workflowId of the workflow execution to signal. Constraints: o min: 1 o max: 256</param>
-    /// <param name="SignalName">The name of the signal. This name must be meaningful to the target workflow. Constraints: o min: 1 o max: 256</param>
+    /// <param name="Domain">The name of the domain containing the workflow execution to signal. Constraints: • min: 1 • max: 256</param>
+    /// <param name="WorkflowId">The workflowId of the workflow execution to signal. Constraints: • min: 1 • max: 256</param>
+    /// <param name="SignalName">The name of the signal. This name must be meaningful to the target workflow. Constraints: • min: 1 • max: 256</param>
     public AwsSwfSignalWorkflowExecutionOptions(
         string Domain,
         string WorkflowId,
@@ -64,31 +66,31 @@ public record AwsSwfSignalWorkflowExecutionOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain containing the workflow execution to signal. Constraints: o min: 1 o max: 256
+    /// The name of the domain containing the workflow execution to signal. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; private init; }
 
     /// <summary>
-    /// The workflowId of the workflow execution to signal. Constraints: o min: 1 o max: 256
+    /// The workflowId of the workflow execution to signal. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--workflow-id")]
     public string? WorkflowId { get; private init; }
 
     /// <summary>
-    /// The name of the signal. This name must be meaningful to the target workflow. Constraints: o min: 1 o max: 256
+    /// The name of the signal. This name must be meaningful to the target workflow. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--signal-name")]
     public string? SignalName { get; private init; }
 
     /// <summary>
-    /// The runId of the workflow execution to signal. Constraints: o max: 64
+    /// The runId of the workflow execution to signal. Constraints: • max: 64
     /// </summary>
     [CliOption("--run-id")]
     public string? RunId { get; set; }
 
     /// <summary>
-    /// Data to attach to the WorkflowExecutionSignaled event in the target workflow execution's history. Constraints: o max: 32768
+    /// Data to attach to the WorkflowExecutionSignaled event in the target workflow execution's history. Constraints: • max: 32768
     /// </summary>
     [CliOption("--input")]
     public string? Input { get; set; }

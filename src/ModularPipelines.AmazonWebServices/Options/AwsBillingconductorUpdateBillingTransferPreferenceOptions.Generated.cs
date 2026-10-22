@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sets the auto billing group creation preference for a billing transfer. When the preference is enabled, Billing Conductor automatically creates an indirect billing transfer billing group in your account, with the pricing plan that you specify, for each account that transfers its bill to the bill source account of this billing transfer. The preference ap- plies only to billing groups that are created after you enable it. Enabling the preference requires the iam:CreateServiceLinkedRole per- missio...
+/// Sets the auto billing group creation preference for a billing transfer. When the preference is enabled, Billing Conductor automatically creates an indirect billing transfer billing group in your account, with the pricing plan that you specify, for each account that transfers its bill to the bill source account of this billing transfer. The preference applies only to billing groups that are created after you enable it. Enabling the preference requires the iam:CreateServiceLinkedRole permission. W...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsBillingconductorUpdateBillingTransferPreferenceOptions : AwsOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sets the auto billing group creation preference for a billing transfer. When the preference is enabled, Billing Conductor automatically creates an indirect billing transfer billing group in your account, with the pricing plan that you specify, for each account that transfers its bill to the bill source account of this billing transfer. The preference ap- plies only to billing groups that are created after you enable it. Enabling the preference requires the iam:CreateServiceLinkedRole per- missio...
+    /// Sets the auto billing group creation preference for a billing transfer. When the preference is enabled, Billing Conductor automatically creates an indirect billing transfer billing group in your account, with the pricing plan that you specify, for each account that transfers its bill to the bill source account of this billing transfer. The preference applies only to billing groups that are created after you enable it. Enabling the preference requires the iam:CreateServiceLinkedRole permission. W...
     /// </summary>
-    /// <param name="ResponsibilityTransferArn">The Amazon Resource Name (ARN) of the billing transfer whose prefer- ence you want to set. Constraints: o pattern: arn:[a-z0-9][a-z0-9-.]{0,62}:organizations::\d{12}:trans- fer/o-[a-z0-9]{10,32}/(billing)/(inbound|out- bound)/rt-[0-9a-z]{8,32}</param>
-    /// <param name="AutoBillingTransferBillingGroupCreation">The auto billing group creation preference to set for the billing transfer. Enabled -&gt; (boolean) [required] Specifies whether Billing Conductor automatically creates billing groups for the billing transfer. The preference is dis- abled by default. PricingPlanArn -&gt; (string) The Amazon Resource Name (ARN) of the pricing plan to apply to the automatically created billing groups. This value is required when Enabled is true , and must be omitted when Enabled is false . Constraints: o pattern: (arn:aws(-cn)?:billingconduc- tor::(aws|[0-9]{12}):pricingplan/)?(BasicPricing- Plan|Passthrough|[a-zA-Z0-9]{10}) Shorthand Syntax: Enabled=boolean,PricingPlanArn=string JSON Syntax: { "Enabled": true|false, "PricingPlanArn": "string" }</param>
+    /// <param name="ResponsibilityTransferArn">The Amazon Resource Name (ARN) of the billing transfer whose preference you want to set. Constraints: • pattern: arn:[a-z0-9][a-z0-9-.]{0,62}:organizations::\d{12}:transfer/o-[a-z0-9]{10,32}/(billing)/(inbound|outbound)/rt-[0-9a-z]{8,32}</param>
+    /// <param name="AutoBillingTransferBillingGroupCreation">The auto billing group creation preference to set for the billing transfer. Enabled -&gt; (boolean) [required] Specifies whether Billing Conductor automatically creates billing groups for the billing transfer. The preference is disabled by default. PricingPlanArn -&gt; (string) The Amazon Resource Name (ARN) of the pricing plan to apply to the automatically created billing groups. This value is required when Enabled is true , and must be omitted when Enabled is false . Constraints: • pattern: (arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/)?(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10}) Shorthand Syntax: Enabled=boolean,PricingPlanArn=string JSON Syntax: { "Enabled": true|false, "PricingPlanArn": "string" }</param>
     public AwsBillingconductorUpdateBillingTransferPreferenceOptions(
         string ResponsibilityTransferArn,
         string AutoBillingTransferBillingGroupCreation
@@ -61,19 +63,19 @@ public record AwsBillingconductorUpdateBillingTransferPreferenceOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the billing transfer whose prefer- ence you want to set. Constraints: o pattern: arn:[a-z0-9][a-z0-9-.]{0,62}:organizations::\d{12}:trans- fer/o-[a-z0-9]{10,32}/(billing)/(inbound|out- bound)/rt-[0-9a-z]{8,32}
+    /// The Amazon Resource Name (ARN) of the billing transfer whose preference you want to set. Constraints: • pattern: arn:[a-z0-9][a-z0-9-.]{0,62}:organizations::\d{12}:transfer/o-[a-z0-9]{10,32}/(billing)/(inbound|outbound)/rt-[0-9a-z]{8,32}
     /// </summary>
     [CliOption("--responsibility-transfer-arn")]
     public string? ResponsibilityTransferArn { get; private init; }
 
     /// <summary>
-    /// The auto billing group creation preference to set for the billing transfer. Enabled -&gt; (boolean) [required] Specifies whether Billing Conductor automatically creates billing groups for the billing transfer. The preference is dis- abled by default. PricingPlanArn -&gt; (string) The Amazon Resource Name (ARN) of the pricing plan to apply to the automatically created billing groups. This value is required when Enabled is true , and must be omitted when Enabled is false . Constraints: o pattern: (arn:aws(-cn)?:billingconduc- tor::(aws|[0-9]{12}):pricingplan/)?(BasicPricing- Plan|Passthrough|[a-zA-Z0-9]{10}) Shorthand Syntax: Enabled=boolean,PricingPlanArn=string JSON Syntax: { "Enabled": true|false, "PricingPlanArn": "string" }
+    /// The auto billing group creation preference to set for the billing transfer. Enabled -&gt; (boolean) [required] Specifies whether Billing Conductor automatically creates billing groups for the billing transfer. The preference is disabled by default. PricingPlanArn -&gt; (string) The Amazon Resource Name (ARN) of the pricing plan to apply to the automatically created billing groups. This value is required when Enabled is true , and must be omitted when Enabled is false . Constraints: • pattern: (arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/)?(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10}) Shorthand Syntax: Enabled=boolean,PricingPlanArn=string JSON Syntax: { "Enabled": true|false, "PricingPlanArn": "string" }
     /// </summary>
     [CliOption("--auto-billing-transfer-billing-group-creation")]
     public string? AutoBillingTransferBillingGroupCreation { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you specify to ensure idem- potency of the request. Idempotency ensures that an API request com- pletes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries com- plete successfully without performing any further actions. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+
+    /// A unique, case-sensitive identifier that you specify to ensure idempotency of the request. Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries complete successfully without performing any further actions. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

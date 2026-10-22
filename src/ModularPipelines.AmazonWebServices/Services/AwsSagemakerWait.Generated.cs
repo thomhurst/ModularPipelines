@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws wait commands.
+/// aws sagemaker wait commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsSagemakerWait
@@ -32,7 +32,7 @@ public class AwsSagemakerWait
     #region Commands
 
     /// <summary>
-    /// Wait until ValidationException is thrown when polling with de- scribe-endpoint. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+    /// Wait until ValidationException is thrown when polling with describe-endpoint. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsSagemakerWait
     }
 
     /// <summary>
-    /// Wait until JMESPath query EndpointStatus returns InService when polling with describe-endpoint. It will poll every 30 seconds until a success- ful state has been reached. This will exit with a return code of 255 after 120 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query EndpointStatus returns InService when polling with describe-endpoint. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 120 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsSagemakerWait
     }
 
     /// <summary>
-    /// Wait until ResourceNotFoundException is thrown when polling with de- scribe-image. It will poll every 60 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+    /// Wait until ResourceNotFoundException is thrown when polling with describe-image. It will poll every 60 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsSagemakerWait
     }
 
     /// <summary>
-    /// Wait until JMESPath query ImageVersionStatus returns CREATED when polling with describe-image-version. It will poll every 60 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query ImageVersionStatus returns CREATED when polling with describe-image-version. It will poll every 60 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsSagemakerWait
     }
 
     /// <summary>
-    /// Wait until ResourceNotFoundException is thrown when polling with de- scribe-image-version. It will poll every 60 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+    /// Wait until ResourceNotFoundException is thrown when polling with describe-image-version. It will poll every 60 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsSagemakerWait
     }
 
     /// <summary>
-    /// Wait until ValidationException is thrown when polling with de- scribe-notebook-instance. It will poll every 30 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+    /// Wait until ValidationException is thrown when polling with describe-notebook-instance. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsSagemakerWait
     }
 
     /// <summary>
-    /// Wait until JMESPath query ProcessingJobStatus returns Completed when polling with describe-processing-job. It will poll every 60 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query ProcessingJobStatus returns Completed when polling with describe-processing-job. It will poll every 60 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsSagemakerWait
     }
 
     /// <summary>
-    /// Wait until JMESPath query TrainingJobStatus returns Completed when polling with describe-training-job. It will poll every 120 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query TrainingJobStatus returns Completed when polling with describe-training-job. It will poll every 120 seconds until a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsSagemakerWait
     }
 
     /// <summary>
-    /// Wait until JMESPath query TransformJobStatus returns Completed when polling with describe-transform-job. It will poll every 60 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query TransformJobStatus returns Completed when polling with describe-transform-job. It will poll every 60 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Replaces specific nodes within a SageMaker HyperPod cluster with new hardware. BatchReplaceClusterNodes terminates the specified instances and provisions new replacement instances with the same configuration but fresh hardware. The Amazon Machine Image (AMI) and instance config- uration remain the same. This operation is useful for recovering from hardware failures or per- sistent issues that cannot be resolved through a reboot. WARNING: o Data Loss Warning: Replacing nodes destroys all instance...
+/// Replaces specific nodes within a SageMaker HyperPod cluster with new hardware. BatchReplaceClusterNodes terminates the specified instances and provisions new replacement instances with the same configuration but fresh hardware. The Amazon Machine Image (AMI) and instance configuration remain the same. This operation is useful for recovering from hardware failures or persistent issues that cannot be resolved through a reboot. WARNING: • Data Loss Warning: Replacing nodes destroys all instance vol...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSagemakerBatchReplaceClusterNodesOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Replaces specific nodes within a SageMaker HyperPod cluster with new hardware. BatchReplaceClusterNodes terminates the specified instances and provisions new replacement instances with the same configuration but fresh hardware. The Amazon Machine Image (AMI) and instance config- uration remain the same. This operation is useful for recovering from hardware failures or per- sistent issues that cannot be resolved through a reboot. WARNING: o Data Loss Warning: Replacing nodes destroys all instance...
+    /// Replaces specific nodes within a SageMaker HyperPod cluster with new hardware. BatchReplaceClusterNodes terminates the specified instances and provisions new replacement instances with the same configuration but fresh hardware. The Amazon Machine Image (AMI) and instance configuration remain the same. This operation is useful for recovering from hardware failures or persistent issues that cannot be resolved through a reboot. WARNING: • Data Loss Warning: Replacing nodes destroys all instance vol...
     /// </summary>
-    /// <param name="ClusterName">The name or Amazon Resource Name (ARN) of the SageMaker HyperPod cluster containing the nodes to replace. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})</param>
+    /// <param name="ClusterName">The name or Amazon Resource Name (ARN) of the SageMaker HyperPod cluster containing the nodes to replace. Constraints: • min: 0 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:cluster/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})</param>
     public AwsSagemakerBatchReplaceClusterNodesOptions(
         string ClusterName
     )
@@ -56,19 +58,19 @@ public record AwsSagemakerBatchReplaceClusterNodesOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of the SageMaker HyperPod cluster containing the nodes to replace. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})
+    /// The name or Amazon Resource Name (ARN) of the SageMaker HyperPod cluster containing the nodes to replace. Constraints: • min: 0 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:cluster/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})
     /// </summary>
     [CliOption("--cluster-name")]
     public string? ClusterName { get; private init; }
 
     /// <summary>
-    /// A list of EC2 instance IDs to replace with new hardware. You can specify between 1 and 25 instance IDs. WARNING: Replace operations destroy all instance volumes (root and sec- ondary). Ensure you have backed up any important data before proceeding. NOTE: o Either NodeIds or NodeLogicalIds must be provided (or both), but at least one is required. o Each instance ID must follow the pattern i- followed by 17 hexadecimal characters (for example, i-0123456789abcdef0 ). o For SageMaker HyperPod clusters using the Slurm workload man- ager, you cannot replace instances that are configured as Slurm controller nodes. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 256 o pattern: i-[a-f0-9]{8}(?:[a-f0-9]{9})? Syntax: "string" "string" ...
+    /// A list of EC2 instance IDs to replace with new hardware. You can specify between 1 and 25 instance IDs. WARNING: Replace operations destroy all instance volumes (root and secondary). Ensure you have backed up any important data before proceeding. NOTE: • Either NodeIds or NodeLogicalIds must be provided (or both), but at least one is required. • Each instance ID must follow the pattern i- followed by 17 hexadecimal characters (for example, i-0123456789abcdef0 ). • For SageMaker HyperPod clusters using the Slurm workload manager, you cannot replace instances that are configured as Slurm controller nodes. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 1 • max: 256 • pattern: i-[a-f0-9]{8}(?:[a-f0-9]{9})? Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--node-ids", GroupValues = true)]
     public IEnumerable<string>? NodeIds { get; set; }
 
     /// <summary>
-    /// A list of logical node IDs to replace with new hardware. You can specify between 1 and 25 logical node IDs. The NodeLogicalId is a unique identifier that persists throughout the node's lifecycle and can be used to track nodes that are still being provisioned and don't yet have an EC2 instance ID assigned. WARNING: o Replace operations destroy all instance volumes (root and sec- ondary). Ensure you have backed up any important data before proceeding. o This parameter is only supported for clusters using Continuous as the NodeProvisioningMode . For clusters using the default provisioning mode, use NodeIds instead. o Either NodeIds or NodeLogicalIds must be provided (or both), but at least one is required. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9] Syntax: "string" "string" ...
+    /// A list of logical node IDs to replace with new hardware. You can specify between 1 and 25 logical node IDs. The NodeLogicalId is a unique identifier that persists throughout the node's lifecycle and can be used to track nodes that are still being provisioned and don't yet have an EC2 instance ID assigned. WARNING: • Replace operations destroy all instance volumes (root and secondary). Ensure you have backed up any important data before proceeding. • This parameter is only supported for clusters using Continuous as the NodeProvisioningMode . For clusters using the default provisioning mode, use NodeIds instead. • Either NodeIds or NodeLogicalIds must be provided (or both), but at least one is required. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9] Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--node-logical-ids", GroupValues = true)]
     public IEnumerable<string>? NodeLogicalIds { get; set; }

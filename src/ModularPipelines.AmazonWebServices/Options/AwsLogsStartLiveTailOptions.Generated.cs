@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts a Live Tail streaming session for one or more log groups. A Live Tail session provides a near real-time streaming of log events as they are ingested into selected log groups. A session can go on for a maxi- mum of 3 hours. By default, this command start a native tailing session where recent log events appear from the bottom, the log events are output as-is in Plain text. You can run this command with --mode interactive, which starts an interactive tailing session. Interactive tailing prov...
+/// Starts a Live Tail streaming session for one or more log groups. A Live Tail session provides a near real-time streaming of log events as they are ingested into selected log groups. A session can go on for a maximum of 3 hours. By default, this command start a native tailing session where recent log events appear from the bottom, the log events are output as-is in Plain text. You can run this command with --mode interactive, which starts an interactive tailing session. Interactive tailing provid...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLogsStartLiveTailOptions : AwsOptions
 {
     /// <summary>
-    /// Starts a Live Tail streaming session for one or more log groups. A Live Tail session provides a near real-time streaming of log events as they are ingested into selected log groups. A session can go on for a maxi- mum of 3 hours. By default, this command start a native tailing session where recent log events appear from the bottom, the log events are output as-is in Plain text. You can run this command with --mode interactive, which starts an interactive tailing session. Interactive tailing prov...
+    /// Starts a Live Tail streaming session for one or more log groups. A Live Tail session provides a near real-time streaming of log events as they are ingested into selected log groups. A session can go on for a maximum of 3 hours. By default, this command start a native tailing session where recent log events appear from the bottom, the log events are output as-is in Plain text. You can run this command with --mode interactive, which starts an interactive tailing session. Interactive tailing provid...
     /// </summary>
     /// <param name="LogGroupIdentifiers"></param>
     public AwsLogsStartLiveTailOptions(

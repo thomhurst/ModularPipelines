@@ -24,9 +24,9 @@ public record AwsEmrScheduleHbaseBackupOptions : AwsOptions
     /// <summary>
     /// Adds a step to schedule automated HBase backup. This command is only available when using Amazon EMR versionsearlier than 4.0.
     /// </summary>
-    /// <param name="ClusterId">A unique string that identifies a cluster. The create-cluster com- mand returns this identifier. You can use the list-clusters command to get cluster IDs.</param>
+    /// <param name="ClusterId">A unique string that identifies a cluster. The create-cluster command returns this identifier. You can use the list-clusters command to get cluster IDs.</param>
     /// <param name="Type">Backup type. You can specify 'incremental' or 'full'.</param>
-    /// <param name="Dir">The Amazon S3 location of the Hbase backup. Example: s3://my- bucket/mybackup , where mybucket is the specified Amazon S3 bucket and mybackup is the specified backup location. The path argument must begin with s3://, which refers to an Amazon S3 bucket.</param>
+    /// <param name="Dir">The Amazon S3 location of the Hbase backup. Example: s3://mybucket/mybackup , where mybucket is the specified Amazon S3 bucket and mybackup is the specified backup location. The path argument must begin with s3://, which refers to an Amazon S3 bucket.</param>
     /// <param name="Interval">The time between backups.</param>
     /// <param name="Unit">The time unit for backup's time-interval. You can specify one of the following values: 'minutes', 'hours', or 'days'.</param>
     public AwsEmrScheduleHbaseBackupOptions(
@@ -59,7 +59,7 @@ public record AwsEmrScheduleHbaseBackupOptions : AwsOptions
     }
 
     /// <summary>
-    /// A unique string that identifies a cluster. The create-cluster com- mand returns this identifier. You can use the list-clusters command to get cluster IDs.
+    /// A unique string that identifies a cluster. The create-cluster command returns this identifier. You can use the list-clusters command to get cluster IDs.
     /// </summary>
     [CliOption("--cluster-id")]
     public string ClusterId { get; private init; }
@@ -71,7 +71,7 @@ public record AwsEmrScheduleHbaseBackupOptions : AwsOptions
     public string Type { get; private init; }
 
     /// <summary>
-    /// The Amazon S3 location of the Hbase backup. Example: s3://my- bucket/mybackup , where mybucket is the specified Amazon S3 bucket and mybackup is the specified backup location. The path argument must begin with s3://, which refers to an Amazon S3 bucket.
+    /// The Amazon S3 location of the Hbase backup. Example: s3://mybucket/mybackup , where mybucket is the specified Amazon S3 bucket and mybackup is the specified backup location. The path argument must begin with s3://, which refers to an Amazon S3 bucket.
     /// </summary>
     [CliOption("--dir")]
     public string Dir { get; private init; }

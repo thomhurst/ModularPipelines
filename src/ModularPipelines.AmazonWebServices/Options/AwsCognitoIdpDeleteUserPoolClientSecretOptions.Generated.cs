@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a specific client secret from a user pool app client. You can- not delete the last remaining secret for an app client. See also: AWS API Documentation
+/// Deletes a specific client secret from a user pool app client. You cannot delete the last remaining secret for an app client. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsCognitoIdpDeleteUserPoolClientSecretOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a specific client secret from a user pool app client. You can- not delete the last remaining secret for an app client. See also: AWS API Documentation
+    /// Deletes a specific client secret from a user pool app client. You cannot delete the last remaining secret for an app client. See also: AWS API Documentation
     /// </summary>
-    /// <param name="UserPoolId">The ID of the user pool that contains the app client. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
-    /// <param name="ClientId">The ID of the app client from which you want to delete the secret. Constraints: o min: 1 o max: 128 o pattern: [\w+]+</param>
-    /// <param name="ClientSecretId">The unique identifier of the client secret you want to delete. Constraints: o min: 1 o max: 128</param>
+    /// <param name="UserPoolId">The ID of the user pool that contains the app client. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="ClientId">The ID of the app client from which you want to delete the secret. Constraints: • min: 1 • max: 128 • pattern: [\w+]+</param>
+    /// <param name="ClientSecretId">The unique identifier of the client secret you want to delete. Constraints: • min: 1 • max: 128</param>
     public AwsCognitoIdpDeleteUserPoolClientSecretOptions(
         string UserPoolId,
         string ClientId,
@@ -64,19 +66,19 @@ public record AwsCognitoIdpDeleteUserPoolClientSecretOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the user pool that contains the app client. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// The ID of the user pool that contains the app client. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--user-pool-id")]
     public string? UserPoolId { get; private init; }
 
     /// <summary>
-    /// The ID of the app client from which you want to delete the secret. Constraints: o min: 1 o max: 128 o pattern: [\w+]+
+    /// The ID of the app client from which you want to delete the secret. Constraints: • min: 1 • max: 128 • pattern: [\w+]+
     /// </summary>
     [CliOption("--client-id")]
     public string? ClientId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the client secret you want to delete. Constraints: o min: 1 o max: 128
+    /// The unique identifier of the client secret you want to delete. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--client-secret-id")]
     public string? ClientSecretId { get; private init; }

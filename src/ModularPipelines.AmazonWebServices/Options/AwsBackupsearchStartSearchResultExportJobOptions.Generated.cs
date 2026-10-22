@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -30,7 +31,7 @@ public record AwsBackupsearchStartSearchResultExportJobOptions : AwsOptions, IVa
     /// This operations starts a job to export the results of search job to a designated S3 bucket. See also: AWS API Documentation
     /// </summary>
     /// <param name="SearchJobIdentifier">The unique string that specifies the search job.</param>
-    /// <param name="ExportSpecification">This specification contains a required string of the destination bucket; optionally, you can include the destination prefix. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3ExportSpecification. s3ExportSpecification -&gt; (structure) This specifies the destination Amazon S3 bucket for the export job. And, if included, it also specifies the destination prefix. DestinationBucket -&gt; (string) [required] This specifies the destination Amazon S3 bucket for the ex- port job. DestinationPrefix -&gt; (string) This specifies the prefix for the destination Amazon S3 bucket for the export job. Shorthand Syntax: s3ExportSpecification={DestinationBucket=string,DestinationPrefix=string} JSON Syntax: { "s3ExportSpecification": { "DestinationBucket": "string", "DestinationPrefix": "string" } }</param>
+    /// <param name="ExportSpecification">This specification contains a required string of the destination bucket; optionally, you can include the destination prefix. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3ExportSpecification. s3ExportSpecification -&gt; (structure) This specifies the destination Amazon S3 bucket for the export job. And, if included, it also specifies the destination prefix. DestinationBucket -&gt; (string) [required] This specifies the destination Amazon S3 bucket for the export job. DestinationPrefix -&gt; (string) This specifies the prefix for the destination Amazon S3 bucket for the export job. Shorthand Syntax: s3ExportSpecification={DestinationBucket=string,DestinationPrefix=string} JSON Syntax: { "s3ExportSpecification": { "DestinationBucket": "string", "DestinationPrefix": "string" } }</param>
     public AwsBackupsearchStartSearchResultExportJobOptions(
         string SearchJobIdentifier,
         string ExportSpecification
@@ -68,26 +69,26 @@ public record AwsBackupsearchStartSearchResultExportJobOptions : AwsOptions, IVa
     public string? SearchJobIdentifier { get; private init; }
 
     /// <summary>
-    /// This specification contains a required string of the destination bucket; optionally, you can include the destination prefix. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3ExportSpecification. s3ExportSpecification -&gt; (structure) This specifies the destination Amazon S3 bucket for the export job. And, if included, it also specifies the destination prefix. DestinationBucket -&gt; (string) [required] This specifies the destination Amazon S3 bucket for the ex- port job. DestinationPrefix -&gt; (string) This specifies the prefix for the destination Amazon S3 bucket for the export job. Shorthand Syntax: s3ExportSpecification={DestinationBucket=string,DestinationPrefix=string} JSON Syntax: { "s3ExportSpecification": { "DestinationBucket": "string", "DestinationPrefix": "string" } }
+    /// This specification contains a required string of the destination bucket; optionally, you can include the destination prefix. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3ExportSpecification. s3ExportSpecification -&gt; (structure) This specifies the destination Amazon S3 bucket for the export job. And, if included, it also specifies the destination prefix. DestinationBucket -&gt; (string) [required] This specifies the destination Amazon S3 bucket for the export job. DestinationPrefix -&gt; (string) This specifies the prefix for the destination Amazon S3 bucket for the export job. Shorthand Syntax: s3ExportSpecification={DestinationBucket=string,DestinationPrefix=string} JSON Syntax: { "s3ExportSpecification": { "DestinationBucket": "string", "DestinationPrefix": "string" } }
     /// </summary>
     [CliOption("--export-specification")]
     public string? ExportSpecification { get; private init; }
 
     /// <summary>
-    /// Include this parameter to allow multiple identical calls for idempo- tency. A client token is valid for 8 hours after the first request that uses it is completed. After this time, any request with the same to- ken is treated as a new request.
+    /// Include this parameter to allow multiple identical calls for idempotency. A client token is valid for 8 hours after the first request that uses it is completed. After this time, any request with the same token is treated as a new request.
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Optional tags to include. A tag is a key-value pair you can use to manage, filter, and search for your resources. Allowed characters include UTF-8 letters, numbers, spaces, and the following charac- ters: + - = . _ : /. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Optional tags to include. A tag is a key-value pair you can use to manage, filter, and search for your resources. Allowed characters include UTF-8 letters, numbers, spaces, and the following characters: + - = . _ : /. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// This parameter specifies the role ARN used to start the search re- sults export jobs. Constraints: o min: 20 o max: 2048 o pattern: arn:(?:aws|aws-cn|aws-us-gov):iam::[a-z0-9-]+:role/(.+)
+    /// This parameter specifies the role ARN used to start the search results export jobs. Constraints: • min: 20 • max: 2048 • pattern: arn:(?:aws|aws-cn|aws-us-gov):iam::[a-z0-9-]+:role/(.+)
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }

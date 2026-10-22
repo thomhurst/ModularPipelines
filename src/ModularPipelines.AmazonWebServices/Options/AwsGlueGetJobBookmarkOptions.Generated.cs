@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information on a job bookmark entry. For more information about enabling and using job bookmarks, see: o Tracking processed data using job bookmarks o Job parameters used by Glue o Job structure See also: AWS API Documentation
+/// Returns information on a job bookmark entry. For more information about enabling and using job bookmarks, see: • Tracking processed data using job bookmarks • Job parameters used by Glue • Job structure See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsGlueGetJobBookmarkOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns information on a job bookmark entry. For more information about enabling and using job bookmarks, see: o Tracking processed data using job bookmarks o Job parameters used by Glue o Job structure See also: AWS API Documentation
+    /// Returns information on a job bookmark entry. For more information about enabling and using job bookmarks, see: • Tracking processed data using job bookmarks • Job parameters used by Glue • Job structure See also: AWS API Documentation
     /// </summary>
     /// <param name="JobName">The name of the job in question.</param>
     public AwsGlueGetJobBookmarkOptions(

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsVoiceIdCreateWatchlistOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a watchlist that fraudsters can be a part of. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The identifier of the domain that contains the watchlist. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$</param>
-    /// <param name="Name">The name of the watchlist. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_-]*$</param>
+    /// <param name="DomainId">The identifier of the domain that contains the watchlist. Constraints: • min: 22 • max: 22 • pattern: ^[a-zA-Z0-9]{22}$</param>
+    /// <param name="Name">The name of the watchlist. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_-]*$</param>
     public AwsVoiceIdCreateWatchlistOptions(
         string DomainId,
         string Name
@@ -61,26 +63,26 @@ public record AwsVoiceIdCreateWatchlistOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the domain that contains the watchlist. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$
+    /// The identifier of the domain that contains the watchlist. Constraints: • min: 22 • max: 22 • pattern: ^[a-zA-Z0-9]{22}$
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// The name of the watchlist. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_-]*$
+    /// The name of the watchlist. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_-]*$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A brief description of this watchlist. Constraints: o min: 1 o max: 1024 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$
+    /// A brief description of this watchlist. Constraints: • min: 1 • max: 1024 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

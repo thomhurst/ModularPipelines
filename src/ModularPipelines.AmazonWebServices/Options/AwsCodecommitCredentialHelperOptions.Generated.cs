@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provide a SigV4 compatible user name and password for git smart HTTP These commands are consumed by git and should not used directly. Erase and Store are no-ops. Get is operation to generate credentials to au- thenticate AWS CodeCommit. Run "aws codecommit credential-helper help" for details
+/// Provide a SigV4 compatible user name and password for git smart HTTP These commands are consumed by git and should not used directly. Erase and Store are no-ops. Get is operation to generate credentials to authenticate AWS CodeCommit. Run "aws codecommit credential-helper help" for details
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

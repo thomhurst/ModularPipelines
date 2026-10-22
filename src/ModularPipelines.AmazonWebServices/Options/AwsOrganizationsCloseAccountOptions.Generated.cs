@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Closes an Amazon Web Services member account within an organization. You can close an account when all features are enabled . You can't close the management account with this API. This is an asynchronous re- quest that Amazon Web Services performs in the background. Because CloseAccount operates asynchronously, it can return a successful com- pletion message even though account closure might still be in progress. You need to wait a few minutes before the account is fully closed. To check the sta...
+/// Closes an Amazon Web Services member account within an organization. You can close an account when all features are enabled . You can't close the management account with this API. This is an asynchronous request that Amazon Web Services performs in the background. Because CloseAccount operates asynchronously, it can return a successful completion message even though account closure might still be in progress. You need to wait a few minutes before the account is fully closed. To check the status ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsOrganizationsCloseAccountOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Closes an Amazon Web Services member account within an organization. You can close an account when all features are enabled . You can't close the management account with this API. This is an asynchronous re- quest that Amazon Web Services performs in the background. Because CloseAccount operates asynchronously, it can return a successful com- pletion message even though account closure might still be in progress. You need to wait a few minutes before the account is fully closed. To check the sta...
+    /// Closes an Amazon Web Services member account within an organization. You can close an account when all features are enabled . You can't close the management account with this API. This is an asynchronous request that Amazon Web Services performs in the background. Because CloseAccount operates asynchronously, it can return a successful completion message even though account closure might still be in progress. You need to wait a few minutes before the account is fully closed. To check the status ...
     /// </summary>
-    /// <param name="AccountId">Retrieves the Amazon Web Services account Id for the current CloseAccount API request. Constraints: o max: 12 o pattern: ^\d{12}$</param>
+    /// <param name="AccountId">Retrieves the Amazon Web Services account Id for the current CloseAccount API request. Constraints: • max: 12 • pattern: ^\d{12}$</param>
     public AwsOrganizationsCloseAccountOptions(
         string AccountId
     )
@@ -56,7 +58,7 @@ public record AwsOrganizationsCloseAccountOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Retrieves the Amazon Web Services account Id for the current CloseAccount API request. Constraints: o max: 12 o pattern: ^\d{12}$
+    /// Retrieves the Amazon Web Services account Id for the current CloseAccount API request. Constraints: • max: 12 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }

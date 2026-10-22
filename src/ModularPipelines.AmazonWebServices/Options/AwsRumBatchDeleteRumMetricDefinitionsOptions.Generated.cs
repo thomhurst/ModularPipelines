@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the specified metrics from being sent to an extended metrics destination. If some metric definition IDs specified in a BatchDeleteRumMetricDefin- itions operations are not valid, those metric definitions fail and re- turn errors, but all valid metric definition IDs in the same operation are still deleted. The maximum number of metric definitions that you can specify in one BatchDeleteRumMetricDefinitions operation is 200. See also: AWS API Documentation
+/// Removes the specified metrics from being sent to an extended metrics destination. If some metric definition IDs specified in a BatchDeleteRumMetricDefinitions operations are not valid, those metric definitions fail and return errors, but all valid metric definition IDs in the same operation are still deleted. The maximum number of metric definitions that you can specify in one BatchDeleteRumMetricDefinitions operation is 200. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsRumBatchDeleteRumMetricDefinitionsOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the specified metrics from being sent to an extended metrics destination. If some metric definition IDs specified in a BatchDeleteRumMetricDefin- itions operations are not valid, those metric definitions fail and re- turn errors, but all valid metric definition IDs in the same operation are still deleted. The maximum number of metric definitions that you can specify in one BatchDeleteRumMetricDefinitions operation is 200. See also: AWS API Documentation
+    /// Removes the specified metrics from being sent to an extended metrics destination. If some metric definition IDs specified in a BatchDeleteRumMetricDefinitions operations are not valid, those metric definitions fail and return errors, but all valid metric definition IDs in the same operation are still deleted. The maximum number of metric definitions that you can specify in one BatchDeleteRumMetricDefinitions operation is 200. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppMonitorName">The name of the CloudWatch RUM app monitor that is sending these metrics. Constraints: o min: 1 o max: 255 o pattern: (?!\.)[\.\-_#A-Za-z0-9]+</param>
-    /// <param name="Destination">Defines the destination where you want to stop sending the specified metrics. Valid values are CloudWatch and Evidently . If you specify Evidently , you must also specify the ARN of the CloudWatchEvidently experiment that is to be the destination and an IAM role that has permission to write to the experiment. Possible values: o CloudWatch o Evidently</param>
-    /// <param name="MetricDefinitionIds">An array of structures which define the metrics that you want to stop sending. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...</param>
+    /// <param name="AppMonitorName">The name of the CloudWatch RUM app monitor that is sending these metrics. Constraints: • min: 1 • max: 255 • pattern: (?!\.)[\.\-_#A-Za-z0-9]+</param>
+    /// <param name="Destination">Defines the destination where you want to stop sending the specified metrics. Valid values are CloudWatch and Evidently . If you specify Evidently , you must also specify the ARN of the CloudWatchEvidently experiment that is to be the destination and an IAM role that has permission to write to the experiment. Possible values: • CloudWatch • Evidently</param>
+    /// <param name="MetricDefinitionIds">An array of structures which define the metrics that you want to stop sending. (string) Constraints: • min: 1 • max: 255 Syntax: "string" "string" ...</param>
     public AwsRumBatchDeleteRumMetricDefinitionsOptions(
         string AppMonitorName,
         AwsRumBatchDeleteRumMetricDefinitionsDestination Destination,
@@ -75,25 +77,25 @@ public record AwsRumBatchDeleteRumMetricDefinitionsOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the CloudWatch RUM app monitor that is sending these metrics. Constraints: o min: 1 o max: 255 o pattern: (?!\.)[\.\-_#A-Za-z0-9]+
+    /// The name of the CloudWatch RUM app monitor that is sending these metrics. Constraints: • min: 1 • max: 255 • pattern: (?!\.)[\.\-_#A-Za-z0-9]+
     /// </summary>
     [CliOption("--app-monitor-name")]
     public string? AppMonitorName { get; private init; }
 
     /// <summary>
-    /// Defines the destination where you want to stop sending the specified metrics. Valid values are CloudWatch and Evidently . If you specify Evidently , you must also specify the ARN of the CloudWatchEvidently experiment that is to be the destination and an IAM role that has permission to write to the experiment. Possible values: o CloudWatch o Evidently
+    /// Defines the destination where you want to stop sending the specified metrics. Valid values are CloudWatch and Evidently . If you specify Evidently , you must also specify the ARN of the CloudWatchEvidently experiment that is to be the destination and an IAM role that has permission to write to the experiment. Possible values: • CloudWatch • Evidently
     /// </summary>
     [CliOption("--destination")]
     public AwsRumBatchDeleteRumMetricDefinitionsDestination? Destination { get; private init; }
 
     /// <summary>
-    /// An array of structures which define the metrics that you want to stop sending. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...
+    /// An array of structures which define the metrics that you want to stop sending. (string) Constraints: • min: 1 • max: 255 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--metric-definition-ids", GroupValues = true)]
     public IEnumerable<string>? MetricDefinitionIds { get; private init; }
 
     /// <summary>
-    /// This parameter is required if Destination is Evidently . If Destina- tion is CloudWatch , do not use this parameter. This parameter specifies the ARN of the Evidently experiment that was receiving the metrics that are being deleted. Constraints: o min: 0 o max: 2048 o pattern: .*arn:[^:]*:[^:]*:[^:]*:[^:]*:.*
+    /// This parameter is required if Destination is Evidently . If Destination is CloudWatch , do not use this parameter. This parameter specifies the ARN of the Evidently experiment that was receiving the metrics that are being deleted. Constraints: • min: 0 • max: 2048 • pattern: .*arn:[^:]*:[^:]*:[^:]*:[^:]*:.*
     /// </summary>
     [CliOption("--destination-arn")]
     public string? DestinationArn { get; set; }

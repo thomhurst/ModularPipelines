@@ -33,7 +33,7 @@ public class AwsElbv2 : IAwsElbv2
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws elbv2 wait sub-commands.
     /// </summary>
     public AwsElbv2Wait Wait => _wait ??= new AwsElbv2Wait(_command);
 
@@ -42,7 +42,7 @@ public class AwsElbv2 : IAwsElbv2
     #region Commands
 
     /// <summary>
-    /// Adds the specified SSL server certificate to the certificate list for the specified HTTPS or TLS listener. If the certificate in already in the certificate list, the call is suc- cessful but the certificate is not added again. For more information, see SSL certificates in the Application Load Bal- ancers Guide or Server certificates in the Network Load Balancers Guide . See also: AWS API Documentation
+    /// Adds the specified SSL server certificate to the certificate list for the specified HTTPS or TLS listener. If the certificate in already in the certificate list, the call is successful but the certificate is not added again. For more information, see SSL certificates in the Application Load Balancers Guide or Server certificates in the Network Load Balancers Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -57,7 +57,7 @@ public class AwsElbv2 : IAwsElbv2
     }
 
     /// <summary>
-    /// Adds the specified tags to the specified Elastic Load Balancing re- source. You can tag your Application Load Balancers, Network Load Bal- ancers, Gateway Load Balancers, target groups, trust stores, listeners, and rules. Each tag consists of a key and an optional value. If a resource already has a tag with the same key, AddTags updates its value. See also: AWS API Documentation
+    /// Adds the specified tags to the specified Elastic Load Balancing resource. You can tag your Application Load Balancers, Network Load Balancers, Gateway Load Balancers, target groups, trust stores, listeners, and rules. Each tag consists of a key and an optional value. If a resource already has a tag with the same key, AddTags updates its value. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -87,7 +87,7 @@ public class AwsElbv2 : IAwsElbv2
     }
 
     /// <summary>
-    /// Creates a listener for the specified Application Load Balancer, Network Load Balancer, or Gateway Load Balancer. For more information, see the following: o Listeners for your Application Load Balancers o Listeners for your Network Load Balancers o Listeners for your Gateway Load Balancers This operation is idempotent, which means that it completes at most one time. If you attempt to create multiple listeners with the same set- tings, each call succeeds. See also: AWS API Documentation
+    /// Creates a listener for the specified Application Load Balancer, Network Load Balancer, or Gateway Load Balancer. For more information, see the following: • Listeners for your Application Load Balancers • Listeners for your Network Load Balancers • Listeners for your Gateway Load Balancers This operation is idempotent, which means that it completes at most one time. If you attempt to create multiple listeners with the same settings, each call succeeds. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -102,7 +102,7 @@ public class AwsElbv2 : IAwsElbv2
     }
 
     /// <summary>
-    /// Creates an Application Load Balancer, Network Load Balancer, or Gateway Load Balancer. For more information, see the following: o Application Load Balancers o Network Load Balancers o Gateway Load Balancers This operation is idempotent, which means that it completes at most one time. If you attempt to create multiple load balancers with the same settings, each call succeeds. See also: AWS API Documentation
+    /// Creates an Application Load Balancer, Network Load Balancer, or Gateway Load Balancer. For more information, see the following: • Application Load Balancers • Network Load Balancers • Gateway Load Balancers This operation is idempotent, which means that it completes at most one time. If you attempt to create multiple load balancers with the same settings, each call succeeds. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -117,7 +117,7 @@ public class AwsElbv2 : IAwsElbv2
     }
 
     /// <summary>
-    /// Creates a rule for the specified listener. The listener must be associ- ated with an Application Load Balancer or a dual-stack Network Load Balancer. Each rule consists of a priority, one or more actions, and one or more conditions. Rules are evaluated in priority order, from the lowest value to the highest value. When the conditions for a rule are met, its actions are performed. If the conditions for no rules are met, the ac- tions for the default rule are performed. For more information, see L...
+    /// Creates a rule for the specified listener. The listener must be associated with an Application Load Balancer or a dual-stack Network Load Balancer. Each rule consists of a priority, one or more actions, and one or more conditions. Rules are evaluated in priority order, from the lowest value to the highest value. When the conditions for a rule are met, its actions are performed. If the conditions for no rules are met, the actions for the default rule are performed. For more information, see Liste...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -132,7 +132,7 @@ public class AwsElbv2 : IAwsElbv2
     }
 
     /// <summary>
-    /// Creates a target group. For more information, see the following: o Target groups for your Application Load Balancers o Target groups for your Network Load Balancers o Target groups for your Gateway Load Balancers This operation is idempotent, which means that it completes at most one time. If you attempt to create multiple target groups with the same settings, each call succeeds. See also: AWS API Documentation
+    /// Creates a target group. For more information, see the following: • Target groups for your Application Load Balancers • Target groups for your Network Load Balancers • Target groups for your Gateway Load Balancers This operation is idempotent, which means that it completes at most one time. If you attempt to create multiple target groups with the same settings, each call succeeds. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -162,7 +162,7 @@ public class AwsElbv2 : IAwsElbv2
     }
 
     /// <summary>
-    /// Deletes the specified listener. Alternatively, your listener is deleted when you delete the load bal- ancer to which it is attached. See also: AWS API Documentation
+    /// Deletes the specified listener. Alternatively, your listener is deleted when you delete the load balancer to which it is attached. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -222,7 +222,7 @@ public class AwsElbv2 : IAwsElbv2
     }
 
     /// <summary>
-    /// Deletes the specified target group. You can delete a target group if it is not referenced by any actions. Deleting a target group also deletes any associated health checks. Deleting a target group does not affect its registered targets. For ex- ample, any EC2 instances continue to run until you stop or terminate them. See also: AWS API Documentation
+    /// Deletes the specified target group. You can delete a target group if it is not referenced by any actions. Deleting a target group also deletes any associated health checks. Deleting a target group does not affect its registered targets. For example, any EC2 instances continue to run until you stop or terminate them. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -252,7 +252,7 @@ public class AwsElbv2 : IAwsElbv2
     }
 
     /// <summary>
-    /// Deregisters the specified targets from the specified target group. Af- ter the targets are deregistered, they no longer receive traffic from the load balancer. The load balancer stops sending requests to targets that are deregis- tering, but uses connection draining to ensure that in-flight traffic completes on the existing connections. This deregistration delay is configured by default but can be updated for each target group. For more information, see the following: o Deregistration delay in t...
+    /// Deregisters the specified targets from the specified target group. After the targets are deregistered, they no longer receive traffic from the load balancer. The load balancer stops sending requests to targets that are deregistering, but uses connection draining to ensure that in-flight traffic completes on the existing connections. This deregistration delay is configured by default but can be updated for each target group. For more information, see the following: • Deregistration delay in the A...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -267,7 +267,7 @@ public class AwsElbv2 : IAwsElbv2
     }
 
     /// <summary>
-    /// Describes the current Elastic Load Balancing resource limits for your Amazon Web Services account. For more information, see the following: o Quotas for your Application Load Balancers o Quotas for your Network Load Balancers o Quotas for your Gateway Load Balancers See also: AWS API Documentation describe-account-limits is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argumen...
+    /// Describes the current Elastic Load Balancing resource limits for your Amazon Web Services account. For more information, see the following: • Quotas for your Application Load Balancers • Quotas for your Network Load Balancers • Quotas for your Gateway Load Balancers See also: AWS API Documentation describe-account-limits is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argumen...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -282,7 +282,7 @@ public class AwsElbv2 : IAwsElbv2
     }
 
     /// <summary>
-    /// Describes the capacity reservation status for the specified load bal- ancer. See also: AWS API Documentation
+    /// Describes the capacity reservation status for the specified load balancer. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -312,7 +312,7 @@ public class AwsElbv2 : IAwsElbv2
     }
 
     /// <summary>
-    /// Describes the default certificate and the certificate list for the specified HTTPS or TLS listener. If the default certificate is also in the certificate list, it appears twice in the results (once with IsDefault set to true and once with Is- Default set to false). For more information, see SSL certificates in the Application Load Bal- ancers Guide or Server certificates in the Network Load Balancers Guide . See also: AWS API Documentation describe-listener-certificates is a paginated operation....
+    /// Describes the default certificate and the certificate list for the specified HTTPS or TLS listener. If the default certificate is also in the certificate list, it appears twice in the results (once with IsDefault set to true and once with IsDefault set to false). For more information, see SSL certificates in the Application Load Balancers Guide or Server certificates in the Network Load Balancers Guide . See also: AWS API Documentation describe-listener-certificates is a paginated operation. Mul...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -327,7 +327,7 @@ public class AwsElbv2 : IAwsElbv2
     }
 
     /// <summary>
-    /// Describes the specified listeners or the listeners for the specified Application Load Balancer, Network Load Balancer, or Gateway Load Bal- ancer. You must specify either a load balancer or one or more listen- ers. See also: AWS API Documentation describe-listeners is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a...
+    /// Describes the specified listeners or the listeners for the specified Application Load Balancer, Network Load Balancer, or Gateway Load Balancer. You must specify either a load balancer or one or more listeners. See also: AWS API Documentation describe-listeners is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pag...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -342,7 +342,7 @@ public class AwsElbv2 : IAwsElbv2
     }
 
     /// <summary>
-    /// Describes the attributes for the specified Application Load Balancer, Network Load Balancer, or Gateway Load Balancer. For more information, see the following: o Load balancer attributes in the Application Load Balancers Guide o Load balancer attributes in the Network Load Balancers Guide o Load balancer attributes in the Gateway Load Balancers Guide See also: AWS API Documentation
+    /// Describes the attributes for the specified Application Load Balancer, Network Load Balancer, or Gateway Load Balancer. For more information, see the following: • Load balancer attributes in the Application Load Balancers Guide • Load balancer attributes in the Network Load Balancers Guide • Load balancer attributes in the Gateway Load Balancers Guide See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -357,7 +357,7 @@ public class AwsElbv2 : IAwsElbv2
     }
 
     /// <summary>
-    /// Describes the specified load balancers or all of your load balancers. See also: AWS API Documentation describe-load-balancers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: LoadBalancers
+    /// Describes the specified load balancers or all of your load balancers. See also: AWS API Documentation describe-load-balancers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: LoadBalancers
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -372,7 +372,7 @@ public class AwsElbv2 : IAwsElbv2
     }
 
     /// <summary>
-    /// Describes the specified rules or the rules for the specified listener. You must specify either a listener or rules. See also: AWS API Documentation describe-rules is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query...
+    /// Describes the specified rules or the rules for the specified listener. You must specify either a listener or rules. See also: AWS API Documentation describe-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query exp...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -387,7 +387,7 @@ public class AwsElbv2 : IAwsElbv2
     }
 
     /// <summary>
-    /// Describes the specified policies or all policies used for SSL negotia- tion. For more information, see Security policies in the Application Load Balancers Guide and Security policies in the Network Load Balancers Guide . See also: AWS API Documentation describe-ssl-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu...
+    /// Describes the specified policies or all policies used for SSL negotiation. For more information, see Security policies in the Application Load Balancers Guide and Security policies in the Network Load Balancers Guide . See also: AWS API Documentation describe-ssl-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argume...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -402,7 +402,7 @@ public class AwsElbv2 : IAwsElbv2
     }
 
     /// <summary>
-    /// Describes the tags for the specified Elastic Load Balancing resources. You can describe the tags for one or more Application Load Balancers, Network Load Balancers, Gateway Load Balancers, target groups, listen- ers, or rules. See also: AWS API Documentation
+    /// Describes the tags for the specified Elastic Load Balancing resources. You can describe the tags for one or more Application Load Balancers, Network Load Balancers, Gateway Load Balancers, target groups, listeners, or rules. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -417,7 +417,7 @@ public class AwsElbv2 : IAwsElbv2
     }
 
     /// <summary>
-    /// Describes the attributes for the specified target group. For more information, see the following: o Target group attributes in the Application Load Balancers Guide o Target group attributes in the Network Load Balancers Guide o Target group attributes in the Gateway Load Balancers Guide See also: AWS API Documentation
+    /// Describes the attributes for the specified target group. For more information, see the following: • Target group attributes in the Application Load Balancers Guide • Target group attributes in the Network Load Balancers Guide • Target group attributes in the Gateway Load Balancers Guide See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -432,7 +432,7 @@ public class AwsElbv2 : IAwsElbv2
     }
 
     /// <summary>
-    /// Describes the specified target groups or all of your target groups. By default, all target groups are described. Alternatively, you can spec- ify one of the following to filter the results: the ARN of the load balancer, the names of one or more target groups, or the ARNs of one or more target groups. See also: AWS API Documentation describe-target-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by p...
+    /// Describes the specified target groups or all of your target groups. By default, all target groups are described. Alternatively, you can specify one of the following to filter the results: the ARN of the load balancer, the names of one or more target groups, or the ARNs of one or more target groups. See also: AWS API Documentation describe-target-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by pro...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -462,7 +462,7 @@ public class AwsElbv2 : IAwsElbv2
     }
 
     /// <summary>
-    /// Describes all resources associated with the specified trust store. See also: AWS API Documentation describe-trust-store-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TrustStoreAssoci...
+    /// Describes all resources associated with the specified trust store. See also: AWS API Documentation describe-trust-store-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TrustStoreAssociatio...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -477,7 +477,7 @@ public class AwsElbv2 : IAwsElbv2
     }
 
     /// <summary>
-    /// Describes the revocation files in use by the specified trust store or revocation files. See also: AWS API Documentation describe-trust-store-revocations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressio...
+    /// Describes the revocation files in use by the specified trust store or revocation files. See also: AWS API Documentation describe-trust-store-revocations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -522,7 +522,7 @@ public class AwsElbv2 : IAwsElbv2
     }
 
     /// <summary>
-    /// Retrieves the ca certificate bundle. This action returns a pre-signed S3 URI which is active for ten min- utes. See also: AWS API Documentation
+    /// Retrieves the ca certificate bundle. This action returns a pre-signed S3 URI which is active for ten minutes. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -537,7 +537,7 @@ public class AwsElbv2 : IAwsElbv2
     }
 
     /// <summary>
-    /// Retrieves the specified revocation file. This action returns a pre-signed S3 URI which is active for ten min- utes. See also: AWS API Documentation
+    /// Retrieves the specified revocation file. This action returns a pre-signed S3 URI which is active for ten minutes. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -552,7 +552,7 @@ public class AwsElbv2 : IAwsElbv2
     }
 
     /// <summary>
-    /// Modifies the capacity reservation of the specified load balancer. When modifying capacity reservation, you must include at least one Min- imumLoadBalancerCapacity or ResetCapacityReservation . See also: AWS API Documentation
+    /// Modifies the capacity reservation of the specified load balancer. When modifying capacity reservation, you must include at least one MinimumLoadBalancerCapacity or ResetCapacityReservation . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -597,7 +597,7 @@ public class AwsElbv2 : IAwsElbv2
     }
 
     /// <summary>
-    /// Replaces the specified properties of the specified listener. Any prop- erties that you do not specify remain unchanged. Changing the protocol from HTTPS to HTTP, or from TLS to TCP, removes the security policy and default certificate properties. If you change the protocol from HTTP to HTTPS, or from TCP to TLS, you must add the security policy and default certificate properties. To add an item to a list, remove an item from a list, or update an item in a list, you must provide the entire list. F...
+    /// Replaces the specified properties of the specified listener. Any properties that you do not specify remain unchanged. Changing the protocol from HTTPS to HTTP, or from TLS to TCP, removes the security policy and default certificate properties. If you change the protocol from HTTP to HTTPS, or from TCP to TLS, you must add the security policy and default certificate properties. To add an item to a list, remove an item from a list, or update an item in a list, you must provide the entire list. For...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -627,7 +627,7 @@ public class AwsElbv2 : IAwsElbv2
     }
 
     /// <summary>
-    /// Replaces the specified properties of the specified rule. Any properties that you do not specify are unchanged. To add an item to a list, remove an item from a list, or update an item in a list, you must provide the entire list. For example, to add an ac- tion, specify a list with the current actions plus the new action. See also: AWS API Documentation
+    /// Replaces the specified properties of the specified rule. Any properties that you do not specify are unchanged. To add an item to a list, remove an item from a list, or update an item in a list, you must provide the entire list. For example, to add an action, specify a list with the current actions plus the new action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -687,7 +687,7 @@ public class AwsElbv2 : IAwsElbv2
     }
 
     /// <summary>
-    /// Registers the specified targets with the specified target group. If the target is an EC2 instance, it must be in the running state when you register it. By default, the load balancer routes requests to registered targets us- ing the protocol and port for the target group. Alternatively, you can override the port for a target when you register it. You can register each EC2 instance or IP address with the same target group multiple times using different ports. For more information, see the followi...
+    /// Registers the specified targets with the specified target group. If the target is an EC2 instance, it must be in the running state when you register it. By default, the load balancer routes requests to registered targets using the protocol and port for the target group. Alternatively, you can override the port for a target when you register it. You can register each EC2 instance or IP address with the same target group multiple times using different ports. For more information, see the following...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

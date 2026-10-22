@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the recovery behavior of your instance to disable simplified automatic recovery or set the recovery behavior to default. The default configuration will not enable simplified automatic recovery for an un- supported instance type. For more information, see Simplified automatic recovery . Modifies the reboot migration behavior during a user-initiated reboot of an instance that has a pending system-reboot event. For more infor- mation, see Enable or disable reboot migration . See also: AWS ...
+/// Modifies the recovery behavior of your instance to disable simplified automatic recovery or set the recovery behavior to default. The default configuration will not enable simplified automatic recovery for an unsupported instance type. For more information, see Simplified automatic recovery . Modifies the reboot migration behavior during a user-initiated reboot of an instance that has a pending system-reboot event. For more information, see Enable or disable reboot migration . See also: AWS API ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +28,7 @@ public record AwsEc2ModifyInstanceMaintenanceOptionsOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the recovery behavior of your instance to disable simplified automatic recovery or set the recovery behavior to default. The default configuration will not enable simplified automatic recovery for an un- supported instance type. For more information, see Simplified automatic recovery . Modifies the reboot migration behavior during a user-initiated reboot of an instance that has a pending system-reboot event. For more infor- mation, see Enable or disable reboot migration . See also: AWS ...
+    /// Modifies the recovery behavior of your instance to disable simplified automatic recovery or set the recovery behavior to default. The default configuration will not enable simplified automatic recovery for an unsupported instance type. For more information, see Simplified automatic recovery . Modifies the reboot migration behavior during a user-initiated reboot of an instance that has a pending system-reboot event. For more information, see Enable or disable reboot migration . See also: AWS API ...
     /// </summary>
     /// <param name="InstanceId">The ID of the instance.</param>
     public AwsEc2ModifyInstanceMaintenanceOptionsOptions(
@@ -63,19 +65,19 @@ public record AwsEc2ModifyInstanceMaintenanceOptionsOptions : AwsOptions, IValid
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// Disables the automatic recovery behavior of your instance or sets it to default. Possible values: o disabled o default
+    /// Disables the automatic recovery behavior of your instance or sets it to default. Possible values: • disabled • default
     /// </summary>
     [CliOption("--auto-recovery")]
     public AwsEc2ModifyInstanceMaintenanceOptionsAutoRecovery? AutoRecovery { get; set; }
 
     /// <summary>
-    /// Specifies whether to attempt reboot migration during a user-initi- ated reboot of an instance that has a scheduled system-reboot event: o default - Amazon EC2 attempts to migrate the instance to new hard- ware (reboot migration). If successful, the system-reboot event is cleared. If unsuccessful, an in-place reboot occurs and the event remains scheduled. o disabled - Amazon EC2 keeps the instance on the same hardware (in-place reboot). The system-reboot event remains scheduled. This setting only applies to supported instances that have a sched- uled reboot event. For more information, see Enable or disable re- boot migration in the Amazon EC2 User Guide . Possible values: o disabled o default
+    /// Specifies whether to attempt reboot migration during a user-initiated reboot of an instance that has a scheduled system-reboot event: • default - Amazon EC2 attempts to migrate the instance to new hardware (reboot migration). If successful, the system-reboot event is cleared. If unsuccessful, an in-place reboot occurs and the event remains scheduled. • disabled - Amazon EC2 keeps the instance on the same hardware (in-place reboot). The system-reboot event remains scheduled. This setting only applies to supported instances that have a scheduled reboot event. For more information, see Enable or disable reboot migration in the Amazon EC2 User Guide . Possible values: • disabled • default
     /// </summary>
     [CliOption("--reboot-migration")]
     public AwsEc2ModifyInstanceMaintenanceOptionsRebootMigration? RebootMigration { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

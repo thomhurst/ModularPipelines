@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsSsmIncidentsUntagResourceOptions : AwsOptions, IValidatableObje
     /// Removes a tag from a resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the response plan you're removing a tag from.</param>
-    /// <param name="TagKeys">The name of the tag to remove from the response plan. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[A-Za-z0-9 _=@:.+-/]+$ Syntax: "string" "string" ...</param>
+    /// <param name="TagKeys">The name of the tag to remove from the response plan. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[A-Za-z0-9 _=@:.+-/]+$ Syntax: "string" "string" ...</param>
     public AwsSsmIncidentsUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -77,7 +79,7 @@ public record AwsSsmIncidentsUntagResourceOptions : AwsOptions, IValidatableObje
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The name of the tag to remove from the response plan. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[A-Za-z0-9 _=@:.+-/]+$ Syntax: "string" "string" ...
+    /// The name of the tag to remove from the response plan. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[A-Za-z0-9 _=@:.+-/]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

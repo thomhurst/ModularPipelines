@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsMgnRemoveTemplateActionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Remove template post migration custom action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LaunchConfigurationTemplateId">Launch configuration template ID of the post migration custom action to remove. Constraints: o min: 21 o max: 21 o pattern: lct-[0-9a-zA-Z]{17}</param>
-    /// <param name="ActionId">Template post migration custom action ID to remove. Constraints: o min: 1 o max: 64 o pattern: .*[0-9a-zA-Z]</param>
+    /// <param name="LaunchConfigurationTemplateId">Launch configuration template ID of the post migration custom action to remove. Constraints: • min: 21 • max: 21 • pattern: lct-[0-9a-zA-Z]{17}</param>
+    /// <param name="ActionId">Template post migration custom action ID to remove. Constraints: • min: 1 • max: 64 • pattern: .*[0-9a-zA-Z]</param>
     public AwsMgnRemoveTemplateActionOptions(
         string LaunchConfigurationTemplateId,
         string ActionId
@@ -60,13 +62,13 @@ public record AwsMgnRemoveTemplateActionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Launch configuration template ID of the post migration custom action to remove. Constraints: o min: 21 o max: 21 o pattern: lct-[0-9a-zA-Z]{17}
+    /// Launch configuration template ID of the post migration custom action to remove. Constraints: • min: 21 • max: 21 • pattern: lct-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--launch-configuration-template-id")]
     public string? LaunchConfigurationTemplateId { get; private init; }
 
     /// <summary>
-    /// Template post migration custom action ID to remove. Constraints: o min: 1 o max: 64 o pattern: .*[0-9a-zA-Z]
+    /// Template post migration custom action ID to remove. Constraints: • min: 1 • max: 64 • pattern: .*[0-9a-zA-Z]
     /// </summary>
     [CliOption("--action-id")]
     public string? ActionId { get; private init; }

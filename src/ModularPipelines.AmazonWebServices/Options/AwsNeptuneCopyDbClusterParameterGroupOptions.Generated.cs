@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsNeptuneCopyDbClusterParameterGroupOptions : AwsOptions, IValida
     /// <summary>
     /// Copies the specified DB cluster parameter group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceDbClusterParameterGroupIdentifier">The identifier or Amazon Resource Name (ARN) for the source DB clus- ter parameter group. For information about creating an ARN, see Constructing an Amazon Resource Name (ARN) . Constraints: o Must specify a valid DB cluster parameter group. o Must specify a valid DB cluster parameter group identifier, for example my-db-cluster-param-group , or a valid ARN. o The source DB cluster parameter group must be in the same Amazon Region as the copy. Neptune does not support cross-Region copying of parameter groups.</param>
-    /// <param name="TargetDbClusterParameterGroupIdentifier">The identifier for the copied DB cluster parameter group. Constraints: o Cannot be null, empty, or blank o Must contain from 1 to 255 letters, numbers, or hyphens o First character must be a letter o Cannot end with a hyphen or contain two consecutive hyphens Example: my-cluster-param-group1</param>
+    /// <param name="SourceDbClusterParameterGroupIdentifier">The identifier or Amazon Resource Name (ARN) for the source DB cluster parameter group. For information about creating an ARN, see Constructing an Amazon Resource Name (ARN) . Constraints: • Must specify a valid DB cluster parameter group. • Must specify a valid DB cluster parameter group identifier, for example my-db-cluster-param-group , or a valid ARN. • The source DB cluster parameter group must be in the same Amazon Region as the copy. Neptune does not support cross-Region copying of parameter groups.</param>
+    /// <param name="TargetDbClusterParameterGroupIdentifier">The identifier for the copied DB cluster parameter group. Constraints: • Cannot be null, empty, or blank • Must contain from 1 to 255 letters, numbers, or hyphens • First character must be a letter • Cannot end with a hyphen or contain two consecutive hyphens Example: my-cluster-param-group1</param>
     /// <param name="TargetDbClusterParameterGroupDescription">A description for the copied DB cluster parameter group.</param>
     public AwsNeptuneCopyDbClusterParameterGroupOptions(
         string SourceDbClusterParameterGroupIdentifier,
@@ -64,13 +66,13 @@ public record AwsNeptuneCopyDbClusterParameterGroupOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier or Amazon Resource Name (ARN) for the source DB clus- ter parameter group. For information about creating an ARN, see Constructing an Amazon Resource Name (ARN) . Constraints: o Must specify a valid DB cluster parameter group. o Must specify a valid DB cluster parameter group identifier, for example my-db-cluster-param-group , or a valid ARN. o The source DB cluster parameter group must be in the same Amazon Region as the copy. Neptune does not support cross-Region copying of parameter groups.
+    /// The identifier or Amazon Resource Name (ARN) for the source DB cluster parameter group. For information about creating an ARN, see Constructing an Amazon Resource Name (ARN) . Constraints: • Must specify a valid DB cluster parameter group. • Must specify a valid DB cluster parameter group identifier, for example my-db-cluster-param-group , or a valid ARN. • The source DB cluster parameter group must be in the same Amazon Region as the copy. Neptune does not support cross-Region copying of parameter groups.
     /// </summary>
     [CliOption("--source-db-cluster-parameter-group-identifier")]
     public string? SourceDbClusterParameterGroupIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier for the copied DB cluster parameter group. Constraints: o Cannot be null, empty, or blank o Must contain from 1 to 255 letters, numbers, or hyphens o First character must be a letter o Cannot end with a hyphen or contain two consecutive hyphens Example: my-cluster-param-group1
+    /// The identifier for the copied DB cluster parameter group. Constraints: • Cannot be null, empty, or blank • Must contain from 1 to 255 letters, numbers, or hyphens • First character must be a letter • Cannot end with a hyphen or contain two consecutive hyphens Example: my-cluster-param-group1
     /// </summary>
     [CliOption("--target-db-cluster-parameter-group-identifier")]
     public string? TargetDbClusterParameterGroupIdentifier { get; private init; }

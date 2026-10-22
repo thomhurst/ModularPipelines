@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the specified notify configurations or all notify configura- tions in your account. If you specify notify configuration IDs, the output includes informa- tion for only the specified notify configurations. If you specify fil- ters, the output includes information for only those notify configura- tions that meet the filter criteria. If you don't specify notify con- figuration IDs or filters, the output includes information for all no- tify configurations. If you specify a notify configur...
+/// Describes the specified notify configurations or all notify configurations in your account. If you specify notify configuration IDs, the output includes information for only the specified notify configurations. If you specify filters, the output includes information for only those notify configurations that meet the filter criteria. If you don't specify notify configuration IDs or filters, the output includes information for all notify configurations. If you specify a notify configuration ID tha...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,22 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsPinpointSmsVoiceV2DescribeNotifyConfigurationsOptions : AwsOptions
 {
     /// <summary>
-    /// An array of notify configuration IDs to describe. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+ Syntax: "string" "string" ...
+    /// An array of notify configuration IDs to describe. Constraints: • min: 0 • max: 5 (string) Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--notify-configuration-ids", GroupValues = true)]
     public IEnumerable<string>? NotifyConfigurationIds { get; set; }
 
     /// <summary>
-    /// An array of NotifyConfigurationFilter objects to filter the results on. Constraints: o min: 0 o max: 20 (structure) The information for notify configurations that meet a specified criteria. Name -&gt; (string) [required] The name of the attribute to filter on. Possible values: o display-name o enabled-countries o enabled-channels o default-template o default-pool o use-case o status o deletion-protection-enabled o tier-upgrade-status Values -&gt; (list) [required] An array values to filter for. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 128 o pattern: [/\.:A-Za-z0-9+_-]+ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "display-name"|"enabled-countries"|"enabled-channels"|"default-template"|"default-pool"|"use-case"|"status"|"deletion-protection-enabled"|"tier-upgrade-status", "Values": ["string", ...] } ... ]
+    /// An array of NotifyConfigurationFilter objects to filter the results on. Constraints: • min: 0 • max: 20 (structure) The information for notify configurations that meet a specified criteria. Name -&gt; (string) [required] The name of the attribute to filter on. Possible values: • display-name • enabled-countries • enabled-channels • default-template • default-pool • use-case • status • deletion-protection-enabled • tier-upgrade-status Values -&gt; (list) [required] An array values to filter for. Constraints: • min: 1 • max: 20 (string) Constraints: • min: 1 • max: 128 • pattern: [/\.:A-Za-z0-9+_-]+ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "display-name"|"enabled-countries"|"enabled-channels"|"default-template"|"default-pool"|"use-case"|"status"|"deletion-protection-enabled"|"tier-upgrade-status", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -48,15 +45,18 @@ public record AwsPinpointSmsVoiceV2DescribeNotifyConfigurationsOptions : AwsOpti
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

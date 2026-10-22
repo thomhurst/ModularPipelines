@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the metadata for the rule groups that you have defined. De- pending on your setting for max results and the number of rule groups, a single call might not return the full list. See also: AWS API Documentation list-rule-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --que...
+/// Retrieves the metadata for the rule groups that you have defined. Depending on your setting for max results and the number of rule groups, a single call might not return the full list. See also: AWS API Documentation list-rule-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,34 +24,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsNetworkFirewallListRuleGroupsOptions : AwsOptions
 {
     /// <summary>
-    /// The scope of the request. The default setting of ACCOUNT or a set- ting of NULL returns all of the rule groups in your account. A set- ting of MANAGED returns all available managed rule groups. Possible values: o MANAGED o ACCOUNT
+    /// The scope of the request. The default setting of ACCOUNT or a setting of NULL returns all of the rule groups in your account. A setting of MANAGED returns all available managed rule groups. Possible values: • MANAGED • ACCOUNT
     /// </summary>
     [CliOption("--scope")]
     public AwsNetworkFirewallListRuleGroupsScope? Scope { get; set; }
 
     /// <summary>
-    /// Indicates the general category of the Amazon Web Services managed rule group. Possible values: o AWS_MANAGED_THREAT_SIGNATURES o AWS_MANAGED_DOMAIN_LISTS o ACTIVE_THREAT_DEFENSE o PARTNER_MANAGED
+    /// Indicates the general category of the Amazon Web Services managed rule group. Possible values: • AWS_MANAGED_THREAT_SIGNATURES • AWS_MANAGED_DOMAIN_LISTS • ACTIVE_THREAT_DEFENSE • PARTNER_MANAGED
     /// </summary>
     [CliOption("--managed-type")]
     public AwsNetworkFirewallListRuleGroupsManagedType? ManagedType { get; set; }
 
     /// <summary>
-    /// Filters the results to show only rule groups with the specified sub- scription status. Use this to find subscribed or unsubscribed rule groups. Possible values: o NOT_SUBSCRIBED o SUBSCRIBED
+    /// Filters the results to show only rule groups with the specified subscription status. Use this to find subscribed or unsubscribed rule groups. Possible values: • NOT_SUBSCRIBED • SUBSCRIBED
     /// </summary>
     [CliOption("--subscription-status")]
     public AwsNetworkFirewallListRuleGroupsSubscriptionStatus? SubscriptionStatus { get; set; }
 
     /// <summary>
-    /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains stateless rules. If it is stateful, it contains stateful rules. Possible values: o STATELESS o STATEFUL o STATEFUL_DOMAIN
+    /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains stateless rules. If it is stateful, it contains stateful rules. Possible values: • STATELESS • STATEFUL • STATEFUL_DOMAIN
     /// </summary>
     [CliOption("--type")]
     public AwsNetworkFirewallListRuleGroupsType? Type { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -61,15 +58,18 @@ public record AwsNetworkFirewallListRuleGroupsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

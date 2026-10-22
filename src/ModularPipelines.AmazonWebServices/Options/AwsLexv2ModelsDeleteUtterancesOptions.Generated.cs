@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes stored utterances. Amazon Lex stores the utterances that users send to your bot. Utter- ances are stored for 15 days for use with the ListAggregatedUtterances operation, and then stored indefinitely for use in improving the abil- ity of your bot to respond to user input.. Use the DeleteUtterances operation to manually delete utterances for a specific session. When you use the DeleteUtterances operation, utter- ances stored for improving your bot's ability to respond to user input are del...
+/// Deletes stored utterances. Amazon Lex stores the utterances that users send to your bot. Utterances are stored for 15 days for use with the ListAggregatedUtterances operation, and then stored indefinitely for use in improving the ability of your bot to respond to user input.. Use the DeleteUtterances operation to manually delete utterances for a specific session. When you use the DeleteUtterances operation, utterances stored for improving your bot's ability to respond to user input are deleted i...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLexv2ModelsDeleteUtterancesOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes stored utterances. Amazon Lex stores the utterances that users send to your bot. Utter- ances are stored for 15 days for use with the ListAggregatedUtterances operation, and then stored indefinitely for use in improving the abil- ity of your bot to respond to user input.. Use the DeleteUtterances operation to manually delete utterances for a specific session. When you use the DeleteUtterances operation, utter- ances stored for improving your bot's ability to respond to user input are del...
+    /// Deletes stored utterances. Amazon Lex stores the utterances that users send to your bot. Utterances are stored for 15 days for use with the ListAggregatedUtterances operation, and then stored indefinitely for use in improving the ability of your bot to respond to user input.. Use the DeleteUtterances operation to manually delete utterances for a specific session. When you use the DeleteUtterances operation, utterances stored for improving your bot's ability to respond to user input are deleted i...
     /// </summary>
-    /// <param name="BotId">The unique identifier of the bot that contains the utterances. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotId">The unique identifier of the bot that contains the utterances. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
     public AwsLexv2ModelsDeleteUtterancesOptions(
         string BotId
     )
@@ -56,7 +58,7 @@ public record AwsLexv2ModelsDeleteUtterancesOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the bot that contains the utterances. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier of the bot that contains the utterances. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
@@ -68,7 +70,7 @@ public record AwsLexv2ModelsDeleteUtterancesOptions : AwsOptions, IValidatableOb
     public string? LocaleId { get; set; }
 
     /// <summary>
-    /// The unique identifier of the session with the user. The ID is re- turned in the response from the RecognizeText and RecognizeUtterance operations. Constraints: o min: 2 o max: 100 o pattern: [0-9a-zA-Z._:-]+
+    /// The unique identifier of the session with the user. The ID is returned in the response from the RecognizeText and RecognizeUtterance operations. Constraints: • min: 2 • max: 100 • pattern: [0-9a-zA-Z._:-]+
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +29,10 @@ public record AwsCodecatalystStopDevEnvironmentSessionOptions : AwsOptions, IVal
     /// <summary>
     /// Stops a session for a specified Dev Environment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SpaceName">The name of the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*</param>
-    /// <param name="ProjectName">The name of the project in the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*</param>
-    /// <param name="Id">The system-generated unique ID of the Dev Environment. To obtain this ID, use ListDevEnvironments . Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</param>
-    /// <param name="SessionId">The system-generated unique ID of the Dev Environment session. This ID is returned by StartDevEnvironmentSession . Constraints: o min: 1 o max: 96</param>
+    /// <param name="SpaceName">The name of the space. Constraints: • min: 3 • max: 63 • pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*</param>
+    /// <param name="ProjectName">The name of the project in the space. Constraints: • min: 3 • max: 63 • pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*</param>
+    /// <param name="Id">The system-generated unique ID of the Dev Environment. To obtain this ID, use ListDevEnvironments . Constraints: • pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</param>
+    /// <param name="SessionId">The system-generated unique ID of the Dev Environment session. This ID is returned by StartDevEnvironmentSession . Constraints: • min: 1 • max: 96</param>
     public AwsCodecatalystStopDevEnvironmentSessionOptions(
         string SpaceName,
         string ProjectName,
@@ -68,25 +70,25 @@ public record AwsCodecatalystStopDevEnvironmentSessionOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
+    /// The name of the space. Constraints: • min: 3 • max: 63 • pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--space-name")]
     public string? SpaceName { get; private init; }
 
     /// <summary>
-    /// The name of the project in the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
+    /// The name of the project in the space. Constraints: • min: 3 • max: 63 • pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--project-name")]
     public string? ProjectName { get; private init; }
 
     /// <summary>
-    /// The system-generated unique ID of the Dev Environment. To obtain this ID, use ListDevEnvironments . Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
+    /// The system-generated unique ID of the Dev Environment. To obtain this ID, use ListDevEnvironments . Constraints: • pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The system-generated unique ID of the Dev Environment session. This ID is returned by StartDevEnvironmentSession . Constraints: o min: 1 o max: 96
+    /// The system-generated unique ID of the Dev Environment session. This ID is returned by StartDevEnvironmentSession . Constraints: • min: 1 • max: 96
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }

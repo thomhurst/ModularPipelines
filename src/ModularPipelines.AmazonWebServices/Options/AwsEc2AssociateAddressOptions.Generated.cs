@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates an Elastic IP address, or carrier IP address (for instances that are in subnets in Wavelength Zones) with an instance or a network interface. Before you can use an Elastic IP address, you must allocate it to your account. If the Elastic IP address is already associated with a different in- stance, it is disassociated from that instance and associated with the specified instance. If you associate an Elastic IP address with an in- stance that has an existing Elastic IP address, the exis...
+/// Associates an Elastic IP address, or carrier IP address (for instances that are in subnets in Wavelength Zones) with an instance or a network interface. Before you can use an Elastic IP address, you must allocate it to your account. If the Elastic IP address is already associated with a different instance, it is disassociated from that instance and associated with the specified instance. If you associate an Elastic IP address with an instance that has an existing Elastic IP address, the existing...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -40,7 +40,7 @@ public record AwsEc2AssociateAddressOptions : AwsOptions
     public string? PublicIp { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -52,7 +52,7 @@ public record AwsEc2AssociateAddressOptions : AwsOptions
     public string? NetworkInterfaceId { get; set; }
 
     /// <summary>
-    /// The primary or secondary private IP address to associate with the Elastic IP address. If no private IP address is specified, the Elas- tic IP address is associated with the primary private IP address.
+    /// The primary or secondary private IP address to associate with the Elastic IP address. If no private IP address is specified, the Elastic IP address is associated with the primary private IP address.
     /// </summary>
     [CliOption("--private-ip-address")]
     public string? PrivateIpAddress { get; set; }

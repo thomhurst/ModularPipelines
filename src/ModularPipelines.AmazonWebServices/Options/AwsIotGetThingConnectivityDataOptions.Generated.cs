@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotGetThingConnectivityDataOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Retrieves the live connectivity status per device. If a device has never connected to IoT Core or was disconnected for more than 1 hour before fleet indexing's thingConnectivityIndexingMode was enabled, the response will have the connected field set to false with no additional session details. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ThingName">The name of your IoT thing. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+</param>
+    /// <param name="ThingName">The name of your IoT thing. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+</param>
     public AwsIotGetThingConnectivityDataOptions(
         string ThingName
     )
@@ -56,13 +58,13 @@ public record AwsIotGetThingConnectivityDataOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of your IoT thing. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The name of your IoT thing. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--thing-name")]
     public string? ThingName { get; private init; }
 
     /// <summary>
-    /// Specifies if socket information (sourcePort, targetPort, sourceIp, targetIp, vpcEndpointId) should be included in the GetThingConnec- tivityData response. Set to true to include socket information. Set to false to omit socket information. By default, this is set to false .
+    /// Specifies if socket information (sourcePort, targetPort, sourceIp, targetIp, vpcEndpointId) should be included in the GetThingConnectivityData response. Set to true to include socket information. Set to false to omit socket information. By default, this is set to false .
     /// </summary>
     [CliFlag("--include-socket-information", NegatedName = "--no-include-socket-information")]
     public bool? IncludeSocketInformation { get; set; }

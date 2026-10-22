@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets information about an advanced prompt optimization job. See also: AWS API Documentation get-advanced-prompt-optimization-job uses document type values. Docu- ment types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, op- tions and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+/// Gets information about an advanced prompt optimization job. See also: AWS API Documentation get-advanced-prompt-optimization-job uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsBedrockGetAdvancedPromptOptimizationJobOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets information about an advanced prompt optimization job. See also: AWS API Documentation get-advanced-prompt-optimization-job uses document type values. Docu- ment types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, op- tions and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Gets information about an advanced prompt optimization job. See also: AWS API Documentation get-advanced-prompt-optimization-job uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="JobIdentifier">The ARN or ID of the advanced prompt optimization job. Constraints: o min: 0 o max: 1011 o pattern: ((arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:ad- vanced-prompt-optimization-job/)?[a-z0-9]{12})</param>
+    /// <param name="JobIdentifier">The ARN or ID of the advanced prompt optimization job. Constraints: • min: 0 • max: 1011 • pattern: ((arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:advanced-prompt-optimization-job/)?[a-z0-9]{12})</param>
     public AwsBedrockGetAdvancedPromptOptimizationJobOptions(
         string JobIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsBedrockGetAdvancedPromptOptimizationJobOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN or ID of the advanced prompt optimization job. Constraints: o min: 0 o max: 1011 o pattern: ((arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:ad- vanced-prompt-optimization-job/)?[a-z0-9]{12})
+    /// The ARN or ID of the advanced prompt optimization job. Constraints: • min: 0 • max: 1011 • pattern: ((arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:advanced-prompt-optimization-job/)?[a-z0-9]{12})
     /// </summary>
     [CliOption("--job-identifier")]
     public string? JobIdentifier { get; private init; }

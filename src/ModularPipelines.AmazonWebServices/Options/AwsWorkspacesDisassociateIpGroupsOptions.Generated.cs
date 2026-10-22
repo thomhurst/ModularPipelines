@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsWorkspacesDisassociateIpGroupsOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Disassociates the specified IP access control group from the specified directory. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The identifier of the directory. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)</param>
-    /// <param name="GroupIds">The identifiers of one or more IP access control groups. (string) Constraints: o pattern: wsipg-[0-9a-z]{8,63}$ Syntax: "string" "string" ...</param>
+    /// <param name="DirectoryId">The identifier of the directory. Constraints: • min: 10 • max: 65 • pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)</param>
+    /// <param name="GroupIds">The identifiers of one or more IP access control groups. (string) Constraints: • pattern: wsipg-[0-9a-z]{8,63}$ Syntax: "string" "string" ...</param>
     public AwsWorkspacesDisassociateIpGroupsOptions(
         string DirectoryId,
         IEnumerable<string> GroupIds
@@ -71,13 +73,13 @@ public record AwsWorkspacesDisassociateIpGroupsOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the directory. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)
+    /// The identifier of the directory. Constraints: • min: 10 • max: 65 • pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// The identifiers of one or more IP access control groups. (string) Constraints: o pattern: wsipg-[0-9a-z]{8,63}$ Syntax: "string" "string" ...
+    /// The identifiers of one or more IP access control groups. (string) Constraints: • pattern: wsipg-[0-9a-z]{8,63}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--group-ids", GroupValues = true)]
     public IEnumerable<string>? GroupIds { get; private init; }

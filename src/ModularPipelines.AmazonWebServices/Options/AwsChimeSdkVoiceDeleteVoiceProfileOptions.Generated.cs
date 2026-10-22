@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsChimeSdkVoiceDeleteVoiceProfileOptions : AwsOptions, IValidatab
     /// <summary>
     /// Deletes a voice profile, including its voice print and enrollment data. WARNING: This action is not reversible. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VoiceProfileId">The voice profile ID. Constraints: o min: 1 o max: 256 o pattern: .*\S.*</param>
+    /// <param name="VoiceProfileId">The voice profile ID. Constraints: • min: 1 • max: 256 • pattern: .*\S.*</param>
     public AwsChimeSdkVoiceDeleteVoiceProfileOptions(
         string VoiceProfileId
     )
@@ -56,7 +58,7 @@ public record AwsChimeSdkVoiceDeleteVoiceProfileOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The voice profile ID. Constraints: o min: 1 o max: 256 o pattern: .*\S.*
+    /// The voice profile ID. Constraints: • min: 1 • max: 256 • pattern: .*\S.*
     /// </summary>
     [CliOption("--voice-profile-id")]
     public string? VoiceProfileId { get; private init; }

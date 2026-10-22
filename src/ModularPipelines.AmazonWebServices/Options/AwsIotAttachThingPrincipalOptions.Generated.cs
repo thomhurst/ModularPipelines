@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Attaches the specified principal to the specified thing. A principal can be X.509 certificates, Amazon Cognito identities or federated iden- tities. Requires permission to access the AttachThingPrincipal action. See also: AWS API Documentation
+/// Attaches the specified principal to the specified thing. A principal can be X.509 certificates, Amazon Cognito identities or federated identities. Requires permission to access the AttachThingPrincipal action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsIotAttachThingPrincipalOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Attaches the specified principal to the specified thing. A principal can be X.509 certificates, Amazon Cognito identities or federated iden- tities. Requires permission to access the AttachThingPrincipal action. See also: AWS API Documentation
+    /// Attaches the specified principal to the specified thing. A principal can be X.509 certificates, Amazon Cognito identities or federated identities. Requires permission to access the AttachThingPrincipal action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ThingName">The name of the thing. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+</param>
+    /// <param name="ThingName">The name of the thing. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+</param>
     /// <param name="Principal">The principal, which can be a certificate ARN (as returned from the CreateCertificate operation) or an Amazon Cognito ID.</param>
     public AwsIotAttachThingPrincipalOptions(
         string ThingName,
@@ -61,7 +63,7 @@ public record AwsIotAttachThingPrincipalOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the thing. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The name of the thing. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--thing-name")]
     public string? ThingName { get; private init; }
@@ -73,7 +75,7 @@ public record AwsIotAttachThingPrincipalOptions : AwsOptions, IValidatableObject
     public string? Principal { get; private init; }
 
     /// <summary>
-    /// The type of the relation you want to specify when you attach a prin- cipal to a thing. o EXCLUSIVE_THING - Attaches the specified principal to the speci- fied thing, exclusively. The thing will be the only thing thats attached to the principal. o NON_EXCLUSIVE_THING - Attaches the specified principal to the specified thing. Multiple things can be attached to the principal. Possible values: o EXCLUSIVE_THING o NON_EXCLUSIVE_THING
+    /// The type of the relation you want to specify when you attach a principal to a thing. • EXCLUSIVE_THING - Attaches the specified principal to the specified thing, exclusively. The thing will be the only thing thats attached to the principal. • NON_EXCLUSIVE_THING - Attaches the specified principal to the specified thing. Multiple things can be attached to the principal. Possible values: • EXCLUSIVE_THING • NON_EXCLUSIVE_THING
     /// </summary>
     [CliOption("--thing-principal-type")]
     public AwsIotAttachThingPrincipalThingPrincipalType? ThingPrincipalType { get; set; }

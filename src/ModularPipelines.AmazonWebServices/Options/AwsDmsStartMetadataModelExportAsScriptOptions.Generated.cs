@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Queues an export of metadata models (database objects such as tables, views, and procedures) as a data definition language (DDL) script. The script is stored as a ZIP archive in the Amazon S3 bucket associated with the migration project. If other requests created by Start* opera- tions are already in the migration project's queue, the export begins after they complete. When exporting from the target metadata tree, the export applies only to metadata models created by conversion. Metadata models ...
+/// Queues an export of metadata models (database objects such as tables, views, and procedures) as a data definition language (DDL) script. The script is stored as a ZIP archive in the Amazon S3 bucket associated with the migration project. If other requests created by Start* operations are already in the migration project's queue, the export begins after they complete. When exporting from the target metadata tree, the export applies only to metadata models created by conversion. Metadata models im...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsDmsStartMetadataModelExportAsScriptOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Queues an export of metadata models (database objects such as tables, views, and procedures) as a data definition language (DDL) script. The script is stored as a ZIP archive in the Amazon S3 bucket associated with the migration project. If other requests created by Start* opera- tions are already in the migration project's queue, the export begins after they complete. When exporting from the target metadata tree, the export applies only to metadata models created by conversion. Metadata models ...
+    /// Queues an export of metadata models (database objects such as tables, views, and procedures) as a data definition language (DDL) script. The script is stored as a ZIP archive in the Amazon S3 bucket associated with the migration project. If other requests created by Start* operations are already in the migration project's queue, the export begins after they complete. When exporting from the target metadata tree, the export applies only to metadata models created by conversion. Metadata models im...
     /// </summary>
-    /// <param name="MigrationProjectIdentifier">The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255</param>
-    /// <param name="SelectionRules">A JSON string that identifies the metadata models to export as a SQL script. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: o Accepts source or target selection rules depending on the Origin parameter. The server-name in the object locator must match the corresponding data provider. o Supports explicit , include , and exclude rule actions.</param>
-    /// <param name="Origin">Specifies the metadata tree to export from. Possible values: o SOURCE o TARGET</param>
+    /// <param name="MigrationProjectIdentifier">The migration project name or Amazon Resource Name (ARN). Constraints: • max: 255</param>
+    /// <param name="SelectionRules">A JSON string that identifies the metadata models to export as a SQL script. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: • Accepts source or target selection rules depending on the Origin parameter. The server-name in the object locator must match the corresponding data provider. • Supports explicit , include , and exclude rule actions.</param>
+    /// <param name="Origin">Specifies the metadata tree to export from. Possible values: • SOURCE • TARGET</param>
     public AwsDmsStartMetadataModelExportAsScriptOptions(
         string MigrationProjectIdentifier,
         string SelectionRules,
@@ -64,19 +66,19 @@ public record AwsDmsStartMetadataModelExportAsScriptOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255
+    /// The migration project name or Amazon Resource Name (ARN). Constraints: • max: 255
     /// </summary>
     [CliOption("--migration-project-identifier")]
     public string? MigrationProjectIdentifier { get; private init; }
 
     /// <summary>
-    /// A JSON string that identifies the metadata models to export as a SQL script. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: o Accepts source or target selection rules depending on the Origin parameter. The server-name in the object locator must match the corresponding data provider. o Supports explicit , include , and exclude rule actions.
+    /// A JSON string that identifies the metadata models to export as a SQL script. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: • Accepts source or target selection rules depending on the Origin parameter. The server-name in the object locator must match the corresponding data provider. • Supports explicit , include , and exclude rule actions.
     /// </summary>
     [CliOption("--selection-rules")]
     public string? SelectionRules { get; private init; }
 
     /// <summary>
-    /// Specifies the metadata tree to export from. Possible values: o SOURCE o TARGET
+    /// Specifies the metadata tree to export from. Possible values: • SOURCE • TARGET
     /// </summary>
     [CliOption("--origin")]
     public AwsDmsStartMetadataModelExportAsScriptOrigin? Origin { get; private init; }

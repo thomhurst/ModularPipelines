@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsXrayCreateGroupOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a group resource with a name and a filter expression. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GroupName">The case-sensitive name of the new group. Default is a reserved name and names must be unique. Constraints: o min: 1 o max: 32</param>
+    /// <param name="GroupName">The case-sensitive name of the new group. Default is a reserved name and names must be unique. Constraints: • min: 1 • max: 32</param>
     public AwsXrayCreateGroupOptions(
         string GroupName
     )
@@ -56,7 +58,7 @@ public record AwsXrayCreateGroupOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The case-sensitive name of the new group. Default is a reserved name and names must be unique. Constraints: o min: 1 o max: 32
+    /// The case-sensitive name of the new group. Default is a reserved name and names must be unique. Constraints: • min: 1 • max: 32
     /// </summary>
     [CliOption("--group-name")]
     public string? GroupName { get; private init; }
@@ -68,13 +70,13 @@ public record AwsXrayCreateGroupOptions : AwsOptions, IValidatableObject
     public string? FilterExpression { get; set; }
 
     /// <summary>
-    /// The structure containing configurations related to insights. o The InsightsEnabled boolean can be set to true to enable insights for the new group or false to disable insights for the new group. o The NotificationsEnabled boolean can be set to true to enable in- sights notifications for the new group. Notifications may only be enabled on a group with InsightsEnabled set to true. InsightsEnabled -&gt; (boolean) Set the InsightsEnabled value to true to enable insights or false to disable insights. NotificationsEnabled -&gt; (boolean) Set the NotificationsEnabled value to true to enable insights notifications. Notifications can only be enabled on a group with InsightsEnabled set to true. Shorthand Syntax: InsightsEnabled=boolean,NotificationsEnabled=boolean JSON Syntax: { "InsightsEnabled": true|false, "NotificationsEnabled": true|false }
+    /// The structure containing configurations related to insights. • The InsightsEnabled boolean can be set to true to enable insights for the new group or false to disable insights for the new group. • The NotificationsEnabled boolean can be set to true to enable insights notifications for the new group. Notifications may only be enabled on a group with InsightsEnabled set to true. InsightsEnabled -&gt; (boolean) Set the InsightsEnabled value to true to enable insights or false to disable insights. NotificationsEnabled -&gt; (boolean) Set the NotificationsEnabled value to true to enable insights notifications. Notifications can only be enabled on a group with InsightsEnabled set to true. Shorthand Syntax: InsightsEnabled=boolean,NotificationsEnabled=boolean JSON Syntax: { "InsightsEnabled": true|false, "NotificationsEnabled": true|false }
     /// </summary>
     [CliOption("--insights-configuration")]
     public string? InsightsConfiguration { get; set; }
 
     /// <summary>
-    /// A map that contains one or more tag keys and tag values to attach to an X-Ray group. For more information about ways to use tags, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference . The following restrictions apply to tags: o Maximum number of user-applied tags per resource: 50 o Maximum tag key length: 128 Unicode characters o Maximum tag value length: 256 Unicode characters o Valid values for key and value: a-z, A-Z, 0-9, space, and the fol- lowing characters: _ . : / = + - and @ o Tag keys and values are case sensitive. o Don't use aws: as a prefix for keys; it's reserved for Amazon Web Services use. Constraints: o min: 0 o max: 200 (structure) A map that contains tag keys and tag values to attach to an Ama- zon Web Services X-Ray group or sampling rule. For more informa- tion about ways to use tags, see Tagging Amazon Web Services re- sources in the Amazon Web Services General Reference . The following restrictions apply to tags: o Maximum number of user-applied tags per resource: 50 o Tag keys and values are case sensitive. o Don't use aws: as a prefix for keys; it's reserved for Amazon Web Services use. You cannot edit or delete system tags. Key -&gt; (string) [required] A tag key, such as Stage or Name . A tag key cannot be empty. The key can be a maximum of 128 characters, and can contain only Unicode letters, numbers, or separators, or the follow- ing special characters: + - = . _ : / Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] An optional tag value, such as Production or test-only . The value can be a maximum of 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : / Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A map that contains one or more tag keys and tag values to attach to an X-Ray group. For more information about ways to use tags, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference . The following restrictions apply to tags: • Maximum number of user-applied tags per resource: 50 • Maximum tag key length: 128 Unicode characters • Maximum tag value length: 256 Unicode characters • Valid values for key and value: a-z, A-Z, 0-9, space, and the following characters: _ . : / = + - and @ • Tag keys and values are case sensitive. • Don't use aws: as a prefix for keys; it's reserved for Amazon Web Services use. Constraints: • min: 0 • max: 200 (structure) A map that contains tag keys and tag values to attach to an Amazon Web Services X-Ray group or sampling rule. For more information about ways to use tags, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference . The following restrictions apply to tags: • Maximum number of user-applied tags per resource: 50 • Tag keys and values are case sensitive. • Don't use aws: as a prefix for keys; it's reserved for Amazon Web Services use. You cannot edit or delete system tags. Key -&gt; (string) [required] A tag key, such as Stage or Name . A tag key cannot be empty. The key can be a maximum of 128 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : / Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] An optional tag value, such as Production or test-only . The value can be a maximum of 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : / Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

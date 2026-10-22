@@ -24,20 +24,20 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCodebuildRetryBuildBatchOptions : AwsOptions
 {
     /// <summary>
-    /// Specifies the identifier of the batch build to restart. Constraints: o min: 1
+    /// Specifies the identifier of the batch build to restart. Constraints: • min: 1
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; set; }
 
     /// <summary>
-    /// A unique, case sensitive identifier you provide to ensure the idem- potency of the RetryBuildBatch request. The token is included in the RetryBuildBatch request and is valid for five minutes. If you repeat the RetryBuildBatch request with the same token, but change a para- meter, CodeBuild returns a parameter mismatch error.
+    /// A unique, case sensitive identifier you provide to ensure the idempotency of the RetryBuildBatch request. The token is included in the RetryBuildBatch request and is valid for five minutes. If you repeat the RetryBuildBatch request with the same token, but change a parameter, CodeBuild returns a parameter mismatch error.
     /// </summary>
     [SecretValue]
     [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
 
     /// <summary>
-    /// Specifies the type of retry to perform. Possible values: o RETRY_ALL_BUILDS o RETRY_FAILED_BUILDS
+    /// Specifies the type of retry to perform. Possible values: • RETRY_ALL_BUILDS • RETRY_FAILED_BUILDS
     /// </summary>
     [CliOption("--retry-type")]
     public AwsCodebuildRetryBuildBatchRetryType? RetryType { get; set; }

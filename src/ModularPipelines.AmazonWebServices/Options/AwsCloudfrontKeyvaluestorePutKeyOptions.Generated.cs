@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsCloudfrontKeyvaluestorePutKeyOptions : AwsOptions, IValidatable
     /// <summary>
     /// Creates a new key value pair or replaces the value of an existing key. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Key">The key to put. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="Key">The key to put. Constraints: • min: 1 • max: 1024</param>
     /// <param name="Value">The value to put.</param>
-    /// <param name="KvsArn">The Amazon Resource Name (ARN) of the Key Value Store. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="KvsArn">The Amazon Resource Name (ARN) of the Key Value Store. Constraints: • min: 1 • max: 2048</param>
     /// <param name="IfMatch">The current version (ETag) of the Key Value Store that you are putting keys into, which you can get using DescribeKeyValueStore.</param>
     public AwsCloudfrontKeyvaluestorePutKeyOptions(
         string Key,
@@ -68,7 +70,7 @@ public record AwsCloudfrontKeyvaluestorePutKeyOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The key to put. Constraints: o min: 1 o max: 1024
+    /// The key to put. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--key")]
     public string? Key { get; private init; }
@@ -80,7 +82,7 @@ public record AwsCloudfrontKeyvaluestorePutKeyOptions : AwsOptions, IValidatable
     public string? Value { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Key Value Store. Constraints: o min: 1 o max: 2048
+    /// The Amazon Resource Name (ARN) of the Key Value Store. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--kvs-arn")]
     public string? KvsArn { get; private init; }

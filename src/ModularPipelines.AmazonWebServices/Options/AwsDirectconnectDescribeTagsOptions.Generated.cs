@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the tags associated with the specified Direct Connect re- sources. See also: AWS API Documentation
+/// Describes the tags associated with the specified Direct Connect resources. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsDirectconnectDescribeTagsOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes the tags associated with the specified Direct Connect re- sources. See also: AWS API Documentation
+    /// Describes the tags associated with the specified Direct Connect resources. See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceArns">The Amazon Resource Names (ARNs) of the resources. (string) Syntax: "string" "string" ...</param>
     public AwsDirectconnectDescribeTagsOptions(

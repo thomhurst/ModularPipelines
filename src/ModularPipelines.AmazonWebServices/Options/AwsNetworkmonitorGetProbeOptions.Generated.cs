@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the details about a probe. This action requires both the moni- torName and probeId parameters. Run ListMonitors to get a list of moni- tor names. Run GetMonitor to get a list of probes and probe IDs. See also: AWS API Documentation
+/// Returns the details about a probe. This action requires both the monitorName and probeId parameters. Run ListMonitors to get a list of monitor names. Run GetMonitor to get a list of probes and probe IDs. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsNetworkmonitorGetProbeOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the details about a probe. This action requires both the moni- torName and probeId parameters. Run ListMonitors to get a list of moni- tor names. Run GetMonitor to get a list of probes and probe IDs. See also: AWS API Documentation
+    /// Returns the details about a probe. This action requires both the monitorName and probeId parameters. Run ListMonitors to get a list of monitor names. Run GetMonitor to get a list of probes and probe IDs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MonitorName">The name of the monitor associated with the probe. Run ListMonitors to get a list of monitor names. Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="ProbeId">The ID of the probe to get information about. Run GetMonitor action to get a list of probes and probe IDs for the monitor. Constraints: o pattern: probe-[a-z0-9A-Z-]{21,64}</param>
+    /// <param name="MonitorName">The name of the monitor associated with the probe. Run ListMonitors to get a list of monitor names. Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ProbeId">The ID of the probe to get information about. Run GetMonitor action to get a list of probes and probe IDs for the monitor. Constraints: • pattern: probe-[a-z0-9A-Z-]{21,64}</param>
     public AwsNetworkmonitorGetProbeOptions(
         string MonitorName,
         string ProbeId
@@ -60,13 +62,13 @@ public record AwsNetworkmonitorGetProbeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the monitor associated with the probe. Run ListMonitors to get a list of monitor names. Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9_-]+
+    /// The name of the monitor associated with the probe. Run ListMonitors to get a list of monitor names. Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--monitor-name")]
     public string? MonitorName { get; private init; }
 
     /// <summary>
-    /// The ID of the probe to get information about. Run GetMonitor action to get a list of probes and probe IDs for the monitor. Constraints: o pattern: probe-[a-z0-9A-Z-]{21,64}
+    /// The ID of the probe to get information about. Run GetMonitor action to get a list of probes and probe IDs for the monitor. Constraints: • pattern: probe-[a-z0-9A-Z-]{21,64}
     /// </summary>
     [CliOption("--probe-id")]
     public string? ProbeId { get; private init; }

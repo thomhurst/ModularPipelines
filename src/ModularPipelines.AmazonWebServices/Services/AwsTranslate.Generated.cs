@@ -32,7 +32,7 @@ public class AwsTranslate : IAwsTranslate
     #region Commands
 
     /// <summary>
-    /// Creates a parallel data resource in Amazon Translate by importing an input file from Amazon S3. Parallel data files contain examples that show how you want segments of text to be translated. By adding parallel data, you can influence the style, tone, and word choice in your trans- lation output. See also: AWS API Documentation
+    /// Creates a parallel data resource in Amazon Translate by importing an input file from Amazon S3. Parallel data files contain examples that show how you want segments of text to be translated. By adding parallel data, you can influence the style, tone, and word choice in your translation output. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsTranslate : IAwsTranslate
     }
 
     /// <summary>
-    /// Gets the properties associated with an asynchronous batch translation job including name, ID, status, source and target languages, input/out- put S3 buckets, and so on. See also: AWS API Documentation
+    /// Gets the properties associated with an asynchronous batch translation job including name, ID, status, source and target languages, input/output S3 buckets, and so on. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsTranslate : IAwsTranslate
     }
 
     /// <summary>
-    /// Creates or updates a custom terminology, depending on whether one al- ready exists for the given terminology name. Importing a terminology with the same name as an existing one will merge the terminologies based on the chosen merge strategy. The only supported merge strategy is OVERWRITE, where the imported terminology overwrites the existing terminology of the same name. If you import a terminology that overwrites an existing one, the new terminology takes up to 10 minutes to fully propagate. A...
+    /// Creates or updates a custom terminology, depending on whether one already exists for the given terminology name. Importing a terminology with the same name as an existing one will merge the terminologies based on the chosen merge strategy. The only supported merge strategy is OVERWRITE, where the imported terminology overwrites the existing terminology of the same name. If you import a terminology that overwrites an existing one, the new terminology takes up to 10 minutes to fully propagate. Aft...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsTranslate : IAwsTranslate
     }
 
     /// <summary>
-    /// Stops an asynchronous batch translation job that is in progress. If the job's state is IN_PROGRESS , the job will be marked for termina- tion and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state. Otherwise, the job is put into the STOPPED state. Asynchronous batch translation jobs are started with the StartText- TranslationJob operation. You can use the DescribeTextTranslationJob or ListTextTranslationJobs operations to get a ba...
+    /// Stops an asynchronous batch translation job that is in progress. If the job's state is IN_PROGRESS , the job will be marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state. Otherwise, the job is put into the STOPPED state. Asynchronous batch translation jobs are started with the StartTextTranslationJob operation. You can use the DescribeTextTranslationJob or ListTextTranslationJobs operations to get a batch ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsTranslate : IAwsTranslate
     }
 
     /// <summary>
-    /// Translates the input document from the source language to the target language. This synchronous operation supports text, HTML, or Word docu- ments as the input document. TranslateDocument supports translations from English to any supported language, and from any supported language to English. Therefore, specify either the source language code or the target language code as en (English). If you set the Formality parameter, the request will fail if the target language does not support formality. F...
+    /// Translates the input document from the source language to the target language. This synchronous operation supports text, HTML, or Word documents as the input document. TranslateDocument supports translations from English to any supported language, and from any supported language to English. Therefore, specify either the source language code or the target language code as en (English). If you set the Formality parameter, the request will fail if the target language does not support formality. For...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

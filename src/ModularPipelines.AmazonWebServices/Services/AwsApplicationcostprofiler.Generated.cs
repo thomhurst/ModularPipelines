@@ -32,7 +32,7 @@ public class AwsApplicationcostprofiler : IAwsApplicationcostprofiler
     #region Commands
 
     /// <summary>
-    /// Deletes the specified report definition in AWS Application Cost Pro- filer. This stops the report from being generated. See also: AWS API Documentation
+    /// Deletes the specified report definition in AWS Application Cost Profiler. This stops the report from being generated. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsApplicationcostprofiler : IAwsApplicationcostprofiler
     }
 
     /// <summary>
-    /// Retrieves the definition of a report already configured in AWS Applica- tion Cost Profiler. See also: AWS API Documentation
+    /// Retrieves the definition of a report already configured in AWS Application Cost Profiler. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsApplicationcostprofiler : IAwsApplicationcostprofiler
     }
 
     /// <summary>
-    /// Ingests application usage data from Amazon Simple Storage Service (Ama- zon S3). The data must already exist in the S3 location. As part of the action, AWS Application Cost Profiler copies the object from your S3 bucket to an S3 bucket owned by Amazon for processing asynchronously. See also: AWS API Documentation
+    /// Ingests application usage data from Amazon Simple Storage Service (Amazon S3). The data must already exist in the S3 location. As part of the action, AWS Application Cost Profiler copies the object from your S3 bucket to an S3 bucket owned by Amazon for processing asynchronously. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsApplicationcostprofiler : IAwsApplicationcostprofiler
     }
 
     /// <summary>
-    /// Retrieves a list of all reports and their configurations for your AWS account. The maximum number of reports is one. See also: AWS API Documentation list-report-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- i...
+    /// Retrieves a list of all reports and their configurations for your AWS account. The maximum number of reports is one. See also: AWS API Documentation list-report-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsApplicationcostprofiler : IAwsApplicationcostprofiler
     }
 
     /// <summary>
-    /// Creates the report definition for a report in Application Cost Pro- filer. See also: AWS API Documentation
+    /// Creates the report definition for a report in Application Cost Profiler. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Displays the tags associated with a CloudWatch Logs resource. Cur- rently, log groups and destinations support tagging. See also: AWS API Documentation
+/// Displays the tags associated with a CloudWatch Logs resource. Currently, log groups and destinations support tagging. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLogsListTagsForResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Displays the tags associated with a CloudWatch Logs resource. Cur- rently, log groups and destinations support tagging. See also: AWS API Documentation
+    /// Displays the tags associated with a CloudWatch Logs resource. Currently, log groups and destinations support tagging. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource that you want to view tags for. The ARN format of a log group is `` arn:aws:logs:Region :account-id :log-group:log-group-name `` System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. The ARN format of a destination is `` arn:aws:logs:Region :account-id :destination:destination-name `` System Message: WARNING/2 (&lt;string&gt;:, line 76) Inline literal start-string without end-string. For more information about ARN format, see CloudWatch Logs resources and operations . Constraints: o min: 1 o max: 1011 o pattern: [\w+=/:,.@-]*</param>
+    /// <param name="ResourceArn">The ARN of the resource that you want to view tags for. The ARN format of a log group is `` arn:aws:logs:Region :account-id :log-group:log-group-name `` System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. The ARN format of a destination is `` arn:aws:logs:Region :account-id :destination:destination-name `` System Message: WARNING/2 (&lt;string&gt;:, line 76) Inline literal start-string without end-string. For more information about ARN format, see CloudWatch Logs resources and operations . Constraints: • min: 1 • max: 1011 • pattern: [\w+=/:,.@-]*</param>
     public AwsLogsListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsLogsListTagsForResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource that you want to view tags for. The ARN format of a log group is `` arn:aws:logs:Region :account-id :log-group:log-group-name `` System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. The ARN format of a destination is `` arn:aws:logs:Region :account-id :destination:destination-name `` System Message: WARNING/2 (&lt;string&gt;:, line 76) Inline literal start-string without end-string. For more information about ARN format, see CloudWatch Logs resources and operations . Constraints: o min: 1 o max: 1011 o pattern: [\w+=/:,.@-]*
+    /// The ARN of the resource that you want to view tags for. The ARN format of a log group is `` arn:aws:logs:Region :account-id :log-group:log-group-name `` System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. The ARN format of a destination is `` arn:aws:logs:Region :account-id :destination:destination-name `` System Message: WARNING/2 (&lt;string&gt;:, line 76) Inline literal start-string without end-string. For more information about ARN format, see CloudWatch Logs resources and operations . Constraints: • min: 1 • max: 1011 • pattern: [\w+=/:,.@-]*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

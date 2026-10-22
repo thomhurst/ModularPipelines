@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an event trigger, which specifies the rules when to perform ac- tion based on customer's ingested data. Each event stream can be associated with only one integration in the same region and AWS account as the event stream. See also: AWS API Documentation
+/// Creates an event trigger, which specifies the rules when to perform action based on customer's ingested data. Each event stream can be associated with only one integration in the same region and AWS account as the event stream. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +27,12 @@ public record AwsCustomerProfilesCreateEventTriggerOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an event trigger, which specifies the rules when to perform ac- tion based on customer's ingested data. Each event stream can be associated with only one integration in the same region and AWS account as the event stream. See also: AWS API Documentation
+    /// Creates an event trigger, which specifies the rules when to perform action based on customer's ingested data. Each event stream can be associated with only one integration in the same region and AWS account as the event stream. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="EventTriggerName">The unique name of the event trigger. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="ObjectTypeName">The unique name of the object type. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$</param>
-    /// <param name="EventTriggerConditions">A list of conditions that determine when an event should trigger the destination. Constraints: o min: 1 o max: 5 (structure) Specifies the circumstances under which the event should trigger the destination. EventTriggerDimensions -&gt; (list) [required] A list of dimensions to be evaluated for the event. Constraints: o min: 1 o max: 10 (structure) A specific event dimension to be assessed. ObjectAttributes -&gt; (list) [required] A list of object attributes to be evaluated. Constraints: o min: 1 o max: 10 (structure) The criteria that a specific object attribute must meet to trigger the destination. Source -&gt; (string) An attribute contained within a source object. Constraints: o min: 1 o max: 1000 FieldName -&gt; (string) A field defined within an object type. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_.-]+$ ComparisonOperator -&gt; (string) [required] The operator used to compare an attribute against a list of values. Possible values: o INCLUSIVE o EXCLUSIVE o CONTAINS o BEGINS_WITH o ENDS_WITH o GREATER_THAN o LESS_THAN o GREATER_THAN_OR_EQUAL o LESS_THAN_OR_EQUAL o EQUAL o BEFORE o AFTER o ON o BETWEEN o NOT_BETWEEN Values -&gt; (list) [required] A list of attribute values used for comparison. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 255 LogicalOperator -&gt; (string) [required] The operator used to combine multiple dimensions. Possible values: o ANY o ALL o NONE JSON Syntax: [ { "EventTriggerDimensions": [ { "ObjectAttributes": [ { "Source": "string", "FieldName": "string", "ComparisonOperator": "INCLUSIVE"|"EXCLUSIVE"|"CONTAINS"|"BEGINS_WITH"|"ENDS_WITH"|"GREATER_THAN"|"LESS_THAN"|"GREATER_THAN_OR_EQUAL"|"LESS_THAN_OR_EQUAL"|"EQUAL"|"BEFORE"|"AFTER"|"ON"|"BETWEEN"|"NOT_BETWEEN", "Values": ["string", ...] } ... ] } ... ], "LogicalOperator": "ANY"|"ALL"|"NONE" } ... ]</param>
+    /// <param name="DomainName">The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="EventTriggerName">The unique name of the event trigger. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="ObjectTypeName">The unique name of the object type. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$</param>
+    /// <param name="EventTriggerConditions">A list of conditions that determine when an event should trigger the destination. Constraints: • min: 1 • max: 5 (structure) Specifies the circumstances under which the event should trigger the destination. EventTriggerDimensions -&gt; (list) [required] A list of dimensions to be evaluated for the event. Constraints: • min: 1 • max: 10 (structure) A specific event dimension to be assessed. ObjectAttributes -&gt; (list) [required] A list of object attributes to be evaluated. Constraints: • min: 1 • max: 10 (structure) The criteria that a specific object attribute must meet to trigger the destination. Source -&gt; (string) An attribute contained within a source object. Constraints: • min: 1 • max: 1000 FieldName -&gt; (string) A field defined within an object type. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_.-]+$ ComparisonOperator -&gt; (string) [required] The operator used to compare an attribute against a list of values. Possible values: • INCLUSIVE • EXCLUSIVE • CONTAINS • BEGINS_WITH • ENDS_WITH • GREATER_THAN • LESS_THAN • GREATER_THAN_OR_EQUAL • LESS_THAN_OR_EQUAL • EQUAL • BEFORE • AFTER • ON • BETWEEN • NOT_BETWEEN Values -&gt; (list) [required] A list of attribute values used for comparison. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 255 LogicalOperator -&gt; (string) [required] The operator used to combine multiple dimensions. Possible values: • ANY • ALL • NONE JSON Syntax: [ { "EventTriggerDimensions": [ { "ObjectAttributes": [ { "Source": "string", "FieldName": "string", "ComparisonOperator": "INCLUSIVE"|"EXCLUSIVE"|"CONTAINS"|"BEGINS_WITH"|"ENDS_WITH"|"GREATER_THAN"|"LESS_THAN"|"GREATER_THAN_OR_EQUAL"|"LESS_THAN_OR_EQUAL"|"EQUAL"|"BEFORE"|"AFTER"|"ON"|"BETWEEN"|"NOT_BETWEEN", "Values": ["string", ...] } ... ] } ... ], "LogicalOperator": "ANY"|"ALL"|"NONE" } ... ]</param>
     public AwsCustomerProfilesCreateEventTriggerOptions(
         string DomainName,
         string EventTriggerName,
@@ -80,49 +81,49 @@ public record AwsCustomerProfilesCreateEventTriggerOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The unique name of the event trigger. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the event trigger. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--event-trigger-name")]
     public string? EventTriggerName { get; private init; }
 
     /// <summary>
-    /// The unique name of the object type. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$
+    /// The unique name of the object type. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$
     /// </summary>
     [CliOption("--object-type-name")]
     public string? ObjectTypeName { get; private init; }
 
     /// <summary>
-    /// A list of conditions that determine when an event should trigger the destination. Constraints: o min: 1 o max: 5 (structure) Specifies the circumstances under which the event should trigger the destination. EventTriggerDimensions -&gt; (list) [required] A list of dimensions to be evaluated for the event. Constraints: o min: 1 o max: 10 (structure) A specific event dimension to be assessed. ObjectAttributes -&gt; (list) [required] A list of object attributes to be evaluated. Constraints: o min: 1 o max: 10 (structure) The criteria that a specific object attribute must meet to trigger the destination. Source -&gt; (string) An attribute contained within a source object. Constraints: o min: 1 o max: 1000 FieldName -&gt; (string) A field defined within an object type. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_.-]+$ ComparisonOperator -&gt; (string) [required] The operator used to compare an attribute against a list of values. Possible values: o INCLUSIVE o EXCLUSIVE o CONTAINS o BEGINS_WITH o ENDS_WITH o GREATER_THAN o LESS_THAN o GREATER_THAN_OR_EQUAL o LESS_THAN_OR_EQUAL o EQUAL o BEFORE o AFTER o ON o BETWEEN o NOT_BETWEEN Values -&gt; (list) [required] A list of attribute values used for comparison. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 255 LogicalOperator -&gt; (string) [required] The operator used to combine multiple dimensions. Possible values: o ANY o ALL o NONE JSON Syntax: [ { "EventTriggerDimensions": [ { "ObjectAttributes": [ { "Source": "string", "FieldName": "string", "ComparisonOperator": "INCLUSIVE"|"EXCLUSIVE"|"CONTAINS"|"BEGINS_WITH"|"ENDS_WITH"|"GREATER_THAN"|"LESS_THAN"|"GREATER_THAN_OR_EQUAL"|"LESS_THAN_OR_EQUAL"|"EQUAL"|"BEFORE"|"AFTER"|"ON"|"BETWEEN"|"NOT_BETWEEN", "Values": ["string", ...] } ... ] } ... ], "LogicalOperator": "ANY"|"ALL"|"NONE" } ... ]
+    /// A list of conditions that determine when an event should trigger the destination. Constraints: • min: 1 • max: 5 (structure) Specifies the circumstances under which the event should trigger the destination. EventTriggerDimensions -&gt; (list) [required] A list of dimensions to be evaluated for the event. Constraints: • min: 1 • max: 10 (structure) A specific event dimension to be assessed. ObjectAttributes -&gt; (list) [required] A list of object attributes to be evaluated. Constraints: • min: 1 • max: 10 (structure) The criteria that a specific object attribute must meet to trigger the destination. Source -&gt; (string) An attribute contained within a source object. Constraints: • min: 1 • max: 1000 FieldName -&gt; (string) A field defined within an object type. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_.-]+$ ComparisonOperator -&gt; (string) [required] The operator used to compare an attribute against a list of values. Possible values: • INCLUSIVE • EXCLUSIVE • CONTAINS • BEGINS_WITH • ENDS_WITH • GREATER_THAN • LESS_THAN • GREATER_THAN_OR_EQUAL • LESS_THAN_OR_EQUAL • EQUAL • BEFORE • AFTER • ON • BETWEEN • NOT_BETWEEN Values -&gt; (list) [required] A list of attribute values used for comparison. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 255 LogicalOperator -&gt; (string) [required] The operator used to combine multiple dimensions. Possible values: • ANY • ALL • NONE JSON Syntax: [ { "EventTriggerDimensions": [ { "ObjectAttributes": [ { "Source": "string", "FieldName": "string", "ComparisonOperator": "INCLUSIVE"|"EXCLUSIVE"|"CONTAINS"|"BEGINS_WITH"|"ENDS_WITH"|"GREATER_THAN"|"LESS_THAN"|"GREATER_THAN_OR_EQUAL"|"LESS_THAN_OR_EQUAL"|"EQUAL"|"BEFORE"|"AFTER"|"ON"|"BETWEEN"|"NOT_BETWEEN", "Values": ["string", ...] } ... ] } ... ], "LogicalOperator": "ANY"|"ALL"|"NONE" } ... ]
     /// </summary>
     [CliOption("--event-trigger-conditions", GroupValues = true)]
     public IEnumerable<string>? EventTriggerConditions { get; private init; }
 
     /// <summary>
-    /// The description of the event trigger. Constraints: o min: 1 o max: 1000
+    /// The description of the event trigger. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The destination is triggered only for profiles that meet the crite- ria of a segment definition. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The destination is triggered only for profiles that meet the criteria of a segment definition. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--segment-filter")]
     public string? SegmentFilter { get; set; }
 
     /// <summary>
-    /// Defines limits controlling whether an event triggers the destina- tion, based on ingestion latency and the number of invocations per profile over specific time periods. EventExpiration -&gt; (long) In milliseconds. Specifies that an event will only trigger the destination if it is processed within a certain latency period. Periods -&gt; (list) A list of time periods during which the limits apply. Constraints: o min: 1 o max: 4 (structure) Defines a limit and the time period during which it is en- forced. Unit -&gt; (string) [required] The unit of time. Possible values: o MINUTES o HOURS o DAYS o WEEKS o MONTHS Value -&gt; (integer) [required] The amount of time of the specified unit. Constraints: o min: 1 o max: 60 MaxInvocationsPerProfile -&gt; (integer) The maximum allowed number of destination invocations per profile. Constraints: o min: 1 o max: 1000 Unlimited -&gt; (boolean) If set to true, there is no limit on the number of desti- nation invocations per profile. The default is false. Shorthand Syntax: EventExpiration=long,Periods=[{Unit=string,Value=integer,MaxInvocationsPerProfile=integer,Unlimited=boolean},{Unit=string,Value=integer,MaxInvocationsPerProfile=integer,Unlimited=boolean}] JSON Syntax: { "EventExpiration": long, "Periods": [ { "Unit": "MINUTES"|"HOURS"|"DAYS"|"WEEKS"|"MONTHS", "Value": integer, "MaxInvocationsPerProfile": integer, "Unlimited": true|false } ... ] }
+    /// Defines limits controlling whether an event triggers the destination, based on ingestion latency and the number of invocations per profile over specific time periods. EventExpiration -&gt; (long) In milliseconds. Specifies that an event will only trigger the destination if it is processed within a certain latency period. Periods -&gt; (list) A list of time periods during which the limits apply. Constraints: • min: 1 • max: 4 (structure) Defines a limit and the time period during which it is enforced. Unit -&gt; (string) [required] The unit of time. Possible values: • MINUTES • HOURS • DAYS • WEEKS • MONTHS Value -&gt; (integer) [required] The amount of time of the specified unit. Constraints: • min: 1 • max: 60 MaxInvocationsPerProfile -&gt; (integer) The maximum allowed number of destination invocations per profile. Constraints: • min: 1 • max: 1000 Unlimited -&gt; (boolean) If set to true, there is no limit on the number of destination invocations per profile. The default is false. Shorthand Syntax: EventExpiration=long,Periods=[{Unit=string,Value=integer,MaxInvocationsPerProfile=integer,Unlimited=boolean},{Unit=string,Value=integer,MaxInvocationsPerProfile=integer,Unlimited=boolean}] JSON Syntax: { "EventExpiration": long, "Periods": [ { "Unit": "MINUTES"|"HOURS"|"DAYS"|"WEEKS"|"MONTHS", "Value": integer, "MaxInvocationsPerProfile": integer, "Unlimited": true|false } ... ] }
     /// </summary>
     [CliOption("--event-trigger-limits")]
     public string? EventTriggerLimits { get; set; }
 
     /// <summary>
-    /// An array of key-value pairs to apply to this resource. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// An array of key-value pairs to apply to this resource. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

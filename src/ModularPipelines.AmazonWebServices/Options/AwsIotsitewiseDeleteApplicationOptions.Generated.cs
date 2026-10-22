@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsIotsitewiseDeleteApplicationOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Deletes an application by ID See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceName">Name of the workspace to associate with the underlying Application Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="Id">ID of the Application to delete Constraints: o min: 36 o max: 36 o pattern: [a-z0-9-]{36}</param>
+    /// <param name="WorkspaceName">Name of the workspace to associate with the underlying Application Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="Id">ID of the Application to delete Constraints: • min: 36 • max: 36 • pattern: [a-z0-9-]{36}</param>
     public AwsIotsitewiseDeleteApplicationOptions(
         string WorkspaceName,
         string Id
@@ -60,13 +62,13 @@ public record AwsIotsitewiseDeleteApplicationOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the workspace to associate with the underlying Application Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// Name of the workspace to associate with the underlying Application Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--workspace-name")]
     public string? WorkspaceName { get; private init; }
 
     /// <summary>
-    /// ID of the Application to delete Constraints: o min: 36 o max: 36 o pattern: [a-z0-9-]{36}
+    /// ID of the Application to delete Constraints: • min: 36 • max: 36 • pattern: [a-z0-9-]{36}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

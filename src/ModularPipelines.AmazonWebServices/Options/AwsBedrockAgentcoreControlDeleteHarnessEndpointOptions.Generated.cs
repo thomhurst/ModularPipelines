@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsBedrockAgentcoreControlDeleteHarnessEndpointOptions : AwsOption
     /// <summary>
     /// Operation to delete a harness endpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HarnessId">The ID of the harness that the endpoint belongs to. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,39}-[a-zA-Z0-9]{10}</param>
-    /// <param name="EndpointName">The name of the endpoint to delete. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}</param>
+    /// <param name="HarnessId">The ID of the harness that the endpoint belongs to. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9_]{0,39}-[a-zA-Z0-9]{10}</param>
+    /// <param name="EndpointName">The name of the endpoint to delete. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}</param>
     public AwsBedrockAgentcoreControlDeleteHarnessEndpointOptions(
         string HarnessId,
         string EndpointName
@@ -61,19 +63,19 @@ public record AwsBedrockAgentcoreControlDeleteHarnessEndpointOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the harness that the endpoint belongs to. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,39}-[a-zA-Z0-9]{10}
+    /// The ID of the harness that the endpoint belongs to. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9_]{0,39}-[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--harness-id")]
     public string? HarnessId { get; private init; }
 
     /// <summary>
-    /// The name of the endpoint to delete. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}
+    /// The name of the endpoint to delete. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}
     /// </summary>
     [CliOption("--endpoint-name")]
     public string? EndpointName { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

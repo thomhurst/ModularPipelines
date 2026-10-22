@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCodeguruSecurityUpdateAccountConfigurationOptions : AwsOptions,
     /// <summary>
     /// Use to update the encryption configuration for an account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EncryptionConfig">The customer-managed KMS key ARN you want to use for encryption. If not specified, CodeGuru Security will use an AWS-managed key for en- cryption. If you previously specified a customer-managed KMS key and want CodeGuru Security to use an AWS-managed key for encryption in- stead, pass nothing. kmsKeyArn -&gt; (string) The KMS key ARN that is used for encryption. If an AWS-managed key is used for encryption, returns empty. Constraints: o min: 1 o max: 2048 o pattern: arn:aws:kms:[\S]+:[\d]{12}:key\/(([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})|(mrk-[0-9a-zA-Z]{32})) Shorthand Syntax: kmsKeyArn=string JSON Syntax: { "kmsKeyArn": "string" }</param>
+    /// <param name="EncryptionConfig">The customer-managed KMS key ARN you want to use for encryption. If not specified, CodeGuru Security will use an AWS-managed key for encryption. If you previously specified a customer-managed KMS key and want CodeGuru Security to use an AWS-managed key for encryption instead, pass nothing. kmsKeyArn -&gt; (string) The KMS key ARN that is used for encryption. If an AWS-managed key is used for encryption, returns empty. Constraints: • min: 1 • max: 2048 • pattern: arn:aws:kms:[\S]+:[\d]{12}:key\/(([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})|(mrk-[0-9a-zA-Z]{32})) Shorthand Syntax: kmsKeyArn=string JSON Syntax: { "kmsKeyArn": "string" }</param>
     public AwsCodeguruSecurityUpdateAccountConfigurationOptions(
         string EncryptionConfig
     )
@@ -56,7 +58,7 @@ public record AwsCodeguruSecurityUpdateAccountConfigurationOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The customer-managed KMS key ARN you want to use for encryption. If not specified, CodeGuru Security will use an AWS-managed key for en- cryption. If you previously specified a customer-managed KMS key and want CodeGuru Security to use an AWS-managed key for encryption in- stead, pass nothing. kmsKeyArn -&gt; (string) The KMS key ARN that is used for encryption. If an AWS-managed key is used for encryption, returns empty. Constraints: o min: 1 o max: 2048 o pattern: arn:aws:kms:[\S]+:[\d]{12}:key\/(([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})|(mrk-[0-9a-zA-Z]{32})) Shorthand Syntax: kmsKeyArn=string JSON Syntax: { "kmsKeyArn": "string" }
+    /// The customer-managed KMS key ARN you want to use for encryption. If not specified, CodeGuru Security will use an AWS-managed key for encryption. If you previously specified a customer-managed KMS key and want CodeGuru Security to use an AWS-managed key for encryption instead, pass nothing. kmsKeyArn -&gt; (string) The KMS key ARN that is used for encryption. If an AWS-managed key is used for encryption, returns empty. Constraints: • min: 1 • max: 2048 • pattern: arn:aws:kms:[\S]+:[\d]{12}:key\/(([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})|(mrk-[0-9a-zA-Z]{32})) Shorthand Syntax: kmsKeyArn=string JSON Syntax: { "kmsKeyArn": "string" }
     /// </summary>
     [CliOption("--encryption-config")]
     public string? EncryptionConfig { get; private init; }

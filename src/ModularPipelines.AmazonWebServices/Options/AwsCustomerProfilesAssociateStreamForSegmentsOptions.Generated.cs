@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsCustomerProfilesAssociateStreamForSegmentsOptions : AwsOptions,
     /// <summary>
     /// Associates an Amazon Kinesis data stream to receive segment membership events for a given domain. This is a domain-level configuration that applies to all segment subscriptions within the domain. A domain can have only one associated stream at a time. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="DestinationArn">The Amazon Resource Name (ARN) of the Amazon Kinesis data stream to deliver segment membership events to. For example, arn:aws:kine- sis:region:account-id:stream/stream-name . Constraints: o min: 1 o max: 2048</param>
-    /// <param name="DestinationRoleArn">The Amazon Resource Name (ARN) of the IAM role that allows Customer Profiles service principal to assume the role for conducting AWS Key Management Service (KMS) and Amazon Kinesis operations. The role must grant the following Amazon Kinesis permissions to deliver seg- ment membership events to the stream: o kinesis:PutRecord o kinesis:PutRecords o kinesis:DescribeStream Constraints: o min: 1 o max: 512 o pattern: .*arn:aws:iam:.*:[0-9]+:.*</param>
+    /// <param name="DomainName">The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="DestinationArn">The Amazon Resource Name (ARN) of the Amazon Kinesis data stream to deliver segment membership events to. For example, arn:aws:kinesis:region:account-id:stream/stream-name . Constraints: • min: 1 • max: 2048</param>
+    /// <param name="DestinationRoleArn">The Amazon Resource Name (ARN) of the IAM role that allows Customer Profiles service principal to assume the role for conducting AWS Key Management Service (KMS) and Amazon Kinesis operations. The role must grant the following Amazon Kinesis permissions to deliver segment membership events to the stream: • kinesis:PutRecord • kinesis:PutRecords • kinesis:DescribeStream Constraints: • min: 1 • max: 512 • pattern: .*arn:aws:iam:.*:[0-9]+:.*</param>
     public AwsCustomerProfilesAssociateStreamForSegmentsOptions(
         string DomainName,
         string DestinationArn,
@@ -64,19 +66,19 @@ public record AwsCustomerProfilesAssociateStreamForSegmentsOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Amazon Kinesis data stream to deliver segment membership events to. For example, arn:aws:kine- sis:region:account-id:stream/stream-name . Constraints: o min: 1 o max: 2048
+    /// The Amazon Resource Name (ARN) of the Amazon Kinesis data stream to deliver segment membership events to. For example, arn:aws:kinesis:region:account-id:stream/stream-name . Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--destination-arn")]
     public string? DestinationArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role that allows Customer Profiles service principal to assume the role for conducting AWS Key Management Service (KMS) and Amazon Kinesis operations. The role must grant the following Amazon Kinesis permissions to deliver seg- ment membership events to the stream: o kinesis:PutRecord o kinesis:PutRecords o kinesis:DescribeStream Constraints: o min: 1 o max: 512 o pattern: .*arn:aws:iam:.*:[0-9]+:.*
+    /// The Amazon Resource Name (ARN) of the IAM role that allows Customer Profiles service principal to assume the role for conducting AWS Key Management Service (KMS) and Amazon Kinesis operations. The role must grant the following Amazon Kinesis permissions to deliver segment membership events to the stream: • kinesis:PutRecord • kinesis:PutRecords • kinesis:DescribeStream Constraints: • min: 1 • max: 512 • pattern: .*arn:aws:iam:.*:[0-9]+:.*
     /// </summary>
     [CliOption("--destination-role-arn")]
     public string? DestinationRoleArn { get; private init; }

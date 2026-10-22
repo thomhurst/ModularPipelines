@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a list of applications and their associations with configura- tion items. See also: AWS API Documentation
+/// Deletes a list of applications and their associations with configuration items. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsDiscoveryDeleteApplicationsOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a list of applications and their associations with configura- tion items. See also: AWS API Documentation
+    /// Deletes a list of applications and their associations with configuration items. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfigurationIds">Configuration ID of an application to be deleted. (string) Constraints: o max: 200 o pattern: \S+ Syntax: "string" "string" ...</param>
+    /// <param name="ConfigurationIds">Configuration ID of an application to be deleted. (string) Constraints: • max: 200 • pattern: \S+ Syntax: "string" "string" ...</param>
     public AwsDiscoveryDeleteApplicationsOptions(
         IEnumerable<string> ConfigurationIds
     )
@@ -67,7 +69,7 @@ public record AwsDiscoveryDeleteApplicationsOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Configuration ID of an application to be deleted. (string) Constraints: o max: 200 o pattern: \S+ Syntax: "string" "string" ...
+    /// Configuration ID of an application to be deleted. (string) Constraints: • max: 200 • pattern: \S+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--configuration-ids", GroupValues = true)]
     public IEnumerable<string>? ConfigurationIds { get; private init; }

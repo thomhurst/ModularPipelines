@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sends user input to Amazon Lex V2. You can send text or speech. Clients use this API to send text and audio requests to Amazon Lex V2 at run- time. Amazon Lex V2 interprets the user input using the machine learn- ing model built for the bot. The following request fields must be compressed with gzip and then base64 encoded before you send them to Amazon Lex V2. o requestAttributes o sessionState The following response fields are compressed using gzip and then base64 encoded by Amazon Lex V2. Befo...
+/// Sends user input to Amazon Lex V2. You can send text or speech. Clients use this API to send text and audio requests to Amazon Lex V2 at runtime. Amazon Lex V2 interprets the user input using the machine learning model built for the bot. The following request fields must be compressed with gzip and then base64 encoded before you send them to Amazon Lex V2. • requestAttributes • sessionState The following response fields are compressed using gzip and then base64 encoded by Amazon Lex V2. Before y...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLexv2RuntimeRecognizeUtteranceOptions : AwsOptions
 {
     /// <summary>
-    /// Sends user input to Amazon Lex V2. You can send text or speech. Clients use this API to send text and audio requests to Amazon Lex V2 at run- time. Amazon Lex V2 interprets the user input using the machine learn- ing model built for the bot. The following request fields must be compressed with gzip and then base64 encoded before you send them to Amazon Lex V2. o requestAttributes o sessionState The following response fields are compressed using gzip and then base64 encoded by Amazon Lex V2. Befo...
+    /// Sends user input to Amazon Lex V2. You can send text or speech. Clients use this API to send text and audio requests to Amazon Lex V2 at runtime. Amazon Lex V2 interprets the user input using the machine learning model built for the bot. The following request fields must be compressed with gzip and then base64 encoded before you send them to Amazon Lex V2. • requestAttributes • sessionState The following response fields are compressed using gzip and then base64 encoded by Amazon Lex V2. Before y...
     /// </summary>
-    /// <param name="BotId">The identifier of the bot that should receive the request. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="BotAliasId">The alias identifier in use for the bot that should receive the re- quest.</param>
-    /// <param name="LocaleId">The locale where the session is in use. Constraints: o min: 1</param>
-    /// <param name="SessionId">The identifier of the session in use. Constraints: o min: 2 o max: 100 o pattern: [0-9a-zA-Z._:-]+</param>
-    /// <param name="RequestContentType">Indicates the format for audio input or that the content is text. The header must start with one of the following prefixes: o PCM format, audio data must be in little-endian byte order. o audio/l16; rate=16000; channels=1 o audio/x-l16; sample-rate=16000; channel-count=1 o audio/lpcm; sample-rate=8000; sample-size-bits=16; chan- nel-count=1; is-big-endian=false o Opus format o audio/x-cbr-opus-with-preamble;pream- ble-size=0;bit-rate=256000;frame-size-milliseconds=4 o Text format o text/plain; charset=utf-8 Constraints: o min: 1</param>
+    /// <param name="BotId">The identifier of the bot that should receive the request. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotAliasId">The alias identifier in use for the bot that should receive the request.</param>
+    /// <param name="LocaleId">The locale where the session is in use. Constraints: • min: 1</param>
+    /// <param name="SessionId">The identifier of the session in use. Constraints: • min: 2 • max: 100 • pattern: [0-9a-zA-Z._:-]+</param>
+    /// <param name="RequestContentType">Indicates the format for audio input or that the content is text. The header must start with one of the following prefixes: • PCM format, audio data must be in little-endian byte order. • audio/l16; rate=16000; channels=1 • audio/x-l16; sample-rate=16000; channel-count=1 • audio/lpcm; sample-rate=8000; sample-size-bits=16; channel-count=1; is-big-endian=false • Opus format • audio/x-cbr-opus-with-preamble;preamble-size=0;bit-rate=256000;frame-size-milliseconds=4 • Text format • text/plain; charset=utf-8 Constraints: • min: 1</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsLexv2RuntimeRecognizeUtteranceOptions(
         string BotId,
@@ -64,31 +64,31 @@ public record AwsLexv2RuntimeRecognizeUtteranceOptions : AwsOptions
     }
 
     /// <summary>
-    /// The identifier of the bot that should receive the request. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The identifier of the bot that should receive the request. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string BotId { get; private init; }
 
     /// <summary>
-    /// The alias identifier in use for the bot that should receive the re- quest.
+    /// The alias identifier in use for the bot that should receive the request.
     /// </summary>
     [CliOption("--bot-alias-id")]
     public string BotAliasId { get; private init; }
 
     /// <summary>
-    /// The locale where the session is in use. Constraints: o min: 1
+    /// The locale where the session is in use. Constraints: • min: 1
     /// </summary>
     [CliOption("--locale-id")]
     public string LocaleId { get; private init; }
 
     /// <summary>
-    /// The identifier of the session in use. Constraints: o min: 2 o max: 100 o pattern: [0-9a-zA-Z._:-]+
+    /// The identifier of the session in use. Constraints: • min: 2 • max: 100 • pattern: [0-9a-zA-Z._:-]+
     /// </summary>
     [CliOption("--session-id")]
     public string SessionId { get; private init; }
 
     /// <summary>
-    /// Indicates the format for audio input or that the content is text. The header must start with one of the following prefixes: o PCM format, audio data must be in little-endian byte order. o audio/l16; rate=16000; channels=1 o audio/x-l16; sample-rate=16000; channel-count=1 o audio/lpcm; sample-rate=8000; sample-size-bits=16; chan- nel-count=1; is-big-endian=false o Opus format o audio/x-cbr-opus-with-preamble;pream- ble-size=0;bit-rate=256000;frame-size-milliseconds=4 o Text format o text/plain; charset=utf-8 Constraints: o min: 1
+    /// Indicates the format for audio input or that the content is text. The header must start with one of the following prefixes: • PCM format, audio data must be in little-endian byte order. • audio/l16; rate=16000; channels=1 • audio/x-l16; sample-rate=16000; channel-count=1 • audio/lpcm; sample-rate=8000; sample-size-bits=16; channel-count=1; is-big-endian=false • Opus format • audio/x-cbr-opus-with-preamble;preamble-size=0;bit-rate=256000;frame-size-milliseconds=4 • Text format • text/plain; charset=utf-8 Constraints: • min: 1
     /// </summary>
     [CliOption("--request-content-type")]
     public string RequestContentType { get; private init; }
@@ -106,7 +106,7 @@ public record AwsLexv2RuntimeRecognizeUtteranceOptions : AwsOptions
     public string? RequestAttributes { get; set; }
 
     /// <summary>
-    /// The message that Amazon Lex V2 returns in the response can be either text or speech based on the responseContentType value. o If the value is text/plain;charset=utf-8 , Amazon Lex V2 returns text in the response. o If the value begins with audio/ , Amazon Lex V2 returns speech in the response. Amazon Lex V2 uses Amazon Polly to generate the speech using the configuration that you specified in the respon- seContentType parameter. For example, if you specify audio/mpeg as the value, Amazon Lex V2 returns speech in the MPEG format. o If the value is audio/pcm , the speech returned is audio/pcm at 16 KHz in 16-bit, little-endian format. o The following are the accepted values: o audio/mpeg o audio/ogg o audio/pcm (16 KHz) o audio/* (defaults to mpeg) o text/plain; charset=utf-8 Constraints: o min: 1
+    /// The message that Amazon Lex V2 returns in the response can be either text or speech based on the responseContentType value. • If the value is text/plain;charset=utf-8 , Amazon Lex V2 returns text in the response. • If the value begins with audio/ , Amazon Lex V2 returns speech in the response. Amazon Lex V2 uses Amazon Polly to generate the speech using the configuration that you specified in the responseContentType parameter. For example, if you specify audio/mpeg as the value, Amazon Lex V2 returns speech in the MPEG format. • If the value is audio/pcm , the speech returned is audio/pcm at 16 KHz in 16-bit, little-endian format. • The following are the accepted values: • audio/mpeg • audio/ogg • audio/pcm (16 KHz) • audio/* (defaults to mpeg) • text/plain; charset=utf-8 Constraints: • min: 1
     /// </summary>
     [CliOption("--response-content-type")]
     public string? ResponseContentType { get; set; }

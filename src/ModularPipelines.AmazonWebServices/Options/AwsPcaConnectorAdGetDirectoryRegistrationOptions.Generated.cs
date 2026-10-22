@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// A structure that contains information about your directory registra- tion. See also: AWS API Documentation
+/// A structure that contains information about your directory registration. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsPcaConnectorAdGetDirectoryRegistrationOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// A structure that contains information about your directory registra- tion. See also: AWS API Documentation
+    /// A structure that contains information about your directory registration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryRegistrationArn">The Amazon Resource Name (ARN) that was returned when you called CreateDirectoryRegistration . Constraints: o min: 5 o max: 200 o pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:directory-reg- istration\/d-[0-9a-f]{10}$</param>
+    /// <param name="DirectoryRegistrationArn">The Amazon Resource Name (ARN) that was returned when you called CreateDirectoryRegistration . Constraints: • min: 5 • max: 200 • pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:directory-registration\/d-[0-9a-f]{10}$</param>
     public AwsPcaConnectorAdGetDirectoryRegistrationOptions(
         string DirectoryRegistrationArn
     )
@@ -56,7 +58,7 @@ public record AwsPcaConnectorAdGetDirectoryRegistrationOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that was returned when you called CreateDirectoryRegistration . Constraints: o min: 5 o max: 200 o pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:directory-reg- istration\/d-[0-9a-f]{10}$
+    /// The Amazon Resource Name (ARN) that was returned when you called CreateDirectoryRegistration . Constraints: • min: 5 • max: 200 • pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:directory-registration\/d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-registration-arn")]
     public string? DirectoryRegistrationArn { get; private init; }

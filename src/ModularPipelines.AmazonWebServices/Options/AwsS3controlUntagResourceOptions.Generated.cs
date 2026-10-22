@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This operation removes the specified user-defined tags from an S3 re- source. You can pass one or more tag keys. NOTE: This operation is only supported for the following Amazon S3 re- sources: o General purpose buckets o Access Points for directory buckets o Access Points for general purpose buckets o Directory buckets o S3 Storage Lens groups o S3 Access Grants instances, registered locations, and grants . Permissions For general purpose buckets, access points for general purpose buckets, Stora...
+/// This operation removes the specified user-defined tags from an S3 resource. You can pass one or more tag keys. NOTE: This operation is only supported for the following Amazon S3 resources: • General purpose buckets • Access Points for directory buckets • Access Points for general purpose buckets • Directory buckets • S3 Storage Lens groups • S3 Access Grants instances, registered locations, and grants . Permissions For general purpose buckets, access points for general purpose buckets, Storage L...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsS3controlUntagResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This operation removes the specified user-defined tags from an S3 re- source. You can pass one or more tag keys. NOTE: This operation is only supported for the following Amazon S3 re- sources: o General purpose buckets o Access Points for directory buckets o Access Points for general purpose buckets o Directory buckets o S3 Storage Lens groups o S3 Access Grants instances, registered locations, and grants . Permissions For general purpose buckets, access points for general purpose buckets, Stora...
+    /// This operation removes the specified user-defined tags from an S3 resource. You can pass one or more tag keys. NOTE: This operation is only supported for the following Amazon S3 resources: • General purpose buckets • Access Points for directory buckets • Access Points for general purpose buckets • Directory buckets • S3 Storage Lens groups • S3 Access Grants instances, registered locations, and grants . Permissions For general purpose buckets, access points for general purpose buckets, Storage L...
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID that owns the resource that you're trying to remove the tags from. Constraints: o max: 64 o pattern: ^\d{12}$</param>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the S3 resource that you're remov- ing tags from. The tagged resource can be a directory bucket, S3 Storage Lens group or S3 Access Grants instance, registered loca- tion, or grant. Constraints: o max: 1011 o pattern: arn:[^:]+:s3(express)?:[^:].*</param>
-    /// <param name="TagKeys">The array of tag key-value pairs that you're trying to remove from of the S3 resource. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...</param>
+    /// <param name="AccountId">The Amazon Web Services account ID that owns the resource that you're trying to remove the tags from. Constraints: • max: 64 • pattern: ^\d{12}$</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the S3 resource that you're removing tags from. The tagged resource can be a directory bucket, S3 Storage Lens group or S3 Access Grants instance, registered location, or grant. Constraints: • max: 1011 • pattern: arn:[^:]+:s3(express)?:[^:].*</param>
+    /// <param name="TagKeys">The array of tag key-value pairs that you're trying to remove from of the S3 resource. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...</param>
     public AwsS3controlUntagResourceOptions(
         string AccountId,
         string ResourceArn,
@@ -75,19 +77,19 @@ public record AwsS3controlUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID that owns the resource that you're trying to remove the tags from. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID that owns the resource that you're trying to remove the tags from. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the S3 resource that you're remov- ing tags from. The tagged resource can be a directory bucket, S3 Storage Lens group or S3 Access Grants instance, registered loca- tion, or grant. Constraints: o max: 1011 o pattern: arn:[^:]+:s3(express)?:[^:].*
+    /// The Amazon Resource Name (ARN) of the S3 resource that you're removing tags from. The tagged resource can be a directory bucket, S3 Storage Lens group or S3 Access Grants instance, registered location, or grant. Constraints: • max: 1011 • pattern: arn:[^:]+:s3(express)?:[^:].*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The array of tag key-value pairs that you're trying to remove from of the S3 resource. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
+    /// The array of tag key-value pairs that you're trying to remove from of the S3 resource. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

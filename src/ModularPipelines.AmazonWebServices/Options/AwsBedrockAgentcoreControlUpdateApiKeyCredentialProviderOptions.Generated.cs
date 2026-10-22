@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +31,7 @@ public record AwsBedrockAgentcoreControlUpdateApiKeyCredentialProviderOptions : 
     /// <summary>
     /// Updates an existing API key credential provider. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the API key credential provider to update. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\-_]+</param>
+    /// <param name="Name">The name of the API key credential provider to update. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\-_]+</param>
     public AwsBedrockAgentcoreControlUpdateApiKeyCredentialProviderOptions(
         string Name
     )
@@ -58,27 +60,27 @@ public record AwsBedrockAgentcoreControlUpdateApiKeyCredentialProviderOptions : 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the API key credential provider to update. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\-_]+
+    /// The name of the API key credential provider to update. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\-_]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The new API key to use for authentication. This value replaces the existing API key and is encrypted and stored securely. Constraints: o min: 0 o max: 65536
+    /// The new API key to use for authentication. This value replaces the existing API key and is encrypted and stored securely. Constraints: • min: 0 • max: 65536
     /// </summary>
     [SecretValue]
     [CliOption("--api-key")]
     public string? ApiKey { get; set; }
 
     /// <summary>
-    /// A reference to the Amazon Web Services Secrets Manager secret that stores the API key. This includes the secret ID and the JSON key used to extract the API key value from the secret. Required when apiKeySecretSource is set to EXTERNAL . secretId -&gt; (string) [required] The ID of the Amazon Web Services Secrets Manager secret that stores the secret value. Constraints: o min: 1 o max: 2048 jsonKey -&gt; (string) [required] The JSON key used to extract the secret value from the Amazon Web Services Secrets Manager secret. Constraints: o min: 1 o max: 128 Shorthand Syntax: secretId=string,jsonKey=string JSON Syntax: { "secretId": "string", "jsonKey": "string" }
+    /// A reference to the Amazon Web Services Secrets Manager secret that stores the API key. This includes the secret ID and the JSON key used to extract the API key value from the secret. Required when apiKeySecretSource is set to EXTERNAL . secretId -&gt; (string) [required] The ID of the Amazon Web Services Secrets Manager secret that stores the secret value. Constraints: • min: 1 • max: 2048 jsonKey -&gt; (string) [required] The JSON key used to extract the secret value from the Amazon Web Services Secrets Manager secret. Constraints: • min: 1 • max: 128 Shorthand Syntax: secretId=string,jsonKey=string JSON Syntax: { "secretId": "string", "jsonKey": "string" }
     /// </summary>
     [SecretValue]
     [CliOption("--api-key-secret-config")]
     public string? ApiKeySecretConfig { get; set; }
 
     /// <summary>
-    /// The source type of the API key secret. Use MANAGED if the secret is managed by the service, or EXTERNAL if you manage the secret your- self in Amazon Web Services Secrets Manager. Possible values: o MANAGED o EXTERNAL
+    /// The source type of the API key secret. Use MANAGED if the secret is managed by the service, or EXTERNAL if you manage the secret yourself in Amazon Web Services Secrets Manager. Possible values: • MANAGED • EXTERNAL
     /// </summary>
     [CliOption("--api-key-secret-source")]
     public AwsBedrockAgentcoreControlUpdateApiKeyCredentialProviderApiKeySecretSource? ApiKeySecretSource { get; set; }

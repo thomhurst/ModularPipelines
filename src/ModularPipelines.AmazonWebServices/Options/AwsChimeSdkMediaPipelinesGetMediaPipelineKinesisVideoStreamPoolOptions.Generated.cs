@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsChimeSdkMediaPipelinesGetMediaPipelineKinesisVideoStreamPoolOpt
     /// <summary>
     /// Gets an Kinesis video stream pool. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The unique identifier of the requested resource. Valid values in- clude the name and ARN of the media pipeline Kinesis Video Stream pool. Constraints: o max: 1024 o pattern: .*\S.*</param>
+    /// <param name="Identifier">The unique identifier of the requested resource. Valid values include the name and ARN of the media pipeline Kinesis Video Stream pool. Constraints: • max: 1024 • pattern: .*\S.*</param>
     public AwsChimeSdkMediaPipelinesGetMediaPipelineKinesisVideoStreamPoolOptions(
         string Identifier
     )
@@ -56,7 +58,7 @@ public record AwsChimeSdkMediaPipelinesGetMediaPipelineKinesisVideoStreamPoolOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the requested resource. Valid values in- clude the name and ARN of the media pipeline Kinesis Video Stream pool. Constraints: o max: 1024 o pattern: .*\S.*
+    /// The unique identifier of the requested resource. Valid values include the name and ARN of the media pipeline Kinesis Video Stream pool. Constraints: • max: 1024 • pattern: .*\S.*
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }

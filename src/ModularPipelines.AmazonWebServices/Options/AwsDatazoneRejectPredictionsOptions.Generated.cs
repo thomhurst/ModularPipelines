@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsDatazoneRejectPredictionsOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Rejects automatically generated business-friendly metadata for your Amazon DataZone assets. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Identifier">The identifier of the prediction. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The identifier of the prediction. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneRejectPredictionsOptions(
         string DomainIdentifier,
         string Identifier
@@ -61,25 +63,25 @@ public record AwsDatazoneRejectPredictionsOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon DataZone domain. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The identifier of the Amazon DataZone domain. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the prediction. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the prediction. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The revision that is to be made to the asset. Constraints: o min: 1 o max: 64
+    /// The revision that is to be made to the asset. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--revision")]
     public string? Revision { get; set; }
 
     /// <summary>
-    /// Specifies the rule (or the conditions) under which a prediction can be rejected. rule -&gt; (string) Specifies whether you want to reject the top prediction for all targets or none. Possible values: o ALL o NONE threshold -&gt; (float) The confidence score that specifies the condition at which a prediction can be rejected. Shorthand Syntax: rule=string,threshold=float JSON Syntax: { "rule": "ALL"|"NONE", "threshold": float }
+    /// Specifies the rule (or the conditions) under which a prediction can be rejected. rule -&gt; (string) Specifies whether you want to reject the top prediction for all targets or none. Possible values: • ALL • NONE threshold -&gt; (float) The confidence score that specifies the condition at which a prediction can be rejected. Shorthand Syntax: rule=string,threshold=float JSON Syntax: { "rule": "ALL"|"NONE", "threshold": float }
     /// </summary>
     [CliOption("--reject-rule")]
     public string? RejectRule { get; set; }
@@ -91,7 +93,7 @@ public record AwsDatazoneRejectPredictionsOptions : AwsOptions, IValidatableObje
     public IEnumerable<string>? RejectChoices { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

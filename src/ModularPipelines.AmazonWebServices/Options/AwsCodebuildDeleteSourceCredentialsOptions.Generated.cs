@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a set of GitHub, GitHub Enterprise, or Bitbucket source creden- tials. See also: AWS API Documentation
+/// Deletes a set of GitHub, GitHub Enterprise, or Bitbucket source credentials. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsCodebuildDeleteSourceCredentialsOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a set of GitHub, GitHub Enterprise, or Bitbucket source creden- tials. See also: AWS API Documentation
+    /// Deletes a set of GitHub, GitHub Enterprise, or Bitbucket source credentials. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the token. Constraints: o min: 1</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the token. Constraints: • min: 1</param>
     public AwsCodebuildDeleteSourceCredentialsOptions(
         string Arn
     )
@@ -56,7 +58,7 @@ public record AwsCodebuildDeleteSourceCredentialsOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the token. Constraints: o min: 1
+    /// The Amazon Resource Name (ARN) of the token. Constraints: • min: 1
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }

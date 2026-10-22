@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSagemakerDescribeCompilationJobOptions : AwsOptions, IValidatab
     /// <summary>
     /// Returns information about a model compilation job. To create a model compilation job, use CreateCompilationJob . To get information about multiple model compilation jobs, use ListCompilationJobs . See also: AWS API Documentation
     /// </summary>
-    /// <param name="CompilationJobName">The name of the model compilation job that you want information about. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="CompilationJobName">The name of the model compilation job that you want information about. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
     public AwsSagemakerDescribeCompilationJobOptions(
         string CompilationJobName
     )
@@ -56,7 +58,7 @@ public record AwsSagemakerDescribeCompilationJobOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the model compilation job that you want information about. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the model compilation job that you want information about. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--compilation-job-name")]
     public string? CompilationJobName { get; private init; }

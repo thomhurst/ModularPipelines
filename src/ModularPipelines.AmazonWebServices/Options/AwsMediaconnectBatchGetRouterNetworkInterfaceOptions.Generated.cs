@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMediaconnectBatchGetRouterNetworkInterfaceOptions : AwsOptions,
     /// <summary>
     /// Retrieves information about multiple router network interfaces in AWS Elemental MediaConnect. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arns">The Amazon Resource Names (ARNs) of the router network interfaces you want to retrieve information about. Constraints: o min: 1 o max: 20 (string) Constraints: o pattern: arn:(aws[a-zA-Z-]*):mediacon- nect:[a-z0-9-]+:[0-9]{12}:routerNetworkInterface:[a-z0-9]{12} Syntax: "string" "string" ...</param>
+    /// <param name="Arns">The Amazon Resource Names (ARNs) of the router network interfaces you want to retrieve information about. Constraints: • min: 1 • max: 20 (string) Constraints: • pattern: arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:routerNetworkInterface:[a-z0-9]{12} Syntax: "string" "string" ...</param>
     public AwsMediaconnectBatchGetRouterNetworkInterfaceOptions(
         IEnumerable<string> Arns
     )
@@ -67,7 +69,7 @@ public record AwsMediaconnectBatchGetRouterNetworkInterfaceOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Names (ARNs) of the router network interfaces you want to retrieve information about. Constraints: o min: 1 o max: 20 (string) Constraints: o pattern: arn:(aws[a-zA-Z-]*):mediacon- nect:[a-z0-9-]+:[0-9]{12}:routerNetworkInterface:[a-z0-9]{12} Syntax: "string" "string" ...
+    /// The Amazon Resource Names (ARNs) of the router network interfaces you want to retrieve information about. Constraints: • min: 1 • max: 20 (string) Constraints: • pattern: arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:routerNetworkInterface:[a-z0-9]{12} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--arns", GroupValues = true)]
     public IEnumerable<string>? Arns { get; private init; }

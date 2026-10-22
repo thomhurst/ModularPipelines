@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,7 +29,7 @@ public record AwsDataexchangeTagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// This operation tags a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">An Amazon Resource Name (ARN) that uniquely identifies an AWS re- source.</param>
+    /// <param name="ResourceArn">An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.</param>
     /// <param name="Tags">A label that consists of a customer-defined key and an optional value. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsDataexchangeTagResourceOptions(
         string ResourceArn,
@@ -72,7 +73,7 @@ public record AwsDataexchangeTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An Amazon Resource Name (ARN) that uniquely identifies an AWS re- source.
+    /// An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

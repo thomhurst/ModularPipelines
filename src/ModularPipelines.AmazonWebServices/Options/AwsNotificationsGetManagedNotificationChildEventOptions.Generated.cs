@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsNotificationsGetManagedNotificationChildEventOptions : AwsOptio
     /// <summary>
     /// Returns the child event of a specific given ManagedNotificationEvent . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the ManagedNotificationChildEvent to return. Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notifi- cation-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}/event/[a-z0-9]{27}/child-event/[a-z0-9]{27}</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the ManagedNotificationChildEvent to return. Constraints: • pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notification-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-category/[a-zA-Z0-9\-]{3,64}/event/[a-z0-9]{27}/child-event/[a-z0-9]{27}</param>
     public AwsNotificationsGetManagedNotificationChildEventOptions(
         string Arn
     )
@@ -57,13 +59,13 @@ public record AwsNotificationsGetManagedNotificationChildEventOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the ManagedNotificationChildEvent to return. Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notifi- cation-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}/event/[a-z0-9]{27}/child-event/[a-z0-9]{27}
+    /// The Amazon Resource Name (ARN) of the ManagedNotificationChildEvent to return. Constraints: • pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notification-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-category/[a-zA-Z0-9\-]{3,64}/event/[a-z0-9]{27}/child-event/[a-z0-9]{27}
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The locale code of the language used for the retrieved ManagedNoti- ficationChildEvent . The default locale is English en_US . Possible values: o de_DE o en_CA o en_US o en_UK o es_ES o fr_CA o fr_FR o id_ID o it_IT o ja_JP o ko_KR o pt_BR o tr_TR o zh_CN o zh_TW
+    /// The locale code of the language used for the retrieved ManagedNotificationChildEvent . The default locale is English en_US . Possible values: • de_DE • en_CA • en_US • en_UK • es_ES • fr_CA • fr_FR • id_ID • it_IT • ja_JP • ko_KR • pt_BR • tr_TR • zh_CN • zh_TW
     /// </summary>
     [CliOption("--locale")]
     public AwsNotificationsGetManagedNotificationChildEventLocale? Locale { get; set; }

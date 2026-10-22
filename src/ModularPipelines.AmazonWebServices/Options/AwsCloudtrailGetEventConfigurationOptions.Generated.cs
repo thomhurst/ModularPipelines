@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudtrailGetEventConfigurationOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the trail for which you want to retrieve event configu- ration settings.
+    /// The name of the trail for which you want to retrieve event configuration settings.
     /// </summary>
     [CliOption("--trail-name")]
     public string? TrailName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) or ID suffix of the ARN of the event data store for which you want to retrieve event configuration set- tings.
+    /// The Amazon Resource Name (ARN) or ID suffix of the ARN of the event data store for which you want to retrieve event configuration settings.
     /// </summary>
     [CliOption("--event-data-store")]
     public string? EventDataStore { get; set; }

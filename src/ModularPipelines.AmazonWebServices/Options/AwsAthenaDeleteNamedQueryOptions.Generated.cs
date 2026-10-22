@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsAthenaDeleteNamedQueryOptions : AwsOptions
 {
     /// <summary>
-    /// The unique ID of the query to delete. Constraints: o min: 1 o max: 128 o pattern: \S+
+    /// The unique ID of the query to delete. Constraints: • min: 1 • max: 128 • pattern: \S+
     /// </summary>
     [CliOption("--named-query-id")]
     public string? NamedQueryId { get; set; }

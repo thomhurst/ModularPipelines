@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsElasticacheDeleteServerlessCacheSnapshotOptions : AwsOptions, I
     /// <summary>
     /// Deletes an existing serverless cache snapshot. Available for Valkey, Redis OSS and Serverless Memcached only. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServerlessCacheSnapshotName">Idenfitier of the snapshot to be deleted. Available for Valkey, Re- dis OSS and Serverless Memcached only.</param>
+    /// <param name="ServerlessCacheSnapshotName">Idenfitier of the snapshot to be deleted. Available for Valkey, Redis OSS and Serverless Memcached only.</param>
     public AwsElasticacheDeleteServerlessCacheSnapshotOptions(
         string ServerlessCacheSnapshotName
     )
@@ -56,7 +58,7 @@ public record AwsElasticacheDeleteServerlessCacheSnapshotOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Idenfitier of the snapshot to be deleted. Available for Valkey, Re- dis OSS and Serverless Memcached only.
+    /// Idenfitier of the snapshot to be deleted. Available for Valkey, Redis OSS and Serverless Memcached only.
     /// </summary>
     [CliOption("--serverless-cache-snapshot-name")]
     public string? ServerlessCacheSnapshotName { get; private init; }

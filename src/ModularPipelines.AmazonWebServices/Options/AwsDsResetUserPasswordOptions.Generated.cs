@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Resets the password for any user in your Managed Microsoft AD or Simple AD directory. Disabled users will become enabled and can be authenti- cated following the API call. You can reset the password for any user in your directory with the fol- lowing exceptions: o For Simple AD, you cannot reset the password for any user that is a member of either the Domain Admins or Enterprise Admins group except for the administrator user. o For Managed Microsoft AD, you can only reset the password for a user...
+/// Resets the password for any user in your Managed Microsoft AD or Simple AD directory. Disabled users will become enabled and can be authenticated following the API call. You can reset the password for any user in your directory with the following exceptions: • For Simple AD, you cannot reset the password for any user that is a member of either the Domain Admins or Enterprise Admins group except for the administrator user. • For Managed Microsoft AD, you can only reset the password for a user tha...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsDsResetUserPasswordOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Resets the password for any user in your Managed Microsoft AD or Simple AD directory. Disabled users will become enabled and can be authenti- cated following the API call. You can reset the password for any user in your directory with the fol- lowing exceptions: o For Simple AD, you cannot reset the password for any user that is a member of either the Domain Admins or Enterprise Admins group except for the administrator user. o For Managed Microsoft AD, you can only reset the password for a user...
+    /// Resets the password for any user in your Managed Microsoft AD or Simple AD directory. Disabled users will become enabled and can be authenticated following the API call. You can reset the password for any user in your directory with the following exceptions: • For Simple AD, you cannot reset the password for any user that is a member of either the Domain Admins or Enterprise Admins group except for the administrator user. • For Managed Microsoft AD, you can only reset the password for a user tha...
     /// </summary>
-    /// <param name="DirectoryId">Identifier of the Managed Microsoft AD or Simple AD directory in which the user resides. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
-    /// <param name="UserName">The user name of the user whose password will be reset. Constraints: o min: 1 o max: 64 o pattern: ^(?!.*\\|.*"|.*\/|.*\[|.*\]|.*:|.*;|.*\||.*=|.*,|.*\+|.*\*|.*\?|.*&lt;|.*&gt;|.*@).*$</param>
-    /// <param name="NewPassword">The new password that will be reset. Constraints: o min: 1 o max: 127</param>
+    /// <param name="DirectoryId">Identifier of the Managed Microsoft AD or Simple AD directory in which the user resides. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="UserName">The user name of the user whose password will be reset. Constraints: • min: 1 • max: 64 • pattern: ^(?!.*\\|.*"|.*\/|.*\[|.*\]|.*:|.*;|.*\||.*=|.*,|.*\+|.*\*|.*\?|.*&lt;|.*&gt;|.*@).*$</param>
+    /// <param name="NewPassword">The new password that will be reset. Constraints: • min: 1 • max: 127</param>
     public AwsDsResetUserPasswordOptions(
         string DirectoryId,
         string UserName,
@@ -65,19 +67,19 @@ public record AwsDsResetUserPasswordOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifier of the Managed Microsoft AD or Simple AD directory in which the user resides. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// Identifier of the Managed Microsoft AD or Simple AD directory in which the user resides. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// The user name of the user whose password will be reset. Constraints: o min: 1 o max: 64 o pattern: ^(?!.*\\|.*"|.*\/|.*\[|.*\]|.*:|.*;|.*\||.*=|.*,|.*\+|.*\*|.*\?|.*&lt;|.*&gt;|.*@).*$
+    /// The user name of the user whose password will be reset. Constraints: • min: 1 • max: 64 • pattern: ^(?!.*\\|.*"|.*\/|.*\[|.*\]|.*:|.*;|.*\||.*=|.*,|.*\+|.*\*|.*\?|.*&lt;|.*&gt;|.*@).*$
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; private init; }
 
     /// <summary>
-    /// The new password that will be reset. Constraints: o min: 1 o max: 127
+    /// The new password that will be reset. Constraints: • min: 1 • max: 127
     /// </summary>
     [SecretValue]
     [CliOption("--new-password")]

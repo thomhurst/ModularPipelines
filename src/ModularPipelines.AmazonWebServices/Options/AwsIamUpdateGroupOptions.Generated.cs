@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the name and/or the path of the specified IAM group. WARNING: You should understand the implications of changing a group's path or name. For more information, see Renaming users and groups in the IAM User Guide . NOTE: The person making the request (the principal), must have permission to change the role group with the old name and the new name. For ex- ample, to change the group named Managers to MGRs , the principal must have a policy that allows them to update both groups. If the prin...
+/// Updates the name and/or the path of the specified IAM group. WARNING: You should understand the implications of changing a group's path or name. For more information, see Renaming users and groups in the IAM User Guide . NOTE: The person making the request (the principal), must have permission to change the role group with the old name and the new name. For example, to change the group named Managers to MGRs , the principal must have a policy that allows them to update both groups. If the princi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsIamUpdateGroupOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the name and/or the path of the specified IAM group. WARNING: You should understand the implications of changing a group's path or name. For more information, see Renaming users and groups in the IAM User Guide . NOTE: The person making the request (the principal), must have permission to change the role group with the old name and the new name. For ex- ample, to change the group named Managers to MGRs , the principal must have a policy that allows them to update both groups. If the prin...
+    /// Updates the name and/or the path of the specified IAM group. WARNING: You should understand the implications of changing a group's path or name. For more information, see Renaming users and groups in the IAM User Guide . NOTE: The person making the request (the principal), must have permission to change the role group with the old name and the new name. For example, to change the group named Managers to MGRs , the principal must have a policy that allows them to update both groups. If the princi...
     /// </summary>
-    /// <param name="GroupName">Name of the IAM group to update. If you're changing the name of the group, this is the original name. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+</param>
+    /// <param name="GroupName">Name of the IAM group to update. If you're changing the name of the group, this is the original name. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+</param>
     public AwsIamUpdateGroupOptions(
         string GroupName
     )
@@ -56,19 +58,19 @@ public record AwsIamUpdateGroupOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the IAM group to update. If you're changing the name of the group, this is the original name. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// Name of the IAM group to update. If you're changing the name of the group, this is the original name. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--group-name")]
     public string? GroupName { get; private init; }
 
     /// <summary>
-    /// New path for the IAM group. Only include this if changing the group's path. This parameter allows (through its regex pattern ) a string of char- acters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021 ) through the DEL character (\u007F ), including most punctuation characters, digits, and upper and lowercased letters. Constraints: o min: 1 o max: 512 o pattern: (\u002F)|(\u002F[\u0021-\u007E]+\u002F)
+    /// New path for the IAM group. Only include this if changing the group's path. This parameter allows (through its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021 ) through the DEL character (\u007F ), including most punctuation characters, digits, and upper and lowercased letters. Constraints: • min: 1 • max: 512 • pattern: (\u002F)|(\u002F[\u0021-\u007E]+\u002F)
     /// </summary>
     [CliOption("--new-path")]
     public string? NewPath { get; set; }
 
     /// <summary>
-    /// New name for the IAM group. Only include this if changing the group's name. IAM user, group, role, and policy names must be unique within the account. Names are not distinguished by case. For example, you can- not create resources named both "MyResource" and "myresource". Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// New name for the IAM group. Only include this if changing the group's name. IAM user, group, role, and policy names must be unique within the account. Names are not distinguished by case. For example, you cannot create resources named both "MyResource" and "myresource". Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--new-group-name")]
     public string? NewGroupName { get; set; }

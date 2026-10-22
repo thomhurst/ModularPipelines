@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsAppConfigUpdateEnvironmentOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Updates an environment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The application ID. Constraints: o min: 1 o max: 64</param>
-    /// <param name="EnvironmentId">The environment ID. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ApplicationId">The application ID. Constraints: • min: 1 • max: 64</param>
+    /// <param name="EnvironmentId">The environment ID. Constraints: • min: 1 • max: 64</param>
     public AwsAppConfigUpdateEnvironmentOptions(
         string ApplicationId,
         string EnvironmentId
@@ -60,31 +62,31 @@ public record AwsAppConfigUpdateEnvironmentOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The application ID. Constraints: o min: 1 o max: 64
+    /// The application ID. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The environment ID. Constraints: o min: 1 o max: 64
+    /// The environment ID. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
 
     /// <summary>
-    /// The name of the environment. Constraints: o min: 1 o max: 64
+    /// The name of the environment. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A description of the environment. Constraints: o min: 0 o max: 1024
+    /// A description of the environment. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Amazon CloudWatch alarms to monitor during the deployment process. Constraints: o min: 0 o max: 5 (structure) Amazon CloudWatch alarms to monitor during the deployment process. AlarmArn -&gt; (string) [required] Amazon Resource Name (ARN) of the Amazon CloudWatch alarm. Constraints: o min: 1 o max: 2048 AlarmRoleArn -&gt; (string) ARN of an Identity and Access Management (IAM) role for App- Config to monitor AlarmArn . Constraints: o min: 20 o max: 2048 o pattern: ^((arn):(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov|aws-eusc):(iam)::\d{12}:role[/].*)$ Shorthand Syntax: AlarmArn=string,AlarmRoleArn=string ... JSON Syntax: [ { "AlarmArn": "string", "AlarmRoleArn": "string" } ... ]
+    /// Amazon CloudWatch alarms to monitor during the deployment process. Constraints: • min: 0 • max: 5 (structure) Amazon CloudWatch alarms to monitor during the deployment process. AlarmArn -&gt; (string) [required] Amazon Resource Name (ARN) of the Amazon CloudWatch alarm. Constraints: • min: 1 • max: 2048 AlarmRoleArn -&gt; (string) ARN of an Identity and Access Management (IAM) role for AppConfig to monitor AlarmArn . Constraints: • min: 20 • max: 2048 • pattern: ^((arn):(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov|aws-eusc):(iam)::\d{12}:role[/].*)$ Shorthand Syntax: AlarmArn=string,AlarmRoleArn=string ... JSON Syntax: [ { "AlarmArn": "string", "AlarmRoleArn": "string" } ... ]
     /// </summary>
     [CliOption("--monitors", GroupValues = true)]
     public IEnumerable<string>? Monitors { get; set; }

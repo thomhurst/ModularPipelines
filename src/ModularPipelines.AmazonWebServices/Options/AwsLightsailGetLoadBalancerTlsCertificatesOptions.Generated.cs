@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsLightsailGetLoadBalancerTlsCertificatesOptions : AwsOptions, IV
     /// <summary>
     /// Returns information about the TLS certificates that are associated with the specified Lightsail load balancer. TLS is just an updated, more secure version of Secure Socket Layer (SSL). You can have a maximum of 2 certificates associated with a Lightsail load balancer. One is active and the other is inactive. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LoadBalancerName">The name of the load balancer you associated with your SSL/TLS cer- tificate. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="LoadBalancerName">The name of the load balancer you associated with your SSL/TLS certificate. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailGetLoadBalancerTlsCertificatesOptions(
         string LoadBalancerName
     )
@@ -56,7 +58,7 @@ public record AwsLightsailGetLoadBalancerTlsCertificatesOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the load balancer you associated with your SSL/TLS cer- tificate. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the load balancer you associated with your SSL/TLS certificate. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--load-balancer-name")]
     public string? LoadBalancerName { get; private init; }

@@ -23,14 +23,14 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsInspector2ListCodeSecurityScanConfigurationsOptions : AwsOptions
 {
     /// <summary>
-    /// A token to use for paginating results that are returned in the re- sponse. Set the value of this parameter to null for the first re- quest. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page. Constraints: o min: 0 o max: 1000000
+    /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page. Constraints: • min: 0 • max: 1000000
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return in a single call. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to return in a single call. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

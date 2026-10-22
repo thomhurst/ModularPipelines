@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates a security group with another VPC in the same Region. This enables you to use the same security group with network interfaces and instances in the specified VPC. NOTE: o The VPC you want to associate the security group with must be in the same Region. o You can associate the security group with another VPC if your ac- count owns the VPC or if the VPC was shared with you. o You must own the security group. o You cannot use this feature with default security groups. o You cannot use thi...
+/// Associates a security group with another VPC in the same Region. This enables you to use the same security group with network interfaces and instances in the specified VPC. NOTE: • The VPC you want to associate the security group with must be in the same Region. • You can associate the security group with another VPC if your account owns the VPC or if the VPC was shared with you. • You must own the security group. • You cannot use this feature with default security groups. • You cannot use this ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsEc2AssociateSecurityGroupVpcOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates a security group with another VPC in the same Region. This enables you to use the same security group with network interfaces and instances in the specified VPC. NOTE: o The VPC you want to associate the security group with must be in the same Region. o You can associate the security group with another VPC if your ac- count owns the VPC or if the VPC was shared with you. o You must own the security group. o You cannot use this feature with default security groups. o You cannot use thi...
+    /// Associates a security group with another VPC in the same Region. This enables you to use the same security group with network interfaces and instances in the specified VPC. NOTE: • The VPC you want to associate the security group with must be in the same Region. • You can associate the security group with another VPC if your account owns the VPC or if the VPC was shared with you. • You must own the security group. • You cannot use this feature with default security groups. • You cannot use this ...
     /// </summary>
     /// <param name="GroupId">A security group ID.</param>
     /// <param name="VpcId">A VPC ID.</param>
@@ -72,7 +74,7 @@ public record AwsEc2AssociateSecurityGroupVpcOptions : AwsOptions, IValidatableO
     public string? VpcId { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

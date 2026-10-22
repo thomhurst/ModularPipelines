@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes tags from a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router out- puts and router network interfaces. See also: AWS API Documentation
+/// Removes tags from a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router outputs and router network interfaces. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsMediaconnectUntagGlobalResourceOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes tags from a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router out- puts and router network interfaces. See also: AWS API Documentation
+    /// Removes tags from a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router outputs and router network interfaces. See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the global resource to remove tags from.</param>
     /// <param name="TagKeys">The keys of the tags to remove from the global resource. (string) Syntax: "string" "string" ...</param>

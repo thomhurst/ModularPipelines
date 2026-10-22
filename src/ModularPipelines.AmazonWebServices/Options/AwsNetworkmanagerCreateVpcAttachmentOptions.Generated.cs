@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +30,9 @@ public record AwsNetworkmanagerCreateVpcAttachmentOptions : AwsOptions, IValidat
     /// <summary>
     /// Creates a VPC attachment on an edge location of a core network. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CoreNetworkId">The ID of a core network for the VPC attachment. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$</param>
-    /// <param name="VpcArn">The ARN of the VPC. Constraints: o min: 0 o max: 500 o pattern: ^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:vpc\/vpc-[0-9a-f]{8,17}$</param>
-    /// <param name="SubnetArns">The subnet ARN of the VPC attachment. (string) Constraints: o min: 0 o max: 500 o pattern: ^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:sub- net\/subnet-[0-9a-f]{8,17}$|^$ Syntax: "string" "string" ...</param>
+    /// <param name="CoreNetworkId">The ID of a core network for the VPC attachment. Constraints: • min: 0 • max: 50 • pattern: ^core-network-([0-9a-f]{8,17})$</param>
+    /// <param name="VpcArn">The ARN of the VPC. Constraints: • min: 0 • max: 500 • pattern: ^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:vpc\/vpc-[0-9a-f]{8,17}$</param>
+    /// <param name="SubnetArns">The subnet ARN of the VPC attachment. (string) Constraints: • min: 0 • max: 500 • pattern: ^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:subnet\/subnet-[0-9a-f]{8,17}$|^$ Syntax: "string" "string" ...</param>
     public AwsNetworkmanagerCreateVpcAttachmentOptions(
         string CoreNetworkId,
         string VpcArn,
@@ -76,43 +78,43 @@ public record AwsNetworkmanagerCreateVpcAttachmentOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of a core network for the VPC attachment. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$
+    /// The ID of a core network for the VPC attachment. Constraints: • min: 0 • max: 50 • pattern: ^core-network-([0-9a-f]{8,17})$
     /// </summary>
     [CliOption("--core-network-id")]
     public string? CoreNetworkId { get; private init; }
 
     /// <summary>
-    /// The ARN of the VPC. Constraints: o min: 0 o max: 500 o pattern: ^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:vpc\/vpc-[0-9a-f]{8,17}$
+    /// The ARN of the VPC. Constraints: • min: 0 • max: 500 • pattern: ^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:vpc\/vpc-[0-9a-f]{8,17}$
     /// </summary>
     [CliOption("--vpc-arn")]
     public string? VpcArn { get; private init; }
 
     /// <summary>
-    /// The subnet ARN of the VPC attachment. (string) Constraints: o min: 0 o max: 500 o pattern: ^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:sub- net\/subnet-[0-9a-f]{8,17}$|^$ Syntax: "string" "string" ...
+    /// The subnet ARN of the VPC attachment. (string) Constraints: • min: 0 • max: 500 • pattern: ^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:subnet\/subnet-[0-9a-f]{8,17}$|^$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--subnet-arns", GroupValues = true)]
     public IEnumerable<string>? SubnetArns { get; private init; }
 
     /// <summary>
-    /// Options for the VPC attachment. Ipv6Support -&gt; (boolean) Indicates whether IPv6 is supported. ApplianceModeSupport -&gt; (boolean) Indicates whether appliance mode is supported. If enabled, traf- fic flow between a source and destination use the same Avail- ability Zone for the VPC attachment for the lifetime of that flow. The default value is false . DnsSupport -&gt; (boolean) Indicates whether DNS is supported. SecurityGroupReferencingSupport -&gt; (boolean) Indicates whether security group referencing is enabled for this VPC attachment. The default is true . However, at the core net- work policy-level the default is set to false . Shorthand Syntax: Ipv6Support=boolean,ApplianceModeSupport=boolean,DnsSupport=boolean,SecurityGroupReferencingSupport=boolean JSON Syntax: { "Ipv6Support": true|false, "ApplianceModeSupport": true|false, "DnsSupport": true|false, "SecurityGroupReferencingSupport": true|false }
+    /// Options for the VPC attachment. Ipv6Support -&gt; (boolean) Indicates whether IPv6 is supported. ApplianceModeSupport -&gt; (boolean) Indicates whether appliance mode is supported. If enabled, traffic flow between a source and destination use the same Availability Zone for the VPC attachment for the lifetime of that flow. The default value is false . DnsSupport -&gt; (boolean) Indicates whether DNS is supported. SecurityGroupReferencingSupport -&gt; (boolean) Indicates whether security group referencing is enabled for this VPC attachment. The default is true . However, at the core network policy-level the default is set to false . Shorthand Syntax: Ipv6Support=boolean,ApplianceModeSupport=boolean,DnsSupport=boolean,SecurityGroupReferencingSupport=boolean JSON Syntax: { "Ipv6Support": true|false, "ApplianceModeSupport": true|false, "DnsSupport": true|false, "SecurityGroupReferencingSupport": true|false }
     /// </summary>
     [CliOption("--options")]
     public string? Options { get; set; }
 
     /// <summary>
-    /// The routing policy label to apply to the VPC attachment for traffic routing decisions. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// The routing policy label to apply to the VPC attachment for traffic routing decisions. Constraints: • min: 0 • max: 256 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--routing-policy-label")]
     public string? RoutingPolicyLabel { get; set; }
 
     /// <summary>
-    /// The key-value tags associated with the request. (structure) Describes a tag. Key -&gt; (string) The tag key. Constraints: Maximum length of 128 characters. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]* Value -&gt; (string) The tag value. Constraints: Maximum length of 256 characters. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The key-value tags associated with the request. (structure) Describes a tag. Key -&gt; (string) The tag key. Constraints: Maximum length of 128 characters. Constraints: • min: 0 • max: 10000000 • pattern: [\s\S]* Value -&gt; (string) The tag value. Constraints: Maximum length of 256 characters. Constraints: • min: 0 • max: 10000000 • pattern: [\s\S]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The client token associated with the request. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// The client token associated with the request. Constraints: • min: 0 • max: 256 • pattern: [\s\S]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

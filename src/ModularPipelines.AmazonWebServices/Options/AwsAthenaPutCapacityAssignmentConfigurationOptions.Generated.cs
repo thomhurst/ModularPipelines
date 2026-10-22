@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsAthenaPutCapacityAssignmentConfigurationOptions : AwsOptions, I
     /// <summary>
     /// Puts a new capacity assignment configuration for a specified capacity reservation. If a capacity assignment configuration already exists for the capacity reservation, replaces the existing capacity assignment configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CapacityReservationName">The name of the capacity reservation to put a capacity assignment configuration for. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9._-]+</param>
-    /// <param name="CapacityAssignments">The list of assignments for the capacity assignment configuration. (structure) A mapping between one or more workgroups and a capacity reserva- tion. WorkGroupNames -&gt; (list) The list of workgroup names for the capacity assignment. (string) Constraints: o pattern: [a-zA-Z0-9._-]{1,128} Shorthand Syntax: WorkGroupNames=string,string ... JSON Syntax: [ { "WorkGroupNames": ["string", ...] } ... ]</param>
+    /// <param name="CapacityReservationName">The name of the capacity reservation to put a capacity assignment configuration for. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9._-]+</param>
+    /// <param name="CapacityAssignments">The list of assignments for the capacity assignment configuration. (structure) A mapping between one or more workgroups and a capacity reservation. WorkGroupNames -&gt; (list) The list of workgroup names for the capacity assignment. (string) Constraints: • pattern: [a-zA-Z0-9._-]{1,128} Shorthand Syntax: WorkGroupNames=string,string ... JSON Syntax: [ { "WorkGroupNames": ["string", ...] } ... ]</param>
     public AwsAthenaPutCapacityAssignmentConfigurationOptions(
         string CapacityReservationName,
         IEnumerable<string> CapacityAssignments
@@ -71,13 +73,13 @@ public record AwsAthenaPutCapacityAssignmentConfigurationOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the capacity reservation to put a capacity assignment configuration for. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9._-]+
+    /// The name of the capacity reservation to put a capacity assignment configuration for. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9._-]+
     /// </summary>
     [CliOption("--capacity-reservation-name")]
     public string? CapacityReservationName { get; private init; }
 
     /// <summary>
-    /// The list of assignments for the capacity assignment configuration. (structure) A mapping between one or more workgroups and a capacity reserva- tion. WorkGroupNames -&gt; (list) The list of workgroup names for the capacity assignment. (string) Constraints: o pattern: [a-zA-Z0-9._-]{1,128} Shorthand Syntax: WorkGroupNames=string,string ... JSON Syntax: [ { "WorkGroupNames": ["string", ...] } ... ]
+    /// The list of assignments for the capacity assignment configuration. (structure) A mapping between one or more workgroups and a capacity reservation. WorkGroupNames -&gt; (list) The list of workgroup names for the capacity assignment. (string) Constraints: • pattern: [a-zA-Z0-9._-]{1,128} Shorthand Syntax: WorkGroupNames=string,string ... JSON Syntax: [ { "WorkGroupNames": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--capacity-assignments", GroupValues = true)]
     public IEnumerable<string>? CapacityAssignments { get; private init; }

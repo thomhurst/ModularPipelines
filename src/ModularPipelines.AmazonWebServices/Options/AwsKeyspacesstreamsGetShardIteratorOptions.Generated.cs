@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a shard iterator that serves as a bookmark for reading data from a specific position in an Amazon Keyspaces data stream's shard. The shard iterator specifies the shard position from which to start reading data records sequentially. You can specify whether to begin reading at the latest record, the oldest record, or at a particular se- quence number within the shard. See also: AWS API Documentation
+/// Returns a shard iterator that serves as a bookmark for reading data from a specific position in an Amazon Keyspaces data stream's shard. The shard iterator specifies the shard position from which to start reading data records sequentially. You can specify whether to begin reading at the latest record, the oldest record, or at a particular sequence number within the shard. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsKeyspacesstreamsGetShardIteratorOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a shard iterator that serves as a bookmark for reading data from a specific position in an Amazon Keyspaces data stream's shard. The shard iterator specifies the shard position from which to start reading data records sequentially. You can specify whether to begin reading at the latest record, the oldest record, or at a particular se- quence number within the shard. See also: AWS API Documentation
+    /// Returns a shard iterator that serves as a bookmark for reading data from a specific position in an Amazon Keyspaces data stream's shard. The shard iterator specifies the shard position from which to start reading data records sequentially. You can specify whether to begin reading at the latest record, the oldest record, or at a particular sequence number within the shard. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StreamArn">The Amazon Resource Name (ARN) of the stream for which to get the shard iterator. The ARN uniquely identifies the stream within Amazon Keyspaces. Constraints: o min: 37 o max: 1024</param>
-    /// <param name="ShardId">The identifier of the shard within the stream. The shard ID uniquely identifies a subset of the stream's data records that you want to access. Constraints: o min: 28 o max: 65</param>
-    /// <param name="ShardIteratorType">Determines how the shard iterator is positioned. Must be one of the following: o TRIM_HORIZON - Start reading at the last untrimmed record in the shard, which is the oldest data record in the shard. o AT_SEQUENCE_NUMBER - Start reading exactly from the specified se- quence number. o AFTER_SEQUENCE_NUMBER - Start reading right after the specified sequence number. o LATEST - Start reading just after the most recent record in the shard, so that you always read the most recent data. Possible values: o TRIM_HORIZON o LATEST o AT_SEQUENCE_NUMBER o AFTER_SEQUENCE_NUMBER</param>
+    /// <param name="StreamArn">The Amazon Resource Name (ARN) of the stream for which to get the shard iterator. The ARN uniquely identifies the stream within Amazon Keyspaces. Constraints: • min: 37 • max: 1024</param>
+    /// <param name="ShardId">The identifier of the shard within the stream. The shard ID uniquely identifies a subset of the stream's data records that you want to access. Constraints: • min: 28 • max: 65</param>
+    /// <param name="ShardIteratorType">Determines how the shard iterator is positioned. Must be one of the following: • TRIM_HORIZON - Start reading at the last untrimmed record in the shard, which is the oldest data record in the shard. • AT_SEQUENCE_NUMBER - Start reading exactly from the specified sequence number. • AFTER_SEQUENCE_NUMBER - Start reading right after the specified sequence number. • LATEST - Start reading just after the most recent record in the shard, so that you always read the most recent data. Possible values: • TRIM_HORIZON • LATEST • AT_SEQUENCE_NUMBER • AFTER_SEQUENCE_NUMBER</param>
     public AwsKeyspacesstreamsGetShardIteratorOptions(
         string StreamArn,
         string ShardId,
@@ -64,25 +66,25 @@ public record AwsKeyspacesstreamsGetShardIteratorOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the stream for which to get the shard iterator. The ARN uniquely identifies the stream within Amazon Keyspaces. Constraints: o min: 37 o max: 1024
+    /// The Amazon Resource Name (ARN) of the stream for which to get the shard iterator. The ARN uniquely identifies the stream within Amazon Keyspaces. Constraints: • min: 37 • max: 1024
     /// </summary>
     [CliOption("--stream-arn")]
     public string? StreamArn { get; private init; }
 
     /// <summary>
-    /// The identifier of the shard within the stream. The shard ID uniquely identifies a subset of the stream's data records that you want to access. Constraints: o min: 28 o max: 65
+    /// The identifier of the shard within the stream. The shard ID uniquely identifies a subset of the stream's data records that you want to access. Constraints: • min: 28 • max: 65
     /// </summary>
     [CliOption("--shard-id")]
     public string? ShardId { get; private init; }
 
     /// <summary>
-    /// Determines how the shard iterator is positioned. Must be one of the following: o TRIM_HORIZON - Start reading at the last untrimmed record in the shard, which is the oldest data record in the shard. o AT_SEQUENCE_NUMBER - Start reading exactly from the specified se- quence number. o AFTER_SEQUENCE_NUMBER - Start reading right after the specified sequence number. o LATEST - Start reading just after the most recent record in the shard, so that you always read the most recent data. Possible values: o TRIM_HORIZON o LATEST o AT_SEQUENCE_NUMBER o AFTER_SEQUENCE_NUMBER
+    /// Determines how the shard iterator is positioned. Must be one of the following: • TRIM_HORIZON - Start reading at the last untrimmed record in the shard, which is the oldest data record in the shard. • AT_SEQUENCE_NUMBER - Start reading exactly from the specified sequence number. • AFTER_SEQUENCE_NUMBER - Start reading right after the specified sequence number. • LATEST - Start reading just after the most recent record in the shard, so that you always read the most recent data. Possible values: • TRIM_HORIZON • LATEST • AT_SEQUENCE_NUMBER • AFTER_SEQUENCE_NUMBER
     /// </summary>
     [CliOption("--shard-iterator-type")]
     public AwsKeyspacesstreamsGetShardIteratorShardIteratorType? ShardIteratorType { get; private init; }
 
     /// <summary>
-    /// The sequence number of the data record in the shard from which to start reading. Required if ShardIteratorType is AT_SEQUENCE_NUMBER or AFTER_SEQUENCE_NUMBER . This parameter is ignored for other iter- ator types. Constraints: o min: 21 o max: 48
+    /// The sequence number of the data record in the shard from which to start reading. Required if ShardIteratorType is AT_SEQUENCE_NUMBER or AFTER_SEQUENCE_NUMBER . This parameter is ignored for other iterator types. Constraints: • min: 21 • max: 48
     /// </summary>
     [CliOption("--sequence-number")]
     public string? SequenceNumber { get; set; }

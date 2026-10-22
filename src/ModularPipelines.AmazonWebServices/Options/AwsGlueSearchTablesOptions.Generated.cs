@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Searches a set of tables based on properties in the table metadata as well as on the parent database. You can search against text or filter conditions. You can only get tables that you have access to based on the security policies defined in Lake Formation. You need at least a read-only ac- cess to the table for it to be returned. If you do not have access to all the columns in the table, these columns will not be searched against when returning the list of tables back to you. If you have ac- ce...
+/// Searches a set of tables based on properties in the table metadata as well as on the parent database. You can search against text or filter conditions. You can only get tables that you have access to based on the security policies defined in Lake Formation. You need at least a read-only access to the table for it to be returned. If you do not have access to all the columns in the table, these columns will not be searched against when returning the list of tables back to you. If you have access t...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,7 +24,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsGlueSearchTablesOptions : AwsOptions
 {
     /// <summary>
-    /// A unique identifier, consisting of `` account_id `` . Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// A unique identifier, consisting of `` account_id `` . Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
@@ -37,31 +37,31 @@ public record AwsGlueSearchTablesOptions : AwsOptions
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// A list of key-value pairs, and a comparator used to filter the search results. Returns all entities matching the predicate. The Comparator member of the PropertyPredicate struct is used only for time fields, and can be omitted for other field types. Also, when comparing string values, such as when Key=Name , a fuzzy match algorithm is used. The Key field (for example, the value of the Name field) is split on certain punctuation characters, for example, -, :, #, etc. into tokens. Then each token is exact-match compared with the Value member of PropertyPredicate . For example, if Key=Name and Value=link , tables named customer-link and xx-link-yy are returned, but xxlinkyy is not returned. (structure) Defines a property predicate. Key -&gt; (string) The key of the property. Constraints: o min: 1 o max: 1024 Value -&gt; (string) The value of the property. Constraints: o min: 1 o max: 1024 Comparator -&gt; (string) The comparator used to compare this property to others. Possible values: o EQUALS o GREATER_THAN o LESS_THAN o GREATER_THAN_EQUALS o LESS_THAN_EQUALS Shorthand Syntax: Key=string,Value=string,Comparator=string ... JSON Syntax: [ { "Key": "string", "Value": "string", "Comparator": "EQUALS"|"GREATER_THAN"|"LESS_THAN"|"GREATER_THAN_EQUALS"|"LESS_THAN_EQUALS" } ... ]
+    /// A list of key-value pairs, and a comparator used to filter the search results. Returns all entities matching the predicate. The Comparator member of the PropertyPredicate struct is used only for time fields, and can be omitted for other field types. Also, when comparing string values, such as when Key=Name , a fuzzy match algorithm is used. The Key field (for example, the value of the Name field) is split on certain punctuation characters, for example, -, :, #, etc. into tokens. Then each token is exact-match compared with the Value member of PropertyPredicate . For example, if Key=Name and Value=link , tables named customer-link and xx-link-yy are returned, but xxlinkyy is not returned. (structure) Defines a property predicate. Key -&gt; (string) The key of the property. Constraints: • min: 1 • max: 1024 Value -&gt; (string) The value of the property. Constraints: • min: 1 • max: 1024 Comparator -&gt; (string) The comparator used to compare this property to others. Possible values: • EQUALS • GREATER_THAN • LESS_THAN • GREATER_THAN_EQUALS • LESS_THAN_EQUALS Shorthand Syntax: Key=string,Value=string,Comparator=string ... JSON Syntax: [ { "Key": "string", "Value": "string", "Comparator": "EQUALS"|"GREATER_THAN"|"LESS_THAN"|"GREATER_THAN_EQUALS"|"LESS_THAN_EQUALS" } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// A string used for a text search. Specifying a value in quotes filters based on an exact match to the value. Constraints: o min: 1 o max: 1024
+    /// A string used for a text search. Specifying a value in quotes filters based on an exact match to the value. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--search-text")]
     public string? SearchText { get; set; }
 
     /// <summary>
-    /// A list of criteria for sorting the results by a field name, in an ascending or descending order. Constraints: o min: 0 o max: 1 (structure) Specifies a field to sort by and a sort order. FieldName -&gt; (string) The name of the field on which to sort. Constraints: o min: 1 o max: 1024 Sort -&gt; (string) An ascending or descending sort. Possible values: o ASC o DESC Shorthand Syntax: FieldName=string,Sort=string ... JSON Syntax: [ { "FieldName": "string", "Sort": "ASC"|"DESC" } ... ]
+    /// A list of criteria for sorting the results by a field name, in an ascending or descending order. Constraints: • min: 0 • max: 1 (structure) Specifies a field to sort by and a sort order. FieldName -&gt; (string) The name of the field on which to sort. Constraints: • min: 1 • max: 1024 Sort -&gt; (string) An ascending or descending sort. Possible values: • ASC • DESC Shorthand Syntax: FieldName=string,Sort=string ... JSON Syntax: [ { "FieldName": "string", "Sort": "ASC"|"DESC" } ... ]
     /// </summary>
     [CliOption("--sort-criteria", GroupValues = true)]
     public IEnumerable<string>? SortCriteria { get; set; }
 
     /// <summary>
-    /// The maximum number of tables to return in a single response. Constraints: o min: 1 o max: 1000
+    /// The maximum number of tables to return in a single response. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Allows you to specify that you want to search the tables shared with your account. The allowable values are FOREIGN or ALL . o If set to FOREIGN , will search the tables shared with your ac- count. o If set to ALL , will search the tables shared with your account, as well as the tables in yor local account. Possible values: o FOREIGN o ALL o FEDERATED
+    /// Allows you to specify that you want to search the tables shared with your account. The allowable values are FOREIGN or ALL . • If set to FOREIGN , will search the tables shared with your account. • If set to ALL , will search the tables shared with your account, as well as the tables in yor local account. Possible values: • FOREIGN • ALL • FEDERATED
     /// </summary>
     [CliOption("--resource-share-type")]
     public AwsGlueSearchTablesResourceShareType? ResourceShareType { get; set; }

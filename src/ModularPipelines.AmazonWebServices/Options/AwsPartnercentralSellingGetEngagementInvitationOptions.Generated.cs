@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the details of an engagement invitation shared by AWS with a partner. The information includes aspects such as customer, project de- tails, and lifecycle information. To connect an engagement invitation with an opportunity, match the invitations Payload.Project.Title with opportunity Project.Title . See also: AWS API Documentation
+/// Retrieves the details of an engagement invitation shared by AWS with a partner. The information includes aspects such as customer, project details, and lifecycle information. To connect an engagement invitation with an opportunity, match the invitations Payload.Project.Title with opportunity Project.Title . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsPartnercentralSellingGetEngagementInvitationOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the details of an engagement invitation shared by AWS with a partner. The information includes aspects such as customer, project de- tails, and lifecycle information. To connect an engagement invitation with an opportunity, match the invitations Payload.Project.Title with opportunity Project.Title . See also: AWS API Documentation
+    /// Retrieves the details of an engagement invitation shared by AWS with a partner. The information includes aspects such as customer, project details, and lifecycle information. To connect an engagement invitation with an opportunity, match the invitations Payload.Project.Title with opportunity Project.Title . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">Specifies the catalog associated with the request. The field accepts values from the predefined set: AWS for live operations or Sandbox for testing environments. Constraints: o pattern: [a-zA-Z]+</param>
-    /// <param name="Identifier">Specifies the unique identifier for the retrieved engagement invita- tion. Constraints: o pattern: (?=.{1,255}$)(arn:.*|engi-[0-9a-z]{13})</param>
+    /// <param name="Catalog">Specifies the catalog associated with the request. The field accepts values from the predefined set: AWS for live operations or Sandbox for testing environments. Constraints: • pattern: [a-zA-Z]+</param>
+    /// <param name="Identifier">Specifies the unique identifier for the retrieved engagement invitation. Constraints: • pattern: (?=.{1,255}$)(arn:.*|engi-[0-9a-z]{13})</param>
     public AwsPartnercentralSellingGetEngagementInvitationOptions(
         string Catalog,
         string Identifier
@@ -60,13 +62,13 @@ public record AwsPartnercentralSellingGetEngagementInvitationOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the catalog associated with the request. The field accepts values from the predefined set: AWS for live operations or Sandbox for testing environments. Constraints: o pattern: [a-zA-Z]+
+    /// Specifies the catalog associated with the request. The field accepts values from the predefined set: AWS for live operations or Sandbox for testing environments. Constraints: • pattern: [a-zA-Z]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// Specifies the unique identifier for the retrieved engagement invita- tion. Constraints: o pattern: (?=.{1,255}$)(arn:.*|engi-[0-9a-z]{13})
+    /// Specifies the unique identifier for the retrieved engagement invitation. Constraints: • pattern: (?=.{1,255}$)(arn:.*|engi-[0-9a-z]{13})
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }

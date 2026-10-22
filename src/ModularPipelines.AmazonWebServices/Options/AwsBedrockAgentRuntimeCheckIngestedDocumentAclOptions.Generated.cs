@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Checks whether a user has access to a specific document by verifying against the ingested access control list (ACL) in a knowledge base. Use this operation to validate that document-level access control is work- ing as expected after ingestion. To use this operation, you must have the bedrock:CheckIngestedDocumentAcl permission. See also: AWS API Documentation
+/// Checks whether a user has access to a specific document by verifying against the ingested access control list (ACL) in a knowledge base. Use this operation to validate that document-level access control is working as expected after ingestion. To use this operation, you must have the bedrock:CheckIngestedDocumentAcl permission. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +27,12 @@ public record AwsBedrockAgentRuntimeCheckIngestedDocumentAclOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Checks whether a user has access to a specific document by verifying against the ingested access control list (ACL) in a knowledge base. Use this operation to validate that document-level access control is work- ing as expected after ingestion. To use this operation, you must have the bedrock:CheckIngestedDocumentAcl permission. See also: AWS API Documentation
+    /// Checks whether a user has access to a specific document by verifying against the ingested access control list (ACL) in a knowledge base. Use this operation to validate that document-level access control is working as expected after ingestion. To use this operation, you must have the bedrock:CheckIngestedDocumentAcl permission. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSourceId">The unique identifier of the data source that contains the document. Constraints: o min: 0 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="DocumentId">The unique identifier of the document to check access for. Constraints: o min: 1 o max: 1825 o pattern: ^\P{C}*$</param>
-    /// <param name="KnowledgeBaseId">The unique identifier of the knowledge base that contains the docu- ment. Constraints: o min: 10 o max: 2048 o pattern: ^[0-9a-zA-Z]{10}$|^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:knowl- edge-base/[0-9a-zA-Z]{10}$</param>
-    /// <param name="UserContext">The context object containing identity information for access con- trol filtering, including user ID and optional group memberships used to evaluate the document access control list (ACL). userId -&gt; (string) [required] The identifier of the user making the retrieval request. Shorthand Syntax: userId=string JSON Syntax: { "userId": "string" }</param>
+    /// <param name="DataSourceId">The unique identifier of the data source that contains the document. Constraints: • min: 0 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="DocumentId">The unique identifier of the document to check access for. Constraints: • min: 1 • max: 1825 • pattern: ^\P{C}*$</param>
+    /// <param name="KnowledgeBaseId">The unique identifier of the knowledge base that contains the document. Constraints: • min: 10 • max: 2048 • pattern: ^[0-9a-zA-Z]{10}$|^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:knowledge-base/[0-9a-zA-Z]{10}$</param>
+    /// <param name="UserContext">The context object containing identity information for access control filtering, including user ID and optional group memberships used to evaluate the document access control list (ACL). userId -&gt; (string) [required] The identifier of the user making the retrieval request. Shorthand Syntax: userId=string JSON Syntax: { "userId": "string" }</param>
     public AwsBedrockAgentRuntimeCheckIngestedDocumentAclOptions(
         string DataSourceId,
         string DocumentId,
@@ -68,25 +70,25 @@ public record AwsBedrockAgentRuntimeCheckIngestedDocumentAclOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the data source that contains the document. Constraints: o min: 0 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier of the data source that contains the document. Constraints: • min: 0 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--data-source-id")]
     public string? DataSourceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the document to check access for. Constraints: o min: 1 o max: 1825 o pattern: ^\P{C}*$
+    /// The unique identifier of the document to check access for. Constraints: • min: 1 • max: 1825 • pattern: ^\P{C}*$
     /// </summary>
     [CliOption("--document-id")]
     public string? DocumentId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the knowledge base that contains the docu- ment. Constraints: o min: 10 o max: 2048 o pattern: ^[0-9a-zA-Z]{10}$|^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:knowl- edge-base/[0-9a-zA-Z]{10}$
+    /// The unique identifier of the knowledge base that contains the document. Constraints: • min: 10 • max: 2048 • pattern: ^[0-9a-zA-Z]{10}$|^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:knowledge-base/[0-9a-zA-Z]{10}$
     /// </summary>
     [CliOption("--knowledge-base-id")]
     public string? KnowledgeBaseId { get; private init; }
 
     /// <summary>
-    /// The context object containing identity information for access con- trol filtering, including user ID and optional group memberships used to evaluate the document access control list (ACL). userId -&gt; (string) [required] The identifier of the user making the retrieval request. Shorthand Syntax: userId=string JSON Syntax: { "userId": "string" }
+    /// The context object containing identity information for access control filtering, including user ID and optional group memberships used to evaluate the document access control list (ACL). userId -&gt; (string) [required] The identifier of the user making the retrieval request. Shorthand Syntax: userId=string JSON Syntax: { "userId": "string" }
     /// </summary>
     [CliOption("--user-context")]
     public string? UserContext { get; private init; }

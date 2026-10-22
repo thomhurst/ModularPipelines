@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsMediaconnectUpdateFlowEntitlementOptions : AwsOptions, IValidat
     /// <summary>
     /// Updates an entitlement. You can change an entitlement's description, subscribers, and encryption. If you change the subscribers, the service will remove the outputs that are are used by the subscribers that are removed. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EntitlementArn">The Amazon Resource Name (ARN) of the entitlement that you want to update. Constraints: o pattern: arn:.+:mediaconnect.+:entitlement:.+</param>
-    /// <param name="FlowArn">The ARN of the flow that is associated with the entitlement that you want to update. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+</param>
+    /// <param name="EntitlementArn">The Amazon Resource Name (ARN) of the entitlement that you want to update. Constraints: • pattern: arn:.+:mediaconnect.+:entitlement:.+</param>
+    /// <param name="FlowArn">The ARN of the flow that is associated with the entitlement that you want to update. Constraints: • pattern: arn:.+:mediaconnect.+:flow:.+</param>
     public AwsMediaconnectUpdateFlowEntitlementOptions(
         string EntitlementArn,
         string FlowArn
@@ -61,13 +63,13 @@ public record AwsMediaconnectUpdateFlowEntitlementOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the entitlement that you want to update. Constraints: o pattern: arn:.+:mediaconnect.+:entitlement:.+
+    /// The Amazon Resource Name (ARN) of the entitlement that you want to update. Constraints: • pattern: arn:.+:mediaconnect.+:entitlement:.+
     /// </summary>
     [CliOption("--entitlement-arn")]
     public string? EntitlementArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the flow that is associated with the entitlement that you want to update. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+
+    /// The ARN of the flow that is associated with the entitlement that you want to update. Constraints: • pattern: arn:.+:mediaconnect.+:flow:.+
     /// </summary>
     [CliOption("--flow-arn")]
     public string? FlowArn { get; private init; }
@@ -79,19 +81,19 @@ public record AwsMediaconnectUpdateFlowEntitlementOptions : AwsOptions, IValidat
     public string? Description { get; set; }
 
     /// <summary>
-    /// The type of encryption that will be used on the output associated with this entitlement. Allowable encryption types: static-key, speke. Algorithm -&gt; (string) The type of algorithm that is used for the encryption (such as aes128, aes192, or aes256). Possible values: o aes128 o aes192 o aes256 ConstantInitializationVector -&gt; (string) A 128-bit, 16-byte hex value represented by a 32-character string, to be used with the key for encrypting content. This pa- rameter is not valid for static key encryption. DeviceId -&gt; (string) The value of one of the devices that you configured with your digital rights management (DRM) platform key provider. This pa- rameter is required for SPEKE encryption and is not valid for static key encryption. KeyType -&gt; (string) The type of key that is used for the encryption. If no keyType is provided, the service will use the default setting (sta- tic-key). Possible values: o speke o static-key o srt-password Region -&gt; (string) The Amazon Web Services Region that the API Gateway proxy end- point was created in. This parameter is required for SPEKE en- cryption and is not valid for static key encryption. ResourceId -&gt; (string) An identifier for the content. The service sends this value to the key server to identify the current endpoint. The resource ID is also known as the content ID. This parameter is required for SPEKE encryption and is not valid for static key encryption. RoleArn -&gt; (string) The ARN of the role that you created during setup (when you set up MediaConnect as a trusted entity). SecretArn -&gt; (string) The ARN of the secret that you created in Secrets Manager to store the encryption key. This parameter is required for static key encryption and is not valid for SPEKE encryption. Url -&gt; (string) The URL from the API Gateway proxy that you set up to talk to your key server. This parameter is required for SPEKE encryption and is not valid for static key encryption. Shorthand Syntax: Algorithm=string,ConstantInitializationVector=string,DeviceId=string,KeyType=string,Region=string,ResourceId=string,RoleArn=string,SecretArn=string,Url=string JSON Syntax: { "Algorithm": "aes128"|"aes192"|"aes256", "ConstantInitializationVector": "string", "DeviceId": "string", "KeyType": "speke"|"static-key"|"srt-password", "Region": "string", "ResourceId": "string", "RoleArn": "string", "SecretArn": "string", "Url": "string" }
+    /// The type of encryption that will be used on the output associated with this entitlement. Allowable encryption types: static-key, speke. Algorithm -&gt; (string) The type of algorithm that is used for the encryption (such as aes128, aes192, or aes256). Possible values: • aes128 • aes192 • aes256 ConstantInitializationVector -&gt; (string) A 128-bit, 16-byte hex value represented by a 32-character string, to be used with the key for encrypting content. This parameter is not valid for static key encryption. DeviceId -&gt; (string) The value of one of the devices that you configured with your digital rights management (DRM) platform key provider. This parameter is required for SPEKE encryption and is not valid for static key encryption. KeyType -&gt; (string) The type of key that is used for the encryption. If no keyType is provided, the service will use the default setting (static-key). Possible values: • speke • static-key • srt-password Region -&gt; (string) The Amazon Web Services Region that the API Gateway proxy endpoint was created in. This parameter is required for SPEKE encryption and is not valid for static key encryption. ResourceId -&gt; (string) An identifier for the content. The service sends this value to the key server to identify the current endpoint. The resource ID is also known as the content ID. This parameter is required for SPEKE encryption and is not valid for static key encryption. RoleArn -&gt; (string) The ARN of the role that you created during setup (when you set up MediaConnect as a trusted entity). SecretArn -&gt; (string) The ARN of the secret that you created in Secrets Manager to store the encryption key. This parameter is required for static key encryption and is not valid for SPEKE encryption. Url -&gt; (string) The URL from the API Gateway proxy that you set up to talk to your key server. This parameter is required for SPEKE encryption and is not valid for static key encryption. Shorthand Syntax: Algorithm=string,ConstantInitializationVector=string,DeviceId=string,KeyType=string,Region=string,ResourceId=string,RoleArn=string,SecretArn=string,Url=string JSON Syntax: { "Algorithm": "aes128"|"aes192"|"aes256", "ConstantInitializationVector": "string", "DeviceId": "string", "KeyType": "speke"|"static-key"|"srt-password", "Region": "string", "ResourceId": "string", "RoleArn": "string", "SecretArn": "string", "Url": "string" }
     /// </summary>
     [CliOption("--encryption")]
     public string? Encryption { get; set; }
 
     /// <summary>
-    /// An indication of whether you want to enable the entitlement to allow access, or disable it to stop streaming content to the subscribers flow temporarily. If you dont specify the entitlementStatus field in your request, MediaConnect leaves the value unchanged. Possible values: o ENABLED o DISABLED
+    /// An indication of whether you want to enable the entitlement to allow access, or disable it to stop streaming content to the subscribers flow temporarily. If you dont specify the entitlementStatus field in your request, MediaConnect leaves the value unchanged. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--entitlement-status")]
     public AwsMediaconnectUpdateFlowEntitlementEntitlementStatus? EntitlementStatus { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services account IDs that you want to share your con- tent with. The receiving accounts (subscribers) will be allowed to create their own flow using your content as the source. (string) Syntax: "string" "string" ...
+    /// The Amazon Web Services account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flow using your content as the source. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--subscribers", GroupValues = true)]
     public IEnumerable<string>? Subscribers { get; set; }

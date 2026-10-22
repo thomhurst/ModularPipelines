@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsServicecatalogUpdateTagOptionOptions : AwsOptions, IValidatable
     /// <summary>
     /// Updates the specified TagOption. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The TagOption identifier. Constraints: o min: 1 o max: 100</param>
+    /// <param name="Id">The TagOption identifier. Constraints: • min: 1 • max: 100</param>
     public AwsServicecatalogUpdateTagOptionOptions(
         string Id
     )
@@ -56,13 +58,13 @@ public record AwsServicecatalogUpdateTagOptionOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The TagOption identifier. Constraints: o min: 1 o max: 100
+    /// The TagOption identifier. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The updated value. Constraints: o min: 1 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
+    /// The updated value. Constraints: • min: 1 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
     /// </summary>
     [CliOption("--value")]
     public string? Value { get; set; }

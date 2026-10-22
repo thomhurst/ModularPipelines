@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRdsDeleteBlueGreenDeploymentOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Deletes a blue/green deployment. For more information, see Using Amazon RDS Blue/Green Deployments for database updates in the Amazon RDS User Guide and Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="BlueGreenDeploymentIdentifier">The unique identifier of the blue/green deployment to delete. This parameter isn't case-sensitive. Constraints: o Must match an existing blue/green deployment identifier. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
+    /// <param name="BlueGreenDeploymentIdentifier">The unique identifier of the blue/green deployment to delete. This parameter isn't case-sensitive. Constraints: • Must match an existing blue/green deployment identifier. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
     public AwsRdsDeleteBlueGreenDeploymentOptions(
         string BlueGreenDeploymentIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsRdsDeleteBlueGreenDeploymentOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the blue/green deployment to delete. This parameter isn't case-sensitive. Constraints: o Must match an existing blue/green deployment identifier. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// The unique identifier of the blue/green deployment to delete. This parameter isn't case-sensitive. Constraints: • Must match an existing blue/green deployment identifier. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*
     /// </summary>
     [CliOption("--blue-green-deployment-identifier")]
     public string? BlueGreenDeploymentIdentifier { get; private init; }

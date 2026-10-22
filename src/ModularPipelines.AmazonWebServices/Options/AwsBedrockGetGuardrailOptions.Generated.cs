@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets details about a guardrail. If you don't specify a version, the re- sponse returns details for the DRAFT version. See also: AWS API Documentation
+/// Gets details about a guardrail. If you don't specify a version, the response returns details for the DRAFT version. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsBedrockGetGuardrailOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets details about a guardrail. If you don't specify a version, the re- sponse returns details for the DRAFT version. See also: AWS API Documentation
+    /// Gets details about a guardrail. If you don't specify a version, the response returns details for the DRAFT version. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GuardrailIdentifier">The unique identifier of the guardrail for which to get details. This can be an ID or the ARN. Constraints: o min: 0 o max: 2048 o pattern: (([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))</param>
+    /// <param name="GuardrailIdentifier">The unique identifier of the guardrail for which to get details. This can be an ID or the ARN. Constraints: • min: 0 • max: 2048 • pattern: (([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))</param>
     public AwsBedrockGetGuardrailOptions(
         string GuardrailIdentifier
     )
@@ -56,13 +58,13 @@ public record AwsBedrockGetGuardrailOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the guardrail for which to get details. This can be an ID or the ARN. Constraints: o min: 0 o max: 2048 o pattern: (([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))
+    /// The unique identifier of the guardrail for which to get details. This can be an ID or the ARN. Constraints: • min: 0 • max: 2048 • pattern: (([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))
     /// </summary>
     [CliOption("--guardrail-identifier")]
     public string? GuardrailIdentifier { get; private init; }
 
     /// <summary>
-    /// The version of the guardrail for which to get details. If you don't specify a version, the response returns details for the DRAFT ver- sion. Constraints: o pattern: (([1-9][0-9]{0,7})|(DRAFT))
+    /// The version of the guardrail for which to get details. If you don't specify a version, the response returns details for the DRAFT version. Constraints: • pattern: (([1-9][0-9]{0,7})|(DRAFT))
     /// </summary>
     [CliOption("--guardrail-version")]
     public string? GuardrailVersion { get; set; }

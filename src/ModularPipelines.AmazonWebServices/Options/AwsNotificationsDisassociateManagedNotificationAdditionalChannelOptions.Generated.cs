@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disassociates an additional Channel from a particular ManagedNotifica- tionConfiguration . Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts). See also: AWS API Documentation
+/// Disassociates an additional Channel from a particular ManagedNotificationConfiguration . Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts). See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsNotificationsDisassociateManagedNotificationAdditionalChannelOp
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disassociates an additional Channel from a particular ManagedNotifica- tionConfiguration . Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts). See also: AWS API Documentation
+    /// Disassociates an additional Channel from a particular ManagedNotificationConfiguration . Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts). See also: AWS API Documentation
     /// </summary>
-    /// <param name="ChannelArn">The Amazon Resource Name (ARN) of the Channel to associate with the ManagedNotificationConfiguration . Constraints: o pattern: arn:[a-z-]{3,10}:(chatbot|consoleapp|notifications-con- tacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+</param>
-    /// <param name="ManagedNotificationConfigurationArn">The Amazon Resource Name (ARN) of the Managed Notification Configu- ration to associate with the additional Channel. Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notifi- cation-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}</param>
+    /// <param name="ChannelArn">The Amazon Resource Name (ARN) of the Channel to associate with the ManagedNotificationConfiguration . Constraints: • pattern: arn:[a-z-]{3,10}:(chatbot|consoleapp|notifications-contacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+</param>
+    /// <param name="ManagedNotificationConfigurationArn">The Amazon Resource Name (ARN) of the Managed Notification Configuration to associate with the additional Channel. Constraints: • pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notification-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-category/[a-zA-Z0-9\-]{3,64}</param>
     public AwsNotificationsDisassociateManagedNotificationAdditionalChannelOptions(
         string ChannelArn,
         string ManagedNotificationConfigurationArn
@@ -60,13 +62,13 @@ public record AwsNotificationsDisassociateManagedNotificationAdditionalChannelOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Channel to associate with the ManagedNotificationConfiguration . Constraints: o pattern: arn:[a-z-]{3,10}:(chatbot|consoleapp|notifications-con- tacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+
+    /// The Amazon Resource Name (ARN) of the Channel to associate with the ManagedNotificationConfiguration . Constraints: • pattern: arn:[a-z-]{3,10}:(chatbot|consoleapp|notifications-contacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+
     /// </summary>
     [CliOption("--channel-arn")]
     public string? ChannelArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Managed Notification Configu- ration to associate with the additional Channel. Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notifi- cation-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}
+    /// The Amazon Resource Name (ARN) of the Managed Notification Configuration to associate with the additional Channel. Constraints: • pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notification-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-category/[a-zA-Z0-9\-]{3,64}
     /// </summary>
     [CliOption("--managed-notification-configuration-arn")]
     public string? ManagedNotificationConfigurationArn { get; private init; }

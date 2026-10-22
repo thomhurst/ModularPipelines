@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSignerGetSigningProfileOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns information on a specific signing profile. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileName">The name of the target signing profile. Constraints: o min: 2 o max: 64 o pattern: ^[a-zA-Z0-9_]{2,}</param>
+    /// <param name="ProfileName">The name of the target signing profile. Constraints: • min: 2 • max: 64 • pattern: ^[a-zA-Z0-9_]{2,}</param>
     public AwsSignerGetSigningProfileOptions(
         string ProfileName
     )
@@ -56,13 +58,13 @@ public record AwsSignerGetSigningProfileOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the target signing profile. Constraints: o min: 2 o max: 64 o pattern: ^[a-zA-Z0-9_]{2,}
+    /// The name of the target signing profile. Constraints: • min: 2 • max: 64 • pattern: ^[a-zA-Z0-9_]{2,}
     /// </summary>
     [CliOption("--profile-name")]
     public string? ProfileName { get; private init; }
 
     /// <summary>
-    /// The AWS account ID of the profile owner. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The AWS account ID of the profile owner. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--profile-owner")]
     public string? ProfileOwner { get; set; }

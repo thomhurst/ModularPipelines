@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// o This feature is in preview release and is subject to change. Your use of Amazon Web Services Price List API is subject to the Beta Service Participation terms of the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Section 1.10). * This returns a list of Price List references that the requester if au- thorized to view, given a ServiceCode , CurrencyCode , and an Effec- tiveDate . Use without a RegionCode filter to list Price List refer- ences from all available Am...
+/// • This feature is in preview release and is subject to change. Your use of Amazon Web Services Price List API is subject to the Beta Service Participation terms of the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Section 1.10). * This returns a list of Price List references that the requester if authorized to view, given a ServiceCode , CurrencyCode , and an EffectiveDate . Use without a RegionCode filter to list Price List references from all available Amazon W...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsPricingListPriceListsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// o This feature is in preview release and is subject to change. Your use of Amazon Web Services Price List API is subject to the Beta Service Participation terms of the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Section 1.10). * This returns a list of Price List references that the requester if au- thorized to view, given a ServiceCode , CurrencyCode , and an Effec- tiveDate . Use without a RegionCode filter to list Price List refer- ences from all available Am...
+    /// • This feature is in preview release and is subject to change. Your use of Amazon Web Services Price List API is subject to the Beta Service Participation terms of the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Section 1.10). * This returns a list of Price List references that the requester if authorized to view, given a ServiceCode , CurrencyCode , and an EffectiveDate . Use without a RegionCode filter to list Price List references from all available Amazon W...
     /// </summary>
-    /// <param name="ServiceCode">The service code or the Savings Plans service code for the attrib- utes that you want to retrieve. For example, to get the list of ap- plicable Amazon EC2 price lists, use AmazonEC2 . For a full list of service codes containing On-Demand and Reserved Instance (RI) pric- ing, use the DescribeServices API. To retrieve the Reserved Instance and Compute Savings Plans price lists, use ComputeSavingsPlans . To retrieve Machine Learning Savings Plans price lists, use Machine- LearningSavingsPlans . Constraints: o min: 1 o max: 32</param>
+    /// <param name="ServiceCode">The service code or the Savings Plans service code for the attributes that you want to retrieve. For example, to get the list of applicable Amazon EC2 price lists, use AmazonEC2 . For a full list of service codes containing On-Demand and Reserved Instance (RI) pricing, use the DescribeServices API. To retrieve the Reserved Instance and Compute Savings Plans price lists, use ComputeSavingsPlans . To retrieve Machine Learning Savings Plans price lists, use MachineLearningSavingsPlans . Constraints: • min: 1 • max: 32</param>
     /// <param name="EffectiveDate">The date that the Price List file prices are effective from.</param>
-    /// <param name="CurrencyCode">The three alphabetical character ISO-4217 currency code that the Price List files are denominated in. Constraints: o pattern: [A-Z]{3}</param>
+    /// <param name="CurrencyCode">The three alphabetical character ISO-4217 currency code that the Price List files are denominated in. Constraints: • pattern: [A-Z]{3}</param>
     public AwsPricingListPriceListsOptions(
         string ServiceCode,
         string EffectiveDate,
@@ -65,7 +67,7 @@ public record AwsPricingListPriceListsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The service code or the Savings Plans service code for the attrib- utes that you want to retrieve. For example, to get the list of ap- plicable Amazon EC2 price lists, use AmazonEC2 . For a full list of service codes containing On-Demand and Reserved Instance (RI) pric- ing, use the DescribeServices API. To retrieve the Reserved Instance and Compute Savings Plans price lists, use ComputeSavingsPlans . To retrieve Machine Learning Savings Plans price lists, use Machine- LearningSavingsPlans . Constraints: o min: 1 o max: 32
+    /// The service code or the Savings Plans service code for the attributes that you want to retrieve. For example, to get the list of applicable Amazon EC2 price lists, use AmazonEC2 . For a full list of service codes containing On-Demand and Reserved Instance (RI) pricing, use the DescribeServices API. To retrieve the Reserved Instance and Compute Savings Plans price lists, use ComputeSavingsPlans . To retrieve Machine Learning Savings Plans price lists, use MachineLearningSavingsPlans . Constraints: • min: 1 • max: 32
     /// </summary>
     [CliOption("--service-code")]
     public string? ServiceCode { get; private init; }
@@ -77,22 +79,19 @@ public record AwsPricingListPriceListsOptions : AwsOptions, IValidatableObject
     public string? EffectiveDate { get; private init; }
 
     /// <summary>
-    /// The three alphabetical character ISO-4217 currency code that the Price List files are denominated in. Constraints: o pattern: [A-Z]{3}
+    /// The three alphabetical character ISO-4217 currency code that the Price List files are denominated in. Constraints: • pattern: [A-Z]{3}
     /// </summary>
     [CliOption("--currency-code")]
     public string? CurrencyCode { get; private init; }
 
     /// <summary>
-    /// This is used to filter the Price List by Amazon Web Services Region. For example, to get the price list only for the US East (N. Vir- ginia) Region, use us-east-1 . If nothing is specified, you retrieve price lists for all applicable Regions. The available RegionCode list can be retrieved from GetAttributeValues API. Constraints: o min: 1 o max: 255
+    /// This is used to filter the Price List by Amazon Web Services Region. For example, to get the price list only for the US East (N. Virginia) Region, use us-east-1 . If nothing is specified, you retrieve price lists for all applicable Regions. The available RegionCode list can be retrieved from GetAttributeValues API. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--region-code")]
     public string? RegionCode { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -102,16 +101,19 @@ public record AwsPricingListPriceListsOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

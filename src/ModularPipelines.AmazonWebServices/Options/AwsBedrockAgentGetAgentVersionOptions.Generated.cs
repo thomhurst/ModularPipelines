@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets details about a version of an agent. See also: AWS API Documentation get-agent-version uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+/// Gets details about a version of an agent. See also: AWS API Documentation get-agent-version uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsBedrockAgentGetAgentVersionOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets details about a version of an agent. See also: AWS API Documentation get-agent-version uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Gets details about a version of an agent. See also: AWS API Documentation get-agent-version uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="AgentId">The unique identifier of the agent. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
-    /// <param name="AgentVersion">The version of the agent. Constraints: o pattern: [0-9]{1,5}</param>
+    /// <param name="AgentId">The unique identifier of the agent. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="AgentVersion">The version of the agent. Constraints: • pattern: [0-9]{1,5}</param>
     public AwsBedrockAgentGetAgentVersionOptions(
         string AgentId,
         string AgentVersion
@@ -60,13 +62,13 @@ public record AwsBedrockAgentGetAgentVersionOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the agent. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The unique identifier of the agent. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--agent-id")]
     public string? AgentId { get; private init; }
 
     /// <summary>
-    /// The version of the agent. Constraints: o pattern: [0-9]{1,5}
+    /// The version of the agent. Constraints: • pattern: [0-9]{1,5}
     /// </summary>
     [CliOption("--agent-version")]
     public string? AgentVersion { get; private init; }

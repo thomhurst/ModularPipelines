@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: The aggregation Region is now called the home Region . Returns the current configuration in the calling account for cross-Re- gion aggregation. A finding aggregator is a resource that establishes the home Region and any linked Regions. See also: AWS API Documentation
+/// NOTE: The aggregation Region is now called the home Region . Returns the current configuration in the calling account for cross-Region aggregation. A finding aggregator is a resource that establishes the home Region and any linked Regions. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSecurityhubGetFindingAggregatorOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: The aggregation Region is now called the home Region . Returns the current configuration in the calling account for cross-Re- gion aggregation. A finding aggregator is a resource that establishes the home Region and any linked Regions. See also: AWS API Documentation
+    /// NOTE: The aggregation Region is now called the home Region . Returns the current configuration in the calling account for cross-Region aggregation. A finding aggregator is a resource that establishes the home Region and any linked Regions. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FindingAggregatorArn">The ARN of the finding aggregator to return details for. To obtain the ARN, use ListFindingAggregators . Constraints: o pattern: .*\S.*</param>
+    /// <param name="FindingAggregatorArn">The ARN of the finding aggregator to return details for. To obtain the ARN, use ListFindingAggregators . Constraints: • pattern: .*\S.*</param>
     public AwsSecurityhubGetFindingAggregatorOptions(
         string FindingAggregatorArn
     )
@@ -56,7 +58,7 @@ public record AwsSecurityhubGetFindingAggregatorOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the finding aggregator to return details for. To obtain the ARN, use ListFindingAggregators . Constraints: o pattern: .*\S.*
+    /// The ARN of the finding aggregator to return details for. To obtain the ARN, use ListFindingAggregators . Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--finding-aggregator-arn")]
     public string? FindingAggregatorArn { get; private init; }

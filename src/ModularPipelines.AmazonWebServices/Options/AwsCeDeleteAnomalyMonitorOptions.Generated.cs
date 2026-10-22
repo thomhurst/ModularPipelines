@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCeDeleteAnomalyMonitorOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a cost anomaly monitor. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MonitorArn">The unique identifier of the cost anomaly monitor that you want to delete. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]*</param>
+    /// <param name="MonitorArn">The unique identifier of the cost anomaly monitor that you want to delete. Constraints: • min: 0 • max: 1024 • pattern: [\S\s]*</param>
     public AwsCeDeleteAnomalyMonitorOptions(
         string MonitorArn
     )
@@ -56,7 +58,7 @@ public record AwsCeDeleteAnomalyMonitorOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the cost anomaly monitor that you want to delete. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]*
+    /// The unique identifier of the cost anomaly monitor that you want to delete. Constraints: • min: 0 • max: 1024 • pattern: [\S\s]*
     /// </summary>
     [CliOption("--monitor-arn")]
     public string? MonitorArn { get; private init; }

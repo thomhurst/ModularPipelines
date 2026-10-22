@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -30,9 +31,9 @@ public record AwsConnectCreateInstanceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Initiates an Connect Customer instance with all the supported channels enabled. It does not attach any storage, such as Amazon Simple Storage Service (Amazon S3) or Amazon Kinesis. It also does not allow for any configurations on features, such as Contact Lens for Connect Customer. For more information, see Create an Connect Customer instance in the Connect Customer Administrator Guide . Connect Customer enforces a lim...
     /// </summary>
-    /// <param name="IdentityManagementType">The type of identity management for your Connect Customer users. Possible values: o SAML o CONNECT_MANAGED o EXISTING_DIRECTORY</param>
-    /// <param name="InboundCallsEnabled"></param>
-    /// <param name="OutboundCallsEnabled"></param>
+    /// <param name="IdentityManagementType">The type of identity management for your Connect Customer users. Possible values: • SAML • CONNECT_MANAGED • EXISTING_DIRECTORY</param>
+    /// <param name="InboundCallsEnabled">Your contact center handles incoming contacts.</param>
+    /// <param name="OutboundCallsEnabled">Your contact center allows outbound calls.</param>
     public AwsConnectCreateInstanceOptions(
         AwsConnectCreateInstanceIdentityManagementType IdentityManagementType,
         bool InboundCallsEnabled,
@@ -64,38 +65,44 @@ public record AwsConnectCreateInstanceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of identity management for your Connect Customer users. Possible values: o SAML o CONNECT_MANAGED o EXISTING_DIRECTORY
+    /// The type of identity management for your Connect Customer users. Possible values: • SAML • CONNECT_MANAGED • EXISTING_DIRECTORY
     /// </summary>
     [CliOption("--identity-management-type")]
     public AwsConnectCreateInstanceIdentityManagementType? IdentityManagementType { get; private init; }
 
+    /// <summary>
+    /// Your contact center handles incoming contacts.
+    /// </summary>
     [CliFlag("--inbound-calls-enabled", NegatedName = "--no-inbound-calls-enabled")]
     public bool? InboundCallsEnabled { get; private init; }
 
+    /// <summary>
+    /// Your contact center allows outbound calls.
+    /// </summary>
     [CliFlag("--outbound-calls-enabled", NegatedName = "--no-outbound-calls-enabled")]
     public bool? OutboundCallsEnabled { get; private init; }
 
     /// <summary>
-    /// The idempotency token. Constraints: o max: 500
+    /// The idempotency token. Constraints: • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The name for your instance. Constraints: o min: 1 o max: 45 o pattern: ^(?!d-)([\da-zA-Z]+)([-]*[\da-zA-Z])*$
+    /// The name for your instance. Constraints: • min: 1 • max: 45 • pattern: ^(?!d-)([\da-zA-Z]+)([-]*[\da-zA-Z])*$
     /// </summary>
     [CliOption("--instance-alias")]
     public string? InstanceAlias { get; set; }
 
     /// <summary>
-    /// The identifier for the directory. Constraints: o min: 12 o max: 12 o pattern: ^d-[0-9a-f]{10}$
+    /// The identifier for the directory. Constraints: • min: 12 • max: 12 • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; set; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for this re- source. For example, { "tags": {"key1":"value1", "key2":"value2"} } . Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} } . Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

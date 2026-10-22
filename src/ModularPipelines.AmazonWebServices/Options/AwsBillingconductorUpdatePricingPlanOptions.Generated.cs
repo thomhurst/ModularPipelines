@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBillingconductorUpdatePricingPlanOptions : AwsOptions, IValidat
     /// <summary>
     /// This updates an existing pricing plan. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the pricing plan that you're up- dating. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricing- plan/)?(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10})</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the pricing plan that you're updating. Constraints: • pattern: (arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/)?(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10})</param>
     public AwsBillingconductorUpdatePricingPlanOptions(
         string Arn
     )
@@ -56,19 +58,19 @@ public record AwsBillingconductorUpdatePricingPlanOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the pricing plan that you're up- dating. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricing- plan/)?(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10})
+    /// The Amazon Resource Name (ARN) of the pricing plan that you're updating. Constraints: • pattern: (arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/)?(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10})
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The name of the pricing plan. The name must be unique to each pric- ing plan. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_\+=\.\-@]+
+    /// The name of the pricing plan. The name must be unique to each pricing plan. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_\+=\.\-@]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The description of the pricing plan. Constraints: o min: 0 o max: 1024
+    /// The description of the pricing plan. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

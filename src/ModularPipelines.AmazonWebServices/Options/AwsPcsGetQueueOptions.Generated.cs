@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsPcsGetQueueOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns detailed information about a queue. The information includes the compute node groups that the queue uses to schedule jobs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterIdentifier">The name or ID of the cluster of the queue. Constraints: o pattern: (pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})</param>
-    /// <param name="QueueIdentifier">The name or ID of the queue. Constraints: o pattern: (pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,25})</param>
+    /// <param name="ClusterIdentifier">The name or ID of the cluster of the queue. Constraints: • pattern: (pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})</param>
+    /// <param name="QueueIdentifier">The name or ID of the queue. Constraints: • pattern: (pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,25})</param>
     public AwsPcsGetQueueOptions(
         string ClusterIdentifier,
         string QueueIdentifier
@@ -60,13 +62,13 @@ public record AwsPcsGetQueueOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or ID of the cluster of the queue. Constraints: o pattern: (pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})
+    /// The name or ID of the cluster of the queue. Constraints: • pattern: (pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The name or ID of the queue. Constraints: o pattern: (pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,25})
+    /// The name or ID of the queue. Constraints: • pattern: (pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,25})
     /// </summary>
     [CliOption("--queue-identifier")]
     public string? QueueIdentifier { get; private init; }

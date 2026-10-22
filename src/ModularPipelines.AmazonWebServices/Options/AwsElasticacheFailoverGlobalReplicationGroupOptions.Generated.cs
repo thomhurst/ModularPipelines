@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Used to failover the primary region to a secondary region. The sec- ondary region will become primary, and all other clusters will become secondary. See also: AWS API Documentation
+/// Used to failover the primary region to a secondary region. The secondary region will become primary, and all other clusters will become secondary. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsElasticacheFailoverGlobalReplicationGroupOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Used to failover the primary region to a secondary region. The sec- ondary region will become primary, and all other clusters will become secondary. See also: AWS API Documentation
+    /// Used to failover the primary region to a secondary region. The secondary region will become primary, and all other clusters will become secondary. See also: AWS API Documentation
     /// </summary>
     /// <param name="GlobalReplicationGroupId">The name of the Global datastore</param>
     /// <param name="PrimaryRegion">The Amazon region of the primary cluster of the Global datastore</param>

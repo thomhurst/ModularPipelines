@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Evaluates values at the time of the request and returns them. It con- siders the request's timezone or the table's timezone, in that order, when accessing time based tables. When a value is accessed, the acces- sor's identity and the time of access are saved alongside the value to help identify values that are actively in use. The term "Batch" is not included in the operation name since it does not meet all the criteria for a batch operation as specified in Batch Operations: Amazon Web Ser- vice...
+/// Evaluates values at the time of the request and returns them. It considers the request's timezone or the table's timezone, in that order, when accessing time based tables. When a value is accessed, the accessor's identity and the time of access are saved alongside the value to help identify values that are actively in use. The term "Batch" is not included in the operation name since it does not meet all the criteria for a batch operation as specified in Batch Operations: Amazon Web Services API ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsConnectEvaluateDataTableValuesOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Evaluates values at the time of the request and returns them. It con- siders the request's timezone or the table's timezone, in that order, when accessing time based tables. When a value is accessed, the acces- sor's identity and the time of access are saved alongside the value to help identify values that are actively in use. The term "Batch" is not included in the operation name since it does not meet all the criteria for a batch operation as specified in Batch Operations: Amazon Web Ser- vice...
+    /// Evaluates values at the time of the request and returns them. It considers the request's timezone or the table's timezone, in that order, when accessing time based tables. When a value is accessed, the accessor's identity and the time of access are saved alongside the value to help identify values that are actively in use. The term "Batch" is not included in the operation name since it does not meet all the criteria for a batch operation as specified in Batch Operations: Amazon Web Services API ...
     /// </summary>
-    /// <param name="InstanceId">The unique identifier for the Amazon Connect instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="DataTableId">The unique identifier for the data table. Must also accept the table ARN with or without a version alias. Constraints: o min: 1 o max: 256</param>
-    /// <param name="Values">A list of value evaluation sets specifying which primary values and attributes to evaluate. (structure) A data table value evaluation set. PrimaryValues -&gt; (list) The set's primary values. (structure) Represents a primary key value used to identify a spe- cific record in a data table. Primary values are used in combination to create unique record identifiers when a table has multiple primary attributes. AttributeName -&gt; (string) [required] The name of the primary attribute that this value be- longs to. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Value -&gt; (string) [required] The actual value for the primary attribute. Must be provided as a string regardless of the attribute's value type. Primary values cannot be expressions and must be explicitly specified. AttributeNames -&gt; (list) [required] The set's attribute names. (string) Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Shorthand Syntax: PrimaryValues=[{AttributeName=string,Value=string},{AttributeName=string,Value=string}],AttributeNames=string,string ... JSON Syntax: [ { "PrimaryValues": [ { "AttributeName": "string", "Value": "string" } ... ], "AttributeNames": ["string", ...] } ... ]</param>
+    /// <param name="InstanceId">The unique identifier for the Amazon Connect instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="DataTableId">The unique identifier for the data table. Must also accept the table ARN with or without a version alias. Constraints: • min: 1 • max: 256</param>
+    /// <param name="Values">A list of value evaluation sets specifying which primary values and attributes to evaluate. (structure) A data table value evaluation set. PrimaryValues -&gt; (list) The set's primary values. (structure) Represents a primary key value used to identify a specific record in a data table. Primary values are used in combination to create unique record identifiers when a table has multiple primary attributes. AttributeName -&gt; (string) [required] The name of the primary attribute that this value belongs to. Constraints: • min: 1 • max: 127 • pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Value -&gt; (string) [required] The actual value for the primary attribute. Must be provided as a string regardless of the attribute's value type. Primary values cannot be expressions and must be explicitly specified. AttributeNames -&gt; (list) [required] The set's attribute names. (string) Constraints: • min: 1 • max: 127 • pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Shorthand Syntax: PrimaryValues=[{AttributeName=string,Value=string},{AttributeName=string,Value=string}],AttributeNames=string,string ... JSON Syntax: [ { "PrimaryValues": [ { "AttributeName": "string", "Value": "string" } ... ], "AttributeNames": ["string", ...] } ... ]</param>
     public AwsConnectEvaluateDataTableValuesOptions(
         string InstanceId,
         string DataTableId,
@@ -76,25 +78,25 @@ public record AwsConnectEvaluateDataTableValuesOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the Amazon Connect instance. Constraints: o min: 1 o max: 100
+    /// The unique identifier for the Amazon Connect instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias. Constraints: o min: 1 o max: 256
+    /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--data-table-id")]
     public string? DataTableId { get; private init; }
 
     /// <summary>
-    /// A list of value evaluation sets specifying which primary values and attributes to evaluate. (structure) A data table value evaluation set. PrimaryValues -&gt; (list) The set's primary values. (structure) Represents a primary key value used to identify a spe- cific record in a data table. Primary values are used in combination to create unique record identifiers when a table has multiple primary attributes. AttributeName -&gt; (string) [required] The name of the primary attribute that this value be- longs to. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Value -&gt; (string) [required] The actual value for the primary attribute. Must be provided as a string regardless of the attribute's value type. Primary values cannot be expressions and must be explicitly specified. AttributeNames -&gt; (list) [required] The set's attribute names. (string) Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Shorthand Syntax: PrimaryValues=[{AttributeName=string,Value=string},{AttributeName=string,Value=string}],AttributeNames=string,string ... JSON Syntax: [ { "PrimaryValues": [ { "AttributeName": "string", "Value": "string" } ... ], "AttributeNames": ["string", ...] } ... ]
+    /// A list of value evaluation sets specifying which primary values and attributes to evaluate. (structure) A data table value evaluation set. PrimaryValues -&gt; (list) The set's primary values. (structure) Represents a primary key value used to identify a specific record in a data table. Primary values are used in combination to create unique record identifiers when a table has multiple primary attributes. AttributeName -&gt; (string) [required] The name of the primary attribute that this value belongs to. Constraints: • min: 1 • max: 127 • pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Value -&gt; (string) [required] The actual value for the primary attribute. Must be provided as a string regardless of the attribute's value type. Primary values cannot be expressions and must be explicitly specified. AttributeNames -&gt; (list) [required] The set's attribute names. (string) Constraints: • min: 1 • max: 127 • pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Shorthand Syntax: PrimaryValues=[{AttributeName=string,Value=string},{AttributeName=string,Value=string}],AttributeNames=string,string ... JSON Syntax: [ { "PrimaryValues": [ { "AttributeName": "string", "Value": "string" } ... ], "AttributeNames": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--values", GroupValues = true)]
     public IEnumerable<string>? Values { get; private init; }
 
     /// <summary>
-    /// Optional IANA timezone identifier to use when resolving time based dynamic values. Defaults to the data table time zone if not pro- vided.
+    /// Optional IANA timezone identifier to use when resolving time based dynamic values. Defaults to the data table time zone if not provided.
     /// </summary>
     [CliOption("--time-zone")]
     public string? TimeZone { get; set; }
@@ -107,7 +109,7 @@ public record AwsConnectEvaluateDataTableValuesOptions : AwsOptions, IValidatabl
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of data table values to return in one page of re- sults. Constraints: o min: 1 o max: 100
+    /// The maximum number of data table values to return in one page of results. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

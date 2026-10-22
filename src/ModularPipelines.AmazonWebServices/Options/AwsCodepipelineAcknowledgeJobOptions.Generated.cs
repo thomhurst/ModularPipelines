@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCodepipelineAcknowledgeJobOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Returns information about a specified job and whether that job has been received by the job worker. Used for custom actions only. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">The unique system-generated ID of the job for which you want to con- firm receipt. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="Nonce">A system-generated random number that CodePipeline uses to ensure that the job is being worked on by only one job worker. Get this number from the response of the PollForJobs request that returned this job. Constraints: o min: 1 o max: 50</param>
+    /// <param name="JobId">The unique system-generated ID of the job for which you want to confirm receipt. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="Nonce">A system-generated random number that CodePipeline uses to ensure that the job is being worked on by only one job worker. Get this number from the response of the PollForJobs request that returned this job. Constraints: • min: 1 • max: 50</param>
     public AwsCodepipelineAcknowledgeJobOptions(
         string JobId,
         string Nonce
@@ -60,13 +62,13 @@ public record AwsCodepipelineAcknowledgeJobOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique system-generated ID of the job for which you want to con- firm receipt. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique system-generated ID of the job for which you want to confirm receipt. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// A system-generated random number that CodePipeline uses to ensure that the job is being worked on by only one job worker. Get this number from the response of the PollForJobs request that returned this job. Constraints: o min: 1 o max: 50
+    /// A system-generated random number that CodePipeline uses to ensure that the job is being worked on by only one job worker. Get this number from the response of the PollForJobs request that returned this job. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--nonce")]
     public string? Nonce { get; private init; }

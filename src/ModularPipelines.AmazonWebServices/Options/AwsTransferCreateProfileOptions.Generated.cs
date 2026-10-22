@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsTransferCreateProfileOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates the local or partner profile to use for AS2 transfers. See also: AWS API Documentation
     /// </summary>
-    /// <param name="As2Id">The As2Id is the AS2-name , as defined in the RFC 4130 . For inbound transfers, this is the AS2-From header for the AS2 messages sent from the partner. For outbound connectors, this is the AS2-To header for the AS2 messages sent to the partner using the StartFileTransfer API operation. This ID cannot include spaces. Constraints: o min: 1 o max: 128 o pattern: [\u0020-\u007E\s]*</param>
-    /// <param name="ProfileType">Determines the type of profile to create: o Specify LOCAL to create a local profile. A local profile repre- sents the AS2-enabled Transfer Family server organization or party. o Specify PARTNER to create a partner profile. A partner profile represents a remote organization, external to Transfer Family. Possible values: o LOCAL o PARTNER</param>
+    /// <param name="As2Id">The As2Id is the AS2-name , as defined in the RFC 4130 . For inbound transfers, this is the AS2-From header for the AS2 messages sent from the partner. For outbound connectors, this is the AS2-To header for the AS2 messages sent to the partner using the StartFileTransfer API operation. This ID cannot include spaces. Constraints: • min: 1 • max: 128 • pattern: [\u0020-\u007E\s]*</param>
+    /// <param name="ProfileType">Determines the type of profile to create: • Specify LOCAL to create a local profile. A local profile represents the AS2-enabled Transfer Family server organization or party. • Specify PARTNER to create a partner profile. A partner profile represents a remote organization, external to Transfer Family. Possible values: • LOCAL • PARTNER</param>
     public AwsTransferCreateProfileOptions(
         string As2Id,
         AwsTransferCreateProfileProfileType ProfileType
@@ -60,25 +62,25 @@ public record AwsTransferCreateProfileOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The As2Id is the AS2-name , as defined in the RFC 4130 . For inbound transfers, this is the AS2-From header for the AS2 messages sent from the partner. For outbound connectors, this is the AS2-To header for the AS2 messages sent to the partner using the StartFileTransfer API operation. This ID cannot include spaces. Constraints: o min: 1 o max: 128 o pattern: [\u0020-\u007E\s]*
+    /// The As2Id is the AS2-name , as defined in the RFC 4130 . For inbound transfers, this is the AS2-From header for the AS2 messages sent from the partner. For outbound connectors, this is the AS2-To header for the AS2 messages sent to the partner using the StartFileTransfer API operation. This ID cannot include spaces. Constraints: • min: 1 • max: 128 • pattern: [\u0020-\u007E\s]*
     /// </summary>
     [CliOption("--as2-id")]
     public string? As2Id { get; private init; }
 
     /// <summary>
-    /// Determines the type of profile to create: o Specify LOCAL to create a local profile. A local profile repre- sents the AS2-enabled Transfer Family server organization or party. o Specify PARTNER to create a partner profile. A partner profile represents a remote organization, external to Transfer Family. Possible values: o LOCAL o PARTNER
+    /// Determines the type of profile to create: • Specify LOCAL to create a local profile. A local profile represents the AS2-enabled Transfer Family server organization or party. • Specify PARTNER to create a partner profile. A partner profile represents a remote organization, external to Transfer Family. Possible values: • LOCAL • PARTNER
     /// </summary>
     [CliOption("--profile-type")]
     public AwsTransferCreateProfileProfileType? ProfileType { get; private init; }
 
     /// <summary>
-    /// An array of identifiers for the imported certificates. You use this identifier for working with profiles and partner profiles. (string) Constraints: o min: 22 o max: 22 o pattern: cert-([0-9a-f]{17}) Syntax: "string" "string" ...
+    /// An array of identifiers for the imported certificates. You use this identifier for working with profiles and partner profiles. (string) Constraints: • min: 22 • max: 22 • pattern: cert-([0-9a-f]{17}) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--certificate-ids", GroupValues = true)]
     public IEnumerable<string>? CertificateIds { get; set; }
 
     /// <summary>
-    /// Key-value pairs that can be used to group and search for AS2 pro- files. Constraints: o min: 1 o max: 50 (structure) Creates a key-value pair for a specific resource. Tags are meta- data that you can use to search for and group a resource for various purposes. You can apply tags to servers, users, and roles. A tag key can take more than one value. For example, to group servers for accounting purposes, you might create a tag called Group and assign the values Research and Accounting to that group. Key -&gt; (string) [required] The name assigned to the tag that you create. Constraints: o min: 0 o max: 128 Value -&gt; (string) [required] Contains one or more values that you assigned to the key name you create. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Key-value pairs that can be used to group and search for AS2 profiles. Constraints: • min: 1 • max: 50 (structure) Creates a key-value pair for a specific resource. Tags are metadata that you can use to search for and group a resource for various purposes. You can apply tags to servers, users, and roles. A tag key can take more than one value. For example, to group servers for accounting purposes, you might create a tag called Group and assign the values Research and Accounting to that group. Key -&gt; (string) [required] The name assigned to the tag that you create. Constraints: • min: 0 • max: 128 Value -&gt; (string) [required] Contains one or more values that you assigned to the key name you create. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

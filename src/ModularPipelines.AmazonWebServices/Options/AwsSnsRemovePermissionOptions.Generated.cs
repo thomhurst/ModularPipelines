@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes a statement from a topic's access control policy. NOTE: To remove the ability to change topic permissions, you must deny permissions to the AddPermission , RemovePermission , and SetTopi- cAttributes actions in your IAM policy. See also: AWS API Documentation
+/// Removes a statement from a topic's access control policy. NOTE: To remove the ability to change topic permissions, you must deny permissions to the AddPermission , RemovePermission , and SetTopicAttributes actions in your IAM policy. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsSnsRemovePermissionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes a statement from a topic's access control policy. NOTE: To remove the ability to change topic permissions, you must deny permissions to the AddPermission , RemovePermission , and SetTopi- cAttributes actions in your IAM policy. See also: AWS API Documentation
+    /// Removes a statement from a topic's access control policy. NOTE: To remove the ability to change topic permissions, you must deny permissions to the AddPermission , RemovePermission , and SetTopicAttributes actions in your IAM policy. See also: AWS API Documentation
     /// </summary>
     /// <param name="TopicArn">The ARN of the topic whose access control policy you wish to modify.</param>
     /// <param name="Label">The unique label of the statement you want to remove.</param>

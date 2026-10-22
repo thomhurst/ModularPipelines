@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,11 +30,11 @@ public record AwsWellarchitectedListCheckSummariesOptions : AwsOptions, IValidat
     /// <summary>
     /// List of Trusted Advisor checks summarized for all accounts related to the workload. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkloadId">The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}</param>
+    /// <param name="WorkloadId">The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: • min: 32 • max: 32 • pattern: [0-9a-f]{32}</param>
     /// <param name="LensArn">Well-Architected Lens ARN.</param>
-    /// <param name="PillarId">The ID used to identify a pillar, for example, security . A pillar is identified by its PillarReviewSummary$PillarId . Constraints: o min: 1 o max: 64</param>
-    /// <param name="QuestionId">The ID of the question. Constraints: o min: 1 o max: 128</param>
-    /// <param name="ChoiceId">The ID of a choice. Constraints: o min: 1 o max: 64</param>
+    /// <param name="PillarId">The ID used to identify a pillar, for example, security . A pillar is identified by its PillarReviewSummary$PillarId . Constraints: • min: 1 • max: 64</param>
+    /// <param name="QuestionId">The ID of the question. Constraints: • min: 1 • max: 128</param>
+    /// <param name="ChoiceId">The ID of a choice. Constraints: • min: 1 • max: 64</param>
     public AwsWellarchitectedListCheckSummariesOptions(
         string WorkloadId,
         string LensArn,
@@ -73,7 +75,7 @@ public record AwsWellarchitectedListCheckSummariesOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}
+    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: • min: 32 • max: 32 • pattern: [0-9a-f]{32}
     /// </summary>
     [CliOption("--workload-id")]
     public string? WorkloadId { get; private init; }
@@ -85,32 +87,32 @@ public record AwsWellarchitectedListCheckSummariesOptions : AwsOptions, IValidat
     public string? LensArn { get; private init; }
 
     /// <summary>
-    /// The ID used to identify a pillar, for example, security . A pillar is identified by its PillarReviewSummary$PillarId . Constraints: o min: 1 o max: 64
+    /// The ID used to identify a pillar, for example, security . A pillar is identified by its PillarReviewSummary$PillarId . Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--pillar-id")]
     public string? PillarId { get; private init; }
 
     /// <summary>
-    /// The ID of the question. Constraints: o min: 1 o max: 128
+    /// The ID of the question. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--question-id")]
     public string? QuestionId { get; private init; }
 
     /// <summary>
-    /// The ID of a choice. Constraints: o min: 1 o max: 64
+    /// The ID of a choice. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--choice-id")]
     public string? ChoiceId { get; private init; }
 
     /// <summary>
-    /// The token to use to retrieve the next set of results. Constraints: o pattern: [A-Za-z0-9+\/=_-]+
+    /// The token to use to retrieve the next set of results. Constraints: • pattern: [A-Za-z0-9+\/=_-]+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return for this request. Constraints: o min: 1 o max: 50
+    /// The maximum number of results to return for this request. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

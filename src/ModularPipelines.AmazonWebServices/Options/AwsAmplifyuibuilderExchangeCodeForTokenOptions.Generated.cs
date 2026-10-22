@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAmplifyuibuilderExchangeCodeForTokenOptions : AwsOptions, IVali
     /// <summary>
     /// NOTE: This is for internal use. Amplify uses this action to exchange an access code for a token. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Provider">The third-party provider for the token. The only valid value is figma . Possible values: o figma</param>
+    /// <param name="Provider">The third-party provider for the token. The only valid value is figma . Possible values: • figma</param>
     /// <param name="Request">Describes the configuration of the request. code -&gt; (string) [required] The access code to send in the request. redirectUri -&gt; (string) [required] The location of the application that will receive the access code. clientId -&gt; (string) The ID of the client to request the token from. Shorthand Syntax: code=string,redirectUri=string,clientId=string JSON Syntax: { "code": "string", "redirectUri": "string", "clientId": "string" }</param>
     public AwsAmplifyuibuilderExchangeCodeForTokenOptions(
         string Provider,
@@ -60,7 +62,7 @@ public record AwsAmplifyuibuilderExchangeCodeForTokenOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The third-party provider for the token. The only valid value is figma . Possible values: o figma
+    /// The third-party provider for the token. The only valid value is figma . Possible values: • figma
     /// </summary>
     [CliOption("--provider")]
     public string? Provider { get; private init; }

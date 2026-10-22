@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCodestarConnectionsGetSyncConfigurationOptions : AwsOptions, IV
     /// <summary>
     /// Returns details about a sync configuration, including the sync type and resource name. A sync configuration allows the configuration to sync (push and pull) changes from the remote repository for a specified branch in a Git repository. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SyncType">The sync type for the sync configuration for which you want to re- trieve information. Possible values: o CFN_STACK_SYNC</param>
-    /// <param name="ResourceName">The name of the Amazon Web Services resource for the sync configura- tion for which you want to retrieve information. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$</param>
+    /// <param name="SyncType">The sync type for the sync configuration for which you want to retrieve information. Possible values: • CFN_STACK_SYNC</param>
+    /// <param name="ResourceName">The name of the Amazon Web Services resource for the sync configuration for which you want to retrieve information. Constraints: • min: 1 • max: 100 • pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$</param>
     public AwsCodestarConnectionsGetSyncConfigurationOptions(
         string SyncType,
         string ResourceName
@@ -60,13 +62,13 @@ public record AwsCodestarConnectionsGetSyncConfigurationOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The sync type for the sync configuration for which you want to re- trieve information. Possible values: o CFN_STACK_SYNC
+    /// The sync type for the sync configuration for which you want to retrieve information. Possible values: • CFN_STACK_SYNC
     /// </summary>
     [CliOption("--sync-type")]
     public string? SyncType { get; private init; }
 
     /// <summary>
-    /// The name of the Amazon Web Services resource for the sync configura- tion for which you want to retrieve information. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$
+    /// The name of the Amazon Web Services resource for the sync configuration for which you want to retrieve information. Constraints: • min: 1 • max: 100 • pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$
     /// </summary>
     [CliOption("--resource-name")]
     public string? ResourceName { get; private init; }

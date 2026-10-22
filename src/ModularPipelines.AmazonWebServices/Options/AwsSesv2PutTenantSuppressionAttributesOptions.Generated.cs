@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Configure the suppression list preferences for a tenant. Use this oper- ation to enable or disable tenant-level suppression, or to change the suppressed reasons for a tenant. When you set the suppression scope to TENANT , Amazon SES maintains a separate suppression list for the tenant. When you set the scope to AC- COUNT , the tenant uses the account-level suppression list. See also: AWS API Documentation
+/// Configure the suppression list preferences for a tenant. Use this operation to enable or disable tenant-level suppression, or to change the suppressed reasons for a tenant. When you set the suppression scope to TENANT , Amazon SES maintains a separate suppression list for the tenant. When you set the scope to ACCOUNT , the tenant uses the account-level suppression list. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsSesv2PutTenantSuppressionAttributesOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Configure the suppression list preferences for a tenant. Use this oper- ation to enable or disable tenant-level suppression, or to change the suppressed reasons for a tenant. When you set the suppression scope to TENANT , Amazon SES maintains a separate suppression list for the tenant. When you set the scope to AC- COUNT , the tenant uses the account-level suppression list. See also: AWS API Documentation
+    /// Configure the suppression list preferences for a tenant. Use this operation to enable or disable tenant-level suppression, or to change the suppressed reasons for a tenant. When you set the suppression scope to TENANT , Amazon SES maintains a separate suppression list for the tenant. When you set the scope to ACCOUNT , the tenant uses the account-level suppression list. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TenantName">The name of the tenant to configure suppression list preferences for. Constraints: o min: 1</param>
+    /// <param name="TenantName">The name of the tenant to configure suppression list preferences for. Constraints: • min: 1</param>
     public AwsSesv2PutTenantSuppressionAttributesOptions(
         string TenantName
     )
@@ -57,19 +59,19 @@ public record AwsSesv2PutTenantSuppressionAttributesOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the tenant to configure suppression list preferences for. Constraints: o min: 1
+    /// The name of the tenant to configure suppression list preferences for. Constraints: • min: 1
     /// </summary>
     [CliOption("--tenant-name")]
     public string? TenantName { get; private init; }
 
     /// <summary>
-    /// A list that contains the reasons that email addresses are automati- cally added to the suppression list for the tenant. This list can contain any or all of the following: o COMPLAINT Amazon SES adds an email address to the suppression list when a message sent to that address results in a complaint. o BOUNCE Amazon SES adds an email address to the suppression list when a message sent to that address results in a hard bounce. (string) The reason that the address was added to the suppression list for your account or for a specific tenant. The value can be one of the following: o COMPLAINT Amazon SES added an email address to the suppres- sion list for your account or for a specific tenant because a message sent to that address results in a complaint. o BOUNCE Amazon SES added an email address to the suppression list for your account or for a specific tenant because a mes- sage sent to that address results in a hard bounce. Possible values: o BOUNCE o COMPLAINT Syntax: "string" "string" ...
+    /// A list that contains the reasons that email addresses are automatically added to the suppression list for the tenant. This list can contain any or all of the following: • COMPLAINT Amazon SES adds an email address to the suppression list when a message sent to that address results in a complaint. • BOUNCE Amazon SES adds an email address to the suppression list when a message sent to that address results in a hard bounce. (string) The reason that the address was added to the suppression list for your account or for a specific tenant. The value can be one of the following: • COMPLAINT Amazon SES added an email address to the suppression list for your account or for a specific tenant because a message sent to that address results in a complaint. • BOUNCE Amazon SES added an email address to the suppression list for your account or for a specific tenant because a message sent to that address results in a hard bounce. Possible values: • BOUNCE • COMPLAINT Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--suppressed-reasons", GroupValues = true)]
     public IEnumerable<string>? SuppressedReasons { get; set; }
 
     /// <summary>
-    /// The suppression scope for the tenant. Specify TENANT to use the ten- ant's own suppression list, or ACCOUNT to use the account-level sup- pression list. NOTE: If you don't specify a suppression scope, the tenant defaults to ACCOUNT scope and uses the account-level suppression list. Possible values: o ACCOUNT o TENANT
+    /// The suppression scope for the tenant. Specify TENANT to use the tenant's own suppression list, or ACCOUNT to use the account-level suppression list. NOTE: If you don't specify a suppression scope, the tenant defaults to ACCOUNT scope and uses the account-level suppression list. Possible values: • ACCOUNT • TENANT
     /// </summary>
     [CliOption("--suppression-scope")]
     public AwsSesv2PutTenantSuppressionAttributesSuppressionScope? SuppressionScope { get; set; }

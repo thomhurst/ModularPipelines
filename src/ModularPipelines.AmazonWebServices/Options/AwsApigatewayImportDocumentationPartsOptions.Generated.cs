@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -73,7 +75,7 @@ public record AwsApigatewayImportDocumentationPartsOptions : AwsOptions, IValida
     public string? Body { get; private init; }
 
     /// <summary>
-    /// A query parameter to indicate whether to overwrite (overwrite ) any existing DocumentationParts definition or to merge (merge ) the new definition into the existing one. The default value is merge . Possible values: o merge o overwrite
+    /// A query parameter to indicate whether to overwrite (overwrite ) any existing DocumentationParts definition or to merge (merge ) the new definition into the existing one. The default value is merge . Possible values: • merge • overwrite
     /// </summary>
     [CliOption("--mode")]
     public AwsApigatewayImportDocumentationPartsMode? Mode { get; set; }

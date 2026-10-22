@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an association between a notification rule and an Amazon Q De- veloper in chat applications topic or Amazon Q Developer in chat appli- cations client so that the associated target can receive notifications when the events described in the rule are triggered. See also: AWS API Documentation
+/// Creates an association between a notification rule and an Amazon Q Developer in chat applications topic or Amazon Q Developer in chat applications client so that the associated target can receive notifications when the events described in the rule are triggered. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsCodestarNotificationsSubscribeOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an association between a notification rule and an Amazon Q De- veloper in chat applications topic or Amazon Q Developer in chat appli- cations client so that the associated target can receive notifications when the events described in the rule are triggered. See also: AWS API Documentation
+    /// Creates an association between a notification rule and an Amazon Q Developer in chat applications topic or Amazon Q Developer in chat applications client so that the associated target can receive notifications when the events described in the rule are triggered. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the notification rule for which you want to create the association. Constraints: o pattern: ^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:no- tificationrule\/(.*\S)?$</param>
-    /// <param name="Target">Information about the Amazon Q Developer in chat applications topics or Amazon Q Developer in chat applications clients associated with a notification rule. TargetType -&gt; (string) The target type. Can be an Amazon Q Developer in chat applica- tions topic or Amazon Q Developer in chat applications client. o Amazon Q Developer in chat applications topics are specified as SNS . o Amazon Q Developer in chat applications clients are specified as AWSChatbotSlack . Constraints: o pattern: ^[A-Za-z]+$ TargetAddress -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Q Developer in chat applications topic or Amazon Q Developer in chat applications client. Constraints: o min: 1 o max: 320 Shorthand Syntax: TargetType=string,TargetAddress=string JSON Syntax: { "TargetType": "string", "TargetAddress": "string" }</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the notification rule for which you want to create the association. Constraints: • pattern: ^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:notificationrule\/(.*\S)?$</param>
+    /// <param name="Target">Information about the Amazon Q Developer in chat applications topics or Amazon Q Developer in chat applications clients associated with a notification rule. TargetType -&gt; (string) The target type. Can be an Amazon Q Developer in chat applications topic or Amazon Q Developer in chat applications client. • Amazon Q Developer in chat applications topics are specified as SNS . • Amazon Q Developer in chat applications clients are specified as AWSChatbotSlack . Constraints: • pattern: ^[A-Za-z]+$ TargetAddress -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Q Developer in chat applications topic or Amazon Q Developer in chat applications client. Constraints: • min: 1 • max: 320 Shorthand Syntax: TargetType=string,TargetAddress=string JSON Syntax: { "TargetType": "string", "TargetAddress": "string" }</param>
     public AwsCodestarNotificationsSubscribeOptions(
         string Arn,
         string Target
@@ -61,19 +63,19 @@ public record AwsCodestarNotificationsSubscribeOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the notification rule for which you want to create the association. Constraints: o pattern: ^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:no- tificationrule\/(.*\S)?$
+    /// The Amazon Resource Name (ARN) of the notification rule for which you want to create the association. Constraints: • pattern: ^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:notificationrule\/(.*\S)?$
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// Information about the Amazon Q Developer in chat applications topics or Amazon Q Developer in chat applications clients associated with a notification rule. TargetType -&gt; (string) The target type. Can be an Amazon Q Developer in chat applica- tions topic or Amazon Q Developer in chat applications client. o Amazon Q Developer in chat applications topics are specified as SNS . o Amazon Q Developer in chat applications clients are specified as AWSChatbotSlack . Constraints: o pattern: ^[A-Za-z]+$ TargetAddress -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Q Developer in chat applications topic or Amazon Q Developer in chat applications client. Constraints: o min: 1 o max: 320 Shorthand Syntax: TargetType=string,TargetAddress=string JSON Syntax: { "TargetType": "string", "TargetAddress": "string" }
+    /// Information about the Amazon Q Developer in chat applications topics or Amazon Q Developer in chat applications clients associated with a notification rule. TargetType -&gt; (string) The target type. Can be an Amazon Q Developer in chat applications topic or Amazon Q Developer in chat applications client. • Amazon Q Developer in chat applications topics are specified as SNS . • Amazon Q Developer in chat applications clients are specified as AWSChatbotSlack . Constraints: • pattern: ^[A-Za-z]+$ TargetAddress -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Q Developer in chat applications topic or Amazon Q Developer in chat applications client. Constraints: • min: 1 • max: 320 Shorthand Syntax: TargetType=string,TargetAddress=string JSON Syntax: { "TargetType": "string", "TargetAddress": "string" }
     /// </summary>
     [CliOption("--target")]
     public string? Target { get; private init; }
 
     /// <summary>
-    /// An enumeration token that, when provided in a request, returns the next batch of the results. Constraints: o min: 1 o max: 256 o pattern: ^[\w:/-]+$
+    /// An enumeration token that, when provided in a request, returns the next batch of the results. Constraints: • min: 1 • max: 256 • pattern: ^[\w:/-]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]

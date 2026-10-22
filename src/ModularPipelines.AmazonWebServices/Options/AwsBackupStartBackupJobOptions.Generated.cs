@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -30,7 +31,7 @@ public record AwsBackupStartBackupJobOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Starts an on-demand backup job for the specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BackupVaultName">The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$</param>
+    /// <param name="BackupVaultName">The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. Constraints: • pattern: ^[a-zA-Z0-9\-\_]{2,50}$</param>
     /// <param name="ResourceArn">An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.</param>
     /// <param name="IamRoleArn">Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access .</param>
     public AwsBackupStartBackupJobOptions(
@@ -67,7 +68,7 @@ public record AwsBackupStartBackupJobOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$
+    /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. Constraints: • pattern: ^[a-zA-Z0-9\-\_]{2,50}$
     /// </summary>
     [CliOption("--backup-vault-name")]
     public string? BackupVaultName { get; private init; }
@@ -85,7 +86,7 @@ public record AwsBackupStartBackupJobOptions : AwsOptions, IValidatableObject
     public string? IamRoleArn { get; private init; }
 
     /// <summary>
-    /// The ARN of a logically air-gapped vault. ARN must be in the same ac- count and Region. If provided, supported fully managed resources back up directly to logically air-gapped vault, while other sup- ported resources create a temporary (billable) snapshot in backup vault, then copy it to logically air-gapped vault. Unsupported re- sources only back up to the specified backup vault.
+    /// The ARN of a logically air-gapped vault. ARN must be in the same account and Region. If provided, supported fully managed resources back up directly to logically air-gapped vault, while other supported resources create a temporary (billable) snapshot in backup vault, then copy it to logically air-gapped vault. Unsupported resources only back up to the specified backup vault.
     /// </summary>
     [CliOption("--logically-air-gapped-backup-vault-arn")]
     public string? LogicallyAirGappedBackupVaultArn { get; set; }
@@ -98,19 +99,19 @@ public record AwsBackupStartBackupJobOptions : AwsOptions, IValidatableObject
     public string? IdempotencyToken { get; set; }
 
     /// <summary>
-    /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional, and the default is 8 hours. If this value is included, it must be at least 60 minutes to avoid errors. This parameter has a maximum value of 100 years (52,560,000 min- utes). During the start window, the backup job status remains in CREATED status until it has successfully begun or until the start window time has run out. If within the start window time Backup receives an error that allows the job to be retried, Backup will automatically retry to begin the job at least every 10 minutes until the backup successfully begins (the job status changes to RUNNING ) or until the job status changes to EXPIRED (which is expected to occur when the start window time is over).
+    /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional, and the default is 8 hours. If this value is included, it must be at least 60 minutes to avoid errors. This parameter has a maximum value of 100 years (52,560,000 minutes). During the start window, the backup job status remains in CREATED status until it has successfully begun or until the start window time has run out. If within the start window time Backup receives an error that allows the job to be retried, Backup will automatically retry to begin the job at least every 10 minutes until the backup successfully begins (the job status changes to RUNNING ) or until the job status changes to EXPIRED (which is expected to occur when the start window time is over).
     /// </summary>
     [CliOption("--start-window-minutes")]
-    public int? StartWindowMinutes { get; set; }
+    public long? StartWindowMinutes { get; set; }
 
     /// <summary>
-    /// A value in minutes during which a successfully started backup must complete, or else Backup will cancel the job. This value is op- tional. This value begins counting down from when the backup was scheduled. It does not add additional time for StartWindowMinutes , or if the backup started later than scheduled. Like StartWindowMinutes , this parameter has a maximum value of 100 years (52,560,000 minutes).
+    /// A value in minutes during which a successfully started backup must complete, or else Backup will cancel the job. This value is optional. This value begins counting down from when the backup was scheduled. It does not add additional time for StartWindowMinutes , or if the backup started later than scheduled. Like StartWindowMinutes , this parameter has a maximum value of 100 years (52,560,000 minutes).
     /// </summary>
     [CliOption("--complete-window-minutes")]
-    public int? CompleteWindowMinutes { get; set; }
+    public long? CompleteWindowMinutes { get; set; }
 
     /// <summary>
-    /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup will transition and expire backups automatically according to the lifecycle that you define. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the retention setting must be 90 days greater than the transition to cold after days setting. The transition to cold after days setting cannot be changed after a backup has been transitioned to cold. Resource types that can transition to cold storage are listed in the Feature availability by resource table. Backup ignores this expres- sion for other resource types. This parameter has a maximum value of 100 years (36,500 days). MoveToColdStorageAfterDays -&gt; (long) The number of days after creation that a recovery point is moved to cold storage. DeleteAfterDays -&gt; (long) The number of days after creation that a recovery point is deleted. This value must be at least 90 days after the number of days specified in MoveToColdStorageAfterDays . OptInToArchiveForSupportedResources -&gt; (boolean) If the value is true, your backup plan transitions supported re- sources to archive (cold) storage tier in accordance with your lifecycle settings. DeleteAfterEvent -&gt; (string) The event after which a recovery point is deleted. A recovery point with both DeleteAfterDays and DeleteAfterEvent will delete after whichever condition is satisfied first. Not valid as an input. Possible values: o DELETE_AFTER_COPY Shorthand Syntax: MoveToColdStorageAfterDays=long,DeleteAfterDays=long,OptInToArchiveForSupportedResources=boolean,DeleteAfterEvent=string JSON Syntax: { "MoveToColdStorageAfterDays": long, "DeleteAfterDays": long, "OptInToArchiveForSupportedResources": true|false, "DeleteAfterEvent": "DELETE_AFTER_COPY" }
+    /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup will transition and expire backups automatically according to the lifecycle that you define. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the retention setting must be 90 days greater than the transition to cold after days setting. The transition to cold after days setting cannot be changed after a backup has been transitioned to cold. Resource types that can transition to cold storage are listed in the Feature availability by resource table. Backup ignores this expression for other resource types. This parameter has a maximum value of 100 years (36,500 days). MoveToColdStorageAfterDays -&gt; (long) The number of days after creation that a recovery point is moved to cold storage. DeleteAfterDays -&gt; (long) The number of days after creation that a recovery point is deleted. This value must be at least 90 days after the number of days specified in MoveToColdStorageAfterDays . OptInToArchiveForSupportedResources -&gt; (boolean) If the value is true, your backup plan transitions supported resources to archive (cold) storage tier in accordance with your lifecycle settings. DeleteAfterEvent -&gt; (string) The event after which a recovery point is deleted. A recovery point with both DeleteAfterDays and DeleteAfterEvent will delete after whichever condition is satisfied first. Not valid as an input. Possible values: • DELETE_AFTER_COPY Shorthand Syntax: MoveToColdStorageAfterDays=long,DeleteAfterDays=long,OptInToArchiveForSupportedResources=boolean,DeleteAfterEvent=string JSON Syntax: { "MoveToColdStorageAfterDays": long, "DeleteAfterDays": long, "OptInToArchiveForSupportedResources": true|false, "DeleteAfterEvent": "DELETE_AFTER_COPY" }
     /// </summary>
     [CliOption("--lifecycle")]
     public string? Lifecycle { get; set; }
@@ -122,13 +123,13 @@ public record AwsBackupStartBackupJobOptions : AwsOptions, IValidatableObject
     public IReadOnlyList<KeyValue>? RecoveryPointTags { get; set; }
 
     /// <summary>
-    /// The backup option for a selected resource. This option is only available for Windows Volume Shadow Copy Service (VSS) backup jobs. Valid values: Set to "WindowsVSS":"enabled" to enable the WindowsVSS backup option and create a Windows VSS backup. Set to "Win- dowsVSS""disabled" to create a regular backup. The WindowsVSS option is not enabled by default. key -&gt; (string) Constraints: o pattern: ^[a-zA-Z0-9\-\_\.]{1,50}$ value -&gt; (string) Constraints: o pattern: ^[a-zA-Z0-9\-\_\.]{1,50}$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The backup option for a selected resource. This option is only available for Windows Volume Shadow Copy Service (VSS) backup jobs. Valid values: Set to "WindowsVSS":"enabled" to enable the WindowsVSS backup option and create a Windows VSS backup. Set to "WindowsVSS""disabled" to create a regular backup. The WindowsVSS option is not enabled by default. key -&gt; (string) Constraints: • pattern: ^[a-zA-Z0-9\-\_\.]{1,50}$ value -&gt; (string) Constraints: • pattern: ^[a-zA-Z0-9\-\_\.]{1,50}$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--backup-options", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? BackupOptions { get; set; }
 
     /// <summary>
-    /// Include this parameter to enable index creation if your backup job has a resource type that supports backup indexes. Resource types that support backup indexes include: o EBS for Amazon Elastic Block Store o S3 for Amazon Simple Storage Service (Amazon S3) Index can have 1 of 2 possible values, either ENABLED or DISABLED . To create a backup index for an eligible ACTIVE recovery point that does not yet have a backup index, set value to ENABLED . To delete a backup index, set value to DISABLED . Possible values: o ENABLED o DISABLED
+    /// Include this parameter to enable index creation if your backup job has a resource type that supports backup indexes. Resource types that support backup indexes include: • EBS for Amazon Elastic Block Store • S3 for Amazon Simple Storage Service (Amazon S3) Index can have 1 of 2 possible values, either ENABLED or DISABLED . To create a backup index for an eligible ACTIVE recovery point that does not yet have a backup index, set value to ENABLED . To delete a backup index, set value to DISABLED . Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--index")]
     public AwsBackupStartBackupJobIndex? Index { get; set; }

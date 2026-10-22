@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Stops an ongoing service deployment. The following stop types are avaiable: o ROLLBACK - This option rolls back the service deployment to the pre- vious service revision. You can use this option even if you didn't configure the service deployment for the rollback option. For more information, see Stopping Amazon ECS service deployments in the Amazon Elastic Container Service Developer Guide . See also: AWS API Documentation
+/// Stops an ongoing service deployment. The following stop types are avaiable: • ROLLBACK - This option rolls back the service deployment to the previous service revision. You can use this option even if you didn't configure the service deployment for the rollback option. For more information, see Stopping Amazon ECS service deployments in the Amazon Elastic Container Service Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +28,7 @@ public record AwsEcsStopServiceDeploymentOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Stops an ongoing service deployment. The following stop types are avaiable: o ROLLBACK - This option rolls back the service deployment to the pre- vious service revision. You can use this option even if you didn't configure the service deployment for the rollback option. For more information, see Stopping Amazon ECS service deployments in the Amazon Elastic Container Service Developer Guide . See also: AWS API Documentation
+    /// Stops an ongoing service deployment. The following stop types are avaiable: • ROLLBACK - This option rolls back the service deployment to the previous service revision. You can use this option even if you didn't configure the service deployment for the rollback option. For more information, see Stopping Amazon ECS service deployments in the Amazon Elastic Container Service Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="ServiceDeploymentArn">The ARN of the service deployment that you want to stop.</param>
     public AwsEcsStopServiceDeploymentOptions(
@@ -63,7 +65,7 @@ public record AwsEcsStopServiceDeploymentOptions : AwsOptions, IValidatableObjec
     public string? ServiceDeploymentArn { get; private init; }
 
     /// <summary>
-    /// How you want Amazon ECS to stop the service. The valid values are ROLLBACK . Possible values: o ABORT o ROLLBACK
+    /// How you want Amazon ECS to stop the service. The valid values are ROLLBACK . Possible values: • ABORT • ROLLBACK
     /// </summary>
     [CliOption("--stop-type")]
     public AwsEcsStopServiceDeploymentStopType? StopType { get; set; }

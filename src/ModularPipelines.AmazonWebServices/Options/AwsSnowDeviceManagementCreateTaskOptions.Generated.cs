@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Instructs one or more devices to start a task, such as unlocking or re- booting. See also: AWS API Documentation
+/// Instructs one or more devices to start a task, such as unlocking or rebooting. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsSnowDeviceManagementCreateTaskOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Instructs one or more devices to start a task, such as unlocking or re- booting. See also: AWS API Documentation
+    /// Instructs one or more devices to start a task, such as unlocking or rebooting. See also: AWS API Documentation
     /// </summary>
     /// <param name="Command">The task to be performed. Only one task is executed on a device at a time. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: reboot, unlock. reboot -&gt; (structure) Reboots the device. unlock -&gt; (structure) Unlocks the device. Shorthand Syntax: reboot={},unlock={} JSON Syntax: { "reboot": { }, "unlock": { } }</param>
-    /// <param name="Targets">A list of managed device IDs. Constraints: o min: 1 o max: 10 (string) Syntax: "string" "string" ...</param>
+    /// <param name="Targets">A list of managed device IDs. Constraints: • min: 1 • max: 10 (string) Syntax: "string" "string" ...</param>
     public AwsSnowDeviceManagementCreateTaskOptions(
         string Command,
         IEnumerable<string> Targets
@@ -79,20 +80,20 @@ public record AwsSnowDeviceManagementCreateTaskOptions : AwsOptions, IValidatabl
     public string? Command { get; private init; }
 
     /// <summary>
-    /// A list of managed device IDs. Constraints: o min: 1 o max: 10 (string) Syntax: "string" "string" ...
+    /// A list of managed device IDs. Constraints: • min: 1 • max: 10 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--targets", GroupValues = true)]
     public IEnumerable<string>? Targets { get; private init; }
 
     /// <summary>
-    /// A token ensuring that the action is called only once with the speci- fied details. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
+    /// A token ensuring that the action is called only once with the specified details. Constraints: • min: 1 • max: 64 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A description of the task and its targets. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9 _.,!#]*
+    /// A description of the task and its targets. Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9 _.,!#]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

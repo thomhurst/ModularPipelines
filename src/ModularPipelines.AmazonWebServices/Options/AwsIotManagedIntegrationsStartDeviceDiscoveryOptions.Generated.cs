@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -30,7 +31,7 @@ public record AwsIotManagedIntegrationsStartDeviceDiscoveryOptions : AwsOptions,
     /// <summary>
     /// This API is used to start device discovery for hub-connected and third-party-connected devices. The authentication material (install code) is delivered as a message to the controller instructing it to start the discovery. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DiscoveryType">The discovery type supporting the type of device to be discovered in the device discovery task request. Possible values: o ZWAVE o ZIGBEE o CLOUD o CUSTOM o CONTROLLER_CAPABILITY_REDISCOVERY</param>
+    /// <param name="DiscoveryType">The discovery type supporting the type of device to be discovered in the device discovery task request. Possible values: • ZWAVE • ZIGBEE • CLOUD • CUSTOM • CONTROLLER_CAPABILITY_REDISCOVERY</param>
     public AwsIotManagedIntegrationsStartDeviceDiscoveryOptions(
         AwsIotManagedIntegrationsStartDeviceDiscoveryDiscoveryType DiscoveryType
     )
@@ -58,74 +59,74 @@ public record AwsIotManagedIntegrationsStartDeviceDiscoveryOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The discovery type supporting the type of device to be discovered in the device discovery task request. Possible values: o ZWAVE o ZIGBEE o CLOUD o CUSTOM o CONTROLLER_CAPABILITY_REDISCOVERY
+    /// The discovery type supporting the type of device to be discovered in the device discovery task request. Possible values: • ZWAVE • ZIGBEE • CLOUD • CUSTOM • CONTROLLER_CAPABILITY_REDISCOVERY
     /// </summary>
     [CliOption("--discovery-type")]
     public AwsIotManagedIntegrationsStartDeviceDiscoveryDiscoveryType? DiscoveryType { get; private init; }
 
     /// <summary>
-    /// Additional protocol-specific details required for device discovery, which vary based on the discovery type. NOTE: For a DiscoveryType of CUSTOM , the string-to-string map must have a key value of Name set to a non-empty-string. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 _.-]+ value -&gt; (string) Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9 _.{}:"-]+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Additional protocol-specific details required for device discovery, which vary based on the discovery type. NOTE: For a DiscoveryType of CUSTOM , the string-to-string map must have a key value of Name set to a non-empty-string. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9 _.-]+ value -&gt; (string) Constraints: • min: 1 • max: 512 • pattern: [a-zA-Z0-9 _.{}:"-]+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--custom-protocol-detail", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? CustomProtocolDetail { get; set; }
 
     /// <summary>
-    /// The id of the end-user's IoT hub. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9:_-]*
+    /// The id of the end-user's IoT hub. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9:_-]*
     /// </summary>
     [CliOption("--controller-identifier")]
     public string? ControllerIdentifier { get; set; }
 
     /// <summary>
-    /// The id of the connector association. Constraints: o min: 1 o max: 64 o pattern: [0-9a-zA-Z]+
+    /// The id of the connector association. Constraints: • min: 1 • max: 64 • pattern: [0-9a-zA-Z]+
     /// </summary>
     [CliOption("--connector-association-identifier")]
     public string? ConnectorAssociationIdentifier { get; set; }
 
     /// <summary>
-    /// The identifier of the cloud-to-cloud account association to use for discovery of third-party devices. Constraints: o min: 1 o max: 64 o pattern: [0-9a-zA-Z]+
+    /// The identifier of the cloud-to-cloud account association to use for discovery of third-party devices. Constraints: • min: 1 • max: 64 • pattern: [0-9a-zA-Z]+
     /// </summary>
     [CliOption("--account-association-id")]
     public string? AccountAssociationId { get; set; }
 
     /// <summary>
-    /// The authentication material required to start the local device dis- covery job request. Constraints: o min: 1 o max: 64 o pattern: [0-9A-Za-z_\-\+=\/:; ]+
+    /// The authentication material required to start the local device discovery job request. Constraints: • min: 1 • max: 64 • pattern: [0-9A-Za-z_\-\+=\/:; ]+
     /// </summary>
     [CliOption("--authentication-material")]
     public string? AuthenticationMaterial { get; set; }
 
     /// <summary>
-    /// The type of authentication material used for device discovery jobs. Possible values: o ZWAVE_INSTALL_CODE
+    /// The type of authentication material used for device discovery jobs. Possible values: • ZWAVE_INSTALL_CODE
     /// </summary>
     [CliOption("--authentication-material-type")]
     public string? AuthenticationMaterialType { get; set; }
 
     /// <summary>
-    /// An idempotency token. If you retry a request that completed success- fully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9=_-]+
+    /// An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9=_-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A set of key/value pairs that are used to manage the device discov- ery request. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A set of key/value pairs that are used to manage the device discovery request. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Used as a filter for PLA discoveries. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.,@-]+ Syntax: "string" "string" ...
+    /// Used as a filter for PLA discoveries. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_.,@-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--connector-device-id-list", GroupValues = true)]
     public IEnumerable<string>? ConnectorDeviceIdList { get; set; }
 
     /// <summary>
-    /// The protocol type for capability rediscovery (ZWAVE, ZIGBEE, or CUS- TOM). NOTE: This parameter is only available when the discovery type is CON- TROLLER_CAPABILITY_REDISCOVERY. Possible values: o ZWAVE o ZIGBEE o CUSTOM
+    /// The protocol type for capability rediscovery (ZWAVE, ZIGBEE, or CUSTOM). NOTE: This parameter is only available when the discovery type is CONTROLLER_CAPABILITY_REDISCOVERY. Possible values: • ZWAVE • ZIGBEE • CUSTOM
     /// </summary>
     [CliOption("--protocol")]
     public AwsIotManagedIntegrationsStartDeviceDiscoveryProtocol? Protocol { get; set; }
 
     /// <summary>
-    /// The unique id of the end device for capability rediscovery. NOTE: This parameter is only available when the discovery type is CON- TROLLER_CAPABILITY_REDISCOVERY. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9:_-]*
+    /// The unique id of the end device for capability rediscovery. NOTE: This parameter is only available when the discovery type is CONTROLLER_CAPABILITY_REDISCOVERY. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9:_-]*
     /// </summary>
     [CliOption("--end-device-identifier")]
     public string? EndDeviceIdentifier { get; set; }

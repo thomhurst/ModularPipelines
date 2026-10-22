@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the entire tag set from the specified S3 Batch Operations job. Permissions To use the DeleteJobTagging operation, you must have permission to per- form the s3:DeleteJobTagging action. For more information, see Controlling access and labeling jobs using tags in the Amazon S3 User Guide . Related actions include: o CreateJob o GetJobTagging o PutJobTagging See also: AWS API Documentation
+/// Removes the entire tag set from the specified S3 Batch Operations job. Permissions To use the DeleteJobTagging operation, you must have permission to perform the s3:DeleteJobTagging action. For more information, see Controlling access and labeling jobs using tags in the Amazon S3 User Guide . Related actions include: • CreateJob • GetJobTagging • PutJobTagging See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsS3controlDeleteJobTaggingOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the entire tag set from the specified S3 Batch Operations job. Permissions To use the DeleteJobTagging operation, you must have permission to per- form the s3:DeleteJobTagging action. For more information, see Controlling access and labeling jobs using tags in the Amazon S3 User Guide . Related actions include: o CreateJob o GetJobTagging o PutJobTagging See also: AWS API Documentation
+    /// Removes the entire tag set from the specified S3 Batch Operations job. Permissions To use the DeleteJobTagging operation, you must have permission to perform the s3:DeleteJobTagging action. For more information, see Controlling access and labeling jobs using tags in the Amazon S3 User Guide . Related actions include: • CreateJob • GetJobTagging • PutJobTagging See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID associated with the S3 Batch Op- erations job. Constraints: o max: 64 o pattern: ^\d{12}$</param>
-    /// <param name="JobId">The ID for the S3 Batch Operations job whose tags you want to delete. Constraints: o min: 5 o max: 36 o pattern: [a-zA-Z0-9\-\_]+</param>
+    /// <param name="AccountId">The Amazon Web Services account ID associated with the S3 Batch Operations job. Constraints: • max: 64 • pattern: ^\d{12}$</param>
+    /// <param name="JobId">The ID for the S3 Batch Operations job whose tags you want to delete. Constraints: • min: 5 • max: 36 • pattern: [a-zA-Z0-9\-\_]+</param>
     public AwsS3controlDeleteJobTaggingOptions(
         string AccountId,
         string JobId
@@ -60,13 +62,13 @@ public record AwsS3controlDeleteJobTaggingOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID associated with the S3 Batch Op- erations job. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID associated with the S3 Batch Operations job. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The ID for the S3 Batch Operations job whose tags you want to delete. Constraints: o min: 5 o max: 36 o pattern: [a-zA-Z0-9\-\_]+
+    /// The ID for the S3 Batch Operations job whose tags you want to delete. Constraints: • min: 5 • max: 36 • pattern: [a-zA-Z0-9\-\_]+
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }

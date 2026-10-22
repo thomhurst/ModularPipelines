@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Reboots specific nodes within a SageMaker HyperPod cluster using a soft recovery mechanism. BatchRebootClusterNodes performs a graceful reboot of the specified nodes by calling the Amazon Elastic Compute Cloud Re- bootInstances API, which attempts to cleanly shut down the operating system before restarting the instance. This operation is useful for recovering from transient issues or apply- ing certain configuration changes that require a restart. NOTE: o Rebooting a node may cause temporary ser...
+/// Reboots specific nodes within a SageMaker HyperPod cluster using a soft recovery mechanism. BatchRebootClusterNodes performs a graceful reboot of the specified nodes by calling the Amazon Elastic Compute Cloud RebootInstances API, which attempts to cleanly shut down the operating system before restarting the instance. This operation is useful for recovering from transient issues or applying certain configuration changes that require a restart. NOTE: • Rebooting a node may cause temporary service...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSagemakerBatchRebootClusterNodesOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Reboots specific nodes within a SageMaker HyperPod cluster using a soft recovery mechanism. BatchRebootClusterNodes performs a graceful reboot of the specified nodes by calling the Amazon Elastic Compute Cloud Re- bootInstances API, which attempts to cleanly shut down the operating system before restarting the instance. This operation is useful for recovering from transient issues or apply- ing certain configuration changes that require a restart. NOTE: o Rebooting a node may cause temporary ser...
+    /// Reboots specific nodes within a SageMaker HyperPod cluster using a soft recovery mechanism. BatchRebootClusterNodes performs a graceful reboot of the specified nodes by calling the Amazon Elastic Compute Cloud RebootInstances API, which attempts to cleanly shut down the operating system before restarting the instance. This operation is useful for recovering from transient issues or applying certain configuration changes that require a restart. NOTE: • Rebooting a node may cause temporary service...
     /// </summary>
-    /// <param name="ClusterName">The name or Amazon Resource Name (ARN) of the SageMaker HyperPod cluster containing the nodes to reboot. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})</param>
+    /// <param name="ClusterName">The name or Amazon Resource Name (ARN) of the SageMaker HyperPod cluster containing the nodes to reboot. Constraints: • min: 0 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:cluster/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})</param>
     public AwsSagemakerBatchRebootClusterNodesOptions(
         string ClusterName
     )
@@ -56,19 +58,19 @@ public record AwsSagemakerBatchRebootClusterNodesOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of the SageMaker HyperPod cluster containing the nodes to reboot. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})
+    /// The name or Amazon Resource Name (ARN) of the SageMaker HyperPod cluster containing the nodes to reboot. Constraints: • min: 0 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:cluster/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})
     /// </summary>
     [CliOption("--cluster-name")]
     public string? ClusterName { get; private init; }
 
     /// <summary>
-    /// A list of EC2 instance IDs to reboot using soft recovery. You can specify between 1 and 25 instance IDs. NOTE: o Either NodeIds or NodeLogicalIds must be provided (or both), but at least one is required. o Each instance ID must follow the pattern i- followed by 17 hexadecimal characters (for example, i-0123456789abcdef0 ). Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 256 o pattern: i-[a-f0-9]{8}(?:[a-f0-9]{9})? Syntax: "string" "string" ...
+    /// A list of EC2 instance IDs to reboot using soft recovery. You can specify between 1 and 25 instance IDs. NOTE: • Either NodeIds or NodeLogicalIds must be provided (or both), but at least one is required. • Each instance ID must follow the pattern i- followed by 17 hexadecimal characters (for example, i-0123456789abcdef0 ). Constraints: • min: 1 • max: 25 (string) Constraints: • min: 1 • max: 256 • pattern: i-[a-f0-9]{8}(?:[a-f0-9]{9})? Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--node-ids", GroupValues = true)]
     public IEnumerable<string>? NodeIds { get; set; }
 
     /// <summary>
-    /// A list of logical node IDs to reboot using soft recovery. You can specify between 1 and 25 logical node IDs. The NodeLogicalId is a unique identifier that persists throughout the node's lifecycle and can be used to track nodes that are still being provisioned and don't yet have an EC2 instance ID assigned. WARNING: o This parameter is only supported for clusters using Continuous as the NodeProvisioningMode . For clusters using the default provisioning mode, use NodeIds instead. o Either NodeIds or NodeLogicalIds must be provided (or both), but at least one is required. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9] Syntax: "string" "string" ...
+    /// A list of logical node IDs to reboot using soft recovery. You can specify between 1 and 25 logical node IDs. The NodeLogicalId is a unique identifier that persists throughout the node's lifecycle and can be used to track nodes that are still being provisioned and don't yet have an EC2 instance ID assigned. WARNING: • This parameter is only supported for clusters using Continuous as the NodeProvisioningMode . For clusters using the default provisioning mode, use NodeIds instead. • Either NodeIds or NodeLogicalIds must be provided (or both), but at least one is required. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9] Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--node-logical-ids", GroupValues = true)]
     public IEnumerable<string>? NodeLogicalIds { get; set; }

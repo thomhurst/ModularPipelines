@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsApigatewayv2CreateProductPageOptions : AwsOptions, IValidatable
     /// <summary>
     /// Creates a new product page for a portal product. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DisplayContent">The content of the product page. Body -&gt; (string) [required] The body. Constraints: o min: 1 o max: 32768 Title -&gt; (string) [required] The title. Constraints: o min: 1 o max: 255 Shorthand Syntax: Body=string,Title=string JSON Syntax: { "Body": "string", "Title": "string" }</param>
+    /// <param name="DisplayContent">The content of the product page. Body -&gt; (string) [required] The body. Constraints: • min: 1 • max: 32768 Title -&gt; (string) [required] The title. Constraints: • min: 1 • max: 255 Shorthand Syntax: Body=string,Title=string JSON Syntax: { "Body": "string", "Title": "string" }</param>
     /// <param name="PortalProductId">The portal product identifier.</param>
     public AwsApigatewayv2CreateProductPageOptions(
         string DisplayContent,
@@ -60,7 +62,7 @@ public record AwsApigatewayv2CreateProductPageOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The content of the product page. Body -&gt; (string) [required] The body. Constraints: o min: 1 o max: 32768 Title -&gt; (string) [required] The title. Constraints: o min: 1 o max: 255 Shorthand Syntax: Body=string,Title=string JSON Syntax: { "Body": "string", "Title": "string" }
+    /// The content of the product page. Body -&gt; (string) [required] The body. Constraints: • min: 1 • max: 32768 Title -&gt; (string) [required] The title. Constraints: • min: 1 • max: 255 Shorthand Syntax: Body=string,Title=string JSON Syntax: { "Body": "string", "Title": "string" }
     /// </summary>
     [CliOption("--display-content")]
     public string? DisplayContent { get; private init; }

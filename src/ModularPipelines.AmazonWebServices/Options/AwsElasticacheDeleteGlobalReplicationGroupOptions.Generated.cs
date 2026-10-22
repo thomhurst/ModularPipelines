@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deleting a Global datastore is a two-step process: o First, you must DisassociateGlobalReplicationGroup to remove the secondary clusters in the Global datastore. o Once the Global datastore contains only the primary cluster, you can use the DeleteGlobalReplicationGroup API to delete the Global datas- tore while retainining the primary cluster using RetainPrimaryRepli- cationGroup=true . Since the Global Datastore has only a primary cluster, you can delete the Global Datastore while retaining the...
+/// Deleting a Global datastore is a two-step process: • First, you must DisassociateGlobalReplicationGroup to remove the secondary clusters in the Global datastore. • Once the Global datastore contains only the primary cluster, you can use the DeleteGlobalReplicationGroup API to delete the Global datastore while retainining the primary cluster using RetainPrimaryReplicationGroup=true . Since the Global Datastore has only a primary cluster, you can delete the Global Datastore while retaining the pri...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsElasticacheDeleteGlobalReplicationGroupOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deleting a Global datastore is a two-step process: o First, you must DisassociateGlobalReplicationGroup to remove the secondary clusters in the Global datastore. o Once the Global datastore contains only the primary cluster, you can use the DeleteGlobalReplicationGroup API to delete the Global datas- tore while retainining the primary cluster using RetainPrimaryRepli- cationGroup=true . Since the Global Datastore has only a primary cluster, you can delete the Global Datastore while retaining the...
+    /// Deleting a Global datastore is a two-step process: • First, you must DisassociateGlobalReplicationGroup to remove the secondary clusters in the Global datastore. • Once the Global datastore contains only the primary cluster, you can use the DeleteGlobalReplicationGroup API to delete the Global datastore while retainining the primary cluster using RetainPrimaryReplicationGroup=true . Since the Global Datastore has only a primary cluster, you can delete the Global Datastore while retaining the pri...
     /// </summary>
     /// <param name="GlobalReplicationGroupId">The name of the Global datastore</param>
-    /// <param name="RetainPrimaryReplicationGroup">tion-group (boolean) [required] The primary replication group is retained as a standalone replica- tion group.</param>
+    /// <param name="RetainPrimaryReplicationGroup">The primary replication group is retained as a standalone replication group.</param>
     public AwsElasticacheDeleteGlobalReplicationGroupOptions(
         string GlobalReplicationGroupId,
         bool RetainPrimaryReplicationGroup
@@ -65,7 +67,7 @@ public record AwsElasticacheDeleteGlobalReplicationGroupOptions : AwsOptions, IV
     public string? GlobalReplicationGroupId { get; private init; }
 
     /// <summary>
-    /// tion-group (boolean) [required] The primary replication group is retained as a standalone replica- tion group.
+    /// The primary replication group is retained as a standalone replication group.
     /// </summary>
     [CliFlag("--retain-primary-replication-group", NegatedName = "--no-retain-primary-replication-group")]
     public bool? RetainPrimaryReplicationGroup { get; private init; }

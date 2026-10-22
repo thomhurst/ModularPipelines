@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws wait commands.
+/// aws appstream wait commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsAppstreamWait
@@ -32,7 +32,7 @@ public class AwsAppstreamWait
     #region Commands
 
     /// <summary>
-    /// Wait until JMESPath query Fleets[].State returns RUNNING for all ele- ments when polling with describe-fleets. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation fleet-started is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output t...
+    /// Wait until JMESPath query Fleets[].State returns RUNNING for all elements when polling with describe-fleets. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation fleet-started is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text an...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsAppstreamWait
     }
 
     /// <summary>
-    /// Wait until JMESPath query Fleets[].State returns STOPPED for all ele- ments when polling with describe-fleets. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation fleet-stopped is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output t...
+    /// Wait until JMESPath query Fleets[].State returns STOPPED for all elements when polling with describe-fleets. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation fleet-stopped is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text an...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

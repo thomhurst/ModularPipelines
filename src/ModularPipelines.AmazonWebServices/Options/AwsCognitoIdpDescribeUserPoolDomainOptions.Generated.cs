@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Given a user pool domain name, returns information about the domain configuration. NOTE: This operation doesn't return results when you query a prefix domain in a secondary Region. Prefix domains are Region-specific and can only be described in the Region where they were created. To describe a prefix domain for a replica user pool, make the request to the primary Region's endpoint. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. ...
+/// Given a user pool domain name, returns information about the domain configuration. NOTE: This operation doesn't return results when you query a prefix domain in a secondary Region. Prefix domains are Region-specific and can only be described in the Region where they were created. To describe a prefix domain for a replica user pool, make the request to the primary Region's endpoint. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. Fo...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsCognitoIdpDescribeUserPoolDomainOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Given a user pool domain name, returns information about the domain configuration. NOTE: This operation doesn't return results when you query a prefix domain in a secondary Region. Prefix domains are Region-specific and can only be described in the Region where they were created. To describe a prefix domain for a replica user pool, make the request to the primary Region's endpoint. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. ...
+    /// Given a user pool domain name, returns information about the domain configuration. NOTE: This operation doesn't return results when you query a prefix domain in a secondary Region. Prefix domains are Region-specific and can only be described in the Region where they were created. To describe a prefix domain for a replica user pool, make the request to the primary Region's endpoint. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. Fo...
     /// </summary>
-    /// <param name="Domain">The domain that you want to describe. For custom domains, this is the fully-qualified domain name, such as auth.example.com . For Ama- zon Cognito prefix domains, this is the prefix alone, such as auth . Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9](?:[a-z0-9\-]{0,61}[a-z0-9])?$</param>
+    /// <param name="Domain">The domain that you want to describe. For custom domains, this is the fully-qualified domain name, such as auth.example.com . For Amazon Cognito prefix domains, this is the prefix alone, such as auth . Constraints: • min: 1 • max: 63 • pattern: ^[a-z0-9](?:[a-z0-9\-]{0,61}[a-z0-9])?$</param>
     public AwsCognitoIdpDescribeUserPoolDomainOptions(
         string Domain
     )
@@ -56,7 +58,7 @@ public record AwsCognitoIdpDescribeUserPoolDomainOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The domain that you want to describe. For custom domains, this is the fully-qualified domain name, such as auth.example.com . For Ama- zon Cognito prefix domains, this is the prefix alone, such as auth . Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9](?:[a-z0-9\-]{0,61}[a-z0-9])?$
+    /// The domain that you want to describe. For custom domains, this is the fully-qualified domain name, such as auth.example.com . For Amazon Cognito prefix domains, this is the prefix alone, such as auth . Constraints: • min: 1 • max: 63 • pattern: ^[a-z0-9](?:[a-z0-9\-]{0,61}[a-z0-9])?$
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; private init; }

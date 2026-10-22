@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes an existing import job. Poll job descriptions after starting a job to know when it has suc- ceeded or failed. Job descriptions are available for 14 days after job starts. See also: AWS API Documentation
+/// Describes an existing import job. Poll job descriptions after starting a job to know when it has succeeded or failed. Job descriptions are available for 14 days after job starts. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsQuicksightDescribeAssetBundleImportJobOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes an existing import job. Poll job descriptions after starting a job to know when it has suc- ceeded or failed. Job descriptions are available for 14 days after job starts. See also: AWS API Documentation
+    /// Describes an existing import job. Poll job descriptions after starting a job to know when it has succeeded or failed. Job descriptions are available for 14 days after job starts. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account the import job was exe- cuted in. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="AssetBundleImportJobId">The ID of the job. The job ID is set when you start a new job with a StartAssetBundleImportJob API call. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account the import job was executed in. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="AssetBundleImportJobId">The ID of the job. The job ID is set when you start a new job with a StartAssetBundleImportJob API call. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+</param>
     public AwsQuicksightDescribeAssetBundleImportJobOptions(
         string AwsAccountId,
         string AssetBundleImportJobId
@@ -60,13 +62,13 @@ public record AwsQuicksightDescribeAssetBundleImportJobOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account the import job was exe- cuted in. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account the import job was executed in. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID of the job. The job ID is set when you start a new job with a StartAssetBundleImportJob API call. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// The ID of the job. The job ID is set when you start a new job with a StartAssetBundleImportJob API call. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--asset-bundle-import-job-id")]
     public string? AssetBundleImportJobId { get; private init; }

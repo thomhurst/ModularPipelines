@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsApprunnerCreateObservabilityConfigurationOptions : AwsOptions, 
     /// <summary>
     /// Create an App Runner observability configuration resource. App Runner requires this resource when you create or update App Runner services and you want to enable non-default observability features. You can share an observability configuration across multiple services. Create multiple revisions of a configuration by calling this action multiple times using the same ObservabilityConfigurationName . The call returns incremental ObservabilityConfigurationRevision values. When you create a service an...
     /// </summary>
-    /// <param name="ObservabilityConfigurationName">A name for the observability configuration. When you use it for the first time in an Amazon Web Services Region, App Runner creates re- vision number 1 of this name. When you use the same name in subse- quent calls, App Runner creates incremental revisions of the config- uration. NOTE: The name DefaultConfiguration is reserved. You can't use it to create a new observability configuration, and you can't create a revision of it. When you want to use your own observability configuration for your App Runner service, create a configuration with a different name , and then provide it when you create or update your ser- vice. Constraints: o min: 4 o max: 32 o pattern: [A-Za-z0-9][A-Za-z0-9\-_]{3,31}</param>
+    /// <param name="ObservabilityConfigurationName">A name for the observability configuration. When you use it for the first time in an Amazon Web Services Region, App Runner creates revision number 1 of this name. When you use the same name in subsequent calls, App Runner creates incremental revisions of the configuration. NOTE: The name DefaultConfiguration is reserved. You can't use it to create a new observability configuration, and you can't create a revision of it. When you want to use your own observability configuration for your App Runner service, create a configuration with a different name , and then provide it when you create or update your service. Constraints: • min: 4 • max: 32 • pattern: [A-Za-z0-9][A-Za-z0-9\-_]{3,31}</param>
     public AwsApprunnerCreateObservabilityConfigurationOptions(
         string ObservabilityConfigurationName
     )
@@ -56,19 +58,19 @@ public record AwsApprunnerCreateObservabilityConfigurationOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name for the observability configuration. When you use it for the first time in an Amazon Web Services Region, App Runner creates re- vision number 1 of this name. When you use the same name in subse- quent calls, App Runner creates incremental revisions of the config- uration. NOTE: The name DefaultConfiguration is reserved. You can't use it to create a new observability configuration, and you can't create a revision of it. When you want to use your own observability configuration for your App Runner service, create a configuration with a different name , and then provide it when you create or update your ser- vice. Constraints: o min: 4 o max: 32 o pattern: [A-Za-z0-9][A-Za-z0-9\-_]{3,31}
+    /// A name for the observability configuration. When you use it for the first time in an Amazon Web Services Region, App Runner creates revision number 1 of this name. When you use the same name in subsequent calls, App Runner creates incremental revisions of the configuration. NOTE: The name DefaultConfiguration is reserved. You can't use it to create a new observability configuration, and you can't create a revision of it. When you want to use your own observability configuration for your App Runner service, create a configuration with a different name , and then provide it when you create or update your service. Constraints: • min: 4 • max: 32 • pattern: [A-Za-z0-9][A-Za-z0-9\-_]{3,31}
     /// </summary>
     [CliOption("--observability-configuration-name")]
     public string? ObservabilityConfigurationName { get; private init; }
 
     /// <summary>
-    /// The configuration of the tracing feature within this observability configuration. If you don't specify it, App Runner doesn't enable tracing. Vendor -&gt; (string) [required] The implementation provider chosen for tracing App Runner ser- vices. Possible values: o AWSXRAY Shorthand Syntax: Vendor=string JSON Syntax: { "Vendor": "AWSXRAY" }
+    /// The configuration of the tracing feature within this observability configuration. If you don't specify it, App Runner doesn't enable tracing. Vendor -&gt; (string) [required] The implementation provider chosen for tracing App Runner services. Possible values: • AWSXRAY Shorthand Syntax: Vendor=string JSON Syntax: { "Vendor": "AWSXRAY" }
     /// </summary>
     [CliOption("--trace-configuration")]
     public string? TraceConfiguration { get; set; }
 
     /// <summary>
-    /// A list of metadata items that you can associate with your observ- ability configuration resource. A tag is a key-value pair. (structure) Describes a tag that is applied to an App Runner resource. A tag is a metadata item consisting of a key-value pair. Key -&gt; (string) The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:).+ Value -&gt; (string) The value of the tag. Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of metadata items that you can associate with your observability configuration resource. A tag is a key-value pair. (structure) Describes a tag that is applied to an App Runner resource. A tag is a metadata item consisting of a key-value pair. Key -&gt; (string) The key of the tag. Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:).+ Value -&gt; (string) The value of the tag. Constraints: • min: 0 • max: 256 • pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsEmrWaitClusterTerminatedOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Wait until JMESPath query Cluster.Status.State returns TERMINATED when polling with describe-cluster. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterId">The identifier of the cluster to describe. Constraints: o max: 256</param>
+    /// <param name="ClusterId">The identifier of the cluster to describe. Constraints: • max: 256</param>
     public AwsEmrWaitClusterTerminatedOptions(
         string ClusterId
     )
@@ -56,7 +58,7 @@ public record AwsEmrWaitClusterTerminatedOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the cluster to describe. Constraints: o max: 256
+    /// The identifier of the cluster to describe. Constraints: • max: 256
     /// </summary>
     [CliOption("--cluster-id")]
     public string? ClusterId { get; private init; }

@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Create a listener to process inbound connections from clients to a cus- tom routing accelerator. Connections arrive to assigned static IP ad- dresses on the port range that you specify. See also: AWS API Documentation
+/// Create a listener to process inbound connections from clients to a custom routing accelerator. Connections arrive to assigned static IP addresses on the port range that you specify. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsGlobalacceleratorCreateCustomRoutingListenerOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Create a listener to process inbound connections from clients to a cus- tom routing accelerator. Connections arrive to assigned static IP ad- dresses on the port range that you specify. See also: AWS API Documentation
+    /// Create a listener to process inbound connections from clients to a custom routing accelerator. Connections arrive to assigned static IP addresses on the port range that you specify. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AcceleratorArn">The Amazon Resource Name (ARN) of the accelerator for a custom rout- ing listener. Constraints: o max: 255</param>
-    /// <param name="PortRanges">The port range to support for connections from clients to your ac- celerator. Separately, you set port ranges for endpoints. For more information, see About endpoints for custom routing accelerators . Constraints: o min: 1 o max: 10 (structure) A complex type for a range of ports for a listener. FromPort -&gt; (integer) The first port in the range of ports, inclusive. Constraints: o min: 1 o max: 65535 ToPort -&gt; (integer) The last port in the range of ports, inclusive. Constraints: o min: 1 o max: 65535 Shorthand Syntax: FromPort=integer,ToPort=integer ... JSON Syntax: [ { "FromPort": integer, "ToPort": integer } ... ]</param>
+    /// <param name="AcceleratorArn">The Amazon Resource Name (ARN) of the accelerator for a custom routing listener. Constraints: • max: 255</param>
+    /// <param name="PortRanges">The port range to support for connections from clients to your accelerator. Separately, you set port ranges for endpoints. For more information, see About endpoints for custom routing accelerators . Constraints: • min: 1 • max: 10 (structure) A complex type for a range of ports for a listener. FromPort -&gt; (integer) The first port in the range of ports, inclusive. Constraints: • min: 1 • max: 65535 ToPort -&gt; (integer) The last port in the range of ports, inclusive. Constraints: • min: 1 • max: 65535 Shorthand Syntax: FromPort=integer,ToPort=integer ... JSON Syntax: [ { "FromPort": integer, "ToPort": integer } ... ]</param>
     public AwsGlobalacceleratorCreateCustomRoutingListenerOptions(
         string AcceleratorArn,
         IEnumerable<string> PortRanges
@@ -72,19 +74,19 @@ public record AwsGlobalacceleratorCreateCustomRoutingListenerOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the accelerator for a custom rout- ing listener. Constraints: o max: 255
+    /// The Amazon Resource Name (ARN) of the accelerator for a custom routing listener. Constraints: • max: 255
     /// </summary>
     [CliOption("--accelerator-arn")]
     public string? AcceleratorArn { get; private init; }
 
     /// <summary>
-    /// The port range to support for connections from clients to your ac- celerator. Separately, you set port ranges for endpoints. For more information, see About endpoints for custom routing accelerators . Constraints: o min: 1 o max: 10 (structure) A complex type for a range of ports for a listener. FromPort -&gt; (integer) The first port in the range of ports, inclusive. Constraints: o min: 1 o max: 65535 ToPort -&gt; (integer) The last port in the range of ports, inclusive. Constraints: o min: 1 o max: 65535 Shorthand Syntax: FromPort=integer,ToPort=integer ... JSON Syntax: [ { "FromPort": integer, "ToPort": integer } ... ]
+    /// The port range to support for connections from clients to your accelerator. Separately, you set port ranges for endpoints. For more information, see About endpoints for custom routing accelerators . Constraints: • min: 1 • max: 10 (structure) A complex type for a range of ports for a listener. FromPort -&gt; (integer) The first port in the range of ports, inclusive. Constraints: • min: 1 • max: 65535 ToPort -&gt; (integer) The last port in the range of ports, inclusive. Constraints: • min: 1 • max: 65535 Shorthand Syntax: FromPort=integer,ToPort=integer ... JSON Syntax: [ { "FromPort": integer, "ToPort": integer } ... ]
     /// </summary>
     [CliOption("--port-ranges", GroupValues = true)]
     public IEnumerable<string>? PortRanges { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotencythat is, the uniquenessof the request. Constraints: o max: 255
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotencythat is, the uniquenessof the request. Constraints: • max: 255
     /// </summary>
     [SecretValue]
     [CliOption("--idempotency-token")]

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets a function package descriptor in a function package. A function package descriptor is a .yaml file in a function package that uses the TOSCA standard to describe how the network function in the function package should run on your network. A function package is a .zip file in CSAR (Cloud Service Archive) for- mat that contains a network function (an ETSI standard telecommunica- tion application) and function package descriptor that uses the TOSCA standard to describe how the network function...
+/// Gets a function package descriptor in a function package. A function package descriptor is a .yaml file in a function package that uses the TOSCA standard to describe how the network function in the function package should run on your network. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions sh...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,10 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsTnbGetSolFunctionPackageDescriptorOptions : AwsOptions
 {
     /// <summary>
-    /// Gets a function package descriptor in a function package. A function package descriptor is a .yaml file in a function package that uses the TOSCA standard to describe how the network function in the function package should run on your network. A function package is a .zip file in CSAR (Cloud Service Archive) for- mat that contains a network function (an ETSI standard telecommunica- tion application) and function package descriptor that uses the TOSCA standard to describe how the network function...
+    /// Gets a function package descriptor in a function package. A function package descriptor is a .yaml file in a function package that uses the TOSCA standard to describe how the network function in the function package should run on your network. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions sh...
     /// </summary>
-    /// <param name="Accept">Indicates which content types, expressed as MIME types, the client is able to understand. Possible values: o text/plain</param>
-    /// <param name="VnfPkgId">ID of the function package. Constraints: o pattern: ^fp-[a-f0-9]{17}$ outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="Accept">Indicates which content types, expressed as MIME types, the client is able to understand. Possible values: • text/plain</param>
+    /// <param name="VnfPkgId">ID of the function package. Constraints: • pattern: ^fp-[a-f0-9]{17}$ outfile (string) [required] Filename where the content will be saved</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsTnbGetSolFunctionPackageDescriptorOptions(
         string Accept,
@@ -49,13 +49,13 @@ public record AwsTnbGetSolFunctionPackageDescriptorOptions : AwsOptions
     }
 
     /// <summary>
-    /// Indicates which content types, expressed as MIME types, the client is able to understand. Possible values: o text/plain
+    /// Indicates which content types, expressed as MIME types, the client is able to understand. Possible values: • text/plain
     /// </summary>
     [CliOption("--accept")]
     public string Accept { get; private init; }
 
     /// <summary>
-    /// ID of the function package. Constraints: o pattern: ^fp-[a-f0-9]{17}$ outfile (string) [required] Filename where the content will be saved
+    /// ID of the function package. Constraints: • pattern: ^fp-[a-f0-9]{17}$ outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--vnf-pkg-id")]
     public string VnfPkgId { get; private init; }

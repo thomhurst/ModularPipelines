@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -17,7 +18,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a custom WorkSpaces Applications image by importing an EC2 AMI. This allows you to use your own customized AMI to create WorkSpaces Ap- plications images that support additional instance types beyond the standard stream.* instances. See also: AWS API Documentation
+/// Creates a custom WorkSpaces Applications image by importing an EC2 AMI. This allows you to use your own customized AMI to create WorkSpaces Applications images that support additional instance types beyond the standard stream.* instances. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsAppstreamCreateImportedImageOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a custom WorkSpaces Applications image by importing an EC2 AMI. This allows you to use your own customized AMI to create WorkSpaces Ap- plications images that support additional instance types beyond the standard stream.* instances. See also: AWS API Documentation
+    /// Creates a custom WorkSpaces Applications image by importing an EC2 AMI. This allows you to use your own customized AMI to create WorkSpaces Applications images that support additional instance types beyond the standard stream.* instances. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">A unique name for the imported image. The name must be between 1 and 100 characters and can contain letters, numbers, underscores, peri- ods, and hyphens. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="Name">A unique name for the imported image. The name must be between 1 and 100 characters and can contain letters, numbers, underscores, periods, and hyphens. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
     public AwsAppstreamCreateImportedImageOptions(
         string Name
     )
@@ -58,67 +59,67 @@ public record AwsAppstreamCreateImportedImageOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique name for the imported image. The name must be between 1 and 100 characters and can contain letters, numbers, underscores, peri- ods, and hyphens. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// A unique name for the imported image. The name must be between 1 and 100 characters and can contain letters, numbers, underscores, periods, and hyphens. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The ID of the EC2 AMI to import. Constraints: o pattern: ^ami-[a-z0-9]{8,17}$
+    /// The ID of the EC2 AMI to import. Constraints: • pattern: ^ami-[a-z0-9]{8,17}$
     /// </summary>
     [CliOption("--source-ami-id")]
     public string? SourceAmiId { get; set; }
 
     /// <summary>
-    /// The ID of the Workspaces Image to import. Constraints: o min: 12 o max: 67 o pattern: ^wsi-[0-9a-z]{8,63}$
+    /// The ID of the Workspaces Image to import. Constraints: • min: 12 • max: 67 • pattern: ^wsi-[0-9a-z]{8,63}$
     /// </summary>
     [CliOption("--workspace-image-id")]
     public string? WorkspaceImageId { get; set; }
 
     /// <summary>
-    /// The ARN of the IAM role that allows WorkSpaces Applications to ac- cess your AMI. The role must have permissions to modify image at- tributes and describe images, with a trust relationship allowing appstream.amazonaws.com to assume the role. Constraints: o pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$
+    /// The ARN of the IAM role that allows WorkSpaces Applications to access your AMI. The role must have permissions to modify image attributes and describe images, with a trust relationship allowing appstream.amazonaws.com to assume the role. Constraints: • pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$
     /// </summary>
     [CliOption("--iam-role-arn")]
     public string? IamRoleArn { get; set; }
 
     /// <summary>
-    /// An optional description for the imported image. The description must match approved regex patterns and can be up to 256 characters. Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9_.() -]+$
+    /// An optional description for the imported image. The description must match approved regex patterns and can be up to 256 characters. Constraints: • min: 0 • max: 256 • pattern: ^[a-zA-Z0-9_.() -]+$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// An optional display name for the imported image. The display name must match approved regex patterns and can be up to 100 characters. Constraints: o min: 0 o max: 100 o pattern: ^[a-zA-Z0-9_.() -]+$
+    /// An optional display name for the imported image. The display name must match approved regex patterns and can be up to 100 characters. Constraints: • min: 0 • max: 100 • pattern: ^[a-zA-Z0-9_.() -]+$
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The tags to apply to the imported image. Tags help you organize and manage your WorkSpaces Applications resources. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(^(?!aws:).[\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to apply to the imported image. Tags help you organize and manage your WorkSpaces Applications resources. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(^(?!aws:).[\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Configuration for runtime validation of the imported image. When specified, WorkSpaces Applications provisions an instance to test streaming functionality, which helps ensure the image is suitable for use. IntendedInstanceType -&gt; (string) The instance type to use for runtime validation testing. It's recommended to use the same instance type you plan to use for your fleet to ensure accurate validation results. Constraints: o pattern: ^[a-zA-Z0-9-]+(\.[a-z0-9-]+)+\.(small|medium|large|xlarge|\d+xlarge|metal)$ Shorthand Syntax: IntendedInstanceType=string JSON Syntax: { "IntendedInstanceType": "string" }
+    /// Configuration for runtime validation of the imported image. When specified, WorkSpaces Applications provisions an instance to test streaming functionality, which helps ensure the image is suitable for use. IntendedInstanceType -&gt; (string) The instance type to use for runtime validation testing. It's recommended to use the same instance type you plan to use for your fleet to ensure accurate validation results. Constraints: • pattern: ^[a-zA-Z0-9-]+(\.[a-z0-9-]+)+\.(small|medium|large|xlarge|\d+xlarge|metal)$ Shorthand Syntax: IntendedInstanceType=string JSON Syntax: { "IntendedInstanceType": "string" }
     /// </summary>
     [CliOption("--runtime-validation-config")]
     public string? RuntimeValidationConfig { get; set; }
 
     /// <summary>
-    /// The version of the WorkSpaces Applications agent to use for the im- ported image. Choose CURRENT_LATEST to use the agent version avail- able at the time of import, or ALWAYS_LATEST to automatically update to the latest agent version when new versions are released. Possible values: o CURRENT_LATEST o ALWAYS_LATEST
+    /// The version of the WorkSpaces Applications agent to use for the imported image. Choose CURRENT_LATEST to use the agent version available at the time of import, or ALWAYS_LATEST to automatically update to the latest agent version when new versions are released. Possible values: • CURRENT_LATEST • ALWAYS_LATEST
     /// </summary>
     [CliOption("--agent-software-version")]
     public AwsAppstreamCreateImportedImageAgentSoftwareVersion? AgentSoftwareVersion { get; set; }
 
     /// <summary>
-    /// Configuration for the application catalog of the imported image. This allows you to specify applications available for streaming, in- cluding their paths, icons, and launch parameters. This field con- tains sensitive data. Constraints: o max: 50 (structure) Configuration for an application in the imported image's appli- cation catalog. This structure defines how applications appear and launch for users. Name -&gt; (string) [required] The name of the application. This is a required field that must be unique within the application catalog and between 1-100 characters, matching the pattern ^[a-zA-Z0-9][ a-zA-Z0-9_ .-]{0,99}$. Constraints: o min: 0 o max: 100 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,99}$ DisplayName -&gt; (string) The display name shown to users for this application. This field is optional and can be 0-100 characters, matching the pattern ^[a-zA-Z0-9][ a-zA-Z0-9_ . -]{0,99}$. Constraints: o min: 0 o max: 100 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_. -]{0,99}$ AbsoluteAppPath -&gt; (string) [required] The absolute path to the executable file that launches the application. This is a required field that can be 1-32767 characters to support Windows extended file paths. Use es- caped file path strings like "C:\\Windows\\Sys- tem32\\notepad.exe". Constraints: o min: 0 o max: 32767 AbsoluteIconPath -&gt; (string) The absolute path to the icon file for the application. This field is optional and can be 1-32767 characters. If not pro- vided, the icon is derived from the executable. Use PNG im- ages with proper transparency for the best user experience. Constraints: o min: 0 o max: 32767 AbsoluteManifestPath -&gt; (string) The absolute path to the prewarm manifest file for this ap- plication. This field is optional and only applicable when using application-specific manifests. The path can be 1-32767 characters and should point to a text file containing file paths to prewarm. Constraints: o min: 0 o max: 32767 WorkingDirectory -&gt; (string) The working directory to use when launching the application. This field is optional and can be 0-32767 characters. Use es- caped file path strings like "C:\\Path\\To\\Working\\Direc- tory". Constraints: o min: 0 o max: 32767 LaunchParameters -&gt; (string) The launch parameters to pass to the application executable. This field is optional and can be 0-1024 characters. Use es- caped strings with the full list of required parameters, such as PowerShell script paths or command-line arguments. Constraints: o min: 0 o max: 1024 o pattern: ^[^\x00]+$ Shorthand Syntax: Name=string,DisplayName=string,AbsoluteAppPath=string,AbsoluteIconPath=string,AbsoluteManifestPath=string,WorkingDirectory=string,LaunchParameters=string ... JSON Syntax: [ { "Name": "string", "DisplayName": "string", "AbsoluteAppPath": "string", "AbsoluteIconPath": "string", "AbsoluteManifestPath": "string", "WorkingDirectory": "string", "LaunchParameters": "string" } ... ]
+    /// Configuration for the application catalog of the imported image. This allows you to specify applications available for streaming, including their paths, icons, and launch parameters. This field contains sensitive data. Constraints: • max: 50 (structure) Configuration for an application in the imported image's application catalog. This structure defines how applications appear and launch for users. Name -&gt; (string) [required] The name of the application. This is a required field that must be unique within the application catalog and between 1-100 characters, matching the pattern ^[a-zA-Z0-9][ a-zA-Z0-9_ .-]{0,99}$. Constraints: • min: 0 • max: 100 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,99}$ DisplayName -&gt; (string) The display name shown to users for this application. This field is optional and can be 0-100 characters, matching the pattern ^[a-zA-Z0-9][ a-zA-Z0-9_ . -]{0,99}$. Constraints: • min: 0 • max: 100 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_. -]{0,99}$ AbsoluteAppPath -&gt; (string) [required] The absolute path to the executable file that launches the application. This is a required field that can be 1-32767 characters to support Windows extended file paths. Use escaped file path strings like "C:\\Windows\\System32\\notepad.exe". Constraints: • min: 0 • max: 32767 AbsoluteIconPath -&gt; (string) The absolute path to the icon file for the application. This field is optional and can be 1-32767 characters. If not provided, the icon is derived from the executable. Use PNG images with proper transparency for the best user experience. Constraints: • min: 0 • max: 32767 AbsoluteManifestPath -&gt; (string) The absolute path to the prewarm manifest file for this application. This field is optional and only applicable when using application-specific manifests. The path can be 1-32767 characters and should point to a text file containing file paths to prewarm. Constraints: • min: 0 • max: 32767 WorkingDirectory -&gt; (string) The working directory to use when launching the application. This field is optional and can be 0-32767 characters. Use escaped file path strings like "C:\\Path\\To\\Working\\Directory". Constraints: • min: 0 • max: 32767 LaunchParameters -&gt; (string) The launch parameters to pass to the application executable. This field is optional and can be 0-1024 characters. Use escaped strings with the full list of required parameters, such as PowerShell script paths or command-line arguments. Constraints: • min: 0 • max: 1024 • pattern: ^[^\x00]+$ Shorthand Syntax: Name=string,DisplayName=string,AbsoluteAppPath=string,AbsoluteIconPath=string,AbsoluteManifestPath=string,WorkingDirectory=string,LaunchParameters=string ... JSON Syntax: [ { "Name": "string", "DisplayName": "string", "AbsoluteAppPath": "string", "AbsoluteIconPath": "string", "AbsoluteManifestPath": "string", "WorkingDirectory": "string", "LaunchParameters": "string" } ... ]
     /// </summary>
     [CliOption("--app-catalog-config", GroupValues = true)]
     public IEnumerable<string>? AppCatalogConfig { get; set; }
 
     /// <summary>
-    /// When set to true, performs validation checks without actually creat- ing the imported image. Use this to verify your configuration before executing the actual import operation.
+    /// When set to true, performs validation checks without actually creating the imported image. Use this to verify your configuration before executing the actual import operation.
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

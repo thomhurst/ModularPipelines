@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsApplicationSignalsDeleteServiceLevelObjectiveOptions : AwsOptio
     /// <summary>
     /// Deletes the specified service level objective. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ARN or name of the service level objective to delete. Constraints: o pattern: [0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]$|^arn:(aws|aws-us-gov):application-sig- nals:[^:]*:[^:]*:slo/[0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]</param>
+    /// <param name="Id">The ARN or name of the service level objective to delete. Constraints: • pattern: [0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]$|^arn:(aws|aws-us-gov):application-signals:[^:]*:[^:]*:slo/[0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]</param>
     public AwsApplicationSignalsDeleteServiceLevelObjectiveOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsApplicationSignalsDeleteServiceLevelObjectiveOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN or name of the service level objective to delete. Constraints: o pattern: [0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]$|^arn:(aws|aws-us-gov):application-sig- nals:[^:]*:[^:]*:slo/[0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]
+    /// The ARN or name of the service level objective to delete. Constraints: • pattern: [0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]$|^arn:(aws|aws-us-gov):application-signals:[^:]*:[^:]*:slo/[0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

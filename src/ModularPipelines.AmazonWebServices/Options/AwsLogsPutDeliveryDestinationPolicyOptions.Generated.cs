@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates and assigns an IAM policy that grants permissions to CloudWatch Logs to deliver logs cross-account to a specified destination in this account. To configure the delivery of logs from an Amazon Web Services service in another account to a logs delivery destination in the cur- rent account, you must do the following: o Create a delivery source, which is a logical object that represents the resource that is actually sending the logs. For more information, see PutDeliverySource . o Create a d...
+/// Creates and assigns an IAM policy that grants permissions to CloudWatch Logs to deliver logs cross-account to a specified destination in this account. To configure the delivery of logs from an Amazon Web Services service in another account to a logs delivery destination in the current account, you must do the following: • Create a delivery source, which is a logical object that represents the resource that is actually sending the logs. For more information, see PutDeliverySource . • Create a del...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsLogsPutDeliveryDestinationPolicyOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates and assigns an IAM policy that grants permissions to CloudWatch Logs to deliver logs cross-account to a specified destination in this account. To configure the delivery of logs from an Amazon Web Services service in another account to a logs delivery destination in the cur- rent account, you must do the following: o Create a delivery source, which is a logical object that represents the resource that is actually sending the logs. For more information, see PutDeliverySource . o Create a d...
+    /// Creates and assigns an IAM policy that grants permissions to CloudWatch Logs to deliver logs cross-account to a specified destination in this account. To configure the delivery of logs from an Amazon Web Services service in another account to a logs delivery destination in the current account, you must do the following: • Create a delivery source, which is a logical object that represents the resource that is actually sending the logs. For more information, see PutDeliverySource . • Create a del...
     /// </summary>
-    /// <param name="DeliveryDestinationName">The name of the delivery destination to assign this policy to. Constraints: o min: 1 o max: 60 o pattern: [\w-]*</param>
-    /// <param name="DeliveryDestinationPolicy">The contents of the policy. Constraints: o min: 1 o max: 51200</param>
+    /// <param name="DeliveryDestinationName">The name of the delivery destination to assign this policy to. Constraints: • min: 1 • max: 60 • pattern: [\w-]*</param>
+    /// <param name="DeliveryDestinationPolicy">The contents of the policy. Constraints: • min: 1 • max: 51200</param>
     public AwsLogsPutDeliveryDestinationPolicyOptions(
         string DeliveryDestinationName,
         string DeliveryDestinationPolicy
@@ -60,13 +62,13 @@ public record AwsLogsPutDeliveryDestinationPolicyOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the delivery destination to assign this policy to. Constraints: o min: 1 o max: 60 o pattern: [\w-]*
+    /// The name of the delivery destination to assign this policy to. Constraints: • min: 1 • max: 60 • pattern: [\w-]*
     /// </summary>
     [CliOption("--delivery-destination-name")]
     public string? DeliveryDestinationName { get; private init; }
 
     /// <summary>
-    /// The contents of the policy. Constraints: o min: 1 o max: 51200
+    /// The contents of the policy. Constraints: • min: 1 • max: 51200
     /// </summary>
     [CliOption("--delivery-destination-policy")]
     public string? DeliveryDestinationPolicy { get; private init; }

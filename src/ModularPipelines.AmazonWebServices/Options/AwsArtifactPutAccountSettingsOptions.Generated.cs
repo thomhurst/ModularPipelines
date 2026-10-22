@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsArtifactPutAccountSettingsOptions : AwsOptions
 {
     /// <summary>
-    /// Desired notification subscription status. Possible values: o SUBSCRIBED o NOT_SUBSCRIBED
+    /// Desired notification subscription status. Possible values: • SUBSCRIBED • NOT_SUBSCRIBED
     /// </summary>
     [CliOption("--notification-subscription-status")]
     public AwsArtifactPutAccountSettingsNotificationSubscriptionStatus? NotificationSubscriptionStatus { get; set; }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the details of the list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initi- ate proactive customer support. See also: AWS API Documentation
+/// Updates the details of the list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsShieldUpdateEmergencyContactSettingsOptions : AwsOptions
 {
     /// <summary>
-    /// A list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive cus- tomer support. If you have proactive engagement enabled, the contact list must in- clude at least one phone number. Constraints: o min: 0 o max: 10 (structure) Contact information that the SRT can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support. EmailAddress -&gt; (string) [required] The email address for the contact. Constraints: o min: 1 o max: 150 o pattern: ^\S+@\S+\.\S+$ PhoneNumber -&gt; (string) The phone number for the contact. Constraints: o min: 1 o max: 16 o pattern: ^\+[1-9]\d{1,14}$ ContactNotes -&gt; (string) Additional notes regarding the contact. Constraints: o min: 1 o max: 1024 o pattern: ^[\w\s\.\-,:/()+@]*$ Shorthand Syntax: EmailAddress=string,PhoneNumber=string,ContactNotes=string ... JSON Syntax: [ { "EmailAddress": "string", "PhoneNumber": "string", "ContactNotes": "string" } ... ]
+    /// A list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support. If you have proactive engagement enabled, the contact list must include at least one phone number. Constraints: • min: 0 • max: 10 (structure) Contact information that the SRT can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support. EmailAddress -&gt; (string) [required] The email address for the contact. Constraints: • min: 1 • max: 150 • pattern: ^\S+@\S+\.\S+$ PhoneNumber -&gt; (string) The phone number for the contact. Constraints: • min: 1 • max: 16 • pattern: ^\+[1-9]\d{1,14}$ ContactNotes -&gt; (string) Additional notes regarding the contact. Constraints: • min: 1 • max: 1024 • pattern: ^[\w\s\.\-,:/()+@]*$ Shorthand Syntax: EmailAddress=string,PhoneNumber=string,ContactNotes=string ... JSON Syntax: [ { "EmailAddress": "string", "PhoneNumber": "string", "ContactNotes": "string" } ... ]
     /// </summary>
     [CliOption("--emergency-contact-list", GroupValues = true)]
     public IEnumerable<string>? EmergencyContactList { get; set; }

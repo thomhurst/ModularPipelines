@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates the specified tags to a resource with the specified re- sourceArn in the current region. If existing tags on a resource are not specified in the request parameters, they are not changed. When a re- source is deleted, the tags associated with that resource are deleted as well. See also: AWS API Documentation
+/// Associates the specified tags to a resource with the specified resourceArn in the current region. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsMediaconnectTagResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates the specified tags to a resource with the specified re- sourceArn in the current region. If existing tags on a resource are not specified in the request parameters, they are not changed. When a re- source is deleted, the tags associated with that resource are deleted as well. See also: AWS API Documentation
+    /// Associates the specified tags to a resource with the specified resourceArn in the current region. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) that identifies the MediaConnect re- source to which to add tags.</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) that identifies the MediaConnect resource to which to add tags.</param>
     /// <param name="Tags">A map from tag keys to values. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsMediaconnectTagResourceOptions(
         string ResourceArn,
@@ -72,7 +73,7 @@ public record AwsMediaconnectTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that identifies the MediaConnect re- source to which to add tags.
+    /// The Amazon Resource Name (ARN) that identifies the MediaConnect resource to which to add tags.
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

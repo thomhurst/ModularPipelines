@@ -62,7 +62,7 @@ public class AwsDiscovery : IAwsDiscovery
     }
 
     /// <summary>
-    /// Deletes one or more import tasks, each identified by their import ID. Each import task has a number of records that can identify servers or applications. Amazon Web Services Application Discovery Service has built-in matching logic that will identify when discovered servers match existing entries that you've previously discovered, the information for the already-ex- isting discovered server is updated. When you delete an import task that contains records that were used to match, the information ...
+    /// Deletes one or more import tasks, each identified by their import ID. Each import task has a number of records that can identify servers or applications. Amazon Web Services Application Discovery Service has built-in matching logic that will identify when discovered servers match existing entries that you've previously discovered, the information for the already-existing discovered server is updated. When you delete an import task that contains records that were used to match, the information in...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsDiscovery : IAwsDiscovery
     }
 
     /// <summary>
-    /// Deletes a list of applications and their associations with configura- tion items. See also: AWS API Documentation
+    /// Deletes a list of applications and their associations with configuration items. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsDiscovery : IAwsDiscovery
     }
 
     /// <summary>
-    /// Lists agents or collectors as specified by ID or other filters. All agents/collectors associated with your user can be listed if you call DescribeAgents as is without passing any parameters. See also: AWS API Documentation describe-agents is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, th...
+    /// Lists agents or collectors as specified by ID or other filters. All agents/collectors associated with your user can be listed if you call DescribeAgents as is without passing any parameters. See also: AWS API Documentation describe-agents is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsDiscovery : IAwsDiscovery
     }
 
     /// <summary>
-    /// Retrieves attributes for a list of configuration item IDs. NOTE: All of the supplied IDs must be for the same asset type from one of the following: o server o application o process o connection Output fields are specific to the asset type specified. For example, the output for a server configuration item includes a list of at- tributes about the server, such as host name, operating system, num- ber of network cards, etc. For a complete list of outputs for each asset type, see Using the DescribeC...
+    /// Retrieves attributes for a list of configuration item IDs. NOTE: All of the supplied IDs must be for the same asset type from one of the following: • server • application • process • connection Output fields are specific to the asset type specified. For example, the output for a server configuration item includes a list of attributes about the server, such as host name, operating system, number of network cards, etc. For a complete list of outputs for each asset type, see Using the DescribeConfi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsDiscovery : IAwsDiscovery
     }
 
     /// <summary>
-    /// Lists exports as specified by ID. All continuous exports associated with your user can be listed if you call DescribeContinuousExports as is without passing any parameters. See also: AWS API Documentation describe-continuous-exports is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --qu...
+    /// Lists exports as specified by ID. All continuous exports associated with your user can be listed if you call DescribeContinuousExports as is without passing any parameters. See also: AWS API Documentation describe-continuous-exports is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsDiscovery : IAwsDiscovery
     }
 
     /// <summary>
-    /// Retrieve status of one or more export tasks. You can retrieve the sta- tus of up to 100 export tasks. See also: AWS API Documentation describe-export-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expression...
+    /// Retrieve status of one or more export tasks. You can retrieve the status of up to 100 export tasks. See also: AWS API Documentation describe-export-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions:...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsDiscovery : IAwsDiscovery
     }
 
     /// <summary>
-    /// Returns an array of import tasks for your account, including status in- formation, times, IDs, the Amazon S3 Object URL for the import file, and more. See also: AWS API Documentation describe-import-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data f...
+    /// Returns an array of import tasks for your account, including status information, times, IDs, the Amazon S3 Object URL for the import file, and more. See also: AWS API Documentation describe-import-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data fro...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsDiscovery : IAwsDiscovery
     }
 
     /// <summary>
-    /// Retrieves a list of configuration items that have tags as specified by the key-value pairs, name and value, passed to the optional parameter filters . There are three valid tag filter names: o tagKey o tagValue o configurationId Also, all configuration items associated with your user that have tags can be listed if you call DescribeTags as is without passing any para- meters. See also: AWS API Documentation describe-tags is a paginated operation. Multiple API calls may be is- sued in order to re...
+    /// Retrieves a list of configuration items that have tags as specified by the key-value pairs, name and value, passed to the optional parameter filters . There are three valid tag filter names: • tagKey • tagValue • configurationId Also, all configuration items associated with your user that have tags can be listed if you call DescribeTags as is without passing any parameters. See also: AWS API Documentation describe-tags is a paginated operation. Multiple API calls may be issued in order to retrie...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsDiscovery : IAwsDiscovery
     }
 
     /// <summary>
-    /// Retrieves a list of servers that are one network hop away from a speci- fied server. See also: AWS API Documentation
+    /// Retrieves a list of servers that are one network hop away from a specified server. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsDiscovery : IAwsDiscovery
     }
 
     /// <summary>
-    /// Takes a list of configurationId as input and starts an asynchronous deletion task to remove the configurationItems. Returns a unique dele- tion task identifier. See also: AWS API Documentation
+    /// Takes a list of configurationId as input and starts an asynchronous deletion task to remove the configurationItems. Returns a unique deletion task identifier. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsDiscovery : IAwsDiscovery
     }
 
     /// <summary>
-    /// Begins the export of a discovered data report to an Amazon S3 bucket managed by Amazon Web Services. NOTE: Exports might provide an estimate of fees and savings based on cer- tain information that you provide. Fee estimates do not include any taxes that might apply. Your actual fees and savings depend on a va- riety of factors, including your actual usage of Amazon Web Services services, which might vary from the estimates provided in this re- port. If you do not specify preferences or agentIds ...
+    /// Begins the export of a discovered data report to an Amazon S3 bucket managed by Amazon Web Services. NOTE: Exports might provide an estimate of fees and savings based on certain information that you provide. Fee estimates do not include any taxes that might apply. Your actual fees and savings depend on a variety of factors, including your actual usage of Amazon Web Services services, which might vary from the estimates provided in this report. If you do not specify preferences or agentIds in the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsDiscovery : IAwsDiscovery
     }
 
     /// <summary>
-    /// Starts an import task, which allows you to import details of your on-premises environment directly into Amazon Web Services Migration Hub without having to use the Amazon Web Services Application Discovery Service (Application Discovery Service) tools such as the Amazon Web Services Application Discovery Service Agentless Collector or Applica- tion Discovery Agent. This gives you the option to perform migration assessment and planning directly from your imported data, including the ability to gr...
+    /// Starts an import task, which allows you to import details of your on-premises environment directly into Amazon Web Services Migration Hub without having to use the Amazon Web Services Application Discovery Service (Application Discovery Service) tools such as the Amazon Web Services Application Discovery Service Agentless Collector or Application Discovery Agent. This gives you the option to perform migration assessment and planning directly from your imported data, including the ability to grou...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

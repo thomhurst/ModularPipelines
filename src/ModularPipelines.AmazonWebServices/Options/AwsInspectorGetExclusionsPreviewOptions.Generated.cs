@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsInspectorGetExclusionsPreviewOptions : AwsOptions, IValidatable
     /// <summary>
     /// Retrieves the exclusions preview (a list of ExclusionPreview objects) specified by the preview token. You can obtain the preview token by running the CreateExclusionsPreview API. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssessmentTemplateArn">The ARN that specifies the assessment template for which the exclu- sions preview was requested. Constraints: o min: 1 o max: 300</param>
-    /// <param name="PreviewToken">The unique identifier associated of the exclusions preview. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="AssessmentTemplateArn">The ARN that specifies the assessment template for which the exclusions preview was requested. Constraints: • min: 1 • max: 300</param>
+    /// <param name="PreviewToken">The unique identifier associated of the exclusions preview. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     public AwsInspectorGetExclusionsPreviewOptions(
         string AssessmentTemplateArn,
         string PreviewToken
@@ -61,20 +63,20 @@ public record AwsInspectorGetExclusionsPreviewOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN that specifies the assessment template for which the exclu- sions preview was requested. Constraints: o min: 1 o max: 300
+    /// The ARN that specifies the assessment template for which the exclusions preview was requested. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--assessment-template-arn")]
     public string? AssessmentTemplateArn { get; private init; }
 
     /// <summary>
-    /// The unique identifier associated of the exclusions preview. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier associated of the exclusions preview. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [SecretValue]
     [CliOption("--preview-token")]
     public string? PreviewToken { get; private init; }
 
     /// <summary>
-    /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the GetExclusionsPre- viewRequest action. Subsequent calls to the action fill nextToken in the request with the value of nextToken from the previous response to continue listing data. Constraints: o min: 1 o max: 300
+    /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the GetExclusionsPreviewRequest action. Subsequent calls to the action fill nextToken in the request with the value of nextToken from the previous response to continue listing data. Constraints: • min: 1 • max: 300
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -87,7 +89,7 @@ public record AwsInspectorGetExclusionsPreviewOptions : AwsOptions, IValidatable
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The locale into which you want to translate the exclusion's title, description, and recommendation. Possible values: o EN_US
+    /// The locale into which you want to translate the exclusion's title, description, and recommendation. Possible values: • EN_US
     /// </summary>
     [CliOption("--locale")]
     public string? Locale { get; set; }

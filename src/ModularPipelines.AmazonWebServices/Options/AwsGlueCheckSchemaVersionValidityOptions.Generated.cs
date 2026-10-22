@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsGlueCheckSchemaVersionValidityOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Validates the supplied schema. This call has no side effects, it simply validates using the supplied schema using DataFormat as the format. Since it does not take a schema set name, no compatibility checks are performed. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataFormat">The data format of the schema definition. Currently AVRO , JSON and PROTOBUF are supported. Possible values: o AVRO o JSON o PROTOBUF</param>
-    /// <param name="SchemaDefinition">The definition of the schema that has to be validated. Constraints: o min: 1 o max: 170000 o pattern: .*\S.*</param>
+    /// <param name="DataFormat">The data format of the schema definition. Currently AVRO , JSON and PROTOBUF are supported. Possible values: • AVRO • JSON • PROTOBUF</param>
+    /// <param name="SchemaDefinition">The definition of the schema that has to be validated. Constraints: • min: 1 • max: 170000 • pattern: .*\S.*</param>
     public AwsGlueCheckSchemaVersionValidityOptions(
         AwsGlueCheckSchemaVersionValidityDataFormat DataFormat,
         string SchemaDefinition
@@ -60,13 +62,13 @@ public record AwsGlueCheckSchemaVersionValidityOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The data format of the schema definition. Currently AVRO , JSON and PROTOBUF are supported. Possible values: o AVRO o JSON o PROTOBUF
+    /// The data format of the schema definition. Currently AVRO , JSON and PROTOBUF are supported. Possible values: • AVRO • JSON • PROTOBUF
     /// </summary>
     [CliOption("--data-format")]
     public AwsGlueCheckSchemaVersionValidityDataFormat? DataFormat { get; private init; }
 
     /// <summary>
-    /// The definition of the schema that has to be validated. Constraints: o min: 1 o max: 170000 o pattern: .*\S.*
+    /// The definition of the schema that has to be validated. Constraints: • min: 1 • max: 170000 • pattern: .*\S.*
     /// </summary>
     [CliOption("--schema-definition")]
     public string? SchemaDefinition { get; private init; }

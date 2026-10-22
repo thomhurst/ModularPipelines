@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves recommendations for a performance analysis report. See also: AWS API Documentation list-performance-analysis-report-recommendations is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following query expressions: Recomme...
+/// Retrieves recommendations for a performance analysis report. See also: AWS API Documentation list-performance-analysis-report-recommendations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Recommendat...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +29,11 @@ public record AwsPiListPerformanceAnalysisReportRecommendationsOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves recommendations for a performance analysis report. See also: AWS API Documentation list-performance-analysis-report-recommendations is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following query expressions: Recomme...
+    /// Retrieves recommendations for a performance analysis report. See also: AWS API Documentation list-performance-analysis-report-recommendations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Recommendat...
     /// </summary>
-    /// <param name="ServiceType">The Amazon Web Services service for which Performance Insights re- turns metrics. Valid value is RDS . Possible values: o RDS o DOCDB</param>
-    /// <param name="Identifier">An immutable identifier for a data source that is unique for an Ama- zon Web Services Region. Performance Insights gathers metrics from this data source. In the console, the identifier is shown as Resour- ceID . When you call DescribeDBInstances , the identifier is re- turned as DbiResourceId . To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X . Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-]+$</param>
-    /// <param name="AnalysisReportId">A unique identifier of the created analysis report. For example, re- port-12345678901234567 Constraints: o min: 1 o max: 100 o pattern: report-[0-9a-f]{17}</param>
+    /// <param name="ServiceType">The Amazon Web Services service for which Performance Insights returns metrics. Valid value is RDS . Possible values: • RDS • DOCDB</param>
+    /// <param name="Identifier">An immutable identifier for a data source that is unique for an Amazon Web Services Region. Performance Insights gathers metrics from this data source. In the console, the identifier is shown as ResourceID . When you call DescribeDBInstances , the identifier is returned as DbiResourceId . To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X . Constraints: • min: 0 • max: 256 • pattern: ^[a-zA-Z0-9-]+$</param>
+    /// <param name="AnalysisReportId">A unique identifier of the created analysis report. For example, report-12345678901234567 Constraints: • min: 1 • max: 100 • pattern: report-[0-9a-f]{17}</param>
     public AwsPiListPerformanceAnalysisReportRecommendationsOptions(
         AwsPiListPerformanceAnalysisReportRecommendationsServiceType ServiceType,
         string Identifier,
@@ -65,34 +67,31 @@ public record AwsPiListPerformanceAnalysisReportRecommendationsOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services service for which Performance Insights re- turns metrics. Valid value is RDS . Possible values: o RDS o DOCDB
+    /// The Amazon Web Services service for which Performance Insights returns metrics. Valid value is RDS . Possible values: • RDS • DOCDB
     /// </summary>
     [CliOption("--service-type")]
     public AwsPiListPerformanceAnalysisReportRecommendationsServiceType? ServiceType { get; private init; }
 
     /// <summary>
-    /// An immutable identifier for a data source that is unique for an Ama- zon Web Services Region. Performance Insights gathers metrics from this data source. In the console, the identifier is shown as Resour- ceID . When you call DescribeDBInstances , the identifier is re- turned as DbiResourceId . To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X . Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-]+$
+    /// An immutable identifier for a data source that is unique for an Amazon Web Services Region. Performance Insights gathers metrics from this data source. In the console, the identifier is shown as ResourceID . When you call DescribeDBInstances , the identifier is returned as DbiResourceId . To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X . Constraints: • min: 0 • max: 256 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// A unique identifier of the created analysis report. For example, re- port-12345678901234567 Constraints: o min: 1 o max: 100 o pattern: report-[0-9a-f]{17}
+    /// A unique identifier of the created analysis report. For example, report-12345678901234567 Constraints: • min: 1 • max: 100 • pattern: report-[0-9a-f]{17}
     /// </summary>
     [CliOption("--analysis-report-id")]
     public string? AnalysisReportId { get; private init; }
 
     /// <summary>
-    /// A list of recommendation identifiers to filter the results. (string) Constraints: o min: 0 o max: 256 o pattern: .*\S.* Syntax: "string" "string" ...
+    /// A list of recommendation identifiers to filter the results. (string) Constraints: • min: 0 • max: 256 • pattern: .*\S.* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--recommendation-ids", GroupValues = true)]
     public IEnumerable<string>? RecommendationIds { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -102,16 +101,19 @@ public record AwsPiListPerformanceAnalysisReportRecommendationsOptions : AwsOpti
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 0 o max: 25
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 0 • max: 25
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

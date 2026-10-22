@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Attaches a form to an asset or an iterable form item in Glue Data Cata- log. If an attachment with the same name already exists, it is over- written. See also: AWS API Documentation
+/// Attaches a form to an asset or an iterable form item in Glue Data Catalog. If an attachment with the same name already exists, it is overwritten. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +28,12 @@ public record AwsGluePutAttachmentOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Attaches a form to an asset or an iterable form item in Glue Data Cata- log. If an attachment with the same name already exists, it is over- written. See also: AWS API Documentation
+    /// Attaches a form to an asset or an iterable form item in Glue Data Catalog. If an attachment with the same name already exists, it is overwritten. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssetIdentifier">The unique identifier of the asset to attach the form to. Constraints: o min: 1 o max: 1087 o pattern: [a-zA-Z0-9\-\:\/\.\_\*]+</param>
-    /// <param name="AttachmentName">The name of the attachment. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*$</param>
-    /// <param name="Content">The JSON content of the form, conforming to the schema of the speci- fied form type.</param>
-    /// <param name="FormTypeId">The identifier of the form type for this attachment. Constraints: o min: 1 o max: 256</param>
+    /// <param name="AssetIdentifier">The unique identifier of the asset to attach the form to. Constraints: • min: 1 • max: 1087 • pattern: [a-zA-Z0-9\-\:\/\.\_\*]+</param>
+    /// <param name="AttachmentName">The name of the attachment. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z][a-zA-Z0-9_]*$</param>
+    /// <param name="Content">The JSON content of the form, conforming to the schema of the specified form type.</param>
+    /// <param name="FormTypeId">The identifier of the form type for this attachment. Constraints: • min: 1 • max: 256</param>
     public AwsGluePutAttachmentOptions(
         string AssetIdentifier,
         string AttachmentName,
@@ -69,43 +71,43 @@ public record AwsGluePutAttachmentOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the asset to attach the form to. Constraints: o min: 1 o max: 1087 o pattern: [a-zA-Z0-9\-\:\/\.\_\*]+
+    /// The unique identifier of the asset to attach the form to. Constraints: • min: 1 • max: 1087 • pattern: [a-zA-Z0-9\-\:\/\.\_\*]+
     /// </summary>
     [CliOption("--asset-identifier")]
     public string? AssetIdentifier { get; private init; }
 
     /// <summary>
-    /// The name of the attachment. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*$
+    /// The name of the attachment. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z][a-zA-Z0-9_]*$
     /// </summary>
     [CliOption("--attachment-name")]
     public string? AttachmentName { get; private init; }
 
     /// <summary>
-    /// The JSON content of the form, conforming to the schema of the speci- fied form type.
+    /// The JSON content of the form, conforming to the schema of the specified form type.
     /// </summary>
     [CliOption("--content")]
     public string? Content { get; private init; }
 
     /// <summary>
-    /// The identifier of the form type for this attachment. Constraints: o min: 1 o max: 256
+    /// The identifier of the form type for this attachment. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--form-type-id")]
     public string? FormTypeId { get; private init; }
 
     /// <summary>
-    /// The name of the iterable form. When specified along with itemIdenti- fier , the attachment targets an item within the iterable form rather than the asset itself. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*(::[a-zA-Z][a-zA-Z0-9_]*)?$
+    /// The name of the iterable form. When specified along with itemIdentifier , the attachment targets an item within the iterable form rather than the asset itself. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z][a-zA-Z0-9_]*(::[a-zA-Z][a-zA-Z0-9_]*)?$
     /// </summary>
     [CliOption("--iterable-form-name")]
     public string? IterableFormName { get; set; }
 
     /// <summary>
-    /// The identifier of the item within the iterable form. Required when iterableFormName is specified. Constraints: o min: 1 o max: 1087
+    /// The identifier of the item within the iterable form. Required when iterableFormName is specified. Constraints: • min: 1 • max: 1087
     /// </summary>
     [CliOption("--item-identifier")]
     public string? ItemIdentifier { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

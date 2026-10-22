@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a classification request to analyze a single document in real-time. ClassifyDocument supports the following model types: o Custom classifier - a custom model that you have created and trained. For input, you can provide plain text, a single-page document (PDF, Word, or image), or Amazon Textract API output. For more information, see Custom classification in the Amazon Comprehend Developer Guide . o Prompt safety classifier - Amazon Comprehend provides a pre-trained model for classifying ...
+/// Creates a classification request to analyze a single document in real-time. ClassifyDocument supports the following model types: • Custom classifier - a custom model that you have created and trained. For input, you can provide plain text, a single-page document (PDF, Word, or image), or Amazon Textract API output. For more information, see Custom classification in the Amazon Comprehend Developer Guide . • Prompt safety classifier - Amazon Comprehend provides a pre-trained model for classifying ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsComprehendClassifyDocumentOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a classification request to analyze a single document in real-time. ClassifyDocument supports the following model types: o Custom classifier - a custom model that you have created and trained. For input, you can provide plain text, a single-page document (PDF, Word, or image), or Amazon Textract API output. For more information, see Custom classification in the Amazon Comprehend Developer Guide . o Prompt safety classifier - Amazon Comprehend provides a pre-trained model for classifying ...
+    /// Creates a classification request to analyze a single document in real-time. ClassifyDocument supports the following model types: • Custom classifier - a custom model that you have created and trained. For input, you can provide plain text, a single-page document (PDF, Word, or image), or Amazon Textract API output. For more information, see Custom classification in the Amazon Comprehend Developer Guide . • Prompt safety classifier - Amazon Comprehend provides a pre-trained model for classifying ...
     /// </summary>
-    /// <param name="EndpointArn">The Amazon Resource Number (ARN) of the endpoint. For prompt safety classification, Amazon Comprehend provides the endpoint ARN. For more information about prompt safety classifiers, see Prompt safety classification in the Amazon Comprehend Developer Guide For custom classification, you create an endpoint for your custom model. For more information, see Using Amazon Comprehend endpoints . Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:compre- hend:[a-zA-Z0-9-]*:([0-9]{12}|aws):document-classifier-end- point/[a-zA-Z0-9](-*[a-zA-Z0-9])*</param>
+    /// <param name="EndpointArn">The Amazon Resource Number (ARN) of the endpoint. For prompt safety classification, Amazon Comprehend provides the endpoint ARN. For more information about prompt safety classifiers, see Prompt safety classification in the Amazon Comprehend Developer Guide For custom classification, you create an endpoint for your custom model. For more information, see Using Amazon Comprehend endpoints . Constraints: • max: 256 • pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:([0-9]{12}|aws):document-classifier-endpoint/[a-zA-Z0-9](-*[a-zA-Z0-9])*</param>
     public AwsComprehendClassifyDocumentOptions(
         string EndpointArn
     )
@@ -56,25 +58,25 @@ public record AwsComprehendClassifyDocumentOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Number (ARN) of the endpoint. For prompt safety classification, Amazon Comprehend provides the endpoint ARN. For more information about prompt safety classifiers, see Prompt safety classification in the Amazon Comprehend Developer Guide For custom classification, you create an endpoint for your custom model. For more information, see Using Amazon Comprehend endpoints . Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:compre- hend:[a-zA-Z0-9-]*:([0-9]{12}|aws):document-classifier-end- point/[a-zA-Z0-9](-*[a-zA-Z0-9])*
+    /// The Amazon Resource Number (ARN) of the endpoint. For prompt safety classification, Amazon Comprehend provides the endpoint ARN. For more information about prompt safety classifiers, see Prompt safety classification in the Amazon Comprehend Developer Guide For custom classification, you create an endpoint for your custom model. For more information, see Using Amazon Comprehend endpoints . Constraints: • max: 256 • pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:([0-9]{12}|aws):document-classifier-endpoint/[a-zA-Z0-9](-*[a-zA-Z0-9])*
     /// </summary>
     [CliOption("--endpoint-arn")]
     public string? EndpointArn { get; private init; }
 
     /// <summary>
-    /// The document text to be analyzed. If you enter text using this para- meter, do not use the Bytes parameter. Constraints: o min: 1
+    /// The document text to be analyzed. If you enter text using this parameter, do not use the Bytes parameter. Constraints: • min: 1
     /// </summary>
     [CliOption("--text")]
     public string? Text { get; set; }
 
     /// <summary>
-    /// Use the Bytes parameter to input a text, PDF, Word or image file. When you classify a document using a custom model, you can also use the Bytes parameter to input an Amazon Textract DetectDocumentText or AnalyzeDocument output file. To classify a document using the prompt safety classifier, use the Text parameter for input. Provide the input document as a sequence of base64-encoded bytes. If your code uses an Amazon Web Services SDK to classify documents, the SDK may encode the document file bytes for you. The maximum length of this field depends on the input document type. For details, see Inputs for real-time custom analysis in the Compre- hend Developer Guide. If you use the Bytes parameter, do not use the Text parameter. Constraints: o min: 1
+    /// Use the Bytes parameter to input a text, PDF, Word or image file. When you classify a document using a custom model, you can also use the Bytes parameter to input an Amazon Textract DetectDocumentText or AnalyzeDocument output file. To classify a document using the prompt safety classifier, use the Text parameter for input. Provide the input document as a sequence of base64-encoded bytes. If your code uses an Amazon Web Services SDK to classify documents, the SDK may encode the document file bytes for you. The maximum length of this field depends on the input document type. For details, see Inputs for real-time custom analysis in the Comprehend Developer Guide. If you use the Bytes parameter, do not use the Text parameter. Constraints: • min: 1
     /// </summary>
     [CliOption("--bytes")]
     public string? Bytes { get; set; }
 
     /// <summary>
-    /// Provides configuration parameters to override the default actions for extracting text from PDF documents and image files. DocumentReadAction -&gt; (string) [required] This field defines the Amazon Textract API operation that Amazon Comprehend uses to extract text from PDF files and image files. Enter one of the following values: o TEXTRACT_DETECT_DOCUMENT_TEXT - The Amazon Comprehend service uses the DetectDocumentText API operation. o TEXTRACT_ANALYZE_DOCUMENT - The Amazon Comprehend service uses the AnalyzeDocument API operation. Possible values: o TEXTRACT_DETECT_DOCUMENT_TEXT o TEXTRACT_ANALYZE_DOCUMENT DocumentReadMode -&gt; (string) Determines the text extraction actions for PDF files. Enter one of the following values: o SERVICE_DEFAULT - use the Amazon Comprehend service defaults for PDF files. o FORCE_DOCUMENT_READ_ACTION - Amazon Comprehend uses the Tex- tract API specified by DocumentReadAction for all PDF files, including digital PDF files. Possible values: o SERVICE_DEFAULT o FORCE_DOCUMENT_READ_ACTION FeatureTypes -&gt; (list) Specifies the type of Amazon Textract features to apply. If you chose TEXTRACT_ANALYZE_DOCUMENT as the read action, you must specify one or both of the following values: o TABLES - Returns additional information about any tables that are detected in the input document. o FORMS - Returns additional information about any forms that are detected in the input document. Constraints: o min: 1 o max: 2 (string) TABLES or FORMS Possible values: o TABLES o FORMS Shorthand Syntax: DocumentReadAction=string,DocumentReadMode=string,FeatureTypes=string,string JSON Syntax: { "DocumentReadAction": "TEXTRACT_DETECT_DOCUMENT_TEXT"|"TEXTRACT_ANALYZE_DOCUMENT", "DocumentReadMode": "SERVICE_DEFAULT"|"FORCE_DOCUMENT_READ_ACTION", "FeatureTypes": ["TABLES"|"FORMS", ...] }
+    /// Provides configuration parameters to override the default actions for extracting text from PDF documents and image files. DocumentReadAction -&gt; (string) [required] This field defines the Amazon Textract API operation that Amazon Comprehend uses to extract text from PDF files and image files. Enter one of the following values: • TEXTRACT_DETECT_DOCUMENT_TEXT - The Amazon Comprehend service uses the DetectDocumentText API operation. • TEXTRACT_ANALYZE_DOCUMENT - The Amazon Comprehend service uses the AnalyzeDocument API operation. Possible values: • TEXTRACT_DETECT_DOCUMENT_TEXT • TEXTRACT_ANALYZE_DOCUMENT DocumentReadMode -&gt; (string) Determines the text extraction actions for PDF files. Enter one of the following values: • SERVICE_DEFAULT - use the Amazon Comprehend service defaults for PDF files. • FORCE_DOCUMENT_READ_ACTION - Amazon Comprehend uses the Textract API specified by DocumentReadAction for all PDF files, including digital PDF files. Possible values: • SERVICE_DEFAULT • FORCE_DOCUMENT_READ_ACTION FeatureTypes -&gt; (list) Specifies the type of Amazon Textract features to apply. If you chose TEXTRACT_ANALYZE_DOCUMENT as the read action, you must specify one or both of the following values: • TABLES - Returns additional information about any tables that are detected in the input document. • FORMS - Returns additional information about any forms that are detected in the input document. Constraints: • min: 1 • max: 2 (string) TABLES or FORMS Possible values: • TABLES • FORMS Shorthand Syntax: DocumentReadAction=string,DocumentReadMode=string,FeatureTypes=string,string JSON Syntax: { "DocumentReadAction": "TEXTRACT_DETECT_DOCUMENT_TEXT"|"TEXTRACT_ANALYZE_DOCUMENT", "DocumentReadMode": "SERVICE_DEFAULT"|"FORCE_DOCUMENT_READ_ACTION", "FeatureTypes": ["TABLES"|"FORMS", ...] }
     /// </summary>
     [CliOption("--document-reader-config")]
     public string? DocumentReaderConfig { get; set; }

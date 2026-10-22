@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsEc2AssociateCapacityReservationBillingOwnerOptions : AwsOptions
     /// Initiates a request to assign billing of the unused capacity of a shared Capacity Reservation to a consumer account that is consolidated under the same Amazon Web Services organizations payer account. For more information, see Billing assignment for shared Amazon EC2 Capacity Reservations . See also: AWS API Documentation
     /// </summary>
     /// <param name="CapacityReservationId">The ID of the Capacity Reservation.</param>
-    /// <param name="UnusedReservationBillingOwnerId">The ID of the consumer account to which to assign billing. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}</param>
+    /// <param name="UnusedReservationBillingOwnerId">The ID of the consumer account to which to assign billing. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12}</param>
     public AwsEc2AssociateCapacityReservationBillingOwnerOptions(
         string CapacityReservationId,
         string UnusedReservationBillingOwnerId
@@ -66,13 +68,13 @@ public record AwsEc2AssociateCapacityReservationBillingOwnerOptions : AwsOptions
     public string? CapacityReservationId { get; private init; }
 
     /// <summary>
-    /// The ID of the consumer account to which to assign billing. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
+    /// The ID of the consumer account to which to assign billing. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--unused-reservation-billing-owner-id")]
     public string? UnusedReservationBillingOwnerId { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

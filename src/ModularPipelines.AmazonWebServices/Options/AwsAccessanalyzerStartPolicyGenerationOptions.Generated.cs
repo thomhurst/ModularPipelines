@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsAccessanalyzerStartPolicyGenerationOptions : AwsOptions, IValid
     /// <summary>
     /// Starts the policy generation request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyGenerationDetails">Contains the ARN of the IAM entity (user or role) for which you are generating a policy. principalArn -&gt; (string) [required] The ARN of the IAM entity (user or role) for which you are gen- erating a policy. Constraints: o pattern: arn:[^:]*:iam::[^:]*:(role|user)/.{1,576} Shorthand Syntax: principalArn=string JSON Syntax: { "principalArn": "string" }</param>
+    /// <param name="PolicyGenerationDetails">Contains the ARN of the IAM entity (user or role) for which you are generating a policy. principalArn -&gt; (string) [required] The ARN of the IAM entity (user or role) for which you are generating a policy. Constraints: • pattern: arn:[^:]*:iam::[^:]*:(role|user)/.{1,576} Shorthand Syntax: principalArn=string JSON Syntax: { "principalArn": "string" }</param>
     public AwsAccessanalyzerStartPolicyGenerationOptions(
         string PolicyGenerationDetails
     )
@@ -57,19 +59,19 @@ public record AwsAccessanalyzerStartPolicyGenerationOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Contains the ARN of the IAM entity (user or role) for which you are generating a policy. principalArn -&gt; (string) [required] The ARN of the IAM entity (user or role) for which you are gen- erating a policy. Constraints: o pattern: arn:[^:]*:iam::[^:]*:(role|user)/.{1,576} Shorthand Syntax: principalArn=string JSON Syntax: { "principalArn": "string" }
+    /// Contains the ARN of the IAM entity (user or role) for which you are generating a policy. principalArn -&gt; (string) [required] The ARN of the IAM entity (user or role) for which you are generating a policy. Constraints: • pattern: arn:[^:]*:iam::[^:]*:(role|user)/.{1,576} Shorthand Syntax: principalArn=string JSON Syntax: { "principalArn": "string" }
     /// </summary>
     [CliOption("--policy-generation-details")]
     public string? PolicyGenerationDetails { get; private init; }
 
     /// <summary>
-    /// A CloudTrailDetails object that contains details about a Trail that you want to analyze to generate policies. trails -&gt; (list) [required] A Trail object that contains settings for a trail. (structure) Contains details about the CloudTrail trail being analyzed to generate a policy. cloudTrailArn -&gt; (string) [required] Specifies the ARN of the trail. The format of a trail ARN is arn:aws:cloudtrail:us-east-2:123456789012:trail/My- Trail . Constraints: o pattern: arn:[^:]*:cloud- trail:[^:]*:[^:]*:trail/.{1,576} regions -&gt; (list) A list of regions to get CloudTrail data from and analyze to generate a policy. (string) allRegions -&gt; (boolean) Possible values are true or false . If set to true , IAM Access Analyzer retrieves CloudTrail data from all re- gions to analyze and generate a policy. accessRole -&gt; (string) [required] The ARN of the service role that IAM Access Analyzer uses to ac- cess your CloudTrail trail and service last accessed informa- tion. Constraints: o pattern: arn:[^:]*:iam::[^:]*:role/.{1,576} startTime -&gt; (timestamp) [required] The start of the time range for which IAM Access Analyzer re- views your CloudTrail events. Events with a timestamp before this time are not considered to generate a policy. endTime -&gt; (timestamp) The end of the time range for which IAM Access Analyzer reviews your CloudTrail events. Events with a timestamp after this time are not considered to generate a policy. If this is not included in the request, the default value is the current time. JSON Syntax: { "trails": [ { "cloudTrailArn": "string", "regions": ["string", ...], "allRegions": true|false } ... ], "accessRole": "string", "startTime": timestamp, "endTime": timestamp }
+    /// A CloudTrailDetails object that contains details about a Trail that you want to analyze to generate policies. trails -&gt; (list) [required] A Trail object that contains settings for a trail. (structure) Contains details about the CloudTrail trail being analyzed to generate a policy. cloudTrailArn -&gt; (string) [required] Specifies the ARN of the trail. The format of a trail ARN is arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail . Constraints: • pattern: arn:[^:]*:cloudtrail:[^:]*:[^:]*:trail/.{1,576} regions -&gt; (list) A list of regions to get CloudTrail data from and analyze to generate a policy. (string) allRegions -&gt; (boolean) Possible values are true or false . If set to true , IAM Access Analyzer retrieves CloudTrail data from all regions to analyze and generate a policy. accessRole -&gt; (string) [required] The ARN of the service role that IAM Access Analyzer uses to access your CloudTrail trail and service last accessed information. Constraints: • pattern: arn:[^:]*:iam::[^:]*:role/.{1,576} startTime -&gt; (timestamp) [required] The start of the time range for which IAM Access Analyzer reviews your CloudTrail events. Events with a timestamp before this time are not considered to generate a policy. endTime -&gt; (timestamp) The end of the time range for which IAM Access Analyzer reviews your CloudTrail events. Events with a timestamp after this time are not considered to generate a policy. If this is not included in the request, the default value is the current time. JSON Syntax: { "trails": [ { "cloudTrailArn": "string", "regions": ["string", ...], "allRegions": true|false } ... ], "accessRole": "string", "startTime": timestamp, "endTime": timestamp }
     /// </summary>
     [CliOption("--cloud-trail-details")]
     public string? CloudTrailDetails { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original re- quest completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

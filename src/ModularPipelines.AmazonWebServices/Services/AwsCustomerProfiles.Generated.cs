@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws customerprofiles commands.
+/// aws customer-profiles commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsCustomerProfiles : IAwsCustomerProfiles
@@ -32,7 +32,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     #region Commands
 
     /// <summary>
-    /// Associates a new key value with a specific profile, such as a Contact Record ContactId. A profile object can have a single unique key and any number of addi- tional keys that can be used to identify the profile that it belongs to. See also: AWS API Documentation
+    /// Associates a new key value with a specific profile, such as a Contact Record ContactId. A profile object can have a single unique key and any number of additional keys that can be used to identify the profile that it belongs to. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Adds multiple profile objects to a domain of a given ObjectType in a single API call. When adding a specific profile object, like a Contact Record, an in- ferred profile can get created if it is not mapped to an existing pro- file. The resulting profile will only have a phone number populated in the standard ProfileObject. Any additional Contact Records with the same phone number will be mapped to the same inferred profile. When a ProfileObject is created and if a ProfileObjectType already ex- i...
+    /// Adds multiple profile objects to a domain of a given ObjectType in a single API call. When adding a specific profile object, like a Contact Record, an inferred profile can get created if it is not mapped to an existing profile. The resulting profile will only have a phone number populated in the standard ProfileObject. Any additional Contact Records with the same phone number will be mapped to the same inferred profile. When a ProfileObject is created and if a ProfileObjectType already exists fo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Creates a new calculated attribute definition. After creation, new ob- ject data ingested into Customer Profiles will be included in the cal- culated attribute, which can be retrieved for a profile using the GetCalculatedAttributeForProfile API. Defining a calculated attribute makes it available for all profiles within a domain. Each calculated attribute can only reference one ObjectType and at most, two fields from that ObjectType . See also: AWS API Documentation
+    /// Creates a new calculated attribute definition. After creation, new object data ingested into Customer Profiles will be included in the calculated attribute, which can be retrieved for a profile using the GetCalculatedAttributeForProfile API. Defining a calculated attribute makes it available for all profiles within a domain. Each calculated attribute can only reference one ObjectType and at most, two fields from that ObjectType . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Creates a domain, which is a container for all customer data, such as customer profile attributes, object types, profile keys, and encryption keys. You can create multiple domains, and each domain can have multi- ple third-party integrations. Each Connect Customer instance can be associated with only one domain. Multiple Connect Customer instances can be associated with one domain. Use this API or UpdateDomain to enable identity resolution : set Match- ing to true. To prevent cross-service imper...
+    /// Creates a domain, which is a container for all customer data, such as customer profile attributes, object types, profile keys, and encryption keys. You can create multiple domains, and each domain can have multiple third-party integrations. Each Connect Customer instance can be associated with only one domain. Multiple Connect Customer instances can be associated with one domain. Use this API or UpdateDomain to enable identity resolution : set Matching to true. To prevent cross-service impersona...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Creates an event trigger, which specifies the rules when to perform ac- tion based on customer's ingested data. Each event stream can be associated with only one integration in the same region and AWS account as the event stream. See also: AWS API Documentation
+    /// Creates an event trigger, which specifies the rules when to perform action based on customer's ingested data. Each event stream can be associated with only one integration in the same region and AWS account as the event stream. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Creates an integration workflow. An integration workflow is an async process which ingests historic data and sets up an integration for on- going updates. The supported Amazon AppFlow sources are Salesforce, ServiceNow, and Marketo. See also: AWS API Documentation
+    /// Creates an integration workflow. An integration workflow is an async process which ingests historic data and sets up an integration for ongoing updates. The supported Amazon AppFlow sources are Salesforce, ServiceNow, and Marketo. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Deletes a specific domain and all of its customer data, such as cus- tomer profile attributes and their related objects. See also: AWS API Documentation
+    /// Deletes a specific domain and all of its customer data, such as customer profile attributes and their related objects. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Disable and deletes the Event Trigger. NOTE: You cannot delete an Event Trigger with an active Integration asso- ciated. See also: AWS API Documentation
+    /// Disable and deletes the Event Trigger. NOTE: You cannot delete an Event Trigger with an active Integration associated. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Removes an object associated with a profile of a given ProfileObject- Type. See also: AWS API Documentation
+    /// Removes an object associated with a profile of a given ProfileObjectType. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Removes a ProfileObjectType from a specific domain as well as removes all the ProfileObjects of that type. It also disables integrations from this specific ProfileObjectType. In addition, it scrubs all of the fields of the standard profile that were populated from this ProfileOb- jectType. See also: AWS API Documentation
+    /// Removes a ProfileObjectType from a specific domain as well as removes all the ProfileObjects of that type. It also disables integrations from this specific ProfileObjectType. In addition, it scrubs all of the fields of the standard profile that were populated from this ProfileObjectType. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// The process of detecting profile object type mapping by using given ob- jects. See also: AWS API Documentation
+    /// The process of detecting profile object type mapping by using given objects. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -602,7 +602,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Tests the auto-merging settings of your Identity Resolution Job without merging your data. It randomly selects a sample of matching groups from the existing matching results, and applies the automerging settings that you provided. You can then view the number of profiles in the sam- ple, the number of matches, and the number of profiles identified to be merged. This enables you to evaluate the accuracy of the attributes in your matching list. You can't view which profiles are matched and would b...
+    /// Tests the auto-merging settings of your Identity Resolution Job without merging your data. It randomly selects a sample of matching groups from the existing matching results, and applies the automerging settings that you provided. You can then view the number of profiles in the sample, the number of matches, and the number of profiles identified to be merged. This enables you to evaluate the accuracy of the attributes in your matching list. You can't view which profiles are matched and would be ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +617,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Provides more information on a calculated attribute definition for Cus- tomer Profiles. See also: AWS API Documentation
+    /// Provides more information on a calculated attribute definition for Customer Profiles. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -692,7 +692,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Returns information about the specified event stream in a specific do- main. See also: AWS API Documentation
+    /// Returns information about the specified event stream in a specific domain. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -722,7 +722,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Returns information about an Identity Resolution Job in a specific do- main. Identity Resolution Jobs are set up using the Amazon Connect admin con- sole. For more information, see Use Identity Resolution to consolidate similar profiles . See also: AWS API Documentation
+    /// Returns information about an Identity Resolution Job in a specific domain. Identity Resolution Jobs are set up using the Amazon Connect admin console. For more information, see Use Identity Resolution to consolidate similar profiles . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -767,7 +767,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// The GetObjectTypeAttributeValues API delivers statistical insights about attributes within a specific object type, but is exclusively available for domains with data store enabled. This API performs daily calculations to provide statistical information about your attribute values, helping you understand patterns and trends in your data. The statistical calculations are performed once per day, providing a con- sistent snapshot of your attribute data characteristics. NOTE: You'll receive null valu...
+    /// The GetObjectTypeAttributeValues API delivers statistical insights about attributes within a specific object type, but is exclusively available for domains with data store enabled. This API performs daily calculations to provide statistical information about your attribute values, helping you understand patterns and trends in your data. The statistical calculations are performed once per day, providing a consistent snapshot of your attribute data characteristics. NOTE: You'll receive null values...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -812,7 +812,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Returns the template information for a specific object type. A template is a predefined ProfileObjectType, such as Salesforce-Ac- count or Salesforce-Contact. When a user sends a ProfileObject, using the PutProfileObject API, with an ObjectTypeName that matches one of the TemplateIds, it uses the mappings from the template. See also: AWS API Documentation
+    /// Returns the template information for a specific object type. A template is a predefined ProfileObjectType, such as Salesforce-Account or Salesforce-Contact. When a user sends a ProfileObject, using the PutProfileObject API, with an ObjectTypeName that matches one of the TemplateIds, it uses the mappings from the template. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -827,7 +827,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Fetches the recommendations for a profile in the input Customer Pro- files domain. Fetches all the profile recommendations See also: AWS API Documentation
+    /// Fetches the recommendations for a profile in the input Customer Profiles domain. Fetches all the profile recommendations See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -977,7 +977,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Returns information about the segment membership event stream config- ured for a specific domain, including the stream state and associated segments. See also: AWS API Documentation
+    /// Returns information about the segment membership event stream configured for a specific domain, including the stream state and associated segments. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1097,7 +1097,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Lists the existing layouts that can be used to view data for a specific domain. This API can only be invoked from the Amazon Connect admin web- site. See also: AWS API Documentation list-domain-layouts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from...
+    /// Lists the existing layouts that can be used to view data for a specific domain. This API can only be invoked from the Amazon Connect admin website. See also: AWS API Documentation list-domain-layouts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1112,7 +1112,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// List all DomainObjectType(s) in a Customer Profiles domain. See also: AWS API Documentation list-domain-object-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Items
+    /// List all DomainObjectType(s) in a Customer Profiles domain. See also: AWS API Documentation list-domain-object-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1202,22 +1202,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Fetch the possible attribute values given the attribute name. See also: AWS API Documentation list-object-type-attributes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListObjectTypeAttributesAsync(
-        AwsCustomerProfilesListObjectTypeAttributesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// The ListObjectTypeAttributeValues API provides access to the most re- cent distinct values for any specified attribute, making it valuable for real-time data validation and consistency checks within your object types. This API works across domain, supporting both custom and stan- dard object types. The API accepts the object type name, attribute name, and domain name as input parameters and returns values up to the storage limit of approximately 350KB. See also: AWS API Documentation
+    /// The ListObjectTypeAttributeValues API provides access to the most recent distinct values for any specified attribute, making it valuable for real-time data validation and consistency checks within your object types. This API works across domain, supporting both custom and standard object types. The API accepts the object type name, attribute name, and domain name as input parameters and returns values up to the storage limit of approximately 350KB. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1225,6 +1210,21 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListObjectTypeAttributeValuesAsync(
         AwsCustomerProfilesListObjectTypeAttributeValuesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Fetch the possible attribute values given the attribute name. See also: AWS API Documentation list-object-type-attributes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListObjectTypeAttributesAsync(
+        AwsCustomerProfilesListObjectTypeAttributesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1247,7 +1247,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Returns a list of history records for a specific profile, for a spe- cific domain. See also: AWS API Documentation
+    /// Returns a list of history records for a specific profile, for a specific domain. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1255,36 +1255,6 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListProfileHistoryRecordsAsync(
         AwsCustomerProfilesListProfileHistoryRecordsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns a list of objects associated with a profile of a given Pro- fileObjectType. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListProfileObjectsAsync(
-        AwsCustomerProfilesListProfileObjectsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists all of the templates available within the service. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListProfileObjectTypesAsync(
-        AwsCustomerProfilesListProfileObjectTypesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1307,7 +1277,37 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Returns a list of recommender filters in the specified domain. See also: AWS API Documentation list-recommender-filters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: RecommenderFilters
+    /// Lists all of the templates available within the service. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListProfileObjectTypesAsync(
+        AwsCustomerProfilesListProfileObjectTypesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a list of objects associated with a profile of a given ProfileObjectType. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListProfileObjectsAsync(
+        AwsCustomerProfilesListProfileObjectsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a list of recommender filters in the specified domain. See also: AWS API Documentation list-recommender-filters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RecommenderFilters
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1322,7 +1322,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Returns a list of available recommender recipes that can be used to create recommenders. See also: AWS API Documentation list-recommender-recipes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Recom...
+    /// Returns a list of available recommender recipes that can be used to create recommenders. See also: AWS API Documentation list-recommender-recipes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Recomme...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1337,7 +1337,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Returns a list of recommender schemas in the specified domain. See also: AWS API Documentation list-recommender-schemas is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: RecommenderSchemas
+    /// Returns a list of recommender schemas in the specified domain. See also: AWS API Documentation list-recommender-schemas is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RecommenderSchemas
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1367,7 +1367,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Returns a set of MatchIds that belong to the given domain. See also: AWS API Documentation list-rule-based-matches is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: MatchIds
+    /// Returns a set of MatchIds that belong to the given domain. See also: AWS API Documentation list-rule-based-matches is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: MatchIds
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1382,7 +1382,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Lists all segment definitions under a domain. See also: AWS API Documentation list-segment-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Items
+    /// Lists all segment definitions under a domain. See also: AWS API Documentation list-segment-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1397,7 +1397,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Returns the most recent membership events for a segment. Each event represents a profile that entered or exited the segment. This operation is paginated. See also: AWS API Documentation list-segment-subscription-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument m...
+    /// Returns the most recent membership events for a segment. Each event represents a profile that entered or exited the segment. This operation is paginated. See also: AWS API Documentation list-segment-subscription-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1457,7 +1457,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Runs an AWS Lambda job that does the following: o All the profileKeys in the ProfileToBeMerged will be moved to the main profile. o All the objects in the ProfileToBeMerged will be moved to the main profile. o All the ProfileToBeMerged will be deleted at the end. o All the profileKeys in the ProfileIdsToBeMerged will be moved to the main profile. o Standard fields are merged as follows: o Fields are always "union"-ed if there are no conflicts in standard fields or attributeKeys. o When there are...
+    /// Runs an AWS Lambda job that does the following: • All the profileKeys in the ProfileToBeMerged will be moved to the main profile. • All the objects in the ProfileToBeMerged will be moved to the main profile. • All the ProfileToBeMerged will be deleted at the end. • All the profileKeys in the ProfileIdsToBeMerged will be moved to the main profile. • Standard fields are merged as follows: • Fields are always "union"-ed if there are no conflicts in standard fields or attributeKeys. • When there are...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1472,7 +1472,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Create/Update a DomainObjectType in a Customer Profiles domain. To cre- ate a new DomainObjectType, Data Store needs to be enabled on the Do- main. See also: AWS API Documentation
+    /// Create/Update a DomainObjectType in a Customer Profiles domain. To create a new DomainObjectType, Data Store needs to be enabled on the Domain. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1487,7 +1487,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Adds an integration between the service and a third-party service, which includes Amazon AppFlow and Amazon Connect. An integration can belong to only one domain. To add or remove tags on an existing Integration, see TagResource /- UntagResource . See also: AWS API Documentation
+    /// Adds an integration between the service and a third-party service, which includes Amazon AppFlow and Amazon Connect. An integration can belong to only one domain. To add or remove tags on an existing Integration, see TagResource /UntagResource . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1502,7 +1502,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Adds additional objects to customer profiles of a given ObjectType. When adding a specific profile object, like a Contact Record, an in- ferred profile can get created if it is not mapped to an existing pro- file. The resulting profile will only have a phone number populated in the standard ProfileObject. Any additional Contact Records with the same phone number will be mapped to the same inferred profile. When a ProfileObject is created and if a ProfileObjectType already ex- ists for the Profil...
+    /// Adds additional objects to customer profiles of a given ObjectType. When adding a specific profile object, like a Contact Record, an inferred profile can get created if it is not mapped to an existing profile. The resulting profile will only have a phone number populated in the standard ProfileObject. Any additional Contact Records with the same phone number will be mapped to the same inferred profile. When a ProfileObject is created and if a ProfileObjectType already exists for the ProfileObjec...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1517,7 +1517,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Defines a ProfileObjectType. To add or remove tags on an existing ObjectType, see TagResource /- UntagResource . See also: AWS API Documentation
+    /// Defines a ProfileObjectType. To add or remove tags on an existing ObjectType, see TagResource /UntagResource . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1532,7 +1532,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Creates or updates a segment subscription for membership events. When a subscription is created, an initial snapshot is taken and the system begins monitoring for membership changes. You can optionally set a schedule configuration interval to control how often membership snapshots are run. The interval can be from 1 to 24 hours. If not set, the interval defaults to 24 hours. Scheduled snap- shots run on a best-effort basis. If a scheduled snapshot takes longer than the configured interval, the n...
+    /// Creates or updates a segment subscription for membership events. When a subscription is created, an initial snapshot is taken and the system begins monitoring for membership changes. You can optionally set a schedule configuration interval to control how often membership snapshots are run. The interval can be from 1 to 24 hours. If not set, the interval defaults to 24 hours. Scheduled snapshots run on a best-effort basis. If a scheduled snapshot takes longer than the configured interval, the nex...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1547,7 +1547,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Searches for profiles within a specific domain using one or more prede- fined search keys (e.g., _fullName, _phone, _email, _account, etc.) and/or custom-defined search keys. A search key is a data type pair that consists of a KeyName and Values list. This operation supports searching for profiles with a minimum of 1 key-value(s) pair and up to 5 key-value(s) pairs using either AND or OR logic. See also: AWS API Documentation
+    /// Searches for profiles within a specific domain using one or more predefined search keys (e.g., _fullName, _phone, _email, _account, etc.) and/or custom-defined search keys. A search key is a data type pair that consists of a KeyName and Values list. This operation supports searching for profiles with a minimum of 1 key-value(s) pair and up to 5 key-value(s) pairs using either AND or OR logic. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1562,7 +1562,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Retrieves recommendations for a profile in a specific domain. The pro- file is identified using a search key, which consists of a KeyName and a KeyValues list. The KeyName can be a predefined key (for example, _profileId , _phone , _email ) or a custom-defined key. The search key must match exactly one profile. If no profile matches the search key, the operation returns a ResourceNotFoundException . If more than one profile matches the search key, the operation returns a BadRequestException . Yo...
+    /// Retrieves recommendations for a profile in a specific domain. The profile is identified using a search key, which consists of a KeyName and a KeyValues list. The KeyName can be a predefined key (for example, _profileId , _phone , _email ) or a custom-defined key. The search key must match exactly one profile. If no profile matches the search key, the operation returns a ResourceNotFoundException . If more than one profile matches the search key, the operation returns a BadRequestException . You ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1577,7 +1577,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Starts a recommender that was previously stopped. Starting a recom- mender resumes its ability to generate recommendations. See also: AWS API Documentation
+    /// Starts a recommender that was previously stopped. Starting a recommender resumes its ability to generate recommendations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1607,7 +1607,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Stops a recommender, suspending its ability to generate recommenda- tions. The recommender can be restarted later using StartRecommender. See also: AWS API Documentation
+    /// Stops a recommender, suspending its ability to generate recommendations. The recommender can be restarted later using StartRecommender. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1637,7 +1637,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Assigns one or more tags (key-value pairs) to the specified Amazon Con- nect Customer Profiles resource. Tags can help you organize and catego- rize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with cer- tain tag values. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged. Tags don't have any semantic meaning to AWS and are interpreted strictly as strings of characters. You...
+    /// Assigns one or more tags (key-value pairs) to the specified Amazon Connect Customer Profiles resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged. Tags don't have any semantic meaning to AWS and are interpreted strictly as strings of characters. You can u...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1652,7 +1652,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Removes one or more tags from the specified Amazon Connect Customer Profiles resource. In Connect Customer Profiles, domains, profile ob- ject types, and integrations can be tagged. See also: AWS API Documentation
+    /// Removes one or more tags from the specified Amazon Connect Customer Profiles resource. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1667,7 +1667,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Updates an existing calculated attribute definition. When updating the Conditions, note that increasing the date range of a calculated at- tribute will not trigger inclusion of historical data greater than the current date range. See also: AWS API Documentation
+    /// Updates an existing calculated attribute definition. When updating the Conditions, note that increasing the date range of a calculated attribute will not trigger inclusion of historical data greater than the current date range. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1697,7 +1697,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Updates the properties of a domain, including creating or selecting a dead letter queue or an encryption key. After a domain is created, the name cant be changed. Use this API or CreateDomain to enable identity resolution : set Match- ing to true. To prevent cross-service impersonation when you call this API, see Cross-service confused deputy prevention for sample policies that you should apply. To add or remove tags on an existing Domain, see TagResource /- UntagResource . See also: AWS API Doc...
+    /// Updates the properties of a domain, including creating or selecting a dead letter queue or an encryption key. After a domain is created, the name cant be changed. Use this API or CreateDomain to enable identity resolution : set Matching to true. To prevent cross-service impersonation when you call this API, see Cross-service confused deputy prevention for sample policies that you should apply. To add or remove tags on an existing Domain, see TagResource /UntagResource . See also: AWS API Documen...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1727,7 +1727,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Updates the properties of a profile. The ProfileId is required for up- dating a customer profile. When calling the UpdateProfile API, specifying an empty string value means that any existing value will be removed. Not specifying a string value means that any value already there will be kept. See also: AWS API Documentation
+    /// Updates the properties of a profile. The ProfileId is required for updating a customer profile. When calling the UpdateProfile API, specifying an empty string value means that any existing value will be removed. Not specifying a string value means that any value already there will be kept. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1742,7 +1742,7 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Updates the properties of an existing recommender, allowing you to mod- ify its configuration and description. See also: AWS API Documentation
+    /// Updates the properties of an existing recommender, allowing you to modify its configuration and description. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsSsmUpdateAssociationStatusOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Updates the status of the Amazon Web Services Systems Manager document (SSM document) associated with the specified managed node. UpdateAssociationStatus is primarily used by the Amazon Web Services Systems Manager Agent (SSM Agent) to report status updates about your associations and is only used for associations created with the InstanceId legacy parameter. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the SSM document. Constraints: o pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$</param>
-    /// <param name="InstanceId">The managed node ID. Constraints: o pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)</param>
-    /// <param name="AssociationStatus">The association status. Date -&gt; (timestamp) [required] The date when the status changed. Name -&gt; (string) [required] The status. Possible values: o Pending o Success o Failed Message -&gt; (string) [required] The reason for the status. Constraints: o min: 1 o max: 1024 AdditionalInfo -&gt; (string) A user-defined string. Constraints: o max: 1024 Shorthand Syntax: Date=timestamp,Name=string,Message=string,AdditionalInfo=string JSON Syntax: { "Date": timestamp, "Name": "Pending"|"Success"|"Failed", "Message": "string", "AdditionalInfo": "string" }</param>
+    /// <param name="Name">The name of the SSM document. Constraints: • pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$</param>
+    /// <param name="InstanceId">The managed node ID. Constraints: • pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)</param>
+    /// <param name="AssociationStatus">The association status. Date -&gt; (timestamp) [required] The date when the status changed. Name -&gt; (string) [required] The status. Possible values: • Pending • Success • Failed Message -&gt; (string) [required] The reason for the status. Constraints: • min: 1 • max: 1024 AdditionalInfo -&gt; (string) A user-defined string. Constraints: • max: 1024 Shorthand Syntax: Date=timestamp,Name=string,Message=string,AdditionalInfo=string JSON Syntax: { "Date": timestamp, "Name": "Pending"|"Success"|"Failed", "Message": "string", "AdditionalInfo": "string" }</param>
     public AwsSsmUpdateAssociationStatusOptions(
         string Name,
         string InstanceId,
@@ -64,19 +66,19 @@ public record AwsSsmUpdateAssociationStatusOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the SSM document. Constraints: o pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$
+    /// The name of the SSM document. Constraints: • pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The managed node ID. Constraints: o pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)
+    /// The managed node ID. Constraints: • pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The association status. Date -&gt; (timestamp) [required] The date when the status changed. Name -&gt; (string) [required] The status. Possible values: o Pending o Success o Failed Message -&gt; (string) [required] The reason for the status. Constraints: o min: 1 o max: 1024 AdditionalInfo -&gt; (string) A user-defined string. Constraints: o max: 1024 Shorthand Syntax: Date=timestamp,Name=string,Message=string,AdditionalInfo=string JSON Syntax: { "Date": timestamp, "Name": "Pending"|"Success"|"Failed", "Message": "string", "AdditionalInfo": "string" }
+    /// The association status. Date -&gt; (timestamp) [required] The date when the status changed. Name -&gt; (string) [required] The status. Possible values: • Pending • Success • Failed Message -&gt; (string) [required] The reason for the status. Constraints: • min: 1 • max: 1024 AdditionalInfo -&gt; (string) A user-defined string. Constraints: • max: 1024 Shorthand Syntax: Date=timestamp,Name=string,Message=string,AdditionalInfo=string JSON Syntax: { "Date": timestamp, "Name": "Pending"|"Success"|"Failed", "Message": "string", "AdditionalInfo": "string" }
     /// </summary>
     [CliOption("--association-status")]
     public string? AssociationStatus { get; private init; }

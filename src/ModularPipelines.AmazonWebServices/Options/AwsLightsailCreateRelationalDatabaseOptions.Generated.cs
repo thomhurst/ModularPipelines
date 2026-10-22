@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new database in Amazon Lightsail. The create relational database operation supports tag-based access con- trol via request tags. For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+/// Creates a new database in Amazon Lightsail. The create relational database operation supports tag-based access control via request tags. For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,13 +28,13 @@ public record AwsLightsailCreateRelationalDatabaseOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new database in Amazon Lightsail. The create relational database operation supports tag-based access con- trol via request tags. For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+    /// Creates a new database in Amazon Lightsail. The create relational database operation supports tag-based access control via request tags. For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="RelationalDatabaseName">The name to use for your new Lightsail database resource. Constraints: o Must contain from 2 to 255 alphanumeric characters, or hyphens. o The first and last character must be a letter or number. Constraints: o pattern: \w[\w\-]*\w</param>
-    /// <param name="RelationalDatabaseBlueprintId">The blueprint ID for your new database. A blueprint describes the major engine version of a database. You can get a list of database blueprints IDs by using the get rela- tional database blueprints operation.</param>
-    /// <param name="RelationalDatabaseBundleId">The bundle ID for your new database. A bundle describes the perfor- mance specifications for your database. You can get a list of database bundle IDs by using the get rela- tional database bundles operation.</param>
-    /// <param name="MasterDatabaseName">The meaning of this parameter differs according to the database en- gine you use. MySQL The name of the database to create when the Lightsail database re- source is created. If this parameter isn't specified, no database is created in the database resource. Constraints: o Must contain 1 to 64 letters or numbers. o Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0- 9). o Can't be a word reserved by the specified database engine. For more information about reserved words in MySQL, see the Keywords and Reserved Words articles for MySQL 5.6 , MySQL 5.7 , and MySQL 8.0 . PostgreSQL The name of the database to create when the Lightsail database re- source is created. If this parameter isn't specified, a database named postgres is created in the database resource. Constraints: o Must contain 1 to 63 letters or numbers. o Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0- 9). o Can't be a word reserved by the specified database engine. For more information about reserved words in PostgreSQL, see the SQL Key Words articles for PostgreSQL 9.6 , PostgreSQL 10 , PostgreSQL 11 , and PostgreSQL 12 .</param>
-    /// <param name="MasterUsername">The name for the master user. MySQL Constraints: o Required for MySQL. o Must be 1 to 16 letters or numbers. Can contain underscores. o First character must be a letter. o Can't be a reserved word for the chosen database engine. For more information about reserved words in MySQL 5.6 or 5.7, see the Key- words and Reserved Words articles for MySQL 5.6 , MySQL 5.7 , or MySQL 8.0 . PostgreSQL Constraints: o Required for PostgreSQL. o Must be 1 to 63 letters or numbers. Can contain underscores. o First character must be a letter. o Can't be a reserved word for the chosen database engine. For more information about reserved words in MySQL 5.6 or 5.7, see the Key- words and Reserved Words articles for PostgreSQL 9.6 , PostgreSQL 10 , PostgreSQL 11 , and PostgreSQL 12 .</param>
+    /// <param name="RelationalDatabaseName">The name to use for your new Lightsail database resource. Constraints: • Must contain from 2 to 255 alphanumeric characters, or hyphens. • The first and last character must be a letter or number. Constraints: • pattern: \w[\w\-]*\w</param>
+    /// <param name="RelationalDatabaseBlueprintId">The blueprint ID for your new database. A blueprint describes the major engine version of a database. You can get a list of database blueprints IDs by using the get relational database blueprints operation.</param>
+    /// <param name="RelationalDatabaseBundleId">The bundle ID for your new database. A bundle describes the performance specifications for your database. You can get a list of database bundle IDs by using the get relational database bundles operation.</param>
+    /// <param name="MasterDatabaseName">The meaning of this parameter differs according to the database engine you use. MySQL The name of the database to create when the Lightsail database resource is created. If this parameter isn't specified, no database is created in the database resource. Constraints: • Must contain 1 to 64 letters or numbers. • Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0- 9). • Can't be a word reserved by the specified database engine. For more information about reserved words in MySQL, see the Keywords and Reserved Words articles for MySQL 5.6 , MySQL 5.7 , and MySQL 8.0 . PostgreSQL The name of the database to create when the Lightsail database resource is created. If this parameter isn't specified, a database named postgres is created in the database resource. Constraints: • Must contain 1 to 63 letters or numbers. • Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0- 9). • Can't be a word reserved by the specified database engine. For more information about reserved words in PostgreSQL, see the SQL Key Words articles for PostgreSQL 9.6 , PostgreSQL 10 , PostgreSQL 11 , and PostgreSQL 12 .</param>
+    /// <param name="MasterUsername">The name for the master user. MySQL Constraints: • Required for MySQL. • Must be 1 to 16 letters or numbers. Can contain underscores. • First character must be a letter. • Can't be a reserved word for the chosen database engine. For more information about reserved words in MySQL 5.6 or 5.7, see the Keywords and Reserved Words articles for MySQL 5.6 , MySQL 5.7 , or MySQL 8.0 . PostgreSQL Constraints: • Required for PostgreSQL. • Must be 1 to 63 letters or numbers. Can contain underscores. • First character must be a letter. • Can't be a reserved word for the chosen database engine. For more information about reserved words in MySQL 5.6 or 5.7, see the Keywords and Reserved Words articles for PostgreSQL 9.6 , PostgreSQL 10 , PostgreSQL 11 , and PostgreSQL 12 .</param>
     public AwsLightsailCreateRelationalDatabaseOptions(
         string RelationalDatabaseName,
         string RelationalDatabaseBlueprintId,
@@ -73,37 +75,37 @@ public record AwsLightsailCreateRelationalDatabaseOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name to use for your new Lightsail database resource. Constraints: o Must contain from 2 to 255 alphanumeric characters, or hyphens. o The first and last character must be a letter or number. Constraints: o pattern: \w[\w\-]*\w
+    /// The name to use for your new Lightsail database resource. Constraints: • Must contain from 2 to 255 alphanumeric characters, or hyphens. • The first and last character must be a letter or number. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--relational-database-name")]
     public string? RelationalDatabaseName { get; private init; }
 
     /// <summary>
-    /// The blueprint ID for your new database. A blueprint describes the major engine version of a database. You can get a list of database blueprints IDs by using the get rela- tional database blueprints operation.
+    /// The blueprint ID for your new database. A blueprint describes the major engine version of a database. You can get a list of database blueprints IDs by using the get relational database blueprints operation.
     /// </summary>
     [CliOption("--relational-database-blueprint-id")]
     public string? RelationalDatabaseBlueprintId { get; private init; }
 
     /// <summary>
-    /// The bundle ID for your new database. A bundle describes the perfor- mance specifications for your database. You can get a list of database bundle IDs by using the get rela- tional database bundles operation.
+    /// The bundle ID for your new database. A bundle describes the performance specifications for your database. You can get a list of database bundle IDs by using the get relational database bundles operation.
     /// </summary>
     [CliOption("--relational-database-bundle-id")]
     public string? RelationalDatabaseBundleId { get; private init; }
 
     /// <summary>
-    /// The meaning of this parameter differs according to the database en- gine you use. MySQL The name of the database to create when the Lightsail database re- source is created. If this parameter isn't specified, no database is created in the database resource. Constraints: o Must contain 1 to 64 letters or numbers. o Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0- 9). o Can't be a word reserved by the specified database engine. For more information about reserved words in MySQL, see the Keywords and Reserved Words articles for MySQL 5.6 , MySQL 5.7 , and MySQL 8.0 . PostgreSQL The name of the database to create when the Lightsail database re- source is created. If this parameter isn't specified, a database named postgres is created in the database resource. Constraints: o Must contain 1 to 63 letters or numbers. o Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0- 9). o Can't be a word reserved by the specified database engine. For more information about reserved words in PostgreSQL, see the SQL Key Words articles for PostgreSQL 9.6 , PostgreSQL 10 , PostgreSQL 11 , and PostgreSQL 12 .
+    /// The meaning of this parameter differs according to the database engine you use. MySQL The name of the database to create when the Lightsail database resource is created. If this parameter isn't specified, no database is created in the database resource. Constraints: • Must contain 1 to 64 letters or numbers. • Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0- 9). • Can't be a word reserved by the specified database engine. For more information about reserved words in MySQL, see the Keywords and Reserved Words articles for MySQL 5.6 , MySQL 5.7 , and MySQL 8.0 . PostgreSQL The name of the database to create when the Lightsail database resource is created. If this parameter isn't specified, a database named postgres is created in the database resource. Constraints: • Must contain 1 to 63 letters or numbers. • Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0- 9). • Can't be a word reserved by the specified database engine. For more information about reserved words in PostgreSQL, see the SQL Key Words articles for PostgreSQL 9.6 , PostgreSQL 10 , PostgreSQL 11 , and PostgreSQL 12 .
     /// </summary>
     [CliOption("--master-database-name")]
     public string? MasterDatabaseName { get; private init; }
 
     /// <summary>
-    /// The name for the master user. MySQL Constraints: o Required for MySQL. o Must be 1 to 16 letters or numbers. Can contain underscores. o First character must be a letter. o Can't be a reserved word for the chosen database engine. For more information about reserved words in MySQL 5.6 or 5.7, see the Key- words and Reserved Words articles for MySQL 5.6 , MySQL 5.7 , or MySQL 8.0 . PostgreSQL Constraints: o Required for PostgreSQL. o Must be 1 to 63 letters or numbers. Can contain underscores. o First character must be a letter. o Can't be a reserved word for the chosen database engine. For more information about reserved words in MySQL 5.6 or 5.7, see the Key- words and Reserved Words articles for PostgreSQL 9.6 , PostgreSQL 10 , PostgreSQL 11 , and PostgreSQL 12 .
+    /// The name for the master user. MySQL Constraints: • Required for MySQL. • Must be 1 to 16 letters or numbers. Can contain underscores. • First character must be a letter. • Can't be a reserved word for the chosen database engine. For more information about reserved words in MySQL 5.6 or 5.7, see the Keywords and Reserved Words articles for MySQL 5.6 , MySQL 5.7 , or MySQL 8.0 . PostgreSQL Constraints: • Required for PostgreSQL. • Must be 1 to 63 letters or numbers. Can contain underscores. • First character must be a letter. • Can't be a reserved word for the chosen database engine. For more information about reserved words in MySQL 5.6 or 5.7, see the Keywords and Reserved Words articles for PostgreSQL 9.6 , PostgreSQL 10 , PostgreSQL 11 , and PostgreSQL 12 .
     /// </summary>
     [CliOption("--master-username")]
     public string? MasterUsername { get; private init; }
 
     /// <summary>
-    /// The Availability Zone in which to create your new database. Use the us-east-2a case-sensitive format. You can get a list of Availability Zones by using the get regions operation. Be sure to add the include relational database Availabil- ity Zones parameter to your request.
+    /// The Availability Zone in which to create your new database. Use the us-east-2a case-sensitive format. You can get a list of Availability Zones by using the get regions operation. Be sure to add the include relational database Availability Zones parameter to your request.
     /// </summary>
     [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; set; }
@@ -116,25 +118,25 @@ public record AwsLightsailCreateRelationalDatabaseOptions : AwsOptions, IValidat
     public string? MasterUserPassword { get; set; }
 
     /// <summary>
-    /// The daily time range during which automated backups are created for your new database if automated backups are enabled. The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region. For more information about the preferred backup window time blocks for each region, see the Working With Backups guide in the Amazon Relational Database Service docu- mentation. Constraints: o Must be in the hh24:mi-hh24:mi format. Example: 16:00-16:30 o Specified in Coordinated Universal Time (UTC). o Must not conflict with the preferred maintenance window. o Must be at least 30 minutes.
+    /// The daily time range during which automated backups are created for your new database if automated backups are enabled. The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region. For more information about the preferred backup window time blocks for each region, see the Working With Backups guide in the Amazon Relational Database Service documentation. Constraints: • Must be in the hh24:mi-hh24:mi format. Example: 16:00-16:30 • Specified in Coordinated Universal Time (UTC). • Must not conflict with the preferred maintenance window. • Must be at least 30 minutes.
     /// </summary>
     [CliOption("--preferred-backup-window")]
     public string? PreferredBackupWindow { get; set; }
 
     /// <summary>
-    /// The weekly time range during which system maintenance can occur on your new database. The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week. Constraints: o Must be in the ddd:hh24:mi-ddd:hh24:mi format. o Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. o Must be at least 30 minutes. o Specified in Coordinated Universal Time (UTC). o Example: Tue:17:00-Tue:17:30
+    /// The weekly time range during which system maintenance can occur on your new database. The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week. Constraints: • Must be in the ddd:hh24:mi-ddd:hh24:mi format. • Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. • Must be at least 30 minutes. • Specified in Coordinated Universal Time (UTC). • Example: Tue:17:00-Tue:17:30
     /// </summary>
     [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
 
     /// <summary>
-    /// Specifies the accessibility options for your new database. A value of true specifies a database that is available to resources outside of your Lightsail account. A value of false specifies a database that is available only to your Lightsail resources in the same re- gion as your database.
+    /// Specifies the accessibility options for your new database. A value of true specifies a database that is available to resources outside of your Lightsail account. A value of false specifies a database that is available only to your Lightsail resources in the same region as your database.
     /// </summary>
     [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
-    /// The tag keys and optional values to add to the resource during cre- ate. Use the TagResource action to tag a resource after it's created. (structure) Describes a tag key and optional value assigned to an Amazon Lightsail resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide . key -&gt; (string) The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, num- bers, spaces in UTF-8, or the following characters: + - = . _ : / @ value -&gt; (string) The value of the tag. Constraints: Tag values accept a maximum of 256 letters, num- bers, spaces in UTF-8, or the following characters: + - = . _ : / @ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created. (structure) Describes a tag key and optional value assigned to an Amazon Lightsail resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide . key -&gt; (string) The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @ value -&gt; (string) The value of the tag. Constraints: Tag values accept a maximum of 256 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

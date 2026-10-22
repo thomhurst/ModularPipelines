@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Posts a batch of documents to a search domain for indexing. A document batch is a collection of add and delete operations that represent the documents you want to add, update, or delete from your domain. Batches can be described in either JSON or XML. Each item that you want Amazon CloudSearch to return as a search result (such as a product) is repre- sented as a document. Every document has a unique ID and one or more fields that contain the data that you want to search and return in re- sults....
+/// Posts a batch of documents to a search domain for indexing. A document batch is a collection of add and delete operations that represent the documents you want to add, update, or delete from your domain. Batches can be described in either JSON or XML. Each item that you want Amazon CloudSearch to return as a search result (such as a product) is represented as a document. Every document has a unique ID and one or more fields that contain the data that you want to search and return in results. Ind...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsCloudsearchdomainUploadDocumentsOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Posts a batch of documents to a search domain for indexing. A document batch is a collection of add and delete operations that represent the documents you want to add, update, or delete from your domain. Batches can be described in either JSON or XML. Each item that you want Amazon CloudSearch to return as a search result (such as a product) is repre- sented as a document. Every document has a unique ID and one or more fields that contain the data that you want to search and return in re- sults....
+    /// Posts a batch of documents to a search domain for indexing. A document batch is a collection of add and delete operations that represent the documents you want to add, update, or delete from your domain. Batches can be described in either JSON or XML. Each item that you want Amazon CloudSearch to return as a search result (such as a product) is represented as a document. Every document has a unique ID and one or more fields that contain the data that you want to search and return in results. Ind...
     /// </summary>
     /// <param name="Documents">A batch of documents formatted in JSON or HTML. NOTE: This argument is of type: streaming blob. Its value must be the path to a file (e.g. path/to/file) and must not be prefixed with file:// or fileb://</param>
-    /// <param name="ContentType">The format of the batch you are uploading. Amazon CloudSearch sup- ports two document batch formats: o application/json o application/xml Possible values: o application/json o application/xml</param>
+    /// <param name="ContentType">The format of the batch you are uploading. Amazon CloudSearch supports two document batch formats: • application/json • application/xml Possible values: • application/json • application/xml</param>
     public AwsCloudsearchdomainUploadDocumentsOptions(
         string Documents,
         string ContentType
@@ -66,7 +68,7 @@ public record AwsCloudsearchdomainUploadDocumentsOptions : AwsOptions, IValidata
     public string? Documents { get; private init; }
 
     /// <summary>
-    /// The format of the batch you are uploading. Amazon CloudSearch sup- ports two document batch formats: o application/json o application/xml Possible values: o application/json o application/xml
+    /// The format of the batch you are uploading. Amazon CloudSearch supports two document batch formats: • application/json • application/xml Possible values: • application/json • application/xml
     /// </summary>
     [CliOption("--content-type")]
     public string? ContentType { get; private init; }

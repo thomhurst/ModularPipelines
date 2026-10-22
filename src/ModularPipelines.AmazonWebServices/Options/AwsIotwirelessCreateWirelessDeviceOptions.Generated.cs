@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +31,8 @@ public record AwsIotwirelessCreateWirelessDeviceOptions : AwsOptions, IValidatab
     /// <summary>
     /// Provisions a wireless device. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Type">The wireless device type. Possible values: o Sidewalk o LoRaWAN</param>
-    /// <param name="DestinationName">The name of the destination to assign to the new wireless device. Constraints: o max: 128 o pattern: [a-zA-Z0-9-_]+</param>
+    /// <param name="Type">The wireless device type. Possible values: • Sidewalk • LoRaWAN</param>
+    /// <param name="DestinationName">The name of the destination to assign to the new wireless device. Constraints: • max: 128 • pattern: [a-zA-Z0-9-_]+</param>
     public AwsIotwirelessCreateWirelessDeviceOptions(
         AwsIotwirelessCreateWirelessDeviceType Type,
         string DestinationName
@@ -61,56 +63,56 @@ public record AwsIotwirelessCreateWirelessDeviceOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The wireless device type. Possible values: o Sidewalk o LoRaWAN
+    /// The wireless device type. Possible values: • Sidewalk • LoRaWAN
     /// </summary>
     [CliOption("--type")]
     public AwsIotwirelessCreateWirelessDeviceType? Type { get; private init; }
 
     /// <summary>
-    /// The name of the destination to assign to the new wireless device. Constraints: o max: 128 o pattern: [a-zA-Z0-9-_]+
+    /// The name of the destination to assign to the new wireless device. Constraints: • max: 128 • pattern: [a-zA-Z0-9-_]+
     /// </summary>
     [CliOption("--destination-name")]
     public string? DestinationName { get; private init; }
 
     /// <summary>
-    /// The name of the new resource. NOTE: The following special characters aren't accepted: &lt;&gt;^#~$ Constraints: o max: 256
+    /// The name of the new resource. NOTE: The following special characters aren't accepted: &lt;&gt;^#~$ Constraints: • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The description of the new resource. Constraints: o max: 2048
+    /// The description of the new resource. Constraints: • max: 2048
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete suc- cessfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see Ensuring idempotency in Amazon EC2 API requests . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
+    /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see Ensuring idempotency in Amazon EC2 API requests . Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// The tags to attach to the new wireless device. Tags are metadata that you can use to manage a resource. Constraints: o min: 0 o max: 200 (structure) A simple label consisting of a customer-defined key-value pair Key -&gt; (string) [required] The tag's key value. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags to attach to the new wireless device. Tags are metadata that you can use to manage a resource. Constraints: • min: 0 • max: 200 (structure) A simple label consisting of a customer-defined key-value pair Key -&gt; (string) [required] The tag's key value. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The tag's value. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The integration status of the Device Location feature for LoRaWAN and Sidewalk devices. Possible values: o Enabled o Disabled
+    /// The integration status of the Device Location feature for LoRaWAN and Sidewalk devices. Possible values: • Enabled • Disabled
     /// </summary>
     [CliOption("--positioning")]
     public AwsIotwirelessCreateWirelessDevicePositioning? Positioning { get; set; }
 
     /// <summary>
-    /// The device configuration information to use to create the Sidewalk device. DeviceProfileId -&gt; (string) The ID of the Sidewalk device profile. Constraints: o max: 256 Positioning -&gt; (structure) The Positioning object of the Sidewalk device. DestinationName -&gt; (string) The location destination name of the Sidewalk device. Constraints: o max: 128 o pattern: [a-zA-Z0-9-_]+ SidewalkManufacturingSn -&gt; (string) The Sidewalk manufacturing serial number. Constraints: o max: 64 Shorthand Syntax: DeviceProfileId=string,Positioning={DestinationName=string},SidewalkManufacturingSn=string JSON Syntax: { "DeviceProfileId": "string", "Positioning": { "DestinationName": "string" }, "SidewalkManufacturingSn": "string" }
+    /// The device configuration information to use to create the Sidewalk device. DeviceProfileId -&gt; (string) The ID of the Sidewalk device profile. Constraints: • max: 256 Positioning -&gt; (structure) The Positioning object of the Sidewalk device. DestinationName -&gt; (string) The location destination name of the Sidewalk device. Constraints: • max: 128 • pattern: [a-zA-Z0-9-_]+ SidewalkManufacturingSn -&gt; (string) The Sidewalk manufacturing serial number. Constraints: • max: 64 Shorthand Syntax: DeviceProfileId=string,Positioning={DestinationName=string},SidewalkManufacturingSn=string JSON Syntax: { "DeviceProfileId": "string", "Positioning": { "DestinationName": "string" }, "SidewalkManufacturingSn": "string" }
     /// </summary>
     [CliOption("--sidewalk")]
     public string? Sidewalk { get; set; }
 
     /// <summary>
-    /// The device configuration information to use to create the wireless device. DevEui -&gt; (string) The DevEUI value. Constraints: o pattern: [a-fA-F0-9]{16} DeviceProfileId -&gt; (string) The ID of the device profile for the new wireless device. Constraints: o max: 256 ServiceProfileId -&gt; (string) The ID of the service profile. Constraints: o max: 256 OtaaV1_1 -&gt; (structure) OTAA device object for v1.1 for create APIs AppKey -&gt; (string) The AppKey value. Constraints: o pattern: [a-fA-F0-9]{32} NwkKey -&gt; (string) The NwkKey value. Constraints: o pattern: [a-fA-F0-9]{32} JoinEui -&gt; (string) The JoinEUI value. Constraints: o pattern: [a-fA-F0-9]{16} OtaaV1_0_x -&gt; (structure) OTAA device object for create APIs for v1.0.x AppKey -&gt; (string) The AppKey value. Constraints: o pattern: [a-fA-F0-9]{32} AppEui -&gt; (string) The AppEUI value. You specify this value when using LoRaWAN versions v1.0.2 or v1.0.3. Constraints: o pattern: [a-fA-F0-9]{16} JoinEui -&gt; (string) The JoinEUI value. You specify this value instead of the AppEUI when using LoRaWAN version v1.0.4. Constraints: o pattern: [a-fA-F0-9]{16} GenAppKey -&gt; (string) The GenAppKey value. Constraints: o pattern: [a-fA-F0-9]{32} AbpV1_1 -&gt; (structure) ABP device object for create APIs for v1.1 DevAddr -&gt; (string) The DevAddr value. Constraints: o pattern: [a-fA-F0-9]{8} SessionKeys -&gt; (structure) Session keys for ABP v1.1 FNwkSIntKey -&gt; (string) The FNwkSIntKey value. Constraints: o pattern: [a-fA-F0-9]{32} SNwkSIntKey -&gt; (string) The SNwkSIntKey value. Constraints: o pattern: [a-fA-F0-9]{32} NwkSEncKey -&gt; (string) The NwkSEncKey value. Constraints: o pattern: [a-fA-F0-9]{32} AppSKey -&gt; (string) The AppSKey value. Constraints: o pattern: [a-fA-F0-9]{32} FCntStart -&gt; (integer) The FCnt init value. Constraints: o min: 0 o max: 65535 AbpV1_0_x -&gt; (structure) LoRaWAN object for create APIs DevAddr -&gt; (string) The DevAddr value. Constraints: o pattern: [a-fA-F0-9]{8} SessionKeys -&gt; (structure) Session keys for ABP v1.0.x NwkSKey -&gt; (string) The NwkSKey value. Constraints: o pattern: [a-fA-F0-9]{32} AppSKey -&gt; (string) The AppSKey value. Constraints: o pattern: [a-fA-F0-9]{32} FCntStart -&gt; (integer) The FCnt init value. Constraints: o min: 0 o max: 65535 FPorts -&gt; (structure) List of FPort assigned for different LoRaWAN application pack- ages to use Fuota -&gt; (integer) The Fport value. Constraints: o min: 1 o max: 223 Multicast -&gt; (integer) The Fport value. Constraints: o min: 1 o max: 223 ClockSync -&gt; (integer) The Fport value. Constraints: o min: 1 o max: 223 Positioning -&gt; (structure) FPort values for the GNSS, stream, and ClockSync functions of the positioning information. ClockSync -&gt; (integer) The Fport value. Constraints: o min: 1 o max: 223 Stream -&gt; (integer) The Fport value. Constraints: o min: 1 o max: 223 Gnss -&gt; (integer) The Fport value. Constraints: o min: 1 o max: 223 Applications -&gt; (list) Optional LoRaWAN application information, which can be used for geolocation. (structure) LoRaWAN application configuration, which can be used to perform geolocation. FPort -&gt; (integer) The Fport value. Constraints: o min: 1 o max: 223 Type -&gt; (string) Application type, which can be specified to obtain real-time position information of your LoRaWAN device. Possible values: o SemtechGeolocation DestinationName -&gt; (string) The name of the position data destination that de- scribes the AWS IoT rule that processes the device's position data for use by AWS IoT Core for LoRaWAN. Constraints: o max: 128 o pattern: [a-zA-Z0-9-_]+ JSON Syntax: { "DevEui": "string", "DeviceProfileId": "string", "ServiceProfileId": "string", "OtaaV1_1": { "AppKey": "string", "NwkKey": "string", "JoinEui": "string" }, "OtaaV1_0_x": { "AppKey": "string", "AppEui": "string", "JoinEui": "string", "GenAppKey": "string" }, "AbpV1_1": { "DevAddr": "string", "SessionKeys": { "FNwkSIntKey": "string", "SNwkSIntKey": "string", "NwkSEncKey": "string", "AppSKey": "string" }, "FCntStart": integer }, "AbpV1_0_x": { "DevAddr": "string", "SessionKeys": { "NwkSKey": "string", "AppSKey": "string" }, "FCntStart": integer }, "FPorts": { "Fuota": integer, "Multicast": integer, "ClockSync": integer, "Positioning": { "ClockSync": integer, "Stream": integer, "Gnss": integer }, "Applications": [ { "FPort": integer, "Type": "SemtechGeolocation", "DestinationName": "string" } ... ] } }
+    /// The device configuration information to use to create the wireless device. DevEui -&gt; (string) The DevEUI value. Constraints: • pattern: [a-fA-F0-9]{16} DeviceProfileId -&gt; (string) The ID of the device profile for the new wireless device. Constraints: • max: 256 ServiceProfileId -&gt; (string) The ID of the service profile. Constraints: • max: 256 OtaaV1_1 -&gt; (structure) OTAA device object for v1.1 for create APIs AppKey -&gt; (string) The AppKey value. Constraints: • pattern: [a-fA-F0-9]{32} NwkKey -&gt; (string) The NwkKey value. Constraints: • pattern: [a-fA-F0-9]{32} JoinEui -&gt; (string) The JoinEUI value. Constraints: • pattern: [a-fA-F0-9]{16} OtaaV1_0_x -&gt; (structure) OTAA device object for create APIs for v1.0.x AppKey -&gt; (string) The AppKey value. Constraints: • pattern: [a-fA-F0-9]{32} AppEui -&gt; (string) The AppEUI value. You specify this value when using LoRaWAN versions v1.0.2 or v1.0.3. Constraints: • pattern: [a-fA-F0-9]{16} JoinEui -&gt; (string) The JoinEUI value. You specify this value instead of the AppEUI when using LoRaWAN version v1.0.4. Constraints: • pattern: [a-fA-F0-9]{16} GenAppKey -&gt; (string) The GenAppKey value. Constraints: • pattern: [a-fA-F0-9]{32} AbpV1_1 -&gt; (structure) ABP device object for create APIs for v1.1 DevAddr -&gt; (string) The DevAddr value. Constraints: • pattern: [a-fA-F0-9]{8} SessionKeys -&gt; (structure) Session keys for ABP v1.1 FNwkSIntKey -&gt; (string) The FNwkSIntKey value. Constraints: • pattern: [a-fA-F0-9]{32} SNwkSIntKey -&gt; (string) The SNwkSIntKey value. Constraints: • pattern: [a-fA-F0-9]{32} NwkSEncKey -&gt; (string) The NwkSEncKey value. Constraints: • pattern: [a-fA-F0-9]{32} AppSKey -&gt; (string) The AppSKey value. Constraints: • pattern: [a-fA-F0-9]{32} FCntStart -&gt; (integer) The FCnt init value. Constraints: • min: 0 • max: 65535 AbpV1_0_x -&gt; (structure) LoRaWAN object for create APIs DevAddr -&gt; (string) The DevAddr value. Constraints: • pattern: [a-fA-F0-9]{8} SessionKeys -&gt; (structure) Session keys for ABP v1.0.x NwkSKey -&gt; (string) The NwkSKey value. Constraints: • pattern: [a-fA-F0-9]{32} AppSKey -&gt; (string) The AppSKey value. Constraints: • pattern: [a-fA-F0-9]{32} FCntStart -&gt; (integer) The FCnt init value. Constraints: • min: 0 • max: 65535 FPorts -&gt; (structure) List of FPort assigned for different LoRaWAN application packages to use Fuota -&gt; (integer) The Fport value. Constraints: • min: 1 • max: 223 Multicast -&gt; (integer) The Fport value. Constraints: • min: 1 • max: 223 ClockSync -&gt; (integer) The Fport value. Constraints: • min: 1 • max: 223 Positioning -&gt; (structure) FPort values for the GNSS, stream, and ClockSync functions of the positioning information. ClockSync -&gt; (integer) The Fport value. Constraints: • min: 1 • max: 223 Stream -&gt; (integer) The Fport value. Constraints: • min: 1 • max: 223 Gnss -&gt; (integer) The Fport value. Constraints: • min: 1 • max: 223 Applications -&gt; (list) Optional LoRaWAN application information, which can be used for geolocation. (structure) LoRaWAN application configuration, which can be used to perform geolocation. FPort -&gt; (integer) The Fport value. Constraints: • min: 1 • max: 223 Type -&gt; (string) Application type, which can be specified to obtain real-time position information of your LoRaWAN device. Possible values: • SemtechGeolocation DestinationName -&gt; (string) The name of the position data destination that describes the AWS IoT rule that processes the device's position data for use by AWS IoT Core for LoRaWAN. Constraints: • max: 128 • pattern: [a-zA-Z0-9-_]+ JSON Syntax: { "DevEui": "string", "DeviceProfileId": "string", "ServiceProfileId": "string", "OtaaV1_1": { "AppKey": "string", "NwkKey": "string", "JoinEui": "string" }, "OtaaV1_0_x": { "AppKey": "string", "AppEui": "string", "JoinEui": "string", "GenAppKey": "string" }, "AbpV1_1": { "DevAddr": "string", "SessionKeys": { "FNwkSIntKey": "string", "SNwkSIntKey": "string", "NwkSEncKey": "string", "AppSKey": "string" }, "FCntStart": integer }, "AbpV1_0_x": { "DevAddr": "string", "SessionKeys": { "NwkSKey": "string", "AppSKey": "string" }, "FCntStart": integer }, "FPorts": { "Fuota": integer, "Multicast": integer, "ClockSync": integer, "Positioning": { "ClockSync": integer, "Stream": integer, "Gnss": integer }, "Applications": [ { "FPort": integer, "Type": "SemtechGeolocation", "DestinationName": "string" } ... ] } }
     /// </summary>
     [CliOption("--lorawan")]
     public string? Lorawan { get; set; }

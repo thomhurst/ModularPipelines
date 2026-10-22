@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an Explainability resource. You can delete only predictor that have a status of ACTIVE or CRE- ATE_FAILED . To get the status, use the DescribeExplainability opera- tion. See also: AWS API Documentation
+/// Deletes an Explainability resource. You can delete only predictor that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribeExplainability operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsForecastDeleteExplainabilityOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an Explainability resource. You can delete only predictor that have a status of ACTIVE or CRE- ATE_FAILED . To get the status, use the DescribeExplainability opera- tion. See also: AWS API Documentation
+    /// Deletes an Explainability resource. You can delete only predictor that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribeExplainability operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExplainabilityArn">The Amazon Resource Name (ARN) of the Explainability resource to delete. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    /// <param name="ExplainabilityArn">The Amazon Resource Name (ARN) of the Explainability resource to delete. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
     public AwsForecastDeleteExplainabilityOptions(
         string ExplainabilityArn
     )
@@ -56,7 +58,7 @@ public record AwsForecastDeleteExplainabilityOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Explainability resource to delete. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the Explainability resource to delete. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
     /// </summary>
     [CliOption("--explainability-arn")]
     public string? ExplainabilityArn { get; private init; }

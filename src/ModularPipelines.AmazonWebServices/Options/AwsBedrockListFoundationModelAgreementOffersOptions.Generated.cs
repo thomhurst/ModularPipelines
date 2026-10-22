@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsBedrockListFoundationModelAgreementOffersOptions : AwsOptions, 
     /// <summary>
     /// Get the offers associated with the specified model. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ModelId">Model Id of the foundation model. Constraints: o min: 0 o max: 140 o pattern: [a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12}|)</param>
+    /// <param name="ModelId">Model Id of the foundation model. Constraints: • min: 0 • max: 140 • pattern: [a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12}|)</param>
     public AwsBedrockListFoundationModelAgreementOffersOptions(
         string ModelId
     )
@@ -57,13 +59,13 @@ public record AwsBedrockListFoundationModelAgreementOffersOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Model Id of the foundation model. Constraints: o min: 0 o max: 140 o pattern: [a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12}|)
+    /// Model Id of the foundation model. Constraints: • min: 0 • max: 140 • pattern: [a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12}|)
     /// </summary>
     [CliOption("--model-id")]
     public string? ModelId { get; private init; }
 
     /// <summary>
-    /// Type of offer associated with the model. Possible values: o ALL o PUBLIC
+    /// Type of offer associated with the model. Possible values: • ALL • PUBLIC
     /// </summary>
     [CliOption("--offer-type")]
     public AwsBedrockListFoundationModelAgreementOffersOfferType? OfferType { get; set; }

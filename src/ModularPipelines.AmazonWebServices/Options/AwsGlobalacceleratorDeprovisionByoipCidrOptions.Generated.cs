@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsGlobalacceleratorDeprovisionByoipCidrOptions : AwsOptions, IVal
     /// <summary>
     /// Releases the specified address range that you provisioned to use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and deletes the corresponding address pool. Before you can release an address range, you must stop advertising it by using WithdrawByoipCidr and you must not have any accelerators that are using static IP addresses allocated from its address range. For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guid...
     /// </summary>
-    /// <param name="Cidr">The address range, in CIDR notation. The prefix must be the same prefix that you specified when you provisioned the address range. For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide. Constraints: o max: 255</param>
+    /// <param name="Cidr">The address range, in CIDR notation. The prefix must be the same prefix that you specified when you provisioned the address range. For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide. Constraints: • max: 255</param>
     public AwsGlobalacceleratorDeprovisionByoipCidrOptions(
         string Cidr
     )
@@ -56,7 +58,7 @@ public record AwsGlobalacceleratorDeprovisionByoipCidrOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The address range, in CIDR notation. The prefix must be the same prefix that you specified when you provisioned the address range. For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide. Constraints: o max: 255
+    /// The address range, in CIDR notation. The prefix must be the same prefix that you specified when you provisioned the address range. For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide. Constraints: • max: 255
     /// </summary>
     [CliOption("--cidr")]
     public string? Cidr { get; private init; }

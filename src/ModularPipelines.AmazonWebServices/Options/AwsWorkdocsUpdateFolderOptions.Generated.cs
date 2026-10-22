@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +31,7 @@ public record AwsWorkdocsUpdateFolderOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the specified attributes of the specified folder. The user must have access to both the folder and its parent folder, if applicable. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FolderId">The ID of the folder. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+</param>
+    /// <param name="FolderId">The ID of the folder. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+</param>
     public AwsWorkdocsUpdateFolderOptions(
         string FolderId
     )
@@ -58,32 +60,32 @@ public record AwsWorkdocsUpdateFolderOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the folder. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+
+    /// The ID of the folder. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+
     /// </summary>
     [CliOption("--folder-id")]
     public string? FolderId { get; private init; }
 
     /// <summary>
-    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: o min: 1 o max: 8199
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: • min: 1 • max: 8199
     /// </summary>
     [SecretValue]
     [CliOption("--authentication-token")]
     public string? AuthenticationToken { get; set; }
 
     /// <summary>
-    /// The name of the folder. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\u202D\u202F-\uFFFF]+
+    /// The name of the folder. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\u202D\u202F-\uFFFF]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The ID of the parent folder. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+
+    /// The ID of the parent folder. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+
     /// </summary>
     [CliOption("--parent-folder-id")]
     public string? ParentFolderId { get; set; }
 
     /// <summary>
-    /// The resource state of the folder. Only ACTIVE and RECYCLED are ac- cepted values from the API. Possible values: o ACTIVE o RESTORING o RECYCLING o RECYCLED
+    /// The resource state of the folder. Only ACTIVE and RECYCLED are accepted values from the API. Possible values: • ACTIVE • RESTORING • RECYCLING • RECYCLED
     /// </summary>
     [CliOption("--resource-state")]
     public AwsWorkdocsUpdateFolderResourceState? ResourceState { get; set; }

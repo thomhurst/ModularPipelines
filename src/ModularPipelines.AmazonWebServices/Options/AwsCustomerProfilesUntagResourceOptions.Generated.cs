@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes one or more tags from the specified Amazon Connect Customer Profiles resource. In Connect Customer Profiles, domains, profile ob- ject types, and integrations can be tagged. See also: AWS API Documentation
+/// Removes one or more tags from the specified Amazon Connect Customer Profiles resource. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsCustomerProfilesUntagResourceOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes one or more tags from the specified Amazon Connect Customer Profiles resource. In Connect Customer Profiles, domains, profile ob- ject types, and integrations can be tagged. See also: AWS API Documentation
+    /// Removes one or more tags from the specified Amazon Connect Customer Profiles resource. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource from which you are removing tags. Constraints: o max: 256 o pattern: ^arn:[a-z0-9]{1,10}:profile</param>
-    /// <param name="TagKeys">The list of tag keys to remove from the resource. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The ARN of the resource from which you are removing tags. Constraints: • max: 256 • pattern: ^arn:[a-z0-9]{1,10}:profile</param>
+    /// <param name="TagKeys">The list of tag keys to remove from the resource. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...</param>
     public AwsCustomerProfilesUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsCustomerProfilesUntagResourceOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource from which you are removing tags. Constraints: o max: 256 o pattern: ^arn:[a-z0-9]{1,10}:profile
+    /// The ARN of the resource from which you are removing tags. Constraints: • max: 256 • pattern: ^arn:[a-z0-9]{1,10}:profile
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The list of tag keys to remove from the resource. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...
+    /// The list of tag keys to remove from the resource. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

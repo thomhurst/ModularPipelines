@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Attaches or replaces a resource-based policy on an Amazon Web Services Payment Cryptography key. A resource-based policy can grant cross-ac- count access to your key. If the policy would grant public access, the request fails with a Pub- licPolicyException . To remove a resource-based policy from a key, use DeleteResourcePolicy . Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o GetResourcePolicy o DeleteResourcePolicy See also: ...
+/// Attaches or replaces a resource-based policy on an Amazon Web Services Payment Cryptography key. A resource-based policy can grant cross-account access to your key. If the policy would grant public access, the request fails with a PublicPolicyException . To remove a resource-based policy from a key, use DeleteResourcePolicy . Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: • GetResourcePolicy • DeleteResourcePolicy See also: AWS ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsPaymentCryptographyPutResourcePolicyOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Attaches or replaces a resource-based policy on an Amazon Web Services Payment Cryptography key. A resource-based policy can grant cross-ac- count access to your key. If the policy would grant public access, the request fails with a Pub- licPolicyException . To remove a resource-based policy from a key, use DeleteResourcePolicy . Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o GetResourcePolicy o DeleteResourcePolicy See also: ...
+    /// Attaches or replaces a resource-based policy on an Amazon Web Services Payment Cryptography key. A resource-based policy can grant cross-account access to your key. If the policy would grant public access, the request fails with a PublicPolicyException . To remove a resource-based policy from a key, use DeleteResourcePolicy . Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: • GetResourcePolicy • DeleteResourcePolicy See also: AWS ...
     /// </summary>
-    /// <param name="ResourceArn">The KeyARN of the key to attach the resource-based policy to. Constraints: o min: 70 o max: 150 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:key/[0-9a-zA-Z]{16,64}</param>
-    /// <param name="Policy">The resource-based policy to attach to the key, in JSON format. Constraints: o min: 1 o max: 20480 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+</param>
+    /// <param name="ResourceArn">The KeyARN of the key to attach the resource-based policy to. Constraints: • min: 70 • max: 150 • pattern: arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:key/[0-9a-zA-Z]{16,64}</param>
+    /// <param name="Policy">The resource-based policy to attach to the key, in JSON format. Constraints: • min: 1 • max: 20480 • pattern: [\u0009\u000A\u000D\u0020-\u00FF]+</param>
     public AwsPaymentCryptographyPutResourcePolicyOptions(
         string ResourceArn,
         string Policy
@@ -60,13 +62,13 @@ public record AwsPaymentCryptographyPutResourcePolicyOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The KeyARN of the key to attach the resource-based policy to. Constraints: o min: 70 o max: 150 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:key/[0-9a-zA-Z]{16,64}
+    /// The KeyARN of the key to attach the resource-based policy to. Constraints: • min: 70 • max: 150 • pattern: arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:key/[0-9a-zA-Z]{16,64}
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The resource-based policy to attach to the key, in JSON format. Constraints: o min: 1 o max: 20480 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+
+    /// The resource-based policy to attach to the key, in JSON format. Constraints: • min: 1 • max: 20480 • pattern: [\u0009\u000A\u000D\u0020-\u00FF]+
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; private init; }

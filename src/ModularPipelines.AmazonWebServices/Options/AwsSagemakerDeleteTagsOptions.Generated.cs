@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsSagemakerDeleteTagsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the specified tags from an SageMaker resource. To list a resource's tags, use the ListTags API. NOTE: When you call this API to delete tags from a hyperparameter tuning job, the deleted tags are not removed from training jobs that the hyperparameter tuning job launched before you called this API. NOTE: When you call this API to delete tags from a SageMaker Domain or User Profile, the deleted tags are not removed from Apps that the SageMaker Domain or User Profile launched before you call...
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource whose tags you want to delete. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z-]*:sagemaker:[a-z0-9-]*:[0-9]{12}:.+</param>
-    /// <param name="TagKeys">An array or one or more tag keys to delete. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource whose tags you want to delete. Constraints: • min: 0 • max: 256 • pattern: arn:aws[a-z-]*:sagemaker:[a-z0-9-]*:[0-9]{12}:.+</param>
+    /// <param name="TagKeys">An array or one or more tag keys to delete. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Syntax: "string" "string" ...</param>
     public AwsSagemakerDeleteTagsOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsSagemakerDeleteTagsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource whose tags you want to delete. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z-]*:sagemaker:[a-z0-9-]*:[0-9]{12}:.+
+    /// The Amazon Resource Name (ARN) of the resource whose tags you want to delete. Constraints: • min: 0 • max: 256 • pattern: arn:aws[a-z-]*:sagemaker:[a-z0-9-]*:[0-9]{12}:.+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// An array or one or more tag keys to delete. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Syntax: "string" "string" ...
+    /// An array or one or more tag keys to delete. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

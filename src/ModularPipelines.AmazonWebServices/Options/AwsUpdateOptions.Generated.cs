@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Update the AWS CLI to the latest version. Note that update is only supported if the current CLI instance was in- stalled using an official installer, install script, or the update com- mand. Other distribution mechanisms such as source or container images are not supported.
+/// Update the AWS CLI to the latest version. Note that update is only supported if the current CLI instance was installed using an official installer, install script, or the update command. Other distribution mechanisms such as source or container images are not supported.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

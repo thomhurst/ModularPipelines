@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCloudwatchDeleteInsightRulesOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Permanently deletes the specified Contributor Insights rules. If you create a rule, delete it, and then re-create it with the same name, historical data from the first time the rule was created might not be available. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RuleNames">An array of the rule names to delete. If you need to find out the names of your rules, use DescribeInsightRules . (string) Constraints: o min: 1 o max: 128 o pattern: [\x20-\x7E]+ Syntax: "string" "string" ...</param>
+    /// <param name="RuleNames">An array of the rule names to delete. If you need to find out the names of your rules, use DescribeInsightRules . (string) Constraints: • min: 1 • max: 128 • pattern: [\x20-\x7E]+ Syntax: "string" "string" ...</param>
     public AwsCloudwatchDeleteInsightRulesOptions(
         IEnumerable<string> RuleNames
     )
@@ -67,7 +69,7 @@ public record AwsCloudwatchDeleteInsightRulesOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An array of the rule names to delete. If you need to find out the names of your rules, use DescribeInsightRules . (string) Constraints: o min: 1 o max: 128 o pattern: [\x20-\x7E]+ Syntax: "string" "string" ...
+    /// An array of the rule names to delete. If you need to find out the names of your rules, use DescribeInsightRules . (string) Constraints: • min: 1 • max: 128 • pattern: [\x20-\x7E]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--rule-names", GroupValues = true)]
     public IEnumerable<string>? RuleNames { get; private init; }

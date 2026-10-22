@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAcmWaitAcmeDomainValidationValidatedOptions : AwsOptions, IVali
     /// <summary>
     /// Wait until an ACME domain validation reaches a terminal validation state. It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AcmeDomainValidationArn">The Amazon Resource Name (ARN) of the ACME domain validation. Constraints: o min: 1 o max: 200 o pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-end- point/[a-zA-Z0-9-]+/acme-domain-validation/[a-zA-Z0-9-]+</param>
+    /// <param name="AcmeDomainValidationArn">The Amazon Resource Name (ARN) of the ACME domain validation. Constraints: • min: 1 • max: 200 • pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+/acme-domain-validation/[a-zA-Z0-9-]+</param>
     public AwsAcmWaitAcmeDomainValidationValidatedOptions(
         string AcmeDomainValidationArn
     )
@@ -56,7 +58,7 @@ public record AwsAcmWaitAcmeDomainValidationValidatedOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the ACME domain validation. Constraints: o min: 1 o max: 200 o pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-end- point/[a-zA-Z0-9-]+/acme-domain-validation/[a-zA-Z0-9-]+
+    /// The Amazon Resource Name (ARN) of the ACME domain validation. Constraints: • min: 1 • max: 200 • pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+/acme-domain-validation/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--acme-domain-validation-arn")]
     public string? AcmeDomainValidationArn { get; private init; }

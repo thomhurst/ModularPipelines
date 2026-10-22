@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsIotwirelessGetWirelessDeviceOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Gets information about a wireless device. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The identifier of the wireless device to get. Constraints: o max: 256</param>
-    /// <param name="IdentifierType">The type of identifier used in identifier . Possible values: o WirelessDeviceId o DevEui o ThingName o SidewalkManufacturingSn</param>
+    /// <param name="Identifier">The identifier of the wireless device to get. Constraints: • max: 256</param>
+    /// <param name="IdentifierType">The type of identifier used in identifier . Possible values: • WirelessDeviceId • DevEui • ThingName • SidewalkManufacturingSn</param>
     public AwsIotwirelessGetWirelessDeviceOptions(
         string Identifier,
         AwsIotwirelessGetWirelessDeviceIdentifierType IdentifierType
@@ -60,13 +62,13 @@ public record AwsIotwirelessGetWirelessDeviceOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the wireless device to get. Constraints: o max: 256
+    /// The identifier of the wireless device to get. Constraints: • max: 256
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The type of identifier used in identifier . Possible values: o WirelessDeviceId o DevEui o ThingName o SidewalkManufacturingSn
+    /// The type of identifier used in identifier . Possible values: • WirelessDeviceId • DevEui • ThingName • SidewalkManufacturingSn
     /// </summary>
     [CliOption("--identifier-type")]
     public AwsIotwirelessGetWirelessDeviceIdentifierType? IdentifierType { get; private init; }

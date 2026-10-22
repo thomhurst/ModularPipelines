@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDatazoneGetIamPortalLoginUrlOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Gets the data portal URL for the specified Amazon DataZone domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">the ID of the Amazon DataZone domain the data portal of which you want to get. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">the ID of the Amazon DataZone domain the data portal of which you want to get. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneGetIamPortalLoginUrlOptions(
         string DomainIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsDatazoneGetIamPortalLoginUrlOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// the ID of the Amazon DataZone domain the data portal of which you want to get. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// the ID of the Amazon DataZone domain the data portal of which you want to get. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }

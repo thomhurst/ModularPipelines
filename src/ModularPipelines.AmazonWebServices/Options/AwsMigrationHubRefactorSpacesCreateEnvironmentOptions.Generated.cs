@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -18,7 +19,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an Amazon Web Services Migration Hub Refactor Spaces environ- ment. The caller owns the environment resource, and all Refactor Spaces applications, services, and routes created within the environment. They are referred to as the environment owner . The environment owner has cross-account visibility and control of Refactor Spaces resources that are added to the environment by other accounts that the environment is shared with. When creating an environment with a CreateEnvironment:NetworkF...
+/// Creates an Amazon Web Services Migration Hub Refactor Spaces environment. The caller owns the environment resource, and all Refactor Spaces applications, services, and routes created within the environment. They are referred to as the environment owner . The environment owner has cross-account visibility and control of Refactor Spaces resources that are added to the environment by other accounts that the environment is shared with. When creating an environment with a CreateEnvironment:NetworkFab...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,10 +29,10 @@ public record AwsMigrationHubRefactorSpacesCreateEnvironmentOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an Amazon Web Services Migration Hub Refactor Spaces environ- ment. The caller owns the environment resource, and all Refactor Spaces applications, services, and routes created within the environment. They are referred to as the environment owner . The environment owner has cross-account visibility and control of Refactor Spaces resources that are added to the environment by other accounts that the environment is shared with. When creating an environment with a CreateEnvironment:NetworkF...
+    /// Creates an Amazon Web Services Migration Hub Refactor Spaces environment. The caller owns the environment resource, and all Refactor Spaces applications, services, and routes created within the environment. They are referred to as the environment owner . The environment owner has cross-account visibility and control of Refactor Spaces resources that are added to the environment by other accounts that the environment is shared with. When creating an environment with a CreateEnvironment:NetworkFab...
     /// </summary>
-    /// <param name="Name">The name of the environment. Constraints: o min: 3 o max: 63 o pattern: ^(?!env-)[a-zA-Z0-9]+[a-zA-Z0-9-_ ]+$</param>
-    /// <param name="NetworkFabricType">The network fabric type of the environment. Possible values: o TRANSIT_GATEWAY o NONE</param>
+    /// <param name="Name">The name of the environment. Constraints: • min: 3 • max: 63 • pattern: ^(?!env-)[a-zA-Z0-9]+[a-zA-Z0-9-_ ]+$</param>
+    /// <param name="NetworkFabricType">The network fabric type of the environment. Possible values: • TRANSIT_GATEWAY • NONE</param>
     public AwsMigrationHubRefactorSpacesCreateEnvironmentOptions(
         string Name,
         AwsMigrationHubRefactorSpacesCreateEnvironmentNetworkFabricType NetworkFabricType
@@ -62,32 +63,32 @@ public record AwsMigrationHubRefactorSpacesCreateEnvironmentOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the environment. Constraints: o min: 3 o max: 63 o pattern: ^(?!env-)[a-zA-Z0-9]+[a-zA-Z0-9-_ ]+$
+    /// The name of the environment. Constraints: • min: 3 • max: 63 • pattern: ^(?!env-)[a-zA-Z0-9]+[a-zA-Z0-9-_ ]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The network fabric type of the environment. Possible values: o TRANSIT_GATEWAY o NONE
+    /// The network fabric type of the environment. Possible values: • TRANSIT_GATEWAY • NONE
     /// </summary>
     [CliOption("--network-fabric-type")]
     public AwsMigrationHubRefactorSpacesCreateEnvironmentNetworkFabricType? NetworkFabricType { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: ^[\x20-\x7E]{1,64}$
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 64 • pattern: ^[\x20-\x7E]{1,64}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The description of the environment. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9-_\s\.\!\*\#\@\']+$
+    /// The description of the environment. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9-_\s\.\!\*\#\@\']+$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The tags to assign to the environment. A tag is a label that you as- sign to an Amazon Web Services resource. Each tag consists of a key-value pair. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:).+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to assign to the environment. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key-value pair. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:).+ value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

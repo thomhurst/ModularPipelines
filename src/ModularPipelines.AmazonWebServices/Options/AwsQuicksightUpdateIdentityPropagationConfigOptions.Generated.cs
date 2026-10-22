@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsQuicksightUpdateIdentityPropagationConfigOptions : AwsOptions, 
     /// <summary>
     /// Adds or updates services and authorized targets to configure what the Quick Sight IAM Identity Center application can access. This operation is only supported for Quick Sight accounts using IAM Identity Center See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the identity propagation configuration that you want to update. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="Service">The name of the Amazon Web Services service that contains the autho- rized targets that you want to add or update. Possible values: o REDSHIFT o QBUSINESS o ATHENA o GLUE_DATA_CATALOG</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the identity propagation configuration that you want to update. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="Service">The name of the Amazon Web Services service that contains the authorized targets that you want to add or update. Possible values: • REDSHIFT • QBUSINESS • ATHENA • GLUE_DATA_CATALOG</param>
     public AwsQuicksightUpdateIdentityPropagationConfigOptions(
         string AwsAccountId,
         AwsQuicksightUpdateIdentityPropagationConfigService Service
@@ -60,13 +62,13 @@ public record AwsQuicksightUpdateIdentityPropagationConfigOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the identity propagation configuration that you want to update. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the identity propagation configuration that you want to update. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The name of the Amazon Web Services service that contains the autho- rized targets that you want to add or update. Possible values: o REDSHIFT o QBUSINESS o ATHENA o GLUE_DATA_CATALOG
+    /// The name of the Amazon Web Services service that contains the authorized targets that you want to add or update. Possible values: • REDSHIFT • QBUSINESS • ATHENA • GLUE_DATA_CATALOG
     /// </summary>
     [CliOption("--service")]
     public AwsQuicksightUpdateIdentityPropagationConfigService? Service { get; private init; }

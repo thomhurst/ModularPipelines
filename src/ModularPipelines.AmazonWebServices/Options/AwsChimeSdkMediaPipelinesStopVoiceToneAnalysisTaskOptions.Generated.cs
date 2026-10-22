@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsChimeSdkMediaPipelinesStopVoiceToneAnalysisTaskOptions : AwsOpt
     /// <summary>
     /// Stops a voice tone analysis task. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The unique identifier of the resource to be updated. Valid values include the ID and ARN of the media insights pipeline. Constraints: o max: 1024 o pattern: .*\S.*</param>
-    /// <param name="VoiceToneAnalysisTaskId">The ID of the voice tone analysis task. Constraints: o min: 36 o max: 36 o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}</param>
+    /// <param name="Identifier">The unique identifier of the resource to be updated. Valid values include the ID and ARN of the media insights pipeline. Constraints: • max: 1024 • pattern: .*\S.*</param>
+    /// <param name="VoiceToneAnalysisTaskId">The ID of the voice tone analysis task. Constraints: • min: 36 • max: 36 • pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}</param>
     public AwsChimeSdkMediaPipelinesStopVoiceToneAnalysisTaskOptions(
         string Identifier,
         string VoiceToneAnalysisTaskId
@@ -60,13 +62,13 @@ public record AwsChimeSdkMediaPipelinesStopVoiceToneAnalysisTaskOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the resource to be updated. Valid values include the ID and ARN of the media insights pipeline. Constraints: o max: 1024 o pattern: .*\S.*
+    /// The unique identifier of the resource to be updated. Valid values include the ID and ARN of the media insights pipeline. Constraints: • max: 1024 • pattern: .*\S.*
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The ID of the voice tone analysis task. Constraints: o min: 36 o max: 36 o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}
+    /// The ID of the voice tone analysis task. Constraints: • min: 36 • max: 36 • pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}
     /// </summary>
     [CliOption("--voice-tone-analysis-task-id")]
     public string? VoiceToneAnalysisTaskId { get; private init; }

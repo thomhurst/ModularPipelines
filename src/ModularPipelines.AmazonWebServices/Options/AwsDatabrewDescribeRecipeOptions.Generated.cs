@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDatabrewDescribeRecipeOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns the definition of a specific DataBrew recipe corresponding to a particular version. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the recipe to be described. Constraints: o min: 1 o max: 255</param>
+    /// <param name="Name">The name of the recipe to be described. Constraints: • min: 1 • max: 255</param>
     public AwsDatabrewDescribeRecipeOptions(
         string Name
     )
@@ -56,13 +58,13 @@ public record AwsDatabrewDescribeRecipeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the recipe to be described. Constraints: o min: 1 o max: 255
+    /// The name of the recipe to be described. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The recipe version identifier. If this parameter isn't specified, then the latest published version is returned. Constraints: o min: 1 o max: 16
+    /// The recipe version identifier. If this parameter isn't specified, then the latest published version is returned. Constraints: • min: 1 • max: 16
     /// </summary>
     [CliOption("--recipe-version")]
     public string? RecipeVersion { get; set; }

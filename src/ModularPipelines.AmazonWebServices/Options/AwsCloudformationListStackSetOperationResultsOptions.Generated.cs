@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns summary information about the results of a StackSet operation. NOTE: This API provides eventually consistent reads meaning it may take some time but will eventually return the most up-to-date data. See also: AWS API Documentation list-stack-set-operation-results is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argu...
+/// Returns summary information about the results of a StackSet operation. NOTE: This API provides eventually consistent reads meaning it may take some time but will eventually return the most up-to-date data. See also: AWS API Documentation list-stack-set-operation-results is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +29,10 @@ public record AwsCloudformationListStackSetOperationResultsOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns summary information about the results of a StackSet operation. NOTE: This API provides eventually consistent reads meaning it may take some time but will eventually return the most up-to-date data. See also: AWS API Documentation list-stack-set-operation-results is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argu...
+    /// Returns summary information about the results of a StackSet operation. NOTE: This API provides eventually consistent reads meaning it may take some time but will eventually return the most up-to-date data. See also: AWS API Documentation list-stack-set-operation-results is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument...
     /// </summary>
     /// <param name="StackSetName">The name or unique ID of the StackSet that you want to get operation results for.</param>
-    /// <param name="OperationId">The ID of the StackSet operation. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][-a-zA-Z0-9]*</param>
+    /// <param name="OperationId">The ID of the StackSet operation. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][-a-zA-Z0-9]*</param>
     public AwsCloudformationListStackSetOperationResultsOptions(
         string StackSetName,
         string OperationId
@@ -68,28 +70,25 @@ public record AwsCloudformationListStackSetOperationResultsOptions : AwsOptions,
     public string? StackSetName { get; private init; }
 
     /// <summary>
-    /// The ID of the StackSet operation. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][-a-zA-Z0-9]*
+    /// The ID of the StackSet operation. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][-a-zA-Z0-9]*
     /// </summary>
     [CliOption("--operation-id")]
     public string? OperationId { get; private init; }
 
     /// <summary>
-    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-man- aged permissions. o If you are signed in to the management account, specify SELF . o If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN . Your Amazon Web Services account must be regis- tered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide . Possible values: o SELF o DELEGATED_ADMIN
+    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-managed permissions. • If you are signed in to the management account, specify SELF . • If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN . Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide . Possible values: • SELF • DELEGATED_ADMIN
     /// </summary>
     [CliOption("--call-as")]
     public AwsCloudformationListStackSetOperationResultsCallAs? CallAs { get; set; }
 
     /// <summary>
-    /// The filter to apply to operation results. Constraints: o max: 1 (structure) The status that operation results are filtered by. Name -&gt; (string) The type of filter to apply. Possible values: o OPERATION_RESULT_STATUS Values -&gt; (string) The value to filter by. Constraints: o min: 6 o max: 9 o pattern: ^\S{6,9}$ Shorthand Syntax: Name=string,Values=string ... JSON Syntax: [ { "Name": "OPERATION_RESULT_STATUS", "Values": "string" } ... ]
+    /// The filter to apply to operation results. Constraints: • max: 1 (structure) The status that operation results are filtered by. Name -&gt; (string) The type of filter to apply. Possible values: • OPERATION_RESULT_STATUS Values -&gt; (string) The value to filter by. Constraints: • min: 6 • max: 9 • pattern: ^\S{6,9}$ Shorthand Syntax: Name=string,Values=string ... JSON Syntax: [ { "Name": "OPERATION_RESULT_STATUS", "Values": "string" } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -99,16 +98,19 @@ public record AwsCloudformationListStackSetOperationResultsOptions : AwsOptions,
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

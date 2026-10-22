@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRoute53domainsListTagsForDomainOptions : AwsOptions, IValidatab
     /// <summary>
     /// This operation returns all of the tags that are associated with the specified domain. All tag operations are eventually consistent; subsequent operations might not immediately represent all issued operations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The domain for which you want to get a list of tags. Constraints: o max: 255</param>
+    /// <param name="DomainName">The domain for which you want to get a list of tags. Constraints: • max: 255</param>
     public AwsRoute53domainsListTagsForDomainOptions(
         string DomainName
     )
@@ -56,7 +58,7 @@ public record AwsRoute53domainsListTagsForDomainOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The domain for which you want to get a list of tags. Constraints: o max: 255
+    /// The domain for which you want to get a list of tags. Constraints: • max: 255
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }

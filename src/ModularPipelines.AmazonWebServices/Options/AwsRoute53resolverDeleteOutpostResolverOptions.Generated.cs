@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a Resolver on the Outpost. NOTE: This operation applies to first-generation Outposts only. On sec- ond-generation Outposts, Resolver is managed automatically by Amazon Web Services and can't be deleted directly. To opt out of Resolver on second-generation Outposts, contact Amazon Web Services Support. See also: AWS API Documentation
+/// Deletes a Resolver on the Outpost. NOTE: This operation applies to first-generation Outposts only. On second-generation Outposts, Resolver is managed automatically by Amazon Web Services and can't be deleted directly. To opt out of Resolver on second-generation Outposts, contact Amazon Web Services Support. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRoute53resolverDeleteOutpostResolverOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a Resolver on the Outpost. NOTE: This operation applies to first-generation Outposts only. On sec- ond-generation Outposts, Resolver is managed automatically by Amazon Web Services and can't be deleted directly. To opt out of Resolver on second-generation Outposts, contact Amazon Web Services Support. See also: AWS API Documentation
+    /// Deletes a Resolver on the Outpost. NOTE: This operation applies to first-generation Outposts only. On second-generation Outposts, Resolver is managed automatically by Amazon Web Services and can't be deleted directly. To opt out of Resolver on second-generation Outposts, contact Amazon Web Services Support. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">A unique string that identifies the Resolver on the Outpost. Constraints: o min: 1 o max: 64</param>
+    /// <param name="Id">A unique string that identifies the Resolver on the Outpost. Constraints: • min: 1 • max: 64</param>
     public AwsRoute53resolverDeleteOutpostResolverOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsRoute53resolverDeleteOutpostResolverOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique string that identifies the Resolver on the Outpost. Constraints: o min: 1 o max: 64
+    /// A unique string that identifies the Resolver on the Outpost. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

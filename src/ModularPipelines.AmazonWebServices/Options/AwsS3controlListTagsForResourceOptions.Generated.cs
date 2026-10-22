@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This operation allows you to list all of the tags for a specified re- source. Each tag is a label consisting of a key and value. Tags can help you organize, track costs for, and control access to resources. NOTE: This operation is only supported for the following Amazon S3 re- sources: o General purpose buckets o Access Points for directory buckets o Access Points for general purpose buckets o Directory buckets o S3 Storage Lens groups o S3 Access Grants instances, registered locations, and gran...
+/// This operation allows you to list all of the tags for a specified resource. Each tag is a label consisting of a key and value. Tags can help you organize, track costs for, and control access to resources. NOTE: This operation is only supported for the following Amazon S3 resources: • General purpose buckets • Access Points for directory buckets • Access Points for general purpose buckets • Directory buckets • S3 Storage Lens groups • S3 Access Grants instances, registered locations, and grants ....
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsS3controlListTagsForResourceOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This operation allows you to list all of the tags for a specified re- source. Each tag is a label consisting of a key and value. Tags can help you organize, track costs for, and control access to resources. NOTE: This operation is only supported for the following Amazon S3 re- sources: o General purpose buckets o Access Points for directory buckets o Access Points for general purpose buckets o Directory buckets o S3 Storage Lens groups o S3 Access Grants instances, registered locations, and gran...
+    /// This operation allows you to list all of the tags for a specified resource. Each tag is a label consisting of a key and value. Tags can help you organize, track costs for, and control access to resources. NOTE: This operation is only supported for the following Amazon S3 resources: • General purpose buckets • Access Points for directory buckets • Access Points for general purpose buckets • Directory buckets • S3 Storage Lens groups • S3 Access Grants instances, registered locations, and grants ....
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID of the resource owner. Constraints: o max: 64 o pattern: ^\d{12}$</param>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the S3 resource that you want to list tags for. The tagged resource can be a directory bucket, S3 Storage Lens group or S3 Access Grants instance, registered loca- tion, or grant. Constraints: o max: 1011 o pattern: arn:[^:]+:s3(express)?:[^:].*</param>
+    /// <param name="AccountId">The Amazon Web Services account ID of the resource owner. Constraints: • max: 64 • pattern: ^\d{12}$</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the S3 resource that you want to list tags for. The tagged resource can be a directory bucket, S3 Storage Lens group or S3 Access Grants instance, registered location, or grant. Constraints: • max: 1011 • pattern: arn:[^:]+:s3(express)?:[^:].*</param>
     public AwsS3controlListTagsForResourceOptions(
         string AccountId,
         string ResourceArn
@@ -60,13 +62,13 @@ public record AwsS3controlListTagsForResourceOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID of the resource owner. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID of the resource owner. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the S3 resource that you want to list tags for. The tagged resource can be a directory bucket, S3 Storage Lens group or S3 Access Grants instance, registered loca- tion, or grant. Constraints: o max: 1011 o pattern: arn:[^:]+:s3(express)?:[^:].*
+    /// The Amazon Resource Name (ARN) of the S3 resource that you want to list tags for. The tagged resource can be a directory bucket, S3 Storage Lens group or S3 Access Grants instance, registered location, or grant. Constraints: • max: 1011 • pattern: arn:[^:]+:s3(express)?:[^:].*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

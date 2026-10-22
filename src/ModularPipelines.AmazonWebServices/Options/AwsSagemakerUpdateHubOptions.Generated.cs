@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSagemakerUpdateHubOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Update a hub. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HubName">The name of the hub to update. Constraints: o pattern: (arn:[a-z0-9-\.]{1,63}:sage- maker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="HubName">The name of the hub to update. Constraints: • pattern: (arn:[a-z0-9-\.]{1,63}:sagemaker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
     public AwsSagemakerUpdateHubOptions(
         string HubName
     )
@@ -56,25 +58,25 @@ public record AwsSagemakerUpdateHubOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the hub to update. Constraints: o pattern: (arn:[a-z0-9-\.]{1,63}:sage- maker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the hub to update. Constraints: • pattern: (arn:[a-z0-9-\.]{1,63}:sagemaker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--hub-name")]
     public string? HubName { get; private init; }
 
     /// <summary>
-    /// A description of the updated hub. Constraints: o min: 0 o max: 1023 o pattern: .*
+    /// A description of the updated hub. Constraints: • min: 0 • max: 1023 • pattern: .*
     /// </summary>
     [CliOption("--hub-description")]
     public string? HubDescription { get; set; }
 
     /// <summary>
-    /// The display name of the hub. Constraints: o min: 0 o max: 255 o pattern: .*
+    /// The display name of the hub. Constraints: • min: 0 • max: 255 • pattern: .*
     /// </summary>
     [CliOption("--hub-display-name")]
     public string? HubDisplayName { get; set; }
 
     /// <summary>
-    /// The searchable keywords for the hub. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 0 o max: 255 o pattern: [^A-Z]* Syntax: "string" "string" ...
+    /// The searchable keywords for the hub. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 0 • max: 255 • pattern: [^A-Z]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--hub-search-keywords", GroupValues = true)]
     public IEnumerable<string>? HubSearchKeywords { get; set; }

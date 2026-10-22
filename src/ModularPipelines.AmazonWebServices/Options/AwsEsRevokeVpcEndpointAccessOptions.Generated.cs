@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsEsRevokeVpcEndpointAccessOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Revokes access to an Amazon OpenSearch Service domain that was provided through an interface VPC endpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The name of the OpenSearch Service domain. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
-    /// <param name="Account">The account ID to revoke access from. Constraints: o pattern: ^[0-9]+$</param>
+    /// <param name="DomainName">The name of the OpenSearch Service domain. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="Account">The account ID to revoke access from. Constraints: • pattern: ^[0-9]+$</param>
     public AwsEsRevokeVpcEndpointAccessOptions(
         string DomainName,
         string Account
@@ -60,13 +62,13 @@ public record AwsEsRevokeVpcEndpointAccessOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the OpenSearch Service domain. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// The name of the OpenSearch Service domain. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The account ID to revoke access from. Constraints: o pattern: ^[0-9]+$
+    /// The account ID to revoke access from. Constraints: • pattern: ^[0-9]+$
     /// </summary>
     [CliOption("--account")]
     public string? Account { get; private init; }

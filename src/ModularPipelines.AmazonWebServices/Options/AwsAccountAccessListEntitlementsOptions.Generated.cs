@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the entitlements for a specified account access manager applica- tion. You can filter results by principal, IAM role, or account. Use pagination to ensure that the operation returns quickly and success- fully. See also: AWS API Documentation list-entitlements is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a...
+/// Lists the entitlements for a specified account access manager application. You can filter results by principal, IAM role, or account. Use pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-entitlements is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pag...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsAccountAccessListEntitlementsOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the entitlements for a specified account access manager applica- tion. You can filter results by principal, IAM role, or account. Use pagination to ensure that the operation returns quickly and success- fully. See also: AWS API Documentation list-entitlements is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a...
+    /// Lists the entitlements for a specified account access manager application. You can filter results by principal, IAM role, or account. Use pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-entitlements is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pag...
     /// </summary>
-    /// <param name="ApplicationArn">Specifies the ARN of the application to list entitlements for. Constraints: o min: 49 o max: 2048 o pattern: arn:[a-z0-9-]+:account-ac- cess:[a-z0-9]+(-[a-z0-9]+)*:[0-9]{12}:application/[a-zA-Z0-9-]+</param>
-    /// <param name="Filter">Specifies filter criteria to narrow the entitlements returned. You can filter by principal, IAM role, or account. principalRole -&gt; (structure) The principal-to-role filter criteria for narrowing entitlement results. principal -&gt; (tagged union structure) The principal to filter entitlements by. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: identityCenter. identityCenter -&gt; (tagged union structure) The IAM Identity Center principal filter criteria. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: userId, groupId. userId -&gt; (string) The unique identifier of a user in IAM Identity Center to filter by. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} groupId -&gt; (string) The unique identifier of a group in IAM Identity Cen- ter to filter by. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} roleArn -&gt; (string) The IAM role ARN to filter entitlements by. Constraints: o pattern: arn:[a-z0-9-]+:iam::[0-9]{12}:role/([a-zA-Z0-9+=,.@_-]+/)*[a-zA-Z0-9+=,.@_-]+ account -&gt; (string) The 12-digit Amazon Web Services account ID to filter enti- tlements by. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} JSON Syntax: { "principalRole": { "principal": { "identityCenter": { "userId": "string", "groupId": "string" } }, "roleArn": "string", "account": "string" } }</param>
+    /// <param name="ApplicationArn">Specifies the ARN of the application to list entitlements for. Constraints: • min: 49 • max: 2048 • pattern: arn:[a-z0-9-]+:account-access:[a-z0-9]+(-[a-z0-9]+)*:[0-9]{12}:application/[a-zA-Z0-9-]+</param>
+    /// <param name="Filter">Specifies filter criteria to narrow the entitlements returned. You can filter by principal, IAM role, or account. principalRole -&gt; (structure) The principal-to-role filter criteria for narrowing entitlement results. principal -&gt; (tagged union structure) The principal to filter entitlements by. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: identityCenter. identityCenter -&gt; (tagged union structure) The IAM Identity Center principal filter criteria. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: userId, groupId. userId -&gt; (string) The unique identifier of a user in IAM Identity Center to filter by. Constraints: • min: 1 • max: 47 • pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} groupId -&gt; (string) The unique identifier of a group in IAM Identity Center to filter by. Constraints: • min: 1 • max: 47 • pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} roleArn -&gt; (string) The IAM role ARN to filter entitlements by. Constraints: • pattern: arn:[a-z0-9-]+:iam::[0-9]{12}:role/([a-zA-Z0-9+=,.@_-]+/)*[a-zA-Z0-9+=,.@_-]+ account -&gt; (string) The 12-digit Amazon Web Services account ID to filter entitlements by. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12} JSON Syntax: { "principalRole": { "principal": { "identityCenter": { "userId": "string", "groupId": "string" } }, "roleArn": "string", "account": "string" } }</param>
     public AwsAccountAccessListEntitlementsOptions(
         string ApplicationArn,
         string Filter
@@ -61,22 +63,19 @@ public record AwsAccountAccessListEntitlementsOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ARN of the application to list entitlements for. Constraints: o min: 49 o max: 2048 o pattern: arn:[a-z0-9-]+:account-ac- cess:[a-z0-9]+(-[a-z0-9]+)*:[0-9]{12}:application/[a-zA-Z0-9-]+
+    /// Specifies the ARN of the application to list entitlements for. Constraints: • min: 49 • max: 2048 • pattern: arn:[a-z0-9-]+:account-access:[a-z0-9]+(-[a-z0-9]+)*:[0-9]{12}:application/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--application-arn")]
     public string? ApplicationArn { get; private init; }
 
     /// <summary>
-    /// Specifies filter criteria to narrow the entitlements returned. You can filter by principal, IAM role, or account. principalRole -&gt; (structure) The principal-to-role filter criteria for narrowing entitlement results. principal -&gt; (tagged union structure) The principal to filter entitlements by. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: identityCenter. identityCenter -&gt; (tagged union structure) The IAM Identity Center principal filter criteria. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: userId, groupId. userId -&gt; (string) The unique identifier of a user in IAM Identity Center to filter by. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} groupId -&gt; (string) The unique identifier of a group in IAM Identity Cen- ter to filter by. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} roleArn -&gt; (string) The IAM role ARN to filter entitlements by. Constraints: o pattern: arn:[a-z0-9-]+:iam::[0-9]{12}:role/([a-zA-Z0-9+=,.@_-]+/)*[a-zA-Z0-9+=,.@_-]+ account -&gt; (string) The 12-digit Amazon Web Services account ID to filter enti- tlements by. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} JSON Syntax: { "principalRole": { "principal": { "identityCenter": { "userId": "string", "groupId": "string" } }, "roleArn": "string", "account": "string" } }
+    /// Specifies filter criteria to narrow the entitlements returned. You can filter by principal, IAM role, or account. principalRole -&gt; (structure) The principal-to-role filter criteria for narrowing entitlement results. principal -&gt; (tagged union structure) The principal to filter entitlements by. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: identityCenter. identityCenter -&gt; (tagged union structure) The IAM Identity Center principal filter criteria. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: userId, groupId. userId -&gt; (string) The unique identifier of a user in IAM Identity Center to filter by. Constraints: • min: 1 • max: 47 • pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} groupId -&gt; (string) The unique identifier of a group in IAM Identity Center to filter by. Constraints: • min: 1 • max: 47 • pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} roleArn -&gt; (string) The IAM role ARN to filter entitlements by. Constraints: • pattern: arn:[a-z0-9-]+:iam::[0-9]{12}:role/([a-zA-Z0-9+=,.@_-]+/)*[a-zA-Z0-9+=,.@_-]+ account -&gt; (string) The 12-digit Amazon Web Services account ID to filter entitlements by. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12} JSON Syntax: { "principalRole": { "principal": { "identityCenter": { "userId": "string", "groupId": "string" } }, "roleArn": "string", "account": "string" } }
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -86,16 +85,19 @@ public record AwsAccountAccessListEntitlementsOptions : AwsOptions, IValidatable
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

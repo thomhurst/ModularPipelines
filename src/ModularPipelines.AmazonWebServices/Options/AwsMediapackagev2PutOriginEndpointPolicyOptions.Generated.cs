@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +29,10 @@ public record AwsMediapackagev2PutOriginEndpointPolicyOptions : AwsOptions, IVal
     /// <summary>
     /// Attaches an IAM policy to the specified origin endpoint. You can attach only one policy with each request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ChannelGroupName">The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your ac- count in the AWS Region. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="ChannelName">The name that describes the channel. The name is the primary identi- fier for the channel, and must be unique for your account in the AWS Region and channel group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="OriginEndpointName">The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="Policy">The policy to attach to the specified origin endpoint. Constraints: o min: 0 o max: 6144</param>
+    /// <param name="ChannelGroupName">The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ChannelName">The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="OriginEndpointName">The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="Policy">The policy to attach to the specified origin endpoint. Constraints: • min: 0 • max: 6144</param>
     public AwsMediapackagev2PutOriginEndpointPolicyOptions(
         string ChannelGroupName,
         string ChannelName,
@@ -68,31 +70,31 @@ public record AwsMediapackagev2PutOriginEndpointPolicyOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your ac- count in the AWS Region. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--channel-group-name")]
     public string? ChannelGroupName { get; private init; }
 
     /// <summary>
-    /// The name that describes the channel. The name is the primary identi- fier for the channel, and must be unique for your account in the AWS Region and channel group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--channel-name")]
     public string? ChannelName { get; private init; }
 
     /// <summary>
-    /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--origin-endpoint-name")]
     public string? OriginEndpointName { get; private init; }
 
     /// <summary>
-    /// The policy to attach to the specified origin endpoint. Constraints: o min: 0 o max: 6144
+    /// The policy to attach to the specified origin endpoint. Constraints: • min: 0 • max: 6144
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; private init; }
 
     /// <summary>
-    /// The settings for using authorization headers between the MediaPack- age endpoint and your CDN. For information about CDN authorization, see CDN authorization in Elemental MediaPackage in the MediaPackage user guide. CdnIdentifierSecretArns -&gt; (list) [required] The ARN for the secret in Secrets Manager that your CDN uses for authorization to access the endpoint. Constraints: o min: 1 (string) Constraints: o min: 20 o max: 2048 SecretsRoleArn -&gt; (string) [required] The ARN for the IAM role that gives MediaPackage read access to Secrets Manager and KMS for CDN authorization. Constraints: o min: 20 o max: 2048 Shorthand Syntax: CdnIdentifierSecretArns=string,string,SecretsRoleArn=string JSON Syntax: { "CdnIdentifierSecretArns": ["string", ...], "SecretsRoleArn": "string" }
+    /// The settings for using authorization headers between the MediaPackage endpoint and your CDN. For information about CDN authorization, see CDN authorization in Elemental MediaPackage in the MediaPackage user guide. CdnIdentifierSecretArns -&gt; (list) [required] The ARN for the secret in Secrets Manager that your CDN uses for authorization to access the endpoint. Constraints: • min: 1 (string) Constraints: • min: 20 • max: 2048 SecretsRoleArn -&gt; (string) [required] The ARN for the IAM role that gives MediaPackage read access to Secrets Manager and KMS for CDN authorization. Constraints: • min: 20 • max: 2048 Shorthand Syntax: CdnIdentifierSecretArns=string,string,SecretsRoleArn=string JSON Syntax: { "CdnIdentifierSecretArns": ["string", ...], "SecretsRoleArn": "string" }
     /// </summary>
     [CliOption("--cdn-auth-configuration")]
     public string? CdnAuthConfiguration { get; set; }

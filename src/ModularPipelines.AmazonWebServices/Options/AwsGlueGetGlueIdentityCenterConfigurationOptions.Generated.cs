@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the current Glue Identity Center configuration details, in- cluding the associated Identity Center instance and application infor- mation. See also: AWS API Documentation
+/// Retrieves the current Glue Identity Center configuration details, including the associated Identity Center instance and application information. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,11 +29,11 @@ public record AwsPartnercentralSellingGetResourceSnapshotOptions : AwsOptions, I
     /// <summary>
     /// Use this action to retrieve a specific snapshot record. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">Specifies the catalog related to the request. Valid values are: o AWS: Retrieves the snapshot from the production AWS environment. o Sandbox: Retrieves the snapshot from a sandbox environment used for testing or development purposes. Constraints: o pattern: [a-zA-Z]+</param>
-    /// <param name="EngagementIdentifier">The unique identifier of the engagement associated with the snap- shot. This field links the snapshot to a specific engagement con- text. Constraints: o pattern: eng-[0-9a-z]{14}</param>
-    /// <param name="ResourceType">Specifies the type of resource that was snapshotted. This field de- termines the structure and content of the snapshot payload. Valid value includes:Opportunity : For opportunity-related data. Possible values: o Opportunity</param>
-    /// <param name="ResourceIdentifier">The unique identifier of the specific resource that was snapshotted. The format and constraints of this identifier depend on the Re- sourceType specified. For Opportunity type, it will be an opportu- nity ID Constraints: o pattern: O[0-9]{1,19}</param>
-    /// <param name="ResourceSnapshotTemplateIdentifier">he name of the template that defines the schema for the snapshot. This template determines which subset of the resource data is in- cluded in the snapshot and must correspond to an existing and valid template for the specified ResourceType . Constraints: o pattern: [a-zA-Z0-9]{3,80}</param>
+    /// <param name="Catalog">Specifies the catalog related to the request. Valid values are: • AWS: Retrieves the snapshot from the production AWS environment. • Sandbox: Retrieves the snapshot from a sandbox environment used for testing or development purposes. Constraints: • pattern: [a-zA-Z]+</param>
+    /// <param name="EngagementIdentifier">The unique identifier of the engagement associated with the snapshot. This field links the snapshot to a specific engagement context. Constraints: • pattern: eng-[0-9a-z]{14}</param>
+    /// <param name="ResourceType">Specifies the type of resource that was snapshotted. This field determines the structure and content of the snapshot payload. Valid value includes:Opportunity : For opportunity-related data. Possible values: • Opportunity</param>
+    /// <param name="ResourceIdentifier">The unique identifier of the specific resource that was snapshotted. The format and constraints of this identifier depend on the ResourceType specified. For Opportunity type, it will be an opportunity ID Constraints: • pattern: O[0-9]{1,19}</param>
+    /// <param name="ResourceSnapshotTemplateIdentifier">he name of the template that defines the schema for the snapshot. This template determines which subset of the resource data is included in the snapshot and must correspond to an existing and valid template for the specified ResourceType . Constraints: • pattern: [a-zA-Z0-9]{3,80}</param>
     public AwsPartnercentralSellingGetResourceSnapshotOptions(
         string Catalog,
         string EngagementIdentifier,
@@ -72,37 +74,37 @@ public record AwsPartnercentralSellingGetResourceSnapshotOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the catalog related to the request. Valid values are: o AWS: Retrieves the snapshot from the production AWS environment. o Sandbox: Retrieves the snapshot from a sandbox environment used for testing or development purposes. Constraints: o pattern: [a-zA-Z]+
+    /// Specifies the catalog related to the request. Valid values are: • AWS: Retrieves the snapshot from the production AWS environment. • Sandbox: Retrieves the snapshot from a sandbox environment used for testing or development purposes. Constraints: • pattern: [a-zA-Z]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the engagement associated with the snap- shot. This field links the snapshot to a specific engagement con- text. Constraints: o pattern: eng-[0-9a-z]{14}
+    /// The unique identifier of the engagement associated with the snapshot. This field links the snapshot to a specific engagement context. Constraints: • pattern: eng-[0-9a-z]{14}
     /// </summary>
     [CliOption("--engagement-identifier")]
     public string? EngagementIdentifier { get; private init; }
 
     /// <summary>
-    /// Specifies the type of resource that was snapshotted. This field de- termines the structure and content of the snapshot payload. Valid value includes:Opportunity : For opportunity-related data. Possible values: o Opportunity
+    /// Specifies the type of resource that was snapshotted. This field determines the structure and content of the snapshot payload. Valid value includes:Opportunity : For opportunity-related data. Possible values: • Opportunity
     /// </summary>
     [CliOption("--resource-type")]
     public string? ResourceType { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the specific resource that was snapshotted. The format and constraints of this identifier depend on the Re- sourceType specified. For Opportunity type, it will be an opportu- nity ID Constraints: o pattern: O[0-9]{1,19}
+    /// The unique identifier of the specific resource that was snapshotted. The format and constraints of this identifier depend on the ResourceType specified. For Opportunity type, it will be an opportunity ID Constraints: • pattern: O[0-9]{1,19}
     /// </summary>
     [CliOption("--resource-identifier")]
     public string? ResourceIdentifier { get; private init; }
 
     /// <summary>
-    /// he name of the template that defines the schema for the snapshot. This template determines which subset of the resource data is in- cluded in the snapshot and must correspond to an existing and valid template for the specified ResourceType . Constraints: o pattern: [a-zA-Z0-9]{3,80}
+    /// he name of the template that defines the schema for the snapshot. This template determines which subset of the resource data is included in the snapshot and must correspond to an existing and valid template for the specified ResourceType . Constraints: • pattern: [a-zA-Z0-9]{3,80}
     /// </summary>
     [CliOption("--resource-snapshot-template-identifier")]
     public string? ResourceSnapshotTemplateIdentifier { get; private init; }
 
     /// <summary>
-    /// Specifies which revision of the snapshot to retrieve. If omitted re- turns the latest revision. Constraints: o min: 1
+    /// Specifies which revision of the snapshot to retrieve. If omitted returns the latest revision. Constraints: • min: 1
     /// </summary>
     [CliOption("--revision")]
     public int? Revision { get; set; }

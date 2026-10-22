@@ -23,37 +23,37 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudformationDescribeTypeOptions : AwsOptions
 {
     /// <summary>
-    /// The kind of extension. Conditional: You must specify either TypeName and Type , or Arn . Possible values: o RESOURCE o MODULE o HOOK
+    /// The kind of extension. Conditional: You must specify either TypeName and Type , or Arn . Possible values: • RESOURCE • MODULE • HOOK
     /// </summary>
     [CliOption("--type")]
     public AwsCloudformationDescribeTypeType? Type { get; set; }
 
     /// <summary>
-    /// The name of the extension. Conditional: You must specify either TypeName and Type , or Arn . Constraints: o min: 10 o max: 204 o pattern: [A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MOD- ULE){0,1}
+    /// The name of the extension. Conditional: You must specify either TypeName and Type , or Arn . Constraints: • min: 10 • max: 204 • pattern: [A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}
     /// </summary>
     [CliOption("--type-name")]
     public string? TypeName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the extension. Conditional: You must specify either TypeName and Type , or Arn . Constraints: o max: 1024 o pattern: arn:aws[A-Za-z0-9-]{0,64}:cloudforma- tion:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/.+
+    /// The Amazon Resource Name (ARN) of the extension. Conditional: You must specify either TypeName and Type , or Arn . Constraints: • max: 1024 • pattern: arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/.+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; set; }
 
     /// <summary>
-    /// The ID of a specific version of the extension. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the extension version when it is registered. If you specify a VersionId , DescribeType returns information about that specific extension version. Otherwise, it returns information about the default extension version. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-]+
+    /// The ID of a specific version of the extension. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the extension version when it is registered. If you specify a VersionId , DescribeType returns information about that specific extension version. Otherwise, it returns information about the default extension version. Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9-]+
     /// </summary>
     [CliOption("--version-id")]
     public string? VersionId { get; set; }
 
     /// <summary>
-    /// The publisher ID of the extension publisher. Extensions provided by Amazon Web Services are not assigned a pub- lisher ID. Constraints: o min: 1 o max: 40 o pattern: [0-9a-zA-Z]{12,40}
+    /// The publisher ID of the extension publisher. Extensions provided by Amazon Web Services are not assigned a publisher ID. Constraints: • min: 1 • max: 40 • pattern: [0-9a-zA-Z]{12,40}
     /// </summary>
     [CliOption("--publisher-id")]
     public string? PublisherId { get; set; }
 
     /// <summary>
-    /// The version number of a public third-party extension. Constraints: o min: 5 o pattern: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(.*)$
+    /// The version number of a public third-party extension. Constraints: • min: 5 • pattern: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(.*)$
     /// </summary>
     [CliOption("--public-version-number")]
     public string? PublicVersionNumber { get; set; }

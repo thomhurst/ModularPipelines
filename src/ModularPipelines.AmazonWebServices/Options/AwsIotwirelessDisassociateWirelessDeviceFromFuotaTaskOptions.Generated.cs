@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsIotwirelessDisassociateWirelessDeviceFromFuotaTaskOptions : Aws
     /// <summary>
     /// Disassociates a wireless device from a FUOTA task. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of a FUOTA task. Constraints: o max: 256</param>
-    /// <param name="WirelessDeviceId">The ID of the wireless device. Constraints: o max: 256</param>
+    /// <param name="Id">The ID of a FUOTA task. Constraints: • max: 256</param>
+    /// <param name="WirelessDeviceId">The ID of the wireless device. Constraints: • max: 256</param>
     public AwsIotwirelessDisassociateWirelessDeviceFromFuotaTaskOptions(
         string Id,
         string WirelessDeviceId
@@ -60,13 +62,13 @@ public record AwsIotwirelessDisassociateWirelessDeviceFromFuotaTaskOptions : Aws
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of a FUOTA task. Constraints: o max: 256
+    /// The ID of a FUOTA task. Constraints: • max: 256
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The ID of the wireless device. Constraints: o max: 256
+    /// The ID of the wireless device. Constraints: • max: 256
     /// </summary>
     [CliOption("--wireless-device-id")]
     public string? WirelessDeviceId { get; private init; }

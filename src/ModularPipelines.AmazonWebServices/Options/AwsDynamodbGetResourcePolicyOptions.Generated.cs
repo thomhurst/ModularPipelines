@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the resource-based policy document attached to the resource, which can be a table or stream, in JSON format. GetResourcePolicy follows an ` eventually consistent https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html`__ model. The following list describes the outcomes when you issue the GetResourcePolicy request immediately after issuing another request: o If you issue a GetResourcePolicy request immediately after a PutRe- sourcePolicy request, D...
+/// Returns the resource-based policy document attached to the resource, which can be a table or stream, in JSON format. GetResourcePolicy follows an ` eventually consistent https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html`__ model. The following list describes the outcomes when you issue the GetResourcePolicy request immediately after issuing another request: • If you issue a GetResourcePolicy request immediately after a PutResourcePolicy request, Dyn...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsDynamodbGetResourcePolicyOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the resource-based policy document attached to the resource, which can be a table or stream, in JSON format. GetResourcePolicy follows an ` eventually consistent https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html`__ model. The following list describes the outcomes when you issue the GetResourcePolicy request immediately after issuing another request: o If you issue a GetResourcePolicy request immediately after a PutRe- sourcePolicy request, D...
+    /// Returns the resource-based policy document attached to the resource, which can be a table or stream, in JSON format. GetResourcePolicy follows an ` eventually consistent https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html`__ model. The following list describes the outcomes when you issue the GetResourcePolicy request immediately after issuing another request: • If you issue a GetResourcePolicy request immediately after a PutResourcePolicy request, Dyn...
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the DynamoDB resource to which the policy is attached. The resources you can specify include tables and streams. Constraints: o min: 1 o max: 1283</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the DynamoDB resource to which the policy is attached. The resources you can specify include tables and streams. Constraints: • min: 1 • max: 1283</param>
     public AwsDynamodbGetResourcePolicyOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsDynamodbGetResourcePolicyOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the DynamoDB resource to which the policy is attached. The resources you can specify include tables and streams. Constraints: o min: 1 o max: 1283
+    /// The Amazon Resource Name (ARN) of the DynamoDB resource to which the policy is attached. The resources you can specify include tables and streams. Constraints: • min: 1 • max: 1283
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

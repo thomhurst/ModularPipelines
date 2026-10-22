@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBedrockStopAdvancedPromptOptimizationJobOptions : AwsOptions, I
     /// <summary>
     /// Stops an advanced prompt optimization job that is in progress. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobIdentifier">The ARN or ID of the advanced prompt optimization job to stop. Constraints: o min: 0 o max: 1011 o pattern: ((arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:ad- vanced-prompt-optimization-job/)?[a-z0-9]{12})</param>
+    /// <param name="JobIdentifier">The ARN or ID of the advanced prompt optimization job to stop. Constraints: • min: 0 • max: 1011 • pattern: ((arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:advanced-prompt-optimization-job/)?[a-z0-9]{12})</param>
     public AwsBedrockStopAdvancedPromptOptimizationJobOptions(
         string JobIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsBedrockStopAdvancedPromptOptimizationJobOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN or ID of the advanced prompt optimization job to stop. Constraints: o min: 0 o max: 1011 o pattern: ((arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:ad- vanced-prompt-optimization-job/)?[a-z0-9]{12})
+    /// The ARN or ID of the advanced prompt optimization job to stop. Constraints: • min: 0 • max: 1011 • pattern: ((arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:advanced-prompt-optimization-job/)?[a-z0-9]{12})
     /// </summary>
     [CliOption("--job-identifier")]
     public string? JobIdentifier { get; private init; }

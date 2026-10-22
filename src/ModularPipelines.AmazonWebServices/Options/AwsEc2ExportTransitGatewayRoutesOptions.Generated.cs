@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Exports routes from the specified transit gateway route table to the specified S3 bucket. By default, all routes are exported. Alterna- tively, you can filter by CIDR range. The routes are saved to the specified bucket in a JSON file. For more information, see Export route tables to Amazon S3 in the Amazon Web Services Transit Gateways Guide . See also: AWS API Documentation
+/// Exports routes from the specified transit gateway route table to the specified S3 bucket. By default, all routes are exported. Alternatively, you can filter by CIDR range. The routes are saved to the specified bucket in a JSON file. For more information, see Export route tables to Amazon S3 in the Amazon Web Services Transit Gateways Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsEc2ExportTransitGatewayRoutesOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Exports routes from the specified transit gateway route table to the specified S3 bucket. By default, all routes are exported. Alterna- tively, you can filter by CIDR range. The routes are saved to the specified bucket in a JSON file. For more information, see Export route tables to Amazon S3 in the Amazon Web Services Transit Gateways Guide . See also: AWS API Documentation
+    /// Exports routes from the specified transit gateway route table to the specified S3 bucket. By default, all routes are exported. Alternatively, you can filter by CIDR range. The routes are saved to the specified bucket in a JSON file. For more information, see Export route tables to Amazon S3 in the Amazon Web Services Transit Gateways Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="TransitGatewayRouteTableId">The ID of the route table.</param>
     /// <param name="S3Bucket">The name of the S3 bucket.</param>
@@ -72,13 +74,13 @@ public record AwsEc2ExportTransitGatewayRoutesOptions : AwsOptions, IValidatable
     public string? S3Bucket { get; private init; }
 
     /// <summary>
-    /// One or more filters. The possible values are: o attachment.transit-gateway-attachment-id - The id of the transit gateway attachment. o attachment.resource-id - The resource id of the transit gateway attachment. o route-search.exact-match - The exact match of the specified fil- ter. o route-search.longest-prefix-match - The longest prefix that matches the route. o route-search.subnet-of-match - The routes with a subnet that match the specified CIDR filter. o route-search.supernet-of-match - The routes with a CIDR that en- compass the CIDR filter. For example, if you have 10.0.1.0/29 and 10.0.1.0/31 routes in your route table and you specify super- net-of-match as 10.0.1.0/30, then the result returns 10.0.1.0/29. o state - The state of the route (active | blackhole ). o transit-gateway-route-destination-cidr-block - The CIDR range. o type - The type of route (propagated | static ). (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// One or more filters. The possible values are: • attachment.transit-gateway-attachment-id - The id of the transit gateway attachment. • attachment.resource-id - The resource id of the transit gateway attachment. • route-search.exact-match - The exact match of the specified filter. • route-search.longest-prefix-match - The longest prefix that matches the route. • route-search.subnet-of-match - The routes with a subnet that match the specified CIDR filter. • route-search.supernet-of-match - The routes with a CIDR that encompass the CIDR filter. For example, if you have 10.0.1.0/29 and 10.0.1.0/31 routes in your route table and you specify supernet-of-match as 10.0.1.0/30, then the result returns 10.0.1.0/29. • state - The state of the route (active | blackhole ). • transit-gateway-route-destination-cidr-block - The CIDR range. • type - The type of route (propagated | static ). (structure) A filter name and value pair that is used to return a more specific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

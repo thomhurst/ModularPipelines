@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deploys a custom model for on-demand inference in Amazon Bedrock. After you deploy your custom model, you use the deployment's Amazon Resource Name (ARN) as the modelId parameter when you submit prompts and gener- ate responses with model inference. For more information about setting up on-demand inference for custom models, see Set up inference for a custom model . The following actions are related to the CreateCustomModelDeployment operation: o GetCustomModelDeployment o ListCustomModelDeploym...
+/// Deploys a custom model for on-demand inference in Amazon Bedrock. After you deploy your custom model, you use the deployment's Amazon Resource Name (ARN) as the modelId parameter when you submit prompts and generate responses with model inference. For more information about setting up on-demand inference for custom models, see Set up inference for a custom model . The following actions are related to the CreateCustomModelDeployment operation: • GetCustomModelDeployment • ListCustomModelDeploymen...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsBedrockCreateCustomModelDeploymentOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deploys a custom model for on-demand inference in Amazon Bedrock. After you deploy your custom model, you use the deployment's Amazon Resource Name (ARN) as the modelId parameter when you submit prompts and gener- ate responses with model inference. For more information about setting up on-demand inference for custom models, see Set up inference for a custom model . The following actions are related to the CreateCustomModelDeployment operation: o GetCustomModelDeployment o ListCustomModelDeploym...
+    /// Deploys a custom model for on-demand inference in Amazon Bedrock. After you deploy your custom model, you use the deployment's Amazon Resource Name (ARN) as the modelId parameter when you submit prompts and generate responses with model inference. For more information about setting up on-demand inference for custom models, see Set up inference for a custom model . The following actions are related to the CreateCustomModelDeployment operation: • GetCustomModelDeployment • ListCustomModelDeploymen...
     /// </summary>
-    /// <param name="ModelDeploymentName">The name for the custom model deployment. The name must be unique within your Amazon Web Services account and Region. Constraints: o min: 1 o max: 63 o pattern: ([0-9a-zA-Z][_-]?){1,63}</param>
-    /// <param name="ModelArn">The Amazon Resource Name (ARN) of the custom model to deploy for on-demand inference. The custom model must be in the Active state. Constraints: o min: 20 o max: 1011 o pattern: arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:[a-z0-9-]{1,20}:[0-9]{12}:cus- tom-model/(im- ported|[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2})/[a-z0-9]{12}</param>
+    /// <param name="ModelDeploymentName">The name for the custom model deployment. The name must be unique within your Amazon Web Services account and Region. Constraints: • min: 1 • max: 63 • pattern: ([0-9a-zA-Z][_-]?){1,63}</param>
+    /// <param name="ModelArn">The Amazon Resource Name (ARN) of the custom model to deploy for on-demand inference. The custom model must be in the Active state. Constraints: • min: 20 • max: 1011 • pattern: arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:[a-z0-9-]{1,20}:[0-9]{12}:custom-model/(imported|[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2})/[a-z0-9]{12}</param>
     public AwsBedrockCreateCustomModelDeploymentOptions(
         string ModelDeploymentName,
         string ModelArn
@@ -61,31 +63,31 @@ public record AwsBedrockCreateCustomModelDeploymentOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name for the custom model deployment. The name must be unique within your Amazon Web Services account and Region. Constraints: o min: 1 o max: 63 o pattern: ([0-9a-zA-Z][_-]?){1,63}
+    /// The name for the custom model deployment. The name must be unique within your Amazon Web Services account and Region. Constraints: • min: 1 • max: 63 • pattern: ([0-9a-zA-Z][_-]?){1,63}
     /// </summary>
     [CliOption("--model-deployment-name")]
     public string? ModelDeploymentName { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the custom model to deploy for on-demand inference. The custom model must be in the Active state. Constraints: o min: 20 o max: 1011 o pattern: arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:[a-z0-9-]{1,20}:[0-9]{12}:cus- tom-model/(im- ported|[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2})/[a-z0-9]{12}
+    /// The Amazon Resource Name (ARN) of the custom model to deploy for on-demand inference. The custom model must be in the Active state. Constraints: • min: 20 • max: 1011 • pattern: arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:[a-z0-9-]{1,20}:[0-9]{12}:custom-model/(imported|[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2})/[a-z0-9]{12}
     /// </summary>
     [CliOption("--model-arn")]
     public string? ModelArn { get; private init; }
 
     /// <summary>
-    /// A description for the custom model deployment to help you identify its purpose. Constraints: o min: 1 o max: 2048 o pattern: .*
+    /// A description for the custom model deployment to help you identify its purpose. Constraints: • min: 1 • max: 2048 • pattern: .*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Tags to assign to the custom model deployment. You can use tags to organize and track your Amazon Web Services resources for cost allo- cation and management purposes. Constraints: o min: 0 o max: 200 (structure) Definition of the key/value pair for a tag. key -&gt; (string) [required] Key for the tag. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) [required] Value for the tag. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// Tags to assign to the custom model deployment. You can use tags to organize and track your Amazon Web Services resources for cost allocation and management purposes. Constraints: • min: 0 • max: 200 (structure) Definition of the key/value pair for a tag. key -&gt; (string) [required] Key for the tag. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) [required] Value for the tag. Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency . Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency . Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]

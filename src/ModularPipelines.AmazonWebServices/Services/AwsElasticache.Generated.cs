@@ -33,7 +33,7 @@ public class AwsElasticache : IAwsElasticache
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws elasticache wait sub-commands.
     /// </summary>
     public AwsElasticacheWait Wait => _wait ??= new AwsElasticacheWait(_command);
 
@@ -42,7 +42,7 @@ public class AwsElasticache : IAwsElasticache
     #region Commands
 
     /// <summary>
-    /// A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache re- sources. When you add or remove tags on replication groups, those ac- tions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions . For example, you can use cost-allocation tags to your ElastiCache re- sources, Amazon generates a cost allocation report as a comma-separated value (CSV) file with your usage ...
+    /// A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions . For example, you can use cost-allocation tags to your ElastiCache resources, Amazon generates a cost allocation report as a comma-separated value (CSV) file with your usage and co...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -132,7 +132,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Makes a copy of an existing snapshot. NOTE: This operation is valid for Valkey or Redis OSS only. WARNING: Users or groups that have permissions to use the CopySnapshot opera- tion can create their own Amazon S3 buckets and copy snapshots to it. To control access to your snapshots, use an IAM policy to con- trol who has the ability to use the CopySnapshot operation. For more information about using IAM to control the use of ElastiCache opera- tions, see Exporting Snapshots and Authentication &amp; A...
+    /// Makes a copy of an existing snapshot. NOTE: This operation is valid for Valkey or Redis OSS only. WARNING: Users or groups that have permissions to use the CopySnapshot operation can create their own Amazon S3 buckets and copy snapshots to it. To control access to your snapshots, use an IAM policy to control who has the ability to use the CopySnapshot operation. For more information about using IAM to control the use of ElastiCache operations, see Exporting Snapshots and Authentication &amp; Access ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -147,7 +147,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Creates a cluster. All nodes in the cluster run the same protocol-com- pliant cache engine software, either Memcached, Valkey or Redis OSS. This operation is not supported for Valkey or Redis OSS (cluster mode enabled) clusters. See also: AWS API Documentation
+    /// Creates a cluster. All nodes in the cluster run the same protocol-compliant cache engine software, either Memcached, Valkey or Redis OSS. This operation is not supported for Valkey or Redis OSS (cluster mode enabled) clusters. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -162,7 +162,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Creates a new Amazon ElastiCache cache parameter group. An ElastiCache cache parameter group is a collection of parameters and their values that are applied to all of the nodes in any cluster or replication group using the CacheParameterGroup. A newly created CacheParameterGroup is an exact duplicate of the de- fault parameter group for the CacheParameterGroupFamily. To customize the newly created CacheParameterGroup you can change the values of spe- cific parameters. For more information, see: ...
+    /// Creates a new Amazon ElastiCache cache parameter group. An ElastiCache cache parameter group is a collection of parameters and their values that are applied to all of the nodes in any cluster or replication group using the CacheParameterGroup. A newly created CacheParameterGroup is an exact duplicate of the default parameter group for the CacheParameterGroupFamily. To customize the newly created CacheParameterGroup you can change the values of specific parameters. For more information, see: • Mo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -177,7 +177,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Creates a new cache security group. Use a cache security group to con- trol access to one or more clusters. Cache security groups are only used when you are creating a cluster outside of an Amazon Virtual Private Cloud (Amazon VPC). If you are creating a cluster inside of a VPC, use a cache subnet group instead. For more information, see CreateCacheSubnetGroup . See also: AWS API Documentation
+    /// Creates a new cache security group. Use a cache security group to control access to one or more clusters. Cache security groups are only used when you are creating a cluster outside of an Amazon Virtual Private Cloud (Amazon VPC). If you are creating a cluster inside of a VPC, use a cache subnet group instead. For more information, see CreateCacheSubnetGroup . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -207,7 +207,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Global Datastore offers fully managed, fast, reliable and secure cross-region replication. Using Global Datastore with Valkey or Redis OSS, you can create cross-region read replica clusters for ElastiCache to enable low-latency reads and disaster recovery across regions. For more information, see Replication Across Regions Using Global Datastore . o The GlobalReplicationGroupIdSuffix is the name of the Global datas- tore. o The PrimaryReplicationGroupId represents the name of the primary cluster...
+    /// Global Datastore offers fully managed, fast, reliable and secure cross-region replication. Using Global Datastore with Valkey or Redis OSS, you can create cross-region read replica clusters for ElastiCache to enable low-latency reads and disaster recovery across regions. For more information, see Replication Across Regions Using Global Datastore . • The GlobalReplicationGroupIdSuffix is the name of the Global datastore. • The PrimaryReplicationGroupId represents the name of the primary cluster t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -222,7 +222,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Creates a Valkey or Redis OSS (cluster mode disabled) or a Valkey or Redis OSS (cluster mode enabled) replication group. This API can be used to create a standalone regional replication group or a secondary replication group associated with a Global datastore. A Valkey or Redis OSS (cluster mode disabled) replication group is a collection of nodes, where one of the nodes is a read/write primary and the others are read-only replicas. Writes to the primary are asynchro- nously propagated to the re...
+    /// Creates a Valkey or Redis OSS (cluster mode disabled) or a Valkey or Redis OSS (cluster mode enabled) replication group. This API can be used to create a standalone regional replication group or a secondary replication group associated with a Global datastore. A Valkey or Redis OSS (cluster mode disabled) replication group is a collection of nodes, where one of the nodes is a read/write primary and the others are read-only replicas. Writes to the primary are asynchronously propagated to the repl...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -252,7 +252,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// This API creates a copy of an entire ServerlessCache at a specific mo- ment in time. Available for Valkey, Redis OSS and Serverless Memcached only. See also: AWS API Documentation
+    /// This API creates a copy of an entire ServerlessCache at a specific moment in time. Available for Valkey, Redis OSS and Serverless Memcached only. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -342,7 +342,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Deletes a previously provisioned cluster. DeleteCacheCluster deletes all associated cache nodes, node endpoints and the cluster itself. When you receive a successful response from this operation, Amazon Elasti- Cache immediately begins deleting the cluster; you cannot cancel or re- vert this operation. This operation is not valid for: o Valkey or Redis OSS (cluster mode enabled) clusters o Valkey or Redis OSS (cluster mode disabled) clusters o A cluster that is the last read replica of a replica...
+    /// Deletes a previously provisioned cluster. DeleteCacheCluster deletes all associated cache nodes, node endpoints and the cluster itself. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the cluster; you cannot cancel or revert this operation. This operation is not valid for: • Valkey or Redis OSS (cluster mode enabled) clusters • Valkey or Redis OSS (cluster mode disabled) clusters • A cluster that is the last read replica of a replication...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -387,7 +387,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Deletes a cache subnet group. NOTE: You cannot delete a default cache subnet group or one that is asso- ciated with any clusters. See also: AWS API Documentation
+    /// Deletes a cache subnet group. NOTE: You cannot delete a default cache subnet group or one that is associated with any clusters. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -402,7 +402,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Deleting a Global datastore is a two-step process: o First, you must DisassociateGlobalReplicationGroup to remove the secondary clusters in the Global datastore. o Once the Global datastore contains only the primary cluster, you can use the DeleteGlobalReplicationGroup API to delete the Global datas- tore while retainining the primary cluster using RetainPrimaryRepli- cationGroup=true . Since the Global Datastore has only a primary cluster, you can delete the Global Datastore while retaining the...
+    /// Deleting a Global datastore is a two-step process: • First, you must DisassociateGlobalReplicationGroup to remove the secondary clusters in the Global datastore. • Once the Global datastore contains only the primary cluster, you can use the DeleteGlobalReplicationGroup API to delete the Global datastore while retainining the primary cluster using RetainPrimaryReplicationGroup=true . Since the Global Datastore has only a primary cluster, you can delete the Global Datastore while retaining the pri...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -417,7 +417,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Deletes an existing replication group. By default, this operation deletes the entire replication group, including the primary/primaries and all of the read replicas. If the replication group has only one primary, you can optionally delete only the read replicas, while re- taining the primary by setting RetainPrimaryCluster=true . When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the selected resources; you cannot cancel or revert this oper...
+    /// Deletes an existing replication group. By default, this operation deletes the entire replication group, including the primary/primaries and all of the read replicas. If the replication group has only one primary, you can optionally delete only the read replicas, while retaining the primary by setting RetainPrimaryCluster=true . When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the selected resources; you cannot cancel or revert this operat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -432,7 +432,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Deletes a specified existing serverless cache. NOTE: CreateServerlessCacheSnapshot permission is required to create a fi- nal snapshot. Without this permission, the API call will fail with an Access Denied exception. See also: AWS API Documentation
+    /// Deletes a specified existing serverless cache. NOTE: CreateServerlessCacheSnapshot permission is required to create a final snapshot. Without this permission, the API call will fail with an Access Denied exception. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -462,7 +462,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Deletes an existing snapshot. When you receive a successful response from this operation, ElastiCache immediately begins deleting the snap- shot; you cannot cancel or revert this operation. NOTE: This operation is valid for Valkey or Redis OSS only. See also: AWS API Documentation
+    /// Deletes an existing snapshot. When you receive a successful response from this operation, ElastiCache immediately begins deleting the snapshot; you cannot cancel or revert this operation. NOTE: This operation is valid for Valkey or Redis OSS only. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -507,7 +507,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Returns information about all provisioned clusters if no cluster iden- tifier is specified, or about a specific cache cluster if a cluster identifier is supplied. By default, abbreviated information about the clusters is returned. You can use the optional ShowCacheNodeInfo flag to retrieve detailed infor- mation about the cache nodes associated with the clusters. These de- tails include the DNS address and port for the cache node endpoint. If the cluster is in the creating state, only cluster-le...
+    /// Returns information about all provisioned clusters if no cluster identifier is specified, or about a specific cache cluster if a cluster identifier is supplied. By default, abbreviated information about the clusters is returned. You can use the optional ShowCacheNodeInfo flag to retrieve detailed information about the cache nodes associated with the clusters. These details include the DNS address and port for the cache node endpoint. If the cluster is in the creating state, only cluster-level in...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -522,7 +522,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Returns a list of the available cache engines and their versions. See also: AWS API Documentation describe-cache-engine-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: CacheEngineVersions
+    /// Returns a list of the available cache engines and their versions. See also: AWS API Documentation describe-cache-engine-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: CacheEngineVersions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -537,7 +537,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Returns a list of cache parameter group descriptions. If a cache para- meter group name is specified, the list contains only the descriptions for that group. See also: AWS API Documentation describe-cache-parameter-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argumen...
+    /// Returns a list of cache parameter group descriptions. If a cache parameter group name is specified, the list contains only the descriptions for that group. See also: AWS API Documentation describe-cache-parameter-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -552,7 +552,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Returns the detailed parameter list for a particular cache parameter group. See also: AWS API Documentation describe-cache-parameters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Parameters
+    /// Returns the detailed parameter list for a particular cache parameter group. See also: AWS API Documentation describe-cache-parameters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Parameters
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -567,7 +567,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Returns a list of cache security group descriptions. If a cache secu- rity group name is specified, the list contains only the description of that group. This applicable only when you have ElastiCache in Classic setup See also: AWS API Documentation describe-cache-security-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --...
+    /// Returns a list of cache security group descriptions. If a cache security group name is specified, the list contains only the description of that group. This applicable only when you have ElastiCache in Classic setup See also: AWS API Documentation describe-cache-security-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -582,7 +582,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Returns a list of cache subnet group descriptions. If a subnet group name is specified, the list contains only the description of that group. This is applicable only when you have ElastiCache in VPC setup. All ElastiCache clusters now launch in VPC by default. See also: AWS API Documentation describe-cache-subnet-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ...
+    /// Returns a list of cache subnet group descriptions. If a subnet group name is specified, the list contains only the description of that group. This is applicable only when you have ElastiCache in VPC setup. All ElastiCache clusters now launch in VPC by default. See also: AWS API Documentation describe-cache-subnet-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -597,7 +597,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Returns the default engine and system parameter information for the specified cache engine. See also: AWS API Documentation describe-engine-default-parameters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query exp...
+    /// Returns the default engine and system parameter information for the specified cache engine. See also: AWS API Documentation describe-engine-default-parameters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query express...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -612,7 +612,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Returns events related to clusters, cache security groups, and cache parameter groups. You can obtain events specific to a particular clus- ter, cache security group, or cache parameter group by providing the name as a parameter. By default, only the events occurring within the last hour are re- turned; however, you can retrieve up to 14 days' worth of events if necessary. See also: AWS API Documentation describe-events is a paginated operation. Multiple API calls may be is- sued in order to ret...
+    /// Returns events related to clusters, cache security groups, and cache parameter groups. You can obtain events specific to a particular cluster, cache security group, or cache parameter group by providing the name as a parameter. By default, only the events occurring within the last hour are returned; however, you can retrieve up to 14 days' worth of events if necessary. See also: AWS API Documentation describe-events is a paginated operation. Multiple API calls may be issued in order to retrieve ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -627,7 +627,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Returns information about a particular global replication group. If no identifier is specified, returns information about all Global datas- tores. See also: AWS API Documentation describe-global-replication-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must e...
+    /// Returns information about a particular global replication group. If no identifier is specified, returns information about all Global datastores. See also: AWS API Documentation describe-global-replication-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -642,7 +642,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Returns information about a particular replication group. If no identi- fier is specified, DescribeReplicationGroups returns information about all replication groups. NOTE: This operation is valid for Valkey or Redis OSS only. See also: AWS API Documentation describe-replication-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and ...
+    /// Returns information about a particular replication group. If no identifier is specified, DescribeReplicationGroups returns information about all replication groups. NOTE: This operation is valid for Valkey or Redis OSS only. See also: AWS API Documentation describe-replication-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -657,7 +657,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Lists available reserved cache node offerings. See also: AWS API Documentation describe-reserved-cache-nodes-offerings is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: ReservedCacheNodesOfferings
+    /// Lists available reserved cache node offerings. See also: AWS API Documentation describe-reserved-cache-nodes-offerings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ReservedCacheNodesOfferings
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -672,7 +672,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Returns information about reserved cache nodes for this account, or about a specified reserved cache node. See also: AWS API Documentation describe-reserved-cache-nodes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following...
+    /// Returns information about reserved cache nodes for this account, or about a specified reserved cache node. See also: AWS API Documentation describe-reserved-cache-nodes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following que...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -687,7 +687,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Returns information about serverless cache snapshots. By default, this API lists all of the customers serverless cache snapshots. It can also describe a single serverless cache snapshot, or the snapshots associ- ated with a particular serverless cache. Available for Valkey, Redis OSS and Serverless Memcached only. See also: AWS API Documentation describe-serverless-cache-snapshots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. Yo...
+    /// Returns information about serverless cache snapshots. By default, this API lists all of the customers serverless cache snapshots. It can also describe a single serverless cache snapshot, or the snapshots associated with a particular serverless cache. Available for Valkey, Redis OSS and Serverless Memcached only. See also: AWS API Documentation describe-serverless-cache-snapshots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You ca...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -717,7 +717,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Returns details of the service updates See also: AWS API Documentation describe-service-updates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ServiceUpdates
+    /// Returns details of the service updates See also: AWS API Documentation describe-service-updates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ServiceUpdates
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -732,7 +732,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Returns information about cluster or replication group snapshots. By default, DescribeSnapshots lists all of your snapshots; it can option- ally describe a single snapshot, or just the snapshots associated with a particular cache cluster. NOTE: This operation is valid for Valkey or Redis OSS only. See also: AWS API Documentation describe-snapshots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providin...
+    /// Returns information about cluster or replication group snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot, or just the snapshots associated with a particular cache cluster. NOTE: This operation is valid for Valkey or Redis OSS only. See also: AWS API Documentation describe-snapshots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -747,7 +747,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Returns details of the update actions See also: AWS API Documentation describe-update-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: UpdateActions
+    /// Returns details of the update actions See also: AWS API Documentation describe-update-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: UpdateActions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -777,7 +777,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Returns a list of users. See also: AWS API Documentation describe-users is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Users
+    /// Returns a list of users. See also: AWS API Documentation describe-users is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Users
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -822,7 +822,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Used to failover the primary region to a secondary region. The sec- ondary region will become primary, and all other clusters will become secondary. See also: AWS API Documentation
+    /// Used to failover the primary region to a secondary region. The secondary region will become primary, and all other clusters will become secondary. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -867,7 +867,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Lists all available node types that you can scale with your cluster's replication group's current node type. When you use the ModifyCacheCluster or ModifyReplicationGroup opera- tions to scale your cluster or replication group, the value of the CacheNodeType parameter must be one of the node types returned by this operation. See also: AWS API Documentation
+    /// Lists all available node types that you can scale with your cluster's replication group's current node type. When you use the ModifyCacheCluster or ModifyReplicationGroup operations to scale your cluster or replication group, the value of the CacheNodeType parameter must be one of the node types returned by this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -882,7 +882,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache re- sources. When you add or remove tags on replication groups, those ac- tions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions . If the cluster is not in the available state, ListTagsForResource re- turns an error. See also: AWS API Documentation
+    /// Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions . If the cluster is not in the available state, ListTagsForResource returns an error. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -957,7 +957,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Modifies the settings for a replication group. This is limited to Valkey and Redis OSS 7 and above. o Scaling for Valkey or Redis OSS (cluster mode enabled) in the Elasti- Cache User Guide o ModifyReplicationGroupShardConfiguration in the ElastiCache API Ref- erence NOTE: This operation is valid for Valkey or Redis OSS only. See also: AWS API Documentation
+    /// Modifies the settings for a replication group. This is limited to Valkey and Redis OSS 7 and above. • Scaling for Valkey or Redis OSS (cluster mode enabled) in the ElastiCache User Guide • ModifyReplicationGroupShardConfiguration in the ElastiCache API Reference NOTE: This operation is valid for Valkey or Redis OSS only. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1032,7 +1032,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Allows you to purchase a reserved cache node offering. Reserved nodes are not eligible for cancellation and are non-refundable. For more in- formation, see Managing Costs with Reserved Nodes . See also: AWS API Documentation
+    /// Allows you to purchase a reserved cache node offering. Reserved nodes are not eligible for cancellation and are non-refundable. For more information, see Managing Costs with Reserved Nodes . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1062,7 +1062,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Reboots some, or all, of the cache nodes within a provisioned cluster. This operation applies any modified cache parameter groups to the clus- ter. The reboot operation takes place as soon as possible, and results in a momentary outage to the cluster. During the reboot, the cluster status is set to REBOOTING. The reboot causes the contents of the cache (for each cache node being rebooted) to be lost. When the reboot is complete, a cluster event is created. Rebooting a cluster is currently suppor...
+    /// Reboots some, or all, of the cache nodes within a provisioned cluster. This operation applies any modified cache parameter groups to the cluster. The reboot operation takes place as soon as possible, and results in a momentary outage to the cluster. During the reboot, the cluster status is set to REBOOTING. The reboot causes the contents of the cache (for each cache node being rebooted) to be lost. When the reboot is complete, a cluster event is created. Rebooting a cluster is currently supporte...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1077,7 +1077,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Removes the tags identified by the TagKeys list from the named re- source. A tag is a key-value pair where the key and value are case-sen- sitive. You can use tags to categorize and track all your ElastiCache resources. When you add or remove tags on replication groups, those ac- tions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions . See also: AWS API Documentation
+    /// Removes the tags identified by the TagKeys list from the named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1107,7 +1107,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Revokes ingress from a cache security group. Use this operation to dis- allow access from an Amazon EC2 security group that had been previously authorized. See also: AWS API Documentation
+    /// Revokes ingress from a cache security group. Use this operation to disallow access from an Amazon EC2 security group that had been previously authorized. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1137,7 +1137,7 @@ public class AwsElasticache : IAwsElasticache
     }
 
     /// <summary>
-    /// Represents the input of a TestFailover operation which tests automatic failover on a specified node group (called shard in the console) in a replication group (called cluster in the console). This API is designed for testing the behavior of your application in case of ElastiCache failover. It is not designed to be an operational tool for initiating a failover to overcome a problem you may have with the cluster. Moreover, in certain conditions such as large-scale opera- tional events, Amazon may ...
+    /// Represents the input of a TestFailover operation which tests automatic failover on a specified node group (called shard in the console) in a replication group (called cluster in the console). This API is designed for testing the behavior of your application in case of ElastiCache failover. It is not designed to be an operational tool for initiating a failover to overcome a problem you may have with the cluster. Moreover, in certain conditions such as large-scale operational events, Amazon may bl...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

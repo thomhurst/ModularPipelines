@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -30,10 +31,10 @@ public record AwsDocdbElasticCreateClusterOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Creates a new Amazon DocumentDB elastic cluster and returns its cluster structure. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AdminUserName">The name of the Amazon DocumentDB elastic clusters administrator. Constraints : o Must be from 1 to 63 letters or numbers. o The first character must be a letter. o Cannot be a reserved word.</param>
-    /// <param name="AdminUserPassword">The password for the Amazon DocumentDB elastic clusters administra- tor. The password can contain any printable ASCII characters. Constraints : o Must contain from 8 to 100 characters. o Cannot contain a forward slash (/), double quote ("), or the "at" symbol (@).</param>
-    /// <param name="AuthType">The authentication type used to determine where to fetch the pass- word used for accessing the elastic cluster. Valid types are PLAIN_TEXT or SECRET_ARN . Possible values: o PLAIN_TEXT o SECRET_ARN</param>
-    /// <param name="ClusterName">The name of the new elastic cluster. This parameter is stored as a lowercase string. Constraints : o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example : my-cluster</param>
+    /// <param name="AdminUserName">The name of the Amazon DocumentDB elastic clusters administrator. Constraints : • Must be from 1 to 63 letters or numbers. • The first character must be a letter. • Cannot be a reserved word.</param>
+    /// <param name="AdminUserPassword">The password for the Amazon DocumentDB elastic clusters administrator. The password can contain any printable ASCII characters. Constraints : • Must contain from 8 to 100 characters. • Cannot contain a forward slash (/), double quote ("), or the "at" symbol (@).</param>
+    /// <param name="AuthType">The authentication type used to determine where to fetch the password used for accessing the elastic cluster. Valid types are PLAIN_TEXT or SECRET_ARN . Possible values: • PLAIN_TEXT • SECRET_ARN</param>
+    /// <param name="ClusterName">The name of the new elastic cluster. This parameter is stored as a lowercase string. Constraints : • Must contain from 1 to 63 letters, numbers, or hyphens. • The first character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. Example : my-cluster</param>
     /// <param name="ShardCapacity">The number of vCPUs assigned to each elastic cluster shard. Maximum is 64. Allowed values are 2, 4, 8, 16, 32, 64.</param>
     /// <param name="ShardCount">The number of shards assigned to the elastic cluster. Maximum is 32.</param>
     public AwsDocdbElasticCreateClusterOptions(
@@ -76,26 +77,26 @@ public record AwsDocdbElasticCreateClusterOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Amazon DocumentDB elastic clusters administrator. Constraints : o Must be from 1 to 63 letters or numbers. o The first character must be a letter. o Cannot be a reserved word.
+    /// The name of the Amazon DocumentDB elastic clusters administrator. Constraints : • Must be from 1 to 63 letters or numbers. • The first character must be a letter. • Cannot be a reserved word.
     /// </summary>
     [CliOption("--admin-user-name")]
     public string? AdminUserName { get; private init; }
 
     /// <summary>
-    /// The password for the Amazon DocumentDB elastic clusters administra- tor. The password can contain any printable ASCII characters. Constraints : o Must contain from 8 to 100 characters. o Cannot contain a forward slash (/), double quote ("), or the "at" symbol (@).
+    /// The password for the Amazon DocumentDB elastic clusters administrator. The password can contain any printable ASCII characters. Constraints : • Must contain from 8 to 100 characters. • Cannot contain a forward slash (/), double quote ("), or the "at" symbol (@).
     /// </summary>
     [SecretValue]
     [CliOption("--admin-user-password")]
     public string? AdminUserPassword { get; private init; }
 
     /// <summary>
-    /// The authentication type used to determine where to fetch the pass- word used for accessing the elastic cluster. Valid types are PLAIN_TEXT or SECRET_ARN . Possible values: o PLAIN_TEXT o SECRET_ARN
+    /// The authentication type used to determine where to fetch the password used for accessing the elastic cluster. Valid types are PLAIN_TEXT or SECRET_ARN . Possible values: • PLAIN_TEXT • SECRET_ARN
     /// </summary>
     [CliOption("--auth-type")]
     public AwsDocdbElasticCreateClusterAuthType? AuthType { get; private init; }
 
     /// <summary>
-    /// The name of the new elastic cluster. This parameter is stored as a lowercase string. Constraints : o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example : my-cluster
+    /// The name of the new elastic cluster. This parameter is stored as a lowercase string. Constraints : • Must contain from 1 to 63 letters, numbers, or hyphens. • The first character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. Example : my-cluster
     /// </summary>
     [CliOption("--cluster-name")]
     public string? ClusterName { get; private init; }
@@ -126,13 +127,13 @@ public record AwsDocdbElasticCreateClusterOptions : AwsOptions, IValidatableObje
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The KMS key identifier to use to encrypt the new elastic cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a cluster using the same Amazon account that owns this KMS encryption key, you can use the KMS key alias instead of the ARN as the KMS encryption key. If an encryption key is not specified, Amazon DocumentDB uses the default encryption key that KMS creates for your account. Your ac- count has a different default encryption key for each Amazon Region.
+    /// The KMS key identifier to use to encrypt the new elastic cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a cluster using the same Amazon account that owns this KMS encryption key, you can use the KMS key alias instead of the ARN as the KMS encryption key. If an encryption key is not specified, Amazon DocumentDB uses the default encryption key that KMS creates for your account. Your account has a different default encryption key for each Amazon Region.
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// The daily time range during which automated backups are created if automated backups are enabled, as determined by the backupRetention- Period .
+    /// The daily time range during which automated backups are created if automated backups are enabled, as determined by the backupRetentionPeriod .
     /// </summary>
     [CliOption("--preferred-backup-window")]
     public string? PreferredBackupWindow { get; set; }
@@ -144,7 +145,7 @@ public record AwsDocdbElasticCreateClusterOptions : AwsOptions, IValidatableObje
     public string? PreferredMaintenanceWindow { get; set; }
 
     /// <summary>
-    /// The number of replica instances applying to all shards in the elas- tic cluster. A shardInstanceCount value of 1 means there is one writer instance, and any additional instances are replicas that can be used for reads and to improve availability.
+    /// The number of replica instances applying to all shards in the elastic cluster. A shardInstanceCount value of 1 means there is one writer instance, and any additional instances are replicas that can be used for reads and to improve availability.
     /// </summary>
     [CliOption("--shard-instance-count")]
     public int? ShardInstanceCount { get; set; }
@@ -156,7 +157,7 @@ public record AwsDocdbElasticCreateClusterOptions : AwsOptions, IValidatableObje
     public IEnumerable<string>? SubnetIds { get; set; }
 
     /// <summary>
-    /// The tags to be assigned to the new elastic cluster. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to be assigned to the new elastic cluster. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

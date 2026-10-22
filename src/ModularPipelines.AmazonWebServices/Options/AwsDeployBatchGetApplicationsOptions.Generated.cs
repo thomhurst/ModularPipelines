@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDeployBatchGetApplicationsOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Gets information about one or more applications. The maximum number of applications that can be returned is 100. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationNames">A list of application names separated by spaces. The maximum number of application names you can specify is 100. (string) Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]* Syntax: "string" "string" ...</param>
+    /// <param name="ApplicationNames">A list of application names separated by spaces. The maximum number of application names you can specify is 100. (string) Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9+=,.@_-]* Syntax: "string" "string" ...</param>
     public AwsDeployBatchGetApplicationsOptions(
         IEnumerable<string> ApplicationNames
     )
@@ -67,7 +69,7 @@ public record AwsDeployBatchGetApplicationsOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of application names separated by spaces. The maximum number of application names you can specify is 100. (string) Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]* Syntax: "string" "string" ...
+    /// A list of application names separated by spaces. The maximum number of application names you can specify is 100. (string) Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9+=,.@_-]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--application-names", GroupValues = true)]
     public IEnumerable<string>? ApplicationNames { get; private init; }

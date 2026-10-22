@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sends a templated text message through a notify configuration to a re- cipient's phone number. See also: AWS API Documentation
+/// Sends a templated text message through a notify configuration to a recipient's phone number. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsPinpointSmsVoiceV2SendNotifyTextMessageOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sends a templated text message through a notify configuration to a re- cipient's phone number. See also: AWS API Documentation
+    /// Sends a templated text message through a notify configuration to a recipient's phone number. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NotifyConfigurationId">The unique identifier of the notify configuration to use for sending the message. This can be either the NotifyConfigurationId or Notify- ConfigurationArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
-    /// <param name="DestinationPhoneNumber">The destination phone number in E.164 format. Constraints: o min: 1 o max: 20 o pattern: \+?[1-9][0-9]{1,18}</param>
-    /// <param name="TemplateVariables">A map of template variable names and their values. All variable val- ues are passed as strings regardless of the declared variable type. For example, pass INTEGER values as "42" and BOOLEAN values as "true" or "false" . Constraints: o min: 0 o max: 20 key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_]+ value -&gt; (string) Constraints: o min: 1 o max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="NotifyConfigurationId">The unique identifier of the notify configuration to use for sending the message. This can be either the NotifyConfigurationId or NotifyConfigurationArn. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="DestinationPhoneNumber">The destination phone number in E.164 format. Constraints: • min: 1 • max: 20 • pattern: \+?[1-9][0-9]{1,18}</param>
+    /// <param name="TemplateVariables">A map of template variable names and their values. All variable values are passed as strings regardless of the declared variable type. For example, pass INTEGER values as "42" and BOOLEAN values as "true" or "false" . Constraints: • min: 0 • max: 20 key -&gt; (string) Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_]+ value -&gt; (string) Constraints: • min: 1 • max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsPinpointSmsVoiceV2SendNotifyTextMessageOptions(
         string NotifyConfigurationId,
         string DestinationPhoneNumber,
@@ -76,43 +77,43 @@ public record AwsPinpointSmsVoiceV2SendNotifyTextMessageOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the notify configuration to use for sending the message. This can be either the NotifyConfigurationId or Notify- ConfigurationArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The unique identifier of the notify configuration to use for sending the message. This can be either the NotifyConfigurationId or NotifyConfigurationArn. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--notify-configuration-id")]
     public string? NotifyConfigurationId { get; private init; }
 
     /// <summary>
-    /// The destination phone number in E.164 format. Constraints: o min: 1 o max: 20 o pattern: \+?[1-9][0-9]{1,18}
+    /// The destination phone number in E.164 format. Constraints: • min: 1 • max: 20 • pattern: \+?[1-9][0-9]{1,18}
     /// </summary>
     [CliOption("--destination-phone-number")]
     public string? DestinationPhoneNumber { get; private init; }
 
     /// <summary>
-    /// A map of template variable names and their values. All variable val- ues are passed as strings regardless of the declared variable type. For example, pass INTEGER values as "42" and BOOLEAN values as "true" or "false" . Constraints: o min: 0 o max: 20 key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_]+ value -&gt; (string) Constraints: o min: 1 o max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of template variable names and their values. All variable values are passed as strings regardless of the declared variable type. For example, pass INTEGER values as "42" and BOOLEAN values as "true" or "false" . Constraints: • min: 0 • max: 20 key -&gt; (string) Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_]+ value -&gt; (string) Constraints: • min: 1 • max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--template-variables", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? TemplateVariables { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the template to use for the message. Constraints: o min: 0 o max: 256 o pattern: ([A-Za-z0-9_-]*|UNSET_DEFAULT_TEMPLATE)
+    /// The unique identifier of the template to use for the message. Constraints: • min: 0 • max: 256 • pattern: ([A-Za-z0-9_-]*|UNSET_DEFAULT_TEMPLATE)
     /// </summary>
     [CliOption("--template-id")]
     public string? TemplateId { get; set; }
 
     /// <summary>
-    /// How long the text message is valid for, in seconds. By default this is 72 hours. Constraints: o min: 5 o max: 259200
+    /// How long the text message is valid for, in seconds. By default this is 72 hours. Constraints: • min: 5 • max: 259200
     /// </summary>
     [CliOption("--time-to-live")]
     public int? TimeToLive { get; set; }
 
     /// <summary>
-    /// You can specify custom data in this field. If you do, that data is logged to the event destination. Constraints: o min: 0 o max: 5 key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: \S+ value -&gt; (string) Constraints: o min: 1 o max: 800 o pattern: (?!\s)^[\s\S]+(?&lt;!\s) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// You can specify custom data in this field. If you do, that data is logged to the event destination. Constraints: • min: 0 • max: 5 key -&gt; (string) Constraints: • min: 1 • max: 100 • pattern: \S+ value -&gt; (string) Constraints: • min: 1 • max: 800 • pattern: (?!\s)^[\s\S]+(?&lt;!\s) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--context", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Context { get; set; }
 
     /// <summary>
-    /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--configuration-set-name")]
     public string? ConfigurationSetName { get; set; }

@@ -24,26 +24,26 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudtrailListDashboardsOptions : AwsOptions
 {
     /// <summary>
-    /// Specify a name prefix to filter on. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9_\-]+$
+    /// Specify a name prefix to filter on. Constraints: • min: 3 • max: 128 • pattern: ^[a-zA-Z0-9_\-]+$
     /// </summary>
     [CliOption("--name-prefix")]
     public string? NamePrefix { get; set; }
 
     /// <summary>
-    /// Specify a dashboard type to filter on: CUSTOM or MANAGED . Possible values: o MANAGED o CUSTOM
+    /// Specify a dashboard type to filter on: CUSTOM or MANAGED . Possible values: • MANAGED • CUSTOM
     /// </summary>
     [CliOption("--type")]
     public AwsCloudtrailListDashboardsType? Type { get; set; }
 
     /// <summary>
-    /// A token you can use to get the next page of dashboard results. Constraints: o min: 4 o max: 1000 o pattern: .*
+    /// A token you can use to get the next page of dashboard results. Constraints: • min: 4 • max: 1000 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of dashboards to display on a single page. Constraints: o min: 1 o max: 1000
+    /// The maximum number of dashboards to display on a single page. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

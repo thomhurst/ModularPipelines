@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsServiceQuotasGetRequestedServiceQuotaChangeOptions : AwsOptions
     /// <summary>
     /// Retrieves information about the specified quota increase request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RequestId">Specifies the ID of the quota increase request. Constraints: o min: 1 o max: 128 o pattern: [0-9a-zA-Z][a-zA-Z0-9-]{1,128}</param>
+    /// <param name="RequestId">Specifies the ID of the quota increase request. Constraints: • min: 1 • max: 128 • pattern: [0-9a-zA-Z][a-zA-Z0-9-]{1,128}</param>
     public AwsServiceQuotasGetRequestedServiceQuotaChangeOptions(
         string RequestId
     )
@@ -56,7 +58,7 @@ public record AwsServiceQuotasGetRequestedServiceQuotaChangeOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ID of the quota increase request. Constraints: o min: 1 o max: 128 o pattern: [0-9a-zA-Z][a-zA-Z0-9-]{1,128}
+    /// Specifies the ID of the quota increase request. Constraints: • min: 1 • max: 128 • pattern: [0-9a-zA-Z][a-zA-Z0-9-]{1,128}
     /// </summary>
     [CliOption("--request-id")]
     public string? RequestId { get; private init; }

@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsMqListConfigurationsOptions : AwsOptions
 {
     /// <summary>
-    /// The maximum number of brokers that Amazon MQ can return per page (20 by default). This value must be an integer from 5 to 100. Constraints: o min: 1 o max: 100
+    /// The maximum number of brokers that Amazon MQ can return per page (20 by default). This value must be an integer from 5 to 100. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

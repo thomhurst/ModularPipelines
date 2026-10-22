@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a what-if forecast created using the CreateWhatIfForecast op- eration. You can delete only what-if forecasts that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribeWhat- IfForecast operation. You can't delete a what-if forecast while it is being exported. After a what-if forecast is deleted, you can no longer query the what-if analy- sis. See also: AWS API Documentation
+/// Deletes a what-if forecast created using the CreateWhatIfForecast operation. You can delete only what-if forecasts that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribeWhatIfForecast operation. You can't delete a what-if forecast while it is being exported. After a what-if forecast is deleted, you can no longer query the what-if analysis. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsForecastDeleteWhatIfForecastOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a what-if forecast created using the CreateWhatIfForecast op- eration. You can delete only what-if forecasts that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribeWhat- IfForecast operation. You can't delete a what-if forecast while it is being exported. After a what-if forecast is deleted, you can no longer query the what-if analy- sis. See also: AWS API Documentation
+    /// Deletes a what-if forecast created using the CreateWhatIfForecast operation. You can delete only what-if forecasts that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribeWhatIfForecast operation. You can't delete a what-if forecast while it is being exported. After a what-if forecast is deleted, you can no longer query the what-if analysis. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WhatIfForecastArn">The Amazon Resource Name (ARN) of the what-if forecast that you want to delete. Constraints: o max: 300 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    /// <param name="WhatIfForecastArn">The Amazon Resource Name (ARN) of the what-if forecast that you want to delete. Constraints: • max: 300 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
     public AwsForecastDeleteWhatIfForecastOptions(
         string WhatIfForecastArn
     )
@@ -56,7 +58,7 @@ public record AwsForecastDeleteWhatIfForecastOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the what-if forecast that you want to delete. Constraints: o max: 300 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the what-if forecast that you want to delete. Constraints: • max: 300 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
     /// </summary>
     [CliOption("--what-if-forecast-arn")]
     public string? WhatIfForecastArn { get; private init; }

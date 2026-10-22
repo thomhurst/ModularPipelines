@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: We recommend using Organizations instead of Security Hub CSPM invi- tations to manage your member accounts. For information, see Managing Security Hub CSPM administrator and member accounts with Organizations in the Security Hub CSPM User Guide . Deletes invitations to become a Security Hub CSPM member account. A Security Hub CSPM administrator account can use this operation to delete invitations sent to one or more prospective member accounts. This operation is only used to delete invitat...
+/// NOTE: We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts. For information, see Managing Security Hub CSPM administrator and member accounts with Organizations in the Security Hub CSPM User Guide . Deletes invitations to become a Security Hub CSPM member account. A Security Hub CSPM administrator account can use this operation to delete invitations sent to one or more prospective member accounts. This operation is only used to delete invitatio...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSecurityhubDeleteInvitationsOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: We recommend using Organizations instead of Security Hub CSPM invi- tations to manage your member accounts. For information, see Managing Security Hub CSPM administrator and member accounts with Organizations in the Security Hub CSPM User Guide . Deletes invitations to become a Security Hub CSPM member account. A Security Hub CSPM administrator account can use this operation to delete invitations sent to one or more prospective member accounts. This operation is only used to delete invitat...
+    /// NOTE: We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts. For information, see Managing Security Hub CSPM administrator and member accounts with Organizations in the Security Hub CSPM User Guide . Deletes invitations to become a Security Hub CSPM member account. A Security Hub CSPM administrator account can use this operation to delete invitations sent to one or more prospective member accounts. This operation is only used to delete invitatio...
     /// </summary>
-    /// <param name="AccountIds">The list of member account IDs that received the invitations you want to delete. (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...</param>
+    /// <param name="AccountIds">The list of member account IDs that received the invitations you want to delete. (string) Constraints: • pattern: .*\S.* Syntax: "string" "string" ...</param>
     public AwsSecurityhubDeleteInvitationsOptions(
         IEnumerable<string> AccountIds
     )
@@ -67,7 +69,7 @@ public record AwsSecurityhubDeleteInvitationsOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The list of member account IDs that received the invitations you want to delete. (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...
+    /// The list of member account IDs that received the invitations you want to delete. (string) Constraints: • pattern: .*\S.* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; private init; }

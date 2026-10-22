@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a specific snapshot of a virtual private server (or instance ). The delete instance snapshot operation supports tag-based access con- trol via resource tags applied to the resource identified by instance snapshot name . For more information, see the Amazon Lightsail Devel- oper Guide . See also: AWS API Documentation
+/// Deletes a specific snapshot of a virtual private server (or instance ). The delete instance snapshot operation supports tag-based access control via resource tags applied to the resource identified by instance snapshot name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLightsailDeleteInstanceSnapshotOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a specific snapshot of a virtual private server (or instance ). The delete instance snapshot operation supports tag-based access con- trol via resource tags applied to the resource identified by instance snapshot name . For more information, see the Amazon Lightsail Devel- oper Guide . See also: AWS API Documentation
+    /// Deletes a specific snapshot of a virtual private server (or instance ). The delete instance snapshot operation supports tag-based access control via resource tags applied to the resource identified by instance snapshot name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceSnapshotName">The name of the snapshot to delete. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="InstanceSnapshotName">The name of the snapshot to delete. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailDeleteInstanceSnapshotOptions(
         string InstanceSnapshotName
     )
@@ -56,7 +58,7 @@ public record AwsLightsailDeleteInstanceSnapshotOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the snapshot to delete. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the snapshot to delete. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--instance-snapshot-name")]
     public string? InstanceSnapshotName { get; private init; }

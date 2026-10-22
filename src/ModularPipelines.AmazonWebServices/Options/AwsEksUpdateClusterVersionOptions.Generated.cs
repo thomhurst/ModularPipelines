@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -80,13 +82,13 @@ public record AwsEksUpdateClusterVersionOptions : AwsOptions, IValidatableObject
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// Set this value to true to override upgrade-blocking or roll- back-blocking readiness checks when updating a cluster.
+    /// Set this value to true to override upgrade-blocking or rollback-blocking readiness checks when updating a cluster.
     /// </summary>
     [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     /// <summary>
-    /// The rollback configuration for the cluster version rollback. timeoutMinutes -&gt; (integer) The length of time in minutes to wait before cancelling the up- date. Timeout is a minimum-bound property, meaning the timeout occurs no sooner than the time you specify, but can occur shortly thereafter. This value can be between 120 (2 hours) and 10080 (7 days). Default: 720 (12 hours) if not specified. Shorthand Syntax: timeoutMinutes=integer JSON Syntax: { "timeoutMinutes": integer }
+    /// The rollback configuration for the cluster version rollback. timeoutMinutes -&gt; (integer) The length of time in minutes to wait before cancelling the update. Timeout is a minimum-bound property, meaning the timeout occurs no sooner than the time you specify, but can occur shortly thereafter. This value can be between 120 (2 hours) and 10080 (7 days). Default: 720 (12 hours) if not specified. Shorthand Syntax: timeoutMinutes=integer JSON Syntax: { "timeoutMinutes": integer }
     /// </summary>
     [CliOption("--rollback-config")]
     public string? RollbackConfig { get; set; }

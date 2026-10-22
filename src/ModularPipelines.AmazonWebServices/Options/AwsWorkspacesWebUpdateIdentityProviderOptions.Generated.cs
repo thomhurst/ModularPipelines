@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -30,7 +31,7 @@ public record AwsWorkspacesWebUpdateIdentityProviderOptions : AwsOptions, IValid
     /// <summary>
     /// Updates the identity provider. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IdentityProviderArn">The ARN of the identity provider. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36}){2,}</param>
+    /// <param name="IdentityProviderArn">The ARN of the identity provider. Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36}){2,}</param>
     public AwsWorkspacesWebUpdateIdentityProviderOptions(
         string IdentityProviderArn
     )
@@ -59,31 +60,31 @@ public record AwsWorkspacesWebUpdateIdentityProviderOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the identity provider. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36}){2,}
+    /// The ARN of the identity provider. Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36}){2,}
     /// </summary>
     [CliOption("--identity-provider-arn")]
     public string? IdentityProviderArn { get; private init; }
 
     /// <summary>
-    /// The name of the identity provider. Constraints: o min: 1 o max: 32 o pattern: [^_][\p{L}\p{M}\p{S}\p{N}\p{P}][^_]+
+    /// The name of the identity provider. Constraints: • min: 1 • max: 32 • pattern: [^_][\p{L}\p{M}\p{S}\p{N}\p{P}][^_]+
     /// </summary>
     [CliOption("--identity-provider-name")]
     public string? IdentityProviderName { get; set; }
 
     /// <summary>
-    /// The type of the identity provider. Possible values: o SAML o Facebook o Google o LoginWithAmazon o SignInWithApple o OIDC
+    /// The type of the identity provider. Possible values: • SAML • Facebook • Google • LoginWithAmazon • SignInWithApple • OIDC
     /// </summary>
     [CliOption("--identity-provider-type")]
     public AwsWorkspacesWebUpdateIdentityProviderIdentityProviderType? IdentityProviderType { get; set; }
 
     /// <summary>
-    /// The details of the identity provider. The following list describes the provider detail keys for each identity provider type. o For Google and Login with Amazon: o client_id o client_secret o authorize_scopes o For Facebook: o client_id o client_secret o authorize_scopes o api_version o For Sign in with Apple: o client_id o team_id o key_id o private_key o authorize_scopes o For OIDC providers: o client_id o client_secret o attributes_request_method o oidc_issuer o authorize_scopes o authorize_url if not available from discovery URL specified by ``oidc_issuer`` key o token_url if not available from discovery URL specified by ``oidc_issuer`` key o attributes_url if not available from discovery URL specified by ``oidc_issuer`` key o jwks_uri if not available from discovery URL specified by ``oidc_issuer`` key o For SAML providers: o MetadataFile OR MetadataURL o IDPSignout (boolean) optional o IDPInit (boolean) optional o RequestSigningAlgorithm (string) optional - Only accepts rsa-sha256 o EncryptedResponses (boolean) optional key -&gt; (string) Constraints: o min: 0 o max: 131072 o pattern: [\s\S]* value -&gt; (string) Constraints: o min: 0 o max: 131072 o pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The details of the identity provider. The following list describes the provider detail keys for each identity provider type. • For Google and Login with Amazon: • client_id • client_secret • authorize_scopes • For Facebook: • client_id • client_secret • authorize_scopes • api_version • For Sign in with Apple: • client_id • team_id • key_id • private_key • authorize_scopes • For OIDC providers: • client_id • client_secret • attributes_request_method • oidc_issuer • authorize_scopes • authorize_url if not available from discovery URL specified by ``oidc_issuer`` key • token_url if not available from discovery URL specified by ``oidc_issuer`` key • attributes_url if not available from discovery URL specified by ``oidc_issuer`` key • jwks_uri if not available from discovery URL specified by ``oidc_issuer`` key • For SAML providers: • MetadataFile OR MetadataURL • IDPSignout (boolean) optional • IDPInit (boolean) optional • RequestSigningAlgorithm (string) optional - Only accepts rsa-sha256 • EncryptedResponses (boolean) optional key -&gt; (string) Constraints: • min: 0 • max: 131072 • pattern: [\s\S]* value -&gt; (string) Constraints: • min: 0 • max: 131072 • pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--identity-provider-details", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? IdentityProviderDetails { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original re- quest completes successfully, subsequent retries with the same client token return the result from the original successful request. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK. Constraints: o min: 1 o max: 512
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK. Constraints: • min: 1 • max: 512
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

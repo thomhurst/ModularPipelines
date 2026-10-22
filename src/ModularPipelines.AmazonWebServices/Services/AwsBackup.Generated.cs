@@ -77,7 +77,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Creates a backup plan using a backup plan name and backup rules. A backup plan is a document that contains information that Backup uses to schedule tasks that create recovery points for resources. If you call CreateBackupPlan with a plan that already exists, you re- ceive an AlreadyExistsException exception. See also: AWS API Documentation
+    /// Creates a backup plan using a backup plan name and backup rules. A backup plan is a document that contains information that Backup uses to schedule tasks that create recovery points for resources. If you call CreateBackupPlan with a plan that already exists, you receive an AlreadyExistsException exception. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Creates a logical container where backups are stored. A CreateBackup- Vault request includes a name, optionally one or more resource tags, an encryption key, and a request ID. NOTE: Do not include sensitive data, such as passport numbers, in the name of a backup vault. See also: AWS API Documentation
+    /// Creates a logical container where backups are stored. A CreateBackupVault request includes a name, optionally one or more resource tags, an encryption key, and a request ID. NOTE: Do not include sensitive data, such as passport numbers, in the name of a backup vault. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Creates a framework with one or more controls. A framework is a collec- tion of controls that you can use to evaluate your backup practices. By using pre-built customizable controls to define your policies, you can evaluate whether your backup practices comply with your policies and which resources are not yet in compliance. See also: AWS API Documentation
+    /// Creates a framework with one or more controls. A framework is a collection of controls that you can use to evaluate your backup practices. By using pre-built customizable controls to define your policies, you can evaluate whether your backup practices comply with your policies and which resources are not yet in compliance. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Creates a legal hold on a recovery point (backup). A legal hold is a restraint on altering or deleting a backup until an authorized user cancels the legal hold. Any actions to delete or disassociate a recov- ery point will fail with an error if one or more active legal holds are on the recovery point. See also: AWS API Documentation
+    /// Creates a legal hold on a recovery point (backup). A legal hold is a restraint on altering or deleting a backup until an authorized user cancels the legal hold. Any actions to delete or disassociate a recovery point will fail with an error if one or more active legal holds are on the recovery point. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Creates a logical container to where backups may be copied. This request includes a name, the Region, the maximum number of reten- tion days, the minimum number of retention days, and optionally can in- clude tags and a creator request ID. NOTE: Do not include sensitive data, such as passport numbers, in the name of a backup vault. See also: AWS API Documentation
+    /// Creates a logical container to where backups may be copied. This request includes a name, the Region, the maximum number of retention days, the minimum number of retention days, and optionally can include tags and a creator request ID. NOTE: Do not include sensitive data, such as passport numbers, in the name of a backup vault. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Creates a report plan. A report plan is a document that contains infor- mation about the contents of the report and where Backup will deliver it. If you call CreateReportPlan with a plan that already exists, you re- ceive an AlreadyExistsException exception. See also: AWS API Documentation
+    /// Creates a report plan. A report plan is a document that contains information about the contents of the report and where Backup will deliver it. If you call CreateReportPlan with a plan that already exists, you receive an AlreadyExistsException exception. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Creates a restore testing plan. The first of two steps to create a restore testing plan. After this re- quest is successful, finish the procedure using CreateRestoreTestingSe- lection. See also: AWS API Documentation
+    /// Creates a restore testing plan. The first of two steps to create a restore testing plan. After this request is successful, finish the procedure using CreateRestoreTestingSelection. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// This request can be sent after CreateRestoreTestingPlan request returns successfully. This is the second part of creating a resource testing plan, and it must be completed sequentially. This consists of RestoreTestingSelectionName , ProtectedResourceType , and one of the following: o ProtectedResourceArns o ProtectedResourceConditions Each protected resource type can have one single value. A restore testing selection can include a wildcard value ("*") for Pro- tectedResourceArns along with Prote...
+    /// This request can be sent after CreateRestoreTestingPlan request returns successfully. This is the second part of creating a resource testing plan, and it must be completed sequentially. This consists of RestoreTestingSelectionName , ProtectedResourceType , and one of the following: • ProtectedResourceArns • ProtectedResourceConditions Each protected resource type can have one single value. A restore testing selection can include a wildcard value ("*") for ProtectedResourceArns along with Protect...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Deletes a backup access point. This deletes the underlying Amazon S3 access point and, if no other backup access points remain for the re- covery point, resumes lifecycle transitions for that recovery point. Always delete backup access points using this operation rather than deleting the underlying Amazon S3 access point directly. See also: AWS API Documentation
+    /// Deletes a backup access point. This deletes the underlying Amazon S3 access point and, if no other backup access points remain for the recovery point, resumes lifecycle transitions for that recovery point. Always delete backup access points using this operation rather than deleting the underlying Amazon S3 access point directly. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Deletes a backup plan. A backup plan can only be deleted after all as- sociated selections of resources have been deleted. Deleting a backup plan deletes the current version of a backup plan. Previous versions, if any, will still exist. See also: AWS API Documentation
+    /// Deletes a backup plan. A backup plan can only be deleted after all associated selections of resources have been deleted. Deleting a backup plan deletes the current version of a backup plan. Previous versions, if any, will still exist. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Deletes Backup Vault Lock from a backup vault specified by a backup vault name. If the Vault Lock configuration is immutable, then you cannot delete Vault Lock using API operations, and you will receive an InvalidReques- tException if you attempt to do so. For more information, see Vault Lock in the Backup Developer Guide . See also: AWS API Documentation
+    /// Deletes Backup Vault Lock from a backup vault specified by a backup vault name. If the Vault Lock configuration is immutable, then you cannot delete Vault Lock using API operations, and you will receive an InvalidRequestException if you attempt to do so. For more information, see Vault Lock in the Backup Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Deletes the recovery point specified by a recovery point ID. If the recovery point ID belongs to a continuous backup, calling this endpoint deletes the existing continuous backup and stops future con- tinuous backup. When an IAM role's permissions are insufficient to call this API, the service sends back an HTTP 200 response with an empty HTTP body, but the recovery point is not deleted. Instead, it enters an EXPIRED state. EXPIRED recovery points can be deleted with this API once the IAM role h...
+    /// Deletes the recovery point specified by a recovery point ID. If the recovery point ID belongs to a continuous backup, calling this endpoint deletes the existing continuous backup and stops future continuous backup. When an IAM role's permissions are insufficient to call this API, the service sends back an HTTP 200 response with an empty HTTP body, but the recovery point is not deleted. Instead, it enters an EXPIRED state. EXPIRED recovery points can be deleted with this API once the IAM role has...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Returns metadata about a backup access point, including its status and the details of the underlying Amazon S3 access point. After a backup access point reaches the AVAILABLE status, use this op- eration to retrieve the Amazon S3 access point ARN and alias that you need to read the backup data. See also: AWS API Documentation
+    /// Returns metadata about a backup access point, including its status and the details of the underlying Amazon S3 access point. After a backup access point reaches the AVAILABLE status, use this operation to retrieve the Amazon S3 access point ARN and alias that you need to read the backup data. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Returns information about a saved resource, including the last time it was backed up, its Amazon Resource Name (ARN), and the Amazon Web Ser- vices service type of the saved resource. See also: AWS API Documentation
+    /// Returns information about a saved resource, including the last time it was backed up, its Amazon Resource Name (ARN), and the Amazon Web Services service type of the saved resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Returns metadata associated with a recovery point, including ID, sta- tus, encryption, and lifecycle. See also: AWS API Documentation
+    /// Returns metadata associated with a recovery point, including ID, status, encryption, and lifecycle. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +557,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Returns the current service opt-in settings for the Region. If service opt-in is enabled for a service, Backup tries to protect that service's resources in this Region, when the resource is included in an on-demand backup or scheduled backup plan. Otherwise, Backup does not try to pro- tect that service's resources in this Region. See also: AWS API Documentation
+    /// Returns the current service opt-in settings for the Region. If service opt-in is enabled for a service, Backup tries to protect that service's resources in this Region, when the resource is included in an on-demand backup or scheduled backup plan. Otherwise, Backup does not try to protect that service's resources in this Region. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +647,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// This action to a specific child (nested) recovery point removes the re- lationship between the specified recovery point and its parent (compos- ite) recovery point. See also: AWS API Documentation
+    /// This action to a specific child (nested) recovery point removes the relationship between the specified recovery point and its parent (composite) recovery point. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Deletes the specified continuous backup recovery point from Backup and releases control of that continuous backup to the source service, such as Amazon RDS. The source service will continue to create and retain continuous backups using the lifecycle that you specified in your orig- inal backup plan. Does not support snapshot backup recovery points. See also: AWS API Documentation
+    /// Deletes the specified continuous backup recovery point from Backup and releases control of that continuous backup to the source service, such as Amazon RDS. The source service will continue to create and retain continuous backups using the lifecycle that you specified in your original backup plan. Does not support snapshot backup recovery points. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -722,7 +722,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Returns BackupPlan details for the specified BackupPlanId . The details are the body of a backup plan in JSON format, in addition to plan meta- data. See also: AWS API Documentation
+    /// Returns BackupPlan details for the specified BackupPlanId . The details are the body of a backup plan in JSON format, in addition to plan metadata. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -872,7 +872,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Returns RestoreTestingPlan details for the specified RestoreTesting- PlanName . The details are the body of a restore testing plan in JSON format, in addition to plan metadata. See also: AWS API Documentation
+    /// Returns RestoreTestingPlan details for the specified RestoreTestingPlanName . The details are the body of a restore testing plan in JSON format, in addition to plan metadata. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -917,7 +917,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Returns TieringConfiguration details for the specified TieringConfigu- rationName . The details are the body of a tiering configuration in JSON format, in addition to configuration metadata. See also: AWS API Documentation
+    /// Returns TieringConfiguration details for the specified TieringConfigurationName . The details are the body of a tiering configuration in JSON format, in addition to configuration metadata. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -932,7 +932,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Returns the backup access points associated with the specified recovery point. If you own the recovery point and have shared it with other accounts, the response includes backup access points created by those accounts. See also: AWS API Documentation list-backup-access-points-by-recovery-point is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output tex...
+    /// Returns the backup access points associated with the specified recovery point. If you own the recovery point and have shared it with other accounts, the response includes backup access points created by those accounts. See also: AWS API Documentation list-backup-access-points-by-recovery-point is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -947,7 +947,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Returns the backup access points associated with the specified re- source, such as an Amazon S3 bucket. See also: AWS API Documentation list-backup-access-points-by-resource is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the fo...
+    /// Returns the backup access points associated with the specified resource, such as an Amazon S3 bucket. See also: AWS API Documentation list-backup-access-points-by-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -962,7 +962,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Returns a list of the backup access points in your account and Region. See also: AWS API Documentation list-backup-access-points is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: BackupAccessPoints
+    /// Returns a list of the backup access points in your account and Region. See also: AWS API Documentation list-backup-access-points is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: BackupAccessPoints
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -974,6 +974,21 @@ public class AwsBackup : IAwsBackup
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBackupListBackupAccessPointsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// This is a request for a summary of backup jobs created or running within the most recent 14 days. You can include parameters AccountID, State, ResourceType, MessageCategory, AggregationPeriod, MaxResults, or NextToken to filter results. This request returns a summary that contains Region, Account, State, ResourceType, MessageCategory, StartTime, EndTime, and Count of included jobs. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListBackupJobSummariesAsync(
+        AwsBackupListBackupJobSummariesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBackupListBackupJobSummariesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -992,18 +1007,33 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// This is a request for a summary of backup jobs created or running within the most recent 14 days. You can include parameters AccountID, State, ResourceType, MessageCategory, AggregationPeriod, MaxResults, or NextToken to filter results. This request returns a summary that contains Region, Account, State, ResourceType, MessageCategory, StartTime, EndTime, and Count of in- cluded jobs. See also: AWS API Documentation
+    /// Lists the backup plan templates. See also: AWS API Documentation list-backup-plan-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: BackupPlanTemplatesList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListBackupJobSummariesAsync(
-        AwsBackupListBackupJobSummariesOptions? options = null,
+    public virtual async Task<CommandResult> ListBackupPlanTemplatesAsync(
+        AwsBackupListBackupPlanTemplatesOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBackupListBackupJobSummariesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBackupListBackupPlanTemplatesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns version metadata of your backup plans, including Amazon Resource Names (ARNs), backup plan IDs, creation and deletion dates, plan names, and version IDs. See also: AWS API Documentation list-backup-plan-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListBackupPlanVersionsAsync(
+        AwsBackupListBackupPlanVersionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1022,36 +1052,6 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Lists the backup plan templates. See also: AWS API Documentation list-backup-plan-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: BackupPlanTemplatesList
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListBackupPlanTemplatesAsync(
-        AwsBackupListBackupPlanTemplatesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBackupListBackupPlanTemplatesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns version metadata of your backup plans, including Amazon Re- source Names (ARNs), backup plan IDs, creation and deletion dates, plan names, and version IDs. See also: AWS API Documentation list-backup-plan-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument mu...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListBackupPlanVersionsAsync(
-        AwsBackupListBackupPlanVersionsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns an array containing metadata of the resources associated with the target backup plan. See also: AWS API Documentation list-backup-selections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Back...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1067,7 +1067,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Returns a list of recovery point storage containers along with informa- tion about them. See also: AWS API Documentation list-backup-vaults is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: BackupVaultLi...
+    /// Returns a list of recovery point storage containers along with information about them. See also: AWS API Documentation list-backup-vaults is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: BackupVaultList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1082,22 +1082,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Returns metadata about your copy jobs. See also: AWS API Documentation list-copy-jobs is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: CopyJobs
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListCopyJobsAsync(
-        AwsBackupListCopyJobsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBackupListCopyJobsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// This request obtains a list of copy jobs created or running within the the most recent 14 days. You can include parameters AccountID, State, ResourceType, MessageCategory, AggregationPeriod, MaxResults, or Next- Token to filter results. This request returns a summary that contains Region, Account, State, RestourceType, MessageCategory, StartTime, EndTime, and Count of in- cluded jobs. See also: AWS API Documentation
+    /// This request obtains a list of copy jobs created or running within the the most recent 14 days. You can include parameters AccountID, State, ResourceType, MessageCategory, AggregationPeriod, MaxResults, or NextToken to filter results. This request returns a summary that contains Region, Account, State, RestourceType, MessageCategory, StartTime, EndTime, and Count of included jobs. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1109,6 +1094,21 @@ public class AwsBackup : IAwsBackup
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBackupListCopyJobSummariesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns metadata about your copy jobs. See also: AWS API Documentation list-copy-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: CopyJobs
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListCopyJobsAsync(
+        AwsBackupListCopyJobsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBackupListCopyJobsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1127,7 +1127,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// This operation returns a list of recovery points that have an associ- ated index, belonging to the specified account. Optional parameters you can include are: MaxResults; NextToken; SourceResourceArns; CreatedBefore; CreatedAfter; and ResourceType. See also: AWS API Documentation list-indexed-recovery-points is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When u...
+    /// This operation returns a list of recovery points that have an associated index, belonging to the specified account. Optional parameters you can include are: MaxResults; NextToken; SourceResourceArns; CreatedBefore; CreatedAfter; and ResourceType. See also: AWS API Documentation list-indexed-recovery-points is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using -...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1157,7 +1157,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// This request lists the protected resources corresponding to each backup vault. See also: AWS API Documentation list-protected-resources-by-backup-vault is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expression...
+    /// This request lists the protected resources corresponding to each backup vault. See also: AWS API Documentation list-protected-resources-by-backup-vault is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: R...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1187,7 +1187,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Returns detailed information about the recovery points stored in a backup vault. See also: AWS API Documentation list-recovery-points-by-backup-vault is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions:...
+    /// Returns detailed information about the recovery points stored in a backup vault. See also: AWS API Documentation list-recovery-points-by-backup-vault is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Rec...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1202,7 +1202,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// This action returns recovery point ARNs (Amazon Resource Names) of the specified legal hold. See also: AWS API Documentation list-recovery-points-by-legal-hold is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex...
+    /// This action returns recovery point ARNs (Amazon Resource Names) of the specified legal hold. See also: AWS API Documentation list-recovery-points-by-legal-hold is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expres...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1217,7 +1217,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// The information about the recovery points of the type specified by a resource Amazon Resource Name (ARN). NOTE: For Amazon EFS and Amazon EC2, this action only lists recovery points created by Backup. See also: AWS API Documentation list-recovery-points-by-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument ...
+    /// The information about the recovery points of the type specified by a resource Amazon Resource Name (ARN). NOTE: For Amazon EFS and Amazon EC2, this action only lists recovery points created by Backup. See also: AWS API Documentation list-recovery-points-by-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1262,7 +1262,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Returns a list of restore access backup vaults associated with a speci- fied backup vault. See also: AWS API Documentation list-restore-access-backup-vaults is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expre...
+    /// Returns a list of restore access backup vaults associated with a specified backup vault. See also: AWS API Documentation list-restore-access-backup-vaults is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1277,37 +1277,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// This returns restore jobs that contain the specified protected re- source. You must include ResourceArn . You can optionally include NextToken , ByStatus , MaxResults , ByRecoveryPointCreationDateAfter , and ByRecov- eryPointCreationDateBefore . See also: AWS API Documentation list-restore-jobs-by-protected-resource is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. ...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListRestoreJobsByProtectedResourceAsync(
-        AwsBackupListRestoreJobsByProtectedResourceOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns a list of jobs that Backup initiated to restore a saved re- source, including details about the recovery process. See also: AWS API Documentation list-restore-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following ...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListRestoreJobsAsync(
-        AwsBackupListRestoreJobsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBackupListRestoreJobsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// This request obtains a summary of restore jobs created or running within the the most recent 14 days. You can include parameters Accoun- tID, State, ResourceType, AggregationPeriod, MaxResults, or NextToken to filter results. This request returns a summary that contains Region, Account, State, RestourceType, MessageCategory, StartTime, EndTime, and Count of in- cluded jobs. See also: AWS API Documentation
+    /// This request obtains a summary of restore jobs created or running within the the most recent 14 days. You can include parameters AccountID, State, ResourceType, AggregationPeriod, MaxResults, or NextToken to filter results. This request returns a summary that contains Region, Account, State, RestourceType, MessageCategory, StartTime, EndTime, and Count of included jobs. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1322,7 +1292,37 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Returns a list of restore testing plans. See also: AWS API Documentation list-restore-testing-plans is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: RestoreTestingPlans
+    /// This returns restore jobs that contain the specified protected resource. You must include ResourceArn . You can optionally include NextToken , ByStatus , MaxResults , ByRecoveryPointCreationDateAfter , and ByRecoveryPointCreationDateBefore . See also: AWS API Documentation list-restore-jobs-by-protected-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When u...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListRestoreJobsByProtectedResourceAsync(
+        AwsBackupListRestoreJobsByProtectedResourceOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a list of jobs that Backup initiated to restore a saved resource, including details about the recovery process. See also: AWS API Documentation list-restore-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following qu...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListRestoreJobsAsync(
+        AwsBackupListRestoreJobsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBackupListRestoreJobsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a list of restore testing plans. See also: AWS API Documentation list-restore-testing-plans is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RestoreTestingPlans
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1337,7 +1337,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Returns a list of restore testing selections. Can be filtered by MaxRe- sults and RestoreTestingPlanName . See also: AWS API Documentation list-restore-testing-selections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followi...
+    /// Returns a list of restore testing selections. Can be filtered by MaxResults and RestoreTestingPlanName . See also: AWS API Documentation list-restore-testing-selections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following que...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1352,22 +1352,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Returns a list of existing scan jobs for an authenticated account for the last 30 days. See also: AWS API Documentation list-scan-jobs is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ScanJobs
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListScanJobsAsync(
-        AwsBackupListScanJobsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBackupListScanJobsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// This is a request for a summary of scan jobs created or running within the most recent 14 days. See also: AWS API Documentation list-scan-job-summaries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions:...
+    /// This is a request for a summary of scan jobs created or running within the most recent 14 days. See also: AWS API Documentation list-scan-job-summaries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: S...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1382,7 +1367,22 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Returns the tags assigned to the resource, such as a target recovery point, backup plan, or backup vault. This operation returns results depending on the resource type used in the value for resourceArn . For example, recovery points of Amazon Dy- namoDB with Advanced Settings have an ARN (Amazon Resource Name) that begins with arn:aws:backup . Recovery points (backups) of DynamoDB without Advanced Settings enabled have an ARN that begins with arn:aws:dynamodb . When this operation is called and ...
+    /// Returns a list of existing scan jobs for an authenticated account for the last 30 days. See also: AWS API Documentation list-scan-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ScanJobs
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListScanJobsAsync(
+        AwsBackupListScanJobsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBackupListScanJobsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns the tags assigned to the resource, such as a target recovery point, backup plan, or backup vault. This operation returns results depending on the resource type used in the value for resourceArn . For example, recovery points of Amazon DynamoDB with Advanced Settings have an ARN (Amazon Resource Name) that begins with arn:aws:backup . Recovery points (backups) of DynamoDB without Advanced Settings enabled have an ARN that begins with arn:aws:dynamodb . When this operation is called and wh...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1397,7 +1397,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Returns a list of tiering configurations. See also: AWS API Documentation list-tiering-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TieringConfigurations
+    /// Returns a list of tiering configurations. See also: AWS API Documentation list-tiering-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TieringConfigurations
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1427,7 +1427,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Applies Backup Vault Lock to a backup vault, preventing attempts to delete any recovery point stored in or created in a backup vault. Vault Lock also prevents attempts to update the lifecycle policy that con- trols the retention period of any recovery point currently stored in a backup vault. If specified, Vault Lock enforces a minimum and maximum retention period for future backup and copy jobs that target a backup vault. NOTE: Backup Vault Lock has been assessed by Cohasset Associates for use ...
+    /// Applies Backup Vault Lock to a backup vault, preventing attempts to delete any recovery point stored in or created in a backup vault. Vault Lock also prevents attempts to update the lifecycle policy that controls the retention period of any recovery point currently stored in a backup vault. If specified, Vault Lock enforces a minimum and maximum retention period for future backup and copy jobs that target a backup vault. NOTE: Backup Vault Lock has been assessed by Cohasset Associates for use in...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1457,7 +1457,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// This request allows you to send your independent self-run restore test validation results. RestoreJobId and ValidationStatus are required. Op- tionally, you can input a ValidationStatusMessage . See also: AWS API Documentation
+    /// This request allows you to send your independent self-run restore test validation results. RestoreJobId and ValidationStatus are required. Optionally, you can input a ValidationStatusMessage . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1502,7 +1502,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Starts a job to create a one-time copy of the specified resource. Does not support continuous backups. See Copy job retry for information on how Backup retries copy job oper- ations. See also: AWS API Documentation
+    /// Starts a job to create a one-time copy of the specified resource. Does not support continuous backups. See Copy job retry for information on how Backup retries copy job operations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1562,7 +1562,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Attempts to cancel a job to create a one-time backup of a resource. This action is not supported for the following services: o Amazon Aurora o Amazon DocumentDB (with MongoDB compatibility) o Amazon FSx for Lustre o Amazon FSx for NetApp ONTAP o Amazon FSx for OpenZFS o Amazon FSx for Windows File Server o Amazon Neptune o SAP HANA databases on Amazon EC2 instances o Amazon RDS See also: AWS API Documentation
+    /// Attempts to cancel a job to create a one-time backup of a resource. This action is not supported for the following services: • Amazon Aurora • Amazon DocumentDB (with MongoDB compatibility) • Amazon FSx for Lustre • Amazon FSx for NetApp ONTAP • Amazon FSx for OpenZFS • Amazon FSx for Windows File Server • Amazon Neptune • SAP HANA databases on Amazon EC2 instances • Amazon RDS See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1592,7 +1592,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Removes a set of key-value pairs from a recovery point, backup plan, or backup vault identified by an Amazon Resource Name (ARN) This API is not supported for recovery points for resource types in- cluding Aurora, Amazon DocumentDB. Amazon EBS, Amazon FSx, Neptune, and Amazon RDS. See also: AWS API Documentation
+    /// Removes a set of key-value pairs from a recovery point, backup plan, or backup vault identified by an Amazon Resource Name (ARN) This API is not supported for recovery points for resource types including Aurora, Amazon DocumentDB. Amazon EBS, Amazon FSx, Neptune, and Amazon RDS. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1607,7 +1607,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Updates the specified backup plan. The new version is uniquely identi- fied by its ID. See also: AWS API Documentation
+    /// Updates the specified backup plan. The new version is uniquely identified by its ID. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1637,7 +1637,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Updates whether the Amazon Web Services account has enabled different cross-account management options, including cross-account backup, multi-party approval, and delegated administrator. Returns an error if the account is not an Organizations management account. Use the De- scribeGlobalSettings API to determine the current settings. See also: AWS API Documentation
+    /// Updates whether the Amazon Web Services account has enabled different cross-account management options, including cross-account backup, multi-party approval, and delegated administrator. Returns an error if the account is not an Organizations management account. Use the DescribeGlobalSettings API to determine the current settings. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1667,7 +1667,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// Sets the transition lifecycle of a recovery point. The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups au- tomatically according to the lifecycle that you define. Resource types that can transition to cold storage are listed in the Feature availability by resource table. Backup ignores this expression for other resource types. Backups transitioned to cold storage must be stored in cold storage for a minimum o...
+    /// Sets the transition lifecycle of a recovery point. The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define. Resource types that can transition to cold storage are listed in the Feature availability by resource table. Backup ignores this expression for other resource types. Backups transitioned to cold storage must be stored in cold storage for a minimum of ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1712,7 +1712,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// This request will send changes to your specified restore testing plan. RestoreTestingPlanName cannot be updated after it is created. RecoveryPointSelection can contain: o Algorithm o ExcludeVaults o IncludeVaults o RecoveryPointTypes o SelectionWindowDays See also: AWS API Documentation
+    /// This request will send changes to your specified restore testing plan. RestoreTestingPlanName cannot be updated after it is created. RecoveryPointSelection can contain: • Algorithm • ExcludeVaults • IncludeVaults • RecoveryPointTypes • SelectionWindowDays See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1742,7 +1742,7 @@ public class AwsBackup : IAwsBackup
     }
 
     /// <summary>
-    /// This request will send changes to your specified tiering configuration. TieringConfigurationName cannot be updated after it is created. ResourceSelection can contain: o Resources o TieringDownSettingsInDays o ResourceType See also: AWS API Documentation
+    /// This request will send changes to your specified tiering configuration. TieringConfigurationName cannot be updated after it is created. ResourceSelection can contain: • Resources • TieringDownSettingsInDays • ResourceType See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

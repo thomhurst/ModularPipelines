@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// List of SQL statements. By default, only finished statements are shown. A token is returned to page through the statement list. When you use identity-enhanced role sessions to list statements, you must provide either the cluster-identifier or workgroup-name parameter. This ensures that the IdC user can only access the Amazon Redshift IdC applications they are assigned. For more information, see Trusted iden- tity propagation overview . For more information about the Amazon Redshift Data API and ...
+/// List of SQL statements. By default, only finished statements are shown. A token is returned to page through the statement list. When you use identity-enhanced role sessions to list statements, you must provide either the cluster-identifier or workgroup-name parameter. This ensures that the IdC user can only access the Amazon Redshift IdC applications they are assigned. For more information, see Trusted identity propagation overview . For more information about the Amazon Redshift Data API and CL...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,13 +24,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsRedshiftDataListStatementsOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the SQL statement specified as input to BatchExecuteS- tatement or ExecuteStatement to identify the query. You can list multiple statements by providing a prefix that matches the beginning of the statement name. For example, to list myStatement1, myState- ment2, myStatement3, and so on, then provide the a value of myState- ment . Data API does a case-sensitive match of SQL statement names to the prefix value you provide. Constraints: o min: 0 o max: 2048
+    /// The name of the SQL statement specified as input to BatchExecuteStatement or ExecuteStatement to identify the query. You can list multiple statements by providing a prefix that matches the beginning of the statement name. For example, to list myStatement1, myStatement2, myStatement3, and so on, then provide the a value of myStatement . Data API does a case-sensitive match of SQL statement names to the prefix value you provide. Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--statement-name")]
     public string? StatementName { get; set; }
 
     /// <summary>
-    /// The status of the SQL statement to list. Status values are defined as follows: o ABORTED - The query run was stopped by the user. o ALL - A status value that includes all query statuses. This value can be used to filter results. o FAILED - The query run failed. o FINISHED - The query has finished running. o PICKED - The query has been chosen to be run. o STARTED - The query run has started. o SUBMITTED - The query was submitted, but not yet processed. Possible values: o SUBMITTED o PICKED o STARTED o FINISHED o ABORTED o FAILED o ALL
+    /// The status of the SQL statement to list. Status values are defined as follows: • ABORTED - The query run was stopped by the user. • ALL - A status value that includes all query statuses. This value can be used to filter results. • FAILED - The query run failed. • FINISHED - The query has finished running. • PICKED - The query has been chosen to be run. • STARTED - The query run has started. • SUBMITTED - The query was submitted, but not yet processed. Possible values: • SUBMITTED • PICKED • STARTED • FINISHED • ABORTED • FAILED • ALL
     /// </summary>
     [CliOption("--status")]
     public AwsRedshiftDataListStatementsStatus? Status { get; set; }
@@ -42,28 +42,25 @@ public record AwsRedshiftDataListStatementsOptions : AwsOptions
     public bool? RoleLevel { get; set; }
 
     /// <summary>
-    /// The name of the database when listing statements run against a Clus- terIdentifier or WorkgroupName .
+    /// The name of the database when listing statements run against a ClusterIdentifier or WorkgroupName .
     /// </summary>
     [CliOption("--database")]
     public string? Database { get; set; }
 
     /// <summary>
-    /// The cluster identifier. Only statements that ran on this cluster are returned. When providing ClusterIdentifier , then WorkgroupName can't be specified. Constraints: o min: 1 o max: 63 o pattern: [a-z][a-z0-9]*(-[a-z0-9]+)*
+    /// The cluster identifier. Only statements that ran on this cluster are returned. When providing ClusterIdentifier , then WorkgroupName can't be specified. Constraints: • min: 1 • max: 63 • pattern: [a-z][a-z0-9]*(-[a-z0-9]+)*
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; set; }
 
     /// <summary>
-    /// The serverless workgroup name or Amazon Resource Name (ARN). Only statements that ran on this workgroup are returned. When providing WorkgroupName , then ClusterIdentifier can't be specified. Constraints: o min: 3 o max: 128 o pattern: ([a-z0-9-]{3,63}|arn:(aws(-[a-z]+)*):redshift-server- less:([a-z]{2}(-gov|(-iso[a-z]?))?|eusc-[a-z]+)-[a-z]+-\d{1}:\d{12}:work- group/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|[a-z0-9-]{1,63}/[a-z0-9-]{1,63}))
+    /// The serverless workgroup name or Amazon Resource Name (ARN). Only statements that ran on this workgroup are returned. When providing WorkgroupName , then ClusterIdentifier can't be specified. Constraints: • min: 3 • max: 128 • pattern: ([a-z0-9-]{3,63}|arn:(aws(-[a-z]+)*):redshift-serverless:([a-z]{2}(-gov|(-iso[a-z]?))?|eusc-[a-z]+)-[a-z]+-\d{1}:\d{12}:workgroup/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|[a-z0-9-]{1,63}/[a-z0-9-]{1,63}))
     /// </summary>
     [CliOption("--workgroup-name")]
     public string? WorkgroupName { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -73,15 +70,18 @@ public record AwsRedshiftDataListStatementsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 0 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

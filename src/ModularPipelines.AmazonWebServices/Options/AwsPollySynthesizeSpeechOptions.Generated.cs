@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Synthesizes UTF-8 input, plain text or SSML, to a stream of bytes. SSML input must be valid, well-formed SSML. Some alphabets might not be available with all the voices (for example, Cyrillic might not be read at all by English voices) unless phoneme mapping is used. For more in- formation, see How it Works . See also: AWS API Documentation
+/// Synthesizes UTF-8 input, plain text or SSML, to a stream of bytes. SSML input must be valid, well-formed SSML. Some alphabets might not be available with all the voices (for example, Cyrillic might not be read at all by English voices) unless phoneme mapping is used. For more information, see How it Works . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,11 +23,11 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsPollySynthesizeSpeechOptions : AwsOptions
 {
     /// <summary>
-    /// Synthesizes UTF-8 input, plain text or SSML, to a stream of bytes. SSML input must be valid, well-formed SSML. Some alphabets might not be available with all the voices (for example, Cyrillic might not be read at all by English voices) unless phoneme mapping is used. For more in- formation, see How it Works . See also: AWS API Documentation
+    /// Synthesizes UTF-8 input, plain text or SSML, to a stream of bytes. SSML input must be valid, well-formed SSML. Some alphabets might not be available with all the voices (for example, Cyrillic might not be read at all by English voices) unless phoneme mapping is used. For more information, see How it Works . See also: AWS API Documentation
     /// </summary>
-    /// <param name="OutputFormat">The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, ogg_opus, mu-law, a-law or pcm. For speech marks, this will be json. When pcm is used, the content returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format. Possible values: o json o mp3 o ogg_opus o ogg_vorbis o pcm o mulaw o alaw</param>
-    /// <param name="Text">Input text to synthesize. If you specify ssml as the TextType , fol- low the SSML format for the input text.</param>
-    /// <param name="VoiceId">Voice ID to use for the synthesis. You can get a list of available voice IDs by calling the DescribeVoices operation. Possible values: o Aditi o Amy o Astrid o Bianca o Brian o Camila o Carla o Carmen o Celine o Chantal o Conchita o Cristiano o Dora o Emma o Enrique o Ewa o Filiz o Gabrielle o Geraint o Giorgio o Gwyneth o Hans o Ines o Ivy o Jacek o Jan o Joanna o Joey o Justin o Karl o Kendra o Kevin o Kimberly o Lea o Liv o Lotte o Lucia o Lupe o Mads o Maja o Marlene o Mathieu o Matthew o Maxim o Mia o Miguel o Mizuki o Naja o Nicole o Olivia o Penelope o Raveena o Ricardo o Ruben o Russell o Salli o Seoyeon o Takumi o Tatyana o Vicki o Vitoria o Zeina o Zhiyu o Aria o Ayanda o Arlet o Hannah o Arthur o Daniel o Liam o Pedro o Kajal o Hiujin o Laura o Elin o Ida o Suvi o Ola o Hala o Andres o Sergio o Remi o Adriano o Thiago o Ruth o Stephen o Kazuha o Tomoko o Niamh o Sofie o Lisa o Isabelle o Zayd o Danielle o Gregory o Burcu o Jitka o Sabrina o Jasmine o Jihye o Ambre o Beatrice o Florian o Lennart o Lorenzo o Tiffany outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="OutputFormat">The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, ogg_opus, mu-law, a-law or pcm. For speech marks, this will be json. When pcm is used, the content returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format. Possible values: • json • mp3 • ogg_opus • ogg_vorbis • pcm • mulaw • alaw</param>
+    /// <param name="Text">Input text to synthesize. If you specify ssml as the TextType , follow the SSML format for the input text.</param>
+    /// <param name="VoiceId">Voice ID to use for the synthesis. You can get a list of available voice IDs by calling the DescribeVoices operation. Possible values: • Aditi • Amy • Astrid • Bianca • Brian • Camila • Carla • Carmen • Celine • Chantal • Conchita • Cristiano • Dora • Emma • Enrique • Ewa • Filiz • Gabrielle • Geraint • Giorgio • Gwyneth • Hans • Ines • Ivy • Jacek • Jan • Joanna • Joey • Justin • Karl • Kendra • Kevin • Kimberly • Lea • Liv • Lotte • Lucia • Lupe • Mads • Maja • Marlene • Mathieu • Matthew • Maxim • Mia • Miguel • Mizuki • Naja • Nicole • Olivia • Penelope • Raveena • Ricardo • Ruben • Russell • Salli • Seoyeon • Takumi • Tatyana • Vicki • Vitoria • Zeina • Zhiyu • Aria • Ayanda • Arlet • Hannah • Arthur • Daniel • Liam • Pedro • Kajal • Hiujin • Laura • Elin • Ida • Suvi • Ola • Hala • Andres • Sergio • Remi • Adriano • Thiago • Ruth • Stephen • Kazuha • Tomoko • Niamh • Sofie • Lisa • Isabelle • Zayd • Danielle • Gregory • Burcu • Jitka • Sabrina • Jasmine • Jihye • Ambre • Beatrice • Florian • Lennart • Lorenzo • Tiffany outfile (string) [required] Filename where the content will be saved</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsPollySynthesizeSpeechOptions(
         AwsPollySynthesizeSpeechOutputFormat OutputFormat,
@@ -54,55 +54,55 @@ public record AwsPollySynthesizeSpeechOptions : AwsOptions
     }
 
     /// <summary>
-    /// The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, ogg_opus, mu-law, a-law or pcm. For speech marks, this will be json. When pcm is used, the content returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format. Possible values: o json o mp3 o ogg_opus o ogg_vorbis o pcm o mulaw o alaw
+    /// The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, ogg_opus, mu-law, a-law or pcm. For speech marks, this will be json. When pcm is used, the content returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format. Possible values: • json • mp3 • ogg_opus • ogg_vorbis • pcm • mulaw • alaw
     /// </summary>
     [CliOption("--output-format")]
     public AwsPollySynthesizeSpeechOutputFormat OutputFormat { get; private init; }
 
     /// <summary>
-    /// Input text to synthesize. If you specify ssml as the TextType , fol- low the SSML format for the input text.
+    /// Input text to synthesize. If you specify ssml as the TextType , follow the SSML format for the input text.
     /// </summary>
     [CliOption("--text")]
     public string Text { get; private init; }
 
     /// <summary>
-    /// Voice ID to use for the synthesis. You can get a list of available voice IDs by calling the DescribeVoices operation. Possible values: o Aditi o Amy o Astrid o Bianca o Brian o Camila o Carla o Carmen o Celine o Chantal o Conchita o Cristiano o Dora o Emma o Enrique o Ewa o Filiz o Gabrielle o Geraint o Giorgio o Gwyneth o Hans o Ines o Ivy o Jacek o Jan o Joanna o Joey o Justin o Karl o Kendra o Kevin o Kimberly o Lea o Liv o Lotte o Lucia o Lupe o Mads o Maja o Marlene o Mathieu o Matthew o Maxim o Mia o Miguel o Mizuki o Naja o Nicole o Olivia o Penelope o Raveena o Ricardo o Ruben o Russell o Salli o Seoyeon o Takumi o Tatyana o Vicki o Vitoria o Zeina o Zhiyu o Aria o Ayanda o Arlet o Hannah o Arthur o Daniel o Liam o Pedro o Kajal o Hiujin o Laura o Elin o Ida o Suvi o Ola o Hala o Andres o Sergio o Remi o Adriano o Thiago o Ruth o Stephen o Kazuha o Tomoko o Niamh o Sofie o Lisa o Isabelle o Zayd o Danielle o Gregory o Burcu o Jitka o Sabrina o Jasmine o Jihye o Ambre o Beatrice o Florian o Lennart o Lorenzo o Tiffany outfile (string) [required] Filename where the content will be saved
+    /// Voice ID to use for the synthesis. You can get a list of available voice IDs by calling the DescribeVoices operation. Possible values: • Aditi • Amy • Astrid • Bianca • Brian • Camila • Carla • Carmen • Celine • Chantal • Conchita • Cristiano • Dora • Emma • Enrique • Ewa • Filiz • Gabrielle • Geraint • Giorgio • Gwyneth • Hans • Ines • Ivy • Jacek • Jan • Joanna • Joey • Justin • Karl • Kendra • Kevin • Kimberly • Lea • Liv • Lotte • Lucia • Lupe • Mads • Maja • Marlene • Mathieu • Matthew • Maxim • Mia • Miguel • Mizuki • Naja • Nicole • Olivia • Penelope • Raveena • Ricardo • Ruben • Russell • Salli • Seoyeon • Takumi • Tatyana • Vicki • Vitoria • Zeina • Zhiyu • Aria • Ayanda • Arlet • Hannah • Arthur • Daniel • Liam • Pedro • Kajal • Hiujin • Laura • Elin • Ida • Suvi • Ola • Hala • Andres • Sergio • Remi • Adriano • Thiago • Ruth • Stephen • Kazuha • Tomoko • Niamh • Sofie • Lisa • Isabelle • Zayd • Danielle • Gregory • Burcu • Jitka • Sabrina • Jasmine • Jihye • Ambre • Beatrice • Florian • Lennart • Lorenzo • Tiffany outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--voice-id")]
     public string VoiceId { get; private init; }
 
     /// <summary>
-    /// Specifies the engine (standard , neural , long-form , or generative ) for Amazon Polly to use when processing input text for speech syn- thesis. Provide an engine that is supported by the voice you select. If you don't provide an engine, the standard engine is selected by default. If a chosen voice isn't supported by the standard engine, this will result in an error. For information on Amazon Polly voices and which voices are available for each engine, see Available Voices . Possible values: o standard o neural o long-form o generative
+    /// Specifies the engine (standard , neural , long-form , or generative ) for Amazon Polly to use when processing input text for speech synthesis. Provide an engine that is supported by the voice you select. If you don't provide an engine, the standard engine is selected by default. If a chosen voice isn't supported by the standard engine, this will result in an error. For information on Amazon Polly voices and which voices are available for each engine, see Available Voices . Possible values: • standard • neural • long-form • generative
     /// </summary>
     [CliOption("--engine")]
     public AwsPollySynthesizeSpeechEngine? Engine { get; set; }
 
     /// <summary>
-    /// Optional language code for the Synthesize Speech request. This is only necessary if using a bilingual voice, such as Aditi, which can be used for either Indian English (en-IN) or Hindi (hi-IN). If a bilingual voice is used and no language code is specified, Ama- zon Polly uses the default language of the bilingual voice. The de- fault language for any voice is the one returned by the DescribeVoices operation for the LanguageCode parameter. For exam- ple, if no language code is specified, Aditi will use Indian English rather than Hindi. Possible values: o arb o cmn-CN o cy-GB o da-DK o de-DE o en-AU o en-GB o en-GB-WLS o en-IN o en-US o es-ES o es-MX o es-US o fr-CA o fr-FR o is-IS o it-IT o ja-JP o hi-IN o ko-KR o nb-NO o nl-NL o pl-PL o pt-BR o pt-PT o ro-RO o ru-RU o sv-SE o tr-TR o en-NZ o en-ZA o ca-ES o de-AT o yue-CN o ar-AE o fi-FI o en-IE o nl-BE o fr-BE o cs-CZ o de-CH o en-SG
+    /// Optional language code for the Synthesize Speech request. This is only necessary if using a bilingual voice, such as Aditi, which can be used for either Indian English (en-IN) or Hindi (hi-IN). If a bilingual voice is used and no language code is specified, Amazon Polly uses the default language of the bilingual voice. The default language for any voice is the one returned by the DescribeVoices operation for the LanguageCode parameter. For example, if no language code is specified, Aditi will use Indian English rather than Hindi. Possible values: • arb • cmn-CN • cy-GB • da-DK • de-DE • en-AU • en-GB • en-GB-WLS • en-IN • en-US • es-ES • es-MX • es-US • fr-CA • fr-FR • is-IS • it-IT • ja-JP • hi-IN • ko-KR • nb-NO • nl-NL • pl-PL • pt-BR • pt-PT • ro-RO • ru-RU • sv-SE • tr-TR • en-NZ • en-ZA • ca-ES • de-AT • yue-CN • ar-AE • fi-FI • en-IE • nl-BE • fr-BE • cs-CZ • de-CH • en-SG
     /// </summary>
     [CliOption("--language-code")]
     public string? LanguageCode { get; set; }
 
     /// <summary>
-    /// List of one or more pronunciation lexicon names you want the service to apply during synthesis. Lexicons are applied only if the language of the lexicon is the same as the language of the voice. For infor- mation about storing lexicons, see PutLexicon . Constraints: o max: 5 (string) Constraints: o pattern: [0-9A-Za-z]{1,20} Syntax: "string" "string" ...
+    /// List of one or more pronunciation lexicon names you want the service to apply during synthesis. Lexicons are applied only if the language of the lexicon is the same as the language of the voice. For information about storing lexicons, see PutLexicon . Constraints: • max: 5 (string) Constraints: • pattern: [0-9A-Za-z]{1,20} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--lexicon-names", GroupValues = true)]
     public IEnumerable<string>? LexiconNames { get; set; }
 
     /// <summary>
-    /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", "24000", "44100" and "48000". The default value for stan- dard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". The de- fault value for generative voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000". Valid value for ogg_opus is "48000". Valid value for mu-law and a-law is "8000".
+    /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", "24000", "44100" and "48000". The default value for standard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". The default value for generative voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000". Valid value for ogg_opus is "48000". Valid value for mu-law and a-law is "8000".
     /// </summary>
     [CliOption("--sample-rate")]
     public string? SampleRate { get; set; }
 
     /// <summary>
-    /// The type of speech marks returned for the input text. Constraints: o max: 4 (string) Possible values: o sentence o ssml o viseme o word Syntax: "string" "string" ...
+    /// The type of speech marks returned for the input text. Constraints: • max: 4 (string) Possible values: • sentence • ssml • viseme • word Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--speech-mark-types", GroupValues = true)]
     public IEnumerable<string>? SpeechMarkTypes { get; set; }
 
     /// <summary>
-    /// Specifies whether the input text is plain text or SSML. The default value is plain text. For more information, see Using SSML . Possible values: o ssml o text
+    /// Specifies whether the input text is plain text or SSML. The default value is plain text. For more information, see Using SSML . Possible values: • ssml • text
     /// </summary>
     [CliOption("--text-type")]
     public AwsPollySynthesizeSpeechTextType? TextType { get; set; }

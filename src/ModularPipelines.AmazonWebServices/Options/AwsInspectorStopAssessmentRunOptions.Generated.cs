@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsInspectorStopAssessmentRunOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Stops the assessment run that is specified by the ARN of the assessment run. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssessmentRunArn">The ARN of the assessment run that you want to stop. Constraints: o min: 1 o max: 300</param>
+    /// <param name="AssessmentRunArn">The ARN of the assessment run that you want to stop. Constraints: • min: 1 • max: 300</param>
     public AwsInspectorStopAssessmentRunOptions(
         string AssessmentRunArn
     )
@@ -57,13 +59,13 @@ public record AwsInspectorStopAssessmentRunOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the assessment run that you want to stop. Constraints: o min: 1 o max: 300
+    /// The ARN of the assessment run that you want to stop. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--assessment-run-arn")]
     public string? AssessmentRunArn { get; private init; }
 
     /// <summary>
-    /// An input option that can be set to either START_EVALUATION or SKIP_EVALUATION. START_EVALUATION (the default value), stops the AWS agent from collecting data and begins the results evaluation and the findings generation process. SKIP_EVALUATION cancels the assessment run immediately, after which no findings are generated. Possible values: o START_EVALUATION o SKIP_EVALUATION
+    /// An input option that can be set to either START_EVALUATION or SKIP_EVALUATION. START_EVALUATION (the default value), stops the AWS agent from collecting data and begins the results evaluation and the findings generation process. SKIP_EVALUATION cancels the assessment run immediately, after which no findings are generated. Possible values: • START_EVALUATION • SKIP_EVALUATION
     /// </summary>
     [CliOption("--stop-action")]
     public AwsInspectorStopAssessmentRunStopAction? StopAction { get; set; }

@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates your accounts Compute Optimizer Automation enrollment configu- ration. See also: AWS API Documentation
+/// Updates your accounts Compute Optimizer Automation enrollment configuration. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsComputeOptimizerAutomationUpdateEnrollmentConfigurationOptions 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates your accounts Compute Optimizer Automation enrollment configu- ration. See also: AWS API Documentation
+    /// Updates your accounts Compute Optimizer Automation enrollment configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Status">The desired enrollment status. o Active - Enables the Automation feature for your account. o Inactive - Disables the Automation feature for your account and stops all of your automation rules. If you opt in again later, all rules will be inactive, and you must enable the rules you want to run. You must wait at least 24 hours after opting out to opt in again. NOTE: The Pending and Failed options cannot be used to update the en- rollment status of an account. They are returned in the response of a request to update the enrollment status of an account. If you are a member account, your account must be disassociated from your organizations management account before you can dis- able Automation. Contact your administrator to make this change. Possible values: o Active o Inactive o Pending o Failed</param>
+    /// <param name="Status">The desired enrollment status. • Active - Enables the Automation feature for your account. • Inactive - Disables the Automation feature for your account and stops all of your automation rules. If you opt in again later, all rules will be inactive, and you must enable the rules you want to run. You must wait at least 24 hours after opting out to opt in again. NOTE: The Pending and Failed options cannot be used to update the enrollment status of an account. They are returned in the response of a request to update the enrollment status of an account. If you are a member account, your account must be disassociated from your organizations management account before you can disable Automation. Contact your administrator to make this change. Possible values: • Active • Inactive • Pending • Failed</param>
     public AwsComputeOptimizerAutomationUpdateEnrollmentConfigurationOptions(
         AwsComputeOptimizerAutomationUpdateEnrollmentConfigurationStatus Status
     )
@@ -57,13 +59,13 @@ public record AwsComputeOptimizerAutomationUpdateEnrollmentConfigurationOptions 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The desired enrollment status. o Active - Enables the Automation feature for your account. o Inactive - Disables the Automation feature for your account and stops all of your automation rules. If you opt in again later, all rules will be inactive, and you must enable the rules you want to run. You must wait at least 24 hours after opting out to opt in again. NOTE: The Pending and Failed options cannot be used to update the en- rollment status of an account. They are returned in the response of a request to update the enrollment status of an account. If you are a member account, your account must be disassociated from your organizations management account before you can dis- able Automation. Contact your administrator to make this change. Possible values: o Active o Inactive o Pending o Failed
+    /// The desired enrollment status. • Active - Enables the Automation feature for your account. • Inactive - Disables the Automation feature for your account and stops all of your automation rules. If you opt in again later, all rules will be inactive, and you must enable the rules you want to run. You must wait at least 24 hours after opting out to opt in again. NOTE: The Pending and Failed options cannot be used to update the enrollment status of an account. They are returned in the response of a request to update the enrollment status of an account. If you are a member account, your account must be disassociated from your organizations management account before you can disable Automation. Contact your administrator to make this change. Possible values: • Active • Inactive • Pending • Failed
     /// </summary>
     [CliOption("--status")]
     public AwsComputeOptimizerAutomationUpdateEnrollmentConfigurationStatus? Status { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Must be 1-64 characters long and contain only alphanumeric characters, underscores, and hyphens. Constraints: o pattern: [a-zA-Z0-9_-]{1,64}
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Must be 1-64 characters long and contain only alphanumeric characters, underscores, and hyphens. Constraints: • pattern: [a-zA-Z0-9_-]{1,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

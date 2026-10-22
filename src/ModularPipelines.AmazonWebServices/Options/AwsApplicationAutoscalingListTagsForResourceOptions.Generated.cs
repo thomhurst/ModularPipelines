@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns all the tags on the specified Application Auto Scaling scalable target. For general information about tags, including the format and syntax, see Tagging your Amazon Web Services resources in the Amazon Web Ser- vices General Reference . See also: AWS API Documentation
+/// Returns all the tags on the specified Application Auto Scaling scalable target. For general information about tags, including the format and syntax, see Tagging your Amazon Web Services resources in the Amazon Web Services General Reference . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsApplicationAutoscalingListTagsForResourceOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns all the tags on the specified Application Auto Scaling scalable target. For general information about tags, including the format and syntax, see Tagging your Amazon Web Services resources in the Amazon Web Ser- vices General Reference . See also: AWS API Documentation
+    /// Returns all the tags on the specified Application Auto Scaling scalable target. For general information about tags, including the format and syntax, see Tagging your Amazon Web Services resources in the Amazon Web Services General Reference . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">Specify the ARN of the scalable target. For example: arn:aws:application-autoscal- ing:us-east-1:123456789012:scalable-tar- get/1234abcd56ab78cd901ef1234567890ab123 To get the ARN for a scalable target, use DescribeScalableTargets . Constraints: o min: 1 o max: 1011 o pattern: ^arn:.+:application-autoscaling:.+:[0-9]+:scalable-tar- get\/[a-zA-Z0-9-]+$</param>
+    /// <param name="ResourceArn">Specify the ARN of the scalable target. For example: arn:aws:application-autoscaling:us-east-1:123456789012:scalable-target/1234abcd56ab78cd901ef1234567890ab123 To get the ARN for a scalable target, use DescribeScalableTargets . Constraints: • min: 1 • max: 1011 • pattern: ^arn:.+:application-autoscaling:.+:[0-9]+:scalable-target\/[a-zA-Z0-9-]+$</param>
     public AwsApplicationAutoscalingListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsApplicationAutoscalingListTagsForResourceOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specify the ARN of the scalable target. For example: arn:aws:application-autoscal- ing:us-east-1:123456789012:scalable-tar- get/1234abcd56ab78cd901ef1234567890ab123 To get the ARN for a scalable target, use DescribeScalableTargets . Constraints: o min: 1 o max: 1011 o pattern: ^arn:.+:application-autoscaling:.+:[0-9]+:scalable-tar- get\/[a-zA-Z0-9-]+$
+    /// Specify the ARN of the scalable target. For example: arn:aws:application-autoscaling:us-east-1:123456789012:scalable-target/1234abcd56ab78cd901ef1234567890ab123 To get the ARN for a scalable target, use DescribeScalableTargets . Constraints: • min: 1 • max: 1011 • pattern: ^arn:.+:application-autoscaling:.+:[0-9]+:scalable-target\/[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

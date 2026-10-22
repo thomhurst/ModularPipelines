@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Assigns the specified IPv6 addresses to the specified network inter- face. You can specify specific IPv6 addresses, or you can specify the number of IPv6 addresses to be automatically assigned from the subnet's IPv6 CIDR block range. You can assign as many IPv6 addresses to a net- work interface as you can assign private IPv4 addresses, and the limit varies by instance type. You must specify either the IPv6 addresses or the IPv6 address count in the request. You can optionally use Prefix Delegat...
+/// Assigns the specified IPv6 addresses to the specified network interface. You can specify specific IPv6 addresses, or you can specify the number of IPv6 addresses to be automatically assigned from the subnet's IPv6 CIDR block range. You can assign as many IPv6 addresses to a network interface as you can assign private IPv4 addresses, and the limit varies by instance type. You must specify either the IPv6 addresses or the IPv6 address count in the request. You can optionally use Prefix Delegation ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsEc2AssignIpv6AddressesOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Assigns the specified IPv6 addresses to the specified network inter- face. You can specify specific IPv6 addresses, or you can specify the number of IPv6 addresses to be automatically assigned from the subnet's IPv6 CIDR block range. You can assign as many IPv6 addresses to a net- work interface as you can assign private IPv4 addresses, and the limit varies by instance type. You must specify either the IPv6 addresses or the IPv6 address count in the request. You can optionally use Prefix Delegat...
+    /// Assigns the specified IPv6 addresses to the specified network interface. You can specify specific IPv6 addresses, or you can specify the number of IPv6 addresses to be automatically assigned from the subnet's IPv6 CIDR block range. You can assign as many IPv6 addresses to a network interface as you can assign private IPv4 addresses, and the limit varies by instance type. You must specify either the IPv6 addresses or the IPv6 address count in the request. You can optionally use Prefix Delegation ...
     /// </summary>
     /// <param name="NetworkInterfaceId">The ID of the network interface.</param>
     public AwsEc2AssignIpv6AddressesOptions(
@@ -74,13 +76,13 @@ public record AwsEc2AssignIpv6AddressesOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? Ipv6Prefixes { get; set; }
 
     /// <summary>
-    /// The IPv6 addresses to be assigned to the network interface. You can't use this option if you're specifying a number of IPv6 ad- dresses. (string) Syntax: "string" "string" ...
+    /// The IPv6 addresses to be assigned to the network interface. You can't use this option if you're specifying a number of IPv6 addresses. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--ipv6-addresses", GroupValues = true)]
     public IEnumerable<string>? Ipv6Addresses { get; set; }
 
     /// <summary>
-    /// The number of additional IPv6 addresses to assign to the network in- terface. The specified number of IPv6 addresses are assigned in ad- dition to the existing IPv6 addresses that are already assigned to the network interface. Amazon EC2 automatically selects the IPv6 ad- dresses from the subnet range. You can't use this option if specify- ing specific IPv6 addresses.
+    /// The number of additional IPv6 addresses to assign to the network interface. The specified number of IPv6 addresses are assigned in addition to the existing IPv6 addresses that are already assigned to the network interface. Amazon EC2 automatically selects the IPv6 addresses from the subnet range. You can't use this option if specifying specific IPv6 addresses.
     /// </summary>
     [CliOption("--ipv6-address-count")]
     public int? Ipv6AddressCount { get; set; }

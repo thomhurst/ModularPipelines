@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLightsailGetDistributionsOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the distribution for which to return information. When omitted, the response includes all of your distributions in the Amazon Web Services Region where the request is made. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the distribution for which to return information. When omitted, the response includes all of your distributions in the Amazon Web Services Region where the request is made. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--distribution-name")]
     public string? DistributionName { get; set; }
 
     /// <summary>
-    /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetDistributions request. If your results are paginated, the response will return a next page to- ken that you can specify as the page token in a subsequent request.
+    /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetDistributions request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
     /// </summary>
     [SecretValue]
     [CliOption("--page-token")]

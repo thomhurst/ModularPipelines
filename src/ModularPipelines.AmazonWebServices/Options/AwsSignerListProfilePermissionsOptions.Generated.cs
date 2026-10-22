@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsSignerListProfilePermissionsOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Lists the cross-account permissions associated with a signing profile. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileName">Name of the signing profile containing the cross-account permis- sions. Constraints: o min: 2 o max: 64 o pattern: ^[a-zA-Z0-9_]{2,}</param>
+    /// <param name="ProfileName">Name of the signing profile containing the cross-account permissions. Constraints: • min: 2 • max: 64 • pattern: ^[a-zA-Z0-9_]{2,}</param>
     public AwsSignerListProfilePermissionsOptions(
         string ProfileName
     )
@@ -57,7 +59,7 @@ public record AwsSignerListProfilePermissionsOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the signing profile containing the cross-account permis- sions. Constraints: o min: 2 o max: 64 o pattern: ^[a-zA-Z0-9_]{2,}
+    /// Name of the signing profile containing the cross-account permissions. Constraints: • min: 2 • max: 64 • pattern: ^[a-zA-Z0-9_]{2,}
     /// </summary>
     [CliOption("--profile-name")]
     public string? ProfileName { get; private init; }

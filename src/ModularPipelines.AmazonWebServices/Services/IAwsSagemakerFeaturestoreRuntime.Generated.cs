@@ -13,7 +13,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws sagemakerfeaturestoreruntime commands.
+/// aws sagemaker-featurestore-runtime commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -28,18 +28,16 @@ public interface IAwsSagemakerFeaturestoreRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetRecordAsync(AwsSagemakerFeaturestoreRuntimeBatchGetRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetRecordAsync(AwsSagemakerFeaturestoreRuntimeBatchGetRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Writes a batch of Records to one or more FeatureGroup s. Use this API for bulk ingestion of records into the OnlineStore and OfflineStore . You can set the ingested records to expire at a given time to live (TTL) duration after the record's event time by specifying the TtlDura- tion parameter. A request level TtlDuration applies to all entries that do not specify their own TtlDuration . See also: AWS API Documentation
+    /// Writes a batch of Records to one or more FeatureGroup s. Use this API for bulk ingestion of records into the OnlineStore and OfflineStore . You can set the ingested records to expire at a given time to live (TTL) duration after the record's event time by specifying the TtlDuration parameter. A request level TtlDuration applies to all entries that do not specify their own TtlDuration . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchWriteRecordAsync(AwsSagemakerFeaturestoreRuntimeBatchWriteRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchWriteRecordAsync(AwsSagemakerFeaturestoreRuntimeBatchWriteRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a Record from a FeatureGroup in the OnlineStore . Feature Store supports both SoftDelete and HardDelete . For SoftDelete (default), feature columns are set to null and the record is no longer retrievable by GetRecord or BatchGetRecord . For HardDelete , the complete Record is removed from the OnlineStore . In both cases, Feature Store appends the deleted record marker to the OfflineStore . The deleted record marker is a record with the same RecordIdentifer as the original, but with is_de...
@@ -48,8 +46,7 @@ public interface IAwsSagemakerFeaturestoreRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRecordAsync(AwsSagemakerFeaturestoreRuntimeDeleteRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRecordAsync(AwsSagemakerFeaturestoreRuntimeDeleteRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Use for OnlineStore serving from a FeatureStore . Only the latest records stored in the OnlineStore can be retrieved. If no Record with RecordIdentifierValue is found, then an empty result is returned. See also: AWS API Documentation
@@ -58,37 +55,33 @@ public interface IAwsSagemakerFeaturestoreRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRecordAsync(AwsSagemakerFeaturestoreRuntimeGetRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRecordAsync(AwsSagemakerFeaturestoreRuntimeGetRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists the RecordIdentifier values of all records stored in a Feature- Group 's OnlineStore . This enables you to discover which records exist without retrieving the full record data. See also: AWS API Documentation list-records is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query arg...
+    /// Lists the RecordIdentifier values of all records stored in a FeatureGroup 's OnlineStore . This enables you to discover which records exist without retrieving the full record data. See also: AWS API Documentation list-records is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argumen...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRecordsAsync(AwsSagemakerFeaturestoreRuntimeListRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRecordsAsync(AwsSagemakerFeaturestoreRuntimeListRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// The PutRecord API is used to ingest a list of Records into your feature group. If a new records EventTime is greater, the new record is written to both the OnlineStore and OfflineStore . Otherwise, the record is a his- toric record and it is written only to the OfflineStore . You can specify the ingestion to be applied to the OnlineStore , Of- flineStore , or both by using the TargetStores request parameter. You can set the ingested record to expire at a given time to live (TTL) duration after t...
+    /// The PutRecord API is used to ingest a list of Records into your feature group. If a new records EventTime is greater, the new record is written to both the OnlineStore and OfflineStore . Otherwise, the record is a historic record and it is written only to the OfflineStore . You can specify the ingestion to be applied to the OnlineStore , OfflineStore , or both by using the TargetStores request parameter. You can set the ingested record to expire at a given time to live (TTL) duration after the r...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutRecordAsync(AwsSagemakerFeaturestoreRuntimePutRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutRecordAsync(AwsSagemakerFeaturestoreRuntimePutRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates one or more feature values for an existing record in the speci- fied feature group. Features that you do not include in the request re- main unchanged. You can update up to 100 features per call. WARNING: This operation is available only for feature groups that use the Standard_V2 or InMemory online store type. The record must already exist. If the record does not exist or has been soft-deleted, the operation returns a ResourceNotFound error. To create a record, use PutRecord . If you pr...
+    /// Updates one or more feature values for an existing record in the specified feature group. Features that you do not include in the request remain unchanged. You can update up to 100 features per call. WARNING: This operation is available only for feature groups that use the Standard_V2 or InMemory online store type. The record must already exist. If the record does not exist or has been soft-deleted, the operation returns a ResourceNotFound error. To create a record, use PutRecord . If you provid...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRecordAsync(AwsSagemakerFeaturestoreRuntimeUpdateRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRecordAsync(AwsSagemakerFeaturestoreRuntimeUpdateRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

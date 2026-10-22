@@ -30,7 +30,7 @@ public record AwsCloudwatchDescribeInsightRulesOptions : AwsOptions
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return in one operation. If you omit this parameter, the default of 500 is used. Constraints: o min: 1 o max: 500
+    /// The maximum number of results to return in one operation. If you omit this parameter, the default of 500 is used. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

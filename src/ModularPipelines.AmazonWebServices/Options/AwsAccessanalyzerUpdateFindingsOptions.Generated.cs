@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +31,8 @@ public record AwsAccessanalyzerUpdateFindingsOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Updates the status for the specified findings. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AnalyzerArn">The ARN of the analyzer that generated the findings to update. Constraints: o pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}</param>
-    /// <param name="Status">The state represents the action to take to update the finding Sta- tus. Use ARCHIVE to change an Active finding to an Archived finding. Use ACTIVE to change an Archived finding to an Active finding. Possible values: o ACTIVE o ARCHIVED</param>
+    /// <param name="AnalyzerArn">The ARN of the analyzer that generated the findings to update. Constraints: • pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}</param>
+    /// <param name="Status">The state represents the action to take to update the finding Status. Use ARCHIVE to change an Active finding to an Archived finding. Use ACTIVE to change an Archived finding to an Active finding. Possible values: • ACTIVE • ARCHIVED</param>
     public AwsAccessanalyzerUpdateFindingsOptions(
         string AnalyzerArn,
         AwsAccessanalyzerUpdateFindingsStatus Status
@@ -61,13 +63,13 @@ public record AwsAccessanalyzerUpdateFindingsOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the analyzer that generated the findings to update. Constraints: o pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}
+    /// The ARN of the analyzer that generated the findings to update. Constraints: • pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}
     /// </summary>
     [CliOption("--analyzer-arn")]
     public string? AnalyzerArn { get; private init; }
 
     /// <summary>
-    /// The state represents the action to take to update the finding Sta- tus. Use ARCHIVE to change an Active finding to an Archived finding. Use ACTIVE to change an Archived finding to an Active finding. Possible values: o ACTIVE o ARCHIVED
+    /// The state represents the action to take to update the finding Status. Use ARCHIVE to change an Active finding to an Archived finding. Use ACTIVE to change an Archived finding to an Active finding. Possible values: • ACTIVE • ARCHIVED
     /// </summary>
     [CliOption("--status")]
     public AwsAccessanalyzerUpdateFindingsStatus? Status { get; private init; }
@@ -79,7 +81,7 @@ public record AwsAccessanalyzerUpdateFindingsOptions : AwsOptions, IValidatableO
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
-    /// The ARN of the resource identified in the finding. Constraints: o pattern: arn:[^:]*:[^:]*:[^:]*:[^:]*:.*
+    /// The ARN of the resource identified in the finding. Constraints: • pattern: arn:[^:]*:[^:]*:[^:]*:[^:]*:.*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }

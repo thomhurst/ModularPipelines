@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsLookoutequipmentDeleteLabelOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Deletes a label. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LabelGroupName">The name of the label group that contains the label that you want to delete. Data in this field will be retained for service usage. Fol- low best practices for the security of your data. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
-    /// <param name="LabelId">The ID of the label that you want to delete. Constraints: o max: 32 o pattern: [A-Fa-f0-9]{0,32}</param>
+    /// <param name="LabelGroupName">The name of the label group that contains the label that you want to delete. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    /// <param name="LabelId">The ID of the label that you want to delete. Constraints: • max: 32 • pattern: [A-Fa-f0-9]{0,32}</param>
     public AwsLookoutequipmentDeleteLabelOptions(
         string LabelGroupName,
         string LabelId
@@ -60,13 +62,13 @@ public record AwsLookoutequipmentDeleteLabelOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the label group that contains the label that you want to delete. Data in this field will be retained for service usage. Fol- low best practices for the security of your data. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// The name of the label group that contains the label that you want to delete. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$
     /// </summary>
     [CliOption("--label-group-name")]
     public string? LabelGroupName { get; private init; }
 
     /// <summary>
-    /// The ID of the label that you want to delete. Constraints: o max: 32 o pattern: [A-Fa-f0-9]{0,32}
+    /// The ID of the label that you want to delete. Constraints: • max: 32 • pattern: [A-Fa-f0-9]{0,32}
     /// </summary>
     [CliOption("--label-id")]
     public string? LabelId { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// For the time range passed in, returns the number of open reactive in- sight that were created, the number of open proactive insights that were created, and the Mean Time to Recover (MTTR) for all closed reac- tive insights. See also: AWS API Documentation
+/// For the time range passed in, returns the number of open reactive insight that were created, the number of open proactive insights that were created, and the Mean Time to Recover (MTTR) for all closed reactive insights. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsDevopsGuruDescribeAccountOverviewOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// For the time range passed in, returns the number of open reactive in- sight that were created, the number of open proactive insights that were created, and the Mean Time to Recover (MTTR) for all closed reac- tive insights. See also: AWS API Documentation
+    /// For the time range passed in, returns the number of open reactive insight that were created, the number of open proactive insights that were created, and the Mean Time to Recover (MTTR) for all closed reactive insights. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FromTime">The start of the time range passed in. The start time granularity is at the day level. The floor of the start time is used. Returned in- formation occurred after this day.</param>
+    /// <param name="FromTime">The start of the time range passed in. The start time granularity is at the day level. The floor of the start time is used. Returned information occurred after this day.</param>
     public AwsDevopsGuruDescribeAccountOverviewOptions(
         string FromTime
     )
@@ -56,13 +58,13 @@ public record AwsDevopsGuruDescribeAccountOverviewOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The start of the time range passed in. The start time granularity is at the day level. The floor of the start time is used. Returned in- formation occurred after this day.
+    /// The start of the time range passed in. The start time granularity is at the day level. The floor of the start time is used. Returned information occurred after this day.
     /// </summary>
     [CliOption("--from-time")]
     public string? FromTime { get; private init; }
 
     /// <summary>
-    /// The end of the time range passed in. The start time granularity is at the day level. The floor of the start time is used. Returned in- formation occurred before this day. If this is not specified, then the current day is used.
+    /// The end of the time range passed in. The start time granularity is at the day level. The floor of the start time is used. Returned information occurred before this day. If this is not specified, then the current day is used.
     /// </summary>
     [CliOption("--to-time")]
     public string? ToTime { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsLightsailDeleteBucketAccessKeyOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Deletes an access key for the specified Amazon Lightsail bucket. We recommend that you delete an access key if the secret access key is compromised. For more information about access keys, see Creating access keys for a bucket in Amazon Lightsail in the Amazon Lightsail Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="BucketName">The name of the bucket that the access key belongs to. Constraints: o min: 3 o max: 54 o pattern: ^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$</param>
-    /// <param name="AccessKeyId">The ID of the access key to delete. Use the GetBucketAccessKeys action to get a list of access key IDs that you can specify. Constraints: o pattern: .*\S.*</param>
+    /// <param name="BucketName">The name of the bucket that the access key belongs to. Constraints: • min: 3 • max: 54 • pattern: ^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$</param>
+    /// <param name="AccessKeyId">The ID of the access key to delete. Use the GetBucketAccessKeys action to get a list of access key IDs that you can specify. Constraints: • pattern: .*\S.*</param>
     public AwsLightsailDeleteBucketAccessKeyOptions(
         string BucketName,
         string AccessKeyId
@@ -60,13 +62,13 @@ public record AwsLightsailDeleteBucketAccessKeyOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the bucket that the access key belongs to. Constraints: o min: 3 o max: 54 o pattern: ^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$
+    /// The name of the bucket that the access key belongs to. Constraints: • min: 3 • max: 54 • pattern: ^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$
     /// </summary>
     [CliOption("--bucket-name")]
     public string? BucketName { get; private init; }
 
     /// <summary>
-    /// The ID of the access key to delete. Use the GetBucketAccessKeys action to get a list of access key IDs that you can specify. Constraints: o pattern: .*\S.*
+    /// The ID of the access key to delete. Use the GetBucketAccessKeys action to get a list of access key IDs that you can specify. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--access-key-id")]
     public string? AccessKeyId { get; private init; }

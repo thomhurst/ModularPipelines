@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsIotwirelessCreateWirelessGatewayTaskOptions : AwsOptions, IVali
     /// <summary>
     /// Creates a task for a wireless gateway. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the resource to update. Constraints: o max: 256</param>
-    /// <param name="WirelessGatewayTaskDefinitionId">The ID of the WirelessGatewayTaskDefinition. Constraints: o max: 36 o pattern: [a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}</param>
+    /// <param name="Id">The ID of the resource to update. Constraints: • max: 256</param>
+    /// <param name="WirelessGatewayTaskDefinitionId">The ID of the WirelessGatewayTaskDefinition. Constraints: • max: 36 • pattern: [a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}</param>
     public AwsIotwirelessCreateWirelessGatewayTaskOptions(
         string Id,
         string WirelessGatewayTaskDefinitionId
@@ -60,13 +62,13 @@ public record AwsIotwirelessCreateWirelessGatewayTaskOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the resource to update. Constraints: o max: 256
+    /// The ID of the resource to update. Constraints: • max: 256
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The ID of the WirelessGatewayTaskDefinition. Constraints: o max: 36 o pattern: [a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}
+    /// The ID of the WirelessGatewayTaskDefinition. Constraints: • max: 36 • pattern: [a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}
     /// </summary>
     [CliOption("--wireless-gateway-task-definition-id")]
     public string? WirelessGatewayTaskDefinitionId { get; private init; }

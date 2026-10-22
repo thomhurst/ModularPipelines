@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Cancel a zonal shift in Amazon Application Recovery Controller. To can- cel the zonal shift, specify the zonal shift ID. A zonal shift can be one that you've started for a resource in your Amazon Web Services account in an Amazon Web Services Region, or it can be a zonal shift started by a practice run with zonal autoshift. See also: AWS API Documentation
+/// Cancel a zonal shift in Amazon Application Recovery Controller. To cancel the zonal shift, specify the zonal shift ID. A zonal shift can be one that you've started for a resource in your Amazon Web Services account in an Amazon Web Services Region, or it can be a zonal shift started by a practice run with zonal autoshift. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsArcZonalShiftCancelZonalShiftOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Cancel a zonal shift in Amazon Application Recovery Controller. To can- cel the zonal shift, specify the zonal shift ID. A zonal shift can be one that you've started for a resource in your Amazon Web Services account in an Amazon Web Services Region, or it can be a zonal shift started by a practice run with zonal autoshift. See also: AWS API Documentation
+    /// Cancel a zonal shift in Amazon Application Recovery Controller. To cancel the zonal shift, specify the zonal shift ID. A zonal shift can be one that you've started for a resource in your Amazon Web Services account in an Amazon Web Services Region, or it can be a zonal shift started by a practice run with zonal autoshift. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ZonalShiftId">The internally-generated identifier of a zonal shift. Constraints: o min: 6 o max: 36 o pattern: [A-Za-z0-9-]+</param>
+    /// <param name="ZonalShiftId">The internally-generated identifier of a zonal shift. Constraints: • min: 6 • max: 36 • pattern: [A-Za-z0-9-]+</param>
     public AwsArcZonalShiftCancelZonalShiftOptions(
         string ZonalShiftId
     )
@@ -56,7 +58,7 @@ public record AwsArcZonalShiftCancelZonalShiftOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The internally-generated identifier of a zonal shift. Constraints: o min: 6 o max: 36 o pattern: [A-Za-z0-9-]+
+    /// The internally-generated identifier of a zonal shift. Constraints: • min: 6 • max: 36 • pattern: [A-Za-z0-9-]+
     /// </summary>
     [CliOption("--zonal-shift-id")]
     public string? ZonalShiftId { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsQuicksightDescribeLimitsProfileOptions : AwsOptions, IValidatab
     /// <summary>
     /// Describes the properties of an existing limits profile. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileId">The unique identifier for the limits profile. Constraints: o min: 1 o max: 128 o pattern: lp-[a-f0-9-]+</param>
-    /// <param name="AccountId">The ID of the Amazon Web Services account that contains the limits profile. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="ProfileId">The unique identifier for the limits profile. Constraints: • min: 1 • max: 128 • pattern: lp-[a-f0-9-]+</param>
+    /// <param name="AccountId">The ID of the Amazon Web Services account that contains the limits profile. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
     public AwsQuicksightDescribeLimitsProfileOptions(
         string ProfileId,
         string AccountId
@@ -60,13 +62,13 @@ public record AwsQuicksightDescribeLimitsProfileOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the limits profile. Constraints: o min: 1 o max: 128 o pattern: lp-[a-f0-9-]+
+    /// The unique identifier for the limits profile. Constraints: • min: 1 • max: 128 • pattern: lp-[a-f0-9-]+
     /// </summary>
     [CliOption("--profile-id")]
     public string? ProfileId { get; private init; }
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the limits profile. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the limits profile. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }

@@ -32,7 +32,7 @@ public class AwsDlm : IAwsDlm
     #region Commands
 
     /// <summary>
-    /// Creates the default IAM role which will be used by Lifecycle service. If the role does not exist, create-default-role will automatically cre- ate it and set its policy. If the role has been already created, cre- ate-default-role will not update its policy.
+    /// Creates the default IAM role which will be used by Lifecycle service. If the role does not exist, create-default-role will automatically create it and set its policy. If the role has been already created, create-default-role will not update its policy.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsDlm : IAwsDlm
     }
 
     /// <summary>
-    /// Creates an Amazon Data Lifecycle Manager lifecycle policy. Amazon Data Lifecycle Manager supports the following policy types: o Custom EBS snapshot policy o Custom EBS-backed AMI policy o Cross-account copy event policy o Default policy for EBS snapshots o Default policy for EBS-backed AMIs For more information, see Default policies vs custom policies . WARNING: If you create a default policy, you can specify the request parame- ters either in the request body, or in the PolicyDetails request st...
+    /// Creates an Amazon Data Lifecycle Manager lifecycle policy. Amazon Data Lifecycle Manager supports the following policy types: • Custom EBS snapshot policy • Custom EBS-backed AMI policy • Cross-account copy event policy • Default policy for EBS snapshots • Default policy for EBS-backed AMIs For more information, see Default policies vs custom policies . WARNING: If you create a default policy, you can specify the request parameters either in the request body, or in the PolicyDetails request stru...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsDlm : IAwsDlm
     }
 
     /// <summary>
-    /// Deletes the specified lifecycle policy and halts the automated opera- tions that the policy specified. For more information about deleting a policy, see Delete lifecycle policies . See also: AWS API Documentation
+    /// Deletes the specified lifecycle policy and halts the automated operations that the policy specified. For more information about deleting a policy, see Delete lifecycle policies . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

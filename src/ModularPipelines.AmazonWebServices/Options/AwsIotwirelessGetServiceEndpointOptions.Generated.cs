@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotwirelessGetServiceEndpointOptions : AwsOptions
 {
     /// <summary>
-    /// The service type for which to get endpoint information about. Can be CUPS for the Configuration and Update Server endpoint, or LNS for the LoRaWAN Network Server endpoint. Possible values: o CUPS o LNS
+    /// The service type for which to get endpoint information about. Can be CUPS for the Configuration and Update Server endpoint, or LNS for the LoRaWAN Network Server endpoint. Possible values: • CUPS • LNS
     /// </summary>
     [CliOption("--service-type")]
     public AwsIotwirelessGetServiceEndpointServiceType? ServiceType { get; set; }

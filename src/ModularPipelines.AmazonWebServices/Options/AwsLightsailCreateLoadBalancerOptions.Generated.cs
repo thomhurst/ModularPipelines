@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a Lightsail load balancer. To learn more about deciding whether to load balance your application, see Configure your Lightsail in- stances for load balancing . You can create up to 10 load balancers per AWS Region in your account. When you create a load balancer, you can specify a unique name and port settings. To change additional load balancer settings, use the Update- LoadBalancerAttribute operation. The create load balancer operation supports tag-based access control via request tags...
+/// Creates a Lightsail load balancer. To learn more about deciding whether to load balance your application, see Configure your Lightsail instances for load balancing . You can create up to 10 load balancers per AWS Region in your account. When you create a load balancer, you can specify a unique name and port settings. To change additional load balancer settings, use the UpdateLoadBalancerAttribute operation. The create load balancer operation supports tag-based access control via request tags. Fo...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsLightsailCreateLoadBalancerOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a Lightsail load balancer. To learn more about deciding whether to load balance your application, see Configure your Lightsail in- stances for load balancing . You can create up to 10 load balancers per AWS Region in your account. When you create a load balancer, you can specify a unique name and port settings. To change additional load balancer settings, use the Update- LoadBalancerAttribute operation. The create load balancer operation supports tag-based access control via request tags...
+    /// Creates a Lightsail load balancer. To learn more about deciding whether to load balance your application, see Configure your Lightsail instances for load balancing . You can create up to 10 load balancers per AWS Region in your account. When you create a load balancer, you can specify a unique name and port settings. To change additional load balancer settings, use the UpdateLoadBalancerAttribute operation. The create load balancer operation supports tag-based access control via request tags. Fo...
     /// </summary>
-    /// <param name="LoadBalancerName">The name of your load balancer. Constraints: o pattern: \w[\w\-]*\w</param>
-    /// <param name="InstancePort">The instance port where you're creating your load balancer. Constraints: o min: -1 o max: 65535</param>
+    /// <param name="LoadBalancerName">The name of your load balancer. Constraints: • pattern: \w[\w\-]*\w</param>
+    /// <param name="InstancePort">The instance port where you're creating your load balancer. Constraints: • min: -1 • max: 65535</param>
     public AwsLightsailCreateLoadBalancerOptions(
         string LoadBalancerName,
         int InstancePort
@@ -60,13 +62,13 @@ public record AwsLightsailCreateLoadBalancerOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of your load balancer. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of your load balancer. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--load-balancer-name")]
     public string? LoadBalancerName { get; private init; }
 
     /// <summary>
-    /// The instance port where you're creating your load balancer. Constraints: o min: -1 o max: 65535
+    /// The instance port where you're creating your load balancer. Constraints: • min: -1 • max: 65535
     /// </summary>
     [CliOption("--instance-port")]
     public int? InstancePort { get; private init; }
@@ -78,13 +80,13 @@ public record AwsLightsailCreateLoadBalancerOptions : AwsOptions, IValidatableOb
     public string? HealthCheckPath { get; set; }
 
     /// <summary>
-    /// The name of the SSL/TLS certificate. If you specify certificateName , then certificateDomainName is re- quired (and vice-versa). Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the SSL/TLS certificate. If you specify certificateName , then certificateDomainName is required (and vice-versa). Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--certificate-name")]
     public string? CertificateName { get; set; }
 
     /// <summary>
-    /// The domain name with which your certificate is associated (exam- ple.com ). If you specify certificateDomainName , then certificateName is re- quired (and vice-versa).
+    /// The domain name with which your certificate is associated (example.com ). If you specify certificateDomainName , then certificateName is required (and vice-versa).
     /// </summary>
     [CliOption("--certificate-domain-name")]
     public string? CertificateDomainName { get; set; }
@@ -96,19 +98,19 @@ public record AwsLightsailCreateLoadBalancerOptions : AwsOptions, IValidatableOb
     public IEnumerable<string>? CertificateAlternativeNames { get; set; }
 
     /// <summary>
-    /// The tag keys and optional values to add to the resource during cre- ate. Use the TagResource action to tag a resource after it's created. (structure) Describes a tag key and optional value assigned to an Amazon Lightsail resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide . key -&gt; (string) The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, num- bers, spaces in UTF-8, or the following characters: + - = . _ : / @ value -&gt; (string) The value of the tag. Constraints: Tag values accept a maximum of 256 letters, num- bers, spaces in UTF-8, or the following characters: + - = . _ : / @ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created. (structure) Describes a tag key and optional value assigned to an Amazon Lightsail resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide . key -&gt; (string) The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @ value -&gt; (string) The value of the tag. Constraints: Tag values accept a maximum of 256 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The IP address type for the load balancer. The possible values are ipv4 for IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6. The default value is dualstack . Possible values: o dualstack o ipv4 o ipv6
+    /// The IP address type for the load balancer. The possible values are ipv4 for IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6. The default value is dualstack . Possible values: • dualstack • ipv4 • ipv6
     /// </summary>
     [CliOption("--ip-address-type")]
     public AwsLightsailCreateLoadBalancerIpAddressType? IpAddressType { get; set; }
 
     /// <summary>
-    /// The name of the TLS policy to apply to the load balancer. Use the GetLoadBalancerTlsPolicies action to get a list of TLS pol- icy names that you can specify. For more information about load balancer TLS policies, see Configuring TLS security policies on your Amazon Lightsail load bal- ancers in the Amazon Lightsail Developer Guide .
+    /// The name of the TLS policy to apply to the load balancer. Use the GetLoadBalancerTlsPolicies action to get a list of TLS policy names that you can specify. For more information about load balancer TLS policies, see Configuring TLS security policies on your Amazon Lightsail load balancers in the Amazon Lightsail Developer Guide .
     /// </summary>
     [CliOption("--tls-policy-name")]
     public string? TlsPolicyName { get; set; }

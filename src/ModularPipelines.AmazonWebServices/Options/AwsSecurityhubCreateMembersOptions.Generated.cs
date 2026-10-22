@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a member association in Security Hub CSPM between the specified accounts and the account used to make the request, which is the admin- istrator account. If you are integrated with Organizations, then the administrator account is designated by the organization management ac- count. CreateMembers is always used to add accounts that are not organiza- tion members. For accounts that are managed using Organizations, CreateMembers is only used in the following cases: o Security Hub CSPM is not...
+/// Creates a member association in Security Hub CSPM between the specified accounts and the account used to make the request, which is the administrator account. If you are integrated with Organizations, then the administrator account is designated by the organization management account. CreateMembers is always used to add accounts that are not organization members. For accounts that are managed using Organizations, CreateMembers is only used in the following cases: • Security Hub CSPM is not confi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSecurityhubCreateMembersOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a member association in Security Hub CSPM between the specified accounts and the account used to make the request, which is the admin- istrator account. If you are integrated with Organizations, then the administrator account is designated by the organization management ac- count. CreateMembers is always used to add accounts that are not organiza- tion members. For accounts that are managed using Organizations, CreateMembers is only used in the following cases: o Security Hub CSPM is not...
+    /// Creates a member association in Security Hub CSPM between the specified accounts and the account used to make the request, which is the administrator account. If you are integrated with Organizations, then the administrator account is designated by the organization management account. CreateMembers is always used to add accounts that are not organization members. For accounts that are managed using Organizations, CreateMembers is only used in the following cases: • Security Hub CSPM is not confi...
     /// </summary>
-    /// <param name="AccountDetails">The list of accounts to associate with the Security Hub CSPM admin- istrator account. For each account, the list includes the account ID and optionally the email address. Constraints: o min: 1 o max: 50 (structure) The details of an Amazon Web Services account. AccountId -&gt; (string) [required] The ID of an Amazon Web Services account. Email -&gt; (string) The email of an Amazon Web Services account. Constraints: o pattern: .*\S.* Shorthand Syntax: AccountId=string,Email=string ... JSON Syntax: [ { "AccountId": "string", "Email": "string" } ... ]</param>
+    /// <param name="AccountDetails">The list of accounts to associate with the Security Hub CSPM administrator account. For each account, the list includes the account ID and optionally the email address. Constraints: • min: 1 • max: 50 (structure) The details of an Amazon Web Services account. AccountId -&gt; (string) [required] The ID of an Amazon Web Services account. Email -&gt; (string) The email of an Amazon Web Services account. Constraints: • pattern: .*\S.* Shorthand Syntax: AccountId=string,Email=string ... JSON Syntax: [ { "AccountId": "string", "Email": "string" } ... ]</param>
     public AwsSecurityhubCreateMembersOptions(
         IEnumerable<string> AccountDetails
     )
@@ -67,7 +69,7 @@ public record AwsSecurityhubCreateMembersOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The list of accounts to associate with the Security Hub CSPM admin- istrator account. For each account, the list includes the account ID and optionally the email address. Constraints: o min: 1 o max: 50 (structure) The details of an Amazon Web Services account. AccountId -&gt; (string) [required] The ID of an Amazon Web Services account. Email -&gt; (string) The email of an Amazon Web Services account. Constraints: o pattern: .*\S.* Shorthand Syntax: AccountId=string,Email=string ... JSON Syntax: [ { "AccountId": "string", "Email": "string" } ... ]
+    /// The list of accounts to associate with the Security Hub CSPM administrator account. For each account, the list includes the account ID and optionally the email address. Constraints: • min: 1 • max: 50 (structure) The details of an Amazon Web Services account. AccountId -&gt; (string) [required] The ID of an Amazon Web Services account. Email -&gt; (string) The email of an Amazon Web Services account. Constraints: • pattern: .*\S.* Shorthand Syntax: AccountId=string,Email=string ... JSON Syntax: [ { "AccountId": "string", "Email": "string" } ... ]
     /// </summary>
     [CliOption("--account-details", GroupValues = true)]
     public IEnumerable<string>? AccountDetails { get; private init; }

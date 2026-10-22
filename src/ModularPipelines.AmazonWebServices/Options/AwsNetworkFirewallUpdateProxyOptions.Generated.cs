@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsNetworkFirewallUpdateProxyOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Updates the properties of the specified proxy. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NatGatewayId">The NAT Gateway the proxy is attached to. Constraints: o min: 1</param>
-    /// <param name="UpdateToken">A token used for optimistic locking. Network Firewall returns a to- ken to your requests that access the proxy. The token marks the state of the proxy resource at the time of the request. To make changes to the proxy, you provide the token in your request. Network Firewall uses the token to ensure that the proxy hasn't changed since you last retrieved it. If it has changed, the opera- tion fails with an InvalidTokenException . If this happens, retrieve the proxy again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token. Constraints: o min: 1 o max: 1024 o pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$</param>
+    /// <param name="NatGatewayId">The NAT Gateway the proxy is attached to. Constraints: • min: 1</param>
+    /// <param name="UpdateToken">A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy. The token marks the state of the proxy resource at the time of the request. To make changes to the proxy, you provide the token in your request. Network Firewall uses the token to ensure that the proxy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the proxy again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token. Constraints: • min: 1 • max: 1024 • pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$</param>
     public AwsNetworkFirewallUpdateProxyOptions(
         string NatGatewayId,
         string UpdateToken
@@ -61,44 +63,44 @@ public record AwsNetworkFirewallUpdateProxyOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The NAT Gateway the proxy is attached to. Constraints: o min: 1
+    /// The NAT Gateway the proxy is attached to. Constraints: • min: 1
     /// </summary>
     [CliOption("--nat-gateway-id")]
     public string? NatGatewayId { get; private init; }
 
     /// <summary>
-    /// A token used for optimistic locking. Network Firewall returns a to- ken to your requests that access the proxy. The token marks the state of the proxy resource at the time of the request. To make changes to the proxy, you provide the token in your request. Network Firewall uses the token to ensure that the proxy hasn't changed since you last retrieved it. If it has changed, the opera- tion fails with an InvalidTokenException . If this happens, retrieve the proxy again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token. Constraints: o min: 1 o max: 1024 o pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy. The token marks the state of the proxy resource at the time of the request. To make changes to the proxy, you provide the token in your request. Network Firewall uses the token to ensure that the proxy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the proxy again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token. Constraints: • min: 1 • max: 1024 • pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$
     /// </summary>
     [SecretValue]
     [CliOption("--update-token")]
     public string? UpdateToken { get; private init; }
 
     /// <summary>
-    /// The descriptive name of the proxy. You can't change the name of a proxy after you create it. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
+    /// The descriptive name of the proxy. You can't change the name of a proxy after you create it. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--proxy-name")]
     public string? ProxyName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of a proxy. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*
+    /// The Amazon Resource Name (ARN) of a proxy. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*
     /// </summary>
     [CliOption("--proxy-arn")]
     public string? ProxyArn { get; set; }
 
     /// <summary>
-    /// Listener properties for HTTP and HTTPS traffic to add. Constraints: o min: 0 o max: 2 (structure) This data type is used specifically for the CreateProxy and UpdateProxy APIs. Open port for taking HTTP or HTTPS traffic. Port -&gt; (integer) [required] Port for processing traffic. Type -&gt; (string) [required] Selection of HTTP or HTTPS traffic. Possible values: o HTTP o HTTPS Shorthand Syntax: Port=integer,Type=string ... JSON Syntax: [ { "Port": integer, "Type": "HTTP"|"HTTPS" } ... ]
+    /// Listener properties for HTTP and HTTPS traffic to add. Constraints: • min: 0 • max: 2 (structure) This data type is used specifically for the CreateProxy and UpdateProxy APIs. Open port for taking HTTP or HTTPS traffic. Port -&gt; (integer) [required] Port for processing traffic. Type -&gt; (string) [required] Selection of HTTP or HTTPS traffic. Possible values: • HTTP • HTTPS Shorthand Syntax: Port=integer,Type=string ... JSON Syntax: [ { "Port": integer, "Type": "HTTP"|"HTTPS" } ... ]
     /// </summary>
     [CliOption("--listener-properties-to-add", GroupValues = true)]
     public IEnumerable<string>? ListenerPropertiesToAdd { get; set; }
 
     /// <summary>
-    /// Listener properties for HTTP and HTTPS traffic to remove. Constraints: o min: 0 o max: 2 (structure) This data type is used specifically for the CreateProxy and UpdateProxy APIs. Open port for taking HTTP or HTTPS traffic. Port -&gt; (integer) [required] Port for processing traffic. Type -&gt; (string) [required] Selection of HTTP or HTTPS traffic. Possible values: o HTTP o HTTPS Shorthand Syntax: Port=integer,Type=string ... JSON Syntax: [ { "Port": integer, "Type": "HTTP"|"HTTPS" } ... ]
+    /// Listener properties for HTTP and HTTPS traffic to remove. Constraints: • min: 0 • max: 2 (structure) This data type is used specifically for the CreateProxy and UpdateProxy APIs. Open port for taking HTTP or HTTPS traffic. Port -&gt; (integer) [required] Port for processing traffic. Type -&gt; (string) [required] Selection of HTTP or HTTPS traffic. Possible values: • HTTP • HTTPS Shorthand Syntax: Port=integer,Type=string ... JSON Syntax: [ { "Port": integer, "Type": "HTTP"|"HTTPS" } ... ]
     /// </summary>
     [CliOption("--listener-properties-to-remove", GroupValues = true)]
     public IEnumerable<string>? ListenerPropertiesToRemove { get; set; }
 
     /// <summary>
-    /// TLS decryption on traffic to filter on attributes in the HTTP header. PcaArn -&gt; (string) Private Certificate Authority (PCA) used to issue private TLS certificates so that the proxy can present PCA-signed certifi- cates which applications trust through the same root, establish- ing a secure and consistent trust model for encrypted communica- tion. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.* TlsInterceptMode -&gt; (string) Specifies whether to enable or disable TLS Intercept Mode. Possible values: o ENABLED o DISABLED Shorthand Syntax: PcaArn=string,TlsInterceptMode=string JSON Syntax: { "PcaArn": "string", "TlsInterceptMode": "ENABLED"|"DISABLED" }
+    /// TLS decryption on traffic to filter on attributes in the HTTP header. PcaArn -&gt; (string) Private Certificate Authority (PCA) used to issue private TLS certificates so that the proxy can present PCA-signed certificates which applications trust through the same root, establishing a secure and consistent trust model for encrypted communication. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.* TlsInterceptMode -&gt; (string) Specifies whether to enable or disable TLS Intercept Mode. Possible values: • ENABLED • DISABLED Shorthand Syntax: PcaArn=string,TlsInterceptMode=string JSON Syntax: { "PcaArn": "string", "TlsInterceptMode": "ENABLED"|"DISABLED" }
     /// </summary>
     [CliOption("--tls-intercept-properties")]
     public string? TlsInterceptProperties { get; set; }

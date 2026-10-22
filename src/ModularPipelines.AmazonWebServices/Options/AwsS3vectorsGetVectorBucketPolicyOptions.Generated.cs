@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets details about a vector bucket policy. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Re- source Name (ARN). Permissions You must have the s3vectors:GetVectorBucketPolicy permission to use this operation. See also: AWS API Documentation
+/// Gets details about a vector bucket policy. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:GetVectorBucketPolicy permission to use this operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsS3vectorsGetVectorBucketPolicyOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the vector bucket. Constraints: o min: 3 o max: 63
+    /// The name of the vector bucket. Constraints: • min: 3 • max: 63
     /// </summary>
     [CliOption("--vector-bucket-name")]
     public string? VectorBucketName { get; set; }
 
     /// <summary>
-    /// The ARN of the vector bucket. Constraints: o pattern: arn:aws[-a-z0-9]*:s3vec- tors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]
+    /// The ARN of the vector bucket. Constraints: • pattern: arn:aws[-a-z0-9]*:s3vectors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]
     /// </summary>
     [CliOption("--vector-bucket-arn")]
     public string? VectorBucketArn { get; set; }

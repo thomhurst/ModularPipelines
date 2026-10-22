@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +30,9 @@ public record AwsSecurityIrSendFeedbackOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Send feedback based on response investigation action See also: AWS API Documentation
     /// </summary>
-    /// <param name="CaseId">Send feedback based on request caseID Constraints: o min: 10 o max: 32 o pattern: \d{10,32}.*</param>
-    /// <param name="ResultId">Send feedback based on request result ID Constraints: o pattern: inv-[a-z0-9]{10,32}</param>
-    /// <param name="Usefulness">Required enum value indicating user assessment of result q..... Possible values: o USEFUL o NOT_USEFUL</param>
+    /// <param name="CaseId">Send feedback based on request caseID Constraints: • min: 10 • max: 32 • pattern: \d{10,32}.*</param>
+    /// <param name="ResultId">Send feedback based on request result ID Constraints: • pattern: inv-[a-z0-9]{10,32}</param>
+    /// <param name="Usefulness">Required enum value indicating user assessment of result q..... Possible values: • USEFUL • NOT_USEFUL</param>
     public AwsSecurityIrSendFeedbackOptions(
         string CaseId,
         string ResultId,
@@ -64,25 +66,25 @@ public record AwsSecurityIrSendFeedbackOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Send feedback based on request caseID Constraints: o min: 10 o max: 32 o pattern: \d{10,32}.*
+    /// Send feedback based on request caseID Constraints: • min: 10 • max: 32 • pattern: \d{10,32}.*
     /// </summary>
     [CliOption("--case-id")]
     public string? CaseId { get; private init; }
 
     /// <summary>
-    /// Send feedback based on request result ID Constraints: o pattern: inv-[a-z0-9]{10,32}
+    /// Send feedback based on request result ID Constraints: • pattern: inv-[a-z0-9]{10,32}
     /// </summary>
     [CliOption("--result-id")]
     public string? ResultId { get; private init; }
 
     /// <summary>
-    /// Required enum value indicating user assessment of result q..... Possible values: o USEFUL o NOT_USEFUL
+    /// Required enum value indicating user assessment of result q..... Possible values: • USEFUL • NOT_USEFUL
     /// </summary>
     [CliOption("--usefulness")]
     public AwsSecurityIrSendFeedbackUsefulness? Usefulness { get; private init; }
 
     /// <summary>
-    /// Send feedback based on request comments Constraints: o min: 1 o max: 1000
+    /// Send feedback based on request comments Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--comment")]
     public string? Comment { get; set; }

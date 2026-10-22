@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAmplifyuibuilderGetCodegenJobOptions : AwsOptions, IValidatable
     /// <summary>
     /// Returns an existing code generation job. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppId">The unique ID of the Amplify app associated with the code generation job. Constraints: o min: 1 o max: 20 o pattern: d[a-z0-9]+</param>
+    /// <param name="AppId">The unique ID of the Amplify app associated with the code generation job. Constraints: • min: 1 • max: 20 • pattern: d[a-z0-9]+</param>
     /// <param name="EnvironmentName">The name of the backend environment that is a part of the Amplify app associated with the code generation job.</param>
     /// <param name="Id">The unique ID of the code generation job.</param>
     public AwsAmplifyuibuilderGetCodegenJobOptions(
@@ -64,7 +66,7 @@ public record AwsAmplifyuibuilderGetCodegenJobOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the Amplify app associated with the code generation job. Constraints: o min: 1 o max: 20 o pattern: d[a-z0-9]+
+    /// The unique ID of the Amplify app associated with the code generation job. Constraints: • min: 1 • max: 20 • pattern: d[a-z0-9]+
     /// </summary>
     [CliOption("--app-id")]
     public string? AppId { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the permissions boundary for the specified IAM user. WARNING: Deleting the permissions boundary for a user might increase its per- missions by allowing the user to perform all the actions granted in its permissions policies. See also: AWS API Documentation
+/// Deletes the permissions boundary for the specified IAM user. WARNING: Deleting the permissions boundary for a user might increase its permissions by allowing the user to perform all the actions granted in its permissions policies. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsIamDeleteUserPermissionsBoundaryOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the permissions boundary for the specified IAM user. WARNING: Deleting the permissions boundary for a user might increase its per- missions by allowing the user to perform all the actions granted in its permissions policies. See also: AWS API Documentation
+    /// Deletes the permissions boundary for the specified IAM user. WARNING: Deleting the permissions boundary for a user might increase its permissions by allowing the user to perform all the actions granted in its permissions policies. See also: AWS API Documentation
     /// </summary>
-    /// <param name="UserName">The name (friendly name, not ARN) of the IAM user from which you want to remove the permissions boundary. Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+</param>
+    /// <param name="UserName">The name (friendly name, not ARN) of the IAM user from which you want to remove the permissions boundary. Constraints: • min: 1 • max: 64 • pattern: [\w+=,.@-]+</param>
     public AwsIamDeleteUserPermissionsBoundaryOptions(
         string UserName
     )
@@ -56,7 +58,7 @@ public record AwsIamDeleteUserPermissionsBoundaryOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name (friendly name, not ARN) of the IAM user from which you want to remove the permissions boundary. Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+
+    /// The name (friendly name, not ARN) of the IAM user from which you want to remove the permissions boundary. Constraints: • min: 1 • max: 64 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; private init; }

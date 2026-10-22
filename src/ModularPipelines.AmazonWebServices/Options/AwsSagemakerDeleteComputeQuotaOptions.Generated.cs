@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSagemakerDeleteComputeQuotaOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Deletes the compute allocation from the cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ComputeQuotaId">ID of the compute allocation definition. Constraints: o pattern: [a-z0-9]{12}</param>
+    /// <param name="ComputeQuotaId">ID of the compute allocation definition. Constraints: • pattern: [a-z0-9]{12}</param>
     public AwsSagemakerDeleteComputeQuotaOptions(
         string ComputeQuotaId
     )
@@ -56,7 +58,7 @@ public record AwsSagemakerDeleteComputeQuotaOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID of the compute allocation definition. Constraints: o pattern: [a-z0-9]{12}
+    /// ID of the compute allocation definition. Constraints: • pattern: [a-z0-9]{12}
     /// </summary>
     [CliOption("--compute-quota-id")]
     public string? ComputeQuotaId { get; private init; }

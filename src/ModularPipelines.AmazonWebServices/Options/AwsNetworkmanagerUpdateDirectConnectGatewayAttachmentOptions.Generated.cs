@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the edge locations associated with an Amazon Web Services Di- rect Connect gateway attachment. See also: AWS API Documentation
+/// Updates the edge locations associated with an Amazon Web Services Direct Connect gateway attachment. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsNetworkmanagerUpdateDirectConnectGatewayAttachmentOptions : Aws
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the edge locations associated with an Amazon Web Services Di- rect Connect gateway attachment. See also: AWS API Documentation
+    /// Updates the edge locations associated with an Amazon Web Services Direct Connect gateway attachment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AttachmentId">The ID of the Direct Connect gateway attachment for the updated edge locations. Constraints: o min: 0 o max: 50 o pattern: ^attachment-([0-9a-f]{8,17})$</param>
+    /// <param name="AttachmentId">The ID of the Direct Connect gateway attachment for the updated edge locations. Constraints: • min: 0 • max: 50 • pattern: ^attachment-([0-9a-f]{8,17})$</param>
     public AwsNetworkmanagerUpdateDirectConnectGatewayAttachmentOptions(
         string AttachmentId
     )
@@ -56,13 +58,13 @@ public record AwsNetworkmanagerUpdateDirectConnectGatewayAttachmentOptions : Aws
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Direct Connect gateway attachment for the updated edge locations. Constraints: o min: 0 o max: 50 o pattern: ^attachment-([0-9a-f]{8,17})$
+    /// The ID of the Direct Connect gateway attachment for the updated edge locations. Constraints: • min: 0 • max: 50 • pattern: ^attachment-([0-9a-f]{8,17})$
     /// </summary>
     [CliOption("--attachment-id")]
     public string? AttachmentId { get; private init; }
 
     /// <summary>
-    /// One or more edge locations to update for the Direct Connect gateway attachment. The updated array of edge locations overwrites the pre- vious array of locations. EdgeLocations is only used for Direct Con- nect gateway attachments. (string) Constraints: o min: 1 o max: 63 o pattern: [\s\S]* Syntax: "string" "string" ...
+    /// One or more edge locations to update for the Direct Connect gateway attachment. The updated array of edge locations overwrites the previous array of locations. EdgeLocations is only used for Direct Connect gateway attachments. (string) Constraints: • min: 1 • max: 63 • pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--edge-locations", GroupValues = true)]
     public IEnumerable<string>? EdgeLocations { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMediaconnectDescribeGatewayOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Displays the details of a gateway. The response includes the gateway Amazon Resource Name (ARN), name, and CIDR blocks, as well as details about the networks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GatewayArn">The ARN of the gateway that you want to describe. Constraints: o pattern: arn:.+:mediaconnect.+:gateway:.+</param>
+    /// <param name="GatewayArn">The ARN of the gateway that you want to describe. Constraints: • pattern: arn:.+:mediaconnect.+:gateway:.+</param>
     public AwsMediaconnectDescribeGatewayOptions(
         string GatewayArn
     )
@@ -56,7 +58,7 @@ public record AwsMediaconnectDescribeGatewayOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the gateway that you want to describe. Constraints: o pattern: arn:.+:mediaconnect.+:gateway:.+
+    /// The ARN of the gateway that you want to describe. Constraints: • pattern: arn:.+:mediaconnect.+:gateway:.+
     /// </summary>
     [CliOption("--gateway-arn")]
     public string? GatewayArn { get; private init; }

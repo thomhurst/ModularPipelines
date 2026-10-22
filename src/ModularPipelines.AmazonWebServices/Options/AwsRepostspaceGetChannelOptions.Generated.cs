@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsRepostspaceGetChannelOptions : AwsOptions, IValidatableObject
     /// Displays information about a channel in a private re:Post. See also: AWS API Documentation
     /// </summary>
     /// <param name="SpaceId">The unique ID of the private re:Post.</param>
-    /// <param name="ChannelId">The unique ID of the private re:Post channel. Constraints: o min: 24 o max: 24</param>
+    /// <param name="ChannelId">The unique ID of the private re:Post channel. Constraints: • min: 24 • max: 24</param>
     public AwsRepostspaceGetChannelOptions(
         string SpaceId,
         string ChannelId
@@ -66,7 +68,7 @@ public record AwsRepostspaceGetChannelOptions : AwsOptions, IValidatableObject
     public string? SpaceId { get; private init; }
 
     /// <summary>
-    /// The unique ID of the private re:Post channel. Constraints: o min: 24 o max: 24
+    /// The unique ID of the private re:Post channel. Constraints: • min: 24 • max: 24
     /// </summary>
     [CliOption("--channel-id")]
     public string? ChannelId { get; private init; }

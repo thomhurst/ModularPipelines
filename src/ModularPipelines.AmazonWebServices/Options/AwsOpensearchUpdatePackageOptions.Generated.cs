@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsOpensearchUpdatePackageOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates a package for use with Amazon OpenSearch Service domains. For more information, see Custom packages for Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
-    /// <param name="PackageId">The unique identifier for the package. Constraints: o pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$</param>
-    /// <param name="PackageSource">Amazon S3 bucket and key for the package. S3BucketName -&gt; (string) The name of the Amazon S3 bucket containing the package. Constraints: o min: 3 o max: 63 S3Key -&gt; (string) Key (file name) of the package. Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3BucketName=string,S3Key=string JSON Syntax: { "S3BucketName": "string", "S3Key": "string" }</param>
+    /// <param name="PackageId">The unique identifier for the package. Constraints: • pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$</param>
+    /// <param name="PackageSource">Amazon S3 bucket and key for the package. S3BucketName -&gt; (string) The name of the Amazon S3 bucket containing the package. Constraints: • min: 3 • max: 63 S3Key -&gt; (string) Key (file name) of the package. Constraints: • min: 1 • max: 1024 Shorthand Syntax: S3BucketName=string,S3Key=string JSON Syntax: { "S3BucketName": "string", "S3Key": "string" }</param>
     public AwsOpensearchUpdatePackageOptions(
         string PackageId,
         string PackageSource
@@ -60,37 +62,37 @@ public record AwsOpensearchUpdatePackageOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the package. Constraints: o pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$
+    /// The unique identifier for the package. Constraints: • pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$
     /// </summary>
     [CliOption("--package-id")]
     public string? PackageId { get; private init; }
 
     /// <summary>
-    /// Amazon S3 bucket and key for the package. S3BucketName -&gt; (string) The name of the Amazon S3 bucket containing the package. Constraints: o min: 3 o max: 63 S3Key -&gt; (string) Key (file name) of the package. Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3BucketName=string,S3Key=string JSON Syntax: { "S3BucketName": "string", "S3Key": "string" }
+    /// Amazon S3 bucket and key for the package. S3BucketName -&gt; (string) The name of the Amazon S3 bucket containing the package. Constraints: • min: 3 • max: 63 S3Key -&gt; (string) Key (file name) of the package. Constraints: • min: 1 • max: 1024 Shorthand Syntax: S3BucketName=string,S3Key=string JSON Syntax: { "S3BucketName": "string", "S3Key": "string" }
     /// </summary>
     [CliOption("--package-source")]
     public string? PackageSource { get; private init; }
 
     /// <summary>
-    /// A new description of the package. Constraints: o max: 1024
+    /// A new description of the package. Constraints: • max: 1024
     /// </summary>
     [CliOption("--package-description")]
     public string? PackageDescription { get; set; }
 
     /// <summary>
-    /// Commit message for the updated file, which is shown as part of Get- PackageVersionHistoryResponse . Constraints: o max: 160
+    /// Commit message for the updated file, which is shown as part of GetPackageVersionHistoryResponse . Constraints: • max: 160
     /// </summary>
     [CliOption("--commit-message")]
     public string? CommitMessage { get; set; }
 
     /// <summary>
-    /// The updated configuration details for a package. LicenseRequirement -&gt; (string) [required] The license requirements for the package. Possible values: o REQUIRED o OPTIONAL o NONE LicenseFilepath -&gt; (string) The relative file path for the license associated with the pack- age. Constraints: o max: 256 o pattern: ^(?!.*\/\.{2,})(?!.*\.\.)[a-zA-Z0-9_.-]+(?:\/[a-zA-Z0-9_.-]+)*$ ConfigurationRequirement -&gt; (string) [required] The configuration requirements for the package. Possible values: o REQUIRED o OPTIONAL o NONE RequiresRestartForConfigurationUpdate -&gt; (boolean) This indicates whether a B/G deployment is required for updating the configuration that the plugin is prerequisite for. Shorthand Syntax: LicenseRequirement=string,LicenseFilepath=string,ConfigurationRequirement=string,RequiresRestartForConfigurationUpdate=boolean JSON Syntax: { "LicenseRequirement": "REQUIRED"|"OPTIONAL"|"NONE", "LicenseFilepath": "string", "ConfigurationRequirement": "REQUIRED"|"OPTIONAL"|"NONE", "RequiresRestartForConfigurationUpdate": true|false }
+    /// The updated configuration details for a package. LicenseRequirement -&gt; (string) [required] The license requirements for the package. Possible values: • REQUIRED • OPTIONAL • NONE LicenseFilepath -&gt; (string) The relative file path for the license associated with the package. Constraints: • max: 256 • pattern: ^(?!.*\/\.{2,})(?!.*\.\.)[a-zA-Z0-9_.-]+(?:\/[a-zA-Z0-9_.-]+)*$ ConfigurationRequirement -&gt; (string) [required] The configuration requirements for the package. Possible values: • REQUIRED • OPTIONAL • NONE RequiresRestartForConfigurationUpdate -&gt; (boolean) This indicates whether a B/G deployment is required for updating the configuration that the plugin is prerequisite for. Shorthand Syntax: LicenseRequirement=string,LicenseFilepath=string,ConfigurationRequirement=string,RequiresRestartForConfigurationUpdate=boolean JSON Syntax: { "LicenseRequirement": "REQUIRED"|"OPTIONAL"|"NONE", "LicenseFilepath": "string", "ConfigurationRequirement": "REQUIRED"|"OPTIONAL"|"NONE", "RequiresRestartForConfigurationUpdate": true|false }
     /// </summary>
     [CliOption("--package-configuration")]
     public string? PackageConfiguration { get; set; }
 
     /// <summary>
-    /// Encryption options for a package. KmsKeyIdentifier -&gt; (string) KMS key ID for encrypting the package. Constraints: o min: 1 o max: 500 o pattern: .* EncryptionEnabled -&gt; (boolean) [required] Whether encryption is enabled for the package. Shorthand Syntax: KmsKeyIdentifier=string,EncryptionEnabled=boolean JSON Syntax: { "KmsKeyIdentifier": "string", "EncryptionEnabled": true|false }
+    /// Encryption options for a package. KmsKeyIdentifier -&gt; (string) KMS key ID for encrypting the package. Constraints: • min: 1 • max: 500 • pattern: .* EncryptionEnabled -&gt; (boolean) [required] Whether encryption is enabled for the package. Shorthand Syntax: KmsKeyIdentifier=string,EncryptionEnabled=boolean JSON Syntax: { "KmsKeyIdentifier": "string", "EncryptionEnabled": true|false }
     /// </summary>
     [CliOption("--package-encryption-options")]
     public string? PackageEncryptionOptions { get; set; }

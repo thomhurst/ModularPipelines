@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves information about a specific task running on a specific tar- get. See also: AWS API Documentation
+/// Retrieves information about a specific task running on a specific target. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsSsmGetMaintenanceWindowExecutionTaskInvocationOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves information about a specific task running on a specific tar- get. See also: AWS API Documentation
+    /// Retrieves information about a specific task running on a specific target. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WindowExecutionId">The ID of the maintenance window execution for which the task is a part. Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$</param>
-    /// <param name="TaskId">The ID of the specific task in the maintenance window task that should be retrieved. Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$</param>
-    /// <param name="InvocationId">The invocation ID to retrieve. Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$</param>
+    /// <param name="WindowExecutionId">The ID of the maintenance window execution for which the task is a part. Constraints: • min: 36 • max: 36 • pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$</param>
+    /// <param name="TaskId">The ID of the specific task in the maintenance window task that should be retrieved. Constraints: • min: 36 • max: 36 • pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$</param>
+    /// <param name="InvocationId">The invocation ID to retrieve. Constraints: • min: 36 • max: 36 • pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$</param>
     public AwsSsmGetMaintenanceWindowExecutionTaskInvocationOptions(
         string WindowExecutionId,
         string TaskId,
@@ -64,19 +66,19 @@ public record AwsSsmGetMaintenanceWindowExecutionTaskInvocationOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the maintenance window execution for which the task is a part. Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$
+    /// The ID of the maintenance window execution for which the task is a part. Constraints: • min: 36 • max: 36 • pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$
     /// </summary>
     [CliOption("--window-execution-id")]
     public string? WindowExecutionId { get; private init; }
 
     /// <summary>
-    /// The ID of the specific task in the maintenance window task that should be retrieved. Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$
+    /// The ID of the specific task in the maintenance window task that should be retrieved. Constraints: • min: 36 • max: 36 • pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$
     /// </summary>
     [CliOption("--task-id")]
     public string? TaskId { get; private init; }
 
     /// <summary>
-    /// The invocation ID to retrieve. Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$
+    /// The invocation ID to retrieve. Constraints: • min: 36 • max: 36 • pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$
     /// </summary>
     [CliOption("--invocation-id")]
     public string? InvocationId { get; private init; }

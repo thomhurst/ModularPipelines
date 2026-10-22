@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsEmrCreatePersistentAppUiOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Creates a persistent application user interface. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TargetResourceArn">The unique Amazon Resource Name (ARN) of the target resource. Constraints: o min: 20 o max: 2048</param>
+    /// <param name="TargetResourceArn">The unique Amazon Resource Name (ARN) of the target resource. Constraints: • min: 20 • max: 2048</param>
     public AwsEmrCreatePersistentAppUiOptions(
         string TargetResourceArn
     )
@@ -57,19 +59,19 @@ public record AwsEmrCreatePersistentAppUiOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique Amazon Resource Name (ARN) of the target resource. Constraints: o min: 20 o max: 2048
+    /// The unique Amazon Resource Name (ARN) of the target resource. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--target-resource-arn")]
     public string? TargetResourceArn { get; private init; }
 
     /// <summary>
-    /// The EMR containers configuration. JobRunId -&gt; (string) The Job run ID for the container configuration. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: JobRunId=string JSON Syntax: { "JobRunId": "string" }
+    /// The EMR containers configuration. JobRunId -&gt; (string) The Job run ID for the container configuration. Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: JobRunId=string JSON Syntax: { "JobRunId": "string" }
     /// </summary>
     [CliOption("--emr-containers-config")]
     public string? EmrContainersConfig { get; set; }
 
     /// <summary>
-    /// Tags for the persistent application user interface. (structure) A key-value pair containing user-defined metadata that you can associate with an Amazon EMR resource. Tags make it easier to associate clusters in various ways, such as grouping clusters to track your Amazon EMR resource allocation costs. For more infor- mation, see Tag Clusters . Key -&gt; (string) A user-defined key, which is the minimum required information for a valid tag. For more information, see Tag . Value -&gt; (string) A user-defined value, which is optional in a tag. For more information, see Tag Clusters . Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Tags for the persistent application user interface. (structure) A key-value pair containing user-defined metadata that you can associate with an Amazon EMR resource. Tags make it easier to associate clusters in various ways, such as grouping clusters to track your Amazon EMR resource allocation costs. For more information, see Tag Clusters . Key -&gt; (string) A user-defined key, which is the minimum required information for a valid tag. For more information, see Tag . Value -&gt; (string) A user-defined value, which is optional in a tag. For more information, see Tag Clusters . Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -81,7 +83,7 @@ public record AwsEmrCreatePersistentAppUiOptions : AwsOptions, IValidatableObjec
     public string? XReferer { get; set; }
 
     /// <summary>
-    /// The profiler type for the persistent application user interface. Possible values: o SHS o TEZUI o YTS
+    /// The profiler type for the persistent application user interface. Possible values: • SHS • TEZUI • YTS
     /// </summary>
     [CliOption("--profiler-type")]
     public AwsEmrCreatePersistentAppUiProfilerType? ProfilerType { get; set; }

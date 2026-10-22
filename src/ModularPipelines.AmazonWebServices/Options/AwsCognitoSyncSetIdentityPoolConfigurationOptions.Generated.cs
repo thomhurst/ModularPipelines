@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sets the necessary configuration for push sync. This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Iden- tity. See also: AWS API Documentation
+/// Sets the necessary configuration for push sync. This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsCognitoSyncSetIdentityPoolConfigurationOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sets the necessary configuration for push sync. This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Iden- tity. See also: AWS API Documentation
+    /// Sets the necessary configuration for push sync. This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IdentityPoolId">A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. This is the ID of the pool to modify. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+</param>
+    /// <param name="IdentityPoolId">A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. This is the ID of the pool to modify. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+</param>
     public AwsCognitoSyncSetIdentityPoolConfigurationOptions(
         string IdentityPoolId
     )
@@ -56,13 +58,13 @@ public record AwsCognitoSyncSetIdentityPoolConfigurationOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. This is the ID of the pool to modify. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+
+    /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. This is the ID of the pool to modify. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+
     /// </summary>
     [CliOption("--identity-pool-id")]
     public string? IdentityPoolId { get; private init; }
 
     /// <summary>
-    /// Options to apply to this identity pool for push synchronization. ApplicationArns -&gt; (list) List of SNS platform application ARNs that could be used by clients. (string) Constraints: o pattern: arn:aws:sns:[-0-9a-z]+:\d+:app/[A-Z_]+/[a-zA-Z0-9_.-]+ RoleArn -&gt; (string) A role configured to allow Cognito to call SNS on behalf of the developer. Constraints: o min: 20 o max: 2048 o pattern: arn:aws:iam::\d+:role/.* Shorthand Syntax: ApplicationArns=string,string,RoleArn=string JSON Syntax: { "ApplicationArns": ["string", ...], "RoleArn": "string" }
+    /// Options to apply to this identity pool for push synchronization. ApplicationArns -&gt; (list) List of SNS platform application ARNs that could be used by clients. (string) Constraints: • pattern: arn:aws:sns:[-0-9a-z]+:\d+:app/[A-Z_]+/[a-zA-Z0-9_.-]+ RoleArn -&gt; (string) A role configured to allow Cognito to call SNS on behalf of the developer. Constraints: • min: 20 • max: 2048 • pattern: arn:aws:iam::\d+:role/.* Shorthand Syntax: ApplicationArns=string,string,RoleArn=string JSON Syntax: { "ApplicationArns": ["string", ...], "RoleArn": "string" }
     /// </summary>
     [CliOption("--push-sync")]
     public string? PushSync { get; set; }

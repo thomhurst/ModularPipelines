@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsRedshiftRegisterNamespaceOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Registers a cluster or serverless namespace to the Amazon Web Services Glue Data Catalog. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NamespaceIdentifier">The unique identifier of the cluster or serverless namespace that you want to register. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: ServerlessIdentifier, ProvisionedIdenti- fier. ServerlessIdentifier -&gt; (structure) The identifier for a serverless namespace. NamespaceIdentifier -&gt; (string) [required] The unique identifier for the serverless namespace. Constraints: o max: 2147483647 WorkgroupIdentifier -&gt; (string) [required] The unique identifier for the workgroup associated with the serverless namespace. Constraints: o max: 2147483647 ProvisionedIdentifier -&gt; (structure) The identifier for a provisioned cluster. ClusterIdentifier -&gt; (string) [required] The unique identifier for the provisioned cluster. Constraints: o max: 2147483647 Shorthand Syntax: ServerlessIdentifier={NamespaceIdentifier=string,WorkgroupIdentifier=string},ProvisionedIdentifier={ClusterIdentifier=string} JSON Syntax: { "ServerlessIdentifier": { "NamespaceIdentifier": "string", "WorkgroupIdentifier": "string" }, "ProvisionedIdentifier": { "ClusterIdentifier": "string" } }</param>
-    /// <param name="ConsumerIdentifiers">An array containing the ID of the consumer account that you want to register the namespace to. Constraints: o min: 1 o max: 1 (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...</param>
+    /// <param name="NamespaceIdentifier">The unique identifier of the cluster or serverless namespace that you want to register. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: ServerlessIdentifier, ProvisionedIdentifier. ServerlessIdentifier -&gt; (structure) The identifier for a serverless namespace. NamespaceIdentifier -&gt; (string) [required] The unique identifier for the serverless namespace. Constraints: • max: 2147483647 WorkgroupIdentifier -&gt; (string) [required] The unique identifier for the workgroup associated with the serverless namespace. Constraints: • max: 2147483647 ProvisionedIdentifier -&gt; (structure) The identifier for a provisioned cluster. ClusterIdentifier -&gt; (string) [required] The unique identifier for the provisioned cluster. Constraints: • max: 2147483647 Shorthand Syntax: ServerlessIdentifier={NamespaceIdentifier=string,WorkgroupIdentifier=string},ProvisionedIdentifier={ClusterIdentifier=string} JSON Syntax: { "ServerlessIdentifier": { "NamespaceIdentifier": "string", "WorkgroupIdentifier": "string" }, "ProvisionedIdentifier": { "ClusterIdentifier": "string" } }</param>
+    /// <param name="ConsumerIdentifiers">An array containing the ID of the consumer account that you want to register the namespace to. Constraints: • min: 1 • max: 1 (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...</param>
     public AwsRedshiftRegisterNamespaceOptions(
         string NamespaceIdentifier,
         IEnumerable<string> ConsumerIdentifiers
@@ -71,13 +73,13 @@ public record AwsRedshiftRegisterNamespaceOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the cluster or serverless namespace that you want to register. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: ServerlessIdentifier, ProvisionedIdenti- fier. ServerlessIdentifier -&gt; (structure) The identifier for a serverless namespace. NamespaceIdentifier -&gt; (string) [required] The unique identifier for the serverless namespace. Constraints: o max: 2147483647 WorkgroupIdentifier -&gt; (string) [required] The unique identifier for the workgroup associated with the serverless namespace. Constraints: o max: 2147483647 ProvisionedIdentifier -&gt; (structure) The identifier for a provisioned cluster. ClusterIdentifier -&gt; (string) [required] The unique identifier for the provisioned cluster. Constraints: o max: 2147483647 Shorthand Syntax: ServerlessIdentifier={NamespaceIdentifier=string,WorkgroupIdentifier=string},ProvisionedIdentifier={ClusterIdentifier=string} JSON Syntax: { "ServerlessIdentifier": { "NamespaceIdentifier": "string", "WorkgroupIdentifier": "string" }, "ProvisionedIdentifier": { "ClusterIdentifier": "string" } }
+    /// The unique identifier of the cluster or serverless namespace that you want to register. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: ServerlessIdentifier, ProvisionedIdentifier. ServerlessIdentifier -&gt; (structure) The identifier for a serverless namespace. NamespaceIdentifier -&gt; (string) [required] The unique identifier for the serverless namespace. Constraints: • max: 2147483647 WorkgroupIdentifier -&gt; (string) [required] The unique identifier for the workgroup associated with the serverless namespace. Constraints: • max: 2147483647 ProvisionedIdentifier -&gt; (structure) The identifier for a provisioned cluster. ClusterIdentifier -&gt; (string) [required] The unique identifier for the provisioned cluster. Constraints: • max: 2147483647 Shorthand Syntax: ServerlessIdentifier={NamespaceIdentifier=string,WorkgroupIdentifier=string},ProvisionedIdentifier={ClusterIdentifier=string} JSON Syntax: { "ServerlessIdentifier": { "NamespaceIdentifier": "string", "WorkgroupIdentifier": "string" }, "ProvisionedIdentifier": { "ClusterIdentifier": "string" } }
     /// </summary>
     [CliOption("--namespace-identifier")]
     public string? NamespaceIdentifier { get; private init; }
 
     /// <summary>
-    /// An array containing the ID of the consumer account that you want to register the namespace to. Constraints: o min: 1 o max: 1 (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// An array containing the ID of the consumer account that you want to register the namespace to. Constraints: • min: 1 • max: 1 (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--consumer-identifiers", GroupValues = true)]
     public IEnumerable<string>? ConsumerIdentifiers { get; private init; }

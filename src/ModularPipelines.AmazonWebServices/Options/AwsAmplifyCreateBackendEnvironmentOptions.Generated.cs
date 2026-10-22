@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new backend environment for an Amplify app. This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line in- terface (CLI). This API isnt available to Amplify Gen 2 applications. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code. See also: AWS API Documentation
+/// Creates a new backend environment for an Amplify app. This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isnt available to Amplify Gen 2 applications. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsAmplifyCreateBackendEnvironmentOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new backend environment for an Amplify app. This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line in- terface (CLI). This API isnt available to Amplify Gen 2 applications. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code. See also: AWS API Documentation
+    /// Creates a new backend environment for an Amplify app. This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isnt available to Amplify Gen 2 applications. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppId">The unique ID for an Amplify app. Constraints: o min: 1 o max: 20 o pattern: d[a-z0-9]+</param>
-    /// <param name="EnvironmentName">The name for the backend environment. Constraints: o min: 1 o max: 255 o pattern: (?s).+</param>
+    /// <param name="AppId">The unique ID for an Amplify app. Constraints: • min: 1 • max: 20 • pattern: d[a-z0-9]+</param>
+    /// <param name="EnvironmentName">The name for the backend environment. Constraints: • min: 1 • max: 255 • pattern: (?s).+</param>
     public AwsAmplifyCreateBackendEnvironmentOptions(
         string AppId,
         string EnvironmentName
@@ -60,25 +62,25 @@ public record AwsAmplifyCreateBackendEnvironmentOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID for an Amplify app. Constraints: o min: 1 o max: 20 o pattern: d[a-z0-9]+
+    /// The unique ID for an Amplify app. Constraints: • min: 1 • max: 20 • pattern: d[a-z0-9]+
     /// </summary>
     [CliOption("--app-id")]
     public string? AppId { get; private init; }
 
     /// <summary>
-    /// The name for the backend environment. Constraints: o min: 1 o max: 255 o pattern: (?s).+
+    /// The name for the backend environment. Constraints: • min: 1 • max: 255 • pattern: (?s).+
     /// </summary>
     [CliOption("--environment-name")]
     public string? EnvironmentName { get; private init; }
 
     /// <summary>
-    /// The AWS CloudFormation stack name of a backend environment. Constraints: o min: 1 o max: 255 o pattern: (?s).+
+    /// The AWS CloudFormation stack name of a backend environment. Constraints: • min: 1 • max: 255 • pattern: (?s).+
     /// </summary>
     [CliOption("--stack-name")]
     public string? StackName { get; set; }
 
     /// <summary>
-    /// The name of deployment artifacts. Constraints: o min: 1 o max: 1000 o pattern: (?s).+
+    /// The name of deployment artifacts. Constraints: • min: 1 • max: 1000 • pattern: (?s).+
     /// </summary>
     [CliOption("--deployment-artifacts")]
     public string? DeploymentArtifacts { get; set; }

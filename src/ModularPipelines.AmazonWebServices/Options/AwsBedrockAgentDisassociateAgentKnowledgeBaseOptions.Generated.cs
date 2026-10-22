@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsBedrockAgentDisassociateAgentKnowledgeBaseOptions : AwsOptions,
     /// <summary>
     /// Disassociates a knowledge base from an agent. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentId">The unique identifier of the agent from which to disassociate the knowledge base. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
-    /// <param name="AgentVersion">The version of the agent from which to disassociate the knowledge base. Constraints: o min: 5 o max: 5 o pattern: DRAFT</param>
-    /// <param name="KnowledgeBaseId">The unique identifier of the knowledge base to disassociate. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="AgentId">The unique identifier of the agent from which to disassociate the knowledge base. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="AgentVersion">The version of the agent from which to disassociate the knowledge base. Constraints: • min: 5 • max: 5 • pattern: DRAFT</param>
+    /// <param name="KnowledgeBaseId">The unique identifier of the knowledge base to disassociate. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
     public AwsBedrockAgentDisassociateAgentKnowledgeBaseOptions(
         string AgentId,
         string AgentVersion,
@@ -64,19 +66,19 @@ public record AwsBedrockAgentDisassociateAgentKnowledgeBaseOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the agent from which to disassociate the knowledge base. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The unique identifier of the agent from which to disassociate the knowledge base. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--agent-id")]
     public string? AgentId { get; private init; }
 
     /// <summary>
-    /// The version of the agent from which to disassociate the knowledge base. Constraints: o min: 5 o max: 5 o pattern: DRAFT
+    /// The version of the agent from which to disassociate the knowledge base. Constraints: • min: 5 • max: 5 • pattern: DRAFT
     /// </summary>
     [CliOption("--agent-version")]
     public string? AgentVersion { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the knowledge base to disassociate. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The unique identifier of the knowledge base to disassociate. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--knowledge-base-id")]
     public string? KnowledgeBaseId { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Generates a pre-signed URL, request headers used to upload a code re- source, and code artifact identifier for the uploaded resource. You can upload your code resource to the URL with the request headers using any HTTP client. See also: AWS API Documentation
+/// Generates a pre-signed URL, request headers used to upload a code resource, and code artifact identifier for the uploaded resource. You can upload your code resource to the URL with the request headers using any HTTP client. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsCodeguruSecurityCreateUploadUrlOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Generates a pre-signed URL, request headers used to upload a code re- source, and code artifact identifier for the uploaded resource. You can upload your code resource to the URL with the request headers using any HTTP client. See also: AWS API Documentation
+    /// Generates a pre-signed URL, request headers used to upload a code resource, and code artifact identifier for the uploaded resource. You can upload your code resource to the URL with the request headers using any HTTP client. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ScanName">The name of the scan that will use the uploaded resource. CodeGuru Security uses the unique scan name to track revisions across multi- ple scans of the same resource. Use this scanName when you call Cre- ateScan on the code resource you upload to this URL. Constraints: o min: 1 o max: 140 o pattern: [a-zA-Z0-9-_$:.]*</param>
+    /// <param name="ScanName">The name of the scan that will use the uploaded resource. CodeGuru Security uses the unique scan name to track revisions across multiple scans of the same resource. Use this scanName when you call CreateScan on the code resource you upload to this URL. Constraints: • min: 1 • max: 140 • pattern: [a-zA-Z0-9-_$:.]*</param>
     public AwsCodeguruSecurityCreateUploadUrlOptions(
         string ScanName
     )
@@ -56,7 +58,7 @@ public record AwsCodeguruSecurityCreateUploadUrlOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the scan that will use the uploaded resource. CodeGuru Security uses the unique scan name to track revisions across multi- ple scans of the same resource. Use this scanName when you call Cre- ateScan on the code resource you upload to this URL. Constraints: o min: 1 o max: 140 o pattern: [a-zA-Z0-9-_$:.]*
+    /// The name of the scan that will use the uploaded resource. CodeGuru Security uses the unique scan name to track revisions across multiple scans of the same resource. Use this scanName when you call CreateScan on the code resource you upload to this URL. Constraints: • min: 1 • max: 140 • pattern: [a-zA-Z0-9-_$:.]*
     /// </summary>
     [CliOption("--scan-name")]
     public string? ScanName { get; private init; }

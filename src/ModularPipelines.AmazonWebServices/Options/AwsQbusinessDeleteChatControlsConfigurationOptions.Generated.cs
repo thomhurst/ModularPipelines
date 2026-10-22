@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes chat controls configured for an existing Amazon Q Business ap- plication. See also: AWS API Documentation
+/// Deletes chat controls configured for an existing Amazon Q Business application. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsQbusinessDeleteChatControlsConfigurationOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes chat controls configured for an existing Amazon Q Business ap- plication. See also: AWS API Documentation
+    /// Deletes chat controls configured for an existing Amazon Q Business application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The identifier of the application the chat controls have been con- figured for. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="ApplicationId">The identifier of the application the chat controls have been configured for. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
     public AwsQbusinessDeleteChatControlsConfigurationOptions(
         string ApplicationId
     )
@@ -56,7 +58,7 @@ public record AwsQbusinessDeleteChatControlsConfigurationOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the application the chat controls have been con- figured for. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The identifier of the application the chat controls have been configured for. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }

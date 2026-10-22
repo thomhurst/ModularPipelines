@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Registers a capability for an OpenSearch UI application. Use this oper- ation to enable specific capabilities, such as AI features, for a given application. The capability configuration defines the type and settings of the capability to register. For more information about the AI fea- tures, see Agentic AI for OpenSearch UI . See also: AWS API Documentation
+/// Registers a capability for an OpenSearch UI application. Use this operation to enable specific capabilities, such as AI features, for a given application. The capability configuration defines the type and settings of the capability to register. For more information about the AI features, see Agentic AI for OpenSearch UI . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsOpensearchRegisterCapabilityOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Registers a capability for an OpenSearch UI application. Use this oper- ation to enable specific capabilities, such as AI features, for a given application. The capability configuration defines the type and settings of the capability to register. For more information about the AI fea- tures, see Agentic AI for OpenSearch UI . See also: AWS API Documentation
+    /// Registers a capability for an OpenSearch UI application. Use this operation to enable specific capabilities, such as AI features, for a given application. The capability configuration defines the type and settings of the capability to register. For more information about the AI features, see Agentic AI for OpenSearch UI . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The unique identifier of the OpenSearch UI application to register the capability for. Constraints: o pattern: [a-z0-9]{3,30}</param>
-    /// <param name="CapabilityName">The name of the capability to register. Must be between 3 and 30 characters and contain only alphanumeric characters and hyphens. This identifies the type of capability being enabled for the appli- cation. For registering AI Assistant capability, use ai-capability Constraints: o min: 3 o max: 30 o pattern: ^[a-zA-Z0-9-]+$</param>
+    /// <param name="ApplicationId">The unique identifier of the OpenSearch UI application to register the capability for. Constraints: • pattern: [a-z0-9]{3,30}</param>
+    /// <param name="CapabilityName">The name of the capability to register. Must be between 3 and 30 characters and contain only alphanumeric characters and hyphens. This identifies the type of capability being enabled for the application. For registering AI Assistant capability, use ai-capability Constraints: • min: 3 • max: 30 • pattern: ^[a-zA-Z0-9-]+$</param>
     /// <param name="CapabilityConfig">The configuration settings for the capability being registered. This includes capability-specific settings such as AI configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: aiConfig. aiConfig -&gt; (structure) Configuration settings for AI-powered capabilities. Shorthand Syntax: aiConfig={} JSON Syntax: { "aiConfig": { } }</param>
     public AwsOpensearchRegisterCapabilityOptions(
         string ApplicationId,
@@ -64,13 +66,13 @@ public record AwsOpensearchRegisterCapabilityOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the OpenSearch UI application to register the capability for. Constraints: o pattern: [a-z0-9]{3,30}
+    /// The unique identifier of the OpenSearch UI application to register the capability for. Constraints: • pattern: [a-z0-9]{3,30}
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The name of the capability to register. Must be between 3 and 30 characters and contain only alphanumeric characters and hyphens. This identifies the type of capability being enabled for the appli- cation. For registering AI Assistant capability, use ai-capability Constraints: o min: 3 o max: 30 o pattern: ^[a-zA-Z0-9-]+$
+    /// The name of the capability to register. Must be between 3 and 30 characters and contain only alphanumeric characters and hyphens. This identifies the type of capability being enabled for the application. For registering AI Assistant capability, use ai-capability Constraints: • min: 3 • max: 30 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--capability-name")]
     public string? CapabilityName { get; private init; }

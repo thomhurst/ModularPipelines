@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAppConfigGetExtensionAssociationOptions : AwsOptions, IValidata
     /// <summary>
     /// Returns information about an AppConfig extension association. For more information about extensions and associations, see Extending workflows in the AppConfig User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExtensionAssociationId">The extension association ID to get. Constraints: o pattern: [a-z0-9]{4,7}</param>
+    /// <param name="ExtensionAssociationId">The extension association ID to get. Constraints: • pattern: [a-z0-9]{4,7}</param>
     public AwsAppConfigGetExtensionAssociationOptions(
         string ExtensionAssociationId
     )
@@ -56,7 +58,7 @@ public record AwsAppConfigGetExtensionAssociationOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The extension association ID to get. Constraints: o pattern: [a-z0-9]{4,7}
+    /// The extension association ID to get. Constraints: • pattern: [a-z0-9]{4,7}
     /// </summary>
     [CliOption("--extension-association-id")]
     public string? ExtensionAssociationId { get; private init; }

@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a paginated list of objectives from the Control Catalog. You can apply an optional filter to see the objectives that belong to a specific domain. If you dont provide a filter, the operation returns all objectives. See also: AWS API Documentation list-objectives is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argum...
+/// Returns a paginated list of objectives from the Control Catalog. You can apply an optional filter to see the objectives that belong to a specific domain. If you dont provide a filter, the operation returns all objectives. See also: AWS API Documentation list-objectives is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,16 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsControlcatalogListObjectivesOptions : AwsOptions
 {
     /// <summary>
-    /// An optional filter that narrows the results to a specific domain. This filter allows you to specify one domain ARN at a time. Passing multiple ARNs in the ObjectiveFilter isnt supported. Domains -&gt; (list) The domain that's used as filter criteria. You can use this parameter to specify one domain ARN at a time. Passing multiple ARNs in the ObjectiveFilter isnt supported. (structure) The domain resource that's being used as a filter. Arn -&gt; (string) The Amazon Resource Name (ARN) of the domain. Constraints: o min: 33 o max: 2048 o pattern: arn:(aws(?:[-a-z]*)?):controlcatalog:::do- main/[0-9a-z]+ Shorthand Syntax: Domains=[{Arn=string},{Arn=string}] JSON Syntax: { "Domains": [ { "Arn": "string" } ... ] }
+    /// An optional filter that narrows the results to a specific domain. This filter allows you to specify one domain ARN at a time. Passing multiple ARNs in the ObjectiveFilter isnt supported. Domains -&gt; (list) The domain that's used as filter criteria. You can use this parameter to specify one domain ARN at a time. Passing multiple ARNs in the ObjectiveFilter isnt supported. (structure) The domain resource that's being used as a filter. Arn -&gt; (string) The Amazon Resource Name (ARN) of the domain. Constraints: • min: 33 • max: 2048 • pattern: arn:(aws(?:[-a-z]*)?):controlcatalog:::domain/[0-9a-z]+ Shorthand Syntax: Domains=[{Arn=string},{Arn=string}] JSON Syntax: { "Domains": [ { "Arn": "string" } ... ] }
     /// </summary>
     [CliOption("--objective-filter")]
     public string? ObjectiveFilter { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -42,15 +39,18 @@ public record AwsControlcatalogListObjectivesOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

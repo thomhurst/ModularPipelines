@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Subscribes user to AWS Config by creating an AWS Config delivery chan- nel and configuration recorder to track AWS resource configurations. The names of the default channel and configuration recorder will be de- fault.
+/// Subscribes user to AWS Config by creating an AWS Config delivery channel and configuration recorder to track AWS resource configurations. The names of the default channel and configuration recorder will be default.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsConfigserviceSubscribeOptions : AwsOptions
 {
     /// <summary>
-    /// Subscribes user to AWS Config by creating an AWS Config delivery chan- nel and configuration recorder to track AWS resource configurations. The names of the default channel and configuration recorder will be de- fault.
+    /// Subscribes user to AWS Config by creating an AWS Config delivery channel and configuration recorder to track AWS resource configurations. The names of the default channel and configuration recorder will be default.
     /// </summary>
     /// <param name="S3Bucket"></param>
     /// <param name="SnsTopic"></param>

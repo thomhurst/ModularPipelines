@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Lists the entries (images) within a dataset. An entry is a JSON Line that contains the information for a single image, including the image location, assigned labels, and object location bounding boxes. For more information, see Creating a manifest file . JSON Lines in the response include information about non-terminal er- rors found in the dataset. Non terminal errors are reported in errors lists within each JSON Line. The s...
+/// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Lists the entries (images) within a dataset. An entry is a JSON Line that contains the information for a single image, including the image location, assigned labels, and object location bounding boxes. For more information, see Creating a manifest file . JSON Lines in the response include information about non-terminal errors found in the dataset. Non terminal errors are reported in errors lists within each JSON Line. The sam...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsRekognitionListDataSetEntriesOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Lists the entries (images) within a dataset. An entry is a JSON Line that contains the information for a single image, including the image location, assigned labels, and object location bounding boxes. For more information, see Creating a manifest file . JSON Lines in the response include information about non-terminal er- rors found in the dataset. Non terminal errors are reported in errors lists within each JSON Line. The s...
+    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Lists the entries (images) within a dataset. An entry is a JSON Line that contains the information for a single image, including the image location, assigned labels, and object location bounding boxes. For more information, see Creating a manifest file . JSON Lines in the response include information about non-terminal errors found in the dataset. Non terminal errors are reported in errors lists within each JSON Line. The sam...
     /// </summary>
-    /// <param name="DataSetArn">The Amazon Resource Name (ARN) for the dataset that you want to use. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/dataset\/(train|test)\/[0-9]+$)</param>
+    /// <param name="DataSetArn">The Amazon Resource Name (ARN) for the dataset that you want to use. Constraints: • min: 20 • max: 2048 • pattern: (^arn:[a-z\d-]+:rekognition:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/dataset\/(train|test)\/[0-9]+$)</param>
     public AwsRekognitionListDataSetEntriesOptions(
         string DataSetArn
     )
@@ -57,40 +59,37 @@ public record AwsRekognitionListDataSetEntriesOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) for the dataset that you want to use. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/dataset\/(train|test)\/[0-9]+$)
+    /// The Amazon Resource Name (ARN) for the dataset that you want to use. Constraints: • min: 20 • max: 2048 • pattern: (^arn:[a-z\d-]+:rekognition:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/dataset\/(train|test)\/[0-9]+$)
     /// </summary>
     [CliOption("--dataset-arn")]
     public string? DataSetArn { get; private init; }
 
     /// <summary>
-    /// Specifies a label filter for the response. The response includes an entry only if one or more of the labels in ContainsLabels exist in the entry. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 255 o pattern: .{1,} Syntax: "string" "string" ...
+    /// Specifies a label filter for the response. The response includes an entry only if one or more of the labels in ContainsLabels exist in the entry. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 255 • pattern: .{1,} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--contains-labels", GroupValues = true)]
     public IEnumerable<string>? ContainsLabels { get; set; }
 
     /// <summary>
-    /// Specify true to get only the JSON Lines where the image is labeled. Specify false to get only the JSON Lines where the image isn't la- beled. If you don't specify Labeled , ListDatasetEntries returns JSON Lines for labeled and unlabeled images.
+    /// Specify true to get only the JSON Lines where the image is labeled. Specify false to get only the JSON Lines where the image isn't labeled. If you don't specify Labeled , ListDatasetEntries returns JSON Lines for labeled and unlabeled images.
     /// </summary>
     [CliFlag("--labeled", NegatedName = "--no-labeled")]
     public bool? Labeled { get; set; }
 
     /// <summary>
-    /// If specified, ListDatasetEntries only returns JSON Lines where the value of SourceRefContains is part of the source-ref field. The source-ref field contains the Amazon S3 location of the image. You can use SouceRefContains for tasks such as getting the JSON Line for a single image, or gettting JSON Lines for all images within a spe- cific folder. Constraints: o min: 1 o max: 2048 o pattern: .*\S.*
+    /// If specified, ListDatasetEntries only returns JSON Lines where the value of SourceRefContains is part of the source-ref field. The source-ref field contains the Amazon S3 location of the image. You can use SouceRefContains for tasks such as getting the JSON Line for a single image, or gettting JSON Lines for all images within a specific folder. Constraints: • min: 1 • max: 2048 • pattern: .*\S.*
     /// </summary>
     [CliOption("--source-ref-contains")]
     public string? SourceRefContains { get; set; }
 
     /// <summary>
-    /// Specifies an error filter for the response. Specify True to only in- clude entries that have errors.
+    /// Specifies an error filter for the response. Specify True to only include entries that have errors.
     /// </summary>
     [CliFlag("--has-errors", NegatedName = "--no-has-errors")]
     public bool? HasErrors { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -100,16 +99,19 @@ public record AwsRekognitionListDataSetEntriesOptions : AwsOptions, IValidatable
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

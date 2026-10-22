@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -30,7 +31,7 @@ public record AwsVpcLatticeCreateServiceNetworkOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Creates a service network. A service network is a logical boundary for a collection of services. You can associate services and VPCs with a service network. For more information, see Service networks in the Amazon VPC Lattice User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the service network. The name must be unique to the ac- count. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen. Constraints: o min: 3 o max: 63 o pattern: (?![-])(?!.*[-]$)(?!.*[-]{2})[a-z0-9-]+</param>
+    /// <param name="Name">The name of the service network. The name must be unique to the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen. Constraints: • min: 3 • max: 63 • pattern: (?![-])(?!.*[-]$)(?!.*[-]{2})[a-z0-9-]+</param>
     public AwsVpcLatticeCreateServiceNetworkOptions(
         string Name
     )
@@ -59,26 +60,26 @@ public record AwsVpcLatticeCreateServiceNetworkOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the service network. The name must be unique to the ac- count. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen. Constraints: o min: 3 o max: 63 o pattern: (?![-])(?!.*[-]$)(?!.*[-]{2})[a-z0-9-]+
+    /// The name of the service network. The name must be unique to the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen. Constraints: • min: 3 • max: 63 • pattern: (?![-])(?!.*[-]$)(?!.*[-]{2})[a-z0-9-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails. Constraints: o min: 1 o max: 64 o pattern: .*[!-~]+.*
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails. Constraints: • min: 1 • max: 64 • pattern: .*[!-~]+.*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The type of IAM policy. o NONE : The resource does not use an IAM policy. This is the de- fault. o AWS_IAM : The resource uses an IAM policy. When this type is used, auth is enabled and an auth policy is required. Possible values: o NONE o AWS_IAM
+    /// The type of IAM policy. • NONE : The resource does not use an IAM policy. This is the default. • AWS_IAM : The resource uses an IAM policy. When this type is used, auth is enabled and an auth policy is required. Possible values: • NONE • AWS_IAM
     /// </summary>
     [CliOption("--auth-type")]
     public AwsVpcLatticeCreateServiceNetworkAuthType? AuthType { get; set; }
 
     /// <summary>
-    /// The tags for the service network. Constraints: o min: 0 o max: 200 key -&gt; (string) The key of the tag. Constraints: Tag keys are case-sensitive and accept a maximum of 128 Unicode characters. Valid characters are Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @ May not begin with aws: . Constraints: o min: 1 o max: 128 value -&gt; (string) The value of the tag. Constraints: Tag values are case-sensitive and accept a maximum of 256 Unicode characters. Valid characters are Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @ Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags for the service network. Constraints: • min: 0 • max: 200 key -&gt; (string) The key of the tag. Constraints: Tag keys are case-sensitive and accept a maximum of 128 Unicode characters. Valid characters are Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @ May not begin with aws: . Constraints: • min: 1 • max: 128 value -&gt; (string) The value of the tag. Constraints: Tag values are case-sensitive and accept a maximum of 256 Unicode characters. Valid characters are Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @ Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsSyntheticsUntagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Removes one or more tags from the specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the canary or group that you're removing tags from. The ARN format of a canary is `` arn:aws:synthetics:Region :account-id :canary:canary-name `` . System Message: WARNING/2 (&lt;string&gt;:, line 73) Inline literal start-string without end-string. The ARN format of a group is `` arn:aws:synthetics:Region :account-id :group:group-name `` System Message: WARNING/2 (&lt;string&gt;:, line 77) Inline literal start-string without end-string. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws[a-zA-Z-]*)?:synthet- ics:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\d{1}:\d{12}:(ca- nary|group):[0-9a-z_\-]+</param>
-    /// <param name="TagKeys">The list of tag keys to remove from the resource. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The ARN of the canary or group that you're removing tags from. The ARN format of a canary is `` arn:aws:synthetics:Region :account-id :canary:canary-name `` . System Message: WARNING/2 (&lt;string&gt;:, line 73) Inline literal start-string without end-string. The ARN format of a group is `` arn:aws:synthetics:Region :account-id :group:group-name `` System Message: WARNING/2 (&lt;string&gt;:, line 77) Inline literal start-string without end-string. Constraints: • min: 1 • max: 2048 • pattern: arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\d{1}:\d{12}:(canary|group):[0-9a-z_\-]+</param>
+    /// <param name="TagKeys">The list of tag keys to remove from the resource. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...</param>
     public AwsSyntheticsUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsSyntheticsUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the canary or group that you're removing tags from. The ARN format of a canary is `` arn:aws:synthetics:Region :account-id :canary:canary-name `` . System Message: WARNING/2 (&lt;string&gt;:, line 73) Inline literal start-string without end-string. The ARN format of a group is `` arn:aws:synthetics:Region :account-id :group:group-name `` System Message: WARNING/2 (&lt;string&gt;:, line 77) Inline literal start-string without end-string. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws[a-zA-Z-]*)?:synthet- ics:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\d{1}:\d{12}:(ca- nary|group):[0-9a-z_\-]+
+    /// The ARN of the canary or group that you're removing tags from. The ARN format of a canary is `` arn:aws:synthetics:Region :account-id :canary:canary-name `` . System Message: WARNING/2 (&lt;string&gt;:, line 73) Inline literal start-string without end-string. The ARN format of a group is `` arn:aws:synthetics:Region :account-id :group:group-name `` System Message: WARNING/2 (&lt;string&gt;:, line 77) Inline literal start-string without end-string. Constraints: • min: 1 • max: 2048 • pattern: arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\d{1}:\d{12}:(canary|group):[0-9a-z_\-]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The list of tag keys to remove from the resource. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...
+    /// The list of tag keys to remove from the resource. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

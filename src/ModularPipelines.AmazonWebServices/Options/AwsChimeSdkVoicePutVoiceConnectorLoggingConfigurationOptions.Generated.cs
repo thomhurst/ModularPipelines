@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsChimeSdkVoicePutVoiceConnectorLoggingConfigurationOptions : Aws
     /// <summary>
     /// Updates a Voice Connector's logging configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VoiceConnectorId">The Voice Connector ID. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
-    /// <param name="LoggingConfiguration">The logging configuration being updated. EnableSIPLogs -&gt; (boolean) Boolean that enables sending SIP message logs to Amazon Cloud- Watch. EnableMediaMetricLogs -&gt; (boolean) Enables or disables media metrics logging. Shorthand Syntax: EnableSIPLogs=boolean,EnableMediaMetricLogs=boolean JSON Syntax: { "EnableSIPLogs": true|false, "EnableMediaMetricLogs": true|false }</param>
+    /// <param name="VoiceConnectorId">The Voice Connector ID. Constraints: • pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
+    /// <param name="LoggingConfiguration">The logging configuration being updated. EnableSIPLogs -&gt; (boolean) Boolean that enables sending SIP message logs to Amazon CloudWatch. EnableMediaMetricLogs -&gt; (boolean) Enables or disables media metrics logging. Shorthand Syntax: EnableSIPLogs=boolean,EnableMediaMetricLogs=boolean JSON Syntax: { "EnableSIPLogs": true|false, "EnableMediaMetricLogs": true|false }</param>
     public AwsChimeSdkVoicePutVoiceConnectorLoggingConfigurationOptions(
         string VoiceConnectorId,
         string LoggingConfiguration
@@ -60,13 +62,13 @@ public record AwsChimeSdkVoicePutVoiceConnectorLoggingConfigurationOptions : Aws
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Voice Connector ID. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
+    /// The Voice Connector ID. Constraints: • pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
     /// </summary>
     [CliOption("--voice-connector-id")]
     public string? VoiceConnectorId { get; private init; }
 
     /// <summary>
-    /// The logging configuration being updated. EnableSIPLogs -&gt; (boolean) Boolean that enables sending SIP message logs to Amazon Cloud- Watch. EnableMediaMetricLogs -&gt; (boolean) Enables or disables media metrics logging. Shorthand Syntax: EnableSIPLogs=boolean,EnableMediaMetricLogs=boolean JSON Syntax: { "EnableSIPLogs": true|false, "EnableMediaMetricLogs": true|false }
+    /// The logging configuration being updated. EnableSIPLogs -&gt; (boolean) Boolean that enables sending SIP message logs to Amazon CloudWatch. EnableMediaMetricLogs -&gt; (boolean) Enables or disables media metrics logging. Shorthand Syntax: EnableSIPLogs=boolean,EnableMediaMetricLogs=boolean JSON Syntax: { "EnableSIPLogs": true|false, "EnableMediaMetricLogs": true|false }
     /// </summary>
     [CliOption("--logging-configuration")]
     public string? LoggingConfiguration { get; private init; }

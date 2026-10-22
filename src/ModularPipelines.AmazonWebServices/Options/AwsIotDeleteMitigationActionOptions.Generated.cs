@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a defined mitigation action from your Amazon Web Services ac- counts. Requires permission to access the DeleteMitigationAction action. See also: AWS API Documentation
+/// Deletes a defined mitigation action from your Amazon Web Services accounts. Requires permission to access the DeleteMitigationAction action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsIotDeleteMitigationActionOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a defined mitigation action from your Amazon Web Services ac- counts. Requires permission to access the DeleteMitigationAction action. See also: AWS API Documentation
+    /// Deletes a defined mitigation action from your Amazon Web Services accounts. Requires permission to access the DeleteMitigationAction action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ActionName">The name of the mitigation action that you want to delete. Constraints: o max: 128 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ActionName">The name of the mitigation action that you want to delete. Constraints: • max: 128 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsIotDeleteMitigationActionOptions(
         string ActionName
     )
@@ -56,7 +58,7 @@ public record AwsIotDeleteMitigationActionOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the mitigation action that you want to delete. Constraints: o max: 128 o pattern: [a-zA-Z0-9_-]+
+    /// The name of the mitigation action that you want to delete. Constraints: • max: 128 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--action-name")]
     public string? ActionName { get; private init; }

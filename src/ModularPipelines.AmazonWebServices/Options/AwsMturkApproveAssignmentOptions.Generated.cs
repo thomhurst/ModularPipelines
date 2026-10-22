@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The ApproveAssignment operation approves the results of a completed as- signment. Approving an assignment initiates two payments from the Requester's Amazon.com account o The Worker who submitted the results is paid the reward specified in the HIT. o Amazon Mechanical Turk fees are debited. If the Requester's account does not have adequate funds for these pay- ments, the call to ApproveAssignment returns an exception, and the ap- proval is not processed. You can include an optional feedback mess...
+/// The ApproveAssignment operation approves the results of a completed assignment. Approving an assignment initiates two payments from the Requester's Amazon.com account • The Worker who submitted the results is paid the reward specified in the HIT. • Amazon Mechanical Turk fees are debited. If the Requester's account does not have adequate funds for these payments, the call to ApproveAssignment returns an exception, and the approval is not processed. You can include an optional feedback message wi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsMturkApproveAssignmentOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The ApproveAssignment operation approves the results of a completed as- signment. Approving an assignment initiates two payments from the Requester's Amazon.com account o The Worker who submitted the results is paid the reward specified in the HIT. o Amazon Mechanical Turk fees are debited. If the Requester's account does not have adequate funds for these pay- ments, the call to ApproveAssignment returns an exception, and the ap- proval is not processed. You can include an optional feedback mess...
+    /// The ApproveAssignment operation approves the results of a completed assignment. Approving an assignment initiates two payments from the Requester's Amazon.com account • The Worker who submitted the results is paid the reward specified in the HIT. • Amazon Mechanical Turk fees are debited. If the Requester's account does not have adequate funds for these payments, the call to ApproveAssignment returns an exception, and the approval is not processed. You can include an optional feedback message wi...
     /// </summary>
-    /// <param name="AssignmentId">The ID of the assignment. The assignment must correspond to a HIT created by the Requester. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$</param>
+    /// <param name="AssignmentId">The ID of the assignment. The assignment must correspond to a HIT created by the Requester. Constraints: • min: 1 • max: 64 • pattern: ^[A-Z0-9]+$</param>
     public AwsMturkApproveAssignmentOptions(
         string AssignmentId
     )
@@ -56,7 +58,7 @@ public record AwsMturkApproveAssignmentOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the assignment. The assignment must correspond to a HIT created by the Requester. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$
+    /// The ID of the assignment. The assignment must correspond to a HIT created by the Requester. Constraints: • min: 1 • max: 64 • pattern: ^[A-Z0-9]+$
     /// </summary>
     [CliOption("--assignment-id")]
     public string? AssignmentId { get; private init; }

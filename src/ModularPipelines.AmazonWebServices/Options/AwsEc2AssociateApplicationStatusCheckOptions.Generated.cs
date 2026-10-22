@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates an application status check with instances or tags . Once you create an association, health monitoring automatically begins for the specified instances or for instances that match the specified tags. The following rules apply: o You must specify either TargetTagAssociations or InstanceIds , but not both. Specifying both results in an InvalidParameterCombination error. o You must own the application status check. The check must already ex- ist in your account. o You must not leave tag ...
+/// Associates an application status check with instances or tags . Once you create an association, health monitoring automatically begins for the specified instances or for instances that match the specified tags. The following rules apply: • You must specify either TargetTagAssociations or InstanceIds , but not both. Specifying both results in an InvalidParameterCombination error. • You must own the application status check. The check must already exist in your account. • You must not leave tag ke...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +28,7 @@ public record AwsEc2AssociateApplicationStatusCheckOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates an application status check with instances or tags . Once you create an association, health monitoring automatically begins for the specified instances or for instances that match the specified tags. The following rules apply: o You must specify either TargetTagAssociations or InstanceIds , but not both. Specifying both results in an InvalidParameterCombination error. o You must own the application status check. The check must already ex- ist in your account. o You must not leave tag ...
+    /// Associates an application status check with instances or tags . Once you create an association, health monitoring automatically begins for the specified instances or for instances that match the specified tags. The following rules apply: • You must specify either TargetTagAssociations or InstanceIds , but not both. Specifying both results in an InvalidParameterCombination error. • You must own the application status check. The check must already exist in your account. • You must not leave tag ke...
     /// </summary>
     /// <param name="ApplicationStatusCheckId">The ID of the application status check to associate.</param>
     public AwsEc2AssociateApplicationStatusCheckOptions(
@@ -75,14 +77,14 @@ public record AwsEc2AssociateApplicationStatusCheckOptions : AwsOptions, IValida
     public IEnumerable<string>? InstanceIds { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry a re- quest with the same token, the service ignores the request but does not return an error. For more information, see Ensuring idempotency .
+    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry a request with the same token, the service ignores the request but does not return an error. For more information, see Ensuring idempotency .
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

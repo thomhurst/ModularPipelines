@@ -36,7 +36,7 @@ public record AwsChimeSearchAvailablePhoneNumbersOptions : AwsOptions
     public string? City { get; set; }
 
     /// <summary>
-    /// The country used to filter results. Defaults to the US Format: ISO 3166-1 alpha-2. Constraints: o pattern: [A-Z]{2}
+    /// The country used to filter results. Defaults to the US Format: ISO 3166-1 alpha-2. Constraints: • pattern: [A-Z]{2}
     /// </summary>
     [CliOption("--country")]
     public string? Country { get; set; }
@@ -48,19 +48,19 @@ public record AwsChimeSearchAvailablePhoneNumbersOptions : AwsOptions
     public string? State { get; set; }
 
     /// <summary>
-    /// The toll-free prefix that you use to filter results. Only applies to the US. Constraints: o min: 3 o max: 3 o pattern: ^8(00|33|44|55|66|77|88)$
+    /// The toll-free prefix that you use to filter results. Only applies to the US. Constraints: • min: 3 • max: 3 • pattern: ^8(00|33|44|55|66|77|88)$
     /// </summary>
     [CliOption("--toll-free-prefix")]
     public string? TollFreePrefix { get; set; }
 
     /// <summary>
-    /// The phone number type used to filter results. Required for non-US numbers. Possible values: o Local o TollFree
+    /// The phone number type used to filter results. Required for non-US numbers. Possible values: • Local • TollFree
     /// </summary>
     [CliOption("--phone-number-type")]
     public AwsChimeSearchAvailablePhoneNumbersPhoneNumberType? PhoneNumberType { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return in a single call. Constraints: o min: 1 o max: 500
+    /// The maximum number of results to return in a single call. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

@@ -22,34 +22,31 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsDatasync
 {
     /// <summary>
-    /// Stops an DataSync task execution that's in progress. The transfer of some files are abruptly interrupted. File contents that're transferred to the destination might be incomplete or inconsistent with the source files. However, if you start a new task execution using the same task and al- low it to finish, file content on the destination will be complete and consistent. This applies to other unexpected failures that interrupt a task execution. In all of these cases, DataSync successfully complete...
+    /// Stops an DataSync task execution that's in progress. The transfer of some files are abruptly interrupted. File contents that're transferred to the destination might be incomplete or inconsistent with the source files. However, if you start a new task execution using the same task and allow it to finish, file content on the destination will be complete and consistent. This applies to other unexpected failures that interrupt a task execution. In all of these cases, DataSync successfully completes ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelTaskExecutionAsync(AwsDatasyncCancelTaskExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelTaskExecutionAsync(AwsDatasyncCancelTaskExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Activates an DataSync agent that you deploy in your storage environ- ment. The activation process associates the agent with your Amazon Web Services account. If you haven't deployed an agent yet, see Do I need a DataSync agent? See also: AWS API Documentation
+    /// Activates an DataSync agent that you deploy in your storage environment. The activation process associates the agent with your Amazon Web Services account. If you haven't deployed an agent yet, see Do I need a DataSync agent? See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAgentAsync(AwsDatasyncCreateAgentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAgentAsync(AwsDatasyncCreateAgentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a transfer location for a Microsoft Azure Blob Storage con- tainer. DataSync can use this location as a transfer source or destina- tion. You can make transfers with or without a DataSync agent that con- nects to your container. Before you begin, make sure you know how DataSync accesses Azure Blob Storage and works with access tiers and blob types . See also: AWS API Documentation
+    /// Creates a transfer location for a Microsoft Azure Blob Storage container. DataSync can use this location as a transfer source or destination. You can make transfers with or without a DataSync agent that connects to your container. Before you begin, make sure you know how DataSync accesses Azure Blob Storage and works with access tiers and blob types . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLocationAzureBlobAsync(AwsDatasyncCreateLocationAzureBlobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLocationAzureBlobAsync(AwsDatasyncCreateLocationAzureBlobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a transfer location for an Amazon EFS file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses Amazon EFS file systems . See also: AWS API Documentation
@@ -58,18 +55,16 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLocationEfsAsync(AwsDatasyncCreateLocationEfsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLocationEfsAsync(AwsDatasyncCreateLocationEfsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a transfer location for an Amazon FSx for Lustre file system. DataSync can use this location as a source or destination for transfer- ring data. Before you begin, make sure that you understand how DataSync accesses FSx for Lustre file systems . See also: AWS API Documentation
+    /// Creates a transfer location for an Amazon FSx for Lustre file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses FSx for Lustre file systems . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLocationFsxLustreAsync(AwsDatasyncCreateLocationFsxLustreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLocationFsxLustreAsync(AwsDatasyncCreateLocationFsxLustreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a transfer location for an Amazon FSx for NetApp ONTAP file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses FSx for ONTAP file systems . See also: AWS API Documentation
@@ -78,18 +73,16 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLocationFsxOntapAsync(AwsDatasyncCreateLocationFsxOntapOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLocationFsxOntapAsync(AwsDatasyncCreateLocationFsxOntapOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a transfer location for an Amazon FSx for OpenZFS file system. DataSync can use this location as a source or destination for transfer- ring data. Before you begin, make sure that you understand how DataSync accesses FSx for OpenZFS file systems . NOTE: Request parameters related to SMB aren't supported with the Create- LocationFsxOpenZfs operation. See also: AWS API Documentation
+    /// Creates a transfer location for an Amazon FSx for OpenZFS file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses FSx for OpenZFS file systems . NOTE: Request parameters related to SMB aren't supported with the CreateLocationFsxOpenZfs operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLocationFsxOpenZfsAsync(AwsDatasyncCreateLocationFsxOpenZfsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLocationFsxOpenZfsAsync(AwsDatasyncCreateLocationFsxOpenZfsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a transfer location for an Amazon FSx for Windows File Server file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses FSx for Windows File Server file systems . See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLocationFsxWindowsAsync(AwsDatasyncCreateLocationFsxWindowsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLocationFsxWindowsAsync(AwsDatasyncCreateLocationFsxWindowsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a transfer location for a Hadoop Distributed File System (HDFS). DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses HDFS clusters . See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLocationHdfsAsync(AwsDatasyncCreateLocationHdfsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLocationHdfsAsync(AwsDatasyncCreateLocationHdfsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a transfer location for a Network File System (NFS) file server. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses NFS file servers . See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLocationNfsAsync(AwsDatasyncCreateLocationNfsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLocationNfsAsync(AwsDatasyncCreateLocationNfsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a transfer location for an object storage system. DataSync can use this location as a source or destination for transferring data. You can make transfers with or without a DataSync agent . Before you begin, make sure that you understand the prerequisites for DataSync to work with object storage systems. See also: AWS API Documentation
@@ -128,18 +118,16 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLocationObjectStorageAsync(AwsDatasyncCreateLocationObjectStorageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLocationObjectStorageAsync(AwsDatasyncCreateLocationObjectStorageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a transfer location for an Amazon S3 bucket. DataSync can use this location as a source or destination for transferring data. WARNING: Before you begin, make sure that you read the following topics: o Storage class considerations with Amazon S3 locations o Evaluating S3 request costs when using DataSync For more information, see Configuring transfers with Amazon S3 . See also: AWS API Documentation
+    /// Creates a transfer location for an Amazon S3 bucket. DataSync can use this location as a source or destination for transferring data. WARNING: Before you begin, make sure that you read the following topics: • Storage class considerations with Amazon S3 locations • Evaluating S3 request costs when using DataSync For more information, see Configuring transfers with Amazon S3 . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLocationS3Async(AwsDatasyncCreateLocationS3Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLocationS3Async(AwsDatasyncCreateLocationS3Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a transfer location for a Server Message Block (SMB) file server. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses SMB file servers. For more information, see Providing DataSync access to SMB file servers . See also: AWS API Documentation
@@ -148,28 +136,25 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLocationSmbAsync(AwsDatasyncCreateLocationSmbOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLocationSmbAsync(AwsDatasyncCreateLocationSmbOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Configures a task , which defines where and how DataSync transfers your data. A task includes a source location, destination location, and transfer options (such as bandwidth limits, scheduling, and more). WARNING: If you're planning to transfer data to or from an Amazon S3 loca- tion, review how DataSync can affect your S3 request charges and the DataSync pricing page before you begin. See also: AWS API Documentation
+    /// Configures a task , which defines where and how DataSync transfers your data. A task includes a source location, destination location, and transfer options (such as bandwidth limits, scheduling, and more). WARNING: If you're planning to transfer data to or from an Amazon S3 location, review how DataSync can affect your S3 request charges and the DataSync pricing page before you begin. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTaskAsync(AwsDatasyncCreateTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTaskAsync(AwsDatasyncCreateTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Removes an DataSync agent resource from your Amazon Web Services ac- count. Keep in mind that this operation (which can't be undone) doesn't remove the agent's virtual machine (VM) or Amazon EC2 instance from your stor- age environment. For next steps, you can delete the VM or instance from your storage environment or reuse it to activate a new agent . See also: AWS API Documentation
+    /// Removes an DataSync agent resource from your Amazon Web Services account. Keep in mind that this operation (which can't be undone) doesn't remove the agent's virtual machine (VM) or Amazon EC2 instance from your storage environment. For next steps, you can delete the VM or instance from your storage environment or reuse it to activate a new agent . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAgentAsync(AwsDatasyncDeleteAgentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAgentAsync(AwsDatasyncDeleteAgentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a transfer location resource from DataSync. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteLocationAsync(AwsDatasyncDeleteLocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteLocationAsync(AwsDatasyncDeleteLocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a transfer task resource from DataSync. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTaskAsync(AwsDatasyncDeleteTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTaskAsync(AwsDatasyncDeleteTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about an DataSync agent, such as its name, service endpoint type, and status. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAgentAsync(AwsDatasyncDescribeAgentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAgentAsync(AwsDatasyncDescribeAgentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides details about how an DataSync transfer location for Microsoft Azure Blob Storage is configured. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeLocationAzureBlobAsync(AwsDatasyncDescribeLocationAzureBlobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeLocationAzureBlobAsync(AwsDatasyncDescribeLocationAzureBlobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides details about how an DataSync transfer location for an Amazon EFS file system is configured. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeLocationEfsAsync(AwsDatasyncDescribeLocationEfsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeLocationEfsAsync(AwsDatasyncDescribeLocationEfsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides details about how an DataSync transfer location for an Amazon FSx for Lustre file system is configured. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeLocationFsxLustreAsync(AwsDatasyncDescribeLocationFsxLustreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeLocationFsxLustreAsync(AwsDatasyncDescribeLocationFsxLustreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides details about how an DataSync transfer location for an Amazon FSx for NetApp ONTAP file system is configured. NOTE: If your location uses SMB, the DescribeLocationFsxOntap operation doesn't actually return a Password . See also: AWS API Documentation
@@ -238,18 +217,16 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeLocationFsxOntapAsync(AwsDatasyncDescribeLocationFsxOntapOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeLocationFsxOntapAsync(AwsDatasyncDescribeLocationFsxOntapOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Provides details about how an DataSync transfer location for an Amazon FSx for OpenZFS file system is configured. NOTE: Response elements related to SMB aren't supported with the Describe- LocationFsxOpenZfs operation. See also: AWS API Documentation
+    /// Provides details about how an DataSync transfer location for an Amazon FSx for OpenZFS file system is configured. NOTE: Response elements related to SMB aren't supported with the DescribeLocationFsxOpenZfs operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeLocationFsxOpenZfsAsync(AwsDatasyncDescribeLocationFsxOpenZfsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeLocationFsxOpenZfsAsync(AwsDatasyncDescribeLocationFsxOpenZfsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides details about how an DataSync transfer location for an Amazon FSx for Windows File Server file system is configured. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeLocationFsxWindowsAsync(AwsDatasyncDescribeLocationFsxWindowsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeLocationFsxWindowsAsync(AwsDatasyncDescribeLocationFsxWindowsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides details about how an DataSync transfer location for a Hadoop Distributed File System (HDFS) is configured. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeLocationHdfsAsync(AwsDatasyncDescribeLocationHdfsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeLocationHdfsAsync(AwsDatasyncDescribeLocationHdfsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides details about how an DataSync transfer location for a Network File System (NFS) file server is configured. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeLocationNfsAsync(AwsDatasyncDescribeLocationNfsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeLocationNfsAsync(AwsDatasyncDescribeLocationNfsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides details about how an DataSync transfer location for an object storage system is configured. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeLocationObjectStorageAsync(AwsDatasyncDescribeLocationObjectStorageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeLocationObjectStorageAsync(AwsDatasyncDescribeLocationObjectStorageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides details about how an DataSync transfer location for an S3 bucket is configured. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeLocationS3Async(AwsDatasyncDescribeLocationS3Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeLocationS3Async(AwsDatasyncDescribeLocationS3Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides details about how an DataSync transfer location for a Server Message Block (SMB) file server is configured. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeLocationSmbAsync(AwsDatasyncDescribeLocationSmbOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeLocationSmbAsync(AwsDatasyncDescribeLocationSmbOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides information about an execution of your DataSync task. You can use this operation to help monitor the progress of an ongoing data transfer or check the results of the transfer. NOTE: Some DescribeTaskExecution response elements are only relevant to a specific task mode. For information, see Understanding task mode differences and Understanding data transfer performance counters . See also: AWS API Documentation
@@ -318,38 +289,34 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTaskExecutionAsync(AwsDatasyncDescribeTaskExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTaskExecutionAsync(AwsDatasyncDescribeTaskExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Provides information about a task , which defines where and how Data- Sync transfers your data. See also: AWS API Documentation
+    /// Provides information about a task , which defines where and how DataSync transfers your data. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTaskAsync(AwsDatasyncDescribeTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTaskAsync(AwsDatasyncDescribeTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns a list of DataSync agents that belong to an Amazon Web Services account in the Amazon Web Services Region specified in the request. With pagination, you can reduce the number of agents returned in a re- sponse. If you get a truncated list of agents in a response, the re- sponse contains a marker that you can specify in your next request to fetch the next page of agents. ListAgents is eventually consistent. This means the result of run- ning the operation might not reflect that you just c...
+    /// Returns a list of DataSync agents that belong to an Amazon Web Services account in the Amazon Web Services Region specified in the request. With pagination, you can reduce the number of agents returned in a response. If you get a truncated list of agents in a response, the response contains a marker that you can specify in your next request to fetch the next page of agents. ListAgents is eventually consistent. This means the result of running the operation might not reflect that you just created...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAgentsAsync(AwsDatasyncListAgentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAgentsAsync(AwsDatasyncListAgentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns a list of source and destination locations. If you have more locations than are returned in a response (that is, the response returns only a truncated list of your agents), the re- sponse contains a token that you can specify in your next request to fetch the next page of locations. See also: AWS API Documentation list-locations is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the -...
+    /// Returns a list of source and destination locations. If you have more locations than are returned in a response (that is, the response returns only a truncated list of your agents), the response contains a token that you can specify in your next request to fetch the next page of locations. See also: AWS API Documentation list-locations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pa...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLocationsAsync(AwsDatasyncListLocationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLocationsAsync(AwsDatasyncListLocationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns all the tags associated with an Amazon Web Services resource. See also: AWS API Documentation list-tags-for-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Tags
@@ -358,8 +325,7 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsDatasyncListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsDatasyncListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of executions for an DataSync transfer task. See also: AWS API Documentation list-task-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TaskExecutions
@@ -368,28 +334,25 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTaskExecutionsAsync(AwsDatasyncListTaskExecutionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTaskExecutionsAsync(AwsDatasyncListTaskExecutionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns a list of the DataSync tasks you created. See also: AWS API Documentation list-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Tasks
+    /// Returns a list of the DataSync tasks you created. See also: AWS API Documentation list-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Tasks
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTasksAsync(AwsDatasyncListTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTasksAsync(AwsDatasyncListTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Starts an DataSync transfer task. For each task, you can only run one task execution at a time. There are several steps to a task execution. For more information, see Task execution statuses . WARNING: If you're planning to transfer data to or from an Amazon S3 loca- tion, review how DataSync can affect your S3 request charges and the DataSync pricing page before you begin. See also: AWS API Documentation
+    /// Starts an DataSync transfer task. For each task, you can only run one task execution at a time. There are several steps to a task execution. For more information, see Task execution statuses . WARNING: If you're planning to transfer data to or from an Amazon S3 location, review how DataSync can affect your S3 request charges and the DataSync pricing page before you begin. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartTaskExecutionAsync(AwsDatasyncStartTaskExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartTaskExecutionAsync(AwsDatasyncStartTaskExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Applies a tag to an Amazon Web Services resource. Tags are key-value pairs that can help you manage, filter, and search for your resources. These include DataSync resources, such as locations, tasks, and task executions. See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsDatasyncTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsDatasyncTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes tags from an Amazon Web Services resource. See also: AWS API Documentation
@@ -408,8 +370,7 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsDatasyncUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsDatasyncUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the name of an DataSync agent. See also: AWS API Documentation
@@ -418,18 +379,16 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAgentAsync(AwsDatasyncUpdateAgentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAgentAsync(AwsDatasyncUpdateAgentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Modifies the following configurations of the Microsoft Azure Blob Stor- age transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with Azure Blob Storage . See also: AWS API Documentation
+    /// Modifies the following configurations of the Microsoft Azure Blob Storage transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with Azure Blob Storage . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLocationAzureBlobAsync(AwsDatasyncUpdateLocationAzureBlobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLocationAzureBlobAsync(AwsDatasyncUpdateLocationAzureBlobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the following configuration parameters of the Amazon EFS transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with Amazon EFS . See also: AWS API Documentation
@@ -438,8 +397,7 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLocationEfsAsync(AwsDatasyncUpdateLocationEfsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLocationEfsAsync(AwsDatasyncUpdateLocationEfsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the following configuration parameters of the Amazon FSx for Lustre transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with FSx for Lustre . See also: AWS API Documentation
@@ -448,8 +406,7 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLocationFsxLustreAsync(AwsDatasyncUpdateLocationFsxLustreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLocationFsxLustreAsync(AwsDatasyncUpdateLocationFsxLustreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the following configuration parameters of the Amazon FSx for NetApp ONTAP transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with FSx for ONTAP . See also: AWS API Documentation
@@ -458,18 +415,16 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLocationFsxOntapAsync(AwsDatasyncUpdateLocationFsxOntapOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLocationFsxOntapAsync(AwsDatasyncUpdateLocationFsxOntapOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Modifies the following configuration parameters of the Amazon FSx for OpenZFS transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with FSx for OpenZFS . NOTE: Request parameters related to SMB aren't supported with the Update- LocationFsxOpenZfs operation. See also: AWS API Documentation
+    /// Modifies the following configuration parameters of the Amazon FSx for OpenZFS transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with FSx for OpenZFS . NOTE: Request parameters related to SMB aren't supported with the UpdateLocationFsxOpenZfs operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLocationFsxOpenZfsAsync(AwsDatasyncUpdateLocationFsxOpenZfsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLocationFsxOpenZfsAsync(AwsDatasyncUpdateLocationFsxOpenZfsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the following configuration parameters of the Amazon FSx for Windows File Server transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with FSx for Windows File Server . See also: AWS API Documentation
@@ -478,18 +433,16 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLocationFsxWindowsAsync(AwsDatasyncUpdateLocationFsxWindowsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLocationFsxWindowsAsync(AwsDatasyncUpdateLocationFsxWindowsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Modifies the following configuration parameters of the Hadoop Distrib- uted File System (HDFS) transfer location that you're using with Data- Sync. For more information, see Configuring DataSync transfers with an HDFS cluster . See also: AWS API Documentation
+    /// Modifies the following configuration parameters of the Hadoop Distributed File System (HDFS) transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with an HDFS cluster . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLocationHdfsAsync(AwsDatasyncUpdateLocationHdfsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLocationHdfsAsync(AwsDatasyncUpdateLocationHdfsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the following configuration parameters of the Network File System (NFS) transfer location that you're using with DataSync. For more information, see Configuring transfers with an NFS file server . See also: AWS API Documentation
@@ -498,8 +451,7 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLocationNfsAsync(AwsDatasyncUpdateLocationNfsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLocationNfsAsync(AwsDatasyncUpdateLocationNfsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the following configuration parameters of the object storage transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with an object storage system . See also: AWS API Documentation
@@ -508,18 +460,16 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLocationObjectStorageAsync(AwsDatasyncUpdateLocationObjectStorageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLocationObjectStorageAsync(AwsDatasyncUpdateLocationObjectStorageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Modifies the following configuration parameters of the Amazon S3 trans- fer location that you're using with DataSync. WARNING: Before you begin, make sure that you read the following topics: o Storage class considerations with Amazon S3 locations o Evaluating S3 request costs when using DataSync See also: AWS API Documentation
+    /// Modifies the following configuration parameters of the Amazon S3 transfer location that you're using with DataSync. WARNING: Before you begin, make sure that you read the following topics: • Storage class considerations with Amazon S3 locations • Evaluating S3 request costs when using DataSync See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLocationS3Async(AwsDatasyncUpdateLocationS3Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLocationS3Async(AwsDatasyncUpdateLocationS3Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the following configuration parameters of the Server Message Block (SMB) transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with an SMB file server . See also: AWS API Documentation
@@ -528,27 +478,24 @@ public interface IAwsDatasync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLocationSmbAsync(AwsDatasyncUpdateLocationSmbOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLocationSmbAsync(AwsDatasyncUpdateLocationSmbOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates the configuration of a running DataSync task execution. NOTE: Currently, the only Option that you can modify with UpdateTaskExecu- tion is `` BytesPerSecond `` , which throttles bandwidth for a run- ning or queued task execution. See also: AWS API Documentation
+    /// Updates the configuration of a running DataSync task execution. NOTE: Currently, the only Option that you can modify with UpdateTaskExecution is `` BytesPerSecond `` , which throttles bandwidth for a running or queued task execution. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTaskExecutionAsync(AwsDatasyncUpdateTaskExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTaskExecutionAsync(AwsDatasyncUpdateTaskExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates the configuration of a task , which defines where and how Data- Sync transfers your data. See also: AWS API Documentation
+    /// Updates the configuration of a task , which defines where and how DataSync transfers your data. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTaskAsync(AwsDatasyncUpdateTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTaskAsync(AwsDatasyncUpdateTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

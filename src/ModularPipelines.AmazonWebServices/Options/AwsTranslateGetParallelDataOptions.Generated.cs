@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsTranslateGetParallelDataOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Provides information about a parallel data resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the parallel data resource that is being retrieved. Constraints: o min: 1 o max: 256 o pattern: ^([A-Za-z0-9-]_?)+$</param>
+    /// <param name="Name">The name of the parallel data resource that is being retrieved. Constraints: • min: 1 • max: 256 • pattern: ^([A-Za-z0-9-]_?)+$</param>
     public AwsTranslateGetParallelDataOptions(
         string Name
     )
@@ -56,7 +58,7 @@ public record AwsTranslateGetParallelDataOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the parallel data resource that is being retrieved. Constraints: o min: 1 o max: 256 o pattern: ^([A-Za-z0-9-]_?)+$
+    /// The name of the parallel data resource that is being retrieved. Constraints: • min: 1 • max: 256 • pattern: ^([A-Za-z0-9-]_?)+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

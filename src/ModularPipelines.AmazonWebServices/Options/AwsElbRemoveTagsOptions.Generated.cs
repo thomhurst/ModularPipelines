@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsElbRemoveTagsOptions : AwsOptions, IValidatableObject
     /// Removes one or more tags from the specified load balancer. See also: AWS API Documentation
     /// </summary>
     /// <param name="LoadBalancerNames">The name of the load balancer. You can specify a maximum of one load balancer name. (string) Syntax: "string" "string" ...</param>
-    /// <param name="Tags">The list of tag keys to remove. Constraints: o min: 1 (structure) The key of a tag. Key -&gt; (string) The name of the key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: --tags Key1 Key2 Key3 JSON Syntax: [ { "Key": "string" } ... ]</param>
+    /// <param name="Tags">The list of tag keys to remove. Constraints: • min: 1 (structure) The key of a tag. Key -&gt; (string) The name of the key. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: --tags Key1 Key2 Key3 JSON Syntax: [ { "Key": "string" } ... ]</param>
     public AwsElbRemoveTagsOptions(
         IEnumerable<string> LoadBalancerNames,
         IEnumerable<string> Tags
@@ -88,7 +90,7 @@ public record AwsElbRemoveTagsOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? LoadBalancerNames { get; private init; }
 
     /// <summary>
-    /// The list of tag keys to remove. Constraints: o min: 1 (structure) The key of a tag. Key -&gt; (string) The name of the key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: --tags Key1 Key2 Key3 JSON Syntax: [ { "Key": "string" } ... ]
+    /// The list of tag keys to remove. Constraints: • min: 1 (structure) The key of a tag. Key -&gt; (string) The name of the key. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: --tags Key1 Key2 Key3 JSON Syntax: [ { "Key": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,7 +29,7 @@ public record AwsIdentitystoreCreateUserOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a user within the specified identity store. See also: AWS API Documentation create-user uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="IdentityStoreId">The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890 . Constraints: o min: 1 o max: 93 o pattern: (arn:aws[a-z-]*:identitystore::\d{12}:identitys- tore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
+    /// <param name="IdentityStoreId">The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890 . Constraints: • min: 1 • max: 93 • pattern: (arn:aws[a-z-]*:identitystore::\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
     public AwsIdentitystoreCreateUserOptions(
         string IdentityStoreId
     )
@@ -57,115 +58,115 @@ public record AwsIdentitystoreCreateUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890 . Constraints: o min: 1 o max: 93 o pattern: (arn:aws[a-z-]*:identitystore::\d{12}:identitys- tore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
+    /// The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890 . Constraints: • min: 1 • max: 93 • pattern: (arn:aws[a-z-]*:identitystore::\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
     /// </summary>
     [CliOption("--identity-store-id")]
     public string? IdentityStoreId { get; private init; }
 
     /// <summary>
-    /// A unique string used to identify the user. The length limit is 128 characters. This value can consist of letters, accented characters, symbols, numbers, and punctuation. This value is specified at the time the user is created and stored as an attribute of the user ob- ject in the identity store. Administrator and AWSAdministrators are reserved names and can't be used for users or groups. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+
+    /// A unique string used to identify the user. The length limit is 128 characters. This value can consist of letters, accented characters, symbols, numbers, and punctuation. This value is specified at the time the user is created and stored as an attribute of the user object in the identity store. Administrator and AWSAdministrators are reserved names and can't be used for users or groups. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; set; }
 
     /// <summary>
-    /// An object containing the name of the user. When used in IAM Identity Center, this parameter is required. Formatted -&gt; (string) A string containing a formatted version of the name for display. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ FamilyName -&gt; (string) The family name of the user. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ GivenName -&gt; (string) The given name of the user. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ MiddleName -&gt; (string) The middle name of the user. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ HonorificPrefix -&gt; (string) The honorific prefix of the user. For example, "Dr." Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ HonorificSuffix -&gt; (string) The honorific suffix of the user. For example, "M.D." Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Shorthand Syntax: Formatted=string,FamilyName=string,GivenName=string,MiddleName=string,HonorificPrefix=string,HonorificSuffix=string JSON Syntax: { "Formatted": "string", "FamilyName": "string", "GivenName": "string", "MiddleName": "string", "HonorificPrefix": "string", "HonorificSuffix": "string" }
+    /// An object containing the name of the user. When used in IAM Identity Center, this parameter is required. Formatted -&gt; (string) A string containing a formatted version of the name for display. Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ FamilyName -&gt; (string) The family name of the user. Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ GivenName -&gt; (string) The given name of the user. Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ MiddleName -&gt; (string) The middle name of the user. Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ HonorificPrefix -&gt; (string) The honorific prefix of the user. For example, "Dr." Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ HonorificSuffix -&gt; (string) The honorific suffix of the user. For example, "M.D." Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Shorthand Syntax: Formatted=string,FamilyName=string,GivenName=string,MiddleName=string,HonorificPrefix=string,HonorificSuffix=string JSON Syntax: { "Formatted": "string", "FamilyName": "string", "GivenName": "string", "MiddleName": "string", "HonorificPrefix": "string", "HonorificSuffix": "string" }
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A string containing the name of the user. This value is typically formatted for display when the user is referenced. For example, "John Doe." When used in IAM Identity Center, this parameter is re- quired. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+
+    /// A string containing the name of the user. This value is typically formatted for display when the user is referenced. For example, "John Doe." When used in IAM Identity Center, this parameter is required. Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// A string containing an alternate name for the user. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+
+    /// A string containing an alternate name for the user. Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+
     /// </summary>
     [CliOption("--nick-name")]
     public string? NickName { get; set; }
 
     /// <summary>
-    /// A string containing a URL that might be associated with the user. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+
+    /// A string containing a URL that might be associated with the user. Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+
     /// </summary>
     [CliOption("--profile-url")]
     public string? ProfileUrl { get; set; }
 
     /// <summary>
-    /// A list of Email objects containing email addresses associated with the user. Constraints: o min: 1 o max: 1 (structure) The email address associated with the user. Value -&gt; (string) A string containing an email address. For example, "- johndoe@amazon.com." Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Type -&gt; (string) A string representing the type of address. For example, "Work." Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Primary -&gt; (boolean) A Boolean value representing whether this is the primary email address for the associated resource. Shorthand Syntax: Value=string,Type=string,Primary=boolean ... JSON Syntax: [ { "Value": "string", "Type": "string", "Primary": true|false } ... ]
+    /// A list of Email objects containing email addresses associated with the user. Constraints: • min: 1 • max: 1 (structure) The email address associated with the user. Value -&gt; (string) A string containing an email address. For example, "johndoe@amazon.com." Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Type -&gt; (string) A string representing the type of address. For example, "Work." Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Primary -&gt; (boolean) A Boolean value representing whether this is the primary email address for the associated resource. Shorthand Syntax: Value=string,Type=string,Primary=boolean ... JSON Syntax: [ { "Value": "string", "Type": "string", "Primary": true|false } ... ]
     /// </summary>
     [CliOption("--emails", GroupValues = true)]
     public IEnumerable<string>? Emails { get; set; }
 
     /// <summary>
-    /// A list of Address objects containing addresses associated with the user. Constraints: o min: 1 o max: 1 (structure) The address associated with the specified user. StreetAddress -&gt; (string) The street of the address. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Locality -&gt; (string) A string of the address locality. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Region -&gt; (string) The region of the address. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ PostalCode -&gt; (string) The postal code of the address. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Country -&gt; (string) The country of the address. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Formatted -&gt; (string) A string containing a formatted version of the address for display. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Type -&gt; (string) A string representing the type of address. For example, "Home." Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Primary -&gt; (boolean) A Boolean value representing whether this is the primary ad- dress for the associated resource. Shorthand Syntax: StreetAddress=string,Locality=string,Region=string,PostalCode=string,Country=string,Formatted=string,Type=string,Primary=boolean ... JSON Syntax: [ { "StreetAddress": "string", "Locality": "string", "Region": "string", "PostalCode": "string", "Country": "string", "Formatted": "string", "Type": "string", "Primary": true|false } ... ]
+    /// A list of Address objects containing addresses associated with the user. Constraints: • min: 1 • max: 1 (structure) The address associated with the specified user. StreetAddress -&gt; (string) The street of the address. Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Locality -&gt; (string) A string of the address locality. Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Region -&gt; (string) The region of the address. Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ PostalCode -&gt; (string) The postal code of the address. Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Country -&gt; (string) The country of the address. Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Formatted -&gt; (string) A string containing a formatted version of the address for display. Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Type -&gt; (string) A string representing the type of address. For example, "Home." Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Primary -&gt; (boolean) A Boolean value representing whether this is the primary address for the associated resource. Shorthand Syntax: StreetAddress=string,Locality=string,Region=string,PostalCode=string,Country=string,Formatted=string,Type=string,Primary=boolean ... JSON Syntax: [ { "StreetAddress": "string", "Locality": "string", "Region": "string", "PostalCode": "string", "Country": "string", "Formatted": "string", "Type": "string", "Primary": true|false } ... ]
     /// </summary>
     [CliOption("--addresses", GroupValues = true)]
     public IEnumerable<string>? Addresses { get; set; }
 
     /// <summary>
-    /// A list of PhoneNumber objects containing phone numbers associated with the user. Constraints: o min: 1 o max: 1 (structure) The phone number associated with the user. Value -&gt; (string) A string containing a phone number. For example, "8675309" or "+1 (800) 123-4567". Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Type -&gt; (string) A string representing the type of a phone number. For exam- ple, "Mobile." Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Primary -&gt; (boolean) A Boolean value representing whether this is the primary phone number for the associated resource. Shorthand Syntax: Value=string,Type=string,Primary=boolean ... JSON Syntax: [ { "Value": "string", "Type": "string", "Primary": true|false } ... ]
+    /// A list of PhoneNumber objects containing phone numbers associated with the user. Constraints: • min: 1 • max: 1 (structure) The phone number associated with the user. Value -&gt; (string) A string containing a phone number. For example, "8675309" or "+1 (800) 123-4567". Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Type -&gt; (string) A string representing the type of a phone number. For example, "Mobile." Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Primary -&gt; (boolean) A Boolean value representing whether this is the primary phone number for the associated resource. Shorthand Syntax: Value=string,Type=string,Primary=boolean ... JSON Syntax: [ { "Value": "string", "Type": "string", "Primary": true|false } ... ]
     /// </summary>
     [CliOption("--phone-numbers", GroupValues = true)]
     public IEnumerable<string>? PhoneNumbers { get; set; }
 
     /// <summary>
-    /// A string indicating the type of user. Possible values are left un- specified. The value can vary based on your specific use case. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+
+    /// A string indicating the type of user. Possible values are left unspecified. The value can vary based on your specific use case. Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+
     /// </summary>
     [CliOption("--user-type")]
     public string? UserType { get; set; }
 
     /// <summary>
-    /// A string containing the title of the user. Possible values are left unspecified. The value can vary based on your specific use case. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+
+    /// A string containing the title of the user. Possible values are left unspecified. The value can vary based on your specific use case. Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+
     /// </summary>
     [CliOption("--title")]
     public string? Title { get; set; }
 
     /// <summary>
-    /// A string containing the preferred language of the user. For example, "American English" or "en-us." Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+
+    /// A string containing the preferred language of the user. For example, "American English" or "en-us." Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+
     /// </summary>
     [CliOption("--preferred-language")]
     public string? PreferredLanguage { get; set; }
 
     /// <summary>
-    /// A string containing the geographical region or location of the user. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+
+    /// A string containing the geographical region or location of the user. Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+
     /// </summary>
     [CliOption("--locale")]
     public string? Locale { get; set; }
 
     /// <summary>
-    /// A string containing the time zone of the user. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+
+    /// A string containing the time zone of the user. Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+
     /// </summary>
     [CliOption("--timezone")]
     public string? Timezone { get; set; }
 
     /// <summary>
-    /// A list of photos associated with the user. You can add up to 3 pho- tos per user. Each photo can include a value, type, display name, and primary designation. Constraints: o min: 1 o max: 3 (structure) Contains information about a user's photo. Users can have up to 3 photos, with one designated as primary. Supports common image formats, including jpg, jpeg, png, and gif. Value -&gt; (string) [required] The photo data or URL. Supported formats include jpg, jpeg, png, and gif. This field is required for all photo entries. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Type -&gt; (string) The type of photo. This field is optional and can be used to categorize different types of photos. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Display -&gt; (string) A human-readable description of the photo for display pur- poses. This optional field provides context about the photo. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Primary -&gt; (boolean) Specifies whether this is the user's primary photo. Default value is false . Only one photo can be designated as primary per user. Shorthand Syntax: Value=string,Type=string,Display=string,Primary=boolean ... JSON Syntax: [ { "Value": "string", "Type": "string", "Display": "string", "Primary": true|false } ... ]
+    /// A list of photos associated with the user. You can add up to 3 photos per user. Each photo can include a value, type, display name, and primary designation. Constraints: • min: 1 • max: 3 (structure) Contains information about a user's photo. Users can have up to 3 photos, with one designated as primary. Supports common image formats, including jpg, jpeg, png, and gif. Value -&gt; (string) [required] The photo data or URL. Supported formats include jpg, jpeg, png, and gif. This field is required for all photo entries. Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Type -&gt; (string) The type of photo. This field is optional and can be used to categorize different types of photos. Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Display -&gt; (string) A human-readable description of the photo for display purposes. This optional field provides context about the photo. Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Primary -&gt; (boolean) Specifies whether this is the user's primary photo. Default value is false . Only one photo can be designated as primary per user. Shorthand Syntax: Value=string,Type=string,Display=string,Primary=boolean ... JSON Syntax: [ { "Value": "string", "Type": "string", "Display": "string", "Primary": true|false } ... ]
     /// </summary>
     [CliOption("--photos", GroupValues = true)]
     public IEnumerable<string>? Photos { get; set; }
 
     /// <summary>
-    /// The user's personal website or blog URL. This field allows users to provide a link to their personal or professional website. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+
+    /// The user's personal website or blog URL. This field allows users to provide a link to their personal or professional website. Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+
     /// </summary>
     [CliOption("--website")]
     public string? Website { get; set; }
 
     /// <summary>
-    /// The user's birthdate in YYYY-MM-DD format. This field supports stan- dard date format for storing personal information. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+
+    /// The user's birthdate in YYYY-MM-DD format. This field supports standard date format for storing personal information. Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+
     /// </summary>
     [CliOption("--birthdate")]
     public string? Birthdate { get; set; }
 
     /// <summary>
-    /// A list of Role objects containing roles associated with the user. Constraints: o min: 1 o max: 1 (structure) The role associated with the user. Value -&gt; (string) A string containing a role name. For example, "Researcher." Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Type -&gt; (string) A string representing the type of role. For example, "Work." Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Primary -&gt; (boolean) A Boolean value representing whether this is the primary role for the associated resource. Shorthand Syntax: Value=string,Type=string,Primary=boolean ... JSON Syntax: [ { "Value": "string", "Type": "string", "Primary": true|false } ... ]
+    /// A list of Role objects containing roles associated with the user. Constraints: • min: 1 • max: 1 (structure) The role associated with the user. Value -&gt; (string) A string containing a role name. For example, "Researcher." Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Type -&gt; (string) A string representing the type of role. For example, "Work." Constraints: • min: 1 • max: 1024 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Primary -&gt; (boolean) A Boolean value representing whether this is the primary role for the associated resource. Shorthand Syntax: Value=string,Type=string,Primary=boolean ... JSON Syntax: [ { "Value": "string", "Type": "string", "Primary": true|false } ... ]
     /// </summary>
     [CliOption("--roles", GroupValues = true)]
     public IEnumerable<string>? Roles { get; set; }
 
     /// <summary>
-    /// A map with additional attribute extensions for the user. Each map key corresponds to an extension name, while map values represent ex- tension data in Document type (not supported by Java V1, Go V1 and older versions of the CLI). aws:identitystore:enterprise is the only supported extension name. Constraints: o min: 1 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 50 o pattern: aws:identitystore:[a-z]{1,20} value -&gt; (document) The value of the attribute. This is a Document type. This type is not supported by Java V1, Go V1, and older versions of the CLI. JSON Syntax: {"string": {...} ...}
+    /// A map with additional attribute extensions for the user. Each map key corresponds to an extension name, while map values represent extension data in Document type (not supported by Java V1, Go V1 and older versions of the CLI). aws:identitystore:enterprise is the only supported extension name. Constraints: • min: 1 • max: 10 key -&gt; (string) Constraints: • min: 1 • max: 50 • pattern: aws:identitystore:[a-z]{1,20} value -&gt; (document) The value of the attribute. This is a Document type. This type is not supported by Java V1, Go V1, and older versions of the CLI. JSON Syntax: {"string": {...} ...}
     /// </summary>
     [CliOption("--extensions", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Extensions { get; set; }

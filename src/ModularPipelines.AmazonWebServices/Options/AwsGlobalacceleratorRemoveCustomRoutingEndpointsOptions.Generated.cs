@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsGlobalacceleratorRemoveCustomRoutingEndpointsOptions : AwsOptio
     /// <summary>
     /// Remove endpoints from a custom routing accelerator. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EndpointIds">The IDs for the endpoints. For custom routing accelerators, endpoint IDs are the virtual private cloud (VPC) subnet IDs. (string) Constraints: o max: 255 Syntax: "string" "string" ...</param>
-    /// <param name="EndpointGroupArn">The Amazon Resource Name (ARN) of the endpoint group to remove end- points from. Constraints: o max: 255</param>
+    /// <param name="EndpointIds">The IDs for the endpoints. For custom routing accelerators, endpoint IDs are the virtual private cloud (VPC) subnet IDs. (string) Constraints: • max: 255 Syntax: "string" "string" ...</param>
+    /// <param name="EndpointGroupArn">The Amazon Resource Name (ARN) of the endpoint group to remove endpoints from. Constraints: • max: 255</param>
     public AwsGlobalacceleratorRemoveCustomRoutingEndpointsOptions(
         IEnumerable<string> EndpointIds,
         string EndpointGroupArn
@@ -71,13 +73,13 @@ public record AwsGlobalacceleratorRemoveCustomRoutingEndpointsOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The IDs for the endpoints. For custom routing accelerators, endpoint IDs are the virtual private cloud (VPC) subnet IDs. (string) Constraints: o max: 255 Syntax: "string" "string" ...
+    /// The IDs for the endpoints. For custom routing accelerators, endpoint IDs are the virtual private cloud (VPC) subnet IDs. (string) Constraints: • max: 255 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--endpoint-ids", GroupValues = true)]
     public IEnumerable<string>? EndpointIds { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the endpoint group to remove end- points from. Constraints: o max: 255
+    /// The Amazon Resource Name (ARN) of the endpoint group to remove endpoints from. Constraints: • max: 255
     /// </summary>
     [CliOption("--endpoint-group-arn")]
     public string? EndpointGroupArn { get; private init; }

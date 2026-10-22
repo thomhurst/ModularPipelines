@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsConnectUpdatePromptOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates a prompt. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="PromptId">A unique identifier for the prompt. Constraints: o min: 1 o max: 256</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="PromptId">A unique identifier for the prompt. Constraints: • min: 1 • max: 256</param>
     public AwsConnectUpdatePromptOptions(
         string InstanceId,
         string PromptId
@@ -60,31 +62,31 @@ public record AwsConnectUpdatePromptOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the prompt. Constraints: o min: 1 o max: 256
+    /// A unique identifier for the prompt. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--prompt-id")]
     public string? PromptId { get; private init; }
 
     /// <summary>
-    /// The name of the prompt. Constraints: o min: 1 o max: 127
+    /// The name of the prompt. Constraints: • min: 1 • max: 127
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A description of the prompt. Constraints: o min: 1 o max: 250
+    /// A description of the prompt. Constraints: • min: 1 • max: 250
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The URI for the S3 bucket where the prompt is stored. You can pro- vide S3 pre-signed URLs returned by the GetPromptFile API instead of providing S3 URIs. Constraints: o min: 1 o max: 2000 o pattern: s3://\S+/.+|https://\\S+\\.s3\\.\\S+\\.amazon- aws\\.com/\\S+
+    /// The URI for the S3 bucket where the prompt is stored. You can provide S3 pre-signed URLs returned by the GetPromptFile API instead of providing S3 URIs. Constraints: • min: 1 • max: 2000 • pattern: s3://\S+/.+|https://\\S+\\.s3\\.\\S+\\.amazonaws\\.com/\\S+
     /// </summary>
     [CliOption("--s3-uri")]
     public string? S3Uri { get; set; }

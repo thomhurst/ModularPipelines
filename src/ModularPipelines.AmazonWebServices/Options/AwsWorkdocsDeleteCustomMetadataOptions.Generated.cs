@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsWorkdocsDeleteCustomMetadataOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Deletes custom metadata from the specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceId">The ID of the resource, either a document or folder. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+</param>
+    /// <param name="ResourceId">The ID of the resource, either a document or folder. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+</param>
     public AwsWorkdocsDeleteCustomMetadataOptions(
         string ResourceId
     )
@@ -57,26 +59,26 @@ public record AwsWorkdocsDeleteCustomMetadataOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the resource, either a document or folder. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+
+    /// The ID of the resource, either a document or folder. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: o min: 1 o max: 8199
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: • min: 1 • max: 8199
     /// </summary>
     [SecretValue]
     [CliOption("--authentication-token")]
     public string? AuthenticationToken { get; set; }
 
     /// <summary>
-    /// The ID of the version, if the custom metadata is being deleted from a document version. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+
+    /// The ID of the version, if the custom metadata is being deleted from a document version. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+
     /// </summary>
     [CliOption("--version-id")]
     public string? VersionId { get; set; }
 
     /// <summary>
-    /// List of properties to remove. Constraints: o max: 8 (string) Constraints: o min: 1 o max: 56 o pattern: [a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]* Syntax: "string" "string" ...
+    /// List of properties to remove. Constraints: • max: 8 (string) Constraints: • min: 1 • max: 56 • pattern: [a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--keys", GroupValues = true)]
     public IEnumerable<string>? Keys { get; set; }

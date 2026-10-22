@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCodestarConnectionsListHostsOptions : AwsOptions
 {
     /// <summary>
-    /// The maximum number of results to return in a single call. To re- trieve the remaining results, make another call with the returned nextToken value. Constraints: o min: 0 o max: 100
+    /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The token that was returned from the previous ListHosts call, which can be used to return the next set of hosts in the list. Constraints: o min: 1 o max: 1024 o pattern: ^.*$
+    /// The token that was returned from the previous ListHosts call, which can be used to return the next set of hosts in the list. Constraints: • min: 1 • max: 1024 • pattern: ^.*$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

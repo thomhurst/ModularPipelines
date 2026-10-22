@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsXrayDeleteGroupOptions : AwsOptions
 {
     /// <summary>
-    /// The case-sensitive name of the group. Constraints: o min: 1 o max: 32
+    /// The case-sensitive name of the group. Constraints: • min: 1 • max: 32
     /// </summary>
     [CliOption("--group-name")]
     public string? GroupName { get; set; }
 
     /// <summary>
-    /// The ARN of the group that was generated on creation. Constraints: o min: 1 o max: 400
+    /// The ARN of the group that was generated on creation. Constraints: • min: 1 • max: 400
     /// </summary>
     [CliOption("--group-arn")]
     public string? GroupArn { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDatabrewDeleteRecipeVersionOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Deletes a single version of a DataBrew recipe. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the recipe. Constraints: o min: 1 o max: 255</param>
-    /// <param name="RecipeVersion">The version of the recipe to be deleted. You can specify a numeric versions (X.Y ) or LATEST_WORKING . LATEST_PUBLISHED is not sup- ported. Constraints: o min: 1 o max: 16</param>
+    /// <param name="Name">The name of the recipe. Constraints: • min: 1 • max: 255</param>
+    /// <param name="RecipeVersion">The version of the recipe to be deleted. You can specify a numeric versions (X.Y ) or LATEST_WORKING . LATEST_PUBLISHED is not supported. Constraints: • min: 1 • max: 16</param>
     public AwsDatabrewDeleteRecipeVersionOptions(
         string Name,
         string RecipeVersion
@@ -60,13 +62,13 @@ public record AwsDatabrewDeleteRecipeVersionOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the recipe. Constraints: o min: 1 o max: 255
+    /// The name of the recipe. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The version of the recipe to be deleted. You can specify a numeric versions (X.Y ) or LATEST_WORKING . LATEST_PUBLISHED is not sup- ported. Constraints: o min: 1 o max: 16
+    /// The version of the recipe to be deleted. You can specify a numeric versions (X.Y ) or LATEST_WORKING . LATEST_PUBLISHED is not supported. Constraints: • min: 1 • max: 16
     /// </summary>
     [CliOption("--recipe-version")]
     public string? RecipeVersion { get; private init; }

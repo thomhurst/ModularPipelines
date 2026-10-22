@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBedrockAgentDeletePromptOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Deletes a prompt or a version of it, depending on whether you include the promptVersion field or not. For more information, see Delete prompts from the Prompt management tool and Delete a version of a prompt from the Prompt management tool in the Amazon Bedrock User Guide. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PromptIdentifier">The unique identifier of the prompt. Constraints: o pattern: ([0-9a-zA-Z]{10})|(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10})(?::[0-9]{1,5})?</param>
+    /// <param name="PromptIdentifier">The unique identifier of the prompt. Constraints: • pattern: ([0-9a-zA-Z]{10})|(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10})(?::[0-9]{1,5})?</param>
     public AwsBedrockAgentDeletePromptOptions(
         string PromptIdentifier
     )
@@ -56,13 +58,13 @@ public record AwsBedrockAgentDeletePromptOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the prompt. Constraints: o pattern: ([0-9a-zA-Z]{10})|(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10})(?::[0-9]{1,5})?
+    /// The unique identifier of the prompt. Constraints: • pattern: ([0-9a-zA-Z]{10})|(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10})(?::[0-9]{1,5})?
     /// </summary>
     [CliOption("--prompt-identifier")]
     public string? PromptIdentifier { get; private init; }
 
     /// <summary>
-    /// The version of the prompt to delete. To delete the prompt, omit this field. Constraints: o pattern: [0-9]{1,5}
+    /// The version of the prompt to delete. To delete the prompt, omit this field. Constraints: • pattern: [0-9]{1,5}
     /// </summary>
     [CliOption("--prompt-version")]
     public string? PromptVersion { get; set; }

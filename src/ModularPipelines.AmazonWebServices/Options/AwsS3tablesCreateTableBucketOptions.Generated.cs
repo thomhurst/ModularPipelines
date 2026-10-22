@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a table bucket. For more information, see Creating a table bucket in the Amazon Simple Storage Service User Guide . Permissions o You must have the s3tables:CreateTableBucket permission to use this operation. o If you use this operation with the optional encryptionConfiguration parameter you must have the s3tables:PutTableBucketEncryption permis- sion. o If you use this operation with the storageClassConfiguration request parameter, you must have the s3tables:PutTableBucketStorageClass p...
+/// Creates a table bucket. For more information, see Creating a table bucket in the Amazon Simple Storage Service User Guide . Permissions • You must have the s3tables:CreateTableBucket permission to use this operation. • If you use this operation with the optional encryptionConfiguration parameter you must have the s3tables:PutTableBucketEncryption permission. • If you use this operation with the storageClassConfiguration request parameter, you must have the s3tables:PutTableBucketStorageClass per...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsS3tablesCreateTableBucketOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a table bucket. For more information, see Creating a table bucket in the Amazon Simple Storage Service User Guide . Permissions o You must have the s3tables:CreateTableBucket permission to use this operation. o If you use this operation with the optional encryptionConfiguration parameter you must have the s3tables:PutTableBucketEncryption permis- sion. o If you use this operation with the storageClassConfiguration request parameter, you must have the s3tables:PutTableBucketStorageClass p...
+    /// Creates a table bucket. For more information, see Creating a table bucket in the Amazon Simple Storage Service User Guide . Permissions • You must have the s3tables:CreateTableBucket permission to use this operation. • If you use this operation with the optional encryptionConfiguration parameter you must have the s3tables:PutTableBucketEncryption permission. • If you use this operation with the storageClassConfiguration request parameter, you must have the s3tables:PutTableBucketStorageClass per...
     /// </summary>
-    /// <param name="Name">The name for the table bucket. Constraints: o min: 3 o max: 63 o pattern: [0-9a-z-]*</param>
+    /// <param name="Name">The name for the table bucket. Constraints: • min: 3 • max: 63 • pattern: [0-9a-z-]*</param>
     public AwsS3tablesCreateTableBucketOptions(
         string Name
     )
@@ -57,25 +58,25 @@ public record AwsS3tablesCreateTableBucketOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name for the table bucket. Constraints: o min: 3 o max: 63 o pattern: [0-9a-z-]*
+    /// The name for the table bucket. Constraints: • min: 3 • max: 63 • pattern: [0-9a-z-]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The encryption configuration to use for the table bucket. This con- figuration specifies the default encryption settings that will be applied to all tables created in this bucket unless overridden at the table level. The configuration includes the encryption algorithm and, if using SSE-KMS, the KMS key to use. sseAlgorithm -&gt; (string) [required] The server-side encryption algorithm to use. Valid values are AES256 for S3-managed encryption keys, or aws:kms for Amazon Web Services KMS-managed encryption keys. If you choose SSE-KMS en- cryption you must grant the S3 Tables maintenance principal ac- cess to your KMS key. For more information, see Permissions re- quirements for S3 Tables SSE-KMS encryption . Possible values: o AES256 o aws:kms kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the KMS key to use for encryp- tion. This field is required only when sseAlgorithm is set to aws:kms . Constraints: o min: 1 o max: 2048 o pattern: (arn:aws[-a-z0-9]*:kms:[-a-z0-9]*:[0-9]{12}:key/.+) Shorthand Syntax: sseAlgorithm=string,kmsKeyArn=string JSON Syntax: { "sseAlgorithm": "AES256"|"aws:kms", "kmsKeyArn": "string" }
+    /// The encryption configuration to use for the table bucket. This configuration specifies the default encryption settings that will be applied to all tables created in this bucket unless overridden at the table level. The configuration includes the encryption algorithm and, if using SSE-KMS, the KMS key to use. sseAlgorithm -&gt; (string) [required] The server-side encryption algorithm to use. Valid values are AES256 for S3-managed encryption keys, or aws:kms for Amazon Web Services KMS-managed encryption keys. If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption . Possible values: • AES256 • aws:kms kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the KMS key to use for encryption. This field is required only when sseAlgorithm is set to aws:kms . Constraints: • min: 1 • max: 2048 • pattern: (arn:aws[-a-z0-9]*:kms:[-a-z0-9]*:[0-9]{12}:key/.+) Shorthand Syntax: sseAlgorithm=string,kmsKeyArn=string JSON Syntax: { "sseAlgorithm": "AES256"|"aws:kms", "kmsKeyArn": "string" }
     /// </summary>
     [CliOption("--encryption-configuration")]
     public string? EncryptionConfiguration { get; set; }
 
     /// <summary>
-    /// The default storage class configuration for the table bucket. This configuration will be applied to all new tables created in this bucket unless overridden at the table level. If not specified, the service default storage class will be used. storageClass -&gt; (string) [required] The storage class for the table or table bucket. Valid values include storage classes optimized for different access patterns and cost profiles. Possible values: o STANDARD o INTELLIGENT_TIERING Shorthand Syntax: storageClass=string JSON Syntax: { "storageClass": "STANDARD"|"INTELLIGENT_TIERING" }
+    /// The default storage class configuration for the table bucket. This configuration will be applied to all new tables created in this bucket unless overridden at the table level. If not specified, the service default storage class will be used. storageClass -&gt; (string) [required] The storage class for the table or table bucket. Valid values include storage classes optimized for different access patterns and cost profiles. Possible values: • STANDARD • INTELLIGENT_TIERING Shorthand Syntax: storageClass=string JSON Syntax: { "storageClass": "STANDARD"|"INTELLIGENT_TIERING" }
     /// </summary>
     [CliOption("--storage-class-configuration")]
     public string? StorageClassConfiguration { get; set; }
 
     /// <summary>
-    /// A map of user-defined tags that you would like to apply to the table bucket that you are creating. A tag is a key-value pair that you ap- ply to your resources. Tags can help you organize and control access to resources. For more information, see Tagging for cost allocation or attribute-based access control (ABAC) . NOTE: You must have the s3tables:TagResource permission in addition to s3tables:CreateTableBucket permisson to create a table bucket with tags. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of user-defined tags that you would like to apply to the table bucket that you are creating. A tag is a key-value pair that you apply to your resources. Tags can help you organize and control access to resources. For more information, see Tagging for cost allocation or attribute-based access control (ABAC) . NOTE: You must have the s3tables:TagResource permission in addition to s3tables:CreateTableBucket permisson to create a table bucket with tags. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

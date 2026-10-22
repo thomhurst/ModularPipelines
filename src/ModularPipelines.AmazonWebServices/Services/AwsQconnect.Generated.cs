@@ -32,7 +32,7 @@ public class AwsQconnect : IAwsQconnect
     #region Commands
 
     /// <summary>
-    /// Activates a specific version of the Amazon Q in Connect message tem- plate. After the version is activated, the previous active version will be deactivated automatically. You can use the $ACTIVE_VERSION qualifier later to reference the version that is in active status. See also: AWS API Documentation
+    /// Activates a specific version of the Amazon Q in Connect message template. After the version is activated, the previous active version will be deactivated automatically. You can use the $ACTIVE_VERSION qualifier later to reference the version that is in active status. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Creates an Amazon Q in Connect AI Agent. See also: AWS API Documentation create-ai-agent uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Creates an Amazon Q in Connect AI Agent. See also: AWS API Documentation create-ai-agent uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Creates and Amazon Q in Connect AI Agent version. See also: AWS API Documentation create-ai-agent-version uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support document types.
+    /// Creates and Amazon Q in Connect AI Agent version. See also: AWS API Documentation create-ai-agent-version uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Creates an association between an Amazon Q in Connect assistant and an- other resource. Currently, the only supported association is with a knowledge base. An assistant can have only a single association. See also: AWS API Documentation
+    /// Creates an association between an Amazon Q in Connect assistant and another resource. Currently, the only supported association is with a knowledge base. An assistant can have only a single association. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Creates an association between a content resource in a knowledge base and step-by-step guides . Step-by-step guides offer instructions to agents for resolving common customer issues. You create a content asso- ciation to integrate Amazon Q in Connect and step-by-step guides. After you integrate Amazon Q and step-by-step guides, when Amazon Q provides a recommendation to an agent based on the intent that it's de- tected, it also provides them with the option to start the step-by-step guide that y...
+    /// Creates an association between a content resource in a knowledge base and step-by-step guides . Step-by-step guides offer instructions to agents for resolving common customer issues. You create a content association to integrate Amazon Q in Connect and step-by-step guides. After you integrate Amazon Q and step-by-step guides, when Amazon Q provides a recommendation to an agent based on the intent that it's detected, it also provides them with the option to start the step-by-step guide that you h...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Creates a knowledge base. NOTE: When using this API, you cannot reuse Amazon AppIntegrations DataIn- tegrations with external knowledge bases such as Salesforce and Ser- viceNow. If you do, you'll get an InvalidRequestException error. For example, you're programmatically managing your external knowl- edge base, and you want to add or remove one of the fields that is being ingested from Salesforce. Do the following: o Call DeleteKnowledgeBase . o Call DeleteDataIntegration . o Call CreateDataInte...
+    /// Creates a knowledge base. NOTE: When using this API, you cannot reuse Amazon AppIntegrations DataIntegrations with external knowledge bases such as Salesforce and ServiceNow. If you do, you'll get an InvalidRequestException error. For example, you're programmatically managing your external knowledge base, and you want to add or remove one of the fields that is being ingested from Salesforce. Do the following: • Call DeleteKnowledgeBase . • Call DeleteDataIntegration . • Call CreateDataIntegratio...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Creates an Amazon Q in Connect message template. The name of the mes- sage template has to be unique for each knowledge base. The channel subtype of the message template is immutable and cannot be modified af- ter creation. After the message template is created, you can use the $LATEST qualifier to reference the created message template. See also: AWS API Documentation
+    /// Creates an Amazon Q in Connect message template. The name of the message template has to be unique for each knowledge base. The channel subtype of the message template is immutable and cannot be modified after creation. After the message template is created, you can use the $LATEST qualifier to reference the created message template. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Creates a new Amazon Q in Connect message template version from the current content and configuration of a message template. Versions are immutable and monotonically increasing. Once a version is created, you can reference a specific version of the message template by passing in &lt;message-template-id&gt;:&lt;versionNumber&gt; as the message template identi- fier. An error is displayed if the supplied messageTemplateCon- tentSha256 is different from the messageTemplateContentSha256 of the message template ...
+    /// Creates a new Amazon Q in Connect message template version from the current content and configuration of a message template. Versions are immutable and monotonically increasing. Once a version is created, you can reference a specific version of the message template by passing in &lt;message-template-id&gt;:&lt;versionNumber&gt; as the message template identifier. An error is displayed if the supplied messageTemplateContentSha256 is different from the messageTemplateContentSha256 of the message template with...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Creates a session. A session is a contextual container used for gener- ating recommendations. Connect Customer creates a new Amazon Q in Con- nect session for each contact on which Amazon Q in Connect is enabled. See also: AWS API Documentation
+    /// Creates a session. A session is a contextual container used for generating recommendations. Connect Customer creates a new Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Deactivates a specific version of the Amazon Q in Connect message tem- plate . After the version is deactivated, you can no longer use the $ACTIVE_VERSION qualifier to reference the version in active status. See also: AWS API Documentation
+    /// Deactivates a specific version of the Amazon Q in Connect message template . After the version is deactivated, you can no longer use the $ACTIVE_VERSION qualifier to reference the version in active status. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Deletes the knowledge base. NOTE: When you use this API to delete an external knowledge base such as Salesforce or ServiceNow, you must also delete the Amazon AppInte- grations DataIntegration. This is because you can't reuse the DataIntegration after it's been associated with an external knowl- edge base. However, you can delete and recreate it. See DeleteDataIntegration and CreateDataIntegration in the Amazon AppIn- tegrations API Reference . See also: AWS API Documentation
+    /// Deletes the knowledge base. NOTE: When you use this API to delete an external knowledge base such as Salesforce or ServiceNow, you must also delete the Amazon AppIntegrations DataIntegration. This is because you can't reuse the DataIntegration after it's been associated with an external knowledge base. However, you can delete and recreate it. See DeleteDataIntegration and CreateDataIntegration in the Amazon AppIntegrations API Reference . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Deletes the attachment file from the Amazon Q in Connect message tem- plate that is referenced by $LATEST qualifier. Attachments on available message template versions will remain unchanged. See also: AWS API Documentation
+    /// Deletes the attachment file from the Amazon Q in Connect message template that is referenced by $LATEST qualifier. Attachments on available message template versions will remain unchanged. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Deletes an Amazon Q in Connect message template entirely or a specific version of the message template if version is supplied in the request. You can provide the message template identifier as &lt;message-tem- plate-id&gt;:&lt;versionNumber&gt; to delete a specific version of the message template. If it is not supplied, the message template and all available versions will be deleted. See also: AWS API Documentation
+    /// Deletes an Amazon Q in Connect message template entirely or a specific version of the message template if version is supplied in the request. You can provide the message template identifier as &lt;message-template-id&gt;:&lt;versionNumber&gt; to delete a specific version of the message template. If it is not supplied, the message template and all available versions will be deleted. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -677,7 +677,7 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Retrieves the Amazon Q in Connect message template. The message tem- plate identifier can contain an optional qualifier, for example, &lt;mes- sage-template-id&gt;:&lt;qualifier&gt; , which is either an actual version num- ber or an Amazon Q Connect managed qualifier $ACTIVE_VERSION | $LATEST . If it is not supplied, then $LATEST is assumed implicitly. See also: AWS API Documentation
+    /// Retrieves the Amazon Q in Connect message template. The message template identifier can contain an optional qualifier, for example, &lt;message-template-id&gt;:&lt;qualifier&gt; , which is either an actual version number or an Amazon Q Connect managed qualifier $ACTIVE_VERSION | $LATEST . If it is not supplied, then $LATEST is assumed implicitly. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -692,7 +692,7 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Retrieves next message on an Amazon Q in Connect session. See also: AWS API Documentation get-next-message uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Retrieves next message on an Amazon Q in Connect session. See also: AWS API Documentation get-next-message uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -737,7 +737,22 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Lists AI Agents. See also: AWS API Documentation list-ai-agents uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-ai-agents is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of r...
+    /// List AI Agent versions. See also: AWS API Documentation list-ai-agent-versions uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-ai-agent-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the e...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAiAgentVersionsAsync(
+        AwsQconnectListAiAgentVersionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists AI Agents. See also: AWS API Documentation list-ai-agents uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-ai-agents is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of resul...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -752,14 +767,14 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// List AI Agent versions. See also: AWS API Documentation list-ai-agent-versions uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-ai-agent-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the...
+    /// Lists AI Guardrail versions. See also: AWS API Documentation list-ai-guardrail-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: aiGuardrailVersionSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListAiAgentVersionsAsync(
-        AwsQconnectListAiAgentVersionsOptions options,
+    public virtual async Task<CommandResult> ListAiGuardrailVersionsAsync(
+        AwsQconnectListAiGuardrailVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -782,37 +797,7 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Lists AI Guardrail versions. See also: AWS API Documentation list-ai-guardrail-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: aiGuardrailVersionSummaries
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListAiGuardrailVersionsAsync(
-        AwsQconnectListAiGuardrailVersionsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists the AI Prompts available on the Amazon Q in Connect assistant. See also: AWS API Documentation list-ai-prompts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: aiPromptSummaries
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListAiPromptsAsync(
-        AwsQconnectListAiPromptsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists AI Prompt versions. See also: AWS API Documentation list-ai-prompt-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: aiPromptVersionSummaries
+    /// Lists AI Prompt versions. See also: AWS API Documentation list-ai-prompt-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: aiPromptVersionSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -827,7 +812,22 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Lists information about assistant associations. See also: AWS API Documentation list-assistant-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: assistantAssociationSummaries
+    /// Lists the AI Prompts available on the Amazon Q in Connect assistant. See also: AWS API Documentation list-ai-prompts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: aiPromptSummaries
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAiPromptsAsync(
+        AwsQconnectListAiPromptsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists information about assistant associations. See also: AWS API Documentation list-assistant-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: assistantAssociationSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -842,7 +842,7 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Lists information about assistants. See also: AWS API Documentation list-assistants is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: assistantSummaries
+    /// Lists information about assistants. See also: AWS API Documentation list-assistants is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: assistantSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -872,7 +872,7 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Lists the content. See also: AWS API Documentation list-contents is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: contentSummaries
+    /// Lists the content. See also: AWS API Documentation list-contents is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: contentSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -917,14 +917,14 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Lists messages on an Amazon Q in Connect session. See also: AWS API Documentation list-messages uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-messages is a paginated operation. Multiple API calls may be is- sued in order to retr...
+    /// Lists all the available versions for the specified Amazon Q in Connect message template. See also: AWS API Documentation list-message-template-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: m...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListMessagesAsync(
-        AwsQconnectListMessagesOptions options,
+    public virtual async Task<CommandResult> ListMessageTemplateVersionsAsync(
+        AwsQconnectListMessageTemplateVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -947,14 +947,14 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Lists all the available versions for the specified Amazon Q in Connect message template. See also: AWS API Documentation list-message-template-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expression...
+    /// Lists messages on an Amazon Q in Connect session. See also: AWS API Documentation list-messages uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-messages is a paginated operation. Multiple API calls may be issued in order to retrie...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListMessageTemplateVersionsAsync(
-        AwsQconnectListMessageTemplateVersionsOptions options,
+    public virtual async Task<CommandResult> ListMessagesAsync(
+        AwsQconnectListMessagesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -962,7 +962,7 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Lists the models available to an Amazon Q in Connect assistant in the assistant's Amazon Web Services Region. The available models are deter- mined by the region of the specified assistant. See also: AWS API Documentation list-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --que...
+    /// Lists the models available to an Amazon Q in Connect assistant in the assistant's Amazon Web Services Region. The available models are determined by the region of the specified assistant. See also: AWS API Documentation list-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1022,7 +1022,7 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Removes the specified recommendations from the specified assistant's queue of newly available recommendations. You can use this API in con- junction with GetRecommendations and a waitTimeSeconds input for long-polling behavior and avoiding duplicate recommendations. See also: AWS API Documentation
+    /// Removes the specified recommendations from the specified assistant's queue of newly available recommendations. You can use this API in conjunction with GetRecommendations and a waitTimeSeconds input for long-polling behavior and avoiding duplicate recommendations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1082,7 +1082,7 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Renders the Amazon Q in Connect message template based on the attribute values provided and generates the message content. For any variable present in the message template, if the attribute value is neither pro- vided in the attribute request parameter nor the default attribute of the message template, the rendered message content will keep the vari- able placeholder as it is and return the attribute keys that are miss- ing. See also: AWS API Documentation
+    /// Renders the Amazon Q in Connect message template based on the attribute values provided and generates the message content. For any variable present in the message template, if the attribute value is neither provided in the attribute request parameter nor the default attribute of the message template, the rendered message content will keep the variable placeholder as it is and return the attribute keys that are missing. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1097,7 +1097,7 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Retrieves content from knowledge sources based on a query. See also: AWS API Documentation retrieve uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syn- tax does not support document types.
+    /// Retrieves content from knowledge sources based on a query. See also: AWS API Documentation retrieve uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1112,7 +1112,7 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Searches for content in a specified knowledge base. Can be used to get a specific content resource by its name. See also: AWS API Documentation search-content is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query exp...
+    /// Searches for content in a specified knowledge base. Can be used to get a specific content resource by its name. See also: AWS API Documentation search-content is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query express...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1127,7 +1127,7 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Searches for Amazon Q in Connect message templates in the specified knowledge base. See also: AWS API Documentation search-message-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: results
+    /// Searches for Amazon Q in Connect message templates in the specified knowledge base. See also: AWS API Documentation search-message-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: results
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1157,7 +1157,7 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Searches for sessions. See also: AWS API Documentation search-sessions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: sessionSummaries
+    /// Searches for sessions. See also: AWS API Documentation search-sessions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: sessionSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1187,7 +1187,7 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Get a URL to upload content to a knowledge base. To upload content, first make a PUT request to the returned URL with your file, making sure to include the required headers. Then use CreateContent to final- ize the content creation process or UpdateContent to modify an existing resource. You can only upload content to a knowledge base of type CUS- TOM. See also: AWS API Documentation
+    /// Get a URL to upload content to a knowledge base. To upload content, first make a PUT request to the returned URL with your file, making sure to include the required headers. Then use CreateContent to finalize the content creation process or UpdateContent to modify an existing resource. You can only upload content to a knowledge base of type CUSTOM. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1202,7 +1202,7 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Start an asynchronous job to import Amazon Q in Connect resources from an uploaded source file. Before calling this API, use StartContentUpload to upload an asset that contains the resource data. o For importing Amazon Q in Connect quick responses, you need to upload a csv file including the quick responses. For information about how to format the csv file for importing quick responses, see Import quick responses . See also: AWS API Documentation
+    /// Start an asynchronous job to import Amazon Q in Connect resources from an uploaded source file. Before calling this API, use StartContentUpload to upload an asset that contains the resource data. • For importing Amazon Q in Connect quick responses, you need to upload a csv file including the quick responses. For information about how to format the csv file for importing quick responses, see Import quick responses . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1247,7 +1247,7 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Updates an AI Agent. See also: AWS API Documentation update-ai-agent uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Updates an AI Agent. See also: AWS API Documentation update-ai-agent uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1322,7 +1322,7 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Updates the template URI of a knowledge base. This is only supported for knowledge bases of type EXTERNAL. Include a single variable in ${variable} format; this interpolated by Amazon Q in Connect using in- gested content. For example, if you ingest a Salesforce article, it has an Id value, and you can set the template URI to https://myInstance- Name.lightning.force.com/lightning/r/Knowledge__kav/*${Id}*/view . See also: AWS API Documentation
+    /// Updates the template URI of a knowledge base. This is only supported for knowledge bases of type EXTERNAL. Include a single variable in ${variable} format; this interpolated by Amazon Q in Connect using ingested content. For example, if you ingest a Salesforce article, it has an Id value, and you can set the template URI to https://myInstanceName.lightning.force.com/lightning/r/Knowledge__kav/*${Id}*/view . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1337,7 +1337,7 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Updates the Amazon Q in Connect message template metadata. Note that any modification to the message templates name, description and group- ing configuration will applied to the message template pointed by the $LATEST qualifier and all available versions. Partial update is sup- ported. If any field is not supplied, it will remain unchanged for the message template. See also: AWS API Documentation
+    /// Updates the Amazon Q in Connect message template metadata. Note that any modification to the message templates name, description and grouping configuration will applied to the message template pointed by the $LATEST qualifier and all available versions. Partial update is supported. If any field is not supplied, it will remain unchanged for the message template. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1397,7 +1397,7 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Updates a session. A session is a contextual container used for gener- ating recommendations. Connect Customer updates the existing Amazon Q in Connect session for each contact on which Amazon Q in Connect is en- abled. See also: AWS API Documentation
+    /// Updates a session. A session is a contextual container used for generating recommendations. Connect Customer updates the existing Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

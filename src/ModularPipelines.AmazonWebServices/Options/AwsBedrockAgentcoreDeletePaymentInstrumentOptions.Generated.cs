@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a payment instrument. This is a soft delete operation that pre- serves the record for audit and compliance purposes. See also: AWS API Documentation
+/// Deletes a payment instrument. This is a soft delete operation that preserves the record for audit and compliance purposes. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsBedrockAgentcoreDeletePaymentInstrumentOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a payment instrument. This is a soft delete operation that pre- serves the record for audit and compliance purposes. See also: AWS API Documentation
+    /// Deletes a payment instrument. This is a soft delete operation that preserves the record for audit and compliance purposes. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PaymentManagerArn">The payment manager ARN. Must match the instrument's paymentManager- Arn. Constraints: o min: 66 o max: 2048 o pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:payment-man- ager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}</param>
-    /// <param name="PaymentConnectorId">The payment connector ID. Must match the instrument's paymentConnec- torId. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}</param>
-    /// <param name="PaymentInstrumentId">The payment instrument ID to delete. Constraints: o min: 34 o max: 34 o pattern: payment-instrument-[0-9a-zA-Z-]{15}</param>
+    /// <param name="PaymentManagerArn">The payment manager ARN. Must match the instrument's paymentManagerArn. Constraints: • min: 66 • max: 2048 • pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:payment-manager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}</param>
+    /// <param name="PaymentConnectorId">The payment connector ID. Must match the instrument's paymentConnectorId. Constraints: • min: 12 • max: 211 • pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}</param>
+    /// <param name="PaymentInstrumentId">The payment instrument ID to delete. Constraints: • min: 34 • max: 34 • pattern: payment-instrument-[0-9a-zA-Z-]{15}</param>
     public AwsBedrockAgentcoreDeletePaymentInstrumentOptions(
         string PaymentManagerArn,
         string PaymentConnectorId,
@@ -64,25 +66,25 @@ public record AwsBedrockAgentcoreDeletePaymentInstrumentOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The payment manager ARN. Must match the instrument's paymentManager- Arn. Constraints: o min: 66 o max: 2048 o pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:payment-man- ager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}
+    /// The payment manager ARN. Must match the instrument's paymentManagerArn. Constraints: • min: 66 • max: 2048 • pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:payment-manager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}
     /// </summary>
     [CliOption("--payment-manager-arn")]
     public string? PaymentManagerArn { get; private init; }
 
     /// <summary>
-    /// The payment connector ID. Must match the instrument's paymentConnec- torId. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
+    /// The payment connector ID. Must match the instrument's paymentConnectorId. Constraints: • min: 12 • max: 211 • pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
     /// </summary>
     [CliOption("--payment-connector-id")]
     public string? PaymentConnectorId { get; private init; }
 
     /// <summary>
-    /// The payment instrument ID to delete. Constraints: o min: 34 o max: 34 o pattern: payment-instrument-[0-9a-zA-Z-]{15}
+    /// The payment instrument ID to delete. Constraints: • min: 34 • max: 34 • pattern: payment-instrument-[0-9a-zA-Z-]{15}
     /// </summary>
     [CliOption("--payment-instrument-id")]
     public string? PaymentInstrumentId { get; private init; }
 
     /// <summary>
-    /// The user ID making the delete request. Must match the instrument's userId. Constraints: o min: 0 o max: 120
+    /// The user ID making the delete request. Must match the instrument's userId. Constraints: • min: 0 • max: 120
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; set; }

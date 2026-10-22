@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a Route 53 Resolver on an Outpost. NOTE: This operation applies to first-generation Outposts only. On sec- ond-generation Outposts, Resolver is enabled by default and managed automatically by Amazon Web Services, so you don't need to create it. See also: AWS API Documentation
+/// Creates a Route 53 Resolver on an Outpost. NOTE: This operation applies to first-generation Outposts only. On second-generation Outposts, Resolver is enabled by default and managed automatically by Amazon Web Services, so you don't need to create it. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +27,12 @@ public record AwsRoute53resolverCreateOutpostResolverOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a Route 53 Resolver on an Outpost. NOTE: This operation applies to first-generation Outposts only. On sec- ond-generation Outposts, Resolver is enabled by default and managed automatically by Amazon Web Services, so you don't need to create it. See also: AWS API Documentation
+    /// Creates a Route 53 Resolver on an Outpost. NOTE: This operation applies to first-generation Outposts only. On second-generation Outposts, Resolver is enabled by default and managed automatically by Amazon Web Services, so you don't need to create it. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CreatorRequestId">A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. Constraints: o min: 1 o max: 255</param>
-    /// <param name="Name">A friendly name that lets you easily find a configuration in the Re- solver dashboard in the Route 53 console. Constraints: o min: 1 o max: 255</param>
-    /// <param name="PreferredInstanceType">The Amazon EC2 instance type. If you specify this, you must also specify a value for the OutpostArn . Constraints: o min: 1 o max: 255</param>
-    /// <param name="OutpostArn">The Amazon Resource Name (ARN) of the Outpost. If you specify this, you must also specify a value for the PreferredInstanceType . Constraints: o min: 1 o max: 255 o pattern: ^arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/op-[a-f0-9]{17}$</param>
+    /// <param name="CreatorRequestId">A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. Constraints: • min: 1 • max: 255</param>
+    /// <param name="Name">A friendly name that lets you easily find a configuration in the Resolver dashboard in the Route 53 console. Constraints: • min: 1 • max: 255</param>
+    /// <param name="PreferredInstanceType">The Amazon EC2 instance type. If you specify this, you must also specify a value for the OutpostArn . Constraints: • min: 1 • max: 255</param>
+    /// <param name="OutpostArn">The Amazon Resource Name (ARN) of the Outpost. If you specify this, you must also specify a value for the PreferredInstanceType . Constraints: • min: 1 • max: 255 • pattern: ^arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/op-[a-f0-9]{17}$</param>
     public AwsRoute53resolverCreateOutpostResolverOptions(
         string CreatorRequestId,
         string Name,
@@ -68,37 +70,37 @@ public record AwsRoute53resolverCreateOutpostResolverOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. Constraints: o min: 1 o max: 255
+    /// A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--creator-request-id")]
     public string? CreatorRequestId { get; private init; }
 
     /// <summary>
-    /// A friendly name that lets you easily find a configuration in the Re- solver dashboard in the Route 53 console. Constraints: o min: 1 o max: 255
+    /// A friendly name that lets you easily find a configuration in the Resolver dashboard in the Route 53 console. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The Amazon EC2 instance type. If you specify this, you must also specify a value for the OutpostArn . Constraints: o min: 1 o max: 255
+    /// The Amazon EC2 instance type. If you specify this, you must also specify a value for the OutpostArn . Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--preferred-instance-type")]
     public string? PreferredInstanceType { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Outpost. If you specify this, you must also specify a value for the PreferredInstanceType . Constraints: o min: 1 o max: 255 o pattern: ^arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/op-[a-f0-9]{17}$
+    /// The Amazon Resource Name (ARN) of the Outpost. If you specify this, you must also specify a value for the PreferredInstanceType . Constraints: • min: 1 • max: 255 • pattern: ^arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/op-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--outpost-arn")]
     public string? OutpostArn { get; private init; }
 
     /// <summary>
-    /// Number of Amazon EC2 instances for the Resolver on Outpost. The de- fault and minimal value is 4.
+    /// Number of Amazon EC2 instances for the Resolver on Outpost. The default and minimal value is 4.
     /// </summary>
     [CliOption("--instance-count")]
     public int? InstanceCount { get; set; }
 
     /// <summary>
-    /// A string that helps identify the Route 53 Resolvers on Outpost. Constraints: o max: 200 (structure) One tag that you want to add to the specified resource. A tag consists of a Key (a name for the tag) and a Value . Key -&gt; (string) [required] The name for the tag. For example, if you want to associate Resolver resources with the account IDs of your customers for billing purposes, the value of Key might be account-id . Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value for the tag. For example, if Key is account-id , then Value might be the ID of the customer account that you're creating the resource for. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A string that helps identify the Route 53 Resolvers on Outpost. Constraints: • max: 200 (structure) One tag that you want to add to the specified resource. A tag consists of a Key (a name for the tag) and a Value . Key -&gt; (string) [required] The name for the tag. For example, if you want to associate Resolver resources with the account IDs of your customers for billing purposes, the value of Key might be account-id . Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The value for the tag. For example, if Key is account-id , then Value might be the ID of the customer account that you're creating the resource for. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

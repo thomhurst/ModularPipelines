@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsOrganizationsDisableAwsServiceAccessOptions : AwsOptions, IVali
     /// <summary>
     /// Disables the integration of an Amazon Web Services service (the service that is specified by ServicePrincipal ) with Organizations. When you disable integration, the specified service no longer can create a service-linked role in new accounts in your organization. This means the service can't perform operations on your behalf on any new accounts in your organization. The service can still perform operations in older accounts until the service completes its clean-up from Organizations. WARNING: W...
     /// </summary>
-    /// <param name="ServicePrincipal">The service principal name of the Amazon Web Services service for which you want to disable integration with your organization. This is typically in the form of a URL, such as `` service-abbreviation .amazonaws.com`` . Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]*</param>
+    /// <param name="ServicePrincipal">The service principal name of the Amazon Web Services service for which you want to disable integration with your organization. This is typically in the form of a URL, such as `` service-abbreviation .amazonaws.com`` . Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]*</param>
     public AwsOrganizationsDisableAwsServiceAccessOptions(
         string ServicePrincipal
     )
@@ -56,7 +58,7 @@ public record AwsOrganizationsDisableAwsServiceAccessOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The service principal name of the Amazon Web Services service for which you want to disable integration with your organization. This is typically in the form of a URL, such as `` service-abbreviation .amazonaws.com`` . Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]*
+    /// The service principal name of the Amazon Web Services service for which you want to disable integration with your organization. This is typically in the form of a URL, such as `` service-abbreviation .amazonaws.com`` . Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]*
     /// </summary>
     [CliOption("--service-principal")]
     public string? ServicePrincipal { get; private init; }

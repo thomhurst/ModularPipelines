@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an event source mapping . You can get the identifier of a map- ping from the output of ListEventSourceMappings . When you delete an event source mapping, it enters a Deleting state and might not be completely deleted for several seconds. See also: AWS API Documentation
+/// Deletes an event source mapping . You can get the identifier of a mapping from the output of ListEventSourceMappings . When you delete an event source mapping, it enters a Deleting state and might not be completely deleted for several seconds. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLambdaDeleteEventSourceMappingOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an event source mapping . You can get the identifier of a map- ping from the output of ListEventSourceMappings . When you delete an event source mapping, it enters a Deleting state and might not be completely deleted for several seconds. See also: AWS API Documentation
+    /// Deletes an event source mapping . You can get the identifier of a mapping from the output of ListEventSourceMappings . When you delete an event source mapping, it enters a Deleting state and might not be completely deleted for several seconds. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Uuid">The identifier of the event source mapping. Constraints: o min: 36 o max: 36</param>
+    /// <param name="Uuid">The identifier of the event source mapping. Constraints: • min: 36 • max: 36</param>
     public AwsLambdaDeleteEventSourceMappingOptions(
         string Uuid
     )
@@ -56,7 +58,7 @@ public record AwsLambdaDeleteEventSourceMappingOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the event source mapping. Constraints: o min: 36 o max: 36
+    /// The identifier of the event source mapping. Constraints: • min: 36 • max: 36
     /// </summary>
     [CliOption("--uuid")]
     public string? Uuid { get; private init; }

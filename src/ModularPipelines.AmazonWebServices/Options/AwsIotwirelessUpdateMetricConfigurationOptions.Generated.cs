@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotwirelessUpdateMetricConfigurationOptions : AwsOptions
 {
     /// <summary>
-    /// The value to be used to set summary metric configuration. Status -&gt; (string) The status of the configuration of summary metrics. Possible values: o Enabled o Disabled Shorthand Syntax: Status=string JSON Syntax: { "Status": "Enabled"|"Disabled" }
+    /// The value to be used to set summary metric configuration. Status -&gt; (string) The status of the configuration of summary metrics. Possible values: • Enabled • Disabled Shorthand Syntax: Status=string JSON Syntax: { "Status": "Enabled"|"Disabled" }
     /// </summary>
     [CliOption("--summary-metric")]
     public string? SummaryMetric { get; set; }

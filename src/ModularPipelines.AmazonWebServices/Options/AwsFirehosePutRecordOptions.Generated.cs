@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsFirehosePutRecordOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Writes a single data record into an Firehose stream. To write multiple data records into a Firehose stream, use PutRecordBatch . Applications using these operations are referred to as producers. By default, each Firehose stream can take in up to 2,000 transactions per second, 5,000 records per second, or 5 MB per second. If you use PutRecord and PutRecordBatch , the limits are an aggregate across these two operations for each Firehose stream. For more information about limits and how to request ...
     /// </summary>
-    /// <param name="DeliveryStreamName">The name of the Firehose stream. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="Record">The record. Data -&gt; (blob) [required] The data blob, which is base64-encoded when the blob is serial- ized. The maximum size of the data blob, before base64-encoding, is 1,000 KiB. Constraints: o min: 0 o max: 1024000 Shorthand Syntax: Data=blob JSON Syntax: { "Data": blob }</param>
+    /// <param name="DeliveryStreamName">The name of the Firehose stream. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="Record">The record. Data -&gt; (blob) [required] The data blob, which is base64-encoded when the blob is serialized. The maximum size of the data blob, before base64-encoding, is 1,000 KiB. Constraints: • min: 0 • max: 1024000 Shorthand Syntax: Data=blob JSON Syntax: { "Data": blob }</param>
     public AwsFirehosePutRecordOptions(
         string DeliveryStreamName,
         string Record
@@ -60,13 +62,13 @@ public record AwsFirehosePutRecordOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Firehose stream. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the Firehose stream. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--delivery-stream-name")]
     public string? DeliveryStreamName { get; private init; }
 
     /// <summary>
-    /// The record. Data -&gt; (blob) [required] The data blob, which is base64-encoded when the blob is serial- ized. The maximum size of the data blob, before base64-encoding, is 1,000 KiB. Constraints: o min: 0 o max: 1024000 Shorthand Syntax: Data=blob JSON Syntax: { "Data": blob }
+    /// The record. Data -&gt; (blob) [required] The data blob, which is base64-encoded when the blob is serialized. The maximum size of the data blob, before base64-encoding, is 1,000 KiB. Constraints: • min: 0 • max: 1024000 Shorthand Syntax: Data=blob JSON Syntax: { "Data": blob }
     /// </summary>
     [CliOption("--record")]
     public string? Record { get; private init; }

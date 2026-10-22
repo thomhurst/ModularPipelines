@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the domain's endpoint options, specifically whether all re- quests to the domain must arrive over HTTPS. For more information, see Configuring Domain Endpoint Options in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
+/// Updates the domain's endpoint options, specifically whether all requests to the domain must arrive over HTTPS. For more information, see Configuring Domain Endpoint Options in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsCloudsearchUpdateDomainEndpointOptionsOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the domain's endpoint options, specifically whether all re- quests to the domain must arrive over HTTPS. For more information, see Configuring Domain Endpoint Options in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
+    /// Updates the domain's endpoint options, specifically whether all requests to the domain must arrive over HTTPS. For more information, see Configuring Domain Endpoint Options in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">A string that represents the name of a domain. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
-    /// <param name="DomainEndpointOptions">Whether to require that all requests to the domain arrive over HTTPS. We recommend Policy-Min-TLS-1-2-2019-07 for TLSSecurityPol- icy. For compatibility with older clients, the default is Pol- icy-Min-TLS-1-0-2019-07. EnforceHTTPS -&gt; (boolean) Whether the domain is HTTPS only enabled. TLSSecurityPolicy -&gt; (string) The minimum required TLS version Possible values: o Policy-Min-TLS-1-0-2019-07 o Policy-Min-TLS-1-2-2019-07 Shorthand Syntax: EnforceHTTPS=boolean,TLSSecurityPolicy=string JSON Syntax: { "EnforceHTTPS": true|false, "TLSSecurityPolicy": "Policy-Min-TLS-1-0-2019-07"|"Policy-Min-TLS-1-2-2019-07" }</param>
+    /// <param name="DomainName">A string that represents the name of a domain. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="DomainEndpointOptions">Whether to require that all requests to the domain arrive over HTTPS. We recommend Policy-Min-TLS-1-2-2019-07 for TLSSecurityPolicy. For compatibility with older clients, the default is Policy-Min-TLS-1-0-2019-07. EnforceHTTPS -&gt; (boolean) Whether the domain is HTTPS only enabled. TLSSecurityPolicy -&gt; (string) The minimum required TLS version Possible values: • Policy-Min-TLS-1-0-2019-07 • Policy-Min-TLS-1-2-2019-07 Shorthand Syntax: EnforceHTTPS=boolean,TLSSecurityPolicy=string JSON Syntax: { "EnforceHTTPS": true|false, "TLSSecurityPolicy": "Policy-Min-TLS-1-0-2019-07"|"Policy-Min-TLS-1-2-2019-07" }</param>
     public AwsCloudsearchUpdateDomainEndpointOptionsOptions(
         string DomainName,
         string DomainEndpointOptions
@@ -60,13 +62,13 @@ public record AwsCloudsearchUpdateDomainEndpointOptionsOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A string that represents the name of a domain. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// A string that represents the name of a domain. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// Whether to require that all requests to the domain arrive over HTTPS. We recommend Policy-Min-TLS-1-2-2019-07 for TLSSecurityPol- icy. For compatibility with older clients, the default is Pol- icy-Min-TLS-1-0-2019-07. EnforceHTTPS -&gt; (boolean) Whether the domain is HTTPS only enabled. TLSSecurityPolicy -&gt; (string) The minimum required TLS version Possible values: o Policy-Min-TLS-1-0-2019-07 o Policy-Min-TLS-1-2-2019-07 Shorthand Syntax: EnforceHTTPS=boolean,TLSSecurityPolicy=string JSON Syntax: { "EnforceHTTPS": true|false, "TLSSecurityPolicy": "Policy-Min-TLS-1-0-2019-07"|"Policy-Min-TLS-1-2-2019-07" }
+    /// Whether to require that all requests to the domain arrive over HTTPS. We recommend Policy-Min-TLS-1-2-2019-07 for TLSSecurityPolicy. For compatibility with older clients, the default is Policy-Min-TLS-1-0-2019-07. EnforceHTTPS -&gt; (boolean) Whether the domain is HTTPS only enabled. TLSSecurityPolicy -&gt; (string) The minimum required TLS version Possible values: • Policy-Min-TLS-1-0-2019-07 • Policy-Min-TLS-1-2-2019-07 Shorthand Syntax: EnforceHTTPS=boolean,TLSSecurityPolicy=string JSON Syntax: { "EnforceHTTPS": true|false, "TLSSecurityPolicy": "Policy-Min-TLS-1-0-2019-07"|"Policy-Min-TLS-1-2-2019-07" }
     /// </summary>
     [CliOption("--domain-endpoint-options")]
     public string? DomainEndpointOptions { get; private init; }

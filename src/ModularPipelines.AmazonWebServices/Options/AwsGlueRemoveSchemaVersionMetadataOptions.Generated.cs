@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes a key value pair from the schema version metadata for the spec- ified schema version ID. See also: AWS API Documentation
+/// Removes a key value pair from the schema version metadata for the specified schema version ID. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsGlueRemoveSchemaVersionMetadataOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes a key value pair from the schema version metadata for the spec- ified schema version ID. See also: AWS API Documentation
+    /// Removes a key value pair from the schema version metadata for the specified schema version ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MetadataKeyValue">The value of the metadata key. MetadataKey -&gt; (string) A metadata key. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9+-=._./@]+ MetadataValue -&gt; (string) A metadata keys corresponding value. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9+-=._./@]+ Shorthand Syntax: MetadataKey=string,MetadataValue=string JSON Syntax: { "MetadataKey": "string", "MetadataValue": "string" }</param>
+    /// <param name="MetadataKeyValue">The value of the metadata key. MetadataKey -&gt; (string) A metadata key. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9+-=._./@]+ MetadataValue -&gt; (string) A metadata keys corresponding value. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9+-=._./@]+ Shorthand Syntax: MetadataKey=string,MetadataValue=string JSON Syntax: { "MetadataKey": "string", "MetadataValue": "string" }</param>
     public AwsGlueRemoveSchemaVersionMetadataOptions(
         string MetadataKeyValue
     )
@@ -56,25 +58,25 @@ public record AwsGlueRemoveSchemaVersionMetadataOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The value of the metadata key. MetadataKey -&gt; (string) A metadata key. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9+-=._./@]+ MetadataValue -&gt; (string) A metadata keys corresponding value. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9+-=._./@]+ Shorthand Syntax: MetadataKey=string,MetadataValue=string JSON Syntax: { "MetadataKey": "string", "MetadataValue": "string" }
+    /// The value of the metadata key. MetadataKey -&gt; (string) A metadata key. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9+-=._./@]+ MetadataValue -&gt; (string) A metadata keys corresponding value. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9+-=._./@]+ Shorthand Syntax: MetadataKey=string,MetadataValue=string JSON Syntax: { "MetadataKey": "string", "MetadataValue": "string" }
     /// </summary>
     [CliOption("--metadata-key-value")]
     public string? MetadataKeyValue { get; private init; }
 
     /// <summary>
-    /// A wrapper structure that may contain the schema name and Amazon Re- source Name (ARN). SchemaArn -&gt; (string) The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: o min: 1 o max: 10240 o pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* SchemaName -&gt; (string) The name of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ RegistryName -&gt; (string) The name of the schema registry that contains the schema. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ Shorthand Syntax: SchemaArn=string,SchemaName=string,RegistryName=string JSON Syntax: { "SchemaArn": "string", "SchemaName": "string", "RegistryName": "string" }
+    /// A wrapper structure that may contain the schema name and Amazon Resource Name (ARN). SchemaArn -&gt; (string) The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: • min: 1 • max: 10240 • pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* SchemaName -&gt; (string) The name of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-_$#.]+ RegistryName -&gt; (string) The name of the schema registry that contains the schema. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-_$#.]+ Shorthand Syntax: SchemaArn=string,SchemaName=string,RegistryName=string JSON Syntax: { "SchemaArn": "string", "SchemaName": "string", "RegistryName": "string" }
     /// </summary>
     [CliOption("--schema-id")]
     public string? SchemaId { get; set; }
 
     /// <summary>
-    /// The version number of the schema. LatestVersion -&gt; (boolean) The latest version available for the schema. VersionNumber -&gt; (long) The version number of the schema. Constraints: o min: 1 o max: 100000 Shorthand Syntax: LatestVersion=boolean,VersionNumber=long JSON Syntax: { "LatestVersion": true|false, "VersionNumber": long }
+    /// The version number of the schema. LatestVersion -&gt; (boolean) The latest version available for the schema. VersionNumber -&gt; (long) The version number of the schema. Constraints: • min: 1 • max: 100000 Shorthand Syntax: LatestVersion=boolean,VersionNumber=long JSON Syntax: { "LatestVersion": true|false, "VersionNumber": long }
     /// </summary>
     [CliOption("--schema-version-number")]
     public string? SchemaVersionNumber { get; set; }
 
     /// <summary>
-    /// The unique version ID of the schema version. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The unique version ID of the schema version. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--schema-version-id")]
     public string? SchemaVersionId { get; set; }

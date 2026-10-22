@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotManagedIntegrationsGetDeviceDiscoveryOptions : AwsOptions, I
     /// <summary>
     /// Get the current state of a device discovery. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The id of the device discovery job request. Constraints: o min: 1 o max: 200 o pattern: [A-Za-z0-9]+</param>
+    /// <param name="Identifier">The id of the device discovery job request. Constraints: • min: 1 • max: 200 • pattern: [A-Za-z0-9]+</param>
     public AwsIotManagedIntegrationsGetDeviceDiscoveryOptions(
         string Identifier
     )
@@ -56,7 +58,7 @@ public record AwsIotManagedIntegrationsGetDeviceDiscoveryOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The id of the device discovery job request. Constraints: o min: 1 o max: 200 o pattern: [A-Za-z0-9]+
+    /// The id of the device discovery job request. Constraints: • min: 1 • max: 200 • pattern: [A-Za-z0-9]+
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRoute53globalresolverBatchDeleteFirewallRuleOptions : AwsOption
     /// <summary>
     /// Deletes multiple DNS firewall rules in a single operation. This is more efficient than deleting rules individually. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FirewallRules">An array of the DNS Firewall IDs to be deleted. (structure) Information about a DNS Firewall rule to delete in a batch oper- ation. firewallRuleId -&gt; (string) [required] The ID of the DNS Firewall rule to delete. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+ Shorthand Syntax: firewallRuleId=string ... JSON Syntax: [ { "firewallRuleId": "string" } ... ]</param>
+    /// <param name="FirewallRules">An array of the DNS Firewall IDs to be deleted. (structure) Information about a DNS Firewall rule to delete in a batch operation. firewallRuleId -&gt; (string) [required] The ID of the DNS Firewall rule to delete. Constraints: • min: 1 • max: 64 • pattern: [-.a-zA-Z0-9]+ Shorthand Syntax: firewallRuleId=string ... JSON Syntax: [ { "firewallRuleId": "string" } ... ]</param>
     public AwsRoute53globalresolverBatchDeleteFirewallRuleOptions(
         IEnumerable<string> FirewallRules
     )
@@ -67,7 +69,7 @@ public record AwsRoute53globalresolverBatchDeleteFirewallRuleOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An array of the DNS Firewall IDs to be deleted. (structure) Information about a DNS Firewall rule to delete in a batch oper- ation. firewallRuleId -&gt; (string) [required] The ID of the DNS Firewall rule to delete. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+ Shorthand Syntax: firewallRuleId=string ... JSON Syntax: [ { "firewallRuleId": "string" } ... ]
+    /// An array of the DNS Firewall IDs to be deleted. (structure) Information about a DNS Firewall rule to delete in a batch operation. firewallRuleId -&gt; (string) [required] The ID of the DNS Firewall rule to delete. Constraints: • min: 1 • max: 64 • pattern: [-.a-zA-Z0-9]+ Shorthand Syntax: firewallRuleId=string ... JSON Syntax: [ { "firewallRuleId": "string" } ... ]
     /// </summary>
     [CliOption("--firewall-rules", GroupValues = true)]
     public IEnumerable<string>? FirewallRules { get; private init; }

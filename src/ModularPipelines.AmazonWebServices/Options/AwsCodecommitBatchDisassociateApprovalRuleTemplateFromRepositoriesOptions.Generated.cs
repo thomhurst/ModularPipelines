@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCodecommitBatchDisassociateApprovalRuleTemplateFromRepositories
     /// <summary>
     /// Removes the association between an approval rule template and one or more specified repositories. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApprovalRuleTemplateName">The name of the template that you want to disassociate from one or more repositories. Constraints: o min: 1 o max: 100</param>
-    /// <param name="RepositoryNames">The repository names that you want to disassociate from the approval rule template. NOTE: The length constraint limit is for each string in the array. The array itself can be empty. (string) Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+ Syntax: "string" "string" ...</param>
+    /// <param name="ApprovalRuleTemplateName">The name of the template that you want to disassociate from one or more repositories. Constraints: • min: 1 • max: 100</param>
+    /// <param name="RepositoryNames">The repository names that you want to disassociate from the approval rule template. NOTE: The length constraint limit is for each string in the array. The array itself can be empty. (string) Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+ Syntax: "string" "string" ...</param>
     public AwsCodecommitBatchDisassociateApprovalRuleTemplateFromRepositoriesOptions(
         string ApprovalRuleTemplateName,
         IEnumerable<string> RepositoryNames
@@ -71,13 +73,13 @@ public record AwsCodecommitBatchDisassociateApprovalRuleTemplateFromRepositories
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the template that you want to disassociate from one or more repositories. Constraints: o min: 1 o max: 100
+    /// The name of the template that you want to disassociate from one or more repositories. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--approval-rule-template-name")]
     public string? ApprovalRuleTemplateName { get; private init; }
 
     /// <summary>
-    /// The repository names that you want to disassociate from the approval rule template. NOTE: The length constraint limit is for each string in the array. The array itself can be empty. (string) Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+ Syntax: "string" "string" ...
+    /// The repository names that you want to disassociate from the approval rule template. NOTE: The length constraint limit is for each string in the array. The array itself can be empty. (string) Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--repository-names", GroupValues = true)]
     public IEnumerable<string>? RepositoryNames { get; private init; }

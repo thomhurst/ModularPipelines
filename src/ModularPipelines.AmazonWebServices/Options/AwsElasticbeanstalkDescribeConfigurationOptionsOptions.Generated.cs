@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the configuration options that are used in a particular con- figuration template or environment, or that a specified solution stack defines. The description includes the values the options, their default values, and an indication of the required action on a running environ- ment if an option value is changed. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to acc...
+/// Describes the configuration options that are used in a particular configuration template or environment, or that a specified solution stack defines. The description includes the values the options, their default values, and an indication of the required action on a running environment if an option value is changed. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,19 +22,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsElasticbeanstalkDescribeConfigurationOptionsOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the application associated with the configuration tem- plate or environment. Only needed if you want to describe the con- figuration options associated with either the configuration template or environment. Constraints: o min: 1 o max: 100
+    /// The name of the application associated with the configuration template or environment. Only needed if you want to describe the configuration options associated with either the configuration template or environment. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; set; }
 
     /// <summary>
-    /// The name of the configuration template whose configuration options you want to describe. Constraints: o min: 1 o max: 100
+    /// The name of the configuration template whose configuration options you want to describe. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--template-name")]
     public string? TemplateName { get; set; }
 
     /// <summary>
-    /// The name of the environment whose configuration options you want to describe. Constraints: o min: 4 o max: 40
+    /// The name of the environment whose configuration options you want to describe. Constraints: • min: 4 • max: 40
     /// </summary>
     [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }
@@ -52,7 +52,7 @@ public record AwsElasticbeanstalkDescribeConfigurationOptionsOptions : AwsOption
     public string? PlatformArn { get; set; }
 
     /// <summary>
-    /// If specified, restricts the descriptions to only the specified op- tions. (structure) A specification identifying an individual configuration option. ResourceName -&gt; (string) A unique resource name for a time-based scaling configuration option. Constraints: o min: 1 o max: 256 Namespace -&gt; (string) A unique namespace identifying the option's associated Amazon Web Services resource. OptionName -&gt; (string) The name of the configuration option. Shorthand Syntax: ResourceName=string,Namespace=string,OptionName=string ... JSON Syntax: [ { "ResourceName": "string", "Namespace": "string", "OptionName": "string" } ... ]
+    /// If specified, restricts the descriptions to only the specified options. (structure) A specification identifying an individual configuration option. ResourceName -&gt; (string) A unique resource name for a time-based scaling configuration option. Constraints: • min: 1 • max: 256 Namespace -&gt; (string) A unique namespace identifying the option's associated Amazon Web Services resource. OptionName -&gt; (string) The name of the configuration option. Shorthand Syntax: ResourceName=string,Namespace=string,OptionName=string ... JSON Syntax: [ { "ResourceName": "string", "Namespace": "string", "OptionName": "string" } ... ]
     /// </summary>
     [CliOption("--options", GroupValues = true)]
     public IEnumerable<string>? Options { get; set; }

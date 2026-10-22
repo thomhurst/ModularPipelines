@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Deletes an existing matchmaking rule set. To delete the rule set, pro- vide the rule set name. Rule sets cannot be deleted if they are cur- rently being used by a matchmaking configuration. Learn more o Build a rule set See also: AWS API Documentation
+/// This API works with the following fleet types: EC2, Anywhere, Container Deletes an existing matchmaking rule set. To delete the rule set, provide the rule set name. Rule sets cannot be deleted if they are currently being used by a matchmaking configuration. Learn more • Build a rule set See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsGameliftDeleteMatchmakingRuleSetOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Deletes an existing matchmaking rule set. To delete the rule set, pro- vide the rule set name. Rule sets cannot be deleted if they are cur- rently being used by a matchmaking configuration. Learn more o Build a rule set See also: AWS API Documentation
+    /// This API works with the following fleet types: EC2, Anywhere, Container Deletes an existing matchmaking rule set. To delete the rule set, provide the rule set name. Rule sets cannot be deleted if they are currently being used by a matchmaking configuration. Learn more • Build a rule set See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">A unique identifier for the matchmaking rule set to be deleted. (Note: The rule set name is different from the optional "name" field in the rule set body.) You can use either the rule set name or ARN value. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]*|arn:.*:matchmakingrule- set\/[a-zA-Z0-9-\.]*)$</param>
+    /// <param name="Name">A unique identifier for the matchmaking rule set to be deleted. (Note: The rule set name is different from the optional "name" field in the rule set body.) You can use either the rule set name or ARN value. Constraints: • min: 1 • max: 256 • pattern: ^([a-zA-Z0-9-\.]*|arn:.*:matchmakingruleset\/[a-zA-Z0-9-\.]*)$</param>
     public AwsGameliftDeleteMatchmakingRuleSetOptions(
         string Name
     )
@@ -56,7 +58,7 @@ public record AwsGameliftDeleteMatchmakingRuleSetOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the matchmaking rule set to be deleted. (Note: The rule set name is different from the optional "name" field in the rule set body.) You can use either the rule set name or ARN value. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]*|arn:.*:matchmakingrule- set\/[a-zA-Z0-9-\.]*)$
+    /// A unique identifier for the matchmaking rule set to be deleted. (Note: The rule set name is different from the optional "name" field in the rule set body.) You can use either the rule set name or ARN value. Constraints: • min: 1 • max: 256 • pattern: ^([a-zA-Z0-9-\.]*|arn:.*:matchmakingruleset\/[a-zA-Z0-9-\.]*)$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

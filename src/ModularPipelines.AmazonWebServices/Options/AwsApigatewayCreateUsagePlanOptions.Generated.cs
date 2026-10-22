@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -75,13 +76,13 @@ public record AwsApigatewayCreateUsagePlanOptions : AwsOptions, IValidatableObje
     public IEnumerable<string>? ApiStages { get; set; }
 
     /// <summary>
-    /// The throttling limits of the usage plan. burstLimit -&gt; (integer) The API target request burst rate limit. This allows more re- quests through for a period of time than the target rate limit. rateLimit -&gt; (double) The API target request rate limit. Shorthand Syntax: burstLimit=integer,rateLimit=double JSON Syntax: { "burstLimit": integer, "rateLimit": double }
+    /// The throttling limits of the usage plan. burstLimit -&gt; (integer) The API target request burst rate limit. This allows more requests through for a period of time than the target rate limit. rateLimit -&gt; (double) The API target request rate limit. Shorthand Syntax: burstLimit=integer,rateLimit=double JSON Syntax: { "burstLimit": integer, "rateLimit": double }
     /// </summary>
     [CliOption("--throttle")]
     public string? Throttle { get; set; }
 
     /// <summary>
-    /// The quota of the usage plan. limit -&gt; (integer) The target maximum number of requests that can be made in a given time period. offset -&gt; (integer) The number of requests subtracted from the given limit in the initial time period. period -&gt; (string) The time period in which the limit applies. Valid values are "DAY", "WEEK" or "MONTH". Possible values: o DAY o WEEK o MONTH Shorthand Syntax: limit=integer,offset=integer,period=string JSON Syntax: { "limit": integer, "offset": integer, "period": "DAY"|"WEEK"|"MONTH" }
+    /// The quota of the usage plan. limit -&gt; (integer) The target maximum number of requests that can be made in a given time period. offset -&gt; (integer) The number of requests subtracted from the given limit in the initial time period. period -&gt; (string) The time period in which the limit applies. Valid values are "DAY", "WEEK" or "MONTH". Possible values: • DAY • WEEK • MONTH Shorthand Syntax: limit=integer,offset=integer,period=string JSON Syntax: { "limit": integer, "offset": integer, "period": "DAY"|"WEEK"|"MONTH" }
     /// </summary>
     [CliOption("--quota")]
     public string? Quota { get; set; }

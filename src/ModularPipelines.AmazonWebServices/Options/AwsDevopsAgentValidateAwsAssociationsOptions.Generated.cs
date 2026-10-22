@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Validates an aws association and set status and returns a 204 No Con- tent response on success. See also: AWS API Documentation
+/// Validates an aws association and set status and returns a 204 No Content response on success. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsDevopsAgentValidateAwsAssociationsOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Validates an aws association and set status and returns a 204 No Con- tent response on success. See also: AWS API Documentation
+    /// Validates an aws association and set status and returns a 204 No Content response on success. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentSpaceId">The unique identifier of the AgentSpace Constraints: o pattern: [a-zA-Z0-9-]{1,64}</param>
+    /// <param name="AgentSpaceId">The unique identifier of the AgentSpace Constraints: • pattern: [a-zA-Z0-9-]{1,64}</param>
     public AwsDevopsAgentValidateAwsAssociationsOptions(
         string AgentSpaceId
     )
@@ -56,7 +58,7 @@ public record AwsDevopsAgentValidateAwsAssociationsOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the AgentSpace Constraints: o pattern: [a-zA-Z0-9-]{1,64}
+    /// The unique identifier of the AgentSpace Constraints: • pattern: [a-zA-Z0-9-]{1,64}
     /// </summary>
     [CliOption("--agent-space-id")]
     public string? AgentSpaceId { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsApigatewayGetDocumentationVersionOptions : AwsOptions, IValidat
     /// Gets a documentation version. See also: AWS API Documentation
     /// </summary>
     /// <param name="RestApiId">The string identifier of the associated RestApi.</param>
-    /// <param name="DocumentationVersion">The version identifier of the to-be-retrieved documentation snap- shot.</param>
+    /// <param name="DocumentationVersion">The version identifier of the to-be-retrieved documentation snapshot.</param>
     public AwsApigatewayGetDocumentationVersionOptions(
         string RestApiId,
         string DocumentationVersion
@@ -66,7 +68,7 @@ public record AwsApigatewayGetDocumentationVersionOptions : AwsOptions, IValidat
     public string? RestApiId { get; private init; }
 
     /// <summary>
-    /// The version identifier of the to-be-retrieved documentation snap- shot.
+    /// The version identifier of the to-be-retrieved documentation snapshot.
     /// </summary>
     [CliOption("--documentation-version")]
     public string? DocumentationVersion { get; private init; }

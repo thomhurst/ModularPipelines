@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes a member from a chat room in an Amazon Chime Enterprise ac- count. See also: AWS API Documentation
+/// Removes a member from a chat room in an Amazon Chime Enterprise account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsChimeDeleteRoomMembershipOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes a member from a chat room in an Amazon Chime Enterprise ac- count. See also: AWS API Documentation
+    /// Removes a member from a chat room in an Amazon Chime Enterprise account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Chime account ID. Constraints: o pattern: .*\S.*</param>
-    /// <param name="RoomId">The room ID. Constraints: o pattern: .*\S.*</param>
-    /// <param name="MemberId">The member ID (user ID or bot ID). Constraints: o pattern: .*\S.*</param>
+    /// <param name="AccountId">The Amazon Chime account ID. Constraints: • pattern: .*\S.*</param>
+    /// <param name="RoomId">The room ID. Constraints: • pattern: .*\S.*</param>
+    /// <param name="MemberId">The member ID (user ID or bot ID). Constraints: • pattern: .*\S.*</param>
     public AwsChimeDeleteRoomMembershipOptions(
         string AccountId,
         string RoomId,
@@ -64,19 +66,19 @@ public record AwsChimeDeleteRoomMembershipOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Chime account ID. Constraints: o pattern: .*\S.*
+    /// The Amazon Chime account ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The room ID. Constraints: o pattern: .*\S.*
+    /// The room ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--room-id")]
     public string? RoomId { get; private init; }
 
     /// <summary>
-    /// The member ID (user ID or bot ID). Constraints: o pattern: .*\S.*
+    /// The member ID (user ID or bot ID). Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--member-id")]
     public string? MemberId { get; private init; }

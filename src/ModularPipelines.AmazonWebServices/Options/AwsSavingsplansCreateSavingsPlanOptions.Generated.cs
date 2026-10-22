@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -30,7 +31,7 @@ public record AwsSavingsplansCreateSavingsPlanOptions : AwsOptions, IValidatable
     /// Creates a Savings Plan. See also: AWS API Documentation
     /// </summary>
     /// <param name="SavingsPlanOfferingId">The ID of the offering.</param>
-    /// <param name="Commitment">The hourly commitment, in the same currency of the savingsPlanOf- feringId . This is a value between 0.001 and 1 million. You cannot specify more than five digits after the decimal point.</param>
+    /// <param name="Commitment">The hourly commitment, in the same currency of the savingsPlanOfferingId . This is a value between 0.001 and 1 million. You cannot specify more than five digits after the decimal point.</param>
     public AwsSavingsplansCreateSavingsPlanOptions(
         string SavingsPlanOfferingId,
         string Commitment
@@ -68,7 +69,7 @@ public record AwsSavingsplansCreateSavingsPlanOptions : AwsOptions, IValidatable
     public string? SavingsPlanOfferingId { get; private init; }
 
     /// <summary>
-    /// The hourly commitment, in the same currency of the savingsPlanOf- feringId . This is a value between 0.001 and 1 million. You cannot specify more than five digits after the decimal point.
+    /// The hourly commitment, in the same currency of the savingsPlanOfferingId . This is a value between 0.001 and 1 million. You cannot specify more than five digits after the decimal point.
     /// </summary>
     [CliOption("--commitment")]
     public string? Commitment { get; private init; }

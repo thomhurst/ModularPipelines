@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the definition of a report already configured in AWS Applica- tion Cost Profiler. See also: AWS API Documentation
+/// Retrieves the definition of a report already configured in AWS Application Cost Profiler. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsApplicationcostprofilerGetReportDefinitionOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the definition of a report already configured in AWS Applica- tion Cost Profiler. See also: AWS API Documentation
+    /// Retrieves the definition of a report already configured in AWS Application Cost Profiler. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ReportId">ID of the report to retrieve. Constraints: o min: 1 o max: 255 o pattern: ^[0-9A-Za-z\.\-_]+$</param>
+    /// <param name="ReportId">ID of the report to retrieve. Constraints: • min: 1 • max: 255 • pattern: ^[0-9A-Za-z\.\-_]+$</param>
     public AwsApplicationcostprofilerGetReportDefinitionOptions(
         string ReportId
     )
@@ -56,7 +58,7 @@ public record AwsApplicationcostprofilerGetReportDefinitionOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID of the report to retrieve. Constraints: o min: 1 o max: 255 o pattern: ^[0-9A-Za-z\.\-_]+$
+    /// ID of the report to retrieve. Constraints: • min: 1 • max: 255 • pattern: ^[0-9A-Za-z\.\-_]+$
     /// </summary>
     [CliOption("--report-id")]
     public string? ReportId { get; private init; }

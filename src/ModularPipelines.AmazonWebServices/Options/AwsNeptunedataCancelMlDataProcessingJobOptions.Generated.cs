@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Cancels a Neptune ML data processing job. See The ``dataprocessing` command &lt;- https://docs.aws.amazon.com/neptune/latest/userguide/machine-learn- ing-api-dataprocessing.html&gt;`__ . When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelMLDataProcessingJob IAM action in that cluster. See also: AWS API Documentation
+/// Cancels a Neptune ML data processing job. See The ``dataprocessing` command &lt;https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-dataprocessing.html&gt;`__ . When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelMLDataProcessingJob IAM action in that cluster. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsNeptunedataCancelMlDataProcessingJobOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Cancels a Neptune ML data processing job. See The ``dataprocessing` command &lt;- https://docs.aws.amazon.com/neptune/latest/userguide/machine-learn- ing-api-dataprocessing.html&gt;`__ . When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelMLDataProcessingJob IAM action in that cluster. See also: AWS API Documentation
+    /// Cancels a Neptune ML data processing job. See The ``dataprocessing` command &lt;https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-dataprocessing.html&gt;`__ . When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelMLDataProcessingJob IAM action in that cluster. See also: AWS API Documentation
     /// </summary>
     /// <param name="Id">The unique identifier of the data-processing job.</param>
     public AwsNeptunedataCancelMlDataProcessingJobOptions(
@@ -62,13 +64,13 @@ public record AwsNeptunedataCancelMlDataProcessingJobOptions : AwsOptions, IVali
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The ARN of an IAM role that provides Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parame- ter group or an error will occur.
+    /// The ARN of an IAM role that provides Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error will occur.
     /// </summary>
     [CliOption("--neptune-iam-role-arn")]
     public string? NeptuneIamRoleArn { get; set; }
 
     /// <summary>
-    /// If set to TRUE , this flag specifies that all Neptune ML S3 arti- facts should be deleted when the job is stopped. The default is FALSE .
+    /// If set to TRUE , this flag specifies that all Neptune ML S3 artifacts should be deleted when the job is stopped. The default is FALSE .
     /// </summary>
     [CliFlag("--clean", NegatedName = "--no-clean")]
     public bool? Clean { get; set; }

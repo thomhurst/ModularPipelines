@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsPinpointSmsVoiceV2PutMessageFeedbackOptions : AwsOptions, IVali
     /// <summary>
     /// Set the MessageFeedbackStatus as RECEIVED or FAILED for the passed in MessageId. If you use message feedback then you must update message feedback record. When you receive a signal that a user has received the message you must use PutMessageFeedback to set the message feedback record as RECEIVED ; Otherwise, an hour after the message feedback record is set to FAILED . See also: AWS API Documentation
     /// </summary>
-    /// <param name="MessageId">The unique identifier for the message. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_:/-]+</param>
-    /// <param name="MessageFeedbackStatus">Set the message feedback to be either RECEIVED or FAILED . Possible values: o RECEIVED o FAILED</param>
+    /// <param name="MessageId">The unique identifier for the message. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="MessageFeedbackStatus">Set the message feedback to be either RECEIVED or FAILED . Possible values: • RECEIVED • FAILED</param>
     public AwsPinpointSmsVoiceV2PutMessageFeedbackOptions(
         string MessageId,
         AwsPinpointSmsVoiceV2PutMessageFeedbackMessageFeedbackStatus MessageFeedbackStatus
@@ -60,13 +62,13 @@ public record AwsPinpointSmsVoiceV2PutMessageFeedbackOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the message. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_:/-]+
+    /// The unique identifier for the message. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--message-id")]
     public string? MessageId { get; private init; }
 
     /// <summary>
-    /// Set the message feedback to be either RECEIVED or FAILED . Possible values: o RECEIVED o FAILED
+    /// Set the message feedback to be either RECEIVED or FAILED . Possible values: • RECEIVED • FAILED
     /// </summary>
     [CliOption("--message-feedback-status")]
     public AwsPinpointSmsVoiceV2PutMessageFeedbackMessageFeedbackStatus? MessageFeedbackStatus { get; private init; }

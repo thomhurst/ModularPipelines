@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws wait commands.
+/// aws iotsitewise wait commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsIotsitewiseWait
@@ -62,7 +62,7 @@ public class AwsIotsitewiseWait
     }
 
     /// <summary>
-    /// Wait until ResourceNotFoundException is thrown when polling with de- scribe-asset-model. It will poll every 3 seconds until a successful state has been reached. This will exit with a return code of 255 after 20 failed checks. See also: AWS API Documentation
+    /// Wait until ResourceNotFoundException is thrown when polling with describe-asset-model. It will poll every 3 seconds until a successful state has been reached. This will exit with a return code of 255 after 20 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsIotsitewiseWait
     }
 
     /// <summary>
-    /// Wait until ResourceNotFoundException is thrown when polling with de- scribe-asset. It will poll every 3 seconds until a successful state has been reached. This will exit with a return code of 255 after 20 failed checks. See also: AWS API Documentation
+    /// Wait until ResourceNotFoundException is thrown when polling with describe-asset. It will poll every 3 seconds until a successful state has been reached. This will exit with a return code of 255 after 20 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsIotsitewiseWait
     }
 
     /// <summary>
-    /// Wait until JMESPath query portalStatus.state returns ACTIVE when polling with describe-portal. It will poll every 3 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 20 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query portalStatus.state returns ACTIVE when polling with describe-portal. It will poll every 3 seconds until a successful state has been reached. This will exit with a return code of 255 after 20 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsIotsitewiseWait
     }
 
     /// <summary>
-    /// Wait until ResourceNotFoundException is thrown when polling with de- scribe-portal. It will poll every 3 seconds until a successful state has been reached. This will exit with a return code of 255 after 20 failed checks. See also: AWS API Documentation
+    /// Wait until ResourceNotFoundException is thrown when polling with describe-portal. It will poll every 3 seconds until a successful state has been reached. This will exit with a return code of 255 after 20 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

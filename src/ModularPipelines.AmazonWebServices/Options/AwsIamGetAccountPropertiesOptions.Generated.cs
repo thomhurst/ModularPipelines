@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the account-level properties for the caller's Amazon Web Ser- vices account. Account properties are configuration settings that con- trol account-wide IAM features such as Role Manager. The service returns properties as key-value pairs in Namespace/Proper- tyName format. Each namespace groups related configuration settings. Use PutAccountProperties to modify these properties. See also: AWS API Documentation
+/// Retrieves the account-level properties for the caller's Amazon Web Services account. Account properties are configuration settings that control account-wide IAM features such as Role Manager. The service returns properties as key-value pairs in Namespace/PropertyName format. Each namespace groups related configuration settings. Use PutAccountProperties to modify these properties. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

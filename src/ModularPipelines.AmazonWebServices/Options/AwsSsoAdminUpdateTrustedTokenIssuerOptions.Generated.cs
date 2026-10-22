@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the name of the trusted token issuer, or the path of a source attribute or destination attribute for a trusted token issuer configu- ration. NOTE: Updating this trusted token issuer configuration might cause users to lose access to any applications that are configured to use the trusted token issuer. See also: AWS API Documentation
+/// Updates the name of the trusted token issuer, or the path of a source attribute or destination attribute for a trusted token issuer configuration. NOTE: Updating this trusted token issuer configuration might cause users to lose access to any applications that are configured to use the trusted token issuer. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsSsoAdminUpdateTrustedTokenIssuerOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the name of the trusted token issuer, or the path of a source attribute or destination attribute for a trusted token issuer configu- ration. NOTE: Updating this trusted token issuer configuration might cause users to lose access to any applications that are configured to use the trusted token issuer. See also: AWS API Documentation
+    /// Updates the name of the trusted token issuer, or the path of a source attribute or destination attribute for a trusted token issuer configuration. NOTE: Updating this trusted token issuer configuration might cause users to lose access to any applications that are configured to use the trusted token issuer. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TrustedTokenIssuerArn">Specifies the ARN of the trusted token issuer configuration that you want to update. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:trustedTokenIs- suer/(sso)?ins-[a-zA-Z0-9-.]{16}/tti-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="TrustedTokenIssuerArn">Specifies the ARN of the trusted token issuer configuration that you want to update. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:trustedTokenIssuer/(sso)?ins-[a-zA-Z0-9-.]{16}/tti-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
     public AwsSsoAdminUpdateTrustedTokenIssuerOptions(
         string TrustedTokenIssuerArn
     )
@@ -57,19 +59,19 @@ public record AwsSsoAdminUpdateTrustedTokenIssuerOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ARN of the trusted token issuer configuration that you want to update. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:trustedTokenIs- suer/(sso)?ins-[a-zA-Z0-9-.]{16}/tti-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// Specifies the ARN of the trusted token issuer configuration that you want to update. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:trustedTokenIssuer/(sso)?ins-[a-zA-Z0-9-.]{16}/tti-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--trusted-token-issuer-arn")]
     public string? TrustedTokenIssuerArn { get; private init; }
 
     /// <summary>
-    /// Specifies the updated name to be applied to the trusted token issuer configuration. Constraints: o min: 1 o max: 255 o pattern: [\w+=,.@-]+
+    /// Specifies the updated name to be applied to the trusted token issuer configuration. Constraints: • min: 1 • max: 255 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Specifies a structure with settings to apply to the specified trusted token issuer. The settings that you can provide are deter- mined by the type of the trusted token issuer that you are updating. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: OidcJwtConfiguration. OidcJwtConfiguration -&gt; (structure) A structure that describes an updated configuration for a trusted token issuer that uses OpenID Connect (OIDC) with JSON web tokens (JWT). ClaimAttributePath -&gt; (string) The path of the source attribute in the JWT from the trusted token issuer. The attribute mapped by this JMESPath expres- sion is compared against the attribute mapped by IdentityS- toreAttributePath when a trusted token issuer token is ex- changed for an IAM Identity Center token. Constraints: o min: 1 o max: 255 o pattern: \p{L}+(?:(\.|\_)\p{L}+){0,2} IdentityStoreAttributePath -&gt; (string) The path of the destination attribute in a JWT from IAM Iden- tity Center. The attribute mapped by this JMESPath expression is compared against the attribute mapped by ClaimAttribut- ePath when a trusted token issuer token is exchanged for an IAM Identity Center token. Constraints: o min: 1 o max: 255 o pattern: \p{L}+(?:\.\p{L}+){0,2} JwksRetrievalOption -&gt; (string) The method that the trusted token issuer can use to retrieve the JSON Web Key Set used to verify a JWT. Possible values: o OPEN_ID_DISCOVERY Shorthand Syntax: OidcJwtConfiguration={ClaimAttributePath=string,IdentityStoreAttributePath=string,JwksRetrievalOption=string} JSON Syntax: { "OidcJwtConfiguration": { "ClaimAttributePath": "string", "IdentityStoreAttributePath": "string", "JwksRetrievalOption": "OPEN_ID_DISCOVERY" } }
+    /// Specifies a structure with settings to apply to the specified trusted token issuer. The settings that you can provide are determined by the type of the trusted token issuer that you are updating. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: OidcJwtConfiguration. OidcJwtConfiguration -&gt; (structure) A structure that describes an updated configuration for a trusted token issuer that uses OpenID Connect (OIDC) with JSON web tokens (JWT). ClaimAttributePath -&gt; (string) The path of the source attribute in the JWT from the trusted token issuer. The attribute mapped by this JMESPath expression is compared against the attribute mapped by IdentityStoreAttributePath when a trusted token issuer token is exchanged for an IAM Identity Center token. Constraints: • min: 1 • max: 255 • pattern: \p{L}+(?:(\.|\_)\p{L}+){0,2} IdentityStoreAttributePath -&gt; (string) The path of the destination attribute in a JWT from IAM Identity Center. The attribute mapped by this JMESPath expression is compared against the attribute mapped by ClaimAttributePath when a trusted token issuer token is exchanged for an IAM Identity Center token. Constraints: • min: 1 • max: 255 • pattern: \p{L}+(?:\.\p{L}+){0,2} JwksRetrievalOption -&gt; (string) The method that the trusted token issuer can use to retrieve the JSON Web Key Set used to verify a JWT. Possible values: • OPEN_ID_DISCOVERY Shorthand Syntax: OidcJwtConfiguration={ClaimAttributePath=string,IdentityStoreAttributePath=string,JwksRetrievalOption=string} JSON Syntax: { "OidcJwtConfiguration": { "ClaimAttributePath": "string", "IdentityStoreAttributePath": "string", "JwksRetrievalOption": "OPEN_ID_DISCOVERY" } }
     /// </summary>
     [SecretValue]
     [CliOption("--trusted-token-issuer-configuration")]

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCodeartifactListTagsForResourceOptions : AwsOptions, IValidatab
     /// <summary>
     /// Gets information about Amazon Web Services tags for a specified Amazon Resource Name (ARN) in CodeArtifact. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to get tags for. Constraints: o min: 1 o max: 1011 o pattern: \S+</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to get tags for. Constraints: • min: 1 • max: 1011 • pattern: \S+</param>
     public AwsCodeartifactListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsCodeartifactListTagsForResourceOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource to get tags for. Constraints: o min: 1 o max: 1011 o pattern: \S+
+    /// The Amazon Resource Name (ARN) of the resource to get tags for. Constraints: • min: 1 • max: 1011 • pattern: \S+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

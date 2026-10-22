@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsCustomerProfilesListAccountIntegrationsOptions : AwsOptions, IV
     /// <summary>
     /// Lists all of the integrations associated to a specific URI in the AWS account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Uri">The URI of the S3 bucket or any other type of data source. Constraints: o min: 1 o max: 255</param>
+    /// <param name="Uri">The URI of the S3 bucket or any other type of data source. Constraints: • min: 1 • max: 255</param>
     public AwsCustomerProfilesListAccountIntegrationsOptions(
         string Uri
     )
@@ -57,26 +59,26 @@ public record AwsCustomerProfilesListAccountIntegrationsOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The URI of the S3 bucket or any other type of data source. Constraints: o min: 1 o max: 255
+    /// The URI of the S3 bucket or any other type of data source. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--uri")]
     public string? Uri { get; private init; }
 
     /// <summary>
-    /// The pagination token from the previous ListAccountIntegrations API call. Constraints: o min: 1 o max: 1024
+    /// The pagination token from the previous ListAccountIntegrations API call. Constraints: • min: 1 • max: 1024
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of objects returned per page. Constraints: o min: 1 o max: 100
+    /// The maximum number of objects returned per page. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Boolean to indicate if hidden integration should be returned. De- faults to False .
+    /// Boolean to indicate if hidden integration should be returned. Defaults to False .
     /// </summary>
     [CliFlag("--include-hidden", NegatedName = "--no-include-hidden")]
     public bool? IncludeHidden { get; set; }

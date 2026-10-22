@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the alias association between two email addresses in an Connect Customer instance. After disassociation, emails sent to the former alias email address are no longer forwarded to the primary email ad- dress. Both email addresses continue to exist independently and can re- ceive emails directly. Use cases Following are common uses cases for this API: o Department separation : Remove alias relationships when splitting a consolidated support queue back into separate department-specific queue...
+/// Removes the alias association between two email addresses in an Connect Customer instance. After disassociation, emails sent to the former alias email address are no longer forwarded to the primary email address. Both email addresses continue to exist independently and can receive emails directly. Use cases Following are common uses cases for this API: • Department separation : Remove alias relationships when splitting a consolidated support queue back into separate department-specific queues. •...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsConnectDisassociateEmailAddressAliasOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the alias association between two email addresses in an Connect Customer instance. After disassociation, emails sent to the former alias email address are no longer forwarded to the primary email ad- dress. Both email addresses continue to exist independently and can re- ceive emails directly. Use cases Following are common uses cases for this API: o Department separation : Remove alias relationships when splitting a consolidated support queue back into separate department-specific queue...
+    /// Removes the alias association between two email addresses in an Connect Customer instance. After disassociation, emails sent to the former alias email address are no longer forwarded to the primary email address. Both email addresses continue to exist independently and can receive emails directly. Use cases Following are common uses cases for this API: • Department separation : Remove alias relationships when splitting a consolidated support queue back into separate department-specific queues. •...
     /// </summary>
-    /// <param name="EmailAddressId">The identifier of the email address. Constraints: o min: 1 o max: 500</param>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="AliasConfiguration">Configuration object that specifies which alias relationship to re- move. The alias association must currently exist between the primary email address and the specified alias email address. EmailAddressId -&gt; (string) [required] The email address ID. Constraints: o min: 1 o max: 500 Shorthand Syntax: EmailAddressId=string JSON Syntax: { "EmailAddressId": "string" }</param>
+    /// <param name="EmailAddressId">The identifier of the email address. Constraints: • min: 1 • max: 500</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="AliasConfiguration">Configuration object that specifies which alias relationship to remove. The alias association must currently exist between the primary email address and the specified alias email address. EmailAddressId -&gt; (string) [required] The email address ID. Constraints: • min: 1 • max: 500 Shorthand Syntax: EmailAddressId=string JSON Syntax: { "EmailAddressId": "string" }</param>
     public AwsConnectDisassociateEmailAddressAliasOptions(
         string EmailAddressId,
         string InstanceId,
@@ -65,25 +67,25 @@ public record AwsConnectDisassociateEmailAddressAliasOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the email address. Constraints: o min: 1 o max: 500
+    /// The identifier of the email address. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--email-address-id")]
     public string? EmailAddressId { get; private init; }
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// Configuration object that specifies which alias relationship to re- move. The alias association must currently exist between the primary email address and the specified alias email address. EmailAddressId -&gt; (string) [required] The email address ID. Constraints: o min: 1 o max: 500 Shorthand Syntax: EmailAddressId=string JSON Syntax: { "EmailAddressId": "string" }
+    /// Configuration object that specifies which alias relationship to remove. The alias association must currently exist between the primary email address and the specified alias email address. EmailAddressId -&gt; (string) [required] The email address ID. Constraints: • min: 1 • max: 500 Shorthand Syntax: EmailAddressId=string JSON Syntax: { "EmailAddressId": "string" }
     /// </summary>
     [CliOption("--alias-configuration")]
     public string? AliasConfiguration { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsOpensearchCreateApplicationOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Creates an OpenSearch UI application. For more information, see Using the OpenSearch user interface in Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The unique name of the OpenSearch application. Names must be unique within an Amazon Web Services Region for each account. Constraints: o min: 3 o max: 30 o pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="Name">The unique name of the OpenSearch application. Names must be unique within an Amazon Web Services Region for each account. Constraints: • min: 3 • max: 30 • pattern: [a-z][a-z0-9\-]+</param>
     public AwsOpensearchCreateApplicationOptions(
         string Name
     )
@@ -57,44 +59,44 @@ public record AwsOpensearchCreateApplicationOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the OpenSearch application. Names must be unique within an Amazon Web Services Region for each account. Constraints: o min: 3 o max: 30 o pattern: [a-z][a-z0-9\-]+
+    /// The unique name of the OpenSearch application. Names must be unique within an Amazon Web Services Region for each account. Constraints: • min: 3 • max: 30 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 1 o max: 64
+    /// Unique, case-sensitive identifier to ensure idempotency of the request. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The data sources to link to the OpenSearch application. (structure) Data sources that are associated with an OpenSearch application. dataSourceArn -&gt; (string) The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Access Management for more information. Constraints: o min: 20 o max: 2048 o pattern: .* dataSourceDescription -&gt; (string) Detailed description of a data source. Constraints: o max: 1000 o pattern: ^([a-zA-Z0-9_])*[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$ iamRoleForDataSourceArn -&gt; (string) The ARN of the IAM role to be used for cross account/region data source association. Constraints: o min: 20 o max: 2048 o pattern: arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):iam::[0-9]+:role\/.* Shorthand Syntax: dataSourceArn=string,dataSourceDescription=string,iamRoleForDataSourceArn=string ... JSON Syntax: [ { "dataSourceArn": "string", "dataSourceDescription": "string", "iamRoleForDataSourceArn": "string" } ... ]
+    /// The data sources to link to the OpenSearch application. (structure) Data sources that are associated with an OpenSearch application. dataSourceArn -&gt; (string) The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Access Management for more information. Constraints: • min: 20 • max: 2048 • pattern: .* dataSourceDescription -&gt; (string) Detailed description of a data source. Constraints: • max: 1000 • pattern: ^([a-zA-Z0-9_])*[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$ iamRoleForDataSourceArn -&gt; (string) The ARN of the IAM role to be used for cross account/region data source association. Constraints: • min: 20 • max: 2048 • pattern: arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):iam::[0-9]+:role\/.* Shorthand Syntax: dataSourceArn=string,dataSourceDescription=string,iamRoleForDataSourceArn=string ... JSON Syntax: [ { "dataSourceArn": "string", "dataSourceDescription": "string", "iamRoleForDataSourceArn": "string" } ... ]
     /// </summary>
     [CliOption("--data-sources", GroupValues = true)]
     public IEnumerable<string>? DataSources { get; set; }
 
     /// <summary>
-    /// Configuration settings for integrating Amazon Web Services IAM Iden- tity Center with the OpenSearch application. enabled -&gt; (boolean) Specifies whether IAM Identity Center is enabled or disabled. iamIdentityCenterInstanceArn -&gt; (string) The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Ac- cess Management for more information. Constraints: o min: 20 o max: 2048 o pattern: .* iamRoleForIdentityCenterApplicationArn -&gt; (string) The ARN of the IAM role associated with the IAM Identity Center application. Constraints: o min: 20 o max: 2048 o pattern: arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):iam::[0-9]+:role\/.* Shorthand Syntax: enabled=boolean,iamIdentityCenterInstanceArn=string,iamRoleForIdentityCenterApplicationArn=string JSON Syntax: { "enabled": true|false, "iamIdentityCenterInstanceArn": "string", "iamRoleForIdentityCenterApplicationArn": "string" }
+    /// Configuration settings for integrating Amazon Web Services IAM Identity Center with the OpenSearch application. enabled -&gt; (boolean) Specifies whether IAM Identity Center is enabled or disabled. iamIdentityCenterInstanceArn -&gt; (string) The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Access Management for more information. Constraints: • min: 20 • max: 2048 • pattern: .* iamRoleForIdentityCenterApplicationArn -&gt; (string) The ARN of the IAM role associated with the IAM Identity Center application. Constraints: • min: 20 • max: 2048 • pattern: arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):iam::[0-9]+:role\/.* Shorthand Syntax: enabled=boolean,iamIdentityCenterInstanceArn=string,iamRoleForIdentityCenterApplicationArn=string JSON Syntax: { "enabled": true|false, "iamIdentityCenterInstanceArn": "string", "iamRoleForIdentityCenterApplicationArn": "string" }
     /// </summary>
     [CliOption("--iam-identity-center-options")]
     public string? IamIdentityCenterOptions { get; set; }
 
     /// <summary>
-    /// Configuration settings for the OpenSearch application, including ad- ministrative options. Constraints: o max: 200 (structure) Configuration settings for an OpenSearch application. For more information, see Using the OpenSearch user interface in Amazon OpenSearch Service . key -&gt; (string) The configuration item to set, such as the admin role for the OpenSearch application. Possible values: o opensearchDashboards.dashboardAdmin.users o opensearchDashboards.dashboardAdmin.groups value -&gt; (string) The value assigned to the configuration key, such as an IAM user ARN. Constraints: o min: 1 o max: 4096 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "opensearchDashboards.dashboardAdmin.users"|"opensearchDashboards.dashboardAdmin.groups", "value": "string" } ... ]
+    /// Configuration settings for the OpenSearch application, including administrative options. Constraints: • max: 200 (structure) Configuration settings for an OpenSearch application. For more information, see Using the OpenSearch user interface in Amazon OpenSearch Service . key -&gt; (string) The configuration item to set, such as the admin role for the OpenSearch application. Possible values: • opensearchDashboards.dashboardAdmin.users • opensearchDashboards.dashboardAdmin.groups value -&gt; (string) The value assigned to the configuration key, such as an IAM user ARN. Constraints: • min: 1 • max: 4096 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "opensearchDashboards.dashboardAdmin.users"|"opensearchDashboards.dashboardAdmin.groups", "value": "string" } ... ]
     /// </summary>
     [CliOption("--app-configs", GroupValues = true)]
     public IEnumerable<string>? AppConfigs { get; set; }
 
     /// <summary>
-    /// A list of tags attached to a domain. (structure) A tag (key-value pair) for an Amazon OpenSearch Service re- source. Key -&gt; (string) [required] The tag key. Tag keys must be unique for the domain to which they are attached. Constraints: o min: 1 o max: 128 o pattern: .* Value -&gt; (string) [required] The value assigned to the corresponding tag key. Tag values can be null and don't have to be unique in a tag set. For ex- ample, you can have a key value pair in a tag set of project : Trinity and cost-center : Trinity Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tags attached to a domain. (structure) A tag (key-value pair) for an Amazon OpenSearch Service resource. Key -&gt; (string) [required] The tag key. Tag keys must be unique for the domain to which they are attached. Constraints: • min: 1 • max: 128 • pattern: .* Value -&gt; (string) [required] The value assigned to the corresponding tag key. Tag values can be null and don't have to be unique in a tag set. For example, you can have a key value pair in a tag set of project : Trinity and cost-center : Trinity Constraints: • min: 0 • max: 256 • pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tag-list", GroupValues = true)]
     public IEnumerable<string>? TagList { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the application's data at rest. If provided, the application uses your customer-managed key for encryption. If omitted, the application uses an AWS-managed key. The KMS key must be in the same region as the application. Constraints: o min: 20 o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:kms:[a-z0-9-]+:[0-9]{12}:key/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the application's data at rest. If provided, the application uses your customer-managed key for encryption. If omitted, the application uses an AWS-managed key. The KMS key must be in the same region as the application. Constraints: • min: 20 • max: 2048 • pattern: ^arn:aws[a-zA-Z-]*:kms:[a-z0-9-]+:[0-9]{12}:key/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }

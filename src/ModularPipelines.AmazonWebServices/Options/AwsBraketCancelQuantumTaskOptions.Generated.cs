@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsBraketCancelQuantumTaskOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Cancels the specified task. See also: AWS API Documentation
     /// </summary>
-    /// <param name="QuantumTaskArn">The ARN of the quantum task to cancel. Constraints: o min: 0 o max: 256</param>
+    /// <param name="QuantumTaskArn">The ARN of the quantum task to cancel. Constraints: • min: 0 • max: 256</param>
     public AwsBraketCancelQuantumTaskOptions(
         string QuantumTaskArn
     )
@@ -57,13 +59,13 @@ public record AwsBraketCancelQuantumTaskOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the quantum task to cancel. Constraints: o min: 0 o max: 256
+    /// The ARN of the quantum task to cancel. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--quantum-task-arn")]
     public string? QuantumTaskArn { get; private init; }
 
     /// <summary>
-    /// The client token associated with the cancellation request. Constraints: o min: 1 o max: 64
+    /// The client token associated with the cancellation request. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

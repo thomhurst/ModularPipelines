@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEventsRemovePermissionOptions : AwsOptions
 {
     /// <summary>
-    /// The statement ID corresponding to the account that is no longer al- lowed to put events to the default event bus. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_]+
+    /// The statement ID corresponding to the account that is no longer allowed to put events to the default event bus. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_]+
     /// </summary>
     [CliOption("--statement-id")]
     public string? StatementId { get; set; }
@@ -34,7 +34,7 @@ public record AwsEventsRemovePermissionOptions : AwsOptions
     public bool? RemoveAllPermissions { get; set; }
 
     /// <summary>
-    /// The name of the event bus to revoke permissions for. If you omit this, the default event bus is used. Constraints: o min: 1 o max: 256 o pattern: [\.\-_A-Za-z0-9]+
+    /// The name of the event bus to revoke permissions for. If you omit this, the default event bus is used. Constraints: • min: 1 • max: 256 • pattern: [\.\-_A-Za-z0-9]+
     /// </summary>
     [CliOption("--event-bus-name")]
     public string? EventBusName { get; set; }

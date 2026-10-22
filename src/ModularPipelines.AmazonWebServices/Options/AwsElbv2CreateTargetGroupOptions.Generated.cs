@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a target group. For more information, see the following: o Target groups for your Application Load Balancers o Target groups for your Network Load Balancers o Target groups for your Gateway Load Balancers This operation is idempotent, which means that it completes at most one time. If you attempt to create multiple target groups with the same settings, each call succeeds. See also: AWS API Documentation
+/// Creates a target group. For more information, see the following: • Target groups for your Application Load Balancers • Target groups for your Network Load Balancers • Target groups for your Gateway Load Balancers This operation is idempotent, which means that it completes at most one time. If you attempt to create multiple target groups with the same settings, each call succeeds. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsElbv2CreateTargetGroupOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a target group. For more information, see the following: o Target groups for your Application Load Balancers o Target groups for your Network Load Balancers o Target groups for your Gateway Load Balancers This operation is idempotent, which means that it completes at most one time. If you attempt to create multiple target groups with the same settings, each call succeeds. See also: AWS API Documentation
+    /// Creates a target group. For more information, see the following: • Target groups for your Application Load Balancers • Target groups for your Network Load Balancers • Target groups for your Gateway Load Balancers This operation is idempotent, which means that it completes at most one time. If you attempt to create multiple target groups with the same settings, each call succeeds. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the target group. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hy- phens, and must not begin or end with a hyphen.</param>
+    /// <param name="Name">The name of the target group. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and must not begin or end with a hyphen.</param>
     public AwsElbv2CreateTargetGroupOptions(
         string Name
     )
@@ -57,25 +59,25 @@ public record AwsElbv2CreateTargetGroupOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the target group. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hy- phens, and must not begin or end with a hyphen.
+    /// The name of the target group. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and must not begin or end with a hyphen.
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The protocol to use for routing traffic to the targets. For Applica- tion Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocols are TCP, TLS, UDP, TCP_UDP, QUIC, or TCP_QUIC. For Gateway Load Balancers, the sup- ported protocol is GENEVE. A TCP_UDP listener must be associated with a TCP_UDP target group. A TCP_QUIC listener must be associated with a TCP_QUIC target group. If the target is a Lambda function, this parameter does not apply. Possible values: o HTTP o HTTPS o TCP o TLS o UDP o TCP_UDP o GENEVE o QUIC o TCP_QUIC
+    /// The protocol to use for routing traffic to the targets. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocols are TCP, TLS, UDP, TCP_UDP, QUIC, or TCP_QUIC. For Gateway Load Balancers, the supported protocol is GENEVE. A TCP_UDP listener must be associated with a TCP_UDP target group. A TCP_QUIC listener must be associated with a TCP_QUIC target group. If the target is a Lambda function, this parameter does not apply. Possible values: • HTTP • HTTPS • TCP • TLS • UDP • TCP_UDP • GENEVE • QUIC • TCP_QUIC
     /// </summary>
     [CliOption("--protocol")]
     public AwsElbv2CreateTargetGroupProtocol? Protocol { get; set; }
 
     /// <summary>
-    /// [HTTP/HTTPS protocol] The protocol version. Specify GRPC to send re- quests to targets using gRPC. Specify HTTP2 to send requests to tar- gets using HTTP/2. The default is HTTP1 , which sends requests to targets using HTTP/1.1.
+    /// [HTTP/HTTPS protocol] The protocol version. Specify GRPC to send requests to targets using gRPC. Specify HTTP2 to send requests to targets using HTTP/2. The default is HTTP1 , which sends requests to targets using HTTP/1.1.
     /// </summary>
     [CliOption("--protocol-version")]
     public string? ProtocolVersion { get; set; }
 
     /// <summary>
-    /// The port on which the targets receive traffic. This port is used un- less you specify a port override when registering the target. If the target is a Lambda function, this parameter does not apply. If the protocol is GENEVE, the supported port is 6081. Constraints: o min: 1 o max: 65535
+    /// The port on which the targets receive traffic. This port is used unless you specify a port override when registering the target. If the target is a Lambda function, this parameter does not apply. If the protocol is GENEVE, the supported port is 6081. Constraints: • min: 1 • max: 65535
     /// </summary>
     [CliOption("--port")]
     public int? Port { get; set; }
@@ -87,7 +89,7 @@ public record AwsElbv2CreateTargetGroupOptions : AwsOptions, IValidatableObject
     public string? VpcId { get; set; }
 
     /// <summary>
-    /// The protocol the load balancer uses when performing health checks on targets. For Application Load Balancers, the default is HTTP. For Network Load Balancers and Gateway Load Balancers, the default is TCP. The TCP protocol is not supported for health checks if the pro- tocol of the target group is HTTP or HTTPS. The GENEVE, TLS, UDP, TCP_UDP, QUIC, and TCP_QUIC protocols are not supported for health checks. Possible values: o HTTP o HTTPS o TCP o TLS o UDP o TCP_UDP o GENEVE o QUIC o TCP_QUIC
+    /// The protocol the load balancer uses when performing health checks on targets. For Application Load Balancers, the default is HTTP. For Network Load Balancers and Gateway Load Balancers, the default is TCP. The TCP protocol is not supported for health checks if the protocol of the target group is HTTP or HTTPS. The GENEVE, TLS, UDP, TCP_UDP, QUIC, and TCP_QUIC protocols are not supported for health checks. Possible values: • HTTP • HTTPS • TCP • TLS • UDP • TCP_UDP • GENEVE • QUIC • TCP_QUIC
     /// </summary>
     [CliOption("--health-check-protocol")]
     public AwsElbv2CreateTargetGroupHealthCheckProtocol? HealthCheckProtocol { get; set; }
@@ -99,67 +101,67 @@ public record AwsElbv2CreateTargetGroupOptions : AwsOptions, IValidatableObject
     public string? HealthCheckPort { get; set; }
 
     /// <summary>
-    /// Indicates whether health checks are enabled. If the target type is lambda , health checks are disabled by default but can be enabled. If the target type is instance , ip , or alb , health checks are al- ways enabled and can't be disabled.
+    /// Indicates whether health checks are enabled. If the target type is lambda , health checks are disabled by default but can be enabled. If the target type is instance , ip , or alb , health checks are always enabled and can't be disabled.
     /// </summary>
     [CliFlag("--health-check-enabled", NegatedName = "--no-health-check-enabled")]
     public bool? HealthCheckEnabled { get; set; }
 
     /// <summary>
-    /// [HTTP/HTTPS health checks] The destination for health checks on the targets. [HTTP1 or HTTP2 protocol version] The ping path. The default is /. [GRPC protocol version] The path of a custom health check method with the format /package.service/method. The default is /Amazon Web Services.ALB/healthcheck. Constraints: o min: 1 o max: 1024
+    /// [HTTP/HTTPS health checks] The destination for health checks on the targets. [HTTP1 or HTTP2 protocol version] The ping path. The default is /. [GRPC protocol version] The path of a custom health check method with the format /package.service/method. The default is /Amazon Web Services.ALB/healthcheck. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--health-check-path")]
     public string? HealthCheckPath { get; set; }
 
     /// <summary>
-    /// The approximate amount of time, in seconds, between health checks of an individual target. The range is 5-300. If the target group proto- col is TCP, TLS, UDP, TCP_UDP, QUIC, TCP_QUIC, HTTP or HTTPS, the default is 30 seconds. If the target group protocol is GENEVE, the default is 10 seconds. If the target type is lambda , the default is 35 seconds. Constraints: o min: 5 o max: 300
+    /// The approximate amount of time, in seconds, between health checks of an individual target. The range is 5-300. If the target group protocol is TCP, TLS, UDP, TCP_UDP, QUIC, TCP_QUIC, HTTP or HTTPS, the default is 30 seconds. If the target group protocol is GENEVE, the default is 10 seconds. If the target type is lambda , the default is 35 seconds. Constraints: • min: 5 • max: 300
     /// </summary>
     [CliOption("--health-check-interval-seconds")]
     public int? HealthCheckIntervalSeconds { get; set; }
 
     /// <summary>
-    /// The amount of time, in seconds, during which no response from a tar- get means a failed health check. The range is 2120 seconds. For tar- get groups with a protocol of HTTP, the default is 6 seconds. For target groups with a protocol of TCP, TLS or HTTPS, the default is 10 seconds. For target groups with a protocol of GENEVE, the default is 5 seconds. If the target type is lambda , the default is 30 sec- onds. Constraints: o min: 2 o max: 120
+    /// The amount of time, in seconds, during which no response from a target means a failed health check. The range is 2120 seconds. For target groups with a protocol of HTTP, the default is 6 seconds. For target groups with a protocol of TCP, TLS or HTTPS, the default is 10 seconds. For target groups with a protocol of GENEVE, the default is 5 seconds. If the target type is lambda , the default is 30 seconds. Constraints: • min: 2 • max: 120
     /// </summary>
     [CliOption("--health-check-timeout-seconds")]
     public int? HealthCheckTimeoutSeconds { get; set; }
 
     /// <summary>
-    /// The number of consecutive health check successes required before considering a target healthy. The range is 2-10. If the target group protocol is TCP, TCP_UDP, UDP, TLS, HTTP or HTTPS, the default is 5. For target groups with a protocol of GENEVE, the default is 5. If the target type is lambda , the default is 5. Constraints: o min: 2 o max: 10
+    /// The number of consecutive health check successes required before considering a target healthy. The range is 2-10. If the target group protocol is TCP, TCP_UDP, UDP, TLS, HTTP or HTTPS, the default is 5. For target groups with a protocol of GENEVE, the default is 5. If the target type is lambda , the default is 5. Constraints: • min: 2 • max: 10
     /// </summary>
     [CliOption("--healthy-threshold-count")]
     public int? HealthyThresholdCount { get; set; }
 
     /// <summary>
-    /// The number of consecutive health check failures required before con- sidering a target unhealthy. The range is 2-10. If the target group protocol is TCP, TCP_UDP, UDP, TLS, QUIC, TCP_QUIC, HTTP or HTTPS, the default is 2. For target groups with a protocol of GENEVE, the default is 2. If the target type is lambda , the default is 5. Constraints: o min: 2 o max: 10
+    /// The number of consecutive health check failures required before considering a target unhealthy. The range is 2-10. If the target group protocol is TCP, TCP_UDP, UDP, TLS, QUIC, TCP_QUIC, HTTP or HTTPS, the default is 2. For target groups with a protocol of GENEVE, the default is 2. If the target type is lambda , the default is 5. Constraints: • min: 2 • max: 10
     /// </summary>
     [CliOption("--unhealthy-threshold-count")]
     public int? UnhealthyThresholdCount { get; set; }
 
     /// <summary>
-    /// [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when check- ing for a successful response from a target. For target groups with a protocol of TCP, TCP_UDP, UDP, QUIC, TCP_QUIC, or TLS the range is 200-599. For target groups with a protocol of HTTP or HTTPS, the range is 200-499. For target groups with a protocol of GENEVE, the range is 200-399. HttpCode -&gt; (string) For Application Load Balancers, you can specify values between 200 and 499, with the default value being 200. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299"). For Network Load Balancers, you can specify values between 200 and 599, with the default value being 200-399. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299"). For Gateway Load Balancers, this must be "200399". Note that when using shorthand syntax, some values such as com- mas need to be escaped. GrpcCode -&gt; (string) You can specify values between 0 and 99. You can specify multi- ple values (for example, "0,1") or a range of values (for exam- ple, "0-5"). The default value is 12. Shorthand Syntax: HttpCode=string,GrpcCode=string JSON Syntax: { "HttpCode": "string", "GrpcCode": "string" }
+    /// [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking for a successful response from a target. For target groups with a protocol of TCP, TCP_UDP, UDP, QUIC, TCP_QUIC, or TLS the range is 200-599. For target groups with a protocol of HTTP or HTTPS, the range is 200-499. For target groups with a protocol of GENEVE, the range is 200-399. HttpCode -&gt; (string) For Application Load Balancers, you can specify values between 200 and 499, with the default value being 200. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299"). For Network Load Balancers, you can specify values between 200 and 599, with the default value being 200-399. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299"). For Gateway Load Balancers, this must be "200399". Note that when using shorthand syntax, some values such as commas need to be escaped. GrpcCode -&gt; (string) You can specify values between 0 and 99. You can specify multiple values (for example, "0,1") or a range of values (for example, "0-5"). The default value is 12. Shorthand Syntax: HttpCode=string,GrpcCode=string JSON Syntax: { "HttpCode": "string", "GrpcCode": "string" }
     /// </summary>
     [CliOption("--matcher")]
     public string? Matcher { get; set; }
 
     /// <summary>
-    /// The type of target that you must specify when registering targets with this target group. You can't specify targets for a target group using more than one target type. o instance - Register targets by instance ID. This is the default value. o ip - Register targets by IP address. You can specify IP addresses from the subnets of the virtual private cloud (VPC) for the target group, the RFC 1918 range (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't specify publicly routable IP addresses. o lambda - Register a single Lambda function as a target. o alb - Register a single Application Load Balancer as a target. Possible values: o instance o ip o lambda o alb
+    /// The type of target that you must specify when registering targets with this target group. You can't specify targets for a target group using more than one target type. • instance - Register targets by instance ID. This is the default value. • ip - Register targets by IP address. You can specify IP addresses from the subnets of the virtual private cloud (VPC) for the target group, the RFC 1918 range (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't specify publicly routable IP addresses. • lambda - Register a single Lambda function as a target. • alb - Register a single Application Load Balancer as a target. Possible values: • instance • ip • lambda • alb
     /// </summary>
     [CliOption("--target-type")]
     public AwsElbv2CreateTargetGroupTargetType? TargetType { get; set; }
 
     /// <summary>
-    /// The tags to assign to the target group. Constraints: o min: 1 (structure) Information about a tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags to assign to the target group. Constraints: • min: 1 (structure) Information about a tag. Key -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The value of the tag. Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The IP address type. The default value is ipv4 . Possible values: o ipv4 o ipv6
+    /// The IP address type. The default value is ipv4 . Possible values: • ipv4 • ipv6
     /// </summary>
     [CliOption("--ip-address-type")]
     public AwsElbv2CreateTargetGroupIpAddressType? IpAddressType { get; set; }
 
     /// <summary>
-    /// The port on which the target control agent and application load bal- ancer exchange management traffic for the target optimizer feature. Constraints: o min: 1 o max: 65535
+    /// The port on which the target control agent and application load balancer exchange management traffic for the target optimizer feature. Constraints: • min: 1 • max: 65535
     /// </summary>
     [CliOption("--target-control-port")]
     public int? TargetControlPort { get; set; }

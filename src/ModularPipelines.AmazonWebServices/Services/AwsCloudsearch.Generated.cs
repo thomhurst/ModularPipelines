@@ -62,7 +62,7 @@ public class AwsCloudsearch : IAwsCloudsearch
     }
 
     /// <summary>
-    /// Configures an analysis scheme that can be applied to a text or text-ar- ray field to define language-specific text processing options. For more information, see Configuring Analysis Schemes in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
+    /// Configures an analysis scheme that can be applied to a text or text-array field to define language-specific text processing options. For more information, see Configuring Analysis Schemes in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsCloudsearch : IAwsCloudsearch
     }
 
     /// <summary>
-    /// Configures an `` IndexField`` for the search domain. Used to create new fields and modify existing ones. You must specify the name of the do- main you are configuring and an index field configuration. The index field configuration specifies a unique name, the index field type, and the options you want to configure for the field. The options you can specify depend on the `` IndexFieldType`` . If the field exists, the new configuration replaces the old one. For more information, see Configuring In...
+    /// Configures an `` IndexField`` for the search domain. Used to create new fields and modify existing ones. You must specify the name of the domain you are configuring and an index field configuration. The index field configuration specifies a unique name, the index field type, and the options you want to configure for the field. The options you can specify depend on the `` IndexFieldType`` . If the field exists, the new configuration replaces the old one. For more information, see Configuring Inde...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsCloudsearch : IAwsCloudsearch
     }
 
     /// <summary>
-    /// Configures a suggester for a domain. A suggester enables you to display possible matches before users finish typing their queries. When you configure a suggester, you must specify the name of the text field you want to search for possible matches and a unique name for the sug- gester. For more information, see Getting Search Suggestions in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
+    /// Configures a suggester for a domain. A suggester enables you to display possible matches before users finish typing their queries. When you configure a suggester, you must specify the name of the text field you want to search for possible matches and a unique name for the suggester. For more information, see Getting Search Suggestions in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsCloudsearch : IAwsCloudsearch
     }
 
     /// <summary>
-    /// Removes an `` Expression`` from the search domain. For more informa- tion, see Configuring Expressions in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
+    /// Removes an `` Expression`` from the search domain. For more information, see Configuring Expressions in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsCloudsearch : IAwsCloudsearch
     }
 
     /// <summary>
-    /// Removes an `` IndexField`` from the search domain. For more informa- tion, see Configuring Index Fields in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
+    /// Removes an `` IndexField`` from the search domain. For more information, see Configuring Index Fields in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsCloudsearch : IAwsCloudsearch
     }
 
     /// <summary>
-    /// Deletes a suggester. For more information, see Getting Search Sugges- tions in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
+    /// Deletes a suggester. For more information, see Getting Search Suggestions in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsCloudsearch : IAwsCloudsearch
     }
 
     /// <summary>
-    /// Gets the availability options configured for a domain. By default, shows the configuration with any pending changes. Set the Deployed op- tion to true to show the active configuration and exclude pending changes. For more information, see Configuring Availability Options in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
+    /// Gets the availability options configured for a domain. By default, shows the configuration with any pending changes. Set the Deployed option to true to show the active configuration and exclude pending changes. For more information, see Configuring Availability Options in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsCloudsearch : IAwsCloudsearch
     }
 
     /// <summary>
-    /// Returns the domain's endpoint options, specifically whether all re- quests to the domain must arrive over HTTPS. For more information, see Configuring Domain Endpoint Options in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
+    /// Returns the domain's endpoint options, specifically whether all requests to the domain must arrive over HTTPS. For more information, see Configuring Domain Endpoint Options in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsCloudsearch : IAwsCloudsearch
     }
 
     /// <summary>
-    /// Gets the expressions configured for the search domain. Can be limited to specific expressions by name. By default, shows all expressions and includes any pending changes to the configuration. Set the Deployed op- tion to true to show the active configuration and exclude pending changes. For more information, see Configuring Expressions in the Ama- zon CloudSearch Developer Guide . See also: AWS API Documentation
+    /// Gets the expressions configured for the search domain. Can be limited to specific expressions by name. By default, shows all expressions and includes any pending changes to the configuration. Set the Deployed option to true to show the active configuration and exclude pending changes. For more information, see Configuring Expressions in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsCloudsearch : IAwsCloudsearch
     }
 
     /// <summary>
-    /// Gets information about the index fields configured for the search do- main. Can be limited to specific fields by name. By default, shows all fields and includes any pending changes to the configuration. Set the Deployed option to true to show the active configuration and exclude pending changes. For more information, see Getting Domain Information in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
+    /// Gets information about the index fields configured for the search domain. Can be limited to specific fields by name. By default, shows all fields and includes any pending changes to the configuration. Set the Deployed option to true to show the active configuration and exclude pending changes. For more information, see Getting Domain Information in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsCloudsearch : IAwsCloudsearch
     }
 
     /// <summary>
-    /// Gets information about the access policies that control access to the domain's document and search endpoints. By default, shows the configu- ration with any pending changes. Set the Deployed option to true to show the active configuration and exclude pending changes. For more in- formation, see Configuring Access for a Search Domain in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
+    /// Gets information about the access policies that control access to the domain's document and search endpoints. By default, shows the configuration with any pending changes. Set the Deployed option to true to show the active configuration and exclude pending changes. For more information, see Configuring Access for a Search Domain in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsCloudsearch : IAwsCloudsearch
     }
 
     /// <summary>
-    /// Gets the suggesters configured for a domain. A suggester enables you to display possible matches before users finish typing their queries. Can be limited to specific suggesters by name. By default, shows all sug- gesters and includes any pending changes to the configuration. Set the Deployed option to true to show the active configuration and exclude pending changes. For more information, see Getting Search Suggestions in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
+    /// Gets the suggesters configured for a domain. A suggester enables you to display possible matches before users finish typing their queries. Can be limited to specific suggesters by name. By default, shows all suggesters and includes any pending changes to the configuration. Set the Deployed option to true to show the active configuration and exclude pending changes. For more information, see Getting Search Suggestions in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsCloudsearch : IAwsCloudsearch
     }
 
     /// <summary>
-    /// Tells the search domain to start indexing its documents using the lat- est indexing options. This operation must be invoked to activate op- tions whose OptionStatus is RequiresIndexDocuments . See also: AWS API Documentation
+    /// Tells the search domain to start indexing its documents using the latest indexing options. This operation must be invoked to activate options whose OptionStatus is RequiresIndexDocuments . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsCloudsearch : IAwsCloudsearch
     }
 
     /// <summary>
-    /// Configures the availability options for a domain. Enabling the Multi-AZ option expands an Amazon CloudSearch domain to an additional Availabil- ity Zone in the same Region to increase fault tolerance in the event of a service disruption. Changes to the Multi-AZ option can take about half an hour to become active. For more information, see Configuring Availability Options in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
+    /// Configures the availability options for a domain. Enabling the Multi-AZ option expands an Amazon CloudSearch domain to an additional Availability Zone in the same Region to increase fault tolerance in the event of a service disruption. Changes to the Multi-AZ option can take about half an hour to become active. For more information, see Configuring Availability Options in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsCloudsearch : IAwsCloudsearch
     }
 
     /// <summary>
-    /// Updates the domain's endpoint options, specifically whether all re- quests to the domain must arrive over HTTPS. For more information, see Configuring Domain Endpoint Options in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
+    /// Updates the domain's endpoint options, specifically whether all requests to the domain must arrive over HTTPS. For more information, see Configuring Domain Endpoint Options in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsCloudsearch : IAwsCloudsearch
     }
 
     /// <summary>
-    /// Configures scaling parameters for a domain. A domain's scaling parame- ters specify the desired search instance type and replication count. Amazon CloudSearch will still automatically scale your domain based on the volume of data and traffic, but not below the desired instance type and replication count. If the Multi-AZ option is enabled, these values control the resources used per Availability Zone. For more information, see Configuring Scaling Options in the Amazon CloudSearch Developer Guide ...
+    /// Configures scaling parameters for a domain. A domain's scaling parameters specify the desired search instance type and replication count. Amazon CloudSearch will still automatically scale your domain based on the volume of data and traffic, but not below the desired instance type and replication count. If the Multi-AZ option is enabled, these values control the resources used per Availability Zone. For more information, see Configuring Scaling Options in the Amazon CloudSearch Developer Guide . ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsCloudsearch : IAwsCloudsearch
     }
 
     /// <summary>
-    /// Configures the access rules that control access to the domain's docu- ment and search endpoints. For more information, see Configuring Access for an Amazon CloudSearch Domain . See also: AWS API Documentation
+    /// Configures the access rules that control access to the domain's document and search endpoints. For more information, see Configuring Access for an Amazon CloudSearch Domain . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

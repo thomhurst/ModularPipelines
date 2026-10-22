@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBedrockAgentcoreGetBatchEvaluationOptions : AwsOptions, IValida
     /// <summary>
     /// Retrieves detailed information about a batch evaluation, including its status, configuration, results, and any error details. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BatchEvaluationId">The unique identifier of the batch evaluation to retrieve. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
+    /// <param name="BatchEvaluationId">The unique identifier of the batch evaluation to retrieve. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
     public AwsBedrockAgentcoreGetBatchEvaluationOptions(
         string BatchEvaluationId
     )
@@ -56,7 +58,7 @@ public record AwsBedrockAgentcoreGetBatchEvaluationOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the batch evaluation to retrieve. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
+    /// The unique identifier of the batch evaluation to retrieve. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--batch-evaluation-id")]
     public string? BatchEvaluationId { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +30,9 @@ public record AwsCodeguruprofilerSubmitFeedbackOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Sends feedback to CodeGuru Profiler about whether the anomaly detected by the analysis is useful or not. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AnomalyInstanceId">The universally unique identifier (UUID) of the ` AnomalyInstance https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_AnomalyInstance.html`__ object that is included in the analysis data. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="ProfilingGroupName">The name of the profiling group that is associated with the analysis data. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$</param>
-    /// <param name="Type">The feedback tpye. Thee are two valid values, Positive and Negative . Possible values: o Positive o Negative</param>
+    /// <param name="AnomalyInstanceId">The universally unique identifier (UUID) of the ` AnomalyInstance https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_AnomalyInstance.html`__ object that is included in the analysis data. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="ProfilingGroupName">The name of the profiling group that is associated with the analysis data. Constraints: • min: 1 • max: 255 • pattern: ^[\w-]+$</param>
+    /// <param name="Type">The feedback tpye. Thee are two valid values, Positive and Negative . Possible values: • Positive • Negative</param>
     public AwsCodeguruprofilerSubmitFeedbackOptions(
         string AnomalyInstanceId,
         string ProfilingGroupName,
@@ -64,19 +66,19 @@ public record AwsCodeguruprofilerSubmitFeedbackOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The universally unique identifier (UUID) of the ` AnomalyInstance https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_AnomalyInstance.html`__ object that is included in the analysis data. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The universally unique identifier (UUID) of the ` AnomalyInstance https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_AnomalyInstance.html`__ object that is included in the analysis data. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--anomaly-instance-id")]
     public string? AnomalyInstanceId { get; private init; }
 
     /// <summary>
-    /// The name of the profiling group that is associated with the analysis data. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$
+    /// The name of the profiling group that is associated with the analysis data. Constraints: • min: 1 • max: 255 • pattern: ^[\w-]+$
     /// </summary>
     [CliOption("--profiling-group-name")]
     public string? ProfilingGroupName { get; private init; }
 
     /// <summary>
-    /// The feedback tpye. Thee are two valid values, Positive and Negative . Possible values: o Positive o Negative
+    /// The feedback tpye. Thee are two valid values, Positive and Negative . Possible values: • Positive • Negative
     /// </summary>
     [CliOption("--type")]
     public AwsCodeguruprofilerSubmitFeedbackType? Type { get; private init; }

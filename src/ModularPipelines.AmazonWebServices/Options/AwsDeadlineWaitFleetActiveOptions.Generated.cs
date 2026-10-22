@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDeadlineWaitFleetActiveOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Wait until a Fleet is activated. Use this after invoking CreateFleet or UpdateFleet. It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The farm ID of the farm in the fleet. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="FleetId">The fleet ID of the fleet to get. Constraints: o pattern: fleet-[0-9a-f]{32}</param>
+    /// <param name="FarmId">The farm ID of the farm in the fleet. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="FleetId">The fleet ID of the fleet to get. Constraints: • pattern: fleet-[0-9a-f]{32}</param>
     public AwsDeadlineWaitFleetActiveOptions(
         string FarmId,
         string FleetId
@@ -60,13 +62,13 @@ public record AwsDeadlineWaitFleetActiveOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID of the farm in the fleet. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID of the farm in the fleet. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The fleet ID of the fleet to get. Constraints: o pattern: fleet-[0-9a-f]{32}
+    /// The fleet ID of the fleet to get. Constraints: • pattern: fleet-[0-9a-f]{32}
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }

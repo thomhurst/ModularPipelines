@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotDeleteOtaUpdateOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Delete an OTA update. Requires permission to access the DeleteOTAUpdate action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OtaUpdateId">The ID of the OTA update to delete. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="OtaUpdateId">The ID of the OTA update to delete. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsIotDeleteOtaUpdateOptions(
         string OtaUpdateId
     )
@@ -56,7 +58,7 @@ public record AwsIotDeleteOtaUpdateOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the OTA update to delete. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+
+    /// The ID of the OTA update to delete. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--ota-update-id")]
     public string? OtaUpdateId { get; private init; }
@@ -68,7 +70,7 @@ public record AwsIotDeleteOtaUpdateOptions : AwsOptions, IValidatableObject
     public bool? DeleteStream { get; set; }
 
     /// <summary>
-    /// When true, deletes the IoT job created by the OTAUpdate process even if it is "IN_PROGRESS". Otherwise, if the job is not in a terminal state ("COMPLETED" or "CANCELED") an exception will occur. The de- fault is false.
+    /// When true, deletes the IoT job created by the OTAUpdate process even if it is "IN_PROGRESS". Otherwise, if the job is not in a terminal state ("COMPLETED" or "CANCELED") an exception will occur. The default is false.
     /// </summary>
     [CliFlag("--force-delete-aws-job", NegatedName = "--no-force-delete-aws-job")]
     public bool? ForceDeleteAwsJob { get; set; }

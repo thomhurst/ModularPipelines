@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSigninGetConsoleAuthorizationConfigurationOptions : AwsOptions
 {
     /// <summary>
-    /// Target account identifier Constraints: o min: 12 o max: 32 o pattern: (\d{12}|o-[a-z0-9]{10}|r-[0-9a-z]{4,32})
+    /// Target account identifier Constraints: • min: 12 • max: 32 • pattern: (\d{12}|o-[a-z0-9]{10}|r-[0-9a-z]{4,32})
     /// </summary>
     [CliOption("--target-id")]
     public string? TargetId { get; set; }

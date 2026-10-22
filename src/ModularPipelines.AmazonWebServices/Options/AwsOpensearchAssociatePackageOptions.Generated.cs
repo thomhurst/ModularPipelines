@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsOpensearchAssociatePackageOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Associates a package with an Amazon OpenSearch Service domain. For more information, see Custom packages for Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
-    /// <param name="PackageId">Internal ID of the package to associate with a domain. Use De- scribePackages to find this value. Constraints: o pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$</param>
-    /// <param name="DomainName">Name of the domain to associate the package with. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="PackageId">Internal ID of the package to associate with a domain. Use DescribePackages to find this value. Constraints: • pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$</param>
+    /// <param name="DomainName">Name of the domain to associate the package with. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
     public AwsOpensearchAssociatePackageOptions(
         string PackageId,
         string DomainName
@@ -60,25 +62,25 @@ public record AwsOpensearchAssociatePackageOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Internal ID of the package to associate with a domain. Use De- scribePackages to find this value. Constraints: o pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$
+    /// Internal ID of the package to associate with a domain. Use DescribePackages to find this value. Constraints: • pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$
     /// </summary>
     [CliOption("--package-id")]
     public string? PackageId { get; private init; }
 
     /// <summary>
-    /// Name of the domain to associate the package with. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// Name of the domain to associate the package with. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// A list of package IDs that must be associated with the domain before the package specified in the request can be associated. (string) Constraints: o pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$ Syntax: "string" "string" ...
+    /// A list of package IDs that must be associated with the domain before the package specified in the request can be associated. (string) Constraints: • pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--prerequisite-package-id-list", GroupValues = true)]
     public IEnumerable<string>? PrerequisitePackageIdList { get; set; }
 
     /// <summary>
-    /// The configuration for associating a package with an Amazon OpenSearch Service domain. KeyStoreAccessOption -&gt; (structure) The configuration parameters to enable accessing the key store required by the package. KeyAccessRoleArn -&gt; (string) Role ARN to access the KeyStore Key Constraints: o min: 20 o max: 2048 o pattern: arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):iam::[0-9]+:role\/.* KeyStoreAccessEnabled -&gt; (boolean) [required] This indicates whether Key Store access is enabled Shorthand Syntax: KeyStoreAccessOption={KeyAccessRoleArn=string,KeyStoreAccessEnabled=boolean} JSON Syntax: { "KeyStoreAccessOption": { "KeyAccessRoleArn": "string", "KeyStoreAccessEnabled": true|false } }
+    /// The configuration for associating a package with an Amazon OpenSearch Service domain. KeyStoreAccessOption -&gt; (structure) The configuration parameters to enable accessing the key store required by the package. KeyAccessRoleArn -&gt; (string) Role ARN to access the KeyStore Key Constraints: • min: 20 • max: 2048 • pattern: arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):iam::[0-9]+:role\/.* KeyStoreAccessEnabled -&gt; (boolean) [required] This indicates whether Key Store access is enabled Shorthand Syntax: KeyStoreAccessOption={KeyAccessRoleArn=string,KeyStoreAccessEnabled=boolean} JSON Syntax: { "KeyStoreAccessOption": { "KeyAccessRoleArn": "string", "KeyStoreAccessEnabled": true|false } }
     /// </summary>
     [CliOption("--association-configuration")]
     public string? AssociationConfiguration { get; set; }

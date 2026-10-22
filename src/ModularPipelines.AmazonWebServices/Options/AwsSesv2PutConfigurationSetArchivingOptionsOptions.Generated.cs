@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,7 +64,7 @@ public record AwsSesv2PutConfigurationSetArchivingOptionsOptions : AwsOptions, I
     public string? ConfigurationSetName { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the MailManager archive that the Amazon SES API v2 sends email to. Constraints: o min: 20 o max: 1011 o pattern: arn:(aws|aws-[a-z-]+):ses:[a-z]{2,4}-[a-z-]+-[0-9]:[0-9]{1,20}:mail- manager-archive/a-[a-z0-9]{24,62}
+    /// The Amazon Resource Name (ARN) of the MailManager archive that the Amazon SES API v2 sends email to. Constraints: • min: 20 • max: 1011 • pattern: arn:(aws|aws-[a-z-]+):ses:[a-z]{2,4}-[a-z-]+-[0-9]:[0-9]{1,20}:mailmanager-archive/a-[a-z0-9]{24,62}
     /// </summary>
     [CliOption("--archive-arn")]
     public string? ArchiveArn { get; set; }

@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2 Retrieves build resources for all builds associated with the Amazon Web Services account in use. You can limit results to builds that are in a specific status by using the Status parameter. Use the pagination para- meters to retrieve results in NOTE: Build resources are not listed in any particular order. Learn more Upload a Custom Server Build All APIs by task See also: AWS API Documentation list-builds is a paginated operation. Multiple API ca...
+/// This API works with the following fleet types: EC2 Retrieves build resources for all builds associated with the Amazon Web Services account in use. You can limit results to builds that are in a specific status by using the Status parameter. Use the pagination parameters to retrieve results in NOTE: Build resources are not listed in any particular order. Learn more Upload a Custom Server Build All APIs by task See also: AWS API Documentation list-builds is a paginated operation. Multiple API call...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,16 +24,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsGameliftListBuildsOptions : AwsOptions
 {
     /// <summary>
-    /// Build status to filter results by. To retrieve all builds, leave this parameter empty. Possible build statuses include the following: o INITIALIZED -- A new build has been defined, but no files have been uploaded. You cannot create fleets for builds that are in this status. When a build is successfully created, the build sta- tus is set to this value. o READY -- The game build has been successfully uploaded. You can now create new fleets for this build. o FAILED -- The game build upload failed. You cannot create new fleets for this build. Possible values: o INITIALIZED o READY o FAILED
+    /// Build status to filter results by. To retrieve all builds, leave this parameter empty. Possible build statuses include the following: • INITIALIZED -- A new build has been defined, but no files have been uploaded. You cannot create fleets for builds that are in this status. When a build is successfully created, the build status is set to this value. • READY -- The game build has been successfully uploaded. You can now create new fleets for this build. • FAILED -- The game build upload failed. You cannot create new fleets for this build. Possible values: • INITIALIZED • READY • FAILED
     /// </summary>
     [CliOption("--status")]
     public AwsGameliftListBuildsStatus? Status { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -43,15 +40,18 @@ public record AwsGameliftListBuildsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

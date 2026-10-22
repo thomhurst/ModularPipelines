@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsQuicksightBatchDescribeUserLimitsOptions : AwsOptions, IValidat
     /// <summary>
     /// Describes the effective resource limits for one or more Amazon Quick Sight users, including the limits that apply to each user based on their profile assignments. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The ID of the Amazon Web Services account that contains the users. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="AccountId">The ID of the Amazon Web Services account that contains the users. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
     public AwsQuicksightBatchDescribeUserLimitsOptions(
         string AccountId
     )
@@ -56,19 +58,19 @@ public record AwsQuicksightBatchDescribeUserLimitsOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the users. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the users. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// A list of users to describe limits for. Each entry contains a user name and namespace. Constraints: o min: 1 o max: 100 (structure) Identifies a user for the BatchDescribeUserLimits operation. userName -&gt; (string) [required] The name of the user. namespace -&gt; (string) [required] The namespace of the user. Shorthand Syntax: userName=string,namespace=string ... JSON Syntax: [ { "userName": "string", "namespace": "string" } ... ]
+    /// A list of users to describe limits for. Each entry contains a user name and namespace. Constraints: • min: 1 • max: 100 (structure) Identifies a user for the BatchDescribeUserLimits operation. userName -&gt; (string) [required] The name of the user. namespace -&gt; (string) [required] The namespace of the user. Shorthand Syntax: userName=string,namespace=string ... JSON Syntax: [ { "userName": "string", "namespace": "string" } ... ]
     /// </summary>
     [CliOption("--users", GroupValues = true)]
     public IEnumerable<string>? Users { get; set; }
 
     /// <summary>
-    /// An optional filter that limits the results to specific resource types. If you don't specify a value, the operation returns limits for all resource types. (string) The type of resource that a limit applies to. Possible values: o INDEX_STORAGE o AGENT_HOURS Syntax: "string" "string" ...
+    /// An optional filter that limits the results to specific resource types. If you don't specify a value, the operation returns limits for all resource types. (string) The type of resource that a limit applies to. Possible values: • INDEX_STORAGE • AGENT_HOURS Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resource-types", GroupValues = true)]
     public IEnumerable<string>? ResourceTypes { get; set; }

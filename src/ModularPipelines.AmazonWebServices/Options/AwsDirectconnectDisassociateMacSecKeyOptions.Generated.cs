@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDirectconnectDisassociateMacSecKeyOptions : AwsOptions, IValida
     /// <summary>
     /// Removes the association between a MAC Security (MACsec) security key and a Direct Connect connection. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectionId">The ID of the dedicated connection (dxcon-xxxx), interconnect (dx- con-xxxx), or LAG (dxlag-xxxx). You can use DescribeConnections , DescribeInterconnects , or De- scribeLags to retrieve connection ID.</param>
-    /// <param name="SecretArn">The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key. You can use DescribeConnections to retrieve the ARN of the MAC Se- curity (MACsec) secret key.</param>
+    /// <param name="ConnectionId">The ID of the dedicated connection (dxcon-xxxx), interconnect (dxcon-xxxx), or LAG (dxlag-xxxx). You can use DescribeConnections , DescribeInterconnects , or DescribeLags to retrieve connection ID.</param>
+    /// <param name="SecretArn">The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key. You can use DescribeConnections to retrieve the ARN of the MAC Security (MACsec) secret key.</param>
     public AwsDirectconnectDisassociateMacSecKeyOptions(
         string ConnectionId,
         string SecretArn
@@ -60,13 +62,13 @@ public record AwsDirectconnectDisassociateMacSecKeyOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the dedicated connection (dxcon-xxxx), interconnect (dx- con-xxxx), or LAG (dxlag-xxxx). You can use DescribeConnections , DescribeInterconnects , or De- scribeLags to retrieve connection ID.
+    /// The ID of the dedicated connection (dxcon-xxxx), interconnect (dxcon-xxxx), or LAG (dxlag-xxxx). You can use DescribeConnections , DescribeInterconnects , or DescribeLags to retrieve connection ID.
     /// </summary>
     [CliOption("--connection-id")]
     public string? ConnectionId { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key. You can use DescribeConnections to retrieve the ARN of the MAC Se- curity (MACsec) secret key.
+    /// The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key. You can use DescribeConnections to retrieve the ARN of the MAC Security (MACsec) secret key.
     /// </summary>
     [CliOption("--secret-arn")]
     public string? SecretArn { get; private init; }

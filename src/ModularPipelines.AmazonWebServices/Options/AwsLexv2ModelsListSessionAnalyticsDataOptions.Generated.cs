@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a list of metadata for individual user sessions with your bot. The startDateTime and endDateTime fields are required. These fields define a time range for which you want to retrieve results. Of the optional fields, you can organize the results in the following ways: o Use the filters field to filter the results and the sortBy field to specify the values by which to sort the results. o Use the maxResults field to limit the number of results to return in a single response and the nextTok...
+/// Retrieves a list of metadata for individual user sessions with your bot. The startDateTime and endDateTime fields are required. These fields define a time range for which you want to retrieve results. Of the optional fields, you can organize the results in the following ways: • Use the filters field to filter the results and the sortBy field to specify the values by which to sort the results. • Use the maxResults field to limit the number of results to return in a single response and the nextTok...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsLexv2ModelsListSessionAnalyticsDataOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves a list of metadata for individual user sessions with your bot. The startDateTime and endDateTime fields are required. These fields define a time range for which you want to retrieve results. Of the optional fields, you can organize the results in the following ways: o Use the filters field to filter the results and the sortBy field to specify the values by which to sort the results. o Use the maxResults field to limit the number of results to return in a single response and the nextTok...
+    /// Retrieves a list of metadata for individual user sessions with your bot. The startDateTime and endDateTime fields are required. These fields define a time range for which you want to retrieve results. Of the optional fields, you can organize the results in the following ways: • Use the filters field to filter the results and the sortBy field to specify the values by which to sort the results. • Use the maxResults field to limit the number of results to return in a single response and the nextTok...
     /// </summary>
-    /// <param name="BotId">The identifier for the bot for which you want to retrieve session analytics. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotId">The identifier for the bot for which you want to retrieve session analytics. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
     /// <param name="StartDateTime">The date and time that marks the beginning of the range of time for which you want to see session analytics.</param>
     /// <param name="EndDateTime">The date and time that marks the end of the range of time for which you want to see session analytics.</param>
     public AwsLexv2ModelsListSessionAnalyticsDataOptions(
@@ -65,7 +67,7 @@ public record AwsLexv2ModelsListSessionAnalyticsDataOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the bot for which you want to retrieve session analytics. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The identifier for the bot for which you want to retrieve session analytics. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
@@ -83,25 +85,25 @@ public record AwsLexv2ModelsListSessionAnalyticsDataOptions : AwsOptions, IValid
     public string? EndDateTime { get; private init; }
 
     /// <summary>
-    /// An object specifying the measure and method by which to sort the session analytics data. name -&gt; (string) [required] The measure by which to sort the session analytics data. o conversationStartTime The date and time when the conversation began. A conversation is defined as a unique combination of a sessionId and an originatingRequestId . o numberOfTurns The number of turns that the session took. o conversationDurationSeconds The duration of the conversation in seconds. Possible values: o ConversationStartTime o NumberOfTurns o Duration order -&gt; (string) [required] Specifies whether to sort the results in ascending or descending order. Possible values: o Ascending o Descending Shorthand Syntax: name=string,order=string JSON Syntax: { "name": "ConversationStartTime"|"NumberOfTurns"|"Duration", "order": "Ascending"|"Descending" }
+    /// An object specifying the measure and method by which to sort the session analytics data. name -&gt; (string) [required] The measure by which to sort the session analytics data. • conversationStartTime The date and time when the conversation began. A conversation is defined as a unique combination of a sessionId and an originatingRequestId . • numberOfTurns The number of turns that the session took. • conversationDurationSeconds The duration of the conversation in seconds. Possible values: • ConversationStartTime • NumberOfTurns • Duration order -&gt; (string) [required] Specifies whether to sort the results in ascending or descending order. Possible values: • Ascending • Descending Shorthand Syntax: name=string,order=string JSON Syntax: { "name": "ConversationStartTime"|"NumberOfTurns"|"Duration", "order": "Ascending"|"Descending" }
     /// </summary>
     [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
     /// <summary>
-    /// A list of objects, each of which describes a condition by which you want to filter the results. Constraints: o min: 1 o max: 10 (structure) Contains fields describing a condition by which to filter the sessions. The expression may be understood as name operator values . For example: o LocaleId EQ en The locale is "en". o Duration GT 200 The duration is greater than 200 seconds. The operators that each filter supports are listed below: o BotAlias EQ . o BotVersion EQ . o LocaleId EQ . o Modality EQ . o Channel EQ . o Duration EQ , GT , LT . o conversationEndState EQ , CO . o SessionId EQ . o OriginatingRequestId EQ . o IntentPath EQ . name -&gt; (string) [required] The category by which to filter the sessions. The descrip- tions for each option are as follows: o BotAlias The name of the bot alias. o BotVersion The version of the bot. o LocaleId The locale of the bot. o Modality The modality of the session with the bot (audio, DTMF, or text). o Channel The channel that the bot is integrated with. o Duration The duration of the session. o conversationEndState The final state of the session. o SessionId The identifier of the session with the bot. o OriginatingRequestId The identifier of the first request in a session. o IntentPath The order of intents taken in a session. Possible values: o BotAliasId o BotVersion o LocaleId o Modality o Channel o Duration o ConversationEndState o SessionId o OriginatingRequestId o IntentPath operator -&gt; (string) [required] The operation by which to filter the category. The following operations are possible: o CO Contains o EQ Equals o GT Greater than o LT Less than The operators that each filter supports are listed below: o BotAlias EQ . o BotVersion EQ . o LocaleId EQ . o Modality EQ . o Channel EQ . o Duration EQ , GT , LT . o conversationEndState EQ , CO . o SessionId EQ . o OriginatingRequestId EQ . o IntentPath EQ . Possible values: o EQ o GT o LT values -&gt; (list) [required] An array containing the values of the category by which to apply the operator to filter the results. You can provide multiple values if the operator is EQ or CO . If you provide multiple values, you filter for results that equal/contain any of the values. For example, if the name , operator , and values fields are Modality , EQ , and [Speech, Text] , the operation filters for results where the modality was either Speech or Text . Constraints: o min: 1 o max: 5 (string) Shorthand Syntax: name=string,operator=string,values=string,string ... JSON Syntax: [ { "name": "BotAliasId"|"BotVersion"|"LocaleId"|"Modality"|"Channel"|"Duration"|"ConversationEndState"|"SessionId"|"OriginatingRequestId"|"IntentPath", "operator": "EQ"|"GT"|"LT", "values": ["string", ...] } ... ]
+    /// A list of objects, each of which describes a condition by which you want to filter the results. Constraints: • min: 1 • max: 10 (structure) Contains fields describing a condition by which to filter the sessions. The expression may be understood as name operator values . For example: • LocaleId EQ en The locale is "en". • Duration GT 200 The duration is greater than 200 seconds. The operators that each filter supports are listed below: • BotAlias EQ . • BotVersion EQ . • LocaleId EQ . • Modality EQ . • Channel EQ . • Duration EQ , GT , LT . • conversationEndState EQ , CO . • SessionId EQ . • OriginatingRequestId EQ . • IntentPath EQ . name -&gt; (string) [required] The category by which to filter the sessions. The descriptions for each option are as follows: • BotAlias The name of the bot alias. • BotVersion The version of the bot. • LocaleId The locale of the bot. • Modality The modality of the session with the bot (audio, DTMF, or text). • Channel The channel that the bot is integrated with. • Duration The duration of the session. • conversationEndState The final state of the session. • SessionId The identifier of the session with the bot. • OriginatingRequestId The identifier of the first request in a session. • IntentPath The order of intents taken in a session. Possible values: • BotAliasId • BotVersion • LocaleId • Modality • Channel • Duration • ConversationEndState • SessionId • OriginatingRequestId • IntentPath operator -&gt; (string) [required] The operation by which to filter the category. The following operations are possible: • CO Contains • EQ Equals • GT Greater than • LT Less than The operators that each filter supports are listed below: • BotAlias EQ . • BotVersion EQ . • LocaleId EQ . • Modality EQ . • Channel EQ . • Duration EQ , GT , LT . • conversationEndState EQ , CO . • SessionId EQ . • OriginatingRequestId EQ . • IntentPath EQ . Possible values: • EQ • GT • LT values -&gt; (list) [required] An array containing the values of the category by which to apply the operator to filter the results. You can provide multiple values if the operator is EQ or CO . If you provide multiple values, you filter for results that equal/contain any of the values. For example, if the name , operator , and values fields are Modality , EQ , and [Speech, Text] , the operation filters for results where the modality was either Speech or Text . Constraints: • min: 1 • max: 5 (string) Shorthand Syntax: name=string,operator=string,values=string,string ... JSON Syntax: [ { "name": "BotAliasId"|"BotVersion"|"LocaleId"|"Modality"|"Channel"|"Duration"|"ConversationEndState"|"SessionId"|"OriginatingRequestId"|"IntentPath", "operator": "EQ"|"GT"|"LT", "values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return in each page of results. If there are fewer results than the maximum page size, only the actual number of results are returned. Constraints: o min: 1 o max: 1000
+    /// The maximum number of results to return in each page of results. If there are fewer results than the maximum page size, only the actual number of results are returned. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If the response from the ListSessionAnalyticsData operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListSession- AnalyticsData request to return the next page of results. For a com- plete set of results, call the ListSessionAnalyticsData operation until the nextToken returned in the response is null.
+    /// If the response from the ListSessionAnalyticsData operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListSessionAnalyticsData request to return the next page of results. For a complete set of results, call the ListSessionAnalyticsData operation until the nextToken returned in the response is null.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

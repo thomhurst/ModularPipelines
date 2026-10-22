@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBackupDeleteReportPlanOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the report plan specified by a report plan name. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ReportPlanName">The unique name of a report plan. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z][_a-zA-Z0-9]*</param>
+    /// <param name="ReportPlanName">The unique name of a report plan. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z][_a-zA-Z0-9]*</param>
     public AwsBackupDeleteReportPlanOptions(
         string ReportPlanName
     )
@@ -56,7 +58,7 @@ public record AwsBackupDeleteReportPlanOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of a report plan. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z][_a-zA-Z0-9]*
+    /// The unique name of a report plan. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z][_a-zA-Z0-9]*
     /// </summary>
     [CliOption("--report-plan-name")]
     public string? ReportPlanName { get; private init; }

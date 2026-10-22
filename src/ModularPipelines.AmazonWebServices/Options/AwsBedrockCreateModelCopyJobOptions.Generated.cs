@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsBedrockCreateModelCopyJobOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Copies a model to another region so that it can be used there. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceModelArn">The Amazon Resource Name (ARN) of the model to be copied. Constraints: o min: 20 o max: 1011 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:cus- tom-model/((im- ported)|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}))(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foun- da- tion-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}))</param>
-    /// <param name="TargetModelName">A name for the copied model. Constraints: o min: 1 o max: 63 o pattern: ([0-9a-zA-Z][_-]?){1,63}</param>
+    /// <param name="SourceModelArn">The Amazon Resource Name (ARN) of the model to be copied. Constraints: • min: 20 • max: 1011 • pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/((imported)|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}))(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}))</param>
+    /// <param name="TargetModelName">A name for the copied model. Constraints: • min: 1 • max: 63 • pattern: ([0-9a-zA-Z][_-]?){1,63}</param>
     public AwsBedrockCreateModelCopyJobOptions(
         string SourceModelArn,
         string TargetModelName
@@ -61,31 +63,31 @@ public record AwsBedrockCreateModelCopyJobOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the model to be copied. Constraints: o min: 20 o max: 1011 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:cus- tom-model/((im- ported)|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}))(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foun- da- tion-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}))
+    /// The Amazon Resource Name (ARN) of the model to be copied. Constraints: • min: 20 • max: 1011 • pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/((imported)|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}))(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}))
     /// </summary>
     [CliOption("--source-model-arn")]
     public string? SourceModelArn { get; private init; }
 
     /// <summary>
-    /// A name for the copied model. Constraints: o min: 1 o max: 63 o pattern: ([0-9a-zA-Z][_-]?){1,63}
+    /// A name for the copied model. Constraints: • min: 1 • max: 63 • pattern: ([0-9a-zA-Z][_-]?){1,63}
     /// </summary>
     [CliOption("--target-model-name")]
     public string? TargetModelName { get; private init; }
 
     /// <summary>
-    /// The ARN of the KMS key that you use to encrypt the model copy. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)
+    /// The ARN of the KMS key that you use to encrypt the model copy. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)
     /// </summary>
     [CliOption("--model-kms-key-id")]
     public string? ModelKmsKeyId { get; set; }
 
     /// <summary>
-    /// Tags to associate with the target model. For more information, see Tag resources in the Amazon Bedrock User Guide . Constraints: o min: 0 o max: 200 (structure) Definition of the key/value pair for a tag. key -&gt; (string) [required] Key for the tag. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) [required] Value for the tag. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// Tags to associate with the target model. For more information, see Tag resources in the Amazon Bedrock User Guide . Constraints: • min: 0 • max: 200 (structure) Definition of the key/value pair for a tag. key -&gt; (string) [required] Key for the tag. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) [required] Value for the tag. Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--target-model-tags", GroupValues = true)]
     public IEnumerable<string>? TargetModelTags { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency . Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency . Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]

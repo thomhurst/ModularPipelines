@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsConnectcampaignsv2UpdateCampaignScheduleOptions : AwsOptions, I
     /// <summary>
     /// Updates the schedule for a campaign. This API is idempotent. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">Identifier representing a Campaign Constraints: o min: 1 o max: 256 o pattern: [-:/a-zA-Z0-9]+</param>
-    /// <param name="Schedule">Campaign schedule startTime -&gt; (timestamp) [required] Timestamp with no UTC offset or timezone endTime -&gt; (timestamp) [required] Timestamp with no UTC offset or timezone refreshFrequency -&gt; (string) Time duration in ISO 8601 format Constraints: o min: 0 o max: 50 o pattern: P(?:([-+]?[0-9]+)D)?(T(?:([-+]?[0-9]+)H)?(?:([-+]?[0-9]+)M)?(?:([-+]?[0-9]+)(?:[.,]([0-9]{0,9}))?S)?)? Shorthand Syntax: startTime=timestamp,endTime=timestamp,refreshFrequency=string JSON Syntax: { "startTime": timestamp, "endTime": timestamp, "refreshFrequency": "string" }</param>
+    /// <param name="Id">Identifier representing a Campaign Constraints: • min: 1 • max: 256 • pattern: [-:/a-zA-Z0-9]+</param>
+    /// <param name="Schedule">Campaign schedule startTime -&gt; (timestamp) [required] Timestamp with no UTC offset or timezone endTime -&gt; (timestamp) [required] Timestamp with no UTC offset or timezone refreshFrequency -&gt; (string) Time duration in ISO 8601 format Constraints: • min: 0 • max: 50 • pattern: P(?:([-+]?[0-9]+)D)?(T(?:([-+]?[0-9]+)H)?(?:([-+]?[0-9]+)M)?(?:([-+]?[0-9]+)(?:[.,]([0-9]{0,9}))?S)?)? Shorthand Syntax: startTime=timestamp,endTime=timestamp,refreshFrequency=string JSON Syntax: { "startTime": timestamp, "endTime": timestamp, "refreshFrequency": "string" }</param>
     public AwsConnectcampaignsv2UpdateCampaignScheduleOptions(
         string Id,
         string Schedule
@@ -60,13 +62,13 @@ public record AwsConnectcampaignsv2UpdateCampaignScheduleOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifier representing a Campaign Constraints: o min: 1 o max: 256 o pattern: [-:/a-zA-Z0-9]+
+    /// Identifier representing a Campaign Constraints: • min: 1 • max: 256 • pattern: [-:/a-zA-Z0-9]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// Campaign schedule startTime -&gt; (timestamp) [required] Timestamp with no UTC offset or timezone endTime -&gt; (timestamp) [required] Timestamp with no UTC offset or timezone refreshFrequency -&gt; (string) Time duration in ISO 8601 format Constraints: o min: 0 o max: 50 o pattern: P(?:([-+]?[0-9]+)D)?(T(?:([-+]?[0-9]+)H)?(?:([-+]?[0-9]+)M)?(?:([-+]?[0-9]+)(?:[.,]([0-9]{0,9}))?S)?)? Shorthand Syntax: startTime=timestamp,endTime=timestamp,refreshFrequency=string JSON Syntax: { "startTime": timestamp, "endTime": timestamp, "refreshFrequency": "string" }
+    /// Campaign schedule startTime -&gt; (timestamp) [required] Timestamp with no UTC offset or timezone endTime -&gt; (timestamp) [required] Timestamp with no UTC offset or timezone refreshFrequency -&gt; (string) Time duration in ISO 8601 format Constraints: • min: 0 • max: 50 • pattern: P(?:([-+]?[0-9]+)D)?(T(?:([-+]?[0-9]+)H)?(?:([-+]?[0-9]+)M)?(?:([-+]?[0-9]+)(?:[.,]([0-9]{0,9}))?S)?)? Shorthand Syntax: startTime=timestamp,endTime=timestamp,refreshFrequency=string JSON Syntax: { "startTime": timestamp, "endTime": timestamp, "refreshFrequency": "string" }
     /// </summary>
     [CliOption("--schedule")]
     public string? Schedule { get; private init; }

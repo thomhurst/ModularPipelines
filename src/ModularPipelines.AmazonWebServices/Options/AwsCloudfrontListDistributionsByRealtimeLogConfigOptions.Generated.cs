@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets a list of distributions that have a cache behavior that's associ- ated with the specified real-time log configuration. You can specify the real-time log configuration by its name or its Ama- zon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configura- tion to list distributions for. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list excee...
+/// Gets a list of distributions that have a cache behavior that's associated with the specified real-time log configuration. You can specify the real-time log configuration by its name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to list distributions for. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -34,7 +34,7 @@ public record AwsCloudfrontListDistributionsByRealtimeLogConfigOptions : AwsOpti
     public string? MaxItems { get; set; }
 
     /// <summary>
-    /// The name of the real-time log configuration whose associated distri- butions you want to list.
+    /// The name of the real-time log configuration whose associated distributions you want to list.
     /// </summary>
     [CliOption("--realtime-log-config-name")]
     public string? RealtimeLogConfigName { get; set; }

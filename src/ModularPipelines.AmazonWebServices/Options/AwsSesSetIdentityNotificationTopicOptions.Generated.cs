@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsSesSetIdentityNotificationTopicOptions : AwsOptions, IValidatab
     /// <summary>
     /// Sets an Amazon Simple Notification Service (Amazon SNS) topic to use when delivering notifications. When you use this operation, you specify a verified identity, such as an email address or domain. When you send an email that uses the chosen identity in the Source field, Amazon SES sends notifications to the topic you specified. You can send bounce, complaint, or delivery notifications (or any combination of the three) to the Amazon SNS topic that you specify. You can execute this operation no m...
     /// </summary>
-    /// <param name="Identity">The identity (email address or domain) for the Amazon SNS topic. WARNING: You can only specify a verified identity for this parameter. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). The following examples are all valid identi- ties: sender@example.com , example.com , arn:aws:ses:us-east-1:123456789012:identity/example.com .</param>
-    /// <param name="NotificationType">The type of notifications that are published to the specified Amazon SNS topic. Possible values: o Bounce o Complaint o Delivery</param>
+    /// <param name="Identity">The identity (email address or domain) for the Amazon SNS topic. WARNING: You can only specify a verified identity for this parameter. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). The following examples are all valid identities: sender@example.com , example.com , arn:aws:ses:us-east-1:123456789012:identity/example.com .</param>
+    /// <param name="NotificationType">The type of notifications that are published to the specified Amazon SNS topic. Possible values: • Bounce • Complaint • Delivery</param>
     public AwsSesSetIdentityNotificationTopicOptions(
         string Identity,
         AwsSesSetIdentityNotificationTopicNotificationType NotificationType
@@ -60,19 +62,19 @@ public record AwsSesSetIdentityNotificationTopicOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identity (email address or domain) for the Amazon SNS topic. WARNING: You can only specify a verified identity for this parameter. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). The following examples are all valid identi- ties: sender@example.com , example.com , arn:aws:ses:us-east-1:123456789012:identity/example.com .
+    /// The identity (email address or domain) for the Amazon SNS topic. WARNING: You can only specify a verified identity for this parameter. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). The following examples are all valid identities: sender@example.com , example.com , arn:aws:ses:us-east-1:123456789012:identity/example.com .
     /// </summary>
     [CliOption("--identity")]
     public string? Identity { get; private init; }
 
     /// <summary>
-    /// The type of notifications that are published to the specified Amazon SNS topic. Possible values: o Bounce o Complaint o Delivery
+    /// The type of notifications that are published to the specified Amazon SNS topic. Possible values: • Bounce • Complaint • Delivery
     /// </summary>
     [CliOption("--notification-type")]
     public AwsSesSetIdentityNotificationTopicNotificationType? NotificationType { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Amazon SNS topic. If the para- meter is omitted from the request or a null value is passed, SnsTopic is cleared and publishing is disabled.
+    /// The Amazon Resource Name (ARN) of the Amazon SNS topic. If the parameter is omitted from the request or a null value is passed, SnsTopic is cleared and publishing is disabled.
     /// </summary>
     [CliOption("--sns-topic")]
     public string? SnsTopic { get; set; }

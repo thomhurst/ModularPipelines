@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves one or more code coverage reports. See also: AWS API Documentation describe-code-coverages is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: codeCoverages
+/// Retrieves one or more code coverage reports. See also: AWS API Documentation describe-code-coverages is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: codeCoverages
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsCodebuildDescribeCodeCoveragesOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves one or more code coverage reports. See also: AWS API Documentation describe-code-coverages is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: codeCoverages
+    /// Retrieves one or more code coverage reports. See also: AWS API Documentation describe-code-coverages is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: codeCoverages
     /// </summary>
-    /// <param name="ReportArn">The ARN of the report for which test cases are returned. Constraints: o min: 1</param>
+    /// <param name="ReportArn">The ARN of the report for which test cases are returned. Constraints: • min: 1</param>
     public AwsCodebuildDescribeCodeCoveragesOptions(
         string ReportArn
     )
@@ -58,40 +60,37 @@ public record AwsCodebuildDescribeCodeCoveragesOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the report for which test cases are returned. Constraints: o min: 1
+    /// The ARN of the report for which test cases are returned. Constraints: • min: 1
     /// </summary>
     [CliOption("--report-arn")]
     public string? ReportArn { get; private init; }
 
     /// <summary>
-    /// Specifies if the results are sorted in ascending or descending or- der. Possible values: o ASCENDING o DESCENDING
+    /// Specifies if the results are sorted in ascending or descending order. Possible values: • ASCENDING • DESCENDING
     /// </summary>
     [CliOption("--sort-order")]
     public AwsCodebuildDescribeCodeCoveragesSortOrder? SortOrder { get; set; }
 
     /// <summary>
-    /// Specifies how the results are sorted. Possible values are: FILE_PATH The results are sorted by file path. LINE_COVERAGE_PERCENTAGE The results are sorted by the percentage of lines that are covered. Possible values: o LINE_COVERAGE_PERCENTAGE o FILE_PATH
+    /// Specifies how the results are sorted. Possible values are: FILE_PATH The results are sorted by file path. LINE_COVERAGE_PERCENTAGE The results are sorted by the percentage of lines that are covered. Possible values: • LINE_COVERAGE_PERCENTAGE • FILE_PATH
     /// </summary>
     [CliOption("--sort-by")]
     public AwsCodebuildDescribeCodeCoveragesSortBy? SortBy { get; set; }
 
     /// <summary>
-    /// The minimum line coverage percentage to report. Constraints: o min: 0 o max: 100
+    /// The minimum line coverage percentage to report. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--min-line-coverage-percentage")]
-    public int? MinLineCoveragePercentage { get; set; }
+    public double? MinLineCoveragePercentage { get; set; }
 
     /// <summary>
-    /// The maximum line coverage percentage to report. Constraints: o min: 0 o max: 100
+    /// The maximum line coverage percentage to report. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--max-line-coverage-percentage")]
-    public int? MaxLineCoveragePercentage { get; set; }
+    public double? MaxLineCoveragePercentage { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -101,16 +100,19 @@ public record AwsCodebuildDescribeCodeCoveragesOptions : AwsOptions, IValidatabl
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

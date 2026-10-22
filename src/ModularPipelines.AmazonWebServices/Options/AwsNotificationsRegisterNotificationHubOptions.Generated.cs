@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsNotificationsRegisterNotificationHubOptions : AwsOptions, IVali
     /// <summary>
     /// Registers a NotificationHub in the specified Region. There is a maximum of one NotificationHub per Region. You can have a maximum of 3 NotificationHub resources at a time. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NotificationHubRegion">The Region of the NotificationHub . Constraints: o min: 2 o max: 25 o pattern: ([a-z]{1,4})-([a-z]{1,15}-)+([0-9])</param>
+    /// <param name="NotificationHubRegion">The Region of the NotificationHub . Constraints: • min: 2 • max: 25 • pattern: ([a-z]{1,4})-([a-z]{1,15}-)+([0-9])</param>
     public AwsNotificationsRegisterNotificationHubOptions(
         string NotificationHubRegion
     )
@@ -56,7 +58,7 @@ public record AwsNotificationsRegisterNotificationHubOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Region of the NotificationHub . Constraints: o min: 2 o max: 25 o pattern: ([a-z]{1,4})-([a-z]{1,15}-)+([0-9])
+    /// The Region of the NotificationHub . Constraints: • min: 2 • max: 25 • pattern: ([a-z]{1,4})-([a-z]{1,15}-)+([0-9])
     /// </summary>
     [CliOption("--notification-hub-region")]
     public string? NotificationHubRegion { get; private init; }

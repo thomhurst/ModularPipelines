@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsPartnercentralSellingPutSellingSystemSettingsOptions : AwsOptio
     /// <summary>
     /// Updates the currently set system settings, which include the IAM Role used for resource snapshot jobs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">Specifies the catalog in which the settings will be updated. Accept- able values include AWS for production and Sandbox for testing envi- ronments. Constraints: o pattern: [a-zA-Z]+</param>
+    /// <param name="Catalog">Specifies the catalog in which the settings will be updated. Acceptable values include AWS for production and Sandbox for testing environments. Constraints: • pattern: [a-zA-Z]+</param>
     public AwsPartnercentralSellingPutSellingSystemSettingsOptions(
         string Catalog
     )
@@ -56,13 +58,13 @@ public record AwsPartnercentralSellingPutSellingSystemSettingsOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the catalog in which the settings will be updated. Accept- able values include AWS for production and Sandbox for testing envi- ronments. Constraints: o pattern: [a-zA-Z]+
+    /// Specifies the catalog in which the settings will be updated. Acceptable values include AWS for production and Sandbox for testing environments. Constraints: • pattern: [a-zA-Z]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// Specifies the ARN of the IAM Role used for resource snapshot job ex- ecutions. Constraints: o pattern: (?=.{0,2048}$)(arn:aws:iam::\d{12}:role/([-+=,.@_a-zA-Z0-9]+/)*)?[-+=,.@_a-zA-Z0-9]{1,64}
+    /// Specifies the ARN of the IAM Role used for resource snapshot job executions. Constraints: • pattern: (?=.{0,2048}$)(arn:aws:iam::\d{12}:role/([-+=,.@_a-zA-Z0-9]+/)*)?[-+=,.@_a-zA-Z0-9]{1,64}
     /// </summary>
     [CliOption("--resource-snapshot-job-role-identifier")]
     public string? ResourceSnapshotJobRoleIdentifier { get; set; }

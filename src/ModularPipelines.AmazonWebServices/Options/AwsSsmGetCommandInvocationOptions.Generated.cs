@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns detailed information about command execution for an invocation or plugin. The Run Command API follows an eventual consistency model, due to the distributed nature of the system supporting the API. This means that the result of an API command you run that affects your re- sources might not be immediately visible to all subsequent commands you run. You should keep this in mind when you carry out an API command that immediately follows a previous API command. GetCommandInvocation only gives...
+/// Returns detailed information about command execution for an invocation or plugin. The Run Command API follows an eventual consistency model, due to the distributed nature of the system supporting the API. This means that the result of an API command you run that affects your resources might not be immediately visible to all subsequent commands you run. You should keep this in mind when you carry out an API command that immediately follows a previous API command. GetCommandInvocation only gives t...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsSsmGetCommandInvocationOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns detailed information about command execution for an invocation or plugin. The Run Command API follows an eventual consistency model, due to the distributed nature of the system supporting the API. This means that the result of an API command you run that affects your re- sources might not be immediately visible to all subsequent commands you run. You should keep this in mind when you carry out an API command that immediately follows a previous API command. GetCommandInvocation only gives...
+    /// Returns detailed information about command execution for an invocation or plugin. The Run Command API follows an eventual consistency model, due to the distributed nature of the system supporting the API. This means that the result of an API command you run that affects your resources might not be immediately visible to all subsequent commands you run. You should keep this in mind when you carry out an API command that immediately follows a previous API command. GetCommandInvocation only gives t...
     /// </summary>
-    /// <param name="CommandId">(Required) The parent command ID of the invocation plugin. Constraints: o min: 36 o max: 36</param>
-    /// <param name="InstanceId">(Required) The ID of the managed node targeted by the command. A managed node can be an Amazon Elastic Compute Cloud (Amazon EC2) in- stance, edge device, and on-premises server or VM in your hybrid en- vironment that is configured for Amazon Web Services Systems Man- ager. Constraints: o pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)</param>
+    /// <param name="CommandId">(Required) The parent command ID of the invocation plugin. Constraints: • min: 36 • max: 36</param>
+    /// <param name="InstanceId">(Required) The ID of the managed node targeted by the command. A managed node can be an Amazon Elastic Compute Cloud (Amazon EC2) instance, edge device, and on-premises server or VM in your hybrid environment that is configured for Amazon Web Services Systems Manager. Constraints: • pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)</param>
     public AwsSsmGetCommandInvocationOptions(
         string CommandId,
         string InstanceId
@@ -60,19 +62,19 @@ public record AwsSsmGetCommandInvocationOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// (Required) The parent command ID of the invocation plugin. Constraints: o min: 36 o max: 36
+    /// (Required) The parent command ID of the invocation plugin. Constraints: • min: 36 • max: 36
     /// </summary>
     [CliOption("--command-id")]
     public string? CommandId { get; private init; }
 
     /// <summary>
-    /// (Required) The ID of the managed node targeted by the command. A managed node can be an Amazon Elastic Compute Cloud (Amazon EC2) in- stance, edge device, and on-premises server or VM in your hybrid en- vironment that is configured for Amazon Web Services Systems Man- ager. Constraints: o pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)
+    /// (Required) The ID of the managed node targeted by the command. A managed node can be an Amazon Elastic Compute Cloud (Amazon EC2) instance, edge device, and on-premises server or VM in your hybrid environment that is configured for Amazon Web Services Systems Manager. Constraints: • pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The name of the step for which you want detailed results. If the document contains only one step, you can omit the name and details for that step. If the document contains more than one step, you must specify the name of the step for which you want to view details. Be sure to specify the name of the step, not the name of a plugin like aws:RunShellScript . To find the PluginName , check the document content and find the name of the step you want details for. Alternatively, use ListCom- mandInvocations with the CommandId and Details parameters. The Plug- inName is the Name attribute of the CommandPlugin object in the Com- mandPlugins list. Constraints: o min: 4
+    /// The name of the step for which you want detailed results. If the document contains only one step, you can omit the name and details for that step. If the document contains more than one step, you must specify the name of the step for which you want to view details. Be sure to specify the name of the step, not the name of a plugin like aws:RunShellScript . To find the PluginName , check the document content and find the name of the step you want details for. Alternatively, use ListCommandInvocations with the CommandId and Details parameters. The PluginName is the Name attribute of the CommandPlugin object in the CommandPlugins list. Constraints: • min: 4
     /// </summary>
     [CliOption("--plugin-name")]
     public string? PluginName { get; set; }

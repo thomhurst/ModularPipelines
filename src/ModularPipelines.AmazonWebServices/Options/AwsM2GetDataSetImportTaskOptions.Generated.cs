@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the status of a data set import task initiated with the Create- DataSetImportTask operation. See also: AWS API Documentation
+/// Gets the status of a data set import task initiated with the CreateDataSetImportTask operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsM2GetDataSetImportTaskOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets the status of a data set import task initiated with the Create- DataSetImportTask operation. See also: AWS API Documentation
+    /// Gets the status of a data set import task initiated with the CreateDataSetImportTask operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The application identifier. Constraints: o pattern: ^\S{1,80}$</param>
-    /// <param name="TaskId">The task identifier returned by the CreateDataSetImportTask opera- tion. Constraints: o pattern: ^\S{1,80}$</param>
+    /// <param name="ApplicationId">The application identifier. Constraints: • pattern: ^\S{1,80}$</param>
+    /// <param name="TaskId">The task identifier returned by the CreateDataSetImportTask operation. Constraints: • pattern: ^\S{1,80}$</param>
     public AwsM2GetDataSetImportTaskOptions(
         string ApplicationId,
         string TaskId
@@ -60,13 +62,13 @@ public record AwsM2GetDataSetImportTaskOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The application identifier. Constraints: o pattern: ^\S{1,80}$
+    /// The application identifier. Constraints: • pattern: ^\S{1,80}$
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The task identifier returned by the CreateDataSetImportTask opera- tion. Constraints: o pattern: ^\S{1,80}$
+    /// The task identifier returned by the CreateDataSetImportTask operation. Constraints: • pattern: ^\S{1,80}$
     /// </summary>
     [CliOption("--task-id")]
     public string? TaskId { get; private init; }

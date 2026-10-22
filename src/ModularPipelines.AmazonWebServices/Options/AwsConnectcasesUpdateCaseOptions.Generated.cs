@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: If you provide a value for PerformedBy.UserArn you must also have connect:DescribeUser permission on the User ARN resource that you provide Updates the values of fields on a case. Fields to be updated are re- ceived as an array of id/value pairs identical to the CreateCase input . If the action is successful, the service sends back an HTTP 200 re- sponse with an empty HTTP body. See also: AWS API Documentation
+/// NOTE: If you provide a value for PerformedBy.UserArn you must also have connect:DescribeUser permission on the User ARN resource that you provide Updates the values of fields on a case. Fields to be updated are received as an array of id/value pairs identical to the CreateCase input . If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsConnectcasesUpdateCaseOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: If you provide a value for PerformedBy.UserArn you must also have connect:DescribeUser permission on the User ARN resource that you provide Updates the values of fields on a case. Fields to be updated are re- ceived as an array of id/value pairs identical to the CreateCase input . If the action is successful, the service sends back an HTTP 200 re- sponse with an empty HTTP body. See also: AWS API Documentation
+    /// NOTE: If you provide a value for PerformedBy.UserArn you must also have connect:DescribeUser permission on the User ARN resource that you provide Updates the values of fields on a case. Fields to be updated are received as an array of id/value pairs identical to the CreateCase input . If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500</param>
-    /// <param name="CaseId">A unique identifier of the case. Constraints: o min: 1 o max: 500</param>
-    /// <param name="Fields">An array of objects with fieldId (matching ListFields/DescribeField) and value union data, structured identical to CreateCase . Constraints: o min: 0 o max: 220 (structure) Object for case field values. id -&gt; (string) [required] Unique identifier of a field. Constraints: o min: 1 o max: 500 value -&gt; (tagged union structure) [required] Union of potential field value types. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: stringValue, doubleValue, booleanValue, emptyValue, userArnValue. stringValue -&gt; (string) String value type. Constraints: o min: 0 o max: 4100 doubleValue -&gt; (double) Can be either null, or have a Double number value type. Only one value can be provided. booleanValue -&gt; (boolean) Can be either null, or have a Boolean value type. Only one value can be provided. emptyValue -&gt; (structure) An empty value. userArnValue -&gt; (string) Represents the user that performed the audit. Shorthand Syntax: id=string,value={stringValue=string,doubleValue=double,booleanValue=boolean,emptyValue={},userArnValue=string} ... JSON Syntax: [ { "id": "string", "value": { "stringValue": "string", "doubleValue": double, "booleanValue": true|false, "emptyValue": { }, "userArnValue": "string" } } ... ]</param>
+    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500</param>
+    /// <param name="CaseId">A unique identifier of the case. Constraints: • min: 1 • max: 500</param>
+    /// <param name="Fields">An array of objects with fieldId (matching ListFields/DescribeField) and value union data, structured identical to CreateCase . Constraints: • min: 0 • max: 220 (structure) Object for case field values. id -&gt; (string) [required] Unique identifier of a field. Constraints: • min: 1 • max: 500 value -&gt; (tagged union structure) [required] Union of potential field value types. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: stringValue, doubleValue, booleanValue, emptyValue, userArnValue. stringValue -&gt; (string) String value type. Constraints: • min: 0 • max: 4100 doubleValue -&gt; (double) Can be either null, or have a Double number value type. Only one value can be provided. booleanValue -&gt; (boolean) Can be either null, or have a Boolean value type. Only one value can be provided. emptyValue -&gt; (structure) An empty value. userArnValue -&gt; (string) Represents the user that performed the audit. Shorthand Syntax: id=string,value={stringValue=string,doubleValue=double,booleanValue=boolean,emptyValue={},userArnValue=string} ... JSON Syntax: [ { "id": "string", "value": { "stringValue": "string", "doubleValue": double, "booleanValue": true|false, "emptyValue": { }, "userArnValue": "string" } } ... ]</param>
     public AwsConnectcasesUpdateCaseOptions(
         string DomainId,
         string CaseId,
@@ -75,25 +77,25 @@ public record AwsConnectcasesUpdateCaseOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500
+    /// The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// A unique identifier of the case. Constraints: o min: 1 o max: 500
+    /// A unique identifier of the case. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--case-id")]
     public string? CaseId { get; private init; }
 
     /// <summary>
-    /// An array of objects with fieldId (matching ListFields/DescribeField) and value union data, structured identical to CreateCase . Constraints: o min: 0 o max: 220 (structure) Object for case field values. id -&gt; (string) [required] Unique identifier of a field. Constraints: o min: 1 o max: 500 value -&gt; (tagged union structure) [required] Union of potential field value types. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: stringValue, doubleValue, booleanValue, emptyValue, userArnValue. stringValue -&gt; (string) String value type. Constraints: o min: 0 o max: 4100 doubleValue -&gt; (double) Can be either null, or have a Double number value type. Only one value can be provided. booleanValue -&gt; (boolean) Can be either null, or have a Boolean value type. Only one value can be provided. emptyValue -&gt; (structure) An empty value. userArnValue -&gt; (string) Represents the user that performed the audit. Shorthand Syntax: id=string,value={stringValue=string,doubleValue=double,booleanValue=boolean,emptyValue={},userArnValue=string} ... JSON Syntax: [ { "id": "string", "value": { "stringValue": "string", "doubleValue": double, "booleanValue": true|false, "emptyValue": { }, "userArnValue": "string" } } ... ]
+    /// An array of objects with fieldId (matching ListFields/DescribeField) and value union data, structured identical to CreateCase . Constraints: • min: 0 • max: 220 (structure) Object for case field values. id -&gt; (string) [required] Unique identifier of a field. Constraints: • min: 1 • max: 500 value -&gt; (tagged union structure) [required] Union of potential field value types. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: stringValue, doubleValue, booleanValue, emptyValue, userArnValue. stringValue -&gt; (string) String value type. Constraints: • min: 0 • max: 4100 doubleValue -&gt; (double) Can be either null, or have a Double number value type. Only one value can be provided. booleanValue -&gt; (boolean) Can be either null, or have a Boolean value type. Only one value can be provided. emptyValue -&gt; (structure) An empty value. userArnValue -&gt; (string) Represents the user that performed the audit. Shorthand Syntax: id=string,value={stringValue=string,doubleValue=double,booleanValue=boolean,emptyValue={},userArnValue=string} ... JSON Syntax: [ { "id": "string", "value": { "stringValue": "string", "doubleValue": double, "booleanValue": true|false, "emptyValue": { }, "userArnValue": "string" } } ... ]
     /// </summary>
     [CliOption("--fields", GroupValues = true)]
     public IEnumerable<string>? Fields { get; private init; }
 
     /// <summary>
-    /// Represents the entity that performed the action. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: userArn, customEntity. userArn -&gt; (string) Represents the Amazon Connect ARN of the user. Constraints: o min: 1 o max: 500 customEntity -&gt; (string) Any provided entity. Constraints: o min: 1 o max: 500 o pattern: [a-zA-Z0-9_\-\.@:/ ]*[a-zA-Z0-9_\-\.@:/] Shorthand Syntax: userArn=string,customEntity=string JSON Syntax: { "userArn": "string", "customEntity": "string" }
+    /// Represents the entity that performed the action. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: userArn, customEntity. userArn -&gt; (string) Represents the Amazon Connect ARN of the user. Constraints: • min: 1 • max: 500 customEntity -&gt; (string) Any provided entity. Constraints: • min: 1 • max: 500 • pattern: [a-zA-Z0-9_\-\.@:/ ]*[a-zA-Z0-9_\-\.@:/] Shorthand Syntax: userArn=string,customEntity=string JSON Syntax: { "userArn": "string", "customEntity": "string" }
     /// </summary>
     [CliOption("--performed-by")]
     public string? PerformedBy { get; set; }

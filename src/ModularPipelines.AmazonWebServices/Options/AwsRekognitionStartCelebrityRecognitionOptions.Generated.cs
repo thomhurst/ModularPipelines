@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsRekognitionStartCelebrityRecognitionOptions : AwsOptions, IVali
     /// <summary>
     /// Starts asynchronous recognition of celebrities in a stored video. Amazon Rekognition Video can detect celebrities in a video must be stored in an Amazon S3 bucket. Use Video to specify the bucket name and the filename of the video. StartCelebrityRecognition returns a job identifier (JobId ) which you use to get the results of the analysis. When celebrity recognition analysis is finished, Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification Service topic that y...
     /// </summary>
-    /// <param name="Video">The video in which you want to recognize celebrities. The video must be stored in an Amazon S3 bucket. S3Object -&gt; (structure) The Amazon S3 bucket name and file name for the video. Bucket -&gt; (string) Name of the S3 bucket. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) S3 object key name. Constraints: o min: 1 o max: 1024 Version -&gt; (string) If the bucket is versioning enabled, you can specify the ob- ject version. Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }</param>
+    /// <param name="Video">The video in which you want to recognize celebrities. The video must be stored in an Amazon S3 bucket. S3Object -&gt; (structure) The Amazon S3 bucket name and file name for the video. Bucket -&gt; (string) Name of the S3 bucket. Constraints: • min: 3 • max: 255 • pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) S3 object key name. Constraints: • min: 1 • max: 1024 Version -&gt; (string) If the bucket is versioning enabled, you can specify the object version. Constraints: • min: 1 • max: 1024 Shorthand Syntax: S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }</param>
     public AwsRekognitionStartCelebrityRecognitionOptions(
         string Video
     )
@@ -57,26 +59,26 @@ public record AwsRekognitionStartCelebrityRecognitionOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The video in which you want to recognize celebrities. The video must be stored in an Amazon S3 bucket. S3Object -&gt; (structure) The Amazon S3 bucket name and file name for the video. Bucket -&gt; (string) Name of the S3 bucket. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) S3 object key name. Constraints: o min: 1 o max: 1024 Version -&gt; (string) If the bucket is versioning enabled, you can specify the ob- ject version. Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }
+    /// The video in which you want to recognize celebrities. The video must be stored in an Amazon S3 bucket. S3Object -&gt; (structure) The Amazon S3 bucket name and file name for the video. Bucket -&gt; (string) Name of the S3 bucket. Constraints: • min: 3 • max: 255 • pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) S3 object key name. Constraints: • min: 1 • max: 1024 Version -&gt; (string) If the bucket is versioning enabled, you can specify the object version. Constraints: • min: 1 • max: 1024 Shorthand Syntax: S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }
     /// </summary>
     [CliOption("--video")]
     public string? Video { get; private init; }
 
     /// <summary>
-    /// Idempotent token used to identify the start request. If you use the same token with multiple StartCelebrityRecognition requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
+    /// Idempotent token used to identify the start request. If you use the same token with multiple StartCelebrityRecognition requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// The Amazon SNS topic ARN that you want Amazon Rekognition Video to publish the completion status of the celebrity recognition analysis to. The Amazon SNS topic must have a topic name that begins with AmazonRekognition if you are using the AmazonRekognitionServiceRole permissions policy. SNSTopicArn -&gt; (string) [required] The Amazon SNS topic to which Amazon Rekognition posts the com- pletion status. Constraints: o pattern: (^arn:aws:sns:.*:\w{12}:.+$) RoleArn -&gt; (string) [required] The ARN of an IAM role that gives Amazon Rekognition publishing permissions to the Amazon SNS topic. Constraints: o pattern: arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Shorthand Syntax: SNSTopicArn=string,RoleArn=string JSON Syntax: { "SNSTopicArn": "string", "RoleArn": "string" }
+    /// The Amazon SNS topic ARN that you want Amazon Rekognition Video to publish the completion status of the celebrity recognition analysis to. The Amazon SNS topic must have a topic name that begins with AmazonRekognition if you are using the AmazonRekognitionServiceRole permissions policy. SNSTopicArn -&gt; (string) [required] The Amazon SNS topic to which Amazon Rekognition posts the completion status. Constraints: • pattern: (^arn:aws:sns:.*:\w{12}:.+$) RoleArn -&gt; (string) [required] The ARN of an IAM role that gives Amazon Rekognition publishing permissions to the Amazon SNS topic. Constraints: • pattern: arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Shorthand Syntax: SNSTopicArn=string,RoleArn=string JSON Syntax: { "SNSTopicArn": "string", "RoleArn": "string" }
     /// </summary>
     [CliOption("--notification-channel")]
     public string? NotificationChannel { get; set; }
 
     /// <summary>
-    /// An identifier you specify that's returned in the completion notifi- cation that's published to your Amazon Simple Notification Service topic. For example, you can use JobTag to group related jobs and identify them in the completion notification. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9_.\-:+=\/]+
+    /// An identifier you specify that's returned in the completion notification that's published to your Amazon Simple Notification Service topic. For example, you can use JobTag to group related jobs and identify them in the completion notification. Constraints: • min: 1 • max: 1024 • pattern: [a-zA-Z0-9_.\-:+=\/]+
     /// </summary>
     [CliOption("--job-tag")]
     public string? JobTag { get; set; }

@@ -24,32 +24,32 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsWellarchitectedListLensesOptions : AwsOptions
 {
     /// <summary>
-    /// The token to use to retrieve the next set of results. Constraints: o pattern: [A-Za-z0-9+\/=_-]+
+    /// The token to use to retrieve the next set of results. Constraints: • pattern: [A-Za-z0-9+\/=_-]+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return for this request. Constraints: o min: 1 o max: 50
+    /// The maximum number of results to return for this request. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The type of lenses to be returned. Possible values: o AWS_OFFICIAL o CUSTOM_SHARED o CUSTOM_SELF
+    /// The type of lenses to be returned. Possible values: • AWS_OFFICIAL • CUSTOM_SHARED • CUSTOM_SELF
     /// </summary>
     [CliOption("--lens-type")]
     public AwsWellarchitectedListLensesLensType? LensType { get; set; }
 
     /// <summary>
-    /// The status of lenses to be returned. Possible values: o ALL o DRAFT o PUBLISHED
+    /// The status of lenses to be returned. Possible values: • ALL • DRAFT • PUBLISHED
     /// </summary>
     [CliOption("--lens-status")]
     public AwsWellarchitectedListLensesLensStatus? LensStatus { get; set; }
 
     /// <summary>
-    /// The full name of the lens. Constraints: o min: 1 o max: 128
+    /// The full name of the lens. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--lens-name")]
     public string? LensName { get; set; }

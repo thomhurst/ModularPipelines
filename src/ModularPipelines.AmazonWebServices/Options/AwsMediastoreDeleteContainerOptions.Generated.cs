@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified container. Before you make a DeleteContainer re- quest, delete any objects in the container or in any folders in the container. You can delete only empty containers. See also: AWS API Documentation
+/// Deletes the specified container. Before you make a DeleteContainer request, delete any objects in the container or in any folders in the container. You can delete only empty containers. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsMediastoreDeleteContainerOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified container. Before you make a DeleteContainer re- quest, delete any objects in the container or in any folders in the container. You can delete only empty containers. See also: AWS API Documentation
+    /// Deletes the specified container. Before you make a DeleteContainer request, delete any objects in the container or in any folders in the container. You can delete only empty containers. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ContainerName">The name of the container to delete. Constraints: o min: 1 o max: 255 o pattern: [\w-]+</param>
+    /// <param name="ContainerName">The name of the container to delete. Constraints: • min: 1 • max: 255 • pattern: [\w-]+</param>
     public AwsMediastoreDeleteContainerOptions(
         string ContainerName
     )
@@ -56,7 +58,7 @@ public record AwsMediastoreDeleteContainerOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the container to delete. Constraints: o min: 1 o max: 255 o pattern: [\w-]+
+    /// The name of the container to delete. Constraints: • min: 1 • max: 255 • pattern: [\w-]+
     /// </summary>
     [CliOption("--container-name")]
     public string? ContainerName { get; private init; }

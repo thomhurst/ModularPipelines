@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disassociates a wireless gateway from its currently associated certifi- cate. See also: AWS API Documentation
+/// Disassociates a wireless gateway from its currently associated certificate. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsIotwirelessDisassociateWirelessGatewayFromCertificateOptions : 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disassociates a wireless gateway from its currently associated certifi- cate. See also: AWS API Documentation
+    /// Disassociates a wireless gateway from its currently associated certificate. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the resource to update. Constraints: o max: 256</param>
+    /// <param name="Id">The ID of the resource to update. Constraints: • max: 256</param>
     public AwsIotwirelessDisassociateWirelessGatewayFromCertificateOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsIotwirelessDisassociateWirelessGatewayFromCertificateOptions : 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the resource to update. Constraints: o max: 256
+    /// The ID of the resource to update. Constraints: • max: 256
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

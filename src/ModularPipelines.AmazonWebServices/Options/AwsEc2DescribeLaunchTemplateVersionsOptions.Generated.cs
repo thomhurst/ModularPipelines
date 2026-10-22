@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes one or more versions of a specified launch template. You can describe all versions, individual versions, or a range of versions. You can also describe all the latest versions or all the default versions of all the launch templates in your account. See also: AWS API Documentation describe-launch-template-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu...
+/// Describes one or more versions of a specified launch template. You can describe all versions, individual versions, or a range of versions. You can also describe all the latest versions or all the default versions of all the launch templates in your account. See also: AWS API Documentation describe-launch-template-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argume...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEc2DescribeLaunchTemplateVersionsOptions : AwsOptions
 {
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -35,7 +35,7 @@ public record AwsEc2DescribeLaunchTemplateVersionsOptions : AwsOptions
     public string? LaunchTemplateId { get; set; }
 
     /// <summary>
-    /// The name of the launch template. To describe one or more versions of a specified launch template, you must specify either the launch template name or the launch template ID, but not both. To describe all the latest or default launch template versions in your account, you must omit this parameter. Constraints: o min: 3 o max: 128 o pattern: [a-zA-Z0-9\(\)\.\-/_]+
+    /// The name of the launch template. To describe one or more versions of a specified launch template, you must specify either the launch template name or the launch template ID, but not both. To describe all the latest or default launch template versions in your account, you must omit this parameter. Constraints: • min: 3 • max: 128 • pattern: [a-zA-Z0-9\(\)\.\-/_]+
     /// </summary>
     [CliOption("--launch-template-name")]
     public string? LaunchTemplateName { get; set; }
@@ -59,28 +59,25 @@ public record AwsEc2DescribeLaunchTemplateVersionsOptions : AwsOptions
     public string? MaxVersion { get; set; }
 
     /// <summary>
-    /// One or more filters. o create-time - The time the launch template version was created. o ebs-optimized - A boolean that indicates whether the instance is optimized for Amazon EBS I/O. o http-endpoint - Indicates whether the HTTP metadata endpoint on your instances is enabled (enabled | disabled ). o http-protocol-ipv4 - Indicates whether the IPv4 endpoint for the instance metadata service is enabled (enabled | disabled ). o host-resource-group-arn - The ARN of the host resource group in which to launch the instances. o http-tokens - The state of token usage for your instance metadata requests (optional | required ). o iam-instance-profile - The ARN of the IAM instance profile. o image-id - The ID of the AMI. o instance-type - The instance type. o is-default-version - A boolean that indicates whether the launch template version is the default version. o kernel-id - The kernel ID. o license-configuration-arn - The ARN of the license configuration. o network-card-index - The index of the network card. o ram-disk-id - The RAM disk ID. (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// One or more filters. • create-time - The time the launch template version was created. • ebs-optimized - A boolean that indicates whether the instance is optimized for Amazon EBS I/O. • http-endpoint - Indicates whether the HTTP metadata endpoint on your instances is enabled (enabled | disabled ). • http-protocol-ipv4 - Indicates whether the IPv4 endpoint for the instance metadata service is enabled (enabled | disabled ). • host-resource-group-arn - The ARN of the host resource group in which to launch the instances. • http-tokens - The state of token usage for your instance metadata requests (optional | required ). • iam-instance-profile - The ARN of the IAM instance profile. • image-id - The ID of the AMI. • instance-type - The instance type. • is-default-version - A boolean that indicates whether the launch template version is the default version. • kernel-id - The kernel ID. • license-configuration-arn - The ARN of the license configuration. • network-card-index - The index of the network card. • ram-disk-id - The RAM disk ID. (structure) A filter name and value pair that is used to return a more specific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// If true , and if a Systems Manager parameter is specified for Im- ageId , the AMI ID is displayed in the response for imageId . If false , and if a Systems Manager parameter is specified for Im- ageId , the parameter is displayed in the response for imageId . For more information, see Use a Systems Manager parameter instead of an AMI ID in the Amazon EC2 User Guide . Default: false
+    /// If true , and if a Systems Manager parameter is specified for ImageId , the AMI ID is displayed in the response for imageId . If false , and if a Systems Manager parameter is specified for ImageId , the parameter is displayed in the response for imageId . For more information, see Use a Systems Manager parameter instead of an AMI ID in the Amazon EC2 User Guide . Default: false
     /// </summary>
     [CliFlag("--resolve-alias", NegatedName = "--no-resolve-alias")]
     public bool? ResolveAlias { get; set; }
 
     /// <summary>
-    /// Indicates whether to include managed resources in the output. If this parameter is set to true , the output includes resources that are managed by Amazon Web Services services, even if managed re- source visibility is set to hidden.
+    /// Indicates whether to include managed resources in the output. If this parameter is set to true , the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
     /// </summary>
     [CliFlag("--include-managed-resources", NegatedName = "--no-include-managed-resources")]
     public bool? IncludeManagedResources { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -90,15 +87,18 @@ public record AwsEc2DescribeLaunchTemplateVersionsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBillingconductorDeletePricingPlanOptions : AwsOptions, IValidat
     /// <summary>
     /// Deletes a pricing plan. The pricing plan must not be associated with any billing groups to delete successfully. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the pricing plan that you're deleting. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricing- plan/)?(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10})</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the pricing plan that you're deleting. Constraints: • pattern: (arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/)?(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10})</param>
     public AwsBillingconductorDeletePricingPlanOptions(
         string Arn
     )
@@ -56,7 +58,7 @@ public record AwsBillingconductorDeletePricingPlanOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the pricing plan that you're deleting. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricing- plan/)?(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10})
+    /// The Amazon Resource Name (ARN) of the pricing plan that you're deleting. Constraints: • pattern: (arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/)?(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10})
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }

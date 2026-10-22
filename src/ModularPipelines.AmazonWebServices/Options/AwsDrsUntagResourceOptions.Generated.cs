@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDrsUntagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the specified set of tags from the specified set of Elastic Disaster Recovery resources. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">ARN of the resource for which tags are to be removed. Constraints: o min: 20 o max: 2048 o pattern: arn:.{16,2044}</param>
-    /// <param name="TagKeys">Array of tags to be removed. (string) Constraints: o min: 0 o max: 256 Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">ARN of the resource for which tags are to be removed. Constraints: • min: 20 • max: 2048 • pattern: arn:.{16,2044}</param>
+    /// <param name="TagKeys">Array of tags to be removed. (string) Constraints: • min: 0 • max: 256 Syntax: "string" "string" ...</param>
     public AwsDrsUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsDrsUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of the resource for which tags are to be removed. Constraints: o min: 20 o max: 2048 o pattern: arn:.{16,2044}
+    /// ARN of the resource for which tags are to be removed. Constraints: • min: 20 • max: 2048 • pattern: arn:.{16,2044}
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Array of tags to be removed. (string) Constraints: o min: 0 o max: 256 Syntax: "string" "string" ...
+    /// Array of tags to be removed. (string) Constraints: • min: 0 • max: 256 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

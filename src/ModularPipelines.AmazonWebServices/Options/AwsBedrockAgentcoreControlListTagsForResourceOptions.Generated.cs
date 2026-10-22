@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBedrockAgentcoreControlListTagsForResourceOptions : AwsOptions,
     /// <summary>
     /// Lists the tags associated with the specified resource. NOTE: This feature is currently available only for AgentCore Runtime, Browser, Browser Profile, Code Interpreter tool, and Gateway. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource for which you want to list tags. Constraints: o min: 20 o max: 1011 o pattern: arn:(?:[^:]+)?:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:([a-z-]+/[^/]+)(?:/[a-z-]+/[^/]+)*</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource for which you want to list tags. Constraints: • min: 20 • max: 1011 • pattern: arn:(?:[^:]+)?:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:([a-z-]+/[^/]+)(?:/[a-z-]+/[^/]+)*</param>
     public AwsBedrockAgentcoreControlListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsBedrockAgentcoreControlListTagsForResourceOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource for which you want to list tags. Constraints: o min: 20 o max: 1011 o pattern: arn:(?:[^:]+)?:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:([a-z-]+/[^/]+)(?:/[a-z-]+/[^/]+)*
+    /// The Amazon Resource Name (ARN) of the resource for which you want to list tags. Constraints: • min: 20 • max: 1011 • pattern: arn:(?:[^:]+)?:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:([a-z-]+/[^/]+)(?:/[a-z-]+/[^/]+)*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,7 +31,7 @@ public record AwsEc2CreateClientVpnRouteOptions : AwsOptions, IValidatableObject
     /// Adds a route to a network to a Client VPN endpoint. Each Client VPN endpoint has a route table that describes the available destination network routes. Each route in the route table specifies the path for trac to specic resources or networks. See also: AWS API Documentation
     /// </summary>
     /// <param name="ClientVpnEndpointId">The ID of the Client VPN endpoint to which to add the route.</param>
-    /// <param name="DestinationCidrBlock">The IPv4 address range, in CIDR notation, of the route destination. For example: o To add a route for Internet access, enter 0.0.0.0/0 o To add a route for a peered VPC, enter the peered VPC's IPv4 CIDR range o To add a route for an on-premises network, enter the Amazon Web Services Site-to-Site VPN connection's IPv4 CIDR range o To add a route for the local network, enter the client CIDR range</param>
+    /// <param name="DestinationCidrBlock">The IPv4 address range, in CIDR notation, of the route destination. For example: • To add a route for Internet access, enter 0.0.0.0/0 • To add a route for a peered VPC, enter the peered VPC's IPv4 CIDR range • To add a route for an on-premises network, enter the Amazon Web Services Site-to-Site VPN connection's IPv4 CIDR range • To add a route for the local network, enter the client CIDR range</param>
     public AwsEc2CreateClientVpnRouteOptions(
         string ClientVpnEndpointId,
         string DestinationCidrBlock
@@ -67,13 +69,13 @@ public record AwsEc2CreateClientVpnRouteOptions : AwsOptions, IValidatableObject
     public string? ClientVpnEndpointId { get; private init; }
 
     /// <summary>
-    /// The IPv4 address range, in CIDR notation, of the route destination. For example: o To add a route for Internet access, enter 0.0.0.0/0 o To add a route for a peered VPC, enter the peered VPC's IPv4 CIDR range o To add a route for an on-premises network, enter the Amazon Web Services Site-to-Site VPN connection's IPv4 CIDR range o To add a route for the local network, enter the client CIDR range
+    /// The IPv4 address range, in CIDR notation, of the route destination. For example: • To add a route for Internet access, enter 0.0.0.0/0 • To add a route for a peered VPC, enter the peered VPC's IPv4 CIDR range • To add a route for an on-premises network, enter the Amazon Web Services Site-to-Site VPN connection's IPv4 CIDR range • To add a route for the local network, enter the client CIDR range
     /// </summary>
     [CliOption("--destination-cidr-block")]
     public string? DestinationCidrBlock { get; private init; }
 
     /// <summary>
-    /// The ID of the subnet through which you want to route traffic. The specified subnet must be an existing target network of the Client VPN endpoint. Alternatively, if you're adding a route for the local network, spec- ify local . This parameter is required for VPC-based Client VPN endpoints. For Transit Gateway-based endpoints, this parameter is not required.
+    /// The ID of the subnet through which you want to route traffic. The specified subnet must be an existing target network of the Client VPN endpoint. Alternatively, if you're adding a route for the local network, specify local . This parameter is required for VPC-based Client VPN endpoints. For Transit Gateway-based endpoints, this parameter is not required.
     /// </summary>
     [CliOption("--target-vpc-subnet-id")]
     public string? TargetVpcSubnetId { get; set; }
@@ -85,14 +87,14 @@ public record AwsEc2CreateClientVpnRouteOptions : AwsOptions, IValidatableObject
     public string? Description { get; set; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring idem- potency .
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring idempotency .
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

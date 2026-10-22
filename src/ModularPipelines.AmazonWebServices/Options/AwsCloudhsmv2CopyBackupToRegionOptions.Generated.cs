@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCloudhsmv2CopyBackupToRegionOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Copy an CloudHSM cluster backup to a different region. Cross-account use: No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DestinationRegion">The AWS region that will contain your copied CloudHSM cluster backup. Constraints: o pattern: [a-z]{2}(-(gov))?-(east|west|north|south|central){1,2}-\d</param>
-    /// <param name="BackupId">The ID of the backup that will be copied to the destination region. Constraints: o pattern: backup-[2-7a-zA-Z]{11,16}</param>
+    /// <param name="DestinationRegion">The AWS region that will contain your copied CloudHSM cluster backup. Constraints: • pattern: [a-z]{2}(-(gov))?-(east|west|north|south|central){1,2}-\d</param>
+    /// <param name="BackupId">The ID of the backup that will be copied to the destination region. Constraints: • pattern: backup-[2-7a-zA-Z]{11,16}</param>
     public AwsCloudhsmv2CopyBackupToRegionOptions(
         string DestinationRegion,
         string BackupId
@@ -60,19 +62,19 @@ public record AwsCloudhsmv2CopyBackupToRegionOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The AWS region that will contain your copied CloudHSM cluster backup. Constraints: o pattern: [a-z]{2}(-(gov))?-(east|west|north|south|central){1,2}-\d
+    /// The AWS region that will contain your copied CloudHSM cluster backup. Constraints: • pattern: [a-z]{2}(-(gov))?-(east|west|north|south|central){1,2}-\d
     /// </summary>
     [CliOption("--destination-region")]
     public string? DestinationRegion { get; private init; }
 
     /// <summary>
-    /// The ID of the backup that will be copied to the destination region. Constraints: o pattern: backup-[2-7a-zA-Z]{11,16}
+    /// The ID of the backup that will be copied to the destination region. Constraints: • pattern: backup-[2-7a-zA-Z]{11,16}
     /// </summary>
     [CliOption("--backup-id")]
     public string? BackupId { get; private init; }
 
     /// <summary>
-    /// Tags to apply to the destination backup during creation. If you specify tags, only these tags will be applied to the destination backup. If you do not specify tags, the service copies tags from the source backup to the destination backup. Constraints: o min: 1 o max: 50 (structure) Contains a tag. A tag is a key-value pair. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Tags to apply to the destination backup during creation. If you specify tags, only these tags will be applied to the destination backup. If you do not specify tags, the service copies tags from the source backup to the destination backup. Constraints: • min: 1 • max: 50 (structure) Contains a tag. A tag is a key-value pair. Key -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value of the tag. Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tag-list", GroupValues = true)]
     public IEnumerable<string>? TagList { get; set; }

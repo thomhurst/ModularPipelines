@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCodecatalystGetUserDetailsOptions : AwsOptions
 {
     /// <summary>
-    /// The system-generated unique ID of the user. Constraints: o min: 1 o max: 256
+    /// The system-generated unique ID of the user. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; set; }
 
     /// <summary>
-    /// The name of the user as displayed in Amazon CodeCatalyst. Constraints: o min: 3 o max: 100 o pattern: [a-zA-Z0-9_.-]{3,100}
+    /// The name of the user as displayed in Amazon CodeCatalyst. Constraints: • min: 3 • max: 100 • pattern: [a-zA-Z0-9_.-]{3,100}
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; set; }

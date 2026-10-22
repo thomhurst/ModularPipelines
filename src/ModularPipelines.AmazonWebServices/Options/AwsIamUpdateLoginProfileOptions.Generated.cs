@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Changes the password for the specified IAM user. You can use the CLI, the Amazon Web Services API, or the Users page in the IAM console to change the password for any IAM user. Use ChangePassword to change your own password in the My Security Credentials page in the Amazon Web Ser- vices Management Console. For more information about modifying passwords, see Managing passwords in the IAM User Guide . See also: AWS API Documentation
+/// Changes the password for the specified IAM user. You can use the CLI, the Amazon Web Services API, or the Users page in the IAM console to change the password for any IAM user. Use ChangePassword to change your own password in the My Security Credentials page in the Amazon Web Services Management Console. For more information about modifying passwords, see Managing passwords in the IAM User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsIamUpdateLoginProfileOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Changes the password for the specified IAM user. You can use the CLI, the Amazon Web Services API, or the Users page in the IAM console to change the password for any IAM user. Use ChangePassword to change your own password in the My Security Credentials page in the Amazon Web Ser- vices Management Console. For more information about modifying passwords, see Managing passwords in the IAM User Guide . See also: AWS API Documentation
+    /// Changes the password for the specified IAM user. You can use the CLI, the Amazon Web Services API, or the Users page in the IAM console to change the password for any IAM user. Use ChangePassword to change your own password in the My Security Credentials page in the Amazon Web Services Management Console. For more information about modifying passwords, see Managing passwords in the IAM User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="UserName">The name of the user whose password you want to update. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+</param>
+    /// <param name="UserName">The name of the user whose password you want to update. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 1 • max: 64 • pattern: [\w+=,.@-]+</param>
     public AwsIamUpdateLoginProfileOptions(
         string UserName
     )
@@ -57,20 +59,20 @@ public record AwsIamUpdateLoginProfileOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the user whose password you want to update. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+
+    /// The name of the user whose password you want to update. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 1 • max: 64 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; private init; }
 
     /// <summary>
-    /// The new password for the specified IAM user. The regex pattern used to validate this parameter is a string of characters consisting of the following: o Any printable ASCII character ranging from the space character (\u0020 ) through the end of the ASCII character range o The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF ) o The special characters tab (\u0009 ), line feed (\u000A ), and carriage return (\u000D ) However, the format can be further restricted by the account admin- istrator by setting a password policy on the Amazon Web Services ac- count. For more information, see UpdateAccountPasswordPolicy . Constraints: o min: 1 o max: 128 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+
+    /// The new password for the specified IAM user. The regex pattern used to validate this parameter is a string of characters consisting of the following: • Any printable ASCII character ranging from the space character (\u0020 ) through the end of the ASCII character range • The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF ) • The special characters tab (\u0009 ), line feed (\u000A ), and carriage return (\u000D ) However, the format can be further restricted by the account administrator by setting a password policy on the Amazon Web Services account. For more information, see UpdateAccountPasswordPolicy . Constraints: • min: 1 • max: 128 • pattern: [\u0009\u000A\u000D\u0020-\u00FF]+
     /// </summary>
     [SecretValue]
     [CliOption("--password")]
     public string? Password { get; set; }
 
     /// <summary>
-    /// Allows this new password to be used only once by requiring the spec- ified IAM user to set a new password on next sign-in.
+    /// Allows this new password to be used only once by requiring the specified IAM user to set a new password on next sign-in.
     /// </summary>
     [CliFlag("--password-reset-required", NegatedName = "--no-password-reset-required")]
     public bool? PasswordResetRequired { get; set; }

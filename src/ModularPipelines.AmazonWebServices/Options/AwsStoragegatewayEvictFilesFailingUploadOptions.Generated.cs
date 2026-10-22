@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts a process that cleans the specified file share's cache of file entries that are failing upload to Amazon S3. This API operation re- ports success if the request is received with valid arguments, and there are no other cache clean operations currently in-progress for the specified file share. After a successful request, the cache clean oper- ation occurs asynchronously and reports progress using CloudWatch logs and notifications. WARNING: If ForceRemove is set to True , the cache clean ope...
+/// Starts a process that cleans the specified file share's cache of file entries that are failing upload to Amazon S3. This API operation reports success if the request is received with valid arguments, and there are no other cache clean operations currently in-progress for the specified file share. After a successful request, the cache clean operation occurs asynchronously and reports progress using CloudWatch logs and notifications. WARNING: If ForceRemove is set to True , the cache clean operati...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsStoragegatewayEvictFilesFailingUploadOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts a process that cleans the specified file share's cache of file entries that are failing upload to Amazon S3. This API operation re- ports success if the request is received with valid arguments, and there are no other cache clean operations currently in-progress for the specified file share. After a successful request, the cache clean oper- ation occurs asynchronously and reports progress using CloudWatch logs and notifications. WARNING: If ForceRemove is set to True , the cache clean ope...
+    /// Starts a process that cleans the specified file share's cache of file entries that are failing upload to Amazon S3. This API operation reports success if the request is received with valid arguments, and there are no other cache clean operations currently in-progress for the specified file share. After a successful request, the cache clean operation occurs asynchronously and reports progress using CloudWatch logs and notifications. WARNING: If ForceRemove is set to True , the cache clean operati...
     /// </summary>
-    /// <param name="FileShareArn">The Amazon Resource Name (ARN) of the file share for which you want to start the cache clean operation. Constraints: o min: 50 o max: 500</param>
+    /// <param name="FileShareArn">The Amazon Resource Name (ARN) of the file share for which you want to start the cache clean operation. Constraints: • min: 50 • max: 500</param>
     public AwsStoragegatewayEvictFilesFailingUploadOptions(
         string FileShareArn
     )
@@ -56,13 +58,13 @@ public record AwsStoragegatewayEvictFilesFailingUploadOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the file share for which you want to start the cache clean operation. Constraints: o min: 50 o max: 500
+    /// The Amazon Resource Name (ARN) of the file share for which you want to start the cache clean operation. Constraints: • min: 50 • max: 500
     /// </summary>
     [CliOption("--file-share-arn")]
     public string? FileShareArn { get; private init; }
 
     /// <summary>
-    /// Specifies whether cache entries with full or partial file data cur- rently stored on the gateway will be forcibly removed by the cache clean operation. Valid arguments: o False - The cache clean operation skips cache entries failing up- load if they are associated with data currently stored on the gateway. This preserves the cached data. o True - The cache clean operation removes cache entries failing up- load even if they are associated with data currently stored on the gateway. This deletes the cached data. WARNING: If ForceRemove is set to True , the cache clean operation will delete file data from the gateway which might otherwise be re- coverable.
+    /// Specifies whether cache entries with full or partial file data currently stored on the gateway will be forcibly removed by the cache clean operation. Valid arguments: • False - The cache clean operation skips cache entries failing upload if they are associated with data currently stored on the gateway. This preserves the cached data. • True - The cache clean operation removes cache entries failing upload even if they are associated with data currently stored on the gateway. This deletes the cached data. WARNING: If ForceRemove is set to True , the cache clean operation will delete file data from the gateway which might otherwise be recoverable.
     /// </summary>
     [CliFlag("--force-remove", NegatedName = "--no-force-remove")]
     public bool? ForceRemove { get; set; }

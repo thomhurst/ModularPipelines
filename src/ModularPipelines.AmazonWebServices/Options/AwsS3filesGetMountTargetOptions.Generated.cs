@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsS3filesGetMountTargetOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns detailed resource information for the specified mount target including network configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MountTargetId">The ID of the mount target to retrieve information for. Constraints: o min: 22 o max: 45 o pattern: fsmt-[0-9a-f]{17,40}</param>
+    /// <param name="MountTargetId">The ID of the mount target to retrieve information for. Constraints: • min: 22 • max: 45 • pattern: fsmt-[0-9a-f]{17,40}</param>
     public AwsS3filesGetMountTargetOptions(
         string MountTargetId
     )
@@ -56,7 +58,7 @@ public record AwsS3filesGetMountTargetOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the mount target to retrieve information for. Constraints: o min: 22 o max: 45 o pattern: fsmt-[0-9a-f]{17,40}
+    /// The ID of the mount target to retrieve information for. Constraints: • min: 22 • max: 45 • pattern: fsmt-[0-9a-f]{17,40}
     /// </summary>
     [CliOption("--mount-target-id")]
     public string? MountTargetId { get; private init; }

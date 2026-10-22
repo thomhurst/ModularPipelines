@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsTimestreamInfluxdbRebootDbClusterOptions : AwsOptions, IValidat
     /// <summary>
     /// Reboots a Timestream for InfluxDB cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbClusterId">Service-generated unique identifier of the DB cluster to reboot. Constraints: o min: 3 o max: 64 o pattern: [a-zA-Z0-9]+</param>
+    /// <param name="DbClusterId">Service-generated unique identifier of the DB cluster to reboot. Constraints: • min: 3 • max: 64 • pattern: [a-zA-Z0-9]+</param>
     public AwsTimestreamInfluxdbRebootDbClusterOptions(
         string DbClusterId
     )
@@ -56,13 +58,13 @@ public record AwsTimestreamInfluxdbRebootDbClusterOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Service-generated unique identifier of the DB cluster to reboot. Constraints: o min: 3 o max: 64 o pattern: [a-zA-Z0-9]+
+    /// Service-generated unique identifier of the DB cluster to reboot. Constraints: • min: 3 • max: 64 • pattern: [a-zA-Z0-9]+
     /// </summary>
     [CliOption("--db-cluster-id")]
     public string? DbClusterId { get; private init; }
 
     /// <summary>
-    /// A list of service-generated unique DB Instance Ids belonging to the DB Cluster to reboot. Constraints: o min: 0 o max: 3 (string) Constraints: o min: 3 o max: 64 o pattern: [a-zA-Z0-9]+ Syntax: "string" "string" ...
+    /// A list of service-generated unique DB Instance Ids belonging to the DB Cluster to reboot. Constraints: • min: 0 • max: 3 (string) Constraints: • min: 3 • max: 64 • pattern: [a-zA-Z0-9]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--instance-ids", GroupValues = true)]
     public IEnumerable<string>? InstanceIds { get; set; }

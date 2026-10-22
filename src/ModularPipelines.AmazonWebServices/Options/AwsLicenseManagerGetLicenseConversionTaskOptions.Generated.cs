@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsLicenseManagerGetLicenseConversionTaskOptions : AwsOptions, IVa
     /// <summary>
     /// Gets information about the specified license type conversion task. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LicenseConversionTaskId">ID of the license type conversion task to retrieve information on. Constraints: o max: 50 o pattern: ^lct-[a-zA-Z0-9]*</param>
+    /// <param name="LicenseConversionTaskId">ID of the license type conversion task to retrieve information on. Constraints: • max: 50 • pattern: ^lct-[a-zA-Z0-9]*</param>
     public AwsLicenseManagerGetLicenseConversionTaskOptions(
         string LicenseConversionTaskId
     )
@@ -56,7 +58,7 @@ public record AwsLicenseManagerGetLicenseConversionTaskOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID of the license type conversion task to retrieve information on. Constraints: o max: 50 o pattern: ^lct-[a-zA-Z0-9]*
+    /// ID of the license type conversion task to retrieve information on. Constraints: • max: 50 • pattern: ^lct-[a-zA-Z0-9]*
     /// </summary>
     [CliOption("--license-conversion-task-id")]
     public string? LicenseConversionTaskId { get; private init; }

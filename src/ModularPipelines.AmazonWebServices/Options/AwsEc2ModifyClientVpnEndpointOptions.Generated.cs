@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -69,13 +71,13 @@ public record AwsEc2ModifyClientVpnEndpointOptions : AwsOptions, IValidatableObj
     public string? ServerCertificateArn { get; set; }
 
     /// <summary>
-    /// Information about the client connection logging options. If you enable client connection logging, data about client connec- tions is sent to a Cloudwatch Logs log stream. The following infor- mation is logged: o Client connection requests o Client connection results (successful and unsuccessful) o Reasons for unsuccessful client connection requests o Client connection termination time Enabled -&gt; (boolean) Indicates whether connection logging is enabled. CloudwatchLogGroup -&gt; (string) The name of the CloudWatch Logs log group. Required if connec- tion logging is enabled. CloudwatchLogStream -&gt; (string) The name of the CloudWatch Logs log stream to which the connec- tion data is published. IncludeAuthorizationPolicyContext -&gt; (boolean) Specifies whether to include the authorization policy evaluation context in the connection logs for the Client VPN endpoint. Shorthand Syntax: Enabled=boolean,CloudwatchLogGroup=string,CloudwatchLogStream=string,IncludeAuthorizationPolicyContext=boolean JSON Syntax: { "Enabled": true|false, "CloudwatchLogGroup": "string", "CloudwatchLogStream": "string", "IncludeAuthorizationPolicyContext": true|false }
+    /// Information about the client connection logging options. If you enable client connection logging, data about client connections is sent to a Cloudwatch Logs log stream. The following information is logged: • Client connection requests • Client connection results (successful and unsuccessful) • Reasons for unsuccessful client connection requests • Client connection termination time Enabled -&gt; (boolean) Indicates whether connection logging is enabled. CloudwatchLogGroup -&gt; (string) The name of the CloudWatch Logs log group. Required if connection logging is enabled. CloudwatchLogStream -&gt; (string) The name of the CloudWatch Logs log stream to which the connection data is published. IncludeAuthorizationPolicyContext -&gt; (boolean) Specifies whether to include the authorization policy evaluation context in the connection logs for the Client VPN endpoint. Shorthand Syntax: Enabled=boolean,CloudwatchLogGroup=string,CloudwatchLogStream=string,IncludeAuthorizationPolicyContext=boolean JSON Syntax: { "Enabled": true|false, "CloudwatchLogGroup": "string", "CloudwatchLogStream": "string", "IncludeAuthorizationPolicyContext": true|false }
     /// </summary>
     [CliOption("--connection-log-options")]
     public string? ConnectionLogOptions { get; set; }
 
     /// <summary>
-    /// Information about the DNS servers to be used by Client VPN connec- tions. A Client VPN endpoint can have up to two DNS servers. CustomDnsServers -&gt; (list) The IPv4 address range, in CIDR notation, of the DNS servers to be used. You can specify up to two DNS servers. Ensure that the DNS servers can be reached by the clients. The specified values overwrite the existing values. (string) Enabled -&gt; (boolean) Indicates whether DNS servers should be used. Specify False to delete the existing DNS servers. Shorthand Syntax: CustomDnsServers=string,string,Enabled=boolean JSON Syntax: { "CustomDnsServers": ["string", ...], "Enabled": true|false }
+    /// Information about the DNS servers to be used by Client VPN connections. A Client VPN endpoint can have up to two DNS servers. CustomDnsServers -&gt; (list) The IPv4 address range, in CIDR notation, of the DNS servers to be used. You can specify up to two DNS servers. Ensure that the DNS servers can be reached by the clients. The specified values overwrite the existing values. (string) Enabled -&gt; (boolean) Indicates whether DNS servers should be used. Specify False to delete the existing DNS servers. Shorthand Syntax: CustomDnsServers=string,string,Enabled=boolean JSON Syntax: { "CustomDnsServers": ["string", ...], "Enabled": true|false }
     /// </summary>
     [CliOption("--dns-servers")]
     public string? DnsServers { get; set; }
@@ -99,13 +101,13 @@ public record AwsEc2ModifyClientVpnEndpointOptions : AwsOptions, IValidatableObj
     public bool? SplitTunnel { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// The IDs of one or more security groups to apply to the target net- work. (string) Syntax: "string" "string" ...
+    /// The IDs of one or more security groups to apply to the target network. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
@@ -117,13 +119,13 @@ public record AwsEc2ModifyClientVpnEndpointOptions : AwsOptions, IValidatableObj
     public string? VpcId { get; set; }
 
     /// <summary>
-    /// Specify whether to enable the self-service portal for the Client VPN endpoint. Possible values: o enabled o disabled
+    /// Specify whether to enable the self-service portal for the Client VPN endpoint. Possible values: • enabled • disabled
     /// </summary>
     [CliOption("--self-service-portal")]
     public AwsEc2ModifyClientVpnEndpointSelfServicePortal? SelfServicePortal { get; set; }
 
     /// <summary>
-    /// The options for managing connection authorization for new client connections. Enabled -&gt; (boolean) Indicates whether client connect options are enabled. The de- fault is false (not enabled). LambdaFunctionArn -&gt; (string) The Amazon Resource Name (ARN) of the Lambda function used for connection authorization. Shorthand Syntax: Enabled=boolean,LambdaFunctionArn=string JSON Syntax: { "Enabled": true|false, "LambdaFunctionArn": "string" }
+    /// The options for managing connection authorization for new client connections. Enabled -&gt; (boolean) Indicates whether client connect options are enabled. The default is false (not enabled). LambdaFunctionArn -&gt; (string) The Amazon Resource Name (ARN) of the Lambda function used for connection authorization. Shorthand Syntax: Enabled=boolean,LambdaFunctionArn=string JSON Syntax: { "Enabled": true|false, "LambdaFunctionArn": "string" }
     /// </summary>
     [CliOption("--client-connect-options")]
     public string? ClientConnectOptions { get; set; }
@@ -135,7 +137,7 @@ public record AwsEc2ModifyClientVpnEndpointOptions : AwsOptions, IValidatableObj
     public int? SessionTimeoutHours { get; set; }
 
     /// <summary>
-    /// Options for enabling a customizable text banner that will be dis- played on Amazon Web Services provided clients when a VPN session is established. Enabled -&gt; (boolean) Enable or disable a customizable text banner that will be dis- played on Amazon Web Services provided clients when a VPN ses- sion is established. Valid values: true | false Default value: false BannerText -&gt; (string) Customizable text that will be displayed in a banner on Amazon Web Services provided clients when a VPN session is established. UTF-8 encoded characters only. Maximum of 1400 characters. Shorthand Syntax: Enabled=boolean,BannerText=string JSON Syntax: { "Enabled": true|false, "BannerText": "string" }
+    /// Options for enabling a customizable text banner that will be displayed on Amazon Web Services provided clients when a VPN session is established. Enabled -&gt; (boolean) Enable or disable a customizable text banner that will be displayed on Amazon Web Services provided clients when a VPN session is established. Valid values: true | false Default value: false BannerText -&gt; (string) Customizable text that will be displayed in a banner on Amazon Web Services provided clients when a VPN session is established. UTF-8 encoded characters only. Maximum of 1400 characters. Shorthand Syntax: Enabled=boolean,BannerText=string JSON Syntax: { "Enabled": true|false, "BannerText": "string" }
     /// </summary>
     [CliOption("--client-login-banner-options")]
     public string? ClientLoginBannerOptions { get; set; }
@@ -153,13 +155,13 @@ public record AwsEc2ModifyClientVpnEndpointOptions : AwsOptions, IValidatableObj
     public bool? DisconnectOnSessionTimeout { get; set; }
 
     /// <summary>
-    /// The Transit Gateway configuration for the Client VPN endpoint. This option is currently not supported. TransitGatewayId -&gt; (string) The ID of the Transit Gateway to associate with the Client VPN endpoint. AvailabilityZones -&gt; (list) The Availability Zone names for the Transit Gateway association. You can specify up to the maximum number of Availability Zones supported by the Transit Gateway. You cannot specify both Avail- abilityZones and AvailabilityZoneIds . (string) AvailabilityZoneIds -&gt; (list) The Availability Zone IDs for the Transit Gateway association. You can specify up to the maximum number of Availability Zones supported by the Transit Gateway. You cannot specify both Avail- abilityZones and AvailabilityZoneIds . (string) Shorthand Syntax: TransitGatewayId=string,AvailabilityZones=string,string,AvailabilityZoneIds=string,string JSON Syntax: { "TransitGatewayId": "string", "AvailabilityZones": ["string", ...], "AvailabilityZoneIds": ["string", ...] }
+    /// The Transit Gateway configuration for the Client VPN endpoint. This option is currently not supported. TransitGatewayId -&gt; (string) The ID of the Transit Gateway to associate with the Client VPN endpoint. AvailabilityZones -&gt; (list) The Availability Zone names for the Transit Gateway association. You can specify up to the maximum number of Availability Zones supported by the Transit Gateway. You cannot specify both AvailabilityZones and AvailabilityZoneIds . (string) AvailabilityZoneIds -&gt; (list) The Availability Zone IDs for the Transit Gateway association. You can specify up to the maximum number of Availability Zones supported by the Transit Gateway. You cannot specify both AvailabilityZones and AvailabilityZoneIds . (string) Shorthand Syntax: TransitGatewayId=string,AvailabilityZones=string,string,AvailabilityZoneIds=string,string JSON Syntax: { "TransitGatewayId": "string", "AvailabilityZones": ["string", ...], "AvailabilityZoneIds": ["string", ...] }
     /// </summary>
     [CliOption("--transit-gateway-configuration")]
     public string? TransitGatewayConfiguration { get; set; }
 
     /// <summary>
-    /// The device posture options for the Client VPN endpoint. Specifying this parameter replaces the entire device posture configuration for the endpoint. To remove all device trust providers, specify an empty list. TrustProviders -&gt; (list) The device trust providers to configure for the Client VPN end- point. (structure) Describes a device trust provider to configure for a Client VPN endpoint. TrustProviderType -&gt; (string) The type of the device trust provider. Possible values include: o crowdstrike - CrowdStrike device trust provider. o jamf - Jamf device trust provider. o jumpcloud - JumpCloud device trust provider. Possible values: o crowdstrike o jamf o jumpcloud TenantId -&gt; (string) The tenant ID associated with your device trust provider account. PublicSigningKeyUrl -&gt; (string) The URL of the public signing key that is used to verify the identity token issued by the device trust provider. Enabled -&gt; (boolean) Indicates whether device posture evaluation is enabled for the Client VPN endpoint. Specify false to disable device posture, which clears the configured device trust providers. Shorthand Syntax: TrustProviders=[{TrustProviderType=string,TenantId=string,PublicSigningKeyUrl=string},{TrustProviderType=string,TenantId=string,PublicSigningKeyUrl=string}],Enabled=boolean JSON Syntax: { "TrustProviders": [ { "TrustProviderType": "crowdstrike"|"jamf"|"jumpcloud", "TenantId": "string", "PublicSigningKeyUrl": "string" } ... ], "Enabled": true|false }
+    /// The device posture options for the Client VPN endpoint. Specifying this parameter replaces the entire device posture configuration for the endpoint. To remove all device trust providers, specify an empty list. TrustProviders -&gt; (list) The device trust providers to configure for the Client VPN endpoint. (structure) Describes a device trust provider to configure for a Client VPN endpoint. TrustProviderType -&gt; (string) The type of the device trust provider. Possible values include: • crowdstrike - CrowdStrike device trust provider. • jamf - Jamf device trust provider. • jumpcloud - JumpCloud device trust provider. Possible values: • crowdstrike • jamf • jumpcloud TenantId -&gt; (string) The tenant ID associated with your device trust provider account. PublicSigningKeyUrl -&gt; (string) The URL of the public signing key that is used to verify the identity token issued by the device trust provider. Enabled -&gt; (boolean) Indicates whether device posture evaluation is enabled for the Client VPN endpoint. Specify false to disable device posture, which clears the configured device trust providers. Shorthand Syntax: TrustProviders=[{TrustProviderType=string,TenantId=string,PublicSigningKeyUrl=string},{TrustProviderType=string,TenantId=string,PublicSigningKeyUrl=string}],Enabled=boolean JSON Syntax: { "TrustProviders": [ { "TrustProviderType": "crowdstrike"|"jamf"|"jumpcloud", "TenantId": "string", "PublicSigningKeyUrl": "string" } ... ], "Enabled": true|false }
     /// </summary>
     [CliOption("--device-posture-options")]
     public string? DevicePostureOptions { get; set; }

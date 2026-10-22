@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRdsPromoteReadReplicaDbClusterOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Promotes a read replica DB cluster to a standalone DB cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbClusterIdentifier">The identifier of the DB cluster read replica to promote. This para- meter isn't case-sensitive. Constraints: o Must match the identifier of an existing DB cluster read replica. Example: my-cluster-replica1</param>
+    /// <param name="DbClusterIdentifier">The identifier of the DB cluster read replica to promote. This parameter isn't case-sensitive. Constraints: • Must match the identifier of an existing DB cluster read replica. Example: my-cluster-replica1</param>
     public AwsRdsPromoteReadReplicaDbClusterOptions(
         string DbClusterIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsRdsPromoteReadReplicaDbClusterOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the DB cluster read replica to promote. This para- meter isn't case-sensitive. Constraints: o Must match the identifier of an existing DB cluster read replica. Example: my-cluster-replica1
+    /// The identifier of the DB cluster read replica to promote. This parameter isn't case-sensitive. Constraints: • Must match the identifier of an existing DB cluster read replica. Example: my-cluster-replica1
     /// </summary>
     [CliOption("--db-cluster-identifier")]
     public string? DbClusterIdentifier { get; private init; }

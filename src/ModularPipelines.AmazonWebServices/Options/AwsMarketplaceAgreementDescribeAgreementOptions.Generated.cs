@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMarketplaceAgreementDescribeAgreementOptions : AwsOptions, IVal
     /// <summary>
     /// Provides details about an agreement, such as the proposer, acceptor, start date, and end date. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgreementId">The unique identifier of the agreement. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+</param>
+    /// <param name="AgreementId">The unique identifier of the agreement. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_/-]+</param>
     public AwsMarketplaceAgreementDescribeAgreementOptions(
         string AgreementId
     )
@@ -56,7 +58,7 @@ public record AwsMarketplaceAgreementDescribeAgreementOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the agreement. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+
+    /// The unique identifier of the agreement. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_/-]+
     /// </summary>
     [CliOption("--agreement-id")]
     public string? AgreementId { get; private init; }

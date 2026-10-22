@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBillingconductorListTagsForResourceOptions : AwsOptions, IValid
     /// <summary>
     /// A list the tags for a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) that identifies the resource to list the tags. Constraints: o min: 0 o max: 100 o pattern: arn:aws(-cn)?:billingconductor::[0-9]{12}:billing- group/?[0-9]{12}$|^arn:aws(-cn)?:billingconductor::[0-9]{12}:pric- ingplan/[a-zA-Z0-9]{10}$|^arn:aws(-cn)?:billingconduc- tor::[0-9]{12}:pricin- grule/[a-zA-Z0-9]{10}$|^(arn:aws(-cn)?:billingconduc- tor::[0-9]{12}:customlineitem/)?[a-zA-Z0-9]{10}</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) that identifies the resource to list the tags. Constraints: • min: 0 • max: 100 • pattern: arn:aws(-cn)?:billingconductor::[0-9]{12}:billinggroup/?[0-9]{12}$|^arn:aws(-cn)?:billingconductor::[0-9]{12}:pricingplan/[a-zA-Z0-9]{10}$|^arn:aws(-cn)?:billingconductor::[0-9]{12}:pricingrule/[a-zA-Z0-9]{10}$|^(arn:aws(-cn)?:billingconductor::[0-9]{12}:customlineitem/)?[a-zA-Z0-9]{10}</param>
     public AwsBillingconductorListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsBillingconductorListTagsForResourceOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that identifies the resource to list the tags. Constraints: o min: 0 o max: 100 o pattern: arn:aws(-cn)?:billingconductor::[0-9]{12}:billing- group/?[0-9]{12}$|^arn:aws(-cn)?:billingconductor::[0-9]{12}:pric- ingplan/[a-zA-Z0-9]{10}$|^arn:aws(-cn)?:billingconduc- tor::[0-9]{12}:pricin- grule/[a-zA-Z0-9]{10}$|^(arn:aws(-cn)?:billingconduc- tor::[0-9]{12}:customlineitem/)?[a-zA-Z0-9]{10}
+    /// The Amazon Resource Name (ARN) that identifies the resource to list the tags. Constraints: • min: 0 • max: 100 • pattern: arn:aws(-cn)?:billingconductor::[0-9]{12}:billinggroup/?[0-9]{12}$|^arn:aws(-cn)?:billingconductor::[0-9]{12}:pricingplan/[a-zA-Z0-9]{10}$|^arn:aws(-cn)?:billingconductor::[0-9]{12}:pricingrule/[a-zA-Z0-9]{10}$|^(arn:aws(-cn)?:billingconductor::[0-9]{12}:customlineitem/)?[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

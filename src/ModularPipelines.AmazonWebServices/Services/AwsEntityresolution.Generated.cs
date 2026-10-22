@@ -62,7 +62,7 @@ public class AwsEntityresolution : IAwsEntityresolution
     }
 
     /// <summary>
-    /// Creates an IdMappingWorkflow object which stores the configuration of the data processing job to be run. Each IdMappingWorkflow must have a unique workflow name. To modify an existing workflow, use the UpdateI- dMappingWorkflow API. WARNING: Incremental processing is not supported for ID mapping workflows. See also: AWS API Documentation create-id-mapping-workflow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays...
+    /// Creates an IdMappingWorkflow object which stores the configuration of the data processing job to be run. Each IdMappingWorkflow must have a unique workflow name. To modify an existing workflow, use the UpdateIdMappingWorkflow API. WARNING: Incremental processing is not supported for ID mapping workflows. See also: AWS API Documentation create-id-mapping-workflow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsEntityresolution : IAwsEntityresolution
     }
 
     /// <summary>
-    /// Creates an ID namespace object which will help customers provide meta- data explaining their dataset and how to use it. Each ID namespace must have a unique name. To modify an existing ID namespace, use the Up- dateIdNamespace API. See also: AWS API Documentation create-id-namespace uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled ...
+    /// Creates an ID namespace object which will help customers provide metadata explaining their dataset and how to use it. Each ID namespace must have a unique name. To modify an existing ID namespace, use the UpdateIdNamespace API. See also: AWS API Documentation create-id-namespace uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsEntityresolution : IAwsEntityresolution
     }
 
     /// <summary>
-    /// Creates a matching workflow that defines the configuration for a data processing job. The workflow name must be unique. To modify an existing workflow, use UpdateMatchingWorkflow . WARNING: For workflows where resolutionType is PROVIDER , incremental pro- cessing is not supported. See also: AWS API Documentation create-matching-workflow uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command...
+    /// Creates a matching workflow that defines the configuration for a data processing job. The workflow name must be unique. To modify an existing workflow, use UpdateMatchingWorkflow . WARNING: For workflows where resolutionType is PROVIDER , incremental processing is not supported. See also: AWS API Documentation create-matching-workflow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command inp...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsEntityresolution : IAwsEntityresolution
     }
 
     /// <summary>
-    /// Creates a schema mapping, which defines the schema of the input cus- tomer records table. The SchemaMapping also provides Entity Resolution with some metadata about the table, such as the attribute types of the columns and which columns to match on. See also: AWS API Documentation
+    /// Creates a schema mapping, which defines the schema of the input customer records table. The SchemaMapping also provides Entity Resolution with some metadata about the table, such as the attribute types of the columns and which columns to match on. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsEntityresolution : IAwsEntityresolution
     }
 
     /// <summary>
-    /// Deletes the IdNamespace with a given name. This operation returns a Re- sourceNotFoundException if an ID namespace with the given name does not exist. See also: AWS API Documentation
+    /// Deletes the IdNamespace with a given name. This operation returns a ResourceNotFoundException if an ID namespace with the given name does not exist. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsEntityresolution : IAwsEntityresolution
     }
 
     /// <summary>
-    /// Deletes the SchemaMapping with a given name. This operation returns a ResourceNotFoundException if a schema with the given name does not ex- ist. This operation will fail if there is a MatchingWorkflow object that references the SchemaMapping in the workflow's InputSourceConfig . See also: AWS API Documentation
+    /// Deletes the SchemaMapping with a given name. This operation returns a ResourceNotFoundException if a schema with the given name does not exist. This operation will fail if there is a MatchingWorkflow object that references the SchemaMapping in the workflow's InputSourceConfig . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsEntityresolution : IAwsEntityresolution
     }
 
     /// <summary>
-    /// Generates or retrieves Match IDs for records using a rule-based match- ing workflow. When you call this operation, it processes your records against the workflow's matching rules to identify potential matches. For existing records, it retrieves their Match IDs and associated rules. For records without matches, it generates new Match IDs. The op- eration saves results to Amazon S3. The processing type (processingType ) you choose affects both the accu- racy and response time of the operation. Add...
+    /// Generates or retrieves Match IDs for records using a rule-based matching workflow. When you call this operation, it processes your records against the workflow's matching rules to identify potential matches. For existing records, it retrieves their Match IDs and associated rules. For records without matches, it generates new Match IDs. The operation saves results to Amazon S3. The processing type (processingType ) you choose affects both the accuracy and response time of the operation. Additiona...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsEntityresolution : IAwsEntityresolution
     }
 
     /// <summary>
-    /// Returns the status, metrics, and errors (if there are any) that are as- sociated with a job. See also: AWS API Documentation
+    /// Returns the status, metrics, and errors (if there are any) that are associated with a job. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsEntityresolution : IAwsEntityresolution
     }
 
     /// <summary>
-    /// Returns the IdMappingWorkflow with a given name, if it exists. See also: AWS API Documentation get-id-mapping-workflow uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support document types.
+    /// Returns the IdMappingWorkflow with a given name, if it exists. See also: AWS API Documentation get-id-mapping-workflow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsEntityresolution : IAwsEntityresolution
     }
 
     /// <summary>
-    /// Returns the IdNamespace with a given name, if it exists. See also: AWS API Documentation get-id-namespace uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Returns the IdNamespace with a given name, if it exists. See also: AWS API Documentation get-id-namespace uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsEntityresolution : IAwsEntityresolution
     }
 
     /// <summary>
-    /// Returns the status, metrics, and errors (if there are any) that are as- sociated with a job. See also: AWS API Documentation
+    /// Returns the status, metrics, and errors (if there are any) that are associated with a job. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsEntityresolution : IAwsEntityresolution
     }
 
     /// <summary>
-    /// Returns the MatchingWorkflow with a given name, if it exists. See also: AWS API Documentation get-matching-workflow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Returns the MatchingWorkflow with a given name, if it exists. See also: AWS API Documentation get-matching-workflow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsEntityresolution : IAwsEntityresolution
     }
 
     /// <summary>
-    /// Returns the ProviderService of a given name. See also: AWS API Documentation get-provider-service uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Returns the ProviderService of a given name. See also: AWS API Documentation get-provider-service uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsEntityresolution : IAwsEntityresolution
     }
 
     /// <summary>
-    /// Returns a list of all the IdMappingWorkflows that have been created for an Amazon Web Services account. See also: AWS API Documentation list-id-mapping-workflows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query ex...
+    /// Returns a list of all the IdMappingWorkflows that have been created for an Amazon Web Services account. See also: AWS API Documentation list-id-mapping-workflows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsEntityresolution : IAwsEntityresolution
     }
 
     /// <summary>
-    /// Returns a list of all the MatchingWorkflows that have been created for an Amazon Web Services account. See also: AWS API Documentation list-matching-workflows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expre...
+    /// Returns a list of all the MatchingWorkflows that have been created for an Amazon Web Services account. See also: AWS API Documentation list-matching-workflows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query express...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsEntityresolution : IAwsEntityresolution
     }
 
     /// <summary>
-    /// Displays the tags associated with an Entity Resolution resource. In En- tity Resolution, SchemaMapping , and MatchingWorkflow can be tagged. See also: AWS API Documentation
+    /// Displays the tags associated with an Entity Resolution resource. In Entity Resolution, SchemaMapping , and MatchingWorkflow can be tagged. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsEntityresolution : IAwsEntityresolution
     }
 
     /// <summary>
-    /// Starts the IdMappingJob of a workflow. The workflow must have previ- ously been created using the CreateIdMappingWorkflow endpoint. See also: AWS API Documentation
+    /// Starts the IdMappingJob of a workflow. The workflow must have previously been created using the CreateIdMappingWorkflow endpoint. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -512,7 +512,7 @@ public class AwsEntityresolution : IAwsEntityresolution
     }
 
     /// <summary>
-    /// Assigns one or more tags (key-value pairs) to the specified Entity Res- olution resource. Tags can help you organize and categorize your re- sources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Entity Resolution, SchemaMapping and MatchingWorkflow can be tagged. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResour...
+    /// Assigns one or more tags (key-value pairs) to the specified Entity Resolution resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Entity Resolution, SchemaMapping and MatchingWorkflow can be tagged. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +557,7 @@ public class AwsEntityresolution : IAwsEntityresolution
     }
 
     /// <summary>
-    /// Updates an existing ID namespace. See also: AWS API Documentation update-id-namespace uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Updates an existing ID namespace. See also: AWS API Documentation update-id-namespace uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsEntityresolution : IAwsEntityresolution
     }
 
     /// <summary>
-    /// Updates an existing matching workflow. The workflow must already exist for this operation to succeed. WARNING: For workflows where resolutionType is PROVIDER , incremental pro- cessing is not supported. See also: AWS API Documentation update-matching-workflow uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document m...
+    /// Updates an existing matching workflow. The workflow must already exist for this operation to succeed. WARNING: For workflows where resolutionType is PROVIDER , incremental processing is not supported. See also: AWS API Documentation update-matching-workflow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsEntityresolution : IAwsEntityresolution
     }
 
     /// <summary>
-    /// Updates a schema mapping. NOTE: A schema is immutable if it is being used by a workflow. Therefore, you can't update a schema mapping if it's associated with a work- flow. See also: AWS API Documentation
+    /// Updates a schema mapping. NOTE: A schema is immutable if it is being used by a workflow. Therefore, you can't update a schema mapping if it's associated with a workflow. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

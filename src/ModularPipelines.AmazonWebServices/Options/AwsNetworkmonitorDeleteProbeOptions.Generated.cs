@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsNetworkmonitorDeleteProbeOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Deletes the specified probe. Once a probe is deleted you'll no longer incur any billing fees for that probe. This action requires both the monitorName and probeId parameters. Run ListMonitors to get a list of monitor names. Run GetMonitor to get a list of probes and probe IDs. You can only delete a single probe at a time using this action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MonitorName">The name of the monitor to delete. Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="ProbeId">The ID of the probe to delete. Constraints: o pattern: probe-[a-z0-9A-Z-]{21,64}</param>
+    /// <param name="MonitorName">The name of the monitor to delete. Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ProbeId">The ID of the probe to delete. Constraints: • pattern: probe-[a-z0-9A-Z-]{21,64}</param>
     public AwsNetworkmonitorDeleteProbeOptions(
         string MonitorName,
         string ProbeId
@@ -60,13 +62,13 @@ public record AwsNetworkmonitorDeleteProbeOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the monitor to delete. Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9_-]+
+    /// The name of the monitor to delete. Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--monitor-name")]
     public string? MonitorName { get; private init; }
 
     /// <summary>
-    /// The ID of the probe to delete. Constraints: o pattern: probe-[a-z0-9A-Z-]{21,64}
+    /// The ID of the probe to delete. Constraints: • pattern: probe-[a-z0-9A-Z-]{21,64}
     /// </summary>
     [CliOption("--probe-id")]
     public string? ProbeId { get; private init; }

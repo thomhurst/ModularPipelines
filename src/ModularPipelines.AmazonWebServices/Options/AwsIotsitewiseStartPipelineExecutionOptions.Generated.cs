@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts execution of a pipeline in the specified workspace. Each compute node runs according to the DAG dependency order defined in the pipeline. Nodes without dependencies start immediately, while dependent nodes wait for all upstream nodes to complete successfully. You can provide runtime environment variable overrides that take the highest priority in the environment variable hierarchy, without modify- ing the pipeline definition. See also: AWS API Documentation
+/// Starts execution of a pipeline in the specified workspace. Each compute node runs according to the DAG dependency order defined in the pipeline. Nodes without dependencies start immediately, while dependent nodes wait for all upstream nodes to complete successfully. You can provide runtime environment variable overrides that take the highest priority in the environment variable hierarchy, without modifying the pipeline definition. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsIotsitewiseStartPipelineExecutionOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts execution of a pipeline in the specified workspace. Each compute node runs according to the DAG dependency order defined in the pipeline. Nodes without dependencies start immediately, while dependent nodes wait for all upstream nodes to complete successfully. You can provide runtime environment variable overrides that take the highest priority in the environment variable hierarchy, without modify- ing the pipeline definition. See also: AWS API Documentation
+    /// Starts execution of a pipeline in the specified workspace. Each compute node runs according to the DAG dependency order defined in the pipeline. Nodes without dependencies start immediately, while dependent nodes wait for all upstream nodes to complete successfully. You can provide runtime environment variable overrides that take the highest priority in the environment variable hierarchy, without modifying the pipeline definition. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceName">The name of the workspace containing the pipeline. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="PipelineName">The name of the pipeline to execute. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="WorkspaceName">The name of the workspace containing the pipeline. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="PipelineName">The name of the pipeline to execute. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsIotsitewiseStartPipelineExecutionOptions(
         string WorkspaceName,
         string PipelineName
@@ -61,37 +63,37 @@ public record AwsIotsitewiseStartPipelineExecutionOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workspace containing the pipeline. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The name of the workspace containing the pipeline. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--workspace-name")]
     public string? WorkspaceName { get; private init; }
 
     /// <summary>
-    /// The name of the pipeline to execute. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// The name of the pipeline to execute. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--pipeline-name")]
     public string? PipelineName { get; private init; }
 
     /// <summary>
-    /// Runtime environment variable overrides for the execution. Includes global variables that apply to all compute nodes and computeNodes for per-node overrides. These take the highest priority in the envi- ronment variable hierarchy. global -&gt; (map) Global environment variables that apply to all compute nodes in the pipeline execution. Constraints: o min: 0 o max: 20 key -&gt; (string) Environment variable name following POSIX naming rules Must not start with AWS_ prefix (case-insensitive) Constraints: o min: 1 o max: 255 o pattern: (?!(?i)AWS_)[a-zA-Z_][a-zA-Z0-9_]* value -&gt; (string) Environment variable value Constraints: o min: 0 o max: 1024 computeNodes -&gt; (map) Per-compute-node environment variable overrides. Each entry maps a compute node name to its environment variable overrides. Constraints: o min: 0 o max: 50 key -&gt; (string) The compute node name from the pipeline definition. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ value -&gt; (map) Environment variable overrides specific to this compute node. Constraints: o min: 0 o max: 20 key -&gt; (string) Environment variable name following POSIX naming rules Must not start with AWS_ prefix (case-insensitive) Constraints: o min: 1 o max: 255 o pattern: (?!(?i)AWS_)[a-zA-Z_][a-zA-Z0-9_]* value -&gt; (string) Environment variable value Constraints: o min: 0 o max: 1024 Shorthand Syntax: global={KeyName1=string,KeyName2=string},computeNodes={KeyName1={KeyName1=string,KeyName2=string},KeyName2={KeyName1=string,KeyName2=string}} JSON Syntax: { "global": {"string": "string" ...}, "computeNodes": {"string": {"string": "string" ...} ...} }
+    /// Runtime environment variable overrides for the execution. Includes global variables that apply to all compute nodes and computeNodes for per-node overrides. These take the highest priority in the environment variable hierarchy. global -&gt; (map) Global environment variables that apply to all compute nodes in the pipeline execution. Constraints: • min: 0 • max: 20 key -&gt; (string) Environment variable name following POSIX naming rules Must not start with AWS_ prefix (case-insensitive) Constraints: • min: 1 • max: 255 • pattern: (?!(?i)AWS_)[a-zA-Z_][a-zA-Z0-9_]* value -&gt; (string) Environment variable value Constraints: • min: 0 • max: 1024 computeNodes -&gt; (map) Per-compute-node environment variable overrides. Each entry maps a compute node name to its environment variable overrides. Constraints: • min: 0 • max: 50 key -&gt; (string) The compute node name from the pipeline definition. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+ value -&gt; (map) Environment variable overrides specific to this compute node. Constraints: • min: 0 • max: 20 key -&gt; (string) Environment variable name following POSIX naming rules Must not start with AWS_ prefix (case-insensitive) Constraints: • min: 1 • max: 255 • pattern: (?!(?i)AWS_)[a-zA-Z_][a-zA-Z0-9_]* value -&gt; (string) Environment variable value Constraints: • min: 0 • max: 1024 Shorthand Syntax: global={KeyName1=string,KeyName2=string},computeNodes={KeyName1={KeyName1=string,KeyName2=string},KeyName2={KeyName1=string,KeyName2=string}} JSON Syntax: { "global": {"string": "string" ...}, "computeNodes": {"string": {"string": "string" ...} ...} }
     /// </summary>
     [CliOption("--execution-environment-variable-overrides")]
     public string? ExecutionEnvironmentVariableOverrides { get; set; }
 
     /// <summary>
-    /// Runtime mount overrides for the execution. Overrides are merged by mount name into each listed compute node's task-defined mounts: a matching name replaces the task-defined mount, a new name adds a mount, and task-defined mounts not referenced remain unchanged. Com- pute nodes not listed use their task-defined mounts as-is. computeNodes -&gt; (map) [required] The mount overrides for each compute node, keyed by compute node name. Constraints: o min: 0 o max: 50 key -&gt; (string) The compute node name from the pipeline definition. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ value -&gt; (list) The mount overrides applied to this compute node for this ex- ecution. Each entry is merged into the compute node's task-defined mounts by mount name: a matching name replaces the task-defined mount, a new name adds a mount, and task-de- fined mounts not referenced remain unchanged. Constraints: o min: 0 o max: 5 (structure) Attaches a data source to the container filesystem for a task at a customer-supplied relative path under the ser- vice-owned mount root. name -&gt; (string) [required] A unique name for the mount within the task. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ relativePath -&gt; (string) [required] The relative path under the service-owned mount root where this mount is attached inside the container. Constraints: o min: 1 o max: 1024 o pattern: ((?!.*(^|/)\.\.?(/|$))(?!.*//)[a-zA-Z0-9._-][a-zA-Z0-9._/-]*[a-zA-Z0-9._-]|[a-zA-Z0-9_-]) source -&gt; (tagged union structure) [required] The data source for the mount. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3Access- Point. s3AccessPoint -&gt; (structure) Configuration for a mount that reads from an Ama- zon S3 access point. accessPointArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the S3 access point. Constraints: o min: 4 o max: 128 o pattern: arn:aws(-cn|-us-gov)?:s3:[a-z0-9-]*:\d{12}:ac- cesspoint[/:][a-zA-Z0-9._-]+ prefix -&gt; (string) An optional key prefix to scope the mount to a subset of objects at the access point. Constraints: o min: 1 o max: 1024 storageType -&gt; (string) [required] The type of storage used for the mount. Possible values: o SHARED_STORAGE JSON Syntax: { "computeNodes": {"string": [ { "name": "string", "relativePath": "string", "source": { "s3AccessPoint": { "accessPointArn": "string", "prefix": "string" } }, "storageType": "SHARED_STORAGE" } ... ] ...} }
+    /// Runtime mount overrides for the execution. Overrides are merged by mount name into each listed compute node's task-defined mounts: a matching name replaces the task-defined mount, a new name adds a mount, and task-defined mounts not referenced remain unchanged. Compute nodes not listed use their task-defined mounts as-is. computeNodes -&gt; (map) [required] The mount overrides for each compute node, keyed by compute node name. Constraints: • min: 0 • max: 50 key -&gt; (string) The compute node name from the pipeline definition. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+ value -&gt; (list) The mount overrides applied to this compute node for this execution. Each entry is merged into the compute node's task-defined mounts by mount name: a matching name replaces the task-defined mount, a new name adds a mount, and task-defined mounts not referenced remain unchanged. Constraints: • min: 0 • max: 5 (structure) Attaches a data source to the container filesystem for a task at a customer-supplied relative path under the service-owned mount root. name -&gt; (string) [required] A unique name for the mount within the task. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+ relativePath -&gt; (string) [required] The relative path under the service-owned mount root where this mount is attached inside the container. Constraints: • min: 1 • max: 1024 • pattern: ((?!.*(^|/)\.\.?(/|$))(?!.*//)[a-zA-Z0-9._-][a-zA-Z0-9._/-]*[a-zA-Z0-9._-]|[a-zA-Z0-9_-]) source -&gt; (tagged union structure) [required] The data source for the mount. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3AccessPoint. s3AccessPoint -&gt; (structure) Configuration for a mount that reads from an Amazon S3 access point. accessPointArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the S3 access point. Constraints: • min: 4 • max: 128 • pattern: arn:aws(-cn|-us-gov)?:s3:[a-z0-9-]*:\d{12}:accesspoint[/:][a-zA-Z0-9._-]+ prefix -&gt; (string) An optional key prefix to scope the mount to a subset of objects at the access point. Constraints: • min: 1 • max: 1024 storageType -&gt; (string) [required] The type of storage used for the mount. Possible values: • SHARED_STORAGE JSON Syntax: { "computeNodes": {"string": [ { "name": "string", "relativePath": "string", "source": { "s3AccessPoint": { "accessPointArn": "string", "prefix": "string" } }, "storageType": "SHARED_STORAGE" } ... ] ...} }
     /// </summary>
     [CliOption("--execution-mount-overrides")]
     public string? ExecutionMountOverrides { get; set; }
 
     /// <summary>
-    /// Scheduling priority for the execution. Lower values indicate higher priority. Defaults to 2 when not specified. Constraints: o min: 0 o max: 2
+    /// Scheduling priority for the execution. Lower values indicate higher priority. Defaults to 2 when not specified. Constraints: • min: 0 • max: 2
     /// </summary>
     [CliOption("--execution-priority")]
     public int? ExecutionPriority { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token, the server returns the cached result from the original successful request without perform- ing the operation again. Constraints: o min: 36 o max: 64 o pattern: \S{36,64}
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token, the server returns the cached result from the original successful request without performing the operation again. Constraints: • min: 36 • max: 64 • pattern: \S{36,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

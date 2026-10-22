@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts a request for the descriptive bot builder to generate a bot lo- cale configuration based on the prompt you provide it. After you make this call, use the DescribeBotResourceGeneration operation to check on the status of the generation and for the generatedBotLocaleUrl when the generation is complete. Use that value to retrieve the Amazon S3 object containing the bot locale configuration. You can then modify and import this configuration. See also: AWS API Documentation
+/// Starts a request for the descriptive bot builder to generate a bot locale configuration based on the prompt you provide it. After you make this call, use the DescribeBotResourceGeneration operation to check on the status of the generation and for the generatedBotLocaleUrl when the generation is complete. Use that value to retrieve the Amazon S3 object containing the bot locale configuration. You can then modify and import this configuration. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsLexv2ModelsStartBotResourceGenerationOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts a request for the descriptive bot builder to generate a bot lo- cale configuration based on the prompt you provide it. After you make this call, use the DescribeBotResourceGeneration operation to check on the status of the generation and for the generatedBotLocaleUrl when the generation is complete. Use that value to retrieve the Amazon S3 object containing the bot locale configuration. You can then modify and import this configuration. See also: AWS API Documentation
+    /// Starts a request for the descriptive bot builder to generate a bot locale configuration based on the prompt you provide it. After you make this call, use the DescribeBotResourceGeneration operation to check on the status of the generation and for the generatedBotLocaleUrl when the generation is complete. Use that value to retrieve the Amazon S3 object containing the bot locale configuration. You can then modify and import this configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GenerationInputPrompt">The prompt to generate intents and slot types for the bot locale. Your description should be both detailed and precise to help gener- ate appropriate and sufficient intents for your bot. Include a list of actions to improve the intent creation process. Constraints: o min: 100 o max: 2000</param>
-    /// <param name="BotId">The unique identifier of the bot for which to generate intents and slot types. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="BotVersion">The version of the bot for which to generate intents and slot types. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$</param>
+    /// <param name="GenerationInputPrompt">The prompt to generate intents and slot types for the bot locale. Your description should be both detailed and precise to help generate appropriate and sufficient intents for your bot. Include a list of actions to improve the intent creation process. Constraints: • min: 100 • max: 2000</param>
+    /// <param name="BotId">The unique identifier of the bot for which to generate intents and slot types. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotVersion">The version of the bot for which to generate intents and slot types. Constraints: • min: 1 • max: 5 • pattern: ^(DRAFT|[0-9]+)$</param>
     /// <param name="LocaleId">The locale of the bot for which to generate intents and slot types.</param>
     public AwsLexv2ModelsStartBotResourceGenerationOptions(
         string GenerationInputPrompt,
@@ -68,19 +70,19 @@ public record AwsLexv2ModelsStartBotResourceGenerationOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The prompt to generate intents and slot types for the bot locale. Your description should be both detailed and precise to help gener- ate appropriate and sufficient intents for your bot. Include a list of actions to improve the intent creation process. Constraints: o min: 100 o max: 2000
+    /// The prompt to generate intents and slot types for the bot locale. Your description should be both detailed and precise to help generate appropriate and sufficient intents for your bot. Include a list of actions to improve the intent creation process. Constraints: • min: 100 • max: 2000
     /// </summary>
     [CliOption("--generation-input-prompt")]
     public string? GenerationInputPrompt { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the bot for which to generate intents and slot types. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier of the bot for which to generate intents and slot types. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
 
     /// <summary>
-    /// The version of the bot for which to generate intents and slot types. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$
+    /// The version of the bot for which to generate intents and slot types. Constraints: • min: 1 • max: 5 • pattern: ^(DRAFT|[0-9]+)$
     /// </summary>
     [CliOption("--bot-version")]
     public string? BotVersion { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsNetworkmonitorListTagsForResourceOptions : AwsOptions, IValidat
     /// <summary>
     /// Lists the tags assigned to this resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Constraints: o min: 20 o max: 2048 o pattern: arn:.*</param>
+    /// <param name="ResourceArn">The Constraints: • min: 20 • max: 2048 • pattern: arn:.*</param>
     public AwsNetworkmonitorListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsNetworkmonitorListTagsForResourceOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Constraints: o min: 20 o max: 2048 o pattern: arn:.*
+    /// The Constraints: • min: 20 • max: 2048 • pattern: arn:.*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

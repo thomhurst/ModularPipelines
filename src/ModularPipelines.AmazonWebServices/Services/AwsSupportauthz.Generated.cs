@@ -32,7 +32,7 @@ public class AwsSupportauthz : IAwsSupportauthz
     #region Commands
 
     /// <summary>
-    /// Creates a support permit that authorizes an AWS support operator to perform specified actions on specified resources. The permit is crypto- graphically signed using a customer-managed AWS KMS key (ECC_NIST_P384, SIGN_VERIFY) to ensure non-repudiation. See also: AWS API Documentation
+    /// Creates a support permit that authorizes an AWS support operator to perform specified actions on specified resources. The permit is cryptographically signed using a customer-managed AWS KMS key (ECC_NIST_P384, SIGN_VERIFY) to ensure non-repudiation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsSupportauthz : IAwsSupportauthz
     }
 
     /// <summary>
-    /// Lists available support actions for a specified AWS service. Use pagi- nation to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results o...
+    /// Lists available support actions for a specified AWS service. Use pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsSupportauthz : IAwsSupportauthz
     }
 
     /// <summary>
-    /// Lists permit requests from AWS support operators. Use pagination to en- sure that the operation returns quickly and successfully. See also: AWS API Documentation list-support-permit-requests is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re...
+    /// Lists permit requests from AWS support operators. Use pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-support-permit-requests is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Accepts a transit gateway peering attachment request. The peering at- tachment must be in the pendingAcceptance state. See also: AWS API Documentation
+/// Accepts a transit gateway peering attachment request. The peering attachment must be in the pendingAcceptance state. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsEc2AcceptTransitGatewayPeeringAttachmentOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Accepts a transit gateway peering attachment request. The peering at- tachment must be in the pendingAcceptance state. See also: AWS API Documentation
+    /// Accepts a transit gateway peering attachment request. The peering attachment must be in the pendingAcceptance state. See also: AWS API Documentation
     /// </summary>
     /// <param name="TransitGatewayAttachmentId">The ID of the transit gateway attachment.</param>
     public AwsEc2AcceptTransitGatewayPeeringAttachmentOptions(
@@ -62,7 +64,7 @@ public record AwsEc2AcceptTransitGatewayPeeringAttachmentOptions : AwsOptions, I
     public string? TransitGatewayAttachmentId { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

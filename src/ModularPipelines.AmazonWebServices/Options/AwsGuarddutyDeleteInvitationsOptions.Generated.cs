@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsGuarddutyDeleteInvitationsOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Deletes invitations sent to the current member account by Amazon Web Services accounts specified by their account IDs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountIds">A list of account IDs of the Amazon Web Services accounts that sent invitations to the current member account that you want to delete invitations from. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 12 o max: 12 Syntax: "string" "string" ...</param>
+    /// <param name="AccountIds">A list of account IDs of the Amazon Web Services accounts that sent invitations to the current member account that you want to delete invitations from. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 12 • max: 12 Syntax: "string" "string" ...</param>
     public AwsGuarddutyDeleteInvitationsOptions(
         IEnumerable<string> AccountIds
     )
@@ -67,7 +69,7 @@ public record AwsGuarddutyDeleteInvitationsOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of account IDs of the Amazon Web Services accounts that sent invitations to the current member account that you want to delete invitations from. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 12 o max: 12 Syntax: "string" "string" ...
+    /// A list of account IDs of the Amazon Web Services accounts that sent invitations to the current member account that you want to delete invitations from. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 12 • max: 12 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; private init; }

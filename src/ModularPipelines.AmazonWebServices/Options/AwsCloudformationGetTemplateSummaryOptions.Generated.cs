@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about a new or existing template. The GetTemplate- Summary action is useful for viewing parameter information, such as de- fault parameter values and parameter types, before you create or update a stack or StackSet. You can use the GetTemplateSummary action when you submit a template, or you can get template information for a StackSet, or a running or deleted stack. For deleted stacks, GetTemplateSummary returns the template information for up to 90 days after the stack has b...
+/// Returns information about a new or existing template. The GetTemplateSummary action is useful for viewing parameter information, such as default parameter values and parameter types, before you create or update a stack or StackSet. You can use the GetTemplateSummary action when you submit a template, or you can get template information for a StackSet, or a running or deleted stack. For deleted stacks, GetTemplateSummary returns the template information for up to 90 days after the stack has been ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,37 +23,37 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudformationGetTemplateSummaryOptions : AwsOptions
 {
     /// <summary>
-    /// Structure that contains the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must specify only one of the following parameters: StackName , StackSetName , TemplateBody , or TemplateURL . Constraints: o min: 1
+    /// Structure that contains the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must specify only one of the following parameters: StackName , StackSetName , TemplateBody , or TemplateURL . Constraints: • min: 1
     /// </summary>
     [CliOption("--template-body")]
     public string? TemplateBody { get; set; }
 
     /// <summary>
-    /// The URL of a file that contains the template body. The URL must point to a template (max size: 1 MB) that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https:// . Conditional: You must specify only one of the following parameters: StackName , StackSetName , TemplateBody , or TemplateURL . Constraints: o min: 1 o max: 5120
+    /// The URL of a file that contains the template body. The URL must point to a template (max size: 1 MB) that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https:// . Conditional: You must specify only one of the following parameters: StackName , StackSetName , TemplateBody , or TemplateURL . Constraints: • min: 1 • max: 5120
     /// </summary>
     [CliOption("--template-url")]
     public string? TemplateUrl { get; set; }
 
     /// <summary>
-    /// The name or the stack ID that's associated with the stack, which aren't always interchangeable. For running stacks, you can specify either the stack's name or its unique stack ID. For deleted stack, you must specify the unique stack ID. Conditional: You must specify only one of the following parameters: StackName , StackSetName , TemplateBody , or TemplateURL . Constraints: o min: 1 o pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)
+    /// The name or the stack ID that's associated with the stack, which aren't always interchangeable. For running stacks, you can specify either the stack's name or its unique stack ID. For deleted stack, you must specify the unique stack ID. Conditional: You must specify only one of the following parameters: StackName , StackSetName , TemplateBody , or TemplateURL . Constraints: • min: 1 • pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)
     /// </summary>
     [CliOption("--stack-name")]
     public string? StackName { get; set; }
 
     /// <summary>
-    /// The name or unique ID of the StackSet from which the stack was cre- ated. Conditional: You must specify only one of the following parameters: StackName , StackSetName , TemplateBody , or TemplateURL . Constraints: o pattern: [a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?
+    /// The name or unique ID of the StackSet from which the stack was created. Conditional: You must specify only one of the following parameters: StackName , StackSetName , TemplateBody , or TemplateURL . Constraints: • pattern: [a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?
     /// </summary>
     [CliOption("--stack-set-name")]
     public string? StackSetName { get; set; }
 
     /// <summary>
-    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-man- aged permissions. o If you are signed in to the management account, specify SELF . o If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN . Your Amazon Web Services account must be regis- tered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide . Possible values: o SELF o DELEGATED_ADMIN
+    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-managed permissions. • If you are signed in to the management account, specify SELF . • If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN . Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide . Possible values: • SELF • DELEGATED_ADMIN
     /// </summary>
     [CliOption("--call-as")]
     public AwsCloudformationGetTemplateSummaryCallAs? CallAs { get; set; }
 
     /// <summary>
-    /// Specifies options for the GetTemplateSummary API action. TreatUnrecognizedResourceTypesAsWarnings -&gt; (boolean) If set to True , any unrecognized resource types generate warn- ings and not an error. Any unrecognized resource types are re- turned in the Warnings output parameter. Shorthand Syntax: TreatUnrecognizedResourceTypesAsWarnings=boolean JSON Syntax: { "TreatUnrecognizedResourceTypesAsWarnings": true|false }
+    /// Specifies options for the GetTemplateSummary API action. TreatUnrecognizedResourceTypesAsWarnings -&gt; (boolean) If set to True , any unrecognized resource types generate warnings and not an error. Any unrecognized resource types are returned in the Warnings output parameter. Shorthand Syntax: TreatUnrecognizedResourceTypesAsWarnings=boolean JSON Syntax: { "TreatUnrecognizedResourceTypesAsWarnings": true|false }
     /// </summary>
     [CliOption("--template-summary-config")]
     public string? TemplateSummaryConfig { get; set; }

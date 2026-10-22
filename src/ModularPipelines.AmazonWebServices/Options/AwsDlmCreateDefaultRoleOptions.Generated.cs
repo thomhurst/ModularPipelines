@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates the default IAM role which will be used by Lifecycle service. If the role does not exist, create-default-role will automatically cre- ate it and set its policy. If the role has been already created, cre- ate-default-role will not update its policy.
+/// Creates the default IAM role which will be used by Lifecycle service. If the role does not exist, create-default-role will automatically create it and set its policy. If the role has been already created, create-default-role will not update its policy.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,7 +28,7 @@ public record AwsDlmCreateDefaultRoleOptions : AwsOptions
     public string? IamEndpoint { get; set; }
 
     /// <summary>
-    /// The resource type for which the role needs to be created. The avail- able options are 'snapshot' and 'image'. This parameter defaults to 'snapshot'.
+    /// The resource type for which the role needs to be created. The available options are 'snapshot' and 'image'. This parameter defaults to 'snapshot'.
     /// </summary>
     [CliOption("--resource-type")]
     public string? ResourceType { get; set; }

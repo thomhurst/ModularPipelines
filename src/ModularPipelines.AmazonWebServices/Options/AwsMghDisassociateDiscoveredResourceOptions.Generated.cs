@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsMghDisassociateDiscoveredResourceOptions : AwsOptions, IValidat
     /// <summary>
     /// Disassociate an Application Discovery Service discovered resource from a migration task. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProgressUpdateStream">The name of the ProgressUpdateStream. Constraints: o min: 1 o max: 50 o pattern: [^/:|\000-\037]+</param>
-    /// <param name="MigrationTaskName">The identifier given to the MigrationTask. Do not store personal data in this field. Constraints: o min: 1 o max: 256 o pattern: [^:|]+</param>
-    /// <param name="ConfigurationId">ConfigurationId of the Application Discovery Service resource to be disassociated. Constraints: o min: 1 o max: 1600 o pattern: ^.{1,1600}$</param>
+    /// <param name="ProgressUpdateStream">The name of the ProgressUpdateStream. Constraints: • min: 1 • max: 50 • pattern: [^/:|\000-\037]+</param>
+    /// <param name="MigrationTaskName">The identifier given to the MigrationTask. Do not store personal data in this field. Constraints: • min: 1 • max: 256 • pattern: [^:|]+</param>
+    /// <param name="ConfigurationId">ConfigurationId of the Application Discovery Service resource to be disassociated. Constraints: • min: 1 • max: 1600 • pattern: ^.{1,1600}$</param>
     public AwsMghDisassociateDiscoveredResourceOptions(
         string ProgressUpdateStream,
         string MigrationTaskName,
@@ -64,19 +66,19 @@ public record AwsMghDisassociateDiscoveredResourceOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the ProgressUpdateStream. Constraints: o min: 1 o max: 50 o pattern: [^/:|\000-\037]+
+    /// The name of the ProgressUpdateStream. Constraints: • min: 1 • max: 50 • pattern: [^/:|\000-\037]+
     /// </summary>
     [CliOption("--progress-update-stream")]
     public string? ProgressUpdateStream { get; private init; }
 
     /// <summary>
-    /// The identifier given to the MigrationTask. Do not store personal data in this field. Constraints: o min: 1 o max: 256 o pattern: [^:|]+
+    /// The identifier given to the MigrationTask. Do not store personal data in this field. Constraints: • min: 1 • max: 256 • pattern: [^:|]+
     /// </summary>
     [CliOption("--migration-task-name")]
     public string? MigrationTaskName { get; private init; }
 
     /// <summary>
-    /// ConfigurationId of the Application Discovery Service resource to be disassociated. Constraints: o min: 1 o max: 1600 o pattern: ^.{1,1600}$
+    /// ConfigurationId of the Application Discovery Service resource to be disassociated. Constraints: • min: 1 • max: 1600 • pattern: ^.{1,1600}$
     /// </summary>
     [CliOption("--configuration-id")]
     public string? ConfigurationId { get; private init; }

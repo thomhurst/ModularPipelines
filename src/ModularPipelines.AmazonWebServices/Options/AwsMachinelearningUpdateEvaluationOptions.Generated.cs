@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the EvaluationName of an Evaluation . You can use the GetEvaluation operation to view the contents of the up- dated data element. See also: AWS API Documentation
+/// Updates the EvaluationName of an Evaluation . You can use the GetEvaluation operation to view the contents of the updated data element. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsMachinelearningUpdateEvaluationOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the EvaluationName of an Evaluation . You can use the GetEvaluation operation to view the contents of the up- dated data element. See also: AWS API Documentation
+    /// Updates the EvaluationName of an Evaluation . You can use the GetEvaluation operation to view the contents of the updated data element. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EvaluationId">The ID assigned to the Evaluation during creation. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="EvaluationName">A new user-supplied name or description of the Evaluation that will replace the current content. Constraints: o max: 1024 o pattern: .*\S.*|^$</param>
+    /// <param name="EvaluationId">The ID assigned to the Evaluation during creation. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="EvaluationName">A new user-supplied name or description of the Evaluation that will replace the current content. Constraints: • max: 1024 • pattern: .*\S.*|^$</param>
     public AwsMachinelearningUpdateEvaluationOptions(
         string EvaluationId,
         string EvaluationName
@@ -60,13 +62,13 @@ public record AwsMachinelearningUpdateEvaluationOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID assigned to the Evaluation during creation. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// The ID assigned to the Evaluation during creation. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--evaluation-id")]
     public string? EvaluationId { get; private init; }
 
     /// <summary>
-    /// A new user-supplied name or description of the Evaluation that will replace the current content. Constraints: o max: 1024 o pattern: .*\S.*|^$
+    /// A new user-supplied name or description of the Evaluation that will replace the current content. Constraints: • max: 1024 • pattern: .*\S.*|^$
     /// </summary>
     [CliOption("--evaluation-name")]
     public string? EvaluationName { get; private init; }

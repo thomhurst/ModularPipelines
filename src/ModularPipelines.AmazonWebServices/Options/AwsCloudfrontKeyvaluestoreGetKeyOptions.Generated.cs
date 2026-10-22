@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCloudfrontKeyvaluestoreGetKeyOptions : AwsOptions, IValidatable
     /// <summary>
     /// Returns a key value pair. See also: AWS API Documentation
     /// </summary>
-    /// <param name="KvsArn">The Amazon Resource Name (ARN) of the Key Value Store. Constraints: o min: 1 o max: 2048</param>
-    /// <param name="Key">The key to get. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="KvsArn">The Amazon Resource Name (ARN) of the Key Value Store. Constraints: • min: 1 • max: 2048</param>
+    /// <param name="Key">The key to get. Constraints: • min: 1 • max: 1024</param>
     public AwsCloudfrontKeyvaluestoreGetKeyOptions(
         string KvsArn,
         string Key
@@ -60,13 +62,13 @@ public record AwsCloudfrontKeyvaluestoreGetKeyOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Key Value Store. Constraints: o min: 1 o max: 2048
+    /// The Amazon Resource Name (ARN) of the Key Value Store. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--kvs-arn")]
     public string? KvsArn { get; private init; }
 
     /// <summary>
-    /// The key to get. Constraints: o min: 1 o max: 1024
+    /// The key to get. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--key")]
     public string? Key { get; private init; }

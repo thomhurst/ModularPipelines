@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,7 +64,7 @@ public record AwsEc2ModifyLocalGatewayRouteOptions : AwsOptions, IValidatableObj
     public string? LocalGatewayRouteTableId { get; private init; }
 
     /// <summary>
-    /// The CIDR block used for destination matches. The value that you pro- vide must match the CIDR of an existing route in the table.
+    /// The CIDR block used for destination matches. The value that you provide must match the CIDR of an existing route in the table.
     /// </summary>
     [CliOption("--destination-cidr-block")]
     public string? DestinationCidrBlock { get; set; }
@@ -80,13 +82,13 @@ public record AwsEc2ModifyLocalGatewayRouteOptions : AwsOptions, IValidatableObj
     public string? NetworkInterfaceId { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// The ID of the prefix list. Use a prefix list in place of Destina- tionCidrBlock . You cannot use DestinationPrefixListId and Destina- tionCidrBlock in the same request.
+    /// The ID of the prefix list. Use a prefix list in place of DestinationCidrBlock . You cannot use DestinationPrefixListId and DestinationCidrBlock in the same request.
     /// </summary>
     [CliOption("--destination-prefix-list-id")]
     public string? DestinationPrefixListId { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an existing S3 Storage Lens group. To use this operation, you must have the permission to perform the s3:DeleteStorageLensGroup action. For more information about the re- quired Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups . For information about Storage Lens groups errors, see List of Amazon S3 Storage Lens error codes . See also: AWS API Documentation
+/// Deletes an existing S3 Storage Lens group. To use this operation, you must have the permission to perform the s3:DeleteStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups . For information about Storage Lens groups errors, see List of Amazon S3 Storage Lens error codes . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsS3controlDeleteStorageLensGroupOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an existing S3 Storage Lens group. To use this operation, you must have the permission to perform the s3:DeleteStorageLensGroup action. For more information about the re- quired Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups . For information about Storage Lens groups errors, see List of Amazon S3 Storage Lens error codes . See also: AWS API Documentation
+    /// Deletes an existing S3 Storage Lens group. To use this operation, you must have the permission to perform the s3:DeleteStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups . For information about Storage Lens groups errors, see List of Amazon S3 Storage Lens error codes . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the Storage Lens group that you're trying to delete. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\-\_]+</param>
-    /// <param name="AccountId">The Amazon Web Services account ID used to create the Storage Lens group that you're trying to delete. Constraints: o max: 64 o pattern: ^\d{12}$</param>
+    /// <param name="Name">The name of the Storage Lens group that you're trying to delete. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9\-\_]+</param>
+    /// <param name="AccountId">The Amazon Web Services account ID used to create the Storage Lens group that you're trying to delete. Constraints: • max: 64 • pattern: ^\d{12}$</param>
     public AwsS3controlDeleteStorageLensGroupOptions(
         string Name,
         string AccountId
@@ -60,13 +62,13 @@ public record AwsS3controlDeleteStorageLensGroupOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Storage Lens group that you're trying to delete. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\-\_]+
+    /// The name of the Storage Lens group that you're trying to delete. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9\-\_]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID used to create the Storage Lens group that you're trying to delete. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID used to create the Storage Lens group that you're trying to delete. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }

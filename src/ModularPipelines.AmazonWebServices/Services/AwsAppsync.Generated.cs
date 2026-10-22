@@ -167,7 +167,7 @@ public class AwsAppsync : IAwsAppsync
     }
 
     /// <summary>
-    /// Creates a Function object. A function is a reusable entity. You can use multiple functions to com- pose the resolver logic. See also: AWS API Documentation
+    /// Creates a Function object. A function is a reusable entity. You can use multiple functions to compose the resolver logic. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsAppsync : IAwsAppsync
     }
 
     /// <summary>
-    /// Evaluates the given code and returns the response. The code definition requirements depend on the specified runtime. For APPSYNC_JS runtimes, the code defines the request and response functions. The request func- tion takes the incoming request after a GraphQL operation is parsed and converts it into a request configuration for the selected data source operation. The response function interprets responses from the data source and maps it to the shape of the GraphQL field output type. See also: A...
+    /// Evaluates the given code and returns the response. The code definition requirements depend on the specified runtime. For APPSYNC_JS runtimes, the code defines the request and response functions. The request function takes the incoming request after a GraphQL operation is parsed and converts it into a request configuration for the selected data source operation. The response function interprets responses from the data source and maps it to the shape of the GraphQL field output type. See also: AWS...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsAppsync : IAwsAppsync
     }
 
     /// <summary>
-    /// Evaluates a given template and returns the response. The mapping tem- plate can be a request or response template. Request templates take the incoming request after a GraphQL operation is parsed and convert it into a request configuration for the selected data source operation. Response templates interpret responses from the data source and map it to the shape of the GraphQL field output type. Mapping templates are written in the Apache Velocity Template Language (VTL). See also: AWS API Documen...
+    /// Evaluates a given template and returns the response. The mapping template can be a request or response template. Request templates take the incoming request after a GraphQL operation is parsed and convert it into a request configuration for the selected data source operation. Response templates interpret responses from the data source and map it to the shape of the GraphQL field output type. Mapping templates are written in the Apache Velocity Template Language (VTL). See also: AWS API Documenta...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -692,7 +692,7 @@ public class AwsAppsync : IAwsAppsync
     }
 
     /// <summary>
-    /// Lists the API keys for a given API. NOTE: API keys are deleted automatically 60 days after they expire. How- ever, they may still be included in the response until they have ac- tually been deleted. You can safely call DeleteApiKey to manually delete a key before it's automatically deleted. See also: AWS API Documentation list-api-keys is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --...
+    /// Lists the API keys for a given API. NOTE: API keys are deleted automatically 60 days after they expire. However, they may still be included in the response until they have actually been deleted. You can safely call DeleteApiKey to manually delete a key before it's automatically deleted. See also: AWS API Documentation list-api-keys is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagin...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -707,7 +707,7 @@ public class AwsAppsync : IAwsAppsync
     }
 
     /// <summary>
-    /// Lists the APIs in your AppSync account. ListApis returns only the high level API details. For more detailed information about an API, use GetApi . See also: AWS API Documentation list-apis is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must extract data from the resu...
+    /// Lists the APIs in your AppSync account. ListApis returns only the high level API details. For more detailed information about an API, use GetApi . See also: AWS API Documentation list-apis is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -722,7 +722,7 @@ public class AwsAppsync : IAwsAppsync
     }
 
     /// <summary>
-    /// Lists the channel namespaces for a specified Api . ListChannelNamespaces returns only high level details for the chan- nel namespace. To retrieve code handlers, use GetChannelNamespace . See also: AWS API Documentation list-channel-namespaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, th...
+    /// Lists the channel namespaces for a specified Api . ListChannelNamespaces returns only high level details for the channel namespace. To retrieve code handlers, use GetChannelNamespace . See also: AWS API Documentation list-channel-namespaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -767,7 +767,7 @@ public class AwsAppsync : IAwsAppsync
     }
 
     /// <summary>
-    /// List multiple functions. See also: AWS API Documentation list-functions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: functions
+    /// List multiple functions. See also: AWS API Documentation list-functions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: functions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -797,7 +797,7 @@ public class AwsAppsync : IAwsAppsync
     }
 
     /// <summary>
-    /// List the resolvers that are associated with a specific function. See also: AWS API Documentation list-resolvers-by-function is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: resolvers
+    /// List the resolvers that are associated with a specific function. See also: AWS API Documentation list-resolvers-by-function is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: resolvers
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -812,7 +812,7 @@ public class AwsAppsync : IAwsAppsync
     }
 
     /// <summary>
-    /// Lists the resolvers for a given API and type. See also: AWS API Documentation list-resolvers is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: resolvers
+    /// Lists the resolvers for a given API and type. See also: AWS API Documentation list-resolvers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: resolvers
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -827,7 +827,7 @@ public class AwsAppsync : IAwsAppsync
     }
 
     /// <summary>
-    /// Lists the SourceApiAssociationSummary data. See also: AWS API Documentation list-source-api-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: sourceApiAssociationSummaries
+    /// Lists the SourceApiAssociationSummary data. See also: AWS API Documentation list-source-api-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: sourceApiAssociationSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -857,7 +857,7 @@ public class AwsAppsync : IAwsAppsync
     }
 
     /// <summary>
-    /// Lists Type objects by the source API association ID. See also: AWS API Documentation list-types-by-association is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: types
+    /// Lists Type objects by the source API association ID. See also: AWS API Documentation list-types-by-association is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: types
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -872,7 +872,7 @@ public class AwsAppsync : IAwsAppsync
     }
 
     /// <summary>
-    /// Lists the types for a given API. See also: AWS API Documentation list-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: types
+    /// Lists the types for a given API. See also: AWS API Documentation list-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: types
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -887,7 +887,7 @@ public class AwsAppsync : IAwsAppsync
     }
 
     /// <summary>
-    /// Creates a list of environmental variables in an API by its ID value. When creating an environmental variable, it must follow the constraints below: o Both JavaScript and VTL templates support environmental variables. o Environmental variables are not evaluated before function invocation. o Environmental variables only support string values. o Any defined value in an environmental variable is considered a string literal and not expanded. o Variable evaluations should ideally be performed in the f...
+    /// Creates a list of environmental variables in an API by its ID value. When creating an environmental variable, it must follow the constraints below: • Both JavaScript and VTL templates support environmental variables. • Environmental variables are not evaluated before function invocation. • Environmental variables only support string values. • Any defined value in an environmental variable is considered a string literal and not expanded. • Variable evaluations should ideally be performed in the f...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -902,7 +902,7 @@ public class AwsAppsync : IAwsAppsync
     }
 
     /// <summary>
-    /// Creates a new introspection. Returns the introspectionId of the new in- trospection after its creation. See also: AWS API Documentation
+    /// Creates a new introspection. Returns the introspectionId of the new introspection after its creation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

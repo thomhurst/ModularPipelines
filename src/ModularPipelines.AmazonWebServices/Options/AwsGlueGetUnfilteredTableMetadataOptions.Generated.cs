@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Allows a third-party analytical engine to retrieve unfiltered table metadata from the Data Catalog. For IAM authorization, the public IAM action associated with this API is glue:GetTable . See also: AWS API Documentation get-unfiltered-table-metadata uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro-...
+/// Allows a third-party analytical engine to retrieve unfiltered table metadata from the Data Catalog. For IAM authorization, the public IAM action associated with this API is glue:GetTable . See also: AWS API Documentation get-unfiltered-table-metadata uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be prov...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +27,12 @@ public record AwsGlueGetUnfilteredTableMetadataOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Allows a third-party analytical engine to retrieve unfiltered table metadata from the Data Catalog. For IAM authorization, the public IAM action associated with this API is glue:GetTable . See also: AWS API Documentation get-unfiltered-table-metadata uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro-...
+    /// Allows a third-party analytical engine to retrieve unfiltered table metadata from the Data Catalog. For IAM authorization, the public IAM action associated with this API is glue:GetTable . See also: AWS API Documentation get-unfiltered-table-metadata uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be prov...
     /// </summary>
-    /// <param name="CatalogId">The catalog ID where the table resides. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="DatabaseName">(Required) Specifies the name of a database that contains the table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="Name">(Required) Specifies the name of a table for which you are request- ing metadata. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="SupportedPermissionTypes">Indicates the level of filtering a third-party analytical engine is capable of enforcing when calling the GetUnfilteredTableMetadata API operation. Accepted values are: o COLUMN_PERMISSION - Column permissions ensure that users can ac- cess only specific columns in the table. If there are particular columns contain sensitive data, data lake administrators can de- fine column filters that exclude access to specific columns. o CELL_FILTER_PERMISSION - Cell-level filtering combines column fil- tering (include or exclude columns) and row filter expressions to restrict access to individual elements in the table. o NESTED_PERMISSION - Nested permissions combines cell-level filter- ing and nested column filtering to restrict access to columns and/or nested columns in specific rows based on row filter expres- sions. o NESTED_CELL_PERMISSION - Nested cell permissions combines nested permission with nested cell-level filtering. This allows different subsets of nested columns to be restricted based on an array of row filter expressions. Note: Each of these permission types follows a hierarchical order where each subsequent permission type includes all permission of the previous type. Important: If you provide a supported permission type that doesn't match the user's level of permissions on the table, then Lake Forma- tion raises an exception. For example, if the third-party engine calling the GetUnfilteredTableMetadata operation can enforce only column-level filtering, and the user has nested cell filtering ap- plied on the table, Lake Formation throws an exception, and will not return unfiltered table metadata and data access credentials. Constraints: o min: 1 o max: 255 (string) Possible values: o COLUMN_PERMISSION o CELL_FILTER_PERMISSION o NESTED_PERMISSION o NESTED_CELL_PERMISSION Syntax: "string" "string" ...</param>
+    /// <param name="CatalogId">The catalog ID where the table resides. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="DatabaseName">(Required) Specifies the name of a database that contains the table. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="Name">(Required) Specifies the name of a table for which you are requesting metadata. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="SupportedPermissionTypes">Indicates the level of filtering a third-party analytical engine is capable of enforcing when calling the GetUnfilteredTableMetadata API operation. Accepted values are: • COLUMN_PERMISSION - Column permissions ensure that users can access only specific columns in the table. If there are particular columns contain sensitive data, data lake administrators can define column filters that exclude access to specific columns. • CELL_FILTER_PERMISSION - Cell-level filtering combines column filtering (include or exclude columns) and row filter expressions to restrict access to individual elements in the table. • NESTED_PERMISSION - Nested permissions combines cell-level filtering and nested column filtering to restrict access to columns and/or nested columns in specific rows based on row filter expressions. • NESTED_CELL_PERMISSION - Nested cell permissions combines nested permission with nested cell-level filtering. This allows different subsets of nested columns to be restricted based on an array of row filter expressions. Note: Each of these permission types follows a hierarchical order where each subsequent permission type includes all permission of the previous type. Important: If you provide a supported permission type that doesn't match the user's level of permissions on the table, then Lake Formation raises an exception. For example, if the third-party engine calling the GetUnfilteredTableMetadata operation can enforce only column-level filtering, and the user has nested cell filtering applied on the table, Lake Formation throws an exception, and will not return unfiltered table metadata and data access credentials. Constraints: • min: 1 • max: 255 (string) Possible values: • COLUMN_PERMISSION • CELL_FILTER_PERMISSION • NESTED_PERMISSION • NESTED_CELL_PERMISSION Syntax: "string" "string" ...</param>
     public AwsGlueGetUnfilteredTableMetadataOptions(
         string CatalogId,
         string DatabaseName,
@@ -79,67 +81,67 @@ public record AwsGlueGetUnfilteredTableMetadataOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog ID where the table resides. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The catalog ID where the table resides. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; private init; }
 
     /// <summary>
-    /// (Required) Specifies the name of a database that contains the table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// (Required) Specifies the name of a database that contains the table. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--database-name")]
     public string? DatabaseName { get; private init; }
 
     /// <summary>
-    /// (Required) Specifies the name of a table for which you are request- ing metadata. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// (Required) Specifies the name of a table for which you are requesting metadata. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Indicates the level of filtering a third-party analytical engine is capable of enforcing when calling the GetUnfilteredTableMetadata API operation. Accepted values are: o COLUMN_PERMISSION - Column permissions ensure that users can ac- cess only specific columns in the table. If there are particular columns contain sensitive data, data lake administrators can de- fine column filters that exclude access to specific columns. o CELL_FILTER_PERMISSION - Cell-level filtering combines column fil- tering (include or exclude columns) and row filter expressions to restrict access to individual elements in the table. o NESTED_PERMISSION - Nested permissions combines cell-level filter- ing and nested column filtering to restrict access to columns and/or nested columns in specific rows based on row filter expres- sions. o NESTED_CELL_PERMISSION - Nested cell permissions combines nested permission with nested cell-level filtering. This allows different subsets of nested columns to be restricted based on an array of row filter expressions. Note: Each of these permission types follows a hierarchical order where each subsequent permission type includes all permission of the previous type. Important: If you provide a supported permission type that doesn't match the user's level of permissions on the table, then Lake Forma- tion raises an exception. For example, if the third-party engine calling the GetUnfilteredTableMetadata operation can enforce only column-level filtering, and the user has nested cell filtering ap- plied on the table, Lake Formation throws an exception, and will not return unfiltered table metadata and data access credentials. Constraints: o min: 1 o max: 255 (string) Possible values: o COLUMN_PERMISSION o CELL_FILTER_PERMISSION o NESTED_PERMISSION o NESTED_CELL_PERMISSION Syntax: "string" "string" ...
+    /// Indicates the level of filtering a third-party analytical engine is capable of enforcing when calling the GetUnfilteredTableMetadata API operation. Accepted values are: • COLUMN_PERMISSION - Column permissions ensure that users can access only specific columns in the table. If there are particular columns contain sensitive data, data lake administrators can define column filters that exclude access to specific columns. • CELL_FILTER_PERMISSION - Cell-level filtering combines column filtering (include or exclude columns) and row filter expressions to restrict access to individual elements in the table. • NESTED_PERMISSION - Nested permissions combines cell-level filtering and nested column filtering to restrict access to columns and/or nested columns in specific rows based on row filter expressions. • NESTED_CELL_PERMISSION - Nested cell permissions combines nested permission with nested cell-level filtering. This allows different subsets of nested columns to be restricted based on an array of row filter expressions. Note: Each of these permission types follows a hierarchical order where each subsequent permission type includes all permission of the previous type. Important: If you provide a supported permission type that doesn't match the user's level of permissions on the table, then Lake Formation raises an exception. For example, if the third-party engine calling the GetUnfilteredTableMetadata operation can enforce only column-level filtering, and the user has nested cell filtering applied on the table, Lake Formation throws an exception, and will not return unfiltered table metadata and data access credentials. Constraints: • min: 1 • max: 255 (string) Possible values: • COLUMN_PERMISSION • CELL_FILTER_PERMISSION • NESTED_PERMISSION • NESTED_CELL_PERMISSION Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--supported-permission-types", GroupValues = true)]
     public IEnumerable<string>? SupportedPermissionTypes { get; private init; }
 
     /// <summary>
-    /// A structure containing Lake Formation audit context information. AdditionalAuditContext -&gt; (string) A string containing the additional audit context information. Constraints: o min: 0 o max: 2048 RequestedColumns -&gt; (list) The requested columns for audit. (string) Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* AllColumnsRequested -&gt; (boolean) All columns request for audit. Shorthand Syntax: AdditionalAuditContext=string,RequestedColumns=string,string,AllColumnsRequested=boolean JSON Syntax: { "AdditionalAuditContext": "string", "RequestedColumns": ["string", ...], "AllColumnsRequested": true|false }
+    /// A structure containing Lake Formation audit context information. AdditionalAuditContext -&gt; (string) A string containing the additional audit context information. Constraints: • min: 0 • max: 2048 RequestedColumns -&gt; (list) The requested columns for audit. (string) Constraints: • min: 1 • max: 1024 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* AllColumnsRequested -&gt; (boolean) All columns request for audit. Shorthand Syntax: AdditionalAuditContext=string,RequestedColumns=string,string,AllColumnsRequested=boolean JSON Syntax: { "AdditionalAuditContext": "string", "RequestedColumns": ["string", ...], "AllColumnsRequested": true|false }
     /// </summary>
     [CliOption("--audit-context")]
     public string? AuditContext { get; set; }
 
     /// <summary>
-    /// The resource ARN of the view. Constraints: o min: 20 o max: 2048
+    /// The resource ARN of the view. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--parent-resource-arn")]
     public string? ParentResourceArn { get; set; }
 
     /// <summary>
-    /// The resource ARN of the root view in a chain of nested views. Constraints: o min: 20 o max: 2048
+    /// The resource ARN of the root view in a chain of nested views. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--root-resource-arn")]
     public string? RootResourceArn { get; set; }
 
     /// <summary>
-    /// A structure specifying the dialect and dialect version used by the query engine. Dialect -&gt; (string) The dialect of the query engine. Possible values: o REDSHIFT o ATHENA o SPARK DialectVersion -&gt; (string) The version of the dialect of the query engine. For example, 3.0.0. Constraints: o min: 1 o max: 255 Shorthand Syntax: Dialect=string,DialectVersion=string JSON Syntax: { "Dialect": "REDSHIFT"|"ATHENA"|"SPARK", "DialectVersion": "string" }
+    /// A structure specifying the dialect and dialect version used by the query engine. Dialect -&gt; (string) The dialect of the query engine. Possible values: • REDSHIFT • ATHENA • SPARK DialectVersion -&gt; (string) The version of the dialect of the query engine. For example, 3.0.0. Constraints: • min: 1 • max: 255 Shorthand Syntax: Dialect=string,DialectVersion=string JSON Syntax: { "Dialect": "REDSHIFT"|"ATHENA"|"SPARK", "DialectVersion": "string" }
     /// </summary>
     [CliOption("--supported-dialect")]
     public string? SupportedDialect { get; set; }
 
     /// <summary>
-    /// The Lake Formation data permissions of the caller on the table. Used to authorize the call when no view context is found. (string) Possible values: o ALL o SELECT o ALTER o DROP o DELETE o INSERT o CREATE_DATABASE o CREATE_TABLE o DATA_LOCATION_ACCESS Syntax: "string" "string" ...
+    /// The Lake Formation data permissions of the caller on the table. Used to authorize the call when no view context is found. (string) Possible values: • ALL • SELECT • ALTER • DROP • DELETE • INSERT • CREATE_DATABASE • CREATE_TABLE • DATA_LOCATION_ACCESS Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--permissions", GroupValues = true)]
     public IEnumerable<string>? Permissions { get; set; }
 
     /// <summary>
-    /// A structure used as a protocol between query engines and Lake Forma- tion or Glue. Contains both a Lake Formation generated authorization identifier and information from the request's authorization context. QueryId -&gt; (string) A unique identifier generated by the query engine for the query. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* QueryStartTime -&gt; (timestamp) A timestamp provided by the query engine for when the query started. ClusterId -&gt; (string) An identifier string for the consumer cluster. QueryAuthorizationId -&gt; (string) A cryptographically generated query identifier generated by Glue or Lake Formation. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* AdditionalContext -&gt; (map) An opaque string-string map passed by the query engine. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: QueryId=string,QueryStartTime=timestamp,ClusterId=string,QueryAuthorizationId=string,AdditionalContext={KeyName1=string,KeyName2=string} JSON Syntax: { "QueryId": "string", "QueryStartTime": timestamp, "ClusterId": "string", "QueryAuthorizationId": "string", "AdditionalContext": {"string": "string" ...} }
+    /// A structure used as a protocol between query engines and Lake Formation or Glue. Contains both a Lake Formation generated authorization identifier and information from the request's authorization context. QueryId -&gt; (string) A unique identifier generated by the query engine for the query. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* QueryStartTime -&gt; (timestamp) A timestamp provided by the query engine for when the query started. ClusterId -&gt; (string) An identifier string for the consumer cluster. QueryAuthorizationId -&gt; (string) A cryptographically generated query identifier generated by Glue or Lake Formation. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* AdditionalContext -&gt; (map) An opaque string-string map passed by the query engine. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: QueryId=string,QueryStartTime=timestamp,ClusterId=string,QueryAuthorizationId=string,AdditionalContext={KeyName1=string,KeyName2=string} JSON Syntax: { "QueryId": "string", "QueryStartTime": timestamp, "ClusterId": "string", "QueryAuthorizationId": "string", "AdditionalContext": {"string": "string" ...} }
     /// </summary>
     [CliOption("--query-session-context")]
     public string? QuerySessionContext { get; set; }
 
     /// <summary>
-    /// Specified only if the base tables belong to a different Amazon Web Services Region. Constraints: o min: 1 o max: 1024
+    /// Specified only if the base tables belong to a different Amazon Web Services Region. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--resource-region")]
     public string? ResourceRegion { get; set; }

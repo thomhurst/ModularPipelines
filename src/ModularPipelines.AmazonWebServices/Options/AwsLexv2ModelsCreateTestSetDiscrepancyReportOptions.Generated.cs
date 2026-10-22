@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsLexv2ModelsCreateTestSetDiscrepancyReportOptions : AwsOptions, 
     /// <summary>
     /// Create a report that describes the differences between the bot and the test set. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TestSetId">The test set Id for the test set discrepancy report. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="Target">The target bot for the test set discrepancy report. botAliasTarget -&gt; (structure) Contains information about the bot alias used as the resource for the test set discrepancy report. botId -&gt; (string) [required] The unique identifier for the bot alias. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$ botAliasId -&gt; (string) [required] The unique identifier for the bot associated with the bot alias. Constraints: o min: 10 o max: 10 o pattern: ^(\bTSTALIASID\b|[0-9a-zA-Z]+)$ localeId -&gt; (string) [required] The unique identifier of the locale associated with the bot alias. Shorthand Syntax: botAliasTarget={botId=string,botAliasId=string,localeId=string} JSON Syntax: { "botAliasTarget": { "botId": "string", "botAliasId": "string", "localeId": "string" } }</param>
+    /// <param name="TestSetId">The test set Id for the test set discrepancy report. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="Target">The target bot for the test set discrepancy report. botAliasTarget -&gt; (structure) Contains information about the bot alias used as the resource for the test set discrepancy report. botId -&gt; (string) [required] The unique identifier for the bot alias. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$ botAliasId -&gt; (string) [required] The unique identifier for the bot associated with the bot alias. Constraints: • min: 10 • max: 10 • pattern: ^(\bTSTALIASID\b|[0-9a-zA-Z]+)$ localeId -&gt; (string) [required] The unique identifier of the locale associated with the bot alias. Shorthand Syntax: botAliasTarget={botId=string,botAliasId=string,localeId=string} JSON Syntax: { "botAliasTarget": { "botId": "string", "botAliasId": "string", "localeId": "string" } }</param>
     public AwsLexv2ModelsCreateTestSetDiscrepancyReportOptions(
         string TestSetId,
         string Target
@@ -60,13 +62,13 @@ public record AwsLexv2ModelsCreateTestSetDiscrepancyReportOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The test set Id for the test set discrepancy report. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The test set Id for the test set discrepancy report. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--test-set-id")]
     public string? TestSetId { get; private init; }
 
     /// <summary>
-    /// The target bot for the test set discrepancy report. botAliasTarget -&gt; (structure) Contains information about the bot alias used as the resource for the test set discrepancy report. botId -&gt; (string) [required] The unique identifier for the bot alias. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$ botAliasId -&gt; (string) [required] The unique identifier for the bot associated with the bot alias. Constraints: o min: 10 o max: 10 o pattern: ^(\bTSTALIASID\b|[0-9a-zA-Z]+)$ localeId -&gt; (string) [required] The unique identifier of the locale associated with the bot alias. Shorthand Syntax: botAliasTarget={botId=string,botAliasId=string,localeId=string} JSON Syntax: { "botAliasTarget": { "botId": "string", "botAliasId": "string", "localeId": "string" } }
+    /// The target bot for the test set discrepancy report. botAliasTarget -&gt; (structure) Contains information about the bot alias used as the resource for the test set discrepancy report. botId -&gt; (string) [required] The unique identifier for the bot alias. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$ botAliasId -&gt; (string) [required] The unique identifier for the bot associated with the bot alias. Constraints: • min: 10 • max: 10 • pattern: ^(\bTSTALIASID\b|[0-9a-zA-Z]+)$ localeId -&gt; (string) [required] The unique identifier of the locale associated with the bot alias. Shorthand Syntax: botAliasTarget={botId=string,botAliasId=string,localeId=string} JSON Syntax: { "botAliasTarget": { "botId": "string", "botAliasId": "string", "localeId": "string" } }
     /// </summary>
     [CliOption("--target")]
     public string? Target { get; private init; }

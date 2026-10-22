@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotManagedIntegrationsDeleteDestinationOptions : AwsOptions, IV
     /// <summary>
     /// Deletes a notification destination specified by name. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The id of the customer-managed destination. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{N} ._-]+</param>
+    /// <param name="Name">The id of the customer-managed destination. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{N} ._-]+</param>
     public AwsIotManagedIntegrationsDeleteDestinationOptions(
         string Name
     )
@@ -56,7 +58,7 @@ public record AwsIotManagedIntegrationsDeleteDestinationOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The id of the customer-managed destination. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{N} ._-]+
+    /// The id of the customer-managed destination. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{N} ._-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

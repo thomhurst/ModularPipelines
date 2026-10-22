@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsLexv2ModelsListBotAliasesOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Gets a list of aliases for the specified bot. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BotId">The identifier of the bot to list aliases for. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotId">The identifier of the bot to list aliases for. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
     public AwsLexv2ModelsListBotAliasesOptions(
         string BotId
     )
@@ -57,19 +59,19 @@ public record AwsLexv2ModelsListBotAliasesOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the bot to list aliases for. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The identifier of the bot to list aliases for. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
 
     /// <summary>
-    /// The maximum number of aliases to return in each page of results. If there are fewer results than the max page size, only the actual num- ber of results are returned. Constraints: o min: 1 o max: 1000
+    /// The maximum number of aliases to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If the response from the ListBotAliases operation contains more re- sults than specified in the maxResults parameter, a token is re- turned in the response. Use that token in the nextToken parameter to return the next page of results.
+    /// If the response from the ListBotAliases operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use that token in the nextToken parameter to return the next page of results.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +31,8 @@ public record AwsTransferTestIdentityProviderOptions : AwsOptions, IValidatableO
     /// <summary>
     /// If the IdentityProviderType of a file transfer protocol-enabled server is AWS_DIRECTORY_SERVICE or API_Gateway , tests whether your identity provider is set up successfully. We highly recommend that you call this operation to test your authentication method as soon as you create your server. By doing so, you can troubleshoot issues with the identity provider integration to ensure that your users can successfully use the service. The ServerId and UserName parameters are required. The ServerProtoc...
     /// </summary>
-    /// <param name="ServerId">A system-assigned identifier for a specific server. That server's user authentication method is tested with a user name and password. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})</param>
-    /// <param name="UserName">The name of the account to be tested. Constraints: o min: 3 o max: 100 o pattern: [\w][\w@.-]{2,99}</param>
+    /// <param name="ServerId">A system-assigned identifier for a specific server. That server's user authentication method is tested with a user name and password. Constraints: • min: 19 • max: 19 • pattern: s-([0-9a-f]{17})</param>
+    /// <param name="UserName">The name of the account to be tested. Constraints: • min: 3 • max: 100 • pattern: [\w][\w@.-]{2,99}</param>
     public AwsTransferTestIdentityProviderOptions(
         string ServerId,
         string UserName
@@ -62,31 +64,31 @@ public record AwsTransferTestIdentityProviderOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A system-assigned identifier for a specific server. That server's user authentication method is tested with a user name and password. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})
+    /// A system-assigned identifier for a specific server. That server's user authentication method is tested with a user name and password. Constraints: • min: 19 • max: 19 • pattern: s-([0-9a-f]{17})
     /// </summary>
     [CliOption("--server-id")]
     public string? ServerId { get; private init; }
 
     /// <summary>
-    /// The name of the account to be tested. Constraints: o min: 3 o max: 100 o pattern: [\w][\w@.-]{2,99}
+    /// The name of the account to be tested. Constraints: • min: 3 • max: 100 • pattern: [\w][\w@.-]{2,99}
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; private init; }
 
     /// <summary>
-    /// The type of file transfer protocol to be tested. The available protocols are: o Secure Shell (SSH) File Transfer Protocol (SFTP) o File Transfer Protocol Secure (FTPS) o File Transfer Protocol (FTP) o Applicability Statement 2 (AS2) Possible values: o SFTP o FTP o FTPS o AS2
+    /// The type of file transfer protocol to be tested. The available protocols are: • Secure Shell (SSH) File Transfer Protocol (SFTP) • File Transfer Protocol Secure (FTPS) • File Transfer Protocol (FTP) • Applicability Statement 2 (AS2) Possible values: • SFTP • FTP • FTPS • AS2
     /// </summary>
     [CliOption("--server-protocol")]
     public AwsTransferTestIdentityProviderServerProtocol? ServerProtocol { get; set; }
 
     /// <summary>
-    /// The source IP address of the account to be tested. Constraints: o min: 0 o max: 32 o pattern: [0-9a-fA-F\.\:]+
+    /// The source IP address of the account to be tested. Constraints: • min: 0 • max: 32 • pattern: [0-9a-fA-F\.\:]+
     /// </summary>
     [CliOption("--source-ip")]
     public string? SourceIp { get; set; }
 
     /// <summary>
-    /// The password of the account to be tested. Constraints: o min: 0 o max: 1024
+    /// The password of the account to be tested. Constraints: • min: 0 • max: 1024
     /// </summary>
     [SecretValue]
     [CliOption("--user-password")]

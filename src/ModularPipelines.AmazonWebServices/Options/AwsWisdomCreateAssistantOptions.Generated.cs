@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -29,8 +30,8 @@ public record AwsWisdomCreateAssistantOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates an Amazon Connect Wisdom assistant. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the assistant. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\s_.,-]+</param>
-    /// <param name="Type">The type of assistant. Possible values: o AGENT</param>
+    /// <param name="Name">The name of the assistant. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z0-9\s_.,-]+</param>
+    /// <param name="Type">The type of assistant. Possible values: • AGENT</param>
     public AwsWisdomCreateAssistantOptions(
         string Name,
         string Type
@@ -62,38 +63,38 @@ public record AwsWisdomCreateAssistantOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the assistant. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\s_.,-]+
+    /// The name of the assistant. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z0-9\s_.,-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The type of assistant. Possible values: o AGENT
+    /// The type of assistant. Possible values: • AGENT
     /// </summary>
     [CliOption("--type")]
     public string? Type { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o min: 1 o max: 4096
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • min: 1 • max: 4096
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The description of the assistant. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\s_.,-]+
+    /// The description of the assistant. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z0-9\s_.,-]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The configuration information for the customer managed key used for encryption. The customer managed key must have a policy that allows kms:Create- Grant , kms:DescribeKey , and kms:Decrypt/kms:GenerateDataKey per- missions to the IAM identity using the key to invoke Wisdom. To use Wisdom with chat, the key policy must also allow kms:Decrypt , kms:GenerateDataKey* , and kms:DescribeKey permissions to the con- nect.amazonaws.com service principal. For more information about setting up a customer managed key for Wisdom, see Enable Amazon Connect Wisdom for your instance . kmsKeyId -&gt; (string) The customer managed key used for encryption. For more informa- tion about setting up a customer managed key for Wisdom, see Enable Amazon Connect Wisdom for your instance . For information about valid ID values, see Key identifiers (KeyId) . Constraints: o min: 1 o max: 4096 Shorthand Syntax: kmsKeyId=string JSON Syntax: { "kmsKeyId": "string" }
+    /// The configuration information for the customer managed key used for encryption. The customer managed key must have a policy that allows kms:CreateGrant , kms:DescribeKey , and kms:Decrypt/kms:GenerateDataKey permissions to the IAM identity using the key to invoke Wisdom. To use Wisdom with chat, the key policy must also allow kms:Decrypt , kms:GenerateDataKey* , and kms:DescribeKey permissions to the connect.amazonaws.com service principal. For more information about setting up a customer managed key for Wisdom, see Enable Amazon Connect Wisdom for your instance . kmsKeyId -&gt; (string) The customer managed key used for encryption. For more information about setting up a customer managed key for Wisdom, see Enable Amazon Connect Wisdom for your instance . For information about valid ID values, see Key identifiers (KeyId) . Constraints: • min: 1 • max: 4096 Shorthand Syntax: kmsKeyId=string JSON Syntax: { "kmsKeyId": "string" }
     /// </summary>
     [CliOption("--server-side-encryption-configuration")]
     public string? ServerSideEncryptionConfiguration { get; set; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for this re- source. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags used to organize, track, or control access for this resource. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: • min: 1 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

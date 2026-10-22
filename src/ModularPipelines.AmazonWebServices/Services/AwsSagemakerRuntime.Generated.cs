@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws sagemakerruntime commands.
+/// aws sagemaker-runtime commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsSagemakerRuntime : IAwsSagemakerRuntime
@@ -32,7 +32,7 @@ public class AwsSagemakerRuntime : IAwsSagemakerRuntime
     #region Commands
 
     /// <summary>
-    /// After you deploy a model into production using Amazon SageMaker AI hosting services, your client applications use this API to get infer- ences from the model hosted at the specified endpoint in an asynchro- nous manner. Inference requests sent to this API are enqueued for asynchronous pro- cessing. The processing of the inference request may or may not com- plete before you receive a response from this API. The response from this API will not contain the result of the inference request but con- ...
+    /// After you deploy a model into production using Amazon SageMaker AI hosting services, your client applications use this API to get inferences from the model hosted at the specified endpoint in an asynchronous manner. Inference requests sent to this API are enqueued for asynchronous processing. The processing of the inference request may or may not complete before you receive a response from this API. The response from this API will not contain the result of the inference request but contain infor...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsSagemakerRuntime : IAwsSagemakerRuntime
     }
 
     /// <summary>
-    /// After you deploy a model into production using Amazon SageMaker AI hosting services, your client applications use this API to get infer- ences from the model hosted at the specified endpoint. For an overview of Amazon SageMaker AI, see How It Works . Amazon SageMaker AI strips all POST headers except those supported by the API. Amazon SageMaker AI might add additional headers. You should not rely on the behavior of headers outside those enumerated in the re- quest syntax. Calls to InvokeEndpoint...
+    /// After you deploy a model into production using Amazon SageMaker AI hosting services, your client applications use this API to get inferences from the model hosted at the specified endpoint. For an overview of Amazon SageMaker AI, see How It Works . Amazon SageMaker AI strips all POST headers except those supported by the API. Amazon SageMaker AI might add additional headers. You should not rely on the behavior of headers outside those enumerated in the request syntax. Calls to InvokeEndpoint are...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

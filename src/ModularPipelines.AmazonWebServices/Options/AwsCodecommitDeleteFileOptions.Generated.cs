@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +29,10 @@ public record AwsCodecommitDeleteFileOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a specified file from a specified branch. A commit is created on the branch that contains the revision. The file still exists in the commits earlier to the commit that contains the deletion. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryName">The name of the repository that contains the file to delete. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
-    /// <param name="BranchName">The name of the branch where the commit that deletes the file is made. Constraints: o min: 1 o max: 256</param>
-    /// <param name="FilePath">The fully qualified path to the file that to be deleted, including the full name and extension of that file. For example, /exam- ples/file.md is a fully qualified path to a file named file.md in a folder named examples.</param>
-    /// <param name="ParentCommitId">The ID of the commit that is the tip of the branch where you want to create the commit that deletes the file. This must be the HEAD com- mit for the branch. The commit that deletes the file is created from this commit ID.</param>
+    /// <param name="RepositoryName">The name of the repository that contains the file to delete. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+</param>
+    /// <param name="BranchName">The name of the branch where the commit that deletes the file is made. Constraints: • min: 1 • max: 256</param>
+    /// <param name="FilePath">The fully qualified path to the file that to be deleted, including the full name and extension of that file. For example, /examples/file.md is a fully qualified path to a file named file.md in a folder named examples.</param>
+    /// <param name="ParentCommitId">The ID of the commit that is the tip of the branch where you want to create the commit that deletes the file. This must be the HEAD commit for the branch. The commit that deletes the file is created from this commit ID.</param>
     public AwsCodecommitDeleteFileOptions(
         string RepositoryName,
         string BranchName,
@@ -68,25 +70,25 @@ public record AwsCodecommitDeleteFileOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the repository that contains the file to delete. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// The name of the repository that contains the file to delete. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
 
     /// <summary>
-    /// The name of the branch where the commit that deletes the file is made. Constraints: o min: 1 o max: 256
+    /// The name of the branch where the commit that deletes the file is made. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--branch-name")]
     public string? BranchName { get; private init; }
 
     /// <summary>
-    /// The fully qualified path to the file that to be deleted, including the full name and extension of that file. For example, /exam- ples/file.md is a fully qualified path to a file named file.md in a folder named examples.
+    /// The fully qualified path to the file that to be deleted, including the full name and extension of that file. For example, /examples/file.md is a fully qualified path to a file named file.md in a folder named examples.
     /// </summary>
     [CliOption("--file-path")]
     public string? FilePath { get; private init; }
 
     /// <summary>
-    /// The ID of the commit that is the tip of the branch where you want to create the commit that deletes the file. This must be the HEAD com- mit for the branch. The commit that deletes the file is created from this commit ID.
+    /// The ID of the commit that is the tip of the branch where you want to create the commit that deletes the file. This must be the HEAD commit for the branch. The commit that deletes the file is created from this commit ID.
     /// </summary>
     [CliOption("--parent-commit-id")]
     public string? ParentCommitId { get; private init; }

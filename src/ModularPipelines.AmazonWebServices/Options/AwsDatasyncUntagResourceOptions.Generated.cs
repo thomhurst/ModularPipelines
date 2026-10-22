@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDatasyncUntagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Removes tags from an Amazon Web Services resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">Specifies the Amazon Resource Name (ARN) of the resource to remove the tags from. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:(((agent|task|loca- tion)/(agent|task|loc)-[a-z0-9]{17}(/execu- tion/exec-[a-f0-9]{17})?)|(system/storage-sys- tem-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(/job/dis- cov- ery-job-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?))$</param>
-    /// <param name="Keys">Specifies the keys in the tags that you want to remove. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9\s+=._:/-]+$ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">Specifies the Amazon Resource Name (ARN) of the resource to remove the tags from. Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:(((agent|task|location)/(agent|task|loc)-[a-z0-9]{17}(/execution/exec-[a-f0-9]{17})?)|(system/storage-system-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(/job/discovery-job-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?))$</param>
+    /// <param name="Keys">Specifies the keys in the tags that you want to remove. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9\s+=._:/-]+$ Syntax: "string" "string" ...</param>
     public AwsDatasyncUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> Keys
@@ -71,13 +73,13 @@ public record AwsDatasyncUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the Amazon Resource Name (ARN) of the resource to remove the tags from. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:(((agent|task|loca- tion)/(agent|task|loc)-[a-z0-9]{17}(/execu- tion/exec-[a-f0-9]{17})?)|(system/storage-sys- tem-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(/job/dis- cov- ery-job-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?))$
+    /// Specifies the Amazon Resource Name (ARN) of the resource to remove the tags from. Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:(((agent|task|location)/(agent|task|loc)-[a-z0-9]{17}(/execution/exec-[a-f0-9]{17})?)|(system/storage-system-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(/job/discovery-job-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?))$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Specifies the keys in the tags that you want to remove. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9\s+=._:/-]+$ Syntax: "string" "string" ...
+    /// Specifies the keys in the tags that you want to remove. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9\s+=._:/-]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--keys", GroupValues = true)]
     public IEnumerable<string>? Keys { get; private init; }

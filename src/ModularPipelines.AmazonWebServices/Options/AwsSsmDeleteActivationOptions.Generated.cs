@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an activation. You aren't required to delete an activation. If you delete an activation, you can no longer use it to register addi- tional managed nodes. Deleting an activation doesn't de-register man- aged nodes. You must manually de-register managed nodes. See also: AWS API Documentation
+/// Deletes an activation. You aren't required to delete an activation. If you delete an activation, you can no longer use it to register additional managed nodes. Deleting an activation doesn't de-register managed nodes. You must manually de-register managed nodes. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSsmDeleteActivationOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an activation. You aren't required to delete an activation. If you delete an activation, you can no longer use it to register addi- tional managed nodes. Deleting an activation doesn't de-register man- aged nodes. You must manually de-register managed nodes. See also: AWS API Documentation
+    /// Deletes an activation. You aren't required to delete an activation. If you delete an activation, you can no longer use it to register additional managed nodes. Deleting an activation doesn't de-register managed nodes. You must manually de-register managed nodes. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ActivationId">The ID of the activation that you want to delete. Constraints: o pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
+    /// <param name="ActivationId">The ID of the activation that you want to delete. Constraints: • pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
     public AwsSsmDeleteActivationOptions(
         string ActivationId
     )
@@ -56,7 +58,7 @@ public record AwsSsmDeleteActivationOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the activation that you want to delete. Constraints: o pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+    /// The ID of the activation that you want to delete. Constraints: • pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--activation-id")]
     public string? ActivationId { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsInspector2CancelFindingsReportOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Cancels the given findings report. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ReportId">The ID of the report to be canceled. Constraints: o pattern: .*\b[a-f0-9]{8}\b-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-\b[a-f0-9]{12}\b.*</param>
+    /// <param name="ReportId">The ID of the report to be canceled. Constraints: • pattern: .*\b[a-f0-9]{8}\b-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-\b[a-f0-9]{12}\b.*</param>
     public AwsInspector2CancelFindingsReportOptions(
         string ReportId
     )
@@ -56,7 +58,7 @@ public record AwsInspector2CancelFindingsReportOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the report to be canceled. Constraints: o pattern: .*\b[a-f0-9]{8}\b-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-\b[a-f0-9]{12}\b.*
+    /// The ID of the report to be canceled. Constraints: • pattern: .*\b[a-f0-9]{8}\b-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-\b[a-f0-9]{12}\b.*
     /// </summary>
     [CliOption("--report-id")]
     public string? ReportId { get; private init; }

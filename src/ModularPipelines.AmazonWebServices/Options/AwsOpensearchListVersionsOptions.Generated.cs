@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsOpensearchListVersionsOptions : AwsOptions
 {
     /// <summary>
-    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. Constraints: o max: 100
+    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. Constraints: • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If your initial ListVersions operation returns a nextToken , you can include the returned nextToken in subsequent ListVersions opera- tions, which returns results in the next page.
+    /// If your initial ListVersions operation returns a nextToken , you can include the returned nextToken in subsequent ListVersions operations, which returns results in the next page.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

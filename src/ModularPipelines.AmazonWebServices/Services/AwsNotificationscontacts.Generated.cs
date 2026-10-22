@@ -62,7 +62,7 @@ public class AwsNotificationscontacts : IAwsNotificationscontacts
     }
 
     /// <summary>
-    /// Deletes an email contact. NOTE: Deleting an email contact removes it from all associated notifica- tion configurations. See also: AWS API Documentation
+    /// Deletes an email contact. NOTE: Deleting an email contact removes it from all associated notification configurations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsNotificationscontacts : IAwsNotificationscontacts
     }
 
     /// <summary>
-    /// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Taggable resources in AWS User Notifications Con- tacts include email contacts. See also: AWS API Documentation
+    /// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Taggable resources in AWS User Notifications Contacts include email contacts. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsNotificationscontacts : IAwsNotificationscontacts
     }
 
     /// <summary>
-    /// Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Taggable resources in AWS User Notifications Con- tacts include email contacts.. See also: AWS API Documentation
+    /// Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Taggable resources in AWS User Notifications Contacts include email contacts.. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

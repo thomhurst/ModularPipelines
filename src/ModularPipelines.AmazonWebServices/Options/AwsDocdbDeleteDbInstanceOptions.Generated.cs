@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDocdbDeleteDbInstanceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a previously provisioned instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbInstanceIdentifier">The instance identifier for the instance to be deleted. This parame- ter isn't case sensitive. Constraints: o Must match the name of an existing instance.</param>
+    /// <param name="DbInstanceIdentifier">The instance identifier for the instance to be deleted. This parameter isn't case sensitive. Constraints: • Must match the name of an existing instance.</param>
     public AwsDocdbDeleteDbInstanceOptions(
         string DbInstanceIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsDocdbDeleteDbInstanceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The instance identifier for the instance to be deleted. This parame- ter isn't case sensitive. Constraints: o Must match the name of an existing instance.
+    /// The instance identifier for the instance to be deleted. This parameter isn't case sensitive. Constraints: • Must match the name of an existing instance.
     /// </summary>
     [CliOption("--db-instance-identifier")]
     public string? DbInstanceIdentifier { get; private init; }

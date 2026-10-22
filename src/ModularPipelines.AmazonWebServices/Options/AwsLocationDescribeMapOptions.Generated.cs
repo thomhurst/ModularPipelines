@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend upgrading to the Maps API V2 unless you require Grab data. o DescribeMap is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, power- ful, and complete API (version 2). o The Maps API version 2 has a simplified interface that can be used without creating or managing map resources. o If you are using an AWS SDK or the AWS CLI, note that the M...
+/// WARNING: This operation is no longer current and may be deprecated in the future. We recommend upgrading to the Maps API V2 unless you require Grab data. • DescribeMap is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The Maps API version 2 has a simplified interface that can be used without creating or managing map resources. • If you are using an AWS SDK or the AWS CLI, note that the Maps ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLocationDescribeMapOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend upgrading to the Maps API V2 unless you require Grab data. o DescribeMap is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, power- ful, and complete API (version 2). o The Maps API version 2 has a simplified interface that can be used without creating or managing map resources. o If you are using an AWS SDK or the AWS CLI, note that the M...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend upgrading to the Maps API V2 unless you require Grab data. • DescribeMap is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The Maps API version 2 has a simplified interface that can be used without creating or managing map resources. • If you are using an AWS SDK or the AWS CLI, note that the Maps ...
     /// </summary>
-    /// <param name="MapName">The name of the map resource. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    /// <param name="MapName">The name of the map resource. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+</param>
     public AwsLocationDescribeMapOptions(
         string MapName
     )
@@ -56,7 +58,7 @@ public record AwsLocationDescribeMapOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the map resource. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// The name of the map resource. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+
     /// </summary>
     [CliOption("--map-name")]
     public string? MapName { get; private init; }

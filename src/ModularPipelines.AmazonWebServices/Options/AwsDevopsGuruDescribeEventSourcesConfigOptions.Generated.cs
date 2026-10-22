@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the integration status of services that are integrated with De- vOps Guru as Consumer via EventBridge. The one service that can be in- tegrated with DevOps Guru is Amazon CodeGuru Profiler, which can pro- duce proactive recommendations which can be stored and viewed in DevOps Guru. See also: AWS API Documentation
+/// Returns the integration status of services that are integrated with DevOps Guru as Consumer via EventBridge. The one service that can be integrated with DevOps Guru is Amazon CodeGuru Profiler, which can produce proactive recommendations which can be stored and viewed in DevOps Guru. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,13 +64,13 @@ public record AwsMemorydbUpdateAclOptions : AwsOptions, IValidatableObject
     public string? AclName { get; private init; }
 
     /// <summary>
-    /// The list of users to add to the Access Control List. Constraints: o min: 1 (string) Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]* Syntax: "string" "string" ...
+    /// The list of users to add to the Access Control List. Constraints: • min: 1 (string) Constraints: • min: 1 • pattern: [a-zA-Z][a-zA-Z0-9\-]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--user-names-to-add", GroupValues = true)]
     public IEnumerable<string>? UserNamesToAdd { get; set; }
 
     /// <summary>
-    /// The list of users to remove from the Access Control List. Constraints: o min: 1 (string) Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]* Syntax: "string" "string" ...
+    /// The list of users to remove from the Access Control List. Constraints: • min: 1 (string) Constraints: • min: 1 • pattern: [a-zA-Z][a-zA-Z0-9\-]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--user-names-to-remove", GroupValues = true)]
     public IEnumerable<string>? UserNamesToRemove { get; set; }

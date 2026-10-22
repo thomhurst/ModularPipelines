@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified human loop for a flow definition. If the human loop was deleted, this operation will return a Re- sourceNotFoundException . See also: AWS API Documentation
+/// Deletes the specified human loop for a flow definition. If the human loop was deleted, this operation will return a ResourceNotFoundException . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSagemakerA2iRuntimeDeleteHumanLoopOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified human loop for a flow definition. If the human loop was deleted, this operation will return a Re- sourceNotFoundException . See also: AWS API Documentation
+    /// Deletes the specified human loop for a flow definition. If the human loop was deleted, this operation will return a ResourceNotFoundException . See also: AWS API Documentation
     /// </summary>
-    /// <param name="HumanLoopName">The name of the human loop that you want to delete. Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9](-*[a-z0-9])*$</param>
+    /// <param name="HumanLoopName">The name of the human loop that you want to delete. Constraints: • min: 1 • max: 63 • pattern: ^[a-z0-9](-*[a-z0-9])*$</param>
     public AwsSagemakerA2iRuntimeDeleteHumanLoopOptions(
         string HumanLoopName
     )
@@ -56,7 +58,7 @@ public record AwsSagemakerA2iRuntimeDeleteHumanLoopOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the human loop that you want to delete. Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9](-*[a-z0-9])*$
+    /// The name of the human loop that you want to delete. Constraints: • min: 1 • max: 63 • pattern: ^[a-z0-9](-*[a-z0-9])*$
     /// </summary>
     [CliOption("--human-loop-name")]
     public string? HumanLoopName { get; private init; }

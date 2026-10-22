@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDevicefarmUpdateInstanceProfileOptions : AwsOptions, IValidatab
     /// <summary>
     /// Updates information about an existing private device instance profile. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the instance profile. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the instance profile. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+</param>
     public AwsDevicefarmUpdateInstanceProfileOptions(
         string Arn
     )
@@ -56,19 +58,19 @@ public record AwsDevicefarmUpdateInstanceProfileOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the instance profile. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// The Amazon Resource Name (ARN) of the instance profile. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The updated name for your instance profile. Constraints: o min: 0 o max: 256
+    /// The updated name for your instance profile. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The updated description for your instance profile. Constraints: o min: 0 o max: 16384
+    /// The updated description for your instance profile. Constraints: • min: 0 • max: 16384
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

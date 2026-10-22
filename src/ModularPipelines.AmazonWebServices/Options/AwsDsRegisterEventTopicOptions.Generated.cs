@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates a directory with an Amazon SNS topic. This establishes the directory as a publisher to the specified Amazon SNS topic. You can then receive email or text (SMS) messages when the status of your di- rectory changes. You get notified if your directory goes from an Active status to an Impaired or Inoperable status. You also receive a notifi- cation when the directory returns to an Active status. See also: AWS API Documentation
+/// Associates a directory with an Amazon SNS topic. This establishes the directory as a publisher to the specified Amazon SNS topic. You can then receive email or text (SMS) messages when the status of your directory changes. You get notified if your directory goes from an Active status to an Impaired or Inoperable status. You also receive a notification when the directory returns to an Active status. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsDsRegisterEventTopicOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates a directory with an Amazon SNS topic. This establishes the directory as a publisher to the specified Amazon SNS topic. You can then receive email or text (SMS) messages when the status of your di- rectory changes. You get notified if your directory goes from an Active status to an Impaired or Inoperable status. You also receive a notifi- cation when the directory returns to an Active status. See also: AWS API Documentation
+    /// Associates a directory with an Amazon SNS topic. This establishes the directory as a publisher to the specified Amazon SNS topic. You can then receive email or text (SMS) messages when the status of your directory changes. You get notified if your directory goes from an Active status to an Impaired or Inoperable status. You also receive a notification when the directory returns to an Active status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The Directory ID that will publish status messages to the Amazon SNS topic. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
-    /// <param name="TopicName">The Amazon SNS topic name to which the directory will publish status messages. This Amazon SNS topic must be in the same region as the specified Directory ID. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="DirectoryId">The Directory ID that will publish status messages to the Amazon SNS topic. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="TopicName">The Amazon SNS topic name to which the directory will publish status messages. This Amazon SNS topic must be in the same region as the specified Directory ID. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsDsRegisterEventTopicOptions(
         string DirectoryId,
         string TopicName
@@ -60,13 +62,13 @@ public record AwsDsRegisterEventTopicOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Directory ID that will publish status messages to the Amazon SNS topic. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The Directory ID that will publish status messages to the Amazon SNS topic. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// The Amazon SNS topic name to which the directory will publish status messages. This Amazon SNS topic must be in the same region as the specified Directory ID. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// The Amazon SNS topic name to which the directory will publish status messages. This Amazon SNS topic must be in the same region as the specified Directory ID. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--topic-name")]
     public string? TopicName { get; private init; }

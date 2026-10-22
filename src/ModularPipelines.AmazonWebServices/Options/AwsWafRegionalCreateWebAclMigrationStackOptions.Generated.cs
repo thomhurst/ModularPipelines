@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an AWS CloudFormation WAFV2 template for the specified web ACL in the specified Amazon S3 bucket. Then, in CloudFormation, you create a stack from the template, to create the web ACL and its resources in AWS WAFV2. Use this to migrate your AWS WAF Classic web ACL to the lat- est version of AWS WAF. This is part of a larger migration procedure for web ACLs from AWS WAF Classic to the latest version of AWS WAF. For the full procedure, in- cluding caveats and manual steps to complete the mi...
+/// Creates an AWS CloudFormation WAFV2 template for the specified web ACL in the specified Amazon S3 bucket. Then, in CloudFormation, you create a stack from the template, to create the web ACL and its resources in AWS WAFV2. Use this to migrate your AWS WAF Classic web ACL to the latest version of AWS WAF. This is part of a larger migration procedure for web ACLs from AWS WAF Classic to the latest version of AWS WAF. For the full procedure, including caveats and manual steps to complete the migrat...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsWafRegionalCreateWebAclMigrationStackOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an AWS CloudFormation WAFV2 template for the specified web ACL in the specified Amazon S3 bucket. Then, in CloudFormation, you create a stack from the template, to create the web ACL and its resources in AWS WAFV2. Use this to migrate your AWS WAF Classic web ACL to the lat- est version of AWS WAF. This is part of a larger migration procedure for web ACLs from AWS WAF Classic to the latest version of AWS WAF. For the full procedure, in- cluding caveats and manual steps to complete the mi...
+    /// Creates an AWS CloudFormation WAFV2 template for the specified web ACL in the specified Amazon S3 bucket. Then, in CloudFormation, you create a stack from the template, to create the web ACL and its resources in AWS WAFV2. Use this to migrate your AWS WAF Classic web ACL to the latest version of AWS WAF. This is part of a larger migration procedure for web ACLs from AWS WAF Classic to the latest version of AWS WAF. For the full procedure, including caveats and manual steps to complete the migrat...
     /// </summary>
-    /// <param name="WebAclId">The UUID of the WAF Classic web ACL that you want to migrate to WAF v2. Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
-    /// <param name="S3BucketName">The name of the Amazon S3 bucket to store the CloudFormation tem- plate in. The S3 bucket must be configured as follows for the migra- tion: o The bucket name must start with aws-waf-migration- . For example, aws-waf-migration-my-web-acl . o The bucket must be in the Region where you are deploying the tem- plate. For example, for a web ACL in us-west-2, you must use an Amazon S3 bucket in us-west-2 and you must deploy the template stack to us-west-2. o The bucket policies must permit the migration process to write data. For listings of the bucket policies, see the Examples sec- tion. Constraints: o min: 3 o max: 63 o pattern: ^aws-waf-migration-[0-9A-Za-z\.\-_]*</param>
-    /// <param name="IgnoreUnsupportedType"></param>
+    /// <param name="WebAclId">The UUID of the WAF Classic web ACL that you want to migrate to WAF v2. Constraints: • min: 1 • max: 128 • pattern: .*\S.*</param>
+    /// <param name="S3BucketName">The name of the Amazon S3 bucket to store the CloudFormation template in. The S3 bucket must be configured as follows for the migration: • The bucket name must start with aws-waf-migration- . For example, aws-waf-migration-my-web-acl . • The bucket must be in the Region where you are deploying the template. For example, for a web ACL in us-west-2, you must use an Amazon S3 bucket in us-west-2 and you must deploy the template stack to us-west-2. • The bucket policies must permit the migration process to write data. For listings of the bucket policies, see the Examples section. Constraints: • min: 3 • max: 63 • pattern: ^aws-waf-migration-[0-9A-Za-z\.\-_]*</param>
+    /// <param name="IgnoreUnsupportedType">Indicates whether to exclude entities that can't be migrated or to stop the migration. Set this to true to ignore unsupported entities in the web ACL during the migration. Otherwise, if AWS WAF encounters unsupported entities, it stops the process and throws an exception.</param>
     public AwsWafRegionalCreateWebAclMigrationStackOptions(
         string WebAclId,
         string S3BucketName,
@@ -63,17 +65,20 @@ public record AwsWafRegionalCreateWebAclMigrationStackOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The UUID of the WAF Classic web ACL that you want to migrate to WAF v2. Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// The UUID of the WAF Classic web ACL that you want to migrate to WAF v2. Constraints: • min: 1 • max: 128 • pattern: .*\S.*
     /// </summary>
     [CliOption("--web-acl-id")]
     public string? WebAclId { get; private init; }
 
     /// <summary>
-    /// The name of the Amazon S3 bucket to store the CloudFormation tem- plate in. The S3 bucket must be configured as follows for the migra- tion: o The bucket name must start with aws-waf-migration- . For example, aws-waf-migration-my-web-acl . o The bucket must be in the Region where you are deploying the tem- plate. For example, for a web ACL in us-west-2, you must use an Amazon S3 bucket in us-west-2 and you must deploy the template stack to us-west-2. o The bucket policies must permit the migration process to write data. For listings of the bucket policies, see the Examples sec- tion. Constraints: o min: 3 o max: 63 o pattern: ^aws-waf-migration-[0-9A-Za-z\.\-_]*
+    /// The name of the Amazon S3 bucket to store the CloudFormation template in. The S3 bucket must be configured as follows for the migration: • The bucket name must start with aws-waf-migration- . For example, aws-waf-migration-my-web-acl . • The bucket must be in the Region where you are deploying the template. For example, for a web ACL in us-west-2, you must use an Amazon S3 bucket in us-west-2 and you must deploy the template stack to us-west-2. • The bucket policies must permit the migration process to write data. For listings of the bucket policies, see the Examples section. Constraints: • min: 3 • max: 63 • pattern: ^aws-waf-migration-[0-9A-Za-z\.\-_]*
     /// </summary>
     [CliOption("--s3-bucket-name")]
     public string? S3BucketName { get; private init; }
 
+    /// <summary>
+    /// Indicates whether to exclude entities that can't be migrated or to stop the migration. Set this to true to ignore unsupported entities in the web ACL during the migration. Otherwise, if AWS WAF encounters unsupported entities, it stops the process and throws an exception.
+    /// </summary>
     [CliFlag("--ignore-unsupported-type", NegatedName = "--no-ignore-unsupported-type")]
     public bool? IgnoreUnsupportedType { get; private init; }
 

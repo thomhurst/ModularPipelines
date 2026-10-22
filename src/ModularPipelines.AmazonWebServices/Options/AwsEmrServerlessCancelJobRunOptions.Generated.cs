@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsEmrServerlessCancelJobRunOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Cancels a job run. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The ID of the application on which the job run will be canceled. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
-    /// <param name="JobRunId">The ID of the job run to cancel. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
+    /// <param name="ApplicationId">The ID of the application on which the job run will be canceled. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+</param>
+    /// <param name="JobRunId">The ID of the job run to cancel. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+</param>
     public AwsEmrServerlessCancelJobRunOptions(
         string ApplicationId,
         string JobRunId
@@ -60,13 +62,13 @@ public record AwsEmrServerlessCancelJobRunOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the application on which the job run will be canceled. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// The ID of the application on which the job run will be canceled. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The ID of the job run to cancel. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// The ID of the job run to cancel. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+
     /// </summary>
     [CliOption("--job-run-id")]
     public string? JobRunId { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMediaconnectUpdateBridgeSourceOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Updates an existing bridge source. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BridgeArn">The Amazon Resource Name (ARN) of the bridge that you want to up- date. Constraints: o pattern: arn:.+:mediaconnect.+:bridge:.+</param>
+    /// <param name="BridgeArn">The Amazon Resource Name (ARN) of the bridge that you want to update. Constraints: • pattern: arn:.+:mediaconnect.+:bridge:.+</param>
     /// <param name="SourceName">The name of the source that you want to update.</param>
     public AwsMediaconnectUpdateBridgeSourceOptions(
         string BridgeArn,
@@ -60,7 +62,7 @@ public record AwsMediaconnectUpdateBridgeSourceOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the bridge that you want to up- date. Constraints: o pattern: arn:.+:mediaconnect.+:bridge:.+
+    /// The Amazon Resource Name (ARN) of the bridge that you want to update. Constraints: • pattern: arn:.+:mediaconnect.+:bridge:.+
     /// </summary>
     [CliOption("--bridge-arn")]
     public string? BridgeArn { get; private init; }
@@ -72,13 +74,13 @@ public record AwsMediaconnectUpdateBridgeSourceOptions : AwsOptions, IValidatabl
     public string? SourceName { get; private init; }
 
     /// <summary>
-    /// The name of the flow that you want to update. FlowArn -&gt; (string) The Amazon Resource Name (ARN) that identifies the MediaConnect resource from which to delete tags. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+ FlowVpcInterfaceAttachment -&gt; (structure) The name of the VPC interface attachment to use for this source. VpcInterfaceName -&gt; (string) The name of the VPC interface to use for this resource. Shorthand Syntax: FlowArn=string,FlowVpcInterfaceAttachment={VpcInterfaceName=string} JSON Syntax: { "FlowArn": "string", "FlowVpcInterfaceAttachment": { "VpcInterfaceName": "string" } }
+    /// The name of the flow that you want to update. FlowArn -&gt; (string) The Amazon Resource Name (ARN) that identifies the MediaConnect resource from which to delete tags. Constraints: • pattern: arn:.+:mediaconnect.+:flow:.+ FlowVpcInterfaceAttachment -&gt; (structure) The name of the VPC interface attachment to use for this source. VpcInterfaceName -&gt; (string) The name of the VPC interface to use for this resource. Shorthand Syntax: FlowArn=string,FlowVpcInterfaceAttachment={VpcInterfaceName=string} JSON Syntax: { "FlowArn": "string", "FlowVpcInterfaceAttachment": { "VpcInterfaceName": "string" } }
     /// </summary>
     [CliOption("--flow-source")]
     public string? FlowSource { get; set; }
 
     /// <summary>
-    /// The network for the bridge source. MulticastIp -&gt; (string) The network source multicast IP. MulticastSourceSettings -&gt; (structure) The settings related to the multicast source. MulticastSourceIp -&gt; (string) The IP address of the source for source-specific multicast (SSM). NetworkName -&gt; (string) The network source's gateway network name. Port -&gt; (integer) The network source port. Protocol -&gt; (string) The network source protocol. NOTE: Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only. Possible values: o zixi-push o rtp-fec o rtp o zixi-pull o rist o st2110-jpegxs o cdi o srt-listener o srt-caller o fujitsu-qos o udp o ndi-speed-hq Shorthand Syntax: MulticastIp=string,MulticastSourceSettings={MulticastSourceIp=string},NetworkName=string,Port=integer,Protocol=string JSON Syntax: { "MulticastIp": "string", "MulticastSourceSettings": { "MulticastSourceIp": "string" }, "NetworkName": "string", "Port": integer, "Protocol": "zixi-push"|"rtp-fec"|"rtp"|"zixi-pull"|"rist"|"st2110-jpegxs"|"cdi"|"srt-listener"|"srt-caller"|"fujitsu-qos"|"udp"|"ndi-speed-hq" }
+    /// The network for the bridge source. MulticastIp -&gt; (string) The network source multicast IP. MulticastSourceSettings -&gt; (structure) The settings related to the multicast source. MulticastSourceIp -&gt; (string) The IP address of the source for source-specific multicast (SSM). NetworkName -&gt; (string) The network source's gateway network name. Port -&gt; (integer) The network source port. Protocol -&gt; (string) The network source protocol. NOTE: Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only. Possible values: • zixi-push • rtp-fec • rtp • zixi-pull • rist • st2110-jpegxs • cdi • srt-listener • srt-caller • fujitsu-qos • udp • ndi-speed-hq Shorthand Syntax: MulticastIp=string,MulticastSourceSettings={MulticastSourceIp=string},NetworkName=string,Port=integer,Protocol=string JSON Syntax: { "MulticastIp": "string", "MulticastSourceSettings": { "MulticastSourceIp": "string" }, "NetworkName": "string", "Port": integer, "Protocol": "zixi-push"|"rtp-fec"|"rtp"|"zixi-pull"|"rist"|"st2110-jpegxs"|"cdi"|"srt-listener"|"srt-caller"|"fujitsu-qos"|"udp"|"ndi-speed-hq" }
     /// </summary>
     [CliOption("--network-source")]
     public string? NetworkSource { get; set; }

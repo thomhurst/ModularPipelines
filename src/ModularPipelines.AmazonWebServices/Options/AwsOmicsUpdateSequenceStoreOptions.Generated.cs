@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsOmicsUpdateSequenceStoreOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Update one or more parameters for the sequence store. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the sequence store. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
+    /// <param name="Id">The ID of the sequence store. Constraints: • min: 10 • max: 36 • pattern: [0-9]+</param>
     public AwsOmicsUpdateSequenceStoreOptions(
         string Id
     )
@@ -57,44 +59,44 @@ public record AwsOmicsUpdateSequenceStoreOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the sequence store. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// The ID of the sequence store. Constraints: • min: 10 • max: 36 • pattern: [0-9]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// A name for the sequence store. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// A name for the sequence store. Constraints: • min: 1 • max: 127 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A description for the sequence store. Constraints: o min: 1 o max: 255 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// A description for the sequence store. Constraints: • min: 1 • max: 255 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// To ensure that requests don't run multiple times, specify a unique token for each request. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// To ensure that requests don't run multiple times, specify a unique token for each request. Constraints: • min: 1 • max: 127 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The S3 URI of a bucket and folder to store Read Sets that fail to upload. Constraints: o pattern: $|^s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/?((.{1,1024})/)?
+    /// The S3 URI of a bucket and folder to store Read Sets that fail to upload. Constraints: • pattern: $|^s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/?((.{1,1024})/)?
     /// </summary>
     [CliOption("--fallback-location")]
     public string? FallbackLocation { get; set; }
 
     /// <summary>
-    /// The tags keys to propagate to the S3 objects associated with read sets in the sequence store. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// The tags keys to propagate to the S3 objects associated with read sets in the sequence store. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--propagated-set-level-tags", GroupValues = true)]
     public IEnumerable<string>? PropagatedSetLevelTags { get; set; }
 
     /// <summary>
-    /// S3 access configuration parameters. accessLogLocation -&gt; (string) Location of the access logs. Constraints: o pattern: $|^s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/?((.{1,800})/)? Shorthand Syntax: accessLogLocation=string JSON Syntax: { "accessLogLocation": "string" }
+    /// S3 access configuration parameters. accessLogLocation -&gt; (string) Location of the access logs. Constraints: • pattern: $|^s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/?((.{1,800})/)? Shorthand Syntax: accessLogLocation=string JSON Syntax: { "accessLogLocation": "string" }
     /// </summary>
     [CliOption("--s3-access-config")]
     public string? S3AccessConfig { get; set; }

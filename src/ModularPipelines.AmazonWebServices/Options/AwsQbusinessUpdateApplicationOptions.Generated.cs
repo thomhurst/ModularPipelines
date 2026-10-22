@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an existing Amazon Q Business application. NOTE: Amazon Q Business applications may securely transmit data for pro- cessing across Amazon Web Services Regions within your geography. For more information, see Cross region inference in Amazon Q Busi- ness . NOTE: An Amazon Q Apps service-linked role will be created if it's absent in the Amazon Web Services account when QAppsConfiguration is en- abled in the request. For more information, see Using service-linked roles for Q Apps . See also...
+/// Updates an existing Amazon Q Business application. NOTE: Amazon Q Business applications may securely transmit data for processing across Amazon Web Services Regions within your geography. For more information, see Cross region inference in Amazon Q Business . NOTE: An Amazon Q Apps service-linked role will be created if it's absent in the Amazon Web Services account when QAppsConfiguration is enabled in the request. For more information, see Using service-linked roles for Q Apps . See also: AWS ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsQbusinessUpdateApplicationOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an existing Amazon Q Business application. NOTE: Amazon Q Business applications may securely transmit data for pro- cessing across Amazon Web Services Regions within your geography. For more information, see Cross region inference in Amazon Q Busi- ness . NOTE: An Amazon Q Apps service-linked role will be created if it's absent in the Amazon Web Services account when QAppsConfiguration is en- abled in the request. For more information, see Using service-linked roles for Q Apps . See also...
+    /// Updates an existing Amazon Q Business application. NOTE: Amazon Q Business applications may securely transmit data for processing across Amazon Web Services Regions within your geography. For more information, see Cross region inference in Amazon Q Business . NOTE: An Amazon Q Apps service-linked role will be created if it's absent in the Amazon Web Services account when QAppsConfiguration is enabled in the request. For more information, see Using service-linked roles for Q Apps . See also: AWS ...
     /// </summary>
-    /// <param name="ApplicationId">The identifier of the Amazon Q Business application. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="ApplicationId">The identifier of the Amazon Q Business application. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
     public AwsQbusinessUpdateApplicationOptions(
         string ApplicationId
     )
@@ -56,55 +58,55 @@ public record AwsQbusinessUpdateApplicationOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Q Business application. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The identifier of the Amazon Q Business application. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM Identity Center instance you are either creating foror connecting toyour Amazon Q Business application. Constraints: o min: 10 o max: 1224 o pattern: arn:[a-z0-9-\.]{1,63}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}
+    /// The Amazon Resource Name (ARN) of the IAM Identity Center instance you are either creating foror connecting toyour Amazon Q Business application. Constraints: • min: 10 • max: 1224 • pattern: arn:[a-z0-9-\.]{1,63}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}
     /// </summary>
     [CliOption("--identity-center-instance-arn")]
     public string? IdentityCenterInstanceArn { get; set; }
 
     /// <summary>
-    /// A name for the Amazon Q Business application. Constraints: o min: 1 o max: 1000 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// A name for the Amazon Q Business application. Constraints: • min: 1 • max: 1000 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// A description for the Amazon Q Business application. Constraints: o min: 0 o max: 1000 o pattern: [\s\S]*
+    /// A description for the Amazon Q Business application. Constraints: • min: 0 • max: 1000 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// An Amazon Web Services Identity and Access Management (IAM) role that gives Amazon Q Business permission to access Amazon CloudWatch logs and metrics. Constraints: o min: 0 o max: 1284 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// An Amazon Web Services Identity and Access Management (IAM) role that gives Amazon Q Business permission to access Amazon CloudWatch logs and metrics. Constraints: • min: 0 • max: 1284 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
     /// <summary>
-    /// An option to allow end users to upload files directly during chat. attachmentsControlMode -&gt; (string) [required] Status information about whether file upload functionality is activated or deactivated for your end user. Possible values: o ENABLED o DISABLED Shorthand Syntax: attachmentsControlMode=string JSON Syntax: { "attachmentsControlMode": "ENABLED"|"DISABLED" }
+    /// An option to allow end users to upload files directly during chat. attachmentsControlMode -&gt; (string) [required] Status information about whether file upload functionality is activated or deactivated for your end user. Possible values: • ENABLED • DISABLED Shorthand Syntax: attachmentsControlMode=string JSON Syntax: { "attachmentsControlMode": "ENABLED"|"DISABLED" }
     /// </summary>
     [CliOption("--attachments-configuration")]
     public string? AttachmentsConfiguration { get; set; }
 
     /// <summary>
-    /// An option to allow end users to create and use Amazon Q Apps in the web experience. qAppsControlMode -&gt; (string) [required] Status information about whether end users can create and use Amazon Q Apps in the web experience. Possible values: o ENABLED o DISABLED Shorthand Syntax: qAppsControlMode=string JSON Syntax: { "qAppsControlMode": "ENABLED"|"DISABLED" }
+    /// An option to allow end users to create and use Amazon Q Apps in the web experience. qAppsControlMode -&gt; (string) [required] Status information about whether end users can create and use Amazon Q Apps in the web experience. Possible values: • ENABLED • DISABLED Shorthand Syntax: qAppsControlMode=string JSON Syntax: { "qAppsControlMode": "ENABLED"|"DISABLED" }
     /// </summary>
     [CliOption("--q-apps-configuration")]
     public string? QAppsConfiguration { get; set; }
 
     /// <summary>
-    /// Configuration information about chat response personalization. For more information, see Personalizing chat responses . personalizationControlMode -&gt; (string) [required] An option to allow Amazon Q Business to customize chat responses using user specific metadataspecifically, location and job in- formationin your IAM Identity Center instance. Possible values: o ENABLED o DISABLED Shorthand Syntax: personalizationControlMode=string JSON Syntax: { "personalizationControlMode": "ENABLED"|"DISABLED" }
+    /// Configuration information about chat response personalization. For more information, see Personalizing chat responses . personalizationControlMode -&gt; (string) [required] An option to allow Amazon Q Business to customize chat responses using user specific metadataspecifically, location and job informationin your IAM Identity Center instance. Possible values: • ENABLED • DISABLED Shorthand Syntax: personalizationControlMode=string JSON Syntax: { "personalizationControlMode": "ENABLED"|"DISABLED" }
     /// </summary>
     [CliOption("--personalization-configuration")]
     public string? PersonalizationConfiguration { get; set; }
 
     /// <summary>
-    /// An option to enable updating the default subscription type assigned to an Amazon Q Business application using IAM identity federation for user management. autoSubscribe -&gt; (string) [required] Describes whether automatic subscriptions are enabled for an Amazon Q Business application using IAM identity federation for user management. Possible values: o ENABLED o DISABLED defaultSubscriptionType -&gt; (string) Describes the default subscription type assigned to an Amazon Q Business application using IAM identity federation for user man- agement. If the value for autoSubscribe is set to ENABLED you must select a value for this field. Possible values: o Q_LITE o Q_BUSINESS Shorthand Syntax: autoSubscribe=string,defaultSubscriptionType=string JSON Syntax: { "autoSubscribe": "ENABLED"|"DISABLED", "defaultSubscriptionType": "Q_LITE"|"Q_BUSINESS" }
+    /// An option to enable updating the default subscription type assigned to an Amazon Q Business application using IAM identity federation for user management. autoSubscribe -&gt; (string) [required] Describes whether automatic subscriptions are enabled for an Amazon Q Business application using IAM identity federation for user management. Possible values: • ENABLED • DISABLED defaultSubscriptionType -&gt; (string) Describes the default subscription type assigned to an Amazon Q Business application using IAM identity federation for user management. If the value for autoSubscribe is set to ENABLED you must select a value for this field. Possible values: • Q_LITE • Q_BUSINESS Shorthand Syntax: autoSubscribe=string,defaultSubscriptionType=string JSON Syntax: { "autoSubscribe": "ENABLED"|"DISABLED", "defaultSubscriptionType": "Q_LITE"|"Q_BUSINESS" }
     /// </summary>
     [CliOption("--auto-subscription-configuration")]
     public string? AutoSubscriptionConfiguration { get; set; }

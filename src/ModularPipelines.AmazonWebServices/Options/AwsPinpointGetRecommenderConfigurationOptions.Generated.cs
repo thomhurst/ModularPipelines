@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves information about an Amazon Pinpoint configuration for a rec- ommender model. See also: AWS API Documentation
+/// Retrieves information about an Amazon Pinpoint configuration for a recommender model. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsPinpointGetRecommenderConfigurationOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves information about an Amazon Pinpoint configuration for a rec- ommender model. See also: AWS API Documentation
+    /// Retrieves information about an Amazon Pinpoint configuration for a recommender model. See also: AWS API Documentation
     /// </summary>
     /// <param name="RecommenderId">The unique identifier for the recommender model configuration. This identifier is displayed as the Recommender ID on the Amazon Pinpoint console.</param>
     public AwsPinpointGetRecommenderConfigurationOptions(

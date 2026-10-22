@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// For operations that require confirmation that the email address for the registrant contact is valid, such as registering a new domain, this op- eration returns information about whether the registrant contact has responded. If you want us to resend the email, use the ResendContactReachabilityE- mail operation. See also: AWS API Documentation
+/// For operations that require confirmation that the email address for the registrant contact is valid, such as registering a new domain, this operation returns information about whether the registrant contact has responded. If you want us to resend the email, use the ResendContactReachabilityEmail operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsRoute53domainsGetContactReachabilityStatusOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the domain for which you want to know whether the regis- trant contact has confirmed that the email address is valid. Constraints: o max: 255
+    /// The name of the domain for which you want to know whether the registrant contact has confirmed that the email address is valid. Constraints: • max: 255
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; set; }

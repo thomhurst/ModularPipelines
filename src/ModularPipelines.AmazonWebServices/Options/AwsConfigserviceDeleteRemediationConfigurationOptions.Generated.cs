@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsConfigserviceDeleteRemediationConfigurationOptions : AwsOptions
     /// <summary>
     /// Deletes the remediation configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfigRuleName">The name of the Config rule for which you want to delete remediation configuration. Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    /// <param name="ConfigRuleName">The name of the Config rule for which you want to delete remediation configuration. Constraints: • min: 1 • max: 128 • pattern: .*\S.*</param>
     public AwsConfigserviceDeleteRemediationConfigurationOptions(
         string ConfigRuleName
     )
@@ -56,7 +58,7 @@ public record AwsConfigserviceDeleteRemediationConfigurationOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Config rule for which you want to delete remediation configuration. Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// The name of the Config rule for which you want to delete remediation configuration. Constraints: • min: 1 • max: 128 • pattern: .*\S.*
     /// </summary>
     [CliOption("--config-rule-name")]
     public string? ConfigRuleName { get; private init; }

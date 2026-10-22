@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsGlobalacceleratorDescribeEndpointGroupOptions : AwsOptions, IVa
     /// <summary>
     /// Describe an endpoint group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EndpointGroupArn">The Amazon Resource Name (ARN) of the endpoint group to describe. Constraints: o max: 255</param>
+    /// <param name="EndpointGroupArn">The Amazon Resource Name (ARN) of the endpoint group to describe. Constraints: • max: 255</param>
     public AwsGlobalacceleratorDescribeEndpointGroupOptions(
         string EndpointGroupArn
     )
@@ -56,7 +58,7 @@ public record AwsGlobalacceleratorDescribeEndpointGroupOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the endpoint group to describe. Constraints: o max: 255
+    /// The Amazon Resource Name (ARN) of the endpoint group to describe. Constraints: • max: 255
     /// </summary>
     [CliOption("--endpoint-group-arn")]
     public string? EndpointGroupArn { get; private init; }

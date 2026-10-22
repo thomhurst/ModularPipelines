@@ -32,7 +32,7 @@ public class AwsFsx : IAwsFsx
     #region Commands
 
     /// <summary>
-    /// Use this action to associate one or more Domain Name Server (DNS) aliases with an existing Amazon FSx for Windows File Server file sys- tem. A file system can have a maximum of 50 DNS aliases associated with it at any one time. If you try to associate a DNS alias that is already associated with the file system, FSx takes no action on that alias in the request. For more information, see Working with DNS Aliases and Walkthrough 5: Using DNS aliases to access your file system , including additional...
+    /// Use this action to associate one or more Domain Name Server (DNS) aliases with an existing Amazon FSx for Windows File Server file system. A file system can have a maximum of 50 DNS aliases associated with it at any one time. If you try to associate a DNS alias that is already associated with the file system, FSx takes no action on that alias in the request. For more information, see Working with DNS Aliases and Walkthrough 5: Using DNS aliases to access your file system , including additional s...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsFsx : IAwsFsx
     }
 
     /// <summary>
-    /// Cancels an existing Amazon FSx for Lustre data repository task if that task is in either the PENDING or EXECUTING state. When you cancel an export task, Amazon FSx does the following. o Any files that FSx has already exported are not reverted. o FSx continues to export any files that are in-flight when the cancel operation is received. o FSx does not export any files that have not yet been exported. For a release task, Amazon FSx will stop releasing files upon cancella- tion. Any files that have...
+    /// Cancels an existing Amazon FSx for Lustre data repository task if that task is in either the PENDING or EXECUTING state. When you cancel an export task, Amazon FSx does the following. • Any files that FSx has already exported are not reverted. • FSx continues to export any files that are in-flight when the cancel operation is received. • FSx does not export any files that have not yet been exported. For a release task, Amazon FSx will stop releasing files upon cancellation. Any files that have a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsFsx : IAwsFsx
     }
 
     /// <summary>
-    /// Copies an existing backup within the same Amazon Web Services account to another Amazon Web Services Region (cross-Region copy) or within the same Amazon Web Services Region (in-Region copy). You can have up to five backup copy requests in progress to a single destination Region per account. You can use cross-Region backup copies for cross-Region disaster recov- ery. You can periodically take backups and copy them to another Region so that in the event of a disaster in the primary Region, you ca...
+    /// Copies an existing backup within the same Amazon Web Services account to another Amazon Web Services Region (cross-Region copy) or within the same Amazon Web Services Region (in-Region copy). You can have up to five backup copy requests in progress to a single destination Region per account. You can use cross-Region backup copies for cross-Region disaster recovery. You can periodically take backups and copy them to another Region so that in the event of a disaster in the primary Region, you can ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsFsx : IAwsFsx
     }
 
     /// <summary>
-    /// Creates an S3 access point and attaches it to an Amazon FSx volume. For FSx for OpenZFS file systems, the volume must be hosted on a high-availability file system, either Single-AZ or Multi-AZ. For more information, see Accessing your data using Amazon S3 access points . in the Amazon FSx for OpenZFS User Guide. The requester requires the following permissions to perform these ac- tions: o fsx:CreateAndAttachS3AccessPoint o s3:CreateAccessPoint o s3:GetAccessPoint o s3:PutAccessPointPolicy o s3:...
+    /// Creates an S3 access point and attaches it to an Amazon FSx volume. For FSx for OpenZFS file systems, the volume must be hosted on a high-availability file system, either Single-AZ or Multi-AZ. For more information, see Accessing your data using Amazon S3 access points . in the Amazon FSx for OpenZFS User Guide. The requester requires the following permissions to perform these actions: • fsx:CreateAndAttachS3AccessPoint • s3:CreateAccessPoint • s3:GetAccessPoint • s3:PutAccessPointPolicy • s3:De...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsFsx : IAwsFsx
     }
 
     /// <summary>
-    /// Creates a backup of an existing Amazon FSx for Windows File Server file system, Amazon FSx for Lustre file system, Amazon FSx for NetApp ONTAP volume, or Amazon FSx for OpenZFS file system. We recommend creating regular backups so that you can restore a file system or volume from a backup if an issue arises with the original file system or volume. For Amazon FSx for Lustre file systems, you can create a backup only for file systems that have the following configuration: o A Persistent deployment...
+    /// Creates a backup of an existing Amazon FSx for Windows File Server file system, Amazon FSx for Lustre file system, Amazon FSx for NetApp ONTAP volume, or Amazon FSx for OpenZFS file system. We recommend creating regular backups so that you can restore a file system or volume from a backup if an issue arises with the original file system or volume. For Amazon FSx for Lustre file systems, you can create a backup only for file systems that have the following configuration: • A Persistent deployment...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsFsx : IAwsFsx
     }
 
     /// <summary>
-    /// Creates an Amazon FSx for Lustre data repository association (DRA). A data repository association is a link between a directory on the file system and an Amazon S3 bucket or prefix. You can have a maximum of 8 data repository associations on a file system. Data repository associa- tions are supported on all FSx for Lustre 2.12 and 2.15 file systems, excluding scratch_1 deployment type. Each data repository association must have a unique Amazon FSx file system directory and a unique S3 bucket or ...
+    /// Creates an Amazon FSx for Lustre data repository association (DRA). A data repository association is a link between a directory on the file system and an Amazon S3 bucket or prefix. You can have a maximum of 8 data repository associations on a file system. Data repository associations are supported on all FSx for Lustre 2.12 and 2.15 file systems, excluding scratch_1 deployment type. Each data repository association must have a unique Amazon FSx file system directory and a unique S3 bucket or pr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsFsx : IAwsFsx
     }
 
     /// <summary>
-    /// Creates an Amazon FSx for Lustre data repository task. A Create- DataRepositoryTask operation will fail if a data repository is not linked to the FSx file system. You use import and export data repository tasks to perform bulk opera- tions between your FSx for Lustre file system and its linked data repositories. An example of a data repository task is exporting any data and metadata changes, including POSIX metadata, to files, directo- ries, and symbolic links (symlinks) from your FSx file syste...
+    /// Creates an Amazon FSx for Lustre data repository task. A CreateDataRepositoryTask operation will fail if a data repository is not linked to the FSx file system. You use import and export data repository tasks to perform bulk operations between your FSx for Lustre file system and its linked data repositories. An example of a data repository task is exporting any data and metadata changes, including POSIX metadata, to files, directories, and symbolic links (symlinks) from your FSx file system to a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsFsx : IAwsFsx
     }
 
     /// <summary>
-    /// Creates a new Amazon File Cache resource. You can use this operation with a client request token in the request that Amazon File Cache uses to ensure idempotent creation. If a cache with the specified client request token exists and the parameters match, CreateFileCache returns the description of the existing cache. If a cache with the specified client request token exists and the para- meters don't match, this call returns IncompatibleParameterError . If a file cache with the specified client r...
+    /// Creates a new Amazon File Cache resource. You can use this operation with a client request token in the request that Amazon File Cache uses to ensure idempotent creation. If a cache with the specified client request token exists and the parameters match, CreateFileCache returns the description of the existing cache. If a cache with the specified client request token exists and the parameters don't match, this call returns IncompatibleParameterError . If a file cache with the specified client req...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsFsx : IAwsFsx
     }
 
     /// <summary>
-    /// Creates a new Amazon FSx for Lustre, Amazon FSx for Windows File Server, or Amazon FSx for OpenZFS file system from an existing Amazon FSx backup. If a file system with the specified client request token exists and the parameters match, this operation returns the description of the file system. If a file system with the specified client request token exists but the parameters don't match, this call returns IncompatibleParame- terError . If a file system with the specified client request token do...
+    /// Creates a new Amazon FSx for Lustre, Amazon FSx for Windows File Server, or Amazon FSx for OpenZFS file system from an existing Amazon FSx backup. If a file system with the specified client request token exists and the parameters match, this operation returns the description of the file system. If a file system with the specified client request token exists but the parameters don't match, this call returns IncompatibleParameterError . If a file system with the specified client request token does...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsFsx : IAwsFsx
     }
 
     /// <summary>
-    /// Creates a new, empty Amazon FSx file system. You can create the follow- ing supported Amazon FSx file systems using the CreateFileSystem API operation: o Amazon FSx for Lustre o Amazon FSx for NetApp ONTAP o Amazon FSx for OpenZFS o Amazon FSx for Windows File Server This operation requires a client request token in the request that Ama- zon FSx uses to ensure idempotent creation. This means that calling the operation multiple times with the same client request token has no ef- fect. By using th...
+    /// Creates a new, empty Amazon FSx file system. You can create the following supported Amazon FSx file systems using the CreateFileSystem API operation: • Amazon FSx for Lustre • Amazon FSx for NetApp ONTAP • Amazon FSx for OpenZFS • Amazon FSx for Windows File Server This operation requires a client request token in the request that Amazon FSx uses to ensure idempotent creation. This means that calling the operation multiple times with the same client request token has no effect. By using the idem...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsFsx : IAwsFsx
     }
 
     /// <summary>
-    /// Creates a snapshot of an existing Amazon FSx for OpenZFS volume. With snapshots, you can easily undo file changes and compare file versions by restoring the volume to a previous version. If a snapshot with the specified client request token exists, and the parameters match, this operation returns the description of the exist- ing snapshot. If a snapshot with the specified client request token ex- ists, and the parameters don't match, this operation returns Incompati- bleParameterError . If a sna...
+    /// Creates a snapshot of an existing Amazon FSx for OpenZFS volume. With snapshots, you can easily undo file changes and compare file versions by restoring the volume to a previous version. If a snapshot with the specified client request token exists, and the parameters match, this operation returns the description of the existing snapshot. If a snapshot with the specified client request token exists, and the parameters don't match, this operation returns IncompatibleParameterError . If a snapshot ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsFsx : IAwsFsx
     }
 
     /// <summary>
-    /// Creates a new Amazon FSx for NetApp ONTAP volume from an existing Ama- zon FSx volume backup. See also: AWS API Documentation
+    /// Creates a new Amazon FSx for NetApp ONTAP volume from an existing Amazon FSx volume backup. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsFsx : IAwsFsx
     }
 
     /// <summary>
-    /// Deletes an Amazon FSx backup. After deletion, the backup no longer ex- ists, and its data is gone. The DeleteBackup call returns instantly. The backup won't show up in later DescribeBackups calls. WARNING: The data in a deleted backup is also deleted and can't be recovered by any means. See also: AWS API Documentation
+    /// Deletes an Amazon FSx backup. After deletion, the backup no longer exists, and its data is gone. The DeleteBackup call returns instantly. The backup won't show up in later DescribeBackups calls. WARNING: The data in a deleted backup is also deleted and can't be recovered by any means. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsFsx : IAwsFsx
     }
 
     /// <summary>
-    /// Deletes a data repository association on an Amazon FSx for Lustre file system. Deleting the data repository association unlinks the file sys- tem from the Amazon S3 bucket. When deleting a data repository associa- tion, you have the option of deleting the data in the file system that corresponds to the data repository association. Data repository associ- ations are supported on all FSx for Lustre 2.12 and 2.15 file systems, excluding scratch_1 deployment type. See also: AWS API Documentation
+    /// Deletes a data repository association on an Amazon FSx for Lustre file system. Deleting the data repository association unlinks the file system from the Amazon S3 bucket. When deleting a data repository association, you have the option of deleting the data in the file system that corresponds to the data repository association. Data repository associations are supported on all FSx for Lustre 2.12 and 2.15 file systems, excluding scratch_1 deployment type. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsFsx : IAwsFsx
     }
 
     /// <summary>
-    /// Deletes an Amazon File Cache resource. After deletion, the cache no longer exists, and its data is gone. The DeleteFileCache operation returns while the cache has the DELETING status. You can check the cache deletion status by calling the DescribeFileCaches operation, which returns a list of caches in your account. If you pass the cache ID for a deleted cache, the De- scribeFileCaches operation returns a FileCacheNotFound error. WARNING: The data in a deleted cache is also deleted and can't be r...
+    /// Deletes an Amazon File Cache resource. After deletion, the cache no longer exists, and its data is gone. The DeleteFileCache operation returns while the cache has the DELETING status. You can check the cache deletion status by calling the DescribeFileCaches operation, which returns a list of caches in your account. If you pass the cache ID for a deleted cache, the DescribeFileCaches operation returns a FileCacheNotFound error. WARNING: The data in a deleted cache is also deleted and can't be rec...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsFsx : IAwsFsx
     }
 
     /// <summary>
-    /// Deletes a file system. After deletion, the file system no longer ex- ists, and its data is gone. Any existing automatic backups and snap- shots are also deleted. To delete an Amazon FSx for NetApp ONTAP file system, first delete all the volumes and storage virtual machines (SVMs) on the file system. Then provide a FileSystemId value to the DeleteFileSystem operation. Before deleting an Amazon FSx for OpenZFS file system, make sure that there aren't any Amazon S3 access points attached to any vol...
+    /// Deletes a file system. After deletion, the file system no longer exists, and its data is gone. Any existing automatic backups and snapshots are also deleted. To delete an Amazon FSx for NetApp ONTAP file system, first delete all the volumes and storage virtual machines (SVMs) on the file system. Then provide a FileSystemId value to the DeleteFileSystem operation. Before deleting an Amazon FSx for OpenZFS file system, make sure that there aren't any Amazon S3 access points attached to any volume....
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsFsx : IAwsFsx
     }
 
     /// <summary>
-    /// Deletes an Amazon FSx for OpenZFS snapshot. After deletion, the snap- shot no longer exists, and its data is gone. Deleting a snapshot doesn't affect snapshots stored in a file system backup. The DeleteSnapshot operation returns instantly. The snapshot appears with the lifecycle status of DELETING until the deletion is complete. See also: AWS API Documentation
+    /// Deletes an Amazon FSx for OpenZFS snapshot. After deletion, the snapshot no longer exists, and its data is gone. Deleting a snapshot doesn't affect snapshots stored in a file system backup. The DeleteSnapshot operation returns instantly. The snapshot appears with the lifecycle status of DELETING until the deletion is complete. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsFsx : IAwsFsx
     }
 
     /// <summary>
-    /// Deletes an Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS vol- ume. See also: AWS API Documentation
+    /// Deletes an Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS volume. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsFsx : IAwsFsx
     }
 
     /// <summary>
-    /// Returns the description of specific Amazon FSx for Lustre or Amazon File Cache data repository associations, if one or more AssociationIds values are provided in the request, or if filters are used in the re- quest. Data repository associations are supported on Amazon File Cache resources and all FSx for Lustre 2.12 and 2,15 file systems, excluding scratch_1 deployment type. You can use filters to narrow the response to include just data reposi- tory associations for specific file systems (use t...
+    /// Returns the description of specific Amazon FSx for Lustre or Amazon File Cache data repository associations, if one or more AssociationIds values are provided in the request, or if filters are used in the request. Data repository associations are supported on Amazon File Cache resources and all FSx for Lustre 2.12 and 2,15 file systems, excluding scratch_1 deployment type. You can use filters to narrow the response to include just data repository associations for specific file systems (use the f...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsFsx : IAwsFsx
     }
 
     /// <summary>
-    /// Returns the description of specific Amazon FSx for Lustre or Amazon File Cache data repository tasks, if one or more TaskIds values are provided in the request, or if filters are used in the request. You can use filters to narrow the response to include just tasks for specific file systems or caches, or tasks in a specific lifecycle state. Other- wise, it returns all data repository tasks owned by your Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're call...
+    /// Returns the description of specific Amazon FSx for Lustre or Amazon File Cache data repository tasks, if one or more TaskIds values are provided in the request, or if filters are used in the request. You can use filters to narrow the response to include just tasks for specific file systems or caches, or tasks in a specific lifecycle state. Otherwise, it returns all data repository tasks owned by your Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're callin...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsFsx : IAwsFsx
     }
 
     /// <summary>
-    /// Returns the DNS aliases that are associated with the specified Amazon FSx for Windows File Server file system. A history of all DNS aliases that have been associated with and disassociated from the file system is available in the list of AdministrativeAction provided in the De- scribeFileSystems operation response. See also: AWS API Documentation
+    /// Returns the DNS aliases that are associated with the specified Amazon FSx for Windows File Server file system. A history of all DNS aliases that have been associated with and disassociated from the file system is available in the list of AdministrativeAction provided in the DescribeFileSystems operation response. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsFsx : IAwsFsx
     }
 
     /// <summary>
-    /// Returns the description of specific Amazon FSx file systems, if a FileSystemIds value is provided for that file system. Otherwise, it re- turns descriptions of all file systems owned by your Amazon Web Ser- vices account in the Amazon Web Services Region of the endpoint that you're calling. When retrieving all file system descriptions, you can optionally spec- ify the MaxResults parameter to limit the number of descriptions in a response. If more file system descriptions remain, Amazon FSx retur...
+    /// Returns the description of specific Amazon FSx file systems, if a FileSystemIds value is provided for that file system. Otherwise, it returns descriptions of all file systems owned by your Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're calling. When retrieving all file system descriptions, you can optionally specify the MaxResults parameter to limit the number of descriptions in a response. If more file system descriptions remain, Amazon FSx returns a N...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsFsx : IAwsFsx
     }
 
     /// <summary>
-    /// Describes one or more S3 access points attached to Amazon FSx volumes. The requester requires the following permission to perform this action: o fsx:DescribeS3AccessPointAttachments See also: AWS API Documentation describe-s3-access-point-attachments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated ...
+    /// Describes one or more S3 access points attached to Amazon FSx volumes. The requester requires the following permission to perform this action: • fsx:DescribeS3AccessPointAttachments See also: AWS API Documentation describe-s3-access-point-attachments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated resp...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsFsx : IAwsFsx
     }
 
     /// <summary>
-    /// Returns the description of specific Amazon FSx for OpenZFS snapshots, if a SnapshotIds value is provided. Otherwise, this operation returns all snapshots owned by your Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're calling. When retrieving all snapshots, you can optionally specify the MaxRe- sults parameter to limit the number of snapshots in a response. If more backups remain, Amazon FSx returns a NextToken value in the response. In this case, send a l...
+    /// Returns the description of specific Amazon FSx for OpenZFS snapshots, if a SnapshotIds value is provided. Otherwise, this operation returns all snapshots owned by your Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're calling. When retrieving all snapshots, you can optionally specify the MaxResults parameter to limit the number of snapshots in a response. If more backups remain, Amazon FSx returns a NextToken value in the response. In this case, send a lat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsFsx : IAwsFsx
     }
 
     /// <summary>
-    /// Describes one or more Amazon FSx for NetApp ONTAP storage virtual ma- chines (SVMs). See also: AWS API Documentation describe-storage-virtual-machines is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions...
+    /// Describes one or more Amazon FSx for NetApp ONTAP storage virtual machines (SVMs). See also: AWS API Documentation describe-storage-virtual-machines is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Stor...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsFsx : IAwsFsx
     }
 
     /// <summary>
-    /// Detaches an S3 access point from an Amazon FSx volume and deletes the S3 access point. The requester requires the following permission to perform this action: o fsx:DetachAndDeleteS3AccessPoint o s3:DeleteAccessPoint See also: AWS API Documentation
+    /// Detaches an S3 access point from an Amazon FSx volume and deletes the S3 access point. The requester requires the following permission to perform this action: • fsx:DetachAndDeleteS3AccessPoint • s3:DeleteAccessPoint See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsFsx : IAwsFsx
     }
 
     /// <summary>
-    /// Use this action to disassociate, or remove, one or more Domain Name Service (DNS) aliases from an Amazon FSx for Windows File Server file system. If you attempt to disassociate a DNS alias that is not associ- ated with the file system, Amazon FSx responds with an HTTP status code 400 (Bad Request). For more information, see Working with DNS Aliases . The system generated response showing the DNS aliases that Amazon FSx is attempting to disassociate from the file system. Use the API opera- tion t...
+    /// Use this action to disassociate, or remove, one or more Domain Name Service (DNS) aliases from an Amazon FSx for Windows File Server file system. If you attempt to disassociate a DNS alias that is not associated with the file system, Amazon FSx responds with an HTTP status code 400 (Bad Request). For more information, see Working with DNS Aliases . The system generated response showing the DNS aliases that Amazon FSx is attempting to disassociate from the file system. Use the API operation to mo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +557,7 @@ public class AwsFsx : IAwsFsx
     }
 
     /// <summary>
-    /// Lists tags for Amazon FSx resources. When retrieving all tags, you can optionally specify the MaxResults pa- rameter to limit the number of tags in a response. If more tags remain, Amazon FSx returns a NextToken value in the response. In this case, send a later request with the NextToken request parameter set to the value of NextToken from the last response. This action is used in an iterative process to retrieve a list of your tags. ListTagsForResource is called first without a NextToken value....
+    /// Lists tags for Amazon FSx resources. When retrieving all tags, you can optionally specify the MaxResults parameter to limit the number of tags in a response. If more tags remain, Amazon FSx returns a NextToken value in the response. In this case, send a later request with the NextToken request parameter set to the value of NextToken from the last response. This action is used in an iterative process to retrieve a list of your tags. ListTagsForResource is called first without a NextToken value. T...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsFsx : IAwsFsx
     }
 
     /// <summary>
-    /// Releases the file system lock from an Amazon FSx for OpenZFS file sys- tem. See also: AWS API Documentation
+    /// Releases the file system lock from an Amazon FSx for OpenZFS file system. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -677,7 +677,7 @@ public class AwsFsx : IAwsFsx
     }
 
     /// <summary>
-    /// Use this operation to update the configuration of an existing Amazon FSx file system. You can update multiple properties in a single re- quest. For FSx for Windows File Server file systems, you can update the fol- lowing properties: o AuditLogConfiguration o AutomaticBackupRetentionDays o DailyAutomaticBackupStartTime o DiskIopsConfiguration o SelfManagedActiveDirectoryConfiguration o StorageCapacity o StorageType o ThroughputCapacity o WeeklyMaintenanceStartTime For FSx for Lustre file systems,...
+    /// Use this operation to update the configuration of an existing Amazon FSx file system. You can update multiple properties in a single request. For FSx for Windows File Server file systems, you can update the following properties: • AuditLogConfiguration • AutomaticBackupRetentionDays • DailyAutomaticBackupStartTime • DiskIopsConfiguration • SelfManagedActiveDirectoryConfiguration • StorageCapacity • StorageType • ThroughputCapacity • WeeklyMaintenanceStartTime For FSx for Lustre file systems, you...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -692,7 +692,7 @@ public class AwsFsx : IAwsFsx
     }
 
     /// <summary>
-    /// Configures whether participant accounts in your organization can create Amazon FSx for NetApp ONTAP Multi-AZ file systems in subnets that are shared by a virtual private cloud (VPC) owner. For more information, see the Amazon FSx for NetApp ONTAP User Guide . NOTE: We strongly recommend that participant-created Multi-AZ file systems in the shared VPC are deleted before you disable this feature. Once the feature is disabled, these file systems will enter a MISCONFIG- URED state and behave like Si...
+    /// Configures whether participant accounts in your organization can create Amazon FSx for NetApp ONTAP Multi-AZ file systems in subnets that are shared by a virtual private cloud (VPC) owner. For more information, see the Amazon FSx for NetApp ONTAP User Guide . NOTE: We strongly recommend that participant-created Multi-AZ file systems in the shared VPC are deleted before you disable this feature. Once the feature is disabled, these file systems will enter a MISCONFIGURED state and behave like Sing...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsControltowerResetEnabledControlOptions : AwsOptions, IValidatab
     /// <summary>
     /// Resets an enabled control. Does not work for controls implemented with SCPs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EnabledControlIdentifier">The ARN of the enabled control to be reset. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+</param>
+    /// <param name="EnabledControlIdentifier">The ARN of the enabled control to be reset. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[0-9a-zA-Z_\-:\/]+</param>
     public AwsControltowerResetEnabledControlOptions(
         string EnabledControlIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsControltowerResetEnabledControlOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the enabled control to be reset. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+
+    /// The ARN of the enabled control to be reset. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[0-9a-zA-Z_\-:\/]+
     /// </summary>
     [CliOption("--enabled-control-identifier")]
     public string? EnabledControlIdentifier { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDeployDeleteDeploymentGroupOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Deletes a deployment group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationName">The name of an CodeDeploy application associated with the user or Amazon Web Services account. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]*</param>
-    /// <param name="DeploymentGroupName">The name of a deployment group for the specified application. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]*</param>
+    /// <param name="ApplicationName">The name of an CodeDeploy application associated with the user or Amazon Web Services account. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9+=,.@_-]*</param>
+    /// <param name="DeploymentGroupName">The name of a deployment group for the specified application. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9+=,.@_-]*</param>
     public AwsDeployDeleteDeploymentGroupOptions(
         string ApplicationName,
         string DeploymentGroupName
@@ -60,13 +62,13 @@ public record AwsDeployDeleteDeploymentGroupOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of an CodeDeploy application associated with the user or Amazon Web Services account. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]*
+    /// The name of an CodeDeploy application associated with the user or Amazon Web Services account. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9+=,.@_-]*
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; private init; }
 
     /// <summary>
-    /// The name of a deployment group for the specified application. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]*
+    /// The name of a deployment group for the specified application. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9+=,.@_-]*
     /// </summary>
     [CliOption("--deployment-group-name")]
     public string? DeploymentGroupName { get; private init; }

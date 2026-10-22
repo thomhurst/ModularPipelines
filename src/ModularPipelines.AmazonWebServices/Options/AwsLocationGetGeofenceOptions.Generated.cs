@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsLocationGetGeofenceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves the geofence details from a geofence collection. NOTE: The returned geometry will always match the geometry format used when the geofence was created. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CollectionName">The geofence collection storing the target geofence. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
-    /// <param name="GeofenceId">The geofence you're retrieving details for. Constraints: o min: 1 o max: 100 o pattern: [-._\p{L}\p{N}]+</param>
+    /// <param name="CollectionName">The geofence collection storing the target geofence. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+</param>
+    /// <param name="GeofenceId">The geofence you're retrieving details for. Constraints: • min: 1 • max: 100 • pattern: [-._\p{L}\p{N}]+</param>
     public AwsLocationGetGeofenceOptions(
         string CollectionName,
         string GeofenceId
@@ -60,13 +62,13 @@ public record AwsLocationGetGeofenceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The geofence collection storing the target geofence. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// The geofence collection storing the target geofence. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+
     /// </summary>
     [CliOption("--collection-name")]
     public string? CollectionName { get; private init; }
 
     /// <summary>
-    /// The geofence you're retrieving details for. Constraints: o min: 1 o max: 100 o pattern: [-._\p{L}\p{N}]+
+    /// The geofence you're retrieving details for. Constraints: • min: 1 • max: 100 • pattern: [-._\p{L}\p{N}]+
     /// </summary>
     [CliOption("--geofence-id")]
     public string? GeofenceId { get; private init; }

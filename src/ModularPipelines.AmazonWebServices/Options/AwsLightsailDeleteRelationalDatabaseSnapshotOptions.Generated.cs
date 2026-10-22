@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsLightsailDeleteRelationalDatabaseSnapshotOptions : AwsOptions, 
     /// <summary>
     /// Deletes a database snapshot in Amazon Lightsail. The delete relational database snapshot operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="RelationalDatabaseSnapshotName">The name of the database snapshot that you are deleting. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="RelationalDatabaseSnapshotName">The name of the database snapshot that you are deleting. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailDeleteRelationalDatabaseSnapshotOptions(
         string RelationalDatabaseSnapshotName
     )
@@ -56,7 +58,7 @@ public record AwsLightsailDeleteRelationalDatabaseSnapshotOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the database snapshot that you are deleting. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the database snapshot that you are deleting. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--relational-database-snapshot-name")]
     public string? RelationalDatabaseSnapshotName { get; private init; }

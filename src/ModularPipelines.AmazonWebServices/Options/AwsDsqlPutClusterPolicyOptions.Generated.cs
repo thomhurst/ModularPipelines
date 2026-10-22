@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Attaches a resource-based policy to a cluster. This policy defines ac- cess permissions and conditions for the cluster, allowing you to con- trol which principals can perform actions on the cluster. See also: AWS API Documentation
+/// Attaches a resource-based policy to a cluster. This policy defines access permissions and conditions for the cluster, allowing you to control which principals can perform actions on the cluster. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsDsqlPutClusterPolicyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Attaches a resource-based policy to a cluster. This policy defines ac- cess permissions and conditions for the cluster, allowing you to con- trol which principals can perform actions on the cluster. See also: AWS API Documentation
+    /// Attaches a resource-based policy to a cluster. This policy defines access permissions and conditions for the cluster, allowing you to control which principals can perform actions on the cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The ID of the cluster. Constraints: o pattern: [a-z0-9]{26}</param>
-    /// <param name="Policy">The resource-based policy document to attach to the cluster. This should be a valid JSON policy document that defines permissions and conditions. Constraints: o min: 1 o max: 20480</param>
+    /// <param name="Identifier">The ID of the cluster. Constraints: • pattern: [a-z0-9]{26}</param>
+    /// <param name="Policy">The resource-based policy document to attach to the cluster. This should be a valid JSON policy document that defines permissions and conditions. Constraints: • min: 1 • max: 20480</param>
     public AwsDsqlPutClusterPolicyOptions(
         string Identifier,
         string Policy
@@ -61,19 +63,19 @@ public record AwsDsqlPutClusterPolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the cluster. Constraints: o pattern: [a-z0-9]{26}
+    /// The ID of the cluster. Constraints: • pattern: [a-z0-9]{26}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The resource-based policy document to attach to the cluster. This should be a valid JSON policy document that defines permissions and conditions. Constraints: o min: 1 o max: 20480
+    /// The resource-based policy document to attach to the cluster. This should be a valid JSON policy document that defines permissions and conditions. Constraints: • min: 1 • max: 20480
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; private init; }
 
     /// <summary>
-    /// out-safety-check (boolean) A flag that allows you to bypass the policy lockout safety check. When set to true, this parameter allows you to apply a policy that might lock you out of the cluster. Use with caution.
+    /// A flag that allows you to bypass the policy lockout safety check. When set to true, this parameter allows you to apply a policy that might lock you out of the cluster. Use with caution.
     /// </summary>
     [CliFlag("--bypass-policy-lockout-safety-check", NegatedName = "--no-bypass-policy-lockout-safety-check")]
     public bool? BypassPolicyLockoutSafetyCheck { get; set; }
@@ -85,7 +87,7 @@ public record AwsDsqlPutClusterPolicyOptions : AwsOptions, IValidatableObject
     public string? ExpectedPolicyVersion { get; set; }
 
     /// <summary>
-    /// Idempotency token so a request is only processed once. Constraints: o min: 1 o max: 128 o pattern: [!-~]+
+    /// Idempotency token so a request is only processed once. Constraints: • min: 1 • max: 128 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

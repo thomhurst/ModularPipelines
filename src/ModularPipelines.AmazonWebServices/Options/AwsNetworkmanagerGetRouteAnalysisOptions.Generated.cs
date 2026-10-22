@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsNetworkmanagerGetRouteAnalysisOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Gets information about the specified route analysis. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
-    /// <param name="RouteAnalysisId">The ID of the route analysis. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*</param>
+    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*</param>
+    /// <param name="RouteAnalysisId">The ID of the route analysis. Constraints: • min: 0 • max: 256 • pattern: [\s\S]*</param>
     public AwsNetworkmanagerGetRouteAnalysisOptions(
         string GlobalNetworkId,
         string RouteAnalysisId
@@ -60,13 +62,13 @@ public record AwsNetworkmanagerGetRouteAnalysisOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// The ID of the global network. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--global-network-id")]
     public string? GlobalNetworkId { get; private init; }
 
     /// <summary>
-    /// The ID of the route analysis. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// The ID of the route analysis. Constraints: • min: 0 • max: 256 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--route-analysis-id")]
     public string? RouteAnalysisId { get; private init; }

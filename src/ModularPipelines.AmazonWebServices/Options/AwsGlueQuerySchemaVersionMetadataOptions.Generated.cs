@@ -23,31 +23,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsGlueQuerySchemaVersionMetadataOptions : AwsOptions
 {
     /// <summary>
-    /// A wrapper structure that may contain the schema name and Amazon Re- source Name (ARN). SchemaArn -&gt; (string) The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: o min: 1 o max: 10240 o pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* SchemaName -&gt; (string) The name of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ RegistryName -&gt; (string) The name of the schema registry that contains the schema. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ Shorthand Syntax: SchemaArn=string,SchemaName=string,RegistryName=string JSON Syntax: { "SchemaArn": "string", "SchemaName": "string", "RegistryName": "string" }
+    /// A wrapper structure that may contain the schema name and Amazon Resource Name (ARN). SchemaArn -&gt; (string) The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: • min: 1 • max: 10240 • pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* SchemaName -&gt; (string) The name of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-_$#.]+ RegistryName -&gt; (string) The name of the schema registry that contains the schema. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-_$#.]+ Shorthand Syntax: SchemaArn=string,SchemaName=string,RegistryName=string JSON Syntax: { "SchemaArn": "string", "SchemaName": "string", "RegistryName": "string" }
     /// </summary>
     [CliOption("--schema-id")]
     public string? SchemaId { get; set; }
 
     /// <summary>
-    /// The version number of the schema. LatestVersion -&gt; (boolean) The latest version available for the schema. VersionNumber -&gt; (long) The version number of the schema. Constraints: o min: 1 o max: 100000 Shorthand Syntax: LatestVersion=boolean,VersionNumber=long JSON Syntax: { "LatestVersion": true|false, "VersionNumber": long }
+    /// The version number of the schema. LatestVersion -&gt; (boolean) The latest version available for the schema. VersionNumber -&gt; (long) The version number of the schema. Constraints: • min: 1 • max: 100000 Shorthand Syntax: LatestVersion=boolean,VersionNumber=long JSON Syntax: { "LatestVersion": true|false, "VersionNumber": long }
     /// </summary>
     [CliOption("--schema-version-number")]
     public string? SchemaVersionNumber { get; set; }
 
     /// <summary>
-    /// The unique version ID of the schema version. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The unique version ID of the schema version. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--schema-version-id")]
     public string? SchemaVersionId { get; set; }
 
     /// <summary>
-    /// Search key-value pairs for metadata, if they are not provided all the metadata information will be fetched. (structure) A structure containing a key value pair for metadata. MetadataKey -&gt; (string) A metadata key. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9+-=._./@]+ MetadataValue -&gt; (string) A metadata keys corresponding value. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9+-=._./@]+ Shorthand Syntax: MetadataKey=string,MetadataValue=string ... JSON Syntax: [ { "MetadataKey": "string", "MetadataValue": "string" } ... ]
+    /// Search key-value pairs for metadata, if they are not provided all the metadata information will be fetched. (structure) A structure containing a key value pair for metadata. MetadataKey -&gt; (string) A metadata key. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9+-=._./@]+ MetadataValue -&gt; (string) A metadata keys corresponding value. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9+-=._./@]+ Shorthand Syntax: MetadataKey=string,MetadataValue=string ... JSON Syntax: [ { "MetadataKey": "string", "MetadataValue": "string" } ... ]
     /// </summary>
     [CliOption("--metadata-list", GroupValues = true)]
     public IEnumerable<string>? MetadataList { get; set; }
 
     /// <summary>
-    /// Maximum number of results required per page. If the value is not supplied, this will be defaulted to 25 per page. Constraints: o min: 1 o max: 50
+    /// Maximum number of results required per page. If the value is not supplied, this will be defaulted to 25 per page. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

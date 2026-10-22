@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +30,9 @@ public record AwsLexv2ModelsListIntentsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Get a list of intents that meet the specified criteria. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BotId">The unique identifier of the bot that contains the intent. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="BotVersion">The version of the bot that contains the intent. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$</param>
-    /// <param name="LocaleId">The identifier of the language and locale of the intents to list. The string must match one of the supported locales. For more infor- mation, see Supported languages .</param>
+    /// <param name="BotId">The unique identifier of the bot that contains the intent. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotVersion">The version of the bot that contains the intent. Constraints: • min: 1 • max: 5 • pattern: ^(DRAFT|[0-9]+)$</param>
+    /// <param name="LocaleId">The identifier of the language and locale of the intents to list. The string must match one of the supported locales. For more information, see Supported languages .</param>
     public AwsLexv2ModelsListIntentsOptions(
         string BotId,
         string BotVersion,
@@ -65,37 +67,37 @@ public record AwsLexv2ModelsListIntentsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the bot that contains the intent. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier of the bot that contains the intent. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
 
     /// <summary>
-    /// The version of the bot that contains the intent. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$
+    /// The version of the bot that contains the intent. Constraints: • min: 1 • max: 5 • pattern: ^(DRAFT|[0-9]+)$
     /// </summary>
     [CliOption("--bot-version")]
     public string? BotVersion { get; private init; }
 
     /// <summary>
-    /// The identifier of the language and locale of the intents to list. The string must match one of the supported locales. For more infor- mation, see Supported languages .
+    /// The identifier of the language and locale of the intents to list. The string must match one of the supported locales. For more information, see Supported languages .
     /// </summary>
     [CliOption("--locale-id")]
     public string? LocaleId { get; private init; }
 
     /// <summary>
-    /// Determines the sort order for the response from the ListIntents op- eration. You can choose to sort by the intent name or last updated date in either ascending or descending order. attribute -&gt; (string) [required] The attribute to use to sort the list of intents. Possible values: o IntentName o LastUpdatedDateTime order -&gt; (string) [required] The order to sort the list. You can choose ascending or descend- ing. Possible values: o Ascending o Descending Shorthand Syntax: attribute=string,order=string JSON Syntax: { "attribute": "IntentName"|"LastUpdatedDateTime", "order": "Ascending"|"Descending" }
+    /// Determines the sort order for the response from the ListIntents operation. You can choose to sort by the intent name or last updated date in either ascending or descending order. attribute -&gt; (string) [required] The attribute to use to sort the list of intents. Possible values: • IntentName • LastUpdatedDateTime order -&gt; (string) [required] The order to sort the list. You can choose ascending or descending. Possible values: • Ascending • Descending Shorthand Syntax: attribute=string,order=string JSON Syntax: { "attribute": "IntentName"|"LastUpdatedDateTime", "order": "Ascending"|"Descending" }
     /// </summary>
     [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
     /// <summary>
-    /// Provides the specification of a filter used to limit the intents in the response to only those that match the filter specification. You can only specify one filter and only one string to filter on. Constraints: o min: 1 o max: 1 (structure) Filters the response from the ListIntents operation. name -&gt; (string) [required] The name of the field to use for the filter. Possible values: o IntentName values -&gt; (list) [required] The value to use for the filter. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 100 o pattern: ^[0-9a-zA-Z_()\s-]+$ operator -&gt; (string) [required] The operator to use for the filter. Specify EQ when the ListIntents operation should return only aliases that equal the specified value. Specify CO when the ListIntents opera- tion should return aliases that contain the specified value. Possible values: o CO o EQ Shorthand Syntax: name=string,values=string,string,operator=string ... JSON Syntax: [ { "name": "IntentName", "values": ["string", ...], "operator": "CO"|"EQ" } ... ]
+    /// Provides the specification of a filter used to limit the intents in the response to only those that match the filter specification. You can only specify one filter and only one string to filter on. Constraints: • min: 1 • max: 1 (structure) Filters the response from the ListIntents operation. name -&gt; (string) [required] The name of the field to use for the filter. Possible values: • IntentName values -&gt; (list) [required] The value to use for the filter. Constraints: • min: 1 • max: 1 (string) Constraints: • min: 1 • max: 100 • pattern: ^[0-9a-zA-Z_()\s-]+$ operator -&gt; (string) [required] The operator to use for the filter. Specify EQ when the ListIntents operation should return only aliases that equal the specified value. Specify CO when the ListIntents operation should return aliases that contain the specified value. Possible values: • CO • EQ Shorthand Syntax: name=string,values=string,string,operator=string ... JSON Syntax: [ { "name": "IntentName", "values": ["string", ...], "operator": "CO"|"EQ" } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// The maximum number of intents to return in each page of results. If there are fewer results than the max page size, only the actual num- ber of results are returned. Constraints: o min: 1 o max: 1000
+    /// The maximum number of intents to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

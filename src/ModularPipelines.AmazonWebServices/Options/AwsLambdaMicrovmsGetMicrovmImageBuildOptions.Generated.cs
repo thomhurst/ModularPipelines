@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsLambdaMicrovmsGetMicrovmImageBuildOptions : AwsOptions, IValida
     /// <summary>
     /// Retrieves the details of a specific MicroVM image build, including its state, target architecture, and snapshot information. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ImageIdentifier">The unique identifier (ARN or ID) of the MicroVM image. Constraints: o min: 1 o max: 256</param>
-    /// <param name="ImageVersion">The version of the MicroVM image. Constraints: o min: 1 o max: 2048 o pattern: [^\s]+</param>
-    /// <param name="BuildId">The unique identifier of the build to retrieve. Constraints: o min: 1 o max: 2048 o pattern: [^\s]+</param>
+    /// <param name="ImageIdentifier">The unique identifier (ARN or ID) of the MicroVM image. Constraints: • min: 1 • max: 256</param>
+    /// <param name="ImageVersion">The version of the MicroVM image. Constraints: • min: 1 • max: 2048 • pattern: [^\s]+</param>
+    /// <param name="BuildId">The unique identifier of the build to retrieve. Constraints: • min: 1 • max: 2048 • pattern: [^\s]+</param>
     public AwsLambdaMicrovmsGetMicrovmImageBuildOptions(
         string ImageIdentifier,
         string ImageVersion,
@@ -64,19 +66,19 @@ public record AwsLambdaMicrovmsGetMicrovmImageBuildOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier (ARN or ID) of the MicroVM image. Constraints: o min: 1 o max: 256
+    /// The unique identifier (ARN or ID) of the MicroVM image. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--image-identifier")]
     public string? ImageIdentifier { get; private init; }
 
     /// <summary>
-    /// The version of the MicroVM image. Constraints: o min: 1 o max: 2048 o pattern: [^\s]+
+    /// The version of the MicroVM image. Constraints: • min: 1 • max: 2048 • pattern: [^\s]+
     /// </summary>
     [CliOption("--image-version")]
     public string? ImageVersion { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the build to retrieve. Constraints: o min: 1 o max: 2048 o pattern: [^\s]+
+    /// The unique identifier of the build to retrieve. Constraints: • min: 1 • max: 2048 • pattern: [^\s]+
     /// </summary>
     [CliOption("--build-id")]
     public string? BuildId { get; private init; }

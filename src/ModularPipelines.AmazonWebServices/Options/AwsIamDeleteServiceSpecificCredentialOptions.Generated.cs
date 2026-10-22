@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIamDeleteServiceSpecificCredentialOptions : AwsOptions, IValida
     /// <summary>
     /// Deletes the specified service-specific credential. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceSpecificCredentialId">The unique identifier of the service-specific credential. You can get this value by calling ListServiceSpecificCredentials . This parameter allows (through its regex pattern ) a string of char- acters that can consist of any upper or lowercased letter or digit. Constraints: o min: 20 o max: 128 o pattern: [\w]+</param>
+    /// <param name="ServiceSpecificCredentialId">The unique identifier of the service-specific credential. You can get this value by calling ListServiceSpecificCredentials . This parameter allows (through its regex pattern ) a string of characters that can consist of any upper or lowercased letter or digit. Constraints: • min: 20 • max: 128 • pattern: [\w]+</param>
     public AwsIamDeleteServiceSpecificCredentialOptions(
         string ServiceSpecificCredentialId
     )
@@ -56,13 +58,13 @@ public record AwsIamDeleteServiceSpecificCredentialOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the service-specific credential. You can get this value by calling ListServiceSpecificCredentials . This parameter allows (through its regex pattern ) a string of char- acters that can consist of any upper or lowercased letter or digit. Constraints: o min: 20 o max: 128 o pattern: [\w]+
+    /// The unique identifier of the service-specific credential. You can get this value by calling ListServiceSpecificCredentials . This parameter allows (through its regex pattern ) a string of characters that can consist of any upper or lowercased letter or digit. Constraints: • min: 20 • max: 128 • pattern: [\w]+
     /// </summary>
     [CliOption("--service-specific-credential-id")]
     public string? ServiceSpecificCredentialId { get; private init; }
 
     /// <summary>
-    /// The name of the IAM user associated with the service-specific cre- dential. If this value is not specified, then the operation assumes the user whose credentials are used to call the operation. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+
+    /// The name of the IAM user associated with the service-specific credential. If this value is not specified, then the operation assumes the user whose credentials are used to call the operation. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 1 • max: 64 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; set; }

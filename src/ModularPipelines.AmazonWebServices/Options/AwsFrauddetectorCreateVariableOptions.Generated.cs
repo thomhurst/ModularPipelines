@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +31,8 @@ public record AwsFrauddetectorCreateVariableOptions : AwsOptions, IValidatableOb
     /// Creates a variable. See also: AWS API Documentation
     /// </summary>
     /// <param name="Name">The name of the variable.</param>
-    /// <param name="DataType">The data type of the variable. Possible values: o STRING o INTEGER o FLOAT o BOOLEAN o DATETIME</param>
-    /// <param name="DataSource">The source of the data. Possible values: o EVENT o MODEL_SCORE o EXTERNAL_MODEL_SCORE</param>
+    /// <param name="DataType">The data type of the variable. Possible values: • STRING • INTEGER • FLOAT • BOOLEAN • DATETIME</param>
+    /// <param name="DataSource">The source of the data. Possible values: • EVENT • MODEL_SCORE • EXTERNAL_MODEL_SCORE</param>
     /// <param name="DefaultValue">The default value for the variable when no value is received.</param>
     public AwsFrauddetectorCreateVariableOptions(
         string Name,
@@ -73,13 +75,13 @@ public record AwsFrauddetectorCreateVariableOptions : AwsOptions, IValidatableOb
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The data type of the variable. Possible values: o STRING o INTEGER o FLOAT o BOOLEAN o DATETIME
+    /// The data type of the variable. Possible values: • STRING • INTEGER • FLOAT • BOOLEAN • DATETIME
     /// </summary>
     [CliOption("--data-type")]
     public AwsFrauddetectorCreateVariableDataType? DataType { get; private init; }
 
     /// <summary>
-    /// The source of the data. Possible values: o EVENT o MODEL_SCORE o EXTERNAL_MODEL_SCORE
+    /// The source of the data. Possible values: • EVENT • MODEL_SCORE • EXTERNAL_MODEL_SCORE
     /// </summary>
     [CliOption("--data-source")]
     public AwsFrauddetectorCreateVariableDataSource? DataSource { get; private init; }
@@ -97,13 +99,13 @@ public record AwsFrauddetectorCreateVariableOptions : AwsOptions, IValidatableOb
     public string? Description { get; set; }
 
     /// <summary>
-    /// The variable type. For more information see Variable types . Valid Values: AUTH_CODE | AVS | BILLING_ADDRESS_L1 | BILLING_AD- DRESS_L2 | BILLING_CITY | BILLING_COUNTRY | BILLING_NAME | BILLING_PHONE | BILLING_STATE | BILLING_ZIP | CARD_BIN | CATEGORICAL | CURRENCY_CODE | EMAIL_ADDRESS | FINGERPRINT | FRAUD_LABEL | FREE_FORM_TEXT | IP_ADDRESS | NUMERIC | ORDER_ID | PAYMENT_TYPE | PHONE_NUMBER | PRICE | PRODUCT_CATEGORY | SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 | SHIPPING_CITY | SHIPPING_COUNTRY | SHIP- PING_NAME | SHIPPING_PHONE | SHIPPING_STATE | SHIPPING_ZIP | USERA- GENT
+    /// The variable type. For more information see Variable types . Valid Values: AUTH_CODE | AVS | BILLING_ADDRESS_L1 | BILLING_ADDRESS_L2 | BILLING_CITY | BILLING_COUNTRY | BILLING_NAME | BILLING_PHONE | BILLING_STATE | BILLING_ZIP | CARD_BIN | CATEGORICAL | CURRENCY_CODE | EMAIL_ADDRESS | FINGERPRINT | FRAUD_LABEL | FREE_FORM_TEXT | IP_ADDRESS | NUMERIC | ORDER_ID | PAYMENT_TYPE | PHONE_NUMBER | PRICE | PRODUCT_CATEGORY | SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 | SHIPPING_CITY | SHIPPING_COUNTRY | SHIPPING_NAME | SHIPPING_PHONE | SHIPPING_STATE | SHIPPING_ZIP | USERAGENT
     /// </summary>
     [CliOption("--variable-type")]
     public string? VariableType { get; set; }
 
     /// <summary>
-    /// A collection of key and value pairs. Constraints: o min: 0 o max: 200 (structure) A key and value pair. key -&gt; (string) [required] A tag key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] A value assigned to a tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// A collection of key and value pairs. Constraints: • min: 0 • max: 200 (structure) A key and value pair. key -&gt; (string) [required] A tag key. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] A value assigned to a tag key. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

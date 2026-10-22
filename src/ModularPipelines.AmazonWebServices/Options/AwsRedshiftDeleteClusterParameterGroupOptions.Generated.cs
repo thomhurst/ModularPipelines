@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a specified Amazon Redshift parameter group. NOTE: You cannot delete a parameter group if it is associated with a clus- ter. See also: AWS API Documentation
+/// Deletes a specified Amazon Redshift parameter group. NOTE: You cannot delete a parameter group if it is associated with a cluster. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRedshiftDeleteClusterParameterGroupOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a specified Amazon Redshift parameter group. NOTE: You cannot delete a parameter group if it is associated with a clus- ter. See also: AWS API Documentation
+    /// Deletes a specified Amazon Redshift parameter group. NOTE: You cannot delete a parameter group if it is associated with a cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ParameterGroupName">The name of the parameter group to be deleted. Constraints: o Must be the name of an existing cluster parameter group. o Cannot delete a default cluster parameter group. Constraints: o max: 2147483647</param>
+    /// <param name="ParameterGroupName">The name of the parameter group to be deleted. Constraints: • Must be the name of an existing cluster parameter group. • Cannot delete a default cluster parameter group. Constraints: • max: 2147483647</param>
     public AwsRedshiftDeleteClusterParameterGroupOptions(
         string ParameterGroupName
     )
@@ -56,7 +58,7 @@ public record AwsRedshiftDeleteClusterParameterGroupOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the parameter group to be deleted. Constraints: o Must be the name of an existing cluster parameter group. o Cannot delete a default cluster parameter group. Constraints: o max: 2147483647
+    /// The name of the parameter group to be deleted. Constraints: • Must be the name of an existing cluster parameter group. • Cannot delete a default cluster parameter group. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--parameter-group-name")]
     public string? ParameterGroupName { get; private init; }

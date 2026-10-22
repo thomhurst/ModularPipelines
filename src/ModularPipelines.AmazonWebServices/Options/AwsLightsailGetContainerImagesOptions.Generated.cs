@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the container images that are registered to your Amazon Light- sail container service. NOTE: If you created a deployment on your Lightsail container service that uses container images from a public registry like Docker Hub, those images are not returned as part of this action. Those images are not registered to your Lightsail container service. See also: AWS API Documentation
+/// Returns the container images that are registered to your Amazon Lightsail container service. NOTE: If you created a deployment on your Lightsail container service that uses container images from a public registry like Docker Hub, those images are not returned as part of this action. Those images are not registered to your Lightsail container service. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLightsailGetContainerImagesOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the container images that are registered to your Amazon Light- sail container service. NOTE: If you created a deployment on your Lightsail container service that uses container images from a public registry like Docker Hub, those images are not returned as part of this action. Those images are not registered to your Lightsail container service. See also: AWS API Documentation
+    /// Returns the container images that are registered to your Amazon Lightsail container service. NOTE: If you created a deployment on your Lightsail container service that uses container images from a public registry like Docker Hub, those images are not returned as part of this action. Those images are not registered to your Lightsail container service. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceName">The name of the container service for which to return registered container images. Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$</param>
+    /// <param name="ServiceName">The name of the container service for which to return registered container images. Constraints: • min: 1 • max: 63 • pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$</param>
     public AwsLightsailGetContainerImagesOptions(
         string ServiceName
     )
@@ -56,7 +58,7 @@ public record AwsLightsailGetContainerImagesOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the container service for which to return registered container images. Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$
+    /// The name of the container service for which to return registered container images. Constraints: • min: 1 • max: 63 • pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$
     /// </summary>
     [CliOption("--service-name")]
     public string? ServiceName { get; private init; }

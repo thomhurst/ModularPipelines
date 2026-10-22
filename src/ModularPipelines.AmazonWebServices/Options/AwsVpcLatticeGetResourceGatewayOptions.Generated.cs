@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsVpcLatticeGetResourceGatewayOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Retrieves information about the specified resource gateway. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceGatewayIdentifier">The ID of the resource gateway. Constraints: o min: 17 o max: 2048 o pattern: ((rgw-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:resourcegateway/rgw-[0-9a-z]{17}))</param>
+    /// <param name="ResourceGatewayIdentifier">The ID of the resource gateway. Constraints: • min: 17 • max: 2048 • pattern: ((rgw-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:resourcegateway/rgw-[0-9a-z]{17}))</param>
     public AwsVpcLatticeGetResourceGatewayOptions(
         string ResourceGatewayIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsVpcLatticeGetResourceGatewayOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the resource gateway. Constraints: o min: 17 o max: 2048 o pattern: ((rgw-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:resourcegateway/rgw-[0-9a-z]{17}))
+    /// The ID of the resource gateway. Constraints: • min: 17 • max: 2048 • pattern: ((rgw-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:resourcegateway/rgw-[0-9a-z]{17}))
     /// </summary>
     [CliOption("--resource-gateway-identifier")]
     public string? ResourceGatewayIdentifier { get; private init; }

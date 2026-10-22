@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsTextractDeleteAdapterOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes an Amazon Textract adapter. Takes an AdapterId and deletes the adapter specified by the ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AdapterId">A string containing a unique ID for the adapter to be deleted. Constraints: o min: 12 o max: 1011</param>
+    /// <param name="AdapterId">A string containing a unique ID for the adapter to be deleted. Constraints: • min: 12 • max: 1011</param>
     public AwsTextractDeleteAdapterOptions(
         string AdapterId
     )
@@ -56,7 +58,7 @@ public record AwsTextractDeleteAdapterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A string containing a unique ID for the adapter to be deleted. Constraints: o min: 12 o max: 1011
+    /// A string containing a unique ID for the adapter to be deleted. Constraints: • min: 12 • max: 1011
     /// </summary>
     [CliOption("--adapter-id")]
     public string? AdapterId { get; private init; }

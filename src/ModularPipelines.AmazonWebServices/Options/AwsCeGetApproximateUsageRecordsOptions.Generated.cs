@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves estimated usage records for hourly granularity or re- source-level data at daily granularity. See also: AWS API Documentation
+/// Retrieves estimated usage records for hourly granularity or resource-level data at daily granularity. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsCeGetApproximateUsageRecordsOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves estimated usage records for hourly granularity or re- source-level data at daily granularity. See also: AWS API Documentation
+    /// Retrieves estimated usage records for hourly granularity or resource-level data at daily granularity. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Granularity">How granular you want the data to be. You can enable data at hourly or daily granularity. Possible values: o DAILY o MONTHLY o HOURLY</param>
-    /// <param name="ApproximationDimension">The service to evaluate for the usage records. You can choose re- source-level data at daily granularity, or hourly granularity with or without resource-level data. Possible values: o SERVICE o RESOURCE</param>
+    /// <param name="Granularity">How granular you want the data to be. You can enable data at hourly or daily granularity. Possible values: • DAILY • MONTHLY • HOURLY</param>
+    /// <param name="ApproximationDimension">The service to evaluate for the usage records. You can choose resource-level data at daily granularity, or hourly granularity with or without resource-level data. Possible values: • SERVICE • RESOURCE</param>
     public AwsCeGetApproximateUsageRecordsOptions(
         AwsCeGetApproximateUsageRecordsGranularity Granularity,
         AwsCeGetApproximateUsageRecordsApproximationDimension ApproximationDimension
@@ -59,19 +61,19 @@ public record AwsCeGetApproximateUsageRecordsOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// How granular you want the data to be. You can enable data at hourly or daily granularity. Possible values: o DAILY o MONTHLY o HOURLY
+    /// How granular you want the data to be. You can enable data at hourly or daily granularity. Possible values: • DAILY • MONTHLY • HOURLY
     /// </summary>
     [CliOption("--granularity")]
     public AwsCeGetApproximateUsageRecordsGranularity? Granularity { get; private init; }
 
     /// <summary>
-    /// The service to evaluate for the usage records. You can choose re- source-level data at daily granularity, or hourly granularity with or without resource-level data. Possible values: o SERVICE o RESOURCE
+    /// The service to evaluate for the usage records. You can choose resource-level data at daily granularity, or hourly granularity with or without resource-level data. Possible values: • SERVICE • RESOURCE
     /// </summary>
     [CliOption("--approximation-dimension")]
     public AwsCeGetApproximateUsageRecordsApproximationDimension? ApproximationDimension { get; private init; }
 
     /// <summary>
-    /// The service metadata for the service or services you want to query. If not specified, all elements are returned. (string) Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* Syntax: "string" "string" ...
+    /// The service metadata for the service or services you want to query. If not specified, all elements are returned. (string) Constraints: • min: 0 • max: 1024 • pattern: [\S\s]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--services", GroupValues = true)]
     public IEnumerable<string>? Services { get; set; }

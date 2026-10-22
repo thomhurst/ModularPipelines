@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the instance types that an Outpost can support in InstanceTypeCa- pacity . This will generally include instance types that are not cur- rently configured and therefore cannot be launched with the current Outpost capacity configuration. See also: AWS API Documentation get-outpost-supported-instance-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When u...
+/// Gets the instance types that an Outpost can support in InstanceTypeCapacity . This will generally include instance types that are not currently configured and therefore cannot be launched with the current Outpost capacity configuration. See also: AWS API Documentation get-outpost-supported-instance-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --o...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsOutpostsGetOutpostSupportedInstanceTypesOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets the instance types that an Outpost can support in InstanceTypeCa- pacity . This will generally include instance types that are not cur- rently configured and therefore cannot be launched with the current Outpost capacity configuration. See also: AWS API Documentation get-outpost-supported-instance-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When u...
+    /// Gets the instance types that an Outpost can support in InstanceTypeCapacity . This will generally include instance types that are not currently configured and therefore cannot be launched with the current Outpost capacity configuration. See also: AWS API Documentation get-outpost-supported-instance-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --o...
     /// </summary>
-    /// <param name="OutpostIdentifier">The ID or ARN of the Outpost. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$</param>
+    /// <param name="OutpostIdentifier">The ID or ARN of the Outpost. Constraints: • min: 1 • max: 180 • pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/)?op-[a-f0-9]{17}$</param>
     public AwsOutpostsGetOutpostSupportedInstanceTypesOptions(
         string OutpostIdentifier
     )
@@ -57,28 +59,25 @@ public record AwsOutpostsGetOutpostSupportedInstanceTypesOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or ARN of the Outpost. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$
+    /// The ID or ARN of the Outpost. Constraints: • min: 1 • max: 180 • pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/)?op-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--outpost-identifier")]
     public string? OutpostIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID for the Amazon Web Services Outposts order. Constraints: o min: 1 o max: 20 o pattern: oo-[a-f0-9]{17}$
+    /// The ID for the Amazon Web Services Outposts order. Constraints: • min: 1 • max: 20 • pattern: oo-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--order-id")]
     public string? OrderId { get; set; }
 
     /// <summary>
-    /// The ID of the Outpost asset. An Outpost asset can be a single server within an Outposts rack or an Outposts server configuration. Constraints: o min: 10 o max: 10 o pattern: \d{10}
+    /// The ID of the Outpost asset. An Outpost asset can be a single server within an Outposts rack or an Outposts server configuration. Constraints: • min: 10 • max: 10 • pattern: \d{10}
     /// </summary>
     [CliOption("--asset-id")]
     public string? AssetId { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -88,16 +87,19 @@ public record AwsOutpostsGetOutpostSupportedInstanceTypesOptions : AwsOptions, I
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

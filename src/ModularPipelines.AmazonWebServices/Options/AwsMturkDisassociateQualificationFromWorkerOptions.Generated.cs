@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The DisassociateQualificationFromWorker revokes a previously granted Qualification from a user. You can provide a text message explaining why the Qualification was re- voked. The user who had the Qualification can see this message. See also: AWS API Documentation
+/// The DisassociateQualificationFromWorker revokes a previously granted Qualification from a user. You can provide a text message explaining why the Qualification was revoked. The user who had the Qualification can see this message. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsMturkDisassociateQualificationFromWorkerOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The DisassociateQualificationFromWorker revokes a previously granted Qualification from a user. You can provide a text message explaining why the Qualification was re- voked. The user who had the Qualification can see this message. See also: AWS API Documentation
+    /// The DisassociateQualificationFromWorker revokes a previously granted Qualification from a user. You can provide a text message explaining why the Qualification was revoked. The user who had the Qualification can see this message. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkerId">The ID of the Worker who possesses the Qualification to be revoked. Constraints: o min: 1 o max: 64 o pattern: ^A[A-Z0-9]+$</param>
-    /// <param name="QualificationTypeId">The ID of the Qualification type of the Qualification to be revoked. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$</param>
+    /// <param name="WorkerId">The ID of the Worker who possesses the Qualification to be revoked. Constraints: • min: 1 • max: 64 • pattern: ^A[A-Z0-9]+$</param>
+    /// <param name="QualificationTypeId">The ID of the Qualification type of the Qualification to be revoked. Constraints: • min: 1 • max: 64 • pattern: ^[A-Z0-9]+$</param>
     public AwsMturkDisassociateQualificationFromWorkerOptions(
         string WorkerId,
         string QualificationTypeId
@@ -60,13 +62,13 @@ public record AwsMturkDisassociateQualificationFromWorkerOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Worker who possesses the Qualification to be revoked. Constraints: o min: 1 o max: 64 o pattern: ^A[A-Z0-9]+$
+    /// The ID of the Worker who possesses the Qualification to be revoked. Constraints: • min: 1 • max: 64 • pattern: ^A[A-Z0-9]+$
     /// </summary>
     [CliOption("--worker-id")]
     public string? WorkerId { get; private init; }
 
     /// <summary>
-    /// The ID of the Qualification type of the Qualification to be revoked. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$
+    /// The ID of the Qualification type of the Qualification to be revoked. Constraints: • min: 1 • max: 64 • pattern: ^[A-Z0-9]+$
     /// </summary>
     [CliOption("--qualification-type-id")]
     public string? QualificationTypeId { get; private init; }

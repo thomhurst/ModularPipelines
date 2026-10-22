@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsNeptuneCopyDbParameterGroupOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Copies the specified DB parameter group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceDbParameterGroupIdentifier">The identifier or ARN for the source DB parameter group. For infor- mation about creating an ARN, see Constructing an Amazon Resource Name (ARN) . Constraints: o Must specify a valid DB parameter group. o Must specify a valid DB parameter group identifier, for example my-db-param-group , or a valid ARN. o The source DB parameter group must be in the same Amazon Region as the copy. Neptune does not support cross-Region copying of parame- ter groups.</param>
-    /// <param name="TargetDbParameterGroupIdentifier">The identifier for the copied DB parameter group. Constraints: o Cannot be null, empty, or blank. o Must contain from 1 to 255 letters, numbers, or hyphens. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: my-db-parameter-group</param>
+    /// <param name="SourceDbParameterGroupIdentifier">The identifier or ARN for the source DB parameter group. For information about creating an ARN, see Constructing an Amazon Resource Name (ARN) . Constraints: • Must specify a valid DB parameter group. • Must specify a valid DB parameter group identifier, for example my-db-param-group , or a valid ARN. • The source DB parameter group must be in the same Amazon Region as the copy. Neptune does not support cross-Region copying of parameter groups.</param>
+    /// <param name="TargetDbParameterGroupIdentifier">The identifier for the copied DB parameter group. Constraints: • Cannot be null, empty, or blank. • Must contain from 1 to 255 letters, numbers, or hyphens. • First character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. Example: my-db-parameter-group</param>
     /// <param name="TargetDbParameterGroupDescription">A description for the copied DB parameter group.</param>
     public AwsNeptuneCopyDbParameterGroupOptions(
         string SourceDbParameterGroupIdentifier,
@@ -64,13 +66,13 @@ public record AwsNeptuneCopyDbParameterGroupOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier or ARN for the source DB parameter group. For infor- mation about creating an ARN, see Constructing an Amazon Resource Name (ARN) . Constraints: o Must specify a valid DB parameter group. o Must specify a valid DB parameter group identifier, for example my-db-param-group , or a valid ARN. o The source DB parameter group must be in the same Amazon Region as the copy. Neptune does not support cross-Region copying of parame- ter groups.
+    /// The identifier or ARN for the source DB parameter group. For information about creating an ARN, see Constructing an Amazon Resource Name (ARN) . Constraints: • Must specify a valid DB parameter group. • Must specify a valid DB parameter group identifier, for example my-db-param-group , or a valid ARN. • The source DB parameter group must be in the same Amazon Region as the copy. Neptune does not support cross-Region copying of parameter groups.
     /// </summary>
     [CliOption("--source-db-parameter-group-identifier")]
     public string? SourceDbParameterGroupIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier for the copied DB parameter group. Constraints: o Cannot be null, empty, or blank. o Must contain from 1 to 255 letters, numbers, or hyphens. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: my-db-parameter-group
+    /// The identifier for the copied DB parameter group. Constraints: • Cannot be null, empty, or blank. • Must contain from 1 to 255 letters, numbers, or hyphens. • First character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. Example: my-db-parameter-group
     /// </summary>
     [CliOption("--target-db-parameter-group-identifier")]
     public string? TargetDbParameterGroupIdentifier { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsAppstreamAssociateApplicationToEntitlementOptions : AwsOptions,
     /// <summary>
     /// Associates an application to entitle. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StackName">The name of the stack. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
-    /// <param name="EntitlementName">The name of the entitlement. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
-    /// <param name="ApplicationIdentifier">The identifier of the application. Constraints: o min: 1</param>
+    /// <param name="StackName">The name of the stack. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="EntitlementName">The name of the entitlement. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="ApplicationIdentifier">The identifier of the application. Constraints: • min: 1</param>
     public AwsAppstreamAssociateApplicationToEntitlementOptions(
         string StackName,
         string EntitlementName,
@@ -64,19 +66,19 @@ public record AwsAppstreamAssociateApplicationToEntitlementOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the stack. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// The name of the stack. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
     /// </summary>
     [CliOption("--stack-name")]
     public string? StackName { get; private init; }
 
     /// <summary>
-    /// The name of the entitlement. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// The name of the entitlement. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
     /// </summary>
     [CliOption("--entitlement-name")]
     public string? EntitlementName { get; private init; }
 
     /// <summary>
-    /// The identifier of the application. Constraints: o min: 1
+    /// The identifier of the application. Constraints: • min: 1
     /// </summary>
     [CliOption("--application-identifier")]
     public string? ApplicationIdentifier { get; private init; }

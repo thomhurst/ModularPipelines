@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws generate commands.
+/// aws servicecatalog generate commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsServicecatalogGenerate
@@ -47,7 +47,7 @@ public class AwsServicecatalogGenerate
     }
 
     /// <summary>
-    /// Create a new product using a CloudFormation template specified as a lo- cal file path
+    /// Create a new product using a CloudFormation template specified as a local file path
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

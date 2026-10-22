@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAuditManagerValidateAssessmentReportIntegrityOptions : AwsOptio
     /// <summary>
     /// Validates the integrity of an assessment report in Audit Manager. See also: AWS API Documentation
     /// </summary>
-    /// <param name="S3RelativePath">The relative path of the Amazon S3 bucket that the assessment report is stored in. Constraints: o min: 1 o max: 1024 o pattern: ^(S|s)3:\/\/[a-zA-Z0-9\-\.\(\)\'\*\_\!\=\+\@\:\s\,\?\/]+$</param>
+    /// <param name="S3RelativePath">The relative path of the Amazon S3 bucket that the assessment report is stored in. Constraints: • min: 1 • max: 1024 • pattern: ^(S|s)3:\/\/[a-zA-Z0-9\-\.\(\)\'\*\_\!\=\+\@\:\s\,\?\/]+$</param>
     public AwsAuditManagerValidateAssessmentReportIntegrityOptions(
         string S3RelativePath
     )
@@ -56,7 +58,7 @@ public record AwsAuditManagerValidateAssessmentReportIntegrityOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The relative path of the Amazon S3 bucket that the assessment report is stored in. Constraints: o min: 1 o max: 1024 o pattern: ^(S|s)3:\/\/[a-zA-Z0-9\-\.\(\)\'\*\_\!\=\+\@\:\s\,\?\/]+$
+    /// The relative path of the Amazon S3 bucket that the assessment report is stored in. Constraints: • min: 1 • max: 1024 • pattern: ^(S|s)3:\/\/[a-zA-Z0-9\-\.\(\)\'\*\_\!\=\+\@\:\s\,\?\/]+$
     /// </summary>
     [CliOption("--s3-relative-path")]
     public string? S3RelativePath { get; private init; }

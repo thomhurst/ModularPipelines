@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets status of a specified health check. WARNING: This API is intended for use during development to diagnose behav- ior. It doesnt support production use-cases with high query rates that require immediate and actionable responses. See also: AWS API Documentation
+/// Gets status of a specified health check. WARNING: This API is intended for use during development to diagnose behavior. It doesnt support production use-cases with high query rates that require immediate and actionable responses. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRoute53GetHealthCheckStatusOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets status of a specified health check. WARNING: This API is intended for use during development to diagnose behav- ior. It doesnt support production use-cases with high query rates that require immediate and actionable responses. See also: AWS API Documentation
+    /// Gets status of a specified health check. WARNING: This API is intended for use during development to diagnose behavior. It doesnt support production use-cases with high query rates that require immediate and actionable responses. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HealthCheckId">The ID for the health check that you want the current status for. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element. NOTE: If you want to check the status of a calculated health check, you must use the Amazon Route 53 console or the CloudWatch con- sole. You can't use GetHealthCheckStatus to get the status of a calculated health check. Constraints: o max: 64</param>
+    /// <param name="HealthCheckId">The ID for the health check that you want the current status for. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element. NOTE: If you want to check the status of a calculated health check, you must use the Amazon Route 53 console or the CloudWatch console. You can't use GetHealthCheckStatus to get the status of a calculated health check. Constraints: • max: 64</param>
     public AwsRoute53GetHealthCheckStatusOptions(
         string HealthCheckId
     )
@@ -56,7 +58,7 @@ public record AwsRoute53GetHealthCheckStatusOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID for the health check that you want the current status for. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element. NOTE: If you want to check the status of a calculated health check, you must use the Amazon Route 53 console or the CloudWatch con- sole. You can't use GetHealthCheckStatus to get the status of a calculated health check. Constraints: o max: 64
+    /// The ID for the health check that you want the current status for. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element. NOTE: If you want to check the status of a calculated health check, you must use the Amazon Route 53 console or the CloudWatch console. You can't use GetHealthCheckStatus to get the status of a calculated health check. Constraints: • max: 64
     /// </summary>
     [CliOption("--health-check-id")]
     public string? HealthCheckId { get; private init; }

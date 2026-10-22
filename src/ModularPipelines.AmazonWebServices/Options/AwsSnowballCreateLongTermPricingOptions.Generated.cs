@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a job with the long-term usage option for a device. The long-term usage is a 1-year or 3-year long-term pricing type for the device. You are billed upfront, and Amazon Web Services provides dis- counts for long-term pricing. See also: AWS API Documentation
+/// Creates a job with the long-term usage option for a device. The long-term usage is a 1-year or 3-year long-term pricing type for the device. You are billed upfront, and Amazon Web Services provides discounts for long-term pricing. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsSnowballCreateLongTermPricingOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a job with the long-term usage option for a device. The long-term usage is a 1-year or 3-year long-term pricing type for the device. You are billed upfront, and Amazon Web Services provides dis- counts for long-term pricing. See also: AWS API Documentation
+    /// Creates a job with the long-term usage option for a device. The long-term usage is a 1-year or 3-year long-term pricing type for the device. You are billed upfront, and Amazon Web Services provides discounts for long-term pricing. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LongTermPricingType">The type of long-term pricing option you want for the device, either 1-year or 3-year long-term pricing. Possible values: o OneYear o ThreeYear o OneMonth</param>
-    /// <param name="SnowballType">The type of Snow Family devices to use for the long-term pricing job. Possible values: o STANDARD o EDGE o EDGE_C o EDGE_CG o EDGE_S o SNC1_HDD o SNC1_SSD o V3_5C o V3_5S o RACK_5U_C</param>
+    /// <param name="LongTermPricingType">The type of long-term pricing option you want for the device, either 1-year or 3-year long-term pricing. Possible values: • OneYear • ThreeYear • OneMonth</param>
+    /// <param name="SnowballType">The type of Snow Family devices to use for the long-term pricing job. Possible values: • STANDARD • EDGE • EDGE_C • EDGE_CG • EDGE_S • SNC1_HDD • SNC1_SSD • V3_5C • V3_5S • RACK_5U_C</param>
     public AwsSnowballCreateLongTermPricingOptions(
         AwsSnowballCreateLongTermPricingLongTermPricingType LongTermPricingType,
         AwsSnowballCreateLongTermPricingSnowballType SnowballType
@@ -59,19 +61,19 @@ public record AwsSnowballCreateLongTermPricingOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of long-term pricing option you want for the device, either 1-year or 3-year long-term pricing. Possible values: o OneYear o ThreeYear o OneMonth
+    /// The type of long-term pricing option you want for the device, either 1-year or 3-year long-term pricing. Possible values: • OneYear • ThreeYear • OneMonth
     /// </summary>
     [CliOption("--long-term-pricing-type")]
     public AwsSnowballCreateLongTermPricingLongTermPricingType? LongTermPricingType { get; private init; }
 
     /// <summary>
-    /// The type of Snow Family devices to use for the long-term pricing job. Possible values: o STANDARD o EDGE o EDGE_C o EDGE_CG o EDGE_S o SNC1_HDD o SNC1_SSD o V3_5C o V3_5S o RACK_5U_C
+    /// The type of Snow Family devices to use for the long-term pricing job. Possible values: • STANDARD • EDGE • EDGE_C • EDGE_CG • EDGE_S • SNC1_HDD • SNC1_SSD • V3_5C • V3_5S • RACK_5U_C
     /// </summary>
     [CliOption("--snowball-type")]
     public AwsSnowballCreateLongTermPricingSnowballType? SnowballType { get; private init; }
 
     /// <summary>
-    /// new (boolean) Specifies whether the current long-term pricing type for the device should be renewed.
+    /// Specifies whether the current long-term pricing type for the device should be renewed.
     /// </summary>
     [CliFlag("--is-long-term-pricing-auto-renew", NegatedName = "--no-is-long-term-pricing-auto-renew")]
     public bool? IsLongTermPricingAutoRenew { get; set; }

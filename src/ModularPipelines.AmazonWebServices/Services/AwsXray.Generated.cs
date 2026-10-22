@@ -32,7 +32,7 @@ public class AwsXray : IAwsXray
     #region Commands
 
     /// <summary>
-    /// NOTE: You cannot find traces through this API if Transaction Search is en- abled since trace is not indexed in X-Ray. Retrieves a list of traces specified by ID. Each trace is a collection of segment documents that originates from a single request. Use Get- TraceSummaries to get a list of trace IDs. See also: AWS API Documentation batch-get-traces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providin...
+    /// NOTE: You cannot find traces through this API if Transaction Search is enabled since trace is not indexed in X-Ray. Retrieves a list of traces specified by ID. Each trace is a collection of segment documents that originates from a single request. Use GetTraceSummaries to get a list of trace IDs. See also: AWS API Documentation batch-get-traces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsXray : IAwsXray
     }
 
     /// <summary>
-    /// Cancels an ongoing trace retrieval job initiated by StartTraceRetrieval using the provided RetrievalToken . A successful cancellation will re- turn an HTTP 200 response. See also: AWS API Documentation
+    /// Cancels an ongoing trace retrieval job initiated by StartTraceRetrieval using the provided RetrievalToken . A successful cancellation will return an HTTP 200 response. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsXray : IAwsXray
     }
 
     /// <summary>
-    /// Creates a rule to control sampling behavior for instrumented applica- tions. Services retrieve rules with GetSamplingRules , and evaluate each rule in ascending order of priority for each request. If a rule matches, the service records a trace, borrowing it from the reservoir size. After 10 seconds, the service reports back to X-Ray with GetSamplingTargets to get updated versions of each in-use rule. The up- dated rule contains a trace quota that the service can use instead of borrowing from the...
+    /// Creates a rule to control sampling behavior for instrumented applications. Services retrieve rules with GetSamplingRules , and evaluate each rule in ascending order of priority for each request. If a rule matches, the service records a trace, borrowing it from the reservoir size. After 10 seconds, the service reports back to X-Ray with GetSamplingTargets to get updated versions of each in-use rule. The updated rule contains a trace quota that the service can use instead of borrowing from the res...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsXray : IAwsXray
     }
 
     /// <summary>
-    /// Retrieves all active group details. See also: AWS API Documentation get-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Groups
+    /// Retrieves all active group details. See also: AWS API Documentation get-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Groups
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsXray : IAwsXray
     }
 
     /// <summary>
-    /// X-Ray reevaluates insights periodically until they're resolved, and records each intermediate state as an event. You can review an in- sight's events in the Impact Timeline on the Inspect page in the X-Ray console. See also: AWS API Documentation
+    /// X-Ray reevaluates insights periodically until they're resolved, and records each intermediate state as an event. You can review an insight's events in the Impact Timeline on the Inspect page in the X-Ray console. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsXray : IAwsXray
     }
 
     /// <summary>
-    /// Retrieves a service graph structure filtered by the specified insight. The service graph is limited to only structural information. For a com- plete service graph, use this API with the GetServiceGraph API. See also: AWS API Documentation
+    /// Retrieves a service graph structure filtered by the specified insight. The service graph is limited to only structural information. For a complete service graph, use this API with the GetServiceGraph API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsXray : IAwsXray
     }
 
     /// <summary>
-    /// Retrieves a service graph for traces based on the specified Retrieval- Token from the CloudWatch log group generated by Transaction Search. This API does not initiate a retrieval job. You must first execute StartTraceRetrieval to obtain the required RetrievalToken . The trace graph describes services that process incoming requests and any downstream services they call, which may include Amazon Web Ser- vices resources, external APIs, or databases. The response is empty until the RetrievalStatus ...
+    /// Retrieves a service graph for traces based on the specified RetrievalToken from the CloudWatch log group generated by Transaction Search. This API does not initiate a retrieval job. You must first execute StartTraceRetrieval to obtain the required RetrievalToken . The trace graph describes services that process incoming requests and any downstream services they call, which may include Amazon Web Services resources, external APIs, or databases. The response is empty until the RetrievalStatus is C...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsXray : IAwsXray
     }
 
     /// <summary>
-    /// Retrieves information about recent sampling results for all sampling rules. See also: AWS API Documentation get-sampling-statistic-summaries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Sampling...
+    /// Retrieves information about recent sampling results for all sampling rules. See also: AWS API Documentation get-sampling-statistic-summaries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SamplingStat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsXray : IAwsXray
     }
 
     /// <summary>
-    /// Retrieves a document that describes services that process incoming re- quests, and downstream services that they call as a result. Root ser- vices process incoming requests and make calls to downstream services. Root services are applications that use the Amazon Web Services X-Ray SDK . Downstream services can be other applications, Amazon Web Ser- vices resources, HTTP web APIs, or SQL databases. See also: AWS API Documentation get-service-graph is a paginated operation. Multiple API calls may ...
+    /// Retrieves a document that describes services that process incoming requests, and downstream services that they call as a result. Root services process incoming requests and make calls to downstream services. Root services are applications that use the Amazon Web Services X-Ray SDK . Downstream services can be other applications, Amazon Web Services resources, HTTP web APIs, or SQL databases. See also: AWS API Documentation get-service-graph is a paginated operation. Multiple API calls may be iss...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsXray : IAwsXray
     }
 
     /// <summary>
-    /// Get an aggregation of service statistics defined by a specific time range. See also: AWS API Documentation get-time-series-service-statistics is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TimeSer...
+    /// Get an aggregation of service statistics defined by a specific time range. See also: AWS API Documentation get-time-series-service-statistics is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TimeSeriesS...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsXray : IAwsXray
     }
 
     /// <summary>
-    /// Retrieves a service graph for one or more specific trace IDs. See also: AWS API Documentation get-trace-graph is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Services
+    /// Retrieves a service graph for one or more specific trace IDs. See also: AWS API Documentation get-trace-graph is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Services
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsXray : IAwsXray
     }
 
     /// <summary>
-    /// Retrieves IDs and annotations for traces available for a specified time frame using an optional filter. To get the full traces, pass the trace IDs to BatchGetTraces . A filter expression can target traced requests that hit specific ser- vice nodes or edges, have errors, or come from a known user. For exam- ple, the following filter expression targets traces that pass through api.example.com : service("api.example.com") This filter expression finds traces that have an annotation named ac- count w...
+    /// Retrieves IDs and annotations for traces available for a specified time frame using an optional filter. To get the full traces, pass the trace IDs to BatchGetTraces . A filter expression can target traced requests that hit specific service nodes or edges, have errors, or come from a known user. For example, the following filter expression targets traces that pass through api.example.com : service("api.example.com") This filter expression finds traces that have an annotation named account with th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsXray : IAwsXray
     }
 
     /// <summary>
-    /// Retrieves a list of traces for a given RetrievalToken from the Cloud- Watch log group generated by Transaction Search. For information on what each trace returns, see BatchGetTraces . This API does not initiate a retrieval process. To start a trace re- trieval, use StartTraceRetrieval , which generates the required Re- trievalToken . When the RetrievalStatus is not COMPLETE , the API will return an empty response. Retry the request once the retrieval has completed to access the full list of trac...
+    /// Retrieves a list of traces for a given RetrievalToken from the CloudWatch log group generated by Transaction Search. For information on what each trace returns, see BatchGetTraces . This API does not initiate a retrieval process. To start a trace retrieval, use StartTraceRetrieval , which generates the required RetrievalToken . When the RetrievalStatus is not COMPLETE , the API will return an empty response. Retry the request once the retrieval has completed to access the full list of traces. Fo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsXray : IAwsXray
     }
 
     /// <summary>
-    /// Sets the resource policy to grant one or more Amazon Web Services ser- vices and accounts permissions to access X-Ray. Each resource policy will be associated with a specific Amazon Web Services account. Each Amazon Web Services account can have a maximum of 5 resource policies, and each policy name must be unique within that account. The maximum size of each resource policy is 5KB. See also: AWS API Documentation
+    /// Sets the resource policy to grant one or more Amazon Web Services services and accounts permissions to access X-Ray. Each resource policy will be associated with a specific Amazon Web Services account. Each Amazon Web Services account can have a maximum of 5 resource policies, and each policy name must be unique within that account. The maximum size of each resource policy is 5KB. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsXray : IAwsXray
     }
 
     /// <summary>
-    /// Uploads segment documents to Amazon Web Services X-Ray. A segment docu- ment can be a completed segment, an in-progress segment, or an array of subsegments. Segments must include the following fields. For the full segment docu- ment schema, see Amazon Web Services X-Ray Segment Documents in the Amazon Web Services X-Ray Developer Guide . Required segment document fields o name - The name of the service that handled the request. o id - A 64-bit identifier for the segment, unique among segments in...
+    /// Uploads segment documents to Amazon Web Services X-Ray. A segment document can be a completed segment, an in-progress segment, or an array of subsegments. Segments must include the following fields. For the full segment document schema, see Amazon Web Services X-Ray Segment Documents in the Amazon Web Services X-Ray Developer Guide . Required segment document fields • name - The name of the service that handled the request. • id - A 64-bit identifier for the segment, unique among segments in the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsXray : IAwsXray
     }
 
     /// <summary>
-    /// Initiates a trace retrieval process using the specified time range and for the given trace IDs in the Transaction Search generated CloudWatch log group. For more information, see Transaction Search . API returns a RetrievalToken , which can be used with ListRetrieved- Traces or GetRetrievedTracesGraph to fetch results. Retrievals will time out after 60 minutes. To execute long time ranges, consider seg- menting into multiple retrievals. If you are using CloudWatch cross-account observability , y...
+    /// Initiates a trace retrieval process using the specified time range and for the given trace IDs in the Transaction Search generated CloudWatch log group. For more information, see Transaction Search . API returns a RetrievalToken , which can be used with ListRetrievedTraces or GetRetrievedTracesGraph to fetch results. Retrievals will time out after 60 minutes. To execute long time ranges, consider segmenting into multiple retrievals. If you are using CloudWatch cross-account observability , you c...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +557,7 @@ public class AwsXray : IAwsXray
     }
 
     /// <summary>
-    /// Modifies an indexing rules configuration. Indexing rules are used for determining the sampling rate for spans in- dexed from CloudWatch Logs. For more information, see Transaction Search . See also: AWS API Documentation
+    /// Modifies an indexing rules configuration. Indexing rules are used for determining the sampling rate for spans indexed from CloudWatch Logs. For more information, see Transaction Search . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsXray : IAwsXray
     }
 
     /// <summary>
-    /// Modifies the destination of data sent to PutTraceSegments . The Trans- action Search feature requires the CloudWatchLogs destination. For more information, see Transaction Search . See also: AWS API Documentation
+    /// Modifies the destination of data sent to PutTraceSegments . The Transaction Search feature requires the CloudWatchLogs destination. For more information, see Transaction Search . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMigrationhubstrategyGetApplicationComponentDetailsOptions : Aws
     /// <summary>
     /// Retrieves details about an application component. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationComponentId">The ID of the application component. The ID is unique within an AWS account. Constraints: o min: 0 o max: 44 o pattern: [0-9a-zA-Z-]+</param>
+    /// <param name="ApplicationComponentId">The ID of the application component. The ID is unique within an AWS account. Constraints: • min: 0 • max: 44 • pattern: [0-9a-zA-Z-]+</param>
     public AwsMigrationhubstrategyGetApplicationComponentDetailsOptions(
         string ApplicationComponentId
     )
@@ -56,7 +58,7 @@ public record AwsMigrationhubstrategyGetApplicationComponentDetailsOptions : Aws
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the application component. The ID is unique within an AWS account. Constraints: o min: 0 o max: 44 o pattern: [0-9a-zA-Z-]+
+    /// The ID of the application component. The ID is unique within an AWS account. Constraints: • min: 0 • max: 44 • pattern: [0-9a-zA-Z-]+
     /// </summary>
     [CliOption("--application-component-id")]
     public string? ApplicationComponentId { get; private init; }

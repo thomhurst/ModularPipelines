@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified static route associated with a VPN connection be- tween an existing virtual private gateway and a VPN customer gateway. The static route allows traffic to be routed from the virtual private gateway to the VPN customer gateway. See also: AWS API Documentation
+/// Deletes the specified static route associated with a VPN connection between an existing virtual private gateway and a VPN customer gateway. The static route allows traffic to be routed from the virtual private gateway to the VPN customer gateway. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsEc2DeleteVpnConnectionRouteOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified static route associated with a VPN connection be- tween an existing virtual private gateway and a VPN customer gateway. The static route allows traffic to be routed from the virtual private gateway to the VPN customer gateway. See also: AWS API Documentation
+    /// Deletes the specified static route associated with a VPN connection between an existing virtual private gateway and a VPN customer gateway. The static route allows traffic to be routed from the virtual private gateway to the VPN customer gateway. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DestinationCidrBlock">The CIDR block associated with the local subnet of the customer net- work.</param>
+    /// <param name="DestinationCidrBlock">The CIDR block associated with the local subnet of the customer network.</param>
     /// <param name="VpnConnectionId">The ID of the VPN connection.</param>
     public AwsEc2DeleteVpnConnectionRouteOptions(
         string DestinationCidrBlock,
@@ -60,7 +62,7 @@ public record AwsEc2DeleteVpnConnectionRouteOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The CIDR block associated with the local subnet of the customer net- work.
+    /// The CIDR block associated with the local subnet of the customer network.
     /// </summary>
     [CliOption("--destination-cidr-block")]
     public string? DestinationCidrBlock { get; private init; }

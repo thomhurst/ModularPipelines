@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns details about an event source mapping. You can get the identi- fier of a mapping from the output of ListEventSourceMappings . See also: AWS API Documentation
+/// Returns details about an event source mapping. You can get the identifier of a mapping from the output of ListEventSourceMappings . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLambdaGetEventSourceMappingOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns details about an event source mapping. You can get the identi- fier of a mapping from the output of ListEventSourceMappings . See also: AWS API Documentation
+    /// Returns details about an event source mapping. You can get the identifier of a mapping from the output of ListEventSourceMappings . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Uuid">The identifier of the event source mapping. Constraints: o min: 36 o max: 36</param>
+    /// <param name="Uuid">The identifier of the event source mapping. Constraints: • min: 36 • max: 36</param>
     public AwsLambdaGetEventSourceMappingOptions(
         string Uuid
     )
@@ -56,7 +58,7 @@ public record AwsLambdaGetEventSourceMappingOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the event source mapping. Constraints: o min: 36 o max: 36
+    /// The identifier of the event source mapping. Constraints: • min: 36 • max: 36
     /// </summary>
     [CliOption("--uuid")]
     public string? Uuid { get; private init; }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +31,8 @@ public record AwsWorkdocsRemoveResourcePermissionOptions : AwsOptions, IValidata
     /// <summary>
     /// Removes the permission for the specified principal from the specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceId">The ID of the resource. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+</param>
-    /// <param name="PrincipalId">The principal ID of the resource. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+</param>
+    /// <param name="ResourceId">The ID of the resource. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+</param>
+    /// <param name="PrincipalId">The principal ID of the resource. Constraints: • min: 1 • max: 256 • pattern: [&amp;\w+-.@]+</param>
     public AwsWorkdocsRemoveResourcePermissionOptions(
         string ResourceId,
         string PrincipalId
@@ -62,26 +64,26 @@ public record AwsWorkdocsRemoveResourcePermissionOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the resource. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+
+    /// The ID of the resource. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// The principal ID of the resource. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+
+    /// The principal ID of the resource. Constraints: • min: 1 • max: 256 • pattern: [&amp;\w+-.@]+
     /// </summary>
     [CliOption("--principal-id")]
     public string? PrincipalId { get; private init; }
 
     /// <summary>
-    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: o min: 1 o max: 8199
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: • min: 1 • max: 8199
     /// </summary>
     [SecretValue]
     [CliOption("--authentication-token")]
     public string? AuthenticationToken { get; set; }
 
     /// <summary>
-    /// The principal type of the resource. Possible values: o USER o GROUP o INVITE o ANONYMOUS o ORGANIZATION
+    /// The principal type of the resource. Possible values: • USER • GROUP • INVITE • ANONYMOUS • ORGANIZATION
     /// </summary>
     [CliOption("--principal-type")]
     public AwsWorkdocsRemoveResourcePermissionPrincipalType? PrincipalType { get; set; }

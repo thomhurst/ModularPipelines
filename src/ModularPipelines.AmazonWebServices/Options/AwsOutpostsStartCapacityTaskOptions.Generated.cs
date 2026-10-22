@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsOutpostsStartCapacityTaskOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Starts the specified capacity task. You can have one active capacity task for each order and each Outpost. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OutpostIdentifier">The ID or ARN of the Outposts associated with the specified capacity task. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$</param>
-    /// <param name="InstancePools">The instance pools specified in the capacity task. (structure) The instance type that you specify determines the combination of CPU, memory, storage, and networking capacity. InstanceType -&gt; (string) [required] The instance type of the hosts. Constraints: o min: 1 o max: 64 o pattern: ^[a-z0-9\-]+\.[a-z0-9\-]+$ Count -&gt; (integer) [required] The number of instances for the specified instance type. Constraints: o min: 0 o max: 9999 Shorthand Syntax: InstanceType=string,Count=integer ... JSON Syntax: [ { "InstanceType": "string", "Count": integer } ... ]</param>
+    /// <param name="OutpostIdentifier">The ID or ARN of the Outposts associated with the specified capacity task. Constraints: • min: 1 • max: 180 • pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/)?op-[a-f0-9]{17}$</param>
+    /// <param name="InstancePools">The instance pools specified in the capacity task. (structure) The instance type that you specify determines the combination of CPU, memory, storage, and networking capacity. InstanceType -&gt; (string) [required] The instance type of the hosts. Constraints: • min: 1 • max: 64 • pattern: ^[a-z0-9\-]+\.[a-z0-9\-]+$ Count -&gt; (integer) [required] The number of instances for the specified instance type. Constraints: • min: 0 • max: 9999 Shorthand Syntax: InstanceType=string,Count=integer ... JSON Syntax: [ { "InstanceType": "string", "Count": integer } ... ]</param>
     public AwsOutpostsStartCapacityTaskOptions(
         string OutpostIdentifier,
         IEnumerable<string> InstancePools
@@ -72,43 +74,43 @@ public record AwsOutpostsStartCapacityTaskOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or ARN of the Outposts associated with the specified capacity task. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$
+    /// The ID or ARN of the Outposts associated with the specified capacity task. Constraints: • min: 1 • max: 180 • pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/)?op-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--outpost-identifier")]
     public string? OutpostIdentifier { get; private init; }
 
     /// <summary>
-    /// The instance pools specified in the capacity task. (structure) The instance type that you specify determines the combination of CPU, memory, storage, and networking capacity. InstanceType -&gt; (string) [required] The instance type of the hosts. Constraints: o min: 1 o max: 64 o pattern: ^[a-z0-9\-]+\.[a-z0-9\-]+$ Count -&gt; (integer) [required] The number of instances for the specified instance type. Constraints: o min: 0 o max: 9999 Shorthand Syntax: InstanceType=string,Count=integer ... JSON Syntax: [ { "InstanceType": "string", "Count": integer } ... ]
+    /// The instance pools specified in the capacity task. (structure) The instance type that you specify determines the combination of CPU, memory, storage, and networking capacity. InstanceType -&gt; (string) [required] The instance type of the hosts. Constraints: • min: 1 • max: 64 • pattern: ^[a-z0-9\-]+\.[a-z0-9\-]+$ Count -&gt; (integer) [required] The number of instances for the specified instance type. Constraints: • min: 0 • max: 9999 Shorthand Syntax: InstanceType=string,Count=integer ... JSON Syntax: [ { "InstanceType": "string", "Count": integer } ... ]
     /// </summary>
     [CliOption("--instance-pools", GroupValues = true)]
     public IEnumerable<string>? InstancePools { get; private init; }
 
     /// <summary>
-    /// The ID of the Amazon Web Services Outposts order associated with the specified capacity task. Constraints: o min: 1 o max: 20 o pattern: oo-[a-f0-9]{17}$
+    /// The ID of the Amazon Web Services Outposts order associated with the specified capacity task. Constraints: • min: 1 • max: 20 • pattern: oo-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--order-id")]
     public string? OrderId { get; set; }
 
     /// <summary>
-    /// The ID of the Outpost asset. An Outpost asset can be a single server within an Outposts rack or an Outposts server configuration. Constraints: o min: 10 o max: 10 o pattern: \d{10}
+    /// The ID of the Outpost asset. An Outpost asset can be a single server within an Outposts rack or an Outposts server configuration. Constraints: • min: 10 • max: 10 • pattern: \d{10}
     /// </summary>
     [CliOption("--asset-id")]
     public string? AssetId { get; set; }
 
     /// <summary>
-    /// List of user-specified running instances that must not be stopped in order to free up the capacity needed to run the capacity task. Instances -&gt; (list) List of user-specified instances that must not be stopped. (string) Constraints: o min: 11 o max: 32 o pattern: ^i-[0-9a-z]+$ AccountIds -&gt; (list) IDs of the accounts that own each instance that must not be stopped. (string) The ID of the Amazon Web Services account. Constraints: o min: 12 o max: 12 o pattern: \d{12} Services -&gt; (list) Names of the services that own each instance that must not be stopped in order to free up the capacity needed to run the ca- pacity task. (string) Possible values: o AWS o EC2 o EKS o ELASTICACHE o ELB o RDS o ROUTE53 Shorthand Syntax: Instances=string,string,AccountIds=string,string,Services=string,string JSON Syntax: { "Instances": ["string", ...], "AccountIds": ["string", ...], "Services": ["AWS"|"EC2"|"EKS"|"ELASTICACHE"|"ELB"|"RDS"|"ROUTE53", ...] }
+    /// List of user-specified running instances that must not be stopped in order to free up the capacity needed to run the capacity task. Instances -&gt; (list) List of user-specified instances that must not be stopped. (string) Constraints: • min: 11 • max: 32 • pattern: ^i-[0-9a-z]+$ AccountIds -&gt; (list) IDs of the accounts that own each instance that must not be stopped. (string) The ID of the Amazon Web Services account. Constraints: • min: 12 • max: 12 • pattern: \d{12} Services -&gt; (list) Names of the services that own each instance that must not be stopped in order to free up the capacity needed to run the capacity task. (string) Possible values: • AWS • EC2 • EKS • ELASTICACHE • ELB • RDS • ROUTE53 Shorthand Syntax: Instances=string,string,AccountIds=string,string,Services=string,string JSON Syntax: { "Instances": ["string", ...], "AccountIds": ["string", ...], "Services": ["AWS"|"EC2"|"EKS"|"ELASTICACHE"|"ELB"|"RDS"|"ROUTE53", ...] }
     /// </summary>
     [CliOption("--instances-to-exclude")]
     public string? InstancesToExclude { get; set; }
 
     /// <summary>
-    /// You can request a dry run to determine if the instance type and in- stance size changes is above or below available instance capacity. Requesting a dry run does not make any changes to your plan.
+    /// You can request a dry run to determine if the instance type and instance size changes is above or below available instance capacity. Requesting a dry run does not make any changes to your plan.
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// Specify one of the following options in case an instance is blocking the capacity task from running. o WAIT_FOR_EVACUATION - Checks every 10 minutes over 48 hours to de- termine if instances have stopped and capacity is available to complete the task. o FAIL_TASK - The capacity task fails. Possible values: o WAIT_FOR_EVACUATION o FAIL_TASK
+    /// Specify one of the following options in case an instance is blocking the capacity task from running. • WAIT_FOR_EVACUATION - Checks every 10 minutes over 48 hours to determine if instances have stopped and capacity is available to complete the task. • FAIL_TASK - The capacity task fails. Possible values: • WAIT_FOR_EVACUATION • FAIL_TASK
     /// </summary>
     [CliOption("--task-action-on-blocking-instances")]
     public AwsOutpostsStartCapacityTaskTaskActionOnBlockingInstances? TaskActionOnBlockingInstances { get; set; }

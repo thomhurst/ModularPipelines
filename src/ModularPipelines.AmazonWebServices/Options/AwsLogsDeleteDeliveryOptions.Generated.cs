@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a delivery . A delivery is a connection between a logical de- livery source and a logical delivery destination . Deleting a delivery only deletes the connection between the delivery source and delivery destination. It does not delete the delivery destination or the deliv- ery source. See also: AWS API Documentation
+/// Deletes a delivery . A delivery is a connection between a logical delivery source and a logical delivery destination . Deleting a delivery only deletes the connection between the delivery source and delivery destination. It does not delete the delivery destination or the delivery source. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLogsDeleteDeliveryOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a delivery . A delivery is a connection between a logical de- livery source and a logical delivery destination . Deleting a delivery only deletes the connection between the delivery source and delivery destination. It does not delete the delivery destination or the deliv- ery source. See also: AWS API Documentation
+    /// Deletes a delivery . A delivery is a connection between a logical delivery source and a logical delivery destination . Deleting a delivery only deletes the connection between the delivery source and delivery destination. It does not delete the delivery destination or the delivery source. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The unique ID of the delivery to delete. You can find the ID of a delivery with the DescribeDeliveries operation. Constraints: o min: 1 o max: 64 o pattern: ^[0-9A-Za-z]+$</param>
+    /// <param name="Id">The unique ID of the delivery to delete. You can find the ID of a delivery with the DescribeDeliveries operation. Constraints: • min: 1 • max: 64 • pattern: ^[0-9A-Za-z]+$</param>
     public AwsLogsDeleteDeliveryOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsLogsDeleteDeliveryOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the delivery to delete. You can find the ID of a delivery with the DescribeDeliveries operation. Constraints: o min: 1 o max: 64 o pattern: ^[0-9A-Za-z]+$
+    /// The unique ID of the delivery to delete. You can find the ID of a delivery with the DescribeDeliveries operation. Constraints: • min: 1 • max: 64 • pattern: ^[0-9A-Za-z]+$
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

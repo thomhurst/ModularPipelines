@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsInspector2BatchGetFindingDetailsOptions : AwsOptions, IValidata
     /// <summary>
     /// Gets vulnerability details for findings. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FindingArns">A list of finding ARNs. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 100 o pattern: arn:(aws[a-zA-Z-]*)?:inspec- tor2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:finding/[a-f0-9]{32} Syntax: "string" "string" ...</param>
+    /// <param name="FindingArns">A list of finding ARNs. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 100 • pattern: arn:(aws[a-zA-Z-]*)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:finding/[a-f0-9]{32} Syntax: "string" "string" ...</param>
     public AwsInspector2BatchGetFindingDetailsOptions(
         IEnumerable<string> FindingArns
     )
@@ -67,7 +69,7 @@ public record AwsInspector2BatchGetFindingDetailsOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of finding ARNs. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 100 o pattern: arn:(aws[a-zA-Z-]*)?:inspec- tor2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:finding/[a-f0-9]{32} Syntax: "string" "string" ...
+    /// A list of finding ARNs. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 100 • pattern: arn:(aws[a-zA-Z-]*)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:finding/[a-f0-9]{32} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--finding-arns", GroupValues = true)]
     public IEnumerable<string>? FindingArns { get; private init; }

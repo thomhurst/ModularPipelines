@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsRdsCreateOptionGroupOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a new option group. You can create up to 20 option groups. This command doesn't apply to RDS Custom. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OptionGroupName">Specifies the name of the option group to be created. Constraints: o Must be 1 to 255 letters, numbers, or hyphens o First character must be a letter o Can't end with a hyphen or contain two consecutive hyphens Example: myoptiongroup</param>
-    /// <param name="EngineName">The name of the engine to associate this option group with. Valid Values: o db2-ae o db2-ce o db2-se o mariadb o mysql o oracle-ee o oracle-ee-cdb o oracle-se2 o oracle-se2-cdb o postgres o sqlserver-ee o sqlserver-se o sqlserver-ex o sqlserver-web</param>
+    /// <param name="OptionGroupName">Specifies the name of the option group to be created. Constraints: • Must be 1 to 255 letters, numbers, or hyphens • First character must be a letter • Can't end with a hyphen or contain two consecutive hyphens Example: myoptiongroup</param>
+    /// <param name="EngineName">The name of the engine to associate this option group with. Valid Values: • db2-ae • db2-ce • db2-se • mariadb • mysql • oracle-ee • oracle-ee-cdb • oracle-se2 • oracle-se2-cdb • postgres • sqlserver-ee • sqlserver-se • sqlserver-ex • sqlserver-web</param>
     /// <param name="MajorEngineVersion">Specifies the major version of the engine that this option group should be associated with.</param>
     /// <param name="OptionGroupDescription">The description of the option group.</param>
     public AwsRdsCreateOptionGroupOptions(
@@ -68,13 +70,13 @@ public record AwsRdsCreateOptionGroupOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the name of the option group to be created. Constraints: o Must be 1 to 255 letters, numbers, or hyphens o First character must be a letter o Can't end with a hyphen or contain two consecutive hyphens Example: myoptiongroup
+    /// Specifies the name of the option group to be created. Constraints: • Must be 1 to 255 letters, numbers, or hyphens • First character must be a letter • Can't end with a hyphen or contain two consecutive hyphens Example: myoptiongroup
     /// </summary>
     [CliOption("--option-group-name")]
     public string? OptionGroupName { get; private init; }
 
     /// <summary>
-    /// The name of the engine to associate this option group with. Valid Values: o db2-ae o db2-ce o db2-se o mariadb o mysql o oracle-ee o oracle-ee-cdb o oracle-se2 o oracle-se2-cdb o postgres o sqlserver-ee o sqlserver-se o sqlserver-ex o sqlserver-web
+    /// The name of the engine to associate this option group with. Valid Values: • db2-ae • db2-ce • db2-se • mariadb • mysql • oracle-ee • oracle-ee-cdb • oracle-se2 • oracle-se2-cdb • postgres • sqlserver-ee • sqlserver-se • sqlserver-ex • sqlserver-web
     /// </summary>
     [CliOption("--engine-name")]
     public AwsRdsCreateOptionGroupEngineName? EngineName { get; private init; }

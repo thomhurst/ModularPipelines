@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the status for the specified job. Use this operation to confirm that you want to run a job or to cancel an existing job. For more in- formation, see S3 Batch Operations in the Amazon S3 User Guide . Permissions To use the UpdateJobStatus operation, you must have permission to per- form the s3:UpdateJobStatus action. Related actions include: o CreateJob o ListJobs o DescribeJob o UpdateJobStatus See also: AWS API Documentation
+/// Updates the status for the specified job. Use this operation to confirm that you want to run a job or to cancel an existing job. For more information, see S3 Batch Operations in the Amazon S3 User Guide . Permissions To use the UpdateJobStatus operation, you must have permission to perform the s3:UpdateJobStatus action. Related actions include: • CreateJob • ListJobs • DescribeJob • UpdateJobStatus See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsS3controlUpdateJobStatusOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the status for the specified job. Use this operation to confirm that you want to run a job or to cancel an existing job. For more in- formation, see S3 Batch Operations in the Amazon S3 User Guide . Permissions To use the UpdateJobStatus operation, you must have permission to per- form the s3:UpdateJobStatus action. Related actions include: o CreateJob o ListJobs o DescribeJob o UpdateJobStatus See also: AWS API Documentation
+    /// Updates the status for the specified job. Use this operation to confirm that you want to run a job or to cancel an existing job. For more information, see S3 Batch Operations in the Amazon S3 User Guide . Permissions To use the UpdateJobStatus operation, you must have permission to perform the s3:UpdateJobStatus action. Related actions include: • CreateJob • ListJobs • DescribeJob • UpdateJobStatus See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID associated with the S3 Batch Op- erations job. Constraints: o max: 64 o pattern: ^\d{12}$</param>
-    /// <param name="JobId">The ID of the job whose status you want to update. Constraints: o min: 5 o max: 36 o pattern: [a-zA-Z0-9\-\_]+</param>
-    /// <param name="RequestedJobStatus">The status that you want to move the specified job to. Possible values: o Cancelled o Ready</param>
+    /// <param name="AccountId">The Amazon Web Services account ID associated with the S3 Batch Operations job. Constraints: • max: 64 • pattern: ^\d{12}$</param>
+    /// <param name="JobId">The ID of the job whose status you want to update. Constraints: • min: 5 • max: 36 • pattern: [a-zA-Z0-9\-\_]+</param>
+    /// <param name="RequestedJobStatus">The status that you want to move the specified job to. Possible values: • Cancelled • Ready</param>
     public AwsS3controlUpdateJobStatusOptions(
         string AccountId,
         string JobId,
@@ -64,25 +66,25 @@ public record AwsS3controlUpdateJobStatusOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID associated with the S3 Batch Op- erations job. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID associated with the S3 Batch Operations job. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The ID of the job whose status you want to update. Constraints: o min: 5 o max: 36 o pattern: [a-zA-Z0-9\-\_]+
+    /// The ID of the job whose status you want to update. Constraints: • min: 5 • max: 36 • pattern: [a-zA-Z0-9\-\_]+
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// The status that you want to move the specified job to. Possible values: o Cancelled o Ready
+    /// The status that you want to move the specified job to. Possible values: • Cancelled • Ready
     /// </summary>
     [CliOption("--requested-job-status")]
     public AwsS3controlUpdateJobStatusRequestedJobStatus? RequestedJobStatus { get; private init; }
 
     /// <summary>
-    /// A description of the reason why you want to change the specified job's status. This field can be any string up to the maximum length. Constraints: o min: 1 o max: 256
+    /// A description of the reason why you want to change the specified job's status. This field can be any string up to the maximum length. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--status-update-reason")]
     public string? StatusUpdateReason { get; set; }

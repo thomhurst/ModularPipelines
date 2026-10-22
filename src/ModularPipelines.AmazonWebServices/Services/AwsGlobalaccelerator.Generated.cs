@@ -32,7 +32,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     #region Commands
 
     /// <summary>
-    /// Associate a virtual private cloud (VPC) subnet endpoint with your cus- tom routing accelerator. The listener port range must be large enough to support the number of IP addresses that can be specified in your subnet. The number of ports required is: subnet size times the number of ports per destination EC2 instances. For example, a subnet defined as /24 requires a listener port range of at least 255 ports. Note: You must have enough remaining listener ports available to map to the subnet ports, ...
+    /// Associate a virtual private cloud (VPC) subnet endpoint with your custom routing accelerator. The listener port range must be large enough to support the number of IP addresses that can be specified in your subnet. The number of ports required is: subnet size times the number of ports per destination EC2 instances. For example, a subnet defined as /24 requires a listener port range of at least 255 ports. Note: You must have enough remaining listener ports available to map to the subnet ports, or...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     }
 
     /// <summary>
-    /// Add endpoints to an endpoint group. The AddEndpoints API operation is the recommended option for adding endpoints. The alternative options are to add endpoints when you create an endpoint group (with the CreateEndpointGroup API) or when you update an endpoint group (with the UpdateEndpointGroup API). There are two advantages to using AddEndpoints to add endpoints in Global Accelerator: o It's faster, because Global Accelerator only has to resolve the new endpoints that you're adding, rather than...
+    /// Add endpoints to an endpoint group. The AddEndpoints API operation is the recommended option for adding endpoints. The alternative options are to add endpoints when you create an endpoint group (with the CreateEndpointGroup API) or when you update an endpoint group (with the UpdateEndpointGroup API). There are two advantages to using AddEndpoints to add endpoints in Global Accelerator: • It's faster, because Global Accelerator only has to resolve the new endpoints that you're adding, rather than...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     }
 
     /// <summary>
-    /// Advertises an IPv4 address range that is provisioned for use with your Amazon Web Services resources through bring your own IP addresses (BY- OIP). It can take a few minutes before traffic to the specified ad- dresses starts routing to Amazon Web Services because of propagation delays. To stop advertising the BYOIP address range, use WithdrawByoipCidr . For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide . See also: AWS API Documentation
+    /// Advertises an IPv4 address range that is provisioned for use with your Amazon Web Services resources through bring your own IP addresses (BYOIP). It can take a few minutes before traffic to the specified addresses starts routing to Amazon Web Services because of propagation delays. To stop advertising the BYOIP address range, use WithdrawByoipCidr . For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     }
 
     /// <summary>
-    /// Specify the Amazon EC2 instance (destination) IP addresses and ports for a VPC subnet endpoint that can receive traffic for a custom routing accelerator. You can allow traffic to all destinations in the subnet endpoint, or allow traffic to a specified list of destination IP ad- dresses and ports in the subnet. Note that you cannot specify IP ad- dresses or ports outside of the range that you configured for the end- point group. After you make changes, you can verify that the updates are complete...
+    /// Specify the Amazon EC2 instance (destination) IP addresses and ports for a VPC subnet endpoint that can receive traffic for a custom routing accelerator. You can allow traffic to all destinations in the subnet endpoint, or allow traffic to a specified list of destination IP addresses and ports in the subnet. Note that you cannot specify IP addresses or ports outside of the range that you configured for the endpoint group. After you make changes, you can verify that the updates are complete by ch...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     }
 
     /// <summary>
-    /// Create an accelerator. An accelerator includes one or more listeners that process inbound connections and direct traffic to one or more end- point groups, each of which includes endpoints, such as Network Load Balancers. WARNING: Global Accelerator is a global service that supports endpoints in multiple Amazon Web Services Regions but you must specify the US West (Oregon) Region to create, update, or otherwise work with ac- celerators. That is, for example, specify --region us-west-2 on Ama- zon...
+    /// Create an accelerator. An accelerator includes one or more listeners that process inbound connections and direct traffic to one or more endpoint groups, each of which includes endpoints, such as Network Load Balancers. WARNING: Global Accelerator is a global service that supports endpoints in multiple Amazon Web Services Regions but you must specify the US West (Oregon) Region to create, update, or otherwise work with accelerators. That is, for example, specify --region us-west-2 on Amazon Web S...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     }
 
     /// <summary>
-    /// Create a cross-account attachment in Global Accelerator. You create a cross-account attachment to specify the principals who have permission to work with resources in accelerators in their own account. You spec- ify, in the same attachment, the resources that are shared. A principal can be an Amazon Web Services account number or the Amazon Resource Name (ARN) for an accelerator. For account numbers that are listed as principals, to work with a resource listed in the attachment, you must sign in...
+    /// Create a cross-account attachment in Global Accelerator. You create a cross-account attachment to specify the principals who have permission to work with resources in accelerators in their own account. You specify, in the same attachment, the resources that are shared. A principal can be an Amazon Web Services account number or the Amazon Resource Name (ARN) for an accelerator. For account numbers that are listed as principals, to work with a resource listed in the attachment, you must sign in t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     }
 
     /// <summary>
-    /// Create a custom routing accelerator. A custom routing accelerator di- rects traffic to one of possibly thousands of Amazon EC2 instance des- tinations running in a single or multiple virtual private clouds (VPC) subnet endpoints. Be aware that, by default, all destination EC2 instances in a VPC sub- net endpoint cannot receive traffic. To enable all destinations to re- ceive traffic, or to specify individual port mappings that can receive traffic, see the AllowCustomRoutingTraffic operation. WAR...
+    /// Create a custom routing accelerator. A custom routing accelerator directs traffic to one of possibly thousands of Amazon EC2 instance destinations running in a single or multiple virtual private clouds (VPC) subnet endpoints. Be aware that, by default, all destination EC2 instances in a VPC subnet endpoint cannot receive traffic. To enable all destinations to receive traffic, or to specify individual port mappings that can receive traffic, see the AllowCustomRoutingTraffic operation. WARNING: Gl...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     }
 
     /// <summary>
-    /// Create an endpoint group for the specified listener for a custom rout- ing accelerator. An endpoint group is a collection of endpoints in one Amazon Web Services Region. See also: AWS API Documentation
+    /// Create an endpoint group for the specified listener for a custom routing accelerator. An endpoint group is a collection of endpoints in one Amazon Web Services Region. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     }
 
     /// <summary>
-    /// Create a listener to process inbound connections from clients to a cus- tom routing accelerator. Connections arrive to assigned static IP ad- dresses on the port range that you specify. See also: AWS API Documentation
+    /// Create a listener to process inbound connections from clients to a custom routing accelerator. Connections arrive to assigned static IP addresses on the port range that you specify. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     }
 
     /// <summary>
-    /// Create an endpoint group for the specified listener. An endpoint group is a collection of endpoints in one Amazon Web Services Region. A re- source must be valid and active when you add it as an endpoint. For more information about endpoint types and requirements for end- points that you can add to Global Accelerator, see Endpoints for stan- dard accelerators in the Global Accelerator Developer Guide . See also: AWS API Documentation
+    /// Create an endpoint group for the specified listener. An endpoint group is a collection of endpoints in one Amazon Web Services Region. A resource must be valid and active when you add it as an endpoint. For more information about endpoint types and requirements for endpoints that you can add to Global Accelerator, see Endpoints for standard accelerators in the Global Accelerator Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     }
 
     /// <summary>
-    /// Create a listener to process inbound connections from clients to an ac- celerator. Connections arrive to assigned static IP addresses on a port, port range, or list of port ranges that you specify. See also: AWS API Documentation
+    /// Create a listener to process inbound connections from clients to an accelerator. Connections arrive to assigned static IP addresses on a port, port range, or list of port ranges that you specify. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     }
 
     /// <summary>
-    /// Delete an accelerator. Before you can delete an accelerator, you must disable it and remove all dependent resources (listeners and endpoint groups). To disable the accelerator, update the accelerator to set En- abled to false. WARNING: When you create an accelerator, by default, Global Accelerator pro- vides you with a set of two static IP addresses. Alternatively, you can bring your own IP address ranges to Global Accelerator and as- sign IP addresses from those ranges. The IP addresses are ass...
+    /// Delete an accelerator. Before you can delete an accelerator, you must disable it and remove all dependent resources (listeners and endpoint groups). To disable the accelerator, update the accelerator to set Enabled to false. WARNING: When you create an accelerator, by default, Global Accelerator provides you with a set of two static IP addresses. Alternatively, you can bring your own IP address ranges to Global Accelerator and assign IP addresses from those ranges. The IP addresses are assigned ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     }
 
     /// <summary>
-    /// Delete a cross-account attachment. When you delete an attachment, Global Accelerator revokes the permission to use the resources in the attachment from all principals in the list of principals. Global Accel- erator revokes the permission for specific resources. For more information, see Working with cross-account attachments and resources in Global Accelerator in the Global Accelerator Developer Guide . See also: AWS API Documentation
+    /// Delete a cross-account attachment. When you delete an attachment, Global Accelerator revokes the permission to use the resources in the attachment from all principals in the list of principals. Global Accelerator revokes the permission for specific resources. For more information, see Working with cross-account attachments and resources in Global Accelerator in the Global Accelerator Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     }
 
     /// <summary>
-    /// Delete a custom routing accelerator. Before you can delete an accelera- tor, you must disable it and remove all dependent resources (listeners and endpoint groups). To disable the accelerator, update the accelera- tor to set Enabled to false. WARNING: When you create a custom routing accelerator, by default, Global Ac- celerator provides you with a set of two static IP addresses. The IP addresses are assigned to your accelerator for as long as it exists, even if you disable the accelerator and i...
+    /// Delete a custom routing accelerator. Before you can delete an accelerator, you must disable it and remove all dependent resources (listeners and endpoint groups). To disable the accelerator, update the accelerator to set Enabled to false. WARNING: When you create a custom routing accelerator, by default, Global Accelerator provides you with a set of two static IP addresses. The IP addresses are assigned to your accelerator for as long as it exists, even if you disable the accelerator and it no l...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     }
 
     /// <summary>
-    /// Delete an endpoint group from a listener for a custom routing accelera- tor. See also: AWS API Documentation
+    /// Delete an endpoint group from a listener for a custom routing accelerator. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     }
 
     /// <summary>
-    /// Specify the Amazon EC2 instance (destination) IP addresses and ports for a VPC subnet endpoint that cannot receive traffic for a custom routing accelerator. You can deny traffic to all destinations in the VPC endpoint, or deny traffic to a specified list of destination IP ad- dresses and ports. Note that you cannot specify IP addresses or ports outside of the range that you configured for the endpoint group. After you make changes, you can verify that the updates are complete by checking the sta...
+    /// Specify the Amazon EC2 instance (destination) IP addresses and ports for a VPC subnet endpoint that cannot receive traffic for a custom routing accelerator. You can deny traffic to all destinations in the VPC endpoint, or deny traffic to a specified list of destination IP addresses and ports. Note that you cannot specify IP addresses or ports outside of the range that you configured for the endpoint group. After you make changes, you can verify that the updates are complete by checking the statu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     }
 
     /// <summary>
-    /// List the cross-account attachments that have been created in Global Ac- celerator. See also: AWS API Documentation list-cross-account-attachments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Cro...
+    /// List the cross-account attachments that have been created in Global Accelerator. See also: AWS API Documentation list-cross-account-attachments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: CrossAcco...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     }
 
     /// <summary>
-    /// List the cross-account resources available to work with. See also: AWS API Documentation list-cross-account-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: CrossAccountResources
+    /// List the cross-account resources available to work with. See also: AWS API Documentation list-cross-account-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: CrossAccountResources
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     }
 
     /// <summary>
-    /// List the custom routing accelerators for an Amazon Web Services ac- count. See also: AWS API Documentation list-custom-routing-accelerators is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Accelerat...
+    /// List the custom routing accelerators for an Amazon Web Services account. See also: AWS API Documentation list-custom-routing-accelerators is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Accelerators
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +557,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     }
 
     /// <summary>
-    /// List the endpoint groups that are associated with a listener for a cus- tom routing accelerator. See also: AWS API Documentation list-custom-routing-endpoint-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following que...
+    /// List the endpoint groups that are associated with a listener for a custom routing accelerator. See also: AWS API Documentation list-custom-routing-endpoint-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query exp...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     }
 
     /// <summary>
-    /// List the listeners for a custom routing accelerator. See also: AWS API Documentation list-custom-routing-listeners is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Listeners
+    /// List the listeners for a custom routing accelerator. See also: AWS API Documentation list-custom-routing-listeners is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Listeners
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     }
 
     /// <summary>
-    /// List the port mappings for a specific EC2 instance (destination) in a VPC subnet endpoint. The response is the mappings for one destination IP address. This is useful when your subnet endpoint has mappings that span multiple custom routing accelerators in your account, or for sce- narios where you only want to list the port mappings for a specific destination instance. See also: AWS API Documentation list-custom-routing-port-mappings-by-destination is a paginated opera- tion. Multiple API calls ...
+    /// List the port mappings for a specific EC2 instance (destination) in a VPC subnet endpoint. The response is the mappings for one destination IP address. This is useful when your subnet endpoint has mappings that span multiple custom routing accelerators in your account, or for scenarios where you only want to list the port mappings for a specific destination instance. See also: AWS API Documentation list-custom-routing-port-mappings-by-destination is a paginated operation. Multiple API calls may ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -632,7 +632,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     }
 
     /// <summary>
-    /// List the listeners for an accelerator. See also: AWS API Documentation list-listeners is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Listeners
+    /// List the listeners for an accelerator. See also: AWS API Documentation list-listeners is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Listeners
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     }
 
     /// <summary>
-    /// Provisions an IP address range to use with your Amazon Web Services re- sources through bring your own IP addresses (BYOIP) and creates a cor- responding address pool. After the address range is provisioned, it is ready to be advertised using AdvertiseByoipCidr . For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide . See also: AWS API Documentation
+    /// Provisions an IP address range to use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and creates a corresponding address pool. After the address range is provisioned, it is ready to be advertised using AdvertiseByoipCidr . For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -692,7 +692,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     }
 
     /// <summary>
-    /// Remove endpoints from an endpoint group. The RemoveEndpoints API operation is the recommended option for remov- ing endpoints. The alternative is to remove endpoints by updating an endpoint group by using the UpdateEndpointGroup API operation. There are two advantages to using AddEndpoints to remove endpoints instead: o It's more convenient, because you only need to specify the endpoints that you want to remove. With the UpdateEndpointGroup API operation, you must specify all of the endpoints in...
+    /// Remove endpoints from an endpoint group. The RemoveEndpoints API operation is the recommended option for removing endpoints. The alternative is to remove endpoints by updating an endpoint group by using the UpdateEndpointGroup API operation. There are two advantages to using AddEndpoints to remove endpoints instead: • It's more convenient, because you only need to specify the endpoints that you want to remove. With the UpdateEndpointGroup API operation, you must specify all of the endpoints in t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -722,7 +722,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     }
 
     /// <summary>
-    /// Remove tags from a Global Accelerator resource. When you specify a tag key, the action removes both that key and its associated value. The op- eration succeeds even if you attempt to remove tags from an accelerator that was already removed. For more information, see Tagging in Global Accelerator in the Global Accelerator Developer Guide . See also: AWS API Documentation
+    /// Remove tags from a Global Accelerator resource. When you specify a tag key, the action removes both that key and its associated value. The operation succeeds even if you attempt to remove tags from an accelerator that was already removed. For more information, see Tagging in Global Accelerator in the Global Accelerator Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -752,7 +752,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     }
 
     /// <summary>
-    /// Update an accelerator to make changes, such as the following: o Change the name of the accelerator. o Disable the accelerator so that it no longer accepts or routes traf- fic, or so that you can delete it. o Enable the accelerator, if it is disabled. o Change the IP address type to dual-stack if it is IPv4, or change the IP address type to IPv4 if it's dual-stack. Be aware that static IP addresses remain assigned to your accelerator for as long as it exists, even if you disable the accelerator a...
+    /// Update an accelerator to make changes, such as the following: • Change the name of the accelerator. • Disable the accelerator so that it no longer accepts or routes traffic, or so that you can delete it. • Enable the accelerator, if it is disabled. • Change the IP address type to dual-stack if it is IPv4, or change the IP address type to IPv4 if it's dual-stack. Be aware that static IP addresses remain assigned to your accelerator for as long as it exists, even if you disable the accelerator and...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -767,7 +767,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     }
 
     /// <summary>
-    /// Update a cross-account attachment to add or remove principals or re- sources. When you update an attachment to remove a principal (account ID or accelerator) or a resource, Global Accelerator revokes the per- mission for specific resources. For more information, see Working with cross-account attachments and resources in Global Accelerator in the Global Accelerator Developer Guide . See also: AWS API Documentation
+    /// Update a cross-account attachment to add or remove principals or resources. When you update an attachment to remove a principal (account ID or accelerator) or a resource, Global Accelerator revokes the permission for specific resources. For more information, see Working with cross-account attachments and resources in Global Accelerator in the Global Accelerator Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

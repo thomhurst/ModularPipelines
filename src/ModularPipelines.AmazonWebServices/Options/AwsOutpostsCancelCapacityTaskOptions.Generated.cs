@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsOutpostsCancelCapacityTaskOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Cancels the capacity task. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CapacityTaskId">ID of the capacity task that you want to cancel. Constraints: o min: 21 o max: 21 o pattern: ^cap-[a-f0-9]{17}$</param>
-    /// <param name="OutpostIdentifier">ID or ARN of the Outpost associated with the capacity task that you want to cancel. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$</param>
+    /// <param name="CapacityTaskId">ID of the capacity task that you want to cancel. Constraints: • min: 21 • max: 21 • pattern: ^cap-[a-f0-9]{17}$</param>
+    /// <param name="OutpostIdentifier">ID or ARN of the Outpost associated with the capacity task that you want to cancel. Constraints: • min: 1 • max: 180 • pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/)?op-[a-f0-9]{17}$</param>
     public AwsOutpostsCancelCapacityTaskOptions(
         string CapacityTaskId,
         string OutpostIdentifier
@@ -60,13 +62,13 @@ public record AwsOutpostsCancelCapacityTaskOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID of the capacity task that you want to cancel. Constraints: o min: 21 o max: 21 o pattern: ^cap-[a-f0-9]{17}$
+    /// ID of the capacity task that you want to cancel. Constraints: • min: 21 • max: 21 • pattern: ^cap-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--capacity-task-id")]
     public string? CapacityTaskId { get; private init; }
 
     /// <summary>
-    /// ID or ARN of the Outpost associated with the capacity task that you want to cancel. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$
+    /// ID or ARN of the Outpost associated with the capacity task that you want to cancel. Constraints: • min: 1 • max: 180 • pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/)?op-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--outpost-identifier")]
     public string? OutpostIdentifier { get; private init; }

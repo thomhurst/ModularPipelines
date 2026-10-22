@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the specified attributes of the specified virtual private in- terface. Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating the connection disrupts network connec- tivity for all virtual interfaces associated with the connection for up to 30 seconds. To check whether your connection supports jumbo frames, call DescribeConnections . To check whether your virtual interf...
+/// Updates the specified attributes of the specified virtual private interface. Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating the connection disrupts network connectivity for all virtual interfaces associated with the connection for up to 30 seconds. To check whether your connection supports jumbo frames, call DescribeConnections . To check whether your virtual interface ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsDirectconnectUpdateVirtualInterfaceAttributesOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the specified attributes of the specified virtual private in- terface. Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating the connection disrupts network connec- tivity for all virtual interfaces associated with the connection for up to 30 seconds. To check whether your connection supports jumbo frames, call DescribeConnections . To check whether your virtual interf...
+    /// Updates the specified attributes of the specified virtual private interface. Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating the connection disrupts network connectivity for all virtual interfaces associated with the connection for up to 30 seconds. To check whether your connection supports jumbo frames, call DescribeConnections . To check whether your virtual interface ...
     /// </summary>
     /// <param name="VirtualInterfaceId">The ID of the virtual private interface.</param>
     public AwsDirectconnectUpdateVirtualInterfaceAttributesOptions(
@@ -80,19 +82,19 @@ public record AwsDirectconnectUpdateVirtualInterfaceAttributesOptions : AwsOptio
     public string? VirtualInterfaceName { get; set; }
 
     /// <summary>
-    /// The number of inbound IPv4 route prefixes to allocate to the virtual interface. Not applicable to public virtual interfaces. Constraints: o min: 0
+    /// The number of inbound IPv4 route prefixes to allocate to the virtual interface. Not applicable to public virtual interfaces. Constraints: • min: 0
     /// </summary>
     [CliOption("--prefix-pool-allocated-count-ipv4")]
     public int? PrefixPoolAllocatedCountIpv4 { get; set; }
 
     /// <summary>
-    /// The number of inbound IPv6 route prefixes to allocate to the virtual interface. Not applicable to public virtual interfaces. Constraints: o min: 0
+    /// The number of inbound IPv6 route prefixes to allocate to the virtual interface. Not applicable to public virtual interfaces. Constraints: • min: 0
     /// </summary>
     [CliOption("--prefix-pool-allocated-count-ipv6")]
     public int? PrefixPoolAllocatedCountIpv6 { get; set; }
 
     /// <summary>
-    /// The rate limit (bandwidth allocation) to apply to the virtual inter- face. Use this to update the bandwidth allocation on an existing virtual interface.
+    /// The rate limit (bandwidth allocation) to apply to the virtual interface. Use this to update the bandwidth allocation on an existing virtual interface.
     /// </summary>
     [CliOption("--rate-limit")]
     public string? RateLimit { get; set; }

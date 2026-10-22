@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsEcrBatchGetRepositoryScanningConfigurationOptions : AwsOptions,
     /// <summary>
     /// Gets the scanning configuration for one or more repositories. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryNames">One or more repository names to get the scanning configuration for. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)* Syntax: "string" "string" ...</param>
+    /// <param name="RepositoryNames">One or more repository names to get the scanning configuration for. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 2 • max: 256 • pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)* Syntax: "string" "string" ...</param>
     public AwsEcrBatchGetRepositoryScanningConfigurationOptions(
         IEnumerable<string> RepositoryNames
     )
@@ -67,7 +69,7 @@ public record AwsEcrBatchGetRepositoryScanningConfigurationOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// One or more repository names to get the scanning configuration for. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)* Syntax: "string" "string" ...
+    /// One or more repository names to get the scanning configuration for. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 2 • max: 256 • pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--repository-names", GroupValues = true)]
     public IEnumerable<string>? RepositoryNames { get; private init; }

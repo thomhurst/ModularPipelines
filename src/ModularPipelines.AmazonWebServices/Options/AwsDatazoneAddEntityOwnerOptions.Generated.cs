@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,10 +30,10 @@ public record AwsDatazoneAddEntityOwnerOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Adds the owner of an entity (a domain unit). See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the domain in which you want to add the entity owner. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="EntityType">The type of an entity. Possible values: o DOMAIN_UNIT</param>
+    /// <param name="DomainIdentifier">The ID of the domain in which you want to add the entity owner. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EntityType">The type of an entity. Possible values: • DOMAIN_UNIT</param>
     /// <param name="EntityIdentifier">The ID of the entity to which you want to add an owner.</param>
-    /// <param name="Owner">The owner that you want to add to the entity. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: user, group. user -&gt; (structure) Specifies that the domain unit owner is a user. userIdentifier -&gt; (string) [required] The ID of the owner user. Constraints: o pattern: .*(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|^[a-zA-Z_0-9+=,.@-]+$|^arn:aws:iam::\d{12}:.+$).* group -&gt; (structure) Specifies that the domain unit owner is a group. groupIdentifier -&gt; (string) [required] The ID of the domain unit owners group. Constraints: o pattern: .*(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|[\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+).* Shorthand Syntax: user={userIdentifier=string},group={groupIdentifier=string} JSON Syntax: { "user": { "userIdentifier": "string" }, "group": { "groupIdentifier": "string" } }</param>
+    /// <param name="Owner">The owner that you want to add to the entity. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: user, group. user -&gt; (structure) Specifies that the domain unit owner is a user. userIdentifier -&gt; (string) [required] The ID of the owner user. Constraints: • pattern: .*(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|^[a-zA-Z_0-9+=,.@-]+$|^arn:aws:iam::\d{12}:.+$).* group -&gt; (structure) Specifies that the domain unit owner is a group. groupIdentifier -&gt; (string) [required] The ID of the domain unit owners group. Constraints: • pattern: .*(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|[\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+).* Shorthand Syntax: user={userIdentifier=string},group={groupIdentifier=string} JSON Syntax: { "user": { "userIdentifier": "string" }, "group": { "groupIdentifier": "string" } }</param>
     public AwsDatazoneAddEntityOwnerOptions(
         string DomainIdentifier,
         string EntityType,
@@ -69,13 +71,13 @@ public record AwsDatazoneAddEntityOwnerOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the domain in which you want to add the entity owner. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the domain in which you want to add the entity owner. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The type of an entity. Possible values: o DOMAIN_UNIT
+    /// The type of an entity. Possible values: • DOMAIN_UNIT
     /// </summary>
     [CliOption("--entity-type")]
     public string? EntityType { get; private init; }
@@ -87,13 +89,13 @@ public record AwsDatazoneAddEntityOwnerOptions : AwsOptions, IValidatableObject
     public string? EntityIdentifier { get; private init; }
 
     /// <summary>
-    /// The owner that you want to add to the entity. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: user, group. user -&gt; (structure) Specifies that the domain unit owner is a user. userIdentifier -&gt; (string) [required] The ID of the owner user. Constraints: o pattern: .*(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|^[a-zA-Z_0-9+=,.@-]+$|^arn:aws:iam::\d{12}:.+$).* group -&gt; (structure) Specifies that the domain unit owner is a group. groupIdentifier -&gt; (string) [required] The ID of the domain unit owners group. Constraints: o pattern: .*(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|[\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+).* Shorthand Syntax: user={userIdentifier=string},group={groupIdentifier=string} JSON Syntax: { "user": { "userIdentifier": "string" }, "group": { "groupIdentifier": "string" } }
+    /// The owner that you want to add to the entity. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: user, group. user -&gt; (structure) Specifies that the domain unit owner is a user. userIdentifier -&gt; (string) [required] The ID of the owner user. Constraints: • pattern: .*(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|^[a-zA-Z_0-9+=,.@-]+$|^arn:aws:iam::\d{12}:.+$).* group -&gt; (structure) Specifies that the domain unit owner is a group. groupIdentifier -&gt; (string) [required] The ID of the domain unit owners group. Constraints: • pattern: .*(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|[\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+).* Shorthand Syntax: user={userIdentifier=string},group={groupIdentifier=string} JSON Syntax: { "user": { "userIdentifier": "string" }, "group": { "groupIdentifier": "string" } }
     /// </summary>
     [CliOption("--owner")]
     public string? Owner { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

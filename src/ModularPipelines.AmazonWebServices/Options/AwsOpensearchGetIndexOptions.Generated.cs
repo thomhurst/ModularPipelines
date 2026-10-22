@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsOpensearchGetIndexOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves information about an OpenSearch index including its schema and semantic enrichment configuration. Use this operation to view the current index structure and semantic search settings. See also: AWS API Documentation get-index uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Sh...
     /// </summary>
-    /// <param name="DomainName">The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
-    /// <param name="IndexName">The name of the index to retrieve information about. Constraints: o min: 1 o max: 255 o pattern: ^(?!\.\.?$)[^_ ,:"+/*\\|?#&gt;&lt;A-Z-][^ ,:"+/*\\|?#&gt;&lt;A-Z]*$</param>
+    /// <param name="DomainName">The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="IndexName">The name of the index to retrieve information about. Constraints: • min: 1 • max: 255 • pattern: ^(?!\.\.?$)[^_ ,:"+/*\\|?#&gt;&lt;A-Z-][^ ,:"+/*\\|?#&gt;&lt;A-Z]*$</param>
     public AwsOpensearchGetIndexOptions(
         string DomainName,
         string IndexName
@@ -60,13 +62,13 @@ public record AwsOpensearchGetIndexOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The name of the index to retrieve information about. Constraints: o min: 1 o max: 255 o pattern: ^(?!\.\.?$)[^_ ,:"+/*\\|?#&gt;&lt;A-Z-][^ ,:"+/*\\|?#&gt;&lt;A-Z]*$
+    /// The name of the index to retrieve information about. Constraints: • min: 1 • max: 255 • pattern: ^(?!\.\.?$)[^_ ,:"+/*\\|?#&gt;&lt;A-Z-][^ ,:"+/*\\|?#&gt;&lt;A-Z]*$
     /// </summary>
     [CliOption("--index-name")]
     public string? IndexName { get; private init; }

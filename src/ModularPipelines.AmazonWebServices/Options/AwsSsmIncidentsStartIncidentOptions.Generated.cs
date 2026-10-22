@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsSsmIncidentsStartIncidentOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Used to start an incident from CloudWatch alarms, EventBridge events, or manually. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResponsePlanArn">The Amazon Resource Name (ARN) of the response plan that pre-defines summary, chat channels, Amazon SNS topics, runbooks, title, and im- pact of the incident. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$</param>
+    /// <param name="ResponsePlanArn">The Amazon Resource Name (ARN) of the response plan that pre-defines summary, chat channels, Amazon SNS topics, runbooks, title, and impact of the incident. Constraints: • min: 0 • max: 1000 • pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$</param>
     public AwsSsmIncidentsStartIncidentOptions(
         string ResponsePlanArn
     )
@@ -57,38 +59,38 @@ public record AwsSsmIncidentsStartIncidentOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the response plan that pre-defines summary, chat channels, Amazon SNS topics, runbooks, title, and im- pact of the incident. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$
+    /// The Amazon Resource Name (ARN) of the response plan that pre-defines summary, chat channels, Amazon SNS topics, runbooks, title, and impact of the incident. Constraints: • min: 0 • max: 1000 • pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$
     /// </summary>
     [CliOption("--response-plan-arn")]
     public string? ResponsePlanArn { get; private init; }
 
     /// <summary>
-    /// A token ensuring that the operation is called only once with the specified details. Constraints: o min: 0 o max: 128
+    /// A token ensuring that the operation is called only once with the specified details. Constraints: • min: 0 • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Defines the impact to the customers. Providing an impact overwrites the impact provided by a response plan. Supported impact codes o 1 - Critical o 2 - High o 3 - Medium o 4 - Low o 5 - No Impact Constraints: o min: 1 o max: 5
+    /// Defines the impact to the customers. Providing an impact overwrites the impact provided by a response plan. Supported impact codes • 1 - Critical • 2 - High • 3 - Medium • 4 - Low • 5 - No Impact Constraints: • min: 1 • max: 5
     /// </summary>
     [CliOption("--impact")]
     public int? Impact { get; set; }
 
     /// <summary>
-    /// Add related items to the incident for other responders to use. Re- lated items are Amazon Web Services resources, external links, or files uploaded to an Amazon S3 bucket. Constraints: o min: 0 o max: 100 (structure) Resources that responders use to triage and mitigate the inci- dent. generatedId -&gt; (string) A unique ID for a RelatedItem . WARNING: Don't specify this parameter when you add a RelatedItem by using the UpdateRelatedItems API action. Constraints: o min: 0 o max: 200 o pattern: ^related-item/(ANALYSIS|INCIDENT|METRIC|PARENT|AT- TACHMENT|OTHER|AUTOMATION|INVOLVED_RE- SOURCE|TASK)/([0-9]|[A-F]){32}$ identifier -&gt; (structure) [required] Details about the related item. type -&gt; (string) [required] The type of related item. Possible values: o ANALYSIS o INCIDENT o METRIC o PARENT o ATTACHMENT o OTHER o AUTOMATION o INVOLVED_RESOURCE o TASK value -&gt; (tagged union structure) [required] Details about the related item. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: arn, metricDefini- tion, pagerDutyIncidentDetail, url. arn -&gt; (string) The Amazon Resource Name (ARN) of the related item, if the related item is an Amazon resource. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$ metricDefinition -&gt; (string) The metric definition, if the related item is a metric in Amazon CloudWatch. Constraints: o min: 0 o max: 4000 pagerDutyIncidentDetail -&gt; (structure) Details about an incident that is associated with a PagerDuty incident. autoResolve -&gt; (boolean) Indicates whether to resolve the PagerDuty inci- dent when you resolve the associated Incident Man- ager incident. id -&gt; (string) [required] The ID of the incident associated with the Pager- Duty service for the response plan. Constraints: o min: 1 o max: 200 secretId -&gt; (string) The ID of the Amazon Web Services Secrets Manager secret that stores your PagerDuty key, either a General Access REST API Key or User Token REST API Key, and other user credentials. Constraints: o min: 1 o max: 512 url -&gt; (string) The URL, if the related item is a non-Amazon Web Ser- vices resource. Constraints: o min: 0 o max: 1000 title -&gt; (string) The title of the related item. Constraints: o min: 0 o max: 200 JSON Syntax: [ { "generatedId": "string", "identifier": { "type": "ANALYSIS"|"INCIDENT"|"METRIC"|"PARENT"|"ATTACHMENT"|"OTHER"|"AUTOMATION"|"INVOLVED_RESOURCE"|"TASK", "value": { "arn": "string", "metricDefinition": "string", "pagerDutyIncidentDetail": { "autoResolve": true|false, "id": "string", "secretId": "string" }, "url": "string" } }, "title": "string" } ... ]
+    /// Add related items to the incident for other responders to use. Related items are Amazon Web Services resources, external links, or files uploaded to an Amazon S3 bucket. Constraints: • min: 0 • max: 100 (structure) Resources that responders use to triage and mitigate the incident. generatedId -&gt; (string) A unique ID for a RelatedItem . WARNING: Don't specify this parameter when you add a RelatedItem by using the UpdateRelatedItems API action. Constraints: • min: 0 • max: 200 • pattern: ^related-item/(ANALYSIS|INCIDENT|METRIC|PARENT|ATTACHMENT|OTHER|AUTOMATION|INVOLVED_RESOURCE|TASK)/([0-9]|[A-F]){32}$ identifier -&gt; (structure) [required] Details about the related item. type -&gt; (string) [required] The type of related item. Possible values: • ANALYSIS • INCIDENT • METRIC • PARENT • ATTACHMENT • OTHER • AUTOMATION • INVOLVED_RESOURCE • TASK value -&gt; (tagged union structure) [required] Details about the related item. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: arn, metricDefinition, pagerDutyIncidentDetail, url. arn -&gt; (string) The Amazon Resource Name (ARN) of the related item, if the related item is an Amazon resource. Constraints: • min: 0 • max: 1000 • pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$ metricDefinition -&gt; (string) The metric definition, if the related item is a metric in Amazon CloudWatch. Constraints: • min: 0 • max: 4000 pagerDutyIncidentDetail -&gt; (structure) Details about an incident that is associated with a PagerDuty incident. autoResolve -&gt; (boolean) Indicates whether to resolve the PagerDuty incident when you resolve the associated Incident Manager incident. id -&gt; (string) [required] The ID of the incident associated with the PagerDuty service for the response plan. Constraints: • min: 1 • max: 200 secretId -&gt; (string) The ID of the Amazon Web Services Secrets Manager secret that stores your PagerDuty key, either a General Access REST API Key or User Token REST API Key, and other user credentials. Constraints: • min: 1 • max: 512 url -&gt; (string) The URL, if the related item is a non-Amazon Web Services resource. Constraints: • min: 0 • max: 1000 title -&gt; (string) The title of the related item. Constraints: • min: 0 • max: 200 JSON Syntax: [ { "generatedId": "string", "identifier": { "type": "ANALYSIS"|"INCIDENT"|"METRIC"|"PARENT"|"ATTACHMENT"|"OTHER"|"AUTOMATION"|"INVOLVED_RESOURCE"|"TASK", "value": { "arn": "string", "metricDefinition": "string", "pagerDutyIncidentDetail": { "autoResolve": true|false, "id": "string", "secretId": "string" }, "url": "string" } }, "title": "string" } ... ]
     /// </summary>
     [CliOption("--related-items", GroupValues = true)]
     public IEnumerable<string>? RelatedItems { get; set; }
 
     /// <summary>
-    /// Provide a title for the incident. Providing a title overwrites the title provided by the response plan. Constraints: o min: 0 o max: 200
+    /// Provide a title for the incident. Providing a title overwrites the title provided by the response plan. Constraints: • min: 0 • max: 200
     /// </summary>
     [CliOption("--title")]
     public string? Title { get; set; }
 
     /// <summary>
-    /// Details of what created the incident record in Incident Manager. rawData -&gt; (string) Raw data passed from either Amazon EventBridge, Amazon Cloud- Watch, or Incident Manager when an incident is created. Constraints: o min: 0 o max: 10000 source -&gt; (string) [required] Identifies the service that sourced the event. All events sourced from within Amazon Web Services begin with "aws. " Cus- tomer-generated events can have any value here, as long as it doesn't begin with "aws. " We recommend the use of Java pack- age-name style reverse domain-name strings. Constraints: o min: 0 o max: 50 timestamp -&gt; (timestamp) [required] The timestamp for when the incident was detected. triggerArn -&gt; (string) The Amazon Resource Name (ARN) of the source that detected the incident. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$ Shorthand Syntax: rawData=string,source=string,timestamp=timestamp,triggerArn=string JSON Syntax: { "rawData": "string", "source": "string", "timestamp": timestamp, "triggerArn": "string" }
+    /// Details of what created the incident record in Incident Manager. rawData -&gt; (string) Raw data passed from either Amazon EventBridge, Amazon CloudWatch, or Incident Manager when an incident is created. Constraints: • min: 0 • max: 10000 source -&gt; (string) [required] Identifies the service that sourced the event. All events sourced from within Amazon Web Services begin with "aws. " Customer-generated events can have any value here, as long as it doesn't begin with "aws. " We recommend the use of Java package-name style reverse domain-name strings. Constraints: • min: 0 • max: 50 timestamp -&gt; (timestamp) [required] The timestamp for when the incident was detected. triggerArn -&gt; (string) The Amazon Resource Name (ARN) of the source that detected the incident. Constraints: • min: 0 • max: 1000 • pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$ Shorthand Syntax: rawData=string,source=string,timestamp=timestamp,triggerArn=string JSON Syntax: { "rawData": "string", "source": "string", "timestamp": timestamp, "triggerArn": "string" }
     /// </summary>
     [CliOption("--trigger-details")]
     public string? TriggerDetails { get; set; }

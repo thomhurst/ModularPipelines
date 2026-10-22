@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsSagemakerUpdateImageVersionOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Updates the properties of a SageMaker AI image version. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ImageName">The name of the image. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}</param>
+    /// <param name="ImageName">The name of the image. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}</param>
     public AwsSagemakerUpdateImageVersionOptions(
         string ImageName
     )
@@ -57,55 +59,55 @@ public record AwsSagemakerUpdateImageVersionOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the image. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}
+    /// The name of the image. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--image-name")]
     public string? ImageName { get; private init; }
 
     /// <summary>
-    /// The alias of the image version. Constraints: o min: 1 o max: 128 o pattern: (?!^[.-])^([a-zA-Z0-9-_.]+)
+    /// The alias of the image version. Constraints: • min: 1 • max: 128 • pattern: (?!^[.-])^([a-zA-Z0-9-_.]+)
     /// </summary>
     [CliOption("--alias")]
     public string? Alias { get; set; }
 
     /// <summary>
-    /// A list of aliases to add. (string) Constraints: o min: 1 o max: 128 o pattern: (?!^[.-])^([a-zA-Z0-9-_.]+) Syntax: "string" "string" ...
+    /// A list of aliases to add. (string) Constraints: • min: 1 • max: 128 • pattern: (?!^[.-])^([a-zA-Z0-9-_.]+) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--aliases-to-add", GroupValues = true)]
     public IEnumerable<string>? AliasesToAdd { get; set; }
 
     /// <summary>
-    /// A list of aliases to delete. (string) Constraints: o min: 1 o max: 128 o pattern: (?!^[.-])^([a-zA-Z0-9-_.]+) Syntax: "string" "string" ...
+    /// A list of aliases to delete. (string) Constraints: • min: 1 • max: 128 • pattern: (?!^[.-])^([a-zA-Z0-9-_.]+) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--aliases-to-delete", GroupValues = true)]
     public IEnumerable<string>? AliasesToDelete { get; set; }
 
     /// <summary>
-    /// The availability of the image version specified by the maintainer. o NOT_PROVIDED : The maintainers did not provide a status for image version stability. o STABLE : The image version is stable. o TO_BE_ARCHIVED : The image version is set to be archived. Custom image versions that are set to be archived are automatically archived after three months. o ARCHIVED : The image version is archived. Archived image versions are not searchable and are no longer actively supported. Possible values: o NOT_PROVIDED o STABLE o TO_BE_ARCHIVED o ARCHIVED
+    /// The availability of the image version specified by the maintainer. • NOT_PROVIDED : The maintainers did not provide a status for image version stability. • STABLE : The image version is stable. • TO_BE_ARCHIVED : The image version is set to be archived. Custom image versions that are set to be archived are automatically archived after three months. • ARCHIVED : The image version is archived. Archived image versions are not searchable and are no longer actively supported. Possible values: • NOT_PROVIDED • STABLE • TO_BE_ARCHIVED • ARCHIVED
     /// </summary>
     [CliOption("--vendor-guidance")]
     public AwsSagemakerUpdateImageVersionVendorGuidance? VendorGuidance { get; set; }
 
     /// <summary>
-    /// Indicates SageMaker AI job type compatibility. o TRAINING : The image version is compatible with SageMaker AI training jobs. o INFERENCE : The image version is compatible with SageMaker AI in- ference jobs. o NOTEBOOK_KERNEL : The image version is compatible with SageMaker AI notebook kernels. Possible values: o TRAINING o INFERENCE o NOTEBOOK_KERNEL
+    /// Indicates SageMaker AI job type compatibility. • TRAINING : The image version is compatible with SageMaker AI training jobs. • INFERENCE : The image version is compatible with SageMaker AI inference jobs. • NOTEBOOK_KERNEL : The image version is compatible with SageMaker AI notebook kernels. Possible values: • TRAINING • INFERENCE • NOTEBOOK_KERNEL
     /// </summary>
     [CliOption("--job-type")]
     public AwsSagemakerUpdateImageVersionJobType? JobType { get; set; }
 
     /// <summary>
-    /// The machine learning framework vended in the image version. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z]+ ?\d+\.\d+(\.\d+)?
+    /// The machine learning framework vended in the image version. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z]+ ?\d+\.\d+(\.\d+)?
     /// </summary>
     [CliOption("--ml-framework")]
     public string? MlFramework { get; set; }
 
     /// <summary>
-    /// The supported programming language and its version. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z]+ ?\d+\.\d+(\.\d+)?
+    /// The supported programming language and its version. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z]+ ?\d+\.\d+(\.\d+)?
     /// </summary>
     [CliOption("--programming-lang")]
     public string? ProgrammingLang { get; set; }
 
     /// <summary>
-    /// Indicates CPU or GPU compatibility. o CPU : The image version is compatible with CPU. o GPU : The image version is compatible with GPU. Possible values: o CPU o GPU
+    /// Indicates CPU or GPU compatibility. • CPU : The image version is compatible with CPU. • GPU : The image version is compatible with GPU. Possible values: • CPU • GPU
     /// </summary>
     [CliOption("--processor")]
     public AwsSagemakerUpdateImageVersionProcessor? Processor { get; set; }
@@ -117,13 +119,13 @@ public record AwsSagemakerUpdateImageVersionOptions : AwsOptions, IValidatableOb
     public bool? Horovod { get; set; }
 
     /// <summary>
-    /// The maintainer description of the image version. Constraints: o min: 1 o max: 255 o pattern: .*
+    /// The maintainer description of the image version. Constraints: • min: 1 • max: 255 • pattern: .*
     /// </summary>
     [CliOption("--release-notes")]
     public string? ReleaseNotes { get; set; }
 
     /// <summary>
-    /// The version of the image. Constraints: o min: 0
+    /// The version of the image. Constraints: • min: 0
     /// </summary>
     [CliOption("--version-number")]
     public int? VersionNumber { get; set; }

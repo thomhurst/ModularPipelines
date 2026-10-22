@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a resource server. After you delete a resource server, users can no longer generate access tokens with scopes that are associate with that resource server. Resource servers are associated with custom scopes and machine-to-ma- chine (M2M) authorization. For more information, see Access control with resource servers . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authori...
+/// Deletes a resource server. After you delete a resource server, users can no longer generate access tokens with scopes that are associate with that resource server. Resource servers are associated with custom scopes and machine-to-machine (M2M) authorization. For more information, see Access control with resource servers . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize r...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsCognitoIdpDeleteResourceServerOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a resource server. After you delete a resource server, users can no longer generate access tokens with scopes that are associate with that resource server. Resource servers are associated with custom scopes and machine-to-ma- chine (M2M) authorization. For more information, see Access control with resource servers . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authori...
+    /// Deletes a resource server. After you delete a resource server, users can no longer generate access tokens with scopes that are associate with that resource server. Resource servers are associated with custom scopes and machine-to-machine (M2M) authorization. For more information, see Access control with resource servers . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize r...
     /// </summary>
-    /// <param name="UserPoolId">The ID of the user pool where you want to delete the resource server. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
-    /// <param name="Identifier">The identifier of the resource server that you want to delete. Constraints: o min: 1 o max: 256 o pattern: [\x21\x23-\x5B\x5D-\x7E]+</param>
+    /// <param name="UserPoolId">The ID of the user pool where you want to delete the resource server. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="Identifier">The identifier of the resource server that you want to delete. Constraints: • min: 1 • max: 256 • pattern: [\x21\x23-\x5B\x5D-\x7E]+</param>
     public AwsCognitoIdpDeleteResourceServerOptions(
         string UserPoolId,
         string Identifier
@@ -60,13 +62,13 @@ public record AwsCognitoIdpDeleteResourceServerOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the user pool where you want to delete the resource server. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// The ID of the user pool where you want to delete the resource server. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--user-pool-id")]
     public string? UserPoolId { get; private init; }
 
     /// <summary>
-    /// The identifier of the resource server that you want to delete. Constraints: o min: 1 o max: 256 o pattern: [\x21\x23-\x5B\x5D-\x7E]+
+    /// The identifier of the resource server that you want to delete. Constraints: • min: 1 • max: 256 • pattern: [\x21\x23-\x5B\x5D-\x7E]+
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }

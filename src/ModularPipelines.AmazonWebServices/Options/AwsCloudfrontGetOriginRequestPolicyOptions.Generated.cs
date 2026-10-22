@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets an origin request policy, including the following metadata: o The policy's identifier. o The date and time when the policy was last modified. To get an origin request policy, you must provide the policy's identi- fier. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistribu- tions or GetDistribution . If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRe- que...
+/// Gets an origin request policy, including the following metadata: • The policy's identifier. • The date and time when the policy was last modified. To get an origin request policy, you must provide the policy's identifier. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution . If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPoli...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsCloudfrontGetOriginRequestPolicyOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets an origin request policy, including the following metadata: o The policy's identifier. o The date and time when the policy was last modified. To get an origin request policy, you must provide the policy's identi- fier. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistribu- tions or GetDistribution . If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRe- que...
+    /// Gets an origin request policy, including the following metadata: • The policy's identifier. • The date and time when the policy was last modified. To get an origin request policy, you must provide the policy's identifier. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution . If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPoli...
     /// </summary>
-    /// <param name="Id">The unique identifier for the origin request policy. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDis- tribution . If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies .</param>
+    /// <param name="Id">The unique identifier for the origin request policy. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution . If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies .</param>
     public AwsCloudfrontGetOriginRequestPolicyOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsCloudfrontGetOriginRequestPolicyOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the origin request policy. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDis- tribution . If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies .
+    /// The unique identifier for the origin request policy. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution . If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies .
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

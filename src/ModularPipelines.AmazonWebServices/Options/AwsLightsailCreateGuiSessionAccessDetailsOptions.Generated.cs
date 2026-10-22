@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsLightsailCreateGuiSessionAccessDetailsOptions : AwsOptions, IVa
     /// <summary>
     /// Creates two URLs that are used to access a virtual computers graphical user interface (GUI) session. The primary URL initiates a web-based Amazon DCV session to the virtual computer's application. The secondary URL initiates a web-based Amazon DCV session to the virtual computer's operating session. Use StartGUISession to open the session. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceName">The resource name. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="ResourceName">The resource name. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailCreateGuiSessionAccessDetailsOptions(
         string ResourceName
     )
@@ -56,7 +58,7 @@ public record AwsLightsailCreateGuiSessionAccessDetailsOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The resource name. Constraints: o pattern: \w[\w\-]*\w
+    /// The resource name. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--resource-name")]
     public string? ResourceName { get; private init; }

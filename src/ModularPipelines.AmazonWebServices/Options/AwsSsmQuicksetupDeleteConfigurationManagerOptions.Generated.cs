@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSsmQuicksetupDeleteConfigurationManagerOptions : AwsOptions, IV
     /// <summary>
     /// Deletes a configuration manager. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ManagerArn">The ID of the configuration manager. Constraints: o pattern: ^arn:aws:ssm-quicksetup:([^:]+):(\d{12}):configura- tion-man- ager/[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$</param>
+    /// <param name="ManagerArn">The ID of the configuration manager. Constraints: • pattern: ^arn:aws:ssm-quicksetup:([^:]+):(\d{12}):configuration-manager/[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$</param>
     public AwsSsmQuicksetupDeleteConfigurationManagerOptions(
         string ManagerArn
     )
@@ -56,7 +58,7 @@ public record AwsSsmQuicksetupDeleteConfigurationManagerOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the configuration manager. Constraints: o pattern: ^arn:aws:ssm-quicksetup:([^:]+):(\d{12}):configura- tion-man- ager/[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$
+    /// The ID of the configuration manager. Constraints: • pattern: ^arn:aws:ssm-quicksetup:([^:]+):(\d{12}):configuration-manager/[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$
     /// </summary>
     [CliOption("--manager-arn")]
     public string? ManagerArn { get; private init; }

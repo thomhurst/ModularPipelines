@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Rebuilds the specified WorkSpace. You cannot rebuild a WorkSpace unless its state is AVAILABLE , ERROR , UNHEALTHY , STOPPED , or REBOOTING . Rebuilding a WorkSpace is a potentially destructive action that can re- sult in the loss of data. For more information, see Rebuild a WorkSpace . This operation is asynchronous and returns before the WorkSpaces have been completely rebuilt. See also: AWS API Documentation
+/// Rebuilds the specified WorkSpace. You cannot rebuild a WorkSpace unless its state is AVAILABLE , ERROR , UNHEALTHY , STOPPED , or REBOOTING . Rebuilding a WorkSpace is a potentially destructive action that can result in the loss of data. For more information, see Rebuild a WorkSpace . This operation is asynchronous and returns before the WorkSpaces have been completely rebuilt. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsWorkspacesRebuildWorkspacesOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Rebuilds the specified WorkSpace. You cannot rebuild a WorkSpace unless its state is AVAILABLE , ERROR , UNHEALTHY , STOPPED , or REBOOTING . Rebuilding a WorkSpace is a potentially destructive action that can re- sult in the loss of data. For more information, see Rebuild a WorkSpace . This operation is asynchronous and returns before the WorkSpaces have been completely rebuilt. See also: AWS API Documentation
+    /// Rebuilds the specified WorkSpace. You cannot rebuild a WorkSpace unless its state is AVAILABLE , ERROR , UNHEALTHY , STOPPED , or REBOOTING . Rebuilding a WorkSpace is a potentially destructive action that can result in the loss of data. For more information, see Rebuild a WorkSpace . This operation is asynchronous and returns before the WorkSpaces have been completely rebuilt. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RebuildWorkspaceRequests">The WorkSpace to rebuild. You can specify a single WorkSpace. Constraints: o min: 1 o max: 1 (structure) Describes the information used to rebuild a WorkSpace. WorkspaceId -&gt; (string) [required] The identifier of the WorkSpace. Constraints: o pattern: ^ws-[0-9a-z]{8,63}$ Shorthand Syntax: --rebuild-workspace-requests WorkspaceId1 JSON Syntax: [ { "WorkspaceId": "string" } ... ]</param>
+    /// <param name="RebuildWorkspaceRequests">The WorkSpace to rebuild. You can specify a single WorkSpace. Constraints: • min: 1 • max: 1 (structure) Describes the information used to rebuild a WorkSpace. WorkspaceId -&gt; (string) [required] The identifier of the WorkSpace. Constraints: • pattern: ^ws-[0-9a-z]{8,63}$ Shorthand Syntax: --rebuild-workspace-requests WorkspaceId1 JSON Syntax: [ { "WorkspaceId": "string" } ... ]</param>
     public AwsWorkspacesRebuildWorkspacesOptions(
         IEnumerable<string> RebuildWorkspaceRequests
     )
@@ -67,7 +69,7 @@ public record AwsWorkspacesRebuildWorkspacesOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The WorkSpace to rebuild. You can specify a single WorkSpace. Constraints: o min: 1 o max: 1 (structure) Describes the information used to rebuild a WorkSpace. WorkspaceId -&gt; (string) [required] The identifier of the WorkSpace. Constraints: o pattern: ^ws-[0-9a-z]{8,63}$ Shorthand Syntax: --rebuild-workspace-requests WorkspaceId1 JSON Syntax: [ { "WorkspaceId": "string" } ... ]
+    /// The WorkSpace to rebuild. You can specify a single WorkSpace. Constraints: • min: 1 • max: 1 (structure) Describes the information used to rebuild a WorkSpace. WorkspaceId -&gt; (string) [required] The identifier of the WorkSpace. Constraints: • pattern: ^ws-[0-9a-z]{8,63}$ Shorthand Syntax: --rebuild-workspace-requests WorkspaceId1 JSON Syntax: [ { "WorkspaceId": "string" } ... ]
     /// </summary>
     [CliOption("--rebuild-workspace-requests", GroupValues = true)]
     public IEnumerable<string>? RebuildWorkspaceRequests { get; private init; }

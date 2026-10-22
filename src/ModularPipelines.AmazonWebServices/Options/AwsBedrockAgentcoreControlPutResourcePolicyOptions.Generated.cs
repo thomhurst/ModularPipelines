@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsBedrockAgentcoreControlPutResourcePolicyOptions : AwsOptions, I
     /// <summary>
     /// Creates or updates a resource-based policy for a resource with the specified resourceArn. NOTE: This feature is currently available only for AgentCore Runtime and Gateway. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource for which to create or update the resource policy. Constraints: o min: 20 o max: 1011</param>
-    /// <param name="Policy">The resource policy to create or update. Constraints: o min: 1 o max: 20480</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource for which to create or update the resource policy. Constraints: • min: 20 • max: 1011</param>
+    /// <param name="Policy">The resource policy to create or update. Constraints: • min: 1 • max: 20480</param>
     public AwsBedrockAgentcoreControlPutResourcePolicyOptions(
         string ResourceArn,
         string Policy
@@ -60,13 +62,13 @@ public record AwsBedrockAgentcoreControlPutResourcePolicyOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource for which to create or update the resource policy. Constraints: o min: 20 o max: 1011
+    /// The Amazon Resource Name (ARN) of the resource for which to create or update the resource policy. Constraints: • min: 20 • max: 1011
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The resource policy to create or update. Constraints: o min: 1 o max: 20480
+    /// The resource policy to create or update. Constraints: • min: 1 • max: 20480
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; private init; }

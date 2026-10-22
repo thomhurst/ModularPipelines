@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Imports a read set from the sequence store. Read set import jobs sup- port a maximum of 100 read sets of different types. Monitor the progress of your read set import job by calling the GetReadSetImportJob API operation. See also: AWS API Documentation
+/// Imports a read set from the sequence store. Read set import jobs support a maximum of 100 read sets of different types. Monitor the progress of your read set import job by calling the GetReadSetImportJob API operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsOmicsStartReadSetImportJobOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Imports a read set from the sequence store. Read set import jobs sup- port a maximum of 100 read sets of different types. Monitor the progress of your read set import job by calling the GetReadSetImportJob API operation. See also: AWS API Documentation
+    /// Imports a read set from the sequence store. Read set import jobs support a maximum of 100 read sets of different types. Monitor the progress of your read set import job by calling the GetReadSetImportJob API operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SequenceStoreId">The read set's sequence store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
-    /// <param name="RoleArn">A service role for the job. Constraints: o min: 20 o max: 2048 o pattern: arn:.*</param>
-    /// <param name="Sources">The job's source files. Constraints: o min: 1 o max: 100 (structure) A source for a read set import job. sourceFiles -&gt; (structure) [required] The source files' location in Amazon S3. source1 -&gt; (string) [required] The location of the first file in Amazon S3. Constraints: o pattern: s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/(.{1,1024}) source2 -&gt; (string) The location of the second file in Amazon S3. Constraints: o pattern: s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/(.{1,1024}) sourceFileType -&gt; (string) [required] The source's file type. Possible values: o FASTQ o BAM o CRAM o UBAM subjectId -&gt; (string) [required] The source's subject ID. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ sampleId -&gt; (string) [required] The source's sample ID. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ generatedFrom -&gt; (string) Where the source originated. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ referenceArn -&gt; (string) The source's reference ARN. Constraints: o min: 1 o max: 127 o pattern: arn:.+ name -&gt; (string) The source's name. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ description -&gt; (string) The source's description. Constraints: o min: 1 o max: 255 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ tags -&gt; (map) The source's tags. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: sourceFiles={source1=string,source2=string},sourceFileType=string,subjectId=string,sampleId=string,generatedFrom=string,referenceArn=string,name=string,description=string,tags={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "sourceFiles": { "source1": "string", "source2": "string" }, "sourceFileType": "FASTQ"|"BAM"|"CRAM"|"UBAM", "subjectId": "string", "sampleId": "string", "generatedFrom": "string", "referenceArn": "string", "name": "string", "description": "string", "tags": {"string": "string" ...} } ... ]</param>
+    /// <param name="SequenceStoreId">The read set's sequence store ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+</param>
+    /// <param name="RoleArn">A service role for the job. Constraints: • min: 20 • max: 2048 • pattern: arn:.*</param>
+    /// <param name="Sources">The job's source files. Constraints: • min: 1 • max: 100 (structure) A source for a read set import job. sourceFiles -&gt; (structure) [required] The source files' location in Amazon S3. source1 -&gt; (string) [required] The location of the first file in Amazon S3. Constraints: • pattern: s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/(.{1,1024}) source2 -&gt; (string) The location of the second file in Amazon S3. Constraints: • pattern: s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/(.{1,1024}) sourceFileType -&gt; (string) [required] The source's file type. Possible values: • FASTQ • BAM • CRAM • UBAM subjectId -&gt; (string) [required] The source's subject ID. Constraints: • min: 1 • max: 127 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ sampleId -&gt; (string) [required] The source's sample ID. Constraints: • min: 1 • max: 127 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ generatedFrom -&gt; (string) Where the source originated. Constraints: • min: 1 • max: 127 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ referenceArn -&gt; (string) The source's reference ARN. Constraints: • min: 1 • max: 127 • pattern: arn:.+ name -&gt; (string) The source's name. Constraints: • min: 1 • max: 127 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ description -&gt; (string) The source's description. Constraints: • min: 1 • max: 255 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ tags -&gt; (map) The source's tags. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: sourceFiles={source1=string,source2=string},sourceFileType=string,subjectId=string,sampleId=string,generatedFrom=string,referenceArn=string,name=string,description=string,tags={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "sourceFiles": { "source1": "string", "source2": "string" }, "sourceFileType": "FASTQ"|"BAM"|"CRAM"|"UBAM", "subjectId": "string", "sampleId": "string", "generatedFrom": "string", "referenceArn": "string", "name": "string", "description": "string", "tags": {"string": "string" ...} } ... ]</param>
     public AwsOmicsStartReadSetImportJobOptions(
         string SequenceStoreId,
         string RoleArn,
@@ -76,25 +78,25 @@ public record AwsOmicsStartReadSetImportJobOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The read set's sequence store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// The read set's sequence store ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+
     /// </summary>
     [CliOption("--sequence-store-id")]
     public string? SequenceStoreId { get; private init; }
 
     /// <summary>
-    /// A service role for the job. Constraints: o min: 20 o max: 2048 o pattern: arn:.*
+    /// A service role for the job. Constraints: • min: 20 • max: 2048 • pattern: arn:.*
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// The job's source files. Constraints: o min: 1 o max: 100 (structure) A source for a read set import job. sourceFiles -&gt; (structure) [required] The source files' location in Amazon S3. source1 -&gt; (string) [required] The location of the first file in Amazon S3. Constraints: o pattern: s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/(.{1,1024}) source2 -&gt; (string) The location of the second file in Amazon S3. Constraints: o pattern: s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/(.{1,1024}) sourceFileType -&gt; (string) [required] The source's file type. Possible values: o FASTQ o BAM o CRAM o UBAM subjectId -&gt; (string) [required] The source's subject ID. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ sampleId -&gt; (string) [required] The source's sample ID. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ generatedFrom -&gt; (string) Where the source originated. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ referenceArn -&gt; (string) The source's reference ARN. Constraints: o min: 1 o max: 127 o pattern: arn:.+ name -&gt; (string) The source's name. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ description -&gt; (string) The source's description. Constraints: o min: 1 o max: 255 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ tags -&gt; (map) The source's tags. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: sourceFiles={source1=string,source2=string},sourceFileType=string,subjectId=string,sampleId=string,generatedFrom=string,referenceArn=string,name=string,description=string,tags={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "sourceFiles": { "source1": "string", "source2": "string" }, "sourceFileType": "FASTQ"|"BAM"|"CRAM"|"UBAM", "subjectId": "string", "sampleId": "string", "generatedFrom": "string", "referenceArn": "string", "name": "string", "description": "string", "tags": {"string": "string" ...} } ... ]
+    /// The job's source files. Constraints: • min: 1 • max: 100 (structure) A source for a read set import job. sourceFiles -&gt; (structure) [required] The source files' location in Amazon S3. source1 -&gt; (string) [required] The location of the first file in Amazon S3. Constraints: • pattern: s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/(.{1,1024}) source2 -&gt; (string) The location of the second file in Amazon S3. Constraints: • pattern: s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/(.{1,1024}) sourceFileType -&gt; (string) [required] The source's file type. Possible values: • FASTQ • BAM • CRAM • UBAM subjectId -&gt; (string) [required] The source's subject ID. Constraints: • min: 1 • max: 127 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ sampleId -&gt; (string) [required] The source's sample ID. Constraints: • min: 1 • max: 127 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ generatedFrom -&gt; (string) Where the source originated. Constraints: • min: 1 • max: 127 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ referenceArn -&gt; (string) The source's reference ARN. Constraints: • min: 1 • max: 127 • pattern: arn:.+ name -&gt; (string) The source's name. Constraints: • min: 1 • max: 127 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ description -&gt; (string) The source's description. Constraints: • min: 1 • max: 255 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ tags -&gt; (map) The source's tags. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: sourceFiles={source1=string,source2=string},sourceFileType=string,subjectId=string,sampleId=string,generatedFrom=string,referenceArn=string,name=string,description=string,tags={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "sourceFiles": { "source1": "string", "source2": "string" }, "sourceFileType": "FASTQ"|"BAM"|"CRAM"|"UBAM", "subjectId": "string", "sampleId": "string", "generatedFrom": "string", "referenceArn": "string", "name": "string", "description": "string", "tags": {"string": "string" ...} } ... ]
     /// </summary>
     [CliOption("--sources", GroupValues = true)]
     public IEnumerable<string>? Sources { get; private init; }
 
     /// <summary>
-    /// To ensure that jobs don't run multiple times, specify a unique token for each job. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// To ensure that jobs don't run multiple times, specify a unique token for each job. Constraints: • min: 1 • max: 127 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

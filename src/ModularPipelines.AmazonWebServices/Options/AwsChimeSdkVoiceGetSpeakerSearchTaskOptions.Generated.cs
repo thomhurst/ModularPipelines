@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsChimeSdkVoiceGetSpeakerSearchTaskOptions : AwsOptions, IValidat
     /// <summary>
     /// Retrieves the details of the specified speaker search task. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VoiceConnectorId">The Voice Connector ID. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
-    /// <param name="SpeakerSearchTaskId">The ID of the speaker search task. Constraints: o min: 1 o max: 256 o pattern: .*\S.*</param>
+    /// <param name="VoiceConnectorId">The Voice Connector ID. Constraints: • pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
+    /// <param name="SpeakerSearchTaskId">The ID of the speaker search task. Constraints: • min: 1 • max: 256 • pattern: .*\S.*</param>
     public AwsChimeSdkVoiceGetSpeakerSearchTaskOptions(
         string VoiceConnectorId,
         string SpeakerSearchTaskId
@@ -60,13 +62,13 @@ public record AwsChimeSdkVoiceGetSpeakerSearchTaskOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Voice Connector ID. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
+    /// The Voice Connector ID. Constraints: • pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
     /// </summary>
     [CliOption("--voice-connector-id")]
     public string? VoiceConnectorId { get; private init; }
 
     /// <summary>
-    /// The ID of the speaker search task. Constraints: o min: 1 o max: 256 o pattern: .*\S.*
+    /// The ID of the speaker search task. Constraints: • min: 1 • max: 256 • pattern: .*\S.*
     /// </summary>
     [CliOption("--speaker-search-task-id")]
     public string? SpeakerSearchTaskId { get; private init; }

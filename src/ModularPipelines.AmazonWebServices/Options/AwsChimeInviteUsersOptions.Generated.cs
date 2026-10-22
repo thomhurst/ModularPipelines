@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sends email to a maximum of 50 users, inviting them to the specified Amazon Chime Team account. Only Team account types are currently sup- ported for this action. See also: AWS API Documentation
+/// Sends email to a maximum of 50 users, inviting them to the specified Amazon Chime Team account. Only Team account types are currently supported for this action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsChimeInviteUsersOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sends email to a maximum of 50 users, inviting them to the specified Amazon Chime Team account. Only Team account types are currently sup- ported for this action. See also: AWS API Documentation
+    /// Sends email to a maximum of 50 users, inviting them to the specified Amazon Chime Team account. Only Team account types are currently supported for this action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Chime account ID. Constraints: o pattern: .*\S.*</param>
-    /// <param name="UserEmailList">The user email addresses to which to send the email invitation. Constraints: o max: 50 (string) Constraints: o pattern: .+@.+\..+ Syntax: "string" "string" ...</param>
+    /// <param name="AccountId">The Amazon Chime account ID. Constraints: • pattern: .*\S.*</param>
+    /// <param name="UserEmailList">The user email addresses to which to send the email invitation. Constraints: • max: 50 (string) Constraints: • pattern: .+@.+\..+ Syntax: "string" "string" ...</param>
     public AwsChimeInviteUsersOptions(
         string AccountId,
         IEnumerable<string> UserEmailList
@@ -72,19 +74,19 @@ public record AwsChimeInviteUsersOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Chime account ID. Constraints: o pattern: .*\S.*
+    /// The Amazon Chime account ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The user email addresses to which to send the email invitation. Constraints: o max: 50 (string) Constraints: o pattern: .+@.+\..+ Syntax: "string" "string" ...
+    /// The user email addresses to which to send the email invitation. Constraints: • max: 50 (string) Constraints: • pattern: .+@.+\..+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--user-email-list", GroupValues = true)]
     public IEnumerable<string>? UserEmailList { get; private init; }
 
     /// <summary>
-    /// The user type. Possible values: o PrivateUser o SharedDevice
+    /// The user type. Possible values: • PrivateUser • SharedDevice
     /// </summary>
     [CliOption("--user-type")]
     public AwsChimeInviteUsersUserType? UserType { get; set; }

@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an S3 access point and attaches it to an Amazon FSx volume. For FSx for OpenZFS file systems, the volume must be hosted on a high-availability file system, either Single-AZ or Multi-AZ. For more information, see Accessing your data using Amazon S3 access points . in the Amazon FSx for OpenZFS User Guide. The requester requires the following permissions to perform these ac- tions: o fsx:CreateAndAttachS3AccessPoint o s3:CreateAccessPoint o s3:GetAccessPoint o s3:PutAccessPointPolicy o s3:...
+/// Creates an S3 access point and attaches it to an Amazon FSx volume. For FSx for OpenZFS file systems, the volume must be hosted on a high-availability file system, either Single-AZ or Multi-AZ. For more information, see Accessing your data using Amazon S3 access points . in the Amazon FSx for OpenZFS User Guide. The requester requires the following permissions to perform these actions: • fsx:CreateAndAttachS3AccessPoint • s3:CreateAccessPoint • s3:GetAccessPoint • s3:PutAccessPointPolicy • s3:De...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +29,10 @@ public record AwsFsxCreateAndAttachS3AccessPointOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an S3 access point and attaches it to an Amazon FSx volume. For FSx for OpenZFS file systems, the volume must be hosted on a high-availability file system, either Single-AZ or Multi-AZ. For more information, see Accessing your data using Amazon S3 access points . in the Amazon FSx for OpenZFS User Guide. The requester requires the following permissions to perform these ac- tions: o fsx:CreateAndAttachS3AccessPoint o s3:CreateAccessPoint o s3:GetAccessPoint o s3:PutAccessPointPolicy o s3:...
+    /// Creates an S3 access point and attaches it to an Amazon FSx volume. For FSx for OpenZFS file systems, the volume must be hosted on a high-availability file system, either Single-AZ or Multi-AZ. For more information, see Accessing your data using Amazon S3 access points . in the Amazon FSx for OpenZFS User Guide. The requester requires the following permissions to perform these actions: • fsx:CreateAndAttachS3AccessPoint • s3:CreateAccessPoint • s3:GetAccessPoint • s3:PutAccessPointPolicy • s3:De...
     /// </summary>
-    /// <param name="Name">The name you want to assign to this S3 access point. Constraints: o min: 3 o max: 50 o pattern: ^(?=[a-z0-9])[a-z0-9-]{1,48}[a-z0-9]$</param>
-    /// <param name="Type">The type of S3 access point you want to create. Only OpenZFS is sup- ported. Possible values: o OPENZFS o ONTAP</param>
+    /// <param name="Name">The name you want to assign to this S3 access point. Constraints: • min: 3 • max: 50 • pattern: ^(?=[a-z0-9])[a-z0-9-]{1,48}[a-z0-9]$</param>
+    /// <param name="Type">The type of S3 access point you want to create. Only OpenZFS is supported. Possible values: • OPENZFS • ONTAP</param>
     public AwsFsxCreateAndAttachS3AccessPointOptions(
         string Name,
         AwsFsxCreateAndAttachS3AccessPointType Type
@@ -61,38 +63,38 @@ public record AwsFsxCreateAndAttachS3AccessPointOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name you want to assign to this S3 access point. Constraints: o min: 3 o max: 50 o pattern: ^(?=[a-z0-9])[a-z0-9-]{1,48}[a-z0-9]$
+    /// The name you want to assign to this S3 access point. Constraints: • min: 3 • max: 50 • pattern: ^(?=[a-z0-9])[a-z0-9-]{1,48}[a-z0-9]$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The type of S3 access point you want to create. Only OpenZFS is sup- ported. Possible values: o OPENZFS o ONTAP
+    /// The type of S3 access point you want to create. Only OpenZFS is supported. Possible values: • OPENZFS • ONTAP
     /// </summary>
     [CliOption("--type")]
     public AwsFsxCreateAndAttachS3AccessPointType? Type { get; private init; }
 
     /// <summary>
-    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Ama- zon Web Services SDK. Constraints: o min: 1 o max: 63 o pattern: [A-za-z0-9_.-]{0,63}$
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK. Constraints: • min: 1 • max: 63 • pattern: [A-za-z0-9_.-]{0,63}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// Specifies the configuration to use when creating and attaching an S3 access point to an FSx for OpenZFS volume. VolumeId -&gt; (string) [required] The ID of the FSx for OpenZFS volume to which you want the S3 access point attached. Constraints: o min: 23 o max: 23 o pattern: ^(fsvol-[0-9a-f]{17,})$ FileSystemIdentity -&gt; (structure) [required] Specifies the file system user identity to use for authorizing file read and write requests that are made using this S3 access point. Type -&gt; (string) [required] Specifies the FSx for OpenZFS user identity type, accepts only POSIX . Possible values: o POSIX PosixUser -&gt; (structure) Specifies the UID and GIDs of the file system POSIX user. Uid -&gt; (long) [required] The UID of the file system user. Constraints: o min: 0 o max: 4294967295 Gid -&gt; (long) [required] The GID of the file system user. Constraints: o min: 0 o max: 4294967295 SecondaryGids -&gt; (list) The list of secondary GIDs for the file system user. Constraints: o max: 15 (long) Constraints: o min: 0 o max: 4294967295 JSON Syntax: { "VolumeId": "string", "FileSystemIdentity": { "Type": "POSIX", "PosixUser": { "Uid": long, "Gid": long, "SecondaryGids": [long, ...] } } }
+    /// Specifies the configuration to use when creating and attaching an S3 access point to an FSx for OpenZFS volume. VolumeId -&gt; (string) [required] The ID of the FSx for OpenZFS volume to which you want the S3 access point attached. Constraints: • min: 23 • max: 23 • pattern: ^(fsvol-[0-9a-f]{17,})$ FileSystemIdentity -&gt; (structure) [required] Specifies the file system user identity to use for authorizing file read and write requests that are made using this S3 access point. Type -&gt; (string) [required] Specifies the FSx for OpenZFS user identity type, accepts only POSIX . Possible values: • POSIX PosixUser -&gt; (structure) Specifies the UID and GIDs of the file system POSIX user. Uid -&gt; (long) [required] The UID of the file system user. Constraints: • min: 0 • max: 4294967295 Gid -&gt; (long) [required] The GID of the file system user. Constraints: • min: 0 • max: 4294967295 SecondaryGids -&gt; (list) The list of secondary GIDs for the file system user. Constraints: • max: 15 (long) Constraints: • min: 0 • max: 4294967295 JSON Syntax: { "VolumeId": "string", "FileSystemIdentity": { "Type": "POSIX", "PosixUser": { "Uid": long, "Gid": long, "SecondaryGids": [long, ...] } } }
     /// </summary>
     [CliOption("--open-zfs-configuration")]
     public string? OpenZfsConfiguration { get; set; }
 
     /// <summary>
-    /// Specifies the FSx for ONTAP volume that the S3 access point will be attached to, and the file system user identity. VolumeId -&gt; (string) [required] The ID of the FSx for ONTAP volume to which you want the S3 ac- cess point attached. Constraints: o min: 23 o max: 23 o pattern: ^(fsvol-[0-9a-f]{17,})$ FileSystemIdentity -&gt; (structure) [required] Specifies the file system user identity to use for authorizing file read and write requests that are made using this S3 access point. Type -&gt; (string) [required] Specifies the FSx for ONTAP user identity type. Valid values are UNIX and WINDOWS . Possible values: o UNIX o WINDOWS UnixUser -&gt; (structure) Specifies the UNIX user identity for file system operations. Name -&gt; (string) [required] The name of the UNIX user. The name can be up to 256 characters long. Constraints: o min: 1 o max: 256 o pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{1,256}$ WindowsUser -&gt; (structure) Specifies the Windows user identity for file system opera- tions. Name -&gt; (string) [required] The name of the Windows user. The name can be up to 256 characters long and supports Active Directory users. Constraints: o min: 1 o max: 256 o pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{1,256}$ Shorthand Syntax: VolumeId=string,FileSystemIdentity={Type=string,UnixUser={Name=string},WindowsUser={Name=string}} JSON Syntax: { "VolumeId": "string", "FileSystemIdentity": { "Type": "UNIX"|"WINDOWS", "UnixUser": { "Name": "string" }, "WindowsUser": { "Name": "string" } } }
+    /// Specifies the FSx for ONTAP volume that the S3 access point will be attached to, and the file system user identity. VolumeId -&gt; (string) [required] The ID of the FSx for ONTAP volume to which you want the S3 access point attached. Constraints: • min: 23 • max: 23 • pattern: ^(fsvol-[0-9a-f]{17,})$ FileSystemIdentity -&gt; (structure) [required] Specifies the file system user identity to use for authorizing file read and write requests that are made using this S3 access point. Type -&gt; (string) [required] Specifies the FSx for ONTAP user identity type. Valid values are UNIX and WINDOWS . Possible values: • UNIX • WINDOWS UnixUser -&gt; (structure) Specifies the UNIX user identity for file system operations. Name -&gt; (string) [required] The name of the UNIX user. The name can be up to 256 characters long. Constraints: • min: 1 • max: 256 • pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{1,256}$ WindowsUser -&gt; (structure) Specifies the Windows user identity for file system operations. Name -&gt; (string) [required] The name of the Windows user. The name can be up to 256 characters long and supports Active Directory users. Constraints: • min: 1 • max: 256 • pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{1,256}$ Shorthand Syntax: VolumeId=string,FileSystemIdentity={Type=string,UnixUser={Name=string},WindowsUser={Name=string}} JSON Syntax: { "VolumeId": "string", "FileSystemIdentity": { "Type": "UNIX"|"WINDOWS", "UnixUser": { "Name": "string" }, "WindowsUser": { "Name": "string" } } }
     /// </summary>
     [CliOption("--ontap-configuration")]
     public string? OntapConfiguration { get; set; }
 
     /// <summary>
-    /// Specifies the virtual private cloud (VPC) configuration if you're creating an access point that is restricted to a VPC. For more in- formation, see Creating access points restricted to a virtual pri- vate cloud . VpcConfiguration -&gt; (structure) If included, Amazon S3 restricts access to this S3 access point to requests made from the specified virtual private cloud (VPC). VpcId -&gt; (string) Specifies the virtual private cloud (VPC) for the S3 access point VPC configuration, if one exists. Constraints: o min: 12 o max: 21 o pattern: ^(vpc-[0-9a-f]{8,})$ Policy -&gt; (string) Specifies an access policy to associate with the S3 access point configuration. For more information, see Configuring IAM poli- cies for using access points in the Amazon Simple Storage Ser- vice User Guide. Constraints: o min: 1 o max: 200000 Shorthand Syntax: VpcConfiguration={VpcId=string},Policy=string JSON Syntax: { "VpcConfiguration": { "VpcId": "string" }, "Policy": "string" }
+    /// Specifies the virtual private cloud (VPC) configuration if you're creating an access point that is restricted to a VPC. For more information, see Creating access points restricted to a virtual private cloud . VpcConfiguration -&gt; (structure) If included, Amazon S3 restricts access to this S3 access point to requests made from the specified virtual private cloud (VPC). VpcId -&gt; (string) Specifies the virtual private cloud (VPC) for the S3 access point VPC configuration, if one exists. Constraints: • min: 12 • max: 21 • pattern: ^(vpc-[0-9a-f]{8,})$ Policy -&gt; (string) Specifies an access policy to associate with the S3 access point configuration. For more information, see Configuring IAM policies for using access points in the Amazon Simple Storage Service User Guide. Constraints: • min: 1 • max: 200000 Shorthand Syntax: VpcConfiguration={VpcId=string},Policy=string JSON Syntax: { "VpcConfiguration": { "VpcId": "string" }, "Policy": "string" }
     /// </summary>
     [CliOption("--s3-access-point")]
     public string? S3AccessPoint { get; set; }

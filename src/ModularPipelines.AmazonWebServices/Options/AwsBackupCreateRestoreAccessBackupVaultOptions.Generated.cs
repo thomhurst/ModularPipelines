@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -63,7 +64,7 @@ public record AwsBackupCreateRestoreAccessBackupVaultOptions : AwsOptions, IVali
     public string? SourceBackupVaultArn { get; private init; }
 
     /// <summary>
-    /// The name of the backup vault to associate with an MPA approval team. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$
+    /// The name of the backup vault to associate with an MPA approval team. Constraints: • pattern: ^[a-zA-Z0-9\-\_]{2,50}$
     /// </summary>
     [CliOption("--backup-vault-name")]
     public string? BackupVaultName { get; set; }
@@ -75,7 +76,7 @@ public record AwsBackupCreateRestoreAccessBackupVaultOptions : AwsOptions, IVali
     public IReadOnlyList<KeyValue>? BackupVaultTags { get; set; }
 
     /// <summary>
-    /// A unique string that identifies the request and allows failed re- quests to be retried without the risk of executing the operation twice.
+    /// A unique string that identifies the request and allows failed requests to be retried without the risk of executing the operation twice.
     /// </summary>
     [CliOption("--creator-request-id")]
     public string? CreatorRequestId { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMailmanagerUpdateArchiveOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Updates the attributes of an existing email archive. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ArchiveId">The identifier of the archive to update. Constraints: o min: 1 o max: 66</param>
+    /// <param name="ArchiveId">The identifier of the archive to update. Constraints: • min: 1 • max: 66</param>
     public AwsMailmanagerUpdateArchiveOptions(
         string ArchiveId
     )
@@ -56,19 +58,19 @@ public record AwsMailmanagerUpdateArchiveOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the archive to update. Constraints: o min: 1 o max: 66
+    /// The identifier of the archive to update. Constraints: • min: 1 • max: 66
     /// </summary>
     [CliOption("--archive-id")]
     public string? ArchiveId { get; private init; }
 
     /// <summary>
-    /// A new, unique name for the archive. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*[a-zA-Z0-9]
+    /// A new, unique name for the archive. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*[a-zA-Z0-9]
     /// </summary>
     [CliOption("--archive-name")]
     public string? ArchiveName { get; set; }
 
     /// <summary>
-    /// A new retention period for emails in the archive. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: RetentionPeriod. RetentionPeriod -&gt; (string) The enum value sets the period for retaining emails in an archive. Possible values: o THREE_MONTHS o SIX_MONTHS o NINE_MONTHS o ONE_YEAR o EIGHTEEN_MONTHS o TWO_YEARS o THIRTY_MONTHS o THREE_YEARS o FOUR_YEARS o FIVE_YEARS o SIX_YEARS o SEVEN_YEARS o EIGHT_YEARS o NINE_YEARS o TEN_YEARS o PERMANENT Shorthand Syntax: RetentionPeriod=string JSON Syntax: { "RetentionPeriod": "THREE_MONTHS"|"SIX_MONTHS"|"NINE_MONTHS"|"ONE_YEAR"|"EIGHTEEN_MONTHS"|"TWO_YEARS"|"THIRTY_MONTHS"|"THREE_YEARS"|"FOUR_YEARS"|"FIVE_YEARS"|"SIX_YEARS"|"SEVEN_YEARS"|"EIGHT_YEARS"|"NINE_YEARS"|"TEN_YEARS"|"PERMANENT" }
+    /// A new retention period for emails in the archive. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: RetentionPeriod. RetentionPeriod -&gt; (string) The enum value sets the period for retaining emails in an archive. Possible values: • THREE_MONTHS • SIX_MONTHS • NINE_MONTHS • ONE_YEAR • EIGHTEEN_MONTHS • TWO_YEARS • THIRTY_MONTHS • THREE_YEARS • FOUR_YEARS • FIVE_YEARS • SIX_YEARS • SEVEN_YEARS • EIGHT_YEARS • NINE_YEARS • TEN_YEARS • PERMANENT Shorthand Syntax: RetentionPeriod=string JSON Syntax: { "RetentionPeriod": "THREE_MONTHS"|"SIX_MONTHS"|"NINE_MONTHS"|"ONE_YEAR"|"EIGHTEEN_MONTHS"|"TWO_YEARS"|"THIRTY_MONTHS"|"THREE_YEARS"|"FOUR_YEARS"|"FIVE_YEARS"|"SIX_YEARS"|"SEVEN_YEARS"|"EIGHT_YEARS"|"NINE_YEARS"|"TEN_YEARS"|"PERMANENT" }
     /// </summary>
     [CliOption("--retention")]
     public string? Retention { get; set; }

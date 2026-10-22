@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDatabrewPublishRecipeOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Publishes a new version of a DataBrew recipe. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the recipe to be published. Constraints: o min: 1 o max: 255</param>
+    /// <param name="Name">The name of the recipe to be published. Constraints: • min: 1 • max: 255</param>
     public AwsDatabrewPublishRecipeOptions(
         string Name
     )
@@ -56,13 +58,13 @@ public record AwsDatabrewPublishRecipeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the recipe to be published. Constraints: o min: 1 o max: 255
+    /// The name of the recipe to be published. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A description of the recipe to be published, for this version of the recipe. Constraints: o max: 1024
+    /// A description of the recipe to be published, for this version of the recipe. Constraints: • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Allows a caller in a secure environment to assume a role with permis- sion to access Amazon S3. In order to vend such credentials, Lake For- mation assumes the role associated with a registered location, for ex- ample an Amazon S3 bucket, with a scope down policy which restricts the access to a single prefix. To call this API, the role that the service assumes must have lakefor- mation:GetDataAccess permission on the resource. See also: AWS API Documentation
+/// Allows a caller in a secure environment to assume a role with permission to access Amazon S3. In order to vend such credentials, Lake Formation assumes the role associated with a registered location, for example an Amazon S3 bucket, with a scope down policy which restricts the access to a single prefix. To call this API, the role that the service assumes must have lakeformation:GetDataAccess permission on the resource. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsLakeformationGetTemporaryGlueTableCredentialsOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Allows a caller in a secure environment to assume a role with permis- sion to access Amazon S3. In order to vend such credentials, Lake For- mation assumes the role associated with a registered location, for ex- ample an Amazon S3 bucket, with a scope down policy which restricts the access to a single prefix. To call this API, the role that the service assumes must have lakefor- mation:GetDataAccess permission on the resource. See also: AWS API Documentation
+    /// Allows a caller in a secure environment to assume a role with permission to access Amazon S3. In order to vend such credentials, Lake Formation assumes the role associated with a registered location, for example an Amazon S3 bucket, with a scope down policy which restricts the access to a single prefix. To call this API, the role that the service assumes must have lakeformation:GetDataAccess permission on the resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="TableArn">The ARN identifying a table in the Data Catalog for the temporary credentials request.</param>
     public AwsLakeformationGetTemporaryGlueTableCredentialsOptions(
@@ -62,25 +64,25 @@ public record AwsLakeformationGetTemporaryGlueTableCredentialsOptions : AwsOptio
     public string? TableArn { get; private init; }
 
     /// <summary>
-    /// Filters the request based on the user having been granted a list of specified permissions on the requested resource(s). (string) Possible values: o ALL o SELECT o ALTER o DROP o DELETE o INSERT o DESCRIBE o CREATE_DATABASE o CREATE_TABLE o DATA_LOCATION_ACCESS o CREATE_LF_TAG o ASSOCIATE o GRANT_WITH_LF_TAG_EXPRESSION o CREATE_LF_TAG_EXPRESSION o CREATE_CATALOG o SUPER_USER Syntax: "string" "string" ...
+    /// Filters the request based on the user having been granted a list of specified permissions on the requested resource(s). (string) Possible values: • ALL • SELECT • ALTER • DROP • DELETE • INSERT • DESCRIBE • CREATE_DATABASE • CREATE_TABLE • DATA_LOCATION_ACCESS • CREATE_LF_TAG • ASSOCIATE • GRANT_WITH_LF_TAG_EXPRESSION • CREATE_LF_TAG_EXPRESSION • CREATE_CATALOG • SUPER_USER Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--permissions", GroupValues = true)]
     public IEnumerable<string>? Permissions { get; set; }
 
     /// <summary>
-    /// The time period, between 900 and 21,600 seconds, for the timeout of the temporary credentials. Constraints: o min: 900 o max: 43200
+    /// The time period, between 900 and 21,600 seconds, for the timeout of the temporary credentials. Constraints: • min: 900 • max: 43200
     /// </summary>
     [CliOption("--duration-seconds")]
     public int? DurationSeconds { get; set; }
 
     /// <summary>
-    /// A structure representing context to access a resource (column names, query ID, etc). AdditionalAuditContext -&gt; (string) The filter engine can populate the 'AdditionalAuditContext' in- formation with the request ID for you to track. This information will be displayed in CloudTrail log in your account. Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Shorthand Syntax: AdditionalAuditContext=string JSON Syntax: { "AdditionalAuditContext": "string" }
+    /// A structure representing context to access a resource (column names, query ID, etc). AdditionalAuditContext -&gt; (string) The filter engine can populate the 'AdditionalAuditContext' information with the request ID for you to track. This information will be displayed in CloudTrail log in your account. Constraints: • min: 0 • max: 2048 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Shorthand Syntax: AdditionalAuditContext=string JSON Syntax: { "AdditionalAuditContext": "string" }
     /// </summary>
     [CliOption("--audit-context")]
     public string? AuditContext { get; set; }
 
     /// <summary>
-    /// A list of supported permission types for the table. Valid values are COLUMN_PERMISSION and CELL_FILTER_PERMISSION . Constraints: o min: 1 o max: 255 (string) Possible values: o COLUMN_PERMISSION o CELL_FILTER_PERMISSION o NESTED_PERMISSION o NESTED_CELL_PERMISSION Syntax: "string" "string" ...
+    /// A list of supported permission types for the table. Valid values are COLUMN_PERMISSION and CELL_FILTER_PERMISSION . Constraints: • min: 1 • max: 255 (string) Possible values: • COLUMN_PERMISSION • CELL_FILTER_PERMISSION • NESTED_PERMISSION • NESTED_CELL_PERMISSION Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--supported-permission-types", GroupValues = true)]
     public IEnumerable<string>? SupportedPermissionTypes { get; set; }
@@ -92,7 +94,7 @@ public record AwsLakeformationGetTemporaryGlueTableCredentialsOptions : AwsOptio
     public string? S3Path { get; set; }
 
     /// <summary>
-    /// A structure used as a protocol between query engines and Lake Forma- tion or Glue. Contains both a Lake Formation generated authorization identifier and information from the request's authorization context. QueryId -&gt; (string) A unique identifier generated by the query engine for the query. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* QueryStartTime -&gt; (timestamp) A timestamp provided by the query engine for when the query started. ClusterId -&gt; (string) An identifier string for the consumer cluster. QueryAuthorizationId -&gt; (string) A cryptographically generated query identifier generated by Glue or Lake Formation. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* AdditionalContext -&gt; (map) An opaque string-string map passed by the query engine. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: QueryId=string,QueryStartTime=timestamp,ClusterId=string,QueryAuthorizationId=string,AdditionalContext={KeyName1=string,KeyName2=string} JSON Syntax: { "QueryId": "string", "QueryStartTime": timestamp, "ClusterId": "string", "QueryAuthorizationId": "string", "AdditionalContext": {"string": "string" ...} }
+    /// A structure used as a protocol between query engines and Lake Formation or Glue. Contains both a Lake Formation generated authorization identifier and information from the request's authorization context. QueryId -&gt; (string) A unique identifier generated by the query engine for the query. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* QueryStartTime -&gt; (timestamp) A timestamp provided by the query engine for when the query started. ClusterId -&gt; (string) An identifier string for the consumer cluster. QueryAuthorizationId -&gt; (string) A cryptographically generated query identifier generated by Glue or Lake Formation. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* AdditionalContext -&gt; (map) An opaque string-string map passed by the query engine. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: QueryId=string,QueryStartTime=timestamp,ClusterId=string,QueryAuthorizationId=string,AdditionalContext={KeyName1=string,KeyName2=string} JSON Syntax: { "QueryId": "string", "QueryStartTime": timestamp, "ClusterId": "string", "QueryAuthorizationId": "string", "AdditionalContext": {"string": "string" ...} }
     /// </summary>
     [CliOption("--query-session-context")]
     public string? QuerySessionContext { get; set; }

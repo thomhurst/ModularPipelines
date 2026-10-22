@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsPartnercentralSellingGetAwsOpportunitySummaryOptions : AwsOptio
     /// <summary>
     /// Retrieves a summary of an AWS Opportunity. This summary includes high-level details about the opportunity sourced from AWS, such as lifecycle information, customer details, and involvement type. It is useful for tracking updates on the AWS opportunity corresponding to an opportunity in the partner's account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">Specifies the catalog in which the AWS Opportunity is located. Ac- cepted values include AWS for production opportunities or Sandbox for testing purposes. The catalog determines which environment the opportunity data is pulled from. Constraints: o pattern: [a-zA-Z]+</param>
-    /// <param name="RelatedOpportunityIdentifier">The unique identifier for the related partner opportunity. Use this field to correlate an AWS opportunity with its corresponding partner opportunity. Constraints: o pattern: O[0-9]{1,19}</param>
+    /// <param name="Catalog">Specifies the catalog in which the AWS Opportunity is located. Accepted values include AWS for production opportunities or Sandbox for testing purposes. The catalog determines which environment the opportunity data is pulled from. Constraints: • pattern: [a-zA-Z]+</param>
+    /// <param name="RelatedOpportunityIdentifier">The unique identifier for the related partner opportunity. Use this field to correlate an AWS opportunity with its corresponding partner opportunity. Constraints: • pattern: O[0-9]{1,19}</param>
     public AwsPartnercentralSellingGetAwsOpportunitySummaryOptions(
         string Catalog,
         string RelatedOpportunityIdentifier
@@ -60,13 +62,13 @@ public record AwsPartnercentralSellingGetAwsOpportunitySummaryOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the catalog in which the AWS Opportunity is located. Ac- cepted values include AWS for production opportunities or Sandbox for testing purposes. The catalog determines which environment the opportunity data is pulled from. Constraints: o pattern: [a-zA-Z]+
+    /// Specifies the catalog in which the AWS Opportunity is located. Accepted values include AWS for production opportunities or Sandbox for testing purposes. The catalog determines which environment the opportunity data is pulled from. Constraints: • pattern: [a-zA-Z]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the related partner opportunity. Use this field to correlate an AWS opportunity with its corresponding partner opportunity. Constraints: o pattern: O[0-9]{1,19}
+    /// The unique identifier for the related partner opportunity. Use this field to correlate an AWS opportunity with its corresponding partner opportunity. Constraints: • pattern: O[0-9]{1,19}
     /// </summary>
     [CliOption("--related-opportunity-identifier")]
     public string? RelatedOpportunityIdentifier { get; private init; }

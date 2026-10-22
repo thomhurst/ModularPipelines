@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the association between a queue and a limit. You must use the UpdateQueueLimitAssociation operation to set the status to STOP_LIMIT_USAGE_AND_COMPLETE_TASKS or STOP_LIMIT_USAGE_AND_CAN- CEL_TASKS . The status does not change immediately. Use the GetQueue- LimitAssociation operation to see if the status changed to STOPPED be- fore deleting the association. See also: AWS API Documentation
+/// Removes the association between a queue and a limit. You must use the UpdateQueueLimitAssociation operation to set the status to STOP_LIMIT_USAGE_AND_COMPLETE_TASKS or STOP_LIMIT_USAGE_AND_CANCEL_TASKS . The status does not change immediately. Use the GetQueueLimitAssociation operation to see if the status changed to STOPPED before deleting the association. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsDeadlineDeleteQueueLimitAssociationOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the association between a queue and a limit. You must use the UpdateQueueLimitAssociation operation to set the status to STOP_LIMIT_USAGE_AND_COMPLETE_TASKS or STOP_LIMIT_USAGE_AND_CAN- CEL_TASKS . The status does not change immediately. Use the GetQueue- LimitAssociation operation to see if the status changed to STOPPED be- fore deleting the association. See also: AWS API Documentation
+    /// Removes the association between a queue and a limit. You must use the UpdateQueueLimitAssociation operation to set the status to STOP_LIMIT_USAGE_AND_COMPLETE_TASKS or STOP_LIMIT_USAGE_AND_CANCEL_TASKS . The status does not change immediately. Use the GetQueueLimitAssociation operation to see if the status changed to STOPPED before deleting the association. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The unique identifier of the farm that contains the queue and limit to disassociate. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="QueueId">The unique identifier of the queue to disassociate. Constraints: o pattern: queue-[0-9a-f]{32}</param>
-    /// <param name="LimitId">The unique identifier of the limit to disassociate. Constraints: o pattern: limit-[0-9a-f]{32}</param>
+    /// <param name="FarmId">The unique identifier of the farm that contains the queue and limit to disassociate. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="QueueId">The unique identifier of the queue to disassociate. Constraints: • pattern: queue-[0-9a-f]{32}</param>
+    /// <param name="LimitId">The unique identifier of the limit to disassociate. Constraints: • pattern: limit-[0-9a-f]{32}</param>
     public AwsDeadlineDeleteQueueLimitAssociationOptions(
         string FarmId,
         string QueueId,
@@ -64,19 +66,19 @@ public record AwsDeadlineDeleteQueueLimitAssociationOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the farm that contains the queue and limit to disassociate. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The unique identifier of the farm that contains the queue and limit to disassociate. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the queue to disassociate. Constraints: o pattern: queue-[0-9a-f]{32}
+    /// The unique identifier of the queue to disassociate. Constraints: • pattern: queue-[0-9a-f]{32}
     /// </summary>
     [CliOption("--queue-id")]
     public string? QueueId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the limit to disassociate. Constraints: o pattern: limit-[0-9a-f]{32}
+    /// The unique identifier of the limit to disassociate. Constraints: • pattern: limit-[0-9a-f]{32}
     /// </summary>
     [CliOption("--limit-id")]
     public string? LimitId { get; private init; }

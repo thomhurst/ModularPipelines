@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the existing signaling channel. This is an asynchronous opera- tion and takes time to complete. If the MessageTtlSeconds value is updated (either increased or re- duced), it only applies to new messages sent via this channel after it's been updated. Existing messages are still expired as per the pre- vious MessageTtlSeconds value. See also: AWS API Documentation
+/// Updates the existing signaling channel. This is an asynchronous operation and takes time to complete. If the MessageTtlSeconds value is updated (either increased or reduced), it only applies to new messages sent via this channel after it's been updated. Existing messages are still expired as per the previous MessageTtlSeconds value. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsKinesisvideoUpdateSignalingChannelOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the existing signaling channel. This is an asynchronous opera- tion and takes time to complete. If the MessageTtlSeconds value is updated (either increased or re- duced), it only applies to new messages sent via this channel after it's been updated. Existing messages are still expired as per the pre- vious MessageTtlSeconds value. See also: AWS API Documentation
+    /// Updates the existing signaling channel. This is an asynchronous operation and takes time to complete. If the MessageTtlSeconds value is updated (either increased or reduced), it only applies to new messages sent via this channel after it's been updated. Existing messages are still expired as per the previous MessageTtlSeconds value. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ChannelArn">The Amazon Resource Name (ARN) of the signaling channel that you want to update. Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+</param>
-    /// <param name="CurrentVersion">The current version of the signaling channel that you want to up- date. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]+</param>
+    /// <param name="ChannelArn">The Amazon Resource Name (ARN) of the signaling channel that you want to update. Constraints: • min: 1 • max: 1024 • pattern: arn:[a-z\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+</param>
+    /// <param name="CurrentVersion">The current version of the signaling channel that you want to update. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9]+</param>
     public AwsKinesisvideoUpdateSignalingChannelOptions(
         string ChannelArn,
         string CurrentVersion
@@ -60,19 +62,19 @@ public record AwsKinesisvideoUpdateSignalingChannelOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the signaling channel that you want to update. Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
+    /// The Amazon Resource Name (ARN) of the signaling channel that you want to update. Constraints: • min: 1 • max: 1024 • pattern: arn:[a-z\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
     /// </summary>
     [CliOption("--channel-arn")]
     public string? ChannelArn { get; private init; }
 
     /// <summary>
-    /// The current version of the signaling channel that you want to up- date. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]+
+    /// The current version of the signaling channel that you want to update. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9]+
     /// </summary>
     [CliOption("--current-version")]
     public string? CurrentVersion { get; private init; }
 
     /// <summary>
-    /// The structure containing the configuration for the SINGLE_MASTER type of the signaling channel that you want to update. This parame- ter and the channel message's time-to-live are required for channels with the SINGLE_MASTER channel type. MessageTtlSeconds -&gt; (integer) The period of time (in seconds) a signaling channel retains un- delivered messages before they are discarded. Use to update this value. Constraints: o min: 5 o max: 120 Shorthand Syntax: MessageTtlSeconds=integer JSON Syntax: { "MessageTtlSeconds": integer }
+    /// The structure containing the configuration for the SINGLE_MASTER type of the signaling channel that you want to update. This parameter and the channel message's time-to-live are required for channels with the SINGLE_MASTER channel type. MessageTtlSeconds -&gt; (integer) The period of time (in seconds) a signaling channel retains undelivered messages before they are discarded. Use to update this value. Constraints: • min: 5 • max: 120 Shorthand Syntax: MessageTtlSeconds=integer JSON Syntax: { "MessageTtlSeconds": integer }
     /// </summary>
     [CliOption("--single-master-configuration")]
     public string? SingleMasterConfiguration { get; set; }

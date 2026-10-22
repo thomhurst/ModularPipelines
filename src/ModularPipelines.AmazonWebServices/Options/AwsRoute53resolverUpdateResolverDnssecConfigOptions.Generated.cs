@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an existing DNSSEC validation configuration. If there is no ex- isting DNSSEC validation configuration, one is created. See also: AWS API Documentation
+/// Updates an existing DNSSEC validation configuration. If there is no existing DNSSEC validation configuration, one is created. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsRoute53resolverUpdateResolverDnssecConfigOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an existing DNSSEC validation configuration. If there is no ex- isting DNSSEC validation configuration, one is created. See also: AWS API Documentation
+    /// Updates an existing DNSSEC validation configuration. If there is no existing DNSSEC validation configuration, one is created. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceId">The ID of the virtual private cloud (VPC) that you're updating the DNSSEC validation status for. Constraints: o min: 1 o max: 64</param>
-    /// <param name="Validation">The new value that you are specifying for DNSSEC validation for the VPC. The value can be ENABLE or DISABLE . Be aware that it can take time for a validation status change to be completed. Possible values: o ENABLE o DISABLE o USE_LOCAL_RESOURCE_SETTING</param>
+    /// <param name="ResourceId">The ID of the virtual private cloud (VPC) that you're updating the DNSSEC validation status for. Constraints: • min: 1 • max: 64</param>
+    /// <param name="Validation">The new value that you are specifying for DNSSEC validation for the VPC. The value can be ENABLE or DISABLE . Be aware that it can take time for a validation status change to be completed. Possible values: • ENABLE • DISABLE • USE_LOCAL_RESOURCE_SETTING</param>
     public AwsRoute53resolverUpdateResolverDnssecConfigOptions(
         string ResourceId,
         AwsRoute53resolverUpdateResolverDnssecConfigValidation Validation
@@ -60,13 +62,13 @@ public record AwsRoute53resolverUpdateResolverDnssecConfigOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the virtual private cloud (VPC) that you're updating the DNSSEC validation status for. Constraints: o min: 1 o max: 64
+    /// The ID of the virtual private cloud (VPC) that you're updating the DNSSEC validation status for. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// The new value that you are specifying for DNSSEC validation for the VPC. The value can be ENABLE or DISABLE . Be aware that it can take time for a validation status change to be completed. Possible values: o ENABLE o DISABLE o USE_LOCAL_RESOURCE_SETTING
+    /// The new value that you are specifying for DNSSEC validation for the VPC. The value can be ENABLE or DISABLE . Be aware that it can take time for a validation status change to be completed. Possible values: • ENABLE • DISABLE • USE_LOCAL_RESOURCE_SETTING
     /// </summary>
     [CliOption("--validation")]
     public AwsRoute53resolverUpdateResolverDnssecConfigValidation? Validation { get; private init; }

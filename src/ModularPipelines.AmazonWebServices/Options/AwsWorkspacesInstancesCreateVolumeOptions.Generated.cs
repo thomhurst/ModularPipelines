@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +31,7 @@ public record AwsWorkspacesInstancesCreateVolumeOptions : AwsOptions, IValidatab
     /// <summary>
     /// Creates a new volume for WorkSpace Instances. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AvailabilityZone">Availability zone for the volume. Constraints: o min: 0 o max: 64</param>
+    /// <param name="AvailabilityZone">Availability zone for the volume. Constraints: • min: 0 • max: 64</param>
     public AwsWorkspacesInstancesCreateVolumeOptions(
         string AvailabilityZone
     )
@@ -58,13 +60,13 @@ public record AwsWorkspacesInstancesCreateVolumeOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Availability zone for the volume. Constraints: o min: 0 o max: 64
+    /// Availability zone for the volume. Constraints: • min: 0 • max: 64
     /// </summary>
     [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; private init; }
 
     /// <summary>
-    /// Unique token to prevent duplicate volume creation. Constraints: o min: 1 o max: 64 o pattern: [\x20-\x7E]+
+    /// Unique token to prevent duplicate volume creation. Constraints: • min: 1 • max: 64 • pattern: [\x20-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -77,43 +79,43 @@ public record AwsWorkspacesInstancesCreateVolumeOptions : AwsOptions, IValidatab
     public bool? Encrypted { get; set; }
 
     /// <summary>
-    /// Input/output operations per second for the volume. Constraints: o min: 0
+    /// Input/output operations per second for the volume. Constraints: • min: 0
     /// </summary>
     [CliOption("--iops")]
     public int? Iops { get; set; }
 
     /// <summary>
-    /// KMS key for volume encryption. Constraints: o min: 0 o max: 128
+    /// KMS key for volume encryption. Constraints: • min: 0 • max: 128
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// Volume size in gigabytes. Constraints: o min: 0
+    /// Volume size in gigabytes. Constraints: • min: 0
     /// </summary>
     [CliOption("--size-in-gb")]
     public int? SizeInGb { get; set; }
 
     /// <summary>
-    /// Source snapshot for volume creation. Constraints: o pattern: snap-[0-9a-zA-Z]{1,63}
+    /// Source snapshot for volume creation. Constraints: • pattern: snap-[0-9a-zA-Z]{1,63}
     /// </summary>
     [CliOption("--snapshot-id")]
     public string? SnapshotId { get; set; }
 
     /// <summary>
-    /// Metadata tags for the volume. Constraints: o min: 0 o max: 30 (structure) Defines tagging configuration for a resource. ResourceType -&gt; (string) Type of resource being tagged. Possible values: o instance o volume o spot-instances-request o network-interface Tags -&gt; (list) Collection of tags for the specified resource. Constraints: o min: 0 o max: 50 (structure) Represents a key-value metadata tag. Key -&gt; (string) Unique identifier for the tag. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]+) Value -&gt; (string) Value associated with the tag key. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: ResourceType=string,Tags=[{Key=string,Value=string},{Key=string,Value=string}] ... JSON Syntax: [ { "ResourceType": "instance"|"volume"|"spot-instances-request"|"network-interface", "Tags": [ { "Key": "string", "Value": "string" } ... ] } ... ]
+    /// Metadata tags for the volume. Constraints: • min: 0 • max: 30 (structure) Defines tagging configuration for a resource. ResourceType -&gt; (string) Type of resource being tagged. Possible values: • instance • volume • spot-instances-request • network-interface Tags -&gt; (list) Collection of tags for the specified resource. Constraints: • min: 0 • max: 50 (structure) Represents a key-value metadata tag. Key -&gt; (string) Unique identifier for the tag. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]+) Value -&gt; (string) Value associated with the tag key. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: ResourceType=string,Tags=[{Key=string,Value=string},{Key=string,Value=string}] ... JSON Syntax: [ { "ResourceType": "instance"|"volume"|"spot-instances-request"|"network-interface", "Tags": [ { "Key": "string", "Value": "string" } ... ] } ... ]
     /// </summary>
     [CliOption("--tag-specifications", GroupValues = true)]
     public IEnumerable<string>? TagSpecifications { get; set; }
 
     /// <summary>
-    /// Volume throughput performance. Constraints: o min: 0
+    /// Volume throughput performance. Constraints: • min: 0
     /// </summary>
     [CliOption("--throughput")]
     public int? Throughput { get; set; }
 
     /// <summary>
-    /// Type of EBS volume. Possible values: o standard o io1 o io2 o gp2 o sc1 o st1 o gp3
+    /// Type of EBS volume. Possible values: • standard • io1 • io2 • gp2 • sc1 • st1 • gp3
     /// </summary>
     [CliOption("--volume-type")]
     public AwsWorkspacesInstancesCreateVolumeVolumeType? VolumeType { get; set; }

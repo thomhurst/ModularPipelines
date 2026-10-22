@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation is not supported by directory buckets. Creates or replaces resource policy for an Object Lambda Access Point. For an example policy, see Creating Object Lambda Access Points in the Amazon S3 User Guide . The following actions are related to PutAccessPointPolicyForObject- Lambda : o DeleteAccessPointPolicyForObjectLambda o GetAccessPointPolicyForObjectLambda See also: AWS API Documentation
+/// NOTE: This operation is not supported by directory buckets. Creates or replaces resource policy for an Object Lambda Access Point. For an example policy, see Creating Object Lambda Access Points in the Amazon S3 User Guide . The following actions are related to PutAccessPointPolicyForObjectLambda : • DeleteAccessPointPolicyForObjectLambda • GetAccessPointPolicyForObjectLambda See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsS3controlPutAccessPointPolicyForObjectLambdaOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation is not supported by directory buckets. Creates or replaces resource policy for an Object Lambda Access Point. For an example policy, see Creating Object Lambda Access Points in the Amazon S3 User Guide . The following actions are related to PutAccessPointPolicyForObject- Lambda : o DeleteAccessPointPolicyForObjectLambda o GetAccessPointPolicyForObjectLambda See also: AWS API Documentation
+    /// NOTE: This operation is not supported by directory buckets. Creates or replaces resource policy for an Object Lambda Access Point. For an example policy, see Creating Object Lambda Access Points in the Amazon S3 User Guide . The following actions are related to PutAccessPointPolicyForObjectLambda : • DeleteAccessPointPolicyForObjectLambda • GetAccessPointPolicyForObjectLambda See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The account ID for the account that owns the specified Object Lambda Access Point. Constraints: o max: 64 o pattern: ^\d{12}$</param>
-    /// <param name="Name">The name of the Object Lambda Access Point. Constraints: o min: 3 o max: 45 o pattern: ^[a-z0-9]([a-z0-9\-]*[a-z0-9])?$</param>
+    /// <param name="AccountId">The account ID for the account that owns the specified Object Lambda Access Point. Constraints: • max: 64 • pattern: ^\d{12}$</param>
+    /// <param name="Name">The name of the Object Lambda Access Point. Constraints: • min: 3 • max: 45 • pattern: ^[a-z0-9]([a-z0-9\-]*[a-z0-9])?$</param>
     /// <param name="Policy">Object Lambda Access Point resource policy document.</param>
     public AwsS3controlPutAccessPointPolicyForObjectLambdaOptions(
         string AccountId,
@@ -64,13 +66,13 @@ public record AwsS3controlPutAccessPointPolicyForObjectLambdaOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The account ID for the account that owns the specified Object Lambda Access Point. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The account ID for the account that owns the specified Object Lambda Access Point. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The name of the Object Lambda Access Point. Constraints: o min: 3 o max: 45 o pattern: ^[a-z0-9]([a-z0-9\-]*[a-z0-9])?$
+    /// The name of the Object Lambda Access Point. Constraints: • min: 3 • max: 45 • pattern: ^[a-z0-9]([a-z0-9\-]*[a-z0-9])?$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

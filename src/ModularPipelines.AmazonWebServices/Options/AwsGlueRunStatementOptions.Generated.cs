@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsGlueRunStatementOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Executes the statement. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SessionId">The Session Id of the statement to be run. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="Code">The statement code to be run. Constraints: o max: 68000</param>
+    /// <param name="SessionId">The Session Id of the statement to be run. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="Code">The statement code to be run. Constraints: • max: 68000</param>
     public AwsGlueRunStatementOptions(
         string SessionId,
         string Code
@@ -60,19 +62,19 @@ public record AwsGlueRunStatementOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Session Id of the statement to be run. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The Session Id of the statement to be run. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }
 
     /// <summary>
-    /// The statement code to be run. Constraints: o max: 68000
+    /// The statement code to be run. Constraints: • max: 68000
     /// </summary>
     [CliOption("--code")]
     public string? Code { get; private init; }
 
     /// <summary>
-    /// The origin of the request. Constraints: o min: 1 o max: 128 o pattern: [\.\-_A-Za-z0-9]+
+    /// The origin of the request. Constraints: • min: 1 • max: 128 • pattern: [\.\-_A-Za-z0-9]+
     /// </summary>
     [CliOption("--request-origin")]
     public string? RequestOrigin { get; set; }

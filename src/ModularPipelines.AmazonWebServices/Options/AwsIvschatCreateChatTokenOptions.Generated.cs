@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an encrypted token that is used by a chat participant to estab- lish an individual WebSocket chat connection to a room. When the token is used to connect to chat, the connection is valid for the session du- ration specified in the request. The token becomes invalid at the to- ken-expiration timestamp included in the response. Use the capabilities field to permit an end user to send messages or moderate a room. The attributes field securely attaches structured data to the chat ses- sion; ...
+/// Creates an encrypted token that is used by a chat participant to establish an individual WebSocket chat connection to a room. When the token is used to connect to chat, the connection is valid for the session duration specified in the request. The token becomes invalid at the token-expiration timestamp included in the response. Use the capabilities field to permit an end user to send messages or moderate a room. The attributes field securely attaches structured data to the chat session; the data...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsIvschatCreateChatTokenOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an encrypted token that is used by a chat participant to estab- lish an individual WebSocket chat connection to a room. When the token is used to connect to chat, the connection is valid for the session du- ration specified in the request. The token becomes invalid at the to- ken-expiration timestamp included in the response. Use the capabilities field to permit an end user to send messages or moderate a room. The attributes field securely attaches structured data to the chat ses- sion; ...
+    /// Creates an encrypted token that is used by a chat participant to establish an individual WebSocket chat connection to a room. When the token is used to connect to chat, the connection is valid for the session duration specified in the request. The token becomes invalid at the token-expiration timestamp included in the response. Use the capabilities field to permit an end user to send messages or moderate a room. The attributes field securely attaches structured data to the chat session; the data...
     /// </summary>
-    /// <param name="RoomIdentifier">Identifier of the room that the client is trying to access. Cur- rently this must be an ARN. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivschat:[a-z0-9-]+:[0-9]+:room/[a-zA-Z0-9-]+</param>
-    /// <param name="UserId">Application-provided ID that uniquely identifies the user associated with this token. This can be any UTF-8 encoded text. Constraints: o min: 1 o max: 128</param>
+    /// <param name="RoomIdentifier">Identifier of the room that the client is trying to access. Currently this must be an ARN. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivschat:[a-z0-9-]+:[0-9]+:room/[a-zA-Z0-9-]+</param>
+    /// <param name="UserId">Application-provided ID that uniquely identifies the user associated with this token. This can be any UTF-8 encoded text. Constraints: • min: 1 • max: 128</param>
     public AwsIvschatCreateChatTokenOptions(
         string RoomIdentifier,
         string UserId
@@ -61,25 +62,25 @@ public record AwsIvschatCreateChatTokenOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifier of the room that the client is trying to access. Cur- rently this must be an ARN. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivschat:[a-z0-9-]+:[0-9]+:room/[a-zA-Z0-9-]+
+    /// Identifier of the room that the client is trying to access. Currently this must be an ARN. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivschat:[a-z0-9-]+:[0-9]+:room/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--room-identifier")]
     public string? RoomIdentifier { get; private init; }
 
     /// <summary>
-    /// Application-provided ID that uniquely identifies the user associated with this token. This can be any UTF-8 encoded text. Constraints: o min: 1 o max: 128
+    /// Application-provided ID that uniquely identifies the user associated with this token. This can be any UTF-8 encoded text. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; private init; }
 
     /// <summary>
-    /// Set of capabilities that the user is allowed to perform in the room. Default: None (the capability to view messages is implicitly in- cluded in all requests). (string) Possible values: o SEND_MESSAGE o DISCONNECT_USER o DELETE_MESSAGE Syntax: "string" "string" ...
+    /// Set of capabilities that the user is allowed to perform in the room. Default: None (the capability to view messages is implicitly included in all requests). (string) Possible values: • SEND_MESSAGE • DISCONNECT_USER • DELETE_MESSAGE Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--capabilities", GroupValues = true)]
     public IEnumerable<string>? Capabilities { get; set; }
 
     /// <summary>
-    /// Session duration (in minutes), after which the session expires. De- fault: 60 (1 hour). Constraints: o min: 1 o max: 180
+    /// Session duration (in minutes), after which the session expires. Default: 60 (1 hour). Constraints: • min: 1 • max: 180
     /// </summary>
     [CliOption("--session-duration-in-minutes")]
     public int? SessionDurationInMinutes { get; set; }

@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new pipeline in the specified workspace. A pipeline defines a directed acyclic graph (DAG) of compute nodes, where each node refer- ences a task and can declare dependencies on other nodes. Cyclic depen- dencies are not allowed. Nodes without dependencies run in parallel, while nodes with dependencies wait for all upstream nodes to complete successfully before starting. You can set environment variables at the pipeline level that are shared across all compute nodes, and override them a...
+/// Creates a new pipeline in the specified workspace. A pipeline defines a directed acyclic graph (DAG) of compute nodes, where each node references a task and can declare dependencies on other nodes. Cyclic dependencies are not allowed. Nodes without dependencies run in parallel, while nodes with dependencies wait for all upstream nodes to complete successfully before starting. You can set environment variables at the pipeline level that are shared across all compute nodes, and override them at th...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsIotsitewiseCreatePipelineOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new pipeline in the specified workspace. A pipeline defines a directed acyclic graph (DAG) of compute nodes, where each node refer- ences a task and can declare dependencies on other nodes. Cyclic depen- dencies are not allowed. Nodes without dependencies run in parallel, while nodes with dependencies wait for all upstream nodes to complete successfully before starting. You can set environment variables at the pipeline level that are shared across all compute nodes, and override them a...
+    /// Creates a new pipeline in the specified workspace. A pipeline defines a directed acyclic graph (DAG) of compute nodes, where each node references a task and can declare dependencies on other nodes. Cyclic dependencies are not allowed. Nodes without dependencies run in parallel, while nodes with dependencies wait for all upstream nodes to complete successfully before starting. You can set environment variables at the pipeline level that are shared across all compute nodes, and override them at th...
     /// </summary>
-    /// <param name="WorkspaceName">The name of the workspace. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="PipelineName">The name of the pipeline to create. Must be unique within the work- space. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="Computations">The list of compute nodes that form the pipeline DAG. Each compute node references a task and can declare dependencies on other nodes. Constraints: o min: 0 o max: 50 (structure) A single compute node in a pipeline DAG. Each compute node ref- erences a task and can declare dependencies on other nodes. computeNodeName -&gt; (string) [required] The unique name for this compute node within the pipeline. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ taskName -&gt; (string) [required] The name of the task to execute for this compute node. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ environmentVariables -&gt; (map) Environment variables specific to this compute node. These override pipeline-level environment variables with the same key. Constraints: o min: 0 o max: 20 key -&gt; (string) Environment variable name following POSIX naming rules Must not start with AWS_ prefix (case-insensitive) Constraints: o min: 1 o max: 255 o pattern: (?!(?i)AWS_)[a-zA-Z_][a-zA-Z0-9_]* value -&gt; (string) Environment variable value Constraints: o min: 0 o max: 1024 dependsOn -&gt; (list) A list of compute node names that must complete successfully before this node can start. Constraints: o min: 0 o max: 10 (string) Reusable resource name with alphanumeric, hyphen, and un- derscore characters. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ Shorthand Syntax: computeNodeName=string,taskName=string,environmentVariables={KeyName1=string,KeyName2=string},dependsOn=string,string ... JSON Syntax: [ { "computeNodeName": "string", "taskName": "string", "environmentVariables": {"string": "string" ...}, "dependsOn": ["string", ...] } ... ]</param>
+    /// <param name="WorkspaceName">The name of the workspace. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="PipelineName">The name of the pipeline to create. Must be unique within the workspace. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="Computations">The list of compute nodes that form the pipeline DAG. Each compute node references a task and can declare dependencies on other nodes. Constraints: • min: 0 • max: 50 (structure) A single compute node in a pipeline DAG. Each compute node references a task and can declare dependencies on other nodes. computeNodeName -&gt; (string) [required] The unique name for this compute node within the pipeline. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+ taskName -&gt; (string) [required] The name of the task to execute for this compute node. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+ environmentVariables -&gt; (map) Environment variables specific to this compute node. These override pipeline-level environment variables with the same key. Constraints: • min: 0 • max: 20 key -&gt; (string) Environment variable name following POSIX naming rules Must not start with AWS_ prefix (case-insensitive) Constraints: • min: 1 • max: 255 • pattern: (?!(?i)AWS_)[a-zA-Z_][a-zA-Z0-9_]* value -&gt; (string) Environment variable value Constraints: • min: 0 • max: 1024 dependsOn -&gt; (list) A list of compute node names that must complete successfully before this node can start. Constraints: • min: 0 • max: 10 (string) Reusable resource name with alphanumeric, hyphen, and underscore characters. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+ Shorthand Syntax: computeNodeName=string,taskName=string,environmentVariables={KeyName1=string,KeyName2=string},dependsOn=string,string ... JSON Syntax: [ { "computeNodeName": "string", "taskName": "string", "environmentVariables": {"string": "string" ...}, "dependsOn": ["string", ...] } ... ]</param>
     public AwsIotsitewiseCreatePipelineOptions(
         string WorkspaceName,
         string PipelineName,
@@ -77,43 +78,43 @@ public record AwsIotsitewiseCreatePipelineOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workspace. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The name of the workspace. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--workspace-name")]
     public string? WorkspaceName { get; private init; }
 
     /// <summary>
-    /// The name of the pipeline to create. Must be unique within the work- space. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// The name of the pipeline to create. Must be unique within the workspace. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--pipeline-name")]
     public string? PipelineName { get; private init; }
 
     /// <summary>
-    /// The list of compute nodes that form the pipeline DAG. Each compute node references a task and can declare dependencies on other nodes. Constraints: o min: 0 o max: 50 (structure) A single compute node in a pipeline DAG. Each compute node ref- erences a task and can declare dependencies on other nodes. computeNodeName -&gt; (string) [required] The unique name for this compute node within the pipeline. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ taskName -&gt; (string) [required] The name of the task to execute for this compute node. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ environmentVariables -&gt; (map) Environment variables specific to this compute node. These override pipeline-level environment variables with the same key. Constraints: o min: 0 o max: 20 key -&gt; (string) Environment variable name following POSIX naming rules Must not start with AWS_ prefix (case-insensitive) Constraints: o min: 1 o max: 255 o pattern: (?!(?i)AWS_)[a-zA-Z_][a-zA-Z0-9_]* value -&gt; (string) Environment variable value Constraints: o min: 0 o max: 1024 dependsOn -&gt; (list) A list of compute node names that must complete successfully before this node can start. Constraints: o min: 0 o max: 10 (string) Reusable resource name with alphanumeric, hyphen, and un- derscore characters. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ Shorthand Syntax: computeNodeName=string,taskName=string,environmentVariables={KeyName1=string,KeyName2=string},dependsOn=string,string ... JSON Syntax: [ { "computeNodeName": "string", "taskName": "string", "environmentVariables": {"string": "string" ...}, "dependsOn": ["string", ...] } ... ]
+    /// The list of compute nodes that form the pipeline DAG. Each compute node references a task and can declare dependencies on other nodes. Constraints: • min: 0 • max: 50 (structure) A single compute node in a pipeline DAG. Each compute node references a task and can declare dependencies on other nodes. computeNodeName -&gt; (string) [required] The unique name for this compute node within the pipeline. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+ taskName -&gt; (string) [required] The name of the task to execute for this compute node. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+ environmentVariables -&gt; (map) Environment variables specific to this compute node. These override pipeline-level environment variables with the same key. Constraints: • min: 0 • max: 20 key -&gt; (string) Environment variable name following POSIX naming rules Must not start with AWS_ prefix (case-insensitive) Constraints: • min: 1 • max: 255 • pattern: (?!(?i)AWS_)[a-zA-Z_][a-zA-Z0-9_]* value -&gt; (string) Environment variable value Constraints: • min: 0 • max: 1024 dependsOn -&gt; (list) A list of compute node names that must complete successfully before this node can start. Constraints: • min: 0 • max: 10 (string) Reusable resource name with alphanumeric, hyphen, and underscore characters. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+ Shorthand Syntax: computeNodeName=string,taskName=string,environmentVariables={KeyName1=string,KeyName2=string},dependsOn=string,string ... JSON Syntax: [ { "computeNodeName": "string", "taskName": "string", "environmentVariables": {"string": "string" ...}, "dependsOn": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--computations", GroupValues = true)]
     public IEnumerable<string>? Computations { get; private init; }
 
     /// <summary>
-    /// A description of the pipeline. Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+
+    /// A description of the pipeline. Constraints: • min: 1 • max: 2048 • pattern: [^\u0000-\u001F\u007F]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Environment variables shared across all compute nodes in the pipeline. Individual compute nodes can override these values with their own environment variables. Constraints: o min: 0 o max: 20 key -&gt; (string) Environment variable name following POSIX naming rules Must not start with AWS_ prefix (case-insensitive) Constraints: o min: 1 o max: 255 o pattern: (?!(?i)AWS_)[a-zA-Z_][a-zA-Z0-9_]* value -&gt; (string) Environment variable value Constraints: o min: 0 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Environment variables shared across all compute nodes in the pipeline. Individual compute nodes can override these values with their own environment variables. Constraints: • min: 0 • max: 20 key -&gt; (string) Environment variable name following POSIX naming rules Must not start with AWS_ prefix (case-insensitive) Constraints: • min: 1 • max: 255 • pattern: (?!(?i)AWS_)[a-zA-Z_][a-zA-Z0-9_]* value -&gt; (string) Environment variable value Constraints: • min: 0 • max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--environment-variables", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? EnvironmentVariables { get; set; }
 
     /// <summary>
-    /// A list of key-value pairs that contain metadata for the pipeline. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A list of key-value pairs that contain metadata for the pipeline. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token, the server returns the cached result from the original successful request without perform- ing the operation again. Constraints: o min: 36 o max: 64 o pattern: \S{36,64}
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token, the server returns the cached result from the original successful request without performing the operation again. Constraints: • min: 36 • max: 64 • pattern: \S{36,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

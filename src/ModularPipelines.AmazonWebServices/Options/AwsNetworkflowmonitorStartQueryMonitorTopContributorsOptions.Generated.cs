@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Create a query that you can use with the Network Flow Monitor query in- terface to return the top contributors for a monitor. Specify the moni- tor that you want to create the query for. The call returns a query ID that you can use with GetQueryResultsMonitorTopContributors to run the query and return the top contributors for a specific monitor. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all worklo...
+/// Create a query that you can use with the Network Flow Monitor query interface to return the top contributors for a monitor. Specify the monitor that you want to create the query for. The call returns a query ID that you can use with GetQueryResultsMonitorTopContributors to run the query and return the top contributors for a specific monitor. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload i...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,13 +28,13 @@ public record AwsNetworkflowmonitorStartQueryMonitorTopContributorsOptions : Aws
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Create a query that you can use with the Network Flow Monitor query in- terface to return the top contributors for a monitor. Specify the moni- tor that you want to create the query for. The call returns a query ID that you can use with GetQueryResultsMonitorTopContributors to run the query and return the top contributors for a specific monitor. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all worklo...
+    /// Create a query that you can use with the Network Flow Monitor query interface to return the top contributors for a monitor. Specify the monitor that you want to create the query for. The call returns a query ID that you can use with GetQueryResultsMonitorTopContributors to run the query and return the top contributors for a specific monitor. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload i...
     /// </summary>
-    /// <param name="MonitorName">The name of the monitor. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="MonitorName">The name of the monitor. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.-]+</param>
     /// <param name="StartTime">The timestamp that is the date and time that is the beginning of the period that you want to retrieve results for with your query.</param>
     /// <param name="EndTime">The timestamp that is the date and time end of the period that you want to retrieve results for with your query.</param>
-    /// <param name="MetricName">The metric that you want to query top contributors for. That is, you can specify a metric with this call and return the top contributor network flows, for that type of metric, for a monitor and (option- ally) within a specific category, such as network flows between Availability Zones. Possible values: o ROUND_TRIP_TIME o TIMEOUTS o RETRANSMISSIONS o DATA_TRANSFERRED</param>
-    /// <param name="DestinationCategory">The category that you want to query top contributors for, for a spe- cific monitor. Destination categories can be one of the following: o INTRA_AZ : Top contributor network flows within a single Avail- ability Zone o INTER_AZ : Top contributor network flows between Availability Zones o INTER_REGION : Top contributor network flows between Regions (to the edge of another Region) o INTER_VPC : Top contributor network flows between VPCs o AMAZON_S3 : Top contributor network flows to or from Amazon S3 o AMAZON_DYNAMODB : Top contributor network flows to or from Amazon Dynamo DB o UNCLASSIFIED : Top contributor network flows that do not have a bucket classification Possible values: o INTRA_AZ o INTER_AZ o INTER_VPC o UNCLASSIFIED o AMAZON_S3 o AMAZON_DYNAMODB o INTER_REGION</param>
+    /// <param name="MetricName">The metric that you want to query top contributors for. That is, you can specify a metric with this call and return the top contributor network flows, for that type of metric, for a monitor and (optionally) within a specific category, such as network flows between Availability Zones. Possible values: • ROUND_TRIP_TIME • TIMEOUTS • RETRANSMISSIONS • DATA_TRANSFERRED</param>
+    /// <param name="DestinationCategory">The category that you want to query top contributors for, for a specific monitor. Destination categories can be one of the following: • INTRA_AZ : Top contributor network flows within a single Availability Zone • INTER_AZ : Top contributor network flows between Availability Zones • INTER_REGION : Top contributor network flows between Regions (to the edge of another Region) • INTER_VPC : Top contributor network flows between VPCs • AMAZON_S3 : Top contributor network flows to or from Amazon S3 • AMAZON_DYNAMODB : Top contributor network flows to or from Amazon Dynamo DB • UNCLASSIFIED : Top contributor network flows that do not have a bucket classification Possible values: • INTRA_AZ • INTER_AZ • INTER_VPC • UNCLASSIFIED • AMAZON_S3 • AMAZON_DYNAMODB • INTER_REGION</param>
     public AwsNetworkflowmonitorStartQueryMonitorTopContributorsOptions(
         string MonitorName,
         string StartTime,
@@ -71,7 +73,7 @@ public record AwsNetworkflowmonitorStartQueryMonitorTopContributorsOptions : Aws
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the monitor. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the monitor. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--monitor-name")]
     public string? MonitorName { get; private init; }
@@ -89,19 +91,19 @@ public record AwsNetworkflowmonitorStartQueryMonitorTopContributorsOptions : Aws
     public string? EndTime { get; private init; }
 
     /// <summary>
-    /// The metric that you want to query top contributors for. That is, you can specify a metric with this call and return the top contributor network flows, for that type of metric, for a monitor and (option- ally) within a specific category, such as network flows between Availability Zones. Possible values: o ROUND_TRIP_TIME o TIMEOUTS o RETRANSMISSIONS o DATA_TRANSFERRED
+    /// The metric that you want to query top contributors for. That is, you can specify a metric with this call and return the top contributor network flows, for that type of metric, for a monitor and (optionally) within a specific category, such as network flows between Availability Zones. Possible values: • ROUND_TRIP_TIME • TIMEOUTS • RETRANSMISSIONS • DATA_TRANSFERRED
     /// </summary>
     [CliOption("--metric-name")]
     public AwsNetworkflowmonitorStartQueryMonitorTopContributorsMetricName? MetricName { get; private init; }
 
     /// <summary>
-    /// The category that you want to query top contributors for, for a spe- cific monitor. Destination categories can be one of the following: o INTRA_AZ : Top contributor network flows within a single Avail- ability Zone o INTER_AZ : Top contributor network flows between Availability Zones o INTER_REGION : Top contributor network flows between Regions (to the edge of another Region) o INTER_VPC : Top contributor network flows between VPCs o AMAZON_S3 : Top contributor network flows to or from Amazon S3 o AMAZON_DYNAMODB : Top contributor network flows to or from Amazon Dynamo DB o UNCLASSIFIED : Top contributor network flows that do not have a bucket classification Possible values: o INTRA_AZ o INTER_AZ o INTER_VPC o UNCLASSIFIED o AMAZON_S3 o AMAZON_DYNAMODB o INTER_REGION
+    /// The category that you want to query top contributors for, for a specific monitor. Destination categories can be one of the following: • INTRA_AZ : Top contributor network flows within a single Availability Zone • INTER_AZ : Top contributor network flows between Availability Zones • INTER_REGION : Top contributor network flows between Regions (to the edge of another Region) • INTER_VPC : Top contributor network flows between VPCs • AMAZON_S3 : Top contributor network flows to or from Amazon S3 • AMAZON_DYNAMODB : Top contributor network flows to or from Amazon Dynamo DB • UNCLASSIFIED : Top contributor network flows that do not have a bucket classification Possible values: • INTRA_AZ • INTER_AZ • INTER_VPC • UNCLASSIFIED • AMAZON_S3 • AMAZON_DYNAMODB • INTER_REGION
     /// </summary>
     [CliOption("--destination-category")]
     public AwsNetworkflowmonitorStartQueryMonitorTopContributorsDestinationCategory? DestinationCategory { get; private init; }
 
     /// <summary>
-    /// The maximum number of top contributors to return. Constraints: o min: 1 o max: 500
+    /// The maximum number of top contributors to return. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }

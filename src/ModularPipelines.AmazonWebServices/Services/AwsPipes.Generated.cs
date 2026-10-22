@@ -32,7 +32,7 @@ public class AwsPipes : IAwsPipes
     #region Commands
 
     /// <summary>
-    /// Create a pipe. Amazon EventBridge Pipes connect event sources to tar- gets and reduces the need for specialized knowledge and integration code. See also: AWS API Documentation
+    /// Create a pipe. Amazon EventBridge Pipes connect event sources to targets and reduces the need for specialized knowledge and integration code. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsPipes : IAwsPipes
     }
 
     /// <summary>
-    /// Get the pipes associated with this account. For more information about pipes, see Amazon EventBridge Pipes in the Amazon EventBridge User Guide. See also: AWS API Documentation list-pipes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results...
+    /// Get the pipes associated with this account. For more information about pipes, see Amazon EventBridge Pipes in the Amazon EventBridge User Guide. See also: AWS API Documentation list-pipes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results o...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsPipes : IAwsPipes
     }
 
     /// <summary>
-    /// Assigns one or more tags (key-value pairs) to the specified pipe. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are in- terpreted strictly as strings of characters. You can use the TagResource action with a pipe that already has tags. If you specify a new tag key, this tag is appended ...
+    /// Assigns one or more tags (key-value pairs) to the specified pipe. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a pipe that already has tags. If you specify a new tag key, this tag is appended to...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsPipes : IAwsPipes
     }
 
     /// <summary>
-    /// Update an existing pipe. When you call UpdatePipe , EventBridge only the updates fields you have specified in the request; the rest remain unchanged. The exception to this is if you modify any Amazon Web Ser- vices-service specific fields in the SourceParameters , EnrichmentPara- meters , or TargetParameters objects. For example, DynamoDBStreamPara- meters or EventBridgeEventBusParameters . EventBridge updates the fields in these objects atomically as one and overrides existing val- ues. This is...
+    /// Update an existing pipe. When you call UpdatePipe , EventBridge only the updates fields you have specified in the request; the rest remain unchanged. The exception to this is if you modify any Amazon Web Services-service specific fields in the SourceParameters , EnrichmentParameters , or TargetParameters objects. For example, DynamoDBStreamParameters or EventBridgeEventBusParameters . EventBridge updates the fields in these objects atomically as one and overrides existing values. This is by desi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

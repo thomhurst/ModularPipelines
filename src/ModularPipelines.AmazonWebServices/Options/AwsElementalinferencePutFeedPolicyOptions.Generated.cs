@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsElementalinferencePutFeedPolicyOptions : AwsOptions, IValidatab
     /// <summary>
     /// Attaches or replaces a resource-based policy on the specified feed. A resource-based policy grants cross-account access to the feed. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the feed to attach the policy to. Constraints: o pattern: [a-z0-9]{19}</param>
-    /// <param name="Policy">The resource-based policy document to attach to the feed. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="Id">The ID of the feed to attach the policy to. Constraints: • pattern: [a-z0-9]{19}</param>
+    /// <param name="Policy">The resource-based policy document to attach to the feed. Constraints: • min: 1 • max: 2048</param>
     public AwsElementalinferencePutFeedPolicyOptions(
         string Id,
         string Policy
@@ -60,13 +62,13 @@ public record AwsElementalinferencePutFeedPolicyOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the feed to attach the policy to. Constraints: o pattern: [a-z0-9]{19}
+    /// The ID of the feed to attach the policy to. Constraints: • pattern: [a-z0-9]{19}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The resource-based policy document to attach to the feed. Constraints: o min: 1 o max: 2048
+    /// The resource-based policy document to attach to the feed. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; private init; }

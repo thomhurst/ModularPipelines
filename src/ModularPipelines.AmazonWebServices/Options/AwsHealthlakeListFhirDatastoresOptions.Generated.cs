@@ -23,20 +23,20 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsHealthlakeListFhirDatastoresOptions : AwsOptions
 {
     /// <summary>
-    /// List all filters associated with a FHIR data store request. DatastoreName -&gt; (string) Filter data store results by name. Constraints: o min: 1 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*) DatastoreStatus -&gt; (string) Filter data store results by status. Possible values: o CREATING o ACTIVE o DELETING o DELETED o CREATE_FAILED o UPDATING o UPDATE_FAILED CreatedBefore -&gt; (timestamp) Filter to set cutoff dates for records. All data stores created before the specified date are included in the results. CreatedAfter -&gt; (timestamp) Filter to set cutoff dates for records. All data stores created after the specified date are included in the results. Shorthand Syntax: DatastoreName=string,DatastoreStatus=string,CreatedBefore=timestamp,CreatedAfter=timestamp JSON Syntax: { "DatastoreName": "string", "DatastoreStatus": "CREATING"|"ACTIVE"|"DELETING"|"DELETED"|"CREATE_FAILED"|"UPDATING"|"UPDATE_FAILED", "CreatedBefore": timestamp, "CreatedAfter": timestamp }
+    /// List all filters associated with a FHIR data store request. DatastoreName -&gt; (string) Filter data store results by name. Constraints: • min: 1 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*) DatastoreStatus -&gt; (string) Filter data store results by status. Possible values: • CREATING • ACTIVE • DELETING • DELETED • CREATE_FAILED • UPDATING • UPDATE_FAILED CreatedBefore -&gt; (timestamp) Filter to set cutoff dates for records. All data stores created before the specified date are included in the results. CreatedAfter -&gt; (timestamp) Filter to set cutoff dates for records. All data stores created after the specified date are included in the results. Shorthand Syntax: DatastoreName=string,DatastoreStatus=string,CreatedBefore=timestamp,CreatedAfter=timestamp JSON Syntax: { "DatastoreName": "string", "DatastoreStatus": "CREATING"|"ACTIVE"|"DELETING"|"DELETED"|"CREATE_FAILED"|"UPDATING"|"UPDATE_FAILED", "CreatedBefore": timestamp, "CreatedAfter": timestamp }
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; set; }
 
     /// <summary>
-    /// The token used to retrieve the next page of data stores when results are paginated. Constraints: o min: 0 o max: 8192 o pattern: \p{ASCII}{0,8192}
+    /// The token used to retrieve the next page of data stores when results are paginated. Constraints: • min: 0 • max: 8192 • pattern: \p{ASCII}{0,8192}
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of data stores returned on a page. Constraints: o min: 1 o max: 500
+    /// The maximum number of data stores returned on a page. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

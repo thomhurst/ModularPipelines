@@ -32,7 +32,7 @@ public class AwsSignin : IAwsSignin
     #region Commands
 
     /// <summary>
-    /// CreateOAuth2Token API Path: /v1/token Request Method: POST Content-Type: application/json or application/x-www-form-urlencoded This API implements OAuth 2.0 flows for AWS Sign-In CLI clients, sup- porting both: o Authorization code redemption (grant_type=authorization_code) - NOT idempotent o Token refresh (grant_type=refresh_token) - Idempotent within token validity window The operation behavior is determined by the grant_type parameter in the request body: Authorization Code Flow (NOT Idempote...
+    /// CreateOAuth2Token API Path: /v1/token Request Method: POST Content-Type: application/json or application/x-www-form-urlencoded This API implements OAuth 2.0 flows for AWS Sign-In CLI clients, supporting both: • Authorization code redemption (grant_type=authorization_code) - NOT idempotent • Token refresh (grant_type=refresh_token) - Idempotent within token validity window The operation behavior is determined by the grant_type parameter in the request body: Authorization Code Flow (NOT Idempotent...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsSignin : IAwsSignin
     }
 
     /// <summary>
-    /// Grants permission to exchange client credentials for an OAuth 2.0 ac- cess token scoped to a resource that can be used to access AWS services from applications See also: AWS API Documentation
+    /// Grants permission to exchange client credentials for an OAuth 2.0 access token scoped to a resource that can be used to access AWS services from applications See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsSignin : IAwsSignin
     }
 
     /// <summary>
-    /// Delete console authorization configuration with automatic scope detec- tion See also: AWS API Documentation
+    /// Delete console authorization configuration with automatic scope detection See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsSignin : IAwsSignin
     }
 
     /// <summary>
-    /// Grants permission to inspect the metadata and state of an OAuth 2.0 ac- cess token or refresh token Implements RFC 7662 OAuth 2.0 Token Introspection over a SigV4-authen- ticated endpoint. Inspects the metadata of an access_token or re- fresh_token issued by AWS Sign-In and returns the claims associated with it. Inactive token semantics (RFC 7662 2.2): when the supplied token is un- known, expired, revoked, malformed, or owned by a different account, the response body is exactly { "active": fals...
+    /// Grants permission to inspect the metadata and state of an OAuth 2.0 access token or refresh token Implements RFC 7662 OAuth 2.0 Token Introspection over a SigV4-authenticated endpoint. Inspects the metadata of an access_token or refresh_token issued by AWS Sign-In and returns the claims associated with it. Inactive token semantics (RFC 7662 2.2): when the supplied token is unknown, expired, revoked, malformed, or owned by a different account, the response body is exactly { "active": false } with...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsSignin : IAwsSignin
     }
 
     /// <summary>
-    /// Retrieve all permission statements in the account's SignIn re- source-based policy See also: AWS API Documentation list-resource-permission-statements is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions...
+    /// Retrieve all permission statements in the account's SignIn resource-based policy See also: AWS API Documentation list-resource-permission-statements is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: perm...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsSignin : IAwsSignin
     }
 
     /// <summary>
-    /// Enable console authorization configuration with automatic scope detec- tion See also: AWS API Documentation
+    /// Enable console authorization configuration with automatic scope detection See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsSignin : IAwsSignin
     }
 
     /// <summary>
-    /// Grants permission to revoke an OAuth 2.0 refresh token and its associ- ated refresh tokens Revokes a refresh_token issued by AWS Sign-In, invalidating the entire token chain so that the refresh_token can no longer be used to mint new access_tokens. Idempotency: revoking an already-revoked, expired, or otherwise invalid token still returns 200 OK with an empty body. Only the refresh_token type is accepted. See also: AWS API Documentation
+    /// Grants permission to revoke an OAuth 2.0 refresh token and its associated refresh tokens Revokes a refresh_token issued by AWS Sign-In, invalidating the entire token chain so that the refresh_token can no longer be used to mint new access_tokens. Idempotency: revoking an already-revoked, expired, or otherwise invalid token still returns 200 OK with an empty body. Only the refresh_token type is accepted. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

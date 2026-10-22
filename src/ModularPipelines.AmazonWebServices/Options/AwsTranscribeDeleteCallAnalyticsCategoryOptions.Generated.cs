@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsTranscribeDeleteCallAnalyticsCategoryOptions : AwsOptions, IVal
     /// <summary>
     /// Deletes a Call Analytics category. To use this operation, specify the name of the category you want to delete using CategoryName . Category names are case sensitive. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CategoryName">The name of the Call Analytics category you want to delete. Category names are case sensitive. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+</param>
+    /// <param name="CategoryName">The name of the Call Analytics category you want to delete. Category names are case sensitive. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z._-]+</param>
     public AwsTranscribeDeleteCallAnalyticsCategoryOptions(
         string CategoryName
     )
@@ -56,7 +58,7 @@ public record AwsTranscribeDeleteCallAnalyticsCategoryOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Call Analytics category you want to delete. Category names are case sensitive. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+
+    /// The name of the Call Analytics category you want to delete. Category names are case sensitive. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z._-]+
     /// </summary>
     [CliOption("--category-name")]
     public string? CategoryName { get; private init; }

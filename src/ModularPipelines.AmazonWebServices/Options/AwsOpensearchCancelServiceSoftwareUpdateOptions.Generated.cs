@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Cancels a scheduled service software update for an Amazon OpenSearch Service domain. You can only perform this operation before the Automat- edUpdateDate and when the domain's UpdateStatus is PENDING_UPDATE . For more information, see Service software updates in Amazon OpenSearch Service . See also: AWS API Documentation
+/// Cancels a scheduled service software update for an Amazon OpenSearch Service domain. You can only perform this operation before the AutomatedUpdateDate and when the domain's UpdateStatus is PENDING_UPDATE . For more information, see Service software updates in Amazon OpenSearch Service . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsOpensearchCancelServiceSoftwareUpdateOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Cancels a scheduled service software update for an Amazon OpenSearch Service domain. You can only perform this operation before the Automat- edUpdateDate and when the domain's UpdateStatus is PENDING_UPDATE . For more information, see Service software updates in Amazon OpenSearch Service . See also: AWS API Documentation
+    /// Cancels a scheduled service software update for an Amazon OpenSearch Service domain. You can only perform this operation before the AutomatedUpdateDate and when the domain's UpdateStatus is PENDING_UPDATE . For more information, see Service software updates in Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">Name of the OpenSearch Service domain that you want to cancel the service software update on. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="DomainName">Name of the OpenSearch Service domain that you want to cancel the service software update on. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
     public AwsOpensearchCancelServiceSoftwareUpdateOptions(
         string DomainName
     )
@@ -56,7 +58,7 @@ public record AwsOpensearchCancelServiceSoftwareUpdateOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the OpenSearch Service domain that you want to cancel the service software update on. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// Name of the OpenSearch Service domain that you want to cancel the service software update on. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,11 +29,11 @@ public record AwsChatbotCreateMicrosoftTeamsChannelConfigurationOptions : AwsOpt
     /// <summary>
     /// Creates an AWS Chatbot configuration for Microsoft Teams. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ChannelId">The ID of the Microsoft Teams channel. Constraints: o min: 1 o max: 255 o pattern: ([a-zA-Z0-9-_=+\/.,])*%3[aA]([a-zA-Z0-9-_=+\/.,])*%40([a-zA-Z0-9-_=+\/.,])*</param>
-    /// <param name="TeamId">The ID of the Microsoft Teams authorized with AWS Chatbot. To get the team ID, you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For more information, see Step 1: Configure a Microsoft Teams client in the AWS Chatbot Admin- istrator Guide . Constraints: o min: 36 o max: 36 o pattern: [0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}</param>
-    /// <param name="TenantId">The ID of the Microsoft Teams tenant. Constraints: o min: 36 o max: 36 o pattern: [0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}</param>
-    /// <param name="IamRoleArn">A user-defined role that AWS Chatbot assumes. This is not the ser- vice-linked role. For more information, see IAM policies for AWS Chatbot in the AWS Chatbot Administrator Guide . Constraints: o min: 12 o max: 1224 o pattern: arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}</param>
-    /// <param name="ConfigurationName">The name of the configuration. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-_]+</param>
+    /// <param name="ChannelId">The ID of the Microsoft Teams channel. Constraints: • min: 1 • max: 255 • pattern: ([a-zA-Z0-9-_=+\/.,])*%3[aA]([a-zA-Z0-9-_=+\/.,])*%40([a-zA-Z0-9-_=+\/.,])*</param>
+    /// <param name="TeamId">The ID of the Microsoft Teams authorized with AWS Chatbot. To get the team ID, you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For more information, see Step 1: Configure a Microsoft Teams client in the AWS Chatbot Administrator Guide . Constraints: • min: 36 • max: 36 • pattern: [0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}</param>
+    /// <param name="TenantId">The ID of the Microsoft Teams tenant. Constraints: • min: 36 • max: 36 • pattern: [0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}</param>
+    /// <param name="IamRoleArn">A user-defined role that AWS Chatbot assumes. This is not the service-linked role. For more information, see IAM policies for AWS Chatbot in the AWS Chatbot Administrator Guide . Constraints: • min: 12 • max: 1224 • pattern: arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}</param>
+    /// <param name="ConfigurationName">The name of the configuration. Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9-_]+</param>
     public AwsChatbotCreateMicrosoftTeamsChannelConfigurationOptions(
         string ChannelId,
         string TeamId,
@@ -72,61 +74,61 @@ public record AwsChatbotCreateMicrosoftTeamsChannelConfigurationOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Microsoft Teams channel. Constraints: o min: 1 o max: 255 o pattern: ([a-zA-Z0-9-_=+\/.,])*%3[aA]([a-zA-Z0-9-_=+\/.,])*%40([a-zA-Z0-9-_=+\/.,])*
+    /// The ID of the Microsoft Teams channel. Constraints: • min: 1 • max: 255 • pattern: ([a-zA-Z0-9-_=+\/.,])*%3[aA]([a-zA-Z0-9-_=+\/.,])*%40([a-zA-Z0-9-_=+\/.,])*
     /// </summary>
     [CliOption("--channel-id")]
     public string? ChannelId { get; private init; }
 
     /// <summary>
-    /// The ID of the Microsoft Teams authorized with AWS Chatbot. To get the team ID, you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For more information, see Step 1: Configure a Microsoft Teams client in the AWS Chatbot Admin- istrator Guide . Constraints: o min: 36 o max: 36 o pattern: [0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}
+    /// The ID of the Microsoft Teams authorized with AWS Chatbot. To get the team ID, you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For more information, see Step 1: Configure a Microsoft Teams client in the AWS Chatbot Administrator Guide . Constraints: • min: 36 • max: 36 • pattern: [0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}
     /// </summary>
     [CliOption("--team-id")]
     public string? TeamId { get; private init; }
 
     /// <summary>
-    /// The ID of the Microsoft Teams tenant. Constraints: o min: 36 o max: 36 o pattern: [0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}
+    /// The ID of the Microsoft Teams tenant. Constraints: • min: 36 • max: 36 • pattern: [0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}
     /// </summary>
     [CliOption("--tenant-id")]
     public string? TenantId { get; private init; }
 
     /// <summary>
-    /// A user-defined role that AWS Chatbot assumes. This is not the ser- vice-linked role. For more information, see IAM policies for AWS Chatbot in the AWS Chatbot Administrator Guide . Constraints: o min: 12 o max: 1224 o pattern: arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}
+    /// A user-defined role that AWS Chatbot assumes. This is not the service-linked role. For more information, see IAM policies for AWS Chatbot in the AWS Chatbot Administrator Guide . Constraints: • min: 12 • max: 1224 • pattern: arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}
     /// </summary>
     [CliOption("--iam-role-arn")]
     public string? IamRoleArn { get; private init; }
 
     /// <summary>
-    /// The name of the configuration. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-_]+
+    /// The name of the configuration. Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9-_]+
     /// </summary>
     [CliOption("--configuration-name")]
     public string? ConfigurationName { get; private init; }
 
     /// <summary>
-    /// The name of the Microsoft Teams channel. Constraints: o min: 1 o max: 1000 o pattern: (.*)
+    /// The name of the Microsoft Teams channel. Constraints: • min: 1 • max: 1000 • pattern: (.*)
     /// </summary>
     [CliOption("--channel-name")]
     public string? ChannelName { get; set; }
 
     /// <summary>
-    /// The name of the Microsoft Teams Team. Constraints: o min: 1 o max: 255 o pattern: (.*)
+    /// The name of the Microsoft Teams Team. Constraints: • min: 1 • max: 255 • pattern: (.*)
     /// </summary>
     [CliOption("--team-name")]
     public string? TeamName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Names (ARNs) of the SNS topics that deliver no- tifications to AWS Chatbot. (string) Constraints: o min: 12 o max: 1224 o pattern: arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023} Syntax: "string" "string" ...
+    /// The Amazon Resource Names (ARNs) of the SNS topics that deliver notifications to AWS Chatbot. (string) Constraints: • min: 12 • max: 1224 • pattern: arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--sns-topic-arns", GroupValues = true)]
     public IEnumerable<string>? SnsTopicArns { get; set; }
 
     /// <summary>
-    /// Logging levels include ERROR , INFO , or NONE . Constraints: o min: 4 o max: 5 o pattern: (ERROR|INFO|NONE)
+    /// Logging levels include ERROR , INFO , or NONE . Constraints: • min: 4 • max: 5 • pattern: (ERROR|INFO|NONE)
     /// </summary>
     [CliOption("--logging-level")]
     public string? LoggingLevel { get; set; }
 
     /// <summary>
-    /// The list of IAM policy ARNs that are applied as channel guardrails. The AWS managed AdministratorAccess policy is applied by default if this is not set. (string) Constraints: o min: 11 o max: 1163 o pattern: (^$|(?!.*\/aws-ser- vice-role\/.*)arn:aws:iam:[A-Za-z0-9_\/.-]{0,63}:[A-Za-z0-9_\/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_\/+=,@.-]{0,1023}) Syntax: "string" "string" ...
+    /// The list of IAM policy ARNs that are applied as channel guardrails. The AWS managed AdministratorAccess policy is applied by default if this is not set. (string) Constraints: • min: 11 • max: 1163 • pattern: (^$|(?!.*\/aws-service-role\/.*)arn:aws:iam:[A-Za-z0-9_\/.-]{0,63}:[A-Za-z0-9_\/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_\/+=,@.-]{0,1023}) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--guardrail-policy-arns", GroupValues = true)]
     public IEnumerable<string>? GuardrailPolicyArns { get; set; }
@@ -138,7 +140,7 @@ public record AwsChatbotCreateMicrosoftTeamsChannelConfigurationOptions : AwsOpt
     public bool? UserAuthorizationRequired { get; set; }
 
     /// <summary>
-    /// A map of tags assigned to a resource. A tag is a string-to-string map of key-value pairs. (structure) A key-value pair. A tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty (null) strings. WARNING: Do not include confidential or sensitive information in this field. For more information, see User-Defined Tag Restrictions in the AWS Billing and Cost Management User Guide . TagKey -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 TagValue -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: TagKey=string,TagValue=string ... JSON Syntax: [ { "TagKey": "string", "TagValue": "string" } ... ]
+    /// A map of tags assigned to a resource. A tag is a string-to-string map of key-value pairs. (structure) A key-value pair. A tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty (null) strings. WARNING: Do not include confidential or sensitive information in this field. For more information, see User-Defined Tag Restrictions in the AWS Billing and Cost Management User Guide . TagKey -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 128 TagValue -&gt; (string) [required] The value of the tag. Constraints: • min: 0 • max: 256 Shorthand Syntax: TagKey=string,TagValue=string ... JSON Syntax: [ { "TagKey": "string", "TagValue": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsBedrockUpdateCustomModelDeploymentOptions : AwsOptions, IValida
     /// <summary>
     /// Updates a custom model deployment with a new custom model. This allows you to deploy updated models without creating new deployment endpoints. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ModelArn">ARN of the new custom model to deploy. This replaces the currently deployed model. Constraints: o min: 20 o max: 1011 o pattern: arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:[a-z0-9-]{1,20}:[0-9]{12}:cus- tom-model/(im- ported|[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2})/[a-z0-9]{12}</param>
-    /// <param name="CustomModelDeploymentIdentifier">Identifier of the custom model deployment to update with the new custom model. Constraints: o min: 1 o max: 93 o pattern: (arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:[a-z0-9-]{1,20}:[0-9]{12}:cus- tom-model-deployment/[a-z0-9]{12})|^([0-9a-zA-Z][_-]?){1,63}</param>
+    /// <param name="ModelArn">ARN of the new custom model to deploy. This replaces the currently deployed model. Constraints: • min: 20 • max: 1011 • pattern: arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:[a-z0-9-]{1,20}:[0-9]{12}:custom-model/(imported|[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2})/[a-z0-9]{12}</param>
+    /// <param name="CustomModelDeploymentIdentifier">Identifier of the custom model deployment to update with the new custom model. Constraints: • min: 1 • max: 93 • pattern: (arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:[a-z0-9-]{1,20}:[0-9]{12}:custom-model-deployment/[a-z0-9]{12})|^([0-9a-zA-Z][_-]?){1,63}</param>
     public AwsBedrockUpdateCustomModelDeploymentOptions(
         string ModelArn,
         string CustomModelDeploymentIdentifier
@@ -60,13 +62,13 @@ public record AwsBedrockUpdateCustomModelDeploymentOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of the new custom model to deploy. This replaces the currently deployed model. Constraints: o min: 20 o max: 1011 o pattern: arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:[a-z0-9-]{1,20}:[0-9]{12}:cus- tom-model/(im- ported|[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2})/[a-z0-9]{12}
+    /// ARN of the new custom model to deploy. This replaces the currently deployed model. Constraints: • min: 20 • max: 1011 • pattern: arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:[a-z0-9-]{1,20}:[0-9]{12}:custom-model/(imported|[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2})/[a-z0-9]{12}
     /// </summary>
     [CliOption("--model-arn")]
     public string? ModelArn { get; private init; }
 
     /// <summary>
-    /// Identifier of the custom model deployment to update with the new custom model. Constraints: o min: 1 o max: 93 o pattern: (arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:[a-z0-9-]{1,20}:[0-9]{12}:cus- tom-model-deployment/[a-z0-9]{12})|^([0-9a-zA-Z][_-]?){1,63}
+    /// Identifier of the custom model deployment to update with the new custom model. Constraints: • min: 1 • max: 93 • pattern: (arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:[a-z0-9-]{1,20}:[0-9]{12}:custom-model-deployment/[a-z0-9]{12})|^([0-9a-zA-Z][_-]?){1,63}
     /// </summary>
     [CliOption("--custom-model-deployment-identifier")]
     public string? CustomModelDeploymentIdentifier { get; private init; }

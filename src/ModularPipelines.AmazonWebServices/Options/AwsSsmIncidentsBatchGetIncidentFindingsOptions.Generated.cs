@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves details about all specified findings for an incident, includ- ing descriptive details about each finding. A finding represents a re- cent application environment change made by an CodeDeploy deployment or an CloudFormation stack creation or update that can be investigated as a potential cause of the incident. See also: AWS API Documentation
+/// Retrieves details about all specified findings for an incident, including descriptive details about each finding. A finding represents a recent application environment change made by an CodeDeploy deployment or an CloudFormation stack creation or update that can be investigated as a potential cause of the incident. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsSsmIncidentsBatchGetIncidentFindingsOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves details about all specified findings for an incident, includ- ing descriptive details about each finding. A finding represents a re- cent application environment change made by an CodeDeploy deployment or an CloudFormation stack creation or update that can be investigated as a potential cause of the incident. See also: AWS API Documentation
+    /// Retrieves details about all specified findings for an incident, including descriptive details about each finding. A finding represents a recent application environment change made by an CodeDeploy deployment or an CloudFormation stack creation or update that can be investigated as a potential cause of the incident. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FindingIds">A list of IDs of findings for which you want to view details. Constraints: o min: 0 o max: 20 (string) Constraints: o min: 0 o max: 128 Syntax: "string" "string" ...</param>
-    /// <param name="IncidentRecordArn">The Amazon Resource Name (ARN) of the incident for which you want to view finding details. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$</param>
+    /// <param name="FindingIds">A list of IDs of findings for which you want to view details. Constraints: • min: 0 • max: 20 (string) Constraints: • min: 0 • max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="IncidentRecordArn">The Amazon Resource Name (ARN) of the incident for which you want to view finding details. Constraints: • min: 0 • max: 1000 • pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$</param>
     public AwsSsmIncidentsBatchGetIncidentFindingsOptions(
         IEnumerable<string> FindingIds,
         string IncidentRecordArn
@@ -71,13 +73,13 @@ public record AwsSsmIncidentsBatchGetIncidentFindingsOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of IDs of findings for which you want to view details. Constraints: o min: 0 o max: 20 (string) Constraints: o min: 0 o max: 128 Syntax: "string" "string" ...
+    /// A list of IDs of findings for which you want to view details. Constraints: • min: 0 • max: 20 (string) Constraints: • min: 0 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--finding-ids", GroupValues = true)]
     public IEnumerable<string>? FindingIds { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the incident for which you want to view finding details. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$
+    /// The Amazon Resource Name (ARN) of the incident for which you want to view finding details. Constraints: • min: 0 • max: 1000 • pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$
     /// </summary>
     [CliOption("--incident-record-arn")]
     public string? IncidentRecordArn { get; private init; }

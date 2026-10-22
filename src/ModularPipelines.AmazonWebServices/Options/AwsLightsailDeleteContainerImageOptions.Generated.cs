@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsLightsailDeleteContainerImageOptions : AwsOptions, IValidatable
     /// <summary>
     /// Deletes a container image that is registered to your Amazon Lightsail container service. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceName">The name of the container service for which to delete a registered container image. Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$</param>
-    /// <param name="Image">The name of the container image to delete from the container ser- vice. Use the GetContainerImages action to get the name of the container images that are registered to a container service. NOTE: Container images sourced from your Lightsail container service, that are registered and stored on your service, start with a colon (: ). For example, :container-service-1.mystaticwebsite.1 . Container images sourced from a public registry like Docker Hub don't start with a colon. For example, nginx:latest or nginx .</param>
+    /// <param name="ServiceName">The name of the container service for which to delete a registered container image. Constraints: • min: 1 • max: 63 • pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$</param>
+    /// <param name="Image">The name of the container image to delete from the container service. Use the GetContainerImages action to get the name of the container images that are registered to a container service. NOTE: Container images sourced from your Lightsail container service, that are registered and stored on your service, start with a colon (: ). For example, :container-service-1.mystaticwebsite.1 . Container images sourced from a public registry like Docker Hub don't start with a colon. For example, nginx:latest or nginx .</param>
     public AwsLightsailDeleteContainerImageOptions(
         string ServiceName,
         string Image
@@ -60,13 +62,13 @@ public record AwsLightsailDeleteContainerImageOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the container service for which to delete a registered container image. Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$
+    /// The name of the container service for which to delete a registered container image. Constraints: • min: 1 • max: 63 • pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$
     /// </summary>
     [CliOption("--service-name")]
     public string? ServiceName { get; private init; }
 
     /// <summary>
-    /// The name of the container image to delete from the container ser- vice. Use the GetContainerImages action to get the name of the container images that are registered to a container service. NOTE: Container images sourced from your Lightsail container service, that are registered and stored on your service, start with a colon (: ). For example, :container-service-1.mystaticwebsite.1 . Container images sourced from a public registry like Docker Hub don't start with a colon. For example, nginx:latest or nginx .
+    /// The name of the container image to delete from the container service. Use the GetContainerImages action to get the name of the container images that are registered to a container service. NOTE: Container images sourced from your Lightsail container service, that are registered and stored on your service, start with a colon (: ). For example, :container-service-1.mystaticwebsite.1 . Container images sourced from a public registry like Docker Hub don't start with a colon. For example, nginx:latest or nginx .
     /// </summary>
     [CliOption("--image")]
     public string? Image { get; private init; }

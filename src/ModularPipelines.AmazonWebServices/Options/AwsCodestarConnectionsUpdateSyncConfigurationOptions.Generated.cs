@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the sync configuration for your connection and a specified ex- ternal Git repository. See also: AWS API Documentation
+/// Updates the sync configuration for your connection and a specified external Git repository. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsCodestarConnectionsUpdateSyncConfigurationOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the sync configuration for your connection and a specified ex- ternal Git repository. See also: AWS API Documentation
+    /// Updates the sync configuration for your connection and a specified external Git repository. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceName">The name of the Amazon Web Services resource for the sync configura- tion to be updated. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$</param>
-    /// <param name="SyncType">The sync type for the sync configuration to be updated. Possible values: o CFN_STACK_SYNC</param>
+    /// <param name="ResourceName">The name of the Amazon Web Services resource for the sync configuration to be updated. Constraints: • min: 1 • max: 100 • pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$</param>
+    /// <param name="SyncType">The sync type for the sync configuration to be updated. Possible values: • CFN_STACK_SYNC</param>
     public AwsCodestarConnectionsUpdateSyncConfigurationOptions(
         string ResourceName,
         string SyncType
@@ -61,19 +63,19 @@ public record AwsCodestarConnectionsUpdateSyncConfigurationOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Amazon Web Services resource for the sync configura- tion to be updated. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$
+    /// The name of the Amazon Web Services resource for the sync configuration to be updated. Constraints: • min: 1 • max: 100 • pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$
     /// </summary>
     [CliOption("--resource-name")]
     public string? ResourceName { get; private init; }
 
     /// <summary>
-    /// The sync type for the sync configuration to be updated. Possible values: o CFN_STACK_SYNC
+    /// The sync type for the sync configuration to be updated. Possible values: • CFN_STACK_SYNC
     /// </summary>
     [CliOption("--sync-type")]
     public string? SyncType { get; private init; }
 
     /// <summary>
-    /// The branch for the sync configuration to be updated. Constraints: o min: 1 o max: 255 o pattern: ^.*$
+    /// The branch for the sync configuration to be updated. Constraints: • min: 1 • max: 255 • pattern: ^.*$
     /// </summary>
     [CliOption("--branch")]
     public string? Branch { get; set; }
@@ -85,25 +87,25 @@ public record AwsCodestarConnectionsUpdateSyncConfigurationOptions : AwsOptions,
     public string? ConfigFile { get; set; }
 
     /// <summary>
-    /// The ID of the repository link for the sync configuration to be up- dated. Constraints: o pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$
+    /// The ID of the repository link for the sync configuration to be updated. Constraints: • pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$
     /// </summary>
     [CliOption("--repository-link-id")]
     public string? RepositoryLinkId { get; set; }
 
     /// <summary>
-    /// The ARN of the IAM role for the sync configuration to be updated. Constraints: o min: 1 o max: 1024 o pattern: arn:aws(-[\w]+)*:iam::\d{12}:role/[a-zA-Z_0-9+=,.@\-_/]+
+    /// The ARN of the IAM role for the sync configuration to be updated. Constraints: • min: 1 • max: 1024 • pattern: arn:aws(-[\w]+)*:iam::\d{12}:role/[a-zA-Z_0-9+=,.@\-_/]+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
     /// <summary>
-    /// Whether to enable or disable publishing of deployment status to source providers. Possible values: o ENABLED o DISABLED
+    /// Whether to enable or disable publishing of deployment status to source providers. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--publish-deployment-status")]
     public AwsCodestarConnectionsUpdateSyncConfigurationPublishDeploymentStatus? PublishDeploymentStatus { get; set; }
 
     /// <summary>
-    /// When to trigger Git sync to begin the stack update. Possible values: o ANY_CHANGE o FILE_CHANGE
+    /// When to trigger Git sync to begin the stack update. Possible values: • ANY_CHANGE • FILE_CHANGE
     /// </summary>
     [CliOption("--trigger-resource-update-on")]
     public AwsCodestarConnectionsUpdateSyncConfigurationTriggerResourceUpdateOn? TriggerResourceUpdateOn { get; set; }

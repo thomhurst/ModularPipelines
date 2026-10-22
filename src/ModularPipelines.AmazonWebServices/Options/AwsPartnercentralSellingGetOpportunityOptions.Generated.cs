@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Fetches the Opportunity record from Partner Central by a given Identi- fier . Use the ListOpportunities action or the event notification (from Amazon EventBridge) to obtain this identifier. See also: AWS API Documentation
+/// Fetches the Opportunity record from Partner Central by a given Identifier . Use the ListOpportunities action or the event notification (from Amazon EventBridge) to obtain this identifier. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsPartnercentralSellingGetOpportunityOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Fetches the Opportunity record from Partner Central by a given Identi- fier . Use the ListOpportunities action or the event notification (from Amazon EventBridge) to obtain this identifier. See also: AWS API Documentation
+    /// Fetches the Opportunity record from Partner Central by a given Identifier . Use the ListOpportunities action or the event notification (from Amazon EventBridge) to obtain this identifier. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox . The catalog determines which environment the opportunity is fetched from. Use AWS to retrieve opportunities in the Amazon Web Services catalog, and Sandbox to retrieve opportunities in a secure, isolated testing environment. Constraints: o pattern: [a-zA-Z]+</param>
-    /// <param name="Identifier">Read-only, system generated Opportunity unique identifier. Constraints: o pattern: O[0-9]{1,19}</param>
+    /// <param name="Catalog">Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox . The catalog determines which environment the opportunity is fetched from. Use AWS to retrieve opportunities in the Amazon Web Services catalog, and Sandbox to retrieve opportunities in a secure, isolated testing environment. Constraints: • pattern: [a-zA-Z]+</param>
+    /// <param name="Identifier">Read-only, system generated Opportunity unique identifier. Constraints: • pattern: O[0-9]{1,19}</param>
     public AwsPartnercentralSellingGetOpportunityOptions(
         string Catalog,
         string Identifier
@@ -60,13 +62,13 @@ public record AwsPartnercentralSellingGetOpportunityOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox . The catalog determines which environment the opportunity is fetched from. Use AWS to retrieve opportunities in the Amazon Web Services catalog, and Sandbox to retrieve opportunities in a secure, isolated testing environment. Constraints: o pattern: [a-zA-Z]+
+    /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox . The catalog determines which environment the opportunity is fetched from. Use AWS to retrieve opportunities in the Amazon Web Services catalog, and Sandbox to retrieve opportunities in a secure, isolated testing environment. Constraints: • pattern: [a-zA-Z]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// Read-only, system generated Opportunity unique identifier. Constraints: o pattern: O[0-9]{1,19}
+    /// Read-only, system generated Opportunity unique identifier. Constraints: • pattern: O[0-9]{1,19}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -30,9 +31,9 @@ public record AwsBillingconductorCreatePricingRuleOptions : AwsOptions, IValidat
     /// <summary>
     /// Creates a pricing rule can be associated to a pricing plan, or a set of pricing plans. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The pricing rule name. The names must be unique to each pricing rule. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_\+=\.\-@]+</param>
-    /// <param name="Scope">The scope of pricing rule that indicates if it's globally applica- ble, or it's service-specific. Possible values: o GLOBAL o SERVICE o BILLING_ENTITY o SKU</param>
-    /// <param name="Type">The type of pricing rule. Possible values: o MARKUP o DISCOUNT o TIERING</param>
+    /// <param name="Name">The pricing rule name. The names must be unique to each pricing rule. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_\+=\.\-@]+</param>
+    /// <param name="Scope">The scope of pricing rule that indicates if it's globally applicable, or it's service-specific. Possible values: • GLOBAL • SERVICE • BILLING_ENTITY • SKU</param>
+    /// <param name="Type">The type of pricing rule. Possible values: • MARKUP • DISCOUNT • TIERING</param>
     public AwsBillingconductorCreatePricingRuleOptions(
         string Name,
         AwsBillingconductorCreatePricingRuleScope Scope,
@@ -65,74 +66,74 @@ public record AwsBillingconductorCreatePricingRuleOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The pricing rule name. The names must be unique to each pricing rule. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_\+=\.\-@]+
+    /// The pricing rule name. The names must be unique to each pricing rule. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_\+=\.\-@]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The scope of pricing rule that indicates if it's globally applica- ble, or it's service-specific. Possible values: o GLOBAL o SERVICE o BILLING_ENTITY o SKU
+    /// The scope of pricing rule that indicates if it's globally applicable, or it's service-specific. Possible values: • GLOBAL • SERVICE • BILLING_ENTITY • SKU
     /// </summary>
     [CliOption("--scope")]
     public AwsBillingconductorCreatePricingRuleScope? Scope { get; private init; }
 
     /// <summary>
-    /// The type of pricing rule. Possible values: o MARKUP o DISCOUNT o TIERING
+    /// The type of pricing rule. Possible values: • MARKUP • DISCOUNT • TIERING
     /// </summary>
     [CliOption("--type")]
     public AwsBillingconductorCreatePricingRuleType? Type { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you specify to ensure idem- potency of the request. Idempotency ensures that an API request com- pletes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries com- plete successfully without performing any further actions. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+
+    /// A unique, case-sensitive identifier that you specify to ensure idempotency of the request. Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries complete successfully without performing any further actions. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The pricing rule description. Constraints: o min: 0 o max: 1024
+    /// The pricing rule description. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A percentage modifier that's applied on the public pricing rates. Your entry will be rounded to the nearest 2 decimal places. Constraints: o min: 0
+    /// A percentage modifier that's applied on the public pricing rates. Your entry will be rounded to the nearest 2 decimal places. Constraints: • min: 0
     /// </summary>
     [CliOption("--modifier-percentage")]
-    public int? ModifierPercentage { get; set; }
+    public double? ModifierPercentage { get; set; }
 
     /// <summary>
-    /// If the Scope attribute is set to SERVICE or SKU , the attribute in- dicates which service the PricingRule is applicable for. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9]+
+    /// If the Scope attribute is set to SERVICE or SKU , the attribute indicates which service the PricingRule is applicable for. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9]+
     /// </summary>
     [CliOption("--service")]
     public string? Service { get; set; }
 
     /// <summary>
-    /// A map that contains tag keys and tag values that are attached to a pricing rule. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map that contains tag keys and tag values that are attached to a pricing rule. Constraints: • min: 1 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The seller of services provided by Amazon Web Services, their affil- iates, or third-party providers selling services via Amazon Web Ser- vices Marketplace. Constraints: o pattern: [a-zA-Z0-9() ]+
+    /// The seller of services provided by Amazon Web Services, their affiliates, or third-party providers selling services via Amazon Web Services Marketplace. Constraints: • pattern: [a-zA-Z0-9() ]+
     /// </summary>
     [CliOption("--billing-entity")]
     public string? BillingEntity { get; set; }
 
     /// <summary>
-    /// The set of tiering configurations for the pricing rule. FreeTier -&gt; (structure) The possible Amazon Web Services Free Tier configurations. Activated -&gt; (boolean) [required] Activate or deactivate Amazon Web Services Free Tier. CustomTiers -&gt; (list) The set of custom tiers for the pricing rule. Constraints: o min: 1 o max: 10 (structure) A custom tier for the pricing rule. Each custom tier applies a rate to the usage that falls within the tier's range. BeginRangeInclusive -&gt; (double) [required] The inclusive start of the usage range that this tier ap- plies to. Constraints: o min: 0 EndRangeExclusive -&gt; (double) The exclusive end of the usage range that this tier ap- plies to. If you don't specify a value, this tier applies to all usage that is greater than or equal to Begin- RangeInclusive . Constraints: o min: 0 RateValue -&gt; (double) [required] The rate that's applied to the usage that falls within this tier. Constraints: o min: 0 Shorthand Syntax: FreeTier={Activated=boolean},CustomTiers=[{BeginRangeInclusive=double,EndRangeExclusive=double,RateValue=double},{BeginRangeInclusive=double,EndRangeExclusive=double,RateValue=double}] JSON Syntax: { "FreeTier": { "Activated": true|false }, "CustomTiers": [ { "BeginRangeInclusive": double, "EndRangeExclusive": double, "RateValue": double } ... ] }
+    /// The set of tiering configurations for the pricing rule. FreeTier -&gt; (structure) The possible Amazon Web Services Free Tier configurations. Activated -&gt; (boolean) [required] Activate or deactivate Amazon Web Services Free Tier. CustomTiers -&gt; (list) The set of custom tiers for the pricing rule. Constraints: • min: 1 • max: 10 (structure) A custom tier for the pricing rule. Each custom tier applies a rate to the usage that falls within the tier's range. BeginRangeInclusive -&gt; (double) [required] The inclusive start of the usage range that this tier applies to. Constraints: • min: 0 EndRangeExclusive -&gt; (double) The exclusive end of the usage range that this tier applies to. If you don't specify a value, this tier applies to all usage that is greater than or equal to BeginRangeInclusive . Constraints: • min: 0 RateValue -&gt; (double) [required] The rate that's applied to the usage that falls within this tier. Constraints: • min: 0 Shorthand Syntax: FreeTier={Activated=boolean},CustomTiers=[{BeginRangeInclusive=double,EndRangeExclusive=double,RateValue=double},{BeginRangeInclusive=double,EndRangeExclusive=double,RateValue=double}] JSON Syntax: { "FreeTier": { "Activated": true|false }, "CustomTiers": [ { "BeginRangeInclusive": double, "EndRangeExclusive": double, "RateValue": double } ... ] }
     /// </summary>
     [CliOption("--tiering")]
     public string? Tiering { get; set; }
 
     /// <summary>
-    /// Usage type is the unit that each service uses to measure the usage of a specific type of resource. If the Scope attribute is set to SKU , this attribute indicates which usage type the PricingRule is modifying. For example, USW2-BoxUsage:m2.2xlarge describes an``M2 High Memory Double Extra Large`` instance in the US West (Oregon) Region. Constraints: o min: 1 o max: 256 o pattern: \S+
+    /// Usage type is the unit that each service uses to measure the usage of a specific type of resource. If the Scope attribute is set to SKU , this attribute indicates which usage type the PricingRule is modifying. For example, USW2-BoxUsage:m2.2xlarge describes an``M2 High Memory Double Extra Large`` instance in the US West (Oregon) Region. Constraints: • min: 1 • max: 256 • pattern: \S+
     /// </summary>
     [CliOption("--usage-type")]
     public string? UsageType { get; set; }
 
     /// <summary>
-    /// Operation is the specific Amazon Web Services action covered by this line item. This describes the specific usage of the line item. If the Scope attribute is set to SKU , this attribute indicates which operation the PricingRule is modifying. For example, a value of RunInstances:0202 indicates the operation of running an Amazon EC2 instance. Constraints: o min: 1 o max: 256 o pattern: \S+
+    /// Operation is the specific Amazon Web Services action covered by this line item. This describes the specific usage of the line item. If the Scope attribute is set to SKU , this attribute indicates which operation the PricingRule is modifying. For example, a value of RunInstances:0202 indicates the operation of running an Amazon EC2 instance. Constraints: • min: 1 • max: 256 • pattern: \S+
     /// </summary>
     [CliOption("--operation")]
     public string? Operation { get; set; }

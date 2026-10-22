@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns Insights events generated on a trail that logs data events. You can list Insights events that occurred in a Region within the last 90 days. ListInsightsData supports the following Dimensions for Insights events: o Event ID o Event name o Event source All dimensions are optional. The default number of results returned is 50, with a maximum of 50 possible. The response includes a token that you can use to get the next page of results. The rate of ListInsightsData requests is limited to two...
+/// Returns Insights events generated on a trail that logs data events. You can list Insights events that occurred in a Region within the last 90 days. ListInsightsData supports the following Dimensions for Insights events: • Event ID • Event name • Event source All dimensions are optional. The default number of results returned is 50, with a maximum of 50 possible. The response includes a token that you can use to get the next page of results. The rate of ListInsightsData requests is limited to two...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsCloudtrailListInsightsDataOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns Insights events generated on a trail that logs data events. You can list Insights events that occurred in a Region within the last 90 days. ListInsightsData supports the following Dimensions for Insights events: o Event ID o Event name o Event source All dimensions are optional. The default number of results returned is 50, with a maximum of 50 possible. The response includes a token that you can use to get the next page of results. The rate of ListInsightsData requests is limited to two...
+    /// Returns Insights events generated on a trail that logs data events. You can list Insights events that occurred in a Region within the last 90 days. ListInsightsData supports the following Dimensions for Insights events: • Event ID • Event name • Event source All dimensions are optional. The default number of results returned is 50, with a maximum of 50 possible. The response includes a token that you can use to get the next page of results. The rate of ListInsightsData requests is limited to two...
     /// </summary>
-    /// <param name="InsightSource">The Amazon Resource Name(ARN) of the trail for which you want to re- trieve Insights events. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$</param>
-    /// <param name="DataType">Specifies the category of events returned. To fetch Insights events, specify InsightsEvents as the value of DataType Possible values: o InsightsEvents</param>
+    /// <param name="InsightSource">The Amazon Resource Name(ARN) of the trail for which you want to retrieve Insights events. Constraints: • min: 3 • max: 256 • pattern: ^[a-zA-Z0-9._/\-:]+$</param>
+    /// <param name="DataType">Specifies the category of events returned. To fetch Insights events, specify InsightsEvents as the value of DataType Possible values: • InsightsEvents</param>
     public AwsCloudtrailListInsightsDataOptions(
         string InsightSource,
         string DataType
@@ -62,19 +63,19 @@ public record AwsCloudtrailListInsightsDataOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name(ARN) of the trail for which you want to re- trieve Insights events. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$
+    /// The Amazon Resource Name(ARN) of the trail for which you want to retrieve Insights events. Constraints: • min: 3 • max: 256 • pattern: ^[a-zA-Z0-9._/\-:]+$
     /// </summary>
     [CliOption("--insight-source")]
     public string? InsightSource { get; private init; }
 
     /// <summary>
-    /// Specifies the category of events returned. To fetch Insights events, specify InsightsEvents as the value of DataType Possible values: o InsightsEvents
+    /// Specifies the category of events returned. To fetch Insights events, specify InsightsEvents as the value of DataType Possible values: • InsightsEvents
     /// </summary>
     [CliOption("--data-type")]
     public string? DataType { get; private init; }
 
     /// <summary>
-    /// Contains a map of dimensions. Currently the map can contain only one item. Constraints: o min: 1 o max: 1 key -&gt; (string) Possible values: o EventId o EventName o EventSource value -&gt; (string) Constraints: o min: 1 o max: 2000 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: EventId EventName EventSource JSON Syntax: {"EventId"|"EventName"|"EventSource": "string" ...}
+    /// Contains a map of dimensions. Currently the map can contain only one item. Constraints: • min: 1 • max: 1 key -&gt; (string) Possible values: • EventId • EventName • EventSource value -&gt; (string) Constraints: • min: 1 • max: 2000 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: EventId EventName EventSource JSON Syntax: {"EventId"|"EventName"|"EventSource": "string" ...}
     /// </summary>
     [CliOption("--dimensions", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Dimensions { get; set; }
@@ -94,9 +95,6 @@ public record AwsCloudtrailListInsightsDataOptions : AwsOptions, IValidatableObj
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -105,16 +103,19 @@ public record AwsCloudtrailListInsightsDataOptions : AwsOptions, IValidatableObj
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 50
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

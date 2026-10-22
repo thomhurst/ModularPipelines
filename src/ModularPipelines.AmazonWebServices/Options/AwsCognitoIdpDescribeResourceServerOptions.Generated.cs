@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCognitoIdpDescribeResourceServerOptions : AwsOptions, IValidata
     /// <summary>
     /// Describes a resource server. For more information about resource servers, see Access control with resource servers . See also: AWS API Documentation
     /// </summary>
-    /// <param name="UserPoolId">The ID of the user pool that hosts the resource server. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
-    /// <param name="Identifier">A unique resource server identifier for the resource server. The identifier can be an API friendly name like solar-system-data . You can also set an API URL like https://solar-system-data-api.exam- ple.com as your identifier. Amazon Cognito represents scopes in the access token in the format $resource-server-identifier/$scope . Longer scope-identifier strings increase the size of your access tokens. Constraints: o min: 1 o max: 256 o pattern: [\x21\x23-\x5B\x5D-\x7E]+</param>
+    /// <param name="UserPoolId">The ID of the user pool that hosts the resource server. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="Identifier">A unique resource server identifier for the resource server. The identifier can be an API friendly name like solar-system-data . You can also set an API URL like https://solar-system-data-api.example.com as your identifier. Amazon Cognito represents scopes in the access token in the format $resource-server-identifier/$scope . Longer scope-identifier strings increase the size of your access tokens. Constraints: • min: 1 • max: 256 • pattern: [\x21\x23-\x5B\x5D-\x7E]+</param>
     public AwsCognitoIdpDescribeResourceServerOptions(
         string UserPoolId,
         string Identifier
@@ -60,13 +62,13 @@ public record AwsCognitoIdpDescribeResourceServerOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the user pool that hosts the resource server. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// The ID of the user pool that hosts the resource server. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--user-pool-id")]
     public string? UserPoolId { get; private init; }
 
     /// <summary>
-    /// A unique resource server identifier for the resource server. The identifier can be an API friendly name like solar-system-data . You can also set an API URL like https://solar-system-data-api.exam- ple.com as your identifier. Amazon Cognito represents scopes in the access token in the format $resource-server-identifier/$scope . Longer scope-identifier strings increase the size of your access tokens. Constraints: o min: 1 o max: 256 o pattern: [\x21\x23-\x5B\x5D-\x7E]+
+    /// A unique resource server identifier for the resource server. The identifier can be an API friendly name like solar-system-data . You can also set an API URL like https://solar-system-data-api.example.com as your identifier. Amazon Cognito represents scopes in the access token in the format $resource-server-identifier/$scope . Longer scope-identifier strings increase the size of your access tokens. Constraints: • min: 1 • max: 256 • pattern: [\x21\x23-\x5B\x5D-\x7E]+
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }

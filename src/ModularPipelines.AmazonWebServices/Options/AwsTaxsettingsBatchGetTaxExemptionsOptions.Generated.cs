@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Get the active tax exemptions for a given list of accounts. The IAM ac- tion is tax:GetExemptions . See also: AWS API Documentation
+/// Get the active tax exemptions for a given list of accounts. The IAM action is tax:GetExemptions . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsTaxsettingsBatchGetTaxExemptionsOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Get the active tax exemptions for a given list of accounts. The IAM ac- tion is tax:GetExemptions . See also: AWS API Documentation
+    /// Get the active tax exemptions for a given list of accounts. The IAM action is tax:GetExemptions . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountIds">List of unique account identifiers. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 12 o max: 12 o pattern: \d+ Syntax: "string" "string" ...</param>
+    /// <param name="AccountIds">List of unique account identifiers. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 12 • max: 12 • pattern: \d+ Syntax: "string" "string" ...</param>
     public AwsTaxsettingsBatchGetTaxExemptionsOptions(
         IEnumerable<string> AccountIds
     )
@@ -67,7 +69,7 @@ public record AwsTaxsettingsBatchGetTaxExemptionsOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// List of unique account identifiers. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 12 o max: 12 o pattern: \d+ Syntax: "string" "string" ...
+    /// List of unique account identifiers. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 12 • max: 12 • pattern: \d+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; private init; }

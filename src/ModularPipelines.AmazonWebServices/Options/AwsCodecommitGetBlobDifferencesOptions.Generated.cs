@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a structured, line-level diff between two blob versions in a repository. The diff is returned as an ordered list of hunks, where each hunk represents a contiguous run of changed lines together with any surrounding unchanged context lines. Results are paginated. Use MaxResults and NextToken to retrieve addi- tional pages. For the typical usage workflow, see GetDifferences . See also: AWS API Documentation get-blob-differences is a paginated operation. Multiple API calls may be issued in o...
+/// Returns a structured, line-level diff between two blob versions in a repository. The diff is returned as an ordered list of hunks, where each hunk represents a contiguous run of changed lines together with any surrounding unchanged context lines. Results are paginated. Use MaxResults and NextToken to retrieve additional pages. For the typical usage workflow, see GetDifferences . See also: AWS API Documentation get-blob-differences is a paginated operation. Multiple API calls may be issued in ord...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsCodecommitGetBlobDifferencesOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a structured, line-level diff between two blob versions in a repository. The diff is returned as an ordered list of hunks, where each hunk represents a contiguous run of changed lines together with any surrounding unchanged context lines. Results are paginated. Use MaxResults and NextToken to retrieve addi- tional pages. For the typical usage workflow, see GetDifferences . See also: AWS API Documentation get-blob-differences is a paginated operation. Multiple API calls may be issued in o...
+    /// Returns a structured, line-level diff between two blob versions in a repository. The diff is returned as an ordered list of hunks, where each hunk represents a contiguous run of changed lines together with any surrounding unchanged context lines. Results are paginated. Use MaxResults and NextToken to retrieve additional pages. For the typical usage workflow, see GetDifferences . See also: AWS API Documentation get-blob-differences is a paginated operation. Multiple API calls may be issued in ord...
     /// </summary>
-    /// <param name="RepositoryName">The name of the repository that contains the blobs to compare. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
-    /// <param name="AfterBlobId">The ID of the "after" (destination) blob in the diff. Typically the value of afterBlob.blobId from a Difference object returned by Get- Differences .</param>
+    /// <param name="RepositoryName">The name of the repository that contains the blobs to compare. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+</param>
+    /// <param name="AfterBlobId">The ID of the "after" (destination) blob in the diff. Typically the value of afterBlob.blobId from a Difference object returned by GetDifferences .</param>
     public AwsCodecommitGetBlobDifferencesOptions(
         string RepositoryName,
         string AfterBlobId
@@ -61,13 +63,13 @@ public record AwsCodecommitGetBlobDifferencesOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the repository that contains the blobs to compare. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// The name of the repository that contains the blobs to compare. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
 
     /// <summary>
-    /// The ID of the "after" (destination) blob in the diff. Typically the value of afterBlob.blobId from a Difference object returned by Get- Differences .
+    /// The ID of the "after" (destination) blob in the diff. Typically the value of afterBlob.blobId from a Difference object returned by GetDifferences .
     /// </summary>
     [CliOption("--after-blob-id")]
     public string? AfterBlobId { get; private init; }
@@ -79,7 +81,7 @@ public record AwsCodecommitGetBlobDifferencesOptions : AwsOptions, IValidatableO
     public string? BeforeBlobId { get; set; }
 
     /// <summary>
-    /// The number of unchanged lines of context to include before and after each block of changes in a hunk. Valid values are 0 through 20. De- faults to 3 .
+    /// The number of unchanged lines of context to include before and after each block of changes in a hunk. Valid values are 0 through 20. Defaults to 3 .
     /// </summary>
     [CliOption("--context-lines")]
     public int? ContextLines { get; set; }
@@ -93,9 +95,6 @@ public record AwsCodecommitGetBlobDifferencesOptions : AwsOptions, IValidatableO
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -104,16 +103,19 @@ public record AwsCodecommitGetBlobDifferencesOptions : AwsOptions, IValidatableO
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSecurityIrCancelMembershipOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Cancels an existing membership. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MembershipId">Required element used in combination with CancelMembershipRequest to identify the membership ID to cancel. Constraints: o min: 12 o max: 34 o pattern: m-[a-z0-9]{10,32}</param>
+    /// <param name="MembershipId">Required element used in combination with CancelMembershipRequest to identify the membership ID to cancel. Constraints: • min: 12 • max: 34 • pattern: m-[a-z0-9]{10,32}</param>
     public AwsSecurityIrCancelMembershipOptions(
         string MembershipId
     )
@@ -56,7 +58,7 @@ public record AwsSecurityIrCancelMembershipOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Required element used in combination with CancelMembershipRequest to identify the membership ID to cancel. Constraints: o min: 12 o max: 34 o pattern: m-[a-z0-9]{10,32}
+    /// Required element used in combination with CancelMembershipRequest to identify the membership ID to cancel. Constraints: • min: 12 • max: 34 • pattern: m-[a-z0-9]{10,32}
     /// </summary>
     [CliOption("--membership-id")]
     public string? MembershipId { get; private init; }

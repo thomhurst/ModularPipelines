@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -18,7 +19,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new accessor for use with Amazon Managed Blockchain service that supports token based access. The accessor contains information re- quired for token based access. See also: AWS API Documentation
+/// Creates a new accessor for use with Amazon Managed Blockchain service that supports token based access. The accessor contains information required for token based access. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,9 +29,9 @@ public record AwsManagedblockchainCreateAccessorOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new accessor for use with Amazon Managed Blockchain service that supports token based access. The accessor contains information re- quired for token based access. See also: AWS API Documentation
+    /// Creates a new accessor for use with Amazon Managed Blockchain service that supports token based access. The accessor contains information required for token based access. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccessorType">The type of accessor. NOTE: Currently, accessor type is restricted to BILLING_TOKEN . Possible values: o BILLING_TOKEN</param>
+    /// <param name="AccessorType">The type of accessor. NOTE: Currently, accessor type is restricted to BILLING_TOKEN . Possible values: • BILLING_TOKEN</param>
     public AwsManagedblockchainCreateAccessorOptions(
         string AccessorType
     )
@@ -59,26 +60,26 @@ public record AwsManagedblockchainCreateAccessorOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of accessor. NOTE: Currently, accessor type is restricted to BILLING_TOKEN . Possible values: o BILLING_TOKEN
+    /// The type of accessor. NOTE: Currently, accessor type is restricted to BILLING_TOKEN . Possible values: • BILLING_TOKEN
     /// </summary>
     [CliOption("--accessor-type")]
     public string? AccessorType { get; private init; }
 
     /// <summary>
-    /// This is a unique, case-sensitive identifier that you provide to en- sure the idempotency of the operation. An idempotent operation com- pletes no more than once. This identifier is required only if you make a service request directly using an HTTP client. It is gener- ated automatically if you use an Amazon Web Services SDK or the Ama- zon Web Services CLI. Constraints: o min: 1 o max: 64
+    /// This is a unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than once. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an Amazon Web Services SDK or the Amazon Web Services CLI. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// Tags to assign to the Accessor. Each tag consists of a key and an optional value. You can specify multiple key-value pairs in a single request with an overall maximum of 50 tags allowed per resource. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide , or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide . Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags to assign to the Accessor. Each tag consists of a key and an optional value. You can specify multiple key-value pairs in a single request with an overall maximum of 50 tags allowed per resource. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide , or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide . Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The blockchain network that the Accessor token is created for. NOTE: o Use the actual networkType value for the blockchain network that you are creating the Accessor token for. o With the shut down of the Ethereum Goerli and Polygon Mumbai Testnet networks the following networkType values are no longer available for selection and use. o ETHEREUM_MAINNET_AND_GOERLI o ETHEREUM_GOERLI o POLYGON_MUMBAI However, your existing Accessor tokens with these networkType values will remain unchanged. Possible values: o ETHEREUM_GOERLI o ETHEREUM_MAINNET o ETHEREUM_MAINNET_AND_GOERLI o POLYGON_MAINNET o POLYGON_MUMBAI
+    /// The blockchain network that the Accessor token is created for. NOTE: • Use the actual networkType value for the blockchain network that you are creating the Accessor token for. • With the shut down of the Ethereum Goerli and Polygon Mumbai Testnet networks the following networkType values are no longer available for selection and use. • ETHEREUM_MAINNET_AND_GOERLI • ETHEREUM_GOERLI • POLYGON_MUMBAI However, your existing Accessor tokens with these networkType values will remain unchanged. Possible values: • ETHEREUM_GOERLI • ETHEREUM_MAINNET • ETHEREUM_MAINNET_AND_GOERLI • POLYGON_MAINNET • POLYGON_MUMBAI
     /// </summary>
     [CliOption("--network-type")]
     public AwsManagedblockchainCreateAccessorNetworkType? NetworkType { get; set; }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsOpensearchserverlessDeleteVpcEndpointOptions : AwsOptions, IVal
     /// <summary>
     /// Deletes an OpenSearch Serverless-managed interface endpoint. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The VPC endpoint identifier. Constraints: o min: 1 o max: 255 o pattern: vpce-[0-9a-z]*</param>
+    /// <param name="Id">The VPC endpoint identifier. Constraints: • min: 1 • max: 255 • pattern: vpce-[0-9a-z]*</param>
     public AwsOpensearchserverlessDeleteVpcEndpointOptions(
         string Id
     )
@@ -57,13 +59,13 @@ public record AwsOpensearchserverlessDeleteVpcEndpointOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The VPC endpoint identifier. Constraints: o min: 1 o max: 255 o pattern: vpce-[0-9a-z]*
+    /// The VPC endpoint identifier. Constraints: • min: 1 • max: 255 • pattern: vpce-[0-9a-z]*
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 1 o max: 512
+    /// Unique, case-sensitive identifier to ensure idempotency of the request. Constraints: • min: 1 • max: 512
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

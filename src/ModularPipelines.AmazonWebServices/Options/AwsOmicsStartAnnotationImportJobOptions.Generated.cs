@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,9 +29,9 @@ public record AwsOmicsStartAnnotationImportJobOptions : AwsOptions, IValidatable
     /// <summary>
     /// WARNING: Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see Amazon Web Services HealthOmics variant store and annotation store availability change . Starts an annotation import job. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DestinationName">A destination annotation store for the job. Constraints: o min: 3 o max: 255 o pattern: ([a-z]){1}([a-z0-9_]){2,254}</param>
-    /// <param name="RoleArn">A service role for the job. Constraints: o min: 20 o max: 2048 o pattern: arn:([^: ]*):([^: ]*):([^: ]*):([0-9]{12}):([^: ]*)</param>
-    /// <param name="Items">Items to import. Constraints: o min: 1 (structure) A source for an annotation import job. source -&gt; (string) [required] The source file's location in Amazon S3. Constraints: o pattern: s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/(.{1,1024}) Shorthand Syntax: source=string ... JSON Syntax: [ { "source": "string" } ... ]</param>
+    /// <param name="DestinationName">A destination annotation store for the job. Constraints: • min: 3 • max: 255 • pattern: ([a-z]){1}([a-z0-9_]){2,254}</param>
+    /// <param name="RoleArn">A service role for the job. Constraints: • min: 20 • max: 2048 • pattern: arn:([^: ]*):([^: ]*):([^: ]*):([0-9]{12}):([^: ]*)</param>
+    /// <param name="Items">Items to import. Constraints: • min: 1 (structure) A source for an annotation import job. source -&gt; (string) [required] The source file's location in Amazon S3. Constraints: • pattern: s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/(.{1,1024}) Shorthand Syntax: source=string ... JSON Syntax: [ { "source": "string" } ... ]</param>
     public AwsOmicsStartAnnotationImportJobOptions(
         string DestinationName,
         string RoleArn,
@@ -76,31 +77,31 @@ public record AwsOmicsStartAnnotationImportJobOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A destination annotation store for the job. Constraints: o min: 3 o max: 255 o pattern: ([a-z]){1}([a-z0-9_]){2,254}
+    /// A destination annotation store for the job. Constraints: • min: 3 • max: 255 • pattern: ([a-z]){1}([a-z0-9_]){2,254}
     /// </summary>
     [CliOption("--destination-name")]
     public string? DestinationName { get; private init; }
 
     /// <summary>
-    /// A service role for the job. Constraints: o min: 20 o max: 2048 o pattern: arn:([^: ]*):([^: ]*):([^: ]*):([0-9]{12}):([^: ]*)
+    /// A service role for the job. Constraints: • min: 20 • max: 2048 • pattern: arn:([^: ]*):([^: ]*):([^: ]*):([0-9]{12}):([^: ]*)
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// Items to import. Constraints: o min: 1 (structure) A source for an annotation import job. source -&gt; (string) [required] The source file's location in Amazon S3. Constraints: o pattern: s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/(.{1,1024}) Shorthand Syntax: source=string ... JSON Syntax: [ { "source": "string" } ... ]
+    /// Items to import. Constraints: • min: 1 (structure) A source for an annotation import job. source -&gt; (string) [required] The source file's location in Amazon S3. Constraints: • pattern: s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/(.{1,1024}) Shorthand Syntax: source=string ... JSON Syntax: [ { "source": "string" } ... ]
     /// </summary>
     [CliOption("--items", GroupValues = true)]
     public IEnumerable<string>? Items { get; private init; }
 
     /// <summary>
-    /// The name of the annotation store version. Constraints: o min: 3 o max: 255 o pattern: ([a-z]){1}([a-z0-9_]){2,254}
+    /// The name of the annotation store version. Constraints: • min: 3 • max: 255 • pattern: ([a-z]){1}([a-z0-9_]){2,254}
     /// </summary>
     [CliOption("--version-name")]
     public string? VersionName { get; set; }
 
     /// <summary>
-    /// Formatting options for the annotation file. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: tsvOptions, vcfOptions. tsvOptions -&gt; (structure) Options for a TSV file. readOptions -&gt; (structure) The file's read options. sep -&gt; (string) The file's field separator. Constraints: o min: 1 o max: 20 encoding -&gt; (string) The file's encoding. Constraints: o min: 1 o max: 20 quote -&gt; (string) The file's quote character. Constraints: o min: 1 o max: 1 quoteAll -&gt; (boolean) Whether all values need to be quoted, or just those that contain quotes. escape -&gt; (string) A character for escaping quotes in the file. Constraints: o min: 1 o max: 1 escapeQuotes -&gt; (boolean) Whether quotes need to be escaped in the file. comment -&gt; (string) The file's comment character. Constraints: o min: 1 o max: 1 header -&gt; (boolean) Whether the file has a header row. lineSep -&gt; (string) A line separator for the file. Constraints: o min: 1 o max: 20 vcfOptions -&gt; (structure) Options for a VCF file. ignoreQualField -&gt; (boolean) The file's ignore qual field setting. ignoreFilterField -&gt; (boolean) The file's ignore filter field setting. Shorthand Syntax: tsvOptions={readOptions={sep=string,encoding=string,quote=string,quoteAll=boolean,escape=string,escapeQuotes=boolean,comment=string,header=boolean,lineSep=string}},vcfOptions={ignoreQualField=boolean,ignoreFilterField=boolean} JSON Syntax: { "tsvOptions": { "readOptions": { "sep": "string", "encoding": "string", "quote": "string", "quoteAll": true|false, "escape": "string", "escapeQuotes": true|false, "comment": "string", "header": true|false, "lineSep": "string" } }, "vcfOptions": { "ignoreQualField": true|false, "ignoreFilterField": true|false } }
+    /// Formatting options for the annotation file. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: tsvOptions, vcfOptions. tsvOptions -&gt; (structure) Options for a TSV file. readOptions -&gt; (structure) The file's read options. sep -&gt; (string) The file's field separator. Constraints: • min: 1 • max: 20 encoding -&gt; (string) The file's encoding. Constraints: • min: 1 • max: 20 quote -&gt; (string) The file's quote character. Constraints: • min: 1 • max: 1 quoteAll -&gt; (boolean) Whether all values need to be quoted, or just those that contain quotes. escape -&gt; (string) A character for escaping quotes in the file. Constraints: • min: 1 • max: 1 escapeQuotes -&gt; (boolean) Whether quotes need to be escaped in the file. comment -&gt; (string) The file's comment character. Constraints: • min: 1 • max: 1 header -&gt; (boolean) Whether the file has a header row. lineSep -&gt; (string) A line separator for the file. Constraints: • min: 1 • max: 20 vcfOptions -&gt; (structure) Options for a VCF file. ignoreQualField -&gt; (boolean) The file's ignore qual field setting. ignoreFilterField -&gt; (boolean) The file's ignore filter field setting. Shorthand Syntax: tsvOptions={readOptions={sep=string,encoding=string,quote=string,quoteAll=boolean,escape=string,escapeQuotes=boolean,comment=string,header=boolean,lineSep=string}},vcfOptions={ignoreQualField=boolean,ignoreFilterField=boolean} JSON Syntax: { "tsvOptions": { "readOptions": { "sep": "string", "encoding": "string", "quote": "string", "quoteAll": true|false, "escape": "string", "escapeQuotes": true|false, "comment": "string", "header": true|false, "lineSep": "string" } }, "vcfOptions": { "ignoreQualField": true|false, "ignoreFilterField": true|false } }
     /// </summary>
     [CliOption("--format-options")]
     public string? FormatOptions { get; set; }
@@ -112,7 +113,7 @@ public record AwsOmicsStartAnnotationImportJobOptions : AwsOptions, IValidatable
     public bool? RunLeftNormalization { get; set; }
 
     /// <summary>
-    /// The annotation schema generated by the parsed annotation data. key -&gt; (string) Constraints: o min: 1 o max: 21 value -&gt; (string) Constraints: o min: 1 o max: 21 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The annotation schema generated by the parsed annotation data. key -&gt; (string) Constraints: • min: 1 • max: 21 value -&gt; (string) Constraints: • min: 1 • max: 21 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--annotation-fields", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AnnotationFields { get; set; }

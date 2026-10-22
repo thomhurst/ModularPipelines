@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the properties of specific versions of DB engines. See also: AWS API Documentation describe-db-engine-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DBEngineVersions
+/// Describes the properties of specific versions of DB engines. See also: AWS API Documentation describe-db-engine-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DBEngineVersions
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsRdsDescribeDbEngineVersionsOptions : AwsOptions
 {
     /// <summary>
-    /// The database engine to return version details for. Valid Values: o aurora-mysql o aurora-postgresql o custom-oracle-ee o custom-oracle-ee-cdb o custom-oracle-se2 o custom-oracle-se2-cdb o db2-ae o db2-ce o db2-se o mariadb o mysql o oracle-ee o oracle-ee-cdb o oracle-se2 o oracle-se2-cdb o postgres o sqlserver-ee o sqlserver-se o sqlserver-ex o sqlserver-web o sqlserver-dev-ee
+    /// The database engine to return version details for. Valid Values: • aurora-mysql • aurora-postgresql • custom-oracle-ee • custom-oracle-ee-cdb • custom-oracle-se2 • custom-oracle-se2-cdb • db2-ae • db2-ce • db2-se • mariadb • mysql • oracle-ee • oracle-ee-cdb • oracle-se2 • oracle-se2-cdb • postgres • sqlserver-ee • sqlserver-se • sqlserver-ex • sqlserver-web • sqlserver-dev-ee
     /// </summary>
     [CliOption("--engine")]
     public string? Engine { get; set; }
@@ -35,25 +35,25 @@ public record AwsRdsDescribeDbEngineVersionsOptions : AwsOptions
     public string? EngineVersion { get; set; }
 
     /// <summary>
-    /// The name of a specific DB parameter group family to return details for. Constraints: o If supplied, must match an existing DB parameter group family.
+    /// The name of a specific DB parameter group family to return details for. Constraints: • If supplied, must match an existing DB parameter group family.
     /// </summary>
     [CliOption("--db-parameter-group-family")]
     public string? DbParameterGroupFamily { get; set; }
 
     /// <summary>
-    /// A filter that specifies one or more DB engine versions to describe. Supported filters: o db-parameter-group-family - Accepts parameter groups family names. The results list only includes information about the DB engine versions for these parameter group families. o engine - Accepts engine names. The results list only includes in- formation about the DB engine versions for these engines. o engine-mode - Accepts DB engine modes. The results list only in- cludes information about the DB engine versions for these engine modes. Valid DB engine modes are the following: o global o multimaster o parallelquery o provisioned o serverless o engine-version - Accepts engine versions. The results list only includes information about the DB engine versions for these engine versions. o status - Accepts engine version statuses. The results list only includes information about the DB engine versions for these sta- tuses. Valid statuses are the following: o available o deprecated (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as IDs. The filters supported by a describe operation are docu- mented with the describe operation. NOTE: Currently, wildcards are not supported in filters. The following actions can be filtered: o DescribeDBClusterBacktracks o DescribeDBClusterEndpoints o DescribeDBClusters o DescribeDBInstances o DescribeDBRecommendations o DescribeDBShardGroups o DescribePendingMaintenanceActions Name -&gt; (string) [required] The name of the filter. Filter names are case-sensitive. Values -&gt; (list) [required] One or more filter values. Filter values are case-sensitive. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// A filter that specifies one or more DB engine versions to describe. Supported filters: • db-parameter-group-family - Accepts parameter groups family names. The results list only includes information about the DB engine versions for these parameter group families. • engine - Accepts engine names. The results list only includes information about the DB engine versions for these engines. • engine-mode - Accepts DB engine modes. The results list only includes information about the DB engine versions for these engine modes. Valid DB engine modes are the following: • global • multimaster • parallelquery • provisioned • serverless • engine-version - Accepts engine versions. The results list only includes information about the DB engine versions for these engine versions. • status - Accepts engine version statuses. The results list only includes information about the DB engine versions for these statuses. Valid statuses are the following: • available • deprecated (structure) A filter name and value pair that is used to return a more specific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as IDs. The filters supported by a describe operation are documented with the describe operation. NOTE: Currently, wildcards are not supported in filters. The following actions can be filtered: • DescribeDBClusterBacktracks • DescribeDBClusterEndpoints • DescribeDBClusters • DescribeDBInstances • DescribeDBRecommendations • DescribeDBShardGroups • DescribePendingMaintenanceActions Name -&gt; (string) [required] The name of the filter. Filter names are case-sensitive. Values -&gt; (list) [required] One or more filter values. Filter values are case-sensitive. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// Specifies whether to return only the default version of the speci- fied engine or the engine and major version combination.
+    /// Specifies whether to return only the default version of the specified engine or the engine and major version combination.
     /// </summary>
     [CliFlag("--default-only", NegatedName = "--no-default-only")]
     public bool? DefaultOnly { get; set; }
 
     /// <summary>
-    /// Specifies whether to list the supported character sets for each en- gine version. If this parameter is enabled and the requested engine supports the CharacterSetName parameter for CreateDBInstance , the response in- cludes a list of supported character sets for each engine version. For RDS Custom, the default is not to list supported character sets. If you enable this parameter, RDS Custom returns no results.
+    /// Specifies whether to list the supported character sets for each engine version. If this parameter is enabled and the requested engine supports the CharacterSetName parameter for CreateDBInstance , the response includes a list of supported character sets for each engine version. For RDS Custom, the default is not to list supported character sets. If you enable this parameter, RDS Custom returns no results.
     /// </summary>
     [CliFlag("--list-supported-character-sets", NegatedName = "--no-list-supported-character-sets")]
     public bool? ListSupportedCharacterSets { get; set; }
@@ -73,9 +73,6 @@ public record AwsRdsDescribeDbEngineVersionsOptions : AwsOptions
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -84,15 +81,18 @@ public record AwsRdsDescribeDbEngineVersionsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

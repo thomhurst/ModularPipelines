@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +31,7 @@ public record AwsFinspaceListKxClustersOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns a list of clusters. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EnvironmentId">A unique identifier for the kdb environment. Constraints: o min: 1 o max: 32 o pattern: ^[a-z0-9]+$</param>
+    /// <param name="EnvironmentId">A unique identifier for the kdb environment. Constraints: • min: 1 • max: 32 • pattern: ^[a-z0-9]+$</param>
     public AwsFinspaceListKxClustersOptions(
         string EnvironmentId
     )
@@ -58,25 +60,25 @@ public record AwsFinspaceListKxClustersOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the kdb environment. Constraints: o min: 1 o max: 32 o pattern: ^[a-z0-9]+$
+    /// A unique identifier for the kdb environment. Constraints: • min: 1 • max: 32 • pattern: ^[a-z0-9]+$
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
 
     /// <summary>
-    /// Specifies the type of KDB database that is being created. The fol- lowing types are available: o HDB A Historical Database. The data is only accessible with read-only permissions from one of the FinSpace managed kdb data- bases mounted to the cluster. o RDB A Realtime Database. This type of database captures all the data from a ticker plant and stores it in memory until the end of day, after which it writes all of its data to a disk and reloads the HDB. This cluster type requires local storage for temporary storage of data during the savedown process. If you specify this field in your request, you must provide the savedownStorageConfig- uration parameter. o GATEWAY A gateway cluster allows you to access data across processes in kdb systems. It allows you to create your own routing logic using the initialization scripts and custom code. This type of cluster does not require a writable local storage. o GP A general purpose cluster allows you to quickly iterate on code during development by granting greater access to system com- mands and enabling a fast reload of custom code. This cluster type can optionally mount databases including cache and savedown stor- age. For this cluster type, the node count is fixed at 1. It does not support autoscaling and supports only SINGLE AZ mode. o Tickerplant A tickerplant cluster allows you to subscribe to feed handlers based on IAM permissions. It can publish to RDBs, other Tickerplants, and real-time subscribers (RTS). Tickerplants can persist messages to log, which is readable by any RDB environment. It supports only single-node that is only one kdb process. Possible values: o HDB o RDB o GATEWAY o GP o TICKERPLANT
+    /// Specifies the type of KDB database that is being created. The following types are available: • HDB A Historical Database. The data is only accessible with read-only permissions from one of the FinSpace managed kdb databases mounted to the cluster. • RDB A Realtime Database. This type of database captures all the data from a ticker plant and stores it in memory until the end of day, after which it writes all of its data to a disk and reloads the HDB. This cluster type requires local storage for temporary storage of data during the savedown process. If you specify this field in your request, you must provide the savedownStorageConfiguration parameter. • GATEWAY A gateway cluster allows you to access data across processes in kdb systems. It allows you to create your own routing logic using the initialization scripts and custom code. This type of cluster does not require a writable local storage. • GP A general purpose cluster allows you to quickly iterate on code during development by granting greater access to system commands and enabling a fast reload of custom code. This cluster type can optionally mount databases including cache and savedown storage. For this cluster type, the node count is fixed at 1. It does not support autoscaling and supports only SINGLE AZ mode. • Tickerplant A tickerplant cluster allows you to subscribe to feed handlers based on IAM permissions. It can publish to RDBs, other Tickerplants, and real-time subscribers (RTS). Tickerplants can persist messages to log, which is readable by any RDB environment. It supports only single-node that is only one kdb process. Possible values: • HDB • RDB • GATEWAY • GP • TICKERPLANT
     /// </summary>
     [CliOption("--cluster-type")]
     public AwsFinspaceListKxClustersClusterType? ClusterType { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return in this request. Constraints: o min: 0 o max: 100
+    /// The maximum number of results to return in this request. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// A token that indicates where a results page should begin. Constraints: o min: 1 o max: 1000 o pattern: .*
+    /// A token that indicates where a results page should begin. Constraints: • min: 1 • max: 1000 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

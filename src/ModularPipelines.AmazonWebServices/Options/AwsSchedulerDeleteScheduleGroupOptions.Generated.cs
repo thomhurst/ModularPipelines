@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsSchedulerDeleteScheduleGroupOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Deletes the specified schedule group. Deleting a schedule group results in EventBridge Scheduler deleting all schedules associated with the group. When you delete a group, it remains in a DELETING state until all of its associated schedules are deleted. Schedules associated with the group that are set to run while the schedule group is in the process of being deleted might continue to invoke their targets until the schedule group and its associated schedules are deleted. NOTE: This operation is ...
     /// </summary>
-    /// <param name="Name">The name of the schedule group to delete. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-zA-Z-_.]+$</param>
+    /// <param name="Name">The name of the schedule group to delete. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-zA-Z-_.]+$</param>
     public AwsSchedulerDeleteScheduleGroupOptions(
         string Name
     )
@@ -57,13 +59,13 @@ public record AwsSchedulerDeleteScheduleGroupOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the schedule group to delete. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-zA-Z-_.]+$
+    /// The name of the schedule group to delete. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-zA-Z-_.]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier you provide to ensure the idempo- tency of the request. If you do not specify a client token, Event- Bridge Scheduler uses a randomly generated token for the request to ensure idempotency. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
+    /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If you do not specify a client token, EventBridge Scheduler uses a randomly generated token for the request to ensure idempotency. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation is not supported for directory buckets. This implementation of the GET action returns an analytics configura- tion (identified by the analytics configuration ID) from the bucket. To use this operation, you must have permissions to perform the s3:Get- AnalyticsConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see Permissions Related to Bucket Subre- source Operat...
+/// NOTE: This operation is not supported for directory buckets. This implementation of the GET action returns an analytics configuration (identified by the analytics configuration ID) from the bucket. To use this operation, you must have permissions to perform the s3:GetAnalyticsConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see Permissions Related to Bucket Subresource Operations a...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsS3apiGetBucketAnalyticsConfigurationOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation is not supported for directory buckets. This implementation of the GET action returns an analytics configura- tion (identified by the analytics configuration ID) from the bucket. To use this operation, you must have permissions to perform the s3:Get- AnalyticsConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see Permissions Related to Bucket Subre- source Operat...
+    /// NOTE: This operation is not supported for directory buckets. This implementation of the GET action returns an analytics configuration (identified by the analytics configuration ID) from the bucket. To use this operation, you must have permissions to perform the s3:GetAnalyticsConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see Permissions Related to Bucket Subresource Operations a...
     /// </summary>
-    /// <param name="Bucket">The name of the bucket from which an analytics configuration is re- trieved.</param>
+    /// <param name="Bucket">The name of the bucket from which an analytics configuration is retrieved.</param>
     /// <param name="Id">The ID that identifies the analytics configuration.</param>
     public AwsS3apiGetBucketAnalyticsConfigurationOptions(
         string Bucket,
@@ -60,7 +62,7 @@ public record AwsS3apiGetBucketAnalyticsConfigurationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the bucket from which an analytics configuration is re- trieved.
+    /// The name of the bucket from which an analytics configuration is retrieved.
     /// </summary>
     [CliOption("--bucket")]
     public string? Bucket { get; private init; }
@@ -72,7 +74,7 @@ public record AwsS3apiGetBucketAnalyticsConfigurationOptions : AwsOptions, IVali
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }

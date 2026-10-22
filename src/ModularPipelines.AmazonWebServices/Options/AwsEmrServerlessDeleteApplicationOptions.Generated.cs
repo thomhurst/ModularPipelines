@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an application. An application has to be in a stopped or cre- ated state in order to be deleted. See also: AWS API Documentation
+/// Deletes an application. An application has to be in a stopped or created state in order to be deleted. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsEmrServerlessDeleteApplicationOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an application. An application has to be in a stopped or cre- ated state in order to be deleted. See also: AWS API Documentation
+    /// Deletes an application. An application has to be in a stopped or created state in order to be deleted. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The ID of the application that will be deleted. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
+    /// <param name="ApplicationId">The ID of the application that will be deleted. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+</param>
     public AwsEmrServerlessDeleteApplicationOptions(
         string ApplicationId
     )
@@ -56,7 +58,7 @@ public record AwsEmrServerlessDeleteApplicationOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the application that will be deleted. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// The ID of the application that will be deleted. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }

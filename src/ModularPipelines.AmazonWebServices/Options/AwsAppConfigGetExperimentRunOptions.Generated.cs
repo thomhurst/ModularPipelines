@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsAppConfigGetExperimentRunOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Retrieves information about an experiment run, including its status, start time, and exposure settings. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationIdentifier">The application ID or name. Constraints: o min: 1 o max: 2048</param>
-    /// <param name="ExperimentDefinitionIdentifier">The experiment definition ID or name. Constraints: o min: 1 o max: 2048</param>
-    /// <param name="Run">The run number to retrieve. Constraints: o min: 1</param>
+    /// <param name="ApplicationIdentifier">The application ID or name. Constraints: • min: 1 • max: 2048</param>
+    /// <param name="ExperimentDefinitionIdentifier">The experiment definition ID or name. Constraints: • min: 1 • max: 2048</param>
+    /// <param name="Run">The run number to retrieve. Constraints: • min: 1</param>
     public AwsAppConfigGetExperimentRunOptions(
         string ApplicationIdentifier,
         string ExperimentDefinitionIdentifier,
@@ -63,19 +65,19 @@ public record AwsAppConfigGetExperimentRunOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The application ID or name. Constraints: o min: 1 o max: 2048
+    /// The application ID or name. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--application-identifier")]
     public string? ApplicationIdentifier { get; private init; }
 
     /// <summary>
-    /// The experiment definition ID or name. Constraints: o min: 1 o max: 2048
+    /// The experiment definition ID or name. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--experiment-definition-identifier")]
     public string? ExperimentDefinitionIdentifier { get; private init; }
 
     /// <summary>
-    /// The run number to retrieve. Constraints: o min: 1
+    /// The run number to retrieve. Constraints: • min: 1
     /// </summary>
     [CliOption("--run")]
     public int? Run { get; private init; }

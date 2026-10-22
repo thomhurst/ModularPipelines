@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAiopsGetInvestigationGroupOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Returns the configuration information for the specified investigation group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">Specify either the name or the ARN of the investigation group that you want to view. This is used to set the name of the investigation group. Constraints: o pattern: (?:[\-_A-Za-z0-9]{1,512}|arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):aiops:[a-zA-Z0-9-]*:[0-9]{12}:in- vestigation-group\/[A-Za-z0-9]{16})</param>
+    /// <param name="Identifier">Specify either the name or the ARN of the investigation group that you want to view. This is used to set the name of the investigation group. Constraints: • pattern: (?:[\-_A-Za-z0-9]{1,512}|arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):aiops:[a-zA-Z0-9-]*:[0-9]{12}:investigation-group\/[A-Za-z0-9]{16})</param>
     public AwsAiopsGetInvestigationGroupOptions(
         string Identifier
     )
@@ -56,7 +58,7 @@ public record AwsAiopsGetInvestigationGroupOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specify either the name or the ARN of the investigation group that you want to view. This is used to set the name of the investigation group. Constraints: o pattern: (?:[\-_A-Za-z0-9]{1,512}|arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):aiops:[a-zA-Z0-9-]*:[0-9]{12}:in- vestigation-group\/[A-Za-z0-9]{16})
+    /// Specify either the name or the ARN of the investigation group that you want to view. This is used to set the name of the investigation group. Constraints: • pattern: (?:[\-_A-Za-z0-9]{1,512}|arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):aiops:[a-zA-Z0-9-]*:[0-9]{12}:investigation-group\/[A-Za-z0-9]{16})
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }

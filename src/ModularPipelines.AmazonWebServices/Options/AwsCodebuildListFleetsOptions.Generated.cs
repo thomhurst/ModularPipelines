@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets a list of compute fleet names with each compute fleet name repre- senting a single compute fleet. See also: AWS API Documentation
+/// Gets a list of compute fleet names with each compute fleet name representing a single compute fleet. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -31,19 +31,19 @@ public record AwsCodebuildListFleetsOptions : AwsOptions
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of paginated compute fleets returned per re- sponse. Use nextToken to iterate pages in the list of returned com- pute fleets. Constraints: o min: 1 o max: 100
+    /// The maximum number of paginated compute fleets returned per response. Use nextToken to iterate pages in the list of returned compute fleets. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The order in which to list compute fleets. Valid values include: o ASCENDING : List in ascending order. o DESCENDING : List in descending order. Use sortBy to specify the criterion to be used to list compute fleet names. Possible values: o ASCENDING o DESCENDING
+    /// The order in which to list compute fleets. Valid values include: • ASCENDING : List in ascending order. • DESCENDING : List in descending order. Use sortBy to specify the criterion to be used to list compute fleet names. Possible values: • ASCENDING • DESCENDING
     /// </summary>
     [CliOption("--sort-order")]
     public AwsCodebuildListFleetsSortOrder? SortOrder { get; set; }
 
     /// <summary>
-    /// The criterion to be used to list compute fleet names. Valid values include: o CREATED_TIME : List based on when each compute fleet was created. o LAST_MODIFIED_TIME : List based on when information about each compute fleet was last changed. o NAME : List based on each compute fleet's name. Use sortOrder to specify in what order to list the compute fleet names based on the preceding criteria. Possible values: o NAME o CREATED_TIME o LAST_MODIFIED_TIME
+    /// The criterion to be used to list compute fleet names. Valid values include: • CREATED_TIME : List based on when each compute fleet was created. • LAST_MODIFIED_TIME : List based on when information about each compute fleet was last changed. • NAME : List based on each compute fleet's name. Use sortOrder to specify in what order to list the compute fleet names based on the preceding criteria. Possible values: • NAME • CREATED_TIME • LAST_MODIFIED_TIME
     /// </summary>
     [CliOption("--sort-by")]
     public AwsCodebuildListFleetsSortBy? SortBy { get; set; }

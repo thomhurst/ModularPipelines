@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates the WorkMail application in IAM Identity Center that can be used later in the WorkMail - IdC integration. For more information, see PutIdentityProviderConfiguration. This action does not affect the au- thentication settings for any WorkMail organizations. See also: AWS API Documentation
+/// Creates the WorkMail application in IAM Identity Center that can be used later in the WorkMail - IdC integration. For more information, see PutIdentityProviderConfiguration. This action does not affect the authentication settings for any WorkMail organizations. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsWorkmailCreateIdentityCenterApplicationOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates the WorkMail application in IAM Identity Center that can be used later in the WorkMail - IdC integration. For more information, see PutIdentityProviderConfiguration. This action does not affect the au- thentication settings for any WorkMail organizations. See also: AWS API Documentation
+    /// Creates the WorkMail application in IAM Identity Center that can be used later in the WorkMail - IdC integration. For more information, see PutIdentityProviderConfiguration. This action does not affect the authentication settings for any WorkMail organizations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the IAM Identity Center application. Constraints: o min: 0 o max: 255 o pattern: ^[\w+=,.@-]+$</param>
-    /// <param name="InstanceArn">The Amazon Resource Name (ARN) of the instance. Constraints: o min: 10 o max: 1124 o pattern: ^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}$</param>
+    /// <param name="Name">The name of the IAM Identity Center application. Constraints: • min: 0 • max: 255 • pattern: ^[\w+=,.@-]+$</param>
+    /// <param name="InstanceArn">The Amazon Resource Name (ARN) of the instance. Constraints: • min: 10 • max: 1124 • pattern: ^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$</param>
     public AwsWorkmailCreateIdentityCenterApplicationOptions(
         string Name,
         string InstanceArn
@@ -61,19 +63,19 @@ public record AwsWorkmailCreateIdentityCenterApplicationOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the IAM Identity Center application. Constraints: o min: 0 o max: 255 o pattern: ^[\w+=,.@-]+$
+    /// The name of the IAM Identity Center application. Constraints: • min: 0 • max: 255 • pattern: ^[\w+=,.@-]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the instance. Constraints: o min: 10 o max: 1124 o pattern: ^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}$
+    /// The Amazon Resource Name (ARN) of the instance. Constraints: • min: 10 • max: 1124 • pattern: ^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$
     /// </summary>
     [CliOption("--instance-arn")]
     public string? InstanceArn { get; private init; }
 
     /// <summary>
-    /// The idempotency token associated with the request. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7e]+
+    /// The idempotency token associated with the request. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7e]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

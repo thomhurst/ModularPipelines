@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,19 +64,19 @@ public record AwsApigatewayv2UpdatePortalProductOptions : AwsOptions, IValidatab
     public string? PortalProductId { get; private init; }
 
     /// <summary>
-    /// The description. Constraints: o min: 0 o max: 1024
+    /// The description. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The displayName. Constraints: o min: 1 o max: 255
+    /// The displayName. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The display order. Contents -&gt; (list) Represents a list of sections which include section name and list of product REST endpoints for a product. (structure) Contains the section name and list of product REST endpoints for a product. ProductRestEndpointPageArns -&gt; (list) [required] The ARNs of the product REST endpoint pages in a portal product. (string) Constraints: o min: 20 o max: 2048 SectionName -&gt; (string) [required] The section name. OverviewPageArn -&gt; (string) The ARN of the overview page. Constraints: o min: 20 o max: 2048 ProductPageArns -&gt; (list) The product page ARNs. (string) Constraints: o min: 20 o max: 2048 JSON Syntax: { "Contents": [ { "ProductRestEndpointPageArns": ["string", ...], "SectionName": "string" } ... ], "OverviewPageArn": "string", "ProductPageArns": ["string", ...] }
+    /// The display order. Contents -&gt; (list) Represents a list of sections which include section name and list of product REST endpoints for a product. (structure) Contains the section name and list of product REST endpoints for a product. ProductRestEndpointPageArns -&gt; (list) [required] The ARNs of the product REST endpoint pages in a portal product. (string) Constraints: • min: 20 • max: 2048 SectionName -&gt; (string) [required] The section name. OverviewPageArn -&gt; (string) The ARN of the overview page. Constraints: • min: 20 • max: 2048 ProductPageArns -&gt; (list) The product page ARNs. (string) Constraints: • min: 20 • max: 2048 JSON Syntax: { "Contents": [ { "ProductRestEndpointPageArns": ["string", ...], "SectionName": "string" } ... ], "OverviewPageArn": "string", "ProductPageArns": ["string", ...] }
     /// </summary>
     [CliOption("--display-order")]
     public string? DisplayOrder { get; set; }

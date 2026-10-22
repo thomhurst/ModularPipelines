@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,7 +64,7 @@ public record AwsPinpointGetPushTemplateOptions : AwsOptions, IValidatableObject
     public string? TemplateName { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the version of the message template to up- date, retrieve information about, or delete. To retrieve identifiers and other information for all the versions of a template, use the Template Versionsresource. If specified, this value must match the identifier for an existing template version. If specified for an update operation, this value must match the identifier for the latest existing version of the template. This restriction helps ensure that race conditions don't occur. If you don't specify a value for this parameter, Amazon Pinpoint does the following: o For a get operation, retrieves information about the active ver- sion of the template. o For an update operation, saves the updates to (overwrites) the latest existing version of the template, if the create-new-version parameter isn't used or is set to false. o For a delete operation, deletes the template, including all ver- sions of the template.
+    /// The unique identifier for the version of the message template to update, retrieve information about, or delete. To retrieve identifiers and other information for all the versions of a template, use the Template Versionsresource. If specified, this value must match the identifier for an existing template version. If specified for an update operation, this value must match the identifier for the latest existing version of the template. This restriction helps ensure that race conditions don't occur. If you don't specify a value for this parameter, Amazon Pinpoint does the following: • For a get operation, retrieves information about the active version of the template. • For an update operation, saves the updates to (overwrites) the latest existing version of the template, if the create-new-version parameter isn't used or is set to false. • For a delete operation, deletes the template, including all versions of the template.
     /// </summary>
     [CliOption("--template-version")]
     public string? TemplateVersion { get; set; }

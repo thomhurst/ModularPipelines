@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Changes the password for the currently signed-in user. Authorize this action with a signed-in user's access token. It must in- clude the scope aws.cognito.signin.user.admin . NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authoriza- tion models in Amazon Cognito, see Using the ...
+/// Changes the password for the currently signed-in user. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin . NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amaz...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsCognitoIdpChangePasswordOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Changes the password for the currently signed-in user. Authorize this action with a signed-in user's access token. It must in- clude the scope aws.cognito.signin.user.admin . NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authoriza- tion models in Amazon Cognito, see Using the ...
+    /// Changes the password for the currently signed-in user. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin . NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amaz...
     /// </summary>
-    /// <param name="ProposedPassword">A new password that you prompted the user to enter in your applica- tion. Constraints: o max: 256 o pattern: [\S]+</param>
-    /// <param name="AccessToken">A valid access token that Amazon Cognito issued to the user whose password you want to change. Constraints: o pattern: [A-Za-z0-9-_=.]+</param>
+    /// <param name="ProposedPassword">A new password that you prompted the user to enter in your application. Constraints: • max: 256 • pattern: [\S]+</param>
+    /// <param name="AccessToken">A valid access token that Amazon Cognito issued to the user whose password you want to change. Constraints: • pattern: [A-Za-z0-9-_=.]+</param>
     public AwsCognitoIdpChangePasswordOptions(
         string ProposedPassword,
         string AccessToken
@@ -61,21 +63,21 @@ public record AwsCognitoIdpChangePasswordOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A new password that you prompted the user to enter in your applica- tion. Constraints: o max: 256 o pattern: [\S]+
+    /// A new password that you prompted the user to enter in your application. Constraints: • max: 256 • pattern: [\S]+
     /// </summary>
     [SecretValue]
     [CliOption("--proposed-password")]
     public string? ProposedPassword { get; private init; }
 
     /// <summary>
-    /// A valid access token that Amazon Cognito issued to the user whose password you want to change. Constraints: o pattern: [A-Za-z0-9-_=.]+
+    /// A valid access token that Amazon Cognito issued to the user whose password you want to change. Constraints: • pattern: [A-Za-z0-9-_=.]+
     /// </summary>
     [SecretValue]
     [CliOption("--access-token")]
     public string? AccessToken { get; private init; }
 
     /// <summary>
-    /// The user's previous password. Required if the user has a password. If the user has no password and only signs in with passwordless au- thentication options, you can omit this parameter. Constraints: o max: 256 o pattern: [\S]+
+    /// The user's previous password. Required if the user has a password. If the user has no password and only signs in with passwordless authentication options, you can omit this parameter. Constraints: • max: 256 • pattern: [\S]+
     /// </summary>
     [SecretValue]
     [CliOption("--previous-password")]

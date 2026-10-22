@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsSsmRegisterPatchBaselineForPatchGroupOptions : AwsOptions, IVal
     /// <summary>
     /// Registers a patch baseline for a patch group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BaselineId">The ID of the patch baseline to register with the patch group. Constraints: o min: 20 o max: 128 o pattern: ^[a-zA-Z0-9_\-:/]{20,128}$</param>
-    /// <param name="PatchGroup">The name of the patch group to be registered with the patch base- line. Constraints: o min: 1 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$</param>
+    /// <param name="BaselineId">The ID of the patch baseline to register with the patch group. Constraints: • min: 20 • max: 128 • pattern: ^[a-zA-Z0-9_\-:/]{20,128}$</param>
+    /// <param name="PatchGroup">The name of the patch group to be registered with the patch baseline. Constraints: • min: 1 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$</param>
     public AwsSsmRegisterPatchBaselineForPatchGroupOptions(
         string BaselineId,
         string PatchGroup
@@ -60,13 +62,13 @@ public record AwsSsmRegisterPatchBaselineForPatchGroupOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the patch baseline to register with the patch group. Constraints: o min: 20 o max: 128 o pattern: ^[a-zA-Z0-9_\-:/]{20,128}$
+    /// The ID of the patch baseline to register with the patch group. Constraints: • min: 20 • max: 128 • pattern: ^[a-zA-Z0-9_\-:/]{20,128}$
     /// </summary>
     [CliOption("--baseline-id")]
     public string? BaselineId { get; private init; }
 
     /// <summary>
-    /// The name of the patch group to be registered with the patch base- line. Constraints: o min: 1 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
+    /// The name of the patch group to be registered with the patch baseline. Constraints: • min: 1 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
     /// </summary>
     [CliOption("--patch-group")]
     public string? PatchGroup { get; private init; }

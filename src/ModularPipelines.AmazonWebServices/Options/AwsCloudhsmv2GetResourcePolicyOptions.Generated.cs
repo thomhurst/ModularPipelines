@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudhsmv2GetResourcePolicyOptions : AwsOptions
 {
     /// <summary>
-    /// Amazon Resource Name (ARN) of the resource to which a policy is at- tached. Constraints: o pattern: arn:aws(-(us-gov))?:cloudhsm:([a-z]{2}(-(gov|isob|iso))?-(east|west|north|south|cen- tral){1,2}-[0-9]{1}):[0-9]{12}:(backup/backup|cluster/clus- ter|hsm/hsm)-[2-7a-zA-Z]{11,16}
+    /// Amazon Resource Name (ARN) of the resource to which a policy is attached. Constraints: • pattern: arn:aws(-(us-gov))?:cloudhsm:([a-z]{2}(-(gov|isob|iso))?-(east|west|north|south|central){1,2}-[0-9]{1}):[0-9]{12}:(backup/backup|cluster/cluster|hsm/hsm)-[2-7a-zA-Z]{11,16}
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +30,9 @@ public record AwsSsoOidcStartDeviceAuthorizationOptions : AwsOptions, IValidatab
     /// <summary>
     /// Initiates device authorization by requesting a pair of verification codes from the authorization service. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClientId">The unique identifier string for the client that is registered with IAM Identity Center. This value should come from the persisted re- sult of the RegisterClient API operation.</param>
+    /// <param name="ClientId">The unique identifier string for the client that is registered with IAM Identity Center. This value should come from the persisted result of the RegisterClient API operation.</param>
     /// <param name="ClientSecret">A secret string that is generated for the client. This value should come from the persisted result of the RegisterClient API operation.</param>
-    /// <param name="StartUrl">The URL for the Amazon Web Services access portal. For more informa- tion, see Using the Amazon Web Services access portal in the IAM Identity Center User Guide .</param>
+    /// <param name="StartUrl">The URL for the Amazon Web Services access portal. For more information, see Using the Amazon Web Services access portal in the IAM Identity Center User Guide .</param>
     public AwsSsoOidcStartDeviceAuthorizationOptions(
         string ClientId,
         string ClientSecret,
@@ -65,7 +67,7 @@ public record AwsSsoOidcStartDeviceAuthorizationOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier string for the client that is registered with IAM Identity Center. This value should come from the persisted re- sult of the RegisterClient API operation.
+    /// The unique identifier string for the client that is registered with IAM Identity Center. This value should come from the persisted result of the RegisterClient API operation.
     /// </summary>
     [CliOption("--client-id")]
     public string? ClientId { get; private init; }
@@ -78,7 +80,7 @@ public record AwsSsoOidcStartDeviceAuthorizationOptions : AwsOptions, IValidatab
     public string? ClientSecret { get; private init; }
 
     /// <summary>
-    /// The URL for the Amazon Web Services access portal. For more informa- tion, see Using the Amazon Web Services access portal in the IAM Identity Center User Guide .
+    /// The URL for the Amazon Web Services access portal. For more information, see Using the Amazon Web Services access portal in the IAM Identity Center User Guide .
     /// </summary>
     [CliOption("--start-url")]
     public string? StartUrl { get; private init; }

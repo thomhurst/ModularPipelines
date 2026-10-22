@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsRoute53profilesCreateProfileOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Creates an empty Route 53 Profile. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">A name for the Profile. Constraints: o min: 0 o max: 64 o pattern: ^(?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)$</param>
+    /// <param name="Name">A name for the Profile. Constraints: • min: 0 • max: 64 • pattern: ^(?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)$</param>
     public AwsRoute53profilesCreateProfileOptions(
         string Name
     )
@@ -57,20 +59,20 @@ public record AwsRoute53profilesCreateProfileOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name for the Profile. Constraints: o min: 0 o max: 64 o pattern: ^(?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)$
+    /// A name for the Profile. Constraints: • min: 0 • max: 64 • pattern: ^(?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// ClientToken is an idempotency token that ensures a call to Cre- ateProfile completes only once. You choose the value to pass. For example, an issue might prevent you from getting a response from CreateProfile . In this case, safely retry your call to CreateProfile by using the same CreateProfile parameter value. Constraints: o min: 1 o max: 255
+    /// ClientToken is an idempotency token that ensures a call to CreateProfile completes only once. You choose the value to pass. For example, an issue might prevent you from getting a response from CreateProfile . In this case, safely retry your call to CreateProfile by using the same CreateProfile parameter value. Constraints: • min: 1 • max: 255
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A list of the tag keys and values that you want to associate with the Route 53 Profile. Constraints: o min: 0 o max: 200 (structure) Tag for the Profile. Key -&gt; (string) [required] Key associated with the Tag . Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] Value for the Tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of the tag keys and values that you want to associate with the Route 53 Profile. Constraints: • min: 0 • max: 200 (structure) Tag for the Profile. Key -&gt; (string) [required] Key associated with the Tag . Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] Value for the Tag. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

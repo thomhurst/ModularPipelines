@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the specified fleet. If the fleet is in the STOPPED state, you can update any attribute ex- cept the fleet name. If the fleet is in the RUNNING state, you can update the following based on the fleet type: o Always-On and On-Demand fleet types You can update the DisplayName , ComputeCapacity , ImageARN , ImageName , IdleDisconnectTimeoutInSec- onds , and DisconnectTimeoutInSeconds attributes. o Elastic fleet type You can update the DisplayName , IdleDisconnect- TimeoutInSeconds , Disconne...
+/// Updates the specified fleet. If the fleet is in the STOPPED state, you can update any attribute except the fleet name. If the fleet is in the RUNNING state, you can update the following based on the fleet type: • Always-On and On-Demand fleet types You can update the DisplayName , ComputeCapacity , ImageARN , ImageName , IdleDisconnectTimeoutInSeconds , and DisconnectTimeoutInSeconds attributes. • Elastic fleet type You can update the DisplayName , IdleDisconnectTimeoutInSeconds , DisconnectTime...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,25 +23,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsAppstreamUpdateFleetOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the image used to create the fleet. Constraints: o min: 1
+    /// The name of the image used to create the fleet. Constraints: • min: 1
     /// </summary>
     [CliOption("--image-name")]
     public string? ImageName { get; set; }
 
     /// <summary>
-    /// The ARN of the public, private, or shared image to use. Constraints: o pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$
+    /// The ARN of the public, private, or shared image to use. Constraints: • pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$
     /// </summary>
     [CliOption("--image-arn")]
     public string? ImageArn { get; set; }
 
     /// <summary>
-    /// A unique name for the fleet. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// A unique name for the fleet. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The instance type to use when launching fleet instances. The follow- ing instance types are available: o stream.standard.small o stream.standard.medium o stream.standard.large o stream.standard.xlarge o stream.standard.2xlarge o stream.compute.large o stream.compute.xlarge o stream.compute.2xlarge o stream.compute.4xlarge o stream.compute.8xlarge o stream.memory.large o stream.memory.xlarge o stream.memory.2xlarge o stream.memory.4xlarge o stream.memory.8xlarge o stream.memory.z1d.large o stream.memory.z1d.xlarge o stream.memory.z1d.2xlarge o stream.memory.z1d.3xlarge o stream.memory.z1d.6xlarge o stream.memory.z1d.12xlarge o stream.graphics.g4dn.xlarge o stream.graphics.g4dn.2xlarge o stream.graphics.g4dn.4xlarge o stream.graphics.g4dn.8xlarge o stream.graphics.g4dn.12xlarge o stream.graphics.g4dn.16xlarge o stream.graphics.g5.xlarge o stream.graphics.g5.2xlarge o stream.graphics.g5.4xlarge o stream.graphics.g5.8xlarge o stream.graphics.g5.16xlarge o stream.graphics.g5.12xlarge o stream.graphics.g5.24xlarge o stream.graphics.g6.xlarge o stream.graphics.g6.2xlarge o stream.graphics.g6.4xlarge o stream.graphics.g6.8xlarge o stream.graphics.g6.16xlarge o stream.graphics.g6.12xlarge o stream.graphics.g6.24xlarge o stream.graphics.gr6.4xlarge o stream.graphics.gr6.8xlarge o stream.graphics.g6f.large o stream.graphics.g6f.xlarge o stream.graphics.g6f.2xlarge o stream.graphics.g6f.4xlarge o stream.graphics.gr6f.4xlarge The following instance types are available for Elastic fleets: o stream.standard.small o stream.standard.medium o stream.standard.large o stream.standard.xlarge o stream.standard.2xlarge Constraints: o min: 1
+    /// The instance type to use when launching fleet instances. The following instance types are available: • stream.standard.small • stream.standard.medium • stream.standard.large • stream.standard.xlarge • stream.standard.2xlarge • stream.compute.large • stream.compute.xlarge • stream.compute.2xlarge • stream.compute.4xlarge • stream.compute.8xlarge • stream.memory.large • stream.memory.xlarge • stream.memory.2xlarge • stream.memory.4xlarge • stream.memory.8xlarge • stream.memory.z1d.large • stream.memory.z1d.xlarge • stream.memory.z1d.2xlarge • stream.memory.z1d.3xlarge • stream.memory.z1d.6xlarge • stream.memory.z1d.12xlarge • stream.graphics.g4dn.xlarge • stream.graphics.g4dn.2xlarge • stream.graphics.g4dn.4xlarge • stream.graphics.g4dn.8xlarge • stream.graphics.g4dn.12xlarge • stream.graphics.g4dn.16xlarge • stream.graphics.g5.xlarge • stream.graphics.g5.2xlarge • stream.graphics.g5.4xlarge • stream.graphics.g5.8xlarge • stream.graphics.g5.16xlarge • stream.graphics.g5.12xlarge • stream.graphics.g5.24xlarge • stream.graphics.g6.xlarge • stream.graphics.g6.2xlarge • stream.graphics.g6.4xlarge • stream.graphics.g6.8xlarge • stream.graphics.g6.16xlarge • stream.graphics.g6.12xlarge • stream.graphics.g6.24xlarge • stream.graphics.gr6.4xlarge • stream.graphics.gr6.8xlarge • stream.graphics.g6f.large • stream.graphics.g6f.xlarge • stream.graphics.g6f.2xlarge • stream.graphics.g6f.4xlarge • stream.graphics.gr6f.4xlarge The following instance types are available for Elastic fleets: • stream.standard.small • stream.standard.medium • stream.standard.large • stream.standard.xlarge • stream.standard.2xlarge Constraints: • min: 1
     /// </summary>
     [CliOption("--instance-type")]
     public string? InstanceType { get; set; }
@@ -53,19 +53,19 @@ public record AwsAppstreamUpdateFleetOptions : AwsOptions
     public string? ComputeCapacity { get; set; }
 
     /// <summary>
-    /// The VPC configuration for the fleet. This is required for Elastic fleets, but not required for other fleet types. Elastic fleets re- quire that you specify at least two subnets in different availabil- ity zones. SubnetIds -&gt; (list) The identifiers of the subnets to which a network interface is attached from the fleet instance or image builder instance. Fleet instances use one or more subnets. Image builder instances use one subnet. (string) Constraints: o min: 1 SecurityGroupIds -&gt; (list) The identifiers of the security groups for the fleet or image builder. Constraints: o max: 5 (string) Constraints: o min: 1 Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...] }
+    /// The VPC configuration for the fleet. This is required for Elastic fleets, but not required for other fleet types. Elastic fleets require that you specify at least two subnets in different availability zones. SubnetIds -&gt; (list) The identifiers of the subnets to which a network interface is attached from the fleet instance or image builder instance. Fleet instances use one or more subnets. Image builder instances use one subnet. (string) Constraints: • min: 1 SecurityGroupIds -&gt; (list) The identifiers of the security groups for the fleet or image builder. Constraints: • max: 5 (string) Constraints: • min: 1 Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...] }
     /// </summary>
     [CliOption("--vpc-config")]
     public string? VpcConfig { get; set; }
 
     /// <summary>
-    /// The maximum amount of time that a streaming session can remain ac- tive, in seconds. If users are still connected to a streaming in- stance five minutes before this limit is reached, they are prompted to save any open documents before being disconnected. After this time elapses, the instance is terminated and replaced by a new in- stance. Specify a value between 600 and 432000.
+    /// The maximum amount of time that a streaming session can remain active, in seconds. If users are still connected to a streaming instance five minutes before this limit is reached, they are prompted to save any open documents before being disconnected. After this time elapses, the instance is terminated and replaced by a new instance. Specify a value between 600 and 432000.
     /// </summary>
     [CliOption("--max-user-duration-in-seconds")]
     public int? MaxUserDurationInSeconds { get; set; }
 
     /// <summary>
-    /// The amount of time that a streaming session remains active after users disconnect. If users try to reconnect to the streaming session after a disconnection or network interruption within this time in- terval, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance. Specify a value between 60 and 36000.
+    /// The amount of time that a streaming session remains active after users disconnect. If users try to reconnect to the streaming session after a disconnection or network interruption within this time interval, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance. Specify a value between 60 and 36000.
     /// </summary>
     [CliOption("--disconnect-timeout-in-seconds")]
     public int? DisconnectTimeoutInSeconds { get; set; }
@@ -77,13 +77,13 @@ public record AwsAppstreamUpdateFleetOptions : AwsOptions
     public bool? DeleteVpcConfig { get; set; }
 
     /// <summary>
-    /// The description to display. Constraints: o max: 256
+    /// The description to display. Constraints: • max: 256
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The fleet name to display. Constraints: o max: 100
+    /// The fleet name to display. Constraints: • max: 100
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
@@ -95,37 +95,37 @@ public record AwsAppstreamUpdateFleetOptions : AwsOptions
     public bool? EnableDefaultInternetAccess { get; set; }
 
     /// <summary>
-    /// The name of the directory and organizational unit (OU) to use to join the fleet to a Microsoft Active Directory domain. DirectoryName -&gt; (string) The fully qualified name of the directory (for example, corp.ex- ample.com). OrganizationalUnitDistinguishedName -&gt; (string) The distinguished name of the organizational unit for computer accounts. Constraints: o max: 2000 Shorthand Syntax: DirectoryName=string,OrganizationalUnitDistinguishedName=string JSON Syntax: { "DirectoryName": "string", "OrganizationalUnitDistinguishedName": "string" }
+    /// The name of the directory and organizational unit (OU) to use to join the fleet to a Microsoft Active Directory domain. DirectoryName -&gt; (string) The fully qualified name of the directory (for example, corp.example.com). OrganizationalUnitDistinguishedName -&gt; (string) The distinguished name of the organizational unit for computer accounts. Constraints: • max: 2000 Shorthand Syntax: DirectoryName=string,OrganizationalUnitDistinguishedName=string JSON Syntax: { "DirectoryName": "string", "OrganizationalUnitDistinguishedName": "string" }
     /// </summary>
     [CliOption("--domain-join-info")]
     public string? DomainJoinInfo { get; set; }
 
     /// <summary>
-    /// The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTime- outInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If users try to reconnect to the streaming session before the time interval specified in Disconnect- TimeoutInSeconds elapses, they are connected to their previous ses- sion. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and down- loads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected. To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 36000. The default value is 0. NOTE: If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactiv- ity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.
+    /// The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTimeoutInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If users try to reconnect to the streaming session before the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to their previous session. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and downloads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected. To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 36000. The default value is 0. NOTE: If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.
     /// </summary>
     [CliOption("--idle-disconnect-timeout-in-seconds")]
     public int? IdleDisconnectTimeoutInSeconds { get; set; }
 
     /// <summary>
-    /// The fleet attributes to delete. (string) The fleet attribute. Possible values: o VPC_CONFIGURATION o VPC_CONFIGURATION_SECURITY_GROUP_IDS o DOMAIN_JOIN_INFO o IAM_ROLE_ARN o USB_DEVICE_FILTER_STRINGS o SESSION_SCRIPT_S3_LOCATION o MAX_SESSIONS_PER_INSTANCE o VOLUME_CONFIGURATION Syntax: "string" "string" ...
+    /// The fleet attributes to delete. (string) The fleet attribute. Possible values: • VPC_CONFIGURATION • VPC_CONFIGURATION_SECURITY_GROUP_IDS • DOMAIN_JOIN_INFO • IAM_ROLE_ARN • USB_DEVICE_FILTER_STRINGS • SESSION_SCRIPT_S3_LOCATION • MAX_SESSIONS_PER_INSTANCE • VOLUME_CONFIGURATION Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--attributes-to-delete", GroupValues = true)]
     public IEnumerable<string>? AttributesToDelete { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role to apply to the fleet. To assume a role, a fleet instance calls the AWS Security To- ken Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary cre- dentials. WorkSpaces Applications retrieves the temporary creden- tials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on WorkSpaces Applications Stream- ing Instances in the Amazon WorkSpaces Applications Administration Guide . Constraints: o pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$
+    /// The Amazon Resource Name (ARN) of the IAM role to apply to the fleet. To assume a role, a fleet instance calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. WorkSpaces Applications retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on WorkSpaces Applications Streaming Instances in the Amazon WorkSpaces Applications Administration Guide . Constraints: • pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$
     /// </summary>
     [CliOption("--iam-role-arn")]
     public string? IamRoleArn { get; set; }
 
     /// <summary>
-    /// The WorkSpaces Applications view that is displayed to your users when they stream from the fleet. When APP is specified, only the windows of applications opened by users display. When DESKTOP is specified, the standard desktop that is provided by the operating system displays. The default value is APP . Possible values: o APP o DESKTOP
+    /// The WorkSpaces Applications view that is displayed to your users when they stream from the fleet. When APP is specified, only the windows of applications opened by users display. When DESKTOP is specified, the standard desktop that is provided by the operating system displays. The default value is APP . Possible values: • APP • DESKTOP
     /// </summary>
     [CliOption("--stream-view")]
     public AwsAppstreamUpdateFleetStreamView? StreamView { get; set; }
 
     /// <summary>
-    /// The platform of the fleet. WINDOWS_SERVER_2019, AMAZON_LINUX2 and UBUNTU_PRO_2404 are supported for Elastic fleets. Possible values: o WINDOWS o WINDOWS_SERVER_2016 o WINDOWS_SERVER_2019 o WINDOWS_SERVER_2022 o WINDOWS_SERVER_2025 o AMAZON_LINUX2 o RHEL8 o ROCKY_LINUX8 o UBUNTU_PRO_2404
+    /// The platform of the fleet. WINDOWS_SERVER_2019, AMAZON_LINUX2 and UBUNTU_PRO_2404 are supported for Elastic fleets. Possible values: • WINDOWS • WINDOWS_SERVER_2016 • WINDOWS_SERVER_2019 • WINDOWS_SERVER_2022 • WINDOWS_SERVER_2025 • AMAZON_LINUX2 • RHEL8 • ROCKY_LINUX8 • UBUNTU_PRO_2404
     /// </summary>
     [CliOption("--platform")]
     public AwsAppstreamUpdateFleetPlatform? Platform { get; set; }
@@ -137,19 +137,19 @@ public record AwsAppstreamUpdateFleetOptions : AwsOptions
     public int? MaxConcurrentSessions { get; set; }
 
     /// <summary>
-    /// The USB device filter strings that specify which USB devices a user can redirect to the fleet streaming session, when using the Windows native client. This is allowed but not required for Elastic fleets. (string) Constraints: o min: 0 o max: 100 o pattern: ^((\w*)\s*(\w*)\s*\,\s*(\w*)\s*\,\s*\*?(\w*)\s*\,\s*\*?(\w*)\s*\,\s*\*?\d*\s*\,\s*\*?\d*\s*\,\s*[0-1]\s*\,\s*[0-1]\s*)$ Syntax: "string" "string" ...
+    /// The USB device filter strings that specify which USB devices a user can redirect to the fleet streaming session, when using the Windows native client. This is allowed but not required for Elastic fleets. (string) Constraints: • min: 0 • max: 100 • pattern: ^((\w*)\s*(\w*)\s*\,\s*(\w*)\s*\,\s*\*?(\w*)\s*\,\s*\*?(\w*)\s*\,\s*\*?\d*\s*\,\s*\*?\d*\s*\,\s*[0-1]\s*\,\s*[0-1]\s*)$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--usb-device-filter-strings", GroupValues = true)]
     public IEnumerable<string>? UsbDeviceFilterStrings { get; set; }
 
     /// <summary>
-    /// The S3 location of the session scripts configuration zip file. This only applies to Elastic fleets. S3Bucket -&gt; (string) [required] The S3 bucket of the S3 object. Constraints: o min: 3 o max: 63 o pattern: ^[0-9a-z\.\-]*(?&lt;!\.)$ S3Key -&gt; (string) The S3 key of the S3 object. This is required when used for the following: o IconS3Location (Actions: CreateApplication and UpdateApplica- tion) o SessionScriptS3Location (Actions: CreateFleet and UpdateFleet) o ScriptDetails (Actions: CreateAppBlock) o SourceS3Location when creating an app block with CUSTOM Pack- agingType (Actions: CreateAppBlock) o SourceS3Location when creating an app block with APPSTREAM2 PackagingType, and using an existing application package (VHD file). In this case, S3Key refers to the VHD file. If a new application package is required, then S3Key is not required. (Actions: CreateAppBlock) Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }
+    /// The S3 location of the session scripts configuration zip file. This only applies to Elastic fleets. S3Bucket -&gt; (string) [required] The S3 bucket of the S3 object. Constraints: • min: 3 • max: 63 • pattern: ^[0-9a-z\.\-]*(?&lt;!\.)$ S3Key -&gt; (string) The S3 key of the S3 object. This is required when used for the following: • IconS3Location (Actions: CreateApplication and UpdateApplication) • SessionScriptS3Location (Actions: CreateFleet and UpdateFleet) • ScriptDetails (Actions: CreateAppBlock) • SourceS3Location when creating an app block with CUSTOM PackagingType (Actions: CreateAppBlock) • SourceS3Location when creating an app block with APPSTREAM2 PackagingType, and using an existing application package (VHD file). In this case, S3Key refers to the VHD file. If a new application package is required, then S3Key is not required. (Actions: CreateAppBlock) Constraints: • min: 1 • max: 1024 Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }
     /// </summary>
     [CliOption("--session-script-s3-location")]
     public string? SessionScriptS3Location { get; set; }
 
     /// <summary>
-    /// The maximum number of user sessions on an instance. This only ap- plies to multi-session fleets.
+    /// The maximum number of user sessions on an instance. This only applies to multi-session fleets.
     /// </summary>
     [CliOption("--max-sessions-per-instance")]
     public int? MaxSessionsPerInstance { get; set; }
@@ -161,7 +161,7 @@ public record AwsAppstreamUpdateFleetOptions : AwsOptions
     public string? RootVolumeConfig { get; set; }
 
     /// <summary>
-    /// Set to true to disable Instance Metadata Service Version 1 (IMDSv1) and enforce IMDSv2. Set to false to enable both IMDSv1 and IMDSv2. NOTE: Before disabling IMDSv1, ensure your WorkSpaces Applications im- ages are running the agent version or managed image update re- leased on or after January 16, 2024 to support IMDSv2 enforce- ment.
+    /// Set to true to disable Instance Metadata Service Version 1 (IMDSv1) and enforce IMDSv2. Set to false to enable both IMDSv1 and IMDSv2. NOTE: Before disabling IMDSv1, ensure your WorkSpaces Applications images are running the agent version or managed image update released on or after January 16, 2024 to support IMDSv2 enforcement.
     /// </summary>
     [CliFlag("--disable-imdsv1", NegatedName = "--no-disable-imdsv1")]
     public bool? DisableImdsv1 { get; set; }

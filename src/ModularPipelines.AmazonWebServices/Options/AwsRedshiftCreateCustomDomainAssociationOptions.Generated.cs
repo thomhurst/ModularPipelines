@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsRedshiftCreateCustomDomainAssociationOptions : AwsOptions, IVal
     /// <summary>
     /// Used to create a custom domain name for a cluster. Properties include the custom domain name, the cluster the custom domain is associated with, and the certificate Amazon Resource Name (ARN). See also: AWS API Documentation
     /// </summary>
-    /// <param name="CustomDomainName">The custom domain name for a custom domain association. Constraints: o min: 1 o max: 253 o pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$</param>
-    /// <param name="CustomDomainCertificateArn">The certificate Amazon Resource Name (ARN) for the custom domain name association. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
-    /// <param name="ClusterIdentifier">The cluster identifier that the custom domain is associated with. Constraints: o max: 2147483647</param>
+    /// <param name="CustomDomainName">The custom domain name for a custom domain association. Constraints: • min: 1 • max: 253 • pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$</param>
+    /// <param name="CustomDomainCertificateArn">The certificate Amazon Resource Name (ARN) for the custom domain name association. Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
+    /// <param name="ClusterIdentifier">The cluster identifier that the custom domain is associated with. Constraints: • max: 2147483647</param>
     public AwsRedshiftCreateCustomDomainAssociationOptions(
         string CustomDomainName,
         string CustomDomainCertificateArn,
@@ -64,19 +66,19 @@ public record AwsRedshiftCreateCustomDomainAssociationOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The custom domain name for a custom domain association. Constraints: o min: 1 o max: 253 o pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$
+    /// The custom domain name for a custom domain association. Constraints: • min: 1 • max: 253 • pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$
     /// </summary>
     [CliOption("--custom-domain-name")]
     public string? CustomDomainName { get; private init; }
 
     /// <summary>
-    /// The certificate Amazon Resource Name (ARN) for the custom domain name association. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*
+    /// The certificate Amazon Resource Name (ARN) for the custom domain name association. Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*
     /// </summary>
     [CliOption("--custom-domain-certificate-arn")]
     public string? CustomDomainCertificateArn { get; private init; }
 
     /// <summary>
-    /// The cluster identifier that the custom domain is associated with. Constraints: o max: 2147483647
+    /// The cluster identifier that the custom domain is associated with. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }

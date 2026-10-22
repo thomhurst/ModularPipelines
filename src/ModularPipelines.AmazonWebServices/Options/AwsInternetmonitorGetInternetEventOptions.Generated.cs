@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets information that Amazon CloudWatch Internet Monitor has generated about an internet event. Internet Monitor displays information about recent global health events, called internet events, on a global out- ages map that is available to all Amazon Web Services customers. The information returned here includes the impacted location, when the event started and (if the event is over) ended, the type of event (PER- FORMANCE or AVAILABILITY ), and the status (ACTIVE or RESOLVED ). See also: AWS AP...
+/// Gets information that Amazon CloudWatch Internet Monitor has generated about an internet event. Internet Monitor displays information about recent global health events, called internet events, on a global outages map that is available to all Amazon Web Services customers. The information returned here includes the impacted location, when the event started and (if the event is over) ended, the type of event (PERFORMANCE or AVAILABILITY ), and the status (ACTIVE or RESOLVED ). See also: AWS API Do...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsInternetmonitorGetInternetEventOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets information that Amazon CloudWatch Internet Monitor has generated about an internet event. Internet Monitor displays information about recent global health events, called internet events, on a global out- ages map that is available to all Amazon Web Services customers. The information returned here includes the impacted location, when the event started and (if the event is over) ended, the type of event (PER- FORMANCE or AVAILABILITY ), and the status (ACTIVE or RESOLVED ). See also: AWS AP...
+    /// Gets information that Amazon CloudWatch Internet Monitor has generated about an internet event. Internet Monitor displays information about recent global health events, called internet events, on a global outages map that is available to all Amazon Web Services customers. The information returned here includes the impacted location, when the event started and (if the event is over) ended, the type of event (PERFORMANCE or AVAILABILITY ), and the status (ACTIVE or RESOLVED ). See also: AWS API Do...
     /// </summary>
-    /// <param name="EventId">The EventId of the internet event to return information for. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="EventId">The EventId of the internet event to return information for. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-]+</param>
     public AwsInternetmonitorGetInternetEventOptions(
         string EventId
     )
@@ -56,7 +58,7 @@ public record AwsInternetmonitorGetInternetEventOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The EventId of the internet event to return information for. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-]+
+    /// The EventId of the internet event to return information for. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--event-id")]
     public string? EventId { get; private init; }

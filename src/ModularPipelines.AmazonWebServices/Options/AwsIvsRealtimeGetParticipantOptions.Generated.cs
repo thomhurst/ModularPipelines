@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsIvsRealtimeGetParticipantOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Gets information about the specified participant token. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StageArn">Stage ARN. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+</param>
-    /// <param name="SessionId">ID of a session within the stage. Constraints: o min: 16 o max: 16 o pattern: st-[a-zA-Z0-9]+</param>
-    /// <param name="ParticipantId">Unique identifier for the participant. This is assigned by IVS and returned by CreateParticipantToken . Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-_]*</param>
+    /// <param name="StageArn">Stage ARN. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+</param>
+    /// <param name="SessionId">ID of a session within the stage. Constraints: • min: 16 • max: 16 • pattern: st-[a-zA-Z0-9]+</param>
+    /// <param name="ParticipantId">Unique identifier for the participant. This is assigned by IVS and returned by CreateParticipantToken . Constraints: • min: 0 • max: 64 • pattern: [a-zA-Z0-9-_]*</param>
     public AwsIvsRealtimeGetParticipantOptions(
         string StageArn,
         string SessionId,
@@ -64,19 +66,19 @@ public record AwsIvsRealtimeGetParticipantOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Stage ARN. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+
+    /// Stage ARN. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--stage-arn")]
     public string? StageArn { get; private init; }
 
     /// <summary>
-    /// ID of a session within the stage. Constraints: o min: 16 o max: 16 o pattern: st-[a-zA-Z0-9]+
+    /// ID of a session within the stage. Constraints: • min: 16 • max: 16 • pattern: st-[a-zA-Z0-9]+
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }
 
     /// <summary>
-    /// Unique identifier for the participant. This is assigned by IVS and returned by CreateParticipantToken . Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-_]*
+    /// Unique identifier for the participant. This is assigned by IVS and returned by CreateParticipantToken . Constraints: • min: 0 • max: 64 • pattern: [a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--participant-id")]
     public string? ParticipantId { get; private init; }

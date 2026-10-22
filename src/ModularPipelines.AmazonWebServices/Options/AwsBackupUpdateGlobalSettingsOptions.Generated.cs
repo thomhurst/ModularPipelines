@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates whether the Amazon Web Services account has enabled different cross-account management options, including cross-account backup, multi-party approval, and delegated administrator. Returns an error if the account is not an Organizations management account. Use the De- scribeGlobalSettings API to determine the current settings. See also: AWS API Documentation
+/// Updates whether the Amazon Web Services account has enabled different cross-account management options, including cross-account backup, multi-party approval, and delegated administrator. Returns an error if the account is not an Organizations management account. Use the DescribeGlobalSettings API to determine the current settings. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +24,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsBackupUpdateGlobalSettingsOptions : AwsOptions
 {
     /// <summary>
-    /// Inputs can include: A value for isCrossAccountBackupEnabled . Values can be true or false. Example: update-global-settings --global-settings isCrossAc- countBackupEnabled=false . A value for Multi-party approval, styled as isMpaEnabled . Values can be true or false. Example: update-global-settings --global-set- tings isMpaEnabled=false . A value for Backup Service-Linked Role creation, styled as isDele- gatedAdministratorEnabled . Values can be true or false. Example: update-global-settings --global-settings isDelegatedAdministratorEn- abled=false . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Inputs can include: A value for isCrossAccountBackupEnabled . Values can be true or false. Example: update-global-settings --global-settings isCrossAccountBackupEnabled=false . A value for Multi-party approval, styled as isMpaEnabled . Values can be true or false. Example: update-global-settings --global-settings isMpaEnabled=false . A value for Backup Service-Linked Role creation, styled as isDelegatedAdministratorEnabled . Values can be true or false. Example: update-global-settings --global-settings isDelegatedAdministratorEnabled=false . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--global-settings", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? GlobalSettings { get; set; }

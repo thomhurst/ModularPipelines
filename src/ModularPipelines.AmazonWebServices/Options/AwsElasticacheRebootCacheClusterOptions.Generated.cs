@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Reboots some, or all, of the cache nodes within a provisioned cluster. This operation applies any modified cache parameter groups to the clus- ter. The reboot operation takes place as soon as possible, and results in a momentary outage to the cluster. During the reboot, the cluster status is set to REBOOTING. The reboot causes the contents of the cache (for each cache node being rebooted) to be lost. When the reboot is complete, a cluster event is created. Rebooting a cluster is currently suppor...
+/// Reboots some, or all, of the cache nodes within a provisioned cluster. This operation applies any modified cache parameter groups to the cluster. The reboot operation takes place as soon as possible, and results in a momentary outage to the cluster. During the reboot, the cluster status is set to REBOOTING. The reboot causes the contents of the cache (for each cache node being rebooted) to be lost. When the reboot is complete, a cluster event is created. Rebooting a cluster is currently supporte...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsElasticacheRebootCacheClusterOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Reboots some, or all, of the cache nodes within a provisioned cluster. This operation applies any modified cache parameter groups to the clus- ter. The reboot operation takes place as soon as possible, and results in a momentary outage to the cluster. During the reboot, the cluster status is set to REBOOTING. The reboot causes the contents of the cache (for each cache node being rebooted) to be lost. When the reboot is complete, a cluster event is created. Rebooting a cluster is currently suppor...
+    /// Reboots some, or all, of the cache nodes within a provisioned cluster. This operation applies any modified cache parameter groups to the cluster. The reboot operation takes place as soon as possible, and results in a momentary outage to the cluster. During the reboot, the cluster status is set to REBOOTING. The reboot causes the contents of the cache (for each cache node being rebooted) to be lost. When the reboot is complete, a cluster event is created. Rebooting a cluster is currently supporte...
     /// </summary>
     /// <param name="CacheClusterId">The cluster identifier. This parameter is stored as a lowercase string.</param>
-    /// <param name="CacheNodeIdsToReboot">A list of cache node IDs to reboot. A node ID is a numeric identi- fier (0001, 0002, etc.). To reboot an entire cluster, specify all of the cache node IDs. (string) Syntax: "string" "string" ...</param>
+    /// <param name="CacheNodeIdsToReboot">A list of cache node IDs to reboot. A node ID is a numeric identifier (0001, 0002, etc.). To reboot an entire cluster, specify all of the cache node IDs. (string) Syntax: "string" "string" ...</param>
     public AwsElasticacheRebootCacheClusterOptions(
         string CacheClusterId,
         IEnumerable<string> CacheNodeIdsToReboot
@@ -77,7 +79,7 @@ public record AwsElasticacheRebootCacheClusterOptions : AwsOptions, IValidatable
     public string? CacheClusterId { get; private init; }
 
     /// <summary>
-    /// A list of cache node IDs to reboot. A node ID is a numeric identi- fier (0001, 0002, etc.). To reboot an entire cluster, specify all of the cache node IDs. (string) Syntax: "string" "string" ...
+    /// A list of cache node IDs to reboot. A node ID is a numeric identifier (0001, 0002, etc.). To reboot an entire cluster, specify all of the cache node IDs. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--cache-node-ids-to-reboot", GroupValues = true)]
     public IEnumerable<string>? CacheNodeIdsToReboot { get; private init; }

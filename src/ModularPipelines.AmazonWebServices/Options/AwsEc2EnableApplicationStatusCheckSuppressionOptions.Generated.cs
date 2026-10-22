@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Suppresses application status checks for the specified instances. While suppressed, health checks continue to run but do not affect the in- stance-level application status. The following rules apply: o You can specify a maximum of 100 instance IDs for each request. o Use DisableApplicationStatusCheckSuppression to resume normal health check reporting. o If you do not specify DurationSeconds , suppression continues indefi- nitely until you call DisableApplicationStatusCheckSuppression . See also:...
+/// Suppresses application status checks for the specified instances. While suppressed, health checks continue to run but do not affect the instance-level application status. The following rules apply: • You can specify a maximum of 100 instance IDs for each request. • Use DisableApplicationStatusCheckSuppression to resume normal health check reporting. • If you do not specify DurationSeconds , suppression continues indefinitely until you call DisableApplicationStatusCheckSuppression . See also: AWS...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -29,20 +29,20 @@ public record AwsEc2EnableApplicationStatusCheckSuppressionOptions : AwsOptions
     public IEnumerable<string>? InstanceIds { get; set; }
 
     /// <summary>
-    /// The duration, in seconds, for which to suppress application status checks. If omitted, the application status check is suppressed in- definitely until you call DisableApplicationStatusCheckSuppression .
+    /// The duration, in seconds, for which to suppress application status checks. If omitted, the application status check is suppressed indefinitely until you call DisableApplicationStatusCheckSuppression .
     /// </summary>
     [CliOption("--duration-seconds")]
     public int? DurationSeconds { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry a re- quest with the same token, the service ignores the request but does not return an error. For more information, see Ensuring idempotency .
+    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry a request with the same token, the service ignores the request but does not return an error. For more information, see Ensuring idempotency .
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the repository sync definitions for repository links in your ac- count. See also: AWS API Documentation
+/// Lists the repository sync definitions for repository links in your account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsCodestarConnectionsListRepositorySyncDefinitionsOptions : AwsOp
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the repository sync definitions for repository links in your ac- count. See also: AWS API Documentation
+    /// Lists the repository sync definitions for repository links in your account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryLinkId">The ID of the repository link for the sync definition for which you want to retrieve information. Constraints: o pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$</param>
-    /// <param name="SyncType">The sync type of the repository link for the the sync definition for which you want to retrieve information. Possible values: o CFN_STACK_SYNC</param>
+    /// <param name="RepositoryLinkId">The ID of the repository link for the sync definition for which you want to retrieve information. Constraints: • pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$</param>
+    /// <param name="SyncType">The sync type of the repository link for the the sync definition for which you want to retrieve information. Possible values: • CFN_STACK_SYNC</param>
     public AwsCodestarConnectionsListRepositorySyncDefinitionsOptions(
         string RepositoryLinkId,
         string SyncType
@@ -60,13 +62,13 @@ public record AwsCodestarConnectionsListRepositorySyncDefinitionsOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the repository link for the sync definition for which you want to retrieve information. Constraints: o pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$
+    /// The ID of the repository link for the sync definition for which you want to retrieve information. Constraints: • pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$
     /// </summary>
     [CliOption("--repository-link-id")]
     public string? RepositoryLinkId { get; private init; }
 
     /// <summary>
-    /// The sync type of the repository link for the the sync definition for which you want to retrieve information. Possible values: o CFN_STACK_SYNC
+    /// The sync type of the repository link for the the sync definition for which you want to retrieve information. Possible values: • CFN_STACK_SYNC
     /// </summary>
     [CliOption("--sync-type")]
     public string? SyncType { get; private init; }

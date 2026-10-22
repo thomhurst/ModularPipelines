@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsPinpointSmsVoiceV2UpdateSenderIdOptions : AwsOptions, IValidata
     /// <summary>
     /// Updates the configuration of an existing sender ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SenderId">The sender ID to update. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
-    /// <param name="IsoCountryCode">The two-character code, in ISO 3166-1 alpha-2 format, for the coun- try or region. Constraints: o min: 2 o max: 2 o pattern: [A-Z]{2}</param>
+    /// <param name="SenderId">The sender ID to update. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="IsoCountryCode">The two-character code, in ISO 3166-1 alpha-2 format, for the country or region. Constraints: • min: 2 • max: 2 • pattern: [A-Z]{2}</param>
     public AwsPinpointSmsVoiceV2UpdateSenderIdOptions(
         string SenderId,
         string IsoCountryCode
@@ -60,13 +62,13 @@ public record AwsPinpointSmsVoiceV2UpdateSenderIdOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The sender ID to update. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The sender ID to update. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--sender-id")]
     public string? SenderId { get; private init; }
 
     /// <summary>
-    /// The two-character code, in ISO 3166-1 alpha-2 format, for the coun- try or region. Constraints: o min: 2 o max: 2 o pattern: [A-Z]{2}
+    /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region. Constraints: • min: 2 • max: 2 • pattern: [A-Z]{2}
     /// </summary>
     [CliOption("--iso-country-code")]
     public string? IsoCountryCode { get; private init; }

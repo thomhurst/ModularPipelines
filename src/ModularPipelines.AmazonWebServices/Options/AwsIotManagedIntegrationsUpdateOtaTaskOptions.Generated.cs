@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotManagedIntegrationsUpdateOtaTaskOptions : AwsOptions, IValid
     /// <summary>
     /// Update an over-the-air (OTA) task. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The over-the-air (OTA) task id. Constraints: o min: 1 o max: 200 o pattern: [A-Za-z0-9]+</param>
+    /// <param name="Identifier">The over-the-air (OTA) task id. Constraints: • min: 1 • max: 200 • pattern: [A-Za-z0-9]+</param>
     public AwsIotManagedIntegrationsUpdateOtaTaskOptions(
         string Identifier
     )
@@ -56,19 +58,19 @@ public record AwsIotManagedIntegrationsUpdateOtaTaskOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The over-the-air (OTA) task id. Constraints: o min: 1 o max: 200 o pattern: [A-Za-z0-9]+
+    /// The over-the-air (OTA) task id. Constraints: • min: 1 • max: 200 • pattern: [A-Za-z0-9]+
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The description of the over-the-air (OTA) task. Constraints: o min: 1 o max: 256 o pattern: [0-9A-Za-z_\- ]+
+    /// The description of the over-the-air (OTA) task. Constraints: • min: 1 • max: 256 • pattern: [0-9A-Za-z_\- ]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The identifier for the over-the-air (OTA) task configuration. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]*
+    /// The identifier for the over-the-air (OTA) task configuration. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9]*
     /// </summary>
     [CliOption("--task-configuration-id")]
     public string? TaskConfigurationId { get; set; }

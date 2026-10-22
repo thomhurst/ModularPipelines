@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsChatbotGetCustomActionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns a custom action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CustomActionArn">Returns the fully defined Amazon Resource Name (ARN) of the custom action. Constraints: o min: 1 o max: 1011 o pattern: arn:aws:chat- bot:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:custom-ac- tion/[a-zA-Z0-9_-]{1,64}</param>
+    /// <param name="CustomActionArn">Returns the fully defined Amazon Resource Name (ARN) of the custom action. Constraints: • min: 1 • max: 1011 • pattern: arn:aws:chatbot:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:custom-action/[a-zA-Z0-9_-]{1,64}</param>
     public AwsChatbotGetCustomActionOptions(
         string CustomActionArn
     )
@@ -56,7 +58,7 @@ public record AwsChatbotGetCustomActionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Returns the fully defined Amazon Resource Name (ARN) of the custom action. Constraints: o min: 1 o max: 1011 o pattern: arn:aws:chat- bot:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:custom-ac- tion/[a-zA-Z0-9_-]{1,64}
+    /// Returns the fully defined Amazon Resource Name (ARN) of the custom action. Constraints: • min: 1 • max: 1011 • pattern: arn:aws:chatbot:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:custom-action/[a-zA-Z0-9_-]{1,64}
     /// </summary>
     [CliOption("--custom-action-arn")]
     public string? CustomActionArn { get; private init; }

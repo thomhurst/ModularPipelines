@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a list of all the application components (processes). See also: AWS API Documentation list-application-components is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: applicationComponentInfos
+/// Retrieves a list of all the application components (processes). See also: AWS API Documentation list-application-components is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: applicationComponentInfos
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,34 +24,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsMigrationhubstrategyListApplicationComponentsOptions : AwsOptions
 {
     /// <summary>
-    /// Criteria for filtering the list of application components. Possible values: o NOT_DEFINED o APP_NAME o SERVER_ID o APP_TYPE o STRATEGY o DESTINATION o ANALYSIS_STATUS o ERROR_CATEGORY
+    /// Criteria for filtering the list of application components. Possible values: • NOT_DEFINED • APP_NAME • SERVER_ID • APP_TYPE • STRATEGY • DESTINATION • ANALYSIS_STATUS • ERROR_CATEGORY
     /// </summary>
     [CliOption("--application-component-criteria")]
     public AwsMigrationhubstrategyListApplicationComponentsApplicationComponentCriteria? ApplicationComponentCriteria { get; set; }
 
     /// <summary>
-    /// Specify the value based on the application component criteria type. For example, if applicationComponentCriteria is set to SERVER_ID and filterValue is set to server1 , then ListApplicationComponents re- turns all the application components running on server1. Constraints: o min: 0 o max: 256 o pattern: .*\S.*
+    /// Specify the value based on the application component criteria type. For example, if applicationComponentCriteria is set to SERVER_ID and filterValue is set to server1 , then ListApplicationComponents returns all the application components running on server1. Constraints: • min: 0 • max: 256 • pattern: .*\S.*
     /// </summary>
     [CliOption("--filter-value")]
     public string? FilterValue { get; set; }
 
     /// <summary>
-    /// The group ID specified in to filter on. (structure) The object containing information about distinct imports or groups for Strategy Recommendations. name -&gt; (string) The key of the specific import group. Possible values: o ExternalId o ExternalSourceType value -&gt; (string) The value of the specific import group. Constraints: o min: 0 o max: 1024 o pattern: .*\S.* Shorthand Syntax: name=string,value=string ... JSON Syntax: [ { "name": "ExternalId"|"ExternalSourceType", "value": "string" } ... ]
+    /// The group ID specified in to filter on. (structure) The object containing information about distinct imports or groups for Strategy Recommendations. name -&gt; (string) The key of the specific import group. Possible values: • ExternalId • ExternalSourceType value -&gt; (string) The value of the specific import group. Constraints: • min: 0 • max: 1024 • pattern: .*\S.* Shorthand Syntax: name=string,value=string ... JSON Syntax: [ { "name": "ExternalId"|"ExternalSourceType", "value": "string" } ... ]
     /// </summary>
     [CliOption("--group-id-filter", GroupValues = true)]
     public IEnumerable<string>? GroupIdFilter { get; set; }
 
     /// <summary>
-    /// Specifies whether to sort by ascending (ASC ) or descending (DESC ) order. Possible values: o ASC o DESC
+    /// Specifies whether to sort by ascending (ASC ) or descending (DESC ) order. Possible values: • ASC • DESC
     /// </summary>
     [CliOption("--sort")]
     public AwsMigrationhubstrategyListApplicationComponentsSort? Sort { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -61,15 +58,18 @@ public record AwsMigrationhubstrategyListApplicationComponentsOptions : AwsOptio
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

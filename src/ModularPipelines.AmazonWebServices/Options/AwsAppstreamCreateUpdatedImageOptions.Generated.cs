@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new image with the latest Windows operating system updates, driver updates, and WorkSpaces Applications agent software. For more information, see the "Update an Image by Using Managed Work- Spaces Applications Image Updates" section in Administer Your Work- Spaces Applications Images , in the Amazon WorkSpaces Applications Ad- ministration Guide . See also: AWS API Documentation
+/// Creates a new image with the latest Windows operating system updates, driver updates, and WorkSpaces Applications agent software. For more information, see the "Update an Image by Using Managed WorkSpaces Applications Image Updates" section in Administer Your WorkSpaces Applications Images , in the Amazon WorkSpaces Applications Administration Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsAppstreamCreateUpdatedImageOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new image with the latest Windows operating system updates, driver updates, and WorkSpaces Applications agent software. For more information, see the "Update an Image by Using Managed Work- Spaces Applications Image Updates" section in Administer Your Work- Spaces Applications Images , in the Amazon WorkSpaces Applications Ad- ministration Guide . See also: AWS API Documentation
+    /// Creates a new image with the latest Windows operating system updates, driver updates, and WorkSpaces Applications agent software. For more information, see the "Update an Image by Using Managed WorkSpaces Applications Image Updates" section in Administer Your WorkSpaces Applications Images , in the Amazon WorkSpaces Applications Administration Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExistingImageName">The name of the image to update. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
-    /// <param name="NewImageName">The name of the new image. The name must be unique within the AWS account and Region. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="ExistingImageName">The name of the image to update. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="NewImageName">The name of the new image. The name must be unique within the AWS account and Region. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
     public AwsAppstreamCreateUpdatedImageOptions(
         string ExistingImageName,
         string NewImageName
@@ -61,37 +62,37 @@ public record AwsAppstreamCreateUpdatedImageOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the image to update. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// The name of the image to update. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
     /// </summary>
     [CliOption("--existing-image-name")]
     public string? ExistingImageName { get; private init; }
 
     /// <summary>
-    /// The name of the new image. The name must be unique within the AWS account and Region. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// The name of the new image. The name must be unique within the AWS account and Region. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
     /// </summary>
     [CliOption("--new-image-name")]
     public string? NewImageName { get; private init; }
 
     /// <summary>
-    /// The description to display for the new image. Constraints: o max: 256
+    /// The description to display for the new image. Constraints: • max: 256
     /// </summary>
     [CliOption("--new-image-description")]
     public string? NewImageDescription { get; set; }
 
     /// <summary>
-    /// The name to display for the new image. Constraints: o max: 100
+    /// The name to display for the new image. Constraints: • max: 100
     /// </summary>
     [CliOption("--new-image-display-name")]
     public string? NewImageDisplayName { get; set; }
 
     /// <summary>
-    /// The tags to associate with the new image. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=. Generally allowed characters are: letters, numbers, and spaces rep- resentable in UTF-8, and the following special characters: _ . : / = + - @ If you do not specify a value, the value is set to an empty string. For more information about tags, see Tagging Your Resources in the Amazon WorkSpaces Applications Administration Guide . Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(^(?!aws:).[\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to associate with the new image. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters: _ . : / = + - @ If you do not specify a value, the value is set to an empty string. For more information about tags, see Tagging Your Resources in the Amazon WorkSpaces Applications Administration Guide . Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(^(?!aws:).[\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--new-image-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? NewImageTags { get; set; }
 
     /// <summary>
-    /// Indicates whether to display the status of image update availability before WorkSpaces Applications initiates the process of creating a new updated image. If this value is set to true , WorkSpaces Appli- cations displays whether image updates are available. If this value is set to false , WorkSpaces Applications initiates the process of creating a new updated image without displaying whether image up- dates are available.
+    /// Indicates whether to display the status of image update availability before WorkSpaces Applications initiates the process of creating a new updated image. If this value is set to true , WorkSpaces Applications displays whether image updates are available. If this value is set to false , WorkSpaces Applications initiates the process of creating a new updated image without displaying whether image updates are available.
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

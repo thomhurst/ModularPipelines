@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Grants permission to exchange client credentials for an OAuth 2.0 ac- cess token scoped to a resource that can be used to access AWS services from applications See also: AWS API Documentation
+/// Grants permission to exchange client credentials for an OAuth 2.0 access token scoped to a resource that can be used to access AWS services from applications See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsSigninCreateOauth2TokenWithIamOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Grants permission to exchange client credentials for an OAuth 2.0 ac- cess token scoped to a resource that can be used to access AWS services from applications See also: AWS API Documentation
+    /// Grants permission to exchange client credentials for an OAuth 2.0 access token scoped to a resource that can be used to access AWS services from applications See also: AWS API Documentation
     /// </summary>
-    /// <param name="GrantType">OAuth 2.0 grant type. Must be "client_credentials". Constraints: o pattern: client_credentials</param>
-    /// <param name="Resource">The OAuth resource for which the access token is requested. Example: "aws-mcp.amazonaws.com". Constraints: o min: 1 o max: 2048</param>
+    /// <param name="GrantType">OAuth 2.0 grant type. Must be "client_credentials". Constraints: • pattern: client_credentials</param>
+    /// <param name="Resource">The OAuth resource for which the access token is requested. Example: "aws-mcp.amazonaws.com". Constraints: • min: 1 • max: 2048</param>
     public AwsSigninCreateOauth2TokenWithIamOptions(
         string GrantType,
         string Resource
@@ -60,13 +62,13 @@ public record AwsSigninCreateOauth2TokenWithIamOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// OAuth 2.0 grant type. Must be "client_credentials". Constraints: o pattern: client_credentials
+    /// OAuth 2.0 grant type. Must be "client_credentials". Constraints: • pattern: client_credentials
     /// </summary>
     [CliOption("--grant-type")]
     public string? GrantType { get; private init; }
 
     /// <summary>
-    /// The OAuth resource for which the access token is requested. Example: "aws-mcp.amazonaws.com". Constraints: o min: 1 o max: 2048
+    /// The OAuth resource for which the access token is requested. Example: "aws-mcp.amazonaws.com". Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--resource")]
     public string? Resource { get; private init; }

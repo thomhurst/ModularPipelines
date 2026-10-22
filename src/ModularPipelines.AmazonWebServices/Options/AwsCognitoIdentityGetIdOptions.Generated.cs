@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,7 +29,7 @@ public record AwsCognitoIdentityGetIdOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Generates (or retrieves) IdentityID. Supplying multiple logins will create an implicit linked account. This is a public API. You do not need any credentials to call this API. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IdentityPoolId">An identity pool ID in the format REGION:GUID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+</param>
+    /// <param name="IdentityPoolId">An identity pool ID in the format REGION:GUID. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+</param>
     public AwsCognitoIdentityGetIdOptions(
         string IdentityPoolId
     )
@@ -57,19 +58,19 @@ public record AwsCognitoIdentityGetIdOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An identity pool ID in the format REGION:GUID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+
+    /// An identity pool ID in the format REGION:GUID. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+
     /// </summary>
     [CliOption("--identity-pool-id")]
     public string? IdentityPoolId { get; private init; }
 
     /// <summary>
-    /// A standard Amazon Web Services account ID (9+ digits). Constraints: o min: 1 o max: 15 o pattern: \d+
+    /// A standard Amazon Web Services account ID (9+ digits). Constraints: • min: 1 • max: 15 • pattern: \d+
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
     /// <summary>
-    /// A set of optional name-value pairs that map provider names to provider tokens. The available provider names for Logins are as fol- lows: o Facebook: graph.facebook.com o Amazon Cognito user pool: cognito-idp.&lt;region&gt;.amazon- aws.com/&lt;YOUR_USER_POOL_ID&gt; , for example, cog- nito-idp.us-east-1.amazonaws.com/us-east-1_123456789 . o Google: accounts.google.com o Amazon: www.amazon.com o Twitter: api.twitter.com o Digits: www.digits.com Constraints: o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 1 o max: 50000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A set of optional name-value pairs that map provider names to provider tokens. The available provider names for Logins are as follows: • Facebook: graph.facebook.com • Amazon Cognito user pool: cognito-idp.&lt;region&gt;.amazonaws.com/&lt;YOUR_USER_POOL_ID&gt; , for example, cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789 . • Google: accounts.google.com • Amazon: www.amazon.com • Twitter: api.twitter.com • Digits: www.digits.com Constraints: • max: 10 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 1 • max: 50000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--logins", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Logins { get; set; }

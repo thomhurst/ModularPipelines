@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Assigns a Grafana Enterprise license to a workspace. To upgrade, you must use ENTERPRISE for the licenseType , and pass in a valid Grafana Labs token for the grafanaToken . Upgrading to Grafana Enterprise in- curs additional fees. For more information, see Upgrade a workspace to Grafana Enterprise . See also: AWS API Documentation
+/// Assigns a Grafana Enterprise license to a workspace. To upgrade, you must use ENTERPRISE for the licenseType , and pass in a valid Grafana Labs token for the grafanaToken . Upgrading to Grafana Enterprise incurs additional fees. For more information, see Upgrade a workspace to Grafana Enterprise . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +29,10 @@ public record AwsGrafanaAssociateLicenseOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Assigns a Grafana Enterprise license to a workspace. To upgrade, you must use ENTERPRISE for the licenseType , and pass in a valid Grafana Labs token for the grafanaToken . Upgrading to Grafana Enterprise in- curs additional fees. For more information, see Upgrade a workspace to Grafana Enterprise . See also: AWS API Documentation
+    /// Assigns a Grafana Enterprise license to a workspace. To upgrade, you must use ENTERPRISE for the licenseType , and pass in a valid Grafana Labs token for the grafanaToken . Upgrading to Grafana Enterprise incurs additional fees. For more information, see Upgrade a workspace to Grafana Enterprise . See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceId">The ID of the workspace to associate the license with. Constraints: o pattern: g-[0-9a-f]{10}</param>
-    /// <param name="LicenseType">The type of license to associate with the workspace. NOTE: Amazon Managed Grafana workspaces no longer support Grafana En- terprise free trials. Possible values: o ENTERPRISE o ENTERPRISE_FREE_TRIAL</param>
+    /// <param name="WorkspaceId">The ID of the workspace to associate the license with. Constraints: • pattern: g-[0-9a-f]{10}</param>
+    /// <param name="LicenseType">The type of license to associate with the workspace. NOTE: Amazon Managed Grafana workspaces no longer support Grafana Enterprise free trials. Possible values: • ENTERPRISE • ENTERPRISE_FREE_TRIAL</param>
     public AwsGrafanaAssociateLicenseOptions(
         string WorkspaceId,
         AwsGrafanaAssociateLicenseLicenseType LicenseType
@@ -61,19 +63,19 @@ public record AwsGrafanaAssociateLicenseOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the workspace to associate the license with. Constraints: o pattern: g-[0-9a-f]{10}
+    /// The ID of the workspace to associate the license with. Constraints: • pattern: g-[0-9a-f]{10}
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
 
     /// <summary>
-    /// The type of license to associate with the workspace. NOTE: Amazon Managed Grafana workspaces no longer support Grafana En- terprise free trials. Possible values: o ENTERPRISE o ENTERPRISE_FREE_TRIAL
+    /// The type of license to associate with the workspace. NOTE: Amazon Managed Grafana workspaces no longer support Grafana Enterprise free trials. Possible values: • ENTERPRISE • ENTERPRISE_FREE_TRIAL
     /// </summary>
     [CliOption("--license-type")]
     public AwsGrafanaAssociateLicenseLicenseType? LicenseType { get; private init; }
 
     /// <summary>
-    /// A token from Grafana Labs that ties your Amazon Web Services account with a Grafana Labs account. For more information, see Link your ac- count with Grafana Labs . Constraints: o min: 1 o max: 36
+    /// A token from Grafana Labs that ties your Amazon Web Services account with a Grafana Labs account. For more information, see Link your account with Grafana Labs . Constraints: • min: 1 • max: 36
     /// </summary>
     [SecretValue]
     [CliOption("--grafana-token")]

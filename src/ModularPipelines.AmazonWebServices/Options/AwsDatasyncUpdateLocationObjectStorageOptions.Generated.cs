@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +31,7 @@ public record AwsDatasyncUpdateLocationObjectStorageOptions : AwsOptions, IValid
     /// <summary>
     /// Modifies the following configuration parameters of the object storage transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with an object storage system . See also: AWS API Documentation
     /// </summary>
-    /// <param name="LocationArn">Specifies the ARN of the object storage system location that you're updating. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$</param>
+    /// <param name="LocationArn">Specifies the ARN of the object storage system location that you're updating. Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$</param>
     public AwsDatasyncUpdateLocationObjectStorageOptions(
         string LocationArn
     )
@@ -58,70 +60,70 @@ public record AwsDatasyncUpdateLocationObjectStorageOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ARN of the object storage system location that you're updating. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$
+    /// Specifies the ARN of the object storage system location that you're updating. Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$
     /// </summary>
     [CliOption("--location-arn")]
     public string? LocationArn { get; private init; }
 
     /// <summary>
-    /// Specifies the port that your object storage server accepts inbound network traffic on (for example, port 443). Constraints: o min: 1 o max: 65536
+    /// Specifies the port that your object storage server accepts inbound network traffic on (for example, port 443). Constraints: • min: 1 • max: 65536
     /// </summary>
     [CliOption("--server-port")]
     public int? ServerPort { get; set; }
 
     /// <summary>
-    /// Specifies the protocol that your object storage server uses to com- municate. Possible values: o HTTPS o HTTP
+    /// Specifies the protocol that your object storage server uses to communicate. Possible values: • HTTPS • HTTP
     /// </summary>
     [CliOption("--server-protocol")]
     public AwsDatasyncUpdateLocationObjectStorageServerProtocol? ServerProtocol { get; set; }
 
     /// <summary>
-    /// Specifies the object prefix for your object storage server. If this is a source location, DataSync only copies objects with this prefix. If this is a destination location, DataSync writes all objects with this prefix. Constraints: o max: 4096 o pattern: ^[a-zA-Z0-9_\-\+\./\(\)\p{Zs}]*$
+    /// Specifies the object prefix for your object storage server. If this is a source location, DataSync only copies objects with this prefix. If this is a destination location, DataSync writes all objects with this prefix. Constraints: • max: 4096 • pattern: ^[a-zA-Z0-9_\-\+\./\(\)\p{Zs}]*$
     /// </summary>
     [CliOption("--subdirectory")]
     public string? Subdirectory { get; set; }
 
     /// <summary>
-    /// Specifies the domain name or IP address (IPv4 or IPv6) of the object storage server that your DataSync agent connects to. Constraints: o max: 255 o pattern: ^(([a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9\-:]*[A-Za-z0-9])$
+    /// Specifies the domain name or IP address (IPv4 or IPv6) of the object storage server that your DataSync agent connects to. Constraints: • max: 255 • pattern: ^(([a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9\-:]*[A-Za-z0-9])$
     /// </summary>
     [CliOption("--server-hostname")]
     public string? ServerHostname { get; set; }
 
     /// <summary>
-    /// Specifies the access key (for example, a user name) if credentials are required to authenticate with the object storage server. Constraints: o min: 0 o max: 200 o pattern: ^.*$
+    /// Specifies the access key (for example, a user name) if credentials are required to authenticate with the object storage server. Constraints: • min: 0 • max: 200 • pattern: ^.*$
     /// </summary>
     [SecretValue]
     [CliOption("--access-key")]
     public string? AccessKey { get; set; }
 
     /// <summary>
-    /// Specifies the secret key (for example, a password) if credentials are required to authenticate with the object storage server. NOTE: If you provide a secret using SecretKey , but do not provide se- cret configuration details using CmkSecretConfig or CustomSe- cretConfig , then DataSync stores the token using your Amazon Web Services account's Secrets Manager secret. Constraints: o min: 0 o max: 200 o pattern: ^.*$
+    /// Specifies the secret key (for example, a password) if credentials are required to authenticate with the object storage server. NOTE: If you provide a secret using SecretKey , but do not provide secret configuration details using CmkSecretConfig or CustomSecretConfig , then DataSync stores the token using your Amazon Web Services account's Secrets Manager secret. Constraints: • min: 0 • max: 200 • pattern: ^.*$
     /// </summary>
     [SecretValue]
     [CliOption("--secret-key")]
     public string? SecretKey { get; set; }
 
     /// <summary>
-    /// (Optional) Specifies the Amazon Resource Names (ARNs) of the Data- Sync agents that can connect with your object storage system. If you are setting up an agentless cross-cloud transfer, you do not need to specify a value for this parameter. NOTE: You cannot add or remove agents from a storage location after you initially create it. Constraints: o min: 1 o max: 8 (string) Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$ Syntax: "string" "string" ...
+    /// (Optional) Specifies the Amazon Resource Names (ARNs) of the DataSync agents that can connect with your object storage system. If you are setting up an agentless cross-cloud transfer, you do not need to specify a value for this parameter. NOTE: You cannot add or remove agents from a storage location after you initially create it. Constraints: • min: 1 • max: 8 (string) Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--agent-arns", GroupValues = true)]
     public IEnumerable<string>? AgentArns { get; set; }
 
     /// <summary>
-    /// Specifies a certificate chain for DataSync to authenticate with your object storage system if the system uses a private or self-signed certificate authority (CA). You must specify a single .pem file with a full certificate chain (for example, file:///home/user/.ssh/ob- ject_storage_certificates.pem ). The certificate chain might include: o The object storage system's certificate o All intermediate certificates (if there are any) o The root certificate of the signing CA You can concatenate your certificates into a .pem file (which can be up to 32768 bytes before base64 encoding). The following example cat command creates an object_storage_certificates.pem file that in- cludes three certificates: cat object_server_certificate.pem intermediate_certificate.pem ca_root_certificate.pem &gt; object_storage_certificates.pem To use this parameter, configure ServerProtocol to HTTPS . Updating this parameter doesn't interfere with tasks that you have in progress. Constraints: o max: 32768
+    /// Specifies a certificate chain for DataSync to authenticate with your object storage system if the system uses a private or self-signed certificate authority (CA). You must specify a single .pem file with a full certificate chain (for example, file:///home/user/.ssh/object_storage_certificates.pem ). The certificate chain might include: • The object storage system's certificate • All intermediate certificates (if there are any) • The root certificate of the signing CA You can concatenate your certificates into a .pem file (which can be up to 32768 bytes before base64 encoding). The following example cat command creates an object_storage_certificates.pem file that includes three certificates: cat object_server_certificate.pem intermediate_certificate.pem ca_root_certificate.pem &gt; object_storage_certificates.pem To use this parameter, configure ServerProtocol to HTTPS . Updating this parameter doesn't interfere with tasks that you have in progress. Constraints: • max: 32768
     /// </summary>
     [CliOption("--server-certificate")]
     public string? ServerCertificate { get; set; }
 
     /// <summary>
-    /// Specifies configuration information for a DataSync-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key. SecretArn -&gt; (string) Specifies the ARN for the DataSync-managed Secrets Manager se- cret that that is used to access a specific storage location. This property is generated by DataSync and is read-only. Data- Sync encrypts this secret with the KMS key that you specify for KmsKeyArn . Constraints: o max: 2048 o pattern: ^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):se- cretsmanager:[a-z\-0-9]+:[0-9]{12}:secret:.*|)$ KmsKeyArn -&gt; (string) Specifies the ARN for the customer-managed KMS key that DataSync uses to encrypt the DataSync-managed secret stored for SecretArn . DataSync provides this key to Secrets Manager. Constraints: o max: 2048 o pattern: ^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):kms:[a-z\-0-9]+:[0-9]{12}:key/.*|)$ Shorthand Syntax: SecretArn=string,KmsKeyArn=string JSON Syntax: { "SecretArn": "string", "KmsKeyArn": "string" }
+    /// Specifies configuration information for a DataSync-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key. SecretArn -&gt; (string) Specifies the ARN for the DataSync-managed Secrets Manager secret that that is used to access a specific storage location. This property is generated by DataSync and is read-only. DataSync encrypts this secret with the KMS key that you specify for KmsKeyArn . Constraints: • max: 2048 • pattern: ^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):secretsmanager:[a-z\-0-9]+:[0-9]{12}:secret:.*|)$ KmsKeyArn -&gt; (string) Specifies the ARN for the customer-managed KMS key that DataSync uses to encrypt the DataSync-managed secret stored for SecretArn . DataSync provides this key to Secrets Manager. Constraints: • max: 2048 • pattern: ^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):kms:[a-z\-0-9]+:[0-9]{12}:key/.*|)$ Shorthand Syntax: SecretArn=string,KmsKeyArn=string JSON Syntax: { "SecretArn": "string", "KmsKeyArn": "string" }
     /// </summary>
     [SecretValue]
     [CliOption("--cmk-secret-config")]
     public string? CmkSecretConfig { get; set; }
 
     /// <summary>
-    /// Specifies configuration information for a customer-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed Identity and Access Management (IAM) role that provides access to the secret. SecretArn -&gt; (string) Specifies the ARN for an Secrets Manager secret. Constraints: o max: 2048 o pattern: ^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):se- cretsmanager:[a-z\-0-9]+:[0-9]{12}:secret:.*|)$ SecretAccessRoleArn -&gt; (string) Specifies the ARN for the Identity and Access Management role that DataSync uses to access the secret specified for SecretArn . Constraints: o max: 2048 o pattern: ^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):iam::[0-9]{12}:role/[a-zA-Z0-9+=,.@_/-]+|)$ Shorthand Syntax: SecretArn=string,SecretAccessRoleArn=string JSON Syntax: { "SecretArn": "string", "SecretAccessRoleArn": "string" }
+    /// Specifies configuration information for a customer-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed Identity and Access Management (IAM) role that provides access to the secret. SecretArn -&gt; (string) Specifies the ARN for an Secrets Manager secret. Constraints: • max: 2048 • pattern: ^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):secretsmanager:[a-z\-0-9]+:[0-9]{12}:secret:.*|)$ SecretAccessRoleArn -&gt; (string) Specifies the ARN for the Identity and Access Management role that DataSync uses to access the secret specified for SecretArn . Constraints: • max: 2048 • pattern: ^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):iam::[0-9]{12}:role/[a-zA-Z0-9+=,.@_/-]+|)$ Shorthand Syntax: SecretArn=string,SecretAccessRoleArn=string JSON Syntax: { "SecretArn": "string", "SecretAccessRoleArn": "string" }
     /// </summary>
     [SecretValue]
     [CliOption("--custom-secret-config")]

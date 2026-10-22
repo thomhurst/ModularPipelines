@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the status of a notification for a specific user, such as mark- ing it as read or hidden. Users can only update notification status for notifications that have been sent to them. READ status deprioritizes the notification and greys it out, while HIDDEN status removes it from the notification widget. See also: AWS API Documentation
+/// Updates the status of a notification for a specific user, such as marking it as read or hidden. Users can only update notification status for notifications that have been sent to them. READ status deprioritizes the notification and greys it out, while HIDDEN status removes it from the notification widget. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +28,12 @@ public record AwsConnectUpdateUserNotificationStatusOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the status of a notification for a specific user, such as mark- ing it as read or hidden. Users can only update notification status for notifications that have been sent to them. READ status deprioritizes the notification and greys it out, while HIDDEN status removes it from the notification widget. See also: AWS API Documentation
+    /// Updates the status of a notification for a specific user, such as marking it as read or hidden. Users can only update notification status for notifications that have been sent to them. READ status deprioritizes the notification and greys it out, while HIDDEN status removes it from the notification widget. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="NotificationId">The unique identifier for the notification. Constraints: o min: 1 o max: 256</param>
-    /// <param name="UserId">The identifier of the user whose notification status is being up- dated.</param>
-    /// <param name="Status">The new status for the notification. Valid values are READ, UNREAD, and HIDDEN. Possible values: o READ o UNREAD o HIDDEN</param>
+    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="NotificationId">The unique identifier for the notification. Constraints: • min: 1 • max: 256</param>
+    /// <param name="UserId">The identifier of the user whose notification status is being updated.</param>
+    /// <param name="Status">The new status for the notification. Valid values are READ, UNREAD, and HIDDEN. Possible values: • READ • UNREAD • HIDDEN</param>
     public AwsConnectUpdateUserNotificationStatusOptions(
         string InstanceId,
         string NotificationId,
@@ -68,25 +70,25 @@ public record AwsConnectUpdateUserNotificationStatusOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the notification. Constraints: o min: 1 o max: 256
+    /// The unique identifier for the notification. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--notification-id")]
     public string? NotificationId { get; private init; }
 
     /// <summary>
-    /// The identifier of the user whose notification status is being up- dated.
+    /// The identifier of the user whose notification status is being updated.
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; private init; }
 
     /// <summary>
-    /// The new status for the notification. Valid values are READ, UNREAD, and HIDDEN. Possible values: o READ o UNREAD o HIDDEN
+    /// The new status for the notification. Valid values are READ, UNREAD, and HIDDEN. Possible values: • READ • UNREAD • HIDDEN
     /// </summary>
     [CliOption("--status")]
     public AwsConnectUpdateUserNotificationStatusStatus? Status { get; private init; }
@@ -98,7 +100,7 @@ public record AwsConnectUpdateUserNotificationStatusOptions : AwsOptions, IValid
     public string? LastModifiedTime { get; set; }
 
     /// <summary>
-    /// The AWS Region where the notification status was last modified. Used for cross-region replication. Constraints: o pattern: [a-z]{2}(-[a-z]+){1,2}(-[0-9])?
+    /// The AWS Region where the notification status was last modified. Used for cross-region replication. Constraints: • pattern: [a-z]{2}(-[a-z]+){1,2}(-[0-9])?
     /// </summary>
     [CliOption("--last-modified-region")]
     public string? LastModifiedRegion { get; set; }

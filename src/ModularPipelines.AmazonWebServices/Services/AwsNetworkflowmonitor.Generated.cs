@@ -32,7 +32,7 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     #region Commands
 
     /// <summary>
-    /// Create a monitor for specific network flows between local and remote resources, so that you can monitor network performance for one or sev- eral of your workloads. For each monitor, Network Flow Monitor pub- lishes detailed end-to-end performance metrics and a network health in- dicator (NHI) that informs you whether there were Amazon Web Services network issues for one or more of the network flows tracked by a moni- tor, during a time period that you choose. See also: AWS API Documentation
+    /// Create a monitor for specific network flows between local and remote resources, so that you can monitor network performance for one or several of your workloads. For each monitor, Network Flow Monitor publishes detailed end-to-end performance metrics and a network health indicator (NHI) that informs you whether there were Amazon Web Services network issues for one or more of the network flows tracked by a monitor, during a time period that you choose. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     }
 
     /// <summary>
-    /// In Network Flow Monitor, you specify a scope for the service to gener- ate metrics for. By using the scope, Network Flow Monitor can generate a topology of all the resources to measure performance metrics for. When you create a scope, you enable permissions for Network Flow Moni- tor. A scope is a Region-account pair or multiple Region-account pairs. Net- work Flow Monitor uses your scope to determine all the resources (the topology) where Network Flow Monitor will gather network flow perfor- ma...
+    /// In Network Flow Monitor, you specify a scope for the service to generate metrics for. By using the scope, Network Flow Monitor can generate a topology of all the resources to measure performance metrics for. When you create a scope, you enable permissions for Network Flow Monitor. A scope is a Region-account pair or multiple Region-account pairs. Network Flow Monitor uses your scope to determine all the resources (the topology) where Network Flow Monitor will gather network flow performance metr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     }
 
     /// <summary>
-    /// Gets information about a monitor in Network Flow Monitor based on a monitor name. The information returned includes the Amazon Resource Name (ARN), create time, modified time, resources included in the moni- tor, and status information. See also: AWS API Documentation
+    /// Gets information about a monitor in Network Flow Monitor based on a monitor name. The information returned includes the Amazon Resource Name (ARN), create time, modified time, resources included in the monitor, and status information. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     }
 
     /// <summary>
-    /// Return the data for a query with the Network Flow Monitor query inter- face. You specify the query that you want to return results for by pro- viding a query ID and a monitor name. This query returns the top con- tributors for a specific monitor. Create a query ID for this call by calling the corresponding API call to start the query, StartQueryMonitorTopContributors . Use the scope ID that was returned for your account by CreateScope . Top contributors in Network Flow Monitor are network flows ...
+    /// Return the data for a query with the Network Flow Monitor query interface. You specify the query that you want to return results for by providing a query ID and a monitor name. This query returns the top contributors for a specific monitor. Create a query ID for this call by calling the corresponding API call to start the query, StartQueryMonitorTopContributors . Use the scope ID that was returned for your account by CreateScope . Top contributors in Network Flow Monitor are network flows with t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     }
 
     /// <summary>
-    /// Return the data for a query with the Network Flow Monitor query inter- face. Specify the query that you want to return results for by provid- ing a query ID and a scope ID. This query returns the data for top contributors for workload insights for a specific scope. Workload insights provide a high level view of network flow performance data collected by agents for a scope. To re- turn just the top contributors, see GetQueryResultsWorkloadInsightsTop- Contributors . Create a query ID for this cal...
+    /// Return the data for a query with the Network Flow Monitor query interface. Specify the query that you want to return results for by providing a query ID and a scope ID. This query returns the data for top contributors for workload insights for a specific scope. Workload insights provide a high level view of network flow performance data collected by agents for a scope. To return just the top contributors, see GetQueryResultsWorkloadInsightsTopContributors . Create a query ID for this call by cal...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     }
 
     /// <summary>
-    /// Return the data for a query with the Network Flow Monitor query inter- face. You specify the query that you want to return results for by pro- viding a query ID and a monitor name. This query returns the top contributors for a scope for workload in- sights. Workload insights provide a high level view of network flow performance data collected by agents. To return the data for the top contributors, see GetQueryResultsWorkloadInsightsTopContributorsData . Create a query ID for this call by calling...
+    /// Return the data for a query with the Network Flow Monitor query interface. You specify the query that you want to return results for by providing a query ID and a monitor name. This query returns the top contributors for a scope for workload insights. Workload insights provide a high level view of network flow performance data collected by agents. To return the data for the top contributors, see GetQueryResultsWorkloadInsightsTopContributorsData . Create a query ID for this call by calling the c...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     }
 
     /// <summary>
-    /// Returns the current status of a query for the Network Flow Monitor query interface, for a specified query ID and monitor. This call re- turns the query status for the top contributors for a monitor. When you create a query, use this call to check the status of the query to make sure that it has has SUCCEEDED before you review the results. Use the same query ID that you used for the corresponding API call to start (create) the query, StartQueryMonitorTopContributors . When you run a query, use th...
+    /// Returns the current status of a query for the Network Flow Monitor query interface, for a specified query ID and monitor. This call returns the query status for the top contributors for a monitor. When you create a query, use this call to check the status of the query to make sure that it has has SUCCEEDED before you review the results. Use the same query ID that you used for the corresponding API call to start (create) the query, StartQueryMonitorTopContributors . When you run a query, use this...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     }
 
     /// <summary>
-    /// Returns the current status of a query for the Network Flow Monitor query interface, for a specified query ID and monitor. This call re- turns the query status for the top contributors data for workload in- sights. When you start a query, use this call to check the status of the query to make sure that it has has SUCCEEDED before you review the results. Use the same query ID that you used for the corresponding API call to start the query, StartQueryWorkloadInsightsTopContributorsData . Top contri...
+    /// Returns the current status of a query for the Network Flow Monitor query interface, for a specified query ID and monitor. This call returns the query status for the top contributors data for workload insights. When you start a query, use this call to check the status of the query to make sure that it has has SUCCEEDED before you review the results. Use the same query ID that you used for the corresponding API call to start the query, StartQueryWorkloadInsightsTopContributorsData . Top contributo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     }
 
     /// <summary>
-    /// Return the data for a query with the Network Flow Monitor query inter- face. Specify the query that you want to return results for by provid- ing a query ID and a monitor name. This query returns the top contribu- tors for workload insights. When you start a query, use this call to check the status of the query to make sure that it has has SUCCEEDED before you review the results. Use the same query ID that you used for the corresponding API call to start the query, StartQueryWorkloadInsightsTopC...
+    /// Return the data for a query with the Network Flow Monitor query interface. Specify the query that you want to return results for by providing a query ID and a monitor name. This query returns the top contributors for workload insights. When you start a query, use this call to check the status of the query to make sure that it has has SUCCEEDED before you review the results. Use the same query ID that you used for the corresponding API call to start the query, StartQueryWorkloadInsightsTopContrib...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     }
 
     /// <summary>
-    /// List all monitors in an account. Optionally, you can list only monitors that have a specific status, by using the STATUS parameter. See also: AWS API Documentation list-monitors is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the ...
+    /// List all monitors in an account. Optionally, you can list only monitors that have a specific status, by using the STATUS parameter. See also: AWS API Documentation list-monitors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the foll...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     }
 
     /// <summary>
-    /// List all the scopes for an account. See also: AWS API Documentation list-scopes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: scopes
+    /// List all the scopes for an account. See also: AWS API Documentation list-scopes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: scopes
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     }
 
     /// <summary>
-    /// Create a query that you can use with the Network Flow Monitor query in- terface to return the top contributors for a monitor. Specify the moni- tor that you want to create the query for. The call returns a query ID that you can use with GetQueryResultsMonitorTopContributors to run the query and return the top contributors for a specific monitor. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all worklo...
+    /// Create a query that you can use with the Network Flow Monitor query interface to return the top contributors for a monitor. Specify the monitor that you want to create the query for. The call returns a query ID that you can use with GetQueryResultsMonitorTopContributors to run the query and return the top contributors for a specific monitor. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload i...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     }
 
     /// <summary>
-    /// Create a query with the Network Flow Monitor query interface that you can run to return workload insights top contributors. Specify the scope that you want to create a query for. The call returns a query ID that you can use with GetQueryResultsWorkloadInsightsTopContributors to run the query and re- turn the top contributors for the workload insights for a scope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be...
+    /// Create a query with the Network Flow Monitor query interface that you can run to return workload insights top contributors. Specify the scope that you want to create a query for. The call returns a query ID that you can use with GetQueryResultsWorkloadInsightsTopContributors to run the query and return the top contributors for the workload insights for a scope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     }
 
     /// <summary>
-    /// Stop a top contributors query for a monitor. Specify the query that you want to stop by providing a query ID and a monitor name. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific mon- itor. Use the applicable call for the top contributors that you want to be returned. See also: AWS API Documentation
+    /// Stop a top contributors query for a monitor. Specify the query that you want to stop by providing a query ID and a monitor name. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     }
 
     /// <summary>
-    /// Stop a top contributors data query for workload insights. Specify the query that you want to stop by providing a query ID and a scope ID. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific mon- itor. Use the applicable call for the top contributors that you want to be returned. See also: AWS API Documentation
+    /// Stop a top contributors data query for workload insights. Specify the query that you want to stop by providing a query ID and a scope ID. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsNetworkflowmonitor : IAwsNetworkflowmonitor
     }
 
     /// <summary>
-    /// Stop a top contributors query for workload insights. Specify the query that you want to stop by providing a query ID and a scope ID. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific mon- itor. Use the applicable call for the top contributors that you want to be returned. See also: AWS API Documentation
+    /// Stop a top contributors query for workload insights. Specify the query that you want to stop by providing a query ID and a scope ID. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

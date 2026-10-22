@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCurListTagsForResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Lists the tags associated with the specified report definition. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ReportName">The report name of the report definition that tags are to be re- turned for. Constraints: o max: 256 o pattern: [0-9A-Za-z!\-_.*\'()]+</param>
+    /// <param name="ReportName">The report name of the report definition that tags are to be returned for. Constraints: • max: 256 • pattern: [0-9A-Za-z!\-_.*\'()]+</param>
     public AwsCurListTagsForResourceOptions(
         string ReportName
     )
@@ -56,7 +58,7 @@ public record AwsCurListTagsForResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The report name of the report definition that tags are to be re- turned for. Constraints: o max: 256 o pattern: [0-9A-Za-z!\-_.*\'()]+
+    /// The report name of the report definition that tags are to be returned for. Constraints: • max: 256 • pattern: [0-9A-Za-z!\-_.*\'()]+
     /// </summary>
     [CliOption("--report-name")]
     public string? ReportName { get; private init; }

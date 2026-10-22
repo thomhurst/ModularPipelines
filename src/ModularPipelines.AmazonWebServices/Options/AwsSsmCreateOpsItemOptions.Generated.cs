@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new OpsItem. You must have permission in Identity and Access Management (IAM) to create a new OpsItem. For more information, see Set up OpsCenter in the Amazon Web Services Systems Manager User Guide . Operations engineers and IT professionals use Amazon Web Services Sys- tems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Ser- vices resources. For more information, see Amazon Web Services Systems Manage...
+/// Creates a new OpsItem. You must have permission in Identity and Access Management (IAM) to create a new OpsItem. For more information, see Set up OpsCenter in the Amazon Web Services Systems Manager User Guide . Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see Amazon Web Services Systems Manager Op...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsSsmCreateOpsItemOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new OpsItem. You must have permission in Identity and Access Management (IAM) to create a new OpsItem. For more information, see Set up OpsCenter in the Amazon Web Services Systems Manager User Guide . Operations engineers and IT professionals use Amazon Web Services Sys- tems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Ser- vices resources. For more information, see Amazon Web Services Systems Manage...
+    /// Creates a new OpsItem. You must have permission in Identity and Access Management (IAM) to create a new OpsItem. For more information, see Set up OpsCenter in the Amazon Web Services Systems Manager User Guide . Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see Amazon Web Services Systems Manager Op...
     /// </summary>
-    /// <param name="Description">User-defined text that contains information about the OpsItem, in Markdown format. NOTE: Provide enough information so that users viewing this OpsItem for the first time understand the issue. Constraints: o min: 1 o max: 2048 o pattern: [\s\S]*\S[\s\S]*</param>
-    /// <param name="Source">The origin of the OpsItem, such as Amazon EC2 or Systems Manager. NOTE: The source name can't contain the following strings: aws , ama- zon , and amzn . Constraints: o min: 1 o max: 128 o pattern: ^(?!\s*$).+</param>
-    /// <param name="Title">A short heading that describes the nature of the OpsItem and the im- pacted resource. Constraints: o min: 1 o max: 1024 o pattern: ^(?!\s*$).+</param>
+    /// <param name="Description">User-defined text that contains information about the OpsItem, in Markdown format. NOTE: Provide enough information so that users viewing this OpsItem for the first time understand the issue. Constraints: • min: 1 • max: 2048 • pattern: [\s\S]*\S[\s\S]*</param>
+    /// <param name="Source">The origin of the OpsItem, such as Amazon EC2 or Systems Manager. NOTE: The source name can't contain the following strings: aws , amazon , and amzn . Constraints: • min: 1 • max: 128 • pattern: ^(?!\s*$).+</param>
+    /// <param name="Title">A short heading that describes the nature of the OpsItem and the impacted resource. Constraints: • min: 1 • max: 1024 • pattern: ^(?!\s*$).+</param>
     public AwsSsmCreateOpsItemOptions(
         string Description,
         string Source,
@@ -65,67 +66,67 @@ public record AwsSsmCreateOpsItemOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// User-defined text that contains information about the OpsItem, in Markdown format. NOTE: Provide enough information so that users viewing this OpsItem for the first time understand the issue. Constraints: o min: 1 o max: 2048 o pattern: [\s\S]*\S[\s\S]*
+    /// User-defined text that contains information about the OpsItem, in Markdown format. NOTE: Provide enough information so that users viewing this OpsItem for the first time understand the issue. Constraints: • min: 1 • max: 2048 • pattern: [\s\S]*\S[\s\S]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; private init; }
 
     /// <summary>
-    /// The origin of the OpsItem, such as Amazon EC2 or Systems Manager. NOTE: The source name can't contain the following strings: aws , ama- zon , and amzn . Constraints: o min: 1 o max: 128 o pattern: ^(?!\s*$).+
+    /// The origin of the OpsItem, such as Amazon EC2 or Systems Manager. NOTE: The source name can't contain the following strings: aws , amazon , and amzn . Constraints: • min: 1 • max: 128 • pattern: ^(?!\s*$).+
     /// </summary>
     [CliOption("--source")]
     public string? Source { get; private init; }
 
     /// <summary>
-    /// A short heading that describes the nature of the OpsItem and the im- pacted resource. Constraints: o min: 1 o max: 1024 o pattern: ^(?!\s*$).+
+    /// A short heading that describes the nature of the OpsItem and the impacted resource. Constraints: • min: 1 • max: 1024 • pattern: ^(?!\s*$).+
     /// </summary>
     [CliOption("--title")]
     public string? Title { get; private init; }
 
     /// <summary>
-    /// The type of OpsItem to create. Systems Manager supports the follow- ing types of OpsItems: o /aws/issue This type of OpsItem is used for default OpsItems created by OpsCenter. o /aws/insight This type of OpsItem is used by OpsCenter for ag- gregating and reporting on duplicate OpsItems. o /aws/changerequest This type of OpsItem is used by Change Man- ager for reviewing and approving or rejecting change requests. WARNING: Amazon Web Services Systems Manager Change Manager is no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see Amazon Web Ser- vices Systems Manager Change Manager availability change .
+    /// The type of OpsItem to create. Systems Manager supports the following types of OpsItems: • /aws/issue This type of OpsItem is used for default OpsItems created by OpsCenter. • /aws/insight This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems. • /aws/changerequest This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests. WARNING: Amazon Web Services Systems Manager Change Manager is no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see Amazon Web Services Systems Manager Change Manager availability change .
     /// </summary>
     [CliOption("--ops-item-type")]
     public string? OpsItemType { get; set; }
 
     /// <summary>
-    /// Operational data is custom data that provides useful reference de- tails about the OpsItem. For example, you can specify log files, er- ror strings, license keys, troubleshooting tips, or other relevant data. You enter operational data as key-value pairs. The key has a maximum length of 128 characters. The value has a maximum size of 20 KB. WARNING: Operational data keys can't begin with the following: amazon , aws , amzn , ssm , /amazon , /aws , /amzn , /ssm . You can choose to make the data searchable by other users in the ac- count or you can restrict search access. Searchable data means that all users with access to the OpsItem Overview page (as provided by the DescribeOpsItems API operation) can view and search on the specified data. Operational data that isn't searchable is only view- able by users who have access to the OpsItem (as provided by the GetOpsItem API operation). Use the /aws/resources key in OperationalData to specify a related resource in the request. Use the /aws/automations key in Opera- tionalData to associate an Automation runbook with the OpsItem. To view Amazon Web Services CLI example commands that use these keys, see Create OpsItems manually in the Amazon Web Services Systems Man- ager User Guide . key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!\s*$).+ value -&gt; (structure) An object that defines the value of the key and its type in the OperationalData map. Value -&gt; (string) The value of the OperationalData key. Constraints: o pattern: [\s\S]*\S[\s\S]* Type -&gt; (string) The type of key-value pair. Valid types include Search- ableString and String . Possible values: o SearchableString o String Shorthand Syntax: KeyName1={Value=string,Type=string},KeyName2={Value=string,Type=string} JSON Syntax: {"string": { "Value": "string", "Type": "SearchableString"|"String" } ...}
+    /// Operational data is custom data that provides useful reference details about the OpsItem. For example, you can specify log files, error strings, license keys, troubleshooting tips, or other relevant data. You enter operational data as key-value pairs. The key has a maximum length of 128 characters. The value has a maximum size of 20 KB. WARNING: Operational data keys can't begin with the following: amazon , aws , amzn , ssm , /amazon , /aws , /amzn , /ssm . You can choose to make the data searchable by other users in the account or you can restrict search access. Searchable data means that all users with access to the OpsItem Overview page (as provided by the DescribeOpsItems API operation) can view and search on the specified data. Operational data that isn't searchable is only viewable by users who have access to the OpsItem (as provided by the GetOpsItem API operation). Use the /aws/resources key in OperationalData to specify a related resource in the request. Use the /aws/automations key in OperationalData to associate an Automation runbook with the OpsItem. To view Amazon Web Services CLI example commands that use these keys, see Create OpsItems manually in the Amazon Web Services Systems Manager User Guide . key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!\s*$).+ value -&gt; (structure) An object that defines the value of the key and its type in the OperationalData map. Value -&gt; (string) The value of the OperationalData key. Constraints: • pattern: [\s\S]*\S[\s\S]* Type -&gt; (string) The type of key-value pair. Valid types include SearchableString and String . Possible values: • SearchableString • String Shorthand Syntax: KeyName1={Value=string,Type=string},KeyName2={Value=string,Type=string} JSON Syntax: {"string": { "Value": "string", "Type": "SearchableString"|"String" } ...}
     /// </summary>
     [CliOption("--operational-data", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? OperationalData { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of an SNS topic where notifications are sent when this OpsItem is edited or changed. (structure) A notification about the OpsItem. Arn -&gt; (string) The Amazon Resource Name (ARN) of an Amazon Simple Notifica- tion Service (Amazon SNS) topic where notifications are sent when this OpsItem is edited or changed. Shorthand Syntax: Arn=string ... JSON Syntax: [ { "Arn": "string" } ... ]
+    /// The Amazon Resource Name (ARN) of an SNS topic where notifications are sent when this OpsItem is edited or changed. (structure) A notification about the OpsItem. Arn -&gt; (string) The Amazon Resource Name (ARN) of an Amazon Simple Notification Service (Amazon SNS) topic where notifications are sent when this OpsItem is edited or changed. Shorthand Syntax: Arn=string ... JSON Syntax: [ { "Arn": "string" } ... ]
     /// </summary>
     [CliOption("--notifications", GroupValues = true)]
     public IEnumerable<string>? Notifications { get; set; }
 
     /// <summary>
-    /// The importance of this OpsItem in relation to other OpsItems in the system. Constraints: o min: 1 o max: 5
+    /// The importance of this OpsItem in relation to other OpsItems in the system. Constraints: • min: 1 • max: 5
     /// </summary>
     [CliOption("--priority")]
     public int? Priority { get; set; }
 
     /// <summary>
-    /// One or more OpsItems that share something in common with the current OpsItems. For example, related OpsItems can include OpsItems with similar error messages, impacted resources, or statuses for the im- pacted resource. (structure) An OpsItems that shares something in common with the current Op- sItem. For example, related OpsItems can include OpsItems with similar error messages, impacted resources, or statuses for the impacted resource. OpsItemId -&gt; (string) [required] The ID of an OpsItem related to the current OpsItem. Shorthand Syntax: OpsItemId=string ... JSON Syntax: [ { "OpsItemId": "string" } ... ]
+    /// One or more OpsItems that share something in common with the current OpsItems. For example, related OpsItems can include OpsItems with similar error messages, impacted resources, or statuses for the impacted resource. (structure) An OpsItems that shares something in common with the current OpsItem. For example, related OpsItems can include OpsItems with similar error messages, impacted resources, or statuses for the impacted resource. OpsItemId -&gt; (string) [required] The ID of an OpsItem related to the current OpsItem. Shorthand Syntax: OpsItemId=string ... JSON Syntax: [ { "OpsItemId": "string" } ... ]
     /// </summary>
     [CliOption("--related-ops-items", GroupValues = true)]
     public IEnumerable<string>? RelatedOpsItems { get; set; }
 
     /// <summary>
-    /// Optional metadata that you assign to a resource. Tags use a key-value pair. For example: Key=Department,Value=Finance WARNING: To add tags to a new OpsItem, a user must have IAM permissions for both the ssm:CreateOpsItems operation and the ssm:AddTag- sToResource operation. To add tags to an existing OpsItem, use the AddTagsToResource operation. Constraints: o max: 1000 (structure) Metadata that you assign to your Amazon Web Services resources. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. In Amazon Web Services Systems Manager, you can apply tags to Systems Manager documents (SSM documents), managed nodes, maintenance windows, parameters, patch baselines, OpsItems, and OpsMetadata. Key -&gt; (string) [required] The name of the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Optional metadata that you assign to a resource. Tags use a key-value pair. For example: Key=Department,Value=Finance WARNING: To add tags to a new OpsItem, a user must have IAM permissions for both the ssm:CreateOpsItems operation and the ssm:AddTagsToResource operation. To add tags to an existing OpsItem, use the AddTagsToResource operation. Constraints: • max: 1000 (structure) Metadata that you assign to your Amazon Web Services resources. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. In Amazon Web Services Systems Manager, you can apply tags to Systems Manager documents (SSM documents), managed nodes, maintenance windows, parameters, patch baselines, OpsItems, and OpsMetadata. Key -&gt; (string) [required] The name of the tag. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value of the tag. Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Specify a category to assign to an OpsItem. Constraints: o min: 1 o max: 64 o pattern: ^(?!\s*$).+
+    /// Specify a category to assign to an OpsItem. Constraints: • min: 1 • max: 64 • pattern: ^(?!\s*$).+
     /// </summary>
     [CliOption("--category")]
     public string? Category { get; set; }
 
     /// <summary>
-    /// Specify a severity to assign to an OpsItem. Constraints: o min: 1 o max: 64 o pattern: ^(?!\s*$).+
+    /// Specify a severity to assign to an OpsItem. Constraints: • min: 1 • max: 64 • pattern: ^(?!\s*$).+
     /// </summary>
     [CliOption("--severity")]
     public string? Severity { get; set; }
@@ -143,19 +144,19 @@ public record AwsSsmCreateOpsItemOptions : AwsOptions, IValidatableObject
     public string? ActualEndTime { get; set; }
 
     /// <summary>
-    /// The time specified in a change request for a runbook workflow to start. Currently supported only for the OpsItem type /aws/chang- erequest .
+    /// The time specified in a change request for a runbook workflow to start. Currently supported only for the OpsItem type /aws/changerequest .
     /// </summary>
     [CliOption("--planned-start-time")]
     public string? PlannedStartTime { get; set; }
 
     /// <summary>
-    /// The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/chang- erequest .
+    /// The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/changerequest .
     /// </summary>
     [CliOption("--planned-end-time")]
     public string? PlannedEndTime { get; set; }
 
     /// <summary>
-    /// The target Amazon Web Services account where you want to create an OpsItem. To make this call, your account must be configured to work with OpsItems across accounts. For more information, see Set up Ops- Center in the Amazon Web Services Systems Manager User Guide . Constraints: o pattern: ^[0-9]{12}$
+    /// The target Amazon Web Services account where you want to create an OpsItem. To make this call, your account must be configured to work with OpsItems across accounts. For more information, see Set up OpsCenter in the Amazon Web Services Systems Manager User Guide . Constraints: • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }

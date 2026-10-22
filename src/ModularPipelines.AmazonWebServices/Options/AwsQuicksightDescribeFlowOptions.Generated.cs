@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the full details of a flow for the latest version of the re- quested publish state. See also: AWS API Documentation describe-flow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+/// Returns the full details of a flow for the latest version of the requested publish state. See also: AWS API Documentation describe-flow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsQuicksightDescribeFlowOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the full details of a flow for the latest version of the re- quested publish state. See also: AWS API Documentation describe-flow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Returns the full details of a flow for the latest version of the requested publish state. See also: AWS API Documentation describe-flow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the flow that you are describing. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}</param>
-    /// <param name="FlowId">The unique identifier of the flow. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="PublishState">The publish state of the flow version to describe. Valid values are DRAFT , PUBLISHED , or PENDING_APPROVAL . Possible values: o PUBLISHED o DRAFT o PENDING_APPROVAL</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the flow that you are describing. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12}</param>
+    /// <param name="FlowId">The unique identifier of the flow. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="PublishState">The publish state of the flow version to describe. Valid values are DRAFT , PUBLISHED , or PENDING_APPROVAL . Possible values: • PUBLISHED • DRAFT • PENDING_APPROVAL</param>
     public AwsQuicksightDescribeFlowOptions(
         string AwsAccountId,
         string FlowId,
@@ -64,19 +66,19 @@ public record AwsQuicksightDescribeFlowOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the flow that you are describing. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
+    /// The ID of the Amazon Web Services account that contains the flow that you are describing. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the flow. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The unique identifier of the flow. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--flow-id")]
     public string? FlowId { get; private init; }
 
     /// <summary>
-    /// The publish state of the flow version to describe. Valid values are DRAFT , PUBLISHED , or PENDING_APPROVAL . Possible values: o PUBLISHED o DRAFT o PENDING_APPROVAL
+    /// The publish state of the flow version to describe. Valid values are DRAFT , PUBLISHED , or PENDING_APPROVAL . Possible values: • PUBLISHED • DRAFT • PENDING_APPROVAL
     /// </summary>
     [CliOption("--publish-state")]
     public AwsQuicksightDescribeFlowPublishState? PublishState { get; private init; }

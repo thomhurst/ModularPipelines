@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified sending authorization policy for the given iden- tity (an email address or a domain). This API returns successfully even if a policy with the specified name does not exist. NOTE: This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES De...
+/// Deletes the specified sending authorization policy for the given identity (an email address or a domain). This API returns successfully even if a policy with the specified name does not exist. NOTE: This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Deve...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsSesv2DeleteEmailIdentityPolicyOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified sending authorization policy for the given iden- tity (an email address or a domain). This API returns successfully even if a policy with the specified name does not exist. NOTE: This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES De...
+    /// Deletes the specified sending authorization policy for the given identity (an email address or a domain). This API returns successfully even if a policy with the specified name does not exist. NOTE: This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Deve...
     /// </summary>
-    /// <param name="EmailIdentity">The email identity. Constraints: o min: 1</param>
-    /// <param name="PolicyName">The name of the policy. The policy name cannot exceed 64 characters and can only include al- phanumeric characters, dashes, and underscores. Constraints: o min: 1 o max: 64</param>
+    /// <param name="EmailIdentity">The email identity. Constraints: • min: 1</param>
+    /// <param name="PolicyName">The name of the policy. The policy name cannot exceed 64 characters and can only include alphanumeric characters, dashes, and underscores. Constraints: • min: 1 • max: 64</param>
     public AwsSesv2DeleteEmailIdentityPolicyOptions(
         string EmailIdentity,
         string PolicyName
@@ -60,13 +62,13 @@ public record AwsSesv2DeleteEmailIdentityPolicyOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The email identity. Constraints: o min: 1
+    /// The email identity. Constraints: • min: 1
     /// </summary>
     [CliOption("--email-identity")]
     public string? EmailIdentity { get; private init; }
 
     /// <summary>
-    /// The name of the policy. The policy name cannot exceed 64 characters and can only include al- phanumeric characters, dashes, and underscores. Constraints: o min: 1 o max: 64
+    /// The name of the policy. The policy name cannot exceed 64 characters and can only include alphanumeric characters, dashes, and underscores. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--policy-name")]
     public string? PolicyName { get; private init; }

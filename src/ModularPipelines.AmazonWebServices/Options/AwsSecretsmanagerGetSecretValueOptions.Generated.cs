@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the contents of the encrypted fields SecretString or Secret- Binary from the specified version of a secret, whichever contains con- tent. To retrieve the values for a group of secrets, call BatchGetSecret- Value . We recommend that you cache your secret values by using client-side caching. Caching secrets improves speed and reduces your costs. For more information, see Cache secrets for your applications . To retrieve the previous version of a secret, use VersionStage and specify AWSPR...
+/// Retrieves the contents of the encrypted fields SecretString or SecretBinary from the specified version of a secret, whichever contains content. To retrieve the values for a group of secrets, call BatchGetSecretValue . We recommend that you cache your secret values by using client-side caching. Caching secrets improves speed and reduces your costs. For more information, see Cache secrets for your applications . To retrieve the previous version of a secret, use VersionStage and specify AWSPREVIOUS...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsSecretsmanagerGetSecretValueOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the contents of the encrypted fields SecretString or Secret- Binary from the specified version of a secret, whichever contains con- tent. To retrieve the values for a group of secrets, call BatchGetSecret- Value . We recommend that you cache your secret values by using client-side caching. Caching secrets improves speed and reduces your costs. For more information, see Cache secrets for your applications . To retrieve the previous version of a secret, use VersionStage and specify AWSPR...
+    /// Retrieves the contents of the encrypted fields SecretString or SecretBinary from the specified version of a secret, whichever contains content. To retrieve the values for a group of secrets, call BatchGetSecretValue . We recommend that you cache your secret values by using client-side caching. Caching secrets improves speed and reduces your costs. For more information, see Cache secrets for your applications . To retrieve the previous version of a secret, use VersionStage and specify AWSPREVIOUS...
     /// </summary>
-    /// <param name="SecretId">The ARN or name of the secret to retrieve. To retrieve a secret from another account, you must use an ARN. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . Constraints: o min: 1 o max: 2048</param>
+    /// <param name="SecretId">The ARN or name of the secret to retrieve. To retrieve a secret from another account, you must use an ARN. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . Constraints: • min: 1 • max: 2048</param>
     public AwsSecretsmanagerGetSecretValueOptions(
         string SecretId
     )
@@ -57,20 +59,20 @@ public record AwsSecretsmanagerGetSecretValueOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN or name of the secret to retrieve. To retrieve a secret from another account, you must use an ARN. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . Constraints: o min: 1 o max: 2048
+    /// The ARN or name of the secret to retrieve. To retrieve a secret from another account, you must use an ARN. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . Constraints: • min: 1 • max: 2048
     /// </summary>
     [SecretValue]
     [CliOption("--secret-id")]
     public string? SecretId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the version of the secret to retrieve. If you include both this parameter and VersionStage , the two parame- ters must refer to the same secret version. If you don't specify ei- ther a VersionStage or VersionId , then Secrets Manager returns the AWSCURRENT version. This value is typically a UUID-type value with 32 hexadecimal dig- its. Constraints: o min: 32 o max: 64
+    /// The unique identifier of the version of the secret to retrieve. If you include both this parameter and VersionStage , the two parameters must refer to the same secret version. If you don't specify either a VersionStage or VersionId , then Secrets Manager returns the AWSCURRENT version. This value is typically a UUID-type value with 32 hexadecimal digits. Constraints: • min: 32 • max: 64
     /// </summary>
     [CliOption("--version-id")]
     public string? VersionId { get; set; }
 
     /// <summary>
-    /// The staging label of the version of the secret to retrieve. Secrets Manager uses staging labels to keep track of different ver- sions during the rotation process. If you include both this parame- ter and VersionId , the two parameters must refer to the same secret version. If you don't specify either a VersionStage or VersionId , Secrets Manager returns the AWSCURRENT version. Constraints: o min: 1 o max: 256
+    /// The staging label of the version of the secret to retrieve. Secrets Manager uses staging labels to keep track of different versions during the rotation process. If you include both this parameter and VersionId , the two parameters must refer to the same secret version. If you don't specify either a VersionStage or VersionId , Secrets Manager returns the AWSCURRENT version. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--version-stage")]
     public string? VersionStage { get; set; }

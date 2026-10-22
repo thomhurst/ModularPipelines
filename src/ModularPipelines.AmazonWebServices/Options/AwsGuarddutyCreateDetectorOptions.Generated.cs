@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -18,7 +19,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a single GuardDuty detector. A detector is a resource that rep- resents the GuardDuty service. To start using GuardDuty, you must cre- ate a detector in each Region where you enable the service. You can have only one detector per account per Region. All data sources are en- abled in a new detector by default. o When you don't specify any features , with an exception to RUN- TIME_MONITORING , all the optional features are enabled by default. o When you specify some of the features , any f...
+/// Creates a single GuardDuty detector. A detector is a resource that represents the GuardDuty service. To start using GuardDuty, you must create a detector in each Region where you enable the service. You can have only one detector per account per Region. All data sources are enabled in a new detector by default. • When you don't specify any features , with an exception to RUNTIME_MONITORING , all the optional features are enabled by default. • When you specify some of the features , any feature t...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,9 +29,9 @@ public record AwsGuarddutyCreateDetectorOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a single GuardDuty detector. A detector is a resource that rep- resents the GuardDuty service. To start using GuardDuty, you must cre- ate a detector in each Region where you enable the service. You can have only one detector per account per Region. All data sources are en- abled in a new detector by default. o When you don't specify any features , with an exception to RUN- TIME_MONITORING , all the optional features are enabled by default. o When you specify some of the features , any f...
+    /// Creates a single GuardDuty detector. A detector is a resource that represents the GuardDuty service. To start using GuardDuty, you must create a detector in each Region where you enable the service. You can have only one detector per account per Region. All data sources are enabled in a new detector by default. • When you don't specify any features , with an exception to RUNTIME_MONITORING , all the optional features are enabled by default. • When you specify some of the features , any feature t...
     /// </summary>
-    /// <param name="Enable">A Boolean value that specifies whether the detector is to be en- abled.</param>
+    /// <param name="Enable">A Boolean value that specifies whether the detector is to be enabled.</param>
     public AwsGuarddutyCreateDetectorOptions(
         bool Enable
     )
@@ -58,38 +59,38 @@ public record AwsGuarddutyCreateDetectorOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A Boolean value that specifies whether the detector is to be en- abled.
+    /// A Boolean value that specifies whether the detector is to be enabled.
     /// </summary>
     [CliFlag("--enable", NegatedName = "--no-enable")]
     public bool? Enable { get; private init; }
 
     /// <summary>
-    /// The idempotency token for the create request. Constraints: o min: 0 o max: 64
+    /// The idempotency token for the create request. Constraints: • min: 0 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A value that specifies how frequently updated findings are exported. Possible values: o FIFTEEN_MINUTES o ONE_HOUR o SIX_HOURS
+    /// A value that specifies how frequently updated findings are exported. Possible values: • FIFTEEN_MINUTES • ONE_HOUR • SIX_HOURS
     /// </summary>
     [CliOption("--finding-publishing-frequency")]
     public AwsGuarddutyCreateDetectorFindingPublishingFrequency? FindingPublishingFrequency { get; set; }
 
     /// <summary>
-    /// Describes which data sources will be enabled for the detector. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where Guard- Duty is presently supported. For more information, see Regions and endpoints . S3Logs -&gt; (structure) Describes whether S3 data event logs are enabled as a data source. Enable -&gt; (boolean) [required] The status of S3 data event logs as a data source. Kubernetes -&gt; (structure) Describes whether any Kubernetes logs are enabled as data sources. AuditLogs -&gt; (structure) [required] The status of Kubernetes audit logs as a data source. Enable -&gt; (boolean) [required] The status of Kubernetes audit logs as a data source. MalwareProtection -&gt; (structure) Describes whether Malware Protection is enabled as a data source. ScanEc2InstanceWithFindings -&gt; (structure) Describes the configuration of Malware Protection for EC2 in- stances with findings. EbsVolumes -&gt; (boolean) Describes the configuration for scanning EBS volumes as data source. Shorthand Syntax: S3Logs={Enable=boolean},Kubernetes={AuditLogs={Enable=boolean}},MalwareProtection={ScanEc2InstanceWithFindings={EbsVolumes=boolean}} JSON Syntax: { "S3Logs": { "Enable": true|false }, "Kubernetes": { "AuditLogs": { "Enable": true|false } }, "MalwareProtection": { "ScanEc2InstanceWithFindings": { "EbsVolumes": true|false } } }
+    /// Describes which data sources will be enabled for the detector. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see Regions and endpoints . S3Logs -&gt; (structure) Describes whether S3 data event logs are enabled as a data source. Enable -&gt; (boolean) [required] The status of S3 data event logs as a data source. Kubernetes -&gt; (structure) Describes whether any Kubernetes logs are enabled as data sources. AuditLogs -&gt; (structure) [required] The status of Kubernetes audit logs as a data source. Enable -&gt; (boolean) [required] The status of Kubernetes audit logs as a data source. MalwareProtection -&gt; (structure) Describes whether Malware Protection is enabled as a data source. ScanEc2InstanceWithFindings -&gt; (structure) Describes the configuration of Malware Protection for EC2 instances with findings. EbsVolumes -&gt; (boolean) Describes the configuration for scanning EBS volumes as data source. Shorthand Syntax: S3Logs={Enable=boolean},Kubernetes={AuditLogs={Enable=boolean}},MalwareProtection={ScanEc2InstanceWithFindings={EbsVolumes=boolean}} JSON Syntax: { "S3Logs": { "Enable": true|false }, "Kubernetes": { "AuditLogs": { "Enable": true|false } }, "MalwareProtection": { "ScanEc2InstanceWithFindings": { "EbsVolumes": true|false } } }
     /// </summary>
     [CliOption("--data-sources")]
     public string? DataSources { get; set; }
 
     /// <summary>
-    /// The tags to be added to a new detector resource. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to be added to a new detector resource. Constraints: • min: 1 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// A list of features that will be configured for the detector. (structure) Contains information about a GuardDuty feature. Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING ) and Runtime Monitoring (RUNTIME_MONITORING ) will cause an er- ror. You can add only one of these two features because Runtime Monitoring already includes the threat detection for Amazon EKS resources. For more information, see Runtime Monitoring . Name -&gt; (string) The name of the feature. Possible values: o S3_DATA_EVENTS o EKS_AUDIT_LOGS o EBS_MALWARE_PROTECTION o RDS_LOGIN_EVENTS o LAMBDA_NETWORK_LOGS o EKS_RUNTIME_MONITORING o RUNTIME_MONITORING o AI_PROTECTION o AI_ANALYST Status -&gt; (string) The status of the feature. Possible values: o ENABLED o DISABLED AdditionalConfiguration -&gt; (list) Additional configuration for a resource. (structure) Information about the additional configuration for a fea- ture in your GuardDuty account. Name -&gt; (string) Name of the additional configuration. Possible values: o EKS_ADDON_MANAGEMENT o ECS_FARGATE_AGENT_MANAGEMENT o EC2_AGENT_MANAGEMENT Status -&gt; (string) Status of the additional configuration. Possible values: o ENABLED o DISABLED Shorthand Syntax: Name=string,Status=string,AdditionalConfiguration=[{Name=string,Status=string},{Name=string,Status=string}] ... JSON Syntax: [ { "Name": "S3_DATA_EVENTS"|"EKS_AUDIT_LOGS"|"EBS_MALWARE_PROTECTION"|"RDS_LOGIN_EVENTS"|"LAMBDA_NETWORK_LOGS"|"EKS_RUNTIME_MONITORING"|"RUNTIME_MONITORING"|"AI_PROTECTION"|"AI_ANALYST", "Status": "ENABLED"|"DISABLED", "AdditionalConfiguration": [ { "Name": "EKS_ADDON_MANAGEMENT"|"ECS_FARGATE_AGENT_MANAGEMENT"|"EC2_AGENT_MANAGEMENT", "Status": "ENABLED"|"DISABLED" } ... ] } ... ]
+    /// A list of features that will be configured for the detector. (structure) Contains information about a GuardDuty feature. Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING ) and Runtime Monitoring (RUNTIME_MONITORING ) will cause an error. You can add only one of these two features because Runtime Monitoring already includes the threat detection for Amazon EKS resources. For more information, see Runtime Monitoring . Name -&gt; (string) The name of the feature. Possible values: • S3_DATA_EVENTS • EKS_AUDIT_LOGS • EBS_MALWARE_PROTECTION • RDS_LOGIN_EVENTS • LAMBDA_NETWORK_LOGS • EKS_RUNTIME_MONITORING • RUNTIME_MONITORING • AI_PROTECTION • AI_ANALYST Status -&gt; (string) The status of the feature. Possible values: • ENABLED • DISABLED AdditionalConfiguration -&gt; (list) Additional configuration for a resource. (structure) Information about the additional configuration for a feature in your GuardDuty account. Name -&gt; (string) Name of the additional configuration. Possible values: • EKS_ADDON_MANAGEMENT • ECS_FARGATE_AGENT_MANAGEMENT • EC2_AGENT_MANAGEMENT • RDS_DATA_RISK Status -&gt; (string) Status of the additional configuration. Possible values: • ENABLED • DISABLED Shorthand Syntax: Name=string,Status=string,AdditionalConfiguration=[{Name=string,Status=string},{Name=string,Status=string}] ... JSON Syntax: [ { "Name": "S3_DATA_EVENTS"|"EKS_AUDIT_LOGS"|"EBS_MALWARE_PROTECTION"|"RDS_LOGIN_EVENTS"|"LAMBDA_NETWORK_LOGS"|"EKS_RUNTIME_MONITORING"|"RUNTIME_MONITORING"|"AI_PROTECTION"|"AI_ANALYST", "Status": "ENABLED"|"DISABLED", "AdditionalConfiguration": [ { "Name": "EKS_ADDON_MANAGEMENT"|"ECS_FARGATE_AGENT_MANAGEMENT"|"EC2_AGENT_MANAGEMENT"|"RDS_DATA_RISK", "Status": "ENABLED"|"DISABLED" } ... ] } ... ]
     /// </summary>
     [CliOption("--features", GroupValues = true)]
     public IEnumerable<string>? Features { get; set; }

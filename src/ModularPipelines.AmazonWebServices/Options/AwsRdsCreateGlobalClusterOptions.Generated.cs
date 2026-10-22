@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an Aurora global database spread across multiple Amazon Web Services Regions. The global database contains a single primary cluster with read-write capability, and a read-only secondary cluster that re- ceives data from the primary cluster through high-speed replication performed by the Aurora storage subsystem. You can create a global database that is initially empty, and then cre- ate the primary and secondary DB clusters in the global database. Or you can specify an existing Aurora cl...
+/// Creates an Aurora global database spread across multiple Amazon Web Services Regions. The global database contains a single primary cluster with read-write capability, and a read-only secondary cluster that receives data from the primary cluster through high-speed replication performed by the Aurora storage subsystem. You can create a global database that is initially empty, and then create the primary and secondary DB clusters in the global database. Or you can specify an existing Aurora cluste...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRdsCreateGlobalClusterOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an Aurora global database spread across multiple Amazon Web Services Regions. The global database contains a single primary cluster with read-write capability, and a read-only secondary cluster that re- ceives data from the primary cluster through high-speed replication performed by the Aurora storage subsystem. You can create a global database that is initially empty, and then cre- ate the primary and secondary DB clusters in the global database. Or you can specify an existing Aurora cl...
+    /// Creates an Aurora global database spread across multiple Amazon Web Services Regions. The global database contains a single primary cluster with read-write capability, and a read-only secondary cluster that receives data from the primary cluster through high-speed replication performed by the Aurora storage subsystem. You can create a global database that is initially empty, and then create the primary and secondary DB clusters in the global database. Or you can specify an existing Aurora cluste...
     /// </summary>
-    /// <param name="GlobalClusterIdentifier">The cluster identifier for this global database cluster. This para- meter is stored as a lowercase string. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
+    /// <param name="GlobalClusterIdentifier">The cluster identifier for this global database cluster. This parameter is stored as a lowercase string. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
     public AwsRdsCreateGlobalClusterOptions(
         string GlobalClusterIdentifier
     )
@@ -56,31 +58,31 @@ public record AwsRdsCreateGlobalClusterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The cluster identifier for this global database cluster. This para- meter is stored as a lowercase string. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// The cluster identifier for this global database cluster. This parameter is stored as a lowercase string. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*
     /// </summary>
     [CliOption("--global-cluster-identifier")]
     public string? GlobalClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) to use as the primary cluster of the global database. If you provide a value for this parameter, don't specify values for the following settings because Amazon Aurora uses the values from the specified source DB cluster: o DatabaseName o Engine o EngineVersion o StorageEncrypted
+    /// The Amazon Resource Name (ARN) to use as the primary cluster of the global database. If you provide a value for this parameter, don't specify values for the following settings because Amazon Aurora uses the values from the specified source DB cluster: • DatabaseName • Engine • EngineVersion • StorageEncrypted
     /// </summary>
     [CliOption("--source-db-cluster-identifier")]
     public string? SourceDbClusterIdentifier { get; set; }
 
     /// <summary>
-    /// The database engine to use for this global database cluster. Valid Values: aurora-mysql | aurora-postgresql Constraints: o Can't be specified if SourceDBClusterIdentifier is specified. In this case, Amazon Aurora uses the engine of the source DB cluster.
+    /// The database engine to use for this global database cluster. Valid Values: aurora-mysql | aurora-postgresql Constraints: • Can't be specified if SourceDBClusterIdentifier is specified. In this case, Amazon Aurora uses the engine of the source DB cluster.
     /// </summary>
     [CliOption("--engine")]
     public string? Engine { get; set; }
 
     /// <summary>
-    /// The engine version to use for this global database cluster. Constraints: o Can't be specified if SourceDBClusterIdentifier is specified. In this case, Amazon Aurora uses the engine version of the source DB cluster.
+    /// The engine version to use for this global database cluster. Constraints: • Can't be specified if SourceDBClusterIdentifier is specified. In this case, Amazon Aurora uses the engine version of the source DB cluster.
     /// </summary>
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
     /// <summary>
-    /// The lifecycle type for this global database cluster. NOTE: By default, this value is set to open-source-rds-extended-sup- port , which enrolls your global cluster into Amazon RDS Ex- tended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled . In this case, creat- ing the global cluster will fail if the DB major version is past its end of standard support date. This setting only applies to Aurora PostgreSQL-based global data- bases. You can use this setting to enroll your global cluster into Amazon RDS Extended Support. With RDS Extended Support, you can run the se- lected major engine version on your global cluster past the end of standard support for that engine version. For more information, see Amazon RDS Extended Support with Amazon Aurora in the Amazon Aurora User Guide . Valid Values: open-source-rds-extended-support | open-source-rds-ex- tended-support-disabled Default: open-source-rds-extended-support
+    /// The lifecycle type for this global database cluster. NOTE: By default, this value is set to open-source-rds-extended-support , which enrolls your global cluster into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled . In this case, creating the global cluster will fail if the DB major version is past its end of standard support date. This setting only applies to Aurora PostgreSQL-based global databases. You can use this setting to enroll your global cluster into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your global cluster past the end of standard support for that engine version. For more information, see Amazon RDS Extended Support with Amazon Aurora in the Amazon Aurora User Guide . Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
     /// </summary>
     [CliOption("--engine-lifecycle-support")]
     public string? EngineLifecycleSupport { get; set; }
@@ -92,13 +94,13 @@ public record AwsRdsCreateGlobalClusterOptions : AwsOptions, IValidatableObject
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
-    /// The name for your database of up to 64 alphanumeric characters. If you don't specify a name, Amazon Aurora doesn't create a database in the global database cluster. Constraints: o Can't be specified if SourceDBClusterIdentifier is specified. In this case, Amazon Aurora uses the database name from the source DB cluster.
+    /// The name for your database of up to 64 alphanumeric characters. If you don't specify a name, Amazon Aurora doesn't create a database in the global database cluster. Constraints: • Can't be specified if SourceDBClusterIdentifier is specified. In this case, Amazon Aurora uses the database name from the source DB cluster.
     /// </summary>
     [CliOption("--database-name")]
     public string? DatabaseName { get; set; }
 
     /// <summary>
-    /// Specifies whether to enable storage encryption for the new global database cluster. Constraints: o Can't be specified if SourceDBClusterIdentifier is specified. In this case, Amazon Aurora uses the setting from the source DB clus- ter.
+    /// Specifies whether to enable storage encryption for the new global database cluster. Constraints: • Can't be specified if SourceDBClusterIdentifier is specified. In this case, Amazon Aurora uses the setting from the source DB cluster.
     /// </summary>
     [CliFlag("--storage-encrypted", NegatedName = "--no-storage-encrypted")]
     public bool? StorageEncrypted { get; set; }

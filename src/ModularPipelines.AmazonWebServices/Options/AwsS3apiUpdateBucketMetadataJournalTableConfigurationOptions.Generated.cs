@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables or disables journal table record expiration for an S3 Metadata configuration on a general purpose bucket. For more information, see Accelerating data discovery with S3 Metadata in the Amazon S3 User Guide . Permissions To use this operation, you must have the s3:UpdateBucketMetadata- JournalTableConfiguration permission. For more information, see Setting up permissions for configuring metadata tables in the Amazon S3 User Guide . The following operations are related to UpdateBucketMetada...
+/// Enables or disables journal table record expiration for an S3 Metadata configuration on a general purpose bucket. For more information, see Accelerating data discovery with S3 Metadata in the Amazon S3 User Guide . Permissions To use this operation, you must have the s3:UpdateBucketMetadataJournalTableConfiguration permission. For more information, see Setting up permissions for configuring metadata tables in the Amazon S3 User Guide . The following operations are related to UpdateBucketMetadata...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsS3apiUpdateBucketMetadataJournalTableConfigurationOptions : Aws
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enables or disables journal table record expiration for an S3 Metadata configuration on a general purpose bucket. For more information, see Accelerating data discovery with S3 Metadata in the Amazon S3 User Guide . Permissions To use this operation, you must have the s3:UpdateBucketMetadata- JournalTableConfiguration permission. For more information, see Setting up permissions for configuring metadata tables in the Amazon S3 User Guide . The following operations are related to UpdateBucketMetada...
+    /// Enables or disables journal table record expiration for an S3 Metadata configuration on a general purpose bucket. For more information, see Accelerating data discovery with S3 Metadata in the Amazon S3 User Guide . Permissions To use this operation, you must have the s3:UpdateBucketMetadataJournalTableConfiguration permission. For more information, see Setting up permissions for configuring metadata tables in the Amazon S3 User Guide . The following operations are related to UpdateBucketMetadata...
     /// </summary>
-    /// <param name="Bucket">The general purpose bucket that corresponds to the metadata configu- ration that you want to enable or disable journal table record expi- ration for.</param>
-    /// <param name="JournalTableConfiguration">The contents of your journal table configuration. RecordExpiration -&gt; (structure) [required] The journal table record expiration settings for the journal ta- ble. Expiration -&gt; (string) [required] Specifies whether journal table record expiration is enabled or disabled. Possible values: o ENABLED o DISABLED Days -&gt; (integer) If you enable journal table record expiration, you can set the number of days to retain your journal table records. Journal table records must be retained for a minimum of 7 days. To set this value, specify any whole number from 7 to 2147483647 . For example, to retain your journal table records for one year, set this value to 365 . Shorthand Syntax: RecordExpiration={Expiration=string,Days=integer} JSON Syntax: { "RecordExpiration": { "Expiration": "ENABLED"|"DISABLED", "Days": integer } }</param>
+    /// <param name="Bucket">The general purpose bucket that corresponds to the metadata configuration that you want to enable or disable journal table record expiration for.</param>
+    /// <param name="JournalTableConfiguration">The contents of your journal table configuration. RecordExpiration -&gt; (structure) [required] The journal table record expiration settings for the journal table. Expiration -&gt; (string) [required] Specifies whether journal table record expiration is enabled or disabled. Possible values: • ENABLED • DISABLED Days -&gt; (integer) If you enable journal table record expiration, you can set the number of days to retain your journal table records. Journal table records must be retained for a minimum of 7 days. To set this value, specify any whole number from 7 to 2147483647 . For example, to retain your journal table records for one year, set this value to 365 . Shorthand Syntax: RecordExpiration={Expiration=string,Days=integer} JSON Syntax: { "RecordExpiration": { "Expiration": "ENABLED"|"DISABLED", "Days": integer } }</param>
     public AwsS3apiUpdateBucketMetadataJournalTableConfigurationOptions(
         string Bucket,
         string JournalTableConfiguration
@@ -61,13 +63,13 @@ public record AwsS3apiUpdateBucketMetadataJournalTableConfigurationOptions : Aws
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The general purpose bucket that corresponds to the metadata configu- ration that you want to enable or disable journal table record expi- ration for.
+    /// The general purpose bucket that corresponds to the metadata configuration that you want to enable or disable journal table record expiration for.
     /// </summary>
     [CliOption("--bucket")]
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// The contents of your journal table configuration. RecordExpiration -&gt; (structure) [required] The journal table record expiration settings for the journal ta- ble. Expiration -&gt; (string) [required] Specifies whether journal table record expiration is enabled or disabled. Possible values: o ENABLED o DISABLED Days -&gt; (integer) If you enable journal table record expiration, you can set the number of days to retain your journal table records. Journal table records must be retained for a minimum of 7 days. To set this value, specify any whole number from 7 to 2147483647 . For example, to retain your journal table records for one year, set this value to 365 . Shorthand Syntax: RecordExpiration={Expiration=string,Days=integer} JSON Syntax: { "RecordExpiration": { "Expiration": "ENABLED"|"DISABLED", "Days": integer } }
+    /// The contents of your journal table configuration. RecordExpiration -&gt; (structure) [required] The journal table record expiration settings for the journal table. Expiration -&gt; (string) [required] Specifies whether journal table record expiration is enabled or disabled. Possible values: • ENABLED • DISABLED Days -&gt; (integer) If you enable journal table record expiration, you can set the number of days to retain your journal table records. Journal table records must be retained for a minimum of 7 days. To set this value, specify any whole number from 7 to 2147483647 . For example, to retain your journal table records for one year, set this value to 365 . Shorthand Syntax: RecordExpiration={Expiration=string,Days=integer} JSON Syntax: { "RecordExpiration": { "Expiration": "ENABLED"|"DISABLED", "Days": integer } }
     /// </summary>
     [CliOption("--journal-table-configuration")]
     public string? JournalTableConfiguration { get; private init; }
@@ -79,7 +81,7 @@ public record AwsS3apiUpdateBucketMetadataJournalTableConfigurationOptions : Aws
     public string? ContentMd5 { get; set; }
 
     /// <summary>
-    /// The checksum algorithm to use with your journal table configuration. Possible values: o CRC32 o CRC32C o SHA1 o SHA256 o CRC64NVME o SHA512 o MD5 o XXHASH64 o XXHASH3 o XXHASH128
+    /// The checksum algorithm to use with your journal table configuration. Possible values: • CRC32 • CRC32C • SHA1 • SHA256 • CRC64NVME • SHA512 • MD5 • XXHASH64 • XXHASH3 • XXHASH128
     /// </summary>
     [CliOption("--checksum-algorithm")]
     public AwsS3apiUpdateBucketMetadataJournalTableConfigurationChecksumAlgorithm? ChecksumAlgorithm { get; set; }

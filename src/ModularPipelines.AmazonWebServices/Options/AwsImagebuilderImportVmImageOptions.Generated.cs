@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -30,10 +31,10 @@ public record AwsImagebuilderImportVmImageOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Creates an Image Builder image resource from an Amazon EC2 VM import task. The response returns as soon as Image Builder creates the image resource in the PENDING state. Image Builder then monitors the import task asynchronously. When the task completes, Image Builder records the AMI that it produced as the new image's output resource and marks the image AVAILABLE . You can then use the imported image as the base image for your recipes. To create the VM import task, use the Amazon EC2 API Import...
     /// </summary>
-    /// <param name="Name">The name of the base image that is created by the import process. Image Builder generates the image ARN from a normalized form of the name, so names that differ only in case, spaces, or underscores count as the same name. If an image with the same name and semantic version already exists in your account in the same Amazon Web Ser- vices Region, the import creates a new build version for it. Constraints: o min: 1 o max: 1024</param>
-    /// <param name="SemanticVersion">The semantic version to attach to the base image that was created during the import process. This version follows the semantic version syntax. NOTE: The semantic version has four nodes: &lt;major&gt;.&lt;mi- nor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them. Assignment: For the first three nodes, you can assign any positive integer value, including zero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automati- cally assigns the build number to the fourth node. Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01. Constraints: o pattern: ^[0-9]+\.[0-9]+\.[0-9]+$</param>
-    /// <param name="Platform">The operating system platform for the imported VM. Possible values: o Windows o Linux o macOS</param>
-    /// <param name="VmImportTaskId">The importTaskId (API) or ImportTaskId (CLI) from the Amazon EC2 VM import process. The import task doesn't need to be complete when you call ImportVmImage - Image Builder monitors the task and finishes creating the image when the task completes. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="Name">The name of the base image that is created by the import process. Image Builder generates the image ARN from a normalized form of the name, so names that differ only in case, spaces, or underscores count as the same name. If an image with the same name and semantic version already exists in your account in the same Amazon Web Services Region, the import creates a new build version for it. Constraints: • min: 1 • max: 1024</param>
+    /// <param name="SemanticVersion">The semantic version to attach to the base image that was created during the import process. This version follows the semantic version syntax. NOTE: The semantic version has four nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them. Assignment: For the first three nodes, you can assign any positive integer value, including zero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automatically assigns the build number to the fourth node. Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01. Constraints: • pattern: ^[0-9]+\.[0-9]+\.[0-9]+$</param>
+    /// <param name="Platform">The operating system platform for the imported VM. Possible values: • Windows • Linux • macOS</param>
+    /// <param name="VmImportTaskId">The importTaskId (API) or ImportTaskId (CLI) from the Amazon EC2 VM import process. The import task doesn't need to be complete when you call ImportVmImage - Image Builder monitors the task and finishes creating the image when the task completes. Constraints: • min: 1 • max: 1024</param>
     public AwsImagebuilderImportVmImageOptions(
         string Name,
         string SemanticVersion,
@@ -70,55 +71,55 @@ public record AwsImagebuilderImportVmImageOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the base image that is created by the import process. Image Builder generates the image ARN from a normalized form of the name, so names that differ only in case, spaces, or underscores count as the same name. If an image with the same name and semantic version already exists in your account in the same Amazon Web Ser- vices Region, the import creates a new build version for it. Constraints: o min: 1 o max: 1024
+    /// The name of the base image that is created by the import process. Image Builder generates the image ARN from a normalized form of the name, so names that differ only in case, spaces, or underscores count as the same name. If an image with the same name and semantic version already exists in your account in the same Amazon Web Services Region, the import creates a new build version for it. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The semantic version to attach to the base image that was created during the import process. This version follows the semantic version syntax. NOTE: The semantic version has four nodes: &lt;major&gt;.&lt;mi- nor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them. Assignment: For the first three nodes, you can assign any positive integer value, including zero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automati- cally assigns the build number to the fourth node. Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01. Constraints: o pattern: ^[0-9]+\.[0-9]+\.[0-9]+$
+    /// The semantic version to attach to the base image that was created during the import process. This version follows the semantic version syntax. NOTE: The semantic version has four nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them. Assignment: For the first three nodes, you can assign any positive integer value, including zero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automatically assigns the build number to the fourth node. Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01. Constraints: • pattern: ^[0-9]+\.[0-9]+\.[0-9]+$
     /// </summary>
     [CliOption("--semantic-version")]
     public string? SemanticVersion { get; private init; }
 
     /// <summary>
-    /// The operating system platform for the imported VM. Possible values: o Windows o Linux o macOS
+    /// The operating system platform for the imported VM. Possible values: • Windows • Linux • macOS
     /// </summary>
     [CliOption("--platform")]
     public AwsImagebuilderImportVmImagePlatform? Platform { get; private init; }
 
     /// <summary>
-    /// The importTaskId (API) or ImportTaskId (CLI) from the Amazon EC2 VM import process. The import task doesn't need to be complete when you call ImportVmImage - Image Builder monitors the task and finishes creating the image when the task completes. Constraints: o min: 1 o max: 1024
+    /// The importTaskId (API) or ImportTaskId (CLI) from the Amazon EC2 VM import process. The import task doesn't need to be complete when you call ImportVmImage - Image Builder monitors the task and finishes creating the image when the task completes. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--vm-import-task-id")]
     public string? VmImportTaskId { get; private init; }
 
     /// <summary>
-    /// The description for the base image that is created by the import process. Constraints: o min: 1 o max: 1024
+    /// The description for the base image that is created by the import process. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The operating system version for the imported VM. Constraints: o min: 1
+    /// The operating system version for the imported VM. Constraints: • min: 1
     /// </summary>
     [CliOption("--os-version")]
     public string? OsVersion { get; set; }
 
     /// <summary>
-    /// The CloudWatch Logs log group where Image Builder sends the import logs. For ImportVmImage, the log group name must be within the /aws/imagebuilder/ namespace. logGroupName -&gt; (string) The log group name that Image Builder uses for image creation. If not specified, the log group name defaults to /aws/image- builder/image-name . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9\-_/\.]{1,512}$ Shorthand Syntax: logGroupName=string JSON Syntax: { "logGroupName": "string" }
+    /// The CloudWatch Logs log group where Image Builder sends the import logs. For ImportVmImage, the log group name must be within the /aws/imagebuilder/ namespace. logGroupName -&gt; (string) The log group name that Image Builder uses for image creation. If not specified, the log group name defaults to /aws/imagebuilder/image-name . Constraints: • min: 1 • max: 512 • pattern: ^[a-zA-Z0-9\-_/\.]{1,512}$ Shorthand Syntax: logGroupName=string JSON Syntax: { "logGroupName": "string" }
     /// </summary>
     [CliOption("--logging-configuration")]
     public string? LoggingConfiguration { get; set; }
 
     /// <summary>
-    /// Tags that are attached to the import resources. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags that are attached to the import resources. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client token, Image Builder returns the original response without running the operation again. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client token, Image Builder returns the original response without running the operation again. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

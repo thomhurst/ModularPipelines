@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,7 +29,7 @@ public record AwsIvsRealtimeImportPublicKeyOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Import a public key to be used for signing stage participant tokens. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PublicKeyMaterial">The content of the public key to be imported. Constraints: o pattern: .*-----BEGIN PUBLIC KEY-----\r?\n([a-zA-Z0-9+/=\r\n]+)\r?\n-----END PUBLIC KEY-----(\r?\n)?.*</param>
+    /// <param name="PublicKeyMaterial">The content of the public key to be imported. Constraints: • pattern: .*-----BEGIN PUBLIC KEY-----\r?\n([a-zA-Z0-9+/=\r\n]+)\r?\n-----END PUBLIC KEY-----(\r?\n)?.*</param>
     public AwsIvsRealtimeImportPublicKeyOptions(
         string PublicKeyMaterial
     )
@@ -57,19 +58,19 @@ public record AwsIvsRealtimeImportPublicKeyOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The content of the public key to be imported. Constraints: o pattern: .*-----BEGIN PUBLIC KEY-----\r?\n([a-zA-Z0-9+/=\r\n]+)\r?\n-----END PUBLIC KEY-----(\r?\n)?.*
+    /// The content of the public key to be imported. Constraints: • pattern: .*-----BEGIN PUBLIC KEY-----\r?\n([a-zA-Z0-9+/=\r\n]+)\r?\n-----END PUBLIC KEY-----(\r?\n)?.*
     /// </summary>
     [CliOption("--public-key-material")]
     public string? PublicKeyMaterial { get; private init; }
 
     /// <summary>
-    /// Name of the public key to be imported. Constraints: o min: 0 o max: 128 o pattern: [a-zA-Z0-9-_]*
+    /// Name of the public key to be imported. Constraints: • min: 0 • max: 128 • pattern: [a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Tags attached to the resource. Array of maps, each of the form string:string (key:value) . See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restric- tions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags attached to the resource. Array of maps, each of the form string:string (key:value) . See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new challenge password for the data retention bot. This pass- word is used for authentication when the bot connects to the network. See also: AWS API Documentation
+/// Creates a new challenge password for the data retention bot. This password is used for authentication when the bot connects to the network. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsWickrCreateDataRetentionBotChallengeOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new challenge password for the data retention bot. This pass- word is used for authentication when the bot connects to the network. See also: AWS API Documentation
+    /// Creates a new challenge password for the data retention bot. This password is used for authentication when the bot connects to the network. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The ID of the Wickr network containing the data retention bot. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
+    /// <param name="NetworkId">The ID of the Wickr network containing the data retention bot. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}</param>
     public AwsWickrCreateDataRetentionBotChallengeOptions(
         string NetworkId
     )
@@ -56,7 +58,7 @@ public record AwsWickrCreateDataRetentionBotChallengeOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Wickr network containing the data retention bot. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// The ID of the Wickr network containing the data retention bot. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }

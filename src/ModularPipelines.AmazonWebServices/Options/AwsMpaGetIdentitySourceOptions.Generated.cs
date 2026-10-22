@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMpaGetIdentitySourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns details for an identity source. For more information, see Identity Source in the Multi-party approval User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="IdentitySourceArn">Amazon Resource Name (ARN) for the identity source. Constraints: o min: 0 o max: 1000</param>
+    /// <param name="IdentitySourceArn">Amazon Resource Name (ARN) for the identity source. Constraints: • min: 0 • max: 1000</param>
     public AwsMpaGetIdentitySourceOptions(
         string IdentitySourceArn
     )
@@ -56,7 +58,7 @@ public record AwsMpaGetIdentitySourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Resource Name (ARN) for the identity source. Constraints: o min: 0 o max: 1000
+    /// Amazon Resource Name (ARN) for the identity source. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--identity-source-arn")]
     public string? IdentitySourceArn { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsRoute53resolverPutResolverQueryLogConfigPolicyOptions : AwsOpti
     /// <summary>
     /// Specifies an Amazon Web Services account that you want to share a query logging configuration with, the query logging configuration that you want to share, and the operations that you want the account to be able to perform on the configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the account that you want to share rules with. Constraints: o min: 1 o max: 255</param>
-    /// <param name="ResolverQueryLogConfigPolicy">An Identity and Access Management policy statement that lists the query logging configurations that you want to share with another Amazon Web Services account and the operations that you want the ac- count to be able to perform. You can specify the following opera- tions in the Actions section of the statement: o route53resolver:AssociateResolverQueryLogConfig o route53resolver:DisassociateResolverQueryLogConfig o route53resolver:ListResolverQueryLogConfigs In the Resource section of the statement, you specify the ARNs for the query logging configurations that you want to share with the ac- count that you specified in Arn . Constraints: o max: 30000</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the account that you want to share rules with. Constraints: • min: 1 • max: 255</param>
+    /// <param name="ResolverQueryLogConfigPolicy">An Identity and Access Management policy statement that lists the query logging configurations that you want to share with another Amazon Web Services account and the operations that you want the account to be able to perform. You can specify the following operations in the Actions section of the statement: • route53resolver:AssociateResolverQueryLogConfig • route53resolver:DisassociateResolverQueryLogConfig • route53resolver:ListResolverQueryLogConfigs In the Resource section of the statement, you specify the ARNs for the query logging configurations that you want to share with the account that you specified in Arn . Constraints: • max: 30000</param>
     public AwsRoute53resolverPutResolverQueryLogConfigPolicyOptions(
         string Arn,
         string ResolverQueryLogConfigPolicy
@@ -60,13 +62,13 @@ public record AwsRoute53resolverPutResolverQueryLogConfigPolicyOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the account that you want to share rules with. Constraints: o min: 1 o max: 255
+    /// The Amazon Resource Name (ARN) of the account that you want to share rules with. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// An Identity and Access Management policy statement that lists the query logging configurations that you want to share with another Amazon Web Services account and the operations that you want the ac- count to be able to perform. You can specify the following opera- tions in the Actions section of the statement: o route53resolver:AssociateResolverQueryLogConfig o route53resolver:DisassociateResolverQueryLogConfig o route53resolver:ListResolverQueryLogConfigs In the Resource section of the statement, you specify the ARNs for the query logging configurations that you want to share with the ac- count that you specified in Arn . Constraints: o max: 30000
+    /// An Identity and Access Management policy statement that lists the query logging configurations that you want to share with another Amazon Web Services account and the operations that you want the account to be able to perform. You can specify the following operations in the Actions section of the statement: • route53resolver:AssociateResolverQueryLogConfig • route53resolver:DisassociateResolverQueryLogConfig • route53resolver:ListResolverQueryLogConfigs In the Resource section of the statement, you specify the ARNs for the query logging configurations that you want to share with the account that you specified in Arn . Constraints: • max: 30000
     /// </summary>
     [CliOption("--resolver-query-log-config-policy")]
     public string? ResolverQueryLogConfigPolicy { get; private init; }

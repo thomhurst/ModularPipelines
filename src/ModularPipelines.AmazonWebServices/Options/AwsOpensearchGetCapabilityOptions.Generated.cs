@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsOpensearchGetCapabilityOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves information about a registered capability for an OpenSearch UI application, including its configuration and current status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The unique identifier of the OpenSearch UI application. Constraints: o pattern: [a-z0-9]{3,30}</param>
-    /// <param name="CapabilityName">The name of the capability to retrieve information about. Constraints: o min: 3 o max: 30 o pattern: ^[a-zA-Z0-9-]+$</param>
+    /// <param name="ApplicationId">The unique identifier of the OpenSearch UI application. Constraints: • pattern: [a-z0-9]{3,30}</param>
+    /// <param name="CapabilityName">The name of the capability to retrieve information about. Constraints: • min: 3 • max: 30 • pattern: ^[a-zA-Z0-9-]+$</param>
     public AwsOpensearchGetCapabilityOptions(
         string ApplicationId,
         string CapabilityName
@@ -60,13 +62,13 @@ public record AwsOpensearchGetCapabilityOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the OpenSearch UI application. Constraints: o pattern: [a-z0-9]{3,30}
+    /// The unique identifier of the OpenSearch UI application. Constraints: • pattern: [a-z0-9]{3,30}
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The name of the capability to retrieve information about. Constraints: o min: 3 o max: 30 o pattern: ^[a-zA-Z0-9-]+$
+    /// The name of the capability to retrieve information about. Constraints: • min: 3 • max: 30 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--capability-name")]
     public string? CapabilityName { get; private init; }

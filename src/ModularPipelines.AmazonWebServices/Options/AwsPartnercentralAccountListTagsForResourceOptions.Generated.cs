@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsPartnercentralAccountListTagsForResourceOptions : AwsOptions, I
     /// <summary>
     /// Lists all tags associated with a specific AWS Partner Central Account resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to list tags for. Constraints: o min: 1 o max: 200 o pattern: arn:[a-z-]+:partner- central:[a-z0-9-]+:[0-9]{12}:[A-Za-z0-9._:/-]+</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to list tags for. Constraints: • min: 1 • max: 200 • pattern: arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:[A-Za-z0-9._:/-]+</param>
     public AwsPartnercentralAccountListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsPartnercentralAccountListTagsForResourceOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource to list tags for. Constraints: o min: 1 o max: 200 o pattern: arn:[a-z-]+:partner- central:[a-z0-9-]+:[0-9]{12}:[A-Za-z0-9._:/-]+
+    /// The Amazon Resource Name (ARN) of the resource to list tags for. Constraints: • min: 1 • max: 200 • pattern: arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:[A-Za-z0-9._:/-]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

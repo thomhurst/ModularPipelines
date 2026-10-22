@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsLookoutequipmentListLabelsOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Provides a list of labels. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LabelGroupName">Returns the name of the label group. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    /// <param name="LabelGroupName">Returns the name of the label group. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
     public AwsLookoutequipmentListLabelsOptions(
         string LabelGroupName
     )
@@ -57,7 +59,7 @@ public record AwsLookoutequipmentListLabelsOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Returns the name of the label group. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// Returns the name of the label group. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$
     /// </summary>
     [CliOption("--label-group-name")]
     public string? LabelGroupName { get; private init; }
@@ -75,26 +77,26 @@ public record AwsLookoutequipmentListLabelsOptions : AwsOptions, IValidatableObj
     public string? IntervalEndTime { get; set; }
 
     /// <summary>
-    /// Returns labels with a particular fault code. Constraints: o min: 1 o max: 100 o pattern: [\P{M}\p{M}]{1,100}
+    /// Returns labels with a particular fault code. Constraints: • min: 1 • max: 100 • pattern: [\P{M}\p{M}]{1,100}
     /// </summary>
     [CliOption("--fault-code")]
     public string? FaultCode { get; set; }
 
     /// <summary>
-    /// Lists the labels that pertain to a particular piece of equipment. Constraints: o min: 1 o max: 200 o pattern: [\P{M}\p{M}]{1,200}
+    /// Lists the labels that pertain to a particular piece of equipment. Constraints: • min: 1 • max: 200 • pattern: [\P{M}\p{M}]{1,200}
     /// </summary>
     [CliOption("--equipment")]
     public string? Equipment { get; set; }
 
     /// <summary>
-    /// An opaque pagination token indicating where to continue the listing of label groups. Constraints: o max: 8192 o pattern: \p{ASCII}{0,8192}
+    /// An opaque pagination token indicating where to continue the listing of label groups. Constraints: • max: 8192 • pattern: \p{ASCII}{0,8192}
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Specifies the maximum number of labels to list. Constraints: o min: 1 o max: 500
+    /// Specifies the maximum number of labels to list. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

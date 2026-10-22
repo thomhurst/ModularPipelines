@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds or updates a sending authorization policy for the specified iden- tity (an email address or a domain). NOTE: This operation is for the identity owner only. If you have not veri- fied the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AW...
+/// Adds or updates a sending authorization policy for the specified identity (an email address or a domain). NOTE: This operation is for the identity owner only. If you have not verified the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS AP...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsSesPutIdentityPolicyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds or updates a sending authorization policy for the specified iden- tity (an email address or a domain). NOTE: This operation is for the identity owner only. If you have not veri- fied the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AW...
+    /// Adds or updates a sending authorization policy for the specified identity (an email address or a domain). NOTE: This operation is for the identity owner only. If you have not verified the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS AP...
     /// </summary>
     /// <param name="Identity">The identity to which that the policy applies. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com , example.com , arn:aws:ses:us-east-1:123456789012:identity/example.com . To successfully call this operation, you must own the identity.</param>
-    /// <param name="PolicyName">The name of the policy. The policy name cannot exceed 64 characters and can only include al- phanumeric characters, dashes, and underscores. Constraints: o min: 1 o max: 64</param>
-    /// <param name="Policy">The text of the policy in JSON format. The policy cannot exceed 4 KB. For information about the syntax of sending authorization policies, see the Amazon SES Developer Guide . Constraints: o min: 1</param>
+    /// <param name="PolicyName">The name of the policy. The policy name cannot exceed 64 characters and can only include alphanumeric characters, dashes, and underscores. Constraints: • min: 1 • max: 64</param>
+    /// <param name="Policy">The text of the policy in JSON format. The policy cannot exceed 4 KB. For information about the syntax of sending authorization policies, see the Amazon SES Developer Guide . Constraints: • min: 1</param>
     public AwsSesPutIdentityPolicyOptions(
         string Identity,
         string PolicyName,
@@ -70,13 +72,13 @@ public record AwsSesPutIdentityPolicyOptions : AwsOptions, IValidatableObject
     public string? Identity { get; private init; }
 
     /// <summary>
-    /// The name of the policy. The policy name cannot exceed 64 characters and can only include al- phanumeric characters, dashes, and underscores. Constraints: o min: 1 o max: 64
+    /// The name of the policy. The policy name cannot exceed 64 characters and can only include alphanumeric characters, dashes, and underscores. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--policy-name")]
     public string? PolicyName { get; private init; }
 
     /// <summary>
-    /// The text of the policy in JSON format. The policy cannot exceed 4 KB. For information about the syntax of sending authorization policies, see the Amazon SES Developer Guide . Constraints: o min: 1
+    /// The text of the policy in JSON format. The policy cannot exceed 4 KB. For information about the syntax of sending authorization policies, see the Amazon SES Developer Guide . Constraints: • min: 1
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; private init; }

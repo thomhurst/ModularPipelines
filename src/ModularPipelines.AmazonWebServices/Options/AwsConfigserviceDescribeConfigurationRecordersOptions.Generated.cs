@@ -22,19 +22,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsConfigserviceDescribeConfigurationRecordersOptions : AwsOptions
 {
     /// <summary>
-    /// A list of names of the configuration recorders that you want to specify. NOTE: When making a request to this operation, you can only specify one configuration recorder. (string) Constraints: o min: 1 o max: 256 Syntax: "string" "string" ...
+    /// A list of names of the configuration recorders that you want to specify. NOTE: When making a request to this operation, you can only specify one configuration recorder. (string) Constraints: • min: 1 • max: 256 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--configuration-recorder-names", GroupValues = true)]
     public IEnumerable<string>? ConfigurationRecorderNames { get; set; }
 
     /// <summary>
-    /// For service-linked configuration recorders, you can use the service principal of the linked Amazon Web Services service to specify the configuration recorder. This field is only supported for Amazon Web Services service principals. For third-party service-linked configu- ration recorders, use Arn instead. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// For service-linked configuration recorders, you can use the service principal of the linked Amazon Web Services service to specify the configuration recorder. This field is only supported for Amazon Web Services service principals. For third-party service-linked configuration recorders, use Arn instead. Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--service-principal")]
     public string? ServicePrincipal { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the configuration recorder that you want to specify. Constraints: o min: 1 o max: 1000
+    /// The Amazon Resource Name (ARN) of the configuration recorder that you want to specify. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; set; }

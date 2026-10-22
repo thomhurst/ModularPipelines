@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsManagedblockchainListInvitationsOptions : AwsOptions
 {
     /// <summary>
-    /// The maximum number of invitations to return. Constraints: o min: 1 o max: 100
+    /// The maximum number of invitations to return. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The pagination token that indicates the next set of results to re- trieve. Constraints: o max: 128
+    /// The pagination token that indicates the next set of results to retrieve. Constraints: • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

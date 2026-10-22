@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in effect. Use this to get a gate- way's bandwidth rate limit schedule. See also: AWS API Documentation
+/// Retrieves the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in effect. Use this to get a gateway's bandwidth rate limit schedule. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsBackupGatewayGetBandwidthRateLimitScheduleOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in effect. Use this to get a gate- way's bandwidth rate limit schedule. See also: AWS API Documentation
+    /// Retrieves the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in effect. Use this to get a gateway's bandwidth rate limit schedule. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway. Use the ` ListGate- ways https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_ListGateways.html`__ operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 180 o pattern: arn:(aws|aws-cn|aws-us-gov):backup-gate- way(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+</param>
+    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway. Use the ` ListGateways https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_ListGateways.html`__ operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: • min: 50 • max: 180 • pattern: arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+</param>
     public AwsBackupGatewayGetBandwidthRateLimitScheduleOptions(
         string GatewayArn
     )
@@ -56,7 +58,7 @@ public record AwsBackupGatewayGetBandwidthRateLimitScheduleOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the gateway. Use the ` ListGate- ways https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_ListGateways.html`__ operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 180 o pattern: arn:(aws|aws-cn|aws-us-gov):backup-gate- way(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+
+    /// The Amazon Resource Name (ARN) of the gateway. Use the ` ListGateways https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_ListGateways.html`__ operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: • min: 50 • max: 180 • pattern: arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+
     /// </summary>
     [CliOption("--gateway-arn")]
     public string? GatewayArn { get; private init; }

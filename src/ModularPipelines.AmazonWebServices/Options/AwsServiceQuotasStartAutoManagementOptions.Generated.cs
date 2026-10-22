@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -17,7 +18,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts Service Quotas Automatic Management for an Amazon Web Services account, including notification preferences and excluded quotas config- urations. Automatic Management monitors your Service Quotas utilization and notifies you before you run out of your allocated quotas. See also: AWS API Documentation
+/// Starts Service Quotas Automatic Management for an Amazon Web Services account, including notification preferences and excluded quotas configurations. Automatic Management monitors your Service Quotas utilization and notifies you before you run out of your allocated quotas. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsServiceQuotasStartAutoManagementOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts Service Quotas Automatic Management for an Amazon Web Services account, including notification preferences and excluded quotas config- urations. Automatic Management monitors your Service Quotas utilization and notifies you before you run out of your allocated quotas. See also: AWS API Documentation
+    /// Starts Service Quotas Automatic Management for an Amazon Web Services account, including notification preferences and excluded quotas configurations. Automatic Management monitors your Service Quotas utilization and notifies you before you run out of your allocated quotas. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OptInLevel">Sets the opt-in level for Automatic Management. Only Amazon Web Ser- vices account level is supported. Possible values: o ACCOUNT</param>
-    /// <param name="OptInType">Sets the opt-in type for Automatic Management. There are two modes: Notify only and Notify and Auto-Adjust. Currently, only NotifyOnly is available. Possible values: o NotifyOnly o NotifyAndAdjust</param>
+    /// <param name="OptInLevel">Sets the opt-in level for Automatic Management. Only Amazon Web Services account level is supported. Possible values: • ACCOUNT</param>
+    /// <param name="OptInType">Sets the opt-in type for Automatic Management. There are two modes: Notify only and Notify and Auto-Adjust. Currently, only NotifyOnly is available. Possible values: • NotifyOnly • NotifyAndAdjust</param>
     public AwsServiceQuotasStartAutoManagementOptions(
         string OptInLevel,
         AwsServiceQuotasStartAutoManagementOptInType OptInType
@@ -61,25 +62,25 @@ public record AwsServiceQuotasStartAutoManagementOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Sets the opt-in level for Automatic Management. Only Amazon Web Ser- vices account level is supported. Possible values: o ACCOUNT
+    /// Sets the opt-in level for Automatic Management. Only Amazon Web Services account level is supported. Possible values: • ACCOUNT
     /// </summary>
     [CliOption("--opt-in-level")]
     public string? OptInLevel { get; private init; }
 
     /// <summary>
-    /// Sets the opt-in type for Automatic Management. There are two modes: Notify only and Notify and Auto-Adjust. Currently, only NotifyOnly is available. Possible values: o NotifyOnly o NotifyAndAdjust
+    /// Sets the opt-in type for Automatic Management. There are two modes: Notify only and Notify and Auto-Adjust. Currently, only NotifyOnly is available. Possible values: • NotifyOnly • NotifyAndAdjust
     /// </summary>
     [CliOption("--opt-in-type")]
     public AwsServiceQuotasStartAutoManagementOptInType? OptInType { get; private init; }
 
     /// <summary>
-    /// The User Notifications Amazon Resource Name (ARN) for Automatic Man- agement notifications. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:*:.+:[0-9]{12}:.+
+    /// The User Notifications Amazon Resource Name (ARN) for Automatic Management notifications. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[\w]+)*:*:.+:[0-9]{12}:.+
     /// </summary>
     [CliOption("--notification-arn")]
     public string? NotificationArn { get; set; }
 
     /// <summary>
-    /// List of Amazon Web Services services excluded from Automatic Manage- ment. You won't be notified of Service Quotas utilization for Amazon Web Services services added to the Automatic Management exclusion list. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-_ /]{1,128} value -&gt; (list) (string) Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-_ /]{1,128} Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
+    /// List of Amazon Web Services services excluded from Automatic Management. You won't be notified of Service Quotas utilization for Amazon Web Services services added to the Automatic Management exclusion list. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9-_ /]{1,128} value -&gt; (list) (string) Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9-_ /]{1,128} Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
     [CliOption("--exclusion-list", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ExclusionList { get; set; }

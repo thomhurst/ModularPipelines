@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,11 +30,11 @@ public record AwsDatazoneGetTimeSeriesDataPointOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Gets the existing data point for the asset. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain that houses the asset for which you want to get the data point. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="EntityIdentifier">The ID of the asset for which you want to get the data point. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="EntityType">The type of the asset for which you want to get the data point. Possible values: o ASSET o LISTING</param>
-    /// <param name="Identifier">The ID of the data point that you want to get. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="FormName">The name of the time series form that houses the data point that you want to get. Constraints: o min: 1 o max: 128</param>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain that houses the asset for which you want to get the data point. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EntityIdentifier">The ID of the asset for which you want to get the data point. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EntityType">The type of the asset for which you want to get the data point. Possible values: • ASSET • LISTING</param>
+    /// <param name="Identifier">The ID of the data point that you want to get. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="FormName">The name of the time series form that houses the data point that you want to get. Constraints: • min: 1 • max: 128</param>
     public AwsDatazoneGetTimeSeriesDataPointOptions(
         string DomainIdentifier,
         string EntityIdentifier,
@@ -72,31 +74,31 @@ public record AwsDatazoneGetTimeSeriesDataPointOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon DataZone domain that houses the asset for which you want to get the data point. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the Amazon DataZone domain that houses the asset for which you want to get the data point. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the asset for which you want to get the data point. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The ID of the asset for which you want to get the data point. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--entity-identifier")]
     public string? EntityIdentifier { get; private init; }
 
     /// <summary>
-    /// The type of the asset for which you want to get the data point. Possible values: o ASSET o LISTING
+    /// The type of the asset for which you want to get the data point. Possible values: • ASSET • LISTING
     /// </summary>
     [CliOption("--entity-type")]
     public AwsDatazoneGetTimeSeriesDataPointEntityType? EntityType { get; private init; }
 
     /// <summary>
-    /// The ID of the data point that you want to get. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The ID of the data point that you want to get. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The name of the time series form that houses the data point that you want to get. Constraints: o min: 1 o max: 128
+    /// The name of the time series form that houses the data point that you want to get. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--form-name")]
     public string? FormName { get; private init; }

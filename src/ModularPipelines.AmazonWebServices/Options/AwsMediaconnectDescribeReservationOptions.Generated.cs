@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Displays the details of a reservation. The response includes the reser- vation name, state, start date and time, and the details of the offer- ing that make up the rest of the reservation (such as price, duration, and outbound bandwidth). See also: AWS API Documentation
+/// Displays the details of a reservation. The response includes the reservation name, state, start date and time, and the details of the offering that make up the rest of the reservation (such as price, duration, and outbound bandwidth). See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsMediaconnectDescribeReservationOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Displays the details of a reservation. The response includes the reser- vation name, state, start date and time, and the details of the offer- ing that make up the rest of the reservation (such as price, duration, and outbound bandwidth). See also: AWS API Documentation
+    /// Displays the details of a reservation. The response includes the reservation name, state, start date and time, and the details of the offering that make up the rest of the reservation (such as price, duration, and outbound bandwidth). See also: AWS API Documentation
     /// </summary>
     /// <param name="ReservationArn">The Amazon Resource Name (ARN) of the offering.</param>
     public AwsMediaconnectDescribeReservationOptions(

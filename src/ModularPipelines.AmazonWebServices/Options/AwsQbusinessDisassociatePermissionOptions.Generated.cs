@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes a permission policy from a Amazon Q Business application, re- voking the cross-account access that was previously granted to an ISV. This operation deletes the specified policy statement from the applica- tion's permission policy. See also: AWS API Documentation
+/// Removes a permission policy from a Amazon Q Business application, revoking the cross-account access that was previously granted to an ISV. This operation deletes the specified policy statement from the application's permission policy. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsQbusinessDisassociatePermissionOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes a permission policy from a Amazon Q Business application, re- voking the cross-account access that was previously granted to an ISV. This operation deletes the specified policy statement from the applica- tion's permission policy. See also: AWS API Documentation
+    /// Removes a permission policy from a Amazon Q Business application, revoking the cross-account access that was previously granted to an ISV. This operation deletes the specified policy statement from the application's permission policy. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The unique identifier of the Amazon Q Business application. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
-    /// <param name="StatementId">The statement ID of the permission to remove. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="ApplicationId">The unique identifier of the Amazon Q Business application. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="StatementId">The statement ID of the permission to remove. Constraints: • min: 1 • max: 2048</param>
     public AwsQbusinessDisassociatePermissionOptions(
         string ApplicationId,
         string StatementId
@@ -60,13 +62,13 @@ public record AwsQbusinessDisassociatePermissionOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Amazon Q Business application. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The unique identifier of the Amazon Q Business application. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The statement ID of the permission to remove. Constraints: o min: 1 o max: 2048
+    /// The statement ID of the permission to remove. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--statement-id")]
     public string? StatementId { get; private init; }

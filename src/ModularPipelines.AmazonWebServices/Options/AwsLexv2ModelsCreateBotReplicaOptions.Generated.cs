@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Action to create a replication of the source bot in the secondary re- gion. See also: AWS API Documentation
+/// Action to create a replication of the source bot in the secondary region. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsLexv2ModelsCreateBotReplicaOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Action to create a replication of the source bot in the secondary re- gion. See also: AWS API Documentation
+    /// Action to create a replication of the source bot in the secondary region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BotId">The request for the unique bot ID of the source bot to be replicated in the secondary region. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="ReplicaRegion">The request for the secondary region that will be used in the repli- cation of the source bot. Constraints: o min: 2 o max: 25</param>
+    /// <param name="BotId">The request for the unique bot ID of the source bot to be replicated in the secondary region. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="ReplicaRegion">The request for the secondary region that will be used in the replication of the source bot. Constraints: • min: 2 • max: 25</param>
     public AwsLexv2ModelsCreateBotReplicaOptions(
         string BotId,
         string ReplicaRegion
@@ -60,13 +62,13 @@ public record AwsLexv2ModelsCreateBotReplicaOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The request for the unique bot ID of the source bot to be replicated in the secondary region. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The request for the unique bot ID of the source bot to be replicated in the secondary region. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
 
     /// <summary>
-    /// The request for the secondary region that will be used in the repli- cation of the source bot. Constraints: o min: 2 o max: 25
+    /// The request for the secondary region that will be used in the replication of the source bot. Constraints: • min: 2 • max: 25
     /// </summary>
     [CliOption("--replica-region")]
     public string? ReplicaRegion { get; private init; }

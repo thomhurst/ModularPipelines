@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists log events from the specified log group. You can list all the log events or filter the results using one or more of the following: o A filter pattern o A time range o The log stream name, or a log stream name prefix that matches multi- ple log streams You must have the logs:FilterLogEvents permission to perform this oper- ation. You can specify the log group to search by using either logGroupIdenti- fier or logGroupName . You must include one of these two parameters, but you can't include ...
+/// Lists log events from the specified log group. You can list all the log events or filter the results using one or more of the following: • A filter pattern • A time range • The log stream name, or a log stream name prefix that matches multiple log streams You must have the logs:FilterLogEvents permission to perform this operation. You can specify the log group to search by using either logGroupIdentifier or logGroupName . You must include one of these two parameters, but you can't include both. ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,49 +23,49 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLogsFilterLogEventsOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the log group to search. NOTE: You must include either logGroupIdentifier or logGroupName , but not both. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+
+    /// The name of the log group to search. NOTE: You must include either logGroupIdentifier or logGroupName , but not both. Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+
     /// </summary>
     [CliOption("--log-group-name")]
     public string? LogGroupName { get; set; }
 
     /// <summary>
-    /// Specify either the name or ARN of the log group to view log events from. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN. NOTE: You must include either logGroupIdentifier or logGroupName , but not both. Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]*
+    /// Specify either the name or ARN of the log group to view log events from. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN. NOTE: You must include either logGroupIdentifier or logGroupName , but not both. Constraints: • min: 1 • max: 2048 • pattern: [\w#+=/:,.@-]*
     /// </summary>
     [CliOption("--log-group-identifier")]
     public string? LogGroupIdentifier { get; set; }
 
     /// <summary>
-    /// Filters the results to only logs from the log streams in this list. If you specify a value for both logStreamNames and logStreamNamePre- fix , the action returns an InvalidParameterException error. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 512 o pattern: [^:*]* Syntax: "string" "string" ...
+    /// Filters the results to only logs from the log streams in this list. If you specify a value for both logStreamNames and logStreamNamePrefix , the action returns an InvalidParameterException error. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 512 • pattern: [^:*]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--log-stream-names", GroupValues = true)]
     public IEnumerable<string>? LogStreamNames { get; set; }
 
     /// <summary>
-    /// Filters the results to include only events from log streams that have names starting with this prefix. If you specify a value for both logStreamNamePrefix and logStream- Names , the action returns an InvalidParameterException error. Constraints: o min: 1 o max: 512 o pattern: [^:*]*
+    /// Filters the results to include only events from log streams that have names starting with this prefix. If you specify a value for both logStreamNamePrefix and logStreamNames , the action returns an InvalidParameterException error. Constraints: • min: 1 • max: 512 • pattern: [^:*]*
     /// </summary>
     [CliOption("--log-stream-name-prefix")]
     public string? LogStreamNamePrefix { get; set; }
 
     /// <summary>
-    /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC . Events with a timestamp before this time are not returned. NOTE: Set startTime explicitly to reduce the chances of empty pages in the response. Constraints: o min: 0
+    /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC . Events with a timestamp before this time are not returned. NOTE: Set startTime explicitly to reduce the chances of empty pages in the response. Constraints: • min: 0
     /// </summary>
     [CliOption("--start-time")]
-    public int? StartTime { get; set; }
+    public long? StartTime { get; set; }
 
     /// <summary>
-    /// The end of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC . Events with a timestamp later than this time are not returned. Constraints: o min: 0
+    /// The end of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC . Events with a timestamp later than this time are not returned. Constraints: • min: 0
     /// </summary>
     [CliOption("--end-time")]
-    public int? EndTime { get; set; }
+    public long? EndTime { get; set; }
 
     /// <summary>
-    /// The filter pattern to use. For more information, see Filter and Pat- tern Syntax . If not provided, all the events are matched. Constraints: o min: 0 o max: 1024
+    /// The filter pattern to use. For more information, see Filter and Pattern Syntax . If not provided, all the events are matched. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--filter-pattern")]
     public string? FilterPattern { get; set; }
 
     /// <summary>
-    /// If the value is true, the earliest log events are returned first. If the value is false, the latest log events are returned first. The default value is true. The startFromHead parameter sets the sort direction on the first re- quest. On subsequent requests, the nextToken determines the sort di- rection. To continue paginating in the same direction, provide the returned nextToken . If you provide both nextToken and startFromHead , the direction of the nextToken is used. NOTE: Setting startFromHead to false is supported only when startTime is on or after Jan 1, 2024 00:00:00 UTC . A request with start- FromHead set to false and a startTime before this date returns an InvalidParameterException .
+    /// If the value is true, the earliest log events are returned first. If the value is false, the latest log events are returned first. The default value is true. The startFromHead parameter sets the sort direction on the first request. On subsequent requests, the nextToken determines the sort direction. To continue paginating in the same direction, provide the returned nextToken . If you provide both nextToken and startFromHead , the direction of the nextToken is used. NOTE: Setting startFromHead to false is supported only when startTime is on or after Jan 1, 2024 00:00:00 UTC . A request with startFromHead set to false and a startTime before this date returns an InvalidParameterException .
     /// </summary>
     [CliFlag("--start-from-head", NegatedName = "--no-start-from-head")]
     public bool? StartFromHead { get; set; }
@@ -85,9 +85,6 @@ public record AwsLogsFilterLogEventsOptions : AwsOptions
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -96,15 +93,18 @@ public record AwsLogsFilterLogEventsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 10000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 10000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

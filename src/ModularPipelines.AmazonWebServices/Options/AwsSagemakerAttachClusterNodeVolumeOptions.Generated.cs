@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Attaches your Amazon Elastic Block Store (Amazon EBS) volume to a node in your EKS orchestrated HyperPod cluster. This API works with the Amazon Elastic Block Store (Amazon EBS) Con- tainer Storage Interface (CSI) driver to manage the lifecycle of per- sistent storage in your HyperPod EKS clusters. See also: AWS API Documentation
+/// Attaches your Amazon Elastic Block Store (Amazon EBS) volume to a node in your EKS orchestrated HyperPod cluster. This API works with the Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver to manage the lifecycle of persistent storage in your HyperPod EKS clusters. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsSagemakerAttachClusterNodeVolumeOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Attaches your Amazon Elastic Block Store (Amazon EBS) volume to a node in your EKS orchestrated HyperPod cluster. This API works with the Amazon Elastic Block Store (Amazon EBS) Con- tainer Storage Interface (CSI) driver to manage the lifecycle of per- sistent storage in your HyperPod EKS clusters. See also: AWS API Documentation
+    /// Attaches your Amazon Elastic Block Store (Amazon EBS) volume to a node in your EKS orchestrated HyperPod cluster. This API works with the Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver to manage the lifecycle of persistent storage in your HyperPod EKS clusters. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterArn">The Amazon Resource Name (ARN) of your SageMaker HyperPod cluster containing the target node. Your cluster must use EKS as the orches- tration and be in the InService state. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12}</param>
-    /// <param name="NodeId">The unique identifier of the cluster node to which you want to at- tach the volume. The node must belong to your specified HyperPod cluster and cannot be part of a Restricted Instance Group (RIG). Constraints: o min: 1 o max: 256 o pattern: i-[a-f0-9]{8}(?:[a-f0-9]{9})?</param>
-    /// <param name="VolumeId">The unique identifier of your EBS volume to attach. The volume must be in the available state. Constraints: o min: 1 o max: 256 o pattern: vol-[a-f0-9]{8}(?:[a-f0-9]{9})?</param>
+    /// <param name="ClusterArn">The Amazon Resource Name (ARN) of your SageMaker HyperPod cluster containing the target node. Your cluster must use EKS as the orchestration and be in the InService state. Constraints: • min: 0 • max: 256 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:cluster/[a-z0-9]{12}</param>
+    /// <param name="NodeId">The unique identifier of the cluster node to which you want to attach the volume. The node must belong to your specified HyperPod cluster and cannot be part of a Restricted Instance Group (RIG). Constraints: • min: 1 • max: 256 • pattern: i-[a-f0-9]{8}(?:[a-f0-9]{9})?</param>
+    /// <param name="VolumeId">The unique identifier of your EBS volume to attach. The volume must be in the available state. Constraints: • min: 1 • max: 256 • pattern: vol-[a-f0-9]{8}(?:[a-f0-9]{9})?</param>
     public AwsSagemakerAttachClusterNodeVolumeOptions(
         string ClusterArn,
         string NodeId,
@@ -64,19 +66,19 @@ public record AwsSagemakerAttachClusterNodeVolumeOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of your SageMaker HyperPod cluster containing the target node. Your cluster must use EKS as the orches- tration and be in the InService state. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12}
+    /// The Amazon Resource Name (ARN) of your SageMaker HyperPod cluster containing the target node. Your cluster must use EKS as the orchestration and be in the InService state. Constraints: • min: 0 • max: 256 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:cluster/[a-z0-9]{12}
     /// </summary>
     [CliOption("--cluster-arn")]
     public string? ClusterArn { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the cluster node to which you want to at- tach the volume. The node must belong to your specified HyperPod cluster and cannot be part of a Restricted Instance Group (RIG). Constraints: o min: 1 o max: 256 o pattern: i-[a-f0-9]{8}(?:[a-f0-9]{9})?
+    /// The unique identifier of the cluster node to which you want to attach the volume. The node must belong to your specified HyperPod cluster and cannot be part of a Restricted Instance Group (RIG). Constraints: • min: 1 • max: 256 • pattern: i-[a-f0-9]{8}(?:[a-f0-9]{9})?
     /// </summary>
     [CliOption("--node-id")]
     public string? NodeId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of your EBS volume to attach. The volume must be in the available state. Constraints: o min: 1 o max: 256 o pattern: vol-[a-f0-9]{8}(?:[a-f0-9]{9})?
+    /// The unique identifier of your EBS volume to attach. The volume must be in the available state. Constraints: • min: 1 • max: 256 • pattern: vol-[a-f0-9]{8}(?:[a-f0-9]{9})?
     /// </summary>
     [CliOption("--volume-id")]
     public string? VolumeId { get; private init; }

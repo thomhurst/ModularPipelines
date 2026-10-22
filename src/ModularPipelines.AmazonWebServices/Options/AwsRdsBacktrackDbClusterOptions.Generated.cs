@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsRdsBacktrackDbClusterOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Backtracks a DB cluster to a specific time, without creating a new DB cluster. For more information on backtracking, see Backtracking an Aurora DB Cluster in the Amazon Aurora User Guide . NOTE: This action applies only to Aurora MySQL DB clusters. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbClusterIdentifier">The DB cluster identifier of the DB cluster to be backtracked. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 alphanumeric characters or hyphens. o First character must be a letter. o Can't end with a hyphen or contain two consecutive hyphens. Example: my-cluster1</param>
-    /// <param name="BacktrackTo">The timestamp of the time to backtrack the DB cluster to, specified in ISO 8601 format. For more information about ISO 8601, see the ISO8601 Wikipedia page. NOTE: If the specified time isn't a consistent time for the DB clus- ter, Aurora automatically chooses the nearest possible consis- tent time for the DB cluster. Constraints: o Must contain a valid ISO 8601 timestamp. o Can't contain a timestamp set in the future. Example: 2017-07-08T18:00Z</param>
+    /// <param name="DbClusterIdentifier">The DB cluster identifier of the DB cluster to be backtracked. This parameter is stored as a lowercase string. Constraints: • Must contain from 1 to 63 alphanumeric characters or hyphens. • First character must be a letter. • Can't end with a hyphen or contain two consecutive hyphens. Example: my-cluster1</param>
+    /// <param name="BacktrackTo">The timestamp of the time to backtrack the DB cluster to, specified in ISO 8601 format. For more information about ISO 8601, see the ISO8601 Wikipedia page. NOTE: If the specified time isn't a consistent time for the DB cluster, Aurora automatically chooses the nearest possible consistent time for the DB cluster. Constraints: • Must contain a valid ISO 8601 timestamp. • Can't contain a timestamp set in the future. Example: 2017-07-08T18:00Z</param>
     public AwsRdsBacktrackDbClusterOptions(
         string DbClusterIdentifier,
         string BacktrackTo
@@ -60,13 +62,13 @@ public record AwsRdsBacktrackDbClusterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The DB cluster identifier of the DB cluster to be backtracked. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 alphanumeric characters or hyphens. o First character must be a letter. o Can't end with a hyphen or contain two consecutive hyphens. Example: my-cluster1
+    /// The DB cluster identifier of the DB cluster to be backtracked. This parameter is stored as a lowercase string. Constraints: • Must contain from 1 to 63 alphanumeric characters or hyphens. • First character must be a letter. • Can't end with a hyphen or contain two consecutive hyphens. Example: my-cluster1
     /// </summary>
     [CliOption("--db-cluster-identifier")]
     public string? DbClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The timestamp of the time to backtrack the DB cluster to, specified in ISO 8601 format. For more information about ISO 8601, see the ISO8601 Wikipedia page. NOTE: If the specified time isn't a consistent time for the DB clus- ter, Aurora automatically chooses the nearest possible consis- tent time for the DB cluster. Constraints: o Must contain a valid ISO 8601 timestamp. o Can't contain a timestamp set in the future. Example: 2017-07-08T18:00Z
+    /// The timestamp of the time to backtrack the DB cluster to, specified in ISO 8601 format. For more information about ISO 8601, see the ISO8601 Wikipedia page. NOTE: If the specified time isn't a consistent time for the DB cluster, Aurora automatically chooses the nearest possible consistent time for the DB cluster. Constraints: • Must contain a valid ISO 8601 timestamp. • Can't contain a timestamp set in the future. Example: 2017-07-08T18:00Z
     /// </summary>
     [CliOption("--backtrack-to")]
     public string? BacktrackTo { get; private init; }
@@ -78,7 +80,7 @@ public record AwsRdsBacktrackDbClusterOptions : AwsOptions, IValidatableObject
     public bool? Force { get; set; }
 
     /// <summary>
-    /// est-time-on-point-in-time-unavailable (boolean) Specifies whether to backtrack the DB cluster to the earliest possi- ble backtrack time when BacktrackTo is set to a timestamp earlier than the earliest backtrack time. When this parameter is disabled and BacktrackTo is set to a timestamp earlier than the earliest backtrack time, an error occurs.
+    /// Specifies whether to backtrack the DB cluster to the earliest possible backtrack time when BacktrackTo is set to a timestamp earlier than the earliest backtrack time. When this parameter is disabled and BacktrackTo is set to a timestamp earlier than the earliest backtrack time, an error occurs.
     /// </summary>
     [CliFlag("--use-earliest-time-on-point-in-time-unavailable", NegatedName = "--no-use-earliest-time-on-point-in-time-unavailable")]
     public bool? UseEarliestTimeOnPointInTimeUnavailable { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsTaxsettingsDeleteSupplementalTaxRegistrationOptions : AwsOption
     /// <summary>
     /// Deletes a supplemental tax registration for a single account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AuthorityId">The unique authority Id for the supplemental TRN information that needs to be deleted. Constraints: o min: 1 o max: 200 o pattern: [\s\S]*</param>
+    /// <param name="AuthorityId">The unique authority Id for the supplemental TRN information that needs to be deleted. Constraints: • min: 1 • max: 200 • pattern: [\s\S]*</param>
     public AwsTaxsettingsDeleteSupplementalTaxRegistrationOptions(
         string AuthorityId
     )
@@ -56,7 +58,7 @@ public record AwsTaxsettingsDeleteSupplementalTaxRegistrationOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique authority Id for the supplemental TRN information that needs to be deleted. Constraints: o min: 1 o max: 200 o pattern: [\s\S]*
+    /// The unique authority Id for the supplemental TRN information that needs to be deleted. Constraints: • min: 1 • max: 200 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--authority-id")]
     public string? AuthorityId { get; private init; }

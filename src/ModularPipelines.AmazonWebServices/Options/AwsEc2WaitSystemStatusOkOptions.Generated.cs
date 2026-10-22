@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Wait until JMESPath query InstanceStatuses[].SystemStatus.Status re- turns ok for all elements when polling with describe-instance-status. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation system-status-ok is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argu...
+/// Wait until JMESPath query InstanceStatuses[].SystemStatus.Status returns ok for all elements when polling with describe-instance-status. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation system-status-ok is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argume...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -29,19 +29,19 @@ public record AwsEc2WaitSystemStatusOkOptions : AwsOptions
     public IEnumerable<string>? InstanceIds { get; set; }
 
     /// <summary>
-    /// Indicates whether to include managed resources in the output. If this parameter is set to true , the output includes resources that are managed by Amazon Web Services services, even if managed re- source visibility is set to hidden.
+    /// Indicates whether to include managed resources in the output. If this parameter is set to true , the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
     /// </summary>
     [CliFlag("--include-managed-resources", NegatedName = "--no-include-managed-resources")]
     public bool? IncludeManagedResources { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// The filters. o availability-zone - The Availability Zone of the instance. o availability-zone-id - The ID of the Availability Zone of the in- stance. o event.code - The code for the scheduled event (instance-reboot | system-reboot | system-maintenance | instance-retirement | in- stance-stop ). o event.description - A description of the event. o event.instance-event-id - The ID of the event whose date and time you are modifying. o event.not-after - The latest end time for the scheduled event (for example, 2014-09-15T17:15:20.000Z ). o event.not-before - The earliest start time for the scheduled event (for example, 2014-09-15T17:15:20.000Z ). o event.not-before-deadline - The deadline for starting the event (for example, 2014-09-15T17:15:20.000Z ). o instance-state-code - The code for the instance state, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state repre- sented. The valid values are 0 (pending), 16 (running), 32 (shut- ting-down), 48 (terminated), 64 (stopping), and 80 (stopped). o instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped ). o instance-status.reachability - Filters on instance status where the name is reachability (passed | failed | initializing | insuf- ficient-data ). o instance-status.status - The status of the instance (ok | impaired | initializing | insufficient-data | not-applicable ). o operator.managed - A Boolean that indicates whether this is a man- aged instance. o operator.principal - The principal that manages the instance. Only valid for managed instances, where managed is true . o system-status.reachability - Filters on system status where the name is reachability (passed | failed | initializing | insuffi- cient-data ). o system-status.status - The system status of the instance (ok | im- paired | initializing | insufficient-data | not-applicable ). o attached-ebs-status.status - The status of the attached EBS volume for the instance (ok | impaired | initializing | insufficient-data | not-applicable ). o application-status.status - The application status of the instance (ok | impaired | initializing | insufficient-data | not-applicable ). (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// The filters. • availability-zone - The Availability Zone of the instance. • availability-zone-id - The ID of the Availability Zone of the instance. • event.code - The code for the scheduled event (instance-reboot | system-reboot | system-maintenance | instance-retirement | instance-stop ). • event.description - A description of the event. • event.instance-event-id - The ID of the event whose date and time you are modifying. • event.not-after - The latest end time for the scheduled event (for example, 2014-09-15T17:15:20.000Z ). • event.not-before - The earliest start time for the scheduled event (for example, 2014-09-15T17:15:20.000Z ). • event.not-before-deadline - The deadline for starting the event (for example, 2014-09-15T17:15:20.000Z ). • instance-state-code - The code for the instance state, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped). • instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped ). • instance-status.reachability - Filters on instance status where the name is reachability (passed | failed | initializing | insufficient-data ). • instance-status.status - The status of the instance (ok | impaired | initializing | insufficient-data | not-applicable ). • operator.managed - A Boolean that indicates whether this is a managed instance. • operator.principal - The principal that manages the instance. Only valid for managed instances, where managed is true . • system-status.reachability - Filters on system status where the name is reachability (passed | failed | initializing | insufficient-data ). • system-status.status - The system status of the instance (ok | impaired | initializing | insufficient-data | not-applicable ). • attached-ebs-status.status - The status of the attached EBS volume for the instance (ok | impaired | initializing | insufficient-data | not-applicable ). • application-status.status - The application status of the instance (ok | impaired | initializing | insufficient-data | not-applicable ). (structure) A filter name and value pair that is used to return a more specific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
@@ -55,9 +55,6 @@ public record AwsEc2WaitSystemStatusOkOptions : AwsOptions
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -66,15 +63,18 @@ public record AwsEc2WaitSystemStatusOkOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

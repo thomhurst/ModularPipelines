@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsWorkspacesRejectAccountLinkInvitationOptions : AwsOptions, IVal
     /// <summary>
     /// Rejects the account link invitation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LinkId">The identifier of the account link Constraints: o pattern: ^link-.{8,24}$</param>
+    /// <param name="LinkId">The identifier of the account link Constraints: • pattern: ^link-.{8,24}$</param>
     public AwsWorkspacesRejectAccountLinkInvitationOptions(
         string LinkId
     )
@@ -57,13 +59,13 @@ public record AwsWorkspacesRejectAccountLinkInvitationOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the account link Constraints: o pattern: ^link-.{8,24}$
+    /// The identifier of the account link Constraints: • pattern: ^link-.{8,24}$
     /// </summary>
     [CliOption("--link-id")]
     public string? LinkId { get; private init; }
 
     /// <summary>
-    /// The client token of the account link invitation to reject. Constraints: o pattern: ^.{1,64}$
+    /// The client token of the account link invitation to reject. Constraints: • pattern: ^.{1,64}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

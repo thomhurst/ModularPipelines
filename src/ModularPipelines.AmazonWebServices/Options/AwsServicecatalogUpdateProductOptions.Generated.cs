@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsServicecatalogUpdateProductOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Updates the specified product. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The product identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="Id">The product identifier. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*</param>
     public AwsServicecatalogUpdateProductOptions(
         string Id
     )
@@ -56,73 +58,73 @@ public record AwsServicecatalogUpdateProductOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The product identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The product identifier. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
+    /// The language code. • jp - Japanese • zh - Chinese Constraints: • max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
     /// <summary>
-    /// The updated product name. Constraints: o max: 8191
+    /// The updated product name. Constraints: • max: 8191
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The updated owner of the product. Constraints: o max: 8191
+    /// The updated owner of the product. Constraints: • max: 8191
     /// </summary>
     [CliOption("--owner")]
     public string? Owner { get; set; }
 
     /// <summary>
-    /// The updated description of the product. Constraints: o max: 8191
+    /// The updated description of the product. Constraints: • max: 8191
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The updated distributor of the product. Constraints: o max: 8191
+    /// The updated distributor of the product. Constraints: • max: 8191
     /// </summary>
     [CliOption("--distributor")]
     public string? Distributor { get; set; }
 
     /// <summary>
-    /// The updated support description for the product. Constraints: o max: 8191
+    /// The updated support description for the product. Constraints: • max: 8191
     /// </summary>
     [CliOption("--support-description")]
     public string? SupportDescription { get; set; }
 
     /// <summary>
-    /// The updated support email for the product. Constraints: o max: 254
+    /// The updated support email for the product. Constraints: • max: 254
     /// </summary>
     [CliOption("--support-email")]
     public string? SupportEmail { get; set; }
 
     /// <summary>
-    /// The updated support URL for the product. Constraints: o max: 2083
+    /// The updated support URL for the product. Constraints: • max: 2083
     /// </summary>
     [CliOption("--support-url")]
     public string? SupportUrl { get; set; }
 
     /// <summary>
-    /// The tags to add to the product. Constraints: o max: 20 (structure) Information about a tag. A tag is a key-value pair. Tags are propagated to the resources created when provisioning a product. Key -&gt; (string) [required] The tag key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value for this key. Constraints: o min: 1 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags to add to the product. Constraints: • max: 20 (structure) Information about a tag. A tag is a key-value pair. Tags are propagated to the resources created when provisioning a product. Key -&gt; (string) [required] The tag key. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value for this key. Constraints: • min: 1 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--add-tags", GroupValues = true)]
     public IEnumerable<string>? AddTags { get; set; }
 
     /// <summary>
-    /// The tags to remove from the product. (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
+    /// The tags to remove from the product. (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--remove-tags", GroupValues = true)]
     public IEnumerable<string>? RemoveTags { get; set; }
 
     /// <summary>
-    /// Specifies connection details for the updated product and syncs the product to the connection source artifact. This automatically man- ages the product's artifacts based on changes to the source. The SourceConnection parameter consists of the following sub-fields. o Type o ConnectionParamters Type -&gt; (string) The only supported SourceConnection type is Codestar. Possible values: o CODESTAR ConnectionParameters -&gt; (structure) [required] The connection details based on the connection Type . CodeStar -&gt; (structure) Provides ConnectionType details. ConnectionArn -&gt; (string) [required] The CodeStar ARN, which is the connection between Service Catalog and the external repository. Constraints: o min: 1 o max: 1224 o pattern: arn:[a-z0-9][-.a-z0-9]{0,62}:codestar-connec- tions:([a-z0-9][-.a-z0-9]{0,62})?:([a-z0-9][-.a-z0-9]{0,62})?:[^/].{0,1023}$ Repository -&gt; (string) [required] The specific repository where the products arti- fact-to-be-synced resides, formatted as "Account/Repo." Constraints: o min: 1 o max: 100 Branch -&gt; (string) [required] The specific branch where the artifact resides. Constraints: o min: 1 o max: 250 ArtifactPath -&gt; (string) [required] The absolute path wehre the artifact resides within the repo and branch, formatted as "folder/file.json." Constraints: o min: 1 o max: 4096 Shorthand Syntax: Type=string,ConnectionParameters={CodeStar={ConnectionArn=string,Repository=string,Branch=string,ArtifactPath=string}} JSON Syntax: { "Type": "CODESTAR", "ConnectionParameters": { "CodeStar": { "ConnectionArn": "string", "Repository": "string", "Branch": "string", "ArtifactPath": "string" } } }
+    /// Specifies connection details for the updated product and syncs the product to the connection source artifact. This automatically manages the product's artifacts based on changes to the source. The SourceConnection parameter consists of the following sub-fields. • Type • ConnectionParamters Type -&gt; (string) The only supported SourceConnection type is Codestar. Possible values: • CODESTAR ConnectionParameters -&gt; (structure) [required] The connection details based on the connection Type . CodeStar -&gt; (structure) Provides ConnectionType details. ConnectionArn -&gt; (string) [required] The CodeStar ARN, which is the connection between Service Catalog and the external repository. Constraints: • min: 1 • max: 1224 • pattern: arn:[a-z0-9][-.a-z0-9]{0,62}:codestar-connections:([a-z0-9][-.a-z0-9]{0,62})?:([a-z0-9][-.a-z0-9]{0,62})?:[^/].{0,1023}$ Repository -&gt; (string) [required] The specific repository where the products artifact-to-be-synced resides, formatted as "Account/Repo." Constraints: • min: 1 • max: 100 Branch -&gt; (string) [required] The specific branch where the artifact resides. Constraints: • min: 1 • max: 250 ArtifactPath -&gt; (string) [required] The absolute path wehre the artifact resides within the repo and branch, formatted as "folder/file.json." Constraints: • min: 1 • max: 4096 Shorthand Syntax: Type=string,ConnectionParameters={CodeStar={ConnectionArn=string,Repository=string,Branch=string,ArtifactPath=string}} JSON Syntax: { "Type": "CODESTAR", "ConnectionParameters": { "CodeStar": { "ConnectionArn": "string", "Repository": "string", "Branch": "string", "ArtifactPath": "string" } } }
     /// </summary>
     [CliOption("--source-connection")]
     public string? SourceConnection { get; set; }

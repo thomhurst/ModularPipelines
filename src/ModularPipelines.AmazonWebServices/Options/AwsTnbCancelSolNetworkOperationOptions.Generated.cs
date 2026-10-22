@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsTnbCancelSolNetworkOperationOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Cancels a network operation. A network operation is any operation that is done to your network, such as network instance instantiation or termination. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NsLcmOpOccId">The identifier of the network operation. Constraints: o pattern: ^no-[a-f0-9]{17}$</param>
+    /// <param name="NsLcmOpOccId">The identifier of the network operation. Constraints: • pattern: ^no-[a-f0-9]{17}$</param>
     public AwsTnbCancelSolNetworkOperationOptions(
         string NsLcmOpOccId
     )
@@ -56,7 +58,7 @@ public record AwsTnbCancelSolNetworkOperationOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the network operation. Constraints: o pattern: ^no-[a-f0-9]{17}$
+    /// The identifier of the network operation. Constraints: • pattern: ^no-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--ns-lcm-op-occ-id")]
     public string? NsLcmOpOccId { get; private init; }

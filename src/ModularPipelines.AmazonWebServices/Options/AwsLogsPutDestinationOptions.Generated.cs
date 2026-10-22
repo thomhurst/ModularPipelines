@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates a destination. This operation is used only to create destinations for cross-account subscriptions. A destination encapsulates a physical resource (such as an Amazon Kine- sis stream). With a destination, you can subscribe to a real-time stream of log events for a different account, ingested using PutLogEvents . Through an access policy, a destination controls what is written to it. By default, PutDestination does not set any access policy with the des- tination, which means a ...
+/// Creates or updates a destination. This operation is used only to create destinations for cross-account subscriptions. A destination encapsulates a physical resource (such as an Amazon Kinesis stream). With a destination, you can subscribe to a real-time stream of log events for a different account, ingested using PutLogEvents . Through an access policy, a destination controls what is written to it. By default, PutDestination does not set any access policy with the destination, which means a cros...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsLogsPutDestinationOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates or updates a destination. This operation is used only to create destinations for cross-account subscriptions. A destination encapsulates a physical resource (such as an Amazon Kine- sis stream). With a destination, you can subscribe to a real-time stream of log events for a different account, ingested using PutLogEvents . Through an access policy, a destination controls what is written to it. By default, PutDestination does not set any access policy with the des- tination, which means a ...
+    /// Creates or updates a destination. This operation is used only to create destinations for cross-account subscriptions. A destination encapsulates a physical resource (such as an Amazon Kinesis stream). With a destination, you can subscribe to a real-time stream of log events for a different account, ingested using PutLogEvents . Through an access policy, a destination controls what is written to it. By default, PutDestination does not set any access policy with the destination, which means a cros...
     /// </summary>
-    /// <param name="DestinationName">A name for the destination. Constraints: o min: 1 o max: 512 o pattern: [^:*]*</param>
-    /// <param name="TargetArn">The ARN of an Amazon Kinesis stream to which to deliver matching log events. Constraints: o min: 1</param>
-    /// <param name="RoleArn">The ARN of an IAM role that grants CloudWatch Logs permissions to call the Amazon Kinesis PutRecord operation on the destination stream. Constraints: o min: 1</param>
+    /// <param name="DestinationName">A name for the destination. Constraints: • min: 1 • max: 512 • pattern: [^:*]*</param>
+    /// <param name="TargetArn">The ARN of an Amazon Kinesis stream to which to deliver matching log events. Constraints: • min: 1</param>
+    /// <param name="RoleArn">The ARN of an IAM role that grants CloudWatch Logs permissions to call the Amazon Kinesis PutRecord operation on the destination stream. Constraints: • min: 1</param>
     public AwsLogsPutDestinationOptions(
         string DestinationName,
         string TargetArn,
@@ -65,25 +66,25 @@ public record AwsLogsPutDestinationOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name for the destination. Constraints: o min: 1 o max: 512 o pattern: [^:*]*
+    /// A name for the destination. Constraints: • min: 1 • max: 512 • pattern: [^:*]*
     /// </summary>
     [CliOption("--destination-name")]
     public string? DestinationName { get; private init; }
 
     /// <summary>
-    /// The ARN of an Amazon Kinesis stream to which to deliver matching log events. Constraints: o min: 1
+    /// The ARN of an Amazon Kinesis stream to which to deliver matching log events. Constraints: • min: 1
     /// </summary>
     [CliOption("--target-arn")]
     public string? TargetArn { get; private init; }
 
     /// <summary>
-    /// The ARN of an IAM role that grants CloudWatch Logs permissions to call the Amazon Kinesis PutRecord operation on the destination stream. Constraints: o min: 1
+    /// The ARN of an IAM role that grants CloudWatch Logs permissions to call the Amazon Kinesis PutRecord operation on the destination stream. Constraints: • min: 1
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// An optional list of key-value pairs to associate with the resource. For more information about tagging, see Tagging Amazon Web Services resources Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ value -&gt; (string) Constraints: o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// An optional list of key-value pairs to associate with the resource. For more information about tagging, see Tagging Amazon Web Services resources Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ value -&gt; (string) Constraints: • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

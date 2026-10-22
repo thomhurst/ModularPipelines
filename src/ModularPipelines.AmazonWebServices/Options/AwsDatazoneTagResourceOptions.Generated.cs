@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -29,7 +30,7 @@ public record AwsDatazoneTagResourceOptions : AwsOptions, IValidatableObject
     /// Tags a resource in Amazon DataZone. See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceArn">The ARN of the resource to be tagged in Amazon DataZone.</param>
-    /// <param name="Tags">Specifies the tags for the TagResource action. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [\w \.:/=+@-]+ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [\w \.:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="Tags">Specifies the tags for the TagResource action. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [\w \.:/=+@-]+ value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: [\w \.:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsDatazoneTagResourceOptions(
         string ResourceArn,
         IReadOnlyList<KeyValue> Tags
@@ -78,7 +79,7 @@ public record AwsDatazoneTagResourceOptions : AwsOptions, IValidatableObject
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Specifies the tags for the TagResource action. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [\w \.:/=+@-]+ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [\w \.:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Specifies the tags for the TagResource action. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [\w \.:/=+@-]+ value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: [\w \.:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; private init; }

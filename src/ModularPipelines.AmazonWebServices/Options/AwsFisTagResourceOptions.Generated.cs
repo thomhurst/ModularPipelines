@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,8 +29,8 @@ public record AwsFisTagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Applies the specified tags to the specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource. Constraints: o min: 20 o max: 2048 o pattern: [\S]+</param>
-    /// <param name="Tags">The tags for the resource. Constraints: o max: 50 key -&gt; (string) Constraints: o max: 128 o pattern: [\s\S]+ value -&gt; (string) Constraints: o max: 256 o pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource. Constraints: • min: 20 • max: 2048 • pattern: [\S]+</param>
+    /// <param name="Tags">The tags for the resource. Constraints: • max: 50 key -&gt; (string) Constraints: • max: 128 • pattern: [\s\S]+ value -&gt; (string) Constraints: • max: 256 • pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsFisTagResourceOptions(
         string ResourceArn,
         IReadOnlyList<KeyValue> Tags
@@ -72,13 +73,13 @@ public record AwsFisTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource. Constraints: o min: 20 o max: 2048 o pattern: [\S]+
+    /// The Amazon Resource Name (ARN) of the resource. Constraints: • min: 20 • max: 2048 • pattern: [\S]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The tags for the resource. Constraints: o max: 50 key -&gt; (string) Constraints: o max: 128 o pattern: [\s\S]+ value -&gt; (string) Constraints: o max: 256 o pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags for the resource. Constraints: • max: 50 key -&gt; (string) Constraints: • max: 128 • pattern: [\s\S]+ value -&gt; (string) Constraints: • max: 256 • pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; private init; }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disables Amazon Macie and deletes all settings and resources for a Ma- cie account. See also: AWS API Documentation
+/// Disables Amazon Macie and deletes all settings and resources for a Macie account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

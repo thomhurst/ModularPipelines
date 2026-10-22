@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsRumUntagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Removes one or more tags from the specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the CloudWatch RUM resource that you're removing tags from. Constraints: o pattern: .*arn:[^:]*:[^:]*:[^:]*:[^:]*:.*</param>
-    /// <param name="TagKeys">The list of tag keys to remove from the resource. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The ARN of the CloudWatch RUM resource that you're removing tags from. Constraints: • pattern: .*arn:[^:]*:[^:]*:[^:]*:[^:]*:.*</param>
+    /// <param name="TagKeys">The list of tag keys to remove from the resource. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[a-zA-Z+-=._:/]+ Syntax: "string" "string" ...</param>
     public AwsRumUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsRumUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the CloudWatch RUM resource that you're removing tags from. Constraints: o pattern: .*arn:[^:]*:[^:]*:[^:]*:[^:]*:.*
+    /// The ARN of the CloudWatch RUM resource that you're removing tags from. Constraints: • pattern: .*arn:[^:]*:[^:]*:[^:]*:[^:]*:.*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The list of tag keys to remove from the resource. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ Syntax: "string" "string" ...
+    /// The list of tag keys to remove from the resource. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[a-zA-Z+-=._:/]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

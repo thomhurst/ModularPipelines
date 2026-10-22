@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disables an organizational policy type in a root. A policy of a certain type can be attached to entities in a root only if that type is enabled in the root. After you perform this operation, you no longer can attach policies of the specified type to that root or to any organizational unit (OU) or account in that root. You can undo this by using the En- ablePolicyType operation. This is an asynchronous request that Amazon Web Services performs in the background. If you disable a policy type for a...
+/// Disables an organizational policy type in a root. A policy of a certain type can be attached to entities in a root only if that type is enabled in the root. After you perform this operation, you no longer can attach policies of the specified type to that root or to any organizational unit (OU) or account in that root. You can undo this by using the EnablePolicyType operation. This is an asynchronous request that Amazon Web Services performs in the background. If you disable a policy type for a r...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsOrganizationsDisablePolicyTypeOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disables an organizational policy type in a root. A policy of a certain type can be attached to entities in a root only if that type is enabled in the root. After you perform this operation, you no longer can attach policies of the specified type to that root or to any organizational unit (OU) or account in that root. You can undo this by using the En- ablePolicyType operation. This is an asynchronous request that Amazon Web Services performs in the background. If you disable a policy type for a...
+    /// Disables an organizational policy type in a root. A policy of a certain type can be attached to entities in a root only if that type is enabled in the root. After you perform this operation, you no longer can attach policies of the specified type to that root or to any organizational unit (OU) or account in that root. You can undo this by using the EnablePolicyType operation. This is an asynchronous request that Amazon Web Services performs in the background. If you disable a policy type for a r...
     /// </summary>
-    /// <param name="RootId">ID for the root in which you want to disable a policy type. You can get the ID from the ListRoots operation. The regex pattern for a root ID string requires "r-" followed by from 4 to 32 lowercase letters or digits. Constraints: o max: 34 o pattern: ^r-[0-9a-z]{4,32}$</param>
-    /// <param name="PolicyType">The policy type that you want to disable in this root. You can spec- ify one of the following values: o SERVICE_CONTROL_POLICY o RESOURCE_CONTROL_POLICY o DECLARATIVE_POLICY_EC2 o BACKUP_POLICY o TAG_POLICY o CHATBOT_POLICY o AISERVICES_OPT_OUT_POLICY o SECURITYHUB_POLICY o UPGRADE_ROLLOUT_POLICY o INSPECTOR_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_POLICY o GUARDDUTY_POLICY Possible values: o SERVICE_CONTROL_POLICY o RESOURCE_CONTROL_POLICY o TAG_POLICY o BACKUP_POLICY o AISERVICES_OPT_OUT_POLICY o CHATBOT_POLICY o DECLARATIVE_POLICY_EC2 o SECURITYHUB_POLICY o INSPECTOR_POLICY o UPGRADE_ROLLOUT_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_POLICY o GUARDDUTY_POLICY</param>
+    /// <param name="RootId">ID for the root in which you want to disable a policy type. You can get the ID from the ListRoots operation. The regex pattern for a root ID string requires "r-" followed by from 4 to 32 lowercase letters or digits. Constraints: • max: 34 • pattern: ^r-[0-9a-z]{4,32}$</param>
+    /// <param name="PolicyType">The policy type that you want to disable in this root. You can specify one of the following values: • SERVICE_CONTROL_POLICY • RESOURCE_CONTROL_POLICY • DECLARATIVE_POLICY_EC2 • BACKUP_POLICY • TAG_POLICY • CHATBOT_POLICY • AISERVICES_OPT_OUT_POLICY • SECURITYHUB_POLICY • UPGRADE_ROLLOUT_POLICY • INSPECTOR_POLICY • BEDROCK_POLICY • S3_POLICY • NETWORK_SECURITY_DIRECTOR_POLICY • GUARDDUTY_POLICY Possible values: • SERVICE_CONTROL_POLICY • RESOURCE_CONTROL_POLICY • TAG_POLICY • BACKUP_POLICY • AISERVICES_OPT_OUT_POLICY • CHATBOT_POLICY • DECLARATIVE_POLICY_EC2 • SECURITYHUB_POLICY • INSPECTOR_POLICY • UPGRADE_ROLLOUT_POLICY • BEDROCK_POLICY • S3_POLICY • NETWORK_SECURITY_DIRECTOR_POLICY • GUARDDUTY_POLICY</param>
     public AwsOrganizationsDisablePolicyTypeOptions(
         string RootId,
         AwsOrganizationsDisablePolicyTypePolicyType PolicyType
@@ -60,13 +62,13 @@ public record AwsOrganizationsDisablePolicyTypeOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID for the root in which you want to disable a policy type. You can get the ID from the ListRoots operation. The regex pattern for a root ID string requires "r-" followed by from 4 to 32 lowercase letters or digits. Constraints: o max: 34 o pattern: ^r-[0-9a-z]{4,32}$
+    /// ID for the root in which you want to disable a policy type. You can get the ID from the ListRoots operation. The regex pattern for a root ID string requires "r-" followed by from 4 to 32 lowercase letters or digits. Constraints: • max: 34 • pattern: ^r-[0-9a-z]{4,32}$
     /// </summary>
     [CliOption("--root-id")]
     public string? RootId { get; private init; }
 
     /// <summary>
-    /// The policy type that you want to disable in this root. You can spec- ify one of the following values: o SERVICE_CONTROL_POLICY o RESOURCE_CONTROL_POLICY o DECLARATIVE_POLICY_EC2 o BACKUP_POLICY o TAG_POLICY o CHATBOT_POLICY o AISERVICES_OPT_OUT_POLICY o SECURITYHUB_POLICY o UPGRADE_ROLLOUT_POLICY o INSPECTOR_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_POLICY o GUARDDUTY_POLICY Possible values: o SERVICE_CONTROL_POLICY o RESOURCE_CONTROL_POLICY o TAG_POLICY o BACKUP_POLICY o AISERVICES_OPT_OUT_POLICY o CHATBOT_POLICY o DECLARATIVE_POLICY_EC2 o SECURITYHUB_POLICY o INSPECTOR_POLICY o UPGRADE_ROLLOUT_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_POLICY o GUARDDUTY_POLICY
+    /// The policy type that you want to disable in this root. You can specify one of the following values: • SERVICE_CONTROL_POLICY • RESOURCE_CONTROL_POLICY • DECLARATIVE_POLICY_EC2 • BACKUP_POLICY • TAG_POLICY • CHATBOT_POLICY • AISERVICES_OPT_OUT_POLICY • SECURITYHUB_POLICY • UPGRADE_ROLLOUT_POLICY • INSPECTOR_POLICY • BEDROCK_POLICY • S3_POLICY • NETWORK_SECURITY_DIRECTOR_POLICY • GUARDDUTY_POLICY Possible values: • SERVICE_CONTROL_POLICY • RESOURCE_CONTROL_POLICY • TAG_POLICY • BACKUP_POLICY • AISERVICES_OPT_OUT_POLICY • CHATBOT_POLICY • DECLARATIVE_POLICY_EC2 • SECURITYHUB_POLICY • INSPECTOR_POLICY • UPGRADE_ROLLOUT_POLICY • BEDROCK_POLICY • S3_POLICY • NETWORK_SECURITY_DIRECTOR_POLICY • GUARDDUTY_POLICY
     /// </summary>
     [CliOption("--policy-type")]
     public AwsOrganizationsDisablePolicyTypePolicyType? PolicyType { get; private init; }

@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// You can use this operation to use default (username and clientID) at- tribute or custom attribute mappings. See also: AWS API Documentation
+/// You can use this operation to use default (username and clientID) attribute or custom attribute mappings. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsCognitoIdentitySetPrincipalTagAttributeMapOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// You can use this operation to use default (username and clientID) at- tribute or custom attribute mappings. See also: AWS API Documentation
+    /// You can use this operation to use default (username and clientID) attribute or custom attribute mappings. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IdentityPoolId">The ID of the Identity Pool you want to set attribute mappings for. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+</param>
-    /// <param name="IdentityProviderName">The provider name you want to use for attribute mappings. Constraints: o min: 1 o max: 128</param>
+    /// <param name="IdentityPoolId">The ID of the Identity Pool you want to set attribute mappings for. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+</param>
+    /// <param name="IdentityProviderName">The provider name you want to use for attribute mappings. Constraints: • min: 1 • max: 128</param>
     public AwsCognitoIdentitySetPrincipalTagAttributeMapOptions(
         string IdentityPoolId,
         string IdentityProviderName
@@ -61,13 +62,13 @@ public record AwsCognitoIdentitySetPrincipalTagAttributeMapOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Identity Pool you want to set attribute mappings for. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+
+    /// The ID of the Identity Pool you want to set attribute mappings for. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+
     /// </summary>
     [CliOption("--identity-pool-id")]
     public string? IdentityPoolId { get; private init; }
 
     /// <summary>
-    /// The provider name you want to use for attribute mappings. Constraints: o min: 1 o max: 128
+    /// The provider name you want to use for attribute mappings. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--identity-provider-name")]
     public string? IdentityProviderName { get; private init; }
@@ -79,7 +80,7 @@ public record AwsCognitoIdentitySetPrincipalTagAttributeMapOptions : AwsOptions,
     public bool? UseDefaults { get; set; }
 
     /// <summary>
-    /// You can use this operation to add principal tags. Constraints: o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// You can use this operation to add principal tags. Constraints: • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 1 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--principal-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? PrincipalTags { get; set; }

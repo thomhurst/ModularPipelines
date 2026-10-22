@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsDatasyncUpdateLocationFsxWindowsOptions : AwsOptions, IValidata
     /// <summary>
     /// Modifies the following configuration parameters of the Amazon FSx for Windows File Server transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with FSx for Windows File Server . See also: AWS API Documentation
     /// </summary>
-    /// <param name="LocationArn">Specifies the ARN of the FSx for Windows File Server transfer loca- tion that you're updating. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$</param>
+    /// <param name="LocationArn">Specifies the ARN of the FSx for Windows File Server transfer location that you're updating. Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$</param>
     public AwsDatasyncUpdateLocationFsxWindowsOptions(
         string LocationArn
     )
@@ -57,45 +59,45 @@ public record AwsDatasyncUpdateLocationFsxWindowsOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ARN of the FSx for Windows File Server transfer loca- tion that you're updating. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$
+    /// Specifies the ARN of the FSx for Windows File Server transfer location that you're updating. Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$
     /// </summary>
     [CliOption("--location-arn")]
     public string? LocationArn { get; private init; }
 
     /// <summary>
-    /// Specifies a mount path for your file system using forward slashes. DataSync uses this subdirectory to read or write data (depending on whether the file system is a source or destination location). Constraints: o max: 4096 o pattern: ^[a-zA-Z0-9_\-\+\./\(\)\$\p{Zs}]+$
+    /// Specifies a mount path for your file system using forward slashes. DataSync uses this subdirectory to read or write data (depending on whether the file system is a source or destination location). Constraints: • max: 4096 • pattern: ^[a-zA-Z0-9_\-\+\./\(\)\$\p{Zs}]+$
     /// </summary>
     [CliOption("--subdirectory")]
     public string? Subdirectory { get; set; }
 
     /// <summary>
-    /// Specifies the name of the Windows domain that your FSx for Windows File Server file system belongs to. If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right file system. Constraints: o max: 253 o pattern: ^([A-Za-z0-9]((\.|-+)?[A-Za-z0-9]){0,252})?$
+    /// Specifies the name of the Windows domain that your FSx for Windows File Server file system belongs to. If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right file system. Constraints: • max: 253 • pattern: ^([A-Za-z0-9]((\.|-+)?[A-Za-z0-9]){0,252})?$
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; set; }
 
     /// <summary>
-    /// Specifies the user with the permissions to mount and access the files, folders, and file metadata in your FSx for Windows File Server file system. For information about choosing a user with the right level of access for your transfer, see required permissions for FSx for Windows File Server locations. Constraints: o max: 104 o pattern: ^[^\x22\x5B\x5D/\\:;|=,+*?\x3C\x3E]{1,104}$
+    /// Specifies the user with the permissions to mount and access the files, folders, and file metadata in your FSx for Windows File Server file system. For information about choosing a user with the right level of access for your transfer, see required permissions for FSx for Windows File Server locations. Constraints: • max: 104 • pattern: ^[^\x22\x5B\x5D/\\:;|=,+*?\x3C\x3E]{1,104}$
     /// </summary>
     [CliOption("--user")]
     public string? User { get; set; }
 
     /// <summary>
-    /// Specifies the password of the user with the permissions to mount and access the files, folders, and file metadata in your FSx for Windows File Server file system. Constraints: o max: 104 o pattern: ^.{0,104}$
+    /// Specifies the password of the user with the permissions to mount and access the files, folders, and file metadata in your FSx for Windows File Server file system. Constraints: • max: 104 • pattern: ^.{0,104}$
     /// </summary>
     [SecretValue]
     [CliOption("--password")]
     public string? Password { get; set; }
 
     /// <summary>
-    /// Specifies configuration information for a DataSync-managed secret, such as a Password or set of credentials that DataSync uses to ac- cess a specific transfer location, and a customer-managed KMS key. SecretArn -&gt; (string) Specifies the ARN for the DataSync-managed Secrets Manager se- cret that that is used to access a specific storage location. This property is generated by DataSync and is read-only. Data- Sync encrypts this secret with the KMS key that you specify for KmsKeyArn . Constraints: o max: 2048 o pattern: ^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):se- cretsmanager:[a-z\-0-9]+:[0-9]{12}:secret:.*|)$ KmsKeyArn -&gt; (string) Specifies the ARN for the customer-managed KMS key that DataSync uses to encrypt the DataSync-managed secret stored for SecretArn . DataSync provides this key to Secrets Manager. Constraints: o max: 2048 o pattern: ^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):kms:[a-z\-0-9]+:[0-9]{12}:key/.*|)$ Shorthand Syntax: SecretArn=string,KmsKeyArn=string JSON Syntax: { "SecretArn": "string", "KmsKeyArn": "string" }
+    /// Specifies configuration information for a DataSync-managed secret, such as a Password or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key. SecretArn -&gt; (string) Specifies the ARN for the DataSync-managed Secrets Manager secret that that is used to access a specific storage location. This property is generated by DataSync and is read-only. DataSync encrypts this secret with the KMS key that you specify for KmsKeyArn . Constraints: • max: 2048 • pattern: ^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):secretsmanager:[a-z\-0-9]+:[0-9]{12}:secret:.*|)$ KmsKeyArn -&gt; (string) Specifies the ARN for the customer-managed KMS key that DataSync uses to encrypt the DataSync-managed secret stored for SecretArn . DataSync provides this key to Secrets Manager. Constraints: • max: 2048 • pattern: ^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):kms:[a-z\-0-9]+:[0-9]{12}:key/.*|)$ Shorthand Syntax: SecretArn=string,KmsKeyArn=string JSON Syntax: { "SecretArn": "string", "KmsKeyArn": "string" }
     /// </summary>
     [SecretValue]
     [CliOption("--cmk-secret-config")]
     public string? CmkSecretConfig { get; set; }
 
     /// <summary>
-    /// Specifies configuration information for a customer-managed secret, such as a Password or set of credentials that DataSync uses to ac- cess a specific transfer location, and a customer-managed Identity and Access Management (IAM) role that provides access to the secret. SecretArn -&gt; (string) Specifies the ARN for an Secrets Manager secret. Constraints: o max: 2048 o pattern: ^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):se- cretsmanager:[a-z\-0-9]+:[0-9]{12}:secret:.*|)$ SecretAccessRoleArn -&gt; (string) Specifies the ARN for the Identity and Access Management role that DataSync uses to access the secret specified for SecretArn . Constraints: o max: 2048 o pattern: ^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):iam::[0-9]{12}:role/[a-zA-Z0-9+=,.@_/-]+|)$ Shorthand Syntax: SecretArn=string,SecretAccessRoleArn=string JSON Syntax: { "SecretArn": "string", "SecretAccessRoleArn": "string" }
+    /// Specifies configuration information for a customer-managed secret, such as a Password or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed Identity and Access Management (IAM) role that provides access to the secret. SecretArn -&gt; (string) Specifies the ARN for an Secrets Manager secret. Constraints: • max: 2048 • pattern: ^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):secretsmanager:[a-z\-0-9]+:[0-9]{12}:secret:.*|)$ SecretAccessRoleArn -&gt; (string) Specifies the ARN for the Identity and Access Management role that DataSync uses to access the secret specified for SecretArn . Constraints: • max: 2048 • pattern: ^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):iam::[0-9]{12}:role/[a-zA-Z0-9+=,.@_/-]+|)$ Shorthand Syntax: SecretArn=string,SecretAccessRoleArn=string JSON Syntax: { "SecretArn": "string", "SecretAccessRoleArn": "string" }
     /// </summary>
     [SecretValue]
     [CliOption("--custom-secret-config")]

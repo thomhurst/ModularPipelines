@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disables detailed monitoring for a running instance. For more informa- tion, see Monitoring your instances and volumes in the Amazon EC2 User Guide . See also: AWS API Documentation
+/// Disables detailed monitoring for a running instance. For more information, see Monitoring your instances and volumes in the Amazon EC2 User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsEc2UnmonitorInstancesOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disables detailed monitoring for a running instance. For more informa- tion, see Monitoring your instances and volumes in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// Disables detailed monitoring for a running instance. For more information, see Monitoring your instances and volumes in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="InstanceIds">The IDs of the instances. (string) Syntax: "string" "string" ...</param>
     public AwsEc2UnmonitorInstancesOptions(
@@ -73,7 +75,7 @@ public record AwsEc2UnmonitorInstancesOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? InstanceIds { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

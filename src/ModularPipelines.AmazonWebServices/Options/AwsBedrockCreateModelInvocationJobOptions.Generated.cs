@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,11 +31,11 @@ public record AwsBedrockCreateModelInvocationJobOptions : AwsOptions, IValidatab
     /// <summary>
     /// Creates a batch inference job to invoke a model on multiple prompts. Format your data according to Format your inference data and upload it to an Amazon S3 bucket. For more information, see Process multiple prompts with batch inference . The response returns a jobArn that you can use to stop or get details about the job. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobName">A name to give the batch inference job. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9]{1,63}(-*[a-zA-Z0-9\+\-\.]){0,63}</param>
-    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the service role with permissions to carry out and manage batch inference. You can use the console to create a default service role or follow the steps at Create a ser- vice role for batch inference . Constraints: o min: 0 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+</param>
-    /// <param name="ModelId">The unique identifier of the foundation model to use for the batch inference job. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:cus- tom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-:]{1,63}/[a-z0-9]{12}$)|(:foun- da- tion-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})|(([0-9a-zA-Z][_-]?)+)$)|([0-9]{12}:(in- ference-profile|application-inference-pro- file)/[a-zA-Z0-9-:.]+$)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})|(([0-9a-zA-Z][_-]?)+)</param>
-    /// <param name="InputDataConfig">Details about the location of the input to the batch inference job. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3InputDataConfig. s3InputDataConfig -&gt; (structure) Contains the configuration of the S3 location of the input data. s3InputFormat -&gt; (string) The format of the input data. Possible values: o JSONL s3Uri -&gt; (string) [required] The S3 location of the input data. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][-.a-z0-9]{1,61}[a-z0-9](?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/? s3BucketOwner -&gt; (string) The ID of the Amazon Web Services account that owns the S3 bucket containing the input data. Constraints: o pattern: [0-9]{12} Shorthand Syntax: s3InputDataConfig={s3InputFormat=string,s3Uri=string,s3BucketOwner=string} JSON Syntax: { "s3InputDataConfig": { "s3InputFormat": "JSONL", "s3Uri": "string", "s3BucketOwner": "string" } }</param>
-    /// <param name="OutputDataConfig">Details about the location of the output of the batch inference job. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3OutputDataConfig. s3OutputDataConfig -&gt; (structure) Contains the configuration of the S3 location of the output data. s3Uri -&gt; (string) [required] The S3 location of the output data. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][-.a-z0-9]{1,61}[a-z0-9](?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/? s3EncryptionKeyId -&gt; (string) The unique identifier of the key that encrypts the S3 loca- tion of the output data. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+) s3BucketOwner -&gt; (string) The ID of the Amazon Web Services account that owns the S3 bucket containing the output data. Constraints: o pattern: [0-9]{12} Shorthand Syntax: s3OutputDataConfig={s3Uri=string,s3EncryptionKeyId=string,s3BucketOwner=string} JSON Syntax: { "s3OutputDataConfig": { "s3Uri": "string", "s3EncryptionKeyId": "string", "s3BucketOwner": "string" } }</param>
+    /// <param name="JobName">A name to give the batch inference job. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9]{1,63}(-*[a-zA-Z0-9\+\-\.]){0,63}</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the service role with permissions to carry out and manage batch inference. You can use the console to create a default service role or follow the steps at Create a service role for batch inference . Constraints: • min: 0 • max: 2048 • pattern: arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+</param>
+    /// <param name="ModelId">The unique identifier of the foundation model to use for the batch inference job. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-:]{1,63}/[a-z0-9]{12}$)|(:foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})|(([0-9a-zA-Z][_-]?)+)$)|([0-9]{12}:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+$)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})|(([0-9a-zA-Z][_-]?)+)</param>
+    /// <param name="InputDataConfig">Details about the location of the input to the batch inference job. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3InputDataConfig. s3InputDataConfig -&gt; (structure) Contains the configuration of the S3 location of the input data. s3InputFormat -&gt; (string) The format of the input data. Possible values: • JSONL s3Uri -&gt; (string) [required] The S3 location of the input data. Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][-.a-z0-9]{1,61}[a-z0-9](?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/? s3BucketOwner -&gt; (string) The ID of the Amazon Web Services account that owns the S3 bucket containing the input data. Constraints: • pattern: [0-9]{12} Shorthand Syntax: s3InputDataConfig={s3InputFormat=string,s3Uri=string,s3BucketOwner=string} JSON Syntax: { "s3InputDataConfig": { "s3InputFormat": "JSONL", "s3Uri": "string", "s3BucketOwner": "string" } }</param>
+    /// <param name="OutputDataConfig">Details about the location of the output of the batch inference job. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3OutputDataConfig. s3OutputDataConfig -&gt; (structure) Contains the configuration of the S3 location of the output data. s3Uri -&gt; (string) [required] The S3 location of the output data. Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][-.a-z0-9]{1,61}[a-z0-9](?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/? s3EncryptionKeyId -&gt; (string) The unique identifier of the key that encrypts the S3 location of the output data. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+) s3BucketOwner -&gt; (string) The ID of the Amazon Web Services account that owns the S3 bucket containing the output data. Constraints: • pattern: [0-9]{12} Shorthand Syntax: s3OutputDataConfig={s3Uri=string,s3EncryptionKeyId=string,s3BucketOwner=string} JSON Syntax: { "s3OutputDataConfig": { "s3Uri": "string", "s3EncryptionKeyId": "string", "s3BucketOwner": "string" } }</param>
     public AwsBedrockCreateModelInvocationJobOptions(
         string JobName,
         string RoleArn,
@@ -74,62 +76,62 @@ public record AwsBedrockCreateModelInvocationJobOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name to give the batch inference job. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9]{1,63}(-*[a-zA-Z0-9\+\-\.]){0,63}
+    /// A name to give the batch inference job. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9]{1,63}(-*[a-zA-Z0-9\+\-\.]){0,63}
     /// </summary>
     [CliOption("--job-name")]
     public string? JobName { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the service role with permissions to carry out and manage batch inference. You can use the console to create a default service role or follow the steps at Create a ser- vice role for batch inference . Constraints: o min: 0 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+
+    /// The Amazon Resource Name (ARN) of the service role with permissions to carry out and manage batch inference. You can use the console to create a default service role or follow the steps at Create a service role for batch inference . Constraints: • min: 0 • max: 2048 • pattern: arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the foundation model to use for the batch inference job. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:cus- tom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-:]{1,63}/[a-z0-9]{12}$)|(:foun- da- tion-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})|(([0-9a-zA-Z][_-]?)+)$)|([0-9]{12}:(in- ference-profile|application-inference-pro- file)/[a-zA-Z0-9-:.]+$)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})|(([0-9a-zA-Z][_-]?)+)
+    /// The unique identifier of the foundation model to use for the batch inference job. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-:]{1,63}/[a-z0-9]{12}$)|(:foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})|(([0-9a-zA-Z][_-]?)+)$)|([0-9]{12}:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+$)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})|(([0-9a-zA-Z][_-]?)+)
     /// </summary>
     [CliOption("--model-id")]
     public string? ModelId { get; private init; }
 
     /// <summary>
-    /// Details about the location of the input to the batch inference job. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3InputDataConfig. s3InputDataConfig -&gt; (structure) Contains the configuration of the S3 location of the input data. s3InputFormat -&gt; (string) The format of the input data. Possible values: o JSONL s3Uri -&gt; (string) [required] The S3 location of the input data. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][-.a-z0-9]{1,61}[a-z0-9](?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/? s3BucketOwner -&gt; (string) The ID of the Amazon Web Services account that owns the S3 bucket containing the input data. Constraints: o pattern: [0-9]{12} Shorthand Syntax: s3InputDataConfig={s3InputFormat=string,s3Uri=string,s3BucketOwner=string} JSON Syntax: { "s3InputDataConfig": { "s3InputFormat": "JSONL", "s3Uri": "string", "s3BucketOwner": "string" } }
+    /// Details about the location of the input to the batch inference job. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3InputDataConfig. s3InputDataConfig -&gt; (structure) Contains the configuration of the S3 location of the input data. s3InputFormat -&gt; (string) The format of the input data. Possible values: • JSONL s3Uri -&gt; (string) [required] The S3 location of the input data. Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][-.a-z0-9]{1,61}[a-z0-9](?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/? s3BucketOwner -&gt; (string) The ID of the Amazon Web Services account that owns the S3 bucket containing the input data. Constraints: • pattern: [0-9]{12} Shorthand Syntax: s3InputDataConfig={s3InputFormat=string,s3Uri=string,s3BucketOwner=string} JSON Syntax: { "s3InputDataConfig": { "s3InputFormat": "JSONL", "s3Uri": "string", "s3BucketOwner": "string" } }
     /// </summary>
     [CliOption("--input-data-config")]
     public string? InputDataConfig { get; private init; }
 
     /// <summary>
-    /// Details about the location of the output of the batch inference job. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3OutputDataConfig. s3OutputDataConfig -&gt; (structure) Contains the configuration of the S3 location of the output data. s3Uri -&gt; (string) [required] The S3 location of the output data. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][-.a-z0-9]{1,61}[a-z0-9](?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/? s3EncryptionKeyId -&gt; (string) The unique identifier of the key that encrypts the S3 loca- tion of the output data. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+) s3BucketOwner -&gt; (string) The ID of the Amazon Web Services account that owns the S3 bucket containing the output data. Constraints: o pattern: [0-9]{12} Shorthand Syntax: s3OutputDataConfig={s3Uri=string,s3EncryptionKeyId=string,s3BucketOwner=string} JSON Syntax: { "s3OutputDataConfig": { "s3Uri": "string", "s3EncryptionKeyId": "string", "s3BucketOwner": "string" } }
+    /// Details about the location of the output of the batch inference job. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3OutputDataConfig. s3OutputDataConfig -&gt; (structure) Contains the configuration of the S3 location of the output data. s3Uri -&gt; (string) [required] The S3 location of the output data. Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][-.a-z0-9]{1,61}[a-z0-9](?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/? s3EncryptionKeyId -&gt; (string) The unique identifier of the key that encrypts the S3 location of the output data. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+) s3BucketOwner -&gt; (string) The ID of the Amazon Web Services account that owns the S3 bucket containing the output data. Constraints: • pattern: [0-9]{12} Shorthand Syntax: s3OutputDataConfig={s3Uri=string,s3EncryptionKeyId=string,s3BucketOwner=string} JSON Syntax: { "s3OutputDataConfig": { "s3Uri": "string", "s3EncryptionKeyId": "string", "s3BucketOwner": "string" } }
     /// </summary>
     [CliOption("--output-data-config")]
     public string? OutputDataConfig { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency . Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9]{1,256}(-*[a-zA-Z0-9]){0,256}
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency . Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9]{1,256}(-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// The configuration of the Virtual Private Cloud (VPC) for the data in the batch inference job. For more information, see Protect batch in- ference jobs using a VPC . subnetIds -&gt; (list) [required] An array of IDs for each subnet in the VPC to use. Constraints: o min: 1 o max: 16 (string) Constraints: o min: 0 o max: 32 o pattern: [-0-9a-zA-Z]+ securityGroupIds -&gt; (list) [required] An array of IDs for each security group in the VPC to use. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 0 o max: 32 o pattern: [-0-9a-zA-Z]+ Shorthand Syntax: subnetIds=string,string,securityGroupIds=string,string JSON Syntax: { "subnetIds": ["string", ...], "securityGroupIds": ["string", ...] }
+    /// The configuration of the Virtual Private Cloud (VPC) for the data in the batch inference job. For more information, see Protect batch inference jobs using a VPC . subnetIds -&gt; (list) [required] An array of IDs for each subnet in the VPC to use. Constraints: • min: 1 • max: 16 (string) Constraints: • min: 0 • max: 32 • pattern: [-0-9a-zA-Z]+ securityGroupIds -&gt; (list) [required] An array of IDs for each security group in the VPC to use. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 0 • max: 32 • pattern: [-0-9a-zA-Z]+ Shorthand Syntax: subnetIds=string,string,securityGroupIds=string,string JSON Syntax: { "subnetIds": ["string", ...], "securityGroupIds": ["string", ...] }
     /// </summary>
     [CliOption("--vpc-config")]
     public string? VpcConfig { get; set; }
 
     /// <summary>
-    /// The number of hours after which to force the batch inference job to time out. Constraints: o min: 24 o max: 168
+    /// The number of hours after which to force the batch inference job to time out. Constraints: • min: 24 • max: 168
     /// </summary>
     [CliOption("--timeout-duration-in-hours")]
     public int? TimeoutDurationInHours { get; set; }
 
     /// <summary>
-    /// Any tags to associate with the batch inference job. For more infor- mation, see Tagging Amazon Bedrock resources . Constraints: o min: 0 o max: 200 (structure) Definition of the key/value pair for a tag. key -&gt; (string) [required] Key for the tag. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) [required] Value for the tag. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// Any tags to associate with the batch inference job. For more information, see Tagging Amazon Bedrock resources . Constraints: • min: 0 • max: 200 (structure) Definition of the key/value pair for a tag. key -&gt; (string) [required] Key for the tag. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) [required] Value for the tag. Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The invocation endpoint for ModelInvocationJob Possible values: o InvokeModel o Converse
+    /// The invocation endpoint for ModelInvocationJob Possible values: • InvokeModel • Converse
     /// </summary>
     [CliOption("--model-invocation-type")]
     public AwsBedrockCreateModelInvocationJobModelInvocationType? ModelInvocationType { get; set; }

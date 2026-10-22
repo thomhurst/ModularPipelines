@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsFsxUpdateSnapshotOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the name of an Amazon FSx for OpenZFS snapshot. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the snapshot to update. Constraints: o min: 1 o max: 203 o pattern: ^[a-zA-Z0-9_:.-]{1,203}$</param>
-    /// <param name="SnapshotId">The ID of the snapshot that you want to update, in the format fsvol- snap-0123456789abcdef0 . Constraints: o min: 11 o max: 28 o pattern: ^((fs)?volsnap-[0-9a-f]{8,})$</param>
+    /// <param name="Name">The name of the snapshot to update. Constraints: • min: 1 • max: 203 • pattern: ^[a-zA-Z0-9_:.-]{1,203}$</param>
+    /// <param name="SnapshotId">The ID of the snapshot that you want to update, in the format fsvolsnap-0123456789abcdef0 . Constraints: • min: 11 • max: 28 • pattern: ^((fs)?volsnap-[0-9a-f]{8,})$</param>
     public AwsFsxUpdateSnapshotOptions(
         string Name,
         string SnapshotId
@@ -61,19 +63,19 @@ public record AwsFsxUpdateSnapshotOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the snapshot to update. Constraints: o min: 1 o max: 203 o pattern: ^[a-zA-Z0-9_:.-]{1,203}$
+    /// The name of the snapshot to update. Constraints: • min: 1 • max: 203 • pattern: ^[a-zA-Z0-9_:.-]{1,203}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The ID of the snapshot that you want to update, in the format fsvol- snap-0123456789abcdef0 . Constraints: o min: 11 o max: 28 o pattern: ^((fs)?volsnap-[0-9a-f]{8,})$
+    /// The ID of the snapshot that you want to update, in the format fsvolsnap-0123456789abcdef0 . Constraints: • min: 11 • max: 28 • pattern: ^((fs)?volsnap-[0-9a-f]{8,})$
     /// </summary>
     [CliOption("--snapshot-id")]
     public string? SnapshotId { get; private init; }
 
     /// <summary>
-    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Ama- zon Web Services SDK. Constraints: o min: 1 o max: 63 o pattern: [A-za-z0-9_.-]{0,63}$
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK. Constraints: • min: 1 • max: 63 • pattern: [A-za-z0-9_.-]{0,63}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]

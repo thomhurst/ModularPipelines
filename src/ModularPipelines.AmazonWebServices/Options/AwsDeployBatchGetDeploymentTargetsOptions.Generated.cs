@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns an array of one or more targets associated with a deployment. This method works with all compute types and should be used instead of the deprecated BatchGetDeploymentInstances . The maximum number of tar- gets that can be returned is 25. The type of targets returned depends on the deployment's compute plat- form or deployment method: o EC2/On-premises : Information about Amazon EC2 instance targets. o Lambda : Information about Lambda functions targets. o Amazon ECS : Information about A...
+/// Returns an array of one or more targets associated with a deployment. This method works with all compute types and should be used instead of the deprecated BatchGetDeploymentInstances . The maximum number of targets that can be returned is 25. The type of targets returned depends on the deployment's compute platform or deployment method: • EC2/On-premises : Information about Amazon EC2 instance targets. • Lambda : Information about Lambda functions targets. • Amazon ECS : Information about Amazo...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsDeployBatchGetDeploymentTargetsOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns an array of one or more targets associated with a deployment. This method works with all compute types and should be used instead of the deprecated BatchGetDeploymentInstances . The maximum number of tar- gets that can be returned is 25. The type of targets returned depends on the deployment's compute plat- form or deployment method: o EC2/On-premises : Information about Amazon EC2 instance targets. o Lambda : Information about Lambda functions targets. o Amazon ECS : Information about A...
+    /// Returns an array of one or more targets associated with a deployment. This method works with all compute types and should be used instead of the deprecated BatchGetDeploymentInstances . The maximum number of targets that can be returned is 25. The type of targets returned depends on the deployment's compute platform or deployment method: • EC2/On-premises : Information about Amazon EC2 instance targets. • Lambda : Information about Lambda functions targets. • Amazon ECS : Information about Amazo...
     /// </summary>
     /// <param name="DeploymentId">The unique ID of a deployment.</param>
-    /// <param name="TargetIds">The unique IDs of the deployment targets. The compute platform of the deployment determines the type of the targets and their formats. The maximum number of deployment target IDs you can specify is 25. o For deployments that use the EC2/On-premises compute platform, the target IDs are Amazon EC2 or on-premises instances IDs, and their target type is instanceTarget . o For deployments that use the Lambda compute platform, the target IDs are the names of Lambda functions, and their target type is instanceTarget . o For deployments that use the Amazon ECS compute platform, the tar- get IDs are pairs of Amazon ECS clusters and services specified using the format &lt;clustername&gt;:&lt;servicename&gt; . Their target type is ecsTarget . o For deployments that are deployed with CloudFormation, the target IDs are CloudFormation stack IDs. Their target type is cloudForma- tionTarget . (string) Syntax: "string" "string" ...</param>
+    /// <param name="TargetIds">The unique IDs of the deployment targets. The compute platform of the deployment determines the type of the targets and their formats. The maximum number of deployment target IDs you can specify is 25. • For deployments that use the EC2/On-premises compute platform, the target IDs are Amazon EC2 or on-premises instances IDs, and their target type is instanceTarget . • For deployments that use the Lambda compute platform, the target IDs are the names of Lambda functions, and their target type is instanceTarget . • For deployments that use the Amazon ECS compute platform, the target IDs are pairs of Amazon ECS clusters and services specified using the format &lt;clustername&gt;:&lt;servicename&gt; . Their target type is ecsTarget . • For deployments that are deployed with CloudFormation, the target IDs are CloudFormation stack IDs. Their target type is cloudFormationTarget . (string) Syntax: "string" "string" ...</param>
     public AwsDeployBatchGetDeploymentTargetsOptions(
         string DeploymentId,
         IEnumerable<string> TargetIds
@@ -77,7 +79,7 @@ public record AwsDeployBatchGetDeploymentTargetsOptions : AwsOptions, IValidatab
     public string? DeploymentId { get; private init; }
 
     /// <summary>
-    /// The unique IDs of the deployment targets. The compute platform of the deployment determines the type of the targets and their formats. The maximum number of deployment target IDs you can specify is 25. o For deployments that use the EC2/On-premises compute platform, the target IDs are Amazon EC2 or on-premises instances IDs, and their target type is instanceTarget . o For deployments that use the Lambda compute platform, the target IDs are the names of Lambda functions, and their target type is instanceTarget . o For deployments that use the Amazon ECS compute platform, the tar- get IDs are pairs of Amazon ECS clusters and services specified using the format &lt;clustername&gt;:&lt;servicename&gt; . Their target type is ecsTarget . o For deployments that are deployed with CloudFormation, the target IDs are CloudFormation stack IDs. Their target type is cloudForma- tionTarget . (string) Syntax: "string" "string" ...
+    /// The unique IDs of the deployment targets. The compute platform of the deployment determines the type of the targets and their formats. The maximum number of deployment target IDs you can specify is 25. • For deployments that use the EC2/On-premises compute platform, the target IDs are Amazon EC2 or on-premises instances IDs, and their target type is instanceTarget . • For deployments that use the Lambda compute platform, the target IDs are the names of Lambda functions, and their target type is instanceTarget . • For deployments that use the Amazon ECS compute platform, the target IDs are pairs of Amazon ECS clusters and services specified using the format &lt;clustername&gt;:&lt;servicename&gt; . Their target type is ecsTarget . • For deployments that are deployed with CloudFormation, the target IDs are CloudFormation stack IDs. Their target type is cloudFormationTarget . (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--target-ids", GroupValues = true)]
     public IEnumerable<string>? TargetIds { get; private init; }

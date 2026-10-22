@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsGuarddutyDescribePublishingDestinationOptions : AwsOptions, IVa
     /// <summary>
     /// Returns information about the publishing destination specified by the provided destinationId . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DetectorId">The unique ID of the detector associated with the publishing desti- nation to retrieve. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
+    /// <param name="DetectorId">The unique ID of the detector associated with the publishing destination to retrieve. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300</param>
     /// <param name="DestinationId">The ID of the publishing destination to retrieve.</param>
     public AwsGuarddutyDescribePublishingDestinationOptions(
         string DetectorId,
@@ -60,7 +62,7 @@ public record AwsGuarddutyDescribePublishingDestinationOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the detector associated with the publishing desti- nation to retrieve. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// The unique ID of the detector associated with the publishing destination to retrieve. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }

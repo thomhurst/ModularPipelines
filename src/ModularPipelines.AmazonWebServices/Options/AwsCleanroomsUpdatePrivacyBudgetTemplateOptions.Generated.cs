@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +30,9 @@ public record AwsCleanroomsUpdatePrivacyBudgetTemplateOptions : AwsOptions, IVal
     /// <summary>
     /// Updates the privacy budget template for the specified collaboration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MembershipIdentifier">A unique identifier for one of your memberships for a collaboration. The privacy budget template is updated in the collaboration that this membership belongs to. Accepts a membership ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="PrivacyBudgetTemplateIdentifier">A unique identifier for your privacy budget template that you want to update. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="PrivacyBudgetType">Specifies the type of the privacy budget template. Possible values: o DIFFERENTIAL_PRIVACY o ACCESS_BUDGET</param>
+    /// <param name="MembershipIdentifier">A unique identifier for one of your memberships for a collaboration. The privacy budget template is updated in the collaboration that this membership belongs to. Accepts a membership ID. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="PrivacyBudgetTemplateIdentifier">A unique identifier for your privacy budget template that you want to update. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="PrivacyBudgetType">Specifies the type of the privacy budget template. Possible values: • DIFFERENTIAL_PRIVACY • ACCESS_BUDGET</param>
     public AwsCleanroomsUpdatePrivacyBudgetTemplateOptions(
         string MembershipIdentifier,
         string PrivacyBudgetTemplateIdentifier,
@@ -64,25 +66,25 @@ public record AwsCleanroomsUpdatePrivacyBudgetTemplateOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for one of your memberships for a collaboration. The privacy budget template is updated in the collaboration that this membership belongs to. Accepts a membership ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// A unique identifier for one of your memberships for a collaboration. The privacy budget template is updated in the collaboration that this membership belongs to. Accepts a membership ID. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--membership-identifier")]
     public string? MembershipIdentifier { get; private init; }
 
     /// <summary>
-    /// A unique identifier for your privacy budget template that you want to update. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// A unique identifier for your privacy budget template that you want to update. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--privacy-budget-template-identifier")]
     public string? PrivacyBudgetTemplateIdentifier { get; private init; }
 
     /// <summary>
-    /// Specifies the type of the privacy budget template. Possible values: o DIFFERENTIAL_PRIVACY o ACCESS_BUDGET
+    /// Specifies the type of the privacy budget template. Possible values: • DIFFERENTIAL_PRIVACY • ACCESS_BUDGET
     /// </summary>
     [CliOption("--privacy-budget-type")]
     public AwsCleanroomsUpdatePrivacyBudgetTemplatePrivacyBudgetType? PrivacyBudgetType { get; private init; }
 
     /// <summary>
-    /// Specifies the epsilon and noise parameters for the privacy budget template. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: differentialPrivacy, accessBudget. differentialPrivacy -&gt; (structure) An object that specifies the new values for the epsilon and noise parameters. epsilon -&gt; (integer) The updated epsilon value that you want to use. Constraints: o min: 1 o max: 20 usersNoisePerQuery -&gt; (integer) The updated value of noise added per query. It is measured in terms of the number of users whose contributions you want to obscure. This value governs the rate at which the privacy budget is depleted. Constraints: o min: 10 o max: 100 accessBudget -&gt; (structure) The new access budget configuration that completely replaces the existing access budget settings in the privacy budget template. budgetParameters -&gt; (list) [required] Updated array of budget parameters for the access budget con- figuration. Constraints: o min: 1 o max: 2 (structure) Individual budget parameter configuration that defines specific budget allocation settings for access budgets. type -&gt; (string) [required] The type of budget parameter being configured. Possible values: o CALENDAR_DAY o CALENDAR_MONTH o CALENDAR_WEEK o LIFETIME budget -&gt; (integer) [required] The budget allocation amount for this specific parame- ter. Constraints: o min: 0 o max: 1000000 autoRefresh -&gt; (string) Whether this individual budget parameter automatically refreshes when the budget period resets. Possible values: o ENABLED o DISABLED JSON Syntax: { "differentialPrivacy": { "epsilon": integer, "usersNoisePerQuery": integer }, "accessBudget": { "budgetParameters": [ { "type": "CALENDAR_DAY"|"CALENDAR_MONTH"|"CALENDAR_WEEK"|"LIFETIME", "budget": integer, "autoRefresh": "ENABLED"|"DISABLED" } ... ] } }
+    /// Specifies the epsilon and noise parameters for the privacy budget template. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: differentialPrivacy, accessBudget. differentialPrivacy -&gt; (structure) An object that specifies the new values for the epsilon and noise parameters. epsilon -&gt; (integer) The updated epsilon value that you want to use. Constraints: • min: 1 • max: 20 usersNoisePerQuery -&gt; (integer) The updated value of noise added per query. It is measured in terms of the number of users whose contributions you want to obscure. This value governs the rate at which the privacy budget is depleted. Constraints: • min: 10 • max: 100 accessBudget -&gt; (structure) The new access budget configuration that completely replaces the existing access budget settings in the privacy budget template. budgetParameters -&gt; (list) [required] Updated array of budget parameters for the access budget configuration. Constraints: • min: 1 • max: 2 (structure) Individual budget parameter configuration that defines specific budget allocation settings for access budgets. type -&gt; (string) [required] The type of budget parameter being configured. Possible values: • CALENDAR_DAY • CALENDAR_MONTH • CALENDAR_WEEK • LIFETIME budget -&gt; (integer) [required] The budget allocation amount for this specific parameter. Constraints: • min: 0 • max: 1000000 autoRefresh -&gt; (string) Whether this individual budget parameter automatically refreshes when the budget period resets. Possible values: • ENABLED • DISABLED JSON Syntax: { "differentialPrivacy": { "epsilon": integer, "usersNoisePerQuery": integer }, "accessBudget": { "budgetParameters": [ { "type": "CALENDAR_DAY"|"CALENDAR_MONTH"|"CALENDAR_WEEK"|"LIFETIME", "budget": integer, "autoRefresh": "ENABLED"|"DISABLED" } ... ] } }
     /// </summary>
     [CliOption("--parameters")]
     public string? Parameters { get; set; }

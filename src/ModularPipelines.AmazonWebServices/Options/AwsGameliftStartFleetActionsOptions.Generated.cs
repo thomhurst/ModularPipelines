@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Container Resumes certain types of activity on fleet instances that were sus- pended with StopFleetActions . For multi-location fleets, fleet actions are managed separately for each location. Currently, this operation is used to restart a fleet's auto-scaling activity. This operation can be used in the following ways: o To restart actions on instances in the fleet's home Region, provide a fleet ID and the type of actions to resume. o To restart...
+/// This API works with the following fleet types: EC2, Container Resumes certain types of activity on fleet instances that were suspended with StopFleetActions . For multi-location fleets, fleet actions are managed separately for each location. Currently, this operation is used to restart a fleet's auto-scaling activity. This operation can be used in the following ways: • To restart actions on instances in the fleet's home Region, provide a fleet ID and the type of actions to resume. • To restart a...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsGameliftStartFleetActionsOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Container Resumes certain types of activity on fleet instances that were sus- pended with StopFleetActions . For multi-location fleets, fleet actions are managed separately for each location. Currently, this operation is used to restart a fleet's auto-scaling activity. This operation can be used in the following ways: o To restart actions on instances in the fleet's home Region, provide a fleet ID and the type of actions to resume. o To restart...
+    /// This API works with the following fleet types: EC2, Container Resumes certain types of activity on fleet instances that were suspended with StopFleetActions . For multi-location fleets, fleet actions are managed separately for each location. Currently, this operation is used to restart a fleet's auto-scaling activity. This operation can be used in the following ways: • To restart actions on instances in the fleet's home Region, provide a fleet ID and the type of actions to resume. • To restart a...
     /// </summary>
-    /// <param name="FleetId">A unique identifier for the fleet to restart actions on. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
-    /// <param name="Actions">List of actions to restart on the fleet. Constraints: o min: 1 o max: 1 (string) Possible values: o AUTO_SCALING Syntax: "string" "string" ...</param>
+    /// <param name="FleetId">A unique identifier for the fleet to restart actions on. You can use either the fleet ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
+    /// <param name="Actions">List of actions to restart on the fleet. Constraints: • min: 1 • max: 1 (string) Possible values: • AUTO_SCALING Syntax: "string" "string" ...</param>
     public AwsGameliftStartFleetActionsOptions(
         string FleetId,
         IEnumerable<string> Actions
@@ -71,19 +73,19 @@ public record AwsGameliftStartFleetActionsOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the fleet to restart actions on. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
+    /// A unique identifier for the fleet to restart actions on. You can use either the fleet ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }
 
     /// <summary>
-    /// List of actions to restart on the fleet. Constraints: o min: 1 o max: 1 (string) Possible values: o AUTO_SCALING Syntax: "string" "string" ...
+    /// List of actions to restart on the fleet. Constraints: • min: 1 • max: 1 (string) Possible values: • AUTO_SCALING Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--actions", GroupValues = true)]
     public IEnumerable<string>? Actions { get; private init; }
 
     /// <summary>
-    /// The fleet location to restart fleet actions for. Specify a location in the form of an Amazon Web Services Region code, such as us-west-2 . Constraints: o min: 1 o max: 64 o pattern: ^[A-Za-z0-9\-]+$
+    /// The fleet location to restart fleet actions for. Specify a location in the form of an Amazon Web Services Region code, such as us-west-2 . Constraints: • min: 1 • max: 64 • pattern: ^[A-Za-z0-9\-]+$
     /// </summary>
     [CliOption("--location")]
     public string? Location { get; set; }

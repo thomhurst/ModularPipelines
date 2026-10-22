@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets information about the products for the specified portfolio or all products. See also: AWS API Documentation search-products-as-admin is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ProductViewDe...
+/// Gets information about the products for the specified portfolio or all products. See also: AWS API Documentation search-products-as-admin is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ProductViewDeta...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,52 +26,49 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsServicecatalogSearchProductsAsAdminOptions : AwsOptions
 {
     /// <summary>
-    /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
+    /// The language code. • jp - Japanese • zh - Chinese Constraints: • max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
     /// <summary>
-    /// The portfolio identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The portfolio identifier. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--portfolio-id")]
     public string? PortfolioId { get; set; }
 
     /// <summary>
-    /// The search filters. If no search filters are specified, the output includes all products to which the administrator has access. key -&gt; (string) Possible values: o FullTextSearch o Owner o ProductType o SourceProductId value -&gt; (list) (string) Shorthand Syntax: KeyName1=string,string,KeyName2=string,string Where valid key names are: FullTextSearch Owner ProductType SourceProductId JSON Syntax: {"FullTextSearch"|"Owner"|"ProductType"|"SourceProductId": ["string", ...] ...}
+    /// The search filters. If no search filters are specified, the output includes all products to which the administrator has access. key -&gt; (string) Possible values: • FullTextSearch • Owner • ProductType • SourceProductId value -&gt; (list) (string) Shorthand Syntax: KeyName1=string,string,KeyName2=string,string Where valid key names are: FullTextSearch Owner ProductType SourceProductId JSON Syntax: {"FullTextSearch"|"Owner"|"ProductType"|"SourceProductId": ["string", ...] ...}
     /// </summary>
     [CliOption("--filters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Filters { get; set; }
 
     /// <summary>
-    /// The sort field. If no value is specified, the results are not sorted. Possible values: o Title o VersionCount o CreationDate
+    /// The sort field. If no value is specified, the results are not sorted. Possible values: • Title • VersionCount • CreationDate
     /// </summary>
     [CliOption("--sort-by")]
     public AwsServicecatalogSearchProductsAsAdminSortBy? SortBy { get; set; }
 
     /// <summary>
-    /// The sort order. If no value is specified, the results are not sorted. Possible values: o ASCENDING o DESCENDING
+    /// The sort order. If no value is specified, the results are not sorted. Possible values: • ASCENDING • DESCENDING
     /// </summary>
     [CliOption("--sort-order")]
     public AwsServicecatalogSearchProductsAsAdminSortOrder? SortOrder { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 0 o max: 20
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 0 • max: 20
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// Access level of the source of the product. Possible values: o ACCOUNT
+    /// Access level of the source of the product. Possible values: • ACCOUNT
     /// </summary>
     [CliOption("--product-source")]
     public string? ProductSource { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -80,9 +78,12 @@ public record AwsServicecatalogSearchProductsAsAdminOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

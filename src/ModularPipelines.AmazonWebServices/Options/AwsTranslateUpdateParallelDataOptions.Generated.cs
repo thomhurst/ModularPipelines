@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsTranslateUpdateParallelDataOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Updates a previously created parallel data resource by importing a new input file from Amazon S3. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the parallel data resource being updated. Constraints: o min: 1 o max: 256 o pattern: ^([A-Za-z0-9-]_?)+$</param>
-    /// <param name="ParallelDataConfig">Specifies the format and S3 location of the parallel data input file. S3Uri -&gt; (string) The URI of the Amazon S3 folder that contains the parallel data input file. The folder must be in the same Region as the API endpoint you are calling. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Format -&gt; (string) The format of the parallel data input file. Possible values: o TSV o CSV o TMX Shorthand Syntax: S3Uri=string,Format=string JSON Syntax: { "S3Uri": "string", "Format": "TSV"|"CSV"|"TMX" }</param>
+    /// <param name="Name">The name of the parallel data resource being updated. Constraints: • min: 1 • max: 256 • pattern: ^([A-Za-z0-9-]_?)+$</param>
+    /// <param name="ParallelDataConfig">Specifies the format and S3 location of the parallel data input file. S3Uri -&gt; (string) The URI of the Amazon S3 folder that contains the parallel data input file. The folder must be in the same Region as the API endpoint you are calling. Constraints: • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Format -&gt; (string) The format of the parallel data input file. Possible values: • TSV • CSV • TMX Shorthand Syntax: S3Uri=string,Format=string JSON Syntax: { "S3Uri": "string", "Format": "TSV"|"CSV"|"TMX" }</param>
     public AwsTranslateUpdateParallelDataOptions(
         string Name,
         string ParallelDataConfig
@@ -61,25 +63,25 @@ public record AwsTranslateUpdateParallelDataOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the parallel data resource being updated. Constraints: o min: 1 o max: 256 o pattern: ^([A-Za-z0-9-]_?)+$
+    /// The name of the parallel data resource being updated. Constraints: • min: 1 • max: 256 • pattern: ^([A-Za-z0-9-]_?)+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Specifies the format and S3 location of the parallel data input file. S3Uri -&gt; (string) The URI of the Amazon S3 folder that contains the parallel data input file. The folder must be in the same Region as the API endpoint you are calling. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Format -&gt; (string) The format of the parallel data input file. Possible values: o TSV o CSV o TMX Shorthand Syntax: S3Uri=string,Format=string JSON Syntax: { "S3Uri": "string", "Format": "TSV"|"CSV"|"TMX" }
+    /// Specifies the format and S3 location of the parallel data input file. S3Uri -&gt; (string) The URI of the Amazon S3 folder that contains the parallel data input file. The folder must be in the same Region as the API endpoint you are calling. Constraints: • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Format -&gt; (string) The format of the parallel data input file. Possible values: • TSV • CSV • TMX Shorthand Syntax: S3Uri=string,Format=string JSON Syntax: { "S3Uri": "string", "Format": "TSV"|"CSV"|"TMX" }
     /// </summary>
     [CliOption("--parallel-data-config")]
     public string? ParallelDataConfig { get; private init; }
 
     /// <summary>
-    /// A custom description for the parallel data resource in Amazon Trans- late. Constraints: o max: 256 o pattern: [\P{M}\p{M}]{0,256}
+    /// A custom description for the parallel data resource in Amazon Translate. Constraints: • max: 256 • pattern: [\P{M}\p{M}]{0,256}
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A unique identifier for the request. This token is automatically generated when you use Amazon Translate through an AWS SDK. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-]+$
+    /// A unique identifier for the request. This token is automatically generated when you use Amazon Translate through an AWS SDK. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an existing dashboard within a space. Only the provided fields are changed; omitted fields are left un- changed. See also: AWS API Documentation
+/// Updates an existing dashboard within a space. Only the provided fields are changed; omitted fields are left unchanged. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsCloudwatchomniUpdateOmniDashboardOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an existing dashboard within a space. Only the provided fields are changed; omitted fields are left un- changed. See also: AWS API Documentation
+    /// Updates an existing dashboard within a space. Only the provided fields are changed; omitted fields are left unchanged. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SpaceId">The unique ID of the space. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="DashboardId">The unique ID of the dashboard. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="SpaceId">The unique ID of the space. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="DashboardId">The unique ID of the dashboard. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     public AwsCloudwatchomniUpdateOmniDashboardOptions(
         string SpaceId,
         string DashboardId
@@ -60,31 +62,31 @@ public record AwsCloudwatchomniUpdateOmniDashboardOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the space. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique ID of the space. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--space-id")]
     public string? SpaceId { get; private init; }
 
     /// <summary>
-    /// The unique ID of the dashboard. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique ID of the dashboard. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--dashboard-id")]
     public string? DashboardId { get; private init; }
 
     /// <summary>
-    /// The new dashboard definition, as a JSON document. Maximum 1 MiB. Omit to leave unchanged. Constraints: o min: 1 o max: 1048576
+    /// The new dashboard definition, as a JSON document. Maximum 1 MiB. Omit to leave unchanged. Constraints: • min: 1 • max: 1048576
     /// </summary>
     [CliOption("--body")]
     public string? Body { get; set; }
 
     /// <summary>
-    /// A new name for the dashboard. Omit to leave unchanged. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.@~()-]+
+    /// A new name for the dashboard. Omit to leave unchanged. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_.@~()-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A new description of the dashboard. Omit to leave unchanged. Constraints: o min: 1 o max: 1024
+    /// A new description of the dashboard. Omit to leave unchanged. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

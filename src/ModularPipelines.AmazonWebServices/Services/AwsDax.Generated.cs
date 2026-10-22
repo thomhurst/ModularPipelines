@@ -47,7 +47,7 @@ public class AwsDax : IAwsDax
     }
 
     /// <summary>
-    /// Creates a new parameter group. A parameter group is a collection of pa- rameters that you apply to all of the nodes in a DAX cluster. See also: AWS API Documentation
+    /// Creates a new parameter group. A parameter group is a collection of parameters that you apply to all of the nodes in a DAX cluster. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsDax : IAwsDax
     }
 
     /// <summary>
-    /// Returns the default system parameter information for the DAX caching software. See also: AWS API Documentation describe-default-parameters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Parameters
+    /// Returns the default system parameter information for the DAX caching software. See also: AWS API Documentation describe-default-parameters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Parameters
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsDax : IAwsDax
     }
 
     /// <summary>
-    /// Returns events related to DAX clusters and parameter groups. You can obtain events specific to a particular DAX cluster or parameter group by providing the name as a parameter. By default, only the events occurring within the last 24 hours are re- turned; however, you can retrieve up to 14 days' worth of events if necessary. See also: AWS API Documentation describe-events is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis...
+    /// Returns events related to DAX clusters and parameter groups. You can obtain events specific to a particular DAX cluster or parameter group by providing the name as a parameter. By default, only the events occurring within the last 24 hours are returned; however, you can retrieve up to 14 days' worth of events if necessary. See also: AWS API Documentation describe-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsDax : IAwsDax
     }
 
     /// <summary>
-    /// List all of the tags for a DAX cluster. You can call ListTags up to 10 times per second, per account. See also: AWS API Documentation list-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must extract data from the results of the following query ex- pressions: Tag...
+    /// List all of the tags for a DAX cluster. You can call ListTags up to 10 times per second, per account. See also: AWS API Documentation list-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Tags
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsDax : IAwsDax
     }
 
     /// <summary>
-    /// Reboots a single node of a DAX cluster. The reboot action takes place as soon as possible. During the reboot, the node status is set to RE- BOOTING. NOTE: RebootNode restarts the DAX engine process and does not remove the contents of the cache. See also: AWS API Documentation
+    /// Reboots a single node of a DAX cluster. The reboot action takes place as soon as possible. During the reboot, the node status is set to REBOOTING. NOTE: RebootNode restarts the DAX engine process and does not remove the contents of the cache. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsDax : IAwsDax
     }
 
     /// <summary>
-    /// Removes the association of tags from a DAX resource. You can call Unta- gResource up to 5 times per second, per account. See also: AWS API Documentation
+    /// Removes the association of tags from a DAX resource. You can call UntagResource up to 5 times per second, per account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

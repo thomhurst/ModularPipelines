@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the monitoring configurations for the component. The configura- tion input parameter is an escaped JSON of the configuration and should match the schema of what is returned by DescribeComponentConfigura- tionRecommendation . See also: AWS API Documentation
+/// Updates the monitoring configurations for the component. The configuration input parameter is an escaped JSON of the configuration and should match the schema of what is returned by DescribeComponentConfigurationRecommendation . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsApplicationInsightsUpdateComponentConfigurationOptions : AwsOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the monitoring configurations for the component. The configura- tion input parameter is an escaped JSON of the configuration and should match the schema of what is returned by DescribeComponentConfigura- tionRecommendation . See also: AWS API Documentation
+    /// Updates the monitoring configurations for the component. The configuration input parameter is an escaped JSON of the configuration and should match the schema of what is returned by DescribeComponentConfigurationRecommendation . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceGroupName">The name of the resource group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\.\-_]*</param>
-    /// <param name="ComponentName">The name of the component. Constraints: o min: 1 o max: 1011 o pattern: (?:^[\d\w\-_\.+]*$)|(?:^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$)</param>
+    /// <param name="ResourceGroupName">The name of the resource group. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9\.\-_]*</param>
+    /// <param name="ComponentName">The name of the component. Constraints: • min: 1 • max: 1011 • pattern: (?:^[\d\w\-_\.+]*$)|(?:^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$)</param>
     public AwsApplicationInsightsUpdateComponentConfigurationOptions(
         string ResourceGroupName,
         string ComponentName
@@ -60,13 +62,13 @@ public record AwsApplicationInsightsUpdateComponentConfigurationOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the resource group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\.\-_]*
+    /// The name of the resource group. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9\.\-_]*
     /// </summary>
     [CliOption("--resource-group-name")]
     public string? ResourceGroupName { get; private init; }
 
     /// <summary>
-    /// The name of the component. Constraints: o min: 1 o max: 1011 o pattern: (?:^[\d\w\-_\.+]*$)|(?:^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$)
+    /// The name of the component. Constraints: • min: 1 • max: 1011 • pattern: (?:^[\d\w\-_\.+]*$)|(?:^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$)
     /// </summary>
     [CliOption("--component-name")]
     public string? ComponentName { get; private init; }
@@ -78,13 +80,13 @@ public record AwsApplicationInsightsUpdateComponentConfigurationOptions : AwsOpt
     public bool? Monitor { get; set; }
 
     /// <summary>
-    /// The tier of the application component. Possible values: o CUSTOM o DEFAULT o DOT_NET_CORE o DOT_NET_WORKER o DOT_NET_WEB_TIER o DOT_NET_WEB o SQL_SERVER o SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP o MYSQL o POSTGRESQL o JAVA_JMX o ORACLE o SAP_HANA_MULTI_NODE o SAP_HANA_SINGLE_NODE o SAP_HANA_HIGH_AVAILABILITY o SAP_ASE_SINGLE_NODE o SAP_ASE_HIGH_AVAILABILITY o SQL_SERVER_FAILOVER_CLUSTER_INSTANCE o SHAREPOINT o ACTIVE_DIRECTORY o SAP_NETWEAVER_STANDARD o SAP_NETWEAVER_DISTRIBUTED o SAP_NETWEAVER_HIGH_AVAILABILITY Constraints: o min: 1 o max: 50
+    /// The tier of the application component. Possible values: • CUSTOM • DEFAULT • DOT_NET_CORE • DOT_NET_WORKER • DOT_NET_WEB_TIER • DOT_NET_WEB • SQL_SERVER • SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP • MYSQL • POSTGRESQL • JAVA_JMX • ORACLE • SAP_HANA_MULTI_NODE • SAP_HANA_SINGLE_NODE • SAP_HANA_HIGH_AVAILABILITY • SAP_ASE_SINGLE_NODE • SAP_ASE_HIGH_AVAILABILITY • SQL_SERVER_FAILOVER_CLUSTER_INSTANCE • SHAREPOINT • ACTIVE_DIRECTORY • SAP_NETWEAVER_STANDARD • SAP_NETWEAVER_DISTRIBUTED • SAP_NETWEAVER_HIGH_AVAILABILITY Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--tier")]
     public string? Tier { get; set; }
 
     /// <summary>
-    /// The configuration settings of the component. The value is the es- caped JSON of the configuration. For more information about the JSON format, see Working with JSON . You can send a request to De- scribeComponentConfigurationRecommendation to see the recommended configuration for a component. For the complete format of the compo- nent configuration file, see Component Configuration . Constraints: o min: 1 o max: 10000 o pattern: [\S\s]+
+    /// The configuration settings of the component. The value is the escaped JSON of the configuration. For more information about the JSON format, see Working with JSON . You can send a request to DescribeComponentConfigurationRecommendation to see the recommended configuration for a component. For the complete format of the component configuration file, see Component Configuration . Constraints: • min: 1 • max: 10000 • pattern: [\S\s]+
     /// </summary>
     [CliOption("--component-configuration")]
     public string? ComponentConfiguration { get; set; }

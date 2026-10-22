@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsBackupGatewayCreateGatewayOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Creates a backup gateway. After you create a gateway, you can associate it with a server using the AssociateGatewayToServer operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ActivationKey">The activation key of the created gateway. Constraints: o min: 1 o max: 50 o pattern: [0-9a-zA-Z\-]+</param>
-    /// <param name="GatewayDisplayName">The display name of the created gateway. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]*</param>
-    /// <param name="GatewayType">The type of created gateway. Possible values: o BACKUP_VM</param>
+    /// <param name="ActivationKey">The activation key of the created gateway. Constraints: • min: 1 • max: 50 • pattern: [0-9a-zA-Z\-]+</param>
+    /// <param name="GatewayDisplayName">The display name of the created gateway. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]*</param>
+    /// <param name="GatewayType">The type of created gateway. Possible values: • BACKUP_VM</param>
     public AwsBackupGatewayCreateGatewayOptions(
         string ActivationKey,
         string GatewayDisplayName,
@@ -64,25 +66,25 @@ public record AwsBackupGatewayCreateGatewayOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The activation key of the created gateway. Constraints: o min: 1 o max: 50 o pattern: [0-9a-zA-Z\-]+
+    /// The activation key of the created gateway. Constraints: • min: 1 • max: 50 • pattern: [0-9a-zA-Z\-]+
     /// </summary>
     [CliOption("--activation-key")]
     public string? ActivationKey { get; private init; }
 
     /// <summary>
-    /// The display name of the created gateway. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]*
+    /// The display name of the created gateway. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--gateway-display-name")]
     public string? GatewayDisplayName { get; private init; }
 
     /// <summary>
-    /// The type of created gateway. Possible values: o BACKUP_VM
+    /// The type of created gateway. Possible values: • BACKUP_VM
     /// </summary>
     [CliOption("--gateway-type")]
     public string? GatewayType { get; private init; }
 
     /// <summary>
-    /// A list of up to 50 tags to assign to the gateway. Each tag is a key-value pair. (structure) A key-value pair you can use to manage, filter, and search for your resources. Allowed characters include UTF-8 letters, num- bers, and the following characters: + - = . _ : /. Spaces are not allowed in tag values. Key -&gt; (string) [required] The key part of a tag's key-value pair. The key can't start with aws: . Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value part of a tag's key-value pair. Constraints: o min: 0 o max: 256 o pattern: [^\x00]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of up to 50 tags to assign to the gateway. Each tag is a key-value pair. (structure) A key-value pair you can use to manage, filter, and search for your resources. Allowed characters include UTF-8 letters, numbers, and the following characters: + - = . _ : /. Spaces are not allowed in tag values. Key -&gt; (string) [required] The key part of a tag's key-value pair. The key can't start with aws: . Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value part of a tag's key-value pair. Constraints: • min: 0 • max: 256 • pattern: [^\x00]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

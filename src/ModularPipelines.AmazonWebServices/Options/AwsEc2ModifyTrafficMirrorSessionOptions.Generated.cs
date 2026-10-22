@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -74,13 +76,13 @@ public record AwsEc2ModifyTrafficMirrorSessionOptions : AwsOptions, IValidatable
     public string? TrafficMirrorFilterId { get; set; }
 
     /// <summary>
-    /// The number of bytes in each packet to mirror. These are bytes after the VXLAN header. To mirror a subset, set this to the length (in bytes) to mirror. For example, if you set this value to 100, then the first 100 bytes that meet the filter criteria are copied to the target. Do not specify this parameter when you want to mirror the entire packet. For sessions with Network Load Balancer (NLB) traffic mirror tar- gets, the default PacketLength will be set to 8500. Valid values are 1-8500. Setting a PacketLength greater than 8500 will result in an error response.
+    /// The number of bytes in each packet to mirror. These are bytes after the VXLAN header. To mirror a subset, set this to the length (in bytes) to mirror. For example, if you set this value to 100, then the first 100 bytes that meet the filter criteria are copied to the target. Do not specify this parameter when you want to mirror the entire packet. For sessions with Network Load Balancer (NLB) traffic mirror targets, the default PacketLength will be set to 8500. Valid values are 1-8500. Setting a PacketLength greater than 8500 will result in an error response.
     /// </summary>
     [CliOption("--packet-length")]
     public int? PacketLength { get; set; }
 
     /// <summary>
-    /// The session number determines the order in which sessions are evalu- ated when an interface is used by multiple sessions. The first ses- sion with a matching filter is the one that mirrors the packets. Valid values are 1-32766.
+    /// The session number determines the order in which sessions are evaluated when an interface is used by multiple sessions. The first session with a matching filter is the one that mirrors the packets. Valid values are 1-32766.
     /// </summary>
     [CliOption("--session-number")]
     public int? SessionNumber { get; set; }
@@ -98,13 +100,13 @@ public record AwsEc2ModifyTrafficMirrorSessionOptions : AwsOptions, IValidatable
     public string? Description { get; set; }
 
     /// <summary>
-    /// The properties that you want to remove from the Traffic Mirror ses- sion. When you remove a property from a Traffic Mirror session, the prop- erty is set to the default. (string) Possible values: o packet-length o description o virtual-network-id Syntax: "string" "string" ...
+    /// The properties that you want to remove from the Traffic Mirror session. When you remove a property from a Traffic Mirror session, the property is set to the default. (string) Possible values: • packet-length • description • virtual-network-id Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--remove-fields", GroupValues = true)]
     public IEnumerable<string>? RemoveFields { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

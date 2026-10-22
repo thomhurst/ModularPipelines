@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsNetworkmanagerGetConnectAttachmentOptions : AwsOptions, IValida
     /// <summary>
     /// Returns information about a core network Connect attachment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AttachmentId">The ID of the attachment. Constraints: o min: 0 o max: 50 o pattern: ^attachment-([0-9a-f]{8,17})$</param>
+    /// <param name="AttachmentId">The ID of the attachment. Constraints: • min: 0 • max: 50 • pattern: ^attachment-([0-9a-f]{8,17})$</param>
     public AwsNetworkmanagerGetConnectAttachmentOptions(
         string AttachmentId
     )
@@ -56,7 +58,7 @@ public record AwsNetworkmanagerGetConnectAttachmentOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the attachment. Constraints: o min: 0 o max: 50 o pattern: ^attachment-([0-9a-f]{8,17})$
+    /// The ID of the attachment. Constraints: • min: 0 • max: 50 • pattern: ^attachment-([0-9a-f]{8,17})$
     /// </summary>
     [CliOption("--attachment-id")]
     public string? AttachmentId { get; private init; }

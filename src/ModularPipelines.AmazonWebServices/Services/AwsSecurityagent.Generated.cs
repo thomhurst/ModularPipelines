@@ -32,7 +32,7 @@ public class AwsSecurityagent : IAwsSecurityagent
     #region Commands
 
     /// <summary>
-    /// Uploads an artifact to an agent space. Artifacts provide additional context for security testing, such as architecture diagrams, API speci- fications, or configuration files. See also: AWS API Documentation
+    /// Uploads an artifact to an agent space. Artifacts provide additional context for security testing, such as architecture diagrams, API specifications, or configuration files. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,6 +122,36 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
+    /// Disassociates a batch of findings from their linked issues. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> BatchDisassociateFindingIssueAsync(
+        AwsSecurityagentBatchDisassociateFindingIssueOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Exports a batch of findings to the connected issue tracker as issues. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> BatchExportFindingsAsync(
+        AwsSecurityagentBatchExportFindingsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Retrieves information about one or more agent spaces. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -152,21 +182,6 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Retrieves information about one or more code review jobs in an agent space. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> BatchGetCodeReviewJobsAsync(
-        AwsSecurityagentBatchGetCodeReviewJobsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Retrieves information about one or more tasks within a code review job. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -175,6 +190,21 @@ public class AwsSecurityagent : IAwsSecurityagent
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchGetCodeReviewJobTasksAsync(
         AwsSecurityagentBatchGetCodeReviewJobTasksOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves information about one or more code review jobs in an agent space. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> BatchGetCodeReviewJobsAsync(
+        AwsSecurityagentBatchGetCodeReviewJobsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -212,21 +242,6 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Retrieves information about one or more pentest jobs in an agent space. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> BatchGetPentestJobsAsync(
-        AwsSecurityagentBatchGetPentestJobsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Retrieves information about one or more tasks within a pentest job. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -235,6 +250,21 @@ public class AwsSecurityagent : IAwsSecurityagent
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchGetPentestJobTasksAsync(
         AwsSecurityagentBatchGetPentestJobTasksOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves information about one or more pentest jobs in an agent space. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> BatchGetPentestJobsAsync(
+        AwsSecurityagentBatchGetPentestJobsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -287,21 +317,6 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Retrieves information about one or more threat model jobs in an agent space. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> BatchGetThreatModelJobsAsync(
-        AwsSecurityagentBatchGetThreatModelJobsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Retrieves information about one or more tasks within a threat model job. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -310,6 +325,21 @@ public class AwsSecurityagent : IAwsSecurityagent
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchGetThreatModelJobTasksAsync(
         AwsSecurityagentBatchGetThreatModelJobTasksOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves information about one or more threat model jobs in an agent space. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> BatchGetThreatModelJobsAsync(
+        AwsSecurityagentBatchGetThreatModelJobsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -377,7 +407,7 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Creates a new application. An application is the top-level organiza- tional unit that supports IAM Identity Center integration. See also: AWS API Documentation
+    /// Creates a new application. An application is the top-level organizational unit that supports IAM Identity Center integration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +422,7 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Creates a new code review configuration in an agent space. A code re- view defines the parameters for automated security-focused code analy- sis. See also: AWS API Documentation
+    /// Creates a new code review configuration in an agent space. A code review defines the parameters for automated security-focused code analysis. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +467,7 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Creates a new pentest configuration in an agent space. A pentest de- fines the security test parameters, including target assets, risk type exclusions, and logging configuration. See also: AWS API Documentation
+    /// Creates a new pentest configuration in an agent space. A pentest defines the security test parameters, including target assets, risk type exclusions, and logging configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +482,7 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Creates a private connection for reaching a self-hosted provider in- stance over private networking using Amazon VPC Lattice. See also: AWS API Documentation
+    /// Creates a private connection for reaching a self-hosted provider instance over private networking using Amazon VPC Lattice. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +647,7 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Deletes a customer managed security requirement pack and all its asso- ciated security requirements. See also: AWS API Documentation
+    /// Deletes a customer managed security requirement pack and all its associated security requirements. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -722,7 +752,7 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Imports security requirements from uploaded documents into a customer managed security requirement pack. The import process asynchronously extracts and generates structured security requirements from the pro- vided source files. See also: AWS API Documentation
+    /// Imports security requirements from uploaded documents into a customer managed security requirement pack. The import process asynchronously extracts and generates structured security requirements from the provided source files. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -737,7 +767,7 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Initiates the OAuth registration flow with a third-party provider. Re- turns a redirect URL and CSRF state token for completing the authoriza- tion. See also: AWS API Documentation
+    /// Initiates the OAuth registration flow with a third-party provider. Returns a redirect URL and CSRF state token for completing the authorization. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -752,7 +782,7 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Returns a paginated list of the email MFA messages received for an ac- tor at its server-generated email address, most recent first. See also: AWS API Documentation list-actor-messages is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of t...
+    /// Returns a paginated list of the email MFA messages received for an actor at its server-generated email address, most recent first. See also: AWS API Documentation list-actor-messages is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -797,7 +827,7 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Returns a paginated list of artifact summaries for the specified agent space. See also: AWS API Documentation list-artifacts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: artifactSummaries
+    /// Returns a paginated list of artifact summaries for the specified agent space. See also: AWS API Documentation list-artifacts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: artifactSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -812,22 +842,7 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Returns a paginated list of code review job summaries for the specified code review configuration. See also: AWS API Documentation list-code-review-jobs-for-code-review is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the followi...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListCodeReviewJobsForCodeReviewAsync(
-        AwsSecurityagentListCodeReviewJobsForCodeReviewOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns a paginated list of task summaries for the specified code re- view job, optionally filtered by step name or category. See also: AWS API Documentation list-code-review-job-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of t...
+    /// Returns a paginated list of task summaries for the specified code review job, optionally filtered by step name or category. See also: AWS API Documentation list-code-review-job-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -835,6 +850,21 @@ public class AwsSecurityagent : IAwsSecurityagent
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListCodeReviewJobTasksAsync(
         AwsSecurityagentListCodeReviewJobTasksOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a paginated list of code review job summaries for the specified code review configuration. See also: AWS API Documentation list-code-review-jobs-for-code-review is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following que...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListCodeReviewJobsForCodeReviewAsync(
+        AwsSecurityagentListCodeReviewJobsForCodeReviewOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -857,7 +887,7 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Returns a paginated list of endpoints discovered during a pentest job execution. See also: AWS API Documentation list-discovered-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: discoveredEn...
+    /// Returns a paginated list of endpoints discovered during a pentest job execution. See also: AWS API Documentation list-discovered-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: discoveredEndp...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -872,7 +902,7 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Lists the security findings for a pentest job. See also: AWS API Documentation list-findings is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: findingsSummaries
+    /// Lists the security findings for a pentest job. See also: AWS API Documentation list-findings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: findingsSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -887,7 +917,7 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Lists the integrated resources for an agent space, optionally filtered by integration or resource type. See also: AWS API Documentation list-integrated-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query ex...
+    /// Lists the integrated resources for an agent space, optionally filtered by integration or resource type. See also: AWS API Documentation list-integrated-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -932,21 +962,6 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Returns a paginated list of pentest job summaries for the specified pentest configuration. See also: AWS API Documentation list-pentest-jobs-for-pentest is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressio...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListPentestJobsForPentestAsync(
-        AwsSecurityagentListPentestJobsForPentestOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns a paginated list of task summaries for the specified pentest job, optionally filtered by step name or category. See also: AWS API Documentation list-pentest-job-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followi...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -962,7 +977,22 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Returns a paginated list of pentest summaries for the specified agent space. See also: AWS API Documentation list-pentests is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: pentestSummaries
+    /// Returns a paginated list of pentest job summaries for the specified pentest configuration. See also: AWS API Documentation list-pentest-jobs-for-pentest is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListPentestJobsForPentestAsync(
+        AwsSecurityagentListPentestJobsForPentestOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a paginated list of pentest summaries for the specified agent space. See also: AWS API Documentation list-pentests is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: pentestSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -977,7 +1007,7 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Lists the private connections in your account. See also: AWS API Documentation list-private-connections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: privateConnections
+    /// Lists the private connections in your account. See also: AWS API Documentation list-private-connections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: privateConnections
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -992,7 +1022,7 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Lists all security requirement packs in the caller's account. See also: AWS API Documentation list-security-requirement-packs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: securityRequirementPack...
+    /// Lists all security requirement packs in the caller's account. See also: AWS API Documentation list-security-requirement-packs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: securityRequirementPackSumm...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1007,7 +1037,7 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Lists security requirements within a pack. See also: AWS API Documentation list-security-requirements is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: securityRequirementSummaries
+    /// Lists security requirements within a pack. See also: AWS API Documentation list-security-requirements is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: securityRequirementSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1052,22 +1082,7 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Returns a paginated list of threat model job summaries for the speci- fied threat model. See also: AWS API Documentation list-threat-model-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: threatMod...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListThreatModelJobsAsync(
-        AwsSecurityagentListThreatModelJobsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns a paginated list of task summaries for the specified threat model job. See also: AWS API Documentation list-threat-model-job-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: threatMode...
+    /// Returns a paginated list of task summaries for the specified threat model job. See also: AWS API Documentation list-threat-model-job-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: threatModelJob...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1075,6 +1090,21 @@ public class AwsSecurityagent : IAwsSecurityagent
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListThreatModelJobTasksAsync(
         AwsSecurityagentListThreatModelJobTasksOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a paginated list of threat model job summaries for the specified threat model. See also: AWS API Documentation list-threat-model-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: threatModel...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListThreatModelJobsAsync(
+        AwsSecurityagentListThreatModelJobsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1097,7 +1127,7 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Returns a paginated list of threats for a threat model job. See also: AWS API Documentation list-threats is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: threats
+    /// Returns a paginated list of threats for a threat model job. See also: AWS API Documentation list-threats is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: threats
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1112,7 +1142,7 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Initiates code remediation for one or more security findings. This cre- ates pull requests in integrated repositories to fix the identified vulnerabilities. See also: AWS API Documentation
+    /// Initiates code remediation for one or more security findings. This creates pull requests in integrated repositories to fix the identified vulnerabilities. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1247,7 +1277,7 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Updates the configuration of an existing agent space, including its name, description, AWS resources, target domains, and code review set- tings. See also: AWS API Documentation
+    /// Updates the configuration of an existing agent space, including its name, description, AWS resources, target domains, and code review settings. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1352,7 +1382,7 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Updates the certificate associated with a private connection. Certifi- cates can be added or replaced but not removed. See also: AWS API Documentation
+    /// Updates the certificate associated with a private connection. Certificates can be added or replaced but not removed. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1427,7 +1457,7 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Initiates verification of a target domain. This checks whether the do- main ownership verification token has been properly configured. See also: AWS API Documentation
+    /// Initiates verification of a target domain. This checks whether the domain ownership verification token has been properly configured. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

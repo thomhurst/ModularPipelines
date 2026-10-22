@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsAppsyncGetDataSourceOptions : AwsOptions, IValidatableObject
     /// Retrieves a DataSource object. See also: AWS API Documentation
     /// </summary>
     /// <param name="ApiId">The API ID.</param>
-    /// <param name="Name">The name of the data source. Constraints: o min: 1 o max: 65536 o pattern: [_A-Za-z][_0-9A-Za-z]*</param>
+    /// <param name="Name">The name of the data source. Constraints: • min: 1 • max: 65536 • pattern: [_A-Za-z][_0-9A-Za-z]*</param>
     public AwsAppsyncGetDataSourceOptions(
         string ApiId,
         string Name
@@ -66,7 +68,7 @@ public record AwsAppsyncGetDataSourceOptions : AwsOptions, IValidatableObject
     public string? ApiId { get; private init; }
 
     /// <summary>
-    /// The name of the data source. Constraints: o min: 1 o max: 65536 o pattern: [_A-Za-z][_0-9A-Za-z]*
+    /// The name of the data source. Constraints: • min: 1 • max: 65536 • pattern: [_A-Za-z][_0-9A-Za-z]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

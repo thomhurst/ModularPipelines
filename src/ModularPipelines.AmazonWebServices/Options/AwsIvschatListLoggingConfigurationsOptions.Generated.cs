@@ -23,14 +23,14 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIvschatListLoggingConfigurationsOptions : AwsOptions
 {
     /// <summary>
-    /// The first logging configurations to retrieve. This is used for pagi- nation; see the nextToken response field. Constraints: o min: 0 o max: 1024
+    /// The first logging configurations to retrieve. This is used for pagination; see the nextToken response field. Constraints: • min: 0 • max: 1024
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Maximum number of logging configurations to return. Default: 50. Constraints: o min: 1 o max: 50
+    /// Maximum number of logging configurations to return. Default: 50. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +31,8 @@ public record AwsDatazoneListEnvironmentsOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Lists Amazon DataZone environments. See also: AWS API Documentation list-environments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
-    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="ProjectIdentifier">The identifier of the Amazon DataZone project. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="ProjectIdentifier">The identifier of the Amazon DataZone project. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneListEnvironmentsOptions(
         string DomainIdentifier,
         string ProjectIdentifier
@@ -62,43 +64,43 @@ public record AwsDatazoneListEnvironmentsOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon DataZone domain. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The identifier of the Amazon DataZone domain. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the Amazon DataZone project. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the Amazon DataZone project. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--project-identifier")]
     public string? ProjectIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the Amazon Web Services account where you want to list environments. Constraints: o pattern: \d{12}
+    /// The identifier of the Amazon Web Services account where you want to list environments. Constraints: • pattern: \d{12}
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; set; }
 
     /// <summary>
-    /// The status of the environments that you want to list. Possible values: o ACTIVE o CREATING o UPDATING o DELETING o CREATE_FAILED o UPDATE_FAILED o DELETE_FAILED o VALIDATION_FAILED o SUSPENDED o DISABLED o EXPIRED o DELETED o INACCESSIBLE
+    /// The status of the environments that you want to list. Possible values: • ACTIVE • CREATING • UPDATING • DELETING • CREATE_FAILED • UPDATE_FAILED • DELETE_FAILED • VALIDATION_FAILED • SUSPENDED • DISABLED • EXPIRED • DELETED • INACCESSIBLE
     /// </summary>
     [CliOption("--status")]
     public AwsDatazoneListEnvironmentsStatus? Status { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services region where you want to list environments. Constraints: o pattern: [a-z]{2}-[a-z]{4,10}-\d
+    /// The Amazon Web Services region where you want to list environments. Constraints: • pattern: [a-z]{2}-[a-z]{4,10}-\d
     /// </summary>
     [CliOption("--aws-account-region")]
     public string? AwsAccountRegion { get; set; }
 
     /// <summary>
-    /// The identifier of the environment profile. Constraints: o pattern: [a-zA-Z0-9_-]{0,36}
+    /// The identifier of the environment profile. Constraints: • pattern: [a-zA-Z0-9_-]{0,36}
     /// </summary>
     [CliOption("--environment-profile-identifier")]
     public string? EnvironmentProfileIdentifier { get; set; }
 
     /// <summary>
-    /// The identifier of the Amazon DataZone blueprint. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the Amazon DataZone blueprint. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--environment-blueprint-identifier")]
     public string? EnvironmentBlueprintIdentifier { get; set; }
@@ -118,9 +120,6 @@ public record AwsDatazoneListEnvironmentsOptions : AwsOptions, IValidatableObjec
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -129,16 +128,19 @@ public record AwsDatazoneListEnvironmentsOptions : AwsOptions, IValidatableObjec
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 50
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

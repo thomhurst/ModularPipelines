@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsPartnercentralChannelUpdateRelationshipOptions : AwsOptions, IV
     /// <summary>
     /// Updates the properties of a partner relationship. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">The catalog identifier for the relationship. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z]*</param>
-    /// <param name="Identifier">The unique identifier of the relationship to update. Constraints: o min: 16 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/program-management-account/pma-[a-z0-9]{13}/rela- tionship/)?rs-[a-z0-9]{13}</param>
-    /// <param name="ProgramManagementAccountIdentifier">The identifier of the program management account associated with the relationship. Constraints: o min: 17 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/program-management-account/)?pma-[a-z0-9]{13}</param>
+    /// <param name="Catalog">The catalog identifier for the relationship. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z]*</param>
+    /// <param name="Identifier">The unique identifier of the relationship to update. Constraints: • min: 16 • max: 1011 • pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/program-management-account/pma-[a-z0-9]{13}/relationship/)?rs-[a-z0-9]{13}</param>
+    /// <param name="ProgramManagementAccountIdentifier">The identifier of the program management account associated with the relationship. Constraints: • min: 17 • max: 1011 • pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/program-management-account/)?pma-[a-z0-9]{13}</param>
     public AwsPartnercentralChannelUpdateRelationshipOptions(
         string Catalog,
         string Identifier,
@@ -64,37 +66,37 @@ public record AwsPartnercentralChannelUpdateRelationshipOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog identifier for the relationship. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z]*
+    /// The catalog identifier for the relationship. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z]*
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the relationship to update. Constraints: o min: 16 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/program-management-account/pma-[a-z0-9]{13}/rela- tionship/)?rs-[a-z0-9]{13}
+    /// The unique identifier of the relationship to update. Constraints: • min: 16 • max: 1011 • pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/program-management-account/pma-[a-z0-9]{13}/relationship/)?rs-[a-z0-9]{13}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the program management account associated with the relationship. Constraints: o min: 17 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/program-management-account/)?pma-[a-z0-9]{13}
+    /// The identifier of the program management account associated with the relationship. Constraints: • min: 17 • max: 1011 • pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/program-management-account/)?pma-[a-z0-9]{13}
     /// </summary>
     [CliOption("--program-management-account-identifier")]
     public string? ProgramManagementAccountIdentifier { get; private init; }
 
     /// <summary>
-    /// The current revision number of the relationship. Constraints: o min: 1 o max: 10 o pattern: [0-9]*
+    /// The current revision number of the relationship. Constraints: • min: 1 • max: 10 • pattern: [0-9]*
     /// </summary>
     [CliOption("--revision")]
     public string? Revision { get; set; }
 
     /// <summary>
-    /// The new display name for the relationship. Constraints: o min: 1 o max: 30 o pattern: [^\x00-\x1F\x7F]*
+    /// The new display name for the relationship. Constraints: • min: 1 • max: 30 • pattern: [^\x00-\x1F\x7F]*
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The updated support plan for the relationship. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: resoldEnterprise, partnerLedSupport, resoldUnifiedOperations. resoldEnterprise -&gt; (structure) Configuration for resold enterprise support plans. coverage -&gt; (string) [required] The coverage level for resold enterprise support. Possible values: o ENTIRE_ORGANIZATION o MANAGEMENT_ACCOUNT_ONLY tamLocation -&gt; (string) [required] The location of the Technical Account Manager (TAM). chargeAccountId -&gt; (string) The AWS account ID to charge for the support plan. Constraints: o min: 12 o max: 12 o pattern: [0-9]* partnerLedSupport -&gt; (structure) Configuration for partner-led support plans. coverage -&gt; (string) [required] The coverage level for partner-led support. Possible values: o ENTIRE_ORGANIZATION o MANAGEMENT_ACCOUNT_ONLY provider -&gt; (string) The provider of the partner-led support. Possible values: o DISTRIBUTOR o DISTRIBUTION_SELLER tamLocation -&gt; (string) [required] The location of the Technical Account Manager (TAM). resoldUnifiedOperations -&gt; (structure) Configuration for resold unified operations support plans. coverage -&gt; (string) [required] The coverage level for resold unified operations support. Possible values: o ENTIRE_ORGANIZATION o MANAGEMENT_ACCOUNT_ONLY tamLocation -&gt; (string) [required] The location of the Technical Account Manager (TAM). chargeAccountId -&gt; (string) The AWS account ID to charge for the support plan. Constraints: o min: 12 o max: 12 o pattern: [0-9]* Shorthand Syntax: resoldEnterprise={coverage=string,tamLocation=string,chargeAccountId=string},partnerLedSupport={coverage=string,provider=string,tamLocation=string},resoldUnifiedOperations={coverage=string,tamLocation=string,chargeAccountId=string} JSON Syntax: { "resoldEnterprise": { "coverage": "ENTIRE_ORGANIZATION"|"MANAGEMENT_ACCOUNT_ONLY", "tamLocation": "string", "chargeAccountId": "string" }, "partnerLedSupport": { "coverage": "ENTIRE_ORGANIZATION"|"MANAGEMENT_ACCOUNT_ONLY", "provider": "DISTRIBUTOR"|"DISTRIBUTION_SELLER", "tamLocation": "string" }, "resoldUnifiedOperations": { "coverage": "ENTIRE_ORGANIZATION"|"MANAGEMENT_ACCOUNT_ONLY", "tamLocation": "string", "chargeAccountId": "string" } }
+    /// The updated support plan for the relationship. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: resoldEnterprise, partnerLedSupport, resoldUnifiedOperations. resoldEnterprise -&gt; (structure) Configuration for resold enterprise support plans. coverage -&gt; (string) [required] The coverage level for resold enterprise support. Possible values: • ENTIRE_ORGANIZATION • MANAGEMENT_ACCOUNT_ONLY tamLocation -&gt; (string) [required] The location of the Technical Account Manager (TAM). chargeAccountId -&gt; (string) The AWS account ID to charge for the support plan. Constraints: • min: 12 • max: 12 • pattern: [0-9]* partnerLedSupport -&gt; (structure) Configuration for partner-led support plans. coverage -&gt; (string) [required] The coverage level for partner-led support. Possible values: • ENTIRE_ORGANIZATION • MANAGEMENT_ACCOUNT_ONLY provider -&gt; (string) The provider of the partner-led support. Possible values: • DISTRIBUTOR • DISTRIBUTION_SELLER tamLocation -&gt; (string) [required] The location of the Technical Account Manager (TAM). resoldUnifiedOperations -&gt; (structure) Configuration for resold unified operations support plans. coverage -&gt; (string) [required] The coverage level for resold unified operations support. Possible values: • ENTIRE_ORGANIZATION • MANAGEMENT_ACCOUNT_ONLY tamLocation -&gt; (string) [required] The location of the Technical Account Manager (TAM). chargeAccountId -&gt; (string) The AWS account ID to charge for the support plan. Constraints: • min: 12 • max: 12 • pattern: [0-9]* Shorthand Syntax: resoldEnterprise={coverage=string,tamLocation=string,chargeAccountId=string},partnerLedSupport={coverage=string,provider=string,tamLocation=string},resoldUnifiedOperations={coverage=string,tamLocation=string,chargeAccountId=string} JSON Syntax: { "resoldEnterprise": { "coverage": "ENTIRE_ORGANIZATION"|"MANAGEMENT_ACCOUNT_ONLY", "tamLocation": "string", "chargeAccountId": "string" }, "partnerLedSupport": { "coverage": "ENTIRE_ORGANIZATION"|"MANAGEMENT_ACCOUNT_ONLY", "provider": "DISTRIBUTOR"|"DISTRIBUTION_SELLER", "tamLocation": "string" }, "resoldUnifiedOperations": { "coverage": "ENTIRE_ORGANIZATION"|"MANAGEMENT_ACCOUNT_ONLY", "tamLocation": "string", "chargeAccountId": "string" } }
     /// </summary>
     [CliOption("--requested-support-plan")]
     public string? RequestedSupportPlan { get; set; }

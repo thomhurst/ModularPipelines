@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a scheduled query and stops all future executions. This opera- tion also removes any configured actions and associated resources. See also: AWS API Documentation
+/// Deletes a scheduled query and stops all future executions. This operation also removes any configured actions and associated resources. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLogsDeleteScheduledQueryOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a scheduled query and stops all future executions. This opera- tion also removes any configured actions and associated resources. See also: AWS API Documentation
+    /// Deletes a scheduled query and stops all future executions. This operation also removes any configured actions and associated resources. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The ARN or name of the scheduled query to delete. Constraints: o min: 1 o max: 300</param>
+    /// <param name="Identifier">The ARN or name of the scheduled query to delete. Constraints: • min: 1 • max: 300</param>
     public AwsLogsDeleteScheduledQueryOptions(
         string Identifier
     )
@@ -56,7 +58,7 @@ public record AwsLogsDeleteScheduledQueryOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN or name of the scheduled query to delete. Constraints: o min: 1 o max: 300
+    /// The ARN or name of the scheduled query to delete. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }

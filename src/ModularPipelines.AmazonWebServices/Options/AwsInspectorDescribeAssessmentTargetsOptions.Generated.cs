@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsInspectorDescribeAssessmentTargetsOptions : AwsOptions, IValida
     /// <summary>
     /// Describes the assessment targets that are specified by the ARNs of the assessment targets. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssessmentTargetArns">The ARNs that specifies the assessment targets that you want to de- scribe. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...</param>
+    /// <param name="AssessmentTargetArns">The ARNs that specifies the assessment targets that you want to describe. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 300 Syntax: "string" "string" ...</param>
     public AwsInspectorDescribeAssessmentTargetsOptions(
         IEnumerable<string> AssessmentTargetArns
     )
@@ -67,7 +69,7 @@ public record AwsInspectorDescribeAssessmentTargetsOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARNs that specifies the assessment targets that you want to de- scribe. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...
+    /// The ARNs that specifies the assessment targets that you want to describe. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 300 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--assessment-target-arns", GroupValues = true)]
     public IEnumerable<string>? AssessmentTargetArns { get; private init; }

@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsRedshiftDescribeAccountAttributesOptions : AwsOptions
 {
     /// <summary>
-    /// A list of attribute names. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// A list of attribute names. (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--attribute-names", GroupValues = true)]
     public IEnumerable<string>? AttributeNames { get; set; }

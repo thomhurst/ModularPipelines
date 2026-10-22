@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsEsUpdatePackageOptions : AwsOptions, IValidatableObject
     /// Updates a package for use with Amazon ES domains. See also: AWS API Documentation
     /// </summary>
     /// <param name="PackageId">Unique identifier for the package.</param>
-    /// <param name="PackageSource">The S3 location for importing the package specified as S3BucketName and S3Key S3BucketName -&gt; (string) Name of the bucket containing the package. Constraints: o min: 3 o max: 63 S3Key -&gt; (string) Key (file name) of the package. Shorthand Syntax: S3BucketName=string,S3Key=string JSON Syntax: { "S3BucketName": "string", "S3Key": "string" }</param>
+    /// <param name="PackageSource">The S3 location for importing the package specified as S3BucketName and S3Key S3BucketName -&gt; (string) Name of the bucket containing the package. Constraints: • min: 3 • max: 63 S3Key -&gt; (string) Key (file name) of the package. Shorthand Syntax: S3BucketName=string,S3Key=string JSON Syntax: { "S3BucketName": "string", "S3Key": "string" }</param>
     public AwsEsUpdatePackageOptions(
         string PackageId,
         string PackageSource
@@ -66,19 +68,19 @@ public record AwsEsUpdatePackageOptions : AwsOptions, IValidatableObject
     public string? PackageId { get; private init; }
 
     /// <summary>
-    /// The S3 location for importing the package specified as S3BucketName and S3Key S3BucketName -&gt; (string) Name of the bucket containing the package. Constraints: o min: 3 o max: 63 S3Key -&gt; (string) Key (file name) of the package. Shorthand Syntax: S3BucketName=string,S3Key=string JSON Syntax: { "S3BucketName": "string", "S3Key": "string" }
+    /// The S3 location for importing the package specified as S3BucketName and S3Key S3BucketName -&gt; (string) Name of the bucket containing the package. Constraints: • min: 3 • max: 63 S3Key -&gt; (string) Key (file name) of the package. Shorthand Syntax: S3BucketName=string,S3Key=string JSON Syntax: { "S3BucketName": "string", "S3Key": "string" }
     /// </summary>
     [CliOption("--package-source")]
     public string? PackageSource { get; private init; }
 
     /// <summary>
-    /// New description of the package. Constraints: o max: 1024
+    /// New description of the package. Constraints: • max: 1024
     /// </summary>
     [CliOption("--package-description")]
     public string? PackageDescription { get; set; }
 
     /// <summary>
-    /// An info message for the new version which will be shown as part of GetPackageVersionHistoryResponse . Constraints: o max: 160
+    /// An info message for the new version which will be shown as part of GetPackageVersionHistoryResponse . Constraints: • max: 160
     /// </summary>
     [CliOption("--commit-message")]
     public string? CommitMessage { get; set; }

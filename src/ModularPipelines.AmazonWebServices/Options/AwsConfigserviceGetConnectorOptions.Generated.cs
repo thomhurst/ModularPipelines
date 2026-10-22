@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsConfigserviceGetConnectorOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Returns the details of the specified connector. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the connector. Constraints: o min: 1 o max: 1000</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the connector. Constraints: • min: 1 • max: 1000</param>
     public AwsConfigserviceGetConnectorOptions(
         string Arn
     )
@@ -56,7 +58,7 @@ public record AwsConfigserviceGetConnectorOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the connector. Constraints: o min: 1 o max: 1000
+    /// The Amazon Resource Name (ARN) of the connector. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }

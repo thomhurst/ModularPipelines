@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws wait commands.
+/// aws lexv2-models wait commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsLexv2ModelsWait
@@ -137,7 +137,7 @@ public class AwsLexv2ModelsWait
     }
 
     /// <summary>
-    /// Wait until a bot version is available It will poll every 10 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 35 failed checks. See also: AWS API Documentation
+    /// Wait until a bot version is available It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 35 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

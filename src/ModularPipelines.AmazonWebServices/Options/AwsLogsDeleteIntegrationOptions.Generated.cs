@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsLogsDeleteIntegrationOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the integration between CloudWatch Logs and OpenSearch Service. If your integration has active vended logs dashboards, you must specify true for the force parameter, otherwise the operation will fail. If you delete the integration by setting force to true , all your vended logs dashboards powered by OpenSearch Service will be deleted and the data that was on them will no longer be accessible. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IntegrationName">The name of the integration to delete. To find the name of your in- tegration, use ListIntegrations . Constraints: o min: 1 o max: 50 o pattern: [\.\-_/#A-Za-z0-9]+</param>
+    /// <param name="IntegrationName">The name of the integration to delete. To find the name of your integration, use ListIntegrations . Constraints: • min: 1 • max: 50 • pattern: [\.\-_/#A-Za-z0-9]+</param>
     public AwsLogsDeleteIntegrationOptions(
         string IntegrationName
     )
@@ -56,7 +58,7 @@ public record AwsLogsDeleteIntegrationOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the integration to delete. To find the name of your in- tegration, use ListIntegrations . Constraints: o min: 1 o max: 50 o pattern: [\.\-_/#A-Za-z0-9]+
+    /// The name of the integration to delete. To find the name of your integration, use ListIntegrations . Constraints: • min: 1 • max: 50 • pattern: [\.\-_/#A-Za-z0-9]+
     /// </summary>
     [CliOption("--integration-name")]
     public string? IntegrationName { get; private init; }

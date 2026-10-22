@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,9 +31,9 @@ public record AwsBedrockDataAutomationCopyBlueprintStageOptions : AwsOptions, IV
     /// <summary>
     /// Copies a Blueprint from one stage to another See also: AWS API Documentation
     /// </summary>
-    /// <param name="BlueprintArn">Blueprint to be copied Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blue- print/(bedrock-data-automation-pub- lic-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36})</param>
-    /// <param name="SourceStage">Source stage to copy from Possible values: o DEVELOPMENT o LIVE</param>
-    /// <param name="TargetStage">Target stage to copy to Possible values: o DEVELOPMENT o LIVE</param>
+    /// <param name="BlueprintArn">Blueprint to be copied Constraints: • min: 0 • max: 128 • pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blueprint/(bedrock-data-automation-public-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36})</param>
+    /// <param name="SourceStage">Source stage to copy from Possible values: • DEVELOPMENT • LIVE</param>
+    /// <param name="TargetStage">Target stage to copy to Possible values: • DEVELOPMENT • LIVE</param>
     public AwsBedrockDataAutomationCopyBlueprintStageOptions(
         string BlueprintArn,
         AwsBedrockDataAutomationCopyBlueprintStageSourceStage SourceStage,
@@ -64,25 +66,25 @@ public record AwsBedrockDataAutomationCopyBlueprintStageOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Blueprint to be copied Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blue- print/(bedrock-data-automation-pub- lic-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36})
+    /// Blueprint to be copied Constraints: • min: 0 • max: 128 • pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blueprint/(bedrock-data-automation-public-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36})
     /// </summary>
     [CliOption("--blueprint-arn")]
     public string? BlueprintArn { get; private init; }
 
     /// <summary>
-    /// Source stage to copy from Possible values: o DEVELOPMENT o LIVE
+    /// Source stage to copy from Possible values: • DEVELOPMENT • LIVE
     /// </summary>
     [CliOption("--source-stage")]
     public AwsBedrockDataAutomationCopyBlueprintStageSourceStage? SourceStage { get; private init; }
 
     /// <summary>
-    /// Target stage to copy to Possible values: o DEVELOPMENT o LIVE
+    /// Target stage to copy to Possible values: • DEVELOPMENT • LIVE
     /// </summary>
     [CliOption("--target-stage")]
     public AwsBedrockDataAutomationCopyBlueprintStageTargetStage? TargetStage { get; private init; }
 
     /// <summary>
-    /// Client token for idempotency Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// Client token for idempotency Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

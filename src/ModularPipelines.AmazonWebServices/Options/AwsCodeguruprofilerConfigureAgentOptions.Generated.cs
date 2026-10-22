@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,7 +29,7 @@ public record AwsCodeguruprofilerConfigureAgentOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Used by profiler agents to report their current state and to receive remote configuration updates. For example, ConfigureAgent can be used to tell an agent whether to profile or not and for how long to return profiling data. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfilingGroupName">The name of the profiling group for which the configured agent is collecting profiling data. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$</param>
+    /// <param name="ProfilingGroupName">The name of the profiling group for which the configured agent is collecting profiling data. Constraints: • min: 1 • max: 255 • pattern: ^[\w-]+$</param>
     public AwsCodeguruprofilerConfigureAgentOptions(
         string ProfilingGroupName
     )
@@ -57,19 +58,19 @@ public record AwsCodeguruprofilerConfigureAgentOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the profiling group for which the configured agent is collecting profiling data. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$
+    /// The name of the profiling group for which the configured agent is collecting profiling data. Constraints: • min: 1 • max: 255 • pattern: ^[\w-]+$
     /// </summary>
     [CliOption("--profiling-group-name")]
     public string? ProfilingGroupName { get; private init; }
 
     /// <summary>
-    /// A universally unique identifier (UUID) for a profiling instance. For example, if the profiling instance is an Amazon EC2 instance, it is the instance ID. If it is an AWS Fargate container, it is the con- tainer's task ID. Constraints: o min: 1 o max: 255
+    /// A universally unique identifier (UUID) for a profiling instance. For example, if the profiling instance is an Amazon EC2 instance, it is the instance ID. If it is an AWS Fargate container, it is the container's task ID. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--fleet-instance-id")]
     public string? FleetInstanceId { get; set; }
 
     /// <summary>
-    /// Metadata captured about the compute platform the agent is running on. It includes information about sampling and reporting. The valid fields are: o COMPUTE_PLATFORM - The compute platform on which the agent is run- ning o AGENT_ID - The ID for an agent instance. o AWS_REQUEST_ID - The AWS request ID of a Lambda invocation. o EXECUTION_ENVIRONMENT - The execution environment a Lambda func- tion is running on. o LAMBDA_FUNCTION_ARN - The Amazon Resource Name (ARN) that is used to invoke a Lambda function. o LAMBDA_MEMORY_LIMIT_IN_MB - The memory allocated to a Lambda func- tion. o LAMBDA_REMAINING_TIME_IN_MILLISECONDS - The time in milliseconds before execution of a Lambda function times out. o LAMBDA_TIME_GAP_BETWEEN_INVOKES_IN_MILLISECONDS - The time in mil- liseconds between two invocations of a Lambda function. o LAMBDA_PREVIOUS_EXECUTION_TIME_IN_MILLISECONDS - The time in mil- liseconds for the previous Lambda invocation. key -&gt; (string) Possible values: o ComputePlatform o AgentId o AwsRequestId o ExecutionEnvironment o LambdaFunctionArn o LambdaMemoryLimitInMB o LambdaRemainingTimeInMilliseconds o LambdaTimeGapBetweenInvokesInMilliseconds o LambdaPreviousExecutionTimeInMilliseconds value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: ComputePlatform AgentId AwsRequestId ExecutionEnvironment LambdaFunctionArn LambdaMemoryLimitInMB LambdaRemainingTimeInMilliseconds LambdaTimeGapBetweenInvokesInMilliseconds LambdaPreviousExecutionTimeInMilliseconds JSON Syntax: {"ComputePlatform"|"AgentId"|"AwsRequestId"|"ExecutionEnvironment"|"LambdaFunctionArn"|"LambdaMemoryLimitInMB"|"LambdaRemainingTimeInMilliseconds"|"LambdaTimeGapBetweenInvokesInMilliseconds"|"LambdaPreviousExecutionTimeInMilliseconds": "string" ...}
+    /// Metadata captured about the compute platform the agent is running on. It includes information about sampling and reporting. The valid fields are: • COMPUTE_PLATFORM - The compute platform on which the agent is running • AGENT_ID - The ID for an agent instance. • AWS_REQUEST_ID - The AWS request ID of a Lambda invocation. • EXECUTION_ENVIRONMENT - The execution environment a Lambda function is running on. • LAMBDA_FUNCTION_ARN - The Amazon Resource Name (ARN) that is used to invoke a Lambda function. • LAMBDA_MEMORY_LIMIT_IN_MB - The memory allocated to a Lambda function. • LAMBDA_REMAINING_TIME_IN_MILLISECONDS - The time in milliseconds before execution of a Lambda function times out. • LAMBDA_TIME_GAP_BETWEEN_INVOKES_IN_MILLISECONDS - The time in milliseconds between two invocations of a Lambda function. • LAMBDA_PREVIOUS_EXECUTION_TIME_IN_MILLISECONDS - The time in milliseconds for the previous Lambda invocation. key -&gt; (string) Possible values: • ComputePlatform • AgentId • AwsRequestId • ExecutionEnvironment • LambdaFunctionArn • LambdaMemoryLimitInMB • LambdaRemainingTimeInMilliseconds • LambdaTimeGapBetweenInvokesInMilliseconds • LambdaPreviousExecutionTimeInMilliseconds value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: ComputePlatform AgentId AwsRequestId ExecutionEnvironment LambdaFunctionArn LambdaMemoryLimitInMB LambdaRemainingTimeInMilliseconds LambdaTimeGapBetweenInvokesInMilliseconds LambdaPreviousExecutionTimeInMilliseconds JSON Syntax: {"ComputePlatform"|"AgentId"|"AwsRequestId"|"ExecutionEnvironment"|"LambdaFunctionArn"|"LambdaMemoryLimitInMB"|"LambdaRemainingTimeInMilliseconds"|"LambdaTimeGapBetweenInvokesInMilliseconds"|"LambdaPreviousExecutionTimeInMilliseconds": "string" ...}
     /// </summary>
     [CliOption("--metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }

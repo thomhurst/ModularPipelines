@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates Amazon Quick Sight customizations. Currently, the only cus- tomization that you can use is a theme. You can use customizations for your Amazon Web Services account or, if you specify a namespace, for a Quick Sight namespace instead. Cus- tomizations that apply to a namespace override customizations that ap- ply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation. See also: AWS API Documentation
+/// Updates Amazon Quick Sight customizations. Currently, the only customization that you can use is a theme. You can use customizations for your Amazon Web Services account or, if you specify a namespace, for a Quick Sight namespace instead. Customizations that apply to a namespace override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsQuicksightUpdateAccountCustomizationOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates Amazon Quick Sight customizations. Currently, the only cus- tomization that you can use is a theme. You can use customizations for your Amazon Web Services account or, if you specify a namespace, for a Quick Sight namespace instead. Cus- tomizations that apply to a namespace override customizations that ap- ply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation. See also: AWS API Documentation
+    /// Updates Amazon Quick Sight customizations. Currently, the only customization that you can use is a theme. You can use customizations for your Amazon Web Services account or, if you specify a namespace, for a Quick Sight namespace instead. Customizations that apply to a namespace override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that you want to update Quick Sight customizations for. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that you want to update Quick Sight customizations for. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
     /// <param name="AccountCustomization">The Quick Sight customizations you're updating. DefaultTheme -&gt; (string) The default theme for this Quick Sight subscription. DefaultEmailCustomizationTemplate -&gt; (string) The default email customization template. Shorthand Syntax: DefaultTheme=string,DefaultEmailCustomizationTemplate=string JSON Syntax: { "DefaultTheme": "string", "DefaultEmailCustomizationTemplate": "string" }</param>
     public AwsQuicksightUpdateAccountCustomizationOptions(
         string AwsAccountId,
@@ -60,7 +62,7 @@ public record AwsQuicksightUpdateAccountCustomizationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID for the Amazon Web Services account that you want to update Quick Sight customizations for. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID for the Amazon Web Services account that you want to update Quick Sight customizations for. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
@@ -72,7 +74,7 @@ public record AwsQuicksightUpdateAccountCustomizationOptions : AwsOptions, IVali
     public string? AccountCustomization { get; private init; }
 
     /// <summary>
-    /// The namespace that you want to update Quick Sight customizations for. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// The namespace that you want to update Quick Sight customizations for. Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; set; }

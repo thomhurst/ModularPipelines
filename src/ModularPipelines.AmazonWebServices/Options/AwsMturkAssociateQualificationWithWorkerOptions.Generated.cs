@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The AssociateQualificationWithWorker operation gives a Worker a Quali- fication. AssociateQualificationWithWorker does not require that the Worker submit a Qualification request. It gives the Qualification di- rectly to the Worker. You can only assign a Qualification of a Qualification type that you created (using the CreateQualificationType operation). NOTE: Note: AssociateQualificationWithWorker does not affect any pending Qualification requests for the Qualification by the Worker. If you assi...
+/// The AssociateQualificationWithWorker operation gives a Worker a Qualification. AssociateQualificationWithWorker does not require that the Worker submit a Qualification request. It gives the Qualification directly to the Worker. You can only assign a Qualification of a Qualification type that you created (using the CreateQualificationType operation). NOTE: Note: AssociateQualificationWithWorker does not affect any pending Qualification requests for the Qualification by the Worker. If you assign a...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsMturkAssociateQualificationWithWorkerOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The AssociateQualificationWithWorker operation gives a Worker a Quali- fication. AssociateQualificationWithWorker does not require that the Worker submit a Qualification request. It gives the Qualification di- rectly to the Worker. You can only assign a Qualification of a Qualification type that you created (using the CreateQualificationType operation). NOTE: Note: AssociateQualificationWithWorker does not affect any pending Qualification requests for the Qualification by the Worker. If you assi...
+    /// The AssociateQualificationWithWorker operation gives a Worker a Qualification. AssociateQualificationWithWorker does not require that the Worker submit a Qualification request. It gives the Qualification directly to the Worker. You can only assign a Qualification of a Qualification type that you created (using the CreateQualificationType operation). NOTE: Note: AssociateQualificationWithWorker does not affect any pending Qualification requests for the Qualification by the Worker. If you assign a...
     /// </summary>
-    /// <param name="QualificationTypeId">The ID of the Qualification type to use for the assigned Qualifica- tion. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$</param>
-    /// <param name="WorkerId">The ID of the Worker to whom the Qualification is being assigned. Worker IDs are included with submitted HIT assignments and Qualifi- cation requests. Constraints: o min: 1 o max: 64 o pattern: ^A[A-Z0-9]+$</param>
+    /// <param name="QualificationTypeId">The ID of the Qualification type to use for the assigned Qualification. Constraints: • min: 1 • max: 64 • pattern: ^[A-Z0-9]+$</param>
+    /// <param name="WorkerId">The ID of the Worker to whom the Qualification is being assigned. Worker IDs are included with submitted HIT assignments and Qualification requests. Constraints: • min: 1 • max: 64 • pattern: ^A[A-Z0-9]+$</param>
     public AwsMturkAssociateQualificationWithWorkerOptions(
         string QualificationTypeId,
         string WorkerId
@@ -60,13 +62,13 @@ public record AwsMturkAssociateQualificationWithWorkerOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Qualification type to use for the assigned Qualifica- tion. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$
+    /// The ID of the Qualification type to use for the assigned Qualification. Constraints: • min: 1 • max: 64 • pattern: ^[A-Z0-9]+$
     /// </summary>
     [CliOption("--qualification-type-id")]
     public string? QualificationTypeId { get; private init; }
 
     /// <summary>
-    /// The ID of the Worker to whom the Qualification is being assigned. Worker IDs are included with submitted HIT assignments and Qualifi- cation requests. Constraints: o min: 1 o max: 64 o pattern: ^A[A-Z0-9]+$
+    /// The ID of the Worker to whom the Qualification is being assigned. Worker IDs are included with submitted HIT assignments and Qualification requests. Constraints: • min: 1 • max: 64 • pattern: ^A[A-Z0-9]+$
     /// </summary>
     [CliOption("--worker-id")]
     public string? WorkerId { get; private init; }

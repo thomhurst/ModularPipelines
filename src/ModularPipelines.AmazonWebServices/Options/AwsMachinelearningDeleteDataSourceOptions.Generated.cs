@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Assigns the DELETED status to a DataSource , rendering it unusable. After using the DeleteDataSource operation, you can use the GetData- Source operation to verify that the status of the DataSource changed to DELETED. Caution: The results of the DeleteDataSource operation are irre- versible. See also: AWS API Documentation
+/// Assigns the DELETED status to a DataSource , rendering it unusable. After using the DeleteDataSource operation, you can use the GetDataSource operation to verify that the status of the DataSource changed to DELETED. Caution: The results of the DeleteDataSource operation are irreversible. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsMachinelearningDeleteDataSourceOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Assigns the DELETED status to a DataSource , rendering it unusable. After using the DeleteDataSource operation, you can use the GetData- Source operation to verify that the status of the DataSource changed to DELETED. Caution: The results of the DeleteDataSource operation are irre- versible. See also: AWS API Documentation
+    /// Assigns the DELETED status to a DataSource , rendering it unusable. After using the DeleteDataSource operation, you can use the GetDataSource operation to verify that the status of the DataSource changed to DELETED. Caution: The results of the DeleteDataSource operation are irreversible. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSourceId">A user-supplied ID that uniquely identifies the DataSource . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="DataSourceId">A user-supplied ID that uniquely identifies the DataSource . Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsMachinelearningDeleteDataSourceOptions(
         string DataSourceId
     )
@@ -56,7 +58,7 @@ public record AwsMachinelearningDeleteDataSourceOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A user-supplied ID that uniquely identifies the DataSource . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// A user-supplied ID that uniquely identifies the DataSource . Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--data-source-id")]
     public string? DataSourceId { get; private init; }

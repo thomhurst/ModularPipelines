@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,11 +30,11 @@ public record AwsCodepipelinePutApprovalResultOptions : AwsOptions, IValidatable
     /// <summary>
     /// Provides the response to a manual approval request to CodePipeline. Valid responses include Approved and Rejected. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PipelineName">The name of the pipeline that contains the action. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+</param>
-    /// <param name="StageName">The name of the stage that contains the action. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+</param>
-    /// <param name="ActionName">The name of the action for which approval is requested. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+</param>
-    /// <param name="Result">Represents information about the result of the approval request. summary -&gt; (string) [required] The summary of the current status of the approval request. Constraints: o min: 0 o max: 512 status -&gt; (string) [required] The response submitted by a reviewer assigned to an approval ac- tion request. Possible values: o Approved o Rejected Shorthand Syntax: summary=string,status=string JSON Syntax: { "summary": "string", "status": "Approved"|"Rejected" }</param>
-    /// <param name="Token">The system-generated token used to identify a unique approval re- quest. The token for each open approval request can be obtained us- ing the GetPipelineState action. It is used to validate that the approval request corresponding to this token is still valid. WARNING: For a pipeline where the execution mode is set to PARALLEL, the token required to approve/reject an approval request as detailed above is not available. Instead, use the externalExecutionId in the response output from the ListActionExecutions action as the token in the approval request. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="PipelineName">The name of the pipeline that contains the action. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+</param>
+    /// <param name="StageName">The name of the stage that contains the action. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+</param>
+    /// <param name="ActionName">The name of the action for which approval is requested. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+</param>
+    /// <param name="Result">Represents information about the result of the approval request. summary -&gt; (string) [required] The summary of the current status of the approval request. Constraints: • min: 0 • max: 512 status -&gt; (string) [required] The response submitted by a reviewer assigned to an approval action request. Possible values: • Approved • Rejected Shorthand Syntax: summary=string,status=string JSON Syntax: { "summary": "string", "status": "Approved"|"Rejected" }</param>
+    /// <param name="Token">The system-generated token used to identify a unique approval request. The token for each open approval request can be obtained using the GetPipelineState action. It is used to validate that the approval request corresponding to this token is still valid. WARNING: For a pipeline where the execution mode is set to PARALLEL, the token required to approve/reject an approval request as detailed above is not available. Instead, use the externalExecutionId in the response output from the ListActionExecutions action as the token in the approval request. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     public AwsCodepipelinePutApprovalResultOptions(
         string PipelineName,
         string StageName,
@@ -73,31 +75,31 @@ public record AwsCodepipelinePutApprovalResultOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the pipeline that contains the action. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+
+    /// The name of the pipeline that contains the action. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+
     /// </summary>
     [CliOption("--pipeline-name")]
     public string? PipelineName { get; private init; }
 
     /// <summary>
-    /// The name of the stage that contains the action. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+
+    /// The name of the stage that contains the action. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+
     /// </summary>
     [CliOption("--stage-name")]
     public string? StageName { get; private init; }
 
     /// <summary>
-    /// The name of the action for which approval is requested. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+
+    /// The name of the action for which approval is requested. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+
     /// </summary>
     [CliOption("--action-name")]
     public string? ActionName { get; private init; }
 
     /// <summary>
-    /// Represents information about the result of the approval request. summary -&gt; (string) [required] The summary of the current status of the approval request. Constraints: o min: 0 o max: 512 status -&gt; (string) [required] The response submitted by a reviewer assigned to an approval ac- tion request. Possible values: o Approved o Rejected Shorthand Syntax: summary=string,status=string JSON Syntax: { "summary": "string", "status": "Approved"|"Rejected" }
+    /// Represents information about the result of the approval request. summary -&gt; (string) [required] The summary of the current status of the approval request. Constraints: • min: 0 • max: 512 status -&gt; (string) [required] The response submitted by a reviewer assigned to an approval action request. Possible values: • Approved • Rejected Shorthand Syntax: summary=string,status=string JSON Syntax: { "summary": "string", "status": "Approved"|"Rejected" }
     /// </summary>
     [CliOption("--result")]
     public string? Result { get; private init; }
 
     /// <summary>
-    /// The system-generated token used to identify a unique approval re- quest. The token for each open approval request can be obtained us- ing the GetPipelineState action. It is used to validate that the approval request corresponding to this token is still valid. WARNING: For a pipeline where the execution mode is set to PARALLEL, the token required to approve/reject an approval request as detailed above is not available. Instead, use the externalExecutionId in the response output from the ListActionExecutions action as the token in the approval request. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The system-generated token used to identify a unique approval request. The token for each open approval request can be obtained using the GetPipelineState action. It is used to validate that the approval request corresponding to this token is still valid. WARNING: For a pipeline where the execution mode is set to PARALLEL, the token required to approve/reject an approval request as detailed above is not available. Instead, use the externalExecutionId in the response output from the ListActionExecutions action as the token in the approval request. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [SecretValue]
     [CliOption("--token")]

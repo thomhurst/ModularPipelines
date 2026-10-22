@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Validates CloudTrail logs for a given period of time. This command uses the digest files delivered to your S3 bucket to perform the validation. It supports validation of both digest files and backfill digest files in a single run. The AWS CLI allows you to detect the following types of changes: o Modification or deletion of CloudTrail log files. o Modification or deletion of CloudTrail digest files. To validate log files with the AWS CLI, the following preconditions must be met: o You must have ...
+/// Validates CloudTrail logs for a given period of time. This command uses the digest files delivered to your S3 bucket to perform the validation. It supports validation of both digest files and backfill digest files in a single run. The AWS CLI allows you to detect the following types of changes: • Modification or deletion of CloudTrail log files. • Modification or deletion of CloudTrail digest files. To validate log files with the AWS CLI, the following preconditions must be met: • You must have ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudtrailValidateLogsOptions : AwsOptions
 {
     /// <summary>
-    /// Validates CloudTrail logs for a given period of time. This command uses the digest files delivered to your S3 bucket to perform the validation. It supports validation of both digest files and backfill digest files in a single run. The AWS CLI allows you to detect the following types of changes: o Modification or deletion of CloudTrail log files. o Modification or deletion of CloudTrail digest files. To validate log files with the AWS CLI, the following preconditions must be met: o You must have ...
+    /// Validates CloudTrail logs for a given period of time. This command uses the digest files delivered to your S3 bucket to perform the validation. It supports validation of both digest files and backfill digest files in a single run. The AWS CLI allows you to detect the following types of changes: • Modification or deletion of CloudTrail log files. • Modification or deletion of CloudTrail digest files. To validate log files with the AWS CLI, the following preconditions must be met: • You must have ...
     /// </summary>
     /// <param name="TrailArn"></param>
     /// <param name="StartTime"></param>

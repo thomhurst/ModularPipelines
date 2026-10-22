@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Create an App Runner connection resource. App Runner requires a connec- tion resource when you create App Runner services that access private repositories from certain third-party providers. You can share a con- nection across multiple services. A connection resource is needed to access GitHub and Bitbucket reposi- tories. Both require a user interface approval process through the App Runner console before you can use the connection. See also: AWS API Documentation
+/// Create an App Runner connection resource. App Runner requires a connection resource when you create App Runner services that access private repositories from certain third-party providers. You can share a connection across multiple services. A connection resource is needed to access GitHub and Bitbucket repositories. Both require a user interface approval process through the App Runner console before you can use the connection. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsApprunnerCreateConnectionOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Create an App Runner connection resource. App Runner requires a connec- tion resource when you create App Runner services that access private repositories from certain third-party providers. You can share a con- nection across multiple services. A connection resource is needed to access GitHub and Bitbucket reposi- tories. Both require a user interface approval process through the App Runner console before you can use the connection. See also: AWS API Documentation
+    /// Create an App Runner connection resource. App Runner requires a connection resource when you create App Runner services that access private repositories from certain third-party providers. You can share a connection across multiple services. A connection resource is needed to access GitHub and Bitbucket repositories. Both require a user interface approval process through the App Runner console before you can use the connection. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectionName">A name for the new connection. It must be unique across all App Run- ner connections for the Amazon Web Services account in the Amazon Web Services Region. Constraints: o min: 4 o max: 32 o pattern: [A-Za-z0-9][A-Za-z0-9\-_]{3,31}</param>
-    /// <param name="ProviderType">The source repository provider. Possible values: o GITHUB o BITBUCKET</param>
+    /// <param name="ConnectionName">A name for the new connection. It must be unique across all App Runner connections for the Amazon Web Services account in the Amazon Web Services Region. Constraints: • min: 4 • max: 32 • pattern: [A-Za-z0-9][A-Za-z0-9\-_]{3,31}</param>
+    /// <param name="ProviderType">The source repository provider. Possible values: • GITHUB • BITBUCKET</param>
     public AwsApprunnerCreateConnectionOptions(
         string ConnectionName,
         AwsApprunnerCreateConnectionProviderType ProviderType
@@ -60,19 +62,19 @@ public record AwsApprunnerCreateConnectionOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name for the new connection. It must be unique across all App Run- ner connections for the Amazon Web Services account in the Amazon Web Services Region. Constraints: o min: 4 o max: 32 o pattern: [A-Za-z0-9][A-Za-z0-9\-_]{3,31}
+    /// A name for the new connection. It must be unique across all App Runner connections for the Amazon Web Services account in the Amazon Web Services Region. Constraints: • min: 4 • max: 32 • pattern: [A-Za-z0-9][A-Za-z0-9\-_]{3,31}
     /// </summary>
     [CliOption("--connection-name")]
     public string? ConnectionName { get; private init; }
 
     /// <summary>
-    /// The source repository provider. Possible values: o GITHUB o BITBUCKET
+    /// The source repository provider. Possible values: • GITHUB • BITBUCKET
     /// </summary>
     [CliOption("--provider-type")]
     public AwsApprunnerCreateConnectionProviderType? ProviderType { get; private init; }
 
     /// <summary>
-    /// A list of metadata items that you can associate with your connection resource. A tag is a key-value pair. (structure) Describes a tag that is applied to an App Runner resource. A tag is a metadata item consisting of a key-value pair. Key -&gt; (string) The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:).+ Value -&gt; (string) The value of the tag. Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of metadata items that you can associate with your connection resource. A tag is a key-value pair. (structure) Describes a tag that is applied to an App Runner resource. A tag is a metadata item consisting of a key-value pair. Key -&gt; (string) The key of the tag. Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:).+ Value -&gt; (string) The value of the tag. Constraints: • min: 0 • max: 256 • pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

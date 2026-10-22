@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -72,7 +74,7 @@ public record AwsApigatewayDeleteBasePathMappingOptions : AwsOptions, IValidatab
     public string? BasePath { get; private init; }
 
     /// <summary>
-    /// The identifier for the domain name resource. Supported only for pri- vate custom domain names.
+    /// The identifier for the domain name resource. Supported only for private custom domain names.
     /// </summary>
     [CliOption("--domain-name-id")]
     public string? DomainNameId { get; set; }

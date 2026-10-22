@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsCodeguruReviewerPutRecommendationFeedbackOptions : AwsOptions, 
     /// <summary>
     /// Stores customer feedback for a CodeGuru Reviewer recommendation. When this API is called again with different reactions the previous feedback is overwritten. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CodeReviewArn">The Amazon Resource Name (ARN) of the CodeReview object. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws[^:\s]*:codeguru-re- viewer:[^:\s]+:[\d]{12}:[a-z-]+:[\w-]+$</param>
-    /// <param name="RecommendationId">The recommendation ID that can be used to track the provided recom- mendations and then to collect the feedback. Constraints: o min: 1 o max: 64</param>
-    /// <param name="Reactions">List for storing reactions. Reactions are utf-8 text code for emo- jis. If you send an empty list it clears all your feedback. Constraints: o min: 0 o max: 1 (string) Possible values: o ThumbsUp o ThumbsDown Syntax: "string" "string" ...</param>
+    /// <param name="CodeReviewArn">The Amazon Resource Name (ARN) of the CodeReview object. Constraints: • min: 1 • max: 1600 • pattern: ^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:[a-z-]+:[\w-]+$</param>
+    /// <param name="RecommendationId">The recommendation ID that can be used to track the provided recommendations and then to collect the feedback. Constraints: • min: 1 • max: 64</param>
+    /// <param name="Reactions">List for storing reactions. Reactions are utf-8 text code for emojis. If you send an empty list it clears all your feedback. Constraints: • min: 0 • max: 1 (string) Possible values: • ThumbsUp • ThumbsDown Syntax: "string" "string" ...</param>
     public AwsCodeguruReviewerPutRecommendationFeedbackOptions(
         string CodeReviewArn,
         string RecommendationId,
@@ -75,19 +77,19 @@ public record AwsCodeguruReviewerPutRecommendationFeedbackOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the CodeReview object. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws[^:\s]*:codeguru-re- viewer:[^:\s]+:[\d]{12}:[a-z-]+:[\w-]+$
+    /// The Amazon Resource Name (ARN) of the CodeReview object. Constraints: • min: 1 • max: 1600 • pattern: ^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:[a-z-]+:[\w-]+$
     /// </summary>
     [CliOption("--code-review-arn")]
     public string? CodeReviewArn { get; private init; }
 
     /// <summary>
-    /// The recommendation ID that can be used to track the provided recom- mendations and then to collect the feedback. Constraints: o min: 1 o max: 64
+    /// The recommendation ID that can be used to track the provided recommendations and then to collect the feedback. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--recommendation-id")]
     public string? RecommendationId { get; private init; }
 
     /// <summary>
-    /// List for storing reactions. Reactions are utf-8 text code for emo- jis. If you send an empty list it clears all your feedback. Constraints: o min: 0 o max: 1 (string) Possible values: o ThumbsUp o ThumbsDown Syntax: "string" "string" ...
+    /// List for storing reactions. Reactions are utf-8 text code for emojis. If you send an empty list it clears all your feedback. Constraints: • min: 0 • max: 1 (string) Possible values: • ThumbsUp • ThumbsDown Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--reactions", GroupValues = true)]
     public IEnumerable<string>? Reactions { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns metadata about a backup access point, including its status and the details of the underlying Amazon S3 access point. After a backup access point reaches the AVAILABLE status, use this op- eration to retrieve the Amazon S3 access point ARN and alias that you need to read the backup data. See also: AWS API Documentation
+/// Returns metadata about a backup access point, including its status and the details of the underlying Amazon S3 access point. After a backup access point reaches the AVAILABLE status, use this operation to retrieve the Amazon S3 access point ARN and alias that you need to read the backup data. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsBackupDescribeBackupAccessPointOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns metadata about a backup access point, including its status and the details of the underlying Amazon S3 access point. After a backup access point reaches the AVAILABLE status, use this op- eration to retrieve the Amazon S3 access point ARN and alias that you need to read the backup data. See also: AWS API Documentation
+    /// Returns metadata about a backup access point, including its status and the details of the underlying Amazon S3 access point. After a backup access point reaches the AVAILABLE status, use this operation to retrieve the Amazon S3 access point ARN and alias that you need to read the backup data. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccessPointArn">The Amazon Resource Name (ARN) of the backup access point to de- scribe. Constraints: o pattern: (arn:aws[a-z-]*:backup:[a-z-\d]+:\d{12}:access- point/)[\da-z]{1}[\da-z-]{1,48}[\da-z]{1}(?&lt;!-s3alias)(?&lt;!-ext-s3alias)</param>
+    /// <param name="AccessPointArn">The Amazon Resource Name (ARN) of the backup access point to describe. Constraints: • pattern: (arn:aws[a-z-]*:backup:[a-z-\d]+:\d{12}:accesspoint/)[\da-z]{1}[\da-z-]{1,48}[\da-z]{1}(?&lt;!-s3alias)(?&lt;!-ext-s3alias)</param>
     public AwsBackupDescribeBackupAccessPointOptions(
         string AccessPointArn
     )
@@ -56,7 +58,7 @@ public record AwsBackupDescribeBackupAccessPointOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the backup access point to de- scribe. Constraints: o pattern: (arn:aws[a-z-]*:backup:[a-z-\d]+:\d{12}:access- point/)[\da-z]{1}[\da-z-]{1,48}[\da-z]{1}(?&lt;!-s3alias)(?&lt;!-ext-s3alias)
+    /// The Amazon Resource Name (ARN) of the backup access point to describe. Constraints: • pattern: (arn:aws[a-z-]*:backup:[a-z-\d]+:\d{12}:accesspoint/)[\da-z]{1}[\da-z-]{1,48}[\da-z]{1}(?&lt;!-s3alias)(?&lt;!-ext-s3alias)
     /// </summary>
     [CliOption("--access-point-arn")]
     public string? AccessPointArn { get; private init; }

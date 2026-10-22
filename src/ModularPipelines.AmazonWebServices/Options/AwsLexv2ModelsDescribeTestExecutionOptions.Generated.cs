@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsLexv2ModelsDescribeTestExecutionOptions : AwsOptions, IValidata
     /// <summary>
     /// Gets metadata information about the test execution. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TestExecutionId">The execution Id of the test set execution. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="TestExecutionId">The execution Id of the test set execution. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
     public AwsLexv2ModelsDescribeTestExecutionOptions(
         string TestExecutionId
     )
@@ -56,7 +58,7 @@ public record AwsLexv2ModelsDescribeTestExecutionOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The execution Id of the test set execution. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The execution Id of the test set execution. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--test-execution-id")]
     public string? TestExecutionId { get; private init; }

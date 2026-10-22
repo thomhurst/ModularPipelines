@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsResourceGroupsUpdateAccountSettingsOptions : AwsOptions
 {
     /// <summary>
-    /// Specifies whether you want to turn group lifecycle events on or off. You can't turn on group lifecycle events if your resource groups quota is greater than 2,000. Possible values: o ACTIVE o INACTIVE
+    /// Specifies whether you want to turn group lifecycle events on or off. You can't turn on group lifecycle events if your resource groups quota is greater than 2,000. Possible values: • ACTIVE • INACTIVE
     /// </summary>
     [CliOption("--group-lifecycle-events-desired-status")]
     public AwsResourceGroupsUpdateAccountSettingsGroupLifecycleEventsDesiredStatus? GroupLifecycleEventsDesiredStatus { get; set; }

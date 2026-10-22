@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Uploads segment documents to Amazon Web Services X-Ray. A segment docu- ment can be a completed segment, an in-progress segment, or an array of subsegments. Segments must include the following fields. For the full segment docu- ment schema, see Amazon Web Services X-Ray Segment Documents in the Amazon Web Services X-Ray Developer Guide . Required segment document fields o name - The name of the service that handled the request. o id - A 64-bit identifier for the segment, unique among segments in...
+/// Uploads segment documents to Amazon Web Services X-Ray. A segment document can be a completed segment, an in-progress segment, or an array of subsegments. Segments must include the following fields. For the full segment document schema, see Amazon Web Services X-Ray Segment Documents in the Amazon Web Services X-Ray Developer Guide . Required segment document fields • name - The name of the service that handled the request. • id - A 64-bit identifier for the segment, unique among segments in the...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsXrayPutTraceSegmentsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Uploads segment documents to Amazon Web Services X-Ray. A segment docu- ment can be a completed segment, an in-progress segment, or an array of subsegments. Segments must include the following fields. For the full segment docu- ment schema, see Amazon Web Services X-Ray Segment Documents in the Amazon Web Services X-Ray Developer Guide . Required segment document fields o name - The name of the service that handled the request. o id - A 64-bit identifier for the segment, unique among segments in...
+    /// Uploads segment documents to Amazon Web Services X-Ray. A segment document can be a completed segment, an in-progress segment, or an array of subsegments. Segments must include the following fields. For the full segment document schema, see Amazon Web Services X-Ray Segment Documents in the Amazon Web Services X-Ray Developer Guide . Required segment document fields • name - The name of the service that handled the request. • id - A 64-bit identifier for the segment, unique among segments in the...
     /// </summary>
     /// <param name="TraceSegmentDocuments">A string containing a JSON document defining one or more segments or subsegments. (string) Syntax: "string" "string" ...</param>
     public AwsXrayPutTraceSegmentsOptions(

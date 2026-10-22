@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDmsCancelMetadataModelCreationOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Cancels a single metadata model creation operation that was started with StartMetadataModelCreation . Required permissions: dms:CancelMetadataModelCreation . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
     /// </summary>
-    /// <param name="MigrationProjectIdentifier">The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255</param>
+    /// <param name="MigrationProjectIdentifier">The migration project name or Amazon Resource Name (ARN). Constraints: • max: 255</param>
     /// <param name="RequestIdentifier">The identifier for the metadata model creation operation to cancel. This operation was initiated by StartMetadataModelCreation .</param>
     public AwsDmsCancelMetadataModelCreationOptions(
         string MigrationProjectIdentifier,
@@ -60,7 +62,7 @@ public record AwsDmsCancelMetadataModelCreationOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255
+    /// The migration project name or Amazon Resource Name (ARN). Constraints: • max: 255
     /// </summary>
     [CliOption("--migration-project-identifier")]
     public string? MigrationProjectIdentifier { get; private init; }

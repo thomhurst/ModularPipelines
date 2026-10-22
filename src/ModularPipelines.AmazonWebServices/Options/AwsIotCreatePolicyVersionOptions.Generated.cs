@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new version of the specified IoT policy. To update a policy, create a new policy version. A managed policy can have up to five ver- sions. If the policy has five versions, you must use DeletePolicyVer- sion to delete an existing version before you create a new one. Optionally, you can set the new version as the policy's default ver- sion. The default version is the operative version (that is, the ver- sion that is in effect for the certificates to which the policy is at- tached). Requi...
+/// Creates a new version of the specified IoT policy. To update a policy, create a new policy version. A managed policy can have up to five versions. If the policy has five versions, you must use DeletePolicyVersion to delete an existing version before you create a new one. Optionally, you can set the new version as the policy's default version. The default version is the operative version (that is, the version that is in effect for the certificates to which the policy is attached). Requires permis...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsIotCreatePolicyVersionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new version of the specified IoT policy. To update a policy, create a new policy version. A managed policy can have up to five ver- sions. If the policy has five versions, you must use DeletePolicyVer- sion to delete an existing version before you create a new one. Optionally, you can set the new version as the policy's default ver- sion. The default version is the operative version (that is, the ver- sion that is in effect for the certificates to which the policy is at- tached). Requi...
+    /// Creates a new version of the specified IoT policy. To update a policy, create a new policy version. A managed policy can have up to five versions. If the policy has five versions, you must use DeletePolicyVersion to delete an existing version before you create a new one. Optionally, you can set the new version as the policy's default version. The default version is the operative version (that is, the version that is in effect for the certificates to which the policy is attached). Requires permis...
     /// </summary>
-    /// <param name="PolicyName">The policy name. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+</param>
-    /// <param name="PolicyDocument">The JSON document that describes the policy. Minimum length of 1. Maximum length of 2048, excluding whitespace. Constraints: o min: 0 o max: 404600 o pattern: [\s\S]*</param>
+    /// <param name="PolicyName">The policy name. Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+</param>
+    /// <param name="PolicyDocument">The JSON document that describes the policy. Minimum length of 1. Maximum length of 2048, excluding whitespace. Constraints: • min: 0 • max: 404600 • pattern: [\s\S]*</param>
     public AwsIotCreatePolicyVersionOptions(
         string PolicyName,
         string PolicyDocument
@@ -60,13 +62,13 @@ public record AwsIotCreatePolicyVersionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The policy name. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// The policy name. Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--policy-name")]
     public string? PolicyName { get; private init; }
 
     /// <summary>
-    /// The JSON document that describes the policy. Minimum length of 1. Maximum length of 2048, excluding whitespace. Constraints: o min: 0 o max: 404600 o pattern: [\s\S]*
+    /// The JSON document that describes the policy. Minimum length of 1. Maximum length of 2048, excluding whitespace. Constraints: • min: 0 • max: 404600 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--policy-document")]
     public string? PolicyDocument { get; private init; }

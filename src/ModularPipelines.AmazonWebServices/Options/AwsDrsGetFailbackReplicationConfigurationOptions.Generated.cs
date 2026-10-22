@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists all Failback ReplicationConfigurations, filtered by Recovery In- stance ID. See also: AWS API Documentation
+/// Lists all Failback ReplicationConfigurations, filtered by Recovery Instance ID. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsDrsGetFailbackReplicationConfigurationOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists all Failback ReplicationConfigurations, filtered by Recovery In- stance ID. See also: AWS API Documentation
+    /// Lists all Failback ReplicationConfigurations, filtered by Recovery Instance ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RecoveryInstanceId">The ID of the Recovery Instance whose failback replication configu- ration should be returned. Constraints: o min: 10 o max: 19 o pattern: i-[0-9a-fA-F]{8,}</param>
+    /// <param name="RecoveryInstanceId">The ID of the Recovery Instance whose failback replication configuration should be returned. Constraints: • min: 10 • max: 19 • pattern: i-[0-9a-fA-F]{8,}</param>
     public AwsDrsGetFailbackReplicationConfigurationOptions(
         string RecoveryInstanceId
     )
@@ -56,7 +58,7 @@ public record AwsDrsGetFailbackReplicationConfigurationOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Recovery Instance whose failback replication configu- ration should be returned. Constraints: o min: 10 o max: 19 o pattern: i-[0-9a-fA-F]{8,}
+    /// The ID of the Recovery Instance whose failback replication configuration should be returned. Constraints: • min: 10 • max: 19 • pattern: i-[0-9a-fA-F]{8,}
     /// </summary>
     [CliOption("--recovery-instance-id")]
     public string? RecoveryInstanceId { get; private init; }

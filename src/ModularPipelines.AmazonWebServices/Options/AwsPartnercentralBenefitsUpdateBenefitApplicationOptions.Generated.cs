@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an existing benefit application with new information while maintaining revision control. See also: AWS API Documentation update-benefit-application uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support document types.
+/// Updates an existing benefit application with new information while maintaining revision control. See also: AWS API Documentation update-benefit-application uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +28,12 @@ public record AwsPartnercentralBenefitsUpdateBenefitApplicationOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an existing benefit application with new information while maintaining revision control. See also: AWS API Documentation update-benefit-application uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support document types.
+    /// Updates an existing benefit application with new information while maintaining revision control. See also: AWS API Documentation update-benefit-application uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="Catalog">The catalog identifier that specifies which benefit catalog the ap- plication belongs to. Constraints: o pattern: [A-Za-z0-9_-]+</param>
-    /// <param name="ClientToken">A unique, case-sensitive identifier to ensure idempotent processing of the update request. Constraints: o min: 1 o max: 64 o pattern: [!-~]{1,64}</param>
-    /// <param name="Identifier">The unique identifier of the benefit application to update. Constraints: o pattern: (arn:.+|benappl-[0-9a-z]{14})</param>
-    /// <param name="Revision">The current revision number of the benefit application to ensure op- timistic concurrency control.</param>
+    /// <param name="Catalog">The catalog identifier that specifies which benefit catalog the application belongs to. Constraints: • pattern: [A-Za-z0-9_-]+</param>
+    /// <param name="ClientToken">A unique, case-sensitive identifier to ensure idempotent processing of the update request. Constraints: • min: 1 • max: 64 • pattern: [!-~]{1,64}</param>
+    /// <param name="Identifier">The unique identifier of the benefit application to update. Constraints: • pattern: (arn:.+|benappl-[0-9a-z]{14})</param>
+    /// <param name="Revision">The current revision number of the benefit application to ensure optimistic concurrency control.</param>
     public AwsPartnercentralBenefitsUpdateBenefitApplicationOptions(
         string Catalog,
         string ClientToken,
@@ -69,56 +71,56 @@ public record AwsPartnercentralBenefitsUpdateBenefitApplicationOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog identifier that specifies which benefit catalog the ap- plication belongs to. Constraints: o pattern: [A-Za-z0-9_-]+
+    /// The catalog identifier that specifies which benefit catalog the application belongs to. Constraints: • pattern: [A-Za-z0-9_-]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure idempotent processing of the update request. Constraints: o min: 1 o max: 64 o pattern: [!-~]{1,64}
+    /// A unique, case-sensitive identifier to ensure idempotent processing of the update request. Constraints: • min: 1 • max: 64 • pattern: [!-~]{1,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the benefit application to update. Constraints: o pattern: (arn:.+|benappl-[0-9a-z]{14})
+    /// The unique identifier of the benefit application to update. Constraints: • pattern: (arn:.+|benappl-[0-9a-z]{14})
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The current revision number of the benefit application to ensure op- timistic concurrency control.
+    /// The current revision number of the benefit application to ensure optimistic concurrency control.
     /// </summary>
     [CliOption("--revision")]
     public string? Revision { get; private init; }
 
     /// <summary>
-    /// The updated human-readable name for the benefit application. Constraints: o min: 1 o max: 255
+    /// The updated human-readable name for the benefit application. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The updated detailed description of the benefit application. Constraints: o min: 1 o max: 1000
+    /// The updated detailed description of the benefit application. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Updated detailed information and requirements specific to the bene- fit being requested. JSON Syntax: {...}
+    /// Updated detailed information and requirements specific to the benefit being requested. JSON Syntax: {...}
     /// </summary>
     [CliOption("--benefit-application-details")]
     public string? BenefitApplicationDetails { get; set; }
 
     /// <summary>
-    /// Updated contact information for partner representatives responsible for this benefit application. Constraints: o min: 0 o max: 1 (structure) Represents contact information for a partner representative. Email -&gt; (string) The email address of the contact person. Constraints: o min: 0 o max: 80 o pattern: [a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])? FirstName -&gt; (string) The first name of the contact person. Constraints: o min: 0 o max: 80 LastName -&gt; (string) The last name of the contact person. Constraints: o min: 0 o max: 80 BusinessTitle -&gt; (string) The business title or role of the contact person within the organization. Constraints: o min: 0 o max: 80 Phone -&gt; (string) The phone number of the contact person. Shorthand Syntax: Email=string,FirstName=string,LastName=string,BusinessTitle=string,Phone=string ... JSON Syntax: [ { "Email": "string", "FirstName": "string", "LastName": "string", "BusinessTitle": "string", "Phone": "string" } ... ]
+    /// Updated contact information for partner representatives responsible for this benefit application. Constraints: • min: 0 • max: 1 (structure) Represents contact information for a partner representative. Email -&gt; (string) The email address of the contact person. Constraints: • min: 0 • max: 80 • pattern: [a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])? FirstName -&gt; (string) The first name of the contact person. Constraints: • min: 0 • max: 80 LastName -&gt; (string) The last name of the contact person. Constraints: • min: 0 • max: 80 BusinessTitle -&gt; (string) The business title or role of the contact person within the organization. Constraints: • min: 0 • max: 80 Phone -&gt; (string) The phone number of the contact person. Shorthand Syntax: Email=string,FirstName=string,LastName=string,BusinessTitle=string,Phone=string ... JSON Syntax: [ { "Email": "string", "FirstName": "string", "LastName": "string", "BusinessTitle": "string", "Phone": "string" } ... ]
     /// </summary>
     [CliOption("--partner-contacts", GroupValues = true)]
     public IEnumerable<string>? PartnerContacts { get; set; }
 
     /// <summary>
-    /// Updated supporting documents and files attached to the benefit ap- plication. Constraints: o min: 0 o max: 30 (structure) Represents input information for uploading a file to a benefit application. FileURI -&gt; (string) [required] The URI or location where the file should be stored or has been uploaded. Constraints: o min: 1 o max: 2000 o pattern: (s3://|https://).* BusinessUseCase -&gt; (string) The business purpose or use case that this file supports in the benefit application. Shorthand Syntax: FileURI=string,BusinessUseCase=string ... JSON Syntax: [ { "FileURI": "string", "BusinessUseCase": "string" } ... ]
+    /// Updated supporting documents and files attached to the benefit application. Constraints: • min: 0 • max: 30 (structure) Represents input information for uploading a file to a benefit application. FileURI -&gt; (string) [required] The URI or location where the file should be stored or has been uploaded. Constraints: • min: 1 • max: 2000 • pattern: (s3://|https://).* BusinessUseCase -&gt; (string) The business purpose or use case that this file supports in the benefit application. Shorthand Syntax: FileURI=string,BusinessUseCase=string ... JSON Syntax: [ { "FileURI": "string", "BusinessUseCase": "string" } ... ]
     /// </summary>
     [CliOption("--file-details", GroupValues = true)]
     public IEnumerable<string>? FileDetails { get; set; }

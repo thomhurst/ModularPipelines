@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBedrockDataAutomationDeleteDataAutomationProjectOptions : AwsOp
     /// <summary>
     /// Deletes an existing Amazon Bedrock Data Automation Project See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProjectArn">ARN generated at the server side when a DataAutomationProject is created Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-au- tomation-project/[a-zA-Z0-9-]{12,36}</param>
+    /// <param name="ProjectArn">ARN generated at the server side when a DataAutomationProject is created Constraints: • min: 0 • max: 128 • pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-automation-project/[a-zA-Z0-9-]{12,36}</param>
     public AwsBedrockDataAutomationDeleteDataAutomationProjectOptions(
         string ProjectArn
     )
@@ -56,7 +58,7 @@ public record AwsBedrockDataAutomationDeleteDataAutomationProjectOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN generated at the server side when a DataAutomationProject is created Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-au- tomation-project/[a-zA-Z0-9-]{12,36}
+    /// ARN generated at the server side when a DataAutomationProject is created Constraints: • min: 0 • max: 128 • pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-automation-project/[a-zA-Z0-9-]{12,36}
     /// </summary>
     [CliOption("--project-arn")]
     public string? ProjectArn { get; private init; }

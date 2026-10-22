@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Rejects a transit gateway attachment request for Network Firewall. When you reject the attachment request, Network Firewall cancels the cre- ation of routing components between the transit gateway and firewall endpoints. Only the transit gateway owner can reject the attachment. After rejec- tion, no traffic will flow through the firewall endpoints for this at- tachment. Use DescribeFirewall to monitor the rejection status. To accept the attachment instead of rejecting it, use AcceptNetworkFirewa...
+/// Rejects a transit gateway attachment request for Network Firewall. When you reject the attachment request, Network Firewall cancels the creation of routing components between the transit gateway and firewall endpoints. Only the transit gateway owner can reject the attachment. After rejection, no traffic will flow through the firewall endpoints for this attachment. Use DescribeFirewall to monitor the rejection status. To accept the attachment instead of rejecting it, use AcceptNetworkFirewallTran...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsNetworkFirewallRejectNetworkFirewallTransitGatewayAttachmentOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Rejects a transit gateway attachment request for Network Firewall. When you reject the attachment request, Network Firewall cancels the cre- ation of routing components between the transit gateway and firewall endpoints. Only the transit gateway owner can reject the attachment. After rejec- tion, no traffic will flow through the firewall endpoints for this at- tachment. Use DescribeFirewall to monitor the rejection status. To accept the attachment instead of rejecting it, use AcceptNetworkFirewa...
+    /// Rejects a transit gateway attachment request for Network Firewall. When you reject the attachment request, Network Firewall cancels the creation of routing components between the transit gateway and firewall endpoints. Only the transit gateway owner can reject the attachment. After rejection, no traffic will flow through the firewall endpoints for this attachment. Use DescribeFirewall to monitor the rejection status. To accept the attachment instead of rejecting it, use AcceptNetworkFirewallTran...
     /// </summary>
-    /// <param name="TransitGatewayAttachmentId">Required. The unique identifier of the transit gateway attachment to reject. This ID is returned in the response when creating a transit gateway-attached firewall. Constraints: o min: 1 o max: 128 o pattern: ^tgw-attach-[0-9a-z]+$</param>
+    /// <param name="TransitGatewayAttachmentId">Required. The unique identifier of the transit gateway attachment to reject. This ID is returned in the response when creating a transit gateway-attached firewall. Constraints: • min: 1 • max: 128 • pattern: ^tgw-attach-[0-9a-z]+$</param>
     public AwsNetworkFirewallRejectNetworkFirewallTransitGatewayAttachmentOptions(
         string TransitGatewayAttachmentId
     )
@@ -56,7 +58,7 @@ public record AwsNetworkFirewallRejectNetworkFirewallTransitGatewayAttachmentOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Required. The unique identifier of the transit gateway attachment to reject. This ID is returned in the response when creating a transit gateway-attached firewall. Constraints: o min: 1 o max: 128 o pattern: ^tgw-attach-[0-9a-z]+$
+    /// Required. The unique identifier of the transit gateway attachment to reject. This ID is returned in the response when creating a transit gateway-attached firewall. Constraints: • min: 1 • max: 128 • pattern: ^tgw-attach-[0-9a-z]+$
     /// </summary>
     [CliOption("--transit-gateway-attachment-id")]
     public string? TransitGatewayAttachmentId { get; private init; }

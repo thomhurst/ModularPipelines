@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sets the result of a Lambda validation function. The function validates lifecycle hooks during a deployment that uses the Lambda or Amazon ECS compute platform. For Lambda deployments, the available lifecycle hooks are BeforeAllowTraffic and AfterAllowTraffic . For Amazon ECS deploy- ments, the available lifecycle hooks are BeforeInstall , AfterInstall , AfterAllowTestTraffic , BeforeAllowTraffic , and AfterAllowTraffic . Lambda validation functions return Succeeded or Failed . For more in- form...
+/// Sets the result of a Lambda validation function. The function validates lifecycle hooks during a deployment that uses the Lambda or Amazon ECS compute platform. For Lambda deployments, the available lifecycle hooks are BeforeAllowTraffic and AfterAllowTraffic . For Amazon ECS deployments, the available lifecycle hooks are BeforeInstall , AfterInstall , AfterAllowTestTraffic , BeforeAllowTraffic , and AfterAllowTraffic . Lambda validation functions return Succeeded or Failed . For more informatio...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -35,7 +35,7 @@ public record AwsDeployPutLifecycleEventHookExecutionStatusOptions : AwsOptions
     public string? LifecycleEventHookExecutionId { get; set; }
 
     /// <summary>
-    /// The result of a Lambda function that validates a deployment lifecy- cle event. The values listed in Valid Values are valid for lifecycle statuses in general; however, only Succeeded and Failed can be passed successfully in your API call. Possible values: o Pending o InProgress o Succeeded o Failed o Skipped o Unknown
+    /// The result of a Lambda function that validates a deployment lifecycle event. The values listed in Valid Values are valid for lifecycle statuses in general; however, only Succeeded and Failed can be passed successfully in your API call. Possible values: • Pending • InProgress • Succeeded • Failed • Skipped • Unknown
     /// </summary>
     [CliOption("--status")]
     public AwsDeployPutLifecycleEventHookExecutionStatusStatus? Status { get; set; }

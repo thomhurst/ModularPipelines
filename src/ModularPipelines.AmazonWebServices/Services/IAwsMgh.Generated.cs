@@ -22,14 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsMgh
 {
     /// <summary>
-    /// Associates a created artifact of an AWS cloud resource, the target re- ceiving the migration, with the migration task performed by a migration tool. This API has the following traits: o Migration tools can call the AssociateCreatedArtifact operation to indicate which AWS artifact is associated with a migration task. o The created artifact name must be provided in ARN (Amazon Resource Name) format which will contain information about type and region; for example: arn:aws:ec2:us-east-1:48821628898...
+    /// Associates a created artifact of an AWS cloud resource, the target receiving the migration, with the migration task performed by a migration tool. This API has the following traits: • Migration tools can call the AssociateCreatedArtifact operation to indicate which AWS artifact is associated with a migration task. • The created artifact name must be provided in ARN (Amazon Resource Name) format which will contain information about type and region; for example: arn:aws:ec2:us-east-1:488216288981:...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateCreatedArtifactAsync(AwsMghAssociateCreatedArtifactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateCreatedArtifactAsync(AwsMghAssociateCreatedArtifactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a discovered resource ID from Application Discovery Service with a migration task. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsMgh
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateDiscoveredResourceAsync(AwsMghAssociateDiscoveredResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateDiscoveredResourceAsync(AwsMghAssociateDiscoveredResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a source resource with a migration task. For example, the source resource can be a source server, an application, or a migration wave. See also: AWS API Documentation
@@ -48,28 +46,25 @@ public interface IAwsMgh
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateSourceResourceAsync(AwsMghAssociateSourceResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateSourceResourceAsync(AwsMghAssociateSourceResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a progress update stream which is an AWS resource used for ac- cess control as well as a namespace for migration task names that is implicitly linked to your AWS account. It must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account. See also: AWS API Documentation
+    /// Creates a progress update stream which is an AWS resource used for access control as well as a namespace for migration task names that is implicitly linked to your AWS account. It must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateProgressUpdateStreamAsync(AwsMghCreateProgressUpdateStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateProgressUpdateStreamAsync(AwsMghCreateProgressUpdateStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a progress update stream, including all of its tasks, which was previously created as an AWS resource used for access control. This API has the following traits: o The only parameter needed for DeleteProgressUpdateStream is the stream name (same as a CreateProgressUpdateStream call). o The call will return, and a background process will asynchronously delete the stream and all of its resources (tasks, associated re- sources, resource attributes, created artifacts). o If the stream takes ...
+    /// Deletes a progress update stream, including all of its tasks, which was previously created as an AWS resource used for access control. This API has the following traits: • The only parameter needed for DeleteProgressUpdateStream is the stream name (same as a CreateProgressUpdateStream call). • The call will return, and a background process will asynchronously delete the stream and all of its resources (tasks, associated resources, resource attributes, created artifacts). • If the stream takes ti...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteProgressUpdateStreamAsync(AwsMghDeleteProgressUpdateStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteProgressUpdateStreamAsync(AwsMghDeleteProgressUpdateStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the migration status of an application. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsMgh
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeApplicationStateAsync(AwsMghDescribeApplicationStateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeApplicationStateAsync(AwsMghDescribeApplicationStateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of all attributes associated with a specific migration task. See also: AWS API Documentation
@@ -88,18 +82,16 @@ public interface IAwsMgh
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeMigrationTaskAsync(AwsMghDescribeMigrationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeMigrationTaskAsync(AwsMghDescribeMigrationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Disassociates a created artifact of an AWS resource with a migration task performed by a migration tool that was previously associated. This API has the following traits: o A migration user can call the DisassociateCreatedArtifacts operation to disassociate a created AWS Artifact from a migration task. o The created artifact name must be provided in ARN (Amazon Resource Name) format which will contain information about type and region; for example: arn:aws:ec2:us-east-1:488216288981:image/ami-6d...
+    /// Disassociates a created artifact of an AWS resource with a migration task performed by a migration tool that was previously associated. This API has the following traits: • A migration user can call the DisassociateCreatedArtifacts operation to disassociate a created AWS Artifact from a migration task. • The created artifact name must be provided in ARN (Amazon Resource Name) format which will contain information about type and region; for example: arn:aws:ec2:us-east-1:488216288981:image/ami-6d...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateCreatedArtifactAsync(AwsMghDisassociateCreatedArtifactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateCreatedArtifactAsync(AwsMghDisassociateCreatedArtifactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociate an Application Discovery Service discovered resource from a migration task. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsMgh
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateDiscoveredResourceAsync(AwsMghDisassociateDiscoveredResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateDiscoveredResourceAsync(AwsMghDisassociateDiscoveredResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the association between a source resource and a migration task. See also: AWS API Documentation
@@ -118,18 +109,16 @@ public interface IAwsMgh
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateSourceResourceAsync(AwsMghDisassociateSourceResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateSourceResourceAsync(AwsMghDisassociateSourceResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Registers a new migration task which represents a server, database, etc., being migrated to AWS by a migration tool. This API is a prerequisite to calling the NotifyMigrationTaskState API as the migration tool must first register the migration task with Mi- gration Hub. See also: AWS API Documentation
+    /// Registers a new migration task which represents a server, database, etc., being migrated to AWS by a migration tool. This API is a prerequisite to calling the NotifyMigrationTaskState API as the migration tool must first register the migration task with Migration Hub. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ImportMigrationTaskAsync(AwsMghImportMigrationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ImportMigrationTaskAsync(AwsMghImportMigrationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the migration statuses for your applications. If you use the optional ApplicationIds parameter, only the migration statuses for those applications will be returned. See also: AWS API Documentation list-application-states is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar...
@@ -138,58 +127,52 @@ public interface IAwsMgh
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListApplicationStatesAsync(AwsMghListApplicationStatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListApplicationStatesAsync(AwsMghListApplicationStatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists the created artifacts attached to a given migration task in an update stream. This API has the following traits: o Gets the list of the created artifacts while migration is taking place. o Shows the artifacts created by the migration tool that was associated by the AssociateCreatedArtifact API. o Lists created artifacts in a paginated interface. See also: AWS API Documentation list-created-artifacts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire ...
+    /// Lists the created artifacts attached to a given migration task in an update stream. This API has the following traits: • Gets the list of the created artifacts while migration is taking place. • Shows the artifacts created by the migration tool that was associated by the AssociateCreatedArtifact API. • Lists created artifacts in a paginated interface. See also: AWS API Documentation list-created-artifacts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCreatedArtifactsAsync(AwsMghListCreatedArtifactsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCreatedArtifactsAsync(AwsMghListCreatedArtifactsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists discovered resources associated with the given MigrationTask . See also: AWS API Documentation list-discovered-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: DiscoveredResourceList
+    /// Lists discovered resources associated with the given MigrationTask . See also: AWS API Documentation list-discovered-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DiscoveredResourceList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDiscoveredResourcesAsync(AwsMghListDiscoveredResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDiscoveredResourcesAsync(AwsMghListDiscoveredResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists all, or filtered by resource name, migration tasks associated with the user account making this call. This API has the following traits: o Can show a summary list of the most recent migration tasks. o Can show a summary list of migration tasks associated with a given discovered resource. o Lists migration tasks in a paginated interface. See also: AWS API Documentation list-migration-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of...
+    /// This is a paginated API that returns all the migration-task states for the specified MigrationTaskName and ProgressUpdateStream . See also: AWS API Documentation list-migration-task-updates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMigrationTasksAsync(AwsMghListMigrationTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMigrationTaskUpdatesAsync(AwsMghListMigrationTaskUpdatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This is a paginated API that returns all the migration-task states for the specified MigrationTaskName and ProgressUpdateStream . See also: AWS API Documentation list-migration-task-updates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the res...
+    /// Lists all, or filtered by resource name, migration tasks associated with the user account making this call. This API has the following traits: • Can show a summary list of the most recent migration tasks. • Can show a summary list of migration tasks associated with a given discovered resource. • Lists migration tasks in a paginated interface. See also: AWS API Documentation list-migration-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMigrationTaskUpdatesAsync(AwsMghListMigrationTaskUpdatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMigrationTasksAsync(AwsMghListMigrationTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists progress update streams associated with the user account making this call. See also: AWS API Documentation list-progress-update-streams is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Progres...
+    /// Lists progress update streams associated with the user account making this call. See also: AWS API Documentation list-progress-update-streams is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ProgressUpd...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProgressUpdateStreamsAsync(AwsMghListProgressUpdateStreamsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProgressUpdateStreamsAsync(AwsMghListProgressUpdateStreamsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the source resource that are associated with the specified MigrationTaskName and ProgressUpdateStream . See also: AWS API Documentation list-source-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following quer...
@@ -198,8 +181,7 @@ public interface IAwsMgh
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSourceResourcesAsync(AwsMghListSourceResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSourceResourcesAsync(AwsMghListSourceResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets the migration state of an application. For a given application identified by the value passed to ApplicationId , its status is set or updated by passing one of three values to Status : NOT_STARTED | IN_PROGRESS | COMPLETED . See also: AWS API Documentation
@@ -208,27 +190,24 @@ public interface IAwsMgh
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> NotifyApplicationStateAsync(AwsMghNotifyApplicationStateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> NotifyApplicationStateAsync(AwsMghNotifyApplicationStateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Notifies Migration Hub of the current status, progress, or other detail regarding a migration task. This API has the following traits: o Migration tools will call the NotifyMigrationTaskState API to share the latest progress and status. o MigrationTaskName is used for addressing updates to the correct tar- get. o ProgressUpdateStream is used for access control and to provide a namespace for each migration tool. See also: AWS API Documentation
+    /// Notifies Migration Hub of the current status, progress, or other detail regarding a migration task. This API has the following traits: • Migration tools will call the NotifyMigrationTaskState API to share the latest progress and status. • MigrationTaskName is used for addressing updates to the correct target. • ProgressUpdateStream is used for access control and to provide a namespace for each migration tool. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> NotifyMigrationTaskStateAsync(AwsMghNotifyMigrationTaskStateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> NotifyMigrationTaskStateAsync(AwsMghNotifyMigrationTaskStateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Provides identifying details of the resource being migrated so that it can be associated in the Application Discovery Service repository. This association occurs asynchronously after PutResourceAttributes returns. WARNING: o Keep in mind that subsequent calls to PutResourceAttributes will override previously stored attributes. For example, if it is first called with a MAC address, but later, it is desired to add an IP address, it will then be required to call it with both the IP and MAC addresse...
+    /// Provides identifying details of the resource being migrated so that it can be associated in the Application Discovery Service repository. This association occurs asynchronously after PutResourceAttributes returns. WARNING: • Keep in mind that subsequent calls to PutResourceAttributes will override previously stored attributes. For example, if it is first called with a MAC address, but later, it is desired to add an IP address, it will then be required to call it with both the IP and MAC addresse...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutResourceAttributesAsync(AwsMghPutResourceAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutResourceAttributesAsync(AwsMghPutResourceAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

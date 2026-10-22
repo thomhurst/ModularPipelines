@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a presigned Amazon S3 URL that can be used to upload a file as manual evidence. For instructions on how to use this operation, see Upload a file from your browser in the Audit Manager User Guide . The following restrictions apply to this operation: o Maximum size of an individual evidence file: 100 MB o Number of daily manual evidence uploads per control: 100 o Supported file formats: See Supported file types for manual evidence in the Audit Manager User Guide For more information about ...
+/// Creates a presigned Amazon S3 URL that can be used to upload a file as manual evidence. For instructions on how to use this operation, see Upload a file from your browser in the Audit Manager User Guide . The following restrictions apply to this operation: • Maximum size of an individual evidence file: 100 MB • Number of daily manual evidence uploads per control: 100 • Supported file formats: See Supported file types for manual evidence in the Audit Manager User Guide For more information about ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsAuditManagerGetEvidenceFileUploadUrlOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a presigned Amazon S3 URL that can be used to upload a file as manual evidence. For instructions on how to use this operation, see Upload a file from your browser in the Audit Manager User Guide . The following restrictions apply to this operation: o Maximum size of an individual evidence file: 100 MB o Number of daily manual evidence uploads per control: 100 o Supported file formats: See Supported file types for manual evidence in the Audit Manager User Guide For more information about ...
+    /// Creates a presigned Amazon S3 URL that can be used to upload a file as manual evidence. For instructions on how to use this operation, see Upload a file from your browser in the Audit Manager User Guide . The following restrictions apply to this operation: • Maximum size of an individual evidence file: 100 MB • Number of daily manual evidence uploads per control: 100 • Supported file formats: See Supported file types for manual evidence in the Audit Manager User Guide For more information about ...
     /// </summary>
-    /// <param name="FileName">The file that you want to upload. For a list of supported file for- mats, see Supported file types for manual evidence in the Audit Man- ager User Guide . Constraints: o min: 1 o max: 300 o pattern: [^\/]*</param>
+    /// <param name="FileName">The file that you want to upload. For a list of supported file formats, see Supported file types for manual evidence in the Audit Manager User Guide . Constraints: • min: 1 • max: 300 • pattern: [^\/]*</param>
     public AwsAuditManagerGetEvidenceFileUploadUrlOptions(
         string FileName
     )
@@ -56,7 +58,7 @@ public record AwsAuditManagerGetEvidenceFileUploadUrlOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The file that you want to upload. For a list of supported file for- mats, see Supported file types for manual evidence in the Audit Man- ager User Guide . Constraints: o min: 1 o max: 300 o pattern: [^\/]*
+    /// The file that you want to upload. For a list of supported file formats, see Supported file types for manual evidence in the Audit Manager User Guide . Constraints: • min: 1 • max: 300 • pattern: [^\/]*
     /// </summary>
     [CliOption("--file-name")]
     public string? FileName { get; private init; }

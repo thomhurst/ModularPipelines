@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// If you create a new application in Application Manager, Amazon Web Ser- vices Systems Manager calls this API operation to specify information about the new application, including the application type. See also: AWS API Documentation
+/// If you create a new application in Application Manager, Amazon Web Services Systems Manager calls this API operation to specify information about the new application, including the application type. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsSsmCreateOpsMetadataOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// If you create a new application in Application Manager, Amazon Web Ser- vices Systems Manager calls this API operation to specify information about the new application, including the application type. See also: AWS API Documentation
+    /// If you create a new application in Application Manager, Amazon Web Services Systems Manager calls this API operation to specify information about the new application, including the application type. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceId">A resource ID for a new Application Manager application. Constraints: o min: 1 o max: 1024 o pattern: ^(?!\s*$).+</param>
+    /// <param name="ResourceId">A resource ID for a new Application Manager application. Constraints: • min: 1 • max: 1024 • pattern: ^(?!\s*$).+</param>
     public AwsSsmCreateOpsMetadataOptions(
         string ResourceId
     )
@@ -57,19 +58,19 @@ public record AwsSsmCreateOpsMetadataOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A resource ID for a new Application Manager application. Constraints: o min: 1 o max: 1024 o pattern: ^(?!\s*$).+
+    /// A resource ID for a new Application Manager application. Constraints: • min: 1 • max: 1024 • pattern: ^(?!\s*$).+
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// Metadata for a new Application Manager application. Constraints: o min: 1 o max: 5 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: ^(?!\s*$).+ value -&gt; (structure) Metadata to assign to an Application Manager application. Value -&gt; (string) Metadata value to assign to an Application Manager applica- tion. Constraints: o min: 1 o max: 4096 Shorthand Syntax: KeyName1={Value=string},KeyName2={Value=string} JSON Syntax: {"string": { "Value": "string" } ...}
+    /// Metadata for a new Application Manager application. Constraints: • min: 1 • max: 5 key -&gt; (string) Constraints: • min: 1 • max: 256 • pattern: ^(?!\s*$).+ value -&gt; (structure) Metadata to assign to an Application Manager application. Value -&gt; (string) Metadata value to assign to an Application Manager application. Constraints: • min: 1 • max: 4096 Shorthand Syntax: KeyName1={Value=string},KeyName2={Value=string} JSON Syntax: {"string": { "Value": "string" } ...}
     /// </summary>
     [CliOption("--metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
-    /// Optional metadata that you assign to a resource. You can specify a maximum of five tags for an OpsMetadata object. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag an OpsMetadata object to identify an environment or target Amazon Web Services Re- gion. In this case, you could specify the following key-value pairs: o Key=Environment,Value=Production o Key=Region,Value=us-east-2 Constraints: o max: 1000 (structure) Metadata that you assign to your Amazon Web Services resources. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. In Amazon Web Services Systems Manager, you can apply tags to Systems Manager documents (SSM documents), managed nodes, maintenance windows, parameters, patch baselines, OpsItems, and OpsMetadata. Key -&gt; (string) [required] The name of the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Optional metadata that you assign to a resource. You can specify a maximum of five tags for an OpsMetadata object. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag an OpsMetadata object to identify an environment or target Amazon Web Services Region. In this case, you could specify the following key-value pairs: • Key=Environment,Value=Production • Key=Region,Value=us-east-2 Constraints: • max: 1000 (structure) Metadata that you assign to your Amazon Web Services resources. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. In Amazon Web Services Systems Manager, you can apply tags to Systems Manager documents (SSM documents), managed nodes, maintenance windows, parameters, patch baselines, OpsItems, and OpsMetadata. Key -&gt; (string) [required] The name of the tag. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value of the tag. Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsRoute53CreateCidrCollectionOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Creates a CIDR collection in the current Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">A unique identifier for the account that can be used to reference the collection from other API calls. Constraints: o min: 1 o max: 64 o pattern: [0-9A-Za-z_\-]+</param>
-    /// <param name="CallerReference">A client-specific token that allows requests to be securely retried so that the intended outcome will only occur once, retries receive a similar response, and there are no additional edge cases to handle. Constraints: o min: 1 o max: 64 o pattern: \p{ASCII}+</param>
+    /// <param name="Name">A unique identifier for the account that can be used to reference the collection from other API calls. Constraints: • min: 1 • max: 64 • pattern: [0-9A-Za-z_\-]+</param>
+    /// <param name="CallerReference">A client-specific token that allows requests to be securely retried so that the intended outcome will only occur once, retries receive a similar response, and there are no additional edge cases to handle. Constraints: • min: 1 • max: 64 • pattern: \p{ASCII}+</param>
     public AwsRoute53CreateCidrCollectionOptions(
         string Name,
         string CallerReference
@@ -60,13 +62,13 @@ public record AwsRoute53CreateCidrCollectionOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the account that can be used to reference the collection from other API calls. Constraints: o min: 1 o max: 64 o pattern: [0-9A-Za-z_\-]+
+    /// A unique identifier for the account that can be used to reference the collection from other API calls. Constraints: • min: 1 • max: 64 • pattern: [0-9A-Za-z_\-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A client-specific token that allows requests to be securely retried so that the intended outcome will only occur once, retries receive a similar response, and there are no additional edge cases to handle. Constraints: o min: 1 o max: 64 o pattern: \p{ASCII}+
+    /// A client-specific token that allows requests to be securely retried so that the intended outcome will only occur once, retries receive a similar response, and there are no additional edge cases to handle. Constraints: • min: 1 • max: 64 • pattern: \p{ASCII}+
     /// </summary>
     [CliOption("--caller-reference")]
     public string? CallerReference { get; private init; }

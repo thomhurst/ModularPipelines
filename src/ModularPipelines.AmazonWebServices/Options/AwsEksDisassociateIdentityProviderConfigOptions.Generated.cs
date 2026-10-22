@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disassociates an identity provider configuration from a cluster. If you disassociate an identity provider from your cluster, users in- cluded in the provider can no longer access the cluster. However, you can still access the cluster with IAM principals. See also: AWS API Documentation
+/// Disassociates an identity provider configuration from a cluster. If you disassociate an identity provider from your cluster, users included in the provider can no longer access the cluster. However, you can still access the cluster with IAM principals. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +28,7 @@ public record AwsEksDisassociateIdentityProviderConfigOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disassociates an identity provider configuration from a cluster. If you disassociate an identity provider from your cluster, users in- cluded in the provider can no longer access the cluster. However, you can still access the cluster with IAM principals. See also: AWS API Documentation
+    /// Disassociates an identity provider configuration from a cluster. If you disassociate an identity provider from your cluster, users included in the provider can no longer access the cluster. However, you can still access the cluster with IAM principals. See also: AWS API Documentation
     /// </summary>
     /// <param name="ClusterName">The name of your cluster.</param>
     /// <param name="IdentityProviderConfig">An object representing an identity provider configuration. type -&gt; (string) [required] The type of the identity provider configuration. The only type available is oidc . name -&gt; (string) [required] The name of the identity provider configuration. Shorthand Syntax: type=string,name=string JSON Syntax: { "type": "string", "name": "string" }</param>

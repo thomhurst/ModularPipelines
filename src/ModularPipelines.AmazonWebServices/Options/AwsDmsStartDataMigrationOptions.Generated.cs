@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +31,7 @@ public record AwsDmsStartDataMigrationOptions : AwsOptions, IValidatableObject
     /// Starts the specified data migration. See also: AWS API Documentation
     /// </summary>
     /// <param name="DataMigrationIdentifier">The identifier (name or ARN) of the data migration to start.</param>
-    /// <param name="StartType">Specifies the start type for the data migration. Valid values in- clude start-replication , reload-target , and resume-processing . Possible values: o reload-target o resume-processing o start-replication</param>
+    /// <param name="StartType">Specifies the start type for the data migration. Valid values include start-replication , reload-target , and resume-processing . Possible values: • reload-target • resume-processing • start-replication</param>
     public AwsDmsStartDataMigrationOptions(
         string DataMigrationIdentifier,
         AwsDmsStartDataMigrationStartType StartType
@@ -66,7 +68,7 @@ public record AwsDmsStartDataMigrationOptions : AwsOptions, IValidatableObject
     public string? DataMigrationIdentifier { get; private init; }
 
     /// <summary>
-    /// Specifies the start type for the data migration. Valid values in- clude start-replication , reload-target , and resume-processing . Possible values: o reload-target o resume-processing o start-replication
+    /// Specifies the start type for the data migration. Valid values include start-replication , reload-target , and resume-processing . Possible values: • reload-target • resume-processing • start-replication
     /// </summary>
     [CliOption("--start-type")]
     public AwsDmsStartDataMigrationStartType? StartType { get; private init; }

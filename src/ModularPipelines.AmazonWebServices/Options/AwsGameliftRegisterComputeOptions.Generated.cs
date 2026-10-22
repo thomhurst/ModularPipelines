@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsGameliftRegisterComputeOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// This API works with the following fleet types: Anywhere Registers a compute resource in an Amazon GameLift Servers Anywhere fleet. For an Anywhere fleet that's running the Amazon GameLift Servers Agent, the Agent handles all compute registry tasks for you. For an Anywhere fleet that doesn't use the Agent, call this operation to register fleet computes. To register a compute, give the compute a name (must be unique within the fleet) and specify the compute resource's DNS name or IP address. Provi...
     /// </summary>
-    /// <param name="FleetId">A unique identifier for the fleet to register the compute to. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
-    /// <param name="ComputeName">A descriptive label for the compute resource. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9\-]+(\/[a-zA-Z0-9\-]+)?$</param>
+    /// <param name="FleetId">A unique identifier for the fleet to register the compute to. You can use either the fleet ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
+    /// <param name="ComputeName">A descriptive label for the compute resource. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9\-]+(\/[a-zA-Z0-9\-]+)?$</param>
     public AwsGameliftRegisterComputeOptions(
         string FleetId,
         string ComputeName
@@ -60,37 +62,37 @@ public record AwsGameliftRegisterComputeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the fleet to register the compute to. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
+    /// A unique identifier for the fleet to register the compute to. You can use either the fleet ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }
 
     /// <summary>
-    /// A descriptive label for the compute resource. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9\-]+(\/[a-zA-Z0-9\-]+)?$
+    /// A descriptive label for the compute resource. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9\-]+(\/[a-zA-Z0-9\-]+)?$
     /// </summary>
     [CliOption("--compute-name")]
     public string? ComputeName { get; private init; }
 
     /// <summary>
-    /// The path to a TLS certificate on your compute resource. Amazon GameLift Servers doesn't validate the path and certificate. Constraints: o min: 1 o max: 1024
+    /// The path to a TLS certificate on your compute resource. Amazon GameLift Servers doesn't validate the path and certificate. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--certificate-path")]
     public string? CertificatePath { get; set; }
 
     /// <summary>
-    /// The DNS name of the compute resource. Amazon GameLift Servers re- quires either a DNS name or IP address. Constraints: o min: 1 o max: 256 o pattern: ^[0-9a-zA-Z_\-\.]+$
+    /// The DNS name of the compute resource. Amazon GameLift Servers requires either a DNS name or IP address. Constraints: • min: 1 • max: 256 • pattern: ^[0-9a-zA-Z_\-\.]+$
     /// </summary>
     [CliOption("--dns-name")]
     public string? DnsName { get; set; }
 
     /// <summary>
-    /// The IP address of the compute resource. Amazon GameLift Servers re- quires either a DNS name or IP address. When registering an Anywhere fleet, an IP address is required. Constraints: o min: 1 o max: 128 o pattern: ^[0-9A-Fa-f\:\.]+$
+    /// The IP address of the compute resource. Amazon GameLift Servers requires either a DNS name or IP address. When registering an Anywhere fleet, an IP address is required. Constraints: • min: 1 • max: 128 • pattern: ^[0-9A-Fa-f\:\.]+$
     /// </summary>
     [CliOption("--ip-address")]
     public string? IpAddress { get; set; }
 
     /// <summary>
-    /// The name of a custom location to associate with the compute resource being registered. This parameter is required when registering a com- pute for an Anywhere fleet. Constraints: o min: 1 o max: 64 o pattern: ^[A-Za-z0-9\-]+$
+    /// The name of a custom location to associate with the compute resource being registered. This parameter is required when registering a compute for an Anywhere fleet. Constraints: • min: 1 • max: 64 • pattern: ^[A-Za-z0-9\-]+$
     /// </summary>
     [CliOption("--location")]
     public string? Location { get; set; }

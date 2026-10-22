@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a lookup table by uploading CSV data or from CloudWatch Logs query results. You can use lookup tables to enrich log data in Cloud- Watch Logs queries with reference data such as user details, applica- tion names, or error descriptions. The table name must be unique within your account and Region. You must specify either tableBody or queryId , but not both. If you use table- Body , the CSV content must include a header row with column names, use UTF-8 encoding, and not exceed 10 MB. See a...
+/// Creates a lookup table by uploading CSV data or from CloudWatch Logs query results. You can use lookup tables to enrich log data in CloudWatch Logs queries with reference data such as user details, application names, or error descriptions. The table name must be unique within your account and Region. You must specify either tableBody or queryId , but not both. If you use tableBody , the CSV content must include a header row with column names, use UTF-8 encoding, and not exceed 10 MB. See also: A...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsLogsCreateLookupTableOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a lookup table by uploading CSV data or from CloudWatch Logs query results. You can use lookup tables to enrich log data in Cloud- Watch Logs queries with reference data such as user details, applica- tion names, or error descriptions. The table name must be unique within your account and Region. You must specify either tableBody or queryId , but not both. If you use table- Body , the CSV content must include a header row with column names, use UTF-8 encoding, and not exceed 10 MB. See a...
+    /// Creates a lookup table by uploading CSV data or from CloudWatch Logs query results. You can use lookup tables to enrich log data in CloudWatch Logs queries with reference data such as user details, application names, or error descriptions. The table name must be unique within your account and Region. You must specify either tableBody or queryId , but not both. If you use tableBody , the CSV content must include a header row with column names, use UTF-8 encoding, and not exceed 10 MB. See also: A...
     /// </summary>
-    /// <param name="LookupTableName">The name of the lookup table. The name must be unique within your account and Region. The name can contain only alphanumeric charac- ters and underscores, and can be up to 256 characters long. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9_]+$</param>
+    /// <param name="LookupTableName">The name of the lookup table. The name must be unique within your account and Region. The name can contain only alphanumeric characters and underscores, and can be up to 256 characters long. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9_]+$</param>
     public AwsLogsCreateLookupTableOptions(
         string LookupTableName
     )
@@ -57,37 +58,37 @@ public record AwsLogsCreateLookupTableOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the lookup table. The name must be unique within your account and Region. The name can contain only alphanumeric charac- ters and underscores, and can be up to 256 characters long. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9_]+$
+    /// The name of the lookup table. The name must be unique within your account and Region. The name can contain only alphanumeric characters and underscores, and can be up to 256 characters long. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9_]+$
     /// </summary>
     [CliOption("--lookup-table-name")]
     public string? LookupTableName { get; private init; }
 
     /// <summary>
-    /// A description of the lookup table. The description can be up to 1024 characters long. Constraints: o min: 0 o max: 1024
+    /// A description of the lookup table. The description can be up to 1024 characters long. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The CSV content of the lookup table. The first row must be a header row with column names. The content must use UTF-8 encoding and not exceed 10 MB. You must specify either tableBody or queryId , but not both. Constraints: o min: 1 o max: 10485760
+    /// The CSV content of the lookup table. The first row must be a header row with column names. The content must use UTF-8 encoding and not exceed 10 MB. You must specify either tableBody or queryId , but not both. Constraints: • min: 1 • max: 10485760
     /// </summary>
     [CliOption("--table-body")]
     public string? TableBody { get; set; }
 
     /// <summary>
-    /// The ID of a completed or cancelled CloudWatch Logs query whose re- sults populate the lookup table. A cancelled query populates the ta- ble with the partial results that were available when the query was stopped. You must specify either tableBody or queryId , but not both. Constraints: o min: 1 o max: 256
+    /// The ID of a completed or cancelled CloudWatch Logs query whose results populate the lookup table. A cancelled query populates the table with the partial results that were available when the query was stopped. You must specify either tableBody or queryId , but not both. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--query-id")]
     public string? QueryId { get; set; }
 
     /// <summary>
-    /// The ARN of the KMS key to use to encrypt the lookup table data. If you don't specify a key, the data is encrypted with an Amazon Web Services-owned key. Constraints: o max: 256
+    /// The ARN of the KMS key to use to encrypt the lookup table data. If you don't specify a key, the data is encrypted with an Amazon Web Services-owned key. Constraints: • max: 256
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// A list of key-value pairs to associate with the lookup table. You can associate as many as 50 tags with a lookup table. Tags can help you organize and categorize your resources. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ value -&gt; (string) Constraints: o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A list of key-value pairs to associate with the lookup table. You can associate as many as 50 tags with a lookup table. Tags can help you organize and categorize your resources. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ value -&gt; (string) Constraints: • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

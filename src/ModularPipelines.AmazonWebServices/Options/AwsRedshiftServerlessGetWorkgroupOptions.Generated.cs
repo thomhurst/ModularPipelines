@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRedshiftServerlessGetWorkgroupOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Returns information about a specific workgroup. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkgroupName">The name of the workgroup to return information for. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$</param>
+    /// <param name="WorkgroupName">The name of the workgroup to return information for. Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$</param>
     public AwsRedshiftServerlessGetWorkgroupOptions(
         string WorkgroupName
     )
@@ -56,7 +58,7 @@ public record AwsRedshiftServerlessGetWorkgroupOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workgroup to return information for. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$
+    /// The name of the workgroup to return information for. Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$
     /// </summary>
     [CliOption("--workgroup-name")]
     public string? WorkgroupName { get; private init; }

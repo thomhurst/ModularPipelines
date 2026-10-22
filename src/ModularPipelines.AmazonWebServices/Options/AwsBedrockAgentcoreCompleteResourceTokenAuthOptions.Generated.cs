@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsBedrockAgentcoreCompleteResourceTokenAuthOptions : AwsOptions, 
     /// <summary>
     /// Confirms the user authentication session for obtaining OAuth2.0 tokens for a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="UserIdentifier">The OAuth2.0 token or user ID that was used to generate the workload access token used for initiating the user authorization flow to re- trieve OAuth2.0 tokens. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: userToken, userId. userToken -&gt; (string) The OAuth2.0 token issued by the users identity provider that was used to generate the workload access token Constraints: o min: 1 o max: 131072 o pattern: [A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+ userId -&gt; (string) The ID of the user for whom you have retrieved a workload access token for Constraints: o min: 1 o max: 128 Shorthand Syntax: userToken=string,userId=string JSON Syntax: { "userToken": "string", "userId": "string" }</param>
-    /// <param name="SessionUri">Unique identifier for the user's authentication session for retriev- ing OAuth2 tokens. This ID tracks the authorization flow state across multiple requests and responses during the OAuth2 authentica- tion process. Constraints: o min: 1 o max: 1024 o pattern: urn:ietf:params:oauth:request_uri:[a-zA-Z0-9-._~]+</param>
+    /// <param name="UserIdentifier">The OAuth2.0 token or user ID that was used to generate the workload access token used for initiating the user authorization flow to retrieve OAuth2.0 tokens. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: userToken, userId. userToken -&gt; (string) The OAuth2.0 token issued by the users identity provider that was used to generate the workload access token Constraints: • min: 1 • max: 131072 • pattern: [A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+ userId -&gt; (string) The ID of the user for whom you have retrieved a workload access token for Constraints: • min: 1 • max: 128 Shorthand Syntax: userToken=string,userId=string JSON Syntax: { "userToken": "string", "userId": "string" }</param>
+    /// <param name="SessionUri">Unique identifier for the user's authentication session for retrieving OAuth2 tokens. This ID tracks the authorization flow state across multiple requests and responses during the OAuth2 authentication process. Constraints: • min: 1 • max: 1024 • pattern: urn:ietf:params:oauth:request_uri:[a-zA-Z0-9-._~]+</param>
     public AwsBedrockAgentcoreCompleteResourceTokenAuthOptions(
         string UserIdentifier,
         string SessionUri
@@ -60,13 +62,13 @@ public record AwsBedrockAgentcoreCompleteResourceTokenAuthOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The OAuth2.0 token or user ID that was used to generate the workload access token used for initiating the user authorization flow to re- trieve OAuth2.0 tokens. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: userToken, userId. userToken -&gt; (string) The OAuth2.0 token issued by the users identity provider that was used to generate the workload access token Constraints: o min: 1 o max: 131072 o pattern: [A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+ userId -&gt; (string) The ID of the user for whom you have retrieved a workload access token for Constraints: o min: 1 o max: 128 Shorthand Syntax: userToken=string,userId=string JSON Syntax: { "userToken": "string", "userId": "string" }
+    /// The OAuth2.0 token or user ID that was used to generate the workload access token used for initiating the user authorization flow to retrieve OAuth2.0 tokens. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: userToken, userId. userToken -&gt; (string) The OAuth2.0 token issued by the users identity provider that was used to generate the workload access token Constraints: • min: 1 • max: 131072 • pattern: [A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+ userId -&gt; (string) The ID of the user for whom you have retrieved a workload access token for Constraints: • min: 1 • max: 128 Shorthand Syntax: userToken=string,userId=string JSON Syntax: { "userToken": "string", "userId": "string" }
     /// </summary>
     [CliOption("--user-identifier")]
     public string? UserIdentifier { get; private init; }
 
     /// <summary>
-    /// Unique identifier for the user's authentication session for retriev- ing OAuth2 tokens. This ID tracks the authorization flow state across multiple requests and responses during the OAuth2 authentica- tion process. Constraints: o min: 1 o max: 1024 o pattern: urn:ietf:params:oauth:request_uri:[a-zA-Z0-9-._~]+
+    /// Unique identifier for the user's authentication session for retrieving OAuth2 tokens. This ID tracks the authorization flow state across multiple requests and responses during the OAuth2 authentication process. Constraints: • min: 1 • max: 1024 • pattern: urn:ietf:params:oauth:request_uri:[a-zA-Z0-9-._~]+
     /// </summary>
     [CliOption("--session-uri")]
     public string? SessionUri { get; private init; }

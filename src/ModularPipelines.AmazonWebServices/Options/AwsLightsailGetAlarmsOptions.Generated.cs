@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about the configured alarms. Specify an alarm name in your request to return information about a specific alarm, or spec- ify a monitored resource name to return information about all alarms for a specific resource. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see Alarms in Amazon Lightsail...
+/// Returns information about the configured alarms. Specify an alarm name in your request to return information about a specific alarm, or specify a monitored resource name to return information about all alarms for a specific resource. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see Alarms in Amazon Lightsail ....
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLightsailGetAlarmsOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the alarm. Specify an alarm name to return information about a specific alarm. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the alarm. Specify an alarm name to return information about a specific alarm. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--alarm-name")]
     public string? AlarmName { get; set; }
@@ -36,7 +36,7 @@ public record AwsLightsailGetAlarmsOptions : AwsOptions
     public string? PageToken { get; set; }
 
     /// <summary>
-    /// The name of the Lightsail resource being monitored by the alarm. Specify a monitored resource name to return information about all alarms for a specific resource. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the Lightsail resource being monitored by the alarm. Specify a monitored resource name to return information about all alarms for a specific resource. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--monitored-resource-name")]
     public string? MonitoredResourceName { get; set; }

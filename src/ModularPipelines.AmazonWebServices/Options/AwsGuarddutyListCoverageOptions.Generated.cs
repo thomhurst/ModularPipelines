@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists coverage details for your GuardDuty account. If you're a Guard- Duty administrator, you can retrieve all resources associated with the active member accounts in your organization. Make sure the accounts have Runtime Monitoring enabled and GuardDuty agent running on their resources. See also: AWS API Documentation list-coverage is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-...
+/// Lists coverage details for your GuardDuty account. If you're a GuardDuty administrator, you can retrieve all resources associated with the active member accounts in your organization. Make sure the accounts have Runtime Monitoring enabled and GuardDuty agent running on their resources. See also: AWS API Documentation list-coverage is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagina...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsGuarddutyListCoverageOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists coverage details for your GuardDuty account. If you're a Guard- Duty administrator, you can retrieve all resources associated with the active member accounts in your organization. Make sure the accounts have Runtime Monitoring enabled and GuardDuty agent running on their resources. See also: AWS API Documentation list-coverage is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-...
+    /// Lists coverage details for your GuardDuty account. If you're a GuardDuty administrator, you can retrieve all resources associated with the active member accounts in your organization. Make sure the accounts have Runtime Monitoring enabled and GuardDuty agent running on their resources. See also: AWS API Documentation list-coverage is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagina...
     /// </summary>
-    /// <param name="DetectorId">The unique ID of the detector whose coverage details you want to re- trieve. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
+    /// <param name="DetectorId">The unique ID of the detector whose coverage details you want to retrieve. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300</param>
     public AwsGuarddutyListCoverageOptions(
         string DetectorId
     )
@@ -57,28 +59,25 @@ public record AwsGuarddutyListCoverageOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the detector whose coverage details you want to re- trieve. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// The unique ID of the detector whose coverage details you want to retrieve. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }
 
     /// <summary>
-    /// Represents the criteria used to filter the coverage details. FilterCriterion -&gt; (list) Represents a condition that when matched will be added to the response of the operation. Constraints: o min: 0 o max: 50 (structure) Represents a condition that when matched will be added to the response of the operation. CriterionKey -&gt; (string) An enum value representing possible filter fields. NOTE: Replace the enum value CLUSTER_NAME with EKS_CLUS- TER_NAME . CLUSTER_NAME has been deprecated. Possible values: o ACCOUNT_ID o RESOURCE_TYPE o COVERAGE_STATUS o ADDON_VERSION o CLUSTER_NAME o ECS_CLUSTER_NAME o MANAGEMENT_TYPE o EKS_CLUSTER_NAME o AGENT_VERSION o INSTANCE_ID o CLUSTER_ARN FilterCondition -&gt; (structure) Contains information about the condition. Equals -&gt; (list) Represents an equal condition that is applied to a single field while retrieving the coverage details. (string) NotEquals -&gt; (list) Represents a not equal condition that is applied to a single field while retrieving the coverage details. (string) JSON Syntax: { "FilterCriterion": [ { "CriterionKey": "ACCOUNT_ID"|"RESOURCE_TYPE"|"COVERAGE_STATUS"|"ADDON_VERSION"|"CLUSTER_NAME"|"ECS_CLUSTER_NAME"|"MANAGEMENT_TYPE"|"EKS_CLUSTER_NAME"|"AGENT_VERSION"|"INSTANCE_ID"|"CLUSTER_ARN", "FilterCondition": { "Equals": ["string", ...], "NotEquals": ["string", ...] } } ... ] }
+    /// Represents the criteria used to filter the coverage details. FilterCriterion -&gt; (list) Represents a condition that when matched will be added to the response of the operation. Constraints: • min: 0 • max: 50 (structure) Represents a condition that when matched will be added to the response of the operation. CriterionKey -&gt; (string) An enum value representing possible filter fields. NOTE: Replace the enum value CLUSTER_NAME with EKS_CLUSTER_NAME . CLUSTER_NAME has been deprecated. Possible values: • ACCOUNT_ID • RESOURCE_TYPE • COVERAGE_STATUS • ADDON_VERSION • CLUSTER_NAME • ECS_CLUSTER_NAME • MANAGEMENT_TYPE • EKS_CLUSTER_NAME • AGENT_VERSION • INSTANCE_ID • CLUSTER_ARN FilterCondition -&gt; (structure) Contains information about the condition. Equals -&gt; (list) Represents an equal condition that is applied to a single field while retrieving the coverage details. (string) NotEquals -&gt; (list) Represents a not equal condition that is applied to a single field while retrieving the coverage details. (string) JSON Syntax: { "FilterCriterion": [ { "CriterionKey": "ACCOUNT_ID"|"RESOURCE_TYPE"|"COVERAGE_STATUS"|"ADDON_VERSION"|"CLUSTER_NAME"|"ECS_CLUSTER_NAME"|"MANAGEMENT_TYPE"|"EKS_CLUSTER_NAME"|"AGENT_VERSION"|"INSTANCE_ID"|"CLUSTER_ARN", "FilterCondition": { "Equals": ["string", ...], "NotEquals": ["string", ...] } } ... ] }
     /// </summary>
     [CliOption("--filter-criteria")]
     public string? FilterCriteria { get; set; }
 
     /// <summary>
-    /// Represents the criteria used to sort the coverage details. AttributeName -&gt; (string) Represents the field name used to sort the coverage details. NOTE: Replace the enum value CLUSTER_NAME with EKS_CLUSTER_NAME . CLUSTER_NAME has been deprecated. Possible values: o ACCOUNT_ID o COVERAGE_STATUS o ISSUE o ADDON_VERSION o UPDATED_AT o CLUSTER_NAME o EKS_CLUSTER_NAME o ECS_CLUSTER_NAME o INSTANCE_ID OrderBy -&gt; (string) The order in which the sorted findings are to be displayed. Possible values: o ASC o DESC Shorthand Syntax: AttributeName=string,OrderBy=string JSON Syntax: { "AttributeName": "ACCOUNT_ID"|"COVERAGE_STATUS"|"ISSUE"|"ADDON_VERSION"|"UPDATED_AT"|"CLUSTER_NAME"|"EKS_CLUSTER_NAME"|"ECS_CLUSTER_NAME"|"INSTANCE_ID", "OrderBy": "ASC"|"DESC" }
+    /// Represents the criteria used to sort the coverage details. AttributeName -&gt; (string) Represents the field name used to sort the coverage details. NOTE: Replace the enum value CLUSTER_NAME with EKS_CLUSTER_NAME . CLUSTER_NAME has been deprecated. Possible values: • ACCOUNT_ID • COVERAGE_STATUS • ISSUE • ADDON_VERSION • UPDATED_AT • CLUSTER_NAME • EKS_CLUSTER_NAME • ECS_CLUSTER_NAME • INSTANCE_ID OrderBy -&gt; (string) The order in which the sorted findings are to be displayed. Possible values: • ASC • DESC Shorthand Syntax: AttributeName=string,OrderBy=string JSON Syntax: { "AttributeName": "ACCOUNT_ID"|"COVERAGE_STATUS"|"ISSUE"|"ADDON_VERSION"|"UPDATED_AT"|"CLUSTER_NAME"|"EKS_CLUSTER_NAME"|"ECS_CLUSTER_NAME"|"INSTANCE_ID", "OrderBy": "ASC"|"DESC" }
     /// </summary>
     [CliOption("--sort-criteria")]
     public string? SortCriteria { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -88,16 +87,19 @@ public record AwsGuarddutyListCoverageOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 50
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

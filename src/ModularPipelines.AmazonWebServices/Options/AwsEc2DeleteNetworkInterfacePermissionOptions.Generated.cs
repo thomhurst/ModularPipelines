@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a permission for a network interface. By default, you cannot delete the permission if the account for which you're removing the per- mission has attached the network interface to an instance. However, you can force delete the permission, regardless of any attachment. See also: AWS API Documentation
+/// Deletes a permission for a network interface. By default, you cannot delete the permission if the account for which you're removing the permission has attached the network interface to an instance. However, you can force delete the permission, regardless of any attachment. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsEc2DeleteNetworkInterfacePermissionOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a permission for a network interface. By default, you cannot delete the permission if the account for which you're removing the per- mission has attached the network interface to an instance. However, you can force delete the permission, regardless of any attachment. See also: AWS API Documentation
+    /// Deletes a permission for a network interface. By default, you cannot delete the permission if the account for which you're removing the permission has attached the network interface to an instance. However, you can force delete the permission, regardless of any attachment. See also: AWS API Documentation
     /// </summary>
     /// <param name="NetworkInterfacePermissionId">The ID of the network interface permission.</param>
     public AwsEc2DeleteNetworkInterfacePermissionOptions(
@@ -68,7 +70,7 @@ public record AwsEc2DeleteNetworkInterfacePermissionOptions : AwsOptions, IValid
     public bool? Force { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

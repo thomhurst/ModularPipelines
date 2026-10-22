@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about all available Trusted Advisor checks, includ- ing the name, ID, category, description, and metadata. You must specify a language code. The response contains a TrustedAdvisorCheckDescription object for each check. You must set the Amazon Web Services Region to us-east-1. NOTE: o You must have a Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Opera- tions plan to use the Amazon Web Services Support API. o If yo...
+/// Returns information about all available Trusted Advisor checks, including the name, ID, category, description, and metadata. You must specify a language code. The response contains a TrustedAdvisorCheckDescription object for each check. You must set the Amazon Web Services Region to us-east-1. NOTE: • You must have a Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API. • If you ca...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSupportDescribeTrustedAdvisorChecksOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns information about all available Trusted Advisor checks, includ- ing the name, ID, category, description, and metadata. You must specify a language code. The response contains a TrustedAdvisorCheckDescription object for each check. You must set the Amazon Web Services Region to us-east-1. NOTE: o You must have a Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Opera- tions plan to use the Amazon Web Services Support API. o If yo...
+    /// Returns information about all available Trusted Advisor checks, including the name, ID, category, description, and metadata. You must specify a language code. The response contains a TrustedAdvisorCheckDescription object for each check. You must set the Amazon Web Services Region to us-east-1. NOTE: • You must have a Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API. • If you ca...
     /// </summary>
-    /// <param name="Language">The ISO 639-1 code for the language that you want your checks to ap- pear in. The Amazon Web Services Support API currently supports the following languages for Trusted Advisor: o Chinese, Simplified - zh o Chinese, Traditional - zh_TW o English - en o French - fr o German - de o Indonesian - id o Italian - it o Japanese - ja o Korean - ko o Portuguese, Brazilian - pt_BR o Spanish - es</param>
+    /// <param name="Language">The ISO 639-1 code for the language that you want your checks to appear in. The Amazon Web Services Support API currently supports the following languages for Trusted Advisor: • Chinese, Simplified - zh • Chinese, Traditional - zh_TW • English - en • French - fr • German - de • Indonesian - id • Italian - it • Japanese - ja • Korean - ko • Portuguese, Brazilian - pt_BR • Spanish - es</param>
     public AwsSupportDescribeTrustedAdvisorChecksOptions(
         string Language
     )
@@ -56,7 +58,7 @@ public record AwsSupportDescribeTrustedAdvisorChecksOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ISO 639-1 code for the language that you want your checks to ap- pear in. The Amazon Web Services Support API currently supports the following languages for Trusted Advisor: o Chinese, Simplified - zh o Chinese, Traditional - zh_TW o English - en o French - fr o German - de o Indonesian - id o Italian - it o Japanese - ja o Korean - ko o Portuguese, Brazilian - pt_BR o Spanish - es
+    /// The ISO 639-1 code for the language that you want your checks to appear in. The Amazon Web Services Support API currently supports the following languages for Trusted Advisor: • Chinese, Simplified - zh • Chinese, Traditional - zh_TW • English - en • French - fr • German - de • Indonesian - id • Italian - it • Japanese - ja • Korean - ko • Portuguese, Brazilian - pt_BR • Spanish - es
     /// </summary>
     [CliOption("--language")]
     public string? Language { get; private init; }

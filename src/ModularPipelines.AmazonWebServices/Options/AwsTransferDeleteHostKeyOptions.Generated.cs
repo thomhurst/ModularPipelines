@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsTransferDeleteHostKeyOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the host key that's specified in the HostKeyId parameter. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServerId">The identifier of the server that contains the host key that you are deleting. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})</param>
-    /// <param name="HostKeyId">The identifier of the host key that you are deleting. Constraints: o min: 25 o max: 25 o pattern: hostkey-[0-9a-f]{17}</param>
+    /// <param name="ServerId">The identifier of the server that contains the host key that you are deleting. Constraints: • min: 19 • max: 19 • pattern: s-([0-9a-f]{17})</param>
+    /// <param name="HostKeyId">The identifier of the host key that you are deleting. Constraints: • min: 25 • max: 25 • pattern: hostkey-[0-9a-f]{17}</param>
     public AwsTransferDeleteHostKeyOptions(
         string ServerId,
         string HostKeyId
@@ -60,13 +62,13 @@ public record AwsTransferDeleteHostKeyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the server that contains the host key that you are deleting. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})
+    /// The identifier of the server that contains the host key that you are deleting. Constraints: • min: 19 • max: 19 • pattern: s-([0-9a-f]{17})
     /// </summary>
     [CliOption("--server-id")]
     public string? ServerId { get; private init; }
 
     /// <summary>
-    /// The identifier of the host key that you are deleting. Constraints: o min: 25 o max: 25 o pattern: hostkey-[0-9a-f]{17}
+    /// The identifier of the host key that you are deleting. Constraints: • min: 25 • max: 25 • pattern: hostkey-[0-9a-f]{17}
     /// </summary>
     [CliOption("--host-key-id")]
     public string? HostKeyId { get; private init; }

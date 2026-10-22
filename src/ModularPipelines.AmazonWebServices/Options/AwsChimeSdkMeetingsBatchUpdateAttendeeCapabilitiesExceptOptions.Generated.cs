@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates AttendeeCapabilities except the capabilities listed in an Ex- cludedAttendeeIds table. NOTE: You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information about those values, see . When using capabilities, be aware of these corner cases: o If you specify MeetingFeatures:Video:MaxResolution:None when you cre- ate a meeting, all API requests that include SendReceive , Send , or Receive for AttendeeCapabilities:Video ...
+/// Updates AttendeeCapabilities except the capabilities listed in an ExcludedAttendeeIds table. NOTE: You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information about those values, see . When using capabilities, be aware of these corner cases: • If you specify MeetingFeatures:Video:MaxResolution:None when you create a meeting, all API requests that include SendReceive , Send , or Receive for AttendeeCapabilities:Video will...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsChimeSdkMeetingsBatchUpdateAttendeeCapabilitiesExceptOptions : 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates AttendeeCapabilities except the capabilities listed in an Ex- cludedAttendeeIds table. NOTE: You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information about those values, see . When using capabilities, be aware of these corner cases: o If you specify MeetingFeatures:Video:MaxResolution:None when you cre- ate a meeting, all API requests that include SendReceive , Send , or Receive for AttendeeCapabilities:Video ...
+    /// Updates AttendeeCapabilities except the capabilities listed in an ExcludedAttendeeIds table. NOTE: You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information about those values, see . When using capabilities, be aware of these corner cases: • If you specify MeetingFeatures:Video:MaxResolution:None when you create a meeting, all API requests that include SendReceive , Send , or Receive for AttendeeCapabilities:Video will...
     /// </summary>
-    /// <param name="MeetingId">The ID of the meeting associated with the update request. Constraints: o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}</param>
-    /// <param name="ExcludedAttendeeIds">The AttendeeIDs that you want to exclude from one or more capabili- ties. Constraints: o min: 1 o max: 250 (structure) A structure that contains one or more attendee IDs. AttendeeId -&gt; (string) [required] A list of one or more attendee IDs. Constraints: o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12} Shorthand Syntax: AttendeeId=string ... JSON Syntax: [ { "AttendeeId": "string" } ... ]</param>
-    /// <param name="Capabilities">The capabilities (audio , video , or content ) that you want to up- date. Audio -&gt; (string) [required] The audio capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Video -&gt; (string) [required] The video capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Content -&gt; (string) [required] The content capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Shorthand Syntax: Audio=string,Video=string,Content=string JSON Syntax: { "Audio": "SendReceive"|"Send"|"Receive"|"None", "Video": "SendReceive"|"Send"|"Receive"|"None", "Content": "SendReceive"|"Send"|"Receive"|"None" }</param>
+    /// <param name="MeetingId">The ID of the meeting associated with the update request. Constraints: • pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}</param>
+    /// <param name="ExcludedAttendeeIds">The AttendeeIDs that you want to exclude from one or more capabilities. Constraints: • min: 1 • max: 250 (structure) A structure that contains one or more attendee IDs. AttendeeId -&gt; (string) [required] A list of one or more attendee IDs. Constraints: • pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12} Shorthand Syntax: AttendeeId=string ... JSON Syntax: [ { "AttendeeId": "string" } ... ]</param>
+    /// <param name="Capabilities">The capabilities (audio , video , or content ) that you want to update. Audio -&gt; (string) [required] The audio capability assigned to an attendee. Possible values: • SendReceive • Send • Receive • None Video -&gt; (string) [required] The video capability assigned to an attendee. Possible values: • SendReceive • Send • Receive • None Content -&gt; (string) [required] The content capability assigned to an attendee. Possible values: • SendReceive • Send • Receive • None Shorthand Syntax: Audio=string,Video=string,Content=string JSON Syntax: { "Audio": "SendReceive"|"Send"|"Receive"|"None", "Video": "SendReceive"|"Send"|"Receive"|"None", "Content": "SendReceive"|"Send"|"Receive"|"None" }</param>
     public AwsChimeSdkMeetingsBatchUpdateAttendeeCapabilitiesExceptOptions(
         string MeetingId,
         IEnumerable<string> ExcludedAttendeeIds,
@@ -75,19 +77,19 @@ public record AwsChimeSdkMeetingsBatchUpdateAttendeeCapabilitiesExceptOptions : 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the meeting associated with the update request. Constraints: o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}
+    /// The ID of the meeting associated with the update request. Constraints: • pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}
     /// </summary>
     [CliOption("--meeting-id")]
     public string? MeetingId { get; private init; }
 
     /// <summary>
-    /// The AttendeeIDs that you want to exclude from one or more capabili- ties. Constraints: o min: 1 o max: 250 (structure) A structure that contains one or more attendee IDs. AttendeeId -&gt; (string) [required] A list of one or more attendee IDs. Constraints: o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12} Shorthand Syntax: AttendeeId=string ... JSON Syntax: [ { "AttendeeId": "string" } ... ]
+    /// The AttendeeIDs that you want to exclude from one or more capabilities. Constraints: • min: 1 • max: 250 (structure) A structure that contains one or more attendee IDs. AttendeeId -&gt; (string) [required] A list of one or more attendee IDs. Constraints: • pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12} Shorthand Syntax: AttendeeId=string ... JSON Syntax: [ { "AttendeeId": "string" } ... ]
     /// </summary>
     [CliOption("--excluded-attendee-ids", GroupValues = true)]
     public IEnumerable<string>? ExcludedAttendeeIds { get; private init; }
 
     /// <summary>
-    /// The capabilities (audio , video , or content ) that you want to up- date. Audio -&gt; (string) [required] The audio capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Video -&gt; (string) [required] The video capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Content -&gt; (string) [required] The content capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Shorthand Syntax: Audio=string,Video=string,Content=string JSON Syntax: { "Audio": "SendReceive"|"Send"|"Receive"|"None", "Video": "SendReceive"|"Send"|"Receive"|"None", "Content": "SendReceive"|"Send"|"Receive"|"None" }
+    /// The capabilities (audio , video , or content ) that you want to update. Audio -&gt; (string) [required] The audio capability assigned to an attendee. Possible values: • SendReceive • Send • Receive • None Video -&gt; (string) [required] The video capability assigned to an attendee. Possible values: • SendReceive • Send • Receive • None Content -&gt; (string) [required] The content capability assigned to an attendee. Possible values: • SendReceive • Send • Receive • None Shorthand Syntax: Audio=string,Video=string,Content=string JSON Syntax: { "Audio": "SendReceive"|"Send"|"Receive"|"None", "Video": "SendReceive"|"Send"|"Receive"|"None", "Content": "SendReceive"|"Send"|"Receive"|"None" }
     /// </summary>
     [CliOption("--capabilities")]
     public string? Capabilities { get; private init; }

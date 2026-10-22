@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +30,9 @@ public record AwsHealthlakeUpdateProfileWithAgentOptions : AwsOptions, IValidata
     /// <summary>
     /// Updates a data transformation profile using chat-based interaction with an agent. Supports multi-turn conversations for iteratively customizing profiles. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileId">The unique identifier of the profile to update via the agent. Constraints: o min: 32 o max: 32 o pattern: [a-f0-9]{32}</param>
-    /// <param name="SourceFormat">The source data format for the transformation. Possible values: o CCDA o CSV</param>
-    /// <param name="InputMessage">The message to send to the agent. Body -&gt; (string) [required] The text of your message to the agent. Constraints: o min: 1 o max: 40960 Type -&gt; (string) [required] The type of input message, which determines how the agent processes your request. Valid values: o normal : A regular message to the agent. o confirmation_response : A response to a confirmation request from the agent. Possible values: o normal o confirmation_response Shorthand Syntax: Body=string,Type=string JSON Syntax: { "Body": "string", "Type": "normal"|"confirmation_response" }</param>
+    /// <param name="ProfileId">The unique identifier of the profile to update via the agent. Constraints: • min: 32 • max: 32 • pattern: [a-f0-9]{32}</param>
+    /// <param name="SourceFormat">The source data format for the transformation. Possible values: • CCDA • CSV</param>
+    /// <param name="InputMessage">The message to send to the agent. Body -&gt; (string) [required] The text of your message to the agent. Constraints: • min: 1 • max: 40960 Type -&gt; (string) [required] The type of input message, which determines how the agent processes your request. Valid values: • normal : A regular message to the agent. • confirmation_response : A response to a confirmation request from the agent. Possible values: • normal • confirmation_response Shorthand Syntax: Body=string,Type=string JSON Syntax: { "Body": "string", "Type": "normal"|"confirmation_response" }</param>
     public AwsHealthlakeUpdateProfileWithAgentOptions(
         string ProfileId,
         AwsHealthlakeUpdateProfileWithAgentSourceFormat SourceFormat,
@@ -64,25 +66,25 @@ public record AwsHealthlakeUpdateProfileWithAgentOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the profile to update via the agent. Constraints: o min: 32 o max: 32 o pattern: [a-f0-9]{32}
+    /// The unique identifier of the profile to update via the agent. Constraints: • min: 32 • max: 32 • pattern: [a-f0-9]{32}
     /// </summary>
     [CliOption("--profile-id")]
     public string? ProfileId { get; private init; }
 
     /// <summary>
-    /// The source data format for the transformation. Possible values: o CCDA o CSV
+    /// The source data format for the transformation. Possible values: • CCDA • CSV
     /// </summary>
     [CliOption("--source-format")]
     public AwsHealthlakeUpdateProfileWithAgentSourceFormat? SourceFormat { get; private init; }
 
     /// <summary>
-    /// The message to send to the agent. Body -&gt; (string) [required] The text of your message to the agent. Constraints: o min: 1 o max: 40960 Type -&gt; (string) [required] The type of input message, which determines how the agent processes your request. Valid values: o normal : A regular message to the agent. o confirmation_response : A response to a confirmation request from the agent. Possible values: o normal o confirmation_response Shorthand Syntax: Body=string,Type=string JSON Syntax: { "Body": "string", "Type": "normal"|"confirmation_response" }
+    /// The message to send to the agent. Body -&gt; (string) [required] The text of your message to the agent. Constraints: • min: 1 • max: 40960 Type -&gt; (string) [required] The type of input message, which determines how the agent processes your request. Valid values: • normal : A regular message to the agent. • confirmation_response : A response to a confirmation request from the agent. Possible values: • normal • confirmation_response Shorthand Syntax: Body=string,Type=string JSON Syntax: { "Body": "string", "Type": "normal"|"confirmation_response" }
     /// </summary>
     [CliOption("--input-message")]
     public string? InputMessage { get; private init; }
 
     /// <summary>
-    /// The conversation identifier for multi-turn interactions. Omit to start a new conversation. Constraints: o min: 1 o max: 36
+    /// The conversation identifier for multi-turn interactions. Omit to start a new conversation. Constraints: • min: 1 • max: 36
     /// </summary>
     [CliOption("--conversation-id")]
     public string? ConversationId { get; set; }

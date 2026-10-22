@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRoute53GetQueryLoggingConfigOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Gets information about a specified configuration for DNS query logging. For more information about DNS query logs, see CreateQueryLoggingConfig and Logging DNS Queries . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the configuration for DNS query logging that you want to get information about. Constraints: o min: 1 o max: 36</param>
+    /// <param name="Id">The ID of the configuration for DNS query logging that you want to get information about. Constraints: • min: 1 • max: 36</param>
     public AwsRoute53GetQueryLoggingConfigOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsRoute53GetQueryLoggingConfigOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the configuration for DNS query logging that you want to get information about. Constraints: o min: 1 o max: 36
+    /// The ID of the configuration for DNS query logging that you want to get information about. Constraints: • min: 1 • max: 36
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

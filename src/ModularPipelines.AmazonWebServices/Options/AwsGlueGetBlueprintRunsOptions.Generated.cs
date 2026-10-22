@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsGlueGetBlueprintRunsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves the details of blueprint runs for a specified blueprint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BlueprintName">The name of the blueprint. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="BlueprintName">The name of the blueprint. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
     public AwsGlueGetBlueprintRunsOptions(
         string BlueprintName
     )
@@ -57,7 +59,7 @@ public record AwsGlueGetBlueprintRunsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the blueprint. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The name of the blueprint. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--blueprint-name")]
     public string? BlueprintName { get; private init; }
@@ -70,7 +72,7 @@ public record AwsGlueGetBlueprintRunsOptions : AwsOptions, IValidatableObject
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum size of a list to return. Constraints: o min: 1 o max: 1000
+    /// The maximum size of a list to return. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

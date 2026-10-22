@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Routes API V2 unless you re- quire Grab data. o DeleteRouteCalculator is part of a previous Amazon Location Ser- vice Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources. o If you are using an Amazon...
+/// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Routes API V2 unless you require Grab data. • DeleteRouteCalculator is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources. • If you are using an Amazon Web S...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLocationDeleteRouteCalculatorOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Routes API V2 unless you re- quire Grab data. o DeleteRouteCalculator is part of a previous Amazon Location Ser- vice Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources. o If you are using an Amazon...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Routes API V2 unless you require Grab data. • DeleteRouteCalculator is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources. • If you are using an Amazon Web S...
     /// </summary>
-    /// <param name="CalculatorName">The name of the route calculator resource to be deleted. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    /// <param name="CalculatorName">The name of the route calculator resource to be deleted. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+</param>
     public AwsLocationDeleteRouteCalculatorOptions(
         string CalculatorName
     )
@@ -56,7 +58,7 @@ public record AwsLocationDeleteRouteCalculatorOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the route calculator resource to be deleted. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// The name of the route calculator resource to be deleted. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+
     /// </summary>
     [CliOption("--calculator-name")]
     public string? CalculatorName { get; private init; }

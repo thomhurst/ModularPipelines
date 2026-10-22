@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsNeptuneModifyDbSubnetGroupOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Modifies an existing DB subnet group. DB subnet groups must contain at least one subnet in at least two AZs in the Amazon Region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbSubnetGroupName">The name for the DB subnet group. This value is stored as a lower- case string. You can't modify the default subnet group. Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup</param>
+    /// <param name="DbSubnetGroupName">The name for the DB subnet group. This value is stored as a lowercase string. You can't modify the default subnet group. Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup</param>
     /// <param name="SubnetIds">The EC2 subnet IDs for the DB subnet group. (string) Syntax: "string" "string" ...</param>
     public AwsNeptuneModifyDbSubnetGroupOptions(
         string DbSubnetGroupName,
@@ -71,7 +73,7 @@ public record AwsNeptuneModifyDbSubnetGroupOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name for the DB subnet group. This value is stored as a lower- case string. You can't modify the default subnet group. Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup
+    /// The name for the DB subnet group. This value is stored as a lowercase string. You can't modify the default subnet group. Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup
     /// </summary>
     [CliOption("--db-subnet-group-name")]
     public string? DbSubnetGroupName { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsEsDeletePackageOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Delete the package. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PackageId">Internal ID of the package that you want to delete. Use De- scribePackages to find this value.</param>
+    /// <param name="PackageId">Internal ID of the package that you want to delete. Use DescribePackages to find this value.</param>
     public AwsEsDeletePackageOptions(
         string PackageId
     )
@@ -56,7 +58,7 @@ public record AwsEsDeletePackageOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Internal ID of the package that you want to delete. Use De- scribePackages to find this value.
+    /// Internal ID of the package that you want to delete. Use DescribePackages to find this value.
     /// </summary>
     [CliOption("--package-id")]
     public string? PackageId { get; private init; }

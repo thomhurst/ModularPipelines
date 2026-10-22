@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDsDescribeCertificateOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Displays information about the certificate registered for secure LDAP or client certificate authentication. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The identifier of the directory. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
-    /// <param name="CertificateId">The identifier of the certificate. Constraints: o pattern: ^c-[0-9a-f]{10}$</param>
+    /// <param name="DirectoryId">The identifier of the directory. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="CertificateId">The identifier of the certificate. Constraints: • pattern: ^c-[0-9a-f]{10}$</param>
     public AwsDsDescribeCertificateOptions(
         string DirectoryId,
         string CertificateId
@@ -60,13 +62,13 @@ public record AwsDsDescribeCertificateOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the directory. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The identifier of the directory. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// The identifier of the certificate. Constraints: o pattern: ^c-[0-9a-f]{10}$
+    /// The identifier of the certificate. Constraints: • pattern: ^c-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--certificate-id")]
     public string? CertificateId { get; private init; }

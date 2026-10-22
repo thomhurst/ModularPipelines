@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsVpcLatticeDeleteTargetGroupOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Deletes a target group. You can't delete a target group if it is used in a listener rule or if the target group creation is in progress. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TargetGroupIdentifier">The ID or ARN of the target group. Constraints: o min: 17 o max: 2048 o pattern: ((tg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:targetgroup/tg-[0-9a-z]{17}))</param>
+    /// <param name="TargetGroupIdentifier">The ID or ARN of the target group. Constraints: • min: 17 • max: 2048 • pattern: ((tg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:targetgroup/tg-[0-9a-z]{17}))</param>
     public AwsVpcLatticeDeleteTargetGroupOptions(
         string TargetGroupIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsVpcLatticeDeleteTargetGroupOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or ARN of the target group. Constraints: o min: 17 o max: 2048 o pattern: ((tg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:targetgroup/tg-[0-9a-z]{17}))
+    /// The ID or ARN of the target group. Constraints: • min: 17 • max: 2048 • pattern: ((tg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:targetgroup/tg-[0-9a-z]{17}))
     /// </summary>
     [CliOption("--target-group-identifier")]
     public string? TargetGroupIdentifier { get; private init; }

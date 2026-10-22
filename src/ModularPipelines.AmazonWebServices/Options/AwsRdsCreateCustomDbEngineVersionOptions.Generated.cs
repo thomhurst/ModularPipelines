@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsRdsCreateCustomDbEngineVersionOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Creates a custom DB engine version (CEV). See also: AWS API Documentation
     /// </summary>
-    /// <param name="Engine">The database engine. RDS Custom for Oracle supports the following values: o custom-oracle-ee o custom-oracle-ee-cdb o custom-oracle-se2 o custom-oracle-se2-cdb RDS Custom for SQL Server supports the following values: o custom-sqlserver-ee o custom-sqlserver-se o custom-sqlserver-web o custom-sqlserver-dev RDS for SQL Server supports the following values: o sqlserver-ee (Bring Your Own Media) o sqlserver-se (Bring Your Own Media) o sqlserver-dev-ee Constraints: o min: 1 o max: 35 o pattern: [A-Za-z0-9-]{1,35}</param>
-    /// <param name="EngineVersion">The name of your custom engine version (CEV). For RDS Custom for Oracle, the name format is 19.*customized_string* . For example, a valid CEV name is 19.my_cev1 . For RDS Custom for SQL Server and RDS for SQL Server sqlserver-dev-ee , the name format is *major_engine_version*.*mi- nor_engine_version*.*customized_string* . For example, a valid CEV name is 16.00.4215.2.my_cev1 . For RDS for SQL Server Bring Your Own Media (sqlserver-ee , sqlserver-se ), specify the RDS engine version that you want to use. For example, 16.00.4175.1.v1 . The CEV name is unique per customer per Amazon Web Services Regions. Constraints: o min: 1 o max: 60 o pattern: [a-z0-9_.-]{1,60}</param>
+    /// <param name="Engine">The database engine. RDS Custom for Oracle supports the following values: • custom-oracle-ee • custom-oracle-ee-cdb • custom-oracle-se2 • custom-oracle-se2-cdb RDS Custom for SQL Server supports the following values: • custom-sqlserver-ee • custom-sqlserver-se • custom-sqlserver-web • custom-sqlserver-dev RDS for SQL Server supports the following values: • sqlserver-ee (Bring Your Own Media) • sqlserver-se (Bring Your Own Media) • sqlserver-dev-ee Constraints: • min: 1 • max: 35 • pattern: [A-Za-z0-9-]{1,35}</param>
+    /// <param name="EngineVersion">The name of your custom engine version (CEV). For RDS Custom for Oracle, the name format is 19.*customized_string* . For example, a valid CEV name is 19.my_cev1 . For RDS Custom for SQL Server and RDS for SQL Server sqlserver-dev-ee , the name format is *major_engine_version*.*minor_engine_version*.*customized_string* . For example, a valid CEV name is 16.00.4215.2.my_cev1 . For RDS for SQL Server Bring Your Own Media (sqlserver-ee , sqlserver-se ), specify the RDS engine version that you want to use. For example, 16.00.4175.1.v1 . The CEV name is unique per customer per Amazon Web Services Regions. Constraints: • min: 1 • max: 60 • pattern: [a-z0-9_.-]{1,60}</param>
     public AwsRdsCreateCustomDbEngineVersionOptions(
         string Engine,
         string EngineVersion
@@ -60,25 +62,25 @@ public record AwsRdsCreateCustomDbEngineVersionOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The database engine. RDS Custom for Oracle supports the following values: o custom-oracle-ee o custom-oracle-ee-cdb o custom-oracle-se2 o custom-oracle-se2-cdb RDS Custom for SQL Server supports the following values: o custom-sqlserver-ee o custom-sqlserver-se o custom-sqlserver-web o custom-sqlserver-dev RDS for SQL Server supports the following values: o sqlserver-ee (Bring Your Own Media) o sqlserver-se (Bring Your Own Media) o sqlserver-dev-ee Constraints: o min: 1 o max: 35 o pattern: [A-Za-z0-9-]{1,35}
+    /// The database engine. RDS Custom for Oracle supports the following values: • custom-oracle-ee • custom-oracle-ee-cdb • custom-oracle-se2 • custom-oracle-se2-cdb RDS Custom for SQL Server supports the following values: • custom-sqlserver-ee • custom-sqlserver-se • custom-sqlserver-web • custom-sqlserver-dev RDS for SQL Server supports the following values: • sqlserver-ee (Bring Your Own Media) • sqlserver-se (Bring Your Own Media) • sqlserver-dev-ee Constraints: • min: 1 • max: 35 • pattern: [A-Za-z0-9-]{1,35}
     /// </summary>
     [CliOption("--engine")]
     public string? Engine { get; private init; }
 
     /// <summary>
-    /// The name of your custom engine version (CEV). For RDS Custom for Oracle, the name format is 19.*customized_string* . For example, a valid CEV name is 19.my_cev1 . For RDS Custom for SQL Server and RDS for SQL Server sqlserver-dev-ee , the name format is *major_engine_version*.*mi- nor_engine_version*.*customized_string* . For example, a valid CEV name is 16.00.4215.2.my_cev1 . For RDS for SQL Server Bring Your Own Media (sqlserver-ee , sqlserver-se ), specify the RDS engine version that you want to use. For example, 16.00.4175.1.v1 . The CEV name is unique per customer per Amazon Web Services Regions. Constraints: o min: 1 o max: 60 o pattern: [a-z0-9_.-]{1,60}
+    /// The name of your custom engine version (CEV). For RDS Custom for Oracle, the name format is 19.*customized_string* . For example, a valid CEV name is 19.my_cev1 . For RDS Custom for SQL Server and RDS for SQL Server sqlserver-dev-ee , the name format is *major_engine_version*.*minor_engine_version*.*customized_string* . For example, a valid CEV name is 16.00.4215.2.my_cev1 . For RDS for SQL Server Bring Your Own Media (sqlserver-ee , sqlserver-se ), specify the RDS engine version that you want to use. For example, 16.00.4175.1.v1 . The CEV name is unique per customer per Amazon Web Services Regions. Constraints: • min: 1 • max: 60 • pattern: [a-z0-9_.-]{1,60}
     /// </summary>
     [CliOption("--engine-version")]
     public string? EngineVersion { get; private init; }
 
     /// <summary>
-    /// The name of an Amazon S3 bucket that contains database installation files for your CEV. For example, a valid bucket name is my-cus- tom-installation-files . Constraints: o min: 3 o max: 63 o pattern: .*
+    /// The name of an Amazon S3 bucket that contains database installation files for your CEV. For example, a valid bucket name is my-custom-installation-files . Constraints: • min: 3 • max: 63 • pattern: .*
     /// </summary>
     [CliOption("--database-installation-files-s3-bucket-name")]
     public string? DatabaseInstallationFilesS3BucketName { get; set; }
 
     /// <summary>
-    /// The Amazon S3 directory that contains the database installation files for your CEV. For example, a valid bucket name is 123456789012/cev1 . If this setting isn't specified, no prefix is assumed. Constraints: o min: 1 o max: 255 o pattern: .*
+    /// The Amazon S3 directory that contains the database installation files for your CEV. For example, a valid bucket name is 123456789012/cev1 . If this setting isn't specified, no prefix is assumed. Constraints: • min: 1 • max: 255 • pattern: .*
     /// </summary>
     [CliOption("--database-installation-files-s3-prefix")]
     public string? DatabaseInstallationFilesS3Prefix { get; set; }
@@ -90,19 +92,19 @@ public record AwsRdsCreateCustomDbEngineVersionOptions : AwsOptions, IValidatabl
     public IEnumerable<string>? DatabaseInstallationFiles { get; set; }
 
     /// <summary>
-    /// The ID of the Amazon Machine Image (AMI). For RDS Custom for SQL Server, an AMI ID is required to create a CEV. For RDS Custom for Oracle, the default is the most recent AMI available, but you can specify an AMI ID that was used in a different Oracle CEV. Find the AMIs used by your CEVs by calling the DescribeDBEngineVersions oper- ation. Constraints: o min: 1 o max: 255 o pattern: .*
+    /// The ID of the Amazon Machine Image (AMI). For RDS Custom for SQL Server, an AMI ID is required to create a CEV. For RDS Custom for Oracle, the default is the most recent AMI available, but you can specify an AMI ID that was used in a different Oracle CEV. Find the AMIs used by your CEVs by calling the DescribeDBEngineVersions operation. Constraints: • min: 1 • max: 255 • pattern: .*
     /// </summary>
     [CliOption("--image-id")]
     public string? ImageId { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services KMS key identifier for an encrypted CEV. A symmetric encryption KMS key is required for RDS Custom, but op- tional for Amazon RDS. If you have an existing symmetric encryption KMS key in your ac- count, you can use it with RDS Custom. No further action is neces- sary. If you don't already have a symmetric encryption KMS key in your account, follow the instructions in Creating a symmetric en- cryption KMS key in the Amazon Web Services Key Management Service Developer Guide . You can choose the same symmetric encryption key when you create a CEV and a DB instance, or choose different keys. Constraints: o min: 1 o max: 2048 o pattern: [a-zA-Z0-9_:\-\/]+
+    /// The Amazon Web Services KMS key identifier for an encrypted CEV. A symmetric encryption KMS key is required for RDS Custom, but optional for Amazon RDS. If you have an existing symmetric encryption KMS key in your account, you can use it with RDS Custom. No further action is necessary. If you don't already have a symmetric encryption KMS key in your account, follow the instructions in Creating a symmetric encryption KMS key in the Amazon Web Services Key Management Service Developer Guide . You can choose the same symmetric encryption key when you create a CEV and a DB instance, or choose different keys. Constraints: • min: 1 • max: 2048 • pattern: [a-zA-Z0-9_:\-\/]+
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// The ARN of a CEV to use as a source for creating a new CEV. You can specify a different Amazon Machine Imagine (AMI) by using either Source or UseAwsProvidedLatestImage . You can't specify a different JSON manifest when you specify SourceCustomDbEngineVersionIdentifier . Constraints: o min: 1 o max: 255 o pattern: .*
+    /// The ARN of a CEV to use as a source for creating a new CEV. You can specify a different Amazon Machine Imagine (AMI) by using either Source or UseAwsProvidedLatestImage . You can't specify a different JSON manifest when you specify SourceCustomDbEngineVersionIdentifier . Constraints: • min: 1 • max: 255 • pattern: .*
     /// </summary>
     [CliOption("--source-custom-db-engine-version-identifier")]
     public string? SourceCustomDbEngineVersionIdentifier { get; set; }
@@ -114,13 +116,13 @@ public record AwsRdsCreateCustomDbEngineVersionOptions : AwsOptions, IValidatabl
     public bool? UseAwsProvidedLatestImage { get; set; }
 
     /// <summary>
-    /// An optional description of your CEV. Constraints: o min: 1 o max: 1000 o pattern: .*
+    /// An optional description of your CEV. Constraints: • min: 1 • max: 1000 • pattern: .*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The CEV manifest, which is a JSON document that describes the in- stallation .zip files stored in Amazon S3. Specify the name/value pairs in a file or a quoted string. RDS Custom applies the patches in the order in which they are listed. The following JSON fields are valid: MediaImportTemplateVersion Version of the CEV manifest. The date is in the format YYYY-MM-DD . databaseInstallationFileNames Ordered list of installation files for the CEV. opatchFileNames Ordered list of OPatch installers used for the Oracle DB engine. psuRuPatchFileNames The PSU and RU patches for this CEV. OtherPatchFileNames The patches that are not in the list of PSU and RU patches. Amazon RDS applies these patches after applying the PSU and RU patches. For more information, see Creating the CEV manifest in the Amazon RDS User Guide . Constraints: o min: 1 o max: 51000 o pattern: [\s\S]*
+    /// The CEV manifest, which is a JSON document that describes the installation .zip files stored in Amazon S3. Specify the name/value pairs in a file or a quoted string. RDS Custom applies the patches in the order in which they are listed. The following JSON fields are valid: MediaImportTemplateVersion Version of the CEV manifest. The date is in the format YYYY-MM-DD . databaseInstallationFileNames Ordered list of installation files for the CEV. opatchFileNames Ordered list of OPatch installers used for the Oracle DB engine. psuRuPatchFileNames The PSU and RU patches for this CEV. OtherPatchFileNames The patches that are not in the list of PSU and RU patches. Amazon RDS applies these patches after applying the PSU and RU patches. For more information, see Creating the CEV manifest in the Amazon RDS User Guide . Constraints: • min: 1 • max: 51000 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--manifest")]
     public string? Manifest { get; set; }

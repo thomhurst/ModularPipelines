@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +30,9 @@ public record AwsDatazoneUpdateUserProfileOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Updates the specified user profile in Amazon DataZone. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain in which a user profile is updated. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="UserIdentifier">The identifier of the user whose user profile is to be updated. Constraints: o pattern: .*(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|^[a-zA-Z_0-9+=,.@-]+$|^arn:aws:iam::\d{12}:.+$).*</param>
-    /// <param name="Status">The status of the user profile that are to be updated. Possible values: o ASSIGNED o NOT_ASSIGNED o ACTIVATED o DEACTIVATED</param>
+    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain in which a user profile is updated. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="UserIdentifier">The identifier of the user whose user profile is to be updated. Constraints: • pattern: .*(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|^[a-zA-Z_0-9+=,.@-]+$|^arn:aws:iam::\d{12}:.+$).*</param>
+    /// <param name="Status">The status of the user profile that are to be updated. Possible values: • ASSIGNED • NOT_ASSIGNED • ACTIVATED • DEACTIVATED</param>
     public AwsDatazoneUpdateUserProfileOptions(
         string DomainIdentifier,
         string UserIdentifier,
@@ -64,31 +66,31 @@ public record AwsDatazoneUpdateUserProfileOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon DataZone domain in which a user profile is updated. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The identifier of the Amazon DataZone domain in which a user profile is updated. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the user whose user profile is to be updated. Constraints: o pattern: .*(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|^[a-zA-Z_0-9+=,.@-]+$|^arn:aws:iam::\d{12}:.+$).*
+    /// The identifier of the user whose user profile is to be updated. Constraints: • pattern: .*(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|^[a-zA-Z_0-9+=,.@-]+$|^arn:aws:iam::\d{12}:.+$).*
     /// </summary>
     [CliOption("--user-identifier")]
     public string? UserIdentifier { get; private init; }
 
     /// <summary>
-    /// The status of the user profile that are to be updated. Possible values: o ASSIGNED o NOT_ASSIGNED o ACTIVATED o DEACTIVATED
+    /// The status of the user profile that are to be updated. Possible values: • ASSIGNED • NOT_ASSIGNED • ACTIVATED • DEACTIVATED
     /// </summary>
     [CliOption("--status")]
     public AwsDatazoneUpdateUserProfileStatus? Status { get; private init; }
 
     /// <summary>
-    /// The type of the user profile that are to be updated. Possible values: o IAM o SSO
+    /// The type of the user profile that are to be updated. Possible values: • IAM • SSO
     /// </summary>
     [CliOption("--type")]
     public AwsDatazoneUpdateUserProfileType? Type { get; set; }
 
     /// <summary>
-    /// The session name for IAM role sessions. Constraints: o min: 2 o max: 64
+    /// The session name for IAM role sessions. Constraints: • min: 2 • max: 64
     /// </summary>
     [CliOption("--session-name")]
     public string? SessionName { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsServicecatalogAssociateBudgetWithResourceOptions : AwsOptions, 
     /// <summary>
     /// Associates the specified budget with the specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BudgetName">The name of the budget you want to associate. Constraints: o min: 1 o max: 100</param>
-    /// <param name="ResourceId">The resource identifier. Either a portfolio-id or a product-id. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="BudgetName">The name of the budget you want to associate. Constraints: • min: 1 • max: 100</param>
+    /// <param name="ResourceId">The resource identifier. Either a portfolio-id or a product-id. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*</param>
     public AwsServicecatalogAssociateBudgetWithResourceOptions(
         string BudgetName,
         string ResourceId
@@ -60,13 +62,13 @@ public record AwsServicecatalogAssociateBudgetWithResourceOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the budget you want to associate. Constraints: o min: 1 o max: 100
+    /// The name of the budget you want to associate. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--budget-name")]
     public string? BudgetName { get; private init; }
 
     /// <summary>
-    /// The resource identifier. Either a portfolio-id or a product-id. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The resource identifier. Either a portfolio-id or a product-id. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }

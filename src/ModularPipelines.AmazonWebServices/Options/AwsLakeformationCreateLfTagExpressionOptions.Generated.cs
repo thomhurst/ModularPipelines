@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new LF-Tag expression with the provided name, description, catalog ID, and expression body. This call fails if a LF-Tag expression with the same name already exists in the callers account or if the un- derlying LF-Tags don't exist. To call this API operation, caller needs the following Lake Formation permissions: CREATE_LF_TAG_EXPRESSION on the root catalog resource. GRANT_WITH_LF_TAG_EXPRESSION on all underlying LF-Tag key:value pairs included in the expression. See also: AWS API Docu...
+/// Creates a new LF-Tag expression with the provided name, description, catalog ID, and expression body. This call fails if a LF-Tag expression with the same name already exists in the callers account or if the underlying LF-Tags don't exist. To call this API operation, caller needs the following Lake Formation permissions: CREATE_LF_TAG_EXPRESSION on the root catalog resource. GRANT_WITH_LF_TAG_EXPRESSION on all underlying LF-Tag key:value pairs included in the expression. See also: AWS API Docume...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsLakeformationCreateLfTagExpressionOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new LF-Tag expression with the provided name, description, catalog ID, and expression body. This call fails if a LF-Tag expression with the same name already exists in the callers account or if the un- derlying LF-Tags don't exist. To call this API operation, caller needs the following Lake Formation permissions: CREATE_LF_TAG_EXPRESSION on the root catalog resource. GRANT_WITH_LF_TAG_EXPRESSION on all underlying LF-Tag key:value pairs included in the expression. See also: AWS API Docu...
+    /// Creates a new LF-Tag expression with the provided name, description, catalog ID, and expression body. This call fails if a LF-Tag expression with the same name already exists in the callers account or if the underlying LF-Tags don't exist. To call this API operation, caller needs the following Lake Formation permissions: CREATE_LF_TAG_EXPRESSION on the root catalog resource. GRANT_WITH_LF_TAG_EXPRESSION on all underlying LF-Tag key:value pairs included in the expression. See also: AWS API Docume...
     /// </summary>
-    /// <param name="Name">A name for the expression. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="Expression">A list of LF-Tag conditions (key-value pairs). (structure) A structure that allows an admin to grant user permissions on certain conditions. For example, granting a role access to all columns that do not have the LF-tag 'PII' in tables that have the LF-tag 'Prod'. TagKey -&gt; (string) [required] The key-name for the LF-tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@%]*)$ TagValues -&gt; (list) [required] A list of possible values an attribute can take. The maximum number of values that can be defined for a LF-Tag is 1000. A single API call supports 50 values. You can use multiple API calls to add more values. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:\*\/=+\-@%]*)$ Shorthand Syntax: TagKey=string,TagValues=string,string ... JSON Syntax: [ { "TagKey": "string", "TagValues": ["string", ...] } ... ]</param>
+    /// <param name="Name">A name for the expression. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="Expression">A list of LF-Tag conditions (key-value pairs). (structure) A structure that allows an admin to grant user permissions on certain conditions. For example, granting a role access to all columns that do not have the LF-tag 'PII' in tables that have the LF-tag 'Prod'. TagKey -&gt; (string) [required] The key-name for the LF-tag. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@%]*)$ TagValues -&gt; (list) [required] A list of possible values an attribute can take. The maximum number of values that can be defined for a LF-Tag is 1000. A single API call supports 50 values. You can use multiple API calls to add more values. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:\*\/=+\-@%]*)$ Shorthand Syntax: TagKey=string,TagValues=string,string ... JSON Syntax: [ { "TagKey": "string", "TagValues": ["string", ...] } ... ]</param>
     public AwsLakeformationCreateLfTagExpressionOptions(
         string Name,
         IEnumerable<string> Expression
@@ -71,25 +73,25 @@ public record AwsLakeformationCreateLfTagExpressionOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name for the expression. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// A name for the expression. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A list of LF-Tag conditions (key-value pairs). (structure) A structure that allows an admin to grant user permissions on certain conditions. For example, granting a role access to all columns that do not have the LF-tag 'PII' in tables that have the LF-tag 'Prod'. TagKey -&gt; (string) [required] The key-name for the LF-tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@%]*)$ TagValues -&gt; (list) [required] A list of possible values an attribute can take. The maximum number of values that can be defined for a LF-Tag is 1000. A single API call supports 50 values. You can use multiple API calls to add more values. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:\*\/=+\-@%]*)$ Shorthand Syntax: TagKey=string,TagValues=string,string ... JSON Syntax: [ { "TagKey": "string", "TagValues": ["string", ...] } ... ]
+    /// A list of LF-Tag conditions (key-value pairs). (structure) A structure that allows an admin to grant user permissions on certain conditions. For example, granting a role access to all columns that do not have the LF-tag 'PII' in tables that have the LF-tag 'Prod'. TagKey -&gt; (string) [required] The key-name for the LF-tag. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@%]*)$ TagValues -&gt; (list) [required] A list of possible values an attribute can take. The maximum number of values that can be defined for a LF-Tag is 1000. A single API call supports 50 values. You can use multiple API calls to add more values. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:\*\/=+\-@%]*)$ Shorthand Syntax: TagKey=string,TagValues=string,string ... JSON Syntax: [ { "TagKey": "string", "TagValues": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--expression", GroupValues = true)]
     public IEnumerable<string>? Expression { get; private init; }
 
     /// <summary>
-    /// A description with information about the LF-Tag expression. Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// A description with information about the LF-Tag expression. Constraints: • min: 0 • max: 2048 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }

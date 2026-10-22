@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the specified member Amazon Web Services account as a delegated administrator for the specified Amazon Web Services service. WARNING: Deregistering a delegated administrator can have unintended impacts on the functionality of the enabled Amazon Web Services service. See the documentation for the enabled service before you deregister a delegated administrator so that you understand any potential im- pacts. You can run this action only for Amazon Web Services services that sup- port this f...
+/// Removes the specified member Amazon Web Services account as a delegated administrator for the specified Amazon Web Services service. WARNING: Deregistering a delegated administrator can have unintended impacts on the functionality of the enabled Amazon Web Services service. See the documentation for the enabled service before you deregister a delegated administrator so that you understand any potential impacts. You can run this action only for Amazon Web Services services that support this featu...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsOrganizationsDeregisterDelegatedAdministratorOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the specified member Amazon Web Services account as a delegated administrator for the specified Amazon Web Services service. WARNING: Deregistering a delegated administrator can have unintended impacts on the functionality of the enabled Amazon Web Services service. See the documentation for the enabled service before you deregister a delegated administrator so that you understand any potential im- pacts. You can run this action only for Amazon Web Services services that sup- port this f...
+    /// Removes the specified member Amazon Web Services account as a delegated administrator for the specified Amazon Web Services service. WARNING: Deregistering a delegated administrator can have unintended impacts on the functionality of the enabled Amazon Web Services service. See the documentation for the enabled service before you deregister a delegated administrator so that you understand any potential impacts. You can run this action only for Amazon Web Services services that support this featu...
     /// </summary>
-    /// <param name="AccountId">The account ID number of the member account in the organization that you want to deregister as a delegated administrator. Constraints: o max: 12 o pattern: ^\d{12}$</param>
-    /// <param name="ServicePrincipal">The service principal name of an Amazon Web Services service for which the account is a delegated administrator. Delegated administrator privileges are revoked for only the speci- fied Amazon Web Services service from the member account. If the specified service is the only service for which the member account is a delegated administrator, the operation also revokes Organiza- tions read action permissions. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]*</param>
+    /// <param name="AccountId">The account ID number of the member account in the organization that you want to deregister as a delegated administrator. Constraints: • max: 12 • pattern: ^\d{12}$</param>
+    /// <param name="ServicePrincipal">The service principal name of an Amazon Web Services service for which the account is a delegated administrator. Delegated administrator privileges are revoked for only the specified Amazon Web Services service from the member account. If the specified service is the only service for which the member account is a delegated administrator, the operation also revokes Organizations read action permissions. Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]*</param>
     public AwsOrganizationsDeregisterDelegatedAdministratorOptions(
         string AccountId,
         string ServicePrincipal
@@ -60,13 +62,13 @@ public record AwsOrganizationsDeregisterDelegatedAdministratorOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The account ID number of the member account in the organization that you want to deregister as a delegated administrator. Constraints: o max: 12 o pattern: ^\d{12}$
+    /// The account ID number of the member account in the organization that you want to deregister as a delegated administrator. Constraints: • max: 12 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The service principal name of an Amazon Web Services service for which the account is a delegated administrator. Delegated administrator privileges are revoked for only the speci- fied Amazon Web Services service from the member account. If the specified service is the only service for which the member account is a delegated administrator, the operation also revokes Organiza- tions read action permissions. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]*
+    /// The service principal name of an Amazon Web Services service for which the account is a delegated administrator. Delegated administrator privileges are revoked for only the specified Amazon Web Services service from the member account. If the specified service is the only service for which the member account is a delegated administrator, the operation also revokes Organizations read action permissions. Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]*
     /// </summary>
     [CliOption("--service-principal")]
     public string? ServicePrincipal { get; private init; }

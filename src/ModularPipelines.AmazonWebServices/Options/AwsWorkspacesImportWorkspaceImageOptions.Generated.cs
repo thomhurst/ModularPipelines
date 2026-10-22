@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,10 +30,10 @@ public record AwsWorkspacesImportWorkspaceImageOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Imports the specified Windows 10 or 11 Bring Your Own License (BYOL) image into Amazon WorkSpaces. The image must be an already licensed Amazon EC2 image that is in your Amazon Web Services account, and you must own the image. For more information about creating BYOL images, see Bring Your Own Windows Desktop Licenses . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Ec2ImageId">The identifier of the EC2 image. Constraints: o pattern: ^ami\-([a-f0-9]{8}|[a-f0-9]{17})$</param>
-    /// <param name="IngestionProcess">The ingestion process to be used when importing the image, depending on which protocol you want to use for your BYOL Workspace image, ei- ther PCoIP, WSP, or bring your own protocol (BYOP). To use DCV, specify a value that ends in _WSP . To use PCoIP, specify a value that does not end in _WSP . To use BYOP, specify a value that ends in _BYOP . For non-GPU-enabled bundles (bundles other than Graphics or Graphic- sPro), specify BYOL_REGULAR , BYOL_REGULAR_WSP , or BYOL_REGU- LAR_BYOP , depending on the protocol. NOTE: The BYOL_REGULAR_BYOP and BYOL_GRAPHICS_G4DN_BYOP values are only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use these values. For more informa- tion, see Amazon WorkSpaces Core . Possible values: o BYOL_REGULAR o BYOL_GRAPHICS o BYOL_GRAPHICSPRO o BYOL_GRAPHICS_G4DN o BYOL_REGULAR_WSP o BYOL_GRAPHICS_G4DN_WSP o BYOL_REGULAR_BYOP o BYOL_GRAPHICS_G4DN_BYOP</param>
-    /// <param name="ImageName">The name of the WorkSpace image. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_./()\\-]+$</param>
-    /// <param name="ImageDescription">The description of the WorkSpace image. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9_./() -]+$</param>
+    /// <param name="Ec2ImageId">The identifier of the EC2 image. Constraints: • pattern: ^ami\-([a-f0-9]{8}|[a-f0-9]{17})$</param>
+    /// <param name="IngestionProcess">The ingestion process to be used when importing the image, depending on which protocol you want to use for your BYOL Workspace image, either PCoIP, WSP, or bring your own protocol (BYOP). To use DCV, specify a value that ends in _WSP . To use PCoIP, specify a value that does not end in _WSP . To use BYOP, specify a value that ends in _BYOP . For non-GPU-enabled bundles (bundles other than Graphics or GraphicsPro), specify BYOL_REGULAR , BYOL_REGULAR_WSP , or BYOL_REGULAR_BYOP , depending on the protocol. NOTE: The BYOL_REGULAR_BYOP and BYOL_GRAPHICS_G4DN_BYOP values are only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use these values. For more information, see Amazon WorkSpaces Core . Possible values: • BYOL_REGULAR • BYOL_GRAPHICS • BYOL_GRAPHICSPRO • BYOL_GRAPHICS_G4DN • BYOL_REGULAR_WSP • BYOL_GRAPHICS_G4DN_WSP • BYOL_REGULAR_BYOP • BYOL_GRAPHICS_G4DN_BYOP</param>
+    /// <param name="ImageName">The name of the WorkSpace image. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_./()\\-]+$</param>
+    /// <param name="ImageDescription">The description of the WorkSpace image. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9_./() -]+$</param>
     public AwsWorkspacesImportWorkspaceImageOptions(
         string Ec2ImageId,
         AwsWorkspacesImportWorkspaceImageIngestionProcess IngestionProcess,
@@ -68,37 +70,37 @@ public record AwsWorkspacesImportWorkspaceImageOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the EC2 image. Constraints: o pattern: ^ami\-([a-f0-9]{8}|[a-f0-9]{17})$
+    /// The identifier of the EC2 image. Constraints: • pattern: ^ami\-([a-f0-9]{8}|[a-f0-9]{17})$
     /// </summary>
     [CliOption("--ec2-image-id")]
     public string? Ec2ImageId { get; private init; }
 
     /// <summary>
-    /// The ingestion process to be used when importing the image, depending on which protocol you want to use for your BYOL Workspace image, ei- ther PCoIP, WSP, or bring your own protocol (BYOP). To use DCV, specify a value that ends in _WSP . To use PCoIP, specify a value that does not end in _WSP . To use BYOP, specify a value that ends in _BYOP . For non-GPU-enabled bundles (bundles other than Graphics or Graphic- sPro), specify BYOL_REGULAR , BYOL_REGULAR_WSP , or BYOL_REGU- LAR_BYOP , depending on the protocol. NOTE: The BYOL_REGULAR_BYOP and BYOL_GRAPHICS_G4DN_BYOP values are only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use these values. For more informa- tion, see Amazon WorkSpaces Core . Possible values: o BYOL_REGULAR o BYOL_GRAPHICS o BYOL_GRAPHICSPRO o BYOL_GRAPHICS_G4DN o BYOL_REGULAR_WSP o BYOL_GRAPHICS_G4DN_WSP o BYOL_REGULAR_BYOP o BYOL_GRAPHICS_G4DN_BYOP
+    /// The ingestion process to be used when importing the image, depending on which protocol you want to use for your BYOL Workspace image, either PCoIP, WSP, or bring your own protocol (BYOP). To use DCV, specify a value that ends in _WSP . To use PCoIP, specify a value that does not end in _WSP . To use BYOP, specify a value that ends in _BYOP . For non-GPU-enabled bundles (bundles other than Graphics or GraphicsPro), specify BYOL_REGULAR , BYOL_REGULAR_WSP , or BYOL_REGULAR_BYOP , depending on the protocol. NOTE: The BYOL_REGULAR_BYOP and BYOL_GRAPHICS_G4DN_BYOP values are only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use these values. For more information, see Amazon WorkSpaces Core . Possible values: • BYOL_REGULAR • BYOL_GRAPHICS • BYOL_GRAPHICSPRO • BYOL_GRAPHICS_G4DN • BYOL_REGULAR_WSP • BYOL_GRAPHICS_G4DN_WSP • BYOL_REGULAR_BYOP • BYOL_GRAPHICS_G4DN_BYOP
     /// </summary>
     [CliOption("--ingestion-process")]
     public AwsWorkspacesImportWorkspaceImageIngestionProcess? IngestionProcess { get; private init; }
 
     /// <summary>
-    /// The name of the WorkSpace image. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_./()\\-]+$
+    /// The name of the WorkSpace image. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_./()\\-]+$
     /// </summary>
     [CliOption("--image-name")]
     public string? ImageName { get; private init; }
 
     /// <summary>
-    /// The description of the WorkSpace image. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9_./() -]+$
+    /// The description of the WorkSpace image. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9_./() -]+$
     /// </summary>
     [CliOption("--image-description")]
     public string? ImageDescription { get; private init; }
 
     /// <summary>
-    /// The tags. Each WorkSpaces resource can have a maximum of 50 tags. (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 127 Value -&gt; (string) The value of the tag. Constraints: o max: 255 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags. Each WorkSpaces resource can have a maximum of 50 tags. (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 127 Value -&gt; (string) The value of the tag. Constraints: • max: 255 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// If specified, the version of Microsoft Office to subscribe to. Valid only for Windows 10 and 11 BYOL images. For more information about subscribing to Office for BYOL images, see Bring Your Own Windows Desktop Licenses . NOTE: o Although this parameter is an array, only one item is allowed at this time. o During the image import process, non-GPU DCV (formerly WSP) WorkSpaces with Windows 11 support only Microsoft_Office_2019 . GPU DCV (formerly WSP) WorkSpaces with Windows 11 do not support Office installation. Constraints: o min: 1 o max: 5 (string) Possible values: o Microsoft_Office_2016 o Microsoft_Office_2019 Syntax: "string" "string" ...
+    /// If specified, the version of Microsoft Office to subscribe to. Valid only for Windows 10 and 11 BYOL images. For more information about subscribing to Office for BYOL images, see Bring Your Own Windows Desktop Licenses . NOTE: • Although this parameter is an array, only one item is allowed at this time. • During the image import process, non-GPU DCV (formerly WSP) WorkSpaces with Windows 11 support only Microsoft_Office_2019 . GPU DCV (formerly WSP) WorkSpaces with Windows 11 do not support Office installation. Constraints: • min: 1 • max: 5 (string) Possible values: • Microsoft_Office_2016 • Microsoft_Office_2019 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--applications", GroupValues = true)]
     public IEnumerable<string>? Applications { get; set; }

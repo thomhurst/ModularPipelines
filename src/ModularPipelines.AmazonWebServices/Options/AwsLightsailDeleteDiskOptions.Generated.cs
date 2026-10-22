@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified block storage disk. The disk must be in the available state (not attached to a Lightsail instance). NOTE: The disk may remain in the deleting state for several minutes. The delete disk operation supports tag-based access control via re- source tags applied to the resource identified by disk name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+/// Deletes the specified block storage disk. The disk must be in the available state (not attached to a Lightsail instance). NOTE: The disk may remain in the deleting state for several minutes. The delete disk operation supports tag-based access control via resource tags applied to the resource identified by disk name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLightsailDeleteDiskOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified block storage disk. The disk must be in the available state (not attached to a Lightsail instance). NOTE: The disk may remain in the deleting state for several minutes. The delete disk operation supports tag-based access control via re- source tags applied to the resource identified by disk name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+    /// Deletes the specified block storage disk. The disk must be in the available state (not attached to a Lightsail instance). NOTE: The disk may remain in the deleting state for several minutes. The delete disk operation supports tag-based access control via resource tags applied to the resource identified by disk name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DiskName">The unique name of the disk you want to delete (my-disk ). Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="DiskName">The unique name of the disk you want to delete (my-disk ). Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailDeleteDiskOptions(
         string DiskName
     )
@@ -56,7 +58,7 @@ public record AwsLightsailDeleteDiskOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the disk you want to delete (my-disk ). Constraints: o pattern: \w[\w\-]*\w
+    /// The unique name of the disk you want to delete (my-disk ). Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--disk-name")]
     public string? DiskName { get; private init; }

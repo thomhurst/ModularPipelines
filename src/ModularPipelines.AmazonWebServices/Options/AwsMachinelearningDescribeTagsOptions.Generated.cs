@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsMachinelearningDescribeTagsOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Describes one or more of the tags for your Amazon ML object. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceId">The ID of the ML object. For example, exampleModelId . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="ResourceType">The type of the ML object. Possible values: o BatchPrediction o DataSource o Evaluation o MLModel</param>
+    /// <param name="ResourceId">The ID of the ML object. For example, exampleModelId . Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="ResourceType">The type of the ML object. Possible values: • BatchPrediction • DataSource • Evaluation • MLModel</param>
     public AwsMachinelearningDescribeTagsOptions(
         string ResourceId,
         AwsMachinelearningDescribeTagsResourceType ResourceType
@@ -60,13 +62,13 @@ public record AwsMachinelearningDescribeTagsOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the ML object. For example, exampleModelId . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// The ID of the ML object. For example, exampleModelId . Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// The type of the ML object. Possible values: o BatchPrediction o DataSource o Evaluation o MLModel
+    /// The type of the ML object. Possible values: • BatchPrediction • DataSource • Evaluation • MLModel
     /// </summary>
     [CliOption("--resource-type")]
     public AwsMachinelearningDescribeTagsResourceType? ResourceType { get; private init; }

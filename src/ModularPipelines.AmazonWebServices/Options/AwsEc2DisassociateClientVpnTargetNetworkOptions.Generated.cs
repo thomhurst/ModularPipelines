@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disassociates a target network from the specified Client VPN endpoint. When you disassociate the last target network from a Client VPN, the following happens: o The route that was automatically added for the VPC is deleted o All active client connections are terminated o New client connections are disallowed o The Client VPN endpoint's status changes to pending-associate See also: AWS API Documentation
+/// Disassociates a target network from the specified Client VPN endpoint. When you disassociate the last target network from a Client VPN, the following happens: • The route that was automatically added for the VPC is deleted • All active client connections are terminated • New client connections are disallowed • The Client VPN endpoint's status changes to pending-associate See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsEc2DisassociateClientVpnTargetNetworkOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disassociates a target network from the specified Client VPN endpoint. When you disassociate the last target network from a Client VPN, the following happens: o The route that was automatically added for the VPC is deleted o All active client connections are terminated o New client connections are disallowed o The Client VPN endpoint's status changes to pending-associate See also: AWS API Documentation
+    /// Disassociates a target network from the specified Client VPN endpoint. When you disassociate the last target network from a Client VPN, the following happens: • The route that was automatically added for the VPC is deleted • All active client connections are terminated • New client connections are disallowed • The Client VPN endpoint's status changes to pending-associate See also: AWS API Documentation
     /// </summary>
     /// <param name="ClientVpnEndpointId">The ID of the Client VPN endpoint from which to disassociate the target network.</param>
     /// <param name="AssociationId">The ID of the target network association.</param>
@@ -72,7 +74,7 @@ public record AwsEc2DisassociateClientVpnTargetNetworkOptions : AwsOptions, IVal
     public string? AssociationId { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

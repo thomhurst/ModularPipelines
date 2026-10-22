@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,8 +29,8 @@ public record AwsPinpointSmsVoiceV2SendMediaMessageOptions : AwsOptions, IValida
     /// <summary>
     /// Creates a new multimedia message (MMS) and sends it to a recipient's phone number. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DestinationPhoneNumber">The destination phone number in E.164 format. Constraints: o min: 1 o max: 20 o pattern: \+?[1-9][0-9]{1,18}</param>
-    /// <param name="OriginationIdentity">The origination identity of the message. This can be either the Pho- neNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/\+-]+</param>
+    /// <param name="DestinationPhoneNumber">The destination phone number in E.164 format. Constraints: • min: 1 • max: 20 • pattern: \+?[1-9][0-9]{1,18}</param>
+    /// <param name="OriginationIdentity">The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/\+-]+</param>
     public AwsPinpointSmsVoiceV2SendMediaMessageOptions(
         string DestinationPhoneNumber,
         string OriginationIdentity
@@ -61,49 +62,49 @@ public record AwsPinpointSmsVoiceV2SendMediaMessageOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The destination phone number in E.164 format. Constraints: o min: 1 o max: 20 o pattern: \+?[1-9][0-9]{1,18}
+    /// The destination phone number in E.164 format. Constraints: • min: 1 • max: 20 • pattern: \+?[1-9][0-9]{1,18}
     /// </summary>
     [CliOption("--destination-phone-number")]
     public string? DestinationPhoneNumber { get; private init; }
 
     /// <summary>
-    /// The origination identity of the message. This can be either the Pho- neNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/\+-]+
+    /// The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/\+-]+
     /// </summary>
     [CliOption("--origination-identity")]
     public string? OriginationIdentity { get; private init; }
 
     /// <summary>
-    /// The text body of the message. Constraints: o min: 1 o max: 1600 o pattern: (?!\s*$)[\s\S]+
+    /// The text body of the message. Constraints: • min: 1 • max: 1600 • pattern: (?!\s*$)[\s\S]+
     /// </summary>
     [CliOption("--message-body")]
     public string? MessageBody { get; set; }
 
     /// <summary>
-    /// An array of URLs to each media file to send. The media files have to be stored in an S3 bucket. Supported media file formats are listed in MMS file types, size and character limits . For more information on creating an S3 bucket and managing ob- jects, see Creating a bucket , Uploading objects in the Amazon S3 User Guide , and Setting up an Amazon S3 bucket for MMS files in the Amazon Web Services End User Messaging SMS User Guide . Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 2048 o pattern: s3://([a-z0-9\.-]{3,63})/(.+) Syntax: "string" "string" ...
+    /// An array of URLs to each media file to send. The media files have to be stored in an S3 bucket. Supported media file formats are listed in MMS file types, size and character limits . For more information on creating an S3 bucket and managing objects, see Creating a bucket , Uploading objects in the Amazon S3 User Guide , and Setting up an Amazon S3 bucket for MMS files in the Amazon Web Services End User Messaging SMS User Guide . Constraints: • min: 1 • max: 1 (string) Constraints: • min: 1 • max: 2048 • pattern: s3://([a-z0-9\.-]{3,63})/(.+) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--media-urls", GroupValues = true)]
     public IEnumerable<string>? MediaUrls { get; set; }
 
     /// <summary>
-    /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--configuration-set-name")]
     public string? ConfigurationSetName { get; set; }
 
     /// <summary>
-    /// The maximum amount that you want to spend, in US dollars, per each MMS message. Constraints: o min: 2 o max: 8 o pattern: [0-9]{0,2}\.[0-9]{1,5}
+    /// The maximum amount that you want to spend, in US dollars, per each MMS message. Constraints: • min: 2 • max: 8 • pattern: [0-9]{0,2}\.[0-9]{1,5}
     /// </summary>
     [CliOption("--max-price")]
     public string? MaxPrice { get; set; }
 
     /// <summary>
-    /// How long the media message is valid for. By default this is 72 hours. Constraints: o min: 5 o max: 259200
+    /// How long the media message is valid for. By default this is 72 hours. Constraints: • min: 5 • max: 259200
     /// </summary>
     [CliOption("--time-to-live")]
     public int? TimeToLive { get; set; }
 
     /// <summary>
-    /// You can specify custom data in this field. If you do, that data is logged to the event destination. Constraints: o min: 0 o max: 5 key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: \S+ value -&gt; (string) Constraints: o min: 1 o max: 800 o pattern: (?!\s)^[\s\S]+(?&lt;!\s) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// You can specify custom data in this field. If you do, that data is logged to the event destination. Constraints: • min: 0 • max: 5 key -&gt; (string) Constraints: • min: 1 • max: 100 • pattern: \S+ value -&gt; (string) Constraints: • min: 1 • max: 800 • pattern: (?!\s)^[\s\S]+(?&lt;!\s) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--context", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Context { get; set; }
@@ -115,7 +116,7 @@ public record AwsPinpointSmsVoiceV2SendMediaMessageOptions : AwsOptions, IValida
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// The unique identifier of the protect configuration to use. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The unique identifier of the protect configuration to use. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--protect-configuration-id")]
     public string? ProtectConfigurationId { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an existing snapshot. When you receive a successful response from this operation, ElastiCache immediately begins deleting the snap- shot; you cannot cancel or revert this operation. NOTE: This operation is valid for Valkey or Redis OSS only. See also: AWS API Documentation
+/// Deletes an existing snapshot. When you receive a successful response from this operation, ElastiCache immediately begins deleting the snapshot; you cannot cancel or revert this operation. NOTE: This operation is valid for Valkey or Redis OSS only. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsElasticacheDeleteSnapshotOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an existing snapshot. When you receive a successful response from this operation, ElastiCache immediately begins deleting the snap- shot; you cannot cancel or revert this operation. NOTE: This operation is valid for Valkey or Redis OSS only. See also: AWS API Documentation
+    /// Deletes an existing snapshot. When you receive a successful response from this operation, ElastiCache immediately begins deleting the snapshot; you cannot cancel or revert this operation. NOTE: This operation is valid for Valkey or Redis OSS only. See also: AWS API Documentation
     /// </summary>
     /// <param name="SnapshotName">The name of the snapshot to be deleted.</param>
     public AwsElasticacheDeleteSnapshotOptions(

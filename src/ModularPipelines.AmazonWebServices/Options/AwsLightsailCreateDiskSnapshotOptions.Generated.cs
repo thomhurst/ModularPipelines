@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsLightsailCreateDiskSnapshotOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Creates a snapshot of a block storage disk. You can use snapshots for backups, to make copies of disks, and to save data before shutting down a Lightsail instance. You can take a snapshot of an attached disk that is in use; however, snapshots only capture data that has been written to your disk at the time the snapshot command is issued. This may exclude any data that has been cached by any applications or the operating system. If you can pause any file systems on the disk long enough to take a ...
     /// </summary>
-    /// <param name="DiskSnapshotName">The name of the destination disk snapshot (my-disk-snapshot ) based on the source disk. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="DiskSnapshotName">The name of the destination disk snapshot (my-disk-snapshot ) based on the source disk. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailCreateDiskSnapshotOptions(
         string DiskSnapshotName
     )
@@ -56,25 +58,25 @@ public record AwsLightsailCreateDiskSnapshotOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the destination disk snapshot (my-disk-snapshot ) based on the source disk. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the destination disk snapshot (my-disk-snapshot ) based on the source disk. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--disk-snapshot-name")]
     public string? DiskSnapshotName { get; private init; }
 
     /// <summary>
-    /// The unique name of the source disk (Disk-Virginia-1 ). NOTE: This parameter cannot be defined together with the instance name parameter. The disk name and instance name parameters are mutu- ally exclusive. Constraints: o pattern: \w[\w\-]*\w
+    /// The unique name of the source disk (Disk-Virginia-1 ). NOTE: This parameter cannot be defined together with the instance name parameter. The disk name and instance name parameters are mutually exclusive. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--disk-name")]
     public string? DiskName { get; set; }
 
     /// <summary>
-    /// The unique name of the source instance (Amazon_Linux-512MB-Vir- ginia-1 ). When this is defined, a snapshot of the instance's system volume is created. NOTE: This parameter cannot be defined together with the disk name pa- rameter. The instance name and disk name parameters are mutually exclusive. Constraints: o pattern: \w[\w\-]*\w
+    /// The unique name of the source instance (Amazon_Linux-512MB-Virginia-1 ). When this is defined, a snapshot of the instance's system volume is created. NOTE: This parameter cannot be defined together with the disk name parameter. The instance name and disk name parameters are mutually exclusive. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--instance-name")]
     public string? InstanceName { get; set; }
 
     /// <summary>
-    /// The tag keys and optional values to add to the resource during cre- ate. Use the TagResource action to tag a resource after it's created. (structure) Describes a tag key and optional value assigned to an Amazon Lightsail resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide . key -&gt; (string) The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, num- bers, spaces in UTF-8, or the following characters: + - = . _ : / @ value -&gt; (string) The value of the tag. Constraints: Tag values accept a maximum of 256 letters, num- bers, spaces in UTF-8, or the following characters: + - = . _ : / @ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created. (structure) Describes a tag key and optional value assigned to an Amazon Lightsail resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide . key -&gt; (string) The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @ value -&gt; (string) The value of the tag. Constraints: Tag values accept a maximum of 256 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

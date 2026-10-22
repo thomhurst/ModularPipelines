@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new Trigger in the specified agent space See also: AWS API Documentation create-trigger uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+/// Creates a new Trigger in the specified agent space See also: AWS API Documentation create-trigger uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsDevopsAgentCreateTriggerOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new Trigger in the specified agent space See also: AWS API Documentation create-trigger uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Creates a new Trigger in the specified agent space See also: AWS API Documentation create-trigger uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="AgentSpaceId">The unique identifier for the agent space where the Trigger will be created Constraints: o min: 1 o max: 2048</param>
-    /// <param name="Type">How the new Trigger fires Constraints: o min: 1 o max: 64</param>
-    /// <param name="Condition">The condition that fires the new Trigger NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: schedule. schedule -&gt; (structure) Time-based firing condition expression -&gt; (string) [required] The schedule expression Constraints: o min: 1 o max: 256 Shorthand Syntax: schedule={expression=string} JSON Syntax: { "schedule": { "expression": "string" } }</param>
+    /// <param name="AgentSpaceId">The unique identifier for the agent space where the Trigger will be created Constraints: • min: 1 • max: 2048</param>
+    /// <param name="Type">How the new Trigger fires Constraints: • min: 1 • max: 64</param>
+    /// <param name="Condition">The condition that fires the new Trigger NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: schedule. schedule -&gt; (structure) Schedule-based firing condition. On CreateTrigger supply exactly one of the schedule condition's expression or spec. expression -&gt; (string) EventBridge cron or rate expression. Required for existing request and response compatibility. For a structured schedule response, this is the expression derived by Backlog. Constraints: • min: 1 • max: 256 spec -&gt; (tagged union structure) Structured schedule source of truth (cron | timeRange). On CreateTrigger supply exactly one of spec or expression. Present in responses together with the derived expression for structured triggers. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cron, timeRange. cron -&gt; (structure) Runs on an EventBridge cron or rate cadence expression -&gt; (string) [required] EventBridge cron or rate expression that anchors the flexible window Constraints: • min: 1 • max: 256 timeRange -&gt; (structure) Runs within a recurring time-of-day window startAfter -&gt; (string) [required] Earliest time of day the trigger may fire Constraints: • min: 5 • max: 5 • pattern: ([01]\d|2[0-3]):[0-5]\d startBefore -&gt; (string) [required] Latest time of day the trigger may fire Constraints: • min: 5 • max: 5 • pattern: ([01]\d|2[0-3]):[0-5]\d recurrence -&gt; (tagged union structure) [required] How the window recurs NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: daily, weekly, monthly. daily -&gt; (structure) The window recurs every day weekly -&gt; (structure) The window recurs once per week dayOfWeek -&gt; (string) [required] Day of week the window recurs on Possible values: • MONDAY • TUESDAY • WEDNESDAY • THURSDAY • FRIDAY • SATURDAY • SUNDAY monthly -&gt; (structure) The window recurs once per month dayOfMonth -&gt; (integer) [required] Day of month the window recurs on Constraints: • min: 1 • max: 31 JSON Syntax: { "schedule": { "expression": "string", "spec": { "cron": { "expression": "string" }, "timeRange": { "startAfter": "string", "startBefore": "string", "recurrence": { "daily": { }, "weekly": { "dayOfWeek": "MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY"|"SUNDAY" }, "monthly": { "dayOfMonth": integer } } } } } }</param>
     /// <param name="Action">The action the new Trigger performs when it fires JSON Syntax: {...}</param>
     public AwsDevopsAgentCreateTriggerOptions(
         string AgentSpaceId,
@@ -69,19 +71,19 @@ public record AwsDevopsAgentCreateTriggerOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the agent space where the Trigger will be created Constraints: o min: 1 o max: 2048
+    /// The unique identifier for the agent space where the Trigger will be created Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--agent-space-id")]
     public string? AgentSpaceId { get; private init; }
 
     /// <summary>
-    /// How the new Trigger fires Constraints: o min: 1 o max: 64
+    /// How the new Trigger fires Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--type")]
     public string? Type { get; private init; }
 
     /// <summary>
-    /// The condition that fires the new Trigger NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: schedule. schedule -&gt; (structure) Time-based firing condition expression -&gt; (string) [required] The schedule expression Constraints: o min: 1 o max: 256 Shorthand Syntax: schedule={expression=string} JSON Syntax: { "schedule": { "expression": "string" } }
+    /// The condition that fires the new Trigger NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: schedule. schedule -&gt; (structure) Schedule-based firing condition. On CreateTrigger supply exactly one of the schedule condition's expression or spec. expression -&gt; (string) EventBridge cron or rate expression. Required for existing request and response compatibility. For a structured schedule response, this is the expression derived by Backlog. Constraints: • min: 1 • max: 256 spec -&gt; (tagged union structure) Structured schedule source of truth (cron | timeRange). On CreateTrigger supply exactly one of spec or expression. Present in responses together with the derived expression for structured triggers. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cron, timeRange. cron -&gt; (structure) Runs on an EventBridge cron or rate cadence expression -&gt; (string) [required] EventBridge cron or rate expression that anchors the flexible window Constraints: • min: 1 • max: 256 timeRange -&gt; (structure) Runs within a recurring time-of-day window startAfter -&gt; (string) [required] Earliest time of day the trigger may fire Constraints: • min: 5 • max: 5 • pattern: ([01]\d|2[0-3]):[0-5]\d startBefore -&gt; (string) [required] Latest time of day the trigger may fire Constraints: • min: 5 • max: 5 • pattern: ([01]\d|2[0-3]):[0-5]\d recurrence -&gt; (tagged union structure) [required] How the window recurs NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: daily, weekly, monthly. daily -&gt; (structure) The window recurs every day weekly -&gt; (structure) The window recurs once per week dayOfWeek -&gt; (string) [required] Day of week the window recurs on Possible values: • MONDAY • TUESDAY • WEDNESDAY • THURSDAY • FRIDAY • SATURDAY • SUNDAY monthly -&gt; (structure) The window recurs once per month dayOfMonth -&gt; (integer) [required] Day of month the window recurs on Constraints: • min: 1 • max: 31 JSON Syntax: { "schedule": { "expression": "string", "spec": { "cron": { "expression": "string" }, "timeRange": { "startAfter": "string", "startBefore": "string", "recurrence": { "daily": { }, "weekly": { "dayOfWeek": "MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY"|"SUNDAY" }, "monthly": { "dayOfMonth": integer } } } } } }
     /// </summary>
     [CliOption("--condition")]
     public string? Condition { get; private init; }
@@ -93,13 +95,13 @@ public record AwsDevopsAgentCreateTriggerOptions : AwsOptions, IValidatableObjec
     public string? Action { get; private init; }
 
     /// <summary>
-    /// The initial status of the Trigger Constraints: o min: 1 o max: 64
+    /// The initial status of the Trigger Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--status")]
     public string? Status { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier used for idempotent Trigger cre- ation Constraints: o min: 1 o max: 64 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive identifier used for idempotent Trigger creation Constraints: • min: 1 • max: 64 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

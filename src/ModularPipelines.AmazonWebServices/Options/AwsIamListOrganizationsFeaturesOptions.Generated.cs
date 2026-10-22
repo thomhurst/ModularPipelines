@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the centralized root access features enabled for your organiza- tion. For more information, see Centrally manage root access for member accounts . See also: AWS API Documentation
+/// Lists the centralized root access features enabled for your organization. For more information, see Centrally manage root access for member accounts . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

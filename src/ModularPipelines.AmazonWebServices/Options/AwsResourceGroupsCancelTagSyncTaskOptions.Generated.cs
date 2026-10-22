@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Cancels the specified tag-sync task. Minimum permissions To run this command, you must have the following permissions: o resource-groups:CancelTagSyncTask on the application group o resource-groups:DeleteGroup See also: AWS API Documentation
+/// Cancels the specified tag-sync task. Minimum permissions To run this command, you must have the following permissions: • resource-groups:CancelTagSyncTask on the application group • resource-groups:DeleteGroup See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsResourceGroupsCancelTagSyncTaskOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Cancels the specified tag-sync task. Minimum permissions To run this command, you must have the following permissions: o resource-groups:CancelTagSyncTask on the application group o resource-groups:DeleteGroup See also: AWS API Documentation
+    /// Cancels the specified tag-sync task. Minimum permissions To run this command, you must have the following permissions: • resource-groups:CancelTagSyncTask on the application group • resource-groups:DeleteGroup See also: AWS API Documentation
     /// </summary>
-    /// <param name="TaskArn">The Amazon resource name (ARN) of the tag-sync task. Constraints: o min: 12 o max: 1600 o pattern: arn:aws(-[a-z]+)*:re- source-groups:[a-z]{2}(-[a-z]+)+-\d{1}:[0-9]{12}:group/[a-zA-Z0-9_\.-]{1,150}/[a-z0-9]{26}/tag-sync-task/[a-z0-9]{26}</param>
+    /// <param name="TaskArn">The Amazon resource name (ARN) of the tag-sync task. Constraints: • min: 12 • max: 1600 • pattern: arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\d{1}:[0-9]{12}:group/[a-zA-Z0-9_\.-]{1,150}/[a-z0-9]{26}/tag-sync-task/[a-z0-9]{26}</param>
     public AwsResourceGroupsCancelTagSyncTaskOptions(
         string TaskArn
     )
@@ -56,7 +58,7 @@ public record AwsResourceGroupsCancelTagSyncTaskOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon resource name (ARN) of the tag-sync task. Constraints: o min: 12 o max: 1600 o pattern: arn:aws(-[a-z]+)*:re- source-groups:[a-z]{2}(-[a-z]+)+-\d{1}:[0-9]{12}:group/[a-zA-Z0-9_\.-]{1,150}/[a-z0-9]{26}/tag-sync-task/[a-z0-9]{26}
+    /// The Amazon resource name (ARN) of the tag-sync task. Constraints: • min: 12 • max: 1600 • pattern: arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\d{1}:[0-9]{12}:group/[a-zA-Z0-9_\.-]{1,150}/[a-z0-9]{26}/tag-sync-task/[a-z0-9]{26}
     /// </summary>
     [CliOption("--task-arn")]
     public string? TaskArn { get; private init; }

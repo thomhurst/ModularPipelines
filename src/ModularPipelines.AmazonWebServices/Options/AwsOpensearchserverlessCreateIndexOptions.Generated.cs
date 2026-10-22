@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsOpensearchserverlessCreateIndexOptions : AwsOptions, IValidatab
     /// <summary>
     /// Creates an index within an OpenSearch Serverless collection. Unlike other OpenSearch indexes, indexes created by this API are automatically configured to conduct automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment in the OpenSearch User Guide . See also: AWS API Documentation create-index uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. ...
     /// </summary>
-    /// <param name="Id">The unique identifier of the collection in which to create the in- dex. Constraints: o min: 3 o max: 40 o pattern: [a-z0-9]{3,40}</param>
+    /// <param name="Id">The unique identifier of the collection in which to create the index. Constraints: • min: 3 • max: 40 • pattern: [a-z0-9]{3,40}</param>
     /// <param name="IndexName">The name of the index to create. Index names must be lowercase and can't begin with underscores (_) or hyphens (-).</param>
     public AwsOpensearchserverlessCreateIndexOptions(
         string Id,
@@ -60,7 +62,7 @@ public record AwsOpensearchserverlessCreateIndexOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the collection in which to create the in- dex. Constraints: o min: 3 o max: 40 o pattern: [a-z0-9]{3,40}
+    /// The unique identifier of the collection in which to create the index. Constraints: • min: 3 • max: 40 • pattern: [a-z0-9]{3,40}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

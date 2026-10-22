@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -30,11 +31,11 @@ public record AwsFinspaceCreateKxVolumeOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a new volume with a specific amount of throughput and storage capacity. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EnvironmentId">A unique identifier for the kdb environment, whose clusters can at- tach to the volume. Constraints: o min: 1 o max: 32 o pattern: ^[a-z0-9]+$</param>
-    /// <param name="VolumeType">The type of file system volume. Currently, FinSpace only supports NAS_1 volume type. When you select NAS_1 volume type, you must also provide nas1Configuration . Possible values: o NAS_1</param>
-    /// <param name="VolumeName">A unique identifier for the volume. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$</param>
-    /// <param name="AzMode">The number of availability zones you want to assign per volume. Cur- rently, FinSpace only supports SINGLE for volumes. This places dataview in a single AZ. Possible values: o SINGLE o MULTI</param>
-    /// <param name="AvailabilityZoneIds">The identifier of the availability zones. (string) Constraints: o min: 8 o max: 12 o pattern: ^[a-zA-Z0-9-]+$ Syntax: "string" "string" ...</param>
+    /// <param name="EnvironmentId">A unique identifier for the kdb environment, whose clusters can attach to the volume. Constraints: • min: 1 • max: 32 • pattern: ^[a-z0-9]+$</param>
+    /// <param name="VolumeType">The type of file system volume. Currently, FinSpace only supports NAS_1 volume type. When you select NAS_1 volume type, you must also provide nas1Configuration . Possible values: • NAS_1</param>
+    /// <param name="VolumeName">A unique identifier for the volume. Constraints: • min: 3 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$</param>
+    /// <param name="AzMode">The number of availability zones you want to assign per volume. Currently, FinSpace only supports SINGLE for volumes. This places dataview in a single AZ. Possible values: • SINGLE • MULTI</param>
+    /// <param name="AvailabilityZoneIds">The identifier of the availability zones. (string) Constraints: • min: 8 • max: 12 • pattern: ^[a-zA-Z0-9-]+$ Syntax: "string" "string" ...</param>
     public AwsFinspaceCreateKxVolumeOptions(
         string EnvironmentId,
         string VolumeType,
@@ -85,56 +86,56 @@ public record AwsFinspaceCreateKxVolumeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the kdb environment, whose clusters can at- tach to the volume. Constraints: o min: 1 o max: 32 o pattern: ^[a-z0-9]+$
+    /// A unique identifier for the kdb environment, whose clusters can attach to the volume. Constraints: • min: 1 • max: 32 • pattern: ^[a-z0-9]+$
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
 
     /// <summary>
-    /// The type of file system volume. Currently, FinSpace only supports NAS_1 volume type. When you select NAS_1 volume type, you must also provide nas1Configuration . Possible values: o NAS_1
+    /// The type of file system volume. Currently, FinSpace only supports NAS_1 volume type. When you select NAS_1 volume type, you must also provide nas1Configuration . Possible values: • NAS_1
     /// </summary>
     [CliOption("--volume-type")]
     public string? VolumeType { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the volume. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
+    /// A unique identifier for the volume. Constraints: • min: 3 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
     /// </summary>
     [CliOption("--volume-name")]
     public string? VolumeName { get; private init; }
 
     /// <summary>
-    /// The number of availability zones you want to assign per volume. Cur- rently, FinSpace only supports SINGLE for volumes. This places dataview in a single AZ. Possible values: o SINGLE o MULTI
+    /// The number of availability zones you want to assign per volume. Currently, FinSpace only supports SINGLE for volumes. This places dataview in a single AZ. Possible values: • SINGLE • MULTI
     /// </summary>
     [CliOption("--az-mode")]
     public AwsFinspaceCreateKxVolumeAzMode? AzMode { get; private init; }
 
     /// <summary>
-    /// The identifier of the availability zones. (string) Constraints: o min: 8 o max: 12 o pattern: ^[a-zA-Z0-9-]+$ Syntax: "string" "string" ...
+    /// The identifier of the availability zones. (string) Constraints: • min: 8 • max: 12 • pattern: ^[a-zA-Z0-9-]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--availability-zone-ids", GroupValues = true)]
     public IEnumerable<string>? AvailabilityZoneIds { get; private init; }
 
     /// <summary>
-    /// A token that ensures idempotency. This token expires in 10 minutes. Constraints: o min: 1 o max: 36 o pattern: .*\S.*
+    /// A token that ensures idempotency. This token expires in 10 minutes. Constraints: • min: 1 • max: 36 • pattern: .*\S.*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A description of the volume. Constraints: o min: 1 o max: 1000 o pattern: ^[a-zA-Z0-9. ]{1,1000}$
+    /// A description of the volume. Constraints: • min: 1 • max: 1000 • pattern: ^[a-zA-Z0-9. ]{1,1000}$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Specifies the configuration for the Network attached storage (NAS_1) file system volume. This parameter is required when you choose vol- umeType as NAS_1 . type -&gt; (string) The type of the network attached storage. Possible values: o SSD_1000 o SSD_250 o HDD_12 size -&gt; (integer) The size of the network attached storage. For storage type SSD_1000 and SSD_250 you can select the minimum size as 1200 GB or increments of 2400 GB. For storage type HDD_12 you can select the minimum size as 6000 GB or increments of 6000 GB. Constraints: o min: 1200 Shorthand Syntax: type=string,size=integer JSON Syntax: { "type": "SSD_1000"|"SSD_250"|"HDD_12", "size": integer }
+    /// Specifies the configuration for the Network attached storage (NAS_1) file system volume. This parameter is required when you choose volumeType as NAS_1 . type -&gt; (string) The type of the network attached storage. Possible values: • SSD_1000 • SSD_250 • HDD_12 size -&gt; (integer) The size of the network attached storage. For storage type SSD_1000 and SSD_250 you can select the minimum size as 1200 GB or increments of 2400 GB. For storage type HDD_12 you can select the minimum size as 6000 GB or increments of 6000 GB. Constraints: • min: 1200 Shorthand Syntax: type=string,size=integer JSON Syntax: { "type": "SSD_1000"|"SSD_250"|"HDD_12", "size": integer }
     /// </summary>
     [CliOption("--nas1-configuration")]
     public string? Nas1Configuration { get; set; }
 
     /// <summary>
-    /// A list of key-value pairs to label the volume. You can add up to 50 tags to a volume. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9+-=._:@ ]+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A list of key-value pairs to label the volume. You can add up to 50 tags to a volume. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9+-=._:@ ]+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsLexv2ModelsDescribeCustomVocabularyMetadataOptions : AwsOptions
     /// <summary>
     /// Provides metadata information about a custom vocabulary. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BotId">The unique identifier of the bot that contains the custom vocabu- lary. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="BotVersion">The bot version of the bot to return metadata for. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$</param>
-    /// <param name="LocaleId">The locale to return the custom vocabulary information for. The lo- cale must be en_GB .</param>
+    /// <param name="BotId">The unique identifier of the bot that contains the custom vocabulary. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotVersion">The bot version of the bot to return metadata for. Constraints: • min: 1 • max: 5 • pattern: ^(DRAFT|[0-9]+)$</param>
+    /// <param name="LocaleId">The locale to return the custom vocabulary information for. The locale must be en_GB .</param>
     public AwsLexv2ModelsDescribeCustomVocabularyMetadataOptions(
         string BotId,
         string BotVersion,
@@ -64,19 +66,19 @@ public record AwsLexv2ModelsDescribeCustomVocabularyMetadataOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the bot that contains the custom vocabu- lary. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier of the bot that contains the custom vocabulary. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
 
     /// <summary>
-    /// The bot version of the bot to return metadata for. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$
+    /// The bot version of the bot to return metadata for. Constraints: • min: 1 • max: 5 • pattern: ^(DRAFT|[0-9]+)$
     /// </summary>
     [CliOption("--bot-version")]
     public string? BotVersion { get; private init; }
 
     /// <summary>
-    /// The locale to return the custom vocabulary information for. The lo- cale must be en_GB .
+    /// The locale to return the custom vocabulary information for. The locale must be en_GB .
     /// </summary>
     [CliOption("--locale-id")]
     public string? LocaleId { get; private init; }

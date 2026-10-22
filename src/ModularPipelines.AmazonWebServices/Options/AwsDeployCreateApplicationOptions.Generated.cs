@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsDeployCreateApplicationOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates an application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationName">The name of the application. This name must be unique with the ap- plicable user or Amazon Web Services account. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]*</param>
+    /// <param name="ApplicationName">The name of the application. This name must be unique with the applicable user or Amazon Web Services account. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9+=,.@_-]*</param>
     public AwsDeployCreateApplicationOptions(
         string ApplicationName
     )
@@ -57,19 +59,19 @@ public record AwsDeployCreateApplicationOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the application. This name must be unique with the ap- plicable user or Amazon Web Services account. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]*
+    /// The name of the application. This name must be unique with the applicable user or Amazon Web Services account. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9+=,.@_-]*
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; private init; }
 
     /// <summary>
-    /// The destination platform type for the deployment (Lambda , Server , or ECS ). Possible values: o Server o Lambda o ECS
+    /// The destination platform type for the deployment (Lambda , Server , or ECS ). Possible values: • Server • Lambda • ECS
     /// </summary>
     [CliOption("--compute-platform")]
     public AwsDeployCreateApplicationComputePlatform? ComputePlatform { get; set; }
 
     /// <summary>
-    /// The metadata that you apply to CodeDeploy applications to help you organize and categorize them. Each tag consists of a key and an op- tional value, both of which you define. (structure) Information about a tag. Key -&gt; (string) The tag's key. Value -&gt; (string) The tag's value. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The metadata that you apply to CodeDeploy applications to help you organize and categorize them. Each tag consists of a key and an optional value, both of which you define. (structure) Information about a tag. Key -&gt; (string) The tag's key. Value -&gt; (string) The tag's value. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

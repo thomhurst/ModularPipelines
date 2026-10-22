@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsWorkspacesUpdateRulesOfIpGroupOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Replaces the current rules of the specified IP access control group with the specified rules. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GroupId">The identifier of the group. Constraints: o pattern: wsipg-[0-9a-z]{8,63}$</param>
+    /// <param name="GroupId">The identifier of the group. Constraints: • pattern: wsipg-[0-9a-z]{8,63}$</param>
     /// <param name="UserRules">One or more rules. (structure) Describes a rule for an IP access control group. ipRule -&gt; (string) The IP address range, in CIDR notation. ruleDesc -&gt; (string) The description. Shorthand Syntax: ipRule=string,ruleDesc=string ... JSON Syntax: [ { "ipRule": "string", "ruleDesc": "string" } ... ]</param>
     public AwsWorkspacesUpdateRulesOfIpGroupOptions(
         string GroupId,
@@ -71,7 +73,7 @@ public record AwsWorkspacesUpdateRulesOfIpGroupOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the group. Constraints: o pattern: wsipg-[0-9a-z]{8,63}$
+    /// The identifier of the group. Constraints: • pattern: wsipg-[0-9a-z]{8,63}$
     /// </summary>
     [CliOption("--group-id")]
     public string? GroupId { get; private init; }

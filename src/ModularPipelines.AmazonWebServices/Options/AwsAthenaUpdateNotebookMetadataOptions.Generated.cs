@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsAthenaUpdateNotebookMetadataOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Updates the metadata for a notebook. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NotebookId">The ID of the notebook to update the metadata for. Constraints: o min: 1 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="Name">The name to update the notebook to. Constraints: o min: 1 o max: 255 o pattern: (?!.*[/:\\])[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]+</param>
+    /// <param name="NotebookId">The ID of the notebook to update the metadata for. Constraints: • min: 1 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="Name">The name to update the notebook to. Constraints: • min: 1 • max: 255 • pattern: (?!.*[/:\\])[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]+</param>
     public AwsAthenaUpdateNotebookMetadataOptions(
         string NotebookId,
         string Name
@@ -61,19 +63,19 @@ public record AwsAthenaUpdateNotebookMetadataOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the notebook to update the metadata for. Constraints: o min: 1 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The ID of the notebook to update the metadata for. Constraints: • min: 1 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--notebook-id")]
     public string? NotebookId { get; private init; }
 
     /// <summary>
-    /// The name to update the notebook to. Constraints: o min: 1 o max: 255 o pattern: (?!.*[/:\\])[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]+
+    /// The name to update the notebook to. Constraints: • min: 1 • max: 255 • pattern: (?!.*[/:\\])[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A unique case-sensitive string used to ensure the request to create the notebook is idempotent (executes only once). WARNING: This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for you. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must pro- vide this token or the action will fail. Constraints: o min: 1 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// A unique case-sensitive string used to ensure the request to create the notebook is idempotent (executes only once). WARNING: This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for you. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail. Constraints: • min: 1 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]

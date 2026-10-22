@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsPinpointPhoneNumberValidateOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Retrieves information about a phone number. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NumberValidateRequest">Specifies a phone number to validate and retrieve information about. IsoCountryCode -&gt; (string) The two-character code, in ISO 3166-1 alpha-2 format, for the country or region where the phone number was originally regis- tered. PhoneNumber -&gt; (string) The phone number to retrieve information about. The phone number that you provide should include a valid numeric country code. Otherwise, the operation might result in an error. Shorthand Syntax: IsoCountryCode=string,PhoneNumber=string JSON Syntax: { "IsoCountryCode": "string", "PhoneNumber": "string" }</param>
+    /// <param name="NumberValidateRequest">Specifies a phone number to validate and retrieve information about. IsoCountryCode -&gt; (string) The two-character code, in ISO 3166-1 alpha-2 format, for the country or region where the phone number was originally registered. PhoneNumber -&gt; (string) The phone number to retrieve information about. The phone number that you provide should include a valid numeric country code. Otherwise, the operation might result in an error. Shorthand Syntax: IsoCountryCode=string,PhoneNumber=string JSON Syntax: { "IsoCountryCode": "string", "PhoneNumber": "string" }</param>
     public AwsPinpointPhoneNumberValidateOptions(
         string NumberValidateRequest
     )
@@ -56,7 +58,7 @@ public record AwsPinpointPhoneNumberValidateOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies a phone number to validate and retrieve information about. IsoCountryCode -&gt; (string) The two-character code, in ISO 3166-1 alpha-2 format, for the country or region where the phone number was originally regis- tered. PhoneNumber -&gt; (string) The phone number to retrieve information about. The phone number that you provide should include a valid numeric country code. Otherwise, the operation might result in an error. Shorthand Syntax: IsoCountryCode=string,PhoneNumber=string JSON Syntax: { "IsoCountryCode": "string", "PhoneNumber": "string" }
+    /// Specifies a phone number to validate and retrieve information about. IsoCountryCode -&gt; (string) The two-character code, in ISO 3166-1 alpha-2 format, for the country or region where the phone number was originally registered. PhoneNumber -&gt; (string) The phone number to retrieve information about. The phone number that you provide should include a valid numeric country code. Otherwise, the operation might result in an error. Shorthand Syntax: IsoCountryCode=string,PhoneNumber=string JSON Syntax: { "IsoCountryCode": "string", "PhoneNumber": "string" }
     /// </summary>
     [CliOption("--number-validate-request")]
     public string? NumberValidateRequest { get; private init; }

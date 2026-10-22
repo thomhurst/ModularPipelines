@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates and returns access and refresh tokens for clients that are au- thenticated using client secrets. The access token can be used to fetch short-lived credentials for the assigned AWS accounts or to access ap- plication APIs using bearer authentication. See also: AWS API Documentation
+/// Creates and returns access and refresh tokens for clients that are authenticated using client secrets. The access token can be used to fetch short-lived credentials for the assigned AWS accounts or to access application APIs using bearer authentication. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsSsoOidcCreateTokenOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates and returns access and refresh tokens for clients that are au- thenticated using client secrets. The access token can be used to fetch short-lived credentials for the assigned AWS accounts or to access ap- plication APIs using bearer authentication. See also: AWS API Documentation
+    /// Creates and returns access and refresh tokens for clients that are authenticated using client secrets. The access token can be used to fetch short-lived credentials for the assigned AWS accounts or to access application APIs using bearer authentication. See also: AWS API Documentation
     /// </summary>
     /// <param name="ClientId">The unique identifier string for the client or application. This value comes from the result of the RegisterClient API.</param>
     /// <param name="ClientSecret">A secret string generated for the client. This value should come from the persisted result of the RegisterClient API.</param>
-    /// <param name="GrantType">Supports the following OAuth grant types: Authorization Code, Device Code, and Refresh Token. Specify one of the following values, de- pending on the grant type that you want: o Authorization Code - authorization_code o Device Code - urn:ietf:params:oauth:grant-type:device_code o Refresh Token - refresh_token</param>
+    /// <param name="GrantType">Supports the following OAuth grant types: Authorization Code, Device Code, and Refresh Token. Specify one of the following values, depending on the grant type that you want: • Authorization Code - authorization_code • Device Code - urn:ietf:params:oauth:grant-type:device_code • Refresh Token - refresh_token</param>
     public AwsSsoOidcCreateTokenOptions(
         string ClientId,
         string ClientSecret,
@@ -78,7 +80,7 @@ public record AwsSsoOidcCreateTokenOptions : AwsOptions, IValidatableObject
     public string? ClientSecret { get; private init; }
 
     /// <summary>
-    /// Supports the following OAuth grant types: Authorization Code, Device Code, and Refresh Token. Specify one of the following values, de- pending on the grant type that you want: o Authorization Code - authorization_code o Device Code - urn:ietf:params:oauth:grant-type:device_code o Refresh Token - refresh_token
+    /// Supports the following OAuth grant types: Authorization Code, Device Code, and Refresh Token. Specify one of the following values, depending on the grant type that you want: • Authorization Code - authorization_code • Device Code - urn:ietf:params:oauth:grant-type:device_code • Refresh Token - refresh_token
     /// </summary>
     [CliOption("--grant-type")]
     public string? GrantType { get; private init; }
@@ -86,24 +88,26 @@ public record AwsSsoOidcCreateTokenOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Used only when calling this API for the Device Code grant type. This short-lived code is used to identify this authorization request. This comes from the result of the StartDeviceAuthorization API.
     /// </summary>
+    [SecretValue]
     [CliOption("--device-code")]
     public string? DeviceCode { get; set; }
 
     /// <summary>
     /// Used only when calling this API for the Authorization Code grant type. The short-lived code is used to identify this authorization request.
     /// </summary>
+    [SecretValue]
     [CliOption("--code")]
     public string? Code { get; set; }
 
     /// <summary>
-    /// Used only when calling this API for the Refresh Token grant type. This token is used to refresh short-lived tokens, such as the access token, that might expire. For more information about the features and limitations of the cur- rent IAM Identity Center OIDC implementation, see Considerations for Using this Guide in the IAM Identity Center OIDC API Reference .
+    /// Used only when calling this API for the Refresh Token grant type. This token is used to refresh short-lived tokens, such as the access token, that might expire. For more information about the features and limitations of the current IAM Identity Center OIDC implementation, see Considerations for Using this Guide in the IAM Identity Center OIDC API Reference .
     /// </summary>
     [SecretValue]
     [CliOption("--refresh-token")]
     public string? RefreshToken { get; set; }
 
     /// <summary>
-    /// The list of scopes for which authorization is requested. This para- meter has no effect; the access token will always include all scopes configured during client registration. (string) Syntax: "string" "string" ...
+    /// The list of scopes for which authorization is requested. This parameter has no effect; the access token will always include all scopes configured during client registration. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--scope", GroupValues = true)]
     public IEnumerable<string>? Scope { get; set; }
@@ -115,8 +119,9 @@ public record AwsSsoOidcCreateTokenOptions : AwsOptions, IValidatableObject
     public string? RedirectUri { get; set; }
 
     /// <summary>
-    /// Used only when calling this API for the Authorization Code grant type. This value is generated by the client and presented to vali- date the original code challenge value the client passed at autho- rization time.
+    /// Used only when calling this API for the Authorization Code grant type. This value is generated by the client and presented to validate the original code challenge value the client passed at authorization time.
     /// </summary>
+    [SecretValue]
     [CliOption("--code-verifier")]
     public string? CodeVerifier { get; set; }
 

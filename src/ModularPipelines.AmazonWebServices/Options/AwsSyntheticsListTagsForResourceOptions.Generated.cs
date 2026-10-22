@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSyntheticsListTagsForResourceOptions : AwsOptions, IValidatable
     /// <summary>
     /// Displays the tags associated with a canary or group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the canary or group that you want to view tags for. The ARN format of a canary is `` arn:aws:synthetics:Region :account-id :canary:canary-name `` . System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. The ARN format of a group is `` arn:aws:synthetics:Region :account-id :group:group-name `` System Message: WARNING/2 (&lt;string&gt;:, line 76) Inline literal start-string without end-string. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws[a-zA-Z-]*)?:synthet- ics:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\d{1}:\d{12}:(ca- nary|group):[0-9a-z_\-]+</param>
+    /// <param name="ResourceArn">The ARN of the canary or group that you want to view tags for. The ARN format of a canary is `` arn:aws:synthetics:Region :account-id :canary:canary-name `` . System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. The ARN format of a group is `` arn:aws:synthetics:Region :account-id :group:group-name `` System Message: WARNING/2 (&lt;string&gt;:, line 76) Inline literal start-string without end-string. Constraints: • min: 1 • max: 2048 • pattern: arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\d{1}:\d{12}:(canary|group):[0-9a-z_\-]+</param>
     public AwsSyntheticsListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsSyntheticsListTagsForResourceOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the canary or group that you want to view tags for. The ARN format of a canary is `` arn:aws:synthetics:Region :account-id :canary:canary-name `` . System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. The ARN format of a group is `` arn:aws:synthetics:Region :account-id :group:group-name `` System Message: WARNING/2 (&lt;string&gt;:, line 76) Inline literal start-string without end-string. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws[a-zA-Z-]*)?:synthet- ics:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\d{1}:\d{12}:(ca- nary|group):[0-9a-z_\-]+
+    /// The ARN of the canary or group that you want to view tags for. The ARN format of a canary is `` arn:aws:synthetics:Region :account-id :canary:canary-name `` . System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. The ARN format of a group is `` arn:aws:synthetics:Region :account-id :group:group-name `` System Message: WARNING/2 (&lt;string&gt;:, line 76) Inline literal start-string without end-string. Constraints: • min: 1 • max: 2048 • pattern: arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\d{1}:\d{12}:(canary|group):[0-9a-z_\-]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

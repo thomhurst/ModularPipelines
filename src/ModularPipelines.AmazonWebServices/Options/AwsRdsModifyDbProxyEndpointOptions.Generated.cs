@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRdsModifyDbProxyEndpointOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Changes the settings for an existing DB proxy endpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbProxyEndpointName">The name of the DB proxy sociated with the DB proxy endpoint that you want to modify. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*</param>
+    /// <param name="DbProxyEndpointName">The name of the DB proxy sociated with the DB proxy endpoint that you want to modify. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*</param>
     public AwsRdsModifyDbProxyEndpointOptions(
         string DbProxyEndpointName
     )
@@ -56,13 +58,13 @@ public record AwsRdsModifyDbProxyEndpointOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the DB proxy sociated with the DB proxy endpoint that you want to modify. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
+    /// The name of the DB proxy sociated with the DB proxy endpoint that you want to modify. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--db-proxy-endpoint-name")]
     public string? DbProxyEndpointName { get; private init; }
 
     /// <summary>
-    /// The new identifier for the DBProxyEndpoint . An identifier must be- gin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hy- phens. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
+    /// The new identifier for the DBProxyEndpoint . An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--new-db-proxy-endpoint-name")]
     public string? NewDbProxyEndpointName { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The AcceptQualificationRequest operation approves a Worker's request for a Qualification. Only the owner of the Qualification type can grant a Qualification re- quest for that type. A successful request for the AcceptQualificationRequest operation re- turns with no errors and an empty body. See also: AWS API Documentation
+/// The AcceptQualificationRequest operation approves a Worker's request for a Qualification. Only the owner of the Qualification type can grant a Qualification request for that type. A successful request for the AcceptQualificationRequest operation returns with no errors and an empty body. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsMturkAcceptQualificationRequestOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The AcceptQualificationRequest operation approves a Worker's request for a Qualification. Only the owner of the Qualification type can grant a Qualification re- quest for that type. A successful request for the AcceptQualificationRequest operation re- turns with no errors and an empty body. See also: AWS API Documentation
+    /// The AcceptQualificationRequest operation approves a Worker's request for a Qualification. Only the owner of the Qualification type can grant a Qualification request for that type. A successful request for the AcceptQualificationRequest operation returns with no errors and an empty body. See also: AWS API Documentation
     /// </summary>
-    /// <param name="QualificationRequestId">The ID of the Qualification request, as returned by the GetQualifi- cationRequests operation.</param>
+    /// <param name="QualificationRequestId">The ID of the Qualification request, as returned by the GetQualificationRequests operation.</param>
     public AwsMturkAcceptQualificationRequestOptions(
         string QualificationRequestId
     )
@@ -56,7 +58,7 @@ public record AwsMturkAcceptQualificationRequestOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Qualification request, as returned by the GetQualifi- cationRequests operation.
+    /// The ID of the Qualification request, as returned by the GetQualificationRequests operation.
     /// </summary>
     [CliOption("--qualification-request-id")]
     public string? QualificationRequestId { get; private init; }

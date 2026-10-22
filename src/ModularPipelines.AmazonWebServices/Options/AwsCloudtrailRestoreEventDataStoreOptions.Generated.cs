@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCloudtrailRestoreEventDataStoreOptions : AwsOptions, IValidatab
     /// <summary>
     /// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Restores a deleted event data store specified by EventDataStore , which accepts an event data store ARN. You can only restore a deleted event data store within the seven-day wait period after deletion. Restoring an e...
     /// </summary>
-    /// <param name="EventDataStore">The ARN (or the ID suffix of the ARN) of the event data store that you want to restore. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$</param>
+    /// <param name="EventDataStore">The ARN (or the ID suffix of the ARN) of the event data store that you want to restore. Constraints: • min: 3 • max: 256 • pattern: ^[a-zA-Z0-9._/\-:]+$</param>
     public AwsCloudtrailRestoreEventDataStoreOptions(
         string EventDataStore
     )
@@ -56,7 +58,7 @@ public record AwsCloudtrailRestoreEventDataStoreOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN (or the ID suffix of the ARN) of the event data store that you want to restore. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$
+    /// The ARN (or the ID suffix of the ARN) of the event data store that you want to restore. Constraints: • min: 3 • max: 256 • pattern: ^[a-zA-Z0-9._/\-:]+$
     /// </summary>
     [CliOption("--event-data-store")]
     public string? EventDataStore { get; private init; }

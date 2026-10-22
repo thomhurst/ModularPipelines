@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,10 +31,10 @@ public record AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareAl
     /// <summary>
     /// Creates a new marketplace revenue share allocation for the specified product. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">The catalog in which to create the allocation. Possible values: o AWS o Sandbox</param>
-    /// <param name="ProductId">The AWS Marketplace product identifier for the parent revenue share. Constraints: o min: 18 o max: 18 o pattern: prod-[a-z0-9]{13}</param>
-    /// <param name="EffectiveFrom">The effective start date for the allocation. Must be the first day of a month. Constraints: o min: 10 o max: 10 o pattern: \d{4}-\d{2}-\d{2}</param>
-    /// <param name="RevenueSharePercent">The revenue share percentage for this allocation. Constraints: o min: 1 o max: 6 o pattern: \d{1,3}(\.\d{1,2})?</param>
+    /// <param name="Catalog">The catalog in which to create the allocation. Possible values: • AWS • Sandbox</param>
+    /// <param name="ProductId">The AWS Marketplace product identifier for the parent revenue share. Constraints: • min: 18 • max: 18 • pattern: prod-[a-z0-9]{13}</param>
+    /// <param name="EffectiveFrom">The effective start date for the allocation. Must be the first day of a month. Constraints: • min: 10 • max: 10 • pattern: \d{4}-\d{2}-\d{2}</param>
+    /// <param name="RevenueSharePercent">The revenue share percentage for this allocation. Constraints: • min: 1 • max: 6 • pattern: \d{1,3}(\.\d{1,2})?</param>
     public AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareAllocationOptions(
         AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareAllocationCatalog Catalog,
         string ProductId,
@@ -69,38 +71,38 @@ public record AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareAl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog in which to create the allocation. Possible values: o AWS o Sandbox
+    /// The catalog in which to create the allocation. Possible values: • AWS • Sandbox
     /// </summary>
     [CliOption("--catalog")]
     public AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareAllocationCatalog? Catalog { get; private init; }
 
     /// <summary>
-    /// The AWS Marketplace product identifier for the parent revenue share. Constraints: o min: 18 o max: 18 o pattern: prod-[a-z0-9]{13}
+    /// The AWS Marketplace product identifier for the parent revenue share. Constraints: • min: 18 • max: 18 • pattern: prod-[a-z0-9]{13}
     /// </summary>
     [CliOption("--product-id")]
     public string? ProductId { get; private init; }
 
     /// <summary>
-    /// The effective start date for the allocation. Must be the first day of a month. Constraints: o min: 10 o max: 10 o pattern: \d{4}-\d{2}-\d{2}
+    /// The effective start date for the allocation. Must be the first day of a month. Constraints: • min: 10 • max: 10 • pattern: \d{4}-\d{2}-\d{2}
     /// </summary>
     [CliOption("--effective-from")]
     public string? EffectiveFrom { get; private init; }
 
     /// <summary>
-    /// The revenue share percentage for this allocation. Constraints: o min: 1 o max: 6 o pattern: \d{1,3}(\.\d{1,2})?
+    /// The revenue share percentage for this allocation. Constraints: • min: 1 • max: 6 • pattern: \d{1,3}(\.\d{1,2})?
     /// </summary>
     [CliOption("--revenue-share-percent")]
     public string? RevenueSharePercent { get; private init; }
 
     /// <summary>
-    /// A unique token to ensure idempotency of the create request. Constraints: o min: 1 o max: 64 o pattern: [!-~]{1,64}
+    /// A unique token to ensure idempotency of the create request. Constraints: • min: 1 • max: 64 • pattern: [!-~]{1,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The effective end date for the allocation. Must be the last day of a month (YYYY-MM-DD). Omit for open-ended allocations. Constraints: o min: 10 o max: 10 o pattern: \d{4}-\d{2}-\d{2}
+    /// The effective end date for the allocation. Must be the last day of a month (YYYY-MM-DD). Omit for open-ended allocations. Constraints: • min: 10 • max: 10 • pattern: \d{4}-\d{2}-\d{2}
     /// </summary>
     [CliOption("--effective-until")]
     public string? EffectiveUntil { get; set; }

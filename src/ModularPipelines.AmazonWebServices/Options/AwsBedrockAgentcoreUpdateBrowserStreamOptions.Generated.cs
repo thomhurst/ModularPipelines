@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a browser stream. To use this operation, you must have permis- sions to perform the bedrock:UpdateBrowserStream action. See also: AWS API Documentation
+/// Updates a browser stream. To use this operation, you must have permissions to perform the bedrock:UpdateBrowserStream action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsBedrockAgentcoreUpdateBrowserStreamOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a browser stream. To use this operation, you must have permis- sions to perform the bedrock:UpdateBrowserStream action. See also: AWS API Documentation
+    /// Updates a browser stream. To use this operation, you must have permissions to perform the bedrock:UpdateBrowserStream action. See also: AWS API Documentation
     /// </summary>
     /// <param name="BrowserIdentifier">The identifier of the browser.</param>
-    /// <param name="SessionId">The identifier of the browser session. Constraints: o pattern: [0-9a-zA-Z]{1,40}</param>
-    /// <param name="StreamUpdate">The update to apply to the browser stream. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: automationStreamUpdate. automationStreamUpdate -&gt; (structure) The update to an automation stream. streamStatus -&gt; (string) The status of the automation stream. Possible values: o ENABLED o DISABLED Shorthand Syntax: automationStreamUpdate={streamStatus=string} JSON Syntax: { "automationStreamUpdate": { "streamStatus": "ENABLED"|"DISABLED" } }</param>
+    /// <param name="SessionId">The identifier of the browser session. Constraints: • pattern: [0-9a-zA-Z]{1,40}</param>
+    /// <param name="StreamUpdate">The update to apply to the browser stream. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: automationStreamUpdate. automationStreamUpdate -&gt; (structure) The update to an automation stream. streamStatus -&gt; (string) The status of the automation stream. Possible values: • ENABLED • DISABLED Shorthand Syntax: automationStreamUpdate={streamStatus=string} JSON Syntax: { "automationStreamUpdate": { "streamStatus": "ENABLED"|"DISABLED" } }</param>
     public AwsBedrockAgentcoreUpdateBrowserStreamOptions(
         string BrowserIdentifier,
         string SessionId,
@@ -71,19 +73,19 @@ public record AwsBedrockAgentcoreUpdateBrowserStreamOptions : AwsOptions, IValid
     public string? BrowserIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the browser session. Constraints: o pattern: [0-9a-zA-Z]{1,40}
+    /// The identifier of the browser session. Constraints: • pattern: [0-9a-zA-Z]{1,40}
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }
 
     /// <summary>
-    /// The update to apply to the browser stream. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: automationStreamUpdate. automationStreamUpdate -&gt; (structure) The update to an automation stream. streamStatus -&gt; (string) The status of the automation stream. Possible values: o ENABLED o DISABLED Shorthand Syntax: automationStreamUpdate={streamStatus=string} JSON Syntax: { "automationStreamUpdate": { "streamStatus": "ENABLED"|"DISABLED" } }
+    /// The update to apply to the browser stream. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: automationStreamUpdate. automationStreamUpdate -&gt; (structure) The update to an automation stream. streamStatus -&gt; (string) The status of the automation stream. Possible values: • ENABLED • DISABLED Shorthand Syntax: automationStreamUpdate={streamStatus=string} JSON Syntax: { "automationStreamUpdate": { "streamStatus": "ENABLED"|"DISABLED" } }
     /// </summary>
     [CliOption("--stream-update")]
     public string? StreamUpdate { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

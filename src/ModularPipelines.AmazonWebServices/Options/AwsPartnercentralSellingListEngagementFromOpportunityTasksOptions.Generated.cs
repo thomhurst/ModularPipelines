@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists all in-progress, completed, or failed EngagementFromOpportunity tasks that were initiated by the caller's account. See also: AWS API Documentation list-engagement-from-opportunity-tasks is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the...
+/// Lists all in-progress, completed, or failed EngagementFromOpportunity tasks that were initiated by the caller's account. See also: AWS API Documentation list-engagement-from-opportunity-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resul...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsPartnercentralSellingListEngagementFromOpportunityTasksOptions 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists all in-progress, completed, or failed EngagementFromOpportunity tasks that were initiated by the caller's account. See also: AWS API Documentation list-engagement-from-opportunity-tasks is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the...
+    /// Lists all in-progress, completed, or failed EngagementFromOpportunity tasks that were initiated by the caller's account. See also: AWS API Documentation list-engagement-from-opportunity-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resul...
     /// </summary>
-    /// <param name="Catalog">Specifies the catalog related to the request. Valid values are: o AWS: Retrieves the request from the production AWS environment. o Sandbox: Retrieves the request from a sandbox environment used for testing or development purposes. Constraints: o pattern: [a-zA-Z]+</param>
+    /// <param name="Catalog">Specifies the catalog related to the request. Valid values are: • AWS: Retrieves the request from the production AWS environment. • Sandbox: Retrieves the request from a sandbox environment used for testing or development purposes. Constraints: • pattern: [a-zA-Z]+</param>
     public AwsPartnercentralSellingListEngagementFromOpportunityTasksOptions(
         string Catalog
     )
@@ -57,46 +59,43 @@ public record AwsPartnercentralSellingListEngagementFromOpportunityTasksOptions 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the catalog related to the request. Valid values are: o AWS: Retrieves the request from the production AWS environment. o Sandbox: Retrieves the request from a sandbox environment used for testing or development purposes. Constraints: o pattern: [a-zA-Z]+
+    /// Specifies the catalog related to the request. Valid values are: • AWS: Retrieves the request from the production AWS environment. • Sandbox: Retrieves the request from a sandbox environment used for testing or development purposes. Constraints: • pattern: [a-zA-Z]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// Specifies the sorting criteria for the returned results. This allows you to order the tasks based on specific attributes. SortOrder -&gt; (string) [required] Determines the order in which the sorted results are presented. Possible values: o ASCENDING o DESCENDING SortBy -&gt; (string) [required] Specifies the field by which the task list should be sorted. Possible values: o StartTime Shorthand Syntax: SortOrder=string,SortBy=string JSON Syntax: { "SortOrder": "ASCENDING"|"DESCENDING", "SortBy": "StartTime" }
+    /// Specifies the sorting criteria for the returned results. This allows you to order the tasks based on specific attributes. SortOrder -&gt; (string) [required] Determines the order in which the sorted results are presented. Possible values: • ASCENDING • DESCENDING SortBy -&gt; (string) [required] Specifies the field by which the task list should be sorted. Possible values: • StartTime Shorthand Syntax: SortOrder=string,SortBy=string JSON Syntax: { "SortOrder": "ASCENDING"|"DESCENDING", "SortBy": "StartTime" }
     /// </summary>
     [CliOption("--sort")]
     public string? Sort { get; set; }
 
     /// <summary>
-    /// Filters the tasks based on their current status. This allows you to focus on tasks in specific states. Constraints: o min: 1 o max: 3 (string) Possible values: o IN_PROGRESS o COMPLETE o FAILED Syntax: "string" "string" ...
+    /// Filters the tasks based on their current status. This allows you to focus on tasks in specific states. Constraints: • min: 1 • max: 3 (string) Possible values: • IN_PROGRESS • COMPLETE • FAILED Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--task-status", GroupValues = true)]
     public IEnumerable<string>? TaskStatus { get; set; }
 
     /// <summary>
-    /// Filters tasks by their unique identifiers. Use this when you want to retrieve information about specific tasks. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: (arn:.*|task-[0-9a-z]{13}) Syntax: "string" "string" ...
+    /// Filters tasks by their unique identifiers. Use this when you want to retrieve information about specific tasks. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: (arn:.*|task-[0-9a-z]{13}) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--task-identifier", GroupValues = true)]
     public IEnumerable<string>? TaskIdentifier { get; set; }
 
     /// <summary>
-    /// The identifier of the original opportunity associated with this task. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: O[0-9]{1,19} Syntax: "string" "string" ...
+    /// The identifier of the original opportunity associated with this task. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: O[0-9]{1,19} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--opportunity-identifier", GroupValues = true)]
     public IEnumerable<string>? OpportunityIdentifier { get; set; }
 
     /// <summary>
-    /// Filters tasks by the identifiers of the engagements they created or are associated with. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: (arn:.*|eng-[0-9a-z]{14}) Syntax: "string" "string" ...
+    /// Filters tasks by the identifiers of the engagements they created or are associated with. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: (arn:.*|eng-[0-9a-z]{14}) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--engagement-identifier", GroupValues = true)]
     public IEnumerable<string>? EngagementIdentifier { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -106,16 +105,19 @@ public record AwsPartnercentralSellingListEngagementFromOpportunityTasksOptions 
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

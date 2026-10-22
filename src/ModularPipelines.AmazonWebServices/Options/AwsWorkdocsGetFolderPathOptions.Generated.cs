@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the path information (the hierarchy from the root folder) for the specified folder. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested folder and only includes the IDs of the parent fold- ers in the path. You can limit the maximum number of levels. You can also request the parent folder names. See also: AWS API Documentation
+/// Retrieves the path information (the hierarchy from the root folder) for the specified folder. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested folder and only includes the IDs of the parent folders in the path. You can limit the maximum number of levels. You can also request the parent folder names. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsWorkdocsGetFolderPathOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the path information (the hierarchy from the root folder) for the specified folder. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested folder and only includes the IDs of the parent fold- ers in the path. You can limit the maximum number of levels. You can also request the parent folder names. See also: AWS API Documentation
+    /// Retrieves the path information (the hierarchy from the root folder) for the specified folder. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested folder and only includes the IDs of the parent folders in the path. You can limit the maximum number of levels. You can also request the parent folder names. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FolderId">The ID of the folder. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+</param>
+    /// <param name="FolderId">The ID of the folder. Constraints: • min: 1 • max: 256 • pattern: [&amp;\w+-.@]+</param>
     public AwsWorkdocsGetFolderPathOptions(
         string FolderId
     )
@@ -57,32 +59,32 @@ public record AwsWorkdocsGetFolderPathOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the folder. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+
+    /// The ID of the folder. Constraints: • min: 1 • max: 256 • pattern: [&amp;\w+-.@]+
     /// </summary>
     [CliOption("--folder-id")]
     public string? FolderId { get; private init; }
 
     /// <summary>
-    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: o min: 1 o max: 8199
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: • min: 1 • max: 8199
     /// </summary>
     [SecretValue]
     [CliOption("--authentication-token")]
     public string? AuthenticationToken { get; set; }
 
     /// <summary>
-    /// The maximum number of levels in the hierarchy to return. Constraints: o min: 1 o max: 999
+    /// The maximum number of levels in the hierarchy to return. Constraints: • min: 1 • max: 999
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }
 
     /// <summary>
-    /// A comma-separated list of values. Specify "NAME" to include the names of the parent folders. Constraints: o min: 1 o max: 256 o pattern: [\w,]+
+    /// A comma-separated list of values. Specify "NAME" to include the names of the parent folders. Constraints: • min: 1 • max: 256 • pattern: [\w,]+
     /// </summary>
     [CliOption("--fields")]
     public string? Fields { get; set; }
 
     /// <summary>
-    /// This value is not supported. Constraints: o min: 1 o max: 2048
+    /// This value is not supported. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--marker")]
     public string? Marker { get; set; }

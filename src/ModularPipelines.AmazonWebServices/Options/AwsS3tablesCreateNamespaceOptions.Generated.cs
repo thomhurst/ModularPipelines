@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a namespace. A namespace is a logical grouping of tables within your table bucket, which you can use to organize tables. For more in- formation, see Create a namespace in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:CreateNamespace permission to use this oper- ation. See also: AWS API Documentation
+/// Creates a namespace. A namespace is a logical grouping of tables within your table bucket, which you can use to organize tables. For more information, see Create a namespace in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:CreateNamespace permission to use this operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsS3tablesCreateNamespaceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a namespace. A namespace is a logical grouping of tables within your table bucket, which you can use to organize tables. For more in- formation, see Create a namespace in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:CreateNamespace permission to use this oper- ation. See also: AWS API Documentation
+    /// Creates a namespace. A namespace is a logical grouping of tables within your table bucket, which you can use to organize tables. For more information, see Create a namespace in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:CreateNamespace permission to use this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TableBucketArn">The Amazon Resource Name (ARN) of the table bucket to create the namespace in. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})</param>
-    /// <param name="Namespace">A name for the namespace. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]* Syntax: "string" "string" ...</param>
+    /// <param name="TableBucketArn">The Amazon Resource Name (ARN) of the table bucket to create the namespace in. Constraints: • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})</param>
+    /// <param name="Namespace">A name for the namespace. Constraints: • min: 1 • max: 1 (string) Constraints: • min: 1 • max: 255 • pattern: [0-9a-z_]* Syntax: "string" "string" ...</param>
     public AwsS3tablesCreateNamespaceOptions(
         string TableBucketArn,
         IEnumerable<string> Namespace
@@ -71,13 +73,13 @@ public record AwsS3tablesCreateNamespaceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the table bucket to create the namespace in. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})
+    /// The Amazon Resource Name (ARN) of the table bucket to create the namespace in. Constraints: • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})
     /// </summary>
     [CliOption("--table-bucket-arn")]
     public string? TableBucketArn { get; private init; }
 
     /// <summary>
-    /// A name for the namespace. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]* Syntax: "string" "string" ...
+    /// A name for the namespace. Constraints: • min: 1 • max: 1 (string) Constraints: • min: 1 • max: 255 • pattern: [0-9a-z_]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--namespace", GroupValues = true)]
     public IEnumerable<string>? Namespace { get; private init; }

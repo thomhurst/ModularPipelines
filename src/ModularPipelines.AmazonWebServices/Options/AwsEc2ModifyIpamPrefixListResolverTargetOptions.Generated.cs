@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -63,7 +65,7 @@ public record AwsEc2ModifyIpamPrefixListResolverTargetOptions : AwsOptions, IVal
     public string? IpamPrefixListResolverTargetId { get; private init; }
 
     /// <summary>
-    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -72,16 +74,16 @@ public record AwsEc2ModifyIpamPrefixListResolverTargetOptions : AwsOptions, IVal
     /// The desired version of the prefix list to target. This allows you to pin the target to a specific version.
     /// </summary>
     [CliOption("--desired-version")]
-    public int? DesiredVersion { get; set; }
+    public long? DesiredVersion { get; set; }
 
     /// <summary>
-    /// Indicates whether the resolver target should automatically track the latest version of the prefix list. When enabled, the target will al- ways synchronize with the most current version. Choose this for automatic updates when you want your prefix lists to stay current with infrastructure changes without manual interven- tion.
+    /// Indicates whether the resolver target should automatically track the latest version of the prefix list. When enabled, the target will always synchronize with the most current version. Choose this for automatic updates when you want your prefix lists to stay current with infrastructure changes without manual intervention.
     /// </summary>
     [CliFlag("--track-latest-version", NegatedName = "--no-track-latest-version")]
     public bool? TrackLatestVersion { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring idem- potency .
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring idempotency .
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

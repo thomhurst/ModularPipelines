@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsEmrDescribeStepOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Provides more detail about the cluster step. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterId">The identifier of the cluster with steps to describe. Constraints: o max: 256</param>
+    /// <param name="ClusterId">The identifier of the cluster with steps to describe. Constraints: • max: 256</param>
     /// <param name="StepId">The identifier of the step to describe.</param>
     public AwsEmrDescribeStepOptions(
         string ClusterId,
@@ -60,7 +62,7 @@ public record AwsEmrDescribeStepOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the cluster with steps to describe. Constraints: o max: 256
+    /// The identifier of the cluster with steps to describe. Constraints: • max: 256
     /// </summary>
     [CliOption("--cluster-id")]
     public string? ClusterId { get; private init; }

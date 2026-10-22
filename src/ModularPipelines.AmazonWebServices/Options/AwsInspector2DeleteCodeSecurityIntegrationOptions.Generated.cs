@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsInspector2DeleteCodeSecurityIntegrationOptions : AwsOptions, IV
     /// <summary>
     /// Deletes a code security integration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IntegrationArn">The Amazon Resource Name (ARN) of the code security integration to delete. Constraints: o pattern: arn:(aws[a-zA-Z-]*)?:inspec- tor2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:codesecurity-integra- tion/[a-f0-9-]{36}</param>
+    /// <param name="IntegrationArn">The Amazon Resource Name (ARN) of the code security integration to delete. Constraints: • pattern: arn:(aws[a-zA-Z-]*)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:codesecurity-integration/[a-f0-9-]{36}</param>
     public AwsInspector2DeleteCodeSecurityIntegrationOptions(
         string IntegrationArn
     )
@@ -56,7 +58,7 @@ public record AwsInspector2DeleteCodeSecurityIntegrationOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the code security integration to delete. Constraints: o pattern: arn:(aws[a-zA-Z-]*)?:inspec- tor2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:codesecurity-integra- tion/[a-f0-9-]{36}
+    /// The Amazon Resource Name (ARN) of the code security integration to delete. Constraints: • pattern: arn:(aws[a-zA-Z-]*)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:codesecurity-integration/[a-f0-9-]{36}
     /// </summary>
     [CliOption("--integration-arn")]
     public string? IntegrationArn { get; private init; }

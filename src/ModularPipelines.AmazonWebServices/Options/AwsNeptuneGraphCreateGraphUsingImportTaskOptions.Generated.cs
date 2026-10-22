@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -29,9 +30,9 @@ public record AwsNeptuneGraphCreateGraphUsingImportTaskOptions : AwsOptions, IVa
     /// <summary>
     /// Creates a new Neptune Analytics graph and imports data into it, either from Amazon Simple Storage Service (S3) or from a Neptune database or a Neptune database snapshot. The data can be loaded from files in S3 that in either the Gremlin CSV format or the openCypher load format . See also: AWS API Documentation
     /// </summary>
-    /// <param name="GraphName">A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed. Constraints: o min: 1 o max: 63 o pattern: (?!g-)[a-z][a-z0-9]*(-[a-z0-9]+)*</param>
-    /// <param name="Source">A URL identifying to the location of the data to be imported. This can be an Amazon S3 path, or can point to a Neptune database end- point or snapshot.</param>
-    /// <param name="RoleArn">The ARN of the IAM role that will allow access to the data that is to be imported. Constraints: o pattern: arn:aws[^:]*:iam::\d{12}:(role|role/ser- vice-role)(/[\w+=,.@-]+)+</param>
+    /// <param name="GraphName">A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed. Constraints: • min: 1 • max: 63 • pattern: (?!g-)[a-z][a-z0-9]*(-[a-z0-9]+)*</param>
+    /// <param name="Source">A URL identifying to the location of the data to be imported. This can be an Amazon S3 path, or can point to a Neptune database endpoint or snapshot.</param>
+    /// <param name="RoleArn">The ARN of the IAM role that will allow access to the data that is to be imported. Constraints: • pattern: arn:aws[^:]*:iam::\d{12}:(role|role/service-role)(/[\w+=,.@-]+)+</param>
     public AwsNeptuneGraphCreateGraphUsingImportTaskOptions(
         string GraphName,
         string Source,
@@ -66,49 +67,49 @@ public record AwsNeptuneGraphCreateGraphUsingImportTaskOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed. Constraints: o min: 1 o max: 63 o pattern: (?!g-)[a-z][a-z0-9]*(-[a-z0-9]+)*
+    /// A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed. Constraints: • min: 1 • max: 63 • pattern: (?!g-)[a-z][a-z0-9]*(-[a-z0-9]+)*
     /// </summary>
     [CliOption("--graph-name")]
     public string? GraphName { get; private init; }
 
     /// <summary>
-    /// A URL identifying to the location of the data to be imported. This can be an Amazon S3 path, or can point to a Neptune database end- point or snapshot.
+    /// A URL identifying to the location of the data to be imported. This can be an Amazon S3 path, or can point to a Neptune database endpoint or snapshot.
     /// </summary>
     [CliOption("--source")]
     public string? Source { get; private init; }
 
     /// <summary>
-    /// The ARN of the IAM role that will allow access to the data that is to be imported. Constraints: o pattern: arn:aws[^:]*:iam::\d{12}:(role|role/ser- vice-role)(/[\w+=,.@-]+)+
+    /// The ARN of the IAM role that will allow access to the data that is to be imported. Constraints: • pattern: arn:aws[^:]*:iam::\d{12}:(role|role/service-role)(/[\w+=,.@-]+)+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// Adds metadata tags to the new graph. These tags can also be used with cost allocation reporting, or used in a Condition statement in an IAM policy. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Adds metadata tags to the new graph. These tags can also be used with cost allocation reporting, or used in a Condition statement in an IAM policy. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Specifies whether or not the graph can be reachable over the inter- net. All access to graphs is IAM authenticated. (true to enable, or false to disable).
+    /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable).
     /// </summary>
     [CliFlag("--public-connectivity", NegatedName = "--no-public-connectivity")]
     public bool? PublicConnectivity { get; set; }
 
     /// <summary>
-    /// Specifies a KMS key to use to encrypt data imported into the new graph. Constraints: o min: 1 o max: 1024 o pattern: arn:aws[^:]*:kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}
+    /// Specifies a KMS key to use to encrypt data imported into the new graph. Constraints: • min: 1 • max: 1024 • pattern: arn:aws[^:]*:kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}
     /// </summary>
     [CliOption("--kms-key-identifier")]
     public string? KmsKeyIdentifier { get; set; }
 
     /// <summary>
-    /// Specifies the number of dimensions for vector embeddings that will be loaded into the graph. The value is specified as dimension= value. Max = 65,535 dimension -&gt; (integer) [required] The number of dimensions. Constraints: o min: 1 o max: 65536 Shorthand Syntax: dimension=integer JSON Syntax: { "dimension": integer }
+    /// Specifies the number of dimensions for vector embeddings that will be loaded into the graph. The value is specified as dimension= value. Max = 65,535 dimension -&gt; (integer) [required] The number of dimensions. Constraints: • min: 1 • max: 65536 Shorthand Syntax: dimension=integer JSON Syntax: { "dimension": integer }
     /// </summary>
     [CliOption("--vector-search-configuration")]
     public string? VectorSearchConfiguration { get; set; }
 
     /// <summary>
-    /// The number of replicas in other AZs to provision on the new graph after import. Default = 1, Min = 0, Max = 2. WARNING: Additional charges equivalent to the m-NCUs selected for the graph apply for each replica. Constraints: o min: 0 o max: 2
+    /// The number of replicas in other AZs to provision on the new graph after import. Default = 1, Min = 0, Max = 2. WARNING: Additional charges equivalent to the m-NCUs selected for the graph apply for each replica. Constraints: • min: 0 • max: 2
     /// </summary>
     [CliOption("--replica-count")]
     public int? ReplicaCount { get; set; }
@@ -120,19 +121,19 @@ public record AwsNeptuneGraphCreateGraphUsingImportTaskOptions : AwsOptions, IVa
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
-    /// Contains options for controlling the import process. For example, if the failOnError key is set to false , the import skips problem data and attempts to continue (whereas if set to true , the default, or if omitted, the import operation halts immediately when an error is encountered. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: neptune. neptune -&gt; (structure) Options for importing data from a Neptune database. s3ExportPath -&gt; (string) [required] The path to an S3 bucket from which to import data. Constraints: o min: 1 o max: 1024 s3ExportKmsKeyId -&gt; (string) [required] The KMS key to use to encrypt data in the S3 bucket where the graph data is exported Constraints: o min: 1 o max: 1024 preserveDefaultVertexLabels -&gt; (boolean) Neptune Analytics supports label-less vertices and no labels are assigned unless one is explicitly provided. Neptune as- signs default labels when none is explicitly provided. When importing the data into Neptune Analytics, the default vertex labels can be omitted by setting preserveDefaultVertexLabels to false. Note that if the vertex only has default labels, and has no other properties or edges, then the vertex will effectively not get imported into Neptune Analytics when pre- serveDefaultVertexLabels is set to false. preserveEdgeIds -&gt; (boolean) Neptune Analytics currently does not support user defined edge ids. The edge ids are not imported by default. They are imported if preserveEdgeIds is set to true, and ids are stored as properties on the relationships with the property name neptuneEdgeId . Shorthand Syntax: neptune={s3ExportPath=string,s3ExportKmsKeyId=string,preserveDefaultVertexLabels=boolean,preserveEdgeIds=boolean} JSON Syntax: { "neptune": { "s3ExportPath": "string", "s3ExportKmsKeyId": "string", "preserveDefaultVertexLabels": true|false, "preserveEdgeIds": true|false } }
+    /// Contains options for controlling the import process. For example, if the failOnError key is set to false , the import skips problem data and attempts to continue (whereas if set to true , the default, or if omitted, the import operation halts immediately when an error is encountered. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: neptune. neptune -&gt; (structure) Options for importing data from a Neptune database. s3ExportPath -&gt; (string) [required] The path to an S3 bucket from which to import data. Constraints: • min: 1 • max: 1024 s3ExportKmsKeyId -&gt; (string) [required] The KMS key to use to encrypt data in the S3 bucket where the graph data is exported Constraints: • min: 1 • max: 1024 preserveDefaultVertexLabels -&gt; (boolean) Neptune Analytics supports label-less vertices and no labels are assigned unless one is explicitly provided. Neptune assigns default labels when none is explicitly provided. When importing the data into Neptune Analytics, the default vertex labels can be omitted by setting preserveDefaultVertexLabels to false. Note that if the vertex only has default labels, and has no other properties or edges, then the vertex will effectively not get imported into Neptune Analytics when preserveDefaultVertexLabels is set to false. preserveEdgeIds -&gt; (boolean) Neptune Analytics currently does not support user defined edge ids. The edge ids are not imported by default. They are imported if preserveEdgeIds is set to true, and ids are stored as properties on the relationships with the property name neptuneEdgeId . Shorthand Syntax: neptune={s3ExportPath=string,s3ExportKmsKeyId=string,preserveDefaultVertexLabels=boolean,preserveEdgeIds=boolean} JSON Syntax: { "neptune": { "s3ExportPath": "string", "s3ExportKmsKeyId": "string", "preserveDefaultVertexLabels": true|false, "preserveEdgeIds": true|false } }
     /// </summary>
     [CliOption("--import-options")]
     public string? ImportOptions { get; set; }
 
     /// <summary>
-    /// The maximum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 1024, or the approved upper limit for your account. If both the minimum and maximum values are specified, the final pro- visioned-memory will be chosen per the actual size of your imported data. If neither value is specified, 128 m-NCUs are used. Constraints: o min: 16 o max: 24576
+    /// The maximum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 1024, or the approved upper limit for your account. If both the minimum and maximum values are specified, the final provisioned-memory will be chosen per the actual size of your imported data. If neither value is specified, 128 m-NCUs are used. Constraints: • min: 16 • max: 24576
     /// </summary>
     [CliOption("--max-provisioned-memory")]
     public int? MaxProvisionedMemory { get; set; }
 
     /// <summary>
-    /// The minimum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 16 Constraints: o min: 16 o max: 24576
+    /// The minimum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 16 Constraints: • min: 16 • max: 24576
     /// </summary>
     [CliOption("--min-provisioned-memory")]
     public int? MinProvisionedMemory { get; set; }
@@ -144,19 +145,19 @@ public record AwsNeptuneGraphCreateGraphUsingImportTaskOptions : AwsOptions, IVa
     public bool? FailOnError { get; set; }
 
     /// <summary>
-    /// Specifies the format of S3 data to be imported. Valid values are CSV , which identifies the Gremlin CSV format , OPEN_CYPHER , which identifies the openCypher load format , or ntriples , which identi- fies the RDF n-triples format. Possible values: o CSV o OPEN_CYPHER o PARQUET o NTRIPLES
+    /// Specifies the format of S3 data to be imported. Valid values are CSV , which identifies the Gremlin CSV format , OPEN_CYPHER , which identifies the openCypher load format , or ntriples , which identifies the RDF n-triples format. Possible values: • CSV • OPEN_CYPHER • PARQUET • NTRIPLES
     /// </summary>
     [CliOption("--format")]
     public AwsNeptuneGraphCreateGraphUsingImportTaskFormat? Format { get; set; }
 
     /// <summary>
-    /// The parquet type of the import task. Possible values: o COLUMNAR
+    /// The parquet type of the import task. Possible values: • COLUMNAR
     /// </summary>
     [CliOption("--parquet-type")]
     public string? ParquetType { get; set; }
 
     /// <summary>
-    /// The method to handle blank nodes in the dataset. Currently, only convertToIri is supported, meaning blank nodes are converted to unique IRIs at load time. Must be provided when format is ntriples . For more information, see Handling RDF values . Possible values: o convertToIri
+    /// The method to handle blank nodes in the dataset. Currently, only convertToIri is supported, meaning blank nodes are converted to unique IRIs at load time. Must be provided when format is ntriples . For more information, see Handling RDF values . Possible values: • convertToIri
     /// </summary>
     [CliOption("--blank-node-handling")]
     public string? BlankNodeHandling { get; set; }

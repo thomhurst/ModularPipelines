@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Assigns one or more tags (key-value pairs) to the specified resource. Both sinks and links can be tagged. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to ac- cess or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are in- terpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If yo...
+/// Assigns one or more tags (key-value pairs) to the specified resource. Both sinks and links can be tagged. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you sp...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsOamTagResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Assigns one or more tags (key-value pairs) to the specified resource. Both sinks and links can be tagged. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to ac- cess or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are in- terpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If yo...
+    /// Assigns one or more tags (key-value pairs) to the specified resource. Both sinks and links can be tagged. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you sp...
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource that you're adding tags to. The ARN format of a sink is `` arn:aws:oam:Region :account-id :sink/sink-id `` System Message: WARNING/2 (&lt;string&gt;:, line 99) Inline literal start-string without end-string. The ARN format of a link is `` arn:aws:oam:Region :account-id :link/link-id `` System Message: WARNING/2 (&lt;string&gt;:, line 103) Inline literal start-string without end-string. For more information about ARN format, see CloudWatch Logs resources and operations . Constraints: o pattern: ^arn:(\w|-)+:oam:.+:.+:.+</param>
-    /// <param name="Tags">The list of key-value pairs to associate with the resource. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="ResourceArn">The ARN of the resource that you're adding tags to. The ARN format of a sink is `` arn:aws:oam:Region :account-id :sink/sink-id `` System Message: WARNING/2 (&lt;string&gt;:, line 99) Inline literal start-string without end-string. The ARN format of a link is `` arn:aws:oam:Region :account-id :link/link-id `` System Message: WARNING/2 (&lt;string&gt;:, line 103) Inline literal start-string without end-string. For more information about ARN format, see CloudWatch Logs resources and operations . Constraints: • pattern: ^arn:(\w|-)+:oam:.+:.+:.+</param>
+    /// <param name="Tags">The list of key-value pairs to associate with the resource. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsOamTagResourceOptions(
         string ResourceArn,
         IReadOnlyList<KeyValue> Tags
@@ -72,13 +73,13 @@ public record AwsOamTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource that you're adding tags to. The ARN format of a sink is `` arn:aws:oam:Region :account-id :sink/sink-id `` System Message: WARNING/2 (&lt;string&gt;:, line 99) Inline literal start-string without end-string. The ARN format of a link is `` arn:aws:oam:Region :account-id :link/link-id `` System Message: WARNING/2 (&lt;string&gt;:, line 103) Inline literal start-string without end-string. For more information about ARN format, see CloudWatch Logs resources and operations . Constraints: o pattern: ^arn:(\w|-)+:oam:.+:.+:.+
+    /// The ARN of the resource that you're adding tags to. The ARN format of a sink is `` arn:aws:oam:Region :account-id :sink/sink-id `` System Message: WARNING/2 (&lt;string&gt;:, line 99) Inline literal start-string without end-string. The ARN format of a link is `` arn:aws:oam:Region :account-id :link/link-id `` System Message: WARNING/2 (&lt;string&gt;:, line 103) Inline literal start-string without end-string. For more information about ARN format, see CloudWatch Logs resources and operations . Constraints: • pattern: ^arn:(\w|-)+:oam:.+:.+:.+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The list of key-value pairs to associate with the resource. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The list of key-value pairs to associate with the resource. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; private init; }

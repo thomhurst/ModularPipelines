@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Imports security requirements from uploaded documents into a customer managed security requirement pack. The import process asynchronously extracts and generates structured security requirements from the pro- vided source files. See also: AWS API Documentation
+/// Imports security requirements from uploaded documents into a customer managed security requirement pack. The import process asynchronously extracts and generates structured security requirements from the provided source files. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsSecurityagentImportSecurityRequirementsOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Imports security requirements from uploaded documents into a customer managed security requirement pack. The import process asynchronously extracts and generates structured security requirements from the pro- vided source files. See also: AWS API Documentation
+    /// Imports security requirements from uploaded documents into a customer managed security requirement pack. The import process asynchronously extracts and generates structured security requirements from the provided source files. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PackId">The unique identifier of the security requirement pack to import re- quirements into.</param>
-    /// <param name="Input">The import source containing the documents to extract security re- quirements from. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: documents. documents -&gt; (list) The list of documents to extract security requirements from. (structure) A document used as source material for importing security re- quirements. name -&gt; (string) [required] The file name of the document. format -&gt; (string) [required] The format of the document. Valid values are MD, PDF, TXT, DOCX, and DOC. Possible values: o MD o PDF o TXT o DOCX o DOC content -&gt; (blob) [required] The binary content of the document. Shorthand Syntax: documents=[{name=string,format=string,content=blob},{name=string,format=string,content=blob}] JSON Syntax: { "documents": [ { "name": "string", "format": "MD"|"PDF"|"TXT"|"DOCX"|"DOC", "content": blob } ... ] }</param>
+    /// <param name="PackId">The unique identifier of the security requirement pack to import requirements into.</param>
+    /// <param name="Input">The import source containing the documents to extract security requirements from. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: documents. documents -&gt; (list) The list of documents to extract security requirements from. (structure) A document used as source material for importing security requirements. name -&gt; (string) [required] The file name of the document. format -&gt; (string) [required] The format of the document. Valid values are MD, PDF, TXT, DOCX, and DOC. Possible values: • MD • PDF • TXT • DOCX • DOC content -&gt; (blob) [required] The binary content of the document. Shorthand Syntax: documents=[{name=string,format=string,content=blob},{name=string,format=string,content=blob}] JSON Syntax: { "documents": [ { "name": "string", "format": "MD"|"PDF"|"TXT"|"DOCX"|"DOC", "content": blob } ... ] }</param>
     public AwsSecurityagentImportSecurityRequirementsOptions(
         string PackId,
         string Input
@@ -60,13 +62,13 @@ public record AwsSecurityagentImportSecurityRequirementsOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the security requirement pack to import re- quirements into.
+    /// The unique identifier of the security requirement pack to import requirements into.
     /// </summary>
     [CliOption("--pack-id")]
     public string? PackId { get; private init; }
 
     /// <summary>
-    /// The import source containing the documents to extract security re- quirements from. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: documents. documents -&gt; (list) The list of documents to extract security requirements from. (structure) A document used as source material for importing security re- quirements. name -&gt; (string) [required] The file name of the document. format -&gt; (string) [required] The format of the document. Valid values are MD, PDF, TXT, DOCX, and DOC. Possible values: o MD o PDF o TXT o DOCX o DOC content -&gt; (blob) [required] The binary content of the document. Shorthand Syntax: documents=[{name=string,format=string,content=blob},{name=string,format=string,content=blob}] JSON Syntax: { "documents": [ { "name": "string", "format": "MD"|"PDF"|"TXT"|"DOCX"|"DOC", "content": blob } ... ] }
+    /// The import source containing the documents to extract security requirements from. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: documents. documents -&gt; (list) The list of documents to extract security requirements from. (structure) A document used as source material for importing security requirements. name -&gt; (string) [required] The file name of the document. format -&gt; (string) [required] The format of the document. Valid values are MD, PDF, TXT, DOCX, and DOC. Possible values: • MD • PDF • TXT • DOCX • DOC content -&gt; (blob) [required] The binary content of the document. Shorthand Syntax: documents=[{name=string,format=string,content=blob},{name=string,format=string,content=blob}] JSON Syntax: { "documents": [ { "name": "string", "format": "MD"|"PDF"|"TXT"|"DOCX"|"DOC", "content": blob } ... ] }
     /// </summary>
     [CliOption("--input")]
     public string? Input { get; private init; }

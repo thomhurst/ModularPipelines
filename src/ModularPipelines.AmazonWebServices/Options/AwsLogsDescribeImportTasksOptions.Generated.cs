@@ -24,13 +24,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLogsDescribeImportTasksOptions : AwsOptions
 {
     /// <summary>
-    /// Optional filter to describe a specific import task by its ID. Constraints: o min: 1 o max: 256 o pattern: [\-a-zA-Z0-9]+
+    /// Optional filter to describe a specific import task by its ID. Constraints: • min: 1 • max: 256 • pattern: [\-a-zA-Z0-9]+
     /// </summary>
     [CliOption("--import-id")]
     public string? ImportId { get; set; }
 
     /// <summary>
-    /// Optional filter to list imports by their status. Valid values are IN_PROGRESS, CANCELLED, COMPLETED and FAILED. Possible values: o IN_PROGRESS o CANCELLED o COMPLETED o FAILED
+    /// Optional filter to list imports by their status. Valid values are IN_PROGRESS, CANCELLED, COMPLETED and FAILED. Possible values: • IN_PROGRESS • CANCELLED • COMPLETED • FAILED
     /// </summary>
     [CliOption("--import-status")]
     public AwsLogsDescribeImportTasksImportStatus? ImportStatus { get; set; }
@@ -42,13 +42,13 @@ public record AwsLogsDescribeImportTasksOptions : AwsOptions
     public string? ImportSourceArn { get; set; }
 
     /// <summary>
-    /// The maximum number of import tasks to return in the response. De- fault: 50 Constraints: o min: 1 o max: 50
+    /// The maximum number of import tasks to return in the response. Default: 50 Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }
 
     /// <summary>
-    /// The pagination token for the next set of results. Constraints: o min: 1
+    /// The pagination token for the next set of results. Constraints: • min: 1
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

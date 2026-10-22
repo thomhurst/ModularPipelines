@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsConfigserviceStopConfigurationRecorderOptions : AwsOptions, IVa
     /// <summary>
     /// Stops the customer managed configuration recorder. The customer managed configuration recorder will stop recording configuration changes for the resource types you have specified. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfigurationRecorderName">The name of the customer managed configuration recorder that you want to stop. Constraints: o min: 1 o max: 256</param>
+    /// <param name="ConfigurationRecorderName">The name of the customer managed configuration recorder that you want to stop. Constraints: • min: 1 • max: 256</param>
     public AwsConfigserviceStopConfigurationRecorderOptions(
         string ConfigurationRecorderName
     )
@@ -56,7 +58,7 @@ public record AwsConfigserviceStopConfigurationRecorderOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the customer managed configuration recorder that you want to stop. Constraints: o min: 1 o max: 256
+    /// The name of the customer managed configuration recorder that you want to stop. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--configuration-recorder-name")]
     public string? ConfigurationRecorderName { get; private init; }

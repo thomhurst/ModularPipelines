@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disassociates an Account Contact with a particular ManagedNotification- Configuration . See also: AWS API Documentation
+/// Disassociates an Account Contact with a particular ManagedNotificationConfiguration . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsNotificationsDisassociateManagedNotificationAccountContactOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disassociates an Account Contact with a particular ManagedNotification- Configuration . See also: AWS API Documentation
+    /// Disassociates an Account Contact with a particular ManagedNotificationConfiguration . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ContactIdentifier">The unique value of an Account Contact Type to associate with the ManagedNotificationConfiguration . Possible values: o ACCOUNT_PRIMARY o ACCOUNT_ALTERNATE_BILLING o ACCOUNT_ALTERNATE_OPERATIONS o ACCOUNT_ALTERNATE_SECURITY</param>
-    /// <param name="ManagedNotificationConfigurationArn">The Amazon Resource Name (ARN) of the ManagedNotificationConfigura- tion to associate with the Account Contact. Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notifi- cation-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}</param>
+    /// <param name="ContactIdentifier">The unique value of an Account Contact Type to associate with the ManagedNotificationConfiguration . Possible values: • ACCOUNT_PRIMARY • ACCOUNT_ALTERNATE_BILLING • ACCOUNT_ALTERNATE_OPERATIONS • ACCOUNT_ALTERNATE_SECURITY</param>
+    /// <param name="ManagedNotificationConfigurationArn">The Amazon Resource Name (ARN) of the ManagedNotificationConfiguration to associate with the Account Contact. Constraints: • pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notification-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-category/[a-zA-Z0-9\-]{3,64}</param>
     public AwsNotificationsDisassociateManagedNotificationAccountContactOptions(
         AwsNotificationsDisassociateManagedNotificationAccountContactContactIdentifier ContactIdentifier,
         string ManagedNotificationConfigurationArn
@@ -60,13 +62,13 @@ public record AwsNotificationsDisassociateManagedNotificationAccountContactOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique value of an Account Contact Type to associate with the ManagedNotificationConfiguration . Possible values: o ACCOUNT_PRIMARY o ACCOUNT_ALTERNATE_BILLING o ACCOUNT_ALTERNATE_OPERATIONS o ACCOUNT_ALTERNATE_SECURITY
+    /// The unique value of an Account Contact Type to associate with the ManagedNotificationConfiguration . Possible values: • ACCOUNT_PRIMARY • ACCOUNT_ALTERNATE_BILLING • ACCOUNT_ALTERNATE_OPERATIONS • ACCOUNT_ALTERNATE_SECURITY
     /// </summary>
     [CliOption("--contact-identifier")]
     public AwsNotificationsDisassociateManagedNotificationAccountContactContactIdentifier? ContactIdentifier { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the ManagedNotificationConfigura- tion to associate with the Account Contact. Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notifi- cation-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}
+    /// The Amazon Resource Name (ARN) of the ManagedNotificationConfiguration to associate with the Account Contact. Constraints: • pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notification-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-category/[a-zA-Z0-9\-]{3,64}
     /// </summary>
     [CliOption("--managed-notification-configuration-arn")]
     public string? ManagedNotificationConfigurationArn { get; private init; }

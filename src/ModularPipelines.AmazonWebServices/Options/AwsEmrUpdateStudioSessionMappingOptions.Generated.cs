@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the session policy attached to the user or group for the speci- fied Amazon EMR Studio. See also: AWS API Documentation
+/// Updates the session policy attached to the user or group for the specified Amazon EMR Studio. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsEmrUpdateStudioSessionMappingOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the session policy attached to the user or group for the speci- fied Amazon EMR Studio. See also: AWS API Documentation
+    /// Updates the session policy attached to the user or group for the specified Amazon EMR Studio. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StudioId">The ID of the Amazon EMR Studio. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
-    /// <param name="IdentityType">Specifies whether the identity to update is a user or a group. Possible values: o USER o GROUP</param>
-    /// <param name="SessionPolicyArn">The Amazon Resource Name (ARN) of the session policy to associate with the specified user or group. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="StudioId">The ID of the Amazon EMR Studio. Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="IdentityType">Specifies whether the identity to update is a user or a group. Possible values: • USER • GROUP</param>
+    /// <param name="SessionPolicyArn">The Amazon Resource Name (ARN) of the session policy to associate with the specified user or group. Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
     public AwsEmrUpdateStudioSessionMappingOptions(
         string StudioId,
         AwsEmrUpdateStudioSessionMappingIdentityType IdentityType,
@@ -64,31 +66,31 @@ public record AwsEmrUpdateStudioSessionMappingOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon EMR Studio. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The ID of the Amazon EMR Studio. Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--studio-id")]
     public string? StudioId { get; private init; }
 
     /// <summary>
-    /// Specifies whether the identity to update is a user or a group. Possible values: o USER o GROUP
+    /// Specifies whether the identity to update is a user or a group. Possible values: • USER • GROUP
     /// </summary>
     [CliOption("--identity-type")]
     public AwsEmrUpdateStudioSessionMappingIdentityType? IdentityType { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the session policy to associate with the specified user or group. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The Amazon Resource Name (ARN) of the session policy to associate with the specified user or group. Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--session-policy-arn")]
     public string? SessionPolicyArn { get; private init; }
 
     /// <summary>
-    /// The globally unique identifier (GUID) of the user or group. For more information, see UserId and GroupId in the IAM Identity Center Iden- tity Store API Reference . Either IdentityName or IdentityId must be specified. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The globally unique identifier (GUID) of the user or group. For more information, see UserId and GroupId in the IAM Identity Center Identity Store API Reference . Either IdentityName or IdentityId must be specified. Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--identity-id")]
     public string? IdentityId { get; set; }
 
     /// <summary>
-    /// The name of the user or group to update. For more information, see UserName and DisplayName in the IAM Identity Center Identity Store API Reference . Either IdentityName or IdentityId must be specified. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The name of the user or group to update. For more information, see UserName and DisplayName in the IAM Identity Center Identity Store API Reference . Either IdentityName or IdentityId must be specified. Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--identity-name")]
     public string? IdentityName { get; set; }

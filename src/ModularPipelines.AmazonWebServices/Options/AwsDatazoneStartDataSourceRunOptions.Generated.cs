@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsDatazoneStartDataSourceRunOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Start the run of the specified data source in Amazon DataZone. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain in which to start a data source run. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="DataSourceIdentifier">The identifier of the data source. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain in which to start a data source run. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DataSourceIdentifier">The identifier of the data source. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneStartDataSourceRunOptions(
         string DomainIdentifier,
         string DataSourceIdentifier
@@ -61,13 +63,13 @@ public record AwsDatazoneStartDataSourceRunOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon DataZone domain in which to start a data source run. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The identifier of the Amazon DataZone domain in which to start a data source run. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the data source. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the data source. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--data-source-identifier")]
     public string? DataSourceIdentifier { get; private init; }

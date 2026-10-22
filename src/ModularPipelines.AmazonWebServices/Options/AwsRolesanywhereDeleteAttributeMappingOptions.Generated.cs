@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsRolesanywhereDeleteAttributeMappingOptions : AwsOptions, IValid
     /// <summary>
     /// Delete an entry from the attribute mapping rules enforced by a given profile. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileId">The unique identifier of the profile. Constraints: o min: 36 o max: 36 o pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*</param>
-    /// <param name="CertificateField">Fields (x509Subject, x509Issuer and x509SAN) within X.509 certifi- cates. Possible values: o x509Subject o x509Issuer o x509SAN</param>
+    /// <param name="ProfileId">The unique identifier of the profile. Constraints: • min: 36 • max: 36 • pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*</param>
+    /// <param name="CertificateField">Fields (x509Subject, x509Issuer and x509SAN) within X.509 certificates. Possible values: • x509Subject • x509Issuer • x509SAN</param>
     public AwsRolesanywhereDeleteAttributeMappingOptions(
         string ProfileId,
         AwsRolesanywhereDeleteAttributeMappingCertificateField CertificateField
@@ -60,13 +62,13 @@ public record AwsRolesanywhereDeleteAttributeMappingOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the profile. Constraints: o min: 36 o max: 36 o pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*
+    /// The unique identifier of the profile. Constraints: • min: 36 • max: 36 • pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*
     /// </summary>
     [CliOption("--profile-id")]
     public string? ProfileId { get; private init; }
 
     /// <summary>
-    /// Fields (x509Subject, x509Issuer and x509SAN) within X.509 certifi- cates. Possible values: o x509Subject o x509Issuer o x509SAN
+    /// Fields (x509Subject, x509Issuer and x509SAN) within X.509 certificates. Possible values: • x509Subject • x509Issuer • x509SAN
     /// </summary>
     [CliOption("--certificate-field")]
     public AwsRolesanywhereDeleteAttributeMappingCertificateField? CertificateField { get; private init; }

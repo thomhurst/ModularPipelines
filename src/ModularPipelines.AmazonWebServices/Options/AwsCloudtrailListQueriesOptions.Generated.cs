@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +31,7 @@ public record AwsCloudtrailListQueriesOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Returns a list of queries and query statuses for the past seven days. You must specify an ARN value for EventDataStore . Optionally, to shorten the list of results, you can specify a time range, formatted as timestam...
     /// </summary>
-    /// <param name="EventDataStore">The ARN (or the ID suffix of the ARN) of an event data store on which queries were run. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$</param>
+    /// <param name="EventDataStore">The ARN (or the ID suffix of the ARN) of an event data store on which queries were run. Constraints: • min: 3 • max: 256 • pattern: ^[a-zA-Z0-9._/\-:]+$</param>
     public AwsCloudtrailListQueriesOptions(
         string EventDataStore
     )
@@ -58,38 +60,38 @@ public record AwsCloudtrailListQueriesOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN (or the ID suffix of the ARN) of an event data store on which queries were run. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$
+    /// The ARN (or the ID suffix of the ARN) of an event data store on which queries were run. Constraints: • min: 3 • max: 256 • pattern: ^[a-zA-Z0-9._/\-:]+$
     /// </summary>
     [CliOption("--event-data-store")]
     public string? EventDataStore { get; private init; }
 
     /// <summary>
-    /// A token you can use to get the next page of results. Constraints: o min: 4 o max: 1000 o pattern: .*
+    /// A token you can use to get the next page of results. Constraints: • min: 4 • max: 1000 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of queries to show on a page. Constraints: o min: 1 o max: 1000
+    /// The maximum number of queries to show on a page. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Use with EndTime to bound a ListQueries request, and limit its re- sults to only those queries run within a specified time period.
+    /// Use with EndTime to bound a ListQueries request, and limit its results to only those queries run within a specified time period.
     /// </summary>
     [CliOption("--start-time")]
     public string? StartTime { get; set; }
 
     /// <summary>
-    /// Use with StartTime to bound a ListQueries request, and limit its re- sults to only those queries run within a specified time period.
+    /// Use with StartTime to bound a ListQueries request, and limit its results to only those queries run within a specified time period.
     /// </summary>
     [CliOption("--end-time")]
     public string? EndTime { get; set; }
 
     /// <summary>
-    /// The status of queries that you want to return in results. Valid val- ues for QueryStatus include QUEUED , RUNNING , FINISHED , FAILED , TIMED_OUT , or CANCELLED . Possible values: o QUEUED o RUNNING o FINISHED o FAILED o CANCELLED o TIMED_OUT
+    /// The status of queries that you want to return in results. Valid values for QueryStatus include QUEUED , RUNNING , FINISHED , FAILED , TIMED_OUT , or CANCELLED . Possible values: • QUEUED • RUNNING • FINISHED • FAILED • CANCELLED • TIMED_OUT
     /// </summary>
     [CliOption("--query-status")]
     public AwsCloudtrailListQueriesQueryStatus? QueryStatus { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsComprehendmedicalInferRxNormOptions : AwsOptions, IValidatableO
     /// <summary>
     /// InferRxNorm detects medications as entities listed in a patient record and links to the normalized concept identifiers in the RxNorm database from the National Library of Medicine. Amazon Comprehend Medical only detects medical entities in English language texts. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Text">The input text used for analysis. Constraints: o min: 1 o max: 10000</param>
+    /// <param name="Text">The input text used for analysis. Constraints: • min: 1 • max: 10000</param>
     public AwsComprehendmedicalInferRxNormOptions(
         string Text
     )
@@ -56,7 +58,7 @@ public record AwsComprehendmedicalInferRxNormOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The input text used for analysis. Constraints: o min: 1 o max: 10000
+    /// The input text used for analysis. Constraints: • min: 1 • max: 10000
     /// </summary>
     [CliOption("--text")]
     public string? Text { get; private init; }

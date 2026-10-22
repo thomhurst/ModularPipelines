@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotwirelessTestWirelessDeviceOptions : AwsOptions, IValidatable
     /// <summary>
     /// Simulates a provisioned device by sending an uplink data payload of Hello . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the wireless device to test. Constraints: o max: 256</param>
+    /// <param name="Id">The ID of the wireless device to test. Constraints: • max: 256</param>
     public AwsIotwirelessTestWirelessDeviceOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsIotwirelessTestWirelessDeviceOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the wireless device to test. Constraints: o max: 256
+    /// The ID of the wireless device to test. Constraints: • max: 256
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

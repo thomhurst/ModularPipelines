@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an Amazon DocumentDB global cluster that can span multiple mul- tiple Amazon Web Services Regions. The global cluster contains one pri- mary cluster with read-write capability, and up-to 10 read-only sec- ondary clusters. Global clusters uses storage-based fast replication across regions with latencies less than one second, using dedicated in- frastructure with no impact to your workloads performance. You can create a global cluster that is initially empty, and then add a primary and a s...
+/// Creates an Amazon DocumentDB global cluster that can span multiple multiple Amazon Web Services Regions. The global cluster contains one primary cluster with read-write capability, and up-to 10 read-only secondary clusters. Global clusters uses storage-based fast replication across regions with latencies less than one second, using dedicated infrastructure with no impact to your workloads performance. You can create a global cluster that is initially empty, and then add a primary and a secondary...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsDocdbCreateGlobalClusterOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an Amazon DocumentDB global cluster that can span multiple mul- tiple Amazon Web Services Regions. The global cluster contains one pri- mary cluster with read-write capability, and up-to 10 read-only sec- ondary clusters. Global clusters uses storage-based fast replication across regions with latencies less than one second, using dedicated in- frastructure with no impact to your workloads performance. You can create a global cluster that is initially empty, and then add a primary and a s...
+    /// Creates an Amazon DocumentDB global cluster that can span multiple multiple Amazon Web Services Regions. The global cluster contains one primary cluster with read-write capability, and up-to 10 read-only secondary clusters. Global clusters uses storage-based fast replication across regions with latencies less than one second, using dedicated infrastructure with no impact to your workloads performance. You can create a global cluster that is initially empty, and then add a primary and a secondary...
     /// </summary>
-    /// <param name="GlobalClusterIdentifier">The cluster identifier of the new global cluster. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
+    /// <param name="GlobalClusterIdentifier">The cluster identifier of the new global cluster. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
     public AwsDocdbCreateGlobalClusterOptions(
         string GlobalClusterIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsDocdbCreateGlobalClusterOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The cluster identifier of the new global cluster. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// The cluster identifier of the new global cluster. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*
     /// </summary>
     [CliOption("--global-cluster-identifier")]
     public string? GlobalClusterIdentifier { get; private init; }
@@ -86,7 +88,7 @@ public record AwsDocdbCreateGlobalClusterOptions : AwsOptions, IValidatableObjec
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
-    /// The name for your database of up to 64 alpha-numeric characters. If you do not provide a name, Amazon DocumentDB will not create a data- base in the global cluster you are creating.
+    /// The name for your database of up to 64 alpha-numeric characters. If you do not provide a name, Amazon DocumentDB will not create a database in the global cluster you are creating.
     /// </summary>
     [CliOption("--database-name")]
     public string? DatabaseName { get; set; }

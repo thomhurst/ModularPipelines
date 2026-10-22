@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -29,9 +30,9 @@ public record AwsIotsitewiseUpdateDataSetOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Updates a dataset. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSetId">The ID of the dataset. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
-    /// <param name="DataSetName">The name of the dataset. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9 _\-#$*!@.]+$</param>
-    /// <param name="DataSetSource">The data source for the dataset. sourceType -&gt; (string) [required] The type of data source for the dataset. Possible values: o KENDRA o SITEWISE sourceFormat -&gt; (string) [required] The format of the dataset source associated with the dataset. Possible values: o KNOWLEDGE_BASE o TIMESERIES sourceDetail -&gt; (structure) The details of the dataset source associated with the dataset. kendra -&gt; (structure) Contains details about the Kendra dataset source. knowledgeBaseArn -&gt; (string) [required] The knowledgeBaseArn details for the Kendra dataset source. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\/_\.]+$ roleArn -&gt; (string) [required] The roleARN details for the Kendra dataset source. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\/_\.]+$ Shorthand Syntax: sourceType=string,sourceFormat=string,sourceDetail={kendra={knowledgeBaseArn=string,roleArn=string}} JSON Syntax: { "sourceType": "KENDRA"|"SITEWISE", "sourceFormat": "KNOWLEDGE_BASE"|"TIMESERIES", "sourceDetail": { "kendra": { "knowledgeBaseArn": "string", "roleArn": "string" } } }</param>
+    /// <param name="DataSetId">The ID of the dataset. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
+    /// <param name="DataSetName">The name of the dataset. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9 _\-#$*!@.]+$</param>
+    /// <param name="DataSetSource">The data source for the dataset. sourceType -&gt; (string) [required] The type of data source for the dataset. Possible values: • KENDRA • SITEWISE sourceFormat -&gt; (string) [required] The format of the dataset source associated with the dataset. Possible values: • KNOWLEDGE_BASE • TIMESERIES sourceDetail -&gt; (structure) The details of the dataset source associated with the dataset. kendra -&gt; (structure) Contains details about the Kendra dataset source. knowledgeBaseArn -&gt; (string) [required] The knowledgeBaseArn details for the Kendra dataset source. Constraints: • min: 1 • max: 1600 • pattern: ^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\/_\.]+$ roleArn -&gt; (string) [required] The roleARN details for the Kendra dataset source. Constraints: • min: 1 • max: 1600 • pattern: ^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\/_\.]+$ Shorthand Syntax: sourceType=string,sourceFormat=string,sourceDetail={kendra={knowledgeBaseArn=string,roleArn=string}} JSON Syntax: { "sourceType": "KENDRA"|"SITEWISE", "sourceFormat": "KNOWLEDGE_BASE"|"TIMESERIES", "sourceDetail": { "kendra": { "knowledgeBaseArn": "string", "roleArn": "string" } } }</param>
     public AwsIotsitewiseUpdateDataSetOptions(
         string DataSetId,
         string DataSetName,
@@ -66,49 +67,49 @@ public record AwsIotsitewiseUpdateDataSetOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the dataset. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+    /// The ID of the dataset. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--dataset-id")]
     public string? DataSetId { get; private init; }
 
     /// <summary>
-    /// The name of the dataset. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9 _\-#$*!@.]+$
+    /// The name of the dataset. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9 _\-#$*!@.]+$
     /// </summary>
     [CliOption("--dataset-name")]
     public string? DataSetName { get; private init; }
 
     /// <summary>
-    /// The data source for the dataset. sourceType -&gt; (string) [required] The type of data source for the dataset. Possible values: o KENDRA o SITEWISE sourceFormat -&gt; (string) [required] The format of the dataset source associated with the dataset. Possible values: o KNOWLEDGE_BASE o TIMESERIES sourceDetail -&gt; (structure) The details of the dataset source associated with the dataset. kendra -&gt; (structure) Contains details about the Kendra dataset source. knowledgeBaseArn -&gt; (string) [required] The knowledgeBaseArn details for the Kendra dataset source. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\/_\.]+$ roleArn -&gt; (string) [required] The roleARN details for the Kendra dataset source. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\/_\.]+$ Shorthand Syntax: sourceType=string,sourceFormat=string,sourceDetail={kendra={knowledgeBaseArn=string,roleArn=string}} JSON Syntax: { "sourceType": "KENDRA"|"SITEWISE", "sourceFormat": "KNOWLEDGE_BASE"|"TIMESERIES", "sourceDetail": { "kendra": { "knowledgeBaseArn": "string", "roleArn": "string" } } }
+    /// The data source for the dataset. sourceType -&gt; (string) [required] The type of data source for the dataset. Possible values: • KENDRA • SITEWISE sourceFormat -&gt; (string) [required] The format of the dataset source associated with the dataset. Possible values: • KNOWLEDGE_BASE • TIMESERIES sourceDetail -&gt; (structure) The details of the dataset source associated with the dataset. kendra -&gt; (structure) Contains details about the Kendra dataset source. knowledgeBaseArn -&gt; (string) [required] The knowledgeBaseArn details for the Kendra dataset source. Constraints: • min: 1 • max: 1600 • pattern: ^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\/_\.]+$ roleArn -&gt; (string) [required] The roleARN details for the Kendra dataset source. Constraints: • min: 1 • max: 1600 • pattern: ^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\/_\.]+$ Shorthand Syntax: sourceType=string,sourceFormat=string,sourceDetail={kendra={knowledgeBaseArn=string,roleArn=string}} JSON Syntax: { "sourceType": "KENDRA"|"SITEWISE", "sourceFormat": "KNOWLEDGE_BASE"|"TIMESERIES", "sourceDetail": { "kendra": { "knowledgeBaseArn": "string", "roleArn": "string" } } }
     /// </summary>
     [CliOption("--dataset-source")]
     public string? DataSetSource { get; private init; }
 
     /// <summary>
-    /// The name of the workspace that contains the dataset. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The name of the workspace that contains the dataset. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 
     /// <summary>
-    /// A description about the dataset, and its functionality. Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+
+    /// A description about the dataset, and its functionality. Constraints: • min: 1 • max: 2048 • pattern: [^\u0000-\u001F\u007F]+
     /// </summary>
     [CliOption("--dataset-description")]
     public string? DataSetDescription { get; set; }
 
     /// <summary>
-    /// The updated configuration for the dataset. session -&gt; (structure) The session configuration for a session-type dataset. sessionStartTimestamp -&gt; (structure) [required] The nanosecond-precision start time of the session. timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Fractional nanosecond data is provided by offsetInNanos . Constraints: o min: 1 o max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: o min: 0 o max: 999999999 sessionEndTimestamp -&gt; (structure) [required] The nanosecond-precision end time of the session. timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Fractional nanosecond data is provided by offsetInNanos . Constraints: o min: 1 o max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: o min: 0 o max: 999999999 Shorthand Syntax: session={sessionStartTimestamp={timeInSeconds=long,offsetInNanos=integer},sessionEndTimestamp={timeInSeconds=long,offsetInNanos=integer}} JSON Syntax: { "session": { "sessionStartTimestamp": { "timeInSeconds": long, "offsetInNanos": integer }, "sessionEndTimestamp": { "timeInSeconds": long, "offsetInNanos": integer } } }
+    /// The updated configuration for the dataset. session -&gt; (structure) The session configuration for a session-type dataset. sessionStartTimestamp -&gt; (structure) [required] The nanosecond-precision start time of the session. timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Fractional nanosecond data is provided by offsetInNanos . Constraints: • min: 1 • max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: • min: 0 • max: 999999999 sessionEndTimestamp -&gt; (structure) [required] The nanosecond-precision end time of the session. timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Fractional nanosecond data is provided by offsetInNanos . Constraints: • min: 1 • max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: • min: 0 • max: 999999999 Shorthand Syntax: session={sessionStartTimestamp={timeInSeconds=long,offsetInNanos=integer},sessionEndTimestamp={timeInSeconds=long,offsetInNanos=integer}} JSON Syntax: { "session": { "sessionStartTimestamp": { "timeInSeconds": long, "offsetInNanos": integer }, "sessionEndTimestamp": { "timeInSeconds": long, "offsetInNanos": integer } } }
     /// </summary>
     [CliOption("--dataset-config")]
     public string? DataSetConfig { get; set; }
 
     /// <summary>
-    /// The updated metadata for the dataset. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The updated metadata for the dataset. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
-    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required. Constraints: o min: 36 o max: 64 o pattern: \S{36,64}
+    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required. Constraints: • min: 36 • max: 64 • pattern: \S{36,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

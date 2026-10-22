@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an IPAM prefix list resolver target. This removes the associa- tion between the resolver and the managed prefix list, stopping auto- matic CIDR synchronization. For more information about IPAM prefix list resolver, see Automate pre- fix list updates with IPAM in the Amazon VPC IPAM User Guide . See also: AWS API Documentation
+/// Deletes an IPAM prefix list resolver target. This removes the association between the resolver and the managed prefix list, stopping automatic CIDR synchronization. For more information about IPAM prefix list resolver, see Automate prefix list updates with IPAM in the Amazon VPC IPAM User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsEc2DeleteIpamPrefixListResolverTargetOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an IPAM prefix list resolver target. This removes the associa- tion between the resolver and the managed prefix list, stopping auto- matic CIDR synchronization. For more information about IPAM prefix list resolver, see Automate pre- fix list updates with IPAM in the Amazon VPC IPAM User Guide . See also: AWS API Documentation
+    /// Deletes an IPAM prefix list resolver target. This removes the association between the resolver and the managed prefix list, stopping automatic CIDR synchronization. For more information about IPAM prefix list resolver, see Automate prefix list updates with IPAM in the Amazon VPC IPAM User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="IpamPrefixListResolverTargetId">The ID of the IPAM prefix list resolver target to delete.</param>
     public AwsEc2DeleteIpamPrefixListResolverTargetOptions(
@@ -62,7 +64,7 @@ public record AwsEc2DeleteIpamPrefixListResolverTargetOptions : AwsOptions, IVal
     public string? IpamPrefixListResolverTargetId { get; private init; }
 
     /// <summary>
-    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified retention policy. Log events do not expire if they belong to log groups without a reten- tion policy. See also: AWS API Documentation
+/// Deletes the specified retention policy. Log events do not expire if they belong to log groups without a retention policy. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLogsDeleteRetentionPolicyOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified retention policy. Log events do not expire if they belong to log groups without a reten- tion policy. See also: AWS API Documentation
+    /// Deletes the specified retention policy. Log events do not expire if they belong to log groups without a retention policy. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LogGroupName">The name of the log group. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+</param>
+    /// <param name="LogGroupName">The name of the log group. Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+</param>
     public AwsLogsDeleteRetentionPolicyOptions(
         string LogGroupName
     )
@@ -56,7 +58,7 @@ public record AwsLogsDeleteRetentionPolicyOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the log group. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+
+    /// The name of the log group. Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+
     /// </summary>
     [CliOption("--log-group-name")]
     public string? LogGroupName { get; private init; }

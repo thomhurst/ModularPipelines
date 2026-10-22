@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Get an aggregation of service statistics defined by a specific time range. See also: AWS API Documentation get-time-series-service-statistics is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TimeSer...
+/// Get an aggregation of service statistics defined by a specific time range. See also: AWS API Documentation get-time-series-service-statistics is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TimeSeriesS...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +28,7 @@ public record AwsXrayGetTimeSeriesServiceStatisticsOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Get an aggregation of service statistics defined by a specific time range. See also: AWS API Documentation get-time-series-service-statistics is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TimeSer...
+    /// Get an aggregation of service statistics defined by a specific time range. See also: AWS API Documentation get-time-series-service-statistics is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TimeSeriesS...
     /// </summary>
     /// <param name="StartTime">The start of the time frame for which to aggregate statistics.</param>
     /// <param name="EndTime">The end of the time frame for which to aggregate statistics.</param>
@@ -73,19 +75,19 @@ public record AwsXrayGetTimeSeriesServiceStatisticsOptions : AwsOptions, IValida
     public string? EndTime { get; private init; }
 
     /// <summary>
-    /// The case-sensitive name of the group for which to pull statistics from. Constraints: o min: 1 o max: 32
+    /// The case-sensitive name of the group for which to pull statistics from. Constraints: • min: 1 • max: 32
     /// </summary>
     [CliOption("--group-name")]
     public string? GroupName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the group for which to pull sta- tistics from. Constraints: o min: 1 o max: 400
+    /// The Amazon Resource Name (ARN) of the group for which to pull statistics from. Constraints: • min: 1 • max: 400
     /// </summary>
     [CliOption("--group-arn")]
     public string? GroupArn { get; set; }
 
     /// <summary>
-    /// A filter expression defining entities that will be aggregated for statistics. Supports ID, service, and edge functions. If no selector expression is specified, edge statistics are returned. Constraints: o min: 1 o max: 500
+    /// A filter expression defining entities that will be aggregated for statistics. Supports ID, service, and edge functions. If no selector expression is specified, edge statistics are returned. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--entity-selector-expression")]
     public string? EntitySelectorExpression { get; set; }
@@ -97,16 +99,13 @@ public record AwsXrayGetTimeSeriesServiceStatisticsOptions : AwsOptions, IValida
     public int? Period { get; set; }
 
     /// <summary>
-    /// The forecasted high and low fault count values. Forecast enabled re- quests require the EntitySelectorExpression ID be provided.
+    /// The forecasted high and low fault count values. Forecast enabled requests require the EntitySelectorExpression ID be provided.
     /// </summary>
     [CliFlag("--forecast-statistics", NegatedName = "--no-forecast-statistics")]
     public bool? ForecastStatistics { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -116,10 +115,13 @@ public record AwsXrayGetTimeSeriesServiceStatisticsOptions : AwsOptions, IValida
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsCodecommitBatchGetCommitsOptions : AwsOptions, IValidatableObje
     /// Returns information about the contents of one or more commits in a repository. See also: AWS API Documentation
     /// </summary>
     /// <param name="CommitIds">The full commit IDs of the commits to get information about. NOTE: You must supply the full SHA IDs of each commit. You cannot use shortened SHA IDs. (string) Syntax: "string" "string" ...</param>
-    /// <param name="RepositoryName">The name of the repository that contains the commits. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
+    /// <param name="RepositoryName">The name of the repository that contains the commits. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+</param>
     public AwsCodecommitBatchGetCommitsOptions(
         IEnumerable<string> CommitIds,
         string RepositoryName
@@ -77,7 +79,7 @@ public record AwsCodecommitBatchGetCommitsOptions : AwsOptions, IValidatableObje
     public IEnumerable<string>? CommitIds { get; private init; }
 
     /// <summary>
-    /// The name of the repository that contains the commits. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// The name of the repository that contains the commits. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }

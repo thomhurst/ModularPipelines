@@ -23,31 +23,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsMigrationhubConfigDescribeHomeRegionControlsOptions : AwsOptions
 {
     /// <summary>
-    /// The ControlID is a unique identifier string of your HomeRegionCon- trol object. Constraints: o min: 1 o max: 50 o pattern: ^hrc-[a-z0-9]{12}$
+    /// The ControlID is a unique identifier string of your HomeRegionControl object. Constraints: • min: 1 • max: 50 • pattern: ^hrc-[a-z0-9]{12}$
     /// </summary>
     [CliOption("--control-id")]
     public string? ControlId { get; set; }
 
     /// <summary>
-    /// The name of the home region you'd like to view. Constraints: o min: 1 o max: 50 o pattern: ^([a-z]+)-([a-z]+)-([0-9]+)$
+    /// The name of the home region you'd like to view. Constraints: • min: 1 • max: 50 • pattern: ^([a-z]+)-([a-z]+)-([0-9]+)$
     /// </summary>
     [CliOption("--home-region")]
     public string? HomeRegion { get; set; }
 
     /// <summary>
-    /// The target parameter specifies the identifier to which the home re- gion is applied, which is always of type ACCOUNT . It applies the home region to the current ACCOUNT . Type -&gt; (string) [required] The target type is always an ACCOUNT . Possible values: o ACCOUNT Id -&gt; (string) The TargetID is a 12-character identifier of the ACCOUNT for which the control was created. (This must be the current ac- count.) Constraints: o min: 12 o max: 12 o pattern: ^\d{12}$ Shorthand Syntax: Type=string,Id=string JSON Syntax: { "Type": "ACCOUNT", "Id": "string" }
+    /// The target parameter specifies the identifier to which the home region is applied, which is always of type ACCOUNT . It applies the home region to the current ACCOUNT . Type -&gt; (string) [required] The target type is always an ACCOUNT . Possible values: • ACCOUNT Id -&gt; (string) The TargetID is a 12-character identifier of the ACCOUNT for which the control was created. (This must be the current account.) Constraints: • min: 12 • max: 12 • pattern: ^\d{12}$ Shorthand Syntax: Type=string,Id=string JSON Syntax: { "Type": "ACCOUNT", "Id": "string" }
     /// </summary>
     [CliOption("--target")]
     public string? Target { get; set; }
 
     /// <summary>
-    /// The maximum number of filtering results to display per page. Constraints: o min: 1 o max: 100
+    /// The maximum number of filtering results to display per page. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If a NextToken was returned by a previous call, more results are available. To retrieve the next page of results, make the call again using the returned token in NextToken . Constraints: o min: 0 o max: 2048 o pattern: ^[a-zA-Z0-9\/\+\=]{0,2048}$
+    /// If a NextToken was returned by a previous call, more results are available. To retrieve the next page of results, make the call again using the returned token in NextToken . Constraints: • min: 0 • max: 2048 • pattern: ^[a-zA-Z0-9\/\+\=]{0,2048}$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

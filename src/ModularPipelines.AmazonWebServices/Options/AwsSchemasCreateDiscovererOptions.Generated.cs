@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,7 +29,7 @@ public record AwsSchemasCreateDiscovererOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a discoverer. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceArn">The ARN of the event bus. Constraints: o min: 20 o max: 1600</param>
+    /// <param name="SourceArn">The ARN of the event bus. Constraints: • min: 20 • max: 1600</param>
     public AwsSchemasCreateDiscovererOptions(
         string SourceArn
     )
@@ -57,13 +58,13 @@ public record AwsSchemasCreateDiscovererOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the event bus. Constraints: o min: 20 o max: 1600
+    /// The ARN of the event bus. Constraints: • min: 20 • max: 1600
     /// </summary>
     [CliOption("--source-arn")]
     public string? SourceArn { get; private init; }
 
     /// <summary>
-    /// A description for the discoverer. Constraints: o min: 0 o max: 256
+    /// A description for the discoverer. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

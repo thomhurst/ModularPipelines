@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Use this operation to delete a human task user interface (worker task template). To see a list of human task user interfaces (work task templates) in your account, use ListHumanTaskUis . When you delete a worker task tem- plate, it no longer appears when you call ListHumanTaskUis . See also: AWS API Documentation
+/// Use this operation to delete a human task user interface (worker task template). To see a list of human task user interfaces (work task templates) in your account, use ListHumanTaskUis . When you delete a worker task template, it no longer appears when you call ListHumanTaskUis . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSagemakerDeleteHumanTaskUiOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Use this operation to delete a human task user interface (worker task template). To see a list of human task user interfaces (work task templates) in your account, use ListHumanTaskUis . When you delete a worker task tem- plate, it no longer appears when you call ListHumanTaskUis . See also: AWS API Documentation
+    /// Use this operation to delete a human task user interface (worker task template). To see a list of human task user interfaces (work task templates) in your account, use ListHumanTaskUis . When you delete a worker task template, it no longer appears when you call ListHumanTaskUis . See also: AWS API Documentation
     /// </summary>
-    /// <param name="HumanTaskUiName">The name of the human task user interface (work task template) you want to delete. Constraints: o min: 1 o max: 63 o pattern: [a-z0-9](-*[a-z0-9])*</param>
+    /// <param name="HumanTaskUiName">The name of the human task user interface (work task template) you want to delete. Constraints: • min: 1 • max: 63 • pattern: [a-z0-9](-*[a-z0-9])*</param>
     public AwsSagemakerDeleteHumanTaskUiOptions(
         string HumanTaskUiName
     )
@@ -56,7 +58,7 @@ public record AwsSagemakerDeleteHumanTaskUiOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the human task user interface (work task template) you want to delete. Constraints: o min: 1 o max: 63 o pattern: [a-z0-9](-*[a-z0-9])*
+    /// The name of the human task user interface (work task template) you want to delete. Constraints: • min: 1 • max: 63 • pattern: [a-z0-9](-*[a-z0-9])*
     /// </summary>
     [CliOption("--human-task-ui-name")]
     public string? HumanTaskUiName { get; private init; }

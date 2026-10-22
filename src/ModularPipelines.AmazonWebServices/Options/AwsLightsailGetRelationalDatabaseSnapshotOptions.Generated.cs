@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about a specific database snapshot in Amazon Light- sail. See also: AWS API Documentation
+/// Returns information about a specific database snapshot in Amazon Lightsail. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLightsailGetRelationalDatabaseSnapshotOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns information about a specific database snapshot in Amazon Light- sail. See also: AWS API Documentation
+    /// Returns information about a specific database snapshot in Amazon Lightsail. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RelationalDatabaseSnapshotName">The name of the database snapshot for which to get information. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="RelationalDatabaseSnapshotName">The name of the database snapshot for which to get information. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailGetRelationalDatabaseSnapshotOptions(
         string RelationalDatabaseSnapshotName
     )
@@ -56,7 +58,7 @@ public record AwsLightsailGetRelationalDatabaseSnapshotOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the database snapshot for which to get information. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the database snapshot for which to get information. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--relational-database-snapshot-name")]
     public string? RelationalDatabaseSnapshotName { get; private init; }

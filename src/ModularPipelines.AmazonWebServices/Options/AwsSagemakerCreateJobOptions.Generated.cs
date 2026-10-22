@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a model customization job in Amazon SageMaker. A job runs a workload based on the job category and configuration you provide. You specify the job category, a schema-versioned configuration document, and an IAM role that grants Amazon SageMaker permission to access re- sources on your behalf. Use the AgentRFT category to fine-tune a model using multi-turn rein- forcement learning with reward signals. Use the AgentRFTEvaluation cat- egory to evaluate a fine-tuned or base model by running m...
+/// Creates a model customization job in Amazon SageMaker. A job runs a workload based on the job category and configuration you provide. You specify the job category, a schema-versioned configuration document, and an IAM role that grants Amazon SageMaker permission to access resources on your behalf. Use the AgentRFT category to fine-tune a model using multi-turn reinforcement learning with reward signals. Use the AgentRFTEvaluation category to evaluate a fine-tuned or base model by running multi-t...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,13 +28,13 @@ public record AwsSagemakerCreateJobOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a model customization job in Amazon SageMaker. A job runs a workload based on the job category and configuration you provide. You specify the job category, a schema-versioned configuration document, and an IAM role that grants Amazon SageMaker permission to access re- sources on your behalf. Use the AgentRFT category to fine-tune a model using multi-turn rein- forcement learning with reward signals. Use the AgentRFTEvaluation cat- egory to evaluate a fine-tuned or base model by running m...
+    /// Creates a model customization job in Amazon SageMaker. A job runs a workload based on the job category and configuration you provide. You specify the job category, a schema-versioned configuration document, and an IAM role that grants Amazon SageMaker permission to access resources on your behalf. Use the AgentRFT category to fine-tune a model using multi-turn reinforcement learning with reward signals. Use the AgentRFTEvaluation category to evaluate a fine-tuned or base model by running multi-t...
     /// </summary>
-    /// <param name="JobName">The name of the job. The name must be unique within your account and Amazon Web Services Region. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
-    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role that Amazon SageMaker assumes to perform the job. The role must have the necessary permis- sions to access the resources required by the job configuration. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
-    /// <param name="JobCategory">The category of the job. The category determines the type of work- load that the job runs. Possible values: o AgentRFT o AgentRFTEvaluation</param>
-    /// <param name="JobConfigSchemaVersion">The version of the configuration schema to use for the job configu- ration document. Use ListJobSchemaVersions to get available schema versions for a job category. Constraints: o min: 5 o max: 16 o pattern: \d+\.\d+\.\d+</param>
-    /// <param name="JobConfigDocument">The JSON configuration document for the job. The document must con- form to the schema specified by JobConfigSchemaVersion . Use De- scribeJobSchemaVersion to retrieve the schema for validation. Constraints: o min: 1 o max: 262144</param>
+    /// <param name="JobName">The name of the job. The name must be unique within your account and Amazon Web Services Region. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role that Amazon SageMaker assumes to perform the job. The role must have the necessary permissions to access the resources required by the job configuration. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
+    /// <param name="JobCategory">The category of the job. The category determines the type of workload that the job runs. Possible values: • AgentRFT • AgentRFTEvaluation</param>
+    /// <param name="JobConfigSchemaVersion">The version of the configuration schema to use for the job configuration document. Use ListJobSchemaVersions to get available schema versions for a job category. Constraints: • min: 5 • max: 16 • pattern: \d+\.\d+\.\d+</param>
+    /// <param name="JobConfigDocument">The JSON configuration document for the job. The document must conform to the schema specified by JobConfigSchemaVersion . Use DescribeJobSchemaVersion to retrieve the schema for validation. Constraints: • min: 1 • max: 262144</param>
     public AwsSagemakerCreateJobOptions(
         string JobName,
         string RoleArn,
@@ -72,37 +74,37 @@ public record AwsSagemakerCreateJobOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the job. The name must be unique within your account and Amazon Web Services Region. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the job. The name must be unique within your account and Amazon Web Services Region. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--job-name")]
     public string? JobName { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role that Amazon SageMaker assumes to perform the job. The role must have the necessary permis- sions to access the resources required by the job configuration. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// The Amazon Resource Name (ARN) of the IAM role that Amazon SageMaker assumes to perform the job. The role must have the necessary permissions to access the resources required by the job configuration. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// The category of the job. The category determines the type of work- load that the job runs. Possible values: o AgentRFT o AgentRFTEvaluation
+    /// The category of the job. The category determines the type of workload that the job runs. Possible values: • AgentRFT • AgentRFTEvaluation
     /// </summary>
     [CliOption("--job-category")]
     public AwsSagemakerCreateJobJobCategory? JobCategory { get; private init; }
 
     /// <summary>
-    /// The version of the configuration schema to use for the job configu- ration document. Use ListJobSchemaVersions to get available schema versions for a job category. Constraints: o min: 5 o max: 16 o pattern: \d+\.\d+\.\d+
+    /// The version of the configuration schema to use for the job configuration document. Use ListJobSchemaVersions to get available schema versions for a job category. Constraints: • min: 5 • max: 16 • pattern: \d+\.\d+\.\d+
     /// </summary>
     [CliOption("--job-config-schema-version")]
     public string? JobConfigSchemaVersion { get; private init; }
 
     /// <summary>
-    /// The JSON configuration document for the job. The document must con- form to the schema specified by JobConfigSchemaVersion . Use De- scribeJobSchemaVersion to retrieve the schema for validation. Constraints: o min: 1 o max: 262144
+    /// The JSON configuration document for the job. The document must conform to the schema specified by JobConfigSchemaVersion . Use DescribeJobSchemaVersion to retrieve the schema for validation. Constraints: • min: 1 • max: 262144
     /// </summary>
     [CliOption("--job-config-document")]
     public string? JobConfigDocument { get; private init; }
 
     /// <summary>
-    /// An array of key-value pairs to apply to the job as tags. For more information, see Tagging Amazon Web Services Resources . Constraints: o min: 0 o max: 50 (structure) A tag object that consists of a key and an optional value, used to manage metadata for SageMaker Amazon Web Services resources. You can add tags to notebook instances, training jobs, hyperpa- rameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. For more information on adding tags to SageMaker resources, see AddTags . For more information on adding metadata to your Amazon Web Ser- vices resources with tagging, see Tagging Amazon Web Services resources . For advice on best practices for managing Amazon Web Services resources with tagging, see Tagging Best Practices: Im- plement an Effective Amazon Web Services Resource Tagging Strat- egy . Key -&gt; (string) [required] The tag key. Tag keys must be unique per resource. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// An array of key-value pairs to apply to the job as tags. For more information, see Tagging Amazon Web Services Resources . Constraints: • min: 0 • max: 50 (structure) A tag object that consists of a key and an optional value, used to manage metadata for SageMaker Amazon Web Services resources. You can add tags to notebook instances, training jobs, hyperparameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. For more information on adding tags to SageMaker resources, see AddTags . For more information on adding metadata to your Amazon Web Services resources with tagging, see Tagging Amazon Web Services resources . For advice on best practices for managing Amazon Web Services resources with tagging, see Tagging Best Practices: Implement an Effective Amazon Web Services Resource Tagging Strategy . Key -&gt; (string) [required] The tag key. Tag keys must be unique per resource. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

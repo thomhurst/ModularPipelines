@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsLightsailSendContactMethodVerificationOptions : AwsOptions, IVa
     /// <summary>
     /// Sends a verification request to an email contact method to ensure it's owned by the requester. SMS contact methods don't need to be verified. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each Amazon Web Services Region. However, SMS text messaging is not supported in some Amazon Web Services Regions, and SMS text messages cannot be sent to some countries/regions. For more info...
     /// </summary>
-    /// <param name="Protocol">The protocol to verify, such as Email or SMS (text messaging). Possible values: o Email</param>
+    /// <param name="Protocol">The protocol to verify, such as Email or SMS (text messaging). Possible values: • Email</param>
     public AwsLightsailSendContactMethodVerificationOptions(
         string Protocol
     )
@@ -56,7 +58,7 @@ public record AwsLightsailSendContactMethodVerificationOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The protocol to verify, such as Email or SMS (text messaging). Possible values: o Email
+    /// The protocol to verify, such as Email or SMS (text messaging). Possible values: • Email
     /// </summary>
     [CliOption("--protocol")]
     public string? Protocol { get; private init; }

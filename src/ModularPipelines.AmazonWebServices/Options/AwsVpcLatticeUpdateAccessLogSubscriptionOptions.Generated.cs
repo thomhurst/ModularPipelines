@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsVpcLatticeUpdateAccessLogSubscriptionOptions : AwsOptions, IVal
     /// <summary>
     /// Updates the specified access log subscription. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccessLogSubscriptionIdentifier">The ID or ARN of the access log subscription. Constraints: o min: 17 o max: 2048 o pattern: ((als-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:accesslogsubscrip- tion/als-[0-9a-z]{17}))</param>
-    /// <param name="DestinationArn">The Amazon Resource Name (ARN) of the access log destination. Constraints: o min: 20 o max: 2048 o pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:([^/].*)?</param>
+    /// <param name="AccessLogSubscriptionIdentifier">The ID or ARN of the access log subscription. Constraints: • min: 17 • max: 2048 • pattern: ((als-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:accesslogsubscription/als-[0-9a-z]{17}))</param>
+    /// <param name="DestinationArn">The Amazon Resource Name (ARN) of the access log destination. Constraints: • min: 20 • max: 2048 • pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:([^/].*)?</param>
     public AwsVpcLatticeUpdateAccessLogSubscriptionOptions(
         string AccessLogSubscriptionIdentifier,
         string DestinationArn
@@ -60,13 +62,13 @@ public record AwsVpcLatticeUpdateAccessLogSubscriptionOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or ARN of the access log subscription. Constraints: o min: 17 o max: 2048 o pattern: ((als-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:accesslogsubscrip- tion/als-[0-9a-z]{17}))
+    /// The ID or ARN of the access log subscription. Constraints: • min: 17 • max: 2048 • pattern: ((als-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:accesslogsubscription/als-[0-9a-z]{17}))
     /// </summary>
     [CliOption("--access-log-subscription-identifier")]
     public string? AccessLogSubscriptionIdentifier { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the access log destination. Constraints: o min: 20 o max: 2048 o pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:([^/].*)?
+    /// The Amazon Resource Name (ARN) of the access log destination. Constraints: • min: 20 • max: 2048 • pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:([^/].*)?
     /// </summary>
     [CliOption("--destination-arn")]
     public string? DestinationArn { get; private init; }

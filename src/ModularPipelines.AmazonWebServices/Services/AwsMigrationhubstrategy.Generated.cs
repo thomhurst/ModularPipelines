@@ -47,7 +47,7 @@ public class AwsMigrationhubstrategy : IAwsMigrationhubstrategy
     }
 
     /// <summary>
-    /// Retrieves a list of all the recommended strategies and tools for an ap- plication component running on a server. See also: AWS API Documentation
+    /// Retrieves a list of all the recommended strategies and tools for an application component running on a server. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsMigrationhubstrategy : IAwsMigrationhubstrategy
     }
 
     /// <summary>
-    /// Retrieves detailed information about the specified recommendation re- port. See also: AWS API Documentation
+    /// Retrieves detailed information about the specified recommendation report. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsMigrationhubstrategy : IAwsMigrationhubstrategy
     }
 
     /// <summary>
-    /// Retrieves a list of all the servers fetched from customer vCenter using Strategy Recommendation Collector. See also: AWS API Documentation list-analyzable-servers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query e...
+    /// Retrieves a list of all the servers fetched from customer vCenter using Strategy Recommendation Collector. See also: AWS API Documentation list-analyzable-servers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query exp...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsMigrationhubstrategy : IAwsMigrationhubstrategy
     }
 
     /// <summary>
-    /// Retrieves a list of all the application components (processes). See also: AWS API Documentation list-application-components is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: applicationComponentInfos
+    /// Retrieves a list of all the application components (processes). See also: AWS API Documentation list-application-components is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: applicationComponentInfos
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsMigrationhubstrategy : IAwsMigrationhubstrategy
     }
 
     /// <summary>
-    /// Retrieves a list of all the installed collectors. See also: AWS API Documentation list-collectors is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Collectors
+    /// Retrieves a list of all the installed collectors. See also: AWS API Documentation list-collectors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Collectors
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsMigrationhubstrategy : IAwsMigrationhubstrategy
     }
 
     /// <summary>
-    /// Returns a list of all the servers. See also: AWS API Documentation list-servers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: serverInfos
+    /// Returns a list of all the servers. See also: AWS API Documentation list-servers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: serverInfos
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

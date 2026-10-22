@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes one or more read sets. If the operation is successful, it re- turns a response with no body. If there is an error with deleting one of the read sets, the operation returns an error list. If the operation successfully deletes only a subset of files, it will return an error list for the remaining files that fail to be deleted. There is a limit of 100 read sets that can be deleted in each BatchDeleteReadSet API call. See also: AWS API Documentation
+/// Deletes one or more read sets. If the operation is successful, it returns a response with no body. If there is an error with deleting one of the read sets, the operation returns an error list. If the operation successfully deletes only a subset of files, it will return an error list for the remaining files that fail to be deleted. There is a limit of 100 read sets that can be deleted in each BatchDeleteReadSet API call. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsOmicsBatchDeleteReadSetOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes one or more read sets. If the operation is successful, it re- turns a response with no body. If there is an error with deleting one of the read sets, the operation returns an error list. If the operation successfully deletes only a subset of files, it will return an error list for the remaining files that fail to be deleted. There is a limit of 100 read sets that can be deleted in each BatchDeleteReadSet API call. See also: AWS API Documentation
+    /// Deletes one or more read sets. If the operation is successful, it returns a response with no body. If there is an error with deleting one of the read sets, the operation returns an error list. If the operation successfully deletes only a subset of files, it will return an error list for the remaining files that fail to be deleted. There is a limit of 100 read sets that can be deleted in each BatchDeleteReadSet API call. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Ids">The read sets' IDs. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 10 o max: 36 o pattern: [0-9]+ Syntax: "string" "string" ...</param>
-    /// <param name="SequenceStoreId">The read sets' sequence store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
+    /// <param name="Ids">The read sets' IDs. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 10 • max: 36 • pattern: [0-9]+ Syntax: "string" "string" ...</param>
+    /// <param name="SequenceStoreId">The read sets' sequence store ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+</param>
     public AwsOmicsBatchDeleteReadSetOptions(
         IEnumerable<string> Ids,
         string SequenceStoreId
@@ -71,13 +73,13 @@ public record AwsOmicsBatchDeleteReadSetOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The read sets' IDs. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 10 o max: 36 o pattern: [0-9]+ Syntax: "string" "string" ...
+    /// The read sets' IDs. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 10 • max: 36 • pattern: [0-9]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; private init; }
 
     /// <summary>
-    /// The read sets' sequence store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// The read sets' sequence store ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+
     /// </summary>
     [CliOption("--sequence-store-id")]
     public string? SequenceStoreId { get; private init; }

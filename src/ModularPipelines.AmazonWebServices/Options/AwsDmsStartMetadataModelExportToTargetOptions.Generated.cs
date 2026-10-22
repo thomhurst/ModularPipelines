@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Queues an export of the selected converted metadata models (database objects such as tables, views, and procedures) to your target database. If other requests created by Start* operations are already in the mi- gration project's queue, the export begins after they complete. This operation requires a non-virtual target data provider. The export applies only metadata models created by conversion. Metadata models imported from the database are skipped. NOTE: If objects with the same name already ex...
+/// Queues an export of the selected converted metadata models (database objects such as tables, views, and procedures) to your target database. If other requests created by Start* operations are already in the migration project's queue, the export begins after they complete. This operation requires a non-virtual target data provider. The export applies only metadata models created by conversion. Metadata models imported from the database are skipped. NOTE: If objects with the same name already exis...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsDmsStartMetadataModelExportToTargetOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Queues an export of the selected converted metadata models (database objects such as tables, views, and procedures) to your target database. If other requests created by Start* operations are already in the mi- gration project's queue, the export begins after they complete. This operation requires a non-virtual target data provider. The export applies only metadata models created by conversion. Metadata models imported from the database are skipped. NOTE: If objects with the same name already ex...
+    /// Queues an export of the selected converted metadata models (database objects such as tables, views, and procedures) to your target database. If other requests created by Start* operations are already in the migration project's queue, the export begins after they complete. This operation requires a non-virtual target data provider. The export applies only metadata models created by conversion. Metadata models imported from the database are skipped. NOTE: If objects with the same name already exis...
     /// </summary>
-    /// <param name="MigrationProjectIdentifier">The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255</param>
-    /// <param name="SelectionRules">A JSON string that identifies the metadata models to export to the target database. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: o Accepts only target selection rules, where server-name in the ob- ject locator matches the target data provider. o Supports explicit , include , and exclude rule actions.</param>
+    /// <param name="MigrationProjectIdentifier">The migration project name or Amazon Resource Name (ARN). Constraints: • max: 255</param>
+    /// <param name="SelectionRules">A JSON string that identifies the metadata models to export to the target database. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: • Accepts only target selection rules, where server-name in the object locator matches the target data provider. • Supports explicit , include , and exclude rule actions.</param>
     public AwsDmsStartMetadataModelExportToTargetOptions(
         string MigrationProjectIdentifier,
         string SelectionRules
@@ -60,19 +62,19 @@ public record AwsDmsStartMetadataModelExportToTargetOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255
+    /// The migration project name or Amazon Resource Name (ARN). Constraints: • max: 255
     /// </summary>
     [CliOption("--migration-project-identifier")]
     public string? MigrationProjectIdentifier { get; private init; }
 
     /// <summary>
-    /// A JSON string that identifies the metadata models to export to the target database. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: o Accepts only target selection rules, where server-name in the ob- ject locator matches the target data provider. o Supports explicit , include , and exclude rule actions.
+    /// A JSON string that identifies the metadata models to export to the target database. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: • Accepts only target selection rules, where server-name in the object locator matches the target data provider. • Supports explicit , include , and exclude rule actions.
     /// </summary>
     [CliOption("--selection-rules")]
     public string? SelectionRules { get; private init; }
 
     /// <summary>
-    /// Specifies whether to overwrite the extension pack if one already ex- ists on the target database. The default value is true .
+    /// Specifies whether to overwrite the extension pack if one already exists on the target database. The default value is true .
     /// </summary>
     [CliFlag("--overwrite-extension-pack", NegatedName = "--no-overwrite-extension-pack")]
     public bool? OverwriteExtensionPack { get; set; }

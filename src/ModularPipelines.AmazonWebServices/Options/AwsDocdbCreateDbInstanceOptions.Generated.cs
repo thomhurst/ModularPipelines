@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDocdbCreateDbInstanceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a new instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbInstanceIdentifier">The instance identifier. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: mydbinstance</param>
+    /// <param name="DbInstanceIdentifier">The instance identifier. This parameter is stored as a lowercase string. Constraints: • Must contain from 1 to 63 letters, numbers, or hyphens. • The first character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. Example: mydbinstance</param>
     /// <param name="DbInstanceClass">The compute and memory capacity of the instance; for example, db.r5.large .</param>
     /// <param name="Engine">The name of the database engine to be used for this instance. Valid value: docdb</param>
     /// <param name="DbClusterIdentifier">The identifier of the cluster that the instance will belong to.</param>
@@ -68,7 +70,7 @@ public record AwsDocdbCreateDbInstanceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The instance identifier. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: mydbinstance
+    /// The instance identifier. This parameter is stored as a lowercase string. Constraints: • Must contain from 1 to 63 letters, numbers, or hyphens. • The first character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. Example: mydbinstance
     /// </summary>
     [CliOption("--db-instance-identifier")]
     public string? DbInstanceIdentifier { get; private init; }
@@ -104,7 +106,7 @@ public record AwsDocdbCreateDbInstanceOptions : AwsOptions, IValidatableObject
     public string? PreferredMaintenanceWindow { get; set; }
 
     /// <summary>
-    /// This parameter does not apply to Amazon DocumentDB. Amazon Docu- mentDB does not perform minor version upgrades regardless of the value set. Default: false
+    /// This parameter does not apply to Amazon DocumentDB. Amazon DocumentDB does not perform minor version upgrades regardless of the value set. Default: false
     /// </summary>
     [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
@@ -140,7 +142,7 @@ public record AwsDocdbCreateDbInstanceOptions : AwsOptions, IValidatableObject
     public string? PerformanceInsightsKmsKeyId { get; set; }
 
     /// <summary>
-    /// The CA certificate identifier to use for the DB instance's server certificate. For more information, see Updating Your Amazon DocumentDB TLS Cer- tificates and Encrypting Data in Transit in the Amazon DocumentDB Developer Guide .
+    /// The CA certificate identifier to use for the DB instance's server certificate. For more information, see Updating Your Amazon DocumentDB TLS Certificates and Encrypting Data in Transit in the Amazon DocumentDB Developer Guide .
     /// </summary>
     [CliOption("--ca-certificate-identifier")]
     public string? CaCertificateIdentifier { get; set; }

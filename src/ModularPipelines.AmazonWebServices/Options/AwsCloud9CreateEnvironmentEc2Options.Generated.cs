@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an Cloud9 development environment, launches an Amazon Elastic Compute Cloud (Amazon EC2) instance, and then connects from the in- stance to the environment. WARNING: Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. Learn more" See also: AWS API Documentation
+/// Creates an Cloud9 development environment, launches an Amazon Elastic Compute Cloud (Amazon EC2) instance, and then connects from the instance to the environment. WARNING: Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. Learn more" See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +29,11 @@ public record AwsCloud9CreateEnvironmentEc2Options : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an Cloud9 development environment, launches an Amazon Elastic Compute Cloud (Amazon EC2) instance, and then connects from the in- stance to the environment. WARNING: Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. Learn more" See also: AWS API Documentation
+    /// Creates an Cloud9 development environment, launches an Amazon Elastic Compute Cloud (Amazon EC2) instance, and then connects from the instance to the environment. WARNING: Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. Learn more" See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the environment to create. This name is visible to other IAM users in the same Amazon Web Ser- vices account. Constraints: o min: 1 o max: 60</param>
-    /// <param name="InstanceType">The type of instance to connect to the environment (for example, t2.micro ). Constraints: o min: 5 o max: 20 o pattern: ^[a-z]+[1-9][.][a-z0-9]+$</param>
-    /// <param name="ImageId">The identifier for the Amazon Machine Image (AMI) that's used to create the EC2 instance. To choose an AMI for the instance, you must specify a valid AMI alias or a valid Amazon EC2 Systems Manager (SSM) path. We recommend using Amazon Linux 2023 as the AMI to create your envi- ronment as it is fully supported. From December 16, 2024, Ubuntu 18.04 will be removed from the list of available imageIds for Cloud9. This change is necessary as Ubuntu 18.04 has ended standard support on May 31, 2023. This change will only affect direct API consumers, and not Cloud9 console users. Since Ubuntu 18.04 has ended standard support as of May 31, 2023, we recommend you choose Ubuntu 22.04. AMI aliases o Amazon Linux 2023 (recommended): amazonlinux-2023-x86_64 o Ubuntu 22.04: ubuntu-22.04-x86_64 SSM paths o Amazon Linux 2023 (recommended): resolve:ssm:/aws/ser- vice/cloud9/amis/amazonlinux-2023-x86_64 o Ubuntu 22.04: resolve:ssm:/aws/ser- vice/cloud9/amis/ubuntu-22.04-x86_64 Constraints: o max: 512</param>
+    /// <param name="Name">The name of the environment to create. This name is visible to other IAM users in the same Amazon Web Services account. Constraints: • min: 1 • max: 60</param>
+    /// <param name="InstanceType">The type of instance to connect to the environment (for example, t2.micro ). Constraints: • min: 5 • max: 20 • pattern: ^[a-z]+[1-9][.][a-z0-9]+$</param>
+    /// <param name="ImageId">The identifier for the Amazon Machine Image (AMI) that's used to create the EC2 instance. To choose an AMI for the instance, you must specify a valid AMI alias or a valid Amazon EC2 Systems Manager (SSM) path. We recommend using Amazon Linux 2023 as the AMI to create your environment as it is fully supported. From December 16, 2024, Ubuntu 18.04 will be removed from the list of available imageIds for Cloud9. This change is necessary as Ubuntu 18.04 has ended standard support on May 31, 2023. This change will only affect direct API consumers, and not Cloud9 console users. Since Ubuntu 18.04 has ended standard support as of May 31, 2023, we recommend you choose Ubuntu 22.04. AMI aliases • Amazon Linux 2023 (recommended): amazonlinux-2023-x86_64 • Ubuntu 22.04: ubuntu-22.04-x86_64 SSM paths • Amazon Linux 2023 (recommended): resolve:ssm:/aws/service/cloud9/amis/amazonlinux-2023-x86_64 • Ubuntu 22.04: resolve:ssm:/aws/service/cloud9/amis/ubuntu-22.04-x86_64 Constraints: • max: 512</param>
     public AwsCloud9CreateEnvironmentEc2Options(
         string Name,
         string InstanceType,
@@ -66,68 +68,68 @@ public record AwsCloud9CreateEnvironmentEc2Options : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the environment to create. This name is visible to other IAM users in the same Amazon Web Ser- vices account. Constraints: o min: 1 o max: 60
+    /// The name of the environment to create. This name is visible to other IAM users in the same Amazon Web Services account. Constraints: • min: 1 • max: 60
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The type of instance to connect to the environment (for example, t2.micro ). Constraints: o min: 5 o max: 20 o pattern: ^[a-z]+[1-9][.][a-z0-9]+$
+    /// The type of instance to connect to the environment (for example, t2.micro ). Constraints: • min: 5 • max: 20 • pattern: ^[a-z]+[1-9][.][a-z0-9]+$
     /// </summary>
     [CliOption("--instance-type")]
     public string? InstanceType { get; private init; }
 
     /// <summary>
-    /// The identifier for the Amazon Machine Image (AMI) that's used to create the EC2 instance. To choose an AMI for the instance, you must specify a valid AMI alias or a valid Amazon EC2 Systems Manager (SSM) path. We recommend using Amazon Linux 2023 as the AMI to create your envi- ronment as it is fully supported. From December 16, 2024, Ubuntu 18.04 will be removed from the list of available imageIds for Cloud9. This change is necessary as Ubuntu 18.04 has ended standard support on May 31, 2023. This change will only affect direct API consumers, and not Cloud9 console users. Since Ubuntu 18.04 has ended standard support as of May 31, 2023, we recommend you choose Ubuntu 22.04. AMI aliases o Amazon Linux 2023 (recommended): amazonlinux-2023-x86_64 o Ubuntu 22.04: ubuntu-22.04-x86_64 SSM paths o Amazon Linux 2023 (recommended): resolve:ssm:/aws/ser- vice/cloud9/amis/amazonlinux-2023-x86_64 o Ubuntu 22.04: resolve:ssm:/aws/ser- vice/cloud9/amis/ubuntu-22.04-x86_64 Constraints: o max: 512
+    /// The identifier for the Amazon Machine Image (AMI) that's used to create the EC2 instance. To choose an AMI for the instance, you must specify a valid AMI alias or a valid Amazon EC2 Systems Manager (SSM) path. We recommend using Amazon Linux 2023 as the AMI to create your environment as it is fully supported. From December 16, 2024, Ubuntu 18.04 will be removed from the list of available imageIds for Cloud9. This change is necessary as Ubuntu 18.04 has ended standard support on May 31, 2023. This change will only affect direct API consumers, and not Cloud9 console users. Since Ubuntu 18.04 has ended standard support as of May 31, 2023, we recommend you choose Ubuntu 22.04. AMI aliases • Amazon Linux 2023 (recommended): amazonlinux-2023-x86_64 • Ubuntu 22.04: ubuntu-22.04-x86_64 SSM paths • Amazon Linux 2023 (recommended): resolve:ssm:/aws/service/cloud9/amis/amazonlinux-2023-x86_64 • Ubuntu 22.04: resolve:ssm:/aws/service/cloud9/amis/ubuntu-22.04-x86_64 Constraints: • max: 512
     /// </summary>
     [CliOption("--image-id")]
     public string? ImageId { get; private init; }
 
     /// <summary>
-    /// The description of the environment to create. Constraints: o max: 200
+    /// The description of the environment to create. Constraints: • max: 200
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive string that helps Cloud9 to ensure this op- eration completes no more than one time. For more information, see Client Tokens in the Amazon EC2 API Refer- ence . Constraints: o pattern: [\x20-\x7E]{10,128}
+    /// A unique, case-sensitive string that helps Cloud9 to ensure this operation completes no more than one time. For more information, see Client Tokens in the Amazon EC2 API Reference . Constraints: • pattern: [\x20-\x7E]{10,128}
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// The ID of the subnet in Amazon VPC that Cloud9 will use to communi- cate with the Amazon EC2 instance. Constraints: o min: 15 o max: 24 o pattern: ^(subnet-[0-9a-f]{8}|subnet-[0-9a-f]{17})$
+    /// The ID of the subnet in Amazon VPC that Cloud9 will use to communicate with the Amazon EC2 instance. Constraints: • min: 15 • max: 24 • pattern: ^(subnet-[0-9a-f]{8}|subnet-[0-9a-f]{17})$
     /// </summary>
     [CliOption("--subnet-id")]
     public string? SubnetId { get; set; }
 
     /// <summary>
-    /// The number of minutes until the running instance is shut down after the environment has last been used. Constraints: o min: 0 o max: 20160
+    /// The number of minutes until the running instance is shut down after the environment has last been used. Constraints: • min: 0 • max: 20160
     /// </summary>
     [CliOption("--automatic-stop-time-minutes")]
     public int? AutomaticStopTimeMinutes { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the environment owner. This ARN can be the ARN of any IAM principal. If this value is not specified, the ARN defaults to this environment's creator. Constraints: o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):(iam|sts)::\d+:(root|(user\/[\w+=/:,.@-]{1,64}|fed- erated-user\/[\w+=/:,.@-]{2,32}|as- sumed-role\/[\w+=:,.@-]{1,64}\/[\w+=,.@-]{1,64}))$
+    /// The Amazon Resource Name (ARN) of the environment owner. This ARN can be the ARN of any IAM principal. If this value is not specified, the ARN defaults to this environment's creator. Constraints: • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):(iam|sts)::\d+:(root|(user\/[\w+=/:,.@-]{1,64}|federated-user\/[\w+=/:,.@-]{2,32}|assumed-role\/[\w+=:,.@-]{1,64}\/[\w+=,.@-]{1,64}))$
     /// </summary>
     [CliOption("--owner-arn")]
     public string? OwnerArn { get; set; }
 
     /// <summary>
-    /// An array of key-value pairs that will be associated with the new Cloud9 development environment. Constraints: o min: 0 o max: 200 (structure) Metadata that is associated with Amazon Web Services resources. In particular, a name-value pair that can be associated with an Cloud9 development environment. There are two types of tags: user tags and system tags . A user tag is created by the user. A system tag is automatically created by Amazon Web Services ser- vices. A system tag is prefixed with "aws:" and cannot be modi- fied by the user. Key -&gt; (string) [required] The name part of a tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value part of a tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// An array of key-value pairs that will be associated with the new Cloud9 development environment. Constraints: • min: 0 • max: 200 (structure) Metadata that is associated with Amazon Web Services resources. In particular, a name-value pair that can be associated with an Cloud9 development environment. There are two types of tags: user tags and system tags . A user tag is created by the user. A system tag is automatically created by Amazon Web Services services. A system tag is prefixed with "aws:" and cannot be modified by the user. Key -&gt; (string) [required] The name part of a tag. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The value part of a tag. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The connection type used for connecting to an Amazon EC2 environ- ment. Valid values are CONNECT_SSH (default) and CONNECT_SSM (con- nected through Amazon EC2 Systems Manager). For more information, see Accessing no-ingress EC2 instances with Amazon EC2 Systems Manager in the Cloud9 User Guide . Possible values: o CONNECT_SSH o CONNECT_SSM
+    /// The connection type used for connecting to an Amazon EC2 environment. Valid values are CONNECT_SSH (default) and CONNECT_SSM (connected through Amazon EC2 Systems Manager). For more information, see Accessing no-ingress EC2 instances with Amazon EC2 Systems Manager in the Cloud9 User Guide . Possible values: • CONNECT_SSH • CONNECT_SSM
     /// </summary>
     [CliOption("--connection-type")]
     public AwsCloud9CreateEnvironmentEc2ConnectionType? ConnectionType { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

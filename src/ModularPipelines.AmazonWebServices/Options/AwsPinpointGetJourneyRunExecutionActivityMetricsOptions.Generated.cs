@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsPinpointGetJourneyRunExecutionActivityMetricsOptions : AwsOptio
     /// <summary>
     /// Retrieves (queries) pre-aggregated data for a standard run execution metric that applies to a journey activity. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.</param>
+    /// <param name="ApplicationId">The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.</param>
     /// <param name="JourneyActivityId">The unique identifier for the journey activity.</param>
     /// <param name="JourneyId">The unique identifier for the journey.</param>
     /// <param name="RunId">The unique identifier for the journey run.</param>
@@ -69,7 +71,7 @@ public record AwsPinpointGetJourneyRunExecutionActivityMetricsOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.
+    /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
@@ -93,7 +95,7 @@ public record AwsPinpointGetJourneyRunExecutionActivityMetricsOptions : AwsOptio
     public string? RunId { get; private init; }
 
     /// <summary>
-    /// The string that specifies which page of results to return in a pagi- nated response. This parameter is not supported for application, campaign, and journey metrics.
+    /// The string that specifies which page of results to return in a paginated response. This parameter is not supported for application, campaign, and journey metrics.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

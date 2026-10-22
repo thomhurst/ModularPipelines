@@ -22,19 +22,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsS3vectorsGetIndexOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the vector bucket that contains the vector index. Constraints: o min: 3 o max: 63
+    /// The name of the vector bucket that contains the vector index. Constraints: • min: 3 • max: 63
     /// </summary>
     [CliOption("--vector-bucket-name")]
     public string? VectorBucketName { get; set; }
 
     /// <summary>
-    /// The name of the vector index. Constraints: o min: 3 o max: 63
+    /// The name of the vector index. Constraints: • min: 3 • max: 63
     /// </summary>
     [CliOption("--index-name")]
     public string? IndexName { get; set; }
 
     /// <summary>
-    /// The ARN of the vector index. Constraints: o pattern: arn:aws[-a-z0-9]*:s3vec- tors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]/in- dex/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]
+    /// The ARN of the vector index. Constraints: • pattern: arn:aws[-a-z0-9]*:s3vectors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]/index/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]
     /// </summary>
     [CliOption("--index-arn")]
     public string? IndexArn { get; set; }

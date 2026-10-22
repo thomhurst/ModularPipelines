@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsDatazonePostLineageEventOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Posts a data lineage event. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the domain where you want to post a data lineage event. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Event">The data lineage event that you want to post. Only open-lineage run event are supported as events. Constraints: o min: 0 o max: 300000</param>
+    /// <param name="DomainIdentifier">The ID of the domain where you want to post a data lineage event. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Event">The data lineage event that you want to post. Only open-lineage run event are supported as events. Constraints: • min: 0 • max: 300000</param>
     public AwsDatazonePostLineageEventOptions(
         string DomainIdentifier,
         string Event
@@ -61,19 +63,19 @@ public record AwsDatazonePostLineageEventOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the domain where you want to post a data lineage event. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the domain where you want to post a data lineage event. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The data lineage event that you want to post. Only open-lineage run event are supported as events. Constraints: o min: 0 o max: 300000
+    /// The data lineage event that you want to post. Only open-lineage run event are supported as events. Constraints: • min: 0 • max: 300000
     /// </summary>
     [CliOption("--event")]
     public string? Event { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

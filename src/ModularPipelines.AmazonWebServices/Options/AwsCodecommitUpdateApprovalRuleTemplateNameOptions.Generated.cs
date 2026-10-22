@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCodecommitUpdateApprovalRuleTemplateNameOptions : AwsOptions, I
     /// <summary>
     /// Updates the name of a specified approval rule template. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OldApprovalRuleTemplateName">The current name of the approval rule template. Constraints: o min: 1 o max: 100</param>
-    /// <param name="NewApprovalRuleTemplateName">The new name you want to apply to the approval rule template. Constraints: o min: 1 o max: 100</param>
+    /// <param name="OldApprovalRuleTemplateName">The current name of the approval rule template. Constraints: • min: 1 • max: 100</param>
+    /// <param name="NewApprovalRuleTemplateName">The new name you want to apply to the approval rule template. Constraints: • min: 1 • max: 100</param>
     public AwsCodecommitUpdateApprovalRuleTemplateNameOptions(
         string OldApprovalRuleTemplateName,
         string NewApprovalRuleTemplateName
@@ -60,13 +62,13 @@ public record AwsCodecommitUpdateApprovalRuleTemplateNameOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The current name of the approval rule template. Constraints: o min: 1 o max: 100
+    /// The current name of the approval rule template. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--old-approval-rule-template-name")]
     public string? OldApprovalRuleTemplateName { get; private init; }
 
     /// <summary>
-    /// The new name you want to apply to the approval rule template. Constraints: o min: 1 o max: 100
+    /// The new name you want to apply to the approval rule template. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--new-approval-rule-template-name")]
     public string? NewApprovalRuleTemplateName { get; private init; }

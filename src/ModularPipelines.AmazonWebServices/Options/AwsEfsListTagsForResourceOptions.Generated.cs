@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists all tags for a top-level EFS resource. You must provide the ID of the resource that you want to retrieve the tags for. This operation requires permissions for the elasticfilesystem:De- scribeAccessPoints action. See also: AWS API Documentation
+/// Lists all tags for a top-level EFS resource. You must provide the ID of the resource that you want to retrieve the tags for. This operation requires permissions for the elasticfilesystem:DescribeAccessPoints action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsEfsListTagsForResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists all tags for a top-level EFS resource. You must provide the ID of the resource that you want to retrieve the tags for. This operation requires permissions for the elasticfilesystem:De- scribeAccessPoints action. See also: AWS API Documentation
+    /// Lists all tags for a top-level EFS resource. You must provide the ID of the resource that you want to retrieve the tags for. This operation requires permissions for the elasticfilesystem:DescribeAccessPoints action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceId">Specifies the EFS resource you want to retrieve tags for. You can retrieve tags for EFS file systems and access points using this API endpoint. Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:(ac- cess-point/fsap|file-sys- tem/fs)-[0-9a-f]{8,40}|fs(ap)?-[0-9a-f]{8,40})$</param>
+    /// <param name="ResourceId">Specifies the EFS resource you want to retrieve tags for. You can retrieve tags for EFS file systems and access points using this API endpoint. Constraints: • max: 128 • pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:(access-point/fsap|file-system/fs)-[0-9a-f]{8,40}|fs(ap)?-[0-9a-f]{8,40})$</param>
     public AwsEfsListTagsForResourceOptions(
         string ResourceId
     )
@@ -57,19 +59,19 @@ public record AwsEfsListTagsForResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the EFS resource you want to retrieve tags for. You can retrieve tags for EFS file systems and access points using this API endpoint. Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:(ac- cess-point/fsap|file-sys- tem/fs)-[0-9a-f]{8,40}|fs(ap)?-[0-9a-f]{8,40})$
+    /// Specifies the EFS resource you want to retrieve tags for. You can retrieve tags for EFS file systems and access points using this API endpoint. Constraints: • max: 128 • pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:(access-point/fsap|file-system/fs)-[0-9a-f]{8,40}|fs(ap)?-[0-9a-f]{8,40})$
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// (Optional) Specifies the maximum number of tag objects to return in the response. The default value is 100. Constraints: o min: 1
+    /// (Optional) Specifies the maximum number of tag objects to return in the response. The default value is 100. Constraints: • min: 1
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// (Optional) You can use NextToken in a subsequent request to fetch the next page of access point descriptions if the response payload was paginated. Constraints: o min: 1 o max: 128 o pattern: .+
+    /// (Optional) You can use NextToken in a subsequent request to fetch the next page of access point descriptions if the response payload was paginated. Constraints: • min: 1 • max: 128 • pattern: .+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

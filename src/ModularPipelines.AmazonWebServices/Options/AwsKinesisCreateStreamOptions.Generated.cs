@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -29,7 +30,7 @@ public record AwsKinesisCreateStreamOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a Kinesis data stream. A stream captures and transports data records that are continuously emitted from different data sources or producers . Scale-out within a stream is explicitly supported by means of shards, which are uniquely identified groups of data records in a stream. You can create your data stream using either on-demand or provisioned capacity mode. Data streams with an on-demand mode require no capacity planning and automatically scale to handle gigabytes of write and read th...
     /// </summary>
-    /// <param name="StreamName">A name to identify the stream. The stream name is scoped to the Ama- zon Web Services account used by the application that creates the stream. It is also scoped by Amazon Web Services Region. That is, two streams in two different Amazon Web Services accounts can have the same name. Two streams in the same Amazon Web Services account but in two different Regions can also have the same name. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="StreamName">A name to identify the stream. The stream name is scoped to the Amazon Web Services account used by the application that creates the stream. It is also scoped by Amazon Web Services Region. That is, two streams in two different Amazon Web Services accounts can have the same name. Two streams in the same Amazon Web Services account but in two different Regions can also have the same name. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsKinesisCreateStreamOptions(
         string StreamName
     )
@@ -58,43 +59,43 @@ public record AwsKinesisCreateStreamOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name to identify the stream. The stream name is scoped to the Ama- zon Web Services account used by the application that creates the stream. It is also scoped by Amazon Web Services Region. That is, two streams in two different Amazon Web Services accounts can have the same name. Two streams in the same Amazon Web Services account but in two different Regions can also have the same name. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// A name to identify the stream. The stream name is scoped to the Amazon Web Services account used by the application that creates the stream. It is also scoped by Amazon Web Services Region. That is, two streams in two different Amazon Web Services accounts can have the same name. Two streams in the same Amazon Web Services account but in two different Regions can also have the same name. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--stream-name")]
     public string? StreamName { get; private init; }
 
     /// <summary>
-    /// The number of shards that the stream will use. The throughput of the stream is a function of the number of shards; more shards are re- quired for greater provisioned throughput. Constraints: o min: 1
+    /// The number of shards that the stream will use. The throughput of the stream is a function of the number of shards; more shards are required for greater provisioned throughput. Constraints: • min: 1
     /// </summary>
     [CliOption("--shard-count")]
     public int? ShardCount { get; set; }
 
     /// <summary>
-    /// Indicates the capacity mode of the data stream. Currently, in Kine- sis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data streams. StreamMode -&gt; (string) [required] Specifies the capacity mode to which you want to set your data stream. Currently, in Kinesis Data Streams, you can choose be- tween an on-demand capacity mode and a provisioned capacity mode for your data streams. Possible values: o PROVISIONED o ON_DEMAND Shorthand Syntax: StreamMode=string JSON Syntax: { "StreamMode": "PROVISIONED"|"ON_DEMAND" }
+    /// Indicates the capacity mode of the data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data streams. StreamMode -&gt; (string) [required] Specifies the capacity mode to which you want to set your data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data streams. Possible values: • PROVISIONED • ON_DEMAND Shorthand Syntax: StreamMode=string JSON Syntax: { "StreamMode": "PROVISIONED"|"ON_DEMAND" }
     /// </summary>
     [CliOption("--stream-mode-details")]
     public string? StreamModeDetails { get; set; }
 
     /// <summary>
-    /// A set of up to 50 key-value pairs to use to create the tags. A tag consists of a required key and an optional value. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A set of up to 50 key-value pairs to use to create the tags. A tag consists of a required key and an optional value. Constraints: • min: 1 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The target warm throughput in MB/s that the stream should be scaled to handle. This represents the throughput capacity that will be im- mediately available for write operations. Constraints: o min: 0
+    /// The target warm throughput in MB/s that the stream should be scaled to handle. This represents the throughput capacity that will be immediately available for write operations. Constraints: • min: 0
     /// </summary>
     [CliOption("--warm-throughput-mi-bps")]
     public int? WarmThroughputMiBps { get; set; }
 
     /// <summary>
-    /// The maximum record size of a single record in kibibyte (KiB) that you can write to, and read from a stream. Constraints: o min: 1024 o max: 10240
+    /// The maximum record size of a single record in kibibyte (KiB) that you can write to, and read from a stream. Constraints: • min: 1024 • max: 10240
     /// </summary>
     [CliOption("--max-record-size-in-ki-b")]
     public int? MaxRecordSizeInKiB { get; set; }
 
     /// <summary>
-    /// The record distribution strategy for the stream, which determines how Amazon Kinesis Data Streams distributes records across shards. Specify one of the following values: o AUTO Amazon Kinesis Data Streams distributes records evenly across shards and ignores any partition key and ExplicitHashKey that producers supply. Use this value for stateless workloads that do not require partition-key ordering. o USER_PARTITION_KEY Producers must supply a partition key, which Amazon Kinesis Data Streams uses to determine shard placement. This is the default. The record distribution strategy is only supported for streams that use the on-demand capacity mode. If you do not specify this parame- ter, the stream uses USER_PARTITION_KEY . Possible values: o AUTO o USER_PARTITION_KEY
+    /// The record distribution strategy for the stream, which determines how Amazon Kinesis Data Streams distributes records across shards. Specify one of the following values: • AUTO Amazon Kinesis Data Streams distributes records evenly across shards and ignores any partition key and ExplicitHashKey that producers supply. Use this value for stateless workloads that do not require partition-key ordering. • USER_PARTITION_KEY Producers must supply a partition key, which Amazon Kinesis Data Streams uses to determine shard placement. This is the default. The record distribution strategy is only supported for streams that use the on-demand capacity mode. If you do not specify this parameter, the stream uses USER_PARTITION_KEY . Possible values: • AUTO • USER_PARTITION_KEY
     /// </summary>
     [CliOption("--record-distribution-strategy")]
     public AwsKinesisCreateStreamRecordDistributionStrategy? RecordDistributionStrategy { get; set; }

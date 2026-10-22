@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Stop a top contributors data query for workload insights. Specify the query that you want to stop by providing a query ID and a scope ID. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific mon- itor. Use the applicable call for the top contributors that you want to be returned. See also: AWS API Documentation
+/// Stop a top contributors data query for workload insights. Specify the query that you want to stop by providing a query ID and a scope ID. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsNetworkflowmonitorStopQueryWorkloadInsightsTopContributorsDataO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Stop a top contributors data query for workload insights. Specify the query that you want to stop by providing a query ID and a scope ID. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific mon- itor. Use the applicable call for the top contributors that you want to be returned. See also: AWS API Documentation
+    /// Stop a top contributors data query for workload insights. Specify the query that you want to stop by providing a query ID and a scope ID. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ScopeId">The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identi- fier that includes all the resources for a specific root account.</param>
+    /// <param name="ScopeId">The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.</param>
     /// <param name="QueryId">The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.</param>
     public AwsNetworkflowmonitorStopQueryWorkloadInsightsTopContributorsDataOptions(
         string ScopeId,
@@ -60,7 +62,7 @@ public record AwsNetworkflowmonitorStopQueryWorkloadInsightsTopContributorsDataO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identi- fier that includes all the resources for a specific root account.
+    /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
     /// </summary>
     [CliOption("--scope-id")]
     public string? ScopeId { get; private init; }

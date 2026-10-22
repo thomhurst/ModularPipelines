@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -29,7 +30,7 @@ public record AwsMgnUpdateReplicationConfigurationOptions : AwsOptions, IValidat
     /// <summary>
     /// Allows you to update multiple ReplicationConfigurations by Source Server ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceServerId">Update replication configuration Source Server ID request. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}</param>
+    /// <param name="SourceServerId">Update replication configuration Source Server ID request. Constraints: • min: 19 • max: 19 • pattern: s-[0-9a-zA-Z]{17}</param>
     public AwsMgnUpdateReplicationConfigurationOptions(
         string SourceServerId
     )
@@ -58,79 +59,79 @@ public record AwsMgnUpdateReplicationConfigurationOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Update replication configuration Source Server ID request. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}
+    /// Update replication configuration Source Server ID request. Constraints: • min: 19 • max: 19 • pattern: s-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--source-server-id")]
     public string? SourceServerId { get; private init; }
 
     /// <summary>
-    /// Update replication configuration name request. Constraints: o min: 0 o max: 128
+    /// Update replication configuration name request. Constraints: • min: 0 • max: 128
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Update replication configuration Staging Area subnet request. Constraints: o min: 0 o max: 255 o pattern: subnet-[0-9a-fA-F]{8,}
+    /// Update replication configuration Staging Area subnet request. Constraints: • min: 0 • max: 255 • pattern: subnet-[0-9a-fA-F]{8,}
     /// </summary>
     [CliOption("--staging-area-subnet-id")]
     public string? StagingAreaSubnetId { get; set; }
 
     /// <summary>
-    /// rity-group (boolean) Update replication configuration associate default Application Mi- gration Service Security group request.
+    /// Update replication configuration associate default Application Migration Service Security group request.
     /// </summary>
     [CliFlag("--associate-default-security-group", NegatedName = "--no-associate-default-security-group")]
     public bool? AssociateDefaultSecurityGroup { get; set; }
 
     /// <summary>
-    /// Update replication configuration Replication Server Security Groups IDs request. Constraints: o min: 0 o max: 32 (string) Constraints: o min: 0 o max: 255 o pattern: sg-[0-9a-fA-F]{8,} Syntax: "string" "string" ...
+    /// Update replication configuration Replication Server Security Groups IDs request. Constraints: • min: 0 • max: 32 (string) Constraints: • min: 0 • max: 255 • pattern: sg-[0-9a-fA-F]{8,} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--replication-servers-security-groups-ids", GroupValues = true)]
     public IEnumerable<string>? ReplicationServersSecurityGroupsIds { get; set; }
 
     /// <summary>
-    /// Update replication configuration Replication Server instance type request. Constraints: o min: 0 o max: 255
+    /// Update replication configuration Replication Server instance type request. Constraints: • min: 0 • max: 255
     /// </summary>
     [CliOption("--replication-server-instance-type")]
     public string? ReplicationServerInstanceType { get; set; }
 
     /// <summary>
-    /// tion-server (boolean) Update replication configuration use dedicated Replication Server request.
+    /// Update replication configuration use dedicated Replication Server request.
     /// </summary>
     [CliFlag("--use-dedicated-replication-server", NegatedName = "--no-use-dedicated-replication-server")]
     public bool? UseDedicatedReplicationServer { get; set; }
 
     /// <summary>
-    /// Update replication configuration use default large Staging Disk type request. Possible values: o GP2 o ST1 o GP3
+    /// Update replication configuration use default large Staging Disk type request. Possible values: • GP2 • ST1 • GP3
     /// </summary>
     [CliOption("--default-large-staging-disk-type")]
     public AwsMgnUpdateReplicationConfigurationDefaultLargeStagingDiskType? DefaultLargeStagingDiskType { get; set; }
 
     /// <summary>
-    /// Update replication configuration replicated disks request. Constraints: o min: 0 o max: 60 (structure) Replication Configuration replicated disk. deviceName -&gt; (string) Replication Configuration replicated disk device name. Constraints: o min: 0 o max: 256 isBootDisk -&gt; (boolean) Replication Configuration replicated disk boot disk. stagingDiskType -&gt; (string) Replication Configuration replicated disk staging disk type. Possible values: o AUTO o GP2 o IO1 o SC1 o ST1 o STANDARD o GP3 o IO2 o FSX_ONTAP iops -&gt; (long) Replication Configuration replicated disk IOPs. Constraints: o min: 0 throughput -&gt; (long) Replication Configuration replicated disk throughput. Constraints: o min: 0 Shorthand Syntax: deviceName=string,isBootDisk=boolean,stagingDiskType=string,iops=long,throughput=long ... JSON Syntax: [ { "deviceName": "string", "isBootDisk": true|false, "stagingDiskType": "AUTO"|"GP2"|"IO1"|"SC1"|"ST1"|"STANDARD"|"GP3"|"IO2"|"FSX_ONTAP", "iops": long, "throughput": long } ... ]
+    /// Update replication configuration replicated disks request. Constraints: • min: 0 • max: 60 (structure) Replication Configuration replicated disk. deviceName -&gt; (string) Replication Configuration replicated disk device name. Constraints: • min: 0 • max: 256 isBootDisk -&gt; (boolean) Replication Configuration replicated disk boot disk. stagingDiskType -&gt; (string) Replication Configuration replicated disk staging disk type. Possible values: • AUTO • GP2 • IO1 • SC1 • ST1 • STANDARD • GP3 • IO2 • FSX_ONTAP iops -&gt; (long) Replication Configuration replicated disk IOPs. Constraints: • min: 0 throughput -&gt; (long) Replication Configuration replicated disk throughput. Constraints: • min: 0 Shorthand Syntax: deviceName=string,isBootDisk=boolean,stagingDiskType=string,iops=long,throughput=long ... JSON Syntax: [ { "deviceName": "string", "isBootDisk": true|false, "stagingDiskType": "AUTO"|"GP2"|"IO1"|"SC1"|"ST1"|"STANDARD"|"GP3"|"IO2"|"FSX_ONTAP", "iops": long, "throughput": long } ... ]
     /// </summary>
     [CliOption("--replicated-disks", GroupValues = true)]
     public IEnumerable<string>? ReplicatedDisks { get; set; }
 
     /// <summary>
-    /// Update replication configuration EBS encryption request. Possible values: o DEFAULT o CUSTOM
+    /// Update replication configuration EBS encryption request. Possible values: • DEFAULT • CUSTOM
     /// </summary>
     [CliOption("--ebs-encryption")]
     public AwsMgnUpdateReplicationConfigurationEbsEncryption? EbsEncryption { get; set; }
 
     /// <summary>
-    /// Update replication configuration EBS encryption key ARN request. Constraints: o min: 20 o max: 2048
+    /// Update replication configuration EBS encryption key ARN request. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--ebs-encryption-key-arn")]
     public string? EbsEncryptionKeyArn { get; set; }
 
     /// <summary>
-    /// Update replication configuration bandwidth throttling request. Constraints: o min: 0 o max: 10000
+    /// Update replication configuration bandwidth throttling request. Constraints: • min: 0 • max: 10000
     /// </summary>
     [CliOption("--bandwidth-throttling")]
-    public int? BandwidthThrottling { get; set; }
+    public long? BandwidthThrottling { get; set; }
 
     /// <summary>
-    /// Update replication configuration data plane routing request. Possible values: o PRIVATE_IP o PUBLIC_IP
+    /// Update replication configuration data plane routing request. Possible values: • PRIVATE_IP • PUBLIC_IP
     /// </summary>
     [CliOption("--data-plane-routing")]
     public AwsMgnUpdateReplicationConfigurationDataPlaneRouting? DataPlaneRouting { get; set; }
@@ -142,7 +143,7 @@ public record AwsMgnUpdateReplicationConfigurationOptions : AwsOptions, IValidat
     public bool? CreatePublicIp { get; set; }
 
     /// <summary>
-    /// Update replication configuration Staging Area Tags request. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Update replication configuration Staging Area Tags request. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 0 • max: 256 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--staging-area-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? StagingAreaTags { get; set; }
@@ -154,13 +155,13 @@ public record AwsMgnUpdateReplicationConfigurationOptions : AwsOptions, IValidat
     public bool? UseFipsEndpoint { get; set; }
 
     /// <summary>
-    /// Update replication configuration Account ID request. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.*
+    /// Update replication configuration Account ID request. Constraints: • min: 12 • max: 12 • pattern: .*[0-9]{12,}.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
     /// <summary>
-    /// Update replication configuration internet protocol. Possible values: o IPV4 o IPV6
+    /// Update replication configuration internet protocol. Possible values: • IPV4 • IPV6
     /// </summary>
     [CliOption("--internet-protocol")]
     public AwsMgnUpdateReplicationConfigurationInternetProtocol? InternetProtocol { get; set; }
@@ -172,7 +173,7 @@ public record AwsMgnUpdateReplicationConfigurationOptions : AwsOptions, IValidat
     public bool? StoreSnapshotOnLocalZone { get; set; }
 
     /// <summary>
-    /// Update replication configuration storage configuration. storageType -&gt; (string) [required] Storage configuration storage type. Possible values: o EBS o FSX_ONTAP fsxOntapConfiguration -&gt; (structure) Storage configuration FSx ONTAP configuration. storageVirtualMachineId -&gt; (string) [required] FSx ONTAP configuration storage virtual machine ID. Constraints: o min: 21 o max: 21 o pattern: (svm-[0-9a-f]{17,}) credentialsSecretArn -&gt; (string) [required] FSx ONTAP configuration credentials secret ARN. Constraints: o min: 20 o max: 256 o pattern: arn:[\w-]+:secretsman- ager:([a-z]{2}-(gov-)?[a-z]+-\d{1})?:(\d{12})?:secret:(.+) Shorthand Syntax: storageType=string,fsxOntapConfiguration={storageVirtualMachineId=string,credentialsSecretArn=string} JSON Syntax: { "storageType": "EBS"|"FSX_ONTAP", "fsxOntapConfiguration": { "storageVirtualMachineId": "string", "credentialsSecretArn": "string" } }
+    /// Update replication configuration storage configuration. storageType -&gt; (string) [required] Storage configuration storage type. Possible values: • EBS • FSX_ONTAP fsxOntapConfiguration -&gt; (structure) Storage configuration FSx ONTAP configuration. storageVirtualMachineId -&gt; (string) [required] FSx ONTAP configuration storage virtual machine ID. Constraints: • min: 21 • max: 21 • pattern: (svm-[0-9a-f]{17,}) credentialsSecretArn -&gt; (string) [required] FSx ONTAP configuration credentials secret ARN. Constraints: • min: 20 • max: 256 • pattern: arn:[\w-]+:secretsmanager:([a-z]{2}-(gov-)?[a-z]+-\d{1})?:(\d{12})?:secret:(.+) Shorthand Syntax: storageType=string,fsxOntapConfiguration={storageVirtualMachineId=string,credentialsSecretArn=string} JSON Syntax: { "storageType": "EBS"|"FSX_ONTAP", "fsxOntapConfiguration": { "storageVirtualMachineId": "string", "credentialsSecretArn": "string" } }
     /// </summary>
     [CliOption("--storage-configuration")]
     public string? StorageConfiguration { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates a Systems Manager resource policy. A resource policy helps you to define the IAM entity (for example, an Amazon Web Services account) that can manage your Systems Manager resources. The following resources support Systems Manager resource policies. o OpsItemGroup - The resource policy for OpsItemGroup enables Amazon Web Services accounts to view and interact with OpsCenter operational work items (OpsItems). o Parameter - The resource policy is used to share a parameter with ot...
+/// Creates or updates a Systems Manager resource policy. A resource policy helps you to define the IAM entity (for example, an Amazon Web Services account) that can manage your Systems Manager resources. The following resources support Systems Manager resource policies. • OpsItemGroup - The resource policy for OpsItemGroup enables Amazon Web Services accounts to view and interact with OpsCenter operational work items (OpsItems). • Parameter - The resource policy is used to share a parameter with ot...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsSsmPutResourcePolicyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates or updates a Systems Manager resource policy. A resource policy helps you to define the IAM entity (for example, an Amazon Web Services account) that can manage your Systems Manager resources. The following resources support Systems Manager resource policies. o OpsItemGroup - The resource policy for OpsItemGroup enables Amazon Web Services accounts to view and interact with OpsCenter operational work items (OpsItems). o Parameter - The resource policy is used to share a parameter with ot...
+    /// Creates or updates a Systems Manager resource policy. A resource policy helps you to define the IAM entity (for example, an Amazon Web Services account) that can manage your Systems Manager resources. The following resources support Systems Manager resource policies. • OpsItemGroup - The resource policy for OpsItemGroup enables Amazon Web Services accounts to view and interact with OpsCenter operational work items (OpsItems). • Parameter - The resource policy is used to share a parameter with ot...
     /// </summary>
-    /// <param name="ResourceArn">Amazon Resource Name (ARN) of the resource to which you want to at- tach a policy. Constraints: o min: 20 o max: 2048</param>
-    /// <param name="Policy">A policy you want to associate with a resource. Constraints: o pattern: ^(?!\s*$).+</param>
+    /// <param name="ResourceArn">Amazon Resource Name (ARN) of the resource to which you want to attach a policy. Constraints: • min: 20 • max: 2048</param>
+    /// <param name="Policy">A policy you want to associate with a resource. Constraints: • pattern: ^(?!\s*$).+</param>
     public AwsSsmPutResourcePolicyOptions(
         string ResourceArn,
         string Policy
@@ -60,13 +62,13 @@ public record AwsSsmPutResourcePolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Resource Name (ARN) of the resource to which you want to at- tach a policy. Constraints: o min: 20 o max: 2048
+    /// Amazon Resource Name (ARN) of the resource to which you want to attach a policy. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A policy you want to associate with a resource. Constraints: o pattern: ^(?!\s*$).+
+    /// A policy you want to associate with a resource. Constraints: • pattern: ^(?!\s*$).+
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; private init; }
@@ -78,7 +80,7 @@ public record AwsSsmPutResourcePolicyOptions : AwsOptions, IValidatableObject
     public string? PolicyId { get; set; }
 
     /// <summary>
-    /// ID of the current policy version. The hash helps to prevent a situa- tion where multiple users attempt to overwrite a policy. You must provide this hash when updating or deleting a policy.
+    /// ID of the current policy version. The hash helps to prevent a situation where multiple users attempt to overwrite a policy. You must provide this hash when updating or deleting a policy.
     /// </summary>
     [CliOption("--policy-hash")]
     public string? PolicyHash { get; set; }

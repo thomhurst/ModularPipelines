@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new configuration in the AppConfig hosted configuration store. If you're creating a feature flag, we recommend you familiarize yourself with the JSON schema for feature flag data. For more informa- tion, see Type reference for AWS.AppConfig.FeatureFlags in the AppCon- fig User Guide . See also: AWS API Documentation
+/// Creates a new configuration in the AppConfig hosted configuration store. If you're creating a feature flag, we recommend you familiarize yourself with the JSON schema for feature flag data. For more information, see Type reference for AWS.AppConfig.FeatureFlags in the AppConfig User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,12 +22,12 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsAppConfigCreateHostedConfigurationVersionOptions : AwsOptions
 {
     /// <summary>
-    /// Creates a new configuration in the AppConfig hosted configuration store. If you're creating a feature flag, we recommend you familiarize yourself with the JSON schema for feature flag data. For more informa- tion, see Type reference for AWS.AppConfig.FeatureFlags in the AppCon- fig User Guide . See also: AWS API Documentation
+    /// Creates a new configuration in the AppConfig hosted configuration store. If you're creating a feature flag, we recommend you familiarize yourself with the JSON schema for feature flag data. For more information, see Type reference for AWS.AppConfig.FeatureFlags in the AppConfig User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The application ID. Constraints: o min: 1 o max: 64</param>
-    /// <param name="ConfigurationProfileId">The configuration profile ID. Constraints: o min: 1 o max: 128</param>
-    /// <param name="Content">The configuration data, as bytes. NOTE: AppConfig accepts any type of data, including text formats like JSON or TOML, or binary formats like protocol buffers or com- pressed data.</param>
-    /// <param name="ContentType">A standard MIME type describing the format of the configuration con- tent. For more information, see Content-Type . Constraints: o min: 1 o max: 255</param>
+    /// <param name="ApplicationId">The application ID. Constraints: • min: 1 • max: 64</param>
+    /// <param name="ConfigurationProfileId">The configuration profile ID. Constraints: • min: 1 • max: 128</param>
+    /// <param name="Content">The configuration data, as bytes. NOTE: AppConfig accepts any type of data, including text formats like JSON or TOML, or binary formats like protocol buffers or compressed data.</param>
+    /// <param name="ContentType">A standard MIME type describing the format of the configuration content. For more information, see Content-Type . Constraints: • min: 1 • max: 255</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsAppConfigCreateHostedConfigurationVersionOptions(
         string ApplicationId,
@@ -59,43 +59,43 @@ public record AwsAppConfigCreateHostedConfigurationVersionOptions : AwsOptions
     }
 
     /// <summary>
-    /// The application ID. Constraints: o min: 1 o max: 64
+    /// The application ID. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--application-id")]
     public string ApplicationId { get; private init; }
 
     /// <summary>
-    /// The configuration profile ID. Constraints: o min: 1 o max: 128
+    /// The configuration profile ID. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--configuration-profile-id")]
     public string ConfigurationProfileId { get; private init; }
 
     /// <summary>
-    /// The configuration data, as bytes. NOTE: AppConfig accepts any type of data, including text formats like JSON or TOML, or binary formats like protocol buffers or com- pressed data.
+    /// The configuration data, as bytes. NOTE: AppConfig accepts any type of data, including text formats like JSON or TOML, or binary formats like protocol buffers or compressed data.
     /// </summary>
     [CliOption("--content")]
     public string Content { get; private init; }
 
     /// <summary>
-    /// A standard MIME type describing the format of the configuration con- tent. For more information, see Content-Type . Constraints: o min: 1 o max: 255
+    /// A standard MIME type describing the format of the configuration content. For more information, see Content-Type . Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--content-type")]
     public string ContentType { get; private init; }
 
     /// <summary>
-    /// A description of the configuration. NOTE: Due to HTTP limitations, this field only supports ASCII charac- ters. Constraints: o min: 0 o max: 1024
+    /// A description of the configuration. NOTE: Due to HTTP limitations, this field only supports ASCII characters. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// An optional locking token used to prevent race conditions from over- writing configuration updates when creating a new version. To ensure your data is not overwritten when creating multiple hosted configu- ration versions in rapid succession, specify the version number of the latest hosted configuration version.
+    /// An optional locking token used to prevent race conditions from overwriting configuration updates when creating a new version. To ensure your data is not overwritten when creating multiple hosted configuration versions in rapid succession, specify the version number of the latest hosted configuration version.
     /// </summary>
     [CliOption("--latest-version-number")]
     public int? LatestVersionNumber { get; set; }
 
     /// <summary>
-    /// An optional, user-defined label for the AppConfig hosted configura- tion version. This value must contain at least one non-numeric char- acter. For example, "v2.2.0". Constraints: o min: 1 o max: 64 o pattern: .*[^0-9].* outfile (string) [required] Filename where the content will be saved
+    /// An optional, user-defined label for the AppConfig hosted configuration version. This value must contain at least one non-numeric character. For example, "v2.2.0". Constraints: • min: 1 • max: 64 • pattern: .*[^0-9].* outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--version-label")]
     public string? VersionLabel { get; set; }

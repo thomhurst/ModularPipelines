@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsAppstreamEnableUserOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Enables a user in the user pool. After being enabled, users can sign in to WorkSpaces Applications and open applications from the stacks to which they are assigned. See also: AWS API Documentation
     /// </summary>
-    /// <param name="UserName">The email address of the user. NOTE: Users' email addresses are case-sensitive. During login, if they specify an email address that doesn't use the same capitaliza- tion as the email address specified when their user pool account was created, a "user does not exist" error message displays. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+</param>
-    /// <param name="AuthenticationType">The authentication type for the user. You must specify USERPOOL. Possible values: o API o SAML o USERPOOL o AWS_AD</param>
+    /// <param name="UserName">The email address of the user. NOTE: Users' email addresses are case-sensitive. During login, if they specify an email address that doesn't use the same capitalization as the email address specified when their user pool account was created, a "user does not exist" error message displays. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+</param>
+    /// <param name="AuthenticationType">The authentication type for the user. You must specify USERPOOL. Possible values: • API • SAML • USERPOOL • AWS_AD</param>
     public AwsAppstreamEnableUserOptions(
         string UserName,
         AwsAppstreamEnableUserAuthenticationType AuthenticationType
@@ -60,13 +62,13 @@ public record AwsAppstreamEnableUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The email address of the user. NOTE: Users' email addresses are case-sensitive. During login, if they specify an email address that doesn't use the same capitaliza- tion as the email address specified when their user pool account was created, a "user does not exist" error message displays. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+
+    /// The email address of the user. NOTE: Users' email addresses are case-sensitive. During login, if they specify an email address that doesn't use the same capitalization as the email address specified when their user pool account was created, a "user does not exist" error message displays. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; private init; }
 
     /// <summary>
-    /// The authentication type for the user. You must specify USERPOOL. Possible values: o API o SAML o USERPOOL o AWS_AD
+    /// The authentication type for the user. You must specify USERPOOL. Possible values: • API • SAML • USERPOOL • AWS_AD
     /// </summary>
     [CliOption("--authentication-type")]
     public AwsAppstreamEnableUserAuthenticationType? AuthenticationType { get; private init; }

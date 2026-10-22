@@ -22,43 +22,39 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsSustainability
 {
     /// <summary>
-    /// Returns the possible dimension values available for a customer's ac- count. We recommend using pagination to ensure that the operation re- turns quickly and successfully. See also: AWS API Documentation get-estimated-carbon-emissions-dimension-values is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated ...
+    /// Returns the possible dimension values available for a customer's account. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation get-estimated-carbon-emissions-dimension-values is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEstimatedCarbonEmissionsDimensionValuesAsync(AwsSustainabilityGetEstimatedCarbonEmissionsDimensionValuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEstimatedCarbonEmissionsDimensionValuesAsync(AwsSustainabilityGetEstimatedCarbonEmissionsDimensionValuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns estimated carbon emission values based on customer grouping and filtering parameters. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation get-estimated-carbon-emissions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated r...
+    /// Returns estimated carbon emission values based on customer grouping and filtering parameters. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation get-estimated-carbon-emissions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated respo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEstimatedCarbonEmissionsAsync(AwsSustainabilityGetEstimatedCarbonEmissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEstimatedCarbonEmissionsAsync(AwsSustainabilityGetEstimatedCarbonEmissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns the possible dimension values available for a customer's ac- count. We recommend using pagination to ensure that the operation re- turns quickly and successfully. See also: AWS API Documentation get-estimated-water-allocation-dimension-values is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated ...
+    /// Returns the possible dimension values available for a customer's account. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation get-estimated-water-allocation-dimension-values is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEstimatedWaterAllocationDimensionValuesAsync(AwsSustainabilityGetEstimatedWaterAllocationDimensionValuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEstimatedWaterAllocationDimensionValuesAsync(AwsSustainabilityGetEstimatedWaterAllocationDimensionValuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns estimated water allocation values based on customer grouping and filtering parameters. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation get-estimated-water-allocation is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated ...
+    /// Returns estimated water allocation values based on customer grouping and filtering parameters. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation get-estimated-water-allocation is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated resp...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEstimatedWaterAllocationAsync(AwsSustainabilityGetEstimatedWaterAllocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEstimatedWaterAllocationAsync(AwsSustainabilityGetEstimatedWaterAllocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

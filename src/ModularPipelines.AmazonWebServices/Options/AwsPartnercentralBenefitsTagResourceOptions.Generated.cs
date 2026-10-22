@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsPartnercentralBenefitsTagResourceOptions : AwsOptions, IValidat
     /// <summary>
     /// Adds or updates tags for a specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to add tags to. Constraints: o min: 1 o max: 1000 o pattern: arn:[\w+=/,.@-]+:partner- central:[\w+=/,.@-]*:[0-9]{12}:cata- log/([a-zA-Z]+)/[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
-    /// <param name="Tags">A list of key-value pairs to add as tags to the resource. (structure) Represents a key-value pair used for categorizing and organizing AWS resources. Key -&gt; (string) [required] The tag key, which acts as a category or label for the tag. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value, which provides additional information or con- text for the tag key. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to add tags to. Constraints: • min: 1 • max: 1000 • pattern: arn:[\w+=/,.@-]+:partnercentral:[\w+=/,.@-]*:[0-9]{12}:catalog/([a-zA-Z]+)/[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
+    /// <param name="Tags">A list of key-value pairs to add as tags to the resource. (structure) Represents a key-value pair used for categorizing and organizing AWS resources. Key -&gt; (string) [required] The tag key, which acts as a category or label for the tag. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value, which provides additional information or context for the tag key. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsPartnercentralBenefitsTagResourceOptions(
         string ResourceArn,
         IEnumerable<string> Tags
@@ -71,13 +73,13 @@ public record AwsPartnercentralBenefitsTagResourceOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource to add tags to. Constraints: o min: 1 o max: 1000 o pattern: arn:[\w+=/,.@-]+:partner- central:[\w+=/,.@-]*:[0-9]{12}:cata- log/([a-zA-Z]+)/[\w+=,.@-]+(/[\w+=,.@-]+)*
+    /// The Amazon Resource Name (ARN) of the resource to add tags to. Constraints: • min: 1 • max: 1000 • pattern: arn:[\w+=/,.@-]+:partnercentral:[\w+=/,.@-]*:[0-9]{12}:catalog/([a-zA-Z]+)/[\w+=,.@-]+(/[\w+=,.@-]+)*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A list of key-value pairs to add as tags to the resource. (structure) Represents a key-value pair used for categorizing and organizing AWS resources. Key -&gt; (string) [required] The tag key, which acts as a category or label for the tag. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value, which provides additional information or con- text for the tag key. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of key-value pairs to add as tags to the resource. (structure) Represents a key-value pair used for categorizing and organizing AWS resources. Key -&gt; (string) [required] The tag key, which acts as a category or label for the tag. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value, which provides additional information or context for the tag key. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsRedshiftDeleteTagsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes tags from a resource. You must provide the ARN of the resource from which you want to delete the tag or tags. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceName">The Amazon Resource Name (ARN) from which you want to remove the tag or tags. For example, arn:aws:redshift:us-east-2:123456789:clus- ter:t1 . Constraints: o max: 2147483647</param>
-    /// <param name="TagKeys">The tag key that you want to delete. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...</param>
+    /// <param name="ResourceName">The Amazon Resource Name (ARN) from which you want to remove the tag or tags. For example, arn:aws:redshift:us-east-2:123456789:cluster:t1 . Constraints: • max: 2147483647</param>
+    /// <param name="TagKeys">The tag key that you want to delete. (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...</param>
     public AwsRedshiftDeleteTagsOptions(
         string ResourceName,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsRedshiftDeleteTagsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) from which you want to remove the tag or tags. For example, arn:aws:redshift:us-east-2:123456789:clus- ter:t1 . Constraints: o max: 2147483647
+    /// The Amazon Resource Name (ARN) from which you want to remove the tag or tags. For example, arn:aws:redshift:us-east-2:123456789:cluster:t1 . Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--resource-name")]
     public string? ResourceName { get; private init; }
 
     /// <summary>
-    /// The tag key that you want to delete. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// The tag key that you want to delete. (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

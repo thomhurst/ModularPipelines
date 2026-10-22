@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,7 +31,7 @@ public record AwsCodecommitPostCommentForPullRequestOptions : AwsOptions, IValid
     /// Posts a comment on a pull request. See also: AWS API Documentation
     /// </summary>
     /// <param name="PullRequestId">The system-generated ID of the pull request. To get this ID, use ListPullRequests .</param>
-    /// <param name="RepositoryName">The name of the repository where you want to post a comment on a pull request. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
+    /// <param name="RepositoryName">The name of the repository where you want to post a comment on a pull request. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+</param>
     /// <param name="BeforeCommitId">The full commit ID of the commit in the destination branch that was the tip of the branch at the time the pull request was created.</param>
     /// <param name="AfterCommitId">The full commit ID of the commit in the source branch that is the current tip of the branch for the pull request when you post the comment.</param>
     /// <param name="Content">The content of your comment on the change.</param>
@@ -79,7 +81,7 @@ public record AwsCodecommitPostCommentForPullRequestOptions : AwsOptions, IValid
     public string? PullRequestId { get; private init; }
 
     /// <summary>
-    /// The name of the repository where you want to post a comment on a pull request. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// The name of the repository where you want to post a comment on a pull request. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
@@ -103,13 +105,13 @@ public record AwsCodecommitPostCommentForPullRequestOptions : AwsOptions, IValid
     public string? Content { get; private init; }
 
     /// <summary>
-    /// The location of the change where you want to post your comment. If no location is provided, the comment is posted as a general comment on the pull request difference between the before commit ID and the after commit ID. filePath -&gt; (string) The name of the file being compared, including its extension and subdirectory, if any. filePosition -&gt; (long) The position of a change in a compared file, in line number for- mat. relativeFileVersion -&gt; (string) In a comparison of commits or a pull request, whether the change is in the before or after of that comparison. Possible values: o BEFORE o AFTER Shorthand Syntax: filePath=string,filePosition=long,relativeFileVersion=string JSON Syntax: { "filePath": "string", "filePosition": long, "relativeFileVersion": "BEFORE"|"AFTER" }
+    /// The location of the change where you want to post your comment. If no location is provided, the comment is posted as a general comment on the pull request difference between the before commit ID and the after commit ID. filePath -&gt; (string) The name of the file being compared, including its extension and subdirectory, if any. filePosition -&gt; (long) The position of a change in a compared file, in line number format. relativeFileVersion -&gt; (string) In a comparison of commits or a pull request, whether the change is in the before or after of that comparison. Possible values: • BEFORE • AFTER Shorthand Syntax: filePath=string,filePosition=long,relativeFileVersion=string JSON Syntax: { "filePath": "string", "filePosition": long, "relativeFileVersion": "BEFORE"|"AFTER" }
     /// </summary>
     [CliOption("--location")]
     public string? Location { get; set; }
 
     /// <summary>
-    /// A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed pa- rameter. If a request is received with the same parameters and a to- ken is included, the request returns information about the initial request that used that token.
+    /// A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request returns information about the initial request that used that token.
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]

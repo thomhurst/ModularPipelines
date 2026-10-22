@@ -28,8 +28,7 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddFacetToObjectAsync(AwsClouddirectoryAddFacetToObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddFacetToObjectAsync(AwsClouddirectoryAddFacetToObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Copies the input published schema, at the specified version, into the Directory with the same name and version as that of the published schema. See also: AWS API Documentation
@@ -38,28 +37,25 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ApplySchemaAsync(AwsClouddirectoryApplySchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ApplySchemaAsync(AwsClouddirectoryApplySchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Attaches an existing object to another object. An object can be ac- cessed in two ways: o Using the path o Using ObjectIdentifier See also: AWS API Documentation
+    /// Attaches an existing object to another object. An object can be accessed in two ways: • Using the path • Using ObjectIdentifier See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AttachObjectAsync(AwsClouddirectoryAttachObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AttachObjectAsync(AwsClouddirectoryAttachObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Attaches a policy object to a regular object. An object can have a lim- ited number of attached policies. See also: AWS API Documentation
+    /// Attaches a policy object to a regular object. An object can have a limited number of attached policies. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AttachPolicyAsync(AwsClouddirectoryAttachPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AttachPolicyAsync(AwsClouddirectoryAttachPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Attaches the specified object to the specified index. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AttachToIndexAsync(AwsClouddirectoryAttachToIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AttachToIndexAsync(AwsClouddirectoryAttachToIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Attaches a typed link to a specified source and target object. For more information, see Typed Links . See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AttachTypedLinkAsync(AwsClouddirectoryAttachTypedLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AttachTypedLinkAsync(AwsClouddirectoryAttachTypedLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Performs all the read operations in a batch. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchReadAsync(AwsClouddirectoryBatchReadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchReadAsync(AwsClouddirectoryBatchReadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Performs all the write operations in a batch. Either all the operations succeed or none. See also: AWS API Documentation
@@ -98,28 +91,25 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchWriteAsync(AwsClouddirectoryBatchWriteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchWriteAsync(AwsClouddirectoryBatchWriteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a Directory by copying the published schema into the direc- tory. A directory cannot be created without a schema. You can also quickly create a directory using a managed schema, called the QuickStartSchema . For more information, see Managed Schema in the Amazon Cloud Directory Developer Guide . See also: AWS API Documentation
+    /// Creates a Directory by copying the published schema into the directory. A directory cannot be created without a schema. You can also quickly create a directory using a managed schema, called the QuickStartSchema . For more information, see Managed Schema in the Amazon Cloud Directory Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDirectoryAsync(AwsClouddirectoryCreateDirectoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDirectoryAsync(AwsClouddirectoryCreateDirectoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a new Facet in a schema. Facet creation is allowed only in de- velopment or applied schemas. See also: AWS API Documentation
+    /// Creates a new Facet in a schema. Facet creation is allowed only in development or applied schemas. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateFacetAsync(AwsClouddirectoryCreateFacetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateFacetAsync(AwsClouddirectoryCreateFacetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an index object. See Indexing and search for more information. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateIndexAsync(AwsClouddirectoryCreateIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateIndexAsync(AwsClouddirectoryCreateIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an object in a Directory . Additionally attaches the object to a parent, if a parent reference and LinkName is specified. An object is simply a collection of Facet attributes. You can also use this API call to create a policy object, if the facet from which you create the object is a policy facet. See also: AWS API Documentation
@@ -138,18 +127,16 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateObjectAsync(AwsClouddirectoryCreateObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateObjectAsync(AwsClouddirectoryCreateObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a new schema in a development state. A schema can exist in three phases: o Development: This is a mutable phase of the schema. All new schemas are in the development phase. Once the schema is finalized, it can be published. o Published: Published schemas are immutable and have a version associ- ated with them. o Applied: Applied schemas are mutable in a way that allows you to add new schema facets. You can also add new, nonrequired attributes to existing schema facets. You can apply only...
+    /// Creates a new schema in a development state. A schema can exist in three phases: • Development: This is a mutable phase of the schema. All new schemas are in the development phase. Once the schema is finalized, it can be published. • Published: Published schemas are immutable and have a version associated with them. • Applied: Applied schemas are mutable in a way that allows you to add new schema facets. You can also add new, nonrequired attributes to existing schema facets. You can apply only p...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSchemaAsync(AwsClouddirectoryCreateSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSchemaAsync(AwsClouddirectoryCreateSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a TypedLinkFacet . For more information, see Typed Links . See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTypedLinkFacetAsync(AwsClouddirectoryCreateTypedLinkFacetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTypedLinkFacetAsync(AwsClouddirectoryCreateTypedLinkFacetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a directory. Only disabled directories can be deleted. A deleted directory cannot be undone. Exercise extreme caution when deleting directories. See also: AWS API Documentation
@@ -168,28 +154,25 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDirectoryAsync(AwsClouddirectoryDeleteDirectoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDirectoryAsync(AwsClouddirectoryDeleteDirectoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a given Facet . All attributes and Rule s that are associated with the facet will be deleted. Only development schema facets are al- lowed deletion. See also: AWS API Documentation
+    /// Deletes a given Facet . All attributes and Rule s that are associated with the facet will be deleted. Only development schema facets are allowed deletion. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFacetAsync(AwsClouddirectoryDeleteFacetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteFacetAsync(AwsClouddirectoryDeleteFacetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes an object and its associated attributes. Only objects with no children and no parents can be deleted. The maximum number of attrib- utes that can be deleted during an object deletion is 30. For more in- formation, see Amazon Cloud Directory Limits . See also: AWS API Documentation
+    /// Deletes an object and its associated attributes. Only objects with no children and no parents can be deleted. The maximum number of attributes that can be deleted during an object deletion is 30. For more information, see Amazon Cloud Directory Limits . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteObjectAsync(AwsClouddirectoryDeleteObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteObjectAsync(AwsClouddirectoryDeleteObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a given schema. Schemas in a development and published state can only be deleted. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSchemaAsync(AwsClouddirectoryDeleteSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSchemaAsync(AwsClouddirectoryDeleteSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a TypedLinkFacet . For more information, see Typed Links . See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTypedLinkFacetAsync(AwsClouddirectoryDeleteTypedLinkFacetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTypedLinkFacetAsync(AwsClouddirectoryDeleteTypedLinkFacetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Detaches the specified object from the specified index. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DetachFromIndexAsync(AwsClouddirectoryDetachFromIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DetachFromIndexAsync(AwsClouddirectoryDetachFromIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Detaches a given object from the parent object. The object that is to be detached from the parent is specified by the link name. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DetachObjectAsync(AwsClouddirectoryDetachObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DetachObjectAsync(AwsClouddirectoryDetachObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Detaches a policy from an object. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DetachPolicyAsync(AwsClouddirectoryDetachPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DetachPolicyAsync(AwsClouddirectoryDetachPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Detaches a typed link from a specified source and target object. For more information, see Typed Links . See also: AWS API Documentation
@@ -248,28 +226,25 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DetachTypedLinkAsync(AwsClouddirectoryDetachTypedLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DetachTypedLinkAsync(AwsClouddirectoryDetachTypedLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Disables the specified directory. Disabled directories cannot be read or written to. Only enabled directories can be disabled. Disabled di- rectories may be reenabled. See also: AWS API Documentation
+    /// Disables the specified directory. Disabled directories cannot be read or written to. Only enabled directories can be disabled. Disabled directories may be reenabled. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableDirectoryAsync(AwsClouddirectoryDisableDirectoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableDirectoryAsync(AwsClouddirectoryDisableDirectoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Enables the specified directory. Only disabled directories can be en- abled. Once enabled, the directory can then be read and written to. See also: AWS API Documentation
+    /// Enables the specified directory. Only disabled directories can be enabled. Once enabled, the directory can then be read and written to. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableDirectoryAsync(AwsClouddirectoryEnableDirectoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableDirectoryAsync(AwsClouddirectoryEnableDirectoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns current applied schema version ARN, including the minor version in use. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAppliedSchemaVersionAsync(AwsClouddirectoryGetAppliedSchemaVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAppliedSchemaVersionAsync(AwsClouddirectoryGetAppliedSchemaVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves metadata about a directory. See also: AWS API Documentation
@@ -288,18 +262,16 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDirectoryAsync(AwsClouddirectoryGetDirectoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDirectoryAsync(AwsClouddirectoryGetDirectoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets details of the Facet , such as facet name, attributes, Rule s, or ObjectType . You can call this on all kinds of schema facets -- pub- lished, development, or applied. See also: AWS API Documentation
+    /// Gets details of the Facet , such as facet name, attributes, Rule s, or ObjectType . You can call this on all kinds of schema facets -- published, development, or applied. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFacetAsync(AwsClouddirectoryGetFacetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetFacetAsync(AwsClouddirectoryGetFacetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves attributes that are associated with a typed link. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetLinkAttributesAsync(AwsClouddirectoryGetLinkAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetLinkAttributesAsync(AwsClouddirectoryGetLinkAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves attributes within a facet that are associated with an object. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetObjectAttributesAsync(AwsClouddirectoryGetObjectAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetObjectAttributesAsync(AwsClouddirectoryGetObjectAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves metadata about an object. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetObjectInformationAsync(AwsClouddirectoryGetObjectInformationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetObjectInformationAsync(AwsClouddirectoryGetObjectInformationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a JSON representation of the schema. See JSON Schema Format for more information. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSchemaAsJsonAsync(AwsClouddirectoryGetSchemaAsJsonOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSchemaAsJsonAsync(AwsClouddirectoryGetSchemaAsJsonOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the identity attribute order for a specific TypedLinkFacet . For more information, see Typed Links . See also: AWS API Documentation
@@ -348,18 +316,16 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTypedLinkFacetInformationAsync(AwsClouddirectoryGetTypedLinkFacetInformationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTypedLinkFacetInformationAsync(AwsClouddirectoryGetTypedLinkFacetInformationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists schema major versions applied to a directory. If SchemaArn is provided, lists the minor version. See also: AWS API Documentation list-applied-schema-arns is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expr...
+    /// Lists schema major versions applied to a directory. If SchemaArn is provided, lists the minor version. See also: AWS API Documentation list-applied-schema-arns is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expres...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAppliedSchemaArnsAsync(AwsClouddirectoryListAppliedSchemaArnsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAppliedSchemaArnsAsync(AwsClouddirectoryListAppliedSchemaArnsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists indices attached to the specified object. See also: AWS API Documentation list-attached-indices is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: IndexAttachments
@@ -368,18 +334,16 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAttachedIndicesAsync(AwsClouddirectoryListAttachedIndicesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAttachedIndicesAsync(AwsClouddirectoryListAttachedIndicesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves each Amazon Resource Name (ARN) of schemas in the development state. See also: AWS API Documentation list-development-schema-arns is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SchemaArn...
+    /// Retrieves each Amazon Resource Name (ARN) of schemas in the development state. See also: AWS API Documentation list-development-schema-arns is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SchemaArns
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDevelopmentSchemaArnsAsync(AwsClouddirectoryListDevelopmentSchemaArnsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDevelopmentSchemaArnsAsync(AwsClouddirectoryListDevelopmentSchemaArnsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists directories created within an account. See also: AWS API Documentation list-directories is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Directories
@@ -388,8 +352,7 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDirectoriesAsync(AwsClouddirectoryListDirectoriesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDirectoriesAsync(AwsClouddirectoryListDirectoriesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves attributes attached to the facet. See also: AWS API Documentation list-facet-attributes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Attributes
@@ -398,8 +361,7 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFacetAttributesAsync(AwsClouddirectoryListFacetAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFacetAttributesAsync(AwsClouddirectoryListFacetAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the names of facets that exist in a schema. See also: AWS API Documentation list-facet-names is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: FacetNames
@@ -408,28 +370,25 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFacetNamesAsync(AwsClouddirectoryListFacetNamesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFacetNamesAsync(AwsClouddirectoryListFacetNamesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns a paginated list of all the incoming TypedLinkSpecifier infor- mation for an object. It also supports filtering by typed link facet and identity attributes. For more information, see Typed Links . See also: AWS API Documentation list-incoming-typed-links is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pa...
+    /// Returns a paginated list of all the incoming TypedLinkSpecifier information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see Typed Links . See also: AWS API Documentation list-incoming-typed-links is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListIncomingTypedLinksAsync(AwsClouddirectoryListIncomingTypedLinksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListIncomingTypedLinksAsync(AwsClouddirectoryListIncomingTypedLinksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists objects attached to the specified index. See also: AWS API Documentation list-index is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: IndexAttachments
+    /// Lists objects attached to the specified index. See also: AWS API Documentation list-index is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: IndexAttachments
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListIndexAsync(AwsClouddirectoryListIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListIndexAsync(AwsClouddirectoryListIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the major version families of each managed schema. If a major version ARN is provided as SchemaArn, the minor version revisions in that family are listed instead. See also: AWS API Documentation list-managed-schema-arns is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argumen...
@@ -438,8 +397,7 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListManagedSchemaArnsAsync(AwsClouddirectoryListManagedSchemaArnsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListManagedSchemaArnsAsync(AwsClouddirectoryListManagedSchemaArnsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all attributes that are associated with an object. See also: AWS API Documentation list-object-attributes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Attributes
@@ -448,8 +406,7 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListObjectAttributesAsync(AwsClouddirectoryListObjectAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListObjectAttributesAsync(AwsClouddirectoryListObjectAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a paginated list of child objects that are associated with a given object. See also: AWS API Documentation
@@ -458,8 +415,7 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListObjectChildrenAsync(AwsClouddirectoryListObjectChildrenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListObjectChildrenAsync(AwsClouddirectoryListObjectChildrenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves all available parent paths for any object type such as node, leaf node, policy node, and index node objects. For more information about objects, see Directory Structure . Use this API to evaluate all parents for an object. The call returns all objects from the root of the directory up to the requested object. The API returns the number of paths based on user-defined MaxResults , in case there are multiple paths to the parent. The order of the paths and nodes returned is consistent amon...
@@ -468,18 +424,16 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListObjectParentPathsAsync(AwsClouddirectoryListObjectParentPathsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListObjectParentPathsAsync(AwsClouddirectoryListObjectParentPathsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists parent objects that are associated with a given object in pagina- tion fashion. See also: AWS API Documentation
+    /// Lists parent objects that are associated with a given object in pagination fashion. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListObjectParentsAsync(AwsClouddirectoryListObjectParentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListObjectParentsAsync(AwsClouddirectoryListObjectParentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns policies attached to an object in pagination fashion. See also: AWS API Documentation list-object-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AttachedPolicyIds
@@ -488,28 +442,25 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListObjectPoliciesAsync(AwsClouddirectoryListObjectPoliciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListObjectPoliciesAsync(AwsClouddirectoryListObjectPoliciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns a paginated list of all the outgoing TypedLinkSpecifier infor- mation for an object. It also supports filtering by typed link facet and identity attributes. For more information, see Typed Links . See also: AWS API Documentation list-outgoing-typed-links is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pa...
+    /// Returns a paginated list of all the outgoing TypedLinkSpecifier information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see Typed Links . See also: AWS API Documentation list-outgoing-typed-links is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListOutgoingTypedLinksAsync(AwsClouddirectoryListOutgoingTypedLinksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListOutgoingTypedLinksAsync(AwsClouddirectoryListOutgoingTypedLinksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns all of the ObjectIdentifiers to which a given policy is at- tached. See also: AWS API Documentation list-policy-attachments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ObjectIdentifiers
+    /// Returns all of the ObjectIdentifiers to which a given policy is attached. See also: AWS API Documentation list-policy-attachments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ObjectIdentifiers
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPolicyAttachmentsAsync(AwsClouddirectoryListPolicyAttachmentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPolicyAttachmentsAsync(AwsClouddirectoryListPolicyAttachmentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the major version families of each published schema. If a major version ARN is provided as SchemaArn , the minor version revisions in that family are listed instead. See also: AWS API Documentation list-published-schema-arns is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar...
@@ -518,48 +469,43 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPublishedSchemaArnsAsync(AwsClouddirectoryListPublishedSchemaArnsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPublishedSchemaArnsAsync(AwsClouddirectoryListPublishedSchemaArnsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns tags for a resource. Tagging is currently supported only for directories with a limit of 50 tags per directory. All 50 tags are re- turned for a given directory with this API call. See also: AWS API Documentation list-tags-for-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, t...
+    /// Returns tags for a resource. Tagging is currently supported only for directories with a limit of 50 tags per directory. All 50 tags are returned for a given directory with this API call. See also: AWS API Documentation list-tags-for-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsClouddirectoryListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsClouddirectoryListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns a paginated list of all attribute definitions for a particular TypedLinkFacet . For more information, see Typed Links . See also: AWS API Documentation list-typed-link-facet-attributes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the ...
+    /// Returns a paginated list of all attribute definitions for a particular TypedLinkFacet . For more information, see Typed Links . See also: AWS API Documentation list-typed-link-facet-attributes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTypedLinkFacetAttributesAsync(AwsClouddirectoryListTypedLinkFacetAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTypedLinkFacetAttributesAsync(AwsClouddirectoryListTypedLinkFacetAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns a paginated list of TypedLink facet names for a particular schema. For more information, see Typed Links . See also: AWS API Documentation list-typed-link-facet-names is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the fol...
+    /// Returns a paginated list of TypedLink facet names for a particular schema. For more information, see Typed Links . See also: AWS API Documentation list-typed-link-facet-names is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTypedLinkFacetNamesAsync(AwsClouddirectoryListTypedLinkFacetNamesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTypedLinkFacetNamesAsync(AwsClouddirectoryListTypedLinkFacetNamesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists all policies from the root of the Directory to the object speci- fied. If there are no policies present, an empty list is returned. If policies are present, and if some objects don't have the policies at- tached, it returns the ObjectIdentifier for such objects. If policies are present, it returns ObjectIdentifier , policyId , and policyType . Paths that don't lead to the root from the target object are ignored. For more information, see Policies . See also: AWS API Documentation lookup-po...
+    /// Lists all policies from the root of the Directory to the object specified. If there are no policies present, an empty list is returned. If policies are present, and if some objects don't have the policies attached, it returns the ObjectIdentifier for such objects. If policies are present, it returns ObjectIdentifier , policyId , and policyType . Paths that don't lead to the root from the target object are ignored. For more information, see Policies . See also: AWS API Documentation lookup-policy...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> LookupPolicyAsync(AwsClouddirectoryLookupPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> LookupPolicyAsync(AwsClouddirectoryLookupPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Publishes a development schema with a major version and a recommended minor version. See also: AWS API Documentation
@@ -568,18 +514,16 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PublishSchemaAsync(AwsClouddirectoryPublishSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PublishSchemaAsync(AwsClouddirectoryPublishSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Allows a schema to be updated using JSON upload. Only available for de- velopment schemas. See JSON Schema Format for more information. See also: AWS API Documentation
+    /// Allows a schema to be updated using JSON upload. Only available for development schemas. See JSON Schema Format for more information. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutSchemaFromJsonAsync(AwsClouddirectoryPutSchemaFromJsonOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutSchemaFromJsonAsync(AwsClouddirectoryPutSchemaFromJsonOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the specified facet from the specified object. See also: AWS API Documentation
@@ -588,8 +532,7 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveFacetFromObjectAsync(AwsClouddirectoryRemoveFacetFromObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveFacetFromObjectAsync(AwsClouddirectoryRemoveFacetFromObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// An API operation for adding tags to a resource. See also: AWS API Documentation
@@ -598,8 +541,7 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsClouddirectoryTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsClouddirectoryTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// An API operation for removing tags from a resource. See also: AWS API Documentation
@@ -608,28 +550,25 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsClouddirectoryUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsClouddirectoryUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Does the following: o Adds new Attributes , Rules , or ObjectTypes . o Updates existing Attributes , Rules , or ObjectTypes . o Deletes existing Attributes , Rules , or ObjectTypes . See also: AWS API Documentation
+    /// Does the following: • Adds new Attributes , Rules , or ObjectTypes . • Updates existing Attributes , Rules , or ObjectTypes . • Deletes existing Attributes , Rules , or ObjectTypes . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFacetAsync(AwsClouddirectoryUpdateFacetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateFacetAsync(AwsClouddirectoryUpdateFacetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates a given typed links attributes. Attributes to be updated must not contribute to the typed links identity, as defined by its Identity- AttributeOrder . See also: AWS API Documentation
+    /// Updates a given typed links attributes. Attributes to be updated must not contribute to the typed links identity, as defined by its IdentityAttributeOrder . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLinkAttributesAsync(AwsClouddirectoryUpdateLinkAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLinkAttributesAsync(AwsClouddirectoryUpdateLinkAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a given object's attributes. See also: AWS API Documentation
@@ -638,8 +577,7 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateObjectAttributesAsync(AwsClouddirectoryUpdateObjectAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateObjectAttributesAsync(AwsClouddirectoryUpdateObjectAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the schema name with a new name. Only development schema names can be updated. See also: AWS API Documentation
@@ -648,8 +586,7 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSchemaAsync(AwsClouddirectoryUpdateSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSchemaAsync(AwsClouddirectoryUpdateSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a TypedLinkFacet . For more information, see Typed Links . See also: AWS API Documentation
@@ -658,18 +595,16 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTypedLinkFacetAsync(AwsClouddirectoryUpdateTypedLinkFacetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTypedLinkFacetAsync(AwsClouddirectoryUpdateTypedLinkFacetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Upgrades a single directory in-place using the PublishedSchemaArn with schema updates found in MinorVersion . Backwards-compatible minor ver- sion upgrades are instantaneously available for readers on all objects in the directory. Note: This is a synchronous API call and upgrades only one schema on a given directory per call. To upgrade multiple di- rectories from one schema, you would need to call this API on each di- rectory. See also: AWS API Documentation
+    /// Upgrades a single directory in-place using the PublishedSchemaArn with schema updates found in MinorVersion . Backwards-compatible minor version upgrades are instantaneously available for readers on all objects in the directory. Note: This is a synchronous API call and upgrades only one schema on a given directory per call. To upgrade multiple directories from one schema, you would need to call this API on each directory. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpgradeAppliedSchemaAsync(AwsClouddirectoryUpgradeAppliedSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpgradeAppliedSchemaAsync(AwsClouddirectoryUpgradeAppliedSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Upgrades a published schema under a new minor version revision using the current contents of DevelopmentSchemaArn . See also: AWS API Documentation
@@ -678,7 +613,6 @@ public interface IAwsClouddirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpgradePublishedSchemaAsync(AwsClouddirectoryUpgradePublishedSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpgradePublishedSchemaAsync(AwsClouddirectoryUpgradePublishedSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

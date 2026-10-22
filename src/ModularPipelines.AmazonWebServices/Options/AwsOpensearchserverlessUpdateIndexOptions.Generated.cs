@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an existing index in an OpenSearch Serverless collection. This operation allows you to modify the index schema, including adding new fields or changing field mappings. You can also enable automatic seman- tic enrichment ingestion and search. For more information, see About automatic semantic enrichment . See also: AWS API Documentation update-index uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and ob...
+/// Updates an existing index in an OpenSearch Serverless collection. This operation allows you to modify the index schema, including adding new fields or changing field mappings. You can also enable automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment . See also: AWS API Documentation update-index uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and obje...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsOpensearchserverlessUpdateIndexOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an existing index in an OpenSearch Serverless collection. This operation allows you to modify the index schema, including adding new fields or changing field mappings. You can also enable automatic seman- tic enrichment ingestion and search. For more information, see About automatic semantic enrichment . See also: AWS API Documentation update-index uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and ob...
+    /// Updates an existing index in an OpenSearch Serverless collection. This operation allows you to modify the index schema, including adding new fields or changing field mappings. You can also enable automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment . See also: AWS API Documentation update-index uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and obje...
     /// </summary>
-    /// <param name="Id">The unique identifier of the collection containing the index to up- date. Constraints: o min: 3 o max: 40 o pattern: [a-z0-9]{3,40}</param>
+    /// <param name="Id">The unique identifier of the collection containing the index to update. Constraints: • min: 3 • max: 40 • pattern: [a-z0-9]{3,40}</param>
     /// <param name="IndexName">The name of the index to update.</param>
     public AwsOpensearchserverlessUpdateIndexOptions(
         string Id,
@@ -60,7 +62,7 @@ public record AwsOpensearchserverlessUpdateIndexOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the collection containing the index to up- date. Constraints: o min: 3 o max: 40 o pattern: [a-z0-9]{3,40}
+    /// The unique identifier of the collection containing the index to update. Constraints: • min: 3 • max: 40 • pattern: [a-z0-9]{3,40}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

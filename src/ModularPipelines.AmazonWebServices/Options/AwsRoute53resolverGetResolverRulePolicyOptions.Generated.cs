@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets information about the Resolver rule policy for a specified rule. A Resolver rule policy includes the rule that you want to share with an- other account, the account that you want to share the rule with, and the Resolver operations that you want to allow the account to use. See also: AWS API Documentation
+/// Gets information about the Resolver rule policy for a specified rule. A Resolver rule policy includes the rule that you want to share with another account, the account that you want to share the rule with, and the Resolver operations that you want to allow the account to use. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRoute53resolverGetResolverRulePolicyOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets information about the Resolver rule policy for a specified rule. A Resolver rule policy includes the rule that you want to share with an- other account, the account that you want to share the rule with, and the Resolver operations that you want to allow the account to use. See also: AWS API Documentation
+    /// Gets information about the Resolver rule policy for a specified rule. A Resolver rule policy includes the rule that you want to share with another account, the account that you want to share the rule with, and the Resolver operations that you want to allow the account to use. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The ID of the Resolver rule that you want to get the Resolver rule policy for. Constraints: o min: 1 o max: 255</param>
+    /// <param name="Arn">The ID of the Resolver rule that you want to get the Resolver rule policy for. Constraints: • min: 1 • max: 255</param>
     public AwsRoute53resolverGetResolverRulePolicyOptions(
         string Arn
     )
@@ -56,7 +58,7 @@ public record AwsRoute53resolverGetResolverRulePolicyOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Resolver rule that you want to get the Resolver rule policy for. Constraints: o min: 1 o max: 255
+    /// The ID of the Resolver rule that you want to get the Resolver rule policy for. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }

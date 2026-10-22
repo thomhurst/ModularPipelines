@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Wait until Import Task is Successful It will poll every 60 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 480 failed checks. See also: AWS API Documentation
+/// Wait until Import Task is Successful It will poll every 60 seconds until a successful state has been reached. This will exit with a return code of 255 after 480 failed checks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsNeptuneGraphWaitImportTaskSuccessfulOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Wait until Import Task is Successful It will poll every 60 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 480 failed checks. See also: AWS API Documentation
+    /// Wait until Import Task is Successful It will poll every 60 seconds until a successful state has been reached. This will exit with a return code of 255 after 480 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TaskIdentifier">The unique identifier of the import task. Constraints: o pattern: t-[a-z0-9]{10}</param>
+    /// <param name="TaskIdentifier">The unique identifier of the import task. Constraints: • pattern: t-[a-z0-9]{10}</param>
     public AwsNeptuneGraphWaitImportTaskSuccessfulOptions(
         string TaskIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsNeptuneGraphWaitImportTaskSuccessfulOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the import task. Constraints: o pattern: t-[a-z0-9]{10}
+    /// The unique identifier of the import task. Constraints: • pattern: t-[a-z0-9]{10}
     /// </summary>
     [CliOption("--task-identifier")]
     public string? TaskIdentifier { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Enables Lake query federation on the specified event data store. Feder- ating an event data store lets you view the metadata associated with the event data store in the Glue Data Catalog and run SQL queries against y...
+/// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Enables Lake query federation on the specified event data store. Federating an event data store lets you view the metadata associated with the event data store in the Glue Data Catalog and run SQL queries against you...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsCloudtrailEnableFederationOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Enables Lake query federation on the specified event data store. Feder- ating an event data store lets you view the metadata associated with the event data store in the Glue Data Catalog and run SQL queries against y...
+    /// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Enables Lake query federation on the specified event data store. Federating an event data store lets you view the metadata associated with the event data store in the Glue Data Catalog and run SQL queries against you...
     /// </summary>
-    /// <param name="EventDataStore">The ARN (or ID suffix of the ARN) of the event data store for which you want to enable Lake query federation. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$</param>
-    /// <param name="FederationRoleArn">The ARN of the federation role to use for the event data store. Ama- zon Web Services services like Lake Formation use this federation role to access data for the federated event data store. The federa- tion role must exist in your account and provide the required mini- mum permissions . Constraints: o min: 3 o max: 125 o pattern: ^[a-zA-Z0-9._/\-:@=\+,\.]+$</param>
+    /// <param name="EventDataStore">The ARN (or ID suffix of the ARN) of the event data store for which you want to enable Lake query federation. Constraints: • min: 3 • max: 256 • pattern: ^[a-zA-Z0-9._/\-:]+$</param>
+    /// <param name="FederationRoleArn">The ARN of the federation role to use for the event data store. Amazon Web Services services like Lake Formation use this federation role to access data for the federated event data store. The federation role must exist in your account and provide the required minimum permissions . Constraints: • min: 3 • max: 125 • pattern: ^[a-zA-Z0-9._/\-:@=\+,\.]+$</param>
     public AwsCloudtrailEnableFederationOptions(
         string EventDataStore,
         string FederationRoleArn
@@ -60,13 +62,13 @@ public record AwsCloudtrailEnableFederationOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN (or ID suffix of the ARN) of the event data store for which you want to enable Lake query federation. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$
+    /// The ARN (or ID suffix of the ARN) of the event data store for which you want to enable Lake query federation. Constraints: • min: 3 • max: 256 • pattern: ^[a-zA-Z0-9._/\-:]+$
     /// </summary>
     [CliOption("--event-data-store")]
     public string? EventDataStore { get; private init; }
 
     /// <summary>
-    /// The ARN of the federation role to use for the event data store. Ama- zon Web Services services like Lake Formation use this federation role to access data for the federated event data store. The federa- tion role must exist in your account and provide the required mini- mum permissions . Constraints: o min: 3 o max: 125 o pattern: ^[a-zA-Z0-9._/\-:@=\+,\.]+$
+    /// The ARN of the federation role to use for the event data store. Amazon Web Services services like Lake Formation use this federation role to access data for the federated event data store. The federation role must exist in your account and provide the required minimum permissions . Constraints: • min: 3 • max: 125 • pattern: ^[a-zA-Z0-9._/\-:@=\+,\.]+$
     /// </summary>
     [CliOption("--federation-role-arn")]
     public string? FederationRoleArn { get; private init; }

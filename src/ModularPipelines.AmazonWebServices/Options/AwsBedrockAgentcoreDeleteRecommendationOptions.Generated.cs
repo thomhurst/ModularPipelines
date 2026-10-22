@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBedrockAgentcoreDeleteRecommendationOptions : AwsOptions, IVali
     /// <summary>
     /// Deletes a recommendation and its associated results. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RecommendationId">The unique identifier of the recommendation to delete. Constraints: o pattern: [0-9a-zA-Z_-]{1,48}-[0-9A-Z]{10}</param>
+    /// <param name="RecommendationId">The unique identifier of the recommendation to delete. Constraints: • pattern: [0-9a-zA-Z_-]{1,48}-[0-9A-Z]{10}</param>
     public AwsBedrockAgentcoreDeleteRecommendationOptions(
         string RecommendationId
     )
@@ -56,7 +58,7 @@ public record AwsBedrockAgentcoreDeleteRecommendationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the recommendation to delete. Constraints: o pattern: [0-9a-zA-Z_-]{1,48}-[0-9A-Z]{10}
+    /// The unique identifier of the recommendation to delete. Constraints: • pattern: [0-9a-zA-Z_-]{1,48}-[0-9A-Z]{10}
     /// </summary>
     [CliOption("--recommendation-id")]
     public string? RecommendationId { get; private init; }

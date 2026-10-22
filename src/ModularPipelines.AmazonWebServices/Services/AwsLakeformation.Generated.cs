@@ -47,7 +47,7 @@ public class AwsLakeformation : IAwsLakeformation
     }
 
     /// <summary>
-    /// Allows a caller to assume an IAM role decorated as the SAML user speci- fied in the SAML assertion included in the request. This decoration al- lows Lake Formation to enforce access policies against the SAML users and groups. This API operation requires SAML federation setup in the callers account as it can only be called with valid SAML assertions. Lake Formation does not scope down the permission of the assumed role. All permissions attached to the role via the SAML federation setup will be in...
+    /// Allows a caller to assume an IAM role decorated as the SAML user specified in the SAML assertion included in the request. This decoration allows Lake Formation to enforce access policies against the SAML users and groups. This API operation requires SAML federation setup in the callers account as it can only be called with valid SAML assertions. Lake Formation does not scope down the permission of the assumed role. All permissions attached to the role via the SAML federation setup will be includ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -55,6 +55,21 @@ public class AwsLakeformation : IAwsLakeformation
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssumeDecoratedRoleWithSamlAsync(
         AwsLakeformationAssumeDecoratedRoleWithSamlOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Attaches a row-level security policy to a resource for a principal. When the principal queries the resource, Lake Formation applies the policy's filter expression so that only the permitted rows are returned. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> AttachRlsPolicyAsync(
+        AwsLakeformationAttachRlsPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -167,7 +182,7 @@ public class AwsLakeformation : IAwsLakeformation
     }
 
     /// <summary>
-    /// Creates a new LF-Tag expression with the provided name, description, catalog ID, and expression body. This call fails if a LF-Tag expression with the same name already exists in the callers account or if the un- derlying LF-Tags don't exist. To call this API operation, caller needs the following Lake Formation permissions: CREATE_LF_TAG_EXPRESSION on the root catalog resource. GRANT_WITH_LF_TAG_EXPRESSION on all underlying LF-Tag key:value pairs included in the expression. See also: AWS API Docu...
+    /// Creates a new LF-Tag expression with the provided name, description, catalog ID, and expression body. This call fails if a LF-Tag expression with the same name already exists in the callers account or if the underlying LF-Tags don't exist. To call this API operation, caller needs the following Lake Formation permissions: CREATE_LF_TAG_EXPRESSION on the root catalog resource. GRANT_WITH_LF_TAG_EXPRESSION on all underlying LF-Tag key:value pairs included in the expression. See also: AWS API Docume...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -190,6 +205,21 @@ public class AwsLakeformation : IAwsLakeformation
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateLfTagAsync(
         AwsLakeformationCreateLfTagOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Creates a row-level security (RLS) policy. A row-level security policy defines a filter expression that Lake Formation evaluates to determine which rows of a table a principal is allowed to see. The policy is created independently of any resource, and is later associated with a resource and principal using AttachRLSPolicy . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateRlsPolicyAsync(
+        AwsLakeformationCreateRlsPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -227,7 +257,7 @@ public class AwsLakeformation : IAwsLakeformation
     }
 
     /// <summary>
-    /// Remove the Lake Formation permissions enforcement of the given data- bases, tables, and principals. See also: AWS API Documentation
+    /// Remove the Lake Formation permissions enforcement of the given databases, tables, and principals. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +272,7 @@ public class AwsLakeformation : IAwsLakeformation
     }
 
     /// <summary>
-    /// Deletes the LF-Tag expression. The caller must be a data lake admin or have DROP permissions on the LF-Tag expression. Deleting a LF-Tag ex- pression will also delete all LFTagPolicy permissions referencing the LF-Tag expression. See also: AWS API Documentation
+    /// Deletes the LF-Tag expression. The caller must be a data lake admin or have DROP permissions on the LF-Tag expression. Deleting a LF-Tag expression will also delete all LFTagPolicy permissions referencing the LF-Tag expression. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +287,7 @@ public class AwsLakeformation : IAwsLakeformation
     }
 
     /// <summary>
-    /// Deletes an LF-tag by its key name. The operation fails if the specified tag key doesn't exist. When you delete an LF-Tag: o The associated LF-Tag policy becomes invalid. o Resources that had this tag assigned will no longer have the tag pol- icy applied to them. See also: AWS API Documentation
+    /// Deletes an LF-tag by its key name. The operation fails if the specified tag key doesn't exist. When you delete an LF-Tag: • The associated LF-Tag policy becomes invalid. • Resources that had this tag assigned will no longer have the tag policy applied to them. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +302,7 @@ public class AwsLakeformation : IAwsLakeformation
     }
 
     /// <summary>
-    /// For a specific governed table, provides a list of Amazon S3 objects that will be written during the current transaction and that can be au- tomatically deleted if the transaction is canceled. Without this call, no Amazon S3 objects are automatically deleted when a transaction can- cels. The Glue ETL library function write_dynamic_frame.from_catalog() in- cludes an option to automatically call DeleteObjectsOnCancel before writes. For more information, see Rolling Back Amazon S3 Writes . See also:...
+    /// For a specific governed table, provides a list of Amazon S3 objects that will be written during the current transaction and that can be automatically deleted if the transaction is canceled. Without this call, no Amazon S3 objects are automatically deleted when a transaction cancels. The Glue ETL library function write_dynamic_frame.from_catalog() includes an option to automatically call DeleteObjectsOnCancel before writes. For more information, see Rolling Back Amazon S3 Writes . See also: AWS A...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -280,6 +310,21 @@ public class AwsLakeformation : IAwsLakeformation
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteObjectsOnCancelAsync(
         AwsLakeformationDeleteObjectsOnCancelOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Deletes a row-level security policy. Any active attachments of the policy are automatically removed as part of the deletion, so you do not need to detach the policy first. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteRlsPolicyAsync(
+        AwsLakeformationDeleteRlsPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -317,7 +362,7 @@ public class AwsLakeformation : IAwsLakeformation
     }
 
     /// <summary>
-    /// Retrieves the current data access role for the given resource regis- tered in Lake Formation. See also: AWS API Documentation
+    /// Retrieves the current data access role for the given resource registered in Lake Formation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -340,6 +385,21 @@ public class AwsLakeformation : IAwsLakeformation
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeTransactionAsync(
         AwsLakeformationDescribeTransactionOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Detaches a row-level security policy from a resource for a principal. After the policy is detached, its filter expression is no longer applied to the principal's queries on that resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DetachRlsPolicyAsync(
+        AwsLakeformationDetachRlsPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -392,7 +452,7 @@ public class AwsLakeformation : IAwsLakeformation
     }
 
     /// <summary>
-    /// Retrieves the list of the data lake administrators of a Lake Forma- tion-managed data lake. See also: AWS API Documentation
+    /// Retrieves the list of the data lake administrators of a Lake Formation-managed data lake. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +467,7 @@ public class AwsLakeformation : IAwsLakeformation
     }
 
     /// <summary>
-    /// Returns the Lake Formation permissions for a specified table or data- base resource located at a path in Amazon S3. GetEffectivePermissions- ForPath will not return databases and tables if the catalog is en- crypted. See also: AWS API Documentation
+    /// Returns the Lake Formation permissions for a specified table or database resource located at a path in Amazon S3. GetEffectivePermissionsForPath will not return databases and tables if the catalog is encrypted. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +482,7 @@ public class AwsLakeformation : IAwsLakeformation
     }
 
     /// <summary>
-    /// Returns the details about the LF-Tag expression. The caller must be a data lake admin or must have DESCRIBE permission on the LF-Tag expres- sion resource. See also: AWS API Documentation
+    /// Returns the details about the LF-Tag expression. The caller must be a data lake admin or must have DESCRIBE permission on the LF-Tag expression resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +512,7 @@ public class AwsLakeformation : IAwsLakeformation
     }
 
     /// <summary>
-    /// Returns the state of a query previously submitted. Clients are expected to poll GetQueryState to monitor the current state of the planning be- fore retrieving the work units. A query state is only visible to the principal that made the initial call to StartQueryPlanning . See also: AWS API Documentation
+    /// Returns the state of a query previously submitted. Clients are expected to poll GetQueryState to monitor the current state of the planning before retrieving the work units. A query state is only visible to the principal that made the initial call to StartQueryPlanning . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +557,22 @@ public class AwsLakeformation : IAwsLakeformation
     }
 
     /// <summary>
-    /// Returns the set of Amazon S3 objects that make up the specified gov- erned table. A transaction ID or timestamp can be specified for time-travel queries. See also: AWS API Documentation
+    /// Returns the definition of a row-level security policy, including its attachment columns and filter expression. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetRlsPolicyAsync(
+        AwsLakeformationGetRlsPolicyOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns the set of Amazon S3 objects that make up the specified governed table. A transaction ID or timestamp can be specified for time-travel queries. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -512,7 +587,7 @@ public class AwsLakeformation : IAwsLakeformation
     }
 
     /// <summary>
-    /// Allows a user or application in a secure environment to access data in a specific Amazon S3 location registered with Lake Formation by provid- ing temporary scoped credentials that are limited to the requested data location and the caller's authorized access level. GetDataAccess is logged in CloudTrail whenever a principal requests temporary data location credentials to access data in a data lake location that is registered with Lake Formation. The API operation returns an error in the following...
+    /// Allows a user or application in a secure environment to access data in a specific Amazon S3 location registered with Lake Formation by providing temporary scoped credentials that are limited to the requested data location and the caller's authorized access level. GetDataAccess is logged in CloudTrail whenever a principal requests temporary data location credentials to access data in a data lake location that is registered with Lake Formation. The API operation returns an error in the following s...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +617,7 @@ public class AwsLakeformation : IAwsLakeformation
     }
 
     /// <summary>
-    /// Allows a caller in a secure environment to assume a role with permis- sion to access Amazon S3. In order to vend such credentials, Lake For- mation assumes the role associated with a registered location, for ex- ample an Amazon S3 bucket, with a scope down policy which restricts the access to a single prefix. To call this API, the role that the service assumes must have lakefor- mation:GetDataAccess permission on the resource. See also: AWS API Documentation
+    /// Allows a caller in a secure environment to assume a role with permission to access Amazon S3. In order to vend such credentials, Lake Formation assumes the role associated with a registered location, for example an Amazon S3 bucket, with a scope down policy which restricts the access to a single prefix. To call this API, the role that the service assumes must have lakeformation:GetDataAccess permission on the resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +632,7 @@ public class AwsLakeformation : IAwsLakeformation
     }
 
     /// <summary>
-    /// Returns the work units resulting from the query. Work units can be exe- cuted in any order and in parallel. See also: AWS API Documentation
+    /// Returns the work units resulting from the query. Work units can be executed in any order and in parallel. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +647,7 @@ public class AwsLakeformation : IAwsLakeformation
     }
 
     /// <summary>
-    /// Retrieves the work units generated by the StartQueryPlanning operation. See also: AWS API Documentation get-work-units is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: WorkUnitRanges
+    /// Retrieves the work units generated by the StartQueryPlanning operation. See also: AWS API Documentation get-work-units is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: WorkUnitRanges
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +662,7 @@ public class AwsLakeformation : IAwsLakeformation
     }
 
     /// <summary>
-    /// Grants permissions to the principal to access metadata in the Data Cat- alog and data organized in underlying data storage such as Amazon S3. For information about permissions, see Security and Access Control to Metadata and Data . See also: AWS API Documentation
+    /// Grants permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3. For information about permissions, see Security and Access Control to Metadata and Data . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -632,7 +707,7 @@ public class AwsLakeformation : IAwsLakeformation
     }
 
     /// <summary>
-    /// Returns the LF-Tag expressions in callers account filtered based on caller's permissions. Data Lake and read only admins implicitly can see all tag expressions in their account, else caller needs DESCRIBE per- missions on tag expression. See also: AWS API Documentation list-lf-tag-expressions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text a...
+    /// Returns the LF-Tag expressions in callers account filtered based on caller's permissions. Data Lake and read only admins implicitly can see all tag expressions in their account, else caller needs DESCRIBE permissions on tag expression. See also: AWS API Documentation list-lf-tag-expressions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +722,7 @@ public class AwsLakeformation : IAwsLakeformation
     }
 
     /// <summary>
-    /// Lists LF-tags that the requester has permission to view. See also: AWS API Documentation list-lf-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: LFTags
+    /// Lists LF-tags that the requester has permission to view. See also: AWS API Documentation list-lf-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: LFTags
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -689,6 +764,36 @@ public class AwsLakeformation : IAwsLakeformation
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLakeformationListResourcesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the row-level security policies in the Data Catalog. See also: AWS API Documentation list-rls-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RLSPolicies
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListRlsPoliciesAsync(
+        AwsLakeformationListRlsPoliciesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLakeformationListRlsPoliciesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the row-level security policy attachments in the Data Catalog. You can filter the results by resource, principal, or policy name. See also: AWS API Documentation list-rls-policy-attachments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the r...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListRlsPolicyAttachmentsAsync(
+        AwsLakeformationListRlsPolicyAttachmentsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLakeformationListRlsPolicyAttachmentsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -737,7 +842,7 @@ public class AwsLakeformation : IAwsLakeformation
     }
 
     /// <summary>
-    /// Registers the resource as managed by the Data Catalog. To add or update data, Lake Formation needs read/write access to the chosen data location. Choose a role that you know has permission to do this, or choose the AWSServiceRoleForLakeFormationDataAccess ser- vice-linked role. When you register the first Amazon S3 path, the ser- vice-linked role and a new inline policy are created on your behalf. Lake Formation adds the first path to the inline policy and attaches it to the service-linked role....
+    /// Registers the resource as managed by the Data Catalog. To add or update data, Lake Formation needs read/write access to the chosen data location. Choose a role that you know has permission to do this, or choose the AWSServiceRoleForLakeFormationDataAccess service-linked role. When you register the first Amazon S3 path, the service-linked role and a new inline policy are created on your behalf. Lake Formation adds the first path to the inline policy and attaches it to the service-linked role. Whe...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -752,7 +857,7 @@ public class AwsLakeformation : IAwsLakeformation
     }
 
     /// <summary>
-    /// Removes an LF-tag from the resource. Only database, table, or table- WithColumns resource are allowed. To tag columns, use the column inclu- sion list in tableWithColumns to specify column input. See also: AWS API Documentation
+    /// Removes an LF-tag from the resource. Only database, table, or tableWithColumns resource are allowed. To tag columns, use the column inclusion list in tableWithColumns to specify column input. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -782,7 +887,7 @@ public class AwsLakeformation : IAwsLakeformation
     }
 
     /// <summary>
-    /// This operation allows a search on DATABASE resources by TagCondition . This operation is used by admins who want to grant user permissions on certain TagConditions . Before making a grant, the admin can use SearchDatabasesByTags to find all resources where the given TagCondi- tions are valid to verify whether the returned resources can be shared. See also: AWS API Documentation search-databases-by-lf-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire ...
+    /// This operation allows a search on DATABASE resources by TagCondition . This operation is used by admins who want to grant user permissions on certain TagConditions . Before making a grant, the admin can use SearchDatabasesByTags to find all resources where the given TagConditions are valid to verify whether the returned resources can be shared. See also: AWS API Documentation search-databases-by-lf-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire da...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -812,7 +917,7 @@ public class AwsLakeformation : IAwsLakeformation
     }
 
     /// <summary>
-    /// Submits a request to process a query statement. This operation generates work units that can be retrieved with the Get- WorkUnits operation as soon as the query state is WORKUNITS_AVAILABLE or FINISHED. See also: AWS API Documentation
+    /// Submits a request to process a query statement. This operation generates work units that can be retrieved with the GetWorkUnits operation as soon as the query state is WORKUNITS_AVAILABLE or FINISHED. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -872,7 +977,7 @@ public class AwsLakeformation : IAwsLakeformation
     }
 
     /// <summary>
-    /// Updates the name of the LF-Tag expression to the new description and expression body provided. Updating a LF-Tag expression immediately changes the permission boundaries of all existing LFTagPolicy permis- sion grants that reference the given LF-Tag expression. See also: AWS API Documentation
+    /// Updates the name of the LF-Tag expression to the new description and expression body provided. Updating a LF-Tag expression immediately changes the permission boundaries of all existing LFTagPolicy permission grants that reference the given LF-Tag expression. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -887,7 +992,7 @@ public class AwsLakeformation : IAwsLakeformation
     }
 
     /// <summary>
-    /// Updates the list of possible values for the specified LF-tag key. If the LF-tag does not exist, the operation throws an EntityNotFoundExcep- tion. The values in the delete key values will be deleted from list of possible values. If any value in the delete key values is attached to a resource, then API errors out with a 400 Exception - "Update not al- lowed". Untag the attribute before deleting the LF-tag key's value. See also: AWS API Documentation
+    /// Updates the list of possible values for the specified LF-tag key. If the LF-tag does not exist, the operation throws an EntityNotFoundException. The values in the delete key values will be deleted from list of possible values. If any value in the delete key values is attached to a resource, then API errors out with a 400 Exception - "Update not allowed". Untag the attribute before deleting the LF-tag key's value. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -902,7 +1007,7 @@ public class AwsLakeformation : IAwsLakeformation
     }
 
     /// <summary>
-    /// Updates the data access role used for vending access to the given (reg- istered) resource in Lake Formation. See also: AWS API Documentation
+    /// Updates the data access role used for vending access to the given (registered) resource in Lake Formation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -910,6 +1015,21 @@ public class AwsLakeformation : IAwsLakeformation
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateResourceAsync(
         AwsLakeformationUpdateResourceOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Updates the filter expression of an existing row-level security policy. The change applies to all attachments of the policy. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateRlsPolicyAsync(
+        AwsLakeformationUpdateRlsPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

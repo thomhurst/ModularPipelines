@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Create an App Runner VPC Ingress Connection resource. App Runner re- quires this resource when you want to associate your App Runner service with an Amazon VPC endpoint. See also: AWS API Documentation
+/// Create an App Runner VPC Ingress Connection resource. App Runner requires this resource when you want to associate your App Runner service with an Amazon VPC endpoint. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsApprunnerCreateVpcIngressConnectionOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Create an App Runner VPC Ingress Connection resource. App Runner re- quires this resource when you want to associate your App Runner service with an Amazon VPC endpoint. See also: AWS API Documentation
+    /// Create an App Runner VPC Ingress Connection resource. App Runner requires this resource when you want to associate your App Runner service with an Amazon VPC endpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceArn">The Amazon Resource Name (ARN) for this App Runner service that is used to create the VPC Ingress Connection resource. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}</param>
-    /// <param name="VpcIngressConnectionName">A name for the VPC Ingress Connection resource. It must be unique across all the active VPC Ingress Connections in your Amazon Web Services account in the Amazon Web Services Region. Constraints: o min: 4 o max: 40 o pattern: [A-Za-z0-9][A-Za-z0-9\-_]{3,39}</param>
-    /// <param name="IngressVpcConfiguration">Specifications for the customers Amazon VPC and the related Amazon Web Services PrivateLink VPC endpoint that are used to create the VPC Ingress Connection resource. VpcId -&gt; (string) The ID of the VPC that is used for the VPC endpoint. Constraints: o min: 0 o max: 51200 o pattern: .* VpcEndpointId -&gt; (string) The ID of the VPC endpoint that your App Runner service connects to. Constraints: o min: 0 o max: 51200 o pattern: .* Shorthand Syntax: VpcId=string,VpcEndpointId=string JSON Syntax: { "VpcId": "string", "VpcEndpointId": "string" }</param>
+    /// <param name="ServiceArn">The Amazon Resource Name (ARN) for this App Runner service that is used to create the VPC Ingress Connection resource. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}</param>
+    /// <param name="VpcIngressConnectionName">A name for the VPC Ingress Connection resource. It must be unique across all the active VPC Ingress Connections in your Amazon Web Services account in the Amazon Web Services Region. Constraints: • min: 4 • max: 40 • pattern: [A-Za-z0-9][A-Za-z0-9\-_]{3,39}</param>
+    /// <param name="IngressVpcConfiguration">Specifications for the customers Amazon VPC and the related Amazon Web Services PrivateLink VPC endpoint that are used to create the VPC Ingress Connection resource. VpcId -&gt; (string) The ID of the VPC that is used for the VPC endpoint. Constraints: • min: 0 • max: 51200 • pattern: .* VpcEndpointId -&gt; (string) The ID of the VPC endpoint that your App Runner service connects to. Constraints: • min: 0 • max: 51200 • pattern: .* Shorthand Syntax: VpcId=string,VpcEndpointId=string JSON Syntax: { "VpcId": "string", "VpcEndpointId": "string" }</param>
     public AwsApprunnerCreateVpcIngressConnectionOptions(
         string ServiceArn,
         string VpcIngressConnectionName,
@@ -64,25 +66,25 @@ public record AwsApprunnerCreateVpcIngressConnectionOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) for this App Runner service that is used to create the VPC Ingress Connection resource. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}
+    /// The Amazon Resource Name (ARN) for this App Runner service that is used to create the VPC Ingress Connection resource. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}
     /// </summary>
     [CliOption("--service-arn")]
     public string? ServiceArn { get; private init; }
 
     /// <summary>
-    /// A name for the VPC Ingress Connection resource. It must be unique across all the active VPC Ingress Connections in your Amazon Web Services account in the Amazon Web Services Region. Constraints: o min: 4 o max: 40 o pattern: [A-Za-z0-9][A-Za-z0-9\-_]{3,39}
+    /// A name for the VPC Ingress Connection resource. It must be unique across all the active VPC Ingress Connections in your Amazon Web Services account in the Amazon Web Services Region. Constraints: • min: 4 • max: 40 • pattern: [A-Za-z0-9][A-Za-z0-9\-_]{3,39}
     /// </summary>
     [CliOption("--vpc-ingress-connection-name")]
     public string? VpcIngressConnectionName { get; private init; }
 
     /// <summary>
-    /// Specifications for the customers Amazon VPC and the related Amazon Web Services PrivateLink VPC endpoint that are used to create the VPC Ingress Connection resource. VpcId -&gt; (string) The ID of the VPC that is used for the VPC endpoint. Constraints: o min: 0 o max: 51200 o pattern: .* VpcEndpointId -&gt; (string) The ID of the VPC endpoint that your App Runner service connects to. Constraints: o min: 0 o max: 51200 o pattern: .* Shorthand Syntax: VpcId=string,VpcEndpointId=string JSON Syntax: { "VpcId": "string", "VpcEndpointId": "string" }
+    /// Specifications for the customers Amazon VPC and the related Amazon Web Services PrivateLink VPC endpoint that are used to create the VPC Ingress Connection resource. VpcId -&gt; (string) The ID of the VPC that is used for the VPC endpoint. Constraints: • min: 0 • max: 51200 • pattern: .* VpcEndpointId -&gt; (string) The ID of the VPC endpoint that your App Runner service connects to. Constraints: • min: 0 • max: 51200 • pattern: .* Shorthand Syntax: VpcId=string,VpcEndpointId=string JSON Syntax: { "VpcId": "string", "VpcEndpointId": "string" }
     /// </summary>
     [CliOption("--ingress-vpc-configuration")]
     public string? IngressVpcConfiguration { get; private init; }
 
     /// <summary>
-    /// An optional list of metadata items that you can associate with the VPC Ingress Connection resource. A tag is a key-value pair. (structure) Describes a tag that is applied to an App Runner resource. A tag is a metadata item consisting of a key-value pair. Key -&gt; (string) The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:).+ Value -&gt; (string) The value of the tag. Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// An optional list of metadata items that you can associate with the VPC Ingress Connection resource. A tag is a key-value pair. (structure) Describes a tag that is applied to an App Runner resource. A tag is a metadata item consisting of a key-value pair. Key -&gt; (string) The key of the tag. Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:).+ Value -&gt; (string) The value of the tag. Constraints: • min: 0 • max: 256 • pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

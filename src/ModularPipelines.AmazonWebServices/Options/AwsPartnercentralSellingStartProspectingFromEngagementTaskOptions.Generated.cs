@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts a task to convert one or more engagement contexts into new prospecting leads. The task runs asynchronously. To poll for status, use GetProspectingFromEngagementTask , or use ListProspectingFromEn- gagementTasks to monitor multiple tasks. See also: AWS API Documentation
+/// Starts a task to convert one or more engagement contexts into new prospecting leads. The task runs asynchronously. To poll for status, use GetProspectingFromEngagementTask , or use ListProspectingFromEngagementTasks to monitor multiple tasks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsPartnercentralSellingStartProspectingFromEngagementTaskOptions 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts a task to convert one or more engagement contexts into new prospecting leads. The task runs asynchronously. To poll for status, use GetProspectingFromEngagementTask , or use ListProspectingFromEn- gagementTasks to monitor multiple tasks. See also: AWS API Documentation
+    /// Starts a task to convert one or more engagement contexts into new prospecting leads. The task runs asynchronously. To poll for status, use GetProspectingFromEngagementTask , or use ListProspectingFromEngagementTasks to monitor multiple tasks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">Specifies the catalog in which the task is initiated. Specify AWS for production environments and Sandbox for testing and development purposes. Constraints: o pattern: [a-zA-Z]+</param>
-    /// <param name="Identifiers">The list of engagement identifiers to include in this prospecting task. Each identifier must correspond to an existing engagement in the specified catalog. Maximum of 100 identifiers per task. Constraints: o min: 0 o max: 100 (string) Constraints: o pattern: eng-[0-9a-z]{14} Syntax: "string" "string" ...</param>
-    /// <param name="TaskName">A descriptive name for the task. This name helps identify the task in list and get operations. The name must contain 1 to 128 charac- ters. Constraints: o min: 1 o max: 128</param>
+    /// <param name="Catalog">Specifies the catalog in which the task is initiated. Specify AWS for production environments and Sandbox for testing and development purposes. Constraints: • pattern: [a-zA-Z]+</param>
+    /// <param name="Identifiers">The list of engagement identifiers to include in this prospecting task. Each identifier must correspond to an existing engagement in the specified catalog. Maximum of 100 identifiers per task. Constraints: • min: 0 • max: 100 (string) Constraints: • pattern: eng-[0-9a-z]{14} Syntax: "string" "string" ...</param>
+    /// <param name="TaskName">A descriptive name for the task. This name helps identify the task in list and get operations. The name must contain 1 to 128 characters. Constraints: • min: 1 • max: 128</param>
     public AwsPartnercentralSellingStartProspectingFromEngagementTaskOptions(
         string Catalog,
         IEnumerable<string> Identifiers,
@@ -76,25 +78,25 @@ public record AwsPartnercentralSellingStartProspectingFromEngagementTaskOptions 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the catalog in which the task is initiated. Specify AWS for production environments and Sandbox for testing and development purposes. Constraints: o pattern: [a-zA-Z]+
+    /// Specifies the catalog in which the task is initiated. Specify AWS for production environments and Sandbox for testing and development purposes. Constraints: • pattern: [a-zA-Z]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// The list of engagement identifiers to include in this prospecting task. Each identifier must correspond to an existing engagement in the specified catalog. Maximum of 100 identifiers per task. Constraints: o min: 0 o max: 100 (string) Constraints: o pattern: eng-[0-9a-z]{14} Syntax: "string" "string" ...
+    /// The list of engagement identifiers to include in this prospecting task. Each identifier must correspond to an existing engagement in the specified catalog. Maximum of 100 identifiers per task. Constraints: • min: 0 • max: 100 (string) Constraints: • pattern: eng-[0-9a-z]{14} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--identifiers", GroupValues = true)]
     public IEnumerable<string>? Identifiers { get; private init; }
 
     /// <summary>
-    /// A descriptive name for the task. This name helps identify the task in list and get operations. The name must contain 1 to 128 charac- ters. Constraints: o min: 1 o max: 128
+    /// A descriptive name for the task. This name helps identify the task in list and get operations. The name must contain 1 to 128 characters. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--task-name")]
     public string? TaskName { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier provided by the client to ensure idempotency. Making the same request with the same ClientToken re- turns the same response without creating a duplicate task. Constraints: o pattern: .{1,255}
+    /// A unique, case-sensitive identifier provided by the client to ensure idempotency. Making the same request with the same ClientToken returns the same response without creating a duplicate task. Constraints: • pattern: .{1,255}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

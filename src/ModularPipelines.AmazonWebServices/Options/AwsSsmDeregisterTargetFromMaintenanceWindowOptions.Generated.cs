@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsSsmDeregisterTargetFromMaintenanceWindowOptions : AwsOptions, I
     /// <summary>
     /// Removes a target from a maintenance window. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WindowId">The ID of the maintenance window the target should be removed from. Constraints: o min: 20 o max: 20 o pattern: ^mw-[0-9a-f]{17}$</param>
-    /// <param name="WindowTargetId">The ID of the target definition to remove. Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$</param>
+    /// <param name="WindowId">The ID of the maintenance window the target should be removed from. Constraints: • min: 20 • max: 20 • pattern: ^mw-[0-9a-f]{17}$</param>
+    /// <param name="WindowTargetId">The ID of the target definition to remove. Constraints: • min: 36 • max: 36 • pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$</param>
     public AwsSsmDeregisterTargetFromMaintenanceWindowOptions(
         string WindowId,
         string WindowTargetId
@@ -60,13 +62,13 @@ public record AwsSsmDeregisterTargetFromMaintenanceWindowOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the maintenance window the target should be removed from. Constraints: o min: 20 o max: 20 o pattern: ^mw-[0-9a-f]{17}$
+    /// The ID of the maintenance window the target should be removed from. Constraints: • min: 20 • max: 20 • pattern: ^mw-[0-9a-f]{17}$
     /// </summary>
     [CliOption("--window-id")]
     public string? WindowId { get; private init; }
 
     /// <summary>
-    /// The ID of the target definition to remove. Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$
+    /// The ID of the target definition to remove. Constraints: • min: 36 • max: 36 • pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$
     /// </summary>
     [CliOption("--window-target-id")]
     public string? WindowTargetId { get; private init; }

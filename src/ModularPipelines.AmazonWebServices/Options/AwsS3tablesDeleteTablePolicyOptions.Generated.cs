@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a table policy. For more information, see Deleting a table pol- icy in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:DeleteTablePolicy permission to use this op- eration. See also: AWS API Documentation
+/// Deletes a table policy. For more information, see Deleting a table policy in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:DeleteTablePolicy permission to use this operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsS3tablesDeleteTablePolicyOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a table policy. For more information, see Deleting a table pol- icy in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:DeleteTablePolicy permission to use this op- eration. See also: AWS API Documentation
+    /// Deletes a table policy. For more information, see Deleting a table policy in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:DeleteTablePolicy permission to use this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TableBucketArn">The Amazon Resource Name (ARN) of the table bucket that contains the table. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})</param>
-    /// <param name="Namespace">The namespace associated with the table. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*</param>
-    /// <param name="Name">The table name. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*</param>
+    /// <param name="TableBucketArn">The Amazon Resource Name (ARN) of the table bucket that contains the table. Constraints: • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})</param>
+    /// <param name="Namespace">The namespace associated with the table. Constraints: • min: 1 • max: 255 • pattern: [0-9a-z_]*</param>
+    /// <param name="Name">The table name. Constraints: • min: 1 • max: 255 • pattern: [0-9a-z_]*</param>
     public AwsS3tablesDeleteTablePolicyOptions(
         string TableBucketArn,
         string Namespace,
@@ -64,19 +66,19 @@ public record AwsS3tablesDeleteTablePolicyOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the table bucket that contains the table. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})
+    /// The Amazon Resource Name (ARN) of the table bucket that contains the table. Constraints: • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})
     /// </summary>
     [CliOption("--table-bucket-arn")]
     public string? TableBucketArn { get; private init; }
 
     /// <summary>
-    /// The namespace associated with the table. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*
+    /// The namespace associated with the table. Constraints: • min: 1 • max: 255 • pattern: [0-9a-z_]*
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; private init; }
 
     /// <summary>
-    /// The table name. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*
+    /// The table name. Constraints: • min: 1 • max: 255 • pattern: [0-9a-z_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

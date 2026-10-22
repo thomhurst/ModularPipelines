@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a network endpoint for the Remote Desktop Services (RDS) li- cense server. See also: AWS API Documentation
+/// Creates a network endpoint for the Remote Desktop Services (RDS) license server. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsLicenseManagerUserSubscriptionsCreateLicenseServerEndpointOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a network endpoint for the Remote Desktop Services (RDS) li- cense server. See also: AWS API Documentation
+    /// Creates a network endpoint for the Remote Desktop Services (RDS) license server. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IdentityProviderArn">The Amazon Resource Name (ARN) that identifies the IdentityProvider resource that contains details about a registered identity provider. In the case of Active Directory, that can be a self-managed Active Directory or an Amazon Web Services Managed Active Directory that contains user identity details. Constraints: o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-zA-Z0-9-\.]{1,510}/[a-zA-Z0-9-\.]{1,510}</param>
-    /// <param name="LicenseServerSettings">The LicenseServerSettings resource to create for the endpoint. The settings include the type of license server and the Secrets Manager secret that enables administrators to add or remove users associated with the license server. ServerType -&gt; (string) [required] The type of license server. Possible values: o RDS_SAL ServerSettings -&gt; (tagged union structure) [required] The ServerSettings resource contains the settings for your server. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: RdsSalSettings. RdsSalSettings -&gt; (structure) The RdsSalSettings resource contains settings to configure a specific Remote Desktop Services (RDS) license server. RdsSalCredentialsProvider -&gt; (tagged union structure) [re- quired] The CredentialsProvider resource contains a reference to the credentials provider that's used for RDS license server user administration. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: SecretsManagerCre- dentialsProvider. SecretsManagerCredentialsProvider -&gt; (structure) Identifies the Secrets Manager secret that contains credentials needed for user administration in the Ac- tive Directory. SecretId -&gt; (string) The ID of the Secrets Manager secret that contains credentials. Constraints: o min: 1 JSON Syntax: { "ServerType": "RDS_SAL", "ServerSettings": { "RdsSalSettings": { "RdsSalCredentialsProvider": { "SecretsManagerCredentialsProvider": { "SecretId": "string" } } } } }</param>
+    /// <param name="IdentityProviderArn">The Amazon Resource Name (ARN) that identifies the IdentityProvider resource that contains details about a registered identity provider. In the case of Active Directory, that can be a self-managed Active Directory or an Amazon Web Services Managed Active Directory that contains user identity details. Constraints: • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-zA-Z0-9-\.]{1,510}/[a-zA-Z0-9-\.]{1,510}</param>
+    /// <param name="LicenseServerSettings">The LicenseServerSettings resource to create for the endpoint. The settings include the type of license server and the Secrets Manager secret that enables administrators to add or remove users associated with the license server. ServerType -&gt; (string) [required] The type of license server. Possible values: • RDS_SAL ServerSettings -&gt; (tagged union structure) [required] The ServerSettings resource contains the settings for your server. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: RdsSalSettings. RdsSalSettings -&gt; (structure) The RdsSalSettings resource contains settings to configure a specific Remote Desktop Services (RDS) license server. RdsSalCredentialsProvider -&gt; (tagged union structure) [required] The CredentialsProvider resource contains a reference to the credentials provider that's used for RDS license server user administration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: SecretsManagerCredentialsProvider. SecretsManagerCredentialsProvider -&gt; (structure) Identifies the Secrets Manager secret that contains credentials needed for user administration in the Active Directory. SecretId -&gt; (string) The ID of the Secrets Manager secret that contains credentials. Constraints: • min: 1 JSON Syntax: { "ServerType": "RDS_SAL", "ServerSettings": { "RdsSalSettings": { "RdsSalCredentialsProvider": { "SecretsManagerCredentialsProvider": { "SecretId": "string" } } } } }</param>
     public AwsLicenseManagerUserSubscriptionsCreateLicenseServerEndpointOptions(
         string IdentityProviderArn,
         string LicenseServerSettings
@@ -61,19 +62,19 @@ public record AwsLicenseManagerUserSubscriptionsCreateLicenseServerEndpointOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that identifies the IdentityProvider resource that contains details about a registered identity provider. In the case of Active Directory, that can be a self-managed Active Directory or an Amazon Web Services Managed Active Directory that contains user identity details. Constraints: o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-zA-Z0-9-\.]{1,510}/[a-zA-Z0-9-\.]{1,510}
+    /// The Amazon Resource Name (ARN) that identifies the IdentityProvider resource that contains details about a registered identity provider. In the case of Active Directory, that can be a self-managed Active Directory or an Amazon Web Services Managed Active Directory that contains user identity details. Constraints: • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-zA-Z0-9-\.]{1,510}/[a-zA-Z0-9-\.]{1,510}
     /// </summary>
     [CliOption("--identity-provider-arn")]
     public string? IdentityProviderArn { get; private init; }
 
     /// <summary>
-    /// The LicenseServerSettings resource to create for the endpoint. The settings include the type of license server and the Secrets Manager secret that enables administrators to add or remove users associated with the license server. ServerType -&gt; (string) [required] The type of license server. Possible values: o RDS_SAL ServerSettings -&gt; (tagged union structure) [required] The ServerSettings resource contains the settings for your server. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: RdsSalSettings. RdsSalSettings -&gt; (structure) The RdsSalSettings resource contains settings to configure a specific Remote Desktop Services (RDS) license server. RdsSalCredentialsProvider -&gt; (tagged union structure) [re- quired] The CredentialsProvider resource contains a reference to the credentials provider that's used for RDS license server user administration. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: SecretsManagerCre- dentialsProvider. SecretsManagerCredentialsProvider -&gt; (structure) Identifies the Secrets Manager secret that contains credentials needed for user administration in the Ac- tive Directory. SecretId -&gt; (string) The ID of the Secrets Manager secret that contains credentials. Constraints: o min: 1 JSON Syntax: { "ServerType": "RDS_SAL", "ServerSettings": { "RdsSalSettings": { "RdsSalCredentialsProvider": { "SecretsManagerCredentialsProvider": { "SecretId": "string" } } } } }
+    /// The LicenseServerSettings resource to create for the endpoint. The settings include the type of license server and the Secrets Manager secret that enables administrators to add or remove users associated with the license server. ServerType -&gt; (string) [required] The type of license server. Possible values: • RDS_SAL ServerSettings -&gt; (tagged union structure) [required] The ServerSettings resource contains the settings for your server. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: RdsSalSettings. RdsSalSettings -&gt; (structure) The RdsSalSettings resource contains settings to configure a specific Remote Desktop Services (RDS) license server. RdsSalCredentialsProvider -&gt; (tagged union structure) [required] The CredentialsProvider resource contains a reference to the credentials provider that's used for RDS license server user administration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: SecretsManagerCredentialsProvider. SecretsManagerCredentialsProvider -&gt; (structure) Identifies the Secrets Manager secret that contains credentials needed for user administration in the Active Directory. SecretId -&gt; (string) The ID of the Secrets Manager secret that contains credentials. Constraints: • min: 1 JSON Syntax: { "ServerType": "RDS_SAL", "ServerSettings": { "RdsSalSettings": { "RdsSalCredentialsProvider": { "SecretsManagerCredentialsProvider": { "SecretId": "string" } } } } }
     /// </summary>
     [CliOption("--license-server-settings")]
     public string? LicenseServerSettings { get; private init; }
 
     /// <summary>
-    /// The tags that apply for the license server endpoint. Constraints: o min: 0 o max: 50 key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags that apply for the license server endpoint. Constraints: • min: 0 • max: 50 key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

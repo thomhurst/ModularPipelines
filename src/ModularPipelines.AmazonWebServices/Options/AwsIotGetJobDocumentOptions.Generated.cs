@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotGetJobDocumentOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets a job document. Requires permission to access the GetJobDocument action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">The unique identifier you assigned to this job when it was created. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="JobId">The unique identifier you assigned to this job when it was created. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsIotGetJobDocumentOptions(
         string JobId
     )
@@ -56,13 +58,13 @@ public record AwsIotGetJobDocumentOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier you assigned to this job when it was created. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// The unique identifier you assigned to this job when it was created. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// Provides a view of the job document before and after the substitu- tion parameters have been resolved with their exact values.
+    /// Provides a view of the job document before and after the substitution parameters have been resolved with their exact values.
     /// </summary>
     [CliFlag("--before-substitution", NegatedName = "--no-before-substitution")]
     public bool? BeforeSubstitution { get; set; }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsIotwirelessAssociateAwsAccountWithPartnerAccountOptions : AwsOp
     /// <summary>
     /// Associates a partner account with your AWS account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Sidewalk">The Sidewalk account credentials. AmazonId -&gt; (string) The Sidewalk Amazon ID. Constraints: o max: 2048 AppServerPrivateKey -&gt; (string) The Sidewalk application server private key. Constraints: o min: 1 o max: 4096 o pattern: [a-fA-F0-9]{64} Shorthand Syntax: AmazonId=string,AppServerPrivateKey=string JSON Syntax: { "AmazonId": "string", "AppServerPrivateKey": "string" }</param>
+    /// <param name="Sidewalk">The Sidewalk account credentials. AmazonId -&gt; (string) The Sidewalk Amazon ID. Constraints: • max: 2048 AppServerPrivateKey -&gt; (string) The Sidewalk application server private key. Constraints: • min: 1 • max: 4096 • pattern: [a-fA-F0-9]{64} Shorthand Syntax: AmazonId=string,AppServerPrivateKey=string JSON Syntax: { "AmazonId": "string", "AppServerPrivateKey": "string" }</param>
     public AwsIotwirelessAssociateAwsAccountWithPartnerAccountOptions(
         string Sidewalk
     )
@@ -57,20 +59,20 @@ public record AwsIotwirelessAssociateAwsAccountWithPartnerAccountOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Sidewalk account credentials. AmazonId -&gt; (string) The Sidewalk Amazon ID. Constraints: o max: 2048 AppServerPrivateKey -&gt; (string) The Sidewalk application server private key. Constraints: o min: 1 o max: 4096 o pattern: [a-fA-F0-9]{64} Shorthand Syntax: AmazonId=string,AppServerPrivateKey=string JSON Syntax: { "AmazonId": "string", "AppServerPrivateKey": "string" }
+    /// The Sidewalk account credentials. AmazonId -&gt; (string) The Sidewalk Amazon ID. Constraints: • max: 2048 AppServerPrivateKey -&gt; (string) The Sidewalk application server private key. Constraints: • min: 1 • max: 4096 • pattern: [a-fA-F0-9]{64} Shorthand Syntax: AmazonId=string,AppServerPrivateKey=string JSON Syntax: { "AmazonId": "string", "AppServerPrivateKey": "string" }
     /// </summary>
     [CliOption("--sidewalk")]
     public string? Sidewalk { get; private init; }
 
     /// <summary>
-    /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete suc- cessfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see Ensuring idempotency in Amazon EC2 API requests . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
+    /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see Ensuring idempotency in Amazon EC2 API requests . Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// The tags to attach to the specified resource. Tags are metadata that you can use to manage a resource. Constraints: o min: 0 o max: 200 (structure) A simple label consisting of a customer-defined key-value pair Key -&gt; (string) [required] The tag's key value. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags to attach to the specified resource. Tags are metadata that you can use to manage a resource. Constraints: • min: 0 • max: 200 (structure) A simple label consisting of a customer-defined key-value pair Key -&gt; (string) [required] The tag's key value. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The tag's value. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

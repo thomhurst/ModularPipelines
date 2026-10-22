@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the specified alternate contact attached to an Amazon Web Ser- vices account. For complete details about how to use the alternate contact operations, see Update the alternate contacts for your Amazon Web Services account . NOTE: Before you can update the alternate contact information for an Ama- zon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Manage- ment and Organizations. For more information, see Enable ...
+/// Modifies the specified alternate contact attached to an Amazon Web Services account. For complete details about how to use the alternate contact operations, see Update the alternate contacts for your Amazon Web Services account . NOTE: Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see Enable truste...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,13 +28,13 @@ public record AwsAccountPutAlternateContactOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the specified alternate contact attached to an Amazon Web Ser- vices account. For complete details about how to use the alternate contact operations, see Update the alternate contacts for your Amazon Web Services account . NOTE: Before you can update the alternate contact information for an Ama- zon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Manage- ment and Organizations. For more information, see Enable ...
+    /// Modifies the specified alternate contact attached to an Amazon Web Services account. For complete details about how to use the alternate contact operations, see Update the alternate contacts for your Amazon Web Services account . NOTE: Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see Enable truste...
     /// </summary>
-    /// <param name="Name">Specifies a name for the alternate contact. Constraints: o min: 1 o max: 64</param>
-    /// <param name="Title">Specifies a title for the alternate contact. Constraints: o min: 1 o max: 50</param>
-    /// <param name="EmailAddress">Specifies an email address for the alternate contact. Constraints: o min: 1 o max: 254 o pattern: [\s]*[\w+=.#|!&amp;-]+@[\w.-]+\.[\w]+[\s]*</param>
-    /// <param name="PhoneNumber">Specifies a phone number for the alternate contact. Constraints: o min: 1 o max: 25 o pattern: [\s0-9()+-]+</param>
-    /// <param name="AlternateContactType">Specifies which alternate contact you want to create or update. Possible values: o BILLING o OPERATIONS o SECURITY</param>
+    /// <param name="Name">Specifies a name for the alternate contact. Constraints: • min: 1 • max: 64</param>
+    /// <param name="Title">Specifies a title for the alternate contact. Constraints: • min: 1 • max: 50</param>
+    /// <param name="EmailAddress">Specifies an email address for the alternate contact. Constraints: • min: 1 • max: 254 • pattern: [\s]*[\w+=.#|!&amp;-]+@[\w.-]+\.[\w]+[\s]*</param>
+    /// <param name="PhoneNumber">Specifies a phone number for the alternate contact. Constraints: • min: 1 • max: 25 • pattern: [\s0-9()+-]+</param>
+    /// <param name="AlternateContactType">Specifies which alternate contact you want to create or update. Possible values: • BILLING • OPERATIONS • SECURITY</param>
     public AwsAccountPutAlternateContactOptions(
         string Name,
         string Title,
@@ -72,37 +74,37 @@ public record AwsAccountPutAlternateContactOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies a name for the alternate contact. Constraints: o min: 1 o max: 64
+    /// Specifies a name for the alternate contact. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Specifies a title for the alternate contact. Constraints: o min: 1 o max: 50
+    /// Specifies a title for the alternate contact. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--title")]
     public string? Title { get; private init; }
 
     /// <summary>
-    /// Specifies an email address for the alternate contact. Constraints: o min: 1 o max: 254 o pattern: [\s]*[\w+=.#|!&amp;-]+@[\w.-]+\.[\w]+[\s]*
+    /// Specifies an email address for the alternate contact. Constraints: • min: 1 • max: 254 • pattern: [\s]*[\w+=.#|!&amp;-]+@[\w.-]+\.[\w]+[\s]*
     /// </summary>
     [CliOption("--email-address")]
     public string? EmailAddress { get; private init; }
 
     /// <summary>
-    /// Specifies a phone number for the alternate contact. Constraints: o min: 1 o max: 25 o pattern: [\s0-9()+-]+
+    /// Specifies a phone number for the alternate contact. Constraints: • min: 1 • max: 25 • pattern: [\s0-9()+-]+
     /// </summary>
     [CliOption("--phone-number")]
     public string? PhoneNumber { get; private init; }
 
     /// <summary>
-    /// Specifies which alternate contact you want to create or update. Possible values: o BILLING o OPERATIONS o SECURITY
+    /// Specifies which alternate contact you want to create or update. Possible values: • BILLING • OPERATIONS • SECURITY
     /// </summary>
     [CliOption("--alternate-contact-type")]
     public AwsAccountPutAlternateContactAlternateContactType? AlternateContactType { get; private init; }
 
     /// <summary>
-    /// Specifies the 12 digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator ac- count, and the specified account ID must be a member account in the same organization. The organization must have all features enabled , and the organization must have trusted access enabled for the Ac- count Management service, and optionally a delegated administrator account assigned. NOTE: The management account can't specify its own AccountId ; it must call the operation in standalone context by not including the AccountId parameter. To call this operation on an account that is not a member of an or- ganization, then don't specify this parameter, and call the opera- tion using an identity belonging to the account whose contacts you wish to retrieve or modify. Constraints: o pattern: \d{12}
+    /// Specifies the 12 digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account, and the specified account ID must be a member account in the same organization. The organization must have all features enabled , and the organization must have trusted access enabled for the Account Management service, and optionally a delegated administrator account assigned. NOTE: The management account can't specify its own AccountId ; it must call the operation in standalone context by not including the AccountId parameter. To call this operation on an account that is not a member of an organization, then don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify. Constraints: • pattern: \d{12}
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }

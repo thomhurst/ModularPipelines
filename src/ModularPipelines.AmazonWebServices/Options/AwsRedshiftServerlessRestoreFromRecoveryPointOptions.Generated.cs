@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsRedshiftServerlessRestoreFromRecoveryPointOptions : AwsOptions,
     /// <summary>
     /// Restore the data from a recovery point. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NamespaceName">The name of the namespace to restore data into. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$</param>
+    /// <param name="NamespaceName">The name of the namespace to restore data into. Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$</param>
     /// <param name="RecoveryPointId">The unique identifier of the recovery point to restore from.</param>
-    /// <param name="WorkgroupName">The name of the workgroup used to restore data. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$</param>
+    /// <param name="WorkgroupName">The name of the workgroup used to restore data. Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$</param>
     public AwsRedshiftServerlessRestoreFromRecoveryPointOptions(
         string NamespaceName,
         string RecoveryPointId,
@@ -64,7 +66,7 @@ public record AwsRedshiftServerlessRestoreFromRecoveryPointOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the namespace to restore data into. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$
+    /// The name of the namespace to restore data into. Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$
     /// </summary>
     [CliOption("--namespace-name")]
     public string? NamespaceName { get; private init; }
@@ -76,13 +78,13 @@ public record AwsRedshiftServerlessRestoreFromRecoveryPointOptions : AwsOptions,
     public string? RecoveryPointId { get; private init; }
 
     /// <summary>
-    /// The name of the workgroup used to restore data. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$
+    /// The name of the workgroup used to restore data. Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$
     /// </summary>
     [CliOption("--workgroup-name")]
     public string? WorkgroupName { get; private init; }
 
     /// <summary>
-    /// If true , maintain existing data sharing, zero-ETL and S3 event in- tegrations when restoring. Otherwise, integrations will not be main- tained after the restore operation. Integrations are only maintained when restored to the same serverless namespace. Default: true
+    /// If true , maintain existing data sharing, zero-ETL and S3 event integrations when restoring. Otherwise, integrations will not be maintained after the restore operation. Integrations are only maintained when restored to the same serverless namespace. Default: true
     /// </summary>
     [CliFlag("--maintain-integration", NegatedName = "--no-maintain-integration")]
     public bool? MaintainIntegration { get; set; }

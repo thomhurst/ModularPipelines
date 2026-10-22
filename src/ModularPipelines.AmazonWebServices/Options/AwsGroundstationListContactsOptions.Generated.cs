@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundSta- tion , missionprofileArn , and satelliteArn . See also: AWS API Documentation list-contacts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the res...
+/// Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundStation , missionprofileArn , and satelliteArn . See also: AWS API Documentation list-contacts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results o...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsGroundstationListContactsOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundSta- tion , missionprofileArn , and satelliteArn . See also: AWS API Documentation list-contacts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the res...
+    /// Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundStation , missionprofileArn , and satelliteArn . See also: AWS API Documentation list-contacts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results o...
     /// </summary>
-    /// <param name="StatusList">Status of a contact reservation. Constraints: o min: 0 o max: 500 (string) Possible values: o SCHEDULING o FAILED_TO_SCHEDULE o SCHEDULED o CANCELLED o AWS_CANCELLED o PREPASS o PASS o POSTPASS o COMPLETED o FAILED o AVAILABLE o CANCELLING o AWS_FAILED Syntax: "string" "string" ...</param>
+    /// <param name="StatusList">Status of a contact reservation. Constraints: • min: 0 • max: 500 (string) Possible values: • SCHEDULING • FAILED_TO_SCHEDULE • SCHEDULED • CANCELLED • AWS_CANCELLED • PREPASS • PASS • POSTPASS • COMPLETED • FAILED • AVAILABLE • CANCELLING • AWS_FAILED Syntax: "string" "string" ...</param>
     /// <param name="StartTime">Start time of a contact in UTC.</param>
     /// <param name="EndTime">End time of a contact in UTC.</param>
     public AwsGroundstationListContactsOptions(
@@ -76,7 +78,7 @@ public record AwsGroundstationListContactsOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Status of a contact reservation. Constraints: o min: 0 o max: 500 (string) Possible values: o SCHEDULING o FAILED_TO_SCHEDULE o SCHEDULED o CANCELLED o AWS_CANCELLED o PREPASS o PASS o POSTPASS o COMPLETED o FAILED o AVAILABLE o CANCELLING o AWS_FAILED Syntax: "string" "string" ...
+    /// Status of a contact reservation. Constraints: • min: 0 • max: 500 (string) Possible values: • SCHEDULING • FAILED_TO_SCHEDULE • SCHEDULED • CANCELLED • AWS_CANCELLED • PREPASS • PASS • POSTPASS • COMPLETED • FAILED • AVAILABLE • CANCELLING • AWS_FAILED Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--status-list", GroupValues = true)]
     public IEnumerable<string>? StatusList { get; private init; }
@@ -94,34 +96,31 @@ public record AwsGroundstationListContactsOptions : AwsOptions, IValidatableObje
     public string? EndTime { get; private init; }
 
     /// <summary>
-    /// Name of a ground station. Constraints: o min: 4 o max: 97 o pattern: [ a-zA-Z0-9-._:=]{4,97}
+    /// Name of a ground station. Constraints: • min: 4 • max: 97 • pattern: [ a-zA-Z0-9-._:=]{4,97}
     /// </summary>
     [CliOption("--ground-station")]
     public string? GroundStation { get; set; }
 
     /// <summary>
-    /// ARN of a satellite. Constraints: o min: 82 o max: 132 o pattern: arn:aws:groundstation:([-a-z0-9]{1,50})?:[0-9]{12}:satel- lite/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// ARN of a satellite. Constraints: • min: 82 • max: 132 • pattern: arn:aws:groundstation:([-a-z0-9]{1,50})?:[0-9]{12}:satellite/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--satellite-arn")]
     public string? SatelliteArn { get; set; }
 
     /// <summary>
-    /// ARN of a mission profile. Constraints: o min: 89 o max: 138 o pattern: arn:aws:groundstation:[-a-z0-9]{1,50}:[0-9]{12}:mis- sion-pro- file/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// ARN of a mission profile. Constraints: • min: 89 • max: 138 • pattern: arn:aws:groundstation:[-a-z0-9]{1,50}:[0-9]{12}:mission-profile/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--mission-profile-arn")]
     public string? MissionProfileArn { get; set; }
 
     /// <summary>
-    /// Filter for selecting contacts that use a specific ephemeris". NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: azEl. azEl -&gt; (structure) Filter for AzElEphemeris . id -&gt; (string) [required] Unique identifier of the azimuth elevation ephemeris. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: azEl={id=string} JSON Syntax: { "azEl": { "id": "string" } }
+    /// Filter for selecting contacts that use a specific ephemeris". NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: azEl. azEl -&gt; (structure) Filter for AzElEphemeris . id -&gt; (string) [required] Unique identifier of the azimuth elevation ephemeris. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: azEl={id=string} JSON Syntax: { "azEl": { "id": "string" } }
     /// </summary>
     [CliOption("--ephemeris")]
     public string? Ephemeris { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -131,16 +130,19 @@ public record AwsGroundstationListContactsOptions : AwsOptions, IValidatableObje
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

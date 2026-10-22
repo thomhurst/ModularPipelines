@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the record distribution strategy for the specified Amazon Kine- sis Data Streams on-demand data stream. The record distribution strat- egy determines how Amazon Kinesis Data Streams distributes records across the shards in a stream. NOTE: You must specify the stream using the StreamARN parameter. The record distribution strategy is a stream-level setting. You can switch between the following strategies at any time, and the change takes effect immediately without downtime, data loss, or d...
+/// Updates the record distribution strategy for the specified Amazon Kinesis Data Streams on-demand data stream. The record distribution strategy determines how Amazon Kinesis Data Streams distributes records across the shards in a stream. NOTE: You must specify the stream using the StreamARN parameter. The record distribution strategy is a stream-level setting. You can switch between the following strategies at any time, and the change takes effect immediately without downtime, data loss, or disru...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsKinesisUpdateStreamRecordDistributionStrategyOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the record distribution strategy for the specified Amazon Kine- sis Data Streams on-demand data stream. The record distribution strat- egy determines how Amazon Kinesis Data Streams distributes records across the shards in a stream. NOTE: You must specify the stream using the StreamARN parameter. The record distribution strategy is a stream-level setting. You can switch between the following strategies at any time, and the change takes effect immediately without downtime, data loss, or d...
+    /// Updates the record distribution strategy for the specified Amazon Kinesis Data Streams on-demand data stream. The record distribution strategy determines how Amazon Kinesis Data Streams distributes records across the shards in a stream. NOTE: You must specify the stream using the StreamARN parameter. The record distribution strategy is a stream-level setting. You can switch between the following strategies at any time, and the change takes effect immediately without downtime, data loss, or disru...
     /// </summary>
-    /// <param name="StreamArn">The Amazon Resource Name (ARN) of the stream to update. Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+</param>
-    /// <param name="RecordDistributionStrategy">The record distribution strategy to apply to the stream. Specify one of the following values: o AUTO Amazon Kinesis Data Streams distributes records evenly across shards and ignores any partition key and ExplicitHashKey that producers supply. o USER_PARTITION_KEY Producers must supply a partition key, which Amazon Kinesis Data Streams uses to determine shard placement. This is the default. Possible values: o AUTO o USER_PARTITION_KEY</param>
+    /// <param name="StreamArn">The Amazon Resource Name (ARN) of the stream to update. Constraints: • min: 1 • max: 2048 • pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+</param>
+    /// <param name="RecordDistributionStrategy">The record distribution strategy to apply to the stream. Specify one of the following values: • AUTO Amazon Kinesis Data Streams distributes records evenly across shards and ignores any partition key and ExplicitHashKey that producers supply. • USER_PARTITION_KEY Producers must supply a partition key, which Amazon Kinesis Data Streams uses to determine shard placement. This is the default. Possible values: • AUTO • USER_PARTITION_KEY</param>
     public AwsKinesisUpdateStreamRecordDistributionStrategyOptions(
         string StreamArn,
         AwsKinesisUpdateStreamRecordDistributionStrategyRecordDistributionStrategy RecordDistributionStrategy
@@ -60,19 +62,19 @@ public record AwsKinesisUpdateStreamRecordDistributionStrategyOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the stream to update. Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+
+    /// The Amazon Resource Name (ARN) of the stream to update. Constraints: • min: 1 • max: 2048 • pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+
     /// </summary>
     [CliOption("--stream-arn")]
     public string? StreamArn { get; private init; }
 
     /// <summary>
-    /// The record distribution strategy to apply to the stream. Specify one of the following values: o AUTO Amazon Kinesis Data Streams distributes records evenly across shards and ignores any partition key and ExplicitHashKey that producers supply. o USER_PARTITION_KEY Producers must supply a partition key, which Amazon Kinesis Data Streams uses to determine shard placement. This is the default. Possible values: o AUTO o USER_PARTITION_KEY
+    /// The record distribution strategy to apply to the stream. Specify one of the following values: • AUTO Amazon Kinesis Data Streams distributes records evenly across shards and ignores any partition key and ExplicitHashKey that producers supply. • USER_PARTITION_KEY Producers must supply a partition key, which Amazon Kinesis Data Streams uses to determine shard placement. This is the default. Possible values: • AUTO • USER_PARTITION_KEY
     /// </summary>
     [CliOption("--record-distribution-strategy")]
     public AwsKinesisUpdateStreamRecordDistributionStrategyRecordDistributionStrategy? RecordDistributionStrategy { get; private init; }
 
     /// <summary>
-    /// Not Implemented. Reserved for future use. Constraints: o min: 1 o max: 24 o pattern: [a-z0-9]{20}-[a-z0-9]{3}
+    /// Not Implemented. Reserved for future use. Constraints: • min: 1 • max: 24 • pattern: [a-z0-9]{20}-[a-z0-9]{3}
     /// </summary>
     [CliOption("--stream-id")]
     public string? StreamId { get; set; }

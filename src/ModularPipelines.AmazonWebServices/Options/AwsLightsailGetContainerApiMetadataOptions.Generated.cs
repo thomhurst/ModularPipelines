@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about Amazon Lightsail containers, such as the cur- rent version of the Lightsail Control (lightsailctl) plugin. See also: AWS API Documentation
+/// Returns information about Amazon Lightsail containers, such as the current version of the Lightsail Control (lightsailctl) plugin. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

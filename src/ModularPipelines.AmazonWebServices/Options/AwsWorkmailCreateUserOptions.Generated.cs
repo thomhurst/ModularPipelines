@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a user who can be used in WorkMail by calling the Register- ToWorkMail operation. See also: AWS API Documentation
+/// Creates a user who can be used in WorkMail by calling the RegisterToWorkMail operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +29,11 @@ public record AwsWorkmailCreateUserOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a user who can be used in WorkMail by calling the Register- ToWorkMail operation. See also: AWS API Documentation
+    /// Creates a user who can be used in WorkMail by calling the RegisterToWorkMail operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The identifier of the organization for which the user is created. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
-    /// <param name="Name">The name for the new user. WorkMail directory user names have a max- imum length of 64. All others have a maximum length of 20. Constraints: o min: 1 o max: 64 o pattern: [\w\-.]+(@[a-zA-Z0-9.\-]+\.[a-zA-Z0-9-]{2,})?</param>
-    /// <param name="DisplayName">The display name for the new user. Constraints: o max: 256</param>
+    /// <param name="OrganizationId">The identifier of the organization for which the user is created. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="Name">The name for the new user. WorkMail directory user names have a maximum length of 64. All others have a maximum length of 20. Constraints: • min: 1 • max: 64 • pattern: [\w\-.]+(@[a-zA-Z0-9.\-]+\.[a-zA-Z0-9-]{2,})?</param>
+    /// <param name="DisplayName">The display name for the new user. Constraints: • max: 256</param>
     public AwsWorkmailCreateUserOptions(
         string OrganizationId,
         string Name,
@@ -66,56 +68,56 @@ public record AwsWorkmailCreateUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the organization for which the user is created. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The identifier of the organization for which the user is created. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The name for the new user. WorkMail directory user names have a max- imum length of 64. All others have a maximum length of 20. Constraints: o min: 1 o max: 64 o pattern: [\w\-.]+(@[a-zA-Z0-9.\-]+\.[a-zA-Z0-9-]{2,})?
+    /// The name for the new user. WorkMail directory user names have a maximum length of 64. All others have a maximum length of 20. Constraints: • min: 1 • max: 64 • pattern: [\w\-.]+(@[a-zA-Z0-9.\-]+\.[a-zA-Z0-9-]{2,})?
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The display name for the new user. Constraints: o max: 256
+    /// The display name for the new user. Constraints: • max: 256
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; private init; }
 
     /// <summary>
-    /// The password for the new user. Constraints: o max: 256 o pattern: [\u0020-\u00FF]+
+    /// The password for the new user. Constraints: • max: 256 • pattern: [\u0020-\u00FF]+
     /// </summary>
     [SecretValue]
     [CliOption("--password")]
     public string? Password { get; set; }
 
     /// <summary>
-    /// The role of the new user. You cannot pass SYSTEM_USER or RESOURCE role in a single request. When a user role is not selected, the default role of USER is se- lected. Possible values: o USER o RESOURCE o SYSTEM_USER o REMOTE_USER
+    /// The role of the new user. You cannot pass SYSTEM_USER or RESOURCE role in a single request. When a user role is not selected, the default role of USER is selected. Possible values: • USER • RESOURCE • SYSTEM_USER • REMOTE_USER
     /// </summary>
     [CliOption("--role")]
     public AwsWorkmailCreateUserRole? Role { get; set; }
 
     /// <summary>
-    /// The first name of the new user. Constraints: o max: 256
+    /// The first name of the new user. Constraints: • max: 256
     /// </summary>
     [CliOption("--first-name")]
     public string? FirstName { get; set; }
 
     /// <summary>
-    /// The last name of the new user. Constraints: o max: 256
+    /// The last name of the new user. Constraints: • max: 256
     /// </summary>
     [CliOption("--last-name")]
     public string? LastName { get; set; }
 
     /// <summary>
-    /// dress-list (boolean) If this parameter is enabled, the user will be hidden from the ad- dress book.
+    /// If this parameter is enabled, the user will be hidden from the address book.
     /// </summary>
     [CliFlag("--hidden-from-global-address-list", NegatedName = "--no-hidden-from-global-address-list")]
     public bool? HiddenFromGlobalAddressList { get; set; }
 
     /// <summary>
-    /// User ID from the IAM Identity Center. If this parameter is empty it will be updated automatically when the user logs in for the first time to the mailbox associated with WorkMail. Constraints: o min: 1 o max: 47 o pattern: ^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$
+    /// User ID from the IAM Identity Center. If this parameter is empty it will be updated automatically when the user logs in for the first time to the mailbox associated with WorkMail. Constraints: • min: 1 • max: 47 • pattern: ^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$
     /// </summary>
     [CliOption("--identity-provider-user-id")]
     public string? IdentityProviderUserId { get; set; }

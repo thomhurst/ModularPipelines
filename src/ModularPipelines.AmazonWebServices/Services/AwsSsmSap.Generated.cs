@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws ssmsap commands.
+/// aws ssm-sap commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsSsmSap : IAwsSsmSap
@@ -77,7 +77,7 @@ public class AwsSsmSap : IAwsSsmSap
     }
 
     /// <summary>
-    /// Gets the component of an application registered with AWS Systems Man- ager for SAP. See also: AWS API Documentation
+    /// Gets the component of an application registered with AWS Systems Manager for SAP. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsSsmSap : IAwsSsmSap
     }
 
     /// <summary>
-    /// Gets the SAP HANA database of an application registered with AWS Sys- tems Manager for SAP. See also: AWS API Documentation
+    /// Gets the SAP HANA database of an application registered with AWS Systems Manager for SAP. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsSsmSap : IAwsSsmSap
     }
 
     /// <summary>
-    /// Lists all the components registered with AWS Systems Manager for SAP. See also: AWS API Documentation list-components is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Components
+    /// Lists all the components registered with AWS Systems Manager for SAP. See also: AWS API Documentation list-components is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Components
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsSsmSap : IAwsSsmSap
     }
 
     /// <summary>
-    /// Lists all configuration check types supported by AWS Systems Manager for SAP. See also: AWS API Documentation list-configuration-check-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Co...
+    /// Lists all configuration check types supported by AWS Systems Manager for SAP. See also: AWS API Documentation list-configuration-check-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Config...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsSsmSap : IAwsSsmSap
     }
 
     /// <summary>
-    /// Lists the configuration check operations performed by AWS Systems Man- ager for SAP. See also: AWS API Documentation list-configuration-check-operations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressio...
+    /// Lists the configuration check operations performed by AWS Systems Manager for SAP. See also: AWS API Documentation list-configuration-check-operations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Co...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsSsmSap : IAwsSsmSap
     }
 
     /// <summary>
-    /// Lists the SAP HANA databases of an application registered with AWS Sys- tems Manager for SAP. See also: AWS API Documentation list-databases is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Database...
+    /// Lists the SAP HANA databases of an application registered with AWS Systems Manager for SAP. See also: AWS API Documentation list-databases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Databases
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsSsmSap : IAwsSsmSap
     }
 
     /// <summary>
-    /// Returns a list of operations events. Available parameters include OperationID , as well as optional parame- ters MaxResults , NextToken , and Filters . See also: AWS API Documentation list-operation-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data ...
+    /// Returns a list of operations events. Available parameters include OperationID , as well as optional parameters MaxResults , NextToken , and Filters . See also: AWS API Documentation list-operation-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data fr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsSsmSap : IAwsSsmSap
     }
 
     /// <summary>
-    /// Lists the operations performed by AWS Systems Manager for SAP. See also: AWS API Documentation list-operations is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Operations
+    /// Lists the operations performed by AWS Systems Manager for SAP. See also: AWS API Documentation list-operations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Operations
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsSsmSap : IAwsSsmSap
     }
 
     /// <summary>
-    /// Lists the sub-check results of a specified configuration check opera- tion. See also: AWS API Documentation list-sub-check-results is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SubCheckResults
+    /// Lists the sub-check results of a specified configuration check operation. See also: AWS API Documentation list-sub-check-results is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SubCheckResults
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsSsmSap : IAwsSsmSap
     }
 
     /// <summary>
-    /// Lists the rules of a specified sub-check belonging to a configuration check operation. See also: AWS API Documentation list-sub-check-rule-results is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Ru...
+    /// Lists the rules of a specified sub-check belonging to a configuration check operation. See also: AWS API Documentation list-sub-check-rule-results is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RuleRe...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsSsmSap : IAwsSsmSap
     }
 
     /// <summary>
-    /// Initiates configuration check operations against a specified applica- tion. See also: AWS API Documentation
+    /// Initiates configuration check operations against a specified application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsSsmSap : IAwsSsmSap
     }
 
     /// <summary>
-    /// Updates the settings of an application registered with AWS Systems Man- ager for SAP. See also: AWS API Documentation
+    /// Updates the settings of an application registered with AWS Systems Manager for SAP. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

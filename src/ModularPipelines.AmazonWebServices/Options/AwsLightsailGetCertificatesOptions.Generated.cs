@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about one or more Amazon Lightsail SSL/TLS certifi- cates. NOTE: To get a summary of a certificate, omit includeCertificateDetails from your request. The response will include only the certificate Amazon Resource Name (ARN), certificate name, domain name, and tags. See also: AWS API Documentation
+/// Returns information about one or more Amazon Lightsail SSL/TLS certificates. NOTE: To get a summary of a certificate, omit includeCertificateDetails from your request. The response will include only the certificate Amazon Resource Name (ARN), certificate name, domain name, and tags. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLightsailGetCertificatesOptions : AwsOptions
 {
     /// <summary>
-    /// The status of the certificates for which to return information. For example, specify ISSUED to return only certificates with an IS- SUED status. When omitted, the response includes all of your certificates in the Amazon Web Services Region where the request is made, regardless of their current status. (string) Possible values: o PENDING_VALIDATION o ISSUED o INACTIVE o EXPIRED o VALIDATION_TIMED_OUT o REVOKED o FAILED Syntax: "string" "string" ...
+    /// The status of the certificates for which to return information. For example, specify ISSUED to return only certificates with an ISSUED status. When omitted, the response includes all of your certificates in the Amazon Web Services Region where the request is made, regardless of their current status. (string) Possible values: • PENDING_VALIDATION • ISSUED • INACTIVE • EXPIRED • VALIDATION_TIMED_OUT • REVOKED • FAILED Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--certificate-statuses", GroupValues = true)]
     public IEnumerable<string>? CertificateStatuses { get; set; }
 
     /// <summary>
-    /// Indicates whether to include detailed information about the certifi- cates in the response. When omitted, the response includes only the certificate names, Ama- zon Resource Names (ARNs), domain names, and tags.
+    /// Indicates whether to include detailed information about the certificates in the response. When omitted, the response includes only the certificate names, Amazon Resource Names (ARNs), domain names, and tags.
     /// </summary>
     [CliFlag("--include-certificate-details", NegatedName = "--no-include-certificate-details")]
     public bool? IncludeCertificateDetails { get; set; }
@@ -41,7 +41,7 @@ public record AwsLightsailGetCertificatesOptions : AwsOptions
     public string? CertificateName { get; set; }
 
     /// <summary>
-    /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetCertificates request. If your results are paginated, the response will return a next page to- ken that you can specify as the page token in a subsequent request.
+    /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetCertificates request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
     /// </summary>
     [SecretValue]
     [CliOption("--page-token")]

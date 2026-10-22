@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAuditManagerRegisterOrganizationAdminAccountOptions : AwsOption
     /// <summary>
     /// Enables an Amazon Web Services account within the organization as the delegated administrator for Audit Manager. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AdminAccountId">The identifier for the delegated administrator account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="AdminAccountId">The identifier for the delegated administrator account. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
     public AwsAuditManagerRegisterOrganizationAdminAccountOptions(
         string AdminAccountId
     )
@@ -56,7 +58,7 @@ public record AwsAuditManagerRegisterOrganizationAdminAccountOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the delegated administrator account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The identifier for the delegated administrator account. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--admin-account-id")]
     public string? AdminAccountId { get; private init; }

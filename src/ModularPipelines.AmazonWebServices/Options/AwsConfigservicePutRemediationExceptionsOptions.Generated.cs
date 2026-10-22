@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// A remediation exception is when a specified resource is no longer con- sidered for auto-remediation. This API adds a new exception or updates an existing exception for a specified resource with a specified Config rule. NOTE: Exceptions block auto remediation Config generates a remediation exception when a problem occurs run- ning a remediation action for a specified resource. Remediation ex- ceptions blocks auto-remediation until the exception is cleared. NOTE: Manual remediation is recommended ...
+/// A remediation exception is when a specified resource is no longer considered for auto-remediation. This API adds a new exception or updates an existing exception for a specified resource with a specified Config rule. NOTE: Exceptions block auto remediation Config generates a remediation exception when a problem occurs running a remediation action for a specified resource. Remediation exceptions blocks auto-remediation until the exception is cleared. NOTE: Manual remediation is recommended when p...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsConfigservicePutRemediationExceptionsOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// A remediation exception is when a specified resource is no longer con- sidered for auto-remediation. This API adds a new exception or updates an existing exception for a specified resource with a specified Config rule. NOTE: Exceptions block auto remediation Config generates a remediation exception when a problem occurs run- ning a remediation action for a specified resource. Remediation ex- ceptions blocks auto-remediation until the exception is cleared. NOTE: Manual remediation is recommended ...
+    /// A remediation exception is when a specified resource is no longer considered for auto-remediation. This API adds a new exception or updates an existing exception for a specified resource with a specified Config rule. NOTE: Exceptions block auto remediation Config generates a remediation exception when a problem occurs running a remediation action for a specified resource. Remediation exceptions blocks auto-remediation until the exception is cleared. NOTE: Manual remediation is recommended when p...
     /// </summary>
-    /// <param name="ConfigRuleName">The name of the Config rule for which you want to create remediation exception. Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
-    /// <param name="ResourceKeys">An exception list of resource exception keys to be processed with the current request. Config adds exception for each resource key. For example, Config adds 3 exceptions for 3 resource keys. Constraints: o min: 1 o max: 100 (structure) The details that identify a resource within Config, including the resource type and resource ID. ResourceType -&gt; (string) The type of a resource. Constraints: o min: 1 o max: 256 ResourceId -&gt; (string) The ID of the resource (for example., sg-xxxxxx). Constraints: o min: 1 o max: 1024 Shorthand Syntax: ResourceType=string,ResourceId=string ... JSON Syntax: [ { "ResourceType": "string", "ResourceId": "string" } ... ]</param>
+    /// <param name="ConfigRuleName">The name of the Config rule for which you want to create remediation exception. Constraints: • min: 1 • max: 128 • pattern: .*\S.*</param>
+    /// <param name="ResourceKeys">An exception list of resource exception keys to be processed with the current request. Config adds exception for each resource key. For example, Config adds 3 exceptions for 3 resource keys. Constraints: • min: 1 • max: 100 (structure) The details that identify a resource within Config, including the resource type and resource ID. ResourceType -&gt; (string) The type of a resource. Constraints: • min: 1 • max: 256 ResourceId -&gt; (string) The ID of the resource (for example., sg-xxxxxx). Constraints: • min: 1 • max: 1024 Shorthand Syntax: ResourceType=string,ResourceId=string ... JSON Syntax: [ { "ResourceType": "string", "ResourceId": "string" } ... ]</param>
     public AwsConfigservicePutRemediationExceptionsOptions(
         string ConfigRuleName,
         IEnumerable<string> ResourceKeys
@@ -71,19 +73,19 @@ public record AwsConfigservicePutRemediationExceptionsOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Config rule for which you want to create remediation exception. Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// The name of the Config rule for which you want to create remediation exception. Constraints: • min: 1 • max: 128 • pattern: .*\S.*
     /// </summary>
     [CliOption("--config-rule-name")]
     public string? ConfigRuleName { get; private init; }
 
     /// <summary>
-    /// An exception list of resource exception keys to be processed with the current request. Config adds exception for each resource key. For example, Config adds 3 exceptions for 3 resource keys. Constraints: o min: 1 o max: 100 (structure) The details that identify a resource within Config, including the resource type and resource ID. ResourceType -&gt; (string) The type of a resource. Constraints: o min: 1 o max: 256 ResourceId -&gt; (string) The ID of the resource (for example., sg-xxxxxx). Constraints: o min: 1 o max: 1024 Shorthand Syntax: ResourceType=string,ResourceId=string ... JSON Syntax: [ { "ResourceType": "string", "ResourceId": "string" } ... ]
+    /// An exception list of resource exception keys to be processed with the current request. Config adds exception for each resource key. For example, Config adds 3 exceptions for 3 resource keys. Constraints: • min: 1 • max: 100 (structure) The details that identify a resource within Config, including the resource type and resource ID. ResourceType -&gt; (string) The type of a resource. Constraints: • min: 1 • max: 256 ResourceId -&gt; (string) The ID of the resource (for example., sg-xxxxxx). Constraints: • min: 1 • max: 1024 Shorthand Syntax: ResourceType=string,ResourceId=string ... JSON Syntax: [ { "ResourceType": "string", "ResourceId": "string" } ... ]
     /// </summary>
     [CliOption("--resource-keys", GroupValues = true)]
     public IEnumerable<string>? ResourceKeys { get; private init; }
 
     /// <summary>
-    /// The message contains an explanation of the exception. Constraints: o min: 1 o max: 1024
+    /// The message contains an explanation of the exception. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--message")]
     public string? Message { get; set; }

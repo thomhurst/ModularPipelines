@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsEc2InstanceConnectSendSshPublicKeyOptions : AwsOptions, IValida
     /// <summary>
     /// Pushes an SSH public key to the specified EC2 instance for use by the specified user. The key remains for 60 seconds. For more information, see Connect to your Linux instance using EC2 Instance Connect in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The ID of the EC2 instance. Constraints: o min: 10 o max: 32 o pattern: ^i-[a-f0-9]+$</param>
-    /// <param name="InstanceOsUser">The OS user on the EC2 instance for whom the key can be used to au- thenticate. Constraints: o min: 1 o max: 32 o pattern: (^[A-Za-z_][A-Za-z0-9\@\._-]{0,30}[A-Za-z0-9\$_-]?$)|(^(?=.{2,32}$)[0-9]{1,32}[A-Za-z\@\._-][A-Za-z0-9\@\._-]*[A-Za-z0-9\$_-]?$)</param>
-    /// <param name="SshPublicKey">The public key material. To use the public key, you must have the matching private key. Constraints: o min: 80 o max: 4096</param>
+    /// <param name="InstanceId">The ID of the EC2 instance. Constraints: • min: 10 • max: 32 • pattern: ^i-[a-f0-9]+$</param>
+    /// <param name="InstanceOsUser">The OS user on the EC2 instance for whom the key can be used to authenticate. Constraints: • min: 1 • max: 32 • pattern: (^[A-Za-z_][A-Za-z0-9\@\._-]{0,30}[A-Za-z0-9\$_-]?$)|(^(?=.{2,32}$)[0-9]{1,32}[A-Za-z\@\._-][A-Za-z0-9\@\._-]*[A-Za-z0-9\$_-]?$)</param>
+    /// <param name="SshPublicKey">The public key material. To use the public key, you must have the matching private key. Constraints: • min: 80 • max: 4096</param>
     public AwsEc2InstanceConnectSendSshPublicKeyOptions(
         string InstanceId,
         string InstanceOsUser,
@@ -64,25 +66,25 @@ public record AwsEc2InstanceConnectSendSshPublicKeyOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the EC2 instance. Constraints: o min: 10 o max: 32 o pattern: ^i-[a-f0-9]+$
+    /// The ID of the EC2 instance. Constraints: • min: 10 • max: 32 • pattern: ^i-[a-f0-9]+$
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The OS user on the EC2 instance for whom the key can be used to au- thenticate. Constraints: o min: 1 o max: 32 o pattern: (^[A-Za-z_][A-Za-z0-9\@\._-]{0,30}[A-Za-z0-9\$_-]?$)|(^(?=.{2,32}$)[0-9]{1,32}[A-Za-z\@\._-][A-Za-z0-9\@\._-]*[A-Za-z0-9\$_-]?$)
+    /// The OS user on the EC2 instance for whom the key can be used to authenticate. Constraints: • min: 1 • max: 32 • pattern: (^[A-Za-z_][A-Za-z0-9\@\._-]{0,30}[A-Za-z0-9\$_-]?$)|(^(?=.{2,32}$)[0-9]{1,32}[A-Za-z\@\._-][A-Za-z0-9\@\._-]*[A-Za-z0-9\$_-]?$)
     /// </summary>
     [CliOption("--instance-os-user")]
     public string? InstanceOsUser { get; private init; }
 
     /// <summary>
-    /// The public key material. To use the public key, you must have the matching private key. Constraints: o min: 80 o max: 4096
+    /// The public key material. To use the public key, you must have the matching private key. Constraints: • min: 80 • max: 4096
     /// </summary>
     [CliOption("--ssh-public-key")]
     public string? SshPublicKey { get; private init; }
 
     /// <summary>
-    /// The Availability Zone in which the EC2 instance was launched. Constraints: o min: 6 o max: 32 o pattern: ^(\w+-){2,3}\d+\w+$
+    /// The Availability Zone in which the EC2 instance was launched. Constraints: • min: 6 • max: 32 • pattern: ^(\w+-){2,3}\d+\w+$
     /// </summary>
     [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; set; }

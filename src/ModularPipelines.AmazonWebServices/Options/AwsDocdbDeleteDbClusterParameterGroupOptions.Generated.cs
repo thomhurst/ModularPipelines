@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDocdbDeleteDbClusterParameterGroupOptions : AwsOptions, IValida
     /// <summary>
     /// Deletes a specified cluster parameter group. The cluster parameter group to be deleted can't be associated with any clusters. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbClusterParameterGroupName">The name of the cluster parameter group. Constraints: o Must be the name of an existing cluster parameter group. o You can't delete a default cluster parameter group. o Cannot be associated with any clusters.</param>
+    /// <param name="DbClusterParameterGroupName">The name of the cluster parameter group. Constraints: • Must be the name of an existing cluster parameter group. • You can't delete a default cluster parameter group. • Cannot be associated with any clusters.</param>
     public AwsDocdbDeleteDbClusterParameterGroupOptions(
         string DbClusterParameterGroupName
     )
@@ -56,7 +58,7 @@ public record AwsDocdbDeleteDbClusterParameterGroupOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the cluster parameter group. Constraints: o Must be the name of an existing cluster parameter group. o You can't delete a default cluster parameter group. o Cannot be associated with any clusters.
+    /// The name of the cluster parameter group. Constraints: • Must be the name of an existing cluster parameter group. • You can't delete a default cluster parameter group. • Cannot be associated with any clusters.
     /// </summary>
     [CliOption("--db-cluster-parameter-group-name")]
     public string? DbClusterParameterGroupName { get; private init; }

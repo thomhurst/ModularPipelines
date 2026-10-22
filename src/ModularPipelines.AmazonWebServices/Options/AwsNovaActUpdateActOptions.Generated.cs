@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,11 +30,11 @@ public record AwsNovaActUpdateActOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates an existing act's configuration, status, or error information. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkflowDefinitionName">The name of the workflow definition containing the act. Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9_-]{1,40}</param>
-    /// <param name="WorkflowRunId">The unique identifier of the workflow run containing the act. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="SessionId">The unique identifier of the session containing the act. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="ActId">The unique identifier of the act to update. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="Status">The new status to set for the act. Possible values: o RUNNING o PENDING_CLIENT_ACTION o PENDING_HUMAN_ACTION o SUCCEEDED o FAILED o TIMED_OUT</param>
+    /// <param name="WorkflowDefinitionName">The name of the workflow definition containing the act. Constraints: • min: 1 • max: 40 • pattern: [a-zA-Z0-9_-]{1,40}</param>
+    /// <param name="WorkflowRunId">The unique identifier of the workflow run containing the act. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="SessionId">The unique identifier of the session containing the act. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="ActId">The unique identifier of the act to update. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="Status">The new status to set for the act. Possible values: • RUNNING • PENDING_CLIENT_ACTION • PENDING_HUMAN_ACTION • SUCCEEDED • FAILED • TIMED_OUT</param>
     public AwsNovaActUpdateActOptions(
         string WorkflowDefinitionName,
         string WorkflowRunId,
@@ -72,37 +74,37 @@ public record AwsNovaActUpdateActOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workflow definition containing the act. Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9_-]{1,40}
+    /// The name of the workflow definition containing the act. Constraints: • min: 1 • max: 40 • pattern: [a-zA-Z0-9_-]{1,40}
     /// </summary>
     [CliOption("--workflow-definition-name")]
     public string? WorkflowDefinitionName { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the workflow run containing the act. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier of the workflow run containing the act. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--workflow-run-id")]
     public string? WorkflowRunId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the session containing the act. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier of the session containing the act. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the act to update. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier of the act to update. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--act-id")]
     public string? ActId { get; private init; }
 
     /// <summary>
-    /// The new status to set for the act. Possible values: o RUNNING o PENDING_CLIENT_ACTION o PENDING_HUMAN_ACTION o SUCCEEDED o FAILED o TIMED_OUT
+    /// The new status to set for the act. Possible values: • RUNNING • PENDING_CLIENT_ACTION • PENDING_HUMAN_ACTION • SUCCEEDED • FAILED • TIMED_OUT
     /// </summary>
     [CliOption("--status")]
     public AwsNovaActUpdateActStatus? Status { get; private init; }
 
     /// <summary>
-    /// Error information to associate with the act, if applicable. message -&gt; (string) [required] A human-readable description of the error that occurred. Constraints: o min: 1 o max: 10000 type -&gt; (string) The type or category of error that occurred. Constraints: o min: 1 o max: 100 Shorthand Syntax: message=string,type=string JSON Syntax: { "message": "string", "type": "string" }
+    /// Error information to associate with the act, if applicable. message -&gt; (string) [required] A human-readable description of the error that occurred. Constraints: • min: 1 • max: 10000 type -&gt; (string) The type or category of error that occurred. Constraints: • min: 1 • max: 100 Shorthand Syntax: message=string,type=string JSON Syntax: { "message": "string", "type": "string" }
     /// </summary>
     [CliOption("--error")]
     public string? Error { get; set; }

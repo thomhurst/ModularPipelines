@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsMgnAssociateSourceServersOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Associate source servers to application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">Application ID. Constraints: o min: 21 o max: 21 o pattern: app-[0-9a-zA-Z]{17}</param>
-    /// <param name="SourceServerIds">Source server IDs list. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17} Syntax: "string" "string" ...</param>
+    /// <param name="ApplicationId">Application ID. Constraints: • min: 21 • max: 21 • pattern: app-[0-9a-zA-Z]{17}</param>
+    /// <param name="SourceServerIds">Source server IDs list. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 19 • max: 19 • pattern: s-[0-9a-zA-Z]{17} Syntax: "string" "string" ...</param>
     public AwsMgnAssociateSourceServersOptions(
         string ApplicationId,
         IEnumerable<string> SourceServerIds
@@ -71,19 +73,19 @@ public record AwsMgnAssociateSourceServersOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Application ID. Constraints: o min: 21 o max: 21 o pattern: app-[0-9a-zA-Z]{17}
+    /// Application ID. Constraints: • min: 21 • max: 21 • pattern: app-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// Source server IDs list. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17} Syntax: "string" "string" ...
+    /// Source server IDs list. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 19 • max: 19 • pattern: s-[0-9a-zA-Z]{17} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--source-server-ids", GroupValues = true)]
     public IEnumerable<string>? SourceServerIds { get; private init; }
 
     /// <summary>
-    /// Account ID. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.*
+    /// Account ID. Constraints: • min: 12 • max: 12 • pattern: .*[0-9]{12,}.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }

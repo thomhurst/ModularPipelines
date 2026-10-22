@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsWorkspacesDeleteWorkspaceImageOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Deletes the specified image from your account. To delete an image, you must first delete any bundles that are associated with the image and unshare the image if it is shared with other accounts. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ImageId">The identifier of the image. Constraints: o pattern: wsi-[0-9a-z]{9,63}$</param>
+    /// <param name="ImageId">The identifier of the image. Constraints: • pattern: wsi-[0-9a-z]{9,63}$</param>
     public AwsWorkspacesDeleteWorkspaceImageOptions(
         string ImageId
     )
@@ -56,7 +58,7 @@ public record AwsWorkspacesDeleteWorkspaceImageOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the image. Constraints: o pattern: wsi-[0-9a-z]{9,63}$
+    /// The identifier of the image. Constraints: • pattern: wsi-[0-9a-z]{9,63}$
     /// </summary>
     [CliOption("--image-id")]
     public string? ImageId { get; private init; }

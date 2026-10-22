@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -18,7 +19,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a policy. A policy combines templates and rules with enforce- ment settings for a firewall type, such as AWS WAF or AWS Shield Ad- vanced. Use isPublished to create the policy in published (ACTIVE ) or draft (DRAFT ) state. See also: AWS API Documentation
+/// Creates a policy. A policy combines templates and rules with enforcement settings for a firewall type, such as AWS WAF or AWS Shield Advanced. Use isPublished to create the policy in published (ACTIVE ) or draft (DRAFT ) state. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,12 +29,12 @@ public record AwsNetworkSecurityManagerCreatePolicyOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a policy. A policy combines templates and rules with enforce- ment settings for a firewall type, such as AWS WAF or AWS Shield Ad- vanced. Use isPublished to create the policy in published (ACTIVE ) or draft (DRAFT ) state. See also: AWS API Documentation
+    /// Creates a policy. A policy combines templates and rules with enforcement settings for a firewall type, such as AWS WAF or AWS Shield Advanced. Use isPublished to create the policy in published (ACTIVE ) or draft (DRAFT ) state. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyName">The name of the policy. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9 _.:/=+\-@]*</param>
-    /// <param name="Priority">The priority of the resource. A lower number indicates a higher pri- ority. Constraints: o min: 1</param>
-    /// <param name="FirewallType">The firewall type associated with the resource. Possible values: o WAF o SHIELD_ADVANCED</param>
-    /// <param name="PolicyConfiguration">The configuration settings that control the policy's behavior, in- cluding remediation and firewall-type-specific settings. remediationEnabled -&gt; (boolean) [required] Specifies whether AWS Network Security Manager automatically re- mediates noncompliant resources. Default: false . resourcesCleanUp -&gt; (boolean) [required] Specifies whether AWS Network Security Manager automatically re- moves the resources it created when they are no longer needed. Default: false . wafConfig -&gt; (structure) AWS WAF-specific policy settings. This is populated only for AWS WAF policies. existingCustomerWebACLResolution -&gt; (string) [required] Determines how AWS Network Security Manager handles remedia- tion when a resource already has a customer-created web ACL. Required for AWS WAF policies. Possible values: o RETROFIT o OVERRIDE_ASSOCIATION o NO_REMEDIATION conflictResolution -&gt; (string) [required] The conflict-resolution strategy for AWS WAF policies. Re- quired for AWS WAF policies. Possible values: o MERGE_WHERE_APPLICABLE Shorthand Syntax: remediationEnabled=boolean,resourcesCleanUp=boolean,wafConfig={existingCustomerWebACLResolution=string,conflictResolution=string} JSON Syntax: { "remediationEnabled": true|false, "resourcesCleanUp": true|false, "wafConfig": { "existingCustomerWebACLResolution": "RETROFIT"|"OVERRIDE_ASSOCIATION"|"NO_REMEDIATION", "conflictResolution": "MERGE_WHERE_APPLICABLE" } }</param>
+    /// <param name="PolicyName">The name of the policy. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][a-zA-Z0-9 _.:/=+\-@]*</param>
+    /// <param name="Priority">The priority of the resource. A lower number indicates a higher priority. Constraints: • min: 1</param>
+    /// <param name="FirewallType">The firewall type associated with the resource. Possible values: • WAF • SHIELD_ADVANCED</param>
+    /// <param name="PolicyConfiguration">The configuration settings that control the policy's behavior, including remediation and firewall-type-specific settings. remediationEnabled -&gt; (boolean) [required] Specifies whether AWS Network Security Manager automatically remediates noncompliant resources. Default: false . resourcesCleanUp -&gt; (boolean) [required] Specifies whether AWS Network Security Manager automatically removes the resources it created when they are no longer needed. Default: false . wafConfig -&gt; (structure) AWS WAF-specific policy settings. This is populated only for AWS WAF policies. existingCustomerWebACLResolution -&gt; (string) [required] Determines how AWS Network Security Manager handles remediation when a resource already has a customer-created web ACL. Required for AWS WAF policies. Possible values: • RETROFIT • OVERRIDE_ASSOCIATION • NO_REMEDIATION conflictResolution -&gt; (string) [required] The conflict-resolution strategy for AWS WAF policies. Required for AWS WAF policies. Possible values: • MERGE_WHERE_APPLICABLE Shorthand Syntax: remediationEnabled=boolean,resourcesCleanUp=boolean,wafConfig={existingCustomerWebACLResolution=string,conflictResolution=string} JSON Syntax: { "remediationEnabled": true|false, "resourcesCleanUp": true|false, "wafConfig": { "existingCustomerWebACLResolution": "RETROFIT"|"OVERRIDE_ASSOCIATION"|"NO_REMEDIATION", "conflictResolution": "MERGE_WHERE_APPLICABLE" } }</param>
     public AwsNetworkSecurityManagerCreatePolicyOptions(
         string PolicyName,
         int Priority,
@@ -69,44 +70,44 @@ public record AwsNetworkSecurityManagerCreatePolicyOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the policy. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9 _.:/=+\-@]*
+    /// The name of the policy. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][a-zA-Z0-9 _.:/=+\-@]*
     /// </summary>
     [CliOption("--policy-name")]
     public string? PolicyName { get; private init; }
 
     /// <summary>
-    /// The priority of the resource. A lower number indicates a higher pri- ority. Constraints: o min: 1
+    /// The priority of the resource. A lower number indicates a higher priority. Constraints: • min: 1
     /// </summary>
     [CliOption("--priority")]
     public int? Priority { get; private init; }
 
     /// <summary>
-    /// The firewall type associated with the resource. Possible values: o WAF o SHIELD_ADVANCED
+    /// The firewall type associated with the resource. Possible values: • WAF • SHIELD_ADVANCED
     /// </summary>
     [CliOption("--firewall-type")]
     public AwsNetworkSecurityManagerCreatePolicyFirewallType? FirewallType { get; private init; }
 
     /// <summary>
-    /// The configuration settings that control the policy's behavior, in- cluding remediation and firewall-type-specific settings. remediationEnabled -&gt; (boolean) [required] Specifies whether AWS Network Security Manager automatically re- mediates noncompliant resources. Default: false . resourcesCleanUp -&gt; (boolean) [required] Specifies whether AWS Network Security Manager automatically re- moves the resources it created when they are no longer needed. Default: false . wafConfig -&gt; (structure) AWS WAF-specific policy settings. This is populated only for AWS WAF policies. existingCustomerWebACLResolution -&gt; (string) [required] Determines how AWS Network Security Manager handles remedia- tion when a resource already has a customer-created web ACL. Required for AWS WAF policies. Possible values: o RETROFIT o OVERRIDE_ASSOCIATION o NO_REMEDIATION conflictResolution -&gt; (string) [required] The conflict-resolution strategy for AWS WAF policies. Re- quired for AWS WAF policies. Possible values: o MERGE_WHERE_APPLICABLE Shorthand Syntax: remediationEnabled=boolean,resourcesCleanUp=boolean,wafConfig={existingCustomerWebACLResolution=string,conflictResolution=string} JSON Syntax: { "remediationEnabled": true|false, "resourcesCleanUp": true|false, "wafConfig": { "existingCustomerWebACLResolution": "RETROFIT"|"OVERRIDE_ASSOCIATION"|"NO_REMEDIATION", "conflictResolution": "MERGE_WHERE_APPLICABLE" } }
+    /// The configuration settings that control the policy's behavior, including remediation and firewall-type-specific settings. remediationEnabled -&gt; (boolean) [required] Specifies whether AWS Network Security Manager automatically remediates noncompliant resources. Default: false . resourcesCleanUp -&gt; (boolean) [required] Specifies whether AWS Network Security Manager automatically removes the resources it created when they are no longer needed. Default: false . wafConfig -&gt; (structure) AWS WAF-specific policy settings. This is populated only for AWS WAF policies. existingCustomerWebACLResolution -&gt; (string) [required] Determines how AWS Network Security Manager handles remediation when a resource already has a customer-created web ACL. Required for AWS WAF policies. Possible values: • RETROFIT • OVERRIDE_ASSOCIATION • NO_REMEDIATION conflictResolution -&gt; (string) [required] The conflict-resolution strategy for AWS WAF policies. Required for AWS WAF policies. Possible values: • MERGE_WHERE_APPLICABLE Shorthand Syntax: remediationEnabled=boolean,resourcesCleanUp=boolean,wafConfig={existingCustomerWebACLResolution=string,conflictResolution=string} JSON Syntax: { "remediationEnabled": true|false, "resourcesCleanUp": true|false, "wafConfig": { "existingCustomerWebACLResolution": "RETROFIT"|"OVERRIDE_ASSOCIATION"|"NO_REMEDIATION", "conflictResolution": "MERGE_WHERE_APPLICABLE" } }
     /// </summary>
     [CliOption("--policy-configuration")]
     public string? PolicyConfiguration { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive token that you provide to ensure that the operation completes no more than one time. If you retry a request with the same client token and the same parameters, the service re- turns the result of the original successful request. Constraints: o min: 1 o max: 64 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive token that you provide to ensure that the operation completes no more than one time. If you retry a request with the same client token and the same parameters, the service returns the result of the original successful request. Constraints: • min: 1 • max: 64 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A description of the policy. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9 _.:/=+\-@]*
+    /// A description of the policy. Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9 _.:/=+\-@]*
     /// </summary>
     [CliOption("--policy-description")]
     public string? PolicyDescription { get; set; }
 
     /// <summary>
-    /// The templates and rules to associate with the policy. For AWS WAF policies, specify 1 to 100 templates or rules, of which at most 2 can be templates. For AWS Shield Advanced policies, this list must be empty. Constraints: o min: 0 o max: 100 (tagged union structure) A reference to either a template or a rule in a create or update request. Set exactly one of templateIdentifier or ruleIdentifier . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: templateIdentifier, ruleIdenti- fier. templateIdentifier -&gt; (string) The identifier of the template. This is the template's Amazon Resource Name (ARN). Constraints: o min: 1 o max: 1010 ruleIdentifier -&gt; (string) The identifier of the rule. This is the rule's Amazon Re- source Name (ARN). Constraints: o min: 1 o max: 1010 Shorthand Syntax: templateIdentifier=string,ruleIdentifier=string ... JSON Syntax: [ { "templateIdentifier": "string", "ruleIdentifier": "string" } ... ]
+    /// The templates and rules to associate with the policy. For AWS WAF policies, specify 1 to 100 templates or rules, of which at most 2 can be templates. For AWS Shield Advanced policies, this list must be empty. Constraints: • min: 0 • max: 100 (tagged union structure) A reference to either a template or a rule in a create or update request. Set exactly one of templateIdentifier or ruleIdentifier . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: templateIdentifier, ruleIdentifier. templateIdentifier -&gt; (string) The identifier of the template. This is the template's Amazon Resource Name (ARN). Constraints: • min: 1 • max: 1010 ruleIdentifier -&gt; (string) The identifier of the rule. This is the rule's Amazon Resource Name (ARN). Constraints: • min: 1 • max: 1010 Shorthand Syntax: templateIdentifier=string,ruleIdentifier=string ... JSON Syntax: [ { "templateIdentifier": "string", "ruleIdentifier": "string" } ... ]
     /// </summary>
     [CliOption("--associated-template-and-rule-list", GroupValues = true)]
     public IEnumerable<string>? AssociatedTemplateAndRuleList { get; set; }
@@ -118,7 +119,7 @@ public record AwsNetworkSecurityManagerCreatePolicyOptions : AwsOptions, IValida
     public bool? IsPublished { get; set; }
 
     /// <summary>
-    /// The tags to add to the resource when it is created. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to add to the resource when it is created. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

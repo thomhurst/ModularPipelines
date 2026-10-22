@@ -22,24 +22,22 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsFirehose
 {
     /// <summary>
-    /// Creates a Firehose stream. By default, you can create up to 5,000 Firehose streams per Amazon Web Services Region. This is an asynchronous operation that immediately returns. The initial status of the Firehose stream is CREATING . After the Firehose stream is created, its status is ACTIVE and it now accepts data. If the Fire- hose stream creation fails, the status transitions to CREATING_FAILED . Attempts to send data to a delivery stream that is not in the ACTIVE state cause an exception. To ch...
+    /// Creates a Firehose stream. By default, you can create up to 5,000 Firehose streams per Amazon Web Services Region. This is an asynchronous operation that immediately returns. The initial status of the Firehose stream is CREATING . After the Firehose stream is created, its status is ACTIVE and it now accepts data. If the Firehose stream creation fails, the status transitions to CREATING_FAILED . Attempts to send data to a delivery stream that is not in the ACTIVE state cause an exception. To chec...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDeliveryStreamAsync(AwsFirehoseCreateDeliveryStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDeliveryStreamAsync(AwsFirehoseCreateDeliveryStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a Firehose stream and its data. You can delete a Firehose stream only if it is in one of the following states: ACTIVE , DELETING , CREATING_FAILED , or DELETING_FAILED . You can't delete a Firehose stream that is in the CREATING state. To check the state of a Firehose stream, use DescribeDeliveryStream . DeleteDeliveryStream is an asynchronous API. When an API request to DeleteDeliveryStream succeeds, the Firehose stream is marked for dele- tion, and it goes into the DELETING state.While...
+    /// Deletes a Firehose stream and its data. You can delete a Firehose stream only if it is in one of the following states: ACTIVE , DELETING , CREATING_FAILED , or DELETING_FAILED . You can't delete a Firehose stream that is in the CREATING state. To check the state of a Firehose stream, use DescribeDeliveryStream . DeleteDeliveryStream is an asynchronous API. When an API request to DeleteDeliveryStream succeeds, the Firehose stream is marked for deletion, and it goes into the DELETING state.While t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDeliveryStreamAsync(AwsFirehoseDeleteDeliveryStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDeliveryStreamAsync(AwsFirehoseDeleteDeliveryStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified Firehose stream and its status. For example, after your Firehose stream is created, call DescribeDeliveryStream to see whether the Firehose stream is ACTIVE and therefore ready for data to be sent to it. If the status of a Firehose stream is CREATING_FAILED , this status doesn't change, and you can't invoke CreateDeliveryStream again on it. However, you can invoke the DeleteDeliveryStream operation to delete it. If the status is DELETING_FAILED , you can force deletion by...
@@ -48,18 +46,16 @@ public interface IAwsFirehose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDeliveryStreamAsync(AwsFirehoseDescribeDeliveryStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDeliveryStreamAsync(AwsFirehoseDescribeDeliveryStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists your Firehose streams in alphabetical order of their names. The number of Firehose streams might be too large to return using a single call to ListDeliveryStreams . You can limit the number of Fire- hose streams returned, using the Limit parameter. To determine whether there are more delivery streams to list, check the value of HasMoreDe- liveryStreams in the output. If there are more Firehose streams to list, you can request them by calling this operation again and setting the ExclusiveSt...
+    /// Lists your Firehose streams in alphabetical order of their names. The number of Firehose streams might be too large to return using a single call to ListDeliveryStreams . You can limit the number of Firehose streams returned, using the Limit parameter. To determine whether there are more delivery streams to list, check the value of HasMoreDeliveryStreams in the output. If there are more Firehose streams to list, you can request them by calling this operation again and setting the ExclusiveStartD...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDeliveryStreamsAsync(AwsFirehoseListDeliveryStreamsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDeliveryStreamsAsync(AwsFirehoseListDeliveryStreamsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the tags for the specified Firehose stream. This operation has a limit of five transactions per second per account. See also: AWS API Documentation
@@ -68,18 +64,16 @@ public interface IAwsFirehose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForDeliveryStreamAsync(AwsFirehoseListTagsForDeliveryStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForDeliveryStreamAsync(AwsFirehoseListTagsForDeliveryStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Writes multiple data records into a Firehose stream in a single call, which can achieve higher throughput per producer than when writing sin- gle records. To write single data records into a Firehose stream, use PutRecord . Applications using these operations are referred to as pro- ducers. Firehose accumulates and publishes a particular metric for a customer account in one minute intervals. It is possible that the bursts of in- coming bytes/records ingested to a Firehose stream last only for a ...
+    /// Writes multiple data records into a Firehose stream in a single call, which can achieve higher throughput per producer than when writing single records. To write single data records into a Firehose stream, use PutRecord . Applications using these operations are referred to as producers. Firehose accumulates and publishes a particular metric for a customer account in one minute intervals. It is possible that the bursts of incoming bytes/records ingested to a Firehose stream last only for a few se...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutRecordBatchAsync(AwsFirehosePutRecordBatchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutRecordBatchAsync(AwsFirehosePutRecordBatchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Writes a single data record into an Firehose stream. To write multiple data records into a Firehose stream, use PutRecordBatch . Applications using these operations are referred to as producers. By default, each Firehose stream can take in up to 2,000 transactions per second, 5,000 records per second, or 5 MB per second. If you use PutRecord and PutRecordBatch , the limits are an aggregate across these two operations for each Firehose stream. For more information about limits and how to request ...
@@ -88,8 +82,7 @@ public interface IAwsFirehose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutRecordAsync(AwsFirehosePutRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutRecordAsync(AwsFirehosePutRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables server-side encryption (SSE) for the Firehose stream. This operation is asynchronous. It returns immediately. When you invoke it, Firehose first sets the encryption status of the stream to ENABLING , and then to ENABLED . The encryption status of a Firehose stream is the Status property in DeliveryStreamEncryptionConfiguration . If the operation fails, the encryption status changes to ENABLING_FAILED . You can continue to read and write data to your Firehose stream while the encryption s...
@@ -98,28 +91,25 @@ public interface IAwsFirehose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartDeliveryStreamEncryptionAsync(AwsFirehoseStartDeliveryStreamEncryptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartDeliveryStreamEncryptionAsync(AwsFirehoseStartDeliveryStreamEncryptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Disables server-side encryption (SSE) for the Firehose stream. This operation is asynchronous. It returns immediately. When you invoke it, Firehose first sets the encryption status of the stream to DIS- ABLING , and then to DISABLED . You can continue to read and write data to your stream while its status is DISABLING . It can take up to 5 sec- onds after the encryption status changes to DISABLED before all records written to the Firehose stream are no longer subject to encryption. To find out w...
+    /// Disables server-side encryption (SSE) for the Firehose stream. This operation is asynchronous. It returns immediately. When you invoke it, Firehose first sets the encryption status of the stream to DISABLING , and then to DISABLED . You can continue to read and write data to your stream while its status is DISABLING . It can take up to 5 seconds after the encryption status changes to DISABLED before all records written to the Firehose stream are no longer subject to encryption. To find out wheth...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopDeliveryStreamEncryptionAsync(AwsFirehoseStopDeliveryStreamEncryptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopDeliveryStreamEncryptionAsync(AwsFirehoseStopDeliveryStreamEncryptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Adds or updates tags for the specified Firehose stream. A tag is a key-value pair that you can define and assign to Amazon Web Services resources. If you specify a tag that already exists, the tag value is replaced with the value that you specify in the request. Tags are meta- data. For example, you can add friendly names and descriptions or other types of information that can help you distinguish the Firehose stream. For more information about tags, see Using Cost Allocation Tags in the Amazon ...
+    /// Adds or updates tags for the specified Firehose stream. A tag is a key-value pair that you can define and assign to Amazon Web Services resources. If you specify a tag that already exists, the tag value is replaced with the value that you specify in the request. Tags are metadata. For example, you can add friendly names and descriptions or other types of information that can help you distinguish the Firehose stream. For more information about tags, see Using Cost Allocation Tags in the Amazon We...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagDeliveryStreamAsync(AwsFirehoseTagDeliveryStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagDeliveryStreamAsync(AwsFirehoseTagDeliveryStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes tags from the specified Firehose stream. Removed tags are deleted, and you can't recover them after this operation successfully completes. If you specify a tag that doesn't exist, the operation ignores it. This operation has a limit of five transactions per second per account. See also: AWS API Documentation
@@ -128,17 +118,15 @@ public interface IAwsFirehose
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagDeliveryStreamAsync(AwsFirehoseUntagDeliveryStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagDeliveryStreamAsync(AwsFirehoseUntagDeliveryStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates the specified destination of the specified Firehose stream. Use this operation to change the destination type (for example, to re- place the Amazon S3 destination with Amazon Redshift) or change the pa- rameters associated with a destination (for example, to change the bucket name of the Amazon S3 destination). The update might not occur immediately. The target Firehose stream remains active while the con- figurations are updated, so data writes to the Firehose stream can con- tinue duri...
+    /// Updates the specified destination of the specified Firehose stream. Use this operation to change the destination type (for example, to replace the Amazon S3 destination with Amazon Redshift) or change the parameters associated with a destination (for example, to change the bucket name of the Amazon S3 destination). The update might not occur immediately. The target Firehose stream remains active while the configurations are updated, so data writes to the Firehose stream can continue during this ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDestinationAsync(AwsFirehoseUpdateDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDestinationAsync(AwsFirehoseUpdateDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

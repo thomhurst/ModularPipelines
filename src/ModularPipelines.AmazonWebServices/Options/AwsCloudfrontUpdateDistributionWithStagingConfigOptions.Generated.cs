@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Copies the staging distribution's configuration to its corresponding primary distribution. The primary distribution retains its Aliases (also known as alternate domain names or CNAMEs) and ContinuousDeploy- mentPolicyId value, but otherwise its configuration is overwritten to match the staging distribution. You can use this operation in a continuous deployment workflow after you have tested configuration changes on the staging distribution. Af- ter using a continuous deployment policy to move a ...
+/// Copies the staging distribution's configuration to its corresponding primary distribution. The primary distribution retains its Aliases (also known as alternate domain names or CNAMEs) and ContinuousDeploymentPolicyId value, but otherwise its configuration is overwritten to match the staging distribution. You can use this operation in a continuous deployment workflow after you have tested configuration changes on the staging distribution. After using a continuous deployment policy to move a port...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsCloudfrontUpdateDistributionWithStagingConfigOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Copies the staging distribution's configuration to its corresponding primary distribution. The primary distribution retains its Aliases (also known as alternate domain names or CNAMEs) and ContinuousDeploy- mentPolicyId value, but otherwise its configuration is overwritten to match the staging distribution. You can use this operation in a continuous deployment workflow after you have tested configuration changes on the staging distribution. Af- ter using a continuous deployment policy to move a ...
+    /// Copies the staging distribution's configuration to its corresponding primary distribution. The primary distribution retains its Aliases (also known as alternate domain names or CNAMEs) and ContinuousDeploymentPolicyId value, but otherwise its configuration is overwritten to match the staging distribution. You can use this operation in a continuous deployment workflow after you have tested configuration changes on the staging distribution. After using a continuous deployment policy to move a port...
     /// </summary>
     /// <param name="Id">The identifier of the primary distribution to which you are copying a staging distribution's configuration.</param>
     public AwsCloudfrontUpdateDistributionWithStagingConfigOptions(
@@ -68,7 +70,7 @@ public record AwsCloudfrontUpdateDistributionWithStagingConfigOptions : AwsOptio
     public string? StagingDistributionId { get; set; }
 
     /// <summary>
-    /// The current versions (ETag values) of both primary and staging dis- tributions. Provide these in the following format: &lt;primary ETag&gt;, &lt;staging ETag&gt;
+    /// The current versions (ETag values) of both primary and staging distributions. Provide these in the following format: &lt;primary ETag&gt;, &lt;staging ETag&gt;
     /// </summary>
     [CliOption("--if-match")]
     public string? IfMatch { get; set; }

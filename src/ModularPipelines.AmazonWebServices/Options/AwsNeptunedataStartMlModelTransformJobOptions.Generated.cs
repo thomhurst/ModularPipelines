@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new model transform job. See Use a trained model to generate new model artifacts . When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelTransformJob IAM action in that cluster. See also: AWS API Documentation
+/// Creates a new model transform job. See Use a trained model to generate new model artifacts . When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelTransformJob IAM action in that cluster. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsNeptunedataStartMlModelTransformJobOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new model transform job. See Use a trained model to generate new model artifacts . When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelTransformJob IAM action in that cluster. See also: AWS API Documentation
+    /// Creates a new model transform job. See Use a trained model to generate new model artifacts . When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelTransformJob IAM action in that cluster. See also: AWS API Documentation
     /// </summary>
     /// <param name="ModelTransformOutputS3Location">The location in Amazon S3 where the model artifacts are to be stored.</param>
     public AwsNeptunedataStartMlModelTransformJobOptions(
@@ -68,19 +70,19 @@ public record AwsNeptunedataStartMlModelTransformJobOptions : AwsOptions, IValid
     public string? Id { get; set; }
 
     /// <summary>
-    /// The job ID of a completed data-processing job. You must include ei- ther dataProcessingJobId and a mlModelTrainingJobId , or a train- ingJobName .
+    /// The job ID of a completed data-processing job. You must include either dataProcessingJobId and a mlModelTrainingJobId , or a trainingJobName .
     /// </summary>
     [CliOption("--data-processing-job-id")]
     public string? DataProcessingJobId { get; set; }
 
     /// <summary>
-    /// The job ID of a completed model-training job. You must include ei- ther dataProcessingJobId and a mlModelTrainingJobId , or a train- ingJobName .
+    /// The job ID of a completed model-training job. You must include either dataProcessingJobId and a mlModelTrainingJobId , or a trainingJobName .
     /// </summary>
     [CliOption("--ml-model-training-job-id")]
     public string? MlModelTrainingJobId { get; set; }
 
     /// <summary>
-    /// The name of a completed SageMaker training job. You must include ei- ther dataProcessingJobId and a mlModelTrainingJobId , or a train- ingJobName .
+    /// The name of a completed SageMaker training job. You must include either dataProcessingJobId and a mlModelTrainingJobId , or a trainingJobName .
     /// </summary>
     [CliOption("--training-job-name")]
     public string? TrainingJobName { get; set; }
@@ -92,25 +94,25 @@ public record AwsNeptunedataStartMlModelTransformJobOptions : AwsOptions, IValid
     public string? SagemakerIamRoleArn { get; set; }
 
     /// <summary>
-    /// The ARN of an IAM role that provides Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parame- ter group or an error will occur.
+    /// The ARN of an IAM role that provides Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error will occur.
     /// </summary>
     [CliOption("--neptune-iam-role-arn")]
     public string? NeptuneIamRoleArn { get; set; }
 
     /// <summary>
-    /// Configuration information for a model transform using a custom model. The customModelTransformParameters object contains the fol- lowing fields, which must have values compatible with the saved model parameters from the training job: sourceS3DirectoryPath -&gt; (string) [required] The path to the Amazon S3 location where the Python module im- plementing your model is located. This must point to a valid ex- isting Amazon S3 location that contains, at a minimum, a train- ing script, a transform script, and a model-hpo-configura- tion.json file. transformEntryPointScript -&gt; (string) The name of the entry point in your module of a script that should be run after the best model from the hyperparameter search has been identified, to compute the model artifacts nec- essary for model deployment. It should be able to run with no command-line arguments. The default is transform.py . Shorthand Syntax: sourceS3DirectoryPath=string,transformEntryPointScript=string JSON Syntax: { "sourceS3DirectoryPath": "string", "transformEntryPointScript": "string" }
+    /// Configuration information for a model transform using a custom model. The customModelTransformParameters object contains the following fields, which must have values compatible with the saved model parameters from the training job: sourceS3DirectoryPath -&gt; (string) [required] The path to the Amazon S3 location where the Python module implementing your model is located. This must point to a valid existing Amazon S3 location that contains, at a minimum, a training script, a transform script, and a model-hpo-configuration.json file. transformEntryPointScript -&gt; (string) The name of the entry point in your module of a script that should be run after the best model from the hyperparameter search has been identified, to compute the model artifacts necessary for model deployment. It should be able to run with no command-line arguments. The default is transform.py . Shorthand Syntax: sourceS3DirectoryPath=string,transformEntryPointScript=string JSON Syntax: { "sourceS3DirectoryPath": "string", "transformEntryPointScript": "string" }
     /// </summary>
     [CliOption("--custom-model-transform-parameters")]
     public string? CustomModelTransformParameters { get; set; }
 
     /// <summary>
-    /// The type of ML instance used in preparing and managing training of ML models. This is an ML compute instance chosen based on memory re- quirements for processing the training data and model.
+    /// The type of ML instance used in preparing and managing training of ML models. This is an ML compute instance chosen based on memory requirements for processing the training data and model.
     /// </summary>
     [CliOption("--base-processing-instance-type")]
     public string? BaseProcessingInstanceType { get; set; }
 
     /// <summary>
-    /// The disk volume size of the training instance in gigabytes. The de- fault is 0. Both input data and the output model are stored on disk, so the volume size must be large enough to hold both data sets. If not specified or 0, Neptune ML selects a disk volume size based on the recommendation generated in the data processing step.
+    /// The disk volume size of the training instance in gigabytes. The default is 0. Both input data and the output model are stored on disk, so the volume size must be large enough to hold both data sets. If not specified or 0, Neptune ML selects a disk volume size based on the recommendation generated in the data processing step.
     /// </summary>
     [CliOption("--base-processing-instance-volume-size-in-gb")]
     public int? BaseProcessingInstanceVolumeSizeInGb { get; set; }
@@ -128,7 +130,7 @@ public record AwsNeptunedataStartMlModelTransformJobOptions : AwsOptions, IValid
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>
-    /// The Amazon Key Management Service (KMS) key that SageMaker uses to encrypt data on the storage volume attached to the ML compute in- stances that run the training job. The default is None.
+    /// The Amazon Key Management Service (KMS) key that SageMaker uses to encrypt data on the storage volume attached to the ML compute instances that run the training job. The default is None.
     /// </summary>
     [CliOption("--volume-encryption-kms-key")]
     public string? VolumeEncryptionKmsKey { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a cache subnet group. NOTE: You cannot delete a default cache subnet group or one that is asso- ciated with any clusters. See also: AWS API Documentation
+/// Deletes a cache subnet group. NOTE: You cannot delete a default cache subnet group or one that is associated with any clusters. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsElasticacheDeleteCacheSubnetGroupOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a cache subnet group. NOTE: You cannot delete a default cache subnet group or one that is asso- ciated with any clusters. See also: AWS API Documentation
+    /// Deletes a cache subnet group. NOTE: You cannot delete a default cache subnet group or one that is associated with any clusters. See also: AWS API Documentation
     /// </summary>
     /// <param name="CacheSubnetGroupName">The name of the cache subnet group to delete. Constraints: Must contain no more than 255 alphanumeric characters or hyphens.</param>
     public AwsElasticacheDeleteCacheSubnetGroupOptions(

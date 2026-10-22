@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an archive of events with the specified settings. When you cre- ate an archive, incoming events might not immediately start being sent to the archive. Allow a short period of time for changes to take ef- fect. If you do not specify a pattern to filter events sent to the archive, all events are sent to the archive except replayed events. Re- played events are not sent to an archive. WARNING: If you have specified that EventBridge use a customer managed key for encrypting the source event ...
+/// Creates an archive of events with the specified settings. When you create an archive, incoming events might not immediately start being sent to the archive. Allow a short period of time for changes to take effect. If you do not specify a pattern to filter events sent to the archive, all events are sent to the archive except replayed events. Replayed events are not sent to an archive. WARNING: If you have specified that EventBridge use a customer managed key for encrypting the source event bus, w...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsEventsCreateArchiveOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an archive of events with the specified settings. When you cre- ate an archive, incoming events might not immediately start being sent to the archive. Allow a short period of time for changes to take ef- fect. If you do not specify a pattern to filter events sent to the archive, all events are sent to the archive except replayed events. Re- played events are not sent to an archive. WARNING: If you have specified that EventBridge use a customer managed key for encrypting the source event ...
+    /// Creates an archive of events with the specified settings. When you create an archive, incoming events might not immediately start being sent to the archive. Allow a short period of time for changes to take effect. If you do not specify a pattern to filter events sent to the archive, all events are sent to the archive except replayed events. Replayed events are not sent to an archive. WARNING: If you have specified that EventBridge use a customer managed key for encrypting the source event bus, w...
     /// </summary>
-    /// <param name="ArchiveName">The name for the archive to create. Constraints: o min: 1 o max: 48 o pattern: [\.\-_A-Za-z0-9]+</param>
-    /// <param name="EventSourceArn">The ARN of the event bus that sends events to the archive. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws([a-z]|\-)*:events:([a-z]|\d|\-)*:([0-9]{12})?:.+\/.+$</param>
+    /// <param name="ArchiveName">The name for the archive to create. Constraints: • min: 1 • max: 48 • pattern: [\.\-_A-Za-z0-9]+</param>
+    /// <param name="EventSourceArn">The ARN of the event bus that sends events to the archive. Constraints: • min: 1 • max: 1600 • pattern: ^arn:aws([a-z]|\-)*:events:([a-z]|\d|\-)*:([0-9]{12})?:.+\/.+$</param>
     public AwsEventsCreateArchiveOptions(
         string ArchiveName,
         string EventSourceArn
@@ -60,37 +62,37 @@ public record AwsEventsCreateArchiveOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name for the archive to create. Constraints: o min: 1 o max: 48 o pattern: [\.\-_A-Za-z0-9]+
+    /// The name for the archive to create. Constraints: • min: 1 • max: 48 • pattern: [\.\-_A-Za-z0-9]+
     /// </summary>
     [CliOption("--archive-name")]
     public string? ArchiveName { get; private init; }
 
     /// <summary>
-    /// The ARN of the event bus that sends events to the archive. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws([a-z]|\-)*:events:([a-z]|\d|\-)*:([0-9]{12})?:.+\/.+$
+    /// The ARN of the event bus that sends events to the archive. Constraints: • min: 1 • max: 1600 • pattern: ^arn:aws([a-z]|\-)*:events:([a-z]|\d|\-)*:([0-9]{12})?:.+\/.+$
     /// </summary>
     [CliOption("--event-source-arn")]
     public string? EventSourceArn { get; private init; }
 
     /// <summary>
-    /// A description for the archive. Constraints: o max: 512 o pattern: .*
+    /// A description for the archive. Constraints: • max: 512 • pattern: .*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// An event pattern to use to filter events sent to the archive. Constraints: o max: 4096
+    /// An event pattern to use to filter events sent to the archive. Constraints: • max: 4096
     /// </summary>
     [CliOption("--event-pattern")]
     public string? EventPattern { get; set; }
 
     /// <summary>
-    /// The number of days to retain events for. Default value is 0. If set to 0, events are retained indefinitely Constraints: o min: 0
+    /// The number of days to retain events for. Default value is 0. If set to 0, events are retained indefinitely Constraints: • min: 0
     /// </summary>
     [CliOption("--retention-days")]
     public int? RetentionDays { get; set; }
 
     /// <summary>
-    /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt this archive. The identifier can be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt the archive. For more information, see Identify and view keys in the Key Manage- ment Service Developer Guide . WARNING: If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a customer managed key for any archives for the event bus as well. For more information, see Encrypting archives in the Amazon EventBridge User Guide . Constraints: o max: 2048 o pattern: ^[a-zA-Z0-9_\-/:]*$
+    /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt this archive. The identifier can be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt the archive. For more information, see Identify and view keys in the Key Management Service Developer Guide . WARNING: If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a customer managed key for any archives for the event bus as well. For more information, see Encrypting archives in the Amazon EventBridge User Guide . Constraints: • max: 2048 • pattern: ^[a-zA-Z0-9_\-/:]*$
     /// </summary>
     [CliOption("--kms-key-identifier")]
     public string? KmsKeyIdentifier { get; set; }

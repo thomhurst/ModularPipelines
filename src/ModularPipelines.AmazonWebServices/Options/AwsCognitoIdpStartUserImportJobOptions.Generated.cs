@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Instructs your user pool to start importing users from a CSV file that contains their usernames and attributes. For more information about im- porting users from a CSV file, see Importing users from a CSV file . See also: AWS API Documentation
+/// Instructs your user pool to start importing users from a CSV file that contains their usernames and attributes. For more information about importing users from a CSV file, see Importing users from a CSV file . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsCognitoIdpStartUserImportJobOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Instructs your user pool to start importing users from a CSV file that contains their usernames and attributes. For more information about im- porting users from a CSV file, see Importing users from a CSV file . See also: AWS API Documentation
+    /// Instructs your user pool to start importing users from a CSV file that contains their usernames and attributes. For more information about importing users from a CSV file, see Importing users from a CSV file . See also: AWS API Documentation
     /// </summary>
-    /// <param name="UserPoolId">The ID of the user pool that you want to start importing users into. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
-    /// <param name="JobId">The ID of a user import job that you previously created. Constraints: o min: 1 o max: 55 o pattern: import-[0-9a-zA-Z-]+</param>
+    /// <param name="UserPoolId">The ID of the user pool that you want to start importing users into. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="JobId">The ID of a user import job that you previously created. Constraints: • min: 1 • max: 55 • pattern: import-[0-9a-zA-Z-]+</param>
     public AwsCognitoIdpStartUserImportJobOptions(
         string UserPoolId,
         string JobId
@@ -60,13 +62,13 @@ public record AwsCognitoIdpStartUserImportJobOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the user pool that you want to start importing users into. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// The ID of the user pool that you want to start importing users into. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--user-pool-id")]
     public string? UserPoolId { get; private init; }
 
     /// <summary>
-    /// The ID of a user import job that you previously created. Constraints: o min: 1 o max: 55 o pattern: import-[0-9a-zA-Z-]+
+    /// The ID of a user import job that you previously created. Constraints: • min: 1 • max: 55 • pattern: import-[0-9a-zA-Z-]+
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }

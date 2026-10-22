@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists all metadata tags attached to an DMS resource, including replica- tion instance, endpoint, subnet group, and migration task. For more in- formation, see ` Tag https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html`__ data type description. See also: AWS API Documentation
+/// Lists all metadata tags attached to an DMS resource, including replication instance, endpoint, subnet group, and migration task. For more information, see ` Tag https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html`__ data type description. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,7 +28,7 @@ public record AwsDmsListTagsForResourceOptions : AwsOptions
     public string? ResourceArn { get; set; }
 
     /// <summary>
-    /// List of ARNs that identify multiple DMS resources that you want to list tags for. This returns a list of keys (tag names) and their as- sociated tag values. It also returns each tag's associated Re- sourceArn value, which is the ARN of the resource for which each listed tag is created. (string) Syntax: "string" "string" ...
+    /// List of ARNs that identify multiple DMS resources that you want to list tags for. This returns a list of keys (tag names) and their associated tag values. It also returns each tag's associated ResourceArn value, which is the ARN of the resource for which each listed tag is created. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resource-arn-list", GroupValues = true)]
     public IEnumerable<string>? ResourceArnList { get; set; }

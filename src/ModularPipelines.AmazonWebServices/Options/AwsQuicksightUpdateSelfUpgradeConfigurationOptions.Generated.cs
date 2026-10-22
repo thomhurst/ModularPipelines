@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +30,9 @@ public record AwsQuicksightUpdateSelfUpgradeConfigurationOptions : AwsOptions, I
     /// <summary>
     /// Updates the self-upgrade configuration for a Quick account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the Quick self-upgrade configuration that you want to update. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="Namespace">The Quick namespace that you want to update the Quick self-upgrade configuration for. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$</param>
-    /// <param name="SelfUpgradeStatus">The self-upgrade status that you want to set for the Quick account. Possible values: o AUTO_APPROVAL o ADMIN_APPROVAL</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the Quick self-upgrade configuration that you want to update. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="Namespace">The Quick namespace that you want to update the Quick self-upgrade configuration for. Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$</param>
+    /// <param name="SelfUpgradeStatus">The self-upgrade status that you want to set for the Quick account. Possible values: • AUTO_APPROVAL • ADMIN_APPROVAL</param>
     public AwsQuicksightUpdateSelfUpgradeConfigurationOptions(
         string AwsAccountId,
         string Namespace,
@@ -64,19 +66,19 @@ public record AwsQuicksightUpdateSelfUpgradeConfigurationOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the Quick self-upgrade configuration that you want to update. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the Quick self-upgrade configuration that you want to update. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The Quick namespace that you want to update the Quick self-upgrade configuration for. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// The Quick namespace that you want to update the Quick self-upgrade configuration for. Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; private init; }
 
     /// <summary>
-    /// The self-upgrade status that you want to set for the Quick account. Possible values: o AUTO_APPROVAL o ADMIN_APPROVAL
+    /// The self-upgrade status that you want to set for the Quick account. Possible values: • AUTO_APPROVAL • ADMIN_APPROVAL
     /// </summary>
     [CliOption("--self-upgrade-status")]
     public AwsQuicksightUpdateSelfUpgradeConfigurationSelfUpgradeStatus? SelfUpgradeStatus { get; private init; }

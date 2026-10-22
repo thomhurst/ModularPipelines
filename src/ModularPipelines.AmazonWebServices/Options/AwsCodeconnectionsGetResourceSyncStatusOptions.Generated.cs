@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCodeconnectionsGetResourceSyncStatusOptions : AwsOptions, IVali
     /// <summary>
     /// Returns the status of the sync with the Git repository for a specific Amazon Web Services resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceName">The name of the Amazon Web Services resource for the sync status with the Git repository. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$</param>
-    /// <param name="SyncType">The sync type for the sync status with the Git repository. Possible values: o CFN_STACK_SYNC</param>
+    /// <param name="ResourceName">The name of the Amazon Web Services resource for the sync status with the Git repository. Constraints: • min: 1 • max: 100 • pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$</param>
+    /// <param name="SyncType">The sync type for the sync status with the Git repository. Possible values: • CFN_STACK_SYNC</param>
     public AwsCodeconnectionsGetResourceSyncStatusOptions(
         string ResourceName,
         string SyncType
@@ -60,13 +62,13 @@ public record AwsCodeconnectionsGetResourceSyncStatusOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Amazon Web Services resource for the sync status with the Git repository. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$
+    /// The name of the Amazon Web Services resource for the sync status with the Git repository. Constraints: • min: 1 • max: 100 • pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$
     /// </summary>
     [CliOption("--resource-name")]
     public string? ResourceName { get; private init; }
 
     /// <summary>
-    /// The sync type for the sync status with the Git repository. Possible values: o CFN_STACK_SYNC
+    /// The sync type for the sync status with the Git repository. Possible values: • CFN_STACK_SYNC
     /// </summary>
     [CliOption("--sync-type")]
     public string? SyncType { get; private init; }

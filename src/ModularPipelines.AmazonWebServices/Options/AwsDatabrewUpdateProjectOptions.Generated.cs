@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDatabrewUpdateProjectOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Modifies the definition of an existing DataBrew project. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role to be assumed for this request. Constraints: o min: 20 o max: 2048</param>
-    /// <param name="Name">The name of the project to be updated. Constraints: o min: 1 o max: 255</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role to be assumed for this request. Constraints: • min: 20 • max: 2048</param>
+    /// <param name="Name">The name of the project to be updated. Constraints: • min: 1 • max: 255</param>
     public AwsDatabrewUpdateProjectOptions(
         string RoleArn,
         string Name
@@ -60,19 +62,19 @@ public record AwsDatabrewUpdateProjectOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role to be assumed for this request. Constraints: o min: 20 o max: 2048
+    /// The Amazon Resource Name (ARN) of the IAM role to be assumed for this request. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// The name of the project to be updated. Constraints: o min: 1 o max: 255
+    /// The name of the project to be updated. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Represents the sample size and sampling type for DataBrew to use for interactive data analysis. Size -&gt; (integer) The number of rows in the sample. Constraints: o min: 1 o max: 5000 Type -&gt; (string) [required] The way in which DataBrew obtains rows from a dataset. Possible values: o FIRST_N o LAST_N o RANDOM Shorthand Syntax: Size=integer,Type=string JSON Syntax: { "Size": integer, "Type": "FIRST_N"|"LAST_N"|"RANDOM" }
+    /// Represents the sample size and sampling type for DataBrew to use for interactive data analysis. Size -&gt; (integer) The number of rows in the sample. Constraints: • min: 1 • max: 5000 Type -&gt; (string) [required] The way in which DataBrew obtains rows from a dataset. Possible values: • FIRST_N • LAST_N • RANDOM Shorthand Syntax: Size=integer,Type=string JSON Syntax: { "Size": integer, "Type": "FIRST_N"|"LAST_N"|"RANDOM" }
     /// </summary>
     [CliOption("--sample")]
     public string? Sample { get; set; }

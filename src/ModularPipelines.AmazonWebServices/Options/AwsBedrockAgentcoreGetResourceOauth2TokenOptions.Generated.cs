@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -30,10 +31,10 @@ public record AwsBedrockAgentcoreGetResourceOauth2TokenOptions : AwsOptions, IVa
     /// <summary>
     /// Returns the OAuth 2.0 token of the provided resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkloadIdentityToken">The identity token of the workload from which you want to retrieve the OAuth2 token. Constraints: o min: 1 o max: 131072</param>
-    /// <param name="ResourceCredentialProviderName">The name of the resource's credential provider. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\-_]+</param>
-    /// <param name="Scopes">The OAuth scopes being requested. (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
-    /// <param name="Oauth2Flow">The type of flow to be performed. Possible values: o USER_FEDERATION o M2M o ON_BEHALF_OF_TOKEN_EXCHANGE</param>
+    /// <param name="WorkloadIdentityToken">The identity token of the workload from which you want to retrieve the OAuth2 token. Constraints: • min: 1 • max: 131072</param>
+    /// <param name="ResourceCredentialProviderName">The name of the resource's credential provider. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\-_]+</param>
+    /// <param name="Scopes">The OAuth scopes being requested. (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="Oauth2Flow">The type of flow to be performed. Possible values: • USER_FEDERATION • M2M • ON_BEHALF_OF_TOKEN_EXCHANGE</param>
     public AwsBedrockAgentcoreGetResourceOauth2TokenOptions(
         string WorkloadIdentityToken,
         string ResourceCredentialProviderName,
@@ -81,38 +82,38 @@ public record AwsBedrockAgentcoreGetResourceOauth2TokenOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identity token of the workload from which you want to retrieve the OAuth2 token. Constraints: o min: 1 o max: 131072
+    /// The identity token of the workload from which you want to retrieve the OAuth2 token. Constraints: • min: 1 • max: 131072
     /// </summary>
     [SecretValue]
     [CliOption("--workload-identity-token")]
     public string? WorkloadIdentityToken { get; private init; }
 
     /// <summary>
-    /// The name of the resource's credential provider. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\-_]+
+    /// The name of the resource's credential provider. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\-_]+
     /// </summary>
     [CliOption("--resource-credential-provider-name")]
     public string? ResourceCredentialProviderName { get; private init; }
 
     /// <summary>
-    /// The OAuth scopes being requested. (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// The OAuth scopes being requested. (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--scopes", GroupValues = true)]
     public IEnumerable<string>? Scopes { get; private init; }
 
     /// <summary>
-    /// The type of flow to be performed. Possible values: o USER_FEDERATION o M2M o ON_BEHALF_OF_TOKEN_EXCHANGE
+    /// The type of flow to be performed. Possible values: • USER_FEDERATION • M2M • ON_BEHALF_OF_TOKEN_EXCHANGE
     /// </summary>
     [CliOption("--oauth2-flow")]
     public AwsBedrockAgentcoreGetResourceOauth2TokenOauth2Flow? Oauth2Flow { get; private init; }
 
     /// <summary>
-    /// Unique identifier for the user's authentication session for retriev- ing OAuth2 tokens. This ID tracks the authorization flow state across multiple requests and responses during the OAuth2 authentica- tion process. Constraints: o min: 1 o max: 1024 o pattern: urn:ietf:params:oauth:request_uri:[a-zA-Z0-9-._~]+
+    /// Unique identifier for the user's authentication session for retrieving OAuth2 tokens. This ID tracks the authorization flow state across multiple requests and responses during the OAuth2 authentication process. Constraints: • min: 1 • max: 1024 • pattern: urn:ietf:params:oauth:request_uri:[a-zA-Z0-9-._~]+
     /// </summary>
     [CliOption("--session-uri")]
     public string? SessionUri { get; set; }
 
     /// <summary>
-    /// The callback URL to redirect to after the OAuth 2.0 token retrieval is complete. This URL must be one of the provided URLs configured for the workload identity. Constraints: o min: 1 o max: 2048 o pattern: \w+:(\/?\/?)[^\s]+
+    /// The callback URL to redirect to after the OAuth 2.0 token retrieval is complete. This URL must be one of the provided URLs configured for the workload identity. Constraints: • min: 1 • max: 2048 • pattern: \w+:(\/?\/?)[^\s]+
     /// </summary>
     [CliOption("--resource-oauth2-return-url")]
     public string? ResourceOauth2ReturnUrl { get; set; }
@@ -124,25 +125,25 @@ public record AwsBedrockAgentcoreGetResourceOauth2TokenOptions : AwsOptions, IVa
     public bool? ForceAuthentication { get; set; }
 
     /// <summary>
-    /// A map of custom parameters to include in the authorization request to the resource credential provider. These parameters are in addi- tion to the standard OAuth 2.0 flow parameters, and will not over- ride them. key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\-_\.]+ value -&gt; (string) Constraints: o min: 1 o max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of custom parameters to include in the authorization request to the resource credential provider. These parameters are in addition to the standard OAuth 2.0 flow parameters, and will not override them. key -&gt; (string) Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9\-_\.]+ value -&gt; (string) Constraints: • min: 1 • max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--custom-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? CustomParameters { get; set; }
 
     /// <summary>
-    /// An opaque string that will be sent back to the callback URL provided in resourceOauth2ReturnUrl. This state should be used to protect the callback URL of your application against CSRF attacks by ensuring the response corresponds to the original request. Constraints: o min: 1 o max: 4096
+    /// An opaque string that will be sent back to the callback URL provided in resourceOauth2ReturnUrl. This state should be used to protect the callback URL of your application against CSRF attacks by ensuring the response corresponds to the original request. Constraints: • min: 1 • max: 4096
     /// </summary>
     [CliOption("--custom-state")]
     public string? CustomState { get; set; }
 
     /// <summary>
-    /// The resources to include in the token request. These are used to specify the target resources for which the OAuth2 token is being re- quested. (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...
+    /// The resources to include in the token request. These are used to specify the target resources for which the OAuth2 token is being requested. (string) Constraints: • min: 1 • max: 2048 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resources", GroupValues = true)]
     public IEnumerable<string>? Resources { get; set; }
 
     /// <summary>
-    /// The audiences to include in the token request. These are used to specify the intended recipients of the OAuth2 token. (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...
+    /// The audiences to include in the token request. These are used to specify the intended recipients of the OAuth2 token. (string) Constraints: • min: 1 • max: 2048 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--audiences", GroupValues = true)]
     public IEnumerable<string>? Audiences { get; set; }

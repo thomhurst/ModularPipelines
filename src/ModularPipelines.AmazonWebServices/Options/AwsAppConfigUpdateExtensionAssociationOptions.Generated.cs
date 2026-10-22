@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an association. For more information about extensions and asso- ciations, see Extending workflows in the AppConfig User Guide . See also: AWS API Documentation
+/// Updates an association. For more information about extensions and associations, see Extending workflows in the AppConfig User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsAppConfigUpdateExtensionAssociationOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an association. For more information about extensions and asso- ciations, see Extending workflows in the AppConfig User Guide . See also: AWS API Documentation
+    /// Updates an association. For more information about extensions and associations, see Extending workflows in the AppConfig User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExtensionAssociationId">The system-generated ID for the association. Constraints: o pattern: [a-z0-9]{4,7}</param>
+    /// <param name="ExtensionAssociationId">The system-generated ID for the association. Constraints: • pattern: [a-z0-9]{4,7}</param>
     public AwsAppConfigUpdateExtensionAssociationOptions(
         string ExtensionAssociationId
     )
@@ -57,13 +58,13 @@ public record AwsAppConfigUpdateExtensionAssociationOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The system-generated ID for the association. Constraints: o pattern: [a-z0-9]{4,7}
+    /// The system-generated ID for the association. Constraints: • pattern: [a-z0-9]{4,7}
     /// </summary>
     [CliOption("--extension-association-id")]
     public string? ExtensionAssociationId { get; private init; }
 
     /// <summary>
-    /// The parameter names and values defined in the extension. Constraints: o min: 0 o max: 10 key -&gt; (string) Constraints: o pattern: ^[^\/#:\n]{1,64}$ value -&gt; (string) Constraints: o min: 1 o max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The parameter names and values defined in the extension. Constraints: • min: 0 • max: 10 key -&gt; (string) Constraints: • pattern: ^[^\/#:\n]{1,64}$ value -&gt; (string) Constraints: • min: 1 • max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }

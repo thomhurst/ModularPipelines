@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDevicefarmCreateProjectOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a project. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The project's name. Constraints: o min: 0 o max: 256</param>
+    /// <param name="Name">The project's name. Constraints: • min: 0 • max: 256</param>
     public AwsDevicefarmCreateProjectOptions(
         string Name
     )
@@ -56,7 +58,7 @@ public record AwsDevicefarmCreateProjectOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The project's name. Constraints: o min: 0 o max: 256
+    /// The project's name. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -68,19 +70,19 @@ public record AwsDevicefarmCreateProjectOptions : AwsOptions, IValidatableObject
     public int? DefaultJobTimeoutMinutes { get; set; }
 
     /// <summary>
-    /// The VPC security groups and subnets that are attached to a project. securityGroupIds -&gt; (list) [required] An array of one or more security groups IDs in your Amazon VPC. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 4096 o pattern: ^sg-[0-9a-fA-F]{8,}$ subnetIds -&gt; (list) [required] An array of one or more subnet IDs in your Amazon VPC. Constraints: o min: 1 o max: 8 (string) Constraints: o min: 1 o max: 4096 o pattern: ^subnet-[0-9a-fA-F]{8,}$ vpcId -&gt; (string) [required] The ID of the Amazon VPC. Constraints: o min: 1 o max: 4096 o pattern: .*\S.* Shorthand Syntax: securityGroupIds=string,string,subnetIds=string,string,vpcId=string JSON Syntax: { "securityGroupIds": ["string", ...], "subnetIds": ["string", ...], "vpcId": "string" }
+    /// The VPC security groups and subnets that are attached to a project. securityGroupIds -&gt; (list) [required] An array of one or more security groups IDs in your Amazon VPC. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 1 • max: 4096 • pattern: ^sg-[0-9a-fA-F]{8,}$ subnetIds -&gt; (list) [required] An array of one or more subnet IDs in your Amazon VPC. Constraints: • min: 1 • max: 8 (string) Constraints: • min: 1 • max: 4096 • pattern: ^subnet-[0-9a-fA-F]{8,}$ vpcId -&gt; (string) [required] The ID of the Amazon VPC. Constraints: • min: 1 • max: 4096 • pattern: .*\S.* Shorthand Syntax: securityGroupIds=string,string,subnetIds=string,string,vpcId=string JSON Syntax: { "securityGroupIds": ["string", ...], "subnetIds": ["string", ...], "vpcId": "string" }
     /// </summary>
     [CliOption("--vpc-config")]
     public string? VpcConfig { get; set; }
 
     /// <summary>
-    /// A set of environment variables which are used by default for all runs in the project. These environment variables are applied to the test run during the execution of a test spec file. For more information about using test spec files, please see Custom test environments in AWS Device Farm. Constraints: o min: 1 o max: 32 (structure) Information about an environment variable for a project or a run. name -&gt; (string) [required] The name of the environment variable. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_][a-zA-Z_0-9]* value -&gt; (string) [required] The value of the environment variable. Constraints: o min: 1 o max: 256 Shorthand Syntax: name=string,value=string ... JSON Syntax: [ { "name": "string", "value": "string" } ... ]
+    /// A set of environment variables which are used by default for all runs in the project. These environment variables are applied to the test run during the execution of a test spec file. For more information about using test spec files, please see Custom test environments in AWS Device Farm. Constraints: • min: 1 • max: 32 (structure) Information about an environment variable for a project or a run. name -&gt; (string) [required] The name of the environment variable. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z_][a-zA-Z_0-9]* value -&gt; (string) [required] The value of the environment variable. Constraints: • min: 1 • max: 256 Shorthand Syntax: name=string,value=string ... JSON Syntax: [ { "name": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--environment-variables", GroupValues = true)]
     public IEnumerable<string>? EnvironmentVariables { get; set; }
 
     /// <summary>
-    /// An IAM role to be assumed by the test host for all runs in the project. Constraints: o min: 20 o max: 2048 o pattern: ^arn:aws:iam::[0-9]{12}:role/.+
+    /// An IAM role to be assumed by the test host for all runs in the project. Constraints: • min: 20 • max: 2048 • pattern: ^arn:aws:iam::[0-9]{12}:role/.+
     /// </summary>
     [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; set; }

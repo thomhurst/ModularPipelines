@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsComprehendDeleteEndpointOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Deletes a model-specific endpoint for a previously-trained custom model. All endpoints must be deleted in order for the model to be deleted. For information about endpoints, see Managing endpoints . See also: AWS API Documentation
     /// </summary>
-    /// <param name="EndpointArn">The Amazon Resource Number (ARN) of the endpoint being deleted. Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(doc- ument-classifier-endpoint|entity-recognizer-end- point)/[a-zA-Z0-9](-*[a-zA-Z0-9])*</param>
+    /// <param name="EndpointArn">The Amazon Resource Number (ARN) of the endpoint being deleted. Constraints: • max: 256 • pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier-endpoint|entity-recognizer-endpoint)/[a-zA-Z0-9](-*[a-zA-Z0-9])*</param>
     public AwsComprehendDeleteEndpointOptions(
         string EndpointArn
     )
@@ -56,7 +58,7 @@ public record AwsComprehendDeleteEndpointOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Number (ARN) of the endpoint being deleted. Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(doc- ument-classifier-endpoint|entity-recognizer-end- point)/[a-zA-Z0-9](-*[a-zA-Z0-9])*
+    /// The Amazon Resource Number (ARN) of the endpoint being deleted. Constraints: • max: 256 • pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier-endpoint|entity-recognizer-endpoint)/[a-zA-Z0-9](-*[a-zA-Z0-9])*
     /// </summary>
     [CliOption("--endpoint-arn")]
     public string? EndpointArn { get; private init; }

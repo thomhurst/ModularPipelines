@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of tags that are associated with a resource group, spec- ified by an Amazon resource name (ARN). Minimum permissions To run this command, you must have the following permissions: o resource-groups:GetTags See also: AWS API Documentation
+/// Returns a list of tags that are associated with a resource group, specified by an Amazon resource name (ARN). Minimum permissions To run this command, you must have the following permissions: • resource-groups:GetTags See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsResourceGroupsGetTagsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a list of tags that are associated with a resource group, spec- ified by an Amazon resource name (ARN). Minimum permissions To run this command, you must have the following permissions: o resource-groups:GetTags See also: AWS API Documentation
+    /// Returns a list of tags that are associated with a resource group, specified by an Amazon resource name (ARN). Minimum permissions To run this command, you must have the following permissions: • resource-groups:GetTags See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon resource name (ARN) of the resource group whose tags you want to retrieve. Constraints: o min: 12 o max: 1600 o pattern: arn:aws(-[a-z]+)*:re- source-groups:[a-z]{2}(-[a-z]+)+-\d{1}:[0-9]{12}:group/([a-zA-Z0-9_\.-]{1,300}|[a-zA-Z0-9_\.-]{1,150}/[a-z0-9]{26})</param>
+    /// <param name="Arn">The Amazon resource name (ARN) of the resource group whose tags you want to retrieve. Constraints: • min: 12 • max: 1600 • pattern: arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\d{1}:[0-9]{12}:group/([a-zA-Z0-9_\.-]{1,300}|[a-zA-Z0-9_\.-]{1,150}/[a-z0-9]{26})</param>
     public AwsResourceGroupsGetTagsOptions(
         string Arn
     )
@@ -56,7 +58,7 @@ public record AwsResourceGroupsGetTagsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon resource name (ARN) of the resource group whose tags you want to retrieve. Constraints: o min: 12 o max: 1600 o pattern: arn:aws(-[a-z]+)*:re- source-groups:[a-z]{2}(-[a-z]+)+-\d{1}:[0-9]{12}:group/([a-zA-Z0-9_\.-]{1,300}|[a-zA-Z0-9_\.-]{1,150}/[a-z0-9]{26})
+    /// The Amazon resource name (ARN) of the resource group whose tags you want to retrieve. Constraints: • min: 12 • max: 1600 • pattern: arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\d{1}:[0-9]{12}:group/([a-zA-Z0-9_\.-]{1,300}|[a-zA-Z0-9_\.-]{1,150}/[a-z0-9]{26})
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }

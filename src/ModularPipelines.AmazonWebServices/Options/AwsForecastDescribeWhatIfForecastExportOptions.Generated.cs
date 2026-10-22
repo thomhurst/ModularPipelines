@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the what-if forecast export created using the CreateWhat- IfForecastExport operation. In addition to listing the properties provided in the CreateWhatIfFore- castExport request, this operation lists the following properties: o CreationTime o LastModificationTime o Message - If an error occurred, information about the error. o Status See also: AWS API Documentation
+/// Describes the what-if forecast export created using the CreateWhatIfForecastExport operation. In addition to listing the properties provided in the CreateWhatIfForecastExport request, this operation lists the following properties: • CreationTime • LastModificationTime • Message - If an error occurred, information about the error. • Status See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsForecastDescribeWhatIfForecastExportOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes the what-if forecast export created using the CreateWhat- IfForecastExport operation. In addition to listing the properties provided in the CreateWhatIfFore- castExport request, this operation lists the following properties: o CreationTime o LastModificationTime o Message - If an error occurred, information about the error. o Status See also: AWS API Documentation
+    /// Describes the what-if forecast export created using the CreateWhatIfForecastExport operation. In addition to listing the properties provided in the CreateWhatIfForecastExport request, this operation lists the following properties: • CreationTime • LastModificationTime • Message - If an error occurred, information about the error. • Status See also: AWS API Documentation
     /// </summary>
-    /// <param name="WhatIfForecastExportArn">The Amazon Resource Name (ARN) of the what-if forecast export that you are interested in. Constraints: o max: 300 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    /// <param name="WhatIfForecastExportArn">The Amazon Resource Name (ARN) of the what-if forecast export that you are interested in. Constraints: • max: 300 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
     public AwsForecastDescribeWhatIfForecastExportOptions(
         string WhatIfForecastExportArn
     )
@@ -56,7 +58,7 @@ public record AwsForecastDescribeWhatIfForecastExportOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the what-if forecast export that you are interested in. Constraints: o max: 300 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the what-if forecast export that you are interested in. Constraints: • max: 300 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
     /// </summary>
     [CliOption("--what-if-forecast-export-arn")]
     public string? WhatIfForecastExportArn { get; private init; }

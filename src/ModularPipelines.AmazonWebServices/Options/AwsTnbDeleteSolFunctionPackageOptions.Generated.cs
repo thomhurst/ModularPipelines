@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a function package. A function package is a .zip file in CSAR (Cloud Service Archive) for- mat that contains a network function (an ETSI standard telecommunica- tion application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your net- work. To delete a function package, the package must be in a disabled state. To disable a function package, see UpdateSolFunctionPackage . See also: AWS API Documentation
+/// Deletes a function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network. To delete a function package, the package must be in a disabled state. To disable a function package, see UpdateSolFunctionPackage . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsTnbDeleteSolFunctionPackageOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a function package. A function package is a .zip file in CSAR (Cloud Service Archive) for- mat that contains a network function (an ETSI standard telecommunica- tion application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your net- work. To delete a function package, the package must be in a disabled state. To disable a function package, see UpdateSolFunctionPackage . See also: AWS API Documentation
+    /// Deletes a function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network. To delete a function package, the package must be in a disabled state. To disable a function package, see UpdateSolFunctionPackage . See also: AWS API Documentation
     /// </summary>
-    /// <param name="VnfPkgId">ID of the function package. Constraints: o pattern: ^fp-[a-f0-9]{17}$</param>
+    /// <param name="VnfPkgId">ID of the function package. Constraints: • pattern: ^fp-[a-f0-9]{17}$</param>
     public AwsTnbDeleteSolFunctionPackageOptions(
         string VnfPkgId
     )
@@ -56,7 +58,7 @@ public record AwsTnbDeleteSolFunctionPackageOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID of the function package. Constraints: o pattern: ^fp-[a-f0-9]{17}$
+    /// ID of the function package. Constraints: • pattern: ^fp-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--vnf-pkg-id")]
     public string? VnfPkgId { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDeadlineDisassociateMemberFromFarmOptions : AwsOptions, IValida
     /// <summary>
     /// Disassociates a member from a farm. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The farm ID of the farm to disassociate from the member. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="PrincipalId">A member's principal ID to disassociate from a farm. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}</param>
+    /// <param name="FarmId">The farm ID of the farm to disassociate from the member. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="PrincipalId">A member's principal ID to disassociate from a farm. Constraints: • min: 1 • max: 47 • pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}</param>
     public AwsDeadlineDisassociateMemberFromFarmOptions(
         string FarmId,
         string PrincipalId
@@ -60,13 +62,13 @@ public record AwsDeadlineDisassociateMemberFromFarmOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID of the farm to disassociate from the member. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID of the farm to disassociate from the member. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// A member's principal ID to disassociate from a farm. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}
+    /// A member's principal ID to disassociate from a farm. Constraints: • min: 1 • max: 47 • pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}
     /// </summary>
     [CliOption("--principal-id")]
     public string? PrincipalId { get; private init; }

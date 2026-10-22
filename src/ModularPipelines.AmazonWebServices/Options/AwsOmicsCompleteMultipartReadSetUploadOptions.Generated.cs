@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Completes a multipart read set upload into a sequence store after you have initiated the upload process with CreateMultipartReadSetUpload and uploaded all read set parts using UploadReadSetPart . You must specify the parts you uploaded using the parts parameter. If the operation is successful, it returns the read set ID(s) of the uploaded read set(s). For more information, see Direct upload to a sequence store in the Ama- zon Web Services HealthOmics User Guide . See also: AWS API Documentation
+/// Completes a multipart read set upload into a sequence store after you have initiated the upload process with CreateMultipartReadSetUpload and uploaded all read set parts using UploadReadSetPart . You must specify the parts you uploaded using the parts parameter. If the operation is successful, it returns the read set ID(s) of the uploaded read set(s). For more information, see Direct upload to a sequence store in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsOmicsCompleteMultipartReadSetUploadOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Completes a multipart read set upload into a sequence store after you have initiated the upload process with CreateMultipartReadSetUpload and uploaded all read set parts using UploadReadSetPart . You must specify the parts you uploaded using the parts parameter. If the operation is successful, it returns the read set ID(s) of the uploaded read set(s). For more information, see Direct upload to a sequence store in the Ama- zon Web Services HealthOmics User Guide . See also: AWS API Documentation
+    /// Completes a multipart read set upload into a sequence store after you have initiated the upload process with CreateMultipartReadSetUpload and uploaded all read set parts using UploadReadSetPart . You must specify the parts you uploaded using the parts parameter. If the operation is successful, it returns the read set ID(s) of the uploaded read set(s). For more information, see Direct upload to a sequence store in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="SequenceStoreId">The sequence store ID for the store involved in the multipart up- load. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
-    /// <param name="UploadId">The ID for the multipart upload. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
-    /// <param name="Parts">The individual uploads or parts of a multipart upload. (structure) Part of the response to the CompleteReadSetUpload API, including metadata. partNumber -&gt; (integer) [required] A number identifying the part in a read set upload. Constraints: o min: 1 o max: 10000 partSource -&gt; (string) [required] The source file of the part being uploaded. Possible values: o SOURCE1 o SOURCE2 checksum -&gt; (string) [required] A unique identifier used to confirm that parts are being added to the correct upload. Constraints: o min: 1 o max: 100 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ Shorthand Syntax: partNumber=integer,partSource=string,checksum=string ... JSON Syntax: [ { "partNumber": integer, "partSource": "SOURCE1"|"SOURCE2", "checksum": "string" } ... ]</param>
+    /// <param name="SequenceStoreId">The sequence store ID for the store involved in the multipart upload. Constraints: • min: 10 • max: 36 • pattern: [0-9]+</param>
+    /// <param name="UploadId">The ID for the multipart upload. Constraints: • min: 10 • max: 36 • pattern: [0-9]+</param>
+    /// <param name="Parts">The individual uploads or parts of a multipart upload. (structure) Part of the response to the CompleteReadSetUpload API, including metadata. partNumber -&gt; (integer) [required] A number identifying the part in a read set upload. Constraints: • min: 1 • max: 10000 partSource -&gt; (string) [required] The source file of the part being uploaded. Possible values: • SOURCE1 • SOURCE2 checksum -&gt; (string) [required] A unique identifier used to confirm that parts are being added to the correct upload. Constraints: • min: 1 • max: 100 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ Shorthand Syntax: partNumber=integer,partSource=string,checksum=string ... JSON Syntax: [ { "partNumber": integer, "partSource": "SOURCE1"|"SOURCE2", "checksum": "string" } ... ]</param>
     public AwsOmicsCompleteMultipartReadSetUploadOptions(
         string SequenceStoreId,
         string UploadId,
@@ -75,19 +77,19 @@ public record AwsOmicsCompleteMultipartReadSetUploadOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The sequence store ID for the store involved in the multipart up- load. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// The sequence store ID for the store involved in the multipart upload. Constraints: • min: 10 • max: 36 • pattern: [0-9]+
     /// </summary>
     [CliOption("--sequence-store-id")]
     public string? SequenceStoreId { get; private init; }
 
     /// <summary>
-    /// The ID for the multipart upload. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// The ID for the multipart upload. Constraints: • min: 10 • max: 36 • pattern: [0-9]+
     /// </summary>
     [CliOption("--upload-id")]
     public string? UploadId { get; private init; }
 
     /// <summary>
-    /// The individual uploads or parts of a multipart upload. (structure) Part of the response to the CompleteReadSetUpload API, including metadata. partNumber -&gt; (integer) [required] A number identifying the part in a read set upload. Constraints: o min: 1 o max: 10000 partSource -&gt; (string) [required] The source file of the part being uploaded. Possible values: o SOURCE1 o SOURCE2 checksum -&gt; (string) [required] A unique identifier used to confirm that parts are being added to the correct upload. Constraints: o min: 1 o max: 100 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ Shorthand Syntax: partNumber=integer,partSource=string,checksum=string ... JSON Syntax: [ { "partNumber": integer, "partSource": "SOURCE1"|"SOURCE2", "checksum": "string" } ... ]
+    /// The individual uploads or parts of a multipart upload. (structure) Part of the response to the CompleteReadSetUpload API, including metadata. partNumber -&gt; (integer) [required] A number identifying the part in a read set upload. Constraints: • min: 1 • max: 10000 partSource -&gt; (string) [required] The source file of the part being uploaded. Possible values: • SOURCE1 • SOURCE2 checksum -&gt; (string) [required] A unique identifier used to confirm that parts are being added to the correct upload. Constraints: • min: 1 • max: 100 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ Shorthand Syntax: partNumber=integer,partSource=string,checksum=string ... JSON Syntax: [ { "partNumber": integer, "partSource": "SOURCE1"|"SOURCE2", "checksum": "string" } ... ]
     /// </summary>
     [CliOption("--parts", GroupValues = true)]
     public IEnumerable<string>? Parts { get; private init; }

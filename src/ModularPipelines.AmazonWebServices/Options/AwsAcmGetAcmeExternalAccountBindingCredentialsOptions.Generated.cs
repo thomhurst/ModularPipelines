@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the key ID and MAC key credentials for an external account binding. These credentials are used by ACME clients during account reg- istration to bind to the endpoint. See also: AWS API Documentation
+/// Retrieves the key ID and MAC key credentials for an external account binding. These credentials are used by ACME clients during account registration to bind to the endpoint. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsAcmGetAcmeExternalAccountBindingCredentialsOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the key ID and MAC key credentials for an external account binding. These credentials are used by ACME clients during account reg- istration to bind to the endpoint. See also: AWS API Documentation
+    /// Retrieves the key ID and MAC key credentials for an external account binding. These credentials are used by ACME clients during account registration to bind to the endpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AcmeExternalAccountBindingArn">The Amazon Resource Name (ARN) of the ACME external account binding. Constraints: o min: 1 o max: 200 o pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-end- point/[a-zA-Z0-9-]+/acme-external-account-binding/[a-zA-Z0-9-]+</param>
+    /// <param name="AcmeExternalAccountBindingArn">The Amazon Resource Name (ARN) of the ACME external account binding. Constraints: • min: 1 • max: 200 • pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+/acme-external-account-binding/[a-zA-Z0-9-]+</param>
     public AwsAcmGetAcmeExternalAccountBindingCredentialsOptions(
         string AcmeExternalAccountBindingArn
     )
@@ -56,7 +58,7 @@ public record AwsAcmGetAcmeExternalAccountBindingCredentialsOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the ACME external account binding. Constraints: o min: 1 o max: 200 o pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-end- point/[a-zA-Z0-9-]+/acme-external-account-binding/[a-zA-Z0-9-]+
+    /// The Amazon Resource Name (ARN) of the ACME external account binding. Constraints: • min: 1 • max: 200 • pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+/acme-external-account-binding/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--acme-external-account-binding-arn")]
     public string? AcmeExternalAccountBindingArn { get; private init; }

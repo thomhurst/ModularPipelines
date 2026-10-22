@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the SchemaMapping with a given name. This operation returns a ResourceNotFoundException if a schema with the given name does not ex- ist. This operation will fail if there is a MatchingWorkflow object that references the SchemaMapping in the workflow's InputSourceConfig . See also: AWS API Documentation
+/// Deletes the SchemaMapping with a given name. This operation returns a ResourceNotFoundException if a schema with the given name does not exist. This operation will fail if there is a MatchingWorkflow object that references the SchemaMapping in the workflow's InputSourceConfig . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsEntityresolutionDeleteSchemaMappingOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the SchemaMapping with a given name. This operation returns a ResourceNotFoundException if a schema with the given name does not ex- ist. This operation will fail if there is a MatchingWorkflow object that references the SchemaMapping in the workflow's InputSourceConfig . See also: AWS API Documentation
+    /// Deletes the SchemaMapping with a given name. This operation returns a ResourceNotFoundException if a schema with the given name does not exist. This operation will fail if there is a MatchingWorkflow object that references the SchemaMapping in the workflow's InputSourceConfig . See also: AWS API Documentation
     /// </summary>
-    /// <param name="SchemaName">The name of the schema to delete. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_0-9-]*</param>
+    /// <param name="SchemaName">The name of the schema to delete. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_0-9-]*</param>
     public AwsEntityresolutionDeleteSchemaMappingOptions(
         string SchemaName
     )
@@ -56,7 +58,7 @@ public record AwsEntityresolutionDeleteSchemaMappingOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the schema to delete. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_0-9-]*
+    /// The name of the schema to delete. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_0-9-]*
     /// </summary>
     [CliOption("--schema-name")]
     public string? SchemaName { get; private init; }

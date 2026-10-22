@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsQconnectRemoveAssistantAiAgentOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Removes the AI Agent that is set for use by default on an Amazon Q in Connect Assistant. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssistantId">The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
-    /// <param name="AiAgentType">The type of the AI Agent being removed for use by default from the Amazon Q in Connect Assistant. Possible values: o MANUAL_SEARCH o ANSWER_RECOMMENDATION o SELF_SERVICE o EMAIL_RESPONSE o EMAIL_OVERVIEW o EMAIL_GENERATIVE_ANSWER o ORCHESTRATION o NOTE_TAKING o CASE_SUMMARIZATION</param>
+    /// <param name="AssistantId">The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
+    /// <param name="AiAgentType">The type of the AI Agent being removed for use by default from the Amazon Q in Connect Assistant. Possible values: • MANUAL_SEARCH • ANSWER_RECOMMENDATION • SELF_SERVICE • EMAIL_RESPONSE • EMAIL_OVERVIEW • EMAIL_GENERATIVE_ANSWER • ORCHESTRATION • NOTE_TAKING • CASE_SUMMARIZATION</param>
     public AwsQconnectRemoveAssistantAiAgentOptions(
         string AssistantId,
         AwsQconnectRemoveAssistantAiAgentAiAgentType AiAgentType
@@ -60,19 +62,19 @@ public record AwsQconnectRemoveAssistantAiAgentOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}
     /// </summary>
     [CliOption("--assistant-id")]
     public string? AssistantId { get; private init; }
 
     /// <summary>
-    /// The type of the AI Agent being removed for use by default from the Amazon Q in Connect Assistant. Possible values: o MANUAL_SEARCH o ANSWER_RECOMMENDATION o SELF_SERVICE o EMAIL_RESPONSE o EMAIL_OVERVIEW o EMAIL_GENERATIVE_ANSWER o ORCHESTRATION o NOTE_TAKING o CASE_SUMMARIZATION
+    /// The type of the AI Agent being removed for use by default from the Amazon Q in Connect Assistant. Possible values: • MANUAL_SEARCH • ANSWER_RECOMMENDATION • SELF_SERVICE • EMAIL_RESPONSE • EMAIL_OVERVIEW • EMAIL_GENERATIVE_ANSWER • ORCHESTRATION • NOTE_TAKING • CASE_SUMMARIZATION
     /// </summary>
     [CliOption("--ai-agent-type")]
     public AwsQconnectRemoveAssistantAiAgentAiAgentType? AiAgentType { get; private init; }
 
     /// <summary>
-    /// The orchestrator use case for the AI Agent being removed. Constraints: o min: 1 o max: 4096
+    /// The orchestrator use case for the AI Agent being removed. Constraints: • min: 1 • max: 4096
     /// </summary>
     [CliOption("--orchestrator-use-case")]
     public string? OrchestratorUseCase { get; set; }

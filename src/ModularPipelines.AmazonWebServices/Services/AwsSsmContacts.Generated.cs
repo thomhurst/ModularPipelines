@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws ssmcontacts commands.
+/// aws ssm-contacts commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsSsmContacts : IAwsSsmContacts
@@ -32,7 +32,7 @@ public class AwsSsmContacts : IAwsSsmContacts
     #region Commands
 
     /// <summary>
-    /// Used to acknowledge an engagement to a contact channel during an inci- dent. See also: AWS API Documentation
+    /// Used to acknowledge an engagement to a contact channel during an incident. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsSsmContacts : IAwsSsmContacts
     }
 
     /// <summary>
-    /// Contacts are either the contacts that Incident Manager engages during an incident or the escalation plans that Incident Manager uses to en- gage contacts in phases during an incident. See also: AWS API Documentation
+    /// Contacts are either the contacts that Incident Manager engages during an incident or the escalation plans that Incident Manager uses to engage contacts in phases during an incident. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsSsmContacts : IAwsSsmContacts
     }
 
     /// <summary>
-    /// To stop receiving engagements on a contact channel, you can delete the channel from a contact. Deleting the contact channel does not remove it from the contact's engagement plan, but the stage that includes the channel will be ignored. If you delete the only contact channel for a contact, you'll no longer be able to engage that contact during an in- cident. See also: AWS API Documentation
+    /// To stop receiving engagements on a contact channel, you can delete the channel from a contact. Deleting the contact channel does not remove it from the contact's engagement plan, but the stage that includes the channel will be ignored. If you delete the only contact channel for a contact, you'll no longer be able to engage that contact during an incident. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsSsmContacts : IAwsSsmContacts
     }
 
     /// <summary>
-    /// To remove a contact from Incident Manager, you can delete the contact. However, deleting a contact does not remove it from escalation plans and related response plans. Deleting an escalation plan also does not remove it from all related response plans. To modify an escalation plan, we recommend using the UpdateContact action to specify a differ- ent existing contact. See also: AWS API Documentation
+    /// To remove a contact from Incident Manager, you can delete the contact. However, deleting a contact does not remove it from escalation plans and related response plans. Deleting an escalation plan also does not remove it from all related response plans. To modify an escalation plan, we recommend using the UpdateContact action to specify a different existing contact. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsSsmContacts : IAwsSsmContacts
     }
 
     /// <summary>
-    /// Lists all contacts and escalation plans in Incident Manager. See also: AWS API Documentation list-contacts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Contacts
+    /// Lists all contacts and escalation plans in Incident Manager. See also: AWS API Documentation list-contacts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Contacts
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsSsmContacts : IAwsSsmContacts
     }
 
     /// <summary>
-    /// Lists all of the engagements to contact channels that have been ac- knowledged. See also: AWS API Documentation list-page-receipts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Receipts
+    /// Lists all of the engagements to contact channels that have been acknowledged. See also: AWS API Documentation list-page-receipts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Receipts
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsSsmContacts : IAwsSsmContacts
     }
 
     /// <summary>
-    /// Returns the resolution path of an engagement. For example, the escala- tion plan engaged in an incident might target an on-call schedule that includes several contacts in a rotation, but just one contact on-call when the incident starts. The resolution path indicates the hierarchy of escalation plan &gt; on-call schedule &gt; contact . See also: AWS API Documentation list-page-resolutions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. Yo...
+    /// Returns the resolution path of an engagement. For example, the escalation plan engaged in an incident might target an on-call schedule that includes several contacts in a rotation, but just one contact on-call when the incident starts. The resolution path indicates the hierarchy of escalation plan &gt; on-call schedule &gt; contact . See also: AWS API Documentation list-page-resolutions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsSsmContacts : IAwsSsmContacts
     }
 
     /// <summary>
-    /// Lists the engagements to contact channels that occurred by engaging a contact. See also: AWS API Documentation list-pages-by-engagement is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Pages
+    /// Lists the engagements to contact channels that occurred by engaging a contact. See also: AWS API Documentation list-pages-by-engagement is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Pages
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsSsmContacts : IAwsSsmContacts
     }
 
     /// <summary>
-    /// Returns a list of shifts based on rotation configuration parameters. NOTE: The Incident Manager primarily uses this operation to populate the Preview calendar. It is not typically run by end users. See also: AWS API Documentation list-preview-rotation-shifts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a pa...
+    /// Returns a list of shifts based on rotation configuration parameters. NOTE: The Incident Manager primarily uses this operation to populate the Preview calendar. It is not typically run by end users. See also: AWS API Documentation list-preview-rotation-shifts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagina...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsSsmContacts : IAwsSsmContacts
     }
 
     /// <summary>
-    /// Retrieves a list of overrides currently specified for an on-call rota- tion. See also: AWS API Documentation list-rotation-overrides is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: RotationOverrides
+    /// Retrieves a list of overrides currently specified for an on-call rotation. See also: AWS API Documentation list-rotation-overrides is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RotationOverrides
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsSsmContacts : IAwsSsmContacts
     }
 
     /// <summary>
-    /// Returns a list of shifts generated by an existing rotation in the sys- tem. See also: AWS API Documentation list-rotation-shifts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RotationShifts
+    /// Returns a list of shifts generated by an existing rotation in the system. See also: AWS API Documentation list-rotation-shifts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RotationShifts
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsSsmContacts : IAwsSsmContacts
     }
 
     /// <summary>
-    /// Retrieves a list of on-call rotations. See also: AWS API Documentation list-rotations is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Rotations
+    /// Retrieves a list of on-call rotations. See also: AWS API Documentation list-rotations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Rotations
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsSsmContacts : IAwsSsmContacts
     }
 
     /// <summary>
-    /// Sends an activation code to a contact channel. The contact can use this code to activate the contact channel in the console or with the Acti- vateChannel operation. Incident Manager can't engage a contact channel until it has been activated. See also: AWS API Documentation
+    /// Sends an activation code to a contact channel. The contact can use this code to activate the contact channel in the console or with the ActivateChannel operation. Incident Manager can't engage a contact channel until it has been activated. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsSsmContacts : IAwsSsmContacts
     }
 
     /// <summary>
-    /// Stops an engagement before it finishes the final stage of the escala- tion plan or engagement plan. Further contacts aren't engaged. See also: AWS API Documentation
+    /// Stops an engagement before it finishes the final stage of the escalation plan or engagement plan. Further contacts aren't engaged. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsSsmContacts : IAwsSsmContacts
     }
 
     /// <summary>
-    /// Tags a contact or escalation plan. You can tag only contacts and esca- lation plans in the first region of your replication set. See also: AWS API Documentation
+    /// Tags a contact or escalation plan. You can tag only contacts and escalation plans in the first region of your replication set. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

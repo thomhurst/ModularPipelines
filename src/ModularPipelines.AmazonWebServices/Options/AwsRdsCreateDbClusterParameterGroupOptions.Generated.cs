@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new DB cluster parameter group. Parameters in a DB cluster parameter group apply to all of the in- stances in a DB cluster. A DB cluster parameter group is initially created with the default pa- rameters for the database engine used by instances in the DB cluster. To provide custom values for any of the parameters, you must modify the group after creating it using ModifyDBClusterParameterGroup . Once you've created a DB cluster parameter group, you need to associate it with your DB clu...
+/// Creates a new DB cluster parameter group. Parameters in a DB cluster parameter group apply to all of the instances in a DB cluster. A DB cluster parameter group is initially created with the default parameters for the database engine used by instances in the DB cluster. To provide custom values for any of the parameters, you must modify the group after creating it using ModifyDBClusterParameterGroup . Once you've created a DB cluster parameter group, you need to associate it with your DB cluster...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsRdsCreateDbClusterParameterGroupOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new DB cluster parameter group. Parameters in a DB cluster parameter group apply to all of the in- stances in a DB cluster. A DB cluster parameter group is initially created with the default pa- rameters for the database engine used by instances in the DB cluster. To provide custom values for any of the parameters, you must modify the group after creating it using ModifyDBClusterParameterGroup . Once you've created a DB cluster parameter group, you need to associate it with your DB clu...
+    /// Creates a new DB cluster parameter group. Parameters in a DB cluster parameter group apply to all of the instances in a DB cluster. A DB cluster parameter group is initially created with the default parameters for the database engine used by instances in the DB cluster. To provide custom values for any of the parameters, you must modify the group after creating it using ModifyDBClusterParameterGroup . Once you've created a DB cluster parameter group, you need to associate it with your DB cluster...
     /// </summary>
-    /// <param name="DbClusterParameterGroupName">The name of the DB cluster parameter group. Constraints: o Must not match the name of an existing DB cluster parameter group. NOTE: This value is stored as a lowercase string.</param>
-    /// <param name="DbParameterGroupFamily">The DB cluster parameter group family name. A DB cluster parameter group can be associated with one and only one DB cluster parameter group family, and can be applied only to a DB cluster running a database engine and engine version compatible with that DB cluster parameter group family. Aurora MySQL Example: aurora-mysql5.7 , aurora-mysql8.0 Aurora PostgreSQL Example: aurora-postgresql14 RDS for MySQL Example: mysql8.0 RDS for PostgreSQL Example: postgres13 To list all of the available parameter group families for a DB en- gine, use the following command: aws rds describe-db-engine-versions --query "DBEngineVer- sions[].DBParameterGroupFamily" --engine &lt;engine&gt; For example, to list all of the available parameter group families for the Aurora PostgreSQL DB engine, use the following command: aws rds describe-db-engine-versions --query "DBEngineVer- sions[].DBParameterGroupFamily" --engine aurora-postgresql NOTE: The output contains duplicates. The following are the valid DB engine values: o aurora-mysql o aurora-postgresql o mysql o postgres</param>
+    /// <param name="DbClusterParameterGroupName">The name of the DB cluster parameter group. Constraints: • Must not match the name of an existing DB cluster parameter group. NOTE: This value is stored as a lowercase string.</param>
+    /// <param name="DbParameterGroupFamily">The DB cluster parameter group family name. A DB cluster parameter group can be associated with one and only one DB cluster parameter group family, and can be applied only to a DB cluster running a database engine and engine version compatible with that DB cluster parameter group family. Aurora MySQL Example: aurora-mysql5.7 , aurora-mysql8.0 Aurora PostgreSQL Example: aurora-postgresql14 RDS for MySQL Example: mysql8.0 RDS for PostgreSQL Example: postgres13 To list all of the available parameter group families for a DB engine, use the following command: aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily" --engine &lt;engine&gt; For example, to list all of the available parameter group families for the Aurora PostgreSQL DB engine, use the following command: aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily" --engine aurora-postgresql NOTE: The output contains duplicates. The following are the valid DB engine values: • aurora-mysql • aurora-postgresql • mysql • postgres</param>
     /// <param name="Description">The description for the DB cluster parameter group.</param>
     public AwsRdsCreateDbClusterParameterGroupOptions(
         string DbClusterParameterGroupName,
@@ -64,13 +66,13 @@ public record AwsRdsCreateDbClusterParameterGroupOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the DB cluster parameter group. Constraints: o Must not match the name of an existing DB cluster parameter group. NOTE: This value is stored as a lowercase string.
+    /// The name of the DB cluster parameter group. Constraints: • Must not match the name of an existing DB cluster parameter group. NOTE: This value is stored as a lowercase string.
     /// </summary>
     [CliOption("--db-cluster-parameter-group-name")]
     public string? DbClusterParameterGroupName { get; private init; }
 
     /// <summary>
-    /// The DB cluster parameter group family name. A DB cluster parameter group can be associated with one and only one DB cluster parameter group family, and can be applied only to a DB cluster running a database engine and engine version compatible with that DB cluster parameter group family. Aurora MySQL Example: aurora-mysql5.7 , aurora-mysql8.0 Aurora PostgreSQL Example: aurora-postgresql14 RDS for MySQL Example: mysql8.0 RDS for PostgreSQL Example: postgres13 To list all of the available parameter group families for a DB en- gine, use the following command: aws rds describe-db-engine-versions --query "DBEngineVer- sions[].DBParameterGroupFamily" --engine &lt;engine&gt; For example, to list all of the available parameter group families for the Aurora PostgreSQL DB engine, use the following command: aws rds describe-db-engine-versions --query "DBEngineVer- sions[].DBParameterGroupFamily" --engine aurora-postgresql NOTE: The output contains duplicates. The following are the valid DB engine values: o aurora-mysql o aurora-postgresql o mysql o postgres
+    /// The DB cluster parameter group family name. A DB cluster parameter group can be associated with one and only one DB cluster parameter group family, and can be applied only to a DB cluster running a database engine and engine version compatible with that DB cluster parameter group family. Aurora MySQL Example: aurora-mysql5.7 , aurora-mysql8.0 Aurora PostgreSQL Example: aurora-postgresql14 RDS for MySQL Example: mysql8.0 RDS for PostgreSQL Example: postgres13 To list all of the available parameter group families for a DB engine, use the following command: aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily" --engine &lt;engine&gt; For example, to list all of the available parameter group families for the Aurora PostgreSQL DB engine, use the following command: aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily" --engine aurora-postgresql NOTE: The output contains duplicates. The following are the valid DB engine values: • aurora-mysql • aurora-postgresql • mysql • postgres
     /// </summary>
     [CliOption("--db-parameter-group-family")]
     public string? DbParameterGroupFamily { get; private init; }

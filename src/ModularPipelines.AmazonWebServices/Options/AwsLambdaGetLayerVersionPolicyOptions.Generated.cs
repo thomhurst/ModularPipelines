@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,11 +29,11 @@ public record AwsLambdaGetLayerVersionPolicyOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Returns the permission policy for a version of an Lambda layer . For more information, see AddLayerVersionPermission . See also: AWS API Documentation
     /// </summary>
-    /// <param name="LayerName">The name or Amazon Resource Name (ARN) of the layer. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+</param>
+    /// <param name="LayerName">The name or Amazon Resource Name (ARN) of the layer. Constraints: • min: 1 • max: 140 • pattern: (arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+</param>
     /// <param name="VersionNumber">The version number.</param>
     public AwsLambdaGetLayerVersionPolicyOptions(
         string LayerName,
-        int VersionNumber
+        long VersionNumber
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(LayerName);
@@ -59,7 +61,7 @@ public record AwsLambdaGetLayerVersionPolicyOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of the layer. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+
+    /// The name or Amazon Resource Name (ARN) of the layer. Constraints: • min: 1 • max: 140 • pattern: (arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+
     /// </summary>
     [CliOption("--layer-name")]
     public string? LayerName { get; private init; }
@@ -68,7 +70,7 @@ public record AwsLambdaGetLayerVersionPolicyOptions : AwsOptions, IValidatableOb
     /// The version number.
     /// </summary>
     [CliOption("--version-number")]
-    public int? VersionNumber { get; private init; }
+    public long? VersionNumber { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates an CloudHSM resource policy. A resource policy helps you to define the IAM entity (for example, an Amazon Web Services ac- count) that can manage your CloudHSM resources. The following resources support CloudHSM resource policies: o Backup - The resource policy allows you to describe the backup and restore a cluster from the backup in another Amazon Web Services ac- count. In order to share a backup, it must be in a 'READY' state and you must own it. WARNING: While you can sha...
+/// Creates or updates an CloudHSM resource policy. A resource policy helps you to define the IAM entity (for example, an Amazon Web Services account) that can manage your CloudHSM resources. The following resources support CloudHSM resource policies: • Backup - The resource policy allows you to describe the backup and restore a cluster from the backup in another Amazon Web Services account. In order to share a backup, it must be in a 'READY' state and you must own it. WARNING: While you can share a...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudhsmv2PutResourcePolicyOptions : AwsOptions
 {
     /// <summary>
-    /// Amazon Resource Name (ARN) of the resource to which you want to at- tach a policy. Constraints: o pattern: arn:aws(-(us-gov))?:cloudhsm:([a-z]{2}(-(gov|isob|iso))?-(east|west|north|south|cen- tral){1,2}-[0-9]{1}):[0-9]{12}:(backup/backup|cluster/clus- ter|hsm/hsm)-[2-7a-zA-Z]{11,16}
+    /// Amazon Resource Name (ARN) of the resource to which you want to attach a policy. Constraints: • pattern: arn:aws(-(us-gov))?:cloudhsm:([a-z]{2}(-(gov|isob|iso))?-(east|west|north|south|central){1,2}-[0-9]{1}):[0-9]{12}:(backup/backup|cluster/cluster|hsm/hsm)-[2-7a-zA-Z]{11,16}
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }
 
     /// <summary>
-    /// The policy you want to associate with a resource. For an example policy, see Working with shared backups in the CloudHSM User Guide Constraints: o min: 1 o max: 20000
+    /// The policy you want to associate with a resource. For an example policy, see Working with shared backups in the CloudHSM User Guide Constraints: • min: 1 • max: 20000
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; set; }

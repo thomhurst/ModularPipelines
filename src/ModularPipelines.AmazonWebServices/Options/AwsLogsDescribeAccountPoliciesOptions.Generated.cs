@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of all CloudWatch Logs account policies in the account. To use this operation, you must be signed on with the correct permis- sions depending on the type of policy that you are retrieving informa- tion for. o To see data protection policies, you must have the logs:GetDataPro- tectionPolicy and logs:DescribeAccountPolicies permissions. o To see subscription filter policies, you must have the logs:De- scribeSubscriptionFilters and logs:DescribeAccountPolicies permis- sions. o To see...
+/// Returns a list of all CloudWatch Logs account policies in the account. To use this operation, you must be signed on with the correct permissions depending on the type of policy that you are retrieving information for. • To see data protection policies, you must have the logs:GetDataProtectionPolicy and logs:DescribeAccountPolicies permissions. • To see subscription filter policies, you must have the logs:DescribeSubscriptionFilters and logs:DescribeAccountPolicies permissions. • To see transform...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsLogsDescribeAccountPoliciesOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a list of all CloudWatch Logs account policies in the account. To use this operation, you must be signed on with the correct permis- sions depending on the type of policy that you are retrieving informa- tion for. o To see data protection policies, you must have the logs:GetDataPro- tectionPolicy and logs:DescribeAccountPolicies permissions. o To see subscription filter policies, you must have the logs:De- scribeSubscriptionFilters and logs:DescribeAccountPolicies permis- sions. o To see...
+    /// Returns a list of all CloudWatch Logs account policies in the account. To use this operation, you must be signed on with the correct permissions depending on the type of policy that you are retrieving information for. • To see data protection policies, you must have the logs:GetDataProtectionPolicy and logs:DescribeAccountPolicies permissions. • To see subscription filter policies, you must have the logs:DescribeSubscriptionFilters and logs:DescribeAccountPolicies permissions. • To see transform...
     /// </summary>
-    /// <param name="PolicyType">Use this parameter to limit the returned policies to only the poli- cies that match the policy type that you specify. Possible values: o DATA_PROTECTION_POLICY o SUBSCRIPTION_FILTER_POLICY o FIELD_INDEX_POLICY o TRANSFORMER_POLICY o METRIC_EXTRACTION_POLICY</param>
+    /// <param name="PolicyType">Use this parameter to limit the returned policies to only the policies that match the policy type that you specify. Possible values: • DATA_PROTECTION_POLICY • SUBSCRIPTION_FILTER_POLICY • FIELD_INDEX_POLICY • TRANSFORMER_POLICY • METRIC_EXTRACTION_POLICY</param>
     public AwsLogsDescribeAccountPoliciesOptions(
         AwsLogsDescribeAccountPoliciesPolicyType PolicyType
     )
@@ -57,7 +59,7 @@ public record AwsLogsDescribeAccountPoliciesOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Use this parameter to limit the returned policies to only the poli- cies that match the policy type that you specify. Possible values: o DATA_PROTECTION_POLICY o SUBSCRIPTION_FILTER_POLICY o FIELD_INDEX_POLICY o TRANSFORMER_POLICY o METRIC_EXTRACTION_POLICY
+    /// Use this parameter to limit the returned policies to only the policies that match the policy type that you specify. Possible values: • DATA_PROTECTION_POLICY • SUBSCRIPTION_FILTER_POLICY • FIELD_INDEX_POLICY • TRANSFORMER_POLICY • METRIC_EXTRACTION_POLICY
     /// </summary>
     [CliOption("--policy-type")]
     public AwsLogsDescribeAccountPoliciesPolicyType? PolicyType { get; private init; }
@@ -69,13 +71,13 @@ public record AwsLogsDescribeAccountPoliciesOptions : AwsOptions, IValidatableOb
     public string? PolicyName { get; set; }
 
     /// <summary>
-    /// If you are using an account that is set up as a monitoring account for CloudWatch unified cross-account observability, you can use this to specify the account ID of a source account. If you do, the opera- tion returns the account policy for the specified account. Cur- rently, you can specify only one account ID in this parameter. If you omit this parameter, only the policy in the current account is returned. Constraints: o min: 0 o max: 20 (string) Constraints: o min: 12 o max: 12 o pattern: ^\d{12}$ Syntax: "string" "string" ...
+    /// If you are using an account that is set up as a monitoring account for CloudWatch unified cross-account observability, you can use this to specify the account ID of a source account. If you do, the operation returns the account policy for the specified account. Currently, you can specify only one account ID in this parameter. If you omit this parameter, only the policy in the current account is returned. Constraints: • min: 0 • max: 20 (string) Constraints: • min: 12 • max: 12 • pattern: ^\d{12}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-identifiers", GroupValues = true)]
     public IEnumerable<string>? AccountIdentifiers { get; set; }
 
     /// <summary>
-    /// The token for the next set of items to return. (You received this token from a previous call.) Constraints: o min: 1
+    /// The token for the next set of items to return. (You received this token from a previous call.) Constraints: • min: 1
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

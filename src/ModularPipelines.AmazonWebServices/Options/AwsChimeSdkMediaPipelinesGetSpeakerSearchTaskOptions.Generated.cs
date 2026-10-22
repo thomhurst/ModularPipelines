@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsChimeSdkMediaPipelinesGetSpeakerSearchTaskOptions : AwsOptions,
     /// <summary>
     /// Retrieves the details of the specified speaker search task. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The unique identifier of the resource to be updated. Valid values include the ID and ARN of the media insights pipeline. Constraints: o max: 1024 o pattern: .*\S.*</param>
-    /// <param name="SpeakerSearchTaskId">The ID of the speaker search task. Constraints: o min: 36 o max: 36 o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}</param>
+    /// <param name="Identifier">The unique identifier of the resource to be updated. Valid values include the ID and ARN of the media insights pipeline. Constraints: • max: 1024 • pattern: .*\S.*</param>
+    /// <param name="SpeakerSearchTaskId">The ID of the speaker search task. Constraints: • min: 36 • max: 36 • pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}</param>
     public AwsChimeSdkMediaPipelinesGetSpeakerSearchTaskOptions(
         string Identifier,
         string SpeakerSearchTaskId
@@ -60,13 +62,13 @@ public record AwsChimeSdkMediaPipelinesGetSpeakerSearchTaskOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the resource to be updated. Valid values include the ID and ARN of the media insights pipeline. Constraints: o max: 1024 o pattern: .*\S.*
+    /// The unique identifier of the resource to be updated. Valid values include the ID and ARN of the media insights pipeline. Constraints: • max: 1024 • pattern: .*\S.*
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The ID of the speaker search task. Constraints: o min: 36 o max: 36 o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}
+    /// The ID of the speaker search task. Constraints: • min: 36 • max: 36 • pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}
     /// </summary>
     [CliOption("--speaker-search-task-id")]
     public string? SpeakerSearchTaskId { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides details about a listing, such as descriptions, badges, cate- gories, pricing model summaries, reviews, and associated products and offers. See also: AWS API Documentation
+/// Provides details about a listing, such as descriptions, badges, categories, pricing model summaries, reviews, and associated products and offers. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsMarketplaceDiscoveryGetListingOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides details about a listing, such as descriptions, badges, cate- gories, pricing model summaries, reviews, and associated products and offers. See also: AWS API Documentation
+    /// Provides details about a listing, such as descriptions, badges, categories, pricing model summaries, reviews, and associated products and offers. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ListingId">The unique identifier of the listing to retrieve. Constraints: o min: 1 o max: 255 o pattern: [\w\-]+</param>
+    /// <param name="ListingId">The unique identifier of the listing to retrieve. Constraints: • min: 1 • max: 255 • pattern: [\w\-]+</param>
     public AwsMarketplaceDiscoveryGetListingOptions(
         string ListingId
     )
@@ -56,13 +58,13 @@ public record AwsMarketplaceDiscoveryGetListingOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the listing to retrieve. Constraints: o min: 1 o max: 255 o pattern: [\w\-]+
+    /// The unique identifier of the listing to retrieve. Constraints: • min: 1 • max: 255 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--listing-id")]
     public string? ListingId { get; private init; }
 
     /// <summary>
-    /// A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale. Constraints: o min: 1 o max: 256 o pattern: [^;,]+(\s*,\s*[^;,]+){0,1}
+    /// A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale. Constraints: • min: 1 • max: 256 • pattern: [^;,]+(\s*,\s*[^;,]+){0,1}
     /// </summary>
     [CliOption("--locale")]
     public string? Locale { get; set; }

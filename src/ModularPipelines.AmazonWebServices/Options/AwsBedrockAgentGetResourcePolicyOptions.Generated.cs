@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBedrockAgentGetResourcePolicyOptions : AwsOptions, IValidatable
     /// <summary>
     /// Retrieves the resource policy associated with a knowledge base. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the knowledge base to retrieve the resource policy for. Constraints: o min: 20 o max: 1011 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:knowl- edge-base/[0-9a-zA-Z]+</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the knowledge base to retrieve the resource policy for. Constraints: • min: 20 • max: 1011 • pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:knowledge-base/[0-9a-zA-Z]+</param>
     public AwsBedrockAgentGetResourcePolicyOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsBedrockAgentGetResourcePolicyOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the knowledge base to retrieve the resource policy for. Constraints: o min: 20 o max: 1011 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:knowl- edge-base/[0-9a-zA-Z]+
+    /// The Amazon Resource Name (ARN) of the knowledge base to retrieve the resource policy for. Constraints: • min: 20 • max: 1011 • pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:knowledge-base/[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

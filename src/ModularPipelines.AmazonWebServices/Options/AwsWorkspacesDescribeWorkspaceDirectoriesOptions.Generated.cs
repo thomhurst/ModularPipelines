@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the available directories that are registered with Amazon WorkSpaces. See also: AWS API Documentation describe-workspace-directories is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Direct...
+/// Describes the available directories that are registered with Amazon WorkSpaces. See also: AWS API Documentation describe-workspace-directories is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Directorie...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,34 +23,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsWorkspacesDescribeWorkspaceDirectoriesOptions : AwsOptions
 {
     /// <summary>
-    /// The identifiers of the directories. If the value is null, all direc- tories are retrieved. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$) Syntax: "string" "string" ...
+    /// The identifiers of the directories. If the value is null, all directories are retrieved. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 10 • max: 65 • pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--directory-ids", GroupValues = true)]
     public IEnumerable<string>? DirectoryIds { get; set; }
 
     /// <summary>
-    /// The names of the WorkSpace directories. Constraints: o min: 1 o max: 25 (string) Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.\s-]{1,64}$ Syntax: "string" "string" ...
+    /// The names of the WorkSpace directories. Constraints: • min: 1 • max: 25 (string) Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.\s-]{1,64}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--workspace-directory-names", GroupValues = true)]
     public IEnumerable<string>? WorkspaceDirectoryNames { get; set; }
 
     /// <summary>
-    /// The maximum number of directories to return. Constraints: o min: 1 o max: 25
+    /// The maximum number of directories to return. Constraints: • min: 1 • max: 25
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }
 
     /// <summary>
-    /// The filter condition for the WorkSpaces. Constraints: o min: 1 o max: 25 (structure) Describes the filter conditions for the WorkSpaces to return. Name -&gt; (string) [required] The name of the WorkSpaces to filter. Possible values: o USER_IDENTITY_TYPE o WORKSPACE_TYPE Values -&gt; (list) [required] The values for filtering WorkSpaces Constraints: o min: 1 o max: 25 (string) Constraints: o pattern: ^[0-9a-zA-Z\*\.\\/\?-_]{0,64}$ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "USER_IDENTITY_TYPE"|"WORKSPACE_TYPE", "Values": ["string", ...] } ... ]
+    /// The filter condition for the WorkSpaces. Constraints: • min: 1 • max: 25 (structure) Describes the filter conditions for the WorkSpaces to return. Name -&gt; (string) [required] The name of the WorkSpaces to filter. Possible values: • USER_IDENTITY_TYPE • WORKSPACE_TYPE Values -&gt; (list) [required] The values for filtering WorkSpaces Constraints: • min: 1 • max: 25 (string) Constraints: • pattern: ^[0-9a-zA-Z\*\.\\/\?-_]{0,64}$ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "USER_IDENTITY_TYPE"|"WORKSPACE_TYPE", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -60,9 +57,12 @@ public record AwsWorkspacesDescribeWorkspaceDirectoriesOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

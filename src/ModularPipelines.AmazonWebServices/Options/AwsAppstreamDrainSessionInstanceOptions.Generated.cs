@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Drains the instance hosting the specified streaming session. The in- stance stops accepting new sessions while existing sessions continue uninterrupted. Once all sessions end, the instance is reclaimed and re- placed. This only applies to multi-session fleets. See also: AWS API Documentation
+/// Drains the instance hosting the specified streaming session. The instance stops accepting new sessions while existing sessions continue uninterrupted. Once all sessions end, the instance is reclaimed and replaced. This only applies to multi-session fleets. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsAppstreamDrainSessionInstanceOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Drains the instance hosting the specified streaming session. The in- stance stops accepting new sessions while existing sessions continue uninterrupted. Once all sessions end, the instance is reclaimed and re- placed. This only applies to multi-session fleets. See also: AWS API Documentation
+    /// Drains the instance hosting the specified streaming session. The instance stops accepting new sessions while existing sessions continue uninterrupted. Once all sessions end, the instance is reclaimed and replaced. This only applies to multi-session fleets. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SessionId">The identifier of the streaming session. Constraints: o min: 1</param>
+    /// <param name="SessionId">The identifier of the streaming session. Constraints: • min: 1</param>
     public AwsAppstreamDrainSessionInstanceOptions(
         string SessionId
     )
@@ -56,7 +58,7 @@ public record AwsAppstreamDrainSessionInstanceOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the streaming session. Constraints: o min: 1
+    /// The identifier of the streaming session. Constraints: • min: 1
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }

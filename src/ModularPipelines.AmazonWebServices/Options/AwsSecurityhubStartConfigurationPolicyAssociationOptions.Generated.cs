@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates a target account, organizational unit, or the root with a specified configuration. The target can be associated with a configura- tion policy or self-managed behavior. Only the Security Hub CSPM dele- gated administrator can invoke this operation from the home Region. See also: AWS API Documentation
+/// Associates a target account, organizational unit, or the root with a specified configuration. The target can be associated with a configuration policy or self-managed behavior. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsSecurityhubStartConfigurationPolicyAssociationOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates a target account, organizational unit, or the root with a specified configuration. The target can be associated with a configura- tion policy or self-managed behavior. Only the Security Hub CSPM dele- gated administrator can invoke this operation from the home Region. See also: AWS API Documentation
+    /// Associates a target account, organizational unit, or the root with a specified configuration. The target can be associated with a configuration policy or self-managed behavior. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfigurationPolicyIdentifier">The Amazon Resource Name (ARN) of a configuration policy, the uni- versally unique identifier (UUID) of a configuration policy, or a value of SELF_MANAGED_SECURITY_HUB for a self-managed configuration. Constraints: o pattern: .*\S.*</param>
-    /// <param name="Target">The identifier of the target account, organizational unit, or the root to associate with the specified configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: AccountId, OrganizationalUnitId, RootId. AccountId -&gt; (string) The Amazon Web Services account ID of the target account. Constraints: o pattern: .*\S.* OrganizationalUnitId -&gt; (string) The organizational unit ID of the target organizational unit. Constraints: o pattern: .*\S.* RootId -&gt; (string) The ID of the organization root. Constraints: o pattern: .*\S.* Shorthand Syntax: AccountId=string,OrganizationalUnitId=string,RootId=string JSON Syntax: { "AccountId": "string", "OrganizationalUnitId": "string", "RootId": "string" }</param>
+    /// <param name="ConfigurationPolicyIdentifier">The Amazon Resource Name (ARN) of a configuration policy, the universally unique identifier (UUID) of a configuration policy, or a value of SELF_MANAGED_SECURITY_HUB for a self-managed configuration. Constraints: • pattern: .*\S.*</param>
+    /// <param name="Target">The identifier of the target account, organizational unit, or the root to associate with the specified configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: AccountId, OrganizationalUnitId, RootId. AccountId -&gt; (string) The Amazon Web Services account ID of the target account. Constraints: • pattern: .*\S.* OrganizationalUnitId -&gt; (string) The organizational unit ID of the target organizational unit. Constraints: • pattern: .*\S.* RootId -&gt; (string) The ID of the organization root. Constraints: • pattern: .*\S.* Shorthand Syntax: AccountId=string,OrganizationalUnitId=string,RootId=string JSON Syntax: { "AccountId": "string", "OrganizationalUnitId": "string", "RootId": "string" }</param>
     public AwsSecurityhubStartConfigurationPolicyAssociationOptions(
         string ConfigurationPolicyIdentifier,
         string Target
@@ -60,13 +62,13 @@ public record AwsSecurityhubStartConfigurationPolicyAssociationOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of a configuration policy, the uni- versally unique identifier (UUID) of a configuration policy, or a value of SELF_MANAGED_SECURITY_HUB for a self-managed configuration. Constraints: o pattern: .*\S.*
+    /// The Amazon Resource Name (ARN) of a configuration policy, the universally unique identifier (UUID) of a configuration policy, or a value of SELF_MANAGED_SECURITY_HUB for a self-managed configuration. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--configuration-policy-identifier")]
     public string? ConfigurationPolicyIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the target account, organizational unit, or the root to associate with the specified configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: AccountId, OrganizationalUnitId, RootId. AccountId -&gt; (string) The Amazon Web Services account ID of the target account. Constraints: o pattern: .*\S.* OrganizationalUnitId -&gt; (string) The organizational unit ID of the target organizational unit. Constraints: o pattern: .*\S.* RootId -&gt; (string) The ID of the organization root. Constraints: o pattern: .*\S.* Shorthand Syntax: AccountId=string,OrganizationalUnitId=string,RootId=string JSON Syntax: { "AccountId": "string", "OrganizationalUnitId": "string", "RootId": "string" }
+    /// The identifier of the target account, organizational unit, or the root to associate with the specified configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: AccountId, OrganizationalUnitId, RootId. AccountId -&gt; (string) The Amazon Web Services account ID of the target account. Constraints: • pattern: .*\S.* OrganizationalUnitId -&gt; (string) The organizational unit ID of the target organizational unit. Constraints: • pattern: .*\S.* RootId -&gt; (string) The ID of the organization root. Constraints: • pattern: .*\S.* Shorthand Syntax: AccountId=string,OrganizationalUnitId=string,RootId=string JSON Syntax: { "AccountId": "string", "OrganizationalUnitId": "string", "RootId": "string" }
     /// </summary>
     [CliOption("--target")]
     public string? Target { get; private init; }

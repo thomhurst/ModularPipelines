@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the policy definition containing the logic for your Config Cus- tom Policy rule. See also: AWS API Documentation
+/// Returns the policy definition containing the logic for your Config Custom Policy rule. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsConfigserviceGetCustomRulePolicyOptions : AwsOptions
 {
     /// <summary>
-    /// The name of your Config Custom Policy rule. Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// The name of your Config Custom Policy rule. Constraints: • min: 1 • max: 128 • pattern: .*\S.*
     /// </summary>
     [CliOption("--config-rule-name")]
     public string? ConfigRuleName { get; set; }

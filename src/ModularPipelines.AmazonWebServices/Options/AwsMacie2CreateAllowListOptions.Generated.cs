@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -29,8 +30,8 @@ public record AwsMacie2CreateAllowListOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates and defines the settings for an allow list. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Criteria">The criteria that specify the text or text pattern to ignore. The criteria can be the location and name of an S3 object that lists specific text to ignore (s3WordsList), or a regular expression (regex) that defines a text pattern to ignore. regex -&gt; (string) The regular expression (regex ) that defines the text pattern to ignore. The expression can contain as many as 512 characters. Constraints: o min: 1 o max: 512 o pattern: ^[\s\S]+$ s3WordsList -&gt; (structure) The location and name of the S3 object that lists specific text to ignore. bucketName -&gt; (string) [required] The full name of the S3 bucket that contains the object. Constraints: o min: 3 o max: 255 o pattern: ^[A-Za-z0-9.\-_]{3,255}$ objectKey -&gt; (string) [required] The full name (key) of the object. Constraints: o min: 1 o max: 1024 o pattern: ^[\s\S]+$ Shorthand Syntax: regex=string,s3WordsList={bucketName=string,objectKey=string} JSON Syntax: { "regex": "string", "s3WordsList": { "bucketName": "string", "objectKey": "string" } }</param>
-    /// <param name="Name">A custom name for the allow list. The name can contain as many as 128 characters. Constraints: o min: 1 o max: 128 o pattern: ^.+$</param>
+    /// <param name="Criteria">The criteria that specify the text or text pattern to ignore. The criteria can be the location and name of an S3 object that lists specific text to ignore (s3WordsList), or a regular expression (regex) that defines a text pattern to ignore. regex -&gt; (string) The regular expression (regex ) that defines the text pattern to ignore. The expression can contain as many as 512 characters. Constraints: • min: 1 • max: 512 • pattern: ^[\s\S]+$ s3WordsList -&gt; (structure) The location and name of the S3 object that lists specific text to ignore. bucketName -&gt; (string) [required] The full name of the S3 bucket that contains the object. Constraints: • min: 3 • max: 255 • pattern: ^[A-Za-z0-9.\-_]{3,255}$ objectKey -&gt; (string) [required] The full name (key) of the object. Constraints: • min: 1 • max: 1024 • pattern: ^[\s\S]+$ Shorthand Syntax: regex=string,s3WordsList={bucketName=string,objectKey=string} JSON Syntax: { "regex": "string", "s3WordsList": { "bucketName": "string", "objectKey": "string" } }</param>
+    /// <param name="Name">A custom name for the allow list. The name can contain as many as 128 characters. Constraints: • min: 1 • max: 128 • pattern: ^.+$</param>
     public AwsMacie2CreateAllowListOptions(
         string Criteria,
         string Name
@@ -62,32 +63,32 @@ public record AwsMacie2CreateAllowListOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The criteria that specify the text or text pattern to ignore. The criteria can be the location and name of an S3 object that lists specific text to ignore (s3WordsList), or a regular expression (regex) that defines a text pattern to ignore. regex -&gt; (string) The regular expression (regex ) that defines the text pattern to ignore. The expression can contain as many as 512 characters. Constraints: o min: 1 o max: 512 o pattern: ^[\s\S]+$ s3WordsList -&gt; (structure) The location and name of the S3 object that lists specific text to ignore. bucketName -&gt; (string) [required] The full name of the S3 bucket that contains the object. Constraints: o min: 3 o max: 255 o pattern: ^[A-Za-z0-9.\-_]{3,255}$ objectKey -&gt; (string) [required] The full name (key) of the object. Constraints: o min: 1 o max: 1024 o pattern: ^[\s\S]+$ Shorthand Syntax: regex=string,s3WordsList={bucketName=string,objectKey=string} JSON Syntax: { "regex": "string", "s3WordsList": { "bucketName": "string", "objectKey": "string" } }
+    /// The criteria that specify the text or text pattern to ignore. The criteria can be the location and name of an S3 object that lists specific text to ignore (s3WordsList), or a regular expression (regex) that defines a text pattern to ignore. regex -&gt; (string) The regular expression (regex ) that defines the text pattern to ignore. The expression can contain as many as 512 characters. Constraints: • min: 1 • max: 512 • pattern: ^[\s\S]+$ s3WordsList -&gt; (structure) The location and name of the S3 object that lists specific text to ignore. bucketName -&gt; (string) [required] The full name of the S3 bucket that contains the object. Constraints: • min: 3 • max: 255 • pattern: ^[A-Za-z0-9.\-_]{3,255}$ objectKey -&gt; (string) [required] The full name (key) of the object. Constraints: • min: 1 • max: 1024 • pattern: ^[\s\S]+$ Shorthand Syntax: regex=string,s3WordsList={bucketName=string,objectKey=string} JSON Syntax: { "regex": "string", "s3WordsList": { "bucketName": "string", "objectKey": "string" } }
     /// </summary>
     [CliOption("--criteria")]
     public string? Criteria { get; private init; }
 
     /// <summary>
-    /// A custom name for the allow list. The name can contain as many as 128 characters. Constraints: o min: 1 o max: 128 o pattern: ^.+$
+    /// A custom name for the allow list. The name can contain as many as 128 characters. Constraints: • min: 1 • max: 128 • pattern: ^.+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive token that you provide to ensure the idem- potency of the request.
+    /// A unique, case-sensitive token that you provide to ensure the idempotency of the request.
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A custom description of the allow list. The description can contain as many as 512 characters. Constraints: o min: 1 o max: 512 o pattern: ^[\s\S]+$
+    /// A custom description of the allow list. The description can contain as many as 512 characters. Constraints: • min: 1 • max: 512 • pattern: ^[\s\S]+$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A map of key-value pairs that specifies the tags to associate with the allow list. An allow list can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 charac- ters. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of key-value pairs that specifies the tags to associate with the allow list. An allow list can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

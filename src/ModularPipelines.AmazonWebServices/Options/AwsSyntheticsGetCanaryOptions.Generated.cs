@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSyntheticsGetCanaryOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves complete information about one canary. You must specify the name of the canary that you want. To get a list of canaries and their names, use DescribeCanaries . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the canary that you want details for. Constraints: o min: 1 o max: 255 o pattern: ^[0-9a-z_\-]+$</param>
+    /// <param name="Name">The name of the canary that you want details for. Constraints: • min: 1 • max: 255 • pattern: ^[0-9a-z_\-]+$</param>
     public AwsSyntheticsGetCanaryOptions(
         string Name
     )
@@ -56,13 +58,13 @@ public record AwsSyntheticsGetCanaryOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the canary that you want details for. Constraints: o min: 1 o max: 255 o pattern: ^[0-9a-z_\-]+$
+    /// The name of the canary that you want details for. Constraints: • min: 1 • max: 255 • pattern: ^[0-9a-z_\-]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The DryRunId associated with an existing canarys dry run. You can use this DryRunId to retrieve information about the dry run. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The DryRunId associated with an existing canarys dry run. You can use this DryRunId to retrieve information about the dry run. Constraints: • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--dry-run-id")]
     public string? DryRunId { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBedrockGetModelCopyJobOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves information about a model copy job. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobArn">The Amazon Resource Name (ARN) of the model copy job. Constraints: o min: 0 o max: 1011 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:model-copy-job/[a-z0-9]{12}</param>
+    /// <param name="JobArn">The Amazon Resource Name (ARN) of the model copy job. Constraints: • min: 0 • max: 1011 • pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:model-copy-job/[a-z0-9]{12}</param>
     public AwsBedrockGetModelCopyJobOptions(
         string JobArn
     )
@@ -56,7 +58,7 @@ public record AwsBedrockGetModelCopyJobOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the model copy job. Constraints: o min: 0 o max: 1011 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:model-copy-job/[a-z0-9]{12}
+    /// The Amazon Resource Name (ARN) of the model copy job. Constraints: • min: 0 • max: 1011 • pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:model-copy-job/[a-z0-9]{12}
     /// </summary>
     [CliOption("--job-arn")]
     public string? JobArn { get; private init; }

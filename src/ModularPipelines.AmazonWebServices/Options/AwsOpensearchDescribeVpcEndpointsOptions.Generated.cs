@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsOpensearchDescribeVpcEndpointsOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Describes one or more Amazon OpenSearch Service-managed VPC endpoints. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VpcEndpointIds">The unique identifiers of the endpoints to get information about. (string) Constraints: o min: 5 o max: 256 o pattern: ^aos-[a-zA-Z0-9]*$ Syntax: "string" "string" ...</param>
+    /// <param name="VpcEndpointIds">The unique identifiers of the endpoints to get information about. (string) Constraints: • min: 5 • max: 256 • pattern: ^aos-[a-zA-Z0-9]*$ Syntax: "string" "string" ...</param>
     public AwsOpensearchDescribeVpcEndpointsOptions(
         IEnumerable<string> VpcEndpointIds
     )
@@ -67,7 +69,7 @@ public record AwsOpensearchDescribeVpcEndpointsOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifiers of the endpoints to get information about. (string) Constraints: o min: 5 o max: 256 o pattern: ^aos-[a-zA-Z0-9]*$ Syntax: "string" "string" ...
+    /// The unique identifiers of the endpoints to get information about. (string) Constraints: • min: 5 • max: 256 • pattern: ^aos-[a-zA-Z0-9]*$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--vpc-endpoint-ids", GroupValues = true)]
     public IEnumerable<string>? VpcEndpointIds { get; private init; }

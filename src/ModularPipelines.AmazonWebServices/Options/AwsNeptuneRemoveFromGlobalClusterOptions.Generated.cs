@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Detaches a Neptune DB cluster from a Neptune global database. A sec- ondary cluster becomes a normal standalone cluster with read-write ca- pability instead of being read-only, and no longer receives data from the primary cluster. See also: AWS API Documentation
+/// Detaches a Neptune DB cluster from a Neptune global database. A secondary cluster becomes a normal standalone cluster with read-write capability instead of being read-only, and no longer receives data from the primary cluster. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsNeptuneRemoveFromGlobalClusterOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Detaches a Neptune DB cluster from a Neptune global database. A sec- ondary cluster becomes a normal standalone cluster with read-write ca- pability instead of being read-only, and no longer receives data from the primary cluster. See also: AWS API Documentation
+    /// Detaches a Neptune DB cluster from a Neptune global database. A secondary cluster becomes a normal standalone cluster with read-write capability instead of being read-only, and no longer receives data from the primary cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GlobalClusterIdentifier">The identifier of the Neptune global database from which to detach the specified Neptune DB cluster. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
-    /// <param name="DbClusterIdentifier">The Amazon Resource Name (ARN) identifying the cluster to be de- tached from the Neptune global database cluster.</param>
+    /// <param name="GlobalClusterIdentifier">The identifier of the Neptune global database from which to detach the specified Neptune DB cluster. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
+    /// <param name="DbClusterIdentifier">The Amazon Resource Name (ARN) identifying the cluster to be detached from the Neptune global database cluster.</param>
     public AwsNeptuneRemoveFromGlobalClusterOptions(
         string GlobalClusterIdentifier,
         string DbClusterIdentifier
@@ -60,13 +62,13 @@ public record AwsNeptuneRemoveFromGlobalClusterOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Neptune global database from which to detach the specified Neptune DB cluster. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// The identifier of the Neptune global database from which to detach the specified Neptune DB cluster. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*
     /// </summary>
     [CliOption("--global-cluster-identifier")]
     public string? GlobalClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) identifying the cluster to be de- tached from the Neptune global database cluster.
+    /// The Amazon Resource Name (ARN) identifying the cluster to be detached from the Neptune global database cluster.
     /// </summary>
     [CliOption("--db-cluster-identifier")]
     public string? DbClusterIdentifier { get; private init; }

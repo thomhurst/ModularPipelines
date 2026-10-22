@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The confirmation of the terms of agreement when creating the connec- tion/link aggregation group (LAG). See also: AWS API Documentation
+/// The confirmation of the terms of agreement when creating the connection/link aggregation group (LAG). See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDirectconnectConfirmCustomerAgreementOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the customer agreement. Constraints: o max: 100
+    /// The name of the customer agreement. Constraints: • max: 100
     /// </summary>
     [CliOption("--agreement-name")]
     public string? AgreementName { get; set; }

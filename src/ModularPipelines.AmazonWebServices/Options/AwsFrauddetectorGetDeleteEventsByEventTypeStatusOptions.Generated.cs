@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsFrauddetectorGetDeleteEventsByEventTypeStatusOptions : AwsOptio
     /// <summary>
     /// Retrieves the status of a DeleteEventsByEventType action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EventTypeName">Name of event type for which to get the deletion status. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="EventTypeName">Name of event type for which to get the deletion status. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$</param>
     public AwsFrauddetectorGetDeleteEventsByEventTypeStatusOptions(
         string EventTypeName
     )
@@ -56,7 +58,7 @@ public record AwsFrauddetectorGetDeleteEventsByEventTypeStatusOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of event type for which to get the deletion status. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// Name of event type for which to get the deletion status. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$
     /// </summary>
     [CliOption("--event-type-name")]
     public string? EventTypeName { get; private init; }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,9 +31,9 @@ public record AwsDevopsAgentEnableOperatorAppOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Enable the Operator App to access the given AgentSpace See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentSpaceId">The unique identifier of the AgentSpace Constraints: o pattern: [a-zA-Z0-9-]{1,64}</param>
-    /// <param name="AuthFlow">The authentication flow configured for the operator App. e.g. iam or idc Possible values: o iam o idc o idp</param>
-    /// <param name="OperatorAppRoleArn">The IAM role end users assume to access AIDevOps APIs Constraints: o min: 1 o max: 255 o pattern: arn:aws:iam::\d{12}:role/[a-zA-Z0-9+=,.@_/-]+</param>
+    /// <param name="AgentSpaceId">The unique identifier of the AgentSpace Constraints: • pattern: [a-zA-Z0-9-]{1,64}</param>
+    /// <param name="AuthFlow">The authentication flow configured for the operator App. e.g. iam or idc Possible values: • iam • idc • idp</param>
+    /// <param name="OperatorAppRoleArn">The IAM role end users assume to access AIDevOps APIs Constraints: • min: 1 • max: 255 • pattern: arn:(aws|aws-cn|aws-us-gov):iam::\d{12}:role/[a-zA-Z0-9+=,.@_/-]+</param>
     public AwsDevopsAgentEnableOperatorAppOptions(
         string AgentSpaceId,
         AwsDevopsAgentEnableOperatorAppAuthFlow AuthFlow,
@@ -65,19 +67,19 @@ public record AwsDevopsAgentEnableOperatorAppOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the AgentSpace Constraints: o pattern: [a-zA-Z0-9-]{1,64}
+    /// The unique identifier of the AgentSpace Constraints: • pattern: [a-zA-Z0-9-]{1,64}
     /// </summary>
     [CliOption("--agent-space-id")]
     public string? AgentSpaceId { get; private init; }
 
     /// <summary>
-    /// The authentication flow configured for the operator App. e.g. iam or idc Possible values: o iam o idc o idp
+    /// The authentication flow configured for the operator App. e.g. iam or idc Possible values: • iam • idc • idp
     /// </summary>
     [CliOption("--auth-flow")]
     public AwsDevopsAgentEnableOperatorAppAuthFlow? AuthFlow { get; private init; }
 
     /// <summary>
-    /// The IAM role end users assume to access AIDevOps APIs Constraints: o min: 1 o max: 255 o pattern: arn:aws:iam::\d{12}:role/[a-zA-Z0-9+=,.@_/-]+
+    /// The IAM role end users assume to access AIDevOps APIs Constraints: • min: 1 • max: 255 • pattern: arn:(aws|aws-cn|aws-us-gov):iam::\d{12}:role/[a-zA-Z0-9+=,.@_/-]+
     /// </summary>
     [CliOption("--operator-app-role-arn")]
     public string? OperatorAppRoleArn { get; private init; }
@@ -95,13 +97,13 @@ public record AwsDevopsAgentEnableOperatorAppOptions : AwsOptions, IValidatableO
     public string? IssuerUrl { get; set; }
 
     /// <summary>
-    /// The OIDC client ID for the IdP application Constraints: o min: 1 o max: 512
+    /// The OIDC client ID for the IdP application Constraints: • min: 1 • max: 512
     /// </summary>
     [CliOption("--idp-client-id")]
     public string? IdpClientId { get; set; }
 
     /// <summary>
-    /// The OIDC client secret for the IdP application Constraints: o min: 1 o max: 1024
+    /// The OIDC client secret for the IdP application Constraints: • min: 1 • max: 1024
     /// </summary>
     [SecretValue]
     [CliOption("--idp-client-secret")]

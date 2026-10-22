@@ -22,9 +22,9 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsMediaconnect
 {
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws mediaconnect wait sub-commands.
     /// </summary>
-    AwsMediaconnectWait Wait => throw new System.NotSupportedException();
+    AwsMediaconnectWait Wait { get; }
 
     /// <summary>
     /// Adds outputs to an existing bridge. See also: AWS API Documentation
@@ -33,8 +33,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddBridgeOutputsAsync(AwsMediaconnectAddBridgeOutputsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddBridgeOutputsAsync(AwsMediaconnectAddBridgeOutputsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds sources to an existing bridge. See also: AWS API Documentation
@@ -43,8 +42,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddBridgeSourcesAsync(AwsMediaconnectAddBridgeSourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddBridgeSourcesAsync(AwsMediaconnectAddBridgeSourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds media streams to an existing flow. After you add a media stream to a flow, you can associate it with a source and/or an output that uses the ST 2110 JPEG XS or CDI protocol. See also: AWS API Documentation
@@ -53,8 +51,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddFlowMediaStreamsAsync(AwsMediaconnectAddFlowMediaStreamsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddFlowMediaStreamsAsync(AwsMediaconnectAddFlowMediaStreamsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds outputs to an existing flow. You can create up to 50 outputs per flow. See also: AWS API Documentation
@@ -63,8 +60,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddFlowOutputsAsync(AwsMediaconnectAddFlowOutputsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddFlowOutputsAsync(AwsMediaconnectAddFlowOutputsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds sources to a flow. See also: AWS API Documentation
@@ -73,8 +69,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddFlowSourcesAsync(AwsMediaconnectAddFlowSourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddFlowSourcesAsync(AwsMediaconnectAddFlowSourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds VPC interfaces to a flow. See also: AWS API Documentation
@@ -83,18 +78,16 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddFlowVpcInterfacesAsync(AwsMediaconnectAddFlowVpcInterfacesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddFlowVpcInterfacesAsync(AwsMediaconnectAddFlowVpcInterfacesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves information about multiple router inputs in AWS Elemental Me- diaConnect. See also: AWS API Documentation
+    /// Retrieves information about multiple router inputs in AWS Elemental MediaConnect. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetRouterInputAsync(AwsMediaconnectBatchGetRouterInputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetRouterInputAsync(AwsMediaconnectBatchGetRouterInputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about multiple router network interfaces in AWS Elemental MediaConnect. See also: AWS API Documentation
@@ -103,8 +96,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetRouterNetworkInterfaceAsync(AwsMediaconnectBatchGetRouterNetworkInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetRouterNetworkInterfaceAsync(AwsMediaconnectBatchGetRouterNetworkInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about multiple router outputs in AWS Elemental MediaConnect. See also: AWS API Documentation
@@ -113,8 +105,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetRouterOutputAsync(AwsMediaconnectBatchGetRouterOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetRouterOutputAsync(AwsMediaconnectBatchGetRouterOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new bridge. The request must include one source. See also: AWS API Documentation
@@ -123,8 +114,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBridgeAsync(AwsMediaconnectCreateBridgeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateBridgeAsync(AwsMediaconnectCreateBridgeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new flow. The request must include one source. The request optionally can include outputs (up to 50) and entitlements (up to 50). See also: AWS API Documentation
@@ -133,8 +123,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateFlowAsync(AwsMediaconnectCreateFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateFlowAsync(AwsMediaconnectCreateFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new gateway. The request must include at least one network (up to four). See also: AWS API Documentation
@@ -143,8 +132,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateGatewayAsync(AwsMediaconnectCreateGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateGatewayAsync(AwsMediaconnectCreateGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new router input in AWS Elemental MediaConnect. See also: AWS API Documentation
@@ -153,8 +141,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRouterInputAsync(AwsMediaconnectCreateRouterInputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRouterInputAsync(AwsMediaconnectCreateRouterInputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new router network interface in AWS Elemental MediaConnect. See also: AWS API Documentation
@@ -163,8 +150,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRouterNetworkInterfaceAsync(AwsMediaconnectCreateRouterNetworkInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRouterNetworkInterfaceAsync(AwsMediaconnectCreateRouterNetworkInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new router output in AWS Elemental MediaConnect. See also: AWS API Documentation
@@ -173,8 +159,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRouterOutputAsync(AwsMediaconnectCreateRouterOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRouterOutputAsync(AwsMediaconnectCreateRouterOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a bridge. Before you can delete a bridge, you must stop the bridge. See also: AWS API Documentation
@@ -183,8 +168,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBridgeAsync(AwsMediaconnectDeleteBridgeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBridgeAsync(AwsMediaconnectDeleteBridgeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a flow. Before you can delete a flow, you must stop the flow. See also: AWS API Documentation
@@ -193,8 +177,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFlowAsync(AwsMediaconnectDeleteFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteFlowAsync(AwsMediaconnectDeleteFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a gateway. Before you can delete a gateway, you must deregister its instances and delete its bridges. See also: AWS API Documentation
@@ -203,8 +186,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteGatewayAsync(AwsMediaconnectDeleteGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteGatewayAsync(AwsMediaconnectDeleteGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a router input from AWS Elemental MediaConnect. See also: AWS API Documentation
@@ -213,8 +195,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRouterInputAsync(AwsMediaconnectDeleteRouterInputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRouterInputAsync(AwsMediaconnectDeleteRouterInputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a router network interface from AWS Elemental MediaConnect. See also: AWS API Documentation
@@ -223,8 +204,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRouterNetworkInterfaceAsync(AwsMediaconnectDeleteRouterNetworkInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRouterNetworkInterfaceAsync(AwsMediaconnectDeleteRouterNetworkInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a router output from AWS Elemental MediaConnect. See also: AWS API Documentation
@@ -233,8 +213,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRouterOutputAsync(AwsMediaconnectDeleteRouterOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRouterOutputAsync(AwsMediaconnectDeleteRouterOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deregisters an instance. Before you deregister an instance, all bridges running on the instance must be stopped. If you want to deregister an instance without stopping the bridges, you must use the --force option. See also: AWS API Documentation
@@ -243,8 +222,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeregisterGatewayInstanceAsync(AwsMediaconnectDeregisterGatewayInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeregisterGatewayInstanceAsync(AwsMediaconnectDeregisterGatewayInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Displays the details of a bridge. See also: AWS API Documentation
@@ -253,8 +231,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeBridgeAsync(AwsMediaconnectDescribeBridgeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeBridgeAsync(AwsMediaconnectDescribeBridgeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Displays the details of a flow. The response includes the flow Amazon Resource Name (ARN), name, and Availability Zone, as well as details about the source, outputs, and entitlements. See also: AWS API Documentation
@@ -263,18 +240,16 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFlowAsync(AwsMediaconnectDescribeFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFlowAsync(AwsMediaconnectDescribeFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// The DescribeFlowSourceMetadata API is used to view information about the flow's source transport stream and programs. This API displays sta- tus messages about the flow's source as well as details about the pro- gram's video, audio, and other data. See also: AWS API Documentation
+    /// The DescribeFlowSourceMetadata API is used to view information about the flow's source transport stream and programs. This API displays status messages about the flow's source as well as details about the program's video, audio, and other data. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFlowSourceMetadataAsync(AwsMediaconnectDescribeFlowSourceMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFlowSourceMetadataAsync(AwsMediaconnectDescribeFlowSourceMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the thumbnail for the flow source. See also: AWS API Documentation
@@ -283,8 +258,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFlowSourceThumbnailAsync(AwsMediaconnectDescribeFlowSourceThumbnailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFlowSourceThumbnailAsync(AwsMediaconnectDescribeFlowSourceThumbnailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Displays the details of an instance. See also: AWS API Documentation
@@ -293,8 +267,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeGatewayInstanceAsync(AwsMediaconnectDescribeGatewayInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeGatewayInstanceAsync(AwsMediaconnectDescribeGatewayInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Displays the details of a gateway. The response includes the gateway Amazon Resource Name (ARN), name, and CIDR blocks, as well as details about the networks. See also: AWS API Documentation
@@ -303,8 +276,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeGatewayAsync(AwsMediaconnectDescribeGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeGatewayAsync(AwsMediaconnectDescribeGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Displays the details of an offering. The response includes the offering description, duration, outbound bandwidth, price, and Amazon Resource Name (ARN). See also: AWS API Documentation
@@ -313,18 +285,16 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeOfferingAsync(AwsMediaconnectDescribeOfferingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeOfferingAsync(AwsMediaconnectDescribeOfferingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Displays the details of a reservation. The response includes the reser- vation name, state, start date and time, and the details of the offer- ing that make up the rest of the reservation (such as price, duration, and outbound bandwidth). See also: AWS API Documentation
+    /// Displays the details of a reservation. The response includes the reservation name, state, start date and time, and the details of the offering that make up the rest of the reservation (such as price, duration, and outbound bandwidth). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeReservationAsync(AwsMediaconnectDescribeReservationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeReservationAsync(AwsMediaconnectDescribeReservationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a specific router input in AWS Elemental MediaConnect. See also: AWS API Documentation
@@ -333,8 +303,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRouterInputAsync(AwsMediaconnectGetRouterInputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRouterInputAsync(AwsMediaconnectGetRouterInputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves detailed metadata information about a specific router input source, including stream details and connection state. See also: AWS API Documentation
@@ -343,18 +312,16 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRouterInputSourceMetadataAsync(AwsMediaconnectGetRouterInputSourceMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRouterInputSourceMetadataAsync(AwsMediaconnectGetRouterInputSourceMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves the thumbnail for a router input in AWS Elemental MediaCon- nect. See also: AWS API Documentation
+    /// Retrieves the thumbnail for a router input in AWS Elemental MediaConnect. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRouterInputThumbnailAsync(AwsMediaconnectGetRouterInputThumbnailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRouterInputThumbnailAsync(AwsMediaconnectGetRouterInputThumbnailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a specific router network interface in AWS Elemental MediaConnect. See also: AWS API Documentation
@@ -363,8 +330,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRouterNetworkInterfaceAsync(AwsMediaconnectGetRouterNetworkInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRouterNetworkInterfaceAsync(AwsMediaconnectGetRouterNetworkInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a specific router output in AWS Elemental MediaConnect. See also: AWS API Documentation
@@ -373,8 +339,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRouterOutputAsync(AwsMediaconnectGetRouterOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRouterOutputAsync(AwsMediaconnectGetRouterOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Grants entitlements to an existing flow. See also: AWS API Documentation
@@ -383,68 +348,61 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GrantFlowEntitlementsAsync(AwsMediaconnectGrantFlowEntitlementsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GrantFlowEntitlementsAsync(AwsMediaconnectGrantFlowEntitlementsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Displays a list of bridges that are associated with this account and an optionally specified Amazon Resource Name (ARN). This request returns a paginated result. See also: AWS API Documentation list-bridges is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract da...
+    /// Displays a list of bridges that are associated with this account and an optionally specified Amazon Resource Name (ARN). This request returns a paginated result. See also: AWS API Documentation list-bridges is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBridgesAsync(AwsMediaconnectListBridgesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListBridgesAsync(AwsMediaconnectListBridgesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Displays a list of all entitlements that have been granted to this ac- count. This request returns 20 results per page. See also: AWS API Documentation list-entitlements is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following qu...
+    /// Displays a list of all entitlements that have been granted to this account. This request returns 20 results per page. See also: AWS API Documentation list-entitlements is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following quer...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEntitlementsAsync(AwsMediaconnectListEntitlementsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEntitlementsAsync(AwsMediaconnectListEntitlementsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Displays a list of flows that are associated with this account. This request returns a paginated result. See also: AWS API Documentation list-flows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: F...
+    /// Displays a list of flows that are associated with this account. This request returns a paginated result. See also: AWS API Documentation list-flows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Flows
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFlowsAsync(AwsMediaconnectListFlowsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFlowsAsync(AwsMediaconnectListFlowsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Displays a list of instances associated with the Amazon Web Services account. This request returns a paginated result. You can use the fil- terArn property to display only the instances associated with the se- lected Gateway Amazon Resource Name (ARN). See also: AWS API Documentation list-gateway-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using -...
+    /// Displays a list of instances associated with the Amazon Web Services account. This request returns a paginated result. You can use the filterArn property to display only the instances associated with the selected Gateway Amazon Resource Name (ARN). See also: AWS API Documentation list-gateway-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListGatewayInstancesAsync(AwsMediaconnectListGatewayInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListGatewayInstancesAsync(AwsMediaconnectListGatewayInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Displays a list of gateways that are associated with this account. This request returns a paginated result. See also: AWS API Documentation list-gateways is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressi...
+    /// Displays a list of gateways that are associated with this account. This request returns a paginated result. See also: AWS API Documentation list-gateways is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions:...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListGatewaysAsync(AwsMediaconnectListGatewaysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListGatewaysAsync(AwsMediaconnectListGatewaysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Displays a list of all offerings that are available to this account in the current Amazon Web Services Region. If you have an active reserva- tion (which means you've purchased an offering that has already started and hasn't expired yet), your account isn't eligible for other offer- ings. See also: AWS API Documentation list-offerings is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --n...
+    /// Displays a list of all offerings that are available to this account in the current Amazon Web Services Region. If you have an active reservation (which means you've purchased an offering that has already started and hasn't expired yet), your account isn't eligible for other offerings. See also: AWS API Documentation list-offerings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagina...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListOfferingsAsync(AwsMediaconnectListOfferingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListOfferingsAsync(AwsMediaconnectListOfferingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Displays a list of all reservations that have been purchased by this account in the current Amazon Web Services Region. This list includes all reservations in all states (such as active and expired). See also: AWS API Documentation list-reservations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated respo...
@@ -453,8 +411,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListReservationsAsync(AwsMediaconnectListReservationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListReservationsAsync(AwsMediaconnectListReservationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of router inputs in AWS Elemental MediaConnect. See also: AWS API Documentation list-router-inputs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RouterInputs
@@ -463,18 +420,16 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRouterInputsAsync(AwsMediaconnectListRouterInputsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRouterInputsAsync(AwsMediaconnectListRouterInputsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves a list of router network interfaces in AWS Elemental Media- Connect. See also: AWS API Documentation list-router-network-interfaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RouterN...
+    /// Retrieves a list of router network interfaces in AWS Elemental MediaConnect. See also: AWS API Documentation list-router-network-interfaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RouterNetwork...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRouterNetworkInterfacesAsync(AwsMediaconnectListRouterNetworkInterfacesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRouterNetworkInterfacesAsync(AwsMediaconnectListRouterNetworkInterfacesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of router outputs in AWS Elemental MediaConnect. See also: AWS API Documentation list-router-outputs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RouterOutputs
@@ -483,18 +438,16 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRouterOutputsAsync(AwsMediaconnectListRouterOutputsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRouterOutputsAsync(AwsMediaconnectListRouterOutputsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists the tags associated with a global resource in AWS Elemental Medi- aConnect. The API supports the following global resources: router in- puts, router outputs and router network interfaces. See also: AWS API Documentation
+    /// Lists the tags associated with a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router outputs and router network interfaces. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForGlobalResourceAsync(AwsMediaconnectListTagsForGlobalResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForGlobalResourceAsync(AwsMediaconnectListTagsForGlobalResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all tags on a MediaConnect resource in the current region. See also: AWS API Documentation
@@ -503,18 +456,16 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsMediaconnectListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsMediaconnectListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Submits a request to purchase an offering. If you already have an ac- tive reservation, you can't purchase another offering. See also: AWS API Documentation
+    /// Submits a request to purchase an offering. If you already have an active reservation, you can't purchase another offering. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PurchaseOfferingAsync(AwsMediaconnectPurchaseOfferingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PurchaseOfferingAsync(AwsMediaconnectPurchaseOfferingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes an output from a bridge. See also: AWS API Documentation
@@ -523,8 +474,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveBridgeOutputAsync(AwsMediaconnectRemoveBridgeOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveBridgeOutputAsync(AwsMediaconnectRemoveBridgeOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a source from a bridge. See also: AWS API Documentation
@@ -533,8 +483,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveBridgeSourceAsync(AwsMediaconnectRemoveBridgeSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveBridgeSourceAsync(AwsMediaconnectRemoveBridgeSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a media stream from a flow. This action is only available if the media stream is not associated with a source or output. See also: AWS API Documentation
@@ -543,8 +492,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveFlowMediaStreamAsync(AwsMediaconnectRemoveFlowMediaStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveFlowMediaStreamAsync(AwsMediaconnectRemoveFlowMediaStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes an output from an existing flow. This request can be made only on an output that does not have an entitlement associated with it. If the output has an entitlement, you must revoke the entitlement instead. When an entitlement is revoked from a flow, the service automatically removes the associated output. See also: AWS API Documentation
@@ -553,8 +501,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveFlowOutputAsync(AwsMediaconnectRemoveFlowOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveFlowOutputAsync(AwsMediaconnectRemoveFlowOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a source from an existing flow. This request can be made only if there is more than one source on the flow. See also: AWS API Documentation
@@ -563,28 +510,25 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveFlowSourceAsync(AwsMediaconnectRemoveFlowSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveFlowSourceAsync(AwsMediaconnectRemoveFlowSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Removes a VPC Interface from an existing flow. This request can be made only on a VPC interface that does not have a Source or Output associ- ated with it. If the VPC interface is referenced by a Source or Output, you must first delete or update the Source or Output to no longer ref- erence the VPC interface. See also: AWS API Documentation
+    /// Removes a VPC Interface from an existing flow. This request can be made only on a VPC interface that does not have a Source or Output associated with it. If the VPC interface is referenced by a Source or Output, you must first delete or update the Source or Output to no longer reference the VPC interface. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveFlowVpcInterfaceAsync(AwsMediaconnectRemoveFlowVpcInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveFlowVpcInterfaceAsync(AwsMediaconnectRemoveFlowVpcInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Restarts a router input. This operation can be used to recover from er- rors or refresh the input state. See also: AWS API Documentation
+    /// Restarts a router input. This operation can be used to recover from errors or refresh the input state. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RestartRouterInputAsync(AwsMediaconnectRestartRouterInputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RestartRouterInputAsync(AwsMediaconnectRestartRouterInputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Restarts a router output. This operation can be used to recover from errors or refresh the output state. See also: AWS API Documentation
@@ -593,8 +537,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RestartRouterOutputAsync(AwsMediaconnectRestartRouterOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RestartRouterOutputAsync(AwsMediaconnectRestartRouterOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Revokes an entitlement from a flow. Once an entitlement is revoked, the content becomes unavailable to the subscriber and the associated output is removed. See also: AWS API Documentation
@@ -603,8 +546,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RevokeFlowEntitlementAsync(AwsMediaconnectRevokeFlowEntitlementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RevokeFlowEntitlementAsync(AwsMediaconnectRevokeFlowEntitlementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a flow. See also: AWS API Documentation
@@ -613,8 +555,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartFlowAsync(AwsMediaconnectStartFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartFlowAsync(AwsMediaconnectStartFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a router input in AWS Elemental MediaConnect. See also: AWS API Documentation
@@ -623,8 +564,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartRouterInputAsync(AwsMediaconnectStartRouterInputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartRouterInputAsync(AwsMediaconnectStartRouterInputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a router output in AWS Elemental MediaConnect. See also: AWS API Documentation
@@ -633,8 +573,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartRouterOutputAsync(AwsMediaconnectStartRouterOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartRouterOutputAsync(AwsMediaconnectStartRouterOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a flow. See also: AWS API Documentation
@@ -643,8 +582,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopFlowAsync(AwsMediaconnectStopFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopFlowAsync(AwsMediaconnectStopFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a router input in AWS Elemental MediaConnect. See also: AWS API Documentation
@@ -653,8 +591,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopRouterInputAsync(AwsMediaconnectStopRouterInputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopRouterInputAsync(AwsMediaconnectStopRouterInputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a router output in AWS Elemental MediaConnect. See also: AWS API Documentation
@@ -663,8 +600,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopRouterOutputAsync(AwsMediaconnectStopRouterOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopRouterOutputAsync(AwsMediaconnectStopRouterOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds tags to a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router outputs and router network interfaces. See also: AWS API Documentation
@@ -673,38 +609,34 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagGlobalResourceAsync(AwsMediaconnectTagGlobalResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagGlobalResourceAsync(AwsMediaconnectTagGlobalResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Associates the specified tags to a resource with the specified re- sourceArn in the current region. If existing tags on a resource are not specified in the request parameters, they are not changed. When a re- source is deleted, the tags associated with that resource are deleted as well. See also: AWS API Documentation
+    /// Associates the specified tags to a resource with the specified resourceArn in the current region. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsMediaconnectTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsMediaconnectTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Associates a router input with a router output in AWS Elemental Media- Connect. See also: AWS API Documentation
+    /// Associates a router input with a router output in AWS Elemental MediaConnect. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TakeRouterInputAsync(AwsMediaconnectTakeRouterInputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TakeRouterInputAsync(AwsMediaconnectTakeRouterInputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Removes tags from a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router out- puts and router network interfaces. See also: AWS API Documentation
+    /// Removes tags from a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router outputs and router network interfaces. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagGlobalResourceAsync(AwsMediaconnectUntagGlobalResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagGlobalResourceAsync(AwsMediaconnectUntagGlobalResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes specified tags from a resource in the current region. See also: AWS API Documentation
@@ -713,8 +645,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsMediaconnectUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsMediaconnectUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the bridge. See also: AWS API Documentation
@@ -723,8 +654,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBridgeAsync(AwsMediaconnectUpdateBridgeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateBridgeAsync(AwsMediaconnectUpdateBridgeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing bridge output. See also: AWS API Documentation
@@ -733,8 +663,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBridgeOutputAsync(AwsMediaconnectUpdateBridgeOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateBridgeOutputAsync(AwsMediaconnectUpdateBridgeOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing bridge source. See also: AWS API Documentation
@@ -743,8 +672,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBridgeSourceAsync(AwsMediaconnectUpdateBridgeSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateBridgeSourceAsync(AwsMediaconnectUpdateBridgeSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the bridge state. See also: AWS API Documentation
@@ -753,8 +681,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBridgeStateAsync(AwsMediaconnectUpdateBridgeStateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateBridgeStateAsync(AwsMediaconnectUpdateBridgeStateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an entitlement. You can change an entitlement's description, subscribers, and encryption. If you change the subscribers, the service will remove the outputs that are are used by the subscribers that are removed. See also: AWS API Documentation
@@ -763,8 +690,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFlowEntitlementAsync(AwsMediaconnectUpdateFlowEntitlementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateFlowEntitlementAsync(AwsMediaconnectUpdateFlowEntitlementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing media stream. See also: AWS API Documentation
@@ -773,18 +699,16 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFlowMediaStreamAsync(AwsMediaconnectUpdateFlowMediaStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateFlowMediaStreamAsync(AwsMediaconnectUpdateFlowMediaStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates an existing flow. NOTE: Because UpdateFlowSources and UpdateFlow are separate operations, you can't change both the source type AND the flow size in a single request. o If you have a MEDIUM flow and you want to change the flow source to NDI: o First, use the UpdateFlow operation to upgrade the flow size to LARGE . o After that, you can then use the UpdateFlowSource operation to configure the NDI source. o If you're switching from an NDI source to a transport stream (TS) source and want t...
+    /// Updates an existing flow. NOTE: Because UpdateFlowSources and UpdateFlow are separate operations, you can't change both the source type AND the flow size in a single request. • If you have a MEDIUM flow and you want to change the flow source to NDI: • First, use the UpdateFlow operation to upgrade the flow size to LARGE . • After that, you can then use the UpdateFlowSource operation to configure the NDI source. • If you're switching from an NDI source to a transport stream (TS) source and want t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFlowAsync(AwsMediaconnectUpdateFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateFlowAsync(AwsMediaconnectUpdateFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing flow output. See also: AWS API Documentation
@@ -793,18 +717,16 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFlowOutputAsync(AwsMediaconnectUpdateFlowOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateFlowOutputAsync(AwsMediaconnectUpdateFlowOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates the source of a flow. NOTE: Because UpdateFlowSources and UpdateFlow are separate operations, you can't change both the source type AND the flow size in a single request. o If you have a MEDIUM flow and you want to change the flow source to NDI: o First, use the UpdateFlow operation to upgrade the flow size to LARGE . o After that, you can then use the UpdateFlowSource operation to configure the NDI source. o If you're switching from an NDI source to a transport stream (TS) source and wa...
+    /// Updates the source of a flow. NOTE: Because UpdateFlowSources and UpdateFlow are separate operations, you can't change both the source type AND the flow size in a single request. • If you have a MEDIUM flow and you want to change the flow source to NDI: • First, use the UpdateFlow operation to upgrade the flow size to LARGE . • After that, you can then use the UpdateFlowSource operation to configure the NDI source. • If you're switching from an NDI source to a transport stream (TS) source and wa...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFlowSourceAsync(AwsMediaconnectUpdateFlowSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateFlowSourceAsync(AwsMediaconnectUpdateFlowSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing gateway instance. See also: AWS API Documentation
@@ -813,8 +735,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateGatewayInstanceAsync(AwsMediaconnectUpdateGatewayInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateGatewayInstanceAsync(AwsMediaconnectUpdateGatewayInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the configuration of an existing router input in AWS Elemental MediaConnect. See also: AWS API Documentation
@@ -823,8 +744,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRouterInputAsync(AwsMediaconnectUpdateRouterInputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRouterInputAsync(AwsMediaconnectUpdateRouterInputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the configuration of an existing router network interface in AWS Elemental MediaConnect. See also: AWS API Documentation
@@ -833,8 +753,7 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRouterNetworkInterfaceAsync(AwsMediaconnectUpdateRouterNetworkInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRouterNetworkInterfaceAsync(AwsMediaconnectUpdateRouterNetworkInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the configuration of an existing router output in AWS Elemental MediaConnect. See also: AWS API Documentation
@@ -843,7 +762,6 @@ public interface IAwsMediaconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRouterOutputAsync(AwsMediaconnectUpdateRouterOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRouterOutputAsync(AwsMediaconnectUpdateRouterOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

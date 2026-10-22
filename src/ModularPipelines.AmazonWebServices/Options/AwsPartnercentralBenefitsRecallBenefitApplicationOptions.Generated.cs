@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsPartnercentralBenefitsRecallBenefitApplicationOptions : AwsOpti
     /// <summary>
     /// Recalls a submitted benefit application, returning it to draft status for further modifications. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">The catalog identifier that specifies which benefit catalog the ap- plication belongs to. Constraints: o pattern: [A-Za-z0-9_-]+</param>
-    /// <param name="Identifier">The unique identifier of the benefit application to recall. Constraints: o pattern: (arn:.+|benappl-[0-9a-z]{14})</param>
+    /// <param name="Catalog">The catalog identifier that specifies which benefit catalog the application belongs to. Constraints: • pattern: [A-Za-z0-9_-]+</param>
+    /// <param name="Identifier">The unique identifier of the benefit application to recall. Constraints: • pattern: (arn:.+|benappl-[0-9a-z]{14})</param>
     /// <param name="Reason">A descriptive reason explaining why the benefit application is being recalled.</param>
     public AwsPartnercentralBenefitsRecallBenefitApplicationOptions(
         string Catalog,
@@ -65,13 +67,13 @@ public record AwsPartnercentralBenefitsRecallBenefitApplicationOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog identifier that specifies which benefit catalog the ap- plication belongs to. Constraints: o pattern: [A-Za-z0-9_-]+
+    /// The catalog identifier that specifies which benefit catalog the application belongs to. Constraints: • pattern: [A-Za-z0-9_-]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the benefit application to recall. Constraints: o pattern: (arn:.+|benappl-[0-9a-z]{14})
+    /// The unique identifier of the benefit application to recall. Constraints: • pattern: (arn:.+|benappl-[0-9a-z]{14})
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }

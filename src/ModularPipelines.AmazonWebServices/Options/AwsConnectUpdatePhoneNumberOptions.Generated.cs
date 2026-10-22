@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates your claimed phone number from its current Connect Customer in- stance or traffic distribution group to another Connect Customer in- stance or traffic distribution group in the same Amazon Web Services Region. WARNING: After using this API, you must verify that the phone number is at- tached to the correct flow in the target instance or traffic distri- bution group. You need to do this because the API switches only the phone number to a new instance or traffic distribution group. It does...
+/// Updates your claimed phone number from its current Connect Customer instance or traffic distribution group to another Connect Customer instance or traffic distribution group in the same Amazon Web Services Region. WARNING: After using this API, you must verify that the phone number is attached to the correct flow in the target instance or traffic distribution group. You need to do this because the API switches only the phone number to a new instance or traffic distribution group. It doesn't migr...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +28,7 @@ public record AwsConnectUpdatePhoneNumberOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates your claimed phone number from its current Connect Customer in- stance or traffic distribution group to another Connect Customer in- stance or traffic distribution group in the same Amazon Web Services Region. WARNING: After using this API, you must verify that the phone number is at- tached to the correct flow in the target instance or traffic distri- bution group. You need to do this because the API switches only the phone number to a new instance or traffic distribution group. It does...
+    /// Updates your claimed phone number from its current Connect Customer instance or traffic distribution group to another Connect Customer instance or traffic distribution group in the same Amazon Web Services Region. WARNING: After using this API, you must verify that the phone number is attached to the correct flow in the target instance or traffic distribution group. You need to do this because the API switches only the phone number to a new instance or traffic distribution group. It doesn't migr...
     /// </summary>
     /// <param name="PhoneNumberId">A unique identifier for the phone number.</param>
     public AwsConnectUpdatePhoneNumberOptions(
@@ -69,13 +71,13 @@ public record AwsConnectUpdatePhoneNumberOptions : AwsOptions, IValidatableObjec
     public string? TargetArn { get; set; }
 
     /// <summary>
-    /// The identifier of the Connect Customer instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. You must enter InstanceId or TargetArn . Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. You must enter InstanceId or TargetArn . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

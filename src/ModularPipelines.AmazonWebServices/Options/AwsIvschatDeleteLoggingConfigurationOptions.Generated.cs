@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIvschatDeleteLoggingConfigurationOptions : AwsOptions, IValidat
     /// <summary>
     /// Deletes the specified logging configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">Identifier of the logging configuration to be deleted. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivschat:[a-z0-9-]+:[0-9]+:logging-configura- tion/[a-zA-Z0-9-]+</param>
+    /// <param name="Identifier">Identifier of the logging configuration to be deleted. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivschat:[a-z0-9-]+:[0-9]+:logging-configuration/[a-zA-Z0-9-]+</param>
     public AwsIvschatDeleteLoggingConfigurationOptions(
         string Identifier
     )
@@ -56,7 +58,7 @@ public record AwsIvschatDeleteLoggingConfigurationOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifier of the logging configuration to be deleted. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivschat:[a-z0-9-]+:[0-9]+:logging-configura- tion/[a-zA-Z0-9-]+
+    /// Identifier of the logging configuration to be deleted. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivschat:[a-z0-9-]+:[0-9]+:logging-configuration/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }

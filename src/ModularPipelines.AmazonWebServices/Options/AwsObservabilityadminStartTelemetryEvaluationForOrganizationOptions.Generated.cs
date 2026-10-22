@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsObservabilityadminStartTelemetryEvaluationForOrganizationOptions : AwsOptions
 {
     /// <summary>
-    /// An optional list of Amazon Web Services Regions to include in multi-region telemetry evaluation for the organization. The current region is always implicitly included and must not be specified in this list. When provided, telemetry evaluation starts in the current region and propagates to all specified regions for the organization. Mutually exclusive with AllRegions . If neither Regions nor AllRe- gions is provided, the operation applies only to the current region. Constraints: o min: 1 (string) Constraints: o min: 1 Syntax: "string" "string" ...
+    /// An optional list of Amazon Web Services Regions to include in multi-region telemetry evaluation for the organization. The current region is always implicitly included and must not be specified in this list. When provided, telemetry evaluation starts in the current region and propagates to all specified regions for the organization. Mutually exclusive with AllRegions . If neither Regions nor AllRegions is provided, the operation applies only to the current region. Constraints: • min: 1 (string) Constraints: • min: 1 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--regions", GroupValues = true)]
     public IEnumerable<string>? Regions { get; set; }
 
     /// <summary>
-    /// If set to true , telemetry evaluation for the organization starts in all Amazon Web Services Regions where Amazon CloudWatch Observabil- ity Admin is available in the current partition. The current region becomes the home region for managing multi-region evaluation for the organization. When new regions become available, evaluation automat- ically expands to include them. Mutually exclusive with Regions .
+    /// If set to true , telemetry evaluation for the organization starts in all Amazon Web Services Regions where Amazon CloudWatch Observability Admin is available in the current partition. The current region becomes the home region for managing multi-region evaluation for the organization. When new regions become available, evaluation automatically expands to include them. Mutually exclusive with Regions .
     /// </summary>
     [CliFlag("--all-regions", NegatedName = "--no-all-regions")]
     public bool? AllRegions { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsOrganizationsUpdateOrganizationalUnitOptions : AwsOptions, IVal
     /// <summary>
     /// Renames the specified organizational unit (OU). The ID and ARN don't change. The child OUs and accounts remain in place, and any attached policies of the OU remain attached. You can only call this operation from the management account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationalUnitId">ID for the OU that you want to rename. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a sec- ond "-" dash and from 8 to 32 additional lowercase letters or dig- its. Constraints: o max: 68 o pattern: ^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$</param>
+    /// <param name="OrganizationalUnitId">ID for the OU that you want to rename. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits. Constraints: • max: 68 • pattern: ^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$</param>
     public AwsOrganizationsUpdateOrganizationalUnitOptions(
         string OrganizationalUnitId
     )
@@ -56,13 +58,13 @@ public record AwsOrganizationsUpdateOrganizationalUnitOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID for the OU that you want to rename. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a sec- ond "-" dash and from 8 to 32 additional lowercase letters or dig- its. Constraints: o max: 68 o pattern: ^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$
+    /// ID for the OU that you want to rename. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits. Constraints: • max: 68 • pattern: ^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$
     /// </summary>
     [CliOption("--organizational-unit-id")]
     public string? OrganizationalUnitId { get; private init; }
 
     /// <summary>
-    /// The new name that you want to assign to the OU. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range. Constraints: o min: 1 o max: 128 o pattern: [\s\S]*
+    /// The new name that you want to assign to the OU. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range. Constraints: • min: 1 • max: 128 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }

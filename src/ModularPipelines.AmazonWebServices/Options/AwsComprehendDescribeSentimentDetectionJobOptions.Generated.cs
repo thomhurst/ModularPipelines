@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsComprehendDescribeSentimentDetectionJobOptions : AwsOptions, IV
     /// <summary>
     /// Gets the properties associated with a sentiment detection job. Use this operation to get the status of a detection job. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">The identifier that Amazon Comprehend generated for the job. The op- eration returns this identifier in its response. Constraints: o min: 1 o max: 32 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$</param>
+    /// <param name="JobId">The identifier that Amazon Comprehend generated for the job. The operation returns this identifier in its response. Constraints: • min: 1 • max: 32 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$</param>
     public AwsComprehendDescribeSentimentDetectionJobOptions(
         string JobId
     )
@@ -56,7 +58,7 @@ public record AwsComprehendDescribeSentimentDetectionJobOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier that Amazon Comprehend generated for the job. The op- eration returns this identifier in its response. Constraints: o min: 1 o max: 32 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$
+    /// The identifier that Amazon Comprehend generated for the job. The operation returns this identifier in its response. Constraints: • min: 1 • max: 32 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }

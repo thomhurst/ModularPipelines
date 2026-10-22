@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the phone number orders for the administrator's Amazon Chime ac- count. See also: AWS API Documentation
+/// Lists the phone number orders for the administrator's Amazon Chime account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -30,7 +30,7 @@ public record AwsChimeListPhoneNumberOrdersOptions : AwsOptions
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return in a single call. Constraints: o min: 1 o max: 99
+    /// The maximum number of results to return in a single call. Constraints: • min: 1 • max: 99
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

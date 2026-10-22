@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Shares or unshares a connection alias with one account by specifying whether that account has permission to associate the connection alias with a directory. If the association permission is granted, the connec- tion alias is shared with that account. If the association permission is revoked, the connection alias is unshared with the account. For more information, see Cross-Region Redirection for Amazon WorkSpaces . NOTE: o Before performing this operation, call DescribeConnectionAliases to make ...
+/// Shares or unshares a connection alias with one account by specifying whether that account has permission to associate the connection alias with a directory. If the association permission is granted, the connection alias is shared with that account. If the association permission is revoked, the connection alias is unshared with the account. For more information, see Cross-Region Redirection for Amazon WorkSpaces . NOTE: • Before performing this operation, call DescribeConnectionAliases to make su...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsWorkspacesUpdateConnectionAliasPermissionOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Shares or unshares a connection alias with one account by specifying whether that account has permission to associate the connection alias with a directory. If the association permission is granted, the connec- tion alias is shared with that account. If the association permission is revoked, the connection alias is unshared with the account. For more information, see Cross-Region Redirection for Amazon WorkSpaces . NOTE: o Before performing this operation, call DescribeConnectionAliases to make ...
+    /// Shares or unshares a connection alias with one account by specifying whether that account has permission to associate the connection alias with a directory. If the association permission is granted, the connection alias is shared with that account. If the association permission is revoked, the connection alias is unshared with the account. For more information, see Cross-Region Redirection for Amazon WorkSpaces . NOTE: • Before performing this operation, call DescribeConnectionAliases to make su...
     /// </summary>
-    /// <param name="AliasId">The identifier of the connection alias that you want to update per- missions for. Constraints: o min: 13 o max: 68 o pattern: ^wsca-[0-9a-z]{8,63}$</param>
-    /// <param name="ConnectionAliasPermission">Indicates whether to share or unshare the connection alias with the specified Amazon Web Services account. SharedAccountId -&gt; (string) [required] The identifier of the Amazon Web Services account that the con- nection alias is shared with. Constraints: o pattern: ^\d{12}$ AllowAssociation -&gt; (boolean) [required] Indicates whether the specified Amazon Web Services account is allowed to associate the connection alias with a directory. Shorthand Syntax: SharedAccountId=string,AllowAssociation=boolean JSON Syntax: { "SharedAccountId": "string", "AllowAssociation": true|false }</param>
+    /// <param name="AliasId">The identifier of the connection alias that you want to update permissions for. Constraints: • min: 13 • max: 68 • pattern: ^wsca-[0-9a-z]{8,63}$</param>
+    /// <param name="ConnectionAliasPermission">Indicates whether to share or unshare the connection alias with the specified Amazon Web Services account. SharedAccountId -&gt; (string) [required] The identifier of the Amazon Web Services account that the connection alias is shared with. Constraints: • pattern: ^\d{12}$ AllowAssociation -&gt; (boolean) [required] Indicates whether the specified Amazon Web Services account is allowed to associate the connection alias with a directory. Shorthand Syntax: SharedAccountId=string,AllowAssociation=boolean JSON Syntax: { "SharedAccountId": "string", "AllowAssociation": true|false }</param>
     public AwsWorkspacesUpdateConnectionAliasPermissionOptions(
         string AliasId,
         string ConnectionAliasPermission
@@ -60,13 +62,13 @@ public record AwsWorkspacesUpdateConnectionAliasPermissionOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the connection alias that you want to update per- missions for. Constraints: o min: 13 o max: 68 o pattern: ^wsca-[0-9a-z]{8,63}$
+    /// The identifier of the connection alias that you want to update permissions for. Constraints: • min: 13 • max: 68 • pattern: ^wsca-[0-9a-z]{8,63}$
     /// </summary>
     [CliOption("--alias-id")]
     public string? AliasId { get; private init; }
 
     /// <summary>
-    /// Indicates whether to share or unshare the connection alias with the specified Amazon Web Services account. SharedAccountId -&gt; (string) [required] The identifier of the Amazon Web Services account that the con- nection alias is shared with. Constraints: o pattern: ^\d{12}$ AllowAssociation -&gt; (boolean) [required] Indicates whether the specified Amazon Web Services account is allowed to associate the connection alias with a directory. Shorthand Syntax: SharedAccountId=string,AllowAssociation=boolean JSON Syntax: { "SharedAccountId": "string", "AllowAssociation": true|false }
+    /// Indicates whether to share or unshare the connection alias with the specified Amazon Web Services account. SharedAccountId -&gt; (string) [required] The identifier of the Amazon Web Services account that the connection alias is shared with. Constraints: • pattern: ^\d{12}$ AllowAssociation -&gt; (boolean) [required] Indicates whether the specified Amazon Web Services account is allowed to associate the connection alias with a directory. Shorthand Syntax: SharedAccountId=string,AllowAssociation=boolean JSON Syntax: { "SharedAccountId": "string", "AllowAssociation": true|false }
     /// </summary>
     [CliOption("--connection-alias-permission")]
     public string? ConnectionAliasPermission { get; private init; }

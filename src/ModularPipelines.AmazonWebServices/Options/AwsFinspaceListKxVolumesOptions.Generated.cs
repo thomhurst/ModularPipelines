@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsFinspaceListKxVolumesOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Lists all the volumes in a kdb environment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EnvironmentId">A unique identifier for the kdb environment, whose clusters can at- tach to the volume. Constraints: o min: 1 o max: 32 o pattern: ^[a-z0-9]+$</param>
+    /// <param name="EnvironmentId">A unique identifier for the kdb environment, whose clusters can attach to the volume. Constraints: • min: 1 • max: 32 • pattern: ^[a-z0-9]+$</param>
     public AwsFinspaceListKxVolumesOptions(
         string EnvironmentId
     )
@@ -57,26 +59,26 @@ public record AwsFinspaceListKxVolumesOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the kdb environment, whose clusters can at- tach to the volume. Constraints: o min: 1 o max: 32 o pattern: ^[a-z0-9]+$
+    /// A unique identifier for the kdb environment, whose clusters can attach to the volume. Constraints: • min: 1 • max: 32 • pattern: ^[a-z0-9]+$
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
 
     /// <summary>
-    /// The maximum number of results to return in this request. Constraints: o min: 0 o max: 100
+    /// The maximum number of results to return in this request. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// A token that indicates where a results page should begin. Constraints: o min: 1 o max: 1000 o pattern: .*
+    /// A token that indicates where a results page should begin. Constraints: • min: 1 • max: 1000 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The type of file system volume. Currently, FinSpace only supports NAS_1 volume type. Possible values: o NAS_1
+    /// The type of file system volume. Currently, FinSpace only supports NAS_1 volume type. Possible values: • NAS_1
     /// </summary>
     [CliOption("--volume-type")]
     public string? VolumeType { get; set; }

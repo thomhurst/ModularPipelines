@@ -92,7 +92,7 @@ public class AwsCloudhsmv2 : IAwsCloudhsmv2
     }
 
     /// <summary>
-    /// Deletes the specified CloudHSM cluster. Before you can delete a clus- ter, you must delete all HSMs in the cluster. To see if the cluster contains any HSMs, use DescribeClusters . To delete an HSM, use DeleteHsm . Cross-account use: No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account. See also: AWS API Documentation
+    /// Deletes the specified CloudHSM cluster. Before you can delete a cluster, you must delete all HSMs in the cluster. To see if the cluster contains any HSMs, use DescribeClusters . To delete an HSM, use DeleteHsm . Cross-account use: No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsCloudhsmv2 : IAwsCloudhsmv2
     }
 
     /// <summary>
-    /// Deletes the specified HSM. To specify an HSM, you can use its identi- fier (ID), the IP address of the HSM's elastic network interface (ENI), or the ID of the HSM's ENI. You need to specify only one of these val- ues. To find these values, use DescribeClusters . Cross-account use: No. You cannot perform this operation on an CloudHSM hsm in a different Amazon Web Services account. See also: AWS API Documentation
+    /// Deletes the specified HSM. To specify an HSM, you can use its identifier (ID), the IP address of the HSM's elastic network interface (ENI), or the ID of the HSM's ENI. You need to specify only one of these values. To find these values, use DescribeClusters . Cross-account use: No. You cannot perform this operation on an CloudHSM hsm in a different Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsCloudhsmv2 : IAwsCloudhsmv2
     }
 
     /// <summary>
-    /// Deletes an CloudHSM resource policy. Deleting a resource policy will result in the resource being unshared and removed from any RAM resource shares. Deleting the resource policy attached to a backup will not im- pact any clusters created from that backup. Cross-account use: No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account. See also: AWS API Documentation
+    /// Deletes an CloudHSM resource policy. Deleting a resource policy will result in the resource being unshared and removed from any RAM resource shares. Deleting the resource policy attached to a backup will not impact any clusters created from that backup. Cross-account use: No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsCloudhsmv2 : IAwsCloudhsmv2
     }
 
     /// <summary>
-    /// Gets information about backups of CloudHSM clusters. Lists either the backups you own or the backups shared with you when the Shared parame- ter is true. This is a paginated operation, which means that each response might contain only a subset of all the backups. When the response contains only a subset of backups, it includes a NextToken value. Use this value in a subsequent DescribeBackups request to get more backups. When you receive a response with no NextToken (or an empty or null value), t...
+    /// Gets information about backups of CloudHSM clusters. Lists either the backups you own or the backups shared with you when the Shared parameter is true. This is a paginated operation, which means that each response might contain only a subset of all the backups. When the response contains only a subset of backups, it includes a NextToken value. Use this value in a subsequent DescribeBackups request to get more backups. When you receive a response with no NextToken (or an empty or null value), tha...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsCloudhsmv2 : IAwsCloudhsmv2
     }
 
     /// <summary>
-    /// Claims an CloudHSM cluster by submitting the cluster certificate issued by your issuing certificate authority (CA) and the CA's root certifi- cate. Before you can claim a cluster, you must sign the cluster's cer- tificate signing request (CSR) with your issuing CA. To get the clus- ter's CSR, use DescribeClusters . Cross-account use: No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account. See also: AWS API Documentation
+    /// Claims an CloudHSM cluster by submitting the cluster certificate issued by your issuing certificate authority (CA) and the CA's root certificate. Before you can claim a cluster, you must sign the cluster's certificate signing request (CSR) with your issuing CA. To get the cluster's CSR, use DescribeClusters . Cross-account use: No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsCloudhsmv2 : IAwsCloudhsmv2
     }
 
     /// <summary>
-    /// Gets a list of tags for the specified CloudHSM cluster. This is a paginated operation, which means that each response might contain only a subset of all the tags. When the response contains only a subset of tags, it includes a NextToken value. Use this value in a subsequent ListTags request to get more tags. When you receive a re- sponse with no NextToken (or an empty or null value), that means there are no more tags to get. Cross-account use: No. You cannot perform this operation on an CloudHSM...
+    /// Gets a list of tags for the specified CloudHSM cluster. This is a paginated operation, which means that each response might contain only a subset of all the tags. When the response contains only a subset of tags, it includes a NextToken value. Use this value in a subsequent ListTags request to get more tags. When you receive a response with no NextToken (or an empty or null value), that means there are no more tags to get. Cross-account use: No. You cannot perform this operation on an CloudHSM r...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsCloudhsmv2 : IAwsCloudhsmv2
     }
 
     /// <summary>
-    /// Creates or updates an CloudHSM resource policy. A resource policy helps you to define the IAM entity (for example, an Amazon Web Services ac- count) that can manage your CloudHSM resources. The following resources support CloudHSM resource policies: o Backup - The resource policy allows you to describe the backup and restore a cluster from the backup in another Amazon Web Services ac- count. In order to share a backup, it must be in a 'READY' state and you must own it. WARNING: While you can sha...
+    /// Creates or updates an CloudHSM resource policy. A resource policy helps you to define the IAM entity (for example, an Amazon Web Services account) that can manage your CloudHSM resources. The following resources support CloudHSM resource policies: • Backup - The resource policy allows you to describe the backup and restore a cluster from the backup in another Amazon Web Services account. In order to share a backup, it must be in a 'READY' state and you must own it. WARNING: While you can share a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

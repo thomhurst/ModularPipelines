@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsEventsUpdateArchiveOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the specified archive. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ArchiveName">The name of the archive to update. Constraints: o min: 1 o max: 48 o pattern: [\.\-_A-Za-z0-9]+</param>
+    /// <param name="ArchiveName">The name of the archive to update. Constraints: • min: 1 • max: 48 • pattern: [\.\-_A-Za-z0-9]+</param>
     public AwsEventsUpdateArchiveOptions(
         string ArchiveName
     )
@@ -56,31 +58,31 @@ public record AwsEventsUpdateArchiveOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the archive to update. Constraints: o min: 1 o max: 48 o pattern: [\.\-_A-Za-z0-9]+
+    /// The name of the archive to update. Constraints: • min: 1 • max: 48 • pattern: [\.\-_A-Za-z0-9]+
     /// </summary>
     [CliOption("--archive-name")]
     public string? ArchiveName { get; private init; }
 
     /// <summary>
-    /// The description for the archive. Constraints: o max: 512 o pattern: .*
+    /// The description for the archive. Constraints: • max: 512 • pattern: .*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The event pattern to use to filter events sent to the archive. Constraints: o max: 4096
+    /// The event pattern to use to filter events sent to the archive. Constraints: • max: 4096
     /// </summary>
     [CliOption("--event-pattern")]
     public string? EventPattern { get; set; }
 
     /// <summary>
-    /// The number of days to retain events in the archive. Constraints: o min: 0
+    /// The number of days to retain events in the archive. Constraints: • min: 0
     /// </summary>
     [CliOption("--retention-days")]
     public int? RetentionDays { get; set; }
 
     /// <summary>
-    /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt this archive. The identifier can be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt the archive. For more information, see Identify and view keys in the Key Manage- ment Service Developer Guide . WARNING: If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a customer managed key for any archives for the event bus as well. For more information, see Encrypting archives in the Amazon EventBridge User Guide . Constraints: o max: 2048 o pattern: ^[a-zA-Z0-9_\-/:]*$
+    /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt this archive. The identifier can be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt the archive. For more information, see Identify and view keys in the Key Management Service Developer Guide . WARNING: If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a customer managed key for any archives for the event bus as well. For more information, see Encrypting archives in the Amazon EventBridge User Guide . Constraints: • max: 2048 • pattern: ^[a-zA-Z0-9_\-/:]*$
     /// </summary>
     [CliOption("--kms-key-identifier")]
     public string? KmsKeyIdentifier { get; set; }

@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the INFO, WARN, and ERROR events for periodic configuration up- dates performed by Application Insights. Examples of events represented are: o INFO: creating a new alarm or updating an alarm threshold. o WARN: alarm not created due to insufficient data points used to pre- dict thresholds. o ERROR: alarm not created due to permission errors or exceeding quo- tas. See also: AWS API Documentation
+/// Lists the INFO, WARN, and ERROR events for periodic configuration updates performed by Application Insights. Examples of events represented are: • INFO: creating a new alarm or updating an alarm threshold. • WARN: alarm not created due to insufficient data points used to predict thresholds. • ERROR: alarm not created due to permission errors or exceeding quotas. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,7 +24,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsApplicationInsightsListConfigurationHistoryOptions : AwsOptions
 {
     /// <summary>
-    /// Resource group to which the application belongs. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\.\-_]*
+    /// Resource group to which the application belongs. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9\.\-_]*
     /// </summary>
     [CliOption("--resource-group-name")]
     public string? ResourceGroupName { get; set; }
@@ -42,26 +42,26 @@ public record AwsApplicationInsightsListConfigurationHistoryOptions : AwsOptions
     public string? EndTime { get; set; }
 
     /// <summary>
-    /// The status of the configuration update event. Possible values in- clude INFO, WARN, and ERROR. Possible values: o INFO o WARN o ERROR
+    /// The status of the configuration update event. Possible values include INFO, WARN, and ERROR. Possible values: • INFO • WARN • ERROR
     /// </summary>
     [CliOption("--event-status")]
     public AwsApplicationInsightsListConfigurationHistoryEventStatus? EventStatus { get; set; }
 
     /// <summary>
-    /// The maximum number of results returned by ListConfigurationHistory in paginated output. When this parameter is used, ListConfigura- tionHistory returns only MaxResults in a single page along with a NextToken response element. The remaining results of the initial re- quest can be seen by sending another ListConfigurationHistory re- quest with the returned NextToken value. If this parameter is not used, then ListConfigurationHistory returns all results. Constraints: o min: 1 o max: 40
+    /// The maximum number of results returned by ListConfigurationHistory in paginated output. When this parameter is used, ListConfigurationHistory returns only MaxResults in a single page along with a NextToken response element. The remaining results of the initial request can be seen by sending another ListConfigurationHistory request with the returned NextToken value. If this parameter is not used, then ListConfigurationHistory returns all results. Constraints: • min: 1 • max: 40
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The NextToken value returned from a previous paginated ListConfigu- rationHistory request where MaxResults was used and the results ex- ceeded the value of that parameter. Pagination continues from the end of the previous results that returned the NextToken value. This value is null when there are no more results to return. Constraints: o min: 1 o max: 1024 o pattern: .+
+    /// The NextToken value returned from a previous paginated ListConfigurationHistory request where MaxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the NextToken value. This value is null when there are no more results to return. Constraints: • min: 1 • max: 1024 • pattern: .+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services account ID for the resource group owner. Constraints: o min: 12 o max: 12 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID for the resource group owner. Constraints: • min: 12 • max: 12 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }

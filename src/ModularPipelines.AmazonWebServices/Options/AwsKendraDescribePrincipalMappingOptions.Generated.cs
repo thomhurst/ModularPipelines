@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the processing of PUT and DELETE actions for mapping users to their groups. This includes information on the status of actions cur- rently processing or yet to be processed, when actions were last up- dated, when actions were received by Amazon Kendra, the latest action that should process and apply after other actions, and useful error messages if an action could not be processed. DescribePrincipalMapping is currently not supported in the Amazon Web Services GovCloud (US-West) region....
+/// Describes the processing of PUT and DELETE actions for mapping users to their groups. This includes information on the status of actions currently processing or yet to be processed, when actions were last updated, when actions were received by Amazon Kendra, the latest action that should process and apply after other actions, and useful error messages if an action could not be processed. DescribePrincipalMapping is currently not supported in the Amazon Web Services GovCloud (US-West) region. See...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsKendraDescribePrincipalMappingOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes the processing of PUT and DELETE actions for mapping users to their groups. This includes information on the status of actions cur- rently processing or yet to be processed, when actions were last up- dated, when actions were received by Amazon Kendra, the latest action that should process and apply after other actions, and useful error messages if an action could not be processed. DescribePrincipalMapping is currently not supported in the Amazon Web Services GovCloud (US-West) region....
+    /// Describes the processing of PUT and DELETE actions for mapping users to their groups. This includes information on the status of actions currently processing or yet to be processed, when actions were last updated, when actions were received by Amazon Kendra, the latest action that should process and apply after other actions, and useful error messages if an action could not be processed. DescribePrincipalMapping is currently not supported in the Amazon Web Services GovCloud (US-West) region. See...
     /// </summary>
-    /// <param name="IndexId">The identifier of the index required to check the processing of PUT and DELETE actions for mapping users to their groups. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
-    /// <param name="GroupId">The identifier of the group required to check the processing of PUT and DELETE actions for mapping users to their groups. Constraints: o min: 1 o max: 1024 o pattern: ^\P{C}*$</param>
+    /// <param name="IndexId">The identifier of the index required to check the processing of PUT and DELETE actions for mapping users to their groups. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="GroupId">The identifier of the group required to check the processing of PUT and DELETE actions for mapping users to their groups. Constraints: • min: 1 • max: 1024 • pattern: ^\P{C}*$</param>
     public AwsKendraDescribePrincipalMappingOptions(
         string IndexId,
         string GroupId
@@ -60,19 +62,19 @@ public record AwsKendraDescribePrincipalMappingOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the index required to check the processing of PUT and DELETE actions for mapping users to their groups. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// The identifier of the index required to check the processing of PUT and DELETE actions for mapping users to their groups. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--index-id")]
     public string? IndexId { get; private init; }
 
     /// <summary>
-    /// The identifier of the group required to check the processing of PUT and DELETE actions for mapping users to their groups. Constraints: o min: 1 o max: 1024 o pattern: ^\P{C}*$
+    /// The identifier of the group required to check the processing of PUT and DELETE actions for mapping users to their groups. Constraints: • min: 1 • max: 1024 • pattern: ^\P{C}*$
     /// </summary>
     [CliOption("--group-id")]
     public string? GroupId { get; private init; }
 
     /// <summary>
-    /// The identifier of the data source to check the processing of PUT and DELETE actions for mapping users to their groups. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// The identifier of the data source to check the processing of PUT and DELETE actions for mapping users to their groups. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--data-source-id")]
     public string? DataSourceId { get; set; }

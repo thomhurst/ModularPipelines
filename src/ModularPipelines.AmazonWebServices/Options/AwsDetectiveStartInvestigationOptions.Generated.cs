@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Detective investigations lets you investigate IAM users and IAM roles using indicators of compromise. An indicator of compromise (IOC) is an artifact observed in or on a network, system, or environment that can (with a high level of confidence) identify malicious activity or a se- curity incident. StartInvestigation initiates an investigation on an entity in a behavior graph. See also: AWS API Documentation
+/// Detective investigations lets you investigate IAM users and IAM roles using indicators of compromise. An indicator of compromise (IOC) is an artifact observed in or on a network, system, or environment that can (with a high level of confidence) identify malicious activity or a security incident. StartInvestigation initiates an investigation on an entity in a behavior graph. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsDetectiveStartInvestigationOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Detective investigations lets you investigate IAM users and IAM roles using indicators of compromise. An indicator of compromise (IOC) is an artifact observed in or on a network, system, or environment that can (with a high level of confidence) identify malicious activity or a se- curity incident. StartInvestigation initiates an investigation on an entity in a behavior graph. See also: AWS API Documentation
+    /// Detective investigations lets you investigate IAM users and IAM roles using indicators of compromise. An indicator of compromise (IOC) is an artifact observed in or on a network, system, or environment that can (with a high level of confidence) identify malicious activity or a security incident. StartInvestigation initiates an investigation on an entity in a behavior graph. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GraphArn">The Amazon Resource Name (ARN) of the behavior graph. Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$</param>
-    /// <param name="EntityArn">The unique Amazon Resource Name (ARN) of the IAM user and IAM role. Constraints: o pattern: ^arn:.*</param>
+    /// <param name="GraphArn">The Amazon Resource Name (ARN) of the behavior graph. Constraints: • pattern: ^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$</param>
+    /// <param name="EntityArn">The unique Amazon Resource Name (ARN) of the IAM user and IAM role. Constraints: • pattern: ^arn:.*</param>
     /// <param name="ScopeStartTime">The data and time when the investigation began. The value is an UTC ISO8601 formatted string. For example, 2021-08-18T16:35:56.284Z .</param>
     /// <param name="ScopeEndTime">The data and time when the investigation ended. The value is an UTC ISO8601 formatted string. For example, 2021-08-18T16:35:56.284Z .</param>
     public AwsDetectiveStartInvestigationOptions(
@@ -68,13 +70,13 @@ public record AwsDetectiveStartInvestigationOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the behavior graph. Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$
+    /// The Amazon Resource Name (ARN) of the behavior graph. Constraints: • pattern: ^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$
     /// </summary>
     [CliOption("--graph-arn")]
     public string? GraphArn { get; private init; }
 
     /// <summary>
-    /// The unique Amazon Resource Name (ARN) of the IAM user and IAM role. Constraints: o pattern: ^arn:.*
+    /// The unique Amazon Resource Name (ARN) of the IAM user and IAM role. Constraints: • pattern: ^arn:.*
     /// </summary>
     [CliOption("--entity-arn")]
     public string? EntityArn { get; private init; }

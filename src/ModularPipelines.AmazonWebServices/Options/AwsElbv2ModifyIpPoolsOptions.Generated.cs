@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,13 +64,13 @@ public record AwsElbv2ModifyIpPoolsOptions : AwsOptions, IValidatableObject
     public string? LoadBalancerArn { get; private init; }
 
     /// <summary>
-    /// The IPAM pools to be modified. Ipv4IpamPoolId -&gt; (string) The ID of the IPv4 IPAM pool. Constraints: o max: 1000 o pattern: ^(ipam-pool-)[a-zA-Z0-9]+$ Shorthand Syntax: Ipv4IpamPoolId=string JSON Syntax: { "Ipv4IpamPoolId": "string" }
+    /// The IPAM pools to be modified. Ipv4IpamPoolId -&gt; (string) The ID of the IPv4 IPAM pool. Constraints: • max: 1000 • pattern: ^(ipam-pool-)[a-zA-Z0-9]+$ Shorthand Syntax: Ipv4IpamPoolId=string JSON Syntax: { "Ipv4IpamPoolId": "string" }
     /// </summary>
     [CliOption("--ipam-pools")]
     public string? IpamPools { get; set; }
 
     /// <summary>
-    /// Remove the IP pools in use by the load balancer. (string) Possible values: o ipv4 Syntax: "string" "string" ...
+    /// Remove the IP pools in use by the load balancer. (string) Possible values: • ipv4 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--remove-ipam-pools", GroupValues = true)]
     public IEnumerable<string>? RemoveIpamPools { get; set; }

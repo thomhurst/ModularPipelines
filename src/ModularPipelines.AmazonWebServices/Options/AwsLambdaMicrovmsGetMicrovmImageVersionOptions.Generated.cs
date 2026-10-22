@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the details of a specific version of a MicroVM image, includ- ing its configuration, state, and build information. See also: AWS API Documentation
+/// Retrieves the details of a specific version of a MicroVM image, including its configuration, state, and build information. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsLambdaMicrovmsGetMicrovmImageVersionOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the details of a specific version of a MicroVM image, includ- ing its configuration, state, and build information. See also: AWS API Documentation
+    /// Retrieves the details of a specific version of a MicroVM image, including its configuration, state, and build information. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ImageIdentifier">The unique identifier (ARN or ID) of the MicroVM image. Constraints: o min: 1 o max: 256</param>
-    /// <param name="ImageVersion">The version of the MicroVM image to retrieve. Constraints: o min: 1 o max: 2048 o pattern: [^\s]+</param>
+    /// <param name="ImageIdentifier">The unique identifier (ARN or ID) of the MicroVM image. Constraints: • min: 1 • max: 256</param>
+    /// <param name="ImageVersion">The version of the MicroVM image to retrieve. Constraints: • min: 1 • max: 2048 • pattern: [^\s]+</param>
     public AwsLambdaMicrovmsGetMicrovmImageVersionOptions(
         string ImageIdentifier,
         string ImageVersion
@@ -60,13 +62,13 @@ public record AwsLambdaMicrovmsGetMicrovmImageVersionOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier (ARN or ID) of the MicroVM image. Constraints: o min: 1 o max: 256
+    /// The unique identifier (ARN or ID) of the MicroVM image. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--image-identifier")]
     public string? ImageIdentifier { get; private init; }
 
     /// <summary>
-    /// The version of the MicroVM image to retrieve. Constraints: o min: 1 o max: 2048 o pattern: [^\s]+
+    /// The version of the MicroVM image to retrieve. Constraints: • min: 1 • max: 2048 • pattern: [^\s]+
     /// </summary>
     [CliOption("--image-version")]
     public string? ImageVersion { get; private init; }

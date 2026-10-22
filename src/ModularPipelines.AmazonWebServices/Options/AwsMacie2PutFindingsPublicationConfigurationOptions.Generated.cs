@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsMacie2PutFindingsPublicationConfigurationOptions : AwsOptions
 {
     /// <summary>
-    /// A unique, case-sensitive token that you provide to ensure the idem- potency of the request.
+    /// A unique, case-sensitive token that you provide to ensure the idempotency of the request.
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

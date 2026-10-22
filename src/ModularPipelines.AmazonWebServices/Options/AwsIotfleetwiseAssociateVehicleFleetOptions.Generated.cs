@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsIotfleetwiseAssociateVehicleFleetOptions : AwsOptions, IValidat
     /// <summary>
     /// Adds, or associates, a vehicle with a fleet. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VehicleName">The unique ID of the vehicle to associate with the fleet. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+</param>
-    /// <param name="FleetId">The ID of a fleet. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9:_-]+</param>
+    /// <param name="VehicleName">The unique ID of the vehicle to associate with the fleet. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z\d\-_:]+</param>
+    /// <param name="FleetId">The ID of a fleet. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9:_-]+</param>
     public AwsIotfleetwiseAssociateVehicleFleetOptions(
         string VehicleName,
         string FleetId
@@ -60,13 +62,13 @@ public record AwsIotfleetwiseAssociateVehicleFleetOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the vehicle to associate with the fleet. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+
+    /// The unique ID of the vehicle to associate with the fleet. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z\d\-_:]+
     /// </summary>
     [CliOption("--vehicle-name")]
     public string? VehicleName { get; private init; }
 
     /// <summary>
-    /// The ID of a fleet. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9:_-]+
+    /// The ID of a fleet. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }

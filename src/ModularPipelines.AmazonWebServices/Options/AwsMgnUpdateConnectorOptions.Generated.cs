@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMgnUpdateConnectorOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Update Connector. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectorId">Update Connector request connector ID. Constraints: o min: 27 o max: 27 o pattern: connector-[0-9a-zA-Z]{17}</param>
+    /// <param name="ConnectorId">Update Connector request connector ID. Constraints: • min: 27 • max: 27 • pattern: connector-[0-9a-zA-Z]{17}</param>
     public AwsMgnUpdateConnectorOptions(
         string ConnectorId
     )
@@ -56,19 +58,19 @@ public record AwsMgnUpdateConnectorOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Update Connector request connector ID. Constraints: o min: 27 o max: 27 o pattern: connector-[0-9a-zA-Z]{17}
+    /// Update Connector request connector ID. Constraints: • min: 27 • max: 27 • pattern: connector-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--connector-id")]
     public string? ConnectorId { get; private init; }
 
     /// <summary>
-    /// Update Connector request name. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_-]+
+    /// Update Connector request name. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Update Connector request SSM command config. s3OutputEnabled -&gt; (boolean) [required] Connector SSM command config S3 output enabled. outputS3BucketName -&gt; (string) Connector SSM command config output S3 bucket name. Constraints: o pattern: [a-zA-Z0-9.\-_]{1,255} cloudWatchOutputEnabled -&gt; (boolean) [required] Connector SSM command config CloudWatch output enabled. cloudWatchLogGroupName -&gt; (string) Connector SSM command config CloudWatch log group name. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+ Shorthand Syntax: s3OutputEnabled=boolean,outputS3BucketName=string,cloudWatchOutputEnabled=boolean,cloudWatchLogGroupName=string JSON Syntax: { "s3OutputEnabled": true|false, "outputS3BucketName": "string", "cloudWatchOutputEnabled": true|false, "cloudWatchLogGroupName": "string" }
+    /// Update Connector request SSM command config. s3OutputEnabled -&gt; (boolean) [required] Connector SSM command config S3 output enabled. outputS3BucketName -&gt; (string) Connector SSM command config output S3 bucket name. Constraints: • pattern: [a-zA-Z0-9.\-_]{1,255} cloudWatchOutputEnabled -&gt; (boolean) [required] Connector SSM command config CloudWatch output enabled. cloudWatchLogGroupName -&gt; (string) Connector SSM command config CloudWatch log group name. Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+ Shorthand Syntax: s3OutputEnabled=boolean,outputS3BucketName=string,cloudWatchOutputEnabled=boolean,cloudWatchLogGroupName=string JSON Syntax: { "s3OutputEnabled": true|false, "outputS3BucketName": "string", "cloudWatchOutputEnabled": true|false, "cloudWatchLogGroupName": "string" }
     /// </summary>
     [CliOption("--ssm-command-config")]
     public string? SsmCommandConfig { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the status of a particular EnableControl or DisableControl op- eration. Displays a message in case of error. Details for an operation are available for 90 days. For usage examples, see the ` Controls Ref- erence Guide https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html`__ . See also: AWS API Documentation
+/// Returns the status of a particular EnableControl or DisableControl operation. Displays a message in case of error. Details for an operation are available for 90 days. For usage examples, see the ` Controls Reference Guide https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html`__ . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsControltowerGetControlOperationOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the status of a particular EnableControl or DisableControl op- eration. Displays a message in case of error. Details for an operation are available for 90 days. For usage examples, see the ` Controls Ref- erence Guide https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html`__ . See also: AWS API Documentation
+    /// Returns the status of a particular EnableControl or DisableControl operation. Displays a message in case of error. Details for an operation are available for 90 days. For usage examples, see the ` Controls Reference Guide https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html`__ . See also: AWS API Documentation
     /// </summary>
-    /// <param name="OperationIdentifier">The ID of the asynchronous operation, which is used to track status. The operation is available for 90 days. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="OperationIdentifier">The ID of the asynchronous operation, which is used to track status. The operation is available for 90 days. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
     public AwsControltowerGetControlOperationOptions(
         string OperationIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsControltowerGetControlOperationOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the asynchronous operation, which is used to track status. The operation is available for 90 days. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The ID of the asynchronous operation, which is used to track status. The operation is available for 90 days. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--operation-identifier")]
     public string? OperationIdentifier { get; private init; }

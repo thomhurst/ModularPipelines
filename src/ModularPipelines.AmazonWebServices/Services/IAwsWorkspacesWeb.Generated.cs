@@ -13,7 +13,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws workspacesweb commands.
+/// aws workspaces-web commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -28,8 +28,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateBrowserSettingsAsync(AwsWorkspacesWebAssociateBrowserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateBrowserSettingsAsync(AwsWorkspacesWebAssociateBrowserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a data protection settings resource with a web portal. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateDataProtectionSettingsAsync(AwsWorkspacesWebAssociateDataProtectionSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateDataProtectionSettingsAsync(AwsWorkspacesWebAssociateDataProtectionSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates an IP access settings resource with a web portal. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateIpAccessSettingsAsync(AwsWorkspacesWebAssociateIpAccessSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateIpAccessSettingsAsync(AwsWorkspacesWebAssociateIpAccessSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a network settings resource with a web portal. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateNetworkSettingsAsync(AwsWorkspacesWebAssociateNetworkSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateNetworkSettingsAsync(AwsWorkspacesWebAssociateNetworkSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a session logger with a portal. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateSessionLoggerAsync(AwsWorkspacesWebAssociateSessionLoggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateSessionLoggerAsync(AwsWorkspacesWebAssociateSessionLoggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a trust store with a web portal. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateTrustStoreAsync(AwsWorkspacesWebAssociateTrustStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateTrustStoreAsync(AwsWorkspacesWebAssociateTrustStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a user access logging settings resource with a web portal. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateUserAccessLoggingSettingsAsync(AwsWorkspacesWebAssociateUserAccessLoggingSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateUserAccessLoggingSettingsAsync(AwsWorkspacesWebAssociateUserAccessLoggingSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a user settings resource with a web portal. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateUserSettingsAsync(AwsWorkspacesWebAssociateUserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateUserSettingsAsync(AwsWorkspacesWebAssociateUserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a browser settings resource that can be associated with a web portal. Once associated with a web portal, browser settings control how the browser will behave once a user starts a streaming session for the web portal. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBrowserSettingsAsync(AwsWorkspacesWebCreateBrowserSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateBrowserSettingsAsync(AwsWorkspacesWebCreateBrowserSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a data protection settings resource that can be associated with a web portal. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDataProtectionSettingsAsync(AwsWorkspacesWebCreateDataProtectionSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDataProtectionSettingsAsync(AwsWorkspacesWebCreateDataProtectionSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an identity provider resource that is then associated with a web portal. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateIdentityProviderAsync(AwsWorkspacesWebCreateIdentityProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateIdentityProviderAsync(AwsWorkspacesWebCreateIdentityProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an IP access settings resource that can be associated with a web portal. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateIpAccessSettingsAsync(AwsWorkspacesWebCreateIpAccessSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateIpAccessSettingsAsync(AwsWorkspacesWebCreateIpAccessSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a network settings resource that can be associated with a web portal. Once associated with a web portal, network settings define how streaming instances will connect with your specified VPC. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateNetworkSettingsAsync(AwsWorkspacesWebCreateNetworkSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateNetworkSettingsAsync(AwsWorkspacesWebCreateNetworkSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a web portal. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePortalAsync(AwsWorkspacesWebCreatePortalOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePortalAsync(AwsWorkspacesWebCreatePortalOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a session logger. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSessionLoggerAsync(AwsWorkspacesWebCreateSessionLoggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSessionLoggerAsync(AwsWorkspacesWebCreateSessionLoggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a trust store that can be associated with a web portal. A trust store contains certificate authority (CA) certificates. Once associated with a web portal, the browser in a streaming session will recognize certificates that have been issued using any of the CAs in the trust store. If your organization has internal websites that use certificates issued by private CAs, you should add the private CA certificate to the trust store. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTrustStoreAsync(AwsWorkspacesWebCreateTrustStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTrustStoreAsync(AwsWorkspacesWebCreateTrustStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a user access logging settings resource that can be associated with a web portal. See also: AWS API Documentation
@@ -188,18 +172,16 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateUserAccessLoggingSettingsAsync(AwsWorkspacesWebCreateUserAccessLoggingSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateUserAccessLoggingSettingsAsync(AwsWorkspacesWebCreateUserAccessLoggingSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a user settings resource that can be associated with a web por- tal. Once associated with a web portal, user settings control how users can transfer data between a streaming session and the their local de- vices. See also: AWS API Documentation
+    /// Creates a user settings resource that can be associated with a web portal. Once associated with a web portal, user settings control how users can transfer data between a streaming session and the their local devices. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateUserSettingsAsync(AwsWorkspacesWebCreateUserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateUserSettingsAsync(AwsWorkspacesWebCreateUserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes browser settings. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBrowserSettingsAsync(AwsWorkspacesWebDeleteBrowserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBrowserSettingsAsync(AwsWorkspacesWebDeleteBrowserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes data protection settings. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDataProtectionSettingsAsync(AwsWorkspacesWebDeleteDataProtectionSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDataProtectionSettingsAsync(AwsWorkspacesWebDeleteDataProtectionSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the identity provider. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteIdentityProviderAsync(AwsWorkspacesWebDeleteIdentityProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteIdentityProviderAsync(AwsWorkspacesWebDeleteIdentityProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes IP access settings. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteIpAccessSettingsAsync(AwsWorkspacesWebDeleteIpAccessSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteIpAccessSettingsAsync(AwsWorkspacesWebDeleteIpAccessSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes network settings. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteNetworkSettingsAsync(AwsWorkspacesWebDeleteNetworkSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteNetworkSettingsAsync(AwsWorkspacesWebDeleteNetworkSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a web portal. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePortalAsync(AwsWorkspacesWebDeletePortalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePortalAsync(AwsWorkspacesWebDeletePortalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a session logger resource. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSessionLoggerAsync(AwsWorkspacesWebDeleteSessionLoggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSessionLoggerAsync(AwsWorkspacesWebDeleteSessionLoggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the trust store. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTrustStoreAsync(AwsWorkspacesWebDeleteTrustStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTrustStoreAsync(AwsWorkspacesWebDeleteTrustStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes user access logging settings. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteUserAccessLoggingSettingsAsync(AwsWorkspacesWebDeleteUserAccessLoggingSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteUserAccessLoggingSettingsAsync(AwsWorkspacesWebDeleteUserAccessLoggingSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes user settings. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteUserSettingsAsync(AwsWorkspacesWebDeleteUserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteUserSettingsAsync(AwsWorkspacesWebDeleteUserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates browser settings from a web portal. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateBrowserSettingsAsync(AwsWorkspacesWebDisassociateBrowserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateBrowserSettingsAsync(AwsWorkspacesWebDisassociateBrowserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates data protection settings from a web portal. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateDataProtectionSettingsAsync(AwsWorkspacesWebDisassociateDataProtectionSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateDataProtectionSettingsAsync(AwsWorkspacesWebDisassociateDataProtectionSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates IP access settings from a web portal. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateIpAccessSettingsAsync(AwsWorkspacesWebDisassociateIpAccessSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateIpAccessSettingsAsync(AwsWorkspacesWebDisassociateIpAccessSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates network settings from a web portal. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateNetworkSettingsAsync(AwsWorkspacesWebDisassociateNetworkSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateNetworkSettingsAsync(AwsWorkspacesWebDisassociateNetworkSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a session logger from a portal. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateSessionLoggerAsync(AwsWorkspacesWebDisassociateSessionLoggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateSessionLoggerAsync(AwsWorkspacesWebDisassociateSessionLoggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a trust store from a web portal. See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateTrustStoreAsync(AwsWorkspacesWebDisassociateTrustStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateTrustStoreAsync(AwsWorkspacesWebDisassociateTrustStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates user access logging settings from a web portal. See also: AWS API Documentation
@@ -368,8 +334,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateUserAccessLoggingSettingsAsync(AwsWorkspacesWebDisassociateUserAccessLoggingSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateUserAccessLoggingSettingsAsync(AwsWorkspacesWebDisassociateUserAccessLoggingSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates user settings from a web portal. See also: AWS API Documentation
@@ -378,8 +343,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateUserSettingsAsync(AwsWorkspacesWebDisassociateUserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateUserSettingsAsync(AwsWorkspacesWebDisassociateUserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Expires an active secure browser session. See also: AWS API Documentation
@@ -388,8 +352,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExpireSessionAsync(AwsWorkspacesWebExpireSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExpireSessionAsync(AwsWorkspacesWebExpireSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets browser settings. See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBrowserSettingsAsync(AwsWorkspacesWebGetBrowserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBrowserSettingsAsync(AwsWorkspacesWebGetBrowserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the data protection settings. See also: AWS API Documentation
@@ -408,8 +370,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDataProtectionSettingsAsync(AwsWorkspacesWebGetDataProtectionSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDataProtectionSettingsAsync(AwsWorkspacesWebGetDataProtectionSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the identity provider. See also: AWS API Documentation
@@ -418,8 +379,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIdentityProviderAsync(AwsWorkspacesWebGetIdentityProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIdentityProviderAsync(AwsWorkspacesWebGetIdentityProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the IP access settings. See also: AWS API Documentation
@@ -428,8 +388,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIpAccessSettingsAsync(AwsWorkspacesWebGetIpAccessSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIpAccessSettingsAsync(AwsWorkspacesWebGetIpAccessSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the network settings. See also: AWS API Documentation
@@ -438,8 +397,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetNetworkSettingsAsync(AwsWorkspacesWebGetNetworkSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetNetworkSettingsAsync(AwsWorkspacesWebGetNetworkSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the web portal. See also: AWS API Documentation
@@ -448,8 +406,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPortalAsync(AwsWorkspacesWebGetPortalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPortalAsync(AwsWorkspacesWebGetPortalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the service provider metadata. See also: AWS API Documentation
@@ -458,8 +415,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPortalServiceProviderMetadataAsync(AwsWorkspacesWebGetPortalServiceProviderMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPortalServiceProviderMetadataAsync(AwsWorkspacesWebGetPortalServiceProviderMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets details about a specific session logger resource. See also: AWS API Documentation
@@ -468,8 +424,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSessionLoggerAsync(AwsWorkspacesWebGetSessionLoggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSessionLoggerAsync(AwsWorkspacesWebGetSessionLoggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information for a secure browser session. See also: AWS API Documentation
@@ -478,8 +433,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSessionAsync(AwsWorkspacesWebGetSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSessionAsync(AwsWorkspacesWebGetSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the trust store certificate. See also: AWS API Documentation
@@ -488,8 +442,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTrustStoreCertificateAsync(AwsWorkspacesWebGetTrustStoreCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTrustStoreCertificateAsync(AwsWorkspacesWebGetTrustStoreCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the trust store. See also: AWS API Documentation
@@ -498,8 +451,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTrustStoreAsync(AwsWorkspacesWebGetTrustStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTrustStoreAsync(AwsWorkspacesWebGetTrustStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets user access logging settings. See also: AWS API Documentation
@@ -508,8 +460,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetUserAccessLoggingSettingsAsync(AwsWorkspacesWebGetUserAccessLoggingSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetUserAccessLoggingSettingsAsync(AwsWorkspacesWebGetUserAccessLoggingSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets user settings. See also: AWS API Documentation
@@ -518,8 +469,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetUserSettingsAsync(AwsWorkspacesWebGetUserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetUserSettingsAsync(AwsWorkspacesWebGetUserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of browser settings. See also: AWS API Documentation
@@ -528,18 +478,16 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBrowserSettingsAsync(AwsWorkspacesWebListBrowserSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListBrowserSettingsAsync(AwsWorkspacesWebListBrowserSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves a list of data protection settings. See also: AWS API Documentation list-data-protection-settings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: dataProtectionSettings
+    /// Retrieves a list of data protection settings. See also: AWS API Documentation list-data-protection-settings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: dataProtectionSettings
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDataProtectionSettingsAsync(AwsWorkspacesWebListDataProtectionSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDataProtectionSettingsAsync(AwsWorkspacesWebListDataProtectionSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of identity providers for a specific web portal. See also: AWS API Documentation
@@ -548,8 +496,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListIdentityProvidersAsync(AwsWorkspacesWebListIdentityProvidersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListIdentityProvidersAsync(AwsWorkspacesWebListIdentityProvidersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of IP access settings. See also: AWS API Documentation
@@ -558,8 +505,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListIpAccessSettingsAsync(AwsWorkspacesWebListIpAccessSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListIpAccessSettingsAsync(AwsWorkspacesWebListIpAccessSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of network settings. See also: AWS API Documentation
@@ -568,8 +514,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListNetworkSettingsAsync(AwsWorkspacesWebListNetworkSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListNetworkSettingsAsync(AwsWorkspacesWebListNetworkSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list or web portals. See also: AWS API Documentation
@@ -578,8 +523,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPortalsAsync(AwsWorkspacesWebListPortalsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPortalsAsync(AwsWorkspacesWebListPortalsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all available session logger resources. See also: AWS API Documentation list-session-loggers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: sessionLoggers
@@ -588,18 +532,16 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSessionLoggersAsync(AwsWorkspacesWebListSessionLoggersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSessionLoggersAsync(AwsWorkspacesWebListSessionLoggersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists information for multiple secure browser sessions from a specific portal. See also: AWS API Documentation list-sessions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: sessions
+    /// Lists information for multiple secure browser sessions from a specific portal. See also: AWS API Documentation list-sessions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: sessions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSessionsAsync(AwsWorkspacesWebListSessionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSessionsAsync(AwsWorkspacesWebListSessionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of tags for a resource. See also: AWS API Documentation
@@ -608,8 +550,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsWorkspacesWebListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsWorkspacesWebListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of trust store certificates. See also: AWS API Documentation
@@ -618,8 +559,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTrustStoreCertificatesAsync(AwsWorkspacesWebListTrustStoreCertificatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTrustStoreCertificatesAsync(AwsWorkspacesWebListTrustStoreCertificatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of trust stores. See also: AWS API Documentation
@@ -628,8 +568,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTrustStoresAsync(AwsWorkspacesWebListTrustStoresOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTrustStoresAsync(AwsWorkspacesWebListTrustStoresOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of user access logging settings. See also: AWS API Documentation
@@ -638,8 +577,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListUserAccessLoggingSettingsAsync(AwsWorkspacesWebListUserAccessLoggingSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListUserAccessLoggingSettingsAsync(AwsWorkspacesWebListUserAccessLoggingSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of user settings. See also: AWS API Documentation
@@ -648,8 +586,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListUserSettingsAsync(AwsWorkspacesWebListUserSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListUserSettingsAsync(AwsWorkspacesWebListUserSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds or overwrites one or more tags for the specified resource. See also: AWS API Documentation
@@ -658,8 +595,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsWorkspacesWebTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsWorkspacesWebTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes one or more tags from the specified resource. See also: AWS API Documentation
@@ -668,8 +604,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsWorkspacesWebUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsWorkspacesWebUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates browser settings. See also: AWS API Documentation
@@ -678,8 +613,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBrowserSettingsAsync(AwsWorkspacesWebUpdateBrowserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateBrowserSettingsAsync(AwsWorkspacesWebUpdateBrowserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates data protection settings. See also: AWS API Documentation
@@ -688,8 +622,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDataProtectionSettingsAsync(AwsWorkspacesWebUpdateDataProtectionSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDataProtectionSettingsAsync(AwsWorkspacesWebUpdateDataProtectionSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the identity provider. See also: AWS API Documentation
@@ -698,8 +631,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateIdentityProviderAsync(AwsWorkspacesWebUpdateIdentityProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateIdentityProviderAsync(AwsWorkspacesWebUpdateIdentityProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates IP access settings. See also: AWS API Documentation
@@ -708,8 +640,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateIpAccessSettingsAsync(AwsWorkspacesWebUpdateIpAccessSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateIpAccessSettingsAsync(AwsWorkspacesWebUpdateIpAccessSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates network settings. See also: AWS API Documentation
@@ -718,8 +649,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateNetworkSettingsAsync(AwsWorkspacesWebUpdateNetworkSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateNetworkSettingsAsync(AwsWorkspacesWebUpdateNetworkSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a web portal. See also: AWS API Documentation
@@ -728,8 +658,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePortalAsync(AwsWorkspacesWebUpdatePortalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePortalAsync(AwsWorkspacesWebUpdatePortalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the details of a session logger. See also: AWS API Documentation
@@ -738,8 +667,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSessionLoggerAsync(AwsWorkspacesWebUpdateSessionLoggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSessionLoggerAsync(AwsWorkspacesWebUpdateSessionLoggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the trust store. See also: AWS API Documentation
@@ -748,8 +676,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTrustStoreAsync(AwsWorkspacesWebUpdateTrustStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTrustStoreAsync(AwsWorkspacesWebUpdateTrustStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the user access logging settings. See also: AWS API Documentation
@@ -758,8 +685,7 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateUserAccessLoggingSettingsAsync(AwsWorkspacesWebUpdateUserAccessLoggingSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateUserAccessLoggingSettingsAsync(AwsWorkspacesWebUpdateUserAccessLoggingSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the user settings. See also: AWS API Documentation
@@ -768,7 +694,6 @@ public interface IAwsWorkspacesWeb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateUserSettingsAsync(AwsWorkspacesWebUpdateUserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateUserSettingsAsync(AwsWorkspacesWebUpdateUserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

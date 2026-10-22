@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts an experiment run for the specified experiment definition. An experiment run delivers treatments to the target audience and collects metrics. You can start multiple experiment runs from the same experi- ment definition. NOTE: Billing for this experiment begins when you call this operation and continues until the experiment is stopped. For pricing details, see AppConfig pricing . See also: AWS API Documentation
+/// Starts an experiment run for the specified experiment definition. An experiment run delivers treatments to the target audience and collects metrics. You can start multiple experiment runs from the same experiment definition. NOTE: Billing for this experiment begins when you call this operation and continues until the experiment is stopped. For pricing details, see AppConfig pricing . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsAppConfigStartExperimentRunOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts an experiment run for the specified experiment definition. An experiment run delivers treatments to the target audience and collects metrics. You can start multiple experiment runs from the same experi- ment definition. NOTE: Billing for this experiment begins when you call this operation and continues until the experiment is stopped. For pricing details, see AppConfig pricing . See also: AWS API Documentation
+    /// Starts an experiment run for the specified experiment definition. An experiment run delivers treatments to the target audience and collects metrics. You can start multiple experiment runs from the same experiment definition. NOTE: Billing for this experiment begins when you call this operation and continues until the experiment is stopped. For pricing details, see AppConfig pricing . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationIdentifier">The application ID or name. Constraints: o min: 1 o max: 2048</param>
-    /// <param name="ExperimentDefinitionIdentifier">The experiment definition ID or name. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="ApplicationIdentifier">The application ID or name. Constraints: • min: 1 • max: 2048</param>
+    /// <param name="ExperimentDefinitionIdentifier">The experiment definition ID or name. Constraints: • min: 1 • max: 2048</param>
     public AwsAppConfigStartExperimentRunOptions(
         string ApplicationIdentifier,
         string ExperimentDefinitionIdentifier
@@ -61,43 +62,43 @@ public record AwsAppConfigStartExperimentRunOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The application ID or name. Constraints: o min: 1 o max: 2048
+    /// The application ID or name. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--application-identifier")]
     public string? ApplicationIdentifier { get; private init; }
 
     /// <summary>
-    /// The experiment definition ID or name. Constraints: o min: 1 o max: 2048
+    /// The experiment definition ID or name. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--experiment-definition-identifier")]
     public string? ExperimentDefinitionIdentifier { get; private init; }
 
     /// <summary>
-    /// A description of this experiment run. Constraints: o min: 0 o max: 1024
+    /// A description of this experiment run. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The percentage of the target audience to expose to treatments. Set to 0 to validate the experiment before exposing production users. Constraints: o min: 0.0 o max: 100.0
+    /// The percentage of the target audience to expose to treatments. Set to 0 to validate the experiment before exposing production users. Constraints: • min: 0.0 • max: 100.0
     /// </summary>
     [CliOption("--exposure-percentage")]
-    public int? ExposurePercentage { get; set; }
+    public double? ExposurePercentage { get; set; }
 
     /// <summary>
-    /// Treatment assignment overrides that assign specific entity IDs to treatments directly, bypassing random assignment. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Inline. Inline -&gt; (map) A map of entity IDs to treatment keys. Each entry assigns the specified entity to the specified treatment, bypassing random assignment. Constraints: o min: 0 o max: 32 key -&gt; (string) Constraints: o min: 1 o max: 2048 value -&gt; (string) Constraints: o pattern: ^[a-zA-Z0-9]{1,8} Shorthand Syntax: Inline={KeyName1=string,KeyName2=string} JSON Syntax: { "Inline": {"string": "string" ...} }
+    /// Treatment assignment overrides that assign specific entity IDs to treatments directly, bypassing random assignment. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Inline. Inline -&gt; (map) A map of entity IDs to treatment keys. Each entry assigns the specified entity to the specified treatment, bypassing random assignment. Constraints: • min: 0 • max: 32 key -&gt; (string) Constraints: • min: 1 • max: 2048 value -&gt; (string) Constraints: • pattern: ^[a-zA-Z0-9]{1,8} Shorthand Syntax: Inline={KeyName1=string,KeyName2=string} JSON Syntax: { "Inline": {"string": "string" ...} }
     /// </summary>
     [CliOption("--treatment-overrides")]
     public string? TreatmentOverrides { get; set; }
 
     /// <summary>
-    /// The tags to assign to the experiment run. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to assign to the experiment run. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The deployment parameters for the experiment run, including a KMS key identifier for encryption. DynamicExtensionParameters -&gt; (map) A map of extension parameters for the deployment. Constraints: o min: 1 o max: 10 key -&gt; (string) Constraints: o pattern: ^([^#\n]{1,96})#([^\/#\n]{1,64})$ value -&gt; (string) Constraints: o min: 1 o max: 2048 Tags -&gt; (map) The tags to assign to the deployment. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: DynamicExtensionParameters={KeyName1=string,KeyName2=string},Tags={KeyName1=string,KeyName2=string} JSON Syntax: { "DynamicExtensionParameters": {"string": "string" ...}, "Tags": {"string": "string" ...} }
+    /// The deployment parameters for the experiment run, including a KMS key identifier for encryption. DynamicExtensionParameters -&gt; (map) A map of extension parameters for the deployment. Constraints: • min: 1 • max: 10 key -&gt; (string) Constraints: • pattern: ^([^#\n]{1,96})#([^\/#\n]{1,64})$ value -&gt; (string) Constraints: • min: 1 • max: 2048 Tags -&gt; (map) The tags to assign to the deployment. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: DynamicExtensionParameters={KeyName1=string,KeyName2=string},Tags={KeyName1=string,KeyName2=string} JSON Syntax: { "DynamicExtensionParameters": {"string": "string" ...}, "Tags": {"string": "string" ...} }
     /// </summary>
     [CliOption("--deployment-parameters")]
     public string? DeploymentParameters { get; set; }

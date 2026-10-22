@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsOdbUpdateAutonomousDatabaseBackupOptions : AwsOptions, IValidat
     /// <summary>
     /// Updates the properties of an Autonomous Database backup. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AutonomousDatabaseBackupId">The unique identifier of the Autonomous Database backup to update. Constraints: o min: 6 o max: 64 o pattern: [a-zA-Z0-9_~.-]+</param>
+    /// <param name="AutonomousDatabaseBackupId">The unique identifier of the Autonomous Database backup to update. Constraints: • min: 6 • max: 64 • pattern: [a-zA-Z0-9_~.-]+</param>
     public AwsOdbUpdateAutonomousDatabaseBackupOptions(
         string AutonomousDatabaseBackupId
     )
@@ -56,13 +58,13 @@ public record AwsOdbUpdateAutonomousDatabaseBackupOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Autonomous Database backup to update. Constraints: o min: 6 o max: 64 o pattern: [a-zA-Z0-9_~.-]+
+    /// The unique identifier of the Autonomous Database backup to update. Constraints: • min: 6 • max: 64 • pattern: [a-zA-Z0-9_~.-]+
     /// </summary>
     [CliOption("--autonomous-database-backup-id")]
     public string? AutonomousDatabaseBackupId { get; private init; }
 
     /// <summary>
-    /// The retention period, in days, for the Autonomous Database backup. Constraints: o min: 90 o max: 3650
+    /// The retention period, in days, for the Autonomous Database backup. Constraints: • min: 90 • max: 3650
     /// </summary>
     [CliOption("--retention-period-in-days")]
     public int? RetentionPeriodInDays { get; set; }

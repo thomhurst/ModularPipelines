@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsBedrockAgentStopIngestionJobOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Stops a currently running data ingestion job. You can send a StartIngestionJob request again to ingest the rest of your data when you are ready. See also: AWS API Documentation
     /// </summary>
-    /// <param name="KnowledgeBaseId">The unique identifier of the knowledge base for the data ingestion job you want to stop. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
-    /// <param name="DataSourceId">The unique identifier of the data source for the data ingestion job you want to stop. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
-    /// <param name="IngestionJobId">The unique identifier of the data ingestion job you want to stop. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="KnowledgeBaseId">The unique identifier of the knowledge base for the data ingestion job you want to stop. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="DataSourceId">The unique identifier of the data source for the data ingestion job you want to stop. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="IngestionJobId">The unique identifier of the data ingestion job you want to stop. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
     public AwsBedrockAgentStopIngestionJobOptions(
         string KnowledgeBaseId,
         string DataSourceId,
@@ -64,19 +66,19 @@ public record AwsBedrockAgentStopIngestionJobOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the knowledge base for the data ingestion job you want to stop. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The unique identifier of the knowledge base for the data ingestion job you want to stop. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--knowledge-base-id")]
     public string? KnowledgeBaseId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the data source for the data ingestion job you want to stop. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The unique identifier of the data source for the data ingestion job you want to stop. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--data-source-id")]
     public string? DataSourceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the data ingestion job you want to stop. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The unique identifier of the data ingestion job you want to stop. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--ingestion-job-id")]
     public string? IngestionJobId { get; private init; }

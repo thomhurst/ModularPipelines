@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsRedshiftServerlessUpdateCustomDomainAssociationOptions : AwsOpt
     /// <summary>
     /// Updates an Amazon Redshift Serverless certificate associated with a custom domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CustomDomainCertificateArn">The custom domain names certificate Amazon resource name (ARN). This is optional. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
-    /// <param name="CustomDomainName">The custom domain name associated with the workgroup. Constraints: o min: 1 o max: 253 o pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$</param>
-    /// <param name="WorkgroupName">The name of the workgroup associated with the database. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$</param>
+    /// <param name="CustomDomainCertificateArn">The custom domain names certificate Amazon resource name (ARN). This is optional. Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
+    /// <param name="CustomDomainName">The custom domain name associated with the workgroup. Constraints: • min: 1 • max: 253 • pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$</param>
+    /// <param name="WorkgroupName">The name of the workgroup associated with the database. Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$</param>
     public AwsRedshiftServerlessUpdateCustomDomainAssociationOptions(
         string CustomDomainCertificateArn,
         string CustomDomainName,
@@ -64,19 +66,19 @@ public record AwsRedshiftServerlessUpdateCustomDomainAssociationOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The custom domain names certificate Amazon resource name (ARN). This is optional. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*
+    /// The custom domain names certificate Amazon resource name (ARN). This is optional. Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*
     /// </summary>
     [CliOption("--custom-domain-certificate-arn")]
     public string? CustomDomainCertificateArn { get; private init; }
 
     /// <summary>
-    /// The custom domain name associated with the workgroup. Constraints: o min: 1 o max: 253 o pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$
+    /// The custom domain name associated with the workgroup. Constraints: • min: 1 • max: 253 • pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$
     /// </summary>
     [CliOption("--custom-domain-name")]
     public string? CustomDomainName { get; private init; }
 
     /// <summary>
-    /// The name of the workgroup associated with the database. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$
+    /// The name of the workgroup associated with the database. Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$
     /// </summary>
     [CliOption("--workgroup-name")]
     public string? WorkgroupName { get; private init; }

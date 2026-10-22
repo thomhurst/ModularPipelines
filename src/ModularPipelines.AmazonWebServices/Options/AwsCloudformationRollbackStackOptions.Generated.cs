@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// When specifying RollbackStack , you preserve the state of previously provisioned resources when an operation fails. You can check the status of the stack through the DescribeStacks operation. Rolls back the specified stack to the last known stable state from CRE- ATE_FAILED or UPDATE_FAILED stack statuses. This operation will delete a stack if it doesn't contain a last known stable state. A last known stable state includes any status in a *_COM- PLETE . This includes the following stack statuses...
+/// When specifying RollbackStack , you preserve the state of previously provisioned resources when an operation fails. You can check the status of the stack through the DescribeStacks operation. Rolls back the specified stack to the last known stable state from CREATE_FAILED or UPDATE_FAILED stack statuses. This operation will delete a stack if it doesn't contain a last known stable state. A last known stable state includes any status in a *_COMPLETE . This includes the following stack statuses. • ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsCloudformationRollbackStackOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// When specifying RollbackStack , you preserve the state of previously provisioned resources when an operation fails. You can check the status of the stack through the DescribeStacks operation. Rolls back the specified stack to the last known stable state from CRE- ATE_FAILED or UPDATE_FAILED stack statuses. This operation will delete a stack if it doesn't contain a last known stable state. A last known stable state includes any status in a *_COM- PLETE . This includes the following stack statuses...
+    /// When specifying RollbackStack , you preserve the state of previously provisioned resources when an operation fails. You can check the status of the stack through the DescribeStacks operation. Rolls back the specified stack to the last known stable state from CREATE_FAILED or UPDATE_FAILED stack statuses. This operation will delete a stack if it doesn't contain a last known stable state. A last known stable state includes any status in a *_COMPLETE . This includes the following stack statuses. • ...
     /// </summary>
-    /// <param name="StackName">The name that's associated with the stack. Constraints: o min: 1 o pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)</param>
+    /// <param name="StackName">The name that's associated with the stack. Constraints: • min: 1 • pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)</param>
     public AwsCloudformationRollbackStackOptions(
         string StackName
     )
@@ -57,32 +59,32 @@ public record AwsCloudformationRollbackStackOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name that's associated with the stack. Constraints: o min: 1 o pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)
+    /// The name that's associated with the stack. Constraints: • min: 1 • pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)
     /// </summary>
     [CliOption("--stack-name")]
     public string? StackName { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of an IAM role that CloudFormation assumes to rollback the stack. Constraints: o min: 20 o max: 2048
+    /// The Amazon Resource Name (ARN) of an IAM role that CloudFormation assumes to rollback the stack. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
     /// <summary>
-    /// A unique identifier for this RollbackStack request. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][-a-zA-Z0-9]*
+    /// A unique identifier for this RollbackStack request. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][-a-zA-Z0-9]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// When set to true , newly created resources are deleted when the op- eration rolls back. This includes newly created resources marked with a deletion policy of Retain . Default: false
+    /// When set to true , newly created resources are deleted when the operation rolls back. This includes newly created resources marked with a deletion policy of Retain . Default: false
     /// </summary>
     [CliFlag("--retain-except-on-create", NegatedName = "--no-retain-except-on-create")]
     public bool? RetainExceptOnCreate { get; set; }
 
     /// <summary>
-    /// The deployment configuration for this stack operation, including the deployment mode. Mode -&gt; (string) Specifies the deployment mode for the stack operation. Possible values are: o STANDARD - Use the standard deployment behavior, ensuring re- sources are ready to serve traffic before completing the oper- ation. This is the default. You do not need to specify this value explicitly. o EXPRESS - Complete the stack operation when resource configu- ration is applied, without waiting for resources to become ready to serve traffic. Resources continue becoming ready in the background. Possible values: o STANDARD o EXPRESS DisableRollback -&gt; (boolean) Specifies whether to disable rollback of the stack if the stack operation fails. Default: false Shorthand Syntax: Mode=string,DisableRollback=boolean JSON Syntax: { "Mode": "STANDARD"|"EXPRESS", "DisableRollback": true|false }
+    /// The deployment configuration for this stack operation, including the deployment mode. Mode -&gt; (string) Specifies the deployment mode for the stack operation. Possible values are: • STANDARD - Use the standard deployment behavior, ensuring resources are ready to serve traffic before completing the operation. This is the default. You do not need to specify this value explicitly. • EXPRESS - Complete the stack operation when resource configuration is applied, without waiting for resources to become ready to serve traffic. Resources continue becoming ready in the background. Possible values: • STANDARD • EXPRESS DisableRollback -&gt; (boolean) Specifies whether to disable rollback of the stack if the stack operation fails. Default: false Shorthand Syntax: Mode=string,DisableRollback=boolean JSON Syntax: { "Mode": "STANDARD"|"EXPRESS", "DisableRollback": true|false }
     /// </summary>
     [CliOption("--deployment-config")]
     public string? DeploymentConfig { get; set; }

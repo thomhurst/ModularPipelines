@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsConnectcampaignsGetCampaignStateBatchOptions : AwsOptions, IVal
     /// <summary>
     /// Get state of campaigns for the specified Amazon Connect account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CampaignIds">List of CampaignId Constraints: o min: 1 o max: 25 (string) Identifier representing a Campaign Constraints: o min: 0 o max: 256 o pattern: [\S]* Syntax: "string" "string" ...</param>
+    /// <param name="CampaignIds">List of CampaignId Constraints: • min: 1 • max: 25 (string) Identifier representing a Campaign Constraints: • min: 0 • max: 256 • pattern: [\S]* Syntax: "string" "string" ...</param>
     public AwsConnectcampaignsGetCampaignStateBatchOptions(
         IEnumerable<string> CampaignIds
     )
@@ -67,7 +69,7 @@ public record AwsConnectcampaignsGetCampaignStateBatchOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// List of CampaignId Constraints: o min: 1 o max: 25 (string) Identifier representing a Campaign Constraints: o min: 0 o max: 256 o pattern: [\S]* Syntax: "string" "string" ...
+    /// List of CampaignId Constraints: • min: 1 • max: 25 (string) Identifier representing a Campaign Constraints: • min: 0 • max: 256 • pattern: [\S]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--campaign-ids", GroupValues = true)]
     public IEnumerable<string>? CampaignIds { get; private init; }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,9 +29,9 @@ public record AwsCustomerProfilesCreateRecommenderFilterOptions : AwsOptions, IV
     /// <summary>
     /// Creates a recommender filter. A recommender filter specifies which items to include or exclude from recommendations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="RecommenderFilterName">The name of the recommender filter. The name must be unique within the domain. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="RecommenderFilterExpression">The filter expression that defines which items to include or exclude from recommendations. Constraints: o min: 1 o max: 2500</param>
+    /// <param name="DomainName">The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="RecommenderFilterName">The name of the recommender filter. The name must be unique within the domain. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="RecommenderFilterExpression">The filter expression that defines which items to include or exclude from recommendations. Constraints: • min: 1 • max: 2500</param>
     public AwsCustomerProfilesCreateRecommenderFilterOptions(
         string DomainName,
         string RecommenderFilterName,
@@ -65,37 +66,37 @@ public record AwsCustomerProfilesCreateRecommenderFilterOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The name of the recommender filter. The name must be unique within the domain. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9_-]+
+    /// The name of the recommender filter. The name must be unique within the domain. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--recommender-filter-name")]
     public string? RecommenderFilterName { get; private init; }
 
     /// <summary>
-    /// The filter expression that defines which items to include or exclude from recommendations. Constraints: o min: 1 o max: 2500
+    /// The filter expression that defines which items to include or exclude from recommendations. Constraints: • min: 1 • max: 2500
     /// </summary>
     [CliOption("--recommender-filter-expression")]
     public string? RecommenderFilterExpression { get; private init; }
 
     /// <summary>
-    /// The name of the recommender schema to use for this recommender fil- ter. If not specified, the default schema is used. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The name of the recommender schema to use for this recommender filter. If not specified, the default schema is used. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--recommender-schema-name")]
     public string? RecommenderSchemaName { get; set; }
 
     /// <summary>
-    /// A description of the recommender filter. Constraints: o min: 1 o max: 1000
+    /// A description of the recommender filter. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for this re- source. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags used to organize, track, or control access for this resource. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -29,10 +30,10 @@ public record AwsLambdaMicrovmsUpdateMicrovmImageOptions : AwsOptions, IValidata
     /// <summary>
     /// Updates the configuration of a MicroVM image and triggers a new version build. This operation uses PUT semantics all required fields (codeArtifact, baseImageArn, buildRoleArn) must be provided with every request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BaseImageArn">The ARN of the base MicroVM image. Constraints: o min: 1 o max: 2048 o pattern: [^\s]+</param>
-    /// <param name="BuildRoleArn">The ARN of the IAM build role. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::[0-9]{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
-    /// <param name="CodeArtifact">The code artifact containing the application code and metadata for the MicroVM image. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: uri. uri -&gt; (string) The URI of the code artifact in Amazon S3. Constraints: o min: 1 o max: 2048 o pattern: [^\s]+ Shorthand Syntax: uri=string JSON Syntax: { "uri": "string" }</param>
-    /// <param name="ImageIdentifier">The unique identifier (ARN or ID) of the MicroVM image to update. Constraints: o min: 1 o max: 256</param>
+    /// <param name="BaseImageArn">The ARN of the base MicroVM image. Constraints: • min: 1 • max: 2048 • pattern: [^\s]+</param>
+    /// <param name="BuildRoleArn">The ARN of the IAM build role. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[a-z\-]*:iam::[0-9]{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
+    /// <param name="CodeArtifact">The code artifact containing the application code and metadata for the MicroVM image. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: uri. uri -&gt; (string) The URI of the code artifact in Amazon S3. Constraints: • min: 1 • max: 2048 • pattern: [^\s]+ Shorthand Syntax: uri=string JSON Syntax: { "uri": "string" }</param>
+    /// <param name="ImageIdentifier">The unique identifier (ARN or ID) of the MicroVM image to update. Constraints: • min: 1 • max: 256</param>
     public AwsLambdaMicrovmsUpdateMicrovmImageOptions(
         string BaseImageArn,
         string BuildRoleArn,
@@ -70,31 +71,31 @@ public record AwsLambdaMicrovmsUpdateMicrovmImageOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the base MicroVM image. Constraints: o min: 1 o max: 2048 o pattern: [^\s]+
+    /// The ARN of the base MicroVM image. Constraints: • min: 1 • max: 2048 • pattern: [^\s]+
     /// </summary>
     [CliOption("--base-image-arn")]
     public string? BaseImageArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the IAM build role. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::[0-9]{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// The ARN of the IAM build role. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[a-z\-]*:iam::[0-9]{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
     /// </summary>
     [CliOption("--build-role-arn")]
     public string? BuildRoleArn { get; private init; }
 
     /// <summary>
-    /// The code artifact containing the application code and metadata for the MicroVM image. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: uri. uri -&gt; (string) The URI of the code artifact in Amazon S3. Constraints: o min: 1 o max: 2048 o pattern: [^\s]+ Shorthand Syntax: uri=string JSON Syntax: { "uri": "string" }
+    /// The code artifact containing the application code and metadata for the MicroVM image. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: uri. uri -&gt; (string) The URI of the code artifact in Amazon S3. Constraints: • min: 1 • max: 2048 • pattern: [^\s]+ Shorthand Syntax: uri=string JSON Syntax: { "uri": "string" }
     /// </summary>
     [CliOption("--code-artifact")]
     public string? CodeArtifact { get; private init; }
 
     /// <summary>
-    /// The unique identifier (ARN or ID) of the MicroVM image to update. Constraints: o min: 1 o max: 256
+    /// The unique identifier (ARN or ID) of the MicroVM image to update. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--image-identifier")]
     public string? ImageIdentifier { get; private init; }
 
     /// <summary>
-    /// The specific version of the base MicroVM image to use. Constraints: o min: 1 o max: 2048 o pattern: [^\s]+
+    /// The specific version of the base MicroVM image to use. Constraints: • min: 1 • max: 2048 • pattern: [^\s]+
     /// </summary>
     [CliOption("--base-image-version")]
     public string? BaseImageVersion { get; set; }
@@ -106,49 +107,49 @@ public record AwsLambdaMicrovmsUpdateMicrovmImageOptions : AwsOptions, IValidata
     public string? Description { get; set; }
 
     /// <summary>
-    /// The logging configuration for build-time and runtime logs. Specify {"cloudWatch": {"logGroup": "..."}} to stream logs to a custom CloudWatch log group, or {"disabled": {}} to turn off logging. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: disabled, cloudWatch. disabled -&gt; (structure) Specifies that logging is disabled. cloudWatch -&gt; (structure) Configuration for sending logs to Amazon CloudWatch Logs. logGroup -&gt; (string) The name of the CloudWatch Logs log group to send logs to. Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9_\-/.#]+ logStream -&gt; (string) The name of the CloudWatch Logs log stream within the log group. Constraints: o min: 1 o max: 512 o pattern: [^:*]* Shorthand Syntax: disabled={},cloudWatch={logGroup=string,logStream=string} JSON Syntax: { "disabled": { }, "cloudWatch": { "logGroup": "string", "logStream": "string" } }
+    /// The logging configuration for build-time and runtime logs. Specify {"cloudWatch": {"logGroup": "..."}} to stream logs to a custom CloudWatch log group, or {"disabled": {}} to turn off logging. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: disabled, cloudWatch. disabled -&gt; (structure) Specifies that logging is disabled. cloudWatch -&gt; (structure) Configuration for sending logs to Amazon CloudWatch Logs. logGroup -&gt; (string) The name of the CloudWatch Logs log group to send logs to. Constraints: • min: 1 • max: 512 • pattern: [a-zA-Z0-9_\-/.#]+ logStream -&gt; (string) The name of the CloudWatch Logs log stream within the log group. Constraints: • min: 1 • max: 512 • pattern: [^:*]* Shorthand Syntax: disabled={},cloudWatch={logGroup=string,logStream=string} JSON Syntax: { "disabled": { }, "cloudWatch": { "logGroup": "string", "logStream": "string" } }
     /// </summary>
     [CliOption("--logging")]
     public string? Logging { get; set; }
 
     /// <summary>
-    /// The list of egress network connectors available to the MicroVM at runtime. Constraints: o min: 0 o max: 1 (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...
+    /// The list of egress network connectors available to the MicroVM at runtime. Constraints: • min: 0 • max: 1 (string) Constraints: • min: 1 • max: 2048 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--egress-network-connectors", GroupValues = true)]
     public IEnumerable<string>? EgressNetworkConnectors { get; set; }
 
     /// <summary>
-    /// The list of supported CPU configurations for the MicroVM. (structure) Configuration for the CPU architecture of a MicroVM. architecture -&gt; (string) [required] The CPU architecture. Possible values: o ARM_64 Shorthand Syntax: architecture=string ... JSON Syntax: [ { "architecture": "ARM_64" } ... ]
+    /// The list of supported CPU configurations for the MicroVM. (structure) Configuration for the CPU architecture of a MicroVM. architecture -&gt; (string) [required] The CPU architecture. Possible values: • ARM_64 Shorthand Syntax: architecture=string ... JSON Syntax: [ { "architecture": "ARM_64" } ... ]
     /// </summary>
     [CliOption("--cpu-configurations", GroupValues = true)]
     public IEnumerable<string>? CpuConfigurations { get; set; }
 
     /// <summary>
-    /// The resource requirements for the MicroVM. Constraints: o min: 0 o max: 1 (structure) Resource requirements for a MicroVM. minimumMemoryInMiB -&gt; (integer) [required] The minimum amount of memory in MiB to allocate to the Mi- croVM. Shorthand Syntax: minimumMemoryInMiB=integer ... JSON Syntax: [ { "minimumMemoryInMiB": integer } ... ]
+    /// The resource requirements for the MicroVM. Constraints: • min: 0 • max: 1 (structure) Resource requirements for a MicroVM. minimumMemoryInMiB -&gt; (integer) [required] The minimum amount of memory in MiB to allocate to the MicroVM. Shorthand Syntax: minimumMemoryInMiB=integer ... JSON Syntax: [ { "minimumMemoryInMiB": integer } ... ]
     /// </summary>
     [CliOption("--resources", GroupValues = true)]
     public IEnumerable<string>? Resources { get; set; }
 
     /// <summary>
-    /// Additional OS capabilities granted to the MicroVM runtime environ- ment. (string) Capability granted to the application when booted Possible values: o ALL Syntax: "string" "string" ...
+    /// Additional OS capabilities granted to the MicroVM runtime environment. (string) Capability granted to the application when booted Possible values: • ALL Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--additional-os-capabilities", GroupValues = true)]
     public IEnumerable<string>? AdditionalOsCapabilities { get; set; }
 
     /// <summary>
-    /// Lifecycle hook configuration for MicroVMs and MicroVM images. port -&gt; (integer) The port number on which the hooks listener runs. Constraints: o min: 1 o max: 65535 microvmHooks -&gt; (structure) The lifecycle hooks for MicroVM events. run -&gt; (string) The path of the hook invoked when the MicroVM starts running. Possible values: o DISABLED o ENABLED runTimeoutInSeconds -&gt; (integer) The maximum time in seconds for the run hook to complete. Constraints: o min: 1 o max: 60 resume -&gt; (string) The path of the hook invoked when the MicroVM resumes from a suspended state. Possible values: o DISABLED o ENABLED resumeTimeoutInSeconds -&gt; (integer) The maximum time in seconds for the resume hook to complete. Constraints: o min: 1 o max: 60 suspend -&gt; (string) The path of the hook invoked when the MicroVM is suspended. Possible values: o DISABLED o ENABLED suspendTimeoutInSeconds -&gt; (integer) The maximum time in seconds for the suspend hook to complete. Constraints: o min: 1 o max: 60 terminate -&gt; (string) The path of the hook invoked when the MicroVM is terminated. Possible values: o DISABLED o ENABLED terminateTimeoutInSeconds -&gt; (integer) The maximum time in seconds for the terminate hook to com- plete. Constraints: o min: 1 o max: 60 microvmImageHooks -&gt; (structure) The hooks for MicroVM image build events. ready -&gt; (string) The path of the hook invoked when the MicroVM image build is ready. Possible values: o DISABLED o ENABLED readyTimeoutInSeconds -&gt; (integer) The maximum time in seconds for the ready hook to complete. Constraints: o min: 1 o max: 3600 validate -&gt; (string) The path of the hook invoked to validate the MicroVM image build. Possible values: o DISABLED o ENABLED validateTimeoutInSeconds -&gt; (integer) The maximum time in seconds for the validate hook to com- plete. Constraints: o min: 1 o max: 3600 Shorthand Syntax: port=integer,microvmHooks={run=string,runTimeoutInSeconds=integer,resume=string,resumeTimeoutInSeconds=integer,suspend=string,suspendTimeoutInSeconds=integer,terminate=string,terminateTimeoutInSeconds=integer},microvmImageHooks={ready=string,readyTimeoutInSeconds=integer,validate=string,validateTimeoutInSeconds=integer} JSON Syntax: { "port": integer, "microvmHooks": { "run": "DISABLED"|"ENABLED", "runTimeoutInSeconds": integer, "resume": "DISABLED"|"ENABLED", "resumeTimeoutInSeconds": integer, "suspend": "DISABLED"|"ENABLED", "suspendTimeoutInSeconds": integer, "terminate": "DISABLED"|"ENABLED", "terminateTimeoutInSeconds": integer }, "microvmImageHooks": { "ready": "DISABLED"|"ENABLED", "readyTimeoutInSeconds": integer, "validate": "DISABLED"|"ENABLED", "validateTimeoutInSeconds": integer } }
+    /// Lifecycle hook configuration for MicroVMs and MicroVM images. port -&gt; (integer) The port number on which the hooks listener runs. Constraints: • min: 1 • max: 65535 microvmHooks -&gt; (structure) The lifecycle hooks for MicroVM events. run -&gt; (string) The path of the hook invoked when the MicroVM starts running. Possible values: • DISABLED • ENABLED runTimeoutInSeconds -&gt; (integer) The maximum time in seconds for the run hook to complete. Constraints: • min: 1 • max: 60 resume -&gt; (string) The path of the hook invoked when the MicroVM resumes from a suspended state. Possible values: • DISABLED • ENABLED resumeTimeoutInSeconds -&gt; (integer) The maximum time in seconds for the resume hook to complete. Constraints: • min: 1 • max: 60 suspend -&gt; (string) The path of the hook invoked when the MicroVM is suspended. Possible values: • DISABLED • ENABLED suspendTimeoutInSeconds -&gt; (integer) The maximum time in seconds for the suspend hook to complete. Constraints: • min: 1 • max: 60 terminate -&gt; (string) The path of the hook invoked when the MicroVM is terminated. Possible values: • DISABLED • ENABLED terminateTimeoutInSeconds -&gt; (integer) The maximum time in seconds for the terminate hook to complete. Constraints: • min: 1 • max: 60 microvmImageHooks -&gt; (structure) The hooks for MicroVM image build events. ready -&gt; (string) The path of the hook invoked when the MicroVM image build is ready. Possible values: • DISABLED • ENABLED readyTimeoutInSeconds -&gt; (integer) The maximum time in seconds for the ready hook to complete. Constraints: • min: 1 • max: 3600 validate -&gt; (string) The path of the hook invoked to validate the MicroVM image build. Possible values: • DISABLED • ENABLED validateTimeoutInSeconds -&gt; (integer) The maximum time in seconds for the validate hook to complete. Constraints: • min: 1 • max: 3600 Shorthand Syntax: port=integer,microvmHooks={run=string,runTimeoutInSeconds=integer,resume=string,resumeTimeoutInSeconds=integer,suspend=string,suspendTimeoutInSeconds=integer,terminate=string,terminateTimeoutInSeconds=integer},microvmImageHooks={ready=string,readyTimeoutInSeconds=integer,validate=string,validateTimeoutInSeconds=integer} JSON Syntax: { "port": integer, "microvmHooks": { "run": "DISABLED"|"ENABLED", "runTimeoutInSeconds": integer, "resume": "DISABLED"|"ENABLED", "resumeTimeoutInSeconds": integer, "suspend": "DISABLED"|"ENABLED", "suspendTimeoutInSeconds": integer, "terminate": "DISABLED"|"ENABLED", "terminateTimeoutInSeconds": integer }, "microvmImageHooks": { "ready": "DISABLED"|"ENABLED", "readyTimeoutInSeconds": integer, "validate": "DISABLED"|"ENABLED", "validateTimeoutInSeconds": integer } }
     /// </summary>
     [CliOption("--hooks")]
     public string? Hooks { get; set; }
 
     /// <summary>
-    /// Environment variables set in the MicroVM runtime environment. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: [^\s]+ value -&gt; (string) Constraints: o min: 0 o max: 4096 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Environment variables set in the MicroVM runtime environment. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 256 • pattern: [^\s]+ value -&gt; (string) Constraints: • min: 0 • max: 4096 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--environment-variables", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? EnvironmentVariables { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier you provide to ensure the idem- potency of the request. Constraints: o min: 1 o max: 128
+    /// A unique, case-sensitive identifier you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

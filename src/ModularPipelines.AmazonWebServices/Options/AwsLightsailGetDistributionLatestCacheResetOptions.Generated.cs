@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLightsailGetDistributionLatestCacheResetOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the distribution for which to return the timestamp of the last cache reset. Use the GetDistributions action to get a list of distribution names that you can specify. When omitted, the response includes the latest cache reset timestamp of all your distributions. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the distribution for which to return the timestamp of the last cache reset. Use the GetDistributions action to get a list of distribution names that you can specify. When omitted, the response includes the latest cache reset timestamp of all your distributions. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--distribution-name")]
     public string? DistributionName { get; set; }

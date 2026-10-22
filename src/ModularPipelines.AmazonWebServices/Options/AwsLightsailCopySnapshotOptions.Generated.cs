@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Copies a manual snapshot of an instance or disk as another manual snap- shot, or copies an automatic snapshot of an instance or disk as a man- ual snapshot. This operation can also be used to copy a manual or auto- matic snapshot of an instance or a disk from one Amazon Web Services Region to another in Amazon Lightsail. When copying a manual snapshot , be sure to define the source region , source snapshot name , and target snapshot name parameters. When copying an automatic snapshot , be sure t...
+/// Copies a manual snapshot of an instance or disk as another manual snapshot, or copies an automatic snapshot of an instance or disk as a manual snapshot. This operation can also be used to copy a manual or automatic snapshot of an instance or a disk from one Amazon Web Services Region to another in Amazon Lightsail. When copying a manual snapshot , be sure to define the source region , source snapshot name , and target snapshot name parameters. When copying an automatic snapshot , be sure to defi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsLightsailCopySnapshotOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Copies a manual snapshot of an instance or disk as another manual snap- shot, or copies an automatic snapshot of an instance or disk as a man- ual snapshot. This operation can also be used to copy a manual or auto- matic snapshot of an instance or a disk from one Amazon Web Services Region to another in Amazon Lightsail. When copying a manual snapshot , be sure to define the source region , source snapshot name , and target snapshot name parameters. When copying an automatic snapshot , be sure t...
+    /// Copies a manual snapshot of an instance or disk as another manual snapshot, or copies an automatic snapshot of an instance or disk as a manual snapshot. This operation can also be used to copy a manual or automatic snapshot of an instance or a disk from one Amazon Web Services Region to another in Amazon Lightsail. When copying a manual snapshot , be sure to define the source region , source snapshot name , and target snapshot name parameters. When copying an automatic snapshot , be sure to defi...
     /// </summary>
-    /// <param name="TargetSnapshotName">The name of the new manual snapshot to be created as a copy. Constraints: o pattern: \w[\w\-]*\w</param>
-    /// <param name="SourceRegion">The Amazon Web Services Region where the source manual or automatic snapshot is located. Possible values: o us-east-1 o us-east-2 o us-west-1 o us-west-2 o eu-west-1 o eu-west-2 o eu-west-3 o eu-central-1 o eu-north-1 o eu-south-2 o ca-central-1 o ap-east-1 o ap-south-1 o ap-southeast-1 o ap-southeast-2 o ap-northeast-1 o ap-northeast-2 o ap-southeast-3 o ap-southeast-5 o sa-east-1</param>
+    /// <param name="TargetSnapshotName">The name of the new manual snapshot to be created as a copy. Constraints: • pattern: \w[\w\-]*\w</param>
+    /// <param name="SourceRegion">The Amazon Web Services Region where the source manual or automatic snapshot is located. Possible values: • us-east-1 • us-east-2 • us-west-1 • us-west-2 • eu-west-1 • eu-west-2 • eu-west-3 • eu-central-1 • eu-north-1 • eu-south-2 • ca-central-1 • ap-east-1 • ap-south-1 • ap-southeast-1 • ap-southeast-2 • ap-northeast-1 • ap-northeast-2 • ap-southeast-3 • ap-southeast-5 • sa-east-1</param>
     public AwsLightsailCopySnapshotOptions(
         string TargetSnapshotName,
         AwsLightsailCopySnapshotSourceRegion SourceRegion
@@ -60,37 +62,37 @@ public record AwsLightsailCopySnapshotOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the new manual snapshot to be created as a copy. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the new manual snapshot to be created as a copy. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--target-snapshot-name")]
     public string? TargetSnapshotName { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services Region where the source manual or automatic snapshot is located. Possible values: o us-east-1 o us-east-2 o us-west-1 o us-west-2 o eu-west-1 o eu-west-2 o eu-west-3 o eu-central-1 o eu-north-1 o eu-south-2 o ca-central-1 o ap-east-1 o ap-south-1 o ap-southeast-1 o ap-southeast-2 o ap-northeast-1 o ap-northeast-2 o ap-southeast-3 o ap-southeast-5 o sa-east-1
+    /// The Amazon Web Services Region where the source manual or automatic snapshot is located. Possible values: • us-east-1 • us-east-2 • us-west-1 • us-west-2 • eu-west-1 • eu-west-2 • eu-west-3 • eu-central-1 • eu-north-1 • eu-south-2 • ca-central-1 • ap-east-1 • ap-south-1 • ap-southeast-1 • ap-southeast-2 • ap-northeast-1 • ap-northeast-2 • ap-southeast-3 • ap-southeast-5 • sa-east-1
     /// </summary>
     [CliOption("--source-region")]
     public AwsLightsailCopySnapshotSourceRegion? SourceRegion { get; private init; }
 
     /// <summary>
-    /// The name of the source manual snapshot to copy. Constraint: o Define this parameter only when copying a manual snapshot as an- other manual snapshot. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the source manual snapshot to copy. Constraint: • Define this parameter only when copying a manual snapshot as another manual snapshot. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--source-snapshot-name")]
     public string? SourceSnapshotName { get; set; }
 
     /// <summary>
-    /// The name of the source instance or disk from which the source auto- matic snapshot was created. Constraint: o Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the Amazon Lightsail Developer Guide .
+    /// The name of the source instance or disk from which the source automatic snapshot was created. Constraint: • Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the Amazon Lightsail Developer Guide .
     /// </summary>
     [CliOption("--source-resource-name")]
     public string? SourceResourceName { get; set; }
 
     /// <summary>
-    /// The date of the source automatic snapshot to copy. Use the get auto snapshots operation to identify the dates of the available automatic snapshots. Constraints: o Must be specified in YYYY-MM-DD format. o This parameter cannot be defined together with the use latest re- storable auto snapshot parameter. The restore date and use latest restorable auto snapshot parameters are mutually exclusive. o Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the Amazon Lightsail Developer Guide .
+    /// The date of the source automatic snapshot to copy. Use the get auto snapshots operation to identify the dates of the available automatic snapshots. Constraints: • Must be specified in YYYY-MM-DD format. • This parameter cannot be defined together with the use latest restorable auto snapshot parameter. The restore date and use latest restorable auto snapshot parameters are mutually exclusive. • Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the Amazon Lightsail Developer Guide .
     /// </summary>
     [CliOption("--restore-date")]
     public string? RestoreDate { get; set; }
 
     /// <summary>
-    /// able-auto-snapshot (boolean) A Boolean value to indicate whether to use the latest available au- tomatic snapshot of the specified source instance or disk. Constraints: o This parameter cannot be defined together with the restore date parameter. The use latest restorable auto snapshot and restore date parameters are mutually exclusive. o Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the Amazon Lightsail Developer Guide .
+    /// A Boolean value to indicate whether to use the latest available automatic snapshot of the specified source instance or disk. Constraints: • This parameter cannot be defined together with the restore date parameter. The use latest restorable auto snapshot and restore date parameters are mutually exclusive. • Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the Amazon Lightsail Developer Guide .
     /// </summary>
     [CliFlag("--use-latest-restorable-auto-snapshot", NegatedName = "--no-use-latest-restorable-auto-snapshot")]
     public bool? UseLatestRestorableAutoSnapshot { get; set; }

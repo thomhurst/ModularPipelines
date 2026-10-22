@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCodebuildInvalidateProjectCacheOptions : AwsOptions, IValidatab
     /// <summary>
     /// Resets the cache for a project. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProjectName">The name of the CodeBuild build project that the cache is reset for. Constraints: o min: 1</param>
+    /// <param name="ProjectName">The name of the CodeBuild build project that the cache is reset for. Constraints: • min: 1</param>
     public AwsCodebuildInvalidateProjectCacheOptions(
         string ProjectName
     )
@@ -56,7 +58,7 @@ public record AwsCodebuildInvalidateProjectCacheOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the CodeBuild build project that the cache is reset for. Constraints: o min: 1
+    /// The name of the CodeBuild build project that the cache is reset for. Constraints: • min: 1
     /// </summary>
     [CliOption("--project-name")]
     public string? ProjectName { get; private init; }

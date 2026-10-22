@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +30,9 @@ public record AwsOpensearchCreatePackageOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a package for use with Amazon OpenSearch Service domains. For more information, see Custom packages for Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
-    /// <param name="PackageName">Unique name for the package. Constraints: o min: 3 o max: 256 o pattern: [a-z][a-z0-9\-]+</param>
-    /// <param name="PackageType">The type of package. Possible values: o TXT-DICTIONARY o ZIP-PLUGIN o PACKAGE-LICENSE o PACKAGE-CONFIG</param>
-    /// <param name="PackageSource">The Amazon S3 location from which to import the package. S3BucketName -&gt; (string) The name of the Amazon S3 bucket containing the package. Constraints: o min: 3 o max: 63 S3Key -&gt; (string) Key (file name) of the package. Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3BucketName=string,S3Key=string JSON Syntax: { "S3BucketName": "string", "S3Key": "string" }</param>
+    /// <param name="PackageName">Unique name for the package. Constraints: • min: 3 • max: 256 • pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="PackageType">The type of package. Possible values: • TXT-DICTIONARY • ZIP-PLUGIN • PACKAGE-LICENSE • PACKAGE-CONFIG</param>
+    /// <param name="PackageSource">The Amazon S3 location from which to import the package. S3BucketName -&gt; (string) The name of the Amazon S3 bucket containing the package. Constraints: • min: 3 • max: 63 S3Key -&gt; (string) Key (file name) of the package. Constraints: • min: 1 • max: 1024 Shorthand Syntax: S3BucketName=string,S3Key=string JSON Syntax: { "S3BucketName": "string", "S3Key": "string" }</param>
     public AwsOpensearchCreatePackageOptions(
         string PackageName,
         AwsOpensearchCreatePackagePackageType PackageType,
@@ -64,49 +66,49 @@ public record AwsOpensearchCreatePackageOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Unique name for the package. Constraints: o min: 3 o max: 256 o pattern: [a-z][a-z0-9\-]+
+    /// Unique name for the package. Constraints: • min: 3 • max: 256 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--package-name")]
     public string? PackageName { get; private init; }
 
     /// <summary>
-    /// The type of package. Possible values: o TXT-DICTIONARY o ZIP-PLUGIN o PACKAGE-LICENSE o PACKAGE-CONFIG
+    /// The type of package. Possible values: • TXT-DICTIONARY • ZIP-PLUGIN • PACKAGE-LICENSE • PACKAGE-CONFIG
     /// </summary>
     [CliOption("--package-type")]
     public AwsOpensearchCreatePackagePackageType? PackageType { get; private init; }
 
     /// <summary>
-    /// The Amazon S3 location from which to import the package. S3BucketName -&gt; (string) The name of the Amazon S3 bucket containing the package. Constraints: o min: 3 o max: 63 S3Key -&gt; (string) Key (file name) of the package. Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3BucketName=string,S3Key=string JSON Syntax: { "S3BucketName": "string", "S3Key": "string" }
+    /// The Amazon S3 location from which to import the package. S3BucketName -&gt; (string) The name of the Amazon S3 bucket containing the package. Constraints: • min: 3 • max: 63 S3Key -&gt; (string) Key (file name) of the package. Constraints: • min: 1 • max: 1024 Shorthand Syntax: S3BucketName=string,S3Key=string JSON Syntax: { "S3BucketName": "string", "S3Key": "string" }
     /// </summary>
     [CliOption("--package-source")]
     public string? PackageSource { get; private init; }
 
     /// <summary>
-    /// Description of the package. Constraints: o max: 1024
+    /// Description of the package. Constraints: • max: 1024
     /// </summary>
     [CliOption("--package-description")]
     public string? PackageDescription { get; set; }
 
     /// <summary>
-    /// The configuration parameters for the package being created. LicenseRequirement -&gt; (string) [required] The license requirements for the package. Possible values: o REQUIRED o OPTIONAL o NONE LicenseFilepath -&gt; (string) The relative file path for the license associated with the pack- age. Constraints: o max: 256 o pattern: ^(?!.*\/\.{2,})(?!.*\.\.)[a-zA-Z0-9_.-]+(?:\/[a-zA-Z0-9_.-]+)*$ ConfigurationRequirement -&gt; (string) [required] The configuration requirements for the package. Possible values: o REQUIRED o OPTIONAL o NONE RequiresRestartForConfigurationUpdate -&gt; (boolean) This indicates whether a B/G deployment is required for updating the configuration that the plugin is prerequisite for. Shorthand Syntax: LicenseRequirement=string,LicenseFilepath=string,ConfigurationRequirement=string,RequiresRestartForConfigurationUpdate=boolean JSON Syntax: { "LicenseRequirement": "REQUIRED"|"OPTIONAL"|"NONE", "LicenseFilepath": "string", "ConfigurationRequirement": "REQUIRED"|"OPTIONAL"|"NONE", "RequiresRestartForConfigurationUpdate": true|false }
+    /// The configuration parameters for the package being created. LicenseRequirement -&gt; (string) [required] The license requirements for the package. Possible values: • REQUIRED • OPTIONAL • NONE LicenseFilepath -&gt; (string) The relative file path for the license associated with the package. Constraints: • max: 256 • pattern: ^(?!.*\/\.{2,})(?!.*\.\.)[a-zA-Z0-9_.-]+(?:\/[a-zA-Z0-9_.-]+)*$ ConfigurationRequirement -&gt; (string) [required] The configuration requirements for the package. Possible values: • REQUIRED • OPTIONAL • NONE RequiresRestartForConfigurationUpdate -&gt; (boolean) This indicates whether a B/G deployment is required for updating the configuration that the plugin is prerequisite for. Shorthand Syntax: LicenseRequirement=string,LicenseFilepath=string,ConfigurationRequirement=string,RequiresRestartForConfigurationUpdate=boolean JSON Syntax: { "LicenseRequirement": "REQUIRED"|"OPTIONAL"|"NONE", "LicenseFilepath": "string", "ConfigurationRequirement": "REQUIRED"|"OPTIONAL"|"NONE", "RequiresRestartForConfigurationUpdate": true|false }
     /// </summary>
     [CliOption("--package-configuration")]
     public string? PackageConfiguration { get; set; }
 
     /// <summary>
-    /// The version of the Amazon OpenSearch Service engine for which is compatible with the package. This can only be specified for package type ZIP-PLUGIN Constraints: o pattern: ^Elastic- search_[0-9]{1}\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\.[0-9]{1,2}$
+    /// The version of the Amazon OpenSearch Service engine for which is compatible with the package. This can only be specified for package type ZIP-PLUGIN Constraints: • pattern: ^Elasticsearch_[0-9]{1}\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\.[0-9]{1,2}$
     /// </summary>
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
     /// <summary>
-    /// The vending options for the package being created. They determine if the package can be vended to other users. VendingEnabled -&gt; (boolean) [required] Indicates whether the package vending feature is enabled, allow- ing the package to be used by other users. Shorthand Syntax: VendingEnabled=boolean JSON Syntax: { "VendingEnabled": true|false }
+    /// The vending options for the package being created. They determine if the package can be vended to other users. VendingEnabled -&gt; (boolean) [required] Indicates whether the package vending feature is enabled, allowing the package to be used by other users. Shorthand Syntax: VendingEnabled=boolean JSON Syntax: { "VendingEnabled": true|false }
     /// </summary>
     [CliOption("--package-vending-options")]
     public string? PackageVendingOptions { get; set; }
 
     /// <summary>
-    /// The encryption parameters for the package being created. KmsKeyIdentifier -&gt; (string) KMS key ID for encrypting the package. Constraints: o min: 1 o max: 500 o pattern: .* EncryptionEnabled -&gt; (boolean) [required] Whether encryption is enabled for the package. Shorthand Syntax: KmsKeyIdentifier=string,EncryptionEnabled=boolean JSON Syntax: { "KmsKeyIdentifier": "string", "EncryptionEnabled": true|false }
+    /// The encryption parameters for the package being created. KmsKeyIdentifier -&gt; (string) KMS key ID for encrypting the package. Constraints: • min: 1 • max: 500 • pattern: .* EncryptionEnabled -&gt; (boolean) [required] Whether encryption is enabled for the package. Shorthand Syntax: KmsKeyIdentifier=string,EncryptionEnabled=boolean JSON Syntax: { "KmsKeyIdentifier": "string", "EncryptionEnabled": true|false }
     /// </summary>
     [CliOption("--package-encryption-options")]
     public string? PackageEncryptionOptions { get; set; }

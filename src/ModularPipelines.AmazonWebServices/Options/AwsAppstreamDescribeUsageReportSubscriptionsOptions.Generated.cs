@@ -29,7 +29,7 @@ public record AwsAppstreamDescribeUsageReportSubscriptionsOptions : AwsOptions
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page. Constraints: o min: 1
+    /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page. Constraints: • min: 1
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

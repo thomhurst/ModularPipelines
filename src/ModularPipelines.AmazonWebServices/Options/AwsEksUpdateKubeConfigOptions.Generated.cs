@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Configures kubectl so that you can connect to an Amazon EKS cluster. Note: To use the resulting configuration, you must have kubectl in- stalled and in your PATH environment variable. This command constructs a configuration with prepopulated server and certificate authority data values for a specified cluster. You can specify an IAM role ARN with the --role-arn option to use for authenti- cation when you issue kubectl commands. Otherwise, the IAM entity in your default AWS CLI or SDK credential ...
+/// Configures kubectl so that you can connect to an Amazon EKS cluster. Note: To use the resulting configuration, you must have kubectl installed and in your PATH environment variable. This command constructs a configuration with prepopulated server and certificate authority data values for a specified cluster. You can specify an IAM role ARN with the --role-arn option to use for authentication when you issue kubectl commands. Otherwise, the IAM entity in your default AWS CLI or SDK credential chai...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEksUpdateKubeConfigOptions : AwsOptions
 {
     /// <summary>
-    /// Configures kubectl so that you can connect to an Amazon EKS cluster. Note: To use the resulting configuration, you must have kubectl in- stalled and in your PATH environment variable. This command constructs a configuration with prepopulated server and certificate authority data values for a specified cluster. You can specify an IAM role ARN with the --role-arn option to use for authenti- cation when you issue kubectl commands. Otherwise, the IAM entity in your default AWS CLI or SDK credential ...
+    /// Configures kubectl so that you can connect to an Amazon EKS cluster. Note: To use the resulting configuration, you must have kubectl installed and in your PATH environment variable. This command constructs a configuration with prepopulated server and certificate authority data values for a specified cluster. You can specify an IAM role ARN with the --role-arn option to use for authentication when you issue kubectl commands. Otherwise, the IAM entity in your default AWS CLI or SDK credential chai...
     /// </summary>
     /// <param name="Name"></param>
     public AwsEksUpdateKubeConfigOptions(

@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the segment detection results of a Amazon Rekognition Video analy- sis started by StartSegmentDetection . Segment detection with Amazon Rekognition Video is an asynchronous op- eration. You start segment detection by calling StartSegmentDetection which returns a job identifier (JobId ). When the segment detection op- eration finishes, Amazon Rekognition publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartSegmentDetection . To ...
+/// Gets the segment detection results of a Amazon Rekognition Video analysis started by StartSegmentDetection . Segment detection with Amazon Rekognition Video is an asynchronous operation. You start segment detection by calling StartSegmentDetection which returns a job identifier (JobId ). When the segment detection operation finishes, Amazon Rekognition publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartSegmentDetection . To get th...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsRekognitionGetSegmentDetectionOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets the segment detection results of a Amazon Rekognition Video analy- sis started by StartSegmentDetection . Segment detection with Amazon Rekognition Video is an asynchronous op- eration. You start segment detection by calling StartSegmentDetection which returns a job identifier (JobId ). When the segment detection op- eration finishes, Amazon Rekognition publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartSegmentDetection . To ...
+    /// Gets the segment detection results of a Amazon Rekognition Video analysis started by StartSegmentDetection . Segment detection with Amazon Rekognition Video is an asynchronous operation. You start segment detection by calling StartSegmentDetection which returns a job identifier (JobId ). When the segment detection operation finishes, Amazon Rekognition publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartSegmentDetection . To get th...
     /// </summary>
-    /// <param name="JobId">Job identifier for the text detection operation for which you want results returned. You get the job identifer from an initial call to StartSegmentDetection . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$</param>
+    /// <param name="JobId">Job identifier for the text detection operation for which you want results returned. You get the job identifer from an initial call to StartSegmentDetection . Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$</param>
     public AwsRekognitionGetSegmentDetectionOptions(
         string JobId
     )
@@ -57,19 +59,19 @@ public record AwsRekognitionGetSegmentDetectionOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Job identifier for the text detection operation for which you want results returned. You get the job identifer from an initial call to StartSegmentDetection . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
+    /// Job identifier for the text detection operation for which you want results returned. You get the job identifer from an initial call to StartSegmentDetection . Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// Maximum number of results to return per paginated call. The largest value you can specify is 1000. Constraints: o min: 1
+    /// Maximum number of results to return per paginated call. The largest value you can specify is 1000. Constraints: • min: 1
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of text. Constraints: o max: 255
+    /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of text. Constraints: • max: 255
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

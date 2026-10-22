@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disables the specified directory. Disabled directories cannot be read or written to. Only enabled directories can be disabled. Disabled di- rectories may be reenabled. See also: AWS API Documentation
+/// Disables the specified directory. Disabled directories cannot be read or written to. Only enabled directories can be disabled. Disabled directories may be reenabled. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsClouddirectoryDisableDirectoryOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disables the specified directory. Disabled directories cannot be read or written to. Only enabled directories can be disabled. Disabled di- rectories may be reenabled. See also: AWS API Documentation
+    /// Disables the specified directory. Disabled directories cannot be read or written to. Only enabled directories can be disabled. Disabled directories may be reenabled. See also: AWS API Documentation
     /// </summary>
     /// <param name="DirectoryArn">The ARN of the directory to disable.</param>
     public AwsClouddirectoryDisableDirectoryOptions(

@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an OpenSearch Serverless-managed interface VPC endpoint. For more information, see Access Amazon OpenSearch Serverless using an in- terface endpoint . See also: AWS API Documentation
+/// Creates an OpenSearch Serverless-managed interface VPC endpoint. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsOpensearchserverlessCreateVpcEndpointOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an OpenSearch Serverless-managed interface VPC endpoint. For more information, see Access Amazon OpenSearch Serverless using an in- terface endpoint . See also: AWS API Documentation
+    /// Creates an OpenSearch Serverless-managed interface VPC endpoint. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the interface endpoint. Constraints: o min: 3 o max: 32 o pattern: [a-z][a-z0-9-]+</param>
-    /// <param name="VpcId">The ID of the VPC from which you'll access OpenSearch Serverless. Constraints: o min: 1 o max: 255 o pattern: vpc-[0-9a-z]*</param>
-    /// <param name="SubnetIds">The ID of one or more subnets from which you'll access OpenSearch Serverless. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 32 o pattern: subnet-([0-9a-f]{8}|[0-9a-f]{17}) Syntax: "string" "string" ...</param>
+    /// <param name="Name">The name of the interface endpoint. Constraints: • min: 3 • max: 32 • pattern: [a-z][a-z0-9-]+</param>
+    /// <param name="VpcId">The ID of the VPC from which you'll access OpenSearch Serverless. Constraints: • min: 1 • max: 255 • pattern: vpc-[0-9a-z]*</param>
+    /// <param name="SubnetIds">The ID of one or more subnets from which you'll access OpenSearch Serverless. Constraints: • min: 1 (string) Constraints: • min: 1 • max: 32 • pattern: subnet-([0-9a-f]{8}|[0-9a-f]{17}) Syntax: "string" "string" ...</param>
     public AwsOpensearchserverlessCreateVpcEndpointOptions(
         string Name,
         string VpcId,
@@ -76,31 +78,31 @@ public record AwsOpensearchserverlessCreateVpcEndpointOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the interface endpoint. Constraints: o min: 3 o max: 32 o pattern: [a-z][a-z0-9-]+
+    /// The name of the interface endpoint. Constraints: • min: 3 • max: 32 • pattern: [a-z][a-z0-9-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The ID of the VPC from which you'll access OpenSearch Serverless. Constraints: o min: 1 o max: 255 o pattern: vpc-[0-9a-z]*
+    /// The ID of the VPC from which you'll access OpenSearch Serverless. Constraints: • min: 1 • max: 255 • pattern: vpc-[0-9a-z]*
     /// </summary>
     [CliOption("--vpc-id")]
     public string? VpcId { get; private init; }
 
     /// <summary>
-    /// The ID of one or more subnets from which you'll access OpenSearch Serverless. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 32 o pattern: subnet-([0-9a-f]{8}|[0-9a-f]{17}) Syntax: "string" "string" ...
+    /// The ID of one or more subnets from which you'll access OpenSearch Serverless. Constraints: • min: 1 (string) Constraints: • min: 1 • max: 32 • pattern: subnet-([0-9a-f]{8}|[0-9a-f]{17}) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; private init; }
 
     /// <summary>
-    /// The unique identifiers of the security groups that define the ports, protocols, and sources for inbound traffic that you are authorizing into your endpoint. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 128 o pattern: [\w+\-]+ Syntax: "string" "string" ...
+    /// The unique identifiers of the security groups that define the ports, protocols, and sources for inbound traffic that you are authorizing into your endpoint. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 1 • max: 128 • pattern: [\w+\-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 1 o max: 512
+    /// Unique, case-sensitive identifier to ensure idempotency of the request. Constraints: • min: 1 • max: 512
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Update a practice run configuration to change one or more of the fol- lowing: add, change, or remove the blocking alarm; change the outcome alarm; or add, change, or remove blocking dates or time windows. See also: AWS API Documentation
+/// Update a practice run configuration to change one or more of the following: add, change, or remove the blocking alarm; change the outcome alarm; or add, change, or remove blocking dates or time windows. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsArcZonalShiftUpdatePracticeRunConfigurationOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Update a practice run configuration to change one or more of the fol- lowing: add, change, or remove the blocking alarm; change the outcome alarm; or add, change, or remove blocking dates or time windows. See also: AWS API Documentation
+    /// Update a practice run configuration to change one or more of the following: add, change, or remove the blocking alarm; change the outcome alarm; or add, change, or remove blocking dates or time windows. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceIdentifier">The identifier for the resource that you want to update the practice run configuration for. The identifier is the Amazon Resource Name (ARN) for the resource. Constraints: o min: 8 o max: 1024</param>
+    /// <param name="ResourceIdentifier">The identifier for the resource that you want to update the practice run configuration for. The identifier is the Amazon Resource Name (ARN) for the resource. Constraints: • min: 8 • max: 1024</param>
     public AwsArcZonalShiftUpdatePracticeRunConfigurationOptions(
         string ResourceIdentifier
     )
@@ -56,37 +58,37 @@ public record AwsArcZonalShiftUpdatePracticeRunConfigurationOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the resource that you want to update the practice run configuration for. The identifier is the Amazon Resource Name (ARN) for the resource. Constraints: o min: 8 o max: 1024
+    /// The identifier for the resource that you want to update the practice run configuration for. The identifier is the Amazon Resource Name (ARN) for the resource. Constraints: • min: 8 • max: 1024
     /// </summary>
     [CliOption("--resource-identifier")]
     public string? ResourceIdentifier { get; private init; }
 
     /// <summary>
-    /// Add, change, or remove windows of days and times for when you can, optionally, block ARC from starting a practice run for a resource. The format for blocked windows is: DAY:HH:SS-DAY:HH:SS. Keep in mind, when you specify dates, that dates and times for practice runs are in UTC. Also, be aware of potential time adjustments that might be required for daylight saving time differences. Separate multiple blocked windows with spaces. For example, say you run business report summaries three days a week. For this scenario, you might set the following recurring days and times as blocked windows, for example: MON-20:30-21:30 WED-20:30-21:30 FRI-20:30-21:30 . Constraints: o min: 0 o max: 15 (string) Constraints: o min: 19 o max: 19 o pattern: (Mon|Tue|Wed|Thu|Fri|Sat|Sun):[0-9]{2}:[0-9]{2}-(Mon|Tue|Wed|Thu|Fri|Sat|Sun):[0-9]{2}:[0-9]{2} Syntax: "string" "string" ...
+    /// Add, change, or remove windows of days and times for when you can, optionally, block ARC from starting a practice run for a resource. The format for blocked windows is: DAY:HH:SS-DAY:HH:SS. Keep in mind, when you specify dates, that dates and times for practice runs are in UTC. Also, be aware of potential time adjustments that might be required for daylight saving time differences. Separate multiple blocked windows with spaces. For example, say you run business report summaries three days a week. For this scenario, you might set the following recurring days and times as blocked windows, for example: MON-20:30-21:30 WED-20:30-21:30 FRI-20:30-21:30 . Constraints: • min: 0 • max: 15 (string) Constraints: • min: 19 • max: 19 • pattern: (Mon|Tue|Wed|Thu|Fri|Sat|Sun):[0-9]{2}:[0-9]{2}-(Mon|Tue|Wed|Thu|Fri|Sat|Sun):[0-9]{2}:[0-9]{2} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--blocked-windows", GroupValues = true)]
     public IEnumerable<string>? BlockedWindows { get; set; }
 
     /// <summary>
-    /// Add, change, or remove blocked dates for a practice run in zonal au- toshift. Optionally, you can block practice runs for specific calendar dates. The format for blocked dates is: YYYY-MM-DD. Keep in mind, when you specify dates, that dates and times for practice runs are in UTC. Separate multiple blocked dates with spaces. For example, if you have an application update scheduled to launch on May 1, 2024, and you don't want practice runs to shift traffic away at that time, you could set a blocked date for 2024-05-01 . Constraints: o min: 0 o max: 15 (string) Constraints: o min: 10 o max: 10 o pattern: [0-9]{4}-[0-9]{2}-[0-9]{2} Syntax: "string" "string" ...
+    /// Add, change, or remove blocked dates for a practice run in zonal autoshift. Optionally, you can block practice runs for specific calendar dates. The format for blocked dates is: YYYY-MM-DD. Keep in mind, when you specify dates, that dates and times for practice runs are in UTC. Separate multiple blocked dates with spaces. For example, if you have an application update scheduled to launch on May 1, 2024, and you don't want practice runs to shift traffic away at that time, you could set a blocked date for 2024-05-01 . Constraints: • min: 0 • max: 15 (string) Constraints: • min: 10 • max: 10 • pattern: [0-9]{4}-[0-9]{2}-[0-9]{2} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--blocked-dates", GroupValues = true)]
     public IEnumerable<string>? BlockedDates { get; set; }
 
     /// <summary>
-    /// Add, change, or remove the Amazon CloudWatch alarms that you option- ally specify as the blocking alarms for practice runs. Constraints: o min: 0 o max: 10 (structure) A control condition is an alarm that you specify for a practice run. When you configure practice runs with zonal autoshift for a resource, you specify Amazon CloudWatch alarms, which you create in CloudWatch to use with the practice run. The alarms that you specify are an outcome alarm , to monitor application health during practice runs and, optionally, a blocking alarm , to block practice runs from starting or to interrupt a practice run in progress. Control condition alarms do not apply for autoshifts. For more information, see Considerations when you configure zonal autoshift in the Amazon Application Recovery Controller Developer Guide. type -&gt; (string) [required] The type of alarm specified for a practice run. You can only specify Amazon CloudWatch alarms for practice runs, so the only valid value is CLOUDWATCH . Possible values: o CLOUDWATCH alarmIdentifier -&gt; (string) [required] The Amazon Resource Name (ARN) for an Amazon CloudWatch alarm that you specify as a control condition for a practice run. Constraints: o min: 8 o max: 1024 o pattern: .* Shorthand Syntax: type=string,alarmIdentifier=string ... JSON Syntax: [ { "type": "CLOUDWATCH", "alarmIdentifier": "string" } ... ]
+    /// Add, change, or remove the Amazon CloudWatch alarms that you optionally specify as the blocking alarms for practice runs. Constraints: • min: 0 • max: 10 (structure) A control condition is an alarm that you specify for a practice run. When you configure practice runs with zonal autoshift for a resource, you specify Amazon CloudWatch alarms, which you create in CloudWatch to use with the practice run. The alarms that you specify are an outcome alarm , to monitor application health during practice runs and, optionally, a blocking alarm , to block practice runs from starting or to interrupt a practice run in progress. Control condition alarms do not apply for autoshifts. For more information, see Considerations when you configure zonal autoshift in the Amazon Application Recovery Controller Developer Guide. type -&gt; (string) [required] The type of alarm specified for a practice run. You can only specify Amazon CloudWatch alarms for practice runs, so the only valid value is CLOUDWATCH . Possible values: • CLOUDWATCH alarmIdentifier -&gt; (string) [required] The Amazon Resource Name (ARN) for an Amazon CloudWatch alarm that you specify as a control condition for a practice run. Constraints: • min: 8 • max: 1024 • pattern: .* Shorthand Syntax: type=string,alarmIdentifier=string ... JSON Syntax: [ { "type": "CLOUDWATCH", "alarmIdentifier": "string" } ... ]
     /// </summary>
     [CliOption("--blocking-alarms", GroupValues = true)]
     public IEnumerable<string>? BlockingAlarms { get; set; }
 
     /// <summary>
-    /// Add, change, or remove windows of days and times for when you can, optionally, allow ARC to start a practice run for a resource. The format for allowed windows is: DAY:HH:SS-DAY:HH:SS. Keep in mind, when you specify dates, that dates and times for practice runs are in UTC. Also, be aware of potential time adjustments that might be required for daylight saving time differences. Separate multiple allowed windows with spaces. For example, say you want to allow practice runs only on Wednesdays and Fridays from noon to 5 p.m. For this scenario, you could set the following recurring days and times as allowed windows, for example: Wed-12:00-Wed:17:00 Fri-12:00-Fri:17:00 . WARNING: The allowedWindows have to start and end on the same day. Win- dows that span multiple days aren't supported. Constraints: o min: 0 o max: 15 (string) Constraints: o min: 19 o max: 19 o pattern: (Mon|Tue|Wed|Thu|Fri|Sat|Sun):[0-9]{2}:[0-9]{2}-(Mon|Tue|Wed|Thu|Fri|Sat|Sun):[0-9]{2}:[0-9]{2} Syntax: "string" "string" ...
+    /// Add, change, or remove windows of days and times for when you can, optionally, allow ARC to start a practice run for a resource. The format for allowed windows is: DAY:HH:SS-DAY:HH:SS. Keep in mind, when you specify dates, that dates and times for practice runs are in UTC. Also, be aware of potential time adjustments that might be required for daylight saving time differences. Separate multiple allowed windows with spaces. For example, say you want to allow practice runs only on Wednesdays and Fridays from noon to 5 p.m. For this scenario, you could set the following recurring days and times as allowed windows, for example: Wed-12:00-Wed:17:00 Fri-12:00-Fri:17:00 . WARNING: The allowedWindows have to start and end on the same day. Windows that span multiple days aren't supported. Constraints: • min: 0 • max: 15 (string) Constraints: • min: 19 • max: 19 • pattern: (Mon|Tue|Wed|Thu|Fri|Sat|Sun):[0-9]{2}:[0-9]{2}-(Mon|Tue|Wed|Thu|Fri|Sat|Sun):[0-9]{2}:[0-9]{2} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--allowed-windows", GroupValues = true)]
     public IEnumerable<string>? AllowedWindows { get; set; }
 
     /// <summary>
-    /// Specify one or more Amazon CloudWatch alarms as the outcome alarms for practice runs. Constraints: o min: 1 o max: 10 (structure) A control condition is an alarm that you specify for a practice run. When you configure practice runs with zonal autoshift for a resource, you specify Amazon CloudWatch alarms, which you create in CloudWatch to use with the practice run. The alarms that you specify are an outcome alarm , to monitor application health during practice runs and, optionally, a blocking alarm , to block practice runs from starting or to interrupt a practice run in progress. Control condition alarms do not apply for autoshifts. For more information, see Considerations when you configure zonal autoshift in the Amazon Application Recovery Controller Developer Guide. type -&gt; (string) [required] The type of alarm specified for a practice run. You can only specify Amazon CloudWatch alarms for practice runs, so the only valid value is CLOUDWATCH . Possible values: o CLOUDWATCH alarmIdentifier -&gt; (string) [required] The Amazon Resource Name (ARN) for an Amazon CloudWatch alarm that you specify as a control condition for a practice run. Constraints: o min: 8 o max: 1024 o pattern: .* Shorthand Syntax: type=string,alarmIdentifier=string ... JSON Syntax: [ { "type": "CLOUDWATCH", "alarmIdentifier": "string" } ... ]
+    /// Specify one or more Amazon CloudWatch alarms as the outcome alarms for practice runs. Constraints: • min: 1 • max: 10 (structure) A control condition is an alarm that you specify for a practice run. When you configure practice runs with zonal autoshift for a resource, you specify Amazon CloudWatch alarms, which you create in CloudWatch to use with the practice run. The alarms that you specify are an outcome alarm , to monitor application health during practice runs and, optionally, a blocking alarm , to block practice runs from starting or to interrupt a practice run in progress. Control condition alarms do not apply for autoshifts. For more information, see Considerations when you configure zonal autoshift in the Amazon Application Recovery Controller Developer Guide. type -&gt; (string) [required] The type of alarm specified for a practice run. You can only specify Amazon CloudWatch alarms for practice runs, so the only valid value is CLOUDWATCH . Possible values: • CLOUDWATCH alarmIdentifier -&gt; (string) [required] The Amazon Resource Name (ARN) for an Amazon CloudWatch alarm that you specify as a control condition for a practice run. Constraints: • min: 8 • max: 1024 • pattern: .* Shorthand Syntax: type=string,alarmIdentifier=string ... JSON Syntax: [ { "type": "CLOUDWATCH", "alarmIdentifier": "string" } ... ]
     /// </summary>
     [CliOption("--outcome-alarms", GroupValues = true)]
     public IEnumerable<string>? OutcomeAlarms { get; set; }

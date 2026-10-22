@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsAccessanalyzerDeleteServiceLinkedAnalyzerOptions : AwsOptions, 
     /// <summary>
     /// Deletes a service-linked analyzer. This operation can be invoked by both authorized Amazon Web Services services and customers. When invoked by a customer, IAM Access Analyzer performs a callback to the managing service to verify whether the analyzer is still in use and can be deleted. If the service indicates the analyzer is still in use, the deletion is rejected with ConflictException . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AnalyzerName">The name of the service-linked analyzer to delete. Service-linked analyzer names follow the format _AccessAnalyzerFor{Service- Name}-{Id} . Constraints: o min: 1 o max: 255 o pattern: [A-Za-z_][A-Za-z0-9_.-]*</param>
+    /// <param name="AnalyzerName">The name of the service-linked analyzer to delete. Service-linked analyzer names follow the format _AccessAnalyzerFor{ServiceName}-{Id} . Constraints: • min: 1 • max: 255 • pattern: [A-Za-z_][A-Za-z0-9_.-]*</param>
     public AwsAccessanalyzerDeleteServiceLinkedAnalyzerOptions(
         string AnalyzerName
     )
@@ -57,7 +59,7 @@ public record AwsAccessanalyzerDeleteServiceLinkedAnalyzerOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the service-linked analyzer to delete. Service-linked analyzer names follow the format _AccessAnalyzerFor{Service- Name}-{Id} . Constraints: o min: 1 o max: 255 o pattern: [A-Za-z_][A-Za-z0-9_.-]*
+    /// The name of the service-linked analyzer to delete. Service-linked analyzer names follow the format _AccessAnalyzerFor{ServiceName}-{Id} . Constraints: • min: 1 • max: 255 • pattern: [A-Za-z_][A-Za-z0-9_.-]*
     /// </summary>
     [CliOption("--analyzer-name")]
     public string? AnalyzerName { get; private init; }

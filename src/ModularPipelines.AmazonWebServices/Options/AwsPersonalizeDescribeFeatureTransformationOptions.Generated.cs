@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsPersonalizeDescribeFeatureTransformationOptions : AwsOptions, I
     /// <summary>
     /// Describes the given feature transformation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FeatureTransformationArn">The Amazon Resource Name (ARN) of the feature transformation to de- scribe. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="FeatureTransformationArn">The Amazon Resource Name (ARN) of the feature transformation to describe. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
     public AwsPersonalizeDescribeFeatureTransformationOptions(
         string FeatureTransformationArn
     )
@@ -56,7 +58,7 @@ public record AwsPersonalizeDescribeFeatureTransformationOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the feature transformation to de- scribe. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the feature transformation to describe. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--feature-transformation-arn")]
     public string? FeatureTransformationArn { get; private init; }

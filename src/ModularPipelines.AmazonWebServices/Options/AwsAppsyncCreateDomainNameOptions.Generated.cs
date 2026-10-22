@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,8 +29,8 @@ public record AwsAppsyncCreateDomainNameOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a custom DomainName object. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The domain name. Constraints: o min: 1 o max: 253 o pattern: ^(\*[\w\d-]*\.)?([\w\d-]+\.)+[\w\d-]+$</param>
-    /// <param name="CertificateArn">The Amazon Resource Name (ARN) of the certificate. This can be an Certificate Manager (ACM) certificate or an Identity and Access Man- agement (IAM) server certificate. Constraints: o min: 20 o max: 2048 o pattern: ^arn:[a-z-]*:(acm|iam):[a-z0-9-]*:\d{12}:(certifi- cate|server-certificate)/[0-9A-Za-z_/-]*$</param>
+    /// <param name="DomainName">The domain name. Constraints: • min: 1 • max: 253 • pattern: ^(\*[\w\d-]*\.)?([\w\d-]+\.)+[\w\d-]+$</param>
+    /// <param name="CertificateArn">The Amazon Resource Name (ARN) of the certificate. This can be an Certificate Manager (ACM) certificate or an Identity and Access Management (IAM) server certificate. Constraints: • min: 20 • max: 2048 • pattern: ^arn:[a-z-]*:(acm|iam):[a-z0-9-]*:\d{12}:(certificate|server-certificate)/[0-9A-Za-z_/-]*$</param>
     public AwsAppsyncCreateDomainNameOptions(
         string DomainName,
         string CertificateArn
@@ -61,25 +62,25 @@ public record AwsAppsyncCreateDomainNameOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The domain name. Constraints: o min: 1 o max: 253 o pattern: ^(\*[\w\d-]*\.)?([\w\d-]+\.)+[\w\d-]+$
+    /// The domain name. Constraints: • min: 1 • max: 253 • pattern: ^(\*[\w\d-]*\.)?([\w\d-]+\.)+[\w\d-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the certificate. This can be an Certificate Manager (ACM) certificate or an Identity and Access Man- agement (IAM) server certificate. Constraints: o min: 20 o max: 2048 o pattern: ^arn:[a-z-]*:(acm|iam):[a-z0-9-]*:\d{12}:(certifi- cate|server-certificate)/[0-9A-Za-z_/-]*$
+    /// The Amazon Resource Name (ARN) of the certificate. This can be an Certificate Manager (ACM) certificate or an Identity and Access Management (IAM) server certificate. Constraints: • min: 20 • max: 2048 • pattern: ^arn:[a-z-]*:(acm|iam):[a-z0-9-]*:\d{12}:(certificate|server-certificate)/[0-9A-Za-z_/-]*$
     /// </summary>
     [CliOption("--certificate-arn")]
     public string? CertificateArn { get; private init; }
 
     /// <summary>
-    /// A description of the DomainName . Constraints: o min: 0 o max: 255 o pattern: ^.*$
+    /// A description of the DomainName . Constraints: • min: 0 • max: 255 • pattern: ^.*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A map with keys of TagKey objects and values of TagValue objects. Constraints: o min: 1 o max: 50 key -&gt; (string) The key for the tag. Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[ a-zA-Z+-=._:/]+$ value -&gt; (string) The value for the tag. Constraints: o max: 256 o pattern: ^[\s\w+-=\.:/@]*$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map with keys of TagKey objects and values of TagValue objects. Constraints: • min: 1 • max: 50 key -&gt; (string) The key for the tag. Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[ a-zA-Z+-=._:/]+$ value -&gt; (string) The value for the tag. Constraints: • max: 256 • pattern: ^[\s\w+-=\.:/@]*$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

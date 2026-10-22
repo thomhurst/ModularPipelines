@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -18,7 +19,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an action group for an agent. An action group represents the actions that an agent can carry out for the customer by defining the APIs that an agent can call and the logic for calling them. To allow your agent to request the user for additional information when trying to complete a task, add an action group with the parentAction- GroupSignature field set to AMAZON.UserInput . To allow your agent to generate, run, and troubleshoot code when trying to complete a task, add an action group w...
+/// Creates an action group for an agent. An action group represents the actions that an agent can carry out for the customer by defining the APIs that an agent can call and the logic for calling them. To allow your agent to request the user for additional information when trying to complete a task, add an action group with the parentActionGroupSignature field set to AMAZON.UserInput . To allow your agent to generate, run, and troubleshoot code when trying to complete a task, add an action group wit...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,11 +29,11 @@ public record AwsBedrockAgentCreateAgentActionGroupOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an action group for an agent. An action group represents the actions that an agent can carry out for the customer by defining the APIs that an agent can call and the logic for calling them. To allow your agent to request the user for additional information when trying to complete a task, add an action group with the parentAction- GroupSignature field set to AMAZON.UserInput . To allow your agent to generate, run, and troubleshoot code when trying to complete a task, add an action group w...
+    /// Creates an action group for an agent. An action group represents the actions that an agent can carry out for the customer by defining the APIs that an agent can call and the logic for calling them. To allow your agent to request the user for additional information when trying to complete a task, add an action group with the parentActionGroupSignature field set to AMAZON.UserInput . To allow your agent to generate, run, and troubleshoot code when trying to complete a task, add an action group wit...
     /// </summary>
-    /// <param name="AgentId">The unique identifier of the agent for which to create the action group. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
-    /// <param name="AgentVersion">The version of the agent for which to create the action group. Constraints: o min: 5 o max: 5 o pattern: DRAFT</param>
-    /// <param name="ActionGroupName">The name to give the action group. Constraints: o pattern: ([0-9a-zA-Z][_-]?){1,100}</param>
+    /// <param name="AgentId">The unique identifier of the agent for which to create the action group. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="AgentVersion">The version of the agent for which to create the action group. Constraints: • min: 5 • max: 5 • pattern: DRAFT</param>
+    /// <param name="ActionGroupName">The name to give the action group. Constraints: • pattern: ([0-9a-zA-Z][_-]?){1,100}</param>
     public AwsBedrockAgentCreateAgentActionGroupOptions(
         string AgentId,
         string AgentVersion,
@@ -67,68 +68,68 @@ public record AwsBedrockAgentCreateAgentActionGroupOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the agent for which to create the action group. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The unique identifier of the agent for which to create the action group. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--agent-id")]
     public string? AgentId { get; private init; }
 
     /// <summary>
-    /// The version of the agent for which to create the action group. Constraints: o min: 5 o max: 5 o pattern: DRAFT
+    /// The version of the agent for which to create the action group. Constraints: • min: 5 • max: 5 • pattern: DRAFT
     /// </summary>
     [CliOption("--agent-version")]
     public string? AgentVersion { get; private init; }
 
     /// <summary>
-    /// The name to give the action group. Constraints: o pattern: ([0-9a-zA-Z][_-]?){1,100}
+    /// The name to give the action group. Constraints: • pattern: ([0-9a-zA-Z][_-]?){1,100}
     /// </summary>
     [CliOption("--action-group-name")]
     public string? ActionGroupName { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency . Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency . Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A description of the action group. Constraints: o min: 1 o max: 200
+    /// A description of the action group. Constraints: • min: 1 • max: 200
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Specify a built-in or computer use action for this action group. If you specify a value, you must leave the description , apiSchema , and actionGroupExecutor fields empty for this action group. o To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput . o To allow your agent to generate, run, and troubleshoot code when trying to complete a task, set this field to AMAZON.CodeInter- preter . o To allow your agent to use an Anthropic computer use tool, specify one of the following values. WARNING: Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. When operating computer use functional- ity, we recommend taking additional security precautions, such as executing computer actions in virtual environments with restricted data access and limited internet connectiv- ity. For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools . o ANTHROPIC.Computer - Gives the agent permission to use the mouse and keyboard and take screenshots. o ANTHROPIC.TextEditor - Gives the agent permission to view, create and edit files. o ANTHROPIC.Bash - Gives the agent permission to run commands in a bash shell. Possible values: o AMAZON.UserInput o AMAZON.CodeInterpreter o ANTHROPIC.Computer o ANTHROPIC.Bash o ANTHROPIC.TextEditor
+    /// Specify a built-in or computer use action for this action group. If you specify a value, you must leave the description , apiSchema , and actionGroupExecutor fields empty for this action group. • To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput . • To allow your agent to generate, run, and troubleshoot code when trying to complete a task, set this field to AMAZON.CodeInterpreter . • To allow your agent to use an Anthropic computer use tool, specify one of the following values. WARNING: Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. When operating computer use functionality, we recommend taking additional security precautions, such as executing computer actions in virtual environments with restricted data access and limited internet connectivity. For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools . • ANTHROPIC.Computer - Gives the agent permission to use the mouse and keyboard and take screenshots. • ANTHROPIC.TextEditor - Gives the agent permission to view, create and edit files. • ANTHROPIC.Bash - Gives the agent permission to run commands in a bash shell. Possible values: • AMAZON.UserInput • AMAZON.CodeInterpreter • ANTHROPIC.Computer • ANTHROPIC.Bash • ANTHROPIC.TextEditor
     /// </summary>
     [CliOption("--parent-action-group-signature")]
     public AwsBedrockAgentCreateAgentActionGroupParentActionGroupSignature? ParentActionGroupSignature { get; set; }
 
     /// <summary>
-    /// The configuration settings for a computer use action. WARNING: Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools . key -&gt; (string) Constraints: o min: 0 o max: 100 value -&gt; (string) Constraints: o min: 0 o max: 100 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The configuration settings for a computer use action. WARNING: Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools . key -&gt; (string) Constraints: • min: 0 • max: 100 value -&gt; (string) Constraints: • min: 0 • max: 100 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--parent-action-group-signature-params", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ParentActionGroupSignatureParams { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Lambda function containing the business logic that is carried out upon invoking the action or the custom control method for handling the information elicited from the user. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: lambda, customControl. lambda -&gt; (string) The Amazon Resource Name (ARN) of the Lambda function containing the business logic that is carried out upon invoking the action. Constraints: o min: 0 o max: 2048 o pattern: arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:func- tion:[a-zA-Z0-9-_\.]+(:(\$LATEST|[a-zA-Z0-9-_]+))? customControl -&gt; (string) To return the action group invocation results directly in the InvokeAgent response, specify RETURN_CONTROL . Possible values: o RETURN_CONTROL Shorthand Syntax: lambda=string,customControl=string JSON Syntax: { "lambda": "string", "customControl": "RETURN_CONTROL" }
+    /// The Amazon Resource Name (ARN) of the Lambda function containing the business logic that is carried out upon invoking the action or the custom control method for handling the information elicited from the user. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: lambda, customControl. lambda -&gt; (string) The Amazon Resource Name (ARN) of the Lambda function containing the business logic that is carried out upon invoking the action. Constraints: • min: 0 • max: 2048 • pattern: arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:function:[a-zA-Z0-9-_\.]+(:(\$LATEST|[a-zA-Z0-9-_]+))? customControl -&gt; (string) To return the action group invocation results directly in the InvokeAgent response, specify RETURN_CONTROL . Possible values: • RETURN_CONTROL Shorthand Syntax: lambda=string,customControl=string JSON Syntax: { "lambda": "string", "customControl": "RETURN_CONTROL" }
     /// </summary>
     [CliOption("--action-group-executor")]
     public string? ActionGroupExecutor { get; set; }
 
     /// <summary>
-    /// Contains either details about the S3 object containing the OpenAPI schema for the action group or the JSON or YAML-formatted payload defining the schema. For more information, see Action group OpenAPI schemas . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3, payload. s3 -&gt; (structure) Contains details about the S3 object containing the OpenAPI schema for the action group. For more information, see Action group OpenAPI schemas . s3BucketName -&gt; (string) The name of the S3 bucket. Constraints: o min: 3 o max: 63 o pattern: [a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9] s3ObjectKey -&gt; (string) The S3 object key for the S3 resource. Constraints: o min: 1 o max: 1024 o pattern: [\.\-\!\*\_\'\(\)a-zA-Z0-9][\.\-\!\*\_\'\(\)\/a-zA-Z0-9]* payload -&gt; (string) The JSON or YAML-formatted payload defining the OpenAPI schema for the action group. For more information, see Action group OpenAPI schemas . Shorthand Syntax: s3={s3BucketName=string,s3ObjectKey=string},payload=string JSON Syntax: { "s3": { "s3BucketName": "string", "s3ObjectKey": "string" }, "payload": "string" }
+    /// Contains either details about the S3 object containing the OpenAPI schema for the action group or the JSON or YAML-formatted payload defining the schema. For more information, see Action group OpenAPI schemas . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3, payload. s3 -&gt; (structure) Contains details about the S3 object containing the OpenAPI schema for the action group. For more information, see Action group OpenAPI schemas . s3BucketName -&gt; (string) The name of the S3 bucket. Constraints: • min: 3 • max: 63 • pattern: [a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9] s3ObjectKey -&gt; (string) The S3 object key for the S3 resource. Constraints: • min: 1 • max: 1024 • pattern: [\.\-\!\*\_\'\(\)a-zA-Z0-9][\.\-\!\*\_\'\(\)\/a-zA-Z0-9]* payload -&gt; (string) The JSON or YAML-formatted payload defining the OpenAPI schema for the action group. For more information, see Action group OpenAPI schemas . Shorthand Syntax: s3={s3BucketName=string,s3ObjectKey=string},payload=string JSON Syntax: { "s3": { "s3BucketName": "string", "s3ObjectKey": "string" }, "payload": "string" }
     /// </summary>
     [CliOption("--api-schema")]
     public string? ApiSchema { get; set; }
 
     /// <summary>
-    /// Specifies whether the action group is available for the agent to in- voke or not when sending an InvokeAgent request. Possible values: o ENABLED o DISABLED
+    /// Specifies whether the action group is available for the agent to invoke or not when sending an InvokeAgent request. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--action-group-state")]
     public AwsBedrockAgentCreateAgentActionGroupActionGroupState? ActionGroupState { get; set; }
 
     /// <summary>
-    /// Contains details about the function schema for the action group or the JSON or YAML-formatted payload defining the schema. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: functions. functions -&gt; (list) A list of functions that each define an action in the action group. (structure) Defines parameters that the agent needs to invoke from the user to complete the function. Corresponds to an action in an action group. This data type is used in the following API operations: o CreateAgentActionGroup request o CreateAgentActionGroup response o UpdateAgentActionGroup request o UpdateAgentActionGroup response o GetAgentActionGroup response name -&gt; (string) [required] A name for the function. Constraints: o pattern: ([0-9a-zA-Z][_-]?){1,100} description -&gt; (string) A description of the function and its purpose. Constraints: o min: 1 o max: 1200 parameters -&gt; (map) The parameters that the agent elicits from the user to fulfill the function. key -&gt; (string) Constraints: o pattern: ([0-9a-zA-Z][_-]?){1,100} value -&gt; (structure) Contains details about a parameter in a function for an action group. This data type is used in the following API opera- tions: o CreateAgentActionGroup request o CreateAgentActionGroup response o UpdateAgentActionGroup request o UpdateAgentActionGroup response o GetAgentActionGroup response description -&gt; (string) A description of the parameter. Helps the founda- tion model determine how to elicit the parameters from the user. Constraints: o min: 1 o max: 500 type -&gt; (string) [required] The data type of the parameter. Possible values: o string o number o integer o boolean o array required -&gt; (boolean) Whether the parameter is required for the agent to complete the function for action group invocation. requireConfirmation -&gt; (string) Contains information if user confirmation is required to invoke the function. Possible values: o ENABLED o DISABLED JSON Syntax: { "functions": [ { "name": "string", "description": "string", "parameters": {"string": { "description": "string", "type": "string"|"number"|"integer"|"boolean"|"array", "required": true|false } ...}, "requireConfirmation": "ENABLED"|"DISABLED" } ... ] }
+    /// Contains details about the function schema for the action group or the JSON or YAML-formatted payload defining the schema. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: functions. functions -&gt; (list) A list of functions that each define an action in the action group. (structure) Defines parameters that the agent needs to invoke from the user to complete the function. Corresponds to an action in an action group. This data type is used in the following API operations: • CreateAgentActionGroup request • CreateAgentActionGroup response • UpdateAgentActionGroup request • UpdateAgentActionGroup response • GetAgentActionGroup response name -&gt; (string) [required] A name for the function. Constraints: • pattern: ([0-9a-zA-Z][_-]?){1,100} description -&gt; (string) A description of the function and its purpose. Constraints: • min: 1 • max: 1200 parameters -&gt; (map) The parameters that the agent elicits from the user to fulfill the function. key -&gt; (string) Constraints: • pattern: ([0-9a-zA-Z][_-]?){1,100} value -&gt; (structure) Contains details about a parameter in a function for an action group. This data type is used in the following API operations: • CreateAgentActionGroup request • CreateAgentActionGroup response • UpdateAgentActionGroup request • UpdateAgentActionGroup response • GetAgentActionGroup response description -&gt; (string) A description of the parameter. Helps the foundation model determine how to elicit the parameters from the user. Constraints: • min: 1 • max: 500 type -&gt; (string) [required] The data type of the parameter. Possible values: • string • number • integer • boolean • array required -&gt; (boolean) Whether the parameter is required for the agent to complete the function for action group invocation. requireConfirmation -&gt; (string) Contains information if user confirmation is required to invoke the function. Possible values: • ENABLED • DISABLED JSON Syntax: { "functions": [ { "name": "string", "description": "string", "parameters": {"string": { "description": "string", "type": "string"|"number"|"integer"|"boolean"|"array", "required": true|false } ...}, "requireConfirmation": "ENABLED"|"DISABLED" } ... ] }
     /// </summary>
     [CliOption("--function-schema")]
     public string? FunctionSchema { get; set; }

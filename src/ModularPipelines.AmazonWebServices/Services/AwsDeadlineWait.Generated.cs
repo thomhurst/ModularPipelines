@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws wait commands.
+/// aws deadline wait commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsDeadlineWait
@@ -47,7 +47,7 @@ public class AwsDeadlineWait
     }
 
     /// <summary>
-    /// Wait until a job reaches any terminal status. Waits up to 1 hour by de- fault. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 240 failed checks. See also: AWS API Documentation
+    /// Wait until a job reaches any terminal status. Waits up to 1 hour by default. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 240 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsDeadlineWait
     }
 
     /// <summary>
-    /// Wait until a job has succeeded. Fails if the job reaches a non-success- ful terminal status. Waits up to 1 hour by default. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 240 failed checks. See also: AWS API Documentation
+    /// Wait until a job has succeeded. Fails if the job reaches a non-successful terminal status. Waits up to 1 hour by default. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 240 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsDeadlineWait
     }
 
     /// <summary>
-    /// Wait until a LicenseEndpoint is Ready. Use this after invoking Cre- ateLicenseEndpoint. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 114 failed checks. See also: AWS API Documentation
+    /// Wait until a LicenseEndpoint is Ready. Use this after invoking CreateLicenseEndpoint. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 114 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsDeadlineWait
     }
 
     /// <summary>
-    /// Wait until a QueueFleetAssociation is stopped. Use this after setting the status to STOP_SCHEDULING_AND_COMPLETE_TASKS or STOP_SCHEDUL- ING_AND_CANCEL_TASKS to wait for a QueueFleetAssociation to reach STOPPED It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+    /// Wait until a QueueFleetAssociation is stopped. Use this after setting the status to STOP_SCHEDULING_AND_COMPLETE_TASKS or STOP_SCHEDULING_AND_CANCEL_TASKS to wait for a QueueFleetAssociation to reach STOPPED It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsDeadlineWait
     }
 
     /// <summary>
-    /// Wait until a QueueLimitAssociation is stopped. Use this after setting the status to STOP_LIMIT_USAGE_AND_COMPLETE_TASKS or STOP_LIMIT_US- AGE_AND_CANCEL_TASKS to wait for a QueueLimitAssociation to reach STOPPED It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+    /// Wait until a QueueLimitAssociation is stopped. Use this after setting the status to STOP_LIMIT_USAGE_AND_COMPLETE_TASKS or STOP_LIMIT_USAGE_AND_CANCEL_TASKS to wait for a QueueLimitAssociation to reach STOPPED It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsDeadlineWait
     }
 
     /// <summary>
-    /// Wait until JMESPath query status returns SCHEDULING_BLOCKED when polling with get-queue. It will poll every 10 seconds until a success- ful state has been reached. This will exit with a return code of 255 after 30 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query status returns SCHEDULING_BLOCKED when polling with get-queue. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 30 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

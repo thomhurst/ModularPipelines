@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMarketplaceDeploymentListTagsForResourceOptions : AwsOptions, I
     /// <summary>
     /// Lists all tags that have been added to a deployment parameter resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) associated with the deployment para- meter resource you want to list tags on.</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) associated with the deployment parameter resource you want to list tags on.</param>
     public AwsMarketplaceDeploymentListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsMarketplaceDeploymentListTagsForResourceOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) associated with the deployment para- meter resource you want to list tags on.
+    /// The Amazon Resource Name (ARN) associated with the deployment parameter resource you want to list tags on.
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

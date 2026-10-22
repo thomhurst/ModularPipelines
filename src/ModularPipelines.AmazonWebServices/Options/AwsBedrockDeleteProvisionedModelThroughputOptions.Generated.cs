@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBedrockDeleteProvisionedModelThroughputOptions : AwsOptions, IV
     /// <summary>
     /// Deletes a Provisioned Throughput. You can't delete a Provisioned Throughput before the commitment term is over. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProvisionedModelId">The Amazon Resource Name (ARN) or name of the Provisioned Through- put. Constraints: o pattern: ((([0-9a-zA-Z][_-]?)+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:pro- visioned-model/[a-z0-9]{12}))</param>
+    /// <param name="ProvisionedModelId">The Amazon Resource Name (ARN) or name of the Provisioned Throughput. Constraints: • pattern: ((([0-9a-zA-Z][_-]?)+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:provisioned-model/[a-z0-9]{12}))</param>
     public AwsBedrockDeleteProvisionedModelThroughputOptions(
         string ProvisionedModelId
     )
@@ -56,7 +58,7 @@ public record AwsBedrockDeleteProvisionedModelThroughputOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) or name of the Provisioned Through- put. Constraints: o pattern: ((([0-9a-zA-Z][_-]?)+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:pro- visioned-model/[a-z0-9]{12}))
+    /// The Amazon Resource Name (ARN) or name of the Provisioned Throughput. Constraints: • pattern: ((([0-9a-zA-Z][_-]?)+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:provisioned-model/[a-z0-9]{12}))
     /// </summary>
     [CliOption("--provisioned-model-id")]
     public string? ProvisionedModelId { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates the specified notification subscription in Amazon Security Lake for the organization you specify. The notification subscription is cre- ated for exceptions that cannot be resolved by Security Lake automati- cally. See also: AWS API Documentation
+/// Creates the specified notification subscription in Amazon Security Lake for the organization you specify. The notification subscription is created for exceptions that cannot be resolved by Security Lake automatically. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsSecuritylakeCreateDataLakeExceptionSubscriptionOptions : AwsOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates the specified notification subscription in Amazon Security Lake for the organization you specify. The notification subscription is cre- ated for exceptions that cannot be resolved by Security Lake automati- cally. See also: AWS API Documentation
+    /// Creates the specified notification subscription in Amazon Security Lake for the organization you specify. The notification subscription is created for exceptions that cannot be resolved by Security Lake automatically. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NotificationEndpoint">The Amazon Web Services account where you want to receive exception notifications. Constraints: o pattern: ^[\\\w\-_:/.@=+]*$</param>
-    /// <param name="SubscriptionProtocol">The subscription protocol to which exception notifications are posted. Constraints: o pattern: ^[a-z\-]*$</param>
+    /// <param name="NotificationEndpoint">The Amazon Web Services account where you want to receive exception notifications. Constraints: • pattern: ^[\\\w\-_:/.@=+]*$</param>
+    /// <param name="SubscriptionProtocol">The subscription protocol to which exception notifications are posted. Constraints: • pattern: ^[a-z\-]*$</param>
     public AwsSecuritylakeCreateDataLakeExceptionSubscriptionOptions(
         string NotificationEndpoint,
         string SubscriptionProtocol
@@ -60,22 +62,22 @@ public record AwsSecuritylakeCreateDataLakeExceptionSubscriptionOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account where you want to receive exception notifications. Constraints: o pattern: ^[\\\w\-_:/.@=+]*$
+    /// The Amazon Web Services account where you want to receive exception notifications. Constraints: • pattern: ^[\\\w\-_:/.@=+]*$
     /// </summary>
     [CliOption("--notification-endpoint")]
     public string? NotificationEndpoint { get; private init; }
 
     /// <summary>
-    /// The subscription protocol to which exception notifications are posted. Constraints: o pattern: ^[a-z\-]*$
+    /// The subscription protocol to which exception notifications are posted. Constraints: • pattern: ^[a-z\-]*$
     /// </summary>
     [CliOption("--subscription-protocol")]
     public string? SubscriptionProtocol { get; private init; }
 
     /// <summary>
-    /// The expiration period and time-to-live (TTL). It is the duration of time until which the exception message remains. Constraints: o min: 1
+    /// The expiration period and time-to-live (TTL). It is the duration of time until which the exception message remains. Constraints: • min: 1
     /// </summary>
     [CliOption("--exception-time-to-live")]
-    public int? ExceptionTimeToLive { get; set; }
+    public long? ExceptionTimeToLive { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

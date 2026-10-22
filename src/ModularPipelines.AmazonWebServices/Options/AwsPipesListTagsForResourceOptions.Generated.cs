@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsPipesListTagsForResourceOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Displays the tags associated with a pipe. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the pipe for which you want to view tags. Constraints: o min: 1 o max: 1600 o pattern: arn:aws([a-z]|\-)*:([a-zA-Z0-9\-]+):([a-z]|\d|\-)*:([0-9]{12})?:(.+)</param>
+    /// <param name="ResourceArn">The ARN of the pipe for which you want to view tags. Constraints: • min: 1 • max: 1600 • pattern: arn:aws([a-z]|\-)*:([a-zA-Z0-9\-]+):([a-z]|\d|\-)*:([0-9]{12})?:(.+)</param>
     public AwsPipesListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsPipesListTagsForResourceOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the pipe for which you want to view tags. Constraints: o min: 1 o max: 1600 o pattern: arn:aws([a-z]|\-)*:([a-zA-Z0-9\-]+):([a-z]|\d|\-)*:([0-9]{12})?:(.+)
+    /// The ARN of the pipe for which you want to view tags. Constraints: • min: 1 • max: 1600 • pattern: arn:aws([a-z]|\-)*:([a-zA-Z0-9\-]+):([a-z]|\d|\-)*:([0-9]{12})?:(.+)
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

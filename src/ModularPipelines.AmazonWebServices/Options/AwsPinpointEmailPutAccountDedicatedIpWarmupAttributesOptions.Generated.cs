@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enable or disable the automatic warm-up feature for dedicated IP ad- dresses. See also: AWS API Documentation
+/// Enable or disable the automatic warm-up feature for dedicated IP addresses. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Claims an CloudHSM cluster by submitting the cluster certificate issued by your issuing certificate authority (CA) and the CA's root certifi- cate. Before you can claim a cluster, you must sign the cluster's cer- tificate signing request (CSR) with your issuing CA. To get the clus- ter's CSR, use DescribeClusters . Cross-account use: No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account. See also: AWS API Documentation
+/// Claims an CloudHSM cluster by submitting the cluster certificate issued by your issuing certificate authority (CA) and the CA's root certificate. Before you can claim a cluster, you must sign the cluster's certificate signing request (CSR) with your issuing CA. To get the cluster's CSR, use DescribeClusters . Cross-account use: No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsCloudhsmv2InitializeClusterOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Claims an CloudHSM cluster by submitting the cluster certificate issued by your issuing certificate authority (CA) and the CA's root certifi- cate. Before you can claim a cluster, you must sign the cluster's cer- tificate signing request (CSR) with your issuing CA. To get the clus- ter's CSR, use DescribeClusters . Cross-account use: No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account. See also: AWS API Documentation
+    /// Claims an CloudHSM cluster by submitting the cluster certificate issued by your issuing certificate authority (CA) and the CA's root certificate. Before you can claim a cluster, you must sign the cluster's certificate signing request (CSR) with your issuing CA. To get the cluster's CSR, use DescribeClusters . Cross-account use: No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterId">The identifier (ID) of the cluster that you are claiming. To find the cluster ID, use DescribeClusters . Constraints: o pattern: cluster-[2-7a-zA-Z]{11,16}</param>
-    /// <param name="SignedCert">The cluster certificate issued (signed) by your issuing certificate authority (CA). The certificate must be in PEM format and can con- tain a maximum of 5000 characters. Constraints: o max: 20000 o pattern: [a-zA-Z0-9+-/=\s]*</param>
-    /// <param name="TrustAnchor">The issuing certificate of the issuing certificate authority (CA) that issued (signed) the cluster certificate. You must use a self-signed certificate. The certificate used to sign the HSM CSR must be directly available, and thus must be the root certificate. The certificate must be in PEM format and can contain a maximum of 5000 characters. Constraints: o max: 20000 o pattern: [a-zA-Z0-9+-/=\s]*</param>
+    /// <param name="ClusterId">The identifier (ID) of the cluster that you are claiming. To find the cluster ID, use DescribeClusters . Constraints: • pattern: cluster-[2-7a-zA-Z]{11,16}</param>
+    /// <param name="SignedCert">The cluster certificate issued (signed) by your issuing certificate authority (CA). The certificate must be in PEM format and can contain a maximum of 5000 characters. Constraints: • max: 20000 • pattern: [a-zA-Z0-9+-/=\s]*</param>
+    /// <param name="TrustAnchor">The issuing certificate of the issuing certificate authority (CA) that issued (signed) the cluster certificate. You must use a self-signed certificate. The certificate used to sign the HSM CSR must be directly available, and thus must be the root certificate. The certificate must be in PEM format and can contain a maximum of 5000 characters. Constraints: • max: 20000 • pattern: [a-zA-Z0-9+-/=\s]*</param>
     public AwsCloudhsmv2InitializeClusterOptions(
         string ClusterId,
         string SignedCert,
@@ -64,19 +66,19 @@ public record AwsCloudhsmv2InitializeClusterOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier (ID) of the cluster that you are claiming. To find the cluster ID, use DescribeClusters . Constraints: o pattern: cluster-[2-7a-zA-Z]{11,16}
+    /// The identifier (ID) of the cluster that you are claiming. To find the cluster ID, use DescribeClusters . Constraints: • pattern: cluster-[2-7a-zA-Z]{11,16}
     /// </summary>
     [CliOption("--cluster-id")]
     public string? ClusterId { get; private init; }
 
     /// <summary>
-    /// The cluster certificate issued (signed) by your issuing certificate authority (CA). The certificate must be in PEM format and can con- tain a maximum of 5000 characters. Constraints: o max: 20000 o pattern: [a-zA-Z0-9+-/=\s]*
+    /// The cluster certificate issued (signed) by your issuing certificate authority (CA). The certificate must be in PEM format and can contain a maximum of 5000 characters. Constraints: • max: 20000 • pattern: [a-zA-Z0-9+-/=\s]*
     /// </summary>
     [CliOption("--signed-cert")]
     public string? SignedCert { get; private init; }
 
     /// <summary>
-    /// The issuing certificate of the issuing certificate authority (CA) that issued (signed) the cluster certificate. You must use a self-signed certificate. The certificate used to sign the HSM CSR must be directly available, and thus must be the root certificate. The certificate must be in PEM format and can contain a maximum of 5000 characters. Constraints: o max: 20000 o pattern: [a-zA-Z0-9+-/=\s]*
+    /// The issuing certificate of the issuing certificate authority (CA) that issued (signed) the cluster certificate. You must use a self-signed certificate. The certificate used to sign the HSM CSR must be directly available, and thus must be the root certificate. The certificate must be in PEM format and can contain a maximum of 5000 characters. Constraints: • max: 20000 • pattern: [a-zA-Z0-9+-/=\s]*
     /// </summary>
     [CliOption("--trust-anchor")]
     public string? TrustAnchor { get; private init; }

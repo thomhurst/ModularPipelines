@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsBedrockDataAutomationUpdateDataAutomationLibraryOptions : AwsOp
     /// <summary>
     /// Updates an existing Amazon Bedrock Data Automation Library See also: AWS API Documentation
     /// </summary>
-    /// <param name="LibraryArn">ARN generated at the server side when a DataAutomationLibrary is created Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-au- tomation-library/[a-zA-Z0-9-]{12,36}</param>
+    /// <param name="LibraryArn">ARN generated at the server side when a DataAutomationLibrary is created Constraints: • min: 0 • max: 128 • pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-automation-library/[a-zA-Z0-9-]{12,36}</param>
     public AwsBedrockDataAutomationUpdateDataAutomationLibraryOptions(
         string LibraryArn
     )
@@ -57,19 +59,19 @@ public record AwsBedrockDataAutomationUpdateDataAutomationLibraryOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN generated at the server side when a DataAutomationLibrary is created Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-au- tomation-library/[a-zA-Z0-9-]{12,36}
+    /// ARN generated at the server side when a DataAutomationLibrary is created Constraints: • min: 0 • max: 128 • pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-automation-library/[a-zA-Z0-9-]{12,36}
     /// </summary>
     [CliOption("--library-arn")]
     public string? LibraryArn { get; private init; }
 
     /// <summary>
-    /// Description of the DataAutomationLibrary Constraints: o min: 0 o max: 300 o pattern: [a-zA-Z0-9\s!"\#\$%'&amp;\(\)\*\+\,\-\./:;=\?@\[\\\]\^_`\{\|\}~-----]*
+    /// Description of the DataAutomationLibrary Constraints: • min: 0 • max: 300 • pattern: [a-zA-Z0-9\s!"\#\$%'&amp;\(\)\*\+\,\-\./:;=\?@\[\\\]\^_`\{\|\}~&gt;&lt;-- -----]*
     /// </summary>
     [CliOption("--library-description")]
     public string? LibraryDescription { get; set; }
 
     /// <summary>
-    /// Client specified token used for idempotency checks Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// Client specified token used for idempotency checks Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

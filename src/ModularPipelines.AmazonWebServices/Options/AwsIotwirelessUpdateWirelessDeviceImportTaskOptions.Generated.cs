@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsIotwirelessUpdateWirelessDeviceImportTaskOptions : AwsOptions, 
     /// <summary>
     /// Update an import task to add more devices to the task. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The identifier of the import task to be updated. Constraints: o max: 256</param>
-    /// <param name="Sidewalk">The Sidewalk-related parameters of the import task to be updated. DeviceCreationFile -&gt; (string) The CSV file contained in an S3 bucket that's used for appending devices to an existing import task. Constraints: o max: 1024 Shorthand Syntax: DeviceCreationFile=string JSON Syntax: { "DeviceCreationFile": "string" }</param>
+    /// <param name="Id">The identifier of the import task to be updated. Constraints: • max: 256</param>
+    /// <param name="Sidewalk">The Sidewalk-related parameters of the import task to be updated. DeviceCreationFile -&gt; (string) The CSV file contained in an S3 bucket that's used for appending devices to an existing import task. Constraints: • max: 1024 Shorthand Syntax: DeviceCreationFile=string JSON Syntax: { "DeviceCreationFile": "string" }</param>
     public AwsIotwirelessUpdateWirelessDeviceImportTaskOptions(
         string Id,
         string Sidewalk
@@ -60,13 +62,13 @@ public record AwsIotwirelessUpdateWirelessDeviceImportTaskOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the import task to be updated. Constraints: o max: 256
+    /// The identifier of the import task to be updated. Constraints: • max: 256
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The Sidewalk-related parameters of the import task to be updated. DeviceCreationFile -&gt; (string) The CSV file contained in an S3 bucket that's used for appending devices to an existing import task. Constraints: o max: 1024 Shorthand Syntax: DeviceCreationFile=string JSON Syntax: { "DeviceCreationFile": "string" }
+    /// The Sidewalk-related parameters of the import task to be updated. DeviceCreationFile -&gt; (string) The CSV file contained in an S3 bucket that's used for appending devices to an existing import task. Constraints: • max: 1024 Shorthand Syntax: DeviceCreationFile=string JSON Syntax: { "DeviceCreationFile": "string" }
     /// </summary>
     [CliOption("--sidewalk")]
     public string? Sidewalk { get; private init; }

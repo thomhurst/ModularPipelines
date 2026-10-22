@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds a statement to a topic's access control policy, granting access for the specified Amazon Web Services accounts to the specified ac- tions. NOTE: To remove the ability to change topic permissions, you must deny permissions to the AddPermission , RemovePermission , and SetTopi- cAttributes actions in your IAM policy. See also: AWS API Documentation
+/// Adds a statement to a topic's access control policy, granting access for the specified Amazon Web Services accounts to the specified actions. NOTE: To remove the ability to change topic permissions, you must deny permissions to the AddPermission , RemovePermission , and SetTopicAttributes actions in your IAM policy. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsSnsAddPermissionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds a statement to a topic's access control policy, granting access for the specified Amazon Web Services accounts to the specified ac- tions. NOTE: To remove the ability to change topic permissions, you must deny permissions to the AddPermission , RemovePermission , and SetTopi- cAttributes actions in your IAM policy. See also: AWS API Documentation
+    /// Adds a statement to a topic's access control policy, granting access for the specified Amazon Web Services accounts to the specified actions. NOTE: To remove the ability to change topic permissions, you must deny permissions to the AddPermission , RemovePermission , and SetTopicAttributes actions in your IAM policy. See also: AWS API Documentation
     /// </summary>
     /// <param name="TopicArn">The ARN of the topic whose access control policy you wish to modify.</param>
     /// <param name="Label">A unique identifier for the new policy statement.</param>

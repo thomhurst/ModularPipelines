@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Initiates the creation of a new signal map. Will discover a new medi- aResourceMap based on the provided discoveryEntryPointArn. See also: AWS API Documentation
+/// Initiates the creation of a new signal map. Will discover a new mediaResourceMap based on the provided discoveryEntryPointArn. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +27,7 @@ public record AwsMedialiveCreateSignalMapOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Initiates the creation of a new signal map. Will discover a new medi- aResourceMap based on the provided discoveryEntryPointArn. See also: AWS API Documentation
+    /// Initiates the creation of a new signal map. Will discover a new mediaResourceMap based on the provided discoveryEntryPointArn. See also: AWS API Documentation
     /// </summary>
     /// <param name="DiscoveryEntryPointArn"></param>
     /// <param name="Name"></param>

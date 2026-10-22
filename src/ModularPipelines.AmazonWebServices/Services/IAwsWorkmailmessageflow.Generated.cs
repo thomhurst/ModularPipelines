@@ -22,23 +22,21 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsWorkmailmessageflow
 {
     /// <summary>
-    /// Retrieves the raw content of an in-transit email message, in MIME for- mat. See also: AWS API Documentation
+    /// Retrieves the raw content of an in-transit email message, in MIME format. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRawMessageContentAsync(AwsWorkmailmessageflowGetRawMessageContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRawMessageContentAsync(AwsWorkmailmessageflowGetRawMessageContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates the raw content of an in-transit email message, in MIME format. This example describes how to update in-transit email message. For more information and examples for using this API, see Updating message con- tent with AWS Lambda . NOTE: Updates to an in-transit message only appear when you call Pu- tRawMessageContent from an AWS Lambda function configured with a synchronous Run Lambda rule. If you call PutRawMessageContent on a delivered or sent message, the message remains unchanged, eve...
+    /// Updates the raw content of an in-transit email message, in MIME format. This example describes how to update in-transit email message. For more information and examples for using this API, see Updating message content with AWS Lambda . NOTE: Updates to an in-transit message only appear when you call PutRawMessageContent from an AWS Lambda function configured with a synchronous Run Lambda rule. If you call PutRawMessageContent on a delivered or sent message, the message remains unchanged, even th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutRawMessageContentAsync(AwsWorkmailmessageflowPutRawMessageContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutRawMessageContentAsync(AwsWorkmailmessageflowPutRawMessageContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

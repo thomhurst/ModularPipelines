@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsIotwirelessGetWirelessGatewayOptions : AwsOptions, IValidatable
     /// <summary>
     /// Gets information about a wireless gateway. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The identifier of the wireless gateway to get. Constraints: o max: 256</param>
-    /// <param name="IdentifierType">The type of identifier used in identifier . Possible values: o GatewayEui o WirelessGatewayId o ThingName</param>
+    /// <param name="Identifier">The identifier of the wireless gateway to get. Constraints: • max: 256</param>
+    /// <param name="IdentifierType">The type of identifier used in identifier . Possible values: • GatewayEui • WirelessGatewayId • ThingName</param>
     public AwsIotwirelessGetWirelessGatewayOptions(
         string Identifier,
         AwsIotwirelessGetWirelessGatewayIdentifierType IdentifierType
@@ -60,13 +62,13 @@ public record AwsIotwirelessGetWirelessGatewayOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the wireless gateway to get. Constraints: o max: 256
+    /// The identifier of the wireless gateway to get. Constraints: • max: 256
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The type of identifier used in identifier . Possible values: o GatewayEui o WirelessGatewayId o ThingName
+    /// The type of identifier used in identifier . Possible values: • GatewayEui • WirelessGatewayId • ThingName
     /// </summary>
     [CliOption("--identifier-type")]
     public AwsIotwirelessGetWirelessGatewayIdentifierType? IdentifierType { get; private init; }

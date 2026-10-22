@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsMacie2UpdateAllowListOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the settings for an allow list. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Criteria">The criteria that specify the text or text pattern to ignore. The criteria can be the location and name of an S3 object that lists specific text to ignore (s3WordsList), or a regular expression that defines a text pattern to ignore (regex). You can change a list's underlying criteria, such as the name of the S3 object or the regular expression to use. However, you can't change the type from s3WordsList to regex or the other way around. regex -&gt; (string) The regular expression (regex ) that defines the text pattern to ignore. The expression can contain as many as 512 characters. Constraints: o min: 1 o max: 512 o pattern: ^[\s\S]+$ s3WordsList -&gt; (structure) The location and name of the S3 object that lists specific text to ignore. bucketName -&gt; (string) [required] The full name of the S3 bucket that contains the object. Constraints: o min: 3 o max: 255 o pattern: ^[A-Za-z0-9.\-_]{3,255}$ objectKey -&gt; (string) [required] The full name (key) of the object. Constraints: o min: 1 o max: 1024 o pattern: ^[\s\S]+$ Shorthand Syntax: regex=string,s3WordsList={bucketName=string,objectKey=string} JSON Syntax: { "regex": "string", "s3WordsList": { "bucketName": "string", "objectKey": "string" } }</param>
+    /// <param name="Criteria">The criteria that specify the text or text pattern to ignore. The criteria can be the location and name of an S3 object that lists specific text to ignore (s3WordsList), or a regular expression that defines a text pattern to ignore (regex). You can change a list's underlying criteria, such as the name of the S3 object or the regular expression to use. However, you can't change the type from s3WordsList to regex or the other way around. regex -&gt; (string) The regular expression (regex ) that defines the text pattern to ignore. The expression can contain as many as 512 characters. Constraints: • min: 1 • max: 512 • pattern: ^[\s\S]+$ s3WordsList -&gt; (structure) The location and name of the S3 object that lists specific text to ignore. bucketName -&gt; (string) [required] The full name of the S3 bucket that contains the object. Constraints: • min: 3 • max: 255 • pattern: ^[A-Za-z0-9.\-_]{3,255}$ objectKey -&gt; (string) [required] The full name (key) of the object. Constraints: • min: 1 • max: 1024 • pattern: ^[\s\S]+$ Shorthand Syntax: regex=string,s3WordsList={bucketName=string,objectKey=string} JSON Syntax: { "regex": "string", "s3WordsList": { "bucketName": "string", "objectKey": "string" } }</param>
     /// <param name="Id">The unique identifier for the Amazon Macie resource that the request applies to.</param>
-    /// <param name="Name">A custom name for the allow list. The name can contain as many as 128 characters. Constraints: o min: 1 o max: 128 o pattern: ^.+$</param>
+    /// <param name="Name">A custom name for the allow list. The name can contain as many as 128 characters. Constraints: • min: 1 • max: 128 • pattern: ^.+$</param>
     public AwsMacie2UpdateAllowListOptions(
         string Criteria,
         string Id,
@@ -64,7 +66,7 @@ public record AwsMacie2UpdateAllowListOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The criteria that specify the text or text pattern to ignore. The criteria can be the location and name of an S3 object that lists specific text to ignore (s3WordsList), or a regular expression that defines a text pattern to ignore (regex). You can change a list's underlying criteria, such as the name of the S3 object or the regular expression to use. However, you can't change the type from s3WordsList to regex or the other way around. regex -&gt; (string) The regular expression (regex ) that defines the text pattern to ignore. The expression can contain as many as 512 characters. Constraints: o min: 1 o max: 512 o pattern: ^[\s\S]+$ s3WordsList -&gt; (structure) The location and name of the S3 object that lists specific text to ignore. bucketName -&gt; (string) [required] The full name of the S3 bucket that contains the object. Constraints: o min: 3 o max: 255 o pattern: ^[A-Za-z0-9.\-_]{3,255}$ objectKey -&gt; (string) [required] The full name (key) of the object. Constraints: o min: 1 o max: 1024 o pattern: ^[\s\S]+$ Shorthand Syntax: regex=string,s3WordsList={bucketName=string,objectKey=string} JSON Syntax: { "regex": "string", "s3WordsList": { "bucketName": "string", "objectKey": "string" } }
+    /// The criteria that specify the text or text pattern to ignore. The criteria can be the location and name of an S3 object that lists specific text to ignore (s3WordsList), or a regular expression that defines a text pattern to ignore (regex). You can change a list's underlying criteria, such as the name of the S3 object or the regular expression to use. However, you can't change the type from s3WordsList to regex or the other way around. regex -&gt; (string) The regular expression (regex ) that defines the text pattern to ignore. The expression can contain as many as 512 characters. Constraints: • min: 1 • max: 512 • pattern: ^[\s\S]+$ s3WordsList -&gt; (structure) The location and name of the S3 object that lists specific text to ignore. bucketName -&gt; (string) [required] The full name of the S3 bucket that contains the object. Constraints: • min: 3 • max: 255 • pattern: ^[A-Za-z0-9.\-_]{3,255}$ objectKey -&gt; (string) [required] The full name (key) of the object. Constraints: • min: 1 • max: 1024 • pattern: ^[\s\S]+$ Shorthand Syntax: regex=string,s3WordsList={bucketName=string,objectKey=string} JSON Syntax: { "regex": "string", "s3WordsList": { "bucketName": "string", "objectKey": "string" } }
     /// </summary>
     [CliOption("--criteria")]
     public string? Criteria { get; private init; }
@@ -76,13 +78,13 @@ public record AwsMacie2UpdateAllowListOptions : AwsOptions, IValidatableObject
     public string? Id { get; private init; }
 
     /// <summary>
-    /// A custom name for the allow list. The name can contain as many as 128 characters. Constraints: o min: 1 o max: 128 o pattern: ^.+$
+    /// A custom name for the allow list. The name can contain as many as 128 characters. Constraints: • min: 1 • max: 128 • pattern: ^.+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A custom description of the allow list. The description can contain as many as 512 characters. Constraints: o min: 1 o max: 512 o pattern: ^[\s\S]+$
+    /// A custom description of the allow list. The description can contain as many as 512 characters. Constraints: • min: 1 • max: 512 • pattern: ^[\s\S]+$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

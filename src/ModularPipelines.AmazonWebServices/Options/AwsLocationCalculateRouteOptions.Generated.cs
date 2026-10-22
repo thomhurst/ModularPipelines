@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to ` CalculateRoutes /loca- tion/latest/APIReference/API_CalculateRoutes.html`__ or ` Calcu- lateIsolines /location/latest/APIReference/API_CalculateIso- lines.html`__ unless you require Grab data. o CalculateRoute is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more in- tuitive, powerful, and complete API (version 2). o The version 2 Calc...
+/// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to ` CalculateRoutes /location/latest/APIReference/API_CalculateRoutes.html`__ or ` CalculateIsolines /location/latest/APIReference/API_CalculateIsolines.html`__ unless you require Grab data. • CalculateRoute is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The version 2 CalculateRou...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsLocationCalculateRouteOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to ` CalculateRoutes /loca- tion/latest/APIReference/API_CalculateRoutes.html`__ or ` Calcu- lateIsolines /location/latest/APIReference/API_CalculateIso- lines.html`__ unless you require Grab data. o CalculateRoute is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more in- tuitive, powerful, and complete API (version 2). o The version 2 Calc...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to ` CalculateRoutes /location/latest/APIReference/API_CalculateRoutes.html`__ or ` CalculateIsolines /location/latest/APIReference/API_CalculateIsolines.html`__ unless you require Grab data. • CalculateRoute is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The version 2 CalculateRou...
     /// </summary>
-    /// <param name="CalculatorName">The name of the route calculator resource that you want to use to calculate the route. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
-    /// <param name="DeparturePosition">The start position for the route. Defined in World Geodetic System (WGS 84) format: [longitude, latitude] . o For example, [-123.115, 49.285] NOTE: If you specify a departure that's not located on a road, Amazon Location moves the position to the nearest road . If Esri is the provider for your route calculator, specifying a route that is longer than 400 km returns a 400 RoutesValidationException er- ror. Valid Values: [-180 to 180,-90 to 90] Constraints: o min: 2 o max: 2 (double) Syntax: double double ...</param>
-    /// <param name="DestinationPosition">The finish position for the route. Defined in World Geodetic System (WGS 84) format: [longitude, latitude] . o For example, [-122.339, 47.615] NOTE: If you specify a destination that's not located on a road, Ama- zon Location moves the position to the nearest road . Valid Values: [-180 to 180,-90 to 90] Constraints: o min: 2 o max: 2 (double) Syntax: double double ...</param>
+    /// <param name="CalculatorName">The name of the route calculator resource that you want to use to calculate the route. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+</param>
+    /// <param name="DeparturePosition">The start position for the route. Defined in World Geodetic System (WGS 84) format: [longitude, latitude] . • For example, [-123.115, 49.285] NOTE: If you specify a departure that's not located on a road, Amazon Location moves the position to the nearest road . If Esri is the provider for your route calculator, specifying a route that is longer than 400 km returns a 400 RoutesValidationException error. Valid Values: [-180 to 180,-90 to 90] Constraints: • min: 2 • max: 2 (double) Syntax: double double ...</param>
+    /// <param name="DestinationPosition">The finish position for the route. Defined in World Geodetic System (WGS 84) format: [longitude, latitude] . • For example, [-122.339, 47.615] NOTE: If you specify a destination that's not located on a road, Amazon Location moves the position to the nearest road . Valid Values: [-180 to 180,-90 to 90] Constraints: • min: 2 • max: 2 (double) Syntax: double double ...</param>
     public AwsLocationCalculateRouteOptions(
         string CalculatorName,
         IEnumerable<string> DeparturePosition,
@@ -87,37 +89,37 @@ public record AwsLocationCalculateRouteOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the route calculator resource that you want to use to calculate the route. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// The name of the route calculator resource that you want to use to calculate the route. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+
     /// </summary>
     [CliOption("--calculator-name")]
     public string? CalculatorName { get; private init; }
 
     /// <summary>
-    /// The start position for the route. Defined in World Geodetic System (WGS 84) format: [longitude, latitude] . o For example, [-123.115, 49.285] NOTE: If you specify a departure that's not located on a road, Amazon Location moves the position to the nearest road . If Esri is the provider for your route calculator, specifying a route that is longer than 400 km returns a 400 RoutesValidationException er- ror. Valid Values: [-180 to 180,-90 to 90] Constraints: o min: 2 o max: 2 (double) Syntax: double double ...
+    /// The start position for the route. Defined in World Geodetic System (WGS 84) format: [longitude, latitude] . • For example, [-123.115, 49.285] NOTE: If you specify a departure that's not located on a road, Amazon Location moves the position to the nearest road . If Esri is the provider for your route calculator, specifying a route that is longer than 400 km returns a 400 RoutesValidationException error. Valid Values: [-180 to 180,-90 to 90] Constraints: • min: 2 • max: 2 (double) Syntax: double double ...
     /// </summary>
     [CliOption("--departure-position", GroupValues = true)]
     public IEnumerable<string>? DeparturePosition { get; private init; }
 
     /// <summary>
-    /// The finish position for the route. Defined in World Geodetic System (WGS 84) format: [longitude, latitude] . o For example, [-122.339, 47.615] NOTE: If you specify a destination that's not located on a road, Ama- zon Location moves the position to the nearest road . Valid Values: [-180 to 180,-90 to 90] Constraints: o min: 2 o max: 2 (double) Syntax: double double ...
+    /// The finish position for the route. Defined in World Geodetic System (WGS 84) format: [longitude, latitude] . • For example, [-122.339, 47.615] NOTE: If you specify a destination that's not located on a road, Amazon Location moves the position to the nearest road . Valid Values: [-180 to 180,-90 to 90] Constraints: • min: 2 • max: 2 (double) Syntax: double double ...
     /// </summary>
     [CliOption("--destination-position", GroupValues = true)]
     public IEnumerable<string>? DestinationPosition { get; private init; }
 
     /// <summary>
-    /// Specifies an ordered list of up to 23 intermediate positions to in- clude along a route between the departure position and destination position. o For example, from the DeparturePosition [-123.115, 49.285] , the route follows the order that the waypoint positions are given [[-122.757, 49.0021],[-122.349, 47.620]] NOTE: If you specify a waypoint position that's not located on a road, Amazon Location moves the position to the nearest road . Specifying more than 23 waypoints returns a 400 ValidationExcep- tion error. If Esri is the provider for your route calculator, specifying a route that is longer than 400 km returns a 400 RoutesValida- tionException error. Valid Values: [-180 to 180,-90 to 90] Constraints: o min: 0 o max: 23 (list) Constraints: o min: 2 o max: 2 (double) Shorthand Syntax: double,double ... JSON Syntax: [ [double, ...] ... ]
+    /// Specifies an ordered list of up to 23 intermediate positions to include along a route between the departure position and destination position. • For example, from the DeparturePosition [-123.115, 49.285] , the route follows the order that the waypoint positions are given [[-122.757, 49.0021],[-122.349, 47.620]] NOTE: If you specify a waypoint position that's not located on a road, Amazon Location moves the position to the nearest road . Specifying more than 23 waypoints returns a 400 ValidationException error. If Esri is the provider for your route calculator, specifying a route that is longer than 400 km returns a 400 RoutesValidationException error. Valid Values: [-180 to 180,-90 to 90] Constraints: • min: 0 • max: 23 (list) Constraints: • min: 2 • max: 2 (double) Shorthand Syntax: double,double ... JSON Syntax: [ [double, ...] ... ]
     /// </summary>
     [CliOption("--waypoint-positions", GroupValues = true)]
     public IEnumerable<string>? WaypointPositions { get; set; }
 
     /// <summary>
-    /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. You can choose Car , Truck , Walking , Bicycle or Motorcycle as options for the TravelMode . NOTE: Bicycle and Motorcycle are only valid when using Grab as a data provider, and only within Southeast Asia. Truck is not available for Grab. For more details on the using Grab for routing, including areas of coverage, see GrabMaps in the Amazon Location Service Devel- oper Guide . The TravelMode you specify also determines how you specify route preferences: o If traveling by Car use the CarModeOptions parameter. o If traveling by Truck use the TruckModeOptions parameter. Default Value: Car Possible values: o Car o Truck o Walking o Bicycle o Motorcycle
+    /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. You can choose Car , Truck , Walking , Bicycle or Motorcycle as options for the TravelMode . NOTE: Bicycle and Motorcycle are only valid when using Grab as a data provider, and only within Southeast Asia. Truck is not available for Grab. For more details on the using Grab for routing, including areas of coverage, see GrabMaps in the Amazon Location Service Developer Guide . The TravelMode you specify also determines how you specify route preferences: • If traveling by Car use the CarModeOptions parameter. • If traveling by Truck use the TruckModeOptions parameter. Default Value: Car Possible values: • Car • Truck • Walking • Bicycle • Motorcycle
     /// </summary>
     [CliOption("--travel-mode")]
     public AwsLocationCalculateRouteTravelMode? TravelMode { get; set; }
 
     /// <summary>
-    /// Specifies the desired time of departure. Uses the given time to cal- culate the route. Otherwise, the best time of day to travel with the best traffic conditions is used to calculate the route. o In ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ . For example, 202007-2T12:15:20.000Z+01:00
+    /// Specifies the desired time of departure. Uses the given time to calculate the route. Otherwise, the best time of day to travel with the best traffic conditions is used to calculate the route. • In ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ . For example, 202007-2T12:15:20.000Z+01:00
     /// </summary>
     [CliOption("--departure-time")]
     public string? DepartureTime { get; set; }
@@ -129,13 +131,13 @@ public record AwsLocationCalculateRouteOptions : AwsOptions, IValidatableObject
     public bool? DepartNow { get; set; }
 
     /// <summary>
-    /// Set the unit system to specify the distance. Default Value: Kilometers Possible values: o Kilometers o Miles
+    /// Set the unit system to specify the distance. Default Value: Kilometers Possible values: • Kilometers • Miles
     /// </summary>
     [CliOption("--distance-unit")]
     public AwsLocationCalculateRouteDistanceUnit? DistanceUnit { get; set; }
 
     /// <summary>
-    /// Set to include the geometry details in the result for each path be- tween a pair of positions. Default Value: false Valid Values: false | true
+    /// Set to include the geometry details in the result for each path between a pair of positions. Default Value: false Valid Values: false | true
     /// </summary>
     [CliFlag("--include-leg-geometry", NegatedName = "--no-include-leg-geometry")]
     public bool? IncludeLegGeometry { get; set; }
@@ -147,25 +149,25 @@ public record AwsLocationCalculateRouteOptions : AwsOptions, IValidatableObject
     public string? CarModeOptions { get; set; }
 
     /// <summary>
-    /// Specifies route preferences when traveling by Truck , such as avoid- ing routes that use ferries or tolls, and truck specifications to consider when choosing an optimal road. Requirements: TravelMode must be specified as Truck . AvoidFerries -&gt; (boolean) Avoids ferries when calculating routes. Default Value: false Valid Values: false | true AvoidTolls -&gt; (boolean) Avoids tolls when calculating routes. Default Value: false Valid Values: false | true Dimensions -&gt; (structure) Specifies the truck's dimension specifications including length, height, width, and unit of measurement. Used to avoid roads that can't support the truck's dimensions. Length -&gt; (double) The length of the truck. o For example, 15.5 . NOTE: For routes calculated with a HERE resource, this value must be between 0 and 300 meters. Constraints: o min: 0 Height -&gt; (double) The height of the truck. o For example, 4.5 . NOTE: For routes calculated with a HERE resource, this value must be between 0 and 50 meters. Constraints: o min: 0 Width -&gt; (double) The width of the truck. o For example, 4.5 . NOTE: For routes calculated with a HERE resource, this value must be between 0 and 50 meters. Constraints: o min: 0 Unit -&gt; (string) Specifies the unit of measurement for the truck dimensions. Default Value: Meters Possible values: o Meters o Feet Weight -&gt; (structure) Specifies the truck's weight specifications including total weight and unit of measurement. Used to avoid roads that can't support the truck's weight. Total -&gt; (double) The total weight of the truck. o For example, 3500 . Constraints: o min: 0 Unit -&gt; (string) The unit of measurement to use for the truck weight. Default Value: Kilograms Possible values: o Kilograms o Pounds Shorthand Syntax: AvoidFerries=boolean,AvoidTolls=boolean,Dimensions={Length=double,Height=double,Width=double,Unit=string},Weight={Total=double,Unit=string} JSON Syntax: { "AvoidFerries": true|false, "AvoidTolls": true|false, "Dimensions": { "Length": double, "Height": double, "Width": double, "Unit": "Meters"|"Feet" }, "Weight": { "Total": double, "Unit": "Kilograms"|"Pounds" } }
+    /// Specifies route preferences when traveling by Truck , such as avoiding routes that use ferries or tolls, and truck specifications to consider when choosing an optimal road. Requirements: TravelMode must be specified as Truck . AvoidFerries -&gt; (boolean) Avoids ferries when calculating routes. Default Value: false Valid Values: false | true AvoidTolls -&gt; (boolean) Avoids tolls when calculating routes. Default Value: false Valid Values: false | true Dimensions -&gt; (structure) Specifies the truck's dimension specifications including length, height, width, and unit of measurement. Used to avoid roads that can't support the truck's dimensions. Length -&gt; (double) The length of the truck. • For example, 15.5 . NOTE: For routes calculated with a HERE resource, this value must be between 0 and 300 meters. Constraints: • min: 0 Height -&gt; (double) The height of the truck. • For example, 4.5 . NOTE: For routes calculated with a HERE resource, this value must be between 0 and 50 meters. Constraints: • min: 0 Width -&gt; (double) The width of the truck. • For example, 4.5 . NOTE: For routes calculated with a HERE resource, this value must be between 0 and 50 meters. Constraints: • min: 0 Unit -&gt; (string) Specifies the unit of measurement for the truck dimensions. Default Value: Meters Possible values: • Meters • Feet Weight -&gt; (structure) Specifies the truck's weight specifications including total weight and unit of measurement. Used to avoid roads that can't support the truck's weight. Total -&gt; (double) The total weight of the truck. • For example, 3500 . Constraints: • min: 0 Unit -&gt; (string) The unit of measurement to use for the truck weight. Default Value: Kilograms Possible values: • Kilograms • Pounds Shorthand Syntax: AvoidFerries=boolean,AvoidTolls=boolean,Dimensions={Length=double,Height=double,Width=double,Unit=string},Weight={Total=double,Unit=string} JSON Syntax: { "AvoidFerries": true|false, "AvoidTolls": true|false, "Dimensions": { "Length": double, "Height": double, "Width": double, "Unit": "Meters"|"Feet" }, "Weight": { "Total": double, "Unit": "Kilograms"|"Pounds" } }
     /// </summary>
     [CliOption("--truck-mode-options")]
     public string? TruckModeOptions { get; set; }
 
     /// <summary>
-    /// Specifies the desired time of arrival. Uses the given time to calcu- late the route. Otherwise, the best time of day to travel with the best traffic conditions is used to calculate the route. NOTE: ArrivalTime is not supported Esri.
+    /// Specifies the desired time of arrival. Uses the given time to calculate the route. Otherwise, the best time of day to travel with the best traffic conditions is used to calculate the route. NOTE: ArrivalTime is not supported Esri.
     /// </summary>
     [CliOption("--arrival-time")]
     public string? ArrivalTime { get; set; }
 
     /// <summary>
-    /// Specifies the distance to optimize for when calculating a route. Possible values: o FastestRoute o ShortestRoute
+    /// Specifies the distance to optimize for when calculating a route. Possible values: • FastestRoute • ShortestRoute
     /// </summary>
     [CliOption("--optimize-for")]
     public AwsLocationCalculateRouteOptimizeFor? OptimizeFor { get; set; }
 
     /// <summary>
-    /// The optional API key to authorize the request. Constraints: o min: 0 o max: 1000
+    /// The optional API key to authorize the request. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--key")]
     public string? Key { get; set; }

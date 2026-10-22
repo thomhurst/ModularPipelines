@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsFmsListDiscoveredResourcesOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Returns an array of resources in the organization's accounts that are available to be associated with a resource set. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MemberAccountIds">The Amazon Web Services account IDs to discover resources in. Only one account is supported per request. The account must be a member of your organization. (string) Constraints: o min: 1 o max: 1024 o pattern: ^[0-9]+$ Syntax: "string" "string" ...</param>
-    /// <param name="ResourceType">The type of resources to discover. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$</param>
+    /// <param name="MemberAccountIds">The Amazon Web Services account IDs to discover resources in. Only one account is supported per request. The account must be a member of your organization. (string) Constraints: • min: 1 • max: 1024 • pattern: ^[0-9]+$ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceType">The type of resources to discover. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$</param>
     public AwsFmsListDiscoveredResourcesOptions(
         IEnumerable<string> MemberAccountIds,
         string ResourceType
@@ -72,25 +74,25 @@ public record AwsFmsListDiscoveredResourcesOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account IDs to discover resources in. Only one account is supported per request. The account must be a member of your organization. (string) Constraints: o min: 1 o max: 1024 o pattern: ^[0-9]+$ Syntax: "string" "string" ...
+    /// The Amazon Web Services account IDs to discover resources in. Only one account is supported per request. The account must be a member of your organization. (string) Constraints: • min: 1 • max: 1024 • pattern: ^[0-9]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--member-account-ids", GroupValues = true)]
     public IEnumerable<string>? MemberAccountIds { get; private init; }
 
     /// <summary>
-    /// The type of resources to discover. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
+    /// The type of resources to discover. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
     /// </summary>
     [CliOption("--resource-type")]
     public string? ResourceType { get; private init; }
 
     /// <summary>
-    /// The maximum number of objects that you want Firewall Manager to re- turn for this request. If more objects are available, in the re- sponse, Firewall Manager provides a NextToken value that you can use in a subsequent call to get the next batch of objects. Constraints: o min: 1 o max: 100
+    /// The maximum number of objects that you want Firewall Manager to return for this request. If more objects are available, in the response, Firewall Manager provides a NextToken value that you can use in a subsequent call to get the next batch of objects. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Firewall Manager returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request. Constraints: o min: 1 o max: 4096 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Firewall Manager returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request. Constraints: • min: 1 • max: 4096 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

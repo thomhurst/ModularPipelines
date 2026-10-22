@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a predictor created using the DescribePredictor or CreatePre- dictor operations. You can delete only predictor that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribePredictor operation. See also: AWS API Documentation
+/// Deletes a predictor created using the DescribePredictor or CreatePredictor operations. You can delete only predictor that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribePredictor operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsForecastDeletePredictorOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a predictor created using the DescribePredictor or CreatePre- dictor operations. You can delete only predictor that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribePredictor operation. See also: AWS API Documentation
+    /// Deletes a predictor created using the DescribePredictor or CreatePredictor operations. You can delete only predictor that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribePredictor operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PredictorArn">The Amazon Resource Name (ARN) of the predictor to delete. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    /// <param name="PredictorArn">The Amazon Resource Name (ARN) of the predictor to delete. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
     public AwsForecastDeletePredictorOptions(
         string PredictorArn
     )
@@ -56,7 +58,7 @@ public record AwsForecastDeletePredictorOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the predictor to delete. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the predictor to delete. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
     /// </summary>
     [CliOption("--predictor-arn")]
     public string? PredictorArn { get; private init; }

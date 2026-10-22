@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates a custom terminology, depending on whether one al- ready exists for the given terminology name. Importing a terminology with the same name as an existing one will merge the terminologies based on the chosen merge strategy. The only supported merge strategy is OVERWRITE, where the imported terminology overwrites the existing terminology of the same name. If you import a terminology that overwrites an existing one, the new terminology takes up to 10 minutes to fully propagate. A...
+/// Creates or updates a custom terminology, depending on whether one already exists for the given terminology name. Importing a terminology with the same name as an existing one will merge the terminologies based on the chosen merge strategy. The only supported merge strategy is OVERWRITE, where the imported terminology overwrites the existing terminology of the same name. If you import a terminology that overwrites an existing one, the new terminology takes up to 10 minutes to fully propagate. Aft...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsTranslateImportTerminologyOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates or updates a custom terminology, depending on whether one al- ready exists for the given terminology name. Importing a terminology with the same name as an existing one will merge the terminologies based on the chosen merge strategy. The only supported merge strategy is OVERWRITE, where the imported terminology overwrites the existing terminology of the same name. If you import a terminology that overwrites an existing one, the new terminology takes up to 10 minutes to fully propagate. A...
+    /// Creates or updates a custom terminology, depending on whether one already exists for the given terminology name. Importing a terminology with the same name as an existing one will merge the terminologies based on the chosen merge strategy. The only supported merge strategy is OVERWRITE, where the imported terminology overwrites the existing terminology of the same name. If you import a terminology that overwrites an existing one, the new terminology takes up to 10 minutes to fully propagate. Aft...
     /// </summary>
-    /// <param name="Name">The name of the custom terminology being imported. Constraints: o min: 1 o max: 256 o pattern: ^([A-Za-z0-9-]_?)+$</param>
-    /// <param name="MergeStrategy">The merge strategy of the custom terminology being imported. Cur- rently, only the OVERWRITE merge strategy is supported. In this case, the imported terminology will overwrite an existing terminol- ogy of the same name. Possible values: o OVERWRITE</param>
+    /// <param name="Name">The name of the custom terminology being imported. Constraints: • min: 1 • max: 256 • pattern: ^([A-Za-z0-9-]_?)+$</param>
+    /// <param name="MergeStrategy">The merge strategy of the custom terminology being imported. Currently, only the OVERWRITE merge strategy is supported. In this case, the imported terminology will overwrite an existing terminology of the same name. Possible values: • OVERWRITE</param>
     /// <param name="DataFile">The path to the file of the code you are uploading. Example: fileb://data.csv</param>
     public AwsTranslateImportTerminologyOptions(
         string Name,
@@ -64,13 +66,13 @@ public record AwsTranslateImportTerminologyOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the custom terminology being imported. Constraints: o min: 1 o max: 256 o pattern: ^([A-Za-z0-9-]_?)+$
+    /// The name of the custom terminology being imported. Constraints: • min: 1 • max: 256 • pattern: ^([A-Za-z0-9-]_?)+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The merge strategy of the custom terminology being imported. Cur- rently, only the OVERWRITE merge strategy is supported. In this case, the imported terminology will overwrite an existing terminol- ogy of the same name. Possible values: o OVERWRITE
+    /// The merge strategy of the custom terminology being imported. Currently, only the OVERWRITE merge strategy is supported. In this case, the imported terminology will overwrite an existing terminology of the same name. Possible values: • OVERWRITE
     /// </summary>
     [CliOption("--merge-strategy")]
     public string? MergeStrategy { get; private init; }
@@ -82,25 +84,25 @@ public record AwsTranslateImportTerminologyOptions : AwsOptions, IValidatableObj
     public string? DataFile { get; private init; }
 
     /// <summary>
-    /// The description of the custom terminology being imported. Constraints: o max: 256 o pattern: [\P{M}\p{M}]{0,256}
+    /// The description of the custom terminology being imported. Constraints: • max: 256 • pattern: [\P{M}\p{M}]{0,256}
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The terminology data for the custom terminology being imported. Format -&gt; (string) [required] The data format of the custom terminology. Possible values: o CSV o TMX o TSV Directionality -&gt; (string) The directionality of your terminology resource indicates whether it has one source language (uni-directional) or multiple (multi-directional). UNI The terminology resource has one source language (for example, the first column in a CSV file), and all of its other languages are target languages. MULTI Any language in the terminology resource can be the source lan- guage or a target language. A single multi-directional terminol- ogy resource can be used for jobs that translate different lan- guage pairs. For example, if the terminology contains English and Spanish terms, it can be used for jobs that translate Eng- lish to Spanish and Spanish to English. When you create a custom terminology resource without specifying the directionality, it behaves as uni-directional terminology, although this parameter will have a null value. Possible values: o UNI o MULTI Shorthand Syntax: Format=string,Directionality=string JSON Syntax: { "Format": "CSV"|"TMX"|"TSV", "Directionality": "UNI"|"MULTI" }
+    /// The terminology data for the custom terminology being imported. Format -&gt; (string) [required] The data format of the custom terminology. Possible values: • CSV • TMX • TSV Directionality -&gt; (string) The directionality of your terminology resource indicates whether it has one source language (uni-directional) or multiple (multi-directional). UNI The terminology resource has one source language (for example, the first column in a CSV file), and all of its other languages are target languages. MULTI Any language in the terminology resource can be the source language or a target language. A single multi-directional terminology resource can be used for jobs that translate different language pairs. For example, if the terminology contains English and Spanish terms, it can be used for jobs that translate English to Spanish and Spanish to English. When you create a custom terminology resource without specifying the directionality, it behaves as uni-directional terminology, although this parameter will have a null value. Possible values: • UNI • MULTI Shorthand Syntax: Format=string,Directionality=string JSON Syntax: { "Format": "CSV"|"TMX"|"TSV", "Directionality": "UNI"|"MULTI" }
     /// </summary>
     [CliOption("--terminology-data")]
     public string? TerminologyData { get; set; }
 
     /// <summary>
-    /// The encryption key for the custom terminology being imported. Type -&gt; (string) [required] The type of encryption key used by Amazon Translate to encrypt this object. Possible values: o KMS Id -&gt; (string) [required] The Amazon Resource Name (ARN) of the encryption key being used to encrypt this object. Constraints: o min: 1 o max: 400 o pattern: (arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:kms:)?([a-z]{2}-[a-z]+(-[a-z]+)?-\d:)?(\d{12}:)?(((key/)?[a-zA-Z0-9-_]+)|(alias/[a-zA-Z0-9:/_-]+)) Shorthand Syntax: Type=string,Id=string JSON Syntax: { "Type": "KMS", "Id": "string" }
+    /// The encryption key for the custom terminology being imported. Type -&gt; (string) [required] The type of encryption key used by Amazon Translate to encrypt this object. Possible values: • KMS Id -&gt; (string) [required] The Amazon Resource Name (ARN) of the encryption key being used to encrypt this object. Constraints: • min: 1 • max: 400 • pattern: (arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:kms:)?([a-z]{2}-[a-z]+(-[a-z]+)?-\d:)?(\d{12}:)?(((key/)?[a-zA-Z0-9-_]+)|(alias/[a-zA-Z0-9:/_-]+)) Shorthand Syntax: Type=string,Id=string JSON Syntax: { "Type": "KMS", "Id": "string" }
     /// </summary>
     [CliOption("--encryption-key")]
     public string? EncryptionKey { get; set; }
 
     /// <summary>
-    /// Tags to be associated with this resource. A tag is a key-value pair that adds metadata to a resource. Each tag key for the resource must be unique. For more information, see Tagging your resources . Constraints: o min: 0 o max: 200 (structure) A key-value pair that adds as a metadata to a resource used by Amazon Translate. Key -&gt; (string) [required] The initial part of a key-value pair that forms a tag associ- ated with a given resource. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The second part of a key-value pair that forms a tag associ- ated with a given resource. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Tags to be associated with this resource. A tag is a key-value pair that adds metadata to a resource. Each tag key for the resource must be unique. For more information, see Tagging your resources . Constraints: • min: 0 • max: 200 (structure) A key-value pair that adds as a metadata to a resource used by Amazon Translate. Key -&gt; (string) [required] The initial part of a key-value pair that forms a tag associated with a given resource. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The second part of a key-value pair that forms a tag associated with a given resource. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

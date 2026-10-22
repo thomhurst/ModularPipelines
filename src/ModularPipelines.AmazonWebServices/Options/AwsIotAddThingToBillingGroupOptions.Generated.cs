@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotAddThingToBillingGroupOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the billing group. NOTE: This call is asynchronous. It might take several seconds for the detachment to propagate. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The name of the billing group. NOTE: This call is asynchronous. It might take several seconds for the detachment to propagate. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--billing-group-name")]
     public string? BillingGroupName { get; set; }
@@ -34,7 +34,7 @@ public record AwsIotAddThingToBillingGroupOptions : AwsOptions
     public string? BillingGroupArn { get; set; }
 
     /// <summary>
-    /// The name of the thing to be added to the billing group. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The name of the thing to be added to the billing group. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--thing-name")]
     public string? ThingName { get; set; }

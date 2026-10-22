@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the settings for the Insights event selectors that you con- figured for your trail or event data store. GetInsightSelectors shows if CloudTrail Insights logging is enabled and which Insights types are configured with corresponding event categories. If you run GetInsightS- electors on a trail or event data store that does not have Insights events enabled, the operation throws the exception InsightNotEnabledEx- ception Specify either the EventDataStore parameter to get Insights event se-...
+/// Describes the settings for the Insights event selectors that you configured for your trail or event data store. GetInsightSelectors shows if CloudTrail Insights logging is enabled and which Insights types are configured with corresponding event categories. If you run GetInsightSelectors on a trail or event data store that does not have Insights events enabled, the operation throws the exception InsightNotEnabledException Specify either the EventDataStore parameter to get Insights event selectors...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudtrailGetInsightSelectorsOptions : AwsOptions
 {
     /// <summary>
-    /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements: o Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-) o Start with a letter or number, and end with a letter or number o Be between 3 and 128 characters o Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid. o Not be in IP address format (for example, 192.168.5.4) If you specify a trail ARN, it must be in the format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail You cannot use this parameter with the EventDataStore parameter.
+    /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements: • Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-) • Start with a letter or number, and end with a letter or number • Be between 3 and 128 characters • Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid. • Not be in IP address format (for example, 192.168.5.4) If you specify a trail ARN, it must be in the format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail You cannot use this parameter with the EventDataStore parameter.
     /// </summary>
     [CliOption("--trail-name")]
     public string? TrailName { get; set; }
 
     /// <summary>
-    /// Specifies the ARN (or ID suffix of the ARN) of the event data store for which you want to get Insights selectors. You cannot use this parameter with the TrailName parameter. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$
+    /// Specifies the ARN (or ID suffix of the ARN) of the event data store for which you want to get Insights selectors. You cannot use this parameter with the TrailName parameter. Constraints: • min: 3 • max: 256 • pattern: ^[a-zA-Z0-9._/\-:]+$
     /// </summary>
     [CliOption("--event-data-store")]
     public string? EventDataStore { get; set; }

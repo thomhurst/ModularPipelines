@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Attempts to retrieve a fleet ID that is associated with an alias. Spec- ify a unique alias identifier. If the alias has a SIMPLE routing strategy, Amazon GameLift Servers re- turns a fleet ID. If the alias has a TERMINAL routing strategy, the re- sult is a TerminalRoutingStrategyException . Related actions All APIs by task See also: AWS API Documentation
+/// This API works with the following fleet types: EC2, Anywhere, Container Attempts to retrieve a fleet ID that is associated with an alias. Specify a unique alias identifier. If the alias has a SIMPLE routing strategy, Amazon GameLift Servers returns a fleet ID. If the alias has a TERMINAL routing strategy, the result is a TerminalRoutingStrategyException . Related actions All APIs by task See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsGameliftResolveAliasOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Attempts to retrieve a fleet ID that is associated with an alias. Spec- ify a unique alias identifier. If the alias has a SIMPLE routing strategy, Amazon GameLift Servers re- turns a fleet ID. If the alias has a TERMINAL routing strategy, the re- sult is a TerminalRoutingStrategyException . Related actions All APIs by task See also: AWS API Documentation
+    /// This API works with the following fleet types: EC2, Anywhere, Container Attempts to retrieve a fleet ID that is associated with an alias. Specify a unique alias identifier. If the alias has a SIMPLE routing strategy, Amazon GameLift Servers returns a fleet ID. If the alias has a TERMINAL routing strategy, the result is a TerminalRoutingStrategyException . Related actions All APIs by task See also: AWS API Documentation
     /// </summary>
-    /// <param name="AliasId">The unique identifier of the alias that you want to retrieve a fleet ID for. You can use either the alias ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^(alias-\S+|arn:.*:alias\/alias-\S+)$</param>
+    /// <param name="AliasId">The unique identifier of the alias that you want to retrieve a fleet ID for. You can use either the alias ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^(alias-\S+|arn:.*:alias\/alias-\S+)$</param>
     public AwsGameliftResolveAliasOptions(
         string AliasId
     )
@@ -56,7 +58,7 @@ public record AwsGameliftResolveAliasOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the alias that you want to retrieve a fleet ID for. You can use either the alias ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^(alias-\S+|arn:.*:alias\/alias-\S+)$
+    /// The unique identifier of the alias that you want to retrieve a fleet ID for. You can use either the alias ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^(alias-\S+|arn:.*:alias\/alias-\S+)$
     /// </summary>
     [CliOption("--alias-id")]
     public string? AliasId { get; private init; }

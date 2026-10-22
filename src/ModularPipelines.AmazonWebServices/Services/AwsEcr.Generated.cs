@@ -33,7 +33,7 @@ public class AwsEcr : IAwsEcr
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws ecr wait sub-commands.
     /// </summary>
     public AwsEcrWait Wait => _wait ??= new AwsEcrWait(_command);
 
@@ -72,7 +72,7 @@ public class AwsEcr : IAwsEcr
     }
 
     /// <summary>
-    /// Gets detailed information for an image. Images are specified with ei- ther an imageTag or imageDigest . When an image is pulled, the BatchGetImage API is called once to re- trieve the image manifest. See also: AWS API Documentation
+    /// Gets detailed information for an image. Images are specified with either an imageTag or imageDigest . When an image is pulled, the BatchGetImage API is called once to retrieve the image manifest. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -102,7 +102,7 @@ public class AwsEcr : IAwsEcr
     }
 
     /// <summary>
-    /// Informs Amazon ECR that the image layer upload has completed for a specified registry, repository name, and upload ID. You can optionally provide a sha256 digest of the image layer for data validation pur- poses. When an image is pushed, the CompleteLayerUpload API is called once per each new image layer to verify that the upload has completed. NOTE: This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use...
+    /// Informs Amazon ECR that the image layer upload has completed for a specified registry, repository name, and upload ID. You can optionally provide a sha256 digest of the image layer for data validation purposes. When an image is pushed, the CompleteLayerUpload API is called once per each new image layer to verify that the upload has completed. NOTE: This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -132,7 +132,7 @@ public class AwsEcr : IAwsEcr
     }
 
     /// <summary>
-    /// Creates a repository creation template. This template is used to define the settings for repositories created by Amazon ECR on your behalf. For example, repositories created through pull through cache actions. For more information, see Private repository creation templates in the Ama- zon Elastic Container Registry User Guide . See also: AWS API Documentation
+    /// Creates a repository creation template. This template is used to define the settings for repositories created by Amazon ECR on your behalf. For example, repositories created through pull through cache actions. For more information, see Private repository creation templates in the Amazon Elastic Container Registry User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -252,7 +252,7 @@ public class AwsEcr : IAwsEcr
     }
 
     /// <summary>
-    /// Deletes the registry's signing configuration. Images pushed after dele- tion of the signing configuration will no longer be automatically signed. For more information, see Managed signing in the Amazon Elastic Con- tainer Registry User Guide . NOTE: Deleting the signing configuration does not affect existing image signatures. See also: AWS API Documentation
+    /// Deletes the registry's signing configuration. Images pushed after deletion of the signing configuration will no longer be automatically signed. For more information, see Managed signing in the Amazon Elastic Container Registry User Guide . NOTE: Deleting the signing configuration does not affect existing image signatures. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -267,7 +267,7 @@ public class AwsEcr : IAwsEcr
     }
 
     /// <summary>
-    /// Removes a principal from the pull time update exclusion list for a reg- istry. Once removed, Amazon ECR will resume updating the pull time if the specified principal pulls an image. See also: AWS API Documentation
+    /// Removes a principal from the pull time update exclusion list for a registry. Once removed, Amazon ECR will resume updating the pull time if the specified principal pulls an image. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -297,7 +297,7 @@ public class AwsEcr : IAwsEcr
     }
 
     /// <summary>
-    /// Returns the scan findings for the specified image. See also: AWS API Documentation describe-image-scan-findings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: imageScanFindings.findings, imageScan...
+    /// Returns the scan findings for the specified image. See also: AWS API Documentation describe-image-scan-findings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: imageScanFindings.findings, imageScanFind...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -312,7 +312,7 @@ public class AwsEcr : IAwsEcr
     }
 
     /// <summary>
-    /// Returns the signing status for a specified image. If the image matched signing rules that reference different signing profiles, a status is returned for each profile. For more information, see Managed signing in the Amazon Elastic Con- tainer Registry User Guide . See also: AWS API Documentation
+    /// Returns the signing status for a specified image. If the image matched signing rules that reference different signing profiles, a status is returned for each profile. For more information, see Managed signing in the Amazon Elastic Container Registry User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -327,7 +327,7 @@ public class AwsEcr : IAwsEcr
     }
 
     /// <summary>
-    /// Returns metadata about the images in a repository. NOTE: Starting with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size. There- fore, Docker might return a larger image than the image shown in the Amazon Web Services Management Console. WARNING: The new version of Amazon ECR Basic Scanning doesn't use the Im- ageDetail$imageScanFindingsSummary and ImageDetail$imageS...
+    /// Returns metadata about the images in a repository. NOTE: Starting with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size. Therefore, Docker might return a larger image than the image shown in the Amazon Web Services Management Console. WARNING: The new version of Amazon ECR Basic Scanning doesn't use the ImageDetail$imageScanFindingsSummary and ImageDetail$imageScanS...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -342,7 +342,7 @@ public class AwsEcr : IAwsEcr
     }
 
     /// <summary>
-    /// Returns the pull through cache rules for a registry. See also: AWS API Documentation describe-pull-through-cache-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: pullThroughCacheRules
+    /// Returns the pull through cache rules for a registry. See also: AWS API Documentation describe-pull-through-cache-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: pullThroughCacheRules
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -357,7 +357,7 @@ public class AwsEcr : IAwsEcr
     }
 
     /// <summary>
-    /// Describes the settings for a registry. The replication configuration for a repository can be created or updated with the PutReplicationCon- figuration API action. See also: AWS API Documentation
+    /// Describes the settings for a registry. The replication configuration for a repository can be created or updated with the PutReplicationConfiguration API action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -387,7 +387,7 @@ public class AwsEcr : IAwsEcr
     }
 
     /// <summary>
-    /// Returns details about the repository creation templates in a registry. The prefixes request parameter can be used to return the details for a specific repository creation template. See also: AWS API Documentation describe-repository-creation-templates is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nat...
+    /// Returns details about the repository creation templates in a registry. The prefixes request parameter can be used to return the details for a specific repository creation template. See also: AWS API Documentation describe-repository-creation-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated res...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -417,7 +417,7 @@ public class AwsEcr : IAwsEcr
     }
 
     /// <summary>
-    /// Retrieves an authorization token. An authorization token represents your IAM authentication credentials and can be used to access any Ama- zon ECR registry that your IAM principal has access to. The authoriza- tion token is valid for 12 hours. The authorizationToken returned is a base64 encoded string that can be decoded and used in a docker login command to authenticate to a reg- istry. The CLI offers an get-login-password command that simplifies the login process. For more information, see Reg...
+    /// Retrieves an authorization token. An authorization token represents your IAM authentication credentials and can be used to access any Amazon ECR registry that your IAM principal has access to. The authorization token is valid for 12 hours. The authorizationToken returned is a base64 encoded string that can be decoded and used in a docker login command to authenticate to a registry. The CLI offers an get-login-password command that simplifies the login process. For more information, see Registry ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -432,7 +432,7 @@ public class AwsEcr : IAwsEcr
     }
 
     /// <summary>
-    /// Retrieves the pre-signed Amazon S3 download URL corresponding to an im- age layer. You can only get URLs for image layers that are referenced in an image. When an image is pulled, the GetDownloadUrlForLayer API is called once per image layer that is not already cached. NOTE: This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. See also: AWS API Documentatio...
+    /// Retrieves the pre-signed Amazon S3 download URL corresponding to an image layer. You can only get URLs for image layers that are referenced in an image. When an image is pulled, the GetDownloadUrlForLayer API is called once per image layer that is not already cached. NOTE: This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -462,7 +462,7 @@ public class AwsEcr : IAwsEcr
     }
 
     /// <summary>
-    /// Retrieves the results of the lifecycle policy preview request for the specified repository. See also: AWS API Documentation get-lifecycle-policy-preview is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressio...
+    /// Retrieves the results of the lifecycle policy preview request for the specified repository. See also: AWS API Documentation get-lifecycle-policy-preview is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -477,7 +477,7 @@ public class AwsEcr : IAwsEcr
     }
 
     /// <summary>
-    /// To log in to an Amazon ECR registry This command retrieves and displays an authentication token using the GetAuthorizationToken API that you can use to authenticate to an Amazon ECR registry. You can pass the authorization token to the login command of the container client of your preference, such as the Docker CLI. Af- ter you have authenticated to an Amazon ECR registry with this command, you can use the client to push and pull images from that registry as long as your IAM principal has access...
+    /// To log in to an Amazon ECR registry This command retrieves and displays an authentication token using the GetAuthorizationToken API that you can use to authenticate to an Amazon ECR registry. You can pass the authorization token to the login command of the container client of your preference, such as the Docker CLI. After you have authenticated to an Amazon ECR registry with this command, you can use the client to push and pull images from that registry as long as your IAM principal has access t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -537,7 +537,7 @@ public class AwsEcr : IAwsEcr
     }
 
     /// <summary>
-    /// Retrieves the registry's signing configuration, which defines rules for automatically signing images using Amazon Web Services Signer. For more information, see Managed signing in the Amazon Elastic Con- tainer Registry User Guide . See also: AWS API Documentation
+    /// Retrieves the registry's signing configuration, which defines rules for automatically signing images using Amazon Web Services Signer. For more information, see Managed signing in the Amazon Elastic Container Registry User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -552,7 +552,7 @@ public class AwsEcr : IAwsEcr
     }
 
     /// <summary>
-    /// Notifies Amazon ECR that you intend to upload an image layer. When an image is pushed, the InitiateLayerUpload API is called once per image layer that has not already been uploaded. Whether or not an image layer has been uploaded is determined by the BatchCheckLayerAvailabil- ity API action. NOTE: This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. See als...
+    /// Notifies Amazon ECR that you intend to upload an image layer. When an image is pushed, the InitiateLayerUpload API is called once per image layer that has not already been uploaded. Whether or not an image layer has been uploaded is determined by the BatchCheckLayerAvailability API action. NOTE: This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. See also:...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -567,7 +567,7 @@ public class AwsEcr : IAwsEcr
     }
 
     /// <summary>
-    /// Lists the artifacts associated with a specified subject image. NOTE: The IAM principal invoking this operation must have the ecr:BatchGe- tImage permission. See also: AWS API Documentation
+    /// Lists the artifacts associated with a specified subject image. NOTE: The IAM principal invoking this operation must have the ecr:BatchGetImage permission. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -642,7 +642,7 @@ public class AwsEcr : IAwsEcr
     }
 
     /// <summary>
-    /// Creates or updates the image manifest and tags associated with an im- age. When an image is pushed and all new image layers have been uploaded, the PutImage API is called once to create or update the image manifest and the tags associated with the image. NOTE: This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. See also: AWS API Documentation
+    /// Creates or updates the image manifest and tags associated with an image. When an image is pushed and all new image layers have been uploaded, the PutImage API is called once to create or update the image manifest and the tags associated with the image. NOTE: This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -702,7 +702,7 @@ public class AwsEcr : IAwsEcr
     }
 
     /// <summary>
-    /// Creates or updates the permissions policy for your registry. A registry policy is used to specify permissions for another Amazon Web Services account and is used when configuring cross-account replica- tion. For more information, see Registry permissions in the Amazon Elastic Container Registry User Guide . See also: AWS API Documentation
+    /// Creates or updates the permissions policy for your registry. A registry policy is used to specify permissions for another Amazon Web Services account and is used when configuring cross-account replication. For more information, see Registry permissions in the Amazon Elastic Container Registry User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -717,7 +717,7 @@ public class AwsEcr : IAwsEcr
     }
 
     /// <summary>
-    /// Creates or updates the scanning configuration for your private reg- istry. See also: AWS API Documentation
+    /// Creates or updates the scanning configuration for your private registry. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -732,7 +732,7 @@ public class AwsEcr : IAwsEcr
     }
 
     /// <summary>
-    /// Creates or updates the replication configuration for a registry. The existing replication configuration for a repository can be retrieved with the DescribeRegistry API action. The first time the PutReplica- tionConfiguration API is called, a service-linked IAM role is created in your account for the replication process. For more information, see Using service-linked roles for Amazon ECR in the Amazon Elastic Con- tainer Registry User Guide . For more information on the custom role for replicatio...
+    /// Creates or updates the replication configuration for a registry. The existing replication configuration for a repository can be retrieved with the DescribeRegistry API action. The first time the PutReplicationConfiguration API is called, a service-linked IAM role is created in your account for the replication process. For more information, see Using service-linked roles for Amazon ECR in the Amazon Elastic Container Registry User Guide . For more information on the custom role for replication, s...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -747,7 +747,7 @@ public class AwsEcr : IAwsEcr
     }
 
     /// <summary>
-    /// Creates or updates the registry's signing configuration, which defines rules for automatically signing images with Amazon Web Services Signer. For more information, see Managed signing in the Amazon Elastic Con- tainer Registry User Guide . NOTE: To successfully generate a signature, the IAM principal pushing im- ages must have permission to sign payloads with the Amazon Web Ser- vices Signer signing profile referenced in the signing configura- tion. See also: AWS API Documentation
+    /// Creates or updates the registry's signing configuration, which defines rules for automatically signing images with Amazon Web Services Signer. For more information, see Managed signing in the Amazon Elastic Container Registry User Guide . NOTE: To successfully generate a signature, the IAM principal pushing images must have permission to sign payloads with the Amazon Web Services Signer signing profile referenced in the signing configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -762,7 +762,7 @@ public class AwsEcr : IAwsEcr
     }
 
     /// <summary>
-    /// Adds an IAM principal to the pull time update exclusion list for a reg- istry. Amazon ECR will not record the pull time if an excluded princi- pal pulls an image. See also: AWS API Documentation
+    /// Adds an IAM principal to the pull time update exclusion list for a registry. Amazon ECR will not record the pull time if an excluded principal pulls an image. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -777,7 +777,7 @@ public class AwsEcr : IAwsEcr
     }
 
     /// <summary>
-    /// Applies a repository policy to the specified repository to control ac- cess permissions. For more information, see Amazon ECR Repository poli- cies in the Amazon Elastic Container Registry User Guide . See also: AWS API Documentation
+    /// Applies a repository policy to the specified repository to control access permissions. For more information, see Amazon ECR Repository policies in the Amazon Elastic Container Registry User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -792,7 +792,7 @@ public class AwsEcr : IAwsEcr
     }
 
     /// <summary>
-    /// Starts a basic image vulnerability scan. A basic image scan can only be started once per 24 hours on an individ- ual image. This limit includes if an image was scanned on initial push. You can start up to 100,000 basic scans per 24 hours. This limit in- cludes both scans on initial push and scans initiated by the StartIm- ageScan API. For more information, see Basic scanning in the Amazon Elastic Container Registry User Guide . See also: AWS API Documentation
+    /// Starts a basic image vulnerability scan. A basic image scan can only be started once per 24 hours on an individual image. This limit includes if an image was scanned on initial push. You can start up to 100,000 basic scans per 24 hours. This limit includes both scans on initial push and scans initiated by the StartImageScan API. For more information, see Basic scanning in the Amazon Elastic Container Registry User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

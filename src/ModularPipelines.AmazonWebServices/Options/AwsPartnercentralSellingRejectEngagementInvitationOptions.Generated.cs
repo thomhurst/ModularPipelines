@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This action rejects an EngagementInvitation that AWS shared. Rejecting an invitation indicates that the partner doesn't want to pursue the op- portunity, and all related data will become inaccessible thereafter. See also: AWS API Documentation
+/// This action rejects an EngagementInvitation that AWS shared. Rejecting an invitation indicates that the partner doesn't want to pursue the opportunity, and all related data will become inaccessible thereafter. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsPartnercentralSellingRejectEngagementInvitationOptions : AwsOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This action rejects an EngagementInvitation that AWS shared. Rejecting an invitation indicates that the partner doesn't want to pursue the op- portunity, and all related data will become inaccessible thereafter. See also: AWS API Documentation
+    /// This action rejects an EngagementInvitation that AWS shared. Rejecting an invitation indicates that the partner doesn't want to pursue the opportunity, and all related data will become inaccessible thereafter. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">This is the catalog that's associated with the engagement invita- tion. Acceptable values are AWS or Sandbox , and these values deter- mine the environment in which the opportunity is managed. Constraints: o pattern: [a-zA-Z]+</param>
-    /// <param name="Identifier">This is the unique identifier of the rejected EngagementInvitation . Providing the correct identifier helps to ensure that the intended invitation is rejected. Constraints: o pattern: (?=.{1,255}$)(arn:.*|engi-[0-9a-z]{13})</param>
+    /// <param name="Catalog">This is the catalog that's associated with the engagement invitation. Acceptable values are AWS or Sandbox , and these values determine the environment in which the opportunity is managed. Constraints: • pattern: [a-zA-Z]+</param>
+    /// <param name="Identifier">This is the unique identifier of the rejected EngagementInvitation . Providing the correct identifier helps to ensure that the intended invitation is rejected. Constraints: • pattern: (?=.{1,255}$)(arn:.*|engi-[0-9a-z]{13})</param>
     public AwsPartnercentralSellingRejectEngagementInvitationOptions(
         string Catalog,
         string Identifier
@@ -60,19 +62,19 @@ public record AwsPartnercentralSellingRejectEngagementInvitationOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// This is the catalog that's associated with the engagement invita- tion. Acceptable values are AWS or Sandbox , and these values deter- mine the environment in which the opportunity is managed. Constraints: o pattern: [a-zA-Z]+
+    /// This is the catalog that's associated with the engagement invitation. Acceptable values are AWS or Sandbox , and these values determine the environment in which the opportunity is managed. Constraints: • pattern: [a-zA-Z]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// This is the unique identifier of the rejected EngagementInvitation . Providing the correct identifier helps to ensure that the intended invitation is rejected. Constraints: o pattern: (?=.{1,255}$)(arn:.*|engi-[0-9a-z]{13})
+    /// This is the unique identifier of the rejected EngagementInvitation . Providing the correct identifier helps to ensure that the intended invitation is rejected. Constraints: • pattern: (?=.{1,255}$)(arn:.*|engi-[0-9a-z]{13})
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// This describes the reason for rejecting the engagement invitation, which helps AWS track usage patterns. Acceptable values include the following: o Customer problem unclear: The customer's problem isn't understood. o Next steps unclear: The next steps required to proceed aren't un- derstood. o Unable to support: The partner is unable to provide support due to resource or capability constraints. o Duplicate of partner referral: The opportunity is a duplicate of an existing referral. o Other: Any reason not covered by other values. Constraints: o pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]{1,80}
+    /// This describes the reason for rejecting the engagement invitation, which helps AWS track usage patterns. Acceptable values include the following: • Customer problem unclear: The customer's problem isn't understood. • Next steps unclear: The next steps required to proceed aren't understood. • Unable to support: The partner is unable to provide support due to resource or capability constraints. • Duplicate of partner referral: The opportunity is a duplicate of an existing referral. • Other: Any reason not covered by other values. Constraints: • pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]{1,80}
     /// </summary>
     [CliOption("--rejection-reason")]
     public string? RejectionReason { get; set; }

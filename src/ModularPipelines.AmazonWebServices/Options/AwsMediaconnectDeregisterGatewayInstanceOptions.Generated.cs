@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMediaconnectDeregisterGatewayInstanceOptions : AwsOptions, IVal
     /// <summary>
     /// Deregisters an instance. Before you deregister an instance, all bridges running on the instance must be stopped. If you want to deregister an instance without stopping the bridges, you must use the --force option. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GatewayInstanceArn">The Amazon Resource Name (ARN) of the gateway that contains the in- stance that you want to deregister. Constraints: o pattern: arn:.+:mediaconnect.+:gateway:.+:instance:.+</param>
+    /// <param name="GatewayInstanceArn">The Amazon Resource Name (ARN) of the gateway that contains the instance that you want to deregister. Constraints: • pattern: arn:.+:mediaconnect.+:gateway:.+:instance:.+</param>
     public AwsMediaconnectDeregisterGatewayInstanceOptions(
         string GatewayInstanceArn
     )
@@ -56,7 +58,7 @@ public record AwsMediaconnectDeregisterGatewayInstanceOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the gateway that contains the in- stance that you want to deregister. Constraints: o pattern: arn:.+:mediaconnect.+:gateway:.+:instance:.+
+    /// The Amazon Resource Name (ARN) of the gateway that contains the instance that you want to deregister. Constraints: • pattern: arn:.+:mediaconnect.+:gateway:.+:instance:.+
     /// </summary>
     [CliOption("--gateway-instance-arn")]
     public string? GatewayInstanceArn { get; private init; }

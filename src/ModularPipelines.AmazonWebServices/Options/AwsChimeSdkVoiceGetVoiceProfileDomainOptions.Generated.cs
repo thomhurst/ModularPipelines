@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsChimeSdkVoiceGetVoiceProfileDomainOptions : AwsOptions, IValida
     /// <summary>
     /// Retrieves the details of the specified voice profile domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VoiceProfileDomainId">The voice profile domain ID. Constraints: o min: 1 o max: 256 o pattern: .*\S.*</param>
+    /// <param name="VoiceProfileDomainId">The voice profile domain ID. Constraints: • min: 1 • max: 256 • pattern: .*\S.*</param>
     public AwsChimeSdkVoiceGetVoiceProfileDomainOptions(
         string VoiceProfileDomainId
     )
@@ -56,7 +58,7 @@ public record AwsChimeSdkVoiceGetVoiceProfileDomainOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The voice profile domain ID. Constraints: o min: 1 o max: 256 o pattern: .*\S.*
+    /// The voice profile domain ID. Constraints: • min: 1 • max: 256 • pattern: .*\S.*
     /// </summary>
     [CliOption("--voice-profile-domain-id")]
     public string? VoiceProfileDomainId { get; private init; }

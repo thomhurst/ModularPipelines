@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a limit that manages the distribution of shared resources, such as floating licenses. A limit can throttle work assignments, help man- age workloads, and track current usage. Before you use a limit, you must associate the limit with one or more queues. You must add the amountRequirementName to a step in a job template to declare the limit requirement. See also: AWS API Documentation
+/// Creates a limit that manages the distribution of shared resources, such as floating licenses. A limit can throttle work assignments, help manage workloads, and track current usage. Before you use a limit, you must associate the limit with one or more queues. You must add the amountRequirementName to a step in a job template to declare the limit requirement. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +28,12 @@ public record AwsDeadlineCreateLimitOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a limit that manages the distribution of shared resources, such as floating licenses. A limit can throttle work assignments, help man- age workloads, and track current usage. Before you use a limit, you must associate the limit with one or more queues. You must add the amountRequirementName to a step in a job template to declare the limit requirement. See also: AWS API Documentation
+    /// Creates a limit that manages the distribution of shared resources, such as floating licenses. A limit can throttle work assignments, help manage workloads, and track current usage. Before you use a limit, you must associate the limit with one or more queues. You must add the amountRequirementName to a step in a job template to declare the limit requirement. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The farm ID of the farm that contains the limit. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="DisplayName">The display name of the limit. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: o min: 1 o max: 100</param>
-    /// <param name="AmountRequirementName">The value that you specify as the name in the amounts field of the hostRequirements in a step of a job template to declare the limit requirement. Constraints: o min: 0 o max: 1024</param>
-    /// <param name="MaxCount">The maximum number of resources constrained by this limit. When all of the resources are in use, steps that require the limit won't be scheduled until the resource is available. The maxCount must not be 0. If the value is -1, there is no restric- tion on the number of resources that can be acquired for this limit. Constraints: o min: -1 o max: 2147483647</param>
+    /// <param name="FarmId">The farm ID of the farm that contains the limit. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="DisplayName">The display name of the limit. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: • min: 1 • max: 100</param>
+    /// <param name="AmountRequirementName">The value that you specify as the name in the amounts field of the hostRequirements in a step of a job template to declare the limit requirement. Constraints: • min: 0 • max: 1024</param>
+    /// <param name="MaxCount">The maximum number of resources constrained by this limit. When all of the resources are in use, steps that require the limit won't be scheduled until the resource is available. The maxCount must not be 0. If the value is -1, there is no restriction on the number of resources that can be acquired for this limit. Constraints: • min: -1 • max: 2147483647</param>
     public AwsDeadlineCreateLimitOptions(
         string FarmId,
         string DisplayName,
@@ -68,38 +70,38 @@ public record AwsDeadlineCreateLimitOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID of the farm that contains the limit. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID of the farm that contains the limit. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The display name of the limit. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: o min: 1 o max: 100
+    /// The display name of the limit. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; private init; }
 
     /// <summary>
-    /// The value that you specify as the name in the amounts field of the hostRequirements in a step of a job template to declare the limit requirement. Constraints: o min: 0 o max: 1024
+    /// The value that you specify as the name in the amounts field of the hostRequirements in a step of a job template to declare the limit requirement. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--amount-requirement-name")]
     public string? AmountRequirementName { get; private init; }
 
     /// <summary>
-    /// The maximum number of resources constrained by this limit. When all of the resources are in use, steps that require the limit won't be scheduled until the resource is available. The maxCount must not be 0. If the value is -1, there is no restric- tion on the number of resources that can be acquired for this limit. Constraints: o min: -1 o max: 2147483647
+    /// The maximum number of resources constrained by this limit. When all of the resources are in use, steps that require the limit won't be scheduled until the resource is available. The maxCount must not be 0. If the value is -1, there is no restriction on the number of resources that can be acquired for this limit. Constraints: • min: -1 • max: 2147483647
     /// </summary>
     [CliOption("--max-count")]
     public int? MaxCount { get; private init; }
 
     /// <summary>
-    /// The unique token which the server uses to recognize retries of the same request. Constraints: o min: 1 o max: 64
+    /// The unique token which the server uses to recognize retries of the same request. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A description of the limit. A description helps you identify the purpose of the limit. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: o min: 0 o max: 100
+    /// A description of the limit. A description helps you identify the purpose of the limit. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Displays a list of categories for all event source types, or, if speci- fied, for a specified source type. See also: AWS API Documentation
+/// Displays a list of categories for all event source types, or, if specified, for a specified source type. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

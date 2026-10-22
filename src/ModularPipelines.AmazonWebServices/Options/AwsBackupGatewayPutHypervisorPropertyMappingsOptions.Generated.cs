@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This action sets the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity proper- ties available from the hypervisor to the properties available in Ama- zon Web Services. See also: AWS API Documentation
+/// This action sets the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the hypervisor to the properties available in Amazon Web Services. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsBackupGatewayPutHypervisorPropertyMappingsOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This action sets the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity proper- ties available from the hypervisor to the properties available in Ama- zon Web Services. See also: AWS API Documentation
+    /// This action sets the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the hypervisor to the properties available in Amazon Web Services. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HypervisorArn">The Amazon Resource Name (ARN) of the hypervisor. Constraints: o min: 50 o max: 500 o pattern: arn:(aws|aws-cn|aws-us-gov):backup-gate- way(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+</param>
-    /// <param name="VmwareToAwsTagMappings">This action requests the mappings of VMware tags to the Amazon Web Services tags. (structure) This displays the mapping of VMware tags to the corresponding Amazon Web Services tags. VmwareCategory -&gt; (string) [required] The is the category of VMware. Constraints: o min: 1 o max: 80 VmwareTagName -&gt; (string) [required] This is the user-defined name of a VMware tag. Constraints: o min: 1 o max: 80 AwsTagKey -&gt; (string) [required] The key part of the Amazon Web Services tag's key-value pair. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) AwsTagValue -&gt; (string) [required] The value part of the Amazon Web Services tag's key-value pair. Constraints: o min: 0 o max: 256 o pattern: [^\x00]* Shorthand Syntax: VmwareCategory=string,VmwareTagName=string,AwsTagKey=string,AwsTagValue=string ... JSON Syntax: [ { "VmwareCategory": "string", "VmwareTagName": "string", "AwsTagKey": "string", "AwsTagValue": "string" } ... ]</param>
-    /// <param name="IamRoleArn">The Amazon Resource Name (ARN) of the IAM role. Constraints: o min: 20 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):iam::([0-9]+):role/(\S+)</param>
+    /// <param name="HypervisorArn">The Amazon Resource Name (ARN) of the hypervisor. Constraints: • min: 50 • max: 500 • pattern: arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+</param>
+    /// <param name="VmwareToAwsTagMappings">This action requests the mappings of VMware tags to the Amazon Web Services tags. (structure) This displays the mapping of VMware tags to the corresponding Amazon Web Services tags. VmwareCategory -&gt; (string) [required] The is the category of VMware. Constraints: • min: 1 • max: 80 VmwareTagName -&gt; (string) [required] This is the user-defined name of a VMware tag. Constraints: • min: 1 • max: 80 AwsTagKey -&gt; (string) [required] The key part of the Amazon Web Services tag's key-value pair. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) AwsTagValue -&gt; (string) [required] The value part of the Amazon Web Services tag's key-value pair. Constraints: • min: 0 • max: 256 • pattern: [^\x00]* Shorthand Syntax: VmwareCategory=string,VmwareTagName=string,AwsTagKey=string,AwsTagValue=string ... JSON Syntax: [ { "VmwareCategory": "string", "VmwareTagName": "string", "AwsTagKey": "string", "AwsTagValue": "string" } ... ]</param>
+    /// <param name="IamRoleArn">The Amazon Resource Name (ARN) of the IAM role. Constraints: • min: 20 • max: 2048 • pattern: arn:(aws|aws-cn|aws-us-gov):iam::([0-9]+):role/(\S+)</param>
     public AwsBackupGatewayPutHypervisorPropertyMappingsOptions(
         string HypervisorArn,
         IEnumerable<string> VmwareToAwsTagMappings,
@@ -75,19 +77,19 @@ public record AwsBackupGatewayPutHypervisorPropertyMappingsOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the hypervisor. Constraints: o min: 50 o max: 500 o pattern: arn:(aws|aws-cn|aws-us-gov):backup-gate- way(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+
+    /// The Amazon Resource Name (ARN) of the hypervisor. Constraints: • min: 50 • max: 500 • pattern: arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+
     /// </summary>
     [CliOption("--hypervisor-arn")]
     public string? HypervisorArn { get; private init; }
 
     /// <summary>
-    /// This action requests the mappings of VMware tags to the Amazon Web Services tags. (structure) This displays the mapping of VMware tags to the corresponding Amazon Web Services tags. VmwareCategory -&gt; (string) [required] The is the category of VMware. Constraints: o min: 1 o max: 80 VmwareTagName -&gt; (string) [required] This is the user-defined name of a VMware tag. Constraints: o min: 1 o max: 80 AwsTagKey -&gt; (string) [required] The key part of the Amazon Web Services tag's key-value pair. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) AwsTagValue -&gt; (string) [required] The value part of the Amazon Web Services tag's key-value pair. Constraints: o min: 0 o max: 256 o pattern: [^\x00]* Shorthand Syntax: VmwareCategory=string,VmwareTagName=string,AwsTagKey=string,AwsTagValue=string ... JSON Syntax: [ { "VmwareCategory": "string", "VmwareTagName": "string", "AwsTagKey": "string", "AwsTagValue": "string" } ... ]
+    /// This action requests the mappings of VMware tags to the Amazon Web Services tags. (structure) This displays the mapping of VMware tags to the corresponding Amazon Web Services tags. VmwareCategory -&gt; (string) [required] The is the category of VMware. Constraints: • min: 1 • max: 80 VmwareTagName -&gt; (string) [required] This is the user-defined name of a VMware tag. Constraints: • min: 1 • max: 80 AwsTagKey -&gt; (string) [required] The key part of the Amazon Web Services tag's key-value pair. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) AwsTagValue -&gt; (string) [required] The value part of the Amazon Web Services tag's key-value pair. Constraints: • min: 0 • max: 256 • pattern: [^\x00]* Shorthand Syntax: VmwareCategory=string,VmwareTagName=string,AwsTagKey=string,AwsTagValue=string ... JSON Syntax: [ { "VmwareCategory": "string", "VmwareTagName": "string", "AwsTagKey": "string", "AwsTagValue": "string" } ... ]
     /// </summary>
     [CliOption("--vmware-to-aws-tag-mappings", GroupValues = true)]
     public IEnumerable<string>? VmwareToAwsTagMappings { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role. Constraints: o min: 20 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):iam::([0-9]+):role/(\S+)
+    /// The Amazon Resource Name (ARN) of the IAM role. Constraints: • min: 20 • max: 2048 • pattern: arn:(aws|aws-cn|aws-us-gov):iam::([0-9]+):role/(\S+)
     /// </summary>
     [CliOption("--iam-role-arn")]
     public string? IamRoleArn { get; private init; }

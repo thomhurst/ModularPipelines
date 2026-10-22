@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// List all tags that are on an Elemental Inference resource in the cur- rent region. See also: AWS API Documentation
+/// List all tags that are on an Elemental Inference resource in the current region. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsElementalinferenceListTagsForResourceOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// List all tags that are on an Elemental Inference resource in the cur- rent region. See also: AWS API Documentation
+    /// List all tags that are on an Elemental Inference resource in the current region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource whose tags you want to query. Constraints: o pattern: arn:aws[a-z\-]*:elemental-infer- ence[a-z\-]*:[a-z0-9\-]+:[0-9]{12}:(feed|dictio- nary)/[a-zA-Z0-9]{1,19}</param>
+    /// <param name="ResourceArn">The ARN of the resource whose tags you want to query. Constraints: • pattern: arn:aws[a-z\-]*:elemental-inference[a-z\-]*:[a-z0-9\-]+:[0-9]{12}:(feed|dictionary)/[a-zA-Z0-9]{1,19}</param>
     public AwsElementalinferenceListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsElementalinferenceListTagsForResourceOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource whose tags you want to query. Constraints: o pattern: arn:aws[a-z\-]*:elemental-infer- ence[a-z\-]*:[a-z0-9\-]+:[0-9]{12}:(feed|dictio- nary)/[a-zA-Z0-9]{1,19}
+    /// The ARN of the resource whose tags you want to query. Constraints: • pattern: arn:aws[a-z\-]*:elemental-inference[a-z\-]*:[a-z0-9\-]+:[0-9]{12}:(feed|dictionary)/[a-zA-Z0-9]{1,19}
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

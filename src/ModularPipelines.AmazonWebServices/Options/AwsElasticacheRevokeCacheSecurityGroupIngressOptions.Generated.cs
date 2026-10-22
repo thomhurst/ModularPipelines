@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Revokes ingress from a cache security group. Use this operation to dis- allow access from an Amazon EC2 security group that had been previously authorized. See also: AWS API Documentation
+/// Revokes ingress from a cache security group. Use this operation to disallow access from an Amazon EC2 security group that had been previously authorized. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsElasticacheRevokeCacheSecurityGroupIngressOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Revokes ingress from a cache security group. Use this operation to dis- allow access from an Amazon EC2 security group that had been previously authorized. See also: AWS API Documentation
+    /// Revokes ingress from a cache security group. Use this operation to disallow access from an Amazon EC2 security group that had been previously authorized. See also: AWS API Documentation
     /// </summary>
     /// <param name="CacheSecurityGroupName">The name of the cache security group to revoke ingress from.</param>
     /// <param name="Ec2SecurityGroupName">The name of the Amazon EC2 security group to revoke access from.</param>

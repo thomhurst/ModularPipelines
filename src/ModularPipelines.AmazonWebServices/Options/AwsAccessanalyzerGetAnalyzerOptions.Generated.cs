@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAccessanalyzerGetAnalyzerOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Retrieves information about the specified analyzer. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AnalyzerName">The name of the analyzer retrieved. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z_][A-Za-z0-9_.-]*</param>
+    /// <param name="AnalyzerName">The name of the analyzer retrieved. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z_][A-Za-z0-9_.-]*</param>
     public AwsAccessanalyzerGetAnalyzerOptions(
         string AnalyzerName
     )
@@ -56,7 +58,7 @@ public record AwsAccessanalyzerGetAnalyzerOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the analyzer retrieved. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z_][A-Za-z0-9_.-]*
+    /// The name of the analyzer retrieved. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z_][A-Za-z0-9_.-]*
     /// </summary>
     [CliOption("--analyzer-name")]
     public string? AnalyzerName { get; private init; }

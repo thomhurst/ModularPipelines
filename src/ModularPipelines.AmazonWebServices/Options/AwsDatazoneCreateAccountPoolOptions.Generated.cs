@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +29,10 @@ public record AwsDatazoneCreateAccountPoolOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Creates an account pool. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the domain where the account pool is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Name">The name of the account pool. Constraints: o min: 1 o max: 64 o pattern: [\w -]+</param>
-    /// <param name="ResolutionStrategy">The mechanism used to resolve the account selection from the account pool. Possible values: o MANUAL</param>
-    /// <param name="AccountSource">The source of accounts for the account pool. In the current release, it's either a static list of accounts provided by the customer or a custom Amazon Web Services Lambda handler. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: accounts, customAccountPoolHandler. accounts -&gt; (list) The static list of accounts within an account pool. Constraints: o min: 1 o max: 25 (structure) The account information within an account pool. awsAccountId -&gt; (string) [required] The account ID. Constraints: o pattern: \d{12} supportedRegions -&gt; (list) [required] The regions supported for an account within an account pool. Constraints: o min: 1 o max: 3 (string) Constraints: o pattern: [a-z]{2}-[a-z]{4,10}-\d awsAccountName -&gt; (string) The account name. Constraints: o min: 1 o max: 256 customAccountPoolHandler -&gt; (structure) The custom Amazon Web Services Lambda handler within an account pool. lambdaFunctionArn -&gt; (string) [required] The ARN of the Amazon Web Services Lambda function for the custom Amazon Web Services Lambda handler. Constraints: o pattern: arn:(?:aws|aws-cn|aws-us-gov):lambda:(?:[a-z]{2}(?:-gov)?-[a-z]+-\d{1,}):(\d{12}):func- tion:[a-zA-Z0-9-_]+(?::[a-zA-Z0-9-_]+)?(?:\$[\w-]+)? lambdaExecutionRoleArn -&gt; (string) The ARN of the IAM role that enables Amazon SageMaker Unified Studio to invoke the Amazon Web Services Lambda funtion if the account source is the custom account pool handler. Constraints: o pattern: arn:aws[^:]*:iam::\d{12}:(role|role/ser- vice-role)/[\w+=,.@-]* JSON Syntax: { "accounts": [ { "awsAccountId": "string", "supportedRegions": ["string", ...], "awsAccountName": "string" } ... ], "customAccountPoolHandler": { "lambdaFunctionArn": "string", "lambdaExecutionRoleArn": "string" } }</param>
+    /// <param name="DomainIdentifier">The ID of the domain where the account pool is created. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Name">The name of the account pool. Constraints: • min: 1 • max: 64 • pattern: [\w -]+</param>
+    /// <param name="ResolutionStrategy">The mechanism used to resolve the account selection from the account pool. Possible values: • MANUAL</param>
+    /// <param name="AccountSource">The source of accounts for the account pool. In the current release, it's either a static list of accounts provided by the customer or a custom Amazon Web Services Lambda handler. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: accounts, customAccountPoolHandler. accounts -&gt; (list) The static list of accounts within an account pool. Constraints: • min: 1 • max: 25 (structure) The account information within an account pool. awsAccountId -&gt; (string) [required] The account ID. Constraints: • pattern: \d{12} supportedRegions -&gt; (list) [required] The regions supported for an account within an account pool. Constraints: • min: 1 • max: 3 (string) Constraints: • pattern: [a-z]{2}-[a-z]{4,10}-\d awsAccountName -&gt; (string) The account name. Constraints: • min: 1 • max: 256 customAccountPoolHandler -&gt; (structure) The custom Amazon Web Services Lambda handler within an account pool. lambdaFunctionArn -&gt; (string) [required] The ARN of the Amazon Web Services Lambda function for the custom Amazon Web Services Lambda handler. Constraints: • pattern: arn:(?:aws|aws-cn|aws-us-gov):lambda:(?:[a-z]{2}(?:-gov)?-[a-z]+-\d{1,}):(\d{12}):function:[a-zA-Z0-9-_]+(?::[a-zA-Z0-9-_]+)?(?:\$[\w-]+)? lambdaExecutionRoleArn -&gt; (string) The ARN of the IAM role that enables Amazon SageMaker Unified Studio to invoke the Amazon Web Services Lambda funtion if the account source is the custom account pool handler. Constraints: • pattern: arn:aws[^:]*:iam::\d{12}:(role|role/service-role)/[\w+=,.@-]* JSON Syntax: { "accounts": [ { "awsAccountId": "string", "supportedRegions": ["string", ...], "awsAccountName": "string" } ... ], "customAccountPoolHandler": { "lambdaFunctionArn": "string", "lambdaExecutionRoleArn": "string" } }</param>
     public AwsDatazoneCreateAccountPoolOptions(
         string DomainIdentifier,
         string Name,
@@ -68,31 +70,31 @@ public record AwsDatazoneCreateAccountPoolOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the domain where the account pool is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the domain where the account pool is created. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The name of the account pool. Constraints: o min: 1 o max: 64 o pattern: [\w -]+
+    /// The name of the account pool. Constraints: • min: 1 • max: 64 • pattern: [\w -]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The mechanism used to resolve the account selection from the account pool. Possible values: o MANUAL
+    /// The mechanism used to resolve the account selection from the account pool. Possible values: • MANUAL
     /// </summary>
     [CliOption("--resolution-strategy")]
     public string? ResolutionStrategy { get; private init; }
 
     /// <summary>
-    /// The source of accounts for the account pool. In the current release, it's either a static list of accounts provided by the customer or a custom Amazon Web Services Lambda handler. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: accounts, customAccountPoolHandler. accounts -&gt; (list) The static list of accounts within an account pool. Constraints: o min: 1 o max: 25 (structure) The account information within an account pool. awsAccountId -&gt; (string) [required] The account ID. Constraints: o pattern: \d{12} supportedRegions -&gt; (list) [required] The regions supported for an account within an account pool. Constraints: o min: 1 o max: 3 (string) Constraints: o pattern: [a-z]{2}-[a-z]{4,10}-\d awsAccountName -&gt; (string) The account name. Constraints: o min: 1 o max: 256 customAccountPoolHandler -&gt; (structure) The custom Amazon Web Services Lambda handler within an account pool. lambdaFunctionArn -&gt; (string) [required] The ARN of the Amazon Web Services Lambda function for the custom Amazon Web Services Lambda handler. Constraints: o pattern: arn:(?:aws|aws-cn|aws-us-gov):lambda:(?:[a-z]{2}(?:-gov)?-[a-z]+-\d{1,}):(\d{12}):func- tion:[a-zA-Z0-9-_]+(?::[a-zA-Z0-9-_]+)?(?:\$[\w-]+)? lambdaExecutionRoleArn -&gt; (string) The ARN of the IAM role that enables Amazon SageMaker Unified Studio to invoke the Amazon Web Services Lambda funtion if the account source is the custom account pool handler. Constraints: o pattern: arn:aws[^:]*:iam::\d{12}:(role|role/ser- vice-role)/[\w+=,.@-]* JSON Syntax: { "accounts": [ { "awsAccountId": "string", "supportedRegions": ["string", ...], "awsAccountName": "string" } ... ], "customAccountPoolHandler": { "lambdaFunctionArn": "string", "lambdaExecutionRoleArn": "string" } }
+    /// The source of accounts for the account pool. In the current release, it's either a static list of accounts provided by the customer or a custom Amazon Web Services Lambda handler. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: accounts, customAccountPoolHandler. accounts -&gt; (list) The static list of accounts within an account pool. Constraints: • min: 1 • max: 25 (structure) The account information within an account pool. awsAccountId -&gt; (string) [required] The account ID. Constraints: • pattern: \d{12} supportedRegions -&gt; (list) [required] The regions supported for an account within an account pool. Constraints: • min: 1 • max: 3 (string) Constraints: • pattern: [a-z]{2}-[a-z]{4,10}-\d awsAccountName -&gt; (string) The account name. Constraints: • min: 1 • max: 256 customAccountPoolHandler -&gt; (structure) The custom Amazon Web Services Lambda handler within an account pool. lambdaFunctionArn -&gt; (string) [required] The ARN of the Amazon Web Services Lambda function for the custom Amazon Web Services Lambda handler. Constraints: • pattern: arn:(?:aws|aws-cn|aws-us-gov):lambda:(?:[a-z]{2}(?:-gov)?-[a-z]+-\d{1,}):(\d{12}):function:[a-zA-Z0-9-_]+(?::[a-zA-Z0-9-_]+)?(?:\$[\w-]+)? lambdaExecutionRoleArn -&gt; (string) The ARN of the IAM role that enables Amazon SageMaker Unified Studio to invoke the Amazon Web Services Lambda funtion if the account source is the custom account pool handler. Constraints: • pattern: arn:aws[^:]*:iam::\d{12}:(role|role/service-role)/[\w+=,.@-]* JSON Syntax: { "accounts": [ { "awsAccountId": "string", "supportedRegions": ["string", ...], "awsAccountName": "string" } ... ], "customAccountPoolHandler": { "lambdaFunctionArn": "string", "lambdaExecutionRoleArn": "string" } }
     /// </summary>
     [CliOption("--account-source")]
     public string? AccountSource { get; private init; }
 
     /// <summary>
-    /// The description of the account pool. Constraints: o min: 0 o max: 2048
+    /// The description of the account pool. Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

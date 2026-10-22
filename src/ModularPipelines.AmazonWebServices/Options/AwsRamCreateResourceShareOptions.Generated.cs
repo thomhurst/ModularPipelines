@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a resource share. You can provide a list of the Amazon Resource Names (ARNs) for the resources that you want to share, a list of prin- cipals you want to share the resources with, the permissions to grant those principals, and optionally source constraints to enhance security for service principal sharing. NOTE: Sharing a resource makes it available for use by principals outside of the Amazon Web Services account that created the resource. Shar- ing doesn't change any permissions or quot...
+/// Creates a resource share. You can provide a list of the Amazon Resource Names (ARNs) for the resources that you want to share, a list of principals you want to share the resources with, the permissions to grant those principals, and optionally source constraints to enhance security for service principal sharing. NOTE: Sharing a resource makes it available for use by principals outside of the Amazon Web Services account that created the resource. Sharing doesn't change any permissions or quotas t...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +28,7 @@ public record AwsRamCreateResourceShareOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a resource share. You can provide a list of the Amazon Resource Names (ARNs) for the resources that you want to share, a list of prin- cipals you want to share the resources with, the permissions to grant those principals, and optionally source constraints to enhance security for service principal sharing. NOTE: Sharing a resource makes it available for use by principals outside of the Amazon Web Services account that created the resource. Shar- ing doesn't change any permissions or quot...
+    /// Creates a resource share. You can provide a list of the Amazon Resource Names (ARNs) for the resources that you want to share, a list of principals you want to share the resources with, the permissions to grant those principals, and optionally source constraints to enhance security for service principal sharing. NOTE: Sharing a resource makes it available for use by principals outside of the Amazon Web Services account that created the resource. Sharing doesn't change any permissions or quotas t...
     /// </summary>
     /// <param name="Name">Specifies the name of the resource share.</param>
     public AwsRamCreateResourceShareOptions(
@@ -69,25 +71,25 @@ public record AwsRamCreateResourceShareOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? ResourceArns { get; set; }
 
     /// <summary>
-    /// Specifies a list of one or more principals to associate with the re- source share. You can include the following values: o An Amazon Web Services account ID, for example: 123456789012 o An Amazon Resource Name (ARN) of an organization in Organizations, for example: organizations::123456789012:organization/o-example- orgid o An ARN of an organizational unit (OU) in Organizations, for exam- ple: organizations::123456789012:ou/o-exampleorgid/ou-example- rootid-exampleouid123 o An ARN of an IAM role, for example: iam::123456789012:role/role- name o An ARN of an IAM user, for example: iam::123456789012user/username o A service principal name, for example: service-id.amazonaws.com NOTE: Not all resource types can be shared with IAM roles and users. For more information, see Sharing with IAM roles and users in the Resource Access Manager User Guide . (string) Syntax: "string" "string" ...
+    /// Specifies a list of one or more principals to associate with the resource share. You can include the following values: • An Amazon Web Services account ID, for example: 123456789012 • An Amazon Resource Name (ARN) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid • An ARN of an organizational unit (OU) in Organizations, for example: organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123 • An ARN of an IAM role, for example: iam::123456789012:role/rolename • An ARN of an IAM user, for example: iam::123456789012user/username • A service principal name, for example: service-id.amazonaws.com NOTE: Not all resource types can be shared with IAM roles and users. For more information, see Sharing with IAM roles and users in the Resource Access Manager User Guide . (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--principals", GroupValues = true)]
     public IEnumerable<string>? Principals { get; set; }
 
     /// <summary>
-    /// Specifies one or more tags to attach to the resource share itself. It doesn't attach the tags to the resources associated with the re- source share. (structure) A structure containing a tag. A tag is metadata that you can at- tach to your resources to help organize and categorize them. You can also use them to help you secure your resources. For more information, see Controlling access to Amazon Web Services re- sources using tags . For more information about tags, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide . key -&gt; (string) The key, or name, attached to the tag. Every tag must have a key. Key names are case sensitive. value -&gt; (string) The string value attached to the tag. The value can be an empty string. Key values are case sensitive. Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// Specifies one or more tags to attach to the resource share itself. It doesn't attach the tags to the resources associated with the resource share. (structure) A structure containing a tag. A tag is metadata that you can attach to your resources to help organize and categorize them. You can also use them to help you secure your resources. For more information, see Controlling access to Amazon Web Services resources using tags . For more information about tags, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide . key -&gt; (string) The key, or name, attached to the tag. Every tag must have a key. Key names are case sensitive. value -&gt; (string) The string value attached to the tag. The value can be an empty string. Key values are case sensitive. Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Specifies whether principals outside your organization in Organiza- tions can be associated with a resource share. A value of true lets you share with individual Amazon Web Services accounts that are not in your organization. A value of false only has meaning if your ac- count is a member of an Amazon Web Services Organization. The de- fault value is true .
+    /// Specifies whether principals outside your organization in Organizations can be associated with a resource share. A value of true lets you share with individual Amazon Web Services accounts that are not in your organization. A value of false only has meaning if your account is a member of an Amazon Web Services Organization. The default value is true .
     /// </summary>
     [CliFlag("--allow-external-principals", NegatedName = "--no-allow-external-principals")]
     public bool? AllowExternalPrincipals { get; set; }
 
     /// <summary>
-    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error.
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -106,7 +108,7 @@ public record AwsRamCreateResourceShareOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? Sources { get; set; }
 
     /// <summary>
-    /// Specifies the configuration of this resource share. retainSharingOnAccountLeaveOrganization -&gt; (boolean) Specifies whether the consumer account retains access to the re- source share after leaving the organization. Shorthand Syntax: retainSharingOnAccountLeaveOrganization=boolean JSON Syntax: { "retainSharingOnAccountLeaveOrganization": true|false }
+    /// Specifies the configuration of this resource share. retainSharingOnAccountLeaveOrganization -&gt; (boolean) Specifies whether the consumer account retains access to the resource share after leaving the organization. Shorthand Syntax: retainSharingOnAccountLeaveOrganization=boolean JSON Syntax: { "retainSharingOnAccountLeaveOrganization": true|false }
     /// </summary>
     [CliOption("--resource-share-configuration")]
     public string? ResourceShareConfiguration { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a permission set within a specified IAM Identity Center in- stance. NOTE: To grant users and groups access to Amazon Web Services account re- sources, use `` CreateAccountAssignment `` . See also: AWS API Documentation
+/// Creates a permission set within a specified IAM Identity Center instance. NOTE: To grant users and groups access to Amazon Web Services account resources, use `` CreateAccountAssignment `` . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsSsoAdminCreatePermissionSetOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a permission set within a specified IAM Identity Center in- stance. NOTE: To grant users and groups access to Amazon Web Services account re- sources, use `` CreateAccountAssignment `` . See also: AWS API Documentation
+    /// Creates a permission set within a specified IAM Identity Center instance. NOTE: To grant users and groups access to Amazon Web Services account resources, use `` CreateAccountAssignment `` . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the PermissionSet . Constraints: o min: 1 o max: 32 o pattern: [\w+=,.@-]+</param>
-    /// <param name="InstanceArn">The ARN of the IAM Identity Center instance under which the opera- tion will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
+    /// <param name="Name">The name of the PermissionSet . Constraints: • min: 1 • max: 32 • pattern: [\w+=,.@-]+</param>
+    /// <param name="InstanceArn">The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
     public AwsSsoAdminCreatePermissionSetOptions(
         string Name,
         string InstanceArn
@@ -60,37 +62,37 @@ public record AwsSsoAdminCreatePermissionSetOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the PermissionSet . Constraints: o min: 1 o max: 32 o pattern: [\w+=,.@-]+
+    /// The name of the PermissionSet . Constraints: • min: 1 • max: 32 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The ARN of the IAM Identity Center instance under which the opera- tion will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}
     /// </summary>
     [CliOption("--instance-arn")]
     public string? InstanceArn { get; private init; }
 
     /// <summary>
-    /// The description of the PermissionSet . Constraints: o min: 1 o max: 700 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]*
+    /// The description of the PermissionSet . Constraints: • min: 1 • max: 700 • pattern: [\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The length of time that the application user sessions are valid in the ISO-8601 standard. Constraints: o min: 1 o max: 100 o pattern: (-?)P(?=\d|T\d)(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)([DW]))?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(?:\.\d+)?)S)?)?
+    /// The length of time that the application user sessions are valid in the ISO-8601 standard. Constraints: • min: 1 • max: 100 • pattern: (-?)P(?=\d|T\d)(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)([DW]))?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(?:\.\d+)?)S)?)?
     /// </summary>
     [CliOption("--session-duration")]
     public string? SessionDuration { get; set; }
 
     /// <summary>
-    /// Used to redirect users within the application during the federation authentication process. Constraints: o min: 1 o max: 240 o pattern: [a-zA-Z0-9&amp;$@#\\\/%?=~\-_'"|!:,.;*+\[\]\ \(\)\{\}]+
+    /// Used to redirect users within the application during the federation authentication process. Constraints: • min: 1 • max: 240 • pattern: [a-zA-Z0-9&amp;$@#\\\/%?=~/-_'"|!:,.;*+\[\]\ \(\)\{\}]+
     /// </summary>
     [CliOption("--relay-state")]
     public string? RelayState { get; set; }
 
     /// <summary>
-    /// The tags to attach to the new PermissionSet . Constraints: o min: 0 o max: 75 (structure) A set of key-value pairs that are used to manage the resource. Tags can only be applied to permission sets and cannot be ap- plied to corresponding roles that IAM Identity Center creates in Amazon Web Services accounts. Key -&gt; (string) [required] The key for the tag. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags to attach to the new PermissionSet . Constraints: • min: 0 • max: 75 (structure) A set of key-value pairs that are used to manage the resource. Tags can only be applied to permission sets and cannot be applied to corresponding roles that IAM Identity Center creates in Amazon Web Services accounts. Key -&gt; (string) [required] The key for the tag. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value of the tag. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

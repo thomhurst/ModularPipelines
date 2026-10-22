@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +30,9 @@ public record AwsApigatewayDeleteIntegrationResponseOptions : AwsOptions, IValid
     /// Represents a delete integration response. See also: AWS API Documentation
     /// </summary>
     /// <param name="RestApiId">The string identifier of the associated RestApi.</param>
-    /// <param name="ResourceId">Specifies a delete integration response request's resource identi- fier.</param>
+    /// <param name="ResourceId">Specifies a delete integration response request's resource identifier.</param>
     /// <param name="HttpMethod">Specifies a delete integration response request's HTTP method.</param>
-    /// <param name="StatusCode">Specifies a delete integration response request's status code. Constraints: o pattern: [1-5]\d\d</param>
+    /// <param name="StatusCode">Specifies a delete integration response request's status code. Constraints: • pattern: [1-5]\d\d</param>
     public AwsApigatewayDeleteIntegrationResponseOptions(
         string RestApiId,
         string ResourceId,
@@ -74,7 +76,7 @@ public record AwsApigatewayDeleteIntegrationResponseOptions : AwsOptions, IValid
     public string? RestApiId { get; private init; }
 
     /// <summary>
-    /// Specifies a delete integration response request's resource identi- fier.
+    /// Specifies a delete integration response request's resource identifier.
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
@@ -86,7 +88,7 @@ public record AwsApigatewayDeleteIntegrationResponseOptions : AwsOptions, IValid
     public string? HttpMethod { get; private init; }
 
     /// <summary>
-    /// Specifies a delete integration response request's status code. Constraints: o pattern: [1-5]\d\d
+    /// Specifies a delete integration response request's status code. Constraints: • pattern: [1-5]\d\d
     /// </summary>
     [CliOption("--status-code")]
     public string? StatusCode { get; private init; }

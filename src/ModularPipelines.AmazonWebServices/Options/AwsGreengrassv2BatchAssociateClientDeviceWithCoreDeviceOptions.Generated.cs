@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates a list of client devices with a core device. Use this API operation to specify which client devices can discover a core device through cloud discovery. With cloud discovery, client devices connect to IoT Greengrass to retrieve associated core devices' connectivity in- formation and certificates. For more information, see Configure cloud discovery in the IoT Greengrass V2 Developer Guide . NOTE: Client devices are local IoT devices that connect to and communicate with an IoT Greengrass...
+/// Associates a list of client devices with a core device. Use this API operation to specify which client devices can discover a core device through cloud discovery. With cloud discovery, client devices connect to IoT Greengrass to retrieve associated core devices' connectivity information and certificates. For more information, see Configure cloud discovery in the IoT Greengrass V2 Developer Guide . NOTE: Client devices are local IoT devices that connect to and communicate with an IoT Greengrass c...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsGreengrassv2BatchAssociateClientDeviceWithCoreDeviceOptions : A
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates a list of client devices with a core device. Use this API operation to specify which client devices can discover a core device through cloud discovery. With cloud discovery, client devices connect to IoT Greengrass to retrieve associated core devices' connectivity in- formation and certificates. For more information, see Configure cloud discovery in the IoT Greengrass V2 Developer Guide . NOTE: Client devices are local IoT devices that connect to and communicate with an IoT Greengrass...
+    /// Associates a list of client devices with a core device. Use this API operation to specify which client devices can discover a core device through cloud discovery. With cloud discovery, client devices connect to IoT Greengrass to retrieve associated core devices' connectivity information and certificates. For more information, see Configure cloud discovery in the IoT Greengrass V2 Developer Guide . NOTE: Client devices are local IoT devices that connect to and communicate with an IoT Greengrass c...
     /// </summary>
-    /// <param name="CoreDeviceThingName">The name of the core device. This is also the name of the IoT thing. Constraints: o min: 1 o max: 128</param>
+    /// <param name="CoreDeviceThingName">The name of the core device. This is also the name of the IoT thing. Constraints: • min: 1 • max: 128</param>
     public AwsGreengrassv2BatchAssociateClientDeviceWithCoreDeviceOptions(
         string CoreDeviceThingName
     )
@@ -56,13 +58,13 @@ public record AwsGreengrassv2BatchAssociateClientDeviceWithCoreDeviceOptions : A
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the core device. This is also the name of the IoT thing. Constraints: o min: 1 o max: 128
+    /// The name of the core device. This is also the name of the IoT thing. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--core-device-thing-name")]
     public string? CoreDeviceThingName { get; private init; }
 
     /// <summary>
-    /// The list of client devices to associate. Constraints: o min: 1 o max: 100 (structure) Contains a request to associate a client device with a core de- vice. The BatchAssociateClientDeviceWithCoreDevice operation consumes a list of these requests. thingName -&gt; (string) [required] The name of the IoT thing that represents the client device to associate. Constraints: o min: 1 o max: 128 Shorthand Syntax: thingName=string ... JSON Syntax: [ { "thingName": "string" } ... ]
+    /// The list of client devices to associate. Constraints: • min: 1 • max: 100 (structure) Contains a request to associate a client device with a core device. The BatchAssociateClientDeviceWithCoreDevice operation consumes a list of these requests. thingName -&gt; (string) [required] The name of the IoT thing that represents the client device to associate. Constraints: • min: 1 • max: 128 Shorthand Syntax: thingName=string ... JSON Syntax: [ { "thingName": "string" } ... ]
     /// </summary>
     [CliOption("--entries", GroupValues = true)]
     public IEnumerable<string>? Entries { get; set; }

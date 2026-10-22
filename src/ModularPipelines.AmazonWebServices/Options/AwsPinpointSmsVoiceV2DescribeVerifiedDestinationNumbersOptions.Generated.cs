@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the specified verified destination numbers. See also: AWS API Documentation describe-verified-destination-numbers is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: VerifiedDestinationNumb...
+/// Retrieves the specified verified destination numbers. See also: AWS API Documentation describe-verified-destination-numbers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: VerifiedDestinationNumbers
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,28 +23,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsPinpointSmsVoiceV2DescribeVerifiedDestinationNumbersOptions : AwsOptions
 {
     /// <summary>
-    /// An array of VerifiedDestinationNumberid to retrieve. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+ Syntax: "string" "string" ...
+    /// An array of VerifiedDestinationNumberid to retrieve. Constraints: • min: 0 • max: 5 (string) Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--verified-destination-number-ids", GroupValues = true)]
     public IEnumerable<string>? VerifiedDestinationNumberIds { get; set; }
 
     /// <summary>
-    /// An array of verified destination phone number, in E.164 format. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 20 o pattern: \+?[1-9][0-9]{1,18} Syntax: "string" "string" ...
+    /// An array of verified destination phone number, in E.164 format. Constraints: • min: 0 • max: 5 (string) Constraints: • min: 1 • max: 20 • pattern: \+?[1-9][0-9]{1,18} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--destination-phone-numbers", GroupValues = true)]
     public IEnumerable<string>? DestinationPhoneNumbers { get; set; }
 
     /// <summary>
-    /// An array of VerifiedDestinationNumberFilter objects to filter the results. Constraints: o min: 0 o max: 20 (structure) The filter definition for filtering verified destination phone numbers that meets a specified criteria. Name -&gt; (string) [required] The name of the attribute to filter on. Possible values: o status o rcs-agent-id Values -&gt; (list) [required] An array of values to filter on. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 128 o pattern: [/\.:A-Za-z0-9+_-]+ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "status"|"rcs-agent-id", "Values": ["string", ...] } ... ]
+    /// An array of VerifiedDestinationNumberFilter objects to filter the results. Constraints: • min: 0 • max: 20 (structure) The filter definition for filtering verified destination phone numbers that meets a specified criteria. Name -&gt; (string) [required] The name of the attribute to filter on. Possible values: • status • rcs-agent-id Values -&gt; (list) [required] An array of values to filter on. Constraints: • min: 1 • max: 20 (string) Constraints: • min: 1 • max: 128 • pattern: [/\.:A-Za-z0-9+_-]+ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "status"|"rcs-agent-id", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -54,15 +51,18 @@ public record AwsPinpointSmsVoiceV2DescribeVerifiedDestinationNumbersOptions : A
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

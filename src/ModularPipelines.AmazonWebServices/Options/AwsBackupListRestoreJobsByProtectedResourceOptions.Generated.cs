@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This returns restore jobs that contain the specified protected re- source. You must include ResourceArn . You can optionally include NextToken , ByStatus , MaxResults , ByRecoveryPointCreationDateAfter , and ByRecov- eryPointCreationDateBefore . See also: AWS API Documentation list-restore-jobs-by-protected-resource is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. ...
+/// This returns restore jobs that contain the specified protected resource. You must include ResourceArn . You can optionally include NextToken , ByStatus , MaxResults , ByRecoveryPointCreationDateAfter , and ByRecoveryPointCreationDateBefore . See also: AWS API Documentation list-restore-jobs-by-protected-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When u...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,7 +29,7 @@ public record AwsBackupListRestoreJobsByProtectedResourceOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This returns restore jobs that contain the specified protected re- source. You must include ResourceArn . You can optionally include NextToken , ByStatus , MaxResults , ByRecoveryPointCreationDateAfter , and ByRecov- eryPointCreationDateBefore . See also: AWS API Documentation list-restore-jobs-by-protected-resource is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. ...
+    /// This returns restore jobs that contain the specified protected resource. You must include ResourceArn . You can optionally include NextToken , ByStatus , MaxResults , ByRecoveryPointCreationDateAfter , and ByRecoveryPointCreationDateBefore . See also: AWS API Documentation list-restore-jobs-by-protected-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When u...
     /// </summary>
     /// <param name="ResourceArn">Returns only restore jobs that match the specified resource Amazon Resource Name (ARN).</param>
     public AwsBackupListRestoreJobsByProtectedResourceOptions(
@@ -64,7 +66,7 @@ public record AwsBackupListRestoreJobsByProtectedResourceOptions : AwsOptions, I
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Returns only restore jobs associated with the specified job status. Possible values: o PENDING o RUNNING o COMPLETED o ABORTED o FAILED
+    /// Returns only restore jobs associated with the specified job status. Possible values: • PENDING • RUNNING • COMPLETED • ABORTED • FAILED
     /// </summary>
     [CliOption("--by-status")]
     public AwsBackupListRestoreJobsByProtectedResourceByStatus? ByStatus { get; set; }
@@ -76,16 +78,13 @@ public record AwsBackupListRestoreJobsByProtectedResourceOptions : AwsOptions, I
     public string? ByRecoveryPointCreationDateAfter { get; set; }
 
     /// <summary>
-    /// Returns only restore jobs of recovery points that were created be- fore the specified date.
+    /// Returns only restore jobs of recovery points that were created before the specified date.
     /// </summary>
     [CliOption("--by-recovery-point-creation-date-before")]
     public string? ByRecoveryPointCreationDateBefore { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -95,16 +94,19 @@ public record AwsBackupListRestoreJobsByProtectedResourceOptions : AwsOptions, I
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

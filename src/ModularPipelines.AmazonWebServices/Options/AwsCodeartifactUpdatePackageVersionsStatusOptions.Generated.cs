@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -17,7 +18,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the status of one or more versions of a package. Using Up- datePackageVersionsStatus , you can update the status of package ver- sions to Archived , Published , or Unlisted . To set the status of a package version to Disposed , use DisposePackageVersions . See also: AWS API Documentation
+/// Updates the status of one or more versions of a package. Using UpdatePackageVersionsStatus , you can update the status of package versions to Archived , Published , or Unlisted . To set the status of a package version to Disposed , use DisposePackageVersions . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,14 +28,14 @@ public record AwsCodeartifactUpdatePackageVersionsStatusOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the status of one or more versions of a package. Using Up- datePackageVersionsStatus , you can update the status of package ver- sions to Archived , Published , or Unlisted . To set the status of a package version to Disposed , use DisposePackageVersions . See also: AWS API Documentation
+    /// Updates the status of one or more versions of a package. Using UpdatePackageVersionsStatus , you can update the status of package versions to Archived , Published , or Unlisted . To set the status of a package version to Disposed , use DisposePackageVersions . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Domain">The name of the domain that contains the repository that contains the package versions with a status to be updated. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
-    /// <param name="Repository">The repository that contains the package versions with the status you want to update. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}</param>
-    /// <param name="Format">A format that specifies the type of the package with the statuses to update. Possible values: o npm o pypi o maven o nuget o generic o ruby o swift o cargo</param>
-    /// <param name="Package">The name of the package with the version statuses to update. Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+</param>
-    /// <param name="Versions">An array of strings that specify the versions of the package with the statuses to update. Constraints: o max: 100 (string) Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+ Syntax: "string" "string" ...</param>
-    /// <param name="TargetStatus">The status you want to change the package version status to. Possible values: o Published o Unfinished o Unlisted o Archived o Disposed o Deleted</param>
+    /// <param name="Domain">The name of the domain that contains the repository that contains the package versions with a status to be updated. Constraints: • min: 2 • max: 50 • pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
+    /// <param name="Repository">The repository that contains the package versions with the status you want to update. Constraints: • min: 2 • max: 100 • pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}</param>
+    /// <param name="Format">A format that specifies the type of the package with the statuses to update. Possible values: • npm • pypi • maven • nuget • generic • ruby • swift • cargo</param>
+    /// <param name="Package">The name of the package with the version statuses to update. Constraints: • min: 1 • max: 255 • pattern: [^#/\s]+</param>
+    /// <param name="Versions">An array of strings that specify the versions of the package with the statuses to update. Constraints: • max: 100 (string) Constraints: • min: 1 • max: 255 • pattern: [^#/\s]+ Syntax: "string" "string" ...</param>
+    /// <param name="TargetStatus">The status you want to change the package version status to. Possible values: • Published • Unfinished • Unlisted • Archived • Disposed • Deleted</param>
     public AwsCodeartifactUpdatePackageVersionsStatusOptions(
         string Domain,
         string Repository,
@@ -87,61 +88,61 @@ public record AwsCodeartifactUpdatePackageVersionsStatusOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain that contains the repository that contains the package versions with a status to be updated. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
+    /// The name of the domain that contains the repository that contains the package versions with a status to be updated. Constraints: • min: 2 • max: 50 • pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; private init; }
 
     /// <summary>
-    /// The repository that contains the package versions with the status you want to update. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}
+    /// The repository that contains the package versions with the status you want to update. Constraints: • min: 2 • max: 100 • pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}
     /// </summary>
     [CliOption("--repository")]
     public string? Repository { get; private init; }
 
     /// <summary>
-    /// A format that specifies the type of the package with the statuses to update. Possible values: o npm o pypi o maven o nuget o generic o ruby o swift o cargo
+    /// A format that specifies the type of the package with the statuses to update. Possible values: • npm • pypi • maven • nuget • generic • ruby • swift • cargo
     /// </summary>
     [CliOption("--format")]
     public AwsCodeartifactUpdatePackageVersionsStatusFormat? Format { get; private init; }
 
     /// <summary>
-    /// The name of the package with the version statuses to update. Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+
+    /// The name of the package with the version statuses to update. Constraints: • min: 1 • max: 255 • pattern: [^#/\s]+
     /// </summary>
     [CliOption("--package")]
     public string? Package { get; private init; }
 
     /// <summary>
-    /// An array of strings that specify the versions of the package with the statuses to update. Constraints: o max: 100 (string) Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+ Syntax: "string" "string" ...
+    /// An array of strings that specify the versions of the package with the statuses to update. Constraints: • max: 100 (string) Constraints: • min: 1 • max: 255 • pattern: [^#/\s]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--versions", GroupValues = true)]
     public IEnumerable<string>? Versions { get; private init; }
 
     /// <summary>
-    /// The status you want to change the package version status to. Possible values: o Published o Unfinished o Unlisted o Archived o Disposed o Deleted
+    /// The status you want to change the package version status to. Possible values: • Published • Unfinished • Unlisted • Archived • Disposed • Deleted
     /// </summary>
     [CliOption("--target-status")]
     public AwsCodeartifactUpdatePackageVersionsStatusTargetStatus? TargetStatus { get; private init; }
 
     /// <summary>
-    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
+    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--domain-owner")]
     public string? DomainOwner { get; set; }
 
     /// <summary>
-    /// The namespace of the package version to be updated. The package com- ponent that specifies its namespace depends on its type. For exam- ple: o The namespace of a Maven package version is its groupId . o The namespace of an npm or Swift package version is its scope . o The namespace of a generic package is its namespace . o Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions of those formats do not have a namespace. Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+
+    /// The namespace of the package version to be updated. The package component that specifies its namespace depends on its type. For example: • The namespace of a Maven package version is its groupId . • The namespace of an npm or Swift package version is its scope . • The namespace of a generic package is its namespace . • Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions of those formats do not have a namespace. Constraints: • min: 1 • max: 255 • pattern: [^#/\s]+
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
     /// <summary>
-    /// A map of package versions and package version revisions. The map key is the package version (for example, 3.5.2 ), and the map value is the package version revision. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+ value -&gt; (string) Constraints: o min: 1 o max: 50 o pattern: \S+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of package versions and package version revisions. The map key is the package version (for example, 3.5.2 ), and the map value is the package version revision. key -&gt; (string) Constraints: • min: 1 • max: 255 • pattern: [^#/\s]+ value -&gt; (string) Constraints: • min: 1 • max: 50 • pattern: \S+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--version-revisions", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? VersionRevisions { get; set; }
 
     /// <summary>
-    /// The package versions expected status before it is updated. If ex- pectedStatus is provided, the package version's status is updated only if its status at the time UpdatePackageVersionsStatus is called matches expectedStatus . Possible values: o Published o Unfinished o Unlisted o Archived o Disposed o Deleted
+    /// The package versions expected status before it is updated. If expectedStatus is provided, the package version's status is updated only if its status at the time UpdatePackageVersionsStatus is called matches expectedStatus . Possible values: • Published • Unfinished • Unlisted • Archived • Disposed • Deleted
     /// </summary>
     [CliOption("--expected-status")]
     public AwsCodeartifactUpdatePackageVersionsStatusExpectedStatus? ExpectedStatus { get; set; }

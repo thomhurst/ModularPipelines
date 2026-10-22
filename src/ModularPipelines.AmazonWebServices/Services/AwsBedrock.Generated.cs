@@ -77,7 +77,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Creates an advanced prompt optimization job. The job optimizes your prompt templates for specific models using your evaluation dataset and criteria. See also: AWS API Documentation create-advanced-prompt-optimization-job uses document type values. Doc- ument types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, op- tions and nested parameters that are labeled with the type document must be provided as JSON. Shorthand sy...
+    /// Creates an advanced prompt optimization job. The job optimizes your prompt templates for specific models using your evaluation dataset and criteria. See also: AWS API Documentation create-advanced-prompt-optimization-job uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Creates an Automated Reasoning policy for Amazon Bedrock Guardrails. Automated Reasoning policies use mathematical techniques to detect hal- lucinations, suggest corrections, and highlight unstated assumptions in the responses of your GenAI application. To create a policy, you upload a source document that describes the rules that you're encoding. Automated Reasoning extracts important con- cepts from the source document that will become variables in the policy and infers policy rules. See also:...
+    /// Creates an Automated Reasoning policy for Amazon Bedrock Guardrails. Automated Reasoning policies use mathematical techniques to detect hallucinations, suggest corrections, and highlight unstated assumptions in the responses of your GenAI application. To create a policy, you upload a source document that describes the rules that you're encoding. Automated Reasoning extracts important concepts from the source document that will become variables in the policy and infers policy rules. See also: AWS...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Creates a test for an Automated Reasoning policy. Tests validate that your policy works as expected by providing sample inputs and expected outcomes. Use tests to verify policy behavior before deploying to pro- duction. See also: AWS API Documentation
+    /// Creates a test for an Automated Reasoning policy. Tests validate that your policy works as expected by providing sample inputs and expected outcomes. Use tests to verify policy behavior before deploying to production. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Deploys a custom model for on-demand inference in Amazon Bedrock. After you deploy your custom model, you use the deployment's Amazon Resource Name (ARN) as the modelId parameter when you submit prompts and gener- ate responses with model inference. For more information about setting up on-demand inference for custom models, see Set up inference for a custom model . The following actions are related to the CreateCustomModelDeployment operation: o GetCustomModelDeployment o ListCustomModelDeploym...
+    /// Deploys a custom model for on-demand inference in Amazon Bedrock. After you deploy your custom model, you use the deployment's Amazon Resource Name (ARN) as the modelId parameter when you submit prompts and generate responses with model inference. For more information about setting up on-demand inference for custom models, see Set up inference for a custom model . The following actions are related to the CreateCustomModelDeployment operation: • GetCustomModelDeployment • ListCustomModelDeploymen...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Creates a new custom model in Amazon Bedrock. After the model is ac- tive, you can use it for inference. You can provide the model data source in one of the following ways: o customModelDataSource Specify a SageMaker AI model package ARN. Ama- zon Bedrock resolves the model package to retrieve the model arti- facts. This is the preferred method for new SageMaker AI training outputs. o modelSourceConfig Specify an Amazon S3 URI pointing to the Ama- zon-managed Amazon S3 bucket containing your mod...
+    /// Creates a new custom model in Amazon Bedrock. After the model is active, you can use it for inference. You can provide the model data source in one of the following ways: • customModelDataSource Specify a SageMaker AI model package ARN. Amazon Bedrock resolves the model package to retrieve the model artifacts. This is the preferred method for new SageMaker AI training outputs. • modelSourceConfig Specify an Amazon S3 URI pointing to the Amazon-managed Amazon S3 bucket containing your model artif...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Creates an evaluation job. See also: AWS API Documentation create-evaluation-job uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Creates an evaluation job. See also: AWS API Documentation create-evaluation-job uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Creates a guardrail to block topics and to implement safeguards for your generative AI applications. You can configure the following policies in a guardrail to avoid unde- sirable and harmful content, filter out denied topics and words, and remove sensitive information for privacy protection. o Content filters - Adjust filter strengths to block input prompts or model responses containing harmful content. o Denied topics - Define a set of topics that are undesirable in the context of your applica...
+    /// Creates a guardrail to block topics and to implement safeguards for your generative AI applications. You can configure the following policies in a guardrail to avoid undesirable and harmful content, filter out denied topics and words, and remove sensitive information for privacy protection. • Content filters - Adjust filter strengths to block input prompts or model responses containing harmful content. • Denied topics - Define a set of topics that are undesirable in the context of your applicati...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Creates an application inference profile to track metrics and costs when invoking a model. To create an application inference profile for a foundation model in one region, specify the ARN of the model in that region. To create an application inference profile for a foundation model across multiple regions, specify the ARN of the system-defined inference profile that contains the regions that you want to route re- quests to. For more information, see Increase throughput and resilience with cross-...
+    /// Creates an application inference profile to track metrics and costs when invoking a model. To create an application inference profile for a foundation model in one region, specify the ARN of the model in that region. To create an application inference profile for a foundation model across multiple regions, specify the ARN of the system-defined inference profile that contains the regions that you want to route requests to. For more information, see Increase throughput and resilience with cross-re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Creates a fine-tuning job to customize a base model. You specify the base foundation model and the location of the training data. After the model-customization job completes successfully, your custom model resource will be ready to use. Amazon Bedrock returns val- idation loss metrics and output generations after the job completes. For information on the format of training and validation data, see Prepare the datasets . Model-customization jobs are asynchronous and the completion time de- pends ...
+    /// Creates a fine-tuning job to customize a base model. You specify the base foundation model and the location of the training data. After the model-customization job completes successfully, your custom model resource will be ready to use. Amazon Bedrock returns validation loss metrics and output generations after the job completes. For information on the format of training and validation data, see Prepare the datasets . Model-customization jobs are asynchronous and the completion time depends on t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Creates dedicated throughput for a base or custom model with the model units and for the duration that you specify. For pricing details, see Amazon Bedrock Pricing . For more information, see Provisioned Through- put in the Amazon Bedrock User Guide . See also: AWS API Documentation
+    /// Creates dedicated throughput for a base or custom model with the model units and for the duration that you specify. For pricing details, see Amazon Bedrock Pricing . For more information, see Provisioned Throughput in the Amazon Bedrock User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Deletes an Automated Reasoning policy build workflow and its associated artifacts. This permanently removes the workflow history and any gener- ated assets. See also: AWS API Documentation
+    /// Deletes an Automated Reasoning policy build workflow and its associated artifacts. This permanently removes the workflow history and any generated assets. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Deletes an Automated Reasoning policy or policy version. This operation is idempotent. If you delete a policy more than once, each call suc- ceeds. Deleting a policy removes it permanently and cannot be undone. See also: AWS API Documentation
+    /// Deletes an Automated Reasoning policy or policy version. This operation is idempotent. If you delete a policy more than once, each call succeeds. Deleting a policy removes it permanently and cannot be undone. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Deletes an Automated Reasoning policy test. This operation is idempo- tent; if you delete a test more than once, each call succeeds. See also: AWS API Documentation
+    /// Deletes an Automated Reasoning policy test. This operation is idempotent; if you delete a test more than once, each call succeeds. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Deletes a custom model deployment. This operation stops the deployment and removes it from your account. After deletion, the deployment ARN can no longer be used for inference requests. The following actions are related to the DeleteCustomModelDeployment operation: o CreateCustomModelDeployment o GetCustomModelDeployment o ListCustomModelDeployments See also: AWS API Documentation
+    /// Deletes a custom model deployment. This operation stops the deployment and removes it from your account. After deletion, the deployment ARN can no longer be used for inference requests. The following actions are related to the DeleteCustomModelDeployment operation: • CreateCustomModelDeployment • GetCustomModelDeployment • ListCustomModelDeployments See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Deletes a guardrail. o To delete a guardrail, only specify the ARN of the guardrail in the guardrailIdentifier field. If you delete a guardrail, all of its ver- sions will be deleted. o To delete a version of a guardrail, specify the ARN of the guardrail in the guardrailIdentifier field and the version in the guardrailVer- sion field. See also: AWS API Documentation
+    /// Deletes a guardrail. • To delete a guardrail, only specify the ARN of the guardrail in the guardrailIdentifier field. If you delete a guardrail, all of its versions will be deleted. • To delete a version of a guardrail, specify the ARN of the guardrail in the guardrailIdentifier field and the version in the guardrailVersion field. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Deletes an application inference profile. For more information, see Increase throughput and resilience with cross-region inference in Ama- zon Bedrock . in the Amazon Bedrock User Guide. See also: AWS API Documentation
+    /// Deletes an application inference profile. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock . in the Amazon Bedrock User Guide. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Exports the policy definition for an Automated Reasoning policy ver- sion. Returns the complete policy definition including rules, vari- ables, and custom variable types in a structured format. See also: AWS API Documentation
+    /// Exports the policy definition for an Automated Reasoning policy version. Returns the complete policy definition including rules, variables, and custom variable types in a structured format. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +617,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Gets information about an advanced prompt optimization job. See also: AWS API Documentation get-advanced-prompt-optimization-job uses document type values. Docu- ment types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, op- tions and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Gets information about an advanced prompt optimization job. See also: AWS API Documentation get-advanced-prompt-optimization-job uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Retrieves the resulting assets from a completed Automated Reasoning policy build workflow, including build logs, quality reports, and gen- erated policy artifacts. See also: AWS API Documentation
+    /// Retrieves the resulting assets from a completed Automated Reasoning policy build workflow, including build logs, quality reports, and generated policy artifacts. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -692,7 +692,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Retrieves details about an Automated Reasoning policy or policy ver- sion. Returns information including the policy definition, metadata, and timestamps. See also: AWS API Documentation
+    /// Retrieves details about an Automated Reasoning policy or policy version. Returns information including the policy definition, metadata, and timestamps. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -737,7 +737,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Retrieves information about a custom model deployment, including its status, configuration, and metadata. Use this operation to monitor the deployment status and retrieve details needed for inference requests. The following actions are related to the GetCustomModelDeployment oper- ation: o CreateCustomModelDeployment o ListCustomModelDeployments o DeleteCustomModelDeployment See also: AWS API Documentation
+    /// Retrieves information about a custom model deployment, including its status, configuration, and metadata. Use this operation to monitor the deployment status and retrieve details needed for inference requests. The following actions are related to the GetCustomModelDeployment operation: • CreateCustomModelDeployment • ListCustomModelDeployments • DeleteCustomModelDeployment See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -767,7 +767,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Gets information about an evaluation job, such as the status of the job. See also: AWS API Documentation get-evaluation-job uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Gets information about an evaluation job, such as the status of the job. See also: AWS API Documentation get-evaluation-job uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -812,7 +812,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Gets details about a guardrail. If you don't specify a version, the re- sponse returns details for the DRAFT version. See also: AWS API Documentation
+    /// Gets details about a guardrail. If you don't specify a version, the response returns details for the DRAFT version. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -842,7 +842,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Gets information about an inference profile. For more information, see Increase throughput and resilience with cross-region inference in Ama- zon Bedrock . in the Amazon Bedrock User Guide. See also: AWS API Documentation
+    /// Gets information about an inference profile. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock . in the Amazon Bedrock User Guide. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -887,7 +887,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Retrieves the properties associated with a model-customization job, in- cluding the status of the job. For more information, see Custom models in the Amazon Bedrock User Guide . See also: AWS API Documentation
+    /// Retrieves the properties associated with a model-customization job, including the status of the job. For more information, see Custom models in the Amazon Bedrock User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1007,7 +1007,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Lists the advanced prompt optimization jobs in your account. See also: AWS API Documentation list-advanced-prompt-optimization-jobs is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: jobSummaries
+    /// Lists the advanced prompt optimization jobs in your account. See also: AWS API Documentation list-advanced-prompt-optimization-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: jobSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1022,7 +1022,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Lists all Automated Reasoning policies in your account, with optional filtering by policy ARN. This helps you manage and discover existing policies. See also: AWS API Documentation list-automated-reasoning-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must ...
+    /// Lists all Automated Reasoning policies in your account, with optional filtering by policy ARN. This helps you manage and discover existing policies. See also: AWS API Documentation list-automated-reasoning-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1037,7 +1037,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Lists all build workflows for an Automated Reasoning policy, showing the history of policy creation and modification attempts. See also: AWS API Documentation list-automated-reasoning-policy-build-workflows is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract ...
+    /// Lists all build workflows for an Automated Reasoning policy, showing the history of policy creation and modification attempts. See also: AWS API Documentation list-automated-reasoning-policy-build-workflows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1052,7 +1052,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Lists tests for an Automated Reasoning policy. We recommend using pagi- nation to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-automated-reasoning-policy-test-cases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must ...
+    /// Lists tests for an Automated Reasoning policy. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-automated-reasoning-policy-test-cases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1067,7 +1067,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Lists test results for an Automated Reasoning policy, showing how the policy performed against various test scenarios and validation checks. See also: AWS API Documentation list-automated-reasoning-policy-test-results is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must...
+    /// Lists test results for an Automated Reasoning policy, showing how the policy performed against various test scenarios and validation checks. See also: AWS API Documentation list-automated-reasoning-policy-test-results is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must e...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1082,7 +1082,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Lists custom model deployments in your account. You can filter the re- sults by creation time, name, status, and associated model. Use this operation to manage and monitor your custom model deployments. We recommend using pagination to ensure that the operation returns quickly and successfully. The following actions are related to the ListCustomModelDeployments op- eration: o CreateCustomModelDeployment o GetCustomModelDeployment o DeleteCustomModelDeployment See also: AWS API Documentation list...
+    /// Lists custom model deployments in your account. You can filter the results by creation time, name, status, and associated model. Use this operation to manage and monitor your custom model deployments. We recommend using pagination to ensure that the operation returns quickly and successfully. The following actions are related to the ListCustomModelDeployments operation: • CreateCustomModelDeployment • GetCustomModelDeployment • DeleteCustomModelDeployment See also: AWS API Documentation list-cus...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1097,7 +1097,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Returns a list of the custom models that you have created with the Cre- ateModelCustomizationJob operation. For more information, see Custom models in the Amazon Bedrock User Guide . See also: AWS API Documentation list-custom-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query...
+    /// Returns a list of the custom models that you have created with the CreateModelCustomizationJob operation. For more information, see Custom models in the Amazon Bedrock User Guide . See also: AWS API Documentation list-custom-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1112,7 +1112,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Lists the account-level enforced guardrail configurations. See also: AWS API Documentation list-enforced-guardrails-configuration is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: guardrailsConfig
+    /// Lists the account-level enforced guardrail configurations. See also: AWS API Documentation list-enforced-guardrails-configuration is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: guardrailsConfig
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1202,7 +1202,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Returns a list of inference profiles that you can use. For more infor- mation, see Increase throughput and resilience with cross-region infer- ence in Amazon Bedrock . in the Amazon Bedrock User Guide. See also: AWS API Documentation list-inference-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginat...
+    /// Returns a list of inference profiles that you can use. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock . in the Amazon Bedrock User Guide. See also: AWS API Documentation list-inference-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated r...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1217,7 +1217,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Lists the endpoints for models from Amazon Bedrock Marketplace in your Amazon Web Services account. See also: AWS API Documentation list-marketplace-model-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following que...
+    /// Lists the endpoints for models from Amazon Bedrock Marketplace in your Amazon Web Services account. See also: AWS API Documentation list-marketplace-model-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query e...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1232,7 +1232,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Returns a list of model copy jobs that you have submitted. You can fil- ter the jobs to return based on one or more criteria. For more informa- tion, see Copy models to be used in other regions in the Amazon Bedrock User Guide . See also: AWS API Documentation list-model-copy-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --que...
+    /// Returns a list of model copy jobs that you have submitted. You can filter the jobs to return based on one or more criteria. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide . See also: AWS API Documentation list-model-copy-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1247,7 +1247,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Returns a list of model customization jobs that you have submitted. You can filter the jobs to return based on one or more criteria. For more information, see Custom models in the Amazon Bedrock User Guide . See also: AWS API Documentation list-model-customization-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argum...
+    /// Returns a list of model customization jobs that you have submitted. You can filter the jobs to return based on one or more criteria. For more information, see Custom models in the Amazon Bedrock User Guide . See also: AWS API Documentation list-model-customization-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1262,7 +1262,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Returns a list of import jobs you've submitted. You can filter the re- sults to return based on one or more criteria. For more information, see Import a customized model in the Amazon Bedrock User Guide . See also: AWS API Documentation list-model-import-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagin...
+    /// Returns a list of import jobs you've submitted. You can filter the results to return based on one or more criteria. For more information, see Import a customized model in the Amazon Bedrock User Guide . See also: AWS API Documentation list-model-import-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1277,7 +1277,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Lists all batch inference jobs in the account. For more information, see View details about a batch inference job . See also: AWS API Documentation list-model-invocation-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow-...
+    /// Lists all batch inference jobs in the account. For more information, see View details about a batch inference job . See also: AWS API Documentation list-model-invocation-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1307,7 +1307,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Lists the Provisioned Throughputs in the account. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide . See also: AWS API Documentation list-provisioned-model-throughputs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data f...
+    /// Lists the Provisioned Throughputs in the account. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide . See also: AWS API Documentation list-provisioned-model-throughputs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1427,7 +1427,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Starts a new build workflow for an Automated Reasoning policy. This initiates the process of analyzing source documents and generating pol- icy rules, variables, and types. See also: AWS API Documentation
+    /// Starts a new build workflow for an Automated Reasoning policy. This initiates the process of analyzing source documents and generating policy rules, variables, and types. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1442,7 +1442,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Initiates a test workflow to validate Automated Reasoning policy tests. The workflow executes the specified tests against the policy and gener- ates validation results. See also: AWS API Documentation
+    /// Initiates a test workflow to validate Automated Reasoning policy tests. The workflow executes the specified tests against the policy and generates validation results. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1517,7 +1517,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Associate tags with a resource. For more information, see Tagging re- sources in the Amazon Bedrock User Guide . See also: AWS API Documentation
+    /// Associate tags with a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1547,7 +1547,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Updates the annotations for an Automated Reasoning policy build work- flow. This allows you to modify extracted rules, variables, and types before finalizing the policy. See also: AWS API Documentation
+    /// Updates the annotations for an Automated Reasoning policy build workflow. This allows you to modify extracted rules, variables, and types before finalizing the policy. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1562,7 +1562,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Updates an existing Automated Reasoning policy with new rules, vari- ables, or configuration. This creates a new version of the policy while preserving the previous version. See also: AWS API Documentation
+    /// Updates an existing Automated Reasoning policy with new rules, variables, or configuration. This creates a new version of the policy while preserving the previous version. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1607,7 +1607,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Updates a guardrail with the values you specify. o Specify a name and optional description . o Specify messages for when the guardrail successfully blocks a prompt or a model response in the blockedInputMessaging and blockedOut- putsMessaging fields. o Specify topics for the guardrail to deny in the topicPolicyConfig ob- ject. Each GuardrailTopicConfig object in the topicsConfig list per- tains to one topic. o Give a name and description so that the guardrail can properly identify the topic. o S...
+    /// Updates a guardrail with the values you specify. • Specify a name and optional description . • Specify messages for when the guardrail successfully blocks a prompt or a model response in the blockedInputMessaging and blockedOutputsMessaging fields. • Specify topics for the guardrail to deny in the topicPolicyConfig object. Each GuardrailTopicConfig object in the topicsConfig list pertains to one topic. • Give a name and description so that the guardrail can properly identify the topic. • Specify...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1622,7 +1622,7 @@ public class AwsBedrock : IAwsBedrock
     }
 
     /// <summary>
-    /// Updates the configuration of an existing endpoint for a model from Ama- zon Bedrock Marketplace. See also: AWS API Documentation
+    /// Updates the configuration of an existing endpoint for a model from Amazon Bedrock Marketplace. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

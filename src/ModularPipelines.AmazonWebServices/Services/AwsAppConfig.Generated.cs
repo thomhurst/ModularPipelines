@@ -33,7 +33,7 @@ public class AwsAppConfig : IAwsAppConfig
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws appconfig wait sub-commands.
     /// </summary>
     public AwsAppConfigWait Wait => _wait ??= new AwsAppConfigWait(_command);
 
@@ -42,7 +42,7 @@ public class AwsAppConfig : IAwsAppConfig
     #region Commands
 
     /// <summary>
-    /// Creates an application. In AppConfig, an application is simply an orga- nizational construct like a folder. This organizational construct has a relationship with some unit of executable code. For example, you could create an application called MyMobileApp to organize and manage config- uration data for a mobile application installed by your users. See also: AWS API Documentation
+    /// Creates an application. In AppConfig, an application is simply an organizational construct like a folder. This organizational construct has a relationship with some unit of executable code. For example, you could create an application called MyMobileApp to organize and manage configuration data for a mobile application installed by your users. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -57,7 +57,7 @@ public class AwsAppConfig : IAwsAppConfig
     }
 
     /// <summary>
-    /// Creates a configuration profile, which is information that enables App- Config to access the configuration source. Valid configuration sources include the following: o Configuration data in YAML, JSON, and other formats stored in the Ap- pConfig hosted configuration store o Configuration data stored as objects in an Amazon Simple Storage Ser- vice (Amazon S3) bucket o Pipelines stored in CodePipeline o Secrets stored in Secrets Manager o Standard and secure string parameters stored in Amazon Web...
+    /// Creates a configuration profile, which is information that enables AppConfig to access the configuration source. Valid configuration sources include the following: • Configuration data in YAML, JSON, and other formats stored in the AppConfig hosted configuration store • Configuration data stored as objects in an Amazon Simple Storage Service (Amazon S3) bucket • Pipelines stored in CodePipeline • Secrets stored in Secrets Manager • Standard and secure string parameters stored in Amazon Web Servi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -72,7 +72,7 @@ public class AwsAppConfig : IAwsAppConfig
     }
 
     /// <summary>
-    /// Creates a deployment strategy that defines important criteria for rolling out your configuration to the designated targets. A deployment strategy includes the overall duration required, a percentage of tar- gets to receive the deployment during each interval, an algorithm that defines how percentage grows, and bake time. See also: AWS API Documentation
+    /// Creates a deployment strategy that defines important criteria for rolling out your configuration to the designated targets. A deployment strategy includes the overall duration required, a percentage of targets to receive the deployment during each interval, an algorithm that defines how percentage grows, and bake time. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -87,7 +87,7 @@ public class AwsAppConfig : IAwsAppConfig
     }
 
     /// <summary>
-    /// Creates an environment. For each application, you define one or more environments. An environment is a deployment group of AppConfig tar- gets, such as applications in a Beta or Production environment. You can also define environments for application subcomponents such as the Web , Mobile and Back-end components for your application. You can config- ure Amazon CloudWatch alarms for each environment. The system monitors alarms during a configuration deployment. If an alarm is triggered, the syste...
+    /// Creates an environment. For each application, you define one or more environments. An environment is a deployment group of AppConfig targets, such as applications in a Beta or Production environment. You can also define environments for application subcomponents such as the Web , Mobile and Back-end components for your application. You can configure Amazon CloudWatch alarms for each environment. The system monitors alarms during a configuration deployment. If an alarm is triggered, the system ro...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -102,7 +102,7 @@ public class AwsAppConfig : IAwsAppConfig
     }
 
     /// <summary>
-    /// Creates an experiment definition in AppConfig. An experiment definition describes the purpose, scope, and operational configuration of an ex- periment, including the target audience, feature flag, and treatment configurations. See also: AWS API Documentation
+    /// Creates an experiment definition in AppConfig. An experiment definition describes the purpose, scope, and operational configuration of an experiment, including the target audience, feature flag, and treatment configurations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -117,7 +117,7 @@ public class AwsAppConfig : IAwsAppConfig
     }
 
     /// <summary>
-    /// When you create an extension or configure an Amazon Web Services au- thored extension, you associate the extension with an AppConfig appli- cation, environment, or configuration profile. For example, you can choose to run the AppConfig deployment events to Amazon SNS Amazon Web Services authored extension and receive notifications on an Amazon SNS topic anytime a configuration deployment is started for a specific ap- plication. Defining which extension to associate with an AppConfig re- source i...
+    /// When you create an extension or configure an Amazon Web Services authored extension, you associate the extension with an AppConfig application, environment, or configuration profile. For example, you can choose to run the AppConfig deployment events to Amazon SNS Amazon Web Services authored extension and receive notifications on an Amazon SNS topic anytime a configuration deployment is started for a specific application. Defining which extension to associate with an AppConfig resource is called...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -132,7 +132,7 @@ public class AwsAppConfig : IAwsAppConfig
     }
 
     /// <summary>
-    /// Creates an AppConfig extension. An extension augments your ability to inject logic or behavior at different points during the AppConfig work- flow of creating or deploying a configuration. You can create your own extensions or use the Amazon Web Services au- thored extensions provided by AppConfig. For an AppConfig extension that uses Lambda, you must create a Lambda function to perform any com- putation and processing defined in the extension. If you plan to create custom versions of the Amazon...
+    /// Creates an AppConfig extension. An extension augments your ability to inject logic or behavior at different points during the AppConfig workflow of creating or deploying a configuration. You can create your own extensions or use the Amazon Web Services authored extensions provided by AppConfig. For an AppConfig extension that uses Lambda, you must create a Lambda function to perform any computation and processing defined in the extension. If you plan to create custom versions of the Amazon Web S...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -147,7 +147,7 @@ public class AwsAppConfig : IAwsAppConfig
     }
 
     /// <summary>
-    /// Creates a new configuration in the AppConfig hosted configuration store. If you're creating a feature flag, we recommend you familiarize yourself with the JSON schema for feature flag data. For more informa- tion, see Type reference for AWS.AppConfig.FeatureFlags in the AppCon- fig User Guide . See also: AWS API Documentation
+    /// Creates a new configuration in the AppConfig hosted configuration store. If you're creating a feature flag, we recommend you familiarize yourself with the JSON schema for feature flag data. For more information, see Type reference for AWS.AppConfig.FeatureFlags in the AppConfig User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -177,7 +177,7 @@ public class AwsAppConfig : IAwsAppConfig
     }
 
     /// <summary>
-    /// Deletes a configuration profile. To prevent users from unintentionally deleting actively-used configura- tion profiles, enable deletion protection . See also: AWS API Documentation
+    /// Deletes a configuration profile. To prevent users from unintentionally deleting actively-used configuration profiles, enable deletion protection . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -207,7 +207,7 @@ public class AwsAppConfig : IAwsAppConfig
     }
 
     /// <summary>
-    /// Deletes an environment. To prevent users from unintentionally deleting actively-used environ- ments, enable deletion protection . See also: AWS API Documentation
+    /// Deletes an environment. To prevent users from unintentionally deleting actively-used environments, enable deletion protection . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -267,7 +267,7 @@ public class AwsAppConfig : IAwsAppConfig
     }
 
     /// <summary>
-    /// Deletes a version of a configuration from the AppConfig hosted configu- ration store. See also: AWS API Documentation
+    /// Deletes a version of a configuration from the AppConfig hosted configuration store. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -282,7 +282,7 @@ public class AwsAppConfig : IAwsAppConfig
     }
 
     /// <summary>
-    /// Returns information about the status of the DeletionProtection parame- ter. See also: AWS API Documentation
+    /// Returns information about the status of the DeletionProtection parameter. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -342,7 +342,7 @@ public class AwsAppConfig : IAwsAppConfig
     }
 
     /// <summary>
-    /// Retrieves information about a deployment strategy. A deployment strat- egy defines important criteria for rolling out your configuration to the designated targets. A deployment strategy includes the overall du- ration required, a percentage of targets to receive the deployment dur- ing each interval, an algorithm that defines how percentage grows, and bake time. See also: AWS API Documentation
+    /// Retrieves information about a deployment strategy. A deployment strategy defines important criteria for rolling out your configuration to the designated targets. A deployment strategy includes the overall duration required, a percentage of targets to receive the deployment during each interval, an algorithm that defines how percentage grows, and bake time. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -357,7 +357,7 @@ public class AwsAppConfig : IAwsAppConfig
     }
 
     /// <summary>
-    /// Retrieves information about an environment. An environment is a deploy- ment group of AppConfig applications, such as applications in a Produc- tion environment or in an EU_Region environment. Each configuration de- ployment targets an environment. You can enable one or more Amazon CloudWatch alarms for an environment. If an alarm is triggered during a deployment, AppConfig roles back the configuration. See also: AWS API Documentation
+    /// Retrieves information about an environment. An environment is a deployment group of AppConfig applications, such as applications in a Production environment or in an EU_Region environment. Each configuration deployment targets an environment. You can enable one or more Amazon CloudWatch alarms for an environment. If an alarm is triggered during a deployment, AppConfig roles back the configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -462,7 +462,7 @@ public class AwsAppConfig : IAwsAppConfig
     }
 
     /// <summary>
-    /// Lists the configuration profiles for an application. See also: AWS API Documentation list-configuration-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
+    /// Lists the configuration profiles for an application. See also: AWS API Documentation list-configuration-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -477,22 +477,7 @@ public class AwsAppConfig : IAwsAppConfig
     }
 
     /// <summary>
-    /// Lists the deployments for an environment in descending deployment num- ber order. See also: AWS API Documentation list-deployments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListDeploymentsAsync(
-        AwsAppConfigListDeploymentsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists deployment strategies. See also: AWS API Documentation list-deployment-strategies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Items
+    /// Lists deployment strategies. See also: AWS API Documentation list-deployment-strategies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -504,6 +489,21 @@ public class AwsAppConfig : IAwsAppConfig
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAppConfigListDeploymentStrategiesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the deployments for an environment in descending deployment number order. See also: AWS API Documentation list-deployments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListDeploymentsAsync(
+        AwsAppConfigListDeploymentsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -522,7 +522,7 @@ public class AwsAppConfig : IAwsAppConfig
     }
 
     /// <summary>
-    /// Lists the experiment definitions for an account. You can filter results by application, configuration profile, environment, or status. See also: AWS API Documentation list-experiment-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from th...
+    /// Lists the experiment definitions for an account. You can filter results by application, configuration profile, environment, or status. See also: AWS API Documentation list-experiment-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -537,7 +537,7 @@ public class AwsAppConfig : IAwsAppConfig
     }
 
     /// <summary>
-    /// Lists the events for a specified experiment run. Events provide a time- line of actions and state changes that occurred during the run. See also: AWS API Documentation list-experiment-run-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re...
+    /// Lists the events for a specified experiment run. Events provide a timeline of actions and state changes that occurred during the run. See also: AWS API Documentation list-experiment-run-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -567,7 +567,7 @@ public class AwsAppConfig : IAwsAppConfig
     }
 
     /// <summary>
-    /// Lists all AppConfig extension associations in the account. For more in- formation about extensions and associations, see Extending workflows in the AppConfig User Guide . See also: AWS API Documentation list-extension-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --quer...
+    /// Lists all AppConfig extension associations in the account. For more information about extensions and associations, see Extending workflows in the AppConfig User Guide . See also: AWS API Documentation list-extension-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -582,7 +582,7 @@ public class AwsAppConfig : IAwsAppConfig
     }
 
     /// <summary>
-    /// Lists all custom and Amazon Web Services authored AppConfig extensions in the account. For more information about extensions, see Extending workflows in the AppConfig User Guide . See also: AWS API Documentation list-extensions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query a...
+    /// Lists all custom and Amazon Web Services authored AppConfig extensions in the account. For more information about extensions, see Extending workflows in the AppConfig User Guide . See also: AWS API Documentation list-extensions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argum...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -597,7 +597,7 @@ public class AwsAppConfig : IAwsAppConfig
     }
 
     /// <summary>
-    /// Lists configurations stored in the AppConfig hosted configuration store by version. See also: AWS API Documentation list-hosted-configuration-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions...
+    /// Lists configurations stored in the AppConfig hosted configuration store by version. See also: AWS API Documentation list-hosted-configuration-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: It...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -627,7 +627,7 @@ public class AwsAppConfig : IAwsAppConfig
     }
 
     /// <summary>
-    /// Starts a deployment. NOTE: AppConfig Agent supports deploying feature flag or free-form config- uration data to specific segments or individual users during a grad- ual rollout. Entity-based gradual deployments ensure that once a user or segment receives a configuration version, they continue to receive that same version throughout the deployment period, regard- less of which compute resource serves their requests. For more in- formation, see Using AppConfig Agent for user-based or entity-based ...
+    /// Starts a deployment. NOTE: AppConfig Agent supports deploying feature flag or free-form configuration data to specific segments or individual users during a gradual rollout. Entity-based gradual deployments ensure that once a user or segment receives a configuration version, they continue to receive that same version throughout the deployment period, regardless of which compute resource serves their requests. For more information, see Using AppConfig Agent for user-based or entity-based gradual ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -642,7 +642,7 @@ public class AwsAppConfig : IAwsAppConfig
     }
 
     /// <summary>
-    /// Starts an experiment run for the specified experiment definition. An experiment run delivers treatments to the target audience and collects metrics. You can start multiple experiment runs from the same experi- ment definition. NOTE: Billing for this experiment begins when you call this operation and continues until the experiment is stopped. For pricing details, see AppConfig pricing . See also: AWS API Documentation
+    /// Starts an experiment run for the specified experiment definition. An experiment run delivers treatments to the target audience and collects metrics. You can start multiple experiment runs from the same experiment definition. NOTE: Billing for this experiment begins when you call this operation and continues until the experiment is stopped. For pricing details, see AppConfig pricing . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -657,7 +657,7 @@ public class AwsAppConfig : IAwsAppConfig
     }
 
     /// <summary>
-    /// Stops a deployment. This API action works only on deployments that have a status of DEPLOYING , unless an AllowRevert parameter is supplied. If the AllowRevert parameter is supplied, the status of an in-progress de- ployment will be ROLLED_BACK . The status of a completed deployment will be REVERTED . AppConfig only allows a revert within 72 hours of deployment completion. See also: AWS API Documentation
+    /// Stops a deployment. This API action works only on deployments that have a status of DEPLOYING , unless an AllowRevert parameter is supplied. If the AllowRevert parameter is supplied, the status of an in-progress deployment will be ROLLED_BACK . The status of a completed deployment will be REVERTED . AppConfig only allows a revert within 72 hours of deployment completion. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -672,7 +672,7 @@ public class AwsAppConfig : IAwsAppConfig
     }
 
     /// <summary>
-    /// Stops a running experiment. Stopping an experiment run ends audience exposure and returns users to the currently deployed feature flag con- figuration. See also: AWS API Documentation
+    /// Stops a running experiment. Stopping an experiment run ends audience exposure and returns users to the currently deployed feature flag configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -687,7 +687,7 @@ public class AwsAppConfig : IAwsAppConfig
     }
 
     /// <summary>
-    /// Assigns metadata to an AppConfig resource. Tags help organize and cate- gorize your AppConfig resources. Each tag consists of a key and an op- tional value, both of which you define. You can specify a maximum of 50 tags for a resource. See also: AWS API Documentation
+    /// Assigns metadata to an AppConfig resource. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define. You can specify a maximum of 50 tags for a resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -792,7 +792,7 @@ public class AwsAppConfig : IAwsAppConfig
     }
 
     /// <summary>
-    /// Updates an experiment definition. You can update treatments, the con- trol, audience rules, and other properties. You cannot update an exper- iment definition while an experiment run is active. See also: AWS API Documentation
+    /// Updates an experiment definition. You can update treatments, the control, audience rules, and other properties. You cannot update an experiment definition while an experiment run is active. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -807,7 +807,7 @@ public class AwsAppConfig : IAwsAppConfig
     }
 
     /// <summary>
-    /// Updates a running experiment. Use this operation to increase audience exposure, modify treatment assignment overrides, or update the descrip- tion of an active experiment run. Audience exposure can only be in- creased, not decreased. See also: AWS API Documentation
+    /// Updates a running experiment. Use this operation to increase audience exposure, modify treatment assignment overrides, or update the description of an active experiment run. Audience exposure can only be increased, not decreased. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -822,7 +822,7 @@ public class AwsAppConfig : IAwsAppConfig
     }
 
     /// <summary>
-    /// Updates an association. For more information about extensions and asso- ciations, see Extending workflows in the AppConfig User Guide . See also: AWS API Documentation
+    /// Updates an association. For more information about extensions and associations, see Extending workflows in the AppConfig User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -852,7 +852,7 @@ public class AwsAppConfig : IAwsAppConfig
     }
 
     /// <summary>
-    /// Uses the validators in a configuration profile to validate a configura- tion. See also: AWS API Documentation
+    /// Uses the validators in a configuration profile to validate a configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

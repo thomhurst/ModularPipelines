@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates and starts a new SPICE ingestion for a dataset. You can manu- ally refresh datasets in an Enterprise edition account 32 times in a 24-hour period. You can manually refresh datasets in a Standard edition account 8 times in a 24-hour period. Each 24-hour period is measured starting 24 hours before the current date and time. Any ingestions operating on tagged datasets inherit the same tags auto- matically for use in access control. For an example, see How do I cre- ate an IAM policy to cont...
+/// Creates and starts a new SPICE ingestion for a dataset. You can manually refresh datasets in an Enterprise edition account 32 times in a 24-hour period. You can manually refresh datasets in a Standard edition account 8 times in a 24-hour period. Each 24-hour period is measured starting 24 hours before the current date and time. Any ingestions operating on tagged datasets inherit the same tags automatically for use in access control. For an example, see How do I create an IAM policy to control ac...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsQuicksightCreateIngestionOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates and starts a new SPICE ingestion for a dataset. You can manu- ally refresh datasets in an Enterprise edition account 32 times in a 24-hour period. You can manually refresh datasets in a Standard edition account 8 times in a 24-hour period. Each 24-hour period is measured starting 24 hours before the current date and time. Any ingestions operating on tagged datasets inherit the same tags auto- matically for use in access control. For an example, see How do I cre- ate an IAM policy to cont...
+    /// Creates and starts a new SPICE ingestion for a dataset. You can manually refresh datasets in an Enterprise edition account 32 times in a 24-hour period. You can manually refresh datasets in a Standard edition account 8 times in a 24-hour period. Each 24-hour period is measured starting 24 hours before the current date and time. Any ingestions operating on tagged datasets inherit the same tags automatically for use in access control. For an example, see How do I create an IAM policy to control ac...
     /// </summary>
     /// <param name="DataSetId">The ID of the dataset used in the ingestion.</param>
-    /// <param name="IngestionId">An ID for the ingestion. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-_]+$</param>
-    /// <param name="AwsAccountId">The Amazon Web Services account ID. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="IngestionId">An ID for the ingestion. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-_]+$</param>
+    /// <param name="AwsAccountId">The Amazon Web Services account ID. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
     public AwsQuicksightCreateIngestionOptions(
         string DataSetId,
         string IngestionId,
@@ -71,19 +73,19 @@ public record AwsQuicksightCreateIngestionOptions : AwsOptions, IValidatableObje
     public string? DataSetId { get; private init; }
 
     /// <summary>
-    /// An ID for the ingestion. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-_]+$
+    /// An ID for the ingestion. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [CliOption("--ingestion-id")]
     public string? IngestionId { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The Amazon Web Services account ID. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The type of ingestion that you want to create. Possible values: o INCREMENTAL_REFRESH o FULL_REFRESH
+    /// The type of ingestion that you want to create. Possible values: • INCREMENTAL_REFRESH • FULL_REFRESH
     /// </summary>
     [CliOption("--ingestion-type")]
     public AwsQuicksightCreateIngestionIngestionType? IngestionType { get; set; }

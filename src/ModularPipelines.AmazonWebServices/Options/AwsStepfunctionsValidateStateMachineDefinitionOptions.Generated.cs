@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Validates the syntax of a state machine definition specified in Amazon States Language (ASL), a JSON-based, structured language. You can validate that a state machine definition is correct without creating a state machine resource. Suggested uses for ValidateStateMachineDefinition : o Integrate automated checks into your code review or Continuous Inte- gration (CI) process to check state machine definitions before start- ing deployments. o Run validation from a Git pre-commit hook to verify the ...
+/// Validates the syntax of a state machine definition specified in Amazon States Language (ASL), a JSON-based, structured language. You can validate that a state machine definition is correct without creating a state machine resource. Suggested uses for ValidateStateMachineDefinition : • Integrate automated checks into your code review or Continuous Integration (CI) process to check state machine definitions before starting deployments. • Run validation from a Git pre-commit hook to verify the defi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsStepfunctionsValidateStateMachineDefinitionOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Validates the syntax of a state machine definition specified in Amazon States Language (ASL), a JSON-based, structured language. You can validate that a state machine definition is correct without creating a state machine resource. Suggested uses for ValidateStateMachineDefinition : o Integrate automated checks into your code review or Continuous Inte- gration (CI) process to check state machine definitions before start- ing deployments. o Run validation from a Git pre-commit hook to verify the ...
+    /// Validates the syntax of a state machine definition specified in Amazon States Language (ASL), a JSON-based, structured language. You can validate that a state machine definition is correct without creating a state machine resource. Suggested uses for ValidateStateMachineDefinition : • Integrate automated checks into your code review or Continuous Integration (CI) process to check state machine definitions before starting deployments. • Run validation from a Git pre-commit hook to verify the defi...
     /// </summary>
-    /// <param name="Definition">The Amazon States Language definition of the state machine. For more information, see Amazon States Language (ASL). Constraints: o min: 1 o max: 1048576</param>
+    /// <param name="Definition">The Amazon States Language definition of the state machine. For more information, see Amazon States Language (ASL). Constraints: • min: 1 • max: 1048576</param>
     public AwsStepfunctionsValidateStateMachineDefinitionOptions(
         string Definition
     )
@@ -57,25 +59,25 @@ public record AwsStepfunctionsValidateStateMachineDefinitionOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon States Language definition of the state machine. For more information, see Amazon States Language (ASL). Constraints: o min: 1 o max: 1048576
+    /// The Amazon States Language definition of the state machine. For more information, see Amazon States Language (ASL). Constraints: • min: 1 • max: 1048576
     /// </summary>
     [CliOption("--definition")]
     public string? Definition { get; private init; }
 
     /// <summary>
-    /// The target type of state machine for this definition. The default is STANDARD . Possible values: o STANDARD o EXPRESS
+    /// The target type of state machine for this definition. The default is STANDARD . Possible values: • STANDARD • EXPRESS
     /// </summary>
     [CliOption("--type")]
     public AwsStepfunctionsValidateStateMachineDefinitionType? Type { get; set; }
 
     /// <summary>
-    /// Minimum level of diagnostics to return. ERROR returns only ERROR di- agnostics, whereas WARNING returns both WARNING and ERROR diagnos- tics. The default is ERROR . Possible values: o ERROR o WARNING
+    /// Minimum level of diagnostics to return. ERROR returns only ERROR diagnostics, whereas WARNING returns both WARNING and ERROR diagnostics. The default is ERROR . Possible values: • ERROR • WARNING
     /// </summary>
     [CliOption("--severity")]
     public AwsStepfunctionsValidateStateMachineDefinitionSeverity? Severity { get; set; }
 
     /// <summary>
-    /// The maximum number of diagnostics that are returned per call. The default and maximum value is 100. Setting the value to 0 will also use the default of 100. If the number of diagnostics returned in the response exceeds maxRe- sults , the value of the truncated field in the response will be set to true . Constraints: o min: 0 o max: 100
+    /// The maximum number of diagnostics that are returned per call. The default and maximum value is 100. Setting the value to 0 will also use the default of 100. If the number of diagnostics returned in the response exceeds maxResults , the value of the truncated field in the response will be set to true . Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

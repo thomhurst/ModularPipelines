@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -29,7 +30,7 @@ public record AwsWorkspacesThinClientUpdateEnvironmentOptions : AwsOptions, IVal
     /// <summary>
     /// Updates an environment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the environment to update. Constraints: o pattern: [a-z0-9]{9}</param>
+    /// <param name="Id">The ID of the environment to update. Constraints: • pattern: [a-z0-9]{9}</param>
     public AwsWorkspacesThinClientUpdateEnvironmentOptions(
         string Id
     )
@@ -58,55 +59,55 @@ public record AwsWorkspacesThinClientUpdateEnvironmentOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the environment to update. Constraints: o pattern: [a-z0-9]{9}
+    /// The ID of the environment to update. Constraints: • pattern: [a-z0-9]{9}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The name of the environment to update. Constraints: o min: 0 o max: 64 o pattern: $|^[0-9\p{IsAlphabetic}+:,.@'" -][0-9\p{IsAlpha- betic}+=:,.@'" -]*
+    /// The name of the environment to update. Constraints: • min: 0 • max: 64 • pattern: $|^[0-9\p{IsAlphabetic}+:,.@'" -][0-9\p{IsAlphabetic}+=:,.@'" -]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Secure Browser, or AppStream 2.0. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[0-9]{0,12}:[a-zA-Z0-9\-\/\._]+
+    /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Secure Browser, or AppStream 2.0. Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[0-9]{0,12}:[a-zA-Z0-9\-\/\._]+
     /// </summary>
     [CliOption("--desktop-arn")]
     public string? DesktopArn { get; set; }
 
     /// <summary>
-    /// The URL for the identity provider login (only for environments that use AppStream 2.0). Constraints: o min: 1 o max: 1024 o pattern: (https:\/\/)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,32}(:[0-9]{1,5})?(\/.*)?
+    /// The URL for the identity provider login (only for environments that use AppStream 2.0). Constraints: • min: 1 • max: 1024 • pattern: (https:\/\/)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,32}(:[0-9]{1,5})?(\/.*)?
     /// </summary>
     [CliOption("--desktop-endpoint")]
     public string? DesktopEndpoint { get; set; }
 
     /// <summary>
-    /// An option to define if software updates should be applied within a maintenance window. Possible values: o USE_MAINTENANCE_WINDOW o APPLY_IMMEDIATELY
+    /// An option to define if software updates should be applied within a maintenance window. Possible values: • USE_MAINTENANCE_WINDOW • APPLY_IMMEDIATELY
     /// </summary>
     [CliOption("--software-set-update-schedule")]
     public AwsWorkspacesThinClientUpdateEnvironmentSoftwareSetUpdateSchedule? SoftwareSetUpdateSchedule { get; set; }
 
     /// <summary>
-    /// A specification for a time window to apply software updates. type -&gt; (string) [required] An option to select the default or custom maintenance window. Possible values: o SYSTEM o CUSTOM startTimeHour -&gt; (integer) The hour for the maintenance window start (00 -23 ). Constraints: o min: 0 o max: 23 startTimeMinute -&gt; (integer) The minutes past the hour for the maintenance window start (00 -59 ). Constraints: o min: 0 o max: 59 endTimeHour -&gt; (integer) The hour for the maintenance window end (00 -23 ). Constraints: o min: 0 o max: 23 endTimeMinute -&gt; (integer) The minutes for the maintenance window end (00 -59 ). Constraints: o min: 0 o max: 59 daysOfTheWeek -&gt; (list) The days of the week during which the maintenance window is open. Constraints: o min: 1 o max: 7 (string) Possible values: o MONDAY o TUESDAY o WEDNESDAY o THURSDAY o FRIDAY o SATURDAY o SUNDAY applyTimeOf -&gt; (string) The option to set the maintenance window during the device local time or Universal Coordinated Time (UTC). Possible values: o UTC o DEVICE Shorthand Syntax: type=string,startTimeHour=integer,startTimeMinute=integer,endTimeHour=integer,endTimeMinute=integer,daysOfTheWeek=string,string,applyTimeOf=string JSON Syntax: { "type": "SYSTEM"|"CUSTOM", "startTimeHour": integer, "startTimeMinute": integer, "endTimeHour": integer, "endTimeMinute": integer, "daysOfTheWeek": ["MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY"|"SUNDAY", ...], "applyTimeOf": "UTC"|"DEVICE" }
+    /// A specification for a time window to apply software updates. type -&gt; (string) [required] An option to select the default or custom maintenance window. Possible values: • SYSTEM • CUSTOM startTimeHour -&gt; (integer) The hour for the maintenance window start (00 -23 ). Constraints: • min: 0 • max: 23 startTimeMinute -&gt; (integer) The minutes past the hour for the maintenance window start (00 -59 ). Constraints: • min: 0 • max: 59 endTimeHour -&gt; (integer) The hour for the maintenance window end (00 -23 ). Constraints: • min: 0 • max: 23 endTimeMinute -&gt; (integer) The minutes for the maintenance window end (00 -59 ). Constraints: • min: 0 • max: 59 daysOfTheWeek -&gt; (list) The days of the week during which the maintenance window is open. Constraints: • min: 1 • max: 7 (string) Possible values: • MONDAY • TUESDAY • WEDNESDAY • THURSDAY • FRIDAY • SATURDAY • SUNDAY applyTimeOf -&gt; (string) The option to set the maintenance window during the device local time or Universal Coordinated Time (UTC). Possible values: • UTC • DEVICE Shorthand Syntax: type=string,startTimeHour=integer,startTimeMinute=integer,endTimeHour=integer,endTimeMinute=integer,daysOfTheWeek=string,string,applyTimeOf=string JSON Syntax: { "type": "SYSTEM"|"CUSTOM", "startTimeHour": integer, "startTimeMinute": integer, "endTimeHour": integer, "endTimeMinute": integer, "daysOfTheWeek": ["MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY"|"SUNDAY", ...], "applyTimeOf": "UTC"|"DEVICE" }
     /// </summary>
     [CliOption("--maintenance-window")]
     public string? MaintenanceWindow { get; set; }
 
     /// <summary>
-    /// An option to define which software updates to apply. Possible values: o USE_LATEST o USE_DESIRED
+    /// An option to define which software updates to apply. Possible values: • USE_LATEST • USE_DESIRED
     /// </summary>
     [CliOption("--software-set-update-mode")]
     public AwsWorkspacesThinClientUpdateEnvironmentSoftwareSetUpdateMode? SoftwareSetUpdateMode { get; set; }
 
     /// <summary>
-    /// The ID of the software set to apply. Constraints: o pattern: [0-9]{0,9}
+    /// The ID of the software set to apply. Constraints: • pattern: [0-9]{0,9}
     /// </summary>
     [CliOption("--desired-software-set-id")]
     public string? DesiredSoftwareSetId { get; set; }
 
     /// <summary>
-    /// A map of the key-value pairs of the tag or tags to assign to the newly created devices for this environment. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[A-Za-z0-9 _=@:.+-/]+ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [A-Za-z0-9 _=@:.+-/]+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of the key-value pairs of the tag or tags to assign to the newly created devices for this environment. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[A-Za-z0-9 _=@:.+-/]+ value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: [A-Za-z0-9 _=@:.+-/]+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--device-creation-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? DeviceCreationTags { get; set; }

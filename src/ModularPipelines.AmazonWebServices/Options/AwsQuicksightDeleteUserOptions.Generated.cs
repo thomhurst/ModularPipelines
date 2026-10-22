@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the Amazon Quick Sight user that is associated with the iden- tity of the IAM user or role that's making the call. The IAM user isn't deleted as a result of this call. See also: AWS API Documentation
+/// Deletes the Amazon Quick Sight user that is associated with the identity of the IAM user or role that's making the call. The IAM user isn't deleted as a result of this call. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsQuicksightDeleteUserOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the Amazon Quick Sight user that is associated with the iden- tity of the IAM user or role that's making the call. The IAM user isn't deleted as a result of this call. See also: AWS API Documentation
+    /// Deletes the Amazon Quick Sight user that is associated with the identity of the IAM user or role that's making the call. The IAM user isn't deleted as a result of this call. See also: AWS API Documentation
     /// </summary>
-    /// <param name="UserName">The name of the user that you want to delete. Constraints: o min: 1 o pattern: [\u0020-\u00FF]+</param>
-    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that the user is in. Cur- rently, you use the ID for the Amazon Web Services account that con- tains your Amazon Quick Sight account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="Namespace">The namespace. Currently, you should set this to default . Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$</param>
+    /// <param name="UserName">The name of the user that you want to delete. Constraints: • min: 1 • pattern: [\u0020-\u00FF]+</param>
+    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="Namespace">The namespace. Currently, you should set this to default . Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$</param>
     public AwsQuicksightDeleteUserOptions(
         string UserName,
         string AwsAccountId,
@@ -64,19 +66,19 @@ public record AwsQuicksightDeleteUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the user that you want to delete. Constraints: o min: 1 o pattern: [\u0020-\u00FF]+
+    /// The name of the user that you want to delete. Constraints: • min: 1 • pattern: [\u0020-\u00FF]+
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; private init; }
 
     /// <summary>
-    /// The ID for the Amazon Web Services account that the user is in. Cur- rently, you use the ID for the Amazon Web Services account that con- tains your Amazon Quick Sight account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The namespace. Currently, you should set this to default . Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// The namespace. Currently, you should set this to default . Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; private init; }

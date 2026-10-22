@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Submits calculations for execution within a session. You can supply the code to run as an inline code block within the request. NOTE: The request syntax requires the StartCalculationExecutionRe- quest$CodeBlock parameter or the CalculationConfiguration$CodeBlock parameter, but not both. Because CalculationConfiguration$CodeBlock is deprecated, use the StartCalculationExecutionRequest$CodeBlock parameter instead. See also: AWS API Documentation
+/// Submits calculations for execution within a session. You can supply the code to run as an inline code block within the request. NOTE: The request syntax requires the StartCalculationExecutionRequest$CodeBlock parameter or the CalculationConfiguration$CodeBlock parameter, but not both. Because CalculationConfiguration$CodeBlock is deprecated, use the StartCalculationExecutionRequest$CodeBlock parameter instead. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsAthenaStartCalculationExecutionOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Submits calculations for execution within a session. You can supply the code to run as an inline code block within the request. NOTE: The request syntax requires the StartCalculationExecutionRe- quest$CodeBlock parameter or the CalculationConfiguration$CodeBlock parameter, but not both. Because CalculationConfiguration$CodeBlock is deprecated, use the StartCalculationExecutionRequest$CodeBlock parameter instead. See also: AWS API Documentation
+    /// Submits calculations for execution within a session. You can supply the code to run as an inline code block within the request. NOTE: The request syntax requires the StartCalculationExecutionRequest$CodeBlock parameter or the CalculationConfiguration$CodeBlock parameter, but not both. Because CalculationConfiguration$CodeBlock is deprecated, use the StartCalculationExecutionRequest$CodeBlock parameter instead. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SessionId">The session ID. Constraints: o min: 1 o max: 256</param>
+    /// <param name="SessionId">The session ID. Constraints: • min: 1 • max: 256</param>
     public AwsAthenaStartCalculationExecutionOptions(
         string SessionId
     )
@@ -57,31 +59,31 @@ public record AwsAthenaStartCalculationExecutionOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The session ID. Constraints: o min: 1 o max: 256
+    /// The session ID. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }
 
     /// <summary>
-    /// A description of the calculation. Constraints: o min: 1 o max: 1024
+    /// A description of the calculation. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Contains configuration information for the calculation. CodeBlock -&gt; (string) A string that contains the code for the calculation. Constraints: o max: 68000 Shorthand Syntax: CodeBlock=string JSON Syntax: { "CodeBlock": "string" }
+    /// Contains configuration information for the calculation. CodeBlock -&gt; (string) A string that contains the code for the calculation. Constraints: • max: 68000 Shorthand Syntax: CodeBlock=string JSON Syntax: { "CodeBlock": "string" }
     /// </summary>
     [CliOption("--calculation-configuration")]
     public string? CalculationConfiguration { get; set; }
 
     /// <summary>
-    /// A string that contains the code of the calculation. Use this parame- ter instead of CalculationConfiguration$CodeBlock , which is depre- cated. Constraints: o max: 68000
+    /// A string that contains the code of the calculation. Use this parameter instead of CalculationConfiguration$CodeBlock , which is deprecated. Constraints: • max: 68000
     /// </summary>
     [CliOption("--code-block")]
     public string? CodeBlock { get; set; }
 
     /// <summary>
-    /// A unique case-sensitive string used to ensure the request to create the calculation is idempotent (executes only once). If another StartCalculationExecutionRequest is received, the same response is returned and another calculation is not created. If a parameter has changed, an error is returned. WARNING: This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Ama- zon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail. Constraints: o min: 32 o max: 128
+    /// A unique case-sensitive string used to ensure the request to create the calculation is idempotent (executes only once). If another StartCalculationExecutionRequest is received, the same response is returned and another calculation is not created. If a parameter has changed, an error is returned. WARNING: This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail. Constraints: • min: 32 • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]

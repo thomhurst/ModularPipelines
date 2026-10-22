@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotfleetwiseGetSignalCatalogOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Retrieves information about a signal catalog. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the signal catalog to retrieve information about. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+</param>
+    /// <param name="Name">The name of the signal catalog to retrieve information about. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z\d\-_:]+</param>
     public AwsIotfleetwiseGetSignalCatalogOptions(
         string Name
     )
@@ -56,7 +58,7 @@ public record AwsIotfleetwiseGetSignalCatalogOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the signal catalog to retrieve information about. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+
+    /// The name of the signal catalog to retrieve information about. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z\d\-_:]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

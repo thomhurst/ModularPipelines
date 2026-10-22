@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsPersonalizeDeleteRecommenderOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Deactivates and removes a recommender. A deleted recommender can no longer be specified in a GetRecommendations request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RecommenderArn">The Amazon Resource Name (ARN) of the recommender to delete. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="RecommenderArn">The Amazon Resource Name (ARN) of the recommender to delete. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
     public AwsPersonalizeDeleteRecommenderOptions(
         string RecommenderArn
     )
@@ -56,7 +58,7 @@ public record AwsPersonalizeDeleteRecommenderOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the recommender to delete. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the recommender to delete. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--recommender-arn")]
     public string? RecommenderArn { get; private init; }

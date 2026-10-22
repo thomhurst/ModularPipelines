@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the alarms for the specified metric. To filter the results, specify a statistic, period, or unit. This operation retrieves only standard alarms that are based on the specified metric. It does not return alarms based on math expressions that use the specified metric, or composite alarms that use the speci- fied metric. See also: AWS API Documentation
+/// Retrieves the alarms for the specified metric. To filter the results, specify a statistic, period, or unit. This operation retrieves only standard alarms that are based on the specified metric. It does not return alarms based on math expressions that use the specified metric, or composite alarms that use the specified metric. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsCloudwatchDescribeAlarmsForMetricOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the alarms for the specified metric. To filter the results, specify a statistic, period, or unit. This operation retrieves only standard alarms that are based on the specified metric. It does not return alarms based on math expressions that use the specified metric, or composite alarms that use the speci- fied metric. See also: AWS API Documentation
+    /// Retrieves the alarms for the specified metric. To filter the results, specify a statistic, period, or unit. This operation retrieves only standard alarms that are based on the specified metric. It does not return alarms based on math expressions that use the specified metric, or composite alarms that use the specified metric. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MetricName">The name of the metric. Constraints: o min: 1 o max: 255</param>
-    /// <param name="Namespace">The namespace of the metric. Constraints: o min: 1 o max: 255 o pattern: [^:].*</param>
+    /// <param name="MetricName">The name of the metric. Constraints: • min: 1 • max: 255</param>
+    /// <param name="Namespace">The namespace of the metric. Constraints: • min: 1 • max: 255 • pattern: [^:].*</param>
     public AwsCloudwatchDescribeAlarmsForMetricOptions(
         string MetricName,
         string Namespace
@@ -61,19 +63,19 @@ public record AwsCloudwatchDescribeAlarmsForMetricOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the metric. Constraints: o min: 1 o max: 255
+    /// The name of the metric. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--metric-name")]
     public string? MetricName { get; private init; }
 
     /// <summary>
-    /// The namespace of the metric. Constraints: o min: 1 o max: 255 o pattern: [^:].*
+    /// The namespace of the metric. Constraints: • min: 1 • max: 255 • pattern: [^:].*
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; private init; }
 
     /// <summary>
-    /// The statistic for the metric, other than percentiles. For percentile statistics, use ExtendedStatistics . Possible values: o SampleCount o Average o Sum o Minimum o Maximum
+    /// The statistic for the metric, other than percentiles. For percentile statistics, use ExtendedStatistics . Possible values: • SampleCount • Average • Sum • Minimum • Maximum
     /// </summary>
     [CliOption("--statistic")]
     public AwsCloudwatchDescribeAlarmsForMetricStatistic? Statistic { get; set; }
@@ -85,19 +87,19 @@ public record AwsCloudwatchDescribeAlarmsForMetricOptions : AwsOptions, IValidat
     public string? ExtendedStatistic { get; set; }
 
     /// <summary>
-    /// The dimensions associated with the metric. If the metric has any as- sociated dimensions, you must specify them in order for the call to succeed. Constraints: o max: 30 (structure) A dimension is a name/value pair that is part of the identity of a metric. Because dimensions are part of the unique identifier for a metric, whenever you add a unique name/value pair to one of your metrics, you are creating a new variation of that met- ric. For example, many Amazon EC2 metrics publish InstanceId as a dimension name, and the actual instance ID as the value for that dimension. You can assign up to 30 dimensions to a metric. Name -&gt; (string) [required] The name of the dimension. Dimension names must contain only ASCII characters, must include at least one non-whitespace character, and cannot start with a colon (: ). ASCII control characters are not supported as part of dimension names. Constraints: o min: 1 o max: 255 Value -&gt; (string) [required] The value of the dimension. Dimension values must contain only ASCII characters and must include at least one non-whitespace character. ASCII control characters are not supported as part of dimension values. Constraints: o min: 1 o max: 1024 Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
+    /// The dimensions associated with the metric. If the metric has any associated dimensions, you must specify them in order for the call to succeed. Constraints: • max: 30 (structure) A dimension is a name/value pair that is part of the identity of a metric. Because dimensions are part of the unique identifier for a metric, whenever you add a unique name/value pair to one of your metrics, you are creating a new variation of that metric. For example, many Amazon EC2 metrics publish InstanceId as a dimension name, and the actual instance ID as the value for that dimension. You can assign up to 30 dimensions to a metric. Name -&gt; (string) [required] The name of the dimension. Dimension names must contain only ASCII characters, must include at least one non-whitespace character, and cannot start with a colon (: ). ASCII control characters are not supported as part of dimension names. Constraints: • min: 1 • max: 255 Value -&gt; (string) [required] The value of the dimension. Dimension values must contain only ASCII characters and must include at least one non-whitespace character. ASCII control characters are not supported as part of dimension values. Constraints: • min: 1 • max: 1024 Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--dimensions", GroupValues = true)]
     public IEnumerable<string>? Dimensions { get; set; }
 
     /// <summary>
-    /// The period, in seconds, over which the statistic is applied. Constraints: o min: 1
+    /// The period, in seconds, over which the statistic is applied. Constraints: • min: 1
     /// </summary>
     [CliOption("--period")]
     public int? Period { get; set; }
 
     /// <summary>
-    /// The unit for the metric. Possible values: o Seconds o Microseconds o Milliseconds o Bytes o Kilobytes o Megabytes o Gigabytes o Terabytes o Bits o Kilobits o Megabits o Gigabits o Terabits o Percent o Count o Bytes/Second o Kilobytes/Second o Megabytes/Second o Gigabytes/Second o Terabytes/Second o Bits/Second o Kilobits/Second o Megabits/Second o Gigabits/Second o Terabits/Second o Count/Second o None
+    /// The unit for the metric. Possible values: • Seconds • Microseconds • Milliseconds • Bytes • Kilobytes • Megabytes • Gigabytes • Terabytes • Bits • Kilobits • Megabits • Gigabits • Terabits • Percent • Count • Bytes/Second • Kilobytes/Second • Megabytes/Second • Gigabytes/Second • Terabytes/Second • Bits/Second • Kilobits/Second • Megabits/Second • Gigabits/Second • Terabits/Second • Count/Second • None
     /// </summary>
     [CliOption("--unit")]
     public string? Unit { get; set; }

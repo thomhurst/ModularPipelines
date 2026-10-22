@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRedshiftGetResourcePolicyOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Get the resource policy for a specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource of which its resource policy is fetched. Constraints: o max: 2147483647</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource of which its resource policy is fetched. Constraints: • max: 2147483647</param>
     public AwsRedshiftGetResourcePolicyOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsRedshiftGetResourcePolicyOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource of which its resource policy is fetched. Constraints: o max: 2147483647
+    /// The Amazon Resource Name (ARN) of the resource of which its resource policy is fetched. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotDescribeCaCertificateOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Describes a registered CA certificate. Requires permission to access the DescribeCACertificate action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CertificateId">The CA certificate identifier. Constraints: o min: 64 o max: 64 o pattern: (0x)?[a-fA-F0-9]+</param>
+    /// <param name="CertificateId">The CA certificate identifier. Constraints: • min: 64 • max: 64 • pattern: (0x)?[a-fA-F0-9]+</param>
     public AwsIotDescribeCaCertificateOptions(
         string CertificateId
     )
@@ -56,7 +58,7 @@ public record AwsIotDescribeCaCertificateOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The CA certificate identifier. Constraints: o min: 64 o max: 64 o pattern: (0x)?[a-fA-F0-9]+
+    /// The CA certificate identifier. Constraints: • min: 64 • max: 64 • pattern: (0x)?[a-fA-F0-9]+
     /// </summary>
     [CliOption("--certificate-id")]
     public string? CertificateId { get; private init; }

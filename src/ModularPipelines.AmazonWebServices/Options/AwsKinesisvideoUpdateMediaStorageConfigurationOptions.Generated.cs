@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates a SignalingChannel to a stream to store the media. There are two signaling modes that you can specify : o If StorageStatus is enabled, the data will be stored in the StreamARN provided. In order for WebRTC Ingestion to work, the stream must have data retention enabled. o If StorageStatus is disabled, no data will be stored, and the Strea- mARN parameter will not be needed. WARNING: If StorageStatus is enabled, direct peer-to-peer (master-viewer) connections no longer occur. Peers conn...
+/// Associates a SignalingChannel to a stream to store the media. There are two signaling modes that you can specify : • If StorageStatus is enabled, the data will be stored in the StreamARN provided. In order for WebRTC Ingestion to work, the stream must have data retention enabled. • If StorageStatus is disabled, no data will be stored, and the StreamARN parameter will not be needed. WARNING: If StorageStatus is enabled, direct peer-to-peer (master-viewer) connections no longer occur. Peers connec...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsKinesisvideoUpdateMediaStorageConfigurationOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates a SignalingChannel to a stream to store the media. There are two signaling modes that you can specify : o If StorageStatus is enabled, the data will be stored in the StreamARN provided. In order for WebRTC Ingestion to work, the stream must have data retention enabled. o If StorageStatus is disabled, no data will be stored, and the Strea- mARN parameter will not be needed. WARNING: If StorageStatus is enabled, direct peer-to-peer (master-viewer) connections no longer occur. Peers conn...
+    /// Associates a SignalingChannel to a stream to store the media. There are two signaling modes that you can specify : • If StorageStatus is enabled, the data will be stored in the StreamARN provided. In order for WebRTC Ingestion to work, the stream must have data retention enabled. • If StorageStatus is disabled, no data will be stored, and the StreamARN parameter will not be needed. WARNING: If StorageStatus is enabled, direct peer-to-peer (master-viewer) connections no longer occur. Peers connec...
     /// </summary>
-    /// <param name="ChannelArn">The Amazon Resource Name (ARN) of the channel. Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+</param>
-    /// <param name="MediaStorageConfiguration">A structure that encapsulates, or contains, the media storage con- figuration properties. StreamARN -&gt; (string) The Amazon Resource Name (ARN) of the stream. Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+ Status -&gt; (string) [required] The status of the media storage configuration. Possible values: o ENABLED o DISABLED Shorthand Syntax: StreamARN=string,Status=string JSON Syntax: { "StreamARN": "string", "Status": "ENABLED"|"DISABLED" }</param>
+    /// <param name="ChannelArn">The Amazon Resource Name (ARN) of the channel. Constraints: • min: 1 • max: 1024 • pattern: arn:[a-z\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+</param>
+    /// <param name="MediaStorageConfiguration">A structure that encapsulates, or contains, the media storage configuration properties. StreamARN -&gt; (string) The Amazon Resource Name (ARN) of the stream. Constraints: • min: 1 • max: 1024 • pattern: arn:[a-z\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+ Status -&gt; (string) [required] The status of the media storage configuration. Possible values: • ENABLED • DISABLED Shorthand Syntax: StreamARN=string,Status=string JSON Syntax: { "StreamARN": "string", "Status": "ENABLED"|"DISABLED" }</param>
     public AwsKinesisvideoUpdateMediaStorageConfigurationOptions(
         string ChannelArn,
         string MediaStorageConfiguration
@@ -60,13 +62,13 @@ public record AwsKinesisvideoUpdateMediaStorageConfigurationOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the channel. Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
+    /// The Amazon Resource Name (ARN) of the channel. Constraints: • min: 1 • max: 1024 • pattern: arn:[a-z\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
     /// </summary>
     [CliOption("--channel-arn")]
     public string? ChannelArn { get; private init; }
 
     /// <summary>
-    /// A structure that encapsulates, or contains, the media storage con- figuration properties. StreamARN -&gt; (string) The Amazon Resource Name (ARN) of the stream. Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+ Status -&gt; (string) [required] The status of the media storage configuration. Possible values: o ENABLED o DISABLED Shorthand Syntax: StreamARN=string,Status=string JSON Syntax: { "StreamARN": "string", "Status": "ENABLED"|"DISABLED" }
+    /// A structure that encapsulates, or contains, the media storage configuration properties. StreamARN -&gt; (string) The Amazon Resource Name (ARN) of the stream. Constraints: • min: 1 • max: 1024 • pattern: arn:[a-z\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+ Status -&gt; (string) [required] The status of the media storage configuration. Possible values: • ENABLED • DISABLED Shorthand Syntax: StreamARN=string,Status=string JSON Syntax: { "StreamARN": "string", "Status": "ENABLED"|"DISABLED" }
     /// </summary>
     [CliOption("--media-storage-configuration")]
     public string? MediaStorageConfiguration { get; private init; }

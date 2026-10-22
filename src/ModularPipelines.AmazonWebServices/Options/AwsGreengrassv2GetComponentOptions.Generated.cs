@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsGreengrassv2GetComponentOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Gets the recipe for a version of a component. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The ARN of the component version. Constraints: o pattern: arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):compo- nents:[^:]+:versions:[^:]+</param>
+    /// <param name="Arn">The ARN of the component version. Constraints: • pattern: arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):components:[^:]+:versions:[^:]+</param>
     public AwsGreengrassv2GetComponentOptions(
         string Arn
     )
@@ -57,13 +59,13 @@ public record AwsGreengrassv2GetComponentOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the component version. Constraints: o pattern: arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):compo- nents:[^:]+:versions:[^:]+
+    /// The ARN of the component version. Constraints: • pattern: arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):components:[^:]+:versions:[^:]+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The format of the recipe. Possible values: o JSON o YAML
+    /// The format of the recipe. Possible values: • JSON • YAML
     /// </summary>
     [CliOption("--recipe-output-format")]
     public AwsGreengrassv2GetComponentRecipeOutputFormat? RecipeOutputFormat { get; set; }

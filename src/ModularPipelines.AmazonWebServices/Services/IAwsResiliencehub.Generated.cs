@@ -28,38 +28,34 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AcceptResourceGroupingRecommendationsAsync(AwsResiliencehubAcceptResourceGroupingRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AcceptResourceGroupingRecommendationsAsync(AwsResiliencehubAcceptResourceGroupingRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Adds the source of resource-maps to the draft version of an applica- tion. During assessment, Resilience Hub will use these resource-maps to resolve the latest physical ID for each resource in the application template. For more information about different types of resources sup- ported by Resilience Hub and how to add them in your application, see Step 2: How is your application managed? in the Resilience Hub User Guide. See also: AWS API Documentation
+    /// Adds the source of resource-maps to the draft version of an application. During assessment, Resilience Hub will use these resource-maps to resolve the latest physical ID for each resource in the application template. For more information about different types of resources supported by Resilience Hub and how to add them in your application, see Step 2: How is your application managed? in the Resilience Hub User Guide. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddDraftAppVersionResourceMappingsAsync(AwsResiliencehubAddDraftAppVersionResourceMappingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddDraftAppVersionResourceMappingsAsync(AwsResiliencehubAddDraftAppVersionResourceMappingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Enables you to include or exclude one or more operational recommenda- tions. See also: AWS API Documentation
+    /// Enables you to include or exclude one or more operational recommendations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchUpdateRecommendationStatusAsync(AwsResiliencehubBatchUpdateRecommendationStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchUpdateRecommendationStatusAsync(AwsResiliencehubBatchUpdateRecommendationStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates an Resilience Hub application. An Resilience Hub application is a collection of Amazon Web Services resources structured to prevent and recover Amazon Web Services application disruptions. To describe a Re- silience Hub application, you provide an application name, resources from one or more CloudFormation stacks, Resource Groups, Terraform state files, AppRegistry applications, and an appropriate resiliency policy. In addition, you can also add resources that are located on Amazon Elast...
+    /// Creates an Resilience Hub application. An Resilience Hub application is a collection of Amazon Web Services resources structured to prevent and recover Amazon Web Services application disruptions. To describe a Resilience Hub application, you provide an application name, resources from one or more CloudFormation stacks, Resource Groups, Terraform state files, AppRegistry applications, and an appropriate resiliency policy. In addition, you can also add resources that are located on Amazon Elastic...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAppAsync(AwsResiliencehubCreateAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAppAsync(AwsResiliencehubCreateAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new Application Component in the Resilience Hub application. NOTE: This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API. See also: AWS API Documentation
@@ -68,28 +64,25 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAppVersionAppComponentAsync(AwsResiliencehubCreateAppVersionAppComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAppVersionAppComponentAsync(AwsResiliencehubCreateAppVersionAppComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Adds a resource to the Resilience Hub application and assigns it to the specified Application Components. If you specify a new Application Com- ponent, Resilience Hub will automatically create the Application Compo- nent. NOTE: o This action has no effect outside Resilience Hub. o This API updates the Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API. o To update appli...
+    /// Adds a resource to the Resilience Hub application and assigns it to the specified Application Components. If you specify a new Application Component, Resilience Hub will automatically create the Application Component. NOTE: • This action has no effect outside Resilience Hub. • This API updates the Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API. • To update applicati...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAppVersionResourceAsync(AwsResiliencehubCreateAppVersionResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAppVersionResourceAsync(AwsResiliencehubCreateAppVersionResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a new recommendation template for the Resilience Hub applica- tion. See also: AWS API Documentation
+    /// Creates a new recommendation template for the Resilience Hub application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRecommendationTemplateAsync(AwsResiliencehubCreateRecommendationTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRecommendationTemplateAsync(AwsResiliencehubCreateRecommendationTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a resiliency policy for an application. NOTE: Resilience Hub allows you to provide a value of zero for rtoInSecs and rpoInSecs of your resiliency policy. But, while assessing your application, the lowest possible assessment result is near zero. Hence, if you provide value zero for rtoInSecs and rpoInSecs , the estimated workload RTO and estimated workload RPO result will be near zero and the Compliance status for your application will be set to Policy breached . See also: AWS API Documen...
@@ -98,8 +91,7 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateResiliencyPolicyAsync(AwsResiliencehubCreateResiliencyPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateResiliencyPolicyAsync(AwsResiliencehubCreateResiliencyPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Resilience Hub application assessment. This is a destructive action that can't be undone. See also: AWS API Documentation
@@ -108,18 +100,16 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAppAssessmentAsync(AwsResiliencehubDeleteAppAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAppAssessmentAsync(AwsResiliencehubDeleteAppAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes the input source and all of its imported resources from the Re- silience Hub application. See also: AWS API Documentation
+    /// Deletes the input source and all of its imported resources from the Resilience Hub application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAppInputSourceAsync(AwsResiliencehubDeleteAppInputSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAppInputSourceAsync(AwsResiliencehubDeleteAppInputSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Resilience Hub application. This is a destructive action that can't be undone. See also: AWS API Documentation
@@ -128,28 +118,25 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAppAsync(AwsResiliencehubDeleteAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAppAsync(AwsResiliencehubDeleteAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes an Application Component from the Resilience Hub application. NOTE: o This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API. o You will not be able to delete an Application Component if it has resources associated with it. See also: AWS API Documentation
+    /// Deletes an Application Component from the Resilience Hub application. NOTE: • This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API. • You will not be able to delete an Application Component if it has resources associated with it. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAppVersionAppComponentAsync(AwsResiliencehubDeleteAppVersionAppComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAppVersionAppComponentAsync(AwsResiliencehubDeleteAppVersionAppComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a resource from the Resilience Hub application. NOTE: o You can only delete a manually added resource. To exclude non-man- ually added resources, use the UpdateAppVersionResource API. o This action has no effect outside Resilience Hub. o This API updates the Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API. See also: AWS API Documentation
+    /// Deletes a resource from the Resilience Hub application. NOTE: • You can only delete a manually added resource. To exclude non-manually added resources, use the UpdateAppVersionResource API. • This action has no effect outside Resilience Hub. • This API updates the Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAppVersionResourceAsync(AwsResiliencehubDeleteAppVersionResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAppVersionResourceAsync(AwsResiliencehubDeleteAppVersionResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a recommendation template. This is a destructive action that can't be undone. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRecommendationTemplateAsync(AwsResiliencehubDeleteRecommendationTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRecommendationTemplateAsync(AwsResiliencehubDeleteRecommendationTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a resiliency policy. This is a destructive action that can't be undone. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResiliencyPolicyAsync(AwsResiliencehubDeleteResiliencyPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteResiliencyPolicyAsync(AwsResiliencehubDeleteResiliencyPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes an assessment for an Resilience Hub application. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAppAssessmentAsync(AwsResiliencehubDescribeAppAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAppAssessmentAsync(AwsResiliencehubDescribeAppAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes an Resilience Hub application. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAppAsync(AwsResiliencehubDescribeAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAppAsync(AwsResiliencehubDescribeAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes an Application Component in the Resilience Hub application. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAppVersionAppComponentAsync(AwsResiliencehubDescribeAppVersionAppComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAppVersionAppComponentAsync(AwsResiliencehubDescribeAppVersionAppComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the Resilience Hub application version. See also: AWS API Documentation
@@ -208,28 +190,25 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAppVersionAsync(AwsResiliencehubDescribeAppVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAppVersionAsync(AwsResiliencehubDescribeAppVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Describes a resource of the Resilience Hub application. NOTE: This API accepts only one of the following parameters to describe the resource: o resourceName o logicalResourceId o physicalResourceId (Along with physicalResourceId , you can also provide awsAccountId , and awsRegion ) See also: AWS API Documentation
+    /// Describes a resource of the Resilience Hub application. NOTE: This API accepts only one of the following parameters to describe the resource: • resourceName • logicalResourceId • physicalResourceId (Along with physicalResourceId , you can also provide awsAccountId , and awsRegion ) See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAppVersionResourceAsync(AwsResiliencehubDescribeAppVersionResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAppVersionResourceAsync(AwsResiliencehubDescribeAppVersionResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns the resolution status for the specified resolution identifier for an application version. If resolutionId is not specified, the cur- rent resolution status is returned. See also: AWS API Documentation
+    /// Returns the resolution status for the specified resolution identifier for an application version. If resolutionId is not specified, the current resolution status is returned. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAppVersionResourcesResolutionStatusAsync(AwsResiliencehubDescribeAppVersionResourcesResolutionStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAppVersionResourcesResolutionStatusAsync(AwsResiliencehubDescribeAppVersionResourcesResolutionStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes details about an Resilience Hub application. See also: AWS API Documentation
@@ -238,18 +217,16 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAppVersionTemplateAsync(AwsResiliencehubDescribeAppVersionTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAppVersionTemplateAsync(AwsResiliencehubDescribeAppVersionTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Describes the status of importing resources to an application version. NOTE: If you get a 404 error with ResourceImportStatusNotFoundAppMeta- dataException , you must call importResourcesToDraftAppVersion after creating the application and before calling describeDraftAppVersion- ResourcesImportStatus to obtain the status. See also: AWS API Documentation
+    /// Describes the status of importing resources to an application version. NOTE: If you get a 404 error with ResourceImportStatusNotFoundAppMetadataException , you must call importResourcesToDraftAppVersion after creating the application and before calling describeDraftAppVersionResourcesImportStatus to obtain the status. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDraftAppVersionResourcesImportStatusAsync(AwsResiliencehubDescribeDraftAppVersionResourcesImportStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDraftAppVersionResourcesImportStatusAsync(AwsResiliencehubDescribeDraftAppVersionResourcesImportStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the metrics of the application configuration being exported. See also: AWS API Documentation
@@ -258,18 +235,16 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeMetricsExportAsync(AwsResiliencehubDescribeMetricsExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeMetricsExportAsync(AwsResiliencehubDescribeMetricsExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Describes a specified resiliency policy for an Resilience Hub applica- tion. The returned policy object includes creation time, data location constraints, the Amazon Resource Name (ARN) for the policy, tags, tier, and more. See also: AWS API Documentation
+    /// Describes a specified resiliency policy for an Resilience Hub application. The returned policy object includes creation time, data location constraints, the Amazon Resource Name (ARN) for the policy, tags, tier, and more. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeResiliencyPolicyAsync(AwsResiliencehubDescribeResiliencyPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeResiliencyPolicyAsync(AwsResiliencehubDescribeResiliencyPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the resource grouping recommendation tasks run by Resilience Hub for your application. See also: AWS API Documentation
@@ -278,18 +253,16 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeResourceGroupingRecommendationTaskAsync(AwsResiliencehubDescribeResourceGroupingRecommendationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeResourceGroupingRecommendationTaskAsync(AwsResiliencehubDescribeResourceGroupingRecommendationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Imports resources to Resilience Hub application draft version from dif- ferent input sources. For more information about the input sources sup- ported by Resilience Hub, see Discover the structure and describe your Resilience Hub application . See also: AWS API Documentation
+    /// Imports resources to Resilience Hub application draft version from different input sources. For more information about the input sources supported by Resilience Hub, see Discover the structure and describe your Resilience Hub application . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ImportResourcesToDraftAppVersionAsync(AwsResiliencehubImportResourcesToDraftAppVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ImportResourcesToDraftAppVersionAsync(AwsResiliencehubImportResourcesToDraftAppVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the alarm recommendations for an Resilience Hub application. See also: AWS API Documentation
@@ -298,28 +271,25 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAlarmRecommendationsAsync(AwsResiliencehubListAlarmRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAlarmRecommendationsAsync(AwsResiliencehubListAlarmRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// List of compliance drifts that were detected while running an assess- ment. See also: AWS API Documentation
+    /// List of compliance drifts that were detected while running an assessment. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAppAssessmentComplianceDriftsAsync(AwsResiliencehubListAppAssessmentComplianceDriftsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAppAssessmentComplianceDriftsAsync(AwsResiliencehubListAppAssessmentComplianceDriftsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// List of resource drifts that were detected while running an assessment. See also: AWS API Documentation list-app-assessment-resource-drifts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: resourceD...
+    /// List of resource drifts that were detected while running an assessment. See also: AWS API Documentation list-app-assessment-resource-drifts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: resourceDrift...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAppAssessmentResourceDriftsAsync(AwsResiliencehubListAppAssessmentResourceDriftsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAppAssessmentResourceDriftsAsync(AwsResiliencehubListAppAssessmentResourceDriftsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the assessments for an Resilience Hub application. You can use request parameters to refine the results for the response object. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAppAssessmentsAsync(AwsResiliencehubListAppAssessmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAppAssessmentsAsync(AwsResiliencehubListAppAssessmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the compliances for an Resilience Hub Application Component. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAppComponentCompliancesAsync(AwsResiliencehubListAppComponentCompliancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAppComponentCompliancesAsync(AwsResiliencehubListAppComponentCompliancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the recommendations for an Resilience Hub Application Component. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAppComponentRecommendationsAsync(AwsResiliencehubListAppComponentRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAppComponentRecommendationsAsync(AwsResiliencehubListAppComponentRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the input sources of the Resilience Hub application. For more information about the input sources supported by Resilience Hub, see Discover the structure and describe your Resilience Hub application . See also: AWS API Documentation
@@ -358,18 +325,7 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAppInputSourcesAsync(AwsResiliencehubListAppInputSourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Lists your Resilience Hub applications. NOTE: You can filter applications using only one filter at a time or with- out using any filter. If you try to filter applications using multi- ple filters, you will get the following error: An error occurred (ValidationException) when calling the ListApps operation: Only one filter is supported for this opera- tion. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAppsAsync(AwsResiliencehubListAppsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAppInputSourcesAsync(AwsResiliencehubListAppInputSourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the Application Components in the Resilience Hub application. See also: AWS API Documentation
@@ -378,8 +334,7 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAppVersionAppComponentsAsync(AwsResiliencehubListAppVersionAppComponentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAppVersionAppComponentsAsync(AwsResiliencehubListAppVersionAppComponentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists how the resources in an application version are mapped/sourced from. Mappings can be physical resource identifiers, CloudFormation stacks, resource-groups, or an application registry app. See also: AWS API Documentation
@@ -388,8 +343,7 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAppVersionResourceMappingsAsync(AwsResiliencehubListAppVersionResourceMappingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAppVersionResourceMappingsAsync(AwsResiliencehubListAppVersionResourceMappingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the resources in an Resilience Hub application. See also: AWS API Documentation
@@ -398,8 +352,7 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAppVersionResourcesAsync(AwsResiliencehubListAppVersionResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAppVersionResourcesAsync(AwsResiliencehubListAppVersionResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the different versions for the Resilience Hub applications. See also: AWS API Documentation
@@ -408,18 +361,25 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAppVersionsAsync(AwsResiliencehubListAppVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAppVersionsAsync(AwsResiliencehubListAppVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists the metrics that can be exported. See also: AWS API Documentation list-metrics is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: rows
+    /// Lists your Resilience Hub applications. NOTE: You can filter applications using only one filter at a time or without using any filter. If you try to filter applications using multiple filters, you will get the following error: An error occurred (ValidationException) when calling the ListApps operation: Only one filter is supported for this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMetricsAsync(AwsResiliencehubListMetricsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAppsAsync(AwsResiliencehubListAppsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Lists the metrics that can be exported. See also: AWS API Documentation list-metrics is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: rows
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListMetricsAsync(AwsResiliencehubListMetricsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the recommendation templates for the Resilience Hub applications. See also: AWS API Documentation
@@ -428,8 +388,7 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRecommendationTemplatesAsync(AwsResiliencehubListRecommendationTemplatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRecommendationTemplatesAsync(AwsResiliencehubListRecommendationTemplatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the resiliency policies for the Resilience Hub applications. See also: AWS API Documentation
@@ -438,18 +397,16 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListResiliencyPoliciesAsync(AwsResiliencehubListResiliencyPoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListResiliencyPoliciesAsync(AwsResiliencehubListResiliencyPoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists the resource grouping recommendations suggested by Resilience Hub for your application. See also: AWS API Documentation list-resource-grouping-recommendations is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following q...
+    /// Lists the resource grouping recommendations suggested by Resilience Hub for your application. See also: AWS API Documentation list-resource-grouping-recommendations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query e...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListResourceGroupingRecommendationsAsync(AwsResiliencehubListResourceGroupingRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListResourceGroupingRecommendationsAsync(AwsResiliencehubListResourceGroupingRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the standard operating procedure (SOP) recommendations for the Resilience Hub applications. See also: AWS API Documentation
@@ -458,18 +415,16 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSopRecommendationsAsync(AwsResiliencehubListSopRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSopRecommendationsAsync(AwsResiliencehubListSopRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists the suggested resiliency policies for the Resilience Hub applica- tions. See also: AWS API Documentation
+    /// Lists the suggested resiliency policies for the Resilience Hub applications. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSuggestedResiliencyPoliciesAsync(AwsResiliencehubListSuggestedResiliencyPoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSuggestedResiliencyPoliciesAsync(AwsResiliencehubListSuggestedResiliencyPoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the tags for your resources in your Resilience Hub applications. See also: AWS API Documentation
@@ -478,8 +433,7 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsResiliencehubListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsResiliencehubListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the test recommendations for the Resilience Hub application. See also: AWS API Documentation
@@ -488,8 +442,7 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTestRecommendationsAsync(AwsResiliencehubListTestRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTestRecommendationsAsync(AwsResiliencehubListTestRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the resources that are not currently supported in Resilience Hub. An unsupported resource is a resource that exists in the object that was used to create an app, but is not supported by Resilience Hub. See also: AWS API Documentation
@@ -498,8 +451,7 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListUnsupportedAppVersionResourcesAsync(AwsResiliencehubListUnsupportedAppVersionResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListUnsupportedAppVersionResourcesAsync(AwsResiliencehubListUnsupportedAppVersionResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Publishes a new version of a specific Resilience Hub application. See also: AWS API Documentation
@@ -508,8 +460,7 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PublishAppVersionAsync(AwsResiliencehubPublishAppVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PublishAppVersionAsync(AwsResiliencehubPublishAppVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds or updates the app template for an Resilience Hub application draft version. See also: AWS API Documentation
@@ -518,8 +469,7 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutDraftAppVersionTemplateAsync(AwsResiliencehubPutDraftAppVersionTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutDraftAppVersionTemplateAsync(AwsResiliencehubPutDraftAppVersionTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Rejects resource grouping recommendations. See also: AWS API Documentation
@@ -528,8 +478,7 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RejectResourceGroupingRecommendationsAsync(AwsResiliencehubRejectResourceGroupingRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RejectResourceGroupingRecommendationsAsync(AwsResiliencehubRejectResourceGroupingRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes resource mappings from a draft application version. See also: AWS API Documentation
@@ -538,8 +487,7 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveDraftAppVersionResourceMappingsAsync(AwsResiliencehubRemoveDraftAppVersionResourceMappingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveDraftAppVersionResourceMappingsAsync(AwsResiliencehubRemoveDraftAppVersionResourceMappingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Resolves the resources for an application version. See also: AWS API Documentation
@@ -548,8 +496,7 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ResolveAppVersionResourcesAsync(AwsResiliencehubResolveAppVersionResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ResolveAppVersionResourcesAsync(AwsResiliencehubResolveAppVersionResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new application assessment for an application. See also: AWS API Documentation
@@ -558,8 +505,7 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartAppAssessmentAsync(AwsResiliencehubStartAppAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartAppAssessmentAsync(AwsResiliencehubStartAppAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initiates the export task of metrics. See also: AWS API Documentation
@@ -568,8 +514,7 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartMetricsExportAsync(AwsResiliencehubStartMetricsExportOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartMetricsExportAsync(AwsResiliencehubStartMetricsExportOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts grouping recommendation task. See also: AWS API Documentation
@@ -578,8 +523,7 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartResourceGroupingRecommendationTaskAsync(AwsResiliencehubStartResourceGroupingRecommendationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartResourceGroupingRecommendationTaskAsync(AwsResiliencehubStartResourceGroupingRecommendationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Applies one or more tags to a resource. See also: AWS API Documentation
@@ -588,8 +532,7 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsResiliencehubTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsResiliencehubTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes one or more tags from a resource. See also: AWS API Documentation
@@ -598,8 +541,7 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsResiliencehubUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsResiliencehubUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an application. See also: AWS API Documentation
@@ -608,18 +550,16 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAppAsync(AwsResiliencehubUpdateAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAppAsync(AwsResiliencehubUpdateAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates an existing Application Component in the Resilience Hub appli- cation. NOTE: This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API. See also: AWS API Documentation
+    /// Updates an existing Application Component in the Resilience Hub application. NOTE: This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAppVersionAppComponentAsync(AwsResiliencehubUpdateAppVersionAppComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAppVersionAppComponentAsync(AwsResiliencehubUpdateAppVersionAppComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the Resilience Hub application version. NOTE: This API updates the Resilience Hub application draft version. To use this information for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API. See also: AWS API Documentation
@@ -628,18 +568,16 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAppVersionAsync(AwsResiliencehubUpdateAppVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAppVersionAsync(AwsResiliencehubUpdateAppVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates the resource details in the Resilience Hub application. NOTE: o This action has no effect outside Resilience Hub. o This API updates the Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API. o To update application version with new physicalResourceID , you must call ResolveAppVersionResources API. See also: AWS API Documentation
+    /// Updates the resource details in the Resilience Hub application. NOTE: • This action has no effect outside Resilience Hub. • This API updates the Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API. • To update application version with new physicalResourceID , you must call ResolveAppVersionResources API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAppVersionResourceAsync(AwsResiliencehubUpdateAppVersionResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAppVersionResourceAsync(AwsResiliencehubUpdateAppVersionResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a resiliency policy. NOTE: Resilience Hub allows you to provide a value of zero for rtoInSecs and rpoInSecs of your resiliency policy. But, while assessing your application, the lowest possible assessment result is near zero. Hence, if you provide value zero for rtoInSecs and rpoInSecs , the estimated workload RTO and estimated workload RPO result will be near zero and the Compliance status for your application will be set to Policy breached . See also: AWS API Documentation
@@ -648,7 +586,6 @@ public interface IAwsResiliencehub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateResiliencyPolicyAsync(AwsResiliencehubUpdateResiliencyPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateResiliencyPolicyAsync(AwsResiliencehubUpdateResiliencyPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

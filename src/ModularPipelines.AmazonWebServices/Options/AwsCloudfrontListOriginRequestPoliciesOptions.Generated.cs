@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets a list of origin request policies. You can optionally apply a filter to return only the managed policies created by Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the max- imum that you specify, or the default maximum, the response is pagi- nated. To get the next page of items, send a subsequent request that specif...
+/// Gets a list of origin request policies. You can optionally apply a filter to return only the managed policies created by Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudfrontListOriginRequestPoliciesOptions : AwsOptions
 {
     /// <summary>
-    /// A filter to return only the specified kinds of origin request poli- cies. Valid values are: o managed Returns only the managed policies created by Amazon Web Services. o custom Returns only the custom policies created in your Amazon Web Services account. Possible values: o managed o custom
+    /// A filter to return only the specified kinds of origin request policies. Valid values are: • managed Returns only the managed policies created by Amazon Web Services. • custom Returns only the custom policies created in your Amazon Web Services account. Possible values: • managed • custom
     /// </summary>
     [CliOption("--type")]
     public AwsCloudfrontListOriginRequestPoliciesType? Type { get; set; }

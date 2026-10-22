@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsQuicksightSearchSpacesOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Searches for Amazon QuickSight spaces that match the specified filters. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the spaces. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="Filters">The filters to apply to the search. Constraints: o min: 1 o max: 2 (structure) A filter to use when searching for spaces. name -&gt; (string) [required] The name of the filter field to use. Possible values: o SPACE_ID o SPACE_NAME o DIRECT_QUICKSIGHT_OWNER o DIRECT_QUICKSIGHT_VIEWER_OR_OWNER o DIRECT_QUICKSIGHT_SOLE_OWNER o CONTRIBUTED_BY o CONSUMED_SOURCE_SIZE o CREATED_BY operator -&gt; (string) [required] The comparison operator to use for the filter. Possible values: o STRING_EQUALS o STRING_LIKE o NUMBER_RANGE value -&gt; (string) [required] The value to use for the filter. Shorthand Syntax: name=string,operator=string,value=string ... JSON Syntax: [ { "name": "SPACE_ID"|"SPACE_NAME"|"DIRECT_QUICKSIGHT_OWNER"|"DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"|"DIRECT_QUICKSIGHT_SOLE_OWNER"|"CONTRIBUTED_BY"|"CONSUMED_SOURCE_SIZE"|"CREATED_BY", "operator": "STRING_EQUALS"|"STRING_LIKE"|"NUMBER_RANGE", "value": "string" } ... ]</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the spaces. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="Filters">The filters to apply to the search. Constraints: • min: 1 • max: 2 (structure) A filter to use when searching for spaces. name -&gt; (string) [required] The name of the filter field to use. Possible values: • SPACE_ID • SPACE_NAME • DIRECT_QUICKSIGHT_OWNER • DIRECT_QUICKSIGHT_VIEWER_OR_OWNER • DIRECT_QUICKSIGHT_SOLE_OWNER • CONTRIBUTED_BY • CONSUMED_SOURCE_SIZE • CREATED_BY operator -&gt; (string) [required] The comparison operator to use for the filter. Possible values: • STRING_EQUALS • STRING_LIKE • NUMBER_RANGE value -&gt; (string) [required] The value to use for the filter. Shorthand Syntax: name=string,operator=string,value=string ... JSON Syntax: [ { "name": "SPACE_ID"|"SPACE_NAME"|"DIRECT_QUICKSIGHT_OWNER"|"DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"|"DIRECT_QUICKSIGHT_SOLE_OWNER"|"CONTRIBUTED_BY"|"CONSUMED_SOURCE_SIZE"|"CREATED_BY", "operator": "STRING_EQUALS"|"STRING_LIKE"|"NUMBER_RANGE", "value": "string" } ... ]</param>
     public AwsQuicksightSearchSpacesOptions(
         string AwsAccountId,
         IEnumerable<string> Filters
@@ -72,26 +74,26 @@ public record AwsQuicksightSearchSpacesOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the spaces. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the spaces. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The filters to apply to the search. Constraints: o min: 1 o max: 2 (structure) A filter to use when searching for spaces. name -&gt; (string) [required] The name of the filter field to use. Possible values: o SPACE_ID o SPACE_NAME o DIRECT_QUICKSIGHT_OWNER o DIRECT_QUICKSIGHT_VIEWER_OR_OWNER o DIRECT_QUICKSIGHT_SOLE_OWNER o CONTRIBUTED_BY o CONSUMED_SOURCE_SIZE o CREATED_BY operator -&gt; (string) [required] The comparison operator to use for the filter. Possible values: o STRING_EQUALS o STRING_LIKE o NUMBER_RANGE value -&gt; (string) [required] The value to use for the filter. Shorthand Syntax: name=string,operator=string,value=string ... JSON Syntax: [ { "name": "SPACE_ID"|"SPACE_NAME"|"DIRECT_QUICKSIGHT_OWNER"|"DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"|"DIRECT_QUICKSIGHT_SOLE_OWNER"|"CONTRIBUTED_BY"|"CONSUMED_SOURCE_SIZE"|"CREATED_BY", "operator": "STRING_EQUALS"|"STRING_LIKE"|"NUMBER_RANGE", "value": "string" } ... ]
+    /// The filters to apply to the search. Constraints: • min: 1 • max: 2 (structure) A filter to use when searching for spaces. name -&gt; (string) [required] The name of the filter field to use. Possible values: • SPACE_ID • SPACE_NAME • DIRECT_QUICKSIGHT_OWNER • DIRECT_QUICKSIGHT_VIEWER_OR_OWNER • DIRECT_QUICKSIGHT_SOLE_OWNER • CONTRIBUTED_BY • CONSUMED_SOURCE_SIZE • CREATED_BY operator -&gt; (string) [required] The comparison operator to use for the filter. Possible values: • STRING_EQUALS • STRING_LIKE • NUMBER_RANGE value -&gt; (string) [required] The value to use for the filter. Shorthand Syntax: name=string,operator=string,value=string ... JSON Syntax: [ { "name": "SPACE_ID"|"SPACE_NAME"|"DIRECT_QUICKSIGHT_OWNER"|"DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"|"DIRECT_QUICKSIGHT_SOLE_OWNER"|"CONTRIBUTED_BY"|"CONSUMED_SOURCE_SIZE"|"CREATED_BY", "operator": "STRING_EQUALS"|"STRING_LIKE"|"NUMBER_RANGE", "value": "string" } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; private init; }
 
     /// <summary>
-    /// The token for the next set of results, or null if there are no more results. Constraints: o min: 1 o max: 800
+    /// The token for the next set of results, or null if there are no more results. Constraints: • min: 1 • max: 800
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return. Constraints: o min: 1 o max: 500
+    /// The maximum number of results to return. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

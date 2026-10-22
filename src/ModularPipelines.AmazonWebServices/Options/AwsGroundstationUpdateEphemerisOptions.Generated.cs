@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsGroundstationUpdateEphemerisOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Update an existing ephemeris. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EphemerisId">The AWS Ground Station ephemeris ID. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="EphemerisId">The AWS Ground Station ephemeris ID. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
     /// <param name="Enabled">Enable or disable the ephemeris. Changing this value doesn't require re-validation.</param>
     public AwsGroundstationUpdateEphemerisOptions(
         string EphemerisId,
@@ -59,7 +61,7 @@ public record AwsGroundstationUpdateEphemerisOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The AWS Ground Station ephemeris ID. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The AWS Ground Station ephemeris ID. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--ephemeris-id")]
     public string? EphemerisId { get; private init; }
@@ -71,13 +73,13 @@ public record AwsGroundstationUpdateEphemerisOptions : AwsOptions, IValidatableO
     public bool? Enabled { get; private init; }
 
     /// <summary>
-    /// A name that you can use to identify the ephemeris. Constraints: o min: 1 o max: 256 o pattern: [ a-zA-Z0-9_:-]{1,256}
+    /// A name that you can use to identify the ephemeris. Constraints: • min: 1 • max: 256 • pattern: [ a-zA-Z0-9_:-]{1,256}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A priority score that determines which ephemeris to use when multi- ple ephemerides overlap. Higher numbers take precedence. The default is 1. Must be 1 or greater. Constraints: o min: 0 o max: 99999
+    /// A priority score that determines which ephemeris to use when multiple ephemerides overlap. Higher numbers take precedence. The default is 1. Must be 1 or greater. Constraints: • min: 0 • max: 99999
     /// </summary>
     [CliOption("--priority")]
     public int? Priority { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,19 +64,19 @@ public record AwsElasticacheModifyUserGroupOptions : AwsOptions, IValidatableObj
     public string? UserGroupId { get; private init; }
 
     /// <summary>
-    /// The list of user IDs to add to the user group. Constraints: o min: 1 (string) Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]* Syntax: "string" "string" ...
+    /// The list of user IDs to add to the user group. Constraints: • min: 1 (string) Constraints: • min: 1 • pattern: [a-zA-Z][a-zA-Z0-9\-]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--user-ids-to-add", GroupValues = true)]
     public IEnumerable<string>? UserIdsToAdd { get; set; }
 
     /// <summary>
-    /// The list of user IDs to remove from the user group. Constraints: o min: 1 (string) Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]* Syntax: "string" "string" ...
+    /// The list of user IDs to remove from the user group. Constraints: • min: 1 (string) Constraints: • min: 1 • pattern: [a-zA-Z][a-zA-Z0-9\-]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--user-ids-to-remove", GroupValues = true)]
     public IEnumerable<string>? UserIdsToRemove { get; set; }
 
     /// <summary>
-    /// Modifies the engine listed in a user group. The options are valkey or redis. Constraints: o pattern: [a-zA-Z]*
+    /// Modifies the engine listed in a user group. The options are valkey or redis. Constraints: • pattern: [a-zA-Z]*
     /// </summary>
     [CliOption("--engine")]
     public string? Engine { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsEntityresolutionGetSchemaMappingOptions : AwsOptions, IValidata
     /// <summary>
     /// Returns the SchemaMapping of a given name. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SchemaName">The name of the schema to be retrieved. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_0-9-]*</param>
+    /// <param name="SchemaName">The name of the schema to be retrieved. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_0-9-]*</param>
     public AwsEntityresolutionGetSchemaMappingOptions(
         string SchemaName
     )
@@ -56,7 +58,7 @@ public record AwsEntityresolutionGetSchemaMappingOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the schema to be retrieved. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_0-9-]*
+    /// The name of the schema to be retrieved. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_0-9-]*
     /// </summary>
     [CliOption("--schema-name")]
     public string? SchemaName { get; private init; }

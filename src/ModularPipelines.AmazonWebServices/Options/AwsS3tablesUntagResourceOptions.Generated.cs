@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the specified user-defined tags from an Amazon S3 Tables re- source. You can pass one or more tag keys. NOTE: For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources . Permissions For tables and table buckets, you must have the s3tables:UntagResource permission to use this operation. See also: AWS API Documentation
+/// Removes the specified user-defined tags from an Amazon S3 Tables resource. You can pass one or more tag keys. NOTE: For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources . Permissions For tables and table buckets, you must have the s3tables:UntagResource permission to use this operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsS3tablesUntagResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the specified user-defined tags from an Amazon S3 Tables re- source. You can pass one or more tag keys. NOTE: For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources . Permissions For tables and table buckets, you must have the s3tables:UntagResource permission to use this operation. See also: AWS API Documentation
+    /// Removes the specified user-defined tags from an Amazon S3 Tables resource. You can pass one or more tag keys. NOTE: For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources . Permissions For tables and table buckets, you must have the s3tables:UntagResource permission to use this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Amazon S3 Tables resource that you're removing tags from. The tagged resource can be a table bucket or a table. For a list of all S3 resources that support tagging, see Managing tags for Amazon S3 resources . Constraints: o min: 1 o max: 2048 o pattern: arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/.+</param>
-    /// <param name="TagKeys">The array of tag keys that you're removing from the S3 Tables re- source. For more information, see Tagging for cost allocation or at- tribute-based access control (ABAC) . (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Amazon S3 Tables resource that you're removing tags from. The tagged resource can be a table bucket or a table. For a list of all S3 resources that support tagging, see Managing tags for Amazon S3 resources . Constraints: • min: 1 • max: 2048 • pattern: arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/.+</param>
+    /// <param name="TagKeys">The array of tag keys that you're removing from the S3 Tables resource. For more information, see Tagging for cost allocation or attribute-based access control (ABAC) . (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
     public AwsS3tablesUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsS3tablesUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Amazon S3 Tables resource that you're removing tags from. The tagged resource can be a table bucket or a table. For a list of all S3 resources that support tagging, see Managing tags for Amazon S3 resources . Constraints: o min: 1 o max: 2048 o pattern: arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/.+
+    /// The Amazon Resource Name (ARN) of the Amazon S3 Tables resource that you're removing tags from. The tagged resource can be a table bucket or a table. For a list of all S3 resources that support tagging, see Managing tags for Amazon S3 resources . Constraints: • min: 1 • max: 2048 • pattern: arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/.+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The array of tag keys that you're removing from the S3 Tables re- source. For more information, see Tagging for cost allocation or at- tribute-based access control (ABAC) . (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// The array of tag keys that you're removing from the S3 Tables resource. For more information, see Tagging for cost allocation or attribute-based access control (ABAC) . (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

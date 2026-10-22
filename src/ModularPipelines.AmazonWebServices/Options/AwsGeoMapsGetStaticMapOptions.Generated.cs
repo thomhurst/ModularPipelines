@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// GetStaticMap provides high-quality static map images with customiz- able options. You can modify the map's appearance and overlay addi- tional information. It's an ideal solution for applications requir- ing tailored static map snapshots. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. For more information, see the following topics in the Amazon Location Service Developer Guide : o Static maps o Customize static maps o Overlay on the static map See also: AWS AP...
+/// GetStaticMap provides high-quality static map images with customizable options. You can modify the map's appearance and overlay additional information. It's an ideal solution for applications requiring tailored static map snapshots. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. For more information, see the following topics in the Amazon Location Service Developer Guide : • Static maps • Customize static maps • Overlay on the static map See also: AWS API Docu...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,11 +23,11 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsGeoMapsGetStaticMapOptions : AwsOptions
 {
     /// <summary>
-    /// GetStaticMap provides high-quality static map images with customiz- able options. You can modify the map's appearance and overlay addi- tional information. It's an ideal solution for applications requir- ing tailored static map snapshots. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. For more information, see the following topics in the Amazon Location Service Developer Guide : o Static maps o Customize static maps o Overlay on the static map See also: AWS AP...
+    /// GetStaticMap provides high-quality static map images with customizable options. You can modify the map's appearance and overlay additional information. It's an ideal solution for applications requiring tailored static map snapshots. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. For more information, see the following topics in the Amazon Location Service Developer Guide : • Static maps • Customize static maps • Overlay on the static map See also: AWS API Docu...
     /// </summary>
-    /// <param name="Height">Specifies the height of the map image. Constraints: o min: 64 o max: 1400</param>
-    /// <param name="FileName">The map scaling parameter to size the image, icons, and labels. It follows the pattern of ^map(@2x)?$ . Example: map, map@2x Constraints: o pattern: map(@2x)?</param>
-    /// <param name="Width">Specifies the width of the map image. Constraints: o min: 64 o max: 1400</param>
+    /// <param name="Height">Specifies the height of the map image. Constraints: • min: 64 • max: 1400</param>
+    /// <param name="FileName">The map scaling parameter to size the image, icons, and labels. It follows the pattern of ^map(@2x)?$ . Example: map, map@2x Constraints: • pattern: map(@2x)?</param>
+    /// <param name="Width">Specifies the width of the map image. Constraints: • min: 64 • max: 1400</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsGeoMapsGetStaticMapOptions(
         int Height,
@@ -53,49 +53,49 @@ public record AwsGeoMapsGetStaticMapOptions : AwsOptions
     }
 
     /// <summary>
-    /// Specifies the height of the map image. Constraints: o min: 64 o max: 1400
+    /// Specifies the height of the map image. Constraints: • min: 64 • max: 1400
     /// </summary>
     [CliOption("--height")]
     public int Height { get; private init; }
 
     /// <summary>
-    /// The map scaling parameter to size the image, icons, and labels. It follows the pattern of ^map(@2x)?$ . Example: map, map@2x Constraints: o pattern: map(@2x)?
+    /// The map scaling parameter to size the image, icons, and labels. It follows the pattern of ^map(@2x)?$ . Example: map, map@2x Constraints: • pattern: map(@2x)?
     /// </summary>
     [CliOption("--file-name")]
     public string FileName { get; private init; }
 
     /// <summary>
-    /// Specifies the width of the map image. Constraints: o min: 64 o max: 1400
+    /// Specifies the width of the map image. Constraints: • min: 64 • max: 1400
     /// </summary>
     [CliOption("--width")]
     public int Width { get; private init; }
 
     /// <summary>
-    /// Takes in two pairs of coordinates in World Geodetic System (WGS 84) format: [longitude, latitude], denoting south-westerly and north-easterly edges of the image. The underlying area becomes the view of the image. Example: -123.17075,49.26959,-123.08125,49.31429 Constraints: o min: 0 o max: 100 o pattern: (-?\d{1,3}(\.\d{1,14})?,-?\d{1,2}(\.\d{1,14})?)(,(-?\d{1,3}(\.\d{1,14})?,-?\d{1,2}(\.\d{1,14})?))*
+    /// Takes in two pairs of coordinates in World Geodetic System (WGS 84) format: [longitude, latitude], denoting south-westerly and north-easterly edges of the image. The underlying area becomes the view of the image. Example: -123.17075,49.26959,-123.08125,49.31429 Constraints: • min: 0 • max: 100 • pattern: (-?\d{1,3}(\.\d{1,14})?,-?\d{1,2}(\.\d{1,14})?)(,(-?\d{1,3}(\.\d{1,14})?,-?\d{1,2}(\.\d{1,14})?))*
     /// </summary>
     [CliOption("--bounding-box")]
     public string? BoundingBox { get; set; }
 
     /// <summary>
-    /// Takes in two or more pair of coordinates in World Geodetic System (WGS 84) format: [longitude, latitude], with each coordinate sepa- rated by a comma. The API will generate an image to encompass all of the provided coordinates. NOTE: Cannot be used with Zoom and or Radius Example: 97.170451,78.039098,99.045536,27.176178 Constraints: o min: 0 o max: 5000 o pattern: (-?\d{1,3}(\.\d{1,14})?,-?\d{1,2}(\.\d{1,14})?)(,(-?\d{1,3}(\.\d{1,14})?,-?\d{1,2}(\.\d{1,14})?))*
+    /// Takes in two or more pair of coordinates in World Geodetic System (WGS 84) format: [longitude, latitude], with each coordinate separated by a comma. The API will generate an image to encompass all of the provided coordinates. NOTE: Cannot be used with Zoom and or Radius Example: 97.170451,78.039098,99.045536,27.176178 Constraints: • min: 0 • max: 5000 • pattern: (-?\d{1,3}(\.\d{1,14})?,-?\d{1,2}(\.\d{1,14})?)(,(-?\d{1,3}(\.\d{1,14})?,-?\d{1,2}(\.\d{1,14})?))*
     /// </summary>
     [CliOption("--bounded-positions")]
     public string? BoundedPositions { get; set; }
 
     /// <summary>
-    /// Takes in a pair of coordinates in World Geodetic System (WGS 84) format: [longitude, latitude], which becomes the center point of the image. This parameter requires that either zoom or radius is set. NOTE: Cannot be used with Zoom and or Radius Example: 49.295,-123.108 Constraints: o min: 3 o max: 36 o pattern: -?\d{1,3}(\.\d{1,14})?,-?\d{1,2}(\.\d{1,14})?
+    /// Takes in a pair of coordinates in World Geodetic System (WGS 84) format: [longitude, latitude], which becomes the center point of the image. This parameter requires that either zoom or radius is set. NOTE: Cannot be used with Zoom and or Radius Example: 49.295,-123.108 Constraints: • min: 3 • max: 36 • pattern: -?\d{1,3}(\.\d{1,14})?,-?\d{1,2}(\.\d{1,14})?
     /// </summary>
     [CliOption("--center")]
     public string? Center { get; set; }
 
     /// <summary>
-    /// Sets the color tone for the map, such as dark and light. Example: Light Default value: Light NOTE: Valid values for ColorScheme are case sensitive. Possible values: o Light o Dark
+    /// Sets the color tone for the map, such as dark and light. Example: Light Default value: Light NOTE: Valid values for ColorScheme are case sensitive. Possible values: • Light • Dark
     /// </summary>
     [CliOption("--color-scheme")]
     public AwsGeoMapsGetStaticMapColorScheme? ColorScheme { get; set; }
 
     /// <summary>
-    /// Takes in a string to draw geometries on the image. The input is a comma separated format as follows format: [Lon, Lat] Example: line:-122.407653,37.798557,-122.413291,37.802443;color=%23DD0000;width=7;out- line-color=#00DD00;outline-width=5yd|point:-122.40572,37.80004;la- bel=Fog Hill Market;size=large;text-color=%23DD0000;color=#EE4B2B NOTE: Currently it supports the following geometry types: point, line and polygon. It does not support multiPoint , multiLine and mul- tiPolgyon. Constraints: o min: 1 o max: 5000
+    /// Takes in a string to draw geometries on the image. The input is a comma separated format as follows format: [Lon, Lat] Example: line:-122.407653,37.798557,-122.413291,37.802443;color=%23DD0000;width=7;outline-color=#00DD00;outline-width=5yd|point:-122.40572,37.80004;label=Fog Hill Market;size=large;text-color=%23DD0000;color=#EE4B2B NOTE: Currently it supports the following geometry types: point, line and polygon. It does not support multiPoint , multiLine and multiPolgyon. Constraints: • min: 1 • max: 5000
     /// </summary>
     [CliOption("--compact-overlay")]
     public string? CompactOverlay { get; set; }
@@ -107,70 +107,70 @@ public record AwsGeoMapsGetStaticMapOptions : AwsOptions
     public bool? CropLabels { get; set; }
 
     /// <summary>
-    /// Takes in a string to draw geometries on the image. The input is a valid GeoJSON collection object. Example: {"type":"FeatureCollection","features": [{"type":"Fea- ture","geometry":{"type":"MultiPoint","coordinates": [[-90.076345,51.504107],[-0.074451,51.506892]]},"properties": {"color":"#00DD00"}}]} Constraints: o min: 1 o max: 4200
+    /// Takes in a string to draw geometries on the image. The input is a valid GeoJSON collection object. Example: {"type":"FeatureCollection","features": [{"type":"Feature","geometry":{"type":"MultiPoint","coordinates": [[-90.076345,51.504107],[-0.074451,51.506892]]},"properties": {"color":"#00DD00"}}]} Constraints: • min: 1 • max: 4200
     /// </summary>
     [CliOption("--geo-json-overlay")]
     public string? GeoJsonOverlay { get; set; }
 
     /// <summary>
-    /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request. Constraints: o min: 0 o max: 1000
+    /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--key")]
     public string? Key { get; set; }
 
     /// <summary>
-    /// Overrides the label size auto-calculated by FileName . Takes in one of the values - Small or Large . Possible values: o Small o Large
+    /// Overrides the label size auto-calculated by FileName . Takes in one of the values - Small or Large . Possible values: • Small • Large
     /// </summary>
     [CliOption("--label-size")]
     public AwsGeoMapsGetStaticMapLabelSize? LabelSize { get; set; }
 
     /// <summary>
-    /// Specifies the language on the map labels using the BCP 47 language tag, limited to ISO 639-1 two-letter language codes. If the speci- fied language data isn't available for the map image, the labels will default to the regional primary language. Supported codes: o ar o as o az o be o bg o bn o bs o ca o cs o cy o da o de o el o en o es o et o eu o fi o fo o fr o ga o gl o gn o gu o he o hi o hr o hu o hy o id o is o it o ja o ka o kk o km o kn o ko o ky o lt o lv o mk o ml o mr o ms o mt o my o nl o no o or o pa o pl o pt o ro o ru o sk o sl o sq o sr o sv o ta o te o th o tr o uk o uz o vi o zh Constraints: o min: 2 o max: 35
+    /// Specifies the language on the map labels using the BCP 47 language tag, limited to ISO 639-1 two-letter language codes. If the specified language data isn't available for the map image, the labels will default to the regional primary language. Supported codes: • ar • as • az • be • bg • bn • bs • ca • cs • cy • da • de • el • en • es • et • eu • fi • fo • fr • ga • gl • gn • gu • he • hi • hr • hu • hy • id • is • it • ja • ka • kk • km • kn • ko • ky • lt • lv • mk • ml • mr • ms • mt • my • nl • no • or • pa • pl • pt • ro • ru • sk • sl • sq • sr • sv • ta • te • th • tr • uk • uz • vi • zh Constraints: • min: 2 • max: 35
     /// </summary>
     [CliOption("--language")]
     public string? Language { get; set; }
 
     /// <summary>
-    /// Applies additional space (in pixels) around overlay feature to pre- vent them from being cut or obscured. NOTE: Value for max and min is determined by: Min: 1 Max: min(height, width)/4 Example: 100 Constraints: o min: 0 o max: 350
+    /// Applies additional space (in pixels) around overlay feature to prevent them from being cut or obscured. NOTE: Value for max and min is determined by: Min: 1 Max: min(height, width)/4 Example: 100 Constraints: • min: 0 • max: 350
     /// </summary>
     [CliOption("--padding")]
     public int? Padding { get; set; }
 
     /// <summary>
-    /// Specifies the political view, using ISO 3166-2 or ISO 3166-3 country code format. The following political views are currently supported: o ARG : Argentina's view on the Southern Patagonian Ice Field and Tierra Del Fuego, including the Falkland Islands, South Georgia, and South Sandwich Islands o EGY : Egypt's view on Bir Tawil o IND : India's view on Gilgit-Baltistan o KEN : Kenya's view on the Ilemi Triangle o MAR : Morocco's view on Western Sahara o RUS : Russia's view on Crimea o SDN : Sudan's view on the Halaib Triangle o SRB : Serbia's view on Kosovo, Vukovar, and Sarengrad Islands o SUR : Suriname's view on the Courantyne Headwaters and Lawa Head- waters o SYR : Syria's view on the Golan Heights o TUR : Turkey's view on Cyprus and Northern Cyprus o TZA : Tanzania's view on Lake Malawi o URY : Uruguay's view on Rincon de Artigas o VNM : Vietnam's view on the Paracel Islands and Spratly Islands Constraints: o min: 2 o max: 3 o pattern: ([A-Z]{2}|[A-Z]{3})
+    /// Specifies the political view, using ISO 3166-2 or ISO 3166-3 country code format. The following political views are currently supported: • ARG : Argentina's view on the Southern Patagonian Ice Field and Tierra Del Fuego, including the Falkland Islands, South Georgia, and South Sandwich Islands • EGY : Egypt's view on Bir Tawil • IND : India's view on Gilgit-Baltistan • KEN : Kenya's view on the Ilemi Triangle • MAR : Morocco's view on Western Sahara • RUS : Russia's view on Crimea • SDN : Sudan's view on the Halaib Triangle • SRB : Serbia's view on Kosovo, Vukovar, and Sarengrad Islands • SUR : Suriname's view on the Courantyne Headwaters and Lawa Headwaters • SYR : Syria's view on the Golan Heights • TUR : Turkey's view on Cyprus and Northern Cyprus • TZA : Tanzania's view on Lake Malawi • URY : Uruguay's view on Rincon de Artigas • VNM : Vietnam's view on the Paracel Islands and Spratly Islands Constraints: • min: 2 • max: 3 • pattern: ([A-Z]{2}|[A-Z]{3})
     /// </summary>
     [CliOption("--political-view")]
     public string? PoliticalView { get; set; }
 
     /// <summary>
-    /// Determines if the result image will display icons representing points of interest on the map. Possible values: o Enabled o Disabled
+    /// Determines if the result image will display icons representing points of interest on the map. Possible values: • Enabled • Disabled
     /// </summary>
     [CliOption("--points-of-interests")]
     public AwsGeoMapsGetStaticMapPointsOfInterests? PointsOfInterests { get; set; }
 
     /// <summary>
-    /// Used with center parameter, it specifies the zoom of the image where you can control it on a granular level. Takes in any value &gt;= 1 . Example: 1500 NOTE: Cannot be used with Zoom . Unit : Meters Constraints: o min: 0 o max: 4294967295
+    /// Used with center parameter, it specifies the zoom of the image where you can control it on a granular level. Takes in any value &gt;= 1 . Example: 1500 NOTE: Cannot be used with Zoom . Unit : Meters Constraints: • min: 0 • max: 4294967295
     /// </summary>
     [CliOption("--radius")]
-    public int? Radius { get; set; }
+    public long? Radius { get; set; }
 
     /// <summary>
-    /// Displays a scale on the bottom right of the map image with the unit specified in the input. Example: KilometersMiles, Miles, Kilometers, MilesKilometers Possible values: o Kilometers o KilometersMiles o Miles o MilesKilometers
+    /// Displays a scale on the bottom right of the map image with the unit specified in the input. Example: KilometersMiles, Miles, Kilometers, MilesKilometers Possible values: • Kilometers • KilometersMiles • Miles • MilesKilometers
     /// </summary>
     [CliOption("--scale-bar-unit")]
     public AwsGeoMapsGetStaticMapScaleBarUnit? ScaleBarUnit { get; set; }
 
     /// <summary>
-    /// Style specifies the desired map style. Possible values: o Satellite o Standard
+    /// Style specifies the desired map style. Possible values: • Satellite • Standard
     /// </summary>
     [CliOption("--style")]
     public string? Style { get; set; }
 
     /// <summary>
-    /// Specifies the zoom level of the map image. NOTE: Cannot be used with Radius . Constraints: o min: 0 o max: 20 outfile (string) [required] Filename where the content will be saved
+    /// Specifies the zoom level of the map image. NOTE: Cannot be used with Radius . Constraints: • min: 0 • max: 20 outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--zoom")]
-    public int? Zoom { get; set; }
+    public double? Zoom { get; set; }
 
     /// <summary>
     /// The &lt;outfile&gt; operand.

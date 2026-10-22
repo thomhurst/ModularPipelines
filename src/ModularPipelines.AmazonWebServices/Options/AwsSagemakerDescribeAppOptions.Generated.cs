@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +30,9 @@ public record AwsSagemakerDescribeAppOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Describes the app. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The domain ID. Constraints: o min: 0 o max: 63 o pattern: d-(-*[a-z0-9]){1,61}</param>
-    /// <param name="AppType">The type of app. Possible values: o JupyterServer o KernelGateway o DetailedProfiler o TensorBoard o CodeEditor o JupyterLab o RStudioServerPro o RSessionGateway o Canvas</param>
-    /// <param name="AppName">The name of the app. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="DomainId">The domain ID. Constraints: • min: 0 • max: 63 • pattern: d-(-*[a-z0-9]){1,61}</param>
+    /// <param name="AppType">The type of app. Possible values: • JupyterServer • KernelGateway • DetailedProfiler • TensorBoard • CodeEditor • JupyterLab • RStudioServerPro • RSessionGateway • Canvas</param>
+    /// <param name="AppName">The name of the app. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
     public AwsSagemakerDescribeAppOptions(
         string DomainId,
         AwsSagemakerDescribeAppAppType AppType,
@@ -64,31 +66,31 @@ public record AwsSagemakerDescribeAppOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The domain ID. Constraints: o min: 0 o max: 63 o pattern: d-(-*[a-z0-9]){1,61}
+    /// The domain ID. Constraints: • min: 0 • max: 63 • pattern: d-(-*[a-z0-9]){1,61}
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// The type of app. Possible values: o JupyterServer o KernelGateway o DetailedProfiler o TensorBoard o CodeEditor o JupyterLab o RStudioServerPro o RSessionGateway o Canvas
+    /// The type of app. Possible values: • JupyterServer • KernelGateway • DetailedProfiler • TensorBoard • CodeEditor • JupyterLab • RStudioServerPro • RSessionGateway • Canvas
     /// </summary>
     [CliOption("--app-type")]
     public AwsSagemakerDescribeAppAppType? AppType { get; private init; }
 
     /// <summary>
-    /// The name of the app. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the app. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--app-name")]
     public string? AppName { get; private init; }
 
     /// <summary>
-    /// The user profile name. If this value is not set, then SpaceName must be set. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The user profile name. If this value is not set, then SpaceName must be set. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--user-profile-name")]
     public string? UserProfileName { get; set; }
 
     /// <summary>
-    /// The name of the space. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the space. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--space-name")]
     public string? SpaceName { get; set; }

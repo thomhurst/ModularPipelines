@@ -79,9 +79,6 @@ public record AwsCloudformationDeployOptions : AwsOptions
     [CliOption("--notification-arns", GroupValues = true)]
     public IEnumerable<string>? NotificationArns { get; set; }
 
-    /// <summary>
-    /// Specify if the CLI should return a non-zero exit code when there are no changes to be made to the stack. By default, a zero exit code is re- turned, and this is the same behavior that occurs when
-    /// </summary>
     [CliFlag("--fail-on-empty-changeset", NegatedName = "--no-fail-on-empty-changeset")]
     public bool? FailOnEmptyChangeSet { get; set; }
 

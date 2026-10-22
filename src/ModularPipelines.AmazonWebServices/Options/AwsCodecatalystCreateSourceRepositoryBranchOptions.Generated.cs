@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a branch in a specified source repository in Amazon CodeCata- lyst. NOTE: This API only creates a branch in a source repository hosted in Ama- zon CodeCatalyst. You cannot use this API to create a branch in a linked repository. See also: AWS API Documentation
+/// Creates a branch in a specified source repository in Amazon CodeCatalyst. NOTE: This API only creates a branch in a source repository hosted in Amazon CodeCatalyst. You cannot use this API to create a branch in a linked repository. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +27,12 @@ public record AwsCodecatalystCreateSourceRepositoryBranchOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a branch in a specified source repository in Amazon CodeCata- lyst. NOTE: This API only creates a branch in a source repository hosted in Ama- zon CodeCatalyst. You cannot use this API to create a branch in a linked repository. See also: AWS API Documentation
+    /// Creates a branch in a specified source repository in Amazon CodeCatalyst. NOTE: This API only creates a branch in a source repository hosted in Amazon CodeCatalyst. You cannot use this API to create a branch in a linked repository. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SpaceName">The name of the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*</param>
-    /// <param name="ProjectName">The name of the project in the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*</param>
-    /// <param name="SourceRepositoryName">The name of the repository where you want to create a branch. Constraints: o min: 1 o max: 100 o pattern: (?!.*[.]git$)[\w\-.]*</param>
-    /// <param name="Name">The name for the branch you're creating. Constraints: o min: 1 o max: 100</param>
+    /// <param name="SpaceName">The name of the space. Constraints: • min: 3 • max: 63 • pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*</param>
+    /// <param name="ProjectName">The name of the project in the space. Constraints: • min: 3 • max: 63 • pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*</param>
+    /// <param name="SourceRepositoryName">The name of the repository where you want to create a branch. Constraints: • min: 1 • max: 100 • pattern: (?!.*[.]git$)[\w\-.]*</param>
+    /// <param name="Name">The name for the branch you're creating. Constraints: • min: 1 • max: 100</param>
     public AwsCodecatalystCreateSourceRepositoryBranchOptions(
         string SpaceName,
         string ProjectName,
@@ -68,25 +70,25 @@ public record AwsCodecatalystCreateSourceRepositoryBranchOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
+    /// The name of the space. Constraints: • min: 3 • max: 63 • pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--space-name")]
     public string? SpaceName { get; private init; }
 
     /// <summary>
-    /// The name of the project in the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
+    /// The name of the project in the space. Constraints: • min: 3 • max: 63 • pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--project-name")]
     public string? ProjectName { get; private init; }
 
     /// <summary>
-    /// The name of the repository where you want to create a branch. Constraints: o min: 1 o max: 100 o pattern: (?!.*[.]git$)[\w\-.]*
+    /// The name of the repository where you want to create a branch. Constraints: • min: 1 • max: 100 • pattern: (?!.*[.]git$)[\w\-.]*
     /// </summary>
     [CliOption("--source-repository-name")]
     public string? SourceRepositoryName { get; private init; }
 
     /// <summary>
-    /// The name for the branch you're creating. Constraints: o min: 1 o max: 100
+    /// The name for the branch you're creating. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

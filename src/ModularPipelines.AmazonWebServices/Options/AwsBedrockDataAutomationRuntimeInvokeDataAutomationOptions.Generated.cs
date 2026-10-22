@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsBedrockDataAutomationRuntimeInvokeDataAutomationOptions : AwsOp
     /// <summary>
     /// Sync API: Invoke data automation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InputConfiguration">Input configuration. bytes -&gt; (blob) Input data as bytes s3Uri -&gt; (string) S3 URI of the input data Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/[^\x00-\x1F\x7F\{^}%`\]"&gt;\[~&lt;#|]*)? Shorthand Syntax: bytes=blob,s3Uri=string JSON Syntax: { "bytes": blob, "s3Uri": "string" }</param>
-    /// <param name="DataAutomationProfileArn">Data automation profile ARN Constraints: o min: 1 o max: 128 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-au- tomation-profile/[a-zA-Z0-9-_.]+</param>
+    /// <param name="InputConfiguration">Input configuration. bytes -&gt; (blob) Input data as bytes s3Uri -&gt; (string) S3 URI of the input data Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/[^\x00-\x1F\x7F\{^}%`\]"&gt;\[~&lt;#|]*)? Shorthand Syntax: bytes=blob,s3Uri=string JSON Syntax: { "bytes": blob, "s3Uri": "string" }</param>
+    /// <param name="DataAutomationProfileArn">Data automation profile ARN Constraints: • min: 1 • max: 128 • pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-automation-profile/[a-zA-Z0-9-_.]+</param>
     public AwsBedrockDataAutomationRuntimeInvokeDataAutomationOptions(
         string InputConfiguration,
         string DataAutomationProfileArn
@@ -60,37 +62,37 @@ public record AwsBedrockDataAutomationRuntimeInvokeDataAutomationOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Input configuration. bytes -&gt; (blob) Input data as bytes s3Uri -&gt; (string) S3 URI of the input data Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/[^\x00-\x1F\x7F\{^}%`\]"&gt;\[~&lt;#|]*)? Shorthand Syntax: bytes=blob,s3Uri=string JSON Syntax: { "bytes": blob, "s3Uri": "string" }
+    /// Input configuration. bytes -&gt; (blob) Input data as bytes s3Uri -&gt; (string) S3 URI of the input data Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/[^\x00-\x1F\x7F\{^}%`\]"&gt;\[~&lt;#|]*)? Shorthand Syntax: bytes=blob,s3Uri=string JSON Syntax: { "bytes": blob, "s3Uri": "string" }
     /// </summary>
     [CliOption("--input-configuration")]
     public string? InputConfiguration { get; private init; }
 
     /// <summary>
-    /// Data automation profile ARN Constraints: o min: 1 o max: 128 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-au- tomation-profile/[a-zA-Z0-9-_.]+
+    /// Data automation profile ARN Constraints: • min: 1 • max: 128 • pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-automation-profile/[a-zA-Z0-9-_.]+
     /// </summary>
     [CliOption("--data-automation-profile-arn")]
     public string? DataAutomationProfileArn { get; private init; }
 
     /// <summary>
-    /// Data automation configuration. dataAutomationProjectArn -&gt; (string) [required] Data automation project arn. Constraints: o min: 1 o max: 128 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-au- tomation-project/[a-zA-Z0-9-_]+ stage -&gt; (string) Data automation stage. Possible values: o LIVE o DEVELOPMENT Shorthand Syntax: dataAutomationProjectArn=string,stage=string JSON Syntax: { "dataAutomationProjectArn": "string", "stage": "LIVE"|"DEVELOPMENT" }
+    /// Data automation configuration. dataAutomationProjectArn -&gt; (string) [required] Data automation project arn. Constraints: • min: 1 • max: 128 • pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-automation-project/[a-zA-Z0-9-_]+ stage -&gt; (string) Data automation stage. Possible values: • LIVE • DEVELOPMENT Shorthand Syntax: dataAutomationProjectArn=string,stage=string JSON Syntax: { "dataAutomationProjectArn": "string", "stage": "LIVE"|"DEVELOPMENT" }
     /// </summary>
     [CliOption("--data-automation-configuration")]
     public string? DataAutomationConfiguration { get; set; }
 
     /// <summary>
-    /// Blueprint list. Constraints: o min: 1 o max: 40 (structure) Blueprint. blueprintArn -&gt; (string) [required] Arn of blueprint. Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blue- print/(bedrock-data-insights-pub- lic-[a-zA-Z0-9-_]{1,30}|bedrock-data-automation-pub- lic-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36}) version -&gt; (string) Version of blueprint. Constraints: o min: 1 o max: 128 o pattern: [0-9]* stage -&gt; (string) Stage of blueprint. Possible values: o DEVELOPMENT o LIVE Shorthand Syntax: blueprintArn=string,version=string,stage=string ... JSON Syntax: [ { "blueprintArn": "string", "version": "string", "stage": "DEVELOPMENT"|"LIVE" } ... ]
+    /// Blueprint list. Constraints: • min: 1 • max: 40 (structure) Blueprint. blueprintArn -&gt; (string) [required] Arn of blueprint. Constraints: • min: 0 • max: 128 • pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blueprint/(bedrock-data-insights-public-[a-zA-Z0-9-_]{1,30}|bedrock-data-automation-public-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36}) version -&gt; (string) Version of blueprint. Constraints: • min: 1 • max: 128 • pattern: [0-9]* stage -&gt; (string) Stage of blueprint. Possible values: • DEVELOPMENT • LIVE Shorthand Syntax: blueprintArn=string,version=string,stage=string ... JSON Syntax: [ { "blueprintArn": "string", "version": "string", "stage": "DEVELOPMENT"|"LIVE" } ... ]
     /// </summary>
     [CliOption("--blueprints", GroupValues = true)]
     public IEnumerable<string>? Blueprints { get; set; }
 
     /// <summary>
-    /// Encryption configuration. kmsKeyId -&gt; (string) [required] Customer KMS key used for encryption Constraints: o min: 1 o max: 2048 o pattern: [A-Za-z0-9][A-Za-z0-9:_/+=,@.-]+ kmsEncryptionContext -&gt; (map) KMS encryption context. Constraints: o min: 1 o max: 10 key -&gt; (string) Excryption context key. Constraints: o min: 1 o max: 2000 o pattern: .*\S.* value -&gt; (string) Encryption context value. Constraints: o min: 1 o max: 2000 o pattern: .*\S.* Shorthand Syntax: kmsKeyId=string,kmsEncryptionContext={KeyName1=string,KeyName2=string} JSON Syntax: { "kmsKeyId": "string", "kmsEncryptionContext": {"string": "string" ...} }
+    /// Encryption configuration. kmsKeyId -&gt; (string) [required] Customer KMS key used for encryption Constraints: • min: 1 • max: 2048 • pattern: [A-Za-z0-9][A-Za-z0-9:_/+=,@.-]+ kmsEncryptionContext -&gt; (map) KMS encryption context. Constraints: • min: 1 • max: 10 key -&gt; (string) Excryption context key. Constraints: • min: 1 • max: 2000 • pattern: .*\S.* value -&gt; (string) Encryption context value. Constraints: • min: 1 • max: 2000 • pattern: .*\S.* Shorthand Syntax: kmsKeyId=string,kmsEncryptionContext={KeyName1=string,KeyName2=string} JSON Syntax: { "kmsKeyId": "string", "kmsEncryptionContext": {"string": "string" ...} }
     /// </summary>
     [CliOption("--encryption-configuration")]
     public string? EncryptionConfiguration { get; set; }
 
     /// <summary>
-    /// Output configuration. s3Uri -&gt; (string) [required] S3 uri. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/[^\x00-\x1F\x7F\{^}%`\]"&gt;\[~&lt;#|]*)? Shorthand Syntax: s3Uri=string JSON Syntax: { "s3Uri": "string" }
+    /// Output configuration. s3Uri -&gt; (string) [required] S3 uri. Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/[^\x00-\x1F\x7F\{^}%`\]"&gt;\[~&lt;#|]*)? Shorthand Syntax: s3Uri=string JSON Syntax: { "s3Uri": "string" }
     /// </summary>
     [CliOption("--output-configuration")]
     public string? OutputConfiguration { get; set; }

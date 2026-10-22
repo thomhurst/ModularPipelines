@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsXrayPutEncryptionConfigOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the encryption configuration for X-Ray data. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Type">The type of encryption. Set to KMS to use your own key for encryp- tion. Set to NONE for default encryption. Possible values: o NONE o KMS</param>
+    /// <param name="Type">The type of encryption. Set to KMS to use your own key for encryption. Set to NONE for default encryption. Possible values: • NONE • KMS</param>
     public AwsXrayPutEncryptionConfigOptions(
         AwsXrayPutEncryptionConfigType Type
     )
@@ -56,13 +58,13 @@ public record AwsXrayPutEncryptionConfigOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of encryption. Set to KMS to use your own key for encryp- tion. Set to NONE for default encryption. Possible values: o NONE o KMS
+    /// The type of encryption. Set to KMS to use your own key for encryption. Set to NONE for default encryption. Possible values: • NONE • KMS
     /// </summary>
     [CliOption("--type")]
     public AwsXrayPutEncryptionConfigType? Type { get; private init; }
 
     /// <summary>
-    /// An Amazon Web Services KMS key in one of the following formats: o Alias - The name of the key. For example, alias/MyKey . o Key ID - The KMS key ID of the key. For example, ae4aa6d49-a4d8-9df9-a475-4ff6d7898456 . Amazon Web Services X-Ray does not support asymmetric KMS keys. o ARN - The full Amazon Resource Name of the key ID or alias. For example, arn:aws:kms:us-east-2:123456789012:key/ae4aa6d49-a4d8-9df9-a475-4ff6d7898456 . Use this format to specify a key in a different account. Omit this key if you set Type to NONE . Constraints: o min: 1 o max: 3000
+    /// An Amazon Web Services KMS key in one of the following formats: • Alias - The name of the key. For example, alias/MyKey . • Key ID - The KMS key ID of the key. For example, ae4aa6d49-a4d8-9df9-a475-4ff6d7898456 . Amazon Web Services X-Ray does not support asymmetric KMS keys. • ARN - The full Amazon Resource Name of the key ID or alias. For example, arn:aws:kms:us-east-2:123456789012:key/ae4aa6d49-a4d8-9df9-a475-4ff6d7898456 . Use this format to specify a key in a different account. Omit this key if you set Type to NONE . Constraints: • min: 1 • max: 3000
     /// </summary>
     [CliOption("--key-id")]
     public string? KeyId { get; set; }

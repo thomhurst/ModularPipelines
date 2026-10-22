@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsFisGetTargetResourceTypeOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Gets information about the specified resource type. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceType">The resource type. Constraints: o max: 128 o pattern: [\S]+</param>
+    /// <param name="ResourceType">The resource type. Constraints: • max: 128 • pattern: [\S]+</param>
     public AwsFisGetTargetResourceTypeOptions(
         string ResourceType
     )
@@ -56,7 +58,7 @@ public record AwsFisGetTargetResourceTypeOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The resource type. Constraints: o max: 128 o pattern: [\S]+
+    /// The resource type. Constraints: • max: 128 • pattern: [\S]+
     /// </summary>
     [CliOption("--resource-type")]
     public string? ResourceType { get; private init; }

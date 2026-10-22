@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,9 +31,9 @@ public record AwsDatasyncCreateLocationSmbOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Creates a transfer location for a Server Message Block (SMB) file server. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses SMB file servers. For more information, see Providing DataSync access to SMB file servers . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Subdirectory">Specifies the name of the share exported by your SMB file server where DataSync will read or write data. You can include a subdirec- tory in the share path (for example, /path/to/subdirectory ). Make sure that other SMB clients in your network can also mount this path. To copy all data in the subdirectory, DataSync must be able to mount the SMB share and access all of its data. For more information, see Providing DataSync access to SMB file servers . Constraints: o max: 4096 o pattern: ^[a-zA-Z0-9_\-\+\./\(\)\$\p{Zs}]+$</param>
-    /// <param name="ServerHostname">Specifies the domain name or IP address (IPv4 or IPv6) of the SMB file server that your DataSync agent connects to. NOTE: If you're using Kerberos authentication, you must specify a do- main name. Constraints: o max: 255 o pattern: ^(([a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9\-:]*[A-Za-z0-9])$</param>
-    /// <param name="AgentArns">Specifies the DataSync agent (or agents) that can connect to your SMB file server. You specify an agent by using its Amazon Resource Name (ARN). Constraints: o min: 1 o max: 8 (string) Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$ Syntax: "string" "string" ...</param>
+    /// <param name="Subdirectory">Specifies the name of the share exported by your SMB file server where DataSync will read or write data. You can include a subdirectory in the share path (for example, /path/to/subdirectory ). Make sure that other SMB clients in your network can also mount this path. To copy all data in the subdirectory, DataSync must be able to mount the SMB share and access all of its data. For more information, see Providing DataSync access to SMB file servers . Constraints: • max: 4096 • pattern: ^[a-zA-Z0-9_\-\+\./\(\)\$\p{Zs}]+$</param>
+    /// <param name="ServerHostname">Specifies the domain name or IP address (IPv4 or IPv6) of the SMB file server that your DataSync agent connects to. NOTE: If you're using Kerberos authentication, you must specify a domain name. Constraints: • max: 255 • pattern: ^(([a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9\-:]*[A-Za-z0-9])$</param>
+    /// <param name="AgentArns">Specifies the DataSync agent (or agents) that can connect to your SMB file server. You specify an agent by using its Amazon Resource Name (ARN). Constraints: • min: 1 • max: 8 (string) Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$ Syntax: "string" "string" ...</param>
     public AwsDatasyncCreateLocationSmbOptions(
         string Subdirectory,
         string ServerHostname,
@@ -77,94 +79,94 @@ public record AwsDatasyncCreateLocationSmbOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the name of the share exported by your SMB file server where DataSync will read or write data. You can include a subdirec- tory in the share path (for example, /path/to/subdirectory ). Make sure that other SMB clients in your network can also mount this path. To copy all data in the subdirectory, DataSync must be able to mount the SMB share and access all of its data. For more information, see Providing DataSync access to SMB file servers . Constraints: o max: 4096 o pattern: ^[a-zA-Z0-9_\-\+\./\(\)\$\p{Zs}]+$
+    /// Specifies the name of the share exported by your SMB file server where DataSync will read or write data. You can include a subdirectory in the share path (for example, /path/to/subdirectory ). Make sure that other SMB clients in your network can also mount this path. To copy all data in the subdirectory, DataSync must be able to mount the SMB share and access all of its data. For more information, see Providing DataSync access to SMB file servers . Constraints: • max: 4096 • pattern: ^[a-zA-Z0-9_\-\+\./\(\)\$\p{Zs}]+$
     /// </summary>
     [CliOption("--subdirectory")]
     public string? Subdirectory { get; private init; }
 
     /// <summary>
-    /// Specifies the domain name or IP address (IPv4 or IPv6) of the SMB file server that your DataSync agent connects to. NOTE: If you're using Kerberos authentication, you must specify a do- main name. Constraints: o max: 255 o pattern: ^(([a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9\-:]*[A-Za-z0-9])$
+    /// Specifies the domain name or IP address (IPv4 or IPv6) of the SMB file server that your DataSync agent connects to. NOTE: If you're using Kerberos authentication, you must specify a domain name. Constraints: • max: 255 • pattern: ^(([a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9\-:]*[A-Za-z0-9])$
     /// </summary>
     [CliOption("--server-hostname")]
     public string? ServerHostname { get; private init; }
 
     /// <summary>
-    /// Specifies the DataSync agent (or agents) that can connect to your SMB file server. You specify an agent by using its Amazon Resource Name (ARN). Constraints: o min: 1 o max: 8 (string) Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$ Syntax: "string" "string" ...
+    /// Specifies the DataSync agent (or agents) that can connect to your SMB file server. You specify an agent by using its Amazon Resource Name (ARN). Constraints: • min: 1 • max: 8 (string) Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--agent-arns", GroupValues = true)]
     public IEnumerable<string>? AgentArns { get; private init; }
 
     /// <summary>
-    /// Specifies the user that can mount and access the files, folders, and file metadata in your SMB file server. This parameter applies only if AuthenticationType is set to NTLM . For information about choosing a user with the right level of access for your transfer, see Providing DataSync access to SMB file servers . Constraints: o max: 104 o pattern: ^[^\x22\x5B\x5D/\\:;|=,+*?\x3C\x3E]{1,104}$
+    /// Specifies the user that can mount and access the files, folders, and file metadata in your SMB file server. This parameter applies only if AuthenticationType is set to NTLM . For information about choosing a user with the right level of access for your transfer, see Providing DataSync access to SMB file servers . Constraints: • max: 104 • pattern: ^[^\x22\x5B\x5D/\\:;|=,+*?\x3C\x3E]{1,104}$
     /// </summary>
     [CliOption("--user")]
     public string? User { get; set; }
 
     /// <summary>
-    /// Specifies the Windows domain name that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to NTLM . If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server. Constraints: o max: 253 o pattern: ^[A-Za-z0-9]((\.|-+)?[A-Za-z0-9]){0,252}$
+    /// Specifies the Windows domain name that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to NTLM . If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server. Constraints: • max: 253 • pattern: ^[A-Za-z0-9]((\.|-+)?[A-Za-z0-9]){0,252}$
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; set; }
 
     /// <summary>
-    /// Specifies the password of the user who can mount your SMB file server and has permission to access the files and folders involved in your transfer. This parameter applies only if AuthenticationType is set to NTLM . Constraints: o max: 104 o pattern: ^.{0,104}$
+    /// Specifies the password of the user who can mount your SMB file server and has permission to access the files and folders involved in your transfer. This parameter applies only if AuthenticationType is set to NTLM . Constraints: • max: 104 • pattern: ^.{0,104}$
     /// </summary>
     [SecretValue]
     [CliOption("--password")]
     public string? Password { get; set; }
 
     /// <summary>
-    /// Specifies configuration information for a DataSync-managed secret, either a Password or KerberosKeytab (for NTLM (default) and KERBEROS authentication types, respectively) that DataSync uses to access a specific SMB storage location, with a customer-managed KMS key. When you include this parameter as part of a CreateLocationSmbRe- quest request, you provide only the KMS key ARN. DataSync uses this KMS key together with either the Password or KerberosKeytab you specify to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify. For more information, see Using a service-managed se- cret encrypted with a custom KMS key . NOTE: You can use either CmkSecretConfig (with either Password or Ker- berosKeytab ) or CustomSecretConfig (without any Password and KerberosKeytab ) to provide credentials for a CreateLocationSm- bRequest request. Do not provide both CmkSecretConfig and Cus- tomSecretConfig parameters for the same request. SecretArn -&gt; (string) Specifies the ARN for the DataSync-managed Secrets Manager se- cret that that is used to access a specific storage location. This property is generated by DataSync and is read-only. Data- Sync encrypts this secret with the KMS key that you specify for KmsKeyArn . Constraints: o max: 2048 o pattern: ^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):se- cretsmanager:[a-z\-0-9]+:[0-9]{12}:secret:.*|)$ KmsKeyArn -&gt; (string) Specifies the ARN for the customer-managed KMS key that DataSync uses to encrypt the DataSync-managed secret stored for SecretArn . DataSync provides this key to Secrets Manager. Constraints: o max: 2048 o pattern: ^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):kms:[a-z\-0-9]+:[0-9]{12}:key/.*|)$ Shorthand Syntax: SecretArn=string,KmsKeyArn=string JSON Syntax: { "SecretArn": "string", "KmsKeyArn": "string" }
+    /// Specifies configuration information for a DataSync-managed secret, either a Password or KerberosKeytab (for NTLM (default) and KERBEROS authentication types, respectively) that DataSync uses to access a specific SMB storage location, with a customer-managed KMS key. When you include this parameter as part of a CreateLocationSmbRequest request, you provide only the KMS key ARN. DataSync uses this KMS key together with either the Password or KerberosKeytab you specify to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify. For more information, see Using a service-managed secret encrypted with a custom KMS key . NOTE: You can use either CmkSecretConfig (with either Password or KerberosKeytab ) or CustomSecretConfig (without any Password and KerberosKeytab ) to provide credentials for a CreateLocationSmbRequest request. Do not provide both CmkSecretConfig and CustomSecretConfig parameters for the same request. SecretArn -&gt; (string) Specifies the ARN for the DataSync-managed Secrets Manager secret that that is used to access a specific storage location. This property is generated by DataSync and is read-only. DataSync encrypts this secret with the KMS key that you specify for KmsKeyArn . Constraints: • max: 2048 • pattern: ^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):secretsmanager:[a-z\-0-9]+:[0-9]{12}:secret:.*|)$ KmsKeyArn -&gt; (string) Specifies the ARN for the customer-managed KMS key that DataSync uses to encrypt the DataSync-managed secret stored for SecretArn . DataSync provides this key to Secrets Manager. Constraints: • max: 2048 • pattern: ^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):kms:[a-z\-0-9]+:[0-9]{12}:key/.*|)$ Shorthand Syntax: SecretArn=string,KmsKeyArn=string JSON Syntax: { "SecretArn": "string", "KmsKeyArn": "string" }
     /// </summary>
     [SecretValue]
     [CliOption("--cmk-secret-config")]
     public string? CmkSecretConfig { get; set; }
 
     /// <summary>
-    /// Specifies configuration information for a customer-managed Secrets Manager secret where the SMB storage location credentials is stored in Secrets Manager as plain text (for Password ) or binary (for Ker- berosKeytab ). This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. For more in- formation, see Using a secret that you manage . NOTE: You can use either CmkSecretConfig (with SasConfiguration ) or CustomSecretConfig (without SasConfiguration ) to provide cre- dentials for a CreateLocationSmbRequest request. Do not provide both parameters for the same request. SecretArn -&gt; (string) Specifies the ARN for an Secrets Manager secret. Constraints: o max: 2048 o pattern: ^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):se- cretsmanager:[a-z\-0-9]+:[0-9]{12}:secret:.*|)$ SecretAccessRoleArn -&gt; (string) Specifies the ARN for the Identity and Access Management role that DataSync uses to access the secret specified for SecretArn . Constraints: o max: 2048 o pattern: ^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):iam::[0-9]{12}:role/[a-zA-Z0-9+=,.@_/-]+|)$ Shorthand Syntax: SecretArn=string,SecretAccessRoleArn=string JSON Syntax: { "SecretArn": "string", "SecretAccessRoleArn": "string" }
+    /// Specifies configuration information for a customer-managed Secrets Manager secret where the SMB storage location credentials is stored in Secrets Manager as plain text (for Password ) or binary (for KerberosKeytab ). This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. For more information, see Using a secret that you manage . NOTE: You can use either CmkSecretConfig (with SasConfiguration ) or CustomSecretConfig (without SasConfiguration ) to provide credentials for a CreateLocationSmbRequest request. Do not provide both parameters for the same request. SecretArn -&gt; (string) Specifies the ARN for an Secrets Manager secret. Constraints: • max: 2048 • pattern: ^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):secretsmanager:[a-z\-0-9]+:[0-9]{12}:secret:.*|)$ SecretAccessRoleArn -&gt; (string) Specifies the ARN for the Identity and Access Management role that DataSync uses to access the secret specified for SecretArn . Constraints: • max: 2048 • pattern: ^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):iam::[0-9]{12}:role/[a-zA-Z0-9+=,.@_/-]+|)$ Shorthand Syntax: SecretArn=string,SecretAccessRoleArn=string JSON Syntax: { "SecretArn": "string", "SecretAccessRoleArn": "string" }
     /// </summary>
     [SecretValue]
     [CliOption("--custom-secret-config")]
     public string? CustomSecretConfig { get; set; }
 
     /// <summary>
-    /// Specifies the version of the SMB protocol that DataSync uses to ac- cess your SMB file server. Version -&gt; (string) By default, DataSync automatically chooses an SMB protocol ver- sion based on negotiation with your SMB file server. You also can configure DataSync to use a specific SMB version, but we recommend doing this only if DataSync has trouble negotiating with the SMB file server automatically. These are the following options for configuring the SMB version: o AUTOMATIC (default): DataSync and the SMB file server negoti- ate the highest version of SMB that they mutually support be- tween 2.1 and 3.1.1. This is the recommended option. If you instead choose a specific version that your file server doesn't support, you may get an Operation Not Supported error. o SMB3 : Restricts the protocol negotiation to only SMB version 3.0.2. o SMB2 : Restricts the protocol negotiation to only SMB version 2.1. o SMB2_0 : Restricts the protocol negotiation to only SMB ver- sion 2.0. o SMB1 : Restricts the protocol negotiation to only SMB version 1.0. NOTE: The SMB1 option isn't available when creating an Amazon FSx for NetApp ONTAP location . Possible values: o AUTOMATIC o SMB2 o SMB3 o SMB1 o SMB2_0 Shorthand Syntax: Version=string JSON Syntax: { "Version": "AUTOMATIC"|"SMB2"|"SMB3"|"SMB1"|"SMB2_0" }
+    /// Specifies the version of the SMB protocol that DataSync uses to access your SMB file server. Version -&gt; (string) By default, DataSync automatically chooses an SMB protocol version based on negotiation with your SMB file server. You also can configure DataSync to use a specific SMB version, but we recommend doing this only if DataSync has trouble negotiating with the SMB file server automatically. These are the following options for configuring the SMB version: • AUTOMATIC (default): DataSync and the SMB file server negotiate the highest version of SMB that they mutually support between 2.1 and 3.1.1. This is the recommended option. If you instead choose a specific version that your file server doesn't support, you may get an Operation Not Supported error. • SMB3 : Restricts the protocol negotiation to only SMB version 3.0.2. • SMB2 : Restricts the protocol negotiation to only SMB version 2.1. • SMB2_0 : Restricts the protocol negotiation to only SMB version 2.0. • SMB1 : Restricts the protocol negotiation to only SMB version 1.0. NOTE: The SMB1 option isn't available when creating an Amazon FSx for NetApp ONTAP location . Possible values: • AUTOMATIC • SMB2 • SMB3 • SMB1 • SMB2_0 Shorthand Syntax: Version=string JSON Syntax: { "Version": "AUTOMATIC"|"SMB2"|"SMB3"|"SMB1"|"SMB2_0" }
     /// </summary>
     [CliOption("--mount-options")]
     public string? MountOptions { get; set; }
 
     /// <summary>
-    /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your location. Constraints: o min: 0 o max: 50 (structure) A key-value pair representing a single tag that's been applied to an Amazon Web Services resource. Key -&gt; (string) [required] The key for an Amazon Web Services resource tag. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9\s+=._:/-]+$ Value -&gt; (string) The value for an Amazon Web Services resource tag. Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9\s+=._:@/-]+$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your location. Constraints: • min: 0 • max: 50 (structure) A key-value pair representing a single tag that's been applied to an Amazon Web Services resource. Key -&gt; (string) [required] The key for an Amazon Web Services resource tag. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9\s+=._:/-]+$ Value -&gt; (string) The value for an Amazon Web Services resource tag. Constraints: • min: 0 • max: 256 • pattern: ^[a-zA-Z0-9\s+=._:@/-]+$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Specifies the authentication protocol that DataSync uses to connect to your SMB file server. DataSync supports NTLM (default) and KER- BEROS authentication. For more information, see Providing DataSync access to SMB file servers . Possible values: o NTLM o KERBEROS
+    /// Specifies the authentication protocol that DataSync uses to connect to your SMB file server. DataSync supports NTLM (default) and KERBEROS authentication. For more information, see Providing DataSync access to SMB file servers . Possible values: • NTLM • KERBEROS
     /// </summary>
     [CliOption("--authentication-type")]
     public AwsDatasyncCreateLocationSmbAuthenticationType? AuthenticationType { get; set; }
 
     /// <summary>
-    /// Specifies the IPv4 or IPv6 addresses for the DNS servers that your SMB file server belongs to. This parameter applies only if Authenti- cationType is set to KERBEROS . If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right SMB file server. Constraints: o max: 2 (string) Constraints: o min: 7 o max: 39 o pattern: \A((25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}|([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6}))\z Syntax: "string" "string" ...
+    /// Specifies the IPv4 or IPv6 addresses for the DNS servers that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to KERBEROS . If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right SMB file server. Constraints: • max: 2 (string) Constraints: • min: 7 • max: 39 • pattern: \A((25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}|([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6}))\z Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--dns-ip-addresses", GroupValues = true)]
     public IEnumerable<string>? DnsIpAddresses { get; set; }
 
     /// <summary>
-    /// Specifies a Kerberos principal, which is an identity in your Ker- beros realm that has permission to access the files, folders, and file metadata in your SMB file server. A Kerberos principal might look like HOST/kerberosuser@MYDOMAIN.ORG . Principal names are case sensitive. Your DataSync task execution will fail if the principal that you specify for this parameter doesnt exactly match the principal that you use to create the keytab file. Constraints: o min: 1 o max: 256 o pattern: ^.+$
+    /// Specifies a Kerberos principal, which is an identity in your Kerberos realm that has permission to access the files, folders, and file metadata in your SMB file server. A Kerberos principal might look like HOST/kerberosuser@MYDOMAIN.ORG . Principal names are case sensitive. Your DataSync task execution will fail if the principal that you specify for this parameter doesnt exactly match the principal that you use to create the keytab file. Constraints: • min: 1 • max: 256 • pattern: ^.+$
     /// </summary>
     [CliOption("--kerberos-principal")]
     public string? KerberosPrincipal { get; set; }
 
     /// <summary>
-    /// Specifies your Kerberos key table (keytab) file, which includes map- pings between your Kerberos principal and encryption keys. To avoid task execution errors, make sure that the Kerberos princi- pal that you use to create the keytab file matches exactly what you specify for KerberosPrincipal . Constraints: o max: 65536
+    /// Specifies your Kerberos key table (keytab) file, which includes mappings between your Kerberos principal and encryption keys. To avoid task execution errors, make sure that the Kerberos principal that you use to create the keytab file matches exactly what you specify for KerberosPrincipal . Constraints: • max: 65536
     /// </summary>
     [CliOption("--kerberos-keytab")]
     public string? KerberosKeytab { get; set; }
 
     /// <summary>
-    /// Specifies a Kerberos configuration file (krb5.conf ) that defines your Kerberos realm configuration. The file must be base64 encoded. If you're using the CLI, the encod- ing is done for you. Constraints: o max: 131072
+    /// Specifies a Kerberos configuration file (krb5.conf ) that defines your Kerberos realm configuration. The file must be base64 encoded. If you're using the CLI, the encoding is done for you. Constraints: • max: 131072
     /// </summary>
     [CliOption("--kerberos-krb5-conf")]
     public string? KerberosKrb5Conf { get; set; }

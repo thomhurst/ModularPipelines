@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// o This feature API is subject to changing at any time. For more in- formation, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Updates the status of a procurement portal preference, including the activation state of e-invoice delivery and purchase order retrieval features. See also: AWS API Documentation
+/// • This feature API is subject to changing at any time. For more information, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Updates the status of a procurement portal preference, including the activation state of e-invoice delivery and purchase order retrieval features. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsInvoicingUpdateProcurementPortalPreferenceStatusOptions : AwsOp
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// o This feature API is subject to changing at any time. For more in- formation, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Updates the status of a procurement portal preference, including the activation state of e-invoice delivery and purchase order retrieval features. See also: AWS API Documentation
+    /// • This feature API is subject to changing at any time. For more information, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Updates the status of a procurement portal preference, including the activation state of e-invoice delivery and purchase order retrieval features. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProcurementPortalPreferenceArn">The Amazon Resource Name (ARN) of the procurement portal preference to update. Constraints: o min: 1 o max: 256 o pattern: arn:aws:invoicing::[0-9]{12}:procurement-portal-prefer- ence/[-a-zA-Z0-9]+</param>
+    /// <param name="ProcurementPortalPreferenceArn">The Amazon Resource Name (ARN) of the procurement portal preference to update. Constraints: • min: 1 • max: 256 • pattern: arn:aws:invoicing::[0-9]{12}:procurement-portal-preference/[-a-zA-Z0-9]+</param>
     public AwsInvoicingUpdateProcurementPortalPreferenceStatusOptions(
         string ProcurementPortalPreferenceArn
     )
@@ -58,37 +60,37 @@ public record AwsInvoicingUpdateProcurementPortalPreferenceStatusOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the procurement portal preference to update. Constraints: o min: 1 o max: 256 o pattern: arn:aws:invoicing::[0-9]{12}:procurement-portal-prefer- ence/[-a-zA-Z0-9]+
+    /// The Amazon Resource Name (ARN) of the procurement portal preference to update. Constraints: • min: 1 • max: 256 • pattern: arn:aws:invoicing::[0-9]{12}:procurement-portal-preference/[-a-zA-Z0-9]+
     /// </summary>
     [CliOption("--procurement-portal-preference-arn")]
     public string? ProcurementPortalPreferenceArn { get; private init; }
 
     /// <summary>
-    /// The updated status of the e-invoice delivery preference. Possible values: o PENDING_VERIFICATION o VALIDATED o TEST_INITIALIZED o TEST_INITIALIZATION_FAILED o TEST_FAILED o ACTIVE o SUSPENDED
+    /// The updated status of the e-invoice delivery preference. Possible values: • PENDING_VERIFICATION • VALIDATED • TEST_INITIALIZED • TEST_INITIALIZATION_FAILED • TEST_FAILED • ACTIVE • SUSPENDED
     /// </summary>
     [CliOption("--einvoice-delivery-preference-status")]
     public AwsInvoicingUpdateProcurementPortalPreferenceStatusEinvoiceDeliveryPreferenceStatus? EinvoiceDeliveryPreferenceStatus { get; set; }
 
     /// <summary>
-    /// The reason for the e-invoice delivery preference status update, pro- viding context for the change. Constraints: o min: 0 o max: 1024 o pattern: [\s\S]*
+    /// The reason for the e-invoice delivery preference status update, providing context for the change. Constraints: • min: 0 • max: 1024 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--einvoice-delivery-preference-status-reason")]
     public string? EinvoiceDeliveryPreferenceStatusReason { get; set; }
 
     /// <summary>
-    /// The updated status of the purchase order retrieval preference. Possible values: o PENDING_VERIFICATION o VALIDATED o TEST_INITIALIZED o TEST_INITIALIZATION_FAILED o TEST_FAILED o ACTIVE o SUSPENDED
+    /// The updated status of the purchase order retrieval preference. Possible values: • PENDING_VERIFICATION • VALIDATED • TEST_INITIALIZED • TEST_INITIALIZATION_FAILED • TEST_FAILED • ACTIVE • SUSPENDED
     /// </summary>
     [CliOption("--purchase-order-retrieval-preference-status")]
     public AwsInvoicingUpdateProcurementPortalPreferenceStatusPurchaseOrderRetrievalPreferenceStatus? PurchaseOrderRetrievalPreferenceStatus { get; set; }
 
     /// <summary>
-    /// The reason for the purchase order retrieval preference status up- date, providing context for the change. Constraints: o min: 0 o max: 1024 o pattern: [\s\S]*
+    /// The reason for the purchase order retrieval preference status update, providing context for the change. Constraints: • min: 0 • max: 1024 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--purchase-order-retrieval-preference-status-reason")]
     public string? PurchaseOrderRetrievalPreferenceStatusReason { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure idem- potency of the request. Constraints: o min: 0 o max: 1024 o pattern: \S+
+    /// A unique, case-sensitive identifier that you provide to ensure idempotency of the request. Constraints: • min: 0 • max: 1024 • pattern: \S+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

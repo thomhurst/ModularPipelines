@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the projected metrics of Aurora and RDS database recommenda- tions. See also: AWS API Documentation
+/// Returns the projected metrics of Aurora and RDS database recommendations. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsComputeOptimizerGetRdsDatabaseRecommendationProjectedMetricsOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the projected metrics of Aurora and RDS database recommenda- tions. See also: AWS API Documentation
+    /// Returns the projected metrics of Aurora and RDS database recommendations. See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceArn">The ARN that identifies the Amazon Aurora or RDS database. The following is the format of the ARN: arn:aws:rds:{region}:{accountId}:db:{resourceName}</param>
-    /// <param name="Stat">The statistic of the projected metrics. Possible values: o Maximum o Average</param>
+    /// <param name="Stat">The statistic of the projected metrics. Possible values: • Maximum • Average</param>
     /// <param name="Period">The granularity, in seconds, of the projected metrics data points.</param>
     /// <param name="StartTime">The timestamp of the first projected metrics data point to return.</param>
     /// <param name="EndTime">The timestamp of the last projected metrics data point to return.</param>
@@ -77,7 +79,7 @@ public record AwsComputeOptimizerGetRdsDatabaseRecommendationProjectedMetricsOpt
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The statistic of the projected metrics. Possible values: o Maximum o Average
+    /// The statistic of the projected metrics. Possible values: • Maximum • Average
     /// </summary>
     [CliOption("--stat")]
     public AwsComputeOptimizerGetRdsDatabaseRecommendationProjectedMetricsStat? Stat { get; private init; }
@@ -101,7 +103,7 @@ public record AwsComputeOptimizerGetRdsDatabaseRecommendationProjectedMetricsOpt
     public string? EndTime { get; private init; }
 
     /// <summary>
-    /// Describes the recommendation preferences to return in the response of a GetAutoScalingGroupRecommendations , GetEC2InstanceRecommen- dations , GetEC2RecommendationProjectedMetrics , GetRDSDatabaseRe- commendations , and GetRDSDatabaseRecommendationProjectedMetrics request. cpuVendorArchitectures -&gt; (list) Specifies the CPU vendor and architecture for Amazon EC2 in- stance and Auto Scaling group recommendations. For example, when you specify AWS_ARM64 with: o A GetEC2InstanceRecommendations or GetAutoScalingGroupRecom- mendations request, Compute Optimizer returns recommendations that consist of Graviton instance types only. o A GetEC2RecommendationProjectedMetrics request, Compute Opti- mizer returns projected utilization metrics for Graviton in- stance type recommendations only. o A ExportEC2InstanceRecommendations or ExportAutoScaling- GroupRecommendations request, Compute Optimizer exports recom- mendations that consist of Graviton instance types only. (string) Possible values: o AWS_ARM64 o CURRENT Shorthand Syntax: cpuVendorArchitectures=string,string JSON Syntax: { "cpuVendorArchitectures": ["AWS_ARM64"|"CURRENT", ...] }
+    /// Describes the recommendation preferences to return in the response of a GetAutoScalingGroupRecommendations , GetEC2InstanceRecommendations , GetEC2RecommendationProjectedMetrics , GetRDSDatabaseRecommendations , and GetRDSDatabaseRecommendationProjectedMetrics request. cpuVendorArchitectures -&gt; (list) Specifies the CPU vendor and architecture for Amazon EC2 instance and Auto Scaling group recommendations. For example, when you specify AWS_ARM64 with: • A GetEC2InstanceRecommendations or GetAutoScalingGroupRecommendations request, Compute Optimizer returns recommendations that consist of Graviton instance types only. • A GetEC2RecommendationProjectedMetrics request, Compute Optimizer returns projected utilization metrics for Graviton instance type recommendations only. • A ExportEC2InstanceRecommendations or ExportAutoScalingGroupRecommendations request, Compute Optimizer exports recommendations that consist of Graviton instance types only. (string) Possible values: • AWS_ARM64 • CURRENT Shorthand Syntax: cpuVendorArchitectures=string,string JSON Syntax: { "cpuVendorArchitectures": ["AWS_ARM64"|"CURRENT", ...] }
     /// </summary>
     [CliOption("--recommendation-preferences")]
     public string? RecommendationPreferences { get; set; }

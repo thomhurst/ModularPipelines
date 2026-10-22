@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a session associated with a capacity provider in Amazon Bedrock AgentCore and makes the session unavailable for further use. To delete a capacity provider session, specify both the capacity provider identi- fier and the session ID. After you delete a session, you cannot restart it. See also: AWS API Documentation
+/// Deletes a session associated with a capacity provider in Amazon Bedrock AgentCore and makes the session unavailable for further use. To delete a capacity provider session, specify both the capacity provider identifier and the session ID. After you delete a session, you cannot restart it. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsBedrockAgentcoreDeleteCapacityProviderSessionOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a session associated with a capacity provider in Amazon Bedrock AgentCore and makes the session unavailable for further use. To delete a capacity provider session, specify both the capacity provider identi- fier and the session ID. After you delete a session, you cannot restart it. See also: AWS API Documentation
+    /// Deletes a session associated with a capacity provider in Amazon Bedrock AgentCore and makes the session unavailable for further use. To delete a capacity provider session, specify both the capacity provider identifier and the session ID. After you delete a session, you cannot restart it. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CapacityProviderId">The unique identifier of the capacity provider associated with the session. Constraints: o min: 12 o max: 59 o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10}</param>
-    /// <param name="SessionId">The unique identifier of the capacity provider session to delete. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_]*</param>
+    /// <param name="CapacityProviderId">The unique identifier of the capacity provider associated with the session. Constraints: • min: 12 • max: 59 • pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10}</param>
+    /// <param name="SessionId">The unique identifier of the capacity provider session to delete. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9][a-zA-Z0-9-_]*</param>
     public AwsBedrockAgentcoreDeleteCapacityProviderSessionOptions(
         string CapacityProviderId,
         string SessionId
@@ -60,13 +62,13 @@ public record AwsBedrockAgentcoreDeleteCapacityProviderSessionOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the capacity provider associated with the session. Constraints: o min: 12 o max: 59 o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10}
+    /// The unique identifier of the capacity provider associated with the session. Constraints: • min: 12 • max: 59 • pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--capacity-provider-id")]
     public string? CapacityProviderId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the capacity provider session to delete. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_]*
+    /// The unique identifier of the capacity provider session to delete. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9][a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }

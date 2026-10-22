@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsConnectDescribeTestCaseOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Describes the specified test case and allows you to get the content and metadata of the test case for the specified Amazon Connect instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Amazon Connect instance. Constraints: o min: 1 o max: 250 o pattern: ^(arn:(aws|aws-us-gov):con- nect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:in- stance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
-    /// <param name="TestCaseId">The identifier of the test case. Constraints: o max: 500</param>
+    /// <param name="InstanceId">The identifier of the Amazon Connect instance. Constraints: • min: 1 • max: 250 • pattern: ^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:instance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="TestCaseId">The identifier of the test case. Constraints: • max: 500</param>
     public AwsConnectDescribeTestCaseOptions(
         string InstanceId,
         string TestCaseId
@@ -61,19 +63,19 @@ public record AwsConnectDescribeTestCaseOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Connect instance. Constraints: o min: 1 o max: 250 o pattern: ^(arn:(aws|aws-us-gov):con- nect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:in- stance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The identifier of the Amazon Connect instance. Constraints: • min: 1 • max: 250 • pattern: ^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:instance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the test case. Constraints: o max: 500
+    /// The identifier of the test case. Constraints: • max: 500
     /// </summary>
     [CliOption("--test-case-id")]
     public string? TestCaseId { get; private init; }
 
     /// <summary>
-    /// The status of the test case version to retrieve. If not specified, returns the published version if available, otherwise returns the saved version. Possible values: o PUBLISHED o SAVED
+    /// The status of the test case version to retrieve. If not specified, returns the published version if available, otherwise returns the saved version. Possible values: • PUBLISHED • SAVED
     /// </summary>
     [CliOption("--status")]
     public AwsConnectDescribeTestCaseStatus? Status { get; set; }

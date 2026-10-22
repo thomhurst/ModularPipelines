@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCleanroomsmlGetConfiguredModelAlgorithmOptions : AwsOptions, IV
     /// <summary>
     /// Returns information about a configured model algorithm. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfiguredModelAlgorithmArn">The Amazon Resource Name (ARN) of the configured model algorithm that you want to return information about. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:config- ured-model-algorithm/[-a-zA-Z0-9_/.]+</param>
+    /// <param name="ConfiguredModelAlgorithmArn">The Amazon Resource Name (ARN) of the configured model algorithm that you want to return information about. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:configured-model-algorithm/[-a-zA-Z0-9_/.]+</param>
     public AwsCleanroomsmlGetConfiguredModelAlgorithmOptions(
         string ConfiguredModelAlgorithmArn
     )
@@ -56,7 +58,7 @@ public record AwsCleanroomsmlGetConfiguredModelAlgorithmOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the configured model algorithm that you want to return information about. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:config- ured-model-algorithm/[-a-zA-Z0-9_/.]+
+    /// The Amazon Resource Name (ARN) of the configured model algorithm that you want to return information about. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:configured-model-algorithm/[-a-zA-Z0-9_/.]+
     /// </summary>
     [CliOption("--configured-model-algorithm-arn")]
     public string? ConfiguredModelAlgorithmArn { get; private init; }

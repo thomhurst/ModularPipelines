@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAppConfigDeleteExtensionAssociationOptions : AwsOptions, IValid
     /// <summary>
     /// Deletes an extension association. This action doesn't delete extensions defined in the association. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExtensionAssociationId">The ID of the extension association to delete. Constraints: o pattern: [a-z0-9]{4,7}</param>
+    /// <param name="ExtensionAssociationId">The ID of the extension association to delete. Constraints: • pattern: [a-z0-9]{4,7}</param>
     public AwsAppConfigDeleteExtensionAssociationOptions(
         string ExtensionAssociationId
     )
@@ -56,7 +58,7 @@ public record AwsAppConfigDeleteExtensionAssociationOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the extension association to delete. Constraints: o pattern: [a-z0-9]{4,7}
+    /// The ID of the extension association to delete. Constraints: • pattern: [a-z0-9]{4,7}
     /// </summary>
     [CliOption("--extension-association-id")]
     public string? ExtensionAssociationId { get; private init; }

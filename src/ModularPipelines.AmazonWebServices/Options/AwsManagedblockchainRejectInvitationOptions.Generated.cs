@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Rejects an invitation to join a network. This action can be called by a principal in an Amazon Web Services account that has received an invi- tation to create a member and join a network. Applies only to Hyperledger Fabric. See also: AWS API Documentation
+/// Rejects an invitation to join a network. This action can be called by a principal in an Amazon Web Services account that has received an invitation to create a member and join a network. Applies only to Hyperledger Fabric. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsManagedblockchainRejectInvitationOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Rejects an invitation to join a network. This action can be called by a principal in an Amazon Web Services account that has received an invi- tation to create a member and join a network. Applies only to Hyperledger Fabric. See also: AWS API Documentation
+    /// Rejects an invitation to join a network. This action can be called by a principal in an Amazon Web Services account that has received an invitation to create a member and join a network. Applies only to Hyperledger Fabric. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InvitationId">The unique identifier of the invitation to reject. Constraints: o min: 1 o max: 32</param>
+    /// <param name="InvitationId">The unique identifier of the invitation to reject. Constraints: • min: 1 • max: 32</param>
     public AwsManagedblockchainRejectInvitationOptions(
         string InvitationId
     )
@@ -56,7 +58,7 @@ public record AwsManagedblockchainRejectInvitationOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the invitation to reject. Constraints: o min: 1 o max: 32
+    /// The unique identifier of the invitation to reject. Constraints: • min: 1 • max: 32
     /// </summary>
     [CliOption("--invitation-id")]
     public string? InvitationId { get; private init; }

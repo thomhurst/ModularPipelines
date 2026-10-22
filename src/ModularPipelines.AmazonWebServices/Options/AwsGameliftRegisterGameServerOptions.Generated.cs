@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2 (FleetIQ) Creates a new game server resource and notifies Amazon GameLift Servers FleetIQ that the game server is ready to host gameplay and players. This operation is called by a game server process that is running on an instance in a game server group. Registering game servers enables Ama- zon GameLift Servers FleetIQ to track available game servers and en- ables game clients and services to claim a game server for a new game session. To regis...
+/// This API works with the following fleet types: EC2 (FleetIQ) Creates a new game server resource and notifies Amazon GameLift Servers FleetIQ that the game server is ready to host gameplay and players. This operation is called by a game server process that is running on an instance in a game server group. Registering game servers enables Amazon GameLift Servers FleetIQ to track available game servers and enables game clients and services to claim a game server for a new game session. To register ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsGameliftRegisterGameServerOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 (FleetIQ) Creates a new game server resource and notifies Amazon GameLift Servers FleetIQ that the game server is ready to host gameplay and players. This operation is called by a game server process that is running on an instance in a game server group. Registering game servers enables Ama- zon GameLift Servers FleetIQ to track available game servers and en- ables game clients and services to claim a game server for a new game session. To regis...
+    /// This API works with the following fleet types: EC2 (FleetIQ) Creates a new game server resource and notifies Amazon GameLift Servers FleetIQ that the game server is ready to host gameplay and players. This operation is called by a game server process that is running on an instance in a game server group. Registering game servers enables Amazon GameLift Servers FleetIQ to track available game servers and enables game clients and services to claim a game server for a new game session. To register ...
     /// </summary>
-    /// <param name="GameServerGroupName">A unique identifier for the game server group where the game server is running. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameserver- group\/[a-zA-Z0-9-\.]+)$</param>
-    /// <param name="GameServerId">A custom string that uniquely identifies the game server to regis- ter. Game server IDs are developer-defined and must be unique across all game server groups in your Amazon Web Services account. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9-\.]+$</param>
-    /// <param name="InstanceId">The unique identifier for the instance where the game server is run- ning. This ID is available in the instance metadata. EC2 instance IDs use a 17-character format, for example: i-1234567890abcdef0 . Constraints: o min: 19 o max: 19 o pattern: ^i-[0-9a-zA-Z]{17}$</param>
+    /// <param name="GameServerGroupName">A unique identifier for the game server group where the game server is running. Constraints: • min: 1 • max: 256 • pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameservergroup\/[a-zA-Z0-9-\.]+)$</param>
+    /// <param name="GameServerId">A custom string that uniquely identifies the game server to register. Game server IDs are developer-defined and must be unique across all game server groups in your Amazon Web Services account. Constraints: • min: 3 • max: 128 • pattern: ^[a-zA-Z0-9-\.]+$</param>
+    /// <param name="InstanceId">The unique identifier for the instance where the game server is running. This ID is available in the instance metadata. EC2 instance IDs use a 17-character format, for example: i-1234567890abcdef0 . Constraints: • min: 19 • max: 19 • pattern: ^i-[0-9a-zA-Z]{17}$</param>
     public AwsGameliftRegisterGameServerOptions(
         string GameServerGroupName,
         string GameServerId,
@@ -64,31 +66,31 @@ public record AwsGameliftRegisterGameServerOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the game server group where the game server is running. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameserver- group\/[a-zA-Z0-9-\.]+)$
+    /// A unique identifier for the game server group where the game server is running. Constraints: • min: 1 • max: 256 • pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameservergroup\/[a-zA-Z0-9-\.]+)$
     /// </summary>
     [CliOption("--game-server-group-name")]
     public string? GameServerGroupName { get; private init; }
 
     /// <summary>
-    /// A custom string that uniquely identifies the game server to regis- ter. Game server IDs are developer-defined and must be unique across all game server groups in your Amazon Web Services account. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9-\.]+$
+    /// A custom string that uniquely identifies the game server to register. Game server IDs are developer-defined and must be unique across all game server groups in your Amazon Web Services account. Constraints: • min: 3 • max: 128 • pattern: ^[a-zA-Z0-9-\.]+$
     /// </summary>
     [CliOption("--game-server-id")]
     public string? GameServerId { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the instance where the game server is run- ning. This ID is available in the instance metadata. EC2 instance IDs use a 17-character format, for example: i-1234567890abcdef0 . Constraints: o min: 19 o max: 19 o pattern: ^i-[0-9a-zA-Z]{17}$
+    /// The unique identifier for the instance where the game server is running. This ID is available in the instance metadata. EC2 instance IDs use a 17-character format, for example: i-1234567890abcdef0 . Constraints: • min: 19 • max: 19 • pattern: ^i-[0-9a-zA-Z]{17}$
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// Information that is needed to make inbound client connections to the game server. This might include the IP address and port, DNS name, and other information. Constraints: o min: 1 o max: 512 o pattern: ^.*\S.*$
+    /// Information that is needed to make inbound client connections to the game server. This might include the IP address and port, DNS name, and other information. Constraints: • min: 1 • max: 512 • pattern: ^.*\S.*$
     /// </summary>
     [CliOption("--connection-info")]
     public string? ConnectionInfo { get; set; }
 
     /// <summary>
-    /// A set of custom game server properties, formatted as a single string value. This data is passed to a game client or service when it re- quests information on game servers. Constraints: o min: 1 o max: 1024 o pattern: ^.*\S.*$
+    /// A set of custom game server properties, formatted as a single string value. This data is passed to a game client or service when it requests information on game servers. Constraints: • min: 1 • max: 1024 • pattern: ^.*\S.*$
     /// </summary>
     [CliOption("--game-server-data")]
     public string? GameServerData { get; set; }

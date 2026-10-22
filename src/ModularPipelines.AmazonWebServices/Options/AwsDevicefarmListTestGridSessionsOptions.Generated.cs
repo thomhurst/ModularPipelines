@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +31,7 @@ public record AwsDevicefarmListTestGridSessionsOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Retrieves a list of sessions for a TestGridProject . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProjectArn">ARN of a TestGridProject . Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+</param>
+    /// <param name="ProjectArn">ARN of a TestGridProject . Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+</param>
     public AwsDevicefarmListTestGridSessionsOptions(
         string ProjectArn
     )
@@ -58,13 +60,13 @@ public record AwsDevicefarmListTestGridSessionsOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of a TestGridProject . Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// ARN of a TestGridProject . Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+
     /// </summary>
     [CliOption("--project-arn")]
     public string? ProjectArn { get; private init; }
 
     /// <summary>
-    /// Return only sessions in this state. Possible values: o ACTIVE o CLOSED o ERRORED
+    /// Return only sessions in this state. Possible values: • ACTIVE • CLOSED • ERRORED
     /// </summary>
     [CliOption("--status")]
     public AwsDevicefarmListTestGridSessionsStatus? Status { get; set; }
@@ -94,13 +96,13 @@ public record AwsDevicefarmListTestGridSessionsOptions : AwsOptions, IValidatabl
     public string? EndTimeBefore { get; set; }
 
     /// <summary>
-    /// Return only this many results at a time. Constraints: o min: 1 o max: 1000
+    /// Return only this many results at a time. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-result")]
     public int? MaxResult { get; set; }
 
     /// <summary>
-    /// Pagination token. Constraints: o min: 4 o max: 1024
+    /// Pagination token. Constraints: • min: 4 • max: 1024
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

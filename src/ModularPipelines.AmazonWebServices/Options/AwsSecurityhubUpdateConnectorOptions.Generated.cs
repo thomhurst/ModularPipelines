@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSecurityhubUpdateConnectorOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Updates a CSPM connector's configuration, such as the scope or regions for the connected cloud provider. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectorId">The unique identifier of the connector to update. Constraints: o pattern: .*\S.*</param>
+    /// <param name="ConnectorId">The unique identifier of the connector to update. Constraints: • pattern: .*\S.*</param>
     public AwsSecurityhubUpdateConnectorOptions(
         string ConnectorId
     )
@@ -56,19 +58,19 @@ public record AwsSecurityhubUpdateConnectorOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the connector to update. Constraints: o pattern: .*\S.*
+    /// The unique identifier of the connector to update. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--connector-id")]
     public string? ConnectorId { get; private init; }
 
     /// <summary>
-    /// The updated description of the connector. Constraints: o pattern: .*\S.*
+    /// The updated description of the connector. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The updated cloud provider configuration for the connector. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Azure. Azure -&gt; (structure) The Azure update configuration. ScopeConfiguration -&gt; (structure) [required] The updated scope configuration. ScopeType -&gt; (string) [required] The type of scope. Valid values are tenant and subscrip- tion . Possible values: o TENANT o SUBSCRIPTION ScopeValues -&gt; (list) The list of scope values, such as subscription IDs, when the scope type is subscription . Constraints: o min: 0 o max: 100 (string) Constraints: o pattern: .*\S.* AzureRegions -&gt; (list) [required] The updated list of Azure regions to monitor. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: .*\S.* JSON Syntax: { "Azure": { "ScopeConfiguration": { "ScopeType": "TENANT"|"SUBSCRIPTION", "ScopeValues": ["string", ...] }, "AzureRegions": ["string", ...] } }
+    /// The updated cloud provider configuration for the connector. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Azure. Azure -&gt; (structure) The Azure update configuration. ScopeConfiguration -&gt; (structure) [required] The updated scope configuration. ScopeType -&gt; (string) [required] The type of scope. Valid values are tenant and subscription . Possible values: • TENANT • SUBSCRIPTION ScopeValues -&gt; (list) The list of scope values, such as subscription IDs, when the scope type is subscription . Constraints: • min: 0 • max: 100 (string) Constraints: • pattern: .*\S.* AzureRegions -&gt; (list) [required] The updated list of Azure regions to monitor. Constraints: • min: 1 • max: 100 (string) Constraints: • pattern: .*\S.* JSON Syntax: { "Azure": { "ScopeConfiguration": { "ScopeType": "TENANT"|"SUBSCRIPTION", "ScopeValues": ["string", ...] }, "AzureRegions": ["string", ...] } }
     /// </summary>
     [CliOption("--provider")]
     public string? Provider { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new DB parameter group. A DB parameter group is initially created with the default parameters for the database engine used by the DB instance. To provide custom val- ues for any of the parameters, you must modify the group after creating it using ModifyDBParameterGroup . Once you've created a DB parameter group, you need to associate it with your DB instance using ModifyDBIn- stance . When you associate a new DB parameter group with a running DB instance, you need to reboot the DB inst...
+/// Creates a new DB parameter group. A DB parameter group is initially created with the default parameters for the database engine used by the DB instance. To provide custom values for any of the parameters, you must modify the group after creating it using ModifyDBParameterGroup . Once you've created a DB parameter group, you need to associate it with your DB instance using ModifyDBInstance . When you associate a new DB parameter group with a running DB instance, you need to reboot the DB instance...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsNeptuneCreateDbParameterGroupOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new DB parameter group. A DB parameter group is initially created with the default parameters for the database engine used by the DB instance. To provide custom val- ues for any of the parameters, you must modify the group after creating it using ModifyDBParameterGroup . Once you've created a DB parameter group, you need to associate it with your DB instance using ModifyDBIn- stance . When you associate a new DB parameter group with a running DB instance, you need to reboot the DB inst...
+    /// Creates a new DB parameter group. A DB parameter group is initially created with the default parameters for the database engine used by the DB instance. To provide custom values for any of the parameters, you must modify the group after creating it using ModifyDBParameterGroup . Once you've created a DB parameter group, you need to associate it with your DB instance using ModifyDBInstance . When you associate a new DB parameter group with a running DB instance, you need to reboot the DB instance...
     /// </summary>
-    /// <param name="DbParameterGroupName">The name of the DB parameter group. Constraints: o Must be 1 to 255 letters, numbers, or hyphens. o First character must be a letter o Cannot end with a hyphen or contain two consecutive hyphens NOTE: This value is stored as a lowercase string.</param>
-    /// <param name="DbParameterGroupFamily">The DB parameter group family name. A DB parameter group can be as- sociated with one and only one DB parameter group family, and can be applied only to a DB instance running a database engine and engine version compatible with that DB parameter group family.</param>
+    /// <param name="DbParameterGroupName">The name of the DB parameter group. Constraints: • Must be 1 to 255 letters, numbers, or hyphens. • First character must be a letter • Cannot end with a hyphen or contain two consecutive hyphens NOTE: This value is stored as a lowercase string.</param>
+    /// <param name="DbParameterGroupFamily">The DB parameter group family name. A DB parameter group can be associated with one and only one DB parameter group family, and can be applied only to a DB instance running a database engine and engine version compatible with that DB parameter group family.</param>
     /// <param name="Description">The description for the DB parameter group.</param>
     public AwsNeptuneCreateDbParameterGroupOptions(
         string DbParameterGroupName,
@@ -64,13 +66,13 @@ public record AwsNeptuneCreateDbParameterGroupOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the DB parameter group. Constraints: o Must be 1 to 255 letters, numbers, or hyphens. o First character must be a letter o Cannot end with a hyphen or contain two consecutive hyphens NOTE: This value is stored as a lowercase string.
+    /// The name of the DB parameter group. Constraints: • Must be 1 to 255 letters, numbers, or hyphens. • First character must be a letter • Cannot end with a hyphen or contain two consecutive hyphens NOTE: This value is stored as a lowercase string.
     /// </summary>
     [CliOption("--db-parameter-group-name")]
     public string? DbParameterGroupName { get; private init; }
 
     /// <summary>
-    /// The DB parameter group family name. A DB parameter group can be as- sociated with one and only one DB parameter group family, and can be applied only to a DB instance running a database engine and engine version compatible with that DB parameter group family.
+    /// The DB parameter group family name. A DB parameter group can be associated with one and only one DB parameter group family, and can be applied only to a DB instance running a database engine and engine version compatible with that DB parameter group family.
     /// </summary>
     [CliOption("--db-parameter-group-family")]
     public string? DbParameterGroupFamily { get; private init; }

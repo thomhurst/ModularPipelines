@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotDescribeAuditMitigationActionsTaskOptions : AwsOptions, IVal
     /// <summary>
     /// Gets information about an audit mitigation task that is used to apply mitigation actions to a set of audit findings. Properties include the actions being applied, the audit checks to which they're being applied, the task status, and aggregated task statistics. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TaskId">The unique identifier for the audit mitigation task. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="TaskId">The unique identifier for the audit mitigation task. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsIotDescribeAuditMitigationActionsTaskOptions(
         string TaskId
     )
@@ -56,7 +58,7 @@ public record AwsIotDescribeAuditMitigationActionsTaskOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the audit mitigation task. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+
+    /// The unique identifier for the audit mitigation task. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--task-id")]
     public string? TaskId { get; private init; }

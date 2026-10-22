@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +30,9 @@ public record AwsBedrockAgentRuntimeGetDocumentContentOptions : AwsOptions, IVal
     /// <summary>
     /// Retrieves the content of an ingested document from a knowledge base. Returns a pre-signed URL for secure document access. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSourceId">The unique identifier of the data source that contains the document. Constraints: o min: 0 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="DocumentId">The unique identifier of the document to retrieve content for. Constraints: o min: 1 o max: 1825 o pattern: ^\P{C}*$</param>
-    /// <param name="KnowledgeBaseId">The unique identifier of the knowledge base that contains the docu- ment. Constraints: o min: 10 o max: 2048 o pattern: ^[0-9a-zA-Z]{10}$|^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:knowl- edge-base/[0-9a-zA-Z]{10}$</param>
+    /// <param name="DataSourceId">The unique identifier of the data source that contains the document. Constraints: • min: 0 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="DocumentId">The unique identifier of the document to retrieve content for. Constraints: • min: 1 • max: 1825 • pattern: ^\P{C}*$</param>
+    /// <param name="KnowledgeBaseId">The unique identifier of the knowledge base that contains the document. Constraints: • min: 10 • max: 2048 • pattern: ^[0-9a-zA-Z]{10}$|^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:knowledge-base/[0-9a-zA-Z]{10}$</param>
     public AwsBedrockAgentRuntimeGetDocumentContentOptions(
         string DataSourceId,
         string DocumentId,
@@ -65,25 +67,25 @@ public record AwsBedrockAgentRuntimeGetDocumentContentOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the data source that contains the document. Constraints: o min: 0 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier of the data source that contains the document. Constraints: • min: 0 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--data-source-id")]
     public string? DataSourceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the document to retrieve content for. Constraints: o min: 1 o max: 1825 o pattern: ^\P{C}*$
+    /// The unique identifier of the document to retrieve content for. Constraints: • min: 1 • max: 1825 • pattern: ^\P{C}*$
     /// </summary>
     [CliOption("--document-id")]
     public string? DocumentId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the knowledge base that contains the docu- ment. Constraints: o min: 10 o max: 2048 o pattern: ^[0-9a-zA-Z]{10}$|^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:knowl- edge-base/[0-9a-zA-Z]{10}$
+    /// The unique identifier of the knowledge base that contains the document. Constraints: • min: 10 • max: 2048 • pattern: ^[0-9a-zA-Z]{10}$|^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:knowledge-base/[0-9a-zA-Z]{10}$
     /// </summary>
     [CliOption("--knowledge-base-id")]
     public string? KnowledgeBaseId { get; private init; }
 
     /// <summary>
-    /// The output format for the document content. RAW returns the original file. EXTRACTED returns parsed text as JSON. Defaults to RAW . Possible values: o RAW o EXTRACTED
+    /// The output format for the document content. RAW returns the original file. EXTRACTED returns parsed text as JSON. Defaults to RAW . Possible values: • RAW • EXTRACTED
     /// </summary>
     [CliOption("--output-format")]
     public AwsBedrockAgentRuntimeGetDocumentContentOutputFormat? OutputFormat { get; set; }

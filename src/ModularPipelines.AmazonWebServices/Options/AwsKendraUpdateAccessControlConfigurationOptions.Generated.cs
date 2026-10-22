@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an access control configuration for your documents in an index. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. You can update an access control configuration you created without in- dexing all of your documents again. For example, your index contains top-secret company documents that only certain employees or users should access. You crea...
+/// Updates an access control configuration for your documents in an index. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. You can update an access control configuration you created without indexing all of your documents again. For example, your index contains top-secret company documents that only certain employees or users should access. You create...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsKendraUpdateAccessControlConfigurationOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an access control configuration for your documents in an index. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. You can update an access control configuration you created without in- dexing all of your documents again. For example, your index contains top-secret company documents that only certain employees or users should access. You crea...
+    /// Updates an access control configuration for your documents in an index. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. You can update an access control configuration you created without indexing all of your documents again. For example, your index contains top-secret company documents that only certain employees or users should access. You create...
     /// </summary>
-    /// <param name="IndexId">The identifier of the index for an access control configuration. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
-    /// <param name="Id">The identifier of the access control configuration you want to up- date. Constraints: o min: 1 o max: 36 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="IndexId">The identifier of the index for an access control configuration. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="Id">The identifier of the access control configuration you want to update. Constraints: • min: 1 • max: 36 • pattern: [a-zA-Z0-9-]+</param>
     public AwsKendraUpdateAccessControlConfigurationOptions(
         string IndexId,
         string Id
@@ -60,37 +62,37 @@ public record AwsKendraUpdateAccessControlConfigurationOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the index for an access control configuration. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// The identifier of the index for an access control configuration. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--index-id")]
     public string? IndexId { get; private init; }
 
     /// <summary>
-    /// The identifier of the access control configuration you want to up- date. Constraints: o min: 1 o max: 36 o pattern: [a-zA-Z0-9-]+
+    /// The identifier of the access control configuration you want to update. Constraints: • min: 1 • max: 36 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// A new name for the access control configuration. Constraints: o min: 1 o max: 200 o pattern: [\S\s]*
+    /// A new name for the access control configuration. Constraints: • min: 1 • max: 200 • pattern: [\S\s]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A new description for the access control configuration. Constraints: o min: 0 o max: 1000 o pattern: ^\P{C}*$
+    /// A new description for the access control configuration. Constraints: • min: 0 • max: 1000 • pattern: ^\P{C}*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Information you want to update on principals (users and/or groups) and which documents they should have access to. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. (structure) Provides user and group information for user context filtering . Name -&gt; (string) [required] The name of the user or group. Constraints: o min: 1 o max: 200 o pattern: ^\P{C}*$ Type -&gt; (string) [required] The type of principal. Possible values: o USER o GROUP Access -&gt; (string) [required] Whether to allow or deny document access to the principal. Possible values: o ALLOW o DENY DataSourceId -&gt; (string) The identifier of the data source the principal should access documents from. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]* Shorthand Syntax: Name=string,Type=string,Access=string,DataSourceId=string ... JSON Syntax: [ { "Name": "string", "Type": "USER"|"GROUP", "Access": "ALLOW"|"DENY", "DataSourceId": "string" } ... ]
+    /// Information you want to update on principals (users and/or groups) and which documents they should have access to. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. (structure) Provides user and group information for user context filtering . Name -&gt; (string) [required] The name of the user or group. Constraints: • min: 1 • max: 200 • pattern: ^\P{C}*$ Type -&gt; (string) [required] The type of principal. Possible values: • USER • GROUP Access -&gt; (string) [required] Whether to allow or deny document access to the principal. Possible values: • ALLOW • DENY DataSourceId -&gt; (string) The identifier of the data source the principal should access documents from. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]* Shorthand Syntax: Name=string,Type=string,Access=string,DataSourceId=string ... JSON Syntax: [ { "Name": "string", "Type": "USER"|"GROUP", "Access": "ALLOW"|"DENY", "DataSourceId": "string" } ... ]
     /// </summary>
     [CliOption("--access-control-list", GroupValues = true)]
     public IEnumerable<string>? AccessControlList { get; set; }
 
     /// <summary>
-    /// The updated list of principal lists that define the hierarchy for which documents users should have access to. Constraints: o min: 1 o max: 30 (structure) Information to define the hierarchy for which documents users should have access to. PrincipalList -&gt; (list) [required] A list of principal lists that define the hierarchy for which documents users should have access to. Each hierarchical list specifies which user or group has allow or deny access for each document. (structure) Provides user and group information for user context fil- tering . Name -&gt; (string) [required] The name of the user or group. Constraints: o min: 1 o max: 200 o pattern: ^\P{C}*$ Type -&gt; (string) [required] The type of principal. Possible values: o USER o GROUP Access -&gt; (string) [required] Whether to allow or deny document access to the prin- cipal. Possible values: o ALLOW o DENY DataSourceId -&gt; (string) The identifier of the data source the principal should access documents from. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]* Shorthand Syntax: PrincipalList=[{Name=string,Type=string,Access=string,DataSourceId=string},{Name=string,Type=string,Access=string,DataSourceId=string}] ... JSON Syntax: [ { "PrincipalList": [ { "Name": "string", "Type": "USER"|"GROUP", "Access": "ALLOW"|"DENY", "DataSourceId": "string" } ... ] } ... ]
+    /// The updated list of principal lists that define the hierarchy for which documents users should have access to. Constraints: • min: 1 • max: 30 (structure) Information to define the hierarchy for which documents users should have access to. PrincipalList -&gt; (list) [required] A list of principal lists that define the hierarchy for which documents users should have access to. Each hierarchical list specifies which user or group has allow or deny access for each document. (structure) Provides user and group information for user context filtering . Name -&gt; (string) [required] The name of the user or group. Constraints: • min: 1 • max: 200 • pattern: ^\P{C}*$ Type -&gt; (string) [required] The type of principal. Possible values: • USER • GROUP Access -&gt; (string) [required] Whether to allow or deny document access to the principal. Possible values: • ALLOW • DENY DataSourceId -&gt; (string) The identifier of the data source the principal should access documents from. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]* Shorthand Syntax: PrincipalList=[{Name=string,Type=string,Access=string,DataSourceId=string},{Name=string,Type=string,Access=string,DataSourceId=string}] ... JSON Syntax: [ { "PrincipalList": [ { "Name": "string", "Type": "USER"|"GROUP", "Access": "ALLOW"|"DENY", "DataSourceId": "string" } ... ] } ... ]
     /// </summary>
     [CliOption("--hierarchical-access-control-list", GroupValues = true)]
     public IEnumerable<string>? HierarchicalAccessControlList { get; set; }

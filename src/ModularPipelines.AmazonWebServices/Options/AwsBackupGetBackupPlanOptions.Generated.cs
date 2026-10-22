@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns BackupPlan details for the specified BackupPlanId . The details are the body of a backup plan in JSON format, in addition to plan meta- data. See also: AWS API Documentation
+/// Returns BackupPlan details for the specified BackupPlanId . The details are the body of a backup plan in JSON format, in addition to plan metadata. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsBackupGetBackupPlanOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns BackupPlan details for the specified BackupPlanId . The details are the body of a backup plan in JSON format, in addition to plan meta- data. See also: AWS API Documentation
+    /// Returns BackupPlan details for the specified BackupPlanId . The details are the body of a backup plan in JSON format, in addition to plan metadata. See also: AWS API Documentation
     /// </summary>
     /// <param name="BackupPlanId">Uniquely identifies a backup plan.</param>
     public AwsBackupGetBackupPlanOptions(
@@ -68,7 +70,7 @@ public record AwsBackupGetBackupPlanOptions : AwsOptions, IValidatableObject
     public string? VersionId { get; set; }
 
     /// <summary>
-    /// Number of future scheduled backup runs to preview. When set to 0 (default), no scheduled runs preview is included in the response. Valid range is 0-10. Constraints: o min: 0 o max: 10
+    /// Number of future scheduled backup runs to preview. When set to 0 (default), no scheduled runs preview is included in the response. Valid range is 0-10. Constraints: • min: 0 • max: 10
     /// </summary>
     [CliOption("--max-scheduled-runs-preview")]
     public int? MaxScheduledRunsPreview { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSsmSapGetConfigurationCheckOperationOptions : AwsOptions, IVali
     /// <summary>
     /// Gets the details of a configuration check operation by specifying the operation ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OperationId">The ID of the configuration check operation. Constraints: o pattern: [{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?</param>
+    /// <param name="OperationId">The ID of the configuration check operation. Constraints: • pattern: [{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?</param>
     public AwsSsmSapGetConfigurationCheckOperationOptions(
         string OperationId
     )
@@ -56,7 +58,7 @@ public record AwsSsmSapGetConfigurationCheckOperationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the configuration check operation. Constraints: o pattern: [{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?
+    /// The ID of the configuration check operation. Constraints: • pattern: [{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?
     /// </summary>
     [CliOption("--operation-id")]
     public string? OperationId { get; private init; }

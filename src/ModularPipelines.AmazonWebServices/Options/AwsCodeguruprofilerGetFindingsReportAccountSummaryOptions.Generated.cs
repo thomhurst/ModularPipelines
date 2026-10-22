@@ -29,13 +29,13 @@ public record AwsCodeguruprofilerGetFindingsReportAccountSummaryOptions : AwsOpt
     public bool? DailyReportsOnly { get; set; }
 
     /// <summary>
-    /// The maximum number of results returned by GetFindingsReportAc- countSummary in paginated output. When this parameter is used, GetFindingsReportAccountSummary only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another GetFindingsReportAccountSummary request with the returned nextToken value. Constraints: o min: 1 o max: 1000
+    /// The maximum number of results returned by GetFindingsReportAccountSummary in paginated output. When this parameter is used, GetFindingsReportAccountSummary only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another GetFindingsReportAccountSummary request with the returned nextToken value. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The nextToken value returned from a previous paginated GetFind- ingsReportAccountSummary request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. NOTE: This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. Constraints: o min: 1 o max: 64 o pattern: ^[\w-]+$
+    /// The nextToken value returned from a previous paginated GetFindingsReportAccountSummary request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. NOTE: This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. Constraints: • min: 1 • max: 64 • pattern: ^[\w-]+$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

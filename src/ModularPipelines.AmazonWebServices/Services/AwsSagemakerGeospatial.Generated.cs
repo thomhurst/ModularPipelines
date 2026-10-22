@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws sagemakergeospatial commands.
+/// aws sagemaker-geospatial commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsSagemakerGeospatial : IAwsSagemakerGeospatial
@@ -62,7 +62,7 @@ public class AwsSagemakerGeospatial : IAwsSagemakerGeospatial
     }
 
     /// <summary>
-    /// Use this operation to export results of an Earth Observation job and optionally source images used as input to the EOJ to an Amazon S3 loca- tion. See also: AWS API Documentation
+    /// Use this operation to export results of an Earth Observation job and optionally source images used as input to the EOJ to an Amazon S3 location. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsSagemakerGeospatial : IAwsSagemakerGeospatial
     }
 
     /// <summary>
-    /// Retrieves details of a Vector Enrichment Job for a given job Amazon Re- source Name (ARN). See also: AWS API Documentation
+    /// Retrieves details of a Vector Enrichment Job for a given job Amazon Resource Name (ARN). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsSagemakerGeospatial : IAwsSagemakerGeospatial
     }
 
     /// <summary>
-    /// Use this operation to get a list of the Earth Observation jobs associ- ated with the calling Amazon Web Services account. See also: AWS API Documentation list-earth-observation-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of ...
+    /// Use this operation to get a list of the Earth Observation jobs associated with the calling Amazon Web Services account. See also: AWS API Documentation list-earth-observation-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the fo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsSagemakerGeospatial : IAwsSagemakerGeospatial
     }
 
     /// <summary>
-    /// Use this operation to get raster data collections. See also: AWS API Documentation list-raster-data-collections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RasterDataCollectionSummaries
+    /// Use this operation to get raster data collections. See also: AWS API Documentation list-raster-data-collections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RasterDataCollectionSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsSagemakerGeospatial : IAwsSagemakerGeospatial
     }
 
     /// <summary>
-    /// Retrieves a list of vector enrichment jobs. See also: AWS API Documentation list-vector-enrichment-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: VectorEnrichmentJobSummaries
+    /// Retrieves a list of vector enrichment jobs. See also: AWS API Documentation list-vector-enrichment-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: VectorEnrichmentJobSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

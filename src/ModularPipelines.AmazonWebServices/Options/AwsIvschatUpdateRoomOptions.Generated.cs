@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIvschatUpdateRoomOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates a rooms configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">Identifier of the room to be updated. Currently this must be an ARN. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivschat:[a-z0-9-]+:[0-9]+:room/[a-zA-Z0-9-]+</param>
+    /// <param name="Identifier">Identifier of the room to be updated. Currently this must be an ARN. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivschat:[a-z0-9-]+:[0-9]+:room/[a-zA-Z0-9-]+</param>
     public AwsIvschatUpdateRoomOptions(
         string Identifier
     )
@@ -56,37 +58,37 @@ public record AwsIvschatUpdateRoomOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifier of the room to be updated. Currently this must be an ARN. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivschat:[a-z0-9-]+:[0-9]+:room/[a-zA-Z0-9-]+
+    /// Identifier of the room to be updated. Currently this must be an ARN. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivschat:[a-z0-9-]+:[0-9]+:room/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// Room name. The value does not need to be unique. Constraints: o min: 0 o max: 128 o pattern: [a-zA-Z0-9-_]*
+    /// Room name. The value does not need to be unique. Constraints: • min: 0 • max: 128 • pattern: [a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Maximum number of messages per second that can be sent to the room (by all clients). Default: 10. Constraints: o min: 1 o max: 100
+    /// Maximum number of messages per second that can be sent to the room (by all clients). Default: 10. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--maximum-message-rate-per-second")]
     public int? MaximumMessageRatePerSecond { get; set; }
 
     /// <summary>
-    /// The maximum number of characters in a single message. Messages are expected to be UTF-8 encoded and this limit applies specifically to rune/code-point count, not number of bytes. Default: 500. Constraints: o min: 1 o max: 500
+    /// The maximum number of characters in a single message. Messages are expected to be UTF-8 encoded and this limit applies specifically to rune/code-point count, not number of bytes. Default: 500. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--maximum-message-length")]
     public int? MaximumMessageLength { get; set; }
 
     /// <summary>
-    /// Configuration information for optional review of messages. Specify an empty uri string to disassociate a message review handler from the specified room. uri -&gt; (string) Identifier of the message review handler. Currently this must be an ARN of a lambda function. Constraints: o min: 0 o max: 170 o pattern: $|^arn:aws:lambda:[a-z0-9-]+:[0-9]{12}:function:.+.* fallbackResult -&gt; (string) Specifies the fallback behavior (whether the message is allowed or denied) if the handler does not return a valid response, en- counters an error, or times out. (For the timeout period, see Service Quotas .) If allowed, the message is delivered with re- turned content to all users connected to the room. If denied, the message is not delivered to any user. Default: ALLOW . Possible values: o ALLOW o DENY Shorthand Syntax: uri=string,fallbackResult=string JSON Syntax: { "uri": "string", "fallbackResult": "ALLOW"|"DENY" }
+    /// Configuration information for optional review of messages. Specify an empty uri string to disassociate a message review handler from the specified room. uri -&gt; (string) Identifier of the message review handler. Currently this must be an ARN of a lambda function. Constraints: • min: 0 • max: 170 • pattern: $|^arn:aws:lambda:[a-z0-9-]+:[0-9]{12}:function:.+.* fallbackResult -&gt; (string) Specifies the fallback behavior (whether the message is allowed or denied) if the handler does not return a valid response, encounters an error, or times out. (For the timeout period, see Service Quotas .) If allowed, the message is delivered with returned content to all users connected to the room. If denied, the message is not delivered to any user. Default: ALLOW . Possible values: • ALLOW • DENY Shorthand Syntax: uri=string,fallbackResult=string JSON Syntax: { "uri": "string", "fallbackResult": "ALLOW"|"DENY" }
     /// </summary>
     [CliOption("--message-review-handler")]
     public string? MessageReviewHandler { get; set; }
 
     /// <summary>
-    /// Array of logging-configuration identifiers attached to the room. Constraints: o min: 0 o max: 3 (string) Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivschat:[a-z0-9-]+:[0-9]+:logging-configura- tion/[a-zA-Z0-9-]+ Syntax: "string" "string" ...
+    /// Array of logging-configuration identifiers attached to the room. Constraints: • min: 0 • max: 3 (string) Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivschat:[a-z0-9-]+:[0-9]+:logging-configuration/[a-zA-Z0-9-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--logging-configuration-identifiers", GroupValues = true)]
     public IEnumerable<string>? LoggingConfigurationIdentifiers { get; set; }

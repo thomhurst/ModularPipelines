@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Uploads a batch of log events to the specified log stream. WARNING: The sequence token is now ignored in PutLogEvents actions. PutLo- gEvents actions are always accepted and never return InvalidSe- quenceTokenException or DataAlreadyAcceptedException even if the se- quence token is not valid. You can use parallel PutLogEvents actions on the same log stream. The batch of events must satisfy the following constraints: o The maximum batch size is 1,048,576 bytes. This size is calculated as the sum ...
+/// Uploads a batch of log events to the specified log stream. WARNING: The sequence token is now ignored in PutLogEvents actions. PutLogEvents actions are always accepted and never return InvalidSequenceTokenException or DataAlreadyAcceptedException even if the sequence token is not valid. You can use parallel PutLogEvents actions on the same log stream. The batch of events must satisfy the following constraints: • The maximum batch size is 1,048,576 bytes. This size is calculated as the sum of all...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsLogsPutLogEventsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Uploads a batch of log events to the specified log stream. WARNING: The sequence token is now ignored in PutLogEvents actions. PutLo- gEvents actions are always accepted and never return InvalidSe- quenceTokenException or DataAlreadyAcceptedException even if the se- quence token is not valid. You can use parallel PutLogEvents actions on the same log stream. The batch of events must satisfy the following constraints: o The maximum batch size is 1,048,576 bytes. This size is calculated as the sum ...
+    /// Uploads a batch of log events to the specified log stream. WARNING: The sequence token is now ignored in PutLogEvents actions. PutLogEvents actions are always accepted and never return InvalidSequenceTokenException or DataAlreadyAcceptedException even if the sequence token is not valid. You can use parallel PutLogEvents actions on the same log stream. The batch of events must satisfy the following constraints: • The maximum batch size is 1,048,576 bytes. This size is calculated as the sum of all...
     /// </summary>
-    /// <param name="LogGroupName">The name of the log group. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+</param>
-    /// <param name="LogStreamName">The name of the log stream. Constraints: o min: 1 o max: 512 o pattern: [^:*]*</param>
-    /// <param name="LogEvents">The log events. Constraints: o min: 1 o max: 10000 (structure) Represents a log event, which is a record of activity that was recorded by the application or resource being monitored. timestamp -&gt; (long) [required] The time the event occurred, expressed as the number of mil- liseconds after Jan 1, 1970 00:00:00 UTC . Constraints: o min: 0 message -&gt; (string) [required] The raw event message. Each log event can be no larger than 1 MB. Constraints: o min: 1 Shorthand Syntax: timestamp=long,message=string ... JSON Syntax: [ { "timestamp": long, "message": "string" } ... ]</param>
+    /// <param name="LogGroupName">The name of the log group. Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+</param>
+    /// <param name="LogStreamName">The name of the log stream. Constraints: • min: 1 • max: 512 • pattern: [^:*]*</param>
+    /// <param name="LogEvents">The log events. Constraints: • min: 1 • max: 10000 (structure) Represents a log event, which is a record of activity that was recorded by the application or resource being monitored. timestamp -&gt; (long) [required] The time the event occurred, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC . Constraints: • min: 0 message -&gt; (string) [required] The raw event message. Each log event can be no larger than 1 MB. Constraints: • min: 1 Shorthand Syntax: timestamp=long,message=string ... JSON Syntax: [ { "timestamp": long, "message": "string" } ... ]</param>
     public AwsLogsPutLogEventsOptions(
         string LogGroupName,
         string LogStreamName,
@@ -76,32 +78,32 @@ public record AwsLogsPutLogEventsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the log group. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+
+    /// The name of the log group. Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+
     /// </summary>
     [CliOption("--log-group-name")]
     public string? LogGroupName { get; private init; }
 
     /// <summary>
-    /// The name of the log stream. Constraints: o min: 1 o max: 512 o pattern: [^:*]*
+    /// The name of the log stream. Constraints: • min: 1 • max: 512 • pattern: [^:*]*
     /// </summary>
     [CliOption("--log-stream-name")]
     public string? LogStreamName { get; private init; }
 
     /// <summary>
-    /// The log events. Constraints: o min: 1 o max: 10000 (structure) Represents a log event, which is a record of activity that was recorded by the application or resource being monitored. timestamp -&gt; (long) [required] The time the event occurred, expressed as the number of mil- liseconds after Jan 1, 1970 00:00:00 UTC . Constraints: o min: 0 message -&gt; (string) [required] The raw event message. Each log event can be no larger than 1 MB. Constraints: o min: 1 Shorthand Syntax: timestamp=long,message=string ... JSON Syntax: [ { "timestamp": long, "message": "string" } ... ]
+    /// The log events. Constraints: • min: 1 • max: 10000 (structure) Represents a log event, which is a record of activity that was recorded by the application or resource being monitored. timestamp -&gt; (long) [required] The time the event occurred, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC . Constraints: • min: 0 message -&gt; (string) [required] The raw event message. Each log event can be no larger than 1 MB. Constraints: • min: 1 Shorthand Syntax: timestamp=long,message=string ... JSON Syntax: [ { "timestamp": long, "message": "string" } ... ]
     /// </summary>
     [CliOption("--log-events", GroupValues = true)]
     public IEnumerable<string>? LogEvents { get; private init; }
 
     /// <summary>
-    /// The sequence token obtained from the response of the previous PutLo- gEvents call. WARNING: The sequenceToken parameter is now ignored in PutLogEvents ac- tions. PutLogEvents actions are now accepted and never return InvalidSequenceTokenException or DataAlreadyAcceptedException even if the sequence token is not valid. Constraints: o min: 1
+    /// The sequence token obtained from the response of the previous PutLogEvents call. WARNING: The sequenceToken parameter is now ignored in PutLogEvents actions. PutLogEvents actions are now accepted and never return InvalidSequenceTokenException or DataAlreadyAcceptedException even if the sequence token is not valid. Constraints: • min: 1
     /// </summary>
     [SecretValue]
     [CliOption("--sequence-token")]
     public string? SequenceToken { get; set; }
 
     /// <summary>
-    /// The entity associated with the log events. keyAttributes -&gt; (map) The attributes of the entity which identify the specific entity, as a list of key-value pairs. Entities with the same keyAttrib- utes are considered to be the same entity. There are five allowed attributes (key names): Type , Resource- Type , Identifier Name , and Environment . For details about how to use the key attributes, see How to add related information to telemetry in the CloudWatch User Guide . Constraints: o min: 2 o max: 4 key -&gt; (string) Constraints: o min: 1 o max: 32 value -&gt; (string) Constraints: o min: 1 o max: 512 attributes -&gt; (map) Additional attributes of the entity that are not used to specify the identity of the entity. A list of key-value pairs. For details about how to use the attributes, see How to add re- lated information to telemetry in the CloudWatch User Guide . Constraints: o min: 0 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 256 value -&gt; (string) Constraints: o min: 1 o max: 512 Shorthand Syntax: keyAttributes={KeyName1=string,KeyName2=string},attributes={KeyName1=string,KeyName2=string} JSON Syntax: { "keyAttributes": {"string": "string" ...}, "attributes": {"string": "string" ...} }
+    /// The entity associated with the log events. keyAttributes -&gt; (map) The attributes of the entity which identify the specific entity, as a list of key-value pairs. Entities with the same keyAttributes are considered to be the same entity. There are five allowed attributes (key names): Type , ResourceType , Identifier Name , and Environment . For details about how to use the key attributes, see How to add related information to telemetry in the CloudWatch User Guide . Constraints: • min: 2 • max: 4 key -&gt; (string) Constraints: • min: 1 • max: 32 value -&gt; (string) Constraints: • min: 1 • max: 512 attributes -&gt; (map) Additional attributes of the entity that are not used to specify the identity of the entity. A list of key-value pairs. For details about how to use the attributes, see How to add related information to telemetry in the CloudWatch User Guide . Constraints: • min: 0 • max: 10 key -&gt; (string) Constraints: • min: 1 • max: 256 value -&gt; (string) Constraints: • min: 1 • max: 512 Shorthand Syntax: keyAttributes={KeyName1=string,KeyName2=string},attributes={KeyName1=string,KeyName2=string} JSON Syntax: { "keyAttributes": {"string": "string" ...}, "attributes": {"string": "string" ...} }
     /// </summary>
     [CliOption("--entity")]
     public string? Entity { get; set; }

@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new marketplace revenue share resource in the specified cata- log. See also: AWS API Documentation
+/// Creates a new marketplace revenue share resource in the specified catalog. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +29,10 @@ public record AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareOp
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new marketplace revenue share resource in the specified cata- log. See also: AWS API Documentation
+    /// Creates a new marketplace revenue share resource in the specified catalog. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">The catalog in which to create the marketplace revenue share. Possible values: o AWS o Sandbox</param>
-    /// <param name="ProductId">The AWS Marketplace product identifier for this revenue share. Constraints: o min: 18 o max: 18 o pattern: prod-[a-z0-9]{13}</param>
+    /// <param name="Catalog">The catalog in which to create the marketplace revenue share. Possible values: • AWS • Sandbox</param>
+    /// <param name="ProductId">The AWS Marketplace product identifier for this revenue share. Constraints: • min: 18 • max: 18 • pattern: prod-[a-z0-9]{13}</param>
     public AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareOptions(
         AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareCatalog Catalog,
         string ProductId
@@ -61,26 +63,26 @@ public record AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog in which to create the marketplace revenue share. Possible values: o AWS o Sandbox
+    /// The catalog in which to create the marketplace revenue share. Possible values: • AWS • Sandbox
     /// </summary>
     [CliOption("--catalog")]
     public AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareCatalog? Catalog { get; private init; }
 
     /// <summary>
-    /// The AWS Marketplace product identifier for this revenue share. Constraints: o min: 18 o max: 18 o pattern: prod-[a-z0-9]{13}
+    /// The AWS Marketplace product identifier for this revenue share. Constraints: • min: 18 • max: 18 • pattern: prod-[a-z0-9]{13}
     /// </summary>
     [CliOption("--product-id")]
     public string? ProductId { get; private init; }
 
     /// <summary>
-    /// A unique token to ensure idempotency of the create request. Constraints: o min: 1 o max: 64 o pattern: [!-~]{1,64}
+    /// A unique token to ensure idempotency of the create request. Constraints: • min: 1 • max: 64 • pattern: [!-~]{1,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Tags to associate with the marketplace revenue share upon creation. Constraints: o min: 0 o max: 50 (structure) A key-value pair used for organizing and managing resources through metadata tags. Key -&gt; (string) [required] The key portion of the tag. Constraints: o min: 1 o max: 128 o pattern: [^\x00-\x1F\x7F]+ Value -&gt; (string) [required] The value portion of the tag. Constraints: o min: 0 o max: 256 o pattern: [^\x00-\x1F\x7F]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Tags to associate with the marketplace revenue share upon creation. Constraints: • min: 0 • max: 50 (structure) A key-value pair used for organizing and managing resources through metadata tags. Key -&gt; (string) [required] The key portion of the tag. Constraints: • min: 1 • max: 128 • pattern: [^\x00-\x1F\x7F]+ Value -&gt; (string) [required] The value portion of the tag. Constraints: • min: 0 • max: 256 • pattern: [^\x00-\x1F\x7F]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

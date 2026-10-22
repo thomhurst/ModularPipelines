@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts an asynchronous request for getting aggregated statistics about queues and farms. Get the statistics using the GetSessionsStatisticsAg- gregation operation. You can only have one running aggregation for your Deadline Cloud farm. Call the GetSessionsStatisticsAggregation opera- tion and check the status field to see if an aggregation is running. Statistics are available for 1 hour after you call the StartSession- sStatisticsAggregation operation. See also: AWS API Documentation
+/// Starts an asynchronous request for getting aggregated statistics about queues and farms. Get the statistics using the GetSessionsStatisticsAggregation operation. You can only have one running aggregation for your Deadline Cloud farm. Call the GetSessionsStatisticsAggregation operation and check the status field to see if an aggregation is running. Statistics are available for 1 hour after you call the StartSessionsStatisticsAggregation operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,14 +28,14 @@ public record AwsDeadlineStartSessionsStatisticsAggregationOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts an asynchronous request for getting aggregated statistics about queues and farms. Get the statistics using the GetSessionsStatisticsAg- gregation operation. You can only have one running aggregation for your Deadline Cloud farm. Call the GetSessionsStatisticsAggregation opera- tion and check the status field to see if an aggregation is running. Statistics are available for 1 hour after you call the StartSession- sStatisticsAggregation operation. See also: AWS API Documentation
+    /// Starts an asynchronous request for getting aggregated statistics about queues and farms. Get the statistics using the GetSessionsStatisticsAggregation operation. You can only have one running aggregation for your Deadline Cloud farm. Call the GetSessionsStatisticsAggregation operation and check the status field to see if an aggregation is running. Statistics are available for 1 hour after you call the StartSessionsStatisticsAggregation operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The identifier of the farm that contains queues or fleets to return statistics for. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="ResourceIds">A list of fleet IDs or queue IDs to gather statistics for. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: queueIds, fleetIds. queueIds -&gt; (list) One to 10 queue IDs that specify the queues to return statistics for. If you specify the queueIds field, you can't specify the fleetIds field. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: queue-[0-9a-f]{32} fleetIds -&gt; (list) One to 10 fleet IDs that specify the fleets to return statistics for. If you specify the fleetIds field, you can't specify the queueIds field. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: fleet-[0-9a-f]{32} Shorthand Syntax: queueIds=string,string,fleetIds=string,string JSON Syntax: { "queueIds": ["string", ...], "fleetIds": ["string", ...] }</param>
+    /// <param name="FarmId">The identifier of the farm that contains queues or fleets to return statistics for. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="ResourceIds">A list of fleet IDs or queue IDs to gather statistics for. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: queueIds, fleetIds. queueIds -&gt; (list) One to 10 queue IDs that specify the queues to return statistics for. If you specify the queueIds field, you can't specify the fleetIds field. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: queue-[0-9a-f]{32} fleetIds -&gt; (list) One to 10 fleet IDs that specify the fleets to return statistics for. If you specify the fleetIds field, you can't specify the queueIds field. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: fleet-[0-9a-f]{32} Shorthand Syntax: queueIds=string,string,fleetIds=string,string JSON Syntax: { "queueIds": ["string", ...], "fleetIds": ["string", ...] }</param>
     /// <param name="StartTime">The Linux timestamp of the date and time that the statistics start.</param>
     /// <param name="EndTime">The Linux timestamp of the date and time that the statistics end.</param>
-    /// <param name="GroupBy">The field to use to group the statistics. Constraints: o min: 1 o max: 2 (string) Possible values: o QUEUE_ID o FLEET_ID o JOB_ID o USER_ID o USAGE_TYPE o INSTANCE_TYPE o LICENSE_PRODUCT Syntax: "string" "string" ...</param>
-    /// <param name="Statistics">One to four statistics to return. Constraints: o min: 1 o max: 4 (string) Possible values: o SUM o MIN o MAX o AVG Syntax: "string" "string" ...</param>
+    /// <param name="GroupBy">The field to use to group the statistics. Constraints: • min: 1 • max: 2 (string) Possible values: • QUEUE_ID • FLEET_ID • JOB_ID • USER_ID • USAGE_TYPE • INSTANCE_TYPE • LICENSE_PRODUCT Syntax: "string" "string" ...</param>
+    /// <param name="Statistics">One to four statistics to return. Constraints: • min: 1 • max: 4 (string) Possible values: • SUM • MIN • MAX • AVG Syntax: "string" "string" ...</param>
     public AwsDeadlineStartSessionsStatisticsAggregationOptions(
         string FarmId,
         string ResourceIds,
@@ -99,13 +101,13 @@ public record AwsDeadlineStartSessionsStatisticsAggregationOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the farm that contains queues or fleets to return statistics for. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The identifier of the farm that contains queues or fleets to return statistics for. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// A list of fleet IDs or queue IDs to gather statistics for. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: queueIds, fleetIds. queueIds -&gt; (list) One to 10 queue IDs that specify the queues to return statistics for. If you specify the queueIds field, you can't specify the fleetIds field. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: queue-[0-9a-f]{32} fleetIds -&gt; (list) One to 10 fleet IDs that specify the fleets to return statistics for. If you specify the fleetIds field, you can't specify the queueIds field. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: fleet-[0-9a-f]{32} Shorthand Syntax: queueIds=string,string,fleetIds=string,string JSON Syntax: { "queueIds": ["string", ...], "fleetIds": ["string", ...] }
+    /// A list of fleet IDs or queue IDs to gather statistics for. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: queueIds, fleetIds. queueIds -&gt; (list) One to 10 queue IDs that specify the queues to return statistics for. If you specify the queueIds field, you can't specify the fleetIds field. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: queue-[0-9a-f]{32} fleetIds -&gt; (list) One to 10 fleet IDs that specify the fleets to return statistics for. If you specify the fleetIds field, you can't specify the queueIds field. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: fleet-[0-9a-f]{32} Shorthand Syntax: queueIds=string,string,fleetIds=string,string JSON Syntax: { "queueIds": ["string", ...], "fleetIds": ["string", ...] }
     /// </summary>
     [CliOption("--resource-ids")]
     public string? ResourceIds { get; private init; }
@@ -123,25 +125,25 @@ public record AwsDeadlineStartSessionsStatisticsAggregationOptions : AwsOptions,
     public string? EndTime { get; private init; }
 
     /// <summary>
-    /// The field to use to group the statistics. Constraints: o min: 1 o max: 2 (string) Possible values: o QUEUE_ID o FLEET_ID o JOB_ID o USER_ID o USAGE_TYPE o INSTANCE_TYPE o LICENSE_PRODUCT Syntax: "string" "string" ...
+    /// The field to use to group the statistics. Constraints: • min: 1 • max: 2 (string) Possible values: • QUEUE_ID • FLEET_ID • JOB_ID • USER_ID • USAGE_TYPE • INSTANCE_TYPE • LICENSE_PRODUCT Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--group-by", GroupValues = true)]
     public IEnumerable<string>? GroupBy { get; private init; }
 
     /// <summary>
-    /// One to four statistics to return. Constraints: o min: 1 o max: 4 (string) Possible values: o SUM o MIN o MAX o AVG Syntax: "string" "string" ...
+    /// One to four statistics to return. Constraints: • min: 1 • max: 4 (string) Possible values: • SUM • MIN • MAX • AVG Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--statistics", GroupValues = true)]
     public IEnumerable<string>? Statistics { get; private init; }
 
     /// <summary>
-    /// The time zone to use for the statistics. Use UTC notation such as "UTC+8." Constraints: o min: 9 o max: 9 o pattern: UTC[-+][01][0-9]:(30|00)
+    /// The time zone to use for the statistics. Use UTC notation such as "UTC+8." Constraints: • min: 9 • max: 9 • pattern: UTC[-+][01][0-9]:(30|00)
     /// </summary>
     [CliOption("--timezone")]
     public string? Timezone { get; set; }
 
     /// <summary>
-    /// The period to aggregate the statistics. Possible values: o HOURLY o DAILY o WEEKLY o MONTHLY
+    /// The period to aggregate the statistics. Possible values: • HOURLY • DAILY • WEEKLY • MONTHLY
     /// </summary>
     [CliOption("--period")]
     public AwsDeadlineStartSessionsStatisticsAggregationPeriod? Period { get; set; }

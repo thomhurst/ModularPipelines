@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Allows you to retrieve metadata about multiple attached files on an as- sociated resource. Each attached file provided in the input list must be associated with the input AssociatedResourceArn. See also: AWS API Documentation
+/// Allows you to retrieve metadata about multiple attached files on an associated resource. Each attached file provided in the input list must be associated with the input AssociatedResourceArn. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsConnectBatchGetAttachedFileMetadataOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Allows you to retrieve metadata about multiple attached files on an as- sociated resource. Each attached file provided in the input list must be associated with the input AssociatedResourceArn. See also: AWS API Documentation
+    /// Allows you to retrieve metadata about multiple attached files on an associated resource. Each attached file provided in the input list must be associated with the input AssociatedResourceArn. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FileIds">The unique identifiers of the attached file resource. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 256 Syntax: "string" "string" ...</param>
-    /// <param name="InstanceId">The unique identifier of the Connect instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="FileIds">The unique identifiers of the attached file resource. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 256 Syntax: "string" "string" ...</param>
+    /// <param name="InstanceId">The unique identifier of the Connect instance. Constraints: • min: 1 • max: 100</param>
     /// <param name="AssociatedResourceArn">The resource to which the attached file is (being) uploaded to. The supported resources are Cases , Email , and Task . NOTE: This value must be a valid ARN.</param>
     public AwsConnectBatchGetAttachedFileMetadataOptions(
         IEnumerable<string> FileIds,
@@ -75,13 +77,13 @@ public record AwsConnectBatchGetAttachedFileMetadataOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifiers of the attached file resource. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 256 Syntax: "string" "string" ...
+    /// The unique identifiers of the attached file resource. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 256 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--file-ids", GroupValues = true)]
     public IEnumerable<string>? FileIds { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the Connect instance. Constraints: o min: 1 o max: 100
+    /// The unique identifier of the Connect instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCustomerProfilesListProfileAttributeValuesOptions : AwsOptions,
     /// <summary>
     /// Fetch the possible attribute values given the attribute name. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The unique identifier of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="AttributeName">The attribute name. Constraints: o min: 1 o max: 255</param>
+    /// <param name="DomainName">The unique identifier of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="AttributeName">The attribute name. Constraints: • min: 1 • max: 255</param>
     public AwsCustomerProfilesListProfileAttributeValuesOptions(
         string DomainName,
         string AttributeName
@@ -60,13 +62,13 @@ public record AwsCustomerProfilesListProfileAttributeValuesOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique identifier of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The attribute name. Constraints: o min: 1 o max: 255
+    /// The attribute name. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--attribute-name")]
     public string? AttributeName { get; private init; }

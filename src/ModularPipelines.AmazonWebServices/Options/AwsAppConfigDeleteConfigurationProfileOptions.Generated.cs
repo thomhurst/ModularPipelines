@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a configuration profile. To prevent users from unintentionally deleting actively-used configura- tion profiles, enable deletion protection . See also: AWS API Documentation
+/// Deletes a configuration profile. To prevent users from unintentionally deleting actively-used configuration profiles, enable deletion protection . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsAppConfigDeleteConfigurationProfileOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a configuration profile. To prevent users from unintentionally deleting actively-used configura- tion profiles, enable deletion protection . See also: AWS API Documentation
+    /// Deletes a configuration profile. To prevent users from unintentionally deleting actively-used configuration profiles, enable deletion protection . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The application ID that includes the configuration profile you want to delete. Constraints: o min: 1 o max: 64</param>
-    /// <param name="ConfigurationProfileId">The ID of the configuration profile you want to delete. Constraints: o min: 1 o max: 128</param>
+    /// <param name="ApplicationId">The application ID that includes the configuration profile you want to delete. Constraints: • min: 1 • max: 64</param>
+    /// <param name="ConfigurationProfileId">The ID of the configuration profile you want to delete. Constraints: • min: 1 • max: 128</param>
     public AwsAppConfigDeleteConfigurationProfileOptions(
         string ApplicationId,
         string ConfigurationProfileId
@@ -61,19 +63,19 @@ public record AwsAppConfigDeleteConfigurationProfileOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The application ID that includes the configuration profile you want to delete. Constraints: o min: 1 o max: 64
+    /// The application ID that includes the configuration profile you want to delete. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The ID of the configuration profile you want to delete. Constraints: o min: 1 o max: 128
+    /// The ID of the configuration profile you want to delete. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--configuration-profile-id")]
     public string? ConfigurationProfileId { get; private init; }
 
     /// <summary>
-    /// A parameter to configure deletion protection. Deletion protection prevents a user from deleting a configuration profile if your appli- cation has called either GetLatestConfiguration or for the configu- ration profile during the specified interval. This parameter supports the following values: o BYPASS : Instructs AppConfig to bypass the deletion protection check and delete a configuration profile even if deletion protec- tion would have otherwise prevented it. o APPLY : Instructs the deletion protection check to run, even if deletion protection is disabled at the account level. APPLY also forces the deletion protection check to run against resources cre- ated in the past hour, which are normally excluded from deletion protection checks. o ACCOUNT_DEFAULT : The default setting, which instructs AppConfig to implement the deletion protection value specified in the Up- dateAccountSettings API. Possible values: o ACCOUNT_DEFAULT o APPLY o BYPASS
+    /// A parameter to configure deletion protection. Deletion protection prevents a user from deleting a configuration profile if your application has called either GetLatestConfiguration or for the configuration profile during the specified interval. This parameter supports the following values: • BYPASS : Instructs AppConfig to bypass the deletion protection check and delete a configuration profile even if deletion protection would have otherwise prevented it. • APPLY : Instructs the deletion protection check to run, even if deletion protection is disabled at the account level. APPLY also forces the deletion protection check to run against resources created in the past hour, which are normally excluded from deletion protection checks. • ACCOUNT_DEFAULT : The default setting, which instructs AppConfig to implement the deletion protection value specified in the UpdateAccountSettings API. Possible values: • ACCOUNT_DEFAULT • APPLY • BYPASS
     /// </summary>
     [CliOption("--deletion-protection-check")]
     public AwsAppConfigDeleteConfigurationProfileDeletionProtectionCheck? DeletionProtectionCheck { get; set; }

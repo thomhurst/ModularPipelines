@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an AccessGrant that authorizes a principal to administer an or- ganization domain. See also: AWS API Documentation
+/// Creates an AccessGrant that authorizes a principal to administer an organization domain. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,12 +28,12 @@ public record AwsCloudwatchomniCreateDomainAccessGrantForOrganizationOptions : A
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an AccessGrant that authorizes a principal to administer an or- ganization domain. See also: AWS API Documentation
+    /// Creates an AccessGrant that authorizes a principal to administer an organization domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The ID of the organization domain to create the grant on. Constraints: o pattern: d-[0-9a-z]{1,25}</param>
-    /// <param name="Name">A name that identifies the access grant. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="Principal">The principal receiving the grant. principalType -&gt; (string) [required] The type of principal receiving the grant. Possible values: o IDC_USER o IDC_GROUP o IAM_USER o IAM_ROLE o IAM_ROOT principalId -&gt; (string) The ID of the principal receiving the grant. Constraints: o min: 1 o max: 2048 o pattern: [a-zA-Z0-9][a-zA-Z0-9:/_+=,.@-]* principalAttributes -&gt; (list) Attribute conditions for attribute-based access. When provided, the grant targets any principal matching all specified condi- tions. Supported only for IDC_USER principals. Constraints: o min: 0 o max: 10 (structure) A single attribute condition used to match principals for at- tribute-based access. key -&gt; (string) [required] The Identity Center user attribute to match on. One of userName, active, userStatus, displayName, email, name.givenName, name.familyName, enterprise.department, enterprise.division, enterprise.organization, enter- prise.costCenter, or enterprise.employeeNumber. Each key may appear only once per grant. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The attribute value. Constraints: o min: 1 o max: 512 Shorthand Syntax: principalType=string,principalId=string,principalAttributes=[{key=string,value=string},{key=string,value=string}] JSON Syntax: { "principalType": "IDC_USER"|"IDC_GROUP"|"IAM_USER"|"IAM_ROLE"|"IAM_ROOT", "principalId": "string", "principalAttributes": [ { "key": "string", "value": "string" } ... ] }</param>
-    /// <param name="Permission">The permission to grant. Possible values: o ADMIN</param>
+    /// <param name="DomainId">The ID of the organization domain to create the grant on. Constraints: • pattern: d-[0-9a-z]{1,25}</param>
+    /// <param name="Name">A name that identifies the access grant. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="Principal">The principal receiving the grant. principalType -&gt; (string) [required] The type of principal receiving the grant. Possible values: • IDC_USER • IDC_GROUP • IAM_USER • IAM_ROLE • IAM_ROOT principalId -&gt; (string) The ID of the principal receiving the grant. Constraints: • min: 1 • max: 2048 • pattern: [a-zA-Z0-9][a-zA-Z0-9:/_+=,.@-]* principalAttributes -&gt; (list) Attribute conditions for attribute-based access. When provided, the grant targets any principal matching all specified conditions. Supported only for IDC_USER principals. Constraints: • min: 0 • max: 10 (structure) A single attribute condition used to match principals for attribute-based access. key -&gt; (string) [required] The Identity Center user attribute to match on. One of userName, active, userStatus, displayName, email, name.givenName, name.familyName, enterprise.department, enterprise.division, enterprise.organization, enterprise.costCenter, or enterprise.employeeNumber. Each key may appear only once per grant. Constraints: • min: 1 • max: 128 value -&gt; (string) [required] The attribute value. Constraints: • min: 1 • max: 512 Shorthand Syntax: principalType=string,principalId=string,principalAttributes=[{key=string,value=string},{key=string,value=string}] JSON Syntax: { "principalType": "IDC_USER"|"IDC_GROUP"|"IAM_USER"|"IAM_ROLE"|"IAM_ROOT", "principalId": "string", "principalAttributes": [ { "key": "string", "value": "string" } ... ] }</param>
+    /// <param name="Permission">The permission to grant. Possible values: • ADMIN</param>
     public AwsCloudwatchomniCreateDomainAccessGrantForOrganizationOptions(
         string DomainId,
         string Name,
@@ -70,37 +71,37 @@ public record AwsCloudwatchomniCreateDomainAccessGrantForOrganizationOptions : A
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the organization domain to create the grant on. Constraints: o pattern: d-[0-9a-z]{1,25}
+    /// The ID of the organization domain to create the grant on. Constraints: • pattern: d-[0-9a-z]{1,25}
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// A name that identifies the access grant. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// A name that identifies the access grant. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The principal receiving the grant. principalType -&gt; (string) [required] The type of principal receiving the grant. Possible values: o IDC_USER o IDC_GROUP o IAM_USER o IAM_ROLE o IAM_ROOT principalId -&gt; (string) The ID of the principal receiving the grant. Constraints: o min: 1 o max: 2048 o pattern: [a-zA-Z0-9][a-zA-Z0-9:/_+=,.@-]* principalAttributes -&gt; (list) Attribute conditions for attribute-based access. When provided, the grant targets any principal matching all specified condi- tions. Supported only for IDC_USER principals. Constraints: o min: 0 o max: 10 (structure) A single attribute condition used to match principals for at- tribute-based access. key -&gt; (string) [required] The Identity Center user attribute to match on. One of userName, active, userStatus, displayName, email, name.givenName, name.familyName, enterprise.department, enterprise.division, enterprise.organization, enter- prise.costCenter, or enterprise.employeeNumber. Each key may appear only once per grant. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The attribute value. Constraints: o min: 1 o max: 512 Shorthand Syntax: principalType=string,principalId=string,principalAttributes=[{key=string,value=string},{key=string,value=string}] JSON Syntax: { "principalType": "IDC_USER"|"IDC_GROUP"|"IAM_USER"|"IAM_ROLE"|"IAM_ROOT", "principalId": "string", "principalAttributes": [ { "key": "string", "value": "string" } ... ] }
+    /// The principal receiving the grant. principalType -&gt; (string) [required] The type of principal receiving the grant. Possible values: • IDC_USER • IDC_GROUP • IAM_USER • IAM_ROLE • IAM_ROOT principalId -&gt; (string) The ID of the principal receiving the grant. Constraints: • min: 1 • max: 2048 • pattern: [a-zA-Z0-9][a-zA-Z0-9:/_+=,.@-]* principalAttributes -&gt; (list) Attribute conditions for attribute-based access. When provided, the grant targets any principal matching all specified conditions. Supported only for IDC_USER principals. Constraints: • min: 0 • max: 10 (structure) A single attribute condition used to match principals for attribute-based access. key -&gt; (string) [required] The Identity Center user attribute to match on. One of userName, active, userStatus, displayName, email, name.givenName, name.familyName, enterprise.department, enterprise.division, enterprise.organization, enterprise.costCenter, or enterprise.employeeNumber. Each key may appear only once per grant. Constraints: • min: 1 • max: 128 value -&gt; (string) [required] The attribute value. Constraints: • min: 1 • max: 512 Shorthand Syntax: principalType=string,principalId=string,principalAttributes=[{key=string,value=string},{key=string,value=string}] JSON Syntax: { "principalType": "IDC_USER"|"IDC_GROUP"|"IAM_USER"|"IAM_ROLE"|"IAM_ROOT", "principalId": "string", "principalAttributes": [ { "key": "string", "value": "string" } ... ] }
     /// </summary>
     [CliOption("--principal")]
     public string? Principal { get; private init; }
 
     /// <summary>
-    /// The permission to grant. Possible values: o ADMIN
+    /// The permission to grant. Possible values: • ADMIN
     /// </summary>
     [CliOption("--permission")]
     public string? Permission { get; private init; }
 
     /// <summary>
-    /// The tags to associate with the access grant. Constraints: o min: 0 o max: 50 key -&gt; (string) Tag key. Must be non-empty; AWS-standard maximum length. Con- straining the key (rather than a bare String) rejects empty-key payloads at the edge with a 400 ValidationException instead of faulting downstream as a 500. Constraints: o min: 1 o max: 128 value -&gt; (string) Tag value. AWS-standard maximum length; may be empty. Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to associate with the access grant. Constraints: • min: 0 • max: 50 key -&gt; (string) Tag key. Must be non-empty; AWS-standard maximum length. Constraining the key (rather than a bare String) rejects empty-key payloads at the edge with a 400 ValidationException instead of faulting downstream as a 500. Constraints: • min: 1 • max: 128 value -&gt; (string) Tag value. AWS-standard maximum length; may be empty. Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Idempotency token for safe retries. Repeated requests with the same token return the original result instead of creating a duplicate. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
+    /// Idempotency token for safe retries. Repeated requests with the same token return the original result instead of creating a duplicate. Constraints: • min: 1 • max: 64 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the KMS key for an existing database. While updating the data- base, you must specify the database name and the identifier of the new KMS key to be used (KmsKeyId ). If there are any concurrent UpdateData- base requests, first writer wins. See code sample for details. See also: AWS API Documentation
+/// Modifies the KMS key for an existing database. While updating the database, you must specify the database name and the identifier of the new KMS key to be used (KmsKeyId ). If there are any concurrent UpdateDatabase requests, first writer wins. See code sample for details. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsTimestreamWriteUpdateDatabaseOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the KMS key for an existing database. While updating the data- base, you must specify the database name and the identifier of the new KMS key to be used (KmsKeyId ). If there are any concurrent UpdateData- base requests, first writer wins. See code sample for details. See also: AWS API Documentation
+    /// Modifies the KMS key for an existing database. While updating the database, you must specify the database name and the identifier of the new KMS key to be used (KmsKeyId ). If there are any concurrent UpdateDatabase requests, first writer wins. See code sample for details. See also: AWS API Documentation
     /// </summary>
     /// <param name="DatabaseName">The name of the database.</param>
-    /// <param name="KmsKeyId">The identifier of the new KMS key (KmsKeyId ) to be used to encrypt the data stored in the database. If the KmsKeyId currently regis- tered with the database is the same as the KmsKeyId in the request, there will not be any update. You can specify the KmsKeyId using any of the following: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-1:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab o Alias name: alias/ExampleAlias o Alias ARN: arn:aws:kms:us-east-1:111122223333:alias/ExampleAlias Constraints: o min: 1 o max: 2048</param>
+    /// <param name="KmsKeyId">The identifier of the new KMS key (KmsKeyId ) to be used to encrypt the data stored in the database. If the KmsKeyId currently registered with the database is the same as the KmsKeyId in the request, there will not be any update. You can specify the KmsKeyId using any of the following: • Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab • Key ARN: arn:aws:kms:us-east-1:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab • Alias name: alias/ExampleAlias • Alias ARN: arn:aws:kms:us-east-1:111122223333:alias/ExampleAlias Constraints: • min: 1 • max: 2048</param>
     public AwsTimestreamWriteUpdateDatabaseOptions(
         string DatabaseName,
         string KmsKeyId
@@ -66,7 +68,7 @@ public record AwsTimestreamWriteUpdateDatabaseOptions : AwsOptions, IValidatable
     public string? DatabaseName { get; private init; }
 
     /// <summary>
-    /// The identifier of the new KMS key (KmsKeyId ) to be used to encrypt the data stored in the database. If the KmsKeyId currently regis- tered with the database is the same as the KmsKeyId in the request, there will not be any update. You can specify the KmsKeyId using any of the following: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-1:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab o Alias name: alias/ExampleAlias o Alias ARN: arn:aws:kms:us-east-1:111122223333:alias/ExampleAlias Constraints: o min: 1 o max: 2048
+    /// The identifier of the new KMS key (KmsKeyId ) to be used to encrypt the data stored in the database. If the KmsKeyId currently registered with the database is the same as the KmsKeyId in the request, there will not be any update. You can specify the KmsKeyId using any of the following: • Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab • Key ARN: arn:aws:kms:us-east-1:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab • Alias name: alias/ExampleAlias • Alias ARN: arn:aws:kms:us-east-1:111122223333:alias/ExampleAlias Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; private init; }

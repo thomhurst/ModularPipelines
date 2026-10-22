@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsLakeformationDescribeTransactionOptions : AwsOptions, IValidata
     /// <summary>
     /// Returns the details of a single transaction. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TransactionId">The transaction for which to return status. Constraints: o min: 1 o max: 255 o pattern: [\p{L}\p{N}\p{P}]*</param>
+    /// <param name="TransactionId">The transaction for which to return status. Constraints: • min: 1 • max: 255 • pattern: [\p{L}\p{N}\p{P}]*</param>
     public AwsLakeformationDescribeTransactionOptions(
         string TransactionId
     )
@@ -56,7 +58,7 @@ public record AwsLakeformationDescribeTransactionOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The transaction for which to return status. Constraints: o min: 1 o max: 255 o pattern: [\p{L}\p{N}\p{P}]*
+    /// The transaction for which to return status. Constraints: • min: 1 • max: 255 • pattern: [\p{L}\p{N}\p{P}]*
     /// </summary>
     [CliOption("--transaction-id")]
     public string? TransactionId { get; private init; }

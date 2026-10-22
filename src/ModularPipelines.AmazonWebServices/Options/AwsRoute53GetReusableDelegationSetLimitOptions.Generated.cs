@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsRoute53GetReusableDelegationSetLimitOptions : AwsOptions, IVali
     /// <summary>
     /// Gets the maximum number of hosted zones that you can associate with the specified reusable delegation set. For the default limit, see Limits in the Amazon Route 53 Developer Guide . To request a higher limit, open a case . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Type">Specify MAX_ZONES_BY_REUSABLE_DELEGATION_SET to get the maximum num- ber of hosted zones that you can associate with the specified reusable delegation set. Possible values: o MAX_ZONES_BY_REUSABLE_DELEGATION_SET</param>
-    /// <param name="DelegationSetId">The ID of the delegation set that you want to get the limit for. Constraints: o max: 32</param>
+    /// <param name="Type">Specify MAX_ZONES_BY_REUSABLE_DELEGATION_SET to get the maximum number of hosted zones that you can associate with the specified reusable delegation set. Possible values: • MAX_ZONES_BY_REUSABLE_DELEGATION_SET</param>
+    /// <param name="DelegationSetId">The ID of the delegation set that you want to get the limit for. Constraints: • max: 32</param>
     public AwsRoute53GetReusableDelegationSetLimitOptions(
         string Type,
         string DelegationSetId
@@ -60,13 +62,13 @@ public record AwsRoute53GetReusableDelegationSetLimitOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specify MAX_ZONES_BY_REUSABLE_DELEGATION_SET to get the maximum num- ber of hosted zones that you can associate with the specified reusable delegation set. Possible values: o MAX_ZONES_BY_REUSABLE_DELEGATION_SET
+    /// Specify MAX_ZONES_BY_REUSABLE_DELEGATION_SET to get the maximum number of hosted zones that you can associate with the specified reusable delegation set. Possible values: • MAX_ZONES_BY_REUSABLE_DELEGATION_SET
     /// </summary>
     [CliOption("--type")]
     public string? Type { get; private init; }
 
     /// <summary>
-    /// The ID of the delegation set that you want to get the limit for. Constraints: o max: 32
+    /// The ID of the delegation set that you want to get the limit for. Constraints: • max: 32
     /// </summary>
     [CliOption("--delegation-set-id")]
     public string? DelegationSetId { get; private init; }

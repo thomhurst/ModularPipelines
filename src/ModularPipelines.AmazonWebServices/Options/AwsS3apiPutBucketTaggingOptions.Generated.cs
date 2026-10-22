@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation is not supported for directory buckets. Sets the tags for a general purpose bucket if attribute based access control (ABAC) is not enabled for the bucket. When you enable ABAC for a general purpose bucket , you can no longer use this operation for that bucket and must use the TagResource or UntagResource operations instead. Use tags to organize your Amazon Web Services bill to reflect your own cost structure. To do this, sign up to get your Amazon Web Services ac- count bill...
+/// NOTE: This operation is not supported for directory buckets. Sets the tags for a general purpose bucket if attribute based access control (ABAC) is not enabled for the bucket. When you enable ABAC for a general purpose bucket , you can no longer use this operation for that bucket and must use the TagResource or UntagResource operations instead. Use tags to organize your Amazon Web Services bill to reflect your own cost structure. To do this, sign up to get your Amazon Web Services account bill w...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsS3apiPutBucketTaggingOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation is not supported for directory buckets. Sets the tags for a general purpose bucket if attribute based access control (ABAC) is not enabled for the bucket. When you enable ABAC for a general purpose bucket , you can no longer use this operation for that bucket and must use the TagResource or UntagResource operations instead. Use tags to organize your Amazon Web Services bill to reflect your own cost structure. To do this, sign up to get your Amazon Web Services ac- count bill...
+    /// NOTE: This operation is not supported for directory buckets. Sets the tags for a general purpose bucket if attribute based access control (ABAC) is not enabled for the bucket. When you enable ABAC for a general purpose bucket , you can no longer use this operation for that bucket and must use the TagResource or UntagResource operations instead. Use tags to organize your Amazon Web Services bill to reflect your own cost structure. To do this, sign up to get your Amazon Web Services account bill w...
     /// </summary>
     /// <param name="Bucket">The bucket name.</param>
-    /// <param name="Tagging">Container for the TagSet and Tag elements. TagSet -&gt; (list) [required] A collection for a set of tags (structure) A container of a key value name pair. Key -&gt; (string) [required] Name of the object key. Constraints: o min: 1 Value -&gt; (string) [required] Value of the tag. Shorthand Syntax: TagSet=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "TagSet": [ { "Key": "string", "Value": "string" } ... ] }</param>
+    /// <param name="Tagging">Container for the TagSet and Tag elements. TagSet -&gt; (list) [required] A collection for a set of tags (structure) A container of a key value name pair. Key -&gt; (string) [required] Name of the object key. Constraints: • min: 1 Value -&gt; (string) [required] Value of the tag. Shorthand Syntax: TagSet=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "TagSet": [ { "Key": "string", "Value": "string" } ... ] }</param>
     public AwsS3apiPutBucketTaggingOptions(
         string Bucket,
         string Tagging
@@ -67,25 +69,25 @@ public record AwsS3apiPutBucketTaggingOptions : AwsOptions, IValidatableObject
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// Container for the TagSet and Tag elements. TagSet -&gt; (list) [required] A collection for a set of tags (structure) A container of a key value name pair. Key -&gt; (string) [required] Name of the object key. Constraints: o min: 1 Value -&gt; (string) [required] Value of the tag. Shorthand Syntax: TagSet=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "TagSet": [ { "Key": "string", "Value": "string" } ... ] }
+    /// Container for the TagSet and Tag elements. TagSet -&gt; (list) [required] A collection for a set of tags (structure) A container of a key value name pair. Key -&gt; (string) [required] Name of the object key. Constraints: • min: 1 Value -&gt; (string) [required] Value of the tag. Shorthand Syntax: TagSet=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "TagSet": [ { "Key": "string", "Value": "string" } ... ] }
     /// </summary>
     [CliOption("--tagging")]
     public string? Tagging { get; private init; }
 
     /// <summary>
-    /// The Base64 encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864 . For requests made using the Amazon Web Services Command Line Inter- face (CLI) or Amazon Web Services SDKs, this field is calculated au- tomatically.
+    /// The Base64 encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864 . For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
     /// </summary>
     [CliOption("--content-md5")]
     public string? ContentMd5 { get; set; }
 
     /// <summary>
-    /// Indicates the algorithm used to create the checksum for the request when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request . For more information, see Checking object in- tegrity in the Amazon S3 User Guide . If you provide an individual checksum, Amazon S3 ignores any pro- vided ChecksumAlgorithm parameter. Possible values: o CRC32 o CRC32C o SHA1 o SHA256 o CRC64NVME o SHA512 o MD5 o XXHASH64 o XXHASH3 o XXHASH128
+    /// Indicates the algorithm used to create the checksum for the request when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request . For more information, see Checking object integrity in the Amazon S3 User Guide . If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter. Possible values: • CRC32 • CRC32C • SHA1 • SHA256 • CRC64NVME • SHA512 • MD5 • XXHASH64 • XXHASH3 • XXHASH128
     /// </summary>
     [CliOption("--checksum-algorithm")]
     public AwsS3apiPutBucketTaggingChecksumAlgorithm? ChecksumAlgorithm { get; set; }
 
     /// <summary>
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }

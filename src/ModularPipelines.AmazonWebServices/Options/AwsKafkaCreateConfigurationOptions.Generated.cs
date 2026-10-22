@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -78,7 +80,7 @@ public record AwsKafkaCreateConfigurationOptions : AwsOptions, IValidatableObjec
     public string? Description { get; set; }
 
     /// <summary>
-    /// The versions of Apache Kafka with which you can use this MSK config- uration. (string) Syntax: "string" "string" ...
+    /// The versions of Apache Kafka with which you can use this MSK configuration. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--kafka-versions", GroupValues = true)]
     public IEnumerable<string>? KafkaVersions { get; set; }

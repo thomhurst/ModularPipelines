@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds the specified SSL server certificate to the certificate list for the specified HTTPS or TLS listener. If the certificate in already in the certificate list, the call is suc- cessful but the certificate is not added again. For more information, see SSL certificates in the Application Load Bal- ancers Guide or Server certificates in the Network Load Balancers Guide . See also: AWS API Documentation
+/// Adds the specified SSL server certificate to the certificate list for the specified HTTPS or TLS listener. If the certificate in already in the certificate list, the call is successful but the certificate is not added again. For more information, see SSL certificates in the Application Load Balancers Guide or Server certificates in the Network Load Balancers Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsElbv2AddListenerCertificatesOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds the specified SSL server certificate to the certificate list for the specified HTTPS or TLS listener. If the certificate in already in the certificate list, the call is suc- cessful but the certificate is not added again. For more information, see SSL certificates in the Application Load Bal- ancers Guide or Server certificates in the Network Load Balancers Guide . See also: AWS API Documentation
+    /// Adds the specified SSL server certificate to the certificate list for the specified HTTPS or TLS listener. If the certificate in already in the certificate list, the call is successful but the certificate is not added again. For more information, see SSL certificates in the Application Load Balancers Guide or Server certificates in the Network Load Balancers Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="ListenerArn">The Amazon Resource Name (ARN) of the listener.</param>
-    /// <param name="Certificates">The certificate to add. You can specify one certificate per call. Set CertificateArn to the certificate ARN but do not set IsDefault . (structure) Information about an SSL server certificate. CertificateArn -&gt; (string) The Amazon Resource Name (ARN) of the certificate. IsDefault -&gt; (boolean) Indicates whether the certificate is the default certificate. Do not set this value when specifying a certificate as an in- put. This value is not included in the output when describing a listener, but is included when describing listener certifi- cates. Shorthand Syntax: CertificateArn=string,IsDefault=boolean ... JSON Syntax: [ { "CertificateArn": "string", "IsDefault": true|false } ... ]</param>
+    /// <param name="Certificates">The certificate to add. You can specify one certificate per call. Set CertificateArn to the certificate ARN but do not set IsDefault . (structure) Information about an SSL server certificate. CertificateArn -&gt; (string) The Amazon Resource Name (ARN) of the certificate. IsDefault -&gt; (boolean) Indicates whether the certificate is the default certificate. Do not set this value when specifying a certificate as an input. This value is not included in the output when describing a listener, but is included when describing listener certificates. Shorthand Syntax: CertificateArn=string,IsDefault=boolean ... JSON Syntax: [ { "CertificateArn": "string", "IsDefault": true|false } ... ]</param>
     public AwsElbv2AddListenerCertificatesOptions(
         string ListenerArn,
         IEnumerable<string> Certificates
@@ -77,7 +79,7 @@ public record AwsElbv2AddListenerCertificatesOptions : AwsOptions, IValidatableO
     public string? ListenerArn { get; private init; }
 
     /// <summary>
-    /// The certificate to add. You can specify one certificate per call. Set CertificateArn to the certificate ARN but do not set IsDefault . (structure) Information about an SSL server certificate. CertificateArn -&gt; (string) The Amazon Resource Name (ARN) of the certificate. IsDefault -&gt; (boolean) Indicates whether the certificate is the default certificate. Do not set this value when specifying a certificate as an in- put. This value is not included in the output when describing a listener, but is included when describing listener certifi- cates. Shorthand Syntax: CertificateArn=string,IsDefault=boolean ... JSON Syntax: [ { "CertificateArn": "string", "IsDefault": true|false } ... ]
+    /// The certificate to add. You can specify one certificate per call. Set CertificateArn to the certificate ARN but do not set IsDefault . (structure) Information about an SSL server certificate. CertificateArn -&gt; (string) The Amazon Resource Name (ARN) of the certificate. IsDefault -&gt; (boolean) Indicates whether the certificate is the default certificate. Do not set this value when specifying a certificate as an input. This value is not included in the output when describing a listener, but is included when describing listener certificates. Shorthand Syntax: CertificateArn=string,IsDefault=boolean ... JSON Syntax: [ { "CertificateArn": "string", "IsDefault": true|false } ... ]
     /// </summary>
     [CliOption("--certificates", GroupValues = true)]
     public IEnumerable<string>? Certificates { get; private init; }

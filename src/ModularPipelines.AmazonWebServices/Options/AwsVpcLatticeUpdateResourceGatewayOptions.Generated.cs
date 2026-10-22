@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsVpcLatticeUpdateResourceGatewayOptions : AwsOptions, IValidatab
     /// <summary>
     /// Updates the specified resource gateway. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceGatewayIdentifier">The ID or ARN of the resource gateway. Constraints: o min: 17 o max: 2048 o pattern: ((rgw-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:resourcegateway/rgw-[0-9a-z]{17}))</param>
+    /// <param name="ResourceGatewayIdentifier">The ID or ARN of the resource gateway. Constraints: • min: 17 • max: 2048 • pattern: ((rgw-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:resourcegateway/rgw-[0-9a-z]{17}))</param>
     public AwsVpcLatticeUpdateResourceGatewayOptions(
         string ResourceGatewayIdentifier
     )
@@ -56,13 +58,13 @@ public record AwsVpcLatticeUpdateResourceGatewayOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or ARN of the resource gateway. Constraints: o min: 17 o max: 2048 o pattern: ((rgw-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:resourcegateway/rgw-[0-9a-z]{17}))
+    /// The ID or ARN of the resource gateway. Constraints: • min: 17 • max: 2048 • pattern: ((rgw-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:resourcegateway/rgw-[0-9a-z]{17}))
     /// </summary>
     [CliOption("--resource-gateway-identifier")]
     public string? ResourceGatewayIdentifier { get; private init; }
 
     /// <summary>
-    /// The IDs of the security groups associated with the resource gateway. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 5 o max: 200 o pattern: sg-(([0-9a-z]{8})|([0-9a-z]{17})) Syntax: "string" "string" ...
+    /// The IDs of the security groups associated with the resource gateway. Constraints: • min: 0 • max: 5 (string) Constraints: • min: 5 • max: 200 • pattern: sg-(([0-9a-z]{8})|([0-9a-z]{17})) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }

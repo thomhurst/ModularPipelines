@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsGlueDeleteAssetOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes an asset from Glue Data Catalog. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The unique identifier of the asset to delete. Constraints: o min: 1 o max: 1087 o pattern: [a-zA-Z0-9\-\:\/\.\_\*]+</param>
+    /// <param name="Identifier">The unique identifier of the asset to delete. Constraints: • min: 1 • max: 1087 • pattern: [a-zA-Z0-9\-\:\/\.\_\*]+</param>
     public AwsGlueDeleteAssetOptions(
         string Identifier
     )
@@ -56,7 +58,7 @@ public record AwsGlueDeleteAssetOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the asset to delete. Constraints: o min: 1 o max: 1087 o pattern: [a-zA-Z0-9\-\:\/\.\_\*]+
+    /// The unique identifier of the asset to delete. Constraints: • min: 1 • max: 1087 • pattern: [a-zA-Z0-9\-\:\/\.\_\*]+
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }

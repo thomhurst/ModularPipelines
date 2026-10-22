@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation is not supported by directory buckets. Gets the tags of Amazon S3 Storage Lens configuration. For more infor- mation about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens in the Amazon S3 User Guide . NOTE: To use this action, you must have permission to perform the s3:Get- StorageLensConfigurationTagging action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide . See also: AWS A...
+/// NOTE: This operation is not supported by directory buckets. Gets the tags of Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens in the Amazon S3 User Guide . NOTE: To use this action, you must have permission to perform the s3:GetStorageLensConfigurationTagging action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide . See also: AWS API D...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsS3controlGetStorageLensConfigurationTaggingOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation is not supported by directory buckets. Gets the tags of Amazon S3 Storage Lens configuration. For more infor- mation about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens in the Amazon S3 User Guide . NOTE: To use this action, you must have permission to perform the s3:Get- StorageLensConfigurationTagging action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide . See also: AWS A...
+    /// NOTE: This operation is not supported by directory buckets. Gets the tags of Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens in the Amazon S3 User Guide . NOTE: To use this action, you must have permission to perform the s3:GetStorageLensConfigurationTagging action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide . See also: AWS API D...
     /// </summary>
-    /// <param name="ConfigId">The ID of the Amazon S3 Storage Lens configuration. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\-\_\.]+</param>
-    /// <param name="AccountId">The account ID of the requester. Constraints: o max: 64 o pattern: ^\d{12}$</param>
+    /// <param name="ConfigId">The ID of the Amazon S3 Storage Lens configuration. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9\-\_\.]+</param>
+    /// <param name="AccountId">The account ID of the requester. Constraints: • max: 64 • pattern: ^\d{12}$</param>
     public AwsS3controlGetStorageLensConfigurationTaggingOptions(
         string ConfigId,
         string AccountId
@@ -60,13 +62,13 @@ public record AwsS3controlGetStorageLensConfigurationTaggingOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon S3 Storage Lens configuration. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\-\_\.]+
+    /// The ID of the Amazon S3 Storage Lens configuration. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9\-\_\.]+
     /// </summary>
     [CliOption("--config-id")]
     public string? ConfigId { get; private init; }
 
     /// <summary>
-    /// The account ID of the requester. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The account ID of the requester. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }

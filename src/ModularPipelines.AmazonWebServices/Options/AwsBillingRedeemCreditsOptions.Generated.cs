@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBillingRedeemCreditsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Redeems an Amazon Web Services promotional credit code on behalf of the calling account. On success, a new credit is added to the account's credit ledger with the amount, validity period, and applicable products defined by the promotion. The credit is then automatically applied to subsequent bills according to the standard credit application order. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PromoCode">The promotional credit code to redeem. Constraints: o min: 1 o max: 256 o pattern: .*[^&lt;&gt;"&amp;\%|' ]*.*</param>
+    /// <param name="PromoCode">The promotional credit code to redeem. Constraints: • min: 1 • max: 256 • pattern: .*[^&lt;&gt;"&amp;\%|' ]*.*</param>
     public AwsBillingRedeemCreditsOptions(
         string PromoCode
     )
@@ -56,7 +58,7 @@ public record AwsBillingRedeemCreditsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The promotional credit code to redeem. Constraints: o min: 1 o max: 256 o pattern: .*[^&lt;&gt;"&amp;\%|' ]*.*
+    /// The promotional credit code to redeem. Constraints: • min: 1 • max: 256 • pattern: .*[^&lt;&gt;"&amp;\%|' ]*.*
     /// </summary>
     [CliOption("--promo-code")]
     public string? PromoCode { get; private init; }

@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the resource shares associated with an account. Use the fil- ter parameter to retrieve a specific subset of the shares. See also: AWS API Documentation list-shares is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow...
+/// Retrieves the resource shares associated with an account. Use the filter parameter to retrieve a specific subset of the shares. See also: AWS API Documentation list-shares is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsOmicsListSharesOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the resource shares associated with an account. Use the fil- ter parameter to retrieve a specific subset of the shares. See also: AWS API Documentation list-shares is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow...
+    /// Retrieves the resource shares associated with an account. Use the filter parameter to retrieve a specific subset of the shares. See also: AWS API Documentation list-shares is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following ...
     /// </summary>
-    /// <param name="ResourceOwner">The account that owns the resource shares. Possible values: o SELF o OTHER</param>
+    /// <param name="ResourceOwner">The account that owns the resource shares. Possible values: • SELF • OTHER</param>
     public AwsOmicsListSharesOptions(
         AwsOmicsListSharesResourceOwner ResourceOwner
     )
@@ -57,22 +59,19 @@ public record AwsOmicsListSharesOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The account that owns the resource shares. Possible values: o SELF o OTHER
+    /// The account that owns the resource shares. Possible values: • SELF • OTHER
     /// </summary>
     [CliOption("--resource-owner")]
     public AwsOmicsListSharesResourceOwner? ResourceOwner { get; private init; }
 
     /// <summary>
-    /// Attributes that you use to filter for a specific subset of resource shares. resourceArns -&gt; (list) Filter based on the Amazon Resource Number (ARN) of the re- source. You can specify up to 10 values. Constraints: o min: 1 o max: 10 (string) status -&gt; (list) Filter based on the resource status. You can specify up to 10 values. Constraints: o min: 1 o max: 10 (string) Possible values: o PENDING o ACTIVATING o ACTIVE o DELETING o DELETED o FAILED type -&gt; (list) The type of resources to be filtered. You can specify one or more of the resource types. Constraints: o min: 1 o max: 10 (string) Possible values: o VARIANT_STORE o ANNOTATION_STORE o WORKFLOW Shorthand Syntax: resourceArns=string,string,status=string,string,type=string,string JSON Syntax: { "resourceArns": ["string", ...], "status": ["PENDING"|"ACTIVATING"|"ACTIVE"|"DELETING"|"DELETED"|"FAILED", ...], "type": ["VARIANT_STORE"|"ANNOTATION_STORE"|"WORKFLOW", ...] }
+    /// Attributes that you use to filter for a specific subset of resource shares. resourceArns -&gt; (list) Filter based on the Amazon Resource Number (ARN) of the resource. You can specify up to 10 values. Constraints: • min: 1 • max: 10 (string) status -&gt; (list) Filter based on the resource status. You can specify up to 10 values. Constraints: • min: 1 • max: 10 (string) Possible values: • PENDING • ACTIVATING • ACTIVE • DELETING • DELETED • FAILED type -&gt; (list) The type of resources to be filtered. You can specify one or more of the resource types. Constraints: • min: 1 • max: 10 (string) Possible values: • VARIANT_STORE • ANNOTATION_STORE • WORKFLOW Shorthand Syntax: resourceArns=string,string,status=string,string,type=string,string JSON Syntax: { "resourceArns": ["string", ...], "status": ["PENDING"|"ACTIVATING"|"ACTIVE"|"DELETING"|"DELETED"|"FAILED", ...], "type": ["VARIANT_STORE"|"ANNOTATION_STORE"|"WORKFLOW", ...] }
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -82,16 +81,19 @@ public record AwsOmicsListSharesOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

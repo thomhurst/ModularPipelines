@@ -62,7 +62,7 @@ public class AwsChime : IAwsChime
     }
 
     /// <summary>
-    /// Adds up to 50 members to a chat room in an Amazon Chime Enterprise ac- count. Members can be users or bots. The member role designates whether the member is a chat room administrator or a general chat room member. See also: AWS API Documentation
+    /// Adds up to 50 members to a chat room in an Amazon Chime Enterprise account. Members can be users or bots. The member role designates whether the member is a chat room administrator or a general chat room member. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsChime : IAwsChime
     }
 
     /// <summary>
-    /// Suspends up to 50 users from a Team or EnterpriseLWA Amazon Chime ac- count. For more information about different account types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administration Guide . Users suspended from a Team account are disassociated from the ac- count,but they can continue to use Amazon Chime as free users. To re- move the suspension from suspended Team account users, invite them to the Team account again. You can use the InviteUsers action to do so. Users suspen...
+    /// Suspends up to 50 users from a Team or EnterpriseLWA Amazon Chime account. For more information about different account types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administration Guide . Users suspended from a Team account are disassociated from the account,but they can continue to use Amazon Chime as free users. To remove the suspension from suspended Team account users, invite them to the Team account again. You can use the InviteUsers action to do so. Users suspended fr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsChime : IAwsChime
     }
 
     /// <summary>
-    /// Removes the suspension from up to 50 previously suspended users for the specified Amazon Chime EnterpriseLWA account. Only users on Enter- priseLWA accounts can be unsuspended using this action. For more infor- mation about different account types, see Managing Your Amazon Chime Accounts in the account types, in the Amazon Chime Administration Guide . Previously suspended users who are unsuspended using this action are returned to Registered status. Users who are not previously suspended are ign...
+    /// Removes the suspension from up to 50 previously suspended users for the specified Amazon Chime EnterpriseLWA account. Only users on EnterpriseLWA accounts can be unsuspended using this action. For more information about different account types, see Managing Your Amazon Chime Accounts in the account types, in the Amazon Chime Administration Guide . Previously suspended users who are unsuspended using this action are returned to Registered status. Users who are not previously suspended are ignored...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsChime : IAwsChime
     }
 
     /// <summary>
-    /// Updates phone number product types or calling names. You can update one attribute at a time for each UpdatePhoneNumberRequestItem . For exam- ple, you can update the product type or the calling name. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type. Updates to outbound calling names can take up to 72 hours to complete. Pending updates to outbound calling nam...
+    /// Updates phone number product types or calling names. You can update one attribute at a time for each UpdatePhoneNumberRequestItem . For example, you can update the product type or the calling name. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type. Updates to outbound calling names can take up to 72 hours to complete. Pending updates to outbound calling names...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsChime : IAwsChime
     }
 
     /// <summary>
-    /// Updates user details within the UpdateUserRequestItem object for up to 20 users for the specified Amazon Chime account. Currently, only Li- censeType updates are supported for this action. See also: AWS API Documentation
+    /// Updates user details within the UpdateUserRequestItem object for up to 20 users for the specified Amazon Chime account. Currently, only LicenseType updates are supported for this action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsChime : IAwsChime
     }
 
     /// <summary>
-    /// Creates an Amazon Chime account under the administrator's AWS account. Only Team account types are currently supported for this action. For more information about different account types, see Managing Your Ama- zon Chime Accounts in the Amazon Chime Administration Guide . See also: AWS API Documentation
+    /// Creates an Amazon Chime account under the administrator's AWS account. Only Team account types are currently supported for this action. For more information about different account types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administration Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsChime : IAwsChime
     }
 
     /// <summary>
-    /// Uses the join token and call metadata in a meeting request (From num- ber, To number, and so forth) to initiate an outbound call to a public switched telephone network (PSTN) and join them into a Chime meeting. Also ensures that the From number belongs to the customer. To play welcome audio or implement an interactive voice response (IVR), use the CreateSipMediaApplicationCall action with the corresponding SIP media application ID. WARNING: This API is not available in a dedicated namespace. See...
+    /// Uses the join token and call metadata in a meeting request (From number, To number, and so forth) to initiate an outbound call to a public switched telephone network (PSTN) and join them into a Chime meeting. Also ensures that the From number belongs to the customer. To play welcome audio or implement an interactive voice response (IVR), use the CreateSipMediaApplicationCall action with the corresponding SIP media application ID. WARNING: This API is not available in a dedicated namespace. See a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsChime : IAwsChime
     }
 
     /// <summary>
-    /// Deletes the specified Amazon Chime account. You must suspend all users before deleting Team account. You can use the BatchSuspendUser action to dodo. For EnterpriseLWA and EnterpriseAD accounts, you must release the claimed domains for your Amazon Chime account before deletion. As soon as you release the domain, all users under that account are suspended. Deleted accounts appear in your Disabled accounts list for 90 days. To restore deleted account from your Disabled accounts list, you must con-...
+    /// Deletes the specified Amazon Chime account. You must suspend all users before deleting Team account. You can use the BatchSuspendUser action to dodo. For EnterpriseLWA and EnterpriseAD accounts, you must release the claimed domains for your Amazon Chime account before deletion. As soon as you release the domain, all users under that account are suspended. Deleted accounts appear in your Disabled accounts list for 90 days. To restore deleted account from your Disabled accounts list, you must cont...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsChime : IAwsChime
     }
 
     /// <summary>
-    /// Moves the specified phone number into the Deletion queue . A phone num- ber must be disassociated from any users or Amazon Chime Voice Connec- tors before it can be deleted. Deleted phone numbers remain in the Deletion queue for 7 days before they are deleted permanently. See also: AWS API Documentation
+    /// Moves the specified phone number into the Deletion queue . A phone number must be disassociated from any users or Amazon Chime Voice Connectors before it can be deleted. Deleted phone numbers remain in the Deletion queue for 7 days before they are deleted permanently. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsChime : IAwsChime
     }
 
     /// <summary>
-    /// Removes a member from a chat room in an Amazon Chime Enterprise ac- count. See also: AWS API Documentation
+    /// Removes a member from a chat room in an Amazon Chime Enterprise account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsChime : IAwsChime
     }
 
     /// <summary>
-    /// Retrieves details for the specified Amazon Chime account, such as ac- count type and supported licenses. See also: AWS API Documentation
+    /// Retrieves details for the specified Amazon Chime account, such as account type and supported licenses. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsChime : IAwsChime
     }
 
     /// <summary>
-    /// Retrieves account settings for the specified Amazon Chime account ID, such as remote control and dialout settings. For more information about these settings, see Use the Policies Page in the Amazon Chime Adminis- tration Guide . See also: AWS API Documentation
+    /// Retrieves account settings for the specified Amazon Chime account ID, such as remote control and dialout settings. For more information about these settings, see Use the Policies Page in the Amazon Chime Administration Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsChime : IAwsChime
     }
 
     /// <summary>
-    /// Retrieves global settings for the administrator's AWS account, such as Amazon Chime Business Calling and Amazon Chime Voice Connector set- tings. See also: AWS API Documentation
+    /// Retrieves global settings for the administrator's AWS account, such as Amazon Chime Business Calling and Amazon Chime Voice Connector settings. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsChime : IAwsChime
     }
 
     /// <summary>
-    /// Retrieves details for the specified phone number ID, such as associa- tions, capabilities, and product type. See also: AWS API Documentation
+    /// Retrieves details for the specified phone number ID, such as associations, capabilities, and product type. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsChime : IAwsChime
     }
 
     /// <summary>
-    /// Retrieves details for the specified phone number order, such as the or- der creation timestamp, phone numbers in E.164 format, product type, and order status. See also: AWS API Documentation
+    /// Retrieves details for the specified phone number order, such as the order creation timestamp, phone numbers in E.164 format, product type, and order status. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsChime : IAwsChime
     }
 
     /// <summary>
-    /// Retrieves the phone number settings for the administrator's AWS ac- count, such as the default outbound calling name. See also: AWS API Documentation
+    /// Retrieves the phone number settings for the administrator's AWS account, such as the default outbound calling name. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -512,7 +512,7 @@ public class AwsChime : IAwsChime
     }
 
     /// <summary>
-    /// Retrieves details for the specified user ID, such as primary email ad- dress, license type,and personal meeting PIN. To retrieve user details with an email address instead of a user ID, use the ListUsers action, and then filter by email address. See also: AWS API Documentation
+    /// Retrieves details for the specified user ID, such as primary email address, license type,and personal meeting PIN. To retrieve user details with an email address instead of a user ID, use the ListUsers action, and then filter by email address. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsChime : IAwsChime
     }
 
     /// <summary>
-    /// Sends email to a maximum of 50 users, inviting them to the specified Amazon Chime Team account. Only Team account types are currently sup- ported for this action. See also: AWS API Documentation
+    /// Sends email to a maximum of 50 users, inviting them to the specified Amazon Chime Team account. Only Team account types are currently supported for this action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +557,7 @@ public class AwsChime : IAwsChime
     }
 
     /// <summary>
-    /// Lists the Amazon Chime accounts under the administrator's AWS account. You can filter accounts by account name prefix. To find out which Ama- zon Chime account a user belongs to, you can filter by the user's email address, which returns one account result. See also: AWS API Documentation list-accounts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --...
+    /// Lists the Amazon Chime accounts under the administrator's AWS account. You can filter accounts by account name prefix. To find out which Amazon Chime account a user belongs to, you can filter by the user's email address, which returns one account result. See also: AWS API Documentation list-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsChime : IAwsChime
     }
 
     /// <summary>
-    /// Lists the bots associated with the administrator's Amazon Chime Enter- prise account ID. See also: AWS API Documentation
+    /// Lists the bots associated with the administrator's Amazon Chime Enterprise account ID. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsChime : IAwsChime
     }
 
     /// <summary>
-    /// Lists the phone number orders for the administrator's Amazon Chime ac- count. See also: AWS API Documentation
+    /// Lists the phone number orders for the administrator's Amazon Chime account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -602,7 +602,7 @@ public class AwsChime : IAwsChime
     }
 
     /// <summary>
-    /// Lists the phone numbers for the specified Amazon Chime account, Amazon Chime user, Amazon Chime Voice Connector, or Amazon Chime Voice Connec- tor group. See also: AWS API Documentation
+    /// Lists the phone numbers for the specified Amazon Chime account, Amazon Chime user, Amazon Chime Voice Connector, or Amazon Chime Voice Connector group. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -632,7 +632,7 @@ public class AwsChime : IAwsChime
     }
 
     /// <summary>
-    /// Lists the room details for the specified Amazon Chime Enterprise ac- count. Optionally, filter the results by a member ID (user ID or bot ID) to see a list of rooms that the member belongs to. See also: AWS API Documentation
+    /// Lists the room details for the specified Amazon Chime Enterprise account. Optionally, filter the results by a member ID (user ID or bot ID) to see a list of rooms that the member belongs to. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsChime : IAwsChime
     }
 
     /// <summary>
-    /// Lists the users that belong to the specified Amazon Chime account. You can specify an email address to list only the user that the email ad- dress belongs to. See also: AWS API Documentation list-users is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data fr...
+    /// Lists the users that belong to the specified Amazon Chime account. You can specify an email address to list only the user that the email address belongs to. See also: AWS API Documentation list-users is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -707,7 +707,7 @@ public class AwsChime : IAwsChime
     }
 
     /// <summary>
-    /// Puts retention settings for the specified Amazon Chime Enterprise ac- count. We recommend using AWS CloudTrail to monitor usage of this API for your account. For more information, see Logging Amazon Chime API Calls with AWS CloudTrail in the Amazon Chime Administration Guide . To turn off existing retention settings, remove the number of days from the corresponding RetentionDays field in the RetentionSettings object. For more information about retention settings, see Managing Chat Reten- tion Po...
+    /// Puts retention settings for the specified Amazon Chime Enterprise account. We recommend using AWS CloudTrail to monitor usage of this API for your account. For more information, see Logging Amazon Chime API Calls with AWS CloudTrail in the Amazon Chime Administration Guide . To turn off existing retention settings, remove the number of days from the corresponding RetentionDays field in the RetentionSettings object. For more information about retention settings, see Managing Chat Retention Polici...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -722,7 +722,7 @@ public class AwsChime : IAwsChime
     }
 
     /// <summary>
-    /// Redacts the specified message from the specified Amazon Chime conversa- tion. See also: AWS API Documentation
+    /// Redacts the specified message from the specified Amazon Chime conversation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -767,7 +767,7 @@ public class AwsChime : IAwsChime
     }
 
     /// <summary>
-    /// Resets the personal meeting PIN for the specified user on an Amazon Chime account. Returns the User object with the updated personal meet- ing PIN. See also: AWS API Documentation
+    /// Resets the personal meeting PIN for the specified user on an Amazon Chime account. Returns the User object with the updated personal meeting PIN. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -812,7 +812,7 @@ public class AwsChime : IAwsChime
     }
 
     /// <summary>
-    /// Updates account details for the specified Amazon Chime account. Cur- rently, only account name and default license updates are supported for this action. See also: AWS API Documentation
+    /// Updates account details for the specified Amazon Chime account. Currently, only account name and default license updates are supported for this action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -857,7 +857,7 @@ public class AwsChime : IAwsChime
     }
 
     /// <summary>
-    /// Updates global settings for the administrator's AWS account, such as Amazon Chime Business Calling and Amazon Chime Voice Connector set- tings. See also: AWS API Documentation
+    /// Updates global settings for the administrator's AWS account, such as Amazon Chime Business Calling and Amazon Chime Voice Connector settings. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -872,7 +872,7 @@ public class AwsChime : IAwsChime
     }
 
     /// <summary>
-    /// Updates phone number details, such as product type or calling name, for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type or the calling name in one action. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type. Updates to outbound calling names can take 72 hours to complete. Pend-...
+    /// Updates phone number details, such as product type or calling name, for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type or the calling name in one action. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type. Updates to outbound calling names can take 72 hours to complete. Pendi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -932,7 +932,7 @@ public class AwsChime : IAwsChime
     }
 
     /// <summary>
-    /// Updates user details for a specified user ID. Currently, only License- Type updates are supported for this action. See also: AWS API Documentation
+    /// Updates user details for a specified user ID. Currently, only LicenseType updates are supported for this action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -947,7 +947,7 @@ public class AwsChime : IAwsChime
     }
 
     /// <summary>
-    /// Updates the settings for the specified user, such as phone number set- tings. See also: AWS API Documentation
+    /// Updates the settings for the specified user, such as phone number settings. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

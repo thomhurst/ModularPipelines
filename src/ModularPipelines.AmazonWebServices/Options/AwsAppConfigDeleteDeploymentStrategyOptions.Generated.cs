@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAppConfigDeleteDeploymentStrategyOptions : AwsOptions, IValidat
     /// <summary>
     /// Deletes a deployment strategy. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DeploymentStrategyId">The ID of the deployment strategy you want to delete. Constraints: o pattern: (^[a-z0-9]{4,7}$|^AppConfig\.[A-Za-z0-9]{9,40}$)</param>
+    /// <param name="DeploymentStrategyId">The ID of the deployment strategy you want to delete. Constraints: • pattern: (^[a-z0-9]{4,7}$|^AppConfig\.[A-Za-z0-9]{9,40}$)</param>
     public AwsAppConfigDeleteDeploymentStrategyOptions(
         string DeploymentStrategyId
     )
@@ -56,7 +58,7 @@ public record AwsAppConfigDeleteDeploymentStrategyOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the deployment strategy you want to delete. Constraints: o pattern: (^[a-z0-9]{4,7}$|^AppConfig\.[A-Za-z0-9]{9,40}$)
+    /// The ID of the deployment strategy you want to delete. Constraints: • pattern: (^[a-z0-9]{4,7}$|^AppConfig\.[A-Za-z0-9]{9,40}$)
     /// </summary>
     [CliOption("--deployment-strategy-id")]
     public string? DeploymentStrategyId { get; private init; }

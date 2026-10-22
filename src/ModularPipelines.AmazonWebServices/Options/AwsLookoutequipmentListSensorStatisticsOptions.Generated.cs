@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsLookoutequipmentListSensorStatisticsOptions : AwsOptions, IVali
     /// <summary>
     /// Lists statistics about the data collected for each of the sensors that have been successfully ingested in the particular dataset. Can also be used to retreive Sensor Statistics for a previous ingestion job. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSetName">The name of the dataset associated with the list of Sensor Statis- tics. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    /// <param name="DataSetName">The name of the dataset associated with the list of Sensor Statistics. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
     public AwsLookoutequipmentListSensorStatisticsOptions(
         string DataSetName
     )
@@ -57,25 +59,25 @@ public record AwsLookoutequipmentListSensorStatisticsOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the dataset associated with the list of Sensor Statis- tics. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// The name of the dataset associated with the list of Sensor Statistics. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$
     /// </summary>
     [CliOption("--dataset-name")]
     public string? DataSetName { get; private init; }
 
     /// <summary>
-    /// The ingestion job id associated with the list of Sensor Statistics. To get sensor statistics for a particular ingestion job id, both dataset name and ingestion job id must be submitted as inputs. Constraints: o max: 32 o pattern: [A-Fa-f0-9]{0,32}
+    /// The ingestion job id associated with the list of Sensor Statistics. To get sensor statistics for a particular ingestion job id, both dataset name and ingestion job id must be submitted as inputs. Constraints: • max: 32 • pattern: [A-Fa-f0-9]{0,32}
     /// </summary>
     [CliOption("--ingestion-job-id")]
     public string? IngestionJobId { get; set; }
 
     /// <summary>
-    /// Specifies the maximum number of sensors for which to retrieve sta- tistics. Constraints: o min: 1 o max: 500
+    /// Specifies the maximum number of sensors for which to retrieve statistics. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// An opaque pagination token indicating where to continue the listing of sensor statistics. Constraints: o max: 8192 o pattern: \p{ASCII}{0,8192}
+    /// An opaque pagination token indicating where to continue the listing of sensor statistics. Constraints: • max: 8192 • pattern: \p{ASCII}{0,8192}
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

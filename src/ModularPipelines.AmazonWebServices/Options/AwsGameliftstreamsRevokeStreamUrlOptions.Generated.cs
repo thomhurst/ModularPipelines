@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Revokes a stream URL so that it can no longer start new stream ses- sions. By default, stream sessions that are already running continue until they end on their own. To also end running sessions, set Revoca- tionMode to REVOKE_AND_TERMINATE_SESSIONS . Revoking a stream URL is permanent. The status of the stream URL changes to REVOKED . See also: AWS API Documentation
+/// Revokes a stream URL so that it can no longer start new stream sessions. By default, stream sessions that are already running continue until they end on their own. To also end running sessions, set RevocationMode to REVOKE_AND_TERMINATE_SESSIONS . Revoking a stream URL is permanent. The status of the stream URL changes to REVOKED . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsGameliftstreamsRevokeStreamUrlOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Revokes a stream URL so that it can no longer start new stream ses- sions. By default, stream sessions that are already running continue until they end on their own. To also end running sessions, set Revoca- tionMode to REVOKE_AND_TERMINATE_SESSIONS . Revoking a stream URL is permanent. The status of the stream URL changes to REVOKED . See also: AWS API Documentation
+    /// Revokes a stream URL so that it can no longer start new stream sessions. By default, stream sessions that are already running continue until they end on their own. To also end running sessions, set RevocationMode to REVOKE_AND_TERMINATE_SESSIONS . Revoking a stream URL is permanent. The status of the stream URL changes to REVOKED . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">An Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . This is the stream group that owns the stream URL. Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
-    /// <param name="StreamUrlIdentifier">The unique identifier of the stream URL to revoke. Specify a stream URL ID or Amazon Resource Name (ARN). Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamurl/sg-1AB2C3De4/su-1AB2C3De4 . Example ID: su-1AB2C3De4 . Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
+    /// <param name="Identifier">An Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . This is the stream group that owns the stream URL. Constraints: • min: 1 • max: 128 • pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
+    /// <param name="StreamUrlIdentifier">The unique identifier of the stream URL to revoke. Specify a stream URL ID or Amazon Resource Name (ARN). Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamurl/sg-1AB2C3De4/su-1AB2C3De4 . Example ID: su-1AB2C3De4 . Constraints: • min: 1 • max: 128 • pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
     public AwsGameliftstreamsRevokeStreamUrlOptions(
         string Identifier,
         string StreamUrlIdentifier
@@ -61,19 +63,19 @@ public record AwsGameliftstreamsRevokeStreamUrlOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . This is the stream group that owns the stream URL. Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
+    /// An Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . This is the stream group that owns the stream URL. Constraints: • min: 1 • max: 128 • pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the stream URL to revoke. Specify a stream URL ID or Amazon Resource Name (ARN). Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamurl/sg-1AB2C3De4/su-1AB2C3De4 . Example ID: su-1AB2C3De4 . Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
+    /// The unique identifier of the stream URL to revoke. Specify a stream URL ID or Amazon Resource Name (ARN). Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamurl/sg-1AB2C3De4/su-1AB2C3De4 . Example ID: su-1AB2C3De4 . Constraints: • min: 1 • max: 128 • pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
     /// </summary>
     [CliOption("--stream-url-identifier")]
     public string? StreamUrlIdentifier { get; private init; }
 
     /// <summary>
-    /// Controls what happens to running stream sessions when you revoke the stream URL. If you do not specify a value, the default is REVOKE_URL . Possible values include the following: o REVOKE_URL : Stops the stream URL from starting new stream ses- sions. Running sessions continue until they end. o REVOKE_AND_TERMINATE_SESSIONS : Stops new stream sessions and ends any running stream sessions. Possible values: o REVOKE_URL o REVOKE_AND_TERMINATE_SESSIONS
+    /// Controls what happens to running stream sessions when you revoke the stream URL. If you do not specify a value, the default is REVOKE_URL . Possible values include the following: • REVOKE_URL : Stops the stream URL from starting new stream sessions. Running sessions continue until they end. • REVOKE_AND_TERMINATE_SESSIONS : Stops new stream sessions and ends any running stream sessions. Possible values: • REVOKE_URL • REVOKE_AND_TERMINATE_SESSIONS
     /// </summary>
     [CliOption("--revocation-mode")]
     public AwsGameliftstreamsRevokeStreamUrlRevocationMode? RevocationMode { get; set; }

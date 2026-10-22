@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsGlueDescribeIntegrationsOptions : AwsOptions
 {
     /// <summary>
-    /// The Amazon Resource Name (ARN) for the integration. Constraints: o min: 1 o max: 128
+    /// The Amazon Resource Name (ARN) for the integration. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--integration-identifier")]
     public string? IntegrationIdentifier { get; set; }
 
     /// <summary>
-    /// A value that indicates the starting point for the next set of re- sponse records in a subsequent request. Constraints: o min: 1 o max: 128
+    /// A value that indicates the starting point for the next set of response records in a subsequent request. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--marker")]
     public string? Marker { get; set; }
@@ -40,7 +40,7 @@ public record AwsGlueDescribeIntegrationsOptions : AwsOptions
     public int? MaxRecords { get; set; }
 
     /// <summary>
-    /// A list of key and values, to filter down the results. Supported keys are "Status", "IntegrationName", and "SourceArn". IntegrationName is limited to only one value. (structure) A filter that can be used when invoking a DescribeIntegrations request. Name -&gt; (string) The name of the filter. Constraints: o min: 1 o max: 128 Values -&gt; (list) A list of filter values. (string) Constraints: o min: 1 o max: 128 Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// A list of key and values, to filter down the results. Supported keys are "Status", "IntegrationName", and "SourceArn". IntegrationName is limited to only one value. (structure) A filter that can be used when invoking a DescribeIntegrations request. Name -&gt; (string) The name of the filter. Constraints: • min: 1 • max: 128 Values -&gt; (list) A list of filter values. (string) Constraints: • min: 1 • max: 128 Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }

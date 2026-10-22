@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the protection status of a task. You can set protectionEnabled to true to protect your task from termination during scale-in events from Service Autoscaling or deployments . Task-protection, by default, expires after 2 hours at which point Ama- zon ECS clears the protectionEnabled property making the task eligible for termination by a subsequent scale-in event. You can specify a custom expiration period for task protection from 1 minute to up to 2,880 minutes (48 hours). To specify the c...
+/// Updates the protection status of a task. You can set protectionEnabled to true to protect your task from termination during scale-in events from Service Autoscaling or deployments . Task-protection, by default, expires after 2 hours at which point Amazon ECS clears the protectionEnabled property making the task eligible for termination by a subsequent scale-in event. You can specify a custom expiration period for task protection from 1 minute to up to 2,880 minutes (48 hours). To specify the cus...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsEcsUpdateTaskProtectionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the protection status of a task. You can set protectionEnabled to true to protect your task from termination during scale-in events from Service Autoscaling or deployments . Task-protection, by default, expires after 2 hours at which point Ama- zon ECS clears the protectionEnabled property making the task eligible for termination by a subsequent scale-in event. You can specify a custom expiration period for task protection from 1 minute to up to 2,880 minutes (48 hours). To specify the c...
+    /// Updates the protection status of a task. You can set protectionEnabled to true to protect your task from termination during scale-in events from Service Autoscaling or deployments . Task-protection, by default, expires after 2 hours at which point Amazon ECS clears the protectionEnabled property making the task eligible for termination by a subsequent scale-in event. You can specify a custom expiration period for task protection from 1 minute to up to 2,880 minutes (48 hours). To specify the cus...
     /// </summary>
     /// <param name="Cluster">The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task sets exist in.</param>
     /// <param name="Tasks">A list of up to 10 task IDs or full ARN entries. (string) Syntax: "string" "string" ...</param>
-    /// <param name="ProtectionEnabled">Specify true to mark a task for protection and false to unset pro- tection, making it eligible for termination.</param>
+    /// <param name="ProtectionEnabled">Specify true to mark a task for protection and false to unset protection, making it eligible for termination.</param>
     public AwsEcsUpdateTaskProtectionOptions(
         string Cluster,
         IEnumerable<string> Tasks,
@@ -86,13 +88,13 @@ public record AwsEcsUpdateTaskProtectionOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? Tasks { get; private init; }
 
     /// <summary>
-    /// Specify true to mark a task for protection and false to unset pro- tection, making it eligible for termination.
+    /// Specify true to mark a task for protection and false to unset protection, making it eligible for termination.
     /// </summary>
     [CliFlag("--protection-enabled", NegatedName = "--no-protection-enabled")]
     public bool? ProtectionEnabled { get; private init; }
 
     /// <summary>
-    /// If you set protectionEnabled to true , you can specify the duration for task protection in minutes. You can specify a value from 1 minute to up to 2,880 minutes (48 hours). During this time, your task will not be terminated by scale-in events from Service Auto Scaling or deployments. After this time period lapses, protectionEn- abled will be reset to false . If you dont specify the time, then the task is automatically pro- tected for 120 minutes (2 hours).
+    /// If you set protectionEnabled to true , you can specify the duration for task protection in minutes. You can specify a value from 1 minute to up to 2,880 minutes (48 hours). During this time, your task will not be terminated by scale-in events from Service Auto Scaling or deployments. After this time period lapses, protectionEnabled will be reset to false . If you dont specify the time, then the task is automatically protected for 120 minutes (2 hours).
     /// </summary>
     [CliOption("--expires-in-minutes")]
     public int? ExpiresInMinutes { get; set; }

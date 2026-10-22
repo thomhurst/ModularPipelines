@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about the DataIntegration. NOTE: You cannot create a DataIntegration association for a DataIntegra- tion that has been previously associated. Use a different DataInte- gration, or recreate the DataIntegration using the CreateDataIntegration API. See also: AWS API Documentation
+/// Returns information about the DataIntegration. NOTE: You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the CreateDataIntegration API. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsAppintegrationsGetDataIntegrationOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns information about the DataIntegration. NOTE: You cannot create a DataIntegration association for a DataIntegra- tion that has been previously associated. Use a different DataInte- gration, or recreate the DataIntegration using the CreateDataIntegration API. See also: AWS API Documentation
+    /// Returns information about the DataIntegration. NOTE: You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the CreateDataIntegration API. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">A unique identifier. Constraints: o min: 1 o max: 255 o pattern: .*\S.*</param>
+    /// <param name="Identifier">A unique identifier. Constraints: • min: 1 • max: 255 • pattern: .*\S.*</param>
     public AwsAppintegrationsGetDataIntegrationOptions(
         string Identifier
     )
@@ -56,7 +58,7 @@ public record AwsAppintegrationsGetDataIntegrationOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier. Constraints: o min: 1 o max: 255 o pattern: .*\S.*
+    /// A unique identifier. Constraints: • min: 1 • max: 255 • pattern: .*\S.*
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }

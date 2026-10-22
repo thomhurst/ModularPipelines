@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -79,7 +80,7 @@ public record AwsApigatewayv2CreateStageOptions : AwsOptions, IValidatableObject
     public string? AccessLogSettings { get; set; }
 
     /// <summary>
-    /// Specifies whether updates to an API automatically trigger a new de- ployment. The default value is false.
+    /// Specifies whether updates to an API automatically trigger a new deployment. The default value is false.
     /// </summary>
     [CliFlag("--auto-deploy", NegatedName = "--no-auto-deploy")]
     public bool? AutoDeploy { get; set; }
@@ -91,7 +92,7 @@ public record AwsApigatewayv2CreateStageOptions : AwsOptions, IValidatableObject
     public string? ClientCertificateId { get; set; }
 
     /// <summary>
-    /// The default route settings for the stage. DataTraceEnabled -&gt; (boolean) Specifies whether (true) or not (false) data trace logging is enabled for this route. This property affects the log entries pushed to Amazon CloudWatch Logs. Supported only for WebSocket APIs. DetailedMetricsEnabled -&gt; (boolean) Specifies whether detailed metrics are enabled. LoggingLevel -&gt; (string) Specifies the logging level for this route: INFO, ERROR, or OFF. This property affects the log entries pushed to Amazon Cloud- Watch Logs. Supported only for WebSocket APIs. Possible values: o ERROR o INFO o OFF ThrottlingBurstLimit -&gt; (integer) Specifies the throttling burst limit. ThrottlingRateLimit -&gt; (double) Specifies the throttling rate limit. Shorthand Syntax: DataTraceEnabled=boolean,DetailedMetricsEnabled=boolean,LoggingLevel=string,ThrottlingBurstLimit=integer,ThrottlingRateLimit=double JSON Syntax: { "DataTraceEnabled": true|false, "DetailedMetricsEnabled": true|false, "LoggingLevel": "ERROR"|"INFO"|"OFF", "ThrottlingBurstLimit": integer, "ThrottlingRateLimit": double }
+    /// The default route settings for the stage. DataTraceEnabled -&gt; (boolean) Specifies whether (true) or not (false) data trace logging is enabled for this route. This property affects the log entries pushed to Amazon CloudWatch Logs. Supported only for WebSocket APIs. DetailedMetricsEnabled -&gt; (boolean) Specifies whether detailed metrics are enabled. LoggingLevel -&gt; (string) Specifies the logging level for this route: INFO, ERROR, or OFF. This property affects the log entries pushed to Amazon CloudWatch Logs. Supported only for WebSocket APIs. Possible values: • ERROR • INFO • OFF ThrottlingBurstLimit -&gt; (integer) Specifies the throttling burst limit. ThrottlingRateLimit -&gt; (double) Specifies the throttling rate limit. Shorthand Syntax: DataTraceEnabled=boolean,DetailedMetricsEnabled=boolean,LoggingLevel=string,ThrottlingBurstLimit=integer,ThrottlingRateLimit=double JSON Syntax: { "DataTraceEnabled": true|false, "DetailedMetricsEnabled": true|false, "LoggingLevel": "ERROR"|"INFO"|"OFF", "ThrottlingBurstLimit": integer, "ThrottlingRateLimit": double }
     /// </summary>
     [CliOption("--default-route-settings")]
     public string? DefaultRouteSettings { get; set; }
@@ -109,7 +110,7 @@ public record AwsApigatewayv2CreateStageOptions : AwsOptions, IValidatableObject
     public string? Description { get; set; }
 
     /// <summary>
-    /// Route settings for the stage, by routeKey. key -&gt; (string) value -&gt; (structure) Represents a collection of route settings. DataTraceEnabled -&gt; (boolean) Specifies whether (true) or not (false) data trace logging is enabled for this route. This property affects the log entries pushed to Amazon CloudWatch Logs. Supported only for Web- Socket APIs. DetailedMetricsEnabled -&gt; (boolean) Specifies whether detailed metrics are enabled. LoggingLevel -&gt; (string) Specifies the logging level for this route: INFO, ERROR, or OFF. This property affects the log entries pushed to Amazon CloudWatch Logs. Supported only for WebSocket APIs. Possible values: o ERROR o INFO o OFF ThrottlingBurstLimit -&gt; (integer) Specifies the throttling burst limit. ThrottlingRateLimit -&gt; (double) Specifies the throttling rate limit. Shorthand Syntax: KeyName1={DataTraceEnabled=boolean,DetailedMetricsEnabled=boolean,LoggingLevel=string,ThrottlingBurstLimit=integer,ThrottlingRateLimit=double},KeyName2={DataTraceEnabled=boolean,DetailedMetricsEnabled=boolean,LoggingLevel=string,ThrottlingBurstLimit=integer,ThrottlingRateLimit=double} JSON Syntax: {"string": { "DataTraceEnabled": true|false, "DetailedMetricsEnabled": true|false, "LoggingLevel": "ERROR"|"INFO"|"OFF", "ThrottlingBurstLimit": integer, "ThrottlingRateLimit": double } ...}
+    /// Route settings for the stage, by routeKey. key -&gt; (string) value -&gt; (structure) Represents a collection of route settings. DataTraceEnabled -&gt; (boolean) Specifies whether (true) or not (false) data trace logging is enabled for this route. This property affects the log entries pushed to Amazon CloudWatch Logs. Supported only for WebSocket APIs. DetailedMetricsEnabled -&gt; (boolean) Specifies whether detailed metrics are enabled. LoggingLevel -&gt; (string) Specifies the logging level for this route: INFO, ERROR, or OFF. This property affects the log entries pushed to Amazon CloudWatch Logs. Supported only for WebSocket APIs. Possible values: • ERROR • INFO • OFF ThrottlingBurstLimit -&gt; (integer) Specifies the throttling burst limit. ThrottlingRateLimit -&gt; (double) Specifies the throttling rate limit. Shorthand Syntax: KeyName1={DataTraceEnabled=boolean,DetailedMetricsEnabled=boolean,LoggingLevel=string,ThrottlingBurstLimit=integer,ThrottlingRateLimit=double},KeyName2={DataTraceEnabled=boolean,DetailedMetricsEnabled=boolean,LoggingLevel=string,ThrottlingBurstLimit=integer,ThrottlingRateLimit=double} JSON Syntax: {"string": { "DataTraceEnabled": true|false, "DetailedMetricsEnabled": true|false, "LoggingLevel": "ERROR"|"INFO"|"OFF", "ThrottlingBurstLimit": integer, "ThrottlingRateLimit": double } ...}
     /// </summary>
     [CliOption("--route-settings", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? RouteSettings { get; set; }

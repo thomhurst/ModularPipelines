@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsLightsailGetLoadBalancerOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Returns information about the specified Lightsail load balancer. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LoadBalancerName">The name of the load balancer. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="LoadBalancerName">The name of the load balancer. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailGetLoadBalancerOptions(
         string LoadBalancerName
     )
@@ -56,7 +58,7 @@ public record AwsLightsailGetLoadBalancerOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the load balancer. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the load balancer. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--load-balancer-name")]
     public string? LoadBalancerName { get; private init; }

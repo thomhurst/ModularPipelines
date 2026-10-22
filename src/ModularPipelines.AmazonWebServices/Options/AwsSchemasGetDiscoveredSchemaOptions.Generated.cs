@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsSchemasGetDiscoveredSchemaOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Get the discovered schema that was generated based on sampled events. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Events">An array of strings where each string is a JSON event. These are the events that were used to generate the schema. The array includes a single type of event and has a maximum size of 10 events. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 100000 Syntax: "string" "string" ...</param>
-    /// <param name="Type">The type of event. Possible values: o OpenApi3 o JSONSchemaDraft4</param>
+    /// <param name="Events">An array of strings where each string is a JSON event. These are the events that were used to generate the schema. The array includes a single type of event and has a maximum size of 10 events. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 100000 Syntax: "string" "string" ...</param>
+    /// <param name="Type">The type of event. Possible values: • OpenApi3 • JSONSchemaDraft4</param>
     public AwsSchemasGetDiscoveredSchemaOptions(
         IEnumerable<string> Events,
         AwsSchemasGetDiscoveredSchemaType Type
@@ -71,13 +73,13 @@ public record AwsSchemasGetDiscoveredSchemaOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An array of strings where each string is a JSON event. These are the events that were used to generate the schema. The array includes a single type of event and has a maximum size of 10 events. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 100000 Syntax: "string" "string" ...
+    /// An array of strings where each string is a JSON event. These are the events that were used to generate the schema. The array includes a single type of event and has a maximum size of 10 events. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 100000 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--events", GroupValues = true)]
     public IEnumerable<string>? Events { get; private init; }
 
     /// <summary>
-    /// The type of event. Possible values: o OpenApi3 o JSONSchemaDraft4
+    /// The type of event. Possible values: • OpenApi3 • JSONSchemaDraft4
     /// </summary>
     [CliOption("--type")]
     public AwsSchemasGetDiscoveredSchemaType? Type { get; private init; }

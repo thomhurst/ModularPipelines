@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets information about a data source. See also: AWS API Documentation get-data-source uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+/// Gets information about a data source. See also: AWS API Documentation get-data-source uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsBedrockAgentGetDataSourceOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets information about a data source. See also: AWS API Documentation get-data-source uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Gets information about a data source. See also: AWS API Documentation get-data-source uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="KnowledgeBaseId">The unique identifier of the knowledge base for the data source. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
-    /// <param name="DataSourceId">The unique identifier of the data source. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="KnowledgeBaseId">The unique identifier of the knowledge base for the data source. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="DataSourceId">The unique identifier of the data source. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
     public AwsBedrockAgentGetDataSourceOptions(
         string KnowledgeBaseId,
         string DataSourceId
@@ -60,13 +62,13 @@ public record AwsBedrockAgentGetDataSourceOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the knowledge base for the data source. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The unique identifier of the knowledge base for the data source. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--knowledge-base-id")]
     public string? KnowledgeBaseId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the data source. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The unique identifier of the data source. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--data-source-id")]
     public string? DataSourceId { get; private init; }

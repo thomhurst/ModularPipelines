@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsRedshiftModifyClusterSubnetGroupOptions : AwsOptions, IValidata
     /// <summary>
     /// Modifies a cluster subnet group to include the specified list of VPC subnets. The operation replaces the existing list of subnets with the new list of subnets. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. If a subnet group for a provisioned cluster is in an account with VPC BPA turned on, the following capabilities are blocked:...
     /// </summary>
-    /// <param name="ClusterSubnetGroupName">The name of the subnet group to be modified. Constraints: o max: 2147483647</param>
-    /// <param name="SubnetIds">An array of VPC subnet IDs. A maximum of 20 subnets can be modified in a single request. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...</param>
+    /// <param name="ClusterSubnetGroupName">The name of the subnet group to be modified. Constraints: • max: 2147483647</param>
+    /// <param name="SubnetIds">An array of VPC subnet IDs. A maximum of 20 subnets can be modified in a single request. (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...</param>
     public AwsRedshiftModifyClusterSubnetGroupOptions(
         string ClusterSubnetGroupName,
         IEnumerable<string> SubnetIds
@@ -71,19 +73,19 @@ public record AwsRedshiftModifyClusterSubnetGroupOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the subnet group to be modified. Constraints: o max: 2147483647
+    /// The name of the subnet group to be modified. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-subnet-group-name")]
     public string? ClusterSubnetGroupName { get; private init; }
 
     /// <summary>
-    /// An array of VPC subnet IDs. A maximum of 20 subnets can be modified in a single request. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// An array of VPC subnet IDs. A maximum of 20 subnets can be modified in a single request. (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; private init; }
 
     /// <summary>
-    /// A text description of the subnet group to be modified. Constraints: o max: 2147483647
+    /// A text description of the subnet group to be modified. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

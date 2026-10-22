@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an email address metadata. For more information about email ad- dresses, see Create email addresses in the Connect Customer Administra- tor Guide. See also: AWS API Documentation
+/// Updates an email address metadata. For more information about email addresses, see Create email addresses in the Connect Customer Administrator Guide. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsConnectUpdateEmailAddressMetadataOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an email address metadata. For more information about email ad- dresses, see Create email addresses in the Connect Customer Administra- tor Guide. See also: AWS API Documentation
+    /// Updates an email address metadata. For more information about email addresses, see Create email addresses in the Connect Customer Administrator Guide. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="EmailAddressId">The identifier of the email address. Constraints: o min: 1 o max: 500</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="EmailAddressId">The identifier of the email address. Constraints: • min: 1 • max: 500</param>
     public AwsConnectUpdateEmailAddressMetadataOptions(
         string InstanceId,
         string EmailAddressId
@@ -61,31 +63,31 @@ public record AwsConnectUpdateEmailAddressMetadataOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the email address. Constraints: o min: 1 o max: 500
+    /// The identifier of the email address. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--email-address-id")]
     public string? EmailAddressId { get; private init; }
 
     /// <summary>
-    /// The description of the email address. Constraints: o min: 0 o max: 4096
+    /// The description of the email address. Constraints: • min: 0 • max: 4096
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The display name of email address. Constraints: o min: 0 o max: 256
+    /// The display name of email address. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -32,8 +34,8 @@ public record AwsEc2RestoreManagedPrefixListVersionOptions : AwsOptions, IValida
     /// <param name="CurrentVersion">The current version number for the prefix list.</param>
     public AwsEc2RestoreManagedPrefixListVersionOptions(
         string PrefixListId,
-        int PreviousVersion,
-        int CurrentVersion
+        long PreviousVersion,
+        long CurrentVersion
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(PrefixListId);
@@ -71,16 +73,16 @@ public record AwsEc2RestoreManagedPrefixListVersionOptions : AwsOptions, IValida
     /// The version to restore.
     /// </summary>
     [CliOption("--previous-version")]
-    public int? PreviousVersion { get; private init; }
+    public long? PreviousVersion { get; private init; }
 
     /// <summary>
     /// The current version number for the prefix list.
     /// </summary>
     [CliOption("--current-version")]
-    public int? CurrentVersion { get; private init; }
+    public long? CurrentVersion { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

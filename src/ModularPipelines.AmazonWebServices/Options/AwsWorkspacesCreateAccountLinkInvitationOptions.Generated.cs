@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsWorkspacesCreateAccountLinkInvitationOptions : AwsOptions, IVal
     /// <summary>
     /// Creates the account link invitation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TargetAccountId">The identifier of the target account. Constraints: o pattern: ^\d{12}$</param>
+    /// <param name="TargetAccountId">The identifier of the target account. Constraints: • pattern: ^\d{12}$</param>
     public AwsWorkspacesCreateAccountLinkInvitationOptions(
         string TargetAccountId
     )
@@ -57,13 +59,13 @@ public record AwsWorkspacesCreateAccountLinkInvitationOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the target account. Constraints: o pattern: ^\d{12}$
+    /// The identifier of the target account. Constraints: • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--target-account-id")]
     public string? TargetAccountId { get; private init; }
 
     /// <summary>
-    /// A string of up to 64 ASCII characters that Amazon WorkSpaces uses to ensure idempotent creation. Constraints: o pattern: ^.{1,64}$
+    /// A string of up to 64 ASCII characters that Amazon WorkSpaces uses to ensure idempotent creation. Constraints: • pattern: ^.{1,64}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

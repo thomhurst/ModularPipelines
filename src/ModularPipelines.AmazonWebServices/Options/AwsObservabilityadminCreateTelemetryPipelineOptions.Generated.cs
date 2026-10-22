@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a telemetry pipeline for processing and transforming telemetry data. The pipeline defines how data flows from sources through proces- sors to destinations, enabling data transformation and delivering capa- bilities. See also: AWS API Documentation
+/// Creates a telemetry pipeline for processing and transforming telemetry data. The pipeline defines how data flows from sources through processors to destinations, enabling data transformation and delivering capabilities. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsObservabilityadminCreateTelemetryPipelineOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a telemetry pipeline for processing and transforming telemetry data. The pipeline defines how data flows from sources through proces- sors to destinations, enabling data transformation and delivering capa- bilities. See also: AWS API Documentation
+    /// Creates a telemetry pipeline for processing and transforming telemetry data. The pipeline defines how data flows from sources through processors to destinations, enabling data transformation and delivering capabilities. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the telemetry pipeline to create. The name must be unique within your account. Constraints: o min: 3 o max: 28 o pattern: .*[a-z][a-z0-9\-]+.*</param>
-    /// <param name="Configuration">The configuration that defines how the telemetry pipeline processes data, including sources, processors, and destinations. For more in- formation about pipeline components, see the Amazon CloudWatch User Guide Body -&gt; (string) [required] The pipeline configuration body that defines the data processing rules and transformations. Constraints: o min: 1 o max: 24000 Shorthand Syntax: Body=string JSON Syntax: { "Body": "string" }</param>
+    /// <param name="Name">The name of the telemetry pipeline to create. The name must be unique within your account. Constraints: • min: 3 • max: 28 • pattern: .*[a-z][a-z0-9\-]+.*</param>
+    /// <param name="Configuration">The configuration that defines how the telemetry pipeline processes data, including sources, processors, and destinations. For more information about pipeline components, see the Amazon CloudWatch User Guide Body -&gt; (string) [required] The pipeline configuration body that defines the data processing rules and transformations. Constraints: • min: 1 • max: 24000 Shorthand Syntax: Body=string JSON Syntax: { "Body": "string" }</param>
     public AwsObservabilityadminCreateTelemetryPipelineOptions(
         string Name,
         string Configuration
@@ -61,19 +62,19 @@ public record AwsObservabilityadminCreateTelemetryPipelineOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the telemetry pipeline to create. The name must be unique within your account. Constraints: o min: 3 o max: 28 o pattern: .*[a-z][a-z0-9\-]+.*
+    /// The name of the telemetry pipeline to create. The name must be unique within your account. Constraints: • min: 3 • max: 28 • pattern: .*[a-z][a-z0-9\-]+.*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The configuration that defines how the telemetry pipeline processes data, including sources, processors, and destinations. For more in- formation about pipeline components, see the Amazon CloudWatch User Guide Body -&gt; (string) [required] The pipeline configuration body that defines the data processing rules and transformations. Constraints: o min: 1 o max: 24000 Shorthand Syntax: Body=string JSON Syntax: { "Body": "string" }
+    /// The configuration that defines how the telemetry pipeline processes data, including sources, processors, and destinations. For more information about pipeline components, see the Amazon CloudWatch User Guide Body -&gt; (string) [required] The pipeline configuration body that defines the data processing rules and transformations. Constraints: • min: 1 • max: 24000 Shorthand Syntax: Body=string JSON Syntax: { "Body": "string" }
     /// </summary>
     [CliOption("--configuration")]
     public string? Configuration { get; private init; }
 
     /// <summary>
-    /// The key-value pairs to associate with the telemetry pipeline re- source for categorization and management purposes. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The key-value pairs to associate with the telemetry pipeline resource for categorization and management purposes. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

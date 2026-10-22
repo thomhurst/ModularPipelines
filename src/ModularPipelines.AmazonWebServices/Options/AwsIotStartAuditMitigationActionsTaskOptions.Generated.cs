@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts a task that applies a set of mitigation actions to the specified target. Requires permission to access the StartAuditMitigationActionsTask ac- tion. See also: AWS API Documentation
+/// Starts a task that applies a set of mitigation actions to the specified target. Requires permission to access the StartAuditMitigationActionsTask action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsIotStartAuditMitigationActionsTaskOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts a task that applies a set of mitigation actions to the specified target. Requires permission to access the StartAuditMitigationActionsTask ac- tion. See also: AWS API Documentation
+    /// Starts a task that applies a set of mitigation actions to the specified target. Requires permission to access the StartAuditMitigationActionsTask action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TaskId">A unique identifier for the task. You can use this identifier to check the status of the task or to cancel it. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="Target">Specifies the audit findings to which the mitigation actions are ap- plied. You can apply them to a type of audit check, to all findings from an audit, or to a specific set of findings. auditTaskId -&gt; (string) If the task will apply a mitigation action to findings from a specific audit, this value uniquely identifies the audit. Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9\-]+ findingIds -&gt; (list) If the task will apply a mitigation action to one or more listed findings, this value uniquely identifies those findings. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+ auditCheckToReasonCodeFilter -&gt; (map) Specifies a filter in the form of an audit check and set of rea- son codes that identify the findings from the audit to which the audit mitigation actions task apply. key -&gt; (string) An audit check name. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccoun- tAuditConfiguration to select which checks are enabled.) value -&gt; (list) Constraints: o min: 1 o max: 25 (string) Shorthand Syntax: auditTaskId=string,findingIds=string,string,auditCheckToReasonCodeFilter={KeyName1=[string,string],KeyName2=[string,string]} JSON Syntax: { "auditTaskId": "string", "findingIds": ["string", ...], "auditCheckToReasonCodeFilter": {"string": ["string", ...] ...} }</param>
-    /// <param name="AuditCheckToActionsMapping">For an audit check, specifies which mitigation actions to apply. Those actions must be defined in your Amazon Web Services accounts. key -&gt; (string) An audit check name. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAu- ditConfiguration to select which checks are enabled.) value -&gt; (list) Constraints: o min: 1 o max: 5 (string) Constraints: o max: 128 o pattern: [a-zA-Z0-9_-]+ Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}</param>
+    /// <param name="TaskId">A unique identifier for the task. You can use this identifier to check the status of the task or to cancel it. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="Target">Specifies the audit findings to which the mitigation actions are applied. You can apply them to a type of audit check, to all findings from an audit, or to a specific set of findings. auditTaskId -&gt; (string) If the task will apply a mitigation action to findings from a specific audit, this value uniquely identifies the audit. Constraints: • min: 1 • max: 40 • pattern: [a-zA-Z0-9\-]+ findingIds -&gt; (list) If the task will apply a mitigation action to one or more listed findings, this value uniquely identifies those findings. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_-]+ auditCheckToReasonCodeFilter -&gt; (map) Specifies a filter in the form of an audit check and set of reason codes that identify the findings from the audit to which the audit mitigation actions task apply. key -&gt; (string) An audit check name. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAuditConfiguration to select which checks are enabled.) value -&gt; (list) Constraints: • min: 1 • max: 25 (string) Shorthand Syntax: auditTaskId=string,findingIds=string,string,auditCheckToReasonCodeFilter={KeyName1=[string,string],KeyName2=[string,string]} JSON Syntax: { "auditTaskId": "string", "findingIds": ["string", ...], "auditCheckToReasonCodeFilter": {"string": ["string", ...] ...} }</param>
+    /// <param name="AuditCheckToActionsMapping">For an audit check, specifies which mitigation actions to apply. Those actions must be defined in your Amazon Web Services accounts. key -&gt; (string) An audit check name. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAuditConfiguration to select which checks are enabled.) value -&gt; (list) Constraints: • min: 1 • max: 5 (string) Constraints: • max: 128 • pattern: [a-zA-Z0-9_-]+ Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}</param>
     public AwsIotStartAuditMitigationActionsTaskOptions(
         string TaskId,
         string Target,
@@ -77,25 +78,25 @@ public record AwsIotStartAuditMitigationActionsTaskOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the task. You can use this identifier to check the status of the task or to cancel it. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+
+    /// A unique identifier for the task. You can use this identifier to check the status of the task or to cancel it. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--task-id")]
     public string? TaskId { get; private init; }
 
     /// <summary>
-    /// Specifies the audit findings to which the mitigation actions are ap- plied. You can apply them to a type of audit check, to all findings from an audit, or to a specific set of findings. auditTaskId -&gt; (string) If the task will apply a mitigation action to findings from a specific audit, this value uniquely identifies the audit. Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9\-]+ findingIds -&gt; (list) If the task will apply a mitigation action to one or more listed findings, this value uniquely identifies those findings. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+ auditCheckToReasonCodeFilter -&gt; (map) Specifies a filter in the form of an audit check and set of rea- son codes that identify the findings from the audit to which the audit mitigation actions task apply. key -&gt; (string) An audit check name. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccoun- tAuditConfiguration to select which checks are enabled.) value -&gt; (list) Constraints: o min: 1 o max: 25 (string) Shorthand Syntax: auditTaskId=string,findingIds=string,string,auditCheckToReasonCodeFilter={KeyName1=[string,string],KeyName2=[string,string]} JSON Syntax: { "auditTaskId": "string", "findingIds": ["string", ...], "auditCheckToReasonCodeFilter": {"string": ["string", ...] ...} }
+    /// Specifies the audit findings to which the mitigation actions are applied. You can apply them to a type of audit check, to all findings from an audit, or to a specific set of findings. auditTaskId -&gt; (string) If the task will apply a mitigation action to findings from a specific audit, this value uniquely identifies the audit. Constraints: • min: 1 • max: 40 • pattern: [a-zA-Z0-9\-]+ findingIds -&gt; (list) If the task will apply a mitigation action to one or more listed findings, this value uniquely identifies those findings. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_-]+ auditCheckToReasonCodeFilter -&gt; (map) Specifies a filter in the form of an audit check and set of reason codes that identify the findings from the audit to which the audit mitigation actions task apply. key -&gt; (string) An audit check name. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAuditConfiguration to select which checks are enabled.) value -&gt; (list) Constraints: • min: 1 • max: 25 (string) Shorthand Syntax: auditTaskId=string,findingIds=string,string,auditCheckToReasonCodeFilter={KeyName1=[string,string],KeyName2=[string,string]} JSON Syntax: { "auditTaskId": "string", "findingIds": ["string", ...], "auditCheckToReasonCodeFilter": {"string": ["string", ...] ...} }
     /// </summary>
     [CliOption("--target")]
     public string? Target { get; private init; }
 
     /// <summary>
-    /// For an audit check, specifies which mitigation actions to apply. Those actions must be defined in your Amazon Web Services accounts. key -&gt; (string) An audit check name. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAu- ditConfiguration to select which checks are enabled.) value -&gt; (list) Constraints: o min: 1 o max: 5 (string) Constraints: o max: 128 o pattern: [a-zA-Z0-9_-]+ Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
+    /// For an audit check, specifies which mitigation actions to apply. Those actions must be defined in your Amazon Web Services accounts. key -&gt; (string) An audit check name. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAuditConfiguration to select which checks are enabled.) value -&gt; (list) Constraints: • min: 1 • max: 5 (string) Constraints: • max: 128 • pattern: [a-zA-Z0-9_-]+ Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
     [CliOption("--audit-check-to-actions-mapping", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AuditCheckToActionsMapping { get; private init; }
 
     /// <summary>
-    /// Each audit mitigation task must have a unique client request token. If you try to start a new task with the same token as a task that already exists, an exception occurs. If you omit this value, a unique client request token is generated automatically. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
+    /// Each audit mitigation task must have a unique client request token. If you try to start a new task with the same token as a task that already exists, an exception occurs. If you omit this value, a unique client request token is generated automatically. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]

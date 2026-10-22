@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAmpDescribeScraperOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// The DescribeScraper operation displays information about an existing scraper. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ScraperId">The ID of the scraper to describe. Constraints: o min: 1 o max: 64 o pattern: [0-9A-Za-z][-.0-9A-Z_a-z]*</param>
+    /// <param name="ScraperId">The ID of the scraper to describe. Constraints: • min: 1 • max: 64 • pattern: [0-9A-Za-z][-.0-9A-Z_a-z]*</param>
     public AwsAmpDescribeScraperOptions(
         string ScraperId
     )
@@ -56,7 +58,7 @@ public record AwsAmpDescribeScraperOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the scraper to describe. Constraints: o min: 1 o max: 64 o pattern: [0-9A-Za-z][-.0-9A-Z_a-z]*
+    /// The ID of the scraper to describe. Constraints: • min: 1 • max: 64 • pattern: [0-9A-Za-z][-.0-9A-Z_a-z]*
     /// </summary>
     [CliOption("--scraper-id")]
     public string? ScraperId { get; private init; }

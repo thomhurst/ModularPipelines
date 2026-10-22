@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the count of all GuardDuty membership invitations that were sent to the current member account except the currently accepted invi- tation. See also: AWS API Documentation
+/// Returns the count of all GuardDuty membership invitations that were sent to the current member account except the currently accepted invitation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

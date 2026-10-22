@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a dataset's metadata. Synchronous operation. Only provided fields are updated; omitted fields remain unchanged. To modify dataset content, use AddDatasetExamples , UpdateDatasetExamples , or Delete- DatasetExamples . See also: AWS API Documentation
+/// Updates a dataset's metadata. Synchronous operation. Only provided fields are updated; omitted fields remain unchanged. To modify dataset content, use AddDatasetExamples , UpdateDatasetExamples , or DeleteDatasetExamples . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsBedrockAgentcoreControlUpdateDataSetOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a dataset's metadata. Synchronous operation. Only provided fields are updated; omitted fields remain unchanged. To modify dataset content, use AddDatasetExamples , UpdateDatasetExamples , or Delete- DatasetExamples . See also: AWS API Documentation
+    /// Updates a dataset's metadata. Synchronous operation. Only provided fields are updated; omitted fields remain unchanged. To modify dataset content, use AddDatasetExamples , UpdateDatasetExamples , or DeleteDatasetExamples . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSetId">The unique identifier of the dataset to update. Constraints: o pattern: [a-zA-Z0-9_-]{1,110}</param>
+    /// <param name="DataSetId">The unique identifier of the dataset to update. Constraints: • pattern: [a-zA-Z0-9_-]{1,110}</param>
     public AwsBedrockAgentcoreControlUpdateDataSetOptions(
         string DataSetId
     )
@@ -57,20 +59,20 @@ public record AwsBedrockAgentcoreControlUpdateDataSetOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the dataset to update. Constraints: o pattern: [a-zA-Z0-9_-]{1,110}
+    /// The unique identifier of the dataset to update. Constraints: • pattern: [a-zA-Z0-9_-]{1,110}
     /// </summary>
     [CliOption("--dataset-id")]
     public string? DataSetId { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previ- ous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The updated description for the dataset. Constraints: o min: 0 o max: 200
+    /// The updated description for the dataset. Constraints: • min: 0 • max: 200
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

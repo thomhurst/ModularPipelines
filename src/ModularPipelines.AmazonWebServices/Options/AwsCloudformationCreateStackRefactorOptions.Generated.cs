@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCloudformationCreateStackRefactorOptions : AwsOptions, IValidat
     /// <summary>
     /// Creates a refactor across multiple stacks, with the list of stacks and resources that are affected. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StackDefinitions">The stacks being refactored. (structure) Describes the stack and the template used by the stack. StackName -&gt; (string) The name associated with the stack. TemplateBody -&gt; (string) The file path for the stack template file. Constraints: o min: 1 TemplateURL -&gt; (string) The desired final state of the stack template. Constraints: o min: 1 o max: 5120 Shorthand Syntax: StackName=string,TemplateBody=string,TemplateURL=string ... JSON Syntax: [ { "StackName": "string", "TemplateBody": "string", "TemplateURL": "string" } ... ]</param>
+    /// <param name="StackDefinitions">The stacks being refactored. (structure) Describes the stack and the template used by the stack. StackName -&gt; (string) The name associated with the stack. TemplateBody -&gt; (string) The file path for the stack template file. Constraints: • min: 1 TemplateURL -&gt; (string) The desired final state of the stack template. Constraints: • min: 1 • max: 5120 Shorthand Syntax: StackName=string,TemplateBody=string,TemplateURL=string ... JSON Syntax: [ { "StackName": "string", "TemplateBody": "string", "TemplateURL": "string" } ... ]</param>
     public AwsCloudformationCreateStackRefactorOptions(
         IEnumerable<string> StackDefinitions
     )
@@ -67,13 +69,13 @@ public record AwsCloudformationCreateStackRefactorOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The stacks being refactored. (structure) Describes the stack and the template used by the stack. StackName -&gt; (string) The name associated with the stack. TemplateBody -&gt; (string) The file path for the stack template file. Constraints: o min: 1 TemplateURL -&gt; (string) The desired final state of the stack template. Constraints: o min: 1 o max: 5120 Shorthand Syntax: StackName=string,TemplateBody=string,TemplateURL=string ... JSON Syntax: [ { "StackName": "string", "TemplateBody": "string", "TemplateURL": "string" } ... ]
+    /// The stacks being refactored. (structure) Describes the stack and the template used by the stack. StackName -&gt; (string) The name associated with the stack. TemplateBody -&gt; (string) The file path for the stack template file. Constraints: • min: 1 TemplateURL -&gt; (string) The desired final state of the stack template. Constraints: • min: 1 • max: 5120 Shorthand Syntax: StackName=string,TemplateBody=string,TemplateURL=string ... JSON Syntax: [ { "StackName": "string", "TemplateBody": "string", "TemplateURL": "string" } ... ]
     /// </summary>
     [CliOption("--stack-definitions", GroupValues = true)]
     public IEnumerable<string>? StackDefinitions { get; private init; }
 
     /// <summary>
-    /// A description to help you identify the stack refactor. Constraints: o min: 1 o max: 1024
+    /// A description to help you identify the stack refactor. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -85,7 +87,7 @@ public record AwsCloudformationCreateStackRefactorOptions : AwsOptions, IValidat
     public bool? EnableStackCreation { get; set; }
 
     /// <summary>
-    /// The mappings for the stack resource Source and stack resource Desti- nation . (structure) Specifies the current source of the resource and the destination of where it will be moved to. Source -&gt; (structure) [required] The source stack StackName and LogicalResourceId for the re- source being refactored. StackName -&gt; (string) [required] The name associated with the stack. LogicalResourceId -&gt; (string) [required] The logical name of the resource specified in the tem- plate. Destination -&gt; (structure) [required] The destination stack StackName and LogicalResourceId for the resource being refactored. StackName -&gt; (string) [required] The name associated with the stack. LogicalResourceId -&gt; (string) [required] The logical name of the resource specified in the tem- plate. Shorthand Syntax: Source={StackName=string,LogicalResourceId=string},Destination={StackName=string,LogicalResourceId=string} ... JSON Syntax: [ { "Source": { "StackName": "string", "LogicalResourceId": "string" }, "Destination": { "StackName": "string", "LogicalResourceId": "string" } } ... ]
+    /// The mappings for the stack resource Source and stack resource Destination . (structure) Specifies the current source of the resource and the destination of where it will be moved to. Source -&gt; (structure) [required] The source stack StackName and LogicalResourceId for the resource being refactored. StackName -&gt; (string) [required] The name associated with the stack. LogicalResourceId -&gt; (string) [required] The logical name of the resource specified in the template. Destination -&gt; (structure) [required] The destination stack StackName and LogicalResourceId for the resource being refactored. StackName -&gt; (string) [required] The name associated with the stack. LogicalResourceId -&gt; (string) [required] The logical name of the resource specified in the template. Shorthand Syntax: Source={StackName=string,LogicalResourceId=string},Destination={StackName=string,LogicalResourceId=string} ... JSON Syntax: [ { "Source": { "StackName": "string", "LogicalResourceId": "string" }, "Destination": { "StackName": "string", "LogicalResourceId": "string" } } ... ]
     /// </summary>
     [CliOption("--resource-mappings", GroupValues = true)]
     public IEnumerable<string>? ResourceMappings { get; set; }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsWickrBatchDeleteUserOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes multiple users from a specified Wickr network. This operation permanently removes user accounts and their associated data from the network. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The ID of the Wickr network from which users will be deleted. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
-    /// <param name="UserIds">A list of user IDs identifying the users to be deleted from the net- work. Maximum 50 users per batch request. (string) Constraints: o min: 1 o max: 10 o pattern: [0-9]+ Syntax: "string" "string" ...</param>
+    /// <param name="NetworkId">The ID of the Wickr network from which users will be deleted. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}</param>
+    /// <param name="UserIds">A list of user IDs identifying the users to be deleted from the network. Maximum 50 users per batch request. (string) Constraints: • min: 1 • max: 10 • pattern: [0-9]+ Syntax: "string" "string" ...</param>
     public AwsWickrBatchDeleteUserOptions(
         string NetworkId,
         IEnumerable<string> UserIds
@@ -72,19 +74,19 @@ public record AwsWickrBatchDeleteUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Wickr network from which users will be deleted. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// The ID of the Wickr network from which users will be deleted. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }
 
     /// <summary>
-    /// A list of user IDs identifying the users to be deleted from the net- work. Maximum 50 users per batch request. (string) Constraints: o min: 1 o max: 10 o pattern: [0-9]+ Syntax: "string" "string" ...
+    /// A list of user IDs identifying the users to be deleted from the network. Maximum 50 users per batch request. (string) Constraints: • min: 1 • max: 10 • pattern: [0-9]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--user-ids", GroupValues = true)]
     public IEnumerable<string>? UserIds { get; private init; }
 
     /// <summary>
-    /// A unique identifier for this request to ensure idempotency. If you retry a request with the same client token, the service will return the same response without attempting to delete users again. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_:]+
+    /// A unique identifier for this request to ensure idempotency. If you retry a request with the same client token, the service will return the same response without attempting to delete users again. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_:]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

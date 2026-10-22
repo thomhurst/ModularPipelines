@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -68,7 +70,7 @@ public record AwsApigatewayCreateRequestValidatorOptions : AwsOptions, IValidata
     public string? Name { get; set; }
 
     /// <summary>
-    /// A Boolean flag to indicate whether to validate request body accord- ing to the configured model schema for the method (true ) or not (false ).
+    /// A Boolean flag to indicate whether to validate request body according to the configured model schema for the method (true ) or not (false ).
     /// </summary>
     [CliFlag("--validate-request-body", NegatedName = "--no-validate-request-body")]
     public bool? ValidateRequestBody { get; set; }

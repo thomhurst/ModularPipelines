@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsSecurityagentBatchGetCodeReviewJobsOptions : AwsOptions, IValid
     /// Retrieves information about one or more code review jobs in an agent space. See also: AWS API Documentation
     /// </summary>
     /// <param name="CodeReviewJobIds">The list of code review job identifiers to retrieve. (string) Syntax: "string" "string" ...</param>
-    /// <param name="AgentSpaceId">The unique identifier of the agent space that contains the code re- view jobs.</param>
+    /// <param name="AgentSpaceId">The unique identifier of the agent space that contains the code review jobs.</param>
     public AwsSecurityagentBatchGetCodeReviewJobsOptions(
         IEnumerable<string> CodeReviewJobIds,
         string AgentSpaceId
@@ -77,7 +79,7 @@ public record AwsSecurityagentBatchGetCodeReviewJobsOptions : AwsOptions, IValid
     public IEnumerable<string>? CodeReviewJobIds { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the agent space that contains the code re- view jobs.
+    /// The unique identifier of the agent space that contains the code review jobs.
     /// </summary>
     [CliOption("--agent-space-id")]
     public string? AgentSpaceId { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsEntityresolutionBatchDeleteUniqueIdOptions : AwsOptions, IValid
     /// <summary>
     /// Deletes multiple unique IDs in a matching workflow. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkflowName">The name of the workflow. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_0-9-]*</param>
-    /// <param name="UniqueIds">The unique IDs to delete. (string) Constraints: o min: 1 o max: 780 o pattern: [a-zA-Z_0-9-+=/,]* Syntax: "string" "string" ...</param>
+    /// <param name="WorkflowName">The name of the workflow. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_0-9-]*</param>
+    /// <param name="UniqueIds">The unique IDs to delete. (string) Constraints: • min: 1 • max: 780 • pattern: [a-zA-Z_0-9-+=/,]* Syntax: "string" "string" ...</param>
     public AwsEntityresolutionBatchDeleteUniqueIdOptions(
         string WorkflowName,
         IEnumerable<string> UniqueIds
@@ -71,19 +73,19 @@ public record AwsEntityresolutionBatchDeleteUniqueIdOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workflow. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_0-9-]*
+    /// The name of the workflow. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_0-9-]*
     /// </summary>
     [CliOption("--workflow-name")]
     public string? WorkflowName { get; private init; }
 
     /// <summary>
-    /// The unique IDs to delete. (string) Constraints: o min: 1 o max: 780 o pattern: [a-zA-Z_0-9-+=/,]* Syntax: "string" "string" ...
+    /// The unique IDs to delete. (string) Constraints: • min: 1 • max: 780 • pattern: [a-zA-Z_0-9-+=/,]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--unique-ids", GroupValues = true)]
     public IEnumerable<string>? UniqueIds { get; private init; }
 
     /// <summary>
-    /// The input source for the batch delete unique ID operation. Constraints: o pattern: arn:(aws|aws-us-gov|aws-cn):glue:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(ta- ble/[a-zA-Z_0-9-]{1,255}/[a-zA-Z_0-9-]{1,255})
+    /// The input source for the batch delete unique ID operation. Constraints: • pattern: arn:(aws|aws-us-gov|aws-cn):glue:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(table/[a-zA-Z_0-9-]{1,255}/[a-zA-Z_0-9-]{1,255})
     /// </summary>
     [CliOption("--input-source")]
     public string? InputSource { get; set; }

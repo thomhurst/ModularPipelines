@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsGlueBatchGetIterableFormsOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Retrieves multiple items from an iterable form on an asset in Glue Data Catalog in a single request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssetIdentifier">The unique identifier of the asset. Constraints: o min: 1 o max: 1087 o pattern: [a-zA-Z0-9\-\:\/\.\_\*]+</param>
-    /// <param name="IterableFormName">The name of the iterable form to retrieve items from. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*(::[a-zA-Z][a-zA-Z0-9_]*)?$</param>
-    /// <param name="ItemIdentifiers">The list of item identifiers to retrieve. Each identifier can be an item ID or item name. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 1087 Syntax: "string" "string" ...</param>
+    /// <param name="AssetIdentifier">The unique identifier of the asset. Constraints: • min: 1 • max: 1087 • pattern: [a-zA-Z0-9\-\:\/\.\_\*]+</param>
+    /// <param name="IterableFormName">The name of the iterable form to retrieve items from. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z][a-zA-Z0-9_]*(::[a-zA-Z][a-zA-Z0-9_]*)?$</param>
+    /// <param name="ItemIdentifiers">The list of item identifiers to retrieve. Each identifier can be an item ID or item name. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 1087 Syntax: "string" "string" ...</param>
     public AwsGlueBatchGetIterableFormsOptions(
         string AssetIdentifier,
         string IterableFormName,
@@ -75,19 +77,19 @@ public record AwsGlueBatchGetIterableFormsOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the asset. Constraints: o min: 1 o max: 1087 o pattern: [a-zA-Z0-9\-\:\/\.\_\*]+
+    /// The unique identifier of the asset. Constraints: • min: 1 • max: 1087 • pattern: [a-zA-Z0-9\-\:\/\.\_\*]+
     /// </summary>
     [CliOption("--asset-identifier")]
     public string? AssetIdentifier { get; private init; }
 
     /// <summary>
-    /// The name of the iterable form to retrieve items from. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*(::[a-zA-Z][a-zA-Z0-9_]*)?$
+    /// The name of the iterable form to retrieve items from. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z][a-zA-Z0-9_]*(::[a-zA-Z][a-zA-Z0-9_]*)?$
     /// </summary>
     [CliOption("--iterable-form-name")]
     public string? IterableFormName { get; private init; }
 
     /// <summary>
-    /// The list of item identifiers to retrieve. Each identifier can be an item ID or item name. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 1087 Syntax: "string" "string" ...
+    /// The list of item identifiers to retrieve. Each identifier can be an item ID or item name. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 1087 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--item-identifiers", GroupValues = true)]
     public IEnumerable<string>? ItemIdentifiers { get; private init; }

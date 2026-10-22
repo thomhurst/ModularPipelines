@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -29,7 +30,7 @@ public record AwsCustomerProfilesCreateProfileOptions : AwsOptions, IValidatable
     /// <summary>
     /// Creates a standard profile. A standard profile represents the following attributes for a customer profile in a domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="DomainName">The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
     public AwsCustomerProfilesCreateProfileOptions(
         string DomainName
     )
@@ -58,157 +59,157 @@ public record AwsCustomerProfilesCreateProfileOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// An account number that you have assigned to the customer. Constraints: o min: 1 o max: 255
+    /// An account number that you have assigned to the customer. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--account-number")]
     public string? AccountNumber { get; set; }
 
     /// <summary>
-    /// Any additional information relevant to the customers profile. Constraints: o min: 1 o max: 1000
+    /// Any additional information relevant to the customers profile. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--additional-information")]
     public string? AdditionalInformation { get; set; }
 
     /// <summary>
-    /// The type of profile used to describe the customer. Possible values: o INDIVIDUAL o BUSINESS o OTHER
+    /// The type of profile used to describe the customer. Possible values: • INDIVIDUAL • BUSINESS • OTHER
     /// </summary>
     [CliOption("--party-type")]
     public AwsCustomerProfilesCreateProfilePartyType? PartyType { get; set; }
 
     /// <summary>
-    /// The name of the customers business. Constraints: o min: 1 o max: 255
+    /// The name of the customers business. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--business-name")]
     public string? BusinessName { get; set; }
 
     /// <summary>
-    /// The customers first name. Constraints: o min: 1 o max: 255
+    /// The customers first name. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--first-name")]
     public string? FirstName { get; set; }
 
     /// <summary>
-    /// The customers middle name. Constraints: o min: 1 o max: 255
+    /// The customers middle name. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--middle-name")]
     public string? MiddleName { get; set; }
 
     /// <summary>
-    /// The customers last name. Constraints: o min: 1 o max: 255
+    /// The customers last name. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--last-name")]
     public string? LastName { get; set; }
 
     /// <summary>
-    /// The customers birth date. Constraints: o min: 1 o max: 255
+    /// The customers birth date. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--birth-date")]
     public string? BirthDate { get; set; }
 
     /// <summary>
-    /// The gender with which the customer identifies. Possible values: o MALE o FEMALE o UNSPECIFIED
+    /// The gender with which the customer identifies. Possible values: • MALE • FEMALE • UNSPECIFIED
     /// </summary>
     [CliOption("--gender")]
     public AwsCustomerProfilesCreateProfileGender? Gender { get; set; }
 
     /// <summary>
-    /// The customers phone number, which has not been specified as a mo- bile, home, or business number. Constraints: o min: 1 o max: 255
+    /// The customers phone number, which has not been specified as a mobile, home, or business number. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--phone-number")]
     public string? PhoneNumber { get; set; }
 
     /// <summary>
-    /// The customers mobile phone number. Constraints: o min: 1 o max: 255
+    /// The customers mobile phone number. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--mobile-phone-number")]
     public string? MobilePhoneNumber { get; set; }
 
     /// <summary>
-    /// The customers home phone number. Constraints: o min: 1 o max: 255
+    /// The customers home phone number. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--home-phone-number")]
     public string? HomePhoneNumber { get; set; }
 
     /// <summary>
-    /// The customers business phone number. Constraints: o min: 1 o max: 255
+    /// The customers business phone number. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--business-phone-number")]
     public string? BusinessPhoneNumber { get; set; }
 
     /// <summary>
-    /// The customers email address, which has not been specified as a per- sonal or business address. Constraints: o min: 1 o max: 255
+    /// The customers email address, which has not been specified as a personal or business address. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--email-address")]
     public string? EmailAddress { get; set; }
 
     /// <summary>
-    /// The customers personal email address. Constraints: o min: 1 o max: 255
+    /// The customers personal email address. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--personal-email-address")]
     public string? PersonalEmailAddress { get; set; }
 
     /// <summary>
-    /// The customers business email address. Constraints: o min: 1 o max: 255
+    /// The customers business email address. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--business-email-address")]
     public string? BusinessEmailAddress { get; set; }
 
     /// <summary>
-    /// A generic address associated with the customer that is not mailing, shipping, or billing. Address1 -&gt; (string) The first line of a customer address. Constraints: o min: 1 o max: 255 Address2 -&gt; (string) The second line of a customer address. Constraints: o min: 1 o max: 255 Address3 -&gt; (string) The third line of a customer address. Constraints: o min: 1 o max: 255 Address4 -&gt; (string) The fourth line of a customer address. Constraints: o min: 1 o max: 255 City -&gt; (string) The city in which a customer lives. Constraints: o min: 1 o max: 255 County -&gt; (string) The county in which a customer lives. Constraints: o min: 1 o max: 255 State -&gt; (string) The state in which a customer lives. Constraints: o min: 1 o max: 255 Province -&gt; (string) The province in which a customer lives. Constraints: o min: 1 o max: 255 Country -&gt; (string) The country in which a customer lives. Constraints: o min: 1 o max: 255 PostalCode -&gt; (string) The postal code of a customer address. Constraints: o min: 1 o max: 255 Shorthand Syntax: Address1=string,Address2=string,Address3=string,Address4=string,City=string,County=string,State=string,Province=string,Country=string,PostalCode=string JSON Syntax: { "Address1": "string", "Address2": "string", "Address3": "string", "Address4": "string", "City": "string", "County": "string", "State": "string", "Province": "string", "Country": "string", "PostalCode": "string" }
+    /// A generic address associated with the customer that is not mailing, shipping, or billing. Address1 -&gt; (string) The first line of a customer address. Constraints: • min: 1 • max: 255 Address2 -&gt; (string) The second line of a customer address. Constraints: • min: 1 • max: 255 Address3 -&gt; (string) The third line of a customer address. Constraints: • min: 1 • max: 255 Address4 -&gt; (string) The fourth line of a customer address. Constraints: • min: 1 • max: 255 City -&gt; (string) The city in which a customer lives. Constraints: • min: 1 • max: 255 County -&gt; (string) The county in which a customer lives. Constraints: • min: 1 • max: 255 State -&gt; (string) The state in which a customer lives. Constraints: • min: 1 • max: 255 Province -&gt; (string) The province in which a customer lives. Constraints: • min: 1 • max: 255 Country -&gt; (string) The country in which a customer lives. Constraints: • min: 1 • max: 255 PostalCode -&gt; (string) The postal code of a customer address. Constraints: • min: 1 • max: 255 Shorthand Syntax: Address1=string,Address2=string,Address3=string,Address4=string,City=string,County=string,State=string,Province=string,Country=string,PostalCode=string JSON Syntax: { "Address1": "string", "Address2": "string", "Address3": "string", "Address4": "string", "City": "string", "County": "string", "State": "string", "Province": "string", "Country": "string", "PostalCode": "string" }
     /// </summary>
     [CliOption("--address")]
     public string? Address { get; set; }
 
     /// <summary>
-    /// The customers shipping address. Address1 -&gt; (string) The first line of a customer address. Constraints: o min: 1 o max: 255 Address2 -&gt; (string) The second line of a customer address. Constraints: o min: 1 o max: 255 Address3 -&gt; (string) The third line of a customer address. Constraints: o min: 1 o max: 255 Address4 -&gt; (string) The fourth line of a customer address. Constraints: o min: 1 o max: 255 City -&gt; (string) The city in which a customer lives. Constraints: o min: 1 o max: 255 County -&gt; (string) The county in which a customer lives. Constraints: o min: 1 o max: 255 State -&gt; (string) The state in which a customer lives. Constraints: o min: 1 o max: 255 Province -&gt; (string) The province in which a customer lives. Constraints: o min: 1 o max: 255 Country -&gt; (string) The country in which a customer lives. Constraints: o min: 1 o max: 255 PostalCode -&gt; (string) The postal code of a customer address. Constraints: o min: 1 o max: 255 Shorthand Syntax: Address1=string,Address2=string,Address3=string,Address4=string,City=string,County=string,State=string,Province=string,Country=string,PostalCode=string JSON Syntax: { "Address1": "string", "Address2": "string", "Address3": "string", "Address4": "string", "City": "string", "County": "string", "State": "string", "Province": "string", "Country": "string", "PostalCode": "string" }
+    /// The customers shipping address. Address1 -&gt; (string) The first line of a customer address. Constraints: • min: 1 • max: 255 Address2 -&gt; (string) The second line of a customer address. Constraints: • min: 1 • max: 255 Address3 -&gt; (string) The third line of a customer address. Constraints: • min: 1 • max: 255 Address4 -&gt; (string) The fourth line of a customer address. Constraints: • min: 1 • max: 255 City -&gt; (string) The city in which a customer lives. Constraints: • min: 1 • max: 255 County -&gt; (string) The county in which a customer lives. Constraints: • min: 1 • max: 255 State -&gt; (string) The state in which a customer lives. Constraints: • min: 1 • max: 255 Province -&gt; (string) The province in which a customer lives. Constraints: • min: 1 • max: 255 Country -&gt; (string) The country in which a customer lives. Constraints: • min: 1 • max: 255 PostalCode -&gt; (string) The postal code of a customer address. Constraints: • min: 1 • max: 255 Shorthand Syntax: Address1=string,Address2=string,Address3=string,Address4=string,City=string,County=string,State=string,Province=string,Country=string,PostalCode=string JSON Syntax: { "Address1": "string", "Address2": "string", "Address3": "string", "Address4": "string", "City": "string", "County": "string", "State": "string", "Province": "string", "Country": "string", "PostalCode": "string" }
     /// </summary>
     [CliOption("--shipping-address")]
     public string? ShippingAddress { get; set; }
 
     /// <summary>
-    /// The customers mailing address. Address1 -&gt; (string) The first line of a customer address. Constraints: o min: 1 o max: 255 Address2 -&gt; (string) The second line of a customer address. Constraints: o min: 1 o max: 255 Address3 -&gt; (string) The third line of a customer address. Constraints: o min: 1 o max: 255 Address4 -&gt; (string) The fourth line of a customer address. Constraints: o min: 1 o max: 255 City -&gt; (string) The city in which a customer lives. Constraints: o min: 1 o max: 255 County -&gt; (string) The county in which a customer lives. Constraints: o min: 1 o max: 255 State -&gt; (string) The state in which a customer lives. Constraints: o min: 1 o max: 255 Province -&gt; (string) The province in which a customer lives. Constraints: o min: 1 o max: 255 Country -&gt; (string) The country in which a customer lives. Constraints: o min: 1 o max: 255 PostalCode -&gt; (string) The postal code of a customer address. Constraints: o min: 1 o max: 255 Shorthand Syntax: Address1=string,Address2=string,Address3=string,Address4=string,City=string,County=string,State=string,Province=string,Country=string,PostalCode=string JSON Syntax: { "Address1": "string", "Address2": "string", "Address3": "string", "Address4": "string", "City": "string", "County": "string", "State": "string", "Province": "string", "Country": "string", "PostalCode": "string" }
+    /// The customers mailing address. Address1 -&gt; (string) The first line of a customer address. Constraints: • min: 1 • max: 255 Address2 -&gt; (string) The second line of a customer address. Constraints: • min: 1 • max: 255 Address3 -&gt; (string) The third line of a customer address. Constraints: • min: 1 • max: 255 Address4 -&gt; (string) The fourth line of a customer address. Constraints: • min: 1 • max: 255 City -&gt; (string) The city in which a customer lives. Constraints: • min: 1 • max: 255 County -&gt; (string) The county in which a customer lives. Constraints: • min: 1 • max: 255 State -&gt; (string) The state in which a customer lives. Constraints: • min: 1 • max: 255 Province -&gt; (string) The province in which a customer lives. Constraints: • min: 1 • max: 255 Country -&gt; (string) The country in which a customer lives. Constraints: • min: 1 • max: 255 PostalCode -&gt; (string) The postal code of a customer address. Constraints: • min: 1 • max: 255 Shorthand Syntax: Address1=string,Address2=string,Address3=string,Address4=string,City=string,County=string,State=string,Province=string,Country=string,PostalCode=string JSON Syntax: { "Address1": "string", "Address2": "string", "Address3": "string", "Address4": "string", "City": "string", "County": "string", "State": "string", "Province": "string", "Country": "string", "PostalCode": "string" }
     /// </summary>
     [CliOption("--mailing-address")]
     public string? MailingAddress { get; set; }
 
     /// <summary>
-    /// The customers billing address. Address1 -&gt; (string) The first line of a customer address. Constraints: o min: 1 o max: 255 Address2 -&gt; (string) The second line of a customer address. Constraints: o min: 1 o max: 255 Address3 -&gt; (string) The third line of a customer address. Constraints: o min: 1 o max: 255 Address4 -&gt; (string) The fourth line of a customer address. Constraints: o min: 1 o max: 255 City -&gt; (string) The city in which a customer lives. Constraints: o min: 1 o max: 255 County -&gt; (string) The county in which a customer lives. Constraints: o min: 1 o max: 255 State -&gt; (string) The state in which a customer lives. Constraints: o min: 1 o max: 255 Province -&gt; (string) The province in which a customer lives. Constraints: o min: 1 o max: 255 Country -&gt; (string) The country in which a customer lives. Constraints: o min: 1 o max: 255 PostalCode -&gt; (string) The postal code of a customer address. Constraints: o min: 1 o max: 255 Shorthand Syntax: Address1=string,Address2=string,Address3=string,Address4=string,City=string,County=string,State=string,Province=string,Country=string,PostalCode=string JSON Syntax: { "Address1": "string", "Address2": "string", "Address3": "string", "Address4": "string", "City": "string", "County": "string", "State": "string", "Province": "string", "Country": "string", "PostalCode": "string" }
+    /// The customers billing address. Address1 -&gt; (string) The first line of a customer address. Constraints: • min: 1 • max: 255 Address2 -&gt; (string) The second line of a customer address. Constraints: • min: 1 • max: 255 Address3 -&gt; (string) The third line of a customer address. Constraints: • min: 1 • max: 255 Address4 -&gt; (string) The fourth line of a customer address. Constraints: • min: 1 • max: 255 City -&gt; (string) The city in which a customer lives. Constraints: • min: 1 • max: 255 County -&gt; (string) The county in which a customer lives. Constraints: • min: 1 • max: 255 State -&gt; (string) The state in which a customer lives. Constraints: • min: 1 • max: 255 Province -&gt; (string) The province in which a customer lives. Constraints: • min: 1 • max: 255 Country -&gt; (string) The country in which a customer lives. Constraints: • min: 1 • max: 255 PostalCode -&gt; (string) The postal code of a customer address. Constraints: • min: 1 • max: 255 Shorthand Syntax: Address1=string,Address2=string,Address3=string,Address4=string,City=string,County=string,State=string,Province=string,Country=string,PostalCode=string JSON Syntax: { "Address1": "string", "Address2": "string", "Address3": "string", "Address4": "string", "City": "string", "County": "string", "State": "string", "Province": "string", "Country": "string", "PostalCode": "string" }
     /// </summary>
     [CliOption("--billing-address")]
     public string? BillingAddress { get; set; }
 
     /// <summary>
-    /// A key value pair of attributes of a customer profile. key -&gt; (string) Constraints: o min: 1 o max: 255 value -&gt; (string) Constraints: o min: 1 o max: 255 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A key value pair of attributes of a customer profile. key -&gt; (string) Constraints: • min: 1 • max: 255 value -&gt; (string) Constraints: • min: 1 • max: 255 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
     /// <summary>
-    /// An alternative to PartyType which accepts any string as input. Constraints: o min: 1 o max: 255
+    /// An alternative to PartyType which accepts any string as input. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--party-type-string")]
     public string? PartyTypeString { get; set; }
 
     /// <summary>
-    /// An alternative to Gender which accepts any string as input. Constraints: o min: 1 o max: 255
+    /// An alternative to Gender which accepts any string as input. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--gender-string")]
     public string? GenderString { get; set; }
 
     /// <summary>
-    /// The type of the profile. Possible values: o ACCOUNT_PROFILE o PROFILE
+    /// The type of the profile. Possible values: • ACCOUNT_PROFILE • PROFILE
     /// </summary>
     [CliOption("--profile-type")]
     public AwsCustomerProfilesCreateProfileProfileType? ProfileType { get; set; }
 
     /// <summary>
-    /// Object that defines the preferred methods of engagement, per chan- nel. Phone -&gt; (list) A list of phone-related contact preferences (structure) Object that defines users contact preference. KeyName -&gt; (string) A searchable, unique identifier of a customer profile. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$ KeyValue -&gt; (string) The key value used to look up profile based off the key- Name. Constraints: o min: 1 o max: 255 ProfileId -&gt; (string) The unique identifier of a customer profile. Constraints: o pattern: [a-f0-9]{32} ContactType -&gt; (string) The contact type used for engagement. For example: Home- PhoneNumber, PersonalEmailAddress. Possible values: o PhoneNumber o MobilePhoneNumber o HomePhoneNumber o BusinessPhoneNumber o EmailAddress o PersonalEmailAddress o BusinessEmailAddress Email -&gt; (list) A list of email-related contact preferences (structure) Object that defines users contact preference. KeyName -&gt; (string) A searchable, unique identifier of a customer profile. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$ KeyValue -&gt; (string) The key value used to look up profile based off the key- Name. Constraints: o min: 1 o max: 255 ProfileId -&gt; (string) The unique identifier of a customer profile. Constraints: o pattern: [a-f0-9]{32} ContactType -&gt; (string) The contact type used for engagement. For example: Home- PhoneNumber, PersonalEmailAddress. Possible values: o PhoneNumber o MobilePhoneNumber o HomePhoneNumber o BusinessPhoneNumber o EmailAddress o PersonalEmailAddress o BusinessEmailAddress Shorthand Syntax: Phone=[{KeyName=string,KeyValue=string,ProfileId=string,ContactType=string},{KeyName=string,KeyValue=string,ProfileId=string,ContactType=string}],Email=[{KeyName=string,KeyValue=string,ProfileId=string,ContactType=string},{KeyName=string,KeyValue=string,ProfileId=string,ContactType=string}] JSON Syntax: { "Phone": [ { "KeyName": "string", "KeyValue": "string", "ProfileId": "string", "ContactType": "PhoneNumber"|"MobilePhoneNumber"|"HomePhoneNumber"|"BusinessPhoneNumber"|"EmailAddress"|"PersonalEmailAddress"|"BusinessEmailAddress" } ... ], "Email": [ { "KeyName": "string", "KeyValue": "string", "ProfileId": "string", "ContactType": "PhoneNumber"|"MobilePhoneNumber"|"HomePhoneNumber"|"BusinessPhoneNumber"|"EmailAddress"|"PersonalEmailAddress"|"BusinessEmailAddress" } ... ] }
+    /// Object that defines the preferred methods of engagement, per channel. Phone -&gt; (list) A list of phone-related contact preferences (structure) Object that defines users contact preference. KeyName -&gt; (string) A searchable, unique identifier of a customer profile. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$ KeyValue -&gt; (string) The key value used to look up profile based off the keyName. Constraints: • min: 1 • max: 255 ProfileId -&gt; (string) The unique identifier of a customer profile. Constraints: • pattern: [a-f0-9]{32} ContactType -&gt; (string) The contact type used for engagement. For example: HomePhoneNumber, PersonalEmailAddress. Possible values: • PhoneNumber • MobilePhoneNumber • HomePhoneNumber • BusinessPhoneNumber • EmailAddress • PersonalEmailAddress • BusinessEmailAddress Email -&gt; (list) A list of email-related contact preferences (structure) Object that defines users contact preference. KeyName -&gt; (string) A searchable, unique identifier of a customer profile. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$ KeyValue -&gt; (string) The key value used to look up profile based off the keyName. Constraints: • min: 1 • max: 255 ProfileId -&gt; (string) The unique identifier of a customer profile. Constraints: • pattern: [a-f0-9]{32} ContactType -&gt; (string) The contact type used for engagement. For example: HomePhoneNumber, PersonalEmailAddress. Possible values: • PhoneNumber • MobilePhoneNumber • HomePhoneNumber • BusinessPhoneNumber • EmailAddress • PersonalEmailAddress • BusinessEmailAddress Shorthand Syntax: Phone=[{KeyName=string,KeyValue=string,ProfileId=string,ContactType=string},{KeyName=string,KeyValue=string,ProfileId=string,ContactType=string}],Email=[{KeyName=string,KeyValue=string,ProfileId=string,ContactType=string},{KeyName=string,KeyValue=string,ProfileId=string,ContactType=string}] JSON Syntax: { "Phone": [ { "KeyName": "string", "KeyValue": "string", "ProfileId": "string", "ContactType": "PhoneNumber"|"MobilePhoneNumber"|"HomePhoneNumber"|"BusinessPhoneNumber"|"EmailAddress"|"PersonalEmailAddress"|"BusinessEmailAddress" } ... ], "Email": [ { "KeyName": "string", "KeyValue": "string", "ProfileId": "string", "ContactType": "PhoneNumber"|"MobilePhoneNumber"|"HomePhoneNumber"|"BusinessPhoneNumber"|"EmailAddress"|"PersonalEmailAddress"|"BusinessEmailAddress" } ... ] }
     /// </summary>
     [CliOption("--engagement-preferences")]
     public string? EngagementPreferences { get; set; }

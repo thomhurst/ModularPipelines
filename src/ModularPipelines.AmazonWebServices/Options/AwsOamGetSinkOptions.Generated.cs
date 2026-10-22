@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsOamGetSinkOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns complete information about one monitoring account sink. To use this operation, provide the sink ARN. To retrieve a list of sink ARNs, use ListSinks . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The ARN of the sink to retrieve information for. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_:\.\-\/]{0,2047}$</param>
+    /// <param name="Identifier">The ARN of the sink to retrieve information for. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_:\.\-\/]{0,2047}$</param>
     public AwsOamGetSinkOptions(
         string Identifier
     )
@@ -56,7 +58,7 @@ public record AwsOamGetSinkOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the sink to retrieve information for. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_:\.\-\/]{0,2047}$
+    /// The ARN of the sink to retrieve information for. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_:\.\-\/]{0,2047}$
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }

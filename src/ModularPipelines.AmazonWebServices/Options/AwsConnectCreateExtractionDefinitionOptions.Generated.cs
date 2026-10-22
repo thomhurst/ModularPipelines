@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an extraction definition in the specified Connect Customer in- stance. An extraction definition specifies how structured data is ex- tracted from customer interactions using generative AI, including the prompt hint that guides extraction and the behavior when a value cannot be found. See also: AWS API Documentation
+/// Creates an extraction definition in the specified Connect Customer instance. An extraction definition specifies how structured data is extracted from customer interactions using generative AI, including the prompt hint that guides extraction and the behavior when a value cannot be found. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsConnectCreateExtractionDefinitionOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an extraction definition in the specified Connect Customer in- stance. An extraction definition specifies how structured data is ex- tracted from customer interactions using generative AI, including the prompt hint that guides extraction and the behavior when a value cannot be found. See also: AWS API Documentation
+    /// Creates an extraction definition in the specified Connect Customer instance. An extraction definition specifies how structured data is extracted from customer interactions using generative AI, including the prompt hint that guides extraction and the behavior when a value cannot be found. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="Name">A unique name of the extraction definition. Constraints: o min: 1 o max: 200</param>
-    /// <param name="ExtractionConfiguration">The configuration that defines how data is extracted, including the prompt hint and not-found behavior. PromptHint -&gt; (string) [required] The prompt hint that guides the extraction. This text tells the generative AI model what data to look for in the customer inter- action. Constraints: o min: 1 o max: 1024 NotFoundBehavior -&gt; (structure) The behavior when the extraction cannot find the specified data in the interaction. Behavior -&gt; (string) [required] The behavior type. USE_DEFAULT_VALUE returns the specified default value. OMIT excludes the field from the output. Possible values: o USE_DEFAULT_VALUE o OMIT DefaultValue -&gt; (string) The default value to use when the behavior is USE_DE- FAULT_VALUE . Constraints: o max: 1024 Shorthand Syntax: PromptHint=string,NotFoundBehavior={Behavior=string,DefaultValue=string} JSON Syntax: { "PromptHint": "string", "NotFoundBehavior": { "Behavior": "USE_DEFAULT_VALUE"|"OMIT", "DefaultValue": "string" } }</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="Name">A unique name of the extraction definition. Constraints: • min: 1 • max: 200</param>
+    /// <param name="ExtractionConfiguration">The configuration that defines how data is extracted, including the prompt hint and not-found behavior. PromptHint -&gt; (string) [required] The prompt hint that guides the extraction. This text tells the generative AI model what data to look for in the customer interaction. Constraints: • min: 1 • max: 1024 NotFoundBehavior -&gt; (structure) The behavior when the extraction cannot find the specified data in the interaction. Behavior -&gt; (string) [required] The behavior type. USE_DEFAULT_VALUE returns the specified default value. OMIT excludes the field from the output. Possible values: • USE_DEFAULT_VALUE • OMIT DefaultValue -&gt; (string) The default value to use when the behavior is USE_DEFAULT_VALUE . Constraints: • max: 1024 Shorthand Syntax: PromptHint=string,NotFoundBehavior={Behavior=string,DefaultValue=string} JSON Syntax: { "PromptHint": "string", "NotFoundBehavior": { "Behavior": "USE_DEFAULT_VALUE"|"OMIT", "DefaultValue": "string" } }</param>
     public AwsConnectCreateExtractionDefinitionOptions(
         string InstanceId,
         string Name,
@@ -66,38 +67,38 @@ public record AwsConnectCreateExtractionDefinitionOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// A unique name of the extraction definition. Constraints: o min: 1 o max: 200
+    /// A unique name of the extraction definition. Constraints: • min: 1 • max: 200
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The configuration that defines how data is extracted, including the prompt hint and not-found behavior. PromptHint -&gt; (string) [required] The prompt hint that guides the extraction. This text tells the generative AI model what data to look for in the customer inter- action. Constraints: o min: 1 o max: 1024 NotFoundBehavior -&gt; (structure) The behavior when the extraction cannot find the specified data in the interaction. Behavior -&gt; (string) [required] The behavior type. USE_DEFAULT_VALUE returns the specified default value. OMIT excludes the field from the output. Possible values: o USE_DEFAULT_VALUE o OMIT DefaultValue -&gt; (string) The default value to use when the behavior is USE_DE- FAULT_VALUE . Constraints: o max: 1024 Shorthand Syntax: PromptHint=string,NotFoundBehavior={Behavior=string,DefaultValue=string} JSON Syntax: { "PromptHint": "string", "NotFoundBehavior": { "Behavior": "USE_DEFAULT_VALUE"|"OMIT", "DefaultValue": "string" } }
+    /// The configuration that defines how data is extracted, including the prompt hint and not-found behavior. PromptHint -&gt; (string) [required] The prompt hint that guides the extraction. This text tells the generative AI model what data to look for in the customer interaction. Constraints: • min: 1 • max: 1024 NotFoundBehavior -&gt; (structure) The behavior when the extraction cannot find the specified data in the interaction. Behavior -&gt; (string) [required] The behavior type. USE_DEFAULT_VALUE returns the specified default value. OMIT excludes the field from the output. Possible values: • USE_DEFAULT_VALUE • OMIT DefaultValue -&gt; (string) The default value to use when the behavior is USE_DEFAULT_VALUE . Constraints: • max: 1024 Shorthand Syntax: PromptHint=string,NotFoundBehavior={Behavior=string,DefaultValue=string} JSON Syntax: { "PromptHint": "string", "NotFoundBehavior": { "Behavior": "USE_DEFAULT_VALUE"|"OMIT", "DefaultValue": "string" } }
     /// </summary>
     [CliOption("--extraction-configuration")]
     public string? ExtractionConfiguration { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. Constraints: o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. Constraints: • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The display settings for the extraction definition, including the label shown in the agent workspace. Label -&gt; (string) The label displayed in the agent workspace for this extraction definition. Constraints: o max: 25 Shorthand Syntax: Label=string JSON Syntax: { "Label": "string" }
+    /// The display settings for the extraction definition, including the label shown in the agent workspace. Label -&gt; (string) The label displayed in the agent workspace for this extraction definition. Constraints: • max: 25 Shorthand Syntax: Label=string JSON Syntax: { "Label": "string" }
     /// </summary>
     [CliOption("--display")]
     public string? Display { get; set; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for this re- source. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags used to organize, track, or control access for this resource. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

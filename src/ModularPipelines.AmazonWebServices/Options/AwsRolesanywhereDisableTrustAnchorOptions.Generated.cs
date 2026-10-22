@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRolesanywhereDisableTrustAnchorOptions : AwsOptions, IValidatab
     /// <summary>
     /// Disables a trust anchor. When disabled, temporary credential requests specifying this trust anchor are unauthorized. Required permissions: rolesanywhere:DisableTrustAnchor . See also: AWS API Documentation
     /// </summary>
-    /// <param name="TrustAnchorId">The unique identifier of the trust anchor. Constraints: o min: 36 o max: 36 o pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*</param>
+    /// <param name="TrustAnchorId">The unique identifier of the trust anchor. Constraints: • min: 36 • max: 36 • pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*</param>
     public AwsRolesanywhereDisableTrustAnchorOptions(
         string TrustAnchorId
     )
@@ -56,7 +58,7 @@ public record AwsRolesanywhereDisableTrustAnchorOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the trust anchor. Constraints: o min: 36 o max: 36 o pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*
+    /// The unique identifier of the trust anchor. Constraints: • min: 36 • max: 36 • pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*
     /// </summary>
     [CliOption("--trust-anchor-id")]
     public string? TrustAnchorId { get; private init; }

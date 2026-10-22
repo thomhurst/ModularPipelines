@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Pushes an SSH public key to the specified EC2 instance. The key remains for 60 seconds, which gives you 60 seconds to establish a serial con- sole connection to the instance using SSH. For more information, see EC2 Serial Console in the Amazon EC2 User Guide . See also: AWS API Documentation
+/// Pushes an SSH public key to the specified EC2 instance. The key remains for 60 seconds, which gives you 60 seconds to establish a serial console connection to the instance using SSH. For more information, see EC2 Serial Console in the Amazon EC2 User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsEc2InstanceConnectSendSerialConsoleSshPublicKeyOptions : AwsOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Pushes an SSH public key to the specified EC2 instance. The key remains for 60 seconds, which gives you 60 seconds to establish a serial con- sole connection to the instance using SSH. For more information, see EC2 Serial Console in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// Pushes an SSH public key to the specified EC2 instance. The key remains for 60 seconds, which gives you 60 seconds to establish a serial console connection to the instance using SSH. For more information, see EC2 Serial Console in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The ID of the EC2 instance. Constraints: o min: 10 o max: 32 o pattern: ^i-[a-f0-9]+$</param>
-    /// <param name="SshPublicKey">The public key material. To use the public key, you must have the matching private key. For information about the supported key for- mats and lengths, see Requirements for key pairs in the Amazon EC2 User Guide . Constraints: o min: 80 o max: 4096</param>
+    /// <param name="InstanceId">The ID of the EC2 instance. Constraints: • min: 10 • max: 32 • pattern: ^i-[a-f0-9]+$</param>
+    /// <param name="SshPublicKey">The public key material. To use the public key, you must have the matching private key. For information about the supported key formats and lengths, see Requirements for key pairs in the Amazon EC2 User Guide . Constraints: • min: 80 • max: 4096</param>
     public AwsEc2InstanceConnectSendSerialConsoleSshPublicKeyOptions(
         string InstanceId,
         string SshPublicKey
@@ -60,19 +62,19 @@ public record AwsEc2InstanceConnectSendSerialConsoleSshPublicKeyOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the EC2 instance. Constraints: o min: 10 o max: 32 o pattern: ^i-[a-f0-9]+$
+    /// The ID of the EC2 instance. Constraints: • min: 10 • max: 32 • pattern: ^i-[a-f0-9]+$
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The public key material. To use the public key, you must have the matching private key. For information about the supported key for- mats and lengths, see Requirements for key pairs in the Amazon EC2 User Guide . Constraints: o min: 80 o max: 4096
+    /// The public key material. To use the public key, you must have the matching private key. For information about the supported key formats and lengths, see Requirements for key pairs in the Amazon EC2 User Guide . Constraints: • min: 80 • max: 4096
     /// </summary>
     [CliOption("--ssh-public-key")]
     public string? SshPublicKey { get; private init; }
 
     /// <summary>
-    /// The serial port of the EC2 instance. Currently only port 0 is sup- ported. Default: 0 Constraints: o min: 0 o max: 0
+    /// The serial port of the EC2 instance. Currently only port 0 is supported. Default: 0 Constraints: • min: 0 • max: 0
     /// </summary>
     [CliOption("--serial-port")]
     public int? SerialPort { get; set; }

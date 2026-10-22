@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the free trial status of Security Hub features. A delegated Secu- rity Hub administrator can list the status for accounts in its organi- zation. Any other account can list the status only for itself. Free trial status remains available after a feature is disabled. See also: AWS API Documentation list-free-trial-statuses-v2 is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-pagina...
+/// Lists the free trial status of Security Hub features. A delegated Security Hub administrator can list the status for accounts in its organization. Any other account can list the status only for itself. Free trial status remains available after a feature is disabled. See also: AWS API Documentation list-free-trial-statuses-v2 is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate arg...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,22 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSecurityhubListFreeTrialStatusesV2Options : AwsOptions
 {
     /// <summary>
-    /// The Amazon Web Services account identifiers to list free trial sta- tus for. You can specify accounts other than your own only if you are a delegated Security Hub administrator. Constraints: o min: 1 o max: 50 (string) Constraints: o pattern: ^[0-9]{12}$ Syntax: "string" "string" ...
+    /// The Amazon Web Services account identifiers to list free trial status for. You can specify accounts other than your own only if you are a delegated Security Hub administrator. Constraints: • min: 1 • max: 50 (string) Constraints: • pattern: ^[0-9]{12}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
 
     /// <summary>
-    /// The free trial statuses to filter the results by. Valid values: o ACTIVE returns only features with an ongoing free trial period. o INACTIVE returns only features whose free trial period has ended, or that never started. Constraints: o min: 1 o max: 10 (string) Possible values: o ACTIVE o INACTIVE Syntax: "string" "string" ...
+    /// The free trial statuses to filter the results by. Valid values: • ACTIVE returns only features with an ongoing free trial period. • INACTIVE returns only features whose free trial period has ended, or that never started. Constraints: • min: 1 • max: 10 (string) Possible values: • ACTIVE • INACTIVE Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--statuses", GroupValues = true)]
     public IEnumerable<string>? Statuses { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -48,15 +45,18 @@ public record AwsSecurityhubListFreeTrialStatusesV2Options : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

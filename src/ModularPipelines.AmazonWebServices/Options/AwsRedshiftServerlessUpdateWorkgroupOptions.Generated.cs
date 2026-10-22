@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRedshiftServerlessUpdateWorkgroupOptions : AwsOptions, IValidat
     /// <summary>
     /// Updates a workgroup with the specified configuration settings. You can't update multiple parameters in one request. For example, you can update baseCapacity or port in a single request, but you can't update both in the same request. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. If a workgroup is in an account with VPC BPA turned...
     /// </summary>
-    /// <param name="WorkgroupName">The name of the workgroup to update. You can't update the name of a workgroup once it is created. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$</param>
+    /// <param name="WorkgroupName">The name of the workgroup to update. You can't update the name of a workgroup once it is created. Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$</param>
     public AwsRedshiftServerlessUpdateWorkgroupOptions(
         string WorkgroupName
     )
@@ -56,7 +58,7 @@ public record AwsRedshiftServerlessUpdateWorkgroupOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workgroup to update. You can't update the name of a workgroup once it is created. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$
+    /// The name of the workgroup to update. You can't update the name of a workgroup once it is created. Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$
     /// </summary>
     [CliOption("--workgroup-name")]
     public string? WorkgroupName { get; private init; }
@@ -68,7 +70,7 @@ public record AwsRedshiftServerlessUpdateWorkgroupOptions : AwsOptions, IValidat
     public int? BaseCapacity { get; set; }
 
     /// <summary>
-    /// An array of parameters to set for advanced control over a database. The options are auto_mv , datestyle , enable_case_sensitive_identi- fier , enable_user_activity_logging , query_group , search_path , require_ssl , use_fips_ssl , and either wlm_json_configuration or query monitoring metrics that let you define performance boundaries. You can either specify individual query monitoring metrics (such as max_scan_row_count , max_query_execution_time ) or use wlm_json_con- figuration to define query queues with rules, but not both. If you're using wlm_json_configuration , the maximum size of parameter- Value is 8000 characters. For more information about query monitor- ing rules and available metrics, see Query monitoring metrics for Amazon Redshift Serverless . (structure) An array of key-value pairs to set for advanced control over Amazon Redshift Serverless. parameterKey -&gt; (string) The key of the parameter. The options are auto_mv , datestyle , enable_case_sensitive_identifier , enable_user_activ- ity_logging , query_group , search_path , require_ssl , use_fips_ssl , and either wlm_json_configuration or query monitoring metrics that let you define performance bound- aries. You can either specify individual query monitoring metrics (such as max_scan_row_count , max_query_execu- tion_time ) or use wlm_json_configuration to define query queues with rules, but not both. If you're using wlm_json_configuration , the maximum size of parameterValue is 8000 characters. For more information about query monitor- ing rules and available metrics, see Query monitoring metrics for Amazon Redshift Serverless . parameterValue -&gt; (string) The value of the parameter to set. Shorthand Syntax: parameterKey=string,parameterValue=string ... JSON Syntax: [ { "parameterKey": "string", "parameterValue": "string" } ... ]
+    /// An array of parameters to set for advanced control over a database. The options are auto_mv , datestyle , enable_case_sensitive_identifier , enable_user_activity_logging , query_group , search_path , require_ssl , use_fips_ssl , and either wlm_json_configuration or query monitoring metrics that let you define performance boundaries. You can either specify individual query monitoring metrics (such as max_scan_row_count , max_query_execution_time ) or use wlm_json_configuration to define query queues with rules, but not both. If you're using wlm_json_configuration , the maximum size of parameterValue is 8000 characters. For more information about query monitoring rules and available metrics, see Query monitoring metrics for Amazon Redshift Serverless . (structure) An array of key-value pairs to set for advanced control over Amazon Redshift Serverless. parameterKey -&gt; (string) The key of the parameter. The options are auto_mv , datestyle , enable_case_sensitive_identifier , enable_user_activity_logging , query_group , search_path , require_ssl , use_fips_ssl , and either wlm_json_configuration or query monitoring metrics that let you define performance boundaries. You can either specify individual query monitoring metrics (such as max_scan_row_count , max_query_execution_time ) or use wlm_json_configuration to define query queues with rules, but not both. If you're using wlm_json_configuration , the maximum size of parameterValue is 8000 characters. For more information about query monitoring rules and available metrics, see Query monitoring metrics for Amazon Redshift Serverless . parameterValue -&gt; (string) The value of the parameter to set. Shorthand Syntax: parameterKey=string,parameterValue=string ... JSON Syntax: [ { "parameterKey": "string", "parameterValue": "string" } ... ]
     /// </summary>
     [CliOption("--config-parameters", GroupValues = true)]
     public IEnumerable<string>? ConfigParameters { get; set; }
@@ -80,13 +82,13 @@ public record AwsRedshiftServerlessUpdateWorkgroupOptions : AwsOptions, IValidat
     public bool? EnhancedVpcRouting { get; set; }
 
     /// <summary>
-    /// tomatic-optimization (boolean) If true , allocates additional compute resources for running auto- matic optimization operations. Default: false
+    /// If true , allocates additional compute resources for running automatic optimization operations. Default: false
     /// </summary>
     [CliFlag("--extra-compute-for-automatic-optimization", NegatedName = "--no-extra-compute-for-automatic-optimization")]
     public bool? ExtraComputeForAutomaticOptimization { get; set; }
 
     /// <summary>
-    /// The IP address type that the workgroup supports. Possible values are ipv4 and dualstack . Constraints: o pattern: ^(ipv4|dualstack)$
+    /// The IP address type that the workgroup supports. Possible values are ipv4 and dualstack . Constraints: • pattern: ^(ipv4|dualstack)$
     /// </summary>
     [CliOption("--ip-address-type")]
     public string? IpAddressType { get; set; }
@@ -104,7 +106,7 @@ public record AwsRedshiftServerlessUpdateWorkgroupOptions : AwsOptions, IValidat
     public int? Port { get; set; }
 
     /// <summary>
-    /// An object that represents the price performance target settings for the workgroup. level -&gt; (integer) The target price performance level for the workgroup. Valid val- ues include 1, 25, 50, 75, and 100. These correspond to the price performance levels LOW_COST, ECONOMICAL, BALANCED, RE- SOURCEFUL, and HIGH_PERFORMANCE. Constraints: o min: 1 o max: 100 status -&gt; (string) Whether the price performance target is enabled for the work- group. Possible values: o ENABLED o DISABLED Shorthand Syntax: level=integer,status=string JSON Syntax: { "level": integer, "status": "ENABLED"|"DISABLED" }
+    /// An object that represents the price performance target settings for the workgroup. level -&gt; (integer) The target price performance level for the workgroup. Valid values include 1, 25, 50, 75, and 100. These correspond to the price performance levels LOW_COST, ECONOMICAL, BALANCED, RESOURCEFUL, and HIGH_PERFORMANCE. Constraints: • min: 1 • max: 100 status -&gt; (string) Whether the price performance target is enabled for the workgroup. Possible values: • ENABLED • DISABLED Shorthand Syntax: level=integer,status=string JSON Syntax: { "level": integer, "status": "ENABLED"|"DISABLED" }
     /// </summary>
     [CliOption("--price-performance-target")]
     public string? PricePerformanceTarget { get; set; }
@@ -128,7 +130,7 @@ public record AwsRedshiftServerlessUpdateWorkgroupOptions : AwsOptions, IValidat
     public IEnumerable<string>? SubnetIds { get; set; }
 
     /// <summary>
-    /// An optional parameter for the name of the track for the workgroup. If you don't provide a track name, the workgroup is assigned to the current track. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9_]+$
+    /// An optional parameter for the name of the track for the workgroup. If you don't provide a track name, the workgroup is assigned to the current track. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9_]+$
     /// </summary>
     [CliOption("--track-name")]
     public string? TrackName { get; set; }

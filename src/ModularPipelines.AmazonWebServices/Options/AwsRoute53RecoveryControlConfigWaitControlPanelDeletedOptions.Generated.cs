@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Wait until a control panel is deleted It will poll every 5 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 26 failed checks. See also: AWS API Documentation
+/// Wait until a control panel is deleted It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 26 failed checks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsRoute53RecoveryControlConfigWaitControlPanelDeletedOptions : Aw
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Wait until a control panel is deleted It will poll every 5 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 26 failed checks. See also: AWS API Documentation
+    /// Wait until a control panel is deleted It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 26 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="ControlPanelArn">The Amazon Resource Name (ARN) of the control panel.</param>
     public AwsRoute53RecoveryControlConfigWaitControlPanelDeletedOptions(

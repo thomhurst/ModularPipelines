@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an existing virtual node. You must delete any virtual services that list a virtual node as a ser- vice provider before you can delete the virtual node itself. See also: AWS API Documentation
+/// Deletes an existing virtual node. You must delete any virtual services that list a virtual node as a service provider before you can delete the virtual node itself. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsAppmeshDeleteVirtualNodeOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an existing virtual node. You must delete any virtual services that list a virtual node as a ser- vice provider before you can delete the virtual node itself. See also: AWS API Documentation
+    /// Deletes an existing virtual node. You must delete any virtual services that list a virtual node as a service provider before you can delete the virtual node itself. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MeshName">The name of the service mesh to delete the virtual node in. Constraints: o min: 1 o max: 255</param>
-    /// <param name="VirtualNodeName">The name of the virtual node to delete. Constraints: o min: 1 o max: 255</param>
+    /// <param name="MeshName">The name of the service mesh to delete the virtual node in. Constraints: • min: 1 • max: 255</param>
+    /// <param name="VirtualNodeName">The name of the virtual node to delete. Constraints: • min: 1 • max: 255</param>
     public AwsAppmeshDeleteVirtualNodeOptions(
         string MeshName,
         string VirtualNodeName
@@ -60,19 +62,19 @@ public record AwsAppmeshDeleteVirtualNodeOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the service mesh to delete the virtual node in. Constraints: o min: 1 o max: 255
+    /// The name of the service mesh to delete the virtual node in. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--mesh-name")]
     public string? MeshName { get; private init; }
 
     /// <summary>
-    /// The name of the virtual node to delete. Constraints: o min: 1 o max: 255
+    /// The name of the virtual node to delete. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--virtual-node-name")]
     public string? VirtualNodeName { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes . Constraints: o min: 12 o max: 12
+    /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes . Constraints: • min: 12 • max: 12
     /// </summary>
     [CliOption("--mesh-owner")]
     public string? MeshOwner { get; set; }

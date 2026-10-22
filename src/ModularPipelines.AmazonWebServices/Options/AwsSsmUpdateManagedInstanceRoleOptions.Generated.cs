@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsSsmUpdateManagedInstanceRoleOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Changes the Identity and Access Management (IAM) role that is assigned to the on-premises server, edge device, or virtual machines (VM). IAM roles are first assigned to these hybrid nodes during the activation process. For more information, see CreateActivation . See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The ID of the managed node where you want to update the role. Constraints: o min: 20 o max: 124 o pattern: (^mi-[0-9a-f]{17}$)|(^eks_c:[0-9A-Za-z][A-Za-z0-9\-_]{0,99}_\w{17}$)</param>
-    /// <param name="IamRole">The name of the Identity and Access Management (IAM) role that you want to assign to the managed node. This IAM role must provide As- sumeRole permissions for the Amazon Web Services Systems Manager service principal ssm.amazonaws.com . For more information, see Create the IAM service role required for Systems Manager in hybrid and multicloud environments in the Amazon Web Services Systems Man- ager User Guide . NOTE: You can't specify an IAM service-linked role for this parameter. You must create a unique role. Constraints: o max: 64</param>
+    /// <param name="InstanceId">The ID of the managed node where you want to update the role. Constraints: • min: 20 • max: 124 • pattern: (^mi-[0-9a-f]{17}$)|(^eks_c:[0-9A-Za-z][A-Za-z0-9\-_]{0,99}_\w{17}$)</param>
+    /// <param name="IamRole">The name of the Identity and Access Management (IAM) role that you want to assign to the managed node. This IAM role must provide AssumeRole permissions for the Amazon Web Services Systems Manager service principal ssm.amazonaws.com . For more information, see Create the IAM service role required for Systems Manager in hybrid and multicloud environments in the Amazon Web Services Systems Manager User Guide . NOTE: You can't specify an IAM service-linked role for this parameter. You must create a unique role. Constraints: • max: 64</param>
     public AwsSsmUpdateManagedInstanceRoleOptions(
         string InstanceId,
         string IamRole
@@ -60,13 +62,13 @@ public record AwsSsmUpdateManagedInstanceRoleOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the managed node where you want to update the role. Constraints: o min: 20 o max: 124 o pattern: (^mi-[0-9a-f]{17}$)|(^eks_c:[0-9A-Za-z][A-Za-z0-9\-_]{0,99}_\w{17}$)
+    /// The ID of the managed node where you want to update the role. Constraints: • min: 20 • max: 124 • pattern: (^mi-[0-9a-f]{17}$)|(^eks_c:[0-9A-Za-z][A-Za-z0-9\-_]{0,99}_\w{17}$)
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The name of the Identity and Access Management (IAM) role that you want to assign to the managed node. This IAM role must provide As- sumeRole permissions for the Amazon Web Services Systems Manager service principal ssm.amazonaws.com . For more information, see Create the IAM service role required for Systems Manager in hybrid and multicloud environments in the Amazon Web Services Systems Man- ager User Guide . NOTE: You can't specify an IAM service-linked role for this parameter. You must create a unique role. Constraints: o max: 64
+    /// The name of the Identity and Access Management (IAM) role that you want to assign to the managed node. This IAM role must provide AssumeRole permissions for the Amazon Web Services Systems Manager service principal ssm.amazonaws.com . For more information, see Create the IAM service role required for Systems Manager in hybrid and multicloud environments in the Amazon Web Services Systems Manager User Guide . NOTE: You can't specify an IAM service-linked role for this parameter. You must create a unique role. Constraints: • max: 64
     /// </summary>
     [CliOption("--iam-role")]
     public string? IamRole { get; private init; }

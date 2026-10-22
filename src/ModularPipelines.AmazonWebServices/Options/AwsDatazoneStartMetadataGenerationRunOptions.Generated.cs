@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts the metadata generation run. Prerequisites: o Asset must be created and belong to the specified domain and project. o Asset type must be supported for metadata generation (e.g., Amazon Web Services Glue table). o Asset must have a structured schema with valid rows and columns. o Valid values for --type: BUSINESS_DESCRIPTIONS, BUSINESS_NAMES, BUSI- NESS_GLOSSARY_ASSOCIATIONS. o The user must have permission to run metadata generation in the do- main/project. See also: AWS API Documentation
+/// Starts the metadata generation run. Prerequisites: • Asset must be created and belong to the specified domain and project. • Asset type must be supported for metadata generation (e.g., Amazon Web Services Glue table). • Asset must have a structured schema with valid rows and columns. • Valid values for --type: BUSINESS_DESCRIPTIONS, BUSINESS_NAMES, BUSINESS_GLOSSARY_ASSOCIATIONS. • The user must have permission to run metadata generation in the domain/project. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +29,11 @@ public record AwsDatazoneStartMetadataGenerationRunOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts the metadata generation run. Prerequisites: o Asset must be created and belong to the specified domain and project. o Asset type must be supported for metadata generation (e.g., Amazon Web Services Glue table). o Asset must have a structured schema with valid rows and columns. o Valid values for --type: BUSINESS_DESCRIPTIONS, BUSINESS_NAMES, BUSI- NESS_GLOSSARY_ASSOCIATIONS. o The user must have permission to run metadata generation in the do- main/project. See also: AWS API Documentation
+    /// Starts the metadata generation run. Prerequisites: • Asset must be created and belong to the specified domain and project. • Asset type must be supported for metadata generation (e.g., Amazon Web Services Glue table). • Asset must have a structured schema with valid rows and columns. • Valid values for --type: BUSINESS_DESCRIPTIONS, BUSINESS_NAMES, BUSINESS_GLOSSARY_ASSOCIATIONS. • The user must have permission to run metadata generation in the domain/project. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain where you want to start a meta- data generation run. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Target">The asset for which you want to start a metadata generation run. type -&gt; (string) [required] The type of the asset for which metadata was generated. Possible values: o ASSET identifier -&gt; (string) [required] The ID of the metadata generation run's target. revision -&gt; (string) The revision of the asset for which metadata was generated. Constraints: o min: 1 o max: 64 Shorthand Syntax: type=string,identifier=string,revision=string JSON Syntax: { "type": "ASSET", "identifier": "string", "revision": "string" }</param>
-    /// <param name="OwningProjectIdentifier">The ID of the project that owns the asset for which you want to start a metadata generation run. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain where you want to start a metadata generation run. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Target">The asset for which you want to start a metadata generation run. type -&gt; (string) [required] The type of the asset for which metadata was generated. Possible values: • ASSET identifier -&gt; (string) [required] The ID of the metadata generation run's target. revision -&gt; (string) The revision of the asset for which metadata was generated. Constraints: • min: 1 • max: 64 Shorthand Syntax: type=string,identifier=string,revision=string JSON Syntax: { "type": "ASSET", "identifier": "string", "revision": "string" }</param>
+    /// <param name="OwningProjectIdentifier">The ID of the project that owns the asset for which you want to start a metadata generation run. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneStartMetadataGenerationRunOptions(
         string DomainIdentifier,
         string Target,
@@ -66,37 +68,37 @@ public record AwsDatazoneStartMetadataGenerationRunOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon DataZone domain where you want to start a meta- data generation run. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the Amazon DataZone domain where you want to start a metadata generation run. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The asset for which you want to start a metadata generation run. type -&gt; (string) [required] The type of the asset for which metadata was generated. Possible values: o ASSET identifier -&gt; (string) [required] The ID of the metadata generation run's target. revision -&gt; (string) The revision of the asset for which metadata was generated. Constraints: o min: 1 o max: 64 Shorthand Syntax: type=string,identifier=string,revision=string JSON Syntax: { "type": "ASSET", "identifier": "string", "revision": "string" }
+    /// The asset for which you want to start a metadata generation run. type -&gt; (string) [required] The type of the asset for which metadata was generated. Possible values: • ASSET identifier -&gt; (string) [required] The ID of the metadata generation run's target. revision -&gt; (string) The revision of the asset for which metadata was generated. Constraints: • min: 1 • max: 64 Shorthand Syntax: type=string,identifier=string,revision=string JSON Syntax: { "type": "ASSET", "identifier": "string", "revision": "string" }
     /// </summary>
     [CliOption("--target")]
     public string? Target { get; private init; }
 
     /// <summary>
-    /// The ID of the project that owns the asset for which you want to start a metadata generation run. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The ID of the project that owns the asset for which you want to start a metadata generation run. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--owning-project-identifier")]
     public string? OwningProjectIdentifier { get; private init; }
 
     /// <summary>
-    /// The type of the metadata generation run. Possible values: o BUSINESS_DESCRIPTIONS o BUSINESS_NAMES o BUSINESS_GLOSSARY_ASSOCIATIONS
+    /// The type of the metadata generation run. Possible values: • BUSINESS_DESCRIPTIONS • BUSINESS_NAMES • BUSINESS_GLOSSARY_ASSOCIATIONS
     /// </summary>
     [CliOption("--type")]
     public AwsDatazoneStartMetadataGenerationRunType? Type { get; set; }
 
     /// <summary>
-    /// The types of the metadata generation run. Constraints: o min: 1 o max: 2 (string) Possible values: o BUSINESS_DESCRIPTIONS o BUSINESS_NAMES o BUSINESS_GLOSSARY_ASSOCIATIONS Syntax: "string" "string" ...
+    /// The types of the metadata generation run. Constraints: • min: 1 • max: 2 (string) Possible values: • BUSINESS_DESCRIPTIONS • BUSINESS_NAMES • BUSINESS_GLOSSARY_ASSOCIATIONS Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--types", GroupValues = true)]
     public IEnumerable<string>? Types { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure idempotency of the re- quest. This field is automatically populated if not provided. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

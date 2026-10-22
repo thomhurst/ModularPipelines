@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a specified existing serverless cache. NOTE: CreateServerlessCacheSnapshot permission is required to create a fi- nal snapshot. Without this permission, the API call will fail with an Access Denied exception. See also: AWS API Documentation
+/// Deletes a specified existing serverless cache. NOTE: CreateServerlessCacheSnapshot permission is required to create a final snapshot. Without this permission, the API call will fail with an Access Denied exception. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsElasticacheDeleteServerlessCacheOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a specified existing serverless cache. NOTE: CreateServerlessCacheSnapshot permission is required to create a fi- nal snapshot. Without this permission, the API call will fail with an Access Denied exception. See also: AWS API Documentation
+    /// Deletes a specified existing serverless cache. NOTE: CreateServerlessCacheSnapshot permission is required to create a final snapshot. Without this permission, the API call will fail with an Access Denied exception. See also: AWS API Documentation
     /// </summary>
     /// <param name="ServerlessCacheName">The identifier of the serverless cache to be deleted.</param>
     public AwsElasticacheDeleteServerlessCacheOptions(

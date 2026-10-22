@@ -23,14 +23,14 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsWorkspacesWebListBrowserSettingsOptions : AwsOptions
 {
     /// <summary>
-    /// The pagination token used to retrieve the next page of results for this operation. Constraints: o min: 1 o max: 2048 o pattern: \S+
+    /// The pagination token used to retrieve the next page of results for this operation. Constraints: • min: 1 • max: 2048 • pattern: \S+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to be included in the next page. Constraints: o min: 1
+    /// The maximum number of results to be included in the next page. Constraints: • min: 1
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

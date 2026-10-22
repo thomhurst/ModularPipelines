@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsStepfunctionsPublishStateMachineVersionOptions : AwsOptions, IV
     /// <summary>
     /// Creates a version from the current revision of a state machine. Use versions to create immutable snapshots of your state machine. You can start executions from versions either directly or with an alias. To create an alias, use CreateStateMachineAlias . You can publish up to 1000 versions for each state machine. You must manually delete unused versions using the DeleteStateMachineVersion API action. PublishStateMachineVersion is an idempotent API. It doesn't create a duplicate state machine versi...
     /// </summary>
-    /// <param name="StateMachineArn">The Amazon Resource Name (ARN) of the state machine. Constraints: o min: 1 o max: 256</param>
+    /// <param name="StateMachineArn">The Amazon Resource Name (ARN) of the state machine. Constraints: • min: 1 • max: 256</param>
     public AwsStepfunctionsPublishStateMachineVersionOptions(
         string StateMachineArn
     )
@@ -56,19 +58,19 @@ public record AwsStepfunctionsPublishStateMachineVersionOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the state machine. Constraints: o min: 1 o max: 256
+    /// The Amazon Resource Name (ARN) of the state machine. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--state-machine-arn")]
     public string? StateMachineArn { get; private init; }
 
     /// <summary>
-    /// Only publish the state machine version if the current state ma- chine's revision ID matches the specified ID. Use this option to avoid publishing a version if the state machine changed since you last updated it. If the specified revision ID doesn't match the state machine's current revision ID, the API re- turns ConflictException . NOTE: To specify an initial revision ID for a state machine with no revision ID assigned, specify the string INITIAL for the revi- sionId parameter. For example, you can specify a revisionID of INITIAL when you create a state machine using the CreateS- tateMachine API action.
+    /// Only publish the state machine version if the current state machine's revision ID matches the specified ID. Use this option to avoid publishing a version if the state machine changed since you last updated it. If the specified revision ID doesn't match the state machine's current revision ID, the API returns ConflictException . NOTE: To specify an initial revision ID for a state machine with no revision ID assigned, specify the string INITIAL for the revisionId parameter. For example, you can specify a revisionID of INITIAL when you create a state machine using the CreateStateMachine API action.
     /// </summary>
     [CliOption("--revision-id")]
     public string? RevisionId { get; set; }
 
     /// <summary>
-    /// An optional description of the state machine version. Constraints: o max: 256
+    /// An optional description of the state machine version. Constraints: • max: 256
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

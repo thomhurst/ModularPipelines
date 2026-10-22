@@ -32,7 +32,7 @@ public class AwsNotifications : IAwsNotifications
     #region Commands
 
     /// <summary>
-    /// Associates a delivery Channel with a particular NotificationConfigura- tion . Supported Channels include Amazon Q Developer in chat applica- tions, the Console Mobile Application, and emails (notifications-con- tacts). See also: AWS API Documentation
+    /// Associates a delivery Channel with a particular NotificationConfiguration . Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsNotifications : IAwsNotifications
     }
 
     /// <summary>
-    /// Associates an Account Contact with a particular ManagedNotificationCon- figuration . See also: AWS API Documentation
+    /// Associates an Account Contact with a particular ManagedNotificationConfiguration . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsNotifications : IAwsNotifications
     }
 
     /// <summary>
-    /// Associates an additional Channel with a particular ManagedNotification- Configuration . Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts). See also: AWS API Documentation
+    /// Associates an additional Channel with a particular ManagedNotificationConfiguration . Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsNotifications : IAwsNotifications
     }
 
     /// <summary>
-    /// Deregisters a NotificationHub in the specified Region. NOTE: You can't deregister the last NotificationHub in the account. Noti- ficationEvents stored in the deregistered NotificationHub are no longer visible. Recreating a new NotificationHub in the same Region restores access to those NotificationEvents . See also: AWS API Documentation
+    /// Deregisters a NotificationHub in the specified Region. NOTE: You can't deregister the last NotificationHub in the account. NotificationEvents stored in the deregistered NotificationHub are no longer visible. Recreating a new NotificationHub in the same Region restores access to those NotificationEvents . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsNotifications : IAwsNotifications
     }
 
     /// <summary>
-    /// Disables service trust between User Notifications and Amazon Web Ser- vices Organizations. See also: AWS API Documentation
+    /// Disables service trust between User Notifications and Amazon Web Services Organizations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsNotifications : IAwsNotifications
     }
 
     /// <summary>
-    /// Disassociates an Account Contact with a particular ManagedNotification- Configuration . See also: AWS API Documentation
+    /// Disassociates an Account Contact with a particular ManagedNotificationConfiguration . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsNotifications : IAwsNotifications
     }
 
     /// <summary>
-    /// Disassociates an additional Channel from a particular ManagedNotifica- tionConfiguration . Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts). See also: AWS API Documentation
+    /// Disassociates an additional Channel from a particular ManagedNotificationConfiguration . Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsNotifications : IAwsNotifications
     }
 
     /// <summary>
-    /// Removes the association between an organizational unit and a notifica- tion configuration. See also: AWS API Documentation
+    /// Removes the association between an organizational unit and a notification configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsNotifications : IAwsNotifications
     }
 
     /// <summary>
-    /// Enables service trust between User Notifications and Amazon Web Ser- vices Organizations. See also: AWS API Documentation
+    /// Enables service trust between User Notifications and Amazon Web Services Organizations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsNotifications : IAwsNotifications
     }
 
     /// <summary>
-    /// Returns a specified NotificationEvent . WARNING: User Notifications stores notifications in the individual Regions you register as notification hubs and the Region of the source event rule. GetNotificationEvent only returns notifications stored in the same Region in which the action is called. User Notifications doesn't backfill notifications to new Regions selected as notifica- tion hubs. For this reason, we recommend that you make calls in your oldest registered notification hub. For more info...
+    /// Returns a specified NotificationEvent . WARNING: User Notifications stores notifications in the individual Regions you register as notification hubs and the Region of the source event rule. GetNotificationEvent only returns notifications stored in the same Region in which the action is called. User Notifications doesn't backfill notifications to new Regions selected as notification hubs. For this reason, we recommend that you make calls in your oldest registered notification hub. For more inform...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsNotifications : IAwsNotifications
     }
 
     /// <summary>
-    /// Returns the AccessStatus of Service Trust Enablement for User Notifica- tions and Amazon Web Services Organizations. See also: AWS API Documentation
+    /// Returns the AccessStatus of Service Trust Enablement for User Notifications and Amazon Web Services Organizations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsNotifications : IAwsNotifications
     }
 
     /// <summary>
-    /// Returns a list of Channels for a NotificationConfiguration . See also: AWS API Documentation list-channels is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: channels
+    /// Returns a list of Channels for a NotificationConfiguration . See also: AWS API Documentation list-channels is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: channels
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsNotifications : IAwsNotifications
     }
 
     /// <summary>
-    /// Returns a list of Account contacts and Channels associated with a Man- agedNotificationConfiguration , in paginated format. See also: AWS API Documentation list-managed-notification-channel-associations is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data...
+    /// Returns a list of Account contacts and Channels associated with a ManagedNotificationConfiguration , in paginated format. See also: AWS API Documentation list-managed-notification-channel-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsNotifications : IAwsNotifications
     }
 
     /// <summary>
-    /// Returns a list of ManagedNotificationChildEvents for a specified aggre- gate ManagedNotificationEvent , ordered by creation time in reverse chronological order (newest first). See also: AWS API Documentation list-managed-notification-child-events is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated re...
+    /// Returns a list of ManagedNotificationChildEvents for a specified aggregate ManagedNotificationEvent , ordered by creation time in reverse chronological order (newest first). See also: AWS API Documentation list-managed-notification-child-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsNotifications : IAwsNotifications
     }
 
     /// <summary>
-    /// Returns a list of Managed Notification Configurations according to specified filters, ordered by creation time in reverse chronological order (newest first). See also: AWS API Documentation list-managed-notification-configurations is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --quer...
+    /// Returns a list of Managed Notification Configurations according to specified filters, ordered by creation time in reverse chronological order (newest first). See also: AWS API Documentation list-managed-notification-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsNotifications : IAwsNotifications
     }
 
     /// <summary>
-    /// Returns a list of Managed Notification Events according to specified filters, ordered by creation time in reverse chronological order (newest first). See also: AWS API Documentation list-managed-notification-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must ...
+    /// Returns a list of Managed Notification Events according to specified filters, ordered by creation time in reverse chronological order (newest first). See also: AWS API Documentation list-managed-notification-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsNotifications : IAwsNotifications
     }
 
     /// <summary>
-    /// Returns a list of member accounts associated with a notification con- figuration. See also: AWS API Documentation list-member-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: memberAccounts
+    /// Returns a list of member accounts associated with a notification configuration. See also: AWS API Documentation list-member-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: memberAccounts
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsNotifications : IAwsNotifications
     }
 
     /// <summary>
-    /// Returns a list of abbreviated NotificationConfigurations according to specified filters, in reverse chronological order (newest first). See also: AWS API Documentation list-notification-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data f...
+    /// Returns a list of abbreviated NotificationConfigurations according to specified filters, in reverse chronological order (newest first). See also: AWS API Documentation list-notification-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsNotifications : IAwsNotifications
     }
 
     /// <summary>
-    /// Returns a list of NotificationEvents according to specified filters, in reverse chronological order (newest first). WARNING: User Notifications stores notifications in the individual Regions you register as notification hubs and the Region of the source event rule. ListNotificationEvents only returns notifications stored in the same Region in which the action is called. User Notifications doesn't backfill notifications to new Regions selected as notifica- tion hubs. For this reason, we recommend...
+    /// Returns a list of NotificationEvents according to specified filters, in reverse chronological order (newest first). WARNING: User Notifications stores notifications in the individual Regions you register as notification hubs and the Region of the source event rule. ListNotificationEvents only returns notifications stored in the same Region in which the action is called. User Notifications doesn't backfill notifications to new Regions selected as notification hubs. For this reason, we recommend t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -512,7 +512,7 @@ public class AwsNotifications : IAwsNotifications
     }
 
     /// <summary>
-    /// Returns a list of organizational units associated with a notification configuration. See also: AWS API Documentation list-organizational-units is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: organiza...
+    /// Returns a list of organizational units associated with a notification configuration. See also: AWS API Documentation list-organizational-units is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: organizati...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -602,7 +602,7 @@ public class AwsNotifications : IAwsNotifications
     }
 
     /// <summary>
-    /// Updates the isSensitiveEventsSubscribed property of a particular Man- agedNotification channel association. See also: AWS API Documentation
+    /// Updates the isSensitiveEventsSubscribed property of a particular ManagedNotification channel association. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

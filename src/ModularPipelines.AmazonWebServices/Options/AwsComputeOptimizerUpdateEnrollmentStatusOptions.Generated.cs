@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the enrollment (opt in and opt out) status of an account to the Compute Optimizer service. If the account is a management account of an organization, this action can also be used to enroll member accounts of the organization. You must have the appropriate permissions to opt in to Compute Opti- mizer, to view its recommendations, and to opt out. For more informa- tion, see Controlling access with Amazon Web Services Identity and Ac- cess Management in the Compute Optimizer User Guide . Wh...
+/// Updates the enrollment (opt in and opt out) status of an account to the Compute Optimizer service. If the account is a management account of an organization, this action can also be used to enroll member accounts of the organization. You must have the appropriate permissions to opt in to Compute Optimizer, to view its recommendations, and to opt out. For more information, see Controlling access with Amazon Web Services Identity and Access Management in the Compute Optimizer User Guide . When you...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsComputeOptimizerUpdateEnrollmentStatusOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the enrollment (opt in and opt out) status of an account to the Compute Optimizer service. If the account is a management account of an organization, this action can also be used to enroll member accounts of the organization. You must have the appropriate permissions to opt in to Compute Opti- mizer, to view its recommendations, and to opt out. For more informa- tion, see Controlling access with Amazon Web Services Identity and Ac- cess Management in the Compute Optimizer User Guide . Wh...
+    /// Updates the enrollment (opt in and opt out) status of an account to the Compute Optimizer service. If the account is a management account of an organization, this action can also be used to enroll member accounts of the organization. You must have the appropriate permissions to opt in to Compute Optimizer, to view its recommendations, and to opt out. For more information, see Controlling access with Amazon Web Services Identity and Access Management in the Compute Optimizer User Guide . When you...
     /// </summary>
-    /// <param name="Status">The new enrollment status of the account. The following status options are available: o Active - Opts in your account to the Compute Optimizer service. Compute Optimizer begins analyzing the configuration and utiliza- tion metrics of your Amazon Web Services resources after you opt in. For more information, see Metrics analyzed by Compute Opti- mizer in the Compute Optimizer User Guide . o Inactive - Opts out your account from the Compute Optimizer ser- vice. Your account's recommendations and related metrics data will be deleted from Compute Optimizer after you opt out. NOTE: The Pending and Failed options cannot be used to update the en- rollment status of an account. They are returned in the response of a request to update the enrollment status of an account. Possible values: o Active o Inactive o Pending o Failed</param>
+    /// <param name="Status">The new enrollment status of the account. The following status options are available: • Active - Opts in your account to the Compute Optimizer service. Compute Optimizer begins analyzing the configuration and utilization metrics of your Amazon Web Services resources after you opt in. For more information, see Metrics analyzed by Compute Optimizer in the Compute Optimizer User Guide . • Inactive - Opts out your account from the Compute Optimizer service. Your account's recommendations and related metrics data will be deleted from Compute Optimizer after you opt out. NOTE: The Pending and Failed options cannot be used to update the enrollment status of an account. They are returned in the response of a request to update the enrollment status of an account. Possible values: • Active • Inactive • Pending • Failed</param>
     public AwsComputeOptimizerUpdateEnrollmentStatusOptions(
         AwsComputeOptimizerUpdateEnrollmentStatusStatus Status
     )
@@ -56,7 +58,7 @@ public record AwsComputeOptimizerUpdateEnrollmentStatusOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The new enrollment status of the account. The following status options are available: o Active - Opts in your account to the Compute Optimizer service. Compute Optimizer begins analyzing the configuration and utiliza- tion metrics of your Amazon Web Services resources after you opt in. For more information, see Metrics analyzed by Compute Opti- mizer in the Compute Optimizer User Guide . o Inactive - Opts out your account from the Compute Optimizer ser- vice. Your account's recommendations and related metrics data will be deleted from Compute Optimizer after you opt out. NOTE: The Pending and Failed options cannot be used to update the en- rollment status of an account. They are returned in the response of a request to update the enrollment status of an account. Possible values: o Active o Inactive o Pending o Failed
+    /// The new enrollment status of the account. The following status options are available: • Active - Opts in your account to the Compute Optimizer service. Compute Optimizer begins analyzing the configuration and utilization metrics of your Amazon Web Services resources after you opt in. For more information, see Metrics analyzed by Compute Optimizer in the Compute Optimizer User Guide . • Inactive - Opts out your account from the Compute Optimizer service. Your account's recommendations and related metrics data will be deleted from Compute Optimizer after you opt out. NOTE: The Pending and Failed options cannot be used to update the enrollment status of an account. They are returned in the response of a request to update the enrollment status of an account. Possible values: • Active • Inactive • Pending • Failed
     /// </summary>
     [CliOption("--status")]
     public AwsComputeOptimizerUpdateEnrollmentStatusStatus? Status { get; private init; }

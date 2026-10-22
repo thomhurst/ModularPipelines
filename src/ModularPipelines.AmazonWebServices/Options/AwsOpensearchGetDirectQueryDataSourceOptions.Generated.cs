@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsOpensearchGetDirectQueryDataSourceOptions : AwsOptions, IValida
     /// <summary>
     /// Returns detailed configuration information for a specific direct query data source in Amazon OpenSearch Service. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSourceName">A unique, user-defined label that identifies the data source within your OpenSearch Service environment. Constraints: o min: 3 o max: 80 o pattern: [a-z][a-z0-9_]+</param>
+    /// <param name="DataSourceName">A unique, user-defined label that identifies the data source within your OpenSearch Service environment. Constraints: • min: 3 • max: 80 • pattern: [a-z][a-z0-9_]+</param>
     public AwsOpensearchGetDirectQueryDataSourceOptions(
         string DataSourceName
     )
@@ -56,7 +58,7 @@ public record AwsOpensearchGetDirectQueryDataSourceOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique, user-defined label that identifies the data source within your OpenSearch Service environment. Constraints: o min: 3 o max: 80 o pattern: [a-z][a-z0-9_]+
+    /// A unique, user-defined label that identifies the data source within your OpenSearch Service environment. Constraints: • min: 3 • max: 80 • pattern: [a-z][a-z0-9_]+
     /// </summary>
     [CliOption("--data-source-name")]
     public string? DataSourceName { get; private init; }

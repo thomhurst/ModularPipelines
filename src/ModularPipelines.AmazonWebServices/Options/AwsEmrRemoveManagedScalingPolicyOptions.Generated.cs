@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsEmrRemoveManagedScalingPolicyOptions : AwsOptions, IValidatable
     /// <summary>
     /// Removes a managed scaling policy from a specified Amazon EMR cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterId">Specifies the ID of the cluster from which the managed scaling pol- icy will be removed. Constraints: o max: 256</param>
+    /// <param name="ClusterId">Specifies the ID of the cluster from which the managed scaling policy will be removed. Constraints: • max: 256</param>
     public AwsEmrRemoveManagedScalingPolicyOptions(
         string ClusterId
     )
@@ -56,7 +58,7 @@ public record AwsEmrRemoveManagedScalingPolicyOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ID of the cluster from which the managed scaling pol- icy will be removed. Constraints: o max: 256
+    /// Specifies the ID of the cluster from which the managed scaling policy will be removed. Constraints: • max: 256
     /// </summary>
     [CliOption("--cluster-id")]
     public string? ClusterId { get; private init; }

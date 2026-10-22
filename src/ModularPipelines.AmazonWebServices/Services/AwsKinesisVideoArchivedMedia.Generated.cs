@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws kinesisvideoarchivedmedia commands.
+/// aws kinesis-video-archived-media commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsKinesisVideoArchivedMedia : IAwsKinesisVideoArchivedMedia
@@ -32,7 +32,7 @@ public class AwsKinesisVideoArchivedMedia : IAwsKinesisVideoArchivedMedia
     #region Commands
 
     /// <summary>
-    /// Downloads an MP4 file (clip) containing the archived, on-demand media from the specified video stream over the specified time range. Both the StreamName and the StreamARN parameters are optional, but you must specify either the StreamName or the StreamARN when invoking this API operation. As a prerequisite to using GetCLip API, you must obtain an endpoint us- ing GetDataEndpoint , specifying GET_CLIP forthe APIName parameter. An Amazon Kinesis video stream has the following requirements for pro-...
+    /// Downloads an MP4 file (clip) containing the archived, on-demand media from the specified video stream over the specified time range. Both the StreamName and the StreamARN parameters are optional, but you must specify either the StreamName or the StreamARN when invoking this API operation. As a prerequisite to using GetCLip API, you must obtain an endpoint using GetDataEndpoint , specifying GET_CLIP forthe APIName parameter. An Amazon Kinesis video stream has the following requirements for provid...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsKinesisVideoArchivedMedia : IAwsKinesisVideoArchivedMedia
     }
 
     /// <summary>
-    /// Retrieves an MPEG Dynamic Adaptive Streaming over HTTP (DASH) URL for the stream. You can then open the URL in a media player to view the stream contents. Both the StreamName and the StreamARN parameters are optional, but you must specify either the StreamName or the StreamARN when invoking this API operation. An Amazon Kinesis video stream has the following requirements for pro- viding data through MPEG-DASH: o The media must contain h.264 or h.265 encoded video and, optionally, AAC or G.711 en...
+    /// Retrieves an MPEG Dynamic Adaptive Streaming over HTTP (DASH) URL for the stream. You can then open the URL in a media player to view the stream contents. Both the StreamName and the StreamARN parameters are optional, but you must specify either the StreamName or the StreamARN when invoking this API operation. An Amazon Kinesis video stream has the following requirements for providing data through MPEG-DASH: • The media must contain h.264 or h.265 encoded video and, optionally, AAC or G.711 enco...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsKinesisVideoArchivedMedia : IAwsKinesisVideoArchivedMedia
     }
 
     /// <summary>
-    /// Retrieves an HTTP Live Streaming (HLS) URL for the stream. You can then open the URL in a browser or media player to view the stream contents. Both the StreamName and the StreamARN parameters are optional, but you must specify either the StreamName or the StreamARN when invoking this API operation. An Amazon Kinesis video stream has the following requirements for pro- viding data through HLS: o For streaming video, the media must contain H.264 or H.265 encoded video and, optionally, AAC encoded ...
+    /// Retrieves an HTTP Live Streaming (HLS) URL for the stream. You can then open the URL in a browser or media player to view the stream contents. Both the StreamName and the StreamARN parameters are optional, but you must specify either the StreamName or the StreamARN when invoking this API operation. An Amazon Kinesis video stream has the following requirements for providing data through HLS: • For streaming video, the media must contain H.264 or H.265 encoded video and, optionally, AAC encoded au...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsKinesisVideoArchivedMedia : IAwsKinesisVideoArchivedMedia
     }
 
     /// <summary>
-    /// Retrieves a list of images corresponding to each timestamp for a given time range, sampling interval, and image format configuration. See also: AWS API Documentation get-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the fol...
+    /// Retrieves a list of images corresponding to each timestamp for a given time range, sampling interval, and image format configuration. See also: AWS API Documentation get-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsKinesisVideoArchivedMedia : IAwsKinesisVideoArchivedMedia
     }
 
     /// <summary>
-    /// Gets media for a list of fragments (specified by fragment number) from the archived data in an Amazon Kinesis video stream. NOTE: You must first call the GetDataEndpoint API to get an endpoint. Then send the GetMediaForFragmentList requests to this endpoint using the --endpoint-url parameter . For limits, see Kinesis Video Streams Limits . WARNING: If an error is thrown after invoking a Kinesis Video Streams archived media API, in addition to the HTTP status code and the re- sponse body, it incl...
+    /// Gets media for a list of fragments (specified by fragment number) from the archived data in an Amazon Kinesis video stream. NOTE: You must first call the GetDataEndpoint API to get an endpoint. Then send the GetMediaForFragmentList requests to this endpoint using the --endpoint-url parameter . For limits, see Kinesis Video Streams Limits . WARNING: If an error is thrown after invoking a Kinesis Video Streams archived media API, in addition to the HTTP status code and the response body, it includ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsKinesisVideoArchivedMedia : IAwsKinesisVideoArchivedMedia
     }
 
     /// <summary>
-    /// Returns a list of Fragment objects from the specified stream and time- stamp range within the archived data. Listing fragments is eventually consistent. This means that even if the producer receives an acknowledgment that a fragment is persisted, the result might not be returned immediately from a request to ListFrag- ments . However, results are typically available in less than one sec- ond. NOTE: You must first call the GetDataEndpoint API to get an endpoint. Then send the ListFragments reques...
+    /// Returns a list of Fragment objects from the specified stream and timestamp range within the archived data. Listing fragments is eventually consistent. This means that even if the producer receives an acknowledgment that a fragment is persisted, the result might not be returned immediately from a request to ListFragments . However, results are typically available in less than one second. NOTE: You must first call the GetDataEndpoint API to get an endpoint. Then send the ListFragments requests to ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

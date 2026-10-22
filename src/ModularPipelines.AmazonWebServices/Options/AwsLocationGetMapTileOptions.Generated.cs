@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend upgrading to ` GetTile https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetTile.html`__ unless you require Grab data. o GetMapTile is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, power- ful, and complete API (version 2). o The version 2 GetTile operation gives a better user experience and is compatible with the rema...
+/// WARNING: This operation is no longer current and may be deprecated in the future. We recommend upgrading to ` GetTile https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetTile.html`__ unless you require Grab data. • GetMapTile is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The version 2 GetTile operation gives a better user experience and is compatible with the remainde...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,12 +22,12 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLocationGetMapTileOptions : AwsOptions
 {
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend upgrading to ` GetTile https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetTile.html`__ unless you require Grab data. o GetMapTile is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, power- ful, and complete API (version 2). o The version 2 GetTile operation gives a better user experience and is compatible with the rema...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend upgrading to ` GetTile https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetTile.html`__ unless you require Grab data. • GetMapTile is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The version 2 GetTile operation gives a better user experience and is compatible with the remainde...
     /// </summary>
-    /// <param name="MapName">The map resource to retrieve the map tiles from. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
-    /// <param name="Z">The zoom value for the map tile. Constraints: o pattern: .*\d+.*</param>
-    /// <param name="X">The X axis value for the map tile. Constraints: o pattern: .*\d+.*</param>
-    /// <param name="Y">The Y axis value for the map tile. Constraints: o pattern: .*\d+.*</param>
+    /// <param name="MapName">The map resource to retrieve the map tiles from. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+</param>
+    /// <param name="Z">The zoom value for the map tile. Constraints: • pattern: .*\d+.*</param>
+    /// <param name="X">The X axis value for the map tile. Constraints: • pattern: .*\d+.*</param>
+    /// <param name="Y">The Y axis value for the map tile. Constraints: • pattern: .*\d+.*</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsLocationGetMapTileOptions(
         string MapName,
@@ -59,31 +59,31 @@ public record AwsLocationGetMapTileOptions : AwsOptions
     }
 
     /// <summary>
-    /// The map resource to retrieve the map tiles from. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// The map resource to retrieve the map tiles from. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+
     /// </summary>
     [CliOption("--map-name")]
     public string MapName { get; private init; }
 
     /// <summary>
-    /// The zoom value for the map tile. Constraints: o pattern: .*\d+.*
+    /// The zoom value for the map tile. Constraints: • pattern: .*\d+.*
     /// </summary>
     [CliOption("--z")]
     public string Z { get; private init; }
 
     /// <summary>
-    /// The X axis value for the map tile. Constraints: o pattern: .*\d+.*
+    /// The X axis value for the map tile. Constraints: • pattern: .*\d+.*
     /// </summary>
     [CliOption("--x")]
     public string X { get; private init; }
 
     /// <summary>
-    /// The Y axis value for the map tile. Constraints: o pattern: .*\d+.*
+    /// The Y axis value for the map tile. Constraints: • pattern: .*\d+.*
     /// </summary>
     [CliOption("--y")]
     public string Y { get; private init; }
 
     /// <summary>
-    /// The optional API key to authorize the request. Constraints: o min: 0 o max: 1000 outfile (string) [required] Filename where the content will be saved
+    /// The optional API key to authorize the request. Constraints: • min: 0 • max: 1000 outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--key")]
     public string? Key { get; set; }

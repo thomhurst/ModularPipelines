@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsNetworkSecurityManagerGetScopeOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Retrieves the details of the specified scope. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ScopeIdentifier">The identifier of the scope. This is the scope's Amazon Resource Name (ARN). Constraints: o min: 1 o max: 1010</param>
+    /// <param name="ScopeIdentifier">The identifier of the scope. This is the scope's Amazon Resource Name (ARN). Constraints: • min: 1 • max: 1010</param>
     public AwsNetworkSecurityManagerGetScopeOptions(
         string ScopeIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsNetworkSecurityManagerGetScopeOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the scope. This is the scope's Amazon Resource Name (ARN). Constraints: o min: 1 o max: 1010
+    /// The identifier of the scope. This is the scope's Amazon Resource Name (ARN). Constraints: • min: 1 • max: 1010
     /// </summary>
     [CliOption("--scope-identifier")]
     public string? ScopeIdentifier { get; private init; }

@@ -24,25 +24,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCodeconnectionsListConnectionsOptions : AwsOptions
 {
     /// <summary>
-    /// Filters the list of connections to those associated with a specified provider, such as Bitbucket. Possible values: o Bitbucket o GitHub o GitHubEnterpriseServer o GitLab o GitLabSelfManaged o AzureDevOps
+    /// Filters the list of connections to those associated with a specified provider, such as Bitbucket. Possible values: • Bitbucket • GitHub • GitHubEnterpriseServer • GitLab • GitLabSelfManaged • AzureDevOps
     /// </summary>
     [CliOption("--provider-type-filter")]
     public AwsCodeconnectionsListConnectionsProviderTypeFilter? ProviderTypeFilter { get; set; }
 
     /// <summary>
-    /// Filters the list of connections to those associated with a specified host. Constraints: o min: 0 o max: 256 o pattern: arn:aws(-[\w]+)*:(codestar-connections|codeconnec- tions):.+:[0-9]{12}:host\/.+
+    /// Filters the list of connections to those associated with a specified host. Constraints: • min: 0 • max: 256 • pattern: arn:aws(-[\w]+)*:(codestar-connections|codeconnections):.+:[0-9]{12}:host\/.+
     /// </summary>
     [CliOption("--host-arn-filter")]
     public string? HostArnFilter { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return in a single call. To re- trieve the remaining results, make another call with the returned nextToken value. Constraints: o min: 0 o max: 100
+    /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The token that was returned from the previous ListConnections call, which can be used to return the next set of connections in the list. Constraints: o min: 1 o max: 1024 o pattern: ^.*$
+    /// The token that was returned from the previous ListConnections call, which can be used to return the next set of connections in the list. Constraints: • min: 1 • max: 1024 • pattern: ^.*$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

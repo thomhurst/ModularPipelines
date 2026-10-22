@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,9 +31,9 @@ public record AwsQbusinessCreateSubscriptionOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Subscribes an IAM Identity Center user or a group to a pricing tier for an Amazon Q Business application. Amazon Q Business offers two subscription tiers: Q_LITE and Q_BUSINESS . Subscription tier determines feature access for the user. For more information on subscriptions and pricing tiers, see Amazon Q Business pricing . NOTE: For an example IAM role policy for assigning subscriptions, see Set up required permissions in the Amazon Q Business User Guide. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The identifier of the Amazon Q Business application the subscription should be added to. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
-    /// <param name="Principal">The IAM Identity Center UserId or GroupId of a user or group in the IAM Identity Center instance connected to the Amazon Q Business ap- plication. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: user, group. user -&gt; (string) The identifier of a user in the IAM Identity Center instance connected to the Amazon Q Business application. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} group -&gt; (string) The identifier of a group in the IAM Identity Center instance connected to the Amazon Q Business application. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} Shorthand Syntax: user=string,group=string JSON Syntax: { "user": "string", "group": "string" }</param>
-    /// <param name="Type">The type of Amazon Q Business subscription you want to create. Possible values: o Q_LITE o Q_BUSINESS</param>
+    /// <param name="ApplicationId">The identifier of the Amazon Q Business application the subscription should be added to. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="Principal">The IAM Identity Center UserId or GroupId of a user or group in the IAM Identity Center instance connected to the Amazon Q Business application. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: user, group. user -&gt; (string) The identifier of a user in the IAM Identity Center instance connected to the Amazon Q Business application. Constraints: • min: 1 • max: 47 • pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} group -&gt; (string) The identifier of a group in the IAM Identity Center instance connected to the Amazon Q Business application. Constraints: • min: 1 • max: 47 • pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} Shorthand Syntax: user=string,group=string JSON Syntax: { "user": "string", "group": "string" }</param>
+    /// <param name="Type">The type of Amazon Q Business subscription you want to create. Possible values: • Q_LITE • Q_BUSINESS</param>
     public AwsQbusinessCreateSubscriptionOptions(
         string ApplicationId,
         string Principal,
@@ -65,25 +67,25 @@ public record AwsQbusinessCreateSubscriptionOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Q Business application the subscription should be added to. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The identifier of the Amazon Q Business application the subscription should be added to. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The IAM Identity Center UserId or GroupId of a user or group in the IAM Identity Center instance connected to the Amazon Q Business ap- plication. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: user, group. user -&gt; (string) The identifier of a user in the IAM Identity Center instance connected to the Amazon Q Business application. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} group -&gt; (string) The identifier of a group in the IAM Identity Center instance connected to the Amazon Q Business application. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} Shorthand Syntax: user=string,group=string JSON Syntax: { "user": "string", "group": "string" }
+    /// The IAM Identity Center UserId or GroupId of a user or group in the IAM Identity Center instance connected to the Amazon Q Business application. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: user, group. user -&gt; (string) The identifier of a user in the IAM Identity Center instance connected to the Amazon Q Business application. Constraints: • min: 1 • max: 47 • pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} group -&gt; (string) The identifier of a group in the IAM Identity Center instance connected to the Amazon Q Business application. Constraints: • min: 1 • max: 47 • pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} Shorthand Syntax: user=string,group=string JSON Syntax: { "user": "string", "group": "string" }
     /// </summary>
     [CliOption("--principal")]
     public string? Principal { get; private init; }
 
     /// <summary>
-    /// The type of Amazon Q Business subscription you want to create. Possible values: o Q_LITE o Q_BUSINESS
+    /// The type of Amazon Q Business subscription you want to create. Possible values: • Q_LITE • Q_BUSINESS
     /// </summary>
     [CliOption("--type")]
     public AwsQbusinessCreateSubscriptionType? Type { get; private init; }
 
     /// <summary>
-    /// A token that you provide to identify the request to create a sub- scription for your Amazon Q Business application. Constraints: o min: 1 o max: 100
+    /// A token that you provide to identify the request to create a subscription for your Amazon Q Business application. Constraints: • min: 1 • max: 100
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

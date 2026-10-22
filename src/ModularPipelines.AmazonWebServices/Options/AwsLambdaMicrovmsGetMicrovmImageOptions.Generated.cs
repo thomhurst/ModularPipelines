@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the details of a MicroVM image, including its state, ver- sions, and configuration. See also: AWS API Documentation
+/// Retrieves the details of a MicroVM image, including its state, versions, and configuration. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLambdaMicrovmsGetMicrovmImageOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the details of a MicroVM image, including its state, ver- sions, and configuration. See also: AWS API Documentation
+    /// Retrieves the details of a MicroVM image, including its state, versions, and configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ImageIdentifier">The unique identifier (ARN or ID) of the MicroVM image to retrieve. Constraints: o min: 1 o max: 256</param>
+    /// <param name="ImageIdentifier">The unique identifier (ARN or ID) of the MicroVM image to retrieve. Constraints: • min: 1 • max: 256</param>
     public AwsLambdaMicrovmsGetMicrovmImageOptions(
         string ImageIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsLambdaMicrovmsGetMicrovmImageOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier (ARN or ID) of the MicroVM image to retrieve. Constraints: o min: 1 o max: 256
+    /// The unique identifier (ARN or ID) of the MicroVM image to retrieve. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--image-identifier")]
     public string? ImageIdentifier { get; private init; }

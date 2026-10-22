@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns an MLModel that includes detailed metadata, data source infor- mation, and the current status of the MLModel . GetMLModel provides results in normal or verbose format. See also: AWS API Documentation
+/// Returns an MLModel that includes detailed metadata, data source information, and the current status of the MLModel . GetMLModel provides results in normal or verbose format. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsMachinelearningGetMlModelOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns an MLModel that includes detailed metadata, data source infor- mation, and the current status of the MLModel . GetMLModel provides results in normal or verbose format. See also: AWS API Documentation
+    /// Returns an MLModel that includes detailed metadata, data source information, and the current status of the MLModel . GetMLModel provides results in normal or verbose format. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MlModelId">The ID assigned to the MLModel at creation. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="MlModelId">The ID assigned to the MLModel at creation. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsMachinelearningGetMlModelOptions(
         string MlModelId
     )
@@ -56,7 +58,7 @@ public record AwsMachinelearningGetMlModelOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID assigned to the MLModel at creation. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// The ID assigned to the MLModel at creation. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--ml-model-id")]
     public string? MlModelId { get; private init; }

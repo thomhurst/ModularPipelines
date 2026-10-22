@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsRdsCopyDbClusterParameterGroupOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Copies the specified DB cluster parameter group. NOTE: You can't copy a default DB cluster parameter group. Instead, create a new custom DB cluster parameter group, which copies the default parameters and values for the specified DB cluster parameter group family. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceDbClusterParameterGroupIdentifier">The identifier or Amazon Resource Name (ARN) for the source DB clus- ter parameter group. For information about creating an ARN, see Constructing an ARN for Amazon RDS in the Amazon Aurora User Guide . Constraints: o Must specify a valid DB cluster parameter group.</param>
-    /// <param name="TargetDbClusterParameterGroupIdentifier">The identifier for the copied DB cluster parameter group. Constraints: o Can't be null, empty, or blank o Must contain from 1 to 255 letters, numbers, or hyphens o First character must be a letter o Can't end with a hyphen or contain two consecutive hyphens Example: my-cluster-param-group1</param>
+    /// <param name="SourceDbClusterParameterGroupIdentifier">The identifier or Amazon Resource Name (ARN) for the source DB cluster parameter group. For information about creating an ARN, see Constructing an ARN for Amazon RDS in the Amazon Aurora User Guide . Constraints: • Must specify a valid DB cluster parameter group.</param>
+    /// <param name="TargetDbClusterParameterGroupIdentifier">The identifier for the copied DB cluster parameter group. Constraints: • Can't be null, empty, or blank • Must contain from 1 to 255 letters, numbers, or hyphens • First character must be a letter • Can't end with a hyphen or contain two consecutive hyphens Example: my-cluster-param-group1</param>
     /// <param name="TargetDbClusterParameterGroupDescription">A description for the copied DB cluster parameter group.</param>
     public AwsRdsCopyDbClusterParameterGroupOptions(
         string SourceDbClusterParameterGroupIdentifier,
@@ -64,13 +66,13 @@ public record AwsRdsCopyDbClusterParameterGroupOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier or Amazon Resource Name (ARN) for the source DB clus- ter parameter group. For information about creating an ARN, see Constructing an ARN for Amazon RDS in the Amazon Aurora User Guide . Constraints: o Must specify a valid DB cluster parameter group.
+    /// The identifier or Amazon Resource Name (ARN) for the source DB cluster parameter group. For information about creating an ARN, see Constructing an ARN for Amazon RDS in the Amazon Aurora User Guide . Constraints: • Must specify a valid DB cluster parameter group.
     /// </summary>
     [CliOption("--source-db-cluster-parameter-group-identifier")]
     public string? SourceDbClusterParameterGroupIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier for the copied DB cluster parameter group. Constraints: o Can't be null, empty, or blank o Must contain from 1 to 255 letters, numbers, or hyphens o First character must be a letter o Can't end with a hyphen or contain two consecutive hyphens Example: my-cluster-param-group1
+    /// The identifier for the copied DB cluster parameter group. Constraints: • Can't be null, empty, or blank • Must contain from 1 to 255 letters, numbers, or hyphens • First character must be a letter • Can't end with a hyphen or contain two consecutive hyphens Example: my-cluster-param-group1
     /// </summary>
     [CliOption("--target-db-cluster-parameter-group-identifier")]
     public string? TargetDbClusterParameterGroupIdentifier { get; private init; }

@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a single DNS Firewall rule in the specified rule group. The rule can use any one of the following match sources, and the chosen source must be supplied through the matching request field they are mutually exclusive: o FirewallDomainListId match a customer-managed or Amazon Web Ser- vices-managed domain list. o DnsThreatProtection match a built-in DNS Firewall Advanced threat detector (DGA , DNS_TUNNELING , or DICTIONARY_DGA ). o FirewallRuleType match one of the rule-type variants return...
+/// Creates a single DNS Firewall rule in the specified rule group. The rule can use any one of the following match sources, and the chosen source must be supplied through the matching request field they are mutually exclusive: • FirewallDomainListId match a customer-managed or Amazon Web Services-managed domain list. • DnsThreatProtection match a built-in DNS Firewall Advanced threat detector (DGA , DNS_TUNNELING , or DICTIONARY_DGA ). • FirewallRuleType match one of the rule-type variants returned...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +28,12 @@ public record AwsRoute53resolverCreateFirewallRuleOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a single DNS Firewall rule in the specified rule group. The rule can use any one of the following match sources, and the chosen source must be supplied through the matching request field they are mutually exclusive: o FirewallDomainListId match a customer-managed or Amazon Web Ser- vices-managed domain list. o DnsThreatProtection match a built-in DNS Firewall Advanced threat detector (DGA , DNS_TUNNELING , or DICTIONARY_DGA ). o FirewallRuleType match one of the rule-type variants return...
+    /// Creates a single DNS Firewall rule in the specified rule group. The rule can use any one of the following match sources, and the chosen source must be supplied through the matching request field they are mutually exclusive: • FirewallDomainListId match a customer-managed or Amazon Web Services-managed domain list. • DnsThreatProtection match a built-in DNS Firewall Advanced threat detector (DGA , DNS_TUNNELING , or DICTIONARY_DGA ). • FirewallRuleType match one of the rule-type variants returned...
     /// </summary>
-    /// <param name="FirewallRuleGroupId">The unique identifier of the firewall rule group where you want to create the rule. Constraints: o min: 1 o max: 64</param>
-    /// <param name="Priority">The setting that determines the processing order of the rule in the rule group. DNS Firewall processes the rules in a rule group by or- der of priority, starting from the lowest setting. You must specify a unique priority for each rule in a rule group. To make it easier to insert rules later, leave space between the num- bers, for example, use 100, 200, and so on. You can change the pri- ority setting for the rules in a rule group at any time.</param>
-    /// <param name="Action">The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule: o ALLOW - Permit the request to go through. Not available for DNS Firewall Advanced rules. o ALERT - Permit the request and send metrics and logs to Cloud Watch. o BLOCK - Disallow the request. This option requires additional de- tails in the rule's BlockResponse . Possible values: o ALLOW o BLOCK o ALERT</param>
-    /// <param name="Name">A name that lets you identify the rule in the rule group. Constraints: o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)</param>
+    /// <param name="FirewallRuleGroupId">The unique identifier of the firewall rule group where you want to create the rule. Constraints: • min: 1 • max: 64</param>
+    /// <param name="Priority">The setting that determines the processing order of the rule in the rule group. DNS Firewall processes the rules in a rule group by order of priority, starting from the lowest setting. You must specify a unique priority for each rule in a rule group. To make it easier to insert rules later, leave space between the numbers, for example, use 100, 200, and so on. You can change the priority setting for the rules in a rule group at any time.</param>
+    /// <param name="Action">The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule: • ALLOW - Permit the request to go through. Not available for DNS Firewall Advanced rules. • ALERT - Permit the request and send metrics and logs to Cloud Watch. • BLOCK - Disallow the request. This option requires additional details in the rule's BlockResponse . Possible values: • ALLOW • BLOCK • ALERT</param>
+    /// <param name="Name">A name that lets you identify the rule in the rule group. Constraints: • max: 64 • pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)</param>
     public AwsRoute53resolverCreateFirewallRuleOptions(
         string FirewallRuleGroupId,
         int Priority,
@@ -67,91 +69,91 @@ public record AwsRoute53resolverCreateFirewallRuleOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the firewall rule group where you want to create the rule. Constraints: o min: 1 o max: 64
+    /// The unique identifier of the firewall rule group where you want to create the rule. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--firewall-rule-group-id")]
     public string? FirewallRuleGroupId { get; private init; }
 
     /// <summary>
-    /// The setting that determines the processing order of the rule in the rule group. DNS Firewall processes the rules in a rule group by or- der of priority, starting from the lowest setting. You must specify a unique priority for each rule in a rule group. To make it easier to insert rules later, leave space between the num- bers, for example, use 100, 200, and so on. You can change the pri- ority setting for the rules in a rule group at any time.
+    /// The setting that determines the processing order of the rule in the rule group. DNS Firewall processes the rules in a rule group by order of priority, starting from the lowest setting. You must specify a unique priority for each rule in a rule group. To make it easier to insert rules later, leave space between the numbers, for example, use 100, 200, and so on. You can change the priority setting for the rules in a rule group at any time.
     /// </summary>
     [CliOption("--priority")]
     public int? Priority { get; private init; }
 
     /// <summary>
-    /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule: o ALLOW - Permit the request to go through. Not available for DNS Firewall Advanced rules. o ALERT - Permit the request and send metrics and logs to Cloud Watch. o BLOCK - Disallow the request. This option requires additional de- tails in the rule's BlockResponse . Possible values: o ALLOW o BLOCK o ALERT
+    /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule: • ALLOW - Permit the request to go through. Not available for DNS Firewall Advanced rules. • ALERT - Permit the request and send metrics and logs to Cloud Watch. • BLOCK - Disallow the request. This option requires additional details in the rule's BlockResponse . Possible values: • ALLOW • BLOCK • ALERT
     /// </summary>
     [CliOption("--action")]
     public AwsRoute53resolverCreateFirewallRuleAction? Action { get; private init; }
 
     /// <summary>
-    /// A name that lets you identify the rule in the rule group. Constraints: o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)
+    /// A name that lets you identify the rule in the rule group. Constraints: • max: 64 • pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A unique string that identifies the request and that allows you to retry failed requests without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. Constraints: o min: 1 o max: 255
+    /// A unique string that identifies the request and that allows you to retry failed requests without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--creator-request-id")]
     public string? CreatorRequestId { get; set; }
 
     /// <summary>
-    /// The ID of the domain list that you want to use in the rule. Can't be used together with DnsThreatProtecton . Constraints: o min: 1 o max: 64
+    /// The ID of the domain list that you want to use in the rule. Can't be used together with DnsThreatProtecton . Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--firewall-domain-list-id")]
     public string? FirewallDomainListId { get; set; }
 
     /// <summary>
-    /// The way that you want DNS Firewall to block the request, used with the rule action setting BLOCK . o NODATA - Respond indicating that the query was successful, but no response is available for it. o NXDOMAIN - Respond indicating that the domain name that's in the query doesn't exist. o OVERRIDE - Provide a custom override in the response. This option requires custom handling details in the rule's BlockOverride* set- tings. This setting is required if the rule action setting is BLOCK . Possible values: o NODATA o NXDOMAIN o OVERRIDE
+    /// The way that you want DNS Firewall to block the request, used with the rule action setting BLOCK . • NODATA - Respond indicating that the query was successful, but no response is available for it. • NXDOMAIN - Respond indicating that the domain name that's in the query doesn't exist. • OVERRIDE - Provide a custom override in the response. This option requires custom handling details in the rule's BlockOverride* settings. This setting is required if the rule action setting is BLOCK . Possible values: • NODATA • NXDOMAIN • OVERRIDE
     /// </summary>
     [CliOption("--block-response")]
     public AwsRoute53resolverCreateFirewallRuleBlockResponse? BlockResponse { get; set; }
 
     /// <summary>
-    /// The custom DNS record to send back in response to the query. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE . This setting is required if the BlockResponse setting is OVERRIDE . Constraints: o min: 1 o max: 255
+    /// The custom DNS record to send back in response to the query. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE . This setting is required if the BlockResponse setting is OVERRIDE . Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--block-override-domain")]
     public string? BlockOverrideDomain { get; set; }
 
     /// <summary>
-    /// The DNS record's type. This determines the format of the record value that you provided in BlockOverrideDomain . Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE . This setting is required if the BlockResponse setting is OVERRIDE . Possible values: o CNAME
+    /// The DNS record's type. This determines the format of the record value that you provided in BlockOverrideDomain . Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE . This setting is required if the BlockResponse setting is OVERRIDE . Possible values: • CNAME
     /// </summary>
     [CliOption("--block-override-dns-type")]
     public string? BlockOverrideDnsType { get; set; }
 
     /// <summary>
-    /// The recommended amount of time, in seconds, for the DNS resolver or web browser to cache the provided override record. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE . This setting is required if the BlockResponse setting is OVERRIDE . Constraints: o min: 0 o max: 604800
+    /// The recommended amount of time, in seconds, for the DNS resolver or web browser to cache the provided override record. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE . This setting is required if the BlockResponse setting is OVERRIDE . Constraints: • min: 0 • max: 604800
     /// </summary>
     [CliOption("--block-override-ttl")]
     public int? BlockOverrideTtl { get; set; }
 
     /// <summary>
-    /// How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME or DNAME. INSPECT_REDIRECTION_DOMAIN : (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be added to the domain list. TRUST_REDIRECTION_DOMAIN : Inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to the domain list. Possible values: o INSPECT_REDIRECTION_DOMAIN o TRUST_REDIRECTION_DOMAIN
+    /// How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME or DNAME. INSPECT_REDIRECTION_DOMAIN : (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be added to the domain list. TRUST_REDIRECTION_DOMAIN : Inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to the domain list. Possible values: • INSPECT_REDIRECTION_DOMAIN • TRUST_REDIRECTION_DOMAIN
     /// </summary>
     [CliOption("--firewall-domain-redirection-action")]
     public AwsRoute53resolverCreateFirewallRuleFirewallDomainRedirectionAction? FirewallDomainRedirectionAction { get; set; }
 
     /// <summary>
-    /// The DNS query type you want the rule to evaluate. Allowed values are; o A: Returns an IPv4 address. o AAAA: Returns an Ipv6 address. o CAA: Restricts CAs that can create SSL/TLS certifications for the domain. o CNAME: Returns another domain name. o DS: Record that identifies the DNSSEC signing key of a delegated zone. o MX: Specifies mail servers. o NAPTR: Regular-expression-based rewriting of domain names. o NS: Authoritative name servers. o PTR: Maps an IP address to a domain name. o SOA: Start of authority record for the zone. o SPF: Lists the servers authorized to send emails from a domain. o SRV: Application specific values that identify servers. o TXT: Verifies email senders and application-specific values. o A query type you define by using the DNS type ID, for example 28 for AAAA. The values must be defined as TYPENUMBER, where the NUM- BER can be 1-65534, for example, TYPE28. For more information, see List of DNS record types . Constraints: o min: 1 o max: 16
+    /// The DNS query type you want the rule to evaluate. Allowed values are; • A: Returns an IPv4 address. • AAAA: Returns an Ipv6 address. • CAA: Restricts CAs that can create SSL/TLS certifications for the domain. • CNAME: Returns another domain name. • DS: Record that identifies the DNSSEC signing key of a delegated zone. • MX: Specifies mail servers. • NAPTR: Regular-expression-based rewriting of domain names. • NS: Authoritative name servers. • PTR: Maps an IP address to a domain name. • SOA: Start of authority record for the zone. • SPF: Lists the servers authorized to send emails from a domain. • SRV: Application specific values that identify servers. • TXT: Verifies email senders and application-specific values. • A query type you define by using the DNS type ID, for example 28 for AAAA. The values must be defined as TYPENUMBER, where the NUMBER can be 1-65534, for example, TYPE28. For more information, see List of DNS record types . Constraints: • min: 1 • max: 16
     /// </summary>
     [CliOption("--qtype")]
     public string? Qtype { get; set; }
 
     /// <summary>
-    /// The type of the DNS Firewall Advanced rule. This setting is mutually exclusive with FirewallDomainListId and FirewallRuleType . Valid values are: o DGA : Domain generation algorithms detection. DGAs are used by at- tackers to generate a large number of domains to launch malware attacks. o DNS_TUNNELING : DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tun- nel without making a network connection to the client. o DICTIONARY_DGA : Dictionary-based domain generation algorithms de- tection. Dictionary DGAs use wordlists to generate domains that appear more legitimate, making them harder to detect than tradi- tional DGAs. Possible values: o DGA o DNS_TUNNELING o DICTIONARY_DGA
+    /// The type of the DNS Firewall Advanced rule. This setting is mutually exclusive with FirewallDomainListId and FirewallRuleType . Valid values are: • DGA : Domain generation algorithms detection. DGAs are used by attackers to generate a large number of domains to launch malware attacks. • DNS_TUNNELING : DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without making a network connection to the client. • DICTIONARY_DGA : Dictionary-based domain generation algorithms detection. Dictionary DGAs use wordlists to generate domains that appear more legitimate, making them harder to detect than traditional DGAs. Possible values: • DGA • DNS_TUNNELING • DICTIONARY_DGA
     /// </summary>
     [CliOption("--dns-threat-protection")]
     public AwsRoute53resolverCreateFirewallRuleDnsThreatProtection? DnsThreatProtection { get; set; }
 
     /// <summary>
-    /// The confidence threshold for DNS Firewall Advanced. You must provide this value when you create a DNS Firewall Advanced rule. The confi- dence level values mean: o LOW : Provides the highest detection rate for threats, but also increases false positives. o MEDIUM : Provides a balance between detecting threats and false positives. o HIGH : Detects only the most well corroborated threats with a low rate of false positives. Possible values: o LOW o MEDIUM o HIGH
+    /// The confidence threshold for DNS Firewall Advanced. You must provide this value when you create a DNS Firewall Advanced rule. The confidence level values mean: • LOW : Provides the highest detection rate for threats, but also increases false positives. • MEDIUM : Provides a balance between detecting threats and false positives. • HIGH : Detects only the most well corroborated threats with a low rate of false positives. Possible values: • LOW • MEDIUM • HIGH
     /// </summary>
     [CliOption("--confidence-threshold")]
     public AwsRoute53resolverCreateFirewallRuleConfidenceThreshold? ConfidenceThreshold { get; set; }
 
     /// <summary>
-    /// The rule type configuration for the firewall rule. This is a tagged union set exactly one of its members. This setting is mutually ex- clusive with the top-level FirewallDomainListId and DnsThreatProtec- tion fields. Use one of: o FirewallAdvancedContentCategory match an Amazon Web Services-man- aged content category (for example, VIOLENCE_AND_HATE_SPEECH ). o FirewallAdvancedThreatCategory match an Amazon Web Services-man- aged advanced threat category (for example, PHISHING ). o DnsThreatProtection match a built-in DNS Firewall Advanced threat detector (DGA , DNS_TUNNELING , or DICTIONARY_DGA ). o PartnerThreatProtection match a third-party threat feed delivered through Amazon Web Services Marketplace. The selected partner must be an active subscription on the calling account. To enumerate the values supported in your account, call ListFire- wallRuleTypes . PartnerThreatProtection -&gt; (structure) Configures the rule to match a third-party threat feed delivered through Amazon Web Services Marketplace. The calling account must hold an active subscription to the partner product named in Partner ; if the subscription is missing or revoked, the rule is created with Status CREATION_FAILED and cannot be modified only deleted. See PartnerThreatProtectionConfig . Partner -&gt; (string) [required] The identifier of the partner threat-protection product, ex- actly as returned in the Value field of a FirewallRuleType- Definition with RuleType set to PartnerThreatProtection . The calling account must hold an active Amazon Web Services Mar- ketplace subscription to this product. Constraints: o min: 1 o max: 128 FirewallAdvancedContentCategory -&gt; (structure) Configures the rule to match an Amazon Web Services-managed con- tent category (for example, VIOLENCE_AND_HATE_SPEECH ). See FirewallAdvancedContentCategoryConfig . Category -&gt; (string) [required] The content category identifier. To retrieve the list of available content categories, call ListFirewallRuleTypes with RuleType set to FirewallAdvancedContentCategory . Constraints: o min: 1 o max: 128 FirewallAdvancedThreatCategory -&gt; (structure) Configures the rule to match an Amazon Web Services-managed ad- vanced threat category (for example, PHISHING ). See Firewal- lAdvancedThreatCategoryConfig . Category -&gt; (string) [required] The threat category identifier. To retrieve the list of available threat categories, call ListFirewallRuleTypes with RuleType set to FirewallAdvancedThreatCategory . Constraints: o min: 1 o max: 128 DnsThreatProtection -&gt; (structure) Configures the rule to match a built-in DNS Firewall Advanced threat detector DGA , DNS_TUNNELING , or DICTIONARY_DGA . See DnsThreatProtectionRuleTypeConfig . Value -&gt; (string) [required] The type of DNS threat protection. Valid values are: o DGA : Domain generation algorithms detection. DGAs are used by attackers to generate a large number of domains to launch malware attacks. o DNS_TUNNELING : DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by us- ing the DNS tunnel without making a network connection to the client. o DICTIONARY_DGA : Dictionary-based domain generation algo- rithms detection. Dictionary DGAs use wordlists to generate domains that appear more legitimate, making them harder to detect than traditional DGAs. Constraints: o min: 1 o max: 128 ConfidenceThreshold -&gt; (string) [required] The confidence threshold for DNS Firewall Advanced. You must provide this value when you create or update a DNS Firewall Advanced rule. The confidence level values mean: o LOW : Provides the highest detection rate for threats, but also increases false positives. o MEDIUM : Provides a balance between detecting threats and false positives. o HIGH : Detects only the most well corroborated threats with a low rate of false positives. Possible values: o LOW o MEDIUM o HIGH Shorthand Syntax: PartnerThreatProtection={Partner=string},FirewallAdvancedContentCategory={Category=string},FirewallAdvancedThreatCategory={Category=string},DnsThreatProtection={Value=string,ConfidenceThreshold=string} JSON Syntax: { "PartnerThreatProtection": { "Partner": "string" }, "FirewallAdvancedContentCategory": { "Category": "string" }, "FirewallAdvancedThreatCategory": { "Category": "string" }, "DnsThreatProtection": { "Value": "string", "ConfidenceThreshold": "LOW"|"MEDIUM"|"HIGH" } }
+    /// The rule type configuration for the firewall rule. This is a tagged union set exactly one of its members. This setting is mutually exclusive with the top-level FirewallDomainListId and DnsThreatProtection fields. Use one of: • FirewallAdvancedContentCategory match an Amazon Web Services-managed content category (for example, VIOLENCE_AND_HATE_SPEECH ). • FirewallAdvancedThreatCategory match an Amazon Web Services-managed advanced threat category (for example, PHISHING ). • DnsThreatProtection match a built-in DNS Firewall Advanced threat detector (DGA , DNS_TUNNELING , or DICTIONARY_DGA ). • PartnerThreatProtection match a third-party threat feed delivered through Amazon Web Services Marketplace. The selected partner must be an active subscription on the calling account. To enumerate the values supported in your account, call ListFirewallRuleTypes . PartnerThreatProtection -&gt; (structure) Configures the rule to match a third-party threat feed delivered through Amazon Web Services Marketplace. The calling account must hold an active subscription to the partner product named in Partner ; if the subscription is missing or revoked, the rule is created with Status CREATION_FAILED and cannot be modified only deleted. See PartnerThreatProtectionConfig . Partner -&gt; (string) [required] The identifier of the partner threat-protection product, exactly as returned in the Value field of a FirewallRuleTypeDefinition with RuleType set to PartnerThreatProtection . The calling account must hold an active Amazon Web Services Marketplace subscription to this product. Constraints: • min: 1 • max: 128 FirewallAdvancedContentCategory -&gt; (structure) Configures the rule to match an Amazon Web Services-managed content category (for example, VIOLENCE_AND_HATE_SPEECH ). See FirewallAdvancedContentCategoryConfig . Category -&gt; (string) [required] The content category identifier. To retrieve the list of available content categories, call ListFirewallRuleTypes with RuleType set to FirewallAdvancedContentCategory . Constraints: • min: 1 • max: 128 FirewallAdvancedThreatCategory -&gt; (structure) Configures the rule to match an Amazon Web Services-managed advanced threat category (for example, PHISHING ). See FirewallAdvancedThreatCategoryConfig . Category -&gt; (string) [required] The threat category identifier. To retrieve the list of available threat categories, call ListFirewallRuleTypes with RuleType set to FirewallAdvancedThreatCategory . Constraints: • min: 1 • max: 128 DnsThreatProtection -&gt; (structure) Configures the rule to match a built-in DNS Firewall Advanced threat detector DGA , DNS_TUNNELING , or DICTIONARY_DGA . See DnsThreatProtectionRuleTypeConfig . Value -&gt; (string) [required] The type of DNS threat protection. Valid values are: • DGA : Domain generation algorithms detection. DGAs are used by attackers to generate a large number of domains to launch malware attacks. • DNS_TUNNELING : DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without making a network connection to the client. • DICTIONARY_DGA : Dictionary-based domain generation algorithms detection. Dictionary DGAs use wordlists to generate domains that appear more legitimate, making them harder to detect than traditional DGAs. Constraints: • min: 1 • max: 128 ConfidenceThreshold -&gt; (string) [required] The confidence threshold for DNS Firewall Advanced. You must provide this value when you create or update a DNS Firewall Advanced rule. The confidence level values mean: • LOW : Provides the highest detection rate for threats, but also increases false positives. • MEDIUM : Provides a balance between detecting threats and false positives. • HIGH : Detects only the most well corroborated threats with a low rate of false positives. Possible values: • LOW • MEDIUM • HIGH Shorthand Syntax: PartnerThreatProtection={Partner=string},FirewallAdvancedContentCategory={Category=string},FirewallAdvancedThreatCategory={Category=string},DnsThreatProtection={Value=string,ConfidenceThreshold=string} JSON Syntax: { "PartnerThreatProtection": { "Partner": "string" }, "FirewallAdvancedContentCategory": { "Category": "string" }, "FirewallAdvancedThreatCategory": { "Category": "string" }, "DnsThreatProtection": { "Value": "string", "ConfidenceThreshold": "LOW"|"MEDIUM"|"HIGH" } }
     /// </summary>
     [CliOption("--firewall-rule-type")]
     public string? FirewallRuleType { get; set; }

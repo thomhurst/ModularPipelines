@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the start times of the available aggregated profiles of a profil- ing group for an aggregation period within the specified time range. See also: AWS API Documentation list-profile-times is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resul...
+/// Lists the start times of the available aggregated profiles of a profiling group for an aggregation period within the specified time range. See also: AWS API Documentation list-profile-times is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +29,11 @@ public record AwsCodeguruprofilerListProfileTimesOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the start times of the available aggregated profiles of a profil- ing group for an aggregation period within the specified time range. See also: AWS API Documentation list-profile-times is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resul...
+    /// Lists the start times of the available aggregated profiles of a profiling group for an aggregation period within the specified time range. See also: AWS API Documentation list-profile-times is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results...
     /// </summary>
     /// <param name="EndTime">The end time of the time range from which to list the profiles.</param>
-    /// <param name="Period">The aggregation period. This specifies the period during which an aggregation profile collects posted agent profiles for a profiling group. There are 3 valid values. o P1D 1 day o PT1H 1 hour o PT5M 5 minutes Possible values: o PT5M o PT1H o P1D</param>
-    /// <param name="ProfilingGroupName">The name of the profiling group. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$</param>
+    /// <param name="Period">The aggregation period. This specifies the period during which an aggregation profile collects posted agent profiles for a profiling group. There are 3 valid values. • P1D 1 day • PT1H 1 hour • PT5M 5 minutes Possible values: • PT5M • PT1H • P1D</param>
+    /// <param name="ProfilingGroupName">The name of the profiling group. Constraints: • min: 1 • max: 255 • pattern: ^[\w-]+$</param>
     /// <param name="StartTime">The start time of the time range from which to list the profiles.</param>
     public AwsCodeguruprofilerListProfileTimesOptions(
         string EndTime,
@@ -75,13 +77,13 @@ public record AwsCodeguruprofilerListProfileTimesOptions : AwsOptions, IValidata
     public string? EndTime { get; private init; }
 
     /// <summary>
-    /// The aggregation period. This specifies the period during which an aggregation profile collects posted agent profiles for a profiling group. There are 3 valid values. o P1D 1 day o PT1H 1 hour o PT5M 5 minutes Possible values: o PT5M o PT1H o P1D
+    /// The aggregation period. This specifies the period during which an aggregation profile collects posted agent profiles for a profiling group. There are 3 valid values. • P1D 1 day • PT1H 1 hour • PT5M 5 minutes Possible values: • PT5M • PT1H • P1D
     /// </summary>
     [CliOption("--period")]
     public AwsCodeguruprofilerListProfileTimesPeriod? Period { get; private init; }
 
     /// <summary>
-    /// The name of the profiling group. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$
+    /// The name of the profiling group. Constraints: • min: 1 • max: 255 • pattern: ^[\w-]+$
     /// </summary>
     [CliOption("--profiling-group-name")]
     public string? ProfilingGroupName { get; private init; }
@@ -93,16 +95,13 @@ public record AwsCodeguruprofilerListProfileTimesOptions : AwsOptions, IValidata
     public string? StartTime { get; private init; }
 
     /// <summary>
-    /// The order (ascending or descending by start time of the profile) to use when listing profiles. Defaults to TIMESTAMP_DESCENDING . Possible values: o TimestampDescending o TimestampAscending
+    /// The order (ascending or descending by start time of the profile) to use when listing profiles. Defaults to TIMESTAMP_DESCENDING . Possible values: • TimestampDescending • TimestampAscending
     /// </summary>
     [CliOption("--order-by")]
     public AwsCodeguruprofilerListProfileTimesOrderBy? OrderBy { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -112,16 +111,19 @@ public record AwsCodeguruprofilerListProfileTimesOptions : AwsOptions, IValidata
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

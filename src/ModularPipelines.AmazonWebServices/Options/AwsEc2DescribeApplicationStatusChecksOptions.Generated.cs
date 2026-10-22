@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes application status checks, including configuration details such as protocol, port, path, thresholds, and associations. Results are paginated. Use the NextToken parameter to retrieve additional results. The following rules apply: o If you do not specify any application status check IDs, all checks in your account are returned. o Use DescribeApplicationStatus to see the actual health status of in- stances. See also: AWS API Documentation
+/// Describes application status checks, including configuration details such as protocol, port, path, thresholds, and associations. Results are paginated. Use the NextToken parameter to retrieve additional results. The following rules apply: • If you do not specify any application status check IDs, all checks in your account are returned. • Use DescribeApplicationStatus to see the actual health status of instances. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -29,19 +29,19 @@ public record AwsEc2DescribeApplicationStatusChecksOptions : AwsOptions
     public IEnumerable<string>? ApplicationStatusCheckIds { get; set; }
 
     /// <summary>
-    /// The filters. o aggregation The aggregation setting. Valid values: included and excluded . (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// The filters. • aggregation The aggregation setting. Valid values: included and excluded . (structure) A filter name and value pair that is used to return a more specific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see Pagination . Constraints: o min: 5 o max: 100
+    /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see Pagination . Constraints: • min: 5 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous re- quest.
+    /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -54,7 +54,7 @@ public record AwsEc2DescribeApplicationStatusChecksOptions : AwsOptions
     public bool? IncludeAll { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

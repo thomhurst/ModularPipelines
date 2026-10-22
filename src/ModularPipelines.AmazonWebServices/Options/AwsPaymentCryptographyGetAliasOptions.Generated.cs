@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the Amazon Web Services Payment Cryptography key associated with the alias. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o CreateAlias o DeleteAlias o ListAliases o UpdateAlias See also: AWS API Documentation
+/// Gets the Amazon Web Services Payment Cryptography key associated with the alias. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: • CreateAlias • DeleteAlias • ListAliases • UpdateAlias See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsPaymentCryptographyGetAliasOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets the Amazon Web Services Payment Cryptography key associated with the alias. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o CreateAlias o DeleteAlias o ListAliases o UpdateAlias See also: AWS API Documentation
+    /// Gets the Amazon Web Services Payment Cryptography key associated with the alias. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: • CreateAlias • DeleteAlias • ListAliases • UpdateAlias See also: AWS API Documentation
     /// </summary>
-    /// <param name="AliasName">The alias of the Amazon Web Services Payment Cryptography key. Constraints: o min: 7 o max: 256 o pattern: alias/[a-zA-Z0-9/_-]+</param>
+    /// <param name="AliasName">The alias of the Amazon Web Services Payment Cryptography key. Constraints: • min: 7 • max: 256 • pattern: alias/[a-zA-Z0-9/_-]+</param>
     public AwsPaymentCryptographyGetAliasOptions(
         string AliasName
     )
@@ -56,7 +58,7 @@ public record AwsPaymentCryptographyGetAliasOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The alias of the Amazon Web Services Payment Cryptography key. Constraints: o min: 7 o max: 256 o pattern: alias/[a-zA-Z0-9/_-]+
+    /// The alias of the Amazon Web Services Payment Cryptography key. Constraints: • min: 7 • max: 256 • pattern: alias/[a-zA-Z0-9/_-]+
     /// </summary>
     [CliOption("--alias-name")]
     public string? AliasName { get; private init; }

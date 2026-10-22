@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,7 +31,7 @@ public record AwsSchemasExportSchemaOptions : AwsOptions, IValidatableObject
     /// </summary>
     /// <param name="RegistryName">The name of the registry.</param>
     /// <param name="SchemaName">The name of the schema.</param>
-    /// <param name="Type">--cli-input-json | --cli-input-yaml (string) Reads arguments from the JSON string provided. The JSON string follows the format provided by</param>
+    /// <param name="Type">--cli-input-json | --cli-input-yaml (string) Reads arguments from the JSON string provided. The JSON string follows the format provided by --generate-cli-skeleton. If other arguments are provided on the command line, those values will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally. This may not be specified along with --cli-input-yaml.</param>
     public AwsSchemasExportSchemaOptions(
         string RegistryName,
         string SchemaName,
@@ -76,7 +78,7 @@ public record AwsSchemasExportSchemaOptions : AwsOptions, IValidatableObject
     public string? SchemaName { get; private init; }
 
     /// <summary>
-    /// --cli-input-json | --cli-input-yaml (string) Reads arguments from the JSON string provided. The JSON string follows the format provided by
+    /// --cli-input-json | --cli-input-yaml (string) Reads arguments from the JSON string provided. The JSON string follows the format provided by --generate-cli-skeleton. If other arguments are provided on the command line, those values will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally. This may not be specified along with --cli-input-yaml.
     /// </summary>
     [CliOption("--type")]
     public string? Type { get; private init; }

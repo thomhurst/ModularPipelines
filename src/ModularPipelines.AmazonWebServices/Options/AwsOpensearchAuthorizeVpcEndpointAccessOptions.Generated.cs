@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsOpensearchAuthorizeVpcEndpointAccessOptions : AwsOptions, IVali
     /// <summary>
     /// Provides access to an Amazon OpenSearch Service domain through the use of an interface VPC endpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The name of the OpenSearch Service domain to provide access to. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="DomainName">The name of the OpenSearch Service domain to provide access to. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
     public AwsOpensearchAuthorizeVpcEndpointAccessOptions(
         string DomainName
     )
@@ -56,25 +58,25 @@ public record AwsOpensearchAuthorizeVpcEndpointAccessOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the OpenSearch Service domain to provide access to. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// The name of the OpenSearch Service domain to provide access to. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID to grant access to. Constraints: o pattern: ^[0-9]+$
+    /// The Amazon Web Services account ID to grant access to. Constraints: • pattern: ^[0-9]+$
     /// </summary>
     [CliOption("--account")]
     public string? Account { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services service SP to grant access to. Possible values: o application.opensearchservice.amazonaws.com
+    /// The Amazon Web Services service SP to grant access to. Possible values: • application.opensearchservice.amazonaws.com
     /// </summary>
     [CliOption("--service")]
     public string? Service { get; set; }
 
     /// <summary>
-    /// The options for the service, including the supported Regions for the endpoint access. SupportedRegions -&gt; (list) The list of supported Regions for the service. (string) An Amazon Web Services Region, such as us-east-1 . Constraints: o min: 5 o max: 30 o pattern: [a-z][a-z0-9\-]+ Shorthand Syntax: SupportedRegions=string,string JSON Syntax: { "SupportedRegions": ["string", ...] }
+    /// The options for the service, including the supported Regions for the endpoint access. SupportedRegions -&gt; (list) The list of supported Regions for the service. (string) An Amazon Web Services Region, such as us-east-1 . Constraints: • min: 5 • max: 30 • pattern: [a-z][a-z0-9\-]+ Shorthand Syntax: SupportedRegions=string,string JSON Syntax: { "SupportedRegions": ["string", ...] }
     /// </summary>
     [CliOption("--service-options")]
     public string? ServiceOptions { get; set; }

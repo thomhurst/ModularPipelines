@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsWellarchitectedGetProfileOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Get profile information. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileArn">The profile ARN. Constraints: o min: 0 o max: 2084 o pattern: arn:aws[-a-z]*:wellarchi- tected:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:profile/[a-z0-9]+</param>
+    /// <param name="ProfileArn">The profile ARN. Constraints: • min: 0 • max: 2084 • pattern: arn:aws[-a-z]*:wellarchitected:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:profile/[a-z0-9]+</param>
     public AwsWellarchitectedGetProfileOptions(
         string ProfileArn
     )
@@ -56,13 +58,13 @@ public record AwsWellarchitectedGetProfileOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The profile ARN. Constraints: o min: 0 o max: 2084 o pattern: arn:aws[-a-z]*:wellarchi- tected:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:profile/[a-z0-9]+
+    /// The profile ARN. Constraints: • min: 0 • max: 2084 • pattern: arn:aws[-a-z]*:wellarchitected:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:profile/[a-z0-9]+
     /// </summary>
     [CliOption("--profile-arn")]
     public string? ProfileArn { get; private init; }
 
     /// <summary>
-    /// The profile version. Constraints: o min: 1 o max: 32 o pattern: [A-Za-z0-9-]+
+    /// The profile version. Constraints: • min: 1 • max: 32 • pattern: [A-Za-z0-9-]+
     /// </summary>
     [CliOption("--profile-version")]
     public string? ProfileVersion { get; set; }

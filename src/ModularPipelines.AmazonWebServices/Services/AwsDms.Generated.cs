@@ -33,7 +33,7 @@ public class AwsDms : IAwsDms
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws dms wait sub-commands.
     /// </summary>
     public AwsDmsWait Wait => _wait ??= new AwsDmsWait(_command);
 
@@ -42,7 +42,7 @@ public class AwsDms : IAwsDms
     #region Commands
 
     /// <summary>
-    /// Adds metadata tags to an DMS resource, including replication instance, endpoint, subnet group, and migration task. These tags can also be used with cost allocation reporting to track cost associated with DMS re- sources, or used in a Condition statement in an IAM policy for DMS. For more information, see ` Tag https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html`__ data type description. See also: AWS API Documentation
+    /// Adds metadata tags to an DMS resource, including replication instance, endpoint, subnet group, and migration task. These tags can also be used with cost allocation reporting to track cost associated with DMS resources, or used in a Condition statement in an IAM policy for DMS. For more information, see ` Tag https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html`__ data type description. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -117,7 +117,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Cancels a single premigration assessment run. This operation prevents any individual assessments from running if they haven't started running. It also attempts to cancel any individual as- sessments that are currently running. See also: AWS API Documentation
+    /// Cancels a single premigration assessment run. This operation prevents any individual assessments from running if they haven't started running. It also attempts to cancel any individual assessments that are currently running. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -147,7 +147,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Creates a data provider using the provided settings. A data provider stores a data store type and location information about your database. Required permissions: dms:CreateDataProvider . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . See also: AWS API Documentation
+    /// Creates a data provider using the provided settings. A data provider stores a data store type and location information about your database. Required permissions: dms:CreateDataProvider . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -162,7 +162,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Creates an endpoint using the provided settings. NOTE: For a MySQL source or target endpoint, don't explicitly specify the database using the DatabaseName request parameter on the CreateEnd- point API call. Specifying DatabaseName when you create a MySQL end- point replicates all the task tables to this single database. For MySQL endpoints, you specify the database only when you specify the schema in the table-mapping rules of the DMS task. See also: AWS API Documentation
+    /// Creates an endpoint using the provided settings. NOTE: For a MySQL source or target endpoint, don't explicitly specify the database using the DatabaseName request parameter on the CreateEndpoint API call. Specifying DatabaseName when you create a MySQL endpoint replicates all the task tables to this single database. For MySQL endpoints, you specify the database only when you specify the schema in the table-mapping rules of the DMS task. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -177,7 +177,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Creates an DMS event notification subscription. You can specify the type of source (SourceType ) you want to be noti- fied of, provide a list of DMS source IDs (SourceIds ) that triggers the events, and provide a list of event categories (EventCategories ) for events you want to be notified of. If you specify both the Source- Type and SourceIds , such as SourceType = replication-instance and SourceIdentifier = my-replinstance , you will be notified of all the replication instance events for the ...
+    /// Creates an DMS event notification subscription. You can specify the type of source (SourceType ) you want to be notified of, provide a list of DMS source IDs (SourceIds ) that triggers the events, and provide a list of event categories (EventCategories ) for events you want to be notified of. If you specify both the SourceType and SourceIds , such as SourceType = replication-instance and SourceIdentifier = my-replinstance , you will be notified of all the replication instance events for the spec...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -207,7 +207,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Creates the instance profile using the specified parameters. Required permissions: dms:CreateInstanceProfile . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . See also: AWS API Documentation
+    /// Creates the instance profile using the specified parameters. Required permissions: dms:CreateInstanceProfile . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -222,7 +222,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Creates the migration project using the specified parameters. You can run this action only after you create an instance profile and data providers using CreateInstanceProfile and CreateDataProvider . Required permissions: dms:CreateMigrationProject . For more infor- mation, see Actions, resources, and condition keys for Database Mi- gration Service . See also: AWS API Documentation
+    /// Creates the migration project using the specified parameters. You can run this action only after you create an instance profile and data providers using CreateInstanceProfile and CreateDataProvider . Required permissions: dms:CreateMigrationProject . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -252,7 +252,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Creates the replication instance using the specified parameters. DMS requires that your account have certain roles with appropriate per- missions before you can create a replication instance. For information on the required roles, see Creating the IAM Roles to Use With the CLI and DMS API . For information on the required permissions, see IAM Per- missions Needed to Use DMS . NOTE: If you don't specify a version when creating a replication instance, DMS will create the instance using the default...
+    /// Creates the replication instance using the specified parameters. DMS requires that your account have certain roles with appropriate permissions before you can create a replication instance. For information on the required roles, see Creating the IAM Roles to Use With the CLI and DMS API . For information on the required permissions, see IAM Permissions Needed to Use DMS . NOTE: If you don't specify a version when creating a replication instance, DMS will create the instance using the default eng...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -267,7 +267,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Creates a replication subnet group given a list of the subnet IDs in a VPC. The VPC needs to have at least one subnet in at least two availability zones in the Amazon Web Services Region, otherwise the service will throw a ReplicationSubnetGroupDoesNotCoverEnoughAZs exception. If a replication subnet group exists in your Amazon Web Services ac- count, the CreateReplicationSubnetGroup action returns the following error message: The Replication Subnet Group already exists. In this case, delete the...
+    /// Creates a replication subnet group given a list of the subnet IDs in a VPC. The VPC needs to have at least one subnet in at least two availability zones in the Amazon Web Services Region, otherwise the service will throw a ReplicationSubnetGroupDoesNotCoverEnoughAZs exception. If a replication subnet group exists in your Amazon Web Services account, the CreateReplicationSubnetGroup action returns the following error message: The Replication Subnet Group already exists. In this case, delete the e...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -342,7 +342,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Deletes the specified data provider. Required permissions: dms:DeleteDataProvider . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . NOTE: All migration projects associated with the data provider must be deleted or modified before you can delete the data provider. See also: AWS API Documentation
+    /// Deletes the specified data provider. Required permissions: dms:DeleteDataProvider . For more information, see Actions, resources, and condition keys for Database Migration Service . NOTE: All migration projects associated with the data provider must be deleted or modified before you can delete the data provider. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -417,7 +417,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Deletes the specified instance profile. Required permissions: dms:DeleteInstanceProfile . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . NOTE: All migration projects associated with the instance profile must be deleted or modified before you can delete the instance profile. See also: AWS API Documentation
+    /// Deletes the specified instance profile. Required permissions: dms:DeleteInstanceProfile . For more information, see Actions, resources, and condition keys for Database Migration Service . NOTE: All migration projects associated with the instance profile must be deleted or modified before you can delete the instance profile. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -432,7 +432,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Deletes the specified migration project. Required permissions: dms:DeleteMigrationProject . For more infor- mation, see Actions, resources, and condition keys for Database Mi- gration Service . NOTE: The migration project must be closed before you can delete it. See also: AWS API Documentation
+    /// Deletes the specified migration project. Required permissions: dms:DeleteMigrationProject . For more information, see Actions, resources, and condition keys for Database Migration Service . NOTE: The migration project must be closed before you can delete it. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -492,7 +492,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Deletes the record of a single premigration assessment run. This operation removes all metadata that DMS maintains about this as- sessment run. However, the operation leaves untouched all information about this assessment run that is stored in your Amazon S3 bucket. See also: AWS API Documentation
+    /// Deletes the record of a single premigration assessment run. This operation removes all metadata that DMS maintains about this assessment run. However, the operation leaves untouched all information about this assessment run that is stored in your Amazon S3 bucket. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -522,7 +522,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Lists all of the DMS attributes for a customer account. These attrib- utes include DMS quotas for the account and a unique account identifier in a particular DMS region. DMS quotas include a list of resource quo- tas supported by the account, such as the number of replication in- stances allowed. The description for each resource quota, includes the quota name, current usage toward that quota, and the quota's maximum value. DMS uses the unique account identifier to name each artifact used by DMS...
+    /// Lists all of the DMS attributes for a customer account. These attributes include DMS quotas for the account and a unique account identifier in a particular DMS region. DMS quotas include a list of resource quotas supported by the account, such as the number of replication instances allowed. The description for each resource quota, includes the quota name, current usage toward that quota, and the quota's maximum value. DMS uses the unique account identifier to name each artifact used by DMS in th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -537,7 +537,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Provides a list of individual assessments that you can specify for a new premigration assessment run, given one or more parameters. If you specify an existing migration task, this operation provides the default individual assessments you can specify for that task. Other- wise, the specified parameters model elements of a possible migration task on which to base a premigration assessment run. To use these migration task modeling parameters, you must specify an existing replication instance, a sou...
+    /// Provides a list of individual assessments that you can specify for a new premigration assessment run, given one or more parameters. If you specify an existing migration task, this operation provides the default individual assessments you can specify for that task. Otherwise, the specified parameters model elements of a possible migration task on which to base a premigration assessment run. To use these migration task modeling parameters, you must specify an existing replication instance, a sourc...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -597,7 +597,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Returns information about data migrations. See also: AWS API Documentation describe-data-migrations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: DataMigrations
+    /// Returns information about data migrations. See also: AWS API Documentation describe-data-migrations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DataMigrations
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -612,7 +612,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Returns a paginated list of data providers for your account in the cur- rent region. Required permissions: dms:ListDataProviders . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
+    /// Returns a paginated list of data providers for your account in the current region. Required permissions: dms:ListDataProviders . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -642,6 +642,21 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
+    /// Returns information about the type of endpoints available. See also: AWS API Documentation describe-endpoint-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SupportedEndpointTypes
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeEndpointTypesAsync(
+        AwsDmsDescribeEndpointTypesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDmsDescribeEndpointTypesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Returns information about the endpoints for your account in the current region. See also: AWS API Documentation describe-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Endpoints
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -654,21 +669,6 @@ public class AwsDms : IAwsDms
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDmsDescribeEndpointsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns information about the type of endpoints available. See also: AWS API Documentation describe-endpoint-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: SupportedEndpointTypes
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeEndpointTypesAsync(
-        AwsDmsDescribeEndpointTypesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDmsDescribeEndpointTypesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -702,22 +702,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Lists events for a given source identifier and source type. You can also specify a start and end time. For more information on DMS events, see Working with Events and Notifications in the Database Migration Service User Guide. See also: AWS API Documentation describe-events is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query ...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeEventsAsync(
-        AwsDmsDescribeEventsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDmsDescribeEventsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists all the event subscriptions for a customer account. The descrip- tion of a subscription includes SubscriptionName , SNSTopicARN , Cus- tomerID , SourceType , SourceID , CreationTime , and Status . If you specify SubscriptionName , this action lists the description for that subscription. See also: AWS API Documentation describe-event-subscriptions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by p...
+    /// Lists all the event subscriptions for a customer account. The description of a subscription includes SubscriptionName , SNSTopicARN , CustomerID , SourceType , SourceID , CreationTime , and Status . If you specify SubscriptionName , this action lists the description for that subscription. See also: AWS API Documentation describe-event-subscriptions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -732,7 +717,22 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Returns a paginated list of extension pack installation requests for a migration project, initiated by StartExtensionPackAssociation . Required permissions: dms:ListExtensionPacks . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . See also: AWS API Documentation
+    /// Lists events for a given source identifier and source type. You can also specify a start and end time. For more information on DMS events, see Working with Events and Notifications in the Database Migration Service User Guide. See also: AWS API Documentation describe-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeEventsAsync(
+        AwsDmsDescribeEventsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDmsDescribeEventsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a paginated list of extension pack installation requests for a migration project, initiated by StartExtensionPackAssociation . Required permissions: dms:ListExtensionPacks . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -822,7 +822,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Returns a paginated list of instance profiles for your account in the current region. Required permissions: dms:ListInstanceProfiles . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . See also: AWS API Documentation
+    /// Returns a paginated list of instance profiles for your account in the current region. Required permissions: dms:ListInstanceProfiles . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -852,7 +852,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Gets a list of child metadata models for the specified metadata model in the database hierarchy. Required permissions: dms:DescribeMetadataModelChildren . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation describe-metadata-model-children is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment...
+    /// Gets a list of child metadata models for the specified metadata model in the database hierarchy. Required permissions: dms:DescribeMetadataModelChildren . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation describe-metadata-model-children is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. Wh...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -882,7 +882,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Returns a paginated list of metadata model creation requests for a mi- gration project, initiated by StartMetadataModelCreation . To cancel a queued or in-progress request, call CancelMetadataModelCreation . Required permissions: dms:DescribeMetadataModelCreations . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation describe-metadata-model-creations is a paginated operation. Multiple API calls may be issued in order t...
+    /// Returns a paginated list of metadata model creation requests for a migration project, initiated by StartMetadataModelCreation . To cancel a queued or in-progress request, call CancelMetadataModelCreation . Required permissions: dms:DescribeMetadataModelCreations . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation describe-metadata-model-creations is a paginated operation. Multiple API calls may be issued in order to ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -897,7 +897,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Returns a paginated list of metadata model export requests for a migra- tion project, initiated by StartMetadataModelExportAsScript . Required permissions: dms:ListMetadataModelExports . For more in- formation, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
+    /// Returns a paginated list of metadata model export requests for a migration project, initiated by StartMetadataModelExportAsScript . Required permissions: dms:ListMetadataModelExports . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -912,7 +912,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Returns a paginated list of metadata model export requests for a migra- tion project, initiated by StartMetadataModelExportToTarget . Required permissions: dms:ListMetadataModelExports . For more in- formation, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
+    /// Returns a paginated list of metadata model export requests for a migration project, initiated by StartMetadataModelExportToTarget . Required permissions: dms:ListMetadataModelExports . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -927,7 +927,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Returns a paginated list of metadata model import requests for a migra- tion project, initiated by StartMetadataModelImport . Required permissions: dms:DescribeMetadataModelImports . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
+    /// Returns a paginated list of metadata model import requests for a migration project, initiated by StartMetadataModelImport . Required permissions: dms:DescribeMetadataModelImports . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -942,7 +942,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Gets detailed information about the specified metadata model, including its definition and corresponding converted objects in the target data- base if applicable. Required permissions: dms:DescribeMetadataModel . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . See also: AWS API Documentation
+    /// Gets detailed information about the specified metadata model, including its definition and corresponding converted objects in the target database if applicable. Required permissions: dms:DescribeMetadataModel . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -957,7 +957,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Returns a paginated list of migration projects for your account in the current region. Required permissions: dms:ListMigrationProjects . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . See also: AWS API Documentation
+    /// Returns a paginated list of migration projects for your account in the current region. Required permissions: dms:ListMigrationProjects . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -972,7 +972,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Returns information about the replication instance types that can be created in the specified region. See also: AWS API Documentation describe-orderable-replication-instances is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the fol...
+    /// Returns information about the replication instance types that can be created in the specified region. See also: AWS API Documentation describe-orderable-replication-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1062,21 +1062,6 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Returns information about replication instances for your account in the current region. See also: AWS API Documentation describe-replication-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeReplicationInstancesAsync(
-        AwsDmsDescribeReplicationInstancesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDmsDescribeReplicationInstancesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns information about the task logs for the specified task. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1092,22 +1077,22 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Provides details on replication progress by returning status informa- tion for one or more provisioned DMS Serverless replications. See also: AWS API Documentation
+    /// Returns information about replication instances for your account in the current region. See also: AWS API Documentation describe-replication-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeReplicationsAsync(
-        AwsDmsDescribeReplicationsOptions? options = null,
+    public virtual async Task<CommandResult> DescribeReplicationInstancesAsync(
+        AwsDmsDescribeReplicationInstancesOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDmsDescribeReplicationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDmsDescribeReplicationInstancesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Returns information about the replication subnet groups. See also: AWS API Documentation describe-replication-subnet-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ReplicationSubnetGroups
+    /// Returns information about the replication subnet groups. See also: AWS API Documentation describe-replication-subnet-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ReplicationSubnetGroups
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1122,7 +1107,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Returns table and schema statistics for one or more provisioned repli- cations that use a given DMS Serverless replication configuration. See also: AWS API Documentation
+    /// Returns table and schema statistics for one or more provisioned replications that use a given DMS Serverless replication configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1152,7 +1137,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Returns a paginated list of premigration assessment runs based on fil- ter settings. These filter settings can specify a combination of premigration assess- ment runs, migration tasks, replication instances, and assessment run status values. NOTE: This operation doesn't return information about individual assess- ments. For this information, see the DescribeReplicationTaskIndivid- ualAssessments operation. See also: AWS API Documentation
+    /// Returns a paginated list of premigration assessment runs based on filter settings. These filter settings can specify a combination of premigration assessment runs, migration tasks, replication instances, and assessment run status values. NOTE: This operation doesn't return information about individual assessments. For this information, see the DescribeReplicationTaskIndividualAssessments operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1167,7 +1152,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Returns a paginated list of individual assessments based on filter set- tings. These filter settings can specify a combination of premigration assess- ment runs, migration tasks, and assessment status values. See also: AWS API Documentation
+    /// Returns a paginated list of individual assessments based on filter settings. These filter settings can specify a combination of premigration assessment runs, migration tasks, and assessment status values. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1182,7 +1167,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Returns information about replication tasks for your account in the current region. See also: AWS API Documentation describe-replication-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Replicat...
+    /// Returns information about replication tasks for your account in the current region. See also: AWS API Documentation describe-replication-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Replicatio...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1194,6 +1179,21 @@ public class AwsDms : IAwsDms
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDmsDescribeReplicationTasksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Provides details on replication progress by returning status information for one or more provisioned DMS Serverless replications. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeReplicationsAsync(
+        AwsDmsDescribeReplicationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDmsDescribeReplicationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1212,7 +1212,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Returns table statistics on the database migration task, including ta- ble name, rows inserted, rows updated, and rows deleted. Note that the "last updated" column the DMS console only indicates the time that DMS last updated the table statistics record for a table. It does not indicate the time of the last update to the table. See also: AWS API Documentation describe-table-statistics is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. ...
+    /// Returns table statistics on the database migration task, including table name, rows inserted, rows updated, and rows deleted. Note that the "last updated" column the DMS console only indicates the time that DMS last updated the table statistics record for a table. It does not indicate the time of the last update to the table. See also: AWS API Documentation describe-table-statistics is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. Yo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1242,7 +1242,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Converts source selection rules into their target counterparts for schema conversion operations. Required permissions: dms:GetTargetSelectionRules . For more infor- mation, see Actions, resources, and condition keys for Database Mi- gration Service . See also: AWS API Documentation
+    /// Converts source selection rules into their target counterparts for schema conversion operations. Required permissions: dms:GetTargetSelectionRules . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1272,7 +1272,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Lists all metadata tags attached to an DMS resource, including replica- tion instance, endpoint, subnet group, and migration task. For more in- formation, see ` Tag https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html`__ data type description. See also: AWS API Documentation
+    /// Lists all metadata tags attached to an DMS resource, including replication instance, endpoint, subnet group, and migration task. For more information, see ` Tag https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html`__ data type description. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1287,7 +1287,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Modifies the specified schema conversion configuration using the pro- vided parameters. Required permissions: dms:UpdateConversionConfiguration . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
+    /// Modifies the specified schema conversion configuration using the provided parameters. Required permissions: dms:UpdateConversionConfiguration . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1317,7 +1317,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Modifies the specified data provider using the provided settings. Required permissions: dms:UpdateDataProvider . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . NOTE: You must remove the data provider from all migration projects before you can modify it. See also: AWS API Documentation
+    /// Modifies the specified data provider using the provided settings. Required permissions: dms:UpdateDataProvider . For more information, see Actions, resources, and condition keys for Database Migration Service . NOTE: You must remove the data provider from all migration projects before you can modify it. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1332,7 +1332,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Modifies the specified endpoint. NOTE: For a MySQL source or target endpoint, don't explicitly specify the database using the DatabaseName request parameter on the ModifyEnd- point API call. Specifying DatabaseName when you modify a MySQL end- point replicates all the task tables to this single database. For MySQL endpoints, you specify the database only when you specify the schema in the table-mapping rules of the DMS task. See also: AWS API Documentation
+    /// Modifies the specified endpoint. NOTE: For a MySQL source or target endpoint, don't explicitly specify the database using the DatabaseName request parameter on the ModifyEndpoint API call. Specifying DatabaseName when you modify a MySQL endpoint replicates all the task tables to this single database. For MySQL endpoints, you specify the database only when you specify the schema in the table-mapping rules of the DMS task. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1362,7 +1362,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Modifies the specified instance profile using the provided parameters. Required permissions: dms:UpdateInstanceProfile . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . NOTE: All migration projects associated with the instance profile must be deleted or modified before you can modify the instance profile. See also: AWS API Documentation
+    /// Modifies the specified instance profile using the provided parameters. Required permissions: dms:UpdateInstanceProfile . For more information, see Actions, resources, and condition keys for Database Migration Service . NOTE: All migration projects associated with the instance profile must be deleted or modified before you can modify the instance profile. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1377,7 +1377,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Modifies the specified migration project using the provided parameters. Required permissions: dms:UpdateMigrationProject . For more infor- mation, see Actions, resources, and condition keys for Database Mi- gration Service . NOTE: The migration project must be closed before you can modify it. See also: AWS API Documentation
+    /// Modifies the specified migration project using the provided parameters. Required permissions: dms:UpdateMigrationProject . For more information, see Actions, resources, and condition keys for Database Migration Service . NOTE: The migration project must be closed before you can modify it. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1392,7 +1392,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Modifies an existing DMS Serverless replication configuration that you can use to start a replication. This command includes input validation and logic to check the state of any replication that uses this configu- ration. You can only modify a replication configuration before any replication that uses it has started. As soon as you have initially started a replication with a given configuiration, you can't modify that configuration, even if you stop it. Other run statuses that allow you to run t...
+    /// Modifies an existing DMS Serverless replication configuration that you can use to start a replication. This command includes input validation and logic to check the state of any replication that uses this configuration. You can only modify a replication configuration before any replication that uses it has started. As soon as you have initially started a replication with a given configuiration, you can't modify that configuration, even if you stop it. Other run statuses that allow you to run thi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1407,7 +1407,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Modifies the replication instance to apply new settings. You can change one or more parameters by specifying these parameters and the new val- ues in the request. Some settings are applied during the maintenance window. See also: AWS API Documentation
+    /// Modifies the replication instance to apply new settings. You can change one or more parameters by specifying these parameters and the new values in the request. Some settings are applied during the maintenance window. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1467,7 +1467,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Reboots a replication instance. Rebooting results in a momentary out- age, until the replication instance becomes available again. See also: AWS API Documentation
+    /// Reboots a replication instance. Rebooting results in a momentary outage, until the replication instance becomes available again. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1482,7 +1482,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Populates the schema for the specified endpoint. This is an asynchro- nous operation and can take several minutes. You can check the status of this operation by calling the DescribeRefreshSchemasStatus opera- tion. See also: AWS API Documentation
+    /// Populates the schema for the specified endpoint. This is an asynchronous operation and can take several minutes. You can check the status of this operation by calling the DescribeRefreshSchemasStatus operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1497,7 +1497,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Reloads the target database table with the source data for a given DMS Serverless replication configuration. You can only use this operation with a task in the RUNNING state, oth- erwise the service will throw an InvalidResourceStateFault exception. See also: AWS API Documentation
+    /// Reloads the target database table with the source data for a given DMS Serverless replication configuration. You can only use this operation with a task in the RUNNING state, otherwise the service will throw an InvalidResourceStateFault exception. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1512,7 +1512,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Reloads the target database table with the source data. You can only use this operation with a task in the RUNNING state, oth- erwise the service will throw an InvalidResourceStateFault exception. See also: AWS API Documentation
+    /// Reloads the target database table with the source data. You can only use this operation with a task in the RUNNING state, otherwise the service will throw an InvalidResourceStateFault exception. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1527,7 +1527,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Removes metadata tags from an DMS resource, including replication in- stance, endpoint, subnet group, and migration task. For more informa- tion, see ` Tag https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html`__ data type description. See also: AWS API Documentation
+    /// Removes metadata tags from an DMS resource, including replication instance, endpoint, subnet group, and migration task. For more information, see ` Tag https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html`__ data type description. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1542,7 +1542,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// WARNING: End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support . Runs large-scale assessment (LSA) analysis on every Fleet Advisor col- lector in your account. See also: AWS API Documentation
+    /// WARNING: End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support . Runs large-scale assessment (LSA) analysis on every Fleet Advisor collector in your account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1572,7 +1572,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Queues the installation of the extension pack on your target database. If other requests created by Start* operations are already in the mi- gration project's queue, the installation begins after they complete. This operation requires a non-virtual target data provider. If the extension pack already exists, the operation reinstalls it. To ensure compatibility, reconvert your database objects if the version has changed since your last conversion. For more information, see Using extension packs in...
+    /// Queues the installation of the extension pack on your target database. If other requests created by Start* operations are already in the migration project's queue, the installation begins after they complete. This operation requires a non-virtual target data provider. If the extension pack already exists, the operation reinstalls it. To ensure compatibility, reconvert your database objects if the version has changed since your last conversion. For more information, see Using extension packs in D...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1587,7 +1587,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Queues an assessment of the selected source metadata models (database objects such as tables, views, and procedures) to evaluate conversion complexity to the target database format. If other requests created by Start* operations are already in the migration project's queue, the as- sessment begins after they complete. The assessment request loads metadata models that are not yet in the metadata tree, but does not reload metadata models that are already present. If your source database has change...
+    /// Queues an assessment of the selected source metadata models (database objects such as tables, views, and procedures) to evaluate conversion complexity to the target database format. If other requests created by Start* operations are already in the migration project's queue, the assessment begins after they complete. The assessment request loads metadata models that are not yet in the metadata tree, but does not reload metadata models that are already present. If your source database has changed ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1602,7 +1602,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Queues a conversion of the selected source metadata models (database objects such as tables, views, and procedures) to the target database format. If other requests created by Start* operations are already in the migration project's queue, the conversion begins after they com- plete. The conversion request loads metadata models that are not yet in the metadata tree, but does not reload metadata models that are already present. If your source database has changed since the metadata was loaded, re...
+    /// Queues a conversion of the selected source metadata models (database objects such as tables, views, and procedures) to the target database format. If other requests created by Start* operations are already in the migration project's queue, the conversion begins after they complete. The conversion request loads metadata models that are not yet in the metadata tree, but does not reload metadata models that are already present. If your source database has changed since the metadata was loaded, refr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1617,7 +1617,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Queues the creation of a metadata model in the source metadata tree. If other requests created by Start* operations are already in the migra- tion project's queue, the creation begins after they complete. NOTE: This operation supports only Microsoft SQL Server to Aurora Post- greSQL and Microsoft SQL Server to Amazon RDS for PostgreSQL conver- sion paths. To check the status of the creation request, call DescribeMetadataModelCreations using the returned RequestIdentifier as a filter. To cancel a...
+    /// Queues the creation of a metadata model in the source metadata tree. If other requests created by Start* operations are already in the migration project's queue, the creation begins after they complete. NOTE: This operation supports only Microsoft SQL Server to Aurora PostgreSQL and Microsoft SQL Server to Amazon RDS for PostgreSQL conversion paths. To check the status of the creation request, call DescribeMetadataModelCreations using the returned RequestIdentifier as a filter. To cancel a queue...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1632,7 +1632,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Queues an export of metadata models (database objects such as tables, views, and procedures) as a data definition language (DDL) script. The script is stored as a ZIP archive in the Amazon S3 bucket associated with the migration project. If other requests created by Start* opera- tions are already in the migration project's queue, the export begins after they complete. When exporting from the target metadata tree, the export applies only to metadata models created by conversion. Metadata models ...
+    /// Queues an export of metadata models (database objects such as tables, views, and procedures) as a data definition language (DDL) script. The script is stored as a ZIP archive in the Amazon S3 bucket associated with the migration project. If other requests created by Start* operations are already in the migration project's queue, the export begins after they complete. When exporting from the target metadata tree, the export applies only to metadata models created by conversion. Metadata models im...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1647,7 +1647,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Queues an export of the selected converted metadata models (database objects such as tables, views, and procedures) to your target database. If other requests created by Start* operations are already in the mi- gration project's queue, the export begins after they complete. This operation requires a non-virtual target data provider. The export applies only metadata models created by conversion. Metadata models imported from the database are skipped. NOTE: If objects with the same name already ex...
+    /// Queues an export of the selected converted metadata models (database objects such as tables, views, and procedures) to your target database. If other requests created by Start* operations are already in the migration project's queue, the export begins after they complete. This operation requires a non-virtual target data provider. The export applies only metadata models created by conversion. Metadata models imported from the database are skipped. NOTE: If objects with the same name already exis...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1662,7 +1662,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Queues an import of metadata models (database objects such as tables, views, and procedures) from your data provider into the metadata tree. If other requests created by Start* operations are already in the mi- gration project's queue, the import begins after they complete. To check the status of the import request, call DescribeMetadataModelImports using the returned RequestIdentifier as a filter. Required permissions: dms:StartMetadataModelImport . For more in- formation, see Actions, resource...
+    /// Queues an import of metadata models (database objects such as tables, views, and procedures) from your data provider into the metadata tree. If other requests created by Start* operations are already in the migration project's queue, the import begins after they complete. To check the status of the import request, call DescribeMetadataModelImports using the returned RequestIdentifier as a filter. Required permissions: dms:StartMetadataModelImport . For more information, see Actions, resources, a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1692,7 +1692,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// For a given DMS Serverless replication configuration, DMS connects to the source endpoint and collects the metadata to analyze the replica- tion workload. Using this metadata, DMS then computes and provisions the required capacity and starts replicating to the target endpoint us- ing the server resources that DMS has provisioned for the DMS Server- less replication. See also: AWS API Documentation
+    /// For a given DMS Serverless replication configuration, DMS connects to the source endpoint and collects the metadata to analyze the replication workload. Using this metadata, DMS then computes and provisions the required capacity and starts replicating to the target endpoint using the server resources that DMS has provisioned for the DMS Serverless replication. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1707,7 +1707,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Starts the replication task assessment for unsupported data types in the source database. You can only use this operation for a task if the following conditions are true: o The task must be in the stopped state. o The task must have successful connections to the source and target. If either of these conditions are not met, an InvalidResourceStateFault error will result. For information about DMS task assessments, see Creating a task assess- ment report in the Database Migration Service User Guid...
+    /// Starts the replication task assessment for unsupported data types in the source database. You can only use this operation for a task if the following conditions are true: • The task must be in the stopped state. • The task must have successful connections to the source and target. If either of these conditions are not met, an InvalidResourceStateFault error will result. For information about DMS task assessments, see Creating a task assessment report in the Database Migration Service User Guide ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1722,7 +1722,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Starts a new premigration assessment run for one or more individual as- sessments of a migration task. The assessments that you can specify depend on the source and target database engine and the migration type defined for the given task. To run this operation, your migration task must already be created. After you run this operation, you can review the status of each individual assessment. You can also run the migration task manually after the as- sessment run and its individual assessments com...
+    /// Starts a new premigration assessment run for one or more individual assessments of a migration task. The assessments that you can specify depend on the source and target database engine and the migration type defined for the given task. To run this operation, your migration task must already be created. After you run this operation, you can review the status of each individual assessment. You can also run the migration task manually after the assessment run and its individual assessments complet...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1767,7 +1767,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// For a given DMS Serverless replication configuration, DMS stops any and all ongoing DMS Serverless replications. This command doesn't deprovi- sion the stopped replications. See also: AWS API Documentation
+    /// For a given DMS Serverless replication configuration, DMS stops any and all ongoing DMS Serverless replications. This command doesn't deprovision the stopped replications. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1812,7 +1812,7 @@ public class AwsDms : IAwsDms
     }
 
     /// <summary>
-    /// Migrates 10 active and enabled Amazon SNS subscriptions at a time and converts them to corresponding Amazon EventBridge rules. By default, this operation migrates subscriptions only when all your replication instance versions are 3.4.5 or higher. If any replication instances are from versions earlier than 3.4.5, the operation raises an error and tells you to upgrade these instances to version 3.4.5 or higher. To en- able migration regardless of version, set the Force option to true. However, if ...
+    /// Migrates 10 active and enabled Amazon SNS subscriptions at a time and converts them to corresponding Amazon EventBridge rules. By default, this operation migrates subscriptions only when all your replication instance versions are 3.4.5 or higher. If any replication instances are from versions earlier than 3.4.5, the operation raises an error and tells you to upgrade these instances to version 3.4.5 or higher. To enable migration regardless of version, set the Force option to true. However, if yo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

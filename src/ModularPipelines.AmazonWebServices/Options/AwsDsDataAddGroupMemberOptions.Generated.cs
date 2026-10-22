@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +30,9 @@ public record AwsDsDataAddGroupMemberOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Adds an existing user, group, or computer as a group member. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The identifier (ID) of the directory that's associated with the group. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
-    /// <param name="GroupName">The name of the group. Constraints: o min: 1 o max: 64 o pattern: ^[^:;|=+"*?&lt;&gt;/\\,\[\]@]+$</param>
-    /// <param name="MemberName">The SAMAccountName of the user, group, or computer to add as a group member. Constraints: o min: 1 o max: 63 o pattern: ^[^:;|=+"*?&lt;&gt;/\\,\[\]@]+$</param>
+    /// <param name="DirectoryId">The identifier (ID) of the directory that's associated with the group. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="GroupName">The name of the group. Constraints: • min: 1 • max: 64 • pattern: ^[^:;|=+"*?&lt;&gt;/\\,\[\]@]+$</param>
+    /// <param name="MemberName">The SAMAccountName of the user, group, or computer to add as a group member. Constraints: • min: 1 • max: 63 • pattern: ^[^:;|=+"*?&lt;&gt;/\\,\[\]@]+$</param>
     public AwsDsDataAddGroupMemberOptions(
         string DirectoryId,
         string GroupName,
@@ -65,32 +67,32 @@ public record AwsDsDataAddGroupMemberOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier (ID) of the directory that's associated with the group. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The identifier (ID) of the directory that's associated with the group. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// The name of the group. Constraints: o min: 1 o max: 64 o pattern: ^[^:;|=+"*?&lt;&gt;/\\,\[\]@]+$
+    /// The name of the group. Constraints: • min: 1 • max: 64 • pattern: ^[^:;|=+"*?&lt;&gt;/\\,\[\]@]+$
     /// </summary>
     [CliOption("--group-name")]
     public string? GroupName { get; private init; }
 
     /// <summary>
-    /// The SAMAccountName of the user, group, or computer to add as a group member. Constraints: o min: 1 o max: 63 o pattern: ^[^:;|=+"*?&lt;&gt;/\\,\[\]@]+$
+    /// The SAMAccountName of the user, group, or computer to add as a group member. Constraints: • min: 1 • max: 63 • pattern: ^[^:;|=+"*?&lt;&gt;/\\,\[\]@]+$
     /// </summary>
     [CliOption("--member-name")]
     public string? MemberName { get; private init; }
 
     /// <summary>
-    /// A unique and case-sensitive identifier that you provide to make sure the idempotency of the request, so multiple identical calls have the same effect as one single call. A client token is valid for 8 hours after the first request that uses it completes. After 8 hours, any request with the same client token is treated as a new request. If the request succeeds, any fu- ture uses of that token will be idempotent for another 8 hours. If you submit a request with the same client token but change one of the other parameters within the 8-hour idempotency window, Directory Service Data returns an ConflictException . NOTE: This parameter is optional when using the CLI or SDK. Constraints: o min: 1 o max: 128 o pattern: ^[\x00-\x7F]+$
+    /// A unique and case-sensitive identifier that you provide to make sure the idempotency of the request, so multiple identical calls have the same effect as one single call. A client token is valid for 8 hours after the first request that uses it completes. After 8 hours, any request with the same client token is treated as a new request. If the request succeeds, any future uses of that token will be idempotent for another 8 hours. If you submit a request with the same client token but change one of the other parameters within the 8-hour idempotency window, Directory Service Data returns an ConflictException . NOTE: This parameter is optional when using the CLI or SDK. Constraints: • min: 1 • max: 128 • pattern: ^[\x00-\x7F]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The domain name that's associated with the group member. This para- meter is required only when adding a member outside of your Managed Microsoft AD domain to a group inside of your Managed Microsoft AD domain. This parameter defaults to the Managed Microsoft AD domain. NOTE: This parameter is case insensitive. Constraints: o min: 1 o max: 255 o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$
+    /// The domain name that's associated with the group member. This parameter is required only when adding a member outside of your Managed Microsoft AD domain to a group inside of your Managed Microsoft AD domain. This parameter defaults to the Managed Microsoft AD domain. NOTE: This parameter is case insensitive. Constraints: • min: 1 • max: 255 • pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$
     /// </summary>
     [CliOption("--member-realm")]
     public string? MemberRealm { get; set; }

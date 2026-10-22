@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsGrafanaDeleteWorkspaceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes an Amazon Managed Grafana workspace. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceId">The ID of the workspace to delete. Constraints: o pattern: g-[0-9a-f]{10}</param>
+    /// <param name="WorkspaceId">The ID of the workspace to delete. Constraints: • pattern: g-[0-9a-f]{10}</param>
     public AwsGrafanaDeleteWorkspaceOptions(
         string WorkspaceId
     )
@@ -56,7 +58,7 @@ public record AwsGrafanaDeleteWorkspaceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the workspace to delete. Constraints: o pattern: g-[0-9a-f]{10}
+    /// The ID of the workspace to delete. Constraints: • pattern: g-[0-9a-f]{10}
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }

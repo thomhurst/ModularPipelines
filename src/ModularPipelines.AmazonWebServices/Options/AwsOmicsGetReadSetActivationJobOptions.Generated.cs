@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsOmicsGetReadSetActivationJobOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Returns detailed information about the status of a read set activation job in JSON format. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The job's ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
-    /// <param name="SequenceStoreId">The job's sequence store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
+    /// <param name="Id">The job's ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+</param>
+    /// <param name="SequenceStoreId">The job's sequence store ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+</param>
     public AwsOmicsGetReadSetActivationJobOptions(
         string Id,
         string SequenceStoreId
@@ -60,13 +62,13 @@ public record AwsOmicsGetReadSetActivationJobOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The job's ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// The job's ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The job's sequence store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// The job's sequence store ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+
     /// </summary>
     [CliOption("--sequence-store-id")]
     public string? SequenceStoreId { get; private init; }

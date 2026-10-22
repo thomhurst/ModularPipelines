@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a prefetch schedule for a playback configuration. A prefetch schedule allows you to tell MediaTailor to fetch and prepare certain ads before an ad break happens. For more information about ad prefetch- ing, see Using ad prefetching in the MediaTailor User Guide . See also: AWS API Documentation
+/// Retrieves a prefetch schedule for a playback configuration. A prefetch schedule allows you to tell MediaTailor to fetch and prepare certain ads before an ad break happens. For more information about ad prefetching, see Using ad prefetching in the MediaTailor User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsMediatailorGetPrefetchScheduleOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves a prefetch schedule for a playback configuration. A prefetch schedule allows you to tell MediaTailor to fetch and prepare certain ads before an ad break happens. For more information about ad prefetch- ing, see Using ad prefetching in the MediaTailor User Guide . See also: AWS API Documentation
+    /// Retrieves a prefetch schedule for a playback configuration. A prefetch schedule allows you to tell MediaTailor to fetch and prepare certain ads before an ad break happens. For more information about ad prefetching, see Using ad prefetching in the MediaTailor User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="Name">The name of the prefetch schedule. The name must be unique among all prefetch schedules that are associated with the specified playback configuration.</param>
-    /// <param name="PlaybackConfigurationName">Returns information about the prefetch schedule for a specific play- back configuration. If you call GetPrefetchSchedule on an expired prefetch schedule, MediaTailor returns an HTTP 404 status code.</param>
+    /// <param name="PlaybackConfigurationName">Returns information about the prefetch schedule for a specific playback configuration. If you call GetPrefetchSchedule on an expired prefetch schedule, MediaTailor returns an HTTP 404 status code.</param>
     public AwsMediatailorGetPrefetchScheduleOptions(
         string Name,
         string PlaybackConfigurationName
@@ -66,7 +68,7 @@ public record AwsMediatailorGetPrefetchScheduleOptions : AwsOptions, IValidatabl
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Returns information about the prefetch schedule for a specific play- back configuration. If you call GetPrefetchSchedule on an expired prefetch schedule, MediaTailor returns an HTTP 404 status code.
+    /// Returns information about the prefetch schedule for a specific playback configuration. If you call GetPrefetchSchedule on an expired prefetch schedule, MediaTailor returns an HTTP 404 status code.
     /// </summary>
     [CliOption("--playback-configuration-name")]
     public string? PlaybackConfigurationName { get; private init; }

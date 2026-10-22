@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsRedshiftModifyClusterDbRevisionOptions : AwsOptions, IValidatab
     /// <summary>
     /// Modifies the database revision of a cluster. The database revision is a unique revision of the database running in a cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterIdentifier">The unique identifier of a cluster whose database revision you want to modify. Example: examplecluster Constraints: o max: 2147483647</param>
-    /// <param name="RevisionTarget">The identifier of the database revision. You can retrieve this value from the response to the DescribeClusterDbRevisions request. Constraints: o max: 2147483647</param>
+    /// <param name="ClusterIdentifier">The unique identifier of a cluster whose database revision you want to modify. Example: examplecluster Constraints: • max: 2147483647</param>
+    /// <param name="RevisionTarget">The identifier of the database revision. You can retrieve this value from the response to the DescribeClusterDbRevisions request. Constraints: • max: 2147483647</param>
     public AwsRedshiftModifyClusterDbRevisionOptions(
         string ClusterIdentifier,
         string RevisionTarget
@@ -60,13 +62,13 @@ public record AwsRedshiftModifyClusterDbRevisionOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of a cluster whose database revision you want to modify. Example: examplecluster Constraints: o max: 2147483647
+    /// The unique identifier of a cluster whose database revision you want to modify. Example: examplecluster Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the database revision. You can retrieve this value from the response to the DescribeClusterDbRevisions request. Constraints: o max: 2147483647
+    /// The identifier of the database revision. You can retrieve this value from the response to the DescribeClusterDbRevisions request. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--revision-target")]
     public string? RevisionTarget { get; private init; }

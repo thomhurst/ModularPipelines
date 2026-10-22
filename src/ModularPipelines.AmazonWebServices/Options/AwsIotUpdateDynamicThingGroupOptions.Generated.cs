@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsIotUpdateDynamicThingGroupOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Updates a dynamic thing group. Requires permission to access the UpdateDynamicThingGroup action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ThingGroupName">The name of the dynamic thing group to update. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+</param>
-    /// <param name="ThingGroupProperties">The dynamic thing group properties to update. thingGroupDescription -&gt; (string) The thing group description. Constraints: o max: 2028 o pattern: [\p{Graph}\x20]* attributePayload -&gt; (structure) The thing group attributes in JSON format. attributes -&gt; (map) A JSON string containing up to three key-value pair in JSON format. For example: {\"attributes\":{\"string1\":\"string2\"}} key -&gt; (string) Constraints: o max: 128 o pattern: [a-zA-Z0-9_.,@/:#-]+ value -&gt; (string) Constraints: o max: 800 o pattern: [a-zA-Z0-9_.,@/:#=\[\]-]* merge -&gt; (boolean) Specifies whether the list of attributes provided in the At- tributePayload is merged with the attributes stored in the registry, instead of overwriting them. To remove an attribute, call UpdateThing with an empty at- tribute value. NOTE: The merge attribute is only valid when calling Up- dateThing or UpdateThingGroup . Shorthand Syntax: thingGroupDescription=string,attributePayload={attributes={KeyName1=string,KeyName2=string},merge=boolean} JSON Syntax: { "thingGroupDescription": "string", "attributePayload": { "attributes": {"string": "string" ...}, "merge": true|false } }</param>
+    /// <param name="ThingGroupName">The name of the dynamic thing group to update. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+</param>
+    /// <param name="ThingGroupProperties">The dynamic thing group properties to update. thingGroupDescription -&gt; (string) The thing group description. Constraints: • max: 2028 • pattern: [\p{Graph}\x20]* attributePayload -&gt; (structure) The thing group attributes in JSON format. attributes -&gt; (map) A JSON string containing up to three key-value pair in JSON format. For example: {\"attributes\":{\"string1\":\"string2\"}} key -&gt; (string) Constraints: • max: 128 • pattern: [a-zA-Z0-9_.,@/:#-]+ value -&gt; (string) Constraints: • max: 800 • pattern: [a-zA-Z0-9_.,@/:#=\[\]-]* merge -&gt; (boolean) Specifies whether the list of attributes provided in the AttributePayload is merged with the attributes stored in the registry, instead of overwriting them. To remove an attribute, call UpdateThing with an empty attribute value. NOTE: The merge attribute is only valid when calling UpdateThing or UpdateThingGroup . Shorthand Syntax: thingGroupDescription=string,attributePayload={attributes={KeyName1=string,KeyName2=string},merge=boolean} JSON Syntax: { "thingGroupDescription": "string", "attributePayload": { "attributes": {"string": "string" ...}, "merge": true|false } }</param>
     public AwsIotUpdateDynamicThingGroupOptions(
         string ThingGroupName,
         string ThingGroupProperties
@@ -60,13 +62,13 @@ public record AwsIotUpdateDynamicThingGroupOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the dynamic thing group to update. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The name of the dynamic thing group to update. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--thing-group-name")]
     public string? ThingGroupName { get; private init; }
 
     /// <summary>
-    /// The dynamic thing group properties to update. thingGroupDescription -&gt; (string) The thing group description. Constraints: o max: 2028 o pattern: [\p{Graph}\x20]* attributePayload -&gt; (structure) The thing group attributes in JSON format. attributes -&gt; (map) A JSON string containing up to three key-value pair in JSON format. For example: {\"attributes\":{\"string1\":\"string2\"}} key -&gt; (string) Constraints: o max: 128 o pattern: [a-zA-Z0-9_.,@/:#-]+ value -&gt; (string) Constraints: o max: 800 o pattern: [a-zA-Z0-9_.,@/:#=\[\]-]* merge -&gt; (boolean) Specifies whether the list of attributes provided in the At- tributePayload is merged with the attributes stored in the registry, instead of overwriting them. To remove an attribute, call UpdateThing with an empty at- tribute value. NOTE: The merge attribute is only valid when calling Up- dateThing or UpdateThingGroup . Shorthand Syntax: thingGroupDescription=string,attributePayload={attributes={KeyName1=string,KeyName2=string},merge=boolean} JSON Syntax: { "thingGroupDescription": "string", "attributePayload": { "attributes": {"string": "string" ...}, "merge": true|false } }
+    /// The dynamic thing group properties to update. thingGroupDescription -&gt; (string) The thing group description. Constraints: • max: 2028 • pattern: [\p{Graph}\x20]* attributePayload -&gt; (structure) The thing group attributes in JSON format. attributes -&gt; (map) A JSON string containing up to three key-value pair in JSON format. For example: {\"attributes\":{\"string1\":\"string2\"}} key -&gt; (string) Constraints: • max: 128 • pattern: [a-zA-Z0-9_.,@/:#-]+ value -&gt; (string) Constraints: • max: 800 • pattern: [a-zA-Z0-9_.,@/:#=\[\]-]* merge -&gt; (boolean) Specifies whether the list of attributes provided in the AttributePayload is merged with the attributes stored in the registry, instead of overwriting them. To remove an attribute, call UpdateThing with an empty attribute value. NOTE: The merge attribute is only valid when calling UpdateThing or UpdateThingGroup . Shorthand Syntax: thingGroupDescription=string,attributePayload={attributes={KeyName1=string,KeyName2=string},merge=boolean} JSON Syntax: { "thingGroupDescription": "string", "attributePayload": { "attributes": {"string": "string" ...}, "merge": true|false } }
     /// </summary>
     [CliOption("--thing-group-properties")]
     public string? ThingGroupProperties { get; private init; }
@@ -75,16 +77,16 @@ public record AwsIotUpdateDynamicThingGroupOptions : AwsOptions, IValidatableObj
     /// The expected version of the dynamic thing group to update.
     /// </summary>
     [CliOption("--expected-version")]
-    public int? ExpectedVersion { get; set; }
+    public long? ExpectedVersion { get; set; }
 
     /// <summary>
-    /// The dynamic thing group index to update. NOTE: Currently one index is supported: AWS_Things . Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The dynamic thing group index to update. NOTE: Currently one index is supported: AWS_Things . Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--index-name")]
     public string? IndexName { get; set; }
 
     /// <summary>
-    /// The dynamic thing group search query string to update. Constraints: o min: 1
+    /// The dynamic thing group search query string to update. Constraints: • min: 1
     /// </summary>
     [CliOption("--query-string")]
     public string? QueryString { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The UpdateHITTypeOfHIT operation allows you to change the HITType prop- erties of a HIT. This operation disassociates the HIT from its old HIT- Type properties and associates it with the new HITType properties. The HIT takes on the properties of the new HITType in place of the old ones. See also: AWS API Documentation
+/// The UpdateHITTypeOfHIT operation allows you to change the HITType properties of a HIT. This operation disassociates the HIT from its old HITType properties and associates it with the new HITType properties. The HIT takes on the properties of the new HITType in place of the old ones. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsMturkUpdateHitTypeOfHitOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The UpdateHITTypeOfHIT operation allows you to change the HITType prop- erties of a HIT. This operation disassociates the HIT from its old HIT- Type properties and associates it with the new HITType properties. The HIT takes on the properties of the new HITType in place of the old ones. See also: AWS API Documentation
+    /// The UpdateHITTypeOfHIT operation allows you to change the HITType properties of a HIT. This operation disassociates the HIT from its old HITType properties and associates it with the new HITType properties. The HIT takes on the properties of the new HITType in place of the old ones. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HitId">The HIT to update. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$</param>
-    /// <param name="HitTypeId">The ID of the new HIT type. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$</param>
+    /// <param name="HitId">The HIT to update. Constraints: • min: 1 • max: 64 • pattern: ^[A-Z0-9]+$</param>
+    /// <param name="HitTypeId">The ID of the new HIT type. Constraints: • min: 1 • max: 64 • pattern: ^[A-Z0-9]+$</param>
     public AwsMturkUpdateHitTypeOfHitOptions(
         string HitId,
         string HitTypeId
@@ -60,13 +62,13 @@ public record AwsMturkUpdateHitTypeOfHitOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The HIT to update. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$
+    /// The HIT to update. Constraints: • min: 1 • max: 64 • pattern: ^[A-Z0-9]+$
     /// </summary>
     [CliOption("--hit-id")]
     public string? HitId { get; private init; }
 
     /// <summary>
-    /// The ID of the new HIT type. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$
+    /// The ID of the new HIT type. Constraints: • min: 1 • max: 64 • pattern: ^[A-Z0-9]+$
     /// </summary>
     [CliOption("--hit-type-id")]
     public string? HitTypeId { get; private init; }

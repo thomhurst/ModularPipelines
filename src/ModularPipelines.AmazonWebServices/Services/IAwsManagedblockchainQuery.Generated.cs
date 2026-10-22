@@ -13,7 +13,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws managedblockchainquery commands.
+/// aws managedblockchain-query commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,24 +22,22 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsManagedblockchainQuery
 {
     /// <summary>
-    /// Gets the token balance for a batch of tokens by using the BatchGetTo- kenBalance action for every token in the request. NOTE: Only the native tokens BTC and ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported. See also: AWS API Documentation
+    /// Gets the token balance for a batch of tokens by using the BatchGetTokenBalance action for every token in the request. NOTE: Only the native tokens BTC and ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetTokenBalanceAsync(AwsManagedblockchainQueryBatchGetTokenBalanceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetTokenBalanceAsync(AwsManagedblockchainQueryBatchGetTokenBalanceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets the information about a specific contract deployed on the blockchain. NOTE: o The Bitcoin blockchain networks do not support this operation. o Metadata is currently only available for some ERC-20 contracts. Metadata will be available for additional contracts in the future. See also: AWS API Documentation
+    /// Gets the information about a specific contract deployed on the blockchain. NOTE: • The Bitcoin blockchain networks do not support this operation. • Metadata is currently only available for some ERC-20 contracts. Metadata will be available for additional contracts in the future. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAssetContractAsync(AwsManagedblockchainQueryGetAssetContractOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAssetContractAsync(AwsManagedblockchainQueryGetAssetContractOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the balance of a specific token, including native tokens, for a given address (wallet or contract) on the blockchain. NOTE: Only the native tokens BTC and ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsManagedblockchainQuery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTokenBalanceAsync(AwsManagedblockchainQueryGetTokenBalanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTokenBalanceAsync(AwsManagedblockchainQueryGetTokenBalanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the details of a transaction. NOTE: This action will return transaction details for all transactions that are confirmed on the blockchain, even if they have not reached finality . See also: AWS API Documentation
@@ -58,38 +55,34 @@ public interface IAwsManagedblockchainQuery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTransactionAsync(AwsManagedblockchainQueryGetTransactionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTransactionAsync(AwsManagedblockchainQueryGetTransactionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists all the contracts for a given contract type deployed by an ad- dress (either a contract address or a wallet address). The Bitcoin blockchain networks do not support this operation. See also: AWS API Documentation list-asset-contracts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the -...
+    /// Lists all the contracts for a given contract type deployed by an address (either a contract address or a wallet address). The Bitcoin blockchain networks do not support this operation. See also: AWS API Documentation list-asset-contracts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --q...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAssetContractsAsync(AwsManagedblockchainQueryListAssetContractsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAssetContractsAsync(AwsManagedblockchainQueryListAssetContractsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists all the transaction events for an address on the blockchain. NOTE: This operation is only supported on the Bitcoin networks. See also: AWS API Documentation list-filtered-transaction-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from t...
+    /// Lists all the transaction events for an address on the blockchain. NOTE: This operation is only supported on the Bitcoin networks. See also: AWS API Documentation list-filtered-transaction-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the r...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFilteredTransactionEventsAsync(AwsManagedblockchainQueryListFilteredTransactionEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFilteredTransactionEventsAsync(AwsManagedblockchainQueryListFilteredTransactionEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This action returns the following for a given blockchain network: o Lists all token balances owned by an address (either a contract ad- dress or a wallet address). o Lists all token balances for all tokens created by a contract. o Lists all token balances for a given token. NOTE: You must always specify the network property of the tokenFilter when using this operation. See also: AWS API Documentation list-token-balances is a paginated operation. Multiple API calls may be issued in order to retri...
+    /// This action returns the following for a given blockchain network: • Lists all token balances owned by an address (either a contract address or a wallet address). • Lists all token balances for all tokens created by a contract. • Lists all token balances for a given token. NOTE: You must always specify the network property of the tokenFilter when using this operation. See also: AWS API Documentation list-token-balances is a paginated operation. Multiple API calls may be issued in order to retriev...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTokenBalancesAsync(AwsManagedblockchainQueryListTokenBalancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTokenBalancesAsync(AwsManagedblockchainQueryListTokenBalancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the transaction events for a transaction NOTE: This action will return transaction details for all transactions that are confirmed on the blockchain, even if they have not reached finality . See also: AWS API Documentation list-transaction-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginate...
@@ -98,8 +91,7 @@ public interface IAwsManagedblockchainQuery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTransactionEventsAsync(AwsManagedblockchainQueryListTransactionEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTransactionEventsAsync(AwsManagedblockchainQueryListTransactionEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the transaction events for a transaction. See also: AWS API Documentation list-transactions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: transactions
@@ -108,7 +100,6 @@ public interface IAwsManagedblockchainQuery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTransactionsAsync(AwsManagedblockchainQueryListTransactionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTransactionsAsync(AwsManagedblockchainQueryListTransactionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

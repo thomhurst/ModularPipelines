@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsCustomerProfilesGetCalculatedAttributeForProfileOptions : AwsOp
     /// <summary>
     /// Retrieve a calculated attribute for a customer profile. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="ProfileId">The unique identifier of a customer profile. Constraints: o pattern: [a-f0-9]{32}</param>
-    /// <param name="CalculatedAttributeName">The unique name of the calculated attribute. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$</param>
+    /// <param name="DomainName">The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="ProfileId">The unique identifier of a customer profile. Constraints: • pattern: [a-f0-9]{32}</param>
+    /// <param name="CalculatedAttributeName">The unique name of the calculated attribute. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$</param>
     public AwsCustomerProfilesGetCalculatedAttributeForProfileOptions(
         string DomainName,
         string ProfileId,
@@ -64,19 +66,19 @@ public record AwsCustomerProfilesGetCalculatedAttributeForProfileOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The unique identifier of a customer profile. Constraints: o pattern: [a-f0-9]{32}
+    /// The unique identifier of a customer profile. Constraints: • pattern: [a-f0-9]{32}
     /// </summary>
     [CliOption("--profile-id")]
     public string? ProfileId { get; private init; }
 
     /// <summary>
-    /// The unique name of the calculated attribute. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$
+    /// The unique name of the calculated attribute. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$
     /// </summary>
     [CliOption("--calculated-attribute-name")]
     public string? CalculatedAttributeName { get; private init; }

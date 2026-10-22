@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAccountPutAccountNameOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the account name of the specified account. To use this API, IAM principals must have the account:PutAccountName IAM permission. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountName">The name of the account. Constraints: o min: 1 o max: 50 o pattern: [ -;=?-~]+</param>
+    /// <param name="AccountName">The name of the account. Constraints: • min: 1 • max: 50 • pattern: [ -;=?-~]+</param>
     public AwsAccountPutAccountNameOptions(
         string AccountName
     )
@@ -56,13 +58,13 @@ public record AwsAccountPutAccountNameOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the account. Constraints: o min: 1 o max: 50 o pattern: [ -;=?-~]+
+    /// The name of the account. Constraints: • min: 1 • max: 50 • pattern: [ -;=?-~]+
     /// </summary>
     [CliOption("--account-name")]
     public string? AccountName { get; private init; }
 
     /// <summary>
-    /// Specifies the 12 digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator ac- count, and the specified account ID must be a member account in the same organization. The organization must have all features enabled , and the organization must have trusted access enabled for the Ac- count Management service, and optionally a delegated administrator account assigned. NOTE: The management account can't specify its own AccountId ; it must call the operation in standalone context by not including the AccountId parameter. To call this operation on an account that is not a member of an or- ganization, then don't specify this parameter, and call the opera- tion using an identity belonging to the account whose contacts you wish to retrieve or modify. Constraints: o pattern: \d{12}
+    /// Specifies the 12 digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account, and the specified account ID must be a member account in the same organization. The organization must have all features enabled , and the organization must have trusted access enabled for the Account Management service, and optionally a delegated administrator account assigned. NOTE: The management account can't specify its own AccountId ; it must call the operation in standalone context by not including the AccountId parameter. To call this operation on an account that is not a member of an organization, then don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify. Constraints: • pattern: \d{12}
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }

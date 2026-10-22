@@ -62,7 +62,7 @@ public class AwsKafka : IAwsKafka
     }
 
     /// <summary>
-    /// Creates a Channel that streams records from an Amazon MSK Express clus- ter topic to Amazon S3 or Apache Iceberg. See also: AWS API Documentation
+    /// Creates a Channel that streams records from an Amazon MSK Express cluster topic to Amazon S3 or Apache Iceberg. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsKafka : IAwsKafka
     }
 
     /// <summary>
-    /// Returns partition details of this topic on a MSK cluster. See also: AWS API Documentation describe-topic-partitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Partitions
+    /// Returns partition details of this topic on a MSK cluster. See also: AWS API Documentation describe-topic-partitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Partitions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsKafka : IAwsKafka
     }
 
     /// <summary>
-    /// Returns a list of all the VPC connections in this Region. See also: AWS API Documentation list-client-vpc-connections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ClientVpcConnections
+    /// Returns a list of all the VPC connections in this Region. See also: AWS API Documentation list-client-vpc-connections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ClientVpcConnections
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -512,7 +512,7 @@ public class AwsKafka : IAwsKafka
     }
 
     /// <summary>
-    /// Returns a list of all the operations that have been performed on the specified MSK cluster. See also: AWS API Documentation list-cluster-operations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Clu...
+    /// Returns a list of all the operations that have been performed on the specified MSK cluster. See also: AWS API Documentation list-cluster-operations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Clust...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsKafka : IAwsKafka
     }
 
     /// <summary>
-    /// Returns a list of all the operations that have been performed on the specified MSK cluster. See also: AWS API Documentation list-cluster-operations-v2 is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ...
+    /// Returns a list of all the operations that have been performed on the specified MSK cluster. See also: AWS API Documentation list-cluster-operations-v2 is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Cl...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsKafka : IAwsKafka
     }
 
     /// <summary>
-    /// Returns a list of all the MSK clusters in the current Region. See also: AWS API Documentation list-clusters is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ClusterInfoList
+    /// Returns a list of all the MSK clusters in the current Region. See also: AWS API Documentation list-clusters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ClusterInfoList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsKafka : IAwsKafka
     }
 
     /// <summary>
-    /// Returns a list of all the MSK configurations in this Region. See also: AWS API Documentation list-configuration-revisions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Revisions
+    /// Returns a list of all the MSK configurations in this Region. See also: AWS API Documentation list-configuration-revisions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Revisions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +617,7 @@ public class AwsKafka : IAwsKafka
     }
 
     /// <summary>
-    /// Returns a list of the broker nodes in the cluster. See also: AWS API Documentation list-nodes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: NodeInfoList
+    /// Returns a list of the broker nodes in the cluster. See also: AWS API Documentation list-nodes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: NodeInfoList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +647,7 @@ public class AwsKafka : IAwsKafka
     }
 
     /// <summary>
-    /// Returns a list of the Scram Secrets associated with an Amazon MSK clus- ter. See also: AWS API Documentation list-scram-secrets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SecretArnList
+    /// Returns a list of the Scram Secrets associated with an Amazon MSK cluster. See also: AWS API Documentation list-scram-secrets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SecretArnList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -677,7 +677,7 @@ public class AwsKafka : IAwsKafka
     }
 
     /// <summary>
-    /// List topics in a MSK cluster. See also: AWS API Documentation list-topics is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Topics
+    /// List topics in a MSK cluster. See also: AWS API Documentation list-topics is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Topics
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -707,7 +707,7 @@ public class AwsKafka : IAwsKafka
     }
 
     /// <summary>
-    /// Creates or updates the MSK cluster policy specified by the cluster Ama- zon Resource Name (ARN) in the request. See also: AWS API Documentation
+    /// Creates or updates the MSK cluster policy specified by the cluster Amazon Resource Name (ARN) in the request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -827,7 +827,7 @@ public class AwsKafka : IAwsKafka
     }
 
     /// <summary>
-    /// Updates the destination configuration of an existing channel. Exactly one of icebergDestinationUpdate or s3DestinationUpdate must be sup- plied. See also: AWS API Documentation
+    /// Updates the destination configuration of an existing channel. Exactly one of icebergDestinationUpdate or s3DestinationUpdate must be supplied. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -842,7 +842,7 @@ public class AwsKafka : IAwsKafka
     }
 
     /// <summary>
-    /// Updates the cluster with the configuration that is specified in the re- quest body. See also: AWS API Documentation
+    /// Updates the cluster with the configuration that is specified in the request body. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -902,7 +902,7 @@ public class AwsKafka : IAwsKafka
     }
 
     /// <summary>
-    /// Updates the monitoring settings for the cluster. You can use this oper- ation to specify which Apache Kafka metrics you want Amazon MSK to send to Amazon CloudWatch. You can also specify settings for open monitoring with Prometheus. See also: AWS API Documentation
+    /// Updates the monitoring settings for the cluster. You can use this operation to specify which Apache Kafka metrics you want Amazon MSK to send to Amazon CloudWatch. You can also specify settings for open monitoring with Prometheus. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -947,7 +947,7 @@ public class AwsKafka : IAwsKafka
     }
 
     /// <summary>
-    /// Updates the security settings for the cluster. You can use this opera- tion to specify encryption and authentication on existing clusters. See also: AWS API Documentation
+    /// Updates the security settings for the cluster. You can use this operation to specify encryption and authentication on existing clusters. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

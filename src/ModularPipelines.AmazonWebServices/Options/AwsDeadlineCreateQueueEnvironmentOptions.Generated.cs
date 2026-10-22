@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,11 +31,11 @@ public record AwsDeadlineCreateQueueEnvironmentOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Creates an environment for a queue that defines how jobs in the queue run. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The farm ID of the farm to connect to the environment. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="QueueId">The queue ID to connect the queue and environment. Constraints: o pattern: queue-[0-9a-f]{32}</param>
-    /// <param name="Priority">Sets the priority of the environments in the queue from 0 to 10,000, where 0 is the highest priority (activated first and deactivated last). If two environments share the same priority value, the envi- ronment created first takes higher priority. Constraints: o min: 0 o max: 10000</param>
-    /// <param name="TemplateType">The template's file type, JSON or YAML . Possible values: o JSON o YAML</param>
-    /// <param name="Template">The environment template to use in the queue. Constraints: o min: 1 o max: 15000</param>
+    /// <param name="FarmId">The farm ID of the farm to connect to the environment. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="QueueId">The queue ID to connect the queue and environment. Constraints: • pattern: queue-[0-9a-f]{32}</param>
+    /// <param name="Priority">Sets the priority of the environments in the queue from 0 to 10,000, where 0 is the highest priority (activated first and deactivated last). If two environments share the same priority value, the environment created first takes higher priority. Constraints: • min: 0 • max: 10000</param>
+    /// <param name="TemplateType">The template's file type, JSON or YAML . Possible values: • JSON • YAML</param>
+    /// <param name="Template">The environment template to use in the queue. Constraints: • min: 1 • max: 15000</param>
     public AwsDeadlineCreateQueueEnvironmentOptions(
         string FarmId,
         string QueueId,
@@ -72,37 +74,37 @@ public record AwsDeadlineCreateQueueEnvironmentOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID of the farm to connect to the environment. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID of the farm to connect to the environment. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The queue ID to connect the queue and environment. Constraints: o pattern: queue-[0-9a-f]{32}
+    /// The queue ID to connect the queue and environment. Constraints: • pattern: queue-[0-9a-f]{32}
     /// </summary>
     [CliOption("--queue-id")]
     public string? QueueId { get; private init; }
 
     /// <summary>
-    /// Sets the priority of the environments in the queue from 0 to 10,000, where 0 is the highest priority (activated first and deactivated last). If two environments share the same priority value, the envi- ronment created first takes higher priority. Constraints: o min: 0 o max: 10000
+    /// Sets the priority of the environments in the queue from 0 to 10,000, where 0 is the highest priority (activated first and deactivated last). If two environments share the same priority value, the environment created first takes higher priority. Constraints: • min: 0 • max: 10000
     /// </summary>
     [CliOption("--priority")]
     public int? Priority { get; private init; }
 
     /// <summary>
-    /// The template's file type, JSON or YAML . Possible values: o JSON o YAML
+    /// The template's file type, JSON or YAML . Possible values: • JSON • YAML
     /// </summary>
     [CliOption("--template-type")]
     public AwsDeadlineCreateQueueEnvironmentTemplateType? TemplateType { get; private init; }
 
     /// <summary>
-    /// The environment template to use in the queue. Constraints: o min: 1 o max: 15000
+    /// The environment template to use in the queue. Constraints: • min: 1 • max: 15000
     /// </summary>
     [CliOption("--template")]
     public string? Template { get; private init; }
 
     /// <summary>
-    /// The unique token which the server uses to recognize retries of the same request. Constraints: o min: 1 o max: 64
+    /// The unique token which the server uses to recognize retries of the same request. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

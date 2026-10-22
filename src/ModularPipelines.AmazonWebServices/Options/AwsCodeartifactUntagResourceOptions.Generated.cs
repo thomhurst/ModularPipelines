@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCodeartifactUntagResourceOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Removes tags from a resource in CodeArtifact. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource that you want to re- move tags from. Constraints: o min: 1 o max: 1011 o pattern: \S+</param>
-    /// <param name="TagKeys">The tag key for each tag that you want to remove from the resource. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: \P{C}+ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource that you want to remove tags from. Constraints: • min: 1 • max: 1011 • pattern: \S+</param>
+    /// <param name="TagKeys">The tag key for each tag that you want to remove from the resource. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 • pattern: \P{C}+ Syntax: "string" "string" ...</param>
     public AwsCodeartifactUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsCodeartifactUntagResourceOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource that you want to re- move tags from. Constraints: o min: 1 o max: 1011 o pattern: \S+
+    /// The Amazon Resource Name (ARN) of the resource that you want to remove tags from. Constraints: • min: 1 • max: 1011 • pattern: \S+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The tag key for each tag that you want to remove from the resource. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: \P{C}+ Syntax: "string" "string" ...
+    /// The tag key for each tag that you want to remove from the resource. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 • pattern: \P{C}+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

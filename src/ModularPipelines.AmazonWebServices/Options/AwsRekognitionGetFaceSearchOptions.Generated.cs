@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +31,7 @@ public record AwsRekognitionGetFaceSearchOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Gets the face search results for Amazon Rekognition Video face search started by StartFaceSearch . The search returns faces in a collection that match the faces of persons detected in a video. It also includes the time(s) that faces are matched in the video. Face search in a video is an asynchronous operation. You start face search by calling to StartFaceSearch which returns a job identifier (JobId ). When the search operation finishes, Amazon Rekognition Video publishes a completion status to t...
     /// </summary>
-    /// <param name="JobId">The job identifer for the search request. You get the job identifier from an initial call to StartFaceSearch . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$</param>
+    /// <param name="JobId">The job identifer for the search request. You get the job identifier from an initial call to StartFaceSearch . Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$</param>
     public AwsRekognitionGetFaceSearchOptions(
         string JobId
     )
@@ -58,26 +60,26 @@ public record AwsRekognitionGetFaceSearchOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The job identifer for the search request. You get the job identifier from an initial call to StartFaceSearch . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
+    /// The job identifer for the search request. You get the job identifier from an initial call to StartFaceSearch . Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// Maximum number of results to return per paginated call. The largest value you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000 results is returned. The default value is 1000. Constraints: o min: 1
+    /// Maximum number of results to return per paginated call. The largest value you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000 results is returned. The default value is 1000. Constraints: • min: 1
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If the previous response was incomplete (because there is more search results to retrieve), Amazon Rekognition Video returns a pag- ination token in the response. You can use this pagination token to retrieve the next set of search results. Constraints: o max: 255
+    /// If the previous response was incomplete (because there is more search results to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of search results. Constraints: • max: 255
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Sort to use for grouping faces in the response. Use TIMESTAMP to group faces by the time that they are recognized. Use INDEX to sort by recognized faces. Possible values: o INDEX o TIMESTAMP
+    /// Sort to use for grouping faces in the response. Use TIMESTAMP to group faces by the time that they are recognized. Use INDEX to sort by recognized faces. Possible values: • INDEX • TIMESTAMP
     /// </summary>
     [CliOption("--sort-by")]
     public AwsRekognitionGetFaceSearchSortBy? SortBy { get; set; }

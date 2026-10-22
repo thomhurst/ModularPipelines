@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables all features in an organization. This enables the use of orga- nization policies that can restrict the services and actions that can be called in each account. Until you enable all features, you have ac- cess only to consolidated billing, and you can't use any of the ad- vanced account administration features that Organizations supports. For more information, see Enabling all features in your organization in the Organizations User Guide . WARNING: This operation is required only for orga...
+/// Enables all features in an organization. This enables the use of organization policies that can restrict the services and actions that can be called in each account. Until you enable all features, you have access only to consolidated billing, and you can't use any of the advanced account administration features that Organizations supports. For more information, see Enabling all features in your organization in the Organizations User Guide . WARNING: This operation is required only for organizati...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

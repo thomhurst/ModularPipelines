@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Marks a rollout as complete, indicating that no further turns will be appended to the trajectory. After calling this operation, the trajec- tory is sealed and eligible for reward submission via the UpdateReward operation. See also: AWS API Documentation
+/// Marks a rollout as complete, indicating that no further turns will be appended to the trajectory. After calling this operation, the trajectory is sealed and eligible for reward submission via the UpdateReward operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +29,10 @@ public record AwsSagemakerjobruntimeCompleteRolloutOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Marks a rollout as complete, indicating that no further turns will be appended to the trajectory. After calling this operation, the trajec- tory is sealed and eligible for reward submission via the UpdateReward operation. See also: AWS API Documentation
+    /// Marks a rollout as complete, indicating that no further turns will be appended to the trajectory. After calling this operation, the trajectory is sealed and eligible for reward submission via the UpdateReward operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobArn">The job ARN. Constraints: o min: 1 o max: 256 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:job/[a-zA-Z0-9_\-]+/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
-    /// <param name="TrajectoryId">The trajectory ID to mark as complete. Constraints: o min: 1 o max: 256</param>
+    /// <param name="JobArn">The job ARN. Constraints: • min: 1 • max: 256 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:job/[a-zA-Z0-9_\-]+/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="TrajectoryId">The trajectory ID to mark as complete. Constraints: • min: 1 • max: 256</param>
     public AwsSagemakerjobruntimeCompleteRolloutOptions(
         string JobArn,
         string TrajectoryId
@@ -62,19 +64,19 @@ public record AwsSagemakerjobruntimeCompleteRolloutOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The job ARN. Constraints: o min: 1 o max: 256 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:job/[a-zA-Z0-9_\-]+/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The job ARN. Constraints: • min: 1 • max: 256 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:job/[a-zA-Z0-9_\-]+/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--job-arn")]
     public string? JobArn { get; private init; }
 
     /// <summary>
-    /// The trajectory ID to mark as complete. Constraints: o min: 1 o max: 256
+    /// The trajectory ID to mark as complete. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--trajectory-id")]
     public string? TrajectoryId { get; private init; }
 
     /// <summary>
-    /// The target status for the trajectory. Defaults to READY if not spec- ified. Set to FAILED if the rollout encountered an error and the trajectory should not be used for processing. Possible values: o ready o failed
+    /// The target status for the trajectory. Defaults to READY if not specified. Set to FAILED if the rollout encountered an error and the trajectory should not be used for processing. Possible values: • ready • failed
     /// </summary>
     [CliOption("--status")]
     public AwsSagemakerjobruntimeCompleteRolloutStatus? Status { get; set; }

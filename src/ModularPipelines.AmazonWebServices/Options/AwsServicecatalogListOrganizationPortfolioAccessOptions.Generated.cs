@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the organization nodes that have access to the specified portfo- lio. This API can only be called by the management account in the orga- nization or by a delegated admin. If a delegated admin is de-registered, they can no longer perform this operation. See also: AWS API Documentation list-organization-portfolio-access is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate ar...
+/// Lists the organization nodes that have access to the specified portfolio. This API can only be called by the management account in the organization or by a delegated admin. If a delegated admin is de-registered, they can no longer perform this operation. See also: AWS API Documentation list-organization-portfolio-access is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +29,10 @@ public record AwsServicecatalogListOrganizationPortfolioAccessOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the organization nodes that have access to the specified portfo- lio. This API can only be called by the management account in the orga- nization or by a delegated admin. If a delegated admin is de-registered, they can no longer perform this operation. See also: AWS API Documentation list-organization-portfolio-access is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate ar...
+    /// Lists the organization nodes that have access to the specified portfolio. This API can only be called by the management account in the organization or by a delegated admin. If a delegated admin is de-registered, they can no longer perform this operation. See also: AWS API Documentation list-organization-portfolio-access is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument...
     /// </summary>
-    /// <param name="PortfolioId">The portfolio identifier. For example, port-2abcdext3y5fk . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
-    /// <param name="OrganizationNodeType">The organization node type that will be returned in the output. o ORGANIZATION - Organization that has access to the portfolio. o ORGANIZATIONAL_UNIT - Organizational unit that has access to the portfolio within your organization. o ACCOUNT - Account that has access to the portfolio within your or- ganization. Possible values: o ORGANIZATION o ORGANIZATIONAL_UNIT o ACCOUNT</param>
+    /// <param name="PortfolioId">The portfolio identifier. For example, port-2abcdext3y5fk . Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="OrganizationNodeType">The organization node type that will be returned in the output. • ORGANIZATION - Organization that has access to the portfolio. • ORGANIZATIONAL_UNIT - Organizational unit that has access to the portfolio within your organization. • ACCOUNT - Account that has access to the portfolio within your organization. Possible values: • ORGANIZATION • ORGANIZATIONAL_UNIT • ACCOUNT</param>
     public AwsServicecatalogListOrganizationPortfolioAccessOptions(
         string PortfolioId,
         AwsServicecatalogListOrganizationPortfolioAccessOrganizationNodeType OrganizationNodeType
@@ -61,34 +63,31 @@ public record AwsServicecatalogListOrganizationPortfolioAccessOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The portfolio identifier. For example, port-2abcdext3y5fk . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The portfolio identifier. For example, port-2abcdext3y5fk . Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--portfolio-id")]
     public string? PortfolioId { get; private init; }
 
     /// <summary>
-    /// The organization node type that will be returned in the output. o ORGANIZATION - Organization that has access to the portfolio. o ORGANIZATIONAL_UNIT - Organizational unit that has access to the portfolio within your organization. o ACCOUNT - Account that has access to the portfolio within your or- ganization. Possible values: o ORGANIZATION o ORGANIZATIONAL_UNIT o ACCOUNT
+    /// The organization node type that will be returned in the output. • ORGANIZATION - Organization that has access to the portfolio. • ORGANIZATIONAL_UNIT - Organizational unit that has access to the portfolio within your organization. • ACCOUNT - Account that has access to the portfolio within your organization. Possible values: • ORGANIZATION • ORGANIZATIONAL_UNIT • ACCOUNT
     /// </summary>
     [CliOption("--organization-node-type")]
     public AwsServicecatalogListOrganizationPortfolioAccessOrganizationNodeType? OrganizationNodeType { get; private init; }
 
     /// <summary>
-    /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
+    /// The language code. • jp - Japanese • zh - Chinese Constraints: • max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 0 o max: 20
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 0 • max: 20
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -98,10 +97,13 @@ public record AwsServicecatalogListOrganizationPortfolioAccessOptions : AwsOptio
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

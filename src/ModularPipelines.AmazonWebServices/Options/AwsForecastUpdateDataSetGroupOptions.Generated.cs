@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsForecastUpdateDataSetGroupOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Replaces the datasets in a dataset group with the specified datasets. NOTE: The Status of the dataset group must be ACTIVE before you can use the dataset group to create a predictor. Use the DescribeDatasetGroup operation to get the status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSetGroupArn">The ARN of the dataset group. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
-    /// <param name="DataSetArns">An array of the Amazon Resource Names (ARNs) of the datasets to add to the dataset group. (string) Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+ Syntax: "string" "string" ...</param>
+    /// <param name="DataSetGroupArn">The ARN of the dataset group. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    /// <param name="DataSetArns">An array of the Amazon Resource Names (ARNs) of the datasets to add to the dataset group. (string) Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+ Syntax: "string" "string" ...</param>
     public AwsForecastUpdateDataSetGroupOptions(
         string DataSetGroupArn,
         IEnumerable<string> DataSetArns
@@ -71,13 +73,13 @@ public record AwsForecastUpdateDataSetGroupOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the dataset group. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// The ARN of the dataset group. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
     /// </summary>
     [CliOption("--dataset-group-arn")]
     public string? DataSetGroupArn { get; private init; }
 
     /// <summary>
-    /// An array of the Amazon Resource Names (ARNs) of the datasets to add to the dataset group. (string) Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+ Syntax: "string" "string" ...
+    /// An array of the Amazon Resource Names (ARNs) of the datasets to add to the dataset group. (string) Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--dataset-arns", GroupValues = true)]
     public IEnumerable<string>? DataSetArns { get; private init; }

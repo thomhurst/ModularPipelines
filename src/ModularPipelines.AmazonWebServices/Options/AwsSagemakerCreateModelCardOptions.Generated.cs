@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +30,9 @@ public record AwsSagemakerCreateModelCardOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Creates an Amazon SageMaker Model Card. For information about how to use model cards, see Amazon SageMaker Model Card . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ModelCardName">The unique name of the model card. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
-    /// <param name="Content">The content of the model card. Content must be in model card JSON schema and provided as a string. Constraints: o min: 0 o max: 100000 o pattern: .*</param>
-    /// <param name="ModelCardStatus">The approval status of the model card within your organization. Dif- ferent organizations might have different criteria for model card review and approval. o Draft : The model card is a work in progress. o PendingReview : The model card is pending review. o Approved : The model card is approved. o Archived : The model card is archived. No more updates should be made to the model card, but it can still be exported. Possible values: o Draft o PendingReview o Approved o Archived</param>
+    /// <param name="ModelCardName">The unique name of the model card. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="Content">The content of the model card. Content must be in model card JSON schema and provided as a string. Constraints: • min: 0 • max: 100000 • pattern: .*</param>
+    /// <param name="ModelCardStatus">The approval status of the model card within your organization. Different organizations might have different criteria for model card review and approval. • Draft : The model card is a work in progress. • PendingReview : The model card is pending review. • Approved : The model card is approved. • Archived : The model card is archived. No more updates should be made to the model card, but it can still be exported. Possible values: • Draft • PendingReview • Approved • Archived</param>
     public AwsSagemakerCreateModelCardOptions(
         string ModelCardName,
         string Content,
@@ -64,31 +66,31 @@ public record AwsSagemakerCreateModelCardOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the model card. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The unique name of the model card. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--model-card-name")]
     public string? ModelCardName { get; private init; }
 
     /// <summary>
-    /// The content of the model card. Content must be in model card JSON schema and provided as a string. Constraints: o min: 0 o max: 100000 o pattern: .*
+    /// The content of the model card. Content must be in model card JSON schema and provided as a string. Constraints: • min: 0 • max: 100000 • pattern: .*
     /// </summary>
     [CliOption("--content")]
     public string? Content { get; private init; }
 
     /// <summary>
-    /// The approval status of the model card within your organization. Dif- ferent organizations might have different criteria for model card review and approval. o Draft : The model card is a work in progress. o PendingReview : The model card is pending review. o Approved : The model card is approved. o Archived : The model card is archived. No more updates should be made to the model card, but it can still be exported. Possible values: o Draft o PendingReview o Approved o Archived
+    /// The approval status of the model card within your organization. Different organizations might have different criteria for model card review and approval. • Draft : The model card is a work in progress. • PendingReview : The model card is pending review. • Approved : The model card is approved. • Archived : The model card is archived. No more updates should be made to the model card, but it can still be exported. Possible values: • Draft • PendingReview • Approved • Archived
     /// </summary>
     [CliOption("--model-card-status")]
     public AwsSagemakerCreateModelCardModelCardStatus? ModelCardStatus { get; private init; }
 
     /// <summary>
-    /// An optional Key Management Service key to encrypt, decrypt, and re-encrypt model card content for regulated workloads with highly sensitive data. KmsKeyId -&gt; (string) A Key Management Service key ID to use for encrypting a model card. Constraints: o min: 0 o max: 2048 o pattern: [a-zA-Z0-9:/_-]* Shorthand Syntax: KmsKeyId=string JSON Syntax: { "KmsKeyId": "string" }
+    /// An optional Key Management Service key to encrypt, decrypt, and re-encrypt model card content for regulated workloads with highly sensitive data. KmsKeyId -&gt; (string) A Key Management Service key ID to use for encrypting a model card. Constraints: • min: 0 • max: 2048 • pattern: [a-zA-Z0-9:/_-]* Shorthand Syntax: KmsKeyId=string JSON Syntax: { "KmsKeyId": "string" }
     /// </summary>
     [CliOption("--security-config")]
     public string? SecurityConfig { get; set; }
 
     /// <summary>
-    /// Key-value pairs used to manage metadata for model cards. Constraints: o min: 0 o max: 50 (structure) A tag object that consists of a key and an optional value, used to manage metadata for SageMaker Amazon Web Services resources. You can add tags to notebook instances, training jobs, hyperpa- rameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. For more information on adding tags to SageMaker resources, see AddTags . For more information on adding metadata to your Amazon Web Ser- vices resources with tagging, see Tagging Amazon Web Services resources . For advice on best practices for managing Amazon Web Services resources with tagging, see Tagging Best Practices: Im- plement an Effective Amazon Web Services Resource Tagging Strat- egy . Key -&gt; (string) [required] The tag key. Tag keys must be unique per resource. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Key-value pairs used to manage metadata for model cards. Constraints: • min: 0 • max: 50 (structure) A tag object that consists of a key and an optional value, used to manage metadata for SageMaker Amazon Web Services resources. You can add tags to notebook instances, training jobs, hyperparameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. For more information on adding tags to SageMaker resources, see AddTags . For more information on adding metadata to your Amazon Web Services resources with tagging, see Tagging Amazon Web Services resources . For advice on best practices for managing Amazon Web Services resources with tagging, see Tagging Best Practices: Implement an Effective Amazon Web Services Resource Tagging Strategy . Key -&gt; (string) [required] The tag key. Tag keys must be unique per resource. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

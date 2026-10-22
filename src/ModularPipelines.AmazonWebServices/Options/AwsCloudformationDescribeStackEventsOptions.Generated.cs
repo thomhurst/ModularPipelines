@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns all stack related events for a specified stack in reverse chronological order. For more information about a stack's event his- tory, see Understand CloudFormation stack creation events in the Cloud- Formation User Guide . NOTE: You can list events for stacks that have failed to create or have been deleted by specifying the unique stack identifier (stack ID). See also: AWS API Documentation describe-stack-events is a paginated operation. Multiple API calls may be issued in order to retrie...
+/// Returns all stack related events for a specified stack in reverse chronological order. For more information about a stack's event history, see Understand CloudFormation stack creation events in the CloudFormation User Guide . NOTE: You can list events for stacks that have failed to create or have been deleted by specifying the unique stack identifier (stack ID). See also: AWS API Documentation describe-stack-events is a paginated operation. Multiple API calls may be issued in order to retrieve t...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsCloudformationDescribeStackEventsOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns all stack related events for a specified stack in reverse chronological order. For more information about a stack's event his- tory, see Understand CloudFormation stack creation events in the Cloud- Formation User Guide . NOTE: You can list events for stacks that have failed to create or have been deleted by specifying the unique stack identifier (stack ID). See also: AWS API Documentation describe-stack-events is a paginated operation. Multiple API calls may be issued in order to retrie...
+    /// Returns all stack related events for a specified stack in reverse chronological order. For more information about a stack's event history, see Understand CloudFormation stack creation events in the CloudFormation User Guide . NOTE: You can list events for stacks that have failed to create or have been deleted by specifying the unique stack identifier (stack ID). See also: AWS API Documentation describe-stack-events is a paginated operation. Multiple API calls may be issued in order to retrieve t...
     /// </summary>
-    /// <param name="StackName">The name or the unique stack ID that's associated with the stack, which aren't always interchangeable: o Running stacks: You can specify either the stack's name or its unique stack ID. o Deleted stacks: You must specify the unique stack ID.</param>
+    /// <param name="StackName">The name or the unique stack ID that's associated with the stack, which aren't always interchangeable: • Running stacks: You can specify either the stack's name or its unique stack ID. • Deleted stacks: You must specify the unique stack ID.</param>
     public AwsCloudformationDescribeStackEventsOptions(
         string StackName
     )
@@ -57,16 +59,13 @@ public record AwsCloudformationDescribeStackEventsOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or the unique stack ID that's associated with the stack, which aren't always interchangeable: o Running stacks: You can specify either the stack's name or its unique stack ID. o Deleted stacks: You must specify the unique stack ID.
+    /// The name or the unique stack ID that's associated with the stack, which aren't always interchangeable: • Running stacks: You can specify either the stack's name or its unique stack ID. • Deleted stacks: You must specify the unique stack ID.
     /// </summary>
     [CliOption("--stack-name")]
     public string? StackName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -76,10 +75,13 @@ public record AwsCloudformationDescribeStackEventsOptions : AwsOptions, IValidat
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsIamAddClientIdToOpenIdConnectProviderOptions : AwsOptions, IVal
     /// <summary>
     /// Adds a new client ID (also known as audience) to the list of client IDs already registered for the specified IAM OpenID Connect (OIDC) provider resource. This operation is idempotent; it does not fail or return an error if you add an existing client ID to the provider. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OpenIdConnectProviderArn">The Amazon Resource Name (ARN) of the IAM OpenID Connect (OIDC) provider resource to add the client ID to. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders opera- tion. Constraints: o min: 20 o max: 2048</param>
-    /// <param name="ClientId">The client ID (also known as audience) to add to the IAM OpenID Con- nect provider resource. Constraints: o min: 1 o max: 255</param>
+    /// <param name="OpenIdConnectProviderArn">The Amazon Resource Name (ARN) of the IAM OpenID Connect (OIDC) provider resource to add the client ID to. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders operation. Constraints: • min: 20 • max: 2048</param>
+    /// <param name="ClientId">The client ID (also known as audience) to add to the IAM OpenID Connect provider resource. Constraints: • min: 1 • max: 255</param>
     public AwsIamAddClientIdToOpenIdConnectProviderOptions(
         string OpenIdConnectProviderArn,
         string ClientId
@@ -60,13 +62,13 @@ public record AwsIamAddClientIdToOpenIdConnectProviderOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM OpenID Connect (OIDC) provider resource to add the client ID to. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders opera- tion. Constraints: o min: 20 o max: 2048
+    /// The Amazon Resource Name (ARN) of the IAM OpenID Connect (OIDC) provider resource to add the client ID to. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders operation. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--open-id-connect-provider-arn")]
     public string? OpenIdConnectProviderArn { get; private init; }
 
     /// <summary>
-    /// The client ID (also known as audience) to add to the IAM OpenID Con- nect provider resource. Constraints: o min: 1 o max: 255
+    /// The client ID (also known as audience) to add to the IAM OpenID Connect provider resource. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--client-id")]
     public string? ClientId { get; private init; }

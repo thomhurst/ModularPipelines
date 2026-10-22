@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws licensemanager commands.
+/// aws license-manager commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsLicenseManager : IAwsLicenseManager
@@ -77,7 +77,7 @@ public class AwsLicenseManager : IAwsLicenseManager
     }
 
     /// <summary>
-    /// Checks out the specified license. NOTE: If the account that created the license is the same that is perform- ing the check out, you must specify the account as the beneficiary. See also: AWS API Documentation
+    /// Checks out the specified license. NOTE: If the account that created the license is the same that is performing the check out, you must specify the account as the beneficiary. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsLicenseManager : IAwsLicenseManager
     }
 
     /// <summary>
-    /// Creates a license configuration. A license configuration is an abstraction of a customer license agree- ment that can be consumed and enforced by License Manager. Components include specifications for the license type (licensing by instance, socket, CPU, or vCPU), allowed tenancy (shared tenancy, Dedicated In- stance, Dedicated Host, or all of these), license affinity to host (how long a license must be associated with a host), and the number of li- censes purchased and used. See also: AWS API D...
+    /// Creates a license configuration. A license configuration is an abstraction of a customer license agreement that can be consumed and enforced by License Manager. Components include specifications for the license type (licensing by instance, socket, CPU, or vCPU), allowed tenancy (shared tenancy, Dedicated Instance, Dedicated Host, or all of these), license affinity to host (how long a license must be associated with a host), and the number of licenses purchased and used. See also: AWS API Documen...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsLicenseManager : IAwsLicenseManager
     }
 
     /// <summary>
-    /// Creates a long-lived token. A refresh token is a JWT token used to get an access token. With an ac- cess token, you can call AssumeRoleWithWebIdentity to get role creden- tials that you can use to call License Manager to manage the specified license. See also: AWS API Documentation
+    /// Creates a long-lived token. A refresh token is a JWT token used to get an access token. With an access token, you can call AssumeRoleWithWebIdentity to get role credentials that you can use to call License Manager to manage the specified license. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsLicenseManager : IAwsLicenseManager
     }
 
     /// <summary>
-    /// Deletes the specified report generator. This action deletes the report generator, which stops it from generat- ing future reports. The action cannot be reversed. It has no effect on the previous reports from this generator. See also: AWS API Documentation
+    /// Deletes the specified report generator. This action deletes the report generator, which stops it from generating future reports. The action cannot be reversed. It has no effect on the previous reports from this generator. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsLicenseManager : IAwsLicenseManager
     }
 
     /// <summary>
-    /// Lists the resource associations for the specified license configura- tion. Resource associations need not consume licenses from a license configu- ration. For example, an AMI or a stopped instance might not consume a license (depending on the license rules). See also: AWS API Documentation list-associations-for-license-configuration is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi...
+    /// Lists the resource associations for the specified license configuration. Resource associations need not consume licenses from a license configuration. For example, an AMI or a stopped instance might not consume a license (depending on the license rules). See also: AWS API Documentation list-associations-for-license-configuration is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +617,7 @@ public class AwsLicenseManager : IAwsLicenseManager
     }
 
     /// <summary>
-    /// Lists the license configurations for your account. See also: AWS API Documentation list-license-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: LicenseConfigurations
+    /// Lists the license configurations for your account. See also: AWS API Documentation list-license-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: LicenseConfigurations
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,22 +662,7 @@ public class AwsLicenseManager : IAwsLicenseManager
     }
 
     /// <summary>
-    /// Lists the licenses for your account. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListLicensesAsync(
-        AwsLicenseManagerListLicensesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLicenseManagerListLicensesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Describes the license configurations for the specified resource. See also: AWS API Documentation list-license-specifications-for-resource is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: LicenseSpec...
+    /// Describes the license configurations for the specified resource. See also: AWS API Documentation list-license-specifications-for-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: LicenseSpecific...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -704,6 +689,21 @@ public class AwsLicenseManager : IAwsLicenseManager
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the licenses for your account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListLicensesAsync(
+        AwsLicenseManagerListLicensesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLicenseManagerListLicensesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -767,7 +767,7 @@ public class AwsLicenseManager : IAwsLicenseManager
     }
 
     /// <summary>
-    /// Lists resources managed using Systems Manager inventory. See also: AWS API Documentation list-resource-inventory is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ResourceInventoryList
+    /// Lists resources managed using Systems Manager inventory. See also: AWS API Documentation list-resource-inventory is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ResourceInventoryList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -812,7 +812,7 @@ public class AwsLicenseManager : IAwsLicenseManager
     }
 
     /// <summary>
-    /// Lists all license usage records for a license configuration, displaying license consumption details by resource at a selected point in time. Use this action to audit the current license consumption for any li- cense inventory and configuration. See also: AWS API Documentation list-usage-for-license-configuration is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. Wh...
+    /// Lists all license usage records for a license configuration, displaying license consumption details by resource at a selected point in time. Use this action to audit the current license consumption for any license inventory and configuration. See also: AWS API Documentation list-usage-for-license-configuration is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When usi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -842,7 +842,7 @@ public class AwsLicenseManager : IAwsLicenseManager
     }
 
     /// <summary>
-    /// Adds the specified tags to the specified resource. The following re- sources support tagging in License Manager: o Licenses o Grants o License configurations o Report generators See also: AWS API Documentation
+    /// Adds the specified tags to the specified resource. The following resources support tagging in License Manager: • Licenses • Grants • License configurations • Report generators See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -932,7 +932,7 @@ public class AwsLicenseManager : IAwsLicenseManager
     }
 
     /// <summary>
-    /// Adds or removes the specified license configurations for the specified Amazon Web Services resource. You can update the license specifications of AMIs, instances, and hosts. You cannot update the license specifications for launch tem- plates and CloudFormation templates, as they send license configura- tions to the operation that creates the resource. See also: AWS API Documentation
+    /// Adds or removes the specified license configurations for the specified Amazon Web Services resource. You can update the license specifications of AMIs, instances, and hosts. You cannot update the license specifications for launch templates and CloudFormation templates, as they send license configurations to the operation that creates the resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsResiliencehubv2UpdateServiceOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Updates an existing service. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceArn">ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}</param>
+    /// <param name="ServiceArn">ARN identifier. Constraints: • min: 31 • pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}</param>
     public AwsResiliencehubv2UpdateServiceOptions(
         string ServiceArn
     )
@@ -57,52 +59,58 @@ public record AwsResiliencehubv2UpdateServiceOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}
+    /// ARN identifier. Constraints: • min: 31 • pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}
     /// </summary>
     [CliOption("--service-arn")]
     public string? ServiceArn { get; private init; }
 
     /// <summary>
-    /// Resource description for services and policies. Constraints: o min: 0 o max: 615
+    /// Resource description for services and policies. Constraints: • min: 0 • max: 615
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The updated systems to associate with the service. Constraints: o min: 0 o max: 20 (structure) Represents a system associated with a service. systemArn -&gt; (string) [required] ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023} systemName -&gt; (string) Resource name (used in ARN no spaces allowed). Constraints: o min: 2 o max: 60 o pattern: [A-Za-z0-9][A-Za-z0-9_\-]{1,59} userJourneyIds -&gt; (list) The list of user journey identifiers that associate this sys- tem with the service. Constraints: o min: 0 o max: 20 (string) Constraints: o min: 1 o max: 255 o pattern: \S{1,255} Shorthand Syntax: systemArn=string,systemName=string,userJourneyIds=string,string ... JSON Syntax: [ { "systemArn": "string", "systemName": "string", "userJourneyIds": ["string", ...] } ... ]
+    /// The updated systems to associate with the service. Constraints: • min: 0 • max: 20 (structure) Represents a system associated with a service. systemArn -&gt; (string) [required] ARN identifier. Constraints: • min: 31 • pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023} systemName -&gt; (string) Resource name (used in ARN no spaces allowed). Constraints: • min: 2 • max: 60 • pattern: [A-Za-z0-9][A-Za-z0-9_\-]{1,59} userJourneyIds -&gt; (list) The list of user journey identifiers that associate this system with the service. Constraints: • min: 0 • max: 20 (string) Constraints: • min: 1 • max: 255 • pattern: \S{1,255} Shorthand Syntax: systemArn=string,systemName=string,userJourneyIds=string,string ... JSON Syntax: [ { "systemArn": "string", "systemName": "string", "userJourneyIds": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--associated-systems", GroupValues = true)]
     public IEnumerable<string>? AssociatedSystems { get; set; }
 
     /// <summary>
-    /// ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}
+    /// ARN identifier. Constraints: • min: 31 • pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}
     /// </summary>
     [CliOption("--policy-arn")]
     public string? PolicyArn { get; set; }
 
     /// <summary>
-    /// The updated AWS Regions where the service operates. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 6 o pattern: [a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9] Syntax: "string" "string" ...
+    /// The updated AWS Regions where the service operates. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 6 • pattern: [a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9] Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--regions", GroupValues = true)]
     public IEnumerable<string>? Regions { get; set; }
 
     /// <summary>
-    /// The updated permission model for the service. invokerRoleName -&gt; (string) [required] IAM role name (supports up to 64 characters per IAM limits). Constraints: o min: 1 o max: 576 o pattern: ([A-Za-z0-9_+=,.@\-]+/)*[A-Za-z0-9_+=,.@\-]+ crossAccountRoles -&gt; (list) The list of cross-account IAM role ARNs. Constraints: o min: 0 o max: 5 (structure) Specifies a cross-account IAM role ARN and optional external ID. crossAccountRoleArn -&gt; (string) [required] ARN of the IAM Role for the profile. Null if the permis- sion profile is the 'Admin' profile. Constraints: o min: 32 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):iam::[0-9]{12}:role/(([^/][!-~]+/){1,511})?[A-Za-z0-9_+=,.@-]{1,64} externalId -&gt; (string) The external ID used for assuming the cross-account role. Constraints: o min: 2 o max: 1224 Shorthand Syntax: invokerRoleName=string,crossAccountRoles=[{crossAccountRoleArn=string,externalId=string},{crossAccountRoleArn=string,externalId=string}] JSON Syntax: { "invokerRoleName": "string", "crossAccountRoles": [ { "crossAccountRoleArn": "string", "externalId": "string" } ... ] }
+    /// The updated permission model for the service. invokerRoleName -&gt; (string) [required] IAM role name (supports up to 64 characters per IAM limits). Constraints: • min: 1 • max: 576 • pattern: ([A-Za-z0-9_+=,.@\-]+/)*[A-Za-z0-9_+=,.@\-]+ crossAccountRoles -&gt; (list) The list of cross-account IAM role ARNs. Constraints: • min: 0 • max: 5 (structure) Specifies a cross-account IAM role ARN and optional external ID. crossAccountRoleArn -&gt; (string) [required] ARN of the IAM Role for the profile. Null if the permission profile is the 'Admin' profile. Constraints: • min: 32 • pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):iam::[0-9]{12}:role/(([^/][!-~]+/){1,511})?[A-Za-z0-9_+=,.@-]{1,64} externalId -&gt; (string) The external ID used for assuming the cross-account role. Constraints: • min: 2 • max: 1224 Shorthand Syntax: invokerRoleName=string,crossAccountRoles=[{crossAccountRoleArn=string,externalId=string},{crossAccountRoleArn=string,externalId=string}] JSON Syntax: { "invokerRoleName": "string", "crossAccountRoles": [ { "crossAccountRoleArn": "string", "externalId": "string" } ... ] }
     /// </summary>
     [CliOption("--permission-model")]
     public string? PermissionModel { get; set; }
 
     /// <summary>
-    /// Caller-settable values for dependency discovery. INITIALIZING is system-managed. Possible values: o ENABLED o DISABLED
+    /// Caller-settable values for dependency discovery. INITIALIZING is system-managed. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--dependency-discovery")]
     public AwsResiliencehubv2UpdateServiceDependencyDiscovery? DependencyDiscovery { get; set; }
 
     /// <summary>
-    /// Configuration for automatic report generation on a Service. reportOutputs -&gt; (list) [required] Output destinations for generated reports. Constraints: o min: 1 o max: 1 (tagged union structure) Configuration for a report output destination. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: s3. s3 -&gt; (structure) S3 configuration for report output. bucketPath -&gt; (string) [required] S3 bucket path where reports will be written (e.g., my-bucket/ngrh-reports/). Constraints: o min: 3 o max: 512 o pattern: (s3://)?[a-z0-9][a-z0-9.-]{1,61}[a-z0-9](/.*)? bucketOwner -&gt; (string) [required] Account ID of the bucket owner for cross-account ac- cess verification. Constraints: o min: 12 o max: 12 o pattern: \d{12} JSON Syntax: { "reportOutputs": [ { "s3": { "bucketPath": "string", "bucketOwner": "string" } } ... ] }
+    /// Configuration for automatic report generation on a Service. reportOutputs -&gt; (list) [required] Output destinations for generated reports. Constraints: • min: 1 • max: 1 (tagged union structure) Configuration for a report output destination. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3. s3 -&gt; (structure) S3 configuration for report output. bucketPath -&gt; (string) [required] S3 bucket path where reports will be written (e.g., my-bucket/ngrh-reports/). Constraints: • min: 3 • max: 512 • pattern: (s3://)?[a-z0-9][a-z0-9.-]{1,61}[a-z0-9](/.*)? bucketOwner -&gt; (string) [required] Account ID of the bucket owner for cross-account access verification. Constraints: • min: 12 • max: 12 • pattern: \d{12} JSON Syntax: { "reportOutputs": [ { "s3": { "bucketPath": "string", "bucketOwner": "string" } } ... ] }
     /// </summary>
     [CliOption("--report-configuration")]
     public string? ReportConfiguration { get; set; }
+
+    /// <summary>
+    /// The optional DevOps Agent integration configuration to set, replace, or disconnect for the service. If you omit this field, the existing DevOps Agent linkage stays unchanged. agentSpaceArn -&gt; (string) The ARN of the DevOps Agent Agent Space to link to this service. Constraints: • min: 1 • max: 2048 • pattern: arn:aws[a-zA-Z-]*:aidevops:[a-z0-9-]+:[0-9]{12}:agentspace/[a-zA-Z0-9-]{1,64} Shorthand Syntax: agentSpaceArn=string JSON Syntax: { "agentSpaceArn": "string" }
+    /// </summary>
+    [CliOption("--dev-ops-agent-configuration")]
+    public string? DevOpsAgentConfiguration { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

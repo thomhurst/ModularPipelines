@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCleanroomsUntagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Removes a tag or list of tags from a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) associated with the resource you want to remove the tag from. Constraints: o min: 0 o max: 100 o pattern: arn:aws:clean- rooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:[\d\w/-]+</param>
-    /// <param name="TagKeys">A list of key names of tags to be removed. (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) associated with the resource you want to remove the tag from. Constraints: • min: 0 • max: 100 • pattern: arn:aws:cleanrooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:[\d\w/-]+</param>
+    /// <param name="TagKeys">A list of key names of tags to be removed. (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
     public AwsCleanroomsUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsCleanroomsUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) associated with the resource you want to remove the tag from. Constraints: o min: 0 o max: 100 o pattern: arn:aws:clean- rooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:[\d\w/-]+
+    /// The Amazon Resource Name (ARN) associated with the resource you want to remove the tag from. Constraints: • min: 0 • max: 100 • pattern: arn:aws:cleanrooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:[\d\w/-]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A list of key names of tags to be removed. (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// A list of key names of tags to be removed. (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

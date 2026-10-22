@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsMigrationhuborchestratorDeleteWorkflowStepOptions : AwsOptions,
     /// <summary>
     /// Delete a step in a migration workflow. Pause the workflow to delete a running step. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the step you want to delete. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+</param>
-    /// <param name="StepGroupId">The ID of the step group that contains the step you want to delete. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+</param>
-    /// <param name="WorkflowId">The ID of the migration workflow. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="Id">The ID of the step you want to delete. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="StepGroupId">The ID of the step group that contains the step you want to delete. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="WorkflowId">The ID of the migration workflow. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+</param>
     public AwsMigrationhuborchestratorDeleteWorkflowStepOptions(
         string Id,
         string StepGroupId,
@@ -64,19 +66,19 @@ public record AwsMigrationhuborchestratorDeleteWorkflowStepOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the step you want to delete. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+
+    /// The ID of the step you want to delete. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The ID of the step group that contains the step you want to delete. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+
+    /// The ID of the step group that contains the step you want to delete. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--step-group-id")]
     public string? StepGroupId { get; private init; }
 
     /// <summary>
-    /// The ID of the migration workflow. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+
+    /// The ID of the migration workflow. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--workflow-id")]
     public string? WorkflowId { get; private init; }

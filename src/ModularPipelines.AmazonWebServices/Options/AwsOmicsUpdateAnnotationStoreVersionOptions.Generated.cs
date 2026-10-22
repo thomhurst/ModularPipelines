@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -72,7 +74,7 @@ public record AwsOmicsUpdateAnnotationStoreVersionOptions : AwsOptions, IValidat
     public string? VersionName { get; private init; }
 
     /// <summary>
-    /// The description of an annotation store. Constraints: o min: 0 o max: 500
+    /// The description of an annotation store. Constraints: • min: 0 • max: 500
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

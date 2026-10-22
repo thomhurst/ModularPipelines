@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsS3filesTagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates tags for S3 Files resources using standard Amazon Web Services tagging APIs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceId">The ID or Amazon Resource Name (ARN) of the resource to add tags to. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{17,40}(/ac- cess-point/fsap-[0-9a-f]{17,40})?|fs(ap)?-[0-9a-f]{17,40})</param>
-    /// <param name="Tags">An array of key-value pairs to add as tags to the resource. Constraints: o min: 1 o max: 50 (structure) A key-value pair for resource tagging. key -&gt; (string) [required] The tag key. The key can't start with aws: . Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]+) value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
+    /// <param name="ResourceId">The ID or Amazon Resource Name (ARN) of the resource to add tags to. Constraints: • min: 0 • max: 256 • pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-system/fs-[0-9a-f]{17,40}(/access-point/fsap-[0-9a-f]{17,40})?|fs(ap)?-[0-9a-f]{17,40})</param>
+    /// <param name="Tags">An array of key-value pairs to add as tags to the resource. Constraints: • min: 1 • max: 50 (structure) A key-value pair for resource tagging. key -&gt; (string) [required] The tag key. The key can't start with aws: . Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]+) value -&gt; (string) [required] The tag value. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
     public AwsS3filesTagResourceOptions(
         string ResourceId,
         IEnumerable<string> Tags
@@ -71,13 +73,13 @@ public record AwsS3filesTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or Amazon Resource Name (ARN) of the resource to add tags to. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{17,40}(/ac- cess-point/fsap-[0-9a-f]{17,40})?|fs(ap)?-[0-9a-f]{17,40})
+    /// The ID or Amazon Resource Name (ARN) of the resource to add tags to. Constraints: • min: 0 • max: 256 • pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-system/fs-[0-9a-f]{17,40}(/access-point/fsap-[0-9a-f]{17,40})?|fs(ap)?-[0-9a-f]{17,40})
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// An array of key-value pairs to add as tags to the resource. Constraints: o min: 1 o max: 50 (structure) A key-value pair for resource tagging. key -&gt; (string) [required] The tag key. The key can't start with aws: . Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]+) value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// An array of key-value pairs to add as tags to the resource. Constraints: • min: 1 • max: 50 (structure) A key-value pair for resource tagging. key -&gt; (string) [required] The tag key. The key can't start with aws: . Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]+) value -&gt; (string) [required] The tag value. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }

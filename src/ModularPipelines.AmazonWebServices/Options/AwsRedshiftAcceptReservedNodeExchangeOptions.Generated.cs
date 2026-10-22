@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsRedshiftAcceptReservedNodeExchangeOptions : AwsOptions, IValida
     /// <summary>
     /// Exchanges a DC1 Reserved Node for a DC2 Reserved Node with no changes to the configuration (term, payment type, or number of nodes) and no additional costs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ReservedNodeId">A string representing the node identifier of the DC1 Reserved Node to be exchanged. Constraints: o max: 2147483647</param>
-    /// <param name="TargetReservedNodeOfferingId">The unique identifier of the DC2 Reserved Node offering to be used for the exchange. You can obtain the value for the parameter by calling GetReservedNodeExchangeOfferings Constraints: o max: 2147483647</param>
+    /// <param name="ReservedNodeId">A string representing the node identifier of the DC1 Reserved Node to be exchanged. Constraints: • max: 2147483647</param>
+    /// <param name="TargetReservedNodeOfferingId">The unique identifier of the DC2 Reserved Node offering to be used for the exchange. You can obtain the value for the parameter by calling GetReservedNodeExchangeOfferings Constraints: • max: 2147483647</param>
     public AwsRedshiftAcceptReservedNodeExchangeOptions(
         string ReservedNodeId,
         string TargetReservedNodeOfferingId
@@ -60,13 +62,13 @@ public record AwsRedshiftAcceptReservedNodeExchangeOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A string representing the node identifier of the DC1 Reserved Node to be exchanged. Constraints: o max: 2147483647
+    /// A string representing the node identifier of the DC1 Reserved Node to be exchanged. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--reserved-node-id")]
     public string? ReservedNodeId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the DC2 Reserved Node offering to be used for the exchange. You can obtain the value for the parameter by calling GetReservedNodeExchangeOfferings Constraints: o max: 2147483647
+    /// The unique identifier of the DC2 Reserved Node offering to be used for the exchange. You can obtain the value for the parameter by calling GetReservedNodeExchangeOfferings Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--target-reserved-node-offering-id")]
     public string? TargetReservedNodeOfferingId { get; private init; }

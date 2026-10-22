@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsKmsDeleteAliasOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the specified alias. NOTE: Adding, deleting, or updating an alias can allow or deny permission to the KMS key. For details, see ABAC for KMS in the Key Management Service Developer Guide . Because an alias is not a property of a KMS key, you can delete and change the aliases of a KMS key without affecting the KMS key. Also, aliases do not appear in the response from the DescribeKey operation. To get the aliases of all KMS keys, use the ListAliases operation. Each KMS key can have multipl...
     /// </summary>
-    /// <param name="AliasName">The alias to be deleted. The alias name must begin with alias/ fol- lowed by the alias name, such as alias/ExampleAlias . Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9:/_-]+$</param>
+    /// <param name="AliasName">The alias to be deleted. The alias name must begin with alias/ followed by the alias name, such as alias/ExampleAlias . Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9:/_-]+$</param>
     public AwsKmsDeleteAliasOptions(
         string AliasName
     )
@@ -56,7 +58,7 @@ public record AwsKmsDeleteAliasOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The alias to be deleted. The alias name must begin with alias/ fol- lowed by the alias name, such as alias/ExampleAlias . Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9:/_-]+$
+    /// The alias to be deleted. The alias name must begin with alias/ followed by the alias name, such as alias/ExampleAlias . Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9:/_-]+$
     /// </summary>
     [CliOption("--alias-name")]
     public string? AliasName { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotfleetwiseGetFleetOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves information about a fleet. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FleetId">The ID of the fleet to retrieve information about. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9:_-]+</param>
+    /// <param name="FleetId">The ID of the fleet to retrieve information about. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9:_-]+</param>
     public AwsIotfleetwiseGetFleetOptions(
         string FleetId
     )
@@ -56,7 +58,7 @@ public record AwsIotfleetwiseGetFleetOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the fleet to retrieve information about. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9:_-]+
+    /// The ID of the fleet to retrieve information about. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }

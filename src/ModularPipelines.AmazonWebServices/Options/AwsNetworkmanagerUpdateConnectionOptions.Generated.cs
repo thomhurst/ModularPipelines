@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the information for an existing connection. To remove informa- tion for any of the parameters, specify an empty string. See also: AWS API Documentation
+/// Updates the information for an existing connection. To remove information for any of the parameters, specify an empty string. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsNetworkmanagerUpdateConnectionOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the information for an existing connection. To remove informa- tion for any of the parameters, specify an empty string. See also: AWS API Documentation
+    /// Updates the information for an existing connection. To remove information for any of the parameters, specify an empty string. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
-    /// <param name="ConnectionId">The ID of the connection. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
+    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*</param>
+    /// <param name="ConnectionId">The ID of the connection. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*</param>
     public AwsNetworkmanagerUpdateConnectionOptions(
         string GlobalNetworkId,
         string ConnectionId
@@ -60,31 +62,31 @@ public record AwsNetworkmanagerUpdateConnectionOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// The ID of the global network. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--global-network-id")]
     public string? GlobalNetworkId { get; private init; }
 
     /// <summary>
-    /// The ID of the connection. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// The ID of the connection. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--connection-id")]
     public string? ConnectionId { get; private init; }
 
     /// <summary>
-    /// The ID of the link for the first device in the connection. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// The ID of the link for the first device in the connection. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--link-id")]
     public string? LinkId { get; set; }
 
     /// <summary>
-    /// The ID of the link for the second device in the connection. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// The ID of the link for the second device in the connection. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--connected-link-id")]
     public string? ConnectedLinkId { get; set; }
 
     /// <summary>
-    /// A description of the connection. Length Constraints: Maximum length of 256 characters. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// A description of the connection. Length Constraints: Maximum length of 256 characters. Constraints: • min: 0 • max: 256 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds or replaces the RAM permission for a resource type included in a resource share. You can have exactly one permission associated with each resource type in the resource share. You can add a new RAM permis- sion only if there are currently no resources of that resource type currently in the resource share. See also: AWS API Documentation
+/// Adds or replaces the RAM permission for a resource type included in a resource share. You can have exactly one permission associated with each resource type in the resource share. You can add a new RAM permission only if there are currently no resources of that resource type currently in the resource share. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsRamAssociateResourceSharePermissionOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds or replaces the RAM permission for a resource type included in a resource share. You can have exactly one permission associated with each resource type in the resource share. You can add a new RAM permis- sion only if there are currently no resources of that resource type currently in the resource share. See also: AWS API Documentation
+    /// Adds or replaces the RAM permission for a resource type included in a resource share. You can have exactly one permission associated with each resource type in the resource share. You can add a new RAM permission only if there are currently no resources of that resource type currently in the resource share. See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceShareArn">Specifies the Amazon Resource Name (ARN) of the resource share to which you want to add or replace permissions.</param>
-    /// <param name="PermissionArn">Specifies the Amazon Resource Name (ARN) of the RAM permission to associate with the resource share. To find the ARN for a permission, use either the ListPermissions operation or go to the Permissions library page in the RAM console and then choose the name of the per- mission. The ARN is displayed on the detail page.</param>
+    /// <param name="PermissionArn">Specifies the Amazon Resource Name (ARN) of the RAM permission to associate with the resource share. To find the ARN for a permission, use either the ListPermissions operation or go to the Permissions library page in the RAM console and then choose the name of the permission. The ARN is displayed on the detail page.</param>
     public AwsRamAssociateResourceSharePermissionOptions(
         string ResourceShareArn,
         string PermissionArn
@@ -67,26 +69,26 @@ public record AwsRamAssociateResourceSharePermissionOptions : AwsOptions, IValid
     public string? ResourceShareArn { get; private init; }
 
     /// <summary>
-    /// Specifies the Amazon Resource Name (ARN) of the RAM permission to associate with the resource share. To find the ARN for a permission, use either the ListPermissions operation or go to the Permissions library page in the RAM console and then choose the name of the per- mission. The ARN is displayed on the detail page.
+    /// Specifies the Amazon Resource Name (ARN) of the RAM permission to associate with the resource share. To find the ARN for a permission, use either the ListPermissions operation or go to the Permissions library page in the RAM console and then choose the name of the permission. The ARN is displayed on the detail page.
     /// </summary>
     [CliOption("--permission-arn")]
     public string? PermissionArn { get; private init; }
 
     /// <summary>
-    /// Specifies whether the specified permission should replace the exist- ing permission associated with the resource share. Use true to re- place the current permissions. Use false to add the permission to a resource share that currently doesn't have a permission. The default value is false . NOTE: A resource share can have only one permission per resource type. If a resource share already has a permission for the specified resource type and you don't set replace to true then the opera- tion returns an error. This helps prevent accidental overwriting of a permission.
+    /// Specifies whether the specified permission should replace the existing permission associated with the resource share. Use true to replace the current permissions. Use false to add the permission to a resource share that currently doesn't have a permission. The default value is false . NOTE: A resource share can have only one permission per resource type. If a resource share already has a permission for the specified resource type and you don't set replace to true then the operation returns an error. This helps prevent accidental overwriting of a permission.
     /// </summary>
     [CliFlag("--replace", NegatedName = "--no-replace")]
     public bool? Replace { get; set; }
 
     /// <summary>
-    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error.
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Specifies the version of the RAM permission to associate with the resource share. You can specify only the version that is currently set as the default version for the permission. If you also set the replace pararameter to true , then this operation updates an out- dated version of the permission to the current default version. NOTE: You don't need to specify this parameter because the default be- havior is to use the version that is currently set as the de- fault version for the permission. This parameter is supported for backwards compatibility.
+    /// Specifies the version of the RAM permission to associate with the resource share. You can specify only the version that is currently set as the default version for the permission. If you also set the replace pararameter to true , then this operation updates an outdated version of the permission to the current default version. NOTE: You don't need to specify this parameter because the default behavior is to use the version that is currently set as the default version for the permission. This parameter is supported for backwards compatibility.
     /// </summary>
     [CliOption("--permission-version")]
     public int? PermissionVersion { get; set; }

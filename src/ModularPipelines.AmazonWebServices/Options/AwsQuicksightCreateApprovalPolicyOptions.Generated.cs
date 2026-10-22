@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,12 +29,12 @@ public record AwsQuicksightCreateApprovalPolicyOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Creates an approval policy in Quick Sight. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyId">The unique identifier to assign to the approval policy. You cannot change this value after you create the policy. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\-_]+</param>
-    /// <param name="Name">The name of the approval policy. Constraints: o min: 1 o max: 256</param>
-    /// <param name="Actions">The list of governed actions that trigger the approval workflow. Constraints: o min: 1 o max: 10 (string) Possible values: o SHARE Syntax: "string" "string" ...</param>
-    /// <param name="AssetTypes">The list of asset types that the approval policy applies to. Constraints: o min: 1 (string) Possible values: o AGENT o SPACE o KNOWLEDGE_BASE Syntax: "string" "string" ...</param>
-    /// <param name="ApplicableTo">The scoping configuration that determines who the approval policy applies to. Type -&gt; (string) [required] The type of scoping that determines which principals the ap- proval policy applies to. Valid values are defined as follows: o GROUP : The policy applies only to principals in the groups specified by GroupArns . When you use GROUP , you must also provide a value for GroupArns . Possible values: o GROUP GroupArns -&gt; (list) The list of group ARNs that the policy applies to. Required when type is GROUP. Constraints: o min: 1 (string) Shorthand Syntax: Type=string,GroupArns=string,string JSON Syntax: { "Type": "GROUP", "GroupArns": ["string", ...] }</param>
-    /// <param name="ApprovalGroups">The list of group ARNs whose members can approve requests. Constraints: o min: 1 (string) Syntax: "string" "string" ...</param>
+    /// <param name="PolicyId">The unique identifier to assign to the approval policy. You cannot change this value after you create the policy. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9\-_]+</param>
+    /// <param name="Name">The name of the approval policy. Constraints: • min: 1 • max: 256</param>
+    /// <param name="Actions">The list of governed actions that trigger the approval workflow. Constraints: • min: 1 • max: 10 (string) Possible values: • SHARE Syntax: "string" "string" ...</param>
+    /// <param name="AssetTypes">The list of asset types that the approval policy applies to. Constraints: • min: 1 (string) Possible values: • AGENT • SPACE • KNOWLEDGE_BASE Syntax: "string" "string" ...</param>
+    /// <param name="ApplicableTo">The scoping configuration that determines who the approval policy applies to. Type -&gt; (string) [required] The type of scoping that determines which principals the approval policy applies to. Valid values are defined as follows: • GROUP : The policy applies only to principals in the groups specified by GroupArns . When you use GROUP , you must also provide a value for GroupArns . Possible values: • GROUP GroupArns -&gt; (list) The list of group ARNs that the policy applies to. Required when type is GROUP. Constraints: • min: 1 (string) Shorthand Syntax: Type=string,GroupArns=string,string JSON Syntax: { "Type": "GROUP", "GroupArns": ["string", ...] }</param>
+    /// <param name="ApprovalGroups">The list of group ARNs whose members can approve requests. Constraints: • min: 1 (string) Syntax: "string" "string" ...</param>
     public AwsQuicksightCreateApprovalPolicyOptions(
         string PolicyId,
         string Name,
@@ -109,43 +111,43 @@ public record AwsQuicksightCreateApprovalPolicyOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier to assign to the approval policy. You cannot change this value after you create the policy. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\-_]+
+    /// The unique identifier to assign to the approval policy. You cannot change this value after you create the policy. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9\-_]+
     /// </summary>
     [CliOption("--policy-id")]
     public string? PolicyId { get; private init; }
 
     /// <summary>
-    /// The name of the approval policy. Constraints: o min: 1 o max: 256
+    /// The name of the approval policy. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The list of governed actions that trigger the approval workflow. Constraints: o min: 1 o max: 10 (string) Possible values: o SHARE Syntax: "string" "string" ...
+    /// The list of governed actions that trigger the approval workflow. Constraints: • min: 1 • max: 10 (string) Possible values: • SHARE Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--actions", GroupValues = true)]
     public IEnumerable<string>? Actions { get; private init; }
 
     /// <summary>
-    /// The list of asset types that the approval policy applies to. Constraints: o min: 1 (string) Possible values: o AGENT o SPACE o KNOWLEDGE_BASE Syntax: "string" "string" ...
+    /// The list of asset types that the approval policy applies to. Constraints: • min: 1 (string) Possible values: • AGENT • SPACE • KNOWLEDGE_BASE Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--asset-types", GroupValues = true)]
     public IEnumerable<string>? AssetTypes { get; private init; }
 
     /// <summary>
-    /// The scoping configuration that determines who the approval policy applies to. Type -&gt; (string) [required] The type of scoping that determines which principals the ap- proval policy applies to. Valid values are defined as follows: o GROUP : The policy applies only to principals in the groups specified by GroupArns . When you use GROUP , you must also provide a value for GroupArns . Possible values: o GROUP GroupArns -&gt; (list) The list of group ARNs that the policy applies to. Required when type is GROUP. Constraints: o min: 1 (string) Shorthand Syntax: Type=string,GroupArns=string,string JSON Syntax: { "Type": "GROUP", "GroupArns": ["string", ...] }
+    /// The scoping configuration that determines who the approval policy applies to. Type -&gt; (string) [required] The type of scoping that determines which principals the approval policy applies to. Valid values are defined as follows: • GROUP : The policy applies only to principals in the groups specified by GroupArns . When you use GROUP , you must also provide a value for GroupArns . Possible values: • GROUP GroupArns -&gt; (list) The list of group ARNs that the policy applies to. Required when type is GROUP. Constraints: • min: 1 (string) Shorthand Syntax: Type=string,GroupArns=string,string JSON Syntax: { "Type": "GROUP", "GroupArns": ["string", ...] }
     /// </summary>
     [CliOption("--applicable-to")]
     public string? ApplicableTo { get; private init; }
 
     /// <summary>
-    /// The list of group ARNs whose members can approve requests. Constraints: o min: 1 (string) Syntax: "string" "string" ...
+    /// The list of group ARNs whose members can approve requests. Constraints: • min: 1 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--approval-groups", GroupValues = true)]
     public IEnumerable<string>? ApprovalGroups { get; private init; }
 
     /// <summary>
-    /// A description of the approval policy. Constraints: o min: 0 o max: 1024
+    /// A description of the approval policy. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

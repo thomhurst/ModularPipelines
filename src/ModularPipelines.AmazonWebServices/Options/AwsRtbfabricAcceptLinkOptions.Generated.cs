@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Accepts a link request between gateways. When a requester gateway requests to link with a responder gateway, the responder can use this operation to accept the link request and estab- lish the connection. See also: AWS API Documentation
+/// Accepts a link request between gateways. When a requester gateway requests to link with a responder gateway, the responder can use this operation to accept the link request and establish the connection. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsRtbfabricAcceptLinkOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Accepts a link request between gateways. When a requester gateway requests to link with a responder gateway, the responder can use this operation to accept the link request and estab- lish the connection. See also: AWS API Documentation
+    /// Accepts a link request between gateways. When a requester gateway requests to link with a responder gateway, the responder can use this operation to accept the link request and establish the connection. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GatewayId">The unique identifier of the gateway. Constraints: o min: 8 o max: 32 o pattern: rtb-gw-[a-z0-9-]{1,25}</param>
-    /// <param name="LinkId">The unique identifier of the link. Constraints: o min: 6 o max: 30 o pattern: link-[a-z0-9-]{1,25}</param>
-    /// <param name="LogSettings">Settings for the application logs. applicationLogs -&gt; (structure) [required] Describes the configuration of a link application log. sampling -&gt; (structure) [required] Describes a link application log sample. errorLog -&gt; (double) [required] An error log entry. Constraints: o min: 0.0 o max: 100.0 filterLog -&gt; (double) [required] A filter log entry. Constraints: o min: 0.0 o max: 100.0 Shorthand Syntax: applicationLogs={sampling={errorLog=double,filterLog=double}} JSON Syntax: { "applicationLogs": { "sampling": { "errorLog": double, "filterLog": double } } }</param>
+    /// <param name="GatewayId">The unique identifier of the gateway. Constraints: • min: 8 • max: 32 • pattern: rtb-gw-[a-z0-9-]{1,25}</param>
+    /// <param name="LinkId">The unique identifier of the link. Constraints: • min: 6 • max: 30 • pattern: link-[a-z0-9-]{1,25}</param>
+    /// <param name="LogSettings">Settings for the application logs. applicationLogs -&gt; (structure) [required] Describes the configuration of a link application log. sampling -&gt; (structure) [required] Describes a link application log sample. errorLog -&gt; (double) [required] An error log entry. Constraints: • min: 0.0 • max: 100.0 filterLog -&gt; (double) [required] A filter log entry. Constraints: • min: 0.0 • max: 100.0 Shorthand Syntax: applicationLogs={sampling={errorLog=double,filterLog=double}} JSON Syntax: { "applicationLogs": { "sampling": { "errorLog": double, "filterLog": double } } }</param>
     public AwsRtbfabricAcceptLinkOptions(
         string GatewayId,
         string LinkId,
@@ -64,34 +66,34 @@ public record AwsRtbfabricAcceptLinkOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the gateway. Constraints: o min: 8 o max: 32 o pattern: rtb-gw-[a-z0-9-]{1,25}
+    /// The unique identifier of the gateway. Constraints: • min: 8 • max: 32 • pattern: rtb-gw-[a-z0-9-]{1,25}
     /// </summary>
     [CliOption("--gateway-id")]
     public string? GatewayId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the link. Constraints: o min: 6 o max: 30 o pattern: link-[a-z0-9-]{1,25}
+    /// The unique identifier of the link. Constraints: • min: 6 • max: 30 • pattern: link-[a-z0-9-]{1,25}
     /// </summary>
     [CliOption("--link-id")]
     public string? LinkId { get; private init; }
 
     /// <summary>
-    /// Settings for the application logs. applicationLogs -&gt; (structure) [required] Describes the configuration of a link application log. sampling -&gt; (structure) [required] Describes a link application log sample. errorLog -&gt; (double) [required] An error log entry. Constraints: o min: 0.0 o max: 100.0 filterLog -&gt; (double) [required] A filter log entry. Constraints: o min: 0.0 o max: 100.0 Shorthand Syntax: applicationLogs={sampling={errorLog=double,filterLog=double}} JSON Syntax: { "applicationLogs": { "sampling": { "errorLog": double, "filterLog": double } } }
+    /// Settings for the application logs. applicationLogs -&gt; (structure) [required] Describes the configuration of a link application log. sampling -&gt; (structure) [required] Describes a link application log sample. errorLog -&gt; (double) [required] An error log entry. Constraints: • min: 0.0 • max: 100.0 filterLog -&gt; (double) [required] A filter log entry. Constraints: • min: 0.0 • max: 100.0 Shorthand Syntax: applicationLogs={sampling={errorLog=double,filterLog=double}} JSON Syntax: { "applicationLogs": { "sampling": { "errorLog": double, "filterLog": double } } }
     /// </summary>
     [CliOption("--log-settings")]
     public string? LogSettings { get; private init; }
 
     /// <summary>
-    /// Attributes of the link. responderErrorMasking -&gt; (list) Describes the masking for HTTP error codes. Constraints: o min: 1 o max: 200 (structure) Describes the masking for HTTP error codes. httpCode -&gt; (string) [required] The HTTP error code. Constraints: o min: 3 o max: 7 o pattern: DEFAULT|4XX|5XX|\d{3} action -&gt; (string) [required] The action for the error.. Possible values: o NO_BID o PASSTHROUGH loggingTypes -&gt; (list) [required] The error log type. Constraints: o min: 1 o max: 2 (string) Possible values: o NONE o METRIC o RESPONSE responseLoggingPercentage -&gt; (float) The percentage of response logging. Constraints: o min: 0 o max: 100 customerProvidedId -&gt; (string) The customer-provided unique identifier of the link. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_-]+ JSON Syntax: { "responderErrorMasking": [ { "httpCode": "string", "action": "NO_BID"|"PASSTHROUGH", "loggingTypes": ["NONE"|"METRIC"|"RESPONSE", ...], "responseLoggingPercentage": float } ... ], "customerProvidedId": "string" }
+    /// Attributes of the link. responderErrorMasking -&gt; (list) Describes the masking for HTTP error codes. Constraints: • min: 1 • max: 200 (structure) Describes the masking for HTTP error codes. httpCode -&gt; (string) [required] The HTTP error code. Constraints: • min: 3 • max: 7 • pattern: DEFAULT|4XX|5XX|\d{3} action -&gt; (string) [required] The action for the error.. Possible values: • NO_BID • PASSTHROUGH loggingTypes -&gt; (list) [required] The error log type. Constraints: • min: 1 • max: 2 (string) Possible values: • NONE • METRIC • RESPONSE responseLoggingPercentage -&gt; (float) The percentage of response logging. Constraints: • min: 0 • max: 100 customerProvidedId -&gt; (string) The customer-provided unique identifier of the link. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_-]+ JSON Syntax: { "responderErrorMasking": [ { "httpCode": "string", "action": "NO_BID"|"PASSTHROUGH", "loggingTypes": ["NONE"|"METRIC"|"RESPONSE", ...], "responseLoggingPercentage": float } ... ], "customerProvidedId": "string" }
     /// </summary>
     [CliOption("--attributes")]
     public string? Attributes { get; set; }
 
     /// <summary>
-    /// The timeout value in milliseconds. Constraints: o min: 100 o max: 5000
+    /// The timeout value in milliseconds. Constraints: • min: 100 • max: 5000
     /// </summary>
     [CliOption("--timeout-in-millis")]
-    public int? TimeoutInMillis { get; set; }
+    public long? TimeoutInMillis { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

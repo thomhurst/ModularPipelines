@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsPartnercentralBenefitsGetBenefitAllocationOptions : AwsOptions,
     /// <summary>
     /// Retrieves detailed information about a specific benefit allocation that has been granted to a partner. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">The catalog identifier that specifies which benefit catalog to query. Constraints: o pattern: [A-Za-z0-9_-]+</param>
-    /// <param name="Identifier">The unique identifier of the benefit allocation to retrieve. Constraints: o pattern: (arn:.+|benalloc-[0-9a-z]{14})</param>
+    /// <param name="Catalog">The catalog identifier that specifies which benefit catalog to query. Constraints: • pattern: [A-Za-z0-9_-]+</param>
+    /// <param name="Identifier">The unique identifier of the benefit allocation to retrieve. Constraints: • pattern: (arn:.+|benalloc-[0-9a-z]{14})</param>
     public AwsPartnercentralBenefitsGetBenefitAllocationOptions(
         string Catalog,
         string Identifier
@@ -60,13 +62,13 @@ public record AwsPartnercentralBenefitsGetBenefitAllocationOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog identifier that specifies which benefit catalog to query. Constraints: o pattern: [A-Za-z0-9_-]+
+    /// The catalog identifier that specifies which benefit catalog to query. Constraints: • pattern: [A-Za-z0-9_-]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the benefit allocation to retrieve. Constraints: o pattern: (arn:.+|benalloc-[0-9a-z]{14})
+    /// The unique identifier of the benefit allocation to retrieve. Constraints: • pattern: (arn:.+|benalloc-[0-9a-z]{14})
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }

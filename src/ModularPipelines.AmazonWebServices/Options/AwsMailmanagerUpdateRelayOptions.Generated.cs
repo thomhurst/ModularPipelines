@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMailmanagerUpdateRelayOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the attributes of an existing relay resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RelayId">The unique relay identifier. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="RelayId">The unique relay identifier. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+</param>
     public AwsMailmanagerUpdateRelayOptions(
         string RelayId
     )
@@ -56,31 +58,31 @@ public record AwsMailmanagerUpdateRelayOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique relay identifier. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+
+    /// The unique relay identifier. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--relay-id")]
     public string? RelayId { get; private init; }
 
     /// <summary>
-    /// The name of the relay resource. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-_]+
+    /// The name of the relay resource. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-_]+
     /// </summary>
     [CliOption("--relay-name")]
     public string? RelayName { get; set; }
 
     /// <summary>
-    /// The destination relay server address. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-\.]+
+    /// The destination relay server address. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-\.]+
     /// </summary>
     [CliOption("--server-name")]
     public string? ServerName { get; set; }
 
     /// <summary>
-    /// The destination relay server port. Constraints: o min: 1 o max: 65535
+    /// The destination relay server port. Constraints: • min: 1 • max: 65535
     /// </summary>
     [CliOption("--server-port")]
     public int? ServerPort { get; set; }
 
     /// <summary>
-    /// Authentication for the relay destination serverspecify the secretARN where the SMTP credentials are stored. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: SecretArn, NoAuthentication. SecretArn -&gt; (string) The ARN of the secret created in secrets manager where the relay server's SMTP credentials are stored. Constraints: o pattern: arn:(aws|aws-cn|aws-us-gov|aws-eusc):secretsman- ager:[a-z0-9-]+:\d{12}:secret:[a-zA-Z0-9/_+=,.@-]+ NoAuthentication -&gt; (structure) Keep an empty structure if the relay destination server does not require SMTP credential authentication. Shorthand Syntax: SecretArn=string,NoAuthentication={} JSON Syntax: { "SecretArn": "string", "NoAuthentication": { } }
+    /// Authentication for the relay destination serverspecify the secretARN where the SMTP credentials are stored. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: SecretArn, NoAuthentication. SecretArn -&gt; (string) The ARN of the secret created in secrets manager where the relay server's SMTP credentials are stored. Constraints: • pattern: arn:(aws|aws-cn|aws-us-gov|aws-eusc):secretsmanager:[a-z0-9-]+:\d{12}:secret:[a-zA-Z0-9/_+=,.@-]+ NoAuthentication -&gt; (structure) Keep an empty structure if the relay destination server does not require SMTP credential authentication. Shorthand Syntax: SecretArn=string,NoAuthentication={} JSON Syntax: { "SecretArn": "string", "NoAuthentication": { } }
     /// </summary>
     [CliOption("--authentication")]
     public string? Authentication { get; set; }

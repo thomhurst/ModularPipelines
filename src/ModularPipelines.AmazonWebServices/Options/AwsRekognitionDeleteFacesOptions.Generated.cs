@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes faces from a collection. You specify a collection ID and an ar- ray of face IDs to remove from the collection. This operation requires permissions to perform the rekognition:Delete- Faces action. See also: AWS API Documentation
+/// Deletes faces from a collection. You specify a collection ID and an array of face IDs to remove from the collection. This operation requires permissions to perform the rekognition:DeleteFaces action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsRekognitionDeleteFacesOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes faces from a collection. You specify a collection ID and an ar- ray of face IDs to remove from the collection. This operation requires permissions to perform the rekognition:Delete- Faces action. See also: AWS API Documentation
+    /// Deletes faces from a collection. You specify a collection ID and an array of face IDs to remove from the collection. This operation requires permissions to perform the rekognition:DeleteFaces action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CollectionId">Collection from which to remove the specific faces. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+</param>
-    /// <param name="FaceIds">An array of face IDs to delete. Constraints: o min: 1 o max: 4096 (string) Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} Syntax: "string" "string" ...</param>
+    /// <param name="CollectionId">Collection from which to remove the specific faces. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.\-]+</param>
+    /// <param name="FaceIds">An array of face IDs to delete. Constraints: • min: 1 • max: 4096 (string) Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} Syntax: "string" "string" ...</param>
     public AwsRekognitionDeleteFacesOptions(
         string CollectionId,
         IEnumerable<string> FaceIds
@@ -71,13 +73,13 @@ public record AwsRekognitionDeleteFacesOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Collection from which to remove the specific faces. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+
+    /// Collection from which to remove the specific faces. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.\-]+
     /// </summary>
     [CliOption("--collection-id")]
     public string? CollectionId { get; private init; }
 
     /// <summary>
-    /// An array of face IDs to delete. Constraints: o min: 1 o max: 4096 (string) Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} Syntax: "string" "string" ...
+    /// An array of face IDs to delete. Constraints: • min: 1 • max: 4096 (string) Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--face-ids", GroupValues = true)]
     public IEnumerable<string>? FaceIds { get; private init; }

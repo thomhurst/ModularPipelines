@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -30,8 +31,8 @@ public record AwsCodeguruSecurityCreateScanOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Use to create a scan using code uploaded to an Amazon S3 bucket. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceId">The identifier for the resource object to be scanned. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: codeArtifactId. codeArtifactId -&gt; (string) The identifier for the code file uploaded to the resource ob- ject. Returned by CreateUploadUrl when you upload resources to be scanned. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: codeArtifactId=string JSON Syntax: { "codeArtifactId": "string" }</param>
-    /// <param name="ScanName">The unique name that CodeGuru Security uses to track revisions across multiple scans of the same resource. Only allowed for a STAN- DARD scan type. Constraints: o min: 1 o max: 140 o pattern: [a-zA-Z0-9-_$:.]*</param>
+    /// <param name="ResourceId">The identifier for the resource object to be scanned. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: codeArtifactId. codeArtifactId -&gt; (string) The identifier for the code file uploaded to the resource object. Returned by CreateUploadUrl when you upload resources to be scanned. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: codeArtifactId=string JSON Syntax: { "codeArtifactId": "string" }</param>
+    /// <param name="ScanName">The unique name that CodeGuru Security uses to track revisions across multiple scans of the same resource. Only allowed for a STANDARD scan type. Constraints: • min: 1 • max: 140 • pattern: [a-zA-Z0-9-_$:.]*</param>
     public AwsCodeguruSecurityCreateScanOptions(
         string ResourceId,
         string ScanName
@@ -63,38 +64,38 @@ public record AwsCodeguruSecurityCreateScanOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the resource object to be scanned. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: codeArtifactId. codeArtifactId -&gt; (string) The identifier for the code file uploaded to the resource ob- ject. Returned by CreateUploadUrl when you upload resources to be scanned. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: codeArtifactId=string JSON Syntax: { "codeArtifactId": "string" }
+    /// The identifier for the resource object to be scanned. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: codeArtifactId. codeArtifactId -&gt; (string) The identifier for the code file uploaded to the resource object. Returned by CreateUploadUrl when you upload resources to be scanned. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: codeArtifactId=string JSON Syntax: { "codeArtifactId": "string" }
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// The unique name that CodeGuru Security uses to track revisions across multiple scans of the same resource. Only allowed for a STAN- DARD scan type. Constraints: o min: 1 o max: 140 o pattern: [a-zA-Z0-9-_$:.]*
+    /// The unique name that CodeGuru Security uses to track revisions across multiple scans of the same resource. Only allowed for a STANDARD scan type. Constraints: • min: 1 • max: 140 • pattern: [a-zA-Z0-9-_$:.]*
     /// </summary>
     [CliOption("--scan-name")]
     public string? ScanName { get; private init; }
 
     /// <summary>
-    /// The idempotency token for the request. Amazon CodeGuru Security uses this value to prevent the accidental creation of duplicate scans if there are failures and retries. Constraints: o min: 1 o max: 64 o pattern: [\S]+
+    /// The idempotency token for the request. Amazon CodeGuru Security uses this value to prevent the accidental creation of duplicate scans if there are failures and retries. Constraints: • min: 1 • max: 64 • pattern: [\S]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The type of scan, either Standard or Express . Defaults to Standard type if missing. Express scans run on limited resources and use a limited set of detectors to analyze your code in near-real time. Standard scans have standard resource limits and use the full set of detectors to analyze your code. Possible values: o Standard o Express
+    /// The type of scan, either Standard or Express . Defaults to Standard type if missing. Express scans run on limited resources and use a limited set of detectors to analyze your code in near-real time. Standard scans have standard resource limits and use the full set of detectors to analyze your code. Possible values: • Standard • Express
     /// </summary>
     [CliOption("--scan-type")]
     public AwsCodeguruSecurityCreateScanScanType? ScanType { get; set; }
 
     /// <summary>
-    /// The type of analysis you want CodeGuru Security to perform in the scan, either Security or All . The Security type only generates findings related to security. The All type generates both security findings and quality findings. Defaults to Security type if missing. Possible values: o Security o All
+    /// The type of analysis you want CodeGuru Security to perform in the scan, either Security or All . The Security type only generates findings related to security. The All type generates both security findings and quality findings. Defaults to Security type if missing. Possible values: • Security • All
     /// </summary>
     [CliOption("--analysis-type")]
     public AwsCodeguruSecurityCreateScanAnalysisType? AnalysisType { get; set; }
 
     /// <summary>
-    /// An array of key-value pairs used to tag a scan. A tag is a custom attribute label with two parts: o A tag key. For example, CostCenter , Environment , or Secret . Tag keys are case sensitive. o An optional tag value field. For example, 111122223333 , Produc- tion , or a team name. Omitting the tag value is the same as using an empty string. Tag values are case sensitive. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// An array of key-value pairs used to tag a scan. A tag is a custom attribute label with two parts: • A tag key. For example, CostCenter , Environment , or Secret . Tag keys are case sensitive. • An optional tag value field. For example, 111122223333 , Production , or a team name. Omitting the tag value is the same as using an empty string. Tag values are case sensitive. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

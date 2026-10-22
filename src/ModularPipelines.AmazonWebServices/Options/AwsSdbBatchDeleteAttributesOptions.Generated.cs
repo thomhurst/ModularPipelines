@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Performs multiple DeleteAttributes operations in a single call, which reduces round trips and latencies. This enables Amazon SimpleDB to op- timize requests, which generally yields better throughput. The following limitations are enforced for this operation: o 1 MB request size o 25 item limit per BatchDeleteAttributes operation See also: AWS API Documentation
+/// Performs multiple DeleteAttributes operations in a single call, which reduces round trips and latencies. This enables Amazon SimpleDB to optimize requests, which generally yields better throughput. The following limitations are enforced for this operation: • 1 MB request size • 25 item limit per BatchDeleteAttributes operation See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsSdbBatchDeleteAttributesOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Performs multiple DeleteAttributes operations in a single call, which reduces round trips and latencies. This enables Amazon SimpleDB to op- timize requests, which generally yields better throughput. The following limitations are enforced for this operation: o 1 MB request size o 25 item limit per BatchDeleteAttributes operation See also: AWS API Documentation
+    /// Performs multiple DeleteAttributes operations in a single call, which reduces round trips and latencies. This enables Amazon SimpleDB to optimize requests, which generally yields better throughput. The following limitations are enforced for this operation: • 1 MB request size • 25 item limit per BatchDeleteAttributes operation See also: AWS API Documentation
     /// </summary>
     /// <param name="DomainName"></param>
     /// <param name="Items"></param>

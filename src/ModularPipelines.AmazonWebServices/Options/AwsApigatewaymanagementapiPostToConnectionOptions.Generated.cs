@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsApigatewaymanagementapiPostToConnectionOptions : AwsOptions, IV
     /// <summary>
     /// Sends the provided data to the specified connection. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Data">The data to be sent to the client specified by its connection id. Constraints: o max: 131072</param>
+    /// <param name="Data">The data to be sent to the client specified by its connection id. Constraints: • max: 131072</param>
     /// <param name="ConnectionId">The identifier of the connection that a specific client is using.</param>
     public AwsApigatewaymanagementapiPostToConnectionOptions(
         string Data,
@@ -60,7 +62,7 @@ public record AwsApigatewaymanagementapiPostToConnectionOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The data to be sent to the client specified by its connection id. Constraints: o max: 131072
+    /// The data to be sent to the client specified by its connection id. Constraints: • max: 131072
     /// </summary>
     [CliOption("--data")]
     public string? Data { get; private init; }

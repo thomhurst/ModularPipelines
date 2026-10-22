@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a namespace with the specified settings. Unless required, you can't update multiple parameters in one request. For example, you must specify both adminUsername and adminUserPassword to update either field, but you can't update both kmsKeyId and logExports in a single request. Similarly, an S3 Tables log-publishing update (a request where logDes- tinationType is s3table ) cannot be combined with any other namespace configuration change and must be submitted as its own request. See also: A...
+/// Updates a namespace with the specified settings. Unless required, you can't update multiple parameters in one request. For example, you must specify both adminUsername and adminUserPassword to update either field, but you can't update both kmsKeyId and logExports in a single request. Similarly, an S3 Tables log-publishing update (a request where logDestinationType is s3table ) cannot be combined with any other namespace configuration change and must be submitted as its own request. See also: AWS...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsRedshiftServerlessUpdateNamespaceOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a namespace with the specified settings. Unless required, you can't update multiple parameters in one request. For example, you must specify both adminUsername and adminUserPassword to update either field, but you can't update both kmsKeyId and logExports in a single request. Similarly, an S3 Tables log-publishing update (a request where logDes- tinationType is s3table ) cannot be combined with any other namespace configuration change and must be submitted as its own request. See also: A...
+    /// Updates a namespace with the specified settings. Unless required, you can't update multiple parameters in one request. For example, you must specify both adminUsername and adminUserPassword to update either field, but you can't update both kmsKeyId and logExports in a single request. Similarly, an S3 Tables log-publishing update (a request where logDestinationType is s3table ) cannot be combined with any other namespace configuration change and must be submitted as its own request. See also: AWS...
     /// </summary>
-    /// <param name="NamespaceName">The name of the namespace to update. You can't update the name of a namespace once it is created. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$</param>
+    /// <param name="NamespaceName">The name of the namespace to update. You can't update the name of a namespace once it is created. Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$</param>
     public AwsRedshiftServerlessUpdateNamespaceOptions(
         string NamespaceName
     )
@@ -58,7 +60,7 @@ public record AwsRedshiftServerlessUpdateNamespaceOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the namespace to update. You can't update the name of a namespace once it is created. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$
+    /// The name of the namespace to update. You can't update the name of a namespace once it is created. Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$
     /// </summary>
     [CliOption("--namespace-name")]
     public string? NamespaceName { get; private init; }
@@ -70,14 +72,14 @@ public record AwsRedshiftServerlessUpdateNamespaceOptions : AwsOptions, IValidat
     public string? AdminPasswordSecretKmsKeyId { get; set; }
 
     /// <summary>
-    /// The password of the administrator for the first database created in the namespace. This parameter must be updated together with admi- nUsername . You can't use adminUserPassword if manageAdminPassword is true. If your admin user account is locked, this operation also unlocks your account and resets the failed-login counter. This option is available only when account lockout security is enabled for the namespace.
+    /// The password of the administrator for the first database created in the namespace. This parameter must be updated together with adminUsername . You can't use adminUserPassword if manageAdminPassword is true. If your admin user account is locked, this operation also unlocks your account and resets the failed-login counter. This option is available only when account lockout security is enabled for the namespace.
     /// </summary>
     [SecretValue]
     [CliOption("--admin-user-password")]
     public string? AdminUserPassword { get; set; }
 
     /// <summary>
-    /// The username of the administrator for the first database created in the namespace. This parameter must be updated together with admi- nUserPassword .
+    /// The username of the administrator for the first database created in the namespace. This parameter must be updated together with adminUserPassword .
     /// </summary>
     [CliOption("--admin-username")]
     public string? AdminUsername { get; set; }
@@ -101,31 +103,31 @@ public record AwsRedshiftServerlessUpdateNamespaceOptions : AwsOptions, IValidat
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// The destination for the log data. Valid values are s3table and cloudwatch . Set this to s3table to manage Amazon S3 Tables system-table publish- ing for the namespace. Possible values: o s3table o cloudwatch
+    /// The destination for the log data. Valid values are s3table and cloudwatch . Set this to s3table to manage Amazon S3 Tables system-table publishing for the namespace. Possible values: • s3table • cloudwatch
     /// </summary>
     [CliOption("--log-destination-type")]
     public AwsRedshiftServerlessUpdateNamespaceLogDestinationType? LogDestinationType { get; set; }
 
     /// <summary>
-    /// The types of logs the namespace can export. The export types are userlog , connectionlog , and useractivitylog . Constraints: o min: 0 o max: 16 (string) Possible values: o useractivitylog o userlog o connectionlog Syntax: "string" "string" ...
+    /// The types of logs the namespace can export. The export types are userlog , connectionlog , and useractivitylog . Constraints: • min: 0 • max: 16 (string) Possible values: • useractivitylog • userlog • connectionlog Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--log-exports", GroupValues = true)]
     public IEnumerable<string>? LogExports { get; set; }
 
     /// <summary>
-    /// If true , Amazon Redshift uses Secrets Manager to manage the name- space's admin credentials. You can't use adminUserPassword if man- ageAdminPassword is true. If manageAdminPassword is false or not set, Amazon Redshift uses adminUserPassword for the admin user ac- count's password.
+    /// If true , Amazon Redshift uses Secrets Manager to manage the namespace's admin credentials. You can't use adminUserPassword if manageAdminPassword is true. If manageAdminPassword is false or not set, Amazon Redshift uses adminUserPassword for the admin user account's password.
     /// </summary>
     [CliFlag("--manage-admin-password", NegatedName = "--no-manage-admin-password")]
     public bool? ManageAdminPassword { get; set; }
 
     /// <summary>
-    /// Whether to enable or disable Amazon S3 Tables publishing. Valid val- ues are Enable and Disable , matched case-insensitively. When omitted, defaults to Enable . Valid only when logDestination- Type is s3table . Possible values: o Enable o Disable
+    /// Whether to enable or disable Amazon S3 Tables publishing. Valid values are Enable and Disable , matched case-insensitively. When omitted, defaults to Enable . Valid only when logDestinationType is s3table . Possible values: • Enable • Disable
     /// </summary>
     [CliOption("--s3-table-action")]
     public AwsRedshiftServerlessUpdateNamespaceS3TableAction? S3TableAction { get; set; }
 
     /// <summary>
-    /// The scope of the Amazon S3 Tables destination. Valid values are namespace and account , matched case-insensitively. namespace scopes the published tables to this namespace; account scopes them to the Amazon Web Services account. Required when enabling. Omitting this parameter or passing a blank value fails with ValidationException . Valid only when logDestina- tionType is s3table . Possible values: o namespace o account
+    /// The scope of the Amazon S3 Tables destination. Valid values are namespace and account , matched case-insensitively. namespace scopes the published tables to this namespace; account scopes them to the Amazon Web Services account. Required when enabling. Omitting this parameter or passing a blank value fails with ValidationException . Valid only when logDestinationType is s3table . Possible values: • namespace • account
     /// </summary>
     [CliOption("--s3-table-granularity")]
     public AwsRedshiftServerlessUpdateNamespaceS3TableGranularity? S3TableGranularity { get; set; }
@@ -137,7 +139,7 @@ public record AwsRedshiftServerlessUpdateNamespaceOptions : AwsOptions, IValidat
     public string? S3TableKmsKeyId { get; set; }
 
     /// <summary>
-    /// The system tables to publish (on enable) or to stop publishing (on disable). Each value is either a system table view name that begins with sys_ or the keyword all . Omitting this parameter, passing an empty list, or including all each select every current and future system table. Each name must be 1-128 characters, and the list can contain up to 256 names. Valid only when logDestinationType is s3table . Constraints: o min: 0 o max: 256 (string) A system-table view name to publish to S3 Tables (e.g. "sys_query_history"), or the keyword "all" to publish every cur- rent and future system table. Constraints: o min: 1 o max: 128 o pattern: ^(all|sys_[a-z0-9_]+)$ Syntax: "string" "string" ...
+    /// The system tables to publish (on enable) or to stop publishing (on disable). Each value is either a system table view name that begins with sys_ or the keyword all . Omitting this parameter, passing an empty list, or including all each select every current and future system table. Each name must be 1-128 characters, and the list can contain up to 256 names. Valid only when logDestinationType is s3table . Constraints: • min: 0 • max: 256 (string) A system-table view name to publish to S3 Tables (e.g. "sys_query_history"), or the keyword "all" to publish every current and future system table. Constraints: • min: 1 • max: 128 • pattern: ^(all|sys_[a-z0-9_]+)$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--s3-table-names", GroupValues = true)]
     public IEnumerable<string>? S3TableNames { get; set; }

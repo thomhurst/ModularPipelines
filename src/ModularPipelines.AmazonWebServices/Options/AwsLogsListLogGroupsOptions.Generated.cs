@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of log groups in the Region in your account. If you are performing this action in a monitoring account, you can choose to also return log groups from source accounts that are linked to the monitor- ing account. For more information about using cross-account observabil- ity to set up monitoring accounts and source accounts, see CloudWatch cross-account observability . You can optionally filter the results by log group class, log group name pattern, field indexes, data sources, fiel...
+/// Returns a list of log groups in the Region in your account. If you are performing this action in a monitoring account, you can choose to also return log groups from source accounts that are linked to the monitoring account. For more information about using cross-account observability to set up monitoring accounts and source accounts, see CloudWatch cross-account observability . You can optionally filter the results by log group class, log group name pattern, field indexes, data sources, field in...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,56 +24,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLogsListLogGroupsOptions : AwsOptions
 {
     /// <summary>
-    /// Use this parameter to limit the returned log groups to only those with names that match the pattern that you specify. This parameter is a regular expression that can match prefixes and substrings, and supports wildcard matching and matching multiple patterns, as in the following examples. o Use ^ to match log group names by prefix. o For a substring match, specify the string to match. All matches are case sensitive o To match multiple patterns, separate them with a | as in the exam- ple ^/aws/lambda|discovery You can specify as many as five different regular expression pat- terns in this field, each of which must be between 3 and 24 charac- ters. You can include the ^ symbol as many as five times, and in- clude the | symbol as many as four times. Constraints: o min: 3 o max: 129 o pattern: (\^?[\.\-_\/#A-Za-z0-9]{3,24})(\|\^?[\.\-_\/#A-Za-z0-9]{3,24}){0,4}
+    /// Use this parameter to limit the returned log groups to only those with names that match the pattern that you specify. This parameter is a regular expression that can match prefixes and substrings, and supports wildcard matching and matching multiple patterns, as in the following examples. • Use ^ to match log group names by prefix. • For a substring match, specify the string to match. All matches are case sensitive • To match multiple patterns, separate them with a | as in the example ^/aws/lambda|discovery You can specify as many as five different regular expression patterns in this field, each of which must be between 3 and 24 characters. You can include the ^ symbol as many as five times, and include the | symbol as many as four times. Constraints: • min: 3 • max: 129 • pattern: (\^?[\.\-_\/#A-Za-z0-9]{3,24})(\|\^?[\.\-_\/#A-Za-z0-9]{3,24}){0,4}
     /// </summary>
     [CliOption("--log-group-name-pattern")]
     public string? LogGroupNamePattern { get; set; }
 
     /// <summary>
-    /// Use this parameter to limit the results to only those log groups in the specified log group class. If you omit this parameter, log groups of all classes can be returned. Possible values: o STANDARD o INFREQUENT_ACCESS o DELIVERY
+    /// Use this parameter to limit the results to only those log groups in the specified log group class. If you omit this parameter, log groups of all classes can be returned. Possible values: • STANDARD • INFREQUENT_ACCESS • DELIVERY
     /// </summary>
     [CliOption("--log-group-class")]
     public AwsLogsListLogGroupsLogGroupClass? LogGroupClass { get; set; }
 
     /// <summary>
-    /// If you are using a monitoring account, set this to true to have the operation return log groups in the accounts listed in accountIdenti- fiers . If this parameter is set to true and accountIdentifiers contains a null value, the operation returns all log groups in the monitoring account and all log groups in all source accounts that are linked to the monitoring account. The default for this parameter is false .
+    /// If you are using a monitoring account, set this to true to have the operation return log groups in the accounts listed in accountIdentifiers . If this parameter is set to true and accountIdentifiers contains a null value, the operation returns all log groups in the monitoring account and all log groups in all source accounts that are linked to the monitoring account. The default for this parameter is false .
     /// </summary>
     [CliFlag("--include-linked-accounts", NegatedName = "--no-include-linked-accounts")]
     public bool? IncludeLinkedAccounts { get; set; }
 
     /// <summary>
-    /// When includeLinkedAccounts is set to true , use this parameter to specify the list of accounts to search. You can specify as many as 20 account IDs in the array. Constraints: o min: 0 o max: 20 (string) Constraints: o min: 12 o max: 12 o pattern: ^\d{12}$ Syntax: "string" "string" ...
+    /// When includeLinkedAccounts is set to true , use this parameter to specify the list of accounts to search. You can specify as many as 20 account IDs in the array. Constraints: • min: 0 • max: 20 (string) Constraints: • min: 12 • max: 12 • pattern: ^\d{12}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-identifiers", GroupValues = true)]
     public IEnumerable<string>? AccountIdentifiers { get; set; }
 
     /// <summary>
-    /// The token for the next set of items to return. The token expires af- ter 24 hours. Constraints: o min: 1
+    /// The token for the next set of items to return. The token expires after 24 hours. Constraints: • min: 1
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of log groups to return. If you omit this parame- ter, the default is up to 50 log groups. Constraints: o min: 1 o max: 1000
+    /// The maximum number of log groups to return. If you omit this parameter, the default is up to 50 log groups. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }
 
     /// <summary>
-    /// An array of data source filters to filter log groups by their asso- ciated data sources. You can filter by data source name, type, or both. Multiple filters within the same dimension are combined with OR logic, while filters across different dimensions are combined with AND logic. Constraints: o min: 1 o max: 5 (structure) Filter criteria for data sources, used to specify which data sources to include in operations based on name and type. name -&gt; (string) [required] The name pattern to filter data sources by. type -&gt; (string) The type pattern to filter data sources by. Shorthand Syntax: name=string,type=string ... JSON Syntax: [ { "name": "string", "type": "string" } ... ]
+    /// An array of data source filters to filter log groups by their associated data sources. You can filter by data source name, type, or both. Multiple filters within the same dimension are combined with OR logic, while filters across different dimensions are combined with AND logic. Constraints: • min: 1 • max: 5 (structure) Filter criteria for data sources, used to specify which data sources to include in operations based on name and type. name -&gt; (string) [required] The name pattern to filter data sources by. type -&gt; (string) The type pattern to filter data sources by. Shorthand Syntax: name=string,type=string ... JSON Syntax: [ { "name": "string", "type": "string" } ... ]
     /// </summary>
     [CliOption("--data-sources", GroupValues = true)]
     public IEnumerable<string>? DataSources { get; set; }
 
     /// <summary>
-    /// An array of field index names to filter log groups that have spe- cific field indexes. Only log groups containing all specified field indexes are returned. You can specify 1 to 20 field index names, each with 1 to 512 characters. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+ Syntax: "string" "string" ...
+    /// An array of field index names to filter log groups that have specific field indexes. Only log groups containing all specified field indexes are returned. You can specify 1 to 20 field index names, each with 1 to 512 characters. Constraints: • min: 1 • max: 20 (string) Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--field-index-names", GroupValues = true)]
     public IEnumerable<string>? FieldIndexNames { get; set; }
 
     /// <summary>
-    /// An array of tag filters to return only log groups that have specific tags. Multiple filters are combined with AND logic. Constraints: o min: 1 o max: 5 (structure) A tag filter that specifies a tag key and optional tag values for filtering log groups by tags. key -&gt; (string) [required] The tag key to filter on. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ values -&gt; (list) An optional list of tag values to filter on. o If you specify a filter that contains more than one value for a key, the response returns log groups that match any of the specified values for that key. o If you don't specify values, the response returns all log groups that are tagged with that key, with any or no value. o Use * for wildcard matching. For example, prod* matches values that start with prod . o Use ! as a prefix for negation. For example, !prod matches values that are not prod . o Exact matching and negation are case-sensitive. Wildcard matching is case-insensitive. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 0 o max: 259 o pattern: ^!?\*?([\p{L}\p{Z}\p{N}_.:/=+\-@]*)\*?$ Shorthand Syntax: key=string,values=string,string ... JSON Syntax: [ { "key": "string", "values": ["string", ...] } ... ]
+    /// An array of tag filters to return only log groups that have specific tags. Multiple filters are combined with AND logic. Constraints: • min: 1 • max: 5 (structure) A tag filter that specifies a tag key and optional tag values for filtering log groups by tags. key -&gt; (string) [required] The tag key to filter on. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ values -&gt; (list) An optional list of tag values to filter on. • If you specify a filter that contains more than one value for a key, the response returns log groups that match any of the specified values for that key. • If you don't specify values, the response returns all log groups that are tagged with that key, with any or no value. • Use * for wildcard matching. For example, prod* matches values that start with prod . • Use ! as a prefix for negation. For example, !prod matches values that are not prod . • Exact matching and negation are case-sensitive. Wildcard matching is case-insensitive. Constraints: • min: 0 • max: 5 (string) Constraints: • min: 0 • max: 259 • pattern: ^!?\*?([\p{L}\p{Z}\p{N}_.:/=+\-@]*)\*?$ Shorthand Syntax: key=string,values=string,string ... JSON Syntax: [ { "key": "string", "values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--log-group-tags", GroupValues = true)]
     public IEnumerable<string>? LogGroupTags { get; set; }

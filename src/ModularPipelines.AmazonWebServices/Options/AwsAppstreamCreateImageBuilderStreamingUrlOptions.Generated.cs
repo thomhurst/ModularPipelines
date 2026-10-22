@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAppstreamCreateImageBuilderStreamingUrlOptions : AwsOptions, IV
     /// <summary>
     /// Creates a URL to start an image builder streaming session. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the image builder. Constraints: o min: 1</param>
+    /// <param name="Name">The name of the image builder. Constraints: • min: 1</param>
     public AwsAppstreamCreateImageBuilderStreamingUrlOptions(
         string Name
     )
@@ -56,7 +58,7 @@ public record AwsAppstreamCreateImageBuilderStreamingUrlOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the image builder. Constraints: o min: 1
+    /// The name of the image builder. Constraints: • min: 1
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -65,7 +67,7 @@ public record AwsAppstreamCreateImageBuilderStreamingUrlOptions : AwsOptions, IV
     /// The time that the streaming URL will be valid, in seconds. Specify a value between 1 and 604800 seconds. The default is 3600 seconds.
     /// </summary>
     [CliOption("--validity")]
-    public int? Validity { get; set; }
+    public long? Validity { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

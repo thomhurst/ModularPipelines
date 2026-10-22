@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -29,11 +30,11 @@ public record AwsMgnPutTemplateActionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Put template post migration custom action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LaunchConfigurationTemplateId">Launch configuration template ID. Constraints: o min: 21 o max: 21 o pattern: lct-[0-9a-zA-Z]{17}</param>
-    /// <param name="ActionName">Template post migration custom action name. Constraints: o min: 0 o max: 256</param>
-    /// <param name="DocumentIdentifier">Template post migration custom action document identifier. Constraints: o min: 0 o max: 256</param>
-    /// <param name="Order">Template post migration custom action order. Constraints: o min: 1001 o max: 10000</param>
-    /// <param name="ActionId">Template post migration custom action ID. Constraints: o min: 1 o max: 64 o pattern: .*[0-9a-zA-Z]</param>
+    /// <param name="LaunchConfigurationTemplateId">Launch configuration template ID. Constraints: • min: 21 • max: 21 • pattern: lct-[0-9a-zA-Z]{17}</param>
+    /// <param name="ActionName">Template post migration custom action name. Constraints: • min: 0 • max: 256</param>
+    /// <param name="DocumentIdentifier">Template post migration custom action document identifier. Constraints: • min: 0 • max: 256</param>
+    /// <param name="Order">Template post migration custom action order. Constraints: • min: 1001 • max: 10000</param>
+    /// <param name="ActionId">Template post migration custom action ID. Constraints: • min: 1 • max: 64 • pattern: .*[0-9a-zA-Z]</param>
     public AwsMgnPutTemplateActionOptions(
         string LaunchConfigurationTemplateId,
         string ActionName,
@@ -73,37 +74,37 @@ public record AwsMgnPutTemplateActionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Launch configuration template ID. Constraints: o min: 21 o max: 21 o pattern: lct-[0-9a-zA-Z]{17}
+    /// Launch configuration template ID. Constraints: • min: 21 • max: 21 • pattern: lct-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--launch-configuration-template-id")]
     public string? LaunchConfigurationTemplateId { get; private init; }
 
     /// <summary>
-    /// Template post migration custom action name. Constraints: o min: 0 o max: 256
+    /// Template post migration custom action name. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--action-name")]
     public string? ActionName { get; private init; }
 
     /// <summary>
-    /// Template post migration custom action document identifier. Constraints: o min: 0 o max: 256
+    /// Template post migration custom action document identifier. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--document-identifier")]
     public string? DocumentIdentifier { get; private init; }
 
     /// <summary>
-    /// Template post migration custom action order. Constraints: o min: 1001 o max: 10000
+    /// Template post migration custom action order. Constraints: • min: 1001 • max: 10000
     /// </summary>
     [CliOption("--order")]
     public int? Order { get; private init; }
 
     /// <summary>
-    /// Template post migration custom action ID. Constraints: o min: 1 o max: 64 o pattern: .*[0-9a-zA-Z]
+    /// Template post migration custom action ID. Constraints: • min: 1 • max: 64 • pattern: .*[0-9a-zA-Z]
     /// </summary>
     [CliOption("--action-id")]
     public string? ActionId { get; private init; }
 
     /// <summary>
-    /// Template post migration custom action document version. Constraints: o pattern: (\$DEFAULT|\$LATEST|[0-9]+)
+    /// Template post migration custom action document version. Constraints: • pattern: (\$DEFAULT|\$LATEST|[0-9]+)
     /// </summary>
     [CliOption("--document-version")]
     public string? DocumentVersion { get; set; }
@@ -115,7 +116,7 @@ public record AwsMgnPutTemplateActionOptions : AwsOptions, IValidatableObject
     public bool? Active { get; set; }
 
     /// <summary>
-    /// Template post migration custom action timeout in seconds. Constraints: o min: 1
+    /// Template post migration custom action timeout in seconds. Constraints: • min: 1
     /// </summary>
     [CliOption("--timeout-seconds")]
     public int? TimeoutSeconds { get; set; }
@@ -127,31 +128,31 @@ public record AwsMgnPutTemplateActionOptions : AwsOptions, IValidatableObject
     public bool? MustSucceedForCutover { get; set; }
 
     /// <summary>
-    /// Template post migration custom action parameters. Constraints: o min: 0 o max: 20 key -&gt; (string) Constraints: o min: 1 o max: 1011 o pattern: ([A-Za-z0-9])+ value -&gt; (list) Constraints: o min: 0 o max: 10 (structure) AWS Systems Manager Parameter Store parameter. parameterType -&gt; (string) [required] AWS Systems Manager Parameter Store parameter type. Possible values: o STRING o SECURE_STRING parameterName -&gt; (string) [required] AWS Systems Manager Parameter Store parameter name. Constraints: o min: 1 o max: 1011 o pattern: ([A-Za-z0-9_\.-])+ Shorthand Syntax: KeyName1=[{parameterType=string,parameterName=string},{parameterType=string,parameterName=string}],KeyName2=[{parameterType=string,parameterName=string},{parameterType=string,parameterName=string}] JSON Syntax: {"string": [ { "parameterType": "STRING"|"SECURE_STRING", "parameterName": "string" } ... ] ...}
+    /// Template post migration custom action parameters. Constraints: • min: 0 • max: 20 key -&gt; (string) Constraints: • min: 1 • max: 1011 • pattern: ([A-Za-z0-9])+ value -&gt; (list) Constraints: • min: 0 • max: 10 (structure) AWS Systems Manager Parameter Store parameter. parameterType -&gt; (string) [required] AWS Systems Manager Parameter Store parameter type. Possible values: • STRING • SECURE_STRING parameterName -&gt; (string) [required] AWS Systems Manager Parameter Store parameter name. Constraints: • min: 1 • max: 1011 • pattern: ([A-Za-z0-9_\.-])+ Shorthand Syntax: KeyName1=[{parameterType=string,parameterName=string},{parameterType=string,parameterName=string}],KeyName2=[{parameterType=string,parameterName=string},{parameterType=string,parameterName=string}] JSON Syntax: {"string": [ { "parameterType": "STRING"|"SECURE_STRING", "parameterName": "string" } ... ] ...}
     /// </summary>
     [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     /// <summary>
-    /// Operating system eligible for this template post migration custom action. Constraints: o pattern: (linux|windows)
+    /// Operating system eligible for this template post migration custom action. Constraints: • pattern: (linux|windows)
     /// </summary>
     [CliOption("--operating-system")]
     public string? OperatingSystem { get; set; }
 
     /// <summary>
-    /// Template post migration custom action external parameters. Constraints: o min: 0 o max: 20 key -&gt; (string) Constraints: o min: 1 o max: 1011 o pattern: ([A-Za-z0-9])+ value -&gt; (tagged union structure) AWS Systems Manager Document external parameter. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: dynamicPath. dynamicPath -&gt; (string) AWS Systems Manager Document external parameters dynamic path. Constraints: o min: 1 o max: 1011 o pattern: [a-zA-Z0-9_]+(\.[a-zA-Z0-9_\[\]]+)* Shorthand Syntax: KeyName1={dynamicPath=string},KeyName2={dynamicPath=string} JSON Syntax: {"string": { "dynamicPath": "string" } ...}
+    /// Template post migration custom action external parameters. Constraints: • min: 0 • max: 20 key -&gt; (string) Constraints: • min: 1 • max: 1011 • pattern: ([A-Za-z0-9])+ value -&gt; (tagged union structure) AWS Systems Manager Document external parameter. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: dynamicPath. dynamicPath -&gt; (string) AWS Systems Manager Document external parameters dynamic path. Constraints: • min: 1 • max: 1011 • pattern: [a-zA-Z0-9_]+(\.[a-zA-Z0-9_\[\]]+)* Shorthand Syntax: KeyName1={dynamicPath=string},KeyName2={dynamicPath=string} JSON Syntax: {"string": { "dynamicPath": "string" } ...}
     /// </summary>
     [CliOption("--external-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ExternalParameters { get; set; }
 
     /// <summary>
-    /// Template post migration custom action description. Constraints: o min: 0 o max: 256 o pattern: [0-9a-zA-Z ():/.,'-_#*; ]*
+    /// Template post migration custom action description. Constraints: • min: 0 • max: 256 • pattern: [0-9a-zA-Z ():/.,'-_#*; ]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Template post migration custom action category. Possible values: o DISASTER_RECOVERY o OPERATING_SYSTEM o LICENSE_AND_SUBSCRIPTION o VALIDATION o OBSERVABILITY o REFACTORING o SECURITY o NETWORKING o CONFIGURATION o BACKUP o OTHER
+    /// Template post migration custom action category. Possible values: • DISASTER_RECOVERY • OPERATING_SYSTEM • LICENSE_AND_SUBSCRIPTION • VALIDATION • OBSERVABILITY • REFACTORING • SECURITY • NETWORKING • CONFIGURATION • BACKUP • OTHER
     /// </summary>
     [CliOption("--category")]
     public AwsMgnPutTemplateActionCategory? Category { get; set; }

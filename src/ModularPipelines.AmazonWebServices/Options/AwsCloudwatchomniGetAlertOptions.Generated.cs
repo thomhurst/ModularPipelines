@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCloudwatchomniGetAlertOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves a single alert by its identifier. Use ListAlerts to enumerate alerts in the space. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SpaceId">The unique ID of the space. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="AlertId">The alert to retrieve. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}</param>
+    /// <param name="SpaceId">The unique ID of the space. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="AlertId">The alert to retrieve. Constraints: • min: 32 • max: 32 • pattern: [0-9a-f]{32}</param>
     public AwsCloudwatchomniGetAlertOptions(
         string SpaceId,
         string AlertId
@@ -60,13 +62,13 @@ public record AwsCloudwatchomniGetAlertOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the space. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique ID of the space. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--space-id")]
     public string? SpaceId { get; private init; }
 
     /// <summary>
-    /// The alert to retrieve. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}
+    /// The alert to retrieve. Constraints: • min: 32 • max: 32 • pattern: [0-9a-f]{32}
     /// </summary>
     [CliOption("--alert-id")]
     public string? AlertId { get; private init; }

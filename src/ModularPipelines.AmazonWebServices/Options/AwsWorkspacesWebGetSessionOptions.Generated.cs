@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsWorkspacesWebGetSessionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets information for a secure browser session. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PortalId">The ID of the web portal for the session. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9\-]+</param>
-    /// <param name="SessionId">The ID of the session. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9\-]+</param>
+    /// <param name="PortalId">The ID of the web portal for the session. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9\-]+</param>
+    /// <param name="SessionId">The ID of the session. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9\-]+</param>
     public AwsWorkspacesWebGetSessionOptions(
         string PortalId,
         string SessionId
@@ -60,13 +62,13 @@ public record AwsWorkspacesWebGetSessionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the web portal for the session. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9\-]+
+    /// The ID of the web portal for the session. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9\-]+
     /// </summary>
     [CliOption("--portal-id")]
     public string? PortalId { get; private init; }
 
     /// <summary>
-    /// The ID of the session. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9\-]+
+    /// The ID of the session. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9\-]+
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }

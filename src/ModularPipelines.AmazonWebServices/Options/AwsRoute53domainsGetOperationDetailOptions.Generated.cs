@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRoute53domainsGetOperationDetailOptions : AwsOptions, IValidata
     /// <summary>
     /// This operation returns the current status of an operation that is not completed. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OperationId">The identifier for the operation for which you want to get the sta- tus. Route 53 returned the identifier in the response to the origi- nal request. Constraints: o max: 255</param>
+    /// <param name="OperationId">The identifier for the operation for which you want to get the status. Route 53 returned the identifier in the response to the original request. Constraints: • max: 255</param>
     public AwsRoute53domainsGetOperationDetailOptions(
         string OperationId
     )
@@ -56,7 +58,7 @@ public record AwsRoute53domainsGetOperationDetailOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the operation for which you want to get the sta- tus. Route 53 returned the identifier in the response to the origi- nal request. Constraints: o max: 255
+    /// The identifier for the operation for which you want to get the status. Route 53 returned the identifier in the response to the original request. Constraints: • max: 255
     /// </summary>
     [CliOption("--operation-id")]
     public string? OperationId { get; private init; }

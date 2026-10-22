@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsQbusinessDeleteUserOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a user by email id. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The identifier of the application from which the user is being deleted. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
-    /// <param name="UserId">The user email being deleted. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="ApplicationId">The identifier of the application from which the user is being deleted. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="UserId">The user email being deleted. Constraints: • min: 1 • max: 2048</param>
     public AwsQbusinessDeleteUserOptions(
         string ApplicationId,
         string UserId
@@ -60,13 +62,13 @@ public record AwsQbusinessDeleteUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the application from which the user is being deleted. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The identifier of the application from which the user is being deleted. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The user email being deleted. Constraints: o min: 1 o max: 2048
+    /// The user email being deleted. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; private init; }

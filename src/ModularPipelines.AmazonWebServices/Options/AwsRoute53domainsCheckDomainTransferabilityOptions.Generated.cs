@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRoute53domainsCheckDomainTransferabilityOptions : AwsOptions, I
     /// <summary>
     /// Checks whether a domain name can be transferred to Amazon Route 53. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The name of the domain that you want to transfer to Route 53. The top-level domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of supported TLDs, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide . The domain name can contain only the following characters: o Letters a through z. Domain names are not case sensitive. o Numbers 0 through 9. o Hyphen (-). You can't specify a hyphen at the beginning or end of a label. o Period (.) to separate the labels in the name, such as the . in example.com . Constraints: o max: 255</param>
+    /// <param name="DomainName">The name of the domain that you want to transfer to Route 53. The top-level domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of supported TLDs, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide . The domain name can contain only the following characters: • Letters a through z. Domain names are not case sensitive. • Numbers 0 through 9. • Hyphen (-). You can't specify a hyphen at the beginning or end of a label. • Period (.) to separate the labels in the name, such as the . in example.com . Constraints: • max: 255</param>
     public AwsRoute53domainsCheckDomainTransferabilityOptions(
         string DomainName
     )
@@ -56,13 +58,13 @@ public record AwsRoute53domainsCheckDomainTransferabilityOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain that you want to transfer to Route 53. The top-level domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of supported TLDs, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide . The domain name can contain only the following characters: o Letters a through z. Domain names are not case sensitive. o Numbers 0 through 9. o Hyphen (-). You can't specify a hyphen at the beginning or end of a label. o Period (.) to separate the labels in the name, such as the . in example.com . Constraints: o max: 255
+    /// The name of the domain that you want to transfer to Route 53. The top-level domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of supported TLDs, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide . The domain name can contain only the following characters: • Letters a through z. Domain names are not case sensitive. • Numbers 0 through 9. • Hyphen (-). You can't specify a hyphen at the beginning or end of a label. • Period (.) to separate the labels in the name, such as the . in example.com . Constraints: • max: 255
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// If the registrar for the top-level domain (TLD) requires an autho- rization code to transfer the domain, the code that you got from the current registrar for the domain. Constraints: o max: 1024
+    /// If the registrar for the top-level domain (TLD) requires an authorization code to transfer the domain, the code that you got from the current registrar for the domain. Constraints: • max: 1024
     /// </summary>
     [CliOption("--auth-code")]
     public string? AuthCode { get; set; }

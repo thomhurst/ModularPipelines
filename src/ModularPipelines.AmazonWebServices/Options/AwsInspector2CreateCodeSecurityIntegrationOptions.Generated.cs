@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -17,7 +18,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a code security integration with a source code repository provider. After calling the CreateCodeSecurityIntegration operation, you complete authentication and authorization with your provider. Next you call the UpdateCodeSecurityIntegration operation to provide the details to com- plete the integration setup See also: AWS API Documentation
+/// Creates a code security integration with a source code repository provider. After calling the CreateCodeSecurityIntegration operation, you complete authentication and authorization with your provider. Next you call the UpdateCodeSecurityIntegration operation to provide the details to complete the integration setup See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsInspector2CreateCodeSecurityIntegrationOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a code security integration with a source code repository provider. After calling the CreateCodeSecurityIntegration operation, you complete authentication and authorization with your provider. Next you call the UpdateCodeSecurityIntegration operation to provide the details to com- plete the integration setup See also: AWS API Documentation
+    /// Creates a code security integration with a source code repository provider. After calling the CreateCodeSecurityIntegration operation, you complete authentication and authorization with your provider. Next you call the UpdateCodeSecurityIntegration operation to provide the details to complete the integration setup See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the code security integration. Constraints: o min: 1 o max: 60 o pattern: [a-zA-Z0-9-_$:.]*</param>
-    /// <param name="Type">The type of repository provider for the integration. Possible values: o GITLAB_SELF_MANAGED o GITHUB</param>
+    /// <param name="Name">The name of the code security integration. Constraints: • min: 1 • max: 60 • pattern: [a-zA-Z0-9-_$:.]*</param>
+    /// <param name="Type">The type of repository provider for the integration. Possible values: • GITLAB_SELF_MANAGED • GITHUB</param>
     public AwsInspector2CreateCodeSecurityIntegrationOptions(
         string Name,
         AwsInspector2CreateCodeSecurityIntegrationType Type
@@ -61,25 +62,25 @@ public record AwsInspector2CreateCodeSecurityIntegrationOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the code security integration. Constraints: o min: 1 o max: 60 o pattern: [a-zA-Z0-9-_$:.]*
+    /// The name of the code security integration. Constraints: • min: 1 • max: 60 • pattern: [a-zA-Z0-9-_$:.]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The type of repository provider for the integration. Possible values: o GITLAB_SELF_MANAGED o GITHUB
+    /// The type of repository provider for the integration. Possible values: • GITLAB_SELF_MANAGED • GITHUB
     /// </summary>
     [CliOption("--type")]
     public AwsInspector2CreateCodeSecurityIntegrationType? Type { get; private init; }
 
     /// <summary>
-    /// The integration details specific to the repository provider type. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: gitlabSelfManaged. gitlabSelfManaged -&gt; (structure) Details specific to creating an integration with a self-managed GitLab instance. instanceUrl -&gt; (string) [required] The URL of the self-managed GitLab instance. Constraints: o pattern: https://[-a-zA-Z0-9()@:%_+.~#?&amp;//=]{1,1024} accessToken -&gt; (string) [required] The personal access token used to authenticate with the self-managed GitLab instance. Shorthand Syntax: gitlabSelfManaged={instanceUrl=string,accessToken=string} JSON Syntax: { "gitlabSelfManaged": { "instanceUrl": "string", "accessToken": "string" } }
+    /// The integration details specific to the repository provider type. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: gitlabSelfManaged. gitlabSelfManaged -&gt; (structure) Details specific to creating an integration with a self-managed GitLab instance. instanceUrl -&gt; (string) [required] The URL of the self-managed GitLab instance. Constraints: • pattern: https://[-a-zA-Z0-9()@:%_+.~#?&amp;//=]{1,1024} accessToken -&gt; (string) [required] The personal access token used to authenticate with the self-managed GitLab instance. Shorthand Syntax: gitlabSelfManaged={instanceUrl=string,accessToken=string} JSON Syntax: { "gitlabSelfManaged": { "instanceUrl": "string", "accessToken": "string" } }
     /// </summary>
     [CliOption("--details")]
     public string? Details { get; set; }
 
     /// <summary>
-    /// The tags to apply to the code security integration. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to apply to the code security integration. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

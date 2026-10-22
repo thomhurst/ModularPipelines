@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns one or more configured OpenSearch Serverless lifecycle poli- cies. For more information, see Viewing data lifecycle policies . See also: AWS API Documentation batch-get-lifecycle-policy uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support documen...
+/// Returns one or more configured OpenSearch Serverless lifecycle policies. For more information, see Viewing data lifecycle policies . See also: AWS API Documentation batch-get-lifecycle-policy uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document ty...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsOpensearchserverlessBatchGetLifecyclePolicyOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns one or more configured OpenSearch Serverless lifecycle poli- cies. For more information, see Viewing data lifecycle policies . See also: AWS API Documentation batch-get-lifecycle-policy uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support documen...
+    /// Returns one or more configured OpenSearch Serverless lifecycle policies. For more information, see Viewing data lifecycle policies . See also: AWS API Documentation batch-get-lifecycle-policy uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document ty...
     /// </summary>
-    /// <param name="Identifiers">The unique identifiers of policy types and policy names. Constraints: o min: 1 o max: 40 (structure) The unique identifiers of policy types and policy names. type -&gt; (string) [required] The type of lifecycle policy. Possible values: o retention name -&gt; (string) [required] The name of the lifecycle policy. Constraints: o min: 3 o max: 32 o pattern: [a-z][a-z0-9-]+ Shorthand Syntax: type=string,name=string ... JSON Syntax: [ { "type": "retention", "name": "string" } ... ]</param>
+    /// <param name="Identifiers">The unique identifiers of policy types and policy names. Constraints: • min: 1 • max: 40 (structure) The unique identifiers of policy types and policy names. type -&gt; (string) [required] The type of lifecycle policy. Possible values: • retention name -&gt; (string) [required] The name of the lifecycle policy. Constraints: • min: 3 • max: 32 • pattern: [a-z][a-z0-9-]+ Shorthand Syntax: type=string,name=string ... JSON Syntax: [ { "type": "retention", "name": "string" } ... ]</param>
     public AwsOpensearchserverlessBatchGetLifecyclePolicyOptions(
         IEnumerable<string> Identifiers
     )
@@ -67,7 +69,7 @@ public record AwsOpensearchserverlessBatchGetLifecyclePolicyOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifiers of policy types and policy names. Constraints: o min: 1 o max: 40 (structure) The unique identifiers of policy types and policy names. type -&gt; (string) [required] The type of lifecycle policy. Possible values: o retention name -&gt; (string) [required] The name of the lifecycle policy. Constraints: o min: 3 o max: 32 o pattern: [a-z][a-z0-9-]+ Shorthand Syntax: type=string,name=string ... JSON Syntax: [ { "type": "retention", "name": "string" } ... ]
+    /// The unique identifiers of policy types and policy names. Constraints: • min: 1 • max: 40 (structure) The unique identifiers of policy types and policy names. type -&gt; (string) [required] The type of lifecycle policy. Possible values: • retention name -&gt; (string) [required] The name of the lifecycle policy. Constraints: • min: 3 • max: 32 • pattern: [a-z][a-z0-9-]+ Shorthand Syntax: type=string,name=string ... JSON Syntax: [ { "type": "retention", "name": "string" } ... ]
     /// </summary>
     [CliOption("--identifiers", GroupValues = true)]
     public IEnumerable<string>? Identifiers { get; private init; }

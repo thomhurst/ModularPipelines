@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a Lambda function's code. If code signing is enabled for the function, the code package must be signed by a trusted publisher. For more information, see Configuring code signing for Lambda . If the function's package type is Image , then you must specify the code package in ImageUri as the URI of a container image in the Amazon ECR registry. If the function's package type is Zip , then you must specify the de- ployment package as a .zip file archive . Enter the Amazon S3 bucket and key o...
+/// Updates a Lambda Event Function's code. If code signing is enabled for the function, the code package must be signed by a trusted publisher. For more information, see Configuring code signing for Lambda . If the function's package type is Image , then you must specify the code package in ImageUri as the URI of a container image in the Amazon ECR registry. If the function's package type is Zip , then you must specify the deployment package as a .zip file archive . Enter the Amazon S3 bucket and k...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLambdaUpdateFunctionCodeOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a Lambda function's code. If code signing is enabled for the function, the code package must be signed by a trusted publisher. For more information, see Configuring code signing for Lambda . If the function's package type is Image , then you must specify the code package in ImageUri as the URI of a container image in the Amazon ECR registry. If the function's package type is Zip , then you must specify the de- ployment package as a .zip file archive . Enter the Amazon S3 bucket and key o...
+    /// Updates a Lambda Event Function's code. If code signing is enabled for the function, the code package must be signed by a trusted publisher. For more information, see Configuring code signing for Lambda . If the function's package type is Image , then you must specify the code package in ImageUri as the URI of a container image in the Amazon ECR registry. If the function's package type is Zip , then you must specify the deployment package as a .zip file archive . Enter the Amazon S3 bucket and k...
     /// </summary>
-    /// <param name="FunctionName">The name or ARN of the Lambda function. Name formats o Function name my-function . o Function ARN arn:aws:lambda:us-west-2:123456789012:func- tion:my-function . o Partial ARN 123456789012:function:my-function . The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?</param>
+    /// <param name="FunctionName">The name or ARN of the Lambda function. Name formats • Function name my-function . • Function ARN arn:aws:lambda:us-west-2:123456789012:function:my-function . • Partial ARN 123456789012:function:my-function . The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: • min: 1 • max: 140 • pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?</param>
     public AwsLambdaUpdateFunctionCodeOptions(
         string FunctionName
     )
@@ -56,7 +58,7 @@ public record AwsLambdaUpdateFunctionCodeOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or ARN of the Lambda function. Name formats o Function name my-function . o Function ARN arn:aws:lambda:us-west-2:123456789012:func- tion:my-function . o Partial ARN 123456789012:function:my-function . The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?
+    /// The name or ARN of the Lambda function. Name formats • Function name my-function . • Function ARN arn:aws:lambda:us-west-2:123456789012:function:my-function . • Partial ARN 123456789012:function:my-function . The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: • min: 1 • max: 140 • pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?
     /// </summary>
     [CliOption("--function-name")]
     public string? FunctionName { get; private init; }
@@ -68,25 +70,25 @@ public record AwsLambdaUpdateFunctionCodeOptions : AwsOptions, IValidatableObjec
     public string? ZipFile { get; set; }
 
     /// <summary>
-    /// An Amazon S3 bucket in the same Amazon Web Services Region as your function. The bucket can be in a different Amazon Web Services ac- count. Use only with a function defined with a .zip file archive de- ployment package. Constraints: o min: 3 o max: 63 o pattern: [0-9A-Za-z\.\-_]*(?&lt;!\.)
+    /// An Amazon S3 bucket in the same Amazon Web Services Region as your function. The bucket can be in a different Amazon Web Services account. Use only with a function defined with a .zip file archive deployment package. Constraints: • min: 3 • max: 63 • pattern: [0-9A-Za-z\.\-_]*(?&lt;!\.)
     /// </summary>
     [CliOption("--s3-bucket")]
     public string? S3Bucket { get; set; }
 
     /// <summary>
-    /// The Amazon S3 key of the deployment package. Use only with a func- tion defined with a .zip file archive deployment package. Constraints: o min: 1 o max: 1024 o pattern: .*
+    /// The Amazon S3 key of the deployment package. Use only with a function defined with a .zip file archive deployment package. Constraints: • min: 1 • max: 1024 • pattern: .*
     /// </summary>
     [CliOption("--s3-key")]
     public string? S3Key { get; set; }
 
     /// <summary>
-    /// For versioned objects, the version of the deployment package object to use. Constraints: o min: 1 o max: 1024 o pattern: .*
+    /// For versioned objects, the version of the deployment package object to use. Constraints: • min: 1 • max: 1024 • pattern: .*
     /// </summary>
     [CliOption("--s3-object-version")]
     public string? S3ObjectVersion { get; set; }
 
     /// <summary>
-    /// Specifies how the deployment package is stored. Valid values: o COPY (default) Uploads a copy of your deployment package to Lambda. o REFERENCE Lambda references the deployment package from the spec- ified Amazon S3 bucket. Possible values: o COPY o REFERENCE
+    /// Specifies how the deployment package is stored. Valid values: • COPY (default) Uploads a copy of your deployment package to Lambda. • REFERENCE Lambda references the deployment package from the specified Amazon S3 bucket. Possible values: • COPY • REFERENCE
     /// </summary>
     [CliOption("--s3-object-storage-mode")]
     public string? S3ObjectStorageMode { get; set; }
@@ -98,25 +100,25 @@ public record AwsLambdaUpdateFunctionCodeOptions : AwsOptions, IValidatableObjec
     public string? ImageUri { get; set; }
 
     /// <summary>
-    /// The instruction set architecture that the function supports. Enter a string array with one of the valid values (arm64 or x86_64). The de- fault value is x86_64 . Constraints: o min: 1 o max: 1 (string) Possible values: o x86_64 o arm64 Syntax: "string" "string" ...
+    /// The instruction set architecture that the function supports. Enter a string array with one of the valid values (arm64 or x86_64). The default value is x86_64 . Constraints: • min: 1 • max: 1 (string) Possible values: • x86_64 • arm64 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--architectures", GroupValues = true)]
     public IEnumerable<string>? Architectures { get; set; }
 
     /// <summary>
-    /// Set to true to publish a new version of the function after updating the code. This has the same effect as calling PublishVersion sepa- rately.
+    /// Set to true to publish a new version of the function after updating the code. This has the same effect as calling PublishVersion separately.
     /// </summary>
     [CliFlag("--publish", NegatedName = "--no-publish")]
     public bool? Publish { get; set; }
 
     /// <summary>
-    /// Specifies where to publish the function version or configuration. Possible values: o LATEST_PUBLISHED
+    /// Specifies where to publish the function version or configuration. Possible values: • LATEST_PUBLISHED
     /// </summary>
     [CliOption("--publish-to")]
     public string? PublishTo { get; set; }
 
     /// <summary>
-    /// Set to true to validate the request parameters and access permis- sions without modifying the function code.
+    /// Set to true to validate the request parameters and access permissions without modifying the function code.
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -128,7 +130,7 @@ public record AwsLambdaUpdateFunctionCodeOptions : AwsOptions, IValidatableObjec
     public string? RevisionId { get; set; }
 
     /// <summary>
-    /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's .zip deployment package. If you don't provide a customer managed key, Lambda uses an Amazon Web Services managed key. Constraints: o min: 0 o max: 10000 o pattern: (arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()
+    /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's .zip deployment package. If you don't provide a customer managed key, Lambda uses an Amazon Web Services managed key. Constraints: • min: 0 • max: 10000 • pattern: (arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()
     /// </summary>
     [CliOption("--source-kms-key-arn")]
     public string? SourceKmsKeyArn { get; set; }

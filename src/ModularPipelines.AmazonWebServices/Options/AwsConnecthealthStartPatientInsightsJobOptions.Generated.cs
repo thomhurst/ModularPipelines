@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,13 +30,13 @@ public record AwsConnecthealthStartPatientInsightsJobOptions : AwsOptions, IVali
     /// <summary>
     /// Starts a new patient insights job. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">Constraints: o min: 20 o max: 25 o pattern: (hai-|dom-)[a-z0-9]+</param>
-    /// <param name="PatientContext">patientId -&gt; (string) [required] Unique identifier of the patient Constraints: o pattern: .*[\s\S]*\S[\s\S]*.* dateOfBirth -&gt; (string) Date of birth of the patient. Constraints: o pattern: \d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]) pronouns -&gt; (string) Pronouns preferred by the patient. Possible values: o HE_HIM o SHE_HER o THEY_THEM Shorthand Syntax: patientId=string,dateOfBirth=string,pronouns=string JSON Syntax: { "patientId": "string", "dateOfBirth": "string", "pronouns": "HE_HIM"|"SHE_HER"|"THEY_THEM" }</param>
-    /// <param name="InsightsContext">insightsType -&gt; (string) [required] Possible values: o PRE_VISIT Shorthand Syntax: insightsType=string JSON Syntax: { "insightsType": "PRE_VISIT" }</param>
-    /// <param name="EncounterContext">encounterReason -&gt; (string) [required] Chief complaint for the visit Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 .,-]+ Shorthand Syntax: encounterReason=string JSON Syntax: { "encounterReason": "string" }</param>
-    /// <param name="UserContext">role -&gt; (string) [required] Possible values: o CLINICIAN userId -&gt; (string) [required] Unique identifier of the user Constraints: o pattern: .*[\s\S]*\S[\s\S]*.* specialty -&gt; (string) Possible values: o PRIMARY_CARE Shorthand Syntax: role=string,userId=string,specialty=string JSON Syntax: { "role": "CLINICIAN", "userId": "string", "specialty": "PRIMARY_CARE" }</param>
-    /// <param name="InputDataConfig">fhirServer -&gt; (structure) FHIR server configuration to retrieve patient data. fhirEndpoint -&gt; (string) [required] FHIR server endpoint URL for accessing patient data. Constraints: o pattern: https?://[a-zA-Z0-9\-._~:/?#\[\]@!$&amp;'()*+,;=%]+ oauthToken -&gt; (string) OAuth token for authenticating with the FHIR server. Constraints: o pattern: .*[\s\S]*\S[\s\S]*.* s3Sources -&gt; (list) List of S3 sources containing patient data. Constraints: o min: 0 o max: 10 (structure) S3 uri for input data source uri -&gt; (string) [required] The S3 URI. Constraints: o min: 0 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Shorthand Syntax: fhirServer={fhirEndpoint=string,oauthToken=string},s3Sources=[{uri=string},{uri=string}] JSON Syntax: { "fhirServer": { "fhirEndpoint": "string", "oauthToken": "string" }, "s3Sources": [ { "uri": "string" } ... ] }</param>
-    /// <param name="OutputDataConfig">s3OutputPath -&gt; (string) [required] S3 URI where the insights output will be stored. Constraints: o min: 0 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Shorthand Syntax: s3OutputPath=string JSON Syntax: { "s3OutputPath": "string" }</param>
+    /// <param name="DomainId">Constraints: • min: 20 • max: 25 • pattern: (hai-|dom-)[a-z0-9]+</param>
+    /// <param name="PatientContext">patientId -&gt; (string) [required] Unique identifier of the patient Constraints: • pattern: .*[\s\S]*\S[\s\S]*.* dateOfBirth -&gt; (string) Date of birth of the patient. Constraints: • pattern: \d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]) pronouns -&gt; (string) Pronouns preferred by the patient. Possible values: • HE_HIM • SHE_HER • THEY_THEM Shorthand Syntax: patientId=string,dateOfBirth=string,pronouns=string JSON Syntax: { "patientId": "string", "dateOfBirth": "string", "pronouns": "HE_HIM"|"SHE_HER"|"THEY_THEM" }</param>
+    /// <param name="InsightsContext">insightsType -&gt; (string) [required] Possible values: • PRE_VISIT Shorthand Syntax: insightsType=string JSON Syntax: { "insightsType": "PRE_VISIT" }</param>
+    /// <param name="EncounterContext">encounterReason -&gt; (string) [required] Chief complaint for the visit Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9 .,-]+ Shorthand Syntax: encounterReason=string JSON Syntax: { "encounterReason": "string" }</param>
+    /// <param name="UserContext">role -&gt; (string) [required] Possible values: • CLINICIAN userId -&gt; (string) [required] Unique identifier of the user Constraints: • pattern: .*[\s\S]*\S[\s\S]*.* specialty -&gt; (string) Possible values: • PRIMARY_CARE Shorthand Syntax: role=string,userId=string,specialty=string JSON Syntax: { "role": "CLINICIAN", "userId": "string", "specialty": "PRIMARY_CARE" }</param>
+    /// <param name="InputDataConfig">fhirServer -&gt; (structure) FHIR server configuration to retrieve patient data. fhirEndpoint -&gt; (string) [required] FHIR server endpoint URL for accessing patient data. Constraints: • pattern: https?://[a-zA-Z0-9\-._~:/?#\[\]@!$&amp;'()*+,;=%]+ oauthToken -&gt; (string) OAuth token for authenticating with the FHIR server. Constraints: • pattern: .*[\s\S]*\S[\s\S]*.* s3Sources -&gt; (list) List of S3 sources containing patient data. Constraints: • min: 0 • max: 10 (structure) S3 uri for input data source uri -&gt; (string) [required] The S3 URI. Constraints: • min: 0 • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Shorthand Syntax: fhirServer={fhirEndpoint=string,oauthToken=string},s3Sources=[{uri=string},{uri=string}] JSON Syntax: { "fhirServer": { "fhirEndpoint": "string", "oauthToken": "string" }, "s3Sources": [ { "uri": "string" } ... ] }</param>
+    /// <param name="OutputDataConfig">s3OutputPath -&gt; (string) [required] S3 URI where the insights output will be stored. Constraints: • min: 0 • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Shorthand Syntax: s3OutputPath=string JSON Syntax: { "s3OutputPath": "string" }</param>
     public AwsConnecthealthStartPatientInsightsJobOptions(
         string DomainId,
         string PatientContext,
@@ -81,49 +83,49 @@ public record AwsConnecthealthStartPatientInsightsJobOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Constraints: o min: 20 o max: 25 o pattern: (hai-|dom-)[a-z0-9]+
+    /// Constraints: • min: 20 • max: 25 • pattern: (hai-|dom-)[a-z0-9]+
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// patientId -&gt; (string) [required] Unique identifier of the patient Constraints: o pattern: .*[\s\S]*\S[\s\S]*.* dateOfBirth -&gt; (string) Date of birth of the patient. Constraints: o pattern: \d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]) pronouns -&gt; (string) Pronouns preferred by the patient. Possible values: o HE_HIM o SHE_HER o THEY_THEM Shorthand Syntax: patientId=string,dateOfBirth=string,pronouns=string JSON Syntax: { "patientId": "string", "dateOfBirth": "string", "pronouns": "HE_HIM"|"SHE_HER"|"THEY_THEM" }
+    /// patientId -&gt; (string) [required] Unique identifier of the patient Constraints: • pattern: .*[\s\S]*\S[\s\S]*.* dateOfBirth -&gt; (string) Date of birth of the patient. Constraints: • pattern: \d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]) pronouns -&gt; (string) Pronouns preferred by the patient. Possible values: • HE_HIM • SHE_HER • THEY_THEM Shorthand Syntax: patientId=string,dateOfBirth=string,pronouns=string JSON Syntax: { "patientId": "string", "dateOfBirth": "string", "pronouns": "HE_HIM"|"SHE_HER"|"THEY_THEM" }
     /// </summary>
     [CliOption("--patient-context")]
     public string? PatientContext { get; private init; }
 
     /// <summary>
-    /// insightsType -&gt; (string) [required] Possible values: o PRE_VISIT Shorthand Syntax: insightsType=string JSON Syntax: { "insightsType": "PRE_VISIT" }
+    /// insightsType -&gt; (string) [required] Possible values: • PRE_VISIT Shorthand Syntax: insightsType=string JSON Syntax: { "insightsType": "PRE_VISIT" }
     /// </summary>
     [CliOption("--insights-context")]
     public string? InsightsContext { get; private init; }
 
     /// <summary>
-    /// encounterReason -&gt; (string) [required] Chief complaint for the visit Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 .,-]+ Shorthand Syntax: encounterReason=string JSON Syntax: { "encounterReason": "string" }
+    /// encounterReason -&gt; (string) [required] Chief complaint for the visit Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9 .,-]+ Shorthand Syntax: encounterReason=string JSON Syntax: { "encounterReason": "string" }
     /// </summary>
     [CliOption("--encounter-context")]
     public string? EncounterContext { get; private init; }
 
     /// <summary>
-    /// role -&gt; (string) [required] Possible values: o CLINICIAN userId -&gt; (string) [required] Unique identifier of the user Constraints: o pattern: .*[\s\S]*\S[\s\S]*.* specialty -&gt; (string) Possible values: o PRIMARY_CARE Shorthand Syntax: role=string,userId=string,specialty=string JSON Syntax: { "role": "CLINICIAN", "userId": "string", "specialty": "PRIMARY_CARE" }
+    /// role -&gt; (string) [required] Possible values: • CLINICIAN userId -&gt; (string) [required] Unique identifier of the user Constraints: • pattern: .*[\s\S]*\S[\s\S]*.* specialty -&gt; (string) Possible values: • PRIMARY_CARE Shorthand Syntax: role=string,userId=string,specialty=string JSON Syntax: { "role": "CLINICIAN", "userId": "string", "specialty": "PRIMARY_CARE" }
     /// </summary>
     [CliOption("--user-context")]
     public string? UserContext { get; private init; }
 
     /// <summary>
-    /// fhirServer -&gt; (structure) FHIR server configuration to retrieve patient data. fhirEndpoint -&gt; (string) [required] FHIR server endpoint URL for accessing patient data. Constraints: o pattern: https?://[a-zA-Z0-9\-._~:/?#\[\]@!$&amp;'()*+,;=%]+ oauthToken -&gt; (string) OAuth token for authenticating with the FHIR server. Constraints: o pattern: .*[\s\S]*\S[\s\S]*.* s3Sources -&gt; (list) List of S3 sources containing patient data. Constraints: o min: 0 o max: 10 (structure) S3 uri for input data source uri -&gt; (string) [required] The S3 URI. Constraints: o min: 0 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Shorthand Syntax: fhirServer={fhirEndpoint=string,oauthToken=string},s3Sources=[{uri=string},{uri=string}] JSON Syntax: { "fhirServer": { "fhirEndpoint": "string", "oauthToken": "string" }, "s3Sources": [ { "uri": "string" } ... ] }
+    /// fhirServer -&gt; (structure) FHIR server configuration to retrieve patient data. fhirEndpoint -&gt; (string) [required] FHIR server endpoint URL for accessing patient data. Constraints: • pattern: https?://[a-zA-Z0-9\-._~:/?#\[\]@!$&amp;'()*+,;=%]+ oauthToken -&gt; (string) OAuth token for authenticating with the FHIR server. Constraints: • pattern: .*[\s\S]*\S[\s\S]*.* s3Sources -&gt; (list) List of S3 sources containing patient data. Constraints: • min: 0 • max: 10 (structure) S3 uri for input data source uri -&gt; (string) [required] The S3 URI. Constraints: • min: 0 • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Shorthand Syntax: fhirServer={fhirEndpoint=string,oauthToken=string},s3Sources=[{uri=string},{uri=string}] JSON Syntax: { "fhirServer": { "fhirEndpoint": "string", "oauthToken": "string" }, "s3Sources": [ { "uri": "string" } ... ] }
     /// </summary>
     [CliOption("--input-data-config")]
     public string? InputDataConfig { get; private init; }
 
     /// <summary>
-    /// s3OutputPath -&gt; (string) [required] S3 URI where the insights output will be stored. Constraints: o min: 0 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Shorthand Syntax: s3OutputPath=string JSON Syntax: { "s3OutputPath": "string" }
+    /// s3OutputPath -&gt; (string) [required] S3 URI where the insights output will be stored. Constraints: • min: 0 • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Shorthand Syntax: s3OutputPath=string JSON Syntax: { "s3OutputPath": "string" }
     /// </summary>
     [CliOption("--output-data-config")]
     public string? OutputDataConfig { get; private init; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o pattern: .*[\s\S]*\S[\s\S]*.*
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • pattern: .*[\s\S]*\S[\s\S]*.*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

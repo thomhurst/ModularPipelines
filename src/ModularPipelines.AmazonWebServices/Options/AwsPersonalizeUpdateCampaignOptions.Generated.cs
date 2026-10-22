@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a campaign to deploy a retrained solution version with an ex- isting campaign, change your campaign's minProvisionedTPS , or modify your campaign's configuration. For example, you can set enableMeta- dataWithRecommendations to true for an existing campaign. To update a campaign to start automatically using the latest solution version, specify the following: o For the SolutionVersionArn parameter, specify the Amazon Resource Name (ARN) of your solution in SolutionArn/$LATEST format. o In ...
+/// Updates a campaign to deploy a retrained solution version with an existing campaign, change your campaign's minProvisionedTPS , or modify your campaign's configuration. For example, you can set enableMetadataWithRecommendations to true for an existing campaign. To update a campaign to start automatically using the latest solution version, specify the following: • For the SolutionVersionArn parameter, specify the Amazon Resource Name (ARN) of your solution in SolutionArn/$LATEST format. • In the ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsPersonalizeUpdateCampaignOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a campaign to deploy a retrained solution version with an ex- isting campaign, change your campaign's minProvisionedTPS , or modify your campaign's configuration. For example, you can set enableMeta- dataWithRecommendations to true for an existing campaign. To update a campaign to start automatically using the latest solution version, specify the following: o For the SolutionVersionArn parameter, specify the Amazon Resource Name (ARN) of your solution in SolutionArn/$LATEST format. o In ...
+    /// Updates a campaign to deploy a retrained solution version with an existing campaign, change your campaign's minProvisionedTPS , or modify your campaign's configuration. For example, you can set enableMetadataWithRecommendations to true for an existing campaign. To update a campaign to start automatically using the latest solution version, specify the following: • For the SolutionVersionArn parameter, specify the Amazon Resource Name (ARN) of your solution in SolutionArn/$LATEST format. • In the ...
     /// </summary>
-    /// <param name="CampaignArn">The Amazon Resource Name (ARN) of the campaign. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="CampaignArn">The Amazon Resource Name (ARN) of the campaign. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
     public AwsPersonalizeUpdateCampaignOptions(
         string CampaignArn
     )
@@ -56,25 +58,25 @@ public record AwsPersonalizeUpdateCampaignOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the campaign. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the campaign. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--campaign-arn")]
     public string? CampaignArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of a new model to deploy. To specify the latest solution version of your solution, specify the ARN of your solution in SolutionArn/$LATEST format. You must use this for- mat if you set syncWithLatestSolutionVersion to True in the CampaignConfig . To deploy a model that isn't the latest solution version of your so- lution, specify the ARN of the solution version. For more information about automatic campaign updates, see Enabling automatic campaign updates . Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of a new model to deploy. To specify the latest solution version of your solution, specify the ARN of your solution in SolutionArn/$LATEST format. You must use this format if you set syncWithLatestSolutionVersion to True in the CampaignConfig . To deploy a model that isn't the latest solution version of your solution, specify the ARN of the solution version. For more information about automatic campaign updates, see Enabling automatic campaign updates . Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--solution-version-arn")]
     public string? SolutionVersionArn { get; set; }
 
     /// <summary>
-    /// Specifies the requested minimum provisioned transactions (recommen- dations) per second that Amazon Personalize will support. A high minProvisionedTPS will increase your bill. We recommend starting with 1 for minProvisionedTPS (the default). Track your usage using Amazon CloudWatch metrics, and increase the minProvisionedTPS as necessary. Constraints: o min: 1
+    /// Specifies the requested minimum provisioned transactions (recommendations) per second that Amazon Personalize will support. A high minProvisionedTPS will increase your bill. We recommend starting with 1 for minProvisionedTPS (the default). Track your usage using Amazon CloudWatch metrics, and increase the minProvisionedTPS as necessary. Constraints: • min: 1
     /// </summary>
     [CliOption("--min-provisioned-tps")]
     public int? MinProvisionedTps { get; set; }
 
     /// <summary>
-    /// The configuration details of a campaign. itemExplorationConfig -&gt; (map) Specifies the exploration configuration hyperparameters, includ- ing explorationWeight and explorationItemAgeCutOff , you want to use to configure the amount of item exploration Amazon Personal- ize uses when recommending items. Provide itemExplorationConfig data only if your solution uses the User-Personalization recipe. Constraints: o max: 100 key -&gt; (string) Constraints: o max: 256 value -&gt; (string) Constraints: o max: 1000 enableMetadataWithRecommendations -&gt; (boolean) Whether metadata with recommendations is enabled for the cam- paign. If enabled, you can specify the columns from your Items dataset in your request for recommendations. Amazon Personalize returns this data for each item in the recommendation response. For information about enabling metadata for a campaign, see Enabling metadata in recommendations for a campaign . If you enable metadata in recommendations, you will incur addi- tional costs. For more information, see Amazon Personalize pric- ing . syncWithLatestSolutionVersion -&gt; (boolean) Whether the campaign automatically updates to use the latest so- lution version (trained model) of a solution. If you specify True , you must specify the ARN of your solution for the Solu- tionVersionArn parameter. It must be in SolutionArn/$LATEST for- mat. The default is False and you must manually update the cam- paign to deploy the latest solution version. For more information about automatic campaign updates, see Enabling automatic campaign updates . rankingInfluence -&gt; (map) A map of ranking influence values for POPULARITY and FRESHNESS. For each key, specify a numerical value between 0.0 and 1.0 that determines how much influence that ranking factor has on the fi- nal recommendations. A value closer to 1.0 gives more weight to the factor, while a value closer to 0.0 reduces its influence. key -&gt; (string) Possible values: o POPULARITY o FRESHNESS value -&gt; (double) Constraints: o min: 0 o max: 1 Shorthand Syntax: itemExplorationConfig={KeyName1=string,KeyName2=string},enableMetadataWithRecommendations=boolean,syncWithLatestSolutionVersion=boolean,rankingInfluence={KeyName1=double,KeyName2=double} JSON Syntax: { "itemExplorationConfig": {"string": "string" ...}, "enableMetadataWithRecommendations": true|false, "syncWithLatestSolutionVersion": true|false, "rankingInfluence": {"POPULARITY"|"FRESHNESS": double ...} }
+    /// The configuration details of a campaign. itemExplorationConfig -&gt; (map) Specifies the exploration configuration hyperparameters, including explorationWeight and explorationItemAgeCutOff , you want to use to configure the amount of item exploration Amazon Personalize uses when recommending items. Provide itemExplorationConfig data only if your solution uses the User-Personalization recipe. Constraints: • max: 100 key -&gt; (string) Constraints: • max: 256 value -&gt; (string) Constraints: • max: 1000 enableMetadataWithRecommendations -&gt; (boolean) Whether metadata with recommendations is enabled for the campaign. If enabled, you can specify the columns from your Items dataset in your request for recommendations. Amazon Personalize returns this data for each item in the recommendation response. For information about enabling metadata for a campaign, see Enabling metadata in recommendations for a campaign . If you enable metadata in recommendations, you will incur additional costs. For more information, see Amazon Personalize pricing . syncWithLatestSolutionVersion -&gt; (boolean) Whether the campaign automatically updates to use the latest solution version (trained model) of a solution. If you specify True , you must specify the ARN of your solution for the SolutionVersionArn parameter. It must be in SolutionArn/$LATEST format. The default is False and you must manually update the campaign to deploy the latest solution version. For more information about automatic campaign updates, see Enabling automatic campaign updates . rankingInfluence -&gt; (map) A map of ranking influence values for POPULARITY and FRESHNESS. For each key, specify a numerical value between 0.0 and 1.0 that determines how much influence that ranking factor has on the final recommendations. A value closer to 1.0 gives more weight to the factor, while a value closer to 0.0 reduces its influence. key -&gt; (string) Possible values: • POPULARITY • FRESHNESS value -&gt; (double) Constraints: • min: 0 • max: 1 Shorthand Syntax: itemExplorationConfig={KeyName1=string,KeyName2=string},enableMetadataWithRecommendations=boolean,syncWithLatestSolutionVersion=boolean,rankingInfluence={KeyName1=double,KeyName2=double} JSON Syntax: { "itemExplorationConfig": {"string": "string" ...}, "enableMetadataWithRecommendations": true|false, "syncWithLatestSolutionVersion": true|false, "rankingInfluence": {"POPULARITY"|"FRESHNESS": double ...} }
     /// </summary>
     [CliOption("--campaign-config")]
     public string? CampaignConfig { get; set; }

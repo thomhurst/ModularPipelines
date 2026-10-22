@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Delete a distribution. WARNING: Before you can delete a distribution, you must disable it, which re- quires permission to update the distribution. Once deleted, a dis- tribution cannot be recovered. See also: AWS API Documentation
+/// Delete a distribution. WARNING: Before you can delete a distribution, you must disable it, which requires permission to update the distribution. Once deleted, a distribution cannot be recovered. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsCloudfrontDeleteDistributionOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Delete a distribution. WARNING: Before you can delete a distribution, you must disable it, which re- quires permission to update the distribution. Once deleted, a dis- tribution cannot be recovered. See also: AWS API Documentation
+    /// Delete a distribution. WARNING: Before you can delete a distribution, you must disable it, which requires permission to update the distribution. Once deleted, a distribution cannot be recovered. See also: AWS API Documentation
     /// </summary>
     /// <param name="Id">The distribution ID.</param>
     public AwsCloudfrontDeleteDistributionOptions(

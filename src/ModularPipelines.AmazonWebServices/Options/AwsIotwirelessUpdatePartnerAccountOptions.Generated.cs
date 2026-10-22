@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsIotwirelessUpdatePartnerAccountOptions : AwsOptions, IValidatab
     /// <summary>
     /// Updates properties of a partner account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Sidewalk">The Sidewalk account credentials. AppServerPrivateKey -&gt; (string) The new Sidewalk application server private key. Constraints: o min: 1 o max: 4096 o pattern: [a-fA-F0-9]{64} Shorthand Syntax: AppServerPrivateKey=string JSON Syntax: { "AppServerPrivateKey": "string" }</param>
-    /// <param name="PartnerAccountId">The ID of the partner account to update. Constraints: o max: 256</param>
-    /// <param name="PartnerType">The partner type. Possible values: o Sidewalk</param>
+    /// <param name="Sidewalk">The Sidewalk account credentials. AppServerPrivateKey -&gt; (string) The new Sidewalk application server private key. Constraints: • min: 1 • max: 4096 • pattern: [a-fA-F0-9]{64} Shorthand Syntax: AppServerPrivateKey=string JSON Syntax: { "AppServerPrivateKey": "string" }</param>
+    /// <param name="PartnerAccountId">The ID of the partner account to update. Constraints: • max: 256</param>
+    /// <param name="PartnerType">The partner type. Possible values: • Sidewalk</param>
     public AwsIotwirelessUpdatePartnerAccountOptions(
         string Sidewalk,
         string PartnerAccountId,
@@ -64,19 +66,19 @@ public record AwsIotwirelessUpdatePartnerAccountOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Sidewalk account credentials. AppServerPrivateKey -&gt; (string) The new Sidewalk application server private key. Constraints: o min: 1 o max: 4096 o pattern: [a-fA-F0-9]{64} Shorthand Syntax: AppServerPrivateKey=string JSON Syntax: { "AppServerPrivateKey": "string" }
+    /// The Sidewalk account credentials. AppServerPrivateKey -&gt; (string) The new Sidewalk application server private key. Constraints: • min: 1 • max: 4096 • pattern: [a-fA-F0-9]{64} Shorthand Syntax: AppServerPrivateKey=string JSON Syntax: { "AppServerPrivateKey": "string" }
     /// </summary>
     [CliOption("--sidewalk")]
     public string? Sidewalk { get; private init; }
 
     /// <summary>
-    /// The ID of the partner account to update. Constraints: o max: 256
+    /// The ID of the partner account to update. Constraints: • max: 256
     /// </summary>
     [CliOption("--partner-account-id")]
     public string? PartnerAccountId { get; private init; }
 
     /// <summary>
-    /// The partner type. Possible values: o Sidewalk
+    /// The partner type. Possible values: • Sidewalk
     /// </summary>
     [CliOption("--partner-type")]
     public string? PartnerType { get; private init; }

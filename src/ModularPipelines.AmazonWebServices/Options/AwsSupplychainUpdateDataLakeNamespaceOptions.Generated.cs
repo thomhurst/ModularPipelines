@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsSupplychainUpdateDataLakeNamespaceOptions : AwsOptions, IValida
     /// <summary>
     /// Enables you to programmatically update an Amazon Web Services Supply Chain data lake namespace. Developers can update the description of a data lake namespace for a given instance ID and namespace name. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The Amazon Web Services Chain instance identifier. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="Name">The name of the namespace. Noted you cannot update namespace with name starting with asc , default , scn , aws , amazon , amzn Constraints: o min: 1 o max: 50 o pattern: [a-z0-9_]+</param>
+    /// <param name="InstanceId">The Amazon Web Services Chain instance identifier. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="Name">The name of the namespace. Noted you cannot update namespace with name starting with asc , default , scn , aws , amazon , amzn Constraints: • min: 1 • max: 50 • pattern: [a-z0-9_]+</param>
     public AwsSupplychainUpdateDataLakeNamespaceOptions(
         string InstanceId,
         string Name
@@ -60,19 +62,19 @@ public record AwsSupplychainUpdateDataLakeNamespaceOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services Chain instance identifier. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The Amazon Web Services Chain instance identifier. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The name of the namespace. Noted you cannot update namespace with name starting with asc , default , scn , aws , amazon , amzn Constraints: o min: 1 o max: 50 o pattern: [a-z0-9_]+
+    /// The name of the namespace. Noted you cannot update namespace with name starting with asc , default , scn , aws , amazon , amzn Constraints: • min: 1 • max: 50 • pattern: [a-z0-9_]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The updated description of the data lake namespace. Constraints: o min: 1 o max: 500
+    /// The updated description of the data lake namespace. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

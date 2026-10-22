@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsLexv2ModelsDescribeTestSetOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Gets metadata information about the test set. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TestSetId">The test set Id for the test set request. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="TestSetId">The test set Id for the test set request. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
     public AwsLexv2ModelsDescribeTestSetOptions(
         string TestSetId
     )
@@ -56,7 +58,7 @@ public record AwsLexv2ModelsDescribeTestSetOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The test set Id for the test set request. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The test set Id for the test set request. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--test-set-id")]
     public string? TestSetId { get; private init; }

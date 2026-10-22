@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsPinpointEmailListTagsForResourceOptions : AwsOptions, IValidata
     /// <summary>
     /// Retrieve a list of the tags (keys and values) that are associated with a specified resource. A tag is a label that you optionally define and associate with a resource in Amazon Pinpoint. Each tag consists of a required tag key and an optional associated tag value . A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource that you want to re- trieve tag information for.</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource that you want to retrieve tag information for.</param>
     public AwsPinpointEmailListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsPinpointEmailListTagsForResourceOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource that you want to re- trieve tag information for.
+    /// The Amazon Resource Name (ARN) of the resource that you want to retrieve tag information for.
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsWorkspacesThinClientDeleteEnvironmentOptions : AwsOptions, IVal
     /// <summary>
     /// Deletes an environment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the environment to delete. Constraints: o pattern: [a-z0-9]{9}</param>
+    /// <param name="Id">The ID of the environment to delete. Constraints: • pattern: [a-z0-9]{9}</param>
     public AwsWorkspacesThinClientDeleteEnvironmentOptions(
         string Id
     )
@@ -57,13 +59,13 @@ public record AwsWorkspacesThinClientDeleteEnvironmentOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the environment to delete. Constraints: o pattern: [a-z0-9]{9}
+    /// The ID of the environment to delete. Constraints: • pattern: [a-z0-9]{9}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error. Constraints: o min: 1 o max: 512
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with different parameters, the retry fails with an IdempotentParameterMismatch error. Constraints: • min: 1 • max: 512
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

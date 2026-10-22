@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsBraketUpdateSpendingLimitOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Updates an existing spending limit. You can modify the spending amount or time period. Changes take effect immediately. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SpendingLimitArn">The Amazon Resource Name (ARN) of the spending limit to update. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:braket:[a-z0-9\-]+:[0-9]{12}:spend- ing-limit/.*</param>
+    /// <param name="SpendingLimitArn">The Amazon Resource Name (ARN) of the spending limit to update. Constraints: • min: 0 • max: 256 • pattern: arn:aws[a-z\-]*:braket:[a-z0-9\-]+:[0-9]{12}:spending-limit/.*</param>
     public AwsBraketUpdateSpendingLimitOptions(
         string SpendingLimitArn
     )
@@ -57,26 +59,26 @@ public record AwsBraketUpdateSpendingLimitOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the spending limit to update. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:braket:[a-z0-9\-]+:[0-9]{12}:spend- ing-limit/.*
+    /// The Amazon Resource Name (ARN) of the spending limit to update. Constraints: • min: 0 • max: 256 • pattern: arn:aws[a-z\-]*:braket:[a-z0-9\-]+:[0-9]{12}:spending-limit/.*
     /// </summary>
     [CliOption("--spending-limit-arn")]
     public string? SpendingLimitArn { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Braket ignores the request, but does not return an error. Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Braket ignores the request, but does not return an error. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The new maximum amount that can be spent on the specified device, in USD. Constraints: o min: 1 o pattern: \d+(\.\d{1,2})?
+    /// The new maximum amount that can be spent on the specified device, in USD. Constraints: • min: 1 • pattern: \d+(\.\d{1,2})?
     /// </summary>
     [CliOption("--spending-limit")]
     public string? SpendingLimit { get; set; }
 
     /// <summary>
-    /// The new time period during which the spending limit is active, in- cluding start and end dates. startAt -&gt; (timestamp) [required] The start date and time for the spending limit period, in epoch seconds. endAt -&gt; (timestamp) [required] The end date and time for the spending limit period, in epoch seconds. Shorthand Syntax: startAt=timestamp,endAt=timestamp JSON Syntax: { "startAt": timestamp, "endAt": timestamp }
+    /// The new time period during which the spending limit is active, including start and end dates. startAt -&gt; (timestamp) [required] The start date and time for the spending limit period, in epoch seconds. endAt -&gt; (timestamp) [required] The end date and time for the spending limit period, in epoch seconds. Shorthand Syntax: startAt=timestamp,endAt=timestamp JSON Syntax: { "startAt": timestamp, "endAt": timestamp }
     /// </summary>
     [CliOption("--time-period")]
     public string? TimePeriod { get; set; }

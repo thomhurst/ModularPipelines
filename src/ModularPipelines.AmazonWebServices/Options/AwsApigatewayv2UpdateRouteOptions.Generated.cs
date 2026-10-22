@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -86,7 +87,7 @@ public record AwsApigatewayv2UpdateRouteOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? AuthorizationScopes { get; set; }
 
     /// <summary>
-    /// The authorization type for the route. For WebSocket APIs, valid val- ues are NONE for open access, AWS_IAM for using AWS IAM permissions, and CUSTOM for using a Lambda authorizer For HTTP APIs, valid values are NONE for open access, JWT for using JSON Web Tokens, AWS_IAM for using AWS IAM permissions, and CUSTOM for using a Lambda authorizer. Possible values: o NONE o AWS_IAM o CUSTOM o JWT
+    /// The authorization type for the route. For WebSocket APIs, valid values are NONE for open access, AWS_IAM for using AWS IAM permissions, and CUSTOM for using a Lambda authorizer For HTTP APIs, valid values are NONE for open access, JWT for using JSON Web Tokens, AWS_IAM for using AWS IAM permissions, and CUSTOM for using a Lambda authorizer. Possible values: • NONE • AWS_IAM • CUSTOM • JWT
     /// </summary>
     [CliOption("--authorization-type")]
     public AwsApigatewayv2UpdateRouteAuthorizationType? AuthorizationType { get; set; }

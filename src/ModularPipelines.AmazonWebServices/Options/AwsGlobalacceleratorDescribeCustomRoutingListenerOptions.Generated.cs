@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsGlobalacceleratorDescribeCustomRoutingListenerOptions : AwsOpti
     /// <summary>
     /// The description of a listener for a custom routing accelerator. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ListenerArn">The Amazon Resource Name (ARN) of the listener to describe. Constraints: o max: 255</param>
+    /// <param name="ListenerArn">The Amazon Resource Name (ARN) of the listener to describe. Constraints: • max: 255</param>
     public AwsGlobalacceleratorDescribeCustomRoutingListenerOptions(
         string ListenerArn
     )
@@ -56,7 +58,7 @@ public record AwsGlobalacceleratorDescribeCustomRoutingListenerOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the listener to describe. Constraints: o max: 255
+    /// The Amazon Resource Name (ARN) of the listener to describe. Constraints: • max: 255
     /// </summary>
     [CliOption("--listener-arn")]
     public string? ListenerArn { get; private init; }

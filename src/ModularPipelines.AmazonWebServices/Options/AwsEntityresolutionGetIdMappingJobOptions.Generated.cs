@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the status, metrics, and errors (if there are any) that are as- sociated with a job. See also: AWS API Documentation
+/// Returns the status, metrics, and errors (if there are any) that are associated with a job. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsEntityresolutionGetIdMappingJobOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the status, metrics, and errors (if there are any) that are as- sociated with a job. See also: AWS API Documentation
+    /// Returns the status, metrics, and errors (if there are any) that are associated with a job. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkflowName">The name of the workflow. Constraints: o pattern: [a-zA-Z_0-9-=+/]*$|^arn:(aws|aws-us-gov|aws-cn):enti- tyresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(idmappingwork- flow/[a-zA-Z_0-9-]{1,255})</param>
-    /// <param name="JobId">The ID of the job. Constraints: o pattern: [a-f0-9]{32}</param>
+    /// <param name="WorkflowName">The name of the workflow. Constraints: • pattern: [a-zA-Z_0-9-=+/]*$|^arn:(aws|aws-us-gov|aws-cn):entityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(idmappingworkflow/[a-zA-Z_0-9-]{1,255})</param>
+    /// <param name="JobId">The ID of the job. Constraints: • pattern: [a-f0-9]{32}</param>
     public AwsEntityresolutionGetIdMappingJobOptions(
         string WorkflowName,
         string JobId
@@ -60,13 +62,13 @@ public record AwsEntityresolutionGetIdMappingJobOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workflow. Constraints: o pattern: [a-zA-Z_0-9-=+/]*$|^arn:(aws|aws-us-gov|aws-cn):enti- tyresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(idmappingwork- flow/[a-zA-Z_0-9-]{1,255})
+    /// The name of the workflow. Constraints: • pattern: [a-zA-Z_0-9-=+/]*$|^arn:(aws|aws-us-gov|aws-cn):entityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(idmappingworkflow/[a-zA-Z_0-9-]{1,255})
     /// </summary>
     [CliOption("--workflow-name")]
     public string? WorkflowName { get; private init; }
 
     /// <summary>
-    /// The ID of the job. Constraints: o pattern: [a-f0-9]{32}
+    /// The ID of the job. Constraints: • pattern: [a-f0-9]{32}
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }

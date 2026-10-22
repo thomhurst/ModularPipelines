@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsSwfTagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Add a tag to a Amazon SWF domain. NOTE: Amazon SWF supports a maximum of 50 tags per resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) for the Amazon SWF domain. Constraints: o min: 1 o max: 1600</param>
-    /// <param name="Tags">The list of tags to add to a domain. Tags may only contain unicode letters, digits, whitespace, or these symbols: _ . : / = + - @ . (structure) Tags are key-value pairs that can be associated with Amazon SWF state machines and activities. Tags may only contain unicode letters, digits, whitespace, or these symbols: _ . : / = + - @ . key -&gt; (string) [required] The key of a tag. Constraints: o min: 1 o max: 128 value -&gt; (string) The value of a tag. Constraints: o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) for the Amazon SWF domain. Constraints: • min: 1 • max: 1600</param>
+    /// <param name="Tags">The list of tags to add to a domain. Tags may only contain unicode letters, digits, whitespace, or these symbols: _ . : / = + - @ . (structure) Tags are key-value pairs that can be associated with Amazon SWF state machines and activities. Tags may only contain unicode letters, digits, whitespace, or these symbols: _ . : / = + - @ . key -&gt; (string) [required] The key of a tag. Constraints: • min: 1 • max: 128 value -&gt; (string) The value of a tag. Constraints: • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
     public AwsSwfTagResourceOptions(
         string ResourceArn,
         IEnumerable<string> Tags
@@ -71,13 +73,13 @@ public record AwsSwfTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) for the Amazon SWF domain. Constraints: o min: 1 o max: 1600
+    /// The Amazon Resource Name (ARN) for the Amazon SWF domain. Constraints: • min: 1 • max: 1600
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The list of tags to add to a domain. Tags may only contain unicode letters, digits, whitespace, or these symbols: _ . : / = + - @ . (structure) Tags are key-value pairs that can be associated with Amazon SWF state machines and activities. Tags may only contain unicode letters, digits, whitespace, or these symbols: _ . : / = + - @ . key -&gt; (string) [required] The key of a tag. Constraints: o min: 1 o max: 128 value -&gt; (string) The value of a tag. Constraints: o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// The list of tags to add to a domain. Tags may only contain unicode letters, digits, whitespace, or these symbols: _ . : / = + - @ . (structure) Tags are key-value pairs that can be associated with Amazon SWF state machines and activities. Tags may only contain unicode letters, digits, whitespace, or these symbols: _ . : / = + - @ . key -&gt; (string) [required] The key of a tag. Constraints: • min: 1 • max: 128 value -&gt; (string) The value of a tag. Constraints: • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }

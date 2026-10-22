@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsNetworkFirewallDescribeVpcEndpointAssociationOptions : AwsOptio
     /// <summary>
     /// Returns the data object for the specified VPC endpoint association. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VpcEndpointAssociationArn">The Amazon Resource Name (ARN) of a VPC endpoint association. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*</param>
+    /// <param name="VpcEndpointAssociationArn">The Amazon Resource Name (ARN) of a VPC endpoint association. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*</param>
     public AwsNetworkFirewallDescribeVpcEndpointAssociationOptions(
         string VpcEndpointAssociationArn
     )
@@ -56,7 +58,7 @@ public record AwsNetworkFirewallDescribeVpcEndpointAssociationOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of a VPC endpoint association. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*
+    /// The Amazon Resource Name (ARN) of a VPC endpoint association. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*
     /// </summary>
     [CliOption("--vpc-endpoint-association-arn")]
     public string? VpcEndpointAssociationArn { get; private init; }

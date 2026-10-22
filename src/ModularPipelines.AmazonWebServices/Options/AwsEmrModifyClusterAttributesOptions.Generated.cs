@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the cluster attributes 'visible-to-all-users', 'termina- tion-protected' and 'unhealthy-node-replacement'.
+/// Modifies the cluster attributes 'visible-to-all-users', 'termination-protected' and 'unhealthy-node-replacement'.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,9 +22,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEmrModifyClusterAttributesOptions : AwsOptions
 {
     /// <summary>
-    /// Modifies the cluster attributes 'visible-to-all-users', 'termina- tion-protected' and 'unhealthy-node-replacement'.
+    /// Modifies the cluster attributes 'visible-to-all-users', 'termination-protected' and 'unhealthy-node-replacement'.
     /// </summary>
-    /// <param name="ClusterId">A unique string that identifies a cluster. The create-cluster com- mand returns this identifier. You can use the list-clusters command to get cluster IDs.</param>
+    /// <param name="ClusterId">A unique string that identifies a cluster. The create-cluster command returns this identifier. You can use the list-clusters command to get cluster IDs.</param>
     public AwsEmrModifyClusterAttributesOptions(
         string ClusterId
     )
@@ -39,13 +39,13 @@ public record AwsEmrModifyClusterAttributesOptions : AwsOptions
     }
 
     /// <summary>
-    /// A unique string that identifies a cluster. The create-cluster com- mand returns this identifier. You can use the list-clusters command to get cluster IDs.
+    /// A unique string that identifies a cluster. The create-cluster command returns this identifier. You can use the list-clusters command to get cluster IDs.
     /// </summary>
     [CliOption("--cluster-id")]
     public string ClusterId { get; private init; }
 
     /// <summary>
-    /// Specifies whether the cluster is visible to all IAM users of the AWS account associated with the cluster. If a user has the proper policy permissions set, they can also manage the cluster. Visibility is on by default. The --no-visible-to-all-users option is no longer supported. To restrict cluster visibility, use an IAM pol- icy.
+    /// Specifies whether the cluster is visible to all IAM users of the AWS account associated with the cluster. If a user has the proper policy permissions set, they can also manage the cluster. Visibility is on by default. The --no-visible-to-all-users option is no longer supported. To restrict cluster visibility, use an IAM policy.
     /// </summary>
     [CliFlag("--visible-to-all-users", NegatedName = "--no-visible-to-all-users")]
     public bool? VisibleToAllUsers { get; set; }

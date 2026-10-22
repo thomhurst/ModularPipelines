@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enable or disable collection of reputation metrics for emails that you send using a particular configuration set in a specific Amazon Web Ser- vices Region. See also: AWS API Documentation
+/// Enable or disable collection of reputation metrics for emails that you send using a particular configuration set in a specific Amazon Web Services Region. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsSesv2PutConfigurationSetReputationOptionsOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enable or disable collection of reputation metrics for emails that you send using a particular configuration set in a specific Amazon Web Ser- vices Region. See also: AWS API Documentation
+    /// Enable or disable collection of reputation metrics for emails that you send using a particular configuration set in a specific Amazon Web Services Region. See also: AWS API Documentation
     /// </summary>
     /// <param name="ConfigurationSetName">The name of the configuration set.</param>
     public AwsSesv2PutConfigurationSetReputationOptionsOptions(
@@ -62,7 +64,7 @@ public record AwsSesv2PutConfigurationSetReputationOptionsOptions : AwsOptions, 
     public string? ConfigurationSetName { get; private init; }
 
     /// <summary>
-    /// If true , tracking of reputation metrics is enabled for the configu- ration set. If false , tracking of reputation metrics is disabled for the configuration set.
+    /// If true , tracking of reputation metrics is enabled for the configuration set. If false , tracking of reputation metrics is disabled for the configuration set.
     /// </summary>
     [CliFlag("--reputation-metrics-enabled", NegatedName = "--no-reputation-metrics-enabled")]
     public bool? ReputationMetricsEnabled { get; set; }

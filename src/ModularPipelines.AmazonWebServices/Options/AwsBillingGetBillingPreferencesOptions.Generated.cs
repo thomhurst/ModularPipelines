@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves billing preferences for the specified feature. Each feature controls a distinct billing capability: which accounts can share Re- served Instances or credits, whether billing alerts are enabled, the historical record of sharing changes, and per-credit options. See also: AWS API Documentation
+/// Retrieves billing preferences for the specified feature. Each feature controls a distinct billing capability: which accounts can share Reserved Instances or credits, whether billing alerts are enabled, the historical record of sharing changes, and per-credit options. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsBillingGetBillingPreferencesOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves billing preferences for the specified feature. Each feature controls a distinct billing capability: which accounts can share Re- served Instances or credits, whether billing alerts are enabled, the historical record of sharing changes, and per-credit options. See also: AWS API Documentation
+    /// Retrieves billing preferences for the specified feature. Each feature controls a distinct billing capability: which accounts can share Reserved Instances or credits, whether billing alerts are enabled, the historical record of sharing changes, and per-credit options. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Features">The feature to retrieve. Specify exactly one value. Valid values: BILLING_ALERTS , RI_SHARING , RI_SHARING_HISTORY , CREDIT_SHARING , CREDIT_SHARING_HISTORY , CREDIT_LEVEL_SHARING , CREDIT_PREFER- ENCE_OPTIONS . Constraints: o min: 1 o max: 1 (string) Possible values: o RI_SHARING o RI_SHARING_HISTORY o CREDIT_SHARING o CREDIT_SHARING_HISTORY o CREDIT_LEVEL_SHARING o BILLING_ALERTS o CREDIT_PREFERENCE_OPTIONS Syntax: "string" "string" ...</param>
+    /// <param name="Features">The feature to retrieve. Specify exactly one value. Valid values: BILLING_ALERTS , RI_SHARING , RI_SHARING_HISTORY , CREDIT_SHARING , CREDIT_SHARING_HISTORY , CREDIT_LEVEL_SHARING , CREDIT_PREFERENCE_OPTIONS . Constraints: • min: 1 • max: 1 (string) Possible values: • RI_SHARING • RI_SHARING_HISTORY • CREDIT_SHARING • CREDIT_SHARING_HISTORY • CREDIT_LEVEL_SHARING • BILLING_ALERTS • CREDIT_PREFERENCE_OPTIONS Syntax: "string" "string" ...</param>
     public AwsBillingGetBillingPreferencesOptions(
         IEnumerable<string> Features
     )
@@ -68,26 +70,26 @@ public record AwsBillingGetBillingPreferencesOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The feature to retrieve. Specify exactly one value. Valid values: BILLING_ALERTS , RI_SHARING , RI_SHARING_HISTORY , CREDIT_SHARING , CREDIT_SHARING_HISTORY , CREDIT_LEVEL_SHARING , CREDIT_PREFER- ENCE_OPTIONS . Constraints: o min: 1 o max: 1 (string) Possible values: o RI_SHARING o RI_SHARING_HISTORY o CREDIT_SHARING o CREDIT_SHARING_HISTORY o CREDIT_LEVEL_SHARING o BILLING_ALERTS o CREDIT_PREFERENCE_OPTIONS Syntax: "string" "string" ...
+    /// The feature to retrieve. Specify exactly one value. Valid values: BILLING_ALERTS , RI_SHARING , RI_SHARING_HISTORY , CREDIT_SHARING , CREDIT_SHARING_HISTORY , CREDIT_LEVEL_SHARING , CREDIT_PREFERENCE_OPTIONS . Constraints: • min: 1 • max: 1 (string) Possible values: • RI_SHARING • RI_SHARING_HISTORY • CREDIT_SHARING • CREDIT_SHARING_HISTORY • CREDIT_LEVEL_SHARING • BILLING_ALERTS • CREDIT_PREFERENCE_OPTIONS Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--features", GroupValues = true)]
     public IEnumerable<string>? Features { get; private init; }
 
     /// <summary>
-    /// Pagination token from a previous response. Pass the value returned in nextToken to retrieve the next page of results. Constraints: o min: 1 o max: 4095 o pattern: [-a-zA-Z0-9+=/_]+
+    /// Pagination token from a previous response. Pass the value returned in nextToken to retrieve the next page of results. Constraints: • min: 1 • max: 4095 • pattern: [-a-zA-Z0-9+=/_]+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of records to return per page. Range: 1 to 50. Default: 50. Constraints: o min: 1 o max: 50
+    /// The maximum number of records to return per page. Range: 1 to 50. Default: 50. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Filters to narrow results. Specify exactly one filter when supplied. The supported filter name is PREFERENCE_KEY , which accepts 1 to 10 values to match preference keys. Constraints: o min: 1 o max: 1 (structure) A filter that narrows the set of preferences returned by Get- BillingPreferences . name -&gt; (string) The filter name. Currently the only supported value is PREF- ERENCE_KEY . Possible values: o PREFERENCE_KEY value -&gt; (list) The filter values to match. For PREFERENCE_KEY , supply 1 to 10 preference key values to match. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-/]+ Shorthand Syntax: name=string,value=string,string ... JSON Syntax: [ { "name": "PREFERENCE_KEY", "value": ["string", ...] } ... ]
+    /// Filters to narrow results. Specify exactly one filter when supplied. The supported filter name is PREFERENCE_KEY , which accepts 1 to 10 values to match preference keys. Constraints: • min: 1 • max: 1 (structure) A filter that narrows the set of preferences returned by GetBillingPreferences . name -&gt; (string) The filter name. Currently the only supported value is PREFERENCE_KEY . Possible values: • PREFERENCE_KEY value -&gt; (list) The filter values to match. For PREFERENCE_KEY , supply 1 to 10 preference key values to match. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-/]+ Shorthand Syntax: name=string,value=string,string ... JSON Syntax: [ { "name": "PREFERENCE_KEY", "value": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }

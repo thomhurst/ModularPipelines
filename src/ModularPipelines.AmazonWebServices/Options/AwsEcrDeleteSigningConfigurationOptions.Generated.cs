@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the registry's signing configuration. Images pushed after dele- tion of the signing configuration will no longer be automatically signed. For more information, see Managed signing in the Amazon Elastic Con- tainer Registry User Guide . NOTE: Deleting the signing configuration does not affect existing image signatures. See also: AWS API Documentation
+/// Deletes the registry's signing configuration. Images pushed after deletion of the signing configuration will no longer be automatically signed. For more information, see Managed signing in the Amazon Elastic Container Registry User Guide . NOTE: Deleting the signing configuration does not affect existing image signatures. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

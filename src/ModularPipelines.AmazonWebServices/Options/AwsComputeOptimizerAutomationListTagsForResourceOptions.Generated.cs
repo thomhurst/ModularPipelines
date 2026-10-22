@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsComputeOptimizerAutomationListTagsForResourceOptions : AwsOptio
     /// <summary>
     /// Lists the tags for a specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource to list tags for. Constraints: o pattern: arn:aws:compute-optimizer::[0-9]{12}:automa- tion-rule/[a-zA-Z0-9_-]+</param>
+    /// <param name="ResourceArn">The ARN of the resource to list tags for. Constraints: • pattern: arn:aws:compute-optimizer::[0-9]{12}:automation-rule/[a-zA-Z0-9_-]+</param>
     public AwsComputeOptimizerAutomationListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsComputeOptimizerAutomationListTagsForResourceOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource to list tags for. Constraints: o pattern: arn:aws:compute-optimizer::[0-9]{12}:automa- tion-rule/[a-zA-Z0-9_-]+
+    /// The ARN of the resource to list tags for. Constraints: • pattern: arn:aws:compute-optimizer::[0-9]{12}:automation-rule/[a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

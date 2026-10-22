@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAppstreamStartImageBuilderOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Starts the specified image builder. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the image builder. Constraints: o min: 1</param>
+    /// <param name="Name">The name of the image builder. Constraints: • min: 1</param>
     public AwsAppstreamStartImageBuilderOptions(
         string Name
     )
@@ -56,13 +58,13 @@ public record AwsAppstreamStartImageBuilderOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the image builder. Constraints: o min: 1
+    /// The name of the image builder. Constraints: • min: 1
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The version of the WorkSpaces Applications agent to use for this im- age builder. To use the latest version of the WorkSpaces Applica- tions agent, specify [LATEST]. Constraints: o min: 1 o max: 100
+    /// The version of the WorkSpaces Applications agent to use for this image builder. To use the latest version of the WorkSpaces Applications agent, specify [LATEST]. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--appstream-agent-version")]
     public string? AppstreamAgentVersion { get; set; }

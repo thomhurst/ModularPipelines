@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the association between a tracker resource and a geofence col- lection. NOTE: Once you unlink a tracker resource from a geofence collection, the tracker positions will no longer be automatically evaluated against geofences. See also: AWS API Documentation
+/// Removes the association between a tracker resource and a geofence collection. NOTE: Once you unlink a tracker resource from a geofence collection, the tracker positions will no longer be automatically evaluated against geofences. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsLocationDisassociateTrackerConsumerOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the association between a tracker resource and a geofence col- lection. NOTE: Once you unlink a tracker resource from a geofence collection, the tracker positions will no longer be automatically evaluated against geofences. See also: AWS API Documentation
+    /// Removes the association between a tracker resource and a geofence collection. NOTE: Once you unlink a tracker resource from a geofence collection, the tracker positions will no longer be automatically evaluated against geofences. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TrackerName">The name of the tracker resource to be dissociated from the con- sumer. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
-    /// <param name="ConsumerArn">The Amazon Resource Name (ARN) for the geofence collection to be disassociated from the tracker resource. Used when you need to spec- ify a resource across all Amazon Web Services. o Format example: arn:aws:geo:region:account-id:geofence-collec- tion/ExampleGeofenceCollectionConsumer Constraints: o min: 0 o max: 1600 o pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:([^/].*)?</param>
+    /// <param name="TrackerName">The name of the tracker resource to be dissociated from the consumer. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+</param>
+    /// <param name="ConsumerArn">The Amazon Resource Name (ARN) for the geofence collection to be disassociated from the tracker resource. Used when you need to specify a resource across all Amazon Web Services. • Format example: arn:aws:geo:region:account-id:geofence-collection/ExampleGeofenceCollectionConsumer Constraints: • min: 0 • max: 1600 • pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:([^/].*)?</param>
     public AwsLocationDisassociateTrackerConsumerOptions(
         string TrackerName,
         string ConsumerArn
@@ -60,13 +62,13 @@ public record AwsLocationDisassociateTrackerConsumerOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the tracker resource to be dissociated from the con- sumer. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// The name of the tracker resource to be dissociated from the consumer. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+
     /// </summary>
     [CliOption("--tracker-name")]
     public string? TrackerName { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) for the geofence collection to be disassociated from the tracker resource. Used when you need to spec- ify a resource across all Amazon Web Services. o Format example: arn:aws:geo:region:account-id:geofence-collec- tion/ExampleGeofenceCollectionConsumer Constraints: o min: 0 o max: 1600 o pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:([^/].*)?
+    /// The Amazon Resource Name (ARN) for the geofence collection to be disassociated from the tracker resource. Used when you need to specify a resource across all Amazon Web Services. • Format example: arn:aws:geo:region:account-id:geofence-collection/ExampleGeofenceCollectionConsumer Constraints: • min: 0 • max: 1600 • pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:([^/].*)?
     /// </summary>
     [CliOption("--consumer-arn")]
     public string? ConsumerArn { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsNetworkSecurityManagerListTagsForResourceOptions : AwsOptions, 
     /// <summary>
     /// Lists the tags associated with the specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource to list tags for. The ARN must not include a :DRAFT qualifier. Constraints: o min: 20 o max: 1010 o pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:(.+)</param>
+    /// <param name="ResourceArn">The ARN of the resource to list tags for. The ARN must not include a :DRAFT qualifier. Constraints: • min: 20 • max: 1010 • pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:(.+)</param>
     public AwsNetworkSecurityManagerListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsNetworkSecurityManagerListTagsForResourceOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource to list tags for. The ARN must not include a :DRAFT qualifier. Constraints: o min: 20 o max: 1010 o pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:(.+)
+    /// The ARN of the resource to list tags for. The ARN must not include a :DRAFT qualifier. Constraints: • min: 20 • max: 1010 • pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:(.+)
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

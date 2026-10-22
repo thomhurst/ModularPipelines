@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsTextractDeleteAdapterVersionOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Deletes an Amazon Textract adapter version. Requires that you specify both an AdapterId and a AdapterVersion. Deletes the adapter version specified by the AdapterId and the AdapterVersion. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AdapterId">A string containing a unique ID for the adapter version that will be deleted. Constraints: o min: 12 o max: 1011</param>
-    /// <param name="AdapterVersion">Specifies the adapter version to be deleted. Constraints: o min: 1 o max: 128</param>
+    /// <param name="AdapterId">A string containing a unique ID for the adapter version that will be deleted. Constraints: • min: 12 • max: 1011</param>
+    /// <param name="AdapterVersion">Specifies the adapter version to be deleted. Constraints: • min: 1 • max: 128</param>
     public AwsTextractDeleteAdapterVersionOptions(
         string AdapterId,
         string AdapterVersion
@@ -60,13 +62,13 @@ public record AwsTextractDeleteAdapterVersionOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A string containing a unique ID for the adapter version that will be deleted. Constraints: o min: 12 o max: 1011
+    /// A string containing a unique ID for the adapter version that will be deleted. Constraints: • min: 12 • max: 1011
     /// </summary>
     [CliOption("--adapter-id")]
     public string? AdapterId { get; private init; }
 
     /// <summary>
-    /// Specifies the adapter version to be deleted. Constraints: o min: 1 o max: 128
+    /// Specifies the adapter version to be deleted. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--adapter-version")]
     public string? AdapterVersion { get; private init; }

@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists model bias jobs definitions that satisfy various filters. See also: AWS API Documentation list-model-bias-job-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: JobDefinitionSummarie...
+/// Lists model bias jobs definitions that satisfy various filters. See also: AWS API Documentation list-model-bias-job-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: JobDefinitionSummaries
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,31 +24,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSagemakerListModelBiasJobDefinitionsOptions : AwsOptions
 {
     /// <summary>
-    /// Name of the endpoint to monitor for model bias. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// Name of the endpoint to monitor for model bias. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--endpoint-name")]
     public string? EndpointName { get; set; }
 
     /// <summary>
-    /// Whether to sort results by the Name or CreationTime field. The de- fault is CreationTime . Possible values: o Name o CreationTime
+    /// Whether to sort results by the Name or CreationTime field. The default is CreationTime . Possible values: • Name • CreationTime
     /// </summary>
     [CliOption("--sort-by")]
     public AwsSagemakerListModelBiasJobDefinitionsSortBy? SortBy { get; set; }
 
     /// <summary>
-    /// Whether to sort the results in Ascending or Descending order. The default is Descending . Possible values: o Ascending o Descending
+    /// Whether to sort the results in Ascending or Descending order. The default is Descending . Possible values: • Ascending • Descending
     /// </summary>
     [CliOption("--sort-order")]
     public AwsSagemakerListModelBiasJobDefinitionsSortOrder? SortOrder { get; set; }
 
     /// <summary>
-    /// Filter for model bias jobs whose name contains a specified string. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9\-]+
+    /// Filter for model bias jobs whose name contains a specified string. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9\-]+
     /// </summary>
     [CliOption("--name-contains")]
     public string? NameContains { get; set; }
 
     /// <summary>
-    /// A filter that returns only model bias jobs created before a speci- fied time.
+    /// A filter that returns only model bias jobs created before a specified time.
     /// </summary>
     [CliOption("--creation-time-before")]
     public string? CreationTimeBefore { get; set; }
@@ -62,9 +62,6 @@ public record AwsSagemakerListModelBiasJobDefinitionsOptions : AwsOptions
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -73,15 +70,18 @@ public record AwsSagemakerListModelBiasJobDefinitionsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +31,7 @@ public record AwsMigrationhubstrategyUpdateApplicationComponentConfigOptions : A
     /// <summary>
     /// Updates the configuration of an application component. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationComponentId">The ID of the application component. The ID is unique within an AWS account. Constraints: o min: 0 o max: 44 o pattern: [0-9a-zA-Z-]+</param>
+    /// <param name="ApplicationComponentId">The ID of the application component. The ID is unique within an AWS account. Constraints: • min: 0 • max: 44 • pattern: [0-9a-zA-Z-]+</param>
     public AwsMigrationhubstrategyUpdateApplicationComponentConfigOptions(
         string ApplicationComponentId
     )
@@ -58,44 +60,44 @@ public record AwsMigrationhubstrategyUpdateApplicationComponentConfigOptions : A
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the application component. The ID is unique within an AWS account. Constraints: o min: 0 o max: 44 o pattern: [0-9a-zA-Z-]+
+    /// The ID of the application component. The ID is unique within an AWS account. Constraints: • min: 0 • max: 44 • pattern: [0-9a-zA-Z-]+
     /// </summary>
     [CliOption("--application-component-id")]
     public string? ApplicationComponentId { get; private init; }
 
     /// <summary>
-    /// The type of known component. Possible values: o DotNetFramework o Java o SQLServer o IIS o Oracle o Other o Tomcat o JBoss o Spring o Mongo DB o DB2 o Maria DB o MySQL o Sybase o PostgreSQLServer o Cassandra o IBM WebSphere o Oracle WebLogic o Visual Basic o Unknown o DotnetCore o Dotnet
+    /// The type of known component. Possible values: • DotNetFramework • Java • SQLServer • IIS • Oracle • Other • Tomcat • JBoss • Spring • Mongo DB • DB2 • Maria DB • MySQL • Sybase • PostgreSQLServer • Cassandra • IBM WebSphere • Oracle WebLogic • Visual Basic • Unknown • DotnetCore • Dotnet
     /// </summary>
     [CliOption("--app-type")]
     public string? AppType { get; set; }
 
     /// <summary>
-    /// Update the configuration request of an application component. If it is set to true, the source code and/or database credentials are up- dated. If it is set to false, the source code and/or database cre- dentials are updated and an analysis is initiated.
+    /// Update the configuration request of an application component. If it is set to true, the source code and/or database credentials are updated. If it is set to false, the source code and/or database credentials are updated and an analysis is initiated.
     /// </summary>
     [CliFlag("--configure-only", NegatedName = "--no-configure-only")]
     public bool? ConfigureOnly { get; set; }
 
     /// <summary>
-    /// Indicates whether the application component has been included for server recommendation or not. Possible values: o excludeFromAssessment o includeInAssessment
+    /// Indicates whether the application component has been included for server recommendation or not. Possible values: • excludeFromAssessment • includeInAssessment
     /// </summary>
     [CliOption("--inclusion-status")]
     public AwsMigrationhubstrategyUpdateApplicationComponentConfigInclusionStatus? InclusionStatus { get; set; }
 
     /// <summary>
-    /// Database credentials. Constraints: o min: 1 o max: 512 o pattern: .*
+    /// Database credentials. Constraints: • min: 1 • max: 512 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--secrets-manager-key")]
     public string? SecretsManagerKey { get; set; }
 
     /// <summary>
-    /// The list of source code configurations to update for the application component. (structure) Object containing source code information that is linked to an application component. location -&gt; (string) The repository name for the source code. Constraints: o min: 1 o max: 128 o pattern: .*\S.* projectName -&gt; (string) The name of the project. Constraints: o min: 1 o max: 128 o pattern: .*\S.* sourceVersion -&gt; (string) The branch of the source code. Constraints: o min: 1 o max: 40 o pattern: .*\S.* versionControl -&gt; (string) The type of repository to use for the source code. Possible values: o GITHUB o GITHUB_ENTERPRISE o AZURE_DEVOPS_GIT Shorthand Syntax: location=string,projectName=string,sourceVersion=string,versionControl=string ... JSON Syntax: [ { "location": "string", "projectName": "string", "sourceVersion": "string", "versionControl": "GITHUB"|"GITHUB_ENTERPRISE"|"AZURE_DEVOPS_GIT" } ... ]
+    /// The list of source code configurations to update for the application component. (structure) Object containing source code information that is linked to an application component. location -&gt; (string) The repository name for the source code. Constraints: • min: 1 • max: 128 • pattern: .*\S.* projectName -&gt; (string) The name of the project. Constraints: • min: 1 • max: 128 • pattern: .*\S.* sourceVersion -&gt; (string) The branch of the source code. Constraints: • min: 1 • max: 40 • pattern: .*\S.* versionControl -&gt; (string) The type of repository to use for the source code. Possible values: • GITHUB • GITHUB_ENTERPRISE • AZURE_DEVOPS_GIT Shorthand Syntax: location=string,projectName=string,sourceVersion=string,versionControl=string ... JSON Syntax: [ { "location": "string", "projectName": "string", "sourceVersion": "string", "versionControl": "GITHUB"|"GITHUB_ENTERPRISE"|"AZURE_DEVOPS_GIT" } ... ]
     /// </summary>
     [CliOption("--source-code-list", GroupValues = true)]
     public IEnumerable<string>? SourceCodeList { get; set; }
 
     /// <summary>
-    /// The preferred strategy options for the application component. Use values from the GetApplicationComponentStrategies response. isPreferred -&gt; (boolean) Indicates if a specific strategy is preferred for the applica- tion component. strategy -&gt; (string) Type of transformation. For example, Rehost, Replatform, and so on. Possible values: o Rehost o Retirement o Refactor o Replatform o Retain o Relocate o Repurchase targetDestination -&gt; (string) Destination information about where the application component can migrate to. For example, EC2 , ECS , and so on. Possible values: o None specified o AWS Elastic BeanStalk o AWS Fargate o Amazon Elastic Cloud Compute (EC2) o Amazon Elastic Container Service (ECS) o Amazon Elastic Kubernetes Service (EKS) o Aurora MySQL o Aurora PostgreSQL o Amazon Relational Database Service on MySQL o Amazon Relational Database Service on PostgreSQL o Amazon DocumentDB o Amazon DynamoDB o Amazon Relational Database Service o Babelfish for Aurora PostgreSQL toolName -&gt; (string) The name of the tool that can be used to transform an applica- tion component using this strategy. Possible values: o App2Container o Porting Assistant For .NET o End of Support Migration o Windows Web Application Migration Assistant o Application Migration Service o Strategy Recommendation Support o In Place Operating System Upgrade o Schema Conversion Tool o Database Migration Service o Native SQL Server Backup/Restore Shorthand Syntax: isPreferred=boolean,strategy=string,targetDestination=string,toolName=string JSON Syntax: { "isPreferred": true|false, "strategy": "Rehost"|"Retirement"|"Refactor"|"Replatform"|"Retain"|"Relocate"|"Repurchase", "targetDestination": "None specified"|"AWS Elastic BeanStalk"|"AWS Fargate"|"Amazon Elastic Cloud Compute (EC2)"|"Amazon Elastic Container Service (ECS)"|"Amazon Elastic Kubernetes Service (EKS)"|"Aurora MySQL"|"Aurora PostgreSQL"|"Amazon Relational Database Service on MySQL"|"Amazon Relational Database Service on PostgreSQL"|"Amazon DocumentDB"|"Amazon DynamoDB"|"Amazon Relational Database Service"|"Babelfish for Aurora PostgreSQL", "toolName": "App2Container"|"Porting Assistant For .NET"|"End of Support Migration"|"Windows Web Application Migration Assistant"|"Application Migration Service"|"Strategy Recommendation Support"|"In Place Operating System Upgrade"|"Schema Conversion Tool"|"Database Migration Service"|"Native SQL Server Backup/Restore" }
+    /// The preferred strategy options for the application component. Use values from the GetApplicationComponentStrategies response. isPreferred -&gt; (boolean) Indicates if a specific strategy is preferred for the application component. strategy -&gt; (string) Type of transformation. For example, Rehost, Replatform, and so on. Possible values: • Rehost • Retirement • Refactor • Replatform • Retain • Relocate • Repurchase targetDestination -&gt; (string) Destination information about where the application component can migrate to. For example, EC2 , ECS , and so on. Possible values: • None specified • AWS Elastic BeanStalk • AWS Fargate • Amazon Elastic Cloud Compute (EC2) • Amazon Elastic Container Service (ECS) • Amazon Elastic Kubernetes Service (EKS) • Aurora MySQL • Aurora PostgreSQL • Amazon Relational Database Service on MySQL • Amazon Relational Database Service on PostgreSQL • Amazon DocumentDB • Amazon DynamoDB • Amazon Relational Database Service • Babelfish for Aurora PostgreSQL toolName -&gt; (string) The name of the tool that can be used to transform an application component using this strategy. Possible values: • App2Container • Porting Assistant For .NET • End of Support Migration • Windows Web Application Migration Assistant • Application Migration Service • Strategy Recommendation Support • In Place Operating System Upgrade • Schema Conversion Tool • Database Migration Service • Native SQL Server Backup/Restore Shorthand Syntax: isPreferred=boolean,strategy=string,targetDestination=string,toolName=string JSON Syntax: { "isPreferred": true|false, "strategy": "Rehost"|"Retirement"|"Refactor"|"Replatform"|"Retain"|"Relocate"|"Repurchase", "targetDestination": "None specified"|"AWS Elastic BeanStalk"|"AWS Fargate"|"Amazon Elastic Cloud Compute (EC2)"|"Amazon Elastic Container Service (ECS)"|"Amazon Elastic Kubernetes Service (EKS)"|"Aurora MySQL"|"Aurora PostgreSQL"|"Amazon Relational Database Service on MySQL"|"Amazon Relational Database Service on PostgreSQL"|"Amazon DocumentDB"|"Amazon DynamoDB"|"Amazon Relational Database Service"|"Babelfish for Aurora PostgreSQL", "toolName": "App2Container"|"Porting Assistant For .NET"|"End of Support Migration"|"Windows Web Application Migration Assistant"|"Application Migration Service"|"Strategy Recommendation Support"|"In Place Operating System Upgrade"|"Schema Conversion Tool"|"Database Migration Service"|"Native SQL Server Backup/Restore" }
     /// </summary>
     [CliOption("--strategy-option")]
     public string? StrategyOption { get; set; }

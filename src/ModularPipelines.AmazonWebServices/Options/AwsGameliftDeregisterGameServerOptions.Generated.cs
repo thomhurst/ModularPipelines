@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsGameliftDeregisterGameServerOptions : AwsOptions, IValidatableO
     /// <summary>
     /// This API works with the following fleet types: EC2 (FleetIQ) Removes the game server from a game server group. As a result of this operation, the deregistered game server can no longer be claimed and will not be returned in a list of active game servers. To deregister a game server, specify the game server group and game server ID. If successful, this operation emits a CloudWatch event with termination timestamp and reason. Learn more Amazon GameLift Servers FleetIQ Guide See also: AWS API Docum...
     /// </summary>
-    /// <param name="GameServerGroupName">A unique identifier for the game server group where the game server is running. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameserver- group\/[a-zA-Z0-9-\.]+)$</param>
-    /// <param name="GameServerId">A custom string that uniquely identifies the game server to deregis- ter. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9-\.]+$</param>
+    /// <param name="GameServerGroupName">A unique identifier for the game server group where the game server is running. Constraints: • min: 1 • max: 256 • pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameservergroup\/[a-zA-Z0-9-\.]+)$</param>
+    /// <param name="GameServerId">A custom string that uniquely identifies the game server to deregister. Constraints: • min: 3 • max: 128 • pattern: ^[a-zA-Z0-9-\.]+$</param>
     public AwsGameliftDeregisterGameServerOptions(
         string GameServerGroupName,
         string GameServerId
@@ -60,13 +62,13 @@ public record AwsGameliftDeregisterGameServerOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the game server group where the game server is running. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameserver- group\/[a-zA-Z0-9-\.]+)$
+    /// A unique identifier for the game server group where the game server is running. Constraints: • min: 1 • max: 256 • pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameservergroup\/[a-zA-Z0-9-\.]+)$
     /// </summary>
     [CliOption("--game-server-group-name")]
     public string? GameServerGroupName { get; private init; }
 
     /// <summary>
-    /// A custom string that uniquely identifies the game server to deregis- ter. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9-\.]+$
+    /// A custom string that uniquely identifies the game server to deregister. Constraints: • min: 3 • max: 128 • pattern: ^[a-zA-Z0-9-\.]+$
     /// </summary>
     [CliOption("--game-server-id")]
     public string? GameServerId { get; private init; }

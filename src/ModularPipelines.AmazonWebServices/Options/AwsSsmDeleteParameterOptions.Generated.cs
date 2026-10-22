@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSsmDeleteParameterOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Delete a parameter from the system. After deleting a parameter, wait for at least 30 seconds to create a parameter with the same name. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the parameter to delete. NOTE: You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="Name">The name of the parameter to delete. NOTE: You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself. Constraints: • min: 1 • max: 2048</param>
     public AwsSsmDeleteParameterOptions(
         string Name
     )
@@ -56,7 +58,7 @@ public record AwsSsmDeleteParameterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the parameter to delete. NOTE: You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself. Constraints: o min: 1 o max: 2048
+    /// The name of the parameter to delete. NOTE: You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

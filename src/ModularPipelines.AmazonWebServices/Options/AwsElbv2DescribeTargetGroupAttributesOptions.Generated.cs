@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the attributes for the specified target group. For more information, see the following: o Target group attributes in the Application Load Balancers Guide o Target group attributes in the Network Load Balancers Guide o Target group attributes in the Gateway Load Balancers Guide See also: AWS API Documentation
+/// Describes the attributes for the specified target group. For more information, see the following: • Target group attributes in the Application Load Balancers Guide • Target group attributes in the Network Load Balancers Guide • Target group attributes in the Gateway Load Balancers Guide See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsElbv2DescribeTargetGroupAttributesOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes the attributes for the specified target group. For more information, see the following: o Target group attributes in the Application Load Balancers Guide o Target group attributes in the Network Load Balancers Guide o Target group attributes in the Gateway Load Balancers Guide See also: AWS API Documentation
+    /// Describes the attributes for the specified target group. For more information, see the following: • Target group attributes in the Application Load Balancers Guide • Target group attributes in the Network Load Balancers Guide • Target group attributes in the Gateway Load Balancers Guide See also: AWS API Documentation
     /// </summary>
     /// <param name="TargetGroupArn">The Amazon Resource Name (ARN) of the target group.</param>
     public AwsElbv2DescribeTargetGroupAttributesOptions(

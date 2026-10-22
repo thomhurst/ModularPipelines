@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsOpensearchAddTagsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Attaches tags to an existing Amazon OpenSearch Service domain, data source, or application. Tags are a set of case-sensitive key-value pairs. A domain, data source, or application can have up to 10 tags. For more information, see Tagging Amazon OpenSearch Service resources . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">Amazon Resource Name (ARN) for the OpenSearch Service domain, data source, or application to which you want to attach resource tags. Constraints: o min: 20 o max: 2048 o pattern: .*</param>
-    /// <param name="TagList">List of resource tags. (structure) A tag (key-value pair) for an Amazon OpenSearch Service re- source. Key -&gt; (string) [required] The tag key. Tag keys must be unique for the domain to which they are attached. Constraints: o min: 1 o max: 128 o pattern: .* Value -&gt; (string) [required] The value assigned to the corresponding tag key. Tag values can be null and don't have to be unique in a tag set. For ex- ample, you can have a key value pair in a tag set of project : Trinity and cost-center : Trinity Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="Arn">Amazon Resource Name (ARN) for the OpenSearch Service domain, data source, or application to which you want to attach resource tags. Constraints: • min: 20 • max: 2048 • pattern: .*</param>
+    /// <param name="TagList">List of resource tags. (structure) A tag (key-value pair) for an Amazon OpenSearch Service resource. Key -&gt; (string) [required] The tag key. Tag keys must be unique for the domain to which they are attached. Constraints: • min: 1 • max: 128 • pattern: .* Value -&gt; (string) [required] The value assigned to the corresponding tag key. Tag values can be null and don't have to be unique in a tag set. For example, you can have a key value pair in a tag set of project : Trinity and cost-center : Trinity Constraints: • min: 0 • max: 256 • pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsOpensearchAddTagsOptions(
         string Arn,
         IEnumerable<string> TagList
@@ -71,13 +73,13 @@ public record AwsOpensearchAddTagsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Resource Name (ARN) for the OpenSearch Service domain, data source, or application to which you want to attach resource tags. Constraints: o min: 20 o max: 2048 o pattern: .*
+    /// Amazon Resource Name (ARN) for the OpenSearch Service domain, data source, or application to which you want to attach resource tags. Constraints: • min: 20 • max: 2048 • pattern: .*
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// List of resource tags. (structure) A tag (key-value pair) for an Amazon OpenSearch Service re- source. Key -&gt; (string) [required] The tag key. Tag keys must be unique for the domain to which they are attached. Constraints: o min: 1 o max: 128 o pattern: .* Value -&gt; (string) [required] The value assigned to the corresponding tag key. Tag values can be null and don't have to be unique in a tag set. For ex- ample, you can have a key value pair in a tag set of project : Trinity and cost-center : Trinity Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// List of resource tags. (structure) A tag (key-value pair) for an Amazon OpenSearch Service resource. Key -&gt; (string) [required] The tag key. Tag keys must be unique for the domain to which they are attached. Constraints: • min: 1 • max: 128 • pattern: .* Value -&gt; (string) [required] The value assigned to the corresponding tag key. Tag values can be null and don't have to be unique in a tag set. For example, you can have a key value pair in a tag set of project : Trinity and cost-center : Trinity Constraints: • min: 0 • max: 256 • pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tag-list", GroupValues = true)]
     public IEnumerable<string>? TagList { get; private init; }

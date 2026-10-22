@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Uses the join token and call metadata in a meeting request (From num- ber, To number, and so forth) to initiate an outbound call to a public switched telephone network (PSTN) and join them into a Chime meeting. Also ensures that the From number belongs to the customer. To play welcome audio or implement an interactive voice response (IVR), use the CreateSipMediaApplicationCall action with the corresponding SIP media application ID. WARNING: This API is not available in a dedicated namespace. See...
+/// Uses the join token and call metadata in a meeting request (From number, To number, and so forth) to initiate an outbound call to a public switched telephone network (PSTN) and join them into a Chime meeting. Also ensures that the From number belongs to the customer. To play welcome audio or implement an interactive voice response (IVR), use the CreateSipMediaApplicationCall action with the corresponding SIP media application ID. WARNING: This API is not available in a dedicated namespace. See a...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +28,12 @@ public record AwsChimeCreateMeetingDialOutOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Uses the join token and call metadata in a meeting request (From num- ber, To number, and so forth) to initiate an outbound call to a public switched telephone network (PSTN) and join them into a Chime meeting. Also ensures that the From number belongs to the customer. To play welcome audio or implement an interactive voice response (IVR), use the CreateSipMediaApplicationCall action with the corresponding SIP media application ID. WARNING: This API is not available in a dedicated namespace. See...
+    /// Uses the join token and call metadata in a meeting request (From number, To number, and so forth) to initiate an outbound call to a public switched telephone network (PSTN) and join them into a Chime meeting. Also ensures that the From number belongs to the customer. To play welcome audio or implement an interactive voice response (IVR), use the CreateSipMediaApplicationCall action with the corresponding SIP media application ID. WARNING: This API is not available in a dedicated namespace. See a...
     /// </summary>
-    /// <param name="MeetingId">The Amazon Chime SDK meeting ID. Constraints: o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}</param>
-    /// <param name="FromPhoneNumber">Phone number used as the caller ID when the remote party receives a call. Constraints: o pattern: ^\+?[1-9]\d{1,14}$</param>
-    /// <param name="ToPhoneNumber">Phone number called when inviting someone to a meeting. Constraints: o pattern: ^\+?[1-9]\d{1,14}$</param>
-    /// <param name="JoinToken">Token used by the Amazon Chime SDK attendee. Call the CreateAttendee action to get a join token. Constraints: o min: 2 o max: 2048 o pattern: ^[a-zA-Z0-9+/]+$</param>
+    /// <param name="MeetingId">The Amazon Chime SDK meeting ID. Constraints: • pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}</param>
+    /// <param name="FromPhoneNumber">Phone number used as the caller ID when the remote party receives a call. Constraints: • pattern: ^\+?[1-9]\d{1,14}$</param>
+    /// <param name="ToPhoneNumber">Phone number called when inviting someone to a meeting. Constraints: • pattern: ^\+?[1-9]\d{1,14}$</param>
+    /// <param name="JoinToken">Token used by the Amazon Chime SDK attendee. Call the CreateAttendee action to get a join token. Constraints: • min: 2 • max: 2048 • pattern: ^[a-zA-Z0-9+/]+$</param>
     public AwsChimeCreateMeetingDialOutOptions(
         string MeetingId,
         string FromPhoneNumber,
@@ -69,25 +71,25 @@ public record AwsChimeCreateMeetingDialOutOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Chime SDK meeting ID. Constraints: o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}
+    /// The Amazon Chime SDK meeting ID. Constraints: • pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}
     /// </summary>
     [CliOption("--meeting-id")]
     public string? MeetingId { get; private init; }
 
     /// <summary>
-    /// Phone number used as the caller ID when the remote party receives a call. Constraints: o pattern: ^\+?[1-9]\d{1,14}$
+    /// Phone number used as the caller ID when the remote party receives a call. Constraints: • pattern: ^\+?[1-9]\d{1,14}$
     /// </summary>
     [CliOption("--from-phone-number")]
     public string? FromPhoneNumber { get; private init; }
 
     /// <summary>
-    /// Phone number called when inviting someone to a meeting. Constraints: o pattern: ^\+?[1-9]\d{1,14}$
+    /// Phone number called when inviting someone to a meeting. Constraints: • pattern: ^\+?[1-9]\d{1,14}$
     /// </summary>
     [CliOption("--to-phone-number")]
     public string? ToPhoneNumber { get; private init; }
 
     /// <summary>
-    /// Token used by the Amazon Chime SDK attendee. Call the CreateAttendee action to get a join token. Constraints: o min: 2 o max: 2048 o pattern: ^[a-zA-Z0-9+/]+$
+    /// Token used by the Amazon Chime SDK attendee. Call the CreateAttendee action to get a join token. Constraints: • min: 2 • max: 2048 • pattern: ^[a-zA-Z0-9+/]+$
     /// </summary>
     [SecretValue]
     [CliOption("--join-token")]

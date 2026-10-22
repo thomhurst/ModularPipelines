@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -72,7 +74,7 @@ public record AwsMacie2TestCustomDataIdentifierOptions : AwsOptions, IValidatabl
     public string? SampleText { get; private init; }
 
     /// <summary>
-    /// An array that lists specific character sequences (ignore words ) to exclude from the results. If the text matched by the regular expres- sion contains any string in this array, Amazon Macie ignores it. The array can contain as many as 10 ignore words. Each ignore word can contain 4-90 UTF-8 characters. Ignore words are case sensitive. (string) Syntax: "string" "string" ...
+    /// An array that lists specific character sequences (ignore words ) to exclude from the results. If the text matched by the regular expression contains any string in this array, Amazon Macie ignores it. The array can contain as many as 10 ignore words. Each ignore word can contain 4-90 UTF-8 characters. Ignore words are case sensitive. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--ignore-words", GroupValues = true)]
     public IEnumerable<string>? IgnoreWords { get; set; }

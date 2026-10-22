@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the metadata and detailed results of a single assessment, in- cluding the framework that was evaluated, the overall assessment re- sult, and a paginated list of individual control evaluation results. To list available assessments before describing one, use the Lis- tAssessments action. See also: AWS API Documentation describe-assessment is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing t...
+/// Returns the metadata and detailed results of a single assessment, including the framework that was evaluated, the overall assessment result, and a paginated list of individual control evaluation results. To list available assessments before describing one, use the ListAssessments action. See also: AWS API Documentation describe-assessment is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --n...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsMarketplaceCatalogDescribeAssessmentOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the metadata and detailed results of a single assessment, in- cluding the framework that was evaluated, the overall assessment re- sult, and a paginated list of individual control evaluation results. To list available assessments before describing one, use the Lis- tAssessments action. See also: AWS API Documentation describe-assessment is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing t...
+    /// Returns the metadata and detailed results of a single assessment, including the framework that was evaluated, the overall assessment result, and a paginated list of individual control evaluation results. To list available assessments before describing one, use the ListAssessments action. See also: AWS API Documentation describe-assessment is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --n...
     /// </summary>
-    /// <param name="Catalog">The catalog related to the request. Fixed value: AWSMarketplace Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z]+$</param>
-    /// <param name="AssessmentIdentifier">The unique identifier of the assessment to describe. You can provide either the assessment ID (for example, assessment-12345 ) or the full assessment ARN (for example, arn:aws:aws-market- place:us-east-1::AWSMarketplace/Assessment/assessment-12345 ). Constraints: o min: 1 o max: 2048 o pattern: ^(assess- ment-[a-zA-Z0-9]+|arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:[0-9]*:[a-zA-Z0-9-]+/As- sessment/assessment-[a-zA-Z0-9]+)$</param>
+    /// <param name="Catalog">The catalog related to the request. Fixed value: AWSMarketplace Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z]+$</param>
+    /// <param name="AssessmentIdentifier">The unique identifier of the assessment to describe. You can provide either the assessment ID (for example, assessment-12345 ) or the full assessment ARN (for example, arn:aws:aws-marketplace:us-east-1::AWSMarketplace/Assessment/assessment-12345 ). Constraints: • min: 1 • max: 2048 • pattern: ^(assessment-[a-zA-Z0-9]+|arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:[0-9]*:[a-zA-Z0-9-]+/Assessment/assessment-[a-zA-Z0-9]+)$</param>
     public AwsMarketplaceCatalogDescribeAssessmentOptions(
         string Catalog,
         string AssessmentIdentifier
@@ -61,22 +63,19 @@ public record AwsMarketplaceCatalogDescribeAssessmentOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog related to the request. Fixed value: AWSMarketplace Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z]+$
+    /// The catalog related to the request. Fixed value: AWSMarketplace Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z]+$
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the assessment to describe. You can provide either the assessment ID (for example, assessment-12345 ) or the full assessment ARN (for example, arn:aws:aws-market- place:us-east-1::AWSMarketplace/Assessment/assessment-12345 ). Constraints: o min: 1 o max: 2048 o pattern: ^(assess- ment-[a-zA-Z0-9]+|arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:[0-9]*:[a-zA-Z0-9-]+/As- sessment/assessment-[a-zA-Z0-9]+)$
+    /// The unique identifier of the assessment to describe. You can provide either the assessment ID (for example, assessment-12345 ) or the full assessment ARN (for example, arn:aws:aws-marketplace:us-east-1::AWSMarketplace/Assessment/assessment-12345 ). Constraints: • min: 1 • max: 2048 • pattern: ^(assessment-[a-zA-Z0-9]+|arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:[0-9]*:[a-zA-Z0-9-]+/Assessment/assessment-[a-zA-Z0-9]+)$
     /// </summary>
     [CliOption("--assessment-identifier")]
     public string? AssessmentIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -86,16 +85,19 @@ public record AwsMarketplaceCatalogDescribeAssessmentOptions : AwsOptions, IVali
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the web app that's identified by WebAppId . The response in- cludes endpoint configuration details such as whether the web app is publicly accessible or VPC hosted. For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC . See also: AWS API Documentation
+/// Describes the web app that's identified by WebAppId . The response includes endpoint configuration details such as whether the web app is publicly accessible or VPC hosted. For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsTransferDescribeWebAppOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes the web app that's identified by WebAppId . The response in- cludes endpoint configuration details such as whether the web app is publicly accessible or VPC hosted. For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC . See also: AWS API Documentation
+    /// Describes the web app that's identified by WebAppId . The response includes endpoint configuration details such as whether the web app is publicly accessible or VPC hosted. For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC . See also: AWS API Documentation
     /// </summary>
-    /// <param name="WebAppId">Provide the unique identifier for the web app. Constraints: o min: 24 o max: 24 o pattern: webapp-[0-9a-f]{17}</param>
+    /// <param name="WebAppId">Provide the unique identifier for the web app. Constraints: • min: 24 • max: 24 • pattern: webapp-[0-9a-f]{17}</param>
     public AwsTransferDescribeWebAppOptions(
         string WebAppId
     )
@@ -56,7 +58,7 @@ public record AwsTransferDescribeWebAppOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Provide the unique identifier for the web app. Constraints: o min: 24 o max: 24 o pattern: webapp-[0-9a-f]{17}
+    /// Provide the unique identifier for the web app. Constraints: • min: 24 • max: 24 • pattern: webapp-[0-9a-f]{17}
     /// </summary>
     [CliOption("--web-app-id")]
     public string? WebAppId { get; private init; }

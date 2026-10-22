@@ -23,26 +23,26 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsNetworkFirewallUpdateFirewallEncryptionConfigurationOptions : AwsOptions
 {
     /// <summary>
-    /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the oper- ation again using the new token. Constraints: o min: 1 o max: 1024 o pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$
+    /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token. Constraints: • min: 1 • max: 1024 • pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$
     /// </summary>
     [SecretValue]
     [CliOption("--update-token")]
     public string? UpdateToken { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the firewall. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*
+    /// The Amazon Resource Name (ARN) of the firewall. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*
     /// </summary>
     [CliOption("--firewall-arn")]
     public string? FirewallArn { get; set; }
 
     /// <summary>
-    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
+    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--firewall-name")]
     public string? FirewallName { get; set; }
 
     /// <summary>
-    /// A complex type that contains optional Amazon Web Services Key Man- agement Service (KMS) encryption settings for your Network Firewall resources. Your data is encrypted by default with an Amazon Web Ser- vices owned key that Amazon Web Services owns and manages for you. You can use either the Amazon Web Services owned key, or provide your own customer managed key. To learn more about KMS encryption of your Network Firewall resources, see Encryption at rest with Amazon Web Services Key Managment Service in the Network Firewall Developer Guide . KeyId -&gt; (string) The ID of the Amazon Web Services Key Management Service (KMS) customer managed key. You can use any of the key identifiers that KMS supports, unless you're using a key that's managed by another account. If you're using a key managed by another ac- count, then specify the key ARN. For more information, see Key ID in the Amazon Web Services KMS Developer Guide . Constraints: o min: 1 o max: 2048 o pattern: .*\S.* Type -&gt; (string) [required] The type of Amazon Web Services KMS key to use for encryption of your Network Firewall resources. Possible values: o CUSTOMER_KMS o AWS_OWNED_KMS_KEY Shorthand Syntax: KeyId=string,Type=string JSON Syntax: { "KeyId": "string", "Type": "CUSTOMER_KMS"|"AWS_OWNED_KMS_KEY" }
+    /// A complex type that contains optional Amazon Web Services Key Management Service (KMS) encryption settings for your Network Firewall resources. Your data is encrypted by default with an Amazon Web Services owned key that Amazon Web Services owns and manages for you. You can use either the Amazon Web Services owned key, or provide your own customer managed key. To learn more about KMS encryption of your Network Firewall resources, see Encryption at rest with Amazon Web Services Key Managment Service in the Network Firewall Developer Guide . KeyId -&gt; (string) The ID of the Amazon Web Services Key Management Service (KMS) customer managed key. You can use any of the key identifiers that KMS supports, unless you're using a key that's managed by another account. If you're using a key managed by another account, then specify the key ARN. For more information, see Key ID in the Amazon Web Services KMS Developer Guide . Constraints: • min: 1 • max: 2048 • pattern: .*\S.* Type -&gt; (string) [required] The type of Amazon Web Services KMS key to use for encryption of your Network Firewall resources. Possible values: • CUSTOMER_KMS • AWS_OWNED_KMS_KEY Shorthand Syntax: KeyId=string,Type=string JSON Syntax: { "KeyId": "string", "Type": "CUSTOMER_KMS"|"AWS_OWNED_KMS_KEY" }
     /// </summary>
     [CliOption("--encryption-configuration")]
     public string? EncryptionConfiguration { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDevopsAgentDeletePrivateConnectionOptions : AwsOptions, IValida
     /// <summary>
     /// Deletes a Private Connection. The deletion is asynchronous and returns DELETE_IN_PROGRESS status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the Private Connection. Constraints: o min: 3 o max: 30 o pattern: [a-z0-9]([a-z0-9-]*[a-z0-9])?</param>
+    /// <param name="Name">The name of the Private Connection. Constraints: • min: 3 • max: 30 • pattern: [a-z0-9]([a-z0-9-]*[a-z0-9])?</param>
     public AwsDevopsAgentDeletePrivateConnectionOptions(
         string Name
     )
@@ -56,7 +58,7 @@ public record AwsDevopsAgentDeletePrivateConnectionOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Private Connection. Constraints: o min: 3 o max: 30 o pattern: [a-z0-9]([a-z0-9-]*[a-z0-9])?
+    /// The name of the Private Connection. Constraints: • min: 3 • max: 30 • pattern: [a-z0-9]([a-z0-9-]*[a-z0-9])?
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

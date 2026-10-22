@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns CloudFormation events based on flexible query criteria. Groups events by operation ID, enabling you to focus on individual stack oper- ations during deployment. An operation is any action performed on a stack, including stack life- cycle actions (Create, Update, Delete, Rollback), change set creation, nested stack creation, and automatic rollbacks triggered by failures. Each operation has a unique identifier (Operation ID) and represents a discrete change attempt on the stack. Returns di...
+/// Returns CloudFormation events based on flexible query criteria. Groups events by operation ID, enabling you to focus on individual stack operations during deployment. An operation is any action performed on a stack, including stack lifecycle actions (Create, Update, Delete, Rollback), change set creation, nested stack creation, and automatic rollbacks triggered by failures. Each operation has a unique identifier (Operation ID) and represents a discrete change attempt on the stack. Returns differ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,34 +23,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudformationDescribeEventsOptions : AwsOptions
 {
     /// <summary>
-    /// The name or unique stack ID for which you want to retrieve events. If you specified the name of a change set, specify the stack name or ID (ARN) of the change set you want to describe. Constraints: o min: 1 o pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)
+    /// The name or unique stack ID for which you want to retrieve events. If you specified the name of a change set, specify the stack name or ID (ARN) of the change set you want to describe. Constraints: • min: 1 • pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)
     /// </summary>
     [CliOption("--stack-name")]
     public string? StackName { get; set; }
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of the change set for which you want to retrieve events. Constraints: o min: 1 o max: 1600 o pattern: [a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*
+    /// The name or Amazon Resource Name (ARN) of the change set for which you want to retrieve events. Constraints: • min: 1 • max: 1600 • pattern: [a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*
     /// </summary>
     [CliOption("--change-set-name")]
     public string? ChangeSetName { get; set; }
 
     /// <summary>
-    /// The unique identifier of the operation for which you want to re- trieve events.
+    /// The unique identifier of the operation for which you want to retrieve events.
     /// </summary>
     [CliOption("--operation-id")]
     public string? OperationId { get; set; }
 
     /// <summary>
-    /// Filters to apply when retrieving events. FailedEvents -&gt; (boolean) When set to true, only returns failed events within the opera- tion. This helps quickly identify root causes for a failed oper- ation. Shorthand Syntax: FailedEvents=boolean JSON Syntax: { "FailedEvents": true|false }
+    /// Filters to apply when retrieving events. FailedEvents -&gt; (boolean) When set to true, only returns failed events within the operation. This helps quickly identify root causes for a failed operation. Shorthand Syntax: FailedEvents=boolean JSON Syntax: { "FailedEvents": true|false }
     /// </summary>
     [CliOption("--filters")]
     public string? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -60,9 +57,12 @@ public record AwsCloudformationDescribeEventsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an accessor that your Amazon Web Services account owns. An ac- cessor object is a container that has the information required for to- ken based access to your Ethereum nodes including, the BILLING_TOKEN . After an accessor is deleted, the status of the accessor changes from AVAILABLE to PENDING_DELETION . An accessor in the PENDING_DELETION state cant be used for new WebSocket requests or HTTP requests. How- ever, WebSocket connections that were initiated while the accessor was in the AV...
+/// Deletes an accessor that your Amazon Web Services account owns. An accessor object is a container that has the information required for token based access to your Ethereum nodes including, the BILLING_TOKEN . After an accessor is deleted, the status of the accessor changes from AVAILABLE to PENDING_DELETION . An accessor in the PENDING_DELETION state cant be used for new WebSocket requests or HTTP requests. However, WebSocket connections that were initiated while the accessor was in the AVAILABL...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsManagedblockchainDeleteAccessorOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an accessor that your Amazon Web Services account owns. An ac- cessor object is a container that has the information required for to- ken based access to your Ethereum nodes including, the BILLING_TOKEN . After an accessor is deleted, the status of the accessor changes from AVAILABLE to PENDING_DELETION . An accessor in the PENDING_DELETION state cant be used for new WebSocket requests or HTTP requests. How- ever, WebSocket connections that were initiated while the accessor was in the AV...
+    /// Deletes an accessor that your Amazon Web Services account owns. An accessor object is a container that has the information required for token based access to your Ethereum nodes including, the BILLING_TOKEN . After an accessor is deleted, the status of the accessor changes from AVAILABLE to PENDING_DELETION . An accessor in the PENDING_DELETION state cant be used for new WebSocket requests or HTTP requests. However, WebSocket connections that were initiated while the accessor was in the AVAILABL...
     /// </summary>
-    /// <param name="AccessorId">The unique identifier of the accessor. Constraints: o min: 1 o max: 32</param>
+    /// <param name="AccessorId">The unique identifier of the accessor. Constraints: • min: 1 • max: 32</param>
     public AwsManagedblockchainDeleteAccessorOptions(
         string AccessorId
     )
@@ -56,7 +58,7 @@ public record AwsManagedblockchainDeleteAccessorOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the accessor. Constraints: o min: 1 o max: 32
+    /// The unique identifier of the accessor. Constraints: • min: 1 • max: 32
     /// </summary>
     [CliOption("--accessor-id")]
     public string? AccessorId { get; private init; }

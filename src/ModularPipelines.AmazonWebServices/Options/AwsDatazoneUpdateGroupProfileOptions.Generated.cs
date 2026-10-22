@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +30,9 @@ public record AwsDatazoneUpdateGroupProfileOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Updates the specified group profile in Amazon DataZone. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain in which a group pro- file is updated. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="GroupIdentifier">The identifier of the group profile that is updated. Constraints: o pattern: .*(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|[\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+).*</param>
-    /// <param name="Status">The status of the group profile that is updated. Possible values: o ASSIGNED o NOT_ASSIGNED</param>
+    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain in which a group profile is updated. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="GroupIdentifier">The identifier of the group profile that is updated. Constraints: • pattern: .*(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|[\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+).*</param>
+    /// <param name="Status">The status of the group profile that is updated. Possible values: • ASSIGNED • NOT_ASSIGNED</param>
     public AwsDatazoneUpdateGroupProfileOptions(
         string DomainIdentifier,
         string GroupIdentifier,
@@ -64,19 +66,19 @@ public record AwsDatazoneUpdateGroupProfileOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon DataZone domain in which a group pro- file is updated. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The identifier of the Amazon DataZone domain in which a group profile is updated. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the group profile that is updated. Constraints: o pattern: .*(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|[\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+).*
+    /// The identifier of the group profile that is updated. Constraints: • pattern: .*(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|[\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+).*
     /// </summary>
     [CliOption("--group-identifier")]
     public string? GroupIdentifier { get; private init; }
 
     /// <summary>
-    /// The status of the group profile that is updated. Possible values: o ASSIGNED o NOT_ASSIGNED
+    /// The status of the group profile that is updated. Possible values: • ASSIGNED • NOT_ASSIGNED
     /// </summary>
     [CliOption("--status")]
     public AwsDatazoneUpdateGroupProfileStatus? Status { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disassociates secondary Elastic IP addresses (EIPs) from a public NAT gateway. You cannot disassociate your primary EIP. For more informa- tion, see Edit secondary IP address associations in the Amazon VPC User Guide . While disassociating is in progress, you cannot associate/disassociate additional EIPs while the connections are being drained. You are, how- ever, allowed to delete the NAT gateway. An EIP is released only at the end of MaxDrainDurationSeconds. It stays associated and supports th...
+/// Disassociates secondary Elastic IP addresses (EIPs) from a public NAT gateway. You cannot disassociate your primary EIP. For more information, see Edit secondary IP address associations in the Amazon VPC User Guide . While disassociating is in progress, you cannot associate/disassociate additional EIPs while the connections are being drained. You are, however, allowed to delete the NAT gateway. An EIP is released only at the end of MaxDrainDurationSeconds. It stays associated and supports the ex...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsEc2DisassociateNatGatewayAddressOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disassociates secondary Elastic IP addresses (EIPs) from a public NAT gateway. You cannot disassociate your primary EIP. For more informa- tion, see Edit secondary IP address associations in the Amazon VPC User Guide . While disassociating is in progress, you cannot associate/disassociate additional EIPs while the connections are being drained. You are, how- ever, allowed to delete the NAT gateway. An EIP is released only at the end of MaxDrainDurationSeconds. It stays associated and supports th...
+    /// Disassociates secondary Elastic IP addresses (EIPs) from a public NAT gateway. You cannot disassociate your primary EIP. For more information, see Edit secondary IP address associations in the Amazon VPC User Guide . While disassociating is in progress, you cannot associate/disassociate additional EIPs while the connections are being drained. You are, however, allowed to delete the NAT gateway. An EIP is released only at the end of MaxDrainDurationSeconds. It stays associated and supports the ex...
     /// </summary>
     /// <param name="NatGatewayId">The ID of the NAT gateway.</param>
     /// <param name="AssociationIds">The association IDs of EIPs that have been associated with the NAT gateway. (string) Syntax: "string" "string" ...</param>
@@ -83,13 +85,13 @@ public record AwsEc2DisassociateNatGatewayAddressOptions : AwsOptions, IValidata
     public IEnumerable<string>? AssociationIds { get; private init; }
 
     /// <summary>
-    /// The maximum amount of time to wait (in seconds) before forcibly re- leasing the IP addresses if connections are still in progress. De- fault value is 350 seconds. Constraints: o min: 1 o max: 4000
+    /// The maximum amount of time to wait (in seconds) before forcibly releasing the IP addresses if connections are still in progress. Default value is 350 seconds. Constraints: • min: 1 • max: 4000
     /// </summary>
     [CliOption("--max-drain-duration-seconds")]
     public int? MaxDrainDurationSeconds { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

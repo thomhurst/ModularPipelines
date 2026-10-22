@@ -30,7 +30,7 @@ public record AwsSecurityhubListAutomationRulesOptions : AwsOptions
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of rules to return in the response. This cur- rently ranges from 1 to 100. Constraints: o min: 1 o max: 100
+    /// The maximum number of rules to return in the response. This currently ranges from 1 to 100. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDataexchangeDeleteRevisionOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// This operation deletes a revision. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSetId">The unique identifier for a data set. Constraints: o pattern: [a-zA-Z0-9]{30,40}</param>
-    /// <param name="RevisionId">The unique identifier for a revision. Constraints: o pattern: [a-zA-Z0-9]{30,40}</param>
+    /// <param name="DataSetId">The unique identifier for a data set. Constraints: • pattern: [a-zA-Z0-9]{30,40}</param>
+    /// <param name="RevisionId">The unique identifier for a revision. Constraints: • pattern: [a-zA-Z0-9]{30,40}</param>
     public AwsDataexchangeDeleteRevisionOptions(
         string DataSetId,
         string RevisionId
@@ -60,13 +62,13 @@ public record AwsDataexchangeDeleteRevisionOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for a data set. Constraints: o pattern: [a-zA-Z0-9]{30,40}
+    /// The unique identifier for a data set. Constraints: • pattern: [a-zA-Z0-9]{30,40}
     /// </summary>
     [CliOption("--data-set-id")]
     public string? DataSetId { get; private init; }
 
     /// <summary>
-    /// The unique identifier for a revision. Constraints: o pattern: [a-zA-Z0-9]{30,40}
+    /// The unique identifier for a revision. Constraints: • pattern: [a-zA-Z0-9]{30,40}
     /// </summary>
     [CliOption("--revision-id")]
     public string? RevisionId { get; private init; }

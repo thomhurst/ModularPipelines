@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes one or more remediation exceptions mentioned in the resource keys. NOTE: Config generates a remediation exception when a problem occurs exe- cuting a remediation action to a specific resource. Remediation ex- ceptions blocks auto-remediation until the exception is cleared. See also: AWS API Documentation
+/// Deletes one or more remediation exceptions mentioned in the resource keys. NOTE: Config generates a remediation exception when a problem occurs executing a remediation action to a specific resource. Remediation exceptions blocks auto-remediation until the exception is cleared. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsConfigserviceDeleteRemediationExceptionsOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes one or more remediation exceptions mentioned in the resource keys. NOTE: Config generates a remediation exception when a problem occurs exe- cuting a remediation action to a specific resource. Remediation ex- ceptions blocks auto-remediation until the exception is cleared. See also: AWS API Documentation
+    /// Deletes one or more remediation exceptions mentioned in the resource keys. NOTE: Config generates a remediation exception when a problem occurs executing a remediation action to a specific resource. Remediation exceptions blocks auto-remediation until the exception is cleared. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfigRuleName">The name of the Config rule for which you want to delete remediation exception configuration. Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
-    /// <param name="ResourceKeys">An exception list of resource exception keys to be processed with the current request. Config adds exception for each resource key. For example, Config adds 3 exceptions for 3 resource keys. Constraints: o min: 1 o max: 100 (structure) The details that identify a resource within Config, including the resource type and resource ID. ResourceType -&gt; (string) The type of a resource. Constraints: o min: 1 o max: 256 ResourceId -&gt; (string) The ID of the resource (for example., sg-xxxxxx). Constraints: o min: 1 o max: 1024 Shorthand Syntax: ResourceType=string,ResourceId=string ... JSON Syntax: [ { "ResourceType": "string", "ResourceId": "string" } ... ]</param>
+    /// <param name="ConfigRuleName">The name of the Config rule for which you want to delete remediation exception configuration. Constraints: • min: 1 • max: 128 • pattern: .*\S.*</param>
+    /// <param name="ResourceKeys">An exception list of resource exception keys to be processed with the current request. Config adds exception for each resource key. For example, Config adds 3 exceptions for 3 resource keys. Constraints: • min: 1 • max: 100 (structure) The details that identify a resource within Config, including the resource type and resource ID. ResourceType -&gt; (string) The type of a resource. Constraints: • min: 1 • max: 256 ResourceId -&gt; (string) The ID of the resource (for example., sg-xxxxxx). Constraints: • min: 1 • max: 1024 Shorthand Syntax: ResourceType=string,ResourceId=string ... JSON Syntax: [ { "ResourceType": "string", "ResourceId": "string" } ... ]</param>
     public AwsConfigserviceDeleteRemediationExceptionsOptions(
         string ConfigRuleName,
         IEnumerable<string> ResourceKeys
@@ -71,13 +73,13 @@ public record AwsConfigserviceDeleteRemediationExceptionsOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Config rule for which you want to delete remediation exception configuration. Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// The name of the Config rule for which you want to delete remediation exception configuration. Constraints: • min: 1 • max: 128 • pattern: .*\S.*
     /// </summary>
     [CliOption("--config-rule-name")]
     public string? ConfigRuleName { get; private init; }
 
     /// <summary>
-    /// An exception list of resource exception keys to be processed with the current request. Config adds exception for each resource key. For example, Config adds 3 exceptions for 3 resource keys. Constraints: o min: 1 o max: 100 (structure) The details that identify a resource within Config, including the resource type and resource ID. ResourceType -&gt; (string) The type of a resource. Constraints: o min: 1 o max: 256 ResourceId -&gt; (string) The ID of the resource (for example., sg-xxxxxx). Constraints: o min: 1 o max: 1024 Shorthand Syntax: ResourceType=string,ResourceId=string ... JSON Syntax: [ { "ResourceType": "string", "ResourceId": "string" } ... ]
+    /// An exception list of resource exception keys to be processed with the current request. Config adds exception for each resource key. For example, Config adds 3 exceptions for 3 resource keys. Constraints: • min: 1 • max: 100 (structure) The details that identify a resource within Config, including the resource type and resource ID. ResourceType -&gt; (string) The type of a resource. Constraints: • min: 1 • max: 256 ResourceId -&gt; (string) The ID of the resource (for example., sg-xxxxxx). Constraints: • min: 1 • max: 1024 Shorthand Syntax: ResourceType=string,ResourceId=string ... JSON Syntax: [ { "ResourceType": "string", "ResourceId": "string" } ... ]
     /// </summary>
     [CliOption("--resource-keys", GroupValues = true)]
     public IEnumerable<string>? ResourceKeys { get; private init; }

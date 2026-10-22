@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the properties of an existing user in a Wickr network. This op- eration allows you to modify the user's name, password, security group membership, and invite code settings. NOTE: codeValidation , inviteCode , and inviteCodeTtl are restricted to networks under preview only. See also: AWS API Documentation
+/// Updates the properties of an existing user in a Wickr network. This operation allows you to modify the user's name, password, security group membership, and invite code settings. NOTE: codeValidation , inviteCode , and inviteCodeTtl are restricted to networks under preview only. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsWickrUpdateUserOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the properties of an existing user in a Wickr network. This op- eration allows you to modify the user's name, password, security group membership, and invite code settings. NOTE: codeValidation , inviteCode , and inviteCodeTtl are restricted to networks under preview only. See also: AWS API Documentation
+    /// Updates the properties of an existing user in a Wickr network. This operation allows you to modify the user's name, password, security group membership, and invite code settings. NOTE: codeValidation , inviteCode , and inviteCodeTtl are restricted to networks under preview only. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The ID of the Wickr network containing the user to update. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
-    /// <param name="UserId">The unique identifier of the user to update. Constraints: o min: 1 o max: 10 o pattern: [0-9]+</param>
+    /// <param name="NetworkId">The ID of the Wickr network containing the user to update. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}</param>
+    /// <param name="UserId">The unique identifier of the user to update. Constraints: • min: 1 • max: 10 • pattern: [0-9]+</param>
     public AwsWickrUpdateUserOptions(
         string NetworkId,
         string UserId
@@ -60,19 +62,19 @@ public record AwsWickrUpdateUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Wickr network containing the user to update. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// The ID of the Wickr network containing the user to update. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the user to update. Constraints: o min: 1 o max: 10 o pattern: [0-9]+
+    /// The unique identifier of the user to update. Constraints: • min: 1 • max: 10 • pattern: [0-9]+
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; private init; }
 
     /// <summary>
-    /// An object containing the user details to be updated, such as name, password, security groups, and invite code settings. firstName -&gt; (string) The new first name for the user. Constraints: o pattern: [\S\s]* lastName -&gt; (string) The new last name for the user. Constraints: o pattern: [\S\s]* username -&gt; (string) The new username or email address for the user. Constraints: o pattern: [\S\s]* securityGroupIds -&gt; (list) The updated list of security group IDs to which the user should belong. (string) Constraints: o pattern: [\S]+ inviteCode -&gt; (string) A new custom invite code for the user. Constraints: o pattern: [\S\s]* inviteCodeTtl -&gt; (integer) The new time-to-live for the invite code in days. codeValidation -&gt; (boolean) Indicates whether the user can be verified through a custom in- vite code. Shorthand Syntax: firstName=string,lastName=string,username=string,securityGroupIds=string,string,inviteCode=string,inviteCodeTtl=integer,codeValidation=boolean JSON Syntax: { "firstName": "string", "lastName": "string", "username": "string", "securityGroupIds": ["string", ...], "inviteCode": "string", "inviteCodeTtl": integer, "codeValidation": true|false }
+    /// An object containing the user details to be updated, such as name, password, security groups, and invite code settings. firstName -&gt; (string) The new first name for the user. Constraints: • pattern: [\S\s]* lastName -&gt; (string) The new last name for the user. Constraints: • pattern: [\S\s]* username -&gt; (string) The new username or email address for the user. Constraints: • pattern: [\S\s]* securityGroupIds -&gt; (list) The updated list of security group IDs to which the user should belong. (string) Constraints: • pattern: [\S]+ inviteCode -&gt; (string) A new custom invite code for the user. Constraints: • pattern: [\S\s]* inviteCodeTtl -&gt; (integer) The new time-to-live for the invite code in days. codeValidation -&gt; (boolean) Indicates whether the user can be verified through a custom invite code. Shorthand Syntax: firstName=string,lastName=string,username=string,securityGroupIds=string,string,inviteCode=string,inviteCodeTtl=integer,codeValidation=boolean JSON Syntax: { "firstName": "string", "lastName": "string", "username": "string", "securityGroupIds": ["string", ...], "inviteCode": "string", "inviteCodeTtl": integer, "codeValidation": true|false }
     /// </summary>
     [CliOption("--user-details")]
     public string? UserDetails { get; set; }

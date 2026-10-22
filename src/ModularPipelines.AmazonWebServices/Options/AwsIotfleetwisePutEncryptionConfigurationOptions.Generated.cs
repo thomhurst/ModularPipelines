@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates the encryption configuration. Amazon Web Services IoT FleetWise can encrypt your data and resources using an Amazon Web Services managed key. Or, you can use a KMS key that you own and man- age. For more information, see Data encryption in the Amazon Web Ser- vices IoT FleetWise Developer Guide . See also: AWS API Documentation
+/// Creates or updates the encryption configuration. Amazon Web Services IoT FleetWise can encrypt your data and resources using an Amazon Web Services managed key. Or, you can use a KMS key that you own and manage. For more information, see Data encryption in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsIotfleetwisePutEncryptionConfigurationOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates or updates the encryption configuration. Amazon Web Services IoT FleetWise can encrypt your data and resources using an Amazon Web Services managed key. Or, you can use a KMS key that you own and man- age. For more information, see Data encryption in the Amazon Web Ser- vices IoT FleetWise Developer Guide . See also: AWS API Documentation
+    /// Creates or updates the encryption configuration. Amazon Web Services IoT FleetWise can encrypt your data and resources using an Amazon Web Services managed key. Or, you can use a KMS key that you own and manage. For more information, see Data encryption in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="EncryptionType">The type of encryption. Choose KMS_BASED_ENCRYPTION to use a KMS key or FLEETWISE_DEFAULT_ENCRYPTION to use an Amazon Web Services man- aged key. Possible values: o KMS_BASED_ENCRYPTION o FLEETWISE_DEFAULT_ENCRYPTION</param>
+    /// <param name="EncryptionType">The type of encryption. Choose KMS_BASED_ENCRYPTION to use a KMS key or FLEETWISE_DEFAULT_ENCRYPTION to use an Amazon Web Services managed key. Possible values: • KMS_BASED_ENCRYPTION • FLEETWISE_DEFAULT_ENCRYPTION</param>
     public AwsIotfleetwisePutEncryptionConfigurationOptions(
         AwsIotfleetwisePutEncryptionConfigurationEncryptionType EncryptionType
     )
@@ -56,13 +58,13 @@ public record AwsIotfleetwisePutEncryptionConfigurationOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of encryption. Choose KMS_BASED_ENCRYPTION to use a KMS key or FLEETWISE_DEFAULT_ENCRYPTION to use an Amazon Web Services man- aged key. Possible values: o KMS_BASED_ENCRYPTION o FLEETWISE_DEFAULT_ENCRYPTION
+    /// The type of encryption. Choose KMS_BASED_ENCRYPTION to use a KMS key or FLEETWISE_DEFAULT_ENCRYPTION to use an Amazon Web Services managed key. Possible values: • KMS_BASED_ENCRYPTION • FLEETWISE_DEFAULT_ENCRYPTION
     /// </summary>
     [CliOption("--encryption-type")]
     public AwsIotfleetwisePutEncryptionConfigurationEncryptionType? EncryptionType { get; private init; }
 
     /// <summary>
-    /// The ID of the KMS key that is used for encryption. Constraints: o min: 0 o max: 2048
+    /// The ID of the KMS key that is used for encryption. Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }

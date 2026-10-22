@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of all the servers. See also: AWS API Documentation list-servers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: serverInfos
+/// Returns a list of all the servers. See also: AWS API Documentation list-servers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: serverInfos
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,34 +24,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsMigrationhubstrategyListServersOptions : AwsOptions
 {
     /// <summary>
-    /// Specifies the filter value, which is based on the type of server criteria. For example, if serverCriteria is OS_NAME , and the fil- terValue is equal to WindowsServer , then ListServers returns all of the servers matching the OS name WindowsServer . Constraints: o min: 0 o max: 1024 o pattern: .*\S.*
+    /// Specifies the filter value, which is based on the type of server criteria. For example, if serverCriteria is OS_NAME , and the filterValue is equal to WindowsServer , then ListServers returns all of the servers matching the OS name WindowsServer . Constraints: • min: 0 • max: 1024 • pattern: .*\S.*
     /// </summary>
     [CliOption("--filter-value")]
     public string? FilterValue { get; set; }
 
     /// <summary>
-    /// Specifies the group ID to filter on. (structure) The object containing information about distinct imports or groups for Strategy Recommendations. name -&gt; (string) The key of the specific import group. Possible values: o ExternalId o ExternalSourceType value -&gt; (string) The value of the specific import group. Constraints: o min: 0 o max: 1024 o pattern: .*\S.* Shorthand Syntax: name=string,value=string ... JSON Syntax: [ { "name": "ExternalId"|"ExternalSourceType", "value": "string" } ... ]
+    /// Specifies the group ID to filter on. (structure) The object containing information about distinct imports or groups for Strategy Recommendations. name -&gt; (string) The key of the specific import group. Possible values: • ExternalId • ExternalSourceType value -&gt; (string) The value of the specific import group. Constraints: • min: 0 • max: 1024 • pattern: .*\S.* Shorthand Syntax: name=string,value=string ... JSON Syntax: [ { "name": "ExternalId"|"ExternalSourceType", "value": "string" } ... ]
     /// </summary>
     [CliOption("--group-id-filter", GroupValues = true)]
     public IEnumerable<string>? GroupIdFilter { get; set; }
 
     /// <summary>
-    /// Criteria for filtering servers. Possible values: o NOT_DEFINED o OS_NAME o STRATEGY o DESTINATION o SERVER_ID o ANALYSIS_STATUS o ERROR_CATEGORY
+    /// Criteria for filtering servers. Possible values: • NOT_DEFINED • OS_NAME • STRATEGY • DESTINATION • SERVER_ID • ANALYSIS_STATUS • ERROR_CATEGORY
     /// </summary>
     [CliOption("--server-criteria")]
     public AwsMigrationhubstrategyListServersServerCriteria? ServerCriteria { get; set; }
 
     /// <summary>
-    /// Specifies whether to sort by ascending (ASC ) or descending (DESC ) order. Possible values: o ASC o DESC
+    /// Specifies whether to sort by ascending (ASC ) or descending (DESC ) order. Possible values: • ASC • DESC
     /// </summary>
     [CliOption("--sort")]
     public AwsMigrationhubstrategyListServersSort? Sort { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -61,15 +58,18 @@ public record AwsMigrationhubstrategyListServersOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

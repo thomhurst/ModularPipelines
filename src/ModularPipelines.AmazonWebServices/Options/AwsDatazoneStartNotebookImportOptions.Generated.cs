@@ -11,12 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts a notebook import in Amazon SageMaker Unified Studio. This oper- ation imports a notebook from an Amazon Simple Storage Service location into a project. See also: AWS API Documentation
+/// Starts a notebook import in Amazon SageMaker Unified Studio. This operation imports a notebook from an Amazon Simple Storage Service location into a project. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +29,12 @@ public record AwsDatazoneStartNotebookImportOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts a notebook import in Amazon SageMaker Unified Studio. This oper- ation imports a notebook from an Amazon Simple Storage Service location into a project. See also: AWS API Documentation
+    /// Starts a notebook import in Amazon SageMaker Unified Studio. This operation imports a notebook from an Amazon Simple Storage Service location into a project. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The identifier of the Amazon SageMaker Unified Studio domain in which to import the notebook. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="OwningProjectIdentifier">The identifier of the project that will own the imported notebook. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="SourceLocation">The source location of the notebook to import. This specifies the Amazon Simple Storage Service URI of the notebook file. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3. s3 -&gt; (string) The Amazon Simple Storage Service URI of the notebook source file. Constraints: o min: 1 o max: 1024 o pattern: s3://.+ Shorthand Syntax: s3=string JSON Syntax: { "s3": "string" }</param>
-    /// <param name="Name">The name of the imported notebook. The name must be between 1 and 256 characters. Constraints: o min: 1 o max: 256</param>
+    /// <param name="DomainIdentifier">The identifier of the Amazon SageMaker Unified Studio domain in which to import the notebook. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="OwningProjectIdentifier">The identifier of the project that will own the imported notebook. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="SourceLocation">The source location of the notebook to import. Specify either a single Amazon Simple Storage Service URI, or a list of objects to import as the notebook's cells. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3, s3Files. s3 -&gt; (string) The Amazon Simple Storage Service URI of the notebook source file. Constraints: • min: 1 • max: 1024 • pattern: s3://.+ s3Files -&gt; (structure) The Amazon Simple Storage Service objects to import as the notebook's cells. One cell is created for each object, in the order in which you list them. bucket -&gt; (string) [required] The name of the Amazon Simple Storage Service bucket that contains the files to import. Constraints: • min: 3 • max: 63 • pattern: [a-z0-9][a-z0-9.-]{1,61}[a-z0-9] fileList -&gt; (list) [required] The files to import. Cells are created in the order in which you list the files. You can specify between 1 and 100 files. Constraints: • min: 1 • max: 100 (structure) A single Amazon Simple Storage Service object to import as a notebook cell. key -&gt; (string) [required] The key of the Amazon Simple Storage Service object to import. Constraints: • min: 1 • max: 1024 JSON Syntax: { "s3": "string", "s3Files": { "bucket": "string", "fileList": [ { "key": "string" } ... ] } }</param>
+    /// <param name="Name">The name of the imported notebook. The name must be between 1 and 256 characters. Constraints: • min: 1 • max: 256</param>
     public AwsDatazoneStartNotebookImportOptions(
         string DomainIdentifier,
         string OwningProjectIdentifier,
@@ -69,37 +72,43 @@ public record AwsDatazoneStartNotebookImportOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon SageMaker Unified Studio domain in which to import the notebook. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which to import the notebook. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the project that will own the imported notebook. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the project that will own the imported notebook. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--owning-project-identifier")]
     public string? OwningProjectIdentifier { get; private init; }
 
     /// <summary>
-    /// The source location of the notebook to import. This specifies the Amazon Simple Storage Service URI of the notebook file. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3. s3 -&gt; (string) The Amazon Simple Storage Service URI of the notebook source file. Constraints: o min: 1 o max: 1024 o pattern: s3://.+ Shorthand Syntax: s3=string JSON Syntax: { "s3": "string" }
+    /// The source location of the notebook to import. Specify either a single Amazon Simple Storage Service URI, or a list of objects to import as the notebook's cells. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3, s3Files. s3 -&gt; (string) The Amazon Simple Storage Service URI of the notebook source file. Constraints: • min: 1 • max: 1024 • pattern: s3://.+ s3Files -&gt; (structure) The Amazon Simple Storage Service objects to import as the notebook's cells. One cell is created for each object, in the order in which you list them. bucket -&gt; (string) [required] The name of the Amazon Simple Storage Service bucket that contains the files to import. Constraints: • min: 3 • max: 63 • pattern: [a-z0-9][a-z0-9.-]{1,61}[a-z0-9] fileList -&gt; (list) [required] The files to import. Cells are created in the order in which you list the files. You can specify between 1 and 100 files. Constraints: • min: 1 • max: 100 (structure) A single Amazon Simple Storage Service object to import as a notebook cell. key -&gt; (string) [required] The key of the Amazon Simple Storage Service object to import. Constraints: • min: 1 • max: 1024 JSON Syntax: { "s3": "string", "s3Files": { "bucket": "string", "fileList": [ { "key": "string" } ... ] } }
     /// </summary>
     [CliOption("--source-location")]
     public string? SourceLocation { get; private init; }
 
     /// <summary>
-    /// The name of the imported notebook. The name must be between 1 and 256 characters. Constraints: o min: 1 o max: 256
+    /// The name of the imported notebook. The name must be between 1 and 256 characters. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The description of the imported notebook. Constraints: o min: 0 o max: 2048
+    /// The description of the imported notebook. Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure idempotency of the re- quest. This field is automatically populated if not provided. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
+    /// The type of the notebook to import. If not specified, defaults to DATA . Possible values: • DATA • SQL
+    /// </summary>
+    [CliOption("--type")]
+    public AwsDatazoneStartNotebookImportType? Type { get; set; }
+
+    /// <summary>
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

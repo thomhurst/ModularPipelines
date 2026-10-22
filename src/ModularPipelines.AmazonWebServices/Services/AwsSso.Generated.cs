@@ -62,7 +62,7 @@ public class AwsSso : IAwsSso
     }
 
     /// <summary>
-    /// Lists all AWS accounts assigned to the user. These AWS accounts are as- signed by the administrator of the account. For more information, see Assign User Access in the IAM Identity Center User Guide . This opera- tion returns a paginated response. See also: AWS API Documentation list-accounts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output te...
+    /// Lists all AWS accounts assigned to the user. These AWS accounts are assigned by the administrator of the account. For more information, see Assign User Access in the IAM Identity Center User Guide . This operation returns a paginated response. See also: AWS API Documentation list-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsSso : IAwsSso
     }
 
     /// <summary>
-    /// Retrieves and caches an AWS IAM Identity Center access token to ex- change for AWS credentials. To login, the requested profile must have first been setup using aws configure sso. Each time the login command is called, a new SSO access token will be retrieved. Please note that only one login session can be active for a given SSO Session and creat- ing multiple profiles does not allow for multiple users to be authenti- cated against the same SSO Session.
+    /// Retrieves and caches an AWS IAM Identity Center access token to exchange for AWS credentials. To login, the requested profile must have first been setup using aws configure sso. Each time the login command is called, a new SSO access token will be retrieved. Please note that only one login session can be active for a given SSO Session and creating multiple profiles does not allow for multiple users to be authenticated against the same SSO Session.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

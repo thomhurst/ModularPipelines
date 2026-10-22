@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsInspector2SearchVulnerabilitiesOptions : AwsOptions, IValidatab
     /// <summary>
     /// Lists Amazon Inspector coverage details for a specific vulnerability. See also: AWS API Documentation search-vulnerabilities is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: vulnerabilities
     /// </summary>
-    /// <param name="FilterCriteria">The criteria used to filter the results of a vulnerability search. vulnerabilityIds -&gt; (list) [required] The IDs for specific vulnerabilities. Constraints: o min: 1 o max: 1 (string) Constraints: o pattern: CVE-[12][0-9]{3}-[0-9]{1,10} Shorthand Syntax: vulnerabilityIds=string,string JSON Syntax: { "vulnerabilityIds": ["string", ...] }</param>
+    /// <param name="FilterCriteria">The criteria used to filter the results of a vulnerability search. vulnerabilityIds -&gt; (list) [required] The IDs for specific vulnerabilities. Constraints: • min: 1 • max: 1 (string) Constraints: • pattern: CVE-[12][0-9]{3}-[0-9]{1,10} Shorthand Syntax: vulnerabilityIds=string,string JSON Syntax: { "vulnerabilityIds": ["string", ...] }</param>
     public AwsInspector2SearchVulnerabilitiesOptions(
         string FilterCriteria
     )
@@ -57,16 +59,13 @@ public record AwsInspector2SearchVulnerabilitiesOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The criteria used to filter the results of a vulnerability search. vulnerabilityIds -&gt; (list) [required] The IDs for specific vulnerabilities. Constraints: o min: 1 o max: 1 (string) Constraints: o pattern: CVE-[12][0-9]{3}-[0-9]{1,10} Shorthand Syntax: vulnerabilityIds=string,string JSON Syntax: { "vulnerabilityIds": ["string", ...] }
+    /// The criteria used to filter the results of a vulnerability search. vulnerabilityIds -&gt; (list) [required] The IDs for specific vulnerabilities. Constraints: • min: 1 • max: 1 (string) Constraints: • pattern: CVE-[12][0-9]{3}-[0-9]{1,10} Shorthand Syntax: vulnerabilityIds=string,string JSON Syntax: { "vulnerabilityIds": ["string", ...] }
     /// </summary>
     [CliOption("--filter-criteria")]
     public string? FilterCriteria { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -76,10 +75,13 @@ public record AwsInspector2SearchVulnerabilitiesOptions : AwsOptions, IValidatab
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

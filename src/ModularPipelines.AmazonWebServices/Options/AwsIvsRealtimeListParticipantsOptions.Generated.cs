@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +31,8 @@ public record AwsIvsRealtimeListParticipantsOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Lists all participants in a specified stage session. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StageArn">Stage ARN. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+</param>
-    /// <param name="SessionId">ID of the session within the stage. Constraints: o min: 16 o max: 16 o pattern: st-[a-zA-Z0-9]+</param>
+    /// <param name="StageArn">Stage ARN. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+</param>
+    /// <param name="SessionId">ID of the session within the stage. Constraints: • min: 16 • max: 16 • pattern: st-[a-zA-Z0-9]+</param>
     public AwsIvsRealtimeListParticipantsOptions(
         string StageArn,
         string SessionId
@@ -62,50 +64,50 @@ public record AwsIvsRealtimeListParticipantsOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Stage ARN. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+
+    /// Stage ARN. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--stage-arn")]
     public string? StageArn { get; private init; }
 
     /// <summary>
-    /// ID of the session within the stage. Constraints: o min: 16 o max: 16 o pattern: st-[a-zA-Z0-9]+
+    /// ID of the session within the stage. Constraints: • min: 16 • max: 16 • pattern: st-[a-zA-Z0-9]+
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }
 
     /// <summary>
-    /// Filters the response list to match the specified user ID. Only one of filterByUserId , filterByPublished , filterByState , or filter- ByRecordingState can be provided per request. A userId is a cus- tomer-assigned name to help identify the token; this can be used to link a participant to a user in the customers own systems. Constraints: o min: 0 o max: 128
+    /// Filters the response list to match the specified user ID. Only one of filterByUserId , filterByPublished , filterByState , or filterByRecordingState can be provided per request. A userId is a customer-assigned name to help identify the token; this can be used to link a participant to a user in the customers own systems. Constraints: • min: 0 • max: 128
     /// </summary>
     [CliOption("--filter-by-user-id")]
     public string? FilterByUserId { get; set; }
 
     /// <summary>
-    /// Filters the response list to only show participants who published during the stage session. Only one of filterByUserId , filterByPub- lished , filterByState , or filterByRecordingState can be provided per request.
+    /// Filters the response list to only show participants who published during the stage session. Only one of filterByUserId , filterByPublished , filterByState , or filterByRecordingState can be provided per request.
     /// </summary>
     [CliFlag("--filter-by-published", NegatedName = "--no-filter-by-published")]
     public bool? FilterByPublished { get; set; }
 
     /// <summary>
-    /// Filters the response list to only show participants in the specified state. Only one of filterByUserId , filterByPublished , filter- ByState , or filterByRecordingState can be provided per request. Possible values: o CONNECTED o DISCONNECTED
+    /// Filters the response list to only show participants in the specified state. Only one of filterByUserId , filterByPublished , filterByState , or filterByRecordingState can be provided per request. Possible values: • CONNECTED • DISCONNECTED
     /// </summary>
     [CliOption("--filter-by-state")]
     public AwsIvsRealtimeListParticipantsFilterByState? FilterByState { get; set; }
 
     /// <summary>
-    /// The first participant to retrieve. This is used for pagination; see the nextToken response field. Constraints: o min: 0 o max: 1024 o pattern: [a-zA-Z0-9+/=_-]*
+    /// The first participant to retrieve. This is used for pagination; see the nextToken response field. Constraints: • min: 0 • max: 1024 • pattern: [a-zA-Z0-9+/=_-]*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Maximum number of results to return. Default: 50. Constraints: o min: 1 o max: 100
+    /// Maximum number of results to return. Default: 50. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Filters the response list to only show participants with the speci- fied recording state. Only one of filterByUserId , filterByPublished , filterByState , or filterByRecordingState can be provided per re- quest. Possible values: o STARTING o ACTIVE o STOPPING o STOPPED o FAILED
+    /// Filters the response list to only show participants with the specified recording state. Only one of filterByUserId , filterByPublished , filterByState , or filterByRecordingState can be provided per request. Possible values: • STARTING • ACTIVE • STOPPING • STOPPED • FAILED
     /// </summary>
     [CliOption("--filter-by-recording-state")]
     public AwsIvsRealtimeListParticipantsFilterByRecordingState? FilterByRecordingState { get; set; }

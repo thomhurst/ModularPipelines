@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +30,9 @@ public record AwsOpensearchUpdatePackageScopeOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Updates the scope of a package. Scope of the package defines users who can view and associate a package. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PackageId">ID of the package whose scope is being updated. Constraints: o pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$</param>
-    /// <param name="Operation">The operation to perform on the package scope (e.g., add/re- move/override users). Possible values: o ADD o OVERRIDE o REMOVE</param>
-    /// <param name="PackageUserList">List of users to be added or removed from the package scope. (string) Constraints: o min: 6 o max: 12 o pattern: ^[0-9]{12}$|^GLOBAL$ Syntax: "string" "string" ...</param>
+    /// <param name="PackageId">ID of the package whose scope is being updated. Constraints: • pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$</param>
+    /// <param name="Operation">The operation to perform on the package scope (e.g., add/remove/override users). Possible values: • ADD • OVERRIDE • REMOVE</param>
+    /// <param name="PackageUserList">List of users to be added or removed from the package scope. (string) Constraints: • min: 6 • max: 12 • pattern: ^[0-9]{12}$|^GLOBAL$ Syntax: "string" "string" ...</param>
     public AwsOpensearchUpdatePackageScopeOptions(
         string PackageId,
         AwsOpensearchUpdatePackageScopeOperation Operation,
@@ -75,19 +77,19 @@ public record AwsOpensearchUpdatePackageScopeOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID of the package whose scope is being updated. Constraints: o pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$
+    /// ID of the package whose scope is being updated. Constraints: • pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$
     /// </summary>
     [CliOption("--package-id")]
     public string? PackageId { get; private init; }
 
     /// <summary>
-    /// The operation to perform on the package scope (e.g., add/re- move/override users). Possible values: o ADD o OVERRIDE o REMOVE
+    /// The operation to perform on the package scope (e.g., add/remove/override users). Possible values: • ADD • OVERRIDE • REMOVE
     /// </summary>
     [CliOption("--operation")]
     public AwsOpensearchUpdatePackageScopeOperation? Operation { get; private init; }
 
     /// <summary>
-    /// List of users to be added or removed from the package scope. (string) Constraints: o min: 6 o max: 12 o pattern: ^[0-9]{12}$|^GLOBAL$ Syntax: "string" "string" ...
+    /// List of users to be added or removed from the package scope. (string) Constraints: • min: 6 • max: 12 • pattern: ^[0-9]{12}$|^GLOBAL$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--package-user-list", GroupValues = true)]
     public IEnumerable<string>? PackageUserList { get; private init; }

@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the attached files configuration for the specified Connect Customer instance and attachment scope. If a custom configuration exists for the specified attachment scope, the custom configuration is returned. If no custom configuration ex- ists, the default configuration values for that attachment scope are returned. See also: AWS API Documentation
+/// Describes the attached files configuration for the specified Connect Customer instance and attachment scope. If a custom configuration exists for the specified attachment scope, the custom configuration is returned. If no custom configuration exists, the default configuration values for that attachment scope are returned. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsConnectDescribeAttachedFilesConfigurationOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes the attached files configuration for the specified Connect Customer instance and attachment scope. If a custom configuration exists for the specified attachment scope, the custom configuration is returned. If no custom configuration ex- ists, the default configuration values for that attachment scope are returned. See also: AWS API Documentation
+    /// Describes the attached files configuration for the specified Connect Customer instance and attachment scope. If a custom configuration exists for the specified attachment scope, the custom configuration is returned. If no custom configuration exists, the default configuration values for that attachment scope are returned. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="AttachmentScope">The scope of the attachment. Valid values are EMAIL , CHAT , CASE , and TASK . Possible values: o EMAIL o CHAT o CASE o TASK</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="AttachmentScope">The scope of the attachment. Valid values are EMAIL , CHAT , CASE , and TASK . Possible values: • EMAIL • CHAT • CASE • TASK</param>
     public AwsConnectDescribeAttachedFilesConfigurationOptions(
         string InstanceId,
         AwsConnectDescribeAttachedFilesConfigurationAttachmentScope AttachmentScope
@@ -60,13 +62,13 @@ public record AwsConnectDescribeAttachedFilesConfigurationOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The scope of the attachment. Valid values are EMAIL , CHAT , CASE , and TASK . Possible values: o EMAIL o CHAT o CASE o TASK
+    /// The scope of the attachment. Valid values are EMAIL , CHAT , CASE , and TASK . Possible values: • EMAIL • CHAT • CASE • TASK
     /// </summary>
     [CliOption("--attachment-scope")]
     public AwsConnectDescribeAttachedFilesConfigurationAttachmentScope? AttachmentScope { get; private init; }

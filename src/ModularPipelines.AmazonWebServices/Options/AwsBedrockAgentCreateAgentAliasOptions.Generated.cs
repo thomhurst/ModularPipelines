@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -29,8 +30,8 @@ public record AwsBedrockAgentCreateAgentAliasOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Creates an alias of an agent that can be used to deploy the agent. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentId">The unique identifier of the agent. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
-    /// <param name="AgentAliasName">The name of the alias. Constraints: o pattern: ([0-9a-zA-Z][_-]?){1,100}</param>
+    /// <param name="AgentId">The unique identifier of the agent. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="AgentAliasName">The name of the alias. Constraints: • pattern: ([0-9a-zA-Z][_-]?){1,100}</param>
     public AwsBedrockAgentCreateAgentAliasOptions(
         string AgentId,
         string AgentAliasName
@@ -62,38 +63,38 @@ public record AwsBedrockAgentCreateAgentAliasOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the agent. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The unique identifier of the agent. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--agent-id")]
     public string? AgentId { get; private init; }
 
     /// <summary>
-    /// The name of the alias. Constraints: o pattern: ([0-9a-zA-Z][_-]?){1,100}
+    /// The name of the alias. Constraints: • pattern: ([0-9a-zA-Z][_-]?){1,100}
     /// </summary>
     [CliOption("--agent-alias-name")]
     public string? AgentAliasName { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency . Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency . Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A description of the alias of the agent. Constraints: o min: 1 o max: 200
+    /// A description of the alias of the agent. Constraints: • min: 1 • max: 200
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Contains details about the routing configuration of the alias. Constraints: o min: 0 o max: 1 (structure) Contains details about the routing configuration of the alias. agentVersion -&gt; (string) The version of the agent with which the alias is associated. Constraints: o min: 1 o max: 5 o pattern: (DRAFT|[0-9]{0,4}[1-9][0-9]{0,4}) provisionedThroughput -&gt; (string) Information on the Provisioned Throughput assigned to an agent alias. Constraints: o min: 1 o max: 2048 o pattern: ((([0-9a-zA-Z][_-]?){1,63})|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:pro- visioned-model/[a-z0-9]{12})) Shorthand Syntax: agentVersion=string,provisionedThroughput=string ... JSON Syntax: [ { "agentVersion": "string", "provisionedThroughput": "string" } ... ]
+    /// Contains details about the routing configuration of the alias. Constraints: • min: 0 • max: 1 (structure) Contains details about the routing configuration of the alias. agentVersion -&gt; (string) The version of the agent with which the alias is associated. Constraints: • min: 1 • max: 5 • pattern: (DRAFT|[0-9]{0,4}[1-9][0-9]{0,4}) provisionedThroughput -&gt; (string) Information on the Provisioned Throughput assigned to an agent alias. Constraints: • min: 1 • max: 2048 • pattern: ((([0-9a-zA-Z][_-]?){1,63})|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:provisioned-model/[a-z0-9]{12})) Shorthand Syntax: agentVersion=string,provisionedThroughput=string ... JSON Syntax: [ { "agentVersion": "string", "provisionedThroughput": "string" } ... ]
     /// </summary>
     [CliOption("--routing-configuration", GroupValues = true)]
     public IEnumerable<string>? RoutingConfiguration { get; set; }
 
     /// <summary>
-    /// Any tags that you want to attach to the alias of the agent. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Any tags that you want to attach to the alias of the agent. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

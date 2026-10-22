@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the quota utilization report for your Amazon Web Services ac- count. This operation returns paginated results showing your quota us- age across all Amazon Web Services services, sorted by utilization per- centage in descending order (highest utilization first). You must first initiate a report using the StartQuotaUtilizationReport operation. The report generation process is asynchronous and may take several seconds to complete. Poll this operation periodically to check the status and r...
+/// Retrieves the quota utilization report for your Amazon Web Services account. This operation returns paginated results showing your quota usage across all Amazon Web Services services, sorted by utilization percentage in descending order (highest utilization first). You must first initiate a report using the StartQuotaUtilizationReport operation. The report generation process is asynchronous and may take several seconds to complete. Poll this operation periodically to check the status and retriev...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsServiceQuotasGetQuotaUtilizationReportOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the quota utilization report for your Amazon Web Services ac- count. This operation returns paginated results showing your quota us- age across all Amazon Web Services services, sorted by utilization per- centage in descending order (highest utilization first). You must first initiate a report using the StartQuotaUtilizationReport operation. The report generation process is asynchronous and may take several seconds to complete. Poll this operation periodically to check the status and r...
+    /// Retrieves the quota utilization report for your Amazon Web Services account. This operation returns paginated results showing your quota usage across all Amazon Web Services services, sorted by utilization percentage in descending order (highest utilization first). You must first initiate a report using the StartQuotaUtilizationReport operation. The report generation process is asynchronous and may take several seconds to complete. Poll this operation periodically to check the status and retriev...
     /// </summary>
-    /// <param name="ReportId">The unique identifier for the quota utilization report. This identi- fier is returned by the StartQuotaUtilizationReport operation. Constraints: o min: 1 o max: 128 o pattern: [0-9a-zA-Z][a-zA-Z0-9-]{1,128}</param>
+    /// <param name="ReportId">The unique identifier for the quota utilization report. This identifier is returned by the StartQuotaUtilizationReport operation. Constraints: • min: 1 • max: 128 • pattern: [0-9a-zA-Z][a-zA-Z0-9-]{1,128}</param>
     public AwsServiceQuotasGetQuotaUtilizationReportOptions(
         string ReportId
     )
@@ -57,20 +59,20 @@ public record AwsServiceQuotasGetQuotaUtilizationReportOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the quota utilization report. This identi- fier is returned by the StartQuotaUtilizationReport operation. Constraints: o min: 1 o max: 128 o pattern: [0-9a-zA-Z][a-zA-Z0-9-]{1,128}
+    /// The unique identifier for the quota utilization report. This identifier is returned by the StartQuotaUtilizationReport operation. Constraints: • min: 1 • max: 128 • pattern: [0-9a-zA-Z][a-zA-Z0-9-]{1,128}
     /// </summary>
     [CliOption("--report-id")]
     public string? ReportId { get; private init; }
 
     /// <summary>
-    /// A token that indicates the next page of results to retrieve. This token is returned in the response when there are more results avail- able. Omit this parameter for the first request. Constraints: o max: 2048 o pattern: ^[a-zA-Z0-9/+]*={0,2}$
+    /// A token that indicates the next page of results to retrieve. This token is returned in the response when there are more results available. Omit this parameter for the first request. Constraints: • max: 2048 • pattern: ^[a-zA-Z0-9/+]*={0,2}$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return per page. The default value is 1,000 and the maximum allowed value is 1,000. Constraints: o min: 1 o max: 1000
+    /// The maximum number of results to return per page. The default value is 1,000 and the maximum allowed value is 1,000. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

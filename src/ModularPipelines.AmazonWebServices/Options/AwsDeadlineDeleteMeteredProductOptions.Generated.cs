@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDeadlineDeleteMeteredProductOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Deletes a metered product. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LicenseEndpointId">The ID of the license endpoint from which to remove the metered product. Constraints: o pattern: le-[0-9a-f]{32}</param>
-    /// <param name="ProductId">The product ID to remove from the license endpoint. Constraints: o pattern: [0-9a-z]{1,32}-[.0-9a-z]{1,32}</param>
+    /// <param name="LicenseEndpointId">The ID of the license endpoint from which to remove the metered product. Constraints: • pattern: le-[0-9a-f]{32}</param>
+    /// <param name="ProductId">The product ID to remove from the license endpoint. Constraints: • pattern: [0-9a-z]{1,32}-[.0-9a-z]{1,32}</param>
     public AwsDeadlineDeleteMeteredProductOptions(
         string LicenseEndpointId,
         string ProductId
@@ -60,13 +62,13 @@ public record AwsDeadlineDeleteMeteredProductOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the license endpoint from which to remove the metered product. Constraints: o pattern: le-[0-9a-f]{32}
+    /// The ID of the license endpoint from which to remove the metered product. Constraints: • pattern: le-[0-9a-f]{32}
     /// </summary>
     [CliOption("--license-endpoint-id")]
     public string? LicenseEndpointId { get; private init; }
 
     /// <summary>
-    /// The product ID to remove from the license endpoint. Constraints: o pattern: [0-9a-z]{1,32}-[.0-9a-z]{1,32}
+    /// The product ID to remove from the license endpoint. Constraints: • pattern: [0-9a-z]{1,32}-[.0-9a-z]{1,32}
     /// </summary>
     [CliOption("--product-id")]
     public string? ProductId { get; private init; }

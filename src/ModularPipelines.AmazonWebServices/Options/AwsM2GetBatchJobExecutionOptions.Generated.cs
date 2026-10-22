@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the details of a specific batch job execution for a specific ap- plication. See also: AWS API Documentation
+/// Gets the details of a specific batch job execution for a specific application. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsM2GetBatchJobExecutionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets the details of a specific batch job execution for a specific ap- plication. See also: AWS API Documentation
+    /// Gets the details of a specific batch job execution for a specific application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The identifier of the application. Constraints: o pattern: ^\S{1,80}$</param>
-    /// <param name="ExecutionId">The unique identifier of the batch job execution. Constraints: o pattern: ^\S{1,80}$</param>
+    /// <param name="ApplicationId">The identifier of the application. Constraints: • pattern: ^\S{1,80}$</param>
+    /// <param name="ExecutionId">The unique identifier of the batch job execution. Constraints: • pattern: ^\S{1,80}$</param>
     public AwsM2GetBatchJobExecutionOptions(
         string ApplicationId,
         string ExecutionId
@@ -60,13 +62,13 @@ public record AwsM2GetBatchJobExecutionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the application. Constraints: o pattern: ^\S{1,80}$
+    /// The identifier of the application. Constraints: • pattern: ^\S{1,80}$
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the batch job execution. Constraints: o pattern: ^\S{1,80}$
+    /// The unique identifier of the batch job execution. Constraints: • pattern: ^\S{1,80}$
     /// </summary>
     [CliOption("--execution-id")]
     public string? ExecutionId { get; private init; }

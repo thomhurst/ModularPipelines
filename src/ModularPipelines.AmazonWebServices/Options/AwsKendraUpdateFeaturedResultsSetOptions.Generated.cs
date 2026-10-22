@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a set of featured results. Features results are placed above all other results for certain queries. You map specific queries to spe- cific documents for featuring in the results. If a query contains an exact match of a query, then one or more specific documents are fea- tured in the search results. See also: AWS API Documentation
+/// Updates a set of featured results. Features results are placed above all other results for certain queries. You map specific queries to specific documents for featuring in the results. If a query contains an exact match of a query, then one or more specific documents are featured in the search results. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsKendraUpdateFeaturedResultsSetOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a set of featured results. Features results are placed above all other results for certain queries. You map specific queries to spe- cific documents for featuring in the results. If a query contains an exact match of a query, then one or more specific documents are fea- tured in the search results. See also: AWS API Documentation
+    /// Updates a set of featured results. Features results are placed above all other results for certain queries. You map specific queries to specific documents for featuring in the results. If a query contains an exact match of a query, then one or more specific documents are featured in the search results. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IndexId">The identifier of the index used for featuring results. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
-    /// <param name="FeaturedResultsSetId">The identifier of the set of featured results that you want to up- date. Constraints: o min: 36 o max: 36 o pattern: ^[a-zA-Z-0-9]*</param>
+    /// <param name="IndexId">The identifier of the index used for featuring results. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="FeaturedResultsSetId">The identifier of the set of featured results that you want to update. Constraints: • min: 36 • max: 36 • pattern: ^[a-zA-Z-0-9]*</param>
     public AwsKendraUpdateFeaturedResultsSetOptions(
         string IndexId,
         string FeaturedResultsSetId
@@ -61,43 +63,43 @@ public record AwsKendraUpdateFeaturedResultsSetOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the index used for featuring results. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// The identifier of the index used for featuring results. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--index-id")]
     public string? IndexId { get; private init; }
 
     /// <summary>
-    /// The identifier of the set of featured results that you want to up- date. Constraints: o min: 36 o max: 36 o pattern: ^[a-zA-Z-0-9]*
+    /// The identifier of the set of featured results that you want to update. Constraints: • min: 36 • max: 36 • pattern: ^[a-zA-Z-0-9]*
     /// </summary>
     [CliOption("--featured-results-set-id")]
     public string? FeaturedResultsSetId { get; private init; }
 
     /// <summary>
-    /// A new name for the set of featured results. Constraints: o min: 1 o max: 1000 o pattern: [a-zA-Z0-9][ a-zA-Z0-9_-]*
+    /// A new name for the set of featured results. Constraints: • min: 1 • max: 1000 • pattern: [a-zA-Z0-9][ a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--featured-results-set-name")]
     public string? FeaturedResultsSetName { get; set; }
 
     /// <summary>
-    /// A new description for the set of featured results. Constraints: o min: 0 o max: 1000 o pattern: ^\P{C}*$
+    /// A new description for the set of featured results. Constraints: • min: 0 • max: 1000 • pattern: ^\P{C}*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// You can set the status to ACTIVE or INACTIVE . When the value is AC- TIVE , featured results are ready for use. You can still configure your settings before setting the status to ACTIVE . The queries you specify for featured results must be unique per featured results set for each index, whether the status is ACTIVE or INACTIVE . Possible values: o ACTIVE o INACTIVE
+    /// You can set the status to ACTIVE or INACTIVE . When the value is ACTIVE , featured results are ready for use. You can still configure your settings before setting the status to ACTIVE . The queries you specify for featured results must be unique per featured results set for each index, whether the status is ACTIVE or INACTIVE . Possible values: • ACTIVE • INACTIVE
     /// </summary>
     [CliOption("--status")]
     public AwsKendraUpdateFeaturedResultsSetStatus? Status { get; set; }
 
     /// <summary>
-    /// A list of queries for featuring results. For more information on the list of queries, see FeaturedResultsSet . Constraints: o min: 0 o max: 49 (string) Syntax: "string" "string" ...
+    /// A list of queries for featuring results. For more information on the list of queries, see FeaturedResultsSet . Constraints: • min: 0 • max: 49 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--query-texts", GroupValues = true)]
     public IEnumerable<string>? QueryTexts { get; set; }
 
     /// <summary>
-    /// A list of document IDs for the documents you want to feature at the top of the search results page. For more information on the list of featured documents, see FeaturedResultsSet . (structure) A featured document. This document is displayed at the top of the search results page, placed above all other results for cer- tain queries. If there's an exact match of a query, then the document is featured in the search results. Id -&gt; (string) The identifier of the document to feature in the search re- sults. You can use the Query API to search for specific docu- ments with their document IDs included in the result items, or you can use the console. Constraints: o min: 1 o max: 2048 Shorthand Syntax: Id=string ... JSON Syntax: [ { "Id": "string" } ... ]
+    /// A list of document IDs for the documents you want to feature at the top of the search results page. For more information on the list of featured documents, see FeaturedResultsSet . (structure) A featured document. This document is displayed at the top of the search results page, placed above all other results for certain queries. If there's an exact match of a query, then the document is featured in the search results. Id -&gt; (string) The identifier of the document to feature in the search results. You can use the Query API to search for specific documents with their document IDs included in the result items, or you can use the console. Constraints: • min: 1 • max: 2048 Shorthand Syntax: Id=string ... JSON Syntax: [ { "Id": "string" } ... ]
     /// </summary>
     [CliOption("--featured-documents", GroupValues = true)]
     public IEnumerable<string>? FeaturedDocuments { get; set; }

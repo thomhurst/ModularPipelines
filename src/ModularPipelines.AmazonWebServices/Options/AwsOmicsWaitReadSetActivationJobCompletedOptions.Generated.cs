@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsOmicsWaitReadSetActivationJobCompletedOptions : AwsOptions, IVa
     /// <summary>
     /// Wait until a job is completed. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 20 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The job's ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
-    /// <param name="SequenceStoreId">The job's sequence store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
+    /// <param name="Id">The job's ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+</param>
+    /// <param name="SequenceStoreId">The job's sequence store ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+</param>
     public AwsOmicsWaitReadSetActivationJobCompletedOptions(
         string Id,
         string SequenceStoreId
@@ -60,13 +62,13 @@ public record AwsOmicsWaitReadSetActivationJobCompletedOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The job's ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// The job's ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The job's sequence store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// The job's sequence store ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+
     /// </summary>
     [CliOption("--sequence-store-id")]
     public string? SequenceStoreId { get; private init; }

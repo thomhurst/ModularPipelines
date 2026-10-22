@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsDevopsAgentUpdateOperatorAppIdpConfigOptions : AwsOptions, IVal
     /// <summary>
     /// Update the external Identity Provider configuration for the Operator App See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentSpaceId">The unique identifier of the AgentSpace Constraints: o pattern: [a-zA-Z0-9-]{1,64}</param>
+    /// <param name="AgentSpaceId">The unique identifier of the AgentSpace Constraints: • pattern: [a-zA-Z0-9-]{1,64}</param>
     public AwsDevopsAgentUpdateOperatorAppIdpConfigOptions(
         string AgentSpaceId
     )
@@ -57,13 +59,13 @@ public record AwsDevopsAgentUpdateOperatorAppIdpConfigOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the AgentSpace Constraints: o pattern: [a-zA-Z0-9-]{1,64}
+    /// The unique identifier of the AgentSpace Constraints: • pattern: [a-zA-Z0-9-]{1,64}
     /// </summary>
     [CliOption("--agent-space-id")]
     public string? AgentSpaceId { get; private init; }
 
     /// <summary>
-    /// The OIDC client secret for the IdP application Constraints: o min: 1 o max: 1024
+    /// The OIDC client secret for the IdP application Constraints: • min: 1 • max: 1024
     /// </summary>
     [SecretValue]
     [CliOption("--idp-client-secret")]

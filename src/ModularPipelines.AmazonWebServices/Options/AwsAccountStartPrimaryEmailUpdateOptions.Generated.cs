@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts the process to update the primary email address for the speci- fied account. See also: AWS API Documentation
+/// Starts the process to update the primary email address for the specified account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsAccountStartPrimaryEmailUpdateOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts the process to update the primary email address for the speci- fied account. See also: AWS API Documentation
+    /// Starts the process to update the primary email address for the specified account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator ac- count. The specified account ID must be a member account in the same organization. The organization must have all features enabled , and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account as- signed. This operation can only be called from the management account or the delegated administrator account of an organization for a member ac- count. NOTE: The management account can't specify its own AccountId . Constraints: o pattern: \d{12}</param>
-    /// <param name="PrimaryEmail">The new primary email address (also known as the root user email ad- dress) to use in the specified account. Constraints: o min: 5 o max: 64</param>
+    /// <param name="AccountId">Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account. The specified account ID must be a member account in the same organization. The organization must have all features enabled , and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned. This operation can only be called from the management account or the delegated administrator account of an organization for a member account. NOTE: The management account can't specify its own AccountId . Constraints: • pattern: \d{12}</param>
+    /// <param name="PrimaryEmail">The new primary email address (also known as the root user email address) to use in the specified account. Constraints: • min: 5 • max: 64</param>
     public AwsAccountStartPrimaryEmailUpdateOptions(
         string AccountId,
         string PrimaryEmail
@@ -60,13 +62,13 @@ public record AwsAccountStartPrimaryEmailUpdateOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator ac- count. The specified account ID must be a member account in the same organization. The organization must have all features enabled , and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account as- signed. This operation can only be called from the management account or the delegated administrator account of an organization for a member ac- count. NOTE: The management account can't specify its own AccountId . Constraints: o pattern: \d{12}
+    /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account. The specified account ID must be a member account in the same organization. The organization must have all features enabled , and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned. This operation can only be called from the management account or the delegated administrator account of an organization for a member account. NOTE: The management account can't specify its own AccountId . Constraints: • pattern: \d{12}
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The new primary email address (also known as the root user email ad- dress) to use in the specified account. Constraints: o min: 5 o max: 64
+    /// The new primary email address (also known as the root user email address) to use in the specified account. Constraints: • min: 5 • max: 64
     /// </summary>
     [CliOption("--primary-email")]
     public string? PrimaryEmail { get; private init; }

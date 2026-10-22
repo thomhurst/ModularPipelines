@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates a query definition for CloudWatch Logs Insights. For more information, see Analyzing Log Data with CloudWatch Logs Insights . To update a query definition, specify its queryDefinitionId in your re- quest. The values of name , queryString , and logGroupNames are changed to the values that you specify in your update operation. No current values are retained from the current query definition. For example, imagine updating a current query definition that includes log groups. If yo...
+/// Creates or updates a query definition for CloudWatch Logs Insights. For more information, see Analyzing Log Data with CloudWatch Logs Insights . To update a query definition, specify its queryDefinitionId in your request. The values of name , queryString , and logGroupNames are changed to the values that you specify in your update operation. No current values are retained from the current query definition. For example, imagine updating a current query definition that includes log groups. If you ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +29,10 @@ public record AwsLogsPutQueryDefinitionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates or updates a query definition for CloudWatch Logs Insights. For more information, see Analyzing Log Data with CloudWatch Logs Insights . To update a query definition, specify its queryDefinitionId in your re- quest. The values of name , queryString , and logGroupNames are changed to the values that you specify in your update operation. No current values are retained from the current query definition. For example, imagine updating a current query definition that includes log groups. If yo...
+    /// Creates or updates a query definition for CloudWatch Logs Insights. For more information, see Analyzing Log Data with CloudWatch Logs Insights . To update a query definition, specify its queryDefinitionId in your request. The values of name , queryString , and logGroupNames are changed to the values that you specify in your update operation. No current values are retained from the current query definition. For example, imagine updating a current query definition that includes log groups. If you ...
     /// </summary>
-    /// <param name="Name">A name for the query definition. If you are saving numerous query definitions, we recommend that you name them. This way, you can find the ones you want by using the first part of the name as a filter in the queryDefinitionNamePrefix parameter of DescribeQueryDefinitions . Constraints: o min: 1 o max: 255</param>
-    /// <param name="QueryString">The query string to use for this definition. For more information, see CloudWatch Logs Insights Query Syntax . Constraints: o min: 1 o max: 10000</param>
+    /// <param name="Name">A name for the query definition. If you are saving numerous query definitions, we recommend that you name them. This way, you can find the ones you want by using the first part of the name as a filter in the queryDefinitionNamePrefix parameter of DescribeQueryDefinitions . Constraints: • min: 1 • max: 255</param>
+    /// <param name="QueryString">The query string to use for this definition. For more information, see CloudWatch Logs Insights Query Syntax . Constraints: • min: 1 • max: 10000</param>
     public AwsLogsPutQueryDefinitionOptions(
         string Name,
         string QueryString
@@ -62,44 +64,44 @@ public record AwsLogsPutQueryDefinitionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name for the query definition. If you are saving numerous query definitions, we recommend that you name them. This way, you can find the ones you want by using the first part of the name as a filter in the queryDefinitionNamePrefix parameter of DescribeQueryDefinitions . Constraints: o min: 1 o max: 255
+    /// A name for the query definition. If you are saving numerous query definitions, we recommend that you name them. This way, you can find the ones you want by using the first part of the name as a filter in the queryDefinitionNamePrefix parameter of DescribeQueryDefinitions . Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The query string to use for this definition. For more information, see CloudWatch Logs Insights Query Syntax . Constraints: o min: 1 o max: 10000
+    /// The query string to use for this definition. For more information, see CloudWatch Logs Insights Query Syntax . Constraints: • min: 1 • max: 10000
     /// </summary>
     [CliOption("--query-string")]
     public string? QueryString { get; private init; }
 
     /// <summary>
-    /// Specify the query language to use for this query. The options are Logs Insights QL, OpenSearch PPL, and OpenSearch SQL. For more in- formation about the query languages that CloudWatch Logs supports, see Supported query languages . Possible values: o CWLI o SQL o PPL
+    /// Specify the query language to use for this query. The options are Logs Insights QL, OpenSearch PPL, and OpenSearch SQL. For more information about the query languages that CloudWatch Logs supports, see Supported query languages . Possible values: • CWLI • SQL • PPL
     /// </summary>
     [CliOption("--query-language")]
     public AwsLogsPutQueryDefinitionQueryLanguage? QueryLanguage { get; set; }
 
     /// <summary>
-    /// If you are updating a query definition, use this parameter to spec- ify the ID of the query definition that you want to update. You can use DescribeQueryDefinitions to retrieve the IDs of your saved query definitions. If you are creating a query definition, do not specify this parame- ter. CloudWatch generates a unique ID for the new query definition and include it in the response to this operation. Constraints: o min: 1 o max: 256
+    /// If you are updating a query definition, use this parameter to specify the ID of the query definition that you want to update. You can use DescribeQueryDefinitions to retrieve the IDs of your saved query definitions. If you are creating a query definition, do not specify this parameter. CloudWatch generates a unique ID for the new query definition and include it in the response to this operation. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--query-definition-id")]
     public string? QueryDefinitionId { get; set; }
 
     /// <summary>
-    /// Use this parameter to include specific log groups as part of your query definition. If your query uses the OpenSearch Service query language, you specify the log group names inside the querystring in- stead of here. If you are updating an existing query definition for the Logs In- sights QL or OpenSearch Service PPL and you omit this parameter, then the updated definition will contain no log groups. (string) Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+ Syntax: "string" "string" ...
+    /// Use this parameter to include specific log groups as part of your query definition. If your query uses the OpenSearch Service query language, you specify the log group names inside the querystring instead of here. If you are updating an existing query definition for the Logs Insights QL or OpenSearch Service PPL and you omit this parameter, then the updated definition will contain no log groups. (string) Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--log-group-names", GroupValues = true)]
     public IEnumerable<string>? LogGroupNames { get; set; }
 
     /// <summary>
-    /// Used as an idempotency token, to avoid returning an exception if the service receives the same request twice because of a network error. Constraints: o min: 36 o max: 128 o pattern: \S{36,128}
+    /// Used as an idempotency token, to avoid returning an exception if the service receives the same request twice because of a network error. Constraints: • min: 36 • max: 128 • pattern: \S{36,128}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Use this parameter to include specific query parameters as part of your query definition. Query parameters are supported only for Logs Insights QL queries. Query parameters allow you to use placeholder variables in your query string that are substituted with values at execution time. Use the {{parameterName}} syntax in your query string to reference a parameter. Constraints: o max: 20 (structure) This structure defines a query parameter for a saved CloudWatch Logs Insights query definition. Query parameters are supported only for Logs Insights QL queries. They are placeholder vari- ables that you can reference in a query string using the {{para- meterName}} syntax. Each parameter can include a default value and a description. name -&gt; (string) [required] The name of the query parameter. A query parameter name must start with a letter or underscore, and contain only letters, digits, and underscores. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z_][a-zA-Z0-9_]* defaultValue -&gt; (string) The default value to use for this query parameter if no value is supplied at execution time. Constraints: o max: 1024 description -&gt; (string) A description of the query parameter that explains its pur- pose or expected values. Constraints: o max: 512 Shorthand Syntax: name=string,defaultValue=string,description=string ... JSON Syntax: [ { "name": "string", "defaultValue": "string", "description": "string" } ... ]
+    /// Use this parameter to include specific query parameters as part of your query definition. Query parameters are supported only for Logs Insights QL queries. Query parameters allow you to use placeholder variables in your query string that are substituted with values at execution time. Use the {{parameterName}} syntax in your query string to reference a parameter. Constraints: • max: 20 (structure) This structure defines a query parameter for a saved CloudWatch Logs Insights query definition. Query parameters are supported only for Logs Insights QL queries. They are placeholder variables that you can reference in a query string using the {{parameterName}} syntax. Each parameter can include a default value and a description. name -&gt; (string) [required] The name of the query parameter. A query parameter name must start with a letter or underscore, and contain only letters, digits, and underscores. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z_][a-zA-Z0-9_]* defaultValue -&gt; (string) The default value to use for this query parameter if no value is supplied at execution time. Constraints: • max: 1024 description -&gt; (string) A description of the query parameter that explains its purpose or expected values. Constraints: • max: 512 Shorthand Syntax: name=string,defaultValue=string,description=string ... JSON Syntax: [ { "name": "string", "defaultValue": "string", "description": "string" } ... ]
     /// </summary>
     [CliOption("--parameters", GroupValues = true)]
     public IEnumerable<string>? Parameters { get; set; }

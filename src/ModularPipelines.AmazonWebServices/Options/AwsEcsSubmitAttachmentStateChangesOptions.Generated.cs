@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This action is only used by the Amazon ECS agent, and it is not in- tended for use outside of the agent. Sent to acknowledge that an attachment changed states. See also: AWS API Documentation
+/// NOTE: This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent. Sent to acknowledge that an attachment changed states. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsEcsSubmitAttachmentStateChangesOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This action is only used by the Amazon ECS agent, and it is not in- tended for use outside of the agent. Sent to acknowledge that an attachment changed states. See also: AWS API Documentation
+    /// NOTE: This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent. Sent to acknowledge that an attachment changed states. See also: AWS API Documentation
     /// </summary>
     /// <param name="Attachments">Any attachments associated with the state change request. (structure) An object representing a change in state for a task attachment. attachmentArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the attachment. status -&gt; (string) [required] The status of the attachment. Shorthand Syntax: attachmentArn=string,status=string ... JSON Syntax: [ { "attachmentArn": "string", "status": "string" } ... ]</param>
     public AwsEcsSubmitAttachmentStateChangesOptions(

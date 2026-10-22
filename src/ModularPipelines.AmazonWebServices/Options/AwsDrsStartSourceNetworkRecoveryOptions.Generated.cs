@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deploy VPC for the specified Source Network and modify launch templates to use this network. The VPC will be deployed using a dedicated Cloud- Formation stack. See also: AWS API Documentation
+/// Deploy VPC for the specified Source Network and modify launch templates to use this network. The VPC will be deployed using a dedicated CloudFormation stack. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsDrsStartSourceNetworkRecoveryOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deploy VPC for the specified Source Network and modify launch templates to use this network. The VPC will be deployed using a dedicated Cloud- Formation stack. See also: AWS API Documentation
+    /// Deploy VPC for the specified Source Network and modify launch templates to use this network. The VPC will be deployed using a dedicated CloudFormation stack. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceNetworks">The Source Networks that we want to start a Recovery Job for. Constraints: o min: 1 o max: 100 (structure) An object representing the Source Network to recover. sourceNetworkID -&gt; (string) [required] The ID of the Source Network you want to recover. Constraints: o min: 20 o max: 20 o pattern: sn-[0-9a-zA-Z]{17} cfnStackName -&gt; (string) CloudFormation stack name to be used for recovering the net- work. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][-a-zA-Z0-9]* Shorthand Syntax: sourceNetworkID=string,cfnStackName=string ... JSON Syntax: [ { "sourceNetworkID": "string", "cfnStackName": "string" } ... ]</param>
+    /// <param name="SourceNetworks">The Source Networks that we want to start a Recovery Job for. Constraints: • min: 1 • max: 100 (structure) An object representing the Source Network to recover. sourceNetworkID -&gt; (string) [required] The ID of the Source Network you want to recover. Constraints: • min: 20 • max: 20 • pattern: sn-[0-9a-zA-Z]{17} cfnStackName -&gt; (string) CloudFormation stack name to be used for recovering the network. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z][-a-zA-Z0-9]* Shorthand Syntax: sourceNetworkID=string,cfnStackName=string ... JSON Syntax: [ { "sourceNetworkID": "string", "cfnStackName": "string" } ... ]</param>
     public AwsDrsStartSourceNetworkRecoveryOptions(
         IEnumerable<string> SourceNetworks
     )
@@ -68,19 +69,19 @@ public record AwsDrsStartSourceNetworkRecoveryOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Source Networks that we want to start a Recovery Job for. Constraints: o min: 1 o max: 100 (structure) An object representing the Source Network to recover. sourceNetworkID -&gt; (string) [required] The ID of the Source Network you want to recover. Constraints: o min: 20 o max: 20 o pattern: sn-[0-9a-zA-Z]{17} cfnStackName -&gt; (string) CloudFormation stack name to be used for recovering the net- work. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][-a-zA-Z0-9]* Shorthand Syntax: sourceNetworkID=string,cfnStackName=string ... JSON Syntax: [ { "sourceNetworkID": "string", "cfnStackName": "string" } ... ]
+    /// The Source Networks that we want to start a Recovery Job for. Constraints: • min: 1 • max: 100 (structure) An object representing the Source Network to recover. sourceNetworkID -&gt; (string) [required] The ID of the Source Network you want to recover. Constraints: • min: 20 • max: 20 • pattern: sn-[0-9a-zA-Z]{17} cfnStackName -&gt; (string) CloudFormation stack name to be used for recovering the network. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z][-a-zA-Z0-9]* Shorthand Syntax: sourceNetworkID=string,cfnStackName=string ... JSON Syntax: [ { "sourceNetworkID": "string", "cfnStackName": "string" } ... ]
     /// </summary>
     [CliOption("--source-networks", GroupValues = true)]
     public IEnumerable<string>? SourceNetworks { get; private init; }
 
     /// <summary>
-    /// Don't update existing CloudFormation Stack, recover the network us- ing a new stack.
+    /// Don't update existing CloudFormation Stack, recover the network using a new stack.
     /// </summary>
     [CliFlag("--deploy-as-new", NegatedName = "--no-deploy-as-new")]
     public bool? DeployAsNew { get; set; }
 
     /// <summary>
-    /// The tags to be associated with the Source Network recovery Job. key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to be associated with the Source Network recovery Job. key -&gt; (string) Constraints: • min: 0 • max: 256 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSocialmessagingGetWhatsappCallPermissionOptions : AwsOptions, I
     /// <summary>
     /// Retrieves the current calling permission for a WhatsApp end user, along with the calling actions the business is allowed to take with that user. Provide the destination phone number or the business-scoped user ID to identify the end user. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OriginationPhoneNumberId">The unique identifier of the business phone number for which to re- trieve the calling permission. The phone number identifiers are for- matted as phone-number-id-01234567890123456789012345678901 . Constraints: o min: 1 o max: 115 o pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-num- ber-id/[0-9a-zA-Z]+$).*</param>
+    /// <param name="OriginationPhoneNumberId">The unique identifier of the business phone number for which to retrieve the calling permission. The phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901 . Constraints: • min: 1 • max: 115 • pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-number-id/[0-9a-zA-Z]+$).*</param>
     public AwsSocialmessagingGetWhatsappCallPermissionOptions(
         string OriginationPhoneNumberId
     )
@@ -56,19 +58,19 @@ public record AwsSocialmessagingGetWhatsappCallPermissionOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the business phone number for which to re- trieve the calling permission. The phone number identifiers are for- matted as phone-number-id-01234567890123456789012345678901 . Constraints: o min: 1 o max: 115 o pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-num- ber-id/[0-9a-zA-Z]+$).*
+    /// The unique identifier of the business phone number for which to retrieve the calling permission. The phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901 . Constraints: • min: 1 • max: 115 • pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-number-id/[0-9a-zA-Z]+$).*
     /// </summary>
     [CliOption("--origination-phone-number-id")]
     public string? OriginationPhoneNumberId { get; private init; }
 
     /// <summary>
-    /// The end user's phone number, in E.164 format, for which to retrieve the calling permission. Constraints: o min: 1 o max: 20 o pattern: \+[1-9]\d{1,14}
+    /// The end user's phone number, in E.164 format, for which to retrieve the calling permission. Constraints: • min: 1 • max: 20 • pattern: \+[1-9]\d{1,14}
     /// </summary>
     [CliOption("--destination-phone-number")]
     public string? DestinationPhoneNumber { get; set; }
 
     /// <summary>
-    /// The business-scoped user identifier (BSUID) of the end user for which to retrieve the calling permission. Constraints: o min: 1 o max: 100
+    /// The business-scoped user identifier (BSUID) of the end user for which to retrieve the calling permission. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--end-user-bsuid")]
     public string? EndUserBsuid { get; set; }

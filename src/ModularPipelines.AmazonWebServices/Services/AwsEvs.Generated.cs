@@ -62,7 +62,7 @@ public class AwsEvs : IAwsEvs
     }
 
     /// <summary>
-    /// Creates a connector for an Amazon EVS environment. A connector allows the Amazon EVS control plane to interface with VCF appliances using a fully qualified domain name. You can create only one connector of each type per environment. For en- vironments where Amazon EVS installs VCF, the SDDC_MANAGER connector is created automatically. NOTE: Amazon EVS requires an active connector to SDDC Manager or VCF Oper- ations Manager to monitor environment health and license compliance. See also: AWS API Do...
+    /// Creates a connector for an Amazon EVS environment. A connector allows the Amazon EVS control plane to interface with VCF appliances using a fully qualified domain name. You can create only one connector of each type per environment. For environments where Amazon EVS installs VCF, the SDDC_MANAGER connector is created automatically. NOTE: Amazon EVS requires an active connector to SDDC Manager or VCF Operations Manager to monitor environment health and license compliance. See also: AWS API Docume...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsEvs : IAwsEvs
     }
 
     /// <summary>
-    /// Creates an ESX host and adds it to an Amazon EVS environment. This action can only be used after the Amazon EVS environment is de- ployed. You can use the dedicatedHostId parameter to specify an Amazon EC2 Ded- icated Host for ESX host creation. You can use the placementGroupId parameter to specify a cluster or par- tition placement group to launch EC2 instances into. NOTE: If you don't specify an ESX version when adding hosts using Cre- ateEnvironmentHost action, Amazon EVS automatically uses t...
+    /// Creates an ESX host and adds it to an Amazon EVS environment. This action can only be used after the Amazon EVS environment is deployed. You can use the dedicatedHostId parameter to specify an Amazon EC2 Dedicated Host for ESX host creation. You can use the placementGroupId parameter to specify a cluster or partition placement group to launch EC2 instances into. NOTE: If you don't specify an ESX version when adding hosts using CreateEnvironmentHost action, Amazon EVS automatically uses the defau...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsEvs : IAwsEvs
     }
 
     /// <summary>
-    /// Creates an Amazon EVS environment that runs VCF software, such as SDDC Manager, NSX Manager, and vCenter Server. NOTE: When you specify SELF_DEPLOYED for vcfVersion , Amazon EVS provi- sions only the VLAN subnets; no hosts are added and no VCF installa- tion is performed. After the environment is created, you can add hosts with CreateEnvironmentHost and install VCF yourself. The li- censeInfo , hosts , vcfHostnames , siteId , and connectivityInfo pa- rameters are not supported in this mode. When...
+    /// Creates an Amazon EVS environment that runs VCF software, such as SDDC Manager, NSX Manager, and vCenter Server. NOTE: When you specify SELF_DEPLOYED for vcfVersion , Amazon EVS provisions only the VLAN subnets; no hosts are added and no VCF installation is performed. After the environment is created, you can add hosts with CreateEnvironmentHost and install VCF yourself. The licenseInfo , hosts , vcfHostnames , siteId , and connectivityInfo parameters are not supported in this mode. When you spe...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsEvs : IAwsEvs
     }
 
     /// <summary>
-    /// Deletes a host from an Amazon EVS environment. NOTE: Before deleting a host, you must unassign and decommission the host from within the SDDC Manager user interface. Not doing so could im- pact the availability of your virtual machines or result in data loss. See also: AWS API Documentation
+    /// Deletes a host from an Amazon EVS environment. NOTE: Before deleting a host, you must unassign and decommission the host from within the SDDC Manager user interface. Not doing so could impact the availability of your virtual machines or result in data loss. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsEvs : IAwsEvs
     }
 
     /// <summary>
-    /// Deletes an Amazon EVS environment. Amazon EVS environments will only be enabled for deletion once the hosts are deleted. You can delete hosts using the DeleteEnvironmentHost action. Environment deletion also deletes the associated Amazon EVS VLAN sub- nets and Amazon Web Services Secrets Manager secrets that Amazon EVS created. Amazon Web Services resources that you create are not deleted. These resources may continue to incur costs. See also: AWS API Documentation
+    /// Deletes an Amazon EVS environment. Amazon EVS environments will only be enabled for deletion once the hosts are deleted. You can delete hosts using the DeleteEnvironmentHost action. Environment deletion also deletes the associated Amazon EVS VLAN subnets and Amazon Web Services Secrets Manager secrets that Amazon EVS created. Amazon Web Services resources that you create are not deleted. These resources may continue to incur costs. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsEvs : IAwsEvs
     }
 
     /// <summary>
-    /// Disassociates an Elastic IP address from a public HCX VLAN. This opera- tion is only allowed for public HCX VLANs at this time. See also: AWS API Documentation
+    /// Disassociates an Elastic IP address from a public HCX VLAN. This operation is only allowed for public HCX VLANs at this time. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsEvs : IAwsEvs
     }
 
     /// <summary>
-    /// Returns the configured EVS settings for your Amazon Web Services ac- count in the specified Amazon Web Services Region. If no settings have been set, an empty list is returned. See also: AWS API Documentation
+    /// Returns the configured EVS settings for your Amazon Web Services account in the specified Amazon Web Services Region. If no settings have been set, an empty list is returned. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsEvs : IAwsEvs
     }
 
     /// <summary>
-    /// Lists the connectors within an environment. Returns the status of each connector and its applicable checks, among other connector details. See also: AWS API Documentation list-environment-connectors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data fro...
+    /// Lists the connectors within an environment. Returns the status of each connector and its applicable checks, among other connector details. See also: AWS API Documentation list-environment-connectors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,6 +272,21 @@ public class AwsEvs : IAwsEvs
     }
 
     /// <summary>
+    /// Lists environment VLANs that are associated with the specified environment. See also: AWS API Documentation list-environment-vlans is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: environmentVlans
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListEnvironmentVlansAsync(
+        AwsEvsListEnvironmentVlansOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Lists the Amazon EVS environments in your Amazon Web Services account in the specified Amazon Web Services Region. See also: AWS API Documentation list-environments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query e...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -284,21 +299,6 @@ public class AwsEvs : IAwsEvs
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEvsListEnvironmentsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists environment VLANs that are associated with the specified environ- ment. See also: AWS API Documentation list-environment-vlans is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: environmentVlans
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListEnvironmentVlansAsync(
-        AwsEvsListEnvironmentVlansOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -332,7 +332,7 @@ public class AwsEvs : IAwsEvs
     }
 
     /// <summary>
-    /// Creates or updates account-level EVS settings for your Amazon Web Ser- vices account in the specified Amazon Web Services Region. EVS settings included in the request are created or overwritten. Set- tings omitted from the request retain their current values. See also: AWS API Documentation
+    /// Creates or updates account-level EVS settings for your Amazon Web Services account in the specified Amazon Web Services Region. EVS settings included in the request are created or overwritten. Settings omitted from the request retain their current values. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsEvs : IAwsEvs
     }
 
     /// <summary>
-    /// Associates the specified tags to an Amazon EVS resource with the speci- fied resourceArn . If existing tags on a resource are not specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted. Tags that you create for Amazon EVS resources don't propagate to any other resources associated with the environment. For example, if you tag an environment with this operation, that tag doesn't automatically propa- gate to the...
+    /// Associates the specified tags to an Amazon EVS resource with the specified resourceArn . If existing tags on a resource are not specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted. Tags that you create for Amazon EVS resources don't propagate to any other resources associated with the environment. For example, if you tag an environment with this operation, that tag doesn't automatically propagate to the VLA...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

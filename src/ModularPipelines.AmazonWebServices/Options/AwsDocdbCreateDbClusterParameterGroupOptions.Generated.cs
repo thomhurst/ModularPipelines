@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new cluster parameter group. Parameters in a cluster parameter group apply to all of the instances in a cluster. A cluster parameter group is initially created with the default parame- ters for the database engine used by instances in the cluster. In Ama- zon DocumentDB, you cannot make modifications directly to the de- fault.docdb3.6 cluster parameter group. If your Amazon DocumentDB clus- ter is using the default cluster parameter group and you want to modify a value in it, you must ...
+/// Creates a new cluster parameter group. Parameters in a cluster parameter group apply to all of the instances in a cluster. A cluster parameter group is initially created with the default parameters for the database engine used by instances in the cluster. In Amazon DocumentDB, you cannot make modifications directly to the default.docdb3.6 cluster parameter group. If your Amazon DocumentDB cluster is using the default cluster parameter group and you want to modify a value in it, you must first cr...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsDocdbCreateDbClusterParameterGroupOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new cluster parameter group. Parameters in a cluster parameter group apply to all of the instances in a cluster. A cluster parameter group is initially created with the default parame- ters for the database engine used by instances in the cluster. In Ama- zon DocumentDB, you cannot make modifications directly to the de- fault.docdb3.6 cluster parameter group. If your Amazon DocumentDB clus- ter is using the default cluster parameter group and you want to modify a value in it, you must ...
+    /// Creates a new cluster parameter group. Parameters in a cluster parameter group apply to all of the instances in a cluster. A cluster parameter group is initially created with the default parameters for the database engine used by instances in the cluster. In Amazon DocumentDB, you cannot make modifications directly to the default.docdb3.6 cluster parameter group. If your Amazon DocumentDB cluster is using the default cluster parameter group and you want to modify a value in it, you must first cr...
     /// </summary>
-    /// <param name="DbClusterParameterGroupName">The name of the cluster parameter group. Constraints: o Must not match the name of an existing DBClusterParameterGroup . NOTE: This value is stored as a lowercase string.</param>
+    /// <param name="DbClusterParameterGroupName">The name of the cluster parameter group. Constraints: • Must not match the name of an existing DBClusterParameterGroup . NOTE: This value is stored as a lowercase string.</param>
     /// <param name="DbParameterGroupFamily">The cluster parameter group family name.</param>
     /// <param name="Description">The description for the cluster parameter group.</param>
     public AwsDocdbCreateDbClusterParameterGroupOptions(
@@ -64,7 +66,7 @@ public record AwsDocdbCreateDbClusterParameterGroupOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the cluster parameter group. Constraints: o Must not match the name of an existing DBClusterParameterGroup . NOTE: This value is stored as a lowercase string.
+    /// The name of the cluster parameter group. Constraints: • Must not match the name of an existing DBClusterParameterGroup . NOTE: This value is stored as a lowercase string.
     /// </summary>
     [CliOption("--db-cluster-parameter-group-name")]
     public string? DbClusterParameterGroupName { get; private init; }

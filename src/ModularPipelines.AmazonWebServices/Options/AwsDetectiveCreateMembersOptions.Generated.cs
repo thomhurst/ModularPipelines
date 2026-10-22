@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// CreateMembers is used to send invitations to accounts. For the orga- nization behavior graph, the Detective administrator account uses CreateMembers to enable organization accounts as member accounts. For invited accounts, CreateMembers sends a request to invite the spec- ified Amazon Web Services accounts to be member accounts in the behav- ior graph. This operation can only be called by the administrator ac- count for a behavior graph. CreateMembers verifies the accounts and then invites the v...
+/// CreateMembers is used to send invitations to accounts. For the organization behavior graph, the Detective administrator account uses CreateMembers to enable organization accounts as member accounts. For invited accounts, CreateMembers sends a request to invite the specified Amazon Web Services accounts to be member accounts in the behavior graph. This operation can only be called by the administrator account for a behavior graph. CreateMembers verifies the accounts and then invites the verified ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsDetectiveCreateMembersOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// CreateMembers is used to send invitations to accounts. For the orga- nization behavior graph, the Detective administrator account uses CreateMembers to enable organization accounts as member accounts. For invited accounts, CreateMembers sends a request to invite the spec- ified Amazon Web Services accounts to be member accounts in the behav- ior graph. This operation can only be called by the administrator ac- count for a behavior graph. CreateMembers verifies the accounts and then invites the v...
+    /// CreateMembers is used to send invitations to accounts. For the organization behavior graph, the Detective administrator account uses CreateMembers to enable organization accounts as member accounts. For invited accounts, CreateMembers sends a request to invite the specified Amazon Web Services accounts to be member accounts in the behavior graph. This operation can only be called by the administrator account for a behavior graph. CreateMembers verifies the accounts and then invites the verified ...
     /// </summary>
-    /// <param name="GraphArn">The ARN of the behavior graph. Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$</param>
-    /// <param name="Accounts">The list of Amazon Web Services accounts to invite or to enable. You can invite or enable up to 50 accounts at a time. For each invited account, the account list contains the account identifier and the Amazon Web Services account root user email address. For organiza- tion accounts in the organization behavior graph, the email address is not required. Constraints: o min: 1 o max: 50 (structure) An Amazon Web Services account that is the administrator account of or a member of a behavior graph. AccountId -&gt; (string) [required] The account identifier of the Amazon Web Services account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]+$ EmailAddress -&gt; (string) [required] The Amazon Web Services account root user email address for the Amazon Web Services account. Constraints: o min: 1 o max: 64 o pattern: ^.+@(?:(?:(?!-)[A-Za-z0-9-]{1,62})?[A-Za-z0-9]{1}\.)+[A-Za-z]{2,63}$ Shorthand Syntax: AccountId=string,EmailAddress=string ... JSON Syntax: [ { "AccountId": "string", "EmailAddress": "string" } ... ]</param>
+    /// <param name="GraphArn">The ARN of the behavior graph. Constraints: • pattern: ^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$</param>
+    /// <param name="Accounts">The list of Amazon Web Services accounts to invite or to enable. You can invite or enable up to 50 accounts at a time. For each invited account, the account list contains the account identifier and the Amazon Web Services account root user email address. For organization accounts in the organization behavior graph, the email address is not required. Constraints: • min: 1 • max: 50 (structure) An Amazon Web Services account that is the administrator account of or a member of a behavior graph. AccountId -&gt; (string) [required] The account identifier of the Amazon Web Services account. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]+$ EmailAddress -&gt; (string) [required] The Amazon Web Services account root user email address for the Amazon Web Services account. Constraints: • min: 1 • max: 64 • pattern: ^.+@(?:(?:(?!-)[A-Za-z0-9-]{1,62})?[A-Za-z0-9]{1}\.)+[A-Za-z]{2,63}$ Shorthand Syntax: AccountId=string,EmailAddress=string ... JSON Syntax: [ { "AccountId": "string", "EmailAddress": "string" } ... ]</param>
     public AwsDetectiveCreateMembersOptions(
         string GraphArn,
         IEnumerable<string> Accounts
@@ -71,25 +73,25 @@ public record AwsDetectiveCreateMembersOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the behavior graph. Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$
+    /// The ARN of the behavior graph. Constraints: • pattern: ^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$
     /// </summary>
     [CliOption("--graph-arn")]
     public string? GraphArn { get; private init; }
 
     /// <summary>
-    /// The list of Amazon Web Services accounts to invite or to enable. You can invite or enable up to 50 accounts at a time. For each invited account, the account list contains the account identifier and the Amazon Web Services account root user email address. For organiza- tion accounts in the organization behavior graph, the email address is not required. Constraints: o min: 1 o max: 50 (structure) An Amazon Web Services account that is the administrator account of or a member of a behavior graph. AccountId -&gt; (string) [required] The account identifier of the Amazon Web Services account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]+$ EmailAddress -&gt; (string) [required] The Amazon Web Services account root user email address for the Amazon Web Services account. Constraints: o min: 1 o max: 64 o pattern: ^.+@(?:(?:(?!-)[A-Za-z0-9-]{1,62})?[A-Za-z0-9]{1}\.)+[A-Za-z]{2,63}$ Shorthand Syntax: AccountId=string,EmailAddress=string ... JSON Syntax: [ { "AccountId": "string", "EmailAddress": "string" } ... ]
+    /// The list of Amazon Web Services accounts to invite or to enable. You can invite or enable up to 50 accounts at a time. For each invited account, the account list contains the account identifier and the Amazon Web Services account root user email address. For organization accounts in the organization behavior graph, the email address is not required. Constraints: • min: 1 • max: 50 (structure) An Amazon Web Services account that is the administrator account of or a member of a behavior graph. AccountId -&gt; (string) [required] The account identifier of the Amazon Web Services account. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]+$ EmailAddress -&gt; (string) [required] The Amazon Web Services account root user email address for the Amazon Web Services account. Constraints: • min: 1 • max: 64 • pattern: ^.+@(?:(?:(?!-)[A-Za-z0-9-]{1,62})?[A-Za-z0-9]{1}\.)+[A-Za-z]{2,63}$ Shorthand Syntax: AccountId=string,EmailAddress=string ... JSON Syntax: [ { "AccountId": "string", "EmailAddress": "string" } ... ]
     /// </summary>
     [CliOption("--accounts", GroupValues = true)]
     public IEnumerable<string>? Accounts { get; private init; }
 
     /// <summary>
-    /// Customized message text to include in the invitation email message to the invited member accounts. Constraints: o min: 1 o max: 1000
+    /// Customized message text to include in the invitation email message to the invited member accounts. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--message")]
     public string? Message { get; set; }
 
     /// <summary>
-    /// if set to true , then the invited accounts do not receive email no- tifications. By default, this is set to false , and the invited ac- counts receive email notifications. Organization accounts in the organization behavior graph do not re- ceive email notifications.
+    /// if set to true , then the invited accounts do not receive email notifications. By default, this is set to false , and the invited accounts receive email notifications. Organization accounts in the organization behavior graph do not receive email notifications.
     /// </summary>
     [CliFlag("--disable-email-notification", NegatedName = "--no-disable-email-notification")]
     public bool? DisableEmailNotification { get; set; }

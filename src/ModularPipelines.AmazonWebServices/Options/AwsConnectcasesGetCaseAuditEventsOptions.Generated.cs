@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsConnectcasesGetCaseAuditEventsOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Returns the audit history about a specific case if it exists. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CaseId">A unique identifier of the case. Constraints: o min: 1 o max: 500</param>
-    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500</param>
+    /// <param name="CaseId">A unique identifier of the case. Constraints: • min: 1 • max: 500</param>
+    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500</param>
     public AwsConnectcasesGetCaseAuditEventsOptions(
         string CaseId,
         string DomainId
@@ -61,25 +63,25 @@ public record AwsConnectcasesGetCaseAuditEventsOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier of the case. Constraints: o min: 1 o max: 500
+    /// A unique identifier of the case. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--case-id")]
     public string? CaseId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500
+    /// The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// The maximum number of audit events to return. When no value is pro- vided, 25 is the default. Constraints: o min: 1 o max: 25
+    /// The maximum number of audit events to return. When no value is provided, 25 is the default. Constraints: • min: 1 • max: 25
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. Constraints: o min: 0 o max: 9000
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. Constraints: • min: 0 • max: 9000
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

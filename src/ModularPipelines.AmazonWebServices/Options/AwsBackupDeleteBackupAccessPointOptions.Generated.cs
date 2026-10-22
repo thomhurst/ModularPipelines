@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a backup access point. This deletes the underlying Amazon S3 access point and, if no other backup access points remain for the re- covery point, resumes lifecycle transitions for that recovery point. Always delete backup access points using this operation rather than deleting the underlying Amazon S3 access point directly. See also: AWS API Documentation
+/// Deletes a backup access point. This deletes the underlying Amazon S3 access point and, if no other backup access points remain for the recovery point, resumes lifecycle transitions for that recovery point. Always delete backup access points using this operation rather than deleting the underlying Amazon S3 access point directly. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsBackupDeleteBackupAccessPointOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a backup access point. This deletes the underlying Amazon S3 access point and, if no other backup access points remain for the re- covery point, resumes lifecycle transitions for that recovery point. Always delete backup access points using this operation rather than deleting the underlying Amazon S3 access point directly. See also: AWS API Documentation
+    /// Deletes a backup access point. This deletes the underlying Amazon S3 access point and, if no other backup access points remain for the recovery point, resumes lifecycle transitions for that recovery point. Always delete backup access points using this operation rather than deleting the underlying Amazon S3 access point directly. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccessPointArn">The Amazon Resource Name (ARN) of the backup access point to delete. Constraints: o pattern: (arn:aws[a-z-]*:backup:[a-z-\d]+:\d{12}:access- point/)[\da-z]{1}[\da-z-]{1,48}[\da-z]{1}(?&lt;!-s3alias)(?&lt;!-ext-s3alias)</param>
+    /// <param name="AccessPointArn">The Amazon Resource Name (ARN) of the backup access point to delete. Constraints: • pattern: (arn:aws[a-z-]*:backup:[a-z-\d]+:\d{12}:accesspoint/)[\da-z]{1}[\da-z-]{1,48}[\da-z]{1}(?&lt;!-s3alias)(?&lt;!-ext-s3alias)</param>
     public AwsBackupDeleteBackupAccessPointOptions(
         string AccessPointArn
     )
@@ -56,7 +58,7 @@ public record AwsBackupDeleteBackupAccessPointOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the backup access point to delete. Constraints: o pattern: (arn:aws[a-z-]*:backup:[a-z-\d]+:\d{12}:access- point/)[\da-z]{1}[\da-z-]{1,48}[\da-z]{1}(?&lt;!-s3alias)(?&lt;!-ext-s3alias)
+    /// The Amazon Resource Name (ARN) of the backup access point to delete. Constraints: • pattern: (arn:aws[a-z-]*:backup:[a-z-\d]+:\d{12}:accesspoint/)[\da-z]{1}[\da-z-]{1,48}[\da-z]{1}(?&lt;!-s3alias)(?&lt;!-ext-s3alias)
     /// </summary>
     [CliOption("--access-point-arn")]
     public string? AccessPointArn { get; private init; }

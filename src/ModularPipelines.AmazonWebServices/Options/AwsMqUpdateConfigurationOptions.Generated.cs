@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsMqUpdateConfigurationOptions : AwsOptions, IValidatableObject
     /// Updates the specified configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="ConfigurationId">The unique ID that Amazon MQ generates for the configuration.</param>
-    /// <param name="Data">Amazon MQ for Active MQ: The base64-encoded XML configuration. Ama- zon MQ for RabbitMQ: the base64-encoded Cuttlefish configuration.</param>
+    /// <param name="Data">Amazon MQ for Active MQ: The base64-encoded XML configuration. Amazon MQ for RabbitMQ: the base64-encoded Cuttlefish configuration.</param>
     public AwsMqUpdateConfigurationOptions(
         string ConfigurationId,
         string Data
@@ -66,7 +68,7 @@ public record AwsMqUpdateConfigurationOptions : AwsOptions, IValidatableObject
     public string? ConfigurationId { get; private init; }
 
     /// <summary>
-    /// Amazon MQ for Active MQ: The base64-encoded XML configuration. Ama- zon MQ for RabbitMQ: the base64-encoded Cuttlefish configuration.
+    /// Amazon MQ for Active MQ: The base64-encoded XML configuration. Amazon MQ for RabbitMQ: the base64-encoded Cuttlefish configuration.
     /// </summary>
     [CliOption("--data")]
     public string? Data { get; private init; }

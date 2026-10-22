@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,7 +29,7 @@ public record AwsApigatewayv2CreatePortalProductOptions : AwsOptions, IValidatab
     /// <summary>
     /// Creates a new portal product. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DisplayName">The name of the portal product as it appears in a published portal. Constraints: o min: 1 o max: 255</param>
+    /// <param name="DisplayName">The name of the portal product as it appears in a published portal. Constraints: • min: 1 • max: 255</param>
     public AwsApigatewayv2CreatePortalProductOptions(
         string DisplayName
     )
@@ -57,13 +58,13 @@ public record AwsApigatewayv2CreatePortalProductOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the portal product as it appears in a published portal. Constraints: o min: 1 o max: 255
+    /// The name of the portal product as it appears in a published portal. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; private init; }
 
     /// <summary>
-    /// A description of the portal product. Constraints: o min: 0 o max: 1024
+    /// A description of the portal product. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

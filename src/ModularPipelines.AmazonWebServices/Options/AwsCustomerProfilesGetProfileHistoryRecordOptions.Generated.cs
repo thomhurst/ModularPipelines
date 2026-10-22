@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsCustomerProfilesGetProfileHistoryRecordOptions : AwsOptions, IV
     /// <summary>
     /// Returns a history record for a specific profile, for a specific domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The unique name of the domain for which to return a profile history record. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="ProfileId">The unique identifier of the profile for which to return a history record. Constraints: o pattern: [a-f0-9]{32}</param>
-    /// <param name="Id">The unique identifier of the profile history record to return. Constraints: o pattern: [a-f0-9]{32}</param>
+    /// <param name="DomainName">The unique name of the domain for which to return a profile history record. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="ProfileId">The unique identifier of the profile for which to return a history record. Constraints: • pattern: [a-f0-9]{32}</param>
+    /// <param name="Id">The unique identifier of the profile history record to return. Constraints: • pattern: [a-f0-9]{32}</param>
     public AwsCustomerProfilesGetProfileHistoryRecordOptions(
         string DomainName,
         string ProfileId,
@@ -64,19 +66,19 @@ public record AwsCustomerProfilesGetProfileHistoryRecordOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the domain for which to return a profile history record. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain for which to return a profile history record. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the profile for which to return a history record. Constraints: o pattern: [a-f0-9]{32}
+    /// The unique identifier of the profile for which to return a history record. Constraints: • pattern: [a-f0-9]{32}
     /// </summary>
     [CliOption("--profile-id")]
     public string? ProfileId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the profile history record to return. Constraints: o pattern: [a-f0-9]{32}
+    /// The unique identifier of the profile history record to return. Constraints: • pattern: [a-f0-9]{32}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

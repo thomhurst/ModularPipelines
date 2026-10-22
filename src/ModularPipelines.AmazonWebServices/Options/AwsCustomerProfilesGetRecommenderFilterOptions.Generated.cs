@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCustomerProfilesGetRecommenderFilterOptions : AwsOptions, IVali
     /// <summary>
     /// Retrieves information about a specific recommender filter in a domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="RecommenderFilterName">The name of the recommender filter to retrieve. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="DomainName">The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="RecommenderFilterName">The name of the recommender filter to retrieve. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsCustomerProfilesGetRecommenderFilterOptions(
         string DomainName,
         string RecommenderFilterName
@@ -60,13 +62,13 @@ public record AwsCustomerProfilesGetRecommenderFilterOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The name of the recommender filter to retrieve. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9_-]+
+    /// The name of the recommender filter to retrieve. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--recommender-filter-name")]
     public string? RecommenderFilterName { get; private init; }

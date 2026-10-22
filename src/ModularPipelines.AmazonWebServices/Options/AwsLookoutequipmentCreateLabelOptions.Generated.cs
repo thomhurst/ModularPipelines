@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,10 +31,10 @@ public record AwsLookoutequipmentCreateLabelOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Creates a label for an event. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LabelGroupName">The name of a group of labels. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    /// <param name="LabelGroupName">The name of a group of labels. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
     /// <param name="StartTime">The start time of the labeled event.</param>
     /// <param name="EndTime">The end time of the labeled event.</param>
-    /// <param name="Rating">Indicates whether a labeled event represents an anomaly. Possible values: o ANOMALY o NO_ANOMALY o NEUTRAL</param>
+    /// <param name="Rating">Indicates whether a labeled event represents an anomaly. Possible values: • ANOMALY • NO_ANOMALY • NEUTRAL</param>
     public AwsLookoutequipmentCreateLabelOptions(
         string LabelGroupName,
         string StartTime,
@@ -69,7 +71,7 @@ public record AwsLookoutequipmentCreateLabelOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of a group of labels. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// The name of a group of labels. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$
     /// </summary>
     [CliOption("--label-group-name")]
     public string? LabelGroupName { get; private init; }
@@ -87,31 +89,31 @@ public record AwsLookoutequipmentCreateLabelOptions : AwsOptions, IValidatableOb
     public string? EndTime { get; private init; }
 
     /// <summary>
-    /// Indicates whether a labeled event represents an anomaly. Possible values: o ANOMALY o NO_ANOMALY o NEUTRAL
+    /// Indicates whether a labeled event represents an anomaly. Possible values: • ANOMALY • NO_ANOMALY • NEUTRAL
     /// </summary>
     [CliOption("--rating")]
     public AwsLookoutequipmentCreateLabelRating? Rating { get; private init; }
 
     /// <summary>
-    /// Provides additional information about the label. The fault code must be defined in the FaultCodes attribute of the label group. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: o min: 1 o max: 100 o pattern: [\P{M}\p{M}]{1,100}
+    /// Provides additional information about the label. The fault code must be defined in the FaultCodes attribute of the label group. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: • min: 1 • max: 100 • pattern: [\P{M}\p{M}]{1,100}
     /// </summary>
     [CliOption("--fault-code")]
     public string? FaultCode { get; set; }
 
     /// <summary>
-    /// Metadata providing additional information about the label. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: o min: 1 o max: 2560 o pattern: [\P{M}\p{M}]{1,2560}
+    /// Metadata providing additional information about the label. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: • min: 1 • max: 2560 • pattern: [\P{M}\p{M}]{1,2560}
     /// </summary>
     [CliOption("--notes")]
     public string? Notes { get; set; }
 
     /// <summary>
-    /// Indicates that a label pertains to a particular piece of equipment. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: o min: 1 o max: 200 o pattern: [\P{M}\p{M}]{1,200}
+    /// Indicates that a label pertains to a particular piece of equipment. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: • min: 1 • max: 200 • pattern: [\P{M}\p{M}]{1,200}
     /// </summary>
     [CliOption("--equipment")]
     public string? Equipment { get; set; }
 
     /// <summary>
-    /// A unique identifier for the request to create a label. If you do not set the client request token, Lookout for Equipment generates one. Constraints: o min: 1 o max: 256 o pattern: \p{ASCII}{1,256}
+    /// A unique identifier for the request to create a label. If you do not set the client request token, Lookout for Equipment generates one. Constraints: • min: 1 • max: 256 • pattern: \p{ASCII}{1,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of the custom models that you have created with the Cre- ateModelCustomizationJob operation. For more information, see Custom models in the Amazon Bedrock User Guide . See also: AWS API Documentation list-custom-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query...
+/// Returns a list of the custom models that you have created with the CreateModelCustomizationJob operation. For more information, see Custom models in the Amazon Bedrock User Guide . See also: AWS API Documentation list-custom-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query a...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -36,31 +36,31 @@ public record AwsBedrockListCustomModelsOptions : AwsOptions
     public string? CreationTimeAfter { get; set; }
 
     /// <summary>
-    /// Return custom models only if the job name contains these characters. Constraints: o min: 1 o max: 63 o pattern: ([0-9a-zA-Z][_-]?){1,63}
+    /// Return custom models only if the job name contains these characters. Constraints: • min: 1 • max: 63 • pattern: ([0-9a-zA-Z][_-]?){1,63}
     /// </summary>
     [CliOption("--name-contains")]
     public string? NameContains { get; set; }
 
     /// <summary>
-    /// Return custom models only if the base model Amazon Resource Name (ARN) matches this parameter. Constraints: o min: 20 o max: 1011 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:cus- tom-model/((im- ported)|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}))(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foun- da- tion-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}))
+    /// Return custom models only if the base model Amazon Resource Name (ARN) matches this parameter. Constraints: • min: 20 • max: 1011 • pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/((imported)|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}))(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}))
     /// </summary>
     [CliOption("--base-model-arn-equals")]
     public string? BaseModelArnEquals { get; set; }
 
     /// <summary>
-    /// Return custom models only if the foundation model Amazon Resource Name (ARN) matches this parameter. Constraints: o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}::founda- tion-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}
+    /// Return custom models only if the foundation model Amazon Resource Name (ARN) matches this parameter. Constraints: • pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}::foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}
     /// </summary>
     [CliOption("--foundation-model-arn-equals")]
     public string? FoundationModelArnEquals { get; set; }
 
     /// <summary>
-    /// The field to sort by in the returned list of models. Possible values: o CreationTime
+    /// The field to sort by in the returned list of models. Possible values: • CreationTime
     /// </summary>
     [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
     /// <summary>
-    /// The sort order of the results. Possible values: o Ascending o Descending
+    /// The sort order of the results. Possible values: • Ascending • Descending
     /// </summary>
     [CliOption("--sort-order")]
     public AwsBedrockListCustomModelsSortOrder? SortOrder { get; set; }
@@ -72,16 +72,13 @@ public record AwsBedrockListCustomModelsOptions : AwsOptions
     public bool? IsOwned { get; set; }
 
     /// <summary>
-    /// The status of them model to filter results by. Possible values in- clude: o Creating - Include only models that are currently being created and validated. o Active - Include only models that have been successfully created and are ready for use. o Failed - Include only models where the creation process failed. If you don't specify a status, the API returns models in all states. Possible values: o Active o Creating o Failed
+    /// The status of them model to filter results by. Possible values include: • Creating - Include only models that are currently being created and validated. • Active - Include only models that have been successfully created and are ready for use. • Failed - Include only models where the creation process failed. If you don't specify a status, the API returns models in all states. Possible values: • Active • Creating • Failed
     /// </summary>
     [CliOption("--model-status")]
     public AwsBedrockListCustomModelsModelStatus? ModelStatus { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -91,15 +88,18 @@ public record AwsBedrockListCustomModelsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Inspects the clinical text for a variety of medical entities and re- turns specific information about them such as entity category, loca- tion, and confidence score on that information. Amazon Comprehend Med- ical only detects medical entities in English language texts. The DetectEntitiesV2 operation replaces the DetectEntities operation. This new action uses a different model for determining the entities in your medical text and changes the way that some entities are returned in the output. You...
+/// Inspects the clinical text for a variety of medical entities and returns specific information about them such as entity category, location, and confidence score on that information. Amazon Comprehend Medical only detects medical entities in English language texts. The DetectEntitiesV2 operation replaces the DetectEntities operation. This new action uses a different model for determining the entities in your medical text and changes the way that some entities are returned in the output. You shoul...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsComprehendmedicalDetectEntitiesV2Options : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Inspects the clinical text for a variety of medical entities and re- turns specific information about them such as entity category, loca- tion, and confidence score on that information. Amazon Comprehend Med- ical only detects medical entities in English language texts. The DetectEntitiesV2 operation replaces the DetectEntities operation. This new action uses a different model for determining the entities in your medical text and changes the way that some entities are returned in the output. You...
+    /// Inspects the clinical text for a variety of medical entities and returns specific information about them such as entity category, location, and confidence score on that information. Amazon Comprehend Medical only detects medical entities in English language texts. The DetectEntitiesV2 operation replaces the DetectEntities operation. This new action uses a different model for determining the entities in your medical text and changes the way that some entities are returned in the output. You shoul...
     /// </summary>
-    /// <param name="Text">A UTF-8 string containing the clinical content being examined for entities. Constraints: o min: 1 o max: 20000</param>
+    /// <param name="Text">A UTF-8 string containing the clinical content being examined for entities. Constraints: • min: 1 • max: 20000</param>
     public AwsComprehendmedicalDetectEntitiesV2Options(
         string Text
     )
@@ -56,7 +58,7 @@ public record AwsComprehendmedicalDetectEntitiesV2Options : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A UTF-8 string containing the clinical content being examined for entities. Constraints: o min: 1 o max: 20000
+    /// A UTF-8 string containing the clinical content being examined for entities. Constraints: • min: 1 • max: 20000
     /// </summary>
     [CliOption("--text")]
     public string? Text { get; private init; }

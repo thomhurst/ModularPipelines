@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a web app based on specified parameters, and returns the ID for the new web app. You can configure the web app to be publicly accessi- ble or hosted within a VPC. For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC . See also: AWS API Documentation
+/// Creates a web app based on specified parameters, and returns the ID for the new web app. You can configure the web app to be publicly accessible or hosted within a VPC. For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsTransferCreateWebAppOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a web app based on specified parameters, and returns the ID for the new web app. You can configure the web app to be publicly accessi- ble or hosted within a VPC. For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC . See also: AWS API Documentation
+    /// Creates a web app based on specified parameters, and returns the ID for the new web app. You can configure the web app to be publicly accessible or hosted within a VPC. For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC . See also: AWS API Documentation
     /// </summary>
-    /// <param name="IdentityProviderDetails">You can provide a structure that contains the details for the iden- tity provider to use with your web app. For more details about this parameter, see Configure your identity provider for Transfer Family web apps . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: IdentityCenterConfig. IdentityCenterConfig -&gt; (structure) A structure that describes the values to use for the IAM Iden- tity Center settings when you create a web app. InstanceArn -&gt; (string) The Amazon Resource Name (ARN) for the IAM Identity Center used for the web app. Constraints: o min: 10 o max: 1224 o pattern: arn:[\w-]+:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16} Role -&gt; (string) The IAM role in IAM Identity Center used for the web app. Constraints: o min: 20 o max: 2048 o pattern: arn:.*role/\S+ Shorthand Syntax: IdentityCenterConfig={InstanceArn=string,Role=string} JSON Syntax: { "IdentityCenterConfig": { "InstanceArn": "string", "Role": "string" } }</param>
+    /// <param name="IdentityProviderDetails">You can provide a structure that contains the details for the identity provider to use with your web app. For more details about this parameter, see Configure your identity provider for Transfer Family web apps . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: IdentityCenterConfig. IdentityCenterConfig -&gt; (structure) A structure that describes the values to use for the IAM Identity Center settings when you create a web app. InstanceArn -&gt; (string) The Amazon Resource Name (ARN) for the IAM Identity Center used for the web app. Constraints: • min: 10 • max: 1224 • pattern: arn:[\w-]+:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16} Role -&gt; (string) The IAM role in IAM Identity Center used for the web app. Constraints: • min: 20 • max: 2048 • pattern: arn:.*role/\S+ Shorthand Syntax: IdentityCenterConfig={InstanceArn=string,Role=string} JSON Syntax: { "IdentityCenterConfig": { "InstanceArn": "string", "Role": "string" } }</param>
     public AwsTransferCreateWebAppOptions(
         string IdentityProviderDetails
     )
@@ -57,37 +59,37 @@ public record AwsTransferCreateWebAppOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// You can provide a structure that contains the details for the iden- tity provider to use with your web app. For more details about this parameter, see Configure your identity provider for Transfer Family web apps . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: IdentityCenterConfig. IdentityCenterConfig -&gt; (structure) A structure that describes the values to use for the IAM Iden- tity Center settings when you create a web app. InstanceArn -&gt; (string) The Amazon Resource Name (ARN) for the IAM Identity Center used for the web app. Constraints: o min: 10 o max: 1224 o pattern: arn:[\w-]+:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16} Role -&gt; (string) The IAM role in IAM Identity Center used for the web app. Constraints: o min: 20 o max: 2048 o pattern: arn:.*role/\S+ Shorthand Syntax: IdentityCenterConfig={InstanceArn=string,Role=string} JSON Syntax: { "IdentityCenterConfig": { "InstanceArn": "string", "Role": "string" } }
+    /// You can provide a structure that contains the details for the identity provider to use with your web app. For more details about this parameter, see Configure your identity provider for Transfer Family web apps . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: IdentityCenterConfig. IdentityCenterConfig -&gt; (structure) A structure that describes the values to use for the IAM Identity Center settings when you create a web app. InstanceArn -&gt; (string) The Amazon Resource Name (ARN) for the IAM Identity Center used for the web app. Constraints: • min: 10 • max: 1224 • pattern: arn:[\w-]+:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16} Role -&gt; (string) The IAM role in IAM Identity Center used for the web app. Constraints: • min: 20 • max: 2048 • pattern: arn:.*role/\S+ Shorthand Syntax: IdentityCenterConfig={InstanceArn=string,Role=string} JSON Syntax: { "IdentityCenterConfig": { "InstanceArn": "string", "Role": "string" } }
     /// </summary>
     [CliOption("--identity-provider-details")]
     public string? IdentityProviderDetails { get; private init; }
 
     /// <summary>
-    /// The AccessEndpoint is the URL that you provide to your users for them to interact with the Transfer Family web app. You can specify a custom URL or use the default value. Before you enter a custom URL for this parameter, follow the steps described in Update your access endpoint with a custom URL . Constraints: o min: 1 o max: 1024
+    /// The AccessEndpoint is the URL that you provide to your users for them to interact with the Transfer Family web app. You can specify a custom URL or use the default value. Before you enter a custom URL for this parameter, follow the steps described in Update your access endpoint with a custom URL . Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--access-endpoint")]
     public string? AccessEndpoint { get; set; }
 
     /// <summary>
-    /// A union that contains the value for number of concurrent connections or the user sessions on your web app. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Provisioned. Provisioned -&gt; (integer) An integer that represents the number of units for your desired number of concurrent connections, or the number of user sessions on your web app at the same time. Each increment allows an additional 250 concurrent sessions: a value of 1 sets the number of concurrent sessions to 250; 2 sets a value of 500, and so on. Constraints: o min: 1 Shorthand Syntax: Provisioned=integer JSON Syntax: { "Provisioned": integer }
+    /// A union that contains the value for number of concurrent connections or the user sessions on your web app. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Provisioned. Provisioned -&gt; (integer) An integer that represents the number of units for your desired number of concurrent connections, or the number of user sessions on your web app at the same time. Each increment allows an additional 250 concurrent sessions: a value of 1 sets the number of concurrent sessions to 250; 2 sets a value of 500, and so on. Constraints: • min: 1 Shorthand Syntax: Provisioned=integer JSON Syntax: { "Provisioned": integer }
     /// </summary>
     [CliOption("--web-app-units")]
     public string? WebAppUnits { get; set; }
 
     /// <summary>
-    /// Key-value pairs that can be used to group and search for web apps. Constraints: o min: 1 o max: 50 (structure) Creates a key-value pair for a specific resource. Tags are meta- data that you can use to search for and group a resource for various purposes. You can apply tags to servers, users, and roles. A tag key can take more than one value. For example, to group servers for accounting purposes, you might create a tag called Group and assign the values Research and Accounting to that group. Key -&gt; (string) [required] The name assigned to the tag that you create. Constraints: o min: 0 o max: 128 Value -&gt; (string) [required] Contains one or more values that you assigned to the key name you create. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Key-value pairs that can be used to group and search for web apps. Constraints: • min: 1 • max: 50 (structure) Creates a key-value pair for a specific resource. Tags are metadata that you can use to search for and group a resource for various purposes. You can apply tags to servers, users, and roles. A tag key can take more than one value. For example, to group servers for accounting purposes, you might create a tag called Group and assign the values Research and Accounting to that group. Key -&gt; (string) [required] The name assigned to the tag that you create. Constraints: • min: 0 • max: 128 Value -&gt; (string) [required] Contains one or more values that you assigned to the key name you create. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Setting for the type of endpoint policy for the web app. The default value is STANDARD . If you are creating the web app in an Amazon Web Services GovCloud (US) Region, you can set this parameter to FIPS . Possible values: o FIPS o STANDARD
+    /// Setting for the type of endpoint policy for the web app. The default value is STANDARD . If you are creating the web app in an Amazon Web Services GovCloud (US) Region, you can set this parameter to FIPS . Possible values: • FIPS • STANDARD
     /// </summary>
     [CliOption("--web-app-endpoint-policy")]
     public AwsTransferCreateWebAppWebAppEndpointPolicy? WebAppEndpointPolicy { get; set; }
 
     /// <summary>
-    /// The endpoint configuration for the web app. You can specify whether the web app endpoint is publicly accessible or hosted within a VPC. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Vpc. Vpc -&gt; (structure) The VPC configuration for hosting the web app endpoint within a VPC. SubnetIds -&gt; (list) The list of subnet IDs within the VPC where the web app end- point will be deployed. These subnets must be in the same VPC specified in the VpcId parameter. (string) VpcId -&gt; (string) The identifier of the VPC where the web app endpoint will be hosted. SecurityGroupIds -&gt; (list) The list of security group IDs that control access to the web app endpoint. These security groups determine which sources can access the endpoint based on IP addresses and port con- figurations. (string) Constraints: o min: 11 o max: 20 o pattern: sg-[0-9a-f]{8,17} IpAddressType -&gt; (string) The IP address type for the web app's VPC endpoint. This de- termines whether the endpoint is accessible over IPv4 only, or over both IPv4 and IPv6. Possible values: o IPV4 o DUALSTACK Shorthand Syntax: Vpc={SubnetIds=[string,string],VpcId=string,SecurityGroupIds=[string,string],IpAddressType=string} JSON Syntax: { "Vpc": { "SubnetIds": ["string", ...], "VpcId": "string", "SecurityGroupIds": ["string", ...], "IpAddressType": "IPV4"|"DUALSTACK" } }
+    /// The endpoint configuration for the web app. You can specify whether the web app endpoint is publicly accessible or hosted within a VPC. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Vpc. Vpc -&gt; (structure) The VPC configuration for hosting the web app endpoint within a VPC. SubnetIds -&gt; (list) The list of subnet IDs within the VPC where the web app endpoint will be deployed. These subnets must be in the same VPC specified in the VpcId parameter. (string) VpcId -&gt; (string) The identifier of the VPC where the web app endpoint will be hosted. SecurityGroupIds -&gt; (list) The list of security group IDs that control access to the web app endpoint. These security groups determine which sources can access the endpoint based on IP addresses and port configurations. (string) Constraints: • min: 11 • max: 20 • pattern: sg-[0-9a-f]{8,17} IpAddressType -&gt; (string) The IP address type for the web app's VPC endpoint. This determines whether the endpoint is accessible over IPv4 only, or over both IPv4 and IPv6. Possible values: • IPV4 • DUALSTACK Shorthand Syntax: Vpc={SubnetIds=[string,string],VpcId=string,SecurityGroupIds=[string,string],IpAddressType=string} JSON Syntax: { "Vpc": { "SubnetIds": ["string", ...], "VpcId": "string", "SecurityGroupIds": ["string", ...], "IpAddressType": "IPV4"|"DUALSTACK" } }
     /// </summary>
     [CliOption("--endpoint-details")]
     public string? EndpointDetails { get; set; }

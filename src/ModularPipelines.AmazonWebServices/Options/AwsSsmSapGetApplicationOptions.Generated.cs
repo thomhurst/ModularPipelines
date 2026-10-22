@@ -22,19 +22,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSsmSapGetApplicationOptions : AwsOptions
 {
     /// <summary>
-    /// The ID of the application. Constraints: o min: 1 o max: 60 o pattern: [\w\d\.-]+
+    /// The ID of the application. Constraints: • min: 1 • max: 60 • pattern: [\w\d\.-]+
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the application. Constraints: o pattern: arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\/.+
+    /// The Amazon Resource Name (ARN) of the application. Constraints: • pattern: arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\/.+
     /// </summary>
     [CliOption("--application-arn")]
     public string? ApplicationArn { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the application registry. Constraints: o pattern: arn:aws:servicecatalog:[a-z0-9:\/-]+
+    /// The Amazon Resource Name (ARN) of the application registry. Constraints: • pattern: arn:aws:servicecatalog:[a-z0-9:\/-]+
     /// </summary>
     [CliOption("--app-registry-arn")]
     public string? AppRegistryArn { get; set; }

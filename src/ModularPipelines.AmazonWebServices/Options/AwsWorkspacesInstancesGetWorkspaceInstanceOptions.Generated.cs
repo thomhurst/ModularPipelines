@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsWorkspacesInstancesGetWorkspaceInstanceOptions : AwsOptions, IV
     /// <summary>
     /// Retrieves detailed information about a specific WorkSpace Instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceInstanceId">Unique identifier of the WorkSpace Instance to retrieve. Constraints: o min: 15 o max: 70 o pattern: wsinst-[0-9a-zA-Z]{8,63}</param>
+    /// <param name="WorkspaceInstanceId">Unique identifier of the WorkSpace Instance to retrieve. Constraints: • min: 15 • max: 70 • pattern: wsinst-[0-9a-zA-Z]{8,63}</param>
     public AwsWorkspacesInstancesGetWorkspaceInstanceOptions(
         string WorkspaceInstanceId
     )
@@ -56,7 +58,7 @@ public record AwsWorkspacesInstancesGetWorkspaceInstanceOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Unique identifier of the WorkSpace Instance to retrieve. Constraints: o min: 15 o max: 70 o pattern: wsinst-[0-9a-zA-Z]{8,63}
+    /// Unique identifier of the WorkSpace Instance to retrieve. Constraints: • min: 15 • max: 70 • pattern: wsinst-[0-9a-zA-Z]{8,63}
     /// </summary>
     [CliOption("--workspace-instance-id")]
     public string? WorkspaceInstanceId { get; private init; }

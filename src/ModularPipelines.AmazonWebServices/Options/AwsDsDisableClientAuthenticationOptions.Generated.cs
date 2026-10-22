@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsDsDisableClientAuthenticationOptions : AwsOptions, IValidatable
     /// <summary>
     /// Disables alternative client authentication methods for the specified directory. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The identifier of the directory Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
-    /// <param name="Type">The type of client authentication to disable. Currently the only pa- rameter "SmartCard" is supported. Possible values: o SmartCard o SmartCardOrPassword</param>
+    /// <param name="DirectoryId">The identifier of the directory Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="Type">The type of client authentication to disable. Currently the only parameter "SmartCard" is supported. Possible values: • SmartCard • SmartCardOrPassword</param>
     public AwsDsDisableClientAuthenticationOptions(
         string DirectoryId,
         AwsDsDisableClientAuthenticationType Type
@@ -60,13 +62,13 @@ public record AwsDsDisableClientAuthenticationOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the directory Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The identifier of the directory Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// The type of client authentication to disable. Currently the only pa- rameter "SmartCard" is supported. Possible values: o SmartCard o SmartCardOrPassword
+    /// The type of client authentication to disable. Currently the only parameter "SmartCard" is supported. Possible values: • SmartCard • SmartCardOrPassword
     /// </summary>
     [CliOption("--type")]
     public AwsDsDisableClientAuthenticationType? Type { get; private init; }

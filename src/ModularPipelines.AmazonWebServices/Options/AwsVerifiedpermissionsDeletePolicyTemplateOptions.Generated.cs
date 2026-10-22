@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsVerifiedpermissionsDeletePolicyTemplateOptions : AwsOptions, IV
     /// <summary>
     /// Deletes the specified policy template from the policy store. WARNING: This operation also deletes any policies that were created from the specified policy template. Those policies are immediately removed from all future API responses, and are asynchronously deleted from the policy store. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyStoreId">Specifies the ID of the policy store that contains the policy tem- plate that you want to delete. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: o ID: PSEXAMPLEabcdefg111111 o Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*</param>
-    /// <param name="PolicyTemplateId">Specifies the ID of the policy template that you want to delete. You can use the policy template name in place of the policy template ID. When using a name, prefix it with name/ . For example: o ID: PTEXAMPLEabcdefg111111 o Name: name/example-policy-template Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*</param>
+    /// <param name="PolicyStoreId">Specifies the ID of the policy store that contains the policy template that you want to delete. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: • ID: PSEXAMPLEabcdefg111111 • Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]*</param>
+    /// <param name="PolicyTemplateId">Specifies the ID of the policy template that you want to delete. You can use the policy template name in place of the policy template ID. When using a name, prefix it with name/ . For example: • ID: PTEXAMPLEabcdefg111111 • Name: name/example-policy-template Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]*</param>
     public AwsVerifiedpermissionsDeletePolicyTemplateOptions(
         string PolicyStoreId,
         string PolicyTemplateId
@@ -60,13 +62,13 @@ public record AwsVerifiedpermissionsDeletePolicyTemplateOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ID of the policy store that contains the policy tem- plate that you want to delete. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: o ID: PSEXAMPLEabcdefg111111 o Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*
+    /// Specifies the ID of the policy store that contains the policy template that you want to delete. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: • ID: PSEXAMPLEabcdefg111111 • Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]*
     /// </summary>
     [CliOption("--policy-store-id")]
     public string? PolicyStoreId { get; private init; }
 
     /// <summary>
-    /// Specifies the ID of the policy template that you want to delete. You can use the policy template name in place of the policy template ID. When using a name, prefix it with name/ . For example: o ID: PTEXAMPLEabcdefg111111 o Name: name/example-policy-template Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*
+    /// Specifies the ID of the policy template that you want to delete. You can use the policy template name in place of the policy template ID. When using a name, prefix it with name/ . For example: • ID: PTEXAMPLEabcdefg111111 • Name: name/example-policy-template Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]*
     /// </summary>
     [CliOption("--policy-template-id")]
     public string? PolicyTemplateId { get; private init; }

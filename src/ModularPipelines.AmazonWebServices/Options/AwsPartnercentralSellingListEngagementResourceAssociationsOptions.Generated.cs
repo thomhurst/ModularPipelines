@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the associations between resources and engagements where the caller is a member and has at least one snapshot in the engagement. See also: AWS API Documentation list-engagement-resource-associations is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract ...
+/// Lists the associations between resources and engagements where the caller is a member and has at least one snapshot in the engagement. See also: AWS API Documentation list-engagement-resource-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data f...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsPartnercentralSellingListEngagementResourceAssociationsOptions 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the associations between resources and engagements where the caller is a member and has at least one snapshot in the engagement. See also: AWS API Documentation list-engagement-resource-associations is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract ...
+    /// Lists the associations between resources and engagements where the caller is a member and has at least one snapshot in the engagement. See also: AWS API Documentation list-engagement-resource-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data f...
     /// </summary>
-    /// <param name="Catalog">Specifies the catalog in which to search for engagement-resource as- sociations. Valid Values: "AWS" or "Sandbox" o AWS for production environments. o Sandbox for testing and development purposes. Constraints: o pattern: [a-zA-Z]+</param>
+    /// <param name="Catalog">Specifies the catalog in which to search for engagement-resource associations. Valid Values: "AWS" or "Sandbox" • AWS for production environments. • Sandbox for testing and development purposes. Constraints: • pattern: [a-zA-Z]+</param>
     public AwsPartnercentralSellingListEngagementResourceAssociationsOptions(
         string Catalog
     )
@@ -57,40 +59,37 @@ public record AwsPartnercentralSellingListEngagementResourceAssociationsOptions 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the catalog in which to search for engagement-resource as- sociations. Valid Values: "AWS" or "Sandbox" o AWS for production environments. o Sandbox for testing and development purposes. Constraints: o pattern: [a-zA-Z]+
+    /// Specifies the catalog in which to search for engagement-resource associations. Valid Values: "AWS" or "Sandbox" • AWS for production environments. • Sandbox for testing and development purposes. Constraints: • pattern: [a-zA-Z]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// Filters the results to include only associations related to the specified engagement. Use this when you want to find all resources associated with a specific engagement. Constraints: o pattern: eng-[0-9a-z]{14}
+    /// Filters the results to include only associations related to the specified engagement. Use this when you want to find all resources associated with a specific engagement. Constraints: • pattern: eng-[0-9a-z]{14}
     /// </summary>
     [CliOption("--engagement-identifier")]
     public string? EngagementIdentifier { get; set; }
 
     /// <summary>
-    /// Filters the results to include only associations with resources of the specified type. Possible values: o Opportunity
+    /// Filters the results to include only associations with resources of the specified type. Possible values: • Opportunity
     /// </summary>
     [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
     /// <summary>
-    /// Filters the results to include only associations with the specified resource. Varies depending on the resource type. Use this when you want to find all engagements associated with a specific resource. Constraints: o pattern: O[0-9]{1,19}
+    /// Filters the results to include only associations with the specified resource. Varies depending on the resource type. Use this when you want to find all engagements associated with a specific resource. Constraints: • pattern: O[0-9]{1,19}
     /// </summary>
     [CliOption("--resource-identifier")]
     public string? ResourceIdentifier { get; set; }
 
     /// <summary>
-    /// Filters the response to include only snapshots of resources owned by the specified AWS account ID. Use this when you want to find associ- ations related to resources owned by a particular account. Constraints: o pattern: ([0-9]{12}|\w{1,12})
+    /// Filters the response to include only snapshots of resources owned by the specified AWS account ID. Use this when you want to find associations related to resources owned by a particular account. Constraints: • pattern: ([0-9]{12}|\w{1,12})
     /// </summary>
     [CliOption("--created-by")]
     public string? CreatedBy { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -100,16 +99,19 @@ public record AwsPartnercentralSellingListEngagementResourceAssociationsOptions 
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

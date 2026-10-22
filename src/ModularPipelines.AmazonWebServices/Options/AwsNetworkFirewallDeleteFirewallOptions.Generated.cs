@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified Firewall and its FirewallStatus . This opera- tion requires the firewall's DeleteProtection flag to be FALSE . You can't revert this operation. You can check whether a firewall is in use by reviewing the route ta- bles for the Availability Zones where you have firewall subnet map- pings. Retrieve the subnet mappings by calling DescribeFirewall . You define and update the route tables through Amazon VPC. As needed, up- date the route tables for the zones to remove the firewa...
+/// Deletes the specified Firewall and its FirewallStatus . This operation requires the firewall's DeleteProtection flag to be FALSE . You can't revert this operation. You can check whether a firewall is in use by reviewing the route tables for the Availability Zones where you have firewall subnet mappings. Retrieve the subnet mappings by calling DescribeFirewall . You define and update the route tables through Amazon VPC. As needed, update the route tables for the zones to remove the firewall endpo...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsNetworkFirewallDeleteFirewallOptions : AwsOptions
 {
     /// <summary>
-    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
+    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--firewall-name")]
     public string? FirewallName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*
+    /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*
     /// </summary>
     [CliOption("--firewall-arn")]
     public string? FirewallArn { get; set; }

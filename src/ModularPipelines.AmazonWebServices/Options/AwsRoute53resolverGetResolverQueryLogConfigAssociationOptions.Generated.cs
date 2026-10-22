@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRoute53resolverGetResolverQueryLogConfigAssociationOptions : Aw
     /// <summary>
     /// Gets information about a specified association between a Resolver query logging configuration and an Amazon VPC. When you associate a VPC with a query logging configuration, Resolver logs DNS queries that originate in that VPC. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResolverQueryLogConfigAssociationId">The ID of the Resolver query logging configuration association that you want to get information about. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ResolverQueryLogConfigAssociationId">The ID of the Resolver query logging configuration association that you want to get information about. Constraints: • min: 1 • max: 64</param>
     public AwsRoute53resolverGetResolverQueryLogConfigAssociationOptions(
         string ResolverQueryLogConfigAssociationId
     )
@@ -56,7 +58,7 @@ public record AwsRoute53resolverGetResolverQueryLogConfigAssociationOptions : Aw
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Resolver query logging configuration association that you want to get information about. Constraints: o min: 1 o max: 64
+    /// The ID of the Resolver query logging configuration association that you want to get information about. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--resolver-query-log-config-association-id")]
     public string? ResolverQueryLogConfigAssociationId { get; private init; }

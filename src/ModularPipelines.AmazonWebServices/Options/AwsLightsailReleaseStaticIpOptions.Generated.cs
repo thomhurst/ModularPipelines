@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsLightsailReleaseStaticIpOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Deletes a specific static IP from your account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StaticIpName">The name of the static IP to delete. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="StaticIpName">The name of the static IP to delete. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailReleaseStaticIpOptions(
         string StaticIpName
     )
@@ -56,7 +58,7 @@ public record AwsLightsailReleaseStaticIpOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the static IP to delete. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the static IP to delete. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--static-ip-name")]
     public string? StaticIpName { get; private init; }

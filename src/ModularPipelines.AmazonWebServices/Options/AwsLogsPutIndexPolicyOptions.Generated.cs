@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates a field index policy for the specified log group. Only log groups in the Standard log class support field index policies. For more information about log classes, see Log classes . You can use field index policies to create field indexes on fields found in log events in the log group. Creating field indexes speeds up and lowers the costs for CloudWatch Logs Insights queries that refer- ence those field indexes, because these queries attempt to skip the processing of log events ...
+/// Creates or updates a field index policy for the specified log group. Only log groups in the Standard log class support field index policies. For more information about log classes, see Log classes . You can use field index policies to create field indexes on fields found in log events in the log group. Creating field indexes speeds up and lowers the costs for CloudWatch Logs Insights queries that reference those field indexes, because these queries attempt to skip the processing of log events th...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsLogsPutIndexPolicyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates or updates a field index policy for the specified log group. Only log groups in the Standard log class support field index policies. For more information about log classes, see Log classes . You can use field index policies to create field indexes on fields found in log events in the log group. Creating field indexes speeds up and lowers the costs for CloudWatch Logs Insights queries that refer- ence those field indexes, because these queries attempt to skip the processing of log events ...
+    /// Creates or updates a field index policy for the specified log group. Only log groups in the Standard log class support field index policies. For more information about log classes, see Log classes . You can use field index policies to create field indexes on fields found in log events in the log group. Creating field indexes speeds up and lowers the costs for CloudWatch Logs Insights queries that reference those field indexes, because these queries attempt to skip the processing of log events th...
     /// </summary>
-    /// <param name="LogGroupIdentifier">Specify either the log group name or log group ARN to apply this field index policy to. If you specify an ARN, use the format arn:aws:logs:region :account-id :log-group:log_group_name Don't in- clude an * at the end. Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]*</param>
-    /// <param name="PolicyDocument">The index policy document, in JSON format. The following is an exam- ple of an index policy document that creates indexes with different types. "policyDocument": "{"Fields": [ "TransactionId" ], "FieldsV2": {"RequestId": {"type": "FIELD_INDEX"}, "APIName": {"type": "FACET"}, "StatusCode": {"type": "FACET"}}}" You can use FieldsV2 to specify the type for each field. Supported types are FIELD_INDEX and FACET . Field names within Fields and FieldsV2 must be mutually exclusive. The policy document must include at least one field index. For more information about the fields that can be included and other restric- tions, see Field index syntax and quotas . Constraints: o min: 1 o max: 51200</param>
+    /// <param name="LogGroupIdentifier">Specify either the log group name or log group ARN to apply this field index policy to. If you specify an ARN, use the format arn:aws:logs:region :account-id :log-group:log_group_name Don't include an * at the end. Constraints: • min: 1 • max: 2048 • pattern: [\w#+=/:,.@-]*</param>
+    /// <param name="PolicyDocument">The index policy document, in JSON format. The following is an example of an index policy document that creates indexes with different types. "policyDocument": "{"Fields": [ "TransactionId" ], "FieldsV2": {"RequestId": {"type": "FIELD_INDEX"}, "APIName": {"type": "FACET"}, "StatusCode": {"type": "FACET"}}}" You can use FieldsV2 to specify the type for each field. Supported types are FIELD_INDEX and FACET . Field names within Fields and FieldsV2 must be mutually exclusive. The policy document must include at least one field index. For more information about the fields that can be included and other restrictions, see Field index syntax and quotas . Constraints: • min: 1 • max: 51200</param>
     public AwsLogsPutIndexPolicyOptions(
         string LogGroupIdentifier,
         string PolicyDocument
@@ -60,13 +62,13 @@ public record AwsLogsPutIndexPolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specify either the log group name or log group ARN to apply this field index policy to. If you specify an ARN, use the format arn:aws:logs:region :account-id :log-group:log_group_name Don't in- clude an * at the end. Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]*
+    /// Specify either the log group name or log group ARN to apply this field index policy to. If you specify an ARN, use the format arn:aws:logs:region :account-id :log-group:log_group_name Don't include an * at the end. Constraints: • min: 1 • max: 2048 • pattern: [\w#+=/:,.@-]*
     /// </summary>
     [CliOption("--log-group-identifier")]
     public string? LogGroupIdentifier { get; private init; }
 
     /// <summary>
-    /// The index policy document, in JSON format. The following is an exam- ple of an index policy document that creates indexes with different types. "policyDocument": "{"Fields": [ "TransactionId" ], "FieldsV2": {"RequestId": {"type": "FIELD_INDEX"}, "APIName": {"type": "FACET"}, "StatusCode": {"type": "FACET"}}}" You can use FieldsV2 to specify the type for each field. Supported types are FIELD_INDEX and FACET . Field names within Fields and FieldsV2 must be mutually exclusive. The policy document must include at least one field index. For more information about the fields that can be included and other restric- tions, see Field index syntax and quotas . Constraints: o min: 1 o max: 51200
+    /// The index policy document, in JSON format. The following is an example of an index policy document that creates indexes with different types. "policyDocument": "{"Fields": [ "TransactionId" ], "FieldsV2": {"RequestId": {"type": "FIELD_INDEX"}, "APIName": {"type": "FACET"}, "StatusCode": {"type": "FACET"}}}" You can use FieldsV2 to specify the type for each field. Supported types are FIELD_INDEX and FACET . Field names within Fields and FieldsV2 must be mutually exclusive. The policy document must include at least one field index. For more information about the fields that can be included and other restrictions, see Field index syntax and quotas . Constraints: • min: 1 • max: 51200
     /// </summary>
     [CliOption("--policy-document")]
     public string? PolicyDocument { get; private init; }

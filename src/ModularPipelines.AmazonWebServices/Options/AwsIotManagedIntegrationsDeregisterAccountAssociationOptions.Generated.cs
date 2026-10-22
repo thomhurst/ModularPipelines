@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsIotManagedIntegrationsDeregisterAccountAssociationOptions : Aws
     /// <summary>
     /// Deregister an account association from a managed thing. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ManagedThingId">The identifier of the managed thing to be deregistered from the ac- count association. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9:_-]*</param>
-    /// <param name="AccountAssociationId">The unique identifier of the account association to be deregistered. Constraints: o min: 1 o max: 64 o pattern: [0-9a-zA-Z]+</param>
+    /// <param name="ManagedThingId">The identifier of the managed thing to be deregistered from the account association. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9:_-]*</param>
+    /// <param name="AccountAssociationId">The unique identifier of the account association to be deregistered. Constraints: • min: 1 • max: 64 • pattern: [0-9a-zA-Z]+</param>
     public AwsIotManagedIntegrationsDeregisterAccountAssociationOptions(
         string ManagedThingId,
         string AccountAssociationId
@@ -60,13 +62,13 @@ public record AwsIotManagedIntegrationsDeregisterAccountAssociationOptions : Aws
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the managed thing to be deregistered from the ac- count association. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9:_-]*
+    /// The identifier of the managed thing to be deregistered from the account association. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9:_-]*
     /// </summary>
     [CliOption("--managed-thing-id")]
     public string? ManagedThingId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the account association to be deregistered. Constraints: o min: 1 o max: 64 o pattern: [0-9a-zA-Z]+
+    /// The unique identifier of the account association to be deregistered. Constraints: • min: 1 • max: 64 • pattern: [0-9a-zA-Z]+
     /// </summary>
     [CliOption("--account-association-id")]
     public string? AccountAssociationId { get; private init; }

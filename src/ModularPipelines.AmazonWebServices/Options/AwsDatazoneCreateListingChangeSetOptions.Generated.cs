@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,10 +31,10 @@ public record AwsDatazoneCreateListingChangeSetOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Publishes a listing (a record of an asset at a given time) or removes a listing from the catalog. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="EntityIdentifier">The ID of the asset. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="EntityType">The type of an entity. Possible values: o ASSET o DATA_PRODUCT</param>
-    /// <param name="Action">Specifies whether to publish or unpublish a listing. Possible values: o PUBLISH o UNPUBLISH</param>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EntityIdentifier">The ID of the asset. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EntityType">The type of an entity. Possible values: • ASSET • DATA_PRODUCT</param>
+    /// <param name="Action">Specifies whether to publish or unpublish a listing. Possible values: • PUBLISH • UNPUBLISH</param>
     public AwsDatazoneCreateListingChangeSetOptions(
         string DomainIdentifier,
         string EntityIdentifier,
@@ -68,37 +70,37 @@ public record AwsDatazoneCreateListingChangeSetOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon DataZone domain. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the Amazon DataZone domain. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the asset. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The ID of the asset. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--entity-identifier")]
     public string? EntityIdentifier { get; private init; }
 
     /// <summary>
-    /// The type of an entity. Possible values: o ASSET o DATA_PRODUCT
+    /// The type of an entity. Possible values: • ASSET • DATA_PRODUCT
     /// </summary>
     [CliOption("--entity-type")]
     public AwsDatazoneCreateListingChangeSetEntityType? EntityType { get; private init; }
 
     /// <summary>
-    /// Specifies whether to publish or unpublish a listing. Possible values: o PUBLISH o UNPUBLISH
+    /// Specifies whether to publish or unpublish a listing. Possible values: • PUBLISH • UNPUBLISH
     /// </summary>
     [CliOption("--action")]
     public AwsDatazoneCreateListingChangeSetAction? Action { get; private init; }
 
     /// <summary>
-    /// The revision of an asset. Constraints: o min: 1 o max: 64
+    /// The revision of an asset. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--entity-revision")]
     public string? EntityRevision { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This is a paginated call to list linked accounts that are linked to the payer account for the specified time period. If no information is pro- vided, the current billing period is used. The response will optionally include the billing group that's associated with the linked account. See also: AWS API Documentation list-account-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --...
+/// This is a paginated call to list linked accounts that are linked to the payer account for the specified time period. If no information is provided, the current billing period is used. The response will optionally include the billing group that's associated with the linked account. See also: AWS API Documentation list-account-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,22 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsBillingconductorListAccountAssociationsOptions : AwsOptions
 {
     /// <summary>
-    /// The preferred billing period to get account associations. Constraints: o pattern: \d{4}-(0?[1-9]|1[012])
+    /// The preferred billing period to get account associations. Constraints: • pattern: \d{4}-(0?[1-9]|1[012])
     /// </summary>
     [CliOption("--billing-period")]
     public string? BillingPeriod { get; set; }
 
     /// <summary>
-    /// The filter on the account ID of the linked account, or any of the following: MONITORED : linked accounts that are associated to billing groups. UNMONITORED : linked accounts that aren't associated to billing groups. Billing Group Arn : linked accounts that are associated to the provided billing group Arn. Association -&gt; (string) MONITORED : linked accounts that are associated to billing groups. UNMONITORED : linked accounts that are not associated to billing groups. Billing Group Arn : linked accounts that are associated to the provided Billing Group Arn. Constraints: o pattern: ((arn:aws(-cn)?:billingconductor::[0-9]{12}:billing- group/)?[a-zA-Z0-9]{10,12}|MONITORED|UNMONITORED) AccountId -&gt; (string) The Amazon Web Services account ID to filter on. Constraints: o pattern: [0-9]{12} AccountIds -&gt; (list) The list of Amazon Web Services IDs to retrieve their associated billing group for a given time range. Constraints: o min: 1 o max: 30 (string) Constraints: o pattern: [0-9]{12} Shorthand Syntax: Association=string,AccountId=string,AccountIds=string,string JSON Syntax: { "Association": "string", "AccountId": "string", "AccountIds": ["string", ...] }
+    /// The filter on the account ID of the linked account, or any of the following: MONITORED : linked accounts that are associated to billing groups. UNMONITORED : linked accounts that aren't associated to billing groups. Billing Group Arn : linked accounts that are associated to the provided billing group Arn. Association -&gt; (string) MONITORED : linked accounts that are associated to billing groups. UNMONITORED : linked accounts that are not associated to billing groups. Billing Group Arn : linked accounts that are associated to the provided Billing Group Arn. Constraints: • pattern: ((arn:aws(-cn)?:billingconductor::[0-9]{12}:billinggroup/)?[a-zA-Z0-9]{10,12}|MONITORED|UNMONITORED) AccountId -&gt; (string) The Amazon Web Services account ID to filter on. Constraints: • pattern: [0-9]{12} AccountIds -&gt; (list) The list of Amazon Web Services IDs to retrieve their associated billing group for a given time range. Constraints: • min: 1 • max: 30 (string) Constraints: • pattern: [0-9]{12} Shorthand Syntax: Association=string,AccountId=string,AccountIds=string,string JSON Syntax: { "Association": "string", "AccountId": "string", "AccountIds": ["string", ...] }
     /// </summary>
     [CliOption("--filters")]
     public string? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -48,9 +45,12 @@ public record AwsBillingconductorListAccountAssociationsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

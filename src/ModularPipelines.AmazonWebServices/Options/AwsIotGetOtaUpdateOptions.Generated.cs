@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotGetOtaUpdateOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets an OTA update. Requires permission to access the GetOTAUpdate action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OtaUpdateId">The OTA update ID. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="OtaUpdateId">The OTA update ID. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsIotGetOtaUpdateOptions(
         string OtaUpdateId
     )
@@ -56,7 +58,7 @@ public record AwsIotGetOtaUpdateOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The OTA update ID. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+
+    /// The OTA update ID. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--ota-update-id")]
     public string? OtaUpdateId { get; private init; }

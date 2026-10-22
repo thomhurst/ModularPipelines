@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsPinpointSmsVoiceV2UpdateRcsAgentOptions : AwsOptions, IValidata
     /// <summary>
     /// Updates the configuration of an existing RCS agent. You can update the opt-out list, deletion protection, two-way messaging settings, and self-managed opt-outs configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RcsAgentId">The unique identifier of the RCS agent to update. You can use either the RcsAgentId or RcsAgentArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="RcsAgentId">The unique identifier of the RCS agent to update. You can use either the RcsAgentId or RcsAgentArn. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+</param>
     public AwsPinpointSmsVoiceV2UpdateRcsAgentOptions(
         string RcsAgentId
     )
@@ -56,7 +58,7 @@ public record AwsPinpointSmsVoiceV2UpdateRcsAgentOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the RCS agent to update. You can use either the RcsAgentId or RcsAgentArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The unique identifier of the RCS agent to update. You can use either the RcsAgentId or RcsAgentArn. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--rcs-agent-id")]
     public string? RcsAgentId { get; private init; }
@@ -68,7 +70,7 @@ public record AwsPinpointSmsVoiceV2UpdateRcsAgentOptions : AwsOptions, IValidata
     public bool? DeletionProtectionEnabled { get; set; }
 
     /// <summary>
-    /// The OptOutList to associate with the RCS agent. Valid values are ei- ther OptOutListName or OptOutListArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The OptOutList to associate with the RCS agent. Valid values are either OptOutListName or OptOutListArn. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--opt-out-list-name")]
     public string? OptOutListName { get; set; }
@@ -80,13 +82,13 @@ public record AwsPinpointSmsVoiceV2UpdateRcsAgentOptions : AwsOptions, IValidata
     public bool? SelfManagedOptOutsEnabled { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the two way channel. Constraints: o min: 20 o max: 2048 o pattern: \S+
+    /// The Amazon Resource Name (ARN) of the two way channel. Constraints: • min: 20 • max: 2048 • pattern: \S+
     /// </summary>
     [CliOption("--two-way-channel-arn")]
     public string? TwoWayChannelArn { get; set; }
 
     /// <summary>
-    /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages. Constraints: o min: 20 o max: 2048 o pattern: arn:\S+
+    /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages. Constraints: • min: 20 • max: 2048 • pattern: arn:\S+
     /// </summary>
     [CliOption("--two-way-channel-role")]
     public string? TwoWayChannelRole { get; set; }
@@ -98,25 +100,25 @@ public record AwsPinpointSmsVoiceV2UpdateRcsAgentOptions : AwsOptions, IValidata
     public bool? TwoWayEnabled { get; set; }
 
     /// <summary>
-    /// The name of the S3 bucket where inbound RCS media files are stored. Two-way messaging must be enabled on the agent. To remove the media configuration, pass the sentinel value UNSET_RCS_MEDIA_CONFIGURATION for both this field and TwoWayMediaS3Role. Constraints: o min: 3 o max: 63 o pattern: ([a-z0-9][a-z0-9.-]*[a-z0-9]|UNSET_RCS_MEDIA_CONFIGURA- TION)
+    /// The name of the S3 bucket where inbound RCS media files are stored. Two-way messaging must be enabled on the agent. To remove the media configuration, pass the sentinel value UNSET_RCS_MEDIA_CONFIGURATION for both this field and TwoWayMediaS3Role. Constraints: • min: 3 • max: 63 • pattern: ([a-z0-9][a-z0-9.-]*[a-z0-9]|UNSET_RCS_MEDIA_CONFIGURATION)
     /// </summary>
     [CliOption("--two-way-media-s3-bucket-name")]
     public string? TwoWayMediaS3BucketName { get; set; }
 
     /// <summary>
-    /// The key prefix used for inbound RCS media objects in the S3 bucket. Constraints: o min: 1 o max: 1024 o pattern: [\S]+
+    /// The key prefix used for inbound RCS media objects in the S3 bucket. Constraints: • min: 1 • max: 1024 • pattern: [\S]+
     /// </summary>
     [CliOption("--two-way-media-s3-key-prefix")]
     public string? TwoWayMediaS3KeyPrefix { get; set; }
 
     /// <summary>
-    /// The ARN of the IAM role used to write inbound RCS media files to the S3 bucket. The role must have s3:PutObject permission on the bucket and a trust policy allowing sms-voice.amazonaws.com to assume it. To remove the media configuration, pass the sentinel value UN- SET_RCS_MEDIA_CONFIGURATION for both this field and TwoWay- MediaS3BucketName. Constraints: o min: 20 o max: 2048 o pattern: (arn:\S+|UNSET_RCS_MEDIA_CONFIGURATION)
+    /// The ARN of the IAM role used to write inbound RCS media files to the S3 bucket. The role must have s3:PutObject permission on the bucket and a trust policy allowing sms-voice.amazonaws.com to assume it. To remove the media configuration, pass the sentinel value UNSET_RCS_MEDIA_CONFIGURATION for both this field and TwoWayMediaS3BucketName. Constraints: • min: 20 • max: 2048 • pattern: (arn:\S+|UNSET_RCS_MEDIA_CONFIGURATION)
     /// </summary>
     [CliOption("--two-way-media-s3-role")]
     public string? TwoWayMediaS3Role { get; set; }
 
     /// <summary>
-    /// The list of RCS event types to enable for two-way messaging. Pass an empty list to disable all event types. The special value ALL enables all current and future event types and must be the sole element if used. Constraints: o min: 0 o max: 100 (string) RCS event type identifier. Validated at the service layer. Constraints: o min: 1 o max: 50 Syntax: "string" "string" ...
+    /// The list of RCS event types to enable for two-way messaging. Pass an empty list to disable all event types. The special value ALL enables all current and future event types and must be the sole element if used. Constraints: • min: 0 • max: 100 (string) RCS event type identifier. Validated at the service layer. Constraints: • min: 1 • max: 50 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--two-way-rcs-events-enabled", GroupValues = true)]
     public IEnumerable<string>? TwoWayRcsEventsEnabled { get; set; }

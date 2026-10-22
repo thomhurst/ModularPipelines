@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsMedicalImagingUntagResourceOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Removes tags from a medical imaging resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the medical imaging resource that tags are being removed from. Constraints: o pattern: arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:medical-imag- ing:[a-z0-9-]+:[0-9]{12}:datastore/[0-9a-z]{32}(/image- set/[0-9a-z]{32})?</param>
-    /// <param name="TagKeys">The keys for the tags to be removed from the medical imaging re- source. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the medical imaging resource that tags are being removed from. Constraints: • pattern: arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:medical-imaging:[a-z0-9-]+:[0-9]{12}:datastore/[0-9a-z]{32}(/imageset/[0-9a-z]{32})?</param>
+    /// <param name="TagKeys">The keys for the tags to be removed from the medical imaging resource. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[a-zA-Z+-=._:/]+ Syntax: "string" "string" ...</param>
     public AwsMedicalImagingUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsMedicalImagingUntagResourceOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the medical imaging resource that tags are being removed from. Constraints: o pattern: arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:medical-imag- ing:[a-z0-9-]+:[0-9]{12}:datastore/[0-9a-z]{32}(/image- set/[0-9a-z]{32})?
+    /// The Amazon Resource Name (ARN) of the medical imaging resource that tags are being removed from. Constraints: • pattern: arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:medical-imaging:[a-z0-9-]+:[0-9]{12}:datastore/[0-9a-z]{32}(/imageset/[0-9a-z]{32})?
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The keys for the tags to be removed from the medical imaging re- source. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ Syntax: "string" "string" ...
+    /// The keys for the tags to be removed from the medical imaging resource. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[a-zA-Z+-=._:/]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

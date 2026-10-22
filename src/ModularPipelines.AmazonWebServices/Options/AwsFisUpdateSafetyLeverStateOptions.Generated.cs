@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsFisUpdateSafetyLeverStateOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Updates the specified safety lever state. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the safety lever. Constraints: o max: 64 o pattern: [\S]+</param>
-    /// <param name="State">The state of the safety lever. status -&gt; (string) [required] The updated state of the safety lever. Possible values: o disengaged o engaged reason -&gt; (string) [required] The reason for updating the state of the safety lever. Shorthand Syntax: status=string,reason=string JSON Syntax: { "status": "disengaged"|"engaged", "reason": "string" }</param>
+    /// <param name="Id">The ID of the safety lever. Constraints: • max: 64 • pattern: [\S]+</param>
+    /// <param name="State">The state of the safety lever. status -&gt; (string) [required] The updated state of the safety lever. Possible values: • disengaged • engaged reason -&gt; (string) [required] The reason for updating the state of the safety lever. Shorthand Syntax: status=string,reason=string JSON Syntax: { "status": "disengaged"|"engaged", "reason": "string" }</param>
     public AwsFisUpdateSafetyLeverStateOptions(
         string Id,
         string State
@@ -60,13 +62,13 @@ public record AwsFisUpdateSafetyLeverStateOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the safety lever. Constraints: o max: 64 o pattern: [\S]+
+    /// The ID of the safety lever. Constraints: • max: 64 • pattern: [\S]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The state of the safety lever. status -&gt; (string) [required] The updated state of the safety lever. Possible values: o disengaged o engaged reason -&gt; (string) [required] The reason for updating the state of the safety lever. Shorthand Syntax: status=string,reason=string JSON Syntax: { "status": "disengaged"|"engaged", "reason": "string" }
+    /// The state of the safety lever. status -&gt; (string) [required] The updated state of the safety lever. Possible values: • disengaged • engaged reason -&gt; (string) [required] The reason for updating the state of the safety lever. Shorthand Syntax: status=string,reason=string JSON Syntax: { "status": "disengaged"|"engaged", "reason": "string" }
     /// </summary>
     [CliOption("--state")]
     public string? State { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a stream for delivering one or more large files in chunks over MQTT. A stream transports data bytes in chunks or blocks packaged as MQTT messages from a source like S3. You can have one or more files as- sociated with a stream. Requires permission to access the CreateStream action. See also: AWS API Documentation
+/// Creates a stream for delivering one or more large files in chunks over MQTT. A stream transports data bytes in chunks or blocks packaged as MQTT messages from a source like S3. You can have one or more files associated with a stream. Requires permission to access the CreateStream action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsIotCreateStreamOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a stream for delivering one or more large files in chunks over MQTT. A stream transports data bytes in chunks or blocks packaged as MQTT messages from a source like S3. You can have one or more files as- sociated with a stream. Requires permission to access the CreateStream action. See also: AWS API Documentation
+    /// Creates a stream for delivering one or more large files in chunks over MQTT. A stream transports data bytes in chunks or blocks packaged as MQTT messages from a source like S3. You can have one or more files associated with a stream. Requires permission to access the CreateStream action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StreamId">The stream ID. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="Files">The files to stream. Constraints: o min: 1 o max: 50 (structure) Represents a file to stream. fileId -&gt; (integer) The file ID. Constraints: o min: 0 o max: 255 s3Location -&gt; (structure) The location of the file in S3. bucket -&gt; (string) The S3 bucket. Constraints: o min: 1 key -&gt; (string) The S3 key. Constraints: o min: 1 version -&gt; (string) The S3 bucket version. Shorthand Syntax: fileId=integer,s3Location={bucket=string,key=string,version=string} ... JSON Syntax: [ { "fileId": integer, "s3Location": { "bucket": "string", "key": "string", "version": "string" } } ... ]</param>
-    /// <param name="RoleArn">An IAM role that allows the IoT service principal to access your S3 files. Constraints: o min: 20 o max: 2048</param>
+    /// <param name="StreamId">The stream ID. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="Files">The files to stream. Constraints: • min: 1 • max: 50 (structure) Represents a file to stream. fileId -&gt; (integer) The file ID. Constraints: • min: 0 • max: 255 s3Location -&gt; (structure) The location of the file in S3. bucket -&gt; (string) The S3 bucket. Constraints: • min: 1 key -&gt; (string) The S3 key. Constraints: • min: 1 version -&gt; (string) The S3 bucket version. Shorthand Syntax: fileId=integer,s3Location={bucket=string,key=string,version=string} ... JSON Syntax: [ { "fileId": integer, "s3Location": { "bucket": "string", "key": "string", "version": "string" } } ... ]</param>
+    /// <param name="RoleArn">An IAM role that allows the IoT service principal to access your S3 files. Constraints: • min: 20 • max: 2048</param>
     public AwsIotCreateStreamOptions(
         string StreamId,
         IEnumerable<string> Files,
@@ -75,31 +77,31 @@ public record AwsIotCreateStreamOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The stream ID. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+
+    /// The stream ID. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--stream-id")]
     public string? StreamId { get; private init; }
 
     /// <summary>
-    /// The files to stream. Constraints: o min: 1 o max: 50 (structure) Represents a file to stream. fileId -&gt; (integer) The file ID. Constraints: o min: 0 o max: 255 s3Location -&gt; (structure) The location of the file in S3. bucket -&gt; (string) The S3 bucket. Constraints: o min: 1 key -&gt; (string) The S3 key. Constraints: o min: 1 version -&gt; (string) The S3 bucket version. Shorthand Syntax: fileId=integer,s3Location={bucket=string,key=string,version=string} ... JSON Syntax: [ { "fileId": integer, "s3Location": { "bucket": "string", "key": "string", "version": "string" } } ... ]
+    /// The files to stream. Constraints: • min: 1 • max: 50 (structure) Represents a file to stream. fileId -&gt; (integer) The file ID. Constraints: • min: 0 • max: 255 s3Location -&gt; (structure) The location of the file in S3. bucket -&gt; (string) The S3 bucket. Constraints: • min: 1 key -&gt; (string) The S3 key. Constraints: • min: 1 version -&gt; (string) The S3 bucket version. Shorthand Syntax: fileId=integer,s3Location={bucket=string,key=string,version=string} ... JSON Syntax: [ { "fileId": integer, "s3Location": { "bucket": "string", "key": "string", "version": "string" } } ... ]
     /// </summary>
     [CliOption("--files", GroupValues = true)]
     public IEnumerable<string>? Files { get; private init; }
 
     /// <summary>
-    /// An IAM role that allows the IoT service principal to access your S3 files. Constraints: o min: 20 o max: 2048
+    /// An IAM role that allows the IoT service principal to access your S3 files. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// A description of the stream. Constraints: o max: 2028 o pattern: [^\p{C}]+
+    /// A description of the stream. Constraints: • max: 2028 • pattern: [^\p{C}]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Metadata which can be used to manage streams. (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Metadata which can be used to manage streams. (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The tag's value. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

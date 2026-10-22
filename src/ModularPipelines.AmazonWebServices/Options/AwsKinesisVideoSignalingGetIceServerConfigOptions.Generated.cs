@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the Interactive Connectivity Establishment (ICE) server configura- tion information, including URIs, username, and password which can be used to configure the WebRTC connection. The ICE component uses this configuration information to setup the WebRTC connection, including au- thenticating with the Traversal Using Relays around NAT (TURN) relay server. TURN is a protocol that is used to improve the connectivity of peer-to-peer applications. By providing a cloud-based relay service, TURN ens...
+/// Gets the Interactive Connectivity Establishment (ICE) server configuration information, including URIs, username, and password which can be used to configure the WebRTC connection. The ICE component uses this configuration information to setup the WebRTC connection, including authenticating with the Traversal Using Relays around NAT (TURN) relay server. TURN is a protocol that is used to improve the connectivity of peer-to-peer applications. By providing a cloud-based relay service, TURN ensures...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsKinesisVideoSignalingGetIceServerConfigOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets the Interactive Connectivity Establishment (ICE) server configura- tion information, including URIs, username, and password which can be used to configure the WebRTC connection. The ICE component uses this configuration information to setup the WebRTC connection, including au- thenticating with the Traversal Using Relays around NAT (TURN) relay server. TURN is a protocol that is used to improve the connectivity of peer-to-peer applications. By providing a cloud-based relay service, TURN ens...
+    /// Gets the Interactive Connectivity Establishment (ICE) server configuration information, including URIs, username, and password which can be used to configure the WebRTC connection. The ICE component uses this configuration information to setup the WebRTC connection, including authenticating with the Traversal Using Relays around NAT (TURN) relay server. TURN is a protocol that is used to improve the connectivity of peer-to-peer applications. By providing a cloud-based relay service, TURN ensures...
     /// </summary>
-    /// <param name="ChannelArn">The ARN of the signaling channel to be used for the peer-to-peer connection between configured peers. Constraints: o min: 1 o max: 1024 o pattern: arn:aws:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+</param>
+    /// <param name="ChannelArn">The ARN of the signaling channel to be used for the peer-to-peer connection between configured peers. Constraints: • min: 1 • max: 1024 • pattern: arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+</param>
     public AwsKinesisVideoSignalingGetIceServerConfigOptions(
         string ChannelArn
     )
@@ -56,25 +58,25 @@ public record AwsKinesisVideoSignalingGetIceServerConfigOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the signaling channel to be used for the peer-to-peer connection between configured peers. Constraints: o min: 1 o max: 1024 o pattern: arn:aws:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
+    /// The ARN of the signaling channel to be used for the peer-to-peer connection between configured peers. Constraints: • min: 1 • max: 1024 • pattern: arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
     /// </summary>
     [CliOption("--channel-arn")]
     public string? ChannelArn { get; private init; }
 
     /// <summary>
-    /// Unique identifier for the viewer. Must be unique within the signal- ing channel. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+
+    /// Unique identifier for the viewer. Must be unique within the signaling channel. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--client-id")]
     public string? ClientId { get; set; }
 
     /// <summary>
-    /// Specifies the desired service. Currently, TURN is the only valid value. Possible values: o TURN
+    /// Specifies the desired service. Currently, TURN is the only valid value. Possible values: • TURN
     /// </summary>
     [CliOption("--service")]
     public string? Service { get; set; }
 
     /// <summary>
-    /// An optional user ID to be associated with the credentials. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+
+    /// An optional user ID to be associated with the credentials. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--username")]
     public string? Username { get; set; }

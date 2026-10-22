@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates a router input with a router output in AWS Elemental Media- Connect. See also: AWS API Documentation
+/// Associates a router input with a router output in AWS Elemental MediaConnect. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsMediaconnectTakeRouterInputOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates a router input with a router output in AWS Elemental Media- Connect. See also: AWS API Documentation
+    /// Associates a router input with a router output in AWS Elemental MediaConnect. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RouterOutputArn">The Amazon Resource Name (ARN) of the router output that you want to associate with a router input. Constraints: o pattern: arn:(aws[a-zA-Z-]*):mediacon- nect:[a-z0-9-]+:[0-9]{12}:routerOutput:[a-z0-9]{12}</param>
+    /// <param name="RouterOutputArn">The Amazon Resource Name (ARN) of the router output that you want to associate with a router input. Constraints: • pattern: arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:routerOutput:[a-z0-9]{12}</param>
     public AwsMediaconnectTakeRouterInputOptions(
         string RouterOutputArn
     )
@@ -56,13 +58,13 @@ public record AwsMediaconnectTakeRouterInputOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the router output that you want to associate with a router input. Constraints: o pattern: arn:(aws[a-zA-Z-]*):mediacon- nect:[a-z0-9-]+:[0-9]{12}:routerOutput:[a-z0-9]{12}
+    /// The Amazon Resource Name (ARN) of the router output that you want to associate with a router input. Constraints: • pattern: arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:routerOutput:[a-z0-9]{12}
     /// </summary>
     [CliOption("--router-output-arn")]
     public string? RouterOutputArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the router input that you want to associate with a router output. Constraints: o pattern: arn:(aws[a-zA-Z-]*):mediacon- nect:[a-z0-9-]+:[0-9]{12}:routerInput:[a-z0-9]{12}
+    /// The Amazon Resource Name (ARN) of the router input that you want to associate with a router output. Constraints: • pattern: arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:routerInput:[a-z0-9]{12}
     /// </summary>
     [CliOption("--router-input-arn")]
     public string? RouterInputArn { get; set; }

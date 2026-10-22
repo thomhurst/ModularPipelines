@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws autoscalingplans commands.
+/// aws autoscaling-plans commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsAutoscalingPlans : IAwsAutoscalingPlans
@@ -62,7 +62,7 @@ public class AwsAutoscalingPlans : IAwsAutoscalingPlans
     }
 
     /// <summary>
-    /// Describes the scalable resources in the specified scaling plan. See also: AWS API Documentation describe-scaling-plan-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ScalingPlanResources
+    /// Describes the scalable resources in the specified scaling plan. See also: AWS API Documentation describe-scaling-plan-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ScalingPlanResources
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsAutoscalingPlans : IAwsAutoscalingPlans
     }
 
     /// <summary>
-    /// Updates the specified scaling plan. You cannot update a scaling plan if it is in the process of being cre- ated, updated, or deleted. See also: AWS API Documentation
+    /// Updates the specified scaling plan. You cannot update a scaling plan if it is in the process of being created, updated, or deleted. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

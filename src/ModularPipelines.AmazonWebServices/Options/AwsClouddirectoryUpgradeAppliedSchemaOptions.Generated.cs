@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Upgrades a single directory in-place using the PublishedSchemaArn with schema updates found in MinorVersion . Backwards-compatible minor ver- sion upgrades are instantaneously available for readers on all objects in the directory. Note: This is a synchronous API call and upgrades only one schema on a given directory per call. To upgrade multiple di- rectories from one schema, you would need to call this API on each di- rectory. See also: AWS API Documentation
+/// Upgrades a single directory in-place using the PublishedSchemaArn with schema updates found in MinorVersion . Backwards-compatible minor version upgrades are instantaneously available for readers on all objects in the directory. Note: This is a synchronous API call and upgrades only one schema on a given directory per call. To upgrade multiple directories from one schema, you would need to call this API on each directory. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsClouddirectoryUpgradeAppliedSchemaOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Upgrades a single directory in-place using the PublishedSchemaArn with schema updates found in MinorVersion . Backwards-compatible minor ver- sion upgrades are instantaneously available for readers on all objects in the directory. Note: This is a synchronous API call and upgrades only one schema on a given directory per call. To upgrade multiple di- rectories from one schema, you would need to call this API on each di- rectory. See also: AWS API Documentation
+    /// Upgrades a single directory in-place using the PublishedSchemaArn with schema updates found in MinorVersion . Backwards-compatible minor version upgrades are instantaneously available for readers on all objects in the directory. Note: This is a synchronous API call and upgrades only one schema on a given directory per call. To upgrade multiple directories from one schema, you would need to call this API on each directory. See also: AWS API Documentation
     /// </summary>
     /// <param name="PublishedSchemaArn">The revision of the published schema to upgrade the directory to.</param>
-    /// <param name="DirectoryArn">The ARN for the directory to which the upgraded schema will be ap- plied.</param>
+    /// <param name="DirectoryArn">The ARN for the directory to which the upgraded schema will be applied.</param>
     public AwsClouddirectoryUpgradeAppliedSchemaOptions(
         string PublishedSchemaArn,
         string DirectoryArn
@@ -66,13 +68,13 @@ public record AwsClouddirectoryUpgradeAppliedSchemaOptions : AwsOptions, IValida
     public string? PublishedSchemaArn { get; private init; }
 
     /// <summary>
-    /// The ARN for the directory to which the upgraded schema will be ap- plied.
+    /// The ARN for the directory to which the upgraded schema will be applied.
     /// </summary>
     [CliOption("--directory-arn")]
     public string? DirectoryArn { get; private init; }
 
     /// <summary>
-    /// Used for testing whether the major version schemas are backward com- patible or not. If schema compatibility fails, an exception would be thrown else the call would succeed but no changes will be saved. This parameter is optional.
+    /// Used for testing whether the major version schemas are backward compatible or not. If schema compatibility fails, an exception would be thrown else the call would succeed but no changes will be saved. This parameter is optional.
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

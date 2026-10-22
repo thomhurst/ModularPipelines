@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the status of a user's device so that it is marked as remem- bered or not remembered for the purpose of device authentication. De- vice authentication is a "remember me" mechanism that silently com- pletes sign-in from trusted devices with a device key instead of a user-provided MFA code. This operation changes the status of a device without deleting it, so you can enable it again later. For more infor- mation about device authentication, see Working with devices . NOTE: Amazon Cognito e...
+/// Updates the status of a user's device so that it is marked as remembered or not remembered for the purpose of device authentication. Device authentication is a "remember me" mechanism that silently completes sign-in from trusted devices with a device key instead of a user-provided MFA code. This operation changes the status of a device without deleting it, so you can enable it again later. For more information about device authentication, see Working with devices . NOTE: Amazon Cognito evaluates...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsCognitoIdpAdminUpdateDeviceStatusOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the status of a user's device so that it is marked as remem- bered or not remembered for the purpose of device authentication. De- vice authentication is a "remember me" mechanism that silently com- pletes sign-in from trusted devices with a device key instead of a user-provided MFA code. This operation changes the status of a device without deleting it, so you can enable it again later. For more infor- mation about device authentication, see Working with devices . NOTE: Amazon Cognito e...
+    /// Updates the status of a user's device so that it is marked as remembered or not remembered for the purpose of device authentication. Device authentication is a "remember me" mechanism that silently completes sign-in from trusted devices with a device key instead of a user-provided MFA code. This operation changes the status of a device without deleting it, so you can enable it again later. For more information about device authentication, see Working with devices . NOTE: Amazon Cognito evaluates...
     /// </summary>
-    /// <param name="UserPoolId">The ID of the user pool where you want to change a user's device status. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
-    /// <param name="Username">The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+</param>
-    /// <param name="DeviceKey">The unique identifier, or device key, of the device that you want to update the status for. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-f-]+</param>
+    /// <param name="UserPoolId">The ID of the user pool where you want to change a user's device status. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="Username">The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+</param>
+    /// <param name="DeviceKey">The unique identifier, or device key, of the device that you want to update the status for. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-f-]+</param>
     public AwsCognitoIdpAdminUpdateDeviceStatusOptions(
         string UserPoolId,
         string Username,
@@ -65,25 +67,25 @@ public record AwsCognitoIdpAdminUpdateDeviceStatusOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the user pool where you want to change a user's device status. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// The ID of the user pool where you want to change a user's device status. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--user-pool-id")]
     public string? UserPoolId { get; private init; }
 
     /// <summary>
-    /// The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+
+    /// The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+
     /// </summary>
     [CliOption("--username")]
     public string? Username { get; private init; }
 
     /// <summary>
-    /// The unique identifier, or device key, of the device that you want to update the status for. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-f-]+
+    /// The unique identifier, or device key, of the device that you want to update the status for. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-f-]+
     /// </summary>
     [CliOption("--device-key")]
     public string? DeviceKey { get; private init; }
 
     /// <summary>
-    /// To enable device authentication with the specified device, set to remembered .To disable, set to not_remembered . Possible values: o remembered o not_remembered
+    /// To enable device authentication with the specified device, set to remembered .To disable, set to not_remembered . Possible values: • remembered • not_remembered
     /// </summary>
     [CliOption("--device-remembered-status")]
     public AwsCognitoIdpAdminUpdateDeviceStatusDeviceRememberedStatus? DeviceRememberedStatus { get; set; }

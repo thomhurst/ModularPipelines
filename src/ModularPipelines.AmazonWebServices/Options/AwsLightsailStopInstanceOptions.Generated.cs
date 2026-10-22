@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Stops a specific Amazon Lightsail instance that is currently running. NOTE: When you start a stopped instance, Lightsail assigns a new public IP address to the instance. To use the same IP address after stopping and starting an instance, create a static IP address and attach it to the instance. For more information, see the Amazon Lightsail De- veloper Guide . The stop instance operation supports tag-based access control via re- source tags applied to the resource identified by instance name . F...
+/// Stops a specific Amazon Lightsail instance that is currently running. NOTE: When you start a stopped instance, Lightsail assigns a new public IP address to the instance. To use the same IP address after stopping and starting an instance, create a static IP address and attach it to the instance. For more information, see the Amazon Lightsail Developer Guide . The stop instance operation supports tag-based access control via resource tags applied to the resource identified by instance name . For m...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLightsailStopInstanceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Stops a specific Amazon Lightsail instance that is currently running. NOTE: When you start a stopped instance, Lightsail assigns a new public IP address to the instance. To use the same IP address after stopping and starting an instance, create a static IP address and attach it to the instance. For more information, see the Amazon Lightsail De- veloper Guide . The stop instance operation supports tag-based access control via re- source tags applied to the resource identified by instance name . F...
+    /// Stops a specific Amazon Lightsail instance that is currently running. NOTE: When you start a stopped instance, Lightsail assigns a new public IP address to the instance. To use the same IP address after stopping and starting an instance, create a static IP address and attach it to the instance. For more information, see the Amazon Lightsail Developer Guide . The stop instance operation supports tag-based access control via resource tags applied to the resource identified by instance name . For m...
     /// </summary>
-    /// <param name="InstanceName">The name of the instance (a virtual private server) to stop. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="InstanceName">The name of the instance (a virtual private server) to stop. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailStopInstanceOptions(
         string InstanceName
     )
@@ -56,7 +58,7 @@ public record AwsLightsailStopInstanceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the instance (a virtual private server) to stop. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the instance (a virtual private server) to stop. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--instance-name")]
     public string? InstanceName { get; private init; }

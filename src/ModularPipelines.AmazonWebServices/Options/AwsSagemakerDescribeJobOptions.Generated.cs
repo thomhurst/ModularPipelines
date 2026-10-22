@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns detailed information about a job, including its current status, secondary status, configuration, and timestamps. Use SecondaryStatus for granular progress tracking and SecondaryStatusTransitions to see the full history of status changes with timestamps. The following operations are related to DescribeJob : o CreateJob o ListJobs o StopJob o DeleteJob See also: AWS API Documentation
+/// Returns detailed information about a job, including its current status, secondary status, configuration, and timestamps. Use SecondaryStatus for granular progress tracking and SecondaryStatusTransitions to see the full history of status changes with timestamps. The following operations are related to DescribeJob : • CreateJob • ListJobs • StopJob • DeleteJob See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsSagemakerDescribeJobOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns detailed information about a job, including its current status, secondary status, configuration, and timestamps. Use SecondaryStatus for granular progress tracking and SecondaryStatusTransitions to see the full history of status changes with timestamps. The following operations are related to DescribeJob : o CreateJob o ListJobs o StopJob o DeleteJob See also: AWS API Documentation
+    /// Returns detailed information about a job, including its current status, secondary status, configuration, and timestamps. Use SecondaryStatus for granular progress tracking and SecondaryStatusTransitions to see the full history of status changes with timestamps. The following operations are related to DescribeJob : • CreateJob • ListJobs • StopJob • DeleteJob See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobName">The name of the job to describe. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
-    /// <param name="JobCategory">The category of the job. Possible values: o AgentRFT o AgentRFTEvaluation</param>
+    /// <param name="JobName">The name of the job to describe. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="JobCategory">The category of the job. Possible values: • AgentRFT • AgentRFTEvaluation</param>
     public AwsSagemakerDescribeJobOptions(
         string JobName,
         AwsSagemakerDescribeJobJobCategory JobCategory
@@ -60,13 +62,13 @@ public record AwsSagemakerDescribeJobOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the job to describe. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the job to describe. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--job-name")]
     public string? JobName { get; private init; }
 
     /// <summary>
-    /// The category of the job. Possible values: o AgentRFT o AgentRFTEvaluation
+    /// The category of the job. Possible values: • AgentRFT • AgentRFTEvaluation
     /// </summary>
     [CliOption("--job-category")]
     public AwsSagemakerDescribeJobJobCategory? JobCategory { get; private init; }

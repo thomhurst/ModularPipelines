@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -30,14 +31,14 @@ public record AwsQconnectCreateAiPromptOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates an Amazon Q in Connect AI Prompt. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssistantId">The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
-    /// <param name="Name">The name of the AI Prompt. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9\s_.,-]+.*</param>
-    /// <param name="Type">The type of this AI Prompt. Possible values: o ANSWER_GENERATION o INTENT_LABELING_GENERATION o QUERY_REFORMULATION o SELF_SERVICE_PRE_PROCESSING o SELF_SERVICE_ANSWER_GENERATION o EMAIL_RESPONSE o EMAIL_OVERVIEW o EMAIL_GENERATIVE_ANSWER o EMAIL_QUERY_REFORMULATION o ORCHESTRATION o NOTE_TAKING o CASE_SUMMARIZATION</param>
-    /// <param name="TemplateConfiguration">The configuration of the prompt template for this AI Prompt. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: textFullAIPromptEditTemplateConfigura- tion. textFullAIPromptEditTemplateConfiguration -&gt; (structure) The configuration for a prompt template that supports full tex- tual prompt configuration using a YAML prompt. text -&gt; (string) [required] The YAML text for the AI Prompt template. Constraints: o min: 1 o max: 1000000 Shorthand Syntax: textFullAIPromptEditTemplateConfiguration={text=string} JSON Syntax: { "textFullAIPromptEditTemplateConfiguration": { "text": "string" } }</param>
-    /// <param name="VisibilityStatus">The visibility status of the AI Prompt. Possible values: o SAVED o PUBLISHED</param>
-    /// <param name="TemplateType">The type of the prompt template for this AI Prompt. Possible values: o TEXT</param>
-    /// <param name="ModelId">The identifier of the model used for this AI Prompt. NOTE: For information about which models are supported in each Amazon Web Services Region, see Supported models for system/custom prompts . Constraints: o min: 1 o max: 2048</param>
-    /// <param name="ApiFormat">The API Format of the AI Prompt. Recommended values: MESSAGES | TEXT_COMPLETIONS NOTE: The values ANTHROPIC_CLAUDE_MESSAGES | AN- THROPIC_CLAUDE_TEXT_COMPLETIONS will be deprecated. Possible values: o ANTHROPIC_CLAUDE_MESSAGES o ANTHROPIC_CLAUDE_TEXT_COMPLETIONS o MESSAGES o TEXT_COMPLETIONS</param>
+    /// <param name="AssistantId">The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
+    /// <param name="Name">The name of the AI Prompt. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9\s_.,-]+.*</param>
+    /// <param name="Type">The type of this AI Prompt. Possible values: • ANSWER_GENERATION • INTENT_LABELING_GENERATION • QUERY_REFORMULATION • SELF_SERVICE_PRE_PROCESSING • SELF_SERVICE_ANSWER_GENERATION • EMAIL_RESPONSE • EMAIL_OVERVIEW • EMAIL_GENERATIVE_ANSWER • EMAIL_QUERY_REFORMULATION • ORCHESTRATION • NOTE_TAKING • CASE_SUMMARIZATION</param>
+    /// <param name="TemplateConfiguration">The configuration of the prompt template for this AI Prompt. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: textFullAIPromptEditTemplateConfiguration. textFullAIPromptEditTemplateConfiguration -&gt; (structure) The configuration for a prompt template that supports full textual prompt configuration using a YAML prompt. text -&gt; (string) [required] The YAML text for the AI Prompt template. Constraints: • min: 1 • max: 1000000 Shorthand Syntax: textFullAIPromptEditTemplateConfiguration={text=string} JSON Syntax: { "textFullAIPromptEditTemplateConfiguration": { "text": "string" } }</param>
+    /// <param name="VisibilityStatus">The visibility status of the AI Prompt. Possible values: • SAVED • PUBLISHED</param>
+    /// <param name="TemplateType">The type of the prompt template for this AI Prompt. Possible values: • TEXT</param>
+    /// <param name="ModelId">The identifier of the model used for this AI Prompt. NOTE: For information about which models are supported in each Amazon Web Services Region, see Supported models for system/custom prompts . Constraints: • min: 1 • max: 2048</param>
+    /// <param name="ApiFormat">The API Format of the AI Prompt. Recommended values: MESSAGES | TEXT_COMPLETIONS NOTE: The values ANTHROPIC_CLAUDE_MESSAGES | ANTHROPIC_CLAUDE_TEXT_COMPLETIONS will be deprecated. Possible values: • ANTHROPIC_CLAUDE_MESSAGES • ANTHROPIC_CLAUDE_TEXT_COMPLETIONS • MESSAGES • TEXT_COMPLETIONS</param>
     public AwsQconnectCreateAiPromptOptions(
         string AssistantId,
         string Name,
@@ -84,74 +85,74 @@ public record AwsQconnectCreateAiPromptOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}
     /// </summary>
     [CliOption("--assistant-id")]
     public string? AssistantId { get; private init; }
 
     /// <summary>
-    /// The name of the AI Prompt. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9\s_.,-]+.*
+    /// The name of the AI Prompt. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9\s_.,-]+.*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The type of this AI Prompt. Possible values: o ANSWER_GENERATION o INTENT_LABELING_GENERATION o QUERY_REFORMULATION o SELF_SERVICE_PRE_PROCESSING o SELF_SERVICE_ANSWER_GENERATION o EMAIL_RESPONSE o EMAIL_OVERVIEW o EMAIL_GENERATIVE_ANSWER o EMAIL_QUERY_REFORMULATION o ORCHESTRATION o NOTE_TAKING o CASE_SUMMARIZATION
+    /// The type of this AI Prompt. Possible values: • ANSWER_GENERATION • INTENT_LABELING_GENERATION • QUERY_REFORMULATION • SELF_SERVICE_PRE_PROCESSING • SELF_SERVICE_ANSWER_GENERATION • EMAIL_RESPONSE • EMAIL_OVERVIEW • EMAIL_GENERATIVE_ANSWER • EMAIL_QUERY_REFORMULATION • ORCHESTRATION • NOTE_TAKING • CASE_SUMMARIZATION
     /// </summary>
     [CliOption("--type")]
     public AwsQconnectCreateAiPromptType? Type { get; private init; }
 
     /// <summary>
-    /// The configuration of the prompt template for this AI Prompt. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: textFullAIPromptEditTemplateConfigura- tion. textFullAIPromptEditTemplateConfiguration -&gt; (structure) The configuration for a prompt template that supports full tex- tual prompt configuration using a YAML prompt. text -&gt; (string) [required] The YAML text for the AI Prompt template. Constraints: o min: 1 o max: 1000000 Shorthand Syntax: textFullAIPromptEditTemplateConfiguration={text=string} JSON Syntax: { "textFullAIPromptEditTemplateConfiguration": { "text": "string" } }
+    /// The configuration of the prompt template for this AI Prompt. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: textFullAIPromptEditTemplateConfiguration. textFullAIPromptEditTemplateConfiguration -&gt; (structure) The configuration for a prompt template that supports full textual prompt configuration using a YAML prompt. text -&gt; (string) [required] The YAML text for the AI Prompt template. Constraints: • min: 1 • max: 1000000 Shorthand Syntax: textFullAIPromptEditTemplateConfiguration={text=string} JSON Syntax: { "textFullAIPromptEditTemplateConfiguration": { "text": "string" } }
     /// </summary>
     [CliOption("--template-configuration")]
     public string? TemplateConfiguration { get; private init; }
 
     /// <summary>
-    /// The visibility status of the AI Prompt. Possible values: o SAVED o PUBLISHED
+    /// The visibility status of the AI Prompt. Possible values: • SAVED • PUBLISHED
     /// </summary>
     [CliOption("--visibility-status")]
     public AwsQconnectCreateAiPromptVisibilityStatus? VisibilityStatus { get; private init; }
 
     /// <summary>
-    /// The type of the prompt template for this AI Prompt. Possible values: o TEXT
+    /// The type of the prompt template for this AI Prompt. Possible values: • TEXT
     /// </summary>
     [CliOption("--template-type")]
     public string? TemplateType { get; private init; }
 
     /// <summary>
-    /// The identifier of the model used for this AI Prompt. NOTE: For information about which models are supported in each Amazon Web Services Region, see Supported models for system/custom prompts . Constraints: o min: 1 o max: 2048
+    /// The identifier of the model used for this AI Prompt. NOTE: For information about which models are supported in each Amazon Web Services Region, see Supported models for system/custom prompts . Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--model-id")]
     public string? ModelId { get; private init; }
 
     /// <summary>
-    /// The API Format of the AI Prompt. Recommended values: MESSAGES | TEXT_COMPLETIONS NOTE: The values ANTHROPIC_CLAUDE_MESSAGES | AN- THROPIC_CLAUDE_TEXT_COMPLETIONS will be deprecated. Possible values: o ANTHROPIC_CLAUDE_MESSAGES o ANTHROPIC_CLAUDE_TEXT_COMPLETIONS o MESSAGES o TEXT_COMPLETIONS
+    /// The API Format of the AI Prompt. Recommended values: MESSAGES | TEXT_COMPLETIONS NOTE: The values ANTHROPIC_CLAUDE_MESSAGES | ANTHROPIC_CLAUDE_TEXT_COMPLETIONS will be deprecated. Possible values: • ANTHROPIC_CLAUDE_MESSAGES • ANTHROPIC_CLAUDE_TEXT_COMPLETIONS • MESSAGES • TEXT_COMPLETIONS
     /// </summary>
     [CliOption("--api-format")]
     public AwsQconnectCreateAiPromptApiFormat? ApiFormat { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs .. Constraints: o min: 1 o max: 4096
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs .. Constraints: • min: 1 • max: 4096
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for this re- source. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags used to organize, track, or control access for this resource. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: • min: 1 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The description of the AI Prompt. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9\s_.,-]+.*
+    /// The description of the AI Prompt. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9\s_.,-]+.*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The inference configuration for the AI Prompt being created. temperature -&gt; (float) The temperature setting for controlling randomness in the gener- ated response. Constraints: o min: 0 o max: 1 topP -&gt; (float) The top-P sampling parameter for nucleus sampling. Constraints: o min: 0 o max: 1 topK -&gt; (integer) The top-K sampling parameter for token selection. Constraints: o min: 0 o max: 200 maxTokensToSample -&gt; (integer) The maximum number of tokens to generate in the response. Constraints: o min: 1 o max: 4096 Shorthand Syntax: temperature=float,topP=float,topK=integer,maxTokensToSample=integer JSON Syntax: { "temperature": float, "topP": float, "topK": integer, "maxTokensToSample": integer }
+    /// The inference configuration for the AI Prompt being created. temperature -&gt; (float) The temperature setting for controlling randomness in the generated response. Constraints: • min: 0 • max: 1 topP -&gt; (float) The top-P sampling parameter for nucleus sampling. Constraints: • min: 0 • max: 1 topK -&gt; (integer) The top-K sampling parameter for token selection. Constraints: • min: 0 • max: 200 maxTokensToSample -&gt; (integer) The maximum number of tokens to generate in the response. Constraints: • min: 1 • max: 4096 Shorthand Syntax: temperature=float,topP=float,topK=integer,maxTokensToSample=integer JSON Syntax: { "temperature": float, "topP": float, "topK": integer, "maxTokensToSample": integer }
     /// </summary>
     [CliOption("--inference-configuration")]
     public string? InferenceConfiguration { get; set; }

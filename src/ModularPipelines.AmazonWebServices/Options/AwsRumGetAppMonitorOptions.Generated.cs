@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRumGetAppMonitorOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves the complete configuration information for one app monitor. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The app monitor to retrieve information for. Constraints: o min: 1 o max: 255 o pattern: (?!\.)[\.\-_#A-Za-z0-9]+</param>
+    /// <param name="Name">The app monitor to retrieve information for. Constraints: • min: 1 • max: 255 • pattern: (?!\.)[\.\-_#A-Za-z0-9]+</param>
     public AwsRumGetAppMonitorOptions(
         string Name
     )
@@ -56,7 +58,7 @@ public record AwsRumGetAppMonitorOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The app monitor to retrieve information for. Constraints: o min: 1 o max: 255 o pattern: (?!\.)[\.\-_#A-Za-z0-9]+
+    /// The app monitor to retrieve information for. Constraints: • min: 1 • max: 255 • pattern: (?!\.)[\.\-_#A-Za-z0-9]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

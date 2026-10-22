@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsBedrockAgentDeleteAgentAliasOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Deletes an alias of an agent. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentId">The unique identifier of the agent that the alias belongs to. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
-    /// <param name="AgentAliasId">The unique identifier of the alias to delete. Constraints: o min: 10 o max: 10 o pattern: (\bTSTALIASID\b|[0-9a-zA-Z]+)</param>
+    /// <param name="AgentId">The unique identifier of the agent that the alias belongs to. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="AgentAliasId">The unique identifier of the alias to delete. Constraints: • min: 10 • max: 10 • pattern: (\bTSTALIASID\b|[0-9a-zA-Z]+)</param>
     public AwsBedrockAgentDeleteAgentAliasOptions(
         string AgentId,
         string AgentAliasId
@@ -60,13 +62,13 @@ public record AwsBedrockAgentDeleteAgentAliasOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the agent that the alias belongs to. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The unique identifier of the agent that the alias belongs to. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--agent-id")]
     public string? AgentId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the alias to delete. Constraints: o min: 10 o max: 10 o pattern: (\bTSTALIASID\b|[0-9a-zA-Z]+)
+    /// The unique identifier of the alias to delete. Constraints: • min: 10 • max: 10 • pattern: (\bTSTALIASID\b|[0-9a-zA-Z]+)
     /// </summary>
     [CliOption("--agent-alias-id")]
     public string? AgentAliasId { get; private init; }

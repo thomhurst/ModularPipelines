@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes all rule groups that are managed by Firewall Manager from the specified WebACL . You can only use this if ManagedByFirewallManager and RetrofittedBy- FirewallManager are both false in the web ACL. See also: AWS API Documentation
+/// Deletes all rule groups that are managed by Firewall Manager from the specified WebACL . You can only use this if ManagedByFirewallManager and RetrofittedByFirewallManager are both false in the web ACL. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsWafv2DeleteFirewallManagerRuleGroupsOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes all rule groups that are managed by Firewall Manager from the specified WebACL . You can only use this if ManagedByFirewallManager and RetrofittedBy- FirewallManager are both false in the web ACL. See also: AWS API Documentation
+    /// Deletes all rule groups that are managed by Firewall Manager from the specified WebACL . You can only use this if ManagedByFirewallManager and RetrofittedByFirewallManager are both false in the web ACL. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WebAclArn">The Amazon Resource Name (ARN) of the web ACL. Constraints: o min: 20 o max: 2048 o pattern: .*\S.*</param>
-    /// <param name="WebAclLockToken">A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the to- ken, you provide the token to operations like update and delete . WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException . If this happens, perform another get , and use the new token returned by that opera- tion. Constraints: o min: 1 o max: 36 o pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$</param>
+    /// <param name="WebAclArn">The Amazon Resource Name (ARN) of the web ACL. Constraints: • min: 20 • max: 2048 • pattern: .*\S.*</param>
+    /// <param name="WebAclLockToken">A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete . WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException . If this happens, perform another get , and use the new token returned by that operation. Constraints: • min: 1 • max: 36 • pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$</param>
     public AwsWafv2DeleteFirewallManagerRuleGroupsOptions(
         string WebAclArn,
         string WebAclLockToken
@@ -61,13 +63,13 @@ public record AwsWafv2DeleteFirewallManagerRuleGroupsOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the web ACL. Constraints: o min: 20 o max: 2048 o pattern: .*\S.*
+    /// The Amazon Resource Name (ARN) of the web ACL. Constraints: • min: 20 • max: 2048 • pattern: .*\S.*
     /// </summary>
     [CliOption("--web-acl-arn")]
     public string? WebAclArn { get; private init; }
 
     /// <summary>
-    /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the to- ken, you provide the token to operations like update and delete . WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException . If this happens, perform another get , and use the new token returned by that opera- tion. Constraints: o min: 1 o max: 36 o pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$
+    /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete . WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException . If this happens, perform another get , and use the new token returned by that operation. Constraints: • min: 1 • max: 36 • pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$
     /// </summary>
     [SecretValue]
     [CliOption("--web-acl-lock-token")]

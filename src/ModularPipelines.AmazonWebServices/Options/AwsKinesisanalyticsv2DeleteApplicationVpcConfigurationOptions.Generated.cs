@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes a VPC configuration from a Managed Service for Apache Flink ap- plication. See also: AWS API Documentation
+/// Removes a VPC configuration from a Managed Service for Apache Flink application. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsKinesisanalyticsv2DeleteApplicationVpcConfigurationOptions : Aw
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes a VPC configuration from a Managed Service for Apache Flink ap- plication. See also: AWS API Documentation
+    /// Removes a VPC configuration from a Managed Service for Apache Flink application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationName">The name of an existing application. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="VpcConfigurationId">The ID of the VPC configuration to delete. Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="ApplicationName">The name of an existing application. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="VpcConfigurationId">The ID of the VPC configuration to delete. Constraints: • min: 1 • max: 50 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsKinesisanalyticsv2DeleteApplicationVpcConfigurationOptions(
         string ApplicationName,
         string VpcConfigurationId
@@ -61,25 +63,25 @@ public record AwsKinesisanalyticsv2DeleteApplicationVpcConfigurationOptions : Aw
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of an existing application. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of an existing application. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; private init; }
 
     /// <summary>
-    /// The ID of the VPC configuration to delete. Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9_.-]+
+    /// The ID of the VPC configuration to delete. Constraints: • min: 1 • max: 50 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--vpc-configuration-id")]
     public string? VpcConfigurationId { get; private init; }
 
     /// <summary>
-    /// The current application version ID. You must provide the CurrentAp- plicationVersionId or the ConditionalToken . You can retrieve the application version ID using DescribeApplication . For better con- currency support, use the ConditionalToken parameter instead of Cur- rentApplicationVersionId . Constraints: o min: 1 o max: 999999999
+    /// The current application version ID. You must provide the CurrentApplicationVersionId or the ConditionalToken . You can retrieve the application version ID using DescribeApplication . For better concurrency support, use the ConditionalToken parameter instead of CurrentApplicationVersionId . Constraints: • min: 1 • max: 999999999
     /// </summary>
     [CliOption("--current-application-version-id")]
-    public int? CurrentApplicationVersionId { get; set; }
+    public long? CurrentApplicationVersionId { get; set; }
 
     /// <summary>
-    /// A value you use to implement strong concurrency for application up- dates. You must provide the CurrentApplicationVersionId or the Con- ditionalToken . You get the application's current ConditionalToken using DescribeApplication . For better concurrency support, use the ConditionalToken parameter instead of CurrentApplicationVersionId . Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9-_+/=]+
+    /// A value you use to implement strong concurrency for application updates. You must provide the CurrentApplicationVersionId or the ConditionalToken . You get the application's current ConditionalToken using DescribeApplication . For better concurrency support, use the ConditionalToken parameter instead of CurrentApplicationVersionId . Constraints: • min: 1 • max: 512 • pattern: [a-zA-Z0-9-_+/=]+
     /// </summary>
     [SecretValue]
     [CliOption("--conditional-token")]

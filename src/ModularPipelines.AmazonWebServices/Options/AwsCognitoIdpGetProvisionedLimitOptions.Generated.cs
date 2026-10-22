@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the current provisioned limit for a specific API category. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Services API Requests o Using the Amazon Cognito user pools API and user pool endpoints See also: AWS API Documentation
+/// Returns the current provisioned limit for a specific API category. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more • Signing Amazon Web Services API Requests • Using the Amazon Cognito user pools API and user pool endpoints See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsCognitoIdpGetProvisionedLimitOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the current provisioned limit for a specific API category. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Services API Requests o Using the Amazon Cognito user pools API and user pool endpoints See also: AWS API Documentation
+    /// Returns the current provisioned limit for a specific API category. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more • Signing Amazon Web Services API Requests • Using the Amazon Cognito user pools API and user pool endpoints See also: AWS API Documentation
     /// </summary>
-    /// <param name="LimitDefinition">The limit to retrieve. Specify the limit class and the attributes that identify the limit. LimitClass -&gt; (string) [required] The class of the limit. For API rate limits, this is API_CATE- GORY . Possible values: o API_CATEGORY Attributes -&gt; (map) [required] The attributes that identify the specific limit. For API rate limits, specify the Category key with a value like UserAuthenti- cation or UserCreation . key -&gt; (string) Constraints: o min: 0 o max: 131072 value -&gt; (string) Constraints: o min: 0 o max: 131072 Shorthand Syntax: LimitClass=string,Attributes={KeyName1=string,KeyName2=string} JSON Syntax: { "LimitClass": "API_CATEGORY", "Attributes": {"string": "string" ...} }</param>
+    /// <param name="LimitDefinition">The limit to retrieve. Specify the limit class and the attributes that identify the limit. LimitClass -&gt; (string) [required] The class of the limit. For API rate limits, this is API_CATEGORY . Possible values: • API_CATEGORY Attributes -&gt; (map) [required] The attributes that identify the specific limit. For API rate limits, specify the Category key with a value like UserAuthentication or UserCreation . key -&gt; (string) Constraints: • min: 0 • max: 131072 value -&gt; (string) Constraints: • min: 0 • max: 131072 Shorthand Syntax: LimitClass=string,Attributes={KeyName1=string,KeyName2=string} JSON Syntax: { "LimitClass": "API_CATEGORY", "Attributes": {"string": "string" ...} }</param>
     public AwsCognitoIdpGetProvisionedLimitOptions(
         string LimitDefinition
     )
@@ -56,7 +58,7 @@ public record AwsCognitoIdpGetProvisionedLimitOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The limit to retrieve. Specify the limit class and the attributes that identify the limit. LimitClass -&gt; (string) [required] The class of the limit. For API rate limits, this is API_CATE- GORY . Possible values: o API_CATEGORY Attributes -&gt; (map) [required] The attributes that identify the specific limit. For API rate limits, specify the Category key with a value like UserAuthenti- cation or UserCreation . key -&gt; (string) Constraints: o min: 0 o max: 131072 value -&gt; (string) Constraints: o min: 0 o max: 131072 Shorthand Syntax: LimitClass=string,Attributes={KeyName1=string,KeyName2=string} JSON Syntax: { "LimitClass": "API_CATEGORY", "Attributes": {"string": "string" ...} }
+    /// The limit to retrieve. Specify the limit class and the attributes that identify the limit. LimitClass -&gt; (string) [required] The class of the limit. For API rate limits, this is API_CATEGORY . Possible values: • API_CATEGORY Attributes -&gt; (map) [required] The attributes that identify the specific limit. For API rate limits, specify the Category key with a value like UserAuthentication or UserCreation . key -&gt; (string) Constraints: • min: 0 • max: 131072 value -&gt; (string) Constraints: • min: 0 • max: 131072 Shorthand Syntax: LimitClass=string,Attributes={KeyName1=string,KeyName2=string} JSON Syntax: { "LimitClass": "API_CATEGORY", "Attributes": {"string": "string" ...} }
     /// </summary>
     [CliOption("--limit-definition")]
     public string? LimitDefinition { get; private init; }

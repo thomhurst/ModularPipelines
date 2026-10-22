@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +30,9 @@ public record AwsDatazoneCreateDomainUnitOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Creates a domain unit in Amazon DataZone. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the domain where you want to crate a domain unit. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Name">The name of the domain unit. Constraints: o min: 1 o max: 128 o pattern: [\w -]+</param>
-    /// <param name="ParentDomainUnitIdentifier">The ID of the parent domain unit. Constraints: o min: 1 o max: 256 o pattern: [a-z0-9_\-]+</param>
+    /// <param name="DomainIdentifier">The ID of the domain where you want to crate a domain unit. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Name">The name of the domain unit. Constraints: • min: 1 • max: 128 • pattern: [\w -]+</param>
+    /// <param name="ParentDomainUnitIdentifier">The ID of the parent domain unit. Constraints: • min: 1 • max: 256 • pattern: [a-z0-9_\-]+</param>
     public AwsDatazoneCreateDomainUnitOptions(
         string DomainIdentifier,
         string Name,
@@ -65,31 +67,31 @@ public record AwsDatazoneCreateDomainUnitOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the domain where you want to crate a domain unit. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the domain where you want to crate a domain unit. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The name of the domain unit. Constraints: o min: 1 o max: 128 o pattern: [\w -]+
+    /// The name of the domain unit. Constraints: • min: 1 • max: 128 • pattern: [\w -]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The ID of the parent domain unit. Constraints: o min: 1 o max: 256 o pattern: [a-z0-9_\-]+
+    /// The ID of the parent domain unit. Constraints: • min: 1 • max: 256 • pattern: [a-z0-9_\-]+
     /// </summary>
     [CliOption("--parent-domain-unit-identifier")]
     public string? ParentDomainUnitIdentifier { get; private init; }
 
     /// <summary>
-    /// The description of the domain unit. Constraints: o min: 0 o max: 2048
+    /// The description of the domain unit. Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

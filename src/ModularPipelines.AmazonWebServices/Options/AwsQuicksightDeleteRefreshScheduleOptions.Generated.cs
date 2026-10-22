@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsQuicksightDeleteRefreshScheduleOptions : AwsOptions, IValidatab
     /// Deletes a refresh schedule from a dataset. See also: AWS API Documentation
     /// </summary>
     /// <param name="DataSetId">The ID of the dataset.</param>
-    /// <param name="AwsAccountId">The Amazon Web Services account ID. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="AwsAccountId">The Amazon Web Services account ID. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
     /// <param name="ScheduleId">The ID of the refresh schedule.</param>
     public AwsQuicksightDeleteRefreshScheduleOptions(
         string DataSetId,
@@ -70,7 +72,7 @@ public record AwsQuicksightDeleteRefreshScheduleOptions : AwsOptions, IValidatab
     public string? DataSetId { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The Amazon Web Services account ID. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }

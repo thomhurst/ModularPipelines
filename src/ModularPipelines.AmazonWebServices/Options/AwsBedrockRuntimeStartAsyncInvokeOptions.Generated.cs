@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts an asynchronous invocation. This operation requires permission for the bedrock:InvokeModel action. WARNING: To deny all inference access to resources that you specify in the modelId field, you need to deny access to the bedrock:InvokeModel and bedrock:InvokeModelWithResponseStream actions. Doing this also denies access to the resource through the Converse API actions (- Converse and ConverseStream ). For more information see Deny access for inference on specific models . See also: AWS API...
+/// Starts an asynchronous invocation. This operation requires permission for the bedrock:InvokeModel action. WARNING: To deny all inference access to resources that you specify in the modelId field, you need to deny access to the bedrock:InvokeModel and bedrock:InvokeModelWithResponseStream actions. Doing this also denies access to the resource through the Converse API actions (Converse and ConverseStream ). For more information see Deny access for inference on specific models . See also: AWS API D...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsBedrockRuntimeStartAsyncInvokeOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts an asynchronous invocation. This operation requires permission for the bedrock:InvokeModel action. WARNING: To deny all inference access to resources that you specify in the modelId field, you need to deny access to the bedrock:InvokeModel and bedrock:InvokeModelWithResponseStream actions. Doing this also denies access to the resource through the Converse API actions (- Converse and ConverseStream ). For more information see Deny access for inference on specific models . See also: AWS API...
+    /// Starts an asynchronous invocation. This operation requires permission for the bedrock:InvokeModel action. WARNING: To deny all inference access to resources that you specify in the modelId field, you need to deny access to the bedrock:InvokeModel and bedrock:InvokeModelWithResponseStream actions. Doing this also denies access to the resource through the Converse API actions (Converse and ConverseStream ). For more information see Deny access for inference on specific models . See also: AWS API D...
     /// </summary>
-    /// <param name="ModelId">The model to invoke. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\.\-/0-9:]+</param>
+    /// <param name="ModelId">The model to invoke. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z_\.\-/0-9:]+</param>
     /// <param name="ModelInput">Input to send to the model. JSON Syntax: {...}</param>
-    /// <param name="OutputDataConfig">Where to store the output. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3OutputDataConfig. s3OutputDataConfig -&gt; (structure) A storage location for the output data in an S3 bucket s3Uri -&gt; (string) [required] An object URI starting with s3:// . Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? kmsKeyId -&gt; (string) A KMS encryption key ID. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)) bucketOwner -&gt; (string) If the bucket belongs to another AWS account, specify that account's ID. Constraints: o pattern: [0-9]{12} Shorthand Syntax: s3OutputDataConfig={s3Uri=string,kmsKeyId=string,bucketOwner=string} JSON Syntax: { "s3OutputDataConfig": { "s3Uri": "string", "kmsKeyId": "string", "bucketOwner": "string" } }</param>
+    /// <param name="OutputDataConfig">Where to store the output. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3OutputDataConfig. s3OutputDataConfig -&gt; (structure) A storage location for the output data in an S3 bucket s3Uri -&gt; (string) [required] An object URI starting with s3:// . Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? kmsKeyId -&gt; (string) A KMS encryption key ID. Constraints: • min: 1 • max: 2048 • pattern: arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)) bucketOwner -&gt; (string) If the bucket belongs to another AWS account, specify that account's ID. Constraints: • pattern: [0-9]{12} Shorthand Syntax: s3OutputDataConfig={s3Uri=string,kmsKeyId=string,bucketOwner=string} JSON Syntax: { "s3OutputDataConfig": { "s3Uri": "string", "kmsKeyId": "string", "bucketOwner": "string" } }</param>
     public AwsBedrockRuntimeStartAsyncInvokeOptions(
         string ModelId,
         string ModelInput,
@@ -65,7 +67,7 @@ public record AwsBedrockRuntimeStartAsyncInvokeOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The model to invoke. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\.\-/0-9:]+
+    /// The model to invoke. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z_\.\-/0-9:]+
     /// </summary>
     [CliOption("--model-id")]
     public string? ModelId { get; private init; }
@@ -77,20 +79,20 @@ public record AwsBedrockRuntimeStartAsyncInvokeOptions : AwsOptions, IValidatabl
     public string? ModelInput { get; private init; }
 
     /// <summary>
-    /// Where to store the output. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3OutputDataConfig. s3OutputDataConfig -&gt; (structure) A storage location for the output data in an S3 bucket s3Uri -&gt; (string) [required] An object URI starting with s3:// . Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? kmsKeyId -&gt; (string) A KMS encryption key ID. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)) bucketOwner -&gt; (string) If the bucket belongs to another AWS account, specify that account's ID. Constraints: o pattern: [0-9]{12} Shorthand Syntax: s3OutputDataConfig={s3Uri=string,kmsKeyId=string,bucketOwner=string} JSON Syntax: { "s3OutputDataConfig": { "s3Uri": "string", "kmsKeyId": "string", "bucketOwner": "string" } }
+    /// Where to store the output. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3OutputDataConfig. s3OutputDataConfig -&gt; (structure) A storage location for the output data in an S3 bucket s3Uri -&gt; (string) [required] An object URI starting with s3:// . Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? kmsKeyId -&gt; (string) A KMS encryption key ID. Constraints: • min: 1 • max: 2048 • pattern: arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)) bucketOwner -&gt; (string) If the bucket belongs to another AWS account, specify that account's ID. Constraints: • pattern: [0-9]{12} Shorthand Syntax: s3OutputDataConfig={s3Uri=string,kmsKeyId=string,bucketOwner=string} JSON Syntax: { "s3OutputDataConfig": { "s3Uri": "string", "kmsKeyId": "string", "bucketOwner": "string" } }
     /// </summary>
     [CliOption("--output-data-config")]
     public string? OutputDataConfig { get; private init; }
 
     /// <summary>
-    /// Specify idempotency token to ensure that requests are not dupli- cated. Constraints: o min: 1 o max: 256 o pattern: [!-~]*
+    /// Specify idempotency token to ensure that requests are not duplicated. Constraints: • min: 1 • max: 256 • pattern: [!-~]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// Tags to apply to the invocation. Constraints: o min: 0 o max: 200 (structure) A tag. key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// Tags to apply to the invocation. Constraints: • min: 0 • max: 200 (structure) A tag. key -&gt; (string) [required] The tag's key. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) [required] The tag's value. Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the details of an asynchronous baseline operation, as initiated by any of these APIs: EnableBaseline , DisableBaseline , UpdateEnabled- Baseline , ResetEnabledBaseline . A status message is displayed in case of operation failure. For usage examples, see ` the Amazon Web Services Control Tower User Guide https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html`__ . See also: AWS API Documentation
+/// Returns the details of an asynchronous baseline operation, as initiated by any of these APIs: EnableBaseline , DisableBaseline , UpdateEnabledBaseline , ResetEnabledBaseline . A status message is displayed in case of operation failure. For usage examples, see ` the Amazon Web Services Control Tower User Guide https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html`__ . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsControltowerGetBaselineOperationOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the details of an asynchronous baseline operation, as initiated by any of these APIs: EnableBaseline , DisableBaseline , UpdateEnabled- Baseline , ResetEnabledBaseline . A status message is displayed in case of operation failure. For usage examples, see ` the Amazon Web Services Control Tower User Guide https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html`__ . See also: AWS API Documentation
+    /// Returns the details of an asynchronous baseline operation, as initiated by any of these APIs: EnableBaseline , DisableBaseline , UpdateEnabledBaseline , ResetEnabledBaseline . A status message is displayed in case of operation failure. For usage examples, see ` the Amazon Web Services Control Tower User Guide https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html`__ . See also: AWS API Documentation
     /// </summary>
-    /// <param name="OperationIdentifier">The operation ID returned from mutating asynchronous APIs (Enable, Disable, Update, Reset). Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="OperationIdentifier">The operation ID returned from mutating asynchronous APIs (Enable, Disable, Update, Reset). Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
     public AwsControltowerGetBaselineOperationOptions(
         string OperationIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsControltowerGetBaselineOperationOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The operation ID returned from mutating asynchronous APIs (Enable, Disable, Update, Reset). Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The operation ID returned from mutating asynchronous APIs (Enable, Disable, Update, Reset). Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--operation-identifier")]
     public string? OperationIdentifier { get; private init; }

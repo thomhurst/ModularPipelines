@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsTranscribeDeleteLanguageModelOptions : AwsOptions, IValidatable
     /// <summary>
     /// Deletes a custom language model. To use this operation, specify the name of the language model you want to delete using ModelName . custom language model names are case sensitive. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ModelName">The name of the custom language model you want to delete. Model names are case sensitive. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+</param>
+    /// <param name="ModelName">The name of the custom language model you want to delete. Model names are case sensitive. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z._-]+</param>
     public AwsTranscribeDeleteLanguageModelOptions(
         string ModelName
     )
@@ -56,7 +58,7 @@ public record AwsTranscribeDeleteLanguageModelOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the custom language model you want to delete. Model names are case sensitive. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+
+    /// The name of the custom language model you want to delete. Model names are case sensitive. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z._-]+
     /// </summary>
     [CliOption("--model-name")]
     public string? ModelName { get; private init; }

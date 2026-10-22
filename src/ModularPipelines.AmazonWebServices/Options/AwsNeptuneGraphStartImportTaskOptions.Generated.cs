@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +31,8 @@ public record AwsNeptuneGraphStartImportTaskOptions : AwsOptions, IValidatableOb
     /// Import data into existing Neptune Analytics graph from Amazon Simple Storage Service (S3). The graph needs to be empty and in the AVAILABLE state. See also: AWS API Documentation
     /// </summary>
     /// <param name="Source">A URL identifying the location of the data to be imported. This can be an Amazon S3 path, or can point to a Neptune database endpoint or snapshot.</param>
-    /// <param name="GraphIdentifier">The unique identifier of the Neptune Analytics graph. Constraints: o pattern: g-[a-z0-9]{10}</param>
-    /// <param name="RoleArn">The ARN of the IAM role that will allow access to the data that is to be imported. Constraints: o pattern: arn:aws[^:]*:iam::\d{12}:(role|role/ser- vice-role)(/[\w+=,.@-]+)+</param>
+    /// <param name="GraphIdentifier">The unique identifier of the Neptune Analytics graph. Constraints: • pattern: g-[a-z0-9]{10}</param>
+    /// <param name="RoleArn">The ARN of the IAM role that will allow access to the data that is to be imported. Constraints: • pattern: arn:aws[^:]*:iam::\d{12}:(role|role/service-role)(/[\w+=,.@-]+)+</param>
     public AwsNeptuneGraphStartImportTaskOptions(
         string Source,
         string GraphIdentifier,
@@ -71,19 +73,19 @@ public record AwsNeptuneGraphStartImportTaskOptions : AwsOptions, IValidatableOb
     public string? Source { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the Neptune Analytics graph. Constraints: o pattern: g-[a-z0-9]{10}
+    /// The unique identifier of the Neptune Analytics graph. Constraints: • pattern: g-[a-z0-9]{10}
     /// </summary>
     [CliOption("--graph-identifier")]
     public string? GraphIdentifier { get; private init; }
 
     /// <summary>
-    /// The ARN of the IAM role that will allow access to the data that is to be imported. Constraints: o pattern: arn:aws[^:]*:iam::\d{12}:(role|role/ser- vice-role)(/[\w+=,.@-]+)+
+    /// The ARN of the IAM role that will allow access to the data that is to be imported. Constraints: • pattern: arn:aws[^:]*:iam::\d{12}:(role|role/service-role)(/[\w+=,.@-]+)+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// Options for how to perform an import. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: neptune. neptune -&gt; (structure) Options for importing data from a Neptune database. s3ExportPath -&gt; (string) [required] The path to an S3 bucket from which to import data. Constraints: o min: 1 o max: 1024 s3ExportKmsKeyId -&gt; (string) [required] The KMS key to use to encrypt data in the S3 bucket where the graph data is exported Constraints: o min: 1 o max: 1024 preserveDefaultVertexLabels -&gt; (boolean) Neptune Analytics supports label-less vertices and no labels are assigned unless one is explicitly provided. Neptune as- signs default labels when none is explicitly provided. When importing the data into Neptune Analytics, the default vertex labels can be omitted by setting preserveDefaultVertexLabels to false. Note that if the vertex only has default labels, and has no other properties or edges, then the vertex will effectively not get imported into Neptune Analytics when pre- serveDefaultVertexLabels is set to false. preserveEdgeIds -&gt; (boolean) Neptune Analytics currently does not support user defined edge ids. The edge ids are not imported by default. They are imported if preserveEdgeIds is set to true, and ids are stored as properties on the relationships with the property name neptuneEdgeId . Shorthand Syntax: neptune={s3ExportPath=string,s3ExportKmsKeyId=string,preserveDefaultVertexLabels=boolean,preserveEdgeIds=boolean} JSON Syntax: { "neptune": { "s3ExportPath": "string", "s3ExportKmsKeyId": "string", "preserveDefaultVertexLabels": true|false, "preserveEdgeIds": true|false } }
+    /// Options for how to perform an import. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: neptune. neptune -&gt; (structure) Options for importing data from a Neptune database. s3ExportPath -&gt; (string) [required] The path to an S3 bucket from which to import data. Constraints: • min: 1 • max: 1024 s3ExportKmsKeyId -&gt; (string) [required] The KMS key to use to encrypt data in the S3 bucket where the graph data is exported Constraints: • min: 1 • max: 1024 preserveDefaultVertexLabels -&gt; (boolean) Neptune Analytics supports label-less vertices and no labels are assigned unless one is explicitly provided. Neptune assigns default labels when none is explicitly provided. When importing the data into Neptune Analytics, the default vertex labels can be omitted by setting preserveDefaultVertexLabels to false. Note that if the vertex only has default labels, and has no other properties or edges, then the vertex will effectively not get imported into Neptune Analytics when preserveDefaultVertexLabels is set to false. preserveEdgeIds -&gt; (boolean) Neptune Analytics currently does not support user defined edge ids. The edge ids are not imported by default. They are imported if preserveEdgeIds is set to true, and ids are stored as properties on the relationships with the property name neptuneEdgeId . Shorthand Syntax: neptune={s3ExportPath=string,s3ExportKmsKeyId=string,preserveDefaultVertexLabels=boolean,preserveEdgeIds=boolean} JSON Syntax: { "neptune": { "s3ExportPath": "string", "s3ExportKmsKeyId": "string", "preserveDefaultVertexLabels": true|false, "preserveEdgeIds": true|false } }
     /// </summary>
     [CliOption("--import-options")]
     public string? ImportOptions { get; set; }
@@ -95,19 +97,19 @@ public record AwsNeptuneGraphStartImportTaskOptions : AwsOptions, IValidatableOb
     public bool? FailOnError { get; set; }
 
     /// <summary>
-    /// Specifies the format of Amazon S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or OPENCYPHER, which identifies the openCypher load format. Possible values: o CSV o OPEN_CYPHER o PARQUET o NTRIPLES
+    /// Specifies the format of Amazon S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or OPENCYPHER, which identifies the openCypher load format. Possible values: • CSV • OPEN_CYPHER • PARQUET • NTRIPLES
     /// </summary>
     [CliOption("--format")]
     public AwsNeptuneGraphStartImportTaskFormat? Format { get; set; }
 
     /// <summary>
-    /// The parquet type of the import task. Possible values: o COLUMNAR
+    /// The parquet type of the import task. Possible values: • COLUMNAR
     /// </summary>
     [CliOption("--parquet-type")]
     public string? ParquetType { get; set; }
 
     /// <summary>
-    /// The method to handle blank nodes in the dataset. Currently, only convertToIri is supported, meaning blank nodes are converted to unique IRIs at load time. Must be provided when format is ntriples . For more information, see Handling RDF values . Possible values: o convertToIri
+    /// The method to handle blank nodes in the dataset. Currently, only convertToIri is supported, meaning blank nodes are converted to unique IRIs at load time. Must be provided when format is ntriples . For more information, see Handling RDF values . Possible values: • convertToIri
     /// </summary>
     [CliOption("--blank-node-handling")]
     public string? BlankNodeHandling { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Assigns attributes (key and value pairs) to the findings that are spec- ified by the ARNs of the findings. See also: AWS API Documentation
+/// Assigns attributes (key and value pairs) to the findings that are specified by the ARNs of the findings. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsInspectorAddAttributesToFindingsOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Assigns attributes (key and value pairs) to the findings that are spec- ified by the ARNs of the findings. See also: AWS API Documentation
+    /// Assigns attributes (key and value pairs) to the findings that are specified by the ARNs of the findings. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FindingArns">The ARNs that specify the findings that you want to assign attrib- utes to. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...</param>
-    /// <param name="Attributes">The array of attributes that you want to assign to specified find- ings. Constraints: o min: 0 o max: 10 (structure) This data type is used as a request parameter in the AddAttrib- utesToFindings and CreateAssessmentTemplate actions. key -&gt; (string) [required] The attribute key. Constraints: o min: 1 o max: 128 value -&gt; (string) The value assigned to the attribute key. Constraints: o min: 1 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
+    /// <param name="FindingArns">The ARNs that specify the findings that you want to assign attributes to. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 300 Syntax: "string" "string" ...</param>
+    /// <param name="Attributes">The array of attributes that you want to assign to specified findings. Constraints: • min: 0 • max: 10 (structure) This data type is used as a request parameter in the AddAttributesToFindings and CreateAssessmentTemplate actions. key -&gt; (string) [required] The attribute key. Constraints: • min: 1 • max: 128 value -&gt; (string) The value assigned to the attribute key. Constraints: • min: 1 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
     public AwsInspectorAddAttributesToFindingsOptions(
         IEnumerable<string> FindingArns,
         IEnumerable<string> Attributes
@@ -82,13 +84,13 @@ public record AwsInspectorAddAttributesToFindingsOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARNs that specify the findings that you want to assign attrib- utes to. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...
+    /// The ARNs that specify the findings that you want to assign attributes to. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 300 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--finding-arns", GroupValues = true)]
     public IEnumerable<string>? FindingArns { get; private init; }
 
     /// <summary>
-    /// The array of attributes that you want to assign to specified find- ings. Constraints: o min: 0 o max: 10 (structure) This data type is used as a request parameter in the AddAttrib- utesToFindings and CreateAssessmentTemplate actions. key -&gt; (string) [required] The attribute key. Constraints: o min: 1 o max: 128 value -&gt; (string) The value assigned to the attribute key. Constraints: o min: 1 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// The array of attributes that you want to assign to specified findings. Constraints: • min: 0 • max: 10 (structure) This data type is used as a request parameter in the AddAttributesToFindings and CreateAssessmentTemplate actions. key -&gt; (string) [required] The attribute key. Constraints: • min: 1 • max: 128 value -&gt; (string) The value assigned to the attribute key. Constraints: • min: 1 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--attributes", GroupValues = true)]
     public IEnumerable<string>? Attributes { get; private init; }

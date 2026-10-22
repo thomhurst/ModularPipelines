@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Requests an authentication token from Amazon GameLift Servers for a compute resource in an Amazon GameLift Servers fleet. Game servers that are running on the compute use this token to communicate with the Ama- zon GameLift Servers service, such as when calling the Amazon GameLift Servers server SDK action InitSDK() . Authentication tokens are valid for a limited time span, so you need to request a fresh token before the c...
+/// This API works with the following fleet types: EC2, Anywhere, Container Requests an authentication token from Amazon GameLift Servers for a compute resource in an Amazon GameLift Servers fleet. Game servers that are running on the compute use this token to communicate with the Amazon GameLift Servers service, such as when calling the Amazon GameLift Servers server SDK action InitSDK() . Authentication tokens are valid for a limited time span, so you need to request a fresh token before the curre...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsGameliftGetComputeAuthTokenOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Requests an authentication token from Amazon GameLift Servers for a compute resource in an Amazon GameLift Servers fleet. Game servers that are running on the compute use this token to communicate with the Ama- zon GameLift Servers service, such as when calling the Amazon GameLift Servers server SDK action InitSDK() . Authentication tokens are valid for a limited time span, so you need to request a fresh token before the c...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Requests an authentication token from Amazon GameLift Servers for a compute resource in an Amazon GameLift Servers fleet. Game servers that are running on the compute use this token to communicate with the Amazon GameLift Servers service, such as when calling the Amazon GameLift Servers server SDK action InitSDK() . Authentication tokens are valid for a limited time span, so you need to request a fresh token before the curre...
     /// </summary>
-    /// <param name="FleetId">A unique identifier for the fleet that the compute is registered to. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
-    /// <param name="ComputeName">The name of the compute resource you are requesting the authentica- tion token for. For an Anywhere fleet compute, use the registered compute name. For an EC2 fleet instance, use the instance ID. Constraints: o max: 1024 o pattern: ^([a-zA-Z0-9\-]+(\/[a-zA-Z0-9\-]+)?|arn:.*:com- pute\/[a-zA-Z0-9\-]+(\/[a-zA-Z0-9\-]+)?)$</param>
+    /// <param name="FleetId">A unique identifier for the fleet that the compute is registered to. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
+    /// <param name="ComputeName">The name of the compute resource you are requesting the authentication token for. For an Anywhere fleet compute, use the registered compute name. For an EC2 fleet instance, use the instance ID. Constraints: • max: 1024 • pattern: ^([a-zA-Z0-9\-]+(\/[a-zA-Z0-9\-]+)?|arn:.*:compute\/[a-zA-Z0-9\-]+(\/[a-zA-Z0-9\-]+)?)$</param>
     public AwsGameliftGetComputeAuthTokenOptions(
         string FleetId,
         string ComputeName
@@ -60,13 +62,13 @@ public record AwsGameliftGetComputeAuthTokenOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the fleet that the compute is registered to. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
+    /// A unique identifier for the fleet that the compute is registered to. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }
 
     /// <summary>
-    /// The name of the compute resource you are requesting the authentica- tion token for. For an Anywhere fleet compute, use the registered compute name. For an EC2 fleet instance, use the instance ID. Constraints: o max: 1024 o pattern: ^([a-zA-Z0-9\-]+(\/[a-zA-Z0-9\-]+)?|arn:.*:com- pute\/[a-zA-Z0-9\-]+(\/[a-zA-Z0-9\-]+)?)$
+    /// The name of the compute resource you are requesting the authentication token for. For an Anywhere fleet compute, use the registered compute name. For an EC2 fleet instance, use the instance ID. Constraints: • max: 1024 • pattern: ^([a-zA-Z0-9\-]+(\/[a-zA-Z0-9\-]+)?|arn:.*:compute\/[a-zA-Z0-9\-]+(\/[a-zA-Z0-9\-]+)?)$
     /// </summary>
     [CliOption("--compute-name")]
     public string? ComputeName { get; private init; }

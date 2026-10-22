@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -18,7 +19,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides a pre-signed Amazon S3 URL in response for uploading your con- tent. WARNING: You may only use this API to upload attachments to a Connect Cus- tomer Case , Connect Customer Email , or Connect Customer Task . See also: AWS API Documentation
+/// Provides a pre-signed Amazon S3 URL in response for uploading your content. WARNING: You may only use this API to upload attachments to a Connect Customer Case , Connect Customer Email , or Connect Customer Task . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,17 +29,17 @@ public record AwsConnectStartAttachedFileUploadOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides a pre-signed Amazon S3 URL in response for uploading your con- tent. WARNING: You may only use this API to upload attachments to a Connect Cus- tomer Case , Connect Customer Email , or Connect Customer Task . See also: AWS API Documentation
+    /// Provides a pre-signed Amazon S3 URL in response for uploading your content. WARNING: You may only use this API to upload attachments to a Connect Customer Case , Connect Customer Email , or Connect Customer Task . See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The unique identifier of the Connect Customer instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="FileName">A case-sensitive name of the attached file being uploaded. Constraints: o min: 1 o max: 256 o pattern: ^\P{C}*$</param>
-    /// <param name="FileSizeInBytes">The size of the attached file in bytes. Constraints: o min: 1</param>
-    /// <param name="FileUseCaseType">The use case for the file. WARNING: Only ATTACHMENTS are supported. Possible values: o CONTACT_ANALYSIS o EMAIL_MESSAGE o EMAIL_MESSAGE_PLAIN_TEXT o EMAIL_MESSAGE_REDACTED o EMAIL_MESSAGE_PLAIN_TEXT_REDACTED o ATTACHMENT o VOICE_RECORDING</param>
+    /// <param name="InstanceId">The unique identifier of the Connect Customer instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="FileName">A case-sensitive name of the attached file being uploaded. Constraints: • min: 1 • max: 256 • pattern: ^\P{C}*$</param>
+    /// <param name="FileSizeInBytes">The size of the attached file in bytes. Constraints: • min: 1</param>
+    /// <param name="FileUseCaseType">The use case for the file. WARNING: Only ATTACHMENTS are supported. Possible values: • CONTACT_ANALYSIS • EMAIL_MESSAGE • EMAIL_MESSAGE_PLAIN_TEXT • EMAIL_MESSAGE_REDACTED • EMAIL_MESSAGE_PLAIN_TEXT_REDACTED • ATTACHMENT • VOICE_RECORDING</param>
     /// <param name="AssociatedResourceArn">The resource to which the attached file is (being) uploaded to. The supported resources are Cases , Email , and Task . NOTE: This value must be a valid ARN.</param>
     public AwsConnectStartAttachedFileUploadOptions(
         string InstanceId,
         string FileName,
-        int FileSizeInBytes,
+        long FileSizeInBytes,
         AwsConnectStartAttachedFileUploadFileUseCaseType FileUseCaseType,
         string AssociatedResourceArn
     )
@@ -73,25 +74,25 @@ public record AwsConnectStartAttachedFileUploadOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Connect Customer instance. Constraints: o min: 1 o max: 100
+    /// The unique identifier of the Connect Customer instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// A case-sensitive name of the attached file being uploaded. Constraints: o min: 1 o max: 256 o pattern: ^\P{C}*$
+    /// A case-sensitive name of the attached file being uploaded. Constraints: • min: 1 • max: 256 • pattern: ^\P{C}*$
     /// </summary>
     [CliOption("--file-name")]
     public string? FileName { get; private init; }
 
     /// <summary>
-    /// The size of the attached file in bytes. Constraints: o min: 1
+    /// The size of the attached file in bytes. Constraints: • min: 1
     /// </summary>
     [CliOption("--file-size-in-bytes")]
-    public int? FileSizeInBytes { get; private init; }
+    public long? FileSizeInBytes { get; private init; }
 
     /// <summary>
-    /// The use case for the file. WARNING: Only ATTACHMENTS are supported. Possible values: o CONTACT_ANALYSIS o EMAIL_MESSAGE o EMAIL_MESSAGE_PLAIN_TEXT o EMAIL_MESSAGE_REDACTED o EMAIL_MESSAGE_PLAIN_TEXT_REDACTED o ATTACHMENT o VOICE_RECORDING
+    /// The use case for the file. WARNING: Only ATTACHMENTS are supported. Possible values: • CONTACT_ANALYSIS • EMAIL_MESSAGE • EMAIL_MESSAGE_PLAIN_TEXT • EMAIL_MESSAGE_REDACTED • EMAIL_MESSAGE_PLAIN_TEXT_REDACTED • ATTACHMENT • VOICE_RECORDING
     /// </summary>
     [CliOption("--file-use-case-type")]
     public AwsConnectStartAttachedFileUploadFileUseCaseType? FileUseCaseType { get; private init; }
@@ -103,26 +104,26 @@ public record AwsConnectStartAttachedFileUploadOptions : AwsOptions, IValidatabl
     public string? AssociatedResourceArn { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Optional override for the expiry of the pre-signed S3 URL in sec- onds. The default value is 300. Constraints: o min: 5 o max: 300
+    /// Optional override for the expiry of the pre-signed S3 URL in seconds. The default value is 300. Constraints: • min: 5 • max: 300
     /// </summary>
     [CliOption("--url-expiry-in-seconds")]
     public int? UrlExpiryInSeconds { get; set; }
 
     /// <summary>
-    /// Represents the identity that created the file. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: ConnectUserArn, AWSIdentityArn. ConnectUserArn -&gt; (string) An agent ARN representing a connect user . AWSIdentityArn -&gt; (string) STS or IAM ARN representing the identity of API Caller. SDK users cannot populate this and this value is calculated automat- ically if ConnectUserArn is not provided. Shorthand Syntax: ConnectUserArn=string,AWSIdentityArn=string JSON Syntax: { "ConnectUserArn": "string", "AWSIdentityArn": "string" }
+    /// Represents the identity that created the file. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: ConnectUserArn, AWSIdentityArn. ConnectUserArn -&gt; (string) An agent ARN representing a connect user . AWSIdentityArn -&gt; (string) STS or IAM ARN representing the identity of API Caller. SDK users cannot populate this and this value is calculated automatically if ConnectUserArn is not provided. Shorthand Syntax: ConnectUserArn=string,AWSIdentityArn=string JSON Syntax: { "ConnectUserArn": "string", "AWSIdentityArn": "string" }
     /// </summary>
     [CliOption("--created-by")]
     public string? CreatedBy { get; set; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for this re- source. For example, { "Tags": {"key1":"value1", "key2":"value2"} } . Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} } . Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

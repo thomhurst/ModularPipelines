@@ -122,7 +122,7 @@ public class AwsIdentitystore : IAwsIdentitystore
     }
 
     /// <summary>
-    /// Retrieves membership metadata and attributes from MembershipId in an identity store. NOTE: If you have access to a member account, you can use this API opera- tion from the member account. For more information, see Limiting ac- cess to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation
+    /// Retrieves membership metadata and attributes from MembershipId in an identity store. NOTE: If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsIdentitystore : IAwsIdentitystore
     }
 
     /// <summary>
-    /// Retrieves the group metadata and attributes from GroupId in an identity store. NOTE: If you have access to a member account, you can use this API opera- tion from the member account. For more information, see Limiting ac- cess to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation
+    /// Retrieves the group metadata and attributes from GroupId in an identity store. NOTE: If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsIdentitystore : IAwsIdentitystore
     }
 
     /// <summary>
-    /// Retrieves the user metadata and attributes from the UserId in an iden- tity store. NOTE: If you have access to a member account, you can use this API opera- tion from the member account. For more information, see Limiting ac- cess to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation describe-user uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and o...
+    /// Retrieves the user metadata and attributes from the UserId in an identity store. NOTE: If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation describe-user uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsIdentitystore : IAwsIdentitystore
     }
 
     /// <summary>
-    /// Retrieves GroupId in an identity store. NOTE: If you have access to a member account, you can use this API opera- tion from the member account. For more information, see Limiting ac- cess to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation get-group-id uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and neste...
+    /// Retrieves GroupId in an identity store. NOTE: If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation get-group-id uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested pa...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsIdentitystore : IAwsIdentitystore
     }
 
     /// <summary>
-    /// Retrieves the MembershipId in an identity store. NOTE: If you have access to a member account, you can use this API opera- tion from the member account. For more information, see Limiting ac- cess to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation
+    /// Retrieves the MembershipId in an identity store. NOTE: If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsIdentitystore : IAwsIdentitystore
     }
 
     /// <summary>
-    /// Retrieves the UserId in an identity store. NOTE: If you have access to a member account, you can use this API opera- tion from the member account. For more information, see Limiting ac- cess to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation get-user-id uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nes...
+    /// Retrieves the UserId in an identity store. NOTE: If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation get-user-id uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsIdentitystore : IAwsIdentitystore
     }
 
     /// <summary>
-    /// Checks the user's membership in all requested groups and returns if the member exists in all queried groups. NOTE: If you have access to a member account, you can use this API opera- tion from the member account. For more information, see Limiting ac- cess to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation
+    /// Checks the user's membership in all requested groups and returns if the member exists in all queried groups. NOTE: If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsIdentitystore : IAwsIdentitystore
     }
 
     /// <summary>
-    /// For the specified member in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form. NOTE: If you have access to a member account, you can use this API opera- tion from the member account. For more information, see Limiting ac- cess to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation list-group-memberships-for-member is a paginated operation. Multiple API calls may be issued...
+    /// For the specified member in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form. NOTE: If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation list-group-memberships-for-member is a paginated operation. Multiple API calls may be issued in ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsIdentitystore : IAwsIdentitystore
     }
 
     /// <summary>
-    /// For the specified group in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form. NOTE: If you have access to a member account, you can use this API opera- tion from the member account. For more information, see Limiting ac- cess to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation list-group-memberships is a paginated operation. Multiple API calls may be issued in order to...
+    /// For the specified group in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form. NOTE: If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation list-group-memberships is a paginated operation. Multiple API calls may be issued in order to ret...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsIdentitystore : IAwsIdentitystore
     }
 
     /// <summary>
-    /// Lists all groups in the identity store. Returns a paginated list of complete Group objects. Filtering for a Group by the DisplayName at- tribute is deprecated. Instead, use the GetGroupId API action. NOTE: If you have access to a member account, you can use this API opera- tion from the member account. For more information, see Limiting ac- cess to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation list-groups is a paginated operation....
+    /// Lists all groups in the identity store. Returns a paginated list of complete Group objects. Filtering for a Group by the DisplayName attribute is deprecated. Instead, use the GetGroupId API action. NOTE: If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation list-groups is a paginated operation. Multi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsIdentitystore : IAwsIdentitystore
     }
 
     /// <summary>
-    /// Lists the identity stores that you have access to. This operation re- turns only the identity store ID and Amazon Resource Name (ARN) of each identity store. To obtain additional information about an identity store, call DescribeIdentityStore . This operation returns results in paginated form. Use the NextToken pa- rameter to retrieve additional pages of results. See also: AWS API Documentation list-identity-stores is a paginated operation. Multiple API calls may be issued in order to retrieve t...
+    /// Lists the identity stores that you have access to. This operation returns only the identity store ID and Amazon Resource Name (ARN) of each identity store. To obtain additional information about an identity store, call DescribeIdentityStore . This operation returns results in paginated form. Use the NextToken parameter to retrieve additional pages of results. See also: AWS API Documentation list-identity-stores is a paginated operation. Multiple API calls may be issued in order to retrieve the e...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsIdentitystore : IAwsIdentitystore
     }
 
     /// <summary>
-    /// Lists all users in the identity store. Returns a paginated list of com- plete User objects. Filtering for a User by the UserName attribute is deprecated. Instead, use the GetUserId API action. NOTE: If you have access to a member account, you can use this API opera- tion from the member account. For more information, see Limiting ac- cess to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation list-users uses document type values. Docume...
+    /// Lists all users in the identity store. Returns a paginated list of complete User objects. Filtering for a User by the UserName attribute is deprecated. Instead, use the GetUserId API action. NOTE: If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation list-users uses document type values. Document typ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

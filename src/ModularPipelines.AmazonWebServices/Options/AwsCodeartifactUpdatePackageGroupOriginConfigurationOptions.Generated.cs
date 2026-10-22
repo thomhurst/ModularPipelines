@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the package origin configuration for a package group. The package origin configuration determines how new versions of a pack- age can be added to a repository. You can allow or block direct pub- lishing of new package versions, or ingestion and retaining of new package versions from an external connection or upstream source. For more information about package group origin controls and configuration, see Package group origin controls in the CodeArtifact User Guide . See also: AWS API Docu...
+/// Updates the package origin configuration for a package group. The package origin configuration determines how new versions of a package can be added to a repository. You can allow or block direct publishing of new package versions, or ingestion and retaining of new package versions from an external connection or upstream source. For more information about package group origin controls and configuration, see Package group origin controls in the CodeArtifact User Guide . See also: AWS API Document...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsCodeartifactUpdatePackageGroupOriginConfigurationOptions : AwsO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the package origin configuration for a package group. The package origin configuration determines how new versions of a pack- age can be added to a repository. You can allow or block direct pub- lishing of new package versions, or ingestion and retaining of new package versions from an external connection or upstream source. For more information about package group origin controls and configuration, see Package group origin controls in the CodeArtifact User Guide . See also: AWS API Docu...
+    /// Updates the package origin configuration for a package group. The package origin configuration determines how new versions of a package can be added to a repository. You can allow or block direct publishing of new package versions, or ingestion and retaining of new package versions from an external connection or upstream source. For more information about package group origin controls and configuration, see Package group origin controls in the CodeArtifact User Guide . See also: AWS API Document...
     /// </summary>
-    /// <param name="Domain">The name of the domain which contains the package group for which to update the origin configuration. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
-    /// <param name="PackageGroup">The pattern of the package group for which to update the origin con- figuration. Constraints: o min: 2 o max: 520 o pattern: [^\p{C}\p{IsWhitespace}]+</param>
+    /// <param name="Domain">The name of the domain which contains the package group for which to update the origin configuration. Constraints: • min: 2 • max: 50 • pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
+    /// <param name="PackageGroup">The pattern of the package group for which to update the origin configuration. Constraints: • min: 2 • max: 520 • pattern: [^\p{C}\p{IsWhitespace}]+</param>
     public AwsCodeartifactUpdatePackageGroupOriginConfigurationOptions(
         string Domain,
         string PackageGroup
@@ -61,37 +62,37 @@ public record AwsCodeartifactUpdatePackageGroupOriginConfigurationOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain which contains the package group for which to update the origin configuration. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
+    /// The name of the domain which contains the package group for which to update the origin configuration. Constraints: • min: 2 • max: 50 • pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; private init; }
 
     /// <summary>
-    /// The pattern of the package group for which to update the origin con- figuration. Constraints: o min: 2 o max: 520 o pattern: [^\p{C}\p{IsWhitespace}]+
+    /// The pattern of the package group for which to update the origin configuration. Constraints: • min: 2 • max: 520 • pattern: [^\p{C}\p{IsWhitespace}]+
     /// </summary>
     [CliOption("--package-group")]
     public string? PackageGroup { get; private init; }
 
     /// <summary>
-    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
+    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--domain-owner")]
     public string? DomainOwner { get; set; }
 
     /// <summary>
-    /// The origin configuration settings that determine how package ver- sions can enter repositories. key -&gt; (string) Possible values: o EXTERNAL_UPSTREAM o INTERNAL_UPSTREAM o PUBLISH value -&gt; (string) Possible values: o ALLOW o ALLOW_SPECIFIC_REPOSITORIES o BLOCK o INHERIT Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: EXTERNAL_UPSTREAM INTERNAL_UPSTREAM PUBLISH JSON Syntax: {"EXTERNAL_UPSTREAM"|"INTERNAL_UPSTREAM"|"PUBLISH": "ALLOW"|"ALLOW_SPECIFIC_REPOSITORIES"|"BLOCK"|"INHERIT" ...}
+    /// The origin configuration settings that determine how package versions can enter repositories. key -&gt; (string) Possible values: • EXTERNAL_UPSTREAM • INTERNAL_UPSTREAM • PUBLISH value -&gt; (string) Possible values: • ALLOW • ALLOW_SPECIFIC_REPOSITORIES • BLOCK • INHERIT Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: EXTERNAL_UPSTREAM INTERNAL_UPSTREAM PUBLISH JSON Syntax: {"EXTERNAL_UPSTREAM"|"INTERNAL_UPSTREAM"|"PUBLISH": "ALLOW"|"ALLOW_SPECIFIC_REPOSITORIES"|"BLOCK"|"INHERIT" ...}
     /// </summary>
     [CliOption("--restrictions", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Restrictions { get; set; }
 
     /// <summary>
-    /// The repository name and restrictions to add to the allowed reposi- tory list of the specified package group. (structure) Details about an allowed repository for a package group, includ- ing its name and origin configuration. repositoryName -&gt; (string) The name of the allowed repository. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99} originRestrictionType -&gt; (string) The origin configuration restriction type of the allowed repository. Possible values: o EXTERNAL_UPSTREAM o INTERNAL_UPSTREAM o PUBLISH Shorthand Syntax: repositoryName=string,originRestrictionType=string ... JSON Syntax: [ { "repositoryName": "string", "originRestrictionType": "EXTERNAL_UPSTREAM"|"INTERNAL_UPSTREAM"|"PUBLISH" } ... ]
+    /// The repository name and restrictions to add to the allowed repository list of the specified package group. (structure) Details about an allowed repository for a package group, including its name and origin configuration. repositoryName -&gt; (string) The name of the allowed repository. Constraints: • min: 2 • max: 100 • pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99} originRestrictionType -&gt; (string) The origin configuration restriction type of the allowed repository. Possible values: • EXTERNAL_UPSTREAM • INTERNAL_UPSTREAM • PUBLISH Shorthand Syntax: repositoryName=string,originRestrictionType=string ... JSON Syntax: [ { "repositoryName": "string", "originRestrictionType": "EXTERNAL_UPSTREAM"|"INTERNAL_UPSTREAM"|"PUBLISH" } ... ]
     /// </summary>
     [CliOption("--add-allowed-repositories", GroupValues = true)]
     public IEnumerable<string>? AddAllowedRepositories { get; set; }
 
     /// <summary>
-    /// The repository name and restrictions to remove from the allowed repository list of the specified package group. (structure) Details about an allowed repository for a package group, includ- ing its name and origin configuration. repositoryName -&gt; (string) The name of the allowed repository. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99} originRestrictionType -&gt; (string) The origin configuration restriction type of the allowed repository. Possible values: o EXTERNAL_UPSTREAM o INTERNAL_UPSTREAM o PUBLISH Shorthand Syntax: repositoryName=string,originRestrictionType=string ... JSON Syntax: [ { "repositoryName": "string", "originRestrictionType": "EXTERNAL_UPSTREAM"|"INTERNAL_UPSTREAM"|"PUBLISH" } ... ]
+    /// The repository name and restrictions to remove from the allowed repository list of the specified package group. (structure) Details about an allowed repository for a package group, including its name and origin configuration. repositoryName -&gt; (string) The name of the allowed repository. Constraints: • min: 2 • max: 100 • pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99} originRestrictionType -&gt; (string) The origin configuration restriction type of the allowed repository. Possible values: • EXTERNAL_UPSTREAM • INTERNAL_UPSTREAM • PUBLISH Shorthand Syntax: repositoryName=string,originRestrictionType=string ... JSON Syntax: [ { "repositoryName": "string", "originRestrictionType": "EXTERNAL_UPSTREAM"|"INTERNAL_UPSTREAM"|"PUBLISH" } ... ]
     /// </summary>
     [CliOption("--remove-allowed-repositories", GroupValues = true)]
     public IEnumerable<string>? RemoveAllowedRepositories { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an asset in Amazon DataZone. o --domain-identifier must refer to a valid and existing domain. o --identifier must refer to an existing asset in the specified domain. o Asset must not be referenced in any existing asset filters. o Asset must not be linked to any draft or published data product. o User must have delete permissions for the domain and project. See also: AWS API Documentation
+/// Deletes an asset in Amazon DataZone. • --domain-identifier must refer to a valid and existing domain. • --identifier must refer to an existing asset in the specified domain. • Asset must not be referenced in any existing asset filters. • Asset must not be linked to any draft or published data product. • User must have delete permissions for the domain and project. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsDatazoneDeleteAssetOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an asset in Amazon DataZone. o --domain-identifier must refer to a valid and existing domain. o --identifier must refer to an existing asset in the specified domain. o Asset must not be referenced in any existing asset filters. o Asset must not be linked to any draft or published data product. o User must have delete permissions for the domain and project. See also: AWS API Documentation
+    /// Deletes an asset in Amazon DataZone. • --domain-identifier must refer to a valid and existing domain. • --identifier must refer to an existing asset in the specified domain. • Asset must not be referenced in any existing asset filters. • Asset must not be linked to any draft or published data product. • User must have delete permissions for the domain and project. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which the asset is deleted. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Identifier">The identifier of the asset that is deleted. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which the asset is deleted. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The identifier of the asset that is deleted. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneDeleteAssetOptions(
         string DomainIdentifier,
         string Identifier
@@ -60,13 +62,13 @@ public record AwsDatazoneDeleteAssetOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon DataZone domain in which the asset is deleted. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the Amazon DataZone domain in which the asset is deleted. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the asset that is deleted. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the asset that is deleted. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }

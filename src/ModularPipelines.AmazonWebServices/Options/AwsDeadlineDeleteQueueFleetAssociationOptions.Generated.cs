@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsDeadlineDeleteQueueFleetAssociationOptions : AwsOptions, IValid
     /// <summary>
     /// Deletes a queue-fleet association. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The farm ID of the farm that holds the queue-fleet association. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="QueueId">The queue ID of the queue-fleet association. Constraints: o pattern: queue-[0-9a-f]{32}</param>
-    /// <param name="FleetId">The fleet ID of the queue-fleet association. Constraints: o pattern: fleet-[0-9a-f]{32}</param>
+    /// <param name="FarmId">The farm ID of the farm that holds the queue-fleet association. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="QueueId">The queue ID of the queue-fleet association. Constraints: • pattern: queue-[0-9a-f]{32}</param>
+    /// <param name="FleetId">The fleet ID of the queue-fleet association. Constraints: • pattern: fleet-[0-9a-f]{32}</param>
     public AwsDeadlineDeleteQueueFleetAssociationOptions(
         string FarmId,
         string QueueId,
@@ -64,19 +66,19 @@ public record AwsDeadlineDeleteQueueFleetAssociationOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID of the farm that holds the queue-fleet association. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID of the farm that holds the queue-fleet association. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The queue ID of the queue-fleet association. Constraints: o pattern: queue-[0-9a-f]{32}
+    /// The queue ID of the queue-fleet association. Constraints: • pattern: queue-[0-9a-f]{32}
     /// </summary>
     [CliOption("--queue-id")]
     public string? QueueId { get; private init; }
 
     /// <summary>
-    /// The fleet ID of the queue-fleet association. Constraints: o pattern: fleet-[0-9a-f]{32}
+    /// The fleet ID of the queue-fleet association. Constraints: • pattern: fleet-[0-9a-f]{32}
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }

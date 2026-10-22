@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsAppstreamCreateStreamingUrlOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Creates a temporary URL to start an WorkSpaces Applications streaming session for the specified user. A streaming URL enables application streaming to be tested without user setup. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StackName">The name of the stack. Constraints: o min: 1</param>
-    /// <param name="FleetName">The name of the fleet. Constraints: o min: 1</param>
-    /// <param name="UserId">The identifier of the user. Constraints: o min: 2 o max: 32 o pattern: [\w+=,.@-]*</param>
+    /// <param name="StackName">The name of the stack. Constraints: • min: 1</param>
+    /// <param name="FleetName">The name of the fleet. Constraints: • min: 1</param>
+    /// <param name="UserId">The identifier of the user. Constraints: • min: 2 • max: 32 • pattern: [\w+=,.@-]*</param>
     public AwsAppstreamCreateStreamingUrlOptions(
         string StackName,
         string FleetName,
@@ -64,25 +66,25 @@ public record AwsAppstreamCreateStreamingUrlOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the stack. Constraints: o min: 1
+    /// The name of the stack. Constraints: • min: 1
     /// </summary>
     [CliOption("--stack-name")]
     public string? StackName { get; private init; }
 
     /// <summary>
-    /// The name of the fleet. Constraints: o min: 1
+    /// The name of the fleet. Constraints: • min: 1
     /// </summary>
     [CliOption("--fleet-name")]
     public string? FleetName { get; private init; }
 
     /// <summary>
-    /// The identifier of the user. Constraints: o min: 2 o max: 32 o pattern: [\w+=,.@-]*
+    /// The identifier of the user. Constraints: • min: 2 • max: 32 • pattern: [\w+=,.@-]*
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; private init; }
 
     /// <summary>
-    /// The name of the application to launch after the session starts. This is the name that you specified as Name in the Image Assistant. If your fleet is enabled for the Desktop stream view, you can also choose to launch directly to the operating system desktop. To do so, specify Desktop . Constraints: o min: 1
+    /// The name of the application to launch after the session starts. This is the name that you specified as Name in the Image Assistant. If your fleet is enabled for the Desktop stream view, you can also choose to launch directly to the operating system desktop. To do so, specify Desktop . Constraints: • min: 1
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; set; }
@@ -91,10 +93,10 @@ public record AwsAppstreamCreateStreamingUrlOptions : AwsOptions, IValidatableOb
     /// The time that the streaming URL will be valid, in seconds. Specify a value between 1 and 604800 seconds. The default is 60 seconds.
     /// </summary>
     [CliOption("--validity")]
-    public int? Validity { get; set; }
+    public long? Validity { get; set; }
 
     /// <summary>
-    /// The session context. For more information, see Session Context in the Amazon WorkSpaces Applications Administration Guide . Constraints: o min: 1
+    /// The session context. For more information, see Session Context in the Amazon WorkSpaces Applications Administration Guide . Constraints: • min: 1
     /// </summary>
     [CliOption("--session-context")]
     public string? SessionContext { get; set; }

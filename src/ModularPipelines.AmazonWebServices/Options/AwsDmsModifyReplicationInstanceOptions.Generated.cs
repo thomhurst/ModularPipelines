@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the replication instance to apply new settings. You can change one or more parameters by specifying these parameters and the new val- ues in the request. Some settings are applied during the maintenance window. See also: AWS API Documentation
+/// Modifies the replication instance to apply new settings. You can change one or more parameters by specifying these parameters and the new values in the request. Some settings are applied during the maintenance window. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsDmsModifyReplicationInstanceOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the replication instance to apply new settings. You can change one or more parameters by specifying these parameters and the new val- ues in the request. Some settings are applied during the maintenance window. See also: AWS API Documentation
+    /// Modifies the replication instance to apply new settings. You can change one or more parameters by specifying these parameters and the new values in the request. Some settings are applied during the maintenance window. See also: AWS API Documentation
     /// </summary>
     /// <param name="ReplicationInstanceArn">The Amazon Resource Name (ARN) of the replication instance.</param>
     public AwsDmsModifyReplicationInstanceOptions(
@@ -62,55 +64,55 @@ public record AwsDmsModifyReplicationInstanceOptions : AwsOptions, IValidatableO
     public string? ReplicationInstanceArn { get; private init; }
 
     /// <summary>
-    /// The amount of storage (in gigabytes) to be allocated for the repli- cation instance.
+    /// The amount of storage (in gigabytes) to be allocated for the replication instance.
     /// </summary>
     [CliOption("--allocated-storage")]
     public int? AllocatedStorage { get; set; }
 
     /// <summary>
-    /// Indicates whether the changes should be applied immediately or dur- ing the next maintenance window.
+    /// Indicates whether the changes should be applied immediately or during the next maintenance window.
     /// </summary>
     [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; set; }
 
     /// <summary>
-    /// The compute and memory capacity of the replication instance as de- fined for the specified replication instance class. For example to specify the instance class dms.c4.large, set this parameter to "dms.c4.large" . For more information on the settings and capacities for the avail- able replication instance classes, see Selecting the right DMS replication instance for your migration . Constraints: o max: 30
+    /// The compute and memory capacity of the replication instance as defined for the specified replication instance class. For example to specify the instance class dms.c4.large, set this parameter to "dms.c4.large" . For more information on the settings and capacities for the available replication instance classes, see Selecting the right DMS replication instance for your migration . Constraints: • max: 30
     /// </summary>
     [CliOption("--replication-instance-class")]
     public string? ReplicationInstanceClass { get; set; }
 
     /// <summary>
-    /// Specifies the VPC security group to be used with the replication in- stance. The VPC security group must work with the VPC containing the replication instance. (string) Syntax: "string" "string" ...
+    /// Specifies the VPC security group to be used with the replication instance. The VPC security group must work with the VPC containing the replication instance. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
     /// <summary>
-    /// The weekly time range (in UTC) during which system maintenance can occur, which might result in an outage. Changing this parameter does not result in an outage, except in the following situation, and the change is asynchronously applied as soon as possible. If moving this window to the current time, there must be at least 30 minutes be- tween the current time and end of the window to ensure pending changes are applied. Default: Uses existing setting Format: ddd:hh24:mi-ddd:hh24:mi Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes
+    /// The weekly time range (in UTC) during which system maintenance can occur, which might result in an outage. Changing this parameter does not result in an outage, except in the following situation, and the change is asynchronously applied as soon as possible. If moving this window to the current time, there must be at least 30 minutes between the current time and end of the window to ensure pending changes are applied. Default: Uses existing setting Format: ddd:hh24:mi-ddd:hh24:mi Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes
     /// </summary>
     [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
 
     /// <summary>
-    /// Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parame- ter is set to true .
+    /// Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true .
     /// </summary>
     [CliFlag("--multi-az", NegatedName = "--no-multi-az")]
     public bool? MultiAz { get; set; }
 
     /// <summary>
-    /// The engine version number of the replication instance. When modifying a major engine version of an instance, also set Al- lowMajorVersionUpgrade to true .
+    /// The engine version number of the replication instance. When modifying a major engine version of an instance, also set AllowMajorVersionUpgrade to true .
     /// </summary>
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
     /// <summary>
-    /// Indicates that major version upgrades are allowed. Changing this pa- rameter does not result in an outage, and the change is asynchro- nously applied as soon as possible. This parameter must be set to true when specifying a value for the EngineVersion parameter that is a different major version than the replication instance's current version.
+    /// Indicates that major version upgrades are allowed. Changing this parameter does not result in an outage, and the change is asynchronously applied as soon as possible. This parameter must be set to true when specifying a value for the EngineVersion parameter that is a different major version than the replication instance's current version.
     /// </summary>
     [CliFlag("--allow-major-version-upgrade", NegatedName = "--no-allow-major-version-upgrade")]
     public bool? AllowMajorVersionUpgrade { get; set; }
 
     /// <summary>
-    /// A value that indicates that minor version upgrades are applied auto- matically to the replication instance during the maintenance window. Changing this parameter doesn't result in an outage, except in the case described following. The change is asynchronously applied as soon as possible. An outage does result if these factors apply: o This parameter is set to true during the maintenance window. o A newer minor version is available. o DMS has enabled automatic patching for the given engine version.
+    /// A value that indicates that minor version upgrades are applied automatically to the replication instance during the maintenance window. Changing this parameter doesn't result in an outage, except in the case described following. The change is asynchronously applied as soon as possible. An outage does result if these factors apply: • This parameter is set to true during the maintenance window. • A newer minor version is available. • DMS has enabled automatic patching for the given engine version.
     /// </summary>
     [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
@@ -122,7 +124,7 @@ public record AwsDmsModifyReplicationInstanceOptions : AwsOptions, IValidatableO
     public string? ReplicationInstanceIdentifier { get; set; }
 
     /// <summary>
-    /// The type of IP address protocol used by a replication instance, such as IPv4 only or Dual-stack that supports both IPv4 and IPv6 address- ing. IPv6 only is not yet supported.
+    /// The type of IP address protocol used by a replication instance, such as IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing. IPv6 only is not yet supported.
     /// </summary>
     [CliOption("--network-type")]
     public string? NetworkType { get; set; }

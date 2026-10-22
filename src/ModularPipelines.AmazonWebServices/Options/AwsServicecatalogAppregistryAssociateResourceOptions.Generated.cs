@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates a resource with an application. The resource can be speci- fied by its ARN or name. The application can be specified by ARN, ID, or name. Minimum permissions You must have the following permissions to associate a resource using the OPTIONS parameter set to APPLY_APPLICATION_TAG . o tag:GetResources o tag:TagResources You must also have these additional permissions if you don't use the AWSServiceCatalogAppRegistryFullAccess policy. For more information, see AWSServiceCatalogAppRegistry...
+/// Associates a resource with an application. The resource can be specified by its ARN or name. The application can be specified by ARN, ID, or name. Minimum permissions You must have the following permissions to associate a resource using the OPTIONS parameter set to APPLY_APPLICATION_TAG . • tag:GetResources • tag:TagResources You must also have these additional permissions if you don't use the AWSServiceCatalogAppRegistryFullAccess policy. For more information, see AWSServiceCatalogAppRegistryFu...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsServicecatalogAppregistryAssociateResourceOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates a resource with an application. The resource can be speci- fied by its ARN or name. The application can be specified by ARN, ID, or name. Minimum permissions You must have the following permissions to associate a resource using the OPTIONS parameter set to APPLY_APPLICATION_TAG . o tag:GetResources o tag:TagResources You must also have these additional permissions if you don't use the AWSServiceCatalogAppRegistryFullAccess policy. For more information, see AWSServiceCatalogAppRegistry...
+    /// Associates a resource with an application. The resource can be specified by its ARN or name. The application can be specified by ARN, ID, or name. Minimum permissions You must have the following permissions to associate a resource using the OPTIONS parameter set to APPLY_APPLICATION_TAG . • tag:GetResources • tag:TagResources You must also have these additional permissions if you don't use the AWSServiceCatalogAppRegistryFullAccess policy. For more information, see AWSServiceCatalogAppRegistryFu...
     /// </summary>
-    /// <param name="Application">The name, ID, or ARN of the application. Constraints: o min: 1 o max: 256 o pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecata- log:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[-.\w]+)</param>
-    /// <param name="ResourceType">The type of resource of which the application will be associated. Possible values: o CFN_STACK o RESOURCE_TAG_VALUE</param>
-    /// <param name="Resource">The name or ID of the resource of which the application will be as- sociated. Constraints: o min: 1 o max: 256 o pattern: \S+</param>
+    /// <param name="Application">The name, ID, or ARN of the application. Constraints: • min: 1 • max: 256 • pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[-.\w]+)</param>
+    /// <param name="ResourceType">The type of resource of which the application will be associated. Possible values: • CFN_STACK • RESOURCE_TAG_VALUE</param>
+    /// <param name="Resource">The name or ID of the resource of which the application will be associated. Constraints: • min: 1 • max: 256 • pattern: \S+</param>
     public AwsServicecatalogAppregistryAssociateResourceOptions(
         string Application,
         AwsServicecatalogAppregistryAssociateResourceResourceType ResourceType,
@@ -64,25 +66,25 @@ public record AwsServicecatalogAppregistryAssociateResourceOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name, ID, or ARN of the application. Constraints: o min: 1 o max: 256 o pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecata- log:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[-.\w]+)
+    /// The name, ID, or ARN of the application. Constraints: • min: 1 • max: 256 • pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[-.\w]+)
     /// </summary>
     [CliOption("--application")]
     public string? Application { get; private init; }
 
     /// <summary>
-    /// The type of resource of which the application will be associated. Possible values: o CFN_STACK o RESOURCE_TAG_VALUE
+    /// The type of resource of which the application will be associated. Possible values: • CFN_STACK • RESOURCE_TAG_VALUE
     /// </summary>
     [CliOption("--resource-type")]
     public AwsServicecatalogAppregistryAssociateResourceResourceType? ResourceType { get; private init; }
 
     /// <summary>
-    /// The name or ID of the resource of which the application will be as- sociated. Constraints: o min: 1 o max: 256 o pattern: \S+
+    /// The name or ID of the resource of which the application will be associated. Constraints: • min: 1 • max: 256 • pattern: \S+
     /// </summary>
     [CliOption("--resource")]
     public string? Resource { get; private init; }
 
     /// <summary>
-    /// Determines whether an application tag is applied or skipped. (string) Possible values: o APPLY_APPLICATION_TAG o SKIP_APPLICATION_TAG Syntax: "string" "string" ...
+    /// Determines whether an application tag is applied or skipped. (string) Possible values: • APPLY_APPLICATION_TAG • SKIP_APPLICATION_TAG Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--options", GroupValues = true)]
     public IEnumerable<string>? Options { get; set; }

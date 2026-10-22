@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsOmicsDeleteWorkflowVersionOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Deletes a workflow version. Deleting a workflow version doesn't affect any ongoing runs that are using the workflow version. For more information, see Workflow versioning in Amazon Web Services HealthOmics in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkflowId">The workflow's ID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+</param>
-    /// <param name="VersionName">The workflow version name. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9][A-Za-z0-9\-\._]*</param>
+    /// <param name="WorkflowId">The workflow's ID. Constraints: • min: 1 • max: 18 • pattern: [0-9]+</param>
+    /// <param name="VersionName">The workflow version name. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9][A-Za-z0-9\-\._]*</param>
     public AwsOmicsDeleteWorkflowVersionOptions(
         string WorkflowId,
         string VersionName
@@ -60,13 +62,13 @@ public record AwsOmicsDeleteWorkflowVersionOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The workflow's ID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+
+    /// The workflow's ID. Constraints: • min: 1 • max: 18 • pattern: [0-9]+
     /// </summary>
     [CliOption("--workflow-id")]
     public string? WorkflowId { get; private init; }
 
     /// <summary>
-    /// The workflow version name. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9][A-Za-z0-9\-\._]*
+    /// The workflow version name. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9][A-Za-z0-9\-\._]*
     /// </summary>
     [CliOption("--version-name")]
     public string? VersionName { get; private init; }

@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// List the port mappings for a specific EC2 instance (destination) in a VPC subnet endpoint. The response is the mappings for one destination IP address. This is useful when your subnet endpoint has mappings that span multiple custom routing accelerators in your account, or for sce- narios where you only want to list the port mappings for a specific destination instance. See also: AWS API Documentation list-custom-routing-port-mappings-by-destination is a paginated opera- tion. Multiple API calls ...
+/// List the port mappings for a specific EC2 instance (destination) in a VPC subnet endpoint. The response is the mappings for one destination IP address. This is useful when your subnet endpoint has mappings that span multiple custom routing accelerators in your account, or for scenarios where you only want to list the port mappings for a specific destination instance. See also: AWS API Documentation list-custom-routing-port-mappings-by-destination is a paginated operation. Multiple API calls may ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsGlobalacceleratorListCustomRoutingPortMappingsByDestinationOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// List the port mappings for a specific EC2 instance (destination) in a VPC subnet endpoint. The response is the mappings for one destination IP address. This is useful when your subnet endpoint has mappings that span multiple custom routing accelerators in your account, or for sce- narios where you only want to list the port mappings for a specific destination instance. See also: AWS API Documentation list-custom-routing-port-mappings-by-destination is a paginated opera- tion. Multiple API calls ...
+    /// List the port mappings for a specific EC2 instance (destination) in a VPC subnet endpoint. The response is the mappings for one destination IP address. This is useful when your subnet endpoint has mappings that span multiple custom routing accelerators in your account, or for scenarios where you only want to list the port mappings for a specific destination instance. See also: AWS API Documentation list-custom-routing-port-mappings-by-destination is a paginated operation. Multiple API calls may ...
     /// </summary>
-    /// <param name="EndpointId">The ID for the virtual private cloud (VPC) subnet. Constraints: o max: 255</param>
-    /// <param name="DestinationAddress">The endpoint IP address in a virtual private cloud (VPC) subnet for which you want to receive back port mappings. Constraints: o max: 255</param>
+    /// <param name="EndpointId">The ID for the virtual private cloud (VPC) subnet. Constraints: • max: 255</param>
+    /// <param name="DestinationAddress">The endpoint IP address in a virtual private cloud (VPC) subnet for which you want to receive back port mappings. Constraints: • max: 255</param>
     public AwsGlobalacceleratorListCustomRoutingPortMappingsByDestinationOptions(
         string EndpointId,
         string DestinationAddress
@@ -61,22 +63,19 @@ public record AwsGlobalacceleratorListCustomRoutingPortMappingsByDestinationOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID for the virtual private cloud (VPC) subnet. Constraints: o max: 255
+    /// The ID for the virtual private cloud (VPC) subnet. Constraints: • max: 255
     /// </summary>
     [CliOption("--endpoint-id")]
     public string? EndpointId { get; private init; }
 
     /// <summary>
-    /// The endpoint IP address in a virtual private cloud (VPC) subnet for which you want to receive back port mappings. Constraints: o max: 255
+    /// The endpoint IP address in a virtual private cloud (VPC) subnet for which you want to receive back port mappings. Constraints: • max: 255
     /// </summary>
     [CliOption("--destination-address")]
     public string? DestinationAddress { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -86,16 +85,19 @@ public record AwsGlobalacceleratorListCustomRoutingPortMappingsByDestinationOpti
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 20000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 20000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

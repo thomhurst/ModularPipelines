@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,7 +31,7 @@ public record AwsLicenseManagerListAssetsForLicenseAssetGroupOptions : AwsOption
     /// Lists assets for a license asset group. See also: AWS API Documentation
     /// </summary>
     /// <param name="LicenseAssetGroupArn">Amazon Resource Name (ARN) of the license asset group.</param>
-    /// <param name="AssetType">Asset type. The possible values are Instance | License | LicenseCon- figuration .</param>
+    /// <param name="AssetType">Asset type. The possible values are Instance | License | LicenseConfiguration .</param>
     public AwsLicenseManagerListAssetsForLicenseAssetGroupOptions(
         string LicenseAssetGroupArn,
         string AssetType
@@ -67,7 +69,7 @@ public record AwsLicenseManagerListAssetsForLicenseAssetGroupOptions : AwsOption
     public string? LicenseAssetGroupArn { get; private init; }
 
     /// <summary>
-    /// Asset type. The possible values are Instance | License | LicenseCon- figuration .
+    /// Asset type. The possible values are Instance | License | LicenseConfiguration .
     /// </summary>
     [CliOption("--asset-type")]
     public string? AssetType { get; private init; }

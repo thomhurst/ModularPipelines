@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsQuicksightDeleteTemplateAliasOptions : AwsOptions, IValidatable
     /// <summary>
     /// Deletes the item that the specified template alias points to. If you provide a specific alias, you delete the version of the template that the alias points to. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the item to delete. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="TemplateId">The ID for the template that the specified alias is for. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
-    /// <param name="AliasName">The name for the template alias. To delete a specific alias, you delete the version that the alias points to. You can specify the alias name, or specify the latest version of the template by provid- ing the keyword $LATEST in the AliasName parameter. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+|(\$LATEST)|(\$PUBLISHED)</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the item to delete. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="TemplateId">The ID for the template that the specified alias is for. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+</param>
+    /// <param name="AliasName">The name for the template alias. To delete a specific alias, you delete the version that the alias points to. You can specify the alias name, or specify the latest version of the template by providing the keyword $LATEST in the AliasName parameter. Constraints: • min: 1 • max: 2048 • pattern: [\w\-]+|(\$LATEST)|(\$PUBLISHED)</param>
     public AwsQuicksightDeleteTemplateAliasOptions(
         string AwsAccountId,
         string TemplateId,
@@ -64,19 +66,19 @@ public record AwsQuicksightDeleteTemplateAliasOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the item to delete. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the item to delete. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID for the template that the specified alias is for. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// The ID for the template that the specified alias is for. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--template-id")]
     public string? TemplateId { get; private init; }
 
     /// <summary>
-    /// The name for the template alias. To delete a specific alias, you delete the version that the alias points to. You can specify the alias name, or specify the latest version of the template by provid- ing the keyword $LATEST in the AliasName parameter. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+|(\$LATEST)|(\$PUBLISHED)
+    /// The name for the template alias. To delete a specific alias, you delete the version that the alias points to. You can specify the alias name, or specify the latest version of the template by providing the keyword $LATEST in the AliasName parameter. Constraints: • min: 1 • max: 2048 • pattern: [\w\-]+|(\$LATEST)|(\$PUBLISHED)
     /// </summary>
     [CliOption("--alias-name")]
     public string? AliasName { get; private init; }

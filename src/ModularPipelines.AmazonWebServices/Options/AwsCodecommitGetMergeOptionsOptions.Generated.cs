@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about the merge options available for merging two specified branches. For details about why a merge option is not avail- able, use GetMergeConflicts or DescribeMergeConflicts. See also: AWS API Documentation
+/// Returns information about the merge options available for merging two specified branches. For details about why a merge option is not available, use GetMergeConflicts or DescribeMergeConflicts. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsCodecommitGetMergeOptionsOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns information about the merge options available for merging two specified branches. For details about why a merge option is not avail- able, use GetMergeConflicts or DescribeMergeConflicts. See also: AWS API Documentation
+    /// Returns information about the merge options available for merging two specified branches. For details about why a merge option is not available, use GetMergeConflicts or DescribeMergeConflicts. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryName">The name of the repository that contains the commits about which you want to get merge options. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
+    /// <param name="RepositoryName">The name of the repository that contains the commits about which you want to get merge options. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+</param>
     /// <param name="SourceCommitSpecifier">The branch, tag, HEAD, or other fully qualified reference used to identify a commit (for example, a branch name or a full commit ID).</param>
     /// <param name="DestinationCommitSpecifier">The branch, tag, HEAD, or other fully qualified reference used to identify a commit (for example, a branch name or a full commit ID).</param>
     public AwsCodecommitGetMergeOptionsOptions(
@@ -65,7 +67,7 @@ public record AwsCodecommitGetMergeOptionsOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the repository that contains the commits about which you want to get merge options. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// The name of the repository that contains the commits about which you want to get merge options. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
@@ -83,13 +85,13 @@ public record AwsCodecommitGetMergeOptionsOptions : AwsOptions, IValidatableObje
     public string? DestinationCommitSpecifier { get; private init; }
 
     /// <summary>
-    /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if the same file in both branches has differences on the same line. Possible values: o FILE_LEVEL o LINE_LEVEL
+    /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if the same file in both branches has differences on the same line. Possible values: • FILE_LEVEL • LINE_LEVEL
     /// </summary>
     [CliOption("--conflict-detail-level")]
     public AwsCodecommitGetMergeOptionsConflictDetailLevel? ConflictDetailLevel { get; set; }
 
     /// <summary>
-    /// Specifies which branch to use when resolving conflicts, or whether to attempt automatically merging two versions of a file. The default is NONE, which requires any conflicts to be resolved manually before the merge operation is successful. Possible values: o NONE o ACCEPT_SOURCE o ACCEPT_DESTINATION o AUTOMERGE
+    /// Specifies which branch to use when resolving conflicts, or whether to attempt automatically merging two versions of a file. The default is NONE, which requires any conflicts to be resolved manually before the merge operation is successful. Possible values: • NONE • ACCEPT_SOURCE • ACCEPT_DESTINATION • AUTOMERGE
     /// </summary>
     [CliOption("--conflict-resolution-strategy")]
     public AwsCodecommitGetMergeOptionsConflictResolutionStrategy? ConflictResolutionStrategy { get; set; }

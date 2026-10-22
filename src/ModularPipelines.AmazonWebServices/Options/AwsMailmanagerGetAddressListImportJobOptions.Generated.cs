@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMailmanagerGetAddressListImportJobOptions : AwsOptions, IValida
     /// <summary>
     /// Fetch attributes of an import job. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">The identifier of the import job that needs to be retrieved. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="JobId">The identifier of the import job that needs to be retrieved. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-]+</param>
     public AwsMailmanagerGetAddressListImportJobOptions(
         string JobId
     )
@@ -56,7 +58,7 @@ public record AwsMailmanagerGetAddressListImportJobOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the import job that needs to be retrieved. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-]+
+    /// The identifier of the import job that needs to be retrieved. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }

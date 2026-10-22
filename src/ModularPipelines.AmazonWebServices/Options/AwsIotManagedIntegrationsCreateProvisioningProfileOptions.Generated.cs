@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -18,7 +19,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Create a provisioning profile for executing device provisioning flows. The provisioning profile is a document that defines the set of re- sources and policies applied to a device during the provisioning process. See also: AWS API Documentation
+/// Create a provisioning profile for executing device provisioning flows. The provisioning profile is a document that defines the set of resources and policies applied to a device during the provisioning process. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,9 +29,9 @@ public record AwsIotManagedIntegrationsCreateProvisioningProfileOptions : AwsOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Create a provisioning profile for executing device provisioning flows. The provisioning profile is a document that defines the set of re- sources and policies applied to a device during the provisioning process. See also: AWS API Documentation
+    /// Create a provisioning profile for executing device provisioning flows. The provisioning profile is a document that defines the set of resources and policies applied to a device during the provisioning process. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProvisioningType">The type of provisioning workflow the device uses for onboarding to IoT managed integrations. Possible values: o FLEET_PROVISIONING o JITR</param>
+    /// <param name="ProvisioningType">The type of provisioning workflow the device uses for onboarding to IoT managed integrations. Possible values: • FLEET_PROVISIONING • JITR</param>
     public AwsIotManagedIntegrationsCreateProvisioningProfileOptions(
         AwsIotManagedIntegrationsCreateProvisioningProfileProvisioningType ProvisioningType
     )
@@ -58,38 +59,38 @@ public record AwsIotManagedIntegrationsCreateProvisioningProfileOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of provisioning workflow the device uses for onboarding to IoT managed integrations. Possible values: o FLEET_PROVISIONING o JITR
+    /// The type of provisioning workflow the device uses for onboarding to IoT managed integrations. Possible values: • FLEET_PROVISIONING • JITR
     /// </summary>
     [CliOption("--provisioning-type")]
     public AwsIotManagedIntegrationsCreateProvisioningProfileProvisioningType? ProvisioningType { get; private init; }
 
     /// <summary>
-    /// The body of the PEM-encoded certificate authority (CA) certificate. Constraints: o pattern: -----BEGIN CERTIFICATE-----.*(.|\n)*-----END CERTIFI- CATE-----\n?
+    /// The body of the PEM-encoded certificate authority (CA) certificate. Constraints: • pattern: -----BEGIN CERTIFICATE-----.*(.|\n)*-----END CERTIFICATE-----\n?
     /// </summary>
     [CliOption("--ca-certificate")]
     public string? CaCertificate { get; set; }
 
     /// <summary>
-    /// The body of the PEM-encoded claim certificate. If a claim certifi- cate is provided, it will be used for the provisioning profile. Oth- erwise, a claim certificate will be generated.
+    /// The body of the PEM-encoded claim certificate. If a claim certificate is provided, it will be used for the provisioning profile. Otherwise, a claim certificate will be generated.
     /// </summary>
     [CliOption("--claim-certificate")]
     public string? ClaimCertificate { get; set; }
 
     /// <summary>
-    /// The name of the provisioning profile. Constraints: o min: 1 o max: 36 o pattern: [0-9A-Za-z_-]+
+    /// The name of the provisioning profile. Constraints: • min: 1 • max: 36 • pattern: [0-9A-Za-z_-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// An idempotency token. If you retry a request that completed success- fully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9=_-]+
+    /// An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9=_-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A set of key/value pairs that are used to manage the provisioning profile. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A set of key/value pairs that are used to manage the provisioning profile. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

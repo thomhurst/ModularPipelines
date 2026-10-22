@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMailmanagerDeleteRelayOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes an existing relay resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RelayId">The unique relay identifier. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="RelayId">The unique relay identifier. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+</param>
     public AwsMailmanagerDeleteRelayOptions(
         string RelayId
     )
@@ -56,7 +58,7 @@ public record AwsMailmanagerDeleteRelayOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique relay identifier. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+
+    /// The unique relay identifier. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--relay-id")]
     public string? RelayId { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts a specified application and initializes initial capacity if con- figured. See also: AWS API Documentation
+/// Starts a specified application and initializes initial capacity if configured. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsEmrServerlessStartApplicationOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts a specified application and initializes initial capacity if con- figured. See also: AWS API Documentation
+    /// Starts a specified application and initializes initial capacity if configured. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The ID of the application to start. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
+    /// <param name="ApplicationId">The ID of the application to start. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+</param>
     public AwsEmrServerlessStartApplicationOptions(
         string ApplicationId
     )
@@ -56,7 +58,7 @@ public record AwsEmrServerlessStartApplicationOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the application to start. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// The ID of the application to start. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }

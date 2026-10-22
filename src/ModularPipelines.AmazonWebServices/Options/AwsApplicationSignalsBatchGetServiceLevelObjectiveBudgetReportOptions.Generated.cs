@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsApplicationSignalsBatchGetServiceLevelObjectiveBudgetReportOpti
     /// <summary>
     /// Use this operation to retrieve one or more service level objective (SLO) budget reports . An error budget is the amount of time or requests in an unhealthy state that your service can accumulate during an interval before your overall SLO budget health is breached and the SLO is considered to be unmet. For example, an SLO with a threshold of 99.95% and a monthly interval translates to an error budget of 21.9 minutes of downtime in a 30-day month. Budget reports include a health indicator, the att...
     /// </summary>
-    /// <param name="Timestamp">The date and time that you want the report to be for. It is ex- pressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.</param>
-    /// <param name="SloIds">An array containing the IDs of the service level objectives that you want to include in the report. Constraints: o min: 1 o max: 50 (string) Syntax: "string" "string" ...</param>
+    /// <param name="Timestamp">The date and time that you want the report to be for. It is expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.</param>
+    /// <param name="SloIds">An array containing the IDs of the service level objectives that you want to include in the report. Constraints: • min: 1 • max: 50 (string) Syntax: "string" "string" ...</param>
     public AwsApplicationSignalsBatchGetServiceLevelObjectiveBudgetReportOptions(
         string Timestamp,
         IEnumerable<string> SloIds
@@ -71,13 +73,13 @@ public record AwsApplicationSignalsBatchGetServiceLevelObjectiveBudgetReportOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The date and time that you want the report to be for. It is ex- pressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
+    /// The date and time that you want the report to be for. It is expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
     /// </summary>
     [CliOption("--timestamp")]
     public string? Timestamp { get; private init; }
 
     /// <summary>
-    /// An array containing the IDs of the service level objectives that you want to include in the report. Constraints: o min: 1 o max: 50 (string) Syntax: "string" "string" ...
+    /// An array containing the IDs of the service level objectives that you want to include in the report. Constraints: • min: 1 • max: 50 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--slo-ids", GroupValues = true)]
     public IEnumerable<string>? SloIds { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates the expiration configuration settings for records in a table, including the status of the configuration. If you enable record expiration for a table, records expire and are automatically re- moved from the table after the number of days that you specify. Permissions You must have the s3tables:PutTableRecordExpirationConfiguration per- mission to use this operation. See also: AWS API Documentation
+/// Creates or updates the expiration configuration settings for records in a table, including the status of the configuration. If you enable record expiration for a table, records expire and are automatically removed from the table after the number of days that you specify. Permissions You must have the s3tables:PutTableRecordExpirationConfiguration permission to use this operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsS3tablesPutTableRecordExpirationConfigurationOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates or updates the expiration configuration settings for records in a table, including the status of the configuration. If you enable record expiration for a table, records expire and are automatically re- moved from the table after the number of days that you specify. Permissions You must have the s3tables:PutTableRecordExpirationConfiguration per- mission to use this operation. See also: AWS API Documentation
+    /// Creates or updates the expiration configuration settings for records in a table, including the status of the configuration. If you enable record expiration for a table, records expire and are automatically removed from the table after the number of days that you specify. Permissions You must have the s3tables:PutTableRecordExpirationConfiguration permission to use this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TableArn">The Amazon Resource Name (ARN) of the table. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}/ta- ble/[a-zA-Z0-9-_]{1,255})</param>
-    /// <param name="Value">The record expiration configuration to apply to the table, including the status (enabled or disabled ) and retention period in days. status -&gt; (string) The status of the expiration settings for records in the table. Possible values: o enabled o disabled settings -&gt; (structure) The expiration settings for records in the table. days -&gt; (integer) If you enable record expiration for a table, you can specify the number of days to retain your table records. For example, to retain your table records for one year, set this value to 365 . Constraints: o min: 1 o max: 2147483647 Shorthand Syntax: status=string,settings={days=integer} JSON Syntax: { "status": "enabled"|"disabled", "settings": { "days": integer } }</param>
+    /// <param name="TableArn">The Amazon Resource Name (ARN) of the table. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}/table/[a-zA-Z0-9-_]{1,255})</param>
+    /// <param name="Value">The record expiration configuration to apply to the table, including the status (enabled or disabled ) and retention period in days. status -&gt; (string) The status of the expiration settings for records in the table. Possible values: • enabled • disabled settings -&gt; (structure) The expiration settings for records in the table. days -&gt; (integer) If you enable record expiration for a table, you can specify the number of days to retain your table records. For example, to retain your table records for one year, set this value to 365 . Constraints: • min: 1 • max: 2147483647 Shorthand Syntax: status=string,settings={days=integer} JSON Syntax: { "status": "enabled"|"disabled", "settings": { "days": integer } }</param>
     public AwsS3tablesPutTableRecordExpirationConfigurationOptions(
         string TableArn,
         string Value
@@ -60,13 +62,13 @@ public record AwsS3tablesPutTableRecordExpirationConfigurationOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the table. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}/ta- ble/[a-zA-Z0-9-_]{1,255})
+    /// The Amazon Resource Name (ARN) of the table. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}/table/[a-zA-Z0-9-_]{1,255})
     /// </summary>
     [CliOption("--table-arn")]
     public string? TableArn { get; private init; }
 
     /// <summary>
-    /// The record expiration configuration to apply to the table, including the status (enabled or disabled ) and retention period in days. status -&gt; (string) The status of the expiration settings for records in the table. Possible values: o enabled o disabled settings -&gt; (structure) The expiration settings for records in the table. days -&gt; (integer) If you enable record expiration for a table, you can specify the number of days to retain your table records. For example, to retain your table records for one year, set this value to 365 . Constraints: o min: 1 o max: 2147483647 Shorthand Syntax: status=string,settings={days=integer} JSON Syntax: { "status": "enabled"|"disabled", "settings": { "days": integer } }
+    /// The record expiration configuration to apply to the table, including the status (enabled or disabled ) and retention period in days. status -&gt; (string) The status of the expiration settings for records in the table. Possible values: • enabled • disabled settings -&gt; (structure) The expiration settings for records in the table. days -&gt; (integer) If you enable record expiration for a table, you can specify the number of days to retain your table records. For example, to retain your table records for one year, set this value to 365 . Constraints: • min: 1 • max: 2147483647 Shorthand Syntax: status=string,settings={days=integer} JSON Syntax: { "status": "enabled"|"disabled", "settings": { "days": integer } }
     /// </summary>
     [CliOption("--value")]
     public string? Value { get; private init; }

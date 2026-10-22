@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsTaxsettingsPutTaxInheritanceOptions : AwsOptions
 {
     /// <summary>
-    /// The tax inheritance status. Possible values: o OptIn o OptOut
+    /// The tax inheritance status. Possible values: • OptIn • OptOut
     /// </summary>
     [CliOption("--heritage-status")]
     public AwsTaxsettingsPutTaxInheritanceHeritageStatus? HeritageStatus { get; set; }

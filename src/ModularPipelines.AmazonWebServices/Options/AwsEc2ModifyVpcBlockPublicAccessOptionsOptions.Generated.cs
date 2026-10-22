@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modify VPC Block Public Access (BPA) options. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. To learn more about VPC BPA, see Block public access to VPCs and subnets in the Ama- zon VPC User Guide . See also: AWS API Documentation
+/// Modify VPC Block Public Access (BPA) options. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. To learn more about VPC BPA, see Block public access to VPCs and subnets in the Amazon VPC User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsEc2ModifyVpcBlockPublicAccessOptionsOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modify VPC Block Public Access (BPA) options. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. To learn more about VPC BPA, see Block public access to VPCs and subnets in the Ama- zon VPC User Guide . See also: AWS API Documentation
+    /// Modify VPC Block Public Access (BPA) options. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. To learn more about VPC BPA, see Block public access to VPCs and subnets in the Amazon VPC User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="InternetGatewayBlockMode">The mode of VPC BPA. o off : VPC BPA is not enabled and traffic is allowed to and from internet gateways and egress-only internet gateways in this Re- gion. o block-bidirectional : Block all traffic to and from internet gate- ways and egress-only internet gateways in this Region (except for excluded VPCs and subnets). o block-ingress : Block all internet traffic to the VPCs in this Re- gion (except for VPCs or subnets which are excluded). Only traffic to and from NAT gateways and egress-only internet gateways is al- lowed because these gateways only allow outbound connections to be established. Possible values: o off o block-bidirectional o block-ingress</param>
+    /// <param name="InternetGatewayBlockMode">The mode of VPC BPA. • off : VPC BPA is not enabled and traffic is allowed to and from internet gateways and egress-only internet gateways in this Region. • block-bidirectional : Block all traffic to and from internet gateways and egress-only internet gateways in this Region (except for excluded VPCs and subnets). • block-ingress : Block all internet traffic to the VPCs in this Region (except for VPCs or subnets which are excluded). Only traffic to and from NAT gateways and egress-only internet gateways is allowed because these gateways only allow outbound connections to be established. Possible values: • off • block-bidirectional • block-ingress</param>
     public AwsEc2ModifyVpcBlockPublicAccessOptionsOptions(
         AwsEc2ModifyVpcBlockPublicAccessOptionsInternetGatewayBlockMode InternetGatewayBlockMode
     )
@@ -56,13 +58,13 @@ public record AwsEc2ModifyVpcBlockPublicAccessOptionsOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The mode of VPC BPA. o off : VPC BPA is not enabled and traffic is allowed to and from internet gateways and egress-only internet gateways in this Re- gion. o block-bidirectional : Block all traffic to and from internet gate- ways and egress-only internet gateways in this Region (except for excluded VPCs and subnets). o block-ingress : Block all internet traffic to the VPCs in this Re- gion (except for VPCs or subnets which are excluded). Only traffic to and from NAT gateways and egress-only internet gateways is al- lowed because these gateways only allow outbound connections to be established. Possible values: o off o block-bidirectional o block-ingress
+    /// The mode of VPC BPA. • off : VPC BPA is not enabled and traffic is allowed to and from internet gateways and egress-only internet gateways in this Region. • block-bidirectional : Block all traffic to and from internet gateways and egress-only internet gateways in this Region (except for excluded VPCs and subnets). • block-ingress : Block all internet traffic to the VPCs in this Region (except for VPCs or subnets which are excluded). Only traffic to and from NAT gateways and egress-only internet gateways is allowed because these gateways only allow outbound connections to be established. Possible values: • off • block-bidirectional • block-ingress
     /// </summary>
     [CliOption("--internet-gateway-block-mode")]
     public AwsEc2ModifyVpcBlockPublicAccessOptionsInternetGatewayBlockMode? InternetGatewayBlockMode { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

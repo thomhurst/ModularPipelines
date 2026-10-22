@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsChimeSdkVoiceListVoiceProfilesOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Lists the voice profiles in a voice profile domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VoiceProfileDomainId">The ID of the voice profile domain. Constraints: o min: 1 o max: 256 o pattern: .*\S.*</param>
+    /// <param name="VoiceProfileDomainId">The ID of the voice profile domain. Constraints: • min: 1 • max: 256 • pattern: .*\S.*</param>
     public AwsChimeSdkVoiceListVoiceProfilesOptions(
         string VoiceProfileDomainId
     )
@@ -57,7 +59,7 @@ public record AwsChimeSdkVoiceListVoiceProfilesOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the voice profile domain. Constraints: o min: 1 o max: 256 o pattern: .*\S.*
+    /// The ID of the voice profile domain. Constraints: • min: 1 • max: 256 • pattern: .*\S.*
     /// </summary>
     [CliOption("--voice-profile-domain-id")]
     public string? VoiceProfileDomainId { get; private init; }
@@ -70,7 +72,7 @@ public record AwsChimeSdkVoiceListVoiceProfilesOptions : AwsOptions, IValidatabl
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results in the request. Constraints: o min: 1 o max: 100
+    /// The maximum number of results in the request. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

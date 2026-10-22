@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a presigned URL for an S3 POST operation to upload a file. You can use this URL to set a default file for a FileUploadCard in a Q App definition or to provide a file for a single Q App run. The scope para- meter determines how the file will be used, either at the app defini- tion level or the app session level. NOTE: The IAM permissions are derived from the qapps:ImportDocument ac- tion. For more information on the IAM policy for Amazon Q Apps, see IAM permissions for using Amazon Q Apps...
+/// Creates a presigned URL for an S3 POST operation to upload a file. You can use this URL to set a default file for a FileUploadCard in a Q App definition or to provide a file for a single Q App run. The scope parameter determines how the file will be used, either at the app definition level or the app session level. NOTE: The IAM permissions are derived from the qapps:ImportDocument action. For more information on the IAM policy for Amazon Q Apps, see IAM permissions for using Amazon Q Apps . See...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,14 +28,14 @@ public record AwsQappsCreatePresignedUrlOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a presigned URL for an S3 POST operation to upload a file. You can use this URL to set a default file for a FileUploadCard in a Q App definition or to provide a file for a single Q App run. The scope para- meter determines how the file will be used, either at the app defini- tion level or the app session level. NOTE: The IAM permissions are derived from the qapps:ImportDocument ac- tion. For more information on the IAM policy for Amazon Q Apps, see IAM permissions for using Amazon Q Apps...
+    /// Creates a presigned URL for an S3 POST operation to upload a file. You can use this URL to set a default file for a FileUploadCard in a Q App definition or to provide a file for a single Q App run. The scope parameter determines how the file will be used, either at the app definition level or the app session level. NOTE: The IAM permissions are derived from the qapps:ImportDocument action. For more information on the IAM policy for Amazon Q Apps, see IAM permissions for using Amazon Q Apps . See...
     /// </summary>
-    /// <param name="InstanceId">The unique identifier of the Amazon Q Business application environ- ment instance.</param>
-    /// <param name="CardId">The unique identifier of the card the file is associated with. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}</param>
-    /// <param name="AppId">The unique identifier of the Q App the file is associated with. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}</param>
-    /// <param name="FileContentsSha256">The Base64-encoded SHA-256 digest of the contents of the file to be uploaded. Constraints: o pattern: [A-Za-z0-9+/]{43}=$|^[A-Za-z0-9+/]{42}==$|^[A-Za-z0-9+/]{44}</param>
-    /// <param name="FileName">The name of the file to be uploaded. Constraints: o min: 0 o max: 100</param>
-    /// <param name="Scope">Whether the file is associated with a Q App definition or a specific Q App session. Possible values: o APPLICATION o SESSION</param>
+    /// <param name="InstanceId">The unique identifier of the Amazon Q Business application environment instance.</param>
+    /// <param name="CardId">The unique identifier of the card the file is associated with. Constraints: • pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}</param>
+    /// <param name="AppId">The unique identifier of the Q App the file is associated with. Constraints: • pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}</param>
+    /// <param name="FileContentsSha256">The Base64-encoded SHA-256 digest of the contents of the file to be uploaded. Constraints: • pattern: [A-Za-z0-9+/]{43}=$|^[A-Za-z0-9+/]{42}==$|^[A-Za-z0-9+/]{44}</param>
+    /// <param name="FileName">The name of the file to be uploaded. Constraints: • min: 0 • max: 100</param>
+    /// <param name="Scope">Whether the file is associated with a Q App definition or a specific Q App session. Possible values: • APPLICATION • SESSION</param>
     public AwsQappsCreatePresignedUrlOptions(
         string InstanceId,
         string CardId,
@@ -76,43 +78,43 @@ public record AwsQappsCreatePresignedUrlOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Amazon Q Business application environ- ment instance.
+    /// The unique identifier of the Amazon Q Business application environment instance.
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the card the file is associated with. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}
+    /// The unique identifier of the card the file is associated with. Constraints: • pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}
     /// </summary>
     [CliOption("--card-id")]
     public string? CardId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the Q App the file is associated with. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}
+    /// The unique identifier of the Q App the file is associated with. Constraints: • pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}
     /// </summary>
     [CliOption("--app-id")]
     public string? AppId { get; private init; }
 
     /// <summary>
-    /// The Base64-encoded SHA-256 digest of the contents of the file to be uploaded. Constraints: o pattern: [A-Za-z0-9+/]{43}=$|^[A-Za-z0-9+/]{42}==$|^[A-Za-z0-9+/]{44}
+    /// The Base64-encoded SHA-256 digest of the contents of the file to be uploaded. Constraints: • pattern: [A-Za-z0-9+/]{43}=$|^[A-Za-z0-9+/]{42}==$|^[A-Za-z0-9+/]{44}
     /// </summary>
     [CliOption("--file-contents-sha256")]
     public string? FileContentsSha256 { get; private init; }
 
     /// <summary>
-    /// The name of the file to be uploaded. Constraints: o min: 0 o max: 100
+    /// The name of the file to be uploaded. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--file-name")]
     public string? FileName { get; private init; }
 
     /// <summary>
-    /// Whether the file is associated with a Q App definition or a specific Q App session. Possible values: o APPLICATION o SESSION
+    /// Whether the file is associated with a Q App definition or a specific Q App session. Possible values: • APPLICATION • SESSION
     /// </summary>
     [CliOption("--scope")]
     public AwsQappsCreatePresignedUrlScope? Scope { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the Q App session the file is associated with, if applicable. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}
+    /// The unique identifier of the Q App session the file is associated with, if applicable. Constraints: • pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; set; }

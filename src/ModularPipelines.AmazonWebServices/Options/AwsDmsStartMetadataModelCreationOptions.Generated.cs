@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Queues the creation of a metadata model in the source metadata tree. If other requests created by Start* operations are already in the migra- tion project's queue, the creation begins after they complete. NOTE: This operation supports only Microsoft SQL Server to Aurora Post- greSQL and Microsoft SQL Server to Amazon RDS for PostgreSQL conver- sion paths. To check the status of the creation request, call DescribeMetadataModelCreations using the returned RequestIdentifier as a filter. To cancel a...
+/// Queues the creation of a metadata model in the source metadata tree. If other requests created by Start* operations are already in the migration project's queue, the creation begins after they complete. NOTE: This operation supports only Microsoft SQL Server to Aurora PostgreSQL and Microsoft SQL Server to Amazon RDS for PostgreSQL conversion paths. To check the status of the creation request, call DescribeMetadataModelCreations using the returned RequestIdentifier as a filter. To cancel a queue...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsDmsStartMetadataModelCreationOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Queues the creation of a metadata model in the source metadata tree. If other requests created by Start* operations are already in the migra- tion project's queue, the creation begins after they complete. NOTE: This operation supports only Microsoft SQL Server to Aurora Post- greSQL and Microsoft SQL Server to Amazon RDS for PostgreSQL conver- sion paths. To check the status of the creation request, call DescribeMetadataModelCreations using the returned RequestIdentifier as a filter. To cancel a...
+    /// Queues the creation of a metadata model in the source metadata tree. If other requests created by Start* operations are already in the migration project's queue, the creation begins after they complete. NOTE: This operation supports only Microsoft SQL Server to Aurora PostgreSQL and Microsoft SQL Server to Amazon RDS for PostgreSQL conversion paths. To check the status of the creation request, call DescribeMetadataModelCreations using the returned RequestIdentifier as a filter. To cancel a queue...
     /// </summary>
-    /// <param name="MigrationProjectIdentifier">The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255</param>
-    /// <param name="SelectionRules">A JSON string that identifies the source schema for the metadata model. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: o Accepts only source selection rules, where server-name in the ob- ject locator matches the source data provider. o Supports only explicit rule actions. o Exactly one rule is allowed.</param>
+    /// <param name="MigrationProjectIdentifier">The migration project name or Amazon Resource Name (ARN). Constraints: • max: 255</param>
+    /// <param name="SelectionRules">A JSON string that identifies the source schema for the metadata model. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: • Accepts only source selection rules, where server-name in the object locator matches the source data provider. • Supports only explicit rule actions. • Exactly one rule is allowed.</param>
     /// <param name="MetadataModelName">The name for the metadata model to use in subsequent operations.</param>
     /// <param name="Properties">The properties of the metadata model. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: StatementProperties. StatementProperties -&gt; (structure) The properties of the SQL statement. Definition -&gt; (string) [required] The SQL text of the statement. Shorthand Syntax: StatementProperties={Definition=string} JSON Syntax: { "StatementProperties": { "Definition": "string" } }</param>
     public AwsDmsStartMetadataModelCreationOptions(
@@ -68,13 +70,13 @@ public record AwsDmsStartMetadataModelCreationOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255
+    /// The migration project name or Amazon Resource Name (ARN). Constraints: • max: 255
     /// </summary>
     [CliOption("--migration-project-identifier")]
     public string? MigrationProjectIdentifier { get; private init; }
 
     /// <summary>
-    /// A JSON string that identifies the source schema for the metadata model. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: o Accepts only source selection rules, where server-name in the ob- ject locator matches the source data provider. o Supports only explicit rule actions. o Exactly one rule is allowed.
+    /// A JSON string that identifies the source schema for the metadata model. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: • Accepts only source selection rules, where server-name in the object locator matches the source data provider. • Supports only explicit rule actions. • Exactly one rule is allowed.
     /// </summary>
     [CliOption("--selection-rules")]
     public string? SelectionRules { get; private init; }

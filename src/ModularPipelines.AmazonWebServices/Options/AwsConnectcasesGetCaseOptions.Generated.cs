@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +30,9 @@ public record AwsConnectcasesGetCaseOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns information about a specific case if it exists. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CaseId">A unique identifier of the case. Constraints: o min: 1 o max: 500</param>
-    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500</param>
-    /// <param name="Fields">A list of unique field identifiers. Constraints: o min: 1 o max: 220 (structure) Object for unique identifier of a field. id -&gt; (string) [required] Unique identifier of a field. Constraints: o min: 1 o max: 500 Shorthand Syntax: id=string ... JSON Syntax: [ { "id": "string" } ... ]</param>
+    /// <param name="CaseId">A unique identifier of the case. Constraints: • min: 1 • max: 500</param>
+    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500</param>
+    /// <param name="Fields">A list of unique field identifiers. Constraints: • min: 1 • max: 220 (structure) Object for unique identifier of a field. id -&gt; (string) [required] Unique identifier of a field. Constraints: • min: 1 • max: 500 Shorthand Syntax: id=string ... JSON Syntax: [ { "id": "string" } ... ]</param>
     public AwsConnectcasesGetCaseOptions(
         string CaseId,
         string DomainId,
@@ -76,25 +78,25 @@ public record AwsConnectcasesGetCaseOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier of the case. Constraints: o min: 1 o max: 500
+    /// A unique identifier of the case. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--case-id")]
     public string? CaseId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500
+    /// The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// A list of unique field identifiers. Constraints: o min: 1 o max: 220 (structure) Object for unique identifier of a field. id -&gt; (string) [required] Unique identifier of a field. Constraints: o min: 1 o max: 500 Shorthand Syntax: id=string ... JSON Syntax: [ { "id": "string" } ... ]
+    /// A list of unique field identifiers. Constraints: • min: 1 • max: 220 (structure) Object for unique identifier of a field. id -&gt; (string) [required] Unique identifier of a field. Constraints: • min: 1 • max: 500 Shorthand Syntax: id=string ... JSON Syntax: [ { "id": "string" } ... ]
     /// </summary>
     [CliOption("--fields", GroupValues = true)]
     public IEnumerable<string>? Fields { get; private init; }
 
     /// <summary>
-    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. Constraints: o min: 0 o max: 9000
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. Constraints: • min: 0 • max: 9000
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

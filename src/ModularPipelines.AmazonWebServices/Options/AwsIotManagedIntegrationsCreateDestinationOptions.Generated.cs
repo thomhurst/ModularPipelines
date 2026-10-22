@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Create a notification destination such as Kinesis Data Streams that re- ceive events and notifications from Managed integrations. Managed inte- grations uses the destination to determine where to deliver notifica- tions. See also: AWS API Documentation
+/// Create a notification destination such as Kinesis Data Streams that receive events and notifications from Managed integrations. Managed integrations uses the destination to determine where to deliver notifications. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsIotManagedIntegrationsCreateDestinationOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Create a notification destination such as Kinesis Data Streams that re- ceive events and notifications from Managed integrations. Managed inte- grations uses the destination to determine where to deliver notifica- tions. See also: AWS API Documentation
+    /// Create a notification destination such as Kinesis Data Streams that receive events and notifications from Managed integrations. Managed integrations uses the destination to determine where to deliver notifications. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DeliveryDestinationArn">The Amazon Resource Name (ARN) of the customer-managed destination. Constraints: o min: 20 o max: 2048 o pattern: arn:aws:[0-9a-zA-Z]+:[0-9a-zA-Z-]+:[0-9]+:[0-9a-zA-Z]+/[0-9a-zA-Z._-]+</param>
-    /// <param name="DeliveryDestinationType">The destination type for the customer-managed destination. Possible values: o KINESIS</param>
-    /// <param name="Name">The name of the customer-managed destination. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{N} ._-]+</param>
+    /// <param name="DeliveryDestinationArn">The Amazon Resource Name (ARN) of the customer-managed destination. Constraints: • min: 20 • max: 2048 • pattern: arn:aws:[0-9a-zA-Z]+:[0-9a-zA-Z-]+:[0-9]+:[0-9a-zA-Z]+/[0-9a-zA-Z._-]+</param>
+    /// <param name="DeliveryDestinationType">The destination type for the customer-managed destination. Possible values: • KINESIS</param>
+    /// <param name="Name">The name of the customer-managed destination. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{N} ._-]+</param>
     /// <param name="RoleArn">The Amazon Resource Name (ARN) of the delivery destination role.</param>
     public AwsIotManagedIntegrationsCreateDestinationOptions(
         string DeliveryDestinationArn,
@@ -70,19 +71,19 @@ public record AwsIotManagedIntegrationsCreateDestinationOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the customer-managed destination. Constraints: o min: 20 o max: 2048 o pattern: arn:aws:[0-9a-zA-Z]+:[0-9a-zA-Z-]+:[0-9]+:[0-9a-zA-Z]+/[0-9a-zA-Z._-]+
+    /// The Amazon Resource Name (ARN) of the customer-managed destination. Constraints: • min: 20 • max: 2048 • pattern: arn:aws:[0-9a-zA-Z]+:[0-9a-zA-Z-]+:[0-9]+:[0-9a-zA-Z]+/[0-9a-zA-Z._-]+
     /// </summary>
     [CliOption("--delivery-destination-arn")]
     public string? DeliveryDestinationArn { get; private init; }
 
     /// <summary>
-    /// The destination type for the customer-managed destination. Possible values: o KINESIS
+    /// The destination type for the customer-managed destination. Possible values: • KINESIS
     /// </summary>
     [CliOption("--delivery-destination-type")]
     public string? DeliveryDestinationType { get; private init; }
 
     /// <summary>
-    /// The name of the customer-managed destination. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{N} ._-]+
+    /// The name of the customer-managed destination. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{N} ._-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -94,20 +95,20 @@ public record AwsIotManagedIntegrationsCreateDestinationOptions : AwsOptions, IV
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// An idempotency token. If you retry a request that completed success- fully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9=_-]+
+    /// An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9=_-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The description of the customer-managed destination. Constraints: o min: 1 o max: 256 o pattern: [0-9A-Za-z_\- ]+
+    /// The description of the customer-managed destination. Constraints: • min: 1 • max: 256 • pattern: [0-9A-Za-z_\- ]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A set of key/value pairs that are used to manage the destination. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A set of key/value pairs that are used to manage the destination. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

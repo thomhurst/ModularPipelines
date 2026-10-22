@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// A list of locations from which the customer can choose to pickup a de- vice. See also: AWS API Documentation
+/// A list of locations from which the customer can choose to pickup a device. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSnowballListPickupLocationsOptions : AwsOptions
 {
     /// <summary>
-    /// The maximum number of locations to list per page. Constraints: o min: 0 o max: 100
+    /// The maximum number of locations to list per page. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// HTTP requests are stateless. To identify what object comes "next" in the list of ListPickupLocationsRequest objects, you have the option of specifying NextToken as the starting point for your returned list. Constraints: o min: 1 o max: 1024 o pattern: .*
+    /// HTTP requests are stateless. To identify what object comes "next" in the list of ListPickupLocationsRequest objects, you have the option of specifying NextToken as the starting point for your returned list. Constraints: • min: 1 • max: 1024 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

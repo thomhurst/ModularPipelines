@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// After you deploy a model into production using Amazon SageMaker AI hosting services, your client applications use this API to get infer- ences from the model hosted at the specified endpoint in an asynchro- nous manner. Inference requests sent to this API are enqueued for asynchronous pro- cessing. The processing of the inference request may or may not com- plete before you receive a response from this API. The response from this API will not contain the result of the inference request but con- ...
+/// After you deploy a model into production using Amazon SageMaker AI hosting services, your client applications use this API to get inferences from the model hosted at the specified endpoint in an asynchronous manner. Inference requests sent to this API are enqueued for asynchronous processing. The processing of the inference request may or may not complete before you receive a response from this API. The response from this API will not contain the result of the inference request but contain infor...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSagemakerRuntimeInvokeEndpointAsyncOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// After you deploy a model into production using Amazon SageMaker AI hosting services, your client applications use this API to get infer- ences from the model hosted at the specified endpoint in an asynchro- nous manner. Inference requests sent to this API are enqueued for asynchronous pro- cessing. The processing of the inference request may or may not com- plete before you receive a response from this API. The response from this API will not contain the result of the inference request but con- ...
+    /// After you deploy a model into production using Amazon SageMaker AI hosting services, your client applications use this API to get inferences from the model hosted at the specified endpoint in an asynchronous manner. Inference requests sent to this API are enqueued for asynchronous processing. The processing of the inference request may or may not complete before you receive a response from this API. The response from this API will not contain the result of the inference request but contain infor...
     /// </summary>
-    /// <param name="EndpointName">The name of the endpoint that you specified when you created the endpoint using the CreateEndpoint API. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*</param>
+    /// <param name="EndpointName">The name of the endpoint that you specified when you created the endpoint using the CreateEndpoint API. Constraints: • max: 63 • pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*</param>
     public AwsSagemakerRuntimeInvokeEndpointAsyncOptions(
         string EndpointName
     )
@@ -56,67 +58,67 @@ public record AwsSagemakerRuntimeInvokeEndpointAsyncOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the endpoint that you specified when you created the endpoint using the CreateEndpoint API. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*
+    /// The name of the endpoint that you specified when you created the endpoint using the CreateEndpoint API. Constraints: • max: 63 • pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*
     /// </summary>
     [CliOption("--endpoint-name")]
     public string? EndpointName { get; private init; }
 
     /// <summary>
-    /// The MIME type of the input data in the request body. Constraints: o max: 1024 o pattern: \p{ASCII}*
+    /// The MIME type of the input data in the request body. Constraints: • max: 1024 • pattern: \p{ASCII}*
     /// </summary>
     [CliOption("--content-type")]
     public string? ContentType { get; set; }
 
     /// <summary>
-    /// The desired MIME type of the inference response from the model con- tainer. Constraints: o max: 1024 o pattern: \p{ASCII}*
+    /// The desired MIME type of the inference response from the model container. Constraints: • max: 1024 • pattern: \p{ASCII}*
     /// </summary>
     [CliOption("--accept")]
     public string? Accept { get; set; }
 
     /// <summary>
-    /// Provides additional information about a request for an inference submitted to a model hosted at an Amazon SageMaker AI endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to provide an ID that you can use to track a request or to provide other metadata that a service endpoint was programmed to process. The value must consist of no more than 1024 visible US-ASCII characters as specified in Section 3.3.6. Field Value Components of the Hypertext Transfer Protocol (HTTP/1.1). The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function. This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker AI Python SDK. Constraints: o max: 1024 o pattern: \p{ASCII}*
+    /// Provides additional information about a request for an inference submitted to a model hosted at an Amazon SageMaker AI endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to provide an ID that you can use to track a request or to provide other metadata that a service endpoint was programmed to process. The value must consist of no more than 1024 visible US-ASCII characters as specified in Section 3.3.6. Field Value Components of the Hypertext Transfer Protocol (HTTP/1.1). The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function. This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker AI Python SDK. Constraints: • max: 1024 • pattern: \p{ASCII}*
     /// </summary>
     [CliOption("--custom-attributes")]
     public string? CustomAttributes { get; set; }
 
     /// <summary>
-    /// The identifier for the inference request. Amazon SageMaker AI will generate an identifier for you if none is specified. Constraints: o min: 1 o max: 64 o pattern: \A\S[\p{Print}]*\z
+    /// The identifier for the inference request. Amazon SageMaker AI will generate an identifier for you if none is specified. Constraints: • min: 1 • max: 64 • pattern: \A\S[\p{Print}]*\z
     /// </summary>
     [CliOption("--inference-id")]
     public string? InferenceId { get; set; }
 
     /// <summary>
-    /// The Amazon S3 URI where the inference request payload is stored. Constraints: o min: 1 o max: 1024 o pattern: ^(https|s3)://([^/]+)/?(.*)$
+    /// The Amazon S3 URI where the inference request payload is stored. Constraints: • min: 1 • max: 1024 • pattern: ^(https|s3)://([^/]+)/?(.*)$
     /// </summary>
     [CliOption("--input-location")]
     public string? InputLocation { get; set; }
 
     /// <summary>
-    /// The path extension that is appended to the Amazon S3 output path where the inference response payload is stored. Constraints: o min: 1 o max: 512 o pattern: ^(?!s3:|https:)[a-zA-Z0-9!_.*'()/-]+$
+    /// The path extension that is appended to the Amazon S3 output path where the inference response payload is stored. Constraints: • min: 1 • max: 512 • pattern: ^(?!s3:|https:)[a-zA-Z0-9!_.*'()/-]+$
     /// </summary>
     [CliOption("--s3-output-path-extension")]
     public string? S3OutputPathExtension { get; set; }
 
     /// <summary>
-    /// The filename for the inference response payload stored in Amazon S3. If not specified, Amazon SageMaker AI generates a filename based on the inference ID. Constraints: o min: 1 o max: 32 o pattern: ^(?!.*\..*\.)[a-zA-Z0-9][a-zA-Z0-9-_\.]*$
+    /// The filename for the inference response payload stored in Amazon S3. If not specified, Amazon SageMaker AI generates a filename based on the inference ID. Constraints: • min: 1 • max: 32 • pattern: ^(?!.*\..*\.)[a-zA-Z0-9][a-zA-Z0-9-_\.]*$
     /// </summary>
     [CliOption("--filename")]
     public string? Filename { get; set; }
 
     /// <summary>
-    /// Maximum age in seconds a request can be in the queue before it is marked as expired. The default is 6 hours, or 21,600 seconds. Constraints: o min: 60 o max: 21600
+    /// Maximum age in seconds a request can be in the queue before it is marked as expired. The default is 6 hours, or 21,600 seconds. Constraints: • min: 60 • max: 21600
     /// </summary>
     [CliOption("--request-ttl-seconds")]
     public int? RequestTtlSeconds { get; set; }
 
     /// <summary>
-    /// Maximum amount of time in seconds a request can be processed before it is marked as expired. The default is 15 minutes, or 900 seconds. Constraints: o min: 1 o max: 3600
+    /// Maximum amount of time in seconds a request can be processed before it is marked as expired. The default is 15 minutes, or 900 seconds. Constraints: • min: 1 • max: 3600
     /// </summary>
     [CliOption("--invocation-timeout-seconds")]
     public int? InvocationTimeoutSeconds { get; set; }
 
     /// <summary>
-    /// Provides inline input data for the inference request, in the format specified in the ContentType request header. Use this parameter to send the request payload directly in the API call instead of upload- ing it to Amazon S3 and referencing it with InputLocation . The in- line payload can be up to 128,000 bytes. Body and InputLocation are mutually exclusive. Provide exactly one of them. For information about the format of the request body, see Common Data Formats-Inference . Constraints: o max: 128000
+    /// Provides inline input data for the inference request, in the format specified in the ContentType request header. Use this parameter to send the request payload directly in the API call instead of uploading it to Amazon S3 and referencing it with InputLocation . The inline payload can be up to 128,000 bytes. Body and InputLocation are mutually exclusive. Provide exactly one of them. For information about the format of the request body, see Common Data Formats-Inference . Constraints: • max: 128000
     /// </summary>
     [CliOption("--body")]
     public string? Body { get; set; }

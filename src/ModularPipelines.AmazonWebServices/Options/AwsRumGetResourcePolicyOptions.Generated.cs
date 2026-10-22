@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Use this operation to retrieve information about a resource-based pol- icy that is attached to an app monitor. See also: AWS API Documentation
+/// Use this operation to retrieve information about a resource-based policy that is attached to an app monitor. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRumGetResourcePolicyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Use this operation to retrieve information about a resource-based pol- icy that is attached to an app monitor. See also: AWS API Documentation
+    /// Use this operation to retrieve information about a resource-based policy that is attached to an app monitor. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the app monitor that is associated with the re- source-based policy that you want to view. Constraints: o min: 1 o max: 255 o pattern: (?!\.)[\.\-_#A-Za-z0-9]+</param>
+    /// <param name="Name">The name of the app monitor that is associated with the resource-based policy that you want to view. Constraints: • min: 1 • max: 255 • pattern: (?!\.)[\.\-_#A-Za-z0-9]+</param>
     public AwsRumGetResourcePolicyOptions(
         string Name
     )
@@ -56,7 +58,7 @@ public record AwsRumGetResourcePolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the app monitor that is associated with the re- source-based policy that you want to view. Constraints: o min: 1 o max: 255 o pattern: (?!\.)[\.\-_#A-Za-z0-9]+
+    /// The name of the app monitor that is associated with the resource-based policy that you want to view. Constraints: • min: 1 • max: 255 • pattern: (?!\.)[\.\-_#A-Za-z0-9]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

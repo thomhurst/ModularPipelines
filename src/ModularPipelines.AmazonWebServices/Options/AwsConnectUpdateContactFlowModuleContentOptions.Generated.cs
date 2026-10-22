@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates specified flow module for the specified Connect Customer in- stance. Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED . After a flow is published, $SAVED needs to be supplied to view saved content that has not been published. See also: AWS API Documentation
+/// Updates specified flow module for the specified Connect Customer instance. Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED . After a flow is published, $SAVED needs to be supplied to view saved content that has not been published. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsConnectUpdateContactFlowModuleContentOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates specified flow module for the specified Connect Customer in- stance. Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED . After a flow is published, $SAVED needs to be supplied to view saved content that has not been published. See also: AWS API Documentation
+    /// Updates specified flow module for the specified Connect Customer instance. Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED . After a flow is published, $SAVED needs to be supplied to view saved content that has not been published. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="ContactFlowModuleId">The identifier of the flow module. Constraints: o min: 1 o max: 256</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="ContactFlowModuleId">The identifier of the flow module. Constraints: • min: 1 • max: 256</param>
     public AwsConnectUpdateContactFlowModuleContentOptions(
         string InstanceId,
         string ContactFlowModuleId
@@ -60,19 +62,19 @@ public record AwsConnectUpdateContactFlowModuleContentOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the flow module. Constraints: o min: 1 o max: 256
+    /// The identifier of the flow module. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--contact-flow-module-id")]
     public string? ContactFlowModuleId { get; private init; }
 
     /// <summary>
-    /// The JSON string that represents the content of the flow. For an ex- ample, see Example flow in Connect Customer Flow language . Constraints: o min: 1 o max: 256000
+    /// The JSON string that represents the content of the flow. For an example, see Example flow in Connect Customer Flow language . Constraints: • min: 1 • max: 256000
     /// </summary>
     [CliOption("--content")]
     public string? Content { get; set; }

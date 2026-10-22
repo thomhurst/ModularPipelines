@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Allows the update of one or more attributes of a database in Amazon Lightsail. Updates are applied immediately, or in cases where the updates could result in an outage, are applied during the database's predefined main- tenance window. The update relational database operation supports tag-based access con- trol via resource tags applied to the resource identified by relation- alDatabaseName. For more information, see the Amazon Lightsail Devel- oper Guide . See also: AWS API Documentation
+/// Allows the update of one or more attributes of a database in Amazon Lightsail. Updates are applied immediately, or in cases where the updates could result in an outage, are applied during the database's predefined maintenance window. The update relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsLightsailUpdateRelationalDatabaseOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Allows the update of one or more attributes of a database in Amazon Lightsail. Updates are applied immediately, or in cases where the updates could result in an outage, are applied during the database's predefined main- tenance window. The update relational database operation supports tag-based access con- trol via resource tags applied to the resource identified by relation- alDatabaseName. For more information, see the Amazon Lightsail Devel- oper Guide . See also: AWS API Documentation
+    /// Allows the update of one or more attributes of a database in Amazon Lightsail. Updates are applied immediately, or in cases where the updates could result in an outage, are applied during the database's predefined maintenance window. The update relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="RelationalDatabaseName">The name of your Lightsail database resource to update. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="RelationalDatabaseName">The name of your Lightsail database resource to update. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailUpdateRelationalDatabaseOptions(
         string RelationalDatabaseName
     )
@@ -57,7 +59,7 @@ public record AwsLightsailUpdateRelationalDatabaseOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of your Lightsail database resource to update. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of your Lightsail database resource to update. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--relational-database-name")]
     public string? RelationalDatabaseName { get; private init; }
@@ -76,13 +78,13 @@ public record AwsLightsailUpdateRelationalDatabaseOptions : AwsOptions, IValidat
     public bool? RotateMasterUserPassword { get; set; }
 
     /// <summary>
-    /// The daily time range during which automated backups are created for your database if automated backups are enabled. Constraints: o Must be in the hh24:mi-hh24:mi format. Example: 16:00-16:30 o Specified in Coordinated Universal Time (UTC). o Must not conflict with the preferred maintenance window. o Must be at least 30 minutes.
+    /// The daily time range during which automated backups are created for your database if automated backups are enabled. Constraints: • Must be in the hh24:mi-hh24:mi format. Example: 16:00-16:30 • Specified in Coordinated Universal Time (UTC). • Must not conflict with the preferred maintenance window. • Must be at least 30 minutes.
     /// </summary>
     [CliOption("--preferred-backup-window")]
     public string? PreferredBackupWindow { get; set; }
 
     /// <summary>
-    /// The weekly time range during which system maintenance can occur on your database. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region, occurring on a random day of the week. Constraints: o Must be in the ddd:hh24:mi-ddd:hh24:mi format. o Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. o Must be at least 30 minutes. o Specified in Coordinated Universal Time (UTC). o Example: Tue:17:00-Tue:17:30
+    /// The weekly time range during which system maintenance can occur on your database. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region, occurring on a random day of the week. Constraints: • Must be in the ddd:hh24:mi-ddd:hh24:mi format. • Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. • Must be at least 30 minutes. • Specified in Coordinated Universal Time (UTC). • Example: Tue:17:00-Tue:17:30
     /// </summary>
     [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
@@ -112,7 +114,7 @@ public record AwsLightsailUpdateRelationalDatabaseOptions : AwsOptions, IValidat
     public bool? ApplyImmediately { get; set; }
 
     /// <summary>
-    /// Indicates the certificate that needs to be associated with the data- base.
+    /// Indicates the certificate that needs to be associated with the database.
     /// </summary>
     [CliOption("--ca-certificate-identifier")]
     public string? CaCertificateIdentifier { get; set; }

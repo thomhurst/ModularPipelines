@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMailmanagerGetArchiveOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves the full details and current state of a specified email archive. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ArchiveId">The identifier of the archive to retrieve. Constraints: o min: 1 o max: 66</param>
+    /// <param name="ArchiveId">The identifier of the archive to retrieve. Constraints: • min: 1 • max: 66</param>
     public AwsMailmanagerGetArchiveOptions(
         string ArchiveId
     )
@@ -56,7 +58,7 @@ public record AwsMailmanagerGetArchiveOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the archive to retrieve. Constraints: o min: 1 o max: 66
+    /// The identifier of the archive to retrieve. Constraints: • min: 1 • max: 66
     /// </summary>
     [CliOption("--archive-id")]
     public string? ArchiveId { get; private init; }

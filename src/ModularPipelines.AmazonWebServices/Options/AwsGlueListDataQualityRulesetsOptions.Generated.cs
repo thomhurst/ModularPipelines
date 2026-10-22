@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a paginated list of rulesets for the specified list of Glue ta- bles. See also: AWS API Documentation
+/// Returns a paginated list of rulesets for the specified list of Glue tables. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -31,19 +32,19 @@ public record AwsGlueListDataQualityRulesetsOptions : AwsOptions
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return. Constraints: o min: 1 o max: 1000
+    /// The maximum number of results to return. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The filter criteria. Name -&gt; (string) The name of the ruleset filter criteria. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Description -&gt; (string) The description of the ruleset filter criteria. Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* CreatedBefore -&gt; (timestamp) Filter on rulesets created before this date. CreatedAfter -&gt; (timestamp) Filter on rulesets created after this date. LastModifiedBefore -&gt; (timestamp) Filter on rulesets last modified before this date. LastModifiedAfter -&gt; (timestamp) Filter on rulesets last modified after this date. TargetTable -&gt; (structure) The name and database name of the target table. TableName -&gt; (string) [required] The name of the Glue table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* DatabaseName -&gt; (string) [required] The name of the database where the Glue table exists. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* CatalogId -&gt; (string) The catalog id where the Glue table exists. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Shorthand Syntax: Name=string,Description=string,CreatedBefore=timestamp,CreatedAfter=timestamp,LastModifiedBefore=timestamp,LastModifiedAfter=timestamp,TargetTable={TableName=string,DatabaseName=string,CatalogId=string} JSON Syntax: { "Name": "string", "Description": "string", "CreatedBefore": timestamp, "CreatedAfter": timestamp, "LastModifiedBefore": timestamp, "LastModifiedAfter": timestamp, "TargetTable": { "TableName": "string", "DatabaseName": "string", "CatalogId": "string" } }
+    /// The filter criteria. Name -&gt; (string) The name of the ruleset filter criteria. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Description -&gt; (string) The description of the ruleset filter criteria. Constraints: • min: 0 • max: 2048 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* CreatedBefore -&gt; (timestamp) Filter on rulesets created before this date. CreatedAfter -&gt; (timestamp) Filter on rulesets created after this date. LastModifiedBefore -&gt; (timestamp) Filter on rulesets last modified before this date. LastModifiedAfter -&gt; (timestamp) Filter on rulesets last modified after this date. TargetTable -&gt; (structure) The name and database name of the target table. TableName -&gt; (string) [required] The name of the Glue table. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* DatabaseName -&gt; (string) [required] The name of the database where the Glue table exists. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* CatalogId -&gt; (string) The catalog id where the Glue table exists. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Shorthand Syntax: Name=string,Description=string,CreatedBefore=timestamp,CreatedAfter=timestamp,LastModifiedBefore=timestamp,LastModifiedAfter=timestamp,TargetTable={TableName=string,DatabaseName=string,CatalogId=string} JSON Syntax: { "Name": "string", "Description": "string", "CreatedBefore": timestamp, "CreatedAfter": timestamp, "LastModifiedBefore": timestamp, "LastModifiedAfter": timestamp, "TargetTable": { "TableName": "string", "DatabaseName": "string", "CatalogId": "string" } }
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; set; }
 
     /// <summary>
-    /// A list of key-value pair tags. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A list of key-value pair tags. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

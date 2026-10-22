@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -17,7 +18,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Places API V2 unless you re- quire Grab data. o CreatePlaceIndex is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intu- itive, powerful, and complete API (version 2). o The Places API version 2 has a simplified interface that can be used without creating or managing place index resources. o If you are using an Amazon Web Servi...
+/// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Places API V2 unless you require Grab data. • CreatePlaceIndex is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The Places API version 2 has a simplified interface that can be used without creating or managing place index resources. • If you are using an Amazon Web Services SD...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsLocationCreatePlaceIndexOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Places API V2 unless you re- quire Grab data. o CreatePlaceIndex is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intu- itive, powerful, and complete API (version 2). o The Places API version 2 has a simplified interface that can be used without creating or managing place index resources. o If you are using an Amazon Web Servi...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Places API V2 unless you require Grab data. • CreatePlaceIndex is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The Places API version 2 has a simplified interface that can be used without creating or managing place index resources. • If you are using an Amazon Web Services SD...
     /// </summary>
-    /// <param name="IndexName">The name of the place index resource. Requirements: o Contain only alphanumeric characters (AZ, az, 09), hyphens (-), periods (.), and underscores (_). o Must be a unique place index resource name. o No spaces allowed. For example, ExamplePlaceIndex . Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
-    /// <param name="DataSource">Specifies the geospatial data provider for the new place index. NOTE: This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error. Valid values include: o Esri For additional information about Esri 's coverage in your region of interest, see Esri details on geocoding coverage . o Grab Grab provides place index functionality for Southeast Asia. For additional information about GrabMaps ' coverage, see GrabMaps countries and areas covered . o Here For additional information about HERE Technologies ' cover- age in your region of interest, see HERE details on goecoding cov- erage . WARNING: If you specify HERE Technologies (Here ) as the data provider, you may not store results for locations in Japan. For more in- formation, see the Amazon Web Services service terms for Amazon Location Service. For additional information , see Data providers on the Amazon Loca- tion Service developer guide .</param>
+    /// <param name="IndexName">The name of the place index resource. Requirements: • Contain only alphanumeric characters (AZ, az, 09), hyphens (-), periods (.), and underscores (_). • Must be a unique place index resource name. • No spaces allowed. For example, ExamplePlaceIndex . Constraints: • min: 1 • max: 100 • pattern: [-._\w]+</param>
+    /// <param name="DataSource">Specifies the geospatial data provider for the new place index. NOTE: This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error. Valid values include: • Esri For additional information about Esri 's coverage in your region of interest, see Esri details on geocoding coverage . • Grab Grab provides place index functionality for Southeast Asia. For additional information about GrabMaps ' coverage, see GrabMaps countries and areas covered . • Here For additional information about HERE Technologies ' coverage in your region of interest, see HERE details on goecoding coverage . WARNING: If you specify HERE Technologies (Here ) as the data provider, you may not store results for locations in Japan. For more information, see the Amazon Web Services service terms for Amazon Location Service. For additional information , see Data providers on the Amazon Location Service developer guide .</param>
     public AwsLocationCreatePlaceIndexOptions(
         string IndexName,
         string DataSource
@@ -62,37 +63,37 @@ public record AwsLocationCreatePlaceIndexOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the place index resource. Requirements: o Contain only alphanumeric characters (AZ, az, 09), hyphens (-), periods (.), and underscores (_). o Must be a unique place index resource name. o No spaces allowed. For example, ExamplePlaceIndex . Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// The name of the place index resource. Requirements: • Contain only alphanumeric characters (AZ, az, 09), hyphens (-), periods (.), and underscores (_). • Must be a unique place index resource name. • No spaces allowed. For example, ExamplePlaceIndex . Constraints: • min: 1 • max: 100 • pattern: [-._\w]+
     /// </summary>
     [CliOption("--index-name")]
     public string? IndexName { get; private init; }
 
     /// <summary>
-    /// Specifies the geospatial data provider for the new place index. NOTE: This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error. Valid values include: o Esri For additional information about Esri 's coverage in your region of interest, see Esri details on geocoding coverage . o Grab Grab provides place index functionality for Southeast Asia. For additional information about GrabMaps ' coverage, see GrabMaps countries and areas covered . o Here For additional information about HERE Technologies ' cover- age in your region of interest, see HERE details on goecoding cov- erage . WARNING: If you specify HERE Technologies (Here ) as the data provider, you may not store results for locations in Japan. For more in- formation, see the Amazon Web Services service terms for Amazon Location Service. For additional information , see Data providers on the Amazon Loca- tion Service developer guide .
+    /// Specifies the geospatial data provider for the new place index. NOTE: This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error. Valid values include: • Esri For additional information about Esri 's coverage in your region of interest, see Esri details on geocoding coverage . • Grab Grab provides place index functionality for Southeast Asia. For additional information about GrabMaps ' coverage, see GrabMaps countries and areas covered . • Here For additional information about HERE Technologies ' coverage in your region of interest, see HERE details on goecoding coverage . WARNING: If you specify HERE Technologies (Here ) as the data provider, you may not store results for locations in Japan. For more information, see the Amazon Web Services service terms for Amazon Location Service. For additional information , see Data providers on the Amazon Location Service developer guide .
     /// </summary>
     [CliOption("--data-source")]
     public string? DataSource { get; private init; }
 
     /// <summary>
-    /// No longer used. If included, the only allowed value is RequestBase- dUsage . Possible values: o RequestBasedUsage o MobileAssetTracking o MobileAssetManagement
+    /// No longer used. If included, the only allowed value is RequestBasedUsage . Possible values: • RequestBasedUsage • MobileAssetTracking • MobileAssetManagement
     /// </summary>
     [CliOption("--pricing-plan")]
     public AwsLocationCreatePlaceIndexPricingPlan? PricingPlan { get; set; }
 
     /// <summary>
-    /// The optional description for the place index resource. Constraints: o min: 0 o max: 1000
+    /// The optional description for the place index resource. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Specifies the data storage option requesting Places. IntendedUse -&gt; (string) Specifies how the results of an operation will be stored by the caller. Valid values include: o SingleUse specifies that the results won't be stored. o Storage specifies that the result can be cached or stored in a database. Default value: SingleUse Possible values: o SingleUse o Storage Shorthand Syntax: IntendedUse=string JSON Syntax: { "IntendedUse": "SingleUse"|"Storage" }
+    /// Specifies the data storage option requesting Places. IntendedUse -&gt; (string) Specifies how the results of an operation will be stored by the caller. Valid values include: • SingleUse specifies that the results won't be stored. • Storage specifies that the result can be cached or stored in a database. Default value: SingleUse Possible values: • SingleUse • Storage Shorthand Syntax: IntendedUse=string JSON Syntax: { "IntendedUse": "SingleUse"|"Storage" }
     /// </summary>
     [CliOption("--data-source-configuration")]
     public string? DataSourceConfiguration { get; set; }
 
     /// <summary>
-    /// Applies one or more tags to the place index resource. A tag is a key-value pair that helps you manage, identify, search, and filter your resources. Format: "key" : "value" Restrictions: o Maximum 50 tags per resource. o Each tag key must be unique and must have exactly one associated value. o Maximum key length: 128 Unicode characters in UTF-8. o Maximum value length: 256 Unicode characters in UTF-8. o Can use alphanumeric characters (AZ, az, 09), and the following characters: + - = . _ : / @ o Cannot use "aws:" as a prefix for a key. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.,:/=+\-@]*) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.,:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Applies one or more tags to the place index resource. A tag is a key-value pair that helps you manage, identify, search, and filter your resources. Format: "key" : "value" Restrictions: • Maximum 50 tags per resource. • Each tag key must be unique and must have exactly one associated value. • Maximum key length: 128 Unicode characters in UTF-8. • Maximum value length: 256 Unicode characters in UTF-8. • Can use alphanumeric characters (AZ, az, 09), and the following characters: + - = . _ : / @ • Cannot use "aws:" as a prefix for a key. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.,:/=+\-@]*) value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.,:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsCloudsearchDefineExpressionOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Configures an `` Expression`` for the search domain. Used to create new expressions and modify existing ones. If the expression exists, the new configuration replaces the old one. For more information, see Configuring Expressions in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the fol- lowing characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
-    /// <param name="Expression">The expression to evaluate for sorting while processing a search re- quest. The Expression syntax is based on JavaScript expressions. For more information, see Configuring Expressions in the Amazon Cloud- Search Developer Guide .</param>
-    /// <param name="Name">Names must begin with a letter and can contain the following charac- ters: a-z (lowercase), 0-9, and _ (underscore).</param>
+    /// <param name="DomainName">A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="Expression">The expression to evaluate for sorting while processing a search request. The Expression syntax is based on JavaScript expressions. For more information, see Configuring Expressions in the Amazon CloudSearch Developer Guide .</param>
+    /// <param name="Name">Names must begin with a letter and can contain the following characters: a-z (lowercase), 0-9, and _ (underscore).</param>
     public AwsCloudsearchDefineExpressionOptions(
         string DomainName,
         string Expression,
@@ -64,19 +66,19 @@ public record AwsCloudsearchDefineExpressionOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the fol- lowing characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The expression to evaluate for sorting while processing a search re- quest. The Expression syntax is based on JavaScript expressions. For more information, see Configuring Expressions in the Amazon Cloud- Search Developer Guide .
+    /// The expression to evaluate for sorting while processing a search request. The Expression syntax is based on JavaScript expressions. For more information, see Configuring Expressions in the Amazon CloudSearch Developer Guide .
     /// </summary>
     [CliOption("--expression")]
     public string? Expression { get; private init; }
 
     /// <summary>
-    /// Names must begin with a letter and can contain the following charac- ters: a-z (lowercase), 0-9, and _ (underscore).
+    /// Names must begin with a letter and can contain the following characters: a-z (lowercase), 0-9, and _ (underscore).
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

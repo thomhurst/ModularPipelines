@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws wait commands.
+/// aws rds wait commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsRdsWait
@@ -62,7 +62,7 @@ public class AwsRdsWait
     }
 
     /// <summary>
-    /// Wait until JMESPath query DBClusterSnapshots[].Status returns available for all elements when polling with describe-db-cluster-snapshots. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation db-cluster-snapshot-available is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no...
+    /// Wait until JMESPath query DBClusterSnapshots[].Status returns available for all elements when polling with describe-db-cluster-snapshots. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation db-cluster-snapshot-available is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-p...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsRdsWait
     }
 
     /// <summary>
-    /// Wait until JMESPath query length(DBClusterSnapshots) == 0 returns True when polling with describe-db-cluster-snapshots. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation db-cluster-snapshot-deleted is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment...
+    /// Wait until JMESPath query length(DBClusterSnapshots) == 0 returns True when polling with describe-db-cluster-snapshots. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation db-cluster-snapshot-deleted is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. Wh...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsRdsWait
     }
 
     /// <summary>
-    /// Wait until JMESPath query DBInstances[].DBInstanceStatus returns avail- able for all elements when polling with describe-db-instances. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation db-instance-available is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate arg...
+    /// Wait until JMESPath query DBInstances[].DBInstanceStatus returns available for all elements when polling with describe-db-instances. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation db-instance-available is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argum...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsRdsWait
     }
 
     /// <summary>
-    /// Wait until DBSnapshotNotFound is thrown when polling with de- scribe-db-snapshots. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation db-snapshot-completed is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu...
+    /// Wait until DBSnapshotNotFound is thrown when polling with describe-db-snapshots. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation db-snapshot-completed is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argume...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsRdsWait
     }
 
     /// <summary>
-    /// Wait until JMESPath query length(TenantDatabases) == 0 returns True when polling with describe-tenant-databases. It will poll every 30 sec- onds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation tenant-database-deleted is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using ...
+    /// Wait until JMESPath query length(TenantDatabases) == 0 returns True when polling with describe-tenant-databases. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation tenant-database-deleted is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

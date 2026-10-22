@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,9 +31,9 @@ public record AwsWorkdocsCreateCommentOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Adds a new comment to the specified document version. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DocumentId">The ID of the document. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+</param>
-    /// <param name="VersionId">The ID of the document version. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+</param>
-    /// <param name="Text">The text of the comment. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="DocumentId">The ID of the document. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+</param>
+    /// <param name="VersionId">The ID of the document version. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+</param>
+    /// <param name="Text">The text of the comment. Constraints: • min: 1 • max: 2048</param>
     public AwsWorkdocsCreateCommentOptions(
         string DocumentId,
         string VersionId,
@@ -66,50 +68,50 @@ public record AwsWorkdocsCreateCommentOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the document. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+
+    /// The ID of the document. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+
     /// </summary>
     [CliOption("--document-id")]
     public string? DocumentId { get; private init; }
 
     /// <summary>
-    /// The ID of the document version. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+
+    /// The ID of the document version. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+
     /// </summary>
     [CliOption("--version-id")]
     public string? VersionId { get; private init; }
 
     /// <summary>
-    /// The text of the comment. Constraints: o min: 1 o max: 2048
+    /// The text of the comment. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--text")]
     public string? Text { get; private init; }
 
     /// <summary>
-    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: o min: 1 o max: 8199
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: • min: 1 • max: 8199
     /// </summary>
     [SecretValue]
     [CliOption("--authentication-token")]
     public string? AuthenticationToken { get; set; }
 
     /// <summary>
-    /// The ID of the parent comment. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+
+    /// The ID of the parent comment. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+
     /// </summary>
     [CliOption("--parent-id")]
     public string? ParentId { get; set; }
 
     /// <summary>
-    /// The ID of the root comment in the thread. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+
+    /// The ID of the root comment in the thread. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+
     /// </summary>
     [CliOption("--thread-id")]
     public string? ThreadId { get; set; }
 
     /// <summary>
-    /// The visibility of the comment. Options are either PRIVATE, where the comment is visible only to the comment author and document owner and co-owners, or PUBLIC, where the comment is visible to document own- ers, co-owners, and contributors. Possible values: o PUBLIC o PRIVATE
+    /// The visibility of the comment. Options are either PRIVATE, where the comment is visible only to the comment author and document owner and co-owners, or PUBLIC, where the comment is visible to document owners, co-owners, and contributors. Possible values: • PUBLIC • PRIVATE
     /// </summary>
     [CliOption("--visibility")]
     public AwsWorkdocsCreateCommentVisibility? Visibility { get; set; }
 
     /// <summary>
-    /// Set this parameter to TRUE to send an email out to the document col- laborators after the comment is created.
+    /// Set this parameter to TRUE to send an email out to the document collaborators after the comment is created.
     /// </summary>
     [CliFlag("--notify-collaborators", NegatedName = "--no-notify-collaborators")]
     public bool? NotifyCollaborators { get; set; }

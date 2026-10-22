@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsBedrockAgentcoreControlUpdateAgentRuntimeEndpointOptions : AwsO
     /// <summary>
     /// Updates an existing Amazon Bedrock AgentCore Runtime endpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentRuntimeId">The unique identifier of the AgentCore Runtime associated with the endpoint. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,99}-[a-zA-Z0-9]{10}</param>
-    /// <param name="EndpointName">The name of the AgentCore Runtime endpoint to update. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}</param>
+    /// <param name="AgentRuntimeId">The unique identifier of the AgentCore Runtime associated with the endpoint. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9_]{0,99}-[a-zA-Z0-9]{10}</param>
+    /// <param name="EndpointName">The name of the AgentCore Runtime endpoint to update. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}</param>
     public AwsBedrockAgentcoreControlUpdateAgentRuntimeEndpointOptions(
         string AgentRuntimeId,
         string EndpointName
@@ -61,31 +63,31 @@ public record AwsBedrockAgentcoreControlUpdateAgentRuntimeEndpointOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the AgentCore Runtime associated with the endpoint. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,99}-[a-zA-Z0-9]{10}
+    /// The unique identifier of the AgentCore Runtime associated with the endpoint. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9_]{0,99}-[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--agent-runtime-id")]
     public string? AgentRuntimeId { get; private init; }
 
     /// <summary>
-    /// The name of the AgentCore Runtime endpoint to update. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}
+    /// The name of the AgentCore Runtime endpoint to update. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}
     /// </summary>
     [CliOption("--endpoint-name")]
     public string? EndpointName { get; private init; }
 
     /// <summary>
-    /// The updated version of the AgentCore Runtime for the endpoint. Constraints: o min: 1 o max: 5 o pattern: ([1-9][0-9]{0,4})
+    /// The updated version of the AgentCore Runtime for the endpoint. Constraints: • min: 1 • max: 5 • pattern: ([1-9][0-9]{0,4})
     /// </summary>
     [CliOption("--agent-runtime-version")]
     public string? AgentRuntimeVersion { get; set; }
 
     /// <summary>
-    /// The updated description of the AgentCore Runtime endpoint. Constraints: o min: 1 o max: 256
+    /// The updated description of the AgentCore Runtime endpoint. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

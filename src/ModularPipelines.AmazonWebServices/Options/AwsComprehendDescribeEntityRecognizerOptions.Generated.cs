@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides details about an entity recognizer including status, S3 buck- ets containing training data, recognizer metadata, metrics, and so on. See also: AWS API Documentation
+/// Provides details about an entity recognizer including status, S3 buckets containing training data, recognizer metadata, metrics, and so on. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsComprehendDescribeEntityRecognizerOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides details about an entity recognizer including status, S3 buck- ets containing training data, recognizer metadata, metrics, and so on. See also: AWS API Documentation
+    /// Provides details about an entity recognizer including status, S3 buckets containing training data, recognizer metadata, metrics, and so on. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EntityRecognizerArn">The Amazon Resource Name (ARN) that identifies the entity recog- nizer. Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:en- tity-recognizer/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/ver- sion/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?</param>
+    /// <param name="EntityRecognizerArn">The Amazon Resource Name (ARN) that identifies the entity recognizer. Constraints: • max: 256 • pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/version/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?</param>
     public AwsComprehendDescribeEntityRecognizerOptions(
         string EntityRecognizerArn
     )
@@ -56,7 +58,7 @@ public record AwsComprehendDescribeEntityRecognizerOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that identifies the entity recog- nizer. Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:en- tity-recognizer/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/ver- sion/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?
+    /// The Amazon Resource Name (ARN) that identifies the entity recognizer. Constraints: • max: 256 • pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/version/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?
     /// </summary>
     [CliOption("--entity-recognizer-arn")]
     public string? EntityRecognizerArn { get; private init; }

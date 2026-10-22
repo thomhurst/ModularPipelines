@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the connection between the webhook that was created by Code- Pipeline and the external tool with events to be detected. Currently supported only for webhooks that target an action type of GitHub. See also: AWS API Documentation
+/// Removes the connection between the webhook that was created by CodePipeline and the external tool with events to be detected. Currently supported only for webhooks that target an action type of GitHub. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCodepipelineDeregisterWebhookWithThirdPartyOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the webhook you want to deregister. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+
+    /// The name of the webhook you want to deregister. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+
     /// </summary>
     [CliOption("--webhook-name")]
     public string? WebhookName { get; set; }

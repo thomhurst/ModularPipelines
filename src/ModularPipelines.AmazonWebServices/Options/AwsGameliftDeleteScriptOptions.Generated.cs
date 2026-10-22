@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsGameliftDeleteScriptOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// This API works with the following fleet types: EC2 Deletes a Realtime script. This operation permanently deletes the script record. If script files were uploaded, they are also deleted (files stored in an S3 bucket are not deleted). To delete a script, specify the script ID. Before deleting a script, be sure to terminate all fleets that are deployed with the script being deleted. Fleet instances periodically check for script updates, and if the script record no longer exists, the instance will g...
     /// </summary>
-    /// <param name="ScriptId">A unique identifier for the Realtime script to delete. You can use either the script ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^(script-\S+|arn:.*:script\/script-\S+)$</param>
+    /// <param name="ScriptId">A unique identifier for the Realtime script to delete. You can use either the script ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^(script-\S+|arn:.*:script\/script-\S+)$</param>
     public AwsGameliftDeleteScriptOptions(
         string ScriptId
     )
@@ -56,7 +58,7 @@ public record AwsGameliftDeleteScriptOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the Realtime script to delete. You can use either the script ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^(script-\S+|arn:.*:script\/script-\S+)$
+    /// A unique identifier for the Realtime script to delete. You can use either the script ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^(script-\S+|arn:.*:script\/script-\S+)$
     /// </summary>
     [CliOption("--script-id")]
     public string? ScriptId { get; private init; }

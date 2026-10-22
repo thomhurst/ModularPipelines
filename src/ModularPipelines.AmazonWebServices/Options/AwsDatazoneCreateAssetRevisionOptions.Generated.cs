@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a revision of the asset. Asset revisions represent new versions of existing assets, capturing changes to either the underlying data or its metadata. They maintain a historical record of how assets evolve over time, who made changes, and when those changes occurred. This versioning capability is crucial for governance and compliance, allowing organizations to track changes, un- derstand their impact, and roll back if necessary. Prerequisites: o Asset must already exist in the domain with ...
+/// Creates a revision of the asset. Asset revisions represent new versions of existing assets, capturing changes to either the underlying data or its metadata. They maintain a historical record of how assets evolve over time, who made changes, and when those changes occurred. This versioning capability is crucial for governance and compliance, allowing organizations to track changes, understand their impact, and roll back if necessary. Prerequisites: • Asset must already exist in the domain with id...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsDatazoneCreateAssetRevisionOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a revision of the asset. Asset revisions represent new versions of existing assets, capturing changes to either the underlying data or its metadata. They maintain a historical record of how assets evolve over time, who made changes, and when those changes occurred. This versioning capability is crucial for governance and compliance, allowing organizations to track changes, un- derstand their impact, and roll back if necessary. Prerequisites: o Asset must already exist in the domain with ...
+    /// Creates a revision of the asset. Asset revisions represent new versions of existing assets, capturing changes to either the underlying data or its metadata. They maintain a historical record of how assets evolve over time, who made changes, and when those changes occurred. This versioning capability is crucial for governance and compliance, allowing organizations to track changes, understand their impact, and roll back if necessary. Prerequisites: • Asset must already exist in the domain with id...
     /// </summary>
-    /// <param name="Name">Te revised name of the asset. Constraints: o min: 1 o max: 256</param>
-    /// <param name="DomainIdentifier">The unique identifier of the domain where the asset is being re- vised. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Identifier">The identifier of the asset. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Name">Te revised name of the asset. Constraints: • min: 1 • max: 256</param>
+    /// <param name="DomainIdentifier">The unique identifier of the domain where the asset is being revised. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The identifier of the asset. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneCreateAssetRevisionOptions(
         string Name,
         string DomainIdentifier,
@@ -65,43 +67,43 @@ public record AwsDatazoneCreateAssetRevisionOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Te revised name of the asset. Constraints: o min: 1 o max: 256
+    /// Te revised name of the asset. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the domain where the asset is being re- vised. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The unique identifier of the domain where the asset is being revised. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the asset. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the asset. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The revision type of the asset. Constraints: o min: 1 o max: 64
+    /// The revision type of the asset. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--type-revision")]
     public string? TypeRevision { get; set; }
 
     /// <summary>
-    /// The revised description of the asset. Constraints: o min: 0 o max: 2048
+    /// The revised description of the asset. Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The glossary terms to be attached to the asset as part of asset re- vision. Constraints: o min: 1 o max: 20 (string) Constraints: o pattern: [a-zA-Z0-9_-]{1,36} Syntax: "string" "string" ...
+    /// The glossary terms to be attached to the asset as part of asset revision. Constraints: • min: 1 • max: 20 (string) Constraints: • pattern: [a-zA-Z0-9_-]{1,36} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--glossary-terms", GroupValues = true)]
     public IEnumerable<string>? GlossaryTerms { get; set; }
 
     /// <summary>
-    /// The metadata forms to be attached to the asset as part of asset re- vision. Constraints: o min: 0 o max: 10 (structure) The details of a metadata form. formName -&gt; (string) [required] The name of the metadata form. Constraints: o min: 1 o max: 128 o pattern: (?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w* typeIdentifier -&gt; (string) The ID of the metadata form type. Constraints: o min: 1 o max: 385 o pattern: (?!\.)[\w\.]*\w typeRevision -&gt; (string) The revision of the metadata form type. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ content -&gt; (string) The content of the metadata form. Constraints: o min: 0 o max: 300000 Shorthand Syntax: formName=string,typeIdentifier=string,typeRevision=string,content=string ... JSON Syntax: [ { "formName": "string", "typeIdentifier": "string", "typeRevision": "string", "content": "string" } ... ]
+    /// The metadata forms to be attached to the asset as part of asset revision. Constraints: • min: 0 • max: 10 (structure) The details of a metadata form. formName -&gt; (string) [required] The name of the metadata form. Constraints: • min: 1 • max: 128 • pattern: (?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w* typeIdentifier -&gt; (string) The ID of the metadata form type. Constraints: • min: 1 • max: 385 • pattern: (?!\.)[\w\.]*\w typeRevision -&gt; (string) The revision of the metadata form type. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+ content -&gt; (string) The content of the metadata form. Constraints: • min: 0 • max: 300000 Shorthand Syntax: formName=string,typeIdentifier=string,typeRevision=string,content=string ... JSON Syntax: [ { "formName": "string", "typeIdentifier": "string", "typeRevision": "string", "content": "string" } ... ]
     /// </summary>
     [CliOption("--forms-input", GroupValues = true)]
     public IEnumerable<string>? FormsInput { get; set; }
@@ -113,7 +115,7 @@ public record AwsDatazoneCreateAssetRevisionOptions : AwsOptions, IValidatableOb
     public string? PredictionConfiguration { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

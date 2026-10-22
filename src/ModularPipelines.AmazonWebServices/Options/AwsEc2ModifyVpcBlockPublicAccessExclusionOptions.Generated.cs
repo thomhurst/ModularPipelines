@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +31,7 @@ public record AwsEc2ModifyVpcBlockPublicAccessExclusionOptions : AwsOptions, IVa
     /// Modify VPC Block Public Access (BPA) exclusions. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the accounts BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on. See also: AWS API Documentation
     /// </summary>
     /// <param name="ExclusionId">The ID of an exclusion.</param>
-    /// <param name="InternetGatewayExclusionMode">The exclusion mode for internet gateway traffic. o allow-bidirectional : Allow all internet traffic to and from the excluded VPCs and subnets. o allow-egress : Allow outbound internet traffic from the excluded VPCs and subnets. Block inbound internet traffic to the excluded VPCs and subnets. Only applies when VPC Block Public Access is set to Bidirectional. Possible values: o allow-bidirectional o allow-egress</param>
+    /// <param name="InternetGatewayExclusionMode">The exclusion mode for internet gateway traffic. • allow-bidirectional : Allow all internet traffic to and from the excluded VPCs and subnets. • allow-egress : Allow outbound internet traffic from the excluded VPCs and subnets. Block inbound internet traffic to the excluded VPCs and subnets. Only applies when VPC Block Public Access is set to Bidirectional. Possible values: • allow-bidirectional • allow-egress</param>
     public AwsEc2ModifyVpcBlockPublicAccessExclusionOptions(
         string ExclusionId,
         AwsEc2ModifyVpcBlockPublicAccessExclusionInternetGatewayExclusionMode InternetGatewayExclusionMode
@@ -66,13 +68,13 @@ public record AwsEc2ModifyVpcBlockPublicAccessExclusionOptions : AwsOptions, IVa
     public string? ExclusionId { get; private init; }
 
     /// <summary>
-    /// The exclusion mode for internet gateway traffic. o allow-bidirectional : Allow all internet traffic to and from the excluded VPCs and subnets. o allow-egress : Allow outbound internet traffic from the excluded VPCs and subnets. Block inbound internet traffic to the excluded VPCs and subnets. Only applies when VPC Block Public Access is set to Bidirectional. Possible values: o allow-bidirectional o allow-egress
+    /// The exclusion mode for internet gateway traffic. • allow-bidirectional : Allow all internet traffic to and from the excluded VPCs and subnets. • allow-egress : Allow outbound internet traffic from the excluded VPCs and subnets. Block inbound internet traffic to the excluded VPCs and subnets. Only applies when VPC Block Public Access is set to Bidirectional. Possible values: • allow-bidirectional • allow-egress
     /// </summary>
     [CliOption("--internet-gateway-exclusion-mode")]
     public AwsEc2ModifyVpcBlockPublicAccessExclusionInternetGatewayExclusionMode? InternetGatewayExclusionMode { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBackupsearchListTagsForResourceOptions : AwsOptions, IValidatab
     /// <summary>
     /// This operation returns the tags for a resource type. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) that uniquely identifies the re- source.&gt;</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) that uniquely identifies the resource.&gt;</param>
     public AwsBackupsearchListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsBackupsearchListTagsForResourceOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that uniquely identifies the re- source.&gt;
+    /// The Amazon Resource Name (ARN) that uniquely identifies the resource.&gt;
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

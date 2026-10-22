@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsChimeSdkVoicePutVoiceConnectorEmergencyCallingConfigurationOpti
     /// <summary>
     /// Updates a Voice Connector's emergency calling configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VoiceConnectorId">The Voice Connector ID. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
-    /// <param name="EmergencyCallingConfiguration">The configuration being updated. DNIS -&gt; (list) The Dialed Number Identification Service (DNIS) emergency call- ing configuration details. (structure) The Dialed Number Identification Service (DNIS) emergency calling configuration details associated with an Amazon Chime SDK Voice Connector's emergency calling configuration. EmergencyPhoneNumber -&gt; (string) [required] The DNIS phone number that you route emergency calls to, in E.164 format. Constraints: o pattern: ^\+?[1-9]\d{1,14}$ TestPhoneNumber -&gt; (string) The DNIS phone number for routing test emergency calls to, in E.164 format. Constraints: o pattern: ^\+?[1-9]\d{1,14}$ CallingCountry -&gt; (string) [required] The country from which emergency calls are allowed, in ISO 3166-1 alpha-2 format. Constraints: o pattern: [A-Z]{2} Shorthand Syntax: DNIS=[{EmergencyPhoneNumber=string,TestPhoneNumber=string,CallingCountry=string},{EmergencyPhoneNumber=string,TestPhoneNumber=string,CallingCountry=string}] JSON Syntax: { "DNIS": [ { "EmergencyPhoneNumber": "string", "TestPhoneNumber": "string", "CallingCountry": "string" } ... ] }</param>
+    /// <param name="VoiceConnectorId">The Voice Connector ID. Constraints: • pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
+    /// <param name="EmergencyCallingConfiguration">The configuration being updated. DNIS -&gt; (list) The Dialed Number Identification Service (DNIS) emergency calling configuration details. (structure) The Dialed Number Identification Service (DNIS) emergency calling configuration details associated with an Amazon Chime SDK Voice Connector's emergency calling configuration. EmergencyPhoneNumber -&gt; (string) [required] The DNIS phone number that you route emergency calls to, in E.164 format. Constraints: • pattern: ^\+?[1-9]\d{1,14}$ TestPhoneNumber -&gt; (string) The DNIS phone number for routing test emergency calls to, in E.164 format. Constraints: • pattern: ^\+?[1-9]\d{1,14}$ CallingCountry -&gt; (string) [required] The country from which emergency calls are allowed, in ISO 3166-1 alpha-2 format. Constraints: • pattern: [A-Z]{2} Shorthand Syntax: DNIS=[{EmergencyPhoneNumber=string,TestPhoneNumber=string,CallingCountry=string},{EmergencyPhoneNumber=string,TestPhoneNumber=string,CallingCountry=string}] JSON Syntax: { "DNIS": [ { "EmergencyPhoneNumber": "string", "TestPhoneNumber": "string", "CallingCountry": "string" } ... ] }</param>
     public AwsChimeSdkVoicePutVoiceConnectorEmergencyCallingConfigurationOptions(
         string VoiceConnectorId,
         string EmergencyCallingConfiguration
@@ -60,13 +62,13 @@ public record AwsChimeSdkVoicePutVoiceConnectorEmergencyCallingConfigurationOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Voice Connector ID. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
+    /// The Voice Connector ID. Constraints: • pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
     /// </summary>
     [CliOption("--voice-connector-id")]
     public string? VoiceConnectorId { get; private init; }
 
     /// <summary>
-    /// The configuration being updated. DNIS -&gt; (list) The Dialed Number Identification Service (DNIS) emergency call- ing configuration details. (structure) The Dialed Number Identification Service (DNIS) emergency calling configuration details associated with an Amazon Chime SDK Voice Connector's emergency calling configuration. EmergencyPhoneNumber -&gt; (string) [required] The DNIS phone number that you route emergency calls to, in E.164 format. Constraints: o pattern: ^\+?[1-9]\d{1,14}$ TestPhoneNumber -&gt; (string) The DNIS phone number for routing test emergency calls to, in E.164 format. Constraints: o pattern: ^\+?[1-9]\d{1,14}$ CallingCountry -&gt; (string) [required] The country from which emergency calls are allowed, in ISO 3166-1 alpha-2 format. Constraints: o pattern: [A-Z]{2} Shorthand Syntax: DNIS=[{EmergencyPhoneNumber=string,TestPhoneNumber=string,CallingCountry=string},{EmergencyPhoneNumber=string,TestPhoneNumber=string,CallingCountry=string}] JSON Syntax: { "DNIS": [ { "EmergencyPhoneNumber": "string", "TestPhoneNumber": "string", "CallingCountry": "string" } ... ] }
+    /// The configuration being updated. DNIS -&gt; (list) The Dialed Number Identification Service (DNIS) emergency calling configuration details. (structure) The Dialed Number Identification Service (DNIS) emergency calling configuration details associated with an Amazon Chime SDK Voice Connector's emergency calling configuration. EmergencyPhoneNumber -&gt; (string) [required] The DNIS phone number that you route emergency calls to, in E.164 format. Constraints: • pattern: ^\+?[1-9]\d{1,14}$ TestPhoneNumber -&gt; (string) The DNIS phone number for routing test emergency calls to, in E.164 format. Constraints: • pattern: ^\+?[1-9]\d{1,14}$ CallingCountry -&gt; (string) [required] The country from which emergency calls are allowed, in ISO 3166-1 alpha-2 format. Constraints: • pattern: [A-Z]{2} Shorthand Syntax: DNIS=[{EmergencyPhoneNumber=string,TestPhoneNumber=string,CallingCountry=string},{EmergencyPhoneNumber=string,TestPhoneNumber=string,CallingCountry=string}] JSON Syntax: { "DNIS": [ { "EmergencyPhoneNumber": "string", "TestPhoneNumber": "string", "CallingCountry": "string" } ... ] }
     /// </summary>
     [CliOption("--emergency-calling-configuration")]
     public string? EmergencyCallingConfiguration { get; private init; }

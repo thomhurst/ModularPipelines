@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts a telemetry query within a session. Submits the provided query string for execution in the specified ses- sion. Use GetTelemetryQueryResults to poll for results and check query status. See also: AWS API Documentation
+/// Starts a telemetry query within a session. Submits the provided query string for execution in the specified session. Use GetTelemetryQueryResults to poll for results and check query status. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsCloudwatchomniStartTelemetryQueryOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts a telemetry query within a session. Submits the provided query string for execution in the specified ses- sion. Use GetTelemetryQueryResults to poll for results and check query status. See also: AWS API Documentation
+    /// Starts a telemetry query within a session. Submits the provided query string for execution in the specified session. Use GetTelemetryQueryResults to poll for results and check query status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="QueryString">The query string to execute. Constraints: o min: 1 o max: 64000</param>
-    /// <param name="SessionId">The unique ID of the session. Constraints: o min: 1 o max: 64 o pattern: [a-z0-9-]+</param>
+    /// <param name="QueryString">The query string to execute. Constraints: • min: 1 • max: 64000</param>
+    /// <param name="SessionId">The unique ID of the session. Constraints: • min: 1 • max: 64 • pattern: [a-z0-9-]+</param>
     public AwsCloudwatchomniStartTelemetryQueryOptions(
         string QueryString,
         string SessionId
@@ -60,13 +62,13 @@ public record AwsCloudwatchomniStartTelemetryQueryOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The query string to execute. Constraints: o min: 1 o max: 64000
+    /// The query string to execute. Constraints: • min: 1 • max: 64000
     /// </summary>
     [CliOption("--query-string")]
     public string? QueryString { get; private init; }
 
     /// <summary>
-    /// The unique ID of the session. Constraints: o min: 1 o max: 64 o pattern: [a-z0-9-]+
+    /// The unique ID of the session. Constraints: • min: 1 • max: 64 • pattern: [a-z0-9-]+
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }

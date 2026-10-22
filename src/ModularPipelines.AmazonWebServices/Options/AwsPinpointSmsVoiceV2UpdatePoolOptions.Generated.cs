@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the configuration of an existing pool. You can update the opt-out list, enable or disable two-way messaging, change the TwoWay- ChannelArn , enable or disable self-managed opt-outs, enable or disable deletion protection, and enable or disable shared routes. See also: AWS API Documentation
+/// Updates the configuration of an existing pool. You can update the opt-out list, enable or disable two-way messaging, change the TwoWayChannelArn , enable or disable self-managed opt-outs, enable or disable deletion protection, and enable or disable shared routes. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsPinpointSmsVoiceV2UpdatePoolOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the configuration of an existing pool. You can update the opt-out list, enable or disable two-way messaging, change the TwoWay- ChannelArn , enable or disable self-managed opt-outs, enable or disable deletion protection, and enable or disable shared routes. See also: AWS API Documentation
+    /// Updates the configuration of an existing pool. You can update the opt-out list, enable or disable two-way messaging, change the TwoWayChannelArn , enable or disable self-managed opt-outs, enable or disable deletion protection, and enable or disable shared routes. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PoolId">The unique identifier of the pool to update. Valid values are either the PoolId or PoolArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 0 o max: 256 o pattern: [A-Za-z0-9_:/-]*</param>
+    /// <param name="PoolId">The unique identifier of the pool to update. Valid values are either the PoolId or PoolArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: • min: 0 • max: 256 • pattern: [A-Za-z0-9_:/-]*</param>
     public AwsPinpointSmsVoiceV2UpdatePoolOptions(
         string PoolId
     )
@@ -56,7 +58,7 @@ public record AwsPinpointSmsVoiceV2UpdatePoolOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the pool to update. Valid values are either the PoolId or PoolArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 0 o max: 256 o pattern: [A-Za-z0-9_:/-]*
+    /// The unique identifier of the pool to update. Valid values are either the PoolId or PoolArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: • min: 0 • max: 256 • pattern: [A-Za-z0-9_:/-]*
     /// </summary>
     [CliOption("--pool-id")]
     public string? PoolId { get; private init; }
@@ -68,25 +70,25 @@ public record AwsPinpointSmsVoiceV2UpdatePoolOptions : AwsOptions, IValidatableO
     public bool? TwoWayEnabled { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the two way channel. Constraints: o min: 20 o max: 2048 o pattern: \S+
+    /// The Amazon Resource Name (ARN) of the two way channel. Constraints: • min: 20 • max: 2048 • pattern: \S+
     /// </summary>
     [CliOption("--two-way-channel-arn")]
     public string? TwoWayChannelArn { get; set; }
 
     /// <summary>
-    /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages. Constraints: o min: 20 o max: 2048 o pattern: arn:\S+
+    /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages. Constraints: • min: 20 • max: 2048 • pattern: arn:\S+
     /// </summary>
     [CliOption("--two-way-channel-role")]
     public string? TwoWayChannelRole { get; set; }
 
     /// <summary>
-    /// By default this is set to false. When set to false and an end recip- ient sends a message that begins with HELP or STOP to one of your dedicated numbers, End User Messaging SMS automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+    /// By default this is set to false. When set to false and an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, End User Messaging SMS automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
     /// </summary>
     [CliFlag("--self-managed-opt-outs-enabled", NegatedName = "--no-self-managed-opt-outs-enabled")]
     public bool? SelfManagedOptOutsEnabled { get; set; }
 
     /// <summary>
-    /// The OptOutList to associate with the pool. Valid values are either OptOutListName or OptOutListArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The OptOutList to associate with the pool. Valid values are either OptOutListName or OptOutListArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--opt-out-list-name")]
     public string? OptOutListName { get; set; }

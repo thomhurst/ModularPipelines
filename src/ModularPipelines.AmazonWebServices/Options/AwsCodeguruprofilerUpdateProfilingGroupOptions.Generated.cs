@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsCodeguruprofilerUpdateProfilingGroupOptions : AwsOptions, IVali
     /// Updates a profiling group. See also: AWS API Documentation
     /// </summary>
     /// <param name="AgentOrchestrationConfig">Specifies whether profiling is enabled or disabled for a profiling group. profilingEnabled -&gt; (boolean) [required] A Boolean that specifies whether the profiling agent collects profiling data or not. Set to true to enable profiling. Shorthand Syntax: profilingEnabled=boolean JSON Syntax: { "profilingEnabled": true|false }</param>
-    /// <param name="ProfilingGroupName">The name of the profiling group to update. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$</param>
+    /// <param name="ProfilingGroupName">The name of the profiling group to update. Constraints: • min: 1 • max: 255 • pattern: ^[\w-]+$</param>
     public AwsCodeguruprofilerUpdateProfilingGroupOptions(
         string AgentOrchestrationConfig,
         string ProfilingGroupName
@@ -66,7 +68,7 @@ public record AwsCodeguruprofilerUpdateProfilingGroupOptions : AwsOptions, IVali
     public string? AgentOrchestrationConfig { get; private init; }
 
     /// <summary>
-    /// The name of the profiling group to update. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$
+    /// The name of the profiling group to update. Constraints: • min: 1 • max: 255 • pattern: ^[\w-]+$
     /// </summary>
     [CliOption("--profiling-group-name")]
     public string? ProfilingGroupName { get; private init; }

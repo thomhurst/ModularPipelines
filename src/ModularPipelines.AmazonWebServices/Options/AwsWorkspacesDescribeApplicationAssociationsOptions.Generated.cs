@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsWorkspacesDescribeApplicationAssociationsOptions : AwsOptions, 
     /// <summary>
     /// Describes the associations between the application and the specified associated resources. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The identifier of the specified application. Constraints: o pattern: ^wsa-[0-9a-z]{8,63}$</param>
-    /// <param name="AssociatedResourceTypes">The resource type of the associated resources. (string) Possible values: o WORKSPACE o BUNDLE o IMAGE Syntax: "string" "string" ...</param>
+    /// <param name="ApplicationId">The identifier of the specified application. Constraints: • pattern: ^wsa-[0-9a-z]{8,63}$</param>
+    /// <param name="AssociatedResourceTypes">The resource type of the associated resources. (string) Possible values: • WORKSPACE • BUNDLE • IMAGE Syntax: "string" "string" ...</param>
     public AwsWorkspacesDescribeApplicationAssociationsOptions(
         string ApplicationId,
         IEnumerable<string> AssociatedResourceTypes
@@ -72,25 +74,25 @@ public record AwsWorkspacesDescribeApplicationAssociationsOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the specified application. Constraints: o pattern: ^wsa-[0-9a-z]{8,63}$
+    /// The identifier of the specified application. Constraints: • pattern: ^wsa-[0-9a-z]{8,63}$
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The resource type of the associated resources. (string) Possible values: o WORKSPACE o BUNDLE o IMAGE Syntax: "string" "string" ...
+    /// The resource type of the associated resources. (string) Possible values: • WORKSPACE • BUNDLE • IMAGE Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--associated-resource-types", GroupValues = true)]
     public IEnumerable<string>? AssociatedResourceTypes { get; private init; }
 
     /// <summary>
-    /// The maximum number of associations to return. Constraints: o min: 1 o max: 25
+    /// The maximum number of associations to return. Constraints: • min: 1 • max: 25
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results. Constraints: o min: 1 o max: 2048
+    /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results. Constraints: • min: 1 • max: 2048
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates a FirewallRuleGroup with a VPC, to provide DNS filtering for the VPC. If the rule group contains any rule configured with the PartnerThreat- Protection rule type, the calling account must hold an active Amazon Web Services Marketplace subscription to the named partner. If the sub- scription is missing, the association request is rejected. See also: AWS API Documentation
+/// Associates a FirewallRuleGroup with a VPC, to provide DNS filtering for the VPC. If the rule group contains any rule configured with the PartnerThreatProtection rule type, the calling account must hold an active Amazon Web Services Marketplace subscription to the named partner. If the subscription is missing, the association request is rejected. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +28,12 @@ public record AwsRoute53resolverAssociateFirewallRuleGroupOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates a FirewallRuleGroup with a VPC, to provide DNS filtering for the VPC. If the rule group contains any rule configured with the PartnerThreat- Protection rule type, the calling account must hold an active Amazon Web Services Marketplace subscription to the named partner. If the sub- scription is missing, the association request is rejected. See also: AWS API Documentation
+    /// Associates a FirewallRuleGroup with a VPC, to provide DNS filtering for the VPC. If the rule group contains any rule configured with the PartnerThreatProtection rule type, the calling account must hold an active Amazon Web Services Marketplace subscription to the named partner. If the subscription is missing, the association request is rejected. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FirewallRuleGroupId">The unique identifier of the firewall rule group. Constraints: o min: 1 o max: 64</param>
-    /// <param name="VpcId">The unique identifier of the VPC that you want to associate with the rule group. Constraints: o min: 1 o max: 64</param>
-    /// <param name="Priority">The setting that determines the processing order of the rule group among the rule groups that you associate with the specified VPC. DNS Firewall filters VPC traffic starting from the rule group with the lowest numeric priority setting. You must specify a unique priority for each rule group that you as- sociate with a single VPC. To make it easier to insert rule groups later, leave space between the numbers, for example, use 101, 200, and so on. You can change the priority setting for a rule group as- sociation after you create it. The allowed values for Priority are between 100 and 9900.</param>
-    /// <param name="Name">A name that lets you identify the association, to manage and use it. Constraints: o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)</param>
+    /// <param name="FirewallRuleGroupId">The unique identifier of the firewall rule group. Constraints: • min: 1 • max: 64</param>
+    /// <param name="VpcId">The unique identifier of the VPC that you want to associate with the rule group. Constraints: • min: 1 • max: 64</param>
+    /// <param name="Priority">The setting that determines the processing order of the rule group among the rule groups that you associate with the specified VPC. DNS Firewall filters VPC traffic starting from the rule group with the lowest numeric priority setting. You must specify a unique priority for each rule group that you associate with a single VPC. To make it easier to insert rule groups later, leave space between the numbers, for example, use 101, 200, and so on. You can change the priority setting for a rule group association after you create it. The allowed values for Priority are between 100 and 9900.</param>
+    /// <param name="Name">A name that lets you identify the association, to manage and use it. Constraints: • max: 64 • pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)</param>
     public AwsRoute53resolverAssociateFirewallRuleGroupOptions(
         string FirewallRuleGroupId,
         string VpcId,
@@ -68,43 +70,43 @@ public record AwsRoute53resolverAssociateFirewallRuleGroupOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the firewall rule group. Constraints: o min: 1 o max: 64
+    /// The unique identifier of the firewall rule group. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--firewall-rule-group-id")]
     public string? FirewallRuleGroupId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the VPC that you want to associate with the rule group. Constraints: o min: 1 o max: 64
+    /// The unique identifier of the VPC that you want to associate with the rule group. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--vpc-id")]
     public string? VpcId { get; private init; }
 
     /// <summary>
-    /// The setting that determines the processing order of the rule group among the rule groups that you associate with the specified VPC. DNS Firewall filters VPC traffic starting from the rule group with the lowest numeric priority setting. You must specify a unique priority for each rule group that you as- sociate with a single VPC. To make it easier to insert rule groups later, leave space between the numbers, for example, use 101, 200, and so on. You can change the priority setting for a rule group as- sociation after you create it. The allowed values for Priority are between 100 and 9900.
+    /// The setting that determines the processing order of the rule group among the rule groups that you associate with the specified VPC. DNS Firewall filters VPC traffic starting from the rule group with the lowest numeric priority setting. You must specify a unique priority for each rule group that you associate with a single VPC. To make it easier to insert rule groups later, leave space between the numbers, for example, use 101, 200, and so on. You can change the priority setting for a rule group association after you create it. The allowed values for Priority are between 100 and 9900.
     /// </summary>
     [CliOption("--priority")]
     public int? Priority { get; private init; }
 
     /// <summary>
-    /// A name that lets you identify the association, to manage and use it. Constraints: o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)
+    /// A name that lets you identify the association, to manage and use it. Constraints: • max: 64 • pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. Constraints: o min: 1 o max: 255
+    /// A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--creator-request-id")]
     public string? CreatorRequestId { get; set; }
 
     /// <summary>
-    /// If enabled, this setting disallows modification or removal of the association, to help prevent against accidentally altering DNS fire- wall protections. When you create the association, the default set- ting is DISABLED . Possible values: o ENABLED o DISABLED
+    /// If enabled, this setting disallows modification or removal of the association, to help prevent against accidentally altering DNS firewall protections. When you create the association, the default setting is DISABLED . Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--mutation-protection")]
     public AwsRoute53resolverAssociateFirewallRuleGroupMutationProtection? MutationProtection { get; set; }
 
     /// <summary>
-    /// A list of the tag keys and values that you want to associate with the rule group association. Constraints: o max: 200 (structure) One tag that you want to add to the specified resource. A tag consists of a Key (a name for the tag) and a Value . Key -&gt; (string) [required] The name for the tag. For example, if you want to associate Resolver resources with the account IDs of your customers for billing purposes, the value of Key might be account-id . Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value for the tag. For example, if Key is account-id , then Value might be the ID of the customer account that you're creating the resource for. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of the tag keys and values that you want to associate with the rule group association. Constraints: • max: 200 (structure) One tag that you want to add to the specified resource. A tag consists of a Key (a name for the tag) and a Value . Key -&gt; (string) [required] The name for the tag. For example, if you want to associate Resolver resources with the account IDs of your customers for billing purposes, the value of Key might be account-id . Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The value for the tag. For example, if Key is account-id , then Value might be the ID of the customer account that you're creating the resource for. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

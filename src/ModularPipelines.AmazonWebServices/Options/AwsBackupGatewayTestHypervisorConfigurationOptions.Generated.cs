@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsBackupGatewayTestHypervisorConfigurationOptions : AwsOptions, I
     /// <summary>
     /// Tests your hypervisor configuration to validate that backup gateway can connect with the hypervisor and its resources. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway to the hypervisor to test. Constraints: o min: 50 o max: 180 o pattern: arn:(aws|aws-cn|aws-us-gov):backup-gate- way(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+</param>
-    /// <param name="Host">The server host of the hypervisor. This can be either an IP address or a fully-qualified domain name (FQDN). Constraints: o min: 3 o max: 128 o pattern: .+</param>
+    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway to the hypervisor to test. Constraints: • min: 50 • max: 180 • pattern: arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+</param>
+    /// <param name="Host">The server host of the hypervisor. This can be either an IP address or a fully-qualified domain name (FQDN). Constraints: • min: 3 • max: 128 • pattern: .+</param>
     public AwsBackupGatewayTestHypervisorConfigurationOptions(
         string GatewayArn,
         string Host
@@ -61,25 +63,25 @@ public record AwsBackupGatewayTestHypervisorConfigurationOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the gateway to the hypervisor to test. Constraints: o min: 50 o max: 180 o pattern: arn:(aws|aws-cn|aws-us-gov):backup-gate- way(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+
+    /// The Amazon Resource Name (ARN) of the gateway to the hypervisor to test. Constraints: • min: 50 • max: 180 • pattern: arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+
     /// </summary>
     [CliOption("--gateway-arn")]
     public string? GatewayArn { get; private init; }
 
     /// <summary>
-    /// The server host of the hypervisor. This can be either an IP address or a fully-qualified domain name (FQDN). Constraints: o min: 3 o max: 128 o pattern: .+
+    /// The server host of the hypervisor. This can be either an IP address or a fully-qualified domain name (FQDN). Constraints: • min: 3 • max: 128 • pattern: .+
     /// </summary>
     [CliOption("--host")]
     public string? Host { get; private init; }
 
     /// <summary>
-    /// The username for the hypervisor. Constraints: o min: 1 o max: 100 o pattern: [ -\.0-\[\]-~]*[!-\.0-\[\]-~][ -\.0-\[\]-~]*
+    /// The username for the hypervisor. Constraints: • min: 1 • max: 100 • pattern: [ -\.0-\[\]-~]*[!-\.0-\[\]-~][ -\.0-\[\]-~]*
     /// </summary>
     [CliOption("--username")]
     public string? Username { get; set; }
 
     /// <summary>
-    /// The password for the hypervisor. Constraints: o min: 1 o max: 100 o pattern: [ -~]+
+    /// The password for the hypervisor. Constraints: • min: 1 • max: 100 • pattern: [ -~]+
     /// </summary>
     [SecretValue]
     [CliOption("--password")]

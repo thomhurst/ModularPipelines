@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCloud9DescribeEnvironmentStatusOptions : AwsOptions, IValidatab
     /// <summary>
     /// Gets status information for an Cloud9 development environment. WARNING: Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. Learn more" See also: AWS API Documentation
     /// </summary>
-    /// <param name="EnvironmentId">The ID of the environment to get status information about. Constraints: o pattern: ^[a-zA-Z0-9]{8,32}$</param>
+    /// <param name="EnvironmentId">The ID of the environment to get status information about. Constraints: • pattern: ^[a-zA-Z0-9]{8,32}$</param>
     public AwsCloud9DescribeEnvironmentStatusOptions(
         string EnvironmentId
     )
@@ -56,7 +58,7 @@ public record AwsCloud9DescribeEnvironmentStatusOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the environment to get status information about. Constraints: o pattern: ^[a-zA-Z0-9]{8,32}$
+    /// The ID of the environment to get status information about. Constraints: • pattern: ^[a-zA-Z0-9]{8,32}$
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }

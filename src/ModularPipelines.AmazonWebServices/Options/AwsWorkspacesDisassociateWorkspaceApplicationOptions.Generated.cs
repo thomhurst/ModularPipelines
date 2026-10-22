@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsWorkspacesDisassociateWorkspaceApplicationOptions : AwsOptions,
     /// <summary>
     /// Disassociates the specified application from a WorkSpace. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceId">The identifier of the WorkSpace. Constraints: o pattern: ^ws-[0-9a-z]{8,63}$</param>
-    /// <param name="ApplicationId">The identifier of the application. Constraints: o pattern: ^wsa-[0-9a-z]{8,63}$</param>
+    /// <param name="WorkspaceId">The identifier of the WorkSpace. Constraints: • pattern: ^ws-[0-9a-z]{8,63}$</param>
+    /// <param name="ApplicationId">The identifier of the application. Constraints: • pattern: ^wsa-[0-9a-z]{8,63}$</param>
     public AwsWorkspacesDisassociateWorkspaceApplicationOptions(
         string WorkspaceId,
         string ApplicationId
@@ -60,13 +62,13 @@ public record AwsWorkspacesDisassociateWorkspaceApplicationOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the WorkSpace. Constraints: o pattern: ^ws-[0-9a-z]{8,63}$
+    /// The identifier of the WorkSpace. Constraints: • pattern: ^ws-[0-9a-z]{8,63}$
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the application. Constraints: o pattern: ^wsa-[0-9a-z]{8,63}$
+    /// The identifier of the application. Constraints: • pattern: ^wsa-[0-9a-z]{8,63}$
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsWorkspacesStopWorkspacesOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Stops the specified WorkSpaces. You cannot stop a WorkSpace unless it has a running mode of AutoStop or Manual and a state of AVAILABLE , IMPAIRED , UNHEALTHY , or ERROR . See also: AWS API Documentation
     /// </summary>
-    /// <param name="StopWorkspaceRequests">The WorkSpaces to stop. You can specify up to 25 WorkSpaces. Constraints: o min: 1 o max: 25 (structure) Describes the information used to stop a WorkSpace. WorkspaceId -&gt; (string) The identifier of the WorkSpace. Constraints: o pattern: ^ws-[0-9a-z]{8,63}$ Shorthand Syntax: WorkspaceId=string ... JSON Syntax: [ { "WorkspaceId": "string" } ... ]</param>
+    /// <param name="StopWorkspaceRequests">The WorkSpaces to stop. You can specify up to 25 WorkSpaces. Constraints: • min: 1 • max: 25 (structure) Describes the information used to stop a WorkSpace. WorkspaceId -&gt; (string) The identifier of the WorkSpace. Constraints: • pattern: ^ws-[0-9a-z]{8,63}$ Shorthand Syntax: WorkspaceId=string ... JSON Syntax: [ { "WorkspaceId": "string" } ... ]</param>
     public AwsWorkspacesStopWorkspacesOptions(
         IEnumerable<string> StopWorkspaceRequests
     )
@@ -67,7 +69,7 @@ public record AwsWorkspacesStopWorkspacesOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The WorkSpaces to stop. You can specify up to 25 WorkSpaces. Constraints: o min: 1 o max: 25 (structure) Describes the information used to stop a WorkSpace. WorkspaceId -&gt; (string) The identifier of the WorkSpace. Constraints: o pattern: ^ws-[0-9a-z]{8,63}$ Shorthand Syntax: WorkspaceId=string ... JSON Syntax: [ { "WorkspaceId": "string" } ... ]
+    /// The WorkSpaces to stop. You can specify up to 25 WorkSpaces. Constraints: • min: 1 • max: 25 (structure) Describes the information used to stop a WorkSpace. WorkspaceId -&gt; (string) The identifier of the WorkSpace. Constraints: • pattern: ^ws-[0-9a-z]{8,63}$ Shorthand Syntax: WorkspaceId=string ... JSON Syntax: [ { "WorkspaceId": "string" } ... ]
     /// </summary>
     [CliOption("--stop-workspace-requests", GroupValues = true)]
     public IEnumerable<string>? StopWorkspaceRequests { get; private init; }

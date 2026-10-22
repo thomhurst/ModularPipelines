@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the current status of Easy DKIM signing for an entity. For do- main name identities, this operation also returns the DKIM tokens that are required for Easy DKIM signing, and whether Amazon SES has success- fully verified that these tokens have been published. This operation takes a list of identities as input and returns the fol- lowing information for each: o Whether Easy DKIM signing is enabled or disabled. o A set of DKIM tokens that represent the identity. If the identity is an email...
+/// Returns the current status of Easy DKIM signing for an entity. For domain name identities, this operation also returns the DKIM tokens that are required for Easy DKIM signing, and whether Amazon SES has successfully verified that these tokens have been published. This operation takes a list of identities as input and returns the following information for each: • Whether Easy DKIM signing is enabled or disabled. • A set of DKIM tokens that represent the identity. If the identity is an email addre...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSesGetIdentityDkimAttributesOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the current status of Easy DKIM signing for an entity. For do- main name identities, this operation also returns the DKIM tokens that are required for Easy DKIM signing, and whether Amazon SES has success- fully verified that these tokens have been published. This operation takes a list of identities as input and returns the fol- lowing information for each: o Whether Easy DKIM signing is enabled or disabled. o A set of DKIM tokens that represent the identity. If the identity is an email...
+    /// Returns the current status of Easy DKIM signing for an entity. For domain name identities, this operation also returns the DKIM tokens that are required for Easy DKIM signing, and whether Amazon SES has successfully verified that these tokens have been published. This operation takes a list of identities as input and returns the following information for each: • Whether Easy DKIM signing is enabled or disabled. • A set of DKIM tokens that represent the identity. If the identity is an email addre...
     /// </summary>
-    /// <param name="Identities">A list of one or more verified identities - email addresses, do- mains, or both. (string) Syntax: "string" "string" ...</param>
+    /// <param name="Identities">A list of one or more verified identities - email addresses, domains, or both. (string) Syntax: "string" "string" ...</param>
     public AwsSesGetIdentityDkimAttributesOptions(
         IEnumerable<string> Identities
     )
@@ -67,7 +69,7 @@ public record AwsSesGetIdentityDkimAttributesOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of one or more verified identities - email addresses, do- mains, or both. (string) Syntax: "string" "string" ...
+    /// A list of one or more verified identities - email addresses, domains, or both. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--identities", GroupValues = true)]
     public IEnumerable<string>? Identities { get; private init; }

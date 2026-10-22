@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -74,20 +75,20 @@ public record AwsMacie2CreateCustomDataIdentifierOptions : AwsOptions, IValidata
     public string? Regex { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive token that you provide to ensure the idem- potency of the request.
+    /// A unique, case-sensitive token that you provide to ensure the idempotency of the request.
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A custom description of the custom data identifier. The description can contain as many as 512 characters. We strongly recommend that you avoid including any sensitive data in the description of a custom data identifier. Other users of your ac- count might be able to see this description, depending on the ac- tions that they're allowed to perform in Amazon Macie.
+    /// A custom description of the custom data identifier. The description can contain as many as 512 characters. We strongly recommend that you avoid including any sensitive data in the description of a custom data identifier. Other users of your account might be able to see this description, depending on the actions that they're allowed to perform in Amazon Macie.
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// An array that lists specific character sequences (ignore words ) to exclude from the results. If the text matched by the regular expres- sion contains any string in this array, Amazon Macie ignores it. The array can contain as many as 10 ignore words. Each ignore word can contain 4-90 UTF-8 characters. Ignore words are case sensitive. (string) Syntax: "string" "string" ...
+    /// An array that lists specific character sequences (ignore words ) to exclude from the results. If the text matched by the regular expression contains any string in this array, Amazon Macie ignores it. The array can contain as many as 10 ignore words. Each ignore word can contain 4-90 UTF-8 characters. Ignore words are case sensitive. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--ignore-words", GroupValues = true)]
     public IEnumerable<string>? IgnoreWords { get; set; }
@@ -105,7 +106,7 @@ public record AwsMacie2CreateCustomDataIdentifierOptions : AwsOptions, IValidata
     public int? MaximumMatchDistance { get; set; }
 
     /// <summary>
-    /// The severity to assign to findings that the custom data identifier produces, based on the number of occurrences of text that match the custom data identifier's detection criteria. You can specify as many as three SeverityLevel objects in this array, one for each severity: LOW, MEDIUM, or HIGH. If you specify more than one, the occurrences thresholds must be in ascending order by severity, moving from LOW to HIGH. For example, 1 for LOW, 50 for MEDIUM, and 100 for HIGH. If an S3 object contains fewer occurrences than the lowest specified threshold, Amazon Macie doesn't create a finding. If you don't specify any values for this array, Macie creates find- ings for S3 objects that contain at least one occurrence of text that matches the detection criteria, and Macie assigns the MEDIUM severity to those findings. (structure) Specifies a severity level for findings that a custom data iden- tifier produces. A severity level determines which severity is assigned to the findings, based on the number of occurrences of text that match the custom data identifier's detection criteria. occurrencesThreshold -&gt; (long) [required] The minimum number of occurrences of text that must match the custom data identifier's detection criteria in order to pro- duce a finding with the specified severity (severity). severity -&gt; (string) [required] The severity to assign to a finding: if the number of occur- rences is greater than or equal to the specified threshold (occurrencesThreshold); and, if applicable, the number of oc- currences is less than the threshold for the next consecutive severity level for the custom data identifier, moving from LOW to HIGH. Possible values: o LOW o MEDIUM o HIGH Shorthand Syntax: occurrencesThreshold=long,severity=string ... JSON Syntax: [ { "occurrencesThreshold": long, "severity": "LOW"|"MEDIUM"|"HIGH" } ... ]
+    /// The severity to assign to findings that the custom data identifier produces, based on the number of occurrences of text that match the custom data identifier's detection criteria. You can specify as many as three SeverityLevel objects in this array, one for each severity: LOW, MEDIUM, or HIGH. If you specify more than one, the occurrences thresholds must be in ascending order by severity, moving from LOW to HIGH. For example, 1 for LOW, 50 for MEDIUM, and 100 for HIGH. If an S3 object contains fewer occurrences than the lowest specified threshold, Amazon Macie doesn't create a finding. If you don't specify any values for this array, Macie creates findings for S3 objects that contain at least one occurrence of text that matches the detection criteria, and Macie assigns the MEDIUM severity to those findings. (structure) Specifies a severity level for findings that a custom data identifier produces. A severity level determines which severity is assigned to the findings, based on the number of occurrences of text that match the custom data identifier's detection criteria. occurrencesThreshold -&gt; (long) [required] The minimum number of occurrences of text that must match the custom data identifier's detection criteria in order to produce a finding with the specified severity (severity). severity -&gt; (string) [required] The severity to assign to a finding: if the number of occurrences is greater than or equal to the specified threshold (occurrencesThreshold); and, if applicable, the number of occurrences is less than the threshold for the next consecutive severity level for the custom data identifier, moving from LOW to HIGH. Possible values: • LOW • MEDIUM • HIGH Shorthand Syntax: occurrencesThreshold=long,severity=string ... JSON Syntax: [ { "occurrencesThreshold": long, "severity": "LOW"|"MEDIUM"|"HIGH" } ... ]
     /// </summary>
     [CliOption("--severity-levels", GroupValues = true)]
     public IEnumerable<string>? SeverityLevels { get; set; }

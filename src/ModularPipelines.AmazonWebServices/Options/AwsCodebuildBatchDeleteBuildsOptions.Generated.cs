@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCodebuildBatchDeleteBuildsOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Deletes one or more builds. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Ids">The IDs of the builds to delete. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 Syntax: "string" "string" ...</param>
+    /// <param name="Ids">The IDs of the builds to delete. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 Syntax: "string" "string" ...</param>
     public AwsCodebuildBatchDeleteBuildsOptions(
         IEnumerable<string> Ids
     )
@@ -67,7 +69,7 @@ public record AwsCodebuildBatchDeleteBuildsOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The IDs of the builds to delete. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 Syntax: "string" "string" ...
+    /// The IDs of the builds to delete. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; private init; }

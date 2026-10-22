@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts a Synchronous Express state machine execution. StartSyncExecu- tion is not available for STANDARD workflows. NOTE: StartSyncExecution will return a 200 OK response, even if your exe- cution fails, because the status code in the API response doesn't reflect function errors. Error codes are reserved for errors that prevent your execution from running, such as permissions errors, limit errors, or issues with your state machine code and configura- tion. See also: AWS API Documentation
+/// Starts a Synchronous Express state machine execution. StartSyncExecution is not available for STANDARD workflows. NOTE: StartSyncExecution will return a 200 OK response, even if your execution fails, because the status code in the API response doesn't reflect function errors. Error codes are reserved for errors that prevent your execution from running, such as permissions errors, limit errors, or issues with your state machine code and configuration. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsStepfunctionsStartSyncExecutionOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts a Synchronous Express state machine execution. StartSyncExecu- tion is not available for STANDARD workflows. NOTE: StartSyncExecution will return a 200 OK response, even if your exe- cution fails, because the status code in the API response doesn't reflect function errors. Error codes are reserved for errors that prevent your execution from running, such as permissions errors, limit errors, or issues with your state machine code and configura- tion. See also: AWS API Documentation
+    /// Starts a Synchronous Express state machine execution. StartSyncExecution is not available for STANDARD workflows. NOTE: StartSyncExecution will return a 200 OK response, even if your execution fails, because the status code in the API response doesn't reflect function errors. Error codes are reserved for errors that prevent your execution from running, such as permissions errors, limit errors, or issues with your state machine code and configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StateMachineArn">The Amazon Resource Name (ARN) of the state machine to execute. Constraints: o min: 1 o max: 256</param>
+    /// <param name="StateMachineArn">The Amazon Resource Name (ARN) of the state machine to execute. Constraints: • min: 1 • max: 256</param>
     public AwsStepfunctionsStartSyncExecutionOptions(
         string StateMachineArn
     )
@@ -57,31 +59,31 @@ public record AwsStepfunctionsStartSyncExecutionOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the state machine to execute. Constraints: o min: 1 o max: 256
+    /// The Amazon Resource Name (ARN) of the state machine to execute. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--state-machine-arn")]
     public string? StateMachineArn { get; private init; }
 
     /// <summary>
-    /// The name of the execution. Constraints: o min: 1 o max: 80
+    /// The name of the execution. Constraints: • min: 1 • max: 80
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The string that contains the JSON input data for the execution, for example: "{\"first_name\" : \"Alejandro\"}" NOTE: If you don't include any JSON input data, you still must include the two braces, for example: "{}" Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding. Constraints: o max: 262144
+    /// The string that contains the JSON input data for the execution, for example: "{\"first_name\" : \"Alejandro\"}" NOTE: If you don't include any JSON input data, you still must include the two braces, for example: "{}" Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding. Constraints: • max: 262144
     /// </summary>
     [CliOption("--input")]
     public string? Input { get; set; }
 
     /// <summary>
-    /// Passes the X-Ray trace header. The trace header can also be passed in the request payload. NOTE: For X-Ray traces, all Amazon Web Services services use the X-Amzn-Trace-Id header from the HTTP request. Using the header is the preferred mechanism to identify a trace. StartExecution and StartSyncExecution API operations can also use traceHeader from the body of the request payload. If both sources are pro- vided, Step Functions will use the header value (preferred) over the value in the request body. Constraints: o min: 0 o max: 256 o pattern: \p{ASCII}*
+    /// Passes the X-Ray trace header. The trace header can also be passed in the request payload. NOTE: For X-Ray traces, all Amazon Web Services services use the X-Amzn-Trace-Id header from the HTTP request. Using the header is the preferred mechanism to identify a trace. StartExecution and StartSyncExecution API operations can also use traceHeader from the body of the request payload. If both sources are provided, Step Functions will use the header value (preferred) over the value in the request body. Constraints: • min: 0 • max: 256 • pattern: \p{ASCII}*
     /// </summary>
     [CliOption("--trace-header")]
     public string? TraceHeader { get; set; }
 
     /// <summary>
-    /// If your state machine definition is encrypted with a KMS key, callers must have kms:Decrypt permission to decrypt the definition. Alternatively, you can call the API with includedData = META- DATA_ONLY to get a successful response without the encrypted defini- tion. Possible values: o ALL_DATA o METADATA_ONLY
+    /// If your state machine definition is encrypted with a KMS key, callers must have kms:Decrypt permission to decrypt the definition. Alternatively, you can call the API with includedData = METADATA_ONLY to get a successful response without the encrypted definition. Possible values: • ALL_DATA • METADATA_ONLY
     /// </summary>
     [CliOption("--included-data")]
     public AwsStepfunctionsStartSyncExecutionIncludedData? IncludedData { get; set; }

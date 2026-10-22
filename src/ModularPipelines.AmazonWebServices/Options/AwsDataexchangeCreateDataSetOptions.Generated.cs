@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -29,8 +30,8 @@ public record AwsDataexchangeCreateDataSetOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// This operation creates a data set. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssetType">The type of asset that is added to a data set. Possible values: o S3_SNAPSHOT o REDSHIFT_DATA_SHARE o API_GATEWAY_API o S3_DATA_ACCESS o LAKE_FORMATION_DATA_PERMISSION</param>
-    /// <param name="Description">A description for the data set. This value can be up to 16,348 char- acters long.</param>
+    /// <param name="AssetType">The type of asset that is added to a data set. Possible values: • S3_SNAPSHOT • REDSHIFT_DATA_SHARE • API_GATEWAY_API • S3_DATA_ACCESS • LAKE_FORMATION_DATA_PERMISSION</param>
+    /// <param name="Description">A description for the data set. This value can be up to 16,348 characters long.</param>
     /// <param name="Name">The name of the data set.</param>
     public AwsDataexchangeCreateDataSetOptions(
         AwsDataexchangeCreateDataSetAssetType AssetType,
@@ -65,13 +66,13 @@ public record AwsDataexchangeCreateDataSetOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of asset that is added to a data set. Possible values: o S3_SNAPSHOT o REDSHIFT_DATA_SHARE o API_GATEWAY_API o S3_DATA_ACCESS o LAKE_FORMATION_DATA_PERMISSION
+    /// The type of asset that is added to a data set. Possible values: • S3_SNAPSHOT • REDSHIFT_DATA_SHARE • API_GATEWAY_API • S3_DATA_ACCESS • LAKE_FORMATION_DATA_PERMISSION
     /// </summary>
     [CliOption("--asset-type")]
     public AwsDataexchangeCreateDataSetAssetType? AssetType { get; private init; }
 
     /// <summary>
-    /// A description for the data set. This value can be up to 16,348 char- acters long.
+    /// A description for the data set. This value can be up to 16,348 characters long.
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; private init; }

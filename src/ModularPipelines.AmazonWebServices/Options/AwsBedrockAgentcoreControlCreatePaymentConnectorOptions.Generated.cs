@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new payment connector for a payment manager. A payment con- nector integrates with a supported payment provider to enable payment processing capabilities. See also: AWS API Documentation
+/// Creates a new payment connector for a payment manager. A payment connector integrates with a supported payment provider to enable payment processing capabilities. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,12 +29,12 @@ public record AwsBedrockAgentcoreControlCreatePaymentConnectorOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new payment connector for a payment manager. A payment con- nector integrates with a supported payment provider to enable payment processing capabilities. See also: AWS API Documentation
+    /// Creates a new payment connector for a payment manager. A payment connector integrates with a supported payment provider to enable payment processing capabilities. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PaymentManagerId">The unique identifier of the payment manager to create the connector for. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}</param>
-    /// <param name="Name">The name of the payment connector. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}</param>
-    /// <param name="Type">The type of payment connector, which determines the payment provider integration. Possible values: o CoinbaseCDP o StripePrivy</param>
-    /// <param name="CredentialProviderConfigurations">The credential provider configurations for the payment connector. These configurations specify how the connector authenticates with the payment provider. Constraints: o min: 0 o max: 1 (tagged union structure) The credential provider configuration for a payment connector. Specifies the payment provider type and its associated creden- tial provider. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: coinbaseCDP, stripePrivy. coinbaseCDP -&gt; (structure) The credential provider configuration for a Coinbase CDP pay- ment connector. credentialProviderArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the credential provider that stores the authentication credentials for the pay- ment provider. Constraints: o min: 69 o max: 2048 o pattern: arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b|aws-iso-e|aws-iso-f|aws-eusc):(acps|bedrock-agent- core):[A-Za-z0-9-]{1,64}:[0-9]{12}:to- ken-vault/[a-zA-Z0-9-.]+/paymentcredential- provider/[a-zA-Z0-9-.]+ stripePrivy -&gt; (structure) The credential provider configuration for a Stripe Privy pay- ment connector. credentialProviderArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the credential provider that stores the authentication credentials for the pay- ment provider. Constraints: o min: 69 o max: 2048 o pattern: arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b|aws-iso-e|aws-iso-f|aws-eusc):(acps|bedrock-agent- core):[A-Za-z0-9-]{1,64}:[0-9]{12}:to- ken-vault/[a-zA-Z0-9-.]+/paymentcredential- provider/[a-zA-Z0-9-.]+ Shorthand Syntax: coinbaseCDP={credentialProviderArn=string},stripePrivy={credentialProviderArn=string} ... JSON Syntax: [ { "coinbaseCDP": { "credentialProviderArn": "string" }, "stripePrivy": { "credentialProviderArn": "string" } } ... ]</param>
+    /// <param name="PaymentManagerId">The unique identifier of the payment manager to create the connector for. Constraints: • min: 12 • max: 211 • pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}</param>
+    /// <param name="Name">The name of the payment connector. Constraints: • min: 1 • max: 48 • pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}</param>
+    /// <param name="Type">The type of payment connector, which determines the payment provider integration. Possible values: • CoinbaseCDP • StripePrivy</param>
+    /// <param name="CredentialProviderConfigurations">The credential provider configurations for the payment connector. These configurations specify how the connector authenticates with the payment provider. Constraints: • min: 0 • max: 1 (tagged union structure) The credential provider configuration for a payment connector. Specifies the payment provider type and its associated credential provider. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: coinbaseCDP, stripePrivy. coinbaseCDP -&gt; (structure) The credential provider configuration for a Coinbase CDP payment connector. credentialProviderArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the credential provider that stores the authentication credentials for the payment provider. Constraints: • min: 69 • max: 2048 • pattern: arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b|aws-iso-e|aws-iso-f|aws-eusc):(acps|bedrock-agentcore):[A-Za-z0-9-]{1,64}:[0-9]{12}:token-vault/[a-zA-Z0-9-.]+/paymentcredentialprovider/[a-zA-Z0-9-.]+ stripePrivy -&gt; (structure) The credential provider configuration for a Stripe Privy payment connector. credentialProviderArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the credential provider that stores the authentication credentials for the payment provider. Constraints: • min: 69 • max: 2048 • pattern: arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b|aws-iso-e|aws-iso-f|aws-eusc):(acps|bedrock-agentcore):[A-Za-z0-9-]{1,64}:[0-9]{12}:token-vault/[a-zA-Z0-9-.]+/paymentcredentialprovider/[a-zA-Z0-9-.]+ Shorthand Syntax: coinbaseCDP={credentialProviderArn=string},stripePrivy={credentialProviderArn=string} ... JSON Syntax: [ { "coinbaseCDP": { "credentialProviderArn": "string" }, "stripePrivy": { "credentialProviderArn": "string" } } ... ]</param>
     public AwsBedrockAgentcoreControlCreatePaymentConnectorOptions(
         string PaymentManagerId,
         string Name,
@@ -80,44 +82,44 @@ public record AwsBedrockAgentcoreControlCreatePaymentConnectorOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the payment manager to create the connector for. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
+    /// The unique identifier of the payment manager to create the connector for. Constraints: • min: 12 • max: 211 • pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
     /// </summary>
     [CliOption("--payment-manager-id")]
     public string? PaymentManagerId { get; private init; }
 
     /// <summary>
-    /// The name of the payment connector. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}
+    /// The name of the payment connector. Constraints: • min: 1 • max: 48 • pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The type of payment connector, which determines the payment provider integration. Possible values: o CoinbaseCDP o StripePrivy
+    /// The type of payment connector, which determines the payment provider integration. Possible values: • CoinbaseCDP • StripePrivy
     /// </summary>
     [CliOption("--type")]
     public AwsBedrockAgentcoreControlCreatePaymentConnectorType? Type { get; private init; }
 
     /// <summary>
-    /// The credential provider configurations for the payment connector. These configurations specify how the connector authenticates with the payment provider. Constraints: o min: 0 o max: 1 (tagged union structure) The credential provider configuration for a payment connector. Specifies the payment provider type and its associated creden- tial provider. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: coinbaseCDP, stripePrivy. coinbaseCDP -&gt; (structure) The credential provider configuration for a Coinbase CDP pay- ment connector. credentialProviderArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the credential provider that stores the authentication credentials for the pay- ment provider. Constraints: o min: 69 o max: 2048 o pattern: arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b|aws-iso-e|aws-iso-f|aws-eusc):(acps|bedrock-agent- core):[A-Za-z0-9-]{1,64}:[0-9]{12}:to- ken-vault/[a-zA-Z0-9-.]+/paymentcredential- provider/[a-zA-Z0-9-.]+ stripePrivy -&gt; (structure) The credential provider configuration for a Stripe Privy pay- ment connector. credentialProviderArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the credential provider that stores the authentication credentials for the pay- ment provider. Constraints: o min: 69 o max: 2048 o pattern: arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b|aws-iso-e|aws-iso-f|aws-eusc):(acps|bedrock-agent- core):[A-Za-z0-9-]{1,64}:[0-9]{12}:to- ken-vault/[a-zA-Z0-9-.]+/paymentcredential- provider/[a-zA-Z0-9-.]+ Shorthand Syntax: coinbaseCDP={credentialProviderArn=string},stripePrivy={credentialProviderArn=string} ... JSON Syntax: [ { "coinbaseCDP": { "credentialProviderArn": "string" }, "stripePrivy": { "credentialProviderArn": "string" } } ... ]
+    /// The credential provider configurations for the payment connector. These configurations specify how the connector authenticates with the payment provider. Constraints: • min: 0 • max: 1 (tagged union structure) The credential provider configuration for a payment connector. Specifies the payment provider type and its associated credential provider. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: coinbaseCDP, stripePrivy. coinbaseCDP -&gt; (structure) The credential provider configuration for a Coinbase CDP payment connector. credentialProviderArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the credential provider that stores the authentication credentials for the payment provider. Constraints: • min: 69 • max: 2048 • pattern: arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b|aws-iso-e|aws-iso-f|aws-eusc):(acps|bedrock-agentcore):[A-Za-z0-9-]{1,64}:[0-9]{12}:token-vault/[a-zA-Z0-9-.]+/paymentcredentialprovider/[a-zA-Z0-9-.]+ stripePrivy -&gt; (structure) The credential provider configuration for a Stripe Privy payment connector. credentialProviderArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the credential provider that stores the authentication credentials for the payment provider. Constraints: • min: 69 • max: 2048 • pattern: arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b|aws-iso-e|aws-iso-f|aws-eusc):(acps|bedrock-agentcore):[A-Za-z0-9-]{1,64}:[0-9]{12}:token-vault/[a-zA-Z0-9-.]+/paymentcredentialprovider/[a-zA-Z0-9-.]+ Shorthand Syntax: coinbaseCDP={credentialProviderArn=string},stripePrivy={credentialProviderArn=string} ... JSON Syntax: [ { "coinbaseCDP": { "credentialProviderArn": "string" }, "stripePrivy": { "credentialProviderArn": "string" } } ... ]
     /// </summary>
     [SecretValue]
     [CliOption("--credential-provider-configurations", GroupValues = true)]
     public IEnumerable<string>? CredentialProviderConfigurations { get; private init; }
 
     /// <summary>
-    /// A description of the payment connector. Constraints: o min: 1 o max: 4096 o pattern: [^\p{C}]*
+    /// A description of the payment connector. Constraints: • min: 1 • max: 4096 • pattern: [^\p{C}]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The provision mode for creating the payment connector. If you don't specify a value, the default is MANUAL . o MANUAL - You provide the credential provider configurations di- rectly. o QUICK_CREATE - The service orchestrates OAuth consent and provi- sions the credential provider for you. Possible values: o MANUAL o QUICK_CREATE
+    /// The provision mode for creating the payment connector. If you don't specify a value, the default is MANUAL . • MANUAL - You provide the credential provider configurations directly. • QUICK_CREATE - The service orchestrates OAuth consent and provisions the credential provider for you. Possible values: • MANUAL • QUICK_CREATE
     /// </summary>
     [CliOption("--provision-mode")]
     public AwsBedrockAgentcoreControlCreatePaymentConnectorProvisionMode? ProvisionMode { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previ- ous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

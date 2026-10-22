@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2 Deletes a build. This operation permanently deletes the build resource and any uploaded build files. Deleting a build does not affect the sta- tus of any active fleets using the build, but you can no longer create new fleets with the deleted build. To delete a build, specify the build ID. Learn more Upload a Custom Server Build All APIs by task See also: AWS API Documentation
+/// This API works with the following fleet types: EC2 Deletes a build. This operation permanently deletes the build resource and any uploaded build files. Deleting a build does not affect the status of any active fleets using the build, but you can no longer create new fleets with the deleted build. To delete a build, specify the build ID. Learn more Upload a Custom Server Build All APIs by task See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsGameliftDeleteBuildOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 Deletes a build. This operation permanently deletes the build resource and any uploaded build files. Deleting a build does not affect the sta- tus of any active fleets using the build, but you can no longer create new fleets with the deleted build. To delete a build, specify the build ID. Learn more Upload a Custom Server Build All APIs by task See also: AWS API Documentation
+    /// This API works with the following fleet types: EC2 Deletes a build. This operation permanently deletes the build resource and any uploaded build files. Deleting a build does not affect the status of any active fleets using the build, but you can no longer create new fleets with the deleted build. To delete a build, specify the build ID. Learn more Upload a Custom Server Build All APIs by task See also: AWS API Documentation
     /// </summary>
-    /// <param name="BuildId">A unique identifier for the build to delete. You can use either the build ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^(build-\S+|arn:.*:build\/build-\S+)$</param>
+    /// <param name="BuildId">A unique identifier for the build to delete. You can use either the build ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^(build-\S+|arn:.*:build\/build-\S+)$</param>
     public AwsGameliftDeleteBuildOptions(
         string BuildId
     )
@@ -56,7 +58,7 @@ public record AwsGameliftDeleteBuildOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the build to delete. You can use either the build ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^(build-\S+|arn:.*:build\/build-\S+)$
+    /// A unique identifier for the build to delete. You can use either the build ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^(build-\S+|arn:.*:build\/build-\S+)$
     /// </summary>
     [CliOption("--build-id")]
     public string? BuildId { get; private init; }

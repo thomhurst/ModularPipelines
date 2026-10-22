@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves information about a custom model deployment, including its status, configuration, and metadata. Use this operation to monitor the deployment status and retrieve details needed for inference requests. The following actions are related to the GetCustomModelDeployment oper- ation: o CreateCustomModelDeployment o ListCustomModelDeployments o DeleteCustomModelDeployment See also: AWS API Documentation
+/// Retrieves information about a custom model deployment, including its status, configuration, and metadata. Use this operation to monitor the deployment status and retrieve details needed for inference requests. The following actions are related to the GetCustomModelDeployment operation: • CreateCustomModelDeployment • ListCustomModelDeployments • DeleteCustomModelDeployment See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsBedrockGetCustomModelDeploymentOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves information about a custom model deployment, including its status, configuration, and metadata. Use this operation to monitor the deployment status and retrieve details needed for inference requests. The following actions are related to the GetCustomModelDeployment oper- ation: o CreateCustomModelDeployment o ListCustomModelDeployments o DeleteCustomModelDeployment See also: AWS API Documentation
+    /// Retrieves information about a custom model deployment, including its status, configuration, and metadata. Use this operation to monitor the deployment status and retrieve details needed for inference requests. The following actions are related to the GetCustomModelDeployment operation: • CreateCustomModelDeployment • ListCustomModelDeployments • DeleteCustomModelDeployment See also: AWS API Documentation
     /// </summary>
-    /// <param name="CustomModelDeploymentIdentifier">The Amazon Resource Name (ARN) or name of the custom model deploy- ment to retrieve information about. Constraints: o min: 1 o max: 93 o pattern: (arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:[a-z0-9-]{1,20}:[0-9]{12}:cus- tom-model-deployment/[a-z0-9]{12})|^([0-9a-zA-Z][_-]?){1,63}</param>
+    /// <param name="CustomModelDeploymentIdentifier">The Amazon Resource Name (ARN) or name of the custom model deployment to retrieve information about. Constraints: • min: 1 • max: 93 • pattern: (arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:[a-z0-9-]{1,20}:[0-9]{12}:custom-model-deployment/[a-z0-9]{12})|^([0-9a-zA-Z][_-]?){1,63}</param>
     public AwsBedrockGetCustomModelDeploymentOptions(
         string CustomModelDeploymentIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsBedrockGetCustomModelDeploymentOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) or name of the custom model deploy- ment to retrieve information about. Constraints: o min: 1 o max: 93 o pattern: (arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:[a-z0-9-]{1,20}:[0-9]{12}:cus- tom-model-deployment/[a-z0-9]{12})|^([0-9a-zA-Z][_-]?){1,63}
+    /// The Amazon Resource Name (ARN) or name of the custom model deployment to retrieve information about. Constraints: • min: 1 • max: 93 • pattern: (arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:[a-z0-9-]{1,20}:[0-9]{12}:custom-model-deployment/[a-z0-9]{12})|^([0-9a-zA-Z][_-]?){1,63}
     /// </summary>
     [CliOption("--custom-model-deployment-identifier")]
     public string? CustomModelDeploymentIdentifier { get; private init; }

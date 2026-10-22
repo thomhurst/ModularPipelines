@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsVoiceIdCreateDomainOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a domain that contains all Amazon Connect Voice ID data, such as speakers, fraudsters, customer audio, and voiceprints. Every domain is created with a default watchlist that fraudsters can be a part of. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the domain. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_-]*$</param>
-    /// <param name="ServerSideEncryptionConfiguration">The configuration, containing the KMS key identifier, to be used by Voice ID for the server-side encryption of your data. Refer to Amazon Connect Voice ID encryption at rest for more details on how the KMS key is used. KmsKeyId -&gt; (string) [required] The identifier of the KMS key to use to encrypt data stored by Voice ID. Voice ID doesn't support asymmetric customer managed keys. Constraints: o min: 1 o max: 2048 Shorthand Syntax: KmsKeyId=string JSON Syntax: { "KmsKeyId": "string" }</param>
+    /// <param name="Name">The name of the domain. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_-]*$</param>
+    /// <param name="ServerSideEncryptionConfiguration">The configuration, containing the KMS key identifier, to be used by Voice ID for the server-side encryption of your data. Refer to Amazon Connect Voice ID encryption at rest for more details on how the KMS key is used. KmsKeyId -&gt; (string) [required] The identifier of the KMS key to use to encrypt data stored by Voice ID. Voice ID doesn't support asymmetric customer managed keys. Constraints: • min: 1 • max: 2048 Shorthand Syntax: KmsKeyId=string JSON Syntax: { "KmsKeyId": "string" }</param>
     public AwsVoiceIdCreateDomainOptions(
         string Name,
         string ServerSideEncryptionConfiguration
@@ -61,32 +63,32 @@ public record AwsVoiceIdCreateDomainOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_-]*$
+    /// The name of the domain. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_-]*$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The configuration, containing the KMS key identifier, to be used by Voice ID for the server-side encryption of your data. Refer to Amazon Connect Voice ID encryption at rest for more details on how the KMS key is used. KmsKeyId -&gt; (string) [required] The identifier of the KMS key to use to encrypt data stored by Voice ID. Voice ID doesn't support asymmetric customer managed keys. Constraints: o min: 1 o max: 2048 Shorthand Syntax: KmsKeyId=string JSON Syntax: { "KmsKeyId": "string" }
+    /// The configuration, containing the KMS key identifier, to be used by Voice ID for the server-side encryption of your data. Refer to Amazon Connect Voice ID encryption at rest for more details on how the KMS key is used. KmsKeyId -&gt; (string) [required] The identifier of the KMS key to use to encrypt data stored by Voice ID. Voice ID doesn't support asymmetric customer managed keys. Constraints: • min: 1 • max: 2048 Shorthand Syntax: KmsKeyId=string JSON Syntax: { "KmsKeyId": "string" }
     /// </summary>
     [CliOption("--server-side-encryption-configuration")]
     public string? ServerSideEncryptionConfiguration { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A brief description of this domain. Constraints: o min: 1 o max: 1024 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$
+    /// A brief description of this domain. Constraints: • min: 1 • max: 1024 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A list of tags you want added to the domain. Constraints: o min: 0 o max: 200 (structure) The tags used to organize, track, or control access for this re- source. For example, { "tags": {"key1":"value1", "key2":"value2"} }. Key -&gt; (string) [required] The first part of a key:value pair that forms a tag associ- ated with a given resource. For example, in the tag 'Depart- ment':'Sales', the key is 'Department'. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The second part of a key:value pair that forms a tag associ- ated with a given resource. For example, in the tag 'Depart- ment':'Sales', the value is 'Sales'. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tags you want added to the domain. Constraints: • min: 0 • max: 200 (structure) The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }. Key -&gt; (string) [required] The first part of a key:value pair that forms a tag associated with a given resource. For example, in the tag 'Department':'Sales', the key is 'Department'. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The second part of a key:value pair that forms a tag associated with a given resource. For example, in the tag 'Department':'Sales', the value is 'Sales'. Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

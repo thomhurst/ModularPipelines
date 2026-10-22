@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBedrockAgentcoreControlDeleteResourcePolicyOptions : AwsOptions
     /// <summary>
     /// Deletes the resource-based policy for a specified resource. NOTE: This feature is currently available only for AgentCore Runtime and Gateway. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource for which to delete the resource policy. Constraints: o min: 20 o max: 1011</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource for which to delete the resource policy. Constraints: • min: 20 • max: 1011</param>
     public AwsBedrockAgentcoreControlDeleteResourcePolicyOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsBedrockAgentcoreControlDeleteResourcePolicyOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource for which to delete the resource policy. Constraints: o min: 20 o max: 1011
+    /// The Amazon Resource Name (ARN) of the resource for which to delete the resource policy. Constraints: • min: 20 • max: 1011
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Detaches the specified instances from a Lightsail load balancer. This operation waits until the instances are no longer needed before they are detached from the load balancer. The detach instances from load balancer operation supports tag-based access control via resource tags applied to the resource identified by load balancer name . For more information, see the Amazon Lightsail De- veloper Guide . See also: AWS API Documentation
+/// Detaches the specified instances from a Lightsail load balancer. This operation waits until the instances are no longer needed before they are detached from the load balancer. The detach instances from load balancer operation supports tag-based access control via resource tags applied to the resource identified by load balancer name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsLightsailDetachInstancesFromLoadBalancerOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Detaches the specified instances from a Lightsail load balancer. This operation waits until the instances are no longer needed before they are detached from the load balancer. The detach instances from load balancer operation supports tag-based access control via resource tags applied to the resource identified by load balancer name . For more information, see the Amazon Lightsail De- veloper Guide . See also: AWS API Documentation
+    /// Detaches the specified instances from a Lightsail load balancer. This operation waits until the instances are no longer needed before they are detached from the load balancer. The detach instances from load balancer operation supports tag-based access control via resource tags applied to the resource identified by load balancer name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="LoadBalancerName">The name of the Lightsail load balancer. Constraints: o pattern: \w[\w\-]*\w</param>
-    /// <param name="InstanceNames">An array of strings containing the names of the instances you want to detach from the load balancer. (string) Constraints: o pattern: \w[\w\-]*\w Syntax: "string" "string" ...</param>
+    /// <param name="LoadBalancerName">The name of the Lightsail load balancer. Constraints: • pattern: \w[\w\-]*\w</param>
+    /// <param name="InstanceNames">An array of strings containing the names of the instances you want to detach from the load balancer. (string) Constraints: • pattern: \w[\w\-]*\w Syntax: "string" "string" ...</param>
     public AwsLightsailDetachInstancesFromLoadBalancerOptions(
         string LoadBalancerName,
         IEnumerable<string> InstanceNames
@@ -71,13 +73,13 @@ public record AwsLightsailDetachInstancesFromLoadBalancerOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Lightsail load balancer. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the Lightsail load balancer. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--load-balancer-name")]
     public string? LoadBalancerName { get; private init; }
 
     /// <summary>
-    /// An array of strings containing the names of the instances you want to detach from the load balancer. (string) Constraints: o pattern: \w[\w\-]*\w Syntax: "string" "string" ...
+    /// An array of strings containing the names of the instances you want to detach from the load balancer. (string) Constraints: • pattern: \w[\w\-]*\w Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--instance-names", GroupValues = true)]
     public IEnumerable<string>? InstanceNames { get; private init; }

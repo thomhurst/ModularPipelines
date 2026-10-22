@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +30,8 @@ public record AwsSsmListDocumentMetadataHistoryOptions : AwsOptions, IValidatabl
     /// <summary>
     /// WARNING: Amazon Web Services Systems Manager Change Manager is no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see Amazon Web Services Systems Manager Change Manager availability change . Information about approval reviews for a version of a change template in Change Manager. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the change template. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{3,128}$</param>
-    /// <param name="Metadata">The type of data for which details are being requested. Currently, the only supported value is DocumentReviews . Possible values: o DocumentReviews</param>
+    /// <param name="Name">The name of the change template. Constraints: • pattern: ^[a-zA-Z0-9_\-.]{3,128}$</param>
+    /// <param name="Metadata">The type of data for which details are being requested. Currently, the only supported value is DocumentReviews . Possible values: • DocumentReviews</param>
     public AwsSsmListDocumentMetadataHistoryOptions(
         string Name,
         string Metadata
@@ -61,19 +63,19 @@ public record AwsSsmListDocumentMetadataHistoryOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the change template. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{3,128}$
+    /// The name of the change template. Constraints: • pattern: ^[a-zA-Z0-9_\-.]{3,128}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The type of data for which details are being requested. Currently, the only supported value is DocumentReviews . Possible values: o DocumentReviews
+    /// The type of data for which details are being requested. Currently, the only supported value is DocumentReviews . Possible values: • DocumentReviews
     /// </summary>
     [CliOption("--metadata")]
     public string? Metadata { get; private init; }
 
     /// <summary>
-    /// The version of the change template. Constraints: o pattern: ([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)
+    /// The version of the change template. Constraints: • pattern: ([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)
     /// </summary>
     [CliOption("--document-version")]
     public string? DocumentVersion { get; set; }
@@ -86,7 +88,7 @@ public record AwsSsmListDocumentMetadataHistoryOptions : AwsOptions, IValidatabl
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results. Constraints: o min: 1 o max: 50
+    /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

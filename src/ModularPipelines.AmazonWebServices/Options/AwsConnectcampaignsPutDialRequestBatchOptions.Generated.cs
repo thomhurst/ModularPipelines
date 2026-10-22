@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates dials requests for the specified campaign Amazon Connect ac- count. This API is idempotent. See also: AWS API Documentation
+/// Creates dials requests for the specified campaign Amazon Connect account. This API is idempotent. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsConnectcampaignsPutDialRequestBatchOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates dials requests for the specified campaign Amazon Connect ac- count. This API is idempotent. See also: AWS API Documentation
+    /// Creates dials requests for the specified campaign Amazon Connect account. This API is idempotent. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">Identifier representing a Campaign Constraints: o min: 0 o max: 256 o pattern: [\S]*</param>
-    /// <param name="DialRequests">A list of dial requests. Constraints: o min: 1 o max: 25 (structure) A dial request for a campaign. clientToken -&gt; (string) [required] Client provided parameter used for idempotency. Its value must be unique for each request. Constraints: o min: 0 o max: 200 o pattern: [a-zA-Z0-9_\-.]* phoneNumber -&gt; (string) [required] The phone number of the customer, in E.164 format. Constraints: o min: 0 o max: 20 o pattern: [\d\-+]* expirationTime -&gt; (timestamp) [required] Timestamp with no UTC offset or timezone attributes -&gt; (map) [required] A custom key-value pair using an attribute map. The attrib- utes are standard Amazon Connect attributes, and can be ac- cessed in contact flows just like any other contact attrib- utes. key -&gt; (string) The key of the attribute. Attribute keys can include only alphanumeric, dash, and underscore characters. Constraints: o min: 0 o max: 32767 o pattern: [a-zA-Z0-9\-_]+ value -&gt; (string) The value of the attribute. Constraints: o min: 0 o max: 32767 o pattern: .* Shorthand Syntax: clientToken=string,phoneNumber=string,expirationTime=timestamp,attributes={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "clientToken": "string", "phoneNumber": "string", "expirationTime": timestamp, "attributes": {"string": "string" ...} } ... ]</param>
+    /// <param name="Id">Identifier representing a Campaign Constraints: • min: 0 • max: 256 • pattern: [\S]*</param>
+    /// <param name="DialRequests">A list of dial requests. Constraints: • min: 1 • max: 25 (structure) A dial request for a campaign. clientToken -&gt; (string) [required] Client provided parameter used for idempotency. Its value must be unique for each request. Constraints: • min: 0 • max: 200 • pattern: [a-zA-Z0-9_\-.]* phoneNumber -&gt; (string) [required] The phone number of the customer, in E.164 format. Constraints: • min: 0 • max: 20 • pattern: [\d\-+]* expirationTime -&gt; (timestamp) [required] Timestamp with no UTC offset or timezone attributes -&gt; (map) [required] A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes. key -&gt; (string) The key of the attribute. Attribute keys can include only alphanumeric, dash, and underscore characters. Constraints: • min: 0 • max: 32767 • pattern: [a-zA-Z0-9\-_]+ value -&gt; (string) The value of the attribute. Constraints: • min: 0 • max: 32767 • pattern: .* Shorthand Syntax: clientToken=string,phoneNumber=string,expirationTime=timestamp,attributes={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "clientToken": "string", "phoneNumber": "string", "expirationTime": timestamp, "attributes": {"string": "string" ...} } ... ]</param>
     public AwsConnectcampaignsPutDialRequestBatchOptions(
         string Id,
         IEnumerable<string> DialRequests
@@ -71,13 +73,13 @@ public record AwsConnectcampaignsPutDialRequestBatchOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifier representing a Campaign Constraints: o min: 0 o max: 256 o pattern: [\S]*
+    /// Identifier representing a Campaign Constraints: • min: 0 • max: 256 • pattern: [\S]*
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// A list of dial requests. Constraints: o min: 1 o max: 25 (structure) A dial request for a campaign. clientToken -&gt; (string) [required] Client provided parameter used for idempotency. Its value must be unique for each request. Constraints: o min: 0 o max: 200 o pattern: [a-zA-Z0-9_\-.]* phoneNumber -&gt; (string) [required] The phone number of the customer, in E.164 format. Constraints: o min: 0 o max: 20 o pattern: [\d\-+]* expirationTime -&gt; (timestamp) [required] Timestamp with no UTC offset or timezone attributes -&gt; (map) [required] A custom key-value pair using an attribute map. The attrib- utes are standard Amazon Connect attributes, and can be ac- cessed in contact flows just like any other contact attrib- utes. key -&gt; (string) The key of the attribute. Attribute keys can include only alphanumeric, dash, and underscore characters. Constraints: o min: 0 o max: 32767 o pattern: [a-zA-Z0-9\-_]+ value -&gt; (string) The value of the attribute. Constraints: o min: 0 o max: 32767 o pattern: .* Shorthand Syntax: clientToken=string,phoneNumber=string,expirationTime=timestamp,attributes={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "clientToken": "string", "phoneNumber": "string", "expirationTime": timestamp, "attributes": {"string": "string" ...} } ... ]
+    /// A list of dial requests. Constraints: • min: 1 • max: 25 (structure) A dial request for a campaign. clientToken -&gt; (string) [required] Client provided parameter used for idempotency. Its value must be unique for each request. Constraints: • min: 0 • max: 200 • pattern: [a-zA-Z0-9_\-.]* phoneNumber -&gt; (string) [required] The phone number of the customer, in E.164 format. Constraints: • min: 0 • max: 20 • pattern: [\d\-+]* expirationTime -&gt; (timestamp) [required] Timestamp with no UTC offset or timezone attributes -&gt; (map) [required] A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes. key -&gt; (string) The key of the attribute. Attribute keys can include only alphanumeric, dash, and underscore characters. Constraints: • min: 0 • max: 32767 • pattern: [a-zA-Z0-9\-_]+ value -&gt; (string) The value of the attribute. Constraints: • min: 0 • max: 32767 • pattern: .* Shorthand Syntax: clientToken=string,phoneNumber=string,expirationTime=timestamp,attributes={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "clientToken": "string", "phoneNumber": "string", "expirationTime": timestamp, "attributes": {"string": "string" ...} } ... ]
     /// </summary>
     [CliOption("--dial-requests", GroupValues = true)]
     public IEnumerable<string>? DialRequests { get; private init; }

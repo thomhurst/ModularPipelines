@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSyntheticsStartCanaryOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Use this operation to run a canary that has already been created. The frequency of the canary runs is determined by the value of the canary's Schedule . To see a canary's schedule, use GetCanary . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the canary that you want to run. To find canary names, use DescribeCanaries . Constraints: o min: 1 o max: 255 o pattern: ^[0-9a-z_\-]+$</param>
+    /// <param name="Name">The name of the canary that you want to run. To find canary names, use DescribeCanaries . Constraints: • min: 1 • max: 255 • pattern: ^[0-9a-z_\-]+$</param>
     public AwsSyntheticsStartCanaryOptions(
         string Name
     )
@@ -56,7 +58,7 @@ public record AwsSyntheticsStartCanaryOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the canary that you want to run. To find canary names, use DescribeCanaries . Constraints: o min: 1 o max: 255 o pattern: ^[0-9a-z_\-]+$
+    /// The name of the canary that you want to run. To find canary names, use DescribeCanaries . Constraints: • min: 1 • max: 255 • pattern: ^[0-9a-z_\-]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

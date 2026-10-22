@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the attributes of the specified link aggregation group (LAG). You can update the following LAG attributes: o The name of the LAG. o The value for the minimum number of connections that must be opera- tional for the LAG itself to be operational. o The LAG's MACsec encryption mode. Amazon Web Services assigns this value to each connection which is part of the LAG. o The tags NOTE: If you adjust the threshold value for the minimum number of opera- tional connections, ensure that the new val...
+/// Updates the attributes of the specified link aggregation group (LAG). You can update the following LAG attributes: • The name of the LAG. • The value for the minimum number of connections that must be operational for the LAG itself to be operational. • The LAG's MACsec encryption mode. Amazon Web Services assigns this value to each connection which is part of the LAG. • The tags NOTE: If you adjust the threshold value for the minimum number of operational connections, ensure that the new value d...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsDirectconnectUpdateLagOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the attributes of the specified link aggregation group (LAG). You can update the following LAG attributes: o The name of the LAG. o The value for the minimum number of connections that must be opera- tional for the LAG itself to be operational. o The LAG's MACsec encryption mode. Amazon Web Services assigns this value to each connection which is part of the LAG. o The tags NOTE: If you adjust the threshold value for the minimum number of opera- tional connections, ensure that the new val...
+    /// Updates the attributes of the specified link aggregation group (LAG). You can update the following LAG attributes: • The name of the LAG. • The value for the minimum number of connections that must be operational for the LAG itself to be operational. • The LAG's MACsec encryption mode. Amazon Web Services assigns this value to each connection which is part of the LAG. • The tags NOTE: If you adjust the threshold value for the minimum number of operational connections, ensure that the new value d...
     /// </summary>
     /// <param name="LagId">The ID of the LAG.</param>
     public AwsDirectconnectUpdateLagOptions(

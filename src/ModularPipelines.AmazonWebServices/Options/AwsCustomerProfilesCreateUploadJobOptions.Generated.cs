@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,10 +29,10 @@ public record AwsCustomerProfilesCreateUploadJobOptions : AwsOptions, IValidatab
     /// <summary>
     /// Creates an Upload job to ingest data for segment imports. The metadata is created for the job with the provided field mapping and unique key. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The unique name of the domain. Domain should be exists for the up- load job to be created. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="DisplayName">The unique name of the upload job. Could be a file name to identify the upload job. Constraints: o min: 1 o max: 255</param>
-    /// <param name="Fields">The mapping between CSV Columns and Profile Object attributes. A map of the name and ObjectType field. key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_.-]+$ value -&gt; (structure) Represents a field in a ProfileObjectType. Source -&gt; (string) A field of a ProfileObject. For example: _source.FirstName, where _source is a ProfileObjectType of a Zendesk user and FirstName is a field in that ObjectType. Constraints: o min: 1 o max: 1000 Target -&gt; (string) The location of the data in the standard ProfileObject model. For example: _profile.Address.PostalCode. Do not include sen- sitive or personally identifiable information (PII) in the target field name. Constraints: o min: 1 o max: 1000 ContentType -&gt; (string) The content type of the field. Used for determining equality when searching. Possible values: o STRING o NUMBER o PHONE_NUMBER o EMAIL_ADDRESS o NAME Shorthand Syntax: KeyName1={Source=string,Target=string,ContentType=string},KeyName2={Source=string,Target=string,ContentType=string} JSON Syntax: {"string": { "Source": "string", "Target": "string", "ContentType": "STRING"|"NUMBER"|"PHONE_NUMBER"|"EMAIL_ADDRESS"|"NAME" } ...}</param>
-    /// <param name="UniqueKey">The unique key columns for de-duping the profiles used to map data to the profile. Constraints: o min: 1 o max: 1000</param>
+    /// <param name="DomainName">The unique name of the domain. Domain should be exists for the upload job to be created. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="DisplayName">The unique name of the upload job. Could be a file name to identify the upload job. Constraints: • min: 1 • max: 255</param>
+    /// <param name="Fields">The mapping between CSV Columns and Profile Object attributes. A map of the name and ObjectType field. key -&gt; (string) Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_.-]+$ value -&gt; (structure) Represents a field in a ProfileObjectType. Source -&gt; (string) A field of a ProfileObject. For example: _source.FirstName, where _source is a ProfileObjectType of a Zendesk user and FirstName is a field in that ObjectType. Constraints: • min: 1 • max: 1000 Target -&gt; (string) The location of the data in the standard ProfileObject model. For example: _profile.Address.PostalCode. Do not include sensitive or personally identifiable information (PII) in the target field name. Constraints: • min: 1 • max: 1000 ContentType -&gt; (string) The content type of the field. Used for determining equality when searching. Possible values: • STRING • NUMBER • PHONE_NUMBER • EMAIL_ADDRESS • NAME Shorthand Syntax: KeyName1={Source=string,Target=string,ContentType=string},KeyName2={Source=string,Target=string,ContentType=string} JSON Syntax: {"string": { "Source": "string", "Target": "string", "ContentType": "STRING"|"NUMBER"|"PHONE_NUMBER"|"EMAIL_ADDRESS"|"NAME" } ...}</param>
+    /// <param name="UniqueKey">The unique key columns for de-duping the profiles used to map data to the profile. Constraints: • min: 1 • max: 1000</param>
     public AwsCustomerProfilesCreateUploadJobOptions(
         string DomainName,
         string DisplayName,
@@ -80,31 +81,31 @@ public record AwsCustomerProfilesCreateUploadJobOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the domain. Domain should be exists for the up- load job to be created. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain. Domain should be exists for the upload job to be created. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The unique name of the upload job. Could be a file name to identify the upload job. Constraints: o min: 1 o max: 255
+    /// The unique name of the upload job. Could be a file name to identify the upload job. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; private init; }
 
     /// <summary>
-    /// The mapping between CSV Columns and Profile Object attributes. A map of the name and ObjectType field. key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_.-]+$ value -&gt; (structure) Represents a field in a ProfileObjectType. Source -&gt; (string) A field of a ProfileObject. For example: _source.FirstName, where _source is a ProfileObjectType of a Zendesk user and FirstName is a field in that ObjectType. Constraints: o min: 1 o max: 1000 Target -&gt; (string) The location of the data in the standard ProfileObject model. For example: _profile.Address.PostalCode. Do not include sen- sitive or personally identifiable information (PII) in the target field name. Constraints: o min: 1 o max: 1000 ContentType -&gt; (string) The content type of the field. Used for determining equality when searching. Possible values: o STRING o NUMBER o PHONE_NUMBER o EMAIL_ADDRESS o NAME Shorthand Syntax: KeyName1={Source=string,Target=string,ContentType=string},KeyName2={Source=string,Target=string,ContentType=string} JSON Syntax: {"string": { "Source": "string", "Target": "string", "ContentType": "STRING"|"NUMBER"|"PHONE_NUMBER"|"EMAIL_ADDRESS"|"NAME" } ...}
+    /// The mapping between CSV Columns and Profile Object attributes. A map of the name and ObjectType field. key -&gt; (string) Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_.-]+$ value -&gt; (structure) Represents a field in a ProfileObjectType. Source -&gt; (string) A field of a ProfileObject. For example: _source.FirstName, where _source is a ProfileObjectType of a Zendesk user and FirstName is a field in that ObjectType. Constraints: • min: 1 • max: 1000 Target -&gt; (string) The location of the data in the standard ProfileObject model. For example: _profile.Address.PostalCode. Do not include sensitive or personally identifiable information (PII) in the target field name. Constraints: • min: 1 • max: 1000 ContentType -&gt; (string) The content type of the field. Used for determining equality when searching. Possible values: • STRING • NUMBER • PHONE_NUMBER • EMAIL_ADDRESS • NAME Shorthand Syntax: KeyName1={Source=string,Target=string,ContentType=string},KeyName2={Source=string,Target=string,ContentType=string} JSON Syntax: {"string": { "Source": "string", "Target": "string", "ContentType": "STRING"|"NUMBER"|"PHONE_NUMBER"|"EMAIL_ADDRESS"|"NAME" } ...}
     /// </summary>
     [CliOption("--fields", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Fields { get; private init; }
 
     /// <summary>
-    /// The unique key columns for de-duping the profiles used to map data to the profile. Constraints: o min: 1 o max: 1000
+    /// The unique key columns for de-duping the profiles used to map data to the profile. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--unique-key")]
     public string? UniqueKey { get; private init; }
 
     /// <summary>
-    /// The expiry duration for the profiles ingested with the job. If not provided, the system default of 2 weeks is used. Constraints: o min: 1 o max: 1098
+    /// The expiry duration for the profiles ingested with the job. If not provided, the system default of 2 weeks is used. Constraints: • min: 1 • max: 1098
     /// </summary>
     [CliOption("--data-expiry")]
     public int? DataExpiry { get; set; }

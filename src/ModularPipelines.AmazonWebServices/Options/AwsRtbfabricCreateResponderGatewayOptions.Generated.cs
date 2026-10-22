@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -30,11 +31,11 @@ public record AwsRtbfabricCreateResponderGatewayOptions : AwsOptions, IValidatab
     /// <summary>
     /// Creates a responder gateway. WARNING: A domain name or managed endpoint is required. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VpcId">The unique identifier of the Virtual Private Cloud (VPC). Constraints: o min: 12 o max: 21 o pattern: vpc-[a-f0-9]{8,17}</param>
-    /// <param name="SubnetIds">Unique identifiers of the subnets. A service quota for your account sets the number of Availability Zones that your subnets can span. By default, this quota is one Availability Zone. To span more Avail- ability Zones, request a quota increase. Constraints: o min: 1 (string) Constraints: o min: 15 o max: 24 o pattern: subnet-\w{8,17} Syntax: "string" "string" ...</param>
-    /// <param name="SecurityGroupIds">The unique identifiers of the security groups. Constraints: o min: 1 (string) Constraints: o min: 11 o max: 43 o pattern: sg-[0-9a-f]{8,40} Syntax: "string" "string" ...</param>
-    /// <param name="Port">The networking port to use. Constraints: o min: 1 o max: 65535</param>
-    /// <param name="Protocol">The networking protocol to use. Possible values: o HTTP o HTTPS</param>
+    /// <param name="VpcId">The unique identifier of the Virtual Private Cloud (VPC). Constraints: • min: 12 • max: 21 • pattern: vpc-[a-f0-9]{8,17}</param>
+    /// <param name="SubnetIds">Unique identifiers of the subnets. A service quota for your account sets the number of Availability Zones that your subnets can span. By default, this quota is one Availability Zone. To span more Availability Zones, request a quota increase. Constraints: • min: 1 (string) Constraints: • min: 15 • max: 24 • pattern: subnet-\w{8,17} Syntax: "string" "string" ...</param>
+    /// <param name="SecurityGroupIds">The unique identifiers of the security groups. Constraints: • min: 1 (string) Constraints: • min: 11 • max: 43 • pattern: sg-[0-9a-f]{8,40} Syntax: "string" "string" ...</param>
+    /// <param name="Port">The networking port to use. Constraints: • min: 1 • max: 65535</param>
+    /// <param name="Protocol">The networking protocol to use. Possible values: • HTTP • HTTPS</param>
     public AwsRtbfabricCreateResponderGatewayOptions(
         string VpcId,
         IEnumerable<string> SubnetIds,
@@ -95,86 +96,86 @@ public record AwsRtbfabricCreateResponderGatewayOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Virtual Private Cloud (VPC). Constraints: o min: 12 o max: 21 o pattern: vpc-[a-f0-9]{8,17}
+    /// The unique identifier of the Virtual Private Cloud (VPC). Constraints: • min: 12 • max: 21 • pattern: vpc-[a-f0-9]{8,17}
     /// </summary>
     [CliOption("--vpc-id")]
     public string? VpcId { get; private init; }
 
     /// <summary>
-    /// Unique identifiers of the subnets. A service quota for your account sets the number of Availability Zones that your subnets can span. By default, this quota is one Availability Zone. To span more Avail- ability Zones, request a quota increase. Constraints: o min: 1 (string) Constraints: o min: 15 o max: 24 o pattern: subnet-\w{8,17} Syntax: "string" "string" ...
+    /// Unique identifiers of the subnets. A service quota for your account sets the number of Availability Zones that your subnets can span. By default, this quota is one Availability Zone. To span more Availability Zones, request a quota increase. Constraints: • min: 1 (string) Constraints: • min: 15 • max: 24 • pattern: subnet-\w{8,17} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; private init; }
 
     /// <summary>
-    /// The unique identifiers of the security groups. Constraints: o min: 1 (string) Constraints: o min: 11 o max: 43 o pattern: sg-[0-9a-f]{8,40} Syntax: "string" "string" ...
+    /// The unique identifiers of the security groups. Constraints: • min: 1 (string) Constraints: • min: 11 • max: 43 • pattern: sg-[0-9a-f]{8,40} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; private init; }
 
     /// <summary>
-    /// The networking port to use. Constraints: o min: 1 o max: 65535
+    /// The networking port to use. Constraints: • min: 1 • max: 65535
     /// </summary>
     [CliOption("--port")]
     public int? Port { get; private init; }
 
     /// <summary>
-    /// The networking protocol to use. Possible values: o HTTP o HTTPS
+    /// The networking protocol to use. Possible values: • HTTP • HTTPS
     /// </summary>
     [CliOption("--protocol")]
     public AwsRtbfabricCreateResponderGatewayProtocol? Protocol { get; private init; }
 
     /// <summary>
-    /// The domain name for the responder gateway. Constraints: o min: 1 o max: 255 o pattern: (?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)(?:\.(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?))+
+    /// The domain name for the responder gateway. Constraints: • min: 1 • max: 255 • pattern: (?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)(?:\.(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?))+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; set; }
 
     /// <summary>
-    /// Listener configuration for the protocols (HTTP, HTTPS, or both) ac- cepted by the gateway. protocols -&gt; (list) [required] The protocol for connections from clients to the gateway Constraints: o min: 1 o max: 2 (string) Possible values: o HTTP o HTTPS Shorthand Syntax: protocols=string,string JSON Syntax: { "protocols": ["HTTP"|"HTTPS", ...] }
+    /// Listener configuration for the protocols (HTTP, HTTPS, or both) accepted by the gateway. protocols -&gt; (list) [required] The protocol for connections from clients to the gateway Constraints: • min: 1 • max: 2 (string) Possible values: • HTTP • HTTPS Shorthand Syntax: protocols=string,string JSON Syntax: { "protocols": ["HTTP"|"HTTPS", ...] }
     /// </summary>
     [CliOption("--listener-config")]
     public string? ListenerConfig { get; set; }
 
     /// <summary>
-    /// The configuration of the trust store. certificateAuthorityCertificates -&gt; (list) [required] The certificate authority certificate. Constraints: o min: 0 o max: 2 (string) Constraints: o min: 1 o max: 2097152 Shorthand Syntax: certificateAuthorityCertificates=string,string JSON Syntax: { "certificateAuthorityCertificates": ["string", ...] }
+    /// The configuration of the trust store. certificateAuthorityCertificates -&gt; (list) [required] The certificate authority certificate. Constraints: • min: 0 • max: 2 (string) Constraints: • min: 1 • max: 2097152 Shorthand Syntax: certificateAuthorityCertificates=string,string JSON Syntax: { "certificateAuthorityCertificates": ["string", ...] }
     /// </summary>
     [CliOption("--trust-store-configuration")]
     public string? TrustStoreConfiguration { get; set; }
 
     /// <summary>
-    /// The configuration for the managed endpoint. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: autoScalingGroups, eksEndpoints. autoScalingGroups -&gt; (structure) Describes the configuration of an auto scaling group. autoScalingGroupNames -&gt; (list) [required] The names of the auto scaling group. (string) Constraints: o min: 1 o max: 255 roleArn -&gt; (string) [required] The role ARN of the auto scaling group. Constraints: o pattern: arn:aws:iam::[0-9]{12}:role/.{1,2048} healthCheckConfig -&gt; (structure) The health check configuration for the Auto Scaling group managed endpoint. port -&gt; (integer) [required] The port to use for health check probes. Valid range is 80 to 65535. Constraints: o min: 80 o max: 65535 path -&gt; (string) [required] The destination path for the health check request. Must start with / . Constraints: o min: 1 o max: 128 o pattern: /.* protocol -&gt; (string) The protocol to use for health check probes. Possible values: o HTTP o HTTPS timeoutMs -&gt; (integer) The timeout for each health check probe, in milliseconds. Valid range is 100 to 5000. Constraints: o min: 100 o max: 5000 intervalSeconds -&gt; (integer) The interval between health check probes, in seconds. Valid range is 5 to 60. Constraints: o min: 5 o max: 60 statusCodeMatcher -&gt; (string) The expected HTTP status code or status code pattern from healthy instances. Supports a single code (for example, 200 ), a range (for example, 200-299 ), or a comma-sepa- rated list (for example, 200,204 ). Constraints: o min: 1 o max: 64 healthyThresholdCount -&gt; (integer) The number of consecutive successful health checks re- quired before an instance is considered healthy. Valid range is 2 to 10. Constraints: o min: 2 o max: 10 unhealthyThresholdCount -&gt; (integer) The number of consecutive failed health checks required before an instance is considered unhealthy. Valid range is 2 to 10. Constraints: o min: 2 o max: 10 eksEndpoints -&gt; (structure) Describes the configuration of an Amazon Elastic Kubernetes Ser- vice endpoint. endpointsResourceName -&gt; (string) [required] The name of the endpoint resource. Constraints: o min: 2 o max: 63 o pattern: [A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9] endpointsResourceNamespace -&gt; (string) [required] The namespace of the endpoint resource. Constraints: o min: 2 o max: 63 o pattern: [A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9] clusterApiServerEndpointUri -&gt; (string) [required] The URI of the cluster API server endpoint. Constraints: o min: 0 o max: 255 o pattern: (https|http)://(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)(?:\.(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?))+ clusterApiServerCaCertificateChain -&gt; (string) [required] The CA certificate chain of the cluster API server. Constraints: o min: 1 o max: 2097152 clusterName -&gt; (string) [required] The name of the cluster. Constraints: o min: 2 o max: 63 o pattern: [A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9] roleArn -&gt; (string) [required] The role ARN for the cluster. Constraints: o pattern: arn:aws:iam::[0-9]{12}:role/.{1,2048} Shorthand Syntax: autoScalingGroups={autoScalingGroupNames=[string,string],roleArn=string,healthCheckConfig={port=integer,path=string,protocol=string,timeoutMs=integer,intervalSeconds=integer,statusCodeMatcher=string,healthyThresholdCount=integer,unhealthyThresholdCount=integer}},eksEndpoints={endpointsResourceName=string,endpointsResourceNamespace=string,clusterApiServerEndpointUri=string,clusterApiServerCaCertificateChain=string,clusterName=string,roleArn=string} JSON Syntax: { "autoScalingGroups": { "autoScalingGroupNames": ["string", ...], "roleArn": "string", "healthCheckConfig": { "port": integer, "path": "string", "protocol": "HTTP"|"HTTPS", "timeoutMs": integer, "intervalSeconds": integer, "statusCodeMatcher": "string", "healthyThresholdCount": integer, "unhealthyThresholdCount": integer } }, "eksEndpoints": { "endpointsResourceName": "string", "endpointsResourceNamespace": "string", "clusterApiServerEndpointUri": "string", "clusterApiServerCaCertificateChain": "string", "clusterName": "string", "roleArn": "string" } }
+    /// The configuration for the managed endpoint. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: autoScalingGroups, eksEndpoints. autoScalingGroups -&gt; (structure) Describes the configuration of an auto scaling group. autoScalingGroupNames -&gt; (list) [required] The names of the auto scaling group. (string) Constraints: • min: 1 • max: 255 roleArn -&gt; (string) [required] The role ARN of the auto scaling group. Constraints: • pattern: arn:aws:iam::[0-9]{12}:role/.{1,2048} healthCheckConfig -&gt; (structure) The health check configuration for the Auto Scaling group managed endpoint. port -&gt; (integer) [required] The port to use for health check probes. Valid range is 80 to 65535. Constraints: • min: 80 • max: 65535 path -&gt; (string) [required] The destination path for the health check request. Must start with / . Constraints: • min: 1 • max: 128 • pattern: /.* protocol -&gt; (string) The protocol to use for health check probes. Possible values: • HTTP • HTTPS timeoutMs -&gt; (integer) The timeout for each health check probe, in milliseconds. Valid range is 100 to 5000. Constraints: • min: 100 • max: 5000 intervalSeconds -&gt; (integer) The interval between health check probes, in seconds. Valid range is 5 to 60. Constraints: • min: 5 • max: 60 statusCodeMatcher -&gt; (string) The expected HTTP status code or status code pattern from healthy instances. Supports a single code (for example, 200 ), a range (for example, 200-299 ), or a comma-separated list (for example, 200,204 ). Constraints: • min: 1 • max: 64 healthyThresholdCount -&gt; (integer) The number of consecutive successful health checks required before an instance is considered healthy. Valid range is 2 to 10. Constraints: • min: 2 • max: 10 unhealthyThresholdCount -&gt; (integer) The number of consecutive failed health checks required before an instance is considered unhealthy. Valid range is 2 to 10. Constraints: • min: 2 • max: 10 eksEndpoints -&gt; (structure) Describes the configuration of an Amazon Elastic Kubernetes Service endpoint. endpointsResourceName -&gt; (string) [required] The name of the endpoint resource. Constraints: • min: 2 • max: 63 • pattern: [A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9] endpointsResourceNamespace -&gt; (string) [required] The namespace of the endpoint resource. Constraints: • min: 2 • max: 63 • pattern: [A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9] clusterApiServerEndpointUri -&gt; (string) [required] The URI of the cluster API server endpoint. Constraints: • min: 0 • max: 255 • pattern: (https|http)://(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)(?:\.(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?))+ clusterApiServerCaCertificateChain -&gt; (string) [required] The CA certificate chain of the cluster API server. Constraints: • min: 1 • max: 2097152 clusterName -&gt; (string) [required] The name of the cluster. Constraints: • min: 2 • max: 63 • pattern: [A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9] roleArn -&gt; (string) [required] The role ARN for the cluster. Constraints: • pattern: arn:aws:iam::[0-9]{12}:role/.{1,2048} Shorthand Syntax: autoScalingGroups={autoScalingGroupNames=[string,string],roleArn=string,healthCheckConfig={port=integer,path=string,protocol=string,timeoutMs=integer,intervalSeconds=integer,statusCodeMatcher=string,healthyThresholdCount=integer,unhealthyThresholdCount=integer}},eksEndpoints={endpointsResourceName=string,endpointsResourceNamespace=string,clusterApiServerEndpointUri=string,clusterApiServerCaCertificateChain=string,clusterName=string,roleArn=string} JSON Syntax: { "autoScalingGroups": { "autoScalingGroupNames": ["string", ...], "roleArn": "string", "healthCheckConfig": { "port": integer, "path": "string", "protocol": "HTTP"|"HTTPS", "timeoutMs": integer, "intervalSeconds": integer, "statusCodeMatcher": "string", "healthyThresholdCount": integer, "unhealthyThresholdCount": integer } }, "eksEndpoints": { "endpointsResourceName": "string", "endpointsResourceNamespace": "string", "clusterApiServerEndpointUri": "string", "clusterApiServerCaCertificateChain": "string", "clusterName": "string", "roleArn": "string" } }
     /// </summary>
     [CliOption("--managed-endpoint-configuration")]
     public string? ManagedEndpointConfiguration { get; set; }
 
     /// <summary>
-    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error.
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken , but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// An optional description for the responder gateway. Constraints: o min: 0 o max: 255 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*)
+    /// An optional description for the responder gateway. Constraints: • min: 0 • max: 255 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*)
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A map of the key-value pairs of the tag or tags to assign to the re- source. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (resourceArn|internalId|[a-zA-Z0-9+\-=._:/@]+) value -&gt; (string) Constraints: o min: 0 o max: 1600 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of the key-value pairs of the tag or tags to assign to the resource. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: (resourceArn|internalId|[a-zA-Z0-9+\-=._:/@]+) value -&gt; (string) Constraints: • min: 0 • max: 1600 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The type of gateway. Valid values are EXTERNAL or INTERNAL . Possible values: o EXTERNAL o INTERNAL
+    /// The type of gateway. Valid values are EXTERNAL or INTERNAL . Possible values: • EXTERNAL • INTERNAL
     /// </summary>
     [CliOption("--gateway-type")]
     public AwsRtbfabricCreateResponderGatewayGatewayType? GatewayType { get; set; }
 
     /// <summary>
-    /// The client routing policy of the gateway. This policy controls which Availability Zones RTB Fabric uses to reach the gateway for the re- quester gateways that send traffic to it. Valid values are the fol- lowing: o AVAILABILITY_ZONE_AFFINITY : RTB Fabric routes each requester's traffic to gateway capacity in the requester's own Availability Zone when the gateway has capacity available there. Otherwise, RTB Fabric routes the traffic to gateway capacity in the other Avail- ability Zones of the gateway. o ANY_AVAILABILITY_ZONE : RTB Fabric routes each requester's traffic to gateway capacity in every Availability Zone that the subnets of the gateway span. The Availability Zone that the requester is in does not change this. If you don't specify a value, RTB Fabric uses AVAILABIL- ITY_ZONE_AFFINITY . To get the behavior of ANY_AVAILABILITY_ZONE , create the gateway with subnets in more than one Availability Zone. RTB Fabric does not support partial Availability Zone affinity, so PARTIAL_AVAILABILITY_ZONE_AFFINITY is not a valid value. For more information, see Configuring Availability Zone affinity in the Ama- zon Web Services RTB Fabric User Guide . Possible values: o AVAILABILITY_ZONE_AFFINITY o ANY_AVAILABILITY_ZONE
+    /// The client routing policy of the gateway. This policy controls which Availability Zones RTB Fabric uses to reach the gateway for the requester gateways that send traffic to it. Valid values are the following: • AVAILABILITY_ZONE_AFFINITY : RTB Fabric routes each requester's traffic to gateway capacity in the requester's own Availability Zone when the gateway has capacity available there. Otherwise, RTB Fabric routes the traffic to gateway capacity in the other Availability Zones of the gateway. • ANY_AVAILABILITY_ZONE : RTB Fabric routes each requester's traffic to gateway capacity in every Availability Zone that the subnets of the gateway span. The Availability Zone that the requester is in does not change this. If you don't specify a value, RTB Fabric uses AVAILABILITY_ZONE_AFFINITY . To get the behavior of ANY_AVAILABILITY_ZONE , create the gateway with subnets in more than one Availability Zone. RTB Fabric does not support partial Availability Zone affinity, so PARTIAL_AVAILABILITY_ZONE_AFFINITY is not a valid value. For more information, see Configuring Availability Zone affinity in the Amazon Web Services RTB Fabric User Guide . Possible values: • AVAILABILITY_ZONE_AFFINITY • ANY_AVAILABILITY_ZONE
     /// </summary>
     [CliOption("--client-routing-policy")]
     public AwsRtbfabricCreateResponderGatewayClientRoutingPolicy? ClientRoutingPolicy { get; set; }

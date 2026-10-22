@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsBedrockAgentDeleteAgentActionGroupOptions : AwsOptions, IValida
     /// <summary>
     /// Deletes an action group in an agent. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentId">The unique identifier of the agent that the action group belongs to. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
-    /// <param name="AgentVersion">The version of the agent that the action group belongs to. Constraints: o min: 5 o max: 5 o pattern: DRAFT</param>
-    /// <param name="ActionGroupId">The unique identifier of the action group to delete. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="AgentId">The unique identifier of the agent that the action group belongs to. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="AgentVersion">The version of the agent that the action group belongs to. Constraints: • min: 5 • max: 5 • pattern: DRAFT</param>
+    /// <param name="ActionGroupId">The unique identifier of the action group to delete. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
     public AwsBedrockAgentDeleteAgentActionGroupOptions(
         string AgentId,
         string AgentVersion,
@@ -64,25 +66,25 @@ public record AwsBedrockAgentDeleteAgentActionGroupOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the agent that the action group belongs to. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The unique identifier of the agent that the action group belongs to. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--agent-id")]
     public string? AgentId { get; private init; }
 
     /// <summary>
-    /// The version of the agent that the action group belongs to. Constraints: o min: 5 o max: 5 o pattern: DRAFT
+    /// The version of the agent that the action group belongs to. Constraints: • min: 5 • max: 5 • pattern: DRAFT
     /// </summary>
     [CliOption("--agent-version")]
     public string? AgentVersion { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the action group to delete. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The unique identifier of the action group to delete. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--action-group-id")]
     public string? ActionGroupId { get; private init; }
 
     /// <summary>
-    /// By default, this value is false and deletion is stopped if the re- source is in use. If you set it to true , the resource will be deleted even if the resource is in use.
+    /// By default, this value is false and deletion is stopped if the resource is in use. If you set it to true , the resource will be deleted even if the resource is in use.
     /// </summary>
     [CliFlag("--skip-resource-in-use-check", NegatedName = "--no-skip-resource-in-use-check")]
     public bool? SkipResourceInUseCheck { get; set; }

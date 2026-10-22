@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Rejects the transfer of a domain from another Amazon Web Services ac- count to the current Amazon Web Services account. You initiate a trans- fer betweenAmazon Web Services accounts using TransferDomainToAnotherAwsAccount . Use either ListOperations or GetOperationDetail to determine whether the operation succeeded. GetOperationDetail provides additional infor- mation, for example, Domain Transfer from Aws Account 111122223333 has been cancelled . See also: AWS API Documentation
+/// Rejects the transfer of a domain from another Amazon Web Services account to the current Amazon Web Services account. You initiate a transfer betweenAmazon Web Services accounts using TransferDomainToAnotherAwsAccount . Use either ListOperations or GetOperationDetail to determine whether the operation succeeded. GetOperationDetail provides additional information, for example, Domain Transfer from Aws Account 111122223333 has been cancelled . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRoute53domainsRejectDomainTransferFromAnotherAwsAccountOptions 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Rejects the transfer of a domain from another Amazon Web Services ac- count to the current Amazon Web Services account. You initiate a trans- fer betweenAmazon Web Services accounts using TransferDomainToAnotherAwsAccount . Use either ListOperations or GetOperationDetail to determine whether the operation succeeded. GetOperationDetail provides additional infor- mation, for example, Domain Transfer from Aws Account 111122223333 has been cancelled . See also: AWS API Documentation
+    /// Rejects the transfer of a domain from another Amazon Web Services account to the current Amazon Web Services account. You initiate a transfer betweenAmazon Web Services accounts using TransferDomainToAnotherAwsAccount . Use either ListOperations or GetOperationDetail to determine whether the operation succeeded. GetOperationDetail provides additional information, for example, Domain Transfer from Aws Account 111122223333 has been cancelled . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The name of the domain that was specified when another Amazon Web Services account submitted a TransferDomainToAnotherAwsAccount re- quest. Constraints: o max: 255</param>
+    /// <param name="DomainName">The name of the domain that was specified when another Amazon Web Services account submitted a TransferDomainToAnotherAwsAccount request. Constraints: • max: 255</param>
     public AwsRoute53domainsRejectDomainTransferFromAnotherAwsAccountOptions(
         string DomainName
     )
@@ -56,7 +58,7 @@ public record AwsRoute53domainsRejectDomainTransferFromAnotherAwsAccountOptions 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain that was specified when another Amazon Web Services account submitted a TransferDomainToAnotherAwsAccount re- quest. Constraints: o max: 255
+    /// The name of the domain that was specified when another Amazon Web Services account submitted a TransferDomainToAnotherAwsAccount request. Constraints: • max: 255
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }

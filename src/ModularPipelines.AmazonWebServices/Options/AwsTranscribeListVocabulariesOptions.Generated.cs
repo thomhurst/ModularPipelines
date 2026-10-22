@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides a list of custom vocabularies that match the specified crite- ria. If no criteria are specified, all custom vocabularies are re- turned. To get detailed information about a specific custom vocabulary, use the operation. See also: AWS API Documentation
+/// Provides a list of custom vocabularies that match the specified criteria. If no criteria are specified, all custom vocabularies are returned. To get detailed information about a specific custom vocabulary, use the operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,26 +24,26 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsTranscribeListVocabulariesOptions : AwsOptions
 {
     /// <summary>
-    /// If your ListVocabularies request returns more results than can be displayed, NextToken is displayed in the response with an associated string. To get the next page of results, copy this string and repeat your request, including NextToken with the value of the copied string. Repeat as needed to view all your results. Constraints: o max: 8192 o pattern: .+
+    /// If your ListVocabularies request returns more results than can be displayed, NextToken is displayed in the response with an associated string. To get the next page of results, copy this string and repeat your request, including NextToken with the value of the copied string. Repeat as needed to view all your results. Constraints: • max: 8192 • pattern: .+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of custom vocabularies to return in each page of results. If there are fewer results than the value that you specify, only the actual results are returned. If you do not specify a value, a default of 5 is used. Constraints: o min: 1 o max: 100
+    /// The maximum number of custom vocabularies to return in each page of results. If there are fewer results than the value that you specify, only the actual results are returned. If you do not specify a value, a default of 5 is used. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Returns only custom vocabularies with the specified state. Vocabu- laries are ordered by creation date, with the newest vocabulary first. If you do not include StateEquals , all custom medical vocab- ularies are returned. Possible values: o PENDING o READY o FAILED
+    /// Returns only custom vocabularies with the specified state. Vocabularies are ordered by creation date, with the newest vocabulary first. If you do not include StateEquals , all custom medical vocabularies are returned. Possible values: • PENDING • READY • FAILED
     /// </summary>
     [CliOption("--state-equals")]
     public AwsTranscribeListVocabulariesStateEquals? StateEquals { get; set; }
 
     /// <summary>
-    /// Returns only the custom vocabularies that contain the specified string. The search is not case sensitive. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+
+    /// Returns only the custom vocabularies that contain the specified string. The search is not case sensitive. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z._-]+
     /// </summary>
     [CliOption("--name-contains")]
     public string? NameContains { get; set; }

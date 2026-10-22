@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a specified personal access token (PAT). A personal access to- ken can only be deleted by the user who created it. See also: AWS API Documentation
+/// Deletes a specified personal access token (PAT). A personal access token can only be deleted by the user who created it. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsCodecatalystDeleteAccessTokenOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a specified personal access token (PAT). A personal access to- ken can only be deleted by the user who created it. See also: AWS API Documentation
+    /// Deletes a specified personal access token (PAT). A personal access token can only be deleted by the user who created it. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the personal access token to delete. You can find the IDs of all PATs associated with your Amazon Web Services Builder ID in a space by calling ListAccessTokens . Constraints: o min: 1 o max: 36</param>
+    /// <param name="Id">The ID of the personal access token to delete. You can find the IDs of all PATs associated with your Amazon Web Services Builder ID in a space by calling ListAccessTokens . Constraints: • min: 1 • max: 36</param>
     public AwsCodecatalystDeleteAccessTokenOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsCodecatalystDeleteAccessTokenOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the personal access token to delete. You can find the IDs of all PATs associated with your Amazon Web Services Builder ID in a space by calling ListAccessTokens . Constraints: o min: 1 o max: 36
+    /// The ID of the personal access token to delete. You can find the IDs of all PATs associated with your Amazon Web Services Builder ID in a space by calling ListAccessTokens . Constraints: • min: 1 • max: 36
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

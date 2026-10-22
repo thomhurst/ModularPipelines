@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Attaches an SSL/TLS certificate to your Amazon Lightsail content deliv- ery network (CDN) distribution. After the certificate is attached, your distribution accepts HTTPS traffic for all of the domains that are associated with the certifi- cate. Use the CreateCertificate action to create a certificate that you can attach to your distribution. WARNING: Only certificates created in the us-east-1 Amazon Web Services Re- gion can be attached to Lightsail distributions. Lightsail distribu- tions are ...
+/// Attaches an SSL/TLS certificate to your Amazon Lightsail content delivery network (CDN) distribution. After the certificate is attached, your distribution accepts HTTPS traffic for all of the domains that are associated with the certificate. Use the CreateCertificate action to create a certificate that you can attach to your distribution. WARNING: Only certificates created in the us-east-1 Amazon Web Services Region can be attached to Lightsail distributions. Lightsail distributions are global r...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsLightsailAttachCertificateToDistributionOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Attaches an SSL/TLS certificate to your Amazon Lightsail content deliv- ery network (CDN) distribution. After the certificate is attached, your distribution accepts HTTPS traffic for all of the domains that are associated with the certifi- cate. Use the CreateCertificate action to create a certificate that you can attach to your distribution. WARNING: Only certificates created in the us-east-1 Amazon Web Services Re- gion can be attached to Lightsail distributions. Lightsail distribu- tions are ...
+    /// Attaches an SSL/TLS certificate to your Amazon Lightsail content delivery network (CDN) distribution. After the certificate is attached, your distribution accepts HTTPS traffic for all of the domains that are associated with the certificate. Use the CreateCertificate action to create a certificate that you can attach to your distribution. WARNING: Only certificates created in the us-east-1 Amazon Web Services Region can be attached to Lightsail distributions. Lightsail distributions are global r...
     /// </summary>
-    /// <param name="DistributionName">The name of the distribution that the certificate will be attached to. Use the GetDistributions action to get a list of distribution names that you can specify. Constraints: o pattern: \w[\w\-]*\w</param>
-    /// <param name="CertificateName">The name of the certificate to attach to a distribution. Only certificates with a status of ISSUED can be attached to a dis- tribution. Use the GetCertificates action to get a list of certificate names that you can specify. NOTE: This is the name of the certificate resource type and is used only to reference the certificate in other API actions. It can be different than the domain name of the certificate. For exam- ple, your certificate name might be WordPress-Blog-Certificate and the domain name of the certificate might be example.com . Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="DistributionName">The name of the distribution that the certificate will be attached to. Use the GetDistributions action to get a list of distribution names that you can specify. Constraints: • pattern: \w[\w\-]*\w</param>
+    /// <param name="CertificateName">The name of the certificate to attach to a distribution. Only certificates with a status of ISSUED can be attached to a distribution. Use the GetCertificates action to get a list of certificate names that you can specify. NOTE: This is the name of the certificate resource type and is used only to reference the certificate in other API actions. It can be different than the domain name of the certificate. For example, your certificate name might be WordPress-Blog-Certificate and the domain name of the certificate might be example.com . Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailAttachCertificateToDistributionOptions(
         string DistributionName,
         string CertificateName
@@ -60,13 +62,13 @@ public record AwsLightsailAttachCertificateToDistributionOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the distribution that the certificate will be attached to. Use the GetDistributions action to get a list of distribution names that you can specify. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the distribution that the certificate will be attached to. Use the GetDistributions action to get a list of distribution names that you can specify. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--distribution-name")]
     public string? DistributionName { get; private init; }
 
     /// <summary>
-    /// The name of the certificate to attach to a distribution. Only certificates with a status of ISSUED can be attached to a dis- tribution. Use the GetCertificates action to get a list of certificate names that you can specify. NOTE: This is the name of the certificate resource type and is used only to reference the certificate in other API actions. It can be different than the domain name of the certificate. For exam- ple, your certificate name might be WordPress-Blog-Certificate and the domain name of the certificate might be example.com . Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the certificate to attach to a distribution. Only certificates with a status of ISSUED can be attached to a distribution. Use the GetCertificates action to get a list of certificate names that you can specify. NOTE: This is the name of the certificate resource type and is used only to reference the certificate in other API actions. It can be different than the domain name of the certificate. For example, your certificate name might be WordPress-Blog-Certificate and the domain name of the certificate might be example.com . Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--certificate-name")]
     public string? CertificateName { get; private init; }

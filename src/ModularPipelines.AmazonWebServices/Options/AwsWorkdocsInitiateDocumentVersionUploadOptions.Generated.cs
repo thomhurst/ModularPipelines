@@ -23,26 +23,26 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsWorkdocsInitiateDocumentVersionUploadOptions : AwsOptions
 {
     /// <summary>
-    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: o min: 1 o max: 8199
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: • min: 1 • max: 8199
     /// </summary>
     [SecretValue]
     [CliOption("--authentication-token")]
     public string? AuthenticationToken { get; set; }
 
     /// <summary>
-    /// The ID of the document. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+
+    /// The ID of the document. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; set; }
 
     /// <summary>
-    /// The name of the document. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\u202D\u202F-\uFFFF]+
+    /// The name of the document. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\u202D\u202F-\uFFFF]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The timestamp when the content of the document was originally cre- ated.
+    /// The timestamp when the content of the document was originally created.
     /// </summary>
     [CliOption("--content-created-timestamp")]
     public string? ContentCreatedTimestamp { get; set; }
@@ -54,7 +54,7 @@ public record AwsWorkdocsInitiateDocumentVersionUploadOptions : AwsOptions
     public string? ContentModifiedTimestamp { get; set; }
 
     /// <summary>
-    /// The content type of the document. Constraints: o min: 1 o max: 128
+    /// The content type of the document. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--content-type")]
     public string? ContentType { get; set; }
@@ -63,10 +63,10 @@ public record AwsWorkdocsInitiateDocumentVersionUploadOptions : AwsOptions
     /// The size of the document, in bytes.
     /// </summary>
     [CliOption("--document-size-in-bytes")]
-    public int? DocumentSizeInBytes { get; set; }
+    public long? DocumentSizeInBytes { get; set; }
 
     /// <summary>
-    /// The ID of the parent folder. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+
+    /// The ID of the parent folder. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+
     /// </summary>
     [CliOption("--parent-folder-id")]
     public string? ParentFolderId { get; set; }

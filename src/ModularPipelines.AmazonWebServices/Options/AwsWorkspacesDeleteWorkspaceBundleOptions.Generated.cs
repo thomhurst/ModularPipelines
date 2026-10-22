@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsWorkspacesDeleteWorkspaceBundleOptions : AwsOptions
 {
     /// <summary>
-    /// The identifier of the bundle. Constraints: o pattern: ^wsb-[0-9a-z]{8,63}$
+    /// The identifier of the bundle. Constraints: • pattern: ^wsb-[0-9a-z]{8,63}$
     /// </summary>
     [CliOption("--bundle-id")]
     public string? BundleId { get; set; }

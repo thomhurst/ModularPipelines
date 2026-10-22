@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsEventsv2UntagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Removes tags from an event bus, subscriber, or event source. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">ARN for an EventBridge resource that supports tagging: event buses, subscribers, and event sources. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[a-z0-9]+)*:events:[a-z][a-z0-9]*(-[a-z0-9]+)*:([0-9]{12}):(event-busv2|sub- scriber|event-sourcev2\/(aws\.service|aws\.part- ner))\/[A-Za-z0-9][\.\-_A-Za-z0-9]{0,255}\/[a-z0-9]{25}</param>
-    /// <param name="TagKeys">List of tag keys. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 128 o pattern: \S([\s\S]*\S)?(?![\s\S]).* Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">ARN for an EventBridge resource that supports tagging: event buses, subscribers, and event sources. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[a-z0-9]+)*:events:[a-z][a-z0-9]*(-[a-z0-9]+)*:([0-9]{12}):(event-busv2|subscriber|event-sourcev2\/(aws\.service|aws\.partner))\/[A-Za-z0-9][\.\-_A-Za-z0-9]{0,255}\/[a-z0-9]{25}</param>
+    /// <param name="TagKeys">List of tag keys. Constraints: • min: 1 (string) Constraints: • min: 1 • max: 128 • pattern: \S([\s\S]*\S)?(?![\s\S]).* Syntax: "string" "string" ...</param>
     public AwsEventsv2UntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsEventsv2UntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN for an EventBridge resource that supports tagging: event buses, subscribers, and event sources. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[a-z0-9]+)*:events:[a-z][a-z0-9]*(-[a-z0-9]+)*:([0-9]{12}):(event-busv2|sub- scriber|event-sourcev2\/(aws\.service|aws\.part- ner))\/[A-Za-z0-9][\.\-_A-Za-z0-9]{0,255}\/[a-z0-9]{25}
+    /// ARN for an EventBridge resource that supports tagging: event buses, subscribers, and event sources. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[a-z0-9]+)*:events:[a-z][a-z0-9]*(-[a-z0-9]+)*:([0-9]{12}):(event-busv2|subscriber|event-sourcev2\/(aws\.service|aws\.partner))\/[A-Za-z0-9][\.\-_A-Za-z0-9]{0,255}\/[a-z0-9]{25}
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// List of tag keys. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 128 o pattern: \S([\s\S]*\S)?(?![\s\S]).* Syntax: "string" "string" ...
+    /// List of tag keys. Constraints: • min: 1 (string) Constraints: • min: 1 • max: 128 • pattern: \S([\s\S]*\S)?(?![\s\S]).* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsGuarddutyArchiveFindingsOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Archives GuardDuty findings that are specified by the list of finding IDs. NOTE: Only the administrator account can archive findings. Member accounts don't have permission to archive findings from their accounts. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DetectorId">The ID of the detector that specifies the GuardDuty service whose findings you want to archive. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
-    /// <param name="FindingIds">The IDs of the findings that you want to archive. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...</param>
+    /// <param name="DetectorId">The ID of the detector that specifies the GuardDuty service whose findings you want to archive. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300</param>
+    /// <param name="FindingIds">The IDs of the findings that you want to archive. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 300 Syntax: "string" "string" ...</param>
     public AwsGuarddutyArchiveFindingsOptions(
         string DetectorId,
         IEnumerable<string> FindingIds
@@ -71,13 +73,13 @@ public record AwsGuarddutyArchiveFindingsOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the detector that specifies the GuardDuty service whose findings you want to archive. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// The ID of the detector that specifies the GuardDuty service whose findings you want to archive. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }
 
     /// <summary>
-    /// The IDs of the findings that you want to archive. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...
+    /// The IDs of the findings that you want to archive. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 300 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--finding-ids", GroupValues = true)]
     public IEnumerable<string>? FindingIds { get; private init; }

@@ -47,7 +47,7 @@ public class AwsBudgets : IAwsBudgets
     }
 
     /// <summary>
-    /// Creates a budget and, if included, notifications and subscribers. WARNING: Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your use case. The Request Syntax section shows the BudgetLimit syntax. For PlannedBud- getLimits , see the Examples section. Similarly, only one set of filter and metric selections can be present in the syntax at one time. Either FilterExpression and Met- rics or CostFilters and CostTypes , not both or a d...
+    /// Creates a budget and, if included, notifications and subscribers. WARNING: Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your use case. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits , see the Examples section. Similarly, only one set of filter and metric selections can be present in the syntax at one time. Either FilterExpression and Metrics or CostFilters and CostTypes , not both or a diffe...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsBudgets : IAwsBudgets
     }
 
     /// <summary>
-    /// Creates a subscriber. You must create the associated budget and notifi- cation before you create the subscriber. See also: AWS API Documentation
+    /// Creates a subscriber. You must create the associated budget and notification before you create the subscriber. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsBudgets : IAwsBudgets
     }
 
     /// <summary>
-    /// Deletes a notification. WARNING: Deleting a notification also deletes the subscribers that are asso- ciated with the notification. See also: AWS API Documentation
+    /// Deletes a notification. WARNING: Deleting a notification also deletes the subscribers that are associated with the notification. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsBudgets : IAwsBudgets
     }
 
     /// <summary>
-    /// Deletes a subscriber. WARNING: Deleting the last subscriber to a notification also deletes the no- tification. See also: AWS API Documentation
+    /// Deletes a subscriber. WARNING: Deleting the last subscriber to a notification also deletes the notification. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsBudgets : IAwsBudgets
     }
 
     /// <summary>
-    /// Describes a budget action history detail. See also: AWS API Documentation describe-budget-action-histories is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ActionHistories
+    /// Describes a budget action history detail. See also: AWS API Documentation describe-budget-action-histories is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ActionHistories
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsBudgets : IAwsBudgets
     }
 
     /// <summary>
-    /// Describes all of the budget actions for an account. See also: AWS API Documentation describe-budget-actions-for-account is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Actions
+    /// Describes all of the budget actions for an account. See also: AWS API Documentation describe-budget-actions-for-account is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Actions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsBudgets : IAwsBudgets
     }
 
     /// <summary>
-    /// Describes all of the budget actions for a budget. See also: AWS API Documentation describe-budget-actions-for-budget is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Actions
+    /// Describes all of the budget actions for a budget. See also: AWS API Documentation describe-budget-actions-for-budget is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Actions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsBudgets : IAwsBudgets
     }
 
     /// <summary>
-    /// Lists the budget names and notifications that are associated with an account. See also: AWS API Documentation describe-budget-notifications-for-account is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expression...
+    /// Lists the budget names and notifications that are associated with an account. See also: AWS API Documentation describe-budget-notifications-for-account is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: B...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsBudgets : IAwsBudgets
     }
 
     /// <summary>
-    /// Describes the history for DAILY , MONTHLY , and QUARTERLY budgets. Bud- get history isn't available for ANNUAL budgets. See also: AWS API Documentation describe-budget-performance-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resul...
+    /// Describes the history for DAILY , MONTHLY , and QUARTERLY budgets. Budget history isn't available for ANNUAL budgets. See also: AWS API Documentation describe-budget-performance-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsBudgets : IAwsBudgets
     }
 
     /// <summary>
-    /// Lists the notifications that are associated with a budget. See also: AWS API Documentation describe-notifications-for-budget is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Notifications
+    /// Lists the notifications that are associated with a budget. See also: AWS API Documentation describe-notifications-for-budget is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Notifications
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsBudgets : IAwsBudgets
     }
 
     /// <summary>
-    /// Lists the subscribers that are associated with a notification. See also: AWS API Documentation describe-subscribers-for-notification is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: Subscribers
+    /// Lists the subscribers that are associated with a notification. See also: AWS API Documentation describe-subscribers-for-notification is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Subscribers
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsBudgets : IAwsBudgets
     }
 
     /// <summary>
-    /// Updates a budget. You can change every part of a budget except for the budgetName and the calculatedSpend . When you modify a budget, the cal- culatedSpend drops to zero until Amazon Web Services has new usage data to use for forecasting. WARNING: Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your case. The Re- quest Syntax section shows the BudgetLimit syntax. For PlannedBud- getLimits , see the Examples section. Similarly, ...
+    /// Updates a budget. You can change every part of a budget except for the budgetName and the calculatedSpend . When you modify a budget, the calculatedSpend drops to zero until Amazon Web Services has new usage data to use for forecasting. WARNING: Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your case. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits , see the Examples section. Similarly, only o...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

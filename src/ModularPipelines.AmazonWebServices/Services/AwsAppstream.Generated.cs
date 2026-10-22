@@ -33,7 +33,7 @@ public class AwsAppstream : IAwsAppstream
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws appstream wait sub-commands.
     /// </summary>
     public AwsAppstreamWait Wait => _wait ??= new AwsAppstreamWait(_command);
 
@@ -192,7 +192,7 @@ public class AwsAppstream : IAwsAppstream
     }
 
     /// <summary>
-    /// Creates an app block. App blocks are a WorkSpaces Applications resource that stores the de- tails about the virtual hard disk in an S3 bucket. It also stores the setup script with details about how to mount the virtual hard disk. The virtual hard disk includes the application binaries and other files necessary to launch your applications. Multiple applications can be as- signed to a single app block. This is only supported for Elastic fleets. See also: AWS API Documentation
+    /// Creates an app block. App blocks are a WorkSpaces Applications resource that stores the details about the virtual hard disk in an S3 bucket. It also stores the setup script with details about how to mount the virtual hard disk. The virtual hard disk includes the application binaries and other files necessary to launch your applications. Multiple applications can be assigned to a single app block. This is only supported for Elastic fleets. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -207,7 +207,7 @@ public class AwsAppstream : IAwsAppstream
     }
 
     /// <summary>
-    /// Creates an application. Applications are a WorkSpaces Applications resource that stores the de- tails about how to launch applications on Elastic fleet streaming in- stances. An application consists of the launch details, icon, and dis- play name. Applications are associated with an app block that contains the application binaries and other files. The applications assigned to an Elastic fleet are the applications users can launch. This is only supported for Elastic fleets. See also: AWS API Docu...
+    /// Creates an application. Applications are a WorkSpaces Applications resource that stores the details about how to launch applications on Elastic fleet streaming instances. An application consists of the launch details, icon, and display name. Applications are associated with an app block that contains the application binaries and other files. The applications assigned to an Elastic fleet are the applications users can launch. This is only supported for Elastic fleets. See also: AWS API Documentat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -222,7 +222,7 @@ public class AwsAppstream : IAwsAppstream
     }
 
     /// <summary>
-    /// Creates a Directory Config object in WorkSpaces Applications. This ob- ject includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains. See also: AWS API Documentation
+    /// Creates a Directory Config object in WorkSpaces Applications. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -237,7 +237,7 @@ public class AwsAppstream : IAwsAppstream
     }
 
     /// <summary>
-    /// Creates a new entitlement. Entitlements control access to specific ap- plications within a stack, based on user attributes. Entitlements apply to SAML 2.0 federated user identities. WorkSpaces Applications user pool and streaming URL users are entitled to all applications in a stack. Entitlements don't apply to the desktop stream view application, or to applications managed by a dynamic app provider using the Dynamic Application Framework. See also: AWS API Documentation
+    /// Creates a new entitlement. Entitlements control access to specific applications within a stack, based on user attributes. Entitlements apply to SAML 2.0 federated user identities. WorkSpaces Applications user pool and streaming URL users are entitled to all applications in a stack. Entitlements don't apply to the desktop stream view application, or to applications managed by a dynamic app provider using the Dynamic Application Framework. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -312,7 +312,7 @@ public class AwsAppstream : IAwsAppstream
     }
 
     /// <summary>
-    /// Creates a custom WorkSpaces Applications image by importing an EC2 AMI. This allows you to use your own customized AMI to create WorkSpaces Ap- plications images that support additional instance types beyond the standard stream.* instances. See also: AWS API Documentation
+    /// Creates a custom WorkSpaces Applications image by importing an EC2 AMI. This allows you to use your own customized AMI to create WorkSpaces Applications images that support additional instance types beyond the standard stream.* instances. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -327,7 +327,7 @@ public class AwsAppstream : IAwsAppstream
     }
 
     /// <summary>
-    /// Creates a stack to start streaming applications to users. A stack con- sists of an associated fleet, user access policies, and storage config- urations. See also: AWS API Documentation
+    /// Creates a stack to start streaming applications to users. A stack consists of an associated fleet, user access policies, and storage configurations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -372,7 +372,7 @@ public class AwsAppstream : IAwsAppstream
     }
 
     /// <summary>
-    /// Creates a new image with the latest Windows operating system updates, driver updates, and WorkSpaces Applications agent software. For more information, see the "Update an Image by Using Managed Work- Spaces Applications Image Updates" section in Administer Your Work- Spaces Applications Images , in the Amazon WorkSpaces Applications Ad- ministration Guide . See also: AWS API Documentation
+    /// Creates a new image with the latest Windows operating system updates, driver updates, and WorkSpaces Applications agent software. For more information, see the "Update an Image by Using Managed WorkSpaces Applications Image Updates" section in Administer Your WorkSpaces Applications Images , in the Amazon WorkSpaces Applications Administration Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -462,7 +462,7 @@ public class AwsAppstream : IAwsAppstream
     }
 
     /// <summary>
-    /// Deletes the specified Directory Config object from WorkSpaces Applica- tions. This object includes the information required to join streaming instances to an Active Directory domain. See also: AWS API Documentation
+    /// Deletes the specified Directory Config object from WorkSpaces Applications. This object includes the information required to join streaming instances to an Active Directory domain. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -552,7 +552,7 @@ public class AwsAppstream : IAwsAppstream
     }
 
     /// <summary>
-    /// Deletes the specified stack. After the stack is deleted, the applica- tion streaming environment provided by the stack is no longer available to users. Also, any reservations made for application streaming ses- sions for the stack are released. See also: AWS API Documentation
+    /// Deletes the specified stack. After the stack is deleted, the application streaming environment provided by the stack is no longer available to users. Also, any reservations made for application streaming sessions for the stack are released. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -612,7 +612,7 @@ public class AwsAppstream : IAwsAppstream
     }
 
     /// <summary>
-    /// Retrieves a list that describes one or more app block builder associa- tions. See also: AWS API Documentation
+    /// Retrieves a list that describes one or more app block builder associations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -657,7 +657,22 @@ public class AwsAppstream : IAwsAppstream
     }
 
     /// <summary>
-    /// Retrieves a list that describes one or more application fleet associa- tions. Either ApplicationArn or FleetName must be specified. See also: AWS API Documentation
+    /// Retrieves license included application usage information. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeAppLicenseUsageAsync(
+        AwsAppstreamDescribeAppLicenseUsageOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves a list that describes one or more application fleet associations. Either ApplicationArn or FleetName must be specified. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -687,22 +702,7 @@ public class AwsAppstream : IAwsAppstream
     }
 
     /// <summary>
-    /// Retrieves license included application usage information. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeAppLicenseUsageAsync(
-        AwsAppstreamDescribeAppLicenseUsageOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Retrieves a list that describes one or more specified Directory Config objects for WorkSpaces Applications, if the names for these objects are provided. Otherwise, all Directory Config objects in the account are described. These objects include the configuration information required to join fleets and image builders to Microsoft Active Directory do- mains. Although the response syntax in this topic includes the account pass- word, this password is not returned in the actual response. See also: A...
+    /// Retrieves a list that describes one or more specified Directory Config objects for WorkSpaces Applications, if the names for these objects are provided. Otherwise, all Directory Config objects in the account are described. These objects include the configuration information required to join fleets and image builders to Microsoft Active Directory domains. Although the response syntax in this topic includes the account password, this password is not returned in the actual response. See also: AWS A...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -732,7 +732,7 @@ public class AwsAppstream : IAwsAppstream
     }
 
     /// <summary>
-    /// Retrieves a list that describes one or more specified fleets, if the fleet names are provided. Otherwise, all fleets in the account are de- scribed. See also: AWS API Documentation describe-fleets is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from ...
+    /// Retrieves a list that describes one or more specified fleets, if the fleet names are provided. Otherwise, all fleets in the account are described. See also: AWS API Documentation describe-fleets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -777,7 +777,7 @@ public class AwsAppstream : IAwsAppstream
     }
 
     /// <summary>
-    /// Retrieves a list that describes one or more specified images, if the image names or image ARNs are provided. Otherwise, all images in the account are described. See also: AWS API Documentation describe-images is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extrac...
+    /// Retrieves a list that describes one or more specified images, if the image names or image ARNs are provided. Otherwise, all images in the account are described. See also: AWS API Documentation describe-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract da...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -807,7 +807,7 @@ public class AwsAppstream : IAwsAppstream
     }
 
     /// <summary>
-    /// Retrieves license included application associations for a specified re- source. See also: AWS API Documentation
+    /// Retrieves license included application associations for a specified resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -822,7 +822,7 @@ public class AwsAppstream : IAwsAppstream
     }
 
     /// <summary>
-    /// Retrieves a list that describes one or more specified stacks, if the stack names are provided. Otherwise, all stacks in the account are de- scribed. See also: AWS API Documentation describe-stacks is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from ...
+    /// Retrieves a list that describes one or more specified stacks, if the stack names are provided. Otherwise, all stacks in the account are described. See also: AWS API Documentation describe-stacks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -837,7 +837,7 @@ public class AwsAppstream : IAwsAppstream
     }
 
     /// <summary>
-    /// Retrieves a list that describes the theme for a specified stack. A theme is custom branding that customizes the appearance of the stream- ing application catalog page. See also: AWS API Documentation
+    /// Retrieves a list that describes the theme for a specified stack. A theme is custom branding that customizes the appearance of the streaming application catalog page. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -867,22 +867,7 @@ public class AwsAppstream : IAwsAppstream
     }
 
     /// <summary>
-    /// Retrieves a list that describes one or more specified users in the user pool. See also: AWS API Documentation describe-users is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Users
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeUsersAsync(
-        AwsAppstreamDescribeUsersOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Retrieves a list that describes the UserStackAssociation objects. You must specify either or both of the following: o The stack name o The user name (email address of the user associated with the stack) and the authentication type for the user See also: AWS API Documentation describe-user-stack-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When us...
+    /// Retrieves a list that describes the UserStackAssociation objects. You must specify either or both of the following: • The stack name • The user name (email address of the user associated with the stack) and the authentication type for the user See also: AWS API Documentation describe-user-stack-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -894,6 +879,21 @@ public class AwsAppstream : IAwsAppstream
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAppstreamDescribeUserStackAssociationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves a list that describes one or more specified users in the user pool. See also: AWS API Documentation describe-users is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Users
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeUsersAsync(
+        AwsAppstreamDescribeUsersOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -987,7 +987,7 @@ public class AwsAppstream : IAwsAppstream
     }
 
     /// <summary>
-    /// Drains the instance hosting the specified streaming session. The in- stance stops accepting new sessions while existing sessions continue uninterrupted. Once all sessions end, the instance is reclaimed and re- placed. This only applies to multi-session fleets. See also: AWS API Documentation
+    /// Drains the instance hosting the specified streaming session. The instance stops accepting new sessions while existing sessions continue uninterrupted. Once all sessions end, the instance is reclaimed and replaced. This only applies to multi-session fleets. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1062,7 +1062,7 @@ public class AwsAppstream : IAwsAppstream
     }
 
     /// <summary>
-    /// Retrieves the name of the stack with which the specified fleet is asso- ciated. See also: AWS API Documentation list-associated-stacks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Names
+    /// Retrieves the name of the stack with which the specified fleet is associated. See also: AWS API Documentation list-associated-stacks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Names
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1107,7 +1107,7 @@ public class AwsAppstream : IAwsAppstream
     }
 
     /// <summary>
-    /// Retrieves a list of all tags for the specified WorkSpaces Applications resource. You can tag WorkSpaces Applications image builders, images, fleets, and stacks. For more information about tags, see Tagging Your Resources in the Ama- zon WorkSpaces Applications Administration Guide . See also: AWS API Documentation
+    /// Retrieves a list of all tags for the specified WorkSpaces Applications resource. You can tag WorkSpaces Applications image builders, images, fleets, and stacks. For more information about tags, see Tagging Your Resources in the Amazon WorkSpaces Applications Administration Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1122,7 +1122,7 @@ public class AwsAppstream : IAwsAppstream
     }
 
     /// <summary>
-    /// Starts an app block builder. An app block builder can only be started when it's associated with an app block. Starting an app block builder starts a new instance, which is equiva- lent to an elastic fleet instance with application builder assistance functionality. See also: AWS API Documentation
+    /// Starts an app block builder. An app block builder can only be started when it's associated with an app block. Starting an app block builder starts a new instance, which is equivalent to an elastic fleet instance with application builder assistance functionality. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1227,7 +1227,7 @@ public class AwsAppstream : IAwsAppstream
     }
 
     /// <summary>
-    /// Adds or overwrites one or more tags for the specified WorkSpaces Appli- cations resource. You can tag WorkSpaces Applications image builders, images, fleets, and stacks. Each tag consists of a key and an optional value. If a resource already has a tag with the same key, this operation updates its value. To list the current tags for your resources, use ListTagsForResource . To disassociate tags from your resources, use UntagResource . For more information about tags, see Tagging Your Resources in...
+    /// Adds or overwrites one or more tags for the specified WorkSpaces Applications resource. You can tag WorkSpaces Applications image builders, images, fleets, and stacks. Each tag consists of a key and an optional value. If a resource already has a tag with the same key, this operation updates its value. To list the current tags for your resources, use ListTagsForResource . To disassociate tags from your resources, use UntagResource . For more information about tags, see Tagging Your Resources in t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1242,7 +1242,7 @@ public class AwsAppstream : IAwsAppstream
     }
 
     /// <summary>
-    /// Disassociates one or more specified tags from the specified WorkSpaces Applications resource. To list the current tags for your resources, use ListTagsForResource . For more information about tags, see Tagging Your Resources in the Ama- zon WorkSpaces Applications Administration Guide . See also: AWS API Documentation
+    /// Disassociates one or more specified tags from the specified WorkSpaces Applications resource. To list the current tags for your resources, use ListTagsForResource . For more information about tags, see Tagging Your Resources in the Amazon WorkSpaces Applications Administration Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1287,7 +1287,7 @@ public class AwsAppstream : IAwsAppstream
     }
 
     /// <summary>
-    /// Updates the specified Directory Config object in WorkSpaces Applica- tions. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains. See also: AWS API Documentation
+    /// Updates the specified Directory Config object in WorkSpaces Applications. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1317,7 +1317,7 @@ public class AwsAppstream : IAwsAppstream
     }
 
     /// <summary>
-    /// Updates the specified fleet. If the fleet is in the STOPPED state, you can update any attribute ex- cept the fleet name. If the fleet is in the RUNNING state, you can update the following based on the fleet type: o Always-On and On-Demand fleet types You can update the DisplayName , ComputeCapacity , ImageARN , ImageName , IdleDisconnectTimeoutInSec- onds , and DisconnectTimeoutInSeconds attributes. o Elastic fleet type You can update the DisplayName , IdleDisconnect- TimeoutInSeconds , Disconne...
+    /// Updates the specified fleet. If the fleet is in the STOPPED state, you can update any attribute except the fleet name. If the fleet is in the RUNNING state, you can update the following based on the fleet type: • Always-On and On-Demand fleet types You can update the DisplayName , ComputeCapacity , ImageARN , ImageName , IdleDisconnectTimeoutInSeconds , and DisconnectTimeoutInSeconds attributes. • Elastic fleet type You can update the DisplayName , IdleDisconnectTimeoutInSeconds , DisconnectTime...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

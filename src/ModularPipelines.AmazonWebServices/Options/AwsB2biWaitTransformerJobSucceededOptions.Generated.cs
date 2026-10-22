@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsB2biWaitTransformerJobSucceededOptions : AwsOptions, IValidatab
     /// <summary>
     /// Wait until JMESPath query status returns succeeded when polling with get-transformer-job. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 12 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TransformerJobId">Specifies the unique, system-generated identifier for a transformer run. Constraints: o min: 25 o max: 25 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="TransformerId">Specifies the system-assigned unique identifier for the transformer. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="TransformerJobId">Specifies the unique, system-generated identifier for a transformer run. Constraints: • min: 25 • max: 25 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="TransformerId">Specifies the system-assigned unique identifier for the transformer. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsB2biWaitTransformerJobSucceededOptions(
         string TransformerJobId,
         string TransformerId
@@ -60,13 +62,13 @@ public record AwsB2biWaitTransformerJobSucceededOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the unique, system-generated identifier for a transformer run. Constraints: o min: 25 o max: 25 o pattern: [a-zA-Z0-9_-]+
+    /// Specifies the unique, system-generated identifier for a transformer run. Constraints: • min: 25 • max: 25 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--transformer-job-id")]
     public string? TransformerJobId { get; private init; }
 
     /// <summary>
-    /// Specifies the system-assigned unique identifier for the transformer. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// Specifies the system-assigned unique identifier for the transformer. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--transformer-id")]
     public string? TransformerId { get; private init; }

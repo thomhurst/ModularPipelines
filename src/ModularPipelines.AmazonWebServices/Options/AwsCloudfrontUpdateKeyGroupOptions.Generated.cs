@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a key group. When you update a key group, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update a key group: o Get the current key group with GetKeyGroup or GetKeyGroupConfig . o Locally modify the fields in the key group that you want to update. For example, add or remove public key IDs. o Call UpdateKeyGroup with the entire key group object, including the fields that you modified and those that you didn't. See...
+/// Updates a key group. When you update a key group, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update a key group: • Get the current key group with GetKeyGroup or GetKeyGroupConfig . • Locally modify the fields in the key group that you want to update. For example, add or remove public key IDs. • Call UpdateKeyGroup with the entire key group object, including the fields that you modified and those that you didn't. See...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsCloudfrontUpdateKeyGroupOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a key group. When you update a key group, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update a key group: o Get the current key group with GetKeyGroup or GetKeyGroupConfig . o Locally modify the fields in the key group that you want to update. For example, add or remove public key IDs. o Call UpdateKeyGroup with the entire key group object, including the fields that you modified and those that you didn't. See...
+    /// Updates a key group. When you update a key group, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update a key group: • Get the current key group with GetKeyGroup or GetKeyGroupConfig . • Locally modify the fields in the key group that you want to update. For example, add or remove public key IDs. • Call UpdateKeyGroup with the entire key group object, including the fields that you modified and those that you didn't. See...
     /// </summary>
     /// <param name="KeyGroupConfig">The key group configuration. Name -&gt; (string) [required] A name to identify the key group. Items -&gt; (list) [required] A list of the identifiers of the public keys in the key group. (string) Comment -&gt; (string) A comment to describe the key group. The comment cannot be longer than 128 characters. Shorthand Syntax: Name=string,Items=string,string,Comment=string JSON Syntax: { "Name": "string", "Items": ["string", ...], "Comment": "string" }</param>
     /// <param name="Id">The identifier of the key group that you are updating.</param>

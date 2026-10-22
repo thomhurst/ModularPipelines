@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the specified parameters for a profile. A profile is the mecha- nism used to create the concept of a private network. See also: AWS API Documentation
+/// Updates the specified parameters for a profile. A profile is the mechanism used to create the concept of a private network. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsB2biUpdateProfileOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the specified parameters for a profile. A profile is the mecha- nism used to create the concept of a private network. See also: AWS API Documentation
+    /// Updates the specified parameters for a profile. A profile is the mechanism used to create the concept of a private network. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileId">Specifies the unique, system-generated identifier for the profile. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ProfileId">Specifies the unique, system-generated identifier for the profile. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsB2biUpdateProfileOptions(
         string ProfileId
     )
@@ -56,31 +58,31 @@ public record AwsB2biUpdateProfileOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the unique, system-generated identifier for the profile. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// Specifies the unique, system-generated identifier for the profile. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--profile-id")]
     public string? ProfileId { get; private init; }
 
     /// <summary>
-    /// The name of the profile, used to identify it. Constraints: o min: 1 o max: 254
+    /// The name of the profile, used to identify it. Constraints: • min: 1 • max: 254
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Specifies the email address associated with this customer profile. Constraints: o min: 5 o max: 254 o pattern: [\w\.\-]+@[\w\.\-]+
+    /// Specifies the email address associated with this customer profile. Constraints: • min: 5 • max: 254 • pattern: [\w\.\-]+@[\w\.\-]+
     /// </summary>
     [CliOption("--email")]
     public string? Email { get; set; }
 
     /// <summary>
-    /// Specifies the phone number associated with the profile. Constraints: o min: 7 o max: 22 o pattern: \+?([0-9 \t\-()\/]{7,})(?:\s*(?:#|x\.?|ext\.?|extension) \t*(\d+))?
+    /// Specifies the phone number associated with the profile. Constraints: • min: 7 • max: 22 • pattern: \+?([0-9 \t\-()\/]{7,})(?:\s*(?:#|x\.?|ext\.?|extension) \t*(\d+))?
     /// </summary>
     [CliOption("--phone")]
     public string? Phone { get; set; }
 
     /// <summary>
-    /// Specifies the name for the business associated with this profile. Constraints: o min: 1 o max: 254
+    /// Specifies the name for the business associated with this profile. Constraints: • min: 1 • max: 254
     /// </summary>
     [CliOption("--business-name")]
     public string? BusinessName { get; set; }

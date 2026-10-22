@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes a tree-based hierarchy that represents the physical host placement of your pending or active Capacity Reservations within an Availability Zone or Local Zone. You can use this information to deter- mine the relative proximity of your capacity within the Amazon Web Ser- vices network before it is launched and use this information to allo- cate capacity together to support your tightly coupled workloads. Capacity Reservation topology is supported for specific instance types only. For more...
+/// Describes a tree-based hierarchy that represents the physical host placement of your pending or active Capacity Reservations within an Availability Zone or Local Zone. You can use this information to determine the relative proximity of your capacity within the Amazon Web Services network before it is launched and use this information to allocate capacity together to support your tightly coupled workloads. Capacity Reservation topology is supported for specific instance types only. For more infor...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,20 +23,20 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEc2DescribeCapacityReservationTopologyOptions : AwsOptions
 {
     /// <summary>
-    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous re- quest.
+    /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see Pagination . You can't specify this parameter and the Capacity Reservation IDs parameter in the same request. Default: 10 Constraints: o min: 1 o max: 10
+    /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see Pagination . You can't specify this parameter and the Capacity Reservation IDs parameter in the same request. Default: 10 Constraints: • min: 1 • max: 10
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -48,7 +48,7 @@ public record AwsEc2DescribeCapacityReservationTopologyOptions : AwsOptions
     public IEnumerable<string>? CapacityReservationIds { get; set; }
 
     /// <summary>
-    /// The filters. o availability-zone - The name of the Availability Zone (for exam- ple, us-west-2a ) or Local Zone (for example, us-west-2-lax-1b ) that the Capacity Reservation is in. o instance-type - The instance type (for example, p4d.24xlarge ) or instance family (for example, p4d* ). You can use the * wildcard to match zero or more characters, or the ? wildcard to match zero or one character. (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// The filters. • availability-zone - The name of the Availability Zone (for example, us-west-2a ) or Local Zone (for example, us-west-2-lax-1b ) that the Capacity Reservation is in. • instance-type - The instance type (for example, p4d.24xlarge ) or instance family (for example, p4d* ). You can use the * wildcard to match zero or more characters, or the ? wildcard to match zero or one character. (structure) A filter name and value pair that is used to return a more specific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }

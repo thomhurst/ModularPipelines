@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Begins setup of time-based one-time password (TOTP) multi-factor au- thentication (MFA) for a user, with a unique private key that Amazon Cognito generates and returns in the API response. You can authorize an AssociateSoftwareToken request with either the user's access token, or a session string from a challenge response that you received from Ama- zon Cognito. NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operat...
+/// Begins setup of time-based one-time password (TOTP) multi-factor authentication (MFA) for a user, with a unique private key that Amazon Cognito generates and returns in the API response. You can authorize an AssociateSoftwareToken request with either the user's access token, or a session string from a challenge response that you received from Amazon Cognito. NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation,...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,14 +23,14 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCognitoIdpAssociateSoftwareTokenOptions : AwsOptions
 {
     /// <summary>
-    /// A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cog- nito.signin.user.admin . You can provide either an access token or a session ID in the re- quest. Constraints: o pattern: [A-Za-z0-9-_=.]+
+    /// A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cognito.signin.user.admin . You can provide either an access token or a session ID in the request. Constraints: • pattern: [A-Za-z0-9-_=.]+
     /// </summary>
     [SecretValue]
     [CliOption("--access-token")]
     public string? AccessToken { get; set; }
 
     /// <summary>
-    /// The session identifier that maintains the state of authentication requests and challenge responses. In AssociateSoftwareToken , this is the session ID from a successful sign-in. You can provide either an access token or a session ID in the request. Constraints: o min: 20 o max: 2048
+    /// The session identifier that maintains the state of authentication requests and challenge responses. In AssociateSoftwareToken , this is the session ID from a successful sign-in. You can provide either an access token or a session ID in the request. Constraints: • min: 20 • max: 4096
     /// </summary>
     [CliOption("--session")]
     public string? Session { get; set; }

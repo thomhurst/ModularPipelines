@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsKendraDeleteExperienceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes your Amazon Kendra experience such as a search application. For more information on creating a search application experience, see Building a search experience with no code . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The identifier of your Amazon Kendra experience you want to delete. Constraints: o min: 1 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*</param>
-    /// <param name="IndexId">The identifier of the index for your Amazon Kendra experience. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="Id">The identifier of your Amazon Kendra experience you want to delete. Constraints: • min: 1 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*</param>
+    /// <param name="IndexId">The identifier of the index for your Amazon Kendra experience. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
     public AwsKendraDeleteExperienceOptions(
         string Id,
         string IndexId
@@ -60,13 +62,13 @@ public record AwsKendraDeleteExperienceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of your Amazon Kendra experience you want to delete. Constraints: o min: 1 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// The identifier of your Amazon Kendra experience you want to delete. Constraints: • min: 1 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The identifier of the index for your Amazon Kendra experience. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// The identifier of the index for your Amazon Kendra experience. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--index-id")]
     public string? IndexId { get; private init; }

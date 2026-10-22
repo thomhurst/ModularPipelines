@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -17,7 +18,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a log group with the specified name. You can create up to 1,000,000 log groups per Region per account. You must use the following guidelines when naming a log group: o Log group names must be unique within a Region for an Amazon Web Ser- vices account. o Log group names can be between 1 and 512 characters long. o Log group names consist of the following characters: a-z, A-Z, 0-9, '_' (underscore), '-' (hyphen), '/' (forward slash), '.' (period), and '#' (number sign) o Log group names ca...
+/// Creates a log group with the specified name. You can create up to 1,000,000 log groups per Region per account. You must use the following guidelines when naming a log group: • Log group names must be unique within a Region for an Amazon Web Services account. • Log group names can be between 1 and 512 characters long. • Log group names consist of the following characters: a-z, A-Z, 0-9, '_' (underscore), '-' (hyphen), '/' (forward slash), '.' (period), and '#' (number sign) • Log group names can'...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsLogsCreateLogGroupOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a log group with the specified name. You can create up to 1,000,000 log groups per Region per account. You must use the following guidelines when naming a log group: o Log group names must be unique within a Region for an Amazon Web Ser- vices account. o Log group names can be between 1 and 512 characters long. o Log group names consist of the following characters: a-z, A-Z, 0-9, '_' (underscore), '-' (hyphen), '/' (forward slash), '.' (period), and '#' (number sign) o Log group names ca...
+    /// Creates a log group with the specified name. You can create up to 1,000,000 log groups per Region per account. You must use the following guidelines when naming a log group: • Log group names must be unique within a Region for an Amazon Web Services account. • Log group names can be between 1 and 512 characters long. • Log group names consist of the following characters: a-z, A-Z, 0-9, '_' (underscore), '-' (hyphen), '/' (forward slash), '.' (period), and '#' (number sign) • Log group names can'...
     /// </summary>
-    /// <param name="LogGroupName">A name for the log group. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+</param>
+    /// <param name="LogGroupName">A name for the log group. Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+</param>
     public AwsLogsCreateLogGroupOptions(
         string LogGroupName
     )
@@ -58,25 +59,25 @@ public record AwsLogsCreateLogGroupOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name for the log group. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+
+    /// A name for the log group. Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+
     /// </summary>
     [CliOption("--log-group-name")]
     public string? LogGroupName { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data. For more information, see Amazon Resource Names . Constraints: o max: 256
+    /// The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data. For more information, see Amazon Resource Names . Constraints: • max: 256
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// The key-value pairs to use for the tags. You can grant users access to certain log groups while preventing them from accessing other log groups. To do so, tag your groups and use IAM policies that refer to those tags. To assign tags when you create a log group, you must have either the logs:TagResource or logs:TagLogGroup permission. For more information about tagging, see Tagging Amazon Web Services resources . For more information about using tags to control access, see Controlling access to Amazon Web Services resources using tags . Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ value -&gt; (string) Constraints: o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The key-value pairs to use for the tags. You can grant users access to certain log groups while preventing them from accessing other log groups. To do so, tag your groups and use IAM policies that refer to those tags. To assign tags when you create a log group, you must have either the logs:TagResource or logs:TagLogGroup permission. For more information about tagging, see Tagging Amazon Web Services resources . For more information about using tags to control access, see Controlling access to Amazon Web Services resources using tags . Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ value -&gt; (string) Constraints: • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Use this parameter to specify the log group class for this log group. There are three classes: o The Standard log class supports all CloudWatch Logs features. o The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs. o Use the Delivery log class only for delivering Lambda logs to store in Amazon S3 or Amazon Data Firehose. Log events in log groups in the Delivery class are kept in CloudWatch Logs for only one day. This log class doesn't offer rich CloudWatch Logs capa- bilities such as CloudWatch Logs Insights queries. If you omit this parameter, the default of STANDARD is used. WARNING: The value of logGroupClass can't be changed after a log group is created. For details about the features supported by each class, see Log classes Possible values: o STANDARD o INFREQUENT_ACCESS o DELIVERY
+    /// Use this parameter to specify the log group class for this log group. There are three classes: • The Standard log class supports all CloudWatch Logs features. • The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs. • Use the Delivery log class only for delivering Lambda logs to store in Amazon S3 or Amazon Data Firehose. Log events in log groups in the Delivery class are kept in CloudWatch Logs for only one day. This log class doesn't offer rich CloudWatch Logs capabilities such as CloudWatch Logs Insights queries. If you omit this parameter, the default of STANDARD is used. WARNING: The value of logGroupClass can't be changed after a log group is created. For details about the features supported by each class, see Log classes Possible values: • STANDARD • INFREQUENT_ACCESS • DELIVERY
     /// </summary>
     [CliOption("--log-group-class")]
     public AwsLogsCreateLogGroupLogGroupClass? LogGroupClass { get; set; }

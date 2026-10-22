@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsConnectBatchDisassociateAnalyticsDataSetOptions : AwsOptions, I
     /// <summary>
     /// Removes a list of analytics datasets associated with a given Connect Customer instance. You can disassociate multiple datasets in a single call. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="DataSetIds">An array of associated dataset identifiers to remove. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="DataSetIds">An array of associated dataset identifiers to remove. (string) Constraints: • min: 1 • max: 255 Syntax: "string" "string" ...</param>
     public AwsConnectBatchDisassociateAnalyticsDataSetOptions(
         string InstanceId,
         IEnumerable<string> DataSetIds
@@ -71,19 +73,19 @@ public record AwsConnectBatchDisassociateAnalyticsDataSetOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// An array of associated dataset identifiers to remove. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...
+    /// An array of associated dataset identifiers to remove. (string) Constraints: • min: 1 • max: 255 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--data-set-ids", GroupValues = true)]
     public IEnumerable<string>? DataSetIds { get; private init; }
 
     /// <summary>
-    /// The identifier of the target account. Use to disassociate a dataset from a different account than the one containing the Connect Cus- tomer instance. If not specified, by default this value is the Ama- zon Web Services account that has the Connect Customer instance.
+    /// The identifier of the target account. Use to disassociate a dataset from a different account than the one containing the Connect Customer instance. If not specified, by default this value is the Amazon Web Services account that has the Connect Customer instance.
     /// </summary>
     [CliOption("--target-account-id")]
     public string? TargetAccountId { get; set; }

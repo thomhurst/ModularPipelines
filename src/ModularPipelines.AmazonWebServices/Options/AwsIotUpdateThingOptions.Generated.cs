@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotUpdateThingOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the data for a thing. Requires permission to access the UpdateThing action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ThingName">The name of the thing to update. You can't change a thing's name. To change a thing's name, you must create a new thing, give it the new name, and then delete the old thing. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+</param>
+    /// <param name="ThingName">The name of the thing to update. You can't change a thing's name. To change a thing's name, you must create a new thing, give it the new name, and then delete the old thing. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+</param>
     public AwsIotUpdateThingOptions(
         string ThingName
     )
@@ -56,31 +58,31 @@ public record AwsIotUpdateThingOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the thing to update. You can't change a thing's name. To change a thing's name, you must create a new thing, give it the new name, and then delete the old thing. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The name of the thing to update. You can't change a thing's name. To change a thing's name, you must create a new thing, give it the new name, and then delete the old thing. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--thing-name")]
     public string? ThingName { get; private init; }
 
     /// <summary>
-    /// The name of the thing type. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The name of the thing type. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--thing-type-name")]
     public string? ThingTypeName { get; set; }
 
     /// <summary>
-    /// A list of thing attributes, a JSON string containing name-value pairs. For example: {\"attributes\":{\"name1\":\"value2\"}} This data is used to add new attributes or update existing attrib- utes. attributes -&gt; (map) A JSON string containing up to three key-value pair in JSON for- mat. For example: {\"attributes\":{\"string1\":\"string2\"}} key -&gt; (string) Constraints: o max: 128 o pattern: [a-zA-Z0-9_.,@/:#-]+ value -&gt; (string) Constraints: o max: 800 o pattern: [a-zA-Z0-9_.,@/:#=\[\]-]* merge -&gt; (boolean) Specifies whether the list of attributes provided in the Attrib- utePayload is merged with the attributes stored in the registry, instead of overwriting them. To remove an attribute, call UpdateThing with an empty attribute value. NOTE: The merge attribute is only valid when calling UpdateThing or UpdateThingGroup . Shorthand Syntax: attributes={KeyName1=string,KeyName2=string},merge=boolean JSON Syntax: { "attributes": {"string": "string" ...}, "merge": true|false }
+    /// A list of thing attributes, a JSON string containing name-value pairs. For example: {\"attributes\":{\"name1\":\"value2\"}} This data is used to add new attributes or update existing attributes. attributes -&gt; (map) A JSON string containing up to three key-value pair in JSON format. For example: {\"attributes\":{\"string1\":\"string2\"}} key -&gt; (string) Constraints: • max: 128 • pattern: [a-zA-Z0-9_.,@/:#-]+ value -&gt; (string) Constraints: • max: 800 • pattern: [a-zA-Z0-9_.,@/:#=\[\]-]* merge -&gt; (boolean) Specifies whether the list of attributes provided in the AttributePayload is merged with the attributes stored in the registry, instead of overwriting them. To remove an attribute, call UpdateThing with an empty attribute value. NOTE: The merge attribute is only valid when calling UpdateThing or UpdateThingGroup . Shorthand Syntax: attributes={KeyName1=string,KeyName2=string},merge=boolean JSON Syntax: { "attributes": {"string": "string" ...}, "merge": true|false }
     /// </summary>
     [CliOption("--attribute-payload")]
     public string? AttributePayload { get; set; }
 
     /// <summary>
-    /// The expected version of the thing record in the registry. If the version of the record in the registry does not match the expected version specified in the request, the UpdateThing request is re- jected with a VersionConflictException .
+    /// The expected version of the thing record in the registry. If the version of the record in the registry does not match the expected version specified in the request, the UpdateThing request is rejected with a VersionConflictException .
     /// </summary>
     [CliOption("--expected-version")]
-    public int? ExpectedVersion { get; set; }
+    public long? ExpectedVersion { get; set; }
 
     /// <summary>
-    /// Remove a thing type association. If true , the association is re- moved.
+    /// Remove a thing type association. If true , the association is removed.
     /// </summary>
     [CliFlag("--remove-thing-type", NegatedName = "--no-remove-thing-type")]
     public bool? RemoveThingType { get; set; }

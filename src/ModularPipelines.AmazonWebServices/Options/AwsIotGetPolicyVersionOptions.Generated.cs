@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsIotGetPolicyVersionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets information about the specified policy version. Requires permission to access the GetPolicyVersion action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyName">The name of the policy. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+</param>
-    /// <param name="PolicyVersionId">The policy version ID. Constraints: o pattern: [0-9]+</param>
+    /// <param name="PolicyName">The name of the policy. Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+</param>
+    /// <param name="PolicyVersionId">The policy version ID. Constraints: • pattern: [0-9]+</param>
     public AwsIotGetPolicyVersionOptions(
         string PolicyName,
         string PolicyVersionId
@@ -60,13 +62,13 @@ public record AwsIotGetPolicyVersionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the policy. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// The name of the policy. Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--policy-name")]
     public string? PolicyName { get; private init; }
 
     /// <summary>
-    /// The policy version ID. Constraints: o pattern: [0-9]+
+    /// The policy version ID. Constraints: • pattern: [0-9]+
     /// </summary>
     [CliOption("--policy-version-id")]
     public string? PolicyVersionId { get; private init; }

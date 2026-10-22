@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an endpoint and associates it with the specified Outpost. NOTE: It can take up to 5 minutes for this action to finish. Related actions include: o DeleteEndpoint o ListEndpoints See also: AWS API Documentation
+/// Creates an endpoint and associates it with the specified Outpost. NOTE: It can take up to 5 minutes for this action to finish. Related actions include: • DeleteEndpoint • ListEndpoints See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsS3outpostsCreateEndpointOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an endpoint and associates it with the specified Outpost. NOTE: It can take up to 5 minutes for this action to finish. Related actions include: o DeleteEndpoint o ListEndpoints See also: AWS API Documentation
+    /// Creates an endpoint and associates it with the specified Outpost. NOTE: It can take up to 5 minutes for this action to finish. Related actions include: • DeleteEndpoint • ListEndpoints See also: AWS API Documentation
     /// </summary>
-    /// <param name="OutpostId">The ID of the Outposts. Constraints: o pattern: ^(op-[a-f0-9]{17}|\d{12}|ec2)$</param>
-    /// <param name="SubnetId">The ID of the subnet in the selected VPC. The endpoint subnet must belong to the Outpost that has Amazon S3 on Outposts provisioned. Constraints: o pattern: ^subnet-([0-9a-f]{8}|[0-9a-f]{17})$</param>
-    /// <param name="SecurityGroupId">The ID of the security group to use with the endpoint. Constraints: o pattern: ^sg-([0-9a-f]{8}|[0-9a-f]{17})$</param>
+    /// <param name="OutpostId">The ID of the Outposts. Constraints: • pattern: ^(op-[a-f0-9]{17}|\d{12}|ec2)$</param>
+    /// <param name="SubnetId">The ID of the subnet in the selected VPC. The endpoint subnet must belong to the Outpost that has Amazon S3 on Outposts provisioned. Constraints: • pattern: ^subnet-([0-9a-f]{8}|[0-9a-f]{17})$</param>
+    /// <param name="SecurityGroupId">The ID of the security group to use with the endpoint. Constraints: • pattern: ^sg-([0-9a-f]{8}|[0-9a-f]{17})$</param>
     public AwsS3outpostsCreateEndpointOptions(
         string OutpostId,
         string SubnetId,
@@ -65,31 +67,31 @@ public record AwsS3outpostsCreateEndpointOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Outposts. Constraints: o pattern: ^(op-[a-f0-9]{17}|\d{12}|ec2)$
+    /// The ID of the Outposts. Constraints: • pattern: ^(op-[a-f0-9]{17}|\d{12}|ec2)$
     /// </summary>
     [CliOption("--outpost-id")]
     public string? OutpostId { get; private init; }
 
     /// <summary>
-    /// The ID of the subnet in the selected VPC. The endpoint subnet must belong to the Outpost that has Amazon S3 on Outposts provisioned. Constraints: o pattern: ^subnet-([0-9a-f]{8}|[0-9a-f]{17})$
+    /// The ID of the subnet in the selected VPC. The endpoint subnet must belong to the Outpost that has Amazon S3 on Outposts provisioned. Constraints: • pattern: ^subnet-([0-9a-f]{8}|[0-9a-f]{17})$
     /// </summary>
     [CliOption("--subnet-id")]
     public string? SubnetId { get; private init; }
 
     /// <summary>
-    /// The ID of the security group to use with the endpoint. Constraints: o pattern: ^sg-([0-9a-f]{8}|[0-9a-f]{17})$
+    /// The ID of the security group to use with the endpoint. Constraints: • pattern: ^sg-([0-9a-f]{8}|[0-9a-f]{17})$
     /// </summary>
     [CliOption("--security-group-id")]
     public string? SecurityGroupId { get; private init; }
 
     /// <summary>
-    /// The type of access for the network connectivity for the Amazon S3 on Outposts endpoint. To use the Amazon Web Services VPC, choose Pri- vate . To use the endpoint with an on-premises network, choose Cus- tomerOwnedIp . If you choose CustomerOwnedIp , you must also provide the customer-owned IP address pool (CoIP pool). NOTE: Private is the default access type value. Possible values: o Private o CustomerOwnedIp
+    /// The type of access for the network connectivity for the Amazon S3 on Outposts endpoint. To use the Amazon Web Services VPC, choose Private . To use the endpoint with an on-premises network, choose CustomerOwnedIp . If you choose CustomerOwnedIp , you must also provide the customer-owned IP address pool (CoIP pool). NOTE: Private is the default access type value. Possible values: • Private • CustomerOwnedIp
     /// </summary>
     [CliOption("--access-type")]
     public AwsS3outpostsCreateEndpointAccessType? AccessType { get; set; }
 
     /// <summary>
-    /// The ID of the customer-owned IPv4 address pool (CoIP pool) for the endpoint. IP addresses are allocated from this pool for the end- point. Constraints: o pattern: ^ipv4pool-coip-([0-9a-f]{17})$
+    /// The ID of the customer-owned IPv4 address pool (CoIP pool) for the endpoint. IP addresses are allocated from this pool for the endpoint. Constraints: • pattern: ^ipv4pool-coip-([0-9a-f]{17})$
     /// </summary>
     [CliOption("--customer-owned-ipv4-pool")]
     public string? CustomerOwnedIpv4Pool { get; set; }

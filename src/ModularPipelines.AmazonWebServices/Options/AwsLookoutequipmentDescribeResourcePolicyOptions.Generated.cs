@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsLookoutequipmentDescribeResourcePolicyOptions : AwsOptions, IVa
     /// <summary>
     /// Provides the details of a resource policy attached to a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource that is associated with the resource policy. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:lookoutequip- ment:[a-zA-Z0-9\-]*:[0-9]{12}:.+</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource that is associated with the resource policy. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:lookoutequipment:[a-zA-Z0-9\-]*:[0-9]{12}:.+</param>
     public AwsLookoutequipmentDescribeResourcePolicyOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsLookoutequipmentDescribeResourcePolicyOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource that is associated with the resource policy. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:lookoutequip- ment:[a-zA-Z0-9\-]*:[0-9]{12}:.+
+    /// The Amazon Resource Name (ARN) of the resource that is associated with the resource policy. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:lookoutequipment:[a-zA-Z0-9\-]*:[0-9]{12}:.+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

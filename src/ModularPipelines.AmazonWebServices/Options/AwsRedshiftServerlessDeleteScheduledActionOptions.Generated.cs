@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRedshiftServerlessDeleteScheduledActionOptions : AwsOptions, IV
     /// <summary>
     /// Deletes a scheduled action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ScheduledActionName">The name of the scheduled action to delete. Constraints: o min: 3 o max: 60 o pattern: ^[a-z0-9-]+$</param>
+    /// <param name="ScheduledActionName">The name of the scheduled action to delete. Constraints: • min: 3 • max: 60 • pattern: ^[a-z0-9-]+$</param>
     public AwsRedshiftServerlessDeleteScheduledActionOptions(
         string ScheduledActionName
     )
@@ -56,7 +58,7 @@ public record AwsRedshiftServerlessDeleteScheduledActionOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the scheduled action to delete. Constraints: o min: 3 o max: 60 o pattern: ^[a-z0-9-]+$
+    /// The name of the scheduled action to delete. Constraints: • min: 3 • max: 60 • pattern: ^[a-z0-9-]+$
     /// </summary>
     [CliOption("--scheduled-action-name")]
     public string? ScheduledActionName { get; private init; }

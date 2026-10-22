@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws wait commands.
+/// aws elementalinference wait commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsElementalinferenceWait
@@ -32,7 +32,7 @@ public class AwsElementalinferenceWait
     #region Commands
 
     /// <summary>
-    /// Wait until a Feed is deleted It will poll every 3 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation
+    /// Wait until a Feed is deleted It will poll every 3 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This request accepts a list of filters that retrieve opportunity sub- sets as well as sort options. This feature is available to partners from Partner Central using the ListOpportunities API action. To synchronize your system with Amazon Web Services, list only the op- portunities that were newly created or updated. We recommend you rely on events emitted by the service into your Amazon Web Services accounts Amazon EventBridge default event bus. You can also use the ListOpportu- nities action. W...
+/// This request accepts a list of filters that retrieve opportunity subsets as well as sort options. This feature is available to partners from Partner Central using the ListOpportunities API action. To synchronize your system with Amazon Web Services, list only the opportunities that were newly created or updated. We recommend you rely on events emitted by the service into your Amazon Web Services accounts Amazon EventBridge default event bus. You can also use the ListOpportunities action. We reco...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsPartnercentralSellingListOpportunitiesOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This request accepts a list of filters that retrieve opportunity sub- sets as well as sort options. This feature is available to partners from Partner Central using the ListOpportunities API action. To synchronize your system with Amazon Web Services, list only the op- portunities that were newly created or updated. We recommend you rely on events emitted by the service into your Amazon Web Services accounts Amazon EventBridge default event bus. You can also use the ListOpportu- nities action. W...
+    /// This request accepts a list of filters that retrieve opportunity subsets as well as sort options. This feature is available to partners from Partner Central using the ListOpportunities API action. To synchronize your system with Amazon Web Services, list only the opportunities that were newly created or updated. We recommend you rely on events emitted by the service into your Amazon Web Services accounts Amazon EventBridge default event bus. You can also use the ListOpportunities action. We reco...
     /// </summary>
-    /// <param name="Catalog">Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox . The catalog determines which environment the opportunities are listed in. Use AWS for listing real opportunities in the Amazon Web Services cata- log, and Sandbox for testing in secure, isolated environments. Constraints: o pattern: [a-zA-Z]+</param>
+    /// <param name="Catalog">Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox . The catalog determines which environment the opportunities are listed in. Use AWS for listing real opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments. Constraints: • pattern: [a-zA-Z]+</param>
     public AwsPartnercentralSellingListOpportunitiesOptions(
         string Catalog
     )
@@ -57,43 +59,43 @@ public record AwsPartnercentralSellingListOpportunitiesOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox . The catalog determines which environment the opportunities are listed in. Use AWS for listing real opportunities in the Amazon Web Services cata- log, and Sandbox for testing in secure, isolated environments. Constraints: o pattern: [a-zA-Z]+
+    /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox . The catalog determines which environment the opportunities are listed in. Use AWS for listing real opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments. Constraints: • pattern: [a-zA-Z]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// An object that specifies how the response is sorted. The default Sort.SortBy value is LastModifiedDate . SortOrder -&gt; (string) [required] Sort order. Default: Descending Possible values: o ASCENDING o DESCENDING SortBy -&gt; (string) [required] Field name to sort by. Possible values: o LastModifiedDate o Identifier o CustomerCompanyName o CreatedDate o TargetCloseDate Shorthand Syntax: SortOrder=string,SortBy=string JSON Syntax: { "SortOrder": "ASCENDING"|"DESCENDING", "SortBy": "LastModifiedDate"|"Identifier"|"CustomerCompanyName"|"CreatedDate"|"TargetCloseDate" }
+    /// An object that specifies how the response is sorted. The default Sort.SortBy value is LastModifiedDate . SortOrder -&gt; (string) [required] Sort order. Default: Descending Possible values: • ASCENDING • DESCENDING SortBy -&gt; (string) [required] Field name to sort by. Possible values: • LastModifiedDate • Identifier • CustomerCompanyName • CreatedDate • TargetCloseDate Shorthand Syntax: SortOrder=string,SortBy=string JSON Syntax: { "SortOrder": "ASCENDING"|"DESCENDING", "SortBy": "LastModifiedDate"|"Identifier"|"CustomerCompanyName"|"CreatedDate"|"TargetCloseDate" }
     /// </summary>
     [CliOption("--sort")]
     public string? Sort { get; set; }
 
     /// <summary>
-    /// Filters the opportunities based on their last modified date. This filter helps retrieve opportunities that were updated after the specified date, allowing partners to track recent changes or up- dates. AfterLastModifiedDate -&gt; (timestamp) Specifies the date after which the opportunities were modified. Use this filter to retrieve only those opportunities that were modified after a given timestamp. BeforeLastModifiedDate -&gt; (timestamp) Specifies the date before which the opportunities were modified. Use this filter to retrieve only those opportunities that were modified before a given timestamp. Shorthand Syntax: AfterLastModifiedDate=timestamp,BeforeLastModifiedDate=timestamp JSON Syntax: { "AfterLastModifiedDate": timestamp, "BeforeLastModifiedDate": timestamp }
+    /// Filters the opportunities based on their last modified date. This filter helps retrieve opportunities that were updated after the specified date, allowing partners to track recent changes or updates. AfterLastModifiedDate -&gt; (timestamp) Specifies the date after which the opportunities were modified. Use this filter to retrieve only those opportunities that were modified after a given timestamp. BeforeLastModifiedDate -&gt; (timestamp) Specifies the date before which the opportunities were modified. Use this filter to retrieve only those opportunities that were modified before a given timestamp. Shorthand Syntax: AfterLastModifiedDate=timestamp,BeforeLastModifiedDate=timestamp JSON Syntax: { "AfterLastModifiedDate": timestamp, "BeforeLastModifiedDate": timestamp }
     /// </summary>
     [CliOption("--last-modified-date")]
     public string? LastModifiedDate { get; set; }
 
     /// <summary>
-    /// Filters the opportunities based on the opportunity identifier. This allows partners to retrieve specific opportunities by providing their unique identifiers, ensuring precise results. Constraints: o min: 0 o max: 20 (string) Constraints: o pattern: O[0-9]{1,19} Syntax: "string" "string" ...
+    /// Filters the opportunities based on the opportunity identifier. This allows partners to retrieve specific opportunities by providing their unique identifiers, ensuring precise results. Constraints: • min: 0 • max: 20 (string) Constraints: • pattern: O[0-9]{1,19} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--identifier", GroupValues = true)]
     public IEnumerable<string>? Identifier { get; set; }
 
     /// <summary>
-    /// Filters the opportunities based on their lifecycle stage. This fil- ter allows partners to retrieve opportunities at various stages in the sales cycle, such as Qualified , Technical Validation , Business Validation , or Closed Won . Constraints: o min: 0 o max: 10 (string) Possible values: o Prospect o Qualified o Technical Validation o Business Validation o Committed o Launched o Closed Lost Syntax: "string" "string" ...
+    /// Filters the opportunities based on their lifecycle stage. This filter allows partners to retrieve opportunities at various stages in the sales cycle, such as Qualified , Technical Validation , Business Validation , or Closed Won . Constraints: • min: 0 • max: 10 (string) Possible values: • Prospect • Qualified • Technical Validation • Business Validation • Committed • Launched • Closed Lost Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--life-cycle-stage", GroupValues = true)]
     public IEnumerable<string>? LifeCycleStage { get; set; }
 
     /// <summary>
-    /// Filters the opportunities based on their current lifecycle approval status. Use this filter to retrieve opportunities with statuses such as Pending Submission , In Review , Action Required , or Approved . Constraints: o min: 0 o max: 10 (string) Possible values: o Pending Submission o Submitted o In review o Approved o Rejected o Action Required Syntax: "string" "string" ...
+    /// Filters the opportunities based on their current lifecycle approval status. Use this filter to retrieve opportunities with statuses such as Pending Submission , In Review , Action Required , or Approved . Constraints: • min: 0 • max: 10 (string) Possible values: • Pending Submission • Submitted • In review • Approved • Rejected • Action Required Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--life-cycle-review-status", GroupValues = true)]
     public IEnumerable<string>? LifeCycleReviewStatus { get; set; }
 
     /// <summary>
-    /// Filters the opportunities based on the customer's company name. This allows partners to search for opportunities associated with a spe- cific customer by matching the provided company name string. Constraints: o min: 0 o max: 10 (string) Syntax: "string" "string" ...
+    /// Filters the opportunities based on the customer's company name. This allows partners to search for opportunities associated with a specific customer by matching the provided company name string. Constraints: • min: 0 • max: 10 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--customer-company-name", GroupValues = true)]
     public IEnumerable<string>? CustomerCompanyName { get; set; }
@@ -105,16 +107,13 @@ public record AwsPartnercentralSellingListOpportunitiesOptions : AwsOptions, IVa
     public string? CreatedDate { get; set; }
 
     /// <summary>
-    /// Filters opportunities based on their target close date. This filter helps retrieve opportunities with an expected close date before or after a specified date. AfterTargetCloseDate -&gt; (string) Filters opportunities with a target close date after this date. Use the YYYY-MM-DD format. Constraints: o pattern: [1-9][0-9]{3}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01]) BeforeTargetCloseDate -&gt; (string) Filters opportunities with a target close date before this date. Use the YYYY-MM-DD format. Constraints: o pattern: [1-9][0-9]{3}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01]) Shorthand Syntax: AfterTargetCloseDate=string,BeforeTargetCloseDate=string JSON Syntax: { "AfterTargetCloseDate": "string", "BeforeTargetCloseDate": "string" }
+    /// Filters opportunities based on their target close date. This filter helps retrieve opportunities with an expected close date before or after a specified date. AfterTargetCloseDate -&gt; (string) Filters opportunities with a target close date after this date. Use the YYYY-MM-DD format. Constraints: • pattern: [1-9][0-9]{3}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01]) BeforeTargetCloseDate -&gt; (string) Filters opportunities with a target close date before this date. Use the YYYY-MM-DD format. Constraints: • pattern: [1-9][0-9]{3}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01]) Shorthand Syntax: AfterTargetCloseDate=string,BeforeTargetCloseDate=string JSON Syntax: { "AfterTargetCloseDate": "string", "BeforeTargetCloseDate": "string" }
     /// </summary>
     [CliOption("--target-close-date")]
     public string? TargetCloseDate { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -124,16 +123,19 @@ public record AwsPartnercentralSellingListOpportunitiesOptions : AwsOptions, IVa
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

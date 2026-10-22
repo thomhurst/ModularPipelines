@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRoute53resolverGetResolverRuleAssociationOptions : AwsOptions, 
     /// <summary>
     /// Gets information about an association between a specified Resolver rule and a VPC. You associate a Resolver rule and a VPC using AssociateResolverRule . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResolverRuleAssociationId">The ID of the Resolver rule association that you want to get infor- mation about. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ResolverRuleAssociationId">The ID of the Resolver rule association that you want to get information about. Constraints: • min: 1 • max: 64</param>
     public AwsRoute53resolverGetResolverRuleAssociationOptions(
         string ResolverRuleAssociationId
     )
@@ -56,7 +58,7 @@ public record AwsRoute53resolverGetResolverRuleAssociationOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Resolver rule association that you want to get infor- mation about. Constraints: o min: 1 o max: 64
+    /// The ID of the Resolver rule association that you want to get information about. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--resolver-rule-association-id")]
     public string? ResolverRuleAssociationId { get; private init; }

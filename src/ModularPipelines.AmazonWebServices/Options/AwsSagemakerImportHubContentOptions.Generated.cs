@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,11 +30,11 @@ public record AwsSagemakerImportHubContentOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Import hub content. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HubContentName">The name of the hub content to import. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
-    /// <param name="HubContentType">The type of hub content to import. Possible values: o Model o Notebook o ModelReference o DataSet o JsonDoc</param>
-    /// <param name="DocumentSchemaVersion">The version of the hub content schema to import. Constraints: o min: 5 o max: 14 o pattern: \d{1,4}.\d{1,4}.\d{1,4}</param>
-    /// <param name="HubName">The name of the hub to import content into. Constraints: o pattern: (arn:[a-z0-9-\.]{1,63}:sage- maker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
-    /// <param name="HubContentDocument">The hub content document that describes information about the hub content such as type, associated containers, scripts, and more. Constraints: o min: 0 o max: 327680 o pattern: .*</param>
+    /// <param name="HubContentName">The name of the hub content to import. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="HubContentType">The type of hub content to import. Possible values: • Model • Notebook • ModelReference • DataSet • JsonDoc</param>
+    /// <param name="DocumentSchemaVersion">The version of the hub content schema to import. Constraints: • min: 5 • max: 14 • pattern: \d{1,4}.\d{1,4}.\d{1,4}</param>
+    /// <param name="HubName">The name of the hub to import content into. Constraints: • pattern: (arn:[a-z0-9-\.]{1,63}:sagemaker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="HubContentDocument">The hub content document that describes information about the hub content such as type, associated containers, scripts, and more. Constraints: • min: 0 • max: 327680 • pattern: .*</param>
     public AwsSagemakerImportHubContentOptions(
         string HubContentName,
         AwsSagemakerImportHubContentHubContentType HubContentType,
@@ -72,73 +74,73 @@ public record AwsSagemakerImportHubContentOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the hub content to import. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the hub content to import. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--hub-content-name")]
     public string? HubContentName { get; private init; }
 
     /// <summary>
-    /// The type of hub content to import. Possible values: o Model o Notebook o ModelReference o DataSet o JsonDoc
+    /// The type of hub content to import. Possible values: • Model • Notebook • ModelReference • DataSet • JsonDoc
     /// </summary>
     [CliOption("--hub-content-type")]
     public AwsSagemakerImportHubContentHubContentType? HubContentType { get; private init; }
 
     /// <summary>
-    /// The version of the hub content schema to import. Constraints: o min: 5 o max: 14 o pattern: \d{1,4}.\d{1,4}.\d{1,4}
+    /// The version of the hub content schema to import. Constraints: • min: 5 • max: 14 • pattern: \d{1,4}.\d{1,4}.\d{1,4}
     /// </summary>
     [CliOption("--document-schema-version")]
     public string? DocumentSchemaVersion { get; private init; }
 
     /// <summary>
-    /// The name of the hub to import content into. Constraints: o pattern: (arn:[a-z0-9-\.]{1,63}:sage- maker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the hub to import content into. Constraints: • pattern: (arn:[a-z0-9-\.]{1,63}:sagemaker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--hub-name")]
     public string? HubName { get; private init; }
 
     /// <summary>
-    /// The hub content document that describes information about the hub content such as type, associated containers, scripts, and more. Constraints: o min: 0 o max: 327680 o pattern: .*
+    /// The hub content document that describes information about the hub content such as type, associated containers, scripts, and more. Constraints: • min: 0 • max: 327680 • pattern: .*
     /// </summary>
     [CliOption("--hub-content-document")]
     public string? HubContentDocument { get; private init; }
 
     /// <summary>
-    /// The version of the hub content to import. Constraints: o min: 5 o max: 14 o pattern: \d{1,4}.\d{1,4}.\d{1,4}
+    /// The version of the hub content to import. Constraints: • min: 5 • max: 14 • pattern: \d{1,4}.\d{1,4}.\d{1,4}
     /// </summary>
     [CliOption("--hub-content-version")]
     public string? HubContentVersion { get; set; }
 
     /// <summary>
-    /// The display name of the hub content to import. Constraints: o min: 0 o max: 255 o pattern: .*
+    /// The display name of the hub content to import. Constraints: • min: 0 • max: 255 • pattern: .*
     /// </summary>
     [CliOption("--hub-content-display-name")]
     public string? HubContentDisplayName { get; set; }
 
     /// <summary>
-    /// A description of the hub content to import. Constraints: o min: 0 o max: 1023 o pattern: .*
+    /// A description of the hub content to import. Constraints: • min: 0 • max: 1023 • pattern: .*
     /// </summary>
     [CliOption("--hub-content-description")]
     public string? HubContentDescription { get; set; }
 
     /// <summary>
-    /// A string that provides a description of the hub content. This string can include links, tables, and standard markdown formating. Constraints: o min: 0 o max: 170391
+    /// A string that provides a description of the hub content. This string can include links, tables, and standard markdown formating. Constraints: • min: 0 • max: 170391
     /// </summary>
     [CliOption("--hub-content-markdown")]
     public string? HubContentMarkdown { get; set; }
 
     /// <summary>
-    /// The status of the hub content resource. Possible values: o Supported o Deprecated o Restricted
+    /// The status of the hub content resource. Possible values: • Supported • Deprecated • Restricted
     /// </summary>
     [CliOption("--support-status")]
     public AwsSagemakerImportHubContentSupportStatus? SupportStatus { get; set; }
 
     /// <summary>
-    /// The searchable keywords of the hub content. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 0 o max: 255 o pattern: .* Syntax: "string" "string" ...
+    /// The searchable keywords of the hub content. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 0 • max: 255 • pattern: .* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--hub-content-search-keywords", GroupValues = true)]
     public IEnumerable<string>? HubContentSearchKeywords { get; set; }
 
     /// <summary>
-    /// Any tags associated with the hub content. Constraints: o min: 0 o max: 50 (structure) A tag object that consists of a key and an optional value, used to manage metadata for SageMaker Amazon Web Services resources. You can add tags to notebook instances, training jobs, hyperpa- rameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. For more information on adding tags to SageMaker resources, see AddTags . For more information on adding metadata to your Amazon Web Ser- vices resources with tagging, see Tagging Amazon Web Services resources . For advice on best practices for managing Amazon Web Services resources with tagging, see Tagging Best Practices: Im- plement an Effective Amazon Web Services Resource Tagging Strat- egy . Key -&gt; (string) [required] The tag key. Tag keys must be unique per resource. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Any tags associated with the hub content. Constraints: • min: 0 • max: 50 (structure) A tag object that consists of a key and an optional value, used to manage metadata for SageMaker Amazon Web Services resources. You can add tags to notebook instances, training jobs, hyperparameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. For more information on adding tags to SageMaker resources, see AddTags . For more information on adding metadata to your Amazon Web Services resources with tagging, see Tagging Amazon Web Services resources . For advice on best practices for managing Amazon Web Services resources with tagging, see Tagging Best Practices: Implement an Effective Amazon Web Services Resource Tagging Strategy . Key -&gt; (string) [required] The tag key. Tag keys must be unique per resource. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

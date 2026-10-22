@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws pinpointsmsvoicev2 commands.
+/// aws pinpoint-sms-voice-v2 commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
@@ -32,7 +32,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     #region Commands
 
     /// <summary>
-    /// Associates the specified origination identity with a pool. If the origination identity is a phone number and is already associated with another pool, an error is returned. A sender ID can be associated with multiple pools. If the origination identity configuration doesn't match the pool's con- figuration, an error is returned. See also: AWS API Documentation
+    /// Associates the specified origination identity with a pool. If the origination identity is a phone number and is already associated with another pool, an error is returned. A sender ID can be associated with multiple pools. If the origination identity configuration doesn't match the pool's configuration, an error is returned. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Associate a protect configuration with a configuration set. This re- places the configuration sets current protect configuration. A configu- ration set can only be associated with one protect configuration at a time. A protect configuration can be associated with multiple configu- ration sets. See also: AWS API Documentation
+    /// Associate a protect configuration with a configuration set. This replaces the configuration sets current protect configuration. A configuration set can only be associated with one protect configuration at a time. A protect configuration can be associated with multiple configuration sets. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Creates a new configuration set. After you create the configuration set, you can add one or more event destinations to it. A configuration set is a set of rules that you apply to the SMS and voice messages that you send. When you send a message, you can optionally specify a single configura- tion set. See also: AWS API Documentation
+    /// Creates a new configuration set. After you create the configuration set, you can add one or more event destinations to it. A configuration set is a set of rules that you apply to the SMS and voice messages that you send. When you send a message, you can optionally specify a single configuration set. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Creates a new event destination in a configuration set. An event destination is a location where you send message events. The event options are Amazon CloudWatch, Amazon Data Firehose, or Amazon SNS. For example, when a message is delivered successfully, you can send information about that event to an event destination, or send no- tifications to endpoints that are subscribed to an Amazon SNS topic. You can only create one event destination at a time. You must provide a value for a single event ...
+    /// Creates a new event destination in a configuration set. An event destination is a location where you send message events. The event options are Amazon CloudWatch, Amazon Data Firehose, or Amazon SNS. For example, when a message is delivered successfully, you can send information about that event to an event destination, or send notifications to endpoints that are subscribed to an Amazon SNS topic. You can only create one event destination at a time. You must provide a value for a single event de...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Creates a new notify configuration for managed messaging. A notify con- figuration defines the settings for sending templated messages, includ- ing the display name, use case, enabled channels, and enabled coun- tries. See also: AWS API Documentation
+    /// Creates a new notify configuration for managed messaging. A notify configuration defines the settings for sending templated messages, including the display name, use case, enabled channels, and enabled countries. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Creates a new opt-out list. If the opt-out list name already exists, an error is returned. An opt-out list is a list of phone numbers that are opted out, meaning you can't send SMS or voice messages to them. If end user replies with the keyword "STOP," an entry for the phone number is added to the opt-out list. In addition to STOP, your recipients can use any sup- ported opt-out keyword, such as CANCEL or OPTOUT. For a list of sup- ported opt-out keywords, see SMS opt out in the End User Messagi...
+    /// Creates a new opt-out list. If the opt-out list name already exists, an error is returned. An opt-out list is a list of phone numbers that are opted out, meaning you can't send SMS or voice messages to them. If end user replies with the keyword "STOP," an entry for the phone number is added to the opt-out list. In addition to STOP, your recipients can use any supported opt-out keyword, such as CANCEL or OPTOUT. For a list of supported opt-out keywords, see SMS opt out in the End User Messaging S...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Creates a new pool and associates the specified origination identity to the pool. A pool can include one or more phone numbers and SenderIds that are associated with your Amazon Web Services account. The new pool inherits its configuration from the specified origination identity. This includes keywords, message type, opt-out list, two-way configuration, and self-managed opt-out configuration. Deletion protec- tion isn't inherited from the origination identity and defaults to false. If the origin...
+    /// Creates a new pool and associates the specified origination identity to the pool. A pool can include one or more phone numbers and SenderIds that are associated with your Amazon Web Services account. The new pool inherits its configuration from the specified origination identity. This includes keywords, message type, opt-out list, two-way configuration, and self-managed opt-out configuration. Deletion protection isn't inherited from the origination identity and defaults to false. If the originat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Create a new protect configuration. By default all country rule sets for each capability are set to ALLOW . Update the country rule sets us- ing UpdateProtectConfigurationCountryRuleSet . A protect configurations name is stored as a Tag with the key set to Name and value as the name of the protect configuration. See also: AWS API Documentation
+    /// Create a new protect configuration. By default all country rule sets for each capability are set to ALLOW . Update the country rule sets using UpdateProtectConfigurationCountryRuleSet . A protect configurations name is stored as a Tag with the key set to Name and value as the name of the protect configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Creates a new RCS agent for sending rich messages through the RCS chan- nel. The RCS agent serves as an origination identity for sending RCS messages to your recipients. See also: AWS API Documentation
+    /// Creates a new RCS agent for sending rich messages through the RCS channel. The RCS agent serves as an origination identity for sending RCS messages to your recipients. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Create a new registration attachment to use for uploading a file or a URL to a file. The maximum file size is 5MB and valid file extensions are PDF, JPEG and PNG. For example, many sender ID registrations re- quire a signed letter of authorization (LOA) to be submitted. Use either AttachmentUrl or AttachmentBody to upload your attachment. If both are specified then an exception is returned. See also: AWS API Documentation
+    /// Create a new registration attachment to use for uploading a file or a URL to a file. The maximum file size is 5MB and valid file extensions are PDF, JPEG and PNG. For example, many sender ID registrations require a signed letter of authorization (LOA) to be submitted. Use either AttachmentUrl or AttachmentBody to upload your attachment. If both are specified then an exception is returned. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Deletes an existing configuration set. A configuration set is a set of rules that you apply to voice and SMS messages that you send. In a configuration set, you can specify a des- tination for specific types of events related to voice and SMS mes- sages. See also: AWS API Documentation
+    /// Deletes an existing configuration set. A configuration set is a set of rules that you apply to voice and SMS messages that you send. In a configuration set, you can specify a destination for specific types of events related to voice and SMS messages. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Deletes an existing default message type on a configuration set. A message type is a type of messages that you plan to send. If you send account-related messages or time-sensitive messages such as one-time passcodes, choose Transactional . If you plan to send messages that contain marketing material or other promotional content, choose Promo- tional . This setting applies to your entire Amazon Web Services ac- count. See also: AWS API Documentation
+    /// Deletes an existing default message type on a configuration set. A message type is a type of messages that you plan to send. If you send account-related messages or time-sensitive messages such as one-time passcodes, choose Transactional . If you plan to send messages that contain marketing material or other promotional content, choose Promotional . This setting applies to your entire Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Deletes an existing event destination. An event destination is a location where you send response information about the messages that you send. For example, when a message is deliv- ered successfully, you can send information about that event to an Ama- zon CloudWatch destination, or send notifications to endpoints that are subscribed to an Amazon SNS topic. See also: AWS API Documentation
+    /// Deletes an existing event destination. An event destination is a location where you send response information about the messages that you send. For example, when a message is delivered successfully, you can send information about that event to an Amazon CloudWatch destination, or send notifications to endpoints that are subscribed to an Amazon SNS topic. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Deletes an existing keyword from an origination phone number or pool. A keyword is a word that you can search for on a particular phone num- ber or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational mes- sage or a special offer. When your number receives a message that be- gins with a keyword, End User Messaging SMS responds with a customiz- able message. Keywords "HELP" and "STOP" can't be deleted or modified. See a...
+    /// Deletes an existing keyword from an origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, End User Messaging SMS responds with a customizable message. Keywords "HELP" and "STOP" can't be deleted or modified. See also: AWS...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Deletes an account-level monthly spending limit override for sending notify messages. Deleting a spend limit override will set the En- forcedLimit to equal the MaxLimit , which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas in the End User Messaging SMS User Guide . See also: AWS API Documentation
+    /// Deletes an account-level monthly spending limit override for sending notify messages. Deleting a spend limit override will set the EnforcedLimit to equal the MaxLimit , which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas in the End User Messaging SMS User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -389,21 +389,6 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DeleteNotifyMessageSpendLimitOverrideOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Deletes an existing opted out destination phone number from the speci- fied opt-out list. Each destination phone number can only be deleted once every 30 days. If the specified destination phone number doesn't exist or if the opt-out list doesn't exist, an error is returned. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DeleteOptedOutNumberAsync(
-        AwsPinpointSmsVoiceV2DeleteOptedOutNumberOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -422,7 +407,22 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Deletes an existing pool. Deleting a pool disassociates all origination identities from that pool. If the pool status isn't active or if deletion protection is enabled, an error is returned. A pool is a collection of phone numbers and SenderIds. A pool can in- clude one or more phone numbers and SenderIds that are associated with your Amazon Web Services account. See also: AWS API Documentation
+    /// Deletes an existing opted out destination phone number from the specified opt-out list. Each destination phone number can only be deleted once every 30 days. If the specified destination phone number doesn't exist or if the opt-out list doesn't exist, an error is returned. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteOptedOutNumberAsync(
+        AwsPinpointSmsVoiceV2DeleteOptedOutNumberOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Deletes an existing pool. Deleting a pool disassociates all origination identities from that pool. If the pool status isn't active or if deletion protection is enabled, an error is returned. A pool is a collection of phone numbers and SenderIds. A pool can include one or more phone numbers and SenderIds that are associated with your Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Permanently delete the protect configuration. The protect configuration must have deletion protection disabled and must not be associated as the account default protect configuration or associated with a configu- ration set. See also: AWS API Documentation
+    /// Permanently delete the protect configuration. The protect configuration must have deletion protection disabled and must not be associated as the account default protect configuration or associated with a configuration set. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +557,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Deletes an account-level monthly spending limit override for sending text messages. Deleting a spend limit override will set the En- forcedLimit to equal the MaxLimit , which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas in the End User Messaging SMS User Guide . See also: AWS API Documentation
+    /// Deletes an account-level monthly spending limit override for sending text messages. Deleting a spend limit override will set the EnforcedLimit to equal the MaxLimit , which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas in the End User Messaging SMS User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Deletes an account level monthly spend limit override for sending voice messages. Deleting a spend limit override sets the EnforcedLimit equal to the MaxLimit , which is controlled by Amazon Web Services. For more information on spending limits (quotas) see Quotas in the End User Mes- saging SMS User Guide . See also: AWS API Documentation
+    /// Deletes an account level monthly spend limit override for sending voice messages. Deleting a spend limit override sets the EnforcedLimit equal to the MaxLimit , which is controlled by Amazon Web Services. For more information on spending limits (quotas) see Quotas in the End User Messaging SMS User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -602,7 +602,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Describes attributes of your Amazon Web Services account. The supported account attributes include account tier, which indicates whether your account is in the sandbox or production environment. When you're ready to move your account out of the sandbox, create an Amazon Web Services Support case for a service limit increase request. New accounts are placed into an SMS or voice sandbox. The sandbox pro- tects both Amazon Web Services end recipients and SMS or voice recipi- ents from fraud and abu...
+    /// Describes attributes of your Amazon Web Services account. The supported account attributes include account tier, which indicates whether your account is in the sandbox or production environment. When you're ready to move your account out of the sandbox, create an Amazon Web Services Support case for a service limit increase request. New accounts are placed into an SMS or voice sandbox. The sandbox protects both Amazon Web Services end recipients and SMS or voice recipients from fraud and abuse. ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +617,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Describes the current End User Messaging SMS SMS Voice V2 resource quo- tas for your account. The description for a quota includes the quota name, current usage toward that quota, and the quota's maximum value. When you establish an Amazon Web Services account, the account has ini- tial quotas on the maximum number of configuration sets, opt-out lists, phone numbers, and pools that you can create in a given Region. For more information see Quotas in the End User Messaging SMS User Guide . See al...
+    /// Describes the current End User Messaging SMS SMS Voice V2 resource quotas for your account. The description for a quota includes the quota name, current usage toward that quota, and the quota's maximum value. When you establish an Amazon Web Services account, the account has initial quotas on the maximum number of configuration sets, opt-out lists, phone numbers, and pools that you can create in a given Region. For more information see Quotas in the End User Messaging SMS User Guide . See also: ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +647,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Describes the specified keywords or all keywords on your origination phone number or pool. A keyword is a word that you can search for on a particular phone num- ber or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational mes- sage or a special offer. When your number receives a message that be- gins with a keyword, End User Messaging SMS responds with a customiz- able message. If you specify a keyword that isn't valid...
+    /// Describes the specified keywords or all keywords on your origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, End User Messaging SMS responds with a customizable message. If you specify a keyword that isn't valid, an err...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Describes the specified notify configurations or all notify configura- tions in your account. If you specify notify configuration IDs, the output includes informa- tion for only the specified notify configurations. If you specify fil- ters, the output includes information for only those notify configura- tions that meet the filter criteria. If you don't specify notify con- figuration IDs or filters, the output includes information for all no- tify configurations. If you specify a notify configur...
+    /// Describes the specified notify configurations or all notify configurations in your account. If you specify notify configuration IDs, the output includes information for only the specified notify configurations. If you specify filters, the output includes information for only those notify configurations that meet the filter criteria. If you don't specify notify configuration IDs or filters, the output includes information for all notify configurations. If you specify a notify configuration ID tha...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -677,7 +677,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Describes the specified notify templates or all notify templates in your account. If you specify template IDs, the output includes information for only the specified notify templates. If you specify filters, the output in- cludes information for only those notify templates that meet the filter criteria. If you don't specify template IDs or filters, the output in- cludes information for all notify templates. If you specify a template ID that isn't valid, an error is returned. See also: AWS API Do...
+    /// Describes the specified notify templates or all notify templates in your account. If you specify template IDs, the output includes information for only the specified notify templates. If you specify filters, the output includes information for only those notify templates that meet the filter criteria. If you don't specify template IDs or filters, the output includes information for all notify templates. If you specify a template ID that isn't valid, an error is returned. See also: AWS API Docume...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -692,22 +692,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Describes the specified opted out destination numbers or all opted out destination numbers in an opt-out list. If you specify opted out numbers, the output includes information for only the specified opted out numbers. If you specify filters, the out- put includes information for only those opted out numbers that meet the filter criteria. If you don't specify opted out numbers or filters, the output includes information for all opted out destination numbers in your opt-out list. If you specify a...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeOptedOutNumbersAsync(
-        AwsPinpointSmsVoiceV2DescribeOptedOutNumbersOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Describes the specified opt-out list or all opt-out lists in your ac- count. If you specify opt-out list names, the output includes information for only the specified opt-out lists. Opt-out lists include only those that meet the filter criteria. If you don't specify opt-out list names or filters, the output includes information for all opt-out lists. If you specify an opt-out list name that isn't valid, an error is re- turned. See also: AWS API Documentation describe-opt-out-lists is a paginated...
+    /// Describes the specified opt-out list or all opt-out lists in your account. If you specify opt-out list names, the output includes information for only the specified opt-out lists. Opt-out lists include only those that meet the filter criteria. If you don't specify opt-out list names or filters, the output includes information for all opt-out lists. If you specify an opt-out list name that isn't valid, an error is returned. See also: AWS API Documentation describe-opt-out-lists is a paginated ope...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -722,7 +707,22 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Describes the specified origination phone number, or all the phone num- bers in your account. If you specify phone number IDs, the output includes information for only the specified phone numbers. If you specify filters, the output includes information for only those phone numbers that meet the filter criteria. If you don't specify phone number IDs or filters, the output includes information for all phone numbers. If you specify a phone number ID that isn't valid, an error is re- turned. See als...
+    /// Describes the specified opted out destination numbers or all opted out destination numbers in an opt-out list. If you specify opted out numbers, the output includes information for only the specified opted out numbers. If you specify filters, the output includes information for only those opted out numbers that meet the filter criteria. If you don't specify opted out numbers or filters, the output includes information for all opted out destination numbers in your opt-out list. If you specify an ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeOptedOutNumbersAsync(
+        AwsPinpointSmsVoiceV2DescribeOptedOutNumbersOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes the specified origination phone number, or all the phone numbers in your account. If you specify phone number IDs, the output includes information for only the specified phone numbers. If you specify filters, the output includes information for only those phone numbers that meet the filter criteria. If you don't specify phone number IDs or filters, the output includes information for all phone numbers. If you specify a phone number ID that isn't valid, an error is returned. See also: A...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -737,7 +737,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Retrieves the specified pools or all pools associated with your Amazon Web Services account. If you specify pool IDs, the output includes information for only the specified pools. If you specify filters, the output includes informa- tion for only those pools that meet the filter criteria. If you don't specify pool IDs or filters, the output includes information for all pools. If you specify a pool ID that isn't valid, an error is returned. A pool is a collection of phone numbers and SenderIds. A...
+    /// Retrieves the specified pools or all pools associated with your Amazon Web Services account. If you specify pool IDs, the output includes information for only the specified pools. If you specify filters, the output includes information for only those pools that meet the filter criteria. If you don't specify pool IDs or filters, the output includes information for all pools. If you specify a pool ID that isn't valid, an error is returned. A pool is a collection of phone numbers and SenderIds. A p...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -752,7 +752,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Retrieves the protect configurations that match any of filters. If a filter isnt provided then all protect configurations are returned. See also: AWS API Documentation describe-protect-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data fr...
+    /// Retrieves the protect configurations that match any of filters. If a filter isnt provided then all protect configurations are returned. See also: AWS API Documentation describe-protect-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -767,7 +767,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Retrieves the per-country launch status of an RCS agent, including car- rier-level details for each country. See also: AWS API Documentation describe-rcs-agent-country-launch-status is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of ...
+    /// Retrieves the per-country launch status of an RCS agent, including carrier-level details for each country. See also: AWS API Documentation describe-rcs-agent-country-launch-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the fo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -782,7 +782,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Retrieves the specified RCS agents or all RCS agents associated with your Amazon Web Services account. If you specify RCS agent IDs, the output includes information for only the specified RCS agents. If you specify filters, the output includes information for only those RCS agents that meet the filter criteria. If you don't specify RCS agent IDs or filters, the output includes infor- mation for all RCS agents. See also: AWS API Documentation describe-rcs-agents is a paginated operation. Multiple...
+    /// Retrieves the specified RCS agents or all RCS agents associated with your Amazon Web Services account. If you specify RCS agent IDs, the output includes information for only the specified RCS agents. If you specify filters, the output includes information for only those RCS agents that meet the filter criteria. If you don't specify RCS agent IDs or filters, the output includes information for all RCS agents. See also: AWS API Documentation describe-rcs-agents is a paginated operation. Multiple A...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -797,7 +797,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Retrieves the specified registration attachments or all registration attachments associated with your Amazon Web Services account. See also: AWS API Documentation describe-registration-attachments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from ...
+    /// Retrieves the specified registration attachments or all registration attachments associated with your Amazon Web Services account. See also: AWS API Documentation describe-registration-attachments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -812,7 +812,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Retrieves the specified registration type field definitions. You can use DescribeRegistrationFieldDefinitions to view the requirements for creating, filling out, and submitting each registration type. See also: AWS API Documentation describe-registration-field-definitions is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu...
+    /// Retrieves the specified registration type field definitions. You can use DescribeRegistrationFieldDefinitions to view the requirements for creating, filling out, and submitting each registration type. See also: AWS API Documentation describe-registration-field-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argume...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -827,7 +827,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Retrieves the specified registration field values. See also: AWS API Documentation describe-registration-field-values is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RegistrationFieldValues
+    /// Retrieves the specified registration field values. See also: AWS API Documentation describe-registration-field-values is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RegistrationFieldValues
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -842,7 +842,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Retrieves the specified registration section definitions. You can use DescribeRegistrationSectionDefinitions to view the requirements for creating, filling out, and submitting each registration type. See also: AWS API Documentation describe-registration-section-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query arg...
+    /// Retrieves the specified registration section definitions. You can use DescribeRegistrationSectionDefinitions to view the requirements for creating, filling out, and submitting each registration type. See also: AWS API Documentation describe-registration-section-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argum...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -850,6 +850,36 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeRegistrationSectionDefinitionsAsync(
         AwsPinpointSmsVoiceV2DescribeRegistrationSectionDefinitionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves the specified registration type definitions. You can use DescribeRegistrationTypeDefinitions to view the requirements for creating, filling out, and submitting each registration type. See also: AWS API Documentation describe-registration-type-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeRegistrationTypeDefinitionsAsync(
+        AwsPinpointSmsVoiceV2DescribeRegistrationTypeDefinitionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeRegistrationTypeDefinitionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves the specified registration version. See also: AWS API Documentation describe-registration-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RegistrationVersions
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeRegistrationVersionsAsync(
+        AwsPinpointSmsVoiceV2DescribeRegistrationVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -872,37 +902,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Retrieves the specified registration type definitions. You can use De- scribeRegistrationTypeDefinitions to view the requirements for creat- ing, filling out, and submitting each registration type. See also: AWS API Documentation describe-registration-type-definitions is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argume...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeRegistrationTypeDefinitionsAsync(
-        AwsPinpointSmsVoiceV2DescribeRegistrationTypeDefinitionsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeRegistrationTypeDefinitionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Retrieves the specified registration version. See also: AWS API Documentation describe-registration-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RegistrationVersions
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeRegistrationVersionsAsync(
-        AwsPinpointSmsVoiceV2DescribeRegistrationVersionsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Describes the specified SenderIds or all SenderIds associated with your Amazon Web Services account. If you specify SenderIds, the output includes information for only the specified SenderIds. If you specify filters, the output includes infor- mation for only those SenderIds that meet the filter criteria. If you don't specify SenderIds or filters, the output includes information for all SenderIds. f you specify a sender ID that isn't valid, an error is returned. See also: AWS API Documentation d...
+    /// Describes the specified SenderIds or all SenderIds associated with your Amazon Web Services account. If you specify SenderIds, the output includes information for only the specified SenderIds. If you specify filters, the output includes information for only those SenderIds that meet the filter criteria. If you don't specify SenderIds or filters, the output includes information for all SenderIds. f you specify a sender ID that isn't valid, an error is returned. See also: AWS API Documentation des...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -917,7 +917,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Describes the current monthly spend limits for sending voice and text messages. When you establish an Amazon Web Services account, the account has ini- tial monthly spend limit in a given Region. For more information on in- creasing your monthly spend limit, see Requesting increases to your monthly SMS, MMS, or Voice spending quota in the End User Messaging SMS User Guide . See also: AWS API Documentation describe-spend-limits is a paginated operation. Multiple API calls may be issued in order t...
+    /// Describes the current monthly spend limits for sending voice and text messages. When you establish an Amazon Web Services account, the account has initial monthly spend limit in a given Region. For more information on increasing your monthly spend limit, see Requesting increases to your monthly SMS, MMS, or Voice spending quota in the End User Messaging SMS User Guide . See also: AWS API Documentation describe-spend-limits is a paginated operation. Multiple API calls may be issued in order to re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -932,7 +932,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Retrieves the specified verified destination numbers. See also: AWS API Documentation describe-verified-destination-numbers is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: VerifiedDestinationNumb...
+    /// Retrieves the specified verified destination numbers. See also: AWS API Documentation describe-verified-destination-numbers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: VerifiedDestinationNumbers
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1022,7 +1022,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Search available phone numbers from aggregator inventory, optionally filtered by pattern. If NumberPreference is omitted, returns unfiltered available numbers. Returns empty list (not an exception) when no num- bers match. ResourceNotFoundException is thrown only for invalid Regis- trationId (campaign not found). See also: AWS API Documentation list-available-phone-numbers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can di...
+    /// Retrieves a list of phone numbers that are available to request, based on the country, capabilities, and number type that you specify. You can optionally provide a number preference to return only numbers that match a specific digit pattern. If no numbers match your search, this operation returns an empty list rather than an error. This operation currently supports only TEN_DLC number types in the US . See also: AWS API Documentation list-available-phone-numbers is a paginated operation. Multipl...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1037,7 +1037,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Lists countries that support notify messaging. You can optionally fil- ter by channel, use case, or tier. See also: AWS API Documentation list-notify-countries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expres...
+    /// Lists countries that support notify messaging. You can optionally filter by channel, use case, or tier. See also: AWS API Documentation list-notify-countries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1052,7 +1052,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Lists all associated origination identities in your pool. If you specify filters, the output includes information for only those origination identities that meet the filter criteria. See also: AWS API Documentation list-pool-origination-identities is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated res...
+    /// Lists all associated origination identities in your pool. If you specify filters, the output includes information for only those origination identities that meet the filter criteria. See also: AWS API Documentation list-pool-origination-identities is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated respons...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1067,7 +1067,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Retrieve all of the protect configuration rule set number overrides that match the filters. See also: AWS API Documentation list-protect-configuration-rule-set-number-overrides is a paginated op- eration. Multiple API calls may be issued in order to retrieve the en- tire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the...
+    /// Retrieve all of the protect configuration rule set number overrides that match the filters. See also: AWS API Documentation list-protect-configuration-rule-set-number-overrides is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1082,7 +1082,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Retrieve all of the origination identities that are associated with a registration. See also: AWS API Documentation list-registration-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Re...
+    /// Retrieve all of the origination identities that are associated with a registration. See also: AWS API Documentation list-registration-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Regist...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1112,7 +1112,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Creates or updates a keyword configuration on an origination phone num- ber or pool. A keyword is a word that you can search for on a particular phone num- ber or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational mes- sage or a special offer. When your number receives a message that be- gins with a keyword, End User Messaging SMS responds with a customiz- able message. If you specify a keyword that isn't valid, an e...
+    /// Creates or updates a keyword configuration on an origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, End User Messaging SMS responds with a customizable message. If you specify a keyword that isn't valid, an error is re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1187,7 +1187,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Attaches a resource-based policy to a End User Messaging SMS re- source(phone number, sender Id, phone poll, or opt-out list) that is used for sharing the resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number. For more information about re- source-based policies, see Working with shared resources in the End User Messaging SMS User Guide . See also: AWS API Documentation
+    /// Attaches a resource-based policy to a End User Messaging SMS resource(phone number, sender Id, phone poll, or opt-out list) that is used for sharing the resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number. For more information about resource-based policies, see Working with shared resources in the End User Messaging SMS User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1202,7 +1202,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Releases an existing origination phone number in your account. Once re- leased, a phone number is no longer available for sending messages. If the origination phone number has deletion protection enabled or is associated with a pool, an error is returned. See also: AWS API Documentation
+    /// Releases an existing origination phone number in your account. Once released, a phone number is no longer available for sending messages. If the origination phone number has deletion protection enabled or is associated with a pool, an error is returned. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1262,7 +1262,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Before you can send test messages to a verified destination phone num- ber you need to opt-in the verified destination phone number. Creates a new text message with a verification code and send it to a verified destination phone number. Once you have the verification code use Ver- ifyDestinationNumber to opt-in the verified destination phone number to receive messages. See also: AWS API Documentation
+    /// Before you can send test messages to a verified destination phone number you need to opt-in the verified destination phone number. Creates a new text message with a verification code and send it to a verified destination phone number. Once you have the verification code use VerifyDestinationNumber to opt-in the verified destination phone number to receive messages. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1292,7 +1292,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Sends a templated text message through a notify configuration to a re- cipient's phone number. See also: AWS API Documentation
+    /// Sends a templated text message through a notify configuration to a recipient's phone number. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1307,7 +1307,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Sends a templated voice message through a notify configuration to a re- cipient's phone number. See also: AWS API Documentation
+    /// Sends a templated voice message through a notify configuration to a recipient's phone number. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1367,7 +1367,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Set a protect configuration as your account default. You can only have one account default protect configuration at a time. The current ac- count default protect configuration is replaced with the provided pro- tect configuration. See also: AWS API Documentation
+    /// Set a protect configuration as your account default. You can only have one account default protect configuration at a time. The current account default protect configuration is replaced with the provided protect configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1397,7 +1397,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Sets the default message type on a configuration set. Choose the category of SMS messages that you plan to send from this ac- count. If you send account-related messages or time-sensitive messages such as one-time passcodes, choose Transactional . If you plan to send messages that contain marketing material or other promotional content, choose Promotional . This setting applies to your entire Amazon Web Services account. See also: AWS API Documentation
+    /// Sets the default message type on a configuration set. Choose the category of SMS messages that you plan to send from this account. If you send account-related messages or time-sensitive messages such as one-time passcodes, choose Transactional . If you plan to send messages that contain marketing material or other promotional content, choose Promotional . This setting applies to your entire Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1427,7 +1427,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Sets an account level monthly spend limit override for sending MMS mes- sages. The requested spend limit must be less than or equal to the MaxLimit , which is set by Amazon Web Services. See also: AWS API Documentation
+    /// Sets an account level monthly spend limit override for sending MMS messages. The requested spend limit must be less than or equal to the MaxLimit , which is set by Amazon Web Services. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1457,7 +1457,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Sets an account level monthly spend limit override for sending RCS mes- sages. The requested spend limit must be less than or equal to the MaxLimit , which is set by Amazon Web Services. See also: AWS API Documentation
+    /// Sets an account level monthly spend limit override for sending RCS messages. The requested spend limit must be less than or equal to the MaxLimit , which is set by Amazon Web Services. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1547,7 +1547,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Updates an existing event destination in a configuration set. You can update the IAM role ARN for CloudWatch Logs and Firehose. You can also enable or disable the event destination. You may want to update an event destination to change its matching event types or updating the destination resource ARN. You can't change an event destination's type between CloudWatch Logs, Firehose, and Ama- zon SNS. See also: AWS API Documentation
+    /// Updates an existing event destination in a configuration set. You can update the IAM role ARN for CloudWatch Logs and Firehose. You can also enable or disable the event destination. You may want to update an event destination to change its matching event types or updating the destination resource ARN. You can't change an event destination's type between CloudWatch Logs, Firehose, and Amazon SNS. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1592,7 +1592,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Updates the configuration of an existing pool. You can update the opt-out list, enable or disable two-way messaging, change the TwoWay- ChannelArn , enable or disable self-managed opt-outs, enable or disable deletion protection, and enable or disable shared routes. See also: AWS API Documentation
+    /// Updates the configuration of an existing pool. You can update the opt-out list, enable or disable two-way messaging, change the TwoWayChannelArn , enable or disable self-managed opt-outs, enable or disable deletion protection, and enable or disable shared routes. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1607,7 +1607,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Update a country rule set to ALLOW , BLOCK , MONITOR , or FILTER mes- sages to be sent to the specified destination counties. You can update one or multiple countries at a time. The updates are only applied to the specified NumberCapability type. See also: AWS API Documentation
+    /// Update a country rule set to ALLOW , BLOCK , MONITOR , or FILTER messages to be sent to the specified destination counties. You can update one or multiple countries at a time. The updates are only applied to the specified NumberCapability type. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

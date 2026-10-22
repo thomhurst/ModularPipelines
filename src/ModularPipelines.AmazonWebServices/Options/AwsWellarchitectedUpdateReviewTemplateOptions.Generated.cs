@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsWellarchitectedUpdateReviewTemplateOptions : AwsOptions, IValid
     /// <summary>
     /// Update a review template. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TemplateArn">The review template ARN. Constraints: o min: 50 o max: 250 o pattern: arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchi- tected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\d:\d{12}:(review-tem- plate)/[a-f0-9]{32}</param>
+    /// <param name="TemplateArn">The review template ARN. Constraints: • min: 50 • max: 250 • pattern: arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchitected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\d:\d{12}:(review-template)/[a-f0-9]{32}</param>
     public AwsWellarchitectedUpdateReviewTemplateOptions(
         string TemplateArn
     )
@@ -56,37 +58,37 @@ public record AwsWellarchitectedUpdateReviewTemplateOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The review template ARN. Constraints: o min: 50 o max: 250 o pattern: arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchi- tected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\d:\d{12}:(review-tem- plate)/[a-f0-9]{32}
+    /// The review template ARN. Constraints: • min: 50 • max: 250 • pattern: arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchitected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\d:\d{12}:(review-template)/[a-f0-9]{32}
     /// </summary>
     [CliOption("--template-arn")]
     public string? TemplateArn { get; private init; }
 
     /// <summary>
-    /// The review template name. Constraints: o min: 3 o max: 100 o pattern: [A-Za-z0-9-_.,:/()@!&amp;?#+'\s]+
+    /// The review template name. Constraints: • min: 3 • max: 100 • pattern: [A-Za-z0-9-_.,:/()@!&amp;?#+'\s]+
     /// </summary>
     [CliOption("--template-name")]
     public string? TemplateName { get; set; }
 
     /// <summary>
-    /// The review template description. Constraints: o min: 3 o max: 250 o pattern: [A-Za-z0-9-_.,:/()@!&amp;?#+'\s]+
+    /// The review template description. Constraints: • min: 3 • max: 250 • pattern: [A-Za-z0-9-_.,:/()@!&amp;?#+'\s]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied. Constraints: o min: 0 o max: 2084
+    /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied. Constraints: • min: 0 • max: 2084
     /// </summary>
     [CliOption("--notes")]
     public string? Notes { get; set; }
 
     /// <summary>
-    /// A list of lens aliases or ARNs to apply to the review template. Constraints: o min: 1 o max: 10 (string) The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless , or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless . Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellar- chi- tected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef . Each lens is identified by its LensSummary$LensAlias . Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// A list of lens aliases or ARNs to apply to the review template. Constraints: • min: 1 • max: 10 (string) The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless , or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless . Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef . Each lens is identified by its LensSummary$LensAlias . Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--lenses-to-associate", GroupValues = true)]
     public IEnumerable<string>? LensesToAssociate { get; set; }
 
     /// <summary>
-    /// A list of lens aliases or ARNs to unapply to the review template. The wellarchitected lens cannot be unapplied. Constraints: o min: 1 o max: 10 (string) The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless , or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless . Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellar- chi- tected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef . Each lens is identified by its LensSummary$LensAlias . Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// A list of lens aliases or ARNs to unapply to the review template. The wellarchitected lens cannot be unapplied. Constraints: • min: 1 • max: 10 (string) The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless , or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless . Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef . Each lens is identified by its LensSummary$LensAlias . Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--lenses-to-disassociate", GroupValues = true)]
     public IEnumerable<string>? LensesToDisassociate { get; set; }

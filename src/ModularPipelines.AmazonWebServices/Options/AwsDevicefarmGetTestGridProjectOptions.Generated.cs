@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDevicefarmGetTestGridProjectOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Retrieves information about a Selenium testing project. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProjectArn">The ARN of the Selenium testing project, from either CreateTest- GridProject or ListTestGridProjects . Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+</param>
+    /// <param name="ProjectArn">The ARN of the Selenium testing project, from either CreateTestGridProject or ListTestGridProjects . Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+</param>
     public AwsDevicefarmGetTestGridProjectOptions(
         string ProjectArn
     )
@@ -56,7 +58,7 @@ public record AwsDevicefarmGetTestGridProjectOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the Selenium testing project, from either CreateTest- GridProject or ListTestGridProjects . Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// The ARN of the Selenium testing project, from either CreateTestGridProject or ListTestGridProjects . Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+
     /// </summary>
     [CliOption("--project-arn")]
     public string? ProjectArn { get; private init; }

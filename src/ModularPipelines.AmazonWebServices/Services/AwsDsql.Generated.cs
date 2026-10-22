@@ -33,7 +33,7 @@ public class AwsDsql : IAwsDsql
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws dsql wait sub-commands.
     /// </summary>
     public AwsDsqlWait Wait => _wait ??= new AwsDsqlWait(_command);
 
@@ -42,7 +42,7 @@ public class AwsDsql : IAwsDsql
     #region Commands
 
     /// <summary>
-    /// The CreateCluster API allows you to create both single-Region clusters and multi-Region clusters. With the addition of the multiRegionProper- ties parameter, you can create a cluster with witness Region support and establish peer relationships with clusters in other Regions during creation. NOTE: Creating multi-Region clusters requires additional IAM permis- sions beyond those needed for single-Region clusters, as de- tailed in the Required permissions section below. Required permissions dsql:Cr...
+    /// The CreateCluster API allows you to create both single-Region clusters and multi-Region clusters. With the addition of the multiRegionProperties parameter, you can create a cluster with witness Region support and establish peer relationships with clusters in other Regions during creation. NOTE: Creating multi-Region clusters requires additional IAM permissions beyond those needed for single-Region clusters, as detailed in the Required permissions section below. Required permissions dsql:CreateCl...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -57,7 +57,7 @@ public class AwsDsql : IAwsDsql
     }
 
     /// <summary>
-    /// Creates a new change data capture (CDC) stream for a cluster. The stream captures database changes and delivers them to the specified target destination. Required permissions dsql:CreateStream Permission to create a new stream. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id iam:PassRole Permission to pass the IAM role specified in the target definition to the service. Resources: ARN of the IAM role specified in targetDefinition.kine- sis.roleArn kms:Decrypt Required when the cluste...
+    /// Creates a new change data capture (CDC) stream for a cluster. The stream captures database changes and delivers them to the specified target destination. Required permissions dsql:CreateStream Permission to create a new stream. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id iam:PassRole Permission to pass the IAM role specified in the target definition to the service. Resources: ARN of the IAM role specified in targetDefinition.kinesis.roleArn kms:Decrypt Required when the cluster ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -87,7 +87,7 @@ public class AwsDsql : IAwsDsql
     }
 
     /// <summary>
-    /// Deletes the resource-based policy attached to a cluster. This removes all access permissions defined by the policy, reverting to default ac- cess controls. See also: AWS API Documentation
+    /// Deletes the resource-based policy attached to a cluster. This removes all access permissions defined by the policy, reverting to default access controls. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -117,7 +117,7 @@ public class AwsDsql : IAwsDsql
     }
 
     /// <summary>
-    /// Generates an Admin authorization token used to connect to a DSQL data- base with IAM credentials.
+    /// Generates an Admin authorization token used to connect to a DSQL database with IAM credentials.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -162,7 +162,7 @@ public class AwsDsql : IAwsDsql
     }
 
     /// <summary>
-    /// Retrieves the resource-based policy document attached to a cluster. This policy defines the access permissions and conditions for the clus- ter. See also: AWS API Documentation
+    /// Retrieves the resource-based policy document attached to a cluster. This policy defines the access permissions and conditions for the cluster. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -207,7 +207,7 @@ public class AwsDsql : IAwsDsql
     }
 
     /// <summary>
-    /// Retrieves information about a list of clusters. See also: AWS API Documentation list-clusters is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: clusters
+    /// Retrieves information about a list of clusters. See also: AWS API Documentation list-clusters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: clusters
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -222,7 +222,7 @@ public class AwsDsql : IAwsDsql
     }
 
     /// <summary>
-    /// Retrieves information about a list of streams for a cluster. See also: AWS API Documentation list-streams is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: streams
+    /// Retrieves information about a list of streams for a cluster. See also: AWS API Documentation list-streams is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: streams
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -252,7 +252,7 @@ public class AwsDsql : IAwsDsql
     }
 
     /// <summary>
-    /// Attaches a resource-based policy to a cluster. This policy defines ac- cess permissions and conditions for the cluster, allowing you to con- trol which principals can perform actions on the cluster. See also: AWS API Documentation
+    /// Attaches a resource-based policy to a cluster. This policy defines access permissions and conditions for the cluster, allowing you to control which principals can perform actions on the cluster. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -297,7 +297,7 @@ public class AwsDsql : IAwsDsql
     }
 
     /// <summary>
-    /// The UpdateCluster API allows you to modify both single-Region and multi-Region cluster configurations. With the multiRegionProperties pa- rameter, you can add or modify witness Region support and manage peer relationships with clusters in other Regions. NOTE: Note that updating multi-Region clusters requires additional IAM permissions beyond those needed for standard cluster updates, as detailed in the Permissions section. Required permissions dsql:UpdateCluster Permission to update a DSQL clust...
+    /// The UpdateCluster API allows you to modify both single-Region and multi-Region cluster configurations. With the multiRegionProperties parameter, you can add or modify witness Region support and manage peer relationships with clusters in other Regions. NOTE: Note that updating multi-Region clusters requires additional IAM permissions beyond those needed for standard cluster updates, as detailed in the Permissions section. Required permissions dsql:UpdateCluster Permission to update a DSQL cluster...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

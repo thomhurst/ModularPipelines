@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCloudfrontDeleteKeyValueStoreOptions : AwsOptions, IValidatable
     /// <summary>
     /// Specifies the key value store to delete. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the key value store. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_]{1,64}</param>
+    /// <param name="Name">The name of the key value store. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_]{1,64}</param>
     /// <param name="IfMatch">The key value store to delete, if a match occurs.</param>
     public AwsCloudfrontDeleteKeyValueStoreOptions(
         string Name,
@@ -60,7 +62,7 @@ public record AwsCloudfrontDeleteKeyValueStoreOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the key value store. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_]{1,64}
+    /// The name of the key value store. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_]{1,64}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

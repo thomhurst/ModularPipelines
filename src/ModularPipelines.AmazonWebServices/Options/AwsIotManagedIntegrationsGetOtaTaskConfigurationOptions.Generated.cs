@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsIotManagedIntegrationsGetOtaTaskConfigurationOptions : AwsOptio
     /// <summary>
     /// Get a configuraiton for the over-the-air (OTA) task. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The over-the-air (OTA) task configuration id. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]*</param>
+    /// <param name="Identifier">The over-the-air (OTA) task configuration id. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9]*</param>
     public AwsIotManagedIntegrationsGetOtaTaskConfigurationOptions(
         string Identifier
     )
@@ -56,7 +58,7 @@ public record AwsIotManagedIntegrationsGetOtaTaskConfigurationOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The over-the-air (OTA) task configuration id. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]*
+    /// The over-the-air (OTA) task configuration id. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9]*
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }

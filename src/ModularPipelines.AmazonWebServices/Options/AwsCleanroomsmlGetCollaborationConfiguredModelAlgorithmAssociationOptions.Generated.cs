@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCleanroomsmlGetCollaborationConfiguredModelAlgorithmAssociation
     /// <summary>
     /// Returns information about the configured model algorithm association in a collaboration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfiguredModelAlgorithmAssociationArn">The Amazon Resource Name (ARN) of the configured model algorithm as- sociation that you want to return information about. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:member- ship/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/con- figured-model-algorithm-association/[-a-zA-Z0-9_/.]+</param>
-    /// <param name="CollaborationIdentifier">The collaboration ID for the collaboration that contains the config- ured model algorithm association that you want to return information about. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="ConfiguredModelAlgorithmAssociationArn">The Amazon Resource Name (ARN) of the configured model algorithm association that you want to return information about. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/configured-model-algorithm-association/[-a-zA-Z0-9_/.]+</param>
+    /// <param name="CollaborationIdentifier">The collaboration ID for the collaboration that contains the configured model algorithm association that you want to return information about. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     public AwsCleanroomsmlGetCollaborationConfiguredModelAlgorithmAssociationOptions(
         string ConfiguredModelAlgorithmAssociationArn,
         string CollaborationIdentifier
@@ -60,13 +62,13 @@ public record AwsCleanroomsmlGetCollaborationConfiguredModelAlgorithmAssociation
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the configured model algorithm as- sociation that you want to return information about. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:member- ship/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/con- figured-model-algorithm-association/[-a-zA-Z0-9_/.]+
+    /// The Amazon Resource Name (ARN) of the configured model algorithm association that you want to return information about. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/configured-model-algorithm-association/[-a-zA-Z0-9_/.]+
     /// </summary>
     [CliOption("--configured-model-algorithm-association-arn")]
     public string? ConfiguredModelAlgorithmAssociationArn { get; private init; }
 
     /// <summary>
-    /// The collaboration ID for the collaboration that contains the config- ured model algorithm association that you want to return information about. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The collaboration ID for the collaboration that contains the configured model algorithm association that you want to return information about. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--collaboration-identifier")]
     public string? CollaborationIdentifier { get; private init; }

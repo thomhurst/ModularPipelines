@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists resource snapshot jobs owned by the customer. This operation sup- ports various filtering scenarios, including listing all jobs owned by the caller, jobs for a specific engagement, jobs with a specific sta- tus, or any combination of these filters. See also: AWS API Documentation list-resource-snapshot-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. W...
+/// Lists resource snapshot jobs owned by the customer. This operation supports various filtering scenarios, including listing all jobs owned by the caller, jobs for a specific engagement, jobs with a specific status, or any combination of these filters. See also: AWS API Documentation list-resource-snapshot-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When usin...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsPartnercentralSellingListResourceSnapshotJobsOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists resource snapshot jobs owned by the customer. This operation sup- ports various filtering scenarios, including listing all jobs owned by the caller, jobs for a specific engagement, jobs with a specific sta- tus, or any combination of these filters. See also: AWS API Documentation list-resource-snapshot-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. W...
+    /// Lists resource snapshot jobs owned by the customer. This operation supports various filtering scenarios, including listing all jobs owned by the caller, jobs for a specific engagement, jobs with a specific status, or any combination of these filters. See also: AWS API Documentation list-resource-snapshot-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When usin...
     /// </summary>
-    /// <param name="Catalog">Specifies the catalog related to the request. Constraints: o pattern: [a-zA-Z]+</param>
+    /// <param name="Catalog">Specifies the catalog related to the request. Constraints: • pattern: [a-zA-Z]+</param>
     public AwsPartnercentralSellingListResourceSnapshotJobsOptions(
         string Catalog
     )
@@ -58,34 +60,31 @@ public record AwsPartnercentralSellingListResourceSnapshotJobsOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the catalog related to the request. Constraints: o pattern: [a-zA-Z]+
+    /// Specifies the catalog related to the request. Constraints: • pattern: [a-zA-Z]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// The identifier of the engagement to filter the response. Constraints: o pattern: eng-[0-9a-z]{14}
+    /// The identifier of the engagement to filter the response. Constraints: • pattern: eng-[0-9a-z]{14}
     /// </summary>
     [CliOption("--engagement-identifier")]
     public string? EngagementIdentifier { get; set; }
 
     /// <summary>
-    /// The status of the jobs to filter the response. Possible values: o Running o Stopped
+    /// The status of the jobs to filter the response. Possible values: • Running • Stopped
     /// </summary>
     [CliOption("--status")]
     public AwsPartnercentralSellingListResourceSnapshotJobsStatus? Status { get; set; }
 
     /// <summary>
-    /// Configures the sorting of the response. If omitted, results are sorted by CreatedDate in descending order. SortBy -&gt; (string) Specifies the field by which to sort the resource snapshot jobs. Possible values: o CreatedDate SortOrder -&gt; (string) Determines the order in which the sorted results are presented. Possible values: o ASCENDING o DESCENDING Shorthand Syntax: SortBy=string,SortOrder=string JSON Syntax: { "SortBy": "CreatedDate", "SortOrder": "ASCENDING"|"DESCENDING" }
+    /// Configures the sorting of the response. If omitted, results are sorted by CreatedDate in descending order. SortBy -&gt; (string) Specifies the field by which to sort the resource snapshot jobs. Possible values: • CreatedDate SortOrder -&gt; (string) Determines the order in which the sorted results are presented. Possible values: • ASCENDING • DESCENDING Shorthand Syntax: SortBy=string,SortOrder=string JSON Syntax: { "SortBy": "CreatedDate", "SortOrder": "ASCENDING"|"DESCENDING" }
     /// </summary>
     [CliOption("--sort")]
     public string? Sort { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -95,16 +94,19 @@ public record AwsPartnercentralSellingListResourceSnapshotJobsOptions : AwsOptio
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

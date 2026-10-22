@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the number of compliant and noncompliant rules for one or more accounts and regions in an aggregator. NOTE: The results can return an empty result page, but if you have a next- Token, the results are displayed on the next page. See also: AWS API Documentation
+/// Returns the number of compliant and noncompliant rules for one or more accounts and regions in an aggregator. NOTE: The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsConfigserviceGetAggregateConfigRuleComplianceSummaryOptions : A
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the number of compliant and noncompliant rules for one or more accounts and regions in an aggregator. NOTE: The results can return an empty result page, but if you have a next- Token, the results are displayed on the next page. See also: AWS API Documentation
+    /// Returns the number of compliant and noncompliant rules for one or more accounts and regions in an aggregator. NOTE: The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfigurationAggregatorName">The name of the configuration aggregator. Constraints: o min: 1 o max: 256 o pattern: [\w\-]+</param>
+    /// <param name="ConfigurationAggregatorName">The name of the configuration aggregator. Constraints: • min: 1 • max: 256 • pattern: [\w\-]+</param>
     public AwsConfigserviceGetAggregateConfigRuleComplianceSummaryOptions(
         string ConfigurationAggregatorName
     )
@@ -58,25 +60,25 @@ public record AwsConfigserviceGetAggregateConfigRuleComplianceSummaryOptions : A
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the configuration aggregator. Constraints: o min: 1 o max: 256 o pattern: [\w\-]+
+    /// The name of the configuration aggregator. Constraints: • min: 1 • max: 256 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--configuration-aggregator-name")]
     public string? ConfigurationAggregatorName { get; private init; }
 
     /// <summary>
-    /// Filters the results based on the ConfigRuleComplianceSummaryFilters object. AccountId -&gt; (string) The 12-digit account ID of the source account. Constraints: o pattern: \d{12} AwsRegion -&gt; (string) The source region where the data is aggregated. Constraints: o min: 1 o max: 64 Shorthand Syntax: AccountId=string,AwsRegion=string JSON Syntax: { "AccountId": "string", "AwsRegion": "string" }
+    /// Filters the results based on the ConfigRuleComplianceSummaryFilters object. AccountId -&gt; (string) The 12-digit account ID of the source account. Constraints: • pattern: \d{12} AwsRegion -&gt; (string) The source region where the data is aggregated. Constraints: • min: 1 • max: 64 Shorthand Syntax: AccountId=string,AwsRegion=string JSON Syntax: { "AccountId": "string", "AwsRegion": "string" }
     /// </summary>
     [CliOption("--filters")]
     public string? Filters { get; set; }
 
     /// <summary>
-    /// Groups the result based on ACCOUNT_ID or AWS_REGION. Possible values: o ACCOUNT_ID o AWS_REGION
+    /// Groups the result based on ACCOUNT_ID or AWS_REGION. Possible values: • ACCOUNT_ID • AWS_REGION
     /// </summary>
     [CliOption("--group-by-key")]
     public AwsConfigserviceGetAggregateConfigRuleComplianceSummaryGroupByKey? GroupByKey { get; set; }
 
     /// <summary>
-    /// The maximum number of evaluation results returned on each page. The default is 1000. You cannot specify a number greater than 1000. If you specify 0, Config uses the default. Constraints: o min: 0 o max: 1000
+    /// The maximum number of evaluation results returned on each page. The default is 1000. You cannot specify a number greater than 1000. If you specify 0, Config uses the default. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }
